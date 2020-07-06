@@ -2,61 +2,77 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B32E8215E5C
-	for <lists+qemu-devel@lfdr.de>; Mon,  6 Jul 2020 20:33:23 +0200 (CEST)
-Received: from localhost ([::1]:58366 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B4B97215EF3
+	for <lists+qemu-devel@lfdr.de>; Mon,  6 Jul 2020 20:43:39 +0200 (CEST)
+Received: from localhost ([::1]:34274 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jsVve-0000Ho-Qu
-	for lists+qemu-devel@lfdr.de; Mon, 06 Jul 2020 14:33:22 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:54068)
+	id 1jsW5a-0003xb-IQ
+	for lists+qemu-devel@lfdr.de; Mon, 06 Jul 2020 14:43:38 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:56438)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <no-reply@patchew.org>)
- id 1jsVu6-0007mR-C6
- for qemu-devel@nongnu.org; Mon, 06 Jul 2020 14:31:46 -0400
-Resent-Date: Mon, 06 Jul 2020 14:31:46 -0400
-Resent-Message-Id: <E1jsVu6-0007mR-C6@lists.gnu.org>
-Received: from sender4-of-o53.zoho.com ([136.143.188.53]:21308)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <no-reply@patchew.org>)
- id 1jsVu3-0005lc-AV
- for qemu-devel@nongnu.org; Mon, 06 Jul 2020 14:31:46 -0400
-ARC-Seal: i=1; a=rsa-sha256; t=1594060296; cv=none; 
- d=zohomail.com; s=zohoarc; 
- b=Ww2QepvfC1OBILrxZrExwY4WBbF6Pm3n0yxZWC1vV5X7H0B8fET1BtRdHEUu6k/AhXQlCyptPWyRClAKpvFUFEiBDC8l6O9bNFRJ96ELniGP+0dpptjC8HX+2EPqmd6PYFJb0TIL1++usQUEg1Cn/oi7ArOl+edK0z8KZWbmu34=
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.com;
- s=zohoarc; t=1594060296;
- h=Content-Type:Content-Transfer-Encoding:Cc:Date:From:In-Reply-To:MIME-Version:Message-ID:Reply-To:Subject:To;
- bh=x85Iv9mvRNKH7bmPM6UM+qSRI11KDkotC2g/Lxgstzo=; 
- b=n3uq9vpkxW2sXeOyn54NP4TgZy06mukV7+CzJfCodER8v+d9KdPqLgHSiVzNKwKKCTjMLnj7eTbdHOf6CUaV/kIjMuv3yT4CyArqAKwhj0H/vIbIP1uLdbe/kPFK1TVj6m0YEnXSI9Z5qI+97Jn0/fJ/68dZEA96D87bNK+oNUA=
-ARC-Authentication-Results: i=1; mx.zohomail.com;
- spf=pass  smtp.mailfrom=no-reply@patchew.org;
- dmarc=pass header.from=<no-reply@patchew.org>
- header.from=<no-reply@patchew.org>
-Received: from [172.17.0.3] (23.253.156.214 [23.253.156.214]) by
- mx.zohomail.com with SMTPS id 159406029436936.268784869845604;
- Mon, 6 Jul 2020 11:31:34 -0700 (PDT)
-Message-ID: <159406029325.7847.603812553513904929@d1fd068a5071>
-Subject: Re: [PATCH] chardev: don't abort on attempt to add duplicated chardev
-In-Reply-To: <20200706182156.334207-1-marcandre.lureau@redhat.com>
+ (Exim 4.90_1) (envelope-from <alistair23@gmail.com>)
+ id 1jsW4l-0003Vr-Rc
+ for qemu-devel@nongnu.org; Mon, 06 Jul 2020 14:42:47 -0400
+Received: from mail-il1-x142.google.com ([2607:f8b0:4864:20::142]:33853)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <alistair23@gmail.com>)
+ id 1jsW4j-0007Ww-Ni
+ for qemu-devel@nongnu.org; Mon, 06 Jul 2020 14:42:47 -0400
+Received: by mail-il1-x142.google.com with SMTP id t4so20650558iln.1
+ for <qemu-devel@nongnu.org>; Mon, 06 Jul 2020 11:42:45 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc:content-transfer-encoding;
+ bh=perZ7FF8QeB/7vuvzv5TKDm2Pt3TqyNy1kGm1oDtV/0=;
+ b=j3XU5Qx+kgeo3gd2Ut1eg+jqgJ3ba2Pw0aH1+B8KuXdhfCBs4DasDTwpzbKtf+aH8n
+ jzIdIpW3IKumKXSINlqrwLw5jyHoR9JMHZxmw0pC41TggHrkEgZKG4n4mR7u06lwCMzz
+ CNsegh1YD+MMQ7GUHXIvtZpj8DFXBMpfuONzNexVxzUIyFSUKRK2PhDTQrhYYnvrH31w
+ zdtlGgwksom5iP0TtWU7o4960yc3lVVXpZ+UuesYcvpDSFB/NzRKwJAurn1xoK0Sa9G9
+ l6Vr939onMlYFJSGQKvLFCs4tDfzfwusj2mqcVaWwH4+mPD1hSffhN/XzYCC6rW6ZFk0
+ B8yQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc:content-transfer-encoding;
+ bh=perZ7FF8QeB/7vuvzv5TKDm2Pt3TqyNy1kGm1oDtV/0=;
+ b=KZSHoBRGAk7qfSNtV8PzrVIXBC/JUkv8pHr5GveYlGWXvgWxRpTc4i2PM57K3thNb2
+ yZF1JNT1N92JKEsGvBVqpdWUN9xYM4GkG1QyaVGlHOCfTRY6VXYj0iAY/v2tu8KIZoba
+ xlIISI4O3Rt/mUimM3DjuFSG/rzuoy2IPj4/jIuyRC+DjRINPiZ3I2JU/V6LmOGPHw+G
+ WcQe+tRmfmUigj0JN2X9gXvv3vR6evSspqrURuBBw4pkdtWtkcWDxdtt11RPJcASN9Fd
+ 59/X06tBPhuChbT+/LWcGHxy41prBD/eHwNZapBDByt6qmOPY5W9VJUoj0Bf0+WSrgrH
+ j0iQ==
+X-Gm-Message-State: AOAM532MvqaX8r0Yo2++YM4NtAIeAiPr3HhDky+NiW1LCvj/IPxPNdCF
+ lg/BuZT8tX/Tb9IkT+Ym2HbHNdQgPJhawfCWSUc=
+X-Google-Smtp-Source: ABdhPJx+dWhh47KvzUcvNC5TIp7QBvv1lmRYbR2N/hb+CdhibkbwJo6a6w4adLmX1t7ZFDwQd+DPE6VgabB6/dVO0Oc=
+X-Received: by 2002:a92:c213:: with SMTP id j19mr31999503ilo.40.1594060964578; 
+ Mon, 06 Jul 2020 11:42:44 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
-Resent-From: 
-From: no-reply@patchew.org
-To: marcandre.lureau@redhat.com
-Date: Mon, 6 Jul 2020 11:31:34 -0700 (PDT)
-X-ZohoMailClient: External
-Received-SPF: pass client-ip=136.143.188.53; envelope-from=no-reply@patchew.org;
- helo=sender4-of-o53.zoho.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/07/06 13:19:51
-X-ACL-Warn: Detected OS   = Linux 3.11 and newer [fuzzy]
-X-Spam_score_int: -18
-X-Spam_score: -1.9
+References: <20200705211016.15241-1-f4bug@amsat.org>
+ <20200705211016.15241-3-f4bug@amsat.org>
+ <CAKmqyKOcc=recN5dpsMUZRq9FkU2Kj0-AbmxGTOSpY=yxOEF-Q@mail.gmail.com>
+ <68b27cb4-145b-47ed-bbed-428c7591f8c7@amsat.org>
+In-Reply-To: <68b27cb4-145b-47ed-bbed-428c7591f8c7@amsat.org>
+From: Alistair Francis <alistair23@gmail.com>
+Date: Mon, 6 Jul 2020 11:32:57 -0700
+Message-ID: <CAKmqyKPGXzRYBTaV7JXuKOmXsez5oHWa23mJ7HDKiBuKvdLjRA@mail.gmail.com>
+Subject: Re: [PATCH 2/4] hw/lm32/milkymist: Comment to remember some IRQs
+ lines are left unwired
+To: =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <f4bug@amsat.org>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=2607:f8b0:4864:20::142;
+ envelope-from=alistair23@gmail.com; helo=mail-il1-x142.google.com
+X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
+ That's all we know.
+X-Spam_score_int: -17
+X-Spam_score: -1.8
 X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_NONE=-0.0001,
- RCVD_IN_MSPIKE_H4=-0.01, RCVD_IN_MSPIKE_WL=-0.01, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001, URIBL_BLOCKED=0.001 autolearn=_AUTOLEARN
+X-Spam_report: (-1.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ FREEMAIL_ENVFROM_END_DIGIT=0.25, FREEMAIL_FROM=0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=_AUTOLEARN
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -69,55 +85,67 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: qemu-devel@nongnu.org
-Cc: eric.auger@redhat.com, qemu-devel@nongnu.org, marcandre.lureau@redhat.com,
- armbru@redhat.com
+Cc: Peter Maydell <peter.maydell@linaro.org>, Michael Walle <michael@walle.cc>,
+ Alistair Francis <alistair@alistair23.me>,
+ "qemu-devel@nongnu.org Developers" <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-UGF0Y2hldyBVUkw6IGh0dHBzOi8vcGF0Y2hldy5vcmcvUUVNVS8yMDIwMDcwNjE4MjE1Ni4zMzQy
-MDctMS1tYXJjYW5kcmUubHVyZWF1QHJlZGhhdC5jb20vCgoKCkhpLAoKVGhpcyBzZXJpZXMgZmFp
-bGVkIHRoZSBkb2NrZXItbWluZ3dAZmVkb3JhIGJ1aWxkIHRlc3QuIFBsZWFzZSBmaW5kIHRoZSB0
-ZXN0aW5nIGNvbW1hbmRzIGFuZAp0aGVpciBvdXRwdXQgYmVsb3cuIElmIHlvdSBoYXZlIERvY2tl
-ciBpbnN0YWxsZWQsIHlvdSBjYW4gcHJvYmFibHkgcmVwcm9kdWNlIGl0CmxvY2FsbHkuCgo9PT0g
-VEVTVCBTQ1JJUFQgQkVHSU4gPT09CiMhIC9iaW4vYmFzaApleHBvcnQgQVJDSD14ODZfNjQKbWFr
-ZSBkb2NrZXItaW1hZ2UtZmVkb3JhIFY9MSBORVRXT1JLPTEKdGltZSBtYWtlIGRvY2tlci10ZXN0
-LW1pbmd3QGZlZG9yYSBKPTE0IE5FVFdPUks9MQo9PT0gVEVTVCBTQ1JJUFQgRU5EID09PQoKICBD
-QyAgICAgIGh3L2FjcGkvaXBtaS5vCiAgQ0MgICAgICBody9hY3BpL2FjcGktc3R1Yi5vCi90bXAv
-cWVtdS10ZXN0L3NyYy9jaGFyZGV2L2NoYXIuYzogSW4gZnVuY3Rpb24gJ2NoYXJkZXZfbmV3JzoK
-L3RtcC9xZW11LXRlc3Qvc3JjL2NoYXJkZXYvY2hhci5jOjEwMDE6OTogZXJyb3I6IGltcGxpY2l0
-IGRlY2xhcmF0aW9uIG9mIGZ1bmN0aW9uICdvYmplY3RfcHJvcGVydHlfdHJ5X2FkZF9jaGlsZCc7
-IGRpZCB5b3UgbWVhbiAnb2JqZWN0X3Byb3BlcnR5X2FkZF9jaGlsZCc/IFstV2Vycm9yPWltcGxp
-Y2l0LWZ1bmN0aW9uLWRlY2xhcmF0aW9uXQogMTAwMSB8ICAgICAgICAgb2JqZWN0X3Byb3BlcnR5
-X3RyeV9hZGRfY2hpbGQoZ2V0X2NoYXJkZXZzX3Jvb3QoKSwgaWQsIG9iaiwgJmxvY2FsX2Vycik7
-CiAgICAgIHwgICAgICAgICBefn5+fn5+fn5+fn5+fn5+fn5+fn5+fn5+fn5+fgogICAgICB8ICAg
-ICAgICAgb2JqZWN0X3Byb3BlcnR5X2FkZF9jaGlsZAovdG1wL3FlbXUtdGVzdC9zcmMvY2hhcmRl
-di9jaGFyLmM6MTAwMTo5OiBlcnJvcjogbmVzdGVkIGV4dGVybiBkZWNsYXJhdGlvbiBvZiAnb2Jq
-ZWN0X3Byb3BlcnR5X3RyeV9hZGRfY2hpbGQnIFstV2Vycm9yPW5lc3RlZC1leHRlcm5zXQpjYzE6
-IGFsbCB3YXJuaW5ncyBiZWluZyB0cmVhdGVkIGFzIGVycm9ycwptYWtlOiAqKiogWy90bXAvcWVt
-dS10ZXN0L3NyYy9ydWxlcy5tYWs6Njk6IGNoYXJkZXYvY2hhci5vXSBFcnJvciAxCm1ha2U6ICoq
-KiBXYWl0aW5nIGZvciB1bmZpbmlzaGVkIGpvYnMuLi4uClRyYWNlYmFjayAobW9zdCByZWNlbnQg
-Y2FsbCBsYXN0KToKICBGaWxlICIuL3Rlc3RzL2RvY2tlci9kb2NrZXIucHkiLCBsaW5lIDY2OSwg
-aW4gPG1vZHVsZT4KLS0tCiAgICByYWlzZSBDYWxsZWRQcm9jZXNzRXJyb3IocmV0Y29kZSwgY21k
-KQpzdWJwcm9jZXNzLkNhbGxlZFByb2Nlc3NFcnJvcjogQ29tbWFuZCAnWydzdWRvJywgJy1uJywg
-J2RvY2tlcicsICdydW4nLCAnLS1sYWJlbCcsICdjb20ucWVtdS5pbnN0YW5jZS51dWlkPTVhNWMx
-NDYwNzc1NjQ2NDlhMTBmMzNmN2NkMzc2YTk2JywgJy11JywgJzEwMDEnLCAnLS1zZWN1cml0eS1v
-cHQnLCAnc2VjY29tcD11bmNvbmZpbmVkJywgJy0tcm0nLCAnLWUnLCAnVEFSR0VUX0xJU1Q9Jywg
-Jy1lJywgJ0VYVFJBX0NPTkZJR1VSRV9PUFRTPScsICctZScsICdWPScsICctZScsICdKPTE0Jywg
-Jy1lJywgJ0RFQlVHPScsICctZScsICdTSE9XX0VOVj0nLCAnLWUnLCAnQ0NBQ0hFX0RJUj0vdmFy
-L3RtcC9jY2FjaGUnLCAnLXYnLCAnL2hvbWUvcGF0Y2hldy8uY2FjaGUvcWVtdS1kb2NrZXItY2Nh
-Y2hlOi92YXIvdG1wL2NjYWNoZTp6JywgJy12JywgJy92YXIvdG1wL3BhdGNoZXctdGVzdGVyLXRt
-cC13M3U5Nnl3dS9zcmMvZG9ja2VyLXNyYy4yMDIwLTA3LTA2LTE0LjI4LjMxLjMyMzg5Oi92YXIv
-dG1wL3FlbXU6eixybycsICdxZW11OmZlZG9yYScsICcvdmFyL3RtcC9xZW11L3J1bicsICd0ZXN0
-LW1pbmd3J10nIHJldHVybmVkIG5vbi16ZXJvIGV4aXQgc3RhdHVzIDIuCmZpbHRlcj0tLWZpbHRl
-cj1sYWJlbD1jb20ucWVtdS5pbnN0YW5jZS51dWlkPTVhNWMxNDYwNzc1NjQ2NDlhMTBmMzNmN2Nk
-Mzc2YTk2Cm1ha2VbMV06ICoqKiBbZG9ja2VyLXJ1bl0gRXJyb3IgMQptYWtlWzFdOiBMZWF2aW5n
-IGRpcmVjdG9yeSBgL3Zhci90bXAvcGF0Y2hldy10ZXN0ZXItdG1wLXczdTk2eXd1L3NyYycKbWFr
-ZTogKioqIFtkb2NrZXItcnVuLXRlc3QtbWluZ3dAZmVkb3JhXSBFcnJvciAyCgpyZWFsICAgIDNt
-My4wMzVzCnVzZXIgICAgMG04LjM4NnMKCgpUaGUgZnVsbCBsb2cgaXMgYXZhaWxhYmxlIGF0Cmh0
-dHA6Ly9wYXRjaGV3Lm9yZy9sb2dzLzIwMjAwNzA2MTgyMTU2LjMzNDIwNy0xLW1hcmNhbmRyZS5s
-dXJlYXVAcmVkaGF0LmNvbS90ZXN0aW5nLmRvY2tlci1taW5nd0BmZWRvcmEvP3R5cGU9bWVzc2Fn
-ZS4KLS0tCkVtYWlsIGdlbmVyYXRlZCBhdXRvbWF0aWNhbGx5IGJ5IFBhdGNoZXcgW2h0dHBzOi8v
-cGF0Y2hldy5vcmcvXS4KUGxlYXNlIHNlbmQgeW91ciBmZWVkYmFjayB0byBwYXRjaGV3LWRldmVs
-QHJlZGhhdC5jb20=
+On Mon, Jul 6, 2020 at 11:04 AM Philippe Mathieu-Daud=C3=A9 <f4bug@amsat.or=
+g> wrote:
+>
+> On 7/6/20 6:19 PM, Alistair Francis wrote:
+> > On Sun, Jul 5, 2020 at 2:10 PM Philippe Mathieu-Daud=C3=A9 <f4bug@amsat=
+.org> wrote:
+> >>
+> >> The 'card is readonly' and 'card inserted' IRQs are not wired.
+> >> Add a comment in case someone know where to wire them.
+> >>
+> >> Signed-off-by: Philippe Mathieu-Daud=C3=A9 <f4bug@amsat.org>
+> >
+> > I'm not convinced adding fixmes or todos in the code is the right
+> > direction. It would be better to file bugs or use some other more
+> > official tracking mechanism.
+>
+> This code is orphan :S
+>
+> I'll fill a launchpad bug ticket.
+
+I also mean in general (you have some other patches that add TODOs or FIXME=
+s).
+
+>
+> OTOH we could also log UNIMP for lost IRQs (triggered but
+> no handler registered).
+
+That would also work.
+
+Alistair
+
+>
+> >
+> > Alistair
+> >
+> >> ---
+> >>  hw/lm32/milkymist.c | 1 +
+> >>  1 file changed, 1 insertion(+)
+> >>
+> >> diff --git a/hw/lm32/milkymist.c b/hw/lm32/milkymist.c
+> >> index 469e3c4322..117973c967 100644
+> >> --- a/hw/lm32/milkymist.c
+> >> +++ b/hw/lm32/milkymist.c
+> >> @@ -87,6 +87,7 @@ static DeviceState *milkymist_memcard_create(hwaddr =
+base)
+> >>      dev =3D qdev_new("milkymist-memcard");
+> >>      sysbus_realize_and_unref(SYS_BUS_DEVICE(dev), &error_fatal);
+> >>      sysbus_mmio_map(SYS_BUS_DEVICE(dev), 0, base);
+> >> +    /* FIXME wire 'card is readonly' and 'card inserted' IRQs? */
+> >>
+> >>      return dev;
+> >>  }
+> >> --
+> >> 2.21.3
+> >>
+> >>
+> >
 
