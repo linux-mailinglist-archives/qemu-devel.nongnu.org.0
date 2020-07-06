@@ -2,80 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 55B81215CD8
-	for <lists+qemu-devel@lfdr.de>; Mon,  6 Jul 2020 19:17:53 +0200 (CEST)
-Received: from localhost ([::1]:42364 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1FC45215CFE
+	for <lists+qemu-devel@lfdr.de>; Mon,  6 Jul 2020 19:24:11 +0200 (CEST)
+Received: from localhost ([::1]:41200 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jsUka-0001er-Bq
-	for lists+qemu-devel@lfdr.de; Mon, 06 Jul 2020 13:17:52 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:58846)
+	id 1jsUqg-0005DL-5Z
+	for lists+qemu-devel@lfdr.de; Mon, 06 Jul 2020 13:24:10 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:60732)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <eric.auger@redhat.com>)
- id 1jsUIG-0007Zy-PJ
- for qemu-devel@nongnu.org; Mon, 06 Jul 2020 12:48:36 -0400
-Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:52638
- helo=us-smtp-1.mimecast.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <eric.auger@redhat.com>)
- id 1jsUIE-0004Jp-1l
- for qemu-devel@nongnu.org; Mon, 06 Jul 2020 12:48:36 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1594054113;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=moO3+lGkJ2sBGKmNWn7n87wS9tUDIgtnaNaBNy+qKy8=;
- b=ZXiliWdWpfbfryFVzo5PMzijwCMOhu/CG0B444JwNwzNRlkWBlIK5qLr2Cl6WqOe3NpGsT
- ZwxgTf208QtPpgYACRbBtuI7pocxw1cxpTJeAQo52mpzGJq6uDss8QXf8wBqL9kESh4pRf
- MvhW4eVbNQBsRxAVAwWWGg3srQqQmuY=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-53-iTRLvVAZPM6FyUykgXLYyw-1; Mon, 06 Jul 2020 12:48:31 -0400
-X-MC-Unique: iTRLvVAZPM6FyUykgXLYyw-1
-Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
- [10.5.11.12])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id B0298100A8E7;
- Mon,  6 Jul 2020 16:48:29 +0000 (UTC)
-Received: from [10.36.113.241] (ovpn-113-241.ams2.redhat.com [10.36.113.241])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 2D9B660C84;
- Mon,  6 Jul 2020 16:48:21 +0000 (UTC)
-Subject: Re: [PATCH v2 9/9] hw/arm/smmuv3: Advertise SMMUv3.2 range
- invalidation
-To: Robin Murphy <robin.murphy@arm.com>, eric.auger.pro@gmail.com,
- qemu-devel@nongnu.org, qemu-arm@nongnu.org, peter.maydell@linaro.org,
- peterx@redhat.com
-References: <20200702152659.8522-1-eric.auger@redhat.com>
- <20200702152659.8522-10-eric.auger@redhat.com>
- <10bafac8-a230-c545-662c-bcbd9f3902dc@arm.com>
-From: Auger Eric <eric.auger@redhat.com>
-Message-ID: <3f4dce7c-14e9-f97f-1de5-d39a501bd229@redhat.com>
-Date: Mon, 6 Jul 2020 18:48:19 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.5.0
+ (Exim 4.90_1) (envelope-from <alistair23@gmail.com>)
+ id 1jsUSR-0005r4-M2; Mon, 06 Jul 2020 12:59:07 -0400
+Received: from mail-io1-xd41.google.com ([2607:f8b0:4864:20::d41]:43288)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <alistair23@gmail.com>)
+ id 1jsUSM-0005oU-8T; Mon, 06 Jul 2020 12:59:07 -0400
+Received: by mail-io1-xd41.google.com with SMTP id k23so40040661iom.10;
+ Mon, 06 Jul 2020 09:59:01 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc:content-transfer-encoding;
+ bh=FXnnv73L5WipvrjnAQ/ZRDtg+5iLp60OiInY9J0Zsfs=;
+ b=fK2rUb2MdciYU4Z+vy8DaVGveUMlo9HFcBrc2ZvwhMG/OTSUYi16woJ2geJIOeCHf+
+ s/tu4UZiATsSlkJBZD2mo3pornyf9G2RKM8kkgfjb7neQY+BTo9GGZ9L3v3UwKSUzApe
+ 89qSSXu30fk4x/9gPjbYtny2dhJQctl8b9Lrmn4gsXAE9hmlLHVRcYlZiDw+zMWXKhiT
+ WJsFHIKj5Bhm1NoNyZFlGdsqEUXmX9z2x7FAgTnWrhAmBppFMg16jLsf48EcsdQ3N9Ln
+ BfooAlKZ7UjPxtmAAZt8fESX0cQByDrugScyx/bxh9+zbshTBMAtPKfqON37hfLVY3Rb
+ eq2Q==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc:content-transfer-encoding;
+ bh=FXnnv73L5WipvrjnAQ/ZRDtg+5iLp60OiInY9J0Zsfs=;
+ b=Ac9ShVJVVUD8rxlndKw6nz9LNuM1pkLp2aHpLlNBTPKbOgIvyPMiV3zGaw8QV7/OLS
+ lfWeEAAXtxppY46AgAPYDTvyoF76XQliPmrQWdV3AqqtmpvNLP4tYTSTj9wzm/mIizoX
+ wDZvcV3dNZ00OQbDlVxPqJdEwlzUq1ZrmHMLsBzDfdwfHtgyJIFd2KFCMJ3tiNhD+vm3
+ 6aR37ziv6qnitVTEgb/NvXGgQAMc8oREo4LNCbtFWGNMsLvtOdhpkrTpapsWgDDh46lT
+ EjZKHpj0H2/bT1/SKOk0vLMwfZqFKJM+ahrSMxUS1EM+vzVzFxPr47jpPG626xuwLXYK
+ 8TXw==
+X-Gm-Message-State: AOAM5334vMkdoSjBaPMqvnn/m2P8OaKj5hULhhqG85+vU4A3N6rLHaFJ
+ MzQD0PgdEkCtdjKs+K1HidlHuH99mRhqHSGFiEU=
+X-Google-Smtp-Source: ABdhPJxhPOyzA8S179T/GnN+DxKn3yFpd4iuIOBEQ6BWF7TH4kkJEHUUUSyuyppt2TvByxifRjL0bvuZRvWhnh0C+Tc=
+X-Received: by 2002:a02:10c1:: with SMTP id 184mr52996773jay.135.1594054740444; 
+ Mon, 06 Jul 2020 09:59:00 -0700 (PDT)
 MIME-Version: 1.0
-In-Reply-To: <10bafac8-a230-c545-662c-bcbd9f3902dc@arm.com>
-Content-Language: en-US
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=eric.auger@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=207.211.31.120;
- envelope-from=eric.auger@redhat.com; helo=us-smtp-1.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/07/06 01:52:41
-X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
-X-Spam_score_int: -40
-X-Spam_score: -4.1
-X-Spam_bar: ----
-X-Spam_report: (-4.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-1, SPF_HELO_NONE=0.001,
+References: <20200704144943.18292-1-f4bug@amsat.org>
+ <20200704144943.18292-2-f4bug@amsat.org>
+In-Reply-To: <20200704144943.18292-2-f4bug@amsat.org>
+From: Alistair Francis <alistair23@gmail.com>
+Date: Mon, 6 Jul 2020 09:49:12 -0700
+Message-ID: <CAKmqyKNd3qyB33TCamM_zXPFahfvdpmCirouODOy_QFotz55EQ@mail.gmail.com>
+Subject: Re: [PATCH 01/26] hw/arm/sbsa-ref: Remove unused 'hw/usb.h' header
+To: =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <f4bug@amsat.org>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=2607:f8b0:4864:20::d41;
+ envelope-from=alistair23@gmail.com; helo=mail-io1-xd41.google.com
+X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
+ That's all we know.
+X-Spam_score_int: -17
+X-Spam_score: -1.8
+X-Spam_bar: -
+X-Spam_report: (-1.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ FREEMAIL_ENVFROM_END_DIGIT=0.25, FREEMAIL_FROM=0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=_AUTOLEARN
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -89,69 +80,67 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: jean-philippe@linaro.org, mst@redhat.com, zhangfei.gao@foxmail.com,
- shameerali.kolothum.thodi@huawei.com, will@kernel.org, robh@kernel.org
+Cc: Peter Maydell <peter.maydell@linaro.org>,
+ "Michael S. Tsirkin" <mst@redhat.com>,
+ Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>,
+ "qemu-devel@nongnu.org Developers" <qemu-devel@nongnu.org>,
+ Gerd Hoffmann <kraxel@redhat.com>,
+ "Edgar E. Iglesias" <edgar.iglesias@gmail.com>,
+ Huacai Chen <chenhc@lemote.com>, Stefano Stabellini <sstabellini@kernel.org>,
+ Yoshinori Sato <ysato@users.sourceforge.jp>, Paul Durrant <paul@xen.org>,
+ Magnus Damm <magnus.damm@gmail.com>, Markus Armbruster <armbru@redhat.com>,
+ =?UTF-8?Q?Herv=C3=A9_Poussineau?= <hpoussin@reactos.org>,
+ Anthony Perard <anthony.perard@citrix.com>,
+ "open list:X86" <xen-devel@lists.xenproject.org>,
+ Leif Lindholm <leif@nuviainc.com>,
+ =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <philmd@redhat.com>,
+ Aleksandar Rikalo <aleksandar.rikalo@syrmia.com>,
+ Eduardo Habkost <ehabkost@redhat.com>,
+ Alistair Francis <alistair@alistair23.me>,
+ "Dr. David Alan Gilbert" <dgilbert@redhat.com>,
+ Beniamino Galvani <b.galvani@gmail.com>,
+ =?UTF-8?B?TWFyYy1BbmRyw6kgTHVyZWF1?= <marcandre.lureau@redhat.com>,
+ Niek Linnenbank <nieklinnenbank@gmail.com>, qemu-arm <qemu-arm@nongnu.org>,
+ Samuel Thibault <samuel.thibault@ens-lyon.org>,
+ Richard Henderson <rth@twiddle.net>,
+ Radoslaw Biernacki <radoslaw.biernacki@linaro.org>,
+ Igor Mitsyanko <i.mitsyanko@gmail.com>, Paul Zimmerman <pauldzim@gmail.com>,
+ "open list:New World" <qemu-ppc@nongnu.org>,
+ David Gibson <david@gibson.dropbear.id.au>,
+ Paolo Bonzini <pbonzini@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Hi Robin,
+On Sat, Jul 4, 2020 at 7:51 AM Philippe Mathieu-Daud=C3=A9 <f4bug@amsat.org=
+> wrote:
+>
+> This file doesn't access anything from "hw/usb.h", remove its
+> inclusion.
+>
+> Signed-off-by: Philippe Mathieu-Daud=C3=A9 <f4bug@amsat.org>
 
-On 7/6/20 6:18 PM, Robin Murphy wrote:
-> On 2020-07-02 16:26, Eric Auger wrote:
->> Expose the RIL bit so that the guest driver uses range
->> invalidation.
-> 
-> Hmm, this is a v3.2 feature... so strictly, in order to advertise it you
-> would need to claim at least v3.1 in SMMU_AIDR and implement all the
-> mandatory v3.1 behaviour ;)
+Reviewed-by: Alistair Francis <alistair.francis@wdc.com>
 
-AIDR is not modeled at the moment in this emulation code.
-I do not see it used in the linux smmuv3 driver either. I can initialize
-it to 0x2 for the sake of completeness.
+Alistair
 
-With respect to the 'mandatory features', could you please help me
-determining what are they. Most of the features that would impact this
-emulation code look optional to me (52bit support, PBHA, MPAM).
-
-This emulation code is tested against the latest linux kernel.
-
-Thanks
-
-Eric
-
-> Robin.
-> 
->> Signed-off-by: Eric Auger <eric.auger@redhat.com>
->> Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
->> ---
->>   hw/arm/smmuv3-internal.h | 1 +
->>   hw/arm/smmuv3.c          | 2 ++
->>   2 files changed, 3 insertions(+)
->>
->> diff --git a/hw/arm/smmuv3-internal.h b/hw/arm/smmuv3-internal.h
->> index 5babf72f7d..4e7ec252ed 100644
->> --- a/hw/arm/smmuv3-internal.h
->> +++ b/hw/arm/smmuv3-internal.h
->> @@ -54,6 +54,7 @@ REG32(IDR1,                0x4)
->>     REG32(IDR2,                0x8)
->>   REG32(IDR3,                0xc)
->> +    FIELD(IDR3, RIL,          10, 1);
->>   REG32(IDR4,                0x10)
->>   REG32(IDR5,                0x14)
->>        FIELD(IDR5, OAS,         0, 3);
->> diff --git a/hw/arm/smmuv3.c b/hw/arm/smmuv3.c
->> index 89ab11fc36..add4ba4543 100644
->> --- a/hw/arm/smmuv3.c
->> +++ b/hw/arm/smmuv3.c
->> @@ -254,6 +254,8 @@ static void smmuv3_init_regs(SMMUv3State *s)
->>       s->idr[1] = FIELD_DP32(s->idr[1], IDR1, EVENTQS, SMMU_EVENTQS);
->>       s->idr[1] = FIELD_DP32(s->idr[1], IDR1, CMDQS,   SMMU_CMDQS);
->>   +    s->idr[3] = FIELD_DP32(s->idr[3], IDR3, RIL, 1);
->> +
->>      /* 4K and 64K granule support */
->>       s->idr[5] = FIELD_DP32(s->idr[5], IDR5, GRAN4K, 1);
->>       s->idr[5] = FIELD_DP32(s->idr[5], IDR5, GRAN64K, 1);
->>
-> 
-
+> ---
+>  hw/arm/sbsa-ref.c | 1 -
+>  1 file changed, 1 deletion(-)
+>
+> diff --git a/hw/arm/sbsa-ref.c b/hw/arm/sbsa-ref.c
+> index e40c868a82..021e7c1b8b 100644
+> --- a/hw/arm/sbsa-ref.c
+> +++ b/hw/arm/sbsa-ref.c
+> @@ -38,7 +38,6 @@
+>  #include "hw/loader.h"
+>  #include "hw/pci-host/gpex.h"
+>  #include "hw/qdev-properties.h"
+> -#include "hw/usb.h"
+>  #include "hw/char/pl011.h"
+>  #include "net/net.h"
+>
+> --
+> 2.21.3
+>
+>
 
