@@ -2,30 +2,30 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id AA66521527B
-	for <lists+qemu-devel@lfdr.de>; Mon,  6 Jul 2020 08:17:30 +0200 (CEST)
-Received: from localhost ([::1]:41132 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4667D21527D
+	for <lists+qemu-devel@lfdr.de>; Mon,  6 Jul 2020 08:18:45 +0200 (CEST)
+Received: from localhost ([::1]:47820 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jsKRV-0006wZ-MS
-	for lists+qemu-devel@lfdr.de; Mon, 06 Jul 2020 02:17:29 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:60528)
+	id 1jsKSi-0001H8-BH
+	for lists+qemu-devel@lfdr.de; Mon, 06 Jul 2020 02:18:44 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:60522)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <its@irrelevant.dk>)
- id 1jsKNY-0000ig-Gy; Mon, 06 Jul 2020 02:13:24 -0400
-Received: from charlie.dont.surf ([128.199.63.193]:58086)
+ id 1jsKNY-0000hu-6U; Mon, 06 Jul 2020 02:13:24 -0400
+Received: from charlie.dont.surf ([128.199.63.193]:58088)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <its@irrelevant.dk>)
- id 1jsKNU-0000vi-OT; Mon, 06 Jul 2020 02:13:24 -0400
+ id 1jsKNU-0000vf-P7; Mon, 06 Jul 2020 02:13:23 -0400
 Received: from apples.local (80-167-98-190-cable.dk.customer.tdc.net
  [80.167.98.190])
- by charlie.dont.surf (Postfix) with ESMTPSA id E1B5ABF849;
- Mon,  6 Jul 2020 06:13:13 +0000 (UTC)
+ by charlie.dont.surf (Postfix) with ESMTPSA id 5384DBF84E;
+ Mon,  6 Jul 2020 06:13:14 +0000 (UTC)
 From: Klaus Jensen <its@irrelevant.dk>
 To: qemu-block@nongnu.org
-Subject: [PATCH v3 05/18] hw/block/nvme: add temperature threshold feature
-Date: Mon,  6 Jul 2020 08:12:50 +0200
-Message-Id: <20200706061303.246057-6-its@irrelevant.dk>
+Subject: [PATCH v3 06/18] hw/block/nvme: mark fw slot 1 as read-only
+Date: Mon,  6 Jul 2020 08:12:51 +0200
+Message-Id: <20200706061303.246057-7-its@irrelevant.dk>
 X-Mailer: git-send-email 2.27.0
 In-Reply-To: <20200706061303.246057-1-its@irrelevant.dk>
 References: <20200706061303.246057-1-its@irrelevant.dk>
@@ -52,7 +52,7 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Kevin Wolf <kwolf@redhat.com>, Dmitry Fomichev <Dmitry.Fomichev@wdc.com>,
+Cc: Kevin Wolf <kwolf@redhat.com>, Dmitry Fomichev <dmitry.fomichev@wdc.com>,
  Klaus Jensen <k.jensen@samsung.com>, qemu-devel@nongnu.org,
  Max Reitz <mreitz@redhat.com>, Klaus Jensen <its@irrelevant.dk>,
  Keith Busch <kbusch@kernel.org>, Javier Gonzalez <javier.gonz@samsung.com>,
@@ -63,138 +63,51 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Klaus Jensen <k.jensen@samsung.com>
 
-It might seem weird to implement this feature for an emulated device,
-but it is mandatory to support and the feature is useful for testing
-asynchronous event request support, which will be added in a later
-patch.
+Mark firmware slot 1 as read-only and only support that slot.
 
 Signed-off-by: Klaus Jensen <k.jensen@samsung.com>
-Acked-by: Keith Busch <kbusch@kernel.org>
-Reviewed-by: Maxim Levitsky <mlevitsk@redhat.com>
+Reviewed-by: Dmitry Fomichev <dmitry.fomichev@wdc.com>
 ---
- hw/block/nvme.c      | 48 ++++++++++++++++++++++++++++++++++++++++++++
- hw/block/nvme.h      |  1 +
- include/block/nvme.h |  5 ++++-
- 3 files changed, 53 insertions(+), 1 deletion(-)
+ hw/block/nvme.c      | 3 ++-
+ include/block/nvme.h | 4 ++++
+ 2 files changed, 6 insertions(+), 1 deletion(-)
 
 diff --git a/hw/block/nvme.c b/hw/block/nvme.c
-index 415d3b036897..a330ccf91620 100644
+index a330ccf91620..b6bc75eb61a2 100644
 --- a/hw/block/nvme.c
 +++ b/hw/block/nvme.c
-@@ -59,6 +59,9 @@
- #define NVME_DB_SIZE  4
- #define NVME_CMB_BIR 2
- #define NVME_PMR_BIR 2
-+#define NVME_TEMPERATURE 0x143
-+#define NVME_TEMPERATURE_WARNING 0x157
-+#define NVME_TEMPERATURE_CRITICAL 0x175
+@@ -62,6 +62,7 @@
+ #define NVME_TEMPERATURE 0x143
+ #define NVME_TEMPERATURE_WARNING 0x157
+ #define NVME_TEMPERATURE_CRITICAL 0x175
++#define NVME_NUM_FW_SLOTS 1
  
  #define NVME_GUEST_ERR(trace, fmt, ...) \
      do { \
-@@ -841,9 +844,31 @@ static uint16_t nvme_get_feature_timestamp(NvmeCtrl *n, NvmeCmd *cmd)
- static uint16_t nvme_get_feature(NvmeCtrl *n, NvmeCmd *cmd, NvmeRequest *req)
- {
-     uint32_t dw10 = le32_to_cpu(cmd->cdw10);
-+    uint32_t dw11 = le32_to_cpu(cmd->cdw11);
-     uint32_t result;
- 
-     switch (dw10) {
-+    case NVME_TEMPERATURE_THRESHOLD:
-+        result = 0;
-+
-+        /*
-+         * The controller only implements the Composite Temperature sensor, so
-+         * return 0 for all other sensors.
-+         */
-+        if (NVME_TEMP_TMPSEL(dw11) != NVME_TEMP_TMPSEL_COMPOSITE) {
-+            break;
-+        }
-+
-+        switch (NVME_TEMP_THSEL(dw11)) {
-+        case NVME_TEMP_THSEL_OVER:
-+            result = n->features.temp_thresh_hi;
-+            break;
-+        case NVME_TEMP_THSEL_UNDER:
-+            result = n->features.temp_thresh_low;
-+            break;
-+        }
-+
-+        break;
-     case NVME_VOLATILE_WRITE_CACHE:
-         result = blk_enable_write_cache(n->conf.blk);
-         trace_pci_nvme_getfeat_vwcache(result ? "enabled" : "disabled");
-@@ -888,6 +913,23 @@ static uint16_t nvme_set_feature(NvmeCtrl *n, NvmeCmd *cmd, NvmeRequest *req)
-     uint32_t dw11 = le32_to_cpu(cmd->cdw11);
- 
-     switch (dw10) {
-+    case NVME_TEMPERATURE_THRESHOLD:
-+        if (NVME_TEMP_TMPSEL(dw11) != NVME_TEMP_TMPSEL_COMPOSITE) {
-+            break;
-+        }
-+
-+        switch (NVME_TEMP_THSEL(dw11)) {
-+        case NVME_TEMP_THSEL_OVER:
-+            n->features.temp_thresh_hi = NVME_TEMP_TMPTH(dw11);
-+            break;
-+        case NVME_TEMP_THSEL_UNDER:
-+            n->features.temp_thresh_low = NVME_TEMP_TMPTH(dw11);
-+            break;
-+        default:
-+            return NVME_INVALID_FIELD | NVME_DNR;
-+        }
-+
-+        break;
-     case NVME_VOLATILE_WRITE_CACHE:
-         blk_set_enable_write_cache(n->conf.blk, dw11 & 1);
-         break;
-@@ -1468,6 +1510,7 @@ static void nvme_init_state(NvmeCtrl *n)
-     n->namespaces = g_new0(NvmeNamespace, n->num_namespaces);
-     n->sq = g_new0(NvmeSQueue *, n->params.max_ioqpairs + 1);
-     n->cq = g_new0(NvmeCQueue *, n->params.max_ioqpairs + 1);
-+    n->features.temp_thresh_hi = NVME_TEMPERATURE_WARNING;
- }
- 
- static void nvme_init_blk(NvmeCtrl *n, Error **errp)
-@@ -1625,6 +1668,11 @@ static void nvme_init_ctrl(NvmeCtrl *n, PCIDevice *pci_dev)
+@@ -1666,7 +1667,7 @@ static void nvme_init_ctrl(NvmeCtrl *n, PCIDevice *pci_dev)
+      * inconsequential.
+      */
      id->acl = 3;
-     id->frmw = 7 << 1;
+-    id->frmw = 7 << 1;
++    id->frmw = (NVME_NUM_FW_SLOTS << 1) | NVME_FRMW_SLOT1_RO;
      id->lpa = 1 << 0;
-+
-+    /* recommended default value (~70 C) */
-+    id->wctemp = cpu_to_le16(NVME_TEMPERATURE_WARNING);
-+    id->cctemp = cpu_to_le16(NVME_TEMPERATURE_CRITICAL);
-+
-     id->sqes = (0x6 << 4) | 0x6;
-     id->cqes = (0x4 << 4) | 0x4;
-     id->nn = cpu_to_le32(n->num_namespaces);
-diff --git a/hw/block/nvme.h b/hw/block/nvme.h
-index 1d30c0bca283..e3a2c907e210 100644
---- a/hw/block/nvme.h
-+++ b/hw/block/nvme.h
-@@ -107,6 +107,7 @@ typedef struct NvmeCtrl {
-     NvmeSQueue      admin_sq;
-     NvmeCQueue      admin_cq;
-     NvmeIdCtrl      id_ctrl;
-+    NvmeFeatureVal  features;
- } NvmeCtrl;
  
- /* calculate the number of LBAs that the namespace can accomodate */
+     /* recommended default value (~70 C) */
 diff --git a/include/block/nvme.h b/include/block/nvme.h
-index 2a80d2a7ed89..d2c457695b38 100644
+index d2c457695b38..d639e8bbee92 100644
 --- a/include/block/nvme.h
 +++ b/include/block/nvme.h
-@@ -860,7 +860,10 @@ enum NvmeIdCtrlOncs {
- typedef struct NvmeFeatureVal {
-     uint32_t    arbitration;
-     uint32_t    power_mgmt;
--    uint32_t    temp_thresh;
-+    struct {
-+        uint16_t temp_thresh_hi;
-+        uint16_t temp_thresh_low;
-+    };
-     uint32_t    err_rec;
-     uint32_t    volatile_wc;
-     uint32_t    num_queues;
+@@ -842,6 +842,10 @@ enum NvmeIdCtrlOncs {
+     NVME_ONCS_TIMESTAMP     = 1 << 6,
+ };
+ 
++enum NvmeIdCtrlFrmw {
++    NVME_FRMW_SLOT1_RO = 1 << 0,
++};
++
+ #define NVME_CTRL_SQES_MIN(sqes) ((sqes) & 0xf)
+ #define NVME_CTRL_SQES_MAX(sqes) (((sqes) >> 4) & 0xf)
+ #define NVME_CTRL_CQES_MIN(cqes) ((cqes) & 0xf)
 -- 
 2.27.0
 
