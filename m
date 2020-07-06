@@ -2,59 +2,64 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1E855215355
-	for <lists+qemu-devel@lfdr.de>; Mon,  6 Jul 2020 09:32:20 +0200 (CEST)
-Received: from localhost ([::1]:40240 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6E3C3215358
+	for <lists+qemu-devel@lfdr.de>; Mon,  6 Jul 2020 09:34:32 +0200 (CEST)
+Received: from localhost ([::1]:45672 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jsLbv-0007BO-5l
-	for lists+qemu-devel@lfdr.de; Mon, 06 Jul 2020 03:32:19 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:47314)
+	id 1jsLe3-0001G3-Gj
+	for lists+qemu-devel@lfdr.de; Mon, 06 Jul 2020 03:34:31 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:47370)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1jsLYZ-0003PV-9X
- for qemu-devel@nongnu.org; Mon, 06 Jul 2020 03:28:51 -0400
-Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:56784
- helo=us-smtp-1.mimecast.com)
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1jsLYb-0003QL-Nd
+ for qemu-devel@nongnu.org; Mon, 06 Jul 2020 03:28:53 -0400
+Received: from us-smtp-1.mimecast.com ([207.211.31.81]:52266
+ helo=us-smtp-delivery-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1jsLYW-0004JT-7s
- for qemu-devel@nongnu.org; Mon, 06 Jul 2020 03:28:50 -0400
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1jsLYY-0004Lt-VK
+ for qemu-devel@nongnu.org; Mon, 06 Jul 2020 03:28:53 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1594020527;
+ s=mimecast20190719; t=1594020530;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:content-type:content-type:in-reply-to:in-reply-to:
- references:references; bh=jGUD4WlCyQd1mVPrOaPOyVNr+AJza26/lZEXObIon+Y=;
- b=ahJlcNplroVJqZLHVKT6GJ94kWjoYfnQ7BuXrWKAEvw35diZpfcSToLwk5gV254tzHSNjK
- TM0rmafPExVPYfI93AzN0dlTV0jfaFMx2onX3s0uOesaXYPg5LA/LILBIMmLs/yS055Ay2
- 5DU+Rkys4/2GZfQ9P4DH6d05wj120Ig=
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=NpLhPcTzNcz5EtG/xYX0R96tjV4b1A8773ZUPrdDRUg=;
+ b=CLqDLsb6CVKUaG7UCVGgtVYAPkOFzeQJsfMCsAzmphoRP5nk44drYG91Vu9j5UGtUwS8lO
+ NHPJRvmwUqPF3gzQec1x/I38C7H0sXC1uGO9rj5rEZEfhPKEM+NVArulagxfXgDzAkUBxO
+ sMlgeOpJfv39WvdRgQHw9zpoOOVWED8=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-260-gWOa-RSwMR6EpfLydGNjLg-1; Mon, 06 Jul 2020 03:28:45 -0400
-X-MC-Unique: gWOa-RSwMR6EpfLydGNjLg-1
+ us-mta-123-LecQw-LdOfGZXFgyTts6KQ-1; Mon, 06 Jul 2020 03:28:48 -0400
+X-MC-Unique: LecQw-LdOfGZXFgyTts6KQ-1
 Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
  [10.5.11.14])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 300408014D4;
- Mon,  6 Jul 2020 07:28:44 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id D3AC28014D7;
+ Mon,  6 Jul 2020 07:28:46 +0000 (UTC)
 Received: from thuth.com (ovpn-112-144.ams2.redhat.com [10.36.112.144])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 578985D9CC;
- Mon,  6 Jul 2020 07:28:43 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 8F3235D9CC;
+ Mon,  6 Jul 2020 07:28:44 +0000 (UTC)
 From: Thomas Huth <thuth@redhat.com>
 To: Peter Maydell <peter.maydell@linaro.org>
-Subject: [PULL 4/6] configure / util: Auto-detect the availability of openpty()
-Date: Mon,  6 Jul 2020 09:28:33 +0200
-Message-Id: <20200706072835.23582-5-thuth@redhat.com>
+Subject: [PULL 5/6] hw/m68k/mcf5206: Replace remaining hw_error()s by
+ qemu_log_mask()
+Date: Mon,  6 Jul 2020 09:28:34 +0200
+Message-Id: <20200706072835.23582-6-thuth@redhat.com>
 In-Reply-To: <20200706072835.23582-1-thuth@redhat.com>
 References: <20200706072835.23582-1-thuth@redhat.com>
+MIME-Version: 1.0
 X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=thuth@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=US-ASCII
-Received-SPF: pass client-ip=205.139.110.120; envelope-from=thuth@redhat.com;
- helo=us-smtp-1.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/07/06 01:22:37
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=207.211.31.81; envelope-from=thuth@redhat.com;
+ helo=us-smtp-delivery-1.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/07/06 01:39:15
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
 X-Spam_score_int: -30
 X-Spam_score: -3.1
@@ -75,78 +80,126 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-devel@nongnu.org
+Cc: Thomas Huth <huth@tuxfamily.org>, qemu-devel@nongnu.org,
+ Thomas Huth <thuth@tuxfamily.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Recent versions of Solaris (v11.4) now feature an openpty() function,
-too, causing a build failure since we ship our own implementation of
-openpty() for Solaris in util/qemu-openpty.c so far. Since there are
-now both variants available in the wild, with and without this function
-(and illumos is said to not have this function yet), let's introduce a
-proper HAVE_OPENPTY define for this to fix the build failure.
+From: Thomas Huth <huth@tuxfamily.org>
 
-Message-Id: <20200702143955.678-1-thuth@redhat.com>
-Tested-by: Michele Denber <denber@mindspring.com>
-Signed-off-by: Thomas Huth <thuth@redhat.com>
+hw_error() dumps the CPU state and exits QEMU. This is ok during initial
+code development (to see where the guest code is currently executing),
+but it is certainly not the desired behavior that we want to present to
+normal users, and it can also cause trouble when e.g. fuzzing devices.
+Thus let's replace these hw_error()s by qemu_log_mask()s instead.
+
+Message-Id: <20200611055807.15921-1-huth@tuxfamily.org>
+Reviewed-by: Laurent Vivier <laurent@vivier.eu>
+Reviewed-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
+Signed-off-by: Thomas Huth <thuth@tuxfamily.org>
 ---
- configure           | 9 ++++++++-
- util/qemu-openpty.c | 5 ++++-
- 2 files changed, 12 insertions(+), 2 deletions(-)
+ hw/m68k/mcf5206.c | 39 ++++++++++++++++++++++++++++-----------
+ 1 file changed, 28 insertions(+), 11 deletions(-)
 
-diff --git a/configure b/configure
-index 8a65240d4a..f8dc64beab 100755
---- a/configure
-+++ b/configure
-@@ -5134,10 +5134,14 @@ extern int openpty(int *am, int *as, char *name, void *termp, void *winp);
- int main(void) { return openpty(0, 0, 0, 0, 0); }
- EOF
+diff --git a/hw/m68k/mcf5206.c b/hw/m68k/mcf5206.c
+index a2fef04f8e..94a37a1a46 100644
+--- a/hw/m68k/mcf5206.c
++++ b/hw/m68k/mcf5206.c
+@@ -10,7 +10,6 @@
+ #include "qemu/error-report.h"
+ #include "qemu/log.h"
+ #include "cpu.h"
+-#include "hw/hw.h"
+ #include "hw/irq.h"
+ #include "hw/m68k/mcf.h"
+ #include "qemu/timer.h"
+@@ -69,10 +68,16 @@ static void m5206_timer_recalibrate(m5206_timer_state *s)
+     if (mode == 2)
+         prescale *= 16;
  
--if ! compile_prog "" "" ; then
-+have_openpty="no"
-+if compile_prog "" "" ; then
-+  have_openpty="yes"
-+else
-   if compile_prog "" "-lutil" ; then
-     libs_softmmu="-lutil $libs_softmmu"
-     libs_tools="-lutil $libs_tools"
-+    have_openpty="yes"
-   fi
- fi
+-    if (mode == 3 || mode == 0)
+-        hw_error("m5206_timer: mode %d not implemented\n", mode);
+-    if ((s->tmr & TMR_FRR) == 0)
+-        hw_error("m5206_timer: free running mode not implemented\n");
++    if (mode == 3 || mode == 0) {
++        qemu_log_mask(LOG_UNIMP, "m5206_timer: mode %d not implemented\n",
++                      mode);
++        goto exit;
++    }
++    if ((s->tmr & TMR_FRR) == 0) {
++        qemu_log_mask(LOG_UNIMP,
++                      "m5206_timer: free running mode not implemented\n");
++        goto exit;
++    }
  
-@@ -7380,6 +7384,9 @@ fi
- if test "$have_broken_size_max" = "yes" ; then
-     echo "HAVE_BROKEN_SIZE_MAX=y" >> $config_host_mak
- fi
-+if test "$have_openpty" = "yes" ; then
-+    echo "HAVE_OPENPTY=y" >> $config_host_mak
-+fi
- 
- # Work around a system header bug with some kernel/XFS header
- # versions where they both try to define 'struct fsxattr':
-diff --git a/util/qemu-openpty.c b/util/qemu-openpty.c
-index 2e8b43bdf5..4b8df96f38 100644
---- a/util/qemu-openpty.c
-+++ b/util/qemu-openpty.c
-@@ -52,7 +52,9 @@
- #endif
- 
- #ifdef __sun__
--/* Once Solaris has openpty(), this is going to be removed. */
-+
-+#if !defined(HAVE_OPENPTY)
-+/* Once illumos has openpty(), this is going to be removed. */
- static int openpty(int *amaster, int *aslave, char *name,
-                    struct termios *termp, struct winsize *winp)
- {
-@@ -93,6 +95,7 @@ err:
-         close(mfd);
-         return -1;
- }
-+#endif
- 
- static void cfmakeraw (struct termios *termios_p)
- {
+     /* Assume 66MHz system clock.  */
+     ptimer_set_freq(s->timer, 66000000 / prescale);
+@@ -391,7 +396,9 @@ static uint32_t m5206_mbar_readb(void *opaque, hwaddr offset)
+     m5206_mbar_state *s = (m5206_mbar_state *)opaque;
+     offset &= 0x3ff;
+     if (offset >= 0x200) {
+-        hw_error("Bad MBAR read offset 0x%x", (int)offset);
++        qemu_log_mask(LOG_GUEST_ERROR, "Bad MBAR read offset 0x%" HWADDR_PRIX,
++                      offset);
++        return 0;
+     }
+     if (m5206_mbar_width[offset >> 2] > 1) {
+         uint16_t val;
+@@ -410,7 +417,9 @@ static uint32_t m5206_mbar_readw(void *opaque, hwaddr offset)
+     int width;
+     offset &= 0x3ff;
+     if (offset >= 0x200) {
+-        hw_error("Bad MBAR read offset 0x%x", (int)offset);
++        qemu_log_mask(LOG_GUEST_ERROR, "Bad MBAR read offset 0x%" HWADDR_PRIX,
++                      offset);
++        return 0;
+     }
+     width = m5206_mbar_width[offset >> 2];
+     if (width > 2) {
+@@ -434,7 +443,9 @@ static uint32_t m5206_mbar_readl(void *opaque, hwaddr offset)
+     int width;
+     offset &= 0x3ff;
+     if (offset >= 0x200) {
+-        hw_error("Bad MBAR read offset 0x%x", (int)offset);
++        qemu_log_mask(LOG_GUEST_ERROR, "Bad MBAR read offset 0x%" HWADDR_PRIX,
++                      offset);
++        return 0;
+     }
+     width = m5206_mbar_width[offset >> 2];
+     if (width < 4) {
+@@ -458,7 +469,9 @@ static void m5206_mbar_writeb(void *opaque, hwaddr offset,
+     int width;
+     offset &= 0x3ff;
+     if (offset >= 0x200) {
+-        hw_error("Bad MBAR write offset 0x%x", (int)offset);
++        qemu_log_mask(LOG_GUEST_ERROR, "Bad MBAR write offset 0x%" HWADDR_PRIX,
++                      offset);
++        return;
+     }
+     width = m5206_mbar_width[offset >> 2];
+     if (width > 1) {
+@@ -482,7 +495,9 @@ static void m5206_mbar_writew(void *opaque, hwaddr offset,
+     int width;
+     offset &= 0x3ff;
+     if (offset >= 0x200) {
+-        hw_error("Bad MBAR write offset 0x%x", (int)offset);
++        qemu_log_mask(LOG_GUEST_ERROR, "Bad MBAR write offset 0x%" HWADDR_PRIX,
++                      offset);
++        return;
+     }
+     width = m5206_mbar_width[offset >> 2];
+     if (width > 2) {
+@@ -510,7 +525,9 @@ static void m5206_mbar_writel(void *opaque, hwaddr offset,
+     int width;
+     offset &= 0x3ff;
+     if (offset >= 0x200) {
+-        hw_error("Bad MBAR write offset 0x%x", (int)offset);
++        qemu_log_mask(LOG_GUEST_ERROR, "Bad MBAR write offset 0x%" HWADDR_PRIX,
++                      offset);
++        return;
+     }
+     width = m5206_mbar_width[offset >> 2];
+     if (width < 4) {
 -- 
 2.18.1
 
