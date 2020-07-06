@@ -2,53 +2,54 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4258D215FBC
-	for <lists+qemu-devel@lfdr.de>; Mon,  6 Jul 2020 21:57:41 +0200 (CEST)
-Received: from localhost ([::1]:43476 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id F36EC215FC5
+	for <lists+qemu-devel@lfdr.de>; Mon,  6 Jul 2020 21:58:47 +0200 (CEST)
+Received: from localhost ([::1]:48486 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jsXFE-0004oA-AT
-	for lists+qemu-devel@lfdr.de; Mon, 06 Jul 2020 15:57:40 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:43014)
+	id 1jsXGJ-0007JA-2s
+	for lists+qemu-devel@lfdr.de; Mon, 06 Jul 2020 15:58:47 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:43038)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <alxndr@bu.edu>) id 1jsXE1-0003Fi-8u
- for qemu-devel@nongnu.org; Mon, 06 Jul 2020 15:56:25 -0400
+ (Exim 4.90_1) (envelope-from <alxndr@bu.edu>) id 1jsXE3-0003Hl-36
+ for qemu-devel@nongnu.org; Mon, 06 Jul 2020 15:56:27 -0400
 Received: from mail-mw2nam12on2126.outbound.protection.outlook.com
  ([40.107.244.126]:37345 helo=NAM12-MW2-obe.outbound.protection.outlook.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <alxndr@bu.edu>) id 1jsXDz-00032S-CX
- for qemu-devel@nongnu.org; Mon, 06 Jul 2020 15:56:24 -0400
+ (Exim 4.90_1) (envelope-from <alxndr@bu.edu>) id 1jsXE1-00032S-HT
+ for qemu-devel@nongnu.org; Mon, 06 Jul 2020 15:56:26 -0400
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=iVfYed6NJ+xGvJSSsBUWBFn+llzxP/UNO+uyHGZ5cPLH1S6u5PYIg/nqTe4eDN7WMZFHe5VvNzQ5NZEjcApemkCGI5OUcZA6yF6O3O6YBCwGLqIdJh4TTkAo3mfpEF9GShPWLAmJliwUNBnP99jm4P4DTVdXrNfFXnaZdJz6aeYl0kuh0WdrKpnLqXZ9iItaYpVLAMfgSg9mZpt/DLmoomC1Bc7t6zSZAbP2q0SYNlEB50O3+5vQ6I1z72T5WmbJYLTOd+3z5khZuKMYLsoSGgFrcgeAIaDOIVwBkKbz4wJ9J4Yedo7aVO6pN+YtYgwfgS78QcrLHyJtgkPlqTCFPQ==
+ b=AmYRqS1PvcCSDMptEe2rQL7E+7x5CCDz7bxc30xGaNd3/uf/9+fgq8rV4HoxTLaA1RPxyupFp8E0sVx47Lcz5S8benxoqt9WMJ4uKu0zfyYAV0Jlq6Kb34NWwRjx7Zlz3tuaPL2vgX8RlM0eYfwitvS79hGkMkxT8esbOdYTSSiDMoaA7kDRTRCP1hMbShTcjvMDaTEL/7uj7v7AktLHAIOfwmfBZDJ9ILf6dARBylsakCtEWcEuwPgA+fnB8CIIGJccPHscpVEOobFdlmQOFLB5popFBvciW4M446JWiFfximIltT8LTmGEFlQPwIl4Ojym+ZBXA7ca3n8c/nxHAQ==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=dsTdI6r2+KgSYYIBcSUuhcXd3d4BZo2yDSICQr8IhfA=;
- b=PQnB2DzQhmYFn7Dfv3y7wIguNvKWnoIbjVdsDP+C1EVXdHXAvQvhhW5lO4n/On0uhl8YowQVldbWMHveZsFt6MK5FJWJd4TcFOgwE4nEQA5PdG05qVyOOQ5JtaaQCqCnxImdPJGHJkePvOehT1y+DK/7VqvRDzjf7UdTIFQtnbDuY2h7JLAuM1oEqizvtTPR0XjOaMZgZ6vDlHPyyxJQ9OJKqsIQRuAn1/bgyOvJye9SGkQsTXW0hi1TuRQ4ArsHqt4tnSUBo3kSuXDB1lE7w8bjkjE/ZXQabKPK3Tml6ztFcows5caA1/zTY7hq3rPZz1iQXhG76Em7lRxaZ4tiHA==
+ bh=81P0xTiB6eYwm9dM3xLP3FIv2owOKwkJ7xlolapJBlA=;
+ b=bjIccojg/JHc9Fo8KbaKgif935bfy9/AIfx9BcFGWIH+oigA0tfERqE1BoPKwLWVP5MUxl8Rw8t2BAh0d3qVFby6ENNOJHz23lMw5Jvv2khHWU8IQ+Fxe6E0WvMd6I+8nWvgyRBg+smmv8xYz0KyYi+3xZt8IQg5ecL8sWYXWrWedwfPnN9K0lcCpBeCCJ80GGj8UBeb8HodrUxmFe/waLKaHEYBQOf19ROyoEqq53GqZIVnwhsyZp7Jwlsb7UcMZUG6UheQu8f+jmOjbJgGKwTBdr5PltHmeDj4v4iM0mOh282ZOOvdSByQc+XovcpUvRoL39m0y3Hi2t4iItCgCw==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
  smtp.mailfrom=bu.edu; dmarc=pass action=none header.from=bu.edu; dkim=pass
  header.d=bu.edu; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=bushare.onmicrosoft.com; s=selector2-bushare-onmicrosoft-com;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=dsTdI6r2+KgSYYIBcSUuhcXd3d4BZo2yDSICQr8IhfA=;
- b=ovzcMMtwx16S8/8OgXqCBQ2cy31Dp6Wzgoyi6M8zW0nOKj25XAXp8t6XtIfijCcar9DoYqkHze9FybSpqzpG735zC6zu3rd30iLuca3aQLHLnwNofGj2doxdQYG2ULcj0VXIEfi+ST84B1lwa+qyGkgo0H3UsZJ9YSklszNsR+E=
+ bh=81P0xTiB6eYwm9dM3xLP3FIv2owOKwkJ7xlolapJBlA=;
+ b=TjnygGXPLHJ34hlISy/yf+JH4c9iNA3Az2HGcJFZhNdJh8hQMEkeGHEy7PvSamsdYXB85oV9WUmweuM8HmD3kou2qFVtBsXSsJkmJ558i8uvnFbsaak/g14q2cOn7xCgvYlx6l4x/ulgBgDZi4qUKKQoiAvFikyfcrO9xumO51Y=
 Authentication-Results: nongnu.org; dkim=none (message not signed)
  header.d=none;nongnu.org; dmarc=none action=none header.from=bu.edu;
 Received: from SN6PR03MB3871.namprd03.prod.outlook.com (2603:10b6:805:6d::32)
  by SN6PR03MB3520.namprd03.prod.outlook.com (2603:10b6:805:4d::27)
  with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3153.21; Mon, 6 Jul
- 2020 19:55:46 +0000
+ 2020 19:55:47 +0000
 Received: from SN6PR03MB3871.namprd03.prod.outlook.com
  ([fe80::8ce:29a6:77be:c35b]) by SN6PR03MB3871.namprd03.prod.outlook.com
  ([fe80::8ce:29a6:77be:c35b%7]) with mapi id 15.20.3153.029; Mon, 6 Jul 2020
- 19:55:46 +0000
+ 19:55:47 +0000
 From: Alexander Bulekov <alxndr@bu.edu>
 To: qemu-devel@nongnu.org
-Subject: [PATCH 1/4] fuzz: build without AddressSanitizer, by default
-Date: Mon,  6 Jul 2020 15:55:31 -0400
-Message-Id: <20200706195534.14962-2-alxndr@bu.edu>
+Subject: [PATCH 2/4] docs/fuzz: describe building fuzzers with
+ enable-sanitizers
+Date: Mon,  6 Jul 2020 15:55:32 -0400
+Message-Id: <20200706195534.14962-3-alxndr@bu.edu>
 X-Mailer: git-send-email 2.26.2
 In-Reply-To: <20200706195534.14962-1-alxndr@bu.edu>
 References: <20200706195534.14962-1-alxndr@bu.edu>
@@ -62,34 +63,34 @@ X-MS-Exchange-MessageSentRepresentingType: 1
 Received: from mozz.bu.edu (128.197.127.33) by
  BL0PR02CA0142.namprd02.prod.outlook.com (2603:10b6:208:35::47) with Microsoft
  SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.3153.24 via Frontend Transport; Mon, 6 Jul 2020 19:55:45 +0000
+ 15.20.3153.24 via Frontend Transport; Mon, 6 Jul 2020 19:55:46 +0000
 X-Mailer: git-send-email 2.26.2
 X-Originating-IP: [128.197.127.33]
 X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: 7c8eea77-bfc3-4a6e-b553-08d821e692d2
+X-MS-Office365-Filtering-Correlation-Id: ea6e70fc-1b63-4c04-4fcc-08d821e69346
 X-MS-TrafficTypeDiagnostic: SN6PR03MB3520:
 X-MS-Exchange-Transport-Forked: True
-X-Microsoft-Antispam-PRVS: <SN6PR03MB35204F31AA531957BF8EBFBBBA690@SN6PR03MB3520.namprd03.prod.outlook.com>
-X-MS-Oob-TLC-OOBClassifiers: OLM:5516;
+X-Microsoft-Antispam-PRVS: <SN6PR03MB35203968FA11244261C24AE4BA690@SN6PR03MB3520.namprd03.prod.outlook.com>
+X-MS-Oob-TLC-OOBClassifiers: OLM:6108;
 X-Forefront-PRVS: 04569283F9
 X-MS-Exchange-SenderADCheck: 1
 X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: 3gP5y6XVeTBOplkEYWCEfAdblt5vXY8Z+Huu6yvckPw5mnDz0T226Iu2KVBAq/AGcXch2p4N0mTVeH8zS3M/1uBdlLRz2zFqDCerHDO/szKA9pU+RFUFicsQeHAFMJ5kBitv5khXxbjIGR8LAq/U94X2TUKWoLDuPh/e94WYlPBgjnFVTmbIJOnr6qcz+eGFkjdS9t22rsHmQPu9nVIksuhurAROu7Q7tQOCvXgKqtZ4RVPTzmsCVdtKaQZCmZ/9EeaCkm3F9gjYGiehH+CBcw6ahC0CBk89Fvk44Ol234SchUBbFA8+Hh2TE8TQQ6iRrlmTpW8VsRcVzBRlE4UOfQ==
+X-Microsoft-Antispam-Message-Info: Wy/cX33jxLUeOcUQUQJ+4ojiWQM6QnCwDrhqhsoi+cU74kLHTE9jfWf1HQzm1FXI15OPKFUp05SQaPy8s8v8LRgvDfcOOFG5P5jghYolbMpLKhADV39EACaaEtb8P+ILwUJ8ix+tVbKOJZQdjwElJTwzy2dwDAXaGjkgEcssrkY7fQV9j+YF/HWU7wfGlbBsKQvNa23rndkX+7axC+/up0Pg5TGfS7x9MIi3rJZuKCxB+Y27mWTTBDBwTvCi1kMHWiGAenL4hBYvMaaGGsxp4JbibKz3qWhOBFY/jrnpcc6sNqHIA/xXSKR/ZhZk+TIu
 X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
  IPV:NLI; SFV:NSPM; H:SN6PR03MB3871.namprd03.prod.outlook.com; PTR:; CAT:NONE;
  SFTY:;
  SFS:(4636009)(366004)(396003)(39860400002)(136003)(346002)(376002)(83380400001)(16526019)(26005)(8676002)(66476007)(66556008)(7696005)(4326008)(786003)(75432002)(478600001)(8936002)(66946007)(1076003)(36756003)(86362001)(52116002)(316002)(6666004)(2906002)(186003)(5660300002)(6916009)(6486002)(956004)(2616005);
  DIR:OUT; SFP:1102; 
-X-MS-Exchange-AntiSpam-MessageData: VLclbXwiRjuCHFlW9FXsEY1ktDXzx7AWHHRp6xE5OoVYgK/XRESO1F3+IehxJeqAa75OK/N0G7NWCkIscrHN+l20SQxGvpreijllrg9JsaAxG5tjGpDVW6WGUAZXqcxxz46bEHclcTQsHDhijTKIXm6dLPTLL7017wkUuX1Nvrmf0r1AngvuNS1qXbS62LbrZhI5KyhPNiJxZMaerfm0NeGT+NZ/nWVZi+yT/a0BjNUXgDNSzJRlwCF5CH9jRaNWR9k33oZYc8BEaQFAA6gACd7k3++4IoBzO6wyfgVoI0U5yP+fOCR4wDxkdDnbd52HsCxBgncRS4T+tlS0YvyxPrD9+W7/IR6nzdpP6ugKV6EMk/QSuhaFlP+5M1/MdB3NQqxBbfKt0grpdZLbZNqmhS53qBBglL7/PrN9N8LgYgezmfIUAesrNa3yXsmUL4v0eGHOlPZ4sGvCsm6T1IGwhEtrK5oJ25Ob0xYWBrb3jdg=
+X-MS-Exchange-AntiSpam-MessageData: oN8UrO0woKNYH5ClHi5A/8Hkc5DJ0tVswivl9UkqQ3pcJ0bHcaIBnQrWMk1BZl/MQTQUIiOySGAcm31cEmXjIjDFwQQb6pqFT3cUR9qC6e7AHTBQXd2nRx4hZZ29KJooqzoW/RcmEMNN8XPEMuexuPUG45aSg1IAHP1+qLtZDenHRe9fEZv7TA2GWIxrOlk+pUzDPnS6GRBnISXqbzBSUAohrZ2+qBr3GpClPFyztE8OGNZnVdeIQvAHfwiZFS5LUEFpsHB1+1fxtqXscUw1dOZ5Sn3DhNh12CxNVTSqERArPakPmkjeY0id2RZB0VtuSgINpma3R5tj9qhth2/bjdF8K++l6wxyqlsXU6dkIHhfA8ijQYUWL0wFE4JaR76HvEQoXF5IWXWhRd9fRQCI4X6sKOtcXrrBz88Kwz/BNainGqXvyXHi+H7zWtVr/TRy+SWxwpO3ATEW4PJhUbYkeQadB6tRNa23WJcqcuHAwLc=
 X-OriginatorOrg: bu.edu
-X-MS-Exchange-CrossTenant-Network-Message-Id: 7c8eea77-bfc3-4a6e-b553-08d821e692d2
+X-MS-Exchange-CrossTenant-Network-Message-Id: ea6e70fc-1b63-4c04-4fcc-08d821e69346
 X-MS-Exchange-CrossTenant-AuthSource: SN6PR03MB3871.namprd03.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 06 Jul 2020 19:55:46.4411 (UTC)
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 06 Jul 2020 19:55:47.3476 (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
 X-MS-Exchange-CrossTenant-Id: d57d32cc-c121-488f-b07b-dfe705680c71
 X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: quYUlahpIIJW/txDwHCHFTWkJdXkvyOjK7QIKDPAs4rXW0cGKkZpQ/ENZnmuhxgm
+X-MS-Exchange-CrossTenant-UserPrincipalName: 3Z3AcKgtLx9Uo2KHBpOiq+cuwY2KsuvlZ0bi20au+6Ty++ZqlusR/+OSKuu5ezam
 X-MS-Exchange-Transport-CrossTenantHeadersStamped: SN6PR03MB3520
 Received-SPF: pass client-ip=40.107.244.126; envelope-from=alxndr@bu.edu;
  helo=NAM12-MW2-obe.outbound.protection.outlook.com
@@ -119,48 +120,30 @@ Cc: Alexander Bulekov <alxndr@bu.edu>, bsd@redhat.com, philmd@redhat.com,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-We already have a nice --enable-sanitizers option to enable
-AddressSanitizer. There is no reason to duplicate and force this
-functionality in --enable-fuzzing. In the future, if more sanitizers are
-added to --enable-sanitizers, it might be impossible to build with both
---enable-sanitizers and --enable-fuzzing, since not all sanitizers are
-compatible with libFuzzer. In that case, we could enable ASAN with
---extra-cflags="-fsanitize=address"
-
 Signed-off-by: Alexander Bulekov <alxndr@bu.edu>
 ---
- configure | 10 +++++-----
- 1 file changed, 5 insertions(+), 5 deletions(-)
+ docs/devel/fuzzing.txt | 7 +++++--
+ 1 file changed, 5 insertions(+), 2 deletions(-)
 
-diff --git a/configure b/configure
-index 8a65240d4a..010c0ca479 100755
---- a/configure
-+++ b/configure
-@@ -6319,7 +6319,7 @@ fi
- # checks for fuzzer
- if test "$fuzzing" = "yes" ; then
-   write_c_fuzzer_skeleton
--  if compile_prog "$CPU_CFLAGS -Werror -fsanitize=address,fuzzer" ""; then
-+  if compile_prog "$CPU_CFLAGS -Werror -fsanitize=fuzzer" ""; then
-       have_fuzzer=yes
-   fi
- fi
-@@ -7858,11 +7858,11 @@ if test "$sheepdog" = "yes" ; then
- fi
- if test "$fuzzing" = "yes" ; then
-   if test "$have_fuzzer" = "yes"; then
--    FUZZ_LDFLAGS=" -fsanitize=address,fuzzer"
--    FUZZ_CFLAGS=" -fsanitize=address,fuzzer"
--    CFLAGS=" -fsanitize=address,fuzzer-no-link"
-+    FUZZ_LDFLAGS=" -fsanitize=fuzzer"
-+    FUZZ_CFLAGS=" -fsanitize=fuzzer"
-+    CFLAGS=" -fsanitize=fuzzer-no-link"
-   else
--    error_exit "Your compiler doesn't support -fsanitize=address,fuzzer"
-+    error_exit "Your compiler doesn't support -fsanitize=fuzzer"
-     exit 1
-   fi
- fi
+diff --git a/docs/devel/fuzzing.txt b/docs/devel/fuzzing.txt
+index 324d2cd92b..382ade974e 100644
+--- a/docs/devel/fuzzing.txt
++++ b/docs/devel/fuzzing.txt
+@@ -23,9 +23,12 @@ AddressSanitizer mmaps ~20TB of memory, as part of its detection. This results
+ in a large page-map, and a much slower fork().
+ 
+ To build the fuzzers, install a recent version of clang:
+-Configure with (substitute the clang binaries with the version you installed):
++Configure with (substitute the clang binaries with the version you installed).
++Here, enable-sanitizers, is optional but it allows us to reliably detect bugs
++such as out-of-bounds accesses, use-after-frees, double-frees etc.
+ 
+-    CC=clang-8 CXX=clang++-8 /path/to/configure --enable-fuzzing
++    CC=clang-8 CXX=clang++-8 /path/to/configure --enable-fuzzing \
++                                                --enable-sanitizers
+ 
+ Fuzz targets are built similarly to system/softmmu:
+ 
 -- 
 2.26.2
 
