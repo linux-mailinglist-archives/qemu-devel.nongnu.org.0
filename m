@@ -2,77 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7BCD7215F15
-	for <lists+qemu-devel@lfdr.de>; Mon,  6 Jul 2020 20:55:26 +0200 (CEST)
-Received: from localhost ([::1]:51402 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B501D215F5F
+	for <lists+qemu-devel@lfdr.de>; Mon,  6 Jul 2020 21:31:45 +0200 (CEST)
+Received: from localhost ([::1]:36534 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jsWGy-0004Kf-BQ
-	for lists+qemu-devel@lfdr.de; Mon, 06 Jul 2020 14:55:24 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:58526)
+	id 1jsWq7-0007fk-Uc
+	for lists+qemu-devel@lfdr.de; Mon, 06 Jul 2020 15:31:43 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:37034)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1jsWEc-00010W-0w
- for qemu-devel@nongnu.org; Mon, 06 Jul 2020 14:52:58 -0400
-Received: from mail-pj1-x1032.google.com ([2607:f8b0:4864:20::1032]:52065)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1jsWEa-0000fg-FS
- for qemu-devel@nongnu.org; Mon, 06 Jul 2020 14:52:57 -0400
-Received: by mail-pj1-x1032.google.com with SMTP id l6so14089819pjq.1
- for <qemu-devel@nongnu.org>; Mon, 06 Jul 2020 11:52:56 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=from:to:cc:subject:date:message-id:in-reply-to:references
- :mime-version:content-transfer-encoding;
- bh=hUkw5IV25PzdOpbKU56LvtYexDUOIKyrljMdyGHGiXE=;
- b=qfyWv7RleJAdZTrZmwUL4ineINZT9SG9RU3WZbqZOU4XufGdslg9daes6nC1hcwZTb
- s1mLxJRj6glIT103LtuoYoIXcCvT5GzUpiUREre6/zhGBsyMkLMAXMxW9guOYeM3jBEp
- 8Dvel4Gu4mpsAHupPoZD+CJkw/u3wknsASa/tnMxpk+y8NxwSsWSQnMB7SYXOGRpgULD
- qKzANq+7dBcEOwokg17gwIeU9v7yut0TejndXsc4wFJpxaojyt5TtGvCEzbWl5QaNB31
- AhGmHfLhWQqrmChxJRr2oMJmVfFwSTUyzDIVe+srpeopzSb80hfBRJz8iuyRNR/hWIdF
- 06Ug==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
- :references:mime-version:content-transfer-encoding;
- bh=hUkw5IV25PzdOpbKU56LvtYexDUOIKyrljMdyGHGiXE=;
- b=kUhg3UsYmkijd3+W2E8RbcNitEXbbR2jBklg8L3FcgnozvbYHTg5O42BuNjbLVM3v1
- /IS5YxLpU0rtt/AhHFLi3t5g8pYOnC/gBU1Xq++Q/pZqEr6p4IBa2AkIl5C+FavR0mft
- sWc+PXbAvsrQrQy82kHV3umhLPwXd/D/l5DZfNqzqkQxmi4LntYKL5BXCmFaJZgxHgvo
- xK90B1pme+3j1BKOsClUFyPIbPONDJtZL+w2yofD0jXnuUfyp8q7HXcjdKwwXss5oilR
- u7QvpNEbLGSRWll3BQvMmy4/KgnFZxQdzVT01Fp6OuQ+OY40gTFeXXo7YAMNVX8WpueY
- w5EA==
-X-Gm-Message-State: AOAM532uFuAVQ3zNW9fPxkYfLwooEQnItXFVRm0w43zpPtO0TWxtM87k
- 5P/e515MXNDPr9OjV2OiGBogoCeN+n0=
-X-Google-Smtp-Source: ABdhPJzI+8AIZXU/YL6JBRHQvvJTxDK0I5U9+M7Wirawsc8p2YqvEX1EvPNv1Y4Bs7ZUrXNu4BT8dQ==
-X-Received: by 2002:a17:90a:a887:: with SMTP id h7mr615794pjq.0.1594061574641; 
- Mon, 06 Jul 2020 11:52:54 -0700 (PDT)
-Received: from localhost.localdomain (097-090-106-114.biz.spectrum.com.
- [97.90.106.114])
- by smtp.gmail.com with ESMTPSA id q6sm19988179pfg.76.2020.07.06.11.52.53
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 06 Jul 2020 11:52:53 -0700 (PDT)
-From: Richard Henderson <richard.henderson@linaro.org>
+ (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1jsWo7-0005hX-Ur
+ for qemu-devel@nongnu.org; Mon, 06 Jul 2020 15:29:39 -0400
+Received: from us-smtp-2.mimecast.com ([205.139.110.61]:46128
+ helo=us-smtp-delivery-1.mimecast.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1jsWo4-0006lF-Gt
+ for qemu-devel@nongnu.org; Mon, 06 Jul 2020 15:29:39 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1594063775;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding;
+ bh=fXbNEeLJ62q25cSeIlOWogFjWRPfZvbHnKAlqWIpmYs=;
+ b=Nxjhc8bGW5a1TCF7Whv1OJxeNBZN/2lavniSYghz1vtjYpZ4FqYQPuuWPffF5F2IC2F/E4
+ OtiHtiPRmyPlArfuas3d3F7HFUMYC9JTtMU8srXhL6WQmPomcIZZwecQmQ/tqhfLZPNtKv
+ 6+bmzxdJedIPiMB09u2hfzY6f/VwpIU=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-312-NQGur8TGOsidJPEZ1Oodkw-1; Mon, 06 Jul 2020 15:29:33 -0400
+X-MC-Unique: NQGur8TGOsidJPEZ1Oodkw-1
+Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
+ [10.5.11.22])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id CECDC100A8E8;
+ Mon,  6 Jul 2020 19:29:31 +0000 (UTC)
+Received: from sirius.home.kraxel.org (ovpn-112-200.ams2.redhat.com
+ [10.36.112.200])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 07D2410021B3;
+ Mon,  6 Jul 2020 19:29:22 +0000 (UTC)
+Received: by sirius.home.kraxel.org (Postfix, from userid 1000)
+ id EB21011AB5; Mon,  6 Jul 2020 21:29:21 +0200 (CEST)
+From: Gerd Hoffmann <kraxel@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PULL 2/2] tcg: Fix do_nonatomic_op_* vs signed operations
-Date: Mon,  6 Jul 2020 11:52:48 -0700
-Message-Id: <20200706185248.118447-4-richard.henderson@linaro.org>
-X-Mailer: git-send-email 2.25.1
-In-Reply-To: <20200706185248.118447-1-richard.henderson@linaro.org>
-References: <20200706185248.118447-1-richard.henderson@linaro.org>
+Subject: [PULL 00/20] Audio 20200706 patches
+Date: Mon,  6 Jul 2020 21:29:01 +0200
+Message-Id: <20200706192921.1154-1-kraxel@redhat.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::1032;
- envelope-from=richard.henderson@linaro.org; helo=mail-pj1-x1032.google.com
-X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
- That's all we know.
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=_AUTOLEARN
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=kraxel@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=205.139.110.61; envelope-from=kraxel@redhat.com;
+ helo=us-smtp-delivery-1.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/07/06 15:29:35
+X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
+X-Spam_score_int: -30
+X-Spam_score: -3.1
+X-Spam_bar: ---
+X-Spam_report: (-3.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H3=-0.01, RCVD_IN_MSPIKE_WL=-0.01,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001, URIBL_BLOCKED=0.001 autolearn=_AUTOLEARN
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -85,51 +79,85 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: peter.maydell@linaro.org, LIU Zhiwei <zhiwei_liu@c-sky.com>
+Cc: Aleksandar Rikalo <aleksandar.rikalo@syrmia.com>,
+ =?UTF-8?q?Daniel=20P=2E=20Berrang=C3=A9?= <berrange@redhat.com>,
+ Eduardo Habkost <ehabkost@redhat.com>, "Michael S. Tsirkin" <mst@redhat.com>,
+ libvir-list@redhat.com, Aleksandar Markovic <aleksandar.qemu.devel@gmail.com>,
+ =?UTF-8?q?Herv=C3=A9=20Poussineau?= <hpoussin@reactos.org>,
+ qemu-ppc@nongnu.org, Gerd Hoffmann <kraxel@redhat.com>,
+ Paolo Bonzini <pbonzini@redhat.com>, Aurelien Jarno <aurelien@aurel32.net>,
+ Richard Henderson <rth@twiddle.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The smin/smax/umin/umax operations require the operands to be
-properly sign extended.  Do not drop the MO_SIGN bit from the
-load, and additionally extend the val input.
+The following changes since commit eb6490f544388dd24c0d054a96dd304bc7284450:
 
-Reviewed-by: LIU Zhiwei <zhiwei_liu@c-sky.com>
-Reported-by: LIU Zhiwei <zhiwei_liu@c-sky.com>
-Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
-Message-Id: <20200701165646.1901320-1-richard.henderson@linaro.org>
----
- tcg/tcg-op.c | 10 ++++++----
- 1 file changed, 6 insertions(+), 4 deletions(-)
+  Merge remote-tracking branch 'remotes/pmaydell/tags/pull-target-arm-20200703' into staging (2020-07-04 16:08:41 +0100)
 
-diff --git a/tcg/tcg-op.c b/tcg/tcg-op.c
-index e60b74fb82..4b8a473fad 100644
---- a/tcg/tcg-op.c
-+++ b/tcg/tcg-op.c
-@@ -3189,8 +3189,9 @@ static void do_nonatomic_op_i32(TCGv_i32 ret, TCGv addr, TCGv_i32 val,
- 
-     memop = tcg_canonicalize_memop(memop, 0, 0);
- 
--    tcg_gen_qemu_ld_i32(t1, addr, idx, memop & ~MO_SIGN);
--    gen(t2, t1, val);
-+    tcg_gen_qemu_ld_i32(t1, addr, idx, memop);
-+    tcg_gen_ext_i32(t2, val, memop);
-+    gen(t2, t1, t2);
-     tcg_gen_qemu_st_i32(t2, addr, idx, memop);
- 
-     tcg_gen_ext_i32(ret, (new_val ? t2 : t1), memop);
-@@ -3232,8 +3233,9 @@ static void do_nonatomic_op_i64(TCGv_i64 ret, TCGv addr, TCGv_i64 val,
- 
-     memop = tcg_canonicalize_memop(memop, 1, 0);
- 
--    tcg_gen_qemu_ld_i64(t1, addr, idx, memop & ~MO_SIGN);
--    gen(t2, t1, val);
-+    tcg_gen_qemu_ld_i64(t1, addr, idx, memop);
-+    tcg_gen_ext_i64(t2, val, memop);
-+    gen(t2, t1, t2);
-     tcg_gen_qemu_st_i64(t2, addr, idx, memop);
- 
-     tcg_gen_ext_i64(ret, (new_val ? t2 : t1), memop);
+are available in the Git repository at:
+
+  git://git.kraxel.org/qemu tags/audio-20200706-pull-request
+
+for you to fetch changes up to 2336172d9b396b4fa4483712f5560a563c25352f:
+
+  audio: set default value for pcspk.iobase property (2020-07-06 17:01:11 +0200)
+
+----------------------------------------------------------------
+audio: deprecate -soundhw
+
+----------------------------------------------------------------
+
+Gerd Hoffmann (20):
+  stubs: add isa_create_simple
+  stubs: add pci_create_simple
+  audio: add deprecated_register_soundhw
+  audio: deprecate -soundhw ac97
+  audio: deprecate -soundhw es1370
+  audio: deprecate -soundhw adlib
+  audio: deprecate -soundhw cs4231a
+  audio: deprecate -soundhw gus
+  audio: deprecate -soundhw sb16
+  audio: deprecate -soundhw hda
+  pc_basic_device_init: pass PCMachineState
+  pc_basic_device_init: drop has_pit arg
+  pc_basic_device_init: drop no_vmport arg
+  softmmu: initialize spice and audio earlier
+  audio: rework pcspk_init()
+  audio: create pcspk device early
+  audio: deprecate -soundhw pcspk
+  audio: add soundhw deprecation notice
+  pcspk: update docs/system/target-i386-desc.rst.inc
+  audio: set default value for pcspk.iobase property
+
+ include/hw/audio/pcspk.h             | 12 ++----------
+ include/hw/audio/soundhw.h           |  2 ++
+ include/hw/i386/pc.h                 |  6 +++---
+ hw/audio/ac97.c                      |  9 ++-------
+ hw/audio/adlib.c                     |  8 +-------
+ hw/audio/cs4231a.c                   |  8 +-------
+ hw/audio/es1370.c                    |  9 ++-------
+ hw/audio/gus.c                       |  8 +-------
+ hw/audio/intel-hda.c                 |  3 +++
+ hw/audio/pcspk.c                     | 26 ++++++++++++++++++++++----
+ hw/audio/sb16.c                      |  9 ++-------
+ hw/audio/soundhw.c                   | 24 +++++++++++++++++++++++-
+ hw/i386/pc.c                         | 14 ++++++++------
+ hw/i386/pc_piix.c                    |  3 +--
+ hw/i386/pc_q35.c                     |  3 +--
+ hw/isa/i82378.c                      |  2 +-
+ hw/mips/jazz.c                       |  2 +-
+ qdev-monitor.c                       |  2 ++
+ softmmu/vl.c                         | 12 ++++++------
+ stubs/isa-bus.c                      |  7 +++++++
+ stubs/pci-bus.c                      |  7 +++++++
+ docs/system/deprecated.rst           |  9 +++++++++
+ docs/system/target-i386-desc.rst.inc | 13 ++++++++++++-
+ stubs/Makefile.objs                  |  2 ++
+ 24 files changed, 121 insertions(+), 79 deletions(-)
+ create mode 100644 stubs/isa-bus.c
+ create mode 100644 stubs/pci-bus.c
+
 -- 
-2.25.1
+2.18.4
 
 
