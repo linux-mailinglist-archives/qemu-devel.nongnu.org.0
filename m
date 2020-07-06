@@ -2,53 +2,54 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1BCD82153CD
-	for <lists+qemu-devel@lfdr.de>; Mon,  6 Jul 2020 10:13:43 +0200 (CEST)
-Received: from localhost ([::1]:33340 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D19FF2153C6
+	for <lists+qemu-devel@lfdr.de>; Mon,  6 Jul 2020 10:12:11 +0200 (CEST)
+Received: from localhost ([::1]:53156 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jsMFy-000852-2l
-	for lists+qemu-devel@lfdr.de; Mon, 06 Jul 2020 04:13:42 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:56806)
+	id 1jsMEU-0004hP-Sx
+	for lists+qemu-devel@lfdr.de; Mon, 06 Jul 2020 04:12:10 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:56888)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1jsMCT-0001fx-2t
- for qemu-devel@nongnu.org; Mon, 06 Jul 2020 04:10:05 -0400
-Received: from us-smtp-2.mimecast.com ([207.211.31.81]:43513
- helo=us-smtp-delivery-1.mimecast.com)
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1jsMCV-0001mS-Uj
+ for qemu-devel@nongnu.org; Mon, 06 Jul 2020 04:10:07 -0400
+Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:20901
+ helo=us-smtp-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1jsMCM-0003Bx-BJ
- for qemu-devel@nongnu.org; Mon, 06 Jul 2020 04:10:04 -0400
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1jsMCN-0003CG-Pt
+ for qemu-devel@nongnu.org; Mon, 06 Jul 2020 04:10:07 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1594022997;
+ s=mimecast20190719; t=1594022998;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=Bug9sLT4ji0z/IHk5gYseBZjD2vPK+/o3xjBLfAWsGE=;
- b=IZLJoMufSYiU9/M2jQaPfU9dPdNBnvUph2XQR/idpWXX70EPzNy0QdeV+Yulu+bXhZxO1d
- Uk6HntLqPsJao/2ZvMEfgWEe6neDPJjdiitDmxhtO3Rq75vNYo4SKwhCMXlBMl9hy+cuwU
- pexnLcfr2ChdLf8Jltn177eNskIwNW8=
+ bh=vI2fn3KA6ANjoOxTBaA2BdtWP0ms40Hcoax9YPHCmp4=;
+ b=MprR4079YswxRVTGWEgE02rxfCeZZAHefJjdfqSAXWe+rU1Ku9mhIVuVZLsol/ZlAjZ/SI
+ IiDcZLyz9WIn6GQURqYHVFzdPt1GpHSHqOU0Jf1BzohLgyYLdjgYJN4T2i6dLZlyGrGEvt
+ NLvYX1sIkPEf2+G13NnQFnnzzvTDF6Q=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-33-5CSOcIT7PZ-BjhiQFPo-zg-1; Mon, 06 Jul 2020 04:09:56 -0400
-X-MC-Unique: 5CSOcIT7PZ-BjhiQFPo-zg-1
+ us-mta-376-vYR34cdPPTGIqNTPlBeTCw-1; Mon, 06 Jul 2020 04:09:57 -0400
+X-MC-Unique: vYR34cdPPTGIqNTPlBeTCw-1
 Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
  [10.5.11.11])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id C72F510059A9;
- Mon,  6 Jul 2020 08:09:54 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id A5EB1107ACCA;
+ Mon,  6 Jul 2020 08:09:55 +0000 (UTC)
 Received: from blackfin.pond.sub.org (ovpn-112-143.ams2.redhat.com
  [10.36.112.143])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 8673C71669;
- Mon,  6 Jul 2020 08:09:54 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 712F471669;
+ Mon,  6 Jul 2020 08:09:55 +0000 (UTC)
 Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
- id D9BBB11358C8; Mon,  6 Jul 2020 10:09:50 +0200 (CEST)
+ id E3DDB11358CC; Mon,  6 Jul 2020 10:09:50 +0200 (CEST)
 From: Markus Armbruster <armbru@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v3 14/44] block: Avoid error accumulation in bdrv_img_create()
-Date: Mon,  6 Jul 2020 10:09:20 +0200
-Message-Id: <20200706080950.403087-15-armbru@redhat.com>
+Subject: [PATCH v3 15/44] hmp: Eliminate a variable in
+ hmp_migrate_set_parameter()
+Date: Mon,  6 Jul 2020 10:09:21 +0200
+Message-Id: <20200706080950.403087-16-armbru@redhat.com>
 In-Reply-To: <20200706080950.403087-1-armbru@redhat.com>
 References: <20200706080950.403087-1-armbru@redhat.com>
 MIME-Version: 1.0
@@ -59,9 +60,9 @@ X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=207.211.31.81; envelope-from=armbru@redhat.com;
- helo=us-smtp-delivery-1.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/07/06 01:39:15
+Received-SPF: pass client-ip=205.139.110.120; envelope-from=armbru@redhat.com;
+ helo=us-smtp-1.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/07/06 01:22:37
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
 X-Spam_score_int: -30
 X-Spam_score: -3.1
@@ -88,45 +89,39 @@ Cc: peter.maydell@linaro.org, vsementsov@virtuozzo.com, berrange@redhat.com,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-When creating an image fails because the format doesn't support option
-"backing_file" or "backing_fmt", bdrv_img_create() first has
-qemu_opt_set() put a generic error into @local_err, then puts the real
-error into @errp with error_setg(), and then propagates the former to
-the latter, which throws away the generic error.  A bit complicated,
-but works.
-
-Now that qemu_opt_set() returns a useful value, we can simply ignore
-the generic error instead.
-
 Signed-off-by: Markus Armbruster <armbru@redhat.com>
 Reviewed-by: Eric Blake <eblake@redhat.com>
 Reviewed-by: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
 ---
- block.c | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+ monitor/hmp-cmds.c | 8 ++------
+ 1 file changed, 2 insertions(+), 6 deletions(-)
 
-diff --git a/block.c b/block.c
-index 8d478bdc51..b396f32a51 100644
---- a/block.c
-+++ b/block.c
-@@ -6090,7 +6090,7 @@ void bdrv_img_create(const char *filename, const char *fmt,
+diff --git a/monitor/hmp-cmds.c b/monitor/hmp-cmds.c
+index 2b0b58a336..d7810cb564 100644
+--- a/monitor/hmp-cmds.c
++++ b/monitor/hmp-cmds.c
+@@ -1247,7 +1247,6 @@ void hmp_migrate_set_parameter(Monitor *mon, const QDict *qdict)
+     MigrateSetParameters *p = g_new0(MigrateSetParameters, 1);
+     uint64_t valuebw = 0;
+     uint64_t cache_size;
+-    MultiFDCompression compress_type;
+     Error *err = NULL;
+     int val, ret;
  
-     if (base_filename) {
-         if (!qemu_opt_set(opts, BLOCK_OPT_BACKING_FILE, base_filename,
--                          &local_err)) {
-+                          NULL)) {
-             error_setg(errp, "Backing file not supported for file format '%s'",
-                        fmt);
-             goto out;
-@@ -6098,7 +6098,7 @@ void bdrv_img_create(const char *filename, const char *fmt,
-     }
- 
-     if (base_fmt) {
--        if (!qemu_opt_set(opts, BLOCK_OPT_BACKING_FMT, base_fmt, &local_err)) {
-+        if (!qemu_opt_set(opts, BLOCK_OPT_BACKING_FMT, base_fmt, NULL)) {
-             error_setg(errp, "Backing file format not supported for file "
-                              "format '%s'", fmt);
-             goto out;
+@@ -1343,11 +1342,8 @@ void hmp_migrate_set_parameter(Monitor *mon, const QDict *qdict)
+         break;
+     case MIGRATION_PARAMETER_MULTIFD_COMPRESSION:
+         p->has_multifd_compression = true;
+-        visit_type_MultiFDCompression(v, param, &compress_type, &err);
+-        if (err) {
+-            break;
+-        }
+-        p->multifd_compression = compress_type;
++        visit_type_MultiFDCompression(v, param, &p->multifd_compression,
++                                      &err);
+         break;
+     case MIGRATION_PARAMETER_MULTIFD_ZLIB_LEVEL:
+         p->has_multifd_zlib_level = true;
 -- 
 2.26.2
 
