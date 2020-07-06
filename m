@@ -2,67 +2,67 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2FA9321628C
-	for <lists+qemu-devel@lfdr.de>; Tue,  7 Jul 2020 01:50:58 +0200 (CEST)
-Received: from localhost ([::1]:45048 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 110BA216299
+	for <lists+qemu-devel@lfdr.de>; Tue,  7 Jul 2020 01:54:21 +0200 (CEST)
+Received: from localhost ([::1]:60568 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jsasz-0006LB-5D
-	for lists+qemu-devel@lfdr.de; Mon, 06 Jul 2020 19:50:57 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:35354)
+	id 1jsawG-0004av-5H
+	for lists+qemu-devel@lfdr.de; Mon, 06 Jul 2020 19:54:20 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:35362)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <jcmvbkbc@gmail.com>)
- id 1jsaq8-0000xt-T3
- for qemu-devel@nongnu.org; Mon, 06 Jul 2020 19:48:00 -0400
-Received: from mail-pf1-x444.google.com ([2607:f8b0:4864:20::444]:46817)
+ id 1jsaq9-00010e-SO
+ for qemu-devel@nongnu.org; Mon, 06 Jul 2020 19:48:01 -0400
+Received: from mail-pg1-x542.google.com ([2607:f8b0:4864:20::542]:36204)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <jcmvbkbc@gmail.com>)
- id 1jsaq7-0000st-Af
- for qemu-devel@nongnu.org; Mon, 06 Jul 2020 19:48:00 -0400
-Received: by mail-pf1-x444.google.com with SMTP id i14so1136274pfu.13
- for <qemu-devel@nongnu.org>; Mon, 06 Jul 2020 16:47:58 -0700 (PDT)
+ id 1jsaq8-0000tw-4Q
+ for qemu-devel@nongnu.org; Mon, 06 Jul 2020 19:48:01 -0400
+Received: by mail-pg1-x542.google.com with SMTP id p3so19120209pgh.3
+ for <qemu-devel@nongnu.org>; Mon, 06 Jul 2020 16:47:59 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=oeaiwHJekTGuu/i90XgUZWAnMUSgKNijCQLv8/PbPh8=;
- b=srm4Oetvx42IW6H6Qgm6+tl8TBD5VUNsjYTL5BI9R3kjOOklHC4DfJUj1heKT7Kt8E
- 311veSX7UUnDBxfzI826LxKjiWXUJhiN1hXKbWY1yItwhxj/duuLCNryJKRiS+yQinGM
- 3mTHCJOqCoBLbqh4z6rxIFwxiOMoIiduBC5LXmARN25UU+h4iRVMpZ7EaVHpGLMC6RjW
- 7cyd6Ig8AYeVmGJTUv+7gGTA0n45+98wDTCaGl8eeEhaxZGfES9I+snfZnim3J2ODr/j
- XaqbOkhs7dlDmnKHwLDG7NF1vvD+ScOPmhonT4HcqObatHB0NrEWTu9xyou+0dIdo+0c
- SMFA==
+ bh=w4M2hm6SX88vAmypNF1BsgknJj1VWHgn1OPZgKWy19o=;
+ b=rP3PH5pn3cHoWiTiVWYVO+/ONDyUnV5NjDkJ0vWu5zjzfsvMdOJ8NvQZwxQg1XzZb4
+ 1iTcy/pPEIHKrfeswMOU5zNZOdL/lH+TIu1QiEZjRQ+pWxaH+CSVwlEEp5lGbzZWNMdP
+ faP08pJIB8O3FHQNdRRTF/h+Y0eqoLRJ1m0SKw/pzueMjyTNfOVc+dc6ykbJPtt8sQEh
+ WJ6qlO4Bt+0ix8dOLuTE+s0hCGwnwB8a3pPZH1uIyqRRZRkcAq7hu69aelrx5DMgTEcd
+ mLtfjLfId0zVi2gVvPxifXuXDQdCl95a0BkW0MFIlVT+l/p0xk0RbrqvnWcI9BjohjZT
+ 9Bdw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=oeaiwHJekTGuu/i90XgUZWAnMUSgKNijCQLv8/PbPh8=;
- b=KPhc8VrMdTFHqoRvKZBfDX9qFDuIIw9BqIpnmjpQcxd8xuzb1osPOsSC5TtRoz7xJF
- DMkeanJ3TTOIfhcNFp8dl9llBbrDsJD5W/mVyCPiyeIWCOShxVYX/O2cgYJzow9JFtIU
- PBWNtzU8Qt8FZZYHTyLmg9g531lTZMQLUiJpkB3YrvuQ/6qcnpEjwpd7axnMAqXwLEyt
- KTinGZSOo++JrDx4yJBgmldoG3mKg3ijG8z/WhYM9Fpj9MFzzGrAsCoRkGH0KvFPtYDj
- GpP2FFWWtlgVTu6qYVwir5+F+BTkQR0TjJwKSaPKgHkwXPHeZrzD1/pMLipHwgB0S1/d
- UCfQ==
-X-Gm-Message-State: AOAM531rfaK70As/fcjdc8N+CD973daPgMiu4vak1EWjiCkpbLS6lHzT
- 9PcLznN2U7o3xzeZRTJRpSgmJ8lR
-X-Google-Smtp-Source: ABdhPJx00D792c47tDVHl+2FGhvoZglmon8/jHK+afwsSxo3NVurQsxDFLZyF+g68Hh3hc1qZ4njBg==
-X-Received: by 2002:a63:cb05:: with SMTP id p5mr17107893pgg.120.1594079277841; 
- Mon, 06 Jul 2020 16:47:57 -0700 (PDT)
+ bh=w4M2hm6SX88vAmypNF1BsgknJj1VWHgn1OPZgKWy19o=;
+ b=ZUcTHSt3o1ptSVp4YCa5mu0Rml3rxgQ3rUDj+xF0Dx+sXREUP8oO0+5d3r4iw6ok9r
+ b1kgYjW9KpQJR/w7DvW4yaOlVTZ9a5mBeSQ2osCXcasTfhQvo+1X5PhelkjjSp7ky5cC
+ nM0AkG6gWg9f4dh0ammzZJ4FiFWn0WAGytBAVr4cpTxYbe3poFjRpAuw6VDoVN/yvZiX
+ gHftMWJytVDIwbeVKi0Ly8V3ckvht4vVLIPzZ9MSyZPyV79iZj4KeRk6M6fRcggnv3lV
+ iGov5wqaVu1sRcCiddbJdsJ1vYqW4bv2XCye2qXZ4xWx8AfvXMsC86YZLzxcVYbs+qDm
+ sg4w==
+X-Gm-Message-State: AOAM530qwzwhAuxq/GBB39dH/HOvF/Nlm9TTuJD1hdSweqNUOnIFNajb
+ /QzkXSiGgdrhOYME0sgiyqbHul0y
+X-Google-Smtp-Source: ABdhPJyF6GSH7/awMhty4aPXkrw9O9RlPN9Dl3tYQM4KCv1/JUkzQ46fVcLdG8Fy135BmHoPOq9F+g==
+X-Received: by 2002:a63:20d:: with SMTP id 13mr42640123pgc.166.1594079278773; 
+ Mon, 06 Jul 2020 16:47:58 -0700 (PDT)
 Received: from octofox.cadence.com ([2601:641:400:e00:19b7:f650:7bbe:a7fb])
  by smtp.gmail.com with ESMTPSA id e15sm19647649pgt.17.2020.07.06.16.47.57
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 06 Jul 2020 16:47:57 -0700 (PDT)
+ Mon, 06 Jul 2020 16:47:58 -0700 (PDT)
 From: Max Filippov <jcmvbkbc@gmail.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH 07/21] target/xtensa: move FSR/FCR register accessors
-Date: Mon,  6 Jul 2020 16:47:23 -0700
-Message-Id: <20200706234737.32378-8-jcmvbkbc@gmail.com>
+Subject: [PATCH 08/21] target/xtensa: don't access BR regfile directly
+Date: Mon,  6 Jul 2020 16:47:24 -0700
+Message-Id: <20200706234737.32378-9-jcmvbkbc@gmail.com>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20200706234737.32378-1-jcmvbkbc@gmail.com>
 References: <20200706234737.32378-1-jcmvbkbc@gmail.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::444;
- envelope-from=jcmvbkbc@gmail.com; helo=mail-pf1-x444.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::542;
+ envelope-from=jcmvbkbc@gmail.com; helo=mail-pg1-x542.google.com
 X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
  That's all we know.
 X-Spam_score_int: -5
@@ -89,124 +89,154 @@ Cc: Max Filippov <jcmvbkbc@gmail.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Move FSR/FCR register accessors from core opcodes to FPU2000 opcodes as
-they are FPU2000-specific.
+BR registers used in FPU comparison opcodes are available as opcode
+arguments for translators. Use them. This simplifies comparison helpers
+interface and makes them usable in FLIX bundles.
 
 Signed-off-by: Max Filippov <jcmvbkbc@gmail.com>
 ---
- target/xtensa/translate.c | 64 +++++++++++++++++++--------------------
- 1 file changed, 32 insertions(+), 32 deletions(-)
+ target/xtensa/fpu_helper.c | 42 +++++++++++++++++---------------------
+ target/xtensa/helper.h     | 14 ++++++-------
+ target/xtensa/translate.c  | 20 ++++++++++++++----
+ 3 files changed, 42 insertions(+), 34 deletions(-)
 
+diff --git a/target/xtensa/fpu_helper.c b/target/xtensa/fpu_helper.c
+index 57a284924045..fae6836d3223 100644
+--- a/target/xtensa/fpu_helper.c
++++ b/target/xtensa/fpu_helper.c
+@@ -118,49 +118,45 @@ float32 HELPER(uitof_s)(CPUXtensaState *env, uint32_t v, uint32_t scale)
+                           (int32_t)scale, &env->fp_status);
+ }
+ 
+-static inline void set_br(CPUXtensaState *env, bool v, uint32_t br)
++uint32_t HELPER(un_s)(CPUXtensaState *env, float32 a, float32 b)
+ {
+-    if (v) {
+-        env->sregs[BR] |= br;
+-    } else {
+-        env->sregs[BR] &= ~br;
+-    }
+-}
+-
+-void HELPER(un_s)(CPUXtensaState *env, uint32_t br, float32 a, float32 b)
+-{
+-    set_br(env, float32_unordered_quiet(a, b, &env->fp_status), br);
++    return float32_unordered_quiet(a, b, &env->fp_status);
+ }
+ 
+-void HELPER(oeq_s)(CPUXtensaState *env, uint32_t br, float32 a, float32 b)
++uint32_t HELPER(oeq_s)(CPUXtensaState *env, float32 a, float32 b)
+ {
+-    set_br(env, float32_eq_quiet(a, b, &env->fp_status), br);
++    return float32_eq_quiet(a, b, &env->fp_status);
+ }
+ 
+-void HELPER(ueq_s)(CPUXtensaState *env, uint32_t br, float32 a, float32 b)
++uint32_t HELPER(ueq_s)(CPUXtensaState *env, float32 a, float32 b)
+ {
+     FloatRelation v = float32_compare_quiet(a, b, &env->fp_status);
+-    set_br(env, v == float_relation_equal || v == float_relation_unordered, br);
++
++    return v == float_relation_equal ||
++           v == float_relation_unordered;
+ }
+ 
+-void HELPER(olt_s)(CPUXtensaState *env, uint32_t br, float32 a, float32 b)
++uint32_t HELPER(olt_s)(CPUXtensaState *env, float32 a, float32 b)
+ {
+-    set_br(env, float32_lt_quiet(a, b, &env->fp_status), br);
++    return float32_lt_quiet(a, b, &env->fp_status);
+ }
+ 
+-void HELPER(ult_s)(CPUXtensaState *env, uint32_t br, float32 a, float32 b)
++uint32_t HELPER(ult_s)(CPUXtensaState *env, float32 a, float32 b)
+ {
+     FloatRelation v = float32_compare_quiet(a, b, &env->fp_status);
+-    set_br(env, v == float_relation_less || v == float_relation_unordered, br);
++
++    return v == float_relation_less ||
++           v == float_relation_unordered;
+ }
+ 
+-void HELPER(ole_s)(CPUXtensaState *env, uint32_t br, float32 a, float32 b)
++uint32_t HELPER(ole_s)(CPUXtensaState *env, float32 a, float32 b)
+ {
+-    set_br(env, float32_le_quiet(a, b, &env->fp_status), br);
++    return float32_le_quiet(a, b, &env->fp_status);
+ }
+ 
+-void HELPER(ule_s)(CPUXtensaState *env, uint32_t br, float32 a, float32 b)
++uint32_t HELPER(ule_s)(CPUXtensaState *env, float32 a, float32 b)
+ {
+     FloatRelation v = float32_compare_quiet(a, b, &env->fp_status);
+-    set_br(env, v != float_relation_greater, br);
++
++    return v != float_relation_greater;
+ }
+diff --git a/target/xtensa/helper.h b/target/xtensa/helper.h
+index a692254fe10a..bbada1c0b864 100644
+--- a/target/xtensa/helper.h
++++ b/target/xtensa/helper.h
+@@ -59,13 +59,13 @@ DEF_HELPER_FLAGS_3(ftoui_s, TCG_CALL_NO_RWG_SE, i32, f32, i32, i32)
+ DEF_HELPER_3(itof_s, f32, env, i32, i32)
+ DEF_HELPER_3(uitof_s, f32, env, i32, i32)
+ 
+-DEF_HELPER_4(un_s, void, env, i32, f32, f32)
+-DEF_HELPER_4(oeq_s, void, env, i32, f32, f32)
+-DEF_HELPER_4(ueq_s, void, env, i32, f32, f32)
+-DEF_HELPER_4(olt_s, void, env, i32, f32, f32)
+-DEF_HELPER_4(ult_s, void, env, i32, f32, f32)
+-DEF_HELPER_4(ole_s, void, env, i32, f32, f32)
+-DEF_HELPER_4(ule_s, void, env, i32, f32, f32)
++DEF_HELPER_3(un_s,  i32, env, f32, f32)
++DEF_HELPER_3(oeq_s, i32, env, f32, f32)
++DEF_HELPER_3(ueq_s, i32, env, f32, f32)
++DEF_HELPER_3(olt_s, i32, env, f32, f32)
++DEF_HELPER_3(ult_s, i32, env, f32, f32)
++DEF_HELPER_3(ole_s, i32, env, f32, f32)
++DEF_HELPER_3(ule_s, i32, env, f32, f32)
+ 
+ DEF_HELPER_2(rer, i32, env, i32)
+ DEF_HELPER_3(wer, void, env, i32, i32)
 diff --git a/target/xtensa/translate.c b/target/xtensa/translate.c
-index 0deaeef6b5fa..f859cd3f0818 100644
+index f859cd3f0818..85bd63dffc9f 100644
 --- a/target/xtensa/translate.c
 +++ b/target/xtensa/translate.c
-@@ -2813,18 +2813,6 @@ static void translate_wur(DisasContext *dc, const OpcodeArg arg[],
-     tcg_gen_mov_i32(cpu_UR[par[0]], arg[0].in);
- }
- 
--static void translate_wur_fpu2k_fcr(DisasContext *dc, const OpcodeArg arg[],
--                                    const uint32_t par[])
--{
--    gen_helper_wur_fpu2k_fcr(cpu_env, arg[0].in);
--}
--
--static void translate_wur_fsr(DisasContext *dc, const OpcodeArg arg[],
--                              const uint32_t par[])
--{
--    tcg_gen_andi_i32(cpu_UR[par[0]], arg[0].in, 0xffffff80);
--}
--
- static void translate_xor(DisasContext *dc, const OpcodeArg arg[],
-                           const uint32_t par[])
+@@ -6319,7 +6319,7 @@ enum {
+ static void translate_compare_s(DisasContext *dc, const OpcodeArg arg[],
+                                 const uint32_t par[])
  {
-@@ -4665,16 +4653,6 @@ static const XtensaOpcodeOps core_ops[] = {
-         .name = "rur.expstate",
-         .translate = translate_rur,
-         .par = (const uint32_t[]){EXPSTATE},
--    }, {
--        .name = "rur.fcr",
--        .translate = translate_rur,
--        .par = (const uint32_t[]){FCR},
--        .coprocessor = 0x1,
--    }, {
--        .name = "rur.fsr",
--        .translate = translate_rur,
--        .par = (const uint32_t[]){FSR},
--        .coprocessor = 0x1,
-     }, {
-         .name = "rur.threadptr",
-         .translate = translate_rur,
-@@ -5581,16 +5559,6 @@ static const XtensaOpcodeOps core_ops[] = {
-         .name = "wur.expstate",
-         .translate = translate_wur,
-         .par = (const uint32_t[]){EXPSTATE},
--    }, {
--        .name = "wur.fcr",
--        .translate = translate_wur_fpu2k_fcr,
--        .par = (const uint32_t[]){FCR},
--        .coprocessor = 0x1,
--    }, {
--        .name = "wur.fsr",
--        .translate = translate_wur_fsr,
--        .par = (const uint32_t[]){FSR},
--        .coprocessor = 0x1,
-     }, {
-         .name = "wur.threadptr",
-         .translate = translate_wur,
-@@ -6510,6 +6478,18 @@ static void translate_wfr_s(DisasContext *dc, const OpcodeArg arg[],
-     tcg_gen_mov_i32(arg[0].out, arg[1].in);
+-    static void (* const helper[])(TCGv_env env, TCGv_i32 bit,
++    static void (* const helper[])(TCGv_i32 res, TCGv_env env,
+                                    TCGv_i32 s, TCGv_i32 t) = {
+         [COMPARE_UN] = gen_helper_un_s,
+         [COMPARE_OEQ] = gen_helper_oeq_s,
+@@ -6329,10 +6329,22 @@ static void translate_compare_s(DisasContext *dc, const OpcodeArg arg[],
+         [COMPARE_OLE] = gen_helper_ole_s,
+         [COMPARE_ULE] = gen_helper_ule_s,
+     };
+-    TCGv_i32 bit = tcg_const_i32(1 << arg[0].imm);
++    TCGv_i32 zero = tcg_const_i32(0);
++    TCGv_i32 res = tcg_temp_new_i32();
++    TCGv_i32 set_br = tcg_temp_new_i32();
++    TCGv_i32 clr_br = tcg_temp_new_i32();
+ 
+-    helper[par[0]](cpu_env, bit, arg[1].in, arg[2].in);
+-    tcg_temp_free(bit);
++    tcg_gen_ori_i32(set_br, arg[0].in, 1 << arg[0].imm);
++    tcg_gen_andi_i32(clr_br, arg[0].in, ~(1 << arg[0].imm));
++
++    helper[par[0]](res, cpu_env, arg[1].in, arg[2].in);
++    tcg_gen_movcond_i32(TCG_COND_NE,
++                        arg[0].out, res, zero,
++                        set_br, clr_br);
++    tcg_temp_free(zero);
++    tcg_temp_free(res);
++    tcg_temp_free(set_br);
++    tcg_temp_free(clr_br);
  }
  
-+static void translate_wur_fpu2k_fcr(DisasContext *dc, const OpcodeArg arg[],
-+                                    const uint32_t par[])
-+{
-+    gen_helper_wur_fpu2k_fcr(cpu_env, arg[0].in);
-+}
-+
-+static void translate_wur_fpu2k_fsr(DisasContext *dc, const OpcodeArg arg[],
-+                                    const uint32_t par[])
-+{
-+    tcg_gen_andi_i32(cpu_UR[par[0]], arg[0].in, 0xffffff80);
-+}
-+
- static const XtensaOpcodeOps fpu2000_ops[] = {
-     {
-         .name = "abs.s",
-@@ -6632,6 +6612,16 @@ static const XtensaOpcodeOps fpu2000_ops[] = {
-         .translate = translate_ftoi_s,
-         .par = (const uint32_t[]){float_round_nearest_even, false},
-         .coprocessor = 0x1,
-+    }, {
-+        .name = "rur.fcr",
-+        .translate = translate_rur,
-+        .par = (const uint32_t[]){FCR},
-+        .coprocessor = 0x1,
-+    }, {
-+        .name = "rur.fsr",
-+        .translate = translate_rur,
-+        .par = (const uint32_t[]){FSR},
-+        .coprocessor = 0x1,
-     }, {
-         .name = "ssi",
-         .translate = translate_ldsti,
-@@ -6699,6 +6689,16 @@ static const XtensaOpcodeOps fpu2000_ops[] = {
-         .name = "wfr",
-         .translate = translate_wfr_s,
-         .coprocessor = 0x1,
-+    }, {
-+        .name = "wur.fcr",
-+        .translate = translate_wur_fpu2k_fcr,
-+        .par = (const uint32_t[]){FCR},
-+        .coprocessor = 0x1,
-+    }, {
-+        .name = "wur.fsr",
-+        .translate = translate_wur_fpu2k_fsr,
-+        .par = (const uint32_t[]){FSR},
-+        .coprocessor = 0x1,
-     },
- };
- 
+ static void translate_float_s(DisasContext *dc, const OpcodeArg arg[],
 -- 
 2.20.1
 
