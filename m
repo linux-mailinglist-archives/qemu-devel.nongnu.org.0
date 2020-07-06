@@ -2,29 +2,28 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D0C33215CE1
-	for <lists+qemu-devel@lfdr.de>; Mon,  6 Jul 2020 19:19:50 +0200 (CEST)
-Received: from localhost ([::1]:51696 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E12F8215CD1
+	for <lists+qemu-devel@lfdr.de>; Mon,  6 Jul 2020 19:16:21 +0200 (CEST)
+Received: from localhost ([::1]:36680 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jsUmT-0006H3-TI
-	for lists+qemu-devel@lfdr.de; Mon, 06 Jul 2020 13:19:49 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:34614)
+	id 1jsUj6-0007Hj-VR
+	for lists+qemu-devel@lfdr.de; Mon, 06 Jul 2020 13:16:20 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:37174)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <laurent@vivier.eu>)
- id 1jsUbv-0000Se-LO; Mon, 06 Jul 2020 13:08:55 -0400
-Received: from mout.kundenserver.de ([212.227.126.130]:43935)
+ id 1jsUhR-0004Yr-Ql; Mon, 06 Jul 2020 13:14:37 -0400
+Received: from mout.kundenserver.de ([212.227.126.187]:58791)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <laurent@vivier.eu>)
- id 1jsUbt-0007Wq-Ph; Mon, 06 Jul 2020 13:08:55 -0400
+ id 1jsUhP-0000S0-P3; Mon, 06 Jul 2020 13:14:37 -0400
 Received: from [192.168.100.1] ([82.252.135.106]) by mrelayeu.kundenserver.de
- (mreue012 [213.165.67.103]) with ESMTPSA (Nemesis) id
- 1MVrXh-1kJgfw17YL-00RppO; Mon, 06 Jul 2020 19:08:45 +0200
-Subject: Re: [PATCH 2/2] hw/sd/pxa2xx_mmci: Trivial simplification
-To: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>,
- qemu-devel@nongnu.org
-References: <20200705213350.24725-1-f4bug@amsat.org>
- <20200705213350.24725-3-f4bug@amsat.org>
+ (mreue011 [213.165.67.103]) with ESMTPSA (Nemesis) id
+ 1MuDHR-1kmNVR0g8r-00uZoj; Mon, 06 Jul 2020 19:14:28 +0200
+Subject: Re: [PATCH] intel_iommu: "aw-bits" error message still refers to
+ "x-aw-bits"
+To: Menno Lageman <menno.lageman@oracle.com>, qemu-devel@nongnu.org
+References: <20200625155258.1452425-1-menno.lageman@oracle.com>
 From: Laurent Vivier <laurent@vivier.eu>
 Autocrypt: addr=laurent@vivier.eu; prefer-encrypt=mutual; keydata=
  mQINBFYFJhkBEAC2me7w2+RizYOKZM+vZCx69GTewOwqzHrrHSG07MUAxJ6AY29/+HYf6EY2
@@ -68,36 +67,36 @@ Autocrypt: addr=laurent@vivier.eu; prefer-encrypt=mutual; keydata=
  OpKgu3nD0ahBDqANU/ZmNNarBJEwvM2vfusmNnWm3QMIwxNuJghRyuFfx694Im1js0ZY3LEU
  JGSHFG4ZynA+ZFUPA6Xf0wHeJOxGKCGIyeKORsteIqgnkINW9fnKJw2pgk8qHkwVc3Vu+wGS
  ZiJK0xFusPQehjWTHn9WjMG1zvQ5TQQHxau/2FkP45+nRPco6vVFQe8JmgtRF8WFJA==
-Message-ID: <c711e521-9810-051c-685a-4dc9ebb0e762@vivier.eu>
-Date: Mon, 6 Jul 2020 19:08:43 +0200
+Message-ID: <e591c442-0c5d-f775-7d28-aa6947fd34c2@vivier.eu>
+Date: Mon, 6 Jul 2020 19:14:27 +0200
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
  Thunderbird/68.9.0
 MIME-Version: 1.0
-In-Reply-To: <20200705213350.24725-3-f4bug@amsat.org>
+In-Reply-To: <20200625155258.1452425-1-menno.lageman@oracle.com>
 Content-Type: text/plain; charset=utf-8
 Content-Language: fr
 Content-Transfer-Encoding: 8bit
-X-Provags-ID: V03:K1:LN1cSYce+q3esnVBtfcXPwIY85FVC+jrhwOLtVmGU7ZVe8rZUzF
- wntzhU38qx54l6bXjk/munWVe1bF+Xfpy73dSerAR3eRaLa3YDDvDny6a1EuoWHra5HGKLj
- rkO4PfY4P5DiEfgFH67V1zPJSG+6Seidko7auLQFHeEhwkg8NAKeO+Ayss+Prrgi925bxl8
- ExOX5LNcG2Fph5c8q+LCA==
-X-UI-Out-Filterresults: notjunk:1;V03:K0:1kQ3JPU3D8k=:Mf05seMfgZbAUswsuo745s
- RF1q5dqWQ214116pe/5QHCeJbss2hFmn8NkKtiA6KkDpnOy7x5Pq7qQ6WWjCc5lL0nkA9zZQt
- y7RC/Z3nyrST1UbkhgYSAOTpxI4XLkrKI802iuWrmlVfWgXeQhOP5R/1Y0r/RhSx8bK1Yv3kO
- SMyetxRCqf9h6WeT2NcXcAKnkQGwhIlZx77p1chaSuf7UiEBz2qZCv026uNNB5qQn7orzZEv2
- cdr4H8i1c8DjGYgxW/woQZgm/mJTYB1bou7exjsQXuriF5ewfJzR3Kkw+BItqyQONbPWMn7xt
- 5xp8QtoGSwppwd4X8yplHrBCowXYkBq+lAuVShvUMvyyT0YiLIxP1splb1IWp3AtGcrLi+ZCr
- i345hKRBq4kBtVjsUMjTo+tu0cUTmrz82mFOBLgls7QEDE0PFVLSSJOlaADWC7wcoMTBf/M0J
- 1BvAPtiC6GstKq6Sc/rxXvyLBbyU+WMo0jUFnAWz0lSrHgasrb1qg6kyCuyQK7cUL2WDVSj5V
- isNND3urkZXZtz3vpJBMtJLaxcu1DEImpSifgaw2oq7iGmtGHD5rj15cZcnzIli3tG6DvHPD8
- F41Z6/ybEzw3+RelD990+lLQfMWyKdyDptLms4/wjYEib2Pu9I3cHZiYpAzCuSEh0+a4dCKiP
- I7/Tdfr/0xLdVPAPvnbiPKJ8O+zmI4oC5Wp6IbxfdccwY8x9Ab32Vt0wZhl0458Y3iD3e2Wl5
- idfu2tlglil3pPDY1y0Wbi9qt2n4o7xhSnkvcSOjug6UysiQ2/yabgYN79oasYZe96brS9rur
- +ZmaqNiBI5LUX2HJLh/x+2TgSLbTuKLUdlaYwkr552ssjZ+CDmgoVIALy0V3gOVqVeOqwvA
-Received-SPF: none client-ip=212.227.126.130; envelope-from=laurent@vivier.eu;
+X-Provags-ID: V03:K1:K1ei4vBUMmlReO8fu/+GxF+vKQ/7jdTSreqarw/JGI7bVI0J6jm
+ TZPAa3aW16yaU1bOYX76s+37N2gZ0B5nWQh6iVk+g4H1SnmvEKBk5+WYgNq7gxMrsfrez/S
+ os9QFobFMBouXVSTRm/Yu7ZsUBMrN01a5geeAcU4VkABhe7DKc92qYx+ED88r6sJMPRdmYL
+ vWUPRAK9gzyp4FKs0FuHg==
+X-UI-Out-Filterresults: notjunk:1;V03:K0:5wGqo1XyZww=:Ul6g07b9wWEYt1g/w9x+0B
+ S+QVxjzKrabU/Kp0VewKyR0w5dq9oiFNhMLoI1p8G+NKVsWmOm4JS0ULCHyxH1kvu/clAonAJ
+ oUio4Ux692GBUMuUaU0aJVqYT2xlJd7FVlyvxDxEuqNOhZT4XMhvzmT4DGG8coqp5mgkzuydL
+ sRHuI6zcFpJIwdFGJbYGXTWQb+dko5zg0fYGyP0ZLK1XbQ8Gypwtan/dLsRvDJsPJv0yanByg
+ 0Z4/PWfStWzsclvRJ75IfPvNIujlhL0vkF/IDWHPkS45cmB5Gxy4hODZYkTjoWJEEuzpdEQBf
+ d/oyuXjAC20aoVukqnsw6x9eYVuMIQbT1u4QHGqJPz+etrOyAsFWPoqiaSfoJW3JTxJGqr734
+ kNdOvVfpyUZWYHaGdlNpv/xxMTySg1YUgxiGM02GxW4mWnBKLmO8UKuDY/27/gSbnz3pEmgVa
+ syX06Ls4iMD/77OSR2f7SwVAT/V8E43GCKr3rQk216uZirbLurepTz2MtpVfo/TdLkgFIBaZG
+ mOWQ1+TeSvrFzL9dx9VL/GGdC7WGjPP6atvSnq3R0H1hiY6cxv9LYX38I11iKWDLhSApIDKli
+ 4H0lLZE8SwgtZecYETL+o83DPyxTmOOr/PU+6q4cdZwm6q+uGC+WnRJTFEGjSSCMj1fe+GO/D
+ gV/rtBazWTFQQZHo8xoHbjw9HAhj/pI+885IzyJyVXZGS5oGCwZriFkP6sPjFKHIoxrFAr85W
+ AKtWQaEH5NxQCpFEOeZWgO8eoj0SBbN5WAaGP4LHdWr+rngh8m09GM3widDIyCYA+6T53/UXB
+ H/L9UFj0J8DlQnDE/a6FVxCmM5fb4NgkQEHZH4zFqd7CQRW6785Fj6w4qiLJxhPbYumPT/a
+Received-SPF: none client-ip=212.227.126.187; envelope-from=laurent@vivier.eu;
  helo=mout.kundenserver.de
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/07/06 12:31:15
-X-ACL-Warn: Detected OS   = Linux 3.11 and newer
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/07/06 11:54:43
+X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic]
 X-Spam_score_int: -28
 X-Spam_score: -2.9
 X-Spam_bar: --
@@ -115,46 +114,38 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Maydell <peter.maydell@linaro.org>,
- "open list:Trivial patches" <qemu-trivial@nongnu.org>,
- Alistair Francis <alistair@alistair23.me>, Michael Tokarev <mjt@tls.msk.ru>,
- qemu-arm@nongnu.org
+Cc: qemu-trivial@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Le 05/07/2020 à 23:33, Philippe Mathieu-Daudé a écrit :
-> Avoid declaring PXA2xxMMCIState local variable, return it directly.
+Le 25/06/2020 à 17:52, Menno Lageman a écrit :
+> Commit 4b49b586c4 ('intel_iommu: remove "x-" prefix for "aw-bits"')
+> removed the "x-" prefix but but didn't update the error message
+> accordingly.
 > 
-> Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
+> Signed-off-by: Menno Lageman <menno.lageman@oracle.com>
 > ---
->  hw/sd/pxa2xx_mmci.c | 4 +---
->  1 file changed, 1 insertion(+), 3 deletions(-)
+>  hw/i386/intel_iommu.c | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
 > 
-> diff --git a/hw/sd/pxa2xx_mmci.c b/hw/sd/pxa2xx_mmci.c
-> index 9482b9212d..2996a2ef17 100644
-> --- a/hw/sd/pxa2xx_mmci.c
-> +++ b/hw/sd/pxa2xx_mmci.c
-> @@ -480,10 +480,8 @@ PXA2xxMMCIState *pxa2xx_mmci_init(MemoryRegion *sysmem,
->  {
->      DeviceState *dev;
->      SysBusDevice *sbd;
-> -    PXA2xxMMCIState *s;
->  
->      dev = qdev_new(TYPE_PXA2XX_MMCI);
-> -    s = PXA2XX_MMCI(dev);
->      sbd = SYS_BUS_DEVICE(dev);
->      sysbus_mmio_map(sbd, 0, base);
->      sysbus_connect_irq(sbd, 0, irq);
-> @@ -491,7 +489,7 @@ PXA2xxMMCIState *pxa2xx_mmci_init(MemoryRegion *sysmem,
->      qdev_connect_gpio_out_named(dev, "tx-dma", 0, tx_dma);
->      sysbus_realize_and_unref(sbd, &error_fatal);
->  
-> -    return s;
-> +    return PXA2XX_MMCI(dev);
->  }
->  
->  static void pxa2xx_mmci_set_inserted(DeviceState *dev, bool inserted)
+> diff --git a/hw/i386/intel_iommu.c b/hw/i386/intel_iommu.c
+> index df7ad254ac15..c56398e99177 100644
+> --- a/hw/i386/intel_iommu.c
+> +++ b/hw/i386/intel_iommu.c
+> @@ -3758,7 +3758,7 @@ static bool vtd_decide_config(IntelIOMMUState *s, Error **errp)
+>      /* Currently only address widths supported are 39 and 48 bits */
+>      if ((s->aw_bits != VTD_HOST_AW_39BIT) &&
+>          (s->aw_bits != VTD_HOST_AW_48BIT)) {
+> -        error_setg(errp, "Supported values for x-aw-bits are: %d, %d",
+> +        error_setg(errp, "Supported values for aw-bits are: %d, %d",
+>                     VTD_HOST_AW_39BIT, VTD_HOST_AW_48BIT);
+>          return false;
+>      }
 > 
 
-Reviewed-by: Laurent Vivier <laurent@vivier.eu>
+Applied to my trivial-patches-for-5.1 branch.
+
+Thanks,
+Laurent
+
 
