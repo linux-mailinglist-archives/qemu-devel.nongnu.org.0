@@ -2,54 +2,54 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8111C215F7D
-	for <lists+qemu-devel@lfdr.de>; Mon,  6 Jul 2020 21:39:25 +0200 (CEST)
-Received: from localhost ([::1]:41446 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5876E215F8D
+	for <lists+qemu-devel@lfdr.de>; Mon,  6 Jul 2020 21:42:15 +0200 (CEST)
+Received: from localhost ([::1]:50752 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jsWxY-0005ZQ-K4
-	for lists+qemu-devel@lfdr.de; Mon, 06 Jul 2020 15:39:24 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:37354)
+	id 1jsX0I-0001au-FT
+	for lists+qemu-devel@lfdr.de; Mon, 06 Jul 2020 15:42:14 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:37462)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1jsWoH-00065f-C6
- for qemu-devel@nongnu.org; Mon, 06 Jul 2020 15:29:49 -0400
-Received: from us-smtp-2.mimecast.com ([207.211.31.81]:39598
+ (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1jsWoK-0006Dl-A7
+ for qemu-devel@nongnu.org; Mon, 06 Jul 2020 15:29:52 -0400
+Received: from us-smtp-2.mimecast.com ([207.211.31.81]:21672
  helo=us-smtp-delivery-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1jsWoD-0006pa-Cf
- for qemu-devel@nongnu.org; Mon, 06 Jul 2020 15:29:49 -0400
+ (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1jsWoI-0006r9-3o
+ for qemu-devel@nongnu.org; Mon, 06 Jul 2020 15:29:51 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1594063784;
+ s=mimecast20190719; t=1594063789;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:content-type:content-type:in-reply-to:in-reply-to:
- references:references; bh=D8LOQskz1HNn/vuAR8tYHpuOvbDfnHE7mN72R6Fj2Mk=;
- b=fxrn+z1ednBCV6IlyqbdV3vpynEuqLncv6qt5PLMSYp+QzVjiez4FU8tRZ4dn97x7Ixt2Y
- /vGQLyeOZij3MZ3wVhuk8YYOjKzDjFyMDVoIqKK6Jzj6P3LEqyAOzjyiI7QhrsgufmCwlF
- lqBme5hZmA1w24BXlSaAsyQ6YC2g49g=
+ references:references; bh=+AaAHjOZwno1drTqxZDNzFUh6XmfOWg6U6/LZUaOxeM=;
+ b=R3u0rXjxLtjHtxrga7ehJjCr2wRkgPQybpXNgINIYej+fqVHhOJ0WdEINbLXxBr3w2WiZ7
+ wgRyXtqG+rGh+UF8oITNx6EFYQRmcTc+2NXUGQTUiFAksQx3gUdd0IQBLM3gvB+Pe5We0n
+ LlP3ttsJBfNUBk09pH3UPpdPGEcaBfI=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-187-yPuZ9u4DN1CMEUNLd3pqbQ-1; Mon, 06 Jul 2020 15:29:42 -0400
-X-MC-Unique: yPuZ9u4DN1CMEUNLd3pqbQ-1
-Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
- [10.5.11.14])
+ us-mta-53-os4HIQPbPyGLNdMCyVycbw-1; Mon, 06 Jul 2020 15:29:43 -0400
+X-MC-Unique: os4HIQPbPyGLNdMCyVycbw-1
+Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
+ [10.5.11.12])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 36047100A8F9;
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 92402108BD0D;
  Mon,  6 Jul 2020 19:29:41 +0000 (UTC)
 Received: from sirius.home.kraxel.org (ovpn-112-200.ams2.redhat.com
  [10.36.112.200])
- by smtp.corp.redhat.com (Postfix) with ESMTP id E1C065D9D7;
+ by smtp.corp.redhat.com (Postfix) with ESMTP id EB2C360BF3;
  Mon,  6 Jul 2020 19:29:32 +0000 (UTC)
 Received: by sirius.home.kraxel.org (Postfix, from userid 1000)
- id 55AC731E87; Mon,  6 Jul 2020 21:29:22 +0200 (CEST)
+ id 6356531E93; Mon,  6 Jul 2020 21:29:22 +0200 (CEST)
 From: Gerd Hoffmann <kraxel@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PULL 10/20] audio: deprecate -soundhw hda
-Date: Mon,  6 Jul 2020 21:29:11 +0200
-Message-Id: <20200706192921.1154-11-kraxel@redhat.com>
+Subject: [PULL 11/20] pc_basic_device_init: pass PCMachineState
+Date: Mon,  6 Jul 2020 21:29:12 +0200
+Message-Id: <20200706192921.1154-12-kraxel@redhat.com>
 In-Reply-To: <20200706192921.1154-1-kraxel@redhat.com>
 References: <20200706192921.1154-1-kraxel@redhat.com>
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=kraxel@redhat.com
 X-Mimecast-Spam-Score: 0
@@ -89,35 +89,72 @@ Cc: Aleksandar Rikalo <aleksandar.rikalo@syrmia.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Add deprecation message to the audio init function.
+Need access to pcms for pcspk initialization.
+Just preparation, no functional change.
 
 Signed-off-by: Gerd Hoffmann <kraxel@redhat.com>
-Message-id: 20200702132525.6849-11-kraxel@redhat.com
+Message-id: 20200702132525.6849-12-kraxel@redhat.com
 ---
- hw/audio/intel-hda.c | 3 +++
- 1 file changed, 3 insertions(+)
+ include/hw/i386/pc.h | 3 ++-
+ hw/i386/pc.c         | 3 ++-
+ hw/i386/pc_piix.c    | 2 +-
+ hw/i386/pc_q35.c     | 2 +-
+ 4 files changed, 6 insertions(+), 4 deletions(-)
 
-diff --git a/hw/audio/intel-hda.c b/hw/audio/intel-hda.c
-index f673b8317a84..f6cea49686d7 100644
---- a/hw/audio/intel-hda.c
-+++ b/hw/audio/intel-hda.c
-@@ -25,6 +25,7 @@
- #include "qemu/bitops.h"
- #include "qemu/log.h"
- #include "qemu/module.h"
-+#include "qemu/error-report.h"
- #include "hw/audio/soundhw.h"
- #include "intel-hda.h"
- #include "migration/vmstate.h"
-@@ -1307,6 +1308,8 @@ static int intel_hda_and_codec_init(PCIBus *bus)
-     BusState *hdabus;
-     DeviceState *codec;
+diff --git a/include/hw/i386/pc.h b/include/hw/i386/pc.h
+index dce1273c7dad..3a601dbe71da 100644
+--- a/include/hw/i386/pc.h
++++ b/include/hw/i386/pc.h
+@@ -160,7 +160,8 @@ void pc_memory_init(PCMachineState *pcms,
+                     MemoryRegion **ram_memory);
+ uint64_t pc_pci_hole64_start(void);
+ DeviceState *pc_vga_init(ISABus *isa_bus, PCIBus *pci_bus);
+-void pc_basic_device_init(ISABus *isa_bus, qemu_irq *gsi,
++void pc_basic_device_init(struct PCMachineState *pcms,
++                          ISABus *isa_bus, qemu_irq *gsi,
+                           ISADevice **rtc_state,
+                           bool create_fdctrl,
+                           bool no_vmport,
+diff --git a/hw/i386/pc.c b/hw/i386/pc.c
+index 4af9679d039b..d89e577f6fa1 100644
+--- a/hw/i386/pc.c
++++ b/hw/i386/pc.c
+@@ -1155,7 +1155,8 @@ static void pc_superio_init(ISABus *isa_bus, bool create_fdctrl, bool no_vmport)
+     g_free(a20_line);
+ }
  
-+    warn_report("'-soundhw hda' is deprecated, "
-+                "please use '-device intel-hda -device hda-duplex' instead");
-     controller = DEVICE(pci_create_simple(bus, -1, "intel-hda"));
-     hdabus = QLIST_FIRST(&controller->child_bus);
-     codec = qdev_new("hda-duplex");
+-void pc_basic_device_init(ISABus *isa_bus, qemu_irq *gsi,
++void pc_basic_device_init(struct PCMachineState *pcms,
++                          ISABus *isa_bus, qemu_irq *gsi,
+                           ISADevice **rtc_state,
+                           bool create_fdctrl,
+                           bool no_vmport,
+diff --git a/hw/i386/pc_piix.c b/hw/i386/pc_piix.c
+index 1d832b2878b1..a3b416507286 100644
+--- a/hw/i386/pc_piix.c
++++ b/hw/i386/pc_piix.c
+@@ -235,7 +235,7 @@ static void pc_init1(MachineState *machine,
+     }
+ 
+     /* init basic PC hardware */
+-    pc_basic_device_init(isa_bus, x86ms->gsi, &rtc_state, true,
++    pc_basic_device_init(pcms, isa_bus, x86ms->gsi, &rtc_state, true,
+                          (pcms->vmport != ON_OFF_AUTO_ON), pcms->pit_enabled,
+                          0x4);
+ 
+diff --git a/hw/i386/pc_q35.c b/hw/i386/pc_q35.c
+index 047ea8db28ea..b16e22c6cccd 100644
+--- a/hw/i386/pc_q35.c
++++ b/hw/i386/pc_q35.c
+@@ -275,7 +275,7 @@ static void pc_q35_init(MachineState *machine)
+     }
+ 
+     /* init basic PC hardware */
+-    pc_basic_device_init(isa_bus, x86ms->gsi, &rtc_state, !mc->no_floppy,
++    pc_basic_device_init(pcms, isa_bus, x86ms->gsi, &rtc_state, !mc->no_floppy,
+                          (pcms->vmport != ON_OFF_AUTO_ON), pcms->pit_enabled,
+                          0xff0104);
+ 
 -- 
 2.18.4
 
