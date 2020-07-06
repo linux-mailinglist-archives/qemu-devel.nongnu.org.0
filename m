@@ -2,62 +2,62 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1FC45215CFE
-	for <lists+qemu-devel@lfdr.de>; Mon,  6 Jul 2020 19:24:11 +0200 (CEST)
-Received: from localhost ([::1]:41200 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 38585215D0F
+	for <lists+qemu-devel@lfdr.de>; Mon,  6 Jul 2020 19:26:21 +0200 (CEST)
+Received: from localhost ([::1]:49096 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jsUqg-0005DL-5Z
-	for lists+qemu-devel@lfdr.de; Mon, 06 Jul 2020 13:24:10 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:60732)
+	id 1jsUsm-0008WF-AG
+	for lists+qemu-devel@lfdr.de; Mon, 06 Jul 2020 13:26:20 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:60814)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <alistair23@gmail.com>)
- id 1jsUSR-0005r4-M2; Mon, 06 Jul 2020 12:59:07 -0400
-Received: from mail-io1-xd41.google.com ([2607:f8b0:4864:20::d41]:43288)
+ id 1jsUTH-0006xk-EZ; Mon, 06 Jul 2020 12:59:59 -0400
+Received: from mail-il1-x141.google.com ([2607:f8b0:4864:20::141]:39326)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <alistair23@gmail.com>)
- id 1jsUSM-0005oU-8T; Mon, 06 Jul 2020 12:59:07 -0400
-Received: by mail-io1-xd41.google.com with SMTP id k23so40040661iom.10;
- Mon, 06 Jul 2020 09:59:01 -0700 (PDT)
+ id 1jsUTF-0005vQ-F9; Mon, 06 Jul 2020 12:59:59 -0400
+Received: by mail-il1-x141.google.com with SMTP id k6so33497267ili.6;
+ Mon, 06 Jul 2020 09:59:56 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=mime-version:references:in-reply-to:from:date:message-id:subject:to
  :cc:content-transfer-encoding;
- bh=FXnnv73L5WipvrjnAQ/ZRDtg+5iLp60OiInY9J0Zsfs=;
- b=fK2rUb2MdciYU4Z+vy8DaVGveUMlo9HFcBrc2ZvwhMG/OTSUYi16woJ2geJIOeCHf+
- s/tu4UZiATsSlkJBZD2mo3pornyf9G2RKM8kkgfjb7neQY+BTo9GGZ9L3v3UwKSUzApe
- 89qSSXu30fk4x/9gPjbYtny2dhJQctl8b9Lrmn4gsXAE9hmlLHVRcYlZiDw+zMWXKhiT
- WJsFHIKj5Bhm1NoNyZFlGdsqEUXmX9z2x7FAgTnWrhAmBppFMg16jLsf48EcsdQ3N9Ln
- BfooAlKZ7UjPxtmAAZt8fESX0cQByDrugScyx/bxh9+zbshTBMAtPKfqON37hfLVY3Rb
- eq2Q==
+ bh=9/leO9q/0J5ZJH/Ka9OiHxF4rkOPGYi23nLotDw5+po=;
+ b=t+L89NigImBrMi5A+L/vayp2Ek2Z1xRrRswlKbUWeD6I7FIa+voJRjlBIqb0sMzDec
+ lqkQijLEMiyv2fVJODfnOo9v77QgO6cdGwJYO8vhoClltQxpALdDRs8ENXpnUTqPC8qf
+ cTqrxHmxfkx4pm++FONued1iM/PgnDbs7eHuq38xcfAZlmcjn7mbBAeb9JBvYwXLMk1x
+ fkmZUkSQLJ52R1fsCbmaL3rpzt43x9FH+XrveDmr0sQHoPrYO1DZaIY+DO5ZZzWlqj8M
+ WZZMs8mMEJb1bdpZBZrqRgqogw2cqAXAXg5S3fLxb9M/1IpPh6xuhL4Lmki4tyc8gx5S
+ /BcA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
  :message-id:subject:to:cc:content-transfer-encoding;
- bh=FXnnv73L5WipvrjnAQ/ZRDtg+5iLp60OiInY9J0Zsfs=;
- b=Ac9ShVJVVUD8rxlndKw6nz9LNuM1pkLp2aHpLlNBTPKbOgIvyPMiV3zGaw8QV7/OLS
- lfWeEAAXtxppY46AgAPYDTvyoF76XQliPmrQWdV3AqqtmpvNLP4tYTSTj9wzm/mIizoX
- wDZvcV3dNZ00OQbDlVxPqJdEwlzUq1ZrmHMLsBzDfdwfHtgyJIFd2KFCMJ3tiNhD+vm3
- 6aR37ziv6qnitVTEgb/NvXGgQAMc8oREo4LNCbtFWGNMsLvtOdhpkrTpapsWgDDh46lT
- EjZKHpj0H2/bT1/SKOk0vLMwfZqFKJM+ahrSMxUS1EM+vzVzFxPr47jpPG626xuwLXYK
- 8TXw==
-X-Gm-Message-State: AOAM5334vMkdoSjBaPMqvnn/m2P8OaKj5hULhhqG85+vU4A3N6rLHaFJ
- MzQD0PgdEkCtdjKs+K1HidlHuH99mRhqHSGFiEU=
-X-Google-Smtp-Source: ABdhPJxhPOyzA8S179T/GnN+DxKn3yFpd4iuIOBEQ6BWF7TH4kkJEHUUUSyuyppt2TvByxifRjL0bvuZRvWhnh0C+Tc=
-X-Received: by 2002:a02:10c1:: with SMTP id 184mr52996773jay.135.1594054740444; 
- Mon, 06 Jul 2020 09:59:00 -0700 (PDT)
+ bh=9/leO9q/0J5ZJH/Ka9OiHxF4rkOPGYi23nLotDw5+po=;
+ b=jktVYO3B9SHAm4OEA3P1v5xV2UFlxyfd8ZjvSyPvv2pN9IxK8eqJYfm/PAUsVefeVD
+ B82S0VIP0Xokqtm/v1w3cqh0yaFyuz9r1A+2bSChgxo/NQSF9p/17iUXm2Xkyq2gcO1w
+ yuL3liAHRutEkQgoNGEcsDdHdEZMiBH964Wh4Dp1YcIXjz3Orh2cs81K70odzse6DutJ
+ vEFC5E5uFD53jNPrHRNNCrblWP6/R2Pp5p8e07bLTr1/3nasXMxrxTCqPmuw5OCN7lN9
+ r7ozSbOCSG+R2hp8qbegYi1j0DuyubAOys3FeoQnCXwZQszJXrYkBZHoUGKN1hb5UF8q
+ S/DQ==
+X-Gm-Message-State: AOAM533Rd8rSdsOWlwHpfgoJIqOQ/MuCzpO2ayQsKEQ1pewlhRgOdyiL
+ KB8MO6Iq0fJRCYJo1zt9Wtj8afjzQFM+z9vX3Tg=
+X-Google-Smtp-Source: ABdhPJw/HaHEsm0ulaS03PTv+Iez2OAy3BXjXkZdtFUms+Csyj/gKycDAQBhYI+0mtg7FDmV0+SOu7NjIzp7EDuPP3Q=
+X-Received: by 2002:a92:c213:: with SMTP id j19mr31588925ilo.40.1594054795800; 
+ Mon, 06 Jul 2020 09:59:55 -0700 (PDT)
 MIME-Version: 1.0
 References: <20200704144943.18292-1-f4bug@amsat.org>
- <20200704144943.18292-2-f4bug@amsat.org>
-In-Reply-To: <20200704144943.18292-2-f4bug@amsat.org>
+ <20200704144943.18292-3-f4bug@amsat.org>
+In-Reply-To: <20200704144943.18292-3-f4bug@amsat.org>
 From: Alistair Francis <alistair23@gmail.com>
-Date: Mon, 6 Jul 2020 09:49:12 -0700
-Message-ID: <CAKmqyKNd3qyB33TCamM_zXPFahfvdpmCirouODOy_QFotz55EQ@mail.gmail.com>
-Subject: Re: [PATCH 01/26] hw/arm/sbsa-ref: Remove unused 'hw/usb.h' header
+Date: Mon, 6 Jul 2020 09:50:09 -0700
+Message-ID: <CAKmqyKNB3fQCBNZ29cRuj5LW14duowkP6+k+6V0fhHhZU+GtsQ@mail.gmail.com>
+Subject: Re: [PATCH 02/26] hw/ppc/sam460ex: Add missing 'hw/pci/pci.h' header
 To: =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <f4bug@amsat.org>
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=2607:f8b0:4864:20::d41;
- envelope-from=alistair23@gmail.com; helo=mail-io1-xd41.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::141;
+ envelope-from=alistair23@gmail.com; helo=mail-il1-x141.google.com
 X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
  That's all we know.
 X-Spam_score_int: -17
@@ -111,11 +111,28 @@ Cc: Peter Maydell <peter.maydell@linaro.org>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Sat, Jul 4, 2020 at 7:51 AM Philippe Mathieu-Daud=C3=A9 <f4bug@amsat.org=
+On Sat, Jul 4, 2020 at 7:50 AM Philippe Mathieu-Daud=C3=A9 <f4bug@amsat.org=
 > wrote:
 >
-> This file doesn't access anything from "hw/usb.h", remove its
-> inclusion.
+> This file uses pci_create_simple() and PCI_DEVFN() which are both
+> declared in "hw/pci/pci.h". This include is indirectly included
+> by an USB header. As we want to reduce the USB header inclusions
+> later, include the PCI header now, to avoid later:
+>
+>   hw/ppc/sam460ex.c:397:5: error: implicit declaration of function =E2=80=
+=98pci_create_simple=E2=80=99; did you mean =E2=80=98sysbus_create_simple=
+=E2=80=99? [-Werror=3Dimplicit-function-declaration]
+>     397 |     pci_create_simple(pci_bus, PCI_DEVFN(6, 0), "sm501");
+>         |     ^~~~~~~~~~~~~~~~~
+>         |     sysbus_create_simple
+>   hw/ppc/sam460ex.c:397:5: error: nested extern declaration of =E2=80=98p=
+ci_create_simple=E2=80=99 [-Werror=3Dnested-externs]
+>   hw/ppc/sam460ex.c:397:32: error: implicit declaration of function =E2=
+=80=98PCI_DEVFN=E2=80=99 [-Werror=3Dimplicit-function-declaration]
+>     397 |     pci_create_simple(pci_bus, PCI_DEVFN(6, 0), "sm501");
+>         |                                ^~~~~~~~~
+>   hw/ppc/sam460ex.c:397:32: error: nested extern declaration of =E2=80=98=
+PCI_DEVFN=E2=80=99 [-Werror=3Dnested-externs]
 >
 > Signed-off-by: Philippe Mathieu-Daud=C3=A9 <f4bug@amsat.org>
 
@@ -124,20 +141,20 @@ Reviewed-by: Alistair Francis <alistair.francis@wdc.com>
 Alistair
 
 > ---
->  hw/arm/sbsa-ref.c | 1 -
->  1 file changed, 1 deletion(-)
+>  hw/ppc/sam460ex.c | 1 +
+>  1 file changed, 1 insertion(+)
 >
-> diff --git a/hw/arm/sbsa-ref.c b/hw/arm/sbsa-ref.c
-> index e40c868a82..021e7c1b8b 100644
-> --- a/hw/arm/sbsa-ref.c
-> +++ b/hw/arm/sbsa-ref.c
-> @@ -38,7 +38,6 @@
->  #include "hw/loader.h"
->  #include "hw/pci-host/gpex.h"
+> diff --git a/hw/ppc/sam460ex.c b/hw/ppc/sam460ex.c
+> index 1a106a68de..fae970b142 100644
+> --- a/hw/ppc/sam460ex.c
+> +++ b/hw/ppc/sam460ex.c
+> @@ -38,6 +38,7 @@
+>  #include "hw/usb/hcd-ehci.h"
+>  #include "hw/ppc/fdt.h"
 >  #include "hw/qdev-properties.h"
-> -#include "hw/usb.h"
->  #include "hw/char/pl011.h"
->  #include "net/net.h"
+> +#include "hw/pci/pci.h"
+>
+>  #include <libfdt.h>
 >
 > --
 > 2.21.3
