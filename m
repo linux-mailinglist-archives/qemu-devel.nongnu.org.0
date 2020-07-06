@@ -2,74 +2,82 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id CB479215415
-	for <lists+qemu-devel@lfdr.de>; Mon,  6 Jul 2020 10:39:09 +0200 (CEST)
-Received: from localhost ([::1]:44384 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4D34021540A
+	for <lists+qemu-devel@lfdr.de>; Mon,  6 Jul 2020 10:32:49 +0200 (CEST)
+Received: from localhost ([::1]:59608 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jsMea-0007LO-Sw
-	for lists+qemu-devel@lfdr.de; Mon, 06 Jul 2020 04:39:08 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:58004)
+	id 1jsMYS-0001R9-Bt
+	for lists+qemu-devel@lfdr.de; Mon, 06 Jul 2020 04:32:48 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:59738)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1jsMFM-0007gf-J6
- for qemu-devel@nongnu.org; Mon, 06 Jul 2020 04:13:04 -0400
-Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:43088
- helo=us-smtp-1.mimecast.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1jsMFL-0003vw-2m
- for qemu-devel@nongnu.org; Mon, 06 Jul 2020 04:13:04 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1594023182;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=oKPCDO6bsnMXT75PWaT2RIS7D/p6vt6foCsykajthc0=;
- b=etUnCamz/TY3Fb+dz+KoF0LH1YDa9yJMRykkhZ7d654sBSrHzP7iGGOuvoIfquBPGKIlt4
- fQ7m4sP4lD67/a86gG0Gc9xm7TkwmI4QP5JUCUKohE/r0p5oKfWZT61540QCh7uzi7MkNC
- tbcLSJrnIzEe8Vn6sDW0kZB6+Ump6gA=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-373-aLY-JcHVOB-VR5HxWYJJow-1; Mon, 06 Jul 2020 04:12:59 -0400
-X-MC-Unique: aLY-JcHVOB-VR5HxWYJJow-1
-Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
- [10.5.11.13])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id B5F88188360D;
- Mon,  6 Jul 2020 08:12:57 +0000 (UTC)
-Received: from blackfin.pond.sub.org (ovpn-112-143.ams2.redhat.com
- [10.36.112.143])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 80A7D7B40A;
- Mon,  6 Jul 2020 08:12:57 +0000 (UTC)
-Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
- id 0CD421138648; Mon,  6 Jul 2020 10:12:56 +0200 (CEST)
-From: Markus Armbruster <armbru@redhat.com>
-To: qemu-devel@nongnu.org
-Subject: Re: [PATCH v3 00/44] Less clumsy error checking
-References: <20200706080950.403087-1-armbru@redhat.com>
-Date: Mon, 06 Jul 2020 10:12:56 +0200
-In-Reply-To: <20200706080950.403087-1-armbru@redhat.com> (Markus Armbruster's
- message of "Mon, 6 Jul 2020 10:09:06 +0200")
-Message-ID: <87mu4df4dz.fsf@dusky.pond.sub.org>
-User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/26.3 (gnu/linux)
+ (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
+ id 1jsMML-000662-3S
+ for qemu-devel@nongnu.org; Mon, 06 Jul 2020 04:20:17 -0400
+Received: from mail-wr1-x444.google.com ([2a00:1450:4864:20::444]:42799)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
+ id 1jsMMJ-000545-Bw
+ for qemu-devel@nongnu.org; Mon, 06 Jul 2020 04:20:16 -0400
+Received: by mail-wr1-x444.google.com with SMTP id o11so39835202wrv.9
+ for <qemu-devel@nongnu.org>; Mon, 06 Jul 2020 01:20:14 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=sender:subject:to:cc:references:from:message-id:date:user-agent
+ :mime-version:in-reply-to:content-language:content-transfer-encoding;
+ bh=oPviQ+LIWGrd/yJvMZKPPFt1O+v7N7YSCrqZW1qvupw=;
+ b=nqAhUZoHKtcH8+JTjMw9DvyU2KCcMBXr33sTsYlgoLsYRchsNhWlobHPjN6xacxBdR
+ /7nO90UQ+1LY6nFoGK7uOCbZJv/tIvadGVicDMReuxy3hhyRBuSsXm4DJ/QbOJQ+vwau
+ UpC38BTvLIhzFZeoLZjsvva1yMmrV6Fpkwo30Uzy2XGClZ9lN5mglAfhTIxmT+1S6Op6
+ gTfByH6T5ZilI6aOuGQflWhGp24qRD1MwQUrjY/GnBz4yOqswU94hA8nOkyaa5ymS3cU
+ O/x0UwRTN2nVLomayA9WeBuGdN4z5szSBDMxXRZIjbrj264Ms5F/cten2BtOEp7j1TRh
+ fHJg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:sender:subject:to:cc:references:from:message-id
+ :date:user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=oPviQ+LIWGrd/yJvMZKPPFt1O+v7N7YSCrqZW1qvupw=;
+ b=uM1m9rs4xS5ag7PUJhNmL3y4XBsbH0ZxcJ2LwCD5BPcT9YiHkPUnBEBJLBF+ZmjxV5
+ 1fkxWXFwK+N/N7kAwbA34jKxGpXp/bIcb+9Un5yYcVV6LkBKXjVQSA5kkXE7R7f6pa4R
+ dCPyHPBUP9sPl7Elj6ZIs5S6djusRARO2FpThl0P6xToW+1gZgVaoNrpOItGpWjC4/mA
+ 54P7SGWs9UPnQZGAe9hZxvH+rYbXdjKAcc4p9DakJVsimbcHjdc+u0pTn508wnHThHxg
+ EJIBQzUqtuz8o+tvpdQU1urfAf0sMrPIytO8tul30BVcRtDJnuDcfIn4irqBbbZlf21p
+ R0ZA==
+X-Gm-Message-State: AOAM530XoEVRjMeHMHqG9pCZ8WstD2/AW6dSnt6efQaD08nQ6txikTKY
+ kQst+qnYP+wS/b15/CG2k1w=
+X-Google-Smtp-Source: ABdhPJxqlqkFu3NaAPX4oF/vhN+9Gr5aDnHDCX2/Pm6tPo1voU+ZpCcbMUBOquGIdgGovtafLshPow==
+X-Received: by 2002:adf:f2c5:: with SMTP id d5mr48542327wrp.96.1594023613840; 
+ Mon, 06 Jul 2020 01:20:13 -0700 (PDT)
+Received: from [192.168.1.37] (138.red-83-57-170.dynamicip.rima-tde.net.
+ [83.57.170.138])
+ by smtp.gmail.com with ESMTPSA id t141sm2643612wmt.26.2020.07.06.01.20.12
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Mon, 06 Jul 2020 01:20:13 -0700 (PDT)
+Subject: Re: [PATCH v2] hw/core/qdev: Increase qdev_realize() kindness
+To: Markus Armbruster <armbru@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>
+References: <20200705221430.30207-1-f4bug@amsat.org>
+ <87fta5glw8.fsf@dusky.pond.sub.org>
+From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>
+Message-ID: <f9e07dfc-868d-b5d6-ff62-24bdb882ccc4@amsat.org>
+Date: Mon, 6 Jul 2020 10:20:12 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.5.0
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=armbru@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain
-Received-SPF: pass client-ip=207.211.31.120; envelope-from=armbru@redhat.com;
- helo=us-smtp-1.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/07/06 01:52:41
-X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
-X-Spam_score_int: -40
-X-Spam_score: -4.1
-X-Spam_bar: ----
-X-Spam_report: (-4.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-1, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=_AUTOLEARN
+In-Reply-To: <87fta5glw8.fsf@dusky.pond.sub.org>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=2a00:1450:4864:20::444;
+ envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wr1-x444.google.com
+X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
+ That's all we know.
+X-Spam_score_int: 0
+X-Spam_score: 0.0
+X-Spam_bar: /
+X-Spam_report: (0.0 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1, DKIM_VALID=-0.1,
+ DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=1, FREEMAIL_FROM=0.001,
+ HEADER_FROM_DIFFERENT_DOMAINS=1, RCVD_IN_DNSWL_NONE=-0.0001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=_AUTOLEARN
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -82,105 +90,111 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: peter.maydell@linaro.org, vsementsov@virtuozzo.com, berrange@redhat.com,
- ehabkost@redhat.com, qemu-block@nongnu.org, groug@kaod.org,
- pbonzini@redhat.com
+Cc: Peter Maydell <peter.maydell@linaro.org>,
+ =?UTF-8?Q?Daniel_P=2e_Berrang=c3=a9?= <berrange@redhat.com>,
+ qemu-devel@nongnu.org, Eduardo Habkost <ehabkost@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-diff between v2 rebased and v3, with hunks that change only whitespace
-dropped:
+On 7/6/20 9:09 AM, Markus Armbruster wrote:
+> Philippe Mathieu-Daudé <f4bug@amsat.org> writes:
+> 
+>> Since commit 510ef98dca5, qdev_realize() aborts if bus-less
+>> device is realized on a bus. Be kind with the developer by
+>> displaying a hint about what is wrong.
+>>
+>> Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
+>> ---
+>> v2: Use errp (bonzini suggestion)
+>>
+>> Paolo, I was tempted to check errp is really &error_abort else
+>> it is an error! :P
+>>
+>>     } else if (DEVICE_GET_CLASS(dev)->bus_type) {
+>>         error_setg(errp, "%s: Unexpected bus '%s' for bus-less device '%s'",
+>>                    __func__, DEVICE_GET_CLASS(dev)->bus_type,
+>>                    object_get_typename(OBJECT(dev)));
+>>         assert(errp == &error_abort); // <--------------
+> 
+> Don't!
+> 
+> Functions taking an Error **errp parameter to report errors should never
+> examine the argument.
+> 
+> The Error API is for separating concerns.  The callee's concern is
+> detecting errors and failing cleanly.  *Handling* the errors is the
+> caller's concern.
+> 
+> To simplify common handling patterns, we provide convenience arguments
+> &error_abort, &error_fatal, and NULL.  Their use is exclusively the
+> caller's concern.
+> 
+> Examining the argument undermines the separation of concerns.
+> 
+>>         return false;
+>>     }
+>> ---
+>>  hw/core/qdev.c | 7 +++++--
+>>  1 file changed, 5 insertions(+), 2 deletions(-)
+>>
+>> diff --git a/hw/core/qdev.c b/hw/core/qdev.c
+>> index 2131c7f951..9d1530c39d 100644
+>> --- a/hw/core/qdev.c
+>> +++ b/hw/core/qdev.c
+>> @@ -392,8 +392,11 @@ bool qdev_realize(DeviceState *dev, BusState *bus, Error **errp)
+>>  
+>>      if (bus) {
+>>          qdev_set_parent_bus(dev, bus);
+>> -    } else {
+>> -        assert(!DEVICE_GET_CLASS(dev)->bus_type);
+>> +    } else if (DEVICE_GET_CLASS(dev)->bus_type) {
+>> +        error_setg(errp, "%s: Unexpected bus '%s' for bus-less device '%s'",
+>> +                   __func__, DEVICE_GET_CLASS(dev)->bus_type,
+>> +                   object_get_typename(OBJECT(dev)));
+>> +        return false;
+>>      }
+>>  
+>>      object_property_set_bool(OBJECT(dev), true, "realized", &err);
+> 
+> Scratch __func__.  error_setg() records __FILE__, __LINE__ and __func__,
+> and error_handle_fatal() prints them.
 
-diff --git a/qapi/opts-visitor.c b/qapi/opts-visitor.c
-index 6d8f4b6928..7781c23a42 100644
---- a/qapi/opts-visitor.c
-+++ b/qapi/opts-visitor.c
-@@ -235,12 +235,12 @@ opts_start_list(Visitor *v, const char *name, GenericList **list, size_t size,
-     /* we don't support visits without a list */
-     assert(list);
-     ov->repeated_opts = lookup_distinct(ov, name, errp);
--    if (ov->repeated_opts) {
--        ov->list_mode = LM_IN_PROGRESS;
--        *list = g_malloc0(size);
--    } else {
-+    if (!ov->repeated_opts) {
-         *list = NULL;
-+        return false;
-     }
-+    ov->list_mode = LM_IN_PROGRESS;
-+    *list = g_malloc0(size);
-     return true;
- }
- 
-diff --git a/qapi/qapi-clone-visitor.c b/qapi/qapi-clone-visitor.c
-index 5a54bd593f..c45c5caa3b 100644
---- a/qapi/qapi-clone-visitor.c
-+++ b/qapi/qapi-clone-visitor.c
-@@ -56,8 +56,7 @@ static bool qapi_clone_start_list(Visitor *v, const char *name,
-                                   GenericList **listp, size_t size,
-                                   Error **errp)
- {
--    qapi_clone_start_struct(v, name, (void **)listp, size, errp);
--    return true;
-+    return qapi_clone_start_struct(v, name, (void **)listp, size, errp);
- }
- 
- static GenericList *qapi_clone_next_list(Visitor *v, GenericList *tail,
-@@ -75,8 +74,7 @@ static bool qapi_clone_start_alternate(Visitor *v, const char *name,
-                                        GenericAlternate **obj, size_t size,
-                                        Error **errp)
- {
--    qapi_clone_start_struct(v, name, (void **)obj, size, errp);
--    return true;
-+    return qapi_clone_start_struct(v, name, (void **)obj, size, errp);
- }
- 
- static bool qapi_clone_type_int64(Visitor *v, const char *name, int64_t *obj,
-diff --git a/qdev-monitor.c b/qdev-monitor.c
-index 7ebb97cf0d..31cc1f6564 100644
---- a/qdev-monitor.c
-+++ b/qdev-monitor.c
-@@ -652,7 +652,6 @@ DeviceState *qdev_device_add(QemuOpts *opts, Error **errp)
- 
-     /* Check whether the hotplug is allowed by the machine */
-     if (qdev_hotplug && !qdev_hotplug_allowed(dev, errp)) {
--        /* Error must be set in the machine hook */
-         goto err_del_dev;
-     }
- 
-diff --git a/qom/object.c b/qom/object.c
-index 8d698abf4d..d6bba48e41 100644
---- a/qom/object.c
-+++ b/qom/object.c
-@@ -1773,21 +1773,24 @@ static void object_set_link_property(Object *obj, Visitor *v,
-     LinkProperty *prop = opaque;
-     Object **targetp = object_link_get_targetp(obj, prop);
-     Object *old_target = *targetp;
--    Object *new_target = NULL;
-+    Object *new_target;
-     char *path = NULL;
- 
-     if (!visit_type_str(v, name, &path, errp)) {
-         return;
-     }
- 
--    if (strcmp(path, "") != 0) {
-+    if (*path) {
-         new_target = object_resolve_link(obj, name, path, errp);
-+        if (!new_target) {
-+            g_free(path);
-+            return;
-+        }
-+    } else {
-+        new_target = NULL;
-     }
- 
-     g_free(path);
--    if (!new_target) {
--        return;
--    }
- 
-     prop->check(obj, name, new_target, &local_err);
-     if (local_err) {
+Correct :/
 
+> 
+> Always, always, always test your error messages.  If they are impossible
+> to test, mock up the error.  If mocking up is too much trouble, then
+> reporting the error nicely is, too.
+> 
+> That said, this one matters to me only insofar as it sets a bad example.
+> I don't actually care how impossible error messages come out :)
+
+It might seems "impossible" to you because you only work with mainstream
+QEMU.
+There are plenty of forks trying to keep up with mainstream. Their code
+is not mergeable in mainstream for various reasons (usually code not in
+good shape, using deprecated APIs). These are mostly hobbyist trying
+different boards / hardware / whatever.
+
+You cleaned mainstream incorrect qdev/qom bus/parenting code before
+merging your qdev/qom cleanup in commit 6675a653d2 ("Merge
+remotes/armbru/tags/pull-qom-2020-06-15") but you didn't clean all the
+forks. Now various forks simply abort, and it seems quite hard for a
+developer not following mainstream activity on a daily basis to figure
+out which change broke is fork.
+
+As of today:
+$ git log --oneline --since="3 weeks ago"|wc -l
+776
+And in 2 days we'll probably pass the 1k.
+
+I hope you now understand the motivation of this patch. I failed at
+properly describing it, mostly because I have a limited hobbyist time
+where I try to address as much issues as I can.
+
+I'll respin with improved commit description, and __func__ removed.
+
+Regards,
+
+Phil.
 
