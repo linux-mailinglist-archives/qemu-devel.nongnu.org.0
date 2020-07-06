@@ -2,67 +2,67 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 90B912153C2
-	for <lists+qemu-devel@lfdr.de>; Mon,  6 Jul 2020 10:11:59 +0200 (CEST)
-Received: from localhost ([::1]:51824 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D79D02153F9
+	for <lists+qemu-devel@lfdr.de>; Mon,  6 Jul 2020 10:27:56 +0200 (CEST)
+Received: from localhost ([::1]:41894 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jsMEI-00049v-Hg
-	for lists+qemu-devel@lfdr.de; Mon, 06 Jul 2020 04:11:58 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:56704)
+	id 1jsMTj-0002CS-Tv
+	for lists+qemu-devel@lfdr.de; Mon, 06 Jul 2020 04:27:55 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:57432)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1jsMCR-0001cn-FP
- for qemu-devel@nongnu.org; Mon, 06 Jul 2020 04:10:03 -0400
-Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:24602
- helo=us-smtp-1.mimecast.com)
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1jsMCy-0002jk-6v
+ for qemu-devel@nongnu.org; Mon, 06 Jul 2020 04:10:36 -0400
+Received: from us-smtp-1.mimecast.com ([205.139.110.61]:47162
+ helo=us-smtp-delivery-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1jsMCL-0003BN-1h
- for qemu-devel@nongnu.org; Mon, 06 Jul 2020 04:10:02 -0400
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1jsMCS-0003HJ-1p
+ for qemu-devel@nongnu.org; Mon, 06 Jul 2020 04:10:35 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1594022996;
+ s=mimecast20190719; t=1594023002;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=5FySQseChNG03nnFnVbpbZzFh2Mcq/z2Y2mYUUMlrbQ=;
- b=K7j6/FJSD9+aEokadtecW1Yk0jr19+uBl1m62yTz4l4Pu7JB3/r0dsZvFRdke+vJ6Nh34h
- DNudyV7ZnhDDCKKRnMC4Th3d0+pz3/9u2xPO2IwPhY+0SOUyQt3NCrE+r8X8BD58P9z0/E
- nBmvOnRrWmv5J+VaYdDvgI4+8ELAfwE=
+ bh=rvBDMmtYvVkY3jVOUFPXEZPVFsdhSQqoZM3UWCNt/ok=;
+ b=WZf1LX7he0uEcU5uOIDpAlT+XzajLlNX05YsPE83l/B0I1b2VJkU80rowYusigXeiWdgc0
+ AepFOYv5yPzgkcSnH+40hQVy3KQ8ZRsEUL77wdxzxhld79sNCsaF4lGciy+yc/XkSdq0AL
+ V4s9PC6+F92sDQ91olfauV//jE4xtTo=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-338-AZ9F0_UlNy6hmXQa9Vgozg-1; Mon, 06 Jul 2020 04:09:54 -0400
-X-MC-Unique: AZ9F0_UlNy6hmXQa9Vgozg-1
-Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
- [10.5.11.15])
+ us-mta-416-nqD9eO03O9CeIgG73shkPg-1; Mon, 06 Jul 2020 04:09:58 -0400
+X-MC-Unique: nqD9eO03O9CeIgG73shkPg-1
+Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
+ [10.5.11.22])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 90A0E10059A8;
- Mon,  6 Jul 2020 08:09:52 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 143C5800407;
+ Mon,  6 Jul 2020 08:09:57 +0000 (UTC)
 Received: from blackfin.pond.sub.org (ovpn-112-143.ams2.redhat.com
  [10.36.112.143])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 2933273FE5;
- Mon,  6 Jul 2020 08:09:52 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 1B29910013C2;
+ Mon,  6 Jul 2020 08:09:53 +0000 (UTC)
 Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
- id AC01C11385FA; Mon,  6 Jul 2020 10:09:50 +0200 (CEST)
+ id AFB6311385FC; Mon,  6 Jul 2020 10:09:50 +0200 (CEST)
 From: Markus Armbruster <armbru@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v3 04/44] macio: Tidy up error handling in
- macio_newworld_realize()
-Date: Mon,  6 Jul 2020 10:09:10 +0200
-Message-Id: <20200706080950.403087-5-armbru@redhat.com>
+Subject: [PATCH v3 05/44] virtio-crypto-pci: Tidy up
+ virtio_crypto_pci_realize()
+Date: Mon,  6 Jul 2020 10:09:11 +0200
+Message-Id: <20200706080950.403087-6-armbru@redhat.com>
 In-Reply-To: <20200706080950.403087-1-armbru@redhat.com>
 References: <20200706080950.403087-1-armbru@redhat.com>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=armbru@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=205.139.110.120; envelope-from=armbru@redhat.com;
- helo=us-smtp-1.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/07/06 01:22:37
+Received-SPF: pass client-ip=205.139.110.61; envelope-from=armbru@redhat.com;
+ helo=us-smtp-delivery-1.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/07/06 01:59:39
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
 X-Spam_score_int: -30
 X-Spam_score: -3.1
@@ -85,40 +85,41 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
 Cc: peter.maydell@linaro.org, vsementsov@virtuozzo.com, berrange@redhat.com,
  ehabkost@redhat.com, qemu-block@nongnu.org,
- Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>, groug@kaod.org,
- pbonzini@redhat.com, David Gibson <david@gibson.dropbear.id.au>
+ "Michael S . Tsirkin" <mst@redhat.com>, groug@kaod.org,
+ "Gonglei \(Arei\)" <arei.gonglei@huawei.com>, pbonzini@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-macio_newworld_realize() effectively ignores ns->gpio realization
-errors, leaking the Error object.  Fortunately, macio_gpio_realize()
-can't actually fail.  Tidy up.
+virtio_crypto_pci_realize() continues after realization of its
+"virtio-crypto-device" fails.  Only an object_property_set_link()
+follows; looks harmless to me.  Tidy up anyway: return after failure,
+just like virtio_rng_pci_realize() does.
 
-Cc: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
-Cc: David Gibson <david@gibson.dropbear.id.au>
+Cc: "Gonglei (Arei)" <arei.gonglei@huawei.com>
+Cc: Michael S. Tsirkin <mst@redhat.com>
 Signed-off-by: Markus Armbruster <armbru@redhat.com>
 Reviewed-by: Eric Blake <eblake@redhat.com>
-Acked-by: David Gibson <david@gibson.dropbear.id.au>
 Reviewed-by: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
+Reviewed-by: Gonglei < arei.gonglei@huawei.com>
 ---
- hw/misc/macio/macio.c | 4 +++-
+ hw/virtio/virtio-crypto-pci.c | 4 +++-
  1 file changed, 3 insertions(+), 1 deletion(-)
 
-diff --git a/hw/misc/macio/macio.c b/hw/misc/macio/macio.c
-index 42414797e2..be66bb7758 100644
---- a/hw/misc/macio/macio.c
-+++ b/hw/misc/macio/macio.c
-@@ -334,7 +334,9 @@ static void macio_newworld_realize(PCIDevice *d, Error **errp)
-                                  &error_abort);
-         memory_region_add_subregion(&s->bar, 0x50,
-                                     sysbus_mmio_get_region(sysbus_dev, 0));
--        qdev_realize(DEVICE(&ns->gpio), BUS(&s->macio_bus), &err);
-+        if (!qdev_realize(DEVICE(&ns->gpio), BUS(&s->macio_bus), errp)) {
-+            return;
-+        }
+diff --git a/hw/virtio/virtio-crypto-pci.c b/hw/virtio/virtio-crypto-pci.c
+index 72be531c95..0755722288 100644
+--- a/hw/virtio/virtio-crypto-pci.c
++++ b/hw/virtio/virtio-crypto-pci.c
+@@ -54,7 +54,9 @@ static void virtio_crypto_pci_realize(VirtIOPCIProxy *vpci_dev, Error **errp)
+     }
  
-         /* PMU */
-         object_initialize_child(OBJECT(s), "pmu", &s->pmu, TYPE_VIA_PMU);
+     virtio_pci_force_virtio_1(vpci_dev);
+-    qdev_realize(vdev, BUS(&vpci_dev->bus), errp);
++    if (!qdev_realize(vdev, BUS(&vpci_dev->bus), errp)) {
++        return;
++    }
+     object_property_set_link(OBJECT(vcrypto),
+                  OBJECT(vcrypto->vdev.conf.cryptodev), "cryptodev",
+                  NULL);
 -- 
 2.26.2
 
