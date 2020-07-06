@@ -2,69 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D368C21627F
-	for <lists+qemu-devel@lfdr.de>; Tue,  7 Jul 2020 01:49:14 +0200 (CEST)
-Received: from localhost ([::1]:37032 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5107921628D
+	for <lists+qemu-devel@lfdr.de>; Tue,  7 Jul 2020 01:50:58 +0200 (CEST)
+Received: from localhost ([::1]:45022 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jsarJ-0002ce-Sv
-	for lists+qemu-devel@lfdr.de; Mon, 06 Jul 2020 19:49:13 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:35318)
+	id 1jsasz-0006KV-9D
+	for lists+qemu-devel@lfdr.de; Mon, 06 Jul 2020 19:50:57 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:35328)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <jcmvbkbc@gmail.com>)
- id 1jsaq6-0000rh-EF
- for qemu-devel@nongnu.org; Mon, 06 Jul 2020 19:47:58 -0400
-Received: from mail-pj1-x1032.google.com ([2607:f8b0:4864:20::1032]:38315)
+ id 1jsaq7-0000tf-5z
+ for qemu-devel@nongnu.org; Mon, 06 Jul 2020 19:47:59 -0400
+Received: from mail-pg1-x542.google.com ([2607:f8b0:4864:20::542]:43184)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <jcmvbkbc@gmail.com>)
- id 1jsaq4-0000or-RU
+ id 1jsaq5-0000pj-HG
  for qemu-devel@nongnu.org; Mon, 06 Jul 2020 19:47:58 -0400
-Received: by mail-pj1-x1032.google.com with SMTP id k5so8126097pjg.3
- for <qemu-devel@nongnu.org>; Mon, 06 Jul 2020 16:47:56 -0700 (PDT)
+Received: by mail-pg1-x542.google.com with SMTP id w2so18317553pgg.10
+ for <qemu-devel@nongnu.org>; Mon, 06 Jul 2020 16:47:57 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=WZrxDgWWXXP9PmlZyyBGjdv9eqT/iSmUhBtmo9zxmiE=;
- b=LQGKeTSaur4jfDn2clIb3qHJzsVFcPr3tmYKuaLGwUlMeOHbldkOxomtVxkX2r/HRT
- hg8YhyRNczLF7mDQURX0cDKir0wB0xCFL8wwdRdk0WzIKrpg1mQQ4qGd+JSMThZinBau
- CriAiEGzX1nvR/Fzah0zL6+yldpHoVgJoHCUPfxwBDp6NoHBkTwAUTBB4DzIR6B0GFyS
- yaKz/QZLrS3wElxIxLFuP+ZVglz5gS02N1NLT/X1du5ObmBYeo8ipeLkkXt+dNASlSf7
- a+gUGXXy+gvKGkrOxJ87tKWWTpewQEAOlkDXJEInAv2qc3D4K7wzxKGMThErWx/RH+6+
- RIiw==
+ bh=OxuARGdyDb7zyHOtMNspwtFCmEXAy7U1ZwwaIWB/blY=;
+ b=pNkfUaNnMJrm59wBjCi5o++U/VanYUI7zIQAjxwrJFL1xOr2OvhKvXol0pWJT+c+9y
+ sbT9aZHpVgmipXWOEQ4p5b8CL2a25R9/M1evJUQDRB+7632T0cS9NUuq7JeT6lFYbOnA
+ SbO/hk5aJn5ABLKHHH0JAjvOZ4KuSk+NcT7cdIbIOqrIJQ4Ln95cFkrPB7fzvSCaoxeS
+ xv6xnlw4cTVJ57oCuuZYbUTgwmXikr/r7t2i+EdneyLQiOpVhWQ2yIqIXCjwPSunT8Zu
+ TZTfveAJUgvstyAAidgH358fqhjRLZ4aWNW0bfFKdoOutTQ7GTSNiK4OE8LQYQxYWo9I
+ 8E5Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=WZrxDgWWXXP9PmlZyyBGjdv9eqT/iSmUhBtmo9zxmiE=;
- b=koY8PTiTm9yiOARde+8smvL5Hqbz6Mh8zpIWFdn1I/0P3eQ6XGSXVkkXVvAOKoJryT
- xlWR22XBTyy3YYDrFQsU6GfBsorfFU4pFB7mGgp9VIxtQGpHOih0kj1mqXn6oPOWkRps
- BnUUR/v+dDLjGShbJ9B3TQUwH3MkH5WnXjB18Agdjg8g+9sHf7IXVwmG1fePlnzh26RX
- FMxI6dR6ANJd/Kl7ddGs2DJzqZT9XvTLDg8Ho5dWLuE41AhiCMyZZ2tbJLv1HUK5ouyq
- jeOI1XuY4aBpOc0Y+/W+xPViYJvPqUlWZJErMINRirm9L/6o1UsPQExFv3cPcSEBNOVU
- pJOg==
-X-Gm-Message-State: AOAM530unJsQlzxPozP587CbZS53iyVo4y1mwshsq/L4pWTWhtbsfE40
- Xp81GUSSanQtPwpH6jHbCWxSX/fl
-X-Google-Smtp-Source: ABdhPJxmk7BTsnXEllQwPRIPePeS7svrlo9nl9CBUIKoROaqfWTq3ls2LA4q45JjQRUMNVWB5zGl6Q==
-X-Received: by 2002:a17:902:8d87:: with SMTP id
- v7mr42105297plo.73.1594079275062; 
- Mon, 06 Jul 2020 16:47:55 -0700 (PDT)
+ bh=OxuARGdyDb7zyHOtMNspwtFCmEXAy7U1ZwwaIWB/blY=;
+ b=qc+PfP8VZplsYtFlpP+c7vTTXrvqndlVwc8ohEb9Sp5OdFtUJ9IOKph/HqG7muxowm
+ cZ5P9Q3P3BYl0dwMjXhf5ozSLgdz79uAc0lXUXUexYtBZ8yJtkE1NQL5MZSerRmOXx97
+ REM3ePPw5VEhFphiNCbCWukdX0EmHblThxGbwyr3Bo7mOf3NpRulgGio2qOKKN1RLBXN
+ CQFYL1FL9V0gvaNvEVCZxP4VT+YttAKZeYVuiQ1gaW0Idj2FUyneNCQRUfp8XWAYudOt
+ e0rrW65MOA86peSKrGlLawK+V8acChlf31alkMy4+qO2ekC8kCJL1HJYaR5p4w0mnVWi
+ pprw==
+X-Gm-Message-State: AOAM5316r6BM8Xm580Te22Py3E3w1sgRula4YfHbd4WPv2Dkt2fnAIZY
+ ySwHj5HuhUwpOeuLuhQ8qd2HRRyV
+X-Google-Smtp-Source: ABdhPJxz6lD60sCPccd7AIY7obnCou1RKaeafDl74vlyuc8mTzfvI8836GFx1MCyHZ+Ml8G1UYL5kg==
+X-Received: by 2002:a63:5509:: with SMTP id j9mr41698729pgb.195.1594079276102; 
+ Mon, 06 Jul 2020 16:47:56 -0700 (PDT)
 Received: from octofox.cadence.com ([2601:641:400:e00:19b7:f650:7bbe:a7fb])
- by smtp.gmail.com with ESMTPSA id e15sm19647649pgt.17.2020.07.06.16.47.54
+ by smtp.gmail.com with ESMTPSA id e15sm19647649pgt.17.2020.07.06.16.47.55
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 06 Jul 2020 16:47:54 -0700 (PDT)
+ Mon, 06 Jul 2020 16:47:55 -0700 (PDT)
 From: Max Filippov <jcmvbkbc@gmail.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH 04/21] target/xtensa: add geometry to
- xtensa_get_regfile_by_name
-Date: Mon,  6 Jul 2020 16:47:20 -0700
-Message-Id: <20200706234737.32378-5-jcmvbkbc@gmail.com>
+Subject: [PATCH 05/21] target/xtensa: support copying registers up to 64 bits
+ wide
+Date: Mon,  6 Jul 2020 16:47:21 -0700
+Message-Id: <20200706234737.32378-6-jcmvbkbc@gmail.com>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20200706234737.32378-1-jcmvbkbc@gmail.com>
 References: <20200706234737.32378-1-jcmvbkbc@gmail.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::1032;
- envelope-from=jcmvbkbc@gmail.com; helo=mail-pj1-x1032.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::542;
+ envelope-from=jcmvbkbc@gmail.com; helo=mail-pg1-x542.google.com
 X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
  That's all we know.
 X-Spam_score_int: -5
@@ -91,103 +90,90 @@ Cc: Max Filippov <jcmvbkbc@gmail.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Register file name may not uniquely identify a register file in the set
-of configurations. E.g. floating point registers may have different size
-in different configurations. Use register file geometry as additional
-identifier.
+FLIX dependency breaking code assumes that all registers are 32 bit
+wide. This may not always be correct.
+Extract actual register width from the associated register file and use
+it to create temporaries of correct width and generate correct data
+movement instructions.
 
 Signed-off-by: Max Filippov <jcmvbkbc@gmail.com>
 ---
- target/xtensa/cpu.h       |  2 +-
- target/xtensa/helper.c    |  4 +++-
- target/xtensa/translate.c | 35 +++++++++++++++++++++++++++--------
- 3 files changed, 31 insertions(+), 10 deletions(-)
+ target/xtensa/cpu.h       |  1 +
+ target/xtensa/translate.c | 26 +++++++++++++++++++++-----
+ 2 files changed, 22 insertions(+), 5 deletions(-)
 
 diff --git a/target/xtensa/cpu.h b/target/xtensa/cpu.h
-index 0c96181212a5..0409aa6189cf 100644
+index 0409aa6189cf..960f6573447f 100644
 --- a/target/xtensa/cpu.h
 +++ b/target/xtensa/cpu.h
-@@ -598,7 +598,7 @@ void xtensa_cpu_do_unaligned_access(CPUState *cpu, vaddr addr,
+@@ -359,6 +359,7 @@ typedef struct opcode_arg {
+     uint32_t raw_imm;
+     void *in;
+     void *out;
++    uint32_t num_bits;
+ } OpcodeArg;
  
- void xtensa_collect_sr_names(const XtensaConfig *config);
- void xtensa_translate_init(void);
--void **xtensa_get_regfile_by_name(const char *name);
-+void **xtensa_get_regfile_by_name(const char *name, int entries, int bits);
- void xtensa_breakpoint_handler(CPUState *cs);
- void xtensa_register_core(XtensaConfigList *node);
- void xtensa_sim_open_console(Chardev *chr);
-diff --git a/target/xtensa/helper.c b/target/xtensa/helper.c
-index 7073381f03b2..05e2b7f70a1e 100644
---- a/target/xtensa/helper.c
-+++ b/target/xtensa/helper.c
-@@ -133,8 +133,10 @@ static void init_libisa(XtensaConfig *config)
-     config->regfile = g_new(void **, regfiles);
-     for (i = 0; i < regfiles; ++i) {
-         const char *name = xtensa_regfile_name(config->isa, i);
-+        int entries = xtensa_regfile_num_entries(config->isa, i);
-+        int bits = xtensa_regfile_num_bits(config->isa, i);
- 
--        config->regfile[i] = xtensa_get_regfile_by_name(name);
-+        config->regfile[i] = xtensa_get_regfile_by_name(name, entries, bits);
- #ifdef DEBUG
-         if (config->regfile[i] == NULL) {
-             fprintf(stderr, "regfile '%s' not found for %s\n",
+ typedef struct DisasContext DisasContext;
 diff --git a/target/xtensa/translate.c b/target/xtensa/translate.c
-index 03d796d7a1ed..9838bf6b3ec5 100644
+index 9838bf6b3ec5..bc01a720719d 100644
 --- a/target/xtensa/translate.c
 +++ b/target/xtensa/translate.c
-@@ -227,24 +227,43 @@ void xtensa_translate_init(void)
-                                "exclusive_val");
- }
+@@ -943,10 +943,10 @@ static void disas_xtensa_insn(CPUXtensaState *env, DisasContext *dc)
  
--void **xtensa_get_regfile_by_name(const char *name)
-+void **xtensa_get_regfile_by_name(const char *name, int entries, int bits)
- {
-+    char *geometry_name;
-+    void **res;
-+
-     if (xtensa_regfile_table == NULL) {
-         xtensa_regfile_table = g_hash_table_new(g_str_hash, g_str_equal);
-+        /*
-+         * AR is special. Xtensa translator uses it as a current register
-+         * window, but configuration overlays represent it as a complete
-+         * physical register file.
-+         */
-         g_hash_table_insert(xtensa_regfile_table,
--                            (void *)"AR", (void *)cpu_R);
-+                            (void *)"AR 16x32", (void *)cpu_R);
-         g_hash_table_insert(xtensa_regfile_table,
--                            (void *)"MR", (void *)cpu_MR);
-+                            (void *)"AR 32x32", (void *)cpu_R);
-         g_hash_table_insert(xtensa_regfile_table,
--                            (void *)"FR", (void *)cpu_FR);
-+                            (void *)"AR 64x32", (void *)cpu_R);
-+
-         g_hash_table_insert(xtensa_regfile_table,
--                            (void *)"BR", (void *)cpu_BR);
-+                            (void *)"MR 4x32", (void *)cpu_MR);
-+
-         g_hash_table_insert(xtensa_regfile_table,
--                            (void *)"BR4", (void *)cpu_BR4);
-+                            (void *)"FR 16x32", (void *)cpu_FR);
-+
-         g_hash_table_insert(xtensa_regfile_table,
--                            (void *)"BR8", (void *)cpu_BR8);
-+                            (void *)"BR 16x1", (void *)cpu_BR);
-+        g_hash_table_insert(xtensa_regfile_table,
-+                            (void *)"BR4 4x4", (void *)cpu_BR4);
-+        g_hash_table_insert(xtensa_regfile_table,
-+                            (void *)"BR8 2x8", (void *)cpu_BR8);
+         for (opnd = vopnd = 0; opnd < opnds; ++opnd) {
+             void **register_file = NULL;
++            xtensa_regfile rf;
+ 
+             if (xtensa_operand_is_register(isa, opc, opnd)) {
+-                xtensa_regfile rf = xtensa_operand_regfile(isa, opc, opnd);
+-
++                rf = xtensa_operand_regfile(isa, opc, opnd);
+                 register_file = dc->config->regfile[rf];
+ 
+                 if (rf == dc->config->a_regfile) {
+@@ -972,6 +972,9 @@ static void disas_xtensa_insn(CPUXtensaState *env, DisasContext *dc)
+                 if (register_file) {
+                     arg[vopnd].in = register_file[v];
+                     arg[vopnd].out = register_file[v];
++                    arg[vopnd].num_bits = xtensa_regfile_num_bits(isa, rf);
++                } else {
++                    arg[vopnd].num_bits = 32;
+                 }
+                 ++vopnd;
+             }
+@@ -1111,8 +1114,15 @@ static void disas_xtensa_insn(CPUXtensaState *env, DisasContext *dc)
+         for (i = j = 0; i < n_arg_copy; ++i) {
+             if (i == 0 || arg_copy[i].resource != resource) {
+                 resource = arg_copy[i].resource;
+-                temp = tcg_temp_local_new();
+-                tcg_gen_mov_i32(temp, arg_copy[i].arg->in);
++                if (arg_copy[i].arg->num_bits <= 32) {
++                    temp = tcg_temp_local_new_i32();
++                    tcg_gen_mov_i32(temp, arg_copy[i].arg->in);
++                } else if (arg_copy[i].arg->num_bits <= 64) {
++                    temp = tcg_temp_local_new_i64();
++                    tcg_gen_mov_i64(temp, arg_copy[i].arg->in);
++                } else {
++                    g_assert_not_reached();
++                }
+                 arg_copy[i].temp = temp;
+ 
+                 if (i != j) {
+@@ -1143,7 +1153,13 @@ static void disas_xtensa_insn(CPUXtensaState *env, DisasContext *dc)
      }
--    return (void **)g_hash_table_lookup(xtensa_regfile_table, (void *)name);
-+
-+    geometry_name = g_strdup_printf("%s %dx%d", name, entries, bits);
-+    res = (void **)g_hash_table_lookup(xtensa_regfile_table, geometry_name);
-+    g_free(geometry_name);
-+    return res;
- }
  
- static inline bool option_enabled(DisasContext *dc, int opt)
+     for (i = 0; i < n_arg_copy; ++i) {
+-        tcg_temp_free(arg_copy[i].temp);
++        if (arg_copy[i].arg->num_bits <= 32) {
++            tcg_temp_free_i32(arg_copy[i].temp);
++        } else if (arg_copy[i].arg->num_bits <= 64) {
++            tcg_temp_free_i64(arg_copy[i].temp);
++        } else {
++            g_assert_not_reached();
++        }
+     }
+ 
+     if (dc->base.is_jmp == DISAS_NEXT) {
 -- 
 2.20.1
 
