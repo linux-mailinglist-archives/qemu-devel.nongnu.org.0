@@ -2,65 +2,66 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 10FC7215BD3
-	for <lists+qemu-devel@lfdr.de>; Mon,  6 Jul 2020 18:30:44 +0200 (CEST)
-Received: from localhost ([::1]:52280 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 88762215BD9
+	for <lists+qemu-devel@lfdr.de>; Mon,  6 Jul 2020 18:33:02 +0200 (CEST)
+Received: from localhost ([::1]:57850 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jsU0x-0005mx-21
-	for lists+qemu-devel@lfdr.de; Mon, 06 Jul 2020 12:30:43 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:53690)
+	id 1jsU3B-0008Av-LR
+	for lists+qemu-devel@lfdr.de; Mon, 06 Jul 2020 12:33:01 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:54252)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <alistair23@gmail.com>)
- id 1jsTzw-0004Lv-K2
- for qemu-devel@nongnu.org; Mon, 06 Jul 2020 12:29:40 -0400
-Received: from mail-il1-x143.google.com ([2607:f8b0:4864:20::143]:34906)
+ id 1jsU1w-0007Ed-0u
+ for qemu-devel@nongnu.org; Mon, 06 Jul 2020 12:31:44 -0400
+Received: from mail-io1-xd43.google.com ([2607:f8b0:4864:20::d43]:44527)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <alistair23@gmail.com>)
- id 1jsTzv-0000Ld-35
- for qemu-devel@nongnu.org; Mon, 06 Jul 2020 12:29:40 -0400
-Received: by mail-il1-x143.google.com with SMTP id t18so13501477ilh.2
- for <qemu-devel@nongnu.org>; Mon, 06 Jul 2020 09:29:38 -0700 (PDT)
+ id 1jsU1u-0000wb-A9
+ for qemu-devel@nongnu.org; Mon, 06 Jul 2020 12:31:43 -0400
+Received: by mail-io1-xd43.google.com with SMTP id i4so39943314iov.11
+ for <qemu-devel@nongnu.org>; Mon, 06 Jul 2020 09:31:41 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=mime-version:references:in-reply-to:from:date:message-id:subject:to
  :cc:content-transfer-encoding;
- bh=FkOrzPJRfCEkl/rxaCiZ45H0g+MGuLDY7Pi17f7zR30=;
- b=A6106WMltit+3BoFkLaXAsvhrfQAuV9U/+xoUenQYCWAJoVHQ99X/fwZFtDOUYgccM
- htKc7QFhYrWHM+c+4aHBrkaXZFW8zR9vh+p+E6h8eu2tYb8Zq7+bR1KO+SyMWJM4h146
- nvRPp1W7HQQFKT6xyxkcNGXNjgy0I+Mj1xLx3Mom9OBz63H1zlwkOJb9f8swVDpdSPh2
- 3Vyo4pAq+okPeYsjPC4Cz4LjHalXr7jw+kxAfHEUjm4FpwzpjyrpF3qWX3RKGhdegm8O
- pglt36svVBOEaw293GXEQBU3QPLqWvqIb/daDGh0OxlsLEX5tv6L8H0FpGYaSNLWCHgs
- /AvQ==
+ bh=snNJeTF3aNNQfDgoZci8OJFgmXxVfy5o8eCq0InE4hs=;
+ b=RI6UW1gcbRxd6/mz1iKsyJESjzVu1j/4bMiybJoNSHBWqtqCcB6CWbfM7okfBX27Mc
+ OXbQH5TbE7Q5doUPLJqD/mIP1i4RnAZl5rKx6zdn7PJZHE65gCscDKMZePC9Lq/Dkcl+
+ 7Hr8Utv/kzdG8/pDZr90S8SJ+YXeHysVH1EYLW17YMSWOnuwfQPn5aaVS4sXFWy3z1qa
+ klW8RtHYuJ4w+Qr/z5RfdgLb/2RgrAEoPuYevLXUtVmP1EwhWduRxdsVV0MrcZIsN9ud
+ QFRIh40lk1BTCGdH+3pPsqJxG8PN8C/yn3n+3mIPHBVSt/nedpMwyl0EgUrT7LNTWVDH
+ NyYw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
  :message-id:subject:to:cc:content-transfer-encoding;
- bh=FkOrzPJRfCEkl/rxaCiZ45H0g+MGuLDY7Pi17f7zR30=;
- b=TLPtz72ogsy6vpSZ1YQB+gpl66J+ChSQQuAPlsbxZos3ovvCai8wu4QTvhGbODMsjU
- CTXVXXcJXUF/1ErnzxxcRrkfgBGMfu7pWAtW2HgUngkTRjB9s7Hg158bUievB6aNRZ21
- ukFVsl2V1nXBCMANTsXlp/qiyD+c4vnaS3vfG4lxiMo3QDtr7jXa6ygfXMM2ARFFhZe+
- Vys/wEqBHVkm/0BaGJ5JkdPZopXZWrQGHL4/UGb+PNhcVk+wsAQwjzUihiiqrRzlPckk
- JV2QMtqtIuSfthwPtEIeKhlDne/zI9uddVrvnMn4lFg2iIoKaGpl24j7B+XF2y9yuLFC
- reSA==
-X-Gm-Message-State: AOAM532gT0w2fh7o8cN/zxUrFhlmuV2zT90F4JuEZFhrpdZXeQiTg7W/
- uC2Jy/n947Ndmg3bHHfmlBgFZiZc+AIntzH6iIycdVre
-X-Google-Smtp-Source: ABdhPJziXjidVi/5sH1BIP6BcoG3L/phziEOJYmnTMlZgOiqy6YTNcF+1NGriSgPWxVtVEX3XPS4R89ShukZes4/J70=
-X-Received: by 2002:a05:6e02:d51:: with SMTP id
- h17mr31615207ilj.131.1594052977979; 
- Mon, 06 Jul 2020 09:29:37 -0700 (PDT)
+ bh=snNJeTF3aNNQfDgoZci8OJFgmXxVfy5o8eCq0InE4hs=;
+ b=Mizftb7keE6uS8bi5rWc+6LY/Y9rgk7XxDYM1kU/tx1J1uEhhveeZiJFYicCC9UD2F
+ kY9hQmW1FDt2Zrwrs98LPDbERcuxO9RZQxqxwapbyNn3n5uXUUkEhMmO6R5FR9eVhewv
+ wZBoxyyCTiC4Br4+e2YMyqM0ltwXcQGh3H2o+jUD8DrZIRGUdeABN++1N+Nr/rYG/aWQ
+ bS1H2d67pCLjCl9+Wnp0acplgDhQf5kPSKqj4ebmnQqgu+Kdmd1O0J9DeiFKC+2lPlGV
+ nVLeo5FL//GaCIHhbYli4JeZ03bDPq8FLQKT0T3+I6yOAlPlDNr7ffaHRHv5i695Vbll
+ zlLQ==
+X-Gm-Message-State: AOAM531cpaJcNdmbdlc8gfuf6HOvqxF8VdbctpbZDlvq3xvSsvzEsi2h
+ 1RbMoptZb2gyi2kP+6Mq8y6r+rntOefR0PwTMz0=
+X-Google-Smtp-Source: ABdhPJx43lz+Z/RA0w3Wn3mS5XePj3J1AHxL2dj1dt/yWnWv3/Y5MGrIZHzrUd9GzYWZiv20TwQ1aoYPBVg5zkUixzc=
+X-Received: by 2002:a6b:8dd1:: with SMTP id
+ p200mr26271411iod.118.1594053101123; 
+ Mon, 06 Jul 2020 09:31:41 -0700 (PDT)
 MIME-Version: 1.0
 References: <20200705211016.15241-1-f4bug@amsat.org>
- <20200705211016.15241-4-f4bug@amsat.org>
-In-Reply-To: <20200705211016.15241-4-f4bug@amsat.org>
+ <20200705211016.15241-5-f4bug@amsat.org>
+In-Reply-To: <20200705211016.15241-5-f4bug@amsat.org>
 From: Alistair Francis <alistair23@gmail.com>
-Date: Mon, 6 Jul 2020 09:19:51 -0700
-Message-ID: <CAKmqyKMrUYJ6sSP8SMj+HXaSHdkvB3oxGQS8kxhyq7YPHmscLw@mail.gmail.com>
-Subject: Re: [PATCH 3/4] hw/sd/milkymist: Create the SDBus at init()
+Date: Mon, 6 Jul 2020 09:21:54 -0700
+Message-ID: <CAKmqyKMJf6fWgmKsxFVDxVxZ4qYgesrUr9FexKc+eL4Aaxg7AQ@mail.gmail.com>
+Subject: Re: [PATCH 4/4] hw/sd/milkymist: Do not create SD card within the
+ SDHCI controller
 To: =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <f4bug@amsat.org>
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=2607:f8b0:4864:20::143;
- envelope-from=alistair23@gmail.com; helo=mail-il1-x143.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::d43;
+ envelope-from=alistair23@gmail.com; helo=mail-io1-xd43.google.com
 X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
  That's all we know.
 X-Spam_score_int: -17
@@ -92,8 +93,9 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 On Sun, Jul 5, 2020 at 2:10 PM Philippe Mathieu-Daud=C3=A9 <f4bug@amsat.org=
 > wrote:
 >
-> We don't need to wait until realize() to create the SDBus,
-> create it in init() directly.
+> SDHCI controllers provide a SD Bus to plug SD cards, but don't
+> come with SD card plugged in :) Let the machine/board object
+> create and plug the SD cards when required.
 >
 > Signed-off-by: Philippe Mathieu-Daud=C3=A9 <f4bug@amsat.org>
 
@@ -102,35 +104,149 @@ Reviewed-by: Alistair Francis <alistair.francis@wdc.com>
 Alistair
 
 > ---
->  hw/sd/milkymist-memcard.c | 6 +++---
->  1 file changed, 3 insertions(+), 3 deletions(-)
+>  hw/lm32/milkymist.c       | 13 +++++++++
+>  hw/sd/milkymist-memcard.c | 55 +++++++++++++++++++++++----------------
+>  2 files changed, 45 insertions(+), 23 deletions(-)
 >
-> diff --git a/hw/sd/milkymist-memcard.c b/hw/sd/milkymist-memcard.c
-> index afdb8aa0c0..fb02309f07 100644
-> --- a/hw/sd/milkymist-memcard.c
-> +++ b/hw/sd/milkymist-memcard.c
-> @@ -261,6 +261,9 @@ static void milkymist_memcard_init(Object *obj)
->      memory_region_init_io(&s->regs_region, OBJECT(s), &memcard_mmio_ops,=
- s,
->              "milkymist-memcard", R_MAX * 4);
->      sysbus_init_mmio(dev, &s->regs_region);
+> diff --git a/hw/lm32/milkymist.c b/hw/lm32/milkymist.c
+> index 117973c967..8e2c68da5a 100644
+> --- a/hw/lm32/milkymist.c
+> +++ b/hw/lm32/milkymist.c
+> @@ -34,6 +34,7 @@
+>  #include "elf.h"
+>  #include "milkymist-hw.h"
+>  #include "hw/display/milkymist_tmu2.h"
+> +#include "hw/sd/sd.h"
+>  #include "lm32.h"
+>  #include "exec/address-spaces.h"
+>  #include "qemu/cutils.h"
+> @@ -83,12 +84,24 @@ static void main_cpu_reset(void *opaque)
+>  static DeviceState *milkymist_memcard_create(hwaddr base)
+>  {
+>      DeviceState *dev;
+> +    DriveInfo *dinfo;
+>
+>      dev =3D qdev_new("milkymist-memcard");
+>      sysbus_realize_and_unref(SYS_BUS_DEVICE(dev), &error_fatal);
+>      sysbus_mmio_map(SYS_BUS_DEVICE(dev), 0, base);
+>      /* FIXME wire 'card is readonly' and 'card inserted' IRQs? */
+>
+> +    dinfo =3D drive_get_next(IF_SD);
+> +    if (dinfo) {
+> +        DeviceState *card;
 > +
-> +    qbus_create_inplace(&s->sdbus, sizeof(s->sdbus), TYPE_SD_BUS,
-> +                        DEVICE(obj), "sd-bus");
+> +        card =3D qdev_new(TYPE_SD_CARD);
+> +        qdev_prop_set_drive_err(card, "drive", blk_by_legacy_dinfo(dinfo=
+),
+> +                                &error_fatal);
+> +        qdev_realize_and_unref(card, qdev_get_child_bus(dev, "sd-bus"),
+> +                               &error_fatal);
+> +    }
+> +
+>      return dev;
 >  }
 >
->  static void milkymist_memcard_realize(DeviceState *dev, Error **errp)
-> @@ -271,9 +274,6 @@ static void milkymist_memcard_realize(DeviceState *de=
-v, Error **errp)
->      DriveInfo *dinfo;
->      Error *err =3D NULL;
+> diff --git a/hw/sd/milkymist-memcard.c b/hw/sd/milkymist-memcard.c
+> index fb02309f07..e9f5db5e22 100644
+> --- a/hw/sd/milkymist-memcard.c
+> +++ b/hw/sd/milkymist-memcard.c
+> @@ -66,6 +66,8 @@ enum {
+>  #define MILKYMIST_MEMCARD(obj) \
+>      OBJECT_CHECK(MilkymistMemcardState, (obj), TYPE_MILKYMIST_MEMCARD)
 >
-> -    qbus_create_inplace(&s->sdbus, sizeof(s->sdbus), TYPE_SD_BUS,
-> -                        dev, "sd-bus");
+> +#define TYPE_MILKYMIST_SDBUS "milkymist-sdbus"
+> +
+>  struct MilkymistMemcardState {
+>      SysBusDevice parent_obj;
+>
+> @@ -253,6 +255,19 @@ static void milkymist_memcard_reset(DeviceState *d)
+>      }
+>  }
+>
+> +static void milkymist_memcard_set_readonly(DeviceState *dev, bool level)
+> +{
+> +    qemu_log_mask(LOG_UNIMP,
+> +                  "milkymist_memcard: read-only mode not supported\n");
+> +}
+> +
+> +static void milkymist_memcard_set_inserted(DeviceState *dev, bool level)
+> +{
+> +    MilkymistMemcardState *s =3D MILKYMIST_MEMCARD(dev);
+> +
+> +    s->enabled =3D !!level;
+> +}
+> +
+>  static void milkymist_memcard_init(Object *obj)
+>  {
+>      MilkymistMemcardState *s =3D MILKYMIST_MEMCARD(obj);
+> @@ -266,27 +281,6 @@ static void milkymist_memcard_init(Object *obj)
+>                          DEVICE(obj), "sd-bus");
+>  }
+>
+> -static void milkymist_memcard_realize(DeviceState *dev, Error **errp)
+> -{
+> -    MilkymistMemcardState *s =3D MILKYMIST_MEMCARD(dev);
+> -    DeviceState *carddev;
+> -    BlockBackend *blk;
+> -    DriveInfo *dinfo;
+> -    Error *err =3D NULL;
 > -
->      /* Create and plug in the sd card */
->      /* FIXME use a qdev drive property instead of drive_get_next() */
->      dinfo =3D drive_get_next(IF_SD);
+> -    /* Create and plug in the sd card */
+> -    /* FIXME use a qdev drive property instead of drive_get_next() */
+> -    dinfo =3D drive_get_next(IF_SD);
+> -    blk =3D dinfo ? blk_by_legacy_dinfo(dinfo) : NULL;
+> -    carddev =3D qdev_new(TYPE_SD_CARD);
+> -    qdev_prop_set_drive(carddev, "drive", blk);
+> -    if (!qdev_realize_and_unref(carddev, BUS(&s->sdbus), &err)) {
+> -        error_propagate_prepend(errp, err, "failed to init SD card: %s")=
+;
+> -        return;
+> -    }
+> -    s->enabled =3D blk && blk_is_inserted(blk);
+> -}
+> -
+>  static const VMStateDescription vmstate_milkymist_memcard =3D {
+>      .name =3D "milkymist-memcard",
+>      .version_id =3D 1,
+> @@ -308,10 +302,9 @@ static void milkymist_memcard_class_init(ObjectClass=
+ *klass, void *data)
+>  {
+>      DeviceClass *dc =3D DEVICE_CLASS(klass);
+>
+> -    dc->realize =3D milkymist_memcard_realize;
+>      dc->reset =3D milkymist_memcard_reset;
+>      dc->vmsd =3D &vmstate_milkymist_memcard;
+> -    /* Reason: init() method uses drive_get_next() */
+> +    /* Reason: output IRQs should be wired up */
+>      dc->user_creatable =3D false;
+>  }
+>
+> @@ -323,9 +316,25 @@ static const TypeInfo milkymist_memcard_info =3D {
+>      .class_init    =3D milkymist_memcard_class_init,
+>  };
+>
+> +static void milkymist_sdbus_class_init(ObjectClass *klass, void *data)
+> +{
+> +    SDBusClass *sbc =3D SD_BUS_CLASS(klass);
+> +
+> +    sbc->set_inserted =3D milkymist_memcard_set_inserted;
+> +    sbc->set_readonly =3D milkymist_memcard_set_readonly;
+> +}
+> +
+> +static const TypeInfo milkymist_sdbus_info =3D {
+> +    .name =3D TYPE_MILKYMIST_SDBUS,
+> +    .parent =3D TYPE_SD_BUS,
+> +    .instance_size =3D sizeof(SDBus),
+> +    .class_init =3D milkymist_sdbus_class_init,
+> +};
+> +
+>  static void milkymist_memcard_register_types(void)
+>  {
+>      type_register_static(&milkymist_memcard_info);
+> +    type_register_static(&milkymist_sdbus_info);
+>  }
+>
+>  type_init(milkymist_memcard_register_types)
 > --
 > 2.21.3
 >
