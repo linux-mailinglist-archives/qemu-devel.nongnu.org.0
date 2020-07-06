@@ -2,67 +2,67 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 768BF21541B
-	for <lists+qemu-devel@lfdr.de>; Mon,  6 Jul 2020 10:41:43 +0200 (CEST)
-Received: from localhost ([::1]:49434 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id ADD93215418
+	for <lists+qemu-devel@lfdr.de>; Mon,  6 Jul 2020 10:40:16 +0200 (CEST)
+Received: from localhost ([::1]:47168 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jsMh4-0001US-IP
-	for lists+qemu-devel@lfdr.de; Mon, 06 Jul 2020 04:41:42 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:58986)
+	id 1jsMff-0000RP-Ol
+	for lists+qemu-devel@lfdr.de; Mon, 06 Jul 2020 04:40:15 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:58942)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1jsMIC-0005II-1a
- for qemu-devel@nongnu.org; Mon, 06 Jul 2020 04:16:00 -0400
-Received: from us-smtp-1.mimecast.com ([205.139.110.61]:52156
- helo=us-smtp-delivery-1.mimecast.com)
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1jsMI9-0005Dx-R0
+ for qemu-devel@nongnu.org; Mon, 06 Jul 2020 04:15:57 -0400
+Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:32509
+ helo=us-smtp-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1jsMI9-0004Rw-Ti
- for qemu-devel@nongnu.org; Mon, 06 Jul 2020 04:15:59 -0400
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1jsMI7-0004QZ-Us
+ for qemu-devel@nongnu.org; Mon, 06 Jul 2020 04:15:57 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1594023357;
+ s=mimecast20190719; t=1594023355;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=2UkG/PCUo4x86BN+L72+dy8eEH/kExAxdxtzC/4CUIM=;
- b=O7ZHa+hxEXrnUKN5ti6jgdS3sre9p8vLqpcyxytU6fFSz1R0wLpqGqHUnGR5vwTrafXNvQ
- uD6vB9aBqfz6uGKnI7xh6hCor0+okR2ZKUkgBG1w/es7jGT6iO4ZBdf/pLoSkfvrExVL8m
- scPiEPd6zzKTZp/V9T1WIJq2mmt8OqE=
+ bh=DyYFikS632kM2CsDInBLimabKZipHM6vAi6PUxEmLz4=;
+ b=i3aOwEhFBiSd6uRirizao0gDFhVuMo27sWCd081mlCQEPezz9jJmgm5NeYhC6lzUjBuT0V
+ 412Mgx55/E6n6Chxkk6eUWMyztG2SvX0piC31E6d3svXU1zuuXQnjislkA2898joOr4yAI
+ NOpTrlwfCQptuI03eOZmjGCQbVU5hEM=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-472-nKEeu4bBNzqQ5dotN97cLg-1; Mon, 06 Jul 2020 04:15:51 -0400
-X-MC-Unique: nKEeu4bBNzqQ5dotN97cLg-1
-Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
- [10.5.11.13])
+ us-mta-416-Nf7XyeU7P2ydz1sg4fAvug-1; Mon, 06 Jul 2020 04:15:51 -0400
+X-MC-Unique: Nf7XyeU7P2ydz1sg4fAvug-1
+Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
+ [10.5.11.16])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 7A5121005510;
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 7574C64AD2;
  Mon,  6 Jul 2020 08:15:50 +0000 (UTC)
 Received: from blackfin.pond.sub.org (ovpn-112-143.ams2.redhat.com
  [10.36.112.143])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 45A3B7B40E;
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 41D105C1D4;
  Mon,  6 Jul 2020 08:15:50 +0000 (UTC)
 Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
- id 6888B113524E; Mon,  6 Jul 2020 10:09:51 +0200 (CEST)
+ id 8FC321132FDA; Mon,  6 Jul 2020 10:09:51 +0200 (CEST)
 From: Markus Armbruster <armbru@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v3 37/44] block/parallels: Simplify parallels_open() after
- previous commit
-Date: Mon,  6 Jul 2020 10:09:43 +0200
-Message-Id: <20200706080950.403087-38-armbru@redhat.com>
+Subject: [PATCH v3 42/44] qemu-img: Ignore Error objects where the return
+ value suffices
+Date: Mon,  6 Jul 2020 10:09:48 +0200
+Message-Id: <20200706080950.403087-43-armbru@redhat.com>
 In-Reply-To: <20200706080950.403087-1-armbru@redhat.com>
 References: <20200706080950.403087-1-armbru@redhat.com>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=armbru@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=205.139.110.61; envelope-from=armbru@redhat.com;
- helo=us-smtp-delivery-1.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/07/06 01:59:39
+Received-SPF: pass client-ip=205.139.110.120; envelope-from=armbru@redhat.com;
+ helo=us-smtp-1.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/07/06 01:22:37
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
 X-Spam_score_int: -30
 X-Spam_score: -3.1
@@ -91,40 +91,39 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 Signed-off-by: Markus Armbruster <armbru@redhat.com>
 Reviewed-by: Eric Blake <eblake@redhat.com>
-Reviewed-by: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
 ---
- block/parallels.c | 7 ++-----
- 1 file changed, 2 insertions(+), 5 deletions(-)
+ qemu-img.c | 8 ++------
+ 1 file changed, 2 insertions(+), 6 deletions(-)
 
-diff --git a/block/parallels.c b/block/parallels.c
-index 180dd41e2b..cb5259ac44 100644
---- a/block/parallels.c
-+++ b/block/parallels.c
-@@ -842,6 +842,7 @@ static int parallels_open(BlockDriverState *bs, QDict *options, int flags,
-                                        &local_err);
-     g_free(buf);
-     if (local_err != NULL) {
-+        error_propagate(errp, local_err);
-         goto fail_options;
-     }
- 
-@@ -872,15 +873,11 @@ static int parallels_open(BlockDriverState *bs, QDict *options, int flags,
- 
- fail_format:
-     error_setg(errp, "Image not in Parallels format");
-+fail_options:
-     ret = -EINVAL;
- fail:
-     qemu_vfree(s->header);
-     return ret;
+diff --git a/qemu-img.c b/qemu-img.c
+index fc405ee171..a6af0eaf80 100644
+--- a/qemu-img.c
++++ b/qemu-img.c
+@@ -464,22 +464,18 @@ static int add_old_style_options(const char *fmt, QemuOpts *opts,
+                                  const char *base_filename,
+                                  const char *base_fmt)
+ {
+-    Error *err = NULL;
 -
--fail_options:
--    error_propagate(errp, local_err);
--    ret = -EINVAL;
--    goto fail;
- }
- 
- 
+     if (base_filename) {
+         if (!qemu_opt_set(opts, BLOCK_OPT_BACKING_FILE, base_filename,
+-                          &err)) {
++                          NULL)) {
+             error_report("Backing file not supported for file format '%s'",
+                          fmt);
+-            error_free(err);
+             return -1;
+         }
+     }
+     if (base_fmt) {
+-        if (!qemu_opt_set(opts, BLOCK_OPT_BACKING_FMT, base_fmt, &err)) {
++        if (!qemu_opt_set(opts, BLOCK_OPT_BACKING_FMT, base_fmt, NULL)) {
+             error_report("Backing file format not supported for file "
+                          "format '%s'", fmt);
+-            error_free(err);
+             return -1;
+         }
+     }
 -- 
 2.26.2
 
