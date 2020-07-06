@@ -2,58 +2,58 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id ADD93215418
-	for <lists+qemu-devel@lfdr.de>; Mon,  6 Jul 2020 10:40:16 +0200 (CEST)
-Received: from localhost ([::1]:47168 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C448B215403
+	for <lists+qemu-devel@lfdr.de>; Mon,  6 Jul 2020 10:30:46 +0200 (CEST)
+Received: from localhost ([::1]:53070 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jsMff-0000RP-Ol
-	for lists+qemu-devel@lfdr.de; Mon, 06 Jul 2020 04:40:15 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:58942)
+	id 1jsMWT-0006kw-Rx
+	for lists+qemu-devel@lfdr.de; Mon, 06 Jul 2020 04:30:45 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:58908)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1jsMI9-0005Dx-R0
- for qemu-devel@nongnu.org; Mon, 06 Jul 2020 04:15:57 -0400
-Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:32509
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1jsMI7-00058E-9Y
+ for qemu-devel@nongnu.org; Mon, 06 Jul 2020 04:15:55 -0400
+Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:58072
  helo=us-smtp-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1jsMI7-0004QZ-Us
- for qemu-devel@nongnu.org; Mon, 06 Jul 2020 04:15:57 -0400
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1jsMI5-0004PU-PR
+ for qemu-devel@nongnu.org; Mon, 06 Jul 2020 04:15:54 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1594023355;
+ s=mimecast20190719; t=1594023352;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=DyYFikS632kM2CsDInBLimabKZipHM6vAi6PUxEmLz4=;
- b=i3aOwEhFBiSd6uRirizao0gDFhVuMo27sWCd081mlCQEPezz9jJmgm5NeYhC6lzUjBuT0V
- 412Mgx55/E6n6Chxkk6eUWMyztG2SvX0piC31E6d3svXU1zuuXQnjislkA2898joOr4yAI
- NOpTrlwfCQptuI03eOZmjGCQbVU5hEM=
+ bh=ZAb60gcC0RuocMUgBCfr5Rm+HKlL75sDieMlelYuTAU=;
+ b=DUYmmom95E6Ta7Ja/HhwTErtPHP5sujlxSCrFlZlPNGvei0QD6IcXR7z4Vps8bg4oSfZil
+ LDXERhzwV8GHJZpXnNX1k0AkvBW6Si+V3kmlIwbDlePHGxPFs1mQdCg/MLi6ymWm4eBpuD
+ EsjOlsmf3y5XhQ16stwo0uPE9dJPD7E=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-416-Nf7XyeU7P2ydz1sg4fAvug-1; Mon, 06 Jul 2020 04:15:51 -0400
-X-MC-Unique: Nf7XyeU7P2ydz1sg4fAvug-1
-Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
- [10.5.11.16])
+ us-mta-158-fVQTbWO8N56AxmlHTRr6tg-1; Mon, 06 Jul 2020 04:15:51 -0400
+X-MC-Unique: fVQTbWO8N56AxmlHTRr6tg-1
+Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
+ [10.5.11.12])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 7574C64AD2;
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 7C21D8015CB;
  Mon,  6 Jul 2020 08:15:50 +0000 (UTC)
 Received: from blackfin.pond.sub.org (ovpn-112-143.ams2.redhat.com
  [10.36.112.143])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 41D105C1D4;
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 48C9660CC0;
  Mon,  6 Jul 2020 08:15:50 +0000 (UTC)
 Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
- id 8FC321132FDA; Mon,  6 Jul 2020 10:09:51 +0200 (CEST)
+ id 96DA91132FDD; Mon,  6 Jul 2020 10:09:51 +0200 (CEST)
 From: Markus Armbruster <armbru@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v3 42/44] qemu-img: Ignore Error objects where the return
- value suffices
-Date: Mon,  6 Jul 2020 10:09:48 +0200
-Message-Id: <20200706080950.403087-43-armbru@redhat.com>
+Subject: [PATCH v3 43/44] qdev: Ignore Error objects where the return value
+ suffices
+Date: Mon,  6 Jul 2020 10:09:49 +0200
+Message-Id: <20200706080950.403087-44-armbru@redhat.com>
 In-Reply-To: <20200706080950.403087-1-armbru@redhat.com>
 References: <20200706080950.403087-1-armbru@redhat.com>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=armbru@redhat.com
 X-Mimecast-Spam-Score: 0
@@ -92,38 +92,32 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 Signed-off-by: Markus Armbruster <armbru@redhat.com>
 Reviewed-by: Eric Blake <eblake@redhat.com>
 ---
- qemu-img.c | 8 ++------
- 1 file changed, 2 insertions(+), 6 deletions(-)
+ hw/core/qdev-properties.c | 5 +----
+ 1 file changed, 1 insertion(+), 4 deletions(-)
 
-diff --git a/qemu-img.c b/qemu-img.c
-index fc405ee171..a6af0eaf80 100644
---- a/qemu-img.c
-+++ b/qemu-img.c
-@@ -464,22 +464,18 @@ static int add_old_style_options(const char *fmt, QemuOpts *opts,
-                                  const char *base_filename,
-                                  const char *base_fmt)
- {
--    Error *err = NULL;
--
-     if (base_filename) {
-         if (!qemu_opt_set(opts, BLOCK_OPT_BACKING_FILE, base_filename,
--                          &err)) {
-+                          NULL)) {
-             error_report("Backing file not supported for file format '%s'",
-                          fmt);
--            error_free(err);
-             return -1;
-         }
+diff --git a/hw/core/qdev-properties.c b/hw/core/qdev-properties.c
+index 9d52c0c0f4..31c59aa80a 100644
+--- a/hw/core/qdev-properties.c
++++ b/hw/core/qdev-properties.c
+@@ -653,7 +653,6 @@ static void set_pci_devfn(Object *obj, Visitor *v, const char *name,
+     Property *prop = opaque;
+     int32_t value, *ptr = qdev_get_prop_ptr(dev, prop);
+     unsigned int slot, fn, n;
+-    Error *local_err = NULL;
+     char *str;
+ 
+     if (dev->realized) {
+@@ -661,9 +660,7 @@ static void set_pci_devfn(Object *obj, Visitor *v, const char *name,
+         return;
      }
-     if (base_fmt) {
--        if (!qemu_opt_set(opts, BLOCK_OPT_BACKING_FMT, base_fmt, &err)) {
-+        if (!qemu_opt_set(opts, BLOCK_OPT_BACKING_FMT, base_fmt, NULL)) {
-             error_report("Backing file format not supported for file "
-                          "format '%s'", fmt);
--            error_free(err);
-             return -1;
+ 
+-    if (!visit_type_str(v, name, &str, &local_err)) {
+-        error_free(local_err);
+-        local_err = NULL;
++    if (!visit_type_str(v, name, &str, NULL)) {
+         if (!visit_type_int32(v, name, &value, errp)) {
+             return;
          }
-     }
 -- 
 2.26.2
 
