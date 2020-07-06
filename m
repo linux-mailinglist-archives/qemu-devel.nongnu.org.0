@@ -2,75 +2,75 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2390D2153FF
-	for <lists+qemu-devel@lfdr.de>; Mon,  6 Jul 2020 10:29:23 +0200 (CEST)
-Received: from localhost ([::1]:48360 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 45CFC2153F7
+	for <lists+qemu-devel@lfdr.de>; Mon,  6 Jul 2020 10:26:14 +0200 (CEST)
+Received: from localhost ([::1]:34616 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jsMV8-0004nr-71
-	for lists+qemu-devel@lfdr.de; Mon, 06 Jul 2020 04:29:22 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:57154)
+	id 1jsMS5-0007L2-7P
+	for lists+qemu-devel@lfdr.de; Mon, 06 Jul 2020 04:26:13 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:57076)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1jsMCi-0002Fb-Qe
- for qemu-devel@nongnu.org; Mon, 06 Jul 2020 04:10:20 -0400
-Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:25503
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1jsMCf-00027V-Le
+ for qemu-devel@nongnu.org; Mon, 06 Jul 2020 04:10:17 -0400
+Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:41912
  helo=us-smtp-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1jsMCQ-0003EJ-Bw
- for qemu-devel@nongnu.org; Mon, 06 Jul 2020 04:10:20 -0400
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1jsMCP-0003Dw-9D
+ for qemu-devel@nongnu.org; Mon, 06 Jul 2020 04:10:17 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
  s=mimecast20190719; t=1594023000;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=A4KcUZe9Q/fLkor10tx3DIBhWMqyfDgkQNEGaKh9qGs=;
- b=ZYz60fccYn5/8kqQKx/eVTdfJEbcgT97kP/DvdJPZwLTtcsh+jLSpw0wfkLVEt6XmN7Teo
- ZmjV1hYlSlPm0Jezca3ukAPJU+GsZYcVqnI8ny3XYGK9ED3lVnOSrvy0dgFkPp4h9ip2hu
- E+EQtMh6dHH5djuw6tPNWtZxoBip48o=
+ bh=XoxaS8HCvhbtSj+AnfqvqebShw8EsKZihvgQYUOkUtk=;
+ b=TdO1BALAp1gNw6cL13ksb9cUetOS0y8+pKJZ8ss5gSR5nCFmcLTZLbnQtGhCDuQ4m8wu69
+ dRFKjK5jK/kIHAz1mywj11cpMs1OtYQDS6av1dfOniTaFzGkmHYtWjr4U/pCMRA8GTV0kl
+ nU1CZmnqYJ4JyvgpQoAtvl7G82p+9+Q=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-253-M5898U6CMWaJCPAQID7mIw-1; Mon, 06 Jul 2020 04:09:58 -0400
-X-MC-Unique: M5898U6CMWaJCPAQID7mIw-1
-Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
- [10.5.11.14])
+ us-mta-472-u6Dp-a0uNcu8nzHqsYq7Uw-1; Mon, 06 Jul 2020 04:09:58 -0400
+X-MC-Unique: u6Dp-a0uNcu8nzHqsYq7Uw-1
+Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
+ [10.5.11.13])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 56E0956B33;
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 5C0221883622;
  Mon,  6 Jul 2020 08:09:57 +0000 (UTC)
 Received: from blackfin.pond.sub.org (ovpn-112-143.ams2.redhat.com
  [10.36.112.143])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 22EFA5D9D7;
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 256BA7B40A;
  Mon,  6 Jul 2020 08:09:57 +0000 (UTC)
 Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
- id 3EE601135232; Mon,  6 Jul 2020 10:09:51 +0200 (CEST)
+ id 4286E1135236; Mon,  6 Jul 2020 10:09:51 +0200 (CEST)
 From: Markus Armbruster <armbru@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v3 29/44] qom: Make functions taking Error ** return bool,
- not 0/-1
-Date: Mon,  6 Jul 2020 10:09:35 +0200
-Message-Id: <20200706080950.403087-30-armbru@redhat.com>
+Subject: [PATCH v3 30/44] qdev: Make functions taking Error ** return bool,
+ not void
+Date: Mon,  6 Jul 2020 10:09:36 +0200
+Message-Id: <20200706080950.403087-31-armbru@redhat.com>
 In-Reply-To: <20200706080950.403087-1-armbru@redhat.com>
 References: <20200706080950.403087-1-armbru@redhat.com>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=armbru@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=207.211.31.120; envelope-from=armbru@redhat.com;
+Received-SPF: pass client-ip=205.139.110.120; envelope-from=armbru@redhat.com;
  helo=us-smtp-1.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/07/06 01:52:41
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/07/06 01:22:37
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
-X-Spam_score_int: -40
-X-Spam_score: -4.1
-X-Spam_bar: ----
-X-Spam_report: (-4.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1,
+X-Spam_score_int: -30
+X-Spam_score: -3.1
+X-Spam_bar: ---
+X-Spam_report: (-3.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-1, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=_AUTOLEARN
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H3=-0.01, RCVD_IN_MSPIKE_WL=-0.01,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=_AUTOLEARN
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -89,132 +89,53 @@ Cc: peter.maydell@linaro.org, vsementsov@virtuozzo.com, berrange@redhat.com,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Just for consistency.  Also fix the example in object_set_props()'s
-documentation.
+See recent commit "error: Document Error API usage rules" for
+rationale.
 
 Signed-off-by: Markus Armbruster <armbru@redhat.com>
 Reviewed-by: Eric Blake <eblake@redhat.com>
 ---
- include/qom/object.h | 28 +++++++++++-----------------
- qom/object.c         | 14 +++++++-------
- 2 files changed, 18 insertions(+), 24 deletions(-)
+ include/hw/qdev-properties.h     | 4 ++--
+ hw/core/qdev-properties-system.c | 4 ++--
+ 2 files changed, 4 insertions(+), 4 deletions(-)
 
-diff --git a/include/qom/object.h b/include/qom/object.h
-index 189f8ecbf6..04271ea5de 100644
---- a/include/qom/object.h
-+++ b/include/qom/object.h
-@@ -729,15 +729,13 @@ void object_apply_compat_props(Object *obj);
-  *   Error *err = NULL;
-  *   Object *obj = ...get / create object...;
-  *
-- *   obj = object_set_props(obj,
-- *                          &err,
-- *                          "share", "yes",
-- *                          "mem-path", "/dev/shm/somefile",
-- *                          "prealloc", "yes",
-- *                          "size", "1048576",
-- *                          NULL);
-- *
-- *   if (!obj) {
-+ *   if (!object_set_props(obj,
-+ *                         &err,
-+ *                         "share", "yes",
-+ *                         "mem-path", "/dev/shm/somefile",
-+ *                         "prealloc", "yes",
-+ *                         "size", "1048576",
-+ *                         NULL)) {
-  *     error_reportf_err(err, "Cannot set properties: ");
-  *   }
-  *   </programlisting>
-@@ -746,11 +744,9 @@ void object_apply_compat_props(Object *obj);
-  * The returned object will have one stable reference maintained
-  * for as long as it is present in the object hierarchy.
-  *
-- * Returns: -1 on error, 0 on success
-+ * Returns: %true on success, %false on error.
+diff --git a/include/hw/qdev-properties.h b/include/hw/qdev-properties.h
+index 49c6cd2460..f12ab9e6bc 100644
+--- a/include/hw/qdev-properties.h
++++ b/include/hw/qdev-properties.h
+@@ -236,8 +236,8 @@ extern const PropertyInfo qdev_prop_pcie_link_width;
+ /*
+  * Set properties between creation and realization.
   */
--int object_set_props(Object *obj,
--                     Error **errp,
--                     ...) QEMU_SENTINEL;
-+bool object_set_props(Object *obj, Error **errp, ...) QEMU_SENTINEL;
+-void qdev_prop_set_drive_err(DeviceState *dev, const char *name,
+-                         BlockBackend *value, Error **errp);
++bool qdev_prop_set_drive_err(DeviceState *dev, const char *name,
++                             BlockBackend *value, Error **errp);
  
- /**
-  * object_set_propv:
-@@ -760,11 +756,9 @@ int object_set_props(Object *obj,
-  *
-  * See object_set_props() for documentation.
-  *
-- * Returns: -1 on error, 0 on success
-+ * Returns: %true on success, %false on error.
-  */
--int object_set_propv(Object *obj,
--                     Error **errp,
--                     va_list vargs);
-+bool object_set_propv(Object *obj, Error **errp, va_list vargs);
+ /*
+  * Set properties between creation and realization.
+diff --git a/hw/core/qdev-properties-system.c b/hw/core/qdev-properties-system.c
+index 810831b1df..7d2387f22c 100644
+--- a/hw/core/qdev-properties-system.c
++++ b/hw/core/qdev-properties-system.c
+@@ -421,7 +421,7 @@ const PropertyInfo qdev_prop_audiodev = {
+     .set = set_audiodev,
+ };
  
- /**
-  * object_initialize:
-diff --git a/qom/object.c b/qom/object.c
-index 25c5ddb78f..97c4e0af07 100644
---- a/qom/object.c
-+++ b/qom/object.c
-@@ -557,7 +557,7 @@ bool object_initialize_child_with_propsv(Object *parentobj,
-     object_initialize(childobj, size, type);
-     obj = OBJECT(childobj);
- 
--    if (object_set_propv(obj, errp, vargs) < 0) {
-+    if (!object_set_propv(obj, errp, vargs)) {
-         goto out;
-     }
- 
-@@ -752,7 +752,7 @@ Object *object_new_with_propv(const char *typename,
-     }
-     obj = object_new_with_type(klass->type);
- 
--    if (object_set_propv(obj, errp, vargs) < 0) {
-+    if (!object_set_propv(obj, errp, vargs)) {
-         goto error;
-     }
- 
-@@ -780,12 +780,12 @@ Object *object_new_with_propv(const char *typename,
- }
- 
- 
--int object_set_props(Object *obj,
-+bool object_set_props(Object *obj,
-                      Error **errp,
-                      ...)
+-void qdev_prop_set_drive_err(DeviceState *dev, const char *name,
++bool qdev_prop_set_drive_err(DeviceState *dev, const char *name,
+                              BlockBackend *value, Error **errp)
  {
-     va_list vargs;
--    int ret;
-+    bool ret;
- 
-     va_start(vargs, errp);
-     ret = object_set_propv(obj, errp, vargs);
-@@ -795,7 +795,7 @@ int object_set_props(Object *obj,
- }
- 
- 
--int object_set_propv(Object *obj,
-+bool object_set_propv(Object *obj,
-                      Error **errp,
-                      va_list vargs)
- {
-@@ -809,12 +809,12 @@ int object_set_propv(Object *obj,
-         g_assert(value != NULL);
-         if (!object_property_parse(obj, propname, value, &local_err)) {
-             error_propagate(errp, local_err);
--            return -1;
-+            return false;
+     const char *ref = "";
+@@ -436,7 +436,7 @@ void qdev_prop_set_drive_err(DeviceState *dev, const char *name,
          }
-         propname = va_arg(vargs, char *);
      }
  
--    return 0;
-+    return true;
+-    object_property_set_str(OBJECT(dev), name, ref, errp);
++    return object_property_set_str(OBJECT(dev), name, ref, errp);
  }
  
- 
+ void qdev_prop_set_drive(DeviceState *dev, const char *name,
 -- 
 2.26.2
 
