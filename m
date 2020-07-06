@@ -2,54 +2,53 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 84B2B215C9A
-	for <lists+qemu-devel@lfdr.de>; Mon,  6 Jul 2020 19:06:14 +0200 (CEST)
-Received: from localhost ([::1]:50414 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8778A215C90
+	for <lists+qemu-devel@lfdr.de>; Mon,  6 Jul 2020 19:04:40 +0200 (CEST)
+Received: from localhost ([::1]:41656 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jsUZJ-0001ZW-Ib
-	for lists+qemu-devel@lfdr.de; Mon, 06 Jul 2020 13:06:13 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:57490)
+	id 1jsUXn-0006Kn-Hz
+	for lists+qemu-devel@lfdr.de; Mon, 06 Jul 2020 13:04:39 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:57472)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1jsUCZ-0004At-6o
- for qemu-devel@nongnu.org; Mon, 06 Jul 2020 12:42:43 -0400
-Received: from us-smtp-2.mimecast.com ([207.211.31.81]:42733
+ id 1jsUCY-00049m-N8
+ for qemu-devel@nongnu.org; Mon, 06 Jul 2020 12:42:42 -0400
+Received: from us-smtp-2.mimecast.com ([205.139.110.61]:60344
  helo=us-smtp-delivery-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
  (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1jsUCW-0003Cl-Lx
+ id 1jsUCV-0003CK-6a
  for qemu-devel@nongnu.org; Mon, 06 Jul 2020 12:42:42 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1594053759;
+ s=mimecast20190719; t=1594053758;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=rQHZPfn7zW64fS+/Bm3Y33pdvQg1VSYTvG5+ESmBIAU=;
- b=TAlyKnbSSLLezYdxHCN2B5Lm+ZD3CyU8bSEWeyXS6ynjwA0I3KuxYTW69W+5V4IMCK9A3m
- l9wOVSFex6+31QYWtCg9DcoiwPtCXC1AWL5jodoyh5IVk0FiD4nyYpfBUHsJZLp28SMvyO
- CaORfVNcQ+r5MAn5moWUk+MZ1nc7w8g=
+ bh=VHCQHtK+VMHMKzVjOpvIfo++1WaqigKytPDBr7UPFUc=;
+ b=SAOz70X6XRfPynZFDZMt12b48ni8w5doHxs4FqU+yX8odsL4ZAA3ehsdlSBAXBX9jVuk7/
+ YrD8VMzJ2oq0uolem15xWz04Bwp63PD11BkFGyCBflrmG45V04HWdz++R5V0upLfq3RlCi
+ Pz9KngXxofa4raAOkv7+aVXiPL7JiJ4=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-43-5349RNFhNtq7wfw_ccmw6w-1; Mon, 06 Jul 2020 12:42:31 -0400
-X-MC-Unique: 5349RNFhNtq7wfw_ccmw6w-1
+ us-mta-382-gZOtf-YKOI--8epkkrSBVA-1; Mon, 06 Jul 2020 12:42:32 -0400
+X-MC-Unique: gZOtf-YKOI--8epkkrSBVA-1
 Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
  [10.5.11.13])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id A870380183C;
- Mon,  6 Jul 2020 16:42:30 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 27657107ACCD
+ for <qemu-devel@nongnu.org>; Mon,  6 Jul 2020 16:42:31 +0000 (UTC)
 Received: from virtlab701.virt.lab.eng.bos.redhat.com
  (virtlab701.virt.lab.eng.bos.redhat.com [10.19.152.228])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 51AC05F7D8;
+ by smtp.corp.redhat.com (Postfix) with ESMTP id C58B55F7D8;
  Mon,  6 Jul 2020 16:42:30 +0000 (UTC)
 From: Paolo Bonzini <pbonzini@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PULL 44/53] softmmu/vl: Remove the check for colons in -accel
- parameters
-Date: Mon,  6 Jul 2020 12:41:46 -0400
-Message-Id: <20200706164155.24696-45-pbonzini@redhat.com>
+Subject: [PULL 45/53] accel/kvm: Let kvm_check_extension use global KVM state
+Date: Mon,  6 Jul 2020 12:41:47 -0400
+Message-Id: <20200706164155.24696-46-pbonzini@redhat.com>
 In-Reply-To: <20200706164155.24696-1-pbonzini@redhat.com>
 References: <20200706164155.24696-1-pbonzini@redhat.com>
 MIME-Version: 1.0
@@ -58,11 +57,11 @@ Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=pbonzini@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=US-ASCII
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=207.211.31.81; envelope-from=pbonzini@redhat.com;
+Received-SPF: pass client-ip=205.139.110.61; envelope-from=pbonzini@redhat.com;
  helo=us-smtp-delivery-1.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/07/06 01:39:15
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/07/06 01:59:39
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
 X-Spam_score_int: -30
 X-Spam_score: -3.1
@@ -83,43 +82,39 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Thomas Huth <thuth@redhat.com>, Claudio Fontana <cfontana@suse.de>
+Cc: Cornelia Huck <cohuck@redhat.com>,
+ =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Thomas Huth <thuth@redhat.com>
+From: Philippe Mathieu-Daudé <philmd@redhat.com>
 
-The new -accel option does not accept colons in the parameters anymore
-(since it does not convert the parameters to -machine accel=... parameters
-anymore). Thus we can now remove the check for colons in -accel:
+As KVM supported extentions those should be the same for
+all VMs, it is safe to directly use the global kvm_state
+in kvm_check_extension().
 
-$ qemu-system-x86_64 -accel kvm:tcg
-qemu-system-x86_64: -accel kvm:tcg: invalid accelerator kvm:tcg
-
-Signed-off-by: Thomas Huth <thuth@redhat.com>
-Reviewed-by: Claudio Fontana <cfontana@suse.de>
-Message-Id: <20200618074001.13642-1-thuth@redhat.com>
+Suggested-by: Paolo Bonzini <pbonzini@redhat.com>
+Signed-off-by: Philippe Mathieu-Daudé <philmd@redhat.com>
+Reviewed-by: Cornelia Huck <cohuck@redhat.com>
+Message-Id: <20200623105052.1700-2-philmd@redhat.com>
 Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
 ---
- softmmu/vl.c | 5 -----
- 1 file changed, 5 deletions(-)
+ accel/kvm/kvm-all.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/softmmu/vl.c b/softmmu/vl.c
-index df32f4c0ae..5d2cea559d 100644
---- a/softmmu/vl.c
-+++ b/softmmu/vl.c
-@@ -3493,11 +3493,6 @@ void qemu_init(int argc, char **argv, char **envp)
-                     g_slist_free(accel_list);
-                     exit(0);
-                 }
--                if (optarg && strchr(optarg, ':')) {
--                    error_report("Don't use ':' with -accel, "
--                                 "use -M accel=... for now instead");
--                    exit(1);
--                }
-                 break;
-             case QEMU_OPTION_usb:
-                 olist = qemu_find_opts("machine");
+diff --git a/accel/kvm/kvm-all.c b/accel/kvm/kvm-all.c
+index d54a8701d8..99e4e5722e 100644
+--- a/accel/kvm/kvm-all.c
++++ b/accel/kvm/kvm-all.c
+@@ -913,7 +913,7 @@ int kvm_check_extension(KVMState *s, unsigned int extension)
+ {
+     int ret;
+ 
+-    ret = kvm_ioctl(s, KVM_CHECK_EXTENSION, extension);
++    ret = kvm_ioctl(kvm_state, KVM_CHECK_EXTENSION, extension);
+     if (ret < 0) {
+         ret = 0;
+     }
 -- 
 2.26.2
 
