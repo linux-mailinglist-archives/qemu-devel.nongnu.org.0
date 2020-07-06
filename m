@@ -2,57 +2,57 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C6CB02153F8
-	for <lists+qemu-devel@lfdr.de>; Mon,  6 Jul 2020 10:27:30 +0200 (CEST)
-Received: from localhost ([::1]:39642 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0F6BC2153FB
+	for <lists+qemu-devel@lfdr.de>; Mon,  6 Jul 2020 10:27:59 +0200 (CEST)
+Received: from localhost ([::1]:42090 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jsMTJ-0000wh-Rd
-	for lists+qemu-devel@lfdr.de; Mon, 06 Jul 2020 04:27:29 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:57298)
+	id 1jsMTm-0002HE-4x
+	for lists+qemu-devel@lfdr.de; Mon, 06 Jul 2020 04:27:58 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:57128)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1jsMCo-0002WO-QB
- for qemu-devel@nongnu.org; Mon, 06 Jul 2020 04:10:26 -0400
-Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:32195
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1jsMCi-0002D4-0e
+ for qemu-devel@nongnu.org; Mon, 06 Jul 2020 04:10:20 -0400
+Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:51754
  helo=us-smtp-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1jsMCR-0003FO-Br
- for qemu-devel@nongnu.org; Mon, 06 Jul 2020 04:10:26 -0400
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1jsMCP-0003EA-S5
+ for qemu-devel@nongnu.org; Mon, 06 Jul 2020 04:10:19 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1594023001;
+ s=mimecast20190719; t=1594023000;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=N4azpmc9rB+4CBBmQSzlqTOouprq/lBfFIMBJAbTPG8=;
- b=asbm3rIxTVZzF1ghv+zNjxrZc7pU7/XYY+Vl8h9rxNyNLR2jOD5+2OSawxKGpVRdZRdA6Q
- Loy5OdVjO+QJ286SyUqu6KP59tivZ7LU8NvG4MyZjqZ5xDZtYWbdKHQrV9Y0PbQG16oEuU
- Lua/SFVLth2NRqanR//oBXc0zVRHEr0=
+ bh=7RGv5ZXfgxJJyOl+k/aDW7Jx1xinunsjgM2Klsul6Wc=;
+ b=izgUyRYTRj4k2+08GCt0ZJrH/+CuYsUZgiItn/Vm0lgxWCO0vqFFRsyWMMCefxZxJyl+To
+ p6lr1GrdMhL9RQ3wuHC/LUVRQ305hCVw8o4gwbKFCGQdOX2+yuerMmV0SX36v0vvH7QNkA
+ cmi8BvMfVMCXMK+IGai5ljpe3B1cwcU=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-105-LRMh96w9NPeGmXrbLv3aWg-1; Mon, 06 Jul 2020 04:09:59 -0400
-X-MC-Unique: LRMh96w9NPeGmXrbLv3aWg-1
-Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
- [10.5.11.14])
+ us-mta-149-0JV-tAtBPvaNWTEKOfItPA-1; Mon, 06 Jul 2020 04:09:58 -0400
+X-MC-Unique: 0JV-tAtBPvaNWTEKOfItPA-1
+Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
+ [10.5.11.16])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id CC8F6107ACF2;
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id AAA4E8015F5;
  Mon,  6 Jul 2020 08:09:57 +0000 (UTC)
 Received: from blackfin.pond.sub.org (ovpn-112-143.ams2.redhat.com
  [10.36.112.143])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 70A415D9D7;
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 776905C290;
  Mon,  6 Jul 2020 08:09:57 +0000 (UTC)
 Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
- id 7A46B1135255; Mon,  6 Jul 2020 10:09:51 +0200 (CEST)
+ id 81CE21135259; Mon,  6 Jul 2020 10:09:51 +0200 (CEST)
 From: Markus Armbruster <armbru@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v3 39/44] qapi: Smooth visitor error checking in generated code
-Date: Mon,  6 Jul 2020 10:09:45 +0200
-Message-Id: <20200706080950.403087-40-armbru@redhat.com>
+Subject: [PATCH v3 40/44] qapi: Purge error_propagate() from QAPI core
+Date: Mon,  6 Jul 2020 10:09:46 +0200
+Message-Id: <20200706080950.403087-41-armbru@redhat.com>
 In-Reply-To: <20200706080950.403087-1-armbru@redhat.com>
 References: <20200706080950.403087-1-armbru@redhat.com>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=armbru@redhat.com
 X-Mimecast-Spam-Score: 0
@@ -69,7 +69,7 @@ X-Spam_bar: ----
 X-Spam_report: (-4.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-1, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001, URIBL_BLOCKED=0.001 autolearn=_AUTOLEARN
+ SPF_PASS=-0.001 autolearn=_AUTOLEARN
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -88,443 +88,113 @@ Cc: peter.maydell@linaro.org, vsementsov@virtuozzo.com, berrange@redhat.com,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Use visitor functions' return values to check for failure.  Eliminate
-error_propagate() that are now unnecessary.  Delete @err that are now
-unused.
-
 Signed-off-by: Markus Armbruster <armbru@redhat.com>
 Reviewed-by: Eric Blake <eblake@redhat.com>
 ---
- docs/devel/qapi-code-gen.txt | 60 ++++++++++++++----------------------
- scripts/qapi/commands.py     | 22 ++++++-------
- scripts/qapi/visit.py        | 57 ++++++++++++++--------------------
- 3 files changed, 55 insertions(+), 84 deletions(-)
+ qapi/qapi-visit-core.c | 40 +++++++++++++++++++---------------------
+ 1 file changed, 19 insertions(+), 21 deletions(-)
 
-diff --git a/docs/devel/qapi-code-gen.txt b/docs/devel/qapi-code-gen.txt
-index 9bfc57063c..69eede6c28 100644
---- a/docs/devel/qapi-code-gen.txt
-+++ b/docs/devel/qapi-code-gen.txt
-@@ -1420,8 +1420,6 @@ Example:
+diff --git a/qapi/qapi-visit-core.c b/qapi/qapi-visit-core.c
+index 5a9c47aabf..7e5f40e7f0 100644
+--- a/qapi/qapi-visit-core.c
++++ b/qapi/qapi-visit-core.c
+@@ -39,19 +39,18 @@ void visit_free(Visitor *v)
+ bool visit_start_struct(Visitor *v, const char *name, void **obj,
+                         size_t size, Error **errp)
+ {
+-    Error *err = NULL;
++    bool ok;
  
-     bool visit_type_UserDefOne_members(Visitor *v, UserDefOne *obj, Error **errp)
-     {
--        Error *err = NULL;
--
-         if (!visit_type_int(v, "integer", &obj->integer, errp)) {
-             return false;
-         }
-@@ -1430,13 +1428,12 @@ Example:
-                 return false;
-             }
-         }
--        error_propagate(errp, err);
--        return !err;
+     trace_visit_start_struct(v, name, obj, size);
+     if (obj) {
+         assert(size);
+         assert(!(v->type & VISITOR_OUTPUT) || *obj);
+     }
+-    v->start_struct(v, name, obj, size, &err);
++    ok = v->start_struct(v, name, obj, size, errp);
+     if (obj && (v->type & VISITOR_INPUT)) {
+-        assert(!err != !*obj);
++        assert(ok != !*obj);
+     }
+-    error_propagate(errp, err);
+-    return !err;
++    return ok;
+ }
+ 
+ bool visit_check_struct(Visitor *v, Error **errp)
+@@ -69,16 +68,15 @@ void visit_end_struct(Visitor *v, void **obj)
+ bool visit_start_list(Visitor *v, const char *name, GenericList **list,
+                       size_t size, Error **errp)
+ {
+-    Error *err = NULL;
++    bool ok;
+ 
+     assert(!list || size >= sizeof(GenericList));
+     trace_visit_start_list(v, name, list, size);
+-    v->start_list(v, name, list, size, &err);
++    ok = v->start_list(v, name, list, size, errp);
+     if (list && (v->type & VISITOR_INPUT)) {
+-        assert(!(err && *list));
++        assert(ok || !*list);
+     }
+-    error_propagate(errp, err);
+-    return !err;
++    return ok;
+ }
+ 
+ GenericList *visit_next_list(Visitor *v, GenericList *tail, size_t size)
+@@ -104,19 +102,20 @@ bool visit_start_alternate(Visitor *v, const char *name,
+                            GenericAlternate **obj, size_t size,
+                            Error **errp)
+ {
+-    Error *err = NULL;
++    bool ok;
+ 
+     assert(obj && size >= sizeof(GenericAlternate));
+     assert(!(v->type & VISITOR_OUTPUT) || *obj);
+     trace_visit_start_alternate(v, name, obj, size);
+-    if (v->start_alternate) {
+-        v->start_alternate(v, name, obj, size, &err);
++    if (!v->start_alternate) {
++        assert(!(v->type & VISITOR_INPUT));
 +        return true;
      }
- 
-     bool visit_type_UserDefOne(Visitor *v, const char *name, UserDefOne **obj, Error **errp)
-     {
--        Error *err = NULL;
-+        bool ok = false;
- 
-         if (!visit_start_struct(v, name, (void **)obj, sizeof(UserDefOne), errp)) {
-             return false;
-@@ -1446,24 +1443,22 @@ Example:
-             assert(visit_is_dealloc(v));
-             goto out_obj;
-         }
--        visit_type_UserDefOne_members(v, *obj, &err);
--        if (err) {
-+        if (!visit_type_UserDefOne_members(v, *obj, errp)) {
-             goto out_obj;
-         }
--        visit_check_struct(v, &err);
-+        ok = visit_check_struct(v, errp);
-     out_obj:
-         visit_end_struct(v, (void **)obj);
--        if (err && visit_is_input(v)) {
-+        if (!ok && visit_is_input(v)) {
-             qapi_free_UserDefOne(*obj);
-             *obj = NULL;
-         }
--        error_propagate(errp, err);
--        return !err;
-+        return ok;
-     }
- 
-     bool visit_type_UserDefOneList(Visitor *v, const char *name, UserDefOneList **obj, Error **errp)
-     {
--        Error *err = NULL;
-+        bool ok = false;
-         UserDefOneList *tail;
-         size_t size = sizeof(**obj);
- 
-@@ -1473,33 +1468,27 @@ Example:
- 
-         for (tail = *obj; tail;
-              tail = (UserDefOneList *)visit_next_list(v, (GenericList *)tail, size)) {
--            visit_type_UserDefOne(v, NULL, &tail->value, &err);
--            if (err) {
--                break;
-+            if (!visit_type_UserDefOne(v, NULL, &tail->value, errp)) {
-+                goto out_obj;
-             }
-         }
- 
--        if (!err) {
--            visit_check_list(v, &err);
--        }
-+        ok = visit_check_list(v, errp);
-+    out_obj:
-         visit_end_list(v, (void **)obj);
--        if (err && visit_is_input(v)) {
-+        if (!ok && visit_is_input(v)) {
-             qapi_free_UserDefOneList(*obj);
-             *obj = NULL;
-         }
--        error_propagate(errp, err);
--        return !err;
-+        return ok;
-     }
- 
-     bool visit_type_q_obj_my_command_arg_members(Visitor *v, q_obj_my_command_arg *obj, Error **errp)
-     {
--        Error *err = NULL;
--
-         if (!visit_type_UserDefOneList(v, "arg1", &obj->arg1, errp)) {
-             return false;
-         }
--        error_propagate(errp, err);
--        return !err;
-+        return true;
-     }
- 
- [Uninteresting stuff omitted...]
-@@ -1554,15 +1543,12 @@ Example:
- 
-     static void qmp_marshal_output_UserDefOne(UserDefOne *ret_in, QObject **ret_out, Error **errp)
-     {
--        Error *err = NULL;
-         Visitor *v;
- 
-         v = qobject_output_visitor_new(ret_out);
--        visit_type_UserDefOne(v, "unused", &ret_in, &err);
--        if (!err) {
-+        if (visit_type_UserDefOne(v, "unused", &ret_in, errp)) {
-             visit_complete(v, ret_out);
-         }
--        error_propagate(errp, err);
-         visit_free(v);
-         v = qapi_dealloc_visitor_new();
-         visit_type_UserDefOne(v, "unused", &ret_in, NULL);
-@@ -1572,33 +1558,32 @@ Example:
-     void qmp_marshal_my_command(QDict *args, QObject **ret, Error **errp)
-     {
-         Error *err = NULL;
-+        bool ok = false;
-         Visitor *v;
-         UserDefOne *retval;
-         q_obj_my_command_arg arg = {0};
- 
-         v = qobject_input_visitor_new(QOBJECT(args));
--        visit_start_struct(v, NULL, NULL, 0, &err);
--        if (err) {
-+        if (!visit_start_struct(v, NULL, NULL, 0, errp)) {
-             goto out;
-         }
--        visit_type_q_obj_my_command_arg_members(v, &arg, &err);
--        if (!err) {
--            visit_check_struct(v, &err);
-+        if (visit_type_q_obj_my_command_arg_members(v, &arg, errp)) {
-+            ok = visit_check_struct(v, errp);
-         }
-         visit_end_struct(v, NULL);
--        if (err) {
-+        if (!ok) {
-             goto out;
-         }
- 
-         retval = qmp_my_command(arg.arg1, &err);
-+        error_propagate(errp, err);
-         if (err) {
-             goto out;
-         }
- 
--        qmp_marshal_output_UserDefOne(retval, ret, &err);
-+        qmp_marshal_output_UserDefOne(retval, ret, errp);
- 
-     out:
--        error_propagate(errp, err);
-         visit_free(v);
-         v = qapi_dealloc_visitor_new();
-         visit_start_struct(v, NULL, NULL, 0, NULL);
-@@ -1606,6 +1591,7 @@ Example:
-         visit_end_struct(v, NULL);
-         visit_free(v);
-     }
-+
- [Uninteresting stuff omitted...]
-     $ cat qapi-generated/example-qapi-init-commands.h
- [Uninteresting stuff omitted...]
-diff --git a/scripts/qapi/commands.py b/scripts/qapi/commands.py
-index 6809b0fb6e..3cf9e1110b 100644
---- a/scripts/qapi/commands.py
-+++ b/scripts/qapi/commands.py
-@@ -47,6 +47,7 @@ def gen_call(name, arg_type, boxed, ret_type):
-     ret = mcgen('''
- 
-     %(lhs)sqmp_%(c_name)s(%(args)s&err);
-+    error_propagate(errp, err);
- ''',
-                 c_name=c_name(name), args=argstr, lhs=lhs)
-     if ret_type:
-@@ -55,7 +56,7 @@ def gen_call(name, arg_type, boxed, ret_type):
-         goto out;
-     }
- 
--    qmp_marshal_output_%(c_name)s(retval, ret, &err);
-+    qmp_marshal_output_%(c_name)s(retval, ret, errp);
- ''',
-                      c_name=ret_type.c_name())
-     return ret
-@@ -66,15 +67,12 @@ def gen_marshal_output(ret_type):
- 
- static void qmp_marshal_output_%(c_name)s(%(c_type)s ret_in, QObject **ret_out, Error **errp)
- {
--    Error *err = NULL;
-     Visitor *v;
- 
-     v = qobject_output_visitor_new(ret_out);
--    visit_type_%(c_name)s(v, "unused", &ret_in, &err);
--    if (!err) {
-+    if (visit_type_%(c_name)s(v, "unused", &ret_in, errp)) {
-         visit_complete(v, ret_out);
-     }
--    error_propagate(errp, err);
-     visit_free(v);
-     v = qapi_dealloc_visitor_new();
-     visit_type_%(c_name)s(v, "unused", &ret_in, NULL);
-@@ -104,6 +102,7 @@ def gen_marshal(name, arg_type, boxed, ret_type):
- %(proto)s
- {
-     Error *err = NULL;
-+    bool ok = false;
-     Visitor *v;
- ''',
-                 proto=build_marshal_proto(name))
-@@ -123,28 +122,26 @@ def gen_marshal(name, arg_type, boxed, ret_type):
-     ret += mcgen('''
- 
-     v = qobject_input_visitor_new(QOBJECT(args));
--    visit_start_struct(v, NULL, NULL, 0, &err);
--    if (err) {
-+    if (!visit_start_struct(v, NULL, NULL, 0, errp)) {
-         goto out;
-     }
- ''')
- 
-     if have_args:
-         ret += mcgen('''
--    visit_type_%(c_arg_type)s_members(v, &arg, &err);
--    if (!err) {
--        visit_check_struct(v, &err);
-+    if (visit_type_%(c_arg_type)s_members(v, &arg, errp)) {
-+        ok = visit_check_struct(v, errp);
-     }
- ''',
-                      c_arg_type=arg_type.c_name())
-     else:
-         ret += mcgen('''
--    visit_check_struct(v, &err);
-+    ok = visit_check_struct(v, errp);
- ''')
- 
-     ret += mcgen('''
-     visit_end_struct(v, NULL);
--    if (err) {
-+    if (!ok) {
-         goto out;
-     }
- ''')
-@@ -154,7 +151,6 @@ def gen_marshal(name, arg_type, boxed, ret_type):
-     ret += mcgen('''
- 
- out:
--    error_propagate(errp, err);
-     visit_free(v);
- ''')
- 
-diff --git a/scripts/qapi/visit.py b/scripts/qapi/visit.py
-index ba0cf0b074..3fb2f30510 100644
---- a/scripts/qapi/visit.py
-+++ b/scripts/qapi/visit.py
-@@ -41,8 +41,6 @@ def gen_visit_object_members(name, base, members, variants):
- 
- bool visit_type_%(c_name)s_members(Visitor *v, %(c_name)s *obj, Error **errp)
- {
--    Error *err = NULL;
--
- ''',
-                 c_name=c_name(name))
- 
-@@ -97,8 +95,7 @@ bool visit_type_%(c_name)s_members(Visitor *v, %(c_name)s *obj, Error **errp)
-             else:
-                 ret += mcgen('''
-     case %(case)s:
--        visit_type_%(c_type)s_members(v, &obj->u.%(c_name)s, &err);
--        break;
-+        return visit_type_%(c_type)s_members(v, &obj->u.%(c_name)s, errp);
- ''',
-                              case=case_str,
-                              c_type=var.type.c_name(), c_name=c_name(var.name))
-@@ -111,8 +108,7 @@ bool visit_type_%(c_name)s_members(Visitor *v, %(c_name)s *obj, Error **errp)
- ''')
- 
-     ret += mcgen('''
--    error_propagate(errp, err);
--    return !err;
-+    return true;
- }
- ''')
-     return ret
-@@ -123,7 +119,7 @@ def gen_visit_list(name, element_type):
- 
- bool visit_type_%(c_name)s(Visitor *v, const char *name, %(c_name)s **obj, Error **errp)
- {
--    Error *err = NULL;
-+    bool ok = false;
-     %(c_name)s *tail;
-     size_t size = sizeof(**obj);
- 
-@@ -133,22 +129,19 @@ bool visit_type_%(c_name)s(Visitor *v, const char *name, %(c_name)s **obj, Error
- 
-     for (tail = *obj; tail;
-          tail = (%(c_name)s *)visit_next_list(v, (GenericList *)tail, size)) {
--        visit_type_%(c_elt_type)s(v, NULL, &tail->value, &err);
--        if (err) {
--            break;
-+        if (!visit_type_%(c_elt_type)s(v, NULL, &tail->value, errp)) {
-+            goto out_obj;
-         }
-     }
- 
--    if (!err) {
--        visit_check_list(v, &err);
--    }
-+    ok = visit_check_list(v, errp);
-+out_obj:
-     visit_end_list(v, (void **)obj);
--    if (err && visit_is_input(v)) {
-+    if (!ok && visit_is_input(v)) {
-         qapi_free_%(c_name)s(*obj);
-         *obj = NULL;
++    ok = v->start_alternate(v, name, obj, size, errp);
+     if (v->type & VISITOR_INPUT) {
+-        assert(v->start_alternate && !err != !*obj);
++        assert(ok != !*obj);
      }
 -    error_propagate(errp, err);
 -    return !err;
 +    return ok;
  }
- ''',
-                  c_name=c_name(name), c_elt_type=element_type.c_name())
-@@ -173,7 +166,7 @@ def gen_visit_alternate(name, variants):
  
- bool visit_type_%(c_name)s(Visitor *v, const char *name, %(c_name)s **obj, Error **errp)
+ void visit_end_alternate(Visitor *v, void **obj)
+@@ -309,7 +308,7 @@ bool visit_type_bool(Visitor *v, const char *name, bool *obj, Error **errp)
+ 
+ bool visit_type_str(Visitor *v, const char *name, char **obj, Error **errp)
  {
 -    Error *err = NULL;
-+    bool ok = false;
++    bool ok;
  
-     if (!visit_start_alternate(v, name, (GenericAlternate **)obj,
-                                sizeof(**obj), errp)) {
-@@ -182,6 +175,7 @@ bool visit_type_%(c_name)s(Visitor *v, const char *name, %(c_name)s **obj, Error
-     if (!*obj) {
-         /* incomplete */
-         assert(visit_is_dealloc(v));
-+        ok = true;
-         goto out_obj;
-     }
-     switch ((*obj)->type) {
-@@ -196,13 +190,11 @@ bool visit_type_%(c_name)s(Visitor *v, const char *name, %(c_name)s **obj, Error
-                      case=var.type.alternate_qtype())
-         if isinstance(var.type, QAPISchemaObjectType):
-             ret += mcgen('''
--        visit_start_struct(v, name, NULL, 0, &err);
--        if (err) {
-+        if (!visit_start_struct(v, name, NULL, 0, errp)) {
-             break;
-         }
--        visit_type_%(c_type)s_members(v, &(*obj)->u.%(c_name)s, &err);
--        if (!err) {
--            visit_check_struct(v, &err);
-+        if (visit_type_%(c_type)s_members(v, &(*obj)->u.%(c_name)s, errp)) {
-+            ok = visit_check_struct(v, errp);
-         }
-         visit_end_struct(v, NULL);
- ''',
-@@ -210,7 +202,7 @@ bool visit_type_%(c_name)s(Visitor *v, const char *name, %(c_name)s **obj, Error
-                          c_name=c_name(var.name))
-         else:
-             ret += mcgen('''
--        visit_type_%(c_type)s(v, name, &(*obj)->u.%(c_name)s, &err);
-+        ok = visit_type_%(c_type)s(v, name, &(*obj)->u.%(c_name)s, errp);
- ''',
-                          c_type=var.type.c_name(),
-                          c_name=c_name(var.name))
-@@ -224,7 +216,7 @@ bool visit_type_%(c_name)s(Visitor *v, const char *name, %(c_name)s **obj, Error
-         abort();
-     default:
-         assert(visit_is_input(v));
--        error_setg(&err, QERR_INVALID_PARAMETER_TYPE, name ? name : "null",
-+        error_setg(errp, QERR_INVALID_PARAMETER_TYPE, name ? name : "null",
-                    "%(name)s");
-         /* Avoid passing invalid *obj to qapi_free_%(c_name)s() */
-         g_free(*obj);
-@@ -232,12 +224,11 @@ bool visit_type_%(c_name)s(Visitor *v, const char *name, %(c_name)s **obj, Error
-     }
- out_obj:
-     visit_end_alternate(v, (void **)obj);
--    if (err && visit_is_input(v)) {
-+    if (!ok && visit_is_input(v)) {
-         qapi_free_%(c_name)s(*obj);
-         *obj = NULL;
+     assert(obj);
+     /* TODO: Fix callers to not pass NULL when they mean "", so that we
+@@ -317,12 +316,11 @@ bool visit_type_str(Visitor *v, const char *name, char **obj, Error **errp)
+     assert(!(v->type & VISITOR_OUTPUT) || *obj);
+      */
+     trace_visit_type_str(v, name, obj);
+-    v->type_str(v, name, obj, &err);
++    ok = v->type_str(v, name, obj, errp);
+     if (v->type & VISITOR_INPUT) {
+-        assert(!err != !*obj);
++        assert(ok != !*obj);
      }
 -    error_propagate(errp, err);
 -    return !err;
 +    return ok;
  }
- ''',
-                  name=name, c_name=c_name(name))
-@@ -250,7 +241,7 @@ def gen_visit_object(name, base, members, variants):
  
- bool visit_type_%(c_name)s(Visitor *v, const char *name, %(c_name)s **obj, Error **errp)
- {
--    Error *err = NULL;
-+    bool ok = false;
- 
-     if (!visit_start_struct(v, name, (void **)obj, sizeof(%(c_name)s), errp)) {
-         return false;
-@@ -260,19 +251,17 @@ bool visit_type_%(c_name)s(Visitor *v, const char *name, %(c_name)s **obj, Error
-         assert(visit_is_dealloc(v));
-         goto out_obj;
-     }
--    visit_type_%(c_name)s_members(v, *obj, &err);
--    if (err) {
-+    if (!visit_type_%(c_name)s_members(v, *obj, errp)) {
-         goto out_obj;
-     }
--    visit_check_struct(v, &err);
-+    ok = visit_check_struct(v, errp);
- out_obj:
-     visit_end_struct(v, (void **)obj);
--    if (err && visit_is_input(v)) {
-+    if (!ok && visit_is_input(v)) {
-         qapi_free_%(c_name)s(*obj);
-         *obj = NULL;
-     }
--    error_propagate(errp, err);
--    return !err;
-+    return ok;
- }
- ''',
-                  c_name=c_name(name))
+ bool visit_type_number(Visitor *v, const char *name, double *obj,
 -- 
 2.26.2
 
