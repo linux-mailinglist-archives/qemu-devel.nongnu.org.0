@@ -2,30 +2,30 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C891621527F
-	for <lists+qemu-devel@lfdr.de>; Mon,  6 Jul 2020 08:19:16 +0200 (CEST)
-Received: from localhost ([::1]:50296 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 121302152AE
+	for <lists+qemu-devel@lfdr.de>; Mon,  6 Jul 2020 08:25:55 +0200 (CEST)
+Received: from localhost ([::1]:42750 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jsKTC-0002FG-UH
-	for lists+qemu-devel@lfdr.de; Mon, 06 Jul 2020 02:19:14 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:60840)
+	id 1jsKZe-0002ye-5D
+	for lists+qemu-devel@lfdr.de; Mon, 06 Jul 2020 02:25:54 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:60838)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <its@irrelevant.dk>)
- id 1jsKNw-0001qC-Mr; Mon, 06 Jul 2020 02:13:48 -0400
-Received: from charlie.dont.surf ([128.199.63.193]:58146)
+ id 1jsKNw-0001pV-Em; Mon, 06 Jul 2020 02:13:48 -0400
+Received: from charlie.dont.surf ([128.199.63.193]:58144)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <its@irrelevant.dk>)
- id 1jsKNu-0000xK-1m; Mon, 06 Jul 2020 02:13:48 -0400
+ id 1jsKNt-0000xJ-VJ; Mon, 06 Jul 2020 02:13:48 -0400
 Received: from apples.local (80-167-98-190-cable.dk.customer.tdc.net
  [80.167.98.190])
- by charlie.dont.surf (Postfix) with ESMTPSA id 793B5BF86C;
+ by charlie.dont.surf (Postfix) with ESMTPSA id E2C09BF879;
  Mon,  6 Jul 2020 06:13:19 +0000 (UTC)
 From: Klaus Jensen <its@irrelevant.dk>
 To: qemu-block@nongnu.org
-Subject: [PATCH v3 17/18] hw/block/nvme: provide the mandatory subnqn field
-Date: Mon,  6 Jul 2020 08:13:02 +0200
-Message-Id: <20200706061303.246057-18-its@irrelevant.dk>
+Subject: [PATCH v3 18/18] hw/block/nvme: bump supported version to v1.3
+Date: Mon,  6 Jul 2020 08:13:03 +0200
+Message-Id: <20200706061303.246057-19-its@irrelevant.dk>
 X-Mailer: git-send-email 2.27.0
 In-Reply-To: <20200706061303.246057-1-its@irrelevant.dk>
 References: <20200706061303.246057-1-its@irrelevant.dk>
@@ -52,7 +52,7 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Kevin Wolf <kwolf@redhat.com>, Dmitry Fomichev <Dmitry.Fomichev@wdc.com>,
+Cc: Kevin Wolf <kwolf@redhat.com>, Dmitry Fomichev <dmitry.fomichev@wdc.com>,
  Klaus Jensen <k.jensen@samsung.com>, qemu-devel@nongnu.org,
  Max Reitz <mreitz@redhat.com>, Klaus Jensen <its@irrelevant.dk>,
  Keith Busch <kbusch@kernel.org>, Javier Gonzalez <javier.gonz@samsung.com>,
@@ -63,36 +63,44 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Klaus Jensen <k.jensen@samsung.com>
 
-The SUBNQN field is mandatory in NVM Express 1.3.
+Bump the supported NVM Express version to v1.3.
 
 Signed-off-by: Klaus Jensen <k.jensen@samsung.com>
+Reviewed-by: Maxim Levitsky <mlevitsk@redhat.com>
+Reviewed-by: Dmitry Fomichev <dmitry.fomichev@wdc.com>
 ---
- hw/block/nvme.c | 5 +++++
- 1 file changed, 5 insertions(+)
+ hw/block/nvme.c | 4 +++-
+ 1 file changed, 3 insertions(+), 1 deletion(-)
 
 diff --git a/hw/block/nvme.c b/hw/block/nvme.c
-index 07d58aa945f2..e3984157926b 100644
+index e3984157926b..eda3fedb84e3 100644
 --- a/hw/block/nvme.c
 +++ b/hw/block/nvme.c
-@@ -2141,6 +2141,7 @@ static void nvme_init_ctrl(NvmeCtrl *n, PCIDevice *pci_dev)
- {
-     NvmeIdCtrl *id = &n->id_ctrl;
-     uint8_t *pci_conf = pci_dev->config;
-+    char *subnqn;
+@@ -57,6 +57,7 @@
+ #define NVME_MAX_IOQPAIRS 0xffff
+ #define NVME_REG_SIZE 0x1000
+ #define NVME_DB_SIZE  4
++#define NVME_SPEC_VER 0x00010300
+ #define NVME_CMB_BIR 2
+ #define NVME_PMR_BIR 2
+ #define NVME_TEMPERATURE 0x143
+@@ -2152,6 +2153,7 @@ static void nvme_init_ctrl(NvmeCtrl *n, PCIDevice *pci_dev)
+     id->ieee[0] = 0x00;
+     id->ieee[1] = 0x02;
+     id->ieee[2] = 0xb3;
++    id->ver = cpu_to_le32(NVME_SPEC_VER);
+     id->oacs = cpu_to_le16(0);
  
-     id->vid = cpu_to_le16(pci_get_word(pci_conf + PCI_VENDOR_ID));
-     id->ssvid = cpu_to_le16(pci_get_word(pci_conf + PCI_SUBSYSTEM_VENDOR_ID));
-@@ -2179,6 +2180,10 @@ static void nvme_init_ctrl(NvmeCtrl *n, PCIDevice *pci_dev)
-     id->oncs = cpu_to_le16(NVME_ONCS_WRITE_ZEROS | NVME_ONCS_TIMESTAMP |
-                            NVME_ONCS_FEATURES);
+     /*
+@@ -2198,7 +2200,7 @@ static void nvme_init_ctrl(NvmeCtrl *n, PCIDevice *pci_dev)
+     NVME_CAP_SET_CSS(n->bar.cap, 1);
+     NVME_CAP_SET_MPSMAX(n->bar.cap, 4);
  
-+    subnqn = g_strdup_printf("nqn.2019-08.org.qemu:%s", n->params.serial);
-+    strpadcpy((char *)id->subnqn, sizeof(id->subnqn), subnqn, '\0');
-+    g_free(subnqn);
-+
-     id->psd[0].mp = cpu_to_le16(0x9c4);
-     id->psd[0].enlat = cpu_to_le32(0x10);
-     id->psd[0].exlat = cpu_to_le32(0x4);
+-    n->bar.vs = 0x00010200;
++    n->bar.vs = NVME_SPEC_VER;
+     n->bar.intmc = n->bar.intms = 0;
+ }
+ 
 -- 
 2.27.0
 
