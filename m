@@ -2,83 +2,124 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id EEE9B216A6B
-	for <lists+qemu-devel@lfdr.de>; Tue,  7 Jul 2020 12:35:49 +0200 (CEST)
-Received: from localhost ([::1]:52048 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6CCAC216A83
+	for <lists+qemu-devel@lfdr.de>; Tue,  7 Jul 2020 12:39:28 +0200 (CEST)
+Received: from localhost ([::1]:58268 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jskx3-0000EF-0F
-	for lists+qemu-devel@lfdr.de; Tue, 07 Jul 2020 06:35:49 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:60060)
+	id 1jsl0Z-0003Wn-Gh
+	for lists+qemu-devel@lfdr.de; Tue, 07 Jul 2020 06:39:27 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:60996)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1jskvp-0007l0-De; Tue, 07 Jul 2020 06:34:33 -0400
-Received: from mail-wm1-x341.google.com ([2a00:1450:4864:20::341]:50402)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1jskvn-0005Om-Aq; Tue, 07 Jul 2020 06:34:33 -0400
-Received: by mail-wm1-x341.google.com with SMTP id l17so42744674wmj.0;
- Tue, 07 Jul 2020 03:34:30 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=sender:subject:to:cc:references:from:message-id:date:user-agent
- :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=SHHrVlrgvYvdr+UupFcWTLa2FKml67HTUSieo4VrRf0=;
- b=nvPt8nQNVzUfinh6qmaQvMOy6uE3C2yqo32AfeZz1KNfkzdzTkBsVNO96X3sT3J9mS
- Cv+ANZAvqoQgaWHfvkHM+4Df3aVBnFYAnUF2K3OWa1mCbfi3iOBHqf8WaWs9yBmHSYaF
- HswmjIyYwbQUb2prJVq2jUMJxzUnPGgxrpTmQ+kvOyLMZqCqJdANT0fHgbBWKlbD6Wyb
- G6bgiVIr/53Bg1ZBpN0q9Js+3wxoHTlFux3OBisVFsfyj8jKBdbHRxRaEENpC/d05nAJ
- 6tFu4hLyDNpf4ksyB4cS4OAZbq46P2kHDbdXoqNTgIhFd9bGAY3lzn++6K6RF8KIg3zx
- zIdg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:sender:subject:to:cc:references:from:message-id
- :date:user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=SHHrVlrgvYvdr+UupFcWTLa2FKml67HTUSieo4VrRf0=;
- b=U4Hz7QqcHcpumV+alReNkgMSuOXqIQQMH8kjiCsHatO9QbZMkFSQrPS8MvsmtX0B+s
- TjhTSPRyrtJlYmADA7T64m5FTjSpjvPNf93ZIldiP3PAPKtTJVP/ZsM2fnViDNYmUZ/s
- WYYLQO4x8oPuCsQocHCu19pCVD330X605/abkFR7gmdGaM0yWyDJe/ww8GPpxhrsUCq/
- kcwIcVmw8iJn5wvTqnv/lL/gyE010VygXWzF2/Cwc93k7rczJS+tfPby3A6WUQWyUIlq
- VqwOZma2aV36Y5qbL2tbvWk7KQjTRrbegkqL6Ihq/wrcK9Cun7NcHwHlyPhgSR/6e6XA
- M52w==
-X-Gm-Message-State: AOAM531hYUiPgeiXIo0Qixz5wZSVGvxPlIcROfd0THJw+dfDgjju3mxw
- TJIx/QaU3vN0tUXCTZqWs3E=
-X-Google-Smtp-Source: ABdhPJzO0PVB8b5p4NaspE667CjOBMks1GRyZfYGjgC5HrDRyuM24PuyDprQBsbuH4KsIK7RY9z1bA==
-X-Received: by 2002:a1c:e088:: with SMTP id x130mr3344874wmg.14.1594118069411; 
- Tue, 07 Jul 2020 03:34:29 -0700 (PDT)
-Received: from [192.168.1.36] (138.red-83-57-170.dynamicip.rima-tde.net.
- [83.57.170.138])
- by smtp.gmail.com with ESMTPSA id r10sm491680wrm.17.2020.07.07.03.34.28
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 07 Jul 2020 03:34:28 -0700 (PDT)
-Subject: Re: [PATCH v7 05/17] hw/sd/sdcard: Do not switch to ReceivingData if
- address is invalid
-To: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>
-References: <20200630133912.9428-1-f4bug@amsat.org>
- <20200630133912.9428-6-f4bug@amsat.org>
- <CAP+75-V-Uu8-Uk8jMwkgb3xJpFoef=k6p=ejaY4=+njkdb3ZeQ@mail.gmail.com>
- <3b0a65bc-97a7-9f49-da3a-5c680c4b5722@amsat.org>
-From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>
-Message-ID: <0d5d56c8-02ea-17ab-c935-077fa96dcf56@amsat.org>
-Date: Tue, 7 Jul 2020 12:34:27 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.5.0
-MIME-Version: 1.0
-In-Reply-To: <3b0a65bc-97a7-9f49-da3a-5c680c4b5722@amsat.org>
-Content-Type: text/plain; charset=utf-8
+ (Exim 4.90_1) (envelope-from <felipe@nutanix.com>)
+ id 1jskzN-0002Mf-JB
+ for qemu-devel@nongnu.org; Tue, 07 Jul 2020 06:38:13 -0400
+Received: from mx0b-002c1b01.pphosted.com ([148.163.155.12]:21836)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <felipe@nutanix.com>)
+ id 1jskzJ-00067u-Mx
+ for qemu-devel@nongnu.org; Tue, 07 Jul 2020 06:38:13 -0400
+Received: from pps.filterd (m0127841.ppops.net [127.0.0.1])
+ by mx0b-002c1b01.pphosted.com (8.16.0.42/8.16.0.42) with SMTP id
+ 067AaH7X010688; Tue, 7 Jul 2020 03:38:04 -0700
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nutanix.com;
+ h=from : to : cc :
+ subject : date : message-id : references : in-reply-to : content-type :
+ content-id : content-transfer-encoding : mime-version;
+ s=proofpoint20171006; bh=68SNL55or8Ri2uCK00neGUoChdUp9lmnPv+NYO/x6uM=;
+ b=ac/9yihRiEbNZo9fg0tKJ3FLLtnAM8peImWxz8rJJjy7pY9183TfelbgtC8QO/40WLtd
+ V8zrdnqdR564uFMurafw5t7LqTVSQ2WiHlHJYB/zxs0DS9xqUVF6mS/eYwRqmil9/+wJ
+ pgG1QhKyriaIB3yfQ1fszEsFkeTN36pCVSnZJVEyOpH0AUkKqMfT3nKOyrIHddmTx6Zt
+ 0THStlJ5e4oonfX5OfWUKmLz6lRUzjDR4tlNGRaIbl+lBg1d/wkdMyvwLTmd3/FGgZXC
+ zxG+RmVSNniyNlbHCVP5xoETea1Af9yJFWS2eOhLAqT/r1UUWXvRYi/HXhL/RSvkgLXs 5Q== 
+Received: from nam12-dm6-obe.outbound.protection.outlook.com
+ (mail-dm6nam12lp2168.outbound.protection.outlook.com [104.47.59.168])
+ by mx0b-002c1b01.pphosted.com with ESMTP id 322qaa5mqj-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Tue, 07 Jul 2020 03:38:04 -0700
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=oSTCXxhc6/iTdYmqL//9BOBagPkWtD6+NkKKPQv8D/iAvL8SBDGXRBe3kVBZWPENblKsXhLg7oK10H1rScAyG7FTyq6v13t0O1s7OVZVtiq0l5o0Lsxzo73IjyBb/Q2pSp7PSjn572GnvqYgN/nHPDtT3ZeT4IDg8o4PO49HDz/cJbhXE7cp0aNqT8tXhJsf+C6OnY6uxs9Ej7OdgWWn56agtgctmJQ/h8PmOdr/iOdsCUyOrSJFdHTaW8oaaBangM1+i7XbqKhILbGdE3FaVaMuMcftwC7Cvz58G/20kkM9Avjx4Y4+leZsuAKDcBl0PXzoalV/rrKpSHDu+YhIxA==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=68SNL55or8Ri2uCK00neGUoChdUp9lmnPv+NYO/x6uM=;
+ b=Ghk4gGOBnNwv13xOHAeZ/j1gVKORjUq5NRewtV9NfTW9ROGVQrc+3NcNYu+dq896OVr4XeLHDBwZ79Pn2zEzErGxjeu7di3AOivi0f1Kk9oO/hbuNlbWgZ8rm/fFrkNnwbTSRCxELOB+LJ35z2AmtWUqwdH1aeKBLWwBLD9jVGXaQNQ1HxOD/XA0MksjMh9HiWmrpBozZJWX/Wfv+XynA7/siIupaaBRyw4SYWyi8LrB0k7n85kWxYMkfHVGf3rODFL1fSffOJ8h+sNwVrZiGV06y9u404tdGGq4R+e3IvLExD6oR+gnmMXFtFVk6lKHbqNR2tLDo6xLNFuq72FtQQ==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=nutanix.com; dmarc=pass action=none header.from=nutanix.com;
+ dkim=pass header.d=nutanix.com; arc=none
+Received: from BYAPR02MB4358.namprd02.prod.outlook.com (2603:10b6:a03:11::17)
+ by BY5PR02MB6754.namprd02.prod.outlook.com (2603:10b6:a03:213::18)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3153.20; Tue, 7 Jul
+ 2020 10:38:01 +0000
+Received: from BYAPR02MB4358.namprd02.prod.outlook.com
+ ([fe80::ac30:926:2dff:b777]) by BYAPR02MB4358.namprd02.prod.outlook.com
+ ([fe80::ac30:926:2dff:b777%7]) with mapi id 15.20.3174.020; Tue, 7 Jul 2020
+ 10:38:01 +0000
+From: Felipe Franciosi <felipe@nutanix.com>
+To: Alex Williamson <alex.williamson@redhat.com>
+Subject: Re: DMA region abruptly removed from PCI device
+Thread-Topic: DMA region abruptly removed from PCI device
+Thread-Index: AdZTg3uLE9L5RNQrTJ25kTkeyN20cwAHQ8YAACqJBoA=
+Date: Tue, 7 Jul 2020 10:38:01 +0000
+Message-ID: <9F290836-753A-4ACF-A593-F736C2FA0508@nutanix.com>
+References: <MW2PR02MB3723509CC4795066274C9D4C8B690@MW2PR02MB3723.namprd02.prod.outlook.com>
+ <20200706082004.5c887c67@x1.home>
+In-Reply-To: <20200706082004.5c887c67@x1.home>
+Accept-Language: en-GB, en-US
 Content-Language: en-US
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::341;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wm1-x341.google.com
-X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
- That's all we know.
-X-Spam_score_int: 0
-X-Spam_score: 0.0
-X-Spam_bar: /
-X-Spam_report: (0.0 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1, DKIM_VALID=-0.1,
- DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=1, FREEMAIL_FROM=0.001,
- HEADER_FROM_DIFFERENT_DOMAINS=1, RCVD_IN_DNSWL_NONE=-0.0001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=_AUTOLEARN
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-mailer: Apple Mail (2.3608.80.23.2.2)
+authentication-results: redhat.com; dkim=none (message not signed)
+ header.d=none;redhat.com; dmarc=none action=none header.from=nutanix.com;
+x-originating-ip: [82.9.225.166]
+x-ms-publictraffictype: Email
+x-ms-office365-filtering-correlation-id: dc95f092-d98d-492e-4d5a-08d82261d2c2
+x-ms-traffictypediagnostic: BY5PR02MB6754:
+x-ms-exchange-transport-forked: True
+x-microsoft-antispam-prvs: <BY5PR02MB675426354B5EE67B4EEF59D2D7660@BY5PR02MB6754.namprd02.prod.outlook.com>
+x-proofpoint-crosstenant: true
+x-ms-oob-tlc-oobclassifiers: OLM:10000;
+x-forefront-prvs: 0457F11EAF
+x-ms-exchange-senderadcheck: 1
+x-microsoft-antispam: BCL:0;
+x-microsoft-antispam-message-info: /Ab8uVVYVfr0+sJOpi8pZVIJPetAtJejilecec8UdC81LO3YbvjzimHU2TMeqIMfU67Vi2i9tjb8/jKIRP+PbXacKBU5V2v7aj1gwqJ/GwLebaf/2OgiXrpRejMr5eeoeyNogh4pGFuu83Oudq8w8eFIQ7FlR9SCY46PYF5152zLuQaqAnAVrwEsKlYIXkupHzhTDwvCvdYniRnVfM2FgR2TYoGXOG06FOqXMcQM/poR9CHGBRhywcf5sDob7OKZR4bTAYyj7DLbYo9jru0q7rpBwqu4PNTCQQkxoWs3Ew6+HRgIbR7ne5vqWnsRncke6OfgO21kcmahUml9neO4QtxvFxBDf0I7CLbzmezD/1Ul5rJ9/uONcImWyslDMjuWZF7WRex8d4hfZwcSzgXnFg==
+x-forefront-antispam-report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:BYAPR02MB4358.namprd02.prod.outlook.com; PTR:; CAT:NONE;
+ SFTY:;
+ SFS:(4636009)(39860400002)(376002)(136003)(346002)(366004)(396003)(5660300002)(6916009)(6486002)(86362001)(26005)(54906003)(36756003)(6512007)(6506007)(186003)(53546011)(8676002)(2906002)(316002)(76116006)(66946007)(64756008)(66446008)(66476007)(4326008)(2616005)(8936002)(71200400001)(83380400001)(33656002)(478600001)(66556008);
+ DIR:OUT; SFP:1102; 
+x-ms-exchange-antispam-messagedata: aZf50fXNa688F+K9hj5VZAPQm+cA5ha7yekjbG294/BddFwlvLcYj5Kj1989MCbhpByB5+h7uuekkQ0UVM9lrq4q9cO0/NcCLx//bPwOQdGxfXG0TGVUFm7IUBkw2bawcuYkHY+9JtE0tNH/ZcqBbVbogNEBihdVhdKsJrfopgpLHAAM2xujyjPVb1FDculep/28Pc7F7yy7F057dN8Mp8ra9Ooys3FHmenYKmRbnYGDKzeySiIYFIY8zybj+MpTKea5djd1/idKvZX7bRofXDfLWoWQyyUAN7VS7dutG6geXlDaqW/qekQjI9DNHg0d0rWj5MLR8N9l3AnbszatrhGSmUuGs+5ygOhgUuhJEkReDxLXIb98sRVJe5XdlnGfBcOCxc4K+Xyh2p/GIrtKaxmeGBXgTyd3jgZgD4UzWz6x+n8HucjIVIh+CZsd4TfhoJ0VssEgwey9YLIl+XMsmF7j/qLngCgFtEgf6HEBbkU=
+Content-Type: text/plain; charset="us-ascii"
+Content-ID: <D6F368BBE3115E469F0CC11B9FD4474C@namprd02.prod.outlook.com>
+Content-Transfer-Encoding: quoted-printable
+MIME-Version: 1.0
+X-OriginatorOrg: nutanix.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-AuthSource: BYAPR02MB4358.namprd02.prod.outlook.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: dc95f092-d98d-492e-4d5a-08d82261d2c2
+X-MS-Exchange-CrossTenant-originalarrivaltime: 07 Jul 2020 10:38:01.3587 (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: bb047546-786f-4de1-bd75-24e5b6f79043
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: 5BIpfrtgF+tcG2Sk08rizZuLtgHbR3ch0rRIEda2sfeGp012jnVPyK/V3bA6492v2Y96t565crEqnt3h3Pz+vDtE37Hua/YpRpF26KZj0mM=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: BY5PR02MB6754
+X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:6.0.235, 18.0.687
+ definitions=2020-07-07_06:2020-07-07,
+ 2020-07-07 signatures=0
+X-Proofpoint-Spam-Reason: safe
+Received-SPF: pass client-ip=148.163.155.12; envelope-from=felipe@nutanix.com;
+ helo=mx0b-002c1b01.pphosted.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/07/07 06:38:07
+X-ACL-Warn: Detected OS   = Linux 3.x [generic]
+X-Spam_score_int: -37
+X-Spam_score: -3.8
+X-Spam_bar: ---
+X-Spam_report: (-3.8 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=-0.01, RCVD_IN_MSPIKE_WL=-0.01,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001, URIBL_BLOCKED=0.001 autolearn=_AUTOLEARN
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -91,129 +132,117 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Alexander Bulekov <alxndr@bu.edu>, Peter Maydell <peter.maydell@linaro.org>,
- QEMU Developers <qemu-devel@nongnu.org>, Qemu-block <qemu-block@nongnu.org>,
- Prasad J Pandit <pjp@fedoraproject.org>
+Cc: "Walker, Benjamin" <benjamin.walker@intel.com>,
+ John G Johnson <john.g.johnson@oracle.com>,
+ Swapnil Ingle <swapnil.ingle@nutanix.com>,
+ "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>,
+ Stefan Hajnoczi <stefanha@redhat.com>,
+ Thanos Makatos <thanos.makatos@nutanix.com>, "Liu, 
+ Changpeng" <changpeng.liu@intel.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 7/7/20 12:24 PM, Philippe Mathieu-Daudé wrote:
-> On 7/7/20 10:30 AM, Philippe Mathieu-Daudé wrote:
->> On Tue, Jun 30, 2020 at 3:39 PM Philippe Mathieu-Daudé <f4bug@amsat.org> wrote:
->>>
->>> Only move the state machine to ReceivingData if there is no
->>> pending error. This avoids later OOB access while processing
->>> commands queued.
->>>
->>>   "SD Specifications Part 1 Physical Layer Simplified Spec. v3.01"
->>>
->>>   4.3.3 Data Read
->>>
->>>   Read command is rejected if BLOCK_LEN_ERROR or ADDRESS_ERROR
->>>   occurred and no data transfer is performed.
->>>
->>>   4.3.4 Data Write
->>>
->>>   Write command is rejected if BLOCK_LEN_ERROR or ADDRESS_ERROR
->>>   occurred and no data transfer is performed.
->>>
->>> WP_VIOLATION errors are not modified: the error bit is set, we
->>> stay in receive-data state, wait for a stop command. All further
->>> data transfer is ignored. See the check on sd->card_status at the
->>> beginning of sd_read_data() and sd_write_data().
->>>
->>> Fixes: CVE-2020-13253
->>> Cc: Prasad J Pandit <pjp@fedoraproject.org>
->>> Reported-by: Alexander Bulekov <alxndr@bu.edu>
->>> Buglink: https://bugs.launchpad.net/qemu/+bug/1880822
->>> Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
->>> ---
->>> v4: Only modify ADDRESS_ERROR, not WP_VIOLATION (pm215)
->>> ---
->>>  hw/sd/sd.c | 34 ++++++++++++++++++++++------------
->>>  1 file changed, 22 insertions(+), 12 deletions(-)
->>>
->>> diff --git a/hw/sd/sd.c b/hw/sd/sd.c
->>> index 04451fdad2..7e0d684aca 100644
->>> --- a/hw/sd/sd.c
->>> +++ b/hw/sd/sd.c
->>> @@ -1167,13 +1167,15 @@ static sd_rsp_type_t sd_normal_command(SDState *sd, SDRequest req)
->>>      case 17:   /* CMD17:  READ_SINGLE_BLOCK */
->>>          switch (sd->state) {
->>>          case sd_transfer_state:
->>> -            sd->state = sd_sendingdata_state;
->>> -            sd->data_start = addr;
->>> -            sd->data_offset = 0;
->>>
->>>              if (sd->data_start + sd->blk_len > sd->size) {
->>>                  sd->card_status |= ADDRESS_ERROR;
->>> +                return sd_r1;
->>>              }
->>> +
->>> +            sd->state = sd_sendingdata_state;
->>> +            sd->data_start = addr;
->>> +            sd->data_offset = 0;
->>>              return sd_r1;
->>>
->>>          default:
->>> @@ -1184,13 +1186,15 @@ static sd_rsp_type_t sd_normal_command(SDState *sd, SDRequest req)
->>>      case 18:   /* CMD18:  READ_MULTIPLE_BLOCK */
->>>          switch (sd->state) {
->>>          case sd_transfer_state:
->>> -            sd->state = sd_sendingdata_state;
->>> -            sd->data_start = addr;
->>> -            sd->data_offset = 0;
->>>
->>>              if (sd->data_start + sd->blk_len > sd->size) {
->>>                  sd->card_status |= ADDRESS_ERROR;
->>> +                return sd_r1;
->>
->> Unfortunately this breaks guests (Linux at least) when sd->size is not
->> a power of 2,
->> as Linux doesn't expect unrealistic SD card sizes.
 
-I'll go with Peter's suggestion from IRC:
-"insist the blk device is the right size and make it an error if not".
 
-> 
-> I can use blk_truncate() to expand the image (which must be RW anyway)
-> to the ceil pow2 with something like:
-> 
-> -- >8 --
-> diff --git a/hw/sd/sd.c b/hw/sd/sd.c
-> index b44999c864..052934f867 100644
-> --- a/hw/sd/sd.c
-> +++ b/hw/sd/sd.c
-> @@ -2121,11 +2121,28 @@ static void sd_realize(DeviceState *dev, Error
-> **errp)
->      }
-> 
->      if (sd->blk) {
-> +        int64_t blk_size;
-> +
->          if (blk_is_read_only(sd->blk)) {
->              error_setg(errp, "Cannot use read-only drive as SD card");
->              return;
->          }
-> 
-> +        blk_size = blk_getlength(sd->blk);
-> +        if (blk_size > 0) {
-> +            int64_t blk_size_aligned = pow2ceil(blk_size);
-> +
-> +            if (blk_size != blk_size_aligned) {
-> +                ret = blk_truncate(sd->blk, blk_size_aligned, false,
-> +                                   PREALLOC_MODE_FALLOC,
-> +                                   BDRV_REQ_ZERO_WRITE, errp);
-> +                if (ret < 0) {
-> +                    error_prepend(errp, "Could not resize image: ");
-> +                    return;
-> +                }
-> +            }
-> +        }
-> +
->          ret = blk_set_perm(sd->blk, BLK_PERM_CONSISTENT_READ |
-> BLK_PERM_WRITE,
->                             BLK_PERM_ALL, errp);
->          if (ret < 0) {
-> ---
+> On Jul 6, 2020, at 3:20 PM, Alex Williamson <alex.williamson@redhat.com> =
+wrote:
+>=20
+> On Mon, 6 Jul 2020 10:55:00 +0000
+> Thanos Makatos <thanos.makatos@nutanix.com> wrote:
+>=20
+>> We have an issue when using the VFIO-over-socket libmuser PoC
+>> (https://www.mail-archive.com/qemu-devel@nongnu.org/msg692251.html) inst=
+ead of
+>> the VFIO kernel module: we notice that DMA regions used by the emulated =
+device
+>> can be abruptly removed while the device is still using them.
+>>=20
+>> The PCI device we've implemented is an NVMe controller using SPDK, so it=
+ polls
+>> the submission queues for new requests. We use the latest SeaBIOS where =
+it tries
+>> to boot from the NVMe controller. Several DMA regions are registered
+>> (VFIO_IOMMU_MAP_DMA) and then the admin and a submission queues are crea=
+ted.
+>> From this point SPDK polls both queues. Then, the DMA region where the
+>> submission queue lies is removed (VFIO_IOMMU_UNMAP_DMA) and then re-adde=
+d at the
+>> same IOVA but at a different offset. SPDK crashes soon after as it acces=
+ses
+>> invalid memory. There is no other event (e.g. some PCI config space or N=
+VMe
+>> register write) happening between unmapping and mapping the DMA region. =
+My guess
+>> is that this behavior is legitimate and that this is solved in the VFIO =
+kernel
+>> module by releasing the DMA region only after all references to it have =
+been
+>> released, which is handled by vfio_pin/unpin_pages, correct? If this is =
+the case
+>> then I suppose we need to implement the same logic in libmuser, but I ju=
+st want
+>> to make sure I'm not missing anything as this is a substantial change.
+>=20
+> The vfio_{pin,unpin}_pages() interface only comes into play for mdev
+> devices and even then it's an announcement that a given mapping is
+> going away and the vendor driver is required to release references.
+> For normal PCI device assignment, vfio-pci is (aside from a few quirks)
+> device agnostic and the IOMMU container mappings are independent of the
+> device.  We do not have any device specific knowledge to know if DMA
+> pages still have device references.  The user's unmap request is
+> absolute, it cannot fail (aside from invalid usage) and upon return
+> there must be no residual mappings or references of the pages.
+>=20
+> If you say there's no config space write, ex. clearing bus master from
+> the command register, then something like turning on a vIOMMU might
+> cause a change in the entire address space accessible by the device.
+> This would cause the identity map of IOVA to GPA to be replaced by a
+> new one, perhaps another identity map if iommu=3Dpt or a more restricted
+> mapping if the vIOMMU is used for isolation.
+>=20
+> It sounds like you have an incomplete device model, physical devices
+> have their address space adjusted by an IOMMU independent of, but
+> hopefully in collaboration with a device driver.  If a physical device
+> manages to bridge this transition, do what it does.  Thanks,
+
+Hi,
+
+That's what we are trying to work out. IIUC, the problem we are having
+is that a mapping removal was requested but the device was still
+operational. We can surely figure out how to handle that gracefully,
+but I'm trying to get my head around how real hardware handles that.
+Maybe you can add some colour here. :)
+
+What happens when a device tries to write to a physical address that
+has no memory behind it? Is it an MCE of sorts?
+
+I haven't really ever looked at memory hot unplug in detail, but
+after reading some QEMU code this is my understanding:
+
+1) QEMU makes an ACPI request to the guest OS for mem unplug
+2) Guest OS acks that memory can be pulled out
+3) QEMU pulls the memory from the guest
+
+Before step 3, I'm guessing that QEMU tells all device backends that
+this memory is going away. I suppose that in normal operation, the
+Guest OS will have already stopped using the memory (ie. before step
+2), so there shouldn't be much to it. But I also suppose a malicious
+guest could go "ah, you want to remove this dimm? sure, let me just
+ask all these devices to start using it first... ok, there you go."
+
+Is this understanding correct?
+
+I don't think that's the case we're running into, though, but I think
+we need to consider it at this time. What's probably happening here is
+that the guest went from SeaBIOS to the kernel, a PCI reset happened
+and we didn't plumb that message through correctly. While we are at
+it, we should review the memory hot unplug business.
+
+Thanks,
+Felipe
+
+>=20
+> Alex
+>=20
+
 
