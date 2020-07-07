@@ -2,61 +2,61 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2A1E42166FB
-	for <lists+qemu-devel@lfdr.de>; Tue,  7 Jul 2020 09:03:43 +0200 (CEST)
-Received: from localhost ([::1]:60700 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4152B2166F5
+	for <lists+qemu-devel@lfdr.de>; Tue,  7 Jul 2020 09:02:15 +0200 (CEST)
+Received: from localhost ([::1]:55518 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jshdm-0001GS-7q
-	for lists+qemu-devel@lfdr.de; Tue, 07 Jul 2020 03:03:42 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:40888)
+	id 1jshcM-0007ZW-AK
+	for lists+qemu-devel@lfdr.de; Tue, 07 Jul 2020 03:02:14 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:40900)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1jshaf-00063m-Qz
- for qemu-devel@nongnu.org; Tue, 07 Jul 2020 03:00:29 -0400
-Received: from mail-wr1-x434.google.com ([2a00:1450:4864:20::434]:33671)
+ id 1jshah-00064k-1i
+ for qemu-devel@nongnu.org; Tue, 07 Jul 2020 03:00:31 -0400
+Received: from mail-wr1-x443.google.com ([2a00:1450:4864:20::443]:36686)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1jshae-0002e8-69
- for qemu-devel@nongnu.org; Tue, 07 Jul 2020 03:00:29 -0400
-Received: by mail-wr1-x434.google.com with SMTP id f18so35882601wrs.0
- for <qemu-devel@nongnu.org>; Tue, 07 Jul 2020 00:00:27 -0700 (PDT)
+ id 1jshaf-0002eO-Fw
+ for qemu-devel@nongnu.org; Tue, 07 Jul 2020 03:00:30 -0400
+Received: by mail-wr1-x443.google.com with SMTP id k6so43965257wrn.3
+ for <qemu-devel@nongnu.org>; Tue, 07 Jul 2020 00:00:29 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=sender:from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=OAALL/cw7n/+7fM0VWJqcBq9KNUXzDegINtW6gZFwpE=;
- b=g4Zp4JqxMQPW8NXDh2LJhXZHDLOUQ189LrGld5JfP8h5zhM6Xd+QkQdlrN9P222zjR
- BSIZwCgn1DHaFmIDL9K4dzgLPt94oDTQ/d3iCQ/qpTNX1JweFpw3F5utysmWLb0dP7te
- GIhWpTvc181uBX0ULfohDy9jSU+sZcD9+HLUoauVHKkXZhTZTOi/eHk+tXRXzLaKKbXN
- xGo9ZIYD8/GwsMX+a9x71slDgsrQqdlHH9elRSEkmhT85xsg4zApN4QlqP6fYxXD/0wf
- zdkdrs1ieITWFTnI8pTclq+akEJ4xNTv6gWfFUpLDdcReNNMlai0ih5KmNIHTrXDjOBW
- +FVA==
+ bh=a5MgrqzC2j1JrtNr8erhFYvekzCWdPEqkZHuGtykIIg=;
+ b=nN09WyT99UK2pikA1PQ+Zw1eR6b4vo7QjNq2+4T9ODHTwCFcrpUnUFaTq2LwcSdU+z
+ ZAh/adPSekLjJwmVhxuTtPtVtrp9FUyhQbA32hcvNZ60XyV5ixBo1/FLTc1NXwht5xY7
+ 6TWRQfzyO/hap/vjD6nJ63Uuo6Rdphrbq36VURhz9cqEwYEBV0M5QDirIHZJA6wbvtfM
+ 8XkqRL7J7Fv92Evv617mmCddWFa14CplVjqSi2US2XYl2b6D+nW/ITuxxg5g4XnCMSBu
+ RFzNXqoju0+2TSwxd92s+7s5o26vXoLCvR+FxvOAe4ecBlbfL+MHDF7RKmx+/cNrNLLy
+ 585A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
  :in-reply-to:references:mime-version:content-transfer-encoding;
- bh=OAALL/cw7n/+7fM0VWJqcBq9KNUXzDegINtW6gZFwpE=;
- b=jcaeK/nDXbmFYSF86RkrOEnNm/NqFEVd5+wJvz7QqbMqFqOGuj7cvYiy5uc7Skb+qM
- 8YZBZ8BPrLgbh8XArvGVs8VeGKVCsURQWWUupG3Vooc255+c1ibpIXdW2KtCg0eaGA2S
- 141xbzllHC6zx6YPPJIsHIn6MwN0UKcPd6PVGsxo+Wt7Wu0zOlWLEqE1ncsrpeMeltfw
- z5ps5A9lI8Gcf/un+c7q6kIihvZnKwIUN+tqlDq13K8qz1b/L8/lES66tHNPkciC9Z4X
- 8X7bmXp/B5+duynSTOuFvXd7WddrNieQwBCYWXptwH1Hj8VZ+7444VB0sUVnGSJbHuNi
- +wYA==
-X-Gm-Message-State: AOAM531/1xsCpiA359xz1qZuPk36mEBDbBskRxBdqfrO0PCgbrmc1kQI
- 5QYT1GAQjqB7WfkBejhJZU+q575o
-X-Google-Smtp-Source: ABdhPJxc//4/PZI0CVaSPHvX5M1mgcsLxzF7/0tKrF5PLqkXGGvI1Bt1TUT9KPVYpktsN3pUtnST7A==
-X-Received: by 2002:adf:e80d:: with SMTP id o13mr20788802wrm.112.1594105226591; 
- Tue, 07 Jul 2020 00:00:26 -0700 (PDT)
+ bh=a5MgrqzC2j1JrtNr8erhFYvekzCWdPEqkZHuGtykIIg=;
+ b=Frx6nfJ+b1g4f+as6j3EegPq/fqPis3QLM2kxoTKaSNcNPl6LE0a5RljzLk/g1q/pS
+ g2LtA5zSp1HfEczaLdN7N4gz+c5F/cnV4s+0XQoCoTTj7dd0utGT4zQFRfwTzmzMkPxO
+ nveebncjUSssOHWxrzTkJTjDKRZbmJXxNYXla3jfqWn+5KC9m/xW2r5kTao90Hurq9lg
+ eXHuWut3yMJpuLAK8LsmsCIErCS+8tiM86v/6P9bMinrWjO37Gnd9RCSDQxspkUNNX+h
+ Qs+FDanHESrgu9xTCEMycm2k59LXE8S8x5gFzbXHZ5YkEwUe7p3ZYNEdren+/UWu56Hl
+ PlYg==
+X-Gm-Message-State: AOAM5330uYrcgGmTyy2vrwhgJ8tlzC9Ohas2Ni1OwE6rJ/E+42IsFjMz
+ MhBtWH11GDH42CGArzUv+h92NzPV
+X-Google-Smtp-Source: ABdhPJxAdcNEEclM0ge116U4jeobjXnmgwlbTmhwy0hNpMxphwr/CZ6xnoFUQRKQqHJ/DXFQJtxwvA==
+X-Received: by 2002:adf:e801:: with SMTP id o1mr53302655wrm.54.1594105227895; 
+ Tue, 07 Jul 2020 00:00:27 -0700 (PDT)
 Received: from localhost.localdomain
  (138.red-83-57-170.dynamicip.rima-tde.net. [83.57.170.138])
- by smtp.gmail.com with ESMTPSA id r3sm30763634wrg.70.2020.07.07.00.00.25
+ by smtp.gmail.com with ESMTPSA id r3sm30763634wrg.70.2020.07.07.00.00.26
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 07 Jul 2020 00:00:26 -0700 (PDT)
+ Tue, 07 Jul 2020 00:00:27 -0700 (PDT)
 From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v2 2/4] target/avr/cpu: Fix $PC displayed address
-Date: Tue,  7 Jul 2020 09:00:19 +0200
-Message-Id: <20200707070021.10031-3-f4bug@amsat.org>
+Subject: [PATCH v2 3/4] target/avr/disas: Fix store instructions display order
+Date: Tue,  7 Jul 2020 09:00:20 +0200
+Message-Id: <20200707070021.10031-4-f4bug@amsat.org>
 X-Mailer: git-send-email 2.21.3
 In-Reply-To: <20200707070021.10031-1-f4bug@amsat.org>
 References: <20200707070021.10031-1-f4bug@amsat.org>
@@ -64,8 +64,8 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::434;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wr1-x434.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::443;
+ envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wr1-x443.google.com
 X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
  That's all we know.
 X-Spam_score_int: 0
@@ -95,28 +95,50 @@ Cc: Sarah Harris <S.E.Harris@kent.ac.uk>, Thomas Huth <huth@tuxfamily.org>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-$PC is 16-bit wide. Other registers display addresses on a byte
-granularity.
-To have a coherent ouput, display $PC using byte granularity too.
+While LOAD instructions use the target register as first
+argument, STORE instructions use it as second argument:
 
+  LD Rd, X        // Rd <- (X)
+
+  ST Y, Rd        // (Y) <- Rr
+
+Reported-by: Joaquin de Andres <me@xcancerberox.com.ar>
 Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
 ---
- target/avr/cpu.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ target/avr/disas.c | 20 ++++++++++----------
+ 1 file changed, 10 insertions(+), 10 deletions(-)
 
-diff --git a/target/avr/cpu.c b/target/avr/cpu.c
-index 50fb1c378b..9be464991f 100644
---- a/target/avr/cpu.c
-+++ b/target/avr/cpu.c
-@@ -151,7 +151,7 @@ static void avr_cpu_dump_state(CPUState *cs, FILE *f, int flags)
-     int i;
- 
-     qemu_fprintf(f, "\n");
--    qemu_fprintf(f, "PC:    %06x\n", env->pc_w);
-+    qemu_fprintf(f, "PC:    %06x\n", env->pc_w * 2);
-     qemu_fprintf(f, "SP:      %04x\n", env->sp);
-     qemu_fprintf(f, "rampD:     %02x\n", env->rampD >> 16);
-     qemu_fprintf(f, "rampX:     %02x\n", env->rampX >> 16);
+diff --git a/target/avr/disas.c b/target/avr/disas.c
+index 23bd9919ed..7fa6e8711b 100644
+--- a/target/avr/disas.c
++++ b/target/avr/disas.c
+@@ -196,16 +196,16 @@ INSN(LDZ2,   "r%d, Z+", a->rd)
+ INSN(LDZ3,   "r%d, -Z", a->rd)
+ INSN(LDDY,   "r%d, Y+%d", a->rd, a->imm)
+ INSN(LDDZ,   "r%d, Z+%d", a->rd, a->imm)
+-INSN(STS,    "r%d, %d", a->rd, a->imm)
+-INSN(STX1,   "r%d, X", a->rr)
+-INSN(STX2,   "r%d, X+", a->rr)
+-INSN(STX3,   "r%d, -X", a->rr)
+-INSN(STY2,   "r%d, Y+", a->rd)
+-INSN(STY3,   "r%d, -Y", a->rd)
+-INSN(STZ2,   "r%d, Z+", a->rd)
+-INSN(STZ3,   "r%d, -Z", a->rd)
+-INSN(STDY,   "r%d, Y+%d", a->rd, a->imm)
+-INSN(STDZ,   "r%d, Z+%d", a->rd, a->imm)
++INSN(STS,    "%d, r%d", a->imm, a->rd)
++INSN(STX1,   "X, r%d", a->rr)
++INSN(STX2,   "X+, r%d", a->rr)
++INSN(STX3,   "-X, r%d", a->rr)
++INSN(STY2,   "Y+, r%d", a->rd)
++INSN(STY3,   "-Y, r%d", a->rd)
++INSN(STZ2,   "Z+, r%d", a->rd)
++INSN(STZ3,   "-Z, r%d", a->rd)
++INSN(STDY,   "Y+%d, r%d", a->imm, a->rd)
++INSN(STDZ,   "Z+%d, r%d", a->imm, a->rd)
+ INSN(LPM1,   "")
+ INSN(LPM2,   "r%d, Z", a->rd)
+ INSN(LPMX,   "r%d, Z+", a->rd)
 -- 
 2.21.3
 
