@@ -2,61 +2,102 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 824BA216AE8
-	for <lists+qemu-devel@lfdr.de>; Tue,  7 Jul 2020 12:59:39 +0200 (CEST)
-Received: from localhost ([::1]:37380 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id EE890216AD3
+	for <lists+qemu-devel@lfdr.de>; Tue,  7 Jul 2020 12:55:56 +0200 (CEST)
+Received: from localhost ([::1]:51988 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jslK6-0004Bc-Kd
-	for lists+qemu-devel@lfdr.de; Tue, 07 Jul 2020 06:59:38 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:36358)
+	id 1jslGW-0006Ic-06
+	for lists+qemu-devel@lfdr.de; Tue, 07 Jul 2020 06:55:56 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:36678)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <laurent@vivier.eu>)
- id 1jslDs-0001Zf-V9; Tue, 07 Jul 2020 06:53:12 -0400
-Received: from mout.kundenserver.de ([212.227.126.133]:35931)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <laurent@vivier.eu>)
- id 1jslDr-0000Oe-0a; Tue, 07 Jul 2020 06:53:12 -0400
-Received: from localhost.localdomain ([82.252.135.106]) by
- mrelayeu.kundenserver.de (mreue011 [212.227.15.167]) with ESMTPSA (Nemesis)
- id 1N4hex-1ksBVg0OZD-011lpN; Tue, 07 Jul 2020 12:53:03 +0200
-From: Laurent Vivier <laurent@vivier.eu>
-To: qemu-devel@nongnu.org
-Subject: [PULL 7/7] net/tap-solaris.c: Include qemu-common.h for TFR macro
-Date: Tue,  7 Jul 2020 12:52:55 +0200
-Message-Id: <20200707105255.362318-8-laurent@vivier.eu>
-X-Mailer: git-send-email 2.26.2
-In-Reply-To: <20200707105255.362318-1-laurent@vivier.eu>
-References: <20200707105255.362318-1-laurent@vivier.eu>
+ (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
+ id 1jslFI-0004RC-4m
+ for qemu-devel@nongnu.org; Tue, 07 Jul 2020 06:54:40 -0400
+Received: from us-smtp-2.mimecast.com ([205.139.110.61]:21354
+ helo=us-smtp-delivery-1.mimecast.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
+ id 1jslFF-0000W3-6x
+ for qemu-devel@nongnu.org; Tue, 07 Jul 2020 06:54:39 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1594119275;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=Kbb+6XCP4QqXXv2Sm4IrqgHfBggIh46EwYB2OmGndh4=;
+ b=J7h+Ynh9vuphtJ3vBFLmU4iMTbxc/2xF4vVn0f6USpKzDTuucAH71fmfj/ibnGBH5EcVTY
+ hhWVue2ok2C6KXpeAM8REBP3hk9mL1tIg7zcpBR+P6YY+HvTfGuylGiw1605S0cRBN7nWg
+ Su1YW5BrxB1CkxLYvJME5nsCF4iW9VE=
+Received: from mail-wm1-f72.google.com (mail-wm1-f72.google.com
+ [209.85.128.72]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-112-gC64ud2xPV2odD7mKXfWFQ-1; Tue, 07 Jul 2020 06:54:34 -0400
+X-MC-Unique: gC64ud2xPV2odD7mKXfWFQ-1
+Received: by mail-wm1-f72.google.com with SMTP id q20so42376199wme.3
+ for <qemu-devel@nongnu.org>; Tue, 07 Jul 2020 03:54:33 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=Kbb+6XCP4QqXXv2Sm4IrqgHfBggIh46EwYB2OmGndh4=;
+ b=b8HWh9sGGfRzESQyyxzUkNmRGNuqnOE2gZgUnbxCC/fdcSdnOJBO0CGZYHIDl8F0aP
+ THHd8C+WaA5dNL+OSFjqywY62O9dIS5uqKedSA39bQWdq0FpYklN0l+T6nUFTsr1w8+f
+ gFZxsYrw1jDydGFFIi2Kb4eUhCZnP7X0TMdZRDY/8wBVSvXAk52JGW2G2Bs/o49cE+lJ
+ jWMxHosa85i1+3PlCPWC5gC6C4HC7e/WtHdzWGAqgiYyD1Lf7FtN1xFFVg84AdKx8R+e
+ vdDyhF3flGIbJwA0ikeit8bI5DI+0Ouna2q6XX02z6uJaRyXVWyHR+uB1lT3YA7K/TPa
+ U/sw==
+X-Gm-Message-State: AOAM531BMpY29+3sKA9VGXPQIG7c+/y3n5GP7EG/IsYBn31NsiyPAWc9
+ ut+8uutb4+Y5tZmrocfT7LM5kLNcAj2Utub4y9EJXWmszzuneFkExjGg4wQGlpjfpRbS6VJy6FW
+ dDXA2X2jpZUZFglk=
+X-Received: by 2002:a5d:4202:: with SMTP id n2mr51844054wrq.171.1594119272988; 
+ Tue, 07 Jul 2020 03:54:32 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJxu6t/kieTQ2hhqH1LiyNqTp9hbCrz1nvGufIHprBNguKKUj5PrxiFxMh8mbpN/+nyERMovtw==
+X-Received: by 2002:a5d:4202:: with SMTP id n2mr51844043wrq.171.1594119272735; 
+ Tue, 07 Jul 2020 03:54:32 -0700 (PDT)
+Received: from ?IPv6:2001:b07:6468:f312:e95f:9718:ec18:4c46?
+ ([2001:b07:6468:f312:e95f:9718:ec18:4c46])
+ by smtp.gmail.com with ESMTPSA id c11sm479934wmb.45.2020.07.07.03.54.31
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Tue, 07 Jul 2020 03:54:32 -0700 (PDT)
+Subject: Re: [PATCH 2/2] hyperv/synic: Allocate as ram_device
+To: Vitaly Kuznetsov <vkuznets@redhat.com>
+References: <20200108135353.75471-1-dgilbert@redhat.com>
+ <20200108135353.75471-3-dgilbert@redhat.com>
+ <20200109064527-mutt-send-email-mst@kernel.org>
+ <20200109120820.GB6795@work-vm>
+ <20200109071454-mutt-send-email-mst@kernel.org>
+ <20200109122237.GD6795@work-vm>
+ <20200109080412-mutt-send-email-mst@kernel.org>
+ <20200109132242.GF6795@work-vm>
+ <3162676e-da40-7a3f-1777-2ed4f3efffe1@redhat.com>
+ <87h814r639.fsf@vitty.brq.redhat.com>
+From: Paolo Bonzini <pbonzini@redhat.com>
+Message-ID: <57b450ab-313d-5582-0ba9-43c1de0c9e75@redhat.com>
+Date: Tue, 7 Jul 2020 12:54:31 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.9.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-X-Provags-ID: V03:K1:lsRt7/FDAVdg+rzVdalhBL4jkta7hx0JrP73WaU+PKuu6Nq6MBa
- u/kxnjrMocfQW8Jr5EIKb0+xxu7Cti7wwjaHClyW3QSs3Jh9pmQJmpcadhFmoqMJk9n9C2e
- Fbkgdx6LaQ8Eh9S2VgG2Br9qxrjQphEs/ERxa1OqRrSqkuUsdjn02XPG+YQXkGNPSAeqR3f
- dyApxhKO1mkH22LHENGiQ==
-X-UI-Out-Filterresults: notjunk:1;V03:K0:axkjWxxnXMk=:gDdfTvdCOqIur1DLuvw/4b
- F9eEd7SOfkTd0yC9W9Ivo4g6+rG2Hoz/sRAvwOTUEMpxnllrcdM6j7GEOEZ51sgDjEc8+dESD
- Y5GdGZFl9qswIwI8MK04FRCbhkwu+tR8CszlyXr6AuMubBQNYUVoE+NG6KUkXeIXf1AtqxIR6
- TQ5NI/HMt09XFcdIkHfXHhWNK8Q2GqX1AaarU2m2rPbsxGwHAmhVoOKG/3Yy1uptpDOlugCSh
- MQeFwRnTeCVQiq+ho0VzBTfhr0XGDCaQn4gC1Hfu9WSu6tHJm9nrXlHU4lEtYW1UuebAMWQ/n
- ol7DTJUW9QMCNj1/DBaZz6ffcB02T8gCNSWYtd0+nXkZVJtYSZlnBSJ0Z6sQ2+g4tyU33tNGq
- phLZ2Jvx8/8C4bstD4eGthOrfqpNc6BhFz2NOU/f3iRCF0qHW/vUj4MqmrPxz6dPv3DWtCc1W
- tOJ50P2cQUEwqPUrFsliS1p2c3Q37d5Lz/hIhg4v+JKYVnx2LFS+3NOK5lswyjDALyw82hUBh
- W6/fjtkFOFX0+ChpZO4ifDvD+p4ujpqMVIUij+A9ux6LEyIIWzV4AnQEAGK7K0r1p31Tp1eae
- QbqK0w+d1QqEZiOfvhTjR2AbKtC3Bhu0x//UAGgPIV++rb7mgC9D8e/cImcT3e8PRNBeGki1i
- UvxUugbu09Ff0RNThivwgPTxCbkWJumPVobvTEjpWoq/fYFoLWScWuTxCu2oNP2stH+PAbQ2g
- cL2SjOl1N7Td7+yTaeAvfD/qrYSas3IkbHejW+g/1whM4u6VRK8PFOpZryaWko5ay+4LWv3RH
- jzhBY3n9KuHr896f0I07DB0ogwuhAqZPXC+AEIcz554SE75YWKo4sL9qzVn4RCxo3kLCN+y
-Received-SPF: none client-ip=212.227.126.133; envelope-from=laurent@vivier.eu;
- helo=mout.kundenserver.de
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/07/07 06:53:03
-X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic]
-X-Spam_score_int: -28
-X-Spam_score: -2.9
-X-Spam_bar: --
-X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_NONE=-0.0001,
- RCVD_IN_MSPIKE_H2=-1, SPF_HELO_NONE=0.001, SPF_NONE=0.001 autolearn=_AUTOLEARN
+In-Reply-To: <87h814r639.fsf@vitty.brq.redhat.com>
+Content-Language: en-US
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=pbonzini@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=205.139.110.61; envelope-from=pbonzini@redhat.com;
+ helo=us-smtp-delivery-1.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/07/07 00:31:00
+X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
+X-Spam_score_int: -30
+X-Spam_score: -3.1
+X-Spam_bar: ---
+X-Spam_report: (-3.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H3=-0.01, RCVD_IN_MSPIKE_WL=-0.01,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=_AUTOLEARN
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -69,45 +110,36 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Maydell <peter.maydell@linaro.org>, Thomas Huth <thuth@redhat.com>,
- qemu-trivial@nongnu.org, Michael Tokarev <mjt@tls.msk.ru>,
- =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>,
- Laurent Vivier <laurent@vivier.eu>, Michele Denber <denber@mindspring.com>
+Cc: Roman Kagan <rkagan@virtuozzo.com>, jasowang@redhat.com,
+ "Michael S. Tsirkin" <mst@redhat.com>, qemu-devel@nongnu.org,
+ "Dr. David Alan Gilbert" <dgilbert@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Peter Maydell <peter.maydell@linaro.org>
+On 09/01/20 16:40, Vitaly Kuznetsov wrote:
+>>>>> Do we want a new memory_region_init for that or just to be able to add
+>>>>> a flag?
+>>>>>
+>>>> I think a flag API is preferable since this can apply to any kind of
+>>>> region. But can go either way, Paolo's the maintainer there.
+>>> (Copying Paolo in)
+>>> So what exactly does this flag mean; to me it's 'no vhost' - but is it
+>>> actually more general?
+>> It has two more effects in addition to no vhost:
+>>
+>> 1) it is skipped when dumping the guest (is this a good or bad idea for
+>> SynIC?)
+> Imagine we have an not yet consumed message sitting in message page, or
+> a signalled event, do I understand correctly that these are going to get
+> lost upon migration? This may not work then -- unless we transfer
+> in-QEMU synic state somehow separately.
 
-In commit a8d2532645cf5ce4 we cleaned up usage of the qemu-common.h header
-so that it was always included from .c files and never from other .h files.
-We missed adding it to net/tap-solaris.c (which previously was pulling it
-in via tap-int.h), which broke building on Solaris hosts.
+(Thread necromancy).
 
-Fixes: a8d2532645cf5ce4
-Reported-by: Michele Denber <denber@mindspring.com>
-Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
-Reviewed-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
-Reviewed-by: Thomas Huth <thuth@redhat.com>
-Tested-by: Michele Denber <denber@mindspring.com>
-Message-Id: <20200704092317.12943-1-peter.maydell@linaro.org>
-Signed-off-by: Laurent Vivier <laurent@vivier.eu>
----
- net/tap-solaris.c | 1 +
- 1 file changed, 1 insertion(+)
+This is just dumping (and it should probably be extended to core
+dumping, i.e. MADV_DONTDUMP).  Migration is controlled separately with
+vmstate_register_ram.
 
-diff --git a/net/tap-solaris.c b/net/tap-solaris.c
-index 4725d2314eef..d03165c57c9f 100644
---- a/net/tap-solaris.c
-+++ b/net/tap-solaris.c
-@@ -27,6 +27,7 @@
- #include "tap_int.h"
- #include "qemu/ctype.h"
- #include "qemu/cutils.h"
-+#include "qemu-common.h"
- 
- #include <sys/ethernet.h>
- #include <sys/sockio.h>
--- 
-2.26.2
+Paolo
 
 
