@@ -2,62 +2,62 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id DF70F216D5E
-	for <lists+qemu-devel@lfdr.de>; Tue,  7 Jul 2020 15:01:47 +0200 (CEST)
-Received: from localhost ([::1]:47376 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C36D0216D7A
+	for <lists+qemu-devel@lfdr.de>; Tue,  7 Jul 2020 15:09:59 +0200 (CEST)
+Received: from localhost ([::1]:41702 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jsnEI-0000sb-U3
-	for lists+qemu-devel@lfdr.de; Tue, 07 Jul 2020 09:01:46 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:38372)
+	id 1jsnME-0003zW-SY
+	for lists+qemu-devel@lfdr.de; Tue, 07 Jul 2020 09:09:58 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:38340)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1jsn7j-0008EJ-Ns
- for qemu-devel@nongnu.org; Tue, 07 Jul 2020 08:54:59 -0400
-Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:52783
+ (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1jsn7g-0008Bc-Ck
+ for qemu-devel@nongnu.org; Tue, 07 Jul 2020 08:54:57 -0400
+Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:31408
  helo=us-smtp-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1jsn7i-0004sv-6u
- for qemu-devel@nongnu.org; Tue, 07 Jul 2020 08:54:59 -0400
+ (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1jsn7e-0004rt-JV
+ for qemu-devel@nongnu.org; Tue, 07 Jul 2020 08:54:56 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1594126497;
+ s=mimecast20190719; t=1594126493;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:content-type:content-type:in-reply-to:in-reply-to:
- references:references; bh=Z16Tgq/lHTtNURBIfdG7/VdPyWMNzUE7lIxlb0vcRX8=;
- b=ZfeU8iAJQGCCP5d9TsHsCahp9gffcp0ICsTHErZvDJ8gtN3qUmt/WjADgfYv1OjjnN7I/e
- M0JlUg+iaJp/5HupBiwM7TlkiZ+c7fOSP8n/NAQi8czcjIK0i6sAMDBB1EX/b0OmvilpBF
- 2BP4x5QL2KH6XXLzcRzs/y6o+hg5Wqk=
+ references:references; bh=yIBA7QMbjRBBosF8Z/aCMKZ6+Ye92UgyjrSu7U7xbDM=;
+ b=GtWM3KlU+y/ZpUKNtTYOSZOTn4mQHVaMDGslM2MILCU2oAPbtTrGYviOMGiAbbHztAiefS
+ t2pNBgkCL5J2ObLLQM1XvE+ZVC38l1yy67WOxnJpJTCSk9GFgryhDoHnQOjqeArm/nEmen
+ PT6d7uwaMJQ+ir6owyILWqp2LPltoWw=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-187-RkvcAhOnMXm2yandsucMjA-1; Tue, 07 Jul 2020 08:54:52 -0400
-X-MC-Unique: RkvcAhOnMXm2yandsucMjA-1
-Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
- [10.5.11.22])
+ us-mta-280-wzx07mdZMDKl64AUVcbilw-1; Tue, 07 Jul 2020 08:54:47 -0400
+X-MC-Unique: wzx07mdZMDKl64AUVcbilw-1
+Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
+ [10.5.11.15])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id DAF17891555;
- Tue,  7 Jul 2020 12:54:31 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id DF2CA80DAF3;
+ Tue,  7 Jul 2020 12:54:30 +0000 (UTC)
 Received: from sirius.home.kraxel.org (ovpn-112-200.ams2.redhat.com
  [10.36.112.200])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 4CB2610023A7;
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 511EDC007C;
  Tue,  7 Jul 2020 12:54:20 +0000 (UTC)
 Received: by sirius.home.kraxel.org (Postfix, from userid 1000)
- id A338231F99; Tue,  7 Jul 2020 14:53:57 +0200 (CEST)
+ id AC44E31F9A; Tue,  7 Jul 2020 14:53:57 +0200 (CEST)
 From: Gerd Hoffmann <kraxel@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v5 16/20] microvm: wire up hotplug
-Date: Tue,  7 Jul 2020 14:53:52 +0200
-Message-Id: <20200707125356.32450-17-kraxel@redhat.com>
+Subject: [PATCH v5 17/20] tests/acpi: allow microvm test data updates.
+Date: Tue,  7 Jul 2020 14:53:53 +0200
+Message-Id: <20200707125356.32450-18-kraxel@redhat.com>
 In-Reply-To: <20200707125356.32450-1-kraxel@redhat.com>
 References: <20200707125356.32450-1-kraxel@redhat.com>
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=kraxel@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=US-ASCII
-Received-SPF: pass client-ip=207.211.31.120; envelope-from=kraxel@redhat.com;
+Received-SPF: pass client-ip=205.139.110.120; envelope-from=kraxel@redhat.com;
  helo=us-smtp-1.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/07/07 00:46:09
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/07/07 06:04:49
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
 X-Spam_score_int: -40
 X-Spam_score: -4.1
@@ -88,91 +88,37 @@ Cc: Laurent Vivier <lvivier@redhat.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The cpu hotplug code handles the initialization of coldplugged cpus
-too, so it is needed even in case cpu hotplug is not supported.
-
-Wire cpu hotplug up for microvm.
-Without this we get a broken MADT table.
+Also add empty test data files.
 
 Signed-off-by: Gerd Hoffmann <kraxel@redhat.com>
 ---
- hw/i386/microvm.c | 42 ++++++++++++++++++++++++++++++++++++++++++
- 1 file changed, 42 insertions(+)
+ tests/qtest/bios-tables-test-allowed-diff.h | 3 +++
+ tests/data/acpi/microvm/APIC                | 0
+ tests/data/acpi/microvm/DSDT                | 0
+ tests/data/acpi/microvm/FACP                | 0
+ 4 files changed, 3 insertions(+)
+ create mode 100644 tests/data/acpi/microvm/APIC
+ create mode 100644 tests/data/acpi/microvm/DSDT
+ create mode 100644 tests/data/acpi/microvm/FACP
 
-diff --git a/hw/i386/microvm.c b/hw/i386/microvm.c
-index 3d8a66cfc3ac..a5b16b728f9f 100644
---- a/hw/i386/microvm.c
-+++ b/hw/i386/microvm.c
-@@ -320,6 +320,39 @@ static void microvm_fix_kernel_cmdline(MachineState *machine)
-     g_free(cmdline);
- }
- 
-+static void microvm_device_pre_plug_cb(HotplugHandler *hotplug_dev,
-+                                       DeviceState *dev, Error **errp)
-+{
-+    x86_cpu_pre_plug(hotplug_dev, dev, errp);
-+}
-+
-+static void microvm_device_plug_cb(HotplugHandler *hotplug_dev,
-+                                   DeviceState *dev, Error **errp)
-+{
-+    x86_cpu_plug(hotplug_dev, dev, errp);
-+}
-+
-+static void microvm_device_unplug_request_cb(HotplugHandler *hotplug_dev,
-+                                             DeviceState *dev, Error **errp)
-+{
-+    error_setg(errp, "unplug not supported by microvm");
-+}
-+
-+static void microvm_device_unplug_cb(HotplugHandler *hotplug_dev,
-+                                     DeviceState *dev, Error **errp)
-+{
-+    error_setg(errp, "unplug not supported by microvm");
-+}
-+
-+static HotplugHandler *microvm_get_hotplug_handler(MachineState *machine,
-+                                                   DeviceState *dev)
-+{
-+    if (object_dynamic_cast(OBJECT(dev), TYPE_CPU)) {
-+        return HOTPLUG_HANDLER(machine);
-+    }
-+    return NULL;
-+}
-+
- static void microvm_machine_state_init(MachineState *machine)
- {
-     MicrovmMachineState *mms = MICROVM_MACHINE(machine);
-@@ -503,6 +536,7 @@ static void microvm_machine_initfn(Object *obj)
- static void microvm_class_init(ObjectClass *oc, void *data)
- {
-     MachineClass *mc = MACHINE_CLASS(oc);
-+    HotplugHandlerClass *hc = HOTPLUG_HANDLER_CLASS(oc);
- 
-     mc->init = microvm_machine_state_init;
- 
-@@ -523,6 +557,13 @@ static void microvm_class_init(ObjectClass *oc, void *data)
-     /* Machine class handlers */
-     mc->reset = microvm_machine_reset;
- 
-+    /* hotplug (for cpu coldplug) */
-+    mc->get_hotplug_handler = microvm_get_hotplug_handler;
-+    hc->pre_plug = microvm_device_pre_plug_cb;
-+    hc->plug = microvm_device_plug_cb;
-+    hc->unplug_request = microvm_device_unplug_request_cb;
-+    hc->unplug = microvm_device_unplug_cb;
-+
-     object_class_property_add(oc, MICROVM_MACHINE_PIC, "OnOffAuto",
-                               microvm_machine_get_pic,
-                               microvm_machine_set_pic,
-@@ -572,6 +613,7 @@ static const TypeInfo microvm_machine_info = {
-     .class_size    = sizeof(MicrovmMachineClass),
-     .class_init    = microvm_class_init,
-     .interfaces = (InterfaceInfo[]) {
-+         { TYPE_HOTPLUG_HANDLER },
-          { }
-     },
- };
+diff --git a/tests/qtest/bios-tables-test-allowed-diff.h b/tests/qtest/bios-tables-test-allowed-diff.h
+index dfb8523c8bf4..97c3fa621b7f 100644
+--- a/tests/qtest/bios-tables-test-allowed-diff.h
++++ b/tests/qtest/bios-tables-test-allowed-diff.h
+@@ -1 +1,4 @@
+ /* List of comma-separated changed AML files to ignore */
++"tests/data/acpi/microvm/APIC",
++"tests/data/acpi/microvm/DSDT",
++"tests/data/acpi/microvm/FACP",
+diff --git a/tests/data/acpi/microvm/APIC b/tests/data/acpi/microvm/APIC
+new file mode 100644
+index 000000000000..e69de29bb2d1
+diff --git a/tests/data/acpi/microvm/DSDT b/tests/data/acpi/microvm/DSDT
+new file mode 100644
+index 000000000000..e69de29bb2d1
+diff --git a/tests/data/acpi/microvm/FACP b/tests/data/acpi/microvm/FACP
+new file mode 100644
+index 000000000000..e69de29bb2d1
 -- 
 2.18.4
 
