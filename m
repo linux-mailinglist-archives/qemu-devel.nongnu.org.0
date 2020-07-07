@@ -2,62 +2,62 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 80A162173F3
-	for <lists+qemu-devel@lfdr.de>; Tue,  7 Jul 2020 18:29:33 +0200 (CEST)
-Received: from localhost ([::1]:46448 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0A58B217358
+	for <lists+qemu-devel@lfdr.de>; Tue,  7 Jul 2020 18:09:47 +0200 (CEST)
+Received: from localhost ([::1]:53340 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jsqTM-0001GW-F5
-	for lists+qemu-devel@lfdr.de; Tue, 07 Jul 2020 12:29:32 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:60144)
+	id 1jsqAE-0007fb-0c
+	for lists+qemu-devel@lfdr.de; Tue, 07 Jul 2020 12:09:46 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:59168)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1jsq7e-0003Hy-8h
- for qemu-devel@nongnu.org; Tue, 07 Jul 2020 12:07:06 -0400
-Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:23842
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1jsq70-0001YK-Dg
+ for qemu-devel@nongnu.org; Tue, 07 Jul 2020 12:06:26 -0400
+Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:25972
  helo=us-smtp-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1jsq7F-0006uY-0m
- for qemu-devel@nongnu.org; Tue, 07 Jul 2020 12:07:05 -0400
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1jsq6y-0006lb-Be
+ for qemu-devel@nongnu.org; Tue, 07 Jul 2020 12:06:26 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1594138000;
+ s=mimecast20190719; t=1594137983;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=78LjYMMhkKi8U8JJ8fHiimt8hNRhQEQOrO1mIcTcXso=;
- b=H3KV6mmfUhz6nSExtnBRiytkGZ1jWWV4kzRBri8lzEKd1s2ulqoBSamUtaAn5/KhAiLHtJ
- X9RU877i7ByI31p2lZzDTwKRqHLHLyYeg8jR1v7qu70UJPKzK2Wfc4U16bwNnYsfuRbUkF
- ziWDGQQbQHVU8wozVoE3OM458FEeiPs=
+ bh=8DAGkV6ZNIL1tG7KKSixN93yw+yuNrB9BJVkRRHacng=;
+ b=JoNj3OIw9SrN07JAiu5T8TV5UqUsrULVn1JTZLcrCzZucS/HFUAd7+GdqY5VODjrUPoUWS
+ txPxdiy/jPpBdh0sb/4X1cqCb1j1jVHg2ctzdP4UUbbC8q8OZf/OH6PX86EDyt6tQz7937
+ qBj327/RhZMK+uQBTHJzPGlmFdaxm5Q=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-103-fwKI-MZbN_yawB5C_FzbAA-1; Tue, 07 Jul 2020 12:06:38 -0400
-X-MC-Unique: fwKI-MZbN_yawB5C_FzbAA-1
-Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
- [10.5.11.22])
+ us-mta-151-ThKxmkCSMRKo6JXFZ2TYdg-1; Tue, 07 Jul 2020 12:06:19 -0400
+X-MC-Unique: ThKxmkCSMRKo6JXFZ2TYdg-1
+Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
+ [10.5.11.14])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 28C3E8C99E2;
- Tue,  7 Jul 2020 16:06:37 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 50DC6107ACF9;
+ Tue,  7 Jul 2020 16:06:18 +0000 (UTC)
 Received: from blackfin.pond.sub.org (ovpn-112-143.ams2.redhat.com
  [10.36.112.143])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id E819410013D7;
- Tue,  7 Jul 2020 16:06:36 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id EB4825D9C9;
+ Tue,  7 Jul 2020 16:06:17 +0000 (UTC)
 Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
- id 733F31132922; Tue,  7 Jul 2020 18:06:13 +0200 (CEST)
+ id 770F011328A3; Tue,  7 Jul 2020 18:06:13 +0200 (CEST)
 From: Markus Armbruster <armbru@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v4 02/45] error: Improve error.h's big comment
-Date: Tue,  7 Jul 2020 18:05:30 +0200
-Message-Id: <20200707160613.848843-3-armbru@redhat.com>
+Subject: [PATCH v4 03/45] error: Document Error API usage rules
+Date: Tue,  7 Jul 2020 18:05:31 +0200
+Message-Id: <20200707160613.848843-4-armbru@redhat.com>
 In-Reply-To: <20200707160613.848843-1-armbru@redhat.com>
 References: <20200707160613.848843-1-armbru@redhat.com>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=armbru@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=US-ASCII
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 Received-SPF: pass client-ip=207.211.31.120; envelope-from=armbru@redhat.com;
  helo=us-smtp-1.mimecast.com
@@ -88,123 +88,131 @@ Cc: peter.maydell@linaro.org, vsementsov@virtuozzo.com, berrange@redhat.com,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Add headlines to the big comment.
+This merely codifies existing practice, with one exception: the rule
+advising against returning void, where existing practice is mixed.
 
-Explain examples for NULL, &error_abort and &error_fatal argument
-better.
+When the Error API was created, we adopted the (unwritten) rule to
+return void when the function returns no useful value on success,
+unlike GError, which recommends to return true on success and false on
+error then.
 
-Tweak rationale for error_propagate_prepend().
+When a function returns a distinct error value, say false, a checked
+call that passes the error up looks like
+
+    if (!frobnicate(..., errp)) {
+        handle the error...
+    }
+
+When it returns void, we need
+
+    Error *err = NULL;
+
+    frobnicate(..., &err);
+    if (err) {
+        handle the error...
+        error_propagate(errp, err);
+    }
+
+Not only is this more verbose, it also creates an Error object even
+when @errp is null, &error_abort or &error_fatal.
+
+People got tired of the additional boilerplate, and started to ignore
+the unwritten rule.  The result is confusion among developers about
+the preferred usage.
+
+Make the rule advising against returning void official by putting it
+in writing.  This will hopefully reduce confusion.
+
+Update the examples accordingly.
+
+The remainder of this series will update a substantial amount of code
+to honor the rule.
 
 Signed-off-by: Markus Armbruster <armbru@redhat.com>
+Reviewed-by: Eric Blake <eblake@redhat.com>
+Reviewed-by: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
+Reviewed-by: Greg Kurz <groug@kaod.org>
 ---
- include/qapi/error.h | 51 +++++++++++++++++++++++++++++++-------------
- 1 file changed, 36 insertions(+), 15 deletions(-)
+ include/qapi/error.h | 50 ++++++++++++++++++++++++++++++++++++++------
+ 1 file changed, 44 insertions(+), 6 deletions(-)
 
 diff --git a/include/qapi/error.h b/include/qapi/error.h
-index e8960eaad5..6d079c58b7 100644
+index 6d079c58b7..3fed49747d 100644
 --- a/include/qapi/error.h
 +++ b/include/qapi/error.h
-@@ -15,6 +15,8 @@
+@@ -15,6 +15,33 @@
  /*
   * Error reporting system loosely patterned after Glib's GError.
   *
-+ * = Creating errors =
++ * = Rules =
 + *
++ * - Functions that use Error to report errors have an Error **errp
++ *   parameter.  It should be the last parameter, except for functions
++ *   taking variable arguments.
++ *
++ * - You may pass NULL to not receive the error, &error_abort to abort
++ *   on error, &error_fatal to exit(1) on error, or a pointer to a
++ *   variable containing NULL to receive the error.
++ *
++ * - Separation of concerns: the function is responsible for detecting
++ *   errors and failing cleanly; handling the error is its caller's
++ *   job.  Since the value of @errp is about handling the error, the
++ *   function should not examine it.
++ *
++ * - On success, the function should not touch *errp.  On failure, it
++ *   should set a new error, e.g. with error_setg(errp, ...), or
++ *   propagate an existing one, e.g. with error_propagate(errp, ...).
++ *
++ * - Whenever practical, also return a value that indicates success /
++ *   failure.  This can make the error checking more concise, and can
++ *   avoid useless error object creation and destruction.  Note that
++ *   we still have many functions returning void.  We recommend
++ *   • bool-valued functions return true on success / false on failure,
++ *   • pointer-valued functions return non-null / null pointer, and
++ *   • integer-valued functions return non-negative / negative.
++ *
+  * = Creating errors =
+  *
   * Create an error:
-  *     error_setg(&err, "situation normal, all fouled up");
-  *
-@@ -27,6 +29,8 @@
-  *     error_setg(&err, "invalid quark\n" // WRONG!
-  *                "Valid quarks are up, down, strange, charm, top, bottom.");
-  *
-+ * = Reporting and destroying errors =
-+ *
-  * Report an error to the current monitor if we have one, else stderr:
-  *     error_report_err(err);
-  * This frees the error object.
-@@ -40,6 +44,30 @@
-  *     error_free(err);
-  * Note that this loses hints added with error_append_hint().
-  *
-+ * Call a function ignoring errors:
-+ *     foo(arg, NULL);
-+ * This is more concise than
-+ *     Error *err = NULL;
-+ *     foo(arg, &err);
-+ *     error_free(err); // don't do this
-+ *
-+ * Call a function aborting on errors:
-+ *     foo(arg, &error_abort);
-+ * This is more concise and fails more nicely than
-+ *     Error *err = NULL;
-+ *     foo(arg, &err);
-+ *     assert(!err); // don't do this
-+ *
-+ * Call a function treating errors as fatal:
-+ *     foo(arg, &error_fatal);
-+ * This is more concise than
-+ *     Error *err = NULL;
-+ *     foo(arg, &err);
-+ *     if (err) { // don't do this
-+ *         error_report_err(err);
-+ *         exit(1);
-+ *     }
-+ *
-  * Handle an error without reporting it (just for completeness):
-  *     error_free(err);
-  *
-@@ -47,6 +75,11 @@
-  * reporting it (primarily useful in testsuites):
-  *     error_free_or_abort(&err);
-  *
-+ * = Passing errors around =
-+ *
-+ * Errors get passed to the caller through the conventional @errp
-+ * parameter.
-+ *
-  * Pass an existing error to the caller:
-  *     error_propagate(errp, err);
-  * where Error **errp is a parameter, by convention the last one.
-@@ -54,11 +87,10 @@
-  * Pass an existing error to the caller with the message modified:
-  *     error_propagate_prepend(errp, err,
-  *                             "Could not frobnicate '%s': ", name);
-- *
-- * Avoid
-- *     error_propagate(errp, err);
-+ * This is more concise than
-+ *     error_propagate(errp, err); // don't do this
-  *     error_prepend(errp, "Could not frobnicate '%s': ", name);
-- * because this fails to prepend when @errp is &error_fatal.
-+ * and works even when @errp is &error_fatal.
-  *
+@@ -95,14 +122,12 @@
   * Create a new error and pass it to the caller:
   *     error_setg(errp, "situation normal, all fouled up");
-@@ -70,15 +102,6 @@
+  *
+- * Call a function and receive an error from it:
+- *     Error *err = NULL;
+- *     foo(arg, &err);
+- *     if (err) {
++ * Call a function, receive an error from it, and pass it to caller
++ * when the function returns a value that indicates failure, say false:
++ *     if (!foo(arg, errp)) {
   *         handle the error...
   *     }
-  *
-- * Call a function ignoring errors:
-- *     foo(arg, NULL);
 - *
-- * Call a function aborting on errors:
-- *     foo(arg, &error_abort);
-- *
-- * Call a function treating errors as fatal:
-- *     foo(arg, &error_fatal);
-- *
-  * Receive an error and pass it on to the caller:
+- * Receive an error and pass it on to the caller:
++ * when it doesn't, say a void function:
   *     Error *err = NULL;
   *     foo(arg, &err);
-@@ -86,8 +109,6 @@
-  *         handle the error...
-  *         error_propagate(errp, err);
-  *     }
-- * where Error **errp is a parameter, by convention the last one.
-- *
-  * Do *not* "optimize" this to
+  *     if (err) {
+@@ -120,6 +145,19 @@
   *     foo(arg, errp);
-  *     if (*errp) { // WRONG!
+  * for readability.
+  *
++ * Receive an error, and handle it locally
++ * when the function returns a value that indicates failure, say false:
++ *     Error *err = NULL;
++ *     if (!foo(arg, &err)) {
++ *         handle the error...
++ *     }
++ * when it doesn't, say a void function:
++ *     Error *err = NULL;
++ *     foo(arg, &err);
++ *     if (err) {
++ *         handle the error...
++ *     }
++ *
+  * Receive and accumulate multiple errors (first one wins):
+  *     Error *err = NULL, *local_err = NULL;
+  *     foo(arg, &err);
 -- 
 2.26.2
 
