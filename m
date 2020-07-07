@@ -2,72 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2170321672F
-	for <lists+qemu-devel@lfdr.de>; Tue,  7 Jul 2020 09:18:34 +0200 (CEST)
-Received: from localhost ([::1]:46522 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A644D21674B
+	for <lists+qemu-devel@lfdr.de>; Tue,  7 Jul 2020 09:24:32 +0200 (CEST)
+Received: from localhost ([::1]:48930 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jshs9-00052v-59
-	for lists+qemu-devel@lfdr.de; Tue, 07 Jul 2020 03:18:33 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:43572)
+	id 1jshxv-0000rq-NU
+	for lists+qemu-devel@lfdr.de; Tue, 07 Jul 2020 03:24:31 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:43832)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1jshoE-0006Yu-EY
- for qemu-devel@nongnu.org; Tue, 07 Jul 2020 03:14:30 -0400
-Received: from mail-wm1-x32b.google.com ([2a00:1450:4864:20::32b]:40246)
+ id 1jshoU-00076y-Ub
+ for qemu-devel@nongnu.org; Tue, 07 Jul 2020 03:14:48 -0400
+Received: from mail-wm1-x329.google.com ([2a00:1450:4864:20::329]:51260)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1jshoC-0004qZ-Mo
- for qemu-devel@nongnu.org; Tue, 07 Jul 2020 03:14:30 -0400
-Received: by mail-wm1-x32b.google.com with SMTP id f139so45346276wmf.5
- for <qemu-devel@nongnu.org>; Tue, 07 Jul 2020 00:14:28 -0700 (PDT)
+ id 1jshoS-0004vQ-Bo
+ for qemu-devel@nongnu.org; Tue, 07 Jul 2020 03:14:46 -0400
+Received: by mail-wm1-x329.google.com with SMTP id 22so42135429wmg.1
+ for <qemu-devel@nongnu.org>; Tue, 07 Jul 2020 00:14:43 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=0Du9+TDok3/8t4BiL1lqGOO2m2hHyL++J15tcPz/gDI=;
- b=eIcbOXwJFxzs4KDjejfWky8SJqCIhYrm8YWjqtSH6Td/fYGRBYErOJrPZAQDc875SF
- DZlZXjfYAX6z3LfpSrZ7f869T5vFUSVFdD+vTAizykmqO02KIfGVb9q+N842pw/1+Nj8
- DsE2yozOeFS9JjX53dZvy1I0nLnG+9HOGgMxWsrFEaqJhvMRUar+AihtKoVjrgRRkG4j
- k59ByDfC6nXz4Xdu/WF2rzTaBsmKSGrkpe5f2eHVkJNzkML8GN/fQcjW14YPjN0285OJ
- todiyxB/kSgwYSIUSo7G9DGuXZ1KAvQ3zVOGSU864EtemWB0usJUe1l2CZLpw7HqGiwZ
- 67Lw==
+ bh=WQFoNRo6TyQ2t2BXDRqFhlPss5nm1nW+xtYpQWhCpNM=;
+ b=w2iIUfulOVmngzyazVWkARRyDYpTUf0QsupyXUuItaDjo6+kBI+6OIhvcW6HpvexsS
+ AUsYlt1NaCbwKrUD2Nzk8kYukkCBjeAmPzpyJG1NWaJLlINIS3j1aZM8v1F3T/Mt3Hii
+ KwTsqBfMuzEP0QsGlpN3+1+4kMB5qJlf3Z9X4V6mM9bY72hKorpCZmF6QeN6owTtz9ft
+ cG7rXtGqZ2zCMMn8M1DsyinXSbXhiuyilbM/pVXGrRX7KDeDrpV+akqiwwfvTXRlEr9F
+ YdSlw5iPhSqMRFE0PMrIb0BpEmJIJsHhnOSQH17VzZg7yAgU0l6x3cE3mwN20+43KYPW
+ /Ljg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=0Du9+TDok3/8t4BiL1lqGOO2m2hHyL++J15tcPz/gDI=;
- b=OVi1e8IQPKLXHgMVk7T7sK4uu1W8Cv5zYn/F78sSLhwzQMYcxBc0lUIGhzwkVHcI8U
- 3FStUWhhUvLvJYGkCbRfFPb5hcYr8/DW2f3xo3Z3p8I0mbDsTUvHGOALTHOTHJpasHqi
- Dfq6LbmiSeFBzBBuNUpwZp64zz0VMr4qlTCr1jUuiM383q7oX9svu7nDqjLVefmXGZm2
- 7BoU0AzRCQu/2JmWSYwAFD4xRhhugZa/YnnVDVqQFty8oJu8/00KJtOJsVoBcMkzAN9/
- CPVcKM3TqskExHzuF4mnSS5y8cxi2eKhEE9e4tanKqTJeXQOrVuo356mfErRaZbjaihP
- YqgQ==
-X-Gm-Message-State: AOAM532Kfm304UNhELQDB65h15GXbZGXqB6ot/FqO26DpSWE7rj3qdD6
- /NaaRJY07La35wnFbgcxGYOH4g==
-X-Google-Smtp-Source: ABdhPJxi84PU07FYwFBGm783rJzKofVfrmzXPKgWhrSP3UO8OJjTEepxr5lL9Rj9cs16g/5IfpNPyg==
-X-Received: by 2002:a05:600c:2209:: with SMTP id
- z9mr2613163wml.178.1594106066199; 
- Tue, 07 Jul 2020 00:14:26 -0700 (PDT)
+ bh=WQFoNRo6TyQ2t2BXDRqFhlPss5nm1nW+xtYpQWhCpNM=;
+ b=JvnPMfSWUk+nJZ5fVXb+EwGKEa3r9t5WuFDwT4rfFnjWWUysDwDWCFKej/LuumP2B+
+ Ux3s16DvvmupZT3Wg56y3B4er5YR5+C1oe2uUY2CO7J4iB2lMFDPJf0TOWb9z0WBp5X6
+ vySwU1zGsNMUtKvuFQ6ttS/JDFmCoxZjA7EL1HXEmFtOT4ih8q+TNQg9f3Mb19CT5PEW
+ XsQfYDMFQZFgte6J5QYElufQJTZXlbEqtTmQTbBBNOXHlijYZnIe2oL8vxYWKGV98teL
+ m6+ENdzHP93NBa93BT1Lj8hdGysC37Gm/cpN+Lbkylg2JL3ZRzbEE3vyjwEnRPzyzXxK
+ zN5A==
+X-Gm-Message-State: AOAM533KX0Ix0O+AhLbT4uY9OduF4q2EwR8J9Z6gtozTC/UFTmKXxVJf
+ j9vmyjTUAHirfPLDQAMY9ST4bg==
+X-Google-Smtp-Source: ABdhPJxrG4RboF9zdTlPHJSuxx2TOHqNcoMggtYbiw/mjX60XgQvTLABslwbW/GH4cQ7LfWN9JDkHw==
+X-Received: by 2002:a1c:1d93:: with SMTP id d141mr2570402wmd.14.1594106082670; 
+ Tue, 07 Jul 2020 00:14:42 -0700 (PDT)
 Received: from zen.linaroharston ([51.148.130.216])
- by smtp.gmail.com with ESMTPSA id w7sm2283183wmc.32.2020.07.07.00.14.22
+ by smtp.gmail.com with ESMTPSA id 63sm28575200wra.86.2020.07.07.00.14.29
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 07 Jul 2020 00:14:22 -0700 (PDT)
+ Tue, 07 Jul 2020 00:14:38 -0700 (PDT)
 Received: from zen.lan (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id 595E81FFC0;
+ by zen.linaroharston (Postfix) with ESMTP id 704181FFC1;
  Tue,  7 Jul 2020 08:09:02 +0100 (BST)
 From: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
 To: peter.maydell@linaro.org
-Subject: [PULL 39/41] travis.yml: Test also the other targets on s390x
-Date: Tue,  7 Jul 2020 08:08:56 +0100
-Message-Id: <20200707070858.6622-40-alex.bennee@linaro.org>
+Subject: [PULL 40/41] tests/qht-bench: Adjust testing rate by -1
+Date: Tue,  7 Jul 2020 08:08:57 +0100
+Message-Id: <20200707070858.6622-41-alex.bennee@linaro.org>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20200707070858.6622-1-alex.bennee@linaro.org>
 References: <20200707070858.6622-1-alex.bennee@linaro.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::32b;
- envelope-from=alex.bennee@linaro.org; helo=mail-wm1-x32b.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::329;
+ envelope-from=alex.bennee@linaro.org; helo=mail-wm1-x329.google.com
 X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
  That's all we know.
 X-Spam_score_int: -20
@@ -89,78 +88,99 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Laurent Vivier <lvivier@redhat.com>, Fam Zheng <fam@euphon.net>,
- Thomas Huth <thuth@redhat.com>,
+Cc: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>,
  =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
- Cornelia Huck <cohuck@redhat.com>, qemu-devel@nongnu.org,
- "open list:S390 general arch..." <qemu-s390x@nongnu.org>,
- =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
+ "Emilio G . Cota" <cota@braap.org>,
+ Richard Henderson <richard.henderson@linaro.org>, qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Thomas Huth <thuth@redhat.com>
+From: Richard Henderson <richard.henderson@linaro.org>
 
-s390x is our only big endian host in our CI, so building and testing QEMU
-there is quite valuable. Thus let's also test the other targets with
-additional jobs (also using different sets of pre-installed libraries to
-get a better coverage of the things that we test).
+Since the seed must be non-zero, subtracting 1 means puts the
+rate in 0..UINT64_MAX-1, which allows the 0 and UINT64_MAX
+thresholds to corrspond to 0% (never) and 100% (always).
 
-Signed-off-by: Thomas Huth <thuth@redhat.com>
-Reviewed-by: Laurent Vivier <lvivier@redhat.com>
+Suggested-by: Emilio G. Cota <cota@braap.org>
+Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 Reviewed-by: Philippe Mathieu-Daudé <philmd@redhat.com>
 Signed-off-by: Alex Bennée <alex.bennee@linaro.org>
-Message-Id: <20200608114049.4693-1-thuth@redhat.com>
+Message-Id: <20200626200950.1015121-2-richard.henderson@linaro.org>
 
-diff --git a/.travis.yml b/.travis.yml
-index c24dfbe377f3..ab429500fc3c 100644
---- a/.travis.yml
-+++ b/.travis.yml
-@@ -482,6 +482,45 @@ jobs:
-               $(exit $BUILD_RC);
-           fi
+diff --git a/tests/qht-bench.c b/tests/qht-bench.c
+index eb88a9013761..ad885d89d054 100644
+--- a/tests/qht-bench.c
++++ b/tests/qht-bench.c
+@@ -25,7 +25,13 @@ struct thread_stats {
+ struct thread_info {
+     void (*func)(struct thread_info *);
+     struct thread_stats stats;
+-    uint64_t r;
++    /*
++     * Seed is in the range [1..UINT64_MAX], because the RNG requires
++     * a non-zero seed.  To use, subtract 1 and compare against the
++     * threshold with </>=.  This lets threshold = 0 never match (0% hit),
++     * and threshold = UINT64_MAX always match (100% hit).
++     */
++    uint64_t seed;
+     bool write_op; /* writes alternate between insertions and removals */
+     bool resize_down;
+ } QEMU_ALIGNED(64); /* avoid false sharing among threads */
+@@ -131,8 +137,9 @@ static uint64_t xorshift64star(uint64_t x)
+ static void do_rz(struct thread_info *info)
+ {
+     struct thread_stats *stats = &info->stats;
++    uint64_t r = info->seed - 1;
  
-+    - name: "[s390x] GCC (other-softmmu)"
-+      arch: s390x
-+      dist: bionic
-+      addons:
-+        apt_packages:
-+          - libaio-dev
-+          - libattr1-dev
-+          - libcap-ng-dev
-+          - libgnutls28-dev
-+          - libiscsi-dev
-+          - liblttng-ust-dev
-+          - liblzo2-dev
-+          - libncurses-dev
-+          - libnfs-dev
-+          - libnss3-dev
-+          - libpixman-1-dev
-+          - libsdl2-dev
-+          - libsdl2-image-dev
-+          - libseccomp-dev
-+          - libsnappy-dev
-+          - libzstd-dev
-+          - nettle-dev
-+          - xfslibs-dev
-+          # Tests dependencies
-+          - genisoimage
-+      env:
-+        - CONFIG="--disable-containers --audio-drv-list=sdl --disable-user
-+                  --target-list-exclude=${MAIN_SOFTMMU_TARGETS}"
-+
-+    - name: "[s390x] GCC (user)"
-+      arch: s390x
-+      dist: bionic
-+      addons:
-+        apt_packages:
-+          - libgcrypt20-dev
-+          - libgnutls28-dev
-+      env:
-+        - CONFIG="--disable-containers --disable-system"
-+
-     - name: "[s390x] Clang (disable-tcg)"
-       arch: s390x
-       dist: bionic
+-    if (info->r < resize_threshold) {
++    if (r < resize_threshold) {
+         size_t size = info->resize_down ? resize_min : resize_max;
+         bool resized;
+ 
+@@ -151,13 +158,14 @@ static void do_rz(struct thread_info *info)
+ static void do_rw(struct thread_info *info)
+ {
+     struct thread_stats *stats = &info->stats;
++    uint64_t r = info->seed - 1;
+     uint32_t hash;
+     long *p;
+ 
+-    if (info->r >= update_threshold) {
++    if (r >= update_threshold) {
+         bool read;
+ 
+-        p = &keys[info->r & (lookup_range - 1)];
++        p = &keys[r & (lookup_range - 1)];
+         hash = hfunc(*p);
+         read = qht_lookup(&ht, p, hash);
+         if (read) {
+@@ -166,7 +174,7 @@ static void do_rw(struct thread_info *info)
+             stats->not_rd++;
+         }
+     } else {
+-        p = &keys[info->r & (update_range - 1)];
++        p = &keys[r & (update_range - 1)];
+         hash = hfunc(*p);
+         if (info->write_op) {
+             bool written = false;
+@@ -208,7 +216,7 @@ static void *thread_func(void *p)
+ 
+     rcu_read_lock();
+     while (!atomic_read(&test_stop)) {
+-        info->r = xorshift64star(info->r);
++        info->seed = xorshift64star(info->seed);
+         info->func(info);
+     }
+     rcu_read_unlock();
+@@ -221,7 +229,7 @@ static void *thread_func(void *p)
+ static void prepare_thread_info(struct thread_info *info, int i)
+ {
+     /* seed for the RNG; each thread should have a different one */
+-    info->r = (i + 1) ^ time(NULL);
++    info->seed = (i + 1) ^ time(NULL);
+     /* the first update will be a write */
+     info->write_op = true;
+     /* the first resize will be down */
 -- 
 2.20.1
 
