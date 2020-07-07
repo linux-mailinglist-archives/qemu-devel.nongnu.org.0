@@ -2,61 +2,61 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 66C7E217694
-	for <lists+qemu-devel@lfdr.de>; Tue,  7 Jul 2020 20:23:06 +0200 (CEST)
-Received: from localhost ([::1]:57750 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B332A2176A0
+	for <lists+qemu-devel@lfdr.de>; Tue,  7 Jul 2020 20:25:35 +0200 (CEST)
+Received: from localhost ([::1]:38016 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jssFF-0007KC-Cw
-	for lists+qemu-devel@lfdr.de; Tue, 07 Jul 2020 14:23:05 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:35506)
+	id 1jssHe-0002MZ-Kx
+	for lists+qemu-devel@lfdr.de; Tue, 07 Jul 2020 14:25:34 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:35528)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1jss9p-0007aZ-O5
- for qemu-devel@nongnu.org; Tue, 07 Jul 2020 14:17:29 -0400
-Received: from mail-wm1-x32b.google.com ([2a00:1450:4864:20::32b]:50794)
+ id 1jss9r-0007gT-F1
+ for qemu-devel@nongnu.org; Tue, 07 Jul 2020 14:17:31 -0400
+Received: from mail-wm1-x329.google.com ([2a00:1450:4864:20::329]:36504)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1jss9n-0002sg-R3
- for qemu-devel@nongnu.org; Tue, 07 Jul 2020 14:17:29 -0400
-Received: by mail-wm1-x32b.google.com with SMTP id l17so104027wmj.0
- for <qemu-devel@nongnu.org>; Tue, 07 Jul 2020 11:17:27 -0700 (PDT)
+ id 1jss9p-0002sw-Dy
+ for qemu-devel@nongnu.org; Tue, 07 Jul 2020 14:17:31 -0400
+Received: by mail-wm1-x329.google.com with SMTP id 17so86234wmo.1
+ for <qemu-devel@nongnu.org>; Tue, 07 Jul 2020 11:17:29 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=sender:from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=leFnQVZxp6n1rTBN3KN+k73hWpLZi4g9NsI2yg+Ji+A=;
- b=tNoCk2YcD7mfP9RnIx8s+leFpF6kWhWy61RYYIGcpnXi7eP0JjIenu4zcECgqqqGWC
- DdBKgCMoe0+SVy+CwBHdfLgKVhupTPkzst81/aHgBTbNay3NOfgnJEgs0913sOCFPoz0
- Sfdd7u4nmN1qUwKT71p8mTsPNeqqiDc0QSWBc69hHvoQq6fcUO2Y3SnYoJ+EerkYPVSB
- wJ3H6rSuIJVOS8r1IvFAlSxDcfd3uDMKwDBB2EOqefrMYuitgPe1rOFUyGzgNkj5zioT
- 0g5qLTyA8R2byOFV9rbAqtyfGXPypUupqm7A0Fpz9vwVgbms7tZWMNu40t5uFUfMPs/5
- vLyw==
+ bh=BUoVnTCbmQI9jpz8GDp8CIxGGeR05HPpMej0OaZE2CQ=;
+ b=Qp7cPOv7/YXSKKmpAFN79Nvh4UIgueFTj3iMm4pBaJJ9Io1A0xRgSgpbhvmF2aFXXB
+ 62Y3JBou8hDc2VlnwxKL8BPNhXgY4X1YEwnh3Iy3cAz2Hr2vyraINyoCvjlBvsnNo6Bx
+ x07aPknNc3qEoB/qqYPjPp7UY7wfiT0jxHLdBhAEby053lkJWoshSRmEg5WdwtJFpIPp
+ AA3GPo7q/3TwjY929b659N1Ro8Hz73gBai6BtieRWNLRSlLCxSaJGwXs/t+u0tjPurwv
+ +o1gTztAzn7ETUCtvUaC2CU8qQFI8DeLQA2YXXwKU4NN91sNcwFdHH5Dn2Jk0txHu38S
+ Tnjw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
  :in-reply-to:references:mime-version:content-transfer-encoding;
- bh=leFnQVZxp6n1rTBN3KN+k73hWpLZi4g9NsI2yg+Ji+A=;
- b=gtSXvagp/g/nf0yUupfUsTkRuhDH3iykTLdE6+KvQ6n9V8yoeeWppD80KgBUWFv3E/
- 8pEbDQq8CmiUcVTf6rtrqw9xt5+j4x71RNHmMIbPiPBaq+2BmZKcgloA0UJ4cOWN9jod
- ZKjCMDe7F9UMHC4SrtDkrVWeM/m+eAW+eTRpFX5OsIgQUuWM5lFGnKht6EEs8De3ASfP
- CrVGQw/KhSVyNn6iwwN2VqG5XBra1iVA/TmwFAuwrTjStFg15DKF3ZG9x4j+GHhQe1uV
- r/sY19atY9XSYsxN0GYDddujXoejXsOcsyVCovcMWhwS/Ood7J9Laov+uXwDTCyNSD0I
- Jb5w==
-X-Gm-Message-State: AOAM5311zvf/rk4qvAFmJlNnYR/BjbatUwd9MILMzPC2kgYVFNT8ZnLF
- wakPBvs2+H813r97v5zMVe/Yhfot
-X-Google-Smtp-Source: ABdhPJyyo4ahuJE6xsLXMeVwk8dDHMsPqRF26qzQo/nJaN8cWkn+MU1jUUK32jTtIUgNPvjYN7lPpA==
-X-Received: by 2002:a1c:4408:: with SMTP id r8mr5434311wma.100.1594145846213; 
- Tue, 07 Jul 2020 11:17:26 -0700 (PDT)
+ bh=BUoVnTCbmQI9jpz8GDp8CIxGGeR05HPpMej0OaZE2CQ=;
+ b=hUAgboZi4gcW7oCIcVwn1DETx3Z/mrCN+ZMCnBvoaDw7bgDTqw0kqCoD4zUGMHz5FZ
+ 4JuN6TjdY0PRrt//a+mdq+uTra4bBawpgwaV6ze8quOejSqofBlH4IE/DT/MZcf3ZKMx
+ Gw3WgBgjT35SI4acsg7glOrO7FgEwfmdmz13bnG5wAzGQgibNJVFDABy/wrVsWh2Vf61
+ 168YSizJwti+02oW3vwBMLrBBvoArYXJe+yXUvI7NMq2zoh3QAMeFoCTgQB6QwrP+NYn
+ tqT8XXb2vbth5vYNPITAMd90w6/MDNfJN7gWym/X1QisijbNGwg8gS+jlrrcUp9Griio
+ kvWQ==
+X-Gm-Message-State: AOAM533DtDbqKwRXSMO54CvP5Fq9oF9KKNyZen4o2KnfzuZjc9g5ZFaG
+ 29zha+QYXrDK5zyQzTaYhPglPe3/
+X-Google-Smtp-Source: ABdhPJzocpyS62GIXSdiaZ+r61vJHpAdKw5JiTI0abC23GTbp7wdcLwYdOfQPY20bAKwb8KOCVrF4Q==
+X-Received: by 2002:a1c:44d7:: with SMTP id r206mr5218259wma.7.1594145847708; 
+ Tue, 07 Jul 2020 11:17:27 -0700 (PDT)
 Received: from localhost.localdomain
  (138.red-83-57-170.dynamicip.rima-tde.net. [83.57.170.138])
- by smtp.gmail.com with ESMTPSA id 65sm2253337wma.48.2020.07.07.11.17.24
+ by smtp.gmail.com with ESMTPSA id 65sm2253337wma.48.2020.07.07.11.17.26
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 07 Jul 2020 11:17:25 -0700 (PDT)
+ Tue, 07 Jul 2020 11:17:27 -0700 (PDT)
 From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
 To: qemu-devel@nongnu.org
-Subject: [PULL 08/32] target/avr: Add definitions of AVR core types
-Date: Tue,  7 Jul 2020 20:16:46 +0200
-Message-Id: <20200707181710.30950-9-f4bug@amsat.org>
+Subject: [PULL 09/32] target/avr: Add instruction helpers
+Date: Tue,  7 Jul 2020 20:16:47 +0200
+Message-Id: <20200707181710.30950-10-f4bug@amsat.org>
 X-Mailer: git-send-email 2.21.3
 In-Reply-To: <20200707181710.30950-1-f4bug@amsat.org>
 References: <20200707181710.30950-1-f4bug@amsat.org>
@@ -64,8 +64,8 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::32b;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wm1-x32b.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::329;
+ envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wm1-x329.google.com
 X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
  That's all we know.
 X-Spam_score_int: 0
@@ -88,8 +88,7 @@ List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
 Cc: Laurent Vivier <lvivier@redhat.com>, Sarah Harris <S.E.Harris@kent.ac.uk>,
- Eduardo Habkost <ehabkost@redhat.com>, Igor Mammedov <imammedo@redhat.com>,
- Thomas Huth <huth@tuxfamily.org>,
+ Eduardo Habkost <ehabkost@redhat.com>, Thomas Huth <huth@tuxfamily.org>,
  =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>,
  Cleber Rosa <crosa@redhat.com>,
  Richard Henderson <richard.henderson@linaro.org>,
@@ -108,196 +107,274 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Michael Rolnik <mrolnik@gmail.com>
 
-AVR core types are:
+Add helpers for instructions that need to interact with QEMU. Also,
+add stubs for unimplemented instructions. Instructions SPM and WDR
+are left unimplemented because they require emulation of complex
+peripherals. The implementation of instruction SLEEP is very limited
+due to the lack of peripherals to generate wake interrupts. Memory
+access instructions are implemented here because some address ranges
+actually refer to CPU registers.
 
-  - avr5
-  - avr51
-  - avr6
-
-Each core type covers multiple AVR MCUs, mentioned in the comments
-before definition of particular AVR core type (part of this patch).
-
-AVR core type defines shared features that are valid for all AVR
-MCUs belonging in that type.
-
-[AM: Split a larger AVR introduction patch into logical units]
-Suggested-by: Aleksandar Markovic <aleksandar.m.mail@gmail.com>
-Co-developed-by: Michael Rolnik <mrolnik@gmail.com>
-Co-developed-by: Sarah Harris <S.E.Harris@kent.ac.uk>
 Signed-off-by: Michael Rolnik <mrolnik@gmail.com>
-Signed-off-by: Sarah Harris <S.E.Harris@kent.ac.uk>
 Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 Signed-off-by: Aleksandar Markovic <aleksandar.m.mail@gmail.com>
-Acked-by: Igor Mammedov <imammedo@redhat.com>
 Tested-by: Philippe Mathieu-Daudé <philmd@redhat.com>
+Reviewed-by: Aleksandar Markovic <aleksandar.m.mail@gmail.com>
 Signed-off-by: Thomas Huth <huth@tuxfamily.org>
-Message-Id: <20200705140315.260514-9-huth@tuxfamily.org>
-[PMD: Only include reviewed cores: avr5/avr51/avr6]
+Message-Id: <20200705140315.260514-10-huth@tuxfamily.org>
 Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
 ---
- target/avr/cpu.c | 152 +++++++++++++++++++++++++++++++++++++++++++++++
- 1 file changed, 152 insertions(+)
+ target/avr/helper.h |  29 +++++++
+ target/avr/helper.c | 203 ++++++++++++++++++++++++++++++++++++++++++++
+ 2 files changed, 232 insertions(+)
+ create mode 100644 target/avr/helper.h
 
-diff --git a/target/avr/cpu.c b/target/avr/cpu.c
-index ac496b8f03..7178e86f69 100644
---- a/target/avr/cpu.c
-+++ b/target/avr/cpu.c
-@@ -215,3 +215,155 @@ static void avr_cpu_class_init(ObjectClass *oc, void *data)
-     cc->gdb_num_core_regs = 35;
-     cc->gdb_core_xml_file = "avr-cpu.xml";
+diff --git a/target/avr/helper.h b/target/avr/helper.h
+new file mode 100644
+index 0000000000..8e1ae7fda0
+--- /dev/null
++++ b/target/avr/helper.h
+@@ -0,0 +1,29 @@
++/*
++ * QEMU AVR CPU helpers
++ *
++ * Copyright (c) 2016-2020 Michael Rolnik
++ *
++ * This library is free software; you can redistribute it and/or
++ * modify it under the terms of the GNU Lesser General Public
++ * License as published by the Free Software Foundation; either
++ * version 2.1 of the License, or (at your option) any later version.
++ *
++ * This library is distributed in the hope that it will be useful,
++ * but WITHOUT ANY WARRANTY; without even the implied warranty of
++ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
++ * Lesser General Public License for more details.
++ *
++ * You should have received a copy of the GNU Lesser General Public
++ * License along with this library; if not, see
++ * <http://www.gnu.org/licenses/lgpl-2.1.html>
++ */
++
++DEF_HELPER_1(wdr, void, env)
++DEF_HELPER_1(debug, void, env)
++DEF_HELPER_1(break, void, env)
++DEF_HELPER_1(sleep, void, env)
++DEF_HELPER_1(unsupported, void, env)
++DEF_HELPER_3(outb, void, env, i32, i32)
++DEF_HELPER_2(inb, tl, env, i32)
++DEF_HELPER_3(fullwr, void, env, i32, i32)
++DEF_HELPER_2(fullrd, tl, env, i32)
+diff --git a/target/avr/helper.c b/target/avr/helper.c
+index 66ab648218..753384b2e7 100644
+--- a/target/avr/helper.c
++++ b/target/avr/helper.c
+@@ -137,3 +137,206 @@ bool avr_cpu_tlb_fill(CPUState *cs, vaddr address, int size,
+ 
+     return true;
  }
 +
 +/*
-+ * Setting features of AVR core type avr5
-+ * --------------------------------------
-+ *
-+ * This type of AVR core is present in the following AVR MCUs:
-+ *
-+ * ata5702m322, ata5782, ata5790, ata5790n, ata5791, ata5795, ata5831, ata6613c,
-+ * ata6614q, ata8210, ata8510, atmega16, atmega16a, atmega161, atmega162,
-+ * atmega163, atmega164a, atmega164p, atmega164pa, atmega165, atmega165a,
-+ * atmega165p, atmega165pa, atmega168, atmega168a, atmega168p, atmega168pa,
-+ * atmega168pb, atmega169, atmega169a, atmega169p, atmega169pa, atmega16hvb,
-+ * atmega16hvbrevb, atmega16m1, atmega16u4, atmega32a, atmega32, atmega323,
-+ * atmega324a, atmega324p, atmega324pa, atmega325, atmega325a, atmega325p,
-+ * atmega325pa, atmega3250, atmega3250a, atmega3250p, atmega3250pa, atmega328,
-+ * atmega328p, atmega328pb, atmega329, atmega329a, atmega329p, atmega329pa,
-+ * atmega3290, atmega3290a, atmega3290p, atmega3290pa, atmega32c1, atmega32m1,
-+ * atmega32u4, atmega32u6, atmega406, atmega64, atmega64a, atmega640, atmega644,
-+ * atmega644a, atmega644p, atmega644pa, atmega645, atmega645a, atmega645p,
-+ * atmega6450, atmega6450a, atmega6450p, atmega649, atmega649a, atmega649p,
-+ * atmega6490, atmega16hva, atmega16hva2, atmega32hvb, atmega6490a, atmega6490p,
-+ * atmega64c1, atmega64m1, atmega64hve, atmega64hve2, atmega64rfr2,
-+ * atmega644rfr2, atmega32hvbrevb, at90can32, at90can64, at90pwm161, at90pwm216,
-+ * at90pwm316, at90scr100, at90usb646, at90usb647, at94k, m3000
++ *  helpers
 + */
-+static void avr_avr5_initfn(Object *obj)
++
++void helper_sleep(CPUAVRState *env)
 +{
-+    AVRCPU *cpu = AVR_CPU(obj);
-+    CPUAVRState *env = &cpu->env;
++    CPUState *cs = env_cpu(env);
 +
-+    set_avr_feature(env, AVR_FEATURE_LPM);
-+    set_avr_feature(env, AVR_FEATURE_IJMP_ICALL);
-+    set_avr_feature(env, AVR_FEATURE_ADIW_SBIW);
-+    set_avr_feature(env, AVR_FEATURE_SRAM);
-+    set_avr_feature(env, AVR_FEATURE_BREAK);
++    cs->exception_index = EXCP_HLT;
++    cpu_loop_exit(cs);
++}
 +
-+    set_avr_feature(env, AVR_FEATURE_2_BYTE_PC);
-+    set_avr_feature(env, AVR_FEATURE_2_BYTE_SP);
-+    set_avr_feature(env, AVR_FEATURE_JMP_CALL);
-+    set_avr_feature(env, AVR_FEATURE_LPMX);
-+    set_avr_feature(env, AVR_FEATURE_MOVW);
-+    set_avr_feature(env, AVR_FEATURE_MUL);
++void helper_unsupported(CPUAVRState *env)
++{
++    CPUState *cs = env_cpu(env);
++
++    /*
++     *  I count not find what happens on the real platform, so
++     *  it's EXCP_DEBUG for meanwhile
++     */
++    cs->exception_index = EXCP_DEBUG;
++    if (qemu_loglevel_mask(LOG_UNIMP)) {
++        qemu_log("UNSUPPORTED\n");
++        cpu_dump_state(cs, stderr, 0);
++    }
++    cpu_loop_exit(cs);
++}
++
++void helper_debug(CPUAVRState *env)
++{
++    CPUState *cs = env_cpu(env);
++
++    cs->exception_index = EXCP_DEBUG;
++    cpu_loop_exit(cs);
++}
++
++void helper_break(CPUAVRState *env)
++{
++    CPUState *cs = env_cpu(env);
++
++    cs->exception_index = EXCP_DEBUG;
++    cpu_loop_exit(cs);
++}
++
++void helper_wdr(CPUAVRState *env)
++{
++    CPUState *cs = env_cpu(env);
++
++    /* WD is not implemented yet, placeholder */
++    cs->exception_index = EXCP_DEBUG;
++    cpu_loop_exit(cs);
 +}
 +
 +/*
-+ * Setting features of AVR core type avr51
-+ * --------------------------------------
++ * This function implements IN instruction
 + *
-+ * This type of AVR core is present in the following AVR MCUs:
++ * It does the following
++ * a.  if an IO register belongs to CPU, its value is read and returned
++ * b.  otherwise io address is translated to mem address and physical memory
++ *     is read.
++ * c.  it caches the value for sake of SBI, SBIC, SBIS & CBI implementation
 + *
-+ * atmega128, atmega128a, atmega1280, atmega1281, atmega1284, atmega1284p,
-+ * atmega128rfa1, atmega128rfr2, atmega1284rfr2, at90can128, at90usb1286,
-+ * at90usb1287
 + */
-+static void avr_avr51_initfn(Object *obj)
++target_ulong helper_inb(CPUAVRState *env, uint32_t port)
 +{
-+    AVRCPU *cpu = AVR_CPU(obj);
-+    CPUAVRState *env = &cpu->env;
++    target_ulong data = 0;
 +
-+    set_avr_feature(env, AVR_FEATURE_LPM);
-+    set_avr_feature(env, AVR_FEATURE_IJMP_ICALL);
-+    set_avr_feature(env, AVR_FEATURE_ADIW_SBIW);
-+    set_avr_feature(env, AVR_FEATURE_SRAM);
-+    set_avr_feature(env, AVR_FEATURE_BREAK);
-+
-+    set_avr_feature(env, AVR_FEATURE_2_BYTE_PC);
-+    set_avr_feature(env, AVR_FEATURE_2_BYTE_SP);
-+    set_avr_feature(env, AVR_FEATURE_RAMPZ);
-+    set_avr_feature(env, AVR_FEATURE_ELPMX);
-+    set_avr_feature(env, AVR_FEATURE_ELPM);
-+    set_avr_feature(env, AVR_FEATURE_JMP_CALL);
-+    set_avr_feature(env, AVR_FEATURE_LPMX);
-+    set_avr_feature(env, AVR_FEATURE_MOVW);
-+    set_avr_feature(env, AVR_FEATURE_MUL);
-+}
-+
-+/*
-+ * Setting features of AVR core type avr6
-+ * --------------------------------------
-+ *
-+ * This type of AVR core is present in the following AVR MCUs:
-+ *
-+ * atmega2560, atmega2561, atmega256rfr2, atmega2564rfr2
-+ */
-+static void avr_avr6_initfn(Object *obj)
-+{
-+    AVRCPU *cpu = AVR_CPU(obj);
-+    CPUAVRState *env = &cpu->env;
-+
-+    set_avr_feature(env, AVR_FEATURE_LPM);
-+    set_avr_feature(env, AVR_FEATURE_IJMP_ICALL);
-+    set_avr_feature(env, AVR_FEATURE_ADIW_SBIW);
-+    set_avr_feature(env, AVR_FEATURE_SRAM);
-+    set_avr_feature(env, AVR_FEATURE_BREAK);
-+
-+    set_avr_feature(env, AVR_FEATURE_3_BYTE_PC);
-+    set_avr_feature(env, AVR_FEATURE_2_BYTE_SP);
-+    set_avr_feature(env, AVR_FEATURE_RAMPZ);
-+    set_avr_feature(env, AVR_FEATURE_EIJMP_EICALL);
-+    set_avr_feature(env, AVR_FEATURE_ELPMX);
-+    set_avr_feature(env, AVR_FEATURE_ELPM);
-+    set_avr_feature(env, AVR_FEATURE_JMP_CALL);
-+    set_avr_feature(env, AVR_FEATURE_LPMX);
-+    set_avr_feature(env, AVR_FEATURE_MOVW);
-+    set_avr_feature(env, AVR_FEATURE_MUL);
-+}
-+
-+typedef struct AVRCPUInfo {
-+    const char *name;
-+    void (*initfn)(Object *obj);
-+} AVRCPUInfo;
-+
-+
-+static void avr_cpu_list_entry(gpointer data, gpointer user_data)
-+{
-+    const char *typename = object_class_get_name(OBJECT_CLASS(data));
-+
-+    qemu_printf("%s\n", typename);
-+}
-+
-+void avr_cpu_list(void)
-+{
-+    GSList *list;
-+    list = object_class_get_list_sorted(TYPE_AVR_CPU, false);
-+    g_slist_foreach(list, avr_cpu_list_entry, NULL);
-+    g_slist_free(list);
-+}
-+
-+#define DEFINE_AVR_CPU_TYPE(model, initfn) \
-+    { \
-+        .parent = TYPE_AVR_CPU, \
-+        .instance_init = initfn, \
-+        .name = AVR_CPU_TYPE_NAME(model), \
++    switch (port) {
++    case 0x38: /* RAMPD */
++        data = 0xff & (env->rampD >> 16);
++        break;
++    case 0x39: /* RAMPX */
++        data = 0xff & (env->rampX >> 16);
++        break;
++    case 0x3a: /* RAMPY */
++        data = 0xff & (env->rampY >> 16);
++        break;
++    case 0x3b: /* RAMPZ */
++        data = 0xff & (env->rampZ >> 16);
++        break;
++    case 0x3c: /* EIND */
++        data = 0xff & (env->eind >> 16);
++        break;
++    case 0x3d: /* SPL */
++        data = env->sp & 0x00ff;
++        break;
++    case 0x3e: /* SPH */
++        data = env->sp >> 8;
++        break;
++    case 0x3f: /* SREG */
++        data = cpu_get_sreg(env);
++        break;
++    default:
++        /* not a special register, pass to normal memory access */
++        cpu_physical_memory_read(OFFSET_IO_REGISTERS + port, &data, 1);
 +    }
 +
-+static const TypeInfo avr_cpu_type_info[] = {
-+    {
-+        .name = TYPE_AVR_CPU,
-+        .parent = TYPE_CPU,
-+        .instance_size = sizeof(AVRCPU),
-+        .instance_init = avr_cpu_initfn,
-+        .class_size = sizeof(AVRCPUClass),
-+        .class_init = avr_cpu_class_init,
-+        .abstract = true,
-+    },
-+    DEFINE_AVR_CPU_TYPE("avr5", avr_avr5_initfn),
-+    DEFINE_AVR_CPU_TYPE("avr51", avr_avr51_initfn),
-+    DEFINE_AVR_CPU_TYPE("avr6", avr_avr6_initfn),
-+};
++    return data;
++}
 +
++/*
++ *  This function implements OUT instruction
++ *
++ *  It does the following
++ *  a.  if an IO register belongs to CPU, its value is written into the register
++ *  b.  otherwise io address is translated to mem address and physical memory
++ *      is written.
++ *  c.  it caches the value for sake of SBI, SBIC, SBIS & CBI implementation
++ *
++ */
++void helper_outb(CPUAVRState *env, uint32_t port, uint32_t data)
++{
++    data &= 0x000000ff;
 +
-+DEFINE_TYPES(avr_cpu_type_info)
++    switch (port) {
++    case 0x38: /* RAMPD */
++        if (avr_feature(env, AVR_FEATURE_RAMPD)) {
++            env->rampD = (data & 0xff) << 16;
++        }
++        break;
++    case 0x39: /* RAMPX */
++        if (avr_feature(env, AVR_FEATURE_RAMPX)) {
++            env->rampX = (data & 0xff) << 16;
++        }
++        break;
++    case 0x3a: /* RAMPY */
++        if (avr_feature(env, AVR_FEATURE_RAMPY)) {
++            env->rampY = (data & 0xff) << 16;
++        }
++        break;
++    case 0x3b: /* RAMPZ */
++        if (avr_feature(env, AVR_FEATURE_RAMPZ)) {
++            env->rampZ = (data & 0xff) << 16;
++        }
++        break;
++    case 0x3c: /* EIDN */
++        env->eind = (data & 0xff) << 16;
++        break;
++    case 0x3d: /* SPL */
++        env->sp = (env->sp & 0xff00) | (data);
++        break;
++    case 0x3e: /* SPH */
++        if (avr_feature(env, AVR_FEATURE_2_BYTE_SP)) {
++            env->sp = (env->sp & 0x00ff) | (data << 8);
++        }
++        break;
++    case 0x3f: /* SREG */
++        cpu_set_sreg(env, data);
++        break;
++    default:
++        /* not a special register, pass to normal memory access */
++        cpu_physical_memory_write(OFFSET_IO_REGISTERS + port, &data, 1);
++    }
++}
++
++/*
++ *  this function implements LD instruction when there is a posibility to read
++ *  from a CPU register
++ */
++target_ulong helper_fullrd(CPUAVRState *env, uint32_t addr)
++{
++    uint8_t data;
++
++    env->fullacc = false;
++
++    if (addr < NUMBER_OF_CPU_REGISTERS) {
++        /* CPU registers */
++        data = env->r[addr];
++    } else if (addr < NUMBER_OF_CPU_REGISTERS + NUMBER_OF_IO_REGISTERS) {
++        /* IO registers */
++        data = helper_inb(env, addr - NUMBER_OF_CPU_REGISTERS);
++    } else {
++        /* memory */
++        cpu_physical_memory_read(OFFSET_DATA + addr, &data, 1);
++    }
++    return data;
++}
++
++/*
++ *  this function implements ST instruction when there is a posibility to write
++ *  into a CPU register
++ */
++void helper_fullwr(CPUAVRState *env, uint32_t data, uint32_t addr)
++{
++    env->fullacc = false;
++
++    /* Following logic assumes this: */
++    assert(OFFSET_CPU_REGISTERS == OFFSET_DATA);
++    assert(OFFSET_IO_REGISTERS == OFFSET_CPU_REGISTERS +
++            NUMBER_OF_CPU_REGISTERS);
++
++    if (addr < NUMBER_OF_CPU_REGISTERS) {
++        /* CPU registers */
++        env->r[addr] = data;
++    } else if (addr < NUMBER_OF_CPU_REGISTERS + NUMBER_OF_IO_REGISTERS) {
++        /* IO registers */
++        helper_outb(env, addr - NUMBER_OF_CPU_REGISTERS, data);
++    } else {
++        /* memory */
++        cpu_physical_memory_write(OFFSET_DATA + addr, &data, 1);
++    }
++}
 -- 
 2.21.3
 
