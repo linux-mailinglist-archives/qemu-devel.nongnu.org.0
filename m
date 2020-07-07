@@ -2,65 +2,66 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B67D3217931
-	for <lists+qemu-devel@lfdr.de>; Tue,  7 Jul 2020 22:17:51 +0200 (CEST)
-Received: from localhost ([::1]:53666 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 940AF217933
+	for <lists+qemu-devel@lfdr.de>; Tue,  7 Jul 2020 22:17:59 +0200 (CEST)
+Received: from localhost ([::1]:54420 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jsu2I-0000iM-Gz
-	for lists+qemu-devel@lfdr.de; Tue, 07 Jul 2020 16:17:50 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:34014)
+	id 1jsu2Q-00012h-L2
+	for lists+qemu-devel@lfdr.de; Tue, 07 Jul 2020 16:17:58 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:34022)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <stefanb@linux.vnet.ibm.com>)
- id 1jsu16-0007rF-8U; Tue, 07 Jul 2020 16:16:36 -0400
-Received: from mx0b-001b2d01.pphosted.com ([148.163.158.5]:15358
- helo=mx0a-001b2d01.pphosted.com)
+ id 1jsu17-0007rR-7n; Tue, 07 Jul 2020 16:16:37 -0400
+Received: from mx0a-001b2d01.pphosted.com ([148.163.156.1]:53190)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <stefanb@linux.vnet.ibm.com>)
- id 1jsu14-0004JT-Eh; Tue, 07 Jul 2020 16:16:35 -0400
-Received: from pps.filterd (m0098419.ppops.net [127.0.0.1])
- by mx0b-001b2d01.pphosted.com (8.16.0.42/8.16.0.42) with SMTP id
- 067K2fRR001404; Tue, 7 Jul 2020 16:16:29 -0400
+ id 1jsu14-0004JL-Gu; Tue, 07 Jul 2020 16:16:36 -0400
+Received: from pps.filterd (m0098399.ppops.net [127.0.0.1])
+ by mx0a-001b2d01.pphosted.com (8.16.0.42/8.16.0.42) with SMTP id
+ 067KDK6Q001621; Tue, 7 Jul 2020 16:16:29 -0400
 Received: from pps.reinject (localhost [127.0.0.1])
- by mx0b-001b2d01.pphosted.com with ESMTP id 324faqdks9-1
+ by mx0a-001b2d01.pphosted.com with ESMTP id 324yw002fv-1
  (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
  Tue, 07 Jul 2020 16:16:29 -0400
-Received: from m0098419.ppops.net (m0098419.ppops.net [127.0.0.1])
- by pps.reinject (8.16.0.36/8.16.0.36) with SMTP id 067K5eXZ011186;
- Tue, 7 Jul 2020 16:16:28 -0400
-Received: from ppma01dal.us.ibm.com (83.d6.3fa9.ip4.static.sl-reverse.com
- [169.63.214.131])
- by mx0b-001b2d01.pphosted.com with ESMTP id 324faqdks1-1
+Received: from m0098399.ppops.net (m0098399.ppops.net [127.0.0.1])
+ by pps.reinject (8.16.0.36/8.16.0.36) with SMTP id 067KEimx004104;
+ Tue, 7 Jul 2020 16:16:29 -0400
+Received: from ppma03wdc.us.ibm.com (ba.79.3fa9.ip4.static.sl-reverse.com
+ [169.63.121.186])
+ by mx0a-001b2d01.pphosted.com with ESMTP id 324yw002ff-1
  (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
  Tue, 07 Jul 2020 16:16:28 -0400
-Received: from pps.filterd (ppma01dal.us.ibm.com [127.0.0.1])
- by ppma01dal.us.ibm.com (8.16.0.42/8.16.0.42) with SMTP id 067K67Vp021539;
+Received: from pps.filterd (ppma03wdc.us.ibm.com [127.0.0.1])
+ by ppma03wdc.us.ibm.com (8.16.0.42/8.16.0.42) with SMTP id 067K4mal023567;
  Tue, 7 Jul 2020 20:16:27 GMT
 Received: from b01cxnp22034.gho.pok.ibm.com (b01cxnp22034.gho.pok.ibm.com
- [9.57.198.24]) by ppma01dal.us.ibm.com with ESMTP id 322hd917qu-1
+ [9.57.198.24]) by ppma03wdc.us.ibm.com with ESMTP id 322hd8jku6-1
  (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
  Tue, 07 Jul 2020 20:16:27 +0000
 Received: from b01ledav003.gho.pok.ibm.com (b01ledav003.gho.pok.ibm.com
  [9.57.199.108])
  by b01cxnp22034.gho.pok.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
- 067KGRMH52560350
+ 067KGRld53084514
  (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
  Tue, 7 Jul 2020 20:16:27 GMT
 Received: from b01ledav003.gho.pok.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id 167D5B2065;
+ by IMSVA (Postfix) with ESMTP id 47A8DB2064;
  Tue,  7 Jul 2020 20:16:27 +0000 (GMT)
 Received: from b01ledav003.gho.pok.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id DECB8B205F;
- Tue,  7 Jul 2020 20:16:26 +0000 (GMT)
+ by IMSVA (Postfix) with ESMTP id 22893B2066;
+ Tue,  7 Jul 2020 20:16:27 +0000 (GMT)
 Received: from sbct-3.pok.ibm.com (unknown [9.47.158.153])
  by b01ledav003.gho.pok.ibm.com (Postfix) with ESMTP;
- Tue,  7 Jul 2020 20:16:26 +0000 (GMT)
+ Tue,  7 Jul 2020 20:16:27 +0000 (GMT)
 From: Stefan Berger <stefanb@linux.vnet.ibm.com>
 To: qemu-ppc@nongnu.org, marcandre.lureau@redhat.com
-Subject: [PATCH v3 0/2] tpm: Some fixes
-Date: Tue,  7 Jul 2020 16:16:23 -0400
-Message-Id: <20200707201625.4177419-1-stefanb@linux.vnet.ibm.com>
+Subject: [PATCH v3 1/2] tpm: tpm_spapr: Exit on TPM backend failures
+Date: Tue,  7 Jul 2020 16:16:24 -0400
+Message-Id: <20200707201625.4177419-2-stefanb@linux.vnet.ibm.com>
 X-Mailer: git-send-email 2.24.1
+In-Reply-To: <20200707201625.4177419-1-stefanb@linux.vnet.ibm.com>
+References: <20200707201625.4177419-1-stefanb@linux.vnet.ibm.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-TM-AS-GCONF: 00
@@ -68,16 +69,15 @@ X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:6.0.235, 18.0.687
  definitions=2020-07-07_13:2020-07-07,
  2020-07-07 signatures=0
 X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- priorityscore=1501
- impostorscore=0 mlxlogscore=680 clxscore=1015 bulkscore=0 phishscore=0
- spamscore=0 adultscore=0 mlxscore=0 suspectscore=0 malwarescore=0
- lowpriorityscore=0 cotscore=-2147483648 classifier=spam adjust=0
- reason=mlx scancount=1 engine=8.12.0-2004280000
- definitions=main-2007070134
-Received-SPF: none client-ip=148.163.158.5;
+ mlxlogscore=999 clxscore=1015
+ suspectscore=0 priorityscore=1501 cotscore=-2147483648 bulkscore=0
+ lowpriorityscore=0 malwarescore=0 spamscore=0 adultscore=0 mlxscore=0
+ phishscore=0 impostorscore=0 classifier=spam adjust=0 reason=mlx
+ scancount=1 engine=8.12.0-2004280000 definitions=main-2007070134
+Received-SPF: none client-ip=148.163.156.1;
  envelope-from=stefanb@linux.vnet.ibm.com; helo=mx0a-001b2d01.pphosted.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/07/07 16:16:33
-X-ACL-Warn: Detected OS   = Linux 3.x [generic]
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/07/07 14:32:03
+X-ACL-Warn: Detected OS   = Linux 3.x [generic] [fuzzy]
 X-Spam_score_int: -35
 X-Spam_score: -3.6
 X-Spam_bar: ---
@@ -95,36 +95,41 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Stefan Berger <stefanb@linux.vnet.ibm.com>, qemu-devel@nongnu.org,
+Cc: Stefan Berger <stefanb@linux.ibm.com>,
+ Stefan Berger <stefanb@linux.vnet.ibm.com>, qemu-devel@nongnu.org,
  david@gibson.dropbear.id.au
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-This series of patches fixes the TPM SPAPR device model so that it reacts
-in the same way as the other device models do when the backend device did
-not start up properly. It now calls exit(1).
+Exit on TPM backend failures in the same way as the TPM CRB and TIS device
+models do. With this change we now get an error report when the backend
+did not start up properly:
 
-Due to a change in the TPM 2 code, the pcrUpdateCounter (14th byte) in the
-TPM2_Pcrread response now returns a different value than before. So it's
-better to skip the 14th byte when comparing expected against actual responses.
+error: internal error: qemu unexpectedly closed the monitor:
+2020-07-07T12:49:28.333928Z qemu-system-ppc64: tpm-emulator: \
+  TPM result for CMD_INIT: 0x101 operation failed
 
-   Stefan
+Signed-off-by: Stefan Berger <stefanb@linux.ibm.com>
+---
+ hw/tpm/tpm_spapr.c | 5 ++++-
+ 1 file changed, 4 insertions(+), 1 deletion(-)
 
-v2->v3:
-  - more elaborate commit messages
-
-v1->v2:
-  - simplified skipping of 14th byte in response
-
-
-Stefan Berger (2):
-  tpm: tpm_spapr: Exit on TPM backend failures
-  tests: tpm: Skip over pcrUpdateCounter byte in result comparison
-
- hw/tpm/tpm_spapr.c     | 5 ++++-
- tests/qtest/tpm-util.c | 6 +++++-
- 2 files changed, 9 insertions(+), 2 deletions(-)
-
+diff --git a/hw/tpm/tpm_spapr.c b/hw/tpm/tpm_spapr.c
+index cb4dfd1e6a..8288ab0a15 100644
+--- a/hw/tpm/tpm_spapr.c
++++ b/hw/tpm/tpm_spapr.c
+@@ -306,7 +306,10 @@ static void tpm_spapr_reset(SpaprVioDevice *dev)
+                             TPM_SPAPR_BUFFER_MAX);
+ 
+     tpm_backend_reset(s->be_driver);
+-    tpm_spapr_do_startup_tpm(s, s->be_buffer_size);
++
++    if (tpm_spapr_do_startup_tpm(s, s->be_buffer_size) < 0) {
++        exit(1);
++    }
+ }
+ 
+ static enum TPMVersion tpm_spapr_get_version(TPMIf *ti)
 -- 
 2.24.1
 
