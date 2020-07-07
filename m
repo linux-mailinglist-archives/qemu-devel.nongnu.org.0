@@ -2,76 +2,51 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id BE8232168E1
-	for <lists+qemu-devel@lfdr.de>; Tue,  7 Jul 2020 11:18:34 +0200 (CEST)
-Received: from localhost ([::1]:46324 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id DC25D216908
+	for <lists+qemu-devel@lfdr.de>; Tue,  7 Jul 2020 11:30:18 +0200 (CEST)
+Received: from localhost ([::1]:53744 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jsjkH-0001L0-Rt
-	for lists+qemu-devel@lfdr.de; Tue, 07 Jul 2020 05:18:33 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:43194)
+	id 1jsjvd-0006ic-To
+	for lists+qemu-devel@lfdr.de; Tue, 07 Jul 2020 05:30:17 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:46518)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jasowang@redhat.com>)
- id 1jsjjW-0000uk-Bw
- for qemu-devel@nongnu.org; Tue, 07 Jul 2020 05:17:46 -0400
-Received: from us-smtp-2.mimecast.com ([207.211.31.81]:30733
- helo=us-smtp-delivery-1.mimecast.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <jasowang@redhat.com>)
- id 1jsjjU-0000Vk-Qa
- for qemu-devel@nongnu.org; Tue, 07 Jul 2020 05:17:46 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1594113464;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=DO2/ZW51hsPBPfXCwzXeQqYh9wksrh3wP62XzecrJfg=;
- b=TZpYyu+ytXOw6MG+uUwrAepbOY93jsIXMBSCOkhectCs/72sniVNF/ZXu8g3KfvFZ/slDG
- ctCQZQs2xa59QOkFvqeogJFJlOBPMfUf+ZnG8/JMyLHe0qYlu/n//rsL3M8qlplpmwja9K
- yiBOlo/o/5Eh7h7HMdOPetrJaR1Oapo=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-207--avu6exBOJWYhNX2BH31RA-1; Tue, 07 Jul 2020 05:17:42 -0400
-X-MC-Unique: -avu6exBOJWYhNX2BH31RA-1
-Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
- [10.5.11.15])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 5A1A6107ACCA;
- Tue,  7 Jul 2020 09:17:41 +0000 (UTC)
-Received: from [10.72.13.254] (ovpn-13-254.pek2.redhat.com [10.72.13.254])
- by smtp.corp.redhat.com (Postfix) with ESMTP id F09045BAC3;
- Tue,  7 Jul 2020 09:17:33 +0000 (UTC)
-Subject: Re: [PATCH] intel_iommu: Use correct shift for 256 bits qi descriptor
-To: Liu Yi L <yi.l.liu@intel.com>, peterx@redhat.com
-References: <1593850035-35483-1-git-send-email-yi.l.liu@intel.com>
-From: Jason Wang <jasowang@redhat.com>
-Message-ID: <953608d9-16dc-aa2a-4016-a12fdfd9cc66@redhat.com>
-Date: Tue, 7 Jul 2020 17:17:32 +0800
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.8.0
+ (Exim 4.90_1) (envelope-from <its@irrelevant.dk>)
+ id 1jsjui-0005pP-DG; Tue, 07 Jul 2020 05:29:20 -0400
+Received: from charlie.dont.surf ([128.199.63.193]:60118)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <its@irrelevant.dk>)
+ id 1jsjuf-0002aW-UC; Tue, 07 Jul 2020 05:29:19 -0400
+Received: from apples.localdomain (80-167-98-190-cable.dk.customer.tdc.net
+ [80.167.98.190])
+ by charlie.dont.surf (Postfix) with ESMTPSA id CAAB8BF5EE;
+ Tue,  7 Jul 2020 09:29:15 +0000 (UTC)
+Date: Tue, 7 Jul 2020 11:29:12 +0200
+From: Klaus Jensen <its@irrelevant.dk>
+To: Maxim Levitsky <mlevitsk@redhat.com>
+Subject: Re: [PATCH 0/1] hw/block/nvme: fix assert on invalid irq vector
+Message-ID: <20200707092912.GA537376@apples.localdomain>
+References: <20200609094508.32412-1-its@irrelevant.dk>
+ <b445a413-598f-23a2-f094-8b68c60722f5@redhat.com>
+ <20200609114633.yvwtt6swb47l27yd@apples.localdomain>
+ <20200609141425.GC11003@linux.fritz.box>
+ <48537ee1-ed77-ffe6-66ba-d61838083069@redhat.com>
+ <20200609153243.GE11003@linux.fritz.box>
+ <fe57d61d204a3a328b58aad8b86b587cd7c17946.camel@redhat.com>
 MIME-Version: 1.0
-In-Reply-To: <1593850035-35483-1-git-send-email-yi.l.liu@intel.com>
-Content-Language: en-US
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=jasowang@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=207.211.31.81; envelope-from=jasowang@redhat.com;
- helo=us-smtp-delivery-1.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/07/07 00:20:54
-X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
-X-Spam_score_int: -30
-X-Spam_score: -3.1
-X-Spam_bar: ---
-X-Spam_report: (-3.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H3=-0.01, RCVD_IN_MSPIKE_WL=-0.01,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=_AUTOLEARN
+In-Reply-To: <fe57d61d204a3a328b58aad8b86b587cd7c17946.camel@redhat.com>
+Received-SPF: pass client-ip=128.199.63.193; envelope-from=its@irrelevant.dk;
+ helo=charlie.dont.surf
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/07/07 05:29:16
+X-ACL-Warn: Detected OS   = Linux 3.11 and newer [fuzzy]
+X-Spam_score_int: -18
+X-Spam_score: -1.9
+X-Spam_bar: -
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=_AUTOLEARN
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -84,74 +59,80 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-devel@nongnu.org, mst@redhat.com
+Cc: Kevin Wolf <kwolf@redhat.com>, qemu-block@nongnu.org,
+ Klaus Jensen <k.jensen@samsung.com>, qemu-devel@nongnu.org,
+ Max Reitz <mreitz@redhat.com>, Keith Busch <kbusch@kernel.org>,
+ Javier Gonzalez <javier.gonz@samsung.com>,
+ Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <philmd@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+On Jul  7 12:10, Maxim Levitsky wrote:
+> On Tue, 2020-06-09 at 17:32 +0200, Kevin Wolf wrote:
+> > Am 09.06.2020 um 16:18 hat Philippe Mathieu-Daudé geschrieben:
+> > > On 6/9/20 4:14 PM, Kevin Wolf wrote:
+> > > > Am 09.06.2020 um 13:46 hat Klaus Jensen geschrieben:
+> > > > > On Jun  9 13:17, Philippe Mathieu-DaudÃ© wrote:
+> > > > > > On 6/9/20 11:45 AM, Klaus Jensen wrote:
+> > > > > > > From: Klaus Jensen <k.jensen@samsung.com>
+> > > > > > > 
+> > > > > > > I goofed up with commit c09794fe40e3 ("hw/block/nvme: allow use of any
+> > > > > > > valid msix vector").
+> > > > > > 
+> > > > > > Kevin, since your queue isn't merged, can you directly squash the fix?
+> > > > > 
+> > > > > The commit (c09794fe40e3) can just be dropped without conflicts, but it
+> > > > > leaves a use of n->params.num_queues in nvme_create_cq() which commit
+> > > > > cde74bfd4b87 ("hw/block/nvme: add max_ioqpairs device parameter") must
+> > > > > fix.
+> > > > 
+> > > > Hm, so it seems this isn't easy to squash in without conflicts (and I
+> > > > would have to rewrite the whole commit message), so I think it's better
+> > > > to just apply the series on top.
+> > > > 
+> > > > One problem with the commit message is that it references commit IDs
+> > > > which aren't stable yet. Maybe it's best if I apply these patches,
+> > > > manually fix up the commit ID references and then immediately do a pull
+> > > > request so that they become stable.
+> > > 
+> > > This is the friendlier way.
+> > > 
+> > > Less friendly way is to drop Klaus's patches and ask him to respin.
+> > > While this is a valid outcome, if we can avoid it it will save all of us
+> > > review time.
+> > 
+> > If Klaus wants to do that, fine with me. I'm just trying to find the
+> > easiest solution for all of us.
+> > 
+> > > > It would be good to have at least one review, though.
+> > > 
+> > > Maxim catched this issue, I'd feel safer if he acks your pre-merge queue.
+> > 
+> > Ok. Maxim, can you please review this series then?
+> > 
+> > Kevin
+> I am slowly getting through the heap of the patches trying to understand the current state of things.
+> I will start reviewing all these patches today.
+> 
+ 
+Hi Maxim,
 
-On 2020/7/4 下午4:07, Liu Yi L wrote:
-> In chapter 10.4.23 of VT-d spec 3.0, Descriptor Width bit was introduced
-> in VTD_IQA_REG. Sfotware could set this bit to tell VT-d the QI descriptor
+Yeah, I bombed it again; sorry! ;)
 
+"[PATCH v3 00/18] hw/block/nvme: bump to v1.3" is the series currently
+under review.
 
-Typo.
+I also posted:
 
+  [PATCH 00/17] hw/block/nvme: AIO and address mapping refactoring,
+  [PATCH 0/2] hw/block/nvme: handle transient dma errors
+  [PATCH 0/3] hw/block/nvme: support scatter gather lists
+  [PATCH 0/4] hw/block/nvme: support multiple namespaces
+  [PATCH] hw/block/nvme: make lba data size configurable
+  [PATCH] hw/block/nvme: add support for dulbe
+  [PATCH 0/3] hw/block/nvme: bump to v1.4
+  [PATCH 00/10] hw/block/nvme: namespace types and zoned namespaces
 
-> from software would be 256 bits. Accordingly, the VTD_IQH_QH_SHIFT should
-> be 5 when descriptor size is 256 bits.
->
-> This patch adds the DW bit check when deciding the shift used to update
-> VTD_IQH_REG.
->
-> Signed-off-by: Liu Yi L <yi.l.liu@intel.com>
-
-
-Acked-by: Jason Wang <jasowang@redhat.com>
-
-
-> ---
->   hw/i386/intel_iommu.c          | 7 ++++++-
->   hw/i386/intel_iommu_internal.h | 3 ++-
->   2 files changed, 8 insertions(+), 2 deletions(-)
->
-> diff --git a/hw/i386/intel_iommu.c b/hw/i386/intel_iommu.c
-> index df7ad25..8703a2d 100644
-> --- a/hw/i386/intel_iommu.c
-> +++ b/hw/i386/intel_iommu.c
-> @@ -2549,6 +2549,11 @@ static bool vtd_process_inv_desc(IntelIOMMUState *s)
->   /* Try to fetch and process more Invalidation Descriptors */
->   static void vtd_fetch_inv_desc(IntelIOMMUState *s)
->   {
-> +    int qi_shift;
-> +
-> +    /* Refer to 10.4.23 of VT-d spec 3.0 */
-> +    qi_shift = s->iq_dw ? VTD_IQH_QH_SHIFT_5 : VTD_IQH_QH_SHIFT_4;
-> +
->       trace_vtd_inv_qi_fetch();
->   
->       if (s->iq_tail >= s->iq_size) {
-> @@ -2567,7 +2572,7 @@ static void vtd_fetch_inv_desc(IntelIOMMUState *s)
->           }
->           /* Must update the IQH_REG in time */
->           vtd_set_quad_raw(s, DMAR_IQH_REG,
-> -                         (((uint64_t)(s->iq_head)) << VTD_IQH_QH_SHIFT) &
-> +                         (((uint64_t)(s->iq_head)) << qi_shift) &
->                            VTD_IQH_QH_MASK);
->       }
->   }
-> diff --git a/hw/i386/intel_iommu_internal.h b/hw/i386/intel_iommu_internal.h
-> index 862033e..3d5487f 100644
-> --- a/hw/i386/intel_iommu_internal.h
-> +++ b/hw/i386/intel_iommu_internal.h
-> @@ -230,7 +230,8 @@
->   #define VTD_IQA_DW_MASK             0x800
->   
->   /* IQH_REG */
-> -#define VTD_IQH_QH_SHIFT            4
-> +#define VTD_IQH_QH_SHIFT_4          4
-> +#define VTD_IQH_QH_SHIFT_5          5
->   #define VTD_IQH_QH_MASK             0x7fff0ULL
->   
->   /* ICS_REG */
-
+I really appreciate you reviewing! Your R-b's are on a lot of the
+patches already, thanks for that!
 
