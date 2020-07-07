@@ -2,72 +2,72 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D2728216745
-	for <lists+qemu-devel@lfdr.de>; Tue,  7 Jul 2020 09:23:15 +0200 (CEST)
-Received: from localhost ([::1]:43444 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9C76221672E
+	for <lists+qemu-devel@lfdr.de>; Tue,  7 Jul 2020 09:18:20 +0200 (CEST)
+Received: from localhost ([::1]:45144 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jshwg-0006ts-Rs
-	for lists+qemu-devel@lfdr.de; Tue, 07 Jul 2020 03:23:14 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:43836)
+	id 1jshrv-0004M4-M4
+	for lists+qemu-devel@lfdr.de; Tue, 07 Jul 2020 03:18:19 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:43622)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1jshoX-00077m-E9
- for qemu-devel@nongnu.org; Tue, 07 Jul 2020 03:14:51 -0400
-Received: from mail-wr1-x432.google.com ([2a00:1450:4864:20::432]:42414)
+ id 1jshoH-0006hH-TP
+ for qemu-devel@nongnu.org; Tue, 07 Jul 2020 03:14:33 -0400
+Received: from mail-wr1-x436.google.com ([2a00:1450:4864:20::436]:36104)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1jshoT-0004vV-GA
- for qemu-devel@nongnu.org; Tue, 07 Jul 2020 03:14:48 -0400
-Received: by mail-wr1-x432.google.com with SMTP id o11so44021125wrv.9
- for <qemu-devel@nongnu.org>; Tue, 07 Jul 2020 00:14:44 -0700 (PDT)
+ id 1jshoG-0004rI-8b
+ for qemu-devel@nongnu.org; Tue, 07 Jul 2020 03:14:33 -0400
+Received: by mail-wr1-x436.google.com with SMTP id k6so44006533wrn.3
+ for <qemu-devel@nongnu.org>; Tue, 07 Jul 2020 00:14:31 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=fA+g3LrdgrFUSUvqRSEWu0BkgruGndhEDIAbeRZnv3g=;
- b=yAMXv7orRZmRvCHJtjRNT9bVYsLmUCu9NfC+utNdbJxOTsryrfGKznJ+LrenMzk3IZ
- +RW1ZOglfVhTmA9T1rYkmZNI9pKDUj43jJrfu0Ad7uYI8BN35ziaza2D5Z9sSkAJZk5q
- GduDzZ1mBmfJqsDYDEHI4Wx0AHYNKjEwXmwKAy+jdNofaGCR6dGf8B0jWR4wvObw7qA0
- uhJAe5Ew6Ry6/Ji9wSA5A1Am4bxcNoJwo2zCzj0wms7+1oleULKshQrxGcxlcb7A3sXC
- bGiyGW3lYjv13pgZzOfl4aEVJWIkyQXjDTIPBG83NgYE/b289trglZYX97kDlG2fud9O
- qQzw==
+ bh=fVpFU3Bn0gx8fweRN9XBf8loHnsbKZ9F1g1Uyun+Gsg=;
+ b=R9v8p9AeUq2v6ydPU9XeLm7KEUpSWIYFUsXmqGq/pcbaCLgExX3UzYb8WSY1ZVO7vS
+ R0N9dhWsat59BvoOOTpVaWsq+1k6+04KSYhwWYPOrSBpOMbJDz9mc+pN0Xi7yI33Pvvf
+ BaAmOlCK2xYKRpG4koFGnaHFQhjGnZrCnw1BWd8o2toAK71FS24ephW2oWZCE9orVsz4
+ PcDNLtKH18/L3PO470NtrWJh2FuzMVAbuDgM1jpeCfw/uXHf2EBhTjhxxrgEbAXJZ3bw
+ 75en7898w2I+hSoX/2ZPLXCmZdsQeWeE3LwHRXHvQEm81XLQVmlmdqOE0AESDX0S9mL8
+ ewPQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=fA+g3LrdgrFUSUvqRSEWu0BkgruGndhEDIAbeRZnv3g=;
- b=PJz/20QdHEXBGd+zZo4eZrbxzHuDjhKoaDajUublhb11HFbDtyYxyC7vh2a0B5VEnt
- cZTDzJP17kKrSW4la0PyGPfrDF7VOdgER9pbxvjcdayE1Rlz+RCZz5lqu5a3rk75bxoH
- 3Don9sXbCxSSJJsW91ofLeaU69we9OpLTGBDX4nO2BhCbm+HAzopxblQt/9xXdAbZSs6
- JVDIn4UoPbKhw+ma4mwGiYSeNNVTojTcEM/ZmEOuWyLZ1w6JJeryAU8TrlEabJ5+vUPx
- LyDKG/L0pdSLOYvBX+vEqoF8nzeKe01aomqDqglCsdLK++LtQP7OaD+EIW4ssGIL58z0
- oxkw==
-X-Gm-Message-State: AOAM530o5UWGVkhlmVbvBoKFGz3IftZ5NRvCatfZri8hCdMGn3OuT/Y8
- cdBusRBvZwUqUf9pPO2hYF54uamTnFw=
-X-Google-Smtp-Source: ABdhPJxgzLuxgG01ZGSiTDLilQsx+RKWftz7yrBmUzzjGwhHJfeRFcE/WIUA/7vuKyZsDAqkgnbk9w==
-X-Received: by 2002:adf:b608:: with SMTP id f8mr56804021wre.363.1594106084003; 
- Tue, 07 Jul 2020 00:14:44 -0700 (PDT)
+ bh=fVpFU3Bn0gx8fweRN9XBf8loHnsbKZ9F1g1Uyun+Gsg=;
+ b=bzvimRNmisSAHlk65IIVwkGZpREcyVja/94++UkT/ZuRnUBTSXCdfpmgKeSRLL36pS
+ y9tDo5MH/BVNrNZVI4kfGrK9f8H9wiKo2Ri6tZ00GoBURHWlhatvwUSBhPTEp2+MlCtG
+ t4/oqDUyBZ8Y5pTEzGAPnKJCXK+6zxCJPhitWFke3tupHxczoSSgtap8Co6KvwqGL2Lp
+ 4JvjGGrO4crCp7D16tUYQSpWqO/OULPVHRZipXMO6mDWoNYj+usVhwvLj0UFuSNJ/E3a
+ 0Osxuf7kOlU43wxfkU/wRVo5QDPY/SaQn2aJIBYAQt7zXKg6YRzhfVfCqBxc+cXR7xLb
+ +tBg==
+X-Gm-Message-State: AOAM533WchUaytXSomYHuTQSWdBi3jKWiw3cxaq3ZJHmWagux9JSx2Az
+ gM/TENOW9UzIzWjHOkSpfpsNbQ==
+X-Google-Smtp-Source: ABdhPJxmGtovh0WxrLk3sQG75lLyAVsh6Ydo/nY/kSLQ8+wgsSfpXm/1liGjffbk+W4UqRDoqXXIRA==
+X-Received: by 2002:adf:b1ca:: with SMTP id r10mr24403519wra.150.1594106070886; 
+ Tue, 07 Jul 2020 00:14:30 -0700 (PDT)
 Received: from zen.linaroharston ([51.148.130.216])
- by smtp.gmail.com with ESMTPSA id d81sm2677820wmc.0.2020.07.07.00.14.29
+ by smtp.gmail.com with ESMTPSA id c25sm2107501wml.46.2020.07.07.00.14.23
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 07 Jul 2020 00:14:38 -0700 (PDT)
+ Tue, 07 Jul 2020 00:14:27 -0700 (PDT)
 Received: from zen.lan (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id 276471FFB1;
+ by zen.linaroharston (Postfix) with ESMTP id 3CCD21FFB3;
  Tue,  7 Jul 2020 08:09:01 +0100 (BST)
 From: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
 To: peter.maydell@linaro.org
-Subject: [PULL 26/41] tests/acceptance: skip multicore mips_malta tests on
+Subject: [PULL 27/41] tests/acceptance: skip LinuxInitrd 2gib with v4.16 on
  GitLab
-Date: Tue,  7 Jul 2020 08:08:43 +0100
-Message-Id: <20200707070858.6622-27-alex.bennee@linaro.org>
+Date: Tue,  7 Jul 2020 08:08:44 +0100
+Message-Id: <20200707070858.6622-28-alex.bennee@linaro.org>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20200707070858.6622-1-alex.bennee@linaro.org>
 References: <20200707070858.6622-1-alex.bennee@linaro.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::432;
- envelope-from=alex.bennee@linaro.org; helo=mail-wr1-x432.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::436;
+ envelope-from=alex.bennee@linaro.org; helo=mail-wr1-x436.google.com
 X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
  That's all we know.
 X-Spam_score_int: -20
@@ -89,54 +89,46 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Aleksandar Rikalo <aleksandar.rikalo@syrmia.com>,
- =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>, qemu-devel@nongnu.org,
- Wainer dos Santos Moschetta <wainersm@redhat.com>,
+Cc: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>,
+ qemu-devel@nongnu.org, Wainer dos Santos Moschetta <wainersm@redhat.com>,
  =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>,
- Aleksandar Markovic <aleksandar.qemu.devel@gmail.com>,
  Cleber Rosa <crosa@redhat.com>,
- =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
- Aurelien Jarno <aurelien@aurel32.net>
+ =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-For some reason these tests fail all the time on GitLab. I can
-re-create the hang around 3% of the time locally but it doesn't seem
-to be MTTCG related. For now skipIf on GITLAB_CI.
+This fails on GitLab but not when run locally on the same container
+image. It's very confusing.
 
 Signed-off-by: Alex Bennée <alex.bennee@linaro.org>
-Reviewed-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
-Cc: Aleksandar Markovic <aleksandar.qemu.devel@gmail.com>
-Message-Id: <20200701135652.1366-29-alex.bennee@linaro.org>
+Acked-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
+Message-Id: <20200701135652.1366-30-alex.bennee@linaro.org>
 
-diff --git a/tests/acceptance/machine_mips_malta.py b/tests/acceptance/machine_mips_malta.py
-index 92b4f28a1123..7c9a4ee4d2d6 100644
---- a/tests/acceptance/machine_mips_malta.py
-+++ b/tests/acceptance/machine_mips_malta.py
-@@ -15,6 +15,7 @@ from avocado import skipUnless
+diff --git a/tests/acceptance/linux_initrd.py b/tests/acceptance/linux_initrd.py
+index a3e54d3fc915..a249e2f14a24 100644
+--- a/tests/acceptance/linux_initrd.py
++++ b/tests/acceptance/linux_initrd.py
+@@ -8,10 +8,12 @@
+ # This work is licensed under the terms of the GNU GPL, version 2 or
+ # later.  See the COPYING file in the top-level directory.
+ 
++import os
+ import logging
+ import tempfile
+ 
  from avocado_qemu import Test
- from avocado_qemu import wait_for_console_pattern
- from avocado.utils import archive
 +from avocado import skipIf
  
  
- NUMPY_AVAILABLE = True
-@@ -99,6 +100,7 @@ class MaltaMachineFramebuffer(Test):
-         """
-         self.do_test_i6400_framebuffer_logo(1)
+ class LinuxInitrd(Test):
+@@ -51,6 +53,7 @@ class LinuxInitrd(Test):
+                 max_size + 1)
+             self.assertRegex(self.vm.get_log(), expected_msg)
  
 +    @skipIf(os.getenv('GITLAB_CI'), 'Running on GitLab')
-     def test_mips_malta_i6400_framebuffer_logo_7cores(self):
+     def test_with_2gib_file_should_work_with_linux_v4_16(self):
          """
-         :avocado: tags=arch:mips64el
-@@ -108,6 +110,7 @@ class MaltaMachineFramebuffer(Test):
-         """
-         self.do_test_i6400_framebuffer_logo(7)
- 
-+    @skipIf(os.getenv('GITLAB_CI'), 'Running on GitLab')
-     def test_mips_malta_i6400_framebuffer_logo_8cores(self):
-         """
-         :avocado: tags=arch:mips64el
+         QEMU has supported up to 4 GiB initrd for recent kernel
 -- 
 2.20.1
 
