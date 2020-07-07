@@ -2,70 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2B1D7216D7F
-	for <lists+qemu-devel@lfdr.de>; Tue,  7 Jul 2020 15:13:01 +0200 (CEST)
-Received: from localhost ([::1]:48410 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9198D216D7B
+	for <lists+qemu-devel@lfdr.de>; Tue,  7 Jul 2020 15:10:53 +0200 (CEST)
+Received: from localhost ([::1]:43842 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jsnPA-0006wV-7g
-	for lists+qemu-devel@lfdr.de; Tue, 07 Jul 2020 09:13:00 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:38490)
+	id 1jsnN6-0004wS-Lz
+	for lists+qemu-devel@lfdr.de; Tue, 07 Jul 2020 09:10:52 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:38380)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1jsn7r-0008OV-RK
- for qemu-devel@nongnu.org; Tue, 07 Jul 2020 08:55:07 -0400
-Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:22393
- helo=us-smtp-1.mimecast.com)
+ (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1jsn7j-0008F4-VM
+ for qemu-devel@nongnu.org; Tue, 07 Jul 2020 08:55:00 -0400
+Received: from us-smtp-1.mimecast.com ([205.139.110.61]:25362
+ helo=us-smtp-delivery-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1jsn7q-0004uV-CE
- for qemu-devel@nongnu.org; Tue, 07 Jul 2020 08:55:07 -0400
+ (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1jsn7c-0004rL-I1
+ for qemu-devel@nongnu.org; Tue, 07 Jul 2020 08:54:59 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1594126504;
+ s=mimecast20190719; t=1594126491;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:content-type:content-type:in-reply-to:in-reply-to:
- references:references; bh=xZdFqrgR1JarvVVCRgTMEg19qCkFtkK1L1XpMKaNaII=;
- b=GImDlXyc2m6Oob0yq05NlUCEsCTL1dFxf0zyB5lRAPNaZ/eQC+HXLdaG1gTzhR4vxoGNat
- eqSrWC9F8s5a0Gx7Op/Qj0UshmbFYgdOwCewIHCDloyKYh/XlKUboxPQKzuI0LOJGW2b1e
- HKePzuew6kbMPfG2FzdC8ySSacBH1Ck=
+ references:references; bh=Jc3CkjMTS6eJgOpPYjcQtTYta9twaD8HtlqKoRcWa3g=;
+ b=LDycx/I6osABxEirXebiIqOmsuKeZPdzcdt+etz229wzyDmiCQJ6JiPlLcI5nxYkawCWMC
+ o5AkQ16LeUhyftsDp39RDSFHl6eKVstRprS5dW0lltUfW35mYRQVhf/6+dPuJLr9gLubxG
+ 8qjz0pGiz2j4O4wMVWM6ESLipYPSKsg=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-398-38uoFztIMkqEJ6DxqUAjsg-1; Tue, 07 Jul 2020 08:55:01 -0400
-X-MC-Unique: 38uoFztIMkqEJ6DxqUAjsg-1
-Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
- [10.5.11.23])
+ us-mta-486-SEuGukI6Nx6nATJjUp5Aeg-1; Tue, 07 Jul 2020 08:54:48 -0400
+X-MC-Unique: SEuGukI6Nx6nATJjUp5Aeg-1
+Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
+ [10.5.11.15])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 5626A106B24B;
- Tue,  7 Jul 2020 12:54:36 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id DB1AD1011F6A;
+ Tue,  7 Jul 2020 12:54:30 +0000 (UTC)
 Received: from sirius.home.kraxel.org (ovpn-112-200.ams2.redhat.com
  [10.36.112.200])
- by smtp.corp.redhat.com (Postfix) with ESMTP id B2DE32E037;
+ by smtp.corp.redhat.com (Postfix) with ESMTP id DFE92C009A;
  Tue,  7 Jul 2020 12:54:20 +0000 (UTC)
 Received: by sirius.home.kraxel.org (Postfix, from userid 1000)
- id B8D0331F9C; Tue,  7 Jul 2020 14:53:57 +0200 (CEST)
+ id C1AAC31FA5; Tue,  7 Jul 2020 14:53:57 +0200 (CEST)
 From: Gerd Hoffmann <kraxel@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v5 18/20] tests/acpi: allow override blkdev
-Date: Tue,  7 Jul 2020 14:53:54 +0200
-Message-Id: <20200707125356.32450-19-kraxel@redhat.com>
+Subject: [PATCH v5 19/20] tests/acpi: add microvm test
+Date: Tue,  7 Jul 2020 14:53:55 +0200
+Message-Id: <20200707125356.32450-20-kraxel@redhat.com>
 In-Reply-To: <20200707125356.32450-1-kraxel@redhat.com>
 References: <20200707125356.32450-1-kraxel@redhat.com>
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=kraxel@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=US-ASCII
-Received-SPF: pass client-ip=205.139.110.120; envelope-from=kraxel@redhat.com;
- helo=us-smtp-1.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/07/07 06:04:49
+Received-SPF: pass client-ip=205.139.110.61; envelope-from=kraxel@redhat.com;
+ helo=us-smtp-delivery-1.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/07/07 00:31:00
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
-X-Spam_score_int: -40
-X-Spam_score: -4.1
-X-Spam_bar: ----
-X-Spam_report: (-4.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1,
+X-Spam_score_int: -30
+X-Spam_score: -3.1
+X-Spam_bar: ---
+X-Spam_report: (-3.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-1, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=_AUTOLEARN
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H3=-0.01, RCVD_IN_MSPIKE_WL=-0.01,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=_AUTOLEARN
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -88,38 +88,44 @@ Cc: Laurent Vivier <lvivier@redhat.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-microvm needs virtio-blk instead of ide.
-
 Signed-off-by: Gerd Hoffmann <kraxel@redhat.com>
 ---
- tests/qtest/bios-tables-test.c | 6 ++++--
- 1 file changed, 4 insertions(+), 2 deletions(-)
+ tests/qtest/bios-tables-test.c | 15 +++++++++++++++
+ 1 file changed, 15 insertions(+)
 
 diff --git a/tests/qtest/bios-tables-test.c b/tests/qtest/bios-tables-test.c
-index c315156858f4..24b715dce780 100644
+index 24b715dce780..b5b98d5c0742 100644
 --- a/tests/qtest/bios-tables-test.c
 +++ b/tests/qtest/bios-tables-test.c
-@@ -72,6 +72,7 @@ typedef struct {
-     const char *variant;
-     const char *uefi_fl1;
-     const char *uefi_fl2;
-+    const char *blkdev;
-     const char *cd;
-     const uint64_t ram_start;
-     const uint64_t scan_len;
-@@ -635,9 +636,10 @@ static void test_acpi_one(const char *params, test_data *data)
-         args = g_strdup_printf("-machine %s,kernel-irqchip=off %s -accel tcg "
-             "-net none -display none %s "
-             "-drive id=hd0,if=none,file=%s,format=raw "
--            "-device ide-hd,drive=hd0 ",
-+            "-device %s,drive=hd0 ",
-              data->machine, data->tcg_only ? "" : "-accel kvm",
--             params ? params : "", disk);
-+             params ? params : "", disk,
-+             data->blkdev ?: "ide-hd");
-     }
+@@ -1007,6 +1007,20 @@ static void test_acpi_virt_tcg_memhp(void)
  
-     data->qts = qtest_init(args);
+ }
+ 
++static void test_acpi_microvm_tcg(void)
++{
++    test_data data;
++
++    memset(&data, 0, sizeof(data));
++    data.machine = "microvm";
++    data.required_struct_types = base_required_struct_types;
++    data.required_struct_types_len = ARRAY_SIZE(base_required_struct_types);
++    data.blkdev = "virtio-blk-device";
++    test_acpi_one(" -machine microvm,acpi=on,rtc=off",
++                  &data);
++    free_test_data(&data);
++}
++
+ static void test_acpi_virt_tcg_numamem(void)
+ {
+     test_data data = {
+@@ -1118,6 +1132,7 @@ int main(int argc, char *argv[])
+         qtest_add_func("acpi/q35/dimmpxm", test_acpi_q35_tcg_dimm_pxm);
+         qtest_add_func("acpi/piix4/acpihmat", test_acpi_piix4_tcg_acpi_hmat);
+         qtest_add_func("acpi/q35/acpihmat", test_acpi_q35_tcg_acpi_hmat);
++        qtest_add_func("acpi/microvm", test_acpi_microvm_tcg);
+     } else if (strcmp(arch, "aarch64") == 0) {
+         qtest_add_func("acpi/virt", test_acpi_virt_tcg);
+         qtest_add_func("acpi/virt/numamem", test_acpi_virt_tcg_numamem);
 -- 
 2.18.4
 
