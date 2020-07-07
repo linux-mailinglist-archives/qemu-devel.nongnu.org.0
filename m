@@ -2,72 +2,75 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 09AFB2162E6
-	for <lists+qemu-devel@lfdr.de>; Tue,  7 Jul 2020 02:18:34 +0200 (CEST)
-Received: from localhost ([::1]:57920 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C7B342162DE
+	for <lists+qemu-devel@lfdr.de>; Tue,  7 Jul 2020 02:11:45 +0200 (CEST)
+Received: from localhost ([::1]:52656 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jsbJh-0002me-4A
-	for lists+qemu-devel@lfdr.de; Mon, 06 Jul 2020 20:18:33 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:40118)
+	id 1jsbD6-0007d4-Tm
+	for lists+qemu-devel@lfdr.de; Mon, 06 Jul 2020 20:11:44 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:38444)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <alistair23@gmail.com>)
- id 1jsbIo-0001qK-Kn; Mon, 06 Jul 2020 20:17:38 -0400
-Received: from mail-il1-x142.google.com ([2607:f8b0:4864:20::142]:33543)
+ (Exim 4.90_1) (envelope-from
+ <3gL0DXwMKCgkst8pxxpun.lxvznv3-mn4nuwxwpw3.x0p@flex--jkz.bounces.google.com>)
+ id 1jsbC9-0007CM-2W
+ for qemu-devel@nongnu.org; Mon, 06 Jul 2020 20:10:45 -0400
+Received: from mail-pg1-x549.google.com ([2607:f8b0:4864:20::549]:46303)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <alistair23@gmail.com>)
- id 1jsbIn-0005Ub-1r; Mon, 06 Jul 2020 20:17:38 -0400
-Received: by mail-il1-x142.google.com with SMTP id a11so26258779ilk.0;
- Mon, 06 Jul 2020 17:17:36 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc:content-transfer-encoding;
- bh=oT6h3FPPrO2frJk8eR6JrALI5YXxXiAsbZ1+5VELi6s=;
- b=IGZ7nFq1jPrJASsShupXRZ987k64O5ZF1peALAk0W9yQa/epc+jZ7vJemnzFRm7qQ0
- XwUCGVF4g7dXUL32MNSRP5OIl5XaEN5kqPkXvDFiw/reJhMLCjqVVM3JcyDTXftTKGCv
- l6VDo3EsePWKMENABCDslc18HsS205LYm9FU8ogayVgsnxjJILxEIynzpk6/Y4tTZIXY
- wybT1mS6TNxf/py8eH90SCc/1SxghIT0cqTDZQfDr7lkBtsbfeh9HyTS8S44H1WgDtnY
- H3IkdCsGUXjn2fTUA3Rjd0Coqk2SxNNZqZqW15ZC3DY2I0HXIZiiII8qF6hnubRW5de6
- Pf2A==
+ (Exim 4.90_1) (envelope-from
+ <3gL0DXwMKCgkst8pxxpun.lxvznv3-mn4nuwxwpw3.x0p@flex--jkz.bounces.google.com>)
+ id 1jsbC7-0004O7-4P
+ for qemu-devel@nongnu.org; Mon, 06 Jul 2020 20:10:44 -0400
+Received: by mail-pg1-x549.google.com with SMTP id i1so31136696pgn.13
+ for <qemu-devel@nongnu.org>; Mon, 06 Jul 2020 17:10:41 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=20161025;
+ h=date:message-id:mime-version:subject:from:to:cc;
+ bh=3bCb/DeLvR1Wu8wYoDZvL77E4HEM0tMKEKQsIpLt8xE=;
+ b=SUPwI22+XCIyYK3OtwvWcotNDZl05MnWGPvt627Q3VHciScXhsDLQyk4ks+qt5uoX9
+ cpVybZZ3tf5m241mHN/29PmMSDK0r9VGfNF0DHNvvERuvh1zyRwXdYxL2+xGRsQtMqRV
+ H0l6QvUznBHKfURRS9cHGF1QPzHkZlJYAcJ/OIlumh24DbpXSbcZ29Ai3/hjvISjp8tG
+ NP9voEUcPRzCwramWOXTqVrAyV5sRNlegYybC+hyBppKaTmGLcmGyqNuLNMRKOTG0C54
+ +lIBoU1xumZ1JX1KuOGkbyTBO2fG/UCr+PoJDRUo4+f7Lv0c879xhfRwjEd0xKCdjJJT
+ SD0g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc:content-transfer-encoding;
- bh=oT6h3FPPrO2frJk8eR6JrALI5YXxXiAsbZ1+5VELi6s=;
- b=duzrL2aJJXs98QLHRYlBJmGZzCLXi8sN85lebMzuvQPPGDIojgeKl+G/Ogn6QBsvX6
- ntQjTkMZOgHF88JpusCZqEIEwEFRpfo1YcEEHDMwpMDU/Iu/XM0jwFHb1LiQqwuaWrjg
- utv5eolOBJSdj81DHXbH3KuNZhNADKuLPNdrKf4mcZf67PnrgYpQV9FewnvYMp1K5lJR
- bHMWRn0RnG3MWPcAKI+d5zFc0phgujXX635iMAsurJnHsHYHZT7V/oLwVPoCbpkMg8h0
- 7opIFQLdc7GnYANQRAP6sS/klG1VN1DHQTXHzxngu0PoHaVhur7uYp/dLSKI5+Jhoq1o
- IC7w==
-X-Gm-Message-State: AOAM530bhGYv6MphXUFZLj/KorrvJzERQFnARgbp3OAPfpR7GEpWee0g
- Oz162P1DjReQ1lkffTNirrkG18jQnubMWwCQqqo=
-X-Google-Smtp-Source: ABdhPJzycshpPdNG1lvs8VoNh6fTd7DN0RtstWqgoBIV2gMFAMvggj4/NTvj4Gb9y16ym2XuomQHcm42Kq1Ixg4TWS4=
-X-Received: by 2002:a92:bb84:: with SMTP id x4mr34079638ilk.177.1594081055408; 
- Mon, 06 Jul 2020 17:17:35 -0700 (PDT)
-MIME-Version: 1.0
-References: <20200704144943.18292-1-f4bug@amsat.org>
- <20200704144943.18292-20-f4bug@amsat.org>
-In-Reply-To: <20200704144943.18292-20-f4bug@amsat.org>
-From: Alistair Francis <alistair23@gmail.com>
-Date: Mon, 6 Jul 2020 17:07:47 -0700
-Message-ID: <CAKmqyKNW1V_vOPw4AdBP5BpD2ueOT1NFz4hUON82VMyErLzgyw@mail.gmail.com>
-Subject: Re: [PATCH 19/26] hw/ppc/spapr: Use usb_get_port_path()
-To: =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <f4bug@amsat.org>
+ h=x-gm-message-state:date:message-id:mime-version:subject:from:to:cc;
+ bh=3bCb/DeLvR1Wu8wYoDZvL77E4HEM0tMKEKQsIpLt8xE=;
+ b=o4LL3icLGXsyHJZM2dKLO0RY2art+3kjcvj9x/lSnGWcQ6YGHZAqpySq67ReEnxbkE
+ KTmzSrNFjznLtHJInqEKFTFuf6NJkhGoWNdlD+V8cOA3XJOB13WmwNl1JZIF75ijsVUL
+ YEt3Bk1Ti2y3kZ7+VcwP+8cnxACWEq9omASnz1oNgf6mxWUO7zJdhZl8N25hp6HhkHBV
+ +VurbDd7ebenGhXbg9LZoz+G4SsVqUP5/rE+XR11V7stSDWxymvxs3itW+0t5s0dl00o
+ 7PLaXcB1K5dBMuIxryeIfynWbdEnzcK2YFltFU73H59OEipbA1GMdrDn3QgUZqH8BA8r
+ rPxQ==
+X-Gm-Message-State: AOAM533Q2JcAK50Hjw6Gt2JAlgPf/Pk25OaX7jv7kFh7Wna72LTfNgpT
+ gh+9+Cea4K98/5Xo1QN+YSI5bv/AHPTLWkmejyal8psVOL69bDgVjKtWO8yXmuAbt+oIPQdy1r9
+ JjalkH0q6wYx14M7M6dR9gxIc5qg2yaIIPTp+21jHCjJXxO9UqlgN
+X-Google-Smtp-Source: ABdhPJxnA2Km8lcu1rh/t4wCikE26un8VSmSBMS7Z3s7NoC+A1aky3CsBWP2y75idJ/DvwrTrE2g6Z8=
+X-Received: by 2002:a17:90a:266f:: with SMTP id
+ l102mr1549506pje.144.1594080640525; 
+ Mon, 06 Jul 2020 17:10:40 -0700 (PDT)
+Date: Mon,  6 Jul 2020 17:10:36 -0700
+Message-Id: <20200707001036.1671982-1-jkz@google.com>
+Mime-Version: 1.0
+X-Mailer: git-send-email 2.27.0.212.ge8ba1cc988-goog
+Subject: [PATCH] linux-user: Use EPROTONOSUPPORT for unimplemented netlink
+ protocols
+From: Josh Kunz <jkz@google.com>
+To: qemu-devel@nongnu.org
+Cc: riku.voipio@iki.fi, laurent@vivier.eu, Josh Kunz <jkz@google.com>
 Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=2607:f8b0:4864:20::142;
- envelope-from=alistair23@gmail.com; helo=mail-il1-x142.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::549;
+ envelope-from=3gL0DXwMKCgkst8pxxpun.lxvznv3-mn4nuwxwpw3.x0p@flex--jkz.bounces.google.com;
+ helo=mail-pg1-x549.google.com
 X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
  That's all we know.
-X-Spam_score_int: -17
-X-Spam_score: -1.8
-X-Spam_bar: -
-X-Spam_report: (-1.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- FREEMAIL_ENVFROM_END_DIGIT=0.25, FREEMAIL_FROM=0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=_AUTOLEARN
+X-Spam_score_int: -105
+X-Spam_score: -10.6
+X-Spam_bar: ----------
+X-Spam_report: (-10.6 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_MED=-1,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ USER_IN_DEF_DKIM_WL=-7.5 autolearn=_AUTOLEARN
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -80,84 +83,39 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Maydell <peter.maydell@linaro.org>,
- "Michael S. Tsirkin" <mst@redhat.com>,
- Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>,
- "qemu-devel@nongnu.org Developers" <qemu-devel@nongnu.org>,
- Gerd Hoffmann <kraxel@redhat.com>,
- "Edgar E. Iglesias" <edgar.iglesias@gmail.com>,
- Huacai Chen <chenhc@lemote.com>, Stefano Stabellini <sstabellini@kernel.org>,
- Yoshinori Sato <ysato@users.sourceforge.jp>, Paul Durrant <paul@xen.org>,
- Magnus Damm <magnus.damm@gmail.com>, Markus Armbruster <armbru@redhat.com>,
- =?UTF-8?Q?Herv=C3=A9_Poussineau?= <hpoussin@reactos.org>,
- Anthony Perard <anthony.perard@citrix.com>,
- "open list:X86" <xen-devel@lists.xenproject.org>,
- Leif Lindholm <leif@nuviainc.com>,
- =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <philmd@redhat.com>,
- Aleksandar Rikalo <aleksandar.rikalo@syrmia.com>,
- Eduardo Habkost <ehabkost@redhat.com>,
- Alistair Francis <alistair@alistair23.me>,
- "Dr. David Alan Gilbert" <dgilbert@redhat.com>,
- Beniamino Galvani <b.galvani@gmail.com>,
- =?UTF-8?B?TWFyYy1BbmRyw6kgTHVyZWF1?= <marcandre.lureau@redhat.com>,
- Niek Linnenbank <nieklinnenbank@gmail.com>, qemu-arm <qemu-arm@nongnu.org>,
- Samuel Thibault <samuel.thibault@ens-lyon.org>,
- Richard Henderson <rth@twiddle.net>,
- Radoslaw Biernacki <radoslaw.biernacki@linaro.org>,
- Igor Mitsyanko <i.mitsyanko@gmail.com>, Paul Zimmerman <pauldzim@gmail.com>,
- "open list:New World" <qemu-ppc@nongnu.org>,
- David Gibson <david@gibson.dropbear.id.au>,
- Paolo Bonzini <pbonzini@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Sat, Jul 4, 2020 at 7:59 AM Philippe Mathieu-Daud=C3=A9 <f4bug@amsat.org=
-> wrote:
->
-> To avoid to access the USBDevice internals, and use the
-> recently added usb_get_port_path() helper instead.
->
-> Signed-off-by: Philippe Mathieu-Daud=C3=A9 <f4bug@amsat.org>
+Linux uses the EPROTONOSUPPORT error code[1] if the users requests a
+netlink socket with an unsupported netlink protocol. This change
+switches linux-user to use the same code as Linux, instead of
+EPFNOSUPPORT (which AFAIK is just an anachronistic version of
+EAFNOSUPPORT).
 
-Reviewed-by: Alistair Francis <alistair.francis@wdc.com>
+Tested by compiling all linux-user targets on x86.
 
-Alistair
+[1]:
+https://github.com/torvalds/linux/blob/bfe91da29bfad9941d5d703d45e29f0812a20724/net/netlink/af_netlink.c#L683
 
-> ---
->  hw/ppc/spapr.c | 6 ++++--
->  1 file changed, 4 insertions(+), 2 deletions(-)
->
-> diff --git a/hw/ppc/spapr.c b/hw/ppc/spapr.c
-> index f6f034d039..221d3e7a8c 100644
-> --- a/hw/ppc/spapr.c
-> +++ b/hw/ppc/spapr.c
-> @@ -3121,7 +3121,8 @@ static char *spapr_get_fw_dev_path(FWPathProvider *=
-p, BusState *bus,
->               * We use SRP luns of the form 01000000 | (usb-port << 16) |=
- lun
->               * in the top 32 bits of the 64-bit LUN
->               */
-> -            unsigned usb_port =3D atoi(usb->port->path);
-> +            g_autofree char *usb_port_path =3D usb_get_port_path(usb);
-> +            unsigned usb_port =3D atoi(usb_port_path);
->              unsigned id =3D 0x1000000 | (usb_port << 16) | d->lun;
->              return g_strdup_printf("%s@%"PRIX64, qdev_fw_name(dev),
->                                     (uint64_t)id << 32);
-> @@ -3137,7 +3138,8 @@ static char *spapr_get_fw_dev_path(FWPathProvider *=
-p, BusState *bus,
->      if (strcmp("usb-host", qdev_fw_name(dev)) =3D=3D 0) {
->          USBDevice *usbdev =3D CAST(USBDevice, dev, TYPE_USB_DEVICE);
->          if (usb_host_dev_is_scsi_storage(usbdev)) {
-> -            return g_strdup_printf("storage@%s/disk", usbdev->port->path=
-);
-> +            g_autofree char *usb_port_path =3D usb_get_port_path(usbdev)=
-;
-> +            return g_strdup_printf("storage@%s/disk", usb_port_path);
->          }
->      }
->
-> --
-> 2.21.3
->
->
+Signed-off-by: Josh Kunz <jkz@google.com>
+---
+ linux-user/syscall.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/linux-user/syscall.c b/linux-user/syscall.c
+index 97de9fb5c9..4ab9852600 100644
+--- a/linux-user/syscall.c
++++ b/linux-user/syscall.c
+@@ -2987,7 +2987,7 @@ static abi_long do_socket(int domain, int type, int protocol)
+ #endif
+          protocol == NETLINK_KOBJECT_UEVENT ||
+          protocol == NETLINK_AUDIT)) {
+-        return -TARGET_EPFNOSUPPORT;
++        return -TARGET_EPROTONOSUPPORT;
+     }
+ 
+     if (domain == AF_PACKET ||
+-- 
+2.27.0.212.ge8ba1cc988-goog
+
 
