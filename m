@@ -2,64 +2,61 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 777C2216ADA
-	for <lists+qemu-devel@lfdr.de>; Tue,  7 Jul 2020 12:57:30 +0200 (CEST)
-Received: from localhost ([::1]:59122 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id AA9A6216AF1
+	for <lists+qemu-devel@lfdr.de>; Tue,  7 Jul 2020 13:01:14 +0200 (CEST)
+Received: from localhost ([::1]:39520 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jslI1-0000sF-Ei
-	for lists+qemu-devel@lfdr.de; Tue, 07 Jul 2020 06:57:29 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:36866)
+	id 1jslLd-00065k-OI
+	for lists+qemu-devel@lfdr.de; Tue, 07 Jul 2020 07:01:13 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:36770)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <cohuck@redhat.com>) id 1jslFu-0005rb-Ky
- for qemu-devel@nongnu.org; Tue, 07 Jul 2020 06:55:18 -0400
-Received: from us-smtp-1.mimecast.com ([207.211.31.81]:60497
- helo=us-smtp-delivery-1.mimecast.com)
+ (Exim 4.90_1) (envelope-from <cohuck@redhat.com>) id 1jslFd-0005I6-LT
+ for qemu-devel@nongnu.org; Tue, 07 Jul 2020 06:55:01 -0400
+Received: from us-smtp-2.mimecast.com ([205.139.110.61]:33853
+ helo=us-smtp-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <cohuck@redhat.com>) id 1jslFs-0000cO-M4
- for qemu-devel@nongnu.org; Tue, 07 Jul 2020 06:55:18 -0400
+ (Exim 4.90_1) (envelope-from <cohuck@redhat.com>) id 1jslFb-0000Ya-TA
+ for qemu-devel@nongnu.org; Tue, 07 Jul 2020 06:55:01 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1594119315;
+ s=mimecast20190719; t=1594119299;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=kM6g8wl011f7C4nPCBtDKAy9ilTQLzhl2uS1gmBAxjs=;
- b=CGibH+ZkKccKgI7hji6kJL7+c/j7qhcOipgbW1CkkSe7wULikdG0B4OlyEprn5AfTCeprN
- MKzySo75mo9lXxOKk+K+6IrtXA+xeb2E7hmzjQBI6hylG7c/qKV4+ce3w85HaNQE1tN4WA
- QLINoD3FXwbn2IkVZPvkCvGSVRjsdQU=
+ content-transfer-encoding:content-transfer-encoding;
+ bh=GarDlEUFY4DjkI1O4QVvSFSEtdnp67AHeBeVcC772hY=;
+ b=bM3RH3mHRPh0dZBSoCC0Qbb+6+h0BaNE6jdI1hclW2VRm0iK2uVBoDzTbxupm3mlXAqcDw
+ MHrdBo25Hw86L/DZRy2ZHWbDPfp8ySP99iRAP/UQy3KnXq1q4QeJGYV1TPC2awrUPgHfy8
+ s/lyWNOSkMG5JCj8OdlBvyEw71TNf30=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-285-uCKDG2LHNKO9yMo4UAXgKQ-1; Tue, 07 Jul 2020 06:55:14 -0400
-X-MC-Unique: uCKDG2LHNKO9yMo4UAXgKQ-1
-Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
- [10.5.11.12])
+ us-mta-18-KcJvyt2-OVOywON414ppvg-1; Tue, 07 Jul 2020 06:54:57 -0400
+X-MC-Unique: KcJvyt2-OVOywON414ppvg-1
+Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
+ [10.5.11.23])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 06AEA1054F91;
- Tue,  7 Jul 2020 10:55:13 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id A1FB7EC1A0;
+ Tue,  7 Jul 2020 10:54:56 +0000 (UTC)
 Received: from localhost (ovpn-113-54.ams2.redhat.com [10.36.113.54])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id A0BCF60BF3;
- Tue,  7 Jul 2020 10:55:06 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 36ABC2DE60;
+ Tue,  7 Jul 2020 10:54:49 +0000 (UTC)
 From: Cornelia Huck <cohuck@redhat.com>
 To: "Michael S. Tsirkin" <mst@redhat.com>,
 	Halil Pasic <pasic@linux.ibm.com>
-Subject: [PATCH 2/2] virtio: verify that legacy support is not accidentally on
-Date: Tue,  7 Jul 2020 12:54:46 +0200
-Message-Id: <20200707105446.677966-3-cohuck@redhat.com>
-In-Reply-To: <20200707105446.677966-1-cohuck@redhat.com>
-References: <20200707105446.677966-1-cohuck@redhat.com>
+Subject: [PATCH 0/2] virtio: non-legacy device handling
+Date: Tue,  7 Jul 2020 12:54:44 +0200
+Message-Id: <20200707105446.677966-1-cohuck@redhat.com>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=cohuck@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=207.211.31.81; envelope-from=cohuck@redhat.com;
- helo=us-smtp-delivery-1.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/07/07 00:20:54
+Received-SPF: pass client-ip=205.139.110.61; envelope-from=cohuck@redhat.com;
+ helo=us-smtp-1.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/07/07 00:31:00
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
 X-Spam_score_int: -30
 X-Spam_score: -3.1
@@ -85,57 +82,36 @@ Cc: Eric Auger <eric.auger@redhat.com>, qemu-s390x@nongnu.org,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-If a virtio device does not have legacy support, make sure that
-it is actually off, and bail out if not.
+As discussed in "virtio-fs: force virtio 1.x usage", it seems like
+a good idea to make sure that any new virtio device (which does not
+support legacy virtio) is indeed a non-transitional device, just to
+catch accidental misconfigurations. We can easily compile a list
+of virtio devices with legacy support and have transports verify
+in their plugged callbacks that legacy support is off for any device
+not in that list.
 
-For virtio-pci, this means that any device without legacy support
-that has been specified to modern-only (or that has been forced
-to it) will work.
+Most new virtio devices force non-transitional already, so nothing
+changes for them. vhost-user-fs-pci even does not allow to configure
+a non-transitional device, so it is fine as well.
 
-For virtio-ccw, this duplicates the check that is currently done
-prior to realization for any device that explicitly specified no
-support for legacy.
+One problematic device, however, is virtio-iommu-pci. It currently
+offers both the transitional and the non-transitional variety of the
+device, and does not force anything. I'm unsure whether we should
+consider transitional virtio-iommu unsupported, or if we should add
+some compat handling. (The support for legacy or not generally may
+change based upon the bus, IIUC, so I'm unsure how to come up with
+something generic.)
 
-This catches devices that have not been fenced properly.
+Cornelia Huck (2):
+  virtio: list legacy-capable devices
+  virtio: verify that legacy support is not accidentally on
 
-Signed-off-by: Cornelia Huck <cohuck@redhat.com>
----
- hw/s390x/virtio-ccw.c  | 6 ++++++
- hw/virtio/virtio-pci.c | 4 ++++
- 2 files changed, 10 insertions(+)
+ hw/s390x/virtio-ccw.c      |  6 ++++++
+ hw/virtio/virtio-pci.c     |  4 ++++
+ hw/virtio/virtio.c         | 25 +++++++++++++++++++++++++
+ include/hw/virtio/virtio.h |  2 ++
+ 4 files changed, 37 insertions(+)
 
-diff --git a/hw/s390x/virtio-ccw.c b/hw/s390x/virtio-ccw.c
-index 3c988a000b5b..0e602702971b 100644
---- a/hw/s390x/virtio-ccw.c
-+++ b/hw/s390x/virtio-ccw.c
-@@ -1121,6 +1121,12 @@ static void virtio_ccw_device_plugged(DeviceState *d, Error **errp)
-         dev->max_rev = 0;
-     }
- 
-+    if (!virtio_ccw_rev_max(dev) && !virtio_legacy_allowed(vdev)) {
-+        error_setg(errp, "Invalid value of property max_rev "
-+                   "(is %d expected >= 1)", virtio_ccw_rev_max(dev));
-+        return;
-+    }
-+
-     if (virtio_get_num_queues(vdev) > VIRTIO_QUEUE_MAX) {
-         error_setg(errp, "The number of virtqueues %d "
-                    "exceeds virtio limit %d", n,
-diff --git a/hw/virtio/virtio-pci.c b/hw/virtio/virtio-pci.c
-index 7bc8c1c056e9..d4c4128ea507 100644
---- a/hw/virtio/virtio-pci.c
-+++ b/hw/virtio/virtio-pci.c
-@@ -1569,6 +1569,10 @@ static void virtio_pci_device_plugged(DeviceState *d, Error **errp)
-     }
- 
-     if (legacy) {
-+        if (!virtio_legacy_allowed(vdev)) {
-+            error_setg(errp, "device is modern-only, use disable-legacy=on");
-+            return;
-+        }
-         if (virtio_host_has_feature(vdev, VIRTIO_F_IOMMU_PLATFORM)) {
-             error_setg(errp, "VIRTIO_F_IOMMU_PLATFORM was supported by"
-                        " neither legacy nor transitional device");
 -- 
 2.25.4
 
