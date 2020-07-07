@@ -2,72 +2,82 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 645A82175A1
-	for <lists+qemu-devel@lfdr.de>; Tue,  7 Jul 2020 19:51:57 +0200 (CEST)
-Received: from localhost ([::1]:45902 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E251E2175BB
+	for <lists+qemu-devel@lfdr.de>; Tue,  7 Jul 2020 19:58:42 +0200 (CEST)
+Received: from localhost ([::1]:57020 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jsrl6-00069i-6t
-	for lists+qemu-devel@lfdr.de; Tue, 07 Jul 2020 13:51:56 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:57754)
+	id 1jsrrd-0002Vx-NF
+	for lists+qemu-devel@lfdr.de; Tue, 07 Jul 2020 13:58:41 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:59138)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1jsrkM-0005jQ-Q2
- for qemu-devel@nongnu.org; Tue, 07 Jul 2020 13:51:10 -0400
-Received: from mail-oi1-x243.google.com ([2607:f8b0:4864:20::243]:46035)
+ (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
+ id 1jsrqY-00023d-QA
+ for qemu-devel@nongnu.org; Tue, 07 Jul 2020 13:57:34 -0400
+Received: from mail-wr1-x442.google.com ([2a00:1450:4864:20::442]:46712)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1jsrkK-0007Py-3B
- for qemu-devel@nongnu.org; Tue, 07 Jul 2020 13:51:10 -0400
-Received: by mail-oi1-x243.google.com with SMTP id j11so32904361oiw.12
- for <qemu-devel@nongnu.org>; Tue, 07 Jul 2020 10:51:07 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=NWlbCoZnqYGdfmKtiNBaJt2fa1fk0EPg7+EaCPHqiyo=;
- b=DZd6KH/GH8Hlh32O71st9p/qhJu5OXtUDAuwLjq1OB1Mjk3ZrpvIUVN39OTGn+/6EL
- V1NyMOjW15OTY+2wp/CpMcDKFq3iIH8wI5VPkzGJWBgMbhA5VT2Quk9A9PE6YjrIgyU5
- aTwJEEFB4H5f1F/5UhrMzi+kyGfRJY7Qnq11ZZr4QcLNtvyoiSn4yZXwC66fpx65Qs/W
- o87hwvOLS/+ajhszzdTBHWNaSxy8qv8VbL816v9shzaHo0Mwee8+cm2hyldOMYlzsAwQ
- fN6F5IPW71ilj1nNW6jGKeO/hRDEP35kZqDj5cpSgGWGMNaFInoXQjzqGX2XXA0j86wt
- jEng==
+ (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
+ id 1jsrqX-0008Mg-4e
+ for qemu-devel@nongnu.org; Tue, 07 Jul 2020 13:57:34 -0400
+Received: by mail-wr1-x442.google.com with SMTP id r12so46105731wrj.13
+ for <qemu-devel@nongnu.org>; Tue, 07 Jul 2020 10:57:32 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=sender:subject:to:cc:references:from:message-id:date:user-agent
+ :mime-version:in-reply-to:content-language:content-transfer-encoding;
+ bh=uxDzyuXqBQzdCYGEyxLAMgLcxs4jxqgv8xQ9zPs64rc=;
+ b=mAHGuaQkTfqkXv3/Zt6yUYPtkHWqWxoONNTZa6EBm5V8HAGIgngMgEvrR9EwJRtXR0
+ 92Ok87kA/CpJegGER4yevce3aWCBGdDqd5gT1u60pVK6aRPfRGLGmJs9k1uetoaVeaSE
+ U0qn7TGlraHYfepvMNxA0ytMsDhM0WgewqMzSzI4lNExs6ALW/vhc7t6lPZeSAy0CO4d
+ QgtvrXgYeZKNIT7NHLDhHqpnIgC7b2F6vyIpkMB/fxhNMADZIYa2s0TjrbMyX4AiXg2A
+ bwDzIa9eJZFr9m5pOOYzhUQ4NodPlMYGIppPC1039iTVtRNO/GD5ZSA2b2lwI3KgannG
+ IGtg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=NWlbCoZnqYGdfmKtiNBaJt2fa1fk0EPg7+EaCPHqiyo=;
- b=NR7/QHbbolE+P72QKXisTy3/I/NeY4wivfEOAlPjqTwRrLiDq98675NmoLugGgjP6C
- VwVuNghmk0VZyrNxR19npMd7s92ESqpMTHoC1Oxbn0KpW6f7cbXWU9NJoBnx8tlxGv8Q
- 0ACFihCXOIZD6Nk9TMyqXJD6JVquqztPvhqbeVK2uJMvPGUkPAMz8rexrV9VJcNZAEBS
- ucePopYOwa3CqgX47aeX5QLP+8apZmOL+JbbyW+SOqMjnBYKEZ5yq5FSZ892FBwXfBTv
- QRxf98CDRAcQ2DjwRBrMs9QFliyS/Qb7GlX3LpFyss1mh+pb4/v/PYVF9sVu8erXH3sQ
- a6Ig==
-X-Gm-Message-State: AOAM532skJQ5LnPXfl0vTb8Khi3NWJLDo8ADC9J91dY+qtZBYsiwRLKG
- 9iKzOxYVS6Yv0qmlZkF0RrO/uIN/Gq0M9tEKdAhukQ==
-X-Google-Smtp-Source: ABdhPJxNcsG0+k+gXVBrLPDY97db6l/8/9Sxsfkq6zEYpCkTn0gu+6MjLB1WQ8C8wwR+kUHo+TPL/jknB95Xp3JPyYc=
-X-Received: by 2002:aca:2819:: with SMTP id 25mr3971524oix.48.1594144266715;
- Tue, 07 Jul 2020 10:51:06 -0700 (PDT)
+ h=x-gm-message-state:sender:subject:to:cc:references:from:message-id
+ :date:user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=uxDzyuXqBQzdCYGEyxLAMgLcxs4jxqgv8xQ9zPs64rc=;
+ b=PGB2HhihWevOdyTz2vdxKUJCgHhSB/S3IzJhUfgPhtNz0dcpem6ScT2NOh+Hz/gIYs
+ iXK0UJ3s/g9y87qdTyqg3wWY1qsscEZqEZArRrActytf8LhYxGtX6A/WSGzZy84G5l1Q
+ reR9HP+yUB6UeTjbCm9rNxeILC0llBU62k+ipT/QRcI3llL1Dm5YWCRIW0Wf9ibfzA+2
+ FNSlE3Lj5RUR4EJjT3WpqVeyVQ90CwTOrnWC9inJWW7CqKwlJuIJ7eGZU49uTC1+JASg
+ AbQC/byDbb7DgX7s5lW3D5bfdhLX3p7FXiDdn+AHrH/OQ81g1ZiFWHvsrk7ojgJHtOdJ
+ ysCQ==
+X-Gm-Message-State: AOAM530shlEo/OgB2a/dMohJ4FlG7KU4tHAhC33HzqBmDUY11I3/kZp+
+ iH7KZAuPJceJHquvOT7PsZo=
+X-Google-Smtp-Source: ABdhPJyyDr0NuMEr4oXrtrUPf3NKX6tm/u/jESHTO0d11dZITyUWsJGYMiMwegvbiM2kHsmICwI5yg==
+X-Received: by 2002:adf:e850:: with SMTP id d16mr57265938wrn.426.1594144650976; 
+ Tue, 07 Jul 2020 10:57:30 -0700 (PDT)
+Received: from [192.168.1.36] (138.red-83-57-170.dynamicip.rima-tde.net.
+ [83.57.170.138])
+ by smtp.gmail.com with ESMTPSA id x5sm2117762wmg.2.2020.07.07.10.57.29
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Tue, 07 Jul 2020 10:57:30 -0700 (PDT)
+Subject: Re: [PATCH rc6 00/30] target/avr merger
+To: Thomas Huth <huth@tuxfamily.org>, qemu-devel@nongnu.org,
+ Michael Rolnik <mrolnik@gmail.com>, Richard Henderson <rth@twiddle.net>
+References: <20200705140315.260514-1-huth@tuxfamily.org>
+From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>
+Message-ID: <6b362e28-a2a9-1b4b-8714-c5f3163fe29a@amsat.org>
+Date: Tue, 7 Jul 2020 19:57:29 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.5.0
 MIME-Version: 1.0
-References: <20200704182750.1088103-1-mst@redhat.com>
- <CAFEAcA_LrhvLmbwsSrhHUYZ+z9EZoDZwct+s3xfoaGLyLkOPfg@mail.gmail.com>
- <20200707080049-mutt-send-email-mst@kernel.org>
-In-Reply-To: <20200707080049-mutt-send-email-mst@kernel.org>
-From: Peter Maydell <peter.maydell@linaro.org>
-Date: Tue, 7 Jul 2020 18:50:55 +0100
-Message-ID: <CAFEAcA_th3hhXcnyt2qV+rQNV1PgF62B5+=sEWzJKfHYj2=ooQ@mail.gmail.com>
-Subject: Re: [PULL v2 00/41] virtio,acpi: features, fixes, cleanups.
-To: "Michael S. Tsirkin" <mst@redhat.com>
-Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2607:f8b0:4864:20::243;
- envelope-from=peter.maydell@linaro.org; helo=mail-oi1-x243.google.com
+In-Reply-To: <20200705140315.260514-1-huth@tuxfamily.org>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=2a00:1450:4864:20::442;
+ envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wr1-x442.google.com
 X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
  That's all we know.
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=_AUTOLEARN
+X-Spam_score_int: 0
+X-Spam_score: 0.0
+X-Spam_bar: /
+X-Spam_report: (0.0 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1, DKIM_VALID=-0.1,
+ DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=1, FREEMAIL_FROM=0.001,
+ HEADER_FROM_DIFFERENT_DOMAINS=1, RCVD_IN_DNSWL_NONE=-0.0001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=_AUTOLEARN
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -80,70 +90,39 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: QEMU Developers <qemu-devel@nongnu.org>
+Cc: Sarah Harris <S.E.Harris@kent.ac.uk>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Tue, 7 Jul 2020 at 13:04, Michael S. Tsirkin <mst@redhat.com> wrote:
->
-> On Tue, Jul 07, 2020 at 12:40:38PM +0100, Peter Maydell wrote:
-> > On Sat, 4 Jul 2020 at 19:29, Michael S. Tsirkin <mst@redhat.com> wrote:
-> > >
-> > >
-> > > v2 of the pull, fixing non-Linux builds.
-> > >
-> > >
-> > > The following changes since commit fc1bff958998910ec8d25db86cd2f53ff125f7ab:
-> > >
-> > >   hw/misc/pca9552: Add missing TypeInfo::class_size field (2020-06-29 21:16:10 +0100)
-> > >
-> > > are available in the Git repository at:
-> > >
-> > >   git://git.kernel.org/pub/scm/virt/kvm/mst/qemu.git tags/for_upstream
-> > >
-> > > for you to fetch changes up to f7d98068bf7a0913744dd4ac0a28e8c841df2af5:
-> > >
-> > >   vhost-vdpa: introduce vhost-vdpa net client (2020-07-04 11:13:50 -0400)
-> > >
-> > > ----------------------------------------------------------------
-> > > virtio,acpi: features, fixes, cleanups.
-> > >
-> > > vdpa support
-> > > virtio-mem support
-> > > a handy script for disassembling acpi tables
-> > > misc fixes and cleanups
-> > >
-> > > Signed-off-by: Michael S. Tsirkin <mst@redhat.com>
-> > >
-> > > ----------------------------------------------------------------
-> >
-> > Hi; I'm afraid this fails to build on 32-bit:
-> >
-> > /home/peter.maydell/qemu/hw/virtio/vhost-vdpa.c: In function
-> > 'vhost_vdpa_dma_map':
-> > /home/peter.maydell/qemu/hw/virtio/vhost-vdpa.c:48:23: error: cast
-> > from pointer to integer of different size
-> > [-Werror=pointer-to-int-cast]
-> >      msg.iotlb.uaddr = (uint64_t)vaddr;
-> >                        ^
-> >
-> > This should probably be "= (uintptr_t)vaddr".
-> >
-> > thanks
-> > -- PMM
->
-> Precisely. Sorry about missing this.
-> I made this change and pushed to the same tag - don't want to spam
-> the list for a small thing like this. Can you pick this up pls?
-> Commit 849c48004df0e123b53fe9888770cb4f6eb5e8ab now
+On 7/5/20 4:02 PM, Thomas Huth wrote:
+> This is the AVR port from Michael, release (merge) candidate 6.
+> 
+> I've rebased rc5 to the current master branch, fixed the conflicts,
+> and updated the APIs where necessary (e.g. qdev_create() had to be
+> replaced).
+> 
+> These patches have been on the list for a long time. Let's try to
+> get them finally merged.
+> 
+> You can also find the patches in my repo here:
+> 
+>  https://gitlab.com/huth/qemu/-/tree/avr
+> 
+> rc6:
+> - Rebased to master, fixed conflicts
+> - Changed the object_initialize_child() and qdev_create() calls
+>   where necessary
+> - Converted the texi doc to Sphinx
+> - Dropped the travis.yml patch - the acceptance CI is currently moved
+>   to gitlab, so we should add it later there instead
+> - Dropped the patch to clean up MAINTAINERs - and do it correctly
+>   right from the start instead.
 
-Sure. (You can always just resend a new v2 cover letter without
-all the patches; that's what most people do for minor respins.)
+Thanks for this Thomas!
 
-Applied, thanks.
+I am queuing the patches and will send a pull request.
 
-Please update the changelog at https://wiki.qemu.org/ChangeLog/5.1
-for any user-visible changes.
+Regards,
 
--- PMM
+Phil.
 
