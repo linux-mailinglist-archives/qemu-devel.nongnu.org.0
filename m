@@ -2,75 +2,75 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id CF9D121735D
-	for <lists+qemu-devel@lfdr.de>; Tue,  7 Jul 2020 18:11:09 +0200 (CEST)
-Received: from localhost ([::1]:59126 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6149E217364
+	for <lists+qemu-devel@lfdr.de>; Tue,  7 Jul 2020 18:12:37 +0200 (CEST)
+Received: from localhost ([::1]:36654 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jsqBY-0001eA-SZ
-	for lists+qemu-devel@lfdr.de; Tue, 07 Jul 2020 12:11:08 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:59570)
+	id 1jsqCy-0004lG-DH
+	for lists+qemu-devel@lfdr.de; Tue, 07 Jul 2020 12:12:36 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:59206)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1jsq7D-00026k-Mz
- for qemu-devel@nongnu.org; Tue, 07 Jul 2020 12:06:39 -0400
-Received: from us-smtp-1.mimecast.com ([207.211.31.81]:34719
- helo=us-smtp-delivery-1.mimecast.com)
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1jsq72-0001cs-05
+ for qemu-devel@nongnu.org; Tue, 07 Jul 2020 12:06:28 -0400
+Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:56141
+ helo=us-smtp-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1jsq75-0006p8-Gl
- for qemu-devel@nongnu.org; Tue, 07 Jul 2020 12:06:39 -0400
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1jsq6z-0006mJ-HX
+ for qemu-devel@nongnu.org; Tue, 07 Jul 2020 12:06:27 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1594137990;
+ s=mimecast20190719; t=1594137984;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=U44+qVR3RrcwFM5tEDa602LUqogW1Bzgznv3ZYS4f1M=;
- b=Oj9gHQYaiCfkvFuFAKKD5LGDN4syQd+lyUE2FqMXm0KD0hdKiI/zViJKtiH3J2e+Fjv/KM
- vsfTaatR4KDZBFELiXg5CTxK/v0VggeNpw+G2FK5LmRAdwL9Fe8tHs3qOQc/cAsaVbvi+s
- YD7ehBAWa1TOBYZhLtPQcFe4G2LB6+U=
+ bh=y00nqZ4bN7OOUh22/53/PCrprurFW+ghvDZzoc0M/a0=;
+ b=NCmzchxO29ItCnCPzW/N0oAxcWmTGgskGsRhUOo08rQEksrBbcPCzNzv9PEL4gfV9f7tAm
+ 119myBRaHhvsTczmbB2NaBdYmkhQ3B3yrlBJsT9sqnRz/nKLVEj18NSdQN3IgZfbUW2CVg
+ ayCQFDpqbmCr/fAk8xPr//O+ckDiNx8=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-93-XHuVrULnNbCkAlbfCCe7cg-1; Tue, 07 Jul 2020 12:06:26 -0400
-X-MC-Unique: XHuVrULnNbCkAlbfCCe7cg-1
-Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
- [10.5.11.13])
+ us-mta-89-V61oLvTjNcecppixDmoxvA-1; Tue, 07 Jul 2020 12:06:23 -0400
+X-MC-Unique: V61oLvTjNcecppixDmoxvA-1
+Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
+ [10.5.11.22])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 7273018829C0;
- Tue,  7 Jul 2020 16:06:25 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 21CC31005510;
+ Tue,  7 Jul 2020 16:06:22 +0000 (UTC)
 Received: from blackfin.pond.sub.org (ovpn-112-143.ams2.redhat.com
  [10.36.112.143])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id AE7BA797E4;
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id B99B610013D7;
  Tue,  7 Jul 2020 16:06:21 +0000 (UTC)
 Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
- id 88AF111326F2; Tue,  7 Jul 2020 18:06:13 +0200 (CEST)
+ id 8D09611326F3; Tue,  7 Jul 2020 18:06:13 +0200 (CEST)
 From: Markus Armbruster <armbru@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v4 07/45] qemu-option: Check return value instead of @err
- where convenient
-Date: Tue,  7 Jul 2020 18:05:35 +0200
-Message-Id: <20200707160613.848843-8-armbru@redhat.com>
+Subject: [PATCH v4 08/45] qemu-option: Make uses of find_desc_by_name() more
+ similar
+Date: Tue,  7 Jul 2020 18:05:36 +0200
+Message-Id: <20200707160613.848843-9-armbru@redhat.com>
 In-Reply-To: <20200707160613.848843-1-armbru@redhat.com>
 References: <20200707160613.848843-1-armbru@redhat.com>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=armbru@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=207.211.31.81; envelope-from=armbru@redhat.com;
- helo=us-smtp-delivery-1.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/07/07 00:20:54
+Received-SPF: pass client-ip=207.211.31.120; envelope-from=armbru@redhat.com;
+ helo=us-smtp-1.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/07/07 00:46:09
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
-X-Spam_score_int: -30
-X-Spam_score: -3.1
-X-Spam_bar: ---
-X-Spam_report: (-3.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1,
+X-Spam_score_int: -40
+X-Spam_score: -4.1
+X-Spam_bar: ----
+X-Spam_report: (-4.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H3=-0.01, RCVD_IN_MSPIKE_WL=-0.01,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=_AUTOLEARN
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-1, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=_AUTOLEARN
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -89,146 +89,136 @@ Cc: peter.maydell@linaro.org, vsementsov@virtuozzo.com, berrange@redhat.com,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Convert uses like
-
-    opts = qemu_opts_create(..., &err);
-    if (err) {
-        ...
-    }
-
-to
-
-    opts = qemu_opts_create(..., errp);
-    if (!opts) {
-        ...
-    }
-
-Eliminate error_propagate() that are now unnecessary.  Delete @err
-that are now unused.
-
-Note that we can't drop parallels_open()'s error_propagate() here.  We
-continue to execute it even in the converted case.  It's a no-op then:
-local_err is null.
+This is to make the next commit easier to review.
 
 Signed-off-by: Markus Armbruster <armbru@redhat.com>
 Reviewed-by: Eric Blake <eblake@redhat.com>
 Reviewed-by: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
 Reviewed-by: Greg Kurz <groug@kaod.org>
 ---
- block/parallels.c  |  4 ++--
- blockdev.c         |  5 ++---
- qdev-monitor.c     |  5 ++---
- util/qemu-config.c | 10 ++++------
- util/qemu-option.c | 12 ++++--------
- 5 files changed, 14 insertions(+), 22 deletions(-)
+ util/qemu-option.c | 32 ++++++++++++++++++--------------
+ 1 file changed, 18 insertions(+), 14 deletions(-)
 
-diff --git a/block/parallels.c b/block/parallels.c
-index 63a1cde8af..f26f03c926 100644
---- a/block/parallels.c
-+++ b/block/parallels.c
-@@ -824,8 +824,8 @@ static int parallels_open(BlockDriverState *bs, QDict *options, int flags,
-         }
-     }
- 
--    opts = qemu_opts_create(&parallels_runtime_opts, NULL, 0, &local_err);
--    if (local_err != NULL) {
-+    opts = qemu_opts_create(&parallels_runtime_opts, NULL, 0, errp);
-+    if (!opts) {
-         goto fail_options;
-     }
- 
-diff --git a/blockdev.c b/blockdev.c
-index 31d5eaf6bf..b52ed9de86 100644
---- a/blockdev.c
-+++ b/blockdev.c
-@@ -504,9 +504,8 @@ static BlockBackend *blockdev_init(const char *file, QDict *bs_opts,
-     /* Check common options by copying from bs_opts to opts, all other options
-      * stay in bs_opts for processing by bdrv_open(). */
-     id = qdict_get_try_str(bs_opts, "id");
--    opts = qemu_opts_create(&qemu_common_drive_opts, id, 1, &error);
--    if (error) {
--        error_propagate(errp, error);
-+    opts = qemu_opts_create(&qemu_common_drive_opts, id, 1, errp);
-+    if (!opts) {
-         goto err_no_opts;
-     }
- 
-diff --git a/qdev-monitor.c b/qdev-monitor.c
-index 13a13a811a..079cb6001e 100644
---- a/qdev-monitor.c
-+++ b/qdev-monitor.c
-@@ -799,9 +799,8 @@ void qmp_device_add(QDict *qdict, QObject **ret_data, Error **errp)
-     QemuOpts *opts;
-     DeviceState *dev;
- 
--    opts = qemu_opts_from_qdict(qemu_find_opts("device"), qdict, &local_err);
--    if (local_err) {
--        error_propagate(errp, local_err);
-+    opts = qemu_opts_from_qdict(qemu_find_opts("device"), qdict, errp);
-+    if (!opts) {
-         return;
-     }
-     if (!monitor_cur_is_qmp() && qdev_device_help(opts)) {
-diff --git a/util/qemu-config.c b/util/qemu-config.c
-index 772f5a219e..c0d0e9b8ef 100644
---- a/util/qemu-config.c
-+++ b/util/qemu-config.c
-@@ -493,9 +493,8 @@ static void config_parse_qdict_section(QDict *options, QemuOptsList *opts,
-         goto out;
-     }
- 
--    subopts = qemu_opts_create(opts, NULL, 0, &local_err);
--    if (local_err) {
--        error_propagate(errp, local_err);
-+    subopts = qemu_opts_create(opts, NULL, 0, errp);
-+    if (!subopts) {
-         goto out;
-     }
- 
-@@ -538,10 +537,9 @@ static void config_parse_qdict_section(QDict *options, QemuOptsList *opts,
-             }
- 
-             opt_name = g_strdup_printf("%s.%u", opts->name, i++);
--            subopts = qemu_opts_create(opts, opt_name, 1, &local_err);
-+            subopts = qemu_opts_create(opts, opt_name, 1, errp);
-             g_free(opt_name);
--            if (local_err) {
--                error_propagate(errp, local_err);
-+            if (!subopts) {
-                 goto out;
-             }
- 
 diff --git a/util/qemu-option.c b/util/qemu-option.c
-index 0ebfd97a98..fd1fd23521 100644
+index fd1fd23521..1df55bc881 100644
 --- a/util/qemu-option.c
 +++ b/util/qemu-option.c
-@@ -670,11 +670,9 @@ void qemu_opts_set(QemuOptsList *list, const char *id,
-                    const char *name, const char *value, Error **errp)
+@@ -270,6 +270,7 @@ static void qemu_opt_del_all(QemuOpts *opts, const char *name)
+ const char *qemu_opt_get(QemuOpts *opts, const char *name)
  {
-     QemuOpts *opts;
--    Error *local_err = NULL;
+     QemuOpt *opt;
++    const QemuOptDesc *desc;
  
--    opts = qemu_opts_create(list, id, 1, &local_err);
--    if (local_err) {
--        error_propagate(errp, local_err);
-+    opts = qemu_opts_create(list, id, 1, errp);
-+    if (!opts) {
+     if (opts == NULL) {
+         return NULL;
+@@ -277,7 +278,7 @@ const char *qemu_opt_get(QemuOpts *opts, const char *name)
+ 
+     opt = qemu_opt_find(opts, name);
+     if (!opt) {
+-        const QemuOptDesc *desc = find_desc_by_name(opts->list->desc, name);
++        desc = find_desc_by_name(opts->list->desc, name);
+         if (desc && desc->def_value_str) {
+             return desc->def_value_str;
+         }
+@@ -348,6 +349,7 @@ static bool qemu_opt_get_bool_helper(QemuOpts *opts, const char *name,
+                                      bool defval, bool del)
+ {
+     QemuOpt *opt;
++    const QemuOptDesc *desc;
+     bool ret = defval;
+ 
+     if (opts == NULL) {
+@@ -356,7 +358,7 @@ static bool qemu_opt_get_bool_helper(QemuOpts *opts, const char *name,
+ 
+     opt = qemu_opt_find(opts, name);
+     if (opt == NULL) {
+-        const QemuOptDesc *desc = find_desc_by_name(opts->list->desc, name);
++        desc = find_desc_by_name(opts->list->desc, name);
+         if (desc && desc->def_value_str) {
+             parse_option_bool(name, desc->def_value_str, &ret, &error_abort);
+         }
+@@ -384,6 +386,7 @@ static uint64_t qemu_opt_get_number_helper(QemuOpts *opts, const char *name,
+                                            uint64_t defval, bool del)
+ {
+     QemuOpt *opt;
++    const QemuOptDesc *desc;
+     uint64_t ret = defval;
+ 
+     if (opts == NULL) {
+@@ -392,7 +395,7 @@ static uint64_t qemu_opt_get_number_helper(QemuOpts *opts, const char *name,
+ 
+     opt = qemu_opt_find(opts, name);
+     if (opt == NULL) {
+-        const QemuOptDesc *desc = find_desc_by_name(opts->list->desc, name);
++        desc = find_desc_by_name(opts->list->desc, name);
+         if (desc && desc->def_value_str) {
+             parse_option_number(name, desc->def_value_str, &ret, &error_abort);
+         }
+@@ -421,6 +424,7 @@ static uint64_t qemu_opt_get_size_helper(QemuOpts *opts, const char *name,
+                                          uint64_t defval, bool del)
+ {
+     QemuOpt *opt;
++    const QemuOptDesc *desc;
+     uint64_t ret = defval;
+ 
+     if (opts == NULL) {
+@@ -429,7 +433,7 @@ static uint64_t qemu_opt_get_size_helper(QemuOpts *opts, const char *name,
+ 
+     opt = qemu_opt_find(opts, name);
+     if (opt == NULL) {
+-        const QemuOptDesc *desc = find_desc_by_name(opts->list->desc, name);
++        desc = find_desc_by_name(opts->list->desc, name);
+         if (desc && desc->def_value_str) {
+             parse_option_size(name, desc->def_value_str, &ret, &error_abort);
+         }
+@@ -540,18 +544,18 @@ void qemu_opt_set_bool(QemuOpts *opts, const char *name, bool val,
+                        Error **errp)
+ {
+     QemuOpt *opt;
+-    const QemuOptDesc *desc = opts->list->desc;
++    const QemuOptDesc *desc;
+ 
+-    opt = g_malloc0(sizeof(*opt));
+-    opt->desc = find_desc_by_name(desc, name);
+-    if (!opt->desc && !opts_accepts_any(opts)) {
++    desc = find_desc_by_name(opts->list->desc, name);
++    if (!desc && !opts_accepts_any(opts)) {
+         error_setg(errp, QERR_INVALID_PARAMETER, name);
+-        g_free(opt);
          return;
      }
-     qemu_opt_set(opts, name, value, errp);
-@@ -1012,10 +1010,8 @@ QemuOpts *qemu_opts_from_qdict(QemuOptsList *list, const QDict *qdict,
-     QemuOpts *opts;
-     const QDictEntry *entry;
  
--    opts = qemu_opts_create(list, qdict_get_try_str(qdict, "id"), 1,
--                            &local_err);
--    if (local_err) {
--        error_propagate(errp, local_err);
-+    opts = qemu_opts_create(list, qdict_get_try_str(qdict, "id"), 1, errp);
-+    if (!opts) {
-         return NULL;
++    opt = g_malloc0(sizeof(*opt));
+     opt->name = g_strdup(name);
+     opt->opts = opts;
++    opt->desc = desc;
+     opt->value.boolean = !!val;
+     opt->str = g_strdup(val ? "on" : "off");
+     QTAILQ_INSERT_TAIL(&opts->head, opt, next);
+@@ -561,18 +565,18 @@ void qemu_opt_set_number(QemuOpts *opts, const char *name, int64_t val,
+                          Error **errp)
+ {
+     QemuOpt *opt;
+-    const QemuOptDesc *desc = opts->list->desc;
++    const QemuOptDesc *desc;
+ 
+-    opt = g_malloc0(sizeof(*opt));
+-    opt->desc = find_desc_by_name(desc, name);
+-    if (!opt->desc && !opts_accepts_any(opts)) {
++    desc = find_desc_by_name(opts->list->desc, name);
++    if (!desc && !opts_accepts_any(opts)) {
+         error_setg(errp, QERR_INVALID_PARAMETER, name);
+-        g_free(opt);
+         return;
      }
  
++    opt = g_malloc0(sizeof(*opt));
+     opt->name = g_strdup(name);
+     opt->opts = opts;
++    opt->desc = desc;
+     opt->value.uint = val;
+     opt->str = g_strdup_printf("%" PRId64, val);
+     QTAILQ_INSERT_TAIL(&opts->head, opt, next);
 -- 
 2.26.2
 
