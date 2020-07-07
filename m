@@ -2,66 +2,66 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C5D68219328
-	for <lists+qemu-devel@lfdr.de>; Thu,  9 Jul 2020 00:12:16 +0200 (CEST)
-Received: from localhost ([::1]:58470 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D06D12192DA
+	for <lists+qemu-devel@lfdr.de>; Wed,  8 Jul 2020 23:52:25 +0200 (CEST)
+Received: from localhost ([::1]:56500 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jtIIZ-0005od-OF
-	for lists+qemu-devel@lfdr.de; Wed, 08 Jul 2020 18:12:15 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:36946)
+	id 1jtHzM-00030O-Pj
+	for lists+qemu-devel@lfdr.de; Wed, 08 Jul 2020 17:52:24 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:34352)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1jtHkm-0005AA-RR
- for qemu-devel@nongnu.org; Wed, 08 Jul 2020 17:37:20 -0400
-Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:20434
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1jtHc1-0000Qb-H9
+ for qemu-devel@nongnu.org; Wed, 08 Jul 2020 17:28:17 -0400
+Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:48583
  helo=us-smtp-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1jtHkk-0003Ke-VA
- for qemu-devel@nongnu.org; Wed, 08 Jul 2020 17:37:20 -0400
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1jtHby-00029E-E2
+ for qemu-devel@nongnu.org; Wed, 08 Jul 2020 17:28:17 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1594244236;
+ s=mimecast20190719; t=1594243693;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=nwtEnvGM0KUGrkSlt/EYsca1fPXadzeawI4DMdJ6CBc=;
- b=AD2Se/FzK8Mbn9O039sxNlbdLlojqe7m9aD+UFWd6uXNiodi0uzmmOcWHfJgnChi/w5ZfU
- YKXLQYOSRDTWVLe9R+D6MffrIetYXMxFfhhMatov0FUCrPJK7fuj0Golfop0A0TT0aTwKH
- tZDKceFTgQoPLLpwkBWAb/O0nHeGlZk=
+ bh=AxrEBM3W1S+8AanFK4ANX96Ih7Meu1Llcm0KAxDX5CI=;
+ b=Dk4/KnyYSLq1h2HoMSe0lUvTN5LEO2EBNBHLAg9hRAyexpNSrncuJRiniJmQwDlOBwG+AG
+ uV8Ys67hO5epIzAFpmfcEorxCACtPKjQ5CUL/xnJrDib30MzQS8TsCj+ZM3TULvoGgmTel
+ meVSjNTSpboGFyQk2joJcv6xuTYQZfY=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-108-kb3BZbOlOT6UUHp9k8RMsg-1; Tue, 07 Jul 2020 17:25:19 -0400
-X-MC-Unique: kb3BZbOlOT6UUHp9k8RMsg-1
-Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
- [10.5.11.22])
+ us-mta-300-9UZ4BdYDNBiiXpJApqiS2g-1; Tue, 07 Jul 2020 17:25:21 -0400
+X-MC-Unique: 9UZ4BdYDNBiiXpJApqiS2g-1
+Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
+ [10.5.11.16])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 28A7F1005510;
- Tue,  7 Jul 2020 21:25:18 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 0C3A9100CCC0;
+ Tue,  7 Jul 2020 21:25:20 +0000 (UTC)
 Received: from blackfin.pond.sub.org (ovpn-112-143.ams2.redhat.com
  [10.36.112.143])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id C6E1910013C2;
- Tue,  7 Jul 2020 21:25:17 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id D0E855C1D0;
+ Tue,  7 Jul 2020 21:25:18 +0000 (UTC)
 Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
- id 7C75A11275F7; Tue,  7 Jul 2020 23:25:04 +0200 (CEST)
+ id 809D911275F8; Tue,  7 Jul 2020 23:25:04 +0200 (CEST)
 From: Markus Armbruster <armbru@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PULL 29/53] qom: Use returned bool to check for failure, manual part
-Date: Tue,  7 Jul 2020 23:24:39 +0200
-Message-Id: <20200707212503.1495927-30-armbru@redhat.com>
+Subject: [PULL 30/53] qom: Make functions taking Error ** return bool, not 0/-1
+Date: Tue,  7 Jul 2020 23:24:40 +0200
+Message-Id: <20200707212503.1495927-31-armbru@redhat.com>
 In-Reply-To: <20200707212503.1495927-1-armbru@redhat.com>
 References: <20200707212503.1495927-1-armbru@redhat.com>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=armbru@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=205.139.110.120; envelope-from=armbru@redhat.com;
+Received-SPF: pass client-ip=207.211.31.120; envelope-from=armbru@redhat.com;
  helo=us-smtp-1.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/07/07 17:25:11
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/07/07 17:25:10
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
 X-Spam_score_int: -40
 X-Spam_score: -4.1
@@ -86,92 +86,134 @@ Cc: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The previous commit used Coccinelle to convert from checking the Error
-object to checking the return value.  Convert a few more manually.
+Just for consistency.  Also fix the example in object_set_props()'s
+documentation.
 
 Signed-off-by: Markus Armbruster <armbru@redhat.com>
 Reviewed-by: Eric Blake <eblake@redhat.com>
 Reviewed-by: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
-Message-Id: <20200707160613.848843-30-armbru@redhat.com>
+Message-Id: <20200707160613.848843-31-armbru@redhat.com>
 ---
- hw/core/bus.c              |  6 +-----
- hw/core/qdev.c             |  7 +------
- hw/s390x/s390-virtio-ccw.c | 13 +++++++------
- 3 files changed, 9 insertions(+), 17 deletions(-)
+ include/qom/object.h | 28 +++++++++++-----------------
+ qom/object.c         | 14 +++++++-------
+ 2 files changed, 18 insertions(+), 24 deletions(-)
 
-diff --git a/hw/core/bus.c b/hw/core/bus.c
-index 00d1d31762..6b987b6946 100644
---- a/hw/core/bus.c
-+++ b/hw/core/bus.c
-@@ -166,11 +166,7 @@ BusState *qbus_create(const char *typename, DeviceState *parent, const char *nam
- 
- bool qbus_realize(BusState *bus, Error **errp)
- {
--    Error *err = NULL;
--
--    object_property_set_bool(OBJECT(bus), "realized", true, &err);
--    error_propagate(errp, err);
--    return !err;
-+    return object_property_set_bool(OBJECT(bus), "realized", true, errp);
- }
- 
- void qbus_unrealize(BusState *bus)
-diff --git a/hw/core/qdev.c b/hw/core/qdev.c
-index d6416fb894..17bd8fc2ec 100644
---- a/hw/core/qdev.c
-+++ b/hw/core/qdev.c
-@@ -386,8 +386,6 @@ void qdev_simple_device_unplug_cb(HotplugHandler *hotplug_dev,
+diff --git a/include/qom/object.h b/include/qom/object.h
+index 189f8ecbf6..04271ea5de 100644
+--- a/include/qom/object.h
++++ b/include/qom/object.h
+@@ -729,15 +729,13 @@ void object_apply_compat_props(Object *obj);
+  *   Error *err = NULL;
+  *   Object *obj = ...get / create object...;
+  *
+- *   obj = object_set_props(obj,
+- *                          &err,
+- *                          "share", "yes",
+- *                          "mem-path", "/dev/shm/somefile",
+- *                          "prealloc", "yes",
+- *                          "size", "1048576",
+- *                          NULL);
+- *
+- *   if (!obj) {
++ *   if (!object_set_props(obj,
++ *                         &err,
++ *                         "share", "yes",
++ *                         "mem-path", "/dev/shm/somefile",
++ *                         "prealloc", "yes",
++ *                         "size", "1048576",
++ *                         NULL)) {
+  *     error_reportf_err(err, "Cannot set properties: ");
+  *   }
+  *   </programlisting>
+@@ -746,11 +744,9 @@ void object_apply_compat_props(Object *obj);
+  * The returned object will have one stable reference maintained
+  * for as long as it is present in the object hierarchy.
+  *
+- * Returns: -1 on error, 0 on success
++ * Returns: %true on success, %false on error.
   */
- bool qdev_realize(DeviceState *dev, BusState *bus, Error **errp)
- {
--    Error *err = NULL;
--
-     assert(!dev->realized && !dev->parent_bus);
+-int object_set_props(Object *obj,
+-                     Error **errp,
+-                     ...) QEMU_SENTINEL;
++bool object_set_props(Object *obj, Error **errp, ...) QEMU_SENTINEL;
  
-     if (bus) {
-@@ -396,10 +394,7 @@ bool qdev_realize(DeviceState *dev, BusState *bus, Error **errp)
-         assert(!DEVICE_GET_CLASS(dev)->bus_type);
-     }
+ /**
+  * object_set_propv:
+@@ -760,11 +756,9 @@ int object_set_props(Object *obj,
+  *
+  * See object_set_props() for documentation.
+  *
+- * Returns: -1 on error, 0 on success
++ * Returns: %true on success, %false on error.
+  */
+-int object_set_propv(Object *obj,
+-                     Error **errp,
+-                     va_list vargs);
++bool object_set_propv(Object *obj, Error **errp, va_list vargs);
  
--    if (!object_property_set_bool(OBJECT(dev), "realized", true, &err)) {
--        error_propagate(errp, err);
--    }
--    return !err;
-+    return object_property_set_bool(OBJECT(dev), "realized", true, errp);
- }
+ /**
+  * object_initialize:
+diff --git a/qom/object.c b/qom/object.c
+index 25c5ddb78f..97c4e0af07 100644
+--- a/qom/object.c
++++ b/qom/object.c
+@@ -557,7 +557,7 @@ bool object_initialize_child_with_propsv(Object *parentobj,
+     object_initialize(childobj, size, type);
+     obj = OBJECT(childobj);
  
- /*
-diff --git a/hw/s390x/s390-virtio-ccw.c b/hw/s390x/s390-virtio-ccw.c
-index 1a171f0c96..20e8e95c61 100644
---- a/hw/s390x/s390-virtio-ccw.c
-+++ b/hw/s390x/s390-virtio-ccw.c
-@@ -69,19 +69,20 @@ static S390CPU *s390x_new_cpu(const char *typename, uint32_t core_id,
- {
-     S390CPU *cpu = S390_CPU(object_new(typename));
-     Error *err = NULL;
-+    S390CPU *ret = NULL;
- 
-     if (!object_property_set_int(OBJECT(cpu), "core-id", core_id, &err)) {
+-    if (object_set_propv(obj, errp, vargs) < 0) {
++    if (!object_set_propv(obj, errp, vargs)) {
          goto out;
      }
--    qdev_realize(DEVICE(cpu), NULL, &err);
-+    if (!qdev_realize(DEVICE(cpu), NULL, &err)) {
-+        goto out;
-+    }
-+    ret = cpu;
  
- out:
-     object_unref(OBJECT(cpu));
--    if (err) {
--        error_propagate(errp, err);
--        cpu = NULL;
--    }
--    return cpu;
-+    error_propagate(errp, err);
-+    return ret;
+@@ -752,7 +752,7 @@ Object *object_new_with_propv(const char *typename,
+     }
+     obj = object_new_with_type(klass->type);
+ 
+-    if (object_set_propv(obj, errp, vargs) < 0) {
++    if (!object_set_propv(obj, errp, vargs)) {
+         goto error;
+     }
+ 
+@@ -780,12 +780,12 @@ Object *object_new_with_propv(const char *typename,
  }
  
- static void s390_init_cpus(MachineState *machine)
+ 
+-int object_set_props(Object *obj,
++bool object_set_props(Object *obj,
+                      Error **errp,
+                      ...)
+ {
+     va_list vargs;
+-    int ret;
++    bool ret;
+ 
+     va_start(vargs, errp);
+     ret = object_set_propv(obj, errp, vargs);
+@@ -795,7 +795,7 @@ int object_set_props(Object *obj,
+ }
+ 
+ 
+-int object_set_propv(Object *obj,
++bool object_set_propv(Object *obj,
+                      Error **errp,
+                      va_list vargs)
+ {
+@@ -809,12 +809,12 @@ int object_set_propv(Object *obj,
+         g_assert(value != NULL);
+         if (!object_property_parse(obj, propname, value, &local_err)) {
+             error_propagate(errp, local_err);
+-            return -1;
++            return false;
+         }
+         propname = va_arg(vargs, char *);
+     }
+ 
+-    return 0;
++    return true;
+ }
+ 
+ 
 -- 
 2.26.2
 
