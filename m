@@ -2,71 +2,61 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D325E216B91
-	for <lists+qemu-devel@lfdr.de>; Tue,  7 Jul 2020 13:32:25 +0200 (CEST)
-Received: from localhost ([::1]:51248 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 712EF216BDC
+	for <lists+qemu-devel@lfdr.de>; Tue,  7 Jul 2020 13:41:57 +0200 (CEST)
+Received: from localhost ([::1]:58292 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jslpo-0000sk-2J
-	for lists+qemu-devel@lfdr.de; Tue, 07 Jul 2020 07:32:24 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:44728)
+	id 1jslz2-0004o4-9Y
+	for lists+qemu-devel@lfdr.de; Tue, 07 Jul 2020 07:41:56 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:47544)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1jslod-0008QR-5m
- for qemu-devel@nongnu.org; Tue, 07 Jul 2020 07:31:11 -0400
-Received: from mail-wr1-x444.google.com ([2a00:1450:4864:20::444]:43894)
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1jsly1-0004Ml-K1
+ for qemu-devel@nongnu.org; Tue, 07 Jul 2020 07:40:53 -0400
+Received: from mail-oi1-x244.google.com ([2607:f8b0:4864:20::244]:46954)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1jslob-0006bA-7c
- for qemu-devel@nongnu.org; Tue, 07 Jul 2020 07:31:10 -0400
-Received: by mail-wr1-x444.google.com with SMTP id j4so42348360wrp.10
- for <qemu-devel@nongnu.org>; Tue, 07 Jul 2020 04:31:08 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1jslxz-0000Dx-V8
+ for qemu-devel@nongnu.org; Tue, 07 Jul 2020 07:40:53 -0400
+Received: by mail-oi1-x244.google.com with SMTP id l63so33181096oih.13
+ for <qemu-devel@nongnu.org>; Tue, 07 Jul 2020 04:40:51 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=references:user-agent:from:to:cc:subject:in-reply-to:date
- :message-id:mime-version:content-transfer-encoding;
- bh=zrBr7BIv8VPH7Obo1cm5vtYbYjigCd4X9fJbH0UvJmA=;
- b=Jvbxd7Ma0lVoVavlmOEdfciuwmikPK1qR4a5mg6FsGwOj2B72rj6jKlKjuuiK/+hxP
- cNhCZxB4DjUKO3EVD1eXjDB430d6Y/obqMTjjMCPf8+sAD8QAYdnGrrnPgiemCwEv29D
- fEPrN23a5yAbQffXAxvkkTlaOpsxC8wAZz7ZIU2m26WppMb0mxOsJDjEME6CkQCI5p+z
- qsCYbP7z4MN8Q32B1eoEfTSnwVJaPrvtq1ECz9G4l7F6HNkLbGVG9Q04aZSK8EJ2tWoD
- QuJUvhgzOYn/9wwkaLTpqorIEpX2NFHIpXxHnTFbiRgpb433Y7tKFk6qGkH00X2G8ChB
- zBLA==
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=6hKK0pPuh8CecxBqlkjR3ganqcN3m0licd12d2QR7CI=;
+ b=luLN5QAuAzEuuPi8sza1j/xzGagzmdlUjFANof2WYeILdiY3vvSv6BL2wkY+idbbMN
+ dfw9bdJ6lMsgfE1pIhObr0IkBqJ7VFGyty1dhlzMYswijoR5ZXeFZddIr1fsYZDAlm+Z
+ Io2MOIH9ipyfJvV4xhfrUnkS2Mcr/zty3gjzm6hfOBn4nlsSm1kQ/rfBp0HFJTV5g5li
+ PYmaPWZVXMhufHwmMU/+oLLCpmrvDcislonib9V5THTO7gREdyVKZ8M3og2FTsAuy4Rg
+ Ulwtg5sy6nTwVo5hGoMc2E4KUjdwAMrOVAMqJjyQRMH2Ivj5BrM2YPJVRObBLGFlCJk4
+ hYbw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:references:user-agent:from:to:cc:subject
- :in-reply-to:date:message-id:mime-version:content-transfer-encoding;
- bh=zrBr7BIv8VPH7Obo1cm5vtYbYjigCd4X9fJbH0UvJmA=;
- b=E1FuD7PzIsAMWUbUoW1WppfbY2X0l1wwPnVy3tig5/CdqTYU/sK35qw0xhaC0Dplfx
- 93D17PWUQ6JR8EdLAA9Gr/p3D1DqplV8gXr5MTM2nPBz+JbBf4a++IjiN0j4JpG9kQFF
- /pFQpdeu7u+tqg/4adIMFtouzfIpacDPKON9hu4LnbFJG8Xm06WZoH1rJrPbeU4TZZd1
- L9kRZ5tgmBasQPGnc2ByTopdL2biHvNaIGAMhyvM8GAsMlVxZh0IgpCKUSFHPKBSgXOF
- G3XY26654V22pKBB8gqbRSlsOSzphEfFAarmmzCXccCM+qyPk25A11I0wgYl6jbCiz6U
- pa/A==
-X-Gm-Message-State: AOAM532q4Aj+CKny2wGaoo4BxDLLkDj8ifQITs0ewksehgP3r9Gm4qA4
- 1Za7w97oHDf3ITQIYbNxEyqeTQ==
-X-Google-Smtp-Source: ABdhPJxHkFc2V5EWKD6kBy9+gfvka5zWk2o+Sj0blSQLRPGSDgybVBE+RlV3+UOaGnF/+b2elhAmDw==
-X-Received: by 2002:adf:d842:: with SMTP id k2mr55090040wrl.239.1594121467482; 
- Tue, 07 Jul 2020 04:31:07 -0700 (PDT)
-Received: from zen.linaroharston ([51.148.130.216])
- by smtp.gmail.com with ESMTPSA id k126sm778383wmf.3.2020.07.07.04.31.05
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 07 Jul 2020 04:31:05 -0700 (PDT)
-Received: from zen (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id 2E8C11FF7E;
- Tue,  7 Jul 2020 12:31:05 +0100 (BST)
-References: <20200706234737.32378-1-jcmvbkbc@gmail.com>
-User-agent: mu4e 1.5.4; emacs 28.0.50
-From: Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
-To: Max Filippov <jcmvbkbc@gmail.com>
-Subject: Re: [PATCH 00/21] target/xtensa: implement double precision FPU
-In-reply-to: <20200706234737.32378-1-jcmvbkbc@gmail.com>
-Date: Tue, 07 Jul 2020 12:31:05 +0100
-Message-ID: <87pn97o93a.fsf@linaro.org>
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=6hKK0pPuh8CecxBqlkjR3ganqcN3m0licd12d2QR7CI=;
+ b=P780KS/1XVK456bBLBLloAAb07kC61GF9Nl179Q8zsPCHfcTIjko0ZCjXK0Y6b+0fK
+ PKPHBsSK2D70iObaGawqq+w9BAVPHSsbWkPu2QFinFb5FiCNQuYam6QpuYE+X5lALAZJ
+ JcfYI3KnYG44TZbmVprl16kNv3nFKbrrezChaxr1itnocGGChUE84JIT57pGuC4JTgVV
+ 6qW85GJmdx1hdFZ3+D+PjuPdTHw2Yh0GNLXpJp03GrHlih8vn1FofVdFTfUPqq57T7AE
+ NR1yKMMJXjcTxx/ZUh8e4bAxN/r7cCobxsDOU4L95ldWnVDTLRHuqRgoQlzJNyd0ddCl
+ TZfA==
+X-Gm-Message-State: AOAM531a8uETB2xcf91wV5iLF44v+BulUt2ng833Uq86bKDkZx9ZpLQm
+ Mh4mkpdgnjUv808kF4zaYqIcVm4bL2UwSZD21uSAAQ==
+X-Google-Smtp-Source: ABdhPJwa9+2ejcHxHKuMOOi0hmqm0TSyvlX39JNcZFtXLKa5Q83zUvTch2w+HbUBT+J/rIQZYd2Zegm3ECPOr+F5hiw=
+X-Received: by 2002:aca:2819:: with SMTP id 25mr2686191oix.48.1594122050690;
+ Tue, 07 Jul 2020 04:40:50 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=2a00:1450:4864:20::444;
- envelope-from=alex.bennee@linaro.org; helo=mail-wr1-x444.google.com
+References: <20200704182750.1088103-1-mst@redhat.com>
+In-Reply-To: <20200704182750.1088103-1-mst@redhat.com>
+From: Peter Maydell <peter.maydell@linaro.org>
+Date: Tue, 7 Jul 2020 12:40:38 +0100
+Message-ID: <CAFEAcA_LrhvLmbwsSrhHUYZ+z9EZoDZwct+s3xfoaGLyLkOPfg@mail.gmail.com>
+Subject: Re: [PULL v2 00/41] virtio,acpi: features, fixes, cleanups.
+To: "Michael S. Tsirkin" <mst@redhat.com>
+Content-Type: text/plain; charset="UTF-8"
+Received-SPF: pass client-ip=2607:f8b0:4864:20::244;
+ envelope-from=peter.maydell@linaro.org; helo=mail-oi1-x244.google.com
 X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
  That's all we know.
 X-Spam_score_int: -20
@@ -88,31 +78,52 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-devel@nongnu.org
+Cc: QEMU Developers <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-
-Max Filippov <jcmvbkbc@gmail.com> writes:
-
-> Hello,
+On Sat, 4 Jul 2020 at 19:29, Michael S. Tsirkin <mst@redhat.com> wrote:
 >
-> this series implements double precision floating point unit option for
-> target/xtensa, updates FPU tests and adds two new CPU cores, one with
-> FPU2000 option and one with DFPU option.
 >
-> Max Filippov (21):
->   softfloat: make NO_SIGNALING_NANS runtime property
->   softfloat: pass float_status pointer to pickNaN
->   softfloat: add xtensa specialization for pickNaNMulAdd
+> v2 of the pull, fixing non-Linux builds.
+>
+>
+> The following changes since commit fc1bff958998910ec8d25db86cd2f53ff125f7ab:
+>
+>   hw/misc/pca9552: Add missing TypeInfo::class_size field (2020-06-29 21:16:10 +0100)
+>
+> are available in the Git repository at:
+>
+>   git://git.kernel.org/pub/scm/virt/kvm/mst/qemu.git tags/for_upstream
+>
+> for you to fetch changes up to f7d98068bf7a0913744dd4ac0a28e8c841df2af5:
+>
+>   vhost-vdpa: introduce vhost-vdpa net client (2020-07-04 11:13:50 -0400)
+>
+> ----------------------------------------------------------------
+> virtio,acpi: features, fixes, cleanups.
+>
+> vdpa support
+> virtio-mem support
+> a handy script for disassembling acpi tables
+> misc fixes and cleanups
+>
+> Signed-off-by: Michael S. Tsirkin <mst@redhat.com>
+>
+> ----------------------------------------------------------------
 
-I've only looked at the softfloat bits as I'm not familiar with xtensa
-at all. However you can have a vague:
+Hi; I'm afraid this fails to build on 32-bit:
 
-Tested-by: Alex Benn=C3=A9e <alex.bennee@linaro.org>
+/home/peter.maydell/qemu/hw/virtio/vhost-vdpa.c: In function
+'vhost_vdpa_dma_map':
+/home/peter.maydell/qemu/hw/virtio/vhost-vdpa.c:48:23: error: cast
+from pointer to integer of different size
+[-Werror=pointer-to-int-cast]
+     msg.iotlb.uaddr = (uint64_t)vaddr;
+                       ^
 
-for the series - congratulations you pass your own tests ;-)
+This should probably be "= (uintptr_t)vaddr".
 
---=20
-Alex Benn=C3=A9e
+thanks
+-- PMM
 
