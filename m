@@ -2,62 +2,61 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 934A72166B1
-	for <lists+qemu-devel@lfdr.de>; Tue,  7 Jul 2020 08:48:40 +0200 (CEST)
-Received: from localhost ([::1]:39952 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3B9F12166CA
+	for <lists+qemu-devel@lfdr.de>; Tue,  7 Jul 2020 08:50:39 +0200 (CEST)
+Received: from localhost ([::1]:46144 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jshPD-0007aT-Kj
-	for lists+qemu-devel@lfdr.de; Tue, 07 Jul 2020 02:48:39 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:38680)
+	id 1jshR8-0001s6-9Z
+	for lists+qemu-devel@lfdr.de; Tue, 07 Jul 2020 02:50:38 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:38692)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1jshNV-0005wP-OS
- for qemu-devel@nongnu.org; Tue, 07 Jul 2020 02:46:53 -0400
-Received: from mail-wm1-x332.google.com ([2a00:1450:4864:20::332]:36070)
+ id 1jshNX-0005yp-8m
+ for qemu-devel@nongnu.org; Tue, 07 Jul 2020 02:46:55 -0400
+Received: from mail-wr1-x441.google.com ([2a00:1450:4864:20::441]:38936)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1jshNU-0000cE-Fc
- for qemu-devel@nongnu.org; Tue, 07 Jul 2020 02:46:53 -0400
-Received: by mail-wm1-x332.google.com with SMTP id 17so45206812wmo.1
- for <qemu-devel@nongnu.org>; Mon, 06 Jul 2020 23:46:52 -0700 (PDT)
+ id 1jshNV-0000cS-Q2
+ for qemu-devel@nongnu.org; Tue, 07 Jul 2020 02:46:54 -0400
+Received: by mail-wr1-x441.google.com with SMTP id q5so43876161wru.6
+ for <qemu-devel@nongnu.org>; Mon, 06 Jul 2020 23:46:53 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=sender:from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=OAALL/cw7n/+7fM0VWJqcBq9KNUXzDegINtW6gZFwpE=;
- b=gJZsYghd9IMqY6Xpzg4t1DXJxI4iLNVJsRsfTuB+J6fsNNt8zB9sLvbXRysZr+VhqX
- H6rtbbyXrEnqVTN9zmYmHmGpeXPaxY3z01s8mw4iLSqbn2ZtpdjNjEIi2R3Ro5p6wIOR
- v5Q7od1EXZgFPAT/cAzABR5xNN08wLogQt7zohgPHTrBJNeZTBTHAEE0xUo3rDJIF2kx
- 2/cFnazRgANFJybh1wlTJhk99KK7XBczT+Y9fSj32APOYxk4Nq8E87hNx1mycdd9+nb3
- kVWNoJFVWv/OCQI9WsGOatiszOWTiFy5gF7uWTpgTY4q0DQspfgOZZlJ7+xfuRwt3LlR
- njZA==
+ bh=45gqo128NQDtIYcxM1tYqwMqbUrJDll0ND7eZVJPFlA=;
+ b=CbIRTfP5fVKDPO1sN6Nm0ogTmJfT+Dfo1iIcerZgjhiH0iDVsjz/5QNznQnTdGf5wx
+ 9Eim4CkUeEGTObMUz3StaGabfv+uehIX/ldfUu6HSEO9wRsrQB1WClui423ZkxwjMlmc
+ yXhXbdSCKU1955OjD+8mOdh48gsLLUZZFOQbV+Z++9Bd0RPsdvTEyBfSqaiN0Z3Msgz7
+ Zz05Ru18w/H/e22aPE8s5BqikwBf+ddHdE4X2esNJ6tHs64Q8xViTjKwjJcMtEjN0O7j
+ rkUAj1uQA5Gj6eurEWlglgS4EbwYDAIm88nky5xj+9IDgOT6WqCleEa+QVGCbz8xOO07
+ fEcQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
  :in-reply-to:references:mime-version:content-transfer-encoding;
- bh=OAALL/cw7n/+7fM0VWJqcBq9KNUXzDegINtW6gZFwpE=;
- b=l2wY+si0E8JFuGWpOVX8lyuTZTKKmXjYpa35iMM25s14jDZjLyq0wW/rcnwwls90AO
- yOY4U0A77avXlpTrcMQGZMqxKmbXzuD+7QcBk2r5m5MER8wo98MuPVJhDLzc3u84ixwi
- 4QXn77NBiMcuqd2rbiA8IEMCzN5DUmioyJ+gjEFpbDe6OByJa1QudtmfXtOkmat2Pbir
- Ak/QpzbIQUlmunEIC3dieG/XAJSfg6tl2BMBBaw2YSKXGcS2SuAEAhITyoC/EDMlBLX8
- dkx+dWbVQtvEL8g3fZ6fhXWnEjCxkbmWEyRPVTXi5iv5mOFAL6xIiysTl451RiqbE5yW
- 4Hgw==
-X-Gm-Message-State: AOAM531SksvJwLmVNHvEMkIh3K7lUpkJM95kN5ZpfrFM5Brrplkf3Ye0
- EA0jpUVA3eCObjZHdQeLP/SBzYkr
-X-Google-Smtp-Source: ABdhPJyFEDx+NByKlEgjZnpSWjc+gK2vB1pJBtONnNTJJxU4TgBxHNYJ6Zdr1fRLhyDfwNPmFMjVTQ==
-X-Received: by 2002:a05:600c:2116:: with SMTP id
- u22mr2512882wml.82.1594104410976; 
- Mon, 06 Jul 2020 23:46:50 -0700 (PDT)
+ bh=45gqo128NQDtIYcxM1tYqwMqbUrJDll0ND7eZVJPFlA=;
+ b=RZcjijMt5LlA8my42YNe6xu53z6hNm3RbA4oB+o7tdSlqvC5I2DTKNR0fRNHULuJns
+ mRzkgjxmaxDyth3Vxieoo5M3MPPm0HdbQpb0BFPKRxO82lmDZgYLRUnBlMQKLLx/HA6u
+ jrDLCvVuNtCx3Jh55QXJ602lQ9zMhrzAyAf/3HcXcs6GYr/o1SJQmdaMzBqfB9ixwlvy
+ 5042i037yfMCW1aGa89uLLDNO5JK6npOIV5dkP6vFYoETmGdw8IT1zN9LJ3MWpvKAE0N
+ DcHC7qcFitmeiop7Us2U4ZaIMoepfpjwC0kxDVQSMoBht2uF2YUBP7ukhItBgrURNnx/
+ DPjg==
+X-Gm-Message-State: AOAM5300WCeqZSxVTusOZEcOFDj+qxmol8OdpbI4a3ABVW5rFDa1so+H
+ uj6cLsAJY8224oB0yZ+VJxYvj3AA
+X-Google-Smtp-Source: ABdhPJz1e+iyP5oeF2NLNfiia5QAPkhVTinWNpZs7ATzEslZOrqFFWpj7t81XolHzMqqHHmhCo/GOQ==
+X-Received: by 2002:a5d:518a:: with SMTP id k10mr51088210wrv.316.1594104412217; 
+ Mon, 06 Jul 2020 23:46:52 -0700 (PDT)
 Received: from localhost.localdomain
  (138.red-83-57-170.dynamicip.rima-tde.net. [83.57.170.138])
- by smtp.gmail.com with ESMTPSA id 5sm2172545wmk.9.2020.07.06.23.46.50
+ by smtp.gmail.com with ESMTPSA id 5sm2172545wmk.9.2020.07.06.23.46.51
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 06 Jul 2020 23:46:50 -0700 (PDT)
+ Mon, 06 Jul 2020 23:46:51 -0700 (PDT)
 From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
 To: qemu-devel@nongnu.org
-Subject: [PATCH 2/3] target/avr: Fix $PC displayed address
-Date: Tue,  7 Jul 2020 08:46:45 +0200
-Message-Id: <20200707064646.7603-3-f4bug@amsat.org>
+Subject: [RFC PATCH 3/3] target/avr: Fix SBRC/SBRS instructions
+Date: Tue,  7 Jul 2020 08:46:46 +0200
+Message-Id: <20200707064646.7603-4-f4bug@amsat.org>
 X-Mailer: git-send-email 2.21.3
 In-Reply-To: <20200707064646.7603-1-f4bug@amsat.org>
 References: <20200707064646.7603-1-f4bug@amsat.org>
@@ -65,8 +64,8 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::332;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wm1-x332.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::441;
+ envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wr1-x441.google.com
 X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
  That's all we know.
 X-Spam_score_int: 0
@@ -96,28 +95,35 @@ Cc: Sarah Harris <S.E.Harris@kent.ac.uk>, Thomas Huth <huth@tuxfamily.org>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-$PC is 16-bit wide. Other registers display addresses on a byte
-granularity.
-To have a coherent ouput, display $PC using byte granularity too.
+SBRC/SBRS instructions seem to be inverted.
 
 Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
 ---
- target/avr/cpu.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ target/avr/translate.c | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
-diff --git a/target/avr/cpu.c b/target/avr/cpu.c
-index 50fb1c378b..9be464991f 100644
---- a/target/avr/cpu.c
-+++ b/target/avr/cpu.c
-@@ -151,7 +151,7 @@ static void avr_cpu_dump_state(CPUState *cs, FILE *f, int flags)
-     int i;
+diff --git a/target/avr/translate.c b/target/avr/translate.c
+index fe03e676df..2f77fe3ba7 100644
+--- a/target/avr/translate.c
++++ b/target/avr/translate.c
+@@ -1385,7 +1385,7 @@ static bool trans_SBRC(DisasContext *ctx, arg_SBRC *a)
+ {
+     TCGv Rr = cpu_r[a->rr];
  
-     qemu_fprintf(f, "\n");
--    qemu_fprintf(f, "PC:    %06x\n", env->pc_w);
-+    qemu_fprintf(f, "PC:    %06x\n", env->pc_w * 2);
-     qemu_fprintf(f, "SP:      %04x\n", env->sp);
-     qemu_fprintf(f, "rampD:     %02x\n", env->rampD >> 16);
-     qemu_fprintf(f, "rampX:     %02x\n", env->rampX >> 16);
+-    ctx->skip_cond = TCG_COND_EQ;
++    ctx->skip_cond = TCG_COND_NE;
+     ctx->skip_var0 = tcg_temp_new();
+     ctx->free_skip_var0 = true;
+ 
+@@ -1401,7 +1401,7 @@ static bool trans_SBRS(DisasContext *ctx, arg_SBRS *a)
+ {
+     TCGv Rr = cpu_r[a->rr];
+ 
+-    ctx->skip_cond = TCG_COND_NE;
++    ctx->skip_cond = TCG_COND_EQ;
+     ctx->skip_var0 = tcg_temp_new();
+     ctx->free_skip_var0 = true;
+ 
 -- 
 2.21.3
 
