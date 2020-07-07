@@ -2,63 +2,63 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 60622217346
-	for <lists+qemu-devel@lfdr.de>; Tue,  7 Jul 2020 18:05:47 +0200 (CEST)
-Received: from localhost ([::1]:35860 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 59B6621734D
+	for <lists+qemu-devel@lfdr.de>; Tue,  7 Jul 2020 18:06:36 +0200 (CEST)
+Received: from localhost ([::1]:39002 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jsq6L-0007zc-Sz
-	for lists+qemu-devel@lfdr.de; Tue, 07 Jul 2020 12:05:45 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:57720)
+	id 1jsq79-0000xb-Bf
+	for lists+qemu-devel@lfdr.de; Tue, 07 Jul 2020 12:06:35 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:58606)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <alistair23@gmail.com>)
- id 1jsq3r-0005HC-8f; Tue, 07 Jul 2020 12:03:11 -0400
-Received: from mail-il1-x142.google.com ([2607:f8b0:4864:20::142]:33424)
+ id 1jsq5d-0007yR-Hi; Tue, 07 Jul 2020 12:05:01 -0400
+Received: from mail-io1-xd41.google.com ([2607:f8b0:4864:20::d41]:43764)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <alistair23@gmail.com>)
- id 1jsq3p-0005e2-IF; Tue, 07 Jul 2020 12:03:10 -0400
-Received: by mail-il1-x142.google.com with SMTP id a11so28210368ilk.0;
- Tue, 07 Jul 2020 09:03:06 -0700 (PDT)
+ id 1jsq5b-0006Px-Qe; Tue, 07 Jul 2020 12:05:01 -0400
+Received: by mail-io1-xd41.google.com with SMTP id k23so43665478iom.10;
+ Tue, 07 Jul 2020 09:04:59 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=mime-version:references:in-reply-to:from:date:message-id:subject:to
  :cc:content-transfer-encoding;
- bh=qKMKLn+NM0fVhDR9Wl8Ewv7hJFrzevopLDHtMRtWkyk=;
- b=pGydGaHHFnsOjeBghQEStW3yQxvMukpzrfZCgT2abLG4YBVFqwE0XyzXx1vt/2QZub
- eIKNQWOfCsIb3mOQ70tf0JuKht4U61H7/UbynBEG99ghJd5IO6/YaMp73+rQOGuFBqLy
- TnXElgUWUz6eP+3i7s5uuOUZ46jSfZ6371gU8yETIs1Ty82acGGSPae0AT5pha4ri4Lk
- aG08Mo/hdVRSP63BrvK0wl+eAd+r2pRwHrsJ1Y19vexU2HW8gKSR6NZWuo3TUALSSsAx
- fxVICb0koFNYTle0u+sYDh+EF/l+cszCwbgIqfD17selGM13J+zotjzqgtVtfxGomvw8
- 7kNQ==
+ bh=rT/UCYFlxrI6UNQnpwYU8XAErmWANqgovsEEzMYtj0E=;
+ b=rPIKIEX8SYpLl57LVSl58gTyUq1N9RNKtNjNaglJWqxC8ljbviYBTsRgzTbqAHaBC0
+ F91vxjqT3BB3ehAJMJoGremYzv1IBDoGD+qXj6GVy674bWiGGVP4y2I9L4Ksd9W9nxIQ
+ kiH97V4Tev2M3PzaM6WLOeUwbeG9n8xf88S8vYfU7POvuE+2csfwLrsrAmEqOGVlT01z
+ BLC3wOn4utTOfm/3OKrjEPukKvCZdywtlZNBD42HctZdsFFifQgWOJayGBHd9IxJwzSl
+ ilXBbpp3clTIgOLMcMYrnc8BaA+N7Mo8vWpW5y8azbmpqU3hnMjjnkOL2xVi2ZiyxVul
+ tnwg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
  :message-id:subject:to:cc:content-transfer-encoding;
- bh=qKMKLn+NM0fVhDR9Wl8Ewv7hJFrzevopLDHtMRtWkyk=;
- b=PBPUcFpcutJRgMa1InzpM8C2OEpEuilJ7ZuShzV7FJnvjMMfIKBewJ+VO2CYOIsIE5
- AjpL4J/dziimVdD90weuCpNDQOjAJWqr8iLswdcv3iLMMx2ecDH78k5DUWG8lthh5Lan
- XrssGMV5P88a8am6aPsQ60jmYY6vu+F55SkrgB91xpbqvb1wwhHmYyBK9lUVrI0+QIzl
- HP864li/SFFGC+ko/hqLU5K9EVENVagRRJ3CO14N8AngiLSvWkGRE4Oq5EMRX+AtcWg3
- Js5OU8un2JKiDxq6dGcCoq0T3m+2aolO9omy+eXXSjerJ5F5Jen4i9BVCskjdfRpDcOD
- PpbA==
-X-Gm-Message-State: AOAM531KosjUL6kPTKZIoKkT1h4s+n2zF4DkUGfw6zjftkpS9aSJbSoC
- bFwXuV5AMUd8b/bwDKNk6cavEeylogjVMM9ndq4=
-X-Google-Smtp-Source: ABdhPJzP+gFc+uSmuN1FFbd+cvGcPT7No6n0TF1DNz+lNB855MAmUv6Io8bubqgtXS6UiBYCP4wsxVC6OmXPIVyWQsM=
-X-Received: by 2002:a92:5f12:: with SMTP id t18mr37270709ilb.267.1594137784938; 
- Tue, 07 Jul 2020 09:03:04 -0700 (PDT)
+ bh=rT/UCYFlxrI6UNQnpwYU8XAErmWANqgovsEEzMYtj0E=;
+ b=keKthBYRVccW++rWSsSa8M3OFOgf2eTY8xqbiwYwuVlZZIzP88QgkfQ0wv4Zqad2+B
+ mxUZ47BKKZewGlWBOstNxZLPWhQaK+dc/5IUuhZc8F1vNi6CBfKS/2bF+DIOz6Wwg4kP
+ b8tvT/7W0vYYDZ3/BFohEsWugPdiCaSZAdZbD1Sxxw2Agcu2srf7Bd3l0oVGmFppuI0m
+ CeGv9dPODRpU/hQX60sia+qmk6hMu/bCm6Wkl95h3Yob5whTNb0m0XsKbAUz8VUupAAF
+ +7SH7pqi20JsixIyIum5ciqXaq10ojKG/2+agzSvT0cOF14hiDy+3I2hagyjvWRz6N25
+ WdhQ==
+X-Gm-Message-State: AOAM531ACC9+a7hxa0RGvYwrZ0Yy3Ofr/tgFvOw9HB+8GuVVjTofBsQw
+ vc9BOPHlFsFBwICNbdLa7cypT7GP0xMQiM2Gfj8=
+X-Google-Smtp-Source: ABdhPJxRT2QFY9UEjtXTs9YmcDGYfGfhG5UFWKX6x3RgEaT9fhis1IgACmvtDitjMtSw5eyfKo0JdYymwftIfkFo7Yo=
+X-Received: by 2002:a05:6638:dd3:: with SMTP id
+ m19mr62089086jaj.106.1594137898288; 
+ Tue, 07 Jul 2020 09:04:58 -0700 (PDT)
 MIME-Version: 1.0
 References: <20200707132116.26207-1-f4bug@amsat.org>
- <20200707132116.26207-2-f4bug@amsat.org>
-In-Reply-To: <20200707132116.26207-2-f4bug@amsat.org>
+ <20200707132116.26207-3-f4bug@amsat.org>
+In-Reply-To: <20200707132116.26207-3-f4bug@amsat.org>
 From: Alistair Francis <alistair23@gmail.com>
-Date: Tue, 7 Jul 2020 08:53:16 -0700
-Message-ID: <CAKmqyKPSh4e+XVBLni71rHDZoTUV+cYQgZpO+FBYv-riLYW9eQ@mail.gmail.com>
-Subject: Re: [PATCH 1/2] tests/acceptance/boot_linux: Truncate SD card image
- to power of 2
+Date: Tue, 7 Jul 2020 08:55:10 -0700
+Message-ID: <CAKmqyKNY+7tE9tcZm7_Th9qapo1CH0AwNwBf7vaf+7vSqBNtVA@mail.gmail.com>
+Subject: Re: [PATCH 2/2] hw/sd/sdcard: Do not allow invalid SD card sizes
 To: =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <f4bug@amsat.org>
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=2607:f8b0:4864:20::142;
- envelope-from=alistair23@gmail.com; helo=mail-il1-x142.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::d41;
+ envelope-from=alistair23@gmail.com; helo=mail-io1-xd41.google.com
 X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
  That's all we know.
 X-Spam_score_int: -17
@@ -91,77 +91,97 @@ Cc: Peter Maydell <peter.maydell@linaro.org>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-n Tue, Jul 7, 2020 at 6:21 AM Philippe Mathieu-Daud=C3=A9 <f4bug@amsat.org>=
- wrote:
+On Tue, Jul 7, 2020 at 6:22 AM Philippe Mathieu-Daud=C3=A9 <f4bug@amsat.org=
+> wrote:
 >
-> In the next commit we won't allow SD card images with invalid
-> size (not aligned to a power of 2). Prepare the tests: add the
-> pow2ceil() and image_pow2ceil_truncate() methods and truncate
-> the images of the tests using SD cards.
+> QEMU allows to create SD card with unrealistic sizes. This could work,
+> but some guests (at least Linux) consider sizes that are not a power
+> of 2 as a firmware bug and fix the card size to the next power of 2.
+>
+> Before CVE-2020-13253 fix, this would allow OOB read/write accesses
+> past the image size end.
+>
+> CVE-2020-13253 has been fixed as:
+>
+>     Read command is rejected if BLOCK_LEN_ERROR or ADDRESS_ERROR
+>     occurred and no data transfer is performed.
+>
+>     Write command is rejected if BLOCK_LEN_ERROR or ADDRESS_ERROR
+>     occurred and no data transfer is performed.
+>
+>     WP_VIOLATION errors are not modified: the error bit is set, we
+>     stay in receive-data state, wait for a stop command. All further
+>     data transfer is ignored. See the check on sd->card_status at the
+>     beginning of sd_read_data() and sd_write_data().
+>
+> While this is the correct behavior, in case QEMU create smaller SD
+> cards, guests still try to access past the image size end, and QEMU
+> considers this is an invalid address, thus "all further data transfer
+> is ignored". This is wrong and make the guest looping until
+> eventually timeouts.
+>
+> Fix by not allowing invalid SD card sizes.  Suggesting the expected
+> size as a hint:
+>
+>   $ qemu-system-arm -M orangepi-pc -drive file=3Drootfs.ext2,if=3Dsd,form=
+at=3Draw
+>   qemu-system-arm: Invalid SD card size: 60 MiB (expecting at least 64 Mi=
+B)
 >
 > Signed-off-by: Philippe Mathieu-Daud=C3=A9 <f4bug@amsat.org>
 > ---
->  tests/acceptance/boot_linux_console.py | 15 +++++++++++++++
->  1 file changed, 15 insertions(+)
+>  hw/sd/sd.c | 16 ++++++++++++++++
+>  1 file changed, 16 insertions(+)
 >
-> diff --git a/tests/acceptance/boot_linux_console.py b/tests/acceptance/bo=
-ot_linux_console.py
-> index 3d02519660..f4d4e3635f 100644
-> --- a/tests/acceptance/boot_linux_console.py
-> +++ b/tests/acceptance/boot_linux_console.py
-> @@ -28,6 +28,18 @@
->  except CmdNotFoundError:
->      P7ZIP_AVAILABLE =3D False
+> diff --git a/hw/sd/sd.c b/hw/sd/sd.c
+> index cb81487e5c..c45106b78e 100644
+> --- a/hw/sd/sd.c
+> +++ b/hw/sd/sd.c
+> @@ -32,6 +32,7 @@
 >
-> +# round up to next power of 2
-> +def pow2ceil(x):
-> +    return 1 if x =3D=3D 0 else 2**(x - 1).bit_length()
+>  #include "qemu/osdep.h"
+>  #include "qemu/units.h"
+> +#include "qemu/cutils.h"
+>  #include "hw/irq.h"
+>  #include "hw/registerfields.h"
+>  #include "sysemu/block-backend.h"
+> @@ -2130,11 +2131,26 @@ static void sd_realize(DeviceState *dev, Error **=
+errp)
+>      }
+>
+>      if (sd->blk) {
+> +        int64_t blk_size;
 > +
-> +# truncate file size to next power of 2
-> +def image_pow2ceil_truncate(path):
-> +        size =3D os.path.getsize(path)
-> +        size_aligned =3D pow2ceil(size)
-> +        if size !=3D size_aligned:
-> +            with open(path, 'ab+') as fd:
-> +                fd.truncate(size_aligned)
+>          if (blk_is_read_only(sd->blk)) {
+>              error_setg(errp, "Cannot use read-only drive as SD card");
+>              return;
+>          }
+>
+> +        blk_size =3D blk_getlength(sd->blk);
+> +        if (blk_size > 0 && !is_power_of_2(blk_size)) {
+> +            int64_t blk_size_aligned =3D pow2ceil(blk_size);
+> +            char *blk_size_str =3D size_to_str(blk_size);
+> +            char *blk_size_aligned_str =3D size_to_str(blk_size_aligned)=
+;
+> +
+> +            error_setg(errp, "Invalid SD card size: %s (expecting at lea=
+st %s)",
+> +                       blk_size_str, blk_size_aligned_str);
 
-Why truncate the image, can't we expand it instead?
+Should we print that we expect a power of 2? This isn't always obvious
+from the message.
 
 Alistair
 
+> +            g_free(blk_size_str);
+> +            g_free(blk_size_aligned_str);
+> +            return;
+> +        }
 > +
->  class LinuxKernelTest(Test):
->      KERNEL_COMMON_COMMAND_LINE =3D 'printk.time=3D0 '
->
-> @@ -635,6 +647,7 @@ def test_arm_orangepi_sd(self):
->          rootfs_path_xz =3D self.fetch_asset(rootfs_url, asset_hash=3Droo=
-tfs_hash)
->          rootfs_path =3D os.path.join(self.workdir, 'rootfs.cpio')
->          archive.lzma_uncompress(rootfs_path_xz, rootfs_path)
-> +        image_pow2ceil_truncate(rootfs_path)
->
->          self.vm.set_console()
->          kernel_command_line =3D (self.KERNEL_COMMON_COMMAND_LINE +
-> @@ -679,6 +692,7 @@ def test_arm_orangepi_bionic(self):
->          image_name =3D 'Armbian_19.11.3_Orangepipc_bionic_current_5.3.9.=
-img'
->          image_path =3D os.path.join(self.workdir, image_name)
->          process.run("7z e -o%s %s" % (self.workdir, image_path_7z))
-> +        image_pow2ceil_truncate(image_path)
->
->          self.vm.set_console()
->          self.vm.add_args('-drive', 'file=3D' + image_path + ',if=3Dsd,fo=
-rmat=3Draw',
-> @@ -728,6 +742,7 @@ def test_arm_orangepi_uboot_netbsd9(self):
->          image_hash =3D '2babb29d36d8360adcb39c09e31060945259917a'
->          image_path_gz =3D self.fetch_asset(image_url, asset_hash=3Dimage=
-_hash)
->          image_path =3D os.path.join(self.workdir, 'armv7.img')
-> +        image_pow2ceil_truncate(image_path)
->          image_drive_args =3D 'if=3Dsd,format=3Draw,snapshot=3Don,file=3D=
-' + image_path
->          archive.gzip_uncompress(image_path_gz, image_path)
->
+>          ret =3D blk_set_perm(sd->blk, BLK_PERM_CONSISTENT_READ | BLK_PER=
+M_WRITE,
+>                             BLK_PERM_ALL, errp);
+>          if (ret < 0) {
 > --
 > 2.21.3
 >
