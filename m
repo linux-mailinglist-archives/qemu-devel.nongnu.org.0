@@ -2,72 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9C76221672E
-	for <lists+qemu-devel@lfdr.de>; Tue,  7 Jul 2020 09:18:20 +0200 (CEST)
-Received: from localhost ([::1]:45144 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 441EE21674C
+	for <lists+qemu-devel@lfdr.de>; Tue,  7 Jul 2020 09:24:34 +0200 (CEST)
+Received: from localhost ([::1]:48984 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jshrv-0004M4-M4
-	for lists+qemu-devel@lfdr.de; Tue, 07 Jul 2020 03:18:19 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:43622)
+	id 1jshxx-0000tD-9p
+	for lists+qemu-devel@lfdr.de; Tue, 07 Jul 2020 03:24:33 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:43522)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1jshoH-0006hH-TP
- for qemu-devel@nongnu.org; Tue, 07 Jul 2020 03:14:33 -0400
-Received: from mail-wr1-x436.google.com ([2a00:1450:4864:20::436]:36104)
+ id 1jshoC-0006T8-0B
+ for qemu-devel@nongnu.org; Tue, 07 Jul 2020 03:14:28 -0400
+Received: from mail-wm1-x335.google.com ([2a00:1450:4864:20::335]:53758)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1jshoG-0004rI-8b
- for qemu-devel@nongnu.org; Tue, 07 Jul 2020 03:14:33 -0400
-Received: by mail-wr1-x436.google.com with SMTP id k6so44006533wrn.3
- for <qemu-devel@nongnu.org>; Tue, 07 Jul 2020 00:14:31 -0700 (PDT)
+ id 1jsho9-0004qA-R6
+ for qemu-devel@nongnu.org; Tue, 07 Jul 2020 03:14:27 -0400
+Received: by mail-wm1-x335.google.com with SMTP id j18so42125764wmi.3
+ for <qemu-devel@nongnu.org>; Tue, 07 Jul 2020 00:14:25 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=fVpFU3Bn0gx8fweRN9XBf8loHnsbKZ9F1g1Uyun+Gsg=;
- b=R9v8p9AeUq2v6ydPU9XeLm7KEUpSWIYFUsXmqGq/pcbaCLgExX3UzYb8WSY1ZVO7vS
- R0N9dhWsat59BvoOOTpVaWsq+1k6+04KSYhwWYPOrSBpOMbJDz9mc+pN0Xi7yI33Pvvf
- BaAmOlCK2xYKRpG4koFGnaHFQhjGnZrCnw1BWd8o2toAK71FS24ephW2oWZCE9orVsz4
- PcDNLtKH18/L3PO470NtrWJh2FuzMVAbuDgM1jpeCfw/uXHf2EBhTjhxxrgEbAXJZ3bw
- 75en7898w2I+hSoX/2ZPLXCmZdsQeWeE3LwHRXHvQEm81XLQVmlmdqOE0AESDX0S9mL8
- ewPQ==
+ bh=tcFFr6wqntF8eZqbijSLJ4lRc28E2R4EjbxYXolVTZw=;
+ b=uSm9UtnoQG3JZKw3s+8KHJyinyr40UTTxVMWcJgNWCt4y7E3xg10qHv15Xnxxma1d/
+ I9fqjaEV3bi/fduP/1yRi/xSnlFuCTtvk256uZbQkMjytV8zA40Hg/00o+KESJ9jv9yX
+ oDiWho4r7zEM8JARh9+RJaujHAd9h41WBF+ie78WYbkh2JJYMdlJ1rRnZhRhEb5zwnaE
+ MdbVLjWgSmNrp+/vJxTOyDnICAn+gamdbXpq/Ri0EwoosEXzu5Hs2vvTyEhOrw/mSien
+ JliEeCGDhrd4pHp3TY3au05NwhjMDcQXJnm0PwaNS/rJnRGgQRRc50MRvitbeF5qn6bE
+ Ig2A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=fVpFU3Bn0gx8fweRN9XBf8loHnsbKZ9F1g1Uyun+Gsg=;
- b=bzvimRNmisSAHlk65IIVwkGZpREcyVja/94++UkT/ZuRnUBTSXCdfpmgKeSRLL36pS
- y9tDo5MH/BVNrNZVI4kfGrK9f8H9wiKo2Ri6tZ00GoBURHWlhatvwUSBhPTEp2+MlCtG
- t4/oqDUyBZ8Y5pTEzGAPnKJCXK+6zxCJPhitWFke3tupHxczoSSgtap8Co6KvwqGL2Lp
- 4JvjGGrO4crCp7D16tUYQSpWqO/OULPVHRZipXMO6mDWoNYj+usVhwvLj0UFuSNJ/E3a
- 0Osxuf7kOlU43wxfkU/wRVo5QDPY/SaQn2aJIBYAQt7zXKg6YRzhfVfCqBxc+cXR7xLb
- +tBg==
-X-Gm-Message-State: AOAM533WchUaytXSomYHuTQSWdBi3jKWiw3cxaq3ZJHmWagux9JSx2Az
- gM/TENOW9UzIzWjHOkSpfpsNbQ==
-X-Google-Smtp-Source: ABdhPJxmGtovh0WxrLk3sQG75lLyAVsh6Ydo/nY/kSLQ8+wgsSfpXm/1liGjffbk+W4UqRDoqXXIRA==
-X-Received: by 2002:adf:b1ca:: with SMTP id r10mr24403519wra.150.1594106070886; 
- Tue, 07 Jul 2020 00:14:30 -0700 (PDT)
+ bh=tcFFr6wqntF8eZqbijSLJ4lRc28E2R4EjbxYXolVTZw=;
+ b=lt2yV5H76YnM8QCiQ28klGh8k6ZPCvN6oXBbqO8YdV0ALOzmHUHSpByN0ctYx3Pqg4
+ dLZR39YKTvPXHC44aJwwAni/eEqcfxlY6dniNQKN+zuahi4CCbyv2bySkd5TDc13CDzl
+ JTWxw91xaK0Xh5+Z+eMLshG0US65mjFhZRDOB7Iul1seJ58I0NuESThdBONqOHTFcXGc
+ lwt/QkVOV/XHd3IRBAMIjQrQA7GqoBRyeDLmjscAEoen9wM9X5usSDMXCwY/xXaKXQ3s
+ nlnMoooguMQbJqp1LiQhOx3nqV/ancZcY6vJJWhAaLdRCQZzdNZywJ/KTBZu1/+ictLa
+ mPFA==
+X-Gm-Message-State: AOAM531F7rN0syzXZo817YNQbfVO+mGc835YzrvdcHJOvWTOWYWecsMz
+ AAHRfGr1esVZ+yyrFi5IHZ8kRQ==
+X-Google-Smtp-Source: ABdhPJxiWYoW0oP2MbPhkL0GKj4vogJ1jjjGsbQ7G04VdcJEp6sWJmd3EDrte1obxll/GP35DLkVLg==
+X-Received: by 2002:a7b:c92e:: with SMTP id h14mr2570639wml.36.1594106064198; 
+ Tue, 07 Jul 2020 00:14:24 -0700 (PDT)
 Received: from zen.linaroharston ([51.148.130.216])
- by smtp.gmail.com with ESMTPSA id c25sm2107501wml.46.2020.07.07.00.14.23
+ by smtp.gmail.com with ESMTPSA id z6sm2174406wmf.33.2020.07.07.00.14.22
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 07 Jul 2020 00:14:27 -0700 (PDT)
+ Tue, 07 Jul 2020 00:14:22 -0700 (PDT)
 Received: from zen.lan (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id 3CCD21FFB3;
+ by zen.linaroharston (Postfix) with ESMTP id 58D621FFB4;
  Tue,  7 Jul 2020 08:09:01 +0100 (BST)
 From: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
 To: peter.maydell@linaro.org
-Subject: [PULL 27/41] tests/acceptance: skip LinuxInitrd 2gib with v4.16 on
- GitLab
-Date: Tue,  7 Jul 2020 08:08:44 +0100
-Message-Id: <20200707070858.6622-28-alex.bennee@linaro.org>
+Subject: [PULL 28/41] gitlab: add acceptance testing to system builds
+Date: Tue,  7 Jul 2020 08:08:45 +0100
+Message-Id: <20200707070858.6622-29-alex.bennee@linaro.org>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20200707070858.6622-1-alex.bennee@linaro.org>
 References: <20200707070858.6622-1-alex.bennee@linaro.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::436;
- envelope-from=alex.bennee@linaro.org; helo=mail-wr1-x436.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::335;
+ envelope-from=alex.bennee@linaro.org; helo=mail-wm1-x335.google.com
 X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
  That's all we know.
 X-Spam_score_int: -20
@@ -89,46 +88,195 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>,
- qemu-devel@nongnu.org, Wainer dos Santos Moschetta <wainersm@redhat.com>,
- =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>,
- Cleber Rosa <crosa@redhat.com>,
+Cc: Fam Zheng <fam@euphon.net>, Thomas Huth <thuth@redhat.com>,
+ =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>, qemu-devel@nongnu.org,
+ Wainer dos Santos Moschetta <wainersm@redhat.com>,
+ Pavel Dovgalyuk <pavel.dovgaluk@ispras.ru>, Cleber Rosa <crosa@redhat.com>,
+ Paolo Bonzini <pbonzini@redhat.com>,
  =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-This fails on GitLab but not when run locally on the same container
-image. It's very confusing.
+As part of migrating things from Travis to GitLab add the acceptance
+tests. To do this:
+
+  - rename system1 to system-ubuntu-main
+  - rename system2 to system-fedora-misc
+  - split into build/check/acceptance
+  - remove -j from check stages
+  - use artifacts to save build stage
+  - add post acceptance template and use
 
 Signed-off-by: Alex Bennée <alex.bennee@linaro.org>
-Acked-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
-Message-Id: <20200701135652.1366-30-alex.bennee@linaro.org>
+Reviewed-by: Philippe Mathieu-Daudé <philmd@redhat.com>
+Message-Id: <20200701135652.1366-31-alex.bennee@linaro.org>
 
-diff --git a/tests/acceptance/linux_initrd.py b/tests/acceptance/linux_initrd.py
-index a3e54d3fc915..a249e2f14a24 100644
---- a/tests/acceptance/linux_initrd.py
-+++ b/tests/acceptance/linux_initrd.py
-@@ -8,10 +8,12 @@
- # This work is licensed under the terms of the GNU GPL, version 2 or
- # later.  See the COPYING file in the top-level directory.
+diff --git a/.gitlab-ci.yml b/.gitlab-ci.yml
+index a7abc55a5c6a..93baf98232d7 100644
+--- a/.gitlab-ci.yml
++++ b/.gitlab-ci.yml
+@@ -1,8 +1,12 @@
++# Currently we have two build stages after our containers are built:
++#  - build (for traditional build and test or first stage build)
++#  - test (for test stages, using build artefacts from a build stage)
+ stages:
+   - containers
+   - containers-layer2
+   - containers-layer3
+   - build
++  - test
  
-+import os
- import logging
- import tempfile
+ include:
+   - local: '/.gitlab-ci.d/edk2.yml'
+@@ -24,26 +28,85 @@ include:
+         ../configure --enable-werror $CONFIGURE_ARGS ;
+       fi
+     - make -j"$JOBS"
+-    - make -j"$JOBS" $MAKE_CHECK_ARGS
++    - if test -n "$MAKE_CHECK_ARGS";
++      then
++        make $MAKE_CHECK_ARGS ;
++      fi
++
++.native_test_job_template: &native_test_job_definition
++  stage: test
++  image: $CI_REGISTRY_IMAGE/qemu/$IMAGE:latest
++  script:
++    - cd build
++    - find . -type f -exec touch {} +
++    - make $MAKE_CHECK_ARGS
++
++.post_acceptance_template: &post_acceptance
++  after_script:
++    - cd build
++    - python3 -c 'import json; r = json.load(open("tests/results/latest/results.json")); [print(t["logfile"]) for t in r["tests"] if t["status"] not in ("PASS", "SKIP")]' | xargs cat
++    - du -chs $HOME/avocado/data/cache
  
- from avocado_qemu import Test
-+from avocado import skipIf
+-build-system1:
++build-system-ubuntu-main:
+   <<: *native_build_job_definition
+   variables:
+     IMAGE: ubuntu2004
+     TARGETS: aarch64-softmmu alpha-softmmu cris-softmmu hppa-softmmu lm32-softmmu
+       moxie-softmmu microblazeel-softmmu mips64el-softmmu m68k-softmmu ppc-softmmu
+       riscv64-softmmu sparc-softmmu
++  artifacts:
++    paths:
++      - build
++
++check-system-ubuntu-main:
++  <<: *native_test_job_definition
++  needs:
++    - job: build-system-ubuntu-main
++      artifacts: true
++  variables:
++    IMAGE: ubuntu2004
+     MAKE_CHECK_ARGS: check
+ 
+-build-system2:
++acceptance-system-ubuntu-main:
++  <<: *native_test_job_definition
++  needs:
++    - job: build-system-ubuntu-main
++      artifacts: true
++  variables:
++    IMAGE: ubuntu2004
++    MAKE_CHECK_ARGS: check-acceptance
++  <<: *post_acceptance
++
++build-system-fedora-alt:
+   <<: *native_build_job_definition
+   variables:
+     IMAGE: fedora
+     TARGETS: tricore-softmmu unicore32-softmmu microblaze-softmmu mips-softmmu
+       riscv32-softmmu s390x-softmmu sh4-softmmu sparc64-softmmu x86_64-softmmu
+       xtensa-softmmu nios2-softmmu or1k-softmmu
++  artifacts:
++    paths:
++      - build
++
++check-system-fedora-alt:
++  <<: *native_test_job_definition
++  needs:
++    - job: build-system-fedora-alt
++      artifacts: true
++  variables:
++    IMAGE: fedora
+     MAKE_CHECK_ARGS: check
+ 
++acceptance-system-fedora-alt:
++  <<: *native_test_job_definition
++  needs:
++    - job: build-system-fedora-alt
++      artifacts: true
++  variables:
++    IMAGE: fedora
++    MAKE_CHECK_ARGS: check-acceptance
++  <<: *post_acceptance
++
+ build-disabled:
+   <<: *native_build_job_definition
+   variables:
+diff --git a/.travis.yml b/.travis.yml
+index 74158f741b18..c24dfbe377f3 100644
+--- a/.travis.yml
++++ b/.travis.yml
+@@ -289,29 +289,6 @@ jobs:
+       python: 3.6
  
  
- class LinuxInitrd(Test):
-@@ -51,6 +53,7 @@ class LinuxInitrd(Test):
-                 max_size + 1)
-             self.assertRegex(self.vm.get_log(), expected_msg)
+-    # Acceptance (Functional) tests
+-    - name: "GCC check-acceptance"
+-      dist: bionic
+-      env:
+-        - CONFIG="--enable-tools --target-list=aarch64-softmmu,alpha-softmmu,arm-softmmu,m68k-softmmu,microblaze-softmmu,mips-softmmu,mips64el-softmmu,nios2-softmmu,or1k-softmmu,ppc-softmmu,ppc64-softmmu,s390x-softmmu,sh4-softmmu,sparc-softmmu,x86_64-softmmu,xtensa-softmmu"
+-        - TEST_CMD="make check-acceptance"
+-        - CACHE_NAME="${TRAVIS_BRANCH}-linux-gcc-acceptance"
+-      after_script:
+-        - python3 -c 'import json; r = json.load(open("tests/results/latest/results.json")); [print(t["logfile"]) for t in r["tests"] if t["status"] not in ("PASS", "SKIP")]' | xargs cat
+-        - du -chs $HOME/avocado/data/cache
+-      addons:
+-        apt:
+-          packages:
+-            - python3-pil
+-            - python3-pip
+-            - python3-numpy
+-            - python3-opencv
+-            - python3-venv
+-            - rpm2cpio
+-            - tesseract-ocr
+-            - tesseract-ocr-eng
+-
+-
+     # Using newer GCC with sanitizers
+     - name: "GCC9 with sanitizers (softmmu)"
+       addons:
+diff --git a/tests/Makefile.include b/tests/Makefile.include
+index 3f4448a20bc7..c316e0d66475 100644
+--- a/tests/Makefile.include
++++ b/tests/Makefile.include
+@@ -944,7 +944,7 @@ check-acceptance: check-venv $(TESTS_RESULTS_DIR) get-vm-images
+             --show=$(AVOCADO_SHOW) run --job-results-dir=$(TESTS_RESULTS_DIR) \
+             --filter-by-tags-include-empty --filter-by-tags-include-empty-key \
+             $(AVOCADO_TAGS) \
+-            --failfast=on tests/acceptance, \
++            $(if $(GITLAB_CI),,--failfast=on) tests/acceptance, \
+             "AVOCADO", "tests/acceptance")
  
+ # Consolidated targets
+diff --git a/tests/acceptance/replay_kernel.py b/tests/acceptance/replay_kernel.py
+index 60621417ddf0..62d2db8c64be 100644
+--- a/tests/acceptance/replay_kernel.py
++++ b/tests/acceptance/replay_kernel.py
+@@ -73,7 +73,7 @@ class ReplayKernel(LinuxKernelTest):
+         logger = logging.getLogger('replay')
+         logger.info('replay overhead {:.2%}'.format(t2 / t1 - 1))
+ 
+-    @skipIf(os.getenv('CONTINUOUS_INTEGRATION'), 'Running on Travis-CI')
 +    @skipIf(os.getenv('GITLAB_CI'), 'Running on GitLab')
-     def test_with_2gib_file_should_work_with_linux_v4_16(self):
+     def test_x86_64_pc(self):
          """
-         QEMU has supported up to 4 GiB initrd for recent kernel
+         :avocado: tags=arch:x86_64
 -- 
 2.20.1
 
