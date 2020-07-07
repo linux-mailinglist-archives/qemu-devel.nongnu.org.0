@@ -2,61 +2,61 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id CFDAC217674
-	for <lists+qemu-devel@lfdr.de>; Tue,  7 Jul 2020 20:19:12 +0200 (CEST)
-Received: from localhost ([::1]:41672 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2899421767F
+	for <lists+qemu-devel@lfdr.de>; Tue,  7 Jul 2020 20:21:07 +0200 (CEST)
+Received: from localhost ([::1]:50294 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jssBT-0000fz-TS
-	for lists+qemu-devel@lfdr.de; Tue, 07 Jul 2020 14:19:11 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:35392)
+	id 1jssDK-00049v-65
+	for lists+qemu-devel@lfdr.de; Tue, 07 Jul 2020 14:21:06 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:35400)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1jss9g-0007HL-Sc
- for qemu-devel@nongnu.org; Tue, 07 Jul 2020 14:17:20 -0400
-Received: from mail-wr1-x42e.google.com ([2a00:1450:4864:20::42e]:40008)
+ id 1jss9h-0007IT-O4
+ for qemu-devel@nongnu.org; Tue, 07 Jul 2020 14:17:21 -0400
+Received: from mail-wm1-x32a.google.com ([2a00:1450:4864:20::32a]:37530)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1jss9e-0002rP-Nh
- for qemu-devel@nongnu.org; Tue, 07 Jul 2020 14:17:20 -0400
-Received: by mail-wr1-x42e.google.com with SMTP id f2so18254392wrp.7
- for <qemu-devel@nongnu.org>; Tue, 07 Jul 2020 11:17:18 -0700 (PDT)
+ id 1jss9f-0002ra-V6
+ for qemu-devel@nongnu.org; Tue, 07 Jul 2020 14:17:21 -0400
+Received: by mail-wm1-x32a.google.com with SMTP id o2so80421wmh.2
+ for <qemu-devel@nongnu.org>; Tue, 07 Jul 2020 11:17:19 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=sender:from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=HxXiYJ5rEmrQsi6qo/9ibwEuycOoYFRspX6MfnrTd1Q=;
- b=VGS0bYZsfW/uMnD5Cemo6obLjJY/yYmxDv1SqkPS6Gh8+2z0QitXp1r4Xo5zkPjtOq
- JKE5yhK2sTD8HQz/gPhfd9kbRMUY9E1k3PKiR9sFP0kuvX8tdmea0TM7a5RcxgNQOHDQ
- rSVuEKs5m9xnwKKARcEs17gQiqQfPCnRw8uHAjV2ueR+VXQWDdpDqKlaCXrmXDsAMsML
- J+m6NjZyGycKy9vZi7+amEQiJpcRDXqb228PKi89CrFqSkQFLw0hkr4TI49otwaxs7fm
- zw+1uMP9nze/8OoHvO+pF/3V4YkYbDxxHWLnnhGnMKaPtwCv/TRAUSaUSFkYt+45itb6
- XHzg==
+ bh=ichXtR2ApWBMbBOUtSJ92e100ic02T9JWOfwFxKCIKc=;
+ b=WReSKE5zlMJDLpHWtvT5zQYbOoODOdihNMsTtgceJjDEa1q/cUXNWq+BekRn6eDIU+
+ iWb3HZ7PRjF3s//UqyIHf6gHCKBPBo93/Lktpxq4lxD+02dGGTt5M3mZ63JQ0RMJNweD
+ dqk+Cmc0di3pkNRjMbtwqkocWs3/v92wG+d17hxXOv0SNDFNo6SUu6DDOCwWVuXov2Ln
+ o5V6/aVr5/yUg9150jKJ+b2U7NI2mEDeK2+Uoqj1CBetP6xAYgbTUnBxrw/QChFByHC6
+ RqJLfl3d0m2NGP0W/fdi/iawkSIEQM4LnSbdvzUZUR9C0cDwRS7wyWSJJIxGbfyGAF08
+ ERMg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
  :in-reply-to:references:mime-version:content-transfer-encoding;
- bh=HxXiYJ5rEmrQsi6qo/9ibwEuycOoYFRspX6MfnrTd1Q=;
- b=MWZd0+D6c4Y2J8PsX88C8ZxDB/4mGrMXZ4HAxIIOEhCVRyyDW6BdFBz8XV7yiEwe0v
- Lbq+4IRl716CE7AQW/bnfsGGfLYu/82Lb+YlyAzabhqXABPDbdbjbwgkIjjR5JoSEYpD
- K8kaPlsez9FWKbTqPcRpk27p/9ERF+sqrDeyzDvGnWxtUu2JbIbKE6CoRZWaQWjnuEJD
- VIdC/44kqo0R54NpIYqvxZTF4BXcYXogv6tal56St7lV8hLwQL5EMx19fLeNng2nIeBS
- 5Zjtgxjx5f73I3UIeb5rIoQprfotqmuYsa1B80vC/5xXVgVTOuzu8qTZlGmV9uwm/qAu
- v/qQ==
-X-Gm-Message-State: AOAM5319J9RtI5rOkm7irKyHVWIOKVghRZ12x9+w762n4ELEMq54Z/sF
- GuOEqb8t+FFc7MD60vMlv1HHn4go
-X-Google-Smtp-Source: ABdhPJzmsAcE0ZMAgI0gwNOegFCAxC+/bhFhohyzwrNkZvxIT42VxSTEvdVhvit8TueslTvmccI9lQ==
-X-Received: by 2002:adf:f504:: with SMTP id q4mr54066286wro.163.1594145836615; 
- Tue, 07 Jul 2020 11:17:16 -0700 (PDT)
+ bh=ichXtR2ApWBMbBOUtSJ92e100ic02T9JWOfwFxKCIKc=;
+ b=THilm+zVLsEan/LFseF2nraSqtMIFBe52IJm+9hd+Q2XzrvKsKhMVQmb8rIOZYthIA
+ iytwSHj9OiGmO0nEUBE9026E+1AyFSgyXYCRVZ8L5/Q0UBGbTl1EgYgOJ+mZGjnfJy1U
+ snh9JmC4UA/SPIjmASM4NY5waq7K/akxIbgs4nTrh6Mhq1+y2a/EitNPmdDhbOLB/Fnj
+ Jib43qNs3GvvdD/ImZZG4N/CBzDD1FuRHNjZmcMdheTF36FBf90E9ZBpFI0sbiqWPa4c
+ 7gunTBfXJUgwNF0oxK2cYa43GqJ/6Km0BrWUT46hyQLryQ/DkE020/1FvwW086VncmtA
+ osKA==
+X-Gm-Message-State: AOAM5310YZKsugGxbiI11k8p81y+Kdy1E5GlMg6POg+Ihr4D6nuKsoKF
+ WOaYO62qISq3w3bQH6BbjyQdjxRg
+X-Google-Smtp-Source: ABdhPJxGqur8Ask/nFbVxC573J3QQC4idL9tI1e/mimlYn/WxWL8IQQ76GGEtgsErlXi9x5KMk+ktA==
+X-Received: by 2002:a1c:a949:: with SMTP id s70mr5887278wme.137.1594145838321; 
+ Tue, 07 Jul 2020 11:17:18 -0700 (PDT)
 Received: from localhost.localdomain
  (138.red-83-57-170.dynamicip.rima-tde.net. [83.57.170.138])
- by smtp.gmail.com with ESMTPSA id 65sm2253337wma.48.2020.07.07.11.17.15
+ by smtp.gmail.com with ESMTPSA id 65sm2253337wma.48.2020.07.07.11.17.16
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 07 Jul 2020 11:17:15 -0700 (PDT)
+ Tue, 07 Jul 2020 11:17:17 -0700 (PDT)
 From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
 To: qemu-devel@nongnu.org
-Subject: [PULL 02/32] target/avr: Introduce basic CPU class object
-Date: Tue,  7 Jul 2020 20:16:40 +0200
-Message-Id: <20200707181710.30950-3-f4bug@amsat.org>
+Subject: [PULL 03/32] target/avr: CPU class: Add interrupt handling support
+Date: Tue,  7 Jul 2020 20:16:41 +0200
+Message-Id: <20200707181710.30950-4-f4bug@amsat.org>
 X-Mailer: git-send-email 2.21.3
 In-Reply-To: <20200707181710.30950-1-f4bug@amsat.org>
 References: <20200707181710.30950-1-f4bug@amsat.org>
@@ -64,8 +64,8 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::42e;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wr1-x42e.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::32a;
+ envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wm1-x32a.google.com
 X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
  That's all we know.
 X-Spam_score_int: 0
@@ -108,8 +108,8 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Michael Rolnik <mrolnik@gmail.com>
 
-This patch introduces AVR CPU class object and its basic elements
-and functions.
+This patch introduces functions avr_cpu_do_interrupt() and
+avr_cpu_exec_interrupt() that are part of AVR CPU class object.
 
 [AM: Split a larger AVR introduction patch into logical units]
 Suggested-by: Aleksandar Markovic <aleksandar.m.mail@gmail.com>
@@ -121,26 +121,36 @@ Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 Signed-off-by: Aleksandar Markovic <aleksandar.m.mail@gmail.com>
 Acked-by: Igor Mammedov <imammedo@redhat.com>
 Tested-by: Philippe Mathieu-Daudé <philmd@redhat.com>
-[thuth: Adjusted reset and parent_reset handling]
 Signed-off-by: Thomas Huth <huth@tuxfamily.org>
-Message-Id: <20200705140315.260514-3-huth@tuxfamily.org>
+Message-Id: <20200705140315.260514-4-huth@tuxfamily.org>
 Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
 ---
- target/avr/cpu-qom.h |  54 +++++++++++
- target/avr/cpu.h     | 139 +++++++++++++++++++++++++++++
- target/avr/cpu.c     | 207 +++++++++++++++++++++++++++++++++++++++++++
- 3 files changed, 400 insertions(+)
- create mode 100644 target/avr/cpu-qom.h
- create mode 100644 target/avr/cpu.c
+ target/avr/cpu.c    |  2 +
+ target/avr/helper.c | 89 +++++++++++++++++++++++++++++++++++++++++++++
+ 2 files changed, 91 insertions(+)
+ create mode 100644 target/avr/helper.c
 
-diff --git a/target/avr/cpu-qom.h b/target/avr/cpu-qom.h
+diff --git a/target/avr/cpu.c b/target/avr/cpu.c
+index 7895a5ecaa..864cb6b102 100644
+--- a/target/avr/cpu.c
++++ b/target/avr/cpu.c
+@@ -199,6 +199,8 @@ static void avr_cpu_class_init(ObjectClass *oc, void *data)
+     cc->class_by_name = avr_cpu_class_by_name;
+ 
+     cc->has_work = avr_cpu_has_work;
++    cc->do_interrupt = avr_cpu_do_interrupt;
++    cc->cpu_exec_interrupt = avr_cpu_exec_interrupt;
+     cc->dump_state = avr_cpu_dump_state;
+     cc->set_pc = avr_cpu_set_pc;
+     cc->disas_set_info = avr_cpu_disas_set_info;
+diff --git a/target/avr/helper.c b/target/avr/helper.c
 new file mode 100644
-index 0000000000..c3d0b7401c
+index 0000000000..7174e4858e
 --- /dev/null
-+++ b/target/avr/cpu-qom.h
-@@ -0,0 +1,54 @@
++++ b/target/avr/helper.c
+@@ -0,0 +1,89 @@
 +/*
-+ * QEMU AVR CPU
++ * QEMU AVR CPU helpers
 + *
 + * Copyright (c) 2016-2020 Michael Rolnik
 + *
@@ -159,409 +169,74 @@ index 0000000000..c3d0b7401c
 + * <http://www.gnu.org/licenses/lgpl-2.1.html>
 + */
 +
-+#ifndef QEMU_AVR_QOM_H
-+#define QEMU_AVR_QOM_H
-+
-+#include "hw/core/cpu.h"
-+
-+#define TYPE_AVR_CPU "avr-cpu"
-+
-+#define AVR_CPU_CLASS(klass) \
-+    OBJECT_CLASS_CHECK(AVRCPUClass, (klass), TYPE_AVR_CPU)
-+#define AVR_CPU(obj) \
-+    OBJECT_CHECK(AVRCPU, (obj), TYPE_AVR_CPU)
-+#define AVR_CPU_GET_CLASS(obj) \
-+    OBJECT_GET_CLASS(AVRCPUClass, (obj), TYPE_AVR_CPU)
-+
-+/**
-+ *  AVRCPUClass:
-+ *  @parent_realize: The parent class' realize handler.
-+ *  @parent_reset: The parent class' reset handler.
-+ *  @vr: Version Register value.
-+ *
-+ *  A AVR CPU model.
-+ */
-+typedef struct AVRCPUClass {
-+    /*< private >*/
-+    CPUClass parent_class;
-+    /*< public >*/
-+    DeviceRealize parent_realize;
-+    DeviceReset parent_reset;
-+} AVRCPUClass;
-+
-+typedef struct AVRCPU AVRCPU;
-+
-+
-+#endif /* !defined (QEMU_AVR_CPU_QOM_H) */
-diff --git a/target/avr/cpu.h b/target/avr/cpu.h
-index 45a87c5452..bac12dc684 100644
---- a/target/avr/cpu.h
-+++ b/target/avr/cpu.h
-@@ -21,8 +21,17 @@
- #ifndef QEMU_AVR_CPU_H
- #define QEMU_AVR_CPU_H
- 
-+#include "cpu-qom.h"
- #include "exec/cpu-defs.h"
- 
-+#ifdef CONFIG_USER_ONLY
-+#error "AVR 8-bit does not support user mode"
-+#endif
-+
-+#define AVR_CPU_TYPE_SUFFIX "-" TYPE_AVR_CPU
-+#define AVR_CPU_TYPE_NAME(name) (name AVR_CPU_TYPE_SUFFIX)
-+#define CPU_RESOLVING_TYPE TYPE_AVR_CPU
-+
- #define TCG_GUEST_DEFAULT_MO 0
- 
- /*
-@@ -63,4 +72,134 @@
-  */
- #define OFFSET_IO_REGISTERS (OFFSET_DATA + NUMBER_OF_CPU_REGISTERS)
- 
-+typedef struct CPUAVRState CPUAVRState;
-+
-+struct CPUAVRState {
-+    uint32_t pc_w; /* 0x003fffff up to 22 bits */
-+
-+    uint32_t sregC; /* 0x00000001 1 bit */
-+    uint32_t sregZ; /* 0x00000001 1 bit */
-+    uint32_t sregN; /* 0x00000001 1 bit */
-+    uint32_t sregV; /* 0x00000001 1 bit */
-+    uint32_t sregS; /* 0x00000001 1 bit */
-+    uint32_t sregH; /* 0x00000001 1 bit */
-+    uint32_t sregT; /* 0x00000001 1 bit */
-+    uint32_t sregI; /* 0x00000001 1 bit */
-+
-+    uint32_t rampD; /* 0x00ff0000 8 bits */
-+    uint32_t rampX; /* 0x00ff0000 8 bits */
-+    uint32_t rampY; /* 0x00ff0000 8 bits */
-+    uint32_t rampZ; /* 0x00ff0000 8 bits */
-+    uint32_t eind; /* 0x00ff0000 8 bits */
-+
-+    uint32_t r[NUMBER_OF_CPU_REGISTERS]; /* 8 bits each */
-+    uint32_t sp; /* 16 bits */
-+
-+    uint32_t skip; /* if set skip instruction */
-+
-+    uint64_t intsrc; /* interrupt sources */
-+    bool fullacc; /* CPU/MEM if true MEM only otherwise */
-+
-+    uint64_t features;
-+};
-+
-+/**
-+ *  AVRCPU:
-+ *  @env: #CPUAVRState
-+ *
-+ *  A AVR CPU.
-+ */
-+typedef struct AVRCPU {
-+    /*< private >*/
-+    CPUState parent_obj;
-+    /*< public >*/
-+
-+    CPUNegativeOffsetState neg;
-+    CPUAVRState env;
-+} AVRCPU;
-+
-+void avr_cpu_do_interrupt(CPUState *cpu);
-+bool avr_cpu_exec_interrupt(CPUState *cpu, int int_req);
-+hwaddr avr_cpu_get_phys_page_debug(CPUState *cpu, vaddr addr);
-+
-+#define cpu_list avr_cpu_list
-+#define cpu_signal_handler cpu_avr_signal_handler
-+#define cpu_mmu_index avr_cpu_mmu_index
-+
-+static inline int avr_cpu_mmu_index(CPUAVRState *env, bool ifetch)
-+{
-+    return ifetch ? MMU_CODE_IDX : MMU_DATA_IDX;
-+}
-+
-+void avr_cpu_tcg_init(void);
-+
-+void avr_cpu_list(void);
-+int cpu_avr_exec(CPUState *cpu);
-+int cpu_avr_signal_handler(int host_signum, void *pinfo, void *puc);
-+int avr_cpu_memory_rw_debug(CPUState *cs, vaddr address, uint8_t *buf,
-+                                int len, bool is_write);
-+
-+enum {
-+    TB_FLAGS_FULL_ACCESS = 1,
-+    TB_FLAGS_SKIP = 2,
-+};
-+
-+static inline void cpu_get_tb_cpu_state(CPUAVRState *env, target_ulong *pc,
-+                                target_ulong *cs_base, uint32_t *pflags)
-+{
-+    uint32_t flags = 0;
-+
-+    *pc = env->pc_w * 2;
-+    *cs_base = 0;
-+
-+    if (env->fullacc) {
-+        flags |= TB_FLAGS_FULL_ACCESS;
-+    }
-+    if (env->skip) {
-+        flags |= TB_FLAGS_SKIP;
-+    }
-+
-+    *pflags = flags;
-+}
-+
-+static inline int cpu_interrupts_enabled(CPUAVRState *env)
-+{
-+    return env->sregI != 0;
-+}
-+
-+static inline uint8_t cpu_get_sreg(CPUAVRState *env)
-+{
-+    uint8_t sreg;
-+    sreg = (env->sregC) << 0
-+         | (env->sregZ) << 1
-+         | (env->sregN) << 2
-+         | (env->sregV) << 3
-+         | (env->sregS) << 4
-+         | (env->sregH) << 5
-+         | (env->sregT) << 6
-+         | (env->sregI) << 7;
-+    return sreg;
-+}
-+
-+static inline void cpu_set_sreg(CPUAVRState *env, uint8_t sreg)
-+{
-+    env->sregC = (sreg >> 0) & 0x01;
-+    env->sregZ = (sreg >> 1) & 0x01;
-+    env->sregN = (sreg >> 2) & 0x01;
-+    env->sregV = (sreg >> 3) & 0x01;
-+    env->sregS = (sreg >> 4) & 0x01;
-+    env->sregH = (sreg >> 5) & 0x01;
-+    env->sregT = (sreg >> 6) & 0x01;
-+    env->sregI = (sreg >> 7) & 0x01;
-+}
-+
-+bool avr_cpu_tlb_fill(CPUState *cs, vaddr address, int size,
-+                        MMUAccessType access_type, int mmu_idx,
-+                        bool probe, uintptr_t retaddr);
-+
-+typedef CPUAVRState CPUArchState;
-+typedef AVRCPU ArchCPU;
-+
-+#include "exec/cpu-all.h"
-+
- #endif /* !defined (QEMU_AVR_CPU_H) */
-diff --git a/target/avr/cpu.c b/target/avr/cpu.c
-new file mode 100644
-index 0000000000..7895a5ecaa
---- /dev/null
-+++ b/target/avr/cpu.c
-@@ -0,0 +1,207 @@
-+/*
-+ * QEMU AVR CPU
-+ *
-+ * Copyright (c) 2019-2020 Michael Rolnik
-+ *
-+ * This library is free software; you can redistribute it and/or
-+ * modify it under the terms of the GNU Lesser General Public
-+ * License as published by the Free Software Foundation; either
-+ * version 2.1 of the License, or (at your option) any later version.
-+ *
-+ * This library is distributed in the hope that it will be useful,
-+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
-+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
-+ * Lesser General Public License for more details.
-+ *
-+ * You should have received a copy of the GNU Lesser General Public
-+ * License along with this library; if not, see
-+ * <http://www.gnu.org/licenses/lgpl-2.1.html>
-+ */
-+
 +#include "qemu/osdep.h"
-+#include "qapi/error.h"
-+#include "qemu/qemu-print.h"
-+#include "exec/exec-all.h"
 +#include "cpu.h"
-+#include "disas/dis-asm.h"
++#include "exec/exec-all.h"
++#include "exec/helper-proto.h"
 +
-+static void avr_cpu_set_pc(CPUState *cs, vaddr value)
++bool avr_cpu_exec_interrupt(CPUState *cs, int interrupt_request)
 +{
-+    AVRCPU *cpu = AVR_CPU(cs);
-+
-+    cpu->env.pc_w = value / 2; /* internally PC points to words */
-+}
-+
-+static bool avr_cpu_has_work(CPUState *cs)
-+{
++    bool ret = false;
++    CPUClass *cc = CPU_GET_CLASS(cs);
 +    AVRCPU *cpu = AVR_CPU(cs);
 +    CPUAVRState *env = &cpu->env;
 +
-+    return (cs->interrupt_request & (CPU_INTERRUPT_HARD | CPU_INTERRUPT_RESET))
-+            && cpu_interrupts_enabled(env);
-+}
++    if (interrupt_request & CPU_INTERRUPT_RESET) {
++        if (cpu_interrupts_enabled(env)) {
++            cs->exception_index = EXCP_RESET;
++            cc->do_interrupt(cs);
 +
-+static void avr_cpu_synchronize_from_tb(CPUState *cs, TranslationBlock *tb)
-+{
-+    AVRCPU *cpu = AVR_CPU(cs);
-+    CPUAVRState *env = &cpu->env;
++            cs->interrupt_request &= ~CPU_INTERRUPT_RESET;
 +
-+    env->pc_w = tb->pc / 2; /* internally PC points to words */
-+}
-+
-+static void avr_cpu_reset(DeviceState *ds)
-+{
-+    CPUState *cs = CPU(ds);
-+    AVRCPU *cpu = AVR_CPU(cs);
-+    AVRCPUClass *mcc = AVR_CPU_GET_CLASS(cpu);
-+    CPUAVRState *env = &cpu->env;
-+
-+    mcc->parent_reset(ds);
-+
-+    env->pc_w = 0;
-+    env->sregI = 1;
-+    env->sregC = 0;
-+    env->sregZ = 0;
-+    env->sregN = 0;
-+    env->sregV = 0;
-+    env->sregS = 0;
-+    env->sregH = 0;
-+    env->sregT = 0;
-+
-+    env->rampD = 0;
-+    env->rampX = 0;
-+    env->rampY = 0;
-+    env->rampZ = 0;
-+    env->eind = 0;
-+    env->sp = 0;
-+
-+    env->skip = 0;
-+
-+    memset(env->r, 0, sizeof(env->r));
-+
-+    tlb_flush(cs);
-+}
-+
-+static void avr_cpu_disas_set_info(CPUState *cpu, disassemble_info *info)
-+{
-+    info->mach = bfd_arch_avr;
-+    info->print_insn = NULL;
-+}
-+
-+static void avr_cpu_realizefn(DeviceState *dev, Error **errp)
-+{
-+    CPUState *cs = CPU(dev);
-+    AVRCPUClass *mcc = AVR_CPU_GET_CLASS(dev);
-+    Error *local_err = NULL;
-+
-+    cpu_exec_realizefn(cs, &local_err);
-+    if (local_err != NULL) {
-+        error_propagate(errp, local_err);
-+        return;
++            ret = true;
++        }
 +    }
-+    qemu_init_vcpu(cs);
-+    cpu_reset(cs);
++    if (interrupt_request & CPU_INTERRUPT_HARD) {
++        if (cpu_interrupts_enabled(env) && env->intsrc != 0) {
++            int index = ctz32(env->intsrc);
++            cs->exception_index = EXCP_INT(index);
++            cc->do_interrupt(cs);
 +
-+    mcc->parent_realize(dev, errp);
++            env->intsrc &= env->intsrc - 1; /* clear the interrupt */
++            cs->interrupt_request &= ~CPU_INTERRUPT_HARD;
++
++            ret = true;
++        }
++    }
++    return ret;
 +}
 +
-+static void avr_cpu_set_int(void *opaque, int irq, int level)
++void avr_cpu_do_interrupt(CPUState *cs)
 +{
-+    AVRCPU *cpu = opaque;
++    AVRCPU *cpu = AVR_CPU(cs);
 +    CPUAVRState *env = &cpu->env;
-+    CPUState *cs = CPU(cpu);
 +
-+    uint64_t mask = (1ull << irq);
-+    if (level) {
-+        env->intsrc |= mask;
-+        cpu_interrupt(cs, CPU_INTERRUPT_HARD);
++    uint32_t ret = env->pc_w;
++    int vector = 0;
++    int size = avr_feature(env, AVR_FEATURE_JMP_CALL) ? 2 : 1;
++    int base = 0;
++
++    if (cs->exception_index == EXCP_RESET) {
++        vector = 0;
++    } else if (env->intsrc != 0) {
++        vector = ctz32(env->intsrc) + 1;
++    }
++
++    if (avr_feature(env, AVR_FEATURE_3_BYTE_PC)) {
++        cpu_stb_data(env, env->sp--, (ret & 0x0000ff));
++        cpu_stb_data(env, env->sp--, (ret & 0x00ff00) >> 8);
++        cpu_stb_data(env, env->sp--, (ret & 0xff0000) >> 16);
++    } else if (avr_feature(env, AVR_FEATURE_2_BYTE_PC)) {
++        cpu_stb_data(env, env->sp--, (ret & 0x0000ff));
++        cpu_stb_data(env, env->sp--, (ret & 0x00ff00) >> 8);
 +    } else {
-+        env->intsrc &= ~mask;
-+        if (env->intsrc == 0) {
-+            cpu_reset_interrupt(cs, CPU_INTERRUPT_HARD);
-+        }
++        cpu_stb_data(env, env->sp--, (ret & 0x0000ff));
 +    }
-+}
 +
-+static void avr_cpu_initfn(Object *obj)
-+{
-+    AVRCPU *cpu = AVR_CPU(obj);
++    env->pc_w = base + vector * size;
++    env->sregI = 0; /* clear Global Interrupt Flag */
 +
-+    cpu_set_cpustate_pointers(cpu);
-+
-+    /* Set the number of interrupts supported by the CPU. */
-+    qdev_init_gpio_in(DEVICE(cpu), avr_cpu_set_int,
-+            sizeof(cpu->env.intsrc) * 8);
-+}
-+
-+static ObjectClass *avr_cpu_class_by_name(const char *cpu_model)
-+{
-+    ObjectClass *oc;
-+
-+    oc = object_class_by_name(cpu_model);
-+    if (object_class_dynamic_cast(oc, TYPE_AVR_CPU) == NULL ||
-+        object_class_is_abstract(oc)) {
-+        oc = NULL;
-+    }
-+    return oc;
-+}
-+
-+static void avr_cpu_dump_state(CPUState *cs, FILE *f, int flags)
-+{
-+    AVRCPU *cpu = AVR_CPU(cs);
-+    CPUAVRState *env = &cpu->env;
-+    int i;
-+
-+    qemu_fprintf(f, "\n");
-+    qemu_fprintf(f, "PC:    %06x\n", env->pc_w);
-+    qemu_fprintf(f, "SP:      %04x\n", env->sp);
-+    qemu_fprintf(f, "rampD:     %02x\n", env->rampD >> 16);
-+    qemu_fprintf(f, "rampX:     %02x\n", env->rampX >> 16);
-+    qemu_fprintf(f, "rampY:     %02x\n", env->rampY >> 16);
-+    qemu_fprintf(f, "rampZ:     %02x\n", env->rampZ >> 16);
-+    qemu_fprintf(f, "EIND:      %02x\n", env->eind >> 16);
-+    qemu_fprintf(f, "X:       %02x%02x\n", env->r[27], env->r[26]);
-+    qemu_fprintf(f, "Y:       %02x%02x\n", env->r[29], env->r[28]);
-+    qemu_fprintf(f, "Z:       %02x%02x\n", env->r[31], env->r[30]);
-+    qemu_fprintf(f, "SREG:    [ %c %c %c %c %c %c %c %c ]\n",
-+                 env->sregI ? 'I' : '-',
-+                 env->sregT ? 'T' : '-',
-+                 env->sregH ? 'H' : '-',
-+                 env->sregS ? 'S' : '-',
-+                 env->sregV ? 'V' : '-',
-+                 env->sregN ? '-' : 'N', /* Zf has negative logic */
-+                 env->sregZ ? 'Z' : '-',
-+                 env->sregC ? 'I' : '-');
-+    qemu_fprintf(f, "SKIP:    %02x\n", env->skip);
-+
-+    qemu_fprintf(f, "\n");
-+    for (i = 0; i < ARRAY_SIZE(env->r); i++) {
-+        qemu_fprintf(f, "R[%02d]:  %02x   ", i, env->r[i]);
-+
-+        if ((i % 8) == 7) {
-+            qemu_fprintf(f, "\n");
-+        }
-+    }
-+    qemu_fprintf(f, "\n");
-+}
-+
-+static void avr_cpu_class_init(ObjectClass *oc, void *data)
-+{
-+    DeviceClass *dc = DEVICE_CLASS(oc);
-+    CPUClass *cc = CPU_CLASS(oc);
-+    AVRCPUClass *mcc = AVR_CPU_CLASS(oc);
-+
-+    mcc->parent_realize = dc->realize;
-+    dc->realize = avr_cpu_realizefn;
-+
-+    device_class_set_parent_reset(dc, avr_cpu_reset, &mcc->parent_reset);
-+
-+    cc->class_by_name = avr_cpu_class_by_name;
-+
-+    cc->has_work = avr_cpu_has_work;
-+    cc->dump_state = avr_cpu_dump_state;
-+    cc->set_pc = avr_cpu_set_pc;
-+    cc->disas_set_info = avr_cpu_disas_set_info;
-+    cc->tcg_initialize = avr_cpu_tcg_init;
-+    cc->synchronize_from_tb = avr_cpu_synchronize_from_tb;
++    cs->exception_index = -1;
 +}
 -- 
 2.21.3
