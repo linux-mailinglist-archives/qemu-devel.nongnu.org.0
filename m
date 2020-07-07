@@ -2,66 +2,62 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4E291216E04
-	for <lists+qemu-devel@lfdr.de>; Tue,  7 Jul 2020 15:48:13 +0200 (CEST)
-Received: from localhost ([::1]:33716 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id AEFC4216DFE
+	for <lists+qemu-devel@lfdr.de>; Tue,  7 Jul 2020 15:45:25 +0200 (CEST)
+Received: from localhost ([::1]:53548 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jsnxE-0006mU-C8
-	for lists+qemu-devel@lfdr.de; Tue, 07 Jul 2020 09:48:12 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:50684)
+	id 1jsnuW-0002q1-Pk
+	for lists+qemu-devel@lfdr.de; Tue, 07 Jul 2020 09:45:24 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:50666)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1jsns1-0006o1-Mg
- for qemu-devel@nongnu.org; Tue, 07 Jul 2020 09:42:49 -0400
-Received: from us-smtp-1.mimecast.com ([205.139.110.61]:56335
+ (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1jsnrz-0006iz-0h
+ for qemu-devel@nongnu.org; Tue, 07 Jul 2020 09:42:47 -0400
+Received: from us-smtp-1.mimecast.com ([207.211.31.81]:41040
  helo=us-smtp-delivery-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1jsns0-0004aS-4i
- for qemu-devel@nongnu.org; Tue, 07 Jul 2020 09:42:49 -0400
+ (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1jsnrw-0004ZL-FQ
+ for qemu-devel@nongnu.org; Tue, 07 Jul 2020 09:42:46 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1594129367;
+ s=mimecast20190719; t=1594129363;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=akbrj/47Kpn8U6a7aapfWRvWli+/95HHAxOyWrdP4NA=;
- b=fUoEkY9uheZENZNGteYcs5AaDV3UFvYbupcxl/wI5z4nK2PeLih7rMatTmPv1JRYTjmV9w
- hH2dhJeZbp2Juk46Eo3Y5xFZnV1zkjqYV0Jbbp/FPfikUAd6e/ORNfC/n8M7ImyOdevO8b
- CNNNHaIOQznrsNRpyT2iqQVkMFdg3Jg=
+ to:to:cc:cc:content-type:content-type:in-reply-to:in-reply-to:
+ references:references; bh=H+315nxq6bNjq/QlcD/W08rdS4R94HYn4QVyOapKe54=;
+ b=GWNhCAA/swQjY18BADIvLjCTmTdl++2SQw0hPYbbEff650U5ybRjYfFfl9M6TWlUdlv8w3
+ lhD/UkFmNyhwXo06aTYscKoEnsV9Wx5MdYZc7WgCkjFqkooe8uUOWG2jFISbm0eEnPKeno
+ WS7E5sLwxspTnYWw7DZ3zFBAnZgPDOQ=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-332-QQFaxT82MSy0SrqJcimecA-1; Tue, 07 Jul 2020 09:42:38 -0400
-X-MC-Unique: QQFaxT82MSy0SrqJcimecA-1
-Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
- [10.5.11.11])
+ us-mta-387-mH5rpg8iOiWEU2RTHYCXjA-1; Tue, 07 Jul 2020 09:42:39 -0400
+X-MC-Unique: mH5rpg8iOiWEU2RTHYCXjA-1
+Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
+ [10.5.11.14])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id BD5A4800D5C
- for <qemu-devel@nongnu.org>; Tue,  7 Jul 2020 13:42:37 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id E5BB51883638
+ for <qemu-devel@nongnu.org>; Tue,  7 Jul 2020 13:42:38 +0000 (UTC)
 Received: from sirius.home.kraxel.org (ovpn-112-200.ams2.redhat.com
  [10.36.112.200])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 42D5271662;
- Tue,  7 Jul 2020 13:42:37 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 9BAE25D9C9;
+ Tue,  7 Jul 2020 13:42:38 +0000 (UTC)
 Received: by sirius.home.kraxel.org (Postfix, from userid 1000)
- id 0A9E631F5C; Tue,  7 Jul 2020 15:42:30 +0200 (CEST)
+ id 14A3331F5E; Tue,  7 Jul 2020 15:42:30 +0200 (CEST)
 From: Gerd Hoffmann <kraxel@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PULL 08/10] vga: build virtio-gpu only once
-Date: Tue,  7 Jul 2020 15:42:27 +0200
-Message-Id: <20200707134229.9773-9-kraxel@redhat.com>
+Subject: [PULL 09/10] vga: build virtio-gpu as module
+Date: Tue,  7 Jul 2020 15:42:28 +0200
+Message-Id: <20200707134229.9773-10-kraxel@redhat.com>
 In-Reply-To: <20200707134229.9773-1-kraxel@redhat.com>
 References: <20200707134229.9773-1-kraxel@redhat.com>
-MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=kraxel@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=205.139.110.61; envelope-from=kraxel@redhat.com;
+Content-Type: text/plain; charset=US-ASCII
+Received-SPF: pass client-ip=207.211.31.81; envelope-from=kraxel@redhat.com;
  helo=us-smtp-delivery-1.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/07/07 00:31:00
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/07/07 00:20:54
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
 X-Spam_score_int: -30
 X-Spam_score: -3.1
@@ -89,37 +85,66 @@ Cc: =?UTF-8?q?Marc-Andr=C3=A9=20Lureau?= <marcandre.lureau@redhat.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Signed-off-by: Gerd Hoffmann <kraxel@redhat.com>
-Reviewed-by: Philippe Mathieu-Daudé <philmd@redhat.com>
-Tested-by: Philippe Mathieu-Daudé <philmd@redhat.com>
-Message-id: 20200624131045.14512-9-kraxel@redhat.com
----
- hw/display/Makefile.objs | 12 ++++++------
- 1 file changed, 6 insertions(+), 6 deletions(-)
+Drops libvirglrenderer.so dependency from core qemu.
 
+Signed-off-by: Gerd Hoffmann <kraxel@redhat.com>
+Message-id: 20200624131045.14512-10-kraxel@redhat.com
+---
+ util/module.c            |  6 ++++++
+ hw/display/Makefile.objs | 23 +++++++++++++----------
+ 2 files changed, 19 insertions(+), 10 deletions(-)
+
+diff --git a/util/module.c b/util/module.c
+index 7c76d2a84b94..a74214eac052 100644
+--- a/util/module.c
++++ b/util/module.c
+@@ -266,6 +266,12 @@ static struct {
+     { "usb-redir",             "hw-", "usb-redirect"          },
+     { "qxl-vga",               "hw-", "display-qxl"           },
+     { "qxl",                   "hw-", "display-qxl"           },
++    { "virtio-gpu-device",     "hw-", "display-virtio-gpu"    },
++    { "virtio-gpu-pci",        "hw-", "display-virtio-gpu"    },
++    { "virtio-vga",            "hw-", "display-virtio-gpu"    },
++    { "vhost-user-gpu-device", "hw-", "display-virtio-gpu"    },
++    { "vhost-user-gpu-pci",    "hw-", "display-virtio-gpu"    },
++    { "vhost-user-vga",        "hw-", "display-virtio-gpu"    },
+ };
+ 
+ static bool module_loaded_qom_all;
 diff --git a/hw/display/Makefile.objs b/hw/display/Makefile.objs
-index 76b3571e4902..d619594ad4d3 100644
+index d619594ad4d3..e907f3182b0c 100644
 --- a/hw/display/Makefile.objs
 +++ b/hw/display/Makefile.objs
-@@ -49,12 +49,12 @@ common-obj-m += qxl.mo
+@@ -49,16 +49,19 @@ common-obj-m += qxl.mo
  qxl.mo-objs = qxl.o qxl-logger.o qxl-render.o
  endif
  
--obj-$(CONFIG_VIRTIO_GPU) += virtio-gpu-base.o virtio-gpu.o virtio-gpu-3d.o
--obj-$(CONFIG_VHOST_USER_GPU) += vhost-user-gpu.o
--obj-$(call land,$(CONFIG_VIRTIO_GPU),$(CONFIG_VIRTIO_PCI)) += virtio-gpu-pci.o
--obj-$(call land,$(CONFIG_VHOST_USER_GPU),$(CONFIG_VIRTIO_PCI)) += vhost-user-gpu-pci.o
--obj-$(CONFIG_VIRTIO_VGA) += virtio-vga.o
--obj-$(CONFIG_VHOST_USER_VGA) += vhost-user-vga.o
-+common-obj-$(CONFIG_VIRTIO_GPU) += virtio-gpu-base.o virtio-gpu.o virtio-gpu-3d.o
-+common-obj-$(CONFIG_VHOST_USER_GPU) += vhost-user-gpu.o
-+common-obj-$(call land,$(CONFIG_VIRTIO_GPU),$(CONFIG_VIRTIO_PCI)) += virtio-gpu-pci.o
-+common-obj-$(call land,$(CONFIG_VHOST_USER_GPU),$(CONFIG_VIRTIO_PCI)) += vhost-user-gpu-pci.o
-+common-obj-$(CONFIG_VIRTIO_VGA) += virtio-vga.o
-+common-obj-$(CONFIG_VHOST_USER_VGA) += vhost-user-vga.o
- virtio-gpu.o-cflags := $(VIRGL_CFLAGS)
- virtio-gpu.o-libs += $(VIRGL_LIBS)
- virtio-gpu-3d.o-cflags := $(VIRGL_CFLAGS)
+-common-obj-$(CONFIG_VIRTIO_GPU) += virtio-gpu-base.o virtio-gpu.o virtio-gpu-3d.o
+-common-obj-$(CONFIG_VHOST_USER_GPU) += vhost-user-gpu.o
+-common-obj-$(call land,$(CONFIG_VIRTIO_GPU),$(CONFIG_VIRTIO_PCI)) += virtio-gpu-pci.o
+-common-obj-$(call land,$(CONFIG_VHOST_USER_GPU),$(CONFIG_VIRTIO_PCI)) += vhost-user-gpu-pci.o
+-common-obj-$(CONFIG_VIRTIO_VGA) += virtio-vga.o
+-common-obj-$(CONFIG_VHOST_USER_VGA) += vhost-user-vga.o
+-virtio-gpu.o-cflags := $(VIRGL_CFLAGS)
+-virtio-gpu.o-libs += $(VIRGL_LIBS)
+-virtio-gpu-3d.o-cflags := $(VIRGL_CFLAGS)
+-virtio-gpu-3d.o-libs += $(VIRGL_LIBS)
++ifeq ($(CONFIG_VIRTIO_GPU),y)
++common-obj-m += virtio-gpu.mo
++virtio-gpu-obj-$(CONFIG_VIRTIO_GPU) += virtio-gpu-base.o virtio-gpu.o virtio-gpu-3d.o
++virtio-gpu-obj-$(CONFIG_VHOST_USER_GPU) += vhost-user-gpu.o
++virtio-gpu-obj-$(call land,$(CONFIG_VIRTIO_GPU),$(CONFIG_VIRTIO_PCI)) += virtio-gpu-pci.o
++virtio-gpu-obj-$(call land,$(CONFIG_VHOST_USER_GPU),$(CONFIG_VIRTIO_PCI)) += vhost-user-gpu-pci.o
++virtio-gpu-obj-$(CONFIG_VIRTIO_VGA) += virtio-vga.o
++virtio-gpu-obj-$(CONFIG_VHOST_USER_VGA) += vhost-user-vga.o
++virtio-gpu.mo-objs := $(virtio-gpu-obj-y)
++virtio-gpu.mo-cflags := $(VIRGL_CFLAGS)
++virtio-gpu.mo-libs := $(VIRGL_LIBS)
++endif
++
+ common-obj-$(CONFIG_DPCD) += dpcd.o
+ common-obj-$(CONFIG_XLNX_ZYNQMP_ARM) += xlnx_dp.o
+ 
 -- 
 2.18.4
 
