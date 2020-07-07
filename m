@@ -2,71 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 09C19216783
-	for <lists+qemu-devel@lfdr.de>; Tue,  7 Jul 2020 09:32:02 +0200 (CEST)
-Received: from localhost ([::1]:48182 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5D19A216781
+	for <lists+qemu-devel@lfdr.de>; Tue,  7 Jul 2020 09:31:44 +0200 (CEST)
+Received: from localhost ([::1]:46506 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jsi5B-0004z9-1a
-	for lists+qemu-devel@lfdr.de; Tue, 07 Jul 2020 03:32:01 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:45954)
+	id 1jsi4t-0004BR-C4
+	for lists+qemu-devel@lfdr.de; Tue, 07 Jul 2020 03:31:43 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:45966)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1jshxv-0001dz-KW
- for qemu-devel@nongnu.org; Tue, 07 Jul 2020 03:24:31 -0400
-Received: from mail-wr1-x42f.google.com ([2a00:1450:4864:20::42f]:43980)
+ id 1jshxw-0001gq-So
+ for qemu-devel@nongnu.org; Tue, 07 Jul 2020 03:24:32 -0400
+Received: from mail-wm1-x32e.google.com ([2a00:1450:4864:20::32e]:37243)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1jshxt-0006hF-Th
- for qemu-devel@nongnu.org; Tue, 07 Jul 2020 03:24:31 -0400
-Received: by mail-wr1-x42f.google.com with SMTP id j4so41598336wrp.10
- for <qemu-devel@nongnu.org>; Tue, 07 Jul 2020 00:24:29 -0700 (PDT)
+ id 1jshxv-0006hX-1K
+ for qemu-devel@nongnu.org; Tue, 07 Jul 2020 03:24:32 -0400
+Received: by mail-wm1-x32e.google.com with SMTP id o2so45353069wmh.2
+ for <qemu-devel@nongnu.org>; Tue, 07 Jul 2020 00:24:30 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=m1Cz8IQnUh6NpcECGMGmsDtXwGSngF0Lzci6sx+px08=;
- b=o7o5dpiVbw/Gbqhr50c4Q6ywWPBUR+7yUm8mlIGpn+2HDhUah51XdnA1F8YaNpAi0l
- vnJh19F1ms18ONVAE/CtRdz6yU02bFJF9amH5CHmW2RbvmOl0UmjPcCp0REaLQNWbcfH
- +09Rw6ozJ+n74A4/pwMVNpc1tEaIOFOI9VDhQSRb++vnKd3U7L0ev7lXoOgJbDrPQ5ql
- lr+mY1Nt6T4TP+m3hDBNXT9z79JeiFZ/tX74VUUvOGW9r3jjTIwxEc4DqY9UetFKIC5i
- MGwDdtjLwS+Ob9wt3XT9MNyuYmuuV6kNk5qjkcEWTKsNjCrh5yk62KESnJ3/oEULciFf
- sGxg==
+ bh=9byPofvUmGL/7sYy1T9aOuk75YT7bXG4EnLPH7NVVfk=;
+ b=XmVYKRqfcRhuzuspcfM/XBV0n8dIDh9HipAQyYLUW1AXX4ATrKaskTzLkU0nQISf6L
+ xHvqxtodYQDnnA7rU4EUXN4smvRkrBgOi6++goUgglCGg/KVovPX9WltL8pEeQxQhRFy
+ CffZWt4rd8mC5jofSAb+EnYHI0jA3wCDQIjVcyiPC9BN6NZ+5dH0Z+sNFJohXbhgP65u
+ DmoVGRQ7vILfLM/gKjgFRlBnblzAdvtHu9lvN1Qt3/o6uPi5FIksPB3nOkSud5jSbqhT
+ 09pR07LPh8lGKrkHPIiKvS93uXaXWhrwkdizNrgczJh4aTEolbQY+rV0mQE5mHrhfhlu
+ V11w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=m1Cz8IQnUh6NpcECGMGmsDtXwGSngF0Lzci6sx+px08=;
- b=WVAaKR/xCznw0H9DA77kxqOcy5jSXQHhIsWAkNwT+ILSWmFYX+vsygstrGHNpcV2lQ
- kS1F1q1e+rKxqNkD41ZLtmARZkx5A3sJLGk3708ZfH4I5Vaop39QUBz70MnpOVSpRyBP
- fbi8pCSqNssRokyq5qViTIiw23U0u0aC+irE3WkULJIttXtQ6DP2L+OhqW3w9bHF975I
- KxJuCHi01kuLaQ2YRnOFkdsisT4fVFKoznbThRneO5JMqy3HDMSYnRFCrmb7QvkfH6v8
- zlHfnGeW94fsWkoxfnZfeKzCeQ7tHTt32RqNphTNFegNC1NsQgkIKIA1teFiPFhHwf90
- 1nbQ==
-X-Gm-Message-State: AOAM532nHttFndodF8spab91GfW3/dIW5fj7x1ewc6sfJuSpDeHIkQx+
- qXw3rqBVIbREujH8KCCDyIYUcw==
-X-Google-Smtp-Source: ABdhPJysWXeMIZJAbgWh5yjMXwiUiKgtXJC2TlibNKCWkjGHU6yYieNXWnVIcZ1tCvBaNzaMh8uIQQ==
-X-Received: by 2002:adf:8524:: with SMTP id 33mr52091346wrh.366.1594106668552; 
- Tue, 07 Jul 2020 00:24:28 -0700 (PDT)
+ bh=9byPofvUmGL/7sYy1T9aOuk75YT7bXG4EnLPH7NVVfk=;
+ b=Ikzp3JnehjkfWNY52frI9vQlvahlawwWFbaBSTHu/7QWCsMV3mQcoHbuL+7ifLsxUv
+ PZ2xygSUaZUrbOCbZCU4KpSsmLxiTB6U1TPOxpHyJp3wZZmYs7MlRDMYmGl4nAYFODpp
+ lUFGbkFNxnaKNETr0ZIgJdAIOI82XoRfkQ6nH5FNhMEtJgzZ9mtCneka92LzeB1LC9HG
+ hc0eT041bbblTm0Toofu+EE0dPkSy9yrvammzrL2X2arUDs/ivMAKZ9afLvAkgnGUgjq
+ rBzFH2aLSCetYVb/mmzOAJsnmaqCpAcD0XYkyVo4DuR4olLr/x/hMNwAeKJitTQgWcgB
+ eKsA==
+X-Gm-Message-State: AOAM533N0Y1G1OSFXvMo80v7NUcTANs6nr6qDUF0XhbA1AN4Vjxz1bWB
+ j9TAf0/CmG4q+yHQJcaRVczefQ==
+X-Google-Smtp-Source: ABdhPJzoAOMhDvTlY6iKCJdeGotulybCr2cANQYvYm5kgOhbHJpXArRyfF6qV6FTcHcY6kE+Pfte3w==
+X-Received: by 2002:a1c:96ce:: with SMTP id y197mr2649506wmd.86.1594106669604; 
+ Tue, 07 Jul 2020 00:24:29 -0700 (PDT)
 Received: from zen.linaroharston ([51.148.130.216])
- by smtp.gmail.com with ESMTPSA id x185sm2385198wmg.41.2020.07.07.00.24.23
+ by smtp.gmail.com with ESMTPSA id q3sm2154570wmq.22.2020.07.07.00.24.23
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
  Tue, 07 Jul 2020 00:24:27 -0700 (PDT)
 Received: from zen.lan (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id 883CD1FFB7;
- Tue,  7 Jul 2020 08:09:01 +0100 (BST)
+ by zen.linaroharston (Postfix) with ESMTP id 2B77B1FFBE;
+ Tue,  7 Jul 2020 08:09:02 +0100 (BST)
 From: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
 To: peter.maydell@linaro.org
-Subject: [PULL 30/41] tests/docker: add a linux-user testing focused image
-Date: Tue,  7 Jul 2020 08:08:47 +0100
-Message-Id: <20200707070858.6622-31-alex.bennee@linaro.org>
+Subject: [PULL 37/41] testing: add check-build target
+Date: Tue,  7 Jul 2020 08:08:54 +0100
+Message-Id: <20200707070858.6622-38-alex.bennee@linaro.org>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20200707070858.6622-1-alex.bennee@linaro.org>
 References: <20200707070858.6622-1-alex.bennee@linaro.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::42f;
- envelope-from=alex.bennee@linaro.org; helo=mail-wr1-x42f.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::32e;
+ envelope-from=alex.bennee@linaro.org; helo=mail-wm1-x32e.google.com
 X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
  That's all we know.
 X-Spam_score_int: -20
@@ -88,111 +88,125 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Fam Zheng <fam@euphon.net>,
- =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
- =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>, qemu-devel@nongnu.org
+Cc: Thomas Huth <thuth@redhat.com>,
+ =?UTF-8?q?Daniel=20P=20=2E=20Berrang=C3=A9?= <berrange@redhat.com>,
+ =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>, qemu-devel@nongnu.org,
+ Wainer dos Santos Moschetta <wainersm@redhat.com>,
+ =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>,
+ =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-We happily use all the cross images for both cross-building QEMU as
-well as building the linux-user tests. However calling docker from
-within docker seems not to work. As we can build in Debian anyway why
-not include an image that has all the compilers available for
-non-docker invocation.
+If we want to continue to split build and check phase it seems like a
+good idea to allow building of the tests during our multi-threaded
+build phase.
 
 Signed-off-by: Alex Bennée <alex.bennee@linaro.org>
-Reviewed-by: Philippe Mathieu-Daudé <philmd@redhat.com>
-Message-Id: <20200701135652.1366-33-alex.bennee@linaro.org>
+Reviewed-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
+Cc: Daniel P. Berrangé <berrange@redhat.com>
+Message-Id: <20200701135652.1366-40-alex.bennee@linaro.org>
 
-diff --git a/.gitlab-ci.d/containers.yml b/.gitlab-ci.d/containers.yml
-index f353359fd8ba..a7621c4204c7 100644
---- a/.gitlab-ci.d/containers.yml
-+++ b/.gitlab-ci.d/containers.yml
-@@ -64,6 +64,13 @@ amd64-debian-cross-container:
-   variables:
-     NAME: debian-amd64-cross
+diff --git a/.gitlab-ci.yml b/.gitlab-ci.yml
+index 83e38ea19f3d..b0e5417146bf 100644
+--- a/.gitlab-ci.yml
++++ b/.gitlab-ci.yml
+@@ -36,7 +36,7 @@ include:
+     - make -j"$JOBS"
+     - if test -n "$MAKE_CHECK_ARGS";
+       then
+-        make $MAKE_CHECK_ARGS ;
++        make -j"$JOBS" $MAKE_CHECK_ARGS ;
+       fi
  
-+amd64-debian-user-cross-container:
-+  <<: *container_job_definition
-+  stage: containers-layer2
-+  needs: ['amd64-debian10-container']
-+  variables:
-+    NAME: debian-all-test-cross
-+
- amd64-debian-container:
-   <<: *container_job_definition
-   stage: containers-layer2
-diff --git a/tests/docker/Makefile.include b/tests/docker/Makefile.include
-index a26177abc258..a104e9df2817 100644
---- a/tests/docker/Makefile.include
-+++ b/tests/docker/Makefile.include
-@@ -134,6 +134,7 @@ docker-image-travis: NOUSER=1
+ .native_test_job_template: &native_test_job_definition
+@@ -60,6 +60,7 @@ build-system-ubuntu-main:
+     TARGETS: aarch64-softmmu alpha-softmmu cris-softmmu hppa-softmmu lm32-softmmu
+       moxie-softmmu microblazeel-softmmu mips64el-softmmu m68k-softmmu ppc-softmmu
+       riscv64-softmmu sparc-softmmu
++    MAKE_CHECK_ARGS: check-build
+   artifacts:
+     paths:
+       - build
+@@ -90,6 +91,7 @@ build-system-fedora-alt:
+     TARGETS: tricore-softmmu unicore32-softmmu microblaze-softmmu mips-softmmu
+       riscv32-softmmu s390x-softmmu sh4-softmmu sparc64-softmmu x86_64-softmmu
+       xtensa-softmmu nios2-softmmu or1k-softmmu
++    MAKE_CHECK_ARGS: check-build
+   artifacts:
+     paths:
+       - build
+@@ -124,6 +126,7 @@ build-system-fedora-disabled:
+       --disable-qom-cast-debug --disable-spice --disable-vhost-vsock
+       --disable-vhost-net --disable-vhost-crypto --disable-vhost-user
+     TARGETS: i386-softmmu ppc64-softmmu mips64-softmmu i386-linux-user
++    MAKE_CHECK_ARGS: check-build
+   artifacts:
+     paths:
+       - build
+diff --git a/tests/Makefile.include b/tests/Makefile.include
+index c316e0d66475..94b1cc8302ed 100644
+--- a/tests/Makefile.include
++++ b/tests/Makefile.include
+@@ -22,6 +22,8 @@ endif
+ 	@echo " $(MAKE) check-venv           Creates a Python venv for tests"
+ 	@echo " $(MAKE) check-clean          Clean the tests and related data"
+ 	@echo
++	@echo "The following are useful for CI builds"
++	@echo " $(MAKE) check-build          Build most test binaris"
+ 	@echo " $(MAKE) get-vm-images        Downloads all images used by acceptance tests, according to configured targets (~350 MB each, 1.5 GB max)"
+ 	@echo
+ 	@echo
+@@ -649,6 +651,10 @@ $(patsubst %, check-qtest-%, $(QTEST_TARGETS)): check-qtest-%: %-softmmu/all $(c
+ 	  QTEST_QEMU_BINARY=$*-softmmu/qemu-system-$* \
+ 	  QTEST_QEMU_IMG=qemu-img$(EXESUF))
  
- # Specialist build images, sometimes very limited tools
- docker-image-debian-tricore-cross: docker-image-debian9
-+docker-image-debian-all-test-cross: docker-image-debian10
- docker-image-debian-arm64-test-cross: docker-image-debian11
++build-qtest: $(patsubst %, %-softmmu/all, $(QTEST_TARGETS)) $(check-qtest-y)
++
++build-unit: $(check-unit-y)
++
+ check-unit: $(check-unit-y)
+ 	$(call do_test_human, $^)
  
- # These images may be good enough for building tests but not for test builds
-diff --git a/tests/docker/dockerfiles/debian-all-test-cross.docker b/tests/docker/dockerfiles/debian-all-test-cross.docker
-new file mode 100644
-index 000000000000..dedcea58b467
---- /dev/null
-+++ b/tests/docker/dockerfiles/debian-all-test-cross.docker
-@@ -0,0 +1,53 @@
-+#
-+# Docker all cross-compiler target (tests only)
-+#
-+# While the normal cross builds take care to setup proper multiarch
-+# build environments which can cross build QEMU this just installs the
-+# basic compilers for as many targets as possible. We shall use this
-+# to build and run linux-user tests on GitLab
-+#
-+FROM qemu/debian10
+@@ -680,7 +686,6 @@ check-report.tap: $(patsubst %,check-report-qtest-%.tap, $(QTEST_TARGETS)) check
+ FP_TEST_BIN=$(BUILD_DIR)/tests/fp/fp-test
+ 
+ # the build dir is created by configure
+-.PHONY: $(FP_TEST_BIN)
+ $(FP_TEST_BIN): config-host.h $(test-util-obj-y)
+ 	$(call quiet-command, \
+ 	 	$(MAKE) $(SUBDIR_MAKEFLAGS) -C $(dir $@) V="$(V)" $(notdir $@), \
+@@ -814,9 +819,10 @@ check-softfloat-ops: $(SF_MATH_RULES)
+ 
+ .PHONY: check-softfloat
+ ifeq ($(CONFIG_TCG),y)
+-check-softfloat: check-softfloat-conv check-softfloat-compare check-softfloat-ops
++build-softfloat: $(FP_TEST_BIN)
++check-softfloat: build-softfloat check-softfloat-conv check-softfloat-compare check-softfloat-ops
+ else
+-check-softfloat:
++build-softfloat check-softfloat:
+ 	$(call quiet-command, /bin/true, "FLOAT TEST", \
+ 		"SKIPPED for non-TCG builds")
+ endif
+@@ -955,7 +961,8 @@ check-qtest: $(patsubst %,check-qtest-%, $(QTEST_TARGETS))
+ ifeq ($(CONFIG_TOOLS),y)
+ check-block: $(patsubst %,check-%, $(check-block-y))
+ endif
+-check: check-block check-qapi-schema check-unit check-softfloat check-qtest check-decodetree
++check-build: build-unit build-softfloat build-qtest
 +
-+# What we need to build QEMU itself
-+RUN apt update && \
-+    DEBIAN_FRONTEND=noninteractive eatmydata \
-+    apt build-dep -yy qemu
+ check-clean:
+ 	rm -rf $(check-unit-y) tests/*.o tests/*/*.o $(QEMU_IOTESTS_HELPERS-y)
+ 	rm -rf $(sort $(foreach target,$(SYSEMU_TARGET_LIST), $(check-qtest-$(target)-y:%=tests/qtest/%$(EXESUF))) $(check-qtest-generic-y:%=tests/qtest/%$(EXESUF)))
+@@ -963,6 +970,8 @@ check-clean:
+ 	rm -f tests/qtest/dbus-vmstate1-gen-timestamp
+ 	rm -rf $(TESTS_VENV_DIR) $(TESTS_RESULTS_DIR)
+ 
++check: check-block check-qapi-schema check-unit check-softfloat check-qtest check-decodetree
 +
-+# Add the foreign architecture we want and install dependencies
-+RUN DEBIAN_FRONTEND=noninteractive eatmydata \
-+        apt install -y --no-install-recommends \
-+        gcc-aarch64-linux-gnu \
-+        libc6-dev-arm64-cross \
-+        gcc-alpha-linux-gnu \
-+        libc6.1-dev-alpha-cross \
-+        gcc-arm-linux-gnueabihf \
-+        libc6-dev-armhf-cross \
-+        gcc-hppa-linux-gnu \
-+        libc6-dev-hppa-cross \
-+        gcc-m68k-linux-gnu \
-+        libc6-dev-m68k-cross \
-+        gcc-mips-linux-gnu \
-+        libc6-dev-mips-cross \
-+        gcc-mips64-linux-gnuabi64 \
-+        libc6-dev-mips64-cross \
-+        gcc-mips64el-linux-gnuabi64 \
-+        libc6-dev-mips64el-cross \
-+        gcc-mipsel-linux-gnu \
-+        libc6-dev-mipsel-cross \
-+        gcc-powerpc-linux-gnu \
-+        libc6-dev-powerpc-cross \
-+        gcc-powerpc64-linux-gnu \
-+        libc6-dev-ppc64-cross \
-+        gcc-powerpc64le-linux-gnu \
-+        libc6-dev-ppc64el-cross \
-+        gcc-riscv64-linux-gnu \
-+        libc6-dev-riscv64-cross \
-+        gcc-s390x-linux-gnu \
-+        libc6-dev-s390x-cross \
-+        gcc-sh4-linux-gnu \
-+        libc6-dev-sh4-cross \
-+        gcc-sparc64-linux-gnu \
-+        libc6-dev-sparc64-cross
-+
-+ENV QEMU_CONFIGURE_OPTS --disable-system --disable-docs --disable-tools
-+ENV DEF_TARGET_LIST aarch64-linux-user,alpha-linux-user,arm-linux-user,hppa-linux-user,i386-linux-user,m68k-linux-user,mips-linux-user,mips64-linux-user,mips64el-linux-user,mipsel-linux-user,ppc-linux-user,ppc64-linux-user,ppc64le-linux-user,riscv64-linux-user,s390x-linux-user,sh4-linux-user,sparc64-linux-user
+ clean: check-clean
+ 
+ # Build the help program automatically
 -- 
 2.20.1
 
