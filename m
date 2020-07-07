@@ -2,96 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 39721216D2D
-	for <lists+qemu-devel@lfdr.de>; Tue,  7 Jul 2020 14:53:07 +0200 (CEST)
-Received: from localhost ([::1]:50228 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id EB585216D37
+	for <lists+qemu-devel@lfdr.de>; Tue,  7 Jul 2020 14:56:16 +0200 (CEST)
+Received: from localhost ([::1]:55586 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jsn5u-0006mT-0K
-	for lists+qemu-devel@lfdr.de; Tue, 07 Jul 2020 08:53:06 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:37678)
+	id 1jsn8x-0000lQ-Mr
+	for lists+qemu-devel@lfdr.de; Tue, 07 Jul 2020 08:56:15 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:37956)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <stefanb@linux.ibm.com>)
- id 1jsn5B-0006Hn-IN; Tue, 07 Jul 2020 08:52:21 -0400
-Received: from mx0a-001b2d01.pphosted.com ([148.163.156.1]:23116)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <stefanb@linux.ibm.com>)
- id 1jsn59-0004XT-Nl; Tue, 07 Jul 2020 08:52:21 -0400
-Received: from pps.filterd (m0098410.ppops.net [127.0.0.1])
- by mx0a-001b2d01.pphosted.com (8.16.0.42/8.16.0.42) with SMTP id
- 067CVv2N067179; Tue, 7 Jul 2020 08:52:11 -0400
-Received: from pps.reinject (localhost [127.0.0.1])
- by mx0a-001b2d01.pphosted.com with ESMTP id 324pxscmxb-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Tue, 07 Jul 2020 08:52:11 -0400
-Received: from m0098410.ppops.net (m0098410.ppops.net [127.0.0.1])
- by pps.reinject (8.16.0.36/8.16.0.36) with SMTP id 067CX6fv070515;
- Tue, 7 Jul 2020 08:52:11 -0400
-Received: from ppma02dal.us.ibm.com (a.bd.3ea9.ip4.static.sl-reverse.com
- [169.62.189.10])
- by mx0a-001b2d01.pphosted.com with ESMTP id 324pxscmww-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Tue, 07 Jul 2020 08:52:11 -0400
-Received: from pps.filterd (ppma02dal.us.ibm.com [127.0.0.1])
- by ppma02dal.us.ibm.com (8.16.0.42/8.16.0.42) with SMTP id 067CpGT4015209;
- Tue, 7 Jul 2020 12:52:10 GMT
-Received: from b01cxnp23033.gho.pok.ibm.com (b01cxnp23033.gho.pok.ibm.com
- [9.57.198.28]) by ppma02dal.us.ibm.com with ESMTP id 322hd95ntp-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Tue, 07 Jul 2020 12:52:10 +0000
-Received: from b01ledav006.gho.pok.ibm.com (b01ledav006.gho.pok.ibm.com
- [9.57.199.111])
- by b01cxnp23033.gho.pok.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
- 067Cq9Qb51315082
- (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Tue, 7 Jul 2020 12:52:09 GMT
-Received: from b01ledav006.gho.pok.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id 558BBAC05F;
- Tue,  7 Jul 2020 12:52:09 +0000 (GMT)
-Received: from b01ledav006.gho.pok.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id 13736AC05B;
- Tue,  7 Jul 2020 12:52:09 +0000 (GMT)
-Received: from sbct-3.pok.ibm.com (unknown [9.47.158.153])
- by b01ledav006.gho.pok.ibm.com (Postfix) with ESMTP;
- Tue,  7 Jul 2020 12:52:08 +0000 (GMT)
-Subject: Re: [PATCH v2 1/2] tpm: tpm_spapr: Exit on TPM backend failures
-To: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>,
- Stefan Berger <stefanb@linux.vnet.ibm.com>, qemu-ppc@nongnu.org,
- marcandre.lureau@redhat.com
-References: <20200707040522.4013885-1-stefanb@linux.vnet.ibm.com>
- <20200707040522.4013885-2-stefanb@linux.vnet.ibm.com>
- <aa63c5f3-308e-59e1-11ff-0e0d923658e8@redhat.com>
-From: Stefan Berger <stefanb@linux.ibm.com>
-Message-ID: <b974cd46-3902-3124-302d-ffa2a1120905@linux.ibm.com>
-Date: Tue, 7 Jul 2020 08:52:08 -0400
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.4.1
+ (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1jsn75-0007Lv-Rx
+ for qemu-devel@nongnu.org; Tue, 07 Jul 2020 08:54:19 -0400
+Received: from us-smtp-2.mimecast.com ([207.211.31.81]:34857
+ helo=us-smtp-delivery-1.mimecast.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1jsn73-0004kv-UH
+ for qemu-devel@nongnu.org; Tue, 07 Jul 2020 08:54:19 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1594126456;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding;
+ bh=JFluer+FvrzsO+OEQnKADwzqH0wHgGQmGx1I6EcYVVo=;
+ b=QkEYGN3HIuviEN0/GJvoxShJEs2RkyeaEbRiZ8EJ/ltr5GP+4g6+yJASElyIb8yiQibOwh
+ 81wSkERkADKTxoRyZBlPnvuxQoWdRQd+DspXhonm6AhR71gP9uyfUQqvBcj9j13Hs1cCBK
+ /kHWMJunefatt1ghtXw+gyRy0yIC/QE=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-361-GxLCN96UMv-R9jlqUIpvtw-1; Tue, 07 Jul 2020 08:54:12 -0400
+X-MC-Unique: GxLCN96UMv-R9jlqUIpvtw-1
+Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
+ [10.5.11.11])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id AFD9318FE870;
+ Tue,  7 Jul 2020 12:54:10 +0000 (UTC)
+Received: from sirius.home.kraxel.org (ovpn-112-200.ams2.redhat.com
+ [10.36.112.200])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id C2D277846C;
+ Tue,  7 Jul 2020 12:53:57 +0000 (UTC)
+Received: by sirius.home.kraxel.org (Postfix, from userid 1000)
+ id E138431E61; Tue,  7 Jul 2020 14:53:56 +0200 (CEST)
+From: Gerd Hoffmann <kraxel@redhat.com>
+To: qemu-devel@nongnu.org
+Subject: [PATCH v5 00/20] microvm: add acpi support
+Date: Tue,  7 Jul 2020 14:53:36 +0200
+Message-Id: <20200707125356.32450-1-kraxel@redhat.com>
 MIME-Version: 1.0
-In-Reply-To: <aa63c5f3-308e-59e1-11ff-0e0d923658e8@redhat.com>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Transfer-Encoding: 8bit
-Content-Language: en-US
-X-TM-AS-GCONF: 00
-X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:6.0.235, 18.0.687
- definitions=2020-07-07_07:2020-07-07,
- 2020-07-07 signatures=0
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- mlxscore=0 bulkscore=0
- phishscore=0 malwarescore=0 lowpriorityscore=0 clxscore=1011
- impostorscore=0 cotscore=-2147483648 suspectscore=0 adultscore=0
- mlxlogscore=999 spamscore=0 priorityscore=1501 classifier=spam adjust=0
- reason=mlx scancount=1 engine=8.12.0-2004280000
- definitions=main-2007070092
-Received-SPF: pass client-ip=148.163.156.1; envelope-from=stefanb@linux.ibm.com;
- helo=mx0a-001b2d01.pphosted.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/07/07 08:52:16
-X-ACL-Warn: Detected OS   = Linux 3.x [generic] [fuzzy]
-X-Spam_score_int: -35
-X-Spam_score: -3.6
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=kraxel@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=207.211.31.81; envelope-from=kraxel@redhat.com;
+ helo=us-smtp-delivery-1.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/07/07 00:20:54
+X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
+X-Spam_score_int: -30
+X-Spam_score: -3.1
 X-Spam_bar: ---
-X-Spam_report: (-3.6 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_LOW=-0.7,
- RCVD_IN_MSPIKE_H2=-1, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=_AUTOLEARN
+X-Spam_report: (-3.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H3=-0.01, RCVD_IN_MSPIKE_WL=-0.01,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001, URIBL_BLOCKED=0.001 autolearn=_AUTOLEARN
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -104,58 +79,125 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-devel@nongnu.org, david@gibson.dropbear.id.au
+Cc: Laurent Vivier <lvivier@redhat.com>,
+ Peter Maydell <peter.maydell@linaro.org>, Thomas Huth <thuth@redhat.com>,
+ Eduardo Habkost <ehabkost@redhat.com>, Sergio Lopez <slp@redhat.com>,
+ "Michael S. Tsirkin" <mst@redhat.com>, Shannon Zhao <shannon.zhaosl@gmail.com>,
+ qemu-arm@nongnu.org, Gerd Hoffmann <kraxel@redhat.com>,
+ Igor Mammedov <imammedo@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>,
+ Richard Henderson <rth@twiddle.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 7/7/20 12:20 AM, Philippe Mathieu-Daudé wrote:
-> Hi Stefan,
->
-> On 7/7/20 6:05 AM, Stefan Berger wrote:
->> Exit on TPM backend failures in the same way as the TPM CRB and TIS device
->> models do.
-> Maybe the other models are not the best examples ;)
+I know that not supporting ACPI in microvm is intentional.  If you still
+don't want ACPI this is perfectly fine, you can use the usual -no-acpi
+switch to toggle ACPI support.
 
-At least they are known to report the error...
+These are the advantages you are going to loose then:
 
+  (1) virtio-mmio device discovery without command line hacks (tweaking
+      the command line is a problem when not using direct kernel boot).
+  (2) Better IO-APIC support, we can use IRQ lines 16-23.
+  (3) ACPI power button (aka powerdown request) works.
+  (4) machine poweroff (aka S5 state) works.
 
->
->> Signed-off-by: Stefan Berger <stefanb@linux.ibm.com>
->> ---
->>   hw/tpm/tpm_spapr.c | 5 ++++-
->>   1 file changed, 4 insertions(+), 1 deletion(-)
->>
->> diff --git a/hw/tpm/tpm_spapr.c b/hw/tpm/tpm_spapr.c
->> index cb4dfd1e6a..8288ab0a15 100644
->> --- a/hw/tpm/tpm_spapr.c
->> +++ b/hw/tpm/tpm_spapr.c
->> @@ -306,7 +306,10 @@ static void tpm_spapr_reset(SpaprVioDevice *dev)
->>                               TPM_SPAPR_BUFFER_MAX);
->>   
->>       tpm_backend_reset(s->be_driver);
->> -    tpm_spapr_do_startup_tpm(s, s->be_buffer_size);
->> +
->> +    if (tpm_spapr_do_startup_tpm(s, s->be_buffer_size) < 0) {
-> I don't see error reported, how users can know the cause of the exit?
+Together with seabios patches for virtio-mmio support this allows to
+boot standard fedora images (cloud, coreos, workstation live) with the
+microvm machine type.
 
+git branch for testing (including updated seabios):
+	https://git.kraxel.org/cgit/qemu/log/?h=sirius/microvm
 
-virt-manager does report the error then. It seems to be taking it from 
-the last error message reported in the emulator backend when TPM_INIT 
-fails with error code 0x101:
+changes in v2:
+  * some acpi cleanups are an separate patch series now.
+  * switched to hw reduced acpi & generic event device.
+  * misc fixes here and there.
 
-error: internal error: qemu unexpectedly closed the monitor: 
-2020-07-07T12:49:28.333928Z qemu-system-ppc64: tpm-emulator: TPM result 
-for CMD_INIT: 0x101 operation failed
+changes in v3:
+  * depeds on "[PATCH v6 00/16] acpi: i386 tweaks" series.
+  * renamed qboot to qboot.bin
+  * updated seabios to master branch snapshot.
+    - this version boots fine with rtc=off
+  * generic event device tweaks (Igor's comments).
+  * make SMP work.
+  * add RfC patches to turn off acpi by default for microvm.
+  * misc fixes here and there.
 
+changes in v4:
+  * rebase to latest master
+    - this also depends on the pending seabios update
+  * drop some patches which got cherry-picked.
+  * wire up cpu hotplug (also does coldplug cpu init).
+  * add microvm acpi test case.
+  * dropped RfC patches to turn off acpi by default for microvm.
+  * misc fixes here and there.
 
->
->> +        exit(1);
-> What about using this instead?
->
->             qemu_system_shutdown_request(SHUTDOWN_CAUSE_HOST_ERROR);
+changes in v5:
+  * rebase to latest master (seabios dependency is merged meanwhile)
+  * fix DSDT version (mst).
+  * add comments referencing the ACPI spec for easier review (mst).
 
-It doesn't have any effect, the VM just keeps on running. So the exit(1) 
-is better and does report an error.
+take care,
+  Gerd
 
+Gerd Hoffmann (20):
+  microvm: name qboot binary qboot.rom
+  seabios: add microvm config, update build rules
+  seabios: add bios-microvm.bin binary
+  acpi: ged: add control regs
+  acpi: ged: add x86 device variant.
+  acpi: move acpi_dsdt_add_power_button() to ged
+  microvm: make virtio irq base runtime configurable
+  microvm/acpi: add minimal acpi support
+  microvm/acpi: add acpi_dsdt_add_virtio() for x86
+  microvm/acpi: use GSI 16-23 for virtio
+  microvm/acpi: use seabios with acpi=on
+  microvm/acpi: disable virtio-mmio cmdline hack
+  x86: constify x86_machine_is_*_enabled
+  x86: move acpi_dev from pc/microvm
+  x86: move cpu plug from pc to x86
+  microvm: wire up hotplug
+  tests/acpi: allow microvm test data updates.
+  tests/acpi: allow override blkdev
+  tests/acpi: add microvm test
+  tests/acpi: update expected data files for microvm
+
+ hw/i386/acpi-microvm.h                 |   8 +
+ include/hw/acpi/generic_event_device.h |  12 ++
+ include/hw/i386/microvm.h              |  10 +-
+ include/hw/i386/pc.h                   |   1 -
+ include/hw/i386/x86.h                  |  11 +-
+ hw/acpi/generic_event_device.c         |  52 +++++
+ hw/arm/virt-acpi-build.c               |   8 -
+ hw/i386/acpi-build.c                   |   2 +-
+ hw/i386/acpi-microvm.c                 | 248 +++++++++++++++++++++++
+ hw/i386/generic_event_device_x86.c     |  36 ++++
+ hw/i386/microvm.c                      | 105 +++++++++-
+ hw/i386/pc.c                           | 260 ++-----------------------
+ hw/i386/pc_piix.c                      |   2 +-
+ hw/i386/pc_q35.c                       |   2 +-
+ hw/i386/x86.c                          | 226 ++++++++++++++++++++-
+ tests/qtest/bios-tables-test.c         |  21 +-
+ hw/i386/Kconfig                        |   1 +
+ hw/i386/Makefile.objs                  |   2 +
+ pc-bios/bios-microvm.bin               | Bin 65536 -> 131072 bytes
+ pc-bios/qboot.rom                      | Bin 0 -> 65536 bytes
+ roms/Makefile                          |  11 +-
+ roms/config.seabios-microvm            |  26 +++
+ tests/data/acpi/microvm/APIC           | Bin 0 -> 70 bytes
+ tests/data/acpi/microvm/DSDT           | Bin 0 -> 365 bytes
+ tests/data/acpi/microvm/FACP           | Bin 0 -> 268 bytes
+ 25 files changed, 775 insertions(+), 269 deletions(-)
+ create mode 100644 hw/i386/acpi-microvm.h
+ create mode 100644 hw/i386/acpi-microvm.c
+ create mode 100644 hw/i386/generic_event_device_x86.c
+ create mode 100644 pc-bios/qboot.rom
+ create mode 100644 roms/config.seabios-microvm
+ create mode 100644 tests/data/acpi/microvm/APIC
+ create mode 100644 tests/data/acpi/microvm/DSDT
+ create mode 100644 tests/data/acpi/microvm/FACP
+
+-- 
+2.18.4
 
 
