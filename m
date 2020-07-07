@@ -2,79 +2,78 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2AD422166FC
-	for <lists+qemu-devel@lfdr.de>; Tue,  7 Jul 2020 09:03:45 +0200 (CEST)
-Received: from localhost ([::1]:60796 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 32FA421670C
+	for <lists+qemu-devel@lfdr.de>; Tue,  7 Jul 2020 09:10:29 +0200 (CEST)
+Received: from localhost ([::1]:38808 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jshdo-0001Iy-7u
-	for lists+qemu-devel@lfdr.de; Tue, 07 Jul 2020 03:03:44 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:40912)
+	id 1jshkK-00065R-79
+	for lists+qemu-devel@lfdr.de; Tue, 07 Jul 2020 03:10:28 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:42438)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1jshai-00066i-NX
- for qemu-devel@nongnu.org; Tue, 07 Jul 2020 03:00:32 -0400
-Received: from mail-wr1-x442.google.com ([2a00:1450:4864:20::442]:42553)
+ (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
+ id 1jshj0-0004KK-8N
+ for qemu-devel@nongnu.org; Tue, 07 Jul 2020 03:09:06 -0400
+Received: from mail-wr1-x436.google.com ([2a00:1450:4864:20::436]:34558)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1jshah-0002ef-2L
- for qemu-devel@nongnu.org; Tue, 07 Jul 2020 03:00:32 -0400
-Received: by mail-wr1-x442.google.com with SMTP id o11so43978385wrv.9
- for <qemu-devel@nongnu.org>; Tue, 07 Jul 2020 00:00:30 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=sender:from:to:cc:subject:date:message-id:in-reply-to:references
- :mime-version:content-transfer-encoding;
- bh=45gqo128NQDtIYcxM1tYqwMqbUrJDll0ND7eZVJPFlA=;
- b=s/vESHtA/E+Lp4gI5IxOHzz4B17ntJwloQS/a1hgz7Wd7XmBusi463fP90FtEo2rFE
- lxVZrweP/+zQ67D3gSsgWEzD+adacl5CiGTBGZZCsYVrg0JZttxJN9ebcxROueOVKXE9
- wPLuAar4jc3R0qXyFhu+S115nyB5KbcgtvSgkfvXN3We3E1Owv0WCyIh4HT+haVoQYbL
- R5ZQToheGyXq3vRxafXSJFhCfUDcGGBwFCWW6kU4YcyjhjZs6wv1R82dJzTsQx4/PMhd
- Nbx9KBzLl70DHLKFMff0uwLMHlrzkJQH9C4JMWRm34dk5XanmNPlmCs/ifA92QwlwLRX
- WQhA==
+ (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
+ id 1jshiy-000437-3P
+ for qemu-devel@nongnu.org; Tue, 07 Jul 2020 03:09:05 -0400
+Received: by mail-wr1-x436.google.com with SMTP id f7so40959352wrw.1
+ for <qemu-devel@nongnu.org>; Tue, 07 Jul 2020 00:09:03 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=4oVoHDVvHj+LMEZpZo3Fd9S0fHCCOIodaZdFR3DmLW8=;
+ b=BdAC4oJEtexYbeyteb9iaVJmZOVSsDCofnsvAYKyqyLs8f4dHdn+FHMtJecdt9BBZf
+ HhDLGMWiib0Iyb6D3+ZBEK4GOTpenGc6ImqBFekIHZCZ2e4nG3fdHSU24c988jHFqyyN
+ CmQBzS48z+YHRzoIbyVf1OubeeHTqpleatGOZx21vs6VynjO4Ub6YkeYnS/Ln117kjZ8
+ qvoz9lTVJTlZJQaAwp9EzRKkojAKnt9vWdEXpVJhLknR3jAZN/c3QEid11Dpl/jc9Ibh
+ t6L2S+i7XwIniLNq0ux3RPPUvL2aMypHpBUvbw09MtmZDjQLqwXZCU8nznTGMDJkjDMo
+ X22Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
- :in-reply-to:references:mime-version:content-transfer-encoding;
- bh=45gqo128NQDtIYcxM1tYqwMqbUrJDll0ND7eZVJPFlA=;
- b=j46fgk0kMNkVyvKeNkFHLcSUFnKMEjuNVcWyA54mxV2fDlWL7XQIFdpu6orebDyJyO
- OsTEnR/tjlrJnWMZz7M5BZ2Cm/zmkQFlGyYXZf+33UugsBhZABPqQKce8fab2Ed2FOtz
- jdyJEsOj3zKTBvvjPyIytJx9clB88W7G9vgp6MVrOLMKfuDOV11HcOMReGilV6HAIbPl
- ezwYHRWyncFq4hzlVm6JxcqmUNDQ7dOFZWMiHcZ4sHjX6B11SBcRwMrSMbJVpTL39OTo
- cTGve9jyD90aUpMfCMAIdqG4KcyC5mFO3+kgEtAv4ZLSozI6h2ojIQnQPwr8rswLrY5P
- 7rbA==
-X-Gm-Message-State: AOAM532l7ht3hjq0qpyUzwI1XQRXamfRL5Kwv8LY2cIrRWjApzfgYhFh
- 8AL7CxEwF+eTHmTRXhxNzh4p0xQU
-X-Google-Smtp-Source: ABdhPJyXA7YPh2gl8el151cF4s7uObplwwGfgZ2f+0Tw+bCWP/PurkPeL0dkN3vPSTgoNq2Gb+ab1Q==
-X-Received: by 2002:a5d:4b4f:: with SMTP id w15mr51197461wrs.84.1594105229575; 
- Tue, 07 Jul 2020 00:00:29 -0700 (PDT)
-Received: from localhost.localdomain
- (138.red-83-57-170.dynamicip.rima-tde.net. [83.57.170.138])
- by smtp.gmail.com with ESMTPSA id r3sm30763634wrg.70.2020.07.07.00.00.28
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=4oVoHDVvHj+LMEZpZo3Fd9S0fHCCOIodaZdFR3DmLW8=;
+ b=L1sszZ7HhKjreTBlAwJI3TOWTRsi6m5WJvkMJX5W/bWC5JKj7Id9cyUxUyBYoYtwLZ
+ GxdRw25rgKnE+NyCSoJWtetGlxyaH2gYIi3zhOInqOPEu5U7u8pIWLHwanUE3Lu5TuiS
+ Etb37aB8uUATkBFVSyI27eEPP1sXamWRGQ0EGSccO4jNaARdlb36wqc03ZCy4tsgaWva
+ r6+GEhSDC/OAxChoGHoukML0ROhorMnOOfGqOfv5Sc+DJYCSxDSTgpQr3qzX0i91yziN
+ rOOVn5ErQw6bLaBv/sgicJhEgqlabaBXlPSIdSTijb0IqylkNf4Lyj0X77wGcuwhaW1H
+ A+rA==
+X-Gm-Message-State: AOAM530ieBJ4XjUlkdO+HMwIuJA0fycRhQda3itLI6f3I5kGe8mzWjSC
+ XGZogwUKzVx6hi2ForuzA5EmZg==
+X-Google-Smtp-Source: ABdhPJxuqcRQPmPzO5AbYdqgsKSUq2Svq81orX1hNdjy5tAXmu3sUa26w4pkJ4GAQRi03R/w4Pi/3Q==
+X-Received: by 2002:adf:828b:: with SMTP id 11mr56415856wrc.58.1594105742671; 
+ Tue, 07 Jul 2020 00:09:02 -0700 (PDT)
+Received: from zen.linaroharston ([51.148.130.216])
+ by smtp.gmail.com with ESMTPSA id v15sm2115466wmh.24.2020.07.07.00.08.59
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 07 Jul 2020 00:00:28 -0700 (PDT)
-From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
-To: qemu-devel@nongnu.org
-Subject: [RFC PATCH v2 4/4] target/avr/translate: Fix SBRC/SBRS instructions
-Date: Tue,  7 Jul 2020 09:00:21 +0200
-Message-Id: <20200707070021.10031-5-f4bug@amsat.org>
-X-Mailer: git-send-email 2.21.3
-In-Reply-To: <20200707070021.10031-1-f4bug@amsat.org>
-References: <20200707070021.10031-1-f4bug@amsat.org>
+ Tue, 07 Jul 2020 00:08:59 -0700 (PDT)
+Received: from zen.lan (localhost [127.0.0.1])
+ by zen.linaroharston (Postfix) with ESMTP id 7DE521FF7E;
+ Tue,  7 Jul 2020 08:08:58 +0100 (BST)
+From: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
+To: peter.maydell@linaro.org
+Subject: [PULL 00/41] testing updates (vm, gitlab, misc build fixes)
+Date: Tue,  7 Jul 2020 08:08:17 +0100
+Message-Id: <20200707070858.6622-1-alex.bennee@linaro.org>
+X-Mailer: git-send-email 2.20.1
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
-Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::442;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wr1-x442.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::436;
+ envelope-from=alex.bennee@linaro.org; helo=mail-wr1-x436.google.com
 X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
  That's all we know.
-X-Spam_score_int: 0
-X-Spam_score: 0.0
-X-Spam_bar: /
-X-Spam_report: (0.0 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1, DKIM_VALID=-0.1,
- DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=1, FREEMAIL_FROM=0.001,
- HEADER_FROM_DIFFERENT_DOMAINS=1, RCVD_IN_DNSWL_NONE=-0.0001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=_AUTOLEARN
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ URIBL_BLOCKED=0.001 autolearn=_AUTOLEARN
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -87,44 +86,174 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Sarah Harris <S.E.Harris@kent.ac.uk>, Thomas Huth <huth@tuxfamily.org>,
- Joaquin de Andres <me@xcancerberox.com.ar>,
- Richard Henderson <richard.henderson@linaro.org>,
- =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>,
- Michael Rolnik <mrolnik@gmail.com>
+Cc: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>,
+ qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-SBRC/SBRS instructions seem to be inverted.
+There will be some docker failures until the official repository has
+seeded but local builds should continue to work.
 
-Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
----
- target/avr/translate.c | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+----
 
-diff --git a/target/avr/translate.c b/target/avr/translate.c
-index fe03e676df..2f77fe3ba7 100644
---- a/target/avr/translate.c
-+++ b/target/avr/translate.c
-@@ -1385,7 +1385,7 @@ static bool trans_SBRC(DisasContext *ctx, arg_SBRC *a)
- {
-     TCGv Rr = cpu_r[a->rr];
- 
--    ctx->skip_cond = TCG_COND_EQ;
-+    ctx->skip_cond = TCG_COND_NE;
-     ctx->skip_var0 = tcg_temp_new();
-     ctx->free_skip_var0 = true;
- 
-@@ -1401,7 +1401,7 @@ static bool trans_SBRS(DisasContext *ctx, arg_SBRS *a)
- {
-     TCGv Rr = cpu_r[a->rr];
- 
--    ctx->skip_cond = TCG_COND_NE;
-+    ctx->skip_cond = TCG_COND_EQ;
-     ctx->skip_var0 = tcg_temp_new();
-     ctx->free_skip_var0 = true;
- 
+The following changes since commit eb6490f544388dd24c0d054a96dd304bc7284450:
+
+  Merge remote-tracking branch 'remotes/pmaydell/tags/pull-target-arm-20200703' into staging (2020-07-04 16:08:41 +0100)
+
+are available in the Git repository at:
+
+  https://github.com/stsquad/qemu.git tags/pull-testing-and-misc-070720-1
+
+for you to fetch changes up to 6a726e8ca0286e3ed69945abd447099f6f6a903c:
+
+  tests/qht-bench: Adjust threshold computation (2020-07-07 07:57:41 +0100)
+
+----------------------------------------------------------------
+Testing and build updates:
+
+  - tests/vm support for aarch64 VMs
+  - tests/tcg better cross-compiler detection
+  - update docker tooling to support registries
+  - gitlab build docker images and store in registry
+  - gitlab use docker images for builds
+  - a number of skipIf updates to support move
+  - linux-user MAP_FIXED_NOREPLACE fix
+  - qht-bench compiler tweaks
+  - configure fix for secret keyring
+  - tsan fiber annotation clean-up
+
+----------------------------------------------------------------
+Alex Bennée (23):
+      tests/vm: switch from optsparse to argparse
+      tests/vm: allow us to take advantage of MTTCG
+      tests/docker: check for an parameters not empty string
+      tests/docker: change tag naming scheme of our images
+      .gitignore: un-ignore .gitlab-ci.d
+      gitlab: build containers with buildkit and metadata
+      tests/docker: add --registry support to tooling
+      tests/docker: add packages needed for check-acceptance
+      tests/acceptance: skip s390x_ccw_vrtio_tcg on GitLab
+      tests/acceptance: fix dtb path for machine_rx_gdbsim
+      tests/acceptance: skip multicore mips_malta tests on GitLab
+      tests/acceptance: skip LinuxInitrd 2gib with v4.16 on GitLab
+      gitlab: add acceptance testing to system builds
+      tests/tcg: add more default compilers to configure.sh
+      tests/docker: add a linux-user testing focused image
+      linux-user/elfload: use MAP_FIXED_NOREPLACE in pgb_reserved_va
+      gitlab: enable check-tcg for linux-user tests
+      gitlab: add avocado asset caching
+      gitlab: split build-disabled into two phases
+      gitlab: limit re-builds of the containers
+      containers.yml: build with docker.py tooling
+      testing: add check-build target
+      shippable: pull images from registry instead of building
+
+Daniel P. Berrangé (3):
+      gitlab: introduce explicit "container" and "build" stages
+      gitlab: build all container images during CI
+      gitlab: convert jobs to use custom built containers
+
+David Edmondson (1):
+      crypto/linux_keyring: fix 'secret_keyring' configure test
+
+Richard Henderson (2):
+      tests/qht-bench: Adjust testing rate by -1
+      tests/qht-bench: Adjust threshold computation
+
+Robert Foley (10):
+      util/coroutine: Cleanup start_switch_fiber_ for TSAN.
+      tests/vm: pass args through to BaseVM's __init__
+      tests/vm: Add configuration to basevm.py
+      tests/vm: Added configuration file support
+      tests/vm: Add common Ubuntu python module
+      tests/vm: Added a new script for ubuntu.aarch64.
+      tests/vm: Added a new script for centos.aarch64.
+      tests/vm: change scripts to use self._config
+      python/qemu: Add ConsoleSocket for optional use in QEMUMachine
+      tests/vm: Add workaround to consume console
+
+Thomas Huth (2):
+      gitlab-ci: Fix the change rules after moving the YML files
+      travis.yml: Test also the other targets on s390x
+
+ configure                                          |  31 +-
+ linux-user/elfload.c                               |  10 +-
+ tests/qht-bench.c                                  |  40 ++-
+ util/coroutine-ucontext.c                          |  52 ++--
+ .gitignore                                         |   1 +
+ .gitlab-ci.d/containers.yml                        | 263 ++++++++++++++++
+ .gitlab-ci.d/edk2.yml                              |   5 +-
+ .gitlab-ci.d/opensbi.yml                           |   5 +-
+ .gitlab-ci.yml                                     | 281 ++++++++++-------
+ .shippable.yml                                     |   8 +-
+ .travis.yml                                        |  62 ++--
+ python/qemu/console_socket.py                      | 110 +++++++
+ python/qemu/machine.py                             |  23 +-
+ tests/Makefile.include                             |  19 +-
+ tests/acceptance/boot_linux.py                     |   2 +
+ tests/acceptance/linux_initrd.py                   |   3 +
+ tests/acceptance/machine_mips_malta.py             |   3 +
+ tests/acceptance/machine_rx_gdbsim.py              |   2 +-
+ tests/acceptance/replay_kernel.py                  |   2 +-
+ tests/docker/Makefile.include                      |  17 +-
+ tests/docker/common.rc                             |   2 +-
+ tests/docker/docker.py                             |  46 ++-
+ .../dockerfiles/debian-all-test-cross.docker       |  53 ++++
+ tests/docker/dockerfiles/debian-alpha-cross.docker |   2 +-
+ tests/docker/dockerfiles/debian-amd64-cross.docker |   2 +-
+ tests/docker/dockerfiles/debian-amd64.docker       |   2 +-
+ tests/docker/dockerfiles/debian-arm64-cross.docker |   2 +-
+ .../dockerfiles/debian-arm64-test-cross.docker     |   2 +-
+ tests/docker/dockerfiles/debian-armel-cross.docker |   2 +-
+ tests/docker/dockerfiles/debian-armhf-cross.docker |   2 +-
+ tests/docker/dockerfiles/debian-hppa-cross.docker  |   2 +-
+ tests/docker/dockerfiles/debian-m68k-cross.docker  |   2 +-
+ tests/docker/dockerfiles/debian-mips-cross.docker  |   2 +-
+ .../docker/dockerfiles/debian-mips64-cross.docker  |   2 +-
+ .../dockerfiles/debian-mips64el-cross.docker       |   2 +-
+ .../docker/dockerfiles/debian-mipsel-cross.docker  |   2 +-
+ .../docker/dockerfiles/debian-powerpc-cross.docker |   2 +-
+ tests/docker/dockerfiles/debian-ppc64-cross.docker |   2 +-
+ .../docker/dockerfiles/debian-ppc64el-cross.docker |   2 +-
+ .../docker/dockerfiles/debian-riscv64-cross.docker |   2 +-
+ tests/docker/dockerfiles/debian-s390x-cross.docker |   2 +-
+ tests/docker/dockerfiles/debian-sh4-cross.docker   |   2 +-
+ .../docker/dockerfiles/debian-sparc64-cross.docker |   2 +-
+ .../docker/dockerfiles/debian-tricore-cross.docker |   2 +-
+ tests/docker/dockerfiles/debian-win32-cross.docker |   2 +-
+ tests/docker/dockerfiles/debian-win64-cross.docker |   2 +-
+ tests/docker/dockerfiles/debian9-mxe.docker        |   2 +-
+ tests/docker/dockerfiles/fedora.docker             |   7 +
+ tests/docker/dockerfiles/ubuntu2004.docker         |  10 +-
+ tests/tcg/Makefile.qemu                            |   4 +-
+ tests/tcg/configure.sh                             |  19 +-
+ tests/vm/Makefile.include                          |  22 ++
+ tests/vm/aarch64vm.py                              | 106 +++++++
+ tests/vm/basevm.py                                 | 344 +++++++++++++++------
+ tests/vm/centos-8-aarch64.ks                       |  51 +++
+ tests/vm/centos.aarch64                            | 227 ++++++++++++++
+ tests/vm/conf_example_aarch64.yml                  |  51 +++
+ tests/vm/conf_example_x86.yml                      |  50 +++
+ tests/vm/fedora                                    |  17 +-
+ tests/vm/freebsd                                   |  16 +-
+ tests/vm/netbsd                                    |  19 +-
+ tests/vm/openbsd                                   |  17 +-
+ tests/vm/ubuntu.aarch64                            |  68 ++++
+ tests/vm/ubuntu.i386                               |  46 +--
+ tests/vm/ubuntuvm.py                               |  60 ++++
+ 65 files changed, 1839 insertions(+), 383 deletions(-)
+ create mode 100644 .gitlab-ci.d/containers.yml
+ create mode 100644 python/qemu/console_socket.py
+ create mode 100644 tests/docker/dockerfiles/debian-all-test-cross.docker
+ create mode 100644 tests/vm/aarch64vm.py
+ create mode 100644 tests/vm/centos-8-aarch64.ks
+ create mode 100755 tests/vm/centos.aarch64
+ create mode 100644 tests/vm/conf_example_aarch64.yml
+ create mode 100644 tests/vm/conf_example_x86.yml
+ create mode 100755 tests/vm/ubuntu.aarch64
+ create mode 100644 tests/vm/ubuntuvm.py
+
 -- 
-2.21.3
+2.20.1
 
 
