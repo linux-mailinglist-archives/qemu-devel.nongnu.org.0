@@ -2,52 +2,52 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 234F7216ACE
-	for <lists+qemu-devel@lfdr.de>; Tue,  7 Jul 2020 12:54:25 +0200 (CEST)
-Received: from localhost ([::1]:44664 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2176A216AE1
+	for <lists+qemu-devel@lfdr.de>; Tue,  7 Jul 2020 12:58:38 +0200 (CEST)
+Received: from localhost ([::1]:35242 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jslF2-0002wj-5v
-	for lists+qemu-devel@lfdr.de; Tue, 07 Jul 2020 06:54:24 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:36302)
+	id 1jslJ7-0003Gs-84
+	for lists+qemu-devel@lfdr.de; Tue, 07 Jul 2020 06:58:37 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:36304)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <laurent@vivier.eu>)
- id 1jslDn-0001Lo-Sl; Tue, 07 Jul 2020 06:53:07 -0400
-Received: from mout.kundenserver.de ([212.227.126.135]:48987)
+ id 1jslDo-0001NW-LC; Tue, 07 Jul 2020 06:53:08 -0400
+Received: from mout.kundenserver.de ([212.227.126.135]:51313)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <laurent@vivier.eu>)
- id 1jslDl-0000MN-UM; Tue, 07 Jul 2020 06:53:07 -0400
+ id 1jslDm-0000MU-3F; Tue, 07 Jul 2020 06:53:08 -0400
 Received: from localhost.localdomain ([82.252.135.106]) by
  mrelayeu.kundenserver.de (mreue011 [212.227.15.167]) with ESMTPSA (Nemesis)
- id 1M5wc7-1k0BD409Sl-007Rlp; Tue, 07 Jul 2020 12:53:01 +0200
+ id 1MJVY8-1kCV1h2rAO-00JsDq; Tue, 07 Jul 2020 12:53:01 +0200
 From: Laurent Vivier <laurent@vivier.eu>
 To: qemu-devel@nongnu.org
-Subject: [PULL 4/7] MAINTAINERS: Update Radoslaw Biernacki email address
-Date: Tue,  7 Jul 2020 12:52:52 +0200
-Message-Id: <20200707105255.362318-5-laurent@vivier.eu>
+Subject: [PULL 5/7] util/qemu-option: Document the get_opt_value() function
+Date: Tue,  7 Jul 2020 12:52:53 +0200
+Message-Id: <20200707105255.362318-6-laurent@vivier.eu>
 X-Mailer: git-send-email 2.26.2
 In-Reply-To: <20200707105255.362318-1-laurent@vivier.eu>
 References: <20200707105255.362318-1-laurent@vivier.eu>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-X-Provags-ID: V03:K1:vZbkaxH1Amsgd4zzOOBctgrcih18cdhnf/9ybe0jkkVlgJIOuxx
- NQPKq1/ij/fP5L2nKtm6MWk5Ana5+Sey+tDH2J0iztngluPOSUQElZZZd4483pMrVMiaF1L
- nPIoG3P31JAo6GcNRzYx63lWd8hZI8+4A9TwyHntIbNzN/b1H0VlPypCjSYeH41+OQS8uPL
- qjKBpSOSPVmiN2LMX9ZzA==
-X-UI-Out-Filterresults: notjunk:1;V03:K0:V7BRua9kco8=:JwZ77jTd69fVUTwJbsT+bp
- gyxaDAnZftWlXrMKViUmNHlxdkPj0DVW17Tw/DrbZ70a+5twNPuzvNQZumv/Uh1cBg+xnjVPv
- HU7+U8bWd2yxoGyb78xPJmGp2zpXKlzLZoELDKj/B0yuuqyU0EvBCC4gvtZpSp4eMeNxqTtGi
- Nm4mGp6wsR55tozI8d9BoJuRYvHdJvz7+RQvw8fAdMq0MrImg5Lnt1uIDpK2CM6LkF+AiLeKr
- wnrYJfLfSfpJO/OJ5W36HrH+d9bbiFvYAv0bxavJ7q4rVFdiFTxGcJEkI8UY58PUJze1YnPYh
- 7Feb2bRdDRkugjc1X/Nl3IekTY2GaF5olMwnaJy1HfYgo2wrAl5xvm+3zk1wW6Q8HBsWrM0F0
- 8sKNBzPGdKWowXNxJV1aBdFYEMN0H7OL9FsX8fh1RTNYGgBR93o7h8CwnhbZEknWwVLtN+2bu
- 2DdVbf9Ufy+MKqHf1VWAY4veF6U1LW+Bnp+syrPUq1XC28JW7BlDsxEts26pTyWNXqPR5arna
- gLOrC3tEqmhEp7458ImSO//c9Zg9Rv4HojTn6AodKPuntowg8o640g7b0gKJbYFcL0EJ7z4dG
- JJ83URe/FQA70HMZjLRVEnlxg3Qq8Q6QeTnnXV1lHUDGiaFZWtnl5DZnA34SJ6Lvdvnsf2TPw
- fWwv8imQJ4YJ/a1ws0KJxn4ohEvbRVc3w4qozHFRn5E+o9acaklltzhNGlJmYH1VzQ2IPqK0l
- eKaA7Hf4NQIWrrBavADTnpqYtu8MllWlu9ybojOOtT8Yc76jGyvmultfC+TkRzSk016m6qNJW
- 2tDNOyPnvpk2Y4oJM1MP6q49pqG52iHFrPyOwNZuOnEjsM8rfK4Xp+rpQHjoFsRn6E9Keur
+X-Provags-ID: V03:K1:9oCtGKpKKzsIv9cTlg4Q4qrtDD+02QyzdTAM7K0KJVjmwVgjIB0
+ YjA4owjy/8K63CYlHSCMIxC6r/yqE5XDbEeXVauhjo21iJRiJ3bK9JOlYGohopklAhxsfOk
+ 8dRQjr7HKydHU9JCuyKSRFMmBN3O8TW26Rd9rPjBXRPWxLXSnXUMDRHTdvBh+BA6SaDvEP+
+ VM74WGwV+r89243yE7uZQ==
+X-UI-Out-Filterresults: notjunk:1;V03:K0:JYFHMDF+G0A=:TaUbJbDIIicS7n5Y8PEHW5
+ M/bB2QL24al2GWCr2KY033XOQ4QGwGLfjk0PmvaQqDjekaGqA+en49XwI67ZpCKl1QTU1z98l
+ DnkPuibI/MUMyuVfv1SI4J/lOw3gy49dRGuStuPt8irhad/3c3GgzNSjsXw2rJaA6cEqNG6a5
+ bP3857t5PMPb/Ut5/WtWyLftvRLCcTz3qacfLNC16kJzRV1I7lgTZAKa+4IBkIYeXcNcbUYhp
+ NIiJJNXeVZ8uTed0/+XTKQden+COptlpfUH47+ynuYeK/xdksIE6jifbGk40D8gWxv8tI+eIm
+ UObfQRdhWdKR24JbnvMyBPa0YBYCBv/TZVpzf6NnIbAt00xvvU59Uq0Qsb+kQxXNL/87UEqp9
+ g6+RT8rdV34KUBKfCSgOwMokmVwjrJpWaJbLboTyQOBhmX3qjoUg84fJ3T7LykJJVIay21Kzy
+ VKpIEu8b5AXvQqTLqhIwYCox/WhXv2lYfivaieA/QRhCdCb2lznkU6uT9MtbrHuSBpra3/6VX
+ HpO//6DJVakNgI5j1H2/x9t6ALwrxcn9FhBtr0XaHQVsSKCKODOUdSqY/A+rYQXvpzuybVdQp
+ tgKalg9ntaIqRkuRlEQNDdNw5neThIO7/5Vpex8/wluXqhvTV4J11DKHY10SA7UHsr3InUiVe
+ Q23o/MsDjb0kkteixJdotaO6rBlyuxgcF5JB/NxEeURPs+p1YONMOqH5ETk/KfNgB4hFtOgra
+ bXzLob61mF8rbDGhwD+vG3i1syye7pg/AwxTf79mITTARnTmiEll5WL0WP5xxgkTvz73dc1M4
+ JdBN/sYX0K29yEKb2L9bM+GVeQoQHEjPwjiLVpVPWGsi2JrSYotNyu57jRSmp7+0ZxFz+8Z
 Received-SPF: none client-ip=212.227.126.135; envelope-from=laurent@vivier.eu;
  helo=mout.kundenserver.de
 X-detected-operating-system: by eggs.gnu.org: First seen = 2020/07/07 06:53:04
@@ -69,54 +69,61 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-trivial@nongnu.org, Radoslaw Biernacki <rad@semihalf.com>,
- Michael Tokarev <mjt@tls.msk.ru>, Laurent Vivier <laurent@vivier.eu>,
- Leif Lindholm <leif@nuviainc.com>,
- =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>
+Cc: qemu-trivial@nongnu.org,
+ =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
+ =?UTF-8?q?Daniel=20P=20=2E=20Berrang=C3=A9?= <berrange@redhat.com>,
+ Michael Tokarev <mjt@tls.msk.ru>, Laurent Vivier <laurent@vivier.eu>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Radoslaw Biernacki <rad@semihalf.com>
+From: Philippe Mathieu-Daudé <philmd@redhat.com>
 
-My Linaro account is no longer active and stop forwarding emails to me.
-Changing it to my current employer domain.
+Coverity noticed commit 950c4e6c94 introduced a dereference before
+null check in get_opt_value (CID1391003):
 
-Signed-off-by: Radoslaw Biernacki <rad@semihalf.com>
-Reviewed-by: Philippe Mathieu-Daudé <philmd@redhat.com>
-Tested-by: Philippe Mathieu-Daudé <philmd@redhat.com>
-Acked-by: Leif Lindholm <leif@nuviainc.com>
-Message-Id: <20200512170704.9290-1-rad@semihalf.com>
+  In get_opt_value: All paths that lead to this null pointer
+  comparison already dereference the pointer earlier (CWE-476)
+
+We fixed this in commit 6e3ad3f0e31, but relaxed the check in commit
+0c2f6e7ee99 because "No callers of get_opt_value() pass in a NULL
+for the 'value' parameter".
+
+Since this function is publicly exposed, it risks new users to do
+the same error again. Avoid that documenting the 'value' argument
+must not be NULL.
+
+Signed-off-by: Philippe Mathieu-Daudé <philmd@redhat.com>
+Reviewed-by: Daniel P. Berrangé <berrange@redhat.com>
+Message-Id: <20200629070858.19850-1-philmd@redhat.com>
 Signed-off-by: Laurent Vivier <laurent@vivier.eu>
 ---
- .mailmap    | 1 +
- MAINTAINERS | 2 +-
- 2 files changed, 2 insertions(+), 1 deletion(-)
+ include/qemu/option.h | 13 +++++++++++++
+ 1 file changed, 13 insertions(+)
 
-diff --git a/.mailmap b/.mailmap
-index e46e6c73023c..81c2ce09370c 100644
---- a/.mailmap
-+++ b/.mailmap
-@@ -50,6 +50,7 @@ Filip Bozuta <filip.bozuta@syrmia.com> <filip.bozuta@rt-rk.com.com>
- Frederic Konrad <konrad@adacore.com> <fred.konrad@greensocs.com>
- James Hogan <jhogan@kernel.org> <james.hogan@imgtec.com>
- Leif Lindholm <leif@nuviainc.com> <leif.lindholm@linaro.org>
-+Radoslaw Biernacki <rad@semihalf.com> <radoslaw.biernacki@linaro.org>
- Paul Burton <pburton@wavecomp.com> <paul.burton@mips.com>
- Paul Burton <pburton@wavecomp.com> <paul.burton@imgtec.com>
- Paul Burton <pburton@wavecomp.com> <paul@archlinuxmips.org>
-diff --git a/MAINTAINERS b/MAINTAINERS
-index c31c878c635c..36dce13bcc32 100644
---- a/MAINTAINERS
-+++ b/MAINTAINERS
-@@ -809,7 +809,7 @@ F: include/hw/misc/imx6_*.h
- F: include/hw/ssi/imx_spi.h
+diff --git a/include/qemu/option.h b/include/qemu/option.h
+index eb4097889d52..ac50d257746a 100644
+--- a/include/qemu/option.h
++++ b/include/qemu/option.h
+@@ -28,6 +28,19 @@
  
- SBSA-REF
--M: Radoslaw Biernacki <radoslaw.biernacki@linaro.org>
-+M: Radoslaw Biernacki <rad@semihalf.com>
- M: Peter Maydell <peter.maydell@linaro.org>
- R: Leif Lindholm <leif@nuviainc.com>
- L: qemu-arm@nongnu.org
+ #include "qemu/queue.h"
+ 
++/**
++ * get_opt_value
++ * @p: a pointer to the option name, delimited by commas
++ * @value: a non-NULL pointer that will received the delimited options
++ *
++ * The @value char pointer will be allocated and filled with
++ * the delimited options.
++ *
++ * Returns the position of the comma delimiter/zero byte after the
++ * option name in @p.
++ * The memory pointer in @value must be released with a call to g_free()
++ * when no longer required.
++ */
+ const char *get_opt_value(const char *p, char **value);
+ 
+ void parse_option_size(const char *name, const char *value,
 -- 
 2.26.2
 
