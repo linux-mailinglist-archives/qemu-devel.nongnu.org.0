@@ -2,75 +2,85 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B65E82179A9
-	for <lists+qemu-devel@lfdr.de>; Tue,  7 Jul 2020 22:45:01 +0200 (CEST)
-Received: from localhost ([::1]:43028 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id DBA082179AE
+	for <lists+qemu-devel@lfdr.de>; Tue,  7 Jul 2020 22:49:30 +0200 (CEST)
+Received: from localhost ([::1]:47860 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jsuSa-0001cI-PZ
-	for lists+qemu-devel@lfdr.de; Tue, 07 Jul 2020 16:45:00 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:39148)
+	id 1jsuWv-0003xd-WF
+	for lists+qemu-devel@lfdr.de; Tue, 07 Jul 2020 16:49:30 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:39258)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1jsuRQ-0000yB-Q9
- for qemu-devel@nongnu.org; Tue, 07 Jul 2020 16:43:49 -0400
-Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:35346
- helo=us-smtp-1.mimecast.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1jsuRN-00087a-VJ
- for qemu-devel@nongnu.org; Tue, 07 Jul 2020 16:43:48 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1594154625;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=OSUiNs2fk9vf5Yf2XiF6PjTmNHMFGvknvlUiA71OCsM=;
- b=Rh4Q0r7ejKxC1OIDP6ULDAfjSkXNmN3fQ2YU5x7iQ05ICGt8SAY3yIsE/Ebk+tX4TFsKv/
- E7C7BDg6lHy7cFl545iv3Y51okaHcDK0koONqztuQz7LCEqhmXYeXQ+5zl2sgq+YRihLmy
- 7EzThPEx3lpk0tV9Gw/dZ9xrk5DQ2Pc=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-444-RP6EYJbuNYOpi3320bjyLw-1; Tue, 07 Jul 2020 16:43:41 -0400
-X-MC-Unique: RP6EYJbuNYOpi3320bjyLw-1
-Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
- [10.5.11.22])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 368F1108BD15;
- Tue,  7 Jul 2020 20:43:39 +0000 (UTC)
-Received: from blackfin.pond.sub.org (ovpn-112-143.ams2.redhat.com
- [10.36.112.143])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id CAC8110013C2;
- Tue,  7 Jul 2020 20:43:32 +0000 (UTC)
-Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
- id 4FE451132FD2; Tue,  7 Jul 2020 22:43:29 +0200 (CEST)
-From: Markus Armbruster <armbru@redhat.com>
-To: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
-Subject: Re: [PATCH v12 1/8] error: New macro ERRP_AUTO_PROPAGATE()
-References: <20200707165037.1026246-1-armbru@redhat.com>
- <20200707165037.1026246-2-armbru@redhat.com>
- <3bea211a-4522-f713-2edc-261730702114@virtuozzo.com>
-Date: Tue, 07 Jul 2020 22:43:29 +0200
-In-Reply-To: <3bea211a-4522-f713-2edc-261730702114@virtuozzo.com> (Vladimir
- Sementsov-Ogievskiy's message of "Tue, 7 Jul 2020 23:08:19 +0300")
-Message-ID: <87a70b5a4u.fsf@dusky.pond.sub.org>
-User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/26.3 (gnu/linux)
+ (Exim 4.90_1) (envelope-from <bauerman@linux.ibm.com>)
+ id 1jsuRk-0001Fe-9h; Tue, 07 Jul 2020 16:44:08 -0400
+Received: from mx0b-001b2d01.pphosted.com ([148.163.158.5]:36266)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <bauerman@linux.ibm.com>)
+ id 1jsuRg-0008Bc-S7; Tue, 07 Jul 2020 16:44:07 -0400
+Received: from pps.filterd (m0098417.ppops.net [127.0.0.1])
+ by mx0a-001b2d01.pphosted.com (8.16.0.42/8.16.0.42) with SMTP id
+ 067Kbtsw008917; Tue, 7 Jul 2020 16:43:57 -0400
+Received: from pps.reinject (localhost [127.0.0.1])
+ by mx0a-001b2d01.pphosted.com with ESMTP id 324yysrby7-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Tue, 07 Jul 2020 16:43:57 -0400
+Received: from m0098417.ppops.net (m0098417.ppops.net [127.0.0.1])
+ by pps.reinject (8.16.0.36/8.16.0.36) with SMTP id 067KcJsh009800;
+ Tue, 7 Jul 2020 16:43:56 -0400
+Received: from ppma04dal.us.ibm.com (7a.29.35a9.ip4.static.sl-reverse.com
+ [169.53.41.122])
+ by mx0a-001b2d01.pphosted.com with ESMTP id 324yysrbxy-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Tue, 07 Jul 2020 16:43:56 -0400
+Received: from pps.filterd (ppma04dal.us.ibm.com [127.0.0.1])
+ by ppma04dal.us.ibm.com (8.16.0.42/8.16.0.42) with SMTP id 067KegDW026330;
+ Tue, 7 Jul 2020 20:43:56 GMT
+Received: from b01cxnp22036.gho.pok.ibm.com (b01cxnp22036.gho.pok.ibm.com
+ [9.57.198.26]) by ppma04dal.us.ibm.com with ESMTP id 324bugsur1-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Tue, 07 Jul 2020 20:43:56 +0000
+Received: from b01ledav005.gho.pok.ibm.com (b01ledav005.gho.pok.ibm.com
+ [9.57.199.110])
+ by b01cxnp22036.gho.pok.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
+ 067Khtsa15729514
+ (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+ Tue, 7 Jul 2020 20:43:55 GMT
+Received: from b01ledav005.gho.pok.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id 43947AE060;
+ Tue,  7 Jul 2020 20:43:55 +0000 (GMT)
+Received: from b01ledav005.gho.pok.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id 0CB32AE05C;
+ Tue,  7 Jul 2020 20:43:53 +0000 (GMT)
+Received: from morokweng.localdomain.com (unknown [9.211.127.86])
+ by b01ledav005.gho.pok.ibm.com (Postfix) with ESMTP;
+ Tue,  7 Jul 2020 20:43:52 +0000 (GMT)
+From: Thiago Jung Bauermann <bauerman@linux.ibm.com>
+To: qemu-ppc@nongnu.org
+Subject: [PATCH] cpu: Add starts_halted() method
+Date: Tue,  7 Jul 2020 17:43:33 -0300
+Message-Id: <20200707204333.261506-1-bauerman@linux.ibm.com>
+X-Mailer: git-send-email 2.26.2
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=armbru@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain
-Received-SPF: pass client-ip=205.139.110.120; envelope-from=armbru@redhat.com;
- helo=us-smtp-1.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/07/07 06:04:49
-X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
-X-Spam_score_int: -40
-X-Spam_score: -4.1
-X-Spam_bar: ----
-X-Spam_report: (-4.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-1, SPF_HELO_NONE=0.001,
+Content-Transfer-Encoding: 8bit
+X-TM-AS-GCONF: 00
+X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:6.0.235, 18.0.687
+ definitions=2020-07-07_13:2020-07-07,
+ 2020-07-07 signatures=0
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ bulkscore=0 phishscore=0
+ suspectscore=1 priorityscore=1501 lowpriorityscore=0 impostorscore=0
+ cotscore=-2147483648 malwarescore=0 mlxlogscore=999 adultscore=0
+ mlxscore=0 spamscore=0 clxscore=1011 classifier=spam adjust=0 reason=mlx
+ scancount=1 engine=8.12.0-2004280000 definitions=main-2007070134
+Received-SPF: pass client-ip=148.163.158.5;
+ envelope-from=bauerman@linux.ibm.com; helo=mx0b-001b2d01.pphosted.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/07/07 16:16:33
+X-ACL-Warn: Detected OS   = Linux 3.x [generic]
+X-Spam_score_int: -35
+X-Spam_score: -3.6
+X-Spam_bar: ---
+X-Spam_report: (-3.6 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_LOW=-0.7,
+ RCVD_IN_MSPIKE_H2=-1, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=_AUTOLEARN
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -84,172 +94,142 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Kevin Wolf <kwolf@redhat.com>, Stefano Stabellini <sstabellini@kernel.org>,
- qemu-block@nongnu.org, Paul Durrant <paul@xen.org>,
- Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
- Christian Schoenebeck <qemu_oss@crudebyte.com>, qemu-devel@nongnu.org,
- Michael Roth <mdroth@linux.vnet.ibm.com>, groug@kaod.org,
- Gerd Hoffmann <kraxel@redhat.com>, Stefan Hajnoczi <stefanha@redhat.com>,
- Anthony Perard <anthony.perard@citrix.com>, xen-devel@lists.xenproject.org,
- Max Reitz <mreitz@redhat.com>, Laszlo Ersek <lersek@redhat.com>
+Cc: Thiago Jung Bauermann <bauerman@linux.ibm.com>,
+ Eduardo Habkost <ehabkost@redhat.com>, qemu-devel@nongnu.org,
+ David Gibson <david@gibson.dropbear.id.au>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com> writes:
+PowerPC sPAPRs CPUs start in the halted state, but generic QEMU code
+assumes that CPUs start in the non-halted state. spapr_reset_vcpu()
+attempts to rectify this by setting CPUState::halted to 1. But that's too
+late for hotplugged CPUs in a machine configured with 2 or mor threads per
+core.
 
-> 07.07.2020 19:50, Markus Armbruster wrote:
->> From: Vladimir Sementsov-Ogievskiy<vsementsov@virtuozzo.com>
->>
->> Introduce a new ERRP_AUTO_PROPAGATE macro, to be used at start of
->> functions with an errp OUT parameter.
->>
->> It has three goals:
->>
->> 1. Fix issue with error_fatal and error_prepend/error_append_hint: user
->> can't see this additional information, because exit() happens in
->> error_setg earlier than information is added. [Reported by Greg Kurz]
->>
->> 2. Fix issue with error_abort and error_propagate: when we wrap
->> error_abort by local_err+error_propagate, the resulting coredump will
->> refer to error_propagate and not to the place where error happened.
->> (the macro itself doesn't fix the issue, but it allows us to [3.] drop
->> the local_err+error_propagate pattern, which will definitely fix the
->> issue) [Reported by Kevin Wolf]
->>
->> 3. Drop local_err+error_propagate pattern, which is used to workaround
->> void functions with errp parameter, when caller wants to know resulting
->> status. (Note: actually these functions could be merely updated to
->> return int error code).
->>
->> To achieve these goals, later patches will add invocations
->> of this macro at the start of functions with either use
->> error_prepend/error_append_hint (solving 1) or which use
->> local_err+error_propagate to check errors, switching those
->> functions to use *errp instead (solving 2 and 3).
->>
->> Signed-off-by: Vladimir Sementsov-Ogievskiy<vsementsov@virtuozzo.com>
->> Reviewed-by: Paul Durrant<paul@xen.org>
->> Reviewed-by: Greg Kurz<groug@kaod.org>
->> Reviewed-by: Eric Blake<eblake@redhat.com>
->> [Comments merged properly with recent commit "error: Document Error
->> API usage rules", and edited for clarity.  Put ERRP_AUTO_PROPAGATE()
->> before its helpers, and touch up style.  Commit message tweaked.]
->> Signed-off-by: Markus Armbruster<armbru@redhat.com>
->
-> Ok, I see you have mostly rewritten the big comment
+By then, other parts of QEMU have already caused the vCPU to run in an
+unitialized state a couple of times. For example, ppc_cpu_reset() calls
+ppc_tlb_invalidate_all(), which ends up calling async_run_on_cpu(). This
+kicks the new vCPU while it has CPUState::halted = 0, causing QEMU to issue
+a KVM_RUN ioctl on the new vCPU before the guest is able to make the
+start-cpu RTAS call to initialize its register state.
 
-Guilty as charged...  I was happy with the contents you provided (and
-grateful for it), but our parallel work caused some redundancy.  I went
-beyond a minimal merge to get a something that reads as one coherent
-text.
+This doesn't seem to cause visible issues for regular guests, but on a
+secure guest running under the Ultravisor it does. The Ultravisor relies on
+being able to snoop on the start-cpu RTAS call to map vCPUs to guests, and
+this issue causes it to see a stray vCPU that doesn't belong to any guest.
 
-> and not only in this patch, so, I go and read the whole comment on top of these series.
->
-> =================================
->
->    * Pass an existing error to the caller with the message modified:
->    *     error_propagate_prepend(errp, err,
->    *                             "Could not frobnicate '%s': ", name);
->    * This is more concise than
->    *     error_propagate(errp, err); // don't do this
->    *     error_prepend(errp, "Could not frobnicate '%s': ", name);
->    * and works even when @errp is &error_fatal.
->
-> - the latter doesn't consider ERRP_AUTO_PROPAGATE: as we know, that ERRP_AUTO_PROPAGATE should be used when we use error_prepend, the latter should look like
->
->
-> ERRP_AUTO_PROPAGATE();
-> ...
-> error_propagate(errp, err); // don't do this
-> error_prepend(errp, "Could not frobnicate '%s': ", name);
->
-> - and it works even when @errp is &error_fatal, so the error_propagate_prepend now is just a shortcut, not the only correct way.
+Fix by adding a starts_halted() method to the CPUState class, and making it
+return 1 if the machine is an sPAPR guest.
 
-I can duplicate the advice from the paragraph preceding it, like this:
+Signed-off-by: Thiago Jung Bauermann <bauerman@linux.ibm.com>
+---
+ hw/core/cpu.c                   |  8 +++++++-
+ hw/ppc/spapr_cpu_core.c         |  5 -----
+ include/hw/core/cpu.h           |  2 ++
+ target/ppc/translate_init.inc.c | 16 ++++++++++++++++
+ 4 files changed, 25 insertions(+), 6 deletions(-)
 
-     * This is rarely needed.  When @err is a local variable, use of
-     * ERRP_GUARD() commonly results in more readable code.
-     * Where it is needed, it is more concise than
-     *     error_propagate(errp, err); // don't do this
-     *     error_prepend(errp, "Could not frobnicate '%s': ", name);
-     * and works even when @errp is &error_fatal.
-
-> Still, the text is formally correct as is, and may be improved later.
->
-> =================================
->
->    * 2. Replace &err by errp, and err by *errp.  Delete local variable
->    *    @err.
->
-> - hmm a bit not obvious,, It can be local_err.
-
-Yes, but I trust the reader can make that mental jump.
-
-> It can be (in some rare cases) still needed to handle the error locally, not passing to the caller..
-
-I didn't think of this.
-
-What about
-
-     * To convert a function to use ERRP_GUARD(), assuming the local
-     * variable it propagates to @errp is called @err:
-     [...]
-     * 2. Replace &err by errp, and err by *errp.  Delete local variable
-     *    @err if it s now unused.
-
-Nope, still no good, if we replace like that, @err *will* be unused, and
-the locally handled error will leak to the caller.
-
-No time left for wordsmithing; let's improve on top.
-
-> may be just something like "Assume local Error *err variable is used to get errors from called functions and than propagated to caller's errp" before paragraph [2.] will help.
->
->
->    *
->    * 3. Delete error_propagate(errp, *errp), replace
->    *    error_propagate_prepend(errp, *errp, ...) by error_prepend(errp, ...),
->    *
->    * 4. Ensure @errp is valid at return: when you destroy *errp, set
->    *    errp = NULL.
->
-> =================================
->
->
-> May be good to add note about ERRP_AUTO_PROPAGATE() into comment above error_append_hint (and error_(v)prepend)).
-
-Good point.
-
-> =================================
->
->   /*
->    * Make @errp parameter easier to use regardless of argument value
->
-> may be s/argument/its/
->
->    *
->    * This macro is for use right at the beginning of a function that
->    * takes an Error **errp parameter to pass errors to its caller.  The
->    * parameter must be named @errp.
->    *
->    * It must be used when the function dereferences @errp or passes
->    * @errp to error_prepend(), error_vprepend(), or error_append_hint().
->    * It is safe to use even when it's not needed, but please avoid
->    * cluttering the source with useless code.
->    *
->    * If @errp is NULL or &error_fatal, rewrite it to point to a local
->    * Error variable, which will be automatically propagated to the
->    * original @errp on function exit.
->    *
->    * Note: &error_abort is not rewritten, because that would move the
->    * abort from the place where the error is created to the place where
->    * it's propagated.
->    */
->
-> =================================
->
->
-> All these are minor, the documentation is good as is, thank you!
-
-Thanks for your review, and your patience!
-
+diff --git a/hw/core/cpu.c b/hw/core/cpu.c
+index 0f23409f1d..8f9a3335d5 100644
+--- a/hw/core/cpu.c
++++ b/hw/core/cpu.c
+@@ -259,7 +259,7 @@ static void cpu_common_reset(DeviceState *dev)
+     }
+ 
+     cpu->interrupt_request = 0;
+-    cpu->halted = 0;
++    cpu->halted = cc->starts_halted();
+     cpu->mem_io_pc = 0;
+     cpu->icount_extra = 0;
+     atomic_set(&cpu->icount_decr_ptr->u32, 0);
+@@ -275,6 +275,11 @@ static void cpu_common_reset(DeviceState *dev)
+     }
+ }
+ 
++static uint32_t cpu_common_starts_halted(void)
++{
++    return 0;
++}
++
+ static bool cpu_common_has_work(CPUState *cs)
+ {
+     return false;
+@@ -428,6 +433,7 @@ static void cpu_class_init(ObjectClass *klass, void *data)
+     k->cpu_exec_exit = cpu_common_noop;
+     k->cpu_exec_interrupt = cpu_common_exec_interrupt;
+     k->adjust_watchpoint_address = cpu_adjust_watchpoint_address;
++    k->starts_halted = cpu_common_starts_halted;
+     set_bit(DEVICE_CATEGORY_CPU, dc->categories);
+     dc->realize = cpu_common_realizefn;
+     dc->unrealize = cpu_common_unrealizefn;
+diff --git a/hw/ppc/spapr_cpu_core.c b/hw/ppc/spapr_cpu_core.c
+index 26ad566f42..d0ad92240c 100644
+--- a/hw/ppc/spapr_cpu_core.c
++++ b/hw/ppc/spapr_cpu_core.c
+@@ -36,11 +36,6 @@ static void spapr_reset_vcpu(PowerPCCPU *cpu)
+ 
+     cpu_reset(cs);
+ 
+-    /* All CPUs start halted.  CPU0 is unhalted from the machine level
+-     * reset code and the rest are explicitly started up by the guest
+-     * using an RTAS call */
+-    cs->halted = 1;
+-
+     env->spr[SPR_HIOR] = 0;
+ 
+     lpcr = env->spr[SPR_LPCR];
+diff --git a/include/hw/core/cpu.h b/include/hw/core/cpu.h
+index b3f4b79318..7c9cd67e8d 100644
+--- a/include/hw/core/cpu.h
++++ b/include/hw/core/cpu.h
+@@ -219,6 +219,8 @@ typedef struct CPUClass {
+     vaddr (*adjust_watchpoint_address)(CPUState *cpu, vaddr addr, int len);
+     void (*tcg_initialize)(void);
+ 
++    uint32_t (*starts_halted)(void);
++
+     /* Keep non-pointer data at the end to minimize holes.  */
+     int gdb_num_core_regs;
+     bool gdb_stop_before_watchpoint;
+diff --git a/target/ppc/translate_init.inc.c b/target/ppc/translate_init.inc.c
+index 49212bfd90..1dc1ebbdaf 100644
+--- a/target/ppc/translate_init.inc.c
++++ b/target/ppc/translate_init.inc.c
+@@ -36,6 +36,7 @@
+ #include "qapi/visitor.h"
+ #include "hw/qdev-properties.h"
+ #include "hw/ppc/ppc.h"
++#include "hw/ppc/spapr.h"
+ #include "mmu-book3s-v3.h"
+ #include "sysemu/qtest.h"
+ #include "qemu/cutils.h"
+@@ -10646,6 +10647,20 @@ static void ppc_cpu_set_pc(CPUState *cs, vaddr value)
+     cpu->env.nip = value;
+ }
+ 
++static uint32_t ppc_cpu_starts_halted(void)
++{
++    SpaprMachineState *spapr =
++        (SpaprMachineState *) object_dynamic_cast(qdev_get_machine(),
++                                                  TYPE_SPAPR_MACHINE);
++
++    /*
++     * In sPAPR, all CPUs start halted. CPU0 is unhalted from the machine level
++     * reset code and the rest are explicitly started up by the guest using an
++     * RTAS call.
++     */
++    return spapr != NULL;
++}
++
+ static bool ppc_cpu_has_work(CPUState *cs)
+ {
+     PowerPCCPU *cpu = POWERPC_CPU(cs);
+@@ -10922,6 +10937,7 @@ static void ppc_cpu_class_init(ObjectClass *oc, void *data)
+ #endif
+ 
+     cc->disas_set_info = ppc_disas_set_info;
++    cc->starts_halted = ppc_cpu_starts_halted;
+ 
+     dc->fw_name = "PowerPC,UNKNOWN";
+ }
 
