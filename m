@@ -2,69 +2,73 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3A6FC21746B
-	for <lists+qemu-devel@lfdr.de>; Tue,  7 Jul 2020 18:50:22 +0200 (CEST)
-Received: from localhost ([::1]:50430 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6818121743A
+	for <lists+qemu-devel@lfdr.de>; Tue,  7 Jul 2020 18:41:02 +0200 (CEST)
+Received: from localhost ([::1]:40984 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jsqnV-0000dn-8Q
-	for lists+qemu-devel@lfdr.de; Tue, 07 Jul 2020 12:50:21 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:36906)
+	id 1jsqeT-00082l-Cq
+	for lists+qemu-devel@lfdr.de; Tue, 07 Jul 2020 12:41:01 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:37120)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <aleksandar.m.mail@gmail.com>)
- id 1jsqQN-0006Zy-Hz; Tue, 07 Jul 2020 12:26:27 -0400
-Received: from mail-ej1-x641.google.com ([2a00:1450:4864:20::641]:39106)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <aleksandar.m.mail@gmail.com>)
- id 1jsqQL-000222-NF; Tue, 07 Jul 2020 12:26:27 -0400
-Received: by mail-ej1-x641.google.com with SMTP id w6so47230259ejq.6;
- Tue, 07 Jul 2020 09:26:24 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=oG6J7k0Ps8DofToT31fQoyNV0/N3gLdXSTYbK3NaIF4=;
- b=b0D9AmZv0COoVe+9Wq6wznEnh8jEcTzWh56buCcmrus6Epbhm9wc3EmoxsATDSCzGa
- smItZGNXB80jSb5iYEmnfqBAv1ajsUIL6fBnQ/5IDaJZS55lVfPiEzVdrMgKv321oPOv
- R/tkt/cWa7gFwXcMcz6sbE8fDpbzMe1YnnFaOEra27hB5l+VFh6VYKmfYB52YupLJR5S
- zUnW439xjWaMgJy++g1d+ulayiz+hGIJ6Nu3sDPzAcVtZDkYw8xt/sWRDz9H2TCr3zGB
- 9FFKRXPkbjcTaTFnYfLBO3wkzNEIP2EA5Ig7EPB4kMdGiQgIyWEzC6BWW61bX+Q6VSBn
- UxyA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=oG6J7k0Ps8DofToT31fQoyNV0/N3gLdXSTYbK3NaIF4=;
- b=WzK0kKOD8gfeF7BilFeOPqLXWQeMnTT5F/YIAQgTgLsjVtAgnZlKBToCGd7plgKJYR
- 4P5u4BQVmR+dCOBxXrtSao6B5Xl+yho2xYM5vMANtvgX+eZIvakQwHcA+8Ki73gkRBj+
- ky/urfQnBhOc3WbO60in02H7LRMHjexjudPPeJAxdesKBvGA9M7JqadBKKEOm6+hUPHS
- pjf6lUxC0lLCggvmdjMa2RSaTlTtjj9j/3BMA1Yr0RRPtPy5TRa6ntfxG43weNiMGUaf
- KA7JGJtsxhs3A4rYbeW8GIoSG75gnipvL2waGdMd4aLf9UaegFOROQzO5RRNwhmO/GSF
- p6fA==
-X-Gm-Message-State: AOAM530N9ZIbC/0lYAL1SdiQdXKSmC/uiYOlIGrrL2Xnmd2ZKWq0LHLo
- u+wQeigP5xhEaNphMImPPn3btKFCZ/VQXS1osdQ=
-X-Google-Smtp-Source: ABdhPJxTfXLY3rmzm3JrfNlS0XcLfJSnQUmAxKZyxZSbI9nDN2tje8dmgTzdyBrY2IrH8U9AP/VLc//FHtHjiZxCq6w=
-X-Received: by 2002:a17:906:194b:: with SMTP id
- b11mr42073054eje.28.1594139183403; 
- Tue, 07 Jul 2020 09:26:23 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1jsqRQ-0007pV-0v
+ for qemu-devel@nongnu.org; Tue, 07 Jul 2020 12:27:32 -0400
+Received: from us-smtp-2.mimecast.com ([205.139.110.61]:24430
+ helo=us-smtp-delivery-1.mimecast.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1jsqRL-0002CG-7S
+ for qemu-devel@nongnu.org; Tue, 07 Jul 2020 12:27:29 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1594139244;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=VmOmBTdFxtCCiooVbkvx9o55+MkQHs3+R5wNfoQqg6M=;
+ b=Muwp33tav7IqC08DDfvja+Rs8YbGEvwzQgB5rGmSXIe9VhWKwSsemE+thCto4ZHMlbx4KX
+ RVQC1OII3ohYTSbP7th+802cTUhb3hz7jF7GkfN2vZVDVpa30lmIAclEXbNEarsqkwx6ef
+ ke4E963+Rv2T2JrkcTpN4Xis+X5hxvU=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-130-tsMQzooEOj-OLurRWWrGCw-1; Tue, 07 Jul 2020 12:27:23 -0400
+X-MC-Unique: tsMQzooEOj-OLurRWWrGCw-1
+Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
+ [10.5.11.15])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id EE8E9461;
+ Tue,  7 Jul 2020 16:27:21 +0000 (UTC)
+Received: from blackfin.pond.sub.org (ovpn-112-143.ams2.redhat.com
+ [10.36.112.143])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id BBAC473FDF;
+ Tue,  7 Jul 2020 16:27:21 +0000 (UTC)
+Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
+ id 48AAC1132FD2; Tue,  7 Jul 2020 18:27:19 +0200 (CEST)
+From: Markus Armbruster <armbru@redhat.com>
+To: qemu-devel@nongnu.org
+Subject: Re: [PATCH v4 00/45] Less clumsy error checking
+References: <20200707160613.848843-1-armbru@redhat.com>
+Date: Tue, 07 Jul 2020 18:27:19 +0200
+In-Reply-To: <20200707160613.848843-1-armbru@redhat.com> (Markus Armbruster's
+ message of "Tue, 7 Jul 2020 18:05:28 +0200")
+Message-ID: <87wo3fe1eg.fsf@dusky.pond.sub.org>
+User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/26.3 (gnu/linux)
 MIME-Version: 1.0
-References: <20200703161515.25966-1-Alexander.Richardson@cl.cam.ac.uk>
-In-Reply-To: <20200703161515.25966-1-Alexander.Richardson@cl.cam.ac.uk>
-From: Aleksandar Markovic <aleksandar.m.mail@gmail.com>
-Date: Tue, 7 Jul 2020 18:26:12 +0200
-Message-ID: <CAL1e-=huJ8hLCb7gG=cZ6bXcqMOUSA17NHpnCEED18MR4mKXhw@mail.gmail.com>
-Subject: Re: [PATCH] Fix MIPS add.s after
- 1ace099f2acb952eaaef0ba7725879949a7e4406
-To: Alex Richardson <Alexander.Richardson@cl.cam.ac.uk>
-Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2a00:1450:4864:20::641;
- envelope-from=aleksandar.m.mail@gmail.com; helo=mail-ej1-x641.google.com
-X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
- That's all we know.
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=armbru@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain
+Received-SPF: pass client-ip=205.139.110.61; envelope-from=armbru@redhat.com;
+ helo=us-smtp-delivery-1.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/07/07 00:31:00
+X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
+X-Spam_score_int: -40
+X-Spam_score: -4.1
+X-Spam_bar: ----
+X-Spam_report: (-4.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-1, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=_AUTOLEARN
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -78,45 +82,14 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: QEMU Trivial <qemu-trivial@nongnu.org>,
- Aleksandar Markovic <aleksandar.qemu.devel@gmail.com>,
- Aleksandar Rikalo <aleksandar.rikalo@syrmia.com>,
- Aurelien Jarno <aurelien@aurel32.net>,
- "open list:All patches CC here" <qemu-devel@nongnu.org>
+Cc: peter.maydell@linaro.org, vsementsov@virtuozzo.com, berrange@redhat.com,
+ ehabkost@redhat.com, qemu-block@nongnu.org, groug@kaod.org,
+ pbonzini@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Fri, Jul 3, 2020 at 6:33 PM Alex Richardson
-<Alexander.Richardson@cl.cam.ac.uk> wrote:
->
-> After merging latest QEMU upstream into our CHERI fork, I noticed that
-> some of the FPU tests in our MIPS baremetal testsuite
-> (https://github.com/CTSRD-CHERI/cheritest) started failing. It turns out
-> this commit accidentally changed add.s into a subtract.
->
-> Signed-off-by: Alex Richardson <Alexander.Richardson@cl.cam.ac.uk>
-> ---
+Neglected to mention: code changes are limited to resolving rebase
+conflicts in PATCH 26.  v4 is about comments, mostly to reduce churn
+when combined with Vladimir's auto propagation work.
 
-Applied to MIPS + TCG Continuous Benchmarking queue.
-
->  target/mips/fpu_helper.c | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
->
-> diff --git a/target/mips/fpu_helper.c b/target/mips/fpu_helper.c
-> index 7a3a61cab3..56beda49d8 100644
-> --- a/target/mips/fpu_helper.c
-> +++ b/target/mips/fpu_helper.c
-> @@ -1221,7 +1221,7 @@ uint32_t helper_float_add_s(CPUMIPSState *env,
->  {
->      uint32_t wt2;
->
-> -    wt2 = float32_sub(fst0, fst1, &env->active_fpu.fp_status);
-> +    wt2 = float32_add(fst0, fst1, &env->active_fpu.fp_status);
->      update_fcr31(env, GETPC());
->      return wt2;
->  }
-> --
-> 2.27.0
->
->
 
