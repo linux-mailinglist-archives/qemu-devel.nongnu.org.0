@@ -2,63 +2,66 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5D5B52174A8
-	for <lists+qemu-devel@lfdr.de>; Tue,  7 Jul 2020 19:02:11 +0200 (CEST)
-Received: from localhost ([::1]:44152 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8006D2174C1
+	for <lists+qemu-devel@lfdr.de>; Tue,  7 Jul 2020 19:09:19 +0200 (CEST)
+Received: from localhost ([::1]:35002 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jsqyw-0006ZJ-ES
-	for lists+qemu-devel@lfdr.de; Tue, 07 Jul 2020 13:02:10 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:43502)
+	id 1jsr5q-00073d-KQ
+	for lists+qemu-devel@lfdr.de; Tue, 07 Jul 2020 13:09:18 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:43528)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1jsqoH-0003lD-7f
- for qemu-devel@nongnu.org; Tue, 07 Jul 2020 12:51:09 -0400
-Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:51523
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1jsqoJ-0003qq-C4
+ for qemu-devel@nongnu.org; Tue, 07 Jul 2020 12:51:11 -0400
+Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:44067
  helo=us-smtp-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1jsqoF-0006jJ-5n
- for qemu-devel@nongnu.org; Tue, 07 Jul 2020 12:51:08 -0400
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1jsqoH-0006jX-IX
+ for qemu-devel@nongnu.org; Tue, 07 Jul 2020 12:51:11 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1594140666;
+ s=mimecast20190719; t=1594140669;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding;
- bh=10CNakQ3NgheZX/vjI8iYykwppKbLWYe9EuKJd8Y9yA=;
- b=aU//MHM6Ucn6juLqpNhfkLuo/9vFOdr1vza3ZQ28CY5EdaaT4Y+KSh06nbozhIm6J0Ba8a
- XacwEP1QkiIC+EALGNhXYFxlJ9pGBsiosLnxZQ1e7xs6mWm92DCjzrcxRNb2wsTn2rRIH2
- VK1rQc9qJMPDuEGi/ewVYXgyLWdkXY4=
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=XdaTtnXzRdmtkraOf3fJnKW205wPYgtaTPC/KbxTb9A=;
+ b=TGr00+yTDXOHFHXzUUhSGVhWcNj6GObrm7dakTcvcESyWyB3neaHpXrUvmNOyv2sxTNi+Q
+ WCdJXWI1ATaz0EE0NYBLlyP+zCgwqgEDj8vODY6Omrfo4brKN+sd4EYXY3Xpx4KwIo4gIs
+ 3g9nSZAc85Z+wmTCsjtstk/hhQDPzbI=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-354-dQR7_YpFNua-zqFIhuDs5w-1; Tue, 07 Jul 2020 12:50:50 -0400
-X-MC-Unique: dQR7_YpFNua-zqFIhuDs5w-1
-Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
- [10.5.11.14])
+ us-mta-39-CKUKUa5lMlaT6ynxi7hKYw-1; Tue, 07 Jul 2020 12:51:02 -0400
+X-MC-Unique: CKUKUa5lMlaT6ynxi7hKYw-1
+Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
+ [10.5.11.11])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id F2A12461;
- Tue,  7 Jul 2020 16:50:48 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 5205D804001;
+ Tue,  7 Jul 2020 16:51:00 +0000 (UTC)
 Received: from blackfin.pond.sub.org (ovpn-112-143.ams2.redhat.com
  [10.36.112.143])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 8DE0F5D9F3;
- Tue,  7 Jul 2020 16:50:48 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 8857B512FE;
+ Tue,  7 Jul 2020 16:50:54 +0000 (UTC)
 Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
- id 1B50B1132FD2; Tue,  7 Jul 2020 18:50:37 +0200 (CEST)
+ id 2D1D711326EC; Tue,  7 Jul 2020 18:50:37 +0200 (CEST)
 From: Markus Armbruster <armbru@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v12 0/8] error: auto propagated local_err part I
-Date: Tue,  7 Jul 2020 18:50:29 +0200
-Message-Id: <20200707165037.1026246-1-armbru@redhat.com>
+Subject: [PATCH v12 5/8] fw_cfg: Use ERRP_AUTO_PROPAGATE()
+Date: Tue,  7 Jul 2020 18:50:34 +0200
+Message-Id: <20200707165037.1026246-6-armbru@redhat.com>
+In-Reply-To: <20200707165037.1026246-1-armbru@redhat.com>
+References: <20200707165037.1026246-1-armbru@redhat.com>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=armbru@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=205.139.110.120; envelope-from=armbru@redhat.com;
+Received-SPF: pass client-ip=207.211.31.120; envelope-from=armbru@redhat.com;
  helo=us-smtp-1.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/07/07 06:04:49
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/07/07 00:46:09
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
 X-Spam_score_int: -40
 X-Spam_score: -4.1
@@ -66,7 +69,7 @@ X-Spam_bar: ----
 X-Spam_report: (-4.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-1, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001, URIBL_BLOCKED=0.001 autolearn=_AUTOLEARN
+ SPF_PASS=-0.001 autolearn=_AUTOLEARN
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -90,107 +93,81 @@ Cc: Kevin Wolf <kwolf@redhat.com>, vsementsov@virtuozzo.com,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-To speed things up, I'm taking the liberty to respin Vladimir's series
-with my documentation amendments.
+From: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
 
-After my documentation work, I'm very much inclined to rename
-ERRP_AUTO_PROPAGATE() to ERRP_GUARD().  The fact that it propagates
-below the hood is detail.  What matters to its users is that it lets
-them use @errp more freely.  Thoughts?
+If we want to add some info to errp (by error_prepend() or
+error_append_hint()), we must use the ERRP_AUTO_PROPAGATE macro.
+Otherwise, this info will not be added when errp == &error_fatal
+(the program will exit prior to the error_append_hint() or
+error_prepend() call).  Fix such cases.
 
-Based-on: Message-Id: <20200707160613.848843-1-armbru@redhat.com>
+If we want to check error after errp-function call, we need to
+introduce local_err and then propagate it to errp. Instead, use
+ERRP_AUTO_PROPAGATE macro, benefits are:
+1. No need of explicit error_propagate call
+2. No need of explicit local_err variable: use errp directly
+3. ERRP_AUTO_PROPAGATE leaves errp as is if it's not NULL or
+   &error_fatal, this means that we don't break error_abort
+   (we'll abort on error_set, not on error_propagate)
 
-Available from my public repository https://repo.or.cz/qemu/armbru.git
-on branch error-auto.
+This commit is generated by command
 
-v12: (based on "[PATCH v4 00/45] Less clumsy error checking")
-01: Comments merged properly with recent commit "error: Document Error
-API usage rules", and edited for clarity.  Put ERRP_AUTO_PROPAGATE()
-before its helpers, and touch up style.
-01-08: Commit messages tweaked
-
-Vladimir's cover letter for v11:
-
-v11: (based-on "[PATCH v2 00/44] Less clumsy error checking")
-01: minor rebase of documentation, keep r-bs
-02: - minor comment tweaks [Markus]
-    - use explicit file name in MAINTAINERS instead of pattern
-    - add Markus's r-b
-03,07,08: rabase changes, drop r-bs
-
-
-v11 is available at
- https://src.openvz.org/scm/~vsementsov/qemu.git #tag up-auto-local-err-partI-v11
-v10 is available at
- https://src.openvz.org/scm/~vsementsov/qemu.git #tag up-auto-local-err-partI-v10
-
-In these series, there is no commit-per-subsystem script, each generated
-commit is generated in separate.
-
-Still, generating commands are very similar, and looks like
-
-    sed -n '/^<Subsystem name>$/,/^$/{s/^F: //p}' MAINTAINERS | \
+    sed -n '/^Firmware configuration (fw_cfg)$/,/^$/{s/^F: //p}' \
+        MAINTAINERS | \
     xargs git ls-files | grep '\.[hc]$' | \
     xargs spatch \
         --sp-file scripts/coccinelle/auto-propagated-errp.cocci \
         --macro-file scripts/cocci-macro-file.h \
         --in-place --no-show-diff --max-width 80
 
-Note, that in each generated commit, generation command is the only
-text, indented by 8 spaces in 'git log -1' output, so, to regenerate all
-commits (for example, after rebase, or change in coccinelle script), you
-may use the following command:
+Reported-by: Kevin Wolf <kwolf@redhat.com>
+Reported-by: Greg Kurz <groug@kaod.org>
+Signed-off-by: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
+Reviewed-by: Philippe Mathieu-Daudé <philmd@redhat.com>
+[Commit message tweaked]
+Signed-off-by: Markus Armbruster <armbru@redhat.com>
+---
+ hw/nvram/fw_cfg.c | 14 ++++++--------
+ 1 file changed, 6 insertions(+), 8 deletions(-)
 
-git rebase -x "sh -c \"git show --pretty= --name-only | xargs git checkout HEAD^ -- ; git reset; git log -1 | grep '^        ' | sh\"" HEAD~6
-
-Which will start automated interactive rebase for generated patches,
-which will stop if generated patch changed
-(you may do git commit --amend to apply updated generated changes).
-
-Note:
-  git show --pretty= --name-only   - lists files, changed in HEAD
-  git log -1 | grep '^        ' | sh   - rerun generation command of HEAD
-
-
-Check for compilation of changed .c files
-git rebase -x "sh -c \"git show --pretty= --name-only | sed -n 's/\.c$/.o/p' | xargs make -j9\"" HEAD~6
-
-Vladimir Sementsov-Ogievskiy (8):
-  error: New macro ERRP_AUTO_PROPAGATE()
-  scripts: Coccinelle script to use ERRP_AUTO_PROPAGATE()
-  sd: Use ERRP_AUTO_PROPAGATE()
-  pflash: Use ERRP_AUTO_PROPAGATE()
-  fw_cfg: Use ERRP_AUTO_PROPAGATE()
-  virtio-9p: Use ERRP_AUTO_PROPAGATE()
-  nbd: Use ERRP_AUTO_PROPAGATE()
-  xen: Use ERRP_AUTO_PROPAGATE()
-
- scripts/coccinelle/auto-propagated-errp.cocci | 337 ++++++++++++++++++
- include/block/nbd.h                           |   1 +
- include/qapi/error.h                          | 163 ++++++++-
- block/nbd.c                                   |   7 +-
- hw/9pfs/9p-local.c                            |  12 +-
- hw/9pfs/9p.c                                  |   1 +
- hw/block/dataplane/xen-block.c                |  17 +-
- hw/block/pflash_cfi01.c                       |   7 +-
- hw/block/pflash_cfi02.c                       |   7 +-
- hw/block/xen-block.c                          | 102 +++---
- hw/nvram/fw_cfg.c                             |  14 +-
- hw/pci-host/xen_igd_pt.c                      |   7 +-
- hw/sd/sdhci-pci.c                             |   7 +-
- hw/sd/sdhci.c                                 |  21 +-
- hw/sd/ssi-sd.c                                |  10 +-
- hw/xen/xen-backend.c                          |   7 +-
- hw/xen/xen-bus.c                              |  92 ++---
- hw/xen/xen-host-pci-device.c                  |  27 +-
- hw/xen/xen_pt.c                               |  25 +-
- hw/xen/xen_pt_config_init.c                   |  17 +-
- nbd/client.c                                  |   5 +
- nbd/server.c                                  |   5 +
- MAINTAINERS                                   |   1 +
- 23 files changed, 659 insertions(+), 233 deletions(-)
- create mode 100644 scripts/coccinelle/auto-propagated-errp.cocci
-
+diff --git a/hw/nvram/fw_cfg.c b/hw/nvram/fw_cfg.c
+index 0408a31f8e..d5386c3235 100644
+--- a/hw/nvram/fw_cfg.c
++++ b/hw/nvram/fw_cfg.c
+@@ -1231,12 +1231,11 @@ static Property fw_cfg_io_properties[] = {
+ 
+ static void fw_cfg_io_realize(DeviceState *dev, Error **errp)
+ {
++    ERRP_AUTO_PROPAGATE();
+     FWCfgIoState *s = FW_CFG_IO(dev);
+-    Error *local_err = NULL;
+ 
+-    fw_cfg_file_slots_allocate(FW_CFG(s), &local_err);
+-    if (local_err) {
+-        error_propagate(errp, local_err);
++    fw_cfg_file_slots_allocate(FW_CFG(s), errp);
++    if (*errp) {
+         return;
+     }
+ 
+@@ -1282,14 +1281,13 @@ static Property fw_cfg_mem_properties[] = {
+ 
+ static void fw_cfg_mem_realize(DeviceState *dev, Error **errp)
+ {
++    ERRP_AUTO_PROPAGATE();
+     FWCfgMemState *s = FW_CFG_MEM(dev);
+     SysBusDevice *sbd = SYS_BUS_DEVICE(dev);
+     const MemoryRegionOps *data_ops = &fw_cfg_data_mem_ops;
+-    Error *local_err = NULL;
+ 
+-    fw_cfg_file_slots_allocate(FW_CFG(s), &local_err);
+-    if (local_err) {
+-        error_propagate(errp, local_err);
++    fw_cfg_file_slots_allocate(FW_CFG(s), errp);
++    if (*errp) {
+         return;
+     }
+ 
 -- 
 2.26.2
 
