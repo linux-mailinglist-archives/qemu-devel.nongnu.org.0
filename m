@@ -2,54 +2,54 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A87A5216DFA
-	for <lists+qemu-devel@lfdr.de>; Tue,  7 Jul 2020 15:44:17 +0200 (CEST)
-Received: from localhost ([::1]:47646 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A80D5216E06
+	for <lists+qemu-devel@lfdr.de>; Tue,  7 Jul 2020 15:49:13 +0200 (CEST)
+Received: from localhost ([::1]:37014 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jsntQ-0000PB-KW
-	for lists+qemu-devel@lfdr.de; Tue, 07 Jul 2020 09:44:16 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:50722)
+	id 1jsnyC-0008MZ-OR
+	for lists+qemu-devel@lfdr.de; Tue, 07 Jul 2020 09:49:12 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:50696)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1jsns4-0006tz-Uq
- for qemu-devel@nongnu.org; Tue, 07 Jul 2020 09:42:52 -0400
-Received: from us-smtp-1.mimecast.com ([205.139.110.61]:41243
+ (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1jsns3-0006rF-CQ
+ for qemu-devel@nongnu.org; Tue, 07 Jul 2020 09:42:51 -0400
+Received: from us-smtp-1.mimecast.com ([205.139.110.61]:53886
  helo=us-smtp-delivery-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1jsns3-0004bN-BQ
- for qemu-devel@nongnu.org; Tue, 07 Jul 2020 09:42:52 -0400
+ (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1jsns1-0004b9-PB
+ for qemu-devel@nongnu.org; Tue, 07 Jul 2020 09:42:51 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1594129370;
+ s=mimecast20190719; t=1594129369;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:content-type:content-type:in-reply-to:in-reply-to:
- references:references; bh=MYIUXR3CfD6NFerUROhZUSUnvg6P+uPCm/D3IMf65GE=;
- b=DcOieJpbpkvWydwOE8yZEOALW66L7hSdzAZ4uZFimo6v3UasdcajZBK1Q50+O7e1ZA7XZW
- n6iaaicStVHt6IWmMOoo0+WnmTMlI/2Oey2kQu1Ej4oLw5KTne2bwZFMnCHv0od4vz55GZ
- aT2/w13uftAJkfkILWnx9cylnR7JknU=
+ references:references; bh=2lksNVHVDfn+JRUysyPNuTS6EqEm1HR/0tS62Mk0Giw=;
+ b=exjoV3pJfX/SjFy1TY+xa4HEZKiKR4dFGBhIH4GR8AIKLRL8kBbN3PenpbNdTh1qhj1s8i
+ l8mGJ5PzUJzRkMku2UPD3sAOJag1/3bDUHG3B8alFjtSuRERfuWXbd4+ZP/SsWBXni4X+V
+ +V/QOhYhOh+VhB5kFovnMfxvL5kMM7M=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-268--Jx8rmekOnu0PuAKs7dpvA-1; Tue, 07 Jul 2020 09:42:39 -0400
-X-MC-Unique: -Jx8rmekOnu0PuAKs7dpvA-1
-Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
- [10.5.11.13])
+ us-mta-104-wxktQKl1NCCBP6Pjrh5lVQ-1; Tue, 07 Jul 2020 09:42:44 -0400
+X-MC-Unique: wxktQKl1NCCBP6Pjrh5lVQ-1
+Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
+ [10.5.11.15])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 9146BEE21
- for <qemu-devel@nongnu.org>; Tue,  7 Jul 2020 13:42:38 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id F311B107ACCA
+ for <qemu-devel@nongnu.org>; Tue,  7 Jul 2020 13:42:43 +0000 (UTC)
 Received: from sirius.home.kraxel.org (ovpn-112-200.ams2.redhat.com
  [10.36.112.200])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 77CF279810;
- Tue,  7 Jul 2020 13:42:32 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 4964AC0064;
+ Tue,  7 Jul 2020 13:42:37 +0000 (UTC)
 Received: by sirius.home.kraxel.org (Postfix, from userid 1000)
- id D302A31F2C; Tue,  7 Jul 2020 15:42:29 +0200 (CEST)
+ id E00E431F50; Tue,  7 Jul 2020 15:42:29 +0200 (CEST)
 From: Gerd Hoffmann <kraxel@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PULL 04/10] build: fix device module builds
-Date: Tue,  7 Jul 2020 15:42:23 +0200
-Message-Id: <20200707134229.9773-5-kraxel@redhat.com>
+Subject: [PULL 05/10] ccid: build smartcard as module
+Date: Tue,  7 Jul 2020 15:42:24 +0200
+Message-Id: <20200707134229.9773-6-kraxel@redhat.com>
 In-Reply-To: <20200707134229.9773-1-kraxel@redhat.com>
 References: <20200707134229.9773-1-kraxel@redhat.com>
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=kraxel@redhat.com
 X-Mimecast-Spam-Score: 0
@@ -85,46 +85,71 @@ Cc: =?UTF-8?q?Marc-Andr=C3=A9=20Lureau?= <marcandre.lureau@redhat.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Slightly hackish workaround, works ok as long as we don't
-have target-specific modules.  meson will obsolete this.
-
-See comment in the patch for the --verbose description.
+Drops libcacard.so dependency from core qemu.
 
 Signed-off-by: Gerd Hoffmann <kraxel@redhat.com>
-Message-id: 20200624131045.14512-5-kraxel@redhat.com
-
-[ kraxel: updated comment from discussions ]
-
-Signed-off-by: Gerd Hoffmann <kraxel@redhat.com>
+Message-id: 20200624131045.14512-6-kraxel@redhat.com
 ---
- Makefile.target | 14 ++++++++++++++
- 1 file changed, 14 insertions(+)
+ Makefile.objs        | 1 +
+ util/module.c        | 2 ++
+ hw/Makefile.objs     | 1 +
+ hw/usb/Makefile.objs | 4 +++-
+ 4 files changed, 7 insertions(+), 1 deletion(-)
 
-diff --git a/Makefile.target b/Makefile.target
-index 8ed1eba95b9c..02bd9d7117dd 100644
---- a/Makefile.target
-+++ b/Makefile.target
-@@ -179,6 +179,20 @@ endif # CONFIG_SOFTMMU
- dummy := $(call unnest-vars,,obj-y)
- all-obj-y := $(obj-y)
+diff --git a/Makefile.objs b/Makefile.objs
+index 98383972eef3..3d45492d8b46 100644
+--- a/Makefile.objs
++++ b/Makefile.objs
+@@ -59,6 +59,7 @@ common-obj-y += migration/
+ common-obj-y += audio/
+ common-obj-m += audio/
+ common-obj-y += hw/
++common-obj-m += hw/
  
-+#
-+# common-obj-m has some crap here, probably as side effect from
-+# unnest-vars recursing into target directories to fill obj-y and not
-+# properly handling the -m case.
-+#
-+# Clear common-obj-m as workaround.  Fixes suspious dependency errors
-+# when building devices as modules.  A bit hackish, but should be ok
-+# as long as we do not have any target-specific modules.
-+#
-+# The meson-based build system currently in development doesn't need
-+# unnest-vars and will obsolete this workaround.
-+#
-+common-obj-m :=
-+
- include $(SRC_PATH)/Makefile.objs
- dummy := $(call unnest-vars,.., \
-                authz-obj-y \
+ common-obj-y += replay/
+ 
+diff --git a/util/module.c b/util/module.c
+index ee560a4b4269..89da9a3cce05 100644
+--- a/util/module.c
++++ b/util/module.c
+@@ -261,6 +261,8 @@ static struct {
+     const char *prefix;
+     const char *module;
+ } const qom_modules[] = {
++    { "ccid-card-passthru",    "hw-", "usb-smartcard"         },
++    { "ccid-card-emulated",    "hw-", "usb-smartcard"         },
+ };
+ 
+ static bool module_loaded_qom_all;
+diff --git a/hw/Makefile.objs b/hw/Makefile.objs
+index 4cbe5e4e57d6..af8fd9a510ed 100644
+--- a/hw/Makefile.objs
++++ b/hw/Makefile.objs
+@@ -43,4 +43,5 @@ devices-dirs-y += smbios/
+ endif
+ 
+ common-obj-y += $(devices-dirs-y)
++common-obj-m += usb/
+ obj-y += $(devices-dirs-y)
+diff --git a/hw/usb/Makefile.objs b/hw/usb/Makefile.objs
+index fa5c3fa1b877..3c5b3d4fadd3 100644
+--- a/hw/usb/Makefile.objs
++++ b/hw/usb/Makefile.objs
+@@ -29,11 +29,13 @@ common-obj-$(CONFIG_USB_NETWORK)      += dev-network.o
+ 
+ ifeq ($(CONFIG_USB_SMARTCARD),y)
+ common-obj-y                          += dev-smartcard-reader.o
+-common-obj-$(CONFIG_SMARTCARD)        += smartcard.mo
++ifeq ($(CONFIG_SMARTCARD),y)
++common-obj-m                          += smartcard.mo
+ smartcard.mo-objs := ccid-card-passthru.o ccid-card-emulated.o
+ smartcard.mo-cflags := $(SMARTCARD_CFLAGS)
+ smartcard.mo-libs := $(SMARTCARD_LIBS)
+ endif
++endif
+ 
+ ifeq ($(CONFIG_POSIX),y)
+ common-obj-$(CONFIG_USB_STORAGE_MTP)  += dev-mtp.o
 -- 
 2.18.4
 
