@@ -2,65 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 081912179AC
-	for <lists+qemu-devel@lfdr.de>; Tue,  7 Jul 2020 22:47:50 +0200 (CEST)
-Received: from localhost ([::1]:45348 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6571321799E
+	for <lists+qemu-devel@lfdr.de>; Tue,  7 Jul 2020 22:41:57 +0200 (CEST)
+Received: from localhost ([::1]:40218 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jsuVI-0002gC-U5
-	for lists+qemu-devel@lfdr.de; Tue, 07 Jul 2020 16:47:49 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:35606)
+	id 1jsuPb-0000LK-VB
+	for lists+qemu-devel@lfdr.de; Tue, 07 Jul 2020 16:41:55 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:38728)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <michael@walle.cc>) id 1jsu7T-0003vF-SL
- for qemu-devel@nongnu.org; Tue, 07 Jul 2020 16:23:11 -0400
-Received: from ssl.serverraum.org ([176.9.125.105]:38893)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <michael@walle.cc>) id 1jsu7P-00057G-22
- for qemu-devel@nongnu.org; Tue, 07 Jul 2020 16:23:11 -0400
-Received: from ssl.serverraum.org (web.serverraum.org [172.16.0.2])
- (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
- (No client certificate requested)
- by ssl.serverraum.org (Postfix) with ESMTPSA id AC4C323068;
- Tue,  7 Jul 2020 22:22:59 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=walle.cc;
- s=mail2016061301; t=1594153379;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=tzjoJ2PIvRUP1j04WyWX2d7qzs5MUPGHOVmmpDLQVo0=;
- b=DP1TRmgdNCISSXyl/cQPKrAm7sMHUeFJyR06rkLg+PUef9gkcjypurckKPYE8pWh6bcVjI
- 1GiAcTKF4pkMXalqH74Xos5B0068GDrUduLcpQnx4vLUesUsAcaD9t8BjRkaqO+STf74vd
- a4vgbgineFA2UA03R0mKeZJ1FA7EVcg=
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1jsuOp-0008B1-5D
+ for qemu-devel@nongnu.org; Tue, 07 Jul 2020 16:41:07 -0400
+Received: from mail-oi1-x243.google.com ([2607:f8b0:4864:20::243]:43850)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1jsuOm-0007vf-GZ
+ for qemu-devel@nongnu.org; Tue, 07 Jul 2020 16:41:06 -0400
+Received: by mail-oi1-x243.google.com with SMTP id x83so28421248oif.10
+ for <qemu-devel@nongnu.org>; Tue, 07 Jul 2020 13:41:04 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=6Ng2CENiWLAVEpAm3mKaYc/1hthGN0bN4M0BnZhOfgY=;
+ b=iHm0XWXQQ9BPtI782Xq06LZzLBS1UJ6dTD+ccLh1YrSROgjCGsLJdOrCDqBayW/5UX
+ xAmED1n6Bion2Pwpcl0jtCC8t37ZSGhPef2+rbKGvCxrt6yqNZiOUMOtVvEqaNv9LxXm
+ JDCdhRpO9BGohLeLPB4wxvB/WzIvcp9N5Wo+3BU/SpSsXebklTp10Zom9QNlP2OozF4n
+ H9PsJE6ZGulKX3XZxVKCfK5b9TA0zCo0kHWYbBHGz25g8DofJVR+6BnR37VLiMFWiF8m
+ zBYvwJojn8rDQ2aw4++RI0zuOQCiPGIMApzOiDu6LnWr2dVXoU6tCGHKdMFLZkgjTO0m
+ uYTA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=6Ng2CENiWLAVEpAm3mKaYc/1hthGN0bN4M0BnZhOfgY=;
+ b=texnuQnbAKkjDNNgSTuNOQBELClkLeHTc95HRxfp5xQS9gAIKmQYE7VNNqvSwQegCA
+ 5bPDt9+AR9ClGmGeqeUpaq0UKNj0rxIg6ZQF3DBM/3M3PFVBm3rb8O1u+brDP+4t/Wrk
+ xH1QKx9gkhcJ+0hpUtN7qVWXK1mdN2/81ywASQ3xDSDw2sYm7eX1+WX7XrhUCLmbJmgT
+ H9Re5KUo9JQiq48eYNQ/zdr/wSq2mj+Jp2moUrVrIDTXqMHOnpN1qnlTltFZV9IfhO38
+ pcQyvgJBt4idGcKI+ZxN4ctW3midfvMYHbwJuC+aWQeti0CPLJD9aq4qc4/2H6vwyumQ
+ Ofww==
+X-Gm-Message-State: AOAM533KSy1W4lqeAyslxBfrkqvnNT149jQXiKDgGWgjitzJE87MTRhc
+ ZjhWs/FswxlbYoK9jEq7N1B0CBhDowdgl05MW0u1lA==
+X-Google-Smtp-Source: ABdhPJxWJzpaNYuAu/ptAJzPo07U62LvVoFeie8jLu/NcCbmOmd4tIcLVcZwsW9SCT5JZGCcgy+6d1wSfZqVxtQOIQA=
+X-Received: by 2002:aca:54c9:: with SMTP id i192mr4769826oib.163.1594154463202; 
+ Tue, 07 Jul 2020 13:41:03 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8;
- format=flowed
-Content-Transfer-Encoding: 8bit
-Date: Tue, 07 Jul 2020 22:22:59 +0200
-From: Michael Walle <michael@walle.cc>
-To: Peter Maydell <peter.maydell@linaro.org>
-Subject: Re: [PATCH 2/4] hw/lm32/milkymist: Comment to remember some IRQs
- lines are left unwired
-In-Reply-To: <CAFEAcA-oXwam0QmJaPnUnFLWsv62tKOcoCbqqj5W+Bn=yybLzg@mail.gmail.com>
-References: <20200705211016.15241-1-f4bug@amsat.org>
- <20200705211016.15241-3-f4bug@amsat.org>
- <CAFEAcA-oXwam0QmJaPnUnFLWsv62tKOcoCbqqj5W+Bn=yybLzg@mail.gmail.com>
-User-Agent: Roundcube Webmail/1.4.6
-Message-ID: <57b75c41a564361350b4c871775d086e@walle.cc>
-X-Sender: michael@walle.cc
-Received-SPF: pass client-ip=176.9.125.105; envelope-from=michael@walle.cc;
- helo=ssl.serverraum.org
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/07/07 16:23:00
-X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
-X-Spam_score_int: -43
-X-Spam_score: -4.4
-X-Spam_bar: ----
-X-Spam_report: (-4.4 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+References: <20200706100432.2301919-1-mreitz@redhat.com>
+In-Reply-To: <20200706100432.2301919-1-mreitz@redhat.com>
+From: Peter Maydell <peter.maydell@linaro.org>
+Date: Tue, 7 Jul 2020 21:40:51 +0100
+Message-ID: <CAFEAcA-jzUkr9dyKS6_ZFemQ-ojdLjA1zMwXhmWH=PSr7QAR7w@mail.gmail.com>
+Subject: Re: [PULL 00/31] Block patches
+To: Max Reitz <mreitz@redhat.com>
+Content-Type: text/plain; charset="UTF-8"
+Received-SPF: pass client-ip=2607:f8b0:4864:20::243;
+ envelope-from=peter.maydell@linaro.org; helo=mail-oi1-x243.google.com
+X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
+ That's all we know.
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
  DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_MED=-2.3, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- URIBL_BLOCKED=0.001 autolearn=_AUTOLEARN
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=_AUTOLEARN
 X-Spam_action: no action
-X-Mailman-Approved-At: Tue, 07 Jul 2020 16:43:45 -0400
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -72,43 +78,44 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Alistair Francis <alistair@alistair23.me>,
- =?UTF-8?Q?Philippe_Mathieu-Daud=C3=A9?= <f4bug@amsat.org>,
- QEMU Developers <qemu-devel@nongnu.org>
+Cc: Kevin Wolf <kwolf@redhat.com>, QEMU Developers <qemu-devel@nongnu.org>,
+ Qemu-block <qemu-block@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Am 2020-07-07 18:30, schrieb Peter Maydell:
-> On Sun, 5 Jul 2020 at 22:10, Philippe Mathieu-Daudé <f4bug@amsat.org> 
-> wrote:
->> 
->> The 'card is readonly' and 'card inserted' IRQs are not wired.
->> Add a comment in case someone know where to wire them.
->> 
->> Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
->> ---
->>  hw/lm32/milkymist.c | 1 +
->>  1 file changed, 1 insertion(+)
->> 
->> diff --git a/hw/lm32/milkymist.c b/hw/lm32/milkymist.c
->> index 469e3c4322..117973c967 100644
->> --- a/hw/lm32/milkymist.c
->> +++ b/hw/lm32/milkymist.c
->> @@ -87,6 +87,7 @@ static DeviceState *milkymist_memcard_create(hwaddr 
->> base)
->>      dev = qdev_new("milkymist-memcard");
->>      sysbus_realize_and_unref(SYS_BUS_DEVICE(dev), &error_fatal);
->>      sysbus_mmio_map(SYS_BUS_DEVICE(dev), 0, base);
->> +    /* FIXME wire 'card is readonly' and 'card inserted' IRQs? */
-> 
-> It's possible that these lines are correctly not wired up
-> (ie that the hardware does not provide any kind of indication
-> of the r/o or insertion events). The milkymist mmc device is a
-> very simple one. AIUI the RTL for the board is on github if
-> anybody wants to go check.
+On Mon, 6 Jul 2020 at 11:04, Max Reitz <mreitz@redhat.com> wrote:
+>
+> The following changes since commit eb6490f544388dd24c0d054a96dd304bc7284450:
+>
+>   Merge remote-tracking branch 'remotes/pmaydell/tags/pull-target-arm-20200703' into staging (2020-07-04 16:08:41 +0100)
+>
+> are available in the Git repository at:
+>
+>   https://github.com/XanClic/qemu.git tags/pull-block-2020-07-06
+>
+> for you to fetch changes up to 365fed5111b06d31c1632af63c7528dfe49d62a2:
+>
+>   qed: Simplify backing reads (2020-07-06 10:34:14 +0200)
+>
+> ----------------------------------------------------------------
+> Block patches for 5.1:
+> - LUKS keyslot amendment
+>   (+ patches to make the iotests pass on non-Linux systems, and to keep
+>      the tests passing for qcow v1, and to skip LUKS tests (including
+>      qcow2 LUKS) when the built qemu does not support it)
+> - Refactoring in the block layer: Drop the basically unnecessary
+>   unallocated_blocks_are_zero field from BlockDriverInfo
+> - Fix qcow2 preallocation when the image size is not a multiple of the
+>   cluster size
+> - Fix in block-copy code
+>
 
-That is correct, there are not indications nor are there any
-interrupts.
 
--michael
+
+Applied, thanks.
+
+Please update the changelog at https://wiki.qemu.org/ChangeLog/5.1
+for any user-visible changes.
+
+-- PMM
 
