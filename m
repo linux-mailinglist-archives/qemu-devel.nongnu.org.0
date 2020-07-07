@@ -2,56 +2,56 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 654AC216AD4
-	for <lists+qemu-devel@lfdr.de>; Tue,  7 Jul 2020 12:56:04 +0200 (CEST)
-Received: from localhost ([::1]:52698 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 824BA216AE8
+	for <lists+qemu-devel@lfdr.de>; Tue,  7 Jul 2020 12:59:39 +0200 (CEST)
+Received: from localhost ([::1]:37380 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jslGd-0006gW-Eb
-	for lists+qemu-devel@lfdr.de; Tue, 07 Jul 2020 06:56:03 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:36332)
+	id 1jslK6-0004Bc-Kd
+	for lists+qemu-devel@lfdr.de; Tue, 07 Jul 2020 06:59:38 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:36358)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <laurent@vivier.eu>)
- id 1jslDr-0001WD-Lu; Tue, 07 Jul 2020 06:53:11 -0400
-Received: from mout.kundenserver.de ([212.227.126.130]:42471)
+ id 1jslDs-0001Zf-V9; Tue, 07 Jul 2020 06:53:12 -0400
+Received: from mout.kundenserver.de ([212.227.126.133]:35931)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <laurent@vivier.eu>)
- id 1jslDp-0000NK-R3; Tue, 07 Jul 2020 06:53:11 -0400
+ id 1jslDr-0000Oe-0a; Tue, 07 Jul 2020 06:53:12 -0400
 Received: from localhost.localdomain ([82.252.135.106]) by
  mrelayeu.kundenserver.de (mreue011 [212.227.15.167]) with ESMTPSA (Nemesis)
- id 1N4Qg2-1kruOW14zO-011UiC; Tue, 07 Jul 2020 12:53:02 +0200
+ id 1N4hex-1ksBVg0OZD-011lpN; Tue, 07 Jul 2020 12:53:03 +0200
 From: Laurent Vivier <laurent@vivier.eu>
 To: qemu-devel@nongnu.org
-Subject: [PULL 6/7] intel_iommu: "aw-bits" error message still refers to
- "x-aw-bits"
-Date: Tue,  7 Jul 2020 12:52:54 +0200
-Message-Id: <20200707105255.362318-7-laurent@vivier.eu>
+Subject: [PULL 7/7] net/tap-solaris.c: Include qemu-common.h for TFR macro
+Date: Tue,  7 Jul 2020 12:52:55 +0200
+Message-Id: <20200707105255.362318-8-laurent@vivier.eu>
 X-Mailer: git-send-email 2.26.2
 In-Reply-To: <20200707105255.362318-1-laurent@vivier.eu>
 References: <20200707105255.362318-1-laurent@vivier.eu>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-X-Provags-ID: V03:K1:Tjxij94jaeCZuREeSdluUcIJZxXxYNA+lTOYf6jE3evR0QxF+6w
- eYp5VY+Qn1vQIrbrSJyYFAVFKXGt9xbQUTOUGBdmZmjdHahiNmZ+y/zfrneOun2KqMjZuGB
- /S96OUlMu+2fpI262zUr/1p+SMCDrPLp0i5YfxDWpiY2+IhoHOL0YRagT5ls4lS5eERflZS
- 5CFywyDks0E9cqzTf1+WA==
-X-UI-Out-Filterresults: notjunk:1;V03:K0:/1/l8sSZFUI=:Ksx3k/xJG6PmVt11Q1ZtRk
- UsPcRkK4dWxBDQLjY63674+WIQEI22wKo1GKWPWh+lHZ6OhwjoPVqlONPBJ8y0/dJxYKYQnCd
- 3QKwM9uoG5zyIiJUwKozwXd29TVtR7R6cNPX3tdOembsbCDyGmRuIgghFEoIjE8TT+zYSvTRY
- fTYtOiXPDKSTAFRSnomDhSLVZ1MDVJaMb+Z7rLNbZ6wE4tpO9yW5Flrr7wtw18y6azMn0/ruK
- hU/eUbPjPmfYhbvjA1vQsFhLEquGw3pByqE6YCImaM2GT8yParEcFPsZDEcXTS++jBERByP6p
- 9lw2IOL0t1+MLy3Aj3o6Hwq+YQduNXolFFG8TnHWYg3rnbnB8dGdJtbSXwDbXd2aDxNqUhcqc
- FYjw85gQuLf0kWp3s4KpNSqP5VUj7mT1MwjrtbH+icGP1sYRrUmgM4nR0J9fShw1hyr7E17Ze
- 6Y643GDqP6tYYOZOz1+sP8669+dhSWzu8dNRE8LlynisrCAaBNdp9qUUaGOBBH/LD99jl2w2n
- Lkfmw+N9T7WoBowxcpfK3XBmGrxMRA5SLUkpURoQcHZtqBPzM5169H8CEXxT2goo5BPn7dwvj
- nIzjTlDX2TQHGgSvJhQs6HkZmvpG2Y98EWaHuTpS25YoZPQrQbn1SvI1w+lZ0rdWEAP+cBHHg
- SFbHOYWDJqAsXCdIfaehlPjB+LoWfTZHavRSZux0CzU5mr7skM/A3+yO1+Plbo9bkQUUkPW6z
- hILstGqvmRLHP5Pm40AstfEDKpM7pB6mqFQUuEepfGSE2DofbrPMYaR7/ZEMADDUJ718NogRW
- 9UW8yD4Ap3B3h+5pDOkE8KgOjuJ3F7O1QCGSRdC8U6g6iddzbdN9Xz4aRii0i5ohk9Pt9Fp
-Received-SPF: none client-ip=212.227.126.130; envelope-from=laurent@vivier.eu;
+X-Provags-ID: V03:K1:lsRt7/FDAVdg+rzVdalhBL4jkta7hx0JrP73WaU+PKuu6Nq6MBa
+ u/kxnjrMocfQW8Jr5EIKb0+xxu7Cti7wwjaHClyW3QSs3Jh9pmQJmpcadhFmoqMJk9n9C2e
+ Fbkgdx6LaQ8Eh9S2VgG2Br9qxrjQphEs/ERxa1OqRrSqkuUsdjn02XPG+YQXkGNPSAeqR3f
+ dyApxhKO1mkH22LHENGiQ==
+X-UI-Out-Filterresults: notjunk:1;V03:K0:axkjWxxnXMk=:gDdfTvdCOqIur1DLuvw/4b
+ F9eEd7SOfkTd0yC9W9Ivo4g6+rG2Hoz/sRAvwOTUEMpxnllrcdM6j7GEOEZ51sgDjEc8+dESD
+ Y5GdGZFl9qswIwI8MK04FRCbhkwu+tR8CszlyXr6AuMubBQNYUVoE+NG6KUkXeIXf1AtqxIR6
+ TQ5NI/HMt09XFcdIkHfXHhWNK8Q2GqX1AaarU2m2rPbsxGwHAmhVoOKG/3Yy1uptpDOlugCSh
+ MQeFwRnTeCVQiq+ho0VzBTfhr0XGDCaQn4gC1Hfu9WSu6tHJm9nrXlHU4lEtYW1UuebAMWQ/n
+ ol7DTJUW9QMCNj1/DBaZz6ffcB02T8gCNSWYtd0+nXkZVJtYSZlnBSJ0Z6sQ2+g4tyU33tNGq
+ phLZ2Jvx8/8C4bstD4eGthOrfqpNc6BhFz2NOU/f3iRCF0qHW/vUj4MqmrPxz6dPv3DWtCc1W
+ tOJ50P2cQUEwqPUrFsliS1p2c3Q37d5Lz/hIhg4v+JKYVnx2LFS+3NOK5lswyjDALyw82hUBh
+ W6/fjtkFOFX0+ChpZO4ifDvD+p4ujpqMVIUij+A9ux6LEyIIWzV4AnQEAGK7K0r1p31Tp1eae
+ QbqK0w+d1QqEZiOfvhTjR2AbKtC3Bhu0x//UAGgPIV++rb7mgC9D8e/cImcT3e8PRNBeGki1i
+ UvxUugbu09Ff0RNThivwgPTxCbkWJumPVobvTEjpWoq/fYFoLWScWuTxCu2oNP2stH+PAbQ2g
+ cL2SjOl1N7Td7+yTaeAvfD/qrYSas3IkbHejW+g/1whM4u6VRK8PFOpZryaWko5ay+4LWv3RH
+ jzhBY3n9KuHr896f0I07DB0ogwuhAqZPXC+AEIcz554SE75YWKo4sL9qzVn4RCxo3kLCN+y
+Received-SPF: none client-ip=212.227.126.133; envelope-from=laurent@vivier.eu;
  helo=mout.kundenserver.de
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/07/07 05:54:48
-X-ACL-Warn: Detected OS   = Linux 3.11 and newer
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/07/07 06:53:03
+X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic]
 X-Spam_score_int: -28
 X-Spam_score: -2.9
 X-Spam_bar: --
@@ -69,38 +69,44 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-trivial@nongnu.org, Menno Lageman <menno.lageman@oracle.com>,
- Michael Tokarev <mjt@tls.msk.ru>, Laurent Vivier <laurent@vivier.eu>
+Cc: Peter Maydell <peter.maydell@linaro.org>, Thomas Huth <thuth@redhat.com>,
+ qemu-trivial@nongnu.org, Michael Tokarev <mjt@tls.msk.ru>,
+ =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>,
+ Laurent Vivier <laurent@vivier.eu>, Michele Denber <denber@mindspring.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Menno Lageman <menno.lageman@oracle.com>
+From: Peter Maydell <peter.maydell@linaro.org>
 
-Commit 4b49b586c4 ('intel_iommu: remove "x-" prefix for "aw-bits"')
-removed the "x-" prefix but but didn't update the error message
-accordingly.
+In commit a8d2532645cf5ce4 we cleaned up usage of the qemu-common.h header
+so that it was always included from .c files and never from other .h files.
+We missed adding it to net/tap-solaris.c (which previously was pulling it
+in via tap-int.h), which broke building on Solaris hosts.
 
-Signed-off-by: Menno Lageman <menno.lageman@oracle.com>
-Reviewed-by: Laurent Vivier <laurent@vivier.eu>
-Message-Id: <20200625155258.1452425-1-menno.lageman@oracle.com>
+Fixes: a8d2532645cf5ce4
+Reported-by: Michele Denber <denber@mindspring.com>
+Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
+Reviewed-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
+Reviewed-by: Thomas Huth <thuth@redhat.com>
+Tested-by: Michele Denber <denber@mindspring.com>
+Message-Id: <20200704092317.12943-1-peter.maydell@linaro.org>
 Signed-off-by: Laurent Vivier <laurent@vivier.eu>
 ---
- hw/i386/intel_iommu.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ net/tap-solaris.c | 1 +
+ 1 file changed, 1 insertion(+)
 
-diff --git a/hw/i386/intel_iommu.c b/hw/i386/intel_iommu.c
-index df7ad254ac15..c56398e99177 100644
---- a/hw/i386/intel_iommu.c
-+++ b/hw/i386/intel_iommu.c
-@@ -3758,7 +3758,7 @@ static bool vtd_decide_config(IntelIOMMUState *s, Error **errp)
-     /* Currently only address widths supported are 39 and 48 bits */
-     if ((s->aw_bits != VTD_HOST_AW_39BIT) &&
-         (s->aw_bits != VTD_HOST_AW_48BIT)) {
--        error_setg(errp, "Supported values for x-aw-bits are: %d, %d",
-+        error_setg(errp, "Supported values for aw-bits are: %d, %d",
-                    VTD_HOST_AW_39BIT, VTD_HOST_AW_48BIT);
-         return false;
-     }
+diff --git a/net/tap-solaris.c b/net/tap-solaris.c
+index 4725d2314eef..d03165c57c9f 100644
+--- a/net/tap-solaris.c
++++ b/net/tap-solaris.c
+@@ -27,6 +27,7 @@
+ #include "tap_int.h"
+ #include "qemu/ctype.h"
+ #include "qemu/cutils.h"
++#include "qemu-common.h"
+ 
+ #include <sys/ethernet.h>
+ #include <sys/sockio.h>
 -- 
 2.26.2
 
