@@ -2,85 +2,72 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 75A74217495
-	for <lists+qemu-devel@lfdr.de>; Tue,  7 Jul 2020 19:00:14 +0200 (CEST)
-Received: from localhost ([::1]:37368 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5558D2174A5
+	for <lists+qemu-devel@lfdr.de>; Tue,  7 Jul 2020 19:01:03 +0200 (CEST)
+Received: from localhost ([::1]:40248 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jsqx3-00037Q-HA
-	for lists+qemu-devel@lfdr.de; Tue, 07 Jul 2020 13:00:13 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:45088)
+	id 1jsqxq-0004YW-Dd
+	for lists+qemu-devel@lfdr.de; Tue, 07 Jul 2020 13:01:02 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:39824)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1jsqvV-0001ek-V0
- for qemu-devel@nongnu.org; Tue, 07 Jul 2020 12:58:37 -0400
-Received: from mail-wr1-x444.google.com ([2a00:1450:4864:20::444]:45345)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1jsqvU-0007mq-Cd
- for qemu-devel@nongnu.org; Tue, 07 Jul 2020 12:58:37 -0400
-Received: by mail-wr1-x444.google.com with SMTP id s10so45920439wrw.12
- for <qemu-devel@nongnu.org>; Tue, 07 Jul 2020 09:58:35 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=sender:subject:to:cc:references:from:message-id:date:user-agent
- :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=6+IBb7Xz/4CfcPrvJ+2wUbrJdzt1fxGdFW1XGuzGcuU=;
- b=WtBaeGhx5s7VfF/SYDe8gvVQoL64vHycDiRAvhu8FOjMT1DVOoQrrilL75fzMrvC5t
- wXWaTtrCIKm8h4vuunrn918S04LIrBaosuRyBsrCeA+Q5gt3tGlb4CTq5n5yh0+6Df3k
- DmZkj4dvlus5cdawDu19CfdSESx4tXoP1FBC4oQY5gjyZBrMsQaalX4SdOp6kdxvuKgI
- 18Jqtmb4qme2eVN2yZBFfsAmXtP9J2GrXHtmLMJJ5HkTX2dNSk4+FOWcJGckpzzU+oza
- q0xXMuX2XReWPQ3ELpOxvjxF2pt0refv1PsVuuJWTJ0Ns1G8uF/q6Xj/VCpJshYy+fp9
- kg2g==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:sender:subject:to:cc:references:from:message-id
- :date:user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=6+IBb7Xz/4CfcPrvJ+2wUbrJdzt1fxGdFW1XGuzGcuU=;
- b=txXrE+oe5scbIEVlVIx+5yMbcFumojn+2IWiTPayFjkdi3siuDnzxQq31ldvAvBaQC
- qs7VyCHv59rvL+YTOIDFDC+3rbJvdGMZKyRHQ0tJPVJJjgvaCGbWv8/m8rLNLjak+bJm
- AFysifPY6Bfyp4feXxWM1/2zjDkvnpkm2TWj2Zn0r0Pn6ZHwkR5vMZUrjn7iP07x92ea
- hRpkE258PRycjYSYSDNwyCndJv5iZUgvwlulQ+6hd+Ir9gu2P+L0bKhouF7LRRi1ANT+
- Nw/fKZ910wBaqf+P1fmd6UWlpRgSBwL/6hmccOsi6o00PBSiyx5lpKvchwiAn8QBawUN
- hj1Q==
-X-Gm-Message-State: AOAM533j6s0KKGZW637t154x1u/mzRfC0BiQ30Cn0gzqqoRKpILhvYOd
- C9Y7NgFjNkO4aYAMR1J9k5Y=
-X-Google-Smtp-Source: ABdhPJxT2r3hlH98LYbHPdGXeYhTAioAsEjZ33Onk1uIuiq4yBTqtOAJmBNGI+V64/h4ZBI4QoY60Q==
-X-Received: by 2002:a05:6000:1107:: with SMTP id
- z7mr53845115wrw.355.1594141114212; 
- Tue, 07 Jul 2020 09:58:34 -0700 (PDT)
-Received: from [192.168.1.36] (138.red-83-57-170.dynamicip.rima-tde.net.
- [83.57.170.138])
- by smtp.gmail.com with ESMTPSA id r28sm1860261wrr.20.2020.07.07.09.58.33
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 07 Jul 2020 09:58:33 -0700 (PDT)
-Subject: Re: [RFC PATCH v2 4/4] target/avr/translate: Fix SBRC/SBRS
- instructions
-To: Richard Henderson <richard.henderson@linaro.org>, qemu-devel@nongnu.org
-References: <20200707070021.10031-1-f4bug@amsat.org>
- <20200707070021.10031-5-f4bug@amsat.org>
- <9c799b29-baa9-82c1-7329-aa9a3bff4664@linaro.org>
-From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>
-Message-ID: <eea7799a-9959-0fb0-3bc4-001f97cbea50@amsat.org>
-Date: Tue, 7 Jul 2020 18:58:32 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.5.0
+ (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1jsqZb-0007rd-V0
+ for qemu-devel@nongnu.org; Tue, 07 Jul 2020 12:35:59 -0400
+Received: from us-smtp-2.mimecast.com ([205.139.110.61]:52567
+ helo=us-smtp-delivery-1.mimecast.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1jsqZY-0004Av-M9
+ for qemu-devel@nongnu.org; Tue, 07 Jul 2020 12:35:59 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1594139756;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=EDzQqZKkiCaqZyEKi9kCYJwzusC1SRYKCLMc42JAFhI=;
+ b=AOSYUFKOLReNmmCwWIbGG3pQxvRmFFnNOenrj2nn9yYllz3iVHFd5Ex+Di8TiMTVM11DVz
+ aOSZ4Xswjr8N1r0HEA1sZqDT2y0oJECV1zV0z6R6Rudid+yKpQluVTuPe9ZbbgX91yAxjd
+ wR4hoDFMMi4wJYK12b2SziSdghovkZE=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-60-5dYDmLj0P8KgvhU-d0NIew-1; Tue, 07 Jul 2020 12:35:53 -0400
+X-MC-Unique: 5dYDmLj0P8KgvhU-d0NIew-1
+Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
+ [10.5.11.11])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 029B3890509;
+ Tue,  7 Jul 2020 16:35:48 +0000 (UTC)
+Received: from linux.fritz.box.com (ovpn-114-113.ams2.redhat.com
+ [10.36.114.113])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id E7AEE79310;
+ Tue,  7 Jul 2020 16:35:45 +0000 (UTC)
+From: Kevin Wolf <kwolf@redhat.com>
+To: qemu-block@nongnu.org
+Subject: [PULL 05/12] sheepdog: Add trivial backing_fmt support
+Date: Tue,  7 Jul 2020 18:34:57 +0200
+Message-Id: <20200707163504.194740-6-kwolf@redhat.com>
+In-Reply-To: <20200707163504.194740-1-kwolf@redhat.com>
+References: <20200707163504.194740-1-kwolf@redhat.com>
 MIME-Version: 1.0
-In-Reply-To: <9c799b29-baa9-82c1-7329-aa9a3bff4664@linaro.org>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=kwolf@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::444;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wr1-x444.google.com
-X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
- That's all we know.
-X-Spam_score_int: 0
-X-Spam_score: 0.0
-X-Spam_bar: /
-X-Spam_report: (0.0 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1, DKIM_VALID=-0.1,
- DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=1, FREEMAIL_FROM=0.001,
- HEADER_FROM_DIFFERENT_DOMAINS=1, RCVD_IN_DNSWL_NONE=-0.0001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=_AUTOLEARN
+Received-SPF: pass client-ip=205.139.110.61; envelope-from=kwolf@redhat.com;
+ helo=us-smtp-delivery-1.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/07/07 00:31:00
+X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
+X-Spam_score_int: -40
+X-Spam_score: -4.1
+X-Spam_bar: ----
+X-Spam_report: (-4.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-1, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=_AUTOLEARN
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -93,53 +80,76 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Thomas Huth <huth@tuxfamily.org>,
- Joaquin de Andres <me@xcancerberox.com.ar>, Michael Rolnik <mrolnik@gmail.com>,
- Sarah Harris <S.E.Harris@kent.ac.uk>
+Cc: kwolf@redhat.com, peter.maydell@linaro.org, qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 7/7/20 6:34 PM, Richard Henderson wrote:
-> On 7/7/20 12:00 AM, Philippe Mathieu-Daudé wrote:
->> @@ -1385,7 +1385,7 @@ static bool trans_SBRC(DisasContext *ctx, arg_SBRC *a)
->>  {
->>      TCGv Rr = cpu_r[a->rr];
->>  
->> -    ctx->skip_cond = TCG_COND_EQ;
->> +    ctx->skip_cond = TCG_COND_NE;
->>      ctx->skip_var0 = tcg_temp_new();
->>      ctx->free_skip_var0 = true;
-> 
-> This is wrong.  The next line is
-> 
->>     tcg_gen_andi_tl(ctx->skip_var0, Rr, 1 << a->bit);
-> 
-> So we compute "var = R & bit", which should be zero for "Skip if Bit in
-> Register Clear".  Thus "var EQ 0" is the correct test.
+From: Eric Blake <eblake@redhat.com>
 
-Thanks for verifying. If TCG is correct, then some hardware register
-might have a bit flipped.
+Sheepdog already requires that if backing_file is present, that it be
+another sheepdog image (see sd_co_create).  Meanwhile, we want to move
+towards always being explicit about the backing format for other
+drivers where it matters.  So for convenience, make qemu-img create -F
+sheepdog work, while rejecting all other explicit formats (note that
+this is only for QemuOpts usage; there is no change to the QAPI to
+allow a format through -blockdev).
 
-I couldn't run Sarah's test suite on Fedora 30:
+Signed-off-by: Eric Blake <eblake@redhat.com>
+Message-Id: <20200706203954.341758-4-eblake@redhat.com>
+Signed-off-by: Kevin Wolf <kwolf@redhat.com>
+---
+ block/sheepdog.c | 18 ++++++++++++++++--
+ 1 file changed, 16 insertions(+), 2 deletions(-)
 
-/usr/lib/gcc/avr/9.2.0/../../../../avr/bin/ld: cannot find
-crtatmega2560.o: No such file or directory
-/usr/lib/gcc/avr/9.2.0/../../../../avr/bin/ld: cannot find -lm
-/usr/lib/gcc/avr/9.2.0/../../../../avr/bin/ld: cannot find -lc
-/usr/lib/gcc/avr/9.2.0/../../../../avr/bin/ld: cannot find -latmega2560
-collect2: error: ld returned 1 exit status
+diff --git a/block/sheepdog.c b/block/sheepdog.c
+index 27a30d17f4..548ce54cbc 100644
+--- a/block/sheepdog.c
++++ b/block/sheepdog.c
+@@ -2157,13 +2157,21 @@ static int coroutine_fn sd_co_create_opts(BlockDriver *drv,
+                                           Error **errp)
+ {
+     BlockdevCreateOptions *create_options = NULL;
+-    QDict *qdict, *location_qdict;
++    QDict *qdict = NULL, *location_qdict;
+     Visitor *v;
+-    char *redundancy;
++    char *redundancy = NULL;
+     Error *local_err = NULL;
+     int ret;
++    char *backing_fmt = NULL;
+ 
+     redundancy = qemu_opt_get_del(opts, BLOCK_OPT_REDUNDANCY);
++    backing_fmt = qemu_opt_get_del(opts, BLOCK_OPT_BACKING_FMT);
++
++    if (backing_fmt && strcmp(backing_fmt, "sheepdog") != 0) {
++        error_setg(errp, "backing_file must be a sheepdog image");
++        ret = -EINVAL;
++        goto fail;
++    }
+ 
+     qdict = qemu_opts_to_qdict(opts, NULL);
+     qdict_put_str(qdict, "driver", "sheepdog");
+@@ -2228,6 +2236,7 @@ fail:
+     qapi_free_BlockdevCreateOptions(create_options);
+     qobject_unref(qdict);
+     g_free(redundancy);
++    g_free(backing_fmt);
+     return ret;
+ }
+ 
+@@ -3185,6 +3194,11 @@ static QemuOptsList sd_create_opts = {
+             .type = QEMU_OPT_STRING,
+             .help = "File name of a base image"
+         },
++        {
++            .name = BLOCK_OPT_BACKING_FMT,
++            .type = QEMU_OPT_STRING,
++            .help = "Must be 'sheepdog' if present",
++        },
+         {
+             .name = BLOCK_OPT_PREALLOC,
+             .type = QEMU_OPT_STRING,
+-- 
+2.25.4
 
-I'll try on some Debian based host.
-
-> 
->> @@ -1401,7 +1401,7 @@ static bool trans_SBRS(DisasContext *ctx, arg_SBRS *a)
->>  {
->>      TCGv Rr = cpu_r[a->rr];
->>  
->> -    ctx->skip_cond = TCG_COND_NE;
->> +    ctx->skip_cond = TCG_COND_EQ;
->>      ctx->skip_var0 = tcg_temp_new();
->>      ctx->free_skip_var0 = true;
-> 
-> Similarly this is "var NE 0".
 
