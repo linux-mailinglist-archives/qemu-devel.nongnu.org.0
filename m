@@ -2,72 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5244B216735
-	for <lists+qemu-devel@lfdr.de>; Tue,  7 Jul 2020 09:20:01 +0200 (CEST)
-Received: from localhost ([::1]:54920 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 94797216726
+	for <lists+qemu-devel@lfdr.de>; Tue,  7 Jul 2020 09:16:31 +0200 (CEST)
+Received: from localhost ([::1]:36578 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jshtY-0008RZ-9D
-	for lists+qemu-devel@lfdr.de; Tue, 07 Jul 2020 03:20:00 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:43624)
+	id 1jshqA-0000DX-IY
+	for lists+qemu-devel@lfdr.de; Tue, 07 Jul 2020 03:16:30 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:43576)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1jshoI-0006hl-46
- for qemu-devel@nongnu.org; Tue, 07 Jul 2020 03:14:34 -0400
-Received: from mail-wr1-x430.google.com ([2a00:1450:4864:20::430]:46644)
+ id 1jshoE-0006aF-VC
+ for qemu-devel@nongnu.org; Tue, 07 Jul 2020 03:14:31 -0400
+Received: from mail-wm1-x32a.google.com ([2a00:1450:4864:20::32a]:39654)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1jshoG-0004rK-Fg
- for qemu-devel@nongnu.org; Tue, 07 Jul 2020 03:14:33 -0400
-Received: by mail-wr1-x430.google.com with SMTP id r12so43920459wrj.13
- for <qemu-devel@nongnu.org>; Tue, 07 Jul 2020 00:14:32 -0700 (PDT)
+ id 1jshoC-0004qf-Vo
+ for qemu-devel@nongnu.org; Tue, 07 Jul 2020 03:14:30 -0400
+Received: by mail-wm1-x32a.google.com with SMTP id w3so32866572wmi.4
+ for <qemu-devel@nongnu.org>; Tue, 07 Jul 2020 00:14:28 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=QcDsGkNTaeJACoHN9Zi8eoA/LmcFjDZTuPYv9J/13u0=;
- b=CsamUib+kh/ukEfM4sBKp7U6RVCw/zg0f0XctfckiI3X9EwWY6vSgR9pyhzVh3E5Q/
- OmknDa8+3dY9kRH+CkJ4BaRqWBI9fau7TDaTLFkHWTHR32+C5LjjZoBbbmrjcJdaodw/
- RA38T2OjQRtN/OJV0CQD6MbF6GpBtmUnTImKX+It89XY+h2RT7dNOJGagzmorb0FqEvr
- QeVLSCPWhAvxMo0bGv2z67qB/k0f6WT2eUZF4v2tJUQ7QPCzw1Ri3i054qDvymZzNngn
- mlg+NeNsyX3as+yhNh50EYX4+qiiTEwICHrVZEUCCX1ArjSwdNZDLPrbj9HXQD1OKI3q
- EP5g==
+ bh=eqzXTFvwpMkciPOZ24DlL9wg1TWlgnxheOGFm1m1Zko=;
+ b=FW6u/FcTipVkdqSZzFZKAq9AnznjWuqqoIrSafqtjxsj1J0rHKVIa0E55mwky604zW
+ Ehj0sDxmJkhJs3y5APTC6QRdPKd8EyolXmHZv/7eGLK0bikJRZOdd9qg8nvFgM+BjmuY
+ 5NuS1SDF78imxtF3Ma+DpEydTsfJYLzOmY64iFhWyjjL2GLsAVs/w+t/KBpUTCq8lZmW
+ cIeRFRUWzw3JgVHf95n/kyCIRfGpr0kZpO+B1FX6HJovMs+OyAI7aWEYCk7GlmmBnbEf
+ YR8XdK3bR0YXY9CPZg/rx07Iy+ysAIu4imJbmKnPmnoDOCuZG5mAGaKPNR7pwE9hV2JK
+ 3m/A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=QcDsGkNTaeJACoHN9Zi8eoA/LmcFjDZTuPYv9J/13u0=;
- b=kkfIBuWYeCxhsvAKWho7l41d9ofQM8GwteJRV6Ze2U1QT+OGHBSwQ993W8ZjmnBffC
- jvdt/q2jjvN9SDXFd0c2e7jqLC61KXRAl7FcWEJ9OQkQgf/MeUiFYdVGP3F1vk5fJ4ri
- 21fozWHBOO/ZZiFOJJOT6Xk1hB3tTAxTEstCRR2Px7iginWcEDxHYQPNULGOOiPE+RuQ
- f55QjfEHMjJNA/GN2gymoeNqI32HJLQI/Ol4/GmcoXxHhii2vaTtWpIhBpK7T9HNbqyg
- fEnepo/3dYDluPXCXGewqK5QkocLKax1f6JXzjKqucz1kgJWzszxgmgqQE3WE3ZAbZOl
- 8+Gg==
-X-Gm-Message-State: AOAM5317n8dPjMAKeLvZd0IS+/qcX/oep+IKkkDdL5PTlAFo9+54USFR
- mHD1Mv8EFyvV7KGGbI9C0o1oXQ==
-X-Google-Smtp-Source: ABdhPJxCy12zDGlE8PAdQk8DlOrg6KGDeEbOmeuaYbBkMXDnRBwskD9/uoZ5rEs70KA/bbJrb+9b7A==
-X-Received: by 2002:adf:fa8b:: with SMTP id h11mr52440866wrr.391.1594106071075; 
- Tue, 07 Jul 2020 00:14:31 -0700 (PDT)
+ bh=eqzXTFvwpMkciPOZ24DlL9wg1TWlgnxheOGFm1m1Zko=;
+ b=DYTVDrGXETJatmFyAMTDl7M+gLMLU2iu5Kzee3wsWWpwhQcJFPOVi7IJigoKDotuP+
+ 0+oogvbDzBtxPwsglRp0z8fWbycnmbCzOb4yRbE36KAsKJj42Oc89CBz+8HCBo1DRlmv
+ 7XkQbjGGCvgcJt+33s+oCH9yKq+M3KUnTe/F7RD/xWVVP+jhcAfVqfQkVs+le0LZ1tuR
+ ZsaXSrlisHfc7pZsBIMKNurf4YVxzTBov94toZNxM6k5c85Q8zFyXAqyiLWA4gcl64sU
+ OSwiram/3MLgCm0Ht5nQshvOIJweC/x02X0nAMPFpM7iqp8xDbi5bv3rcxYGUYC3QxGe
+ w/Dg==
+X-Gm-Message-State: AOAM532vpF0urCwXpGwPcQg2doLf/dAoFfp1nZKBeK9QdM1FLJEXP8ds
+ L72hlSqGut0Eqjlt9bBcP8/Mpg==
+X-Google-Smtp-Source: ABdhPJwXL33GyUdaPXH54JPFfQkNmIC4XFPxqjG2oyc1yE+6MlX9QJUFaOrgei87uxprNEkTJckEwQ==
+X-Received: by 2002:a1c:5986:: with SMTP id n128mr2529967wmb.112.1594106067389; 
+ Tue, 07 Jul 2020 00:14:27 -0700 (PDT)
 Received: from zen.linaroharston ([51.148.130.216])
- by smtp.gmail.com with ESMTPSA id j15sm17963248wrx.69.2020.07.07.00.14.27
+ by smtp.gmail.com with ESMTPSA id j16sm27183653wrt.7.2020.07.07.00.14.22
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 07 Jul 2020 00:14:31 -0700 (PDT)
+ Tue, 07 Jul 2020 00:14:22 -0700 (PDT)
 Received: from zen.lan (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id 4B1491FFA5;
+ by zen.linaroharston (Postfix) with ESMTP id 6342A1FFA6;
  Tue,  7 Jul 2020 08:09:00 +0100 (BST)
 From: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
 To: peter.maydell@linaro.org
-Subject: [PULL 17/41] gitlab-ci: Fix the change rules after moving the YML
- files
-Date: Tue,  7 Jul 2020 08:08:34 +0100
-Message-Id: <20200707070858.6622-18-alex.bennee@linaro.org>
+Subject: [PULL 18/41] gitlab: introduce explicit "container" and "build" stages
+Date: Tue,  7 Jul 2020 08:08:35 +0100
+Message-Id: <20200707070858.6622-19-alex.bennee@linaro.org>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20200707070858.6622-1-alex.bennee@linaro.org>
 References: <20200707070858.6622-1-alex.bennee@linaro.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::430;
- envelope-from=alex.bennee@linaro.org; helo=mail-wr1-x430.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::32a;
+ envelope-from=alex.bennee@linaro.org; helo=mail-wm1-x32a.google.com
 X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
  That's all we know.
 X-Spam_score_int: -20
@@ -89,53 +88,135 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>,
- Thomas Huth <thuth@redhat.com>,
+Cc: Thomas Huth <thuth@redhat.com>,
+ =?UTF-8?q?Daniel=20P=2E=20Berrang=C3=A9?= <berrange@redhat.com>,
+ Laszlo Ersek <lersek@redhat.com>, qemu-devel@nongnu.org,
+ Wainer dos Santos Moschetta <wainersm@redhat.com>,
  =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
- qemu-devel@nongnu.org, Laszlo Ersek <lersek@redhat.com>
+ =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Thomas Huth <thuth@redhat.com>
+From: Daniel P. Berrangé <berrange@redhat.com>
 
-The edk2.yml and opensbi.yml files have recently been moved/renamed,
-but the change has not been reflected in the rules in the YML files
-yet.
+If no stage is listed, jobs get put in an implicit "test" stage.
+Some jobs which create container images to be used by later stages
+are currently listed as in a "build" stages.
 
-Fixes: 922febe2af ("Move edk2 and opensbi YAML files to .gitlab-ci.d folder")
-Signed-off-by: Thomas Huth <thuth@redhat.com>
-Reviewed-by: Philippe Mathieu-Daudé <philmd@redhat.com>
+Signed-off-by: Daniel P. Berrangé <berrange@redhat.com>
+Acked-by: Laszlo Ersek <lersek@redhat.com>
 Signed-off-by: Alex Bennée <alex.bennee@linaro.org>
-Reviewed-by: Laszlo Ersek <lersek@redhat.com>
-Message-Id: <20200625151627.24986-1-thuth@redhat.com>
-Message-Id: <20200701135652.1366-20-alex.bennee@linaro.org>
+Reviewed-by: Thomas Huth <thuth@redhat.com>
+Reviewed-by: Philippe Mathieu-Daudé <philmd@redhat.com>
+Message-Id: <20200622153318.751107-2-berrange@redhat.com>
+Message-Id: <20200701135652.1366-21-alex.bennee@linaro.org>
 
 diff --git a/.gitlab-ci.d/edk2.yml b/.gitlab-ci.d/edk2.yml
-index 088ba4b43a33..a9990b71475f 100644
+index a9990b71475f..e1e045241661 100644
 --- a/.gitlab-ci.d/edk2.yml
 +++ b/.gitlab-ci.d/edk2.yml
-@@ -2,7 +2,7 @@ docker-edk2:
-  stage: build
+@@ -1,5 +1,5 @@
+ docker-edk2:
+- stage: build
++ stage: containers
   rules: # Only run this job when the Dockerfile is modified
   - changes:
--   - .gitlab-ci-edk2.yml
-+   - .gitlab-ci.d/edk2.yml
-    - .gitlab-ci.d/edk2/Dockerfile
-    when: always
-  image: docker:19.03.1
+    - .gitlab-ci.d/edk2.yml
+@@ -24,6 +24,7 @@ docker-edk2:
+  - docker push $IMAGE_TAG
+ 
+ build-edk2:
++ stage: build
+  rules: # Only run this job when ...
+  - changes: # ... roms/edk2/ is modified (submodule updated)
+    - roms/edk2/*
 diff --git a/.gitlab-ci.d/opensbi.yml b/.gitlab-ci.d/opensbi.yml
-index dd051c01245d..6a1750784ac1 100644
+index 6a1750784ac1..62088ec5ec1b 100644
 --- a/.gitlab-ci.d/opensbi.yml
 +++ b/.gitlab-ci.d/opensbi.yml
-@@ -2,7 +2,7 @@ docker-opensbi:
-  stage: build
+@@ -1,5 +1,5 @@
+ docker-opensbi:
+- stage: build
++ stage: containers
   rules: # Only run this job when the Dockerfile is modified
   - changes:
--   - .gitlab-ci-opensbi.yml
-+   - .gitlab-ci.d/opensbi.yml
-    - .gitlab-ci.d/opensbi/Dockerfile
-    when: always
-  image: docker:19.03.1
+    - .gitlab-ci.d/opensbi.yml
+@@ -24,6 +24,7 @@ docker-opensbi:
+  - docker push $IMAGE_TAG
+ 
+ build-opensbi:
++ stage: build
+  rules: # Only run this job when ...
+  - changes: # ... roms/opensbi/ is modified (submodule updated)
+    - roms/opensbi/*
+diff --git a/.gitlab-ci.yml b/.gitlab-ci.yml
+index 349c77aa580e..9fdc752ea636 100644
+--- a/.gitlab-ci.yml
++++ b/.gitlab-ci.yml
+@@ -1,3 +1,7 @@
++stages:
++  - containers
++  - build
++
+ include:
+   - local: '/.gitlab-ci.d/edk2.yml'
+   - local: '/.gitlab-ci.d/opensbi.yml'
+@@ -17,6 +21,7 @@ include:
+   - JOBS=$(expr $(nproc) + 1)
+ 
+ build-system1:
++ stage: build
+  image: ubuntu:19.10
+  <<: *before_script_apt
+  script:
+@@ -31,6 +36,7 @@ build-system1:
+  - make -j"$JOBS" check
+ 
+ build-system2:
++ stage: build
+  image: fedora:latest
+  <<: *before_script_dnf
+  script:
+@@ -46,6 +52,7 @@ build-system2:
+  - make -j"$JOBS" check
+ 
+ build-disabled:
++ stage: build
+  image: fedora:latest
+  <<: *before_script_dnf
+  script:
+@@ -62,6 +69,7 @@ build-disabled:
+  - make -j"$JOBS" check-qtest SPEED=slow
+ 
+ build-tcg-disabled:
++ stage: build
+  image: centos:8
+  <<: *before_script_dnf
+  script:
+@@ -82,6 +90,7 @@ build-tcg-disabled:
+             260 261 262 263 264 270 272 273 277 279
+ 
+ build-user:
++ stage: build
+  <<: *before_script_apt
+  script:
+  - mkdir build
+@@ -92,6 +101,7 @@ build-user:
+  - make run-tcg-tests-i386-linux-user run-tcg-tests-x86_64-linux-user
+ 
+ build-clang:
++ stage: build
+  image: fedora:latest
+  <<: *before_script_dnf
+  script:
+@@ -106,6 +116,7 @@ build-clang:
+  - make -j"$JOBS" check
+ 
+ build-tci:
++ stage: build
+  image: centos:8
+  <<: *before_script_dnf
+  script:
 -- 
 2.20.1
 
