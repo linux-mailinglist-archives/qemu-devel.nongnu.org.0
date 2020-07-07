@@ -2,82 +2,85 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2A24321649F
-	for <lists+qemu-devel@lfdr.de>; Tue,  7 Jul 2020 05:37:01 +0200 (CEST)
-Received: from localhost ([::1]:50316 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2401C216517
+	for <lists+qemu-devel@lfdr.de>; Tue,  7 Jul 2020 06:07:40 +0200 (CEST)
+Received: from localhost ([::1]:59720 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jsePk-0000h9-89
-	for lists+qemu-devel@lfdr.de; Mon, 06 Jul 2020 23:37:00 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:39902)
+	id 1jsetP-0001rj-70
+	for lists+qemu-devel@lfdr.de; Tue, 07 Jul 2020 00:07:39 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:44064)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1jseP2-0000HB-7E
- for qemu-devel@nongnu.org; Mon, 06 Jul 2020 23:36:16 -0400
-Received: from mail-wm1-x341.google.com ([2a00:1450:4864:20::341]:52766)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1jseP0-0005TX-O6
- for qemu-devel@nongnu.org; Mon, 06 Jul 2020 23:36:15 -0400
-Received: by mail-wm1-x341.google.com with SMTP id q15so41571039wmj.2
- for <qemu-devel@nongnu.org>; Mon, 06 Jul 2020 20:36:14 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=sender:subject:to:cc:references:from:message-id:date:user-agent
- :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=SZm6sjyTmknKnlyqzKJoiNHTSgykGGyh91XWQ6QaCcU=;
- b=NZhn1UqXKAqCI5G0EJPjskvonhYS6Un70cRK1zmuonMaNAEgM7ohQpK+Ze4307ndMK
- B+DY9e9lnRr+40gUjDr5IC/dzMINAISzMg/HPZw2yFaVmWCaq2cRZ99ZotacsJx3oZgu
- KTk1va9IgZmcOirr3iC5+nKl51ISTSck6o/dcEncS5iWz+r7yW2YUF9CofK01cMgfpH6
- hZxnD2iu+9gS2V7Ryez/qX8yupyysu2JbC82+HtlpQlWScskjA/np/DQjIf1ttzwNUKG
- XqvRxBaz+5QBQLKjvi8bFIDdASyfiHneHuquuivSO8g2sBU7PZBWVUJnhYtCG5Y+uiMZ
- D7xA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:sender:subject:to:cc:references:from:message-id
- :date:user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=SZm6sjyTmknKnlyqzKJoiNHTSgykGGyh91XWQ6QaCcU=;
- b=W9mqNTJpaIZgS8fWVtVaiSf/WxgpONMZCS4ZUv6XtXqhG7jncEaiTYS5fhc/IwzS2o
- xpCrg4U7p7VYw65ZliVB63wpswqmEfK2N4cG/WkIyn3EmSgXOcYKzrjN0pM5yvISteQJ
- tbfEEYvMO78VM02ZRkhHObMMCzWkXoIIhO3q6t3sn9yullnVY2q9f+i0PKtfJQB93yQ3
- dLJ3shQrE8dNEACA9+iX4bbf+lUh0JvWTNgC1nLg1b/sT2R0O45CQENSE7H8lrN8OSlh
- zewx7yprSGNJCaQLrV4hZgIngCoJymEewYjbraqLPmHKORi9v0Iu8A/fHfv0J0f+uKAV
- kyYA==
-X-Gm-Message-State: AOAM5324xLeTwtO4zblmZgw2IXTNuT+IZi6nabnNdI/rA8C7fAoCrXCm
- mCDDCNbIA8Ihr5y5exUY/LA=
-X-Google-Smtp-Source: ABdhPJw5A3PIv4X7NlP+0pzMmeq8deCFKcD+BGWXUCmYjtAWLDGMFjeIeMSaj5nHnxC9C+QdB0+0KQ==
-X-Received: by 2002:a05:600c:282:: with SMTP id
- 2mr2109159wmk.168.1594092973177; 
- Mon, 06 Jul 2020 20:36:13 -0700 (PDT)
-Received: from [192.168.1.36] (138.red-83-57-170.dynamicip.rima-tde.net.
- [83.57.170.138])
- by smtp.gmail.com with ESMTPSA id n125sm1736461wme.30.2020.07.06.20.36.12
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 06 Jul 2020 20:36:12 -0700 (PDT)
-Subject: Re: [PATCH v3] hw/core/qdev: Increase qdev_realize() kindness
-To: qemu-devel@nongnu.org
-References: <20200707033326.19178-1-f4bug@amsat.org>
-From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>
-Message-ID: <da36f1d9-9a52-d97a-36a9-3523925a5427@amsat.org>
-Date: Tue, 7 Jul 2020 05:36:11 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.5.0
+ (Exim 4.90_1) (envelope-from <stefanb@linux.vnet.ibm.com>)
+ id 1jserR-0007xt-JU; Tue, 07 Jul 2020 00:05:37 -0400
+Received: from mx0a-001b2d01.pphosted.com ([148.163.156.1]:53238)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <stefanb@linux.vnet.ibm.com>)
+ id 1jserN-0001dH-CH; Tue, 07 Jul 2020 00:05:37 -0400
+Received: from pps.filterd (m0098396.ppops.net [127.0.0.1])
+ by mx0a-001b2d01.pphosted.com (8.16.0.42/8.16.0.42) with SMTP id
+ 06743L3P122981; Tue, 7 Jul 2020 00:05:26 -0400
+Received: from pps.reinject (localhost [127.0.0.1])
+ by mx0a-001b2d01.pphosted.com with ESMTP id 324hfqg7xc-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Tue, 07 Jul 2020 00:05:26 -0400
+Received: from m0098396.ppops.net (m0098396.ppops.net [127.0.0.1])
+ by pps.reinject (8.16.0.36/8.16.0.36) with SMTP id 06743O87123309;
+ Tue, 7 Jul 2020 00:05:25 -0400
+Received: from ppma03wdc.us.ibm.com (ba.79.3fa9.ip4.static.sl-reverse.com
+ [169.63.121.186])
+ by mx0a-001b2d01.pphosted.com with ESMTP id 324hfqg7x2-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Tue, 07 Jul 2020 00:05:25 -0400
+Received: from pps.filterd (ppma03wdc.us.ibm.com [127.0.0.1])
+ by ppma03wdc.us.ibm.com (8.16.0.42/8.16.0.42) with SMTP id 06740hi9031493;
+ Tue, 7 Jul 2020 04:05:24 GMT
+Received: from b01cxnp23032.gho.pok.ibm.com (b01cxnp23032.gho.pok.ibm.com
+ [9.57.198.27]) by ppma03wdc.us.ibm.com with ESMTP id 322hd8cu2a-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Tue, 07 Jul 2020 04:05:24 +0000
+Received: from b01ledav005.gho.pok.ibm.com (b01ledav005.gho.pok.ibm.com
+ [9.57.199.110])
+ by b01cxnp23032.gho.pok.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
+ 06745Nfg53936428
+ (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+ Tue, 7 Jul 2020 04:05:24 GMT
+Received: from b01ledav005.gho.pok.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id D9388AE05F;
+ Tue,  7 Jul 2020 04:05:23 +0000 (GMT)
+Received: from b01ledav005.gho.pok.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id C02BEAE062;
+ Tue,  7 Jul 2020 04:05:23 +0000 (GMT)
+Received: from sbct-3.pok.ibm.com (unknown [9.47.158.153])
+ by b01ledav005.gho.pok.ibm.com (Postfix) with ESMTP;
+ Tue,  7 Jul 2020 04:05:23 +0000 (GMT)
+From: Stefan Berger <stefanb@linux.vnet.ibm.com>
+To: qemu-ppc@nongnu.org, marcandre.lureau@redhat.com
+Subject: [PATCH v2 0/2] tpm: Some fixes
+Date: Tue,  7 Jul 2020 00:05:20 -0400
+Message-Id: <20200707040522.4013885-1-stefanb@linux.vnet.ibm.com>
+X-Mailer: git-send-email 2.24.1
 MIME-Version: 1.0
-In-Reply-To: <20200707033326.19178-1-f4bug@amsat.org>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::341;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wm1-x341.google.com
-X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
- That's all we know.
-X-Spam_score_int: 0
-X-Spam_score: 0.0
-X-Spam_bar: /
-X-Spam_report: (0.0 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1, DKIM_VALID=-0.1,
- DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=1, FREEMAIL_FROM=0.001,
- HEADER_FROM_DIFFERENT_DOMAINS=1, RCVD_IN_DNSWL_NONE=-0.0001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=_AUTOLEARN
+X-TM-AS-GCONF: 00
+X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:6.0.235, 18.0.687
+ definitions=2020-07-07_01:2020-07-06,
+ 2020-07-06 signatures=0
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ bulkscore=0 impostorscore=0
+ clxscore=1015 cotscore=-2147483648 lowpriorityscore=0 adultscore=0
+ mlxlogscore=617 priorityscore=1501 phishscore=0 mlxscore=0 spamscore=0
+ suspectscore=0 malwarescore=0 classifier=spam adjust=0 reason=mlx
+ scancount=1 engine=8.12.0-2004280000 definitions=main-2007070030
+Received-SPF: none client-ip=148.163.156.1;
+ envelope-from=stefanb@linux.vnet.ibm.com; helo=mx0a-001b2d01.pphosted.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/07/07 00:05:31
+X-ACL-Warn: Detected OS   = Linux 3.x [generic] [fuzzy]
+X-Spam_score_int: -35
+X-Spam_score: -3.6
+X-Spam_bar: ---
+X-Spam_report: (-3.6 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_LOW=-0.7,
+ RCVD_IN_MSPIKE_H2=-1, SPF_HELO_NONE=0.001, SPF_NONE=0.001 autolearn=_AUTOLEARN
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -90,51 +93,33 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Richard Henderson <richard.henderson@linaro.org>,
- Paolo Bonzini <pbonzini@redhat.com>,
- =?UTF-8?Q?Daniel_P=2e_Berrang=c3=a9?= <berrange@redhat.com>,
- Eduardo Habkost <ehabkost@redhat.com>, Markus Armbruster <armbru@redhat.com>
+Cc: Stefan Berger <stefanb@linux.vnet.ibm.com>, qemu-devel@nongnu.org,
+ david@gibson.dropbear.id.au
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 7/7/20 5:33 AM, Philippe Mathieu-Daudé wrote:
-> Since commit 510ef98dca5, qdev_realize() aborts if bus-less device
-> is realized on a bus. While commits 514db7710b..007d1dbf72 took
-> care of converting all mainstream uses, QEMU forks weren't. These
+This series of patches fixes the TPM SPAPR device model so that it reacts
+in the same way as the other device models do when the backend device did
+not start up properly. It now calls exit(1).
 
-I guess I missed "weren't [converted]".
+Due to a change in the TPM 2 code, the pcrUpdateCounter (14th byte) in the
+TPM2_Pcrread response now returns a different value than before. So it's
+better to skip the 14th byte when comparing expected against actual responses.
 
-> forks are usually maintained by hobbyist with interest in following
-> mainstream development, but with limited time, so usually rebase
-> from time to time. To avoid them to spend time on debugging and
-> reading git-log history, display a kind hint about what is wrong.
-> 
-> Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
-> ---
-> Since v2:
-> - scratch __func__ (armbru)
-> - reword to justify this is not an impossible case (armbru)
-> ---
->  hw/core/qdev.c | 7 +++++--
->  1 file changed, 5 insertions(+), 2 deletions(-)
-> 
-> diff --git a/hw/core/qdev.c b/hw/core/qdev.c
-> index 2131c7f951..a16f1270f1 100644
-> --- a/hw/core/qdev.c
-> +++ b/hw/core/qdev.c
-> @@ -392,8 +392,11 @@ bool qdev_realize(DeviceState *dev, BusState *bus, Error **errp)
->  
->      if (bus) {
->          qdev_set_parent_bus(dev, bus);
-> -    } else {
-> -        assert(!DEVICE_GET_CLASS(dev)->bus_type);
-> +    } else if (DEVICE_GET_CLASS(dev)->bus_type) {
-> +        error_setg(errp, "Unexpected bus '%s' for bus-less device '%s'",
-> +                   DEVICE_GET_CLASS(dev)->bus_type,
-> +                   object_get_typename(OBJECT(dev)));
-> +        return false;
->      }
->  
->      object_property_set_bool(OBJECT(dev), true, "realized", &err);
-> 
+   Stefan
+
+v1->v2:
+  - simplified skipping of 14th byte in response
+
+Stefan Berger (2):
+  tpm: tpm_spapr: Exit on TPM backend failures
+  tests: Skip over pcrUpdateCounter byte in result comparison
+
+ hw/tpm/tpm_spapr.c     | 5 ++++-
+ tests/qtest/tpm-util.c | 6 +++++-
+ 2 files changed, 9 insertions(+), 2 deletions(-)
+
+-- 
+2.24.1
+
 
