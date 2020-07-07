@@ -2,57 +2,80 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 70481216859
-	for <lists+qemu-devel@lfdr.de>; Tue,  7 Jul 2020 10:27:23 +0200 (CEST)
-Received: from localhost ([::1]:56478 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 38EA121685A
+	for <lists+qemu-devel@lfdr.de>; Tue,  7 Jul 2020 10:28:22 +0200 (CEST)
+Received: from localhost ([::1]:59080 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jsiwk-0005Iq-Hd
-	for lists+qemu-devel@lfdr.de; Tue, 07 Jul 2020 04:27:22 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:57800)
+	id 1jsixh-0006Nm-Ai
+	for lists+qemu-devel@lfdr.de; Tue, 07 Jul 2020 04:28:21 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:58030)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <groug@kaod.org>) id 1jsivj-0004Sp-27
- for qemu-devel@nongnu.org; Tue, 07 Jul 2020 04:26:19 -0400
-Received: from 5.mo3.mail-out.ovh.net ([87.98.178.36]:57117)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <groug@kaod.org>) id 1jsivh-0008KC-1M
- for qemu-devel@nongnu.org; Tue, 07 Jul 2020 04:26:18 -0400
-Received: from player168.ha.ovh.net (unknown [10.110.103.226])
- by mo3.mail-out.ovh.net (Postfix) with ESMTP id 02F3D258479
- for <qemu-devel@nongnu.org>; Tue,  7 Jul 2020 10:26:13 +0200 (CEST)
-Received: from kaod.org (lns-bzn-46-82-253-208-248.adsl.proxad.net
- [82.253.208.248]) (Authenticated sender: groug@kaod.org)
- by player168.ha.ovh.net (Postfix) with ESMTPSA id A96BB14163190;
- Tue,  7 Jul 2020 08:26:04 +0000 (UTC)
-Authentication-Results: garm.ovh; auth=pass
- (GARM-103G005e4918421-b6bb-4bf9-9074-daa97007fe4b,E152094F47616500A3A802F2EB970733BF761B34)
- smtp.auth=groug@kaod.org
-Date: Tue, 7 Jul 2020 10:26:03 +0200
-From: Greg Kurz <groug@kaod.org>
-To: Markus Armbruster <armbru@redhat.com>
-Subject: Re: [PATCH v3 07/44] qemu-option: Make uses of find_desc_by_name()
- more similar
-Message-ID: <20200707102603.525ace75@bahia.lan>
-In-Reply-To: <20200706080950.403087-8-armbru@redhat.com>
-References: <20200706080950.403087-1-armbru@redhat.com>
- <20200706080950.403087-8-armbru@redhat.com>
-X-Mailer: Claws Mail 3.17.5 (GTK+ 2.24.32; x86_64-redhat-linux-gnu)
+ (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
+ id 1jsiwi-0005mo-BU
+ for qemu-devel@nongnu.org; Tue, 07 Jul 2020 04:27:20 -0400
+Received: from mail-wm1-x344.google.com ([2a00:1450:4864:20::344]:32950)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
+ id 1jsiwg-0008Qq-NN
+ for qemu-devel@nongnu.org; Tue, 07 Jul 2020 04:27:19 -0400
+Received: by mail-wm1-x344.google.com with SMTP id a6so1209410wmm.0
+ for <qemu-devel@nongnu.org>; Tue, 07 Jul 2020 01:27:18 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=references:user-agent:from:to:cc:subject:in-reply-to:date
+ :message-id:mime-version:content-transfer-encoding;
+ bh=F3XnIVatTGQW60euTnelr4tE6sLzF0tRV2zF8vU13ss=;
+ b=tCNnJKBCp+jeEohrmTdmYUPKiJUG+r8yat7ng8PLjXn/n4caH98U+4dkLfFz5Nj4Zt
+ 7kR/z7EfV0rOVaPDIPpdaefOk3r/Y0QE9opeSoa+zcqhAiwF9Zud5HMil5nyuubfd333
+ V42dGsBSTRbrUTTeNrdjsmDdgMC+Ndb7Xh4pnpg62OPJC3F3QvTH1OIKeJJBxG3Qn3Tq
+ Ko32n715qDlJZs+VKpN08l6LgNXF3fTKBRMLzdU3RlaughVgVEXzj2cet3tsVuMW2xih
+ Mv1OST1gaHJXNXIND4iIZF+1UzImHlfARbNMNcv1DWNN+ToQqM4e3BMFYEmRX/K/WvQC
+ ZHwQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:references:user-agent:from:to:cc:subject
+ :in-reply-to:date:message-id:mime-version:content-transfer-encoding;
+ bh=F3XnIVatTGQW60euTnelr4tE6sLzF0tRV2zF8vU13ss=;
+ b=NnIOzjMnU8Sl8neuRVfhC2mPOG0LTSgs4iWxcjaZP5pbTtkwFTiXm6BPAmJc4mbJcN
+ Pyz3/lUBShaL+y3WcCCzHWbto88yqmqWNbu8FImfPgC4oV3tOtkooEXjJifyHH4z/GO8
+ Ta/Ad0UsaY9/D7WV9KZy25VnqUBlHmY/6ltErwXQlYvkQB5O6ynCXt8AQs2PHlC1Q3nm
+ HJ9IkAcKvR5vW4t8mIKGOXnvZ+akSCFPJqga5jdgcbTNT/UCu5IsTgrA84KIA2FubteI
+ /DUoZlmojTA1R41GJh320hxCS+hb/iDmyLVdx9ozf5EM8+UVLsGnA4VDmpPvXWDtTWeu
+ yrbw==
+X-Gm-Message-State: AOAM530YFBBD5yds+GcqixsC4mYHFcmixcAHj1jlSmaAJnNdoTb5TGyN
+ PisE6mw60X1EURt5ezv4PsRqpw==
+X-Google-Smtp-Source: ABdhPJx1C7rCZ/bHsZvshtm4QHtWpQwlrv9V8GtGFQrV6PYleJT9YXg1UNEfR3rsG1n2o/M/XWYXTg==
+X-Received: by 2002:a1c:2905:: with SMTP id p5mr3115166wmp.91.1594110436816;
+ Tue, 07 Jul 2020 01:27:16 -0700 (PDT)
+Received: from zen.linaroharston ([51.148.130.216])
+ by smtp.gmail.com with ESMTPSA id y17sm27998957wrd.58.2020.07.07.01.27.15
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Tue, 07 Jul 2020 01:27:15 -0700 (PDT)
+Received: from zen (localhost [127.0.0.1])
+ by zen.linaroharston (Postfix) with ESMTP id CCC7A1FF7E;
+ Tue,  7 Jul 2020 09:27:14 +0100 (BST)
+References: <20200707064646.7603-1-f4bug@amsat.org>
+ <20200707064646.7603-2-f4bug@amsat.org>
+User-agent: mu4e 1.5.4; emacs 28.0.50
+From: Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
+To: Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
+Subject: Re: [PATCH 1/3] target/avr: Drop tlb_flush() in avr_cpu_reset()
+In-reply-to: <20200707064646.7603-2-f4bug@amsat.org>
+Date: Tue, 07 Jul 2020 09:27:14 +0100
+Message-ID: <87d057pw65.fsf@linaro.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
-X-Ovh-Tracer-Id: 3577265482111949198
-X-VR-SPAMSTATE: OK
-X-VR-SPAMSCORE: -100
-X-VR-SPAMCAUSE: gggruggvucftvghtrhhoucdtuddrgeduiedrudeggddufeehucetufdoteggodetrfdotffvucfrrhhofhhilhgvmecuqfggjfdpvefjgfevmfevgfenuceurghilhhouhhtmecuhedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmnecujfgurhepfffhvffukfgjfhfogggtgfesthejredtredtvdenucfhrhhomhepifhrvghgucfmuhhriicuoehgrhhouhhgsehkrghougdrohhrgheqnecuggftrfgrthhtvghrnhepheekhfdtheegheehjeeludefkefhvdelfedvieehhfekhfdufffhueeuvdfftdfhnecukfhppedtrddtrddtrddtpdekvddrvdehfedrvddtkedrvdegkeenucevlhhushhtvghrufhiiigvpedunecurfgrrhgrmhepmhhouggvpehsmhhtphdqohhuthdphhgvlhhopehplhgrhigvrhduieekrdhhrgdrohhvhhdrnhgvthdpihhnvghtpedtrddtrddtrddtpdhmrghilhhfrhhomhepghhrohhugheskhgrohgurdhorhhgpdhrtghpthhtohepqhgvmhhuqdguvghvvghlsehnohhnghhnuhdrohhrgh
-Received-SPF: pass client-ip=87.98.178.36; envelope-from=groug@kaod.org;
- helo=5.mo3.mail-out.ovh.net
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/07/07 04:26:15
-X-ACL-Warn: Detected OS   = Linux 3.11 and newer
-X-Spam_score_int: -18
-X-Spam_score: -1.9
-X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_NONE=-0.0001,
- RCVD_IN_MSPIKE_H3=-0.01, RCVD_IN_MSPIKE_WL=-0.01, SPF_HELO_NONE=0.001,
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=2a00:1450:4864:20::344;
+ envelope-from=alex.bennee@linaro.org; helo=mail-wm1-x344.google.com
+X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
+ That's all we know.
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=_AUTOLEARN
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -66,146 +89,41 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: peter.maydell@linaro.org, vsementsov@virtuozzo.com, berrange@redhat.com,
- ehabkost@redhat.com, qemu-block@nongnu.org, qemu-devel@nongnu.org,
- pbonzini@redhat.com
+Cc: Sarah Harris <S.E.Harris@kent.ac.uk>, Thomas Huth <huth@tuxfamily.org>,
+ Joaquin de Andres <me@xcancerberox.com.ar>,
+ Richard Henderson <richard.henderson@linaro.org>, qemu-devel@nongnu.org,
+ Michael Rolnik <mrolnik@gmail.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Mon,  6 Jul 2020 10:09:13 +0200
-Markus Armbruster <armbru@redhat.com> wrote:
 
-> This is to make the next commit easier to review.
-> 
-> Signed-off-by: Markus Armbruster <armbru@redhat.com>
-> Reviewed-by: Eric Blake <eblake@redhat.com>
-> Reviewed-by: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
+Philippe Mathieu-Daud=C3=A9 <f4bug@amsat.org> writes:
+
+> Since commit 1f5c00cfdb tlb_flush() is called from cpu_common_reset().
+>
+> Signed-off-by: Philippe Mathieu-Daud=C3=A9 <f4bug@amsat.org>
+
+Reviewed-by: Alex Benn=C3=A9e <alex.bennee@linaro.org>
+
 > ---
+>  target/avr/cpu.c | 2 --
+>  1 file changed, 2 deletions(-)
+>
+> diff --git a/target/avr/cpu.c b/target/avr/cpu.c
+> index 4e4dd4f6aa..50fb1c378b 100644
+> --- a/target/avr/cpu.c
+> +++ b/target/avr/cpu.c
+> @@ -78,8 +78,6 @@ static void avr_cpu_reset(DeviceState *ds)
+>      env->skip =3D 0;
+>=20=20
+>      memset(env->r, 0, sizeof(env->r));
+> -
+> -    tlb_flush(cs);
+>  }
+>=20=20
+>  static void avr_cpu_disas_set_info(CPUState *cpu, disassemble_info *info)
 
-Reviewed-by: Greg Kurz <groug@kaod.org>
 
->  util/qemu-option.c | 32 ++++++++++++++++++--------------
->  1 file changed, 18 insertions(+), 14 deletions(-)
-> 
-> diff --git a/util/qemu-option.c b/util/qemu-option.c
-> index fd1fd23521..1df55bc881 100644
-> --- a/util/qemu-option.c
-> +++ b/util/qemu-option.c
-> @@ -270,6 +270,7 @@ static void qemu_opt_del_all(QemuOpts *opts, const char *name)
->  const char *qemu_opt_get(QemuOpts *opts, const char *name)
->  {
->      QemuOpt *opt;
-> +    const QemuOptDesc *desc;
->  
->      if (opts == NULL) {
->          return NULL;
-> @@ -277,7 +278,7 @@ const char *qemu_opt_get(QemuOpts *opts, const char *name)
->  
->      opt = qemu_opt_find(opts, name);
->      if (!opt) {
-> -        const QemuOptDesc *desc = find_desc_by_name(opts->list->desc, name);
-> +        desc = find_desc_by_name(opts->list->desc, name);
->          if (desc && desc->def_value_str) {
->              return desc->def_value_str;
->          }
-> @@ -348,6 +349,7 @@ static bool qemu_opt_get_bool_helper(QemuOpts *opts, const char *name,
->                                       bool defval, bool del)
->  {
->      QemuOpt *opt;
-> +    const QemuOptDesc *desc;
->      bool ret = defval;
->  
->      if (opts == NULL) {
-> @@ -356,7 +358,7 @@ static bool qemu_opt_get_bool_helper(QemuOpts *opts, const char *name,
->  
->      opt = qemu_opt_find(opts, name);
->      if (opt == NULL) {
-> -        const QemuOptDesc *desc = find_desc_by_name(opts->list->desc, name);
-> +        desc = find_desc_by_name(opts->list->desc, name);
->          if (desc && desc->def_value_str) {
->              parse_option_bool(name, desc->def_value_str, &ret, &error_abort);
->          }
-> @@ -384,6 +386,7 @@ static uint64_t qemu_opt_get_number_helper(QemuOpts *opts, const char *name,
->                                             uint64_t defval, bool del)
->  {
->      QemuOpt *opt;
-> +    const QemuOptDesc *desc;
->      uint64_t ret = defval;
->  
->      if (opts == NULL) {
-> @@ -392,7 +395,7 @@ static uint64_t qemu_opt_get_number_helper(QemuOpts *opts, const char *name,
->  
->      opt = qemu_opt_find(opts, name);
->      if (opt == NULL) {
-> -        const QemuOptDesc *desc = find_desc_by_name(opts->list->desc, name);
-> +        desc = find_desc_by_name(opts->list->desc, name);
->          if (desc && desc->def_value_str) {
->              parse_option_number(name, desc->def_value_str, &ret, &error_abort);
->          }
-> @@ -421,6 +424,7 @@ static uint64_t qemu_opt_get_size_helper(QemuOpts *opts, const char *name,
->                                           uint64_t defval, bool del)
->  {
->      QemuOpt *opt;
-> +    const QemuOptDesc *desc;
->      uint64_t ret = defval;
->  
->      if (opts == NULL) {
-> @@ -429,7 +433,7 @@ static uint64_t qemu_opt_get_size_helper(QemuOpts *opts, const char *name,
->  
->      opt = qemu_opt_find(opts, name);
->      if (opt == NULL) {
-> -        const QemuOptDesc *desc = find_desc_by_name(opts->list->desc, name);
-> +        desc = find_desc_by_name(opts->list->desc, name);
->          if (desc && desc->def_value_str) {
->              parse_option_size(name, desc->def_value_str, &ret, &error_abort);
->          }
-> @@ -540,18 +544,18 @@ void qemu_opt_set_bool(QemuOpts *opts, const char *name, bool val,
->                         Error **errp)
->  {
->      QemuOpt *opt;
-> -    const QemuOptDesc *desc = opts->list->desc;
-> +    const QemuOptDesc *desc;
->  
-> -    opt = g_malloc0(sizeof(*opt));
-> -    opt->desc = find_desc_by_name(desc, name);
-> -    if (!opt->desc && !opts_accepts_any(opts)) {
-> +    desc = find_desc_by_name(opts->list->desc, name);
-> +    if (!desc && !opts_accepts_any(opts)) {
->          error_setg(errp, QERR_INVALID_PARAMETER, name);
-> -        g_free(opt);
->          return;
->      }
->  
-> +    opt = g_malloc0(sizeof(*opt));
->      opt->name = g_strdup(name);
->      opt->opts = opts;
-> +    opt->desc = desc;
->      opt->value.boolean = !!val;
->      opt->str = g_strdup(val ? "on" : "off");
->      QTAILQ_INSERT_TAIL(&opts->head, opt, next);
-> @@ -561,18 +565,18 @@ void qemu_opt_set_number(QemuOpts *opts, const char *name, int64_t val,
->                           Error **errp)
->  {
->      QemuOpt *opt;
-> -    const QemuOptDesc *desc = opts->list->desc;
-> +    const QemuOptDesc *desc;
->  
-> -    opt = g_malloc0(sizeof(*opt));
-> -    opt->desc = find_desc_by_name(desc, name);
-> -    if (!opt->desc && !opts_accepts_any(opts)) {
-> +    desc = find_desc_by_name(opts->list->desc, name);
-> +    if (!desc && !opts_accepts_any(opts)) {
->          error_setg(errp, QERR_INVALID_PARAMETER, name);
-> -        g_free(opt);
->          return;
->      }
->  
-> +    opt = g_malloc0(sizeof(*opt));
->      opt->name = g_strdup(name);
->      opt->opts = opts;
-> +    opt->desc = desc;
->      opt->value.uint = val;
->      opt->str = g_strdup_printf("%" PRId64, val);
->      QTAILQ_INSERT_TAIL(&opts->head, opt, next);
-
+--=20
+Alex Benn=C3=A9e
 
