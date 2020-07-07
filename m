@@ -2,71 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2A581216733
-	for <lists+qemu-devel@lfdr.de>; Tue,  7 Jul 2020 09:19:49 +0200 (CEST)
-Received: from localhost ([::1]:53566 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5B74F216741
+	for <lists+qemu-devel@lfdr.de>; Tue,  7 Jul 2020 09:22:37 +0200 (CEST)
+Received: from localhost ([::1]:39518 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jshtM-0007uO-4z
-	for lists+qemu-devel@lfdr.de; Tue, 07 Jul 2020 03:19:48 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:43726)
+	id 1jshw4-0005JP-CK
+	for lists+qemu-devel@lfdr.de; Tue, 07 Jul 2020 03:22:36 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:43640)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1jshoO-0006wh-2d
- for qemu-devel@nongnu.org; Tue, 07 Jul 2020 03:14:40 -0400
-Received: from mail-wr1-x433.google.com ([2a00:1450:4864:20::433]:44850)
+ id 1jshoJ-0006lH-C1
+ for qemu-devel@nongnu.org; Tue, 07 Jul 2020 03:14:35 -0400
+Received: from mail-wm1-x32c.google.com ([2a00:1450:4864:20::32c]:54862)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1jshoM-0004sI-C2
- for qemu-devel@nongnu.org; Tue, 07 Jul 2020 03:14:39 -0400
-Received: by mail-wr1-x433.google.com with SMTP id b6so43966027wrs.11
- for <qemu-devel@nongnu.org>; Tue, 07 Jul 2020 00:14:37 -0700 (PDT)
+ id 1jshoH-0004rU-K3
+ for qemu-devel@nongnu.org; Tue, 07 Jul 2020 03:14:35 -0400
+Received: by mail-wm1-x32c.google.com with SMTP id o8so42116085wmh.4
+ for <qemu-devel@nongnu.org>; Tue, 07 Jul 2020 00:14:33 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=r0+udXPK/W1B2LpwudPO4KcKX+aKxd6kiztObpKjw3A=;
- b=TrVD5FCIn+R7KgPwC2EB7cqF+WuogHvYLcpumTT2l9ORlm+ODXMFLjP9MOaBjuNgUe
- 6cnHA7Di5ONDcok3NygznaPNrqI2sqsTxSB3ycUrspykZXPHjjBdGcXSxFgGd3+vybRV
- Y+fkSW272VqUZBAdn/mwdvaZAxkEJxyujfb7Q1Hj6HbrHsGrrtEAGkJ4sQtEYjyoe/y9
- /Qf/FhHuKT4eU/LtZSRzWevAaQLd9M7DYq37N968bAMVDTGz+CegADC15XAHKFr1bS7Z
- tgUaIP0yJXBYRbwV/zUlY0+DVqlqOmTsUV20FnR16I0/pzUkCvEPvCy4ImhlCQcaUxy7
- 6uGA==
+ bh=ghYwsDv8y9AcQ/2pLkPngqM/jomzSL1uaEsogMN8yjA=;
+ b=ZwAaBEp2m32zYdEjsxYfPLNW+Rr4BeBFvs4P9zd7IRvhyAh388q1dePAcoZFUMxnYr
+ v0f5od3tplSIgYsWsQlIFSKTLrXSdBgOJIC4LDLizUik+nJTHMGYx4XWOOTq49hqWR24
+ Fhe85TwFNBHz3MSy+zDJV7lMX+O+iFJ6ny+KUd+lDvO/XjU7KTphv5yea2Px8tUDdqHy
+ sqFzZgQfNQyA3hepmm4778QSkHkQ1ak9Gu8HPn33rDyZJ+wZt1rHoStZzQtwBdLSlNRr
+ oGEnRfToO2Mtv1d0T/Anlme3EhBPgcr3VEU8BcX6OgcOd9d8mLk2CTI+BwW7XyyYa788
+ DENQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=r0+udXPK/W1B2LpwudPO4KcKX+aKxd6kiztObpKjw3A=;
- b=YuvauydGdQvm/jCr8ec8UgTCehCr5e8wX0vrdBR/V9xAc1+7d0W/vGhNqNjWI2Mj92
- lwpF8Axo/bt7rQxqa9KR6UqPos2VtX2qiyeRL18VvSbmR+h1OkkyKnQpCc+rQUD+ML39
- Vm32STI2sfYTa1Q3X7tb2xM2Qa1X0irKY+5CeVhYs5H6QoFJUzhnB3V89okzhSygFZxe
- RWoK5fG/NDrr0UwNXwOI1skPaJ25WXTAZ7wiCPEIeE0a21VBvrZMWUEtXS7MY5nQeO1E
- hAXVgVgow8uiktg57W2ty8lVeZcqKn7gnGpUh4ro4tgoq1t0DUBm3gBKz6yheJlJZIwU
- CZzA==
-X-Gm-Message-State: AOAM532QnTAACJ8SFAZO6n7mS4dEqrGztk2iRc4XDGC2D2JoTK7bOCh4
- g/cDBt38TFo/NH6dCe7xo8/VSw==
-X-Google-Smtp-Source: ABdhPJyG1AT9isgyx4ZmwGwcxAX4tIEWC5H27Tc5Vs+4VEfBBpDtorwfx1oyGuZWnWTojSSVhqyAxg==
-X-Received: by 2002:a5d:6ac7:: with SMTP id u7mr25600805wrw.25.1594106076960; 
- Tue, 07 Jul 2020 00:14:36 -0700 (PDT)
+ bh=ghYwsDv8y9AcQ/2pLkPngqM/jomzSL1uaEsogMN8yjA=;
+ b=dx45DmGlFpFiRfipm9diaKXy7jSVzAyyPC7jvvTXS8p865MZN8cgVIblV3wNZun2e8
+ irBQqspXzKxzktTnQ2KKKVvTQk9OEfnOqBAl9mFKsUIMY/ZgQroxNefIppcyOjfNo6bo
+ sEvOp3BScAN54NSsl4USq7qHBMzdjbAqA8Sw5GtOpCGD6oaqDgoQjOW37acW05DdpOfz
+ CJYDJd5Wdf7f/ZzX5stZbY9lyexqo43xPZgAYA+1/vA+TPTPZ6gKFs/BjjNQUehbEUV9
+ pmITcA5L078OhrpnxLwdLvzUnSZCBnzp+y87woHlg8xhO0uL+lpv1DIIzFs7coE2ZKpI
+ PF8g==
+X-Gm-Message-State: AOAM531qETlSVItGvCOwwdY0s3u3g2swId5zgmxhLJYO4XmeKNj0UBhn
+ GF8FXomZFk2EpFJYzKbwpIFTCQ==
+X-Google-Smtp-Source: ABdhPJxWlTAKI5pZppOM0EHLp6+lp6mV7ZFdDX1RdSz4OUtWdzgjjXybfrxQQAnq8x2OHAVQm9MnbA==
+X-Received: by 2002:a1c:1fd1:: with SMTP id f200mr2592718wmf.162.1594106072232; 
+ Tue, 07 Jul 2020 00:14:32 -0700 (PDT)
 Received: from zen.linaroharston ([51.148.130.216])
- by smtp.gmail.com with ESMTPSA id y6sm2398452wmy.0.2020.07.07.00.14.25
+ by smtp.gmail.com with ESMTPSA id g13sm28007940wro.84.2020.07.07.00.14.24
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 07 Jul 2020 00:14:28 -0700 (PDT)
+ Tue, 07 Jul 2020 00:14:27 -0700 (PDT)
 Received: from zen.lan (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id 0229D1FFBC;
+ by zen.linaroharston (Postfix) with ESMTP id 15B181FFBD;
  Tue,  7 Jul 2020 08:09:02 +0100 (BST)
 From: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
 To: peter.maydell@linaro.org
-Subject: [PULL 35/41] gitlab: limit re-builds of the containers
-Date: Tue,  7 Jul 2020 08:08:52 +0100
-Message-Id: <20200707070858.6622-36-alex.bennee@linaro.org>
+Subject: [PULL 36/41] containers.yml: build with docker.py tooling
+Date: Tue,  7 Jul 2020 08:08:53 +0100
+Message-Id: <20200707070858.6622-37-alex.bennee@linaro.org>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20200707070858.6622-1-alex.bennee@linaro.org>
 References: <20200707070858.6622-1-alex.bennee@linaro.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::433;
- envelope-from=alex.bennee@linaro.org; helo=mail-wr1-x433.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::32c;
+ envelope-from=alex.bennee@linaro.org; helo=mail-wm1-x32c.google.com
 X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
  That's all we know.
 X-Spam_score_int: -20
@@ -74,8 +74,8 @@ X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
  DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=_AUTOLEARN
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ URIBL_BLOCKED=0.001 autolearn=_AUTOLEARN
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -88,40 +88,53 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
- =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>, qemu-devel@nongnu.org
+Cc: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>,
+ qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Most of the time we are just rebuilding the same things. We can skip
-this although currently there is no mechanism for picking up new
-distro releases.
+Instead of building the docker files directly use the same docker.py
+scripting as we do for building locally. This should help ensure we
+use the exact same steps and allow us to cache properly when building
+locally.
 
-Rather than try to be too fine grained allow any change to trigger all
-the images being rebuilt.
+To get this working you have to have a fairly recent docker binary
+otherwise you will see the error message:
+
+ => ERROR importing cache manifest from registry.gitlab....
+
+So far docker 19.03.12 works (from the docker apt repos) but 18.09.1,
+build 4c52b90 which is packaged in Debian Buster fails.
 
 Signed-off-by: Alex Bennée <alex.bennee@linaro.org>
-Reviewed-by: Philippe Mathieu-Daudé <philmd@redhat.com>
-
-Message-Id: <20200701135652.1366-38-alex.bennee@linaro.org>
+Message-Id: <20200701135652.1366-39-alex.bennee@linaro.org>
 
 diff --git a/.gitlab-ci.d/containers.yml b/.gitlab-ci.d/containers.yml
-index a7621c4204c7..ea350eacff70 100644
+index ea350eacff70..b1e39cfd9ac1 100644
 --- a/.gitlab-ci.d/containers.yml
 +++ b/.gitlab-ci.d/containers.yml
-@@ -17,6 +17,12 @@
+@@ -6,14 +6,17 @@
+   before_script:
+     - export TAG="$CI_REGISTRY_IMAGE/qemu/$NAME:latest"
+     - export COMMON_TAG="$CI_REGISTRY/qemu-project/qemu/$NAME:latest"
++    - apk add python3
+     - docker info
+     - docker login registry.gitlab.com -u "$CI_REGISTRY_USER" -p "$CI_REGISTRY_PASSWORD"
+   script:
++    - echo "TAG:$TAG"
++    - echo "COMMON_TAG:$COMMON_TAG"
+     - docker pull "$TAG" || docker pull "$COMMON_TAG" || true
+-    - sed -i -e "s,FROM qemu/,FROM $CI_REGISTRY_IMAGE/qemu/," tests/docker/dockerfiles/$NAME.docker
+-    - DOCKER_BUILDKIT=1 docker build --cache-from "$TAG" --cache-from "$COMMON_TAG" --tag "$TAG"
+-                                     --build-arg BUILDKIT_INLINE_CACHE=1
+-                                     -f "tests/docker/dockerfiles/$NAME.docker" tests/docker/dockerfiles
++    - ./tests/docker/docker.py --engine docker build
++          -t "qemu:$NAME" -f "tests/docker/dockerfiles/$NAME.docker"
++          -r $CI_REGISTRY_IMAGE
++    - docker tag "qemu:$NAME" "$TAG"
      - docker push "$TAG"
    after_script:
      - docker logout
-+  rules:
-+    - changes:
-+      - .gitlab-ci.d/containers.yml
-+      - tests/docker/*
-+    - if: '$CI_COMMIT_BRANCH == $CI_DEFAULT_BRANCH'
-+    - if: '$CI_COMMIT_REF_NAME == "testing/next"'
- 
- amd64-centos7-container:
-   <<: *container_job_definition
 -- 
 2.20.1
 
