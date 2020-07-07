@@ -2,59 +2,80 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C67A4217478
-	for <lists+qemu-devel@lfdr.de>; Tue,  7 Jul 2020 18:53:11 +0200 (CEST)
-Received: from localhost ([::1]:35956 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6BDAE21746A
+	for <lists+qemu-devel@lfdr.de>; Tue,  7 Jul 2020 18:50:14 +0200 (CEST)
+Received: from localhost ([::1]:49804 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jsqqE-0006lv-S9
-	for lists+qemu-devel@lfdr.de; Tue, 07 Jul 2020 12:53:10 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:40032)
+	id 1jsqnN-0000HW-9T
+	for lists+qemu-devel@lfdr.de; Tue, 07 Jul 2020 12:50:13 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:41004)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <groug@kaod.org>) id 1jsqZp-0008ID-CA
- for qemu-devel@nongnu.org; Tue, 07 Jul 2020 12:36:13 -0400
-Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:35559
- helo=us-smtp-1.mimecast.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <groug@kaod.org>) id 1jsqZn-0004GR-3a
- for qemu-devel@nongnu.org; Tue, 07 Jul 2020 12:36:13 -0400
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-242-HzWRs749Ny-axMaXeg9OIw-1; Tue, 07 Jul 2020 12:36:06 -0400
-X-MC-Unique: HzWRs749Ny-axMaXeg9OIw-1
-Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
- [10.5.11.14])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id C99828B788E;
- Tue,  7 Jul 2020 16:35:59 +0000 (UTC)
-Received: from bahia.lan (ovpn-112-37.ams2.redhat.com [10.36.112.37])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 6C7B879528;
- Tue,  7 Jul 2020 16:35:58 +0000 (UTC)
-Subject: [PATCH] ppc/pnv: Make PSI device types not user creatable
-From: Greg Kurz <groug@kaod.org>
-To: qemu-devel@nongnu.org
-Date: Tue, 07 Jul 2020 18:35:57 +0200
-Message-ID: <159413975752.169116.5808968580649255382.stgit@bahia.lan>
-User-Agent: StGit/0.21
+ (Exim 4.90_1) (envelope-from <aleksandar.qemu.devel@gmail.com>)
+ id 1jsqec-00010s-1u
+ for qemu-devel@nongnu.org; Tue, 07 Jul 2020 12:41:10 -0400
+Received: from mail-ed1-x532.google.com ([2a00:1450:4864:20::532]:39179)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <aleksandar.qemu.devel@gmail.com>)
+ id 1jsqea-00058e-2g
+ for qemu-devel@nongnu.org; Tue, 07 Jul 2020 12:41:09 -0400
+Received: by mail-ed1-x532.google.com with SMTP id d18so33419468edv.6
+ for <qemu-devel@nongnu.org>; Tue, 07 Jul 2020 09:41:06 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=from:to:cc:subject:date:message-id:in-reply-to:references
+ :mime-version:content-transfer-encoding;
+ bh=PGU7dWoVIz4tYYeC6s1zofBWZC9jCGKi7Dk/esJJ5mo=;
+ b=LbEaSj6Pqtr+8JukoLUb0hpBPFhV38PtnaGb03LnnhDE8f7TeObrJuAEFCgNerTdt6
+ UQVd8gza1h2WwuF4LtjYoa+H3kKgC4uVJgrh3RxXwBgpv1X/nrX4Qr4AWbIo/aVPpiYF
+ qUSWjpM2jDsRssVm5Yz8aw7/wt2hN8MmVZDacWWIC2DsPzSFW39gTBk6X7Kr+6uBNRqU
+ XP/eA6S+M2W1cV8CGEgrnyDnyMHq/psqTjqg0+OIbSu6SHFPLN+l8qvKysR1jpbCsLrt
+ cfEqNRYMG54FHFZWokQYaxFnGyGTrvcVwfy+kkq4ReXprcYl35wPa3JqjOFkBWQVHGM3
+ j+FA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+ :references:mime-version:content-transfer-encoding;
+ bh=PGU7dWoVIz4tYYeC6s1zofBWZC9jCGKi7Dk/esJJ5mo=;
+ b=p+hwgP79aEj+btzWUPs59bUHzvYbP0eZS97xWiCqNjjoA9Krk6Wrn0MO5gCvV86AH0
+ eC0eV4u4W150jIsUhTeJE9ak0E/uBS46BZMjP0w3QZUtw1rE0TfrcB2ewZI8HNd14c52
+ BK+7yLvsf1AI+3PTIMsKZRkXht4XbxZtOmFvEzQgLQM6iTASebmy5tF8oXvNRRXexASc
+ MimUQAgjxCzUZhcrNnqpWyWaiCRyC2rAToRqj8RRB5K05d605Nx5GxKH3u5PPrqMtuEp
+ DVemu28QYMcvjRXYSz8w/worcw0RIYs96HlrfDyYtJRliDL8RnfP80O7ivHn5dTz8Zfb
+ ffyA==
+X-Gm-Message-State: AOAM533Cv/Fx/EzUMBr+6+SOJMXk2PcSsaaZElgWNSfknfyIAK5a4NcG
+ mmerUGChXglrBJNixRncKebThxEI
+X-Google-Smtp-Source: ABdhPJwwYtEu6vbzoSm6GE02fLygW+KJLUEQ0vkG0VRAIcVaZxY68ysw0LLeZmqIlqHePjMytd1fKg==
+X-Received: by 2002:a05:6402:1614:: with SMTP id
+ f20mr60041647edv.129.1594140064986; 
+ Tue, 07 Jul 2020 09:41:04 -0700 (PDT)
+Received: from rtrkw774-lin.syrmia.com ([46.240.135.226])
+ by smtp.gmail.com with ESMTPSA id 23sm26428065edx.75.2020.07.07.09.41.04
+ (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
+ Tue, 07 Jul 2020 09:41:04 -0700 (PDT)
+From: Aleksandar Markovic <aleksandar.qemu.devel@gmail.com>
+To: qemu-devel@nongnu.org,
+	peter.maydell@linaro.org
+Subject: [PULL 1/3] target/mips: fpu: Fix recent regression in add.s after
+ 1ace099f2a
+Date: Tue,  7 Jul 2020 18:41:00 +0200
+Message-Id: <1594140062-23522-2-git-send-email-aleksandar.qemu.devel@gmail.com>
+X-Mailer: git-send-email 2.7.4
+In-Reply-To: <1594140062-23522-1-git-send-email-aleksandar.qemu.devel@gmail.com>
+References: <1594140062-23522-1-git-send-email-aleksandar.qemu.devel@gmail.com>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=groug@kaod.org
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: kaod.org
 Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: softfail client-ip=205.139.110.120; envelope-from=groug@kaod.org;
- helo=us-smtp-1.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/07/07 06:04:49
-X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
-X-Spam_score_int: -21
-X-Spam_score: -2.2
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=2a00:1450:4864:20::532;
+ envelope-from=aleksandar.qemu.devel@gmail.com; helo=mail-ed1-x532.google.com
+X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
+ That's all we know.
+X-Spam_score_int: -20
+X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.2 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_NONE=-0.0001,
- RCVD_IN_MSPIKE_H2=-1, SPF_HELO_NONE=0.001,
- SPF_SOFTFAIL=0.665 autolearn=_AUTOLEARN
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=_AUTOLEARN
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -67,51 +88,41 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Thomas Huth <thuth@redhat.com>, qemu-ppc@nongnu.org,
- =?utf-8?q?C=C3=A9dric_Le_Goater?= <clg@kaod.org>,
- David Gibson <david@gibson.dropbear.id.au>
+Cc: aleksandar.qemu.devel@gmail.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-QEMU aborts with -device pnv-psi-POWER8:
+From: Alex Richardson <Alexander.Richardson@cl.cam.ac.uk>
 
-$ qemu-system-ppc64 -device pnv-psi-POWER8
-qemu-system-ppc64: hw/intc/xics.c:605: ics_realize: Assertion
-`ics->xics' failed.
-Aborted (core dumped)
+After merging latest QEMU upstream into our CHERI fork, I noticed
+that some of the FPU tests in our MIPS baremetal testsuite
+(https://github.com/CTSRD-CHERI/cheritest) started failing
+It turns out that commit 1ace099f2a accidentally changed add.s
+into a subtract.
 
-The Processor Service Interface Controller is an internal device.
-It should only be instantiated by the chip, which takes care of
-configuring the link required by the ICS object in the case of
-POWER8. It doesn't make sense for a user to specify it on the
-command line.
-
-Note that the PSI model for POWER8 was added 3 yrs ago but the
-devices weren't available on the command line because of a bug
-that was fixed by recent commit 2f35254aa0 ("pnv/psi: Correct
-the pnv-psi* devices not to be sysbus devices").
-
-Fixes: 54f59d786c ("ppc/pnv: Add cut down PSI bridge model and hookup exter=
-nal interrupt")
-Reported-by: Thomas Huth <thuth@redhat.com>
-Signed-off-by: Greg Kurz <groug@kaod.org>
+Fixes: 1ace099f2a ("target/mips: fpu: Demacro ADD.<D|S|PS>")
+Signed-off-by: Alex Richardson <Alexander.Richardson@cl.cam.ac.uk>
+Signed-off-by: Aleksandar Markovic <aleksandar.qemu.devel@gmail.com>
+Reviewed-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
+Message-Id: <20200703161515.25966-1-Alexander.Richardson@cl.cam.ac.uk>
 ---
- hw/ppc/pnv_psi.c |    1 +
- 1 file changed, 1 insertion(+)
+ target/mips/fpu_helper.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/hw/ppc/pnv_psi.c b/hw/ppc/pnv_psi.c
-index 75b8ae9703d0..653b41774c34 100644
---- a/hw/ppc/pnv_psi.c
-+++ b/hw/ppc/pnv_psi.c
-@@ -937,6 +937,7 @@ static void pnv_psi_class_init(ObjectClass *klass, void=
- *data)
-     dc->desc =3D "PowerNV PSI Controller";
-     device_class_set_props(dc, pnv_psi_properties);
-     dc->reset =3D pnv_psi_reset;
-+    dc->user_creatable =3D false;
+diff --git a/target/mips/fpu_helper.c b/target/mips/fpu_helper.c
+index 7a3a61c..56beda4 100644
+--- a/target/mips/fpu_helper.c
++++ b/target/mips/fpu_helper.c
+@@ -1221,7 +1221,7 @@ uint32_t helper_float_add_s(CPUMIPSState *env,
+ {
+     uint32_t wt2;
+ 
+-    wt2 = float32_sub(fst0, fst1, &env->active_fpu.fp_status);
++    wt2 = float32_add(fst0, fst1, &env->active_fpu.fp_status);
+     update_fcr31(env, GETPC());
+     return wt2;
  }
-=20
- static const TypeInfo pnv_psi_info =3D {
-
+-- 
+2.7.4
 
 
