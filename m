@@ -2,72 +2,73 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A0D4221639C
-	for <lists+qemu-devel@lfdr.de>; Tue,  7 Jul 2020 04:09:24 +0200 (CEST)
-Received: from localhost ([::1]:51912 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9ABAD2163B8
+	for <lists+qemu-devel@lfdr.de>; Tue,  7 Jul 2020 04:15:34 +0200 (CEST)
+Received: from localhost ([::1]:54094 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jsd2x-00070i-O0
-	for lists+qemu-devel@lfdr.de; Mon, 06 Jul 2020 22:09:23 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:54866)
+	id 1jsd8v-0000cz-NE
+	for lists+qemu-devel@lfdr.de; Mon, 06 Jul 2020 22:15:33 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:55698)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1jsd2A-00064y-D0
- for qemu-devel@nongnu.org; Mon, 06 Jul 2020 22:08:34 -0400
-Received: from mail-wm1-x342.google.com ([2a00:1450:4864:20::342]:55977)
+ id 1jsd89-0000B3-Ap
+ for qemu-devel@nongnu.org; Mon, 06 Jul 2020 22:14:45 -0400
+Received: from mail-wr1-x441.google.com ([2a00:1450:4864:20::441]:40204)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1jsd28-0005ga-KM
- for qemu-devel@nongnu.org; Mon, 06 Jul 2020 22:08:34 -0400
-Received: by mail-wm1-x342.google.com with SMTP id g75so41319259wme.5
- for <qemu-devel@nongnu.org>; Mon, 06 Jul 2020 19:08:32 -0700 (PDT)
+ id 1jsd87-0006cw-QR
+ for qemu-devel@nongnu.org; Mon, 06 Jul 2020 22:14:45 -0400
+Received: by mail-wr1-x441.google.com with SMTP id f2so15482852wrp.7
+ for <qemu-devel@nongnu.org>; Mon, 06 Jul 2020 19:14:43 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=sender:subject:to:cc:references:from:message-id:date:user-agent
  :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=mDcH6VoquFxrN55+jeRO1Hkb2P20kDXO0Hhj0jRCs1Q=;
- b=R/HpK3VcXFE5WwsoGvXwzCs7U+7AVtoe/I3PHycbsXcJAUkDmoP4pSYfuEts2DffFz
- 2mJgFfta/873onnpFivAGbQ8jsRo/Phb5NxwexnC5dYyK5rgjgBl7z3B6xgjMpP1pTja
- yR7rNIQ0q4oAoJQdOhiJhCjrODhlbOogy0jgfKUdsz7Cf4hBuWkPN5xcbIPxTF2fMioB
- RS+v/BBGFh1Tqa4dyrd3CmbQlM6PCiIn4TMQQCm+Knouyk9WbtH4mYMbUXga1fvTNYwa
- 5eDHsF1Hdevq8V7NcP2X6mN/nqgssjenP/5xecwceu7rSYIq/RKMfEgHrMS4ZTe4AJbw
- pJ2Q==
+ bh=xbFcqWkLtEt6afgn/H3Y3kAqS72kSqaaoAl2cDG9jZc=;
+ b=Mq2dHy1pT1YQ3AR81djVXEcNjAkXbp9//57PtkB87Zv+dhXgVs6xVu0QaksgGngfH8
+ QJruXDNuapW+IUm3N3pxeUan5tQt9kJRxQf80PtKpihI5/OD6v6gtX2KZMCdokAFhDf0
+ mxUM3c4GLp3K2gcI6gcFT5fSg/SmzeJPG5Iuprhf8qUreWZxh8iYfAtdVDeg54lD7QSx
+ 6wgf+7/UY8aZa4GzHOqDodsvNn/zPkL4ZJDHW080yek6aS78ihpcAbv2Ne2rX+Q/KhDc
+ 4eriFOTlDHjaX7N1aOwj4MdB/0TjteCdD2FhMh9Vr+ldcTOy0Ex3luZcS6Ku9HvMRvyO
+ DI5A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:sender:subject:to:cc:references:from:message-id
  :date:user-agent:mime-version:in-reply-to:content-language
  :content-transfer-encoding;
- bh=mDcH6VoquFxrN55+jeRO1Hkb2P20kDXO0Hhj0jRCs1Q=;
- b=b4i861319cz+DJX2PuFGmt2Hz8ooy4nVNmP0c4SQL7AqgoagcMNkuNcstsI05K7JNp
- z0P2TTKcLSEvE62CZWiH7kYqjVR9zCXDFDlbpFL3DWHzkzwzlS3xU9f2d16s0xCFjORH
- 7qPHrU50evjtQ7UqTSoNSy1OnbrzxjDocjcnPwgn9v9GReswvIl3/sAbPhYRtT6nhIs/
- hN7UaQOQ09C5dnmt2GyL2RiiIpq4vdQDa7YkfDhlRgPgr6+ek51rxr2sjQEnLeQYHyMz
- vlY8zpK76pXCComs8OuU/sUr/cg72U0zrL5ZZLz03lm3JYyAI7VklYprnRw8kihZcqrx
- fydw==
-X-Gm-Message-State: AOAM531d8Gh27wxoaQr8xfuvoGNzZkAm+lwQ4Dd4PiqxySoEahR9n+Gm
- k5TsnZfRoz3RyjR8yx8585k=
-X-Google-Smtp-Source: ABdhPJzQwrvQBlcD/jrf3wd6FgO891+xRIJQQX3Ic2E4q2XhUYRMLP1mJzv+gEA8RHoYo21Ji9xGPg==
-X-Received: by 2002:a1c:a589:: with SMTP id o131mr1634755wme.12.1594087710626; 
- Mon, 06 Jul 2020 19:08:30 -0700 (PDT)
+ bh=xbFcqWkLtEt6afgn/H3Y3kAqS72kSqaaoAl2cDG9jZc=;
+ b=NnOp0jjLfeK0ocoMGSBpcaar0BQTpv/Vkbj4UT97JVeprbWQIvu+qPcYbq6HGu9gCu
+ +LM4kTemsUUpAn2ndEpe43scbUoVn6azrWSETmxPh8AbafICqoJgr9rsyQXTSi8hGWC+
+ E94pjyGFTZS5rvpm5ssobBevQxe60/+4Tql3Zdde0brSDpIdG0+S7TGD6/VC26m7IBMd
+ jXg4+y2v38x10tSGGQc5DAQRYIMtEbXoqukTrKgWibZL/uYHHNJ3LuVjEtZrIPISevHw
+ O6JjXVKlS9e39ou1Z6a/z0RIDK1odHH/l3lwIviTrZ3UXHVS3NXos55cmmwmilZHQkF5
+ h2ng==
+X-Gm-Message-State: AOAM532eNr84E2OmW47s5WQdr5Xh20Cj2xyonh6GKuqEv6b+4ZABW5H0
+ kbZTtN+7668tG5XZHLsgaTA=
+X-Google-Smtp-Source: ABdhPJyJGZOXgSckFXdAeSlwfH+Dhs20wyT+qK6ji2O2VcrcHK7F3D+40vuw1B0bjmjlwq0vfebM6w==
+X-Received: by 2002:a5d:4e48:: with SMTP id r8mr50495981wrt.309.1594088082261; 
+ Mon, 06 Jul 2020 19:14:42 -0700 (PDT)
 Received: from [192.168.1.36] (138.red-83-57-170.dynamicip.rima-tde.net.
  [83.57.170.138])
- by smtp.gmail.com with ESMTPSA id d18sm27251016wrj.8.2020.07.06.19.08.29
+ by smtp.gmail.com with ESMTPSA id o205sm1473578wme.24.2020.07.06.19.14.41
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 06 Jul 2020 19:08:29 -0700 (PDT)
-Subject: Re: [PATCH] target/arm: Fix mtedesc for do_mem_zpz
+ Mon, 06 Jul 2020 19:14:41 -0700 (PDT)
+Subject: Re: [PATCH v2] util/qemu-option: Document the get_opt_value() function
 To: Richard Henderson <richard.henderson@linaro.org>, qemu-devel@nongnu.org
-References: <20200706202345.193676-1-richard.henderson@linaro.org>
+References: <20200629070858.19850-1-philmd@redhat.com>
+ <1dec6cd5-42f8-8e9f-cc87-108e46a926cc@linaro.org>
 From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>
-Message-ID: <d86be7e0-d73a-f10b-94be-1fb17a938563@amsat.org>
-Date: Tue, 7 Jul 2020 04:08:29 +0200
+Message-ID: <82bd90f7-9e08-8ada-2a87-b031ea1d116f@amsat.org>
+Date: Tue, 7 Jul 2020 04:14:40 +0200
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
  Thunderbird/68.5.0
 MIME-Version: 1.0
-In-Reply-To: <20200706202345.193676-1-richard.henderson@linaro.org>
+In-Reply-To: <1dec6cd5-42f8-8e9f-cc87-108e46a926cc@linaro.org>
 Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::342;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wm1-x342.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::441;
+ envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wr1-x441.google.com
 X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
  That's all we know.
 X-Spam_score_int: 0
@@ -89,38 +90,83 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: peter.maydell@linaro.org
+Cc: Damien Hedde <damien.hedde@greensocs.com>, Kevin Wolf <kwolf@redhat.com>,
+ =?UTF-8?Q?Daniel_P_=2e_Berrang=c3=a9?= <berrange@redhat.com>,
+ Markus Armbruster <armbru@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 7/6/20 10:23 PM, Richard Henderson wrote:
-> The mtedesc that was contructed was not actually passed in.
-
-Typo "constructed".
-
-Reviewed-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
-
-> Found by Coverity (CID 1429996).
+On 7/7/20 3:14 AM, Richard Henderson wrote:
+> On 6/29/20 12:08 AM, Philippe Mathieu-Daudé wrote:
+>> Coverity noticed commit 950c4e6c94 introduced a dereference before
+>> null check in get_opt_value (CID1391003):
+>>
+>>   In get_opt_value: All paths that lead to this null pointer
+>>   comparison already dereference the pointer earlier (CWE-476)
+>>
+>> We fixed this in commit 6e3ad3f0e31, but relaxed the check in commit
+>> 0c2f6e7ee99 because "No callers of get_opt_value() pass in a NULL
+>> for the 'value' parameter".
+>>
+>> Since this function is publicly exposed, it risks new users to do
+>> the same error again. Avoid that documenting the 'value' argument
+>> must not be NULL.
 > 
-> Fixes: d28d12f008e
-> Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
-> ---
->  target/arm/translate-sve.c | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
+> I think we should also add some use of __attribute__((nonnull(...))) to enforce
+> this within the compiler.
 > 
-> diff --git a/target/arm/translate-sve.c b/target/arm/translate-sve.c
-> index 08f0fd15b2..88a2fb271d 100644
-> --- a/target/arm/translate-sve.c
-> +++ b/target/arm/translate-sve.c
-> @@ -5275,7 +5275,7 @@ static void do_mem_zpz(DisasContext *s, int zt, int pg, int zm,
->          desc = FIELD_DP32(desc, MTEDESC, ESIZE, 1 << msz);
->          desc <<= SVE_MTEDESC_SHIFT;
->      }
-> -    desc = simd_desc(vsz, vsz, scale);
-> +    desc = simd_desc(vsz, vsz, desc | scale);
->      t_desc = tcg_const_i32(desc);
->  
->      tcg_gen_addi_ptr(t_pg, cpu_env, pred_full_reg_offset(s, pg));
-> 
+> I recently did this without a qemu/compiler.h QEMU_FOO wrapper within
+> target/arm.  But the nonnull option has optional arguments, so it might be
+> difficult to wrap in macros.
 
+I have this patch after your suggestion from last year:
+
++#if __has_attribute(nonnull)
++# define QEMU_NONNULL(LIST) __attribute__((nonnull((LIST))))
++#else
++# define QEMU_NONNULL(LIST)
++#endif
+
+Examples:
+
+ SpaprDrc *spapr_dr_connector_new(Object *owner, const char *type,
+-                                         uint32_t id);
++                                 uint32_t id) QEMU_NONNULL(1);
+ SpaprDrc *spapr_drc_by_index(uint32_t index);
+ SpaprDrc *spapr_drc_by_id(const char *type, uint32_t id);
+-int spapr_dt_drc(void *fdt, int offset, Object *owner, uint32_t
+drc_type_mask);
++int spapr_dt_drc(void *fdt, int offset, Object *owner, uint32_t
+drc_type_mask)
++                 QEMU_NONNULL(3);
+
+...
+
+
+ /**
+  * memory_region_init_iommu: Initialize a memory region of a custom type
+@@ -1066,7 +1073,8 @@ void memory_region_init_iommu(void *_iommu_mr,
+                               const char *mrtypename,
+                               Object *owner,
+                               const char *name,
+-                              uint64_t size);
++                              uint64_t size)
++                              QEMU_NONNULL(4);
+
+ /**
+  * memory_region_init_ram - Initialize RAM memory region.  Accesses
+into the
+@@ -1154,7 +1162,8 @@ void memory_region_init_rom_device(MemoryRegion *mr,
+                                    void *opaque,
+                                    const char *name,
+                                    uint64_t size,
+-                                   Error **errp);
++                                   Error **errp)
++                                   QEMU_NONNULL(2);
+
+I can send as RFC is that looks OK to you.
+
+Regards,
+
+Phil.
 
