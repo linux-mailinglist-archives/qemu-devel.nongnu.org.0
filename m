@@ -2,56 +2,55 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 58B06216ACF
-	for <lists+qemu-devel@lfdr.de>; Tue,  7 Jul 2020 12:54:40 +0200 (CEST)
-Received: from localhost ([::1]:46018 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C0653216AD6
+	for <lists+qemu-devel@lfdr.de>; Tue,  7 Jul 2020 12:56:55 +0200 (CEST)
+Received: from localhost ([::1]:57010 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jslFH-0003Ty-Cf
-	for lists+qemu-devel@lfdr.de; Tue, 07 Jul 2020 06:54:39 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:36290)
+	id 1jslHS-0008SN-RQ
+	for lists+qemu-devel@lfdr.de; Tue, 07 Jul 2020 06:56:54 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:36266)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <laurent@vivier.eu>)
- id 1jslDn-0001Kf-6e; Tue, 07 Jul 2020 06:53:07 -0400
-Received: from mout.kundenserver.de ([212.227.126.134]:56337)
+ id 1jslDm-0001JD-Es; Tue, 07 Jul 2020 06:53:06 -0400
+Received: from mout.kundenserver.de ([212.227.126.133]:49257)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <laurent@vivier.eu>)
- id 1jslDl-0000MB-9q; Tue, 07 Jul 2020 06:53:06 -0400
+ id 1jslDk-0000M8-HO; Tue, 07 Jul 2020 06:53:06 -0400
 Received: from localhost.localdomain ([82.252.135.106]) by
  mrelayeu.kundenserver.de (mreue011 [212.227.15.167]) with ESMTPSA (Nemesis)
- id 1MqbI0-1kfJSl2I64-00mbHm; Tue, 07 Jul 2020 12:52:59 +0200
+ id 1MWRi7-1kQXnb11xr-00Xwqn; Tue, 07 Jul 2020 12:53:00 +0200
 From: Laurent Vivier <laurent@vivier.eu>
 To: qemu-devel@nongnu.org
-Subject: [PULL 2/7] trivial: Respect alphabetical order of .o files in
- Makefile.objs
-Date: Tue,  7 Jul 2020 12:52:50 +0200
-Message-Id: <20200707105255.362318-3-laurent@vivier.eu>
+Subject: [PULL 3/7] .mailmap: Update Alexander Graf email address
+Date: Tue,  7 Jul 2020 12:52:51 +0200
+Message-Id: <20200707105255.362318-4-laurent@vivier.eu>
 X-Mailer: git-send-email 2.26.2
 In-Reply-To: <20200707105255.362318-1-laurent@vivier.eu>
 References: <20200707105255.362318-1-laurent@vivier.eu>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-X-Provags-ID: V03:K1:caHFmPI/lW0jdW3g9PzSMiD2mqyDGyv8osdr8ngh5ARSGYKArjf
- 6iL+sSlNyiMNxNSkLkyhFKKDp4riHiRFYCodT9awDYaI1wIySFzE1x2aCM3EzvzkQ7VpLdU
- 3tmQqHMx8OOkcl1CUciA54pIHSv6wTSSfbEaMMmOTQy+9z2vTAEDuvv3pm6ZPmROQK8Dszy
- Y9M1DIq66KcZ2afQC2JJw==
-X-UI-Out-Filterresults: notjunk:1;V03:K0:sZ2ylmb0Ies=:OYe5qlD+XsN50hjz+4xJZt
- y0+hCjy/g5xM4LWN8HYcA+3YgBZFt6KAxXMge4qooWMEC7X88kkf6W7cWMq/EAJurhrt5lDUn
- iCHvlpzsPPUYPCv3ou90hmj/Jfh9b83gbXtpKvFD9vplty4KHRMeaLqdsq3F+NoOjXh8QDCQm
- ED4awX3vWsUhKauDBlLnxGR5mqEBVgQQLMGKTVE6Ynea14/Urn2kjPckCZa+HHkf1MgExJ6Kz
- rU89CwYFoNmj1/1403ldbmWzaHopg6a9vQrHKcsvZPiixxU0wfTCiTBIc7jBlfCF364oiUmEA
- dnpFHp3SAeZIsmu7ENz7L8cIfOHahWOEWrAcsteu2lHmxpcsGKF8qefa/yB8J738CXenGrjhO
- W+kLUNCbriVaGulHZgdLCCbkCkr3kgRPJA7FcF8xrChbLgraaQANMK6ZCdwMpZKETd0kkFXUE
- S7aORzyE9/IjJkObM4MbmDjWv6Q/HaOs2KRk5t8BfmT8gNvgJNyS1pj7GB664K6547p13KWuH
- SJkfHbQdEzMPp5gezrL2HXmcmk/MFg82zeDMcQ5bnfNCuYJ1RZLgWtJYIxkf1ns3D58cx3VTU
- jfFDwH+rLLdGbjwGkOKRvTYBkBlKh6di/Qwai9LSMZGhF+eNdMRRq5MF/Q8TdqhTQ20TCrH6p
- vvbkdVJ5t+ACM0KJ6eJ+Wb3xIRpFltlMcpKt6dSV45dxDbaQxenxqrXMI9hhJrcIs6LRqYQ7e
- mkvkYp8NptaBqCvFMARAVVTyTbYu1NW/8QqcHB1zpBDKGpb64/j6IX4DLho+Qw70tzqv90Ahk
- dSREfOjot1yY0T3h0Pc2hlMUa3Tqqht4oLNqHrJwlOD6RoWm5uwV+rRb5XQmqYZvgWiQlZ7
-Received-SPF: none client-ip=212.227.126.134; envelope-from=laurent@vivier.eu;
+X-Provags-ID: V03:K1:6sr87K2zwywnyZ7bEshsu72nG44Imnr6WEbFT/Ke/GUhx7O260V
+ AMukuFUMDakA4MIP5Zhli7dU4Ct/pUDwPkuqO6B3HEJvPDPNfO/4vym1P1zclKRYFWurS1S
+ mB7U0wVPEi0fNjlP5zuJMnZ5LyC5CnuDP9sdGYhFG6CA59IbAjobTyzkuTrovZdNmp3OEGo
+ 6VVa6jR6wiQUHXeQPwYtA==
+X-UI-Out-Filterresults: notjunk:1;V03:K0:NxMsdwc0EfY=:nmp69OHLFgQcTIPIghzUhp
+ ymcm3MJ1r0aBhKKw8+Jd5CYD2/XwY90AEFArH8pzmMayTbDjTypi0spGczmHTEdSri5xQOTnw
+ du8dlmHihdIFJnqglLuwV6QT0xoFmlfBODkxu5nG9RVM8iHj/JP3zDKPws4kXIwdF0LqUJsQO
+ 5maKBgYNbaCma9wREObWjuGpyJknZLGcyqXkskUot7oY+hQ1oB+fzoUNOZ4zTPlXuIjLZz2fu
+ PIjCQJkklMr8AH11Bt/wsEYH0GqhXt+DuxzOfXgqDfnPYANxtmmwgRt0AM9hu4TbCVOek5l7L
+ fI8B9r5I6XWI7zgq1cZv8Nf6lYiu06KrBfKmQYMswZECJwu9c3h1YkFmzejj7TE9E9sgSTVXB
+ /6NIzuIh5kPM0Aw5TkVKh3e9k0eAfGNOLgwKHAkC8v2l7jypomjL2DCki19/peczZpJK5H/LF
+ kyPPm0dGkBBKTs1d432uwGLTBABvpthH65Kqjv4PFy4rnPYtmcqBKhf8juBi8lfCvjVTqLzHq
+ Y4nGjBVQiAovwjtBpO1PiGbjBhvggJxdy2NhYxE38SARUppPg/h0VAkoRpirl+pYkVDCDqkqt
+ MoFajQEePfmHglA0C17eVA9wAD9E510LukbxMzQOQq3VBkxPdnT4k0yP3dpaRVcygL3LRnA52
+ Xr7oqn5+O9v71CVPVHp8bC1Xx1Zat0bw0HEgGF1k4DYyEEr1v1qsHSobMKVb6xgILdkT8FWDs
+ KTeCeHDoBjzx7sVbgk7QnlD/A6R48UepM3xfeRBlQsz5B9fFIYL4Jn68StZgb4XAAgbAib6eP
+ 5YQhS7PwLWhZ1aMZlkB5cK5qsvHrSxtvc3BGDRW6jAjWwP25Y1Y+Oaj2zTfEJrZbplaWyPB
+Received-SPF: none client-ip=212.227.126.133; envelope-from=laurent@vivier.eu;
  helo=mout.kundenserver.de
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/07/07 06:53:02
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/07/07 06:53:03
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic]
 X-Spam_score_int: -28
 X-Spam_score: -2.9
@@ -70,43 +69,37 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-trivial@nongnu.org,
- =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>,
+Cc: qemu-trivial@nongnu.org, Alexander Graf <agraf@csgraf.de>,
  Michael Tokarev <mjt@tls.msk.ru>, Laurent Vivier <laurent@vivier.eu>,
- Christophe de Dinechin <dinechin@redhat.com>,
- =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>
+ =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Christophe de Dinechin <dinechin@redhat.com>
+From: Philippe Mathieu-Daudé <f4bug@amsat.org>
 
-The vmgenid.o is the only file that is not in alphabetical order.
+Update Alexander Graf email address to avoid emails bouncing.
 
-Signed-off-by: Christophe de Dinechin <dinechin@redhat.com>
-Reviewed-by: Alex Bennée <alex.bennee@linaro.org>
-Reviewed-by: Philippe Mathieu-Daudé <philmd@redhat.com>
-Message-Id: <20200629094934.2081180-1-dinechin@redhat.com>
+Suggested-by: Alexander Graf <agraf@csgraf.de>
+Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
+Reviewed-by: Alexander Graf <agraf@csgraf.de>
+Message-Id: <20200702173818.14651-2-f4bug@amsat.org>
 Signed-off-by: Laurent Vivier <laurent@vivier.eu>
 ---
- stubs/Makefile.objs | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ .mailmap | 1 +
+ 1 file changed, 1 insertion(+)
 
-diff --git a/stubs/Makefile.objs b/stubs/Makefile.objs
-index f32b9e47a3d8..1df8bb3814fc 100644
---- a/stubs/Makefile.objs
-+++ b/stubs/Makefile.objs
-@@ -19,10 +19,10 @@ stub-obj-y += replay.o
- stub-obj-y += runstate-check.o
- stub-obj-$(CONFIG_SOFTMMU) += semihost.o
- stub-obj-y += set-fd-handler.o
--stub-obj-y += vmgenid.o
- stub-obj-y += sysbus.o
- stub-obj-y += tpm.o
- stub-obj-y += trace-control.o
-+stub-obj-y += vmgenid.o
- stub-obj-y += vmstate.o
- stub-obj-$(CONFIG_SOFTMMU) += win32-kbd-hook.o
- 
+diff --git a/.mailmap b/.mailmap
+index 926cac6bb8b2..e46e6c73023c 100644
+--- a/.mailmap
++++ b/.mailmap
+@@ -44,6 +44,7 @@ Aleksandar Markovic <aleksandar.qemu.devel@gmail.com> <aleksandar.markovic@imgte
+ Aleksandar Markovic <aleksandar.qemu.devel@gmail.com> <amarkovic@wavecomp.com>
+ Aleksandar Rikalo <aleksandar.rikalo@syrmia.com> <arikalo@wavecomp.com>
+ Aleksandar Rikalo <aleksandar.rikalo@syrmia.com> <aleksandar.rikalo@rt-rk.com>
++Alexander Graf <agraf@csgraf.de> <agraf@suse.de>
+ Anthony Liguori <anthony@codemonkey.ws> Anthony Liguori <aliguori@us.ibm.com>
+ Filip Bozuta <filip.bozuta@syrmia.com> <filip.bozuta@rt-rk.com.com>
+ Frederic Konrad <konrad@adacore.com> <fred.konrad@greensocs.com>
 -- 
 2.26.2
 
