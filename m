@@ -2,73 +2,74 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4A0B6217409
-	for <lists+qemu-devel@lfdr.de>; Tue,  7 Jul 2020 18:35:14 +0200 (CEST)
-Received: from localhost ([::1]:43850 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3820821743D
+	for <lists+qemu-devel@lfdr.de>; Tue,  7 Jul 2020 18:41:41 +0200 (CEST)
+Received: from localhost ([::1]:43052 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jsqYr-0005AV-9J
-	for lists+qemu-devel@lfdr.de; Tue, 07 Jul 2020 12:35:13 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:33316)
+	id 1jsqf6-0000Ta-5K
+	for lists+qemu-devel@lfdr.de; Tue, 07 Jul 2020 12:41:40 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:33608)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1jsqBH-0002et-9q; Tue, 07 Jul 2020 12:10:51 -0400
-Received: from mail-wr1-x441.google.com ([2a00:1450:4864:20::441]:34033)
+ id 1jsqCC-0004ys-ES; Tue, 07 Jul 2020 12:11:48 -0400
+Received: from mail-wm1-x344.google.com ([2a00:1450:4864:20::344]:37359)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1jsqBF-0007lU-6c; Tue, 07 Jul 2020 12:10:50 -0400
-Received: by mail-wr1-x441.google.com with SMTP id f7so42772470wrw.1;
- Tue, 07 Jul 2020 09:10:48 -0700 (PDT)
+ id 1jsqCA-0007xL-NO; Tue, 07 Jul 2020 12:11:48 -0400
+Received: by mail-wm1-x344.google.com with SMTP id o2so47128804wmh.2;
+ Tue, 07 Jul 2020 09:11:45 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=sender:subject:to:cc:references:from:message-id:date:user-agent
  :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=uuhPgvFhv/D+1NOUM9brURnzXdt1PoE7vE9LvxA+Y1s=;
- b=c6GCuJWDoU8gEzmyQRxrEe+pD11OA8bNJDW0yDVN0SZDitIm2e4p4bZY+aeZ9wDyYQ
- 3A5HZEdTQ+Xp4mK2X9if9ONKcxAsykf4r1trjcWdKY3UDrEdooaBVTybgwNZs2QxP6Cj
- Ab0snwADxgk8Abf9ndE5T6tEte/FpXLT8aeDf5aYyD1MPY2f+uSvMQoEV+GCTrzf8Vh6
- qnf1oeZAx03FHXHdyH84JJ6034SaTQgtB8/jiM3ZYL/fJGnT4dwBbHrIkpHtcqw/yEjP
- OevTUiKI4fQ5BDyDjsjdobfskIx5+uOKv1slJfJ68hFq63XlKLxy8ANsKsTcOCQEU1um
- dmeg==
+ bh=plQfzATZctkt4/3FhyTNhnWjJdVmJGp5zhAhmOExzz0=;
+ b=hs/bg7dx/ccCKRhthXiPEUC46kQl+AZ3yd9MN5mxrj2itwNDh1qu7+4NKEhOi7UN8g
+ c+SRFRVomPSga+1b1ZmiZ+O4eonKOv62Y5LIBmKj9i+QIl0m+8UDU3st1yfG4htXZHRt
+ TKN91dOQ23V0l0Q1ZjNmrEpYQHZhRoUEtJR/ZpUfCHcX/ZCMrvpVVs6vuxMtrqFRPVRo
+ qAUoMxq2HschtOPGxw+jprIigxhhq3t3tOkA5DUvELU1/DdQhPf5W4mjSpSIFqxPda4j
+ 8KZwMoknb5AxvTvxaVNBjIPc9YJgExiMch+nkQCokU1cuRZWUUrEUM3NUcTvIWoNEXiW
+ p/bg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:sender:subject:to:cc:references:from:message-id
  :date:user-agent:mime-version:in-reply-to:content-language
  :content-transfer-encoding;
- bh=uuhPgvFhv/D+1NOUM9brURnzXdt1PoE7vE9LvxA+Y1s=;
- b=R0vE2OSM0Axfx+1aERyY3qfZJENwLyLMMRZIVUaJsGWjSZe4fsApya485PWuq62aFB
- ED2JBmfz/kwTxlpe8SIh6NCui+NARn6SenSpXmybkWdgCB6l8ybgFUc5hfcdLJDlDEfu
- HZQZ+7J9HRFpyMcggXGtH7smy2GaSYKXA/XAHn7rqrDWCyVOzBxYpoVtaKsmHctlrd+c
- mBP20A70mLxjzIDRPjGdyq5m6UUiwC/dEbrvlr9NZSTV0Dg3X4sqEG3NtS3fWVuRoRrd
- Lm+OO+KdEl82u+QAclJXjG5d/99mfx8UjaT9w9USRb583C4gJoagfmznUw94i5ErWu6W
- uHtw==
-X-Gm-Message-State: AOAM532IhU3uUBUGmHLWOoLf0HHZHCT8bvvqnSHjq5JZKjmG287/q/3W
- ltsrIbJjMoWBgEMruWlJEPE=
-X-Google-Smtp-Source: ABdhPJyYWNDda2IkbHH3hOPoCNYdpaGCA2gExGo+3ZBwVV4iRYAHSgeFAyUNmATuprxv7jQbIruLTw==
-X-Received: by 2002:a5d:5706:: with SMTP id a6mr18967911wrv.328.1594138247214; 
- Tue, 07 Jul 2020 09:10:47 -0700 (PDT)
+ bh=plQfzATZctkt4/3FhyTNhnWjJdVmJGp5zhAhmOExzz0=;
+ b=VRcb6EWehojuxkWndcBCmPG807j5mJLXx28mYwunpsNgyYqneSTMmJN1s4/Tl9Z2DQ
+ RdGmikGRmqLBRRBj8eC93/RQ/xtReiV3lyntIQfV2q9fsgegmH0AC/ZQvTmEQNGLvQfT
+ PnOR1kgFZqyo2p8M3iBtyYKaYmFnIM7GU8Gq9qvBtjDaDO7sQnVpBHp9mtD/P6GQws1v
+ Hwk+4mwY/fstn4ajGw9yO7v9asKDITyq4Ff0eoCCfrhZfPhW9+7m+cw25I/tLA8cYGRz
+ imBWMw+xYzg8845iC4A8IgafQ86NAXauW0D9idKA5U4p9VtV73xV/v5JGUn7GSAIn97j
+ z24w==
+X-Gm-Message-State: AOAM533B/ZK8uKlSt3p1lVXvNIlO8qZm2mYZ55l0TIiH7qLpjhaAFYkf
+ 1mcrptsrLGe/8bVve4UdDCw=
+X-Google-Smtp-Source: ABdhPJw0b62fR8p/n27AHDo5/FhZQuh8tP0DJjMUuH00m4Hdykw3rgIs9yft4Yc8XZ1h+wjdAoiUKg==
+X-Received: by 2002:a1c:3dc3:: with SMTP id k186mr5191931wma.66.1594138304657; 
+ Tue, 07 Jul 2020 09:11:44 -0700 (PDT)
 Received: from [192.168.1.36] (138.red-83-57-170.dynamicip.rima-tde.net.
  [83.57.170.138])
- by smtp.gmail.com with ESMTPSA id 5sm1586122wmk.9.2020.07.07.09.10.45
+ by smtp.gmail.com with ESMTPSA id k126sm1778457wmf.3.2020.07.07.09.11.43
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 07 Jul 2020 09:10:46 -0700 (PDT)
-Subject: Re: [PATCH 1/2] tests/acceptance/boot_linux: Truncate SD card image
- to power of 2
-To: Alistair Francis <alistair23@gmail.com>
+ Tue, 07 Jul 2020 09:11:43 -0700 (PDT)
+Subject: Re: [PATCH 2/2] hw/sd/sdcard: Do not allow invalid SD card sizes
+To: Peter Maydell <peter.maydell@linaro.org>,
+ Alistair Francis <alistair23@gmail.com>
 References: <20200707132116.26207-1-f4bug@amsat.org>
- <20200707132116.26207-2-f4bug@amsat.org>
- <CAKmqyKPSh4e+XVBLni71rHDZoTUV+cYQgZpO+FBYv-riLYW9eQ@mail.gmail.com>
+ <20200707132116.26207-3-f4bug@amsat.org>
+ <CAKmqyKNY+7tE9tcZm7_Th9qapo1CH0AwNwBf7vaf+7vSqBNtVA@mail.gmail.com>
+ <CAFEAcA_ZXgNHMAhBVmjvstyG=PpaHOtcmo=VgvfBQ3Z9VJTk_g@mail.gmail.com>
 From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>
-Message-ID: <99dca865-75ca-6313-c522-6ced46e2f88e@amsat.org>
-Date: Tue, 7 Jul 2020 18:10:45 +0200
+Message-ID: <3f1bf3ba-d6c3-a148-9850-076b2caa64d0@amsat.org>
+Date: Tue, 7 Jul 2020 18:11:43 +0200
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
  Thunderbird/68.5.0
 MIME-Version: 1.0
-In-Reply-To: <CAKmqyKPSh4e+XVBLni71rHDZoTUV+cYQgZpO+FBYv-riLYW9eQ@mail.gmail.com>
+In-Reply-To: <CAFEAcA_ZXgNHMAhBVmjvstyG=PpaHOtcmo=VgvfBQ3Z9VJTk_g@mail.gmail.com>
 Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::441;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wr1-x441.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::344;
+ envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wm1-x344.google.com
 X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
  That's all we know.
 X-Spam_score_int: 0
@@ -90,8 +91,8 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Maydell <peter.maydell@linaro.org>,
- Qemu-block <qemu-block@nongnu.org>, Alistair Francis <alistair@alistair23.me>,
+Cc: Qemu-block <qemu-block@nongnu.org>,
+ Alistair Francis <alistair@alistair23.me>,
  "qemu-devel@nongnu.org Developers" <qemu-devel@nongnu.org>,
  Wainer dos Santos Moschetta <wainersm@redhat.com>,
  Niek Linnenbank <nieklinnenbank@gmail.com>, Cleber Rosa <crosa@redhat.com>,
@@ -100,81 +101,91 @@ Cc: Peter Maydell <peter.maydell@linaro.org>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 7/7/20 5:53 PM, Alistair Francis wrote:
-> n Tue, Jul 7, 2020 at 6:21 AM Philippe Mathieu-Daudé <f4bug@amsat.org> wrote:
+On 7/7/20 6:06 PM, Peter Maydell wrote:
+> On Tue, 7 Jul 2020 at 17:04, Alistair Francis <alistair23@gmail.com> wrote:
 >>
->> In the next commit we won't allow SD card images with invalid
->> size (not aligned to a power of 2). Prepare the tests: add the
->> pow2ceil() and image_pow2ceil_truncate() methods and truncate
->> the images of the tests using SD cards.
+>> On Tue, Jul 7, 2020 at 6:22 AM Philippe Mathieu-Daudé <f4bug@amsat.org> wrote:
+>>>
+>>> QEMU allows to create SD card with unrealistic sizes. This could work,
+>>> but some guests (at least Linux) consider sizes that are not a power
+>>> of 2 as a firmware bug and fix the card size to the next power of 2.
+>>>
+>>> Before CVE-2020-13253 fix, this would allow OOB read/write accesses
+>>> past the image size end.
+>>>
+>>> CVE-2020-13253 has been fixed as:
+>>>
+>>>     Read command is rejected if BLOCK_LEN_ERROR or ADDRESS_ERROR
+>>>     occurred and no data transfer is performed.
+>>>
+>>>     Write command is rejected if BLOCK_LEN_ERROR or ADDRESS_ERROR
+>>>     occurred and no data transfer is performed.
+>>>
+>>>     WP_VIOLATION errors are not modified: the error bit is set, we
+>>>     stay in receive-data state, wait for a stop command. All further
+>>>     data transfer is ignored. See the check on sd->card_status at the
+>>>     beginning of sd_read_data() and sd_write_data().
+>>>
+>>> While this is the correct behavior, in case QEMU create smaller SD
+>>> cards, guests still try to access past the image size end, and QEMU
+>>> considers this is an invalid address, thus "all further data transfer
+>>> is ignored". This is wrong and make the guest looping until
+>>> eventually timeouts.
+>>>
+>>> Fix by not allowing invalid SD card sizes.  Suggesting the expected
+>>> size as a hint:
+>>>
+>>>   $ qemu-system-arm -M orangepi-pc -drive file=rootfs.ext2,if=sd,format=raw
+>>>   qemu-system-arm: Invalid SD card size: 60 MiB (expecting at least 64 MiB)
+>>>
+>>> Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
+>>> ---
+>>>  hw/sd/sd.c | 16 ++++++++++++++++
+>>>  1 file changed, 16 insertions(+)
+>>>
+>>> diff --git a/hw/sd/sd.c b/hw/sd/sd.c
+>>> index cb81487e5c..c45106b78e 100644
+>>> --- a/hw/sd/sd.c
+>>> +++ b/hw/sd/sd.c
+>>> @@ -32,6 +32,7 @@
+>>>
+>>>  #include "qemu/osdep.h"
+>>>  #include "qemu/units.h"
+>>> +#include "qemu/cutils.h"
+>>>  #include "hw/irq.h"
+>>>  #include "hw/registerfields.h"
+>>>  #include "sysemu/block-backend.h"
+>>> @@ -2130,11 +2131,26 @@ static void sd_realize(DeviceState *dev, Error **errp)
+>>>      }
+>>>
+>>>      if (sd->blk) {
+>>> +        int64_t blk_size;
+>>> +
+>>>          if (blk_is_read_only(sd->blk)) {
+>>>              error_setg(errp, "Cannot use read-only drive as SD card");
+>>>              return;
+>>>          }
+>>>
+>>> +        blk_size = blk_getlength(sd->blk);
+>>> +        if (blk_size > 0 && !is_power_of_2(blk_size)) {
+>>> +            int64_t blk_size_aligned = pow2ceil(blk_size);
+>>> +            char *blk_size_str = size_to_str(blk_size);
+>>> +            char *blk_size_aligned_str = size_to_str(blk_size_aligned);
+>>> +
+>>> +            error_setg(errp, "Invalid SD card size: %s (expecting at least %s)",
+>>> +                       blk_size_str, blk_size_aligned_str);
 >>
->> Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
->> ---
->>  tests/acceptance/boot_linux_console.py | 15 +++++++++++++++
->>  1 file changed, 15 insertions(+)
->>
->> diff --git a/tests/acceptance/boot_linux_console.py b/tests/acceptance/boot_linux_console.py
->> index 3d02519660..f4d4e3635f 100644
->> --- a/tests/acceptance/boot_linux_console.py
->> +++ b/tests/acceptance/boot_linux_console.py
->> @@ -28,6 +28,18 @@
->>  except CmdNotFoundError:
->>      P7ZIP_AVAILABLE = False
->>
->> +# round up to next power of 2
->> +def pow2ceil(x):
->> +    return 1 if x == 0 else 2**(x - 1).bit_length()
->> +
->> +# truncate file size to next power of 2
->> +def image_pow2ceil_truncate(path):
->> +        size = os.path.getsize(path)
->> +        size_aligned = pow2ceil(size)
->> +        if size != size_aligned:
->> +            with open(path, 'ab+') as fd:
->> +                fd.truncate(size_aligned)
+>> Should we print that we expect a power of 2? This isn't always obvious
+>> from the message.
 > 
-> Why truncate the image, can't we expand it instead?
+> Mmm, I was thinking that. Perhaps
+>  "expecting a power of 2, e.g. %s"
+> ?
 
-pow2ceil() round UP to the next power of 2. I think this
-Python truncate() is a simple wrapper around the ftruncate()
-syscall. IOW we only "expand the image". Note, these are
-test images copied in tmpdir and discarded after the tests
-ran. I'll improve the description.
+OK, thanks guys!
 
 > 
-> Alistair
-> 
->> +
->>  class LinuxKernelTest(Test):
->>      KERNEL_COMMON_COMMAND_LINE = 'printk.time=0 '
->>
->> @@ -635,6 +647,7 @@ def test_arm_orangepi_sd(self):
->>          rootfs_path_xz = self.fetch_asset(rootfs_url, asset_hash=rootfs_hash)
->>          rootfs_path = os.path.join(self.workdir, 'rootfs.cpio')
->>          archive.lzma_uncompress(rootfs_path_xz, rootfs_path)
->> +        image_pow2ceil_truncate(rootfs_path)
->>
->>          self.vm.set_console()
->>          kernel_command_line = (self.KERNEL_COMMON_COMMAND_LINE +
->> @@ -679,6 +692,7 @@ def test_arm_orangepi_bionic(self):
->>          image_name = 'Armbian_19.11.3_Orangepipc_bionic_current_5.3.9.img'
->>          image_path = os.path.join(self.workdir, image_name)
->>          process.run("7z e -o%s %s" % (self.workdir, image_path_7z))
->> +        image_pow2ceil_truncate(image_path)
->>
->>          self.vm.set_console()
->>          self.vm.add_args('-drive', 'file=' + image_path + ',if=sd,format=raw',
->> @@ -728,6 +742,7 @@ def test_arm_orangepi_uboot_netbsd9(self):
->>          image_hash = '2babb29d36d8360adcb39c09e31060945259917a'
->>          image_path_gz = self.fetch_asset(image_url, asset_hash=image_hash)
->>          image_path = os.path.join(self.workdir, 'armv7.img')
->> +        image_pow2ceil_truncate(image_path)
->>          image_drive_args = 'if=sd,format=raw,snapshot=on,file=' + image_path
->>          archive.gzip_uncompress(image_path_gz, image_path)
->>
->> --
->> 2.21.3
->>
->>
+> thanks
+> -- PMM
 > 
 
