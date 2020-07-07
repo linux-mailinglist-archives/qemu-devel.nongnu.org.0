@@ -2,61 +2,61 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A531B2176D7
-	for <lists+qemu-devel@lfdr.de>; Tue,  7 Jul 2020 20:35:20 +0200 (CEST)
-Received: from localhost ([::1]:49346 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E3C3C2176D5
+	for <lists+qemu-devel@lfdr.de>; Tue,  7 Jul 2020 20:35:07 +0200 (CEST)
+Received: from localhost ([::1]:48478 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jssR5-0001x5-Ng
-	for lists+qemu-devel@lfdr.de; Tue, 07 Jul 2020 14:35:19 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:35816)
+	id 1jssQs-0001bU-HA
+	for lists+qemu-devel@lfdr.de; Tue, 07 Jul 2020 14:35:06 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:35830)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1jssAM-0000GJ-LJ
- for qemu-devel@nongnu.org; Tue, 07 Jul 2020 14:18:02 -0400
-Received: from mail-wr1-x443.google.com ([2a00:1450:4864:20::443]:46884)
+ id 1jssAN-0000K7-QU
+ for qemu-devel@nongnu.org; Tue, 07 Jul 2020 14:18:04 -0400
+Received: from mail-wm1-x330.google.com ([2a00:1450:4864:20::330]:53144)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1jssAK-0002xj-GM
- for qemu-devel@nongnu.org; Tue, 07 Jul 2020 14:18:01 -0400
-Received: by mail-wr1-x443.google.com with SMTP id r12so46172992wrj.13
- for <qemu-devel@nongnu.org>; Tue, 07 Jul 2020 11:18:00 -0700 (PDT)
+ id 1jssAM-0002xq-CC
+ for qemu-devel@nongnu.org; Tue, 07 Jul 2020 14:18:03 -0400
+Received: by mail-wm1-x330.google.com with SMTP id q15so92377wmj.2
+ for <qemu-devel@nongnu.org>; Tue, 07 Jul 2020 11:18:01 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=sender:from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=IBIliU2TvqhuT2+YwakVDSLtJXEXe6zfG/AsoZOUvLc=;
- b=a5FnimvEMyGyCAvdKKmK+xMV79vaP5p6TKHmucn504j05Tc3QVZVLwCTxl5dgI3nPj
- ssP0jTIgq2GiBzCdW9t4iqtOrVO7c3jIr7ErA0Znjks1bHudrJ5PwQ3yIbvlNVhWMN5b
- Yx2Lmoo8wDJDNmT641rgN5bUSyuJYhvnZ9V+KCBtTW7MLfXRJ85/YLXLC/IAtKscgA9e
- fbhgXBvFhA45F+qVZRNXZNM5GBzUx7uGpqrHeMtxWmUBDEo3NhNbcVii4X9iWnLNBM7Z
- U8LE8oQZUTmxuzUs+VNXhOHkNxmkoI65EtLOYV3+HidtYokITuRjv0pKMjXWOeErx1Fw
- eb5w==
+ bh=PswJoJ5isVsmaej3e1+NkgMj7VKyF6RHGS5MY4k2LNM=;
+ b=jPxgB1URjCd92bRm9xbxwObrqU22NCXCGsBW2B+fwCoFN55Sv8FOfPG+Gt45+pyqfw
+ /2letgxfSahhceuUQSsZ9a9XhyIr0dX44NxDbgaLoLvaoMsIpJJR6Rbt0Ng+13WWaBLC
+ VvMlUopjAfbodrQp/ID2eotPnK9elIbs7a4bx+KInNs6ezeuo3ZBQdTsMAUJiIQp9yXJ
+ Vb6JIkQ/UV9zOeYdd+BbtwOikT9JJnnE95veFWqmKj2FIeH9eHqVI8a8RDtwpUwFgg86
+ hZez1exAZmKFd6lZCsTotpodSBGTmScyQDZTFh6yX6JWw9z/4Mw8MBLrQldorF91WN40
+ OFxA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
  :in-reply-to:references:mime-version:content-transfer-encoding;
- bh=IBIliU2TvqhuT2+YwakVDSLtJXEXe6zfG/AsoZOUvLc=;
- b=kuG59xDb8lbozxeSOJzMTv3CiETa4IgforU7qHcUx5MOAPDLxd/4r0qpu2gTGRaHMe
- PwjXV8Aw7GYpWDSO5tfChETMQR0FNsBjbFqeiLAZA8ibhyVqe0o0o9Adup6KO7yttOjn
- cxQtD8yahxWRjwE/0p9+fSMoDfAGc9johwC+AFnzNqFRe0F6LXfPSeqt9WxTtiSOSDt7
- uDGOv+lMR0ameAMm+EEJkPq12lwm0DPYzY8K4z7rvOjuPoyjEXBUh+W/HgsQnLkWv+Z4
- xOecanveV6irTSG3yEcd7xlG1WCC65rMMM8N8EbJNYnQ08Jklrzq5yDwvBZCteCmfgxn
- vI4A==
-X-Gm-Message-State: AOAM5315lAlJCGWKL6bh+CfpYN7m0ImKfXWQtiW/eJkRCsrRM1UkOnUC
- Yq2qplHMuDGEUHdW0LOarBBXQTgP
-X-Google-Smtp-Source: ABdhPJxg1de/lvq0mJ1/gRowZ/SK+G14W454NwpG/npo7vEgPoXKdVFqB0oiot2F4l3JSGDJfaSGdA==
-X-Received: by 2002:a5d:630c:: with SMTP id i12mr60574398wru.158.1594145878971; 
- Tue, 07 Jul 2020 11:17:58 -0700 (PDT)
+ bh=PswJoJ5isVsmaej3e1+NkgMj7VKyF6RHGS5MY4k2LNM=;
+ b=Jl1BRDVl3D7sgTFe8flX1do6oz9o0mSgmc9SUxGz4kvFgc3j+hLc3KeC0Q86HsttO0
+ MdKY1Rzdd+F9+8AZboECTu6t+/RqoA8wzbtppg7dZ49usIff0fmNORdCA6iCJ2mENeMN
+ aYVI+VY5derTjhn0s+xmZA/lpqtY7nCne+hiqjGyR5FfHlT/f/yK/wWNxNSgoJpSPSpV
+ PU/9YXC2nQQrML9zi2y9/UwqmepFPz5qv7dyk2GhAKgdqmVDSBTwUZaD5pBkKV98x8WH
+ A8BsLh1JOIGfWJNb/RI8Ie1QJL5Zjyj9/KFTjA/O0sz/RJK1m4G5v2spHoNvJ/QdL/zT
+ xttA==
+X-Gm-Message-State: AOAM532TFBaHz7L0ZEwFAxRsDBPa1rEVBPAj61Pj/QYhFCwdlaLk5pc2
+ 0t1u3ng0L5G2n3W+bxfSpxkfRhYq
+X-Google-Smtp-Source: ABdhPJxESkct/hJR8V+tbhtvDcP3sz/o5d1bSGsUbP2RewfcMydplSLSA8UcMegD++fUYvzeCP4qEQ==
+X-Received: by 2002:a7b:c7c2:: with SMTP id z2mr5401782wmk.39.1594145880547;
+ Tue, 07 Jul 2020 11:18:00 -0700 (PDT)
 Received: from localhost.localdomain
  (138.red-83-57-170.dynamicip.rima-tde.net. [83.57.170.138])
- by smtp.gmail.com with ESMTPSA id 65sm2253337wma.48.2020.07.07.11.17.57
+ by smtp.gmail.com with ESMTPSA id 65sm2253337wma.48.2020.07.07.11.17.59
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 07 Jul 2020 11:17:58 -0700 (PDT)
+ Tue, 07 Jul 2020 11:18:00 -0700 (PDT)
 From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
 To: qemu-devel@nongnu.org
-Subject: [PULL 29/32] target/avr: Add section into QEMU documentation
-Date: Tue,  7 Jul 2020 20:17:07 +0200
-Message-Id: <20200707181710.30950-30-f4bug@amsat.org>
+Subject: [PULL 30/32] target/avr/cpu: Drop tlb_flush() in avr_cpu_reset()
+Date: Tue,  7 Jul 2020 20:17:08 +0200
+Message-Id: <20200707181710.30950-31-f4bug@amsat.org>
 X-Mailer: git-send-email 2.21.3
 In-Reply-To: <20200707181710.30950-1-f4bug@amsat.org>
 References: <20200707181710.30950-1-f4bug@amsat.org>
@@ -64,8 +64,8 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::443;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wr1-x443.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::330;
+ envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wm1-x330.google.com
 X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
  That's all we know.
 X-Spam_score_int: 0
@@ -90,7 +90,9 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Cc: Laurent Vivier <lvivier@redhat.com>, Sarah Harris <S.E.Harris@kent.ac.uk>,
  Eduardo Habkost <ehabkost@redhat.com>, Thomas Huth <huth@tuxfamily.org>,
  =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>,
- Cleber Rosa <crosa@redhat.com>, Markus Armbruster <armbru@redhat.com>,
+ Cleber Rosa <crosa@redhat.com>,
+ Richard Henderson <richard.henderson@linaro.org>,
+ Markus Armbruster <armbru@redhat.com>,
  Wainer dos Santos Moschetta <wainersm@redhat.com>,
  Thomas Huth <thuth@redhat.com>,
  =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>,
@@ -102,73 +104,30 @@ Cc: Laurent Vivier <lvivier@redhat.com>, Sarah Harris <S.E.Harris@kent.ac.uk>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Thomas Huth <huth@tuxfamily.org>
+Since commit 1f5c00cfdb tlb_flush() is called from cpu_common_reset().
 
-The new section explains basic ways of using AVR target in QEMU.
-
-Signed-off-by: Michael Rolnik <mrolnik@gmail.com>
-[thuth: Converted doc from texi to Sphinx syntax]
-Signed-off-by: Thomas Huth <huth@tuxfamily.org>
-Message-Id: <20200705140315.260514-31-huth@tuxfamily.org>
+Reviewed-by: Thomas Huth <huth@tuxfamily.org>
+Reviewed-by: Alex Bennée <alex.bennee@linaro.org>
+Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
 Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
+Message-Id: <20200707070021.10031-2-f4bug@amsat.org>
 ---
- docs/system/target-avr.rst | 37 +++++++++++++++++++++++++++++++++++++
- docs/system/targets.rst    |  1 +
- 2 files changed, 38 insertions(+)
- create mode 100644 docs/system/target-avr.rst
+ target/avr/cpu.c | 2 --
+ 1 file changed, 2 deletions(-)
 
-diff --git a/docs/system/target-avr.rst b/docs/system/target-avr.rst
-new file mode 100644
-index 0000000000..dc99afc895
---- /dev/null
-+++ b/docs/system/target-avr.rst
-@@ -0,0 +1,37 @@
-+.. _AVR-System-emulator:
-+
-+AVR System emulator
-+-------------------
-+
-+Use the executable ``qemu-system-avr`` to emulate a AVR 8 bit based machine.
-+These can have one of the following cores: avr1, avr2, avr25, avr3, avr31,
-+avr35, avr4, avr5, avr51, avr6, avrtiny, xmega2, xmega3, xmega4, xmega5,
-+xmega6 and xmega7.
-+
-+As for now it supports few Arduino boards for educational and testing purposes.
-+These boards use a ATmega controller, which model is limited to USART & 16-bit
-+timer devices, enought to run FreeRTOS based applications (like
-+https://github.com/seharris/qemu-avr-tests/blob/master/free-rtos/Demo/AVR_ATMega2560_GCC/demo.elf
-+).
-+
-+Following are examples of possible usages, assuming demo.elf is compiled for
-+AVR cpu
-+
-+ - Continuous non interrupted execution:
-+   ``qemu-system-avr -machine mega2560 -bios demo.elf``
-+
-+ - Continuous non interrupted execution with serial output into telnet window:
-+   ``qemu-system-avr -machine mega2560 -bios demo.elf -serial
-+   tcp::5678,server,nowait -nographic``
-+   and then in another shell
-+   ``telnet localhost 5678``
-+
-+ - Debugging wit GDB debugger:
-+   ``qemu-system-avr -machine mega2560 -bios demo.elf -s -S``
-+   and then in another shell
-+   ``avr-gdb demo.elf``
-+   and then within GDB shell
-+   ``target remote :1234``
-+
-+ - Print out executed instructions:
-+   ``qemu-system-avr -machine mega2560 -bios demo.elf -d in_asm``
-diff --git a/docs/system/targets.rst b/docs/system/targets.rst
-index 99435a3eba..560783644d 100644
---- a/docs/system/targets.rst
-+++ b/docs/system/targets.rst
-@@ -19,3 +19,4 @@ Contents:
-    target-xtensa
-    target-s390x
-    target-rx
-+   target-avr
+diff --git a/target/avr/cpu.c b/target/avr/cpu.c
+index d7ebe4e23b..f0f992aa32 100644
+--- a/target/avr/cpu.c
++++ b/target/avr/cpu.c
+@@ -78,8 +78,6 @@ static void avr_cpu_reset(DeviceState *ds)
+     env->skip = 0;
+ 
+     memset(env->r, 0, sizeof(env->r));
+-
+-    tlb_flush(cs);
+ }
+ 
+ static void avr_cpu_disas_set_info(CPUState *cpu, disassemble_info *info)
 -- 
 2.21.3
 
