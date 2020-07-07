@@ -2,71 +2,72 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D157921673C
-	for <lists+qemu-devel@lfdr.de>; Tue,  7 Jul 2020 09:21:33 +0200 (CEST)
-Received: from localhost ([::1]:33714 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2170321672F
+	for <lists+qemu-devel@lfdr.de>; Tue,  7 Jul 2020 09:18:34 +0200 (CEST)
+Received: from localhost ([::1]:46522 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jshv2-0002xC-RX
-	for lists+qemu-devel@lfdr.de; Tue, 07 Jul 2020 03:21:32 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:43798)
+	id 1jshs9-00052v-59
+	for lists+qemu-devel@lfdr.de; Tue, 07 Jul 2020 03:18:33 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:43572)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1jshoS-00074k-Og
- for qemu-devel@nongnu.org; Tue, 07 Jul 2020 03:14:44 -0400
-Received: from mail-wm1-x332.google.com ([2a00:1450:4864:20::332]:40254)
+ id 1jshoE-0006Yu-EY
+ for qemu-devel@nongnu.org; Tue, 07 Jul 2020 03:14:30 -0400
+Received: from mail-wm1-x32b.google.com ([2a00:1450:4864:20::32b]:40246)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1jshoP-0004tZ-RC
- for qemu-devel@nongnu.org; Tue, 07 Jul 2020 03:14:44 -0400
-Received: by mail-wm1-x332.google.com with SMTP id f139so45346811wmf.5
- for <qemu-devel@nongnu.org>; Tue, 07 Jul 2020 00:14:41 -0700 (PDT)
+ id 1jshoC-0004qZ-Mo
+ for qemu-devel@nongnu.org; Tue, 07 Jul 2020 03:14:30 -0400
+Received: by mail-wm1-x32b.google.com with SMTP id f139so45346276wmf.5
+ for <qemu-devel@nongnu.org>; Tue, 07 Jul 2020 00:14:28 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=9MdVCtyPDmbjXZc45hJi3iId1MWBt9w+N3ZPMWL/v5c=;
- b=Ylihklsg8U5au/iLzdzfzydGIxQsLx82Yf2S5BjEBQjGepiGuAxAo0itBYp5bVH1q7
- /1bQVey+rEl4KoY6PFVSaekZs+6y87IVSiZVsyWGFrzQvk2gkQaiQjbs5dvpA9bUAc3o
- fHqgb8EAEWjz2Ux0Yn0Ds/pi+auYCrcSJx7CR0c9Xh2FtcpVMV1BKLbeggLuQ5p1w18G
- XAXBj4QJTCspomc1iYbk3oxyR7QgwQve+WZTRf8TgPWjFTpjzFj/yVHeNuTO+dVkBs2o
- nRewPlE1RULPw6qQVZcyu5N4r1AtNuGkw7rsYCvY3YzryqYM+sOYpsOT2Ms2K4CUiUek
- S11g==
+ bh=0Du9+TDok3/8t4BiL1lqGOO2m2hHyL++J15tcPz/gDI=;
+ b=eIcbOXwJFxzs4KDjejfWky8SJqCIhYrm8YWjqtSH6Td/fYGRBYErOJrPZAQDc875SF
+ DZlZXjfYAX6z3LfpSrZ7f869T5vFUSVFdD+vTAizykmqO02KIfGVb9q+N842pw/1+Nj8
+ DsE2yozOeFS9JjX53dZvy1I0nLnG+9HOGgMxWsrFEaqJhvMRUar+AihtKoVjrgRRkG4j
+ k59ByDfC6nXz4Xdu/WF2rzTaBsmKSGrkpe5f2eHVkJNzkML8GN/fQcjW14YPjN0285OJ
+ todiyxB/kSgwYSIUSo7G9DGuXZ1KAvQ3zVOGSU864EtemWB0usJUe1l2CZLpw7HqGiwZ
+ 67Lw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=9MdVCtyPDmbjXZc45hJi3iId1MWBt9w+N3ZPMWL/v5c=;
- b=kTVne41FMj9e0Sh41zzbjLs+zmvF3rFB+nB+L15WAckkmNNb3l/U2mnNlfrGvduUJ4
- MT3yQW2z7Ng1DGiiDJFrMWO8qSyImTlOpXz19k7EEnoKZly8NePT/yB9nLFKcKOccqgN
- Jevi4rsQ6BV1EQkfWIzZh14wgyG7VKj2MC/i5sjaE+e/lBvuNoANaoOVe3tmqdgz6nSq
- beD9+frsJgv21h7vNNsm1NVoUlF0Bd+5SCSA4b2LwJkg22M63AD/k/uR7zDqK+rxt2k6
- iDpRxQ7MBpkUHeSuYDvoZOIeh2ICVWDpVNVvJlu4dJlPYndAGFz6v23FInh9Nw4JhjpR
- Lsvw==
-X-Gm-Message-State: AOAM530YcZ+WgofFNK9RQMt4ufSKTWauLcC3BEB80Bpol6cEKQsf4OBh
- 5mcMnEvGrsMKy9smWv8Iz8dvoQ==
-X-Google-Smtp-Source: ABdhPJxAzfF4MHspRBS+9qGvUVMwviK9fB8PT4Jy+WGf3jt4sjUpRthBE3QlBEolG4hvyGqnTALGXA==
-X-Received: by 2002:a7b:c4d8:: with SMTP id g24mr2550855wmk.127.1594106080423; 
- Tue, 07 Jul 2020 00:14:40 -0700 (PDT)
+ bh=0Du9+TDok3/8t4BiL1lqGOO2m2hHyL++J15tcPz/gDI=;
+ b=OVi1e8IQPKLXHgMVk7T7sK4uu1W8Cv5zYn/F78sSLhwzQMYcxBc0lUIGhzwkVHcI8U
+ 3FStUWhhUvLvJYGkCbRfFPb5hcYr8/DW2f3xo3Z3p8I0mbDsTUvHGOALTHOTHJpasHqi
+ Dfq6LbmiSeFBzBBuNUpwZp64zz0VMr4qlTCr1jUuiM383q7oX9svu7nDqjLVefmXGZm2
+ 7BoU0AzRCQu/2JmWSYwAFD4xRhhugZa/YnnVDVqQFty8oJu8/00KJtOJsVoBcMkzAN9/
+ CPVcKM3TqskExHzuF4mnSS5y8cxi2eKhEE9e4tanKqTJeXQOrVuo356mfErRaZbjaihP
+ YqgQ==
+X-Gm-Message-State: AOAM532Kfm304UNhELQDB65h15GXbZGXqB6ot/FqO26DpSWE7rj3qdD6
+ /NaaRJY07La35wnFbgcxGYOH4g==
+X-Google-Smtp-Source: ABdhPJxi84PU07FYwFBGm783rJzKofVfrmzXPKgWhrSP3UO8OJjTEepxr5lL9Rj9cs16g/5IfpNPyg==
+X-Received: by 2002:a05:600c:2209:: with SMTP id
+ z9mr2613163wml.178.1594106066199; 
+ Tue, 07 Jul 2020 00:14:26 -0700 (PDT)
 Received: from zen.linaroharston ([51.148.130.216])
- by smtp.gmail.com with ESMTPSA id z25sm2053697wmk.28.2020.07.07.00.14.27
+ by smtp.gmail.com with ESMTPSA id w7sm2283183wmc.32.2020.07.07.00.14.22
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 07 Jul 2020 00:14:30 -0700 (PDT)
+ Tue, 07 Jul 2020 00:14:22 -0700 (PDT)
 Received: from zen.lan (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id 418811FFBF;
+ by zen.linaroharston (Postfix) with ESMTP id 595E81FFC0;
  Tue,  7 Jul 2020 08:09:02 +0100 (BST)
 From: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
 To: peter.maydell@linaro.org
-Subject: [PULL 38/41] shippable: pull images from registry instead of building
-Date: Tue,  7 Jul 2020 08:08:55 +0100
-Message-Id: <20200707070858.6622-39-alex.bennee@linaro.org>
+Subject: [PULL 39/41] travis.yml: Test also the other targets on s390x
+Date: Tue,  7 Jul 2020 08:08:56 +0100
+Message-Id: <20200707070858.6622-40-alex.bennee@linaro.org>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20200707070858.6622-1-alex.bennee@linaro.org>
 References: <20200707070858.6622-1-alex.bennee@linaro.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::332;
- envelope-from=alex.bennee@linaro.org; helo=mail-wm1-x332.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::32b;
+ envelope-from=alex.bennee@linaro.org; helo=mail-wm1-x32b.google.com
 X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
  That's all we know.
 X-Spam_score_int: -20
@@ -88,37 +89,78 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Fam Zheng <fam@euphon.net>,
+Cc: Laurent Vivier <lvivier@redhat.com>, Fam Zheng <fam@euphon.net>,
+ Thomas Huth <thuth@redhat.com>,
  =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
- =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>, qemu-devel@nongnu.org
+ Cornelia Huck <cohuck@redhat.com>, qemu-devel@nongnu.org,
+ "open list:S390 general arch..." <qemu-s390x@nongnu.org>,
+ =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Now we have a source for registry images pull from there rather than
-re-building every time on shippable.
+From: Thomas Huth <thuth@redhat.com>
 
+s390x is our only big endian host in our CI, so building and testing QEMU
+there is quite valuable. Thus let's also test the other targets with
+additional jobs (also using different sets of pre-installed libraries to
+get a better coverage of the things that we test).
+
+Signed-off-by: Thomas Huth <thuth@redhat.com>
+Reviewed-by: Laurent Vivier <lvivier@redhat.com>
+Reviewed-by: Philippe Mathieu-Daudé <philmd@redhat.com>
 Signed-off-by: Alex Bennée <alex.bennee@linaro.org>
-Message-Id: <20200701135652.1366-41-alex.bennee@linaro.org>
+Message-Id: <20200608114049.4693-1-thuth@redhat.com>
 
-diff --git a/.shippable.yml b/.shippable.yml
-index 81905727d14c..f6b742432e5f 100644
---- a/.shippable.yml
-+++ b/.shippable.yml
-@@ -26,12 +26,10 @@ env:
-     - IMAGE=debian-ppc64el-cross
-       TARGET_LIST=ppc64-softmmu,ppc64-linux-user,ppc64abi32-linux-user
- build:
--  pre_ci:
--    - make docker-image-${IMAGE} V=1
-   pre_ci_boot:
--    image_name: qemu/${IMAGE}
-+    image_name: registry.gitlab.com/qemu-project/qemu/${IMAGE}
-     image_tag: latest
--    pull: false
-+    pull: true
-     options: "-e HOME=/root"
-   ci:
-     - unset CC
+diff --git a/.travis.yml b/.travis.yml
+index c24dfbe377f3..ab429500fc3c 100644
+--- a/.travis.yml
++++ b/.travis.yml
+@@ -482,6 +482,45 @@ jobs:
+               $(exit $BUILD_RC);
+           fi
+ 
++    - name: "[s390x] GCC (other-softmmu)"
++      arch: s390x
++      dist: bionic
++      addons:
++        apt_packages:
++          - libaio-dev
++          - libattr1-dev
++          - libcap-ng-dev
++          - libgnutls28-dev
++          - libiscsi-dev
++          - liblttng-ust-dev
++          - liblzo2-dev
++          - libncurses-dev
++          - libnfs-dev
++          - libnss3-dev
++          - libpixman-1-dev
++          - libsdl2-dev
++          - libsdl2-image-dev
++          - libseccomp-dev
++          - libsnappy-dev
++          - libzstd-dev
++          - nettle-dev
++          - xfslibs-dev
++          # Tests dependencies
++          - genisoimage
++      env:
++        - CONFIG="--disable-containers --audio-drv-list=sdl --disable-user
++                  --target-list-exclude=${MAIN_SOFTMMU_TARGETS}"
++
++    - name: "[s390x] GCC (user)"
++      arch: s390x
++      dist: bionic
++      addons:
++        apt_packages:
++          - libgcrypt20-dev
++          - libgnutls28-dev
++      env:
++        - CONFIG="--disable-containers --disable-system"
++
+     - name: "[s390x] Clang (disable-tcg)"
+       arch: s390x
+       dist: bionic
 -- 
 2.20.1
 
