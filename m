@@ -2,51 +2,52 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 98E92217469
-	for <lists+qemu-devel@lfdr.de>; Tue,  7 Jul 2020 18:49:35 +0200 (CEST)
-Received: from localhost ([::1]:46014 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D664521745D
+	for <lists+qemu-devel@lfdr.de>; Tue,  7 Jul 2020 18:46:49 +0200 (CEST)
+Received: from localhost ([::1]:35046 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jsqmk-0006m8-Km
-	for lists+qemu-devel@lfdr.de; Tue, 07 Jul 2020 12:49:34 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:39874)
+	id 1jsqk4-0001Cb-R8
+	for lists+qemu-devel@lfdr.de; Tue, 07 Jul 2020 12:46:48 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:39898)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1jsqZe-0007xK-DH
- for qemu-devel@nongnu.org; Tue, 07 Jul 2020 12:36:02 -0400
-Received: from us-smtp-2.mimecast.com ([207.211.31.81]:58844
+ (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1jsqZh-00083o-Co
+ for qemu-devel@nongnu.org; Tue, 07 Jul 2020 12:36:05 -0400
+Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:35164
  helo=us-smtp-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1jsqZc-0004D5-QW
- for qemu-devel@nongnu.org; Tue, 07 Jul 2020 12:36:02 -0400
+ (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1jsqZf-0004E2-Hk
+ for qemu-devel@nongnu.org; Tue, 07 Jul 2020 12:36:05 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1594139760;
+ s=mimecast20190719; t=1594139762;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=+p6YA2/IQj/mVaMKF1Aasa3PnRi3csR0wcUPb/LERXc=;
- b=aVmFUhATB4nIei4BDvvzygwTYGp/vSdsjvMyXCegN39q042aFEDTOgKnoFO4v8A4m8Y82k
- N8YvhYtpdb9Au7DsICJU0hkeifLjUwJVGhdGvDt/5heY1M0kyapR1lNB/V2NtQrtJqn+9/
- BWAiBBdalvXdkjxdiih+Qh2gGdw4IHU=
+ bh=d5RAa4IkRRtpkwW+Lhk3rW/uSVH67xU3i6P+7DcfEOU=;
+ b=C0HAuCiEJPM3TAGaK59qIblXk+EL3yhFi/dPtvWmkXj6H4zUOnYU0nYDfacyUY6tFj4ikJ
+ 8SXYgqyzJ25e+AxM9zoOk+s70MMfANSm1N9NMN5NOwWUtlJAobTwI5urq8Cb5r72hJTqTX
+ edbAGKkL5qx2k4fLbGvhRWUAfEeA7Ho=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-11-sGho9b6rNKS4_ybDfYRMpA-1; Tue, 07 Jul 2020 12:35:56 -0400
-X-MC-Unique: sGho9b6rNKS4_ybDfYRMpA-1
+ us-mta-280-9kaSeznfNqeToCPPqkxEiQ-1; Tue, 07 Jul 2020 12:35:53 -0400
+X-MC-Unique: 9kaSeznfNqeToCPPqkxEiQ-1
 Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
  [10.5.11.11])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 2D6658B789B;
- Tue,  7 Jul 2020 16:35:49 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 9F9CC10506E2;
+ Tue,  7 Jul 2020 16:35:51 +0000 (UTC)
 Received: from linux.fritz.box.com (ovpn-114-113.ams2.redhat.com
  [10.36.114.113])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 3BDF278460;
- Tue,  7 Jul 2020 16:35:48 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id AE55D512FE;
+ Tue,  7 Jul 2020 16:35:50 +0000 (UTC)
 From: Kevin Wolf <kwolf@redhat.com>
 To: qemu-block@nongnu.org
-Subject: [PULL 06/12] vmdk: Add trivial backing_fmt support
-Date: Tue,  7 Jul 2020 18:34:58 +0200
-Message-Id: <20200707163504.194740-7-kwolf@redhat.com>
+Subject: [PULL 08/12] block: Error if backing file fails during creation
+ without -u
+Date: Tue,  7 Jul 2020 18:35:00 +0200
+Message-Id: <20200707163504.194740-9-kwolf@redhat.com>
 In-Reply-To: <20200707163504.194740-1-kwolf@redhat.com>
 References: <20200707163504.194740-1-kwolf@redhat.com>
 MIME-Version: 1.0
@@ -57,17 +58,17 @@ X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=207.211.31.81; envelope-from=kwolf@redhat.com;
+Received-SPF: pass client-ip=205.139.110.120; envelope-from=kwolf@redhat.com;
  helo=us-smtp-1.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/07/07 00:20:54
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/07/07 06:04:49
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
-X-Spam_score_int: -30
-X-Spam_score: -3.1
-X-Spam_bar: ---
-X-Spam_report: (-3.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1,
+X-Spam_score_int: -40
+X-Spam_score: -4.1
+X-Spam_bar: ----
+X-Spam_report: (-4.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H3=-0.01, RCVD_IN_MSPIKE_WL=-0.01,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=_AUTOLEARN
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-1, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=_AUTOLEARN
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -86,60 +87,118 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Eric Blake <eblake@redhat.com>
 
-vmdk already requires that if backing_file is present, that it be
-another vmdk image (see vmdk_co_do_create).  Meanwhile, we want to
-move towards always being explicit about the backing format for other
-drivers where it matters.  So for convenience, make qemu-img create -F
-vmdk work, while rejecting all other explicit formats (note that this
-is only for QemuOpts usage; there is no change to the QAPI to allow a
-format through -blockdev).
+Back in commit 6e6e55f5 (Jul 2017, v2.10), we tweaked the code to warn
+if the backing file could not be opened but the user gave a size,
+unless the user also passes the -u option to bypass the open of the
+backing file.  As one common reason for failure to open the backing
+file is when there is mismatch in the requested backing format in
+relation to what the backing file actually contains, we actually want
+to open the backing file and ensure that it has the right format in as
+many cases as possible.  iotest 293 for qcow demonstrates how
+detecting explicit format mismatch is useful to prevent the creation
+of an image that would probe differently than the user requested.  Now
+is the time to finally turn the warning an error, as promised.
+
+Note that the original warning was added prior to our documentation of
+an official deprecation policy (eb22aeca, also Jul 2017), and because
+the warning didn't mention the word "deprecated", we never actually
+remembered to document it as such.  But the warning has been around
+long enough that I don't see prolonging it another two releases.
 
 Signed-off-by: Eric Blake <eblake@redhat.com>
-Message-Id: <20200706203954.341758-5-eblake@redhat.com>
+Message-Id: <20200706203954.341758-7-eblake@redhat.com>
 Signed-off-by: Kevin Wolf <kwolf@redhat.com>
 ---
- block/vmdk.c | 14 ++++++++++++++
- 1 file changed, 14 insertions(+)
+ docs/system/deprecated.rst | 12 ++++++++++++
+ block.c                    | 12 ++----------
+ tests/qemu-iotests/111.out |  2 +-
+ tests/qemu-iotests/293.out | 13 +++++--------
+ 4 files changed, 20 insertions(+), 19 deletions(-)
 
-diff --git a/block/vmdk.c b/block/vmdk.c
-index 62da465126..6c58e5ec2e 100644
---- a/block/vmdk.c
-+++ b/block/vmdk.c
-@@ -2638,6 +2638,14 @@ static int coroutine_fn vmdk_co_create_opts(BlockDriver *drv,
-     bool zeroed_grain;
-     bool compat6;
-     VMDKCreateOptsData data;
-+    char *backing_fmt = NULL;
+diff --git a/docs/system/deprecated.rst b/docs/system/deprecated.rst
+index 73b9d9f378..6fbec34b8b 100644
+--- a/docs/system/deprecated.rst
++++ b/docs/system/deprecated.rst
+@@ -546,6 +546,18 @@ can be rewritten as::
+ All options specified in ``-o`` are image creation options, so
+ they are now rejected when used with ``-n`` to skip image creation.
+ 
 +
-+    backing_fmt = qemu_opt_get_del(opts, BLOCK_OPT_BACKING_FMT);
-+    if (backing_fmt && strcmp(backing_fmt, "vmdk") != 0) {
-+        error_setg(errp, "backing_file must be a vmdk image");
-+        ret = -EINVAL;
-+        goto exit;
-+    }
++``qemu-img create -b bad file $size`` (removed in 5.1)
++''''''''''''''''''''''''''''''''''''''''''''''''''''''
++
++When creating an image with a backing file that could not be opened,
++``qemu-img create`` used to issue a warning about the failure but
++proceed with the image creation if an explicit size was provided.
++However, as the ``-u`` option exists for this purpose, it is safer to
++enforce that any failure to open the backing image (including if the
++backing file is missing or an incorrect format was specified) is an
++error when ``-u`` is not used.
++
+ Command line options
+ --------------------
  
-     if (filename_decompose(filename, path, prefix, postfix, PATH_MAX, errp)) {
-         ret = -EINVAL;
-@@ -2696,6 +2704,7 @@ static int coroutine_fn vmdk_co_create_opts(BlockDriver *drv,
-                             vmdk_co_create_opts_cb, &data, errp);
+diff --git a/block.c b/block.c
+index a568196ba2..983b9bd29a 100644
+--- a/block.c
++++ b/block.c
+@@ -6150,16 +6150,8 @@ void bdrv_img_create(const char *filename, const char *fmt,
+         bs = bdrv_open(full_backing, NULL, backing_options, back_flags,
+                        &local_err);
+         g_free(full_backing);
+-        if (!bs && size != -1) {
+-            /* Couldn't open BS, but we have a size, so it's nonfatal */
+-            warn_reportf_err(local_err,
+-                            "Could not verify backing image. "
+-                            "This may become an error in future versions.\n");
+-            local_err = NULL;
+-        } else if (!bs) {
+-            /* Couldn't open bs, do not have size */
+-            error_append_hint(&local_err,
+-                              "Could not open backing image to determine size.\n");
++        if (!bs) {
++            error_append_hint(&local_err, "Could not open backing image.\n");
+             goto out;
+         } else {
+             if (size == -1) {
+diff --git a/tests/qemu-iotests/111.out b/tests/qemu-iotests/111.out
+index 5279c462fc..ba034e5c58 100644
+--- a/tests/qemu-iotests/111.out
++++ b/tests/qemu-iotests/111.out
+@@ -1,4 +1,4 @@
+ QA output created by 111
+ qemu-img: TEST_DIR/t.IMGFMT: Could not open 'TEST_DIR/t.IMGFMT.inexistent': No such file or directory
+-Could not open backing image to determine size.
++Could not open backing image.
+ *** done
+diff --git a/tests/qemu-iotests/293.out b/tests/qemu-iotests/293.out
+index d07918b6d7..3c612903f8 100644
+--- a/tests/qemu-iotests/293.out
++++ b/tests/qemu-iotests/293.out
+@@ -17,18 +17,15 @@ backing file: TEST_DIR/t.IMGFMT.base
  
- exit:
-+    g_free(backing_fmt);
-     g_free(adapter_type);
-     g_free(backing_file);
-     g_free(hw_version);
-@@ -3031,6 +3040,11 @@ static QemuOptsList vmdk_create_opts = {
-             .type = QEMU_OPT_STRING,
-             .help = "File name of a base image"
-         },
-+        {
-+            .name = BLOCK_OPT_BACKING_FMT,
-+            .type = QEMU_OPT_STRING,
-+            .help = "Must be 'vmdk' if present",
-+        },
-         {
-             .name = BLOCK_OPT_COMPAT6,
-             .type = QEMU_OPT_BOOL,
+ == mismatched command line detection ==
+ qemu-img: TEST_DIR/t.IMGFMT: invalid VMDK image descriptor
+-Could not open backing image to determine size.
+-qemu-img: warning: Could not verify backing image. This may become an error in future versions.
+-invalid VMDK image descriptor
+-Formatting 'TEST_DIR/t.IMGFMT', fmt=IMGFMT size=33554432 backing_file=TEST_DIR/t.IMGFMT.base backing_fmt=vmdk
++Could not open backing image.
++qemu-img: TEST_DIR/t.IMGFMT: invalid VMDK image descriptor
++Could not open backing image.
+ 
+ qemu-img: TEST_DIR/t.IMGFMT: Image creation needs a size parameter
+ Formatting 'TEST_DIR/t.IMGFMT', fmt=IMGFMT size=33554432 backing_file=TEST_DIR/t.IMGFMT.base backing_fmt=vmdk
+ 
+-qemu-img: warning: Could not verify backing image. This may become an error in future versions.
+-Unknown driver 'garbage'
+-Formatting 'TEST_DIR/t.IMGFMT', fmt=IMGFMT size=33554432 backing_file=TEST_DIR/t.IMGFMT.base backing_fmt=garbage
+-qemu-img: TEST_DIR/t.IMGFMT: unrecognized backing format 'garbage'
++qemu-img: TEST_DIR/t.IMGFMT: Unknown driver 'garbage'
++Could not open backing image.
+ Formatting 'TEST_DIR/t.IMGFMT', fmt=IMGFMT size=33554432 backing_file=TEST_DIR/t.IMGFMT.base backing_fmt=garbage
+ qemu-img: TEST_DIR/t.IMGFMT: unrecognized backing format 'garbage'
+ image: TEST_DIR/t.IMGFMT
 -- 
 2.25.4
 
