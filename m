@@ -2,62 +2,61 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A9FE7217675
-	for <lists+qemu-devel@lfdr.de>; Tue,  7 Jul 2020 20:19:15 +0200 (CEST)
-Received: from localhost ([::1]:42034 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7E6EC21767E
+	for <lists+qemu-devel@lfdr.de>; Tue,  7 Jul 2020 20:21:04 +0200 (CEST)
+Received: from localhost ([::1]:50044 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jssBW-0000oo-NU
-	for lists+qemu-devel@lfdr.de; Tue, 07 Jul 2020 14:19:14 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:35452)
+	id 1jssDH-00043p-GS
+	for lists+qemu-devel@lfdr.de; Tue, 07 Jul 2020 14:21:03 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:35476)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1jss9l-0007PM-4v
- for qemu-devel@nongnu.org; Tue, 07 Jul 2020 14:17:25 -0400
-Received: from mail-wm1-x32d.google.com ([2a00:1450:4864:20::32d]:56231)
+ id 1jss9m-0007Sg-OE
+ for qemu-devel@nongnu.org; Tue, 07 Jul 2020 14:17:26 -0400
+Received: from mail-wr1-x434.google.com ([2a00:1450:4864:20::434]:38545)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1jss9j-0002rv-4S
- for qemu-devel@nongnu.org; Tue, 07 Jul 2020 14:17:24 -0400
-Received: by mail-wm1-x32d.google.com with SMTP id g75so69553wme.5
- for <qemu-devel@nongnu.org>; Tue, 07 Jul 2020 11:17:22 -0700 (PDT)
+ id 1jss9k-0002s7-Qr
+ for qemu-devel@nongnu.org; Tue, 07 Jul 2020 14:17:26 -0400
+Received: by mail-wr1-x434.google.com with SMTP id z13so46238862wrw.5
+ for <qemu-devel@nongnu.org>; Tue, 07 Jul 2020 11:17:24 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=sender:from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=QHSNic8l2ySddu81tR7DiLA/qd/n5PuBuhlt3A3ynwU=;
- b=OHE9bF66HAHq9thuxoO3wecLJ2Qgg8Q/dk0srqnPvBM7t4ZRd/xEb+8US4kFYx0G3T
- nUjTbUGRrdyL0nWItCQUVtHjLD8o0itRYvU05AWzcfLUhfN4HVK+auGjYaQUxkyu3OYb
- FH9l4pY5jqyJkoK5dyrBcAGtS/pNUlqjcbnd+O4YN89gGIALOp9tWITVsCtzR7PVSKsR
- wE4ZVZJx3rX35KnCT7cF6iDY07AXmH1DmQN4Ql1IVLNaovcMq+i8katWW82BjkXn0yYG
- e1WP8lKBYaooxwD30+oknbsOTeUMfT6TITqdTBK+EnFTOoc3vq3DcGJ27YIgx6RChHJj
- awjw==
+ bh=Gw++hfDxiOesJTRlVbtIFcd0Zj1Q2dXv8rNLqheywRM=;
+ b=s9gG8r+STOS5x1lu63k7shhrRZ+M+vBqSnDdhbEWbCneLmWEgyYhyC/+smA4acyw2o
+ QvrCe4QvJncWXaZye0zgsIHfrZle1svAw1eSIfPUEQ0OvHciMLtzhJ/srDzvo0RiSsJ9
+ GMOfsXcFusSHtHt+z9wtNbrh8GEN19j8Wk99SfMNesa+dJhStxr5YAD1qWJF57CIL3mh
+ YvN8qDUhI2D9fBBYgvJxsNNhsr3hja++IjhRkI7FN62P+sXeQs0Ve1DLS9EMGG9mHqTW
+ ljqY0REw2Dpbd2dqoSWKosMMgh33x3fsU0S/78Ol1eEcSoFBD7vqD3TeCxxGK+4R6nNj
+ iBbw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
  :in-reply-to:references:mime-version:content-transfer-encoding;
- bh=QHSNic8l2ySddu81tR7DiLA/qd/n5PuBuhlt3A3ynwU=;
- b=klTo5l0IzsCpljPHlKKU0MGYnn/+Cn83tfXdqUHVrYSpl3AVIV5QJ2W1dmdQrVeR6Y
- kE9qGCD15/9LTJGmm7uZdbSLtbuDcwAkpis1EWwLya4REPCQU4hTzyJREOoKOWtdfRz2
- on2lLS0NDiXNmvyK+lPJnw56gpwKwZ3nyn2XFeCz3hTO3R+CW2t15Xu1IpXyxL+D1zXM
- XR/EOI4NVI1XUtozc+5wjLBaavBiWazLl0pKEAy2J+EqFCDndqNUrxim1pJsdACklBa1
- tT7jA2sbhdMOyMom72sztIJCuEvLzZ8WKC7fgStz++JycvQSGRUxLWBoE+Cmg+ol3i9h
- WYWA==
-X-Gm-Message-State: AOAM532D5R0KKhve8ECvmo8ZP097PlfvvizAGrk+DboUjbBwAtp2pGBN
- 9guOyuyySBWydg8TsG6psCBtFlE2
-X-Google-Smtp-Source: ABdhPJzh1RY14Q1+/TJRJJMfONwvoYKw/hWBf1xr0BjZtDlYMxTHpUITIkzNamYnZWgi9DwoeH6hCw==
-X-Received: by 2002:a05:600c:4109:: with SMTP id
- j9mr5279282wmi.157.1594145841555; 
- Tue, 07 Jul 2020 11:17:21 -0700 (PDT)
+ bh=Gw++hfDxiOesJTRlVbtIFcd0Zj1Q2dXv8rNLqheywRM=;
+ b=MWIzQs1OIfgnvR2I3bhayroziNoqjwCgnDz2x7++dOLHdBmvjR5ZVE8eCNefVEEixi
+ A4S7pQltsEOMfe+mnzNbfC1cw9JTvU+LYaNHLH1ydUfITzet4XUjV0ETfbAdAntJl1Bu
+ l7NdDS8YpzqusRwzzatkn0+iW7O8TSd0VK3etmwRSgYVQ+jIlQkB7/QAnSubDMlFw9c5
+ tyXp+/aI5Lck9zOmJ7yggzBWJ/m42/HdapaNAHGiWX5EV0WVSjkaNFmtXX2zKAp14g+d
+ v+eIkX+jQ8jFBdt48y2hfXcsGqBI1nSo0MvwJIlVBmzx7bMRYtxxS2+DuJddXqE0/ukX
+ 90Bw==
+X-Gm-Message-State: AOAM533GylJ4QmVAHJVcVzGOEtZN/BHiriOTnZkzq9SDwOPbdTk4gVm/
+ F5Twgj3xxeSELCXQJGLNdvGFaaU+
+X-Google-Smtp-Source: ABdhPJxL3uwDn1xAG5OC4vTR+83JYQPu+GuwMPkp284YbnH3waO4ZRiWfuH4UL+RK+e0Q4rKthqbRw==
+X-Received: by 2002:a5d:6748:: with SMTP id l8mr61151875wrw.347.1594145843102; 
+ Tue, 07 Jul 2020 11:17:23 -0700 (PDT)
 Received: from localhost.localdomain
  (138.red-83-57-170.dynamicip.rima-tde.net. [83.57.170.138])
- by smtp.gmail.com with ESMTPSA id 65sm2253337wma.48.2020.07.07.11.17.20
+ by smtp.gmail.com with ESMTPSA id 65sm2253337wma.48.2020.07.07.11.17.21
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 07 Jul 2020 11:17:20 -0700 (PDT)
+ Tue, 07 Jul 2020 11:17:22 -0700 (PDT)
 From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
 To: qemu-devel@nongnu.org
-Subject: [PULL 05/32] target/avr: CPU class: Add migration support
-Date: Tue,  7 Jul 2020 20:16:43 +0200
-Message-Id: <20200707181710.30950-6-f4bug@amsat.org>
+Subject: [PULL 06/32] target/avr: CPU class: Add GDB support
+Date: Tue,  7 Jul 2020 20:16:44 +0200
+Message-Id: <20200707181710.30950-7-f4bug@amsat.org>
 X-Mailer: git-send-email 2.21.3
 In-Reply-To: <20200707181710.30950-1-f4bug@amsat.org>
 References: <20200707181710.30950-1-f4bug@amsat.org>
@@ -65,8 +64,8 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::32d;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wm1-x32d.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::434;
+ envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wr1-x434.google.com
 X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
  That's all we know.
 X-Spam_score_int: 0
@@ -109,7 +108,8 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Michael Rolnik <mrolnik@gmail.com>
 
-Add migration-related functions of AVR CPU class object.
+This includes GDB hooks for reading from wnd wrtiting to AVR
+registers, and xml register definition file as well.
 
 [AM: Split a larger AVR introduction patch into logical units]
 Suggested-by: Aleksandar Markovic <aleksandar.m.mail@gmail.com>
@@ -121,49 +121,54 @@ Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 Signed-off-by: Aleksandar Markovic <aleksandar.m.mail@gmail.com>
 Acked-by: Igor Mammedov <imammedo@redhat.com>
 Tested-by: Philippe Mathieu-Daudé <philmd@redhat.com>
+[thuth: Fixed avr_cpu_gdb_read_register() parameter]
 Signed-off-by: Thomas Huth <huth@tuxfamily.org>
-Message-Id: <20200705140315.260514-6-huth@tuxfamily.org>
+Message-Id: <20200705140315.260514-7-huth@tuxfamily.org>
 Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
 ---
- target/avr/cpu.h     |   2 +
- target/avr/cpu.c     |   1 +
- target/avr/machine.c | 121 +++++++++++++++++++++++++++++++++++++++++++
- 3 files changed, 124 insertions(+)
- create mode 100644 target/avr/machine.c
+ target/avr/cpu.h     |  2 ++
+ target/avr/cpu.c     |  4 +++
+ target/avr/gdbstub.c | 84 ++++++++++++++++++++++++++++++++++++++++++++
+ MAINTAINERS          |  1 +
+ gdb-xml/avr-cpu.xml  | 49 ++++++++++++++++++++++++++
+ 5 files changed, 140 insertions(+)
+ create mode 100644 target/avr/gdbstub.c
+ create mode 100644 gdb-xml/avr-cpu.xml
 
 diff --git a/target/avr/cpu.h b/target/avr/cpu.h
-index bac12dc684..59b89a3a71 100644
+index 59b89a3a71..6f231d096c 100644
 --- a/target/avr/cpu.h
 +++ b/target/avr/cpu.h
-@@ -118,6 +118,8 @@ typedef struct AVRCPU {
-     CPUAVRState env;
- } AVRCPU;
- 
-+extern const struct VMStateDescription vms_avr_cpu;
-+
+@@ -123,6 +123,8 @@ extern const struct VMStateDescription vms_avr_cpu;
  void avr_cpu_do_interrupt(CPUState *cpu);
  bool avr_cpu_exec_interrupt(CPUState *cpu, int int_req);
  hwaddr avr_cpu_get_phys_page_debug(CPUState *cpu, vaddr addr);
++int avr_cpu_gdb_read_register(CPUState *cpu, GByteArray *buf, int reg);
++int avr_cpu_gdb_write_register(CPUState *cpu, uint8_t *buf, int reg);
+ 
+ #define cpu_list avr_cpu_list
+ #define cpu_signal_handler cpu_avr_signal_handler
 diff --git a/target/avr/cpu.c b/target/avr/cpu.c
-index a8636015a3..f4b2d6f55c 100644
+index f4b2d6f55c..ac496b8f03 100644
 --- a/target/avr/cpu.c
 +++ b/target/avr/cpu.c
-@@ -206,6 +206,7 @@ static void avr_cpu_class_init(ObjectClass *oc, void *data)
-     cc->memory_rw_debug = avr_cpu_memory_rw_debug;
-     cc->get_phys_page_debug = avr_cpu_get_phys_page_debug;
-     cc->tlb_fill = avr_cpu_tlb_fill;
-+    cc->vmsd = &vms_avr_cpu;
+@@ -210,4 +210,8 @@ static void avr_cpu_class_init(ObjectClass *oc, void *data)
      cc->disas_set_info = avr_cpu_disas_set_info;
      cc->tcg_initialize = avr_cpu_tcg_init;
      cc->synchronize_from_tb = avr_cpu_synchronize_from_tb;
-diff --git a/target/avr/machine.c b/target/avr/machine.c
++    cc->gdb_read_register = avr_cpu_gdb_read_register;
++    cc->gdb_write_register = avr_cpu_gdb_write_register;
++    cc->gdb_num_core_regs = 35;
++    cc->gdb_core_xml_file = "avr-cpu.xml";
+ }
+diff --git a/target/avr/gdbstub.c b/target/avr/gdbstub.c
 new file mode 100644
-index 0000000000..e61ea0519a
+index 0000000000..c28ed67efe
 --- /dev/null
-+++ b/target/avr/machine.c
-@@ -0,0 +1,121 @@
++++ b/target/avr/gdbstub.c
+@@ -0,0 +1,84 @@
 +/*
-+ * QEMU AVR CPU
++ * QEMU AVR gdbstub
 + *
 + * Copyright (c) 2016-2020 Michael Rolnik
 + *
@@ -183,106 +188,136 @@ index 0000000000..e61ea0519a
 + */
 +
 +#include "qemu/osdep.h"
-+#include "cpu.h"
-+#include "migration/cpu.h"
++#include "exec/gdbstub.h"
 +
-+static int get_sreg(QEMUFile *f, void *opaque, size_t size,
-+    const VMStateField *field)
++int avr_cpu_gdb_read_register(CPUState *cs, GByteArray *mem_buf, int n)
 +{
-+    CPUAVRState *env = opaque;
-+    uint8_t sreg;
++    AVRCPU *cpu = AVR_CPU(cs);
++    CPUAVRState *env = &cpu->env;
 +
-+    sreg = qemu_get_byte(f);
-+    cpu_set_sreg(env, sreg);
-+    return 0;
-+}
-+
-+static int put_sreg(
-+    QEMUFile *f, void *opaque, size_t size,
-+    const VMStateField *field, QJSON *vmdesc)
-+{
-+    CPUAVRState *env = opaque;
-+    uint8_t sreg = cpu_get_sreg(env);
-+
-+    qemu_put_byte(f, sreg);
-+    return 0;
-+}
-+
-+static const VMStateInfo vms_sreg = {
-+    .name = "sreg",
-+    .get = get_sreg,
-+    .put = put_sreg,
-+};
-+
-+static int get_segment(
-+    QEMUFile *f, void *opaque, size_t size, const VMStateField *field)
-+{
-+    uint32_t *ramp = opaque;
-+    uint8_t temp;
-+
-+    temp = qemu_get_byte(f);
-+    *ramp = ((uint32_t)temp) << 16;
-+    return 0;
-+}
-+
-+static int put_segment(
-+    QEMUFile *f, void *opaque, size_t size,
-+    const VMStateField *field, QJSON *vmdesc)
-+{
-+    uint32_t *ramp = opaque;
-+    uint8_t temp = *ramp >> 16;
-+
-+    qemu_put_byte(f, temp);
-+    return 0;
-+}
-+
-+static const VMStateInfo vms_rampD = {
-+    .name = "rampD",
-+    .get = get_segment,
-+    .put = put_segment,
-+};
-+static const VMStateInfo vms_rampX = {
-+    .name = "rampX",
-+    .get = get_segment,
-+    .put = put_segment,
-+};
-+static const VMStateInfo vms_rampY = {
-+    .name = "rampY",
-+    .get = get_segment,
-+    .put = put_segment,
-+};
-+static const VMStateInfo vms_rampZ = {
-+    .name = "rampZ",
-+    .get = get_segment,
-+    .put = put_segment,
-+};
-+static const VMStateInfo vms_eind = {
-+    .name = "eind",
-+    .get = get_segment,
-+    .put = put_segment,
-+};
-+
-+const VMStateDescription vms_avr_cpu = {
-+    .name = "cpu",
-+    .version_id = 0,
-+    .minimum_version_id = 0,
-+    .fields = (VMStateField[]) {
-+        VMSTATE_UINT32(env.pc_w, AVRCPU),
-+        VMSTATE_UINT32(env.sp, AVRCPU),
-+        VMSTATE_UINT32(env.skip, AVRCPU),
-+
-+        VMSTATE_UINT32_ARRAY(env.r, AVRCPU, NUMBER_OF_CPU_REGISTERS),
-+
-+        VMSTATE_SINGLE(env, AVRCPU, 0, vms_sreg, CPUAVRState),
-+        VMSTATE_SINGLE(env.rampD, AVRCPU, 0, vms_rampD, uint32_t),
-+        VMSTATE_SINGLE(env.rampX, AVRCPU, 0, vms_rampX, uint32_t),
-+        VMSTATE_SINGLE(env.rampY, AVRCPU, 0, vms_rampY, uint32_t),
-+        VMSTATE_SINGLE(env.rampZ, AVRCPU, 0, vms_rampZ, uint32_t),
-+        VMSTATE_SINGLE(env.eind, AVRCPU, 0, vms_eind, uint32_t),
-+
-+        VMSTATE_END_OF_LIST()
++    /*  R */
++    if (n < 32) {
++        return gdb_get_reg8(mem_buf, env->r[n]);
 +    }
-+};
++
++    /*  SREG */
++    if (n == 32) {
++        uint8_t sreg = cpu_get_sreg(env);
++
++        return gdb_get_reg8(mem_buf, sreg);
++    }
++
++    /*  SP */
++    if (n == 33) {
++        return gdb_get_reg16(mem_buf, env->sp & 0x0000ffff);
++    }
++
++    /*  PC */
++    if (n == 34) {
++        return gdb_get_reg32(mem_buf, env->pc_w * 2);
++    }
++
++    return 0;
++}
++
++int avr_cpu_gdb_write_register(CPUState *cs, uint8_t *mem_buf, int n)
++{
++    AVRCPU *cpu = AVR_CPU(cs);
++    CPUAVRState *env = &cpu->env;
++
++    /*  R */
++    if (n < 32) {
++        env->r[n] = *mem_buf;
++        return 1;
++    }
++
++    /*  SREG */
++    if (n == 32) {
++        cpu_set_sreg(env, *mem_buf);
++        return 1;
++    }
++
++    /*  SP */
++    if (n == 33) {
++        env->sp = lduw_p(mem_buf);
++        return 2;
++    }
++
++    /*  PC */
++    if (n == 34) {
++        env->pc_w = ldl_p(mem_buf) / 2;
++        return 4;
++    }
++
++    return 0;
++}
+diff --git a/MAINTAINERS b/MAINTAINERS
+index 6a012646eb..d439aa41b6 100644
+--- a/MAINTAINERS
++++ b/MAINTAINERS
+@@ -171,6 +171,7 @@ AVR TCG CPUs
+ M: Michael Rolnik <mrolnik@gmail.com>
+ R: Sarah Harris <S.E.Harris@kent.ac.uk>
+ S: Maintained
++F: gdb-xml/avr-cpu.xml
+ F: target/avr/
+ 
+ CRIS TCG CPUs
+diff --git a/gdb-xml/avr-cpu.xml b/gdb-xml/avr-cpu.xml
+new file mode 100644
+index 0000000000..c4747f5b40
+--- /dev/null
++++ b/gdb-xml/avr-cpu.xml
+@@ -0,0 +1,49 @@
++<?xml version="1.0"?>
++<!-- Copyright (C) 2018-2019 Free Software Foundation, Inc.
++
++     Copying and distribution of this file, with or without modification,
++     are permitted in any medium without royalty provided the copyright
++     notice and this notice are preserved.  -->
++
++<!-- Register numbers are hard-coded in order to maintain backward
++     compatibility with older versions of tools that didn't use xml
++     register descriptions.  -->
++
++<!DOCTYPE feature SYSTEM "gdb-target.dtd">
++<feature name="org.gnu.gdb.riscv.cpu">
++  <reg name="r0" bitsize="8" type="int" regnum="0"/>
++  <reg name="r1" bitsize="8" type="int"/>
++  <reg name="r2" bitsize="8" type="int"/>
++  <reg name="r3" bitsize="8" type="int"/>
++  <reg name="r4" bitsize="8" type="int"/>
++  <reg name="r5" bitsize="8" type="int"/>
++  <reg name="r6" bitsize="8" type="int"/>
++  <reg name="r7" bitsize="8" type="int"/>
++  <reg name="r8" bitsize="8" type="int"/>
++  <reg name="r9" bitsize="8" type="int"/>
++  <reg name="r10" bitsize="8" type="int"/>
++  <reg name="r11" bitsize="8" type="int"/>
++  <reg name="r12" bitsize="8" type="int"/>
++  <reg name="r13" bitsize="8" type="int"/>
++  <reg name="r14" bitsize="8" type="int"/>
++  <reg name="r15" bitsize="8" type="int"/>
++  <reg name="r16" bitsize="8" type="int"/>
++  <reg name="r17" bitsize="8" type="int"/>
++  <reg name="r18" bitsize="8" type="int"/>
++  <reg name="r19" bitsize="8" type="int"/>
++  <reg name="r20" bitsize="8" type="int"/>
++  <reg name="r21" bitsize="8" type="int"/>
++  <reg name="r22" bitsize="8" type="int"/>
++  <reg name="r23" bitsize="8" type="int"/>
++  <reg name="r24" bitsize="8" type="int"/>
++  <reg name="r25" bitsize="8" type="int"/>
++  <reg name="r26" bitsize="8" type="int"/>
++  <reg name="r27" bitsize="8" type="int"/>
++  <reg name="r28" bitsize="8" type="int"/>
++  <reg name="r29" bitsize="8" type="int"/>
++  <reg name="r30" bitsize="8" type="int"/>
++  <reg name="r31" bitsize="8" type="int"/>
++  <reg name="sreg" bitsize="8" type="int"/>
++  <reg name="sp" bitsize="8" type="int"/>
++  <reg name="pc" bitsize="8" type="int"/>
++</feature>
 -- 
 2.21.3
 
