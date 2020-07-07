@@ -2,71 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A644D21674B
-	for <lists+qemu-devel@lfdr.de>; Tue,  7 Jul 2020 09:24:32 +0200 (CEST)
-Received: from localhost ([::1]:48930 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8E5BF216713
+	for <lists+qemu-devel@lfdr.de>; Tue,  7 Jul 2020 09:12:52 +0200 (CEST)
+Received: from localhost ([::1]:48504 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jshxv-0000rq-NU
-	for lists+qemu-devel@lfdr.de; Tue, 07 Jul 2020 03:24:31 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:43832)
+	id 1jshmd-0001cj-II
+	for lists+qemu-devel@lfdr.de; Tue, 07 Jul 2020 03:12:51 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:42708)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1jshoU-00076y-Ub
- for qemu-devel@nongnu.org; Tue, 07 Jul 2020 03:14:48 -0400
-Received: from mail-wm1-x329.google.com ([2a00:1450:4864:20::329]:51260)
+ id 1jshjJ-000564-G1
+ for qemu-devel@nongnu.org; Tue, 07 Jul 2020 03:09:25 -0400
+Received: from mail-wr1-x42c.google.com ([2a00:1450:4864:20::42c]:34552)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1jshoS-0004vQ-Bo
- for qemu-devel@nongnu.org; Tue, 07 Jul 2020 03:14:46 -0400
-Received: by mail-wm1-x329.google.com with SMTP id 22so42135429wmg.1
- for <qemu-devel@nongnu.org>; Tue, 07 Jul 2020 00:14:43 -0700 (PDT)
+ id 1jshjH-00046y-Lk
+ for qemu-devel@nongnu.org; Tue, 07 Jul 2020 03:09:25 -0400
+Received: by mail-wr1-x42c.google.com with SMTP id f7so40960368wrw.1
+ for <qemu-devel@nongnu.org>; Tue, 07 Jul 2020 00:09:23 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=WQFoNRo6TyQ2t2BXDRqFhlPss5nm1nW+xtYpQWhCpNM=;
- b=w2iIUfulOVmngzyazVWkARRyDYpTUf0QsupyXUuItaDjo6+kBI+6OIhvcW6HpvexsS
- AUsYlt1NaCbwKrUD2Nzk8kYukkCBjeAmPzpyJG1NWaJLlINIS3j1aZM8v1F3T/Mt3Hii
- KwTsqBfMuzEP0QsGlpN3+1+4kMB5qJlf3Z9X4V6mM9bY72hKorpCZmF6QeN6owTtz9ft
- cG7rXtGqZ2zCMMn8M1DsyinXSbXhiuyilbM/pVXGrRX7KDeDrpV+akqiwwfvTXRlEr9F
- YdSlw5iPhSqMRFE0PMrIb0BpEmJIJsHhnOSQH17VzZg7yAgU0l6x3cE3mwN20+43KYPW
- /Ljg==
+ bh=nRniERkDA/6Hi4fEHIqm7Z1ve7b/ehRoLpBF7hXj1y4=;
+ b=W7bBfv30QS5YuvhsI5vWd2Nuyn86nV6VZ2jgWgWG7BA5OwbEU9amvj/s8BFCznBo8r
+ ScOjAa9/Xbk0w/3LpKvE07OD6+eajF8WJees7f8+8aEQXa6CPY7QphQoxq7vWdBW+KGd
+ Ah7RCunCq0OJDRJR/dSCGAdIbvh6XI2xZFgsrqlOL8eeC1nHVNZ65LyKnrrv1mGJ+TCq
+ Ks8vj2L8cnswfUtoLCrSXlj/+875fReZd4eGuEJvtKhubXRQslN9YfAjXq23Jo4RsYWM
+ b3KcfSvb3W6JCflA7A4pXt8lNKGPOjkT5QEnTta1LvlzHrnvhemv8cXJ1/1lNuKYU1hb
+ mdjA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=WQFoNRo6TyQ2t2BXDRqFhlPss5nm1nW+xtYpQWhCpNM=;
- b=JvnPMfSWUk+nJZ5fVXb+EwGKEa3r9t5WuFDwT4rfFnjWWUysDwDWCFKej/LuumP2B+
- Ux3s16DvvmupZT3Wg56y3B4er5YR5+C1oe2uUY2CO7J4iB2lMFDPJf0TOWb9z0WBp5X6
- vySwU1zGsNMUtKvuFQ6ttS/JDFmCoxZjA7EL1HXEmFtOT4ih8q+TNQg9f3Mb19CT5PEW
- XsQfYDMFQZFgte6J5QYElufQJTZXlbEqtTmQTbBBNOXHlijYZnIe2oL8vxYWKGV98teL
- m6+ENdzHP93NBa93BT1Lj8hdGysC37Gm/cpN+Lbkylg2JL3ZRzbEE3vyjwEnRPzyzXxK
- zN5A==
-X-Gm-Message-State: AOAM533KX0Ix0O+AhLbT4uY9OduF4q2EwR8J9Z6gtozTC/UFTmKXxVJf
- j9vmyjTUAHirfPLDQAMY9ST4bg==
-X-Google-Smtp-Source: ABdhPJxrG4RboF9zdTlPHJSuxx2TOHqNcoMggtYbiw/mjX60XgQvTLABslwbW/GH4cQ7LfWN9JDkHw==
-X-Received: by 2002:a1c:1d93:: with SMTP id d141mr2570402wmd.14.1594106082670; 
- Tue, 07 Jul 2020 00:14:42 -0700 (PDT)
+ bh=nRniERkDA/6Hi4fEHIqm7Z1ve7b/ehRoLpBF7hXj1y4=;
+ b=C0GuVVI5BPaVGH8x6b1KHtN7tH8g1r7uM7ytlVaivH/jn/Dnf8XstwoMG0teNYbTGS
+ fwUSHCQ4cwiI8rSYhqlv4al2gxsBQb3RYEY2jZ1Mut284ZMkJHbp9wNEKVuFb/s66Zr6
+ 3Y1CiXvtEXcJ8iEiQ/4H6DYfBEBtyJrflnKxKJIUdfsKbFUtW4C6DiWJebLsrARezsvf
+ 214o2EV5ZRY1A8HIIoN5akG6WVUnB9S4z68IXLYpeDP8pVU8h1tvJr4ipVQS/tm/uz4v
+ hRi+hPKjbu7jMNBOUN0btqcYgAjW9q8A9z5dnWPqYawC9lujafTXIXaMQ0RLbmpibaw+
+ lLkg==
+X-Gm-Message-State: AOAM532lmIOF7lSSwSqzYAZRw08bhzZqj3Y7qx3Ya6lMBf31rhEeGt/v
+ SIjT7X4rFGws0/BX2ter9cYajw==
+X-Google-Smtp-Source: ABdhPJwbtjUO0gmSivoEkhz2v7qG7p8ympalBzzl1R0yrwC2cjlaxub4Ld2qXpuvwGdi0UZBi97spw==
+X-Received: by 2002:adf:fa81:: with SMTP id h1mr52813021wrr.266.1594105761843; 
+ Tue, 07 Jul 2020 00:09:21 -0700 (PDT)
 Received: from zen.linaroharston ([51.148.130.216])
- by smtp.gmail.com with ESMTPSA id 63sm28575200wra.86.2020.07.07.00.14.29
+ by smtp.gmail.com with ESMTPSA id j4sm22550758wrp.51.2020.07.07.00.09.09
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 07 Jul 2020 00:14:38 -0700 (PDT)
+ Tue, 07 Jul 2020 00:09:13 -0700 (PDT)
 Received: from zen.lan (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id 704181FFC1;
+ by zen.linaroharston (Postfix) with ESMTP id 87C7D1FFC2;
  Tue,  7 Jul 2020 08:09:02 +0100 (BST)
 From: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
 To: peter.maydell@linaro.org
-Subject: [PULL 40/41] tests/qht-bench: Adjust testing rate by -1
-Date: Tue,  7 Jul 2020 08:08:57 +0100
-Message-Id: <20200707070858.6622-41-alex.bennee@linaro.org>
+Subject: [PULL 41/41] tests/qht-bench: Adjust threshold computation
+Date: Tue,  7 Jul 2020 08:08:58 +0100
+Message-Id: <20200707070858.6622-42-alex.bennee@linaro.org>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20200707070858.6622-1-alex.bennee@linaro.org>
 References: <20200707070858.6622-1-alex.bennee@linaro.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::329;
- envelope-from=alex.bennee@linaro.org; helo=mail-wm1-x329.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::42c;
+ envelope-from=alex.bennee@linaro.org; helo=mail-wr1-x42c.google.com
 X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
  That's all we know.
 X-Spam_score_int: -20
@@ -90,97 +90,58 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
 Cc: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>,
  =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
- "Emilio G . Cota" <cota@braap.org>,
  Richard Henderson <richard.henderson@linaro.org>, qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Richard Henderson <richard.henderson@linaro.org>
 
-Since the seed must be non-zero, subtracting 1 means puts the
-rate in 0..UINT64_MAX-1, which allows the 0 and UINT64_MAX
-thresholds to corrspond to 0% (never) and 100% (always).
+In 06c4cc3660b3, we split the multiplication in two parts to avoid
+a clang warning.  But because double still rounds to 53 bits, this
+does not provide additional precision beyond multiplication by
+nextafter(0x1p64, 0), the largest representable value smaller
+than 2**64.
 
-Suggested-by: Emilio G. Cota <cota@braap.org>
+However, since we have eliminated 1.0, mutiplying by 2**64 produces
+a better distribution of input values to the output values.
+
 Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 Reviewed-by: Philippe Mathieu-Daudé <philmd@redhat.com>
 Signed-off-by: Alex Bennée <alex.bennee@linaro.org>
-Message-Id: <20200626200950.1015121-2-richard.henderson@linaro.org>
+Message-Id: <20200626200950.1015121-3-richard.henderson@linaro.org>
 
 diff --git a/tests/qht-bench.c b/tests/qht-bench.c
-index eb88a9013761..ad885d89d054 100644
+index ad885d89d054..362f03cb0370 100644
 --- a/tests/qht-bench.c
 +++ b/tests/qht-bench.c
-@@ -25,7 +25,13 @@ struct thread_stats {
- struct thread_info {
-     void (*func)(struct thread_info *);
-     struct thread_stats stats;
--    uint64_t r;
+@@ -289,11 +289,25 @@ static void pr_params(void)
+ 
+ static void do_threshold(double rate, uint64_t *threshold)
+ {
 +    /*
-+     * Seed is in the range [1..UINT64_MAX], because the RNG requires
-+     * a non-zero seed.  To use, subtract 1 and compare against the
-+     * threshold with </>=.  This lets threshold = 0 never match (0% hit),
-+     * and threshold = UINT64_MAX always match (100% hit).
++     * For 0 <= rate <= 1, scale to fit in a uint64_t.
++     *
++     * Scale by 2**64, with a special case for 1.0.
++     * The remainder of the possible values are scattered between 0
++     * and 0xfffffffffffff800 (nextafter(0x1p64, 0)).
++     *
++     * Note that we cannot simply scale by UINT64_MAX, because that
++     * value is not representable as an IEEE double value.
++     *
++     * If we scale by the next largest value, nextafter(0x1p64, 0),
++     * then the remainder of the possible values are scattered between
++     * 0 and 0xfffffffffffff000.  Which leaves us with a gap between
++     * the final two inputs that is twice as large as any other.
 +     */
-+    uint64_t seed;
-     bool write_op; /* writes alternate between insertions and removals */
-     bool resize_down;
- } QEMU_ALIGNED(64); /* avoid false sharing among threads */
-@@ -131,8 +137,9 @@ static uint64_t xorshift64star(uint64_t x)
- static void do_rz(struct thread_info *info)
- {
-     struct thread_stats *stats = &info->stats;
-+    uint64_t r = info->seed - 1;
- 
--    if (info->r < resize_threshold) {
-+    if (r < resize_threshold) {
-         size_t size = info->resize_down ? resize_min : resize_max;
-         bool resized;
- 
-@@ -151,13 +158,14 @@ static void do_rz(struct thread_info *info)
- static void do_rw(struct thread_info *info)
- {
-     struct thread_stats *stats = &info->stats;
-+    uint64_t r = info->seed - 1;
-     uint32_t hash;
-     long *p;
- 
--    if (info->r >= update_threshold) {
-+    if (r >= update_threshold) {
-         bool read;
- 
--        p = &keys[info->r & (lookup_range - 1)];
-+        p = &keys[r & (lookup_range - 1)];
-         hash = hfunc(*p);
-         read = qht_lookup(&ht, p, hash);
-         if (read) {
-@@ -166,7 +174,7 @@ static void do_rw(struct thread_info *info)
-             stats->not_rd++;
-         }
+     if (rate == 1.0) {
+         *threshold = UINT64_MAX;
      } else {
--        p = &keys[info->r & (update_range - 1)];
-+        p = &keys[r & (update_range - 1)];
-         hash = hfunc(*p);
-         if (info->write_op) {
-             bool written = false;
-@@ -208,7 +216,7 @@ static void *thread_func(void *p)
- 
-     rcu_read_lock();
-     while (!atomic_read(&test_stop)) {
--        info->r = xorshift64star(info->r);
-+        info->seed = xorshift64star(info->seed);
-         info->func(info);
+-        *threshold = (rate * 0xffff000000000000ull)
+-                   + (rate * 0x0000ffffffffffffull);
++        *threshold = rate * 0x1p64;
      }
-     rcu_read_unlock();
-@@ -221,7 +229,7 @@ static void *thread_func(void *p)
- static void prepare_thread_info(struct thread_info *info, int i)
- {
-     /* seed for the RNG; each thread should have a different one */
--    info->r = (i + 1) ^ time(NULL);
-+    info->seed = (i + 1) ^ time(NULL);
-     /* the first update will be a write */
-     info->write_op = true;
-     /* the first resize will be down */
+ }
+ 
 -- 
 2.20.1
 
