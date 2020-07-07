@@ -2,61 +2,61 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E3C3C2176D5
-	for <lists+qemu-devel@lfdr.de>; Tue,  7 Jul 2020 20:35:07 +0200 (CEST)
-Received: from localhost ([::1]:48478 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3F0002176DA
+	for <lists+qemu-devel@lfdr.de>; Tue,  7 Jul 2020 20:36:18 +0200 (CEST)
+Received: from localhost ([::1]:52944 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jssQs-0001bU-HA
-	for lists+qemu-devel@lfdr.de; Tue, 07 Jul 2020 14:35:06 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:35830)
+	id 1jssS1-0003Vc-9w
+	for lists+qemu-devel@lfdr.de; Tue, 07 Jul 2020 14:36:17 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:35842)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1jssAN-0000K7-QU
- for qemu-devel@nongnu.org; Tue, 07 Jul 2020 14:18:04 -0400
-Received: from mail-wm1-x330.google.com ([2a00:1450:4864:20::330]:53144)
+ id 1jssAP-0000KZ-Bw
+ for qemu-devel@nongnu.org; Tue, 07 Jul 2020 14:18:05 -0400
+Received: from mail-wm1-x330.google.com ([2a00:1450:4864:20::330]:55038)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1jssAM-0002xq-CC
- for qemu-devel@nongnu.org; Tue, 07 Jul 2020 14:18:03 -0400
-Received: by mail-wm1-x330.google.com with SMTP id q15so92377wmj.2
- for <qemu-devel@nongnu.org>; Tue, 07 Jul 2020 11:18:01 -0700 (PDT)
+ id 1jssAN-0002y6-GN
+ for qemu-devel@nongnu.org; Tue, 07 Jul 2020 14:18:04 -0400
+Received: by mail-wm1-x330.google.com with SMTP id o8so80250wmh.4
+ for <qemu-devel@nongnu.org>; Tue, 07 Jul 2020 11:18:03 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=sender:from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=PswJoJ5isVsmaej3e1+NkgMj7VKyF6RHGS5MY4k2LNM=;
- b=jPxgB1URjCd92bRm9xbxwObrqU22NCXCGsBW2B+fwCoFN55Sv8FOfPG+Gt45+pyqfw
- /2letgxfSahhceuUQSsZ9a9XhyIr0dX44NxDbgaLoLvaoMsIpJJR6Rbt0Ng+13WWaBLC
- VvMlUopjAfbodrQp/ID2eotPnK9elIbs7a4bx+KInNs6ezeuo3ZBQdTsMAUJiIQp9yXJ
- Vb6JIkQ/UV9zOeYdd+BbtwOikT9JJnnE95veFWqmKj2FIeH9eHqVI8a8RDtwpUwFgg86
- hZez1exAZmKFd6lZCsTotpodSBGTmScyQDZTFh6yX6JWw9z/4Mw8MBLrQldorF91WN40
- OFxA==
+ bh=tGv4CfBEXtuFyKALiKaIl9gTjn1aAhGIARznEXiT5/M=;
+ b=BSyrxASpBcf0oib8H6lSAjSy9s/r1jeLnn/6zG/ZhKKvXtDfaB9Aw0L2ndQHS12jwd
+ Rx97ZB9bXtFdNeZUOq5jz4tTKsVW0x2fhqubwfdMZvmu6V3XQGic2lQLEVTAWV2hTv62
+ vQzyBO696AWLXvv4L/tAVyy2j5HyF6mWp8xkcwC2zE0s7xi84/GHVzbOh3My4LV6r13V
+ kNl65lVWTQTbKvTLkcwaP0/4cSPd5/2r27FaNGf9LEtVVZwXQc0mO6DTirMSLXDwfbEh
+ Tff2i1UJz7vyHjkudRdXzhBS22rMd/pm8tubdfKoLrrzmxPqLE8SmEwYCpdpAFY7om1g
+ yRjg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
  :in-reply-to:references:mime-version:content-transfer-encoding;
- bh=PswJoJ5isVsmaej3e1+NkgMj7VKyF6RHGS5MY4k2LNM=;
- b=Jl1BRDVl3D7sgTFe8flX1do6oz9o0mSgmc9SUxGz4kvFgc3j+hLc3KeC0Q86HsttO0
- MdKY1Rzdd+F9+8AZboECTu6t+/RqoA8wzbtppg7dZ49usIff0fmNORdCA6iCJ2mENeMN
- aYVI+VY5derTjhn0s+xmZA/lpqtY7nCne+hiqjGyR5FfHlT/f/yK/wWNxNSgoJpSPSpV
- PU/9YXC2nQQrML9zi2y9/UwqmepFPz5qv7dyk2GhAKgdqmVDSBTwUZaD5pBkKV98x8WH
- A8BsLh1JOIGfWJNb/RI8Ie1QJL5Zjyj9/KFTjA/O0sz/RJK1m4G5v2spHoNvJ/QdL/zT
- xttA==
-X-Gm-Message-State: AOAM532TFBaHz7L0ZEwFAxRsDBPa1rEVBPAj61Pj/QYhFCwdlaLk5pc2
- 0t1u3ng0L5G2n3W+bxfSpxkfRhYq
-X-Google-Smtp-Source: ABdhPJxESkct/hJR8V+tbhtvDcP3sz/o5d1bSGsUbP2RewfcMydplSLSA8UcMegD++fUYvzeCP4qEQ==
-X-Received: by 2002:a7b:c7c2:: with SMTP id z2mr5401782wmk.39.1594145880547;
- Tue, 07 Jul 2020 11:18:00 -0700 (PDT)
+ bh=tGv4CfBEXtuFyKALiKaIl9gTjn1aAhGIARznEXiT5/M=;
+ b=b1Rr+DlRikAhO5HF6ZDGs5Tm8NUsObhyM5tqXS7w+2VoMqUptKxPiaxpQ6uR3IxxaR
+ Zaq4fN3uF2fOi4OXsJ0R/Ay3QANpANgZyjl6GOLXtJRZkSf/vQl9ZRWOPfi2AAzv8m/V
+ V6+weN/4l6+rLCFjOx/Q6vRP7PdBqwDJFennObaey5k+LsOCwu2cm1PDjdRPwYNrhRNt
+ 0sZ3aV6c1lut3y54GwJuGfm+uJoeohN5PEapaAyLDVqDYBxrFtxEjQN4sAUjPF6dW6CF
+ NxtjrGO4aeTZBr6EmNG99UJzJytDKe4S6ivv4bdjQVeJabrv5ovrCqWuqnVxqPdv/H67
+ MWWQ==
+X-Gm-Message-State: AOAM530utd2UX3qvtpbDePdijYDN3n+MKE3/ydJs96Wax77SVGOemcLd
+ x2ycQ7uKDnh8rgVZa7uABUaRq7ID
+X-Google-Smtp-Source: ABdhPJyCQmIwBNywG9vXOa7eoq+3wjHdoN4LrLwaB9eJz0mce3Lq0IUp742oTTnzTTAcJhjzo3zJ4w==
+X-Received: by 2002:a1c:7209:: with SMTP id n9mr5481865wmc.150.1594145882055; 
+ Tue, 07 Jul 2020 11:18:02 -0700 (PDT)
 Received: from localhost.localdomain
  (138.red-83-57-170.dynamicip.rima-tde.net. [83.57.170.138])
- by smtp.gmail.com with ESMTPSA id 65sm2253337wma.48.2020.07.07.11.17.59
+ by smtp.gmail.com with ESMTPSA id 65sm2253337wma.48.2020.07.07.11.18.00
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 07 Jul 2020 11:18:00 -0700 (PDT)
+ Tue, 07 Jul 2020 11:18:01 -0700 (PDT)
 From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
 To: qemu-devel@nongnu.org
-Subject: [PULL 30/32] target/avr/cpu: Drop tlb_flush() in avr_cpu_reset()
-Date: Tue,  7 Jul 2020 20:17:08 +0200
-Message-Id: <20200707181710.30950-31-f4bug@amsat.org>
+Subject: [PULL 31/32] target/avr/cpu: Fix $PC displayed address
+Date: Tue,  7 Jul 2020 20:17:09 +0200
+Message-Id: <20200707181710.30950-32-f4bug@amsat.org>
 X-Mailer: git-send-email 2.21.3
 In-Reply-To: <20200707181710.30950-1-f4bug@amsat.org>
 References: <20200707181710.30950-1-f4bug@amsat.org>
@@ -104,30 +104,32 @@ Cc: Laurent Vivier <lvivier@redhat.com>, Sarah Harris <S.E.Harris@kent.ac.uk>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Since commit 1f5c00cfdb tlb_flush() is called from cpu_common_reset().
+$PC is 16-bit wide. Other registers display addresses on a byte
+granularity.
+To have a coherent ouput, display $PC using byte granularity too.
 
 Reviewed-by: Thomas Huth <huth@tuxfamily.org>
 Reviewed-by: Alex Bennée <alex.bennee@linaro.org>
 Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
 Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
-Message-Id: <20200707070021.10031-2-f4bug@amsat.org>
+Message-Id: <20200707070021.10031-3-f4bug@amsat.org>
 ---
- target/avr/cpu.c | 2 --
- 1 file changed, 2 deletions(-)
+ target/avr/cpu.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
 diff --git a/target/avr/cpu.c b/target/avr/cpu.c
-index d7ebe4e23b..f0f992aa32 100644
+index f0f992aa32..f659bc10f5 100644
 --- a/target/avr/cpu.c
 +++ b/target/avr/cpu.c
-@@ -78,8 +78,6 @@ static void avr_cpu_reset(DeviceState *ds)
-     env->skip = 0;
+@@ -151,7 +151,7 @@ static void avr_cpu_dump_state(CPUState *cs, FILE *f, int flags)
+     int i;
  
-     memset(env->r, 0, sizeof(env->r));
--
--    tlb_flush(cs);
- }
- 
- static void avr_cpu_disas_set_info(CPUState *cpu, disassemble_info *info)
+     qemu_fprintf(f, "\n");
+-    qemu_fprintf(f, "PC:    %06x\n", env->pc_w);
++    qemu_fprintf(f, "PC:    %06x\n", env->pc_w * 2); /* PC points to words */
+     qemu_fprintf(f, "SP:      %04x\n", env->sp);
+     qemu_fprintf(f, "rampD:     %02x\n", env->rampD >> 16);
+     qemu_fprintf(f, "rampX:     %02x\n", env->rampX >> 16);
 -- 
 2.21.3
 
