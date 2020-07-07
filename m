@@ -2,74 +2,85 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D361D21748D
-	for <lists+qemu-devel@lfdr.de>; Tue,  7 Jul 2020 18:58:27 +0200 (CEST)
-Received: from localhost ([::1]:57894 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 75A74217495
+	for <lists+qemu-devel@lfdr.de>; Tue,  7 Jul 2020 19:00:14 +0200 (CEST)
+Received: from localhost ([::1]:37368 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jsqvK-0008E1-Se
-	for lists+qemu-devel@lfdr.de; Tue, 07 Jul 2020 12:58:26 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:44770)
+	id 1jsqx3-00037Q-HA
+	for lists+qemu-devel@lfdr.de; Tue, 07 Jul 2020 13:00:13 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:45088)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jcmvbkbc@gmail.com>)
- id 1jsqtu-0006Os-KM
- for qemu-devel@nongnu.org; Tue, 07 Jul 2020 12:56:58 -0400
-Received: from mail-pg1-x541.google.com ([2607:f8b0:4864:20::541]:45536)
+ (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
+ id 1jsqvV-0001ek-V0
+ for qemu-devel@nongnu.org; Tue, 07 Jul 2020 12:58:37 -0400
+Received: from mail-wr1-x444.google.com ([2a00:1450:4864:20::444]:45345)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <jcmvbkbc@gmail.com>)
- id 1jsqtt-0007Zj-3R
- for qemu-devel@nongnu.org; Tue, 07 Jul 2020 12:56:58 -0400
-Received: by mail-pg1-x541.google.com with SMTP id l63so20255966pge.12
- for <qemu-devel@nongnu.org>; Tue, 07 Jul 2020 09:56:56 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
+ id 1jsqvU-0007mq-Cd
+ for qemu-devel@nongnu.org; Tue, 07 Jul 2020 12:58:37 -0400
+Received: by mail-wr1-x444.google.com with SMTP id s10so45920439wrw.12
+ for <qemu-devel@nongnu.org>; Tue, 07 Jul 2020 09:58:35 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc:content-transfer-encoding;
- bh=6B7I0qbm7CcrSVUR3SOXzS/15f+zxikt+RIgGrrt4fI=;
- b=ZdYAAzjsfXunv1zLsHhOdF2L1lbvfeCQtZ/5MPznD51kPdhnPXYXf7Cn17+kzvmogX
- KCjV55rE9MHAzZht0FhionIq6VkO2JzUFml+nb/mT6RPvyI6VnhIIlOzCFY4HeShpMPl
- LxQw3vT1WTgnrO551Vkt5g49D8PXIZ52QmmzUh3HqSWACZwPHrFuKN1N/eCniRgJazUL
- UphFMKjOMVdgqIoPp/faJLOVKKNKUHLBLNMdrAUS/mAT3MGoj+G885joo3RLpLYWpAUl
- HYx3xp9QKBmxu8HANsJrNL2mneqz8Qf1kwRrbNhTq+QO0LNoIh8BcCxuMOMJDmW6vJiZ
- K6Qg==
+ h=sender:subject:to:cc:references:from:message-id:date:user-agent
+ :mime-version:in-reply-to:content-language:content-transfer-encoding;
+ bh=6+IBb7Xz/4CfcPrvJ+2wUbrJdzt1fxGdFW1XGuzGcuU=;
+ b=WtBaeGhx5s7VfF/SYDe8gvVQoL64vHycDiRAvhu8FOjMT1DVOoQrrilL75fzMrvC5t
+ wXWaTtrCIKm8h4vuunrn918S04LIrBaosuRyBsrCeA+Q5gt3tGlb4CTq5n5yh0+6Df3k
+ DmZkj4dvlus5cdawDu19CfdSESx4tXoP1FBC4oQY5gjyZBrMsQaalX4SdOp6kdxvuKgI
+ 18Jqtmb4qme2eVN2yZBFfsAmXtP9J2GrXHtmLMJJ5HkTX2dNSk4+FOWcJGckpzzU+oza
+ q0xXMuX2XReWPQ3ELpOxvjxF2pt0refv1PsVuuJWTJ0Ns1G8uF/q6Xj/VCpJshYy+fp9
+ kg2g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc:content-transfer-encoding;
- bh=6B7I0qbm7CcrSVUR3SOXzS/15f+zxikt+RIgGrrt4fI=;
- b=Q7RjyEbUivQ1DLOyliCfj30xkg0Fx9SsZFwmuN3FnrO1JNCX4A89e3YN84mNNXi6OW
- Z0Wl00syn9ijG8thup1IP79tcp3P4dpQWpC4ph7lh1fPMM5jyM0Ip0zUFrKxtMxeULSR
- 3E7ikQUXEmnxGm2TSpC5RVaxldgu+4DBCGXzHX6Ek+9QapUr/1bCRiLiJtlKExJOUqgJ
- G+sIiJOSpFvzDM4Q3PPiRJz3GfxV6F4V7zNs6tqlb7JMOYTR6q3MLsqRP0e5qTAGDYV6
- flPUkrX5IQWHAfXScXByQDDnHrbOegxwO3rjebHZr+oYHCTcFIPakvYlByjEesUpgLgV
- AKJQ==
-X-Gm-Message-State: AOAM530X+PZ/dalMn25xFtMZRc4+Y8loaJLVE2AhIZEwLLvfUr4BYPOL
- iCJCfwta7jwQM8DGRxQnpmeIOOd8dAvoDkcHosA=
-X-Google-Smtp-Source: ABdhPJxH+jEmcoj0oDrdVxzSvUinRQnAIEDuwjZLi4v2hw1BL71jU0hgZ8lZxwG0nQwMDRLmURGwcYWR9U5/Ubbk2aY=
-X-Received: by 2002:a62:3645:: with SMTP id d66mr51588645pfa.275.1594141015688; 
- Tue, 07 Jul 2020 09:56:55 -0700 (PDT)
+ h=x-gm-message-state:sender:subject:to:cc:references:from:message-id
+ :date:user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=6+IBb7Xz/4CfcPrvJ+2wUbrJdzt1fxGdFW1XGuzGcuU=;
+ b=txXrE+oe5scbIEVlVIx+5yMbcFumojn+2IWiTPayFjkdi3siuDnzxQq31ldvAvBaQC
+ qs7VyCHv59rvL+YTOIDFDC+3rbJvdGMZKyRHQ0tJPVJJjgvaCGbWv8/m8rLNLjak+bJm
+ AFysifPY6Bfyp4feXxWM1/2zjDkvnpkm2TWj2Zn0r0Pn6ZHwkR5vMZUrjn7iP07x92ea
+ hRpkE258PRycjYSYSDNwyCndJv5iZUgvwlulQ+6hd+Ir9gu2P+L0bKhouF7LRRi1ANT+
+ Nw/fKZ910wBaqf+P1fmd6UWlpRgSBwL/6hmccOsi6o00PBSiyx5lpKvchwiAn8QBawUN
+ hj1Q==
+X-Gm-Message-State: AOAM533j6s0KKGZW637t154x1u/mzRfC0BiQ30Cn0gzqqoRKpILhvYOd
+ C9Y7NgFjNkO4aYAMR1J9k5Y=
+X-Google-Smtp-Source: ABdhPJxT2r3hlH98LYbHPdGXeYhTAioAsEjZ33Onk1uIuiq4yBTqtOAJmBNGI+V64/h4ZBI4QoY60Q==
+X-Received: by 2002:a05:6000:1107:: with SMTP id
+ z7mr53845115wrw.355.1594141114212; 
+ Tue, 07 Jul 2020 09:58:34 -0700 (PDT)
+Received: from [192.168.1.36] (138.red-83-57-170.dynamicip.rima-tde.net.
+ [83.57.170.138])
+ by smtp.gmail.com with ESMTPSA id r28sm1860261wrr.20.2020.07.07.09.58.33
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Tue, 07 Jul 2020 09:58:33 -0700 (PDT)
+Subject: Re: [RFC PATCH v2 4/4] target/avr/translate: Fix SBRC/SBRS
+ instructions
+To: Richard Henderson <richard.henderson@linaro.org>, qemu-devel@nongnu.org
+References: <20200707070021.10031-1-f4bug@amsat.org>
+ <20200707070021.10031-5-f4bug@amsat.org>
+ <9c799b29-baa9-82c1-7329-aa9a3bff4664@linaro.org>
+From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>
+Message-ID: <eea7799a-9959-0fb0-3bc4-001f97cbea50@amsat.org>
+Date: Tue, 7 Jul 2020 18:58:32 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.5.0
 MIME-Version: 1.0
-References: <20200706234737.32378-1-jcmvbkbc@gmail.com>
- <87pn97o93a.fsf@linaro.org>
-In-Reply-To: <87pn97o93a.fsf@linaro.org>
-From: Max Filippov <jcmvbkbc@gmail.com>
-Date: Tue, 7 Jul 2020 09:56:44 -0700
-Message-ID: <CAMo8BfLH2jVLjbdMMWCCuhmh+i40NyHQFK-=bAUw3sSoAxwPww@mail.gmail.com>
-Subject: Re: [PATCH 00/21] target/xtensa: implement double precision FPU
-To: =?UTF-8?B?QWxleCBCZW5uw6ll?= <alex.bennee@linaro.org>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=2607:f8b0:4864:20::541;
- envelope-from=jcmvbkbc@gmail.com; helo=mail-pg1-x541.google.com
+In-Reply-To: <9c799b29-baa9-82c1-7329-aa9a3bff4664@linaro.org>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=2a00:1450:4864:20::444;
+ envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wr1-x444.google.com
 X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
  That's all we know.
-X-Spam_score_int: -5
-X-Spam_score: -0.6
+X-Spam_score_int: 0
+X-Spam_score: 0.0
 X-Spam_bar: /
-X-Spam_report: (-0.6 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
- FROM_LOCAL_NOVOWEL=0.5, HK_RANDOM_ENVFROM=0.001, HK_RANDOM_FROM=1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=_AUTOLEARN
+X-Spam_report: (0.0 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1, DKIM_VALID=-0.1,
+ DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=1, FREEMAIL_FROM=0.001,
+ HEADER_FROM_DIFFERENT_DOMAINS=1, RCVD_IN_DNSWL_NONE=-0.0001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=_AUTOLEARN
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -82,28 +93,53 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-devel <qemu-devel@nongnu.org>
+Cc: Thomas Huth <huth@tuxfamily.org>,
+ Joaquin de Andres <me@xcancerberox.com.ar>, Michael Rolnik <mrolnik@gmail.com>,
+ Sarah Harris <S.E.Harris@kent.ac.uk>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Tue, Jul 7, 2020 at 4:31 AM Alex Benn=C3=A9e <alex.bennee@linaro.org> wr=
-ote:
-> I've only looked at the softfloat bits as I'm not familiar with xtensa
+On 7/7/20 6:34 PM, Richard Henderson wrote:
+> On 7/7/20 12:00 AM, Philippe Mathieu-Daudé wrote:
+>> @@ -1385,7 +1385,7 @@ static bool trans_SBRC(DisasContext *ctx, arg_SBRC *a)
+>>  {
+>>      TCGv Rr = cpu_r[a->rr];
+>>  
+>> -    ctx->skip_cond = TCG_COND_EQ;
+>> +    ctx->skip_cond = TCG_COND_NE;
+>>      ctx->skip_var0 = tcg_temp_new();
+>>      ctx->free_skip_var0 = true;
+> 
+> This is wrong.  The next line is
+> 
+>>     tcg_gen_andi_tl(ctx->skip_var0, Rr, 1 << a->bit);
+> 
+> So we compute "var = R & bit", which should be zero for "Skip if Bit in
+> Register Clear".  Thus "var EQ 0" is the correct test.
 
-Thanks for taking a look!
+Thanks for verifying. If TCG is correct, then some hardware register
+might have a bit flipped.
 
-> at all. However you can have a vague:
->
-> Tested-by: Alex Benn=C3=A9e <alex.bennee@linaro.org>
->
-> for the series - congratulations you pass your own tests ;-)
+I couldn't run Sarah's test suite on Fedora 30:
 
-Unless you've built toolchains for the newly added cores and
-run the tests on these cores it only means that new tests are
-properly disabled for the cores without FPU/DFPU. I'll
-take it as an independent build test (:
+/usr/lib/gcc/avr/9.2.0/../../../../avr/bin/ld: cannot find
+crtatmega2560.o: No such file or directory
+/usr/lib/gcc/avr/9.2.0/../../../../avr/bin/ld: cannot find -lm
+/usr/lib/gcc/avr/9.2.0/../../../../avr/bin/ld: cannot find -lc
+/usr/lib/gcc/avr/9.2.0/../../../../avr/bin/ld: cannot find -latmega2560
+collect2: error: ld returned 1 exit status
 
---
-Thanks.
--- Max
+I'll try on some Debian based host.
+
+> 
+>> @@ -1401,7 +1401,7 @@ static bool trans_SBRS(DisasContext *ctx, arg_SBRS *a)
+>>  {
+>>      TCGv Rr = cpu_r[a->rr];
+>>  
+>> -    ctx->skip_cond = TCG_COND_NE;
+>> +    ctx->skip_cond = TCG_COND_EQ;
+>>      ctx->skip_var0 = tcg_temp_new();
+>>      ctx->free_skip_var0 = true;
+> 
+> Similarly this is "var NE 0".
 
