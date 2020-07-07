@@ -2,57 +2,57 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0A7702192E9
-	for <lists+qemu-devel@lfdr.de>; Wed,  8 Jul 2020 23:55:46 +0200 (CEST)
-Received: from localhost ([::1]:41428 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 348222192C2
+	for <lists+qemu-devel@lfdr.de>; Wed,  8 Jul 2020 23:46:35 +0200 (CEST)
+Received: from localhost ([::1]:35444 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jtI2a-0008RH-S6
-	for lists+qemu-devel@lfdr.de; Wed, 08 Jul 2020 17:55:45 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:35642)
+	id 1jtHti-0002Qe-2V
+	for lists+qemu-devel@lfdr.de; Wed, 08 Jul 2020 17:46:34 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:34442)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1jtHgh-0006pX-H4
- for qemu-devel@nongnu.org; Wed, 08 Jul 2020 17:33:07 -0400
-Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:30223
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1jtHcE-0000fI-3o
+ for qemu-devel@nongnu.org; Wed, 08 Jul 2020 17:28:30 -0400
+Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:26073
  helo=us-smtp-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1jtHgg-0002mb-3J
- for qemu-devel@nongnu.org; Wed, 08 Jul 2020 17:33:07 -0400
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1jtHc4-0002A8-34
+ for qemu-devel@nongnu.org; Wed, 08 Jul 2020 17:28:29 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1594243984;
+ s=mimecast20190719; t=1594243699;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=YiLPYp1sEs9XnIGPixoR+PI+DF0cIKbikqe4x2SJFVs=;
- b=H91TtOn254V9hIsgUk4cIBzWU5oNQHRl0bo8REH81l7CfLUzfrh+I1KYOHRhyJYerqV4M+
- /5bfY1TvYlRqfSZye0bw9ADovBQgN/RXdi2lGWCh95cQgrqMSbReDizdjsCjLdJNjb19T6
- S1uOawyb56V5CTDdi6n2Ob28XFpX340=
+ bh=a47fH7yqy15pgrnKRvsPcWZpEj2LkSIcF/FKVDfIWkw=;
+ b=gxazG6ZJ6R1pcH/EwQeH0KCBZ8VO9mcyxIu+Jwfztu+UiTmLJUg7Tl5OLgqbWz8D2aukNL
+ U9/VWlLEsd9QWrOUyyWbbTqE5y+YHoSIm9LKbykUBo3Ue05mKPXEbGSwjkOGqTMK/8v/PU
+ 2Hb7b1QJ45YD72FhGquoswLpHMP/nBw=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-313-16pv9xpEPzOAWHAlwKlJDw-1; Tue, 07 Jul 2020 17:25:15 -0400
-X-MC-Unique: 16pv9xpEPzOAWHAlwKlJDw-1
-Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
- [10.5.11.16])
+ us-mta-131-nofR0UxkPXqbXI6SNVzl9g-1; Tue, 07 Jul 2020 17:25:18 -0400
+X-MC-Unique: nofR0UxkPXqbXI6SNVzl9g-1
+Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
+ [10.5.11.13])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 4A71D87950B;
- Tue,  7 Jul 2020 21:25:14 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 4ECC6107ACCA;
+ Tue,  7 Jul 2020 21:25:17 +0000 (UTC)
 Received: from blackfin.pond.sub.org (ovpn-112-143.ams2.redhat.com
  [10.36.112.143])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 1AEEA5C1D0;
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 1FDE7797F6;
  Tue,  7 Jul 2020 21:25:14 +0000 (UTC)
 Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
- id E6D2B112FB79; Tue,  7 Jul 2020 23:25:03 +0200 (CEST)
+ id F0FC91141CC6; Tue,  7 Jul 2020 23:25:03 +0200 (CEST)
 From: Markus Armbruster <armbru@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PULL 10/53] qemu-option: Simplify around find_default_by_name()
-Date: Tue,  7 Jul 2020 23:24:20 +0200
-Message-Id: <20200707212503.1495927-11-armbru@redhat.com>
+Subject: [PULL 11/53] qemu-option: Factor out helper opt_create()
+Date: Tue,  7 Jul 2020 23:24:21 +0200
+Message-Id: <20200707212503.1495927-12-armbru@redhat.com>
 In-Reply-To: <20200707212503.1495927-1-armbru@redhat.com>
 References: <20200707212503.1495927-1-armbru@redhat.com>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=armbru@redhat.com
 X-Mimecast-Spam-Score: 0
@@ -69,7 +69,7 @@ X-Spam_bar: ----
 X-Spam_report: (-4.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-1, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -82,71 +82,66 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>,
- Greg Kurz <groug@kaod.org>
+Cc: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
+
+There is just one use so far.  The next commit will add more.
 
 Signed-off-by: Markus Armbruster <armbru@redhat.com>
 Reviewed-by: Eric Blake <eblake@redhat.com>
 Reviewed-by: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
-Message-Id: <20200707160613.848843-11-armbru@redhat.com>
-Reviewed-by: Greg Kurz <groug@kaod.org>
+Message-Id: <20200707160613.848843-12-armbru@redhat.com>
 ---
- util/qemu-option.c | 18 +++++-------------
- 1 file changed, 5 insertions(+), 13 deletions(-)
+ util/qemu-option.c | 27 ++++++++++++++++++---------
+ 1 file changed, 18 insertions(+), 9 deletions(-)
 
 diff --git a/util/qemu-option.c b/util/qemu-option.c
-index 14e211ddd8..e7b540a21b 100644
+index e7b540a21b..1023fe7527 100644
 --- a/util/qemu-option.c
 +++ b/util/qemu-option.c
-@@ -277,7 +277,6 @@ static void qemu_opt_del_all(QemuOpts *opts, const char *name)
- const char *qemu_opt_get(QemuOpts *opts, const char *name)
- {
-     QemuOpt *opt;
--    const char *def_val;
- 
-     if (opts == NULL) {
-         return NULL;
-@@ -285,12 +284,10 @@ const char *qemu_opt_get(QemuOpts *opts, const char *name)
- 
-     opt = qemu_opt_find(opts, name);
-     if (!opt) {
--        def_val = find_default_by_name(opts, name);
--        if (def_val) {
--            return def_val;
--        }
-+        return find_default_by_name(opts, name);
+@@ -499,6 +499,23 @@ int qemu_opt_unset(QemuOpts *opts, const char *name)
      }
--    return opt ? opt->str : NULL;
-+
-+    return opt->str;
  }
  
- void qemu_opt_iter_init(QemuOptsIter *iter, QemuOpts *opts, const char *name)
-@@ -319,8 +316,7 @@ const char *qemu_opt_iter_next(QemuOptsIter *iter)
- char *qemu_opt_get_del(QemuOpts *opts, const char *name)
++static QemuOpt *opt_create(QemuOpts *opts, const char *name, char *value,
++                           bool prepend)
++{
++    QemuOpt *opt = g_malloc0(sizeof(*opt));
++
++    opt->name = g_strdup(name);
++    opt->str = value;
++    opt->opts = opts;
++    if (prepend) {
++        QTAILQ_INSERT_HEAD(&opts->head, opt, next);
++    } else {
++        QTAILQ_INSERT_TAIL(&opts->head, opt, next);
++    }
++
++    return opt;
++}
++
+ static void opt_set(QemuOpts *opts, const char *name, char *value,
+                     bool prepend, bool *help_wanted, Error **errp)
  {
-     QemuOpt *opt;
--    const char *def_val;
--    char *str = NULL;
-+    char *str;
- 
-     if (opts == NULL) {
-         return NULL;
-@@ -328,11 +324,7 @@ char *qemu_opt_get_del(QemuOpts *opts, const char *name)
- 
-     opt = qemu_opt_find(opts, name);
-     if (!opt) {
--        def_val = find_default_by_name(opts, name);
--        if (def_val) {
--            str = g_strdup(def_val);
--        }
--        return str;
-+        return g_strdup(find_default_by_name(opts, name));
+@@ -516,16 +533,8 @@ static void opt_set(QemuOpts *opts, const char *name, char *value,
+         return;
      }
-     str = opt->str;
-     opt->str = NULL;
+ 
+-    opt = g_malloc0(sizeof(*opt));
+-    opt->name = g_strdup(name);
+-    opt->opts = opts;
+-    if (prepend) {
+-        QTAILQ_INSERT_HEAD(&opts->head, opt, next);
+-    } else {
+-        QTAILQ_INSERT_TAIL(&opts->head, opt, next);
+-    }
++    opt = opt_create(opts, name, value, prepend);
+     opt->desc = desc;
+-    opt->str = value;
+     qemu_opt_parse(opt, &local_err);
+     if (local_err) {
+         error_propagate(errp, local_err);
 -- 
 2.26.2
 
