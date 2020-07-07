@@ -2,74 +2,78 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 035F62173D0
-	for <lists+qemu-devel@lfdr.de>; Tue,  7 Jul 2020 18:21:36 +0200 (CEST)
-Received: from localhost ([::1]:42736 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id ABF73217436
+	for <lists+qemu-devel@lfdr.de>; Tue,  7 Jul 2020 18:40:42 +0200 (CEST)
+Received: from localhost ([::1]:39094 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jsqLf-0003OZ-08
-	for lists+qemu-devel@lfdr.de; Tue, 07 Jul 2020 12:21:35 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:59780)
+	id 1jsqe9-0007Dc-M1
+	for lists+qemu-devel@lfdr.de; Tue, 07 Jul 2020 12:40:41 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:60296)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1jsq7L-0002QX-9x
- for qemu-devel@nongnu.org; Tue, 07 Jul 2020 12:06:47 -0400
-Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:34236
- helo=us-smtp-1.mimecast.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1jsq78-0006ql-8V
- for qemu-devel@nongnu.org; Tue, 07 Jul 2020 12:06:46 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1594137993;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=WjH6u2neeF6V9LZ/KREOUckiZbXFB+nVE57Q8KWQk5U=;
- b=ikRS6gXQXSgM3VMWh4uxlwTUhTc642UHIC8OAVGSY/gRSkB24Dq16yPPSycAJ4bobQKko0
- hztIWJWczZbbP7N/SyYTP0T0D+PbCCeca1eBr+PsI98bsHGgW5mV7FPXsQNX/PiMDSNlft
- skF5SA9DaBh8tNGjS0nBGJrOzcKTrbA=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-328-u9Ajb7gxNUyskcmV8ctOkA-1; Tue, 07 Jul 2020 12:06:31 -0400
-X-MC-Unique: u9Ajb7gxNUyskcmV8ctOkA-1
-Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
- [10.5.11.16])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 50FE510059B4;
- Tue,  7 Jul 2020 16:06:30 +0000 (UTC)
-Received: from blackfin.pond.sub.org (ovpn-112-143.ams2.redhat.com
- [10.36.112.143])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id E82375C1B2;
- Tue,  7 Jul 2020 16:06:29 +0000 (UTC)
-Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
- id 2B51510C4AE5; Tue,  7 Jul 2020 18:06:14 +0200 (CEST)
-From: Markus Armbruster <armbru@redhat.com>
-To: qemu-devel@nongnu.org
-Subject: [PATCH v4 42/45] error: Avoid error_propagate() after
- migrate_add_blocker()
-Date: Tue,  7 Jul 2020 18:06:10 +0200
-Message-Id: <20200707160613.848843-43-armbru@redhat.com>
-In-Reply-To: <20200707160613.848843-1-armbru@redhat.com>
-References: <20200707160613.848843-1-armbru@redhat.com>
+ (Exim 4.90_1) (envelope-from <alistair23@gmail.com>)
+ id 1jsq7j-0003Wi-8U
+ for qemu-devel@nongnu.org; Tue, 07 Jul 2020 12:07:11 -0400
+Received: from mail-il1-x142.google.com ([2607:f8b0:4864:20::142]:33486)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <alistair23@gmail.com>)
+ id 1jsq7U-0006ym-P2
+ for qemu-devel@nongnu.org; Tue, 07 Jul 2020 12:07:10 -0400
+Received: by mail-il1-x142.google.com with SMTP id a11so28223169ilk.0
+ for <qemu-devel@nongnu.org>; Tue, 07 Jul 2020 09:06:56 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc:content-transfer-encoding;
+ bh=bCLwJcDC3JFcYpaUeEXcQfkfm1O4lWUarYnDdR1KiN0=;
+ b=Kivjn/qf546AYdWpBjcaaLHN4f8/Cux6doadMU9H1g+kKKzqIpVwTGVMem2LMVJQIP
+ G4GC3bSKGIficFf56eAAE+z+csyR6FmJV94Fc81UhwMuVrdBHBMESh0sWHWV6oUp5obN
+ HBSrr7zBfx0Qy+pFDeR04u/qWq6IZXnr5oTltoJ2yLCaR4SJTIXwMtqIH7mNitLF0aZg
+ oviV5UtLSv7G+ih5psa6ksNE9V+r3Jok6ugTCOntXdkWg83xEl2PKr3gGx2S8RhP5wwQ
+ Vtuq/7EDqxr9nyUo/p0Y6a5SQmATep36Ec9LS2ive/lJBBy6umPIuFgDjiH3FIL7RLL3
+ Q5hQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc:content-transfer-encoding;
+ bh=bCLwJcDC3JFcYpaUeEXcQfkfm1O4lWUarYnDdR1KiN0=;
+ b=a+8oIZW7ZjSoguLXU2lNXlGXJw/M9hb65tYg26AqlsqjBOM/dxgr9Rtyun2JuoC3qc
+ kuEinqGidL7L1+/wYugLBNRDTUuFWd14K4mTwr4HVzdU6jqfBgAVQijzizyD6lovSGnZ
+ CRlvk6N1BIpPqHKn+dvK0whaZXDSW/+CKY5J4BtFNwcopiiQm8LytscD6kMQA/j7ZddX
+ qkWbpzlFRIReU0Z5JFEcui6s5Vqf973LvEsF81CHtdxbPxHEDcKQ7d9RHuT0mdbSsbdS
+ mHdPjfme5k3XG6nEWSDG953YQuJwHP0JrzuTcwl9oyK2LpvVsQMVL5U+hJoalBgCx3Y2
+ A6Fw==
+X-Gm-Message-State: AOAM531KJF6Q7x6ZgR0vxlGrihXnhEEaX0kUBBO1sWFmpJ5Zu3+NEu6X
+ TjW4pTpfLwgj5cIJAK+dFl1MgqzQJBnXlK6Srws=
+X-Google-Smtp-Source: ABdhPJxzbDGdnED3KTFioF+zWDsAXymB1wcfKu/JghoaMbEPCLt5sP67MwuhLviDFo5UWFIWYZThozLEailIRFyWPzU=
+X-Received: by 2002:a92:bb84:: with SMTP id x4mr37888075ilk.177.1594138015491; 
+ Tue, 07 Jul 2020 09:06:55 -0700 (PDT)
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=armbru@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=205.139.110.120; envelope-from=armbru@redhat.com;
- helo=us-smtp-1.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/07/07 06:04:49
-X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
-X-Spam_score_int: -40
-X-Spam_score: -4.1
-X-Spam_bar: ----
-X-Spam_report: (-4.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-1, SPF_HELO_NONE=0.001,
+References: <20200705211016.15241-1-f4bug@amsat.org>
+ <20200705211016.15241-3-f4bug@amsat.org>
+ <CAKmqyKOcc=recN5dpsMUZRq9FkU2Kj0-AbmxGTOSpY=yxOEF-Q@mail.gmail.com>
+ <68b27cb4-145b-47ed-bbed-428c7591f8c7@amsat.org>
+ <CAKmqyKPGXzRYBTaV7JXuKOmXsez5oHWa23mJ7HDKiBuKvdLjRA@mail.gmail.com>
+ <e4071f70-6e13-dcd1-cb90-c4fa7b46cfc5@amsat.org>
+In-Reply-To: <e4071f70-6e13-dcd1-cb90-c4fa7b46cfc5@amsat.org>
+From: Alistair Francis <alistair23@gmail.com>
+Date: Tue, 7 Jul 2020 08:57:07 -0700
+Message-ID: <CAKmqyKO76fFi8Tc0=rfKUS5YJPNC6Vak85yJbSiU68hMVgPLXA@mail.gmail.com>
+Subject: Re: [PATCH 2/4] hw/lm32/milkymist: Comment to remember some IRQs
+ lines are left unwired
+To: =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <f4bug@amsat.org>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=2607:f8b0:4864:20::142;
+ envelope-from=alistair23@gmail.com; helo=mail-il1-x142.google.com
+X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
+ That's all we know.
+X-Spam_score_int: -17
+X-Spam_score: -1.8
+X-Spam_bar: -
+X-Spam_report: (-1.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ FREEMAIL_ENVFROM_END_DIGIT=0.25, FREEMAIL_FROM=0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=_AUTOLEARN
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -83,315 +87,93 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: peter.maydell@linaro.org, vsementsov@virtuozzo.com, berrange@redhat.com,
- ehabkost@redhat.com, qemu-block@nongnu.org, groug@kaod.org,
- pbonzini@redhat.com
+Cc: Peter Maydell <peter.maydell@linaro.org>, Michael Walle <michael@walle.cc>,
+ Alistair Francis <alistair@alistair23.me>,
+ "qemu-devel@nongnu.org Developers" <qemu-devel@nongnu.org>,
+ Markus Armbruster <armbru@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-When migrate_add_blocker(blocker, &errp) is followed by
-error_propagate(errp, err), we can often just as well do
-migrate_add_blocker(..., errp).
+On Mon, Jul 6, 2020 at 7:06 PM Philippe Mathieu-Daud=C3=A9 <f4bug@amsat.org=
+> wrote:
+>
+> On 7/6/20 8:32 PM, Alistair Francis wrote:
+> > On Mon, Jul 6, 2020 at 11:04 AM Philippe Mathieu-Daud=C3=A9 <f4bug@amsa=
+t.org> wrote:
+> >>
+> >> On 7/6/20 6:19 PM, Alistair Francis wrote:
+> >>> On Sun, Jul 5, 2020 at 2:10 PM Philippe Mathieu-Daud=C3=A9 <f4bug@ams=
+at.org> wrote:
+> >>>>
+> >>>> The 'card is readonly' and 'card inserted' IRQs are not wired.
+> >>>> Add a comment in case someone know where to wire them.
+> >>>>
+> >>>> Signed-off-by: Philippe Mathieu-Daud=C3=A9 <f4bug@amsat.org>
+> >>>
+> >>> I'm not convinced adding fixmes or todos in the code is the right
+> >>> direction. It would be better to file bugs or use some other more
+> >>> official tracking mechanism.
+> >>
+> >> This code is orphan :S
+> >>
+> >> I'll fill a launchpad bug ticket.
+> >
+> > I also mean in general (you have some other patches that add TODOs or F=
+IXMEs).
+>
+> Not all developers look at launchpad, while all of them read the code ;)
 
-Do that with this Coccinelle script:
+Good point.
 
-    @@
-    expression blocker, err, errp;
-    expression ret;
-    @@
-    -    ret = migrate_add_blocker(blocker, &err);
-    -    if (err) {
-    +    ret = migrate_add_blocker(blocker, errp);
-    +    if (ret < 0) {
-             ... when != err;
-    -        error_propagate(errp, err);
-             ...
-         }
+>
+> $ git grep -E '(TODO|FIXME)' | wc -l
+> 1899
+>
+> For orphan code, a comment in the code might be better to remember
+> the technical debt to the next developers interested to rework this
+> piece of code (I'd rather not trust they'll dig in the mailing list
+> archive and launchpad tickets while staring at the code).
 
-    @@
-    expression blocker, err, errp;
-    @@
-    -    migrate_add_blocker(blocker, &err);
-    -    if (err) {
-    +    if (migrate_add_blocker(blocker, errp) < 0) {
-             ... when != err;
-    -        error_propagate(errp, err);
-             ...
-         }
+Agreed. I guess this is fine then. If possible/applicable a log
+message would be more helpful.
 
-Double-check @err is not used afterwards.  Dereferencing it would be
-use after free, but checking whether it's null would be legitimate.
+Alistair
 
-Signed-off-by: Markus Armbruster <armbru@redhat.com>
-Reviewed-by: Eric Blake <eblake@redhat.com>
-Reviewed-by: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
----
- block/parallels.c            | 5 ++---
- block/qcow.c                 | 6 ++----
- block/vdi.c                  | 6 ++----
- block/vhdx.c                 | 5 ++---
- block/vmdk.c                 | 6 ++----
- block/vpc.c                  | 5 ++---
- block/vvfat.c                | 6 ++----
- hw/display/virtio-gpu-base.c | 5 +----
- hw/intc/arm_gic_kvm.c        | 4 +---
- hw/intc/arm_gicv3_its_kvm.c  | 5 +----
- hw/intc/arm_gicv3_kvm.c      | 4 +---
- hw/misc/ivshmem.c            | 4 +---
- hw/scsi/vhost-scsi.c         | 4 +---
- 13 files changed, 20 insertions(+), 45 deletions(-)
-
-diff --git a/block/parallels.c b/block/parallels.c
-index f489c0d4ba..3c22dfdc9d 100644
---- a/block/parallels.c
-+++ b/block/parallels.c
-@@ -859,9 +859,8 @@ static int parallels_open(BlockDriverState *bs, QDict *options, int flags,
-     error_setg(&s->migration_blocker, "The Parallels format used by node '%s' "
-                "does not support live migration",
-                bdrv_get_device_or_node_name(bs));
--    ret = migrate_add_blocker(s->migration_blocker, &local_err);
--    if (local_err) {
--        error_propagate(errp, local_err);
-+    ret = migrate_add_blocker(s->migration_blocker, errp);
-+    if (ret < 0) {
-         error_free(s->migration_blocker);
-         goto fail;
-     }
-diff --git a/block/qcow.c b/block/qcow.c
-index c22d1bf6b8..1e134f3445 100644
---- a/block/qcow.c
-+++ b/block/qcow.c
-@@ -121,7 +121,6 @@ static int qcow_open(BlockDriverState *bs, QDict *options, int flags,
-     unsigned int len, i, shift;
-     int ret;
-     QCowHeader header;
--    Error *local_err = NULL;
-     QCryptoBlockOpenOptions *crypto_opts = NULL;
-     unsigned int cflags = 0;
-     QDict *encryptopts = NULL;
-@@ -314,9 +313,8 @@ static int qcow_open(BlockDriverState *bs, QDict *options, int flags,
-     error_setg(&s->migration_blocker, "The qcow format used by node '%s' "
-                "does not support live migration",
-                bdrv_get_device_or_node_name(bs));
--    ret = migrate_add_blocker(s->migration_blocker, &local_err);
--    if (local_err) {
--        error_propagate(errp, local_err);
-+    ret = migrate_add_blocker(s->migration_blocker, errp);
-+    if (ret < 0) {
-         error_free(s->migration_blocker);
-         goto fail;
-     }
-diff --git a/block/vdi.c b/block/vdi.c
-index 0a60be773e..3a3df45f84 100644
---- a/block/vdi.c
-+++ b/block/vdi.c
-@@ -375,7 +375,6 @@ static int vdi_open(BlockDriverState *bs, QDict *options, int flags,
-     VdiHeader header;
-     size_t bmap_size;
-     int ret;
--    Error *local_err = NULL;
-     QemuUUID uuid_link, uuid_parent;
- 
-     bs->file = bdrv_open_child(NULL, options, "file", bs, &child_of_bds,
-@@ -496,9 +495,8 @@ static int vdi_open(BlockDriverState *bs, QDict *options, int flags,
-     error_setg(&s->migration_blocker, "The vdi format used by node '%s' "
-                "does not support live migration",
-                bdrv_get_device_or_node_name(bs));
--    ret = migrate_add_blocker(s->migration_blocker, &local_err);
--    if (local_err) {
--        error_propagate(errp, local_err);
-+    ret = migrate_add_blocker(s->migration_blocker, errp);
-+    if (ret < 0) {
-         error_free(s->migration_blocker);
-         goto fail_free_bmap;
-     }
-diff --git a/block/vhdx.c b/block/vhdx.c
-index eed9c3b860..1f9fca837d 100644
---- a/block/vhdx.c
-+++ b/block/vhdx.c
-@@ -1089,9 +1089,8 @@ static int vhdx_open(BlockDriverState *bs, QDict *options, int flags,
-     error_setg(&s->migration_blocker, "The vhdx format used by node '%s' "
-                "does not support live migration",
-                bdrv_get_device_or_node_name(bs));
--    ret = migrate_add_blocker(s->migration_blocker, &local_err);
--    if (local_err) {
--        error_propagate(errp, local_err);
-+    ret = migrate_add_blocker(s->migration_blocker, errp);
-+    if (ret < 0) {
-         error_free(s->migration_blocker);
-         goto fail;
-     }
-diff --git a/block/vmdk.c b/block/vmdk.c
-index 9a09193f3b..28cec50f38 100644
---- a/block/vmdk.c
-+++ b/block/vmdk.c
-@@ -1263,7 +1263,6 @@ static int vmdk_open(BlockDriverState *bs, QDict *options, int flags,
-     int ret;
-     BDRVVmdkState *s = bs->opaque;
-     uint32_t magic;
--    Error *local_err = NULL;
- 
-     bs->file = bdrv_open_child(NULL, options, "file", bs, &child_of_bds,
-                                BDRV_CHILD_IMAGE, false, errp);
-@@ -1317,9 +1316,8 @@ static int vmdk_open(BlockDriverState *bs, QDict *options, int flags,
-     error_setg(&s->migration_blocker, "The vmdk format used by node '%s' "
-                "does not support live migration",
-                bdrv_get_device_or_node_name(bs));
--    ret = migrate_add_blocker(s->migration_blocker, &local_err);
--    if (local_err) {
--        error_propagate(errp, local_err);
-+    ret = migrate_add_blocker(s->migration_blocker, errp);
-+    if (ret < 0) {
-         error_free(s->migration_blocker);
-         goto fail;
-     }
-diff --git a/block/vpc.c b/block/vpc.c
-index 77043c2424..259d0ad2fe 100644
---- a/block/vpc.c
-+++ b/block/vpc.c
-@@ -446,9 +446,8 @@ static int vpc_open(BlockDriverState *bs, QDict *options, int flags,
-     error_setg(&s->migration_blocker, "The vpc format used by node '%s' "
-                "does not support live migration",
-                bdrv_get_device_or_node_name(bs));
--    ret = migrate_add_blocker(s->migration_blocker, &local_err);
--    if (local_err) {
--        error_propagate(errp, local_err);
-+    ret = migrate_add_blocker(s->migration_blocker, errp);
-+    if (ret < 0) {
-         error_free(s->migration_blocker);
-         goto fail;
-     }
-diff --git a/block/vvfat.c b/block/vvfat.c
-index 24d36220d3..36b53c8757 100644
---- a/block/vvfat.c
-+++ b/block/vvfat.c
-@@ -1141,7 +1141,6 @@ static int vvfat_open(BlockDriverState *bs, QDict *options, int flags,
-     bool floppy;
-     const char *dirname, *label;
-     QemuOpts *opts;
--    Error *local_err = NULL;
-     int ret;
- 
- #ifdef DEBUG
-@@ -1267,9 +1266,8 @@ static int vvfat_open(BlockDriverState *bs, QDict *options, int flags,
-                    "The vvfat (rw) format used by node '%s' "
-                    "does not support live migration",
-                    bdrv_get_device_or_node_name(bs));
--        ret = migrate_add_blocker(s->migration_blocker, &local_err);
--        if (local_err) {
--            error_propagate(errp, local_err);
-+        ret = migrate_add_blocker(s->migration_blocker, errp);
-+        if (ret < 0) {
-             error_free(s->migration_blocker);
-             goto fail;
-         }
-diff --git a/hw/display/virtio-gpu-base.c b/hw/display/virtio-gpu-base.c
-index c159351be3..7961308606 100644
---- a/hw/display/virtio-gpu-base.c
-+++ b/hw/display/virtio-gpu-base.c
-@@ -128,7 +128,6 @@ virtio_gpu_base_device_realize(DeviceState *qdev,
- {
-     VirtIODevice *vdev = VIRTIO_DEVICE(qdev);
-     VirtIOGPUBase *g = VIRTIO_GPU_BASE(qdev);
--    Error *local_err = NULL;
-     int i;
- 
-     if (g->conf.max_outputs > VIRTIO_GPU_MAX_SCANOUTS) {
-@@ -139,9 +138,7 @@ virtio_gpu_base_device_realize(DeviceState *qdev,
-     g->use_virgl_renderer = false;
-     if (virtio_gpu_virgl_enabled(g->conf)) {
-         error_setg(&g->migration_blocker, "virgl is not yet migratable");
--        migrate_add_blocker(g->migration_blocker, &local_err);
--        if (local_err) {
--            error_propagate(errp, local_err);
-+        if (migrate_add_blocker(g->migration_blocker, errp) < 0) {
-             error_free(g->migration_blocker);
-             return false;
-         }
-diff --git a/hw/intc/arm_gic_kvm.c b/hw/intc/arm_gic_kvm.c
-index d7df423a7a..07b95143c9 100644
---- a/hw/intc/arm_gic_kvm.c
-+++ b/hw/intc/arm_gic_kvm.c
-@@ -517,9 +517,7 @@ static void kvm_arm_gic_realize(DeviceState *dev, Error **errp)
-     if (!kvm_arm_gic_can_save_restore(s)) {
-         error_setg(&s->migration_blocker, "This operating system kernel does "
-                                           "not support vGICv2 migration");
--        migrate_add_blocker(s->migration_blocker, &local_err);
--        if (local_err) {
--            error_propagate(errp, local_err);
-+        if (migrate_add_blocker(s->migration_blocker, errp) < 0) {
-             error_free(s->migration_blocker);
-             return;
-         }
-diff --git a/hw/intc/arm_gicv3_its_kvm.c b/hw/intc/arm_gicv3_its_kvm.c
-index ad0ebabc87..46835ed085 100644
---- a/hw/intc/arm_gicv3_its_kvm.c
-+++ b/hw/intc/arm_gicv3_its_kvm.c
-@@ -91,7 +91,6 @@ static void vm_change_state_handler(void *opaque, int running,
- static void kvm_arm_its_realize(DeviceState *dev, Error **errp)
- {
-     GICv3ITSState *s = ARM_GICV3_ITS_COMMON(dev);
--    Error *local_err = NULL;
- 
-     s->dev_fd = kvm_create_device(kvm_state, KVM_DEV_TYPE_ARM_VGIC_ITS, false);
-     if (s->dev_fd < 0) {
-@@ -113,9 +112,7 @@ static void kvm_arm_its_realize(DeviceState *dev, Error **errp)
-         GITS_CTLR)) {
-         error_setg(&s->migration_blocker, "This operating system kernel "
-                    "does not support vITS migration");
--        migrate_add_blocker(s->migration_blocker, &local_err);
--        if (local_err) {
--            error_propagate(errp, local_err);
-+        if (migrate_add_blocker(s->migration_blocker, errp) < 0) {
-             error_free(s->migration_blocker);
-             return;
-         }
-diff --git a/hw/intc/arm_gicv3_kvm.c b/hw/intc/arm_gicv3_kvm.c
-index ca43bf87ca..eddd07c743 100644
---- a/hw/intc/arm_gicv3_kvm.c
-+++ b/hw/intc/arm_gicv3_kvm.c
-@@ -858,9 +858,7 @@ static void kvm_arm_gicv3_realize(DeviceState *dev, Error **errp)
-                                GICD_CTLR)) {
-         error_setg(&s->migration_blocker, "This operating system kernel does "
-                                           "not support vGICv3 migration");
--        migrate_add_blocker(s->migration_blocker, &local_err);
--        if (local_err) {
--            error_propagate(errp, local_err);
-+        if (migrate_add_blocker(s->migration_blocker, errp) < 0) {
-             error_free(s->migration_blocker);
-             return;
-         }
-diff --git a/hw/misc/ivshmem.c b/hw/misc/ivshmem.c
-index a8dc9b377d..fc128b25e2 100644
---- a/hw/misc/ivshmem.c
-+++ b/hw/misc/ivshmem.c
-@@ -898,9 +898,7 @@ static void ivshmem_common_realize(PCIDevice *dev, Error **errp)
-     if (!ivshmem_is_master(s)) {
-         error_setg(&s->migration_blocker,
-                    "Migration is disabled when using feature 'peer mode' in device 'ivshmem'");
--        migrate_add_blocker(s->migration_blocker, &err);
--        if (err) {
--            error_propagate(errp, err);
-+        if (migrate_add_blocker(s->migration_blocker, errp) < 0) {
-             error_free(s->migration_blocker);
-             return;
-         }
-diff --git a/hw/scsi/vhost-scsi.c b/hw/scsi/vhost-scsi.c
-index c1b012aea4..13b05af29b 100644
---- a/hw/scsi/vhost-scsi.c
-+++ b/hw/scsi/vhost-scsi.c
-@@ -207,9 +207,7 @@ static void vhost_scsi_realize(DeviceState *dev, Error **errp)
-                 "When external environment supports it (Orchestrator migrates "
-                 "target SCSI device state or use shared storage over network), "
-                 "set 'migratable' property to true to enable migration.");
--        migrate_add_blocker(vsc->migration_blocker, &err);
--        if (err) {
--            error_propagate(errp, err);
-+        if (migrate_add_blocker(vsc->migration_blocker, errp) < 0) {
-             error_free(vsc->migration_blocker);
-             goto free_virtio;
-         }
--- 
-2.26.2
-
+>
+> >
+> >>
+> >> OTOH we could also log UNIMP for lost IRQs (triggered but
+> >> no handler registered).
+> >
+> > That would also work.
+> >
+> > Alistair
+> >
+> >>
+> >>>
+> >>> Alistair
+> >>>
+> >>>> ---
+> >>>>  hw/lm32/milkymist.c | 1 +
+> >>>>  1 file changed, 1 insertion(+)
+> >>>>
+> >>>> diff --git a/hw/lm32/milkymist.c b/hw/lm32/milkymist.c
+> >>>> index 469e3c4322..117973c967 100644
+> >>>> --- a/hw/lm32/milkymist.c
+> >>>> +++ b/hw/lm32/milkymist.c
+> >>>> @@ -87,6 +87,7 @@ static DeviceState *milkymist_memcard_create(hwadd=
+r base)
+> >>>>      dev =3D qdev_new("milkymist-memcard");
+> >>>>      sysbus_realize_and_unref(SYS_BUS_DEVICE(dev), &error_fatal);
+> >>>>      sysbus_mmio_map(SYS_BUS_DEVICE(dev), 0, base);
+> >>>> +    /* FIXME wire 'card is readonly' and 'card inserted' IRQs? */
+> >>>>
+> >>>>      return dev;
+> >>>>  }
+> >>>> --
+> >>>> 2.21.3
+> >>>>
+> >>>>
+> >>>
+> >
 
