@@ -2,61 +2,61 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4152B2166F5
-	for <lists+qemu-devel@lfdr.de>; Tue,  7 Jul 2020 09:02:15 +0200 (CEST)
-Received: from localhost ([::1]:55518 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2AD422166FC
+	for <lists+qemu-devel@lfdr.de>; Tue,  7 Jul 2020 09:03:45 +0200 (CEST)
+Received: from localhost ([::1]:60796 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jshcM-0007ZW-AK
-	for lists+qemu-devel@lfdr.de; Tue, 07 Jul 2020 03:02:14 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:40900)
+	id 1jshdo-0001Iy-7u
+	for lists+qemu-devel@lfdr.de; Tue, 07 Jul 2020 03:03:44 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:40912)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1jshah-00064k-1i
- for qemu-devel@nongnu.org; Tue, 07 Jul 2020 03:00:31 -0400
-Received: from mail-wr1-x443.google.com ([2a00:1450:4864:20::443]:36686)
+ id 1jshai-00066i-NX
+ for qemu-devel@nongnu.org; Tue, 07 Jul 2020 03:00:32 -0400
+Received: from mail-wr1-x442.google.com ([2a00:1450:4864:20::442]:42553)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1jshaf-0002eO-Fw
- for qemu-devel@nongnu.org; Tue, 07 Jul 2020 03:00:30 -0400
-Received: by mail-wr1-x443.google.com with SMTP id k6so43965257wrn.3
- for <qemu-devel@nongnu.org>; Tue, 07 Jul 2020 00:00:29 -0700 (PDT)
+ id 1jshah-0002ef-2L
+ for qemu-devel@nongnu.org; Tue, 07 Jul 2020 03:00:32 -0400
+Received: by mail-wr1-x442.google.com with SMTP id o11so43978385wrv.9
+ for <qemu-devel@nongnu.org>; Tue, 07 Jul 2020 00:00:30 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=sender:from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=a5MgrqzC2j1JrtNr8erhFYvekzCWdPEqkZHuGtykIIg=;
- b=nN09WyT99UK2pikA1PQ+Zw1eR6b4vo7QjNq2+4T9ODHTwCFcrpUnUFaTq2LwcSdU+z
- ZAh/adPSekLjJwmVhxuTtPtVtrp9FUyhQbA32hcvNZ60XyV5ixBo1/FLTc1NXwht5xY7
- 6TWRQfzyO/hap/vjD6nJ63Uuo6Rdphrbq36VURhz9cqEwYEBV0M5QDirIHZJA6wbvtfM
- 8XkqRL7J7Fv92Evv617mmCddWFa14CplVjqSi2US2XYl2b6D+nW/ITuxxg5g4XnCMSBu
- RFzNXqoju0+2TSwxd92s+7s5o26vXoLCvR+FxvOAe4ecBlbfL+MHDF7RKmx+/cNrNLLy
- 585A==
+ bh=45gqo128NQDtIYcxM1tYqwMqbUrJDll0ND7eZVJPFlA=;
+ b=s/vESHtA/E+Lp4gI5IxOHzz4B17ntJwloQS/a1hgz7Wd7XmBusi463fP90FtEo2rFE
+ lxVZrweP/+zQ67D3gSsgWEzD+adacl5CiGTBGZZCsYVrg0JZttxJN9ebcxROueOVKXE9
+ wPLuAar4jc3R0qXyFhu+S115nyB5KbcgtvSgkfvXN3We3E1Owv0WCyIh4HT+haVoQYbL
+ R5ZQToheGyXq3vRxafXSJFhCfUDcGGBwFCWW6kU4YcyjhjZs6wv1R82dJzTsQx4/PMhd
+ Nbx9KBzLl70DHLKFMff0uwLMHlrzkJQH9C4JMWRm34dk5XanmNPlmCs/ifA92QwlwLRX
+ WQhA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
  :in-reply-to:references:mime-version:content-transfer-encoding;
- bh=a5MgrqzC2j1JrtNr8erhFYvekzCWdPEqkZHuGtykIIg=;
- b=Frx6nfJ+b1g4f+as6j3EegPq/fqPis3QLM2kxoTKaSNcNPl6LE0a5RljzLk/g1q/pS
- g2LtA5zSp1HfEczaLdN7N4gz+c5F/cnV4s+0XQoCoTTj7dd0utGT4zQFRfwTzmzMkPxO
- nveebncjUSssOHWxrzTkJTjDKRZbmJXxNYXla3jfqWn+5KC9m/xW2r5kTao90Hurq9lg
- eXHuWut3yMJpuLAK8LsmsCIErCS+8tiM86v/6P9bMinrWjO37Gnd9RCSDQxspkUNNX+h
- Qs+FDanHESrgu9xTCEMycm2k59LXE8S8x5gFzbXHZ5YkEwUe7p3ZYNEdren+/UWu56Hl
- PlYg==
-X-Gm-Message-State: AOAM5330uYrcgGmTyy2vrwhgJ8tlzC9Ohas2Ni1OwE6rJ/E+42IsFjMz
- MhBtWH11GDH42CGArzUv+h92NzPV
-X-Google-Smtp-Source: ABdhPJxAdcNEEclM0ge116U4jeobjXnmgwlbTmhwy0hNpMxphwr/CZ6xnoFUQRKQqHJ/DXFQJtxwvA==
-X-Received: by 2002:adf:e801:: with SMTP id o1mr53302655wrm.54.1594105227895; 
- Tue, 07 Jul 2020 00:00:27 -0700 (PDT)
+ bh=45gqo128NQDtIYcxM1tYqwMqbUrJDll0ND7eZVJPFlA=;
+ b=j46fgk0kMNkVyvKeNkFHLcSUFnKMEjuNVcWyA54mxV2fDlWL7XQIFdpu6orebDyJyO
+ OsTEnR/tjlrJnWMZz7M5BZ2Cm/zmkQFlGyYXZf+33UugsBhZABPqQKce8fab2Ed2FOtz
+ jdyJEsOj3zKTBvvjPyIytJx9clB88W7G9vgp6MVrOLMKfuDOV11HcOMReGilV6HAIbPl
+ ezwYHRWyncFq4hzlVm6JxcqmUNDQ7dOFZWMiHcZ4sHjX6B11SBcRwMrSMbJVpTL39OTo
+ cTGve9jyD90aUpMfCMAIdqG4KcyC5mFO3+kgEtAv4ZLSozI6h2ojIQnQPwr8rswLrY5P
+ 7rbA==
+X-Gm-Message-State: AOAM532l7ht3hjq0qpyUzwI1XQRXamfRL5Kwv8LY2cIrRWjApzfgYhFh
+ 8AL7CxEwF+eTHmTRXhxNzh4p0xQU
+X-Google-Smtp-Source: ABdhPJyXA7YPh2gl8el151cF4s7uObplwwGfgZ2f+0Tw+bCWP/PurkPeL0dkN3vPSTgoNq2Gb+ab1Q==
+X-Received: by 2002:a5d:4b4f:: with SMTP id w15mr51197461wrs.84.1594105229575; 
+ Tue, 07 Jul 2020 00:00:29 -0700 (PDT)
 Received: from localhost.localdomain
  (138.red-83-57-170.dynamicip.rima-tde.net. [83.57.170.138])
- by smtp.gmail.com with ESMTPSA id r3sm30763634wrg.70.2020.07.07.00.00.26
+ by smtp.gmail.com with ESMTPSA id r3sm30763634wrg.70.2020.07.07.00.00.28
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 07 Jul 2020 00:00:27 -0700 (PDT)
+ Tue, 07 Jul 2020 00:00:28 -0700 (PDT)
 From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v2 3/4] target/avr/disas: Fix store instructions display order
-Date: Tue,  7 Jul 2020 09:00:20 +0200
-Message-Id: <20200707070021.10031-4-f4bug@amsat.org>
+Subject: [RFC PATCH v2 4/4] target/avr/translate: Fix SBRC/SBRS instructions
+Date: Tue,  7 Jul 2020 09:00:21 +0200
+Message-Id: <20200707070021.10031-5-f4bug@amsat.org>
 X-Mailer: git-send-email 2.21.3
 In-Reply-To: <20200707070021.10031-1-f4bug@amsat.org>
 References: <20200707070021.10031-1-f4bug@amsat.org>
@@ -64,8 +64,8 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::443;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wr1-x443.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::442;
+ envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wr1-x442.google.com
 X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
  That's all we know.
 X-Spam_score_int: 0
@@ -95,50 +95,35 @@ Cc: Sarah Harris <S.E.Harris@kent.ac.uk>, Thomas Huth <huth@tuxfamily.org>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-While LOAD instructions use the target register as first
-argument, STORE instructions use it as second argument:
+SBRC/SBRS instructions seem to be inverted.
 
-  LD Rd, X        // Rd <- (X)
-
-  ST Y, Rd        // (Y) <- Rr
-
-Reported-by: Joaquin de Andres <me@xcancerberox.com.ar>
 Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
 ---
- target/avr/disas.c | 20 ++++++++++----------
- 1 file changed, 10 insertions(+), 10 deletions(-)
+ target/avr/translate.c | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
-diff --git a/target/avr/disas.c b/target/avr/disas.c
-index 23bd9919ed..7fa6e8711b 100644
---- a/target/avr/disas.c
-+++ b/target/avr/disas.c
-@@ -196,16 +196,16 @@ INSN(LDZ2,   "r%d, Z+", a->rd)
- INSN(LDZ3,   "r%d, -Z", a->rd)
- INSN(LDDY,   "r%d, Y+%d", a->rd, a->imm)
- INSN(LDDZ,   "r%d, Z+%d", a->rd, a->imm)
--INSN(STS,    "r%d, %d", a->rd, a->imm)
--INSN(STX1,   "r%d, X", a->rr)
--INSN(STX2,   "r%d, X+", a->rr)
--INSN(STX3,   "r%d, -X", a->rr)
--INSN(STY2,   "r%d, Y+", a->rd)
--INSN(STY3,   "r%d, -Y", a->rd)
--INSN(STZ2,   "r%d, Z+", a->rd)
--INSN(STZ3,   "r%d, -Z", a->rd)
--INSN(STDY,   "r%d, Y+%d", a->rd, a->imm)
--INSN(STDZ,   "r%d, Z+%d", a->rd, a->imm)
-+INSN(STS,    "%d, r%d", a->imm, a->rd)
-+INSN(STX1,   "X, r%d", a->rr)
-+INSN(STX2,   "X+, r%d", a->rr)
-+INSN(STX3,   "-X, r%d", a->rr)
-+INSN(STY2,   "Y+, r%d", a->rd)
-+INSN(STY3,   "-Y, r%d", a->rd)
-+INSN(STZ2,   "Z+, r%d", a->rd)
-+INSN(STZ3,   "-Z, r%d", a->rd)
-+INSN(STDY,   "Y+%d, r%d", a->imm, a->rd)
-+INSN(STDZ,   "Z+%d, r%d", a->imm, a->rd)
- INSN(LPM1,   "")
- INSN(LPM2,   "r%d, Z", a->rd)
- INSN(LPMX,   "r%d, Z+", a->rd)
+diff --git a/target/avr/translate.c b/target/avr/translate.c
+index fe03e676df..2f77fe3ba7 100644
+--- a/target/avr/translate.c
++++ b/target/avr/translate.c
+@@ -1385,7 +1385,7 @@ static bool trans_SBRC(DisasContext *ctx, arg_SBRC *a)
+ {
+     TCGv Rr = cpu_r[a->rr];
+ 
+-    ctx->skip_cond = TCG_COND_EQ;
++    ctx->skip_cond = TCG_COND_NE;
+     ctx->skip_var0 = tcg_temp_new();
+     ctx->free_skip_var0 = true;
+ 
+@@ -1401,7 +1401,7 @@ static bool trans_SBRS(DisasContext *ctx, arg_SBRS *a)
+ {
+     TCGv Rr = cpu_r[a->rr];
+ 
+-    ctx->skip_cond = TCG_COND_NE;
++    ctx->skip_cond = TCG_COND_EQ;
+     ctx->skip_var0 = tcg_temp_new();
+     ctx->free_skip_var0 = true;
+ 
 -- 
 2.21.3
 
