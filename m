@@ -2,75 +2,129 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B5D6B2174B7
-	for <lists+qemu-devel@lfdr.de>; Tue,  7 Jul 2020 19:06:35 +0200 (CEST)
-Received: from localhost ([::1]:56988 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D6C322174C9
+	for <lists+qemu-devel@lfdr.de>; Tue,  7 Jul 2020 19:11:33 +0200 (CEST)
+Received: from localhost ([::1]:39640 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jsr3C-00044W-QK
-	for lists+qemu-devel@lfdr.de; Tue, 07 Jul 2020 13:06:34 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:41036)
+	id 1jsr80-0001Fy-U3
+	for lists+qemu-devel@lfdr.de; Tue, 07 Jul 2020 13:11:32 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:47980)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <aleksandar.qemu.devel@gmail.com>)
- id 1jsqed-00012G-MB
- for qemu-devel@nongnu.org; Tue, 07 Jul 2020 12:41:11 -0400
-Received: from mail-ej1-x643.google.com ([2a00:1450:4864:20::643]:36423)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <aleksandar.qemu.devel@gmail.com>)
- id 1jsqea-00058p-GJ
- for qemu-devel@nongnu.org; Tue, 07 Jul 2020 12:41:11 -0400
-Received: by mail-ej1-x643.google.com with SMTP id dr13so47281052ejc.3
- for <qemu-devel@nongnu.org>; Tue, 07 Jul 2020 09:41:08 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=from:to:cc:subject:date:message-id:in-reply-to:references;
- bh=g8kMTgqk3UKC4C2WlB+WezL2WDl3jdVpqG1rkgu9JNk=;
- b=VsGKGWOxf3Jj2Fm9Lx8cHi6v+2VucA8vVj5RgTAY3+dkNB7H9rBrJ5MsK23VBxOQKW
- 4gy1jqetAHvOKWOgLvvgPeXw5OLrOAuSUdzKuz5WRAS5819nn/WEYWLzMRD/Y64OHqfk
- 8b9hu3W0kM18LK0UrsswCkT7furNZcGuDk7U3o/z/jWV82FXftu0YqPJQpdBhKoR/r8d
- qFkBdXYbfsPiqV7T1+/jAm9sKmeNYzYa0HYyD6BACX6ThDZumUVtnamb/ih6NrqIkJmd
- u3zHSDs8DoyTEkKY7UnnzXB/At7mAMohDYmQ/UCc8Ke4ndNojF97ohY66YFUwa60qHUX
- JoBQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
- :references;
- bh=g8kMTgqk3UKC4C2WlB+WezL2WDl3jdVpqG1rkgu9JNk=;
- b=OA8EoJHU8hGU8+fIpAU0A5dzuu8f4MP8u7wd5R/pwzSTbzDYCvPGxvAlrTiMb4JmyY
- 9bzcTwGbqFBTYqqZYbDsf/t+ab4F7mz0oXYdzzOY1iRexJ5rMSZk0oBMSoX+/pcf3HG7
- Wr+7b+Np8wH0+SSBegF+3MkB1r8VOTELJ/FxpnOqFE1UgTnQZJUTSWa7YCUHKMRwu21D
- CIb5ryB4oYsr6Nd0cmjIintXxx9CD/kC0nRC+XD+2tZLS2gRDJDrRqKm3ofL0jnCm0lW
- JeDokHV8qGKroYtfYH9lCBs8fZrM6bALmuJ0B+OargUlxe/iNjvqkTXPQEmTLnsjyknC
- bixg==
-X-Gm-Message-State: AOAM530wgVrp0IXnCZeCt9NJb/8qgbSj3PeCu5ZIvtJnncuUxU8p7kMA
- n1Ko5zh8+FToNetZxpGXsm0BowZN
-X-Google-Smtp-Source: ABdhPJzY//acpysAV9AyUmdSqbZjyGHUSrJVNt7BdO0CIymVbH+rBJYgoCoDWVwBokf0pFnXEBTVkg==
-X-Received: by 2002:a17:906:4acc:: with SMTP id
- u12mr24140817ejt.358.1594140066781; 
- Tue, 07 Jul 2020 09:41:06 -0700 (PDT)
-Received: from rtrkw774-lin.syrmia.com ([46.240.135.226])
- by smtp.gmail.com with ESMTPSA id 23sm26428065edx.75.2020.07.07.09.41.06
- (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
- Tue, 07 Jul 2020 09:41:06 -0700 (PDT)
-From: Aleksandar Markovic <aleksandar.qemu.devel@gmail.com>
-To: qemu-devel@nongnu.org,
-	peter.maydell@linaro.org
-Subject: [PULL 3/3] scripts/performance: Add dissect.py script
-Date: Tue,  7 Jul 2020 18:41:02 +0200
-Message-Id: <1594140062-23522-4-git-send-email-aleksandar.qemu.devel@gmail.com>
+ (Exim 4.90_1) (envelope-from <saipava@xilinx.com>)
+ id 1jsr6v-0000FS-0m
+ for qemu-devel@nongnu.org; Tue, 07 Jul 2020 13:10:25 -0400
+Received: from mail-dm6nam10on2043.outbound.protection.outlook.com
+ ([40.107.93.43]:33504 helo=NAM10-DM6-obe.outbound.protection.outlook.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <saipava@xilinx.com>)
+ id 1jsr6s-0001De-Fz
+ for qemu-devel@nongnu.org; Tue, 07 Jul 2020 13:10:24 -0400
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=nWizipbjOWt0pvME1gLKeKSxBsjnu2BcVbJOIX7nar2czCxwOI2gmVAOw9bC8CO/s/gGrMAJ8lELjG+V6WYZhCB9AUY4WAhMEqruftLS8pkG5lsjOzv4oMg5sh/mTYJ8tO98RzplUi8gxJYK02rGqvTqUolfx8ioLXpDORCmK6FnN13E0FN804l8GQVswveZJ5TBniJ37/LVpACuiSMvB3d1e/9iN3kC3AGLqAnmq1xOidBOD0RkgC96cWcXy66oEXgGgsiHzcbxXAhkmmUTR9xrnI81iclXdsBmHDD1be9tV4jAX0vMUQKXlfQoJLHo0qU6An/sN9HueLwx8/F92A==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=SX/bUnB+XnGNu34X0yKw677MYikDRL80QdROiA38+yk=;
+ b=lcIrn/5b4Yx0N0c9i6QthqnE8aW8cnoW01Imi4/yR0IpSOgP2nia76zc+gis5K0At4aD1a9mtxON3Lw+Akd01tQCG327Jg+1XnlFKWaXGI68rUtkFOAequAZS0WAb/uLPoli0rLdbocbZ1atT4nmEDbSaMRsdJBctaGreVYloJp158OkKPnULffa0LADw63HEp6QeYLI5JiZAQTWV4l01OcKPDOq9JRNxcJ3d8IcTTdS3V9l6bRRRovNF3fdiYF/nE+2i/MuXokeZzQ32rJz173r6JjZALEnAA21MhwzmedBdV40BJFT+QZsul4KLp7KkdkQ01L9bCvuTy9VAd4X6w==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
+ 149.199.60.83) smtp.rcpttodomain=wdc.com smtp.mailfrom=xilinx.com;
+ dmarc=bestguesspass action=none header.from=xilinx.com; dkim=none (message
+ not signed); arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=xilinx.onmicrosoft.com; s=selector2-xilinx-onmicrosoft-com;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=SX/bUnB+XnGNu34X0yKw677MYikDRL80QdROiA38+yk=;
+ b=jaHO6/lmJcim7BKyj/eJnmIy1Ff0IAlICQJFB89jQaY7bWrXT+akRMBAAq3TMHdtrIDcrYRgaWfKdu2WcNbvG9d7c2naSUOaMWUowid5W4A0iAabtZRgW8FAcjfzce6opAyCqPsQ2VXEvyMdKEMt7ynoWFlVhxpdFKGcTC0A8WQ=
+Received: from MN2PR19CA0024.namprd19.prod.outlook.com (2603:10b6:208:178::37)
+ by BN7PR02MB4979.namprd02.prod.outlook.com (2603:10b6:408:21::12)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3153.20; Tue, 7 Jul
+ 2020 16:55:18 +0000
+Received: from BL2NAM02FT019.eop-nam02.prod.protection.outlook.com
+ (2603:10b6:208:178:cafe::89) by MN2PR19CA0024.outlook.office365.com
+ (2603:10b6:208:178::37) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3174.21 via Frontend
+ Transport; Tue, 7 Jul 2020 16:55:18 +0000
+X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 149.199.60.83)
+ smtp.mailfrom=xilinx.com; wdc.com; dkim=none (message not signed)
+ header.d=none;wdc.com; dmarc=bestguesspass action=none
+ header.from=xilinx.com;
+Received-SPF: Pass (protection.outlook.com: domain of xilinx.com designates
+ 149.199.60.83 as permitted sender) receiver=protection.outlook.com;
+ client-ip=149.199.60.83; helo=xsj-pvapsmtpgw01;
+Received: from xsj-pvapsmtpgw01 (149.199.60.83) by
+ BL2NAM02FT019.mail.protection.outlook.com (10.152.77.166) with Microsoft SMTP
+ Server id 15.20.3153.24 via Frontend Transport; Tue, 7 Jul 2020 16:55:18
+ +0000
+Received: from [149.199.38.66] (port=59888 helo=xsj-pvapsmtp01)
+ by xsj-pvapsmtpgw01 with esmtp (Exim 4.90)
+ (envelope-from <sai.pavan.boddu@xilinx.com>)
+ id 1jsqqn-0003gn-Lw; Tue, 07 Jul 2020 09:53:45 -0700
+Received: from [127.0.0.1] (helo=xsj-smtp-dlp2.xlnx.xilinx.com)
+ by xsj-pvapsmtp01 with esmtp (Exim 4.63)
+ (envelope-from <sai.pavan.boddu@xilinx.com>)
+ id 1jsqsH-0001eU-Kb; Tue, 07 Jul 2020 09:55:17 -0700
+Received: from xsj-pvapsmtp01 (maildrop.xilinx.com [149.199.38.66])
+ by xsj-smtp-dlp2.xlnx.xilinx.com (8.13.8/8.13.1) with ESMTP id 067GtGsQ015019; 
+ Tue, 7 Jul 2020 09:55:16 -0700
+Received: from [10.140.6.35] (helo=xhdsaipava40.xilinx.com)
+ by xsj-pvapsmtp01 with esmtp (Exim 4.63)
+ (envelope-from <saipava@xhdsaipava40.xilinx.com>)
+ id 1jsqsG-0001dn-3E; Tue, 07 Jul 2020 09:55:16 -0700
+Received: by xhdsaipava40.xilinx.com (Postfix, from userid 14131)
+ id BD84C13C0347; Tue,  7 Jul 2020 22:14:37 +0530 (IST)
+From: Sai Pavan Boddu <sai.pavan.boddu@xilinx.com>
+To: Gerd Hoffmann <kraxel@redhat.com>,
+ Peter Maydell <peter.maydell@linaro.org>,
+ Markus Armbruster <armbru@redhat.com>
+Subject: [PATCH v3 0/3] Make hcd-xhci independent of pci hooks
+Date: Tue,  7 Jul 2020 22:14:28 +0530
+Message-Id: <1594140271-16462-1-git-send-email-sai.pavan.boddu@xilinx.com>
 X-Mailer: git-send-email 2.7.4
-In-Reply-To: <1594140062-23522-1-git-send-email-aleksandar.qemu.devel@gmail.com>
-References: <1594140062-23522-1-git-send-email-aleksandar.qemu.devel@gmail.com>
-Received-SPF: pass client-ip=2a00:1450:4864:20::643;
- envelope-from=aleksandar.qemu.devel@gmail.com; helo=mail-ej1-x643.google.com
-X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
- That's all we know.
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- URIBL_BLOCKED=0.001 autolearn=_AUTOLEARN
+X-RCIS-Action: ALLOW
+X-TM-AS-Product-Ver: IMSS-7.1.0.1224-8.2.0.1013-23620.005
+X-TM-AS-User-Approved-Sender: Yes;Yes
+X-EOPAttributedMessage: 0
+X-MS-Office365-Filtering-HT: Tenant
+X-Forefront-Antispam-Report: CIP:149.199.60.83; CTRY:US; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:xsj-pvapsmtpgw01; PTR:unknown-60-83.xilinx.com; CAT:NONE;
+ SFTY:;
+ SFS:(46966005)(70586007)(6666004)(82310400002)(426003)(47076004)(8676002)(2906002)(4744005)(83380400001)(70206006)(498600001)(81166007)(4326008)(356005)(8936002)(42186006)(2616005)(7416002)(5660300002)(36756003)(107886003)(186003)(26005)(54906003)(6266002)(110136005)(336012);
+ DIR:OUT; SFP:1101; 
+X-MS-PublicTrafficType: Email
+MIME-Version: 1.0
+Content-Type: text/plain
+X-MS-Office365-Filtering-Correlation-Id: 09a1d414-9ebf-41f7-730e-08d822968723
+X-MS-TrafficTypeDiagnostic: BN7PR02MB4979:
+X-Microsoft-Antispam-PRVS: <BN7PR02MB4979BB694EFEF754C95B242CCA660@BN7PR02MB4979.namprd02.prod.outlook.com>
+X-Auto-Response-Suppress: DR, RN, NRN, OOF, AutoReply
+X-MS-Oob-TLC-OOBClassifiers: OLM:3383;
+X-Forefront-PRVS: 0457F11EAF
+X-MS-Exchange-SenderADCheck: 1
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: +cKIC0c89X4n4jlwhw3QN386aiCjl5Yfd/vpREzgh4k/Rb9FBjVQ/BYKGVQ5lQSiLCf78dLYvPldltNfEihnfose56/MPVGooiI5sSOrRHndche8gOPlkUD2EekdrsXleIyA937cvMCxKofN6W/u9s3H4o8/DLFd5iefOOK4iv3wZI29boKie2m87MVIj3wSdCZnImLu2e6iFeaRibw4X+3nrk6Pggug2lAsoRE5NbwaYKaE3NdsCrFYF3YWCNPRC37aY5koWhG8IQGDCpIL0Dp1gSRrigJLeYrLucgH2zwp0198YyQONU21RrxUP26/epDyMoaKAiXAFE+YnybhZDJh8juYMbDHDrur0QaekaPG2PHy2I7DUHmES+4/+yHWEn14wlFxcbzDKrSiGE7UKA==
+X-OriginatorOrg: xilinx.com
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 07 Jul 2020 16:55:18.0411 (UTC)
+X-MS-Exchange-CrossTenant-Network-Message-Id: 09a1d414-9ebf-41f7-730e-08d822968723
+X-MS-Exchange-CrossTenant-Id: 657af505-d5df-48d0-8300-c31994686c5c
+X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=657af505-d5df-48d0-8300-c31994686c5c; Ip=[149.199.60.83];
+ Helo=[xsj-pvapsmtpgw01]
+X-MS-Exchange-CrossTenant-AuthSource: BL2NAM02FT019.eop-nam02.prod.protection.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Anonymous
+X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: BN7PR02MB4979
+Received-SPF: pass client-ip=40.107.93.43; envelope-from=saipava@xilinx.com;
+ helo=NAM10-DM6-obe.outbound.protection.outlook.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/07/07 13:10:20
+X-ACL-Warn: Detected OS   = Windows NT kernel [generic] [fuzzy]
+X-Spam_score_int: -18
+X-Spam_score: -1.9
+X-Spam_bar: -
+X-Spam_report: (-1.9 / 5.0 requ) AC_FROM_MANY_DOTS=1, BAYES_00=-1.9,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, RCVD_IN_DNSWL_NONE=-0.0001,
+ RCVD_IN_MSPIKE_H2=-1, SPF_HELO_PASS=-0.001,
+ SPF_PASS=-0.001 autolearn=_AUTOLEARN
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -83,211 +137,45 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: aleksandar.qemu.devel@gmail.com
+Cc: Thomas Huth <thuth@redhat.com>, Eduardo Habkost <ehabkost@redhat.com>,
+ Vikram Garhwal <fnuv@xilinx.com>, sai.pavan.boddu@xilinx.com,
+ qemu-devel@nongnu.org, Paul Zimmerman <pauldzim@gmail.com>,
+ Alistair Francis <alistair.francis@wdc.com>,
+ Paolo Bonzini <pbonzini@redhat.com>, Ying Fang <fangying1@huawei.com>,
+ =?UTF-8?q?=27Marc-Andr=C3=A9=20Lureau=27?= <marcandre.lureau@redhat.com>,
+ =?UTF-8?q?=27Philippe=20Mathieu-Daud=C3=A9=27?= <philmd@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Ahmed Karaman <ahmedkhaledkaraman@gmail.com>
+Hi
 
-Python script that dissects QEMU execution into three main phases:
-code generation, JIT execution and helpers execution.
+This patch series attempts to make 'hcd-xhci' an independent model so
+it can be used by both pci and system-bus interface.
 
-Syntax:
-dissect.py [-h] -- <qemu executable> [<qemu executable options>] \
-                 <target executable> [<target executable options>]
+Changes for V2:
+    Make XHCIState non-qom
+    Use container_of functions for retriving pci device instance
+    Initialize the AddressSpace pointer in PATCH 1/3 itself
+Changes for V3:
+    Convert XHCIState to TYPE_DEVICE and register as a child of XHCIPciState.
 
-[-h] - Print the script arguments help message.
 
-Example of usage:
-dissect.py -- qemu-arm coulomb_double-arm
+Sai Pavan Boddu (3):
+  usb/hcd-xhci: Make dma read/writes hooks pci free
+  usb/hcd-xhci: Move qemu-xhci device to hcd-xhci-pci.c
+  usb/hcd-xhci: Split pci wrapper for xhci base model
 
-Example output:
-Total Instructions:        4,702,865,362
+ hw/usb/Kconfig        |   6 ++
+ hw/usb/Makefile.objs  |   1 +
+ hw/usb/hcd-xhci-nec.c |  18 ++--
+ hw/usb/hcd-xhci-pci.c | 242 ++++++++++++++++++++++++++++++++++++++++++++++
+ hw/usb/hcd-xhci-pci.h |  45 +++++++++
+ hw/usb/hcd-xhci.c     | 259 ++++++++++----------------------------------------
+ hw/usb/hcd-xhci.h     |  20 ++--
+ 7 files changed, 367 insertions(+), 224 deletions(-)
+ create mode 100644 hw/usb/hcd-xhci-pci.c
+ create mode 100644 hw/usb/hcd-xhci-pci.h
 
-Code Generation:             115,819,309	 2.463%
-JIT Execution:             1,081,980,528	23.007%
-Helpers:                   3,505,065,525	74.530%
-
-Signed-off-by: Ahmed Karaman <ahmedkhaledkaraman@gmail.com>
-Signed-off-by: Aleksandar Markovic <aleksandar.qemu.devel@gmail.com>
-Reviewed-by: Aleksandar Markovic <aleksandar.qemu.devel@gmail.com>
-Message-Id: <20200702142942.4887-2-ahmedkhaledkaraman@gmail.com>
----
- scripts/performance/dissect.py | 165 +++++++++++++++++++++++++++++++++++++++++
- 1 file changed, 165 insertions(+)
- create mode 100755 scripts/performance/dissect.py
-
-diff --git a/scripts/performance/dissect.py b/scripts/performance/dissect.py
-new file mode 100755
-index 0000000..8c2967d
---- /dev/null
-+++ b/scripts/performance/dissect.py
-@@ -0,0 +1,165 @@
-+#!/usr/bin/env python3
-+
-+#  Print the percentage of instructions spent in each phase of QEMU
-+#  execution.
-+#
-+#  Syntax:
-+#  dissect.py [-h] -- <qemu executable> [<qemu executable options>] \
-+#                   <target executable> [<target executable options>]
-+#
-+#  [-h] - Print the script arguments help message.
-+#
-+#  Example of usage:
-+#  dissect.py -- qemu-arm coulomb_double-arm
-+#
-+#  This file is a part of the project "TCG Continuous Benchmarking".
-+#
-+#  Copyright (C) 2020  Ahmed Karaman <ahmedkhaledkaraman@gmail.com>
-+#  Copyright (C) 2020  Aleksandar Markovic <aleksandar.qemu.devel@gmail.com>
-+#
-+#  This program is free software: you can redistribute it and/or modify
-+#  it under the terms of the GNU General Public License as published by
-+#  the Free Software Foundation, either version 2 of the License, or
-+#  (at your option) any later version.
-+#
-+#  This program is distributed in the hope that it will be useful,
-+#  but WITHOUT ANY WARRANTY; without even the implied warranty of
-+#  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
-+#  GNU General Public License for more details.
-+#
-+#  You should have received a copy of the GNU General Public License
-+#  along with this program. If not, see <https://www.gnu.org/licenses/>.
-+
-+import argparse
-+import os
-+import subprocess
-+import sys
-+
-+
-+def get_JIT_line(callgrind_data):
-+    """
-+    Search for the first instance of the JIT call in
-+    the callgrind_annotate output when ran using --tree=caller
-+    This is equivalent to the self number of instructions of JIT.
-+
-+    Parameters:
-+    callgrind_data (list): callgrind_annotate output
-+
-+    Returns:
-+    (int): Line number
-+   """
-+    line = -1
-+    for i in range(len(callgrind_data)):
-+        if callgrind_data[i].strip('\n') and \
-+                callgrind_data[i].split()[-1] == "[???]":
-+            line = i
-+            break
-+    if line == -1:
-+        sys.exit("Couldn't locate the JIT call ... Exiting.")
-+    return line
-+
-+
-+def main():
-+    # Parse the command line arguments
-+    parser = argparse.ArgumentParser(
-+        usage='dissect.py [-h] -- '
-+        '<qemu executable> [<qemu executable options>] '
-+        '<target executable> [<target executable options>]')
-+
-+    parser.add_argument('command', type=str, nargs='+', help=argparse.SUPPRESS)
-+
-+    args = parser.parse_args()
-+
-+    # Extract the needed variables from the args
-+    command = args.command
-+
-+    # Insure that valgrind is installed
-+    check_valgrind = subprocess.run(
-+        ["which", "valgrind"], stdout=subprocess.DEVNULL)
-+    if check_valgrind.returncode:
-+        sys.exit("Please install valgrind before running the script.")
-+
-+    # Run callgrind
-+    callgrind = subprocess.run((["valgrind",
-+                                 "--tool=callgrind",
-+                                 "--callgrind-out-file=/tmp/callgrind.data"]
-+                                + command),
-+                               stdout=subprocess.DEVNULL,
-+                               stderr=subprocess.PIPE)
-+    if callgrind.returncode:
-+        sys.exit(callgrind.stderr.decode("utf-8"))
-+
-+    # Save callgrind_annotate output to /tmp/callgrind_annotate.out
-+    with open("/tmp/callgrind_annotate.out", "w") as output:
-+        callgrind_annotate = subprocess.run(
-+            ["callgrind_annotate", "/tmp/callgrind.data", "--tree=caller"],
-+            stdout=output,
-+            stderr=subprocess.PIPE)
-+        if callgrind_annotate.returncode:
-+            os.unlink('/tmp/callgrind.data')
-+            output.close()
-+            os.unlink('/tmp/callgrind_annotate.out')
-+            sys.exit(callgrind_annotate.stderr.decode("utf-8"))
-+
-+    # Read the callgrind_annotate output to callgrind_data[]
-+    callgrind_data = []
-+    with open('/tmp/callgrind_annotate.out', 'r') as data:
-+        callgrind_data = data.readlines()
-+
-+    # Line number with the total number of instructions
-+    total_instructions_line_number = 20
-+    # Get the total number of instructions
-+    total_instructions_line_data = \
-+        callgrind_data[total_instructions_line_number]
-+    total_instructions = total_instructions_line_data.split()[0]
-+    total_instructions = int(total_instructions.replace(',', ''))
-+
-+    # Line number with the JIT self number of instructions
-+    JIT_self_instructions_line_number = get_JIT_line(callgrind_data)
-+    # Get the JIT self number of instructions
-+    JIT_self_instructions_line_data = \
-+        callgrind_data[JIT_self_instructions_line_number]
-+    JIT_self_instructions = JIT_self_instructions_line_data.split()[0]
-+    JIT_self_instructions = int(JIT_self_instructions.replace(',', ''))
-+
-+    # Line number with the JIT self + inclusive number of instructions
-+    # It's the line above the first JIT call when running with --tree=caller
-+    JIT_total_instructions_line_number = JIT_self_instructions_line_number - 1
-+    # Get the JIT self + inclusive number of instructions
-+    JIT_total_instructions_line_data = \
-+        callgrind_data[JIT_total_instructions_line_number]
-+    JIT_total_instructions = JIT_total_instructions_line_data.split()[0]
-+    JIT_total_instructions = int(JIT_total_instructions.replace(',', ''))
-+
-+    # Calculate number of instructions in helpers and code generation
-+    helpers_instructions = JIT_total_instructions - JIT_self_instructions
-+    code_generation_instructions = total_instructions - JIT_total_instructions
-+
-+    # Print results (Insert commas in large numbers)
-+    # Print total number of instructions
-+    print('{:<20}{:>20}\n'.
-+          format("Total Instructions:",
-+                 format(total_instructions, ',')))
-+    # Print code generation instructions and percentage
-+    print('{:<20}{:>20}\t{:>6.3f}%'.
-+          format("Code Generation:",
-+                 format(code_generation_instructions, ","),
-+                 (code_generation_instructions / total_instructions) * 100))
-+    # Print JIT instructions and percentage
-+    print('{:<20}{:>20}\t{:>6.3f}%'.
-+          format("JIT Execution:",
-+                 format(JIT_self_instructions, ","),
-+                 (JIT_self_instructions / total_instructions) * 100))
-+    # Print helpers instructions and percentage
-+    print('{:<20}{:>20}\t{:>6.3f}%'.
-+          format("Helpers:",
-+                 format(helpers_instructions, ","),
-+                 (helpers_instructions/total_instructions)*100))
-+
-+    # Remove intermediate files
-+    os.unlink('/tmp/callgrind.data')
-+    os.unlink('/tmp/callgrind_annotate.out')
-+
-+
-+if __name__ == "__main__":
-+    main()
 -- 
 2.7.4
 
