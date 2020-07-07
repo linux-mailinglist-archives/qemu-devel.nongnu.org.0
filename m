@@ -2,116 +2,110 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 94857217146
-	for <lists+qemu-devel@lfdr.de>; Tue,  7 Jul 2020 17:29:42 +0200 (CEST)
-Received: from localhost ([::1]:45412 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id BBFBC217177
+	for <lists+qemu-devel@lfdr.de>; Tue,  7 Jul 2020 17:42:43 +0200 (CEST)
+Received: from localhost ([::1]:54498 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jspXR-0003Wd-KJ
-	for lists+qemu-devel@lfdr.de; Tue, 07 Jul 2020 11:29:41 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:49536)
+	id 1jspk2-0002LS-LD
+	for lists+qemu-devel@lfdr.de; Tue, 07 Jul 2020 11:42:42 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:52374)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1jspWO-0002cD-7S
- for qemu-devel@nongnu.org; Tue, 07 Jul 2020 11:28:37 -0400
-Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:57768
- helo=us-smtp-1.mimecast.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1jspWL-0007Vp-1d
- for qemu-devel@nongnu.org; Tue, 07 Jul 2020 11:28:35 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1594135712;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
- bh=fcCqCe4aEFC3Zh+ldOtHWDR5dSdrg+Le4/pd1mv10KI=;
- b=blE1FLO9LS9/vAvf3J39/8fqy7x3mHqimBt73zoK18t7Wwp8CTBjxWJhXaYwWW/8kUyUd6
- 9N9xO+52Iu0szazqhZA7SXOaiH7+6FPtRD53RoD5t8Bd3Kf0+MMx7tWmLoIwratWBlv/Wh
- mkiHVYaYJ/4b1jWDPhN5VMc8yL7YrMs=
-Received: from mail-wm1-f69.google.com (mail-wm1-f69.google.com
- [209.85.128.69]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-266-J1ZLr198MVG5tB6RH53G1g-1; Tue, 07 Jul 2020 11:28:26 -0400
-X-MC-Unique: J1ZLr198MVG5tB6RH53G1g-1
-Received: by mail-wm1-f69.google.com with SMTP id g138so43937366wme.7
- for <qemu-devel@nongnu.org>; Tue, 07 Jul 2020 08:28:25 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:autocrypt
- :message-id:date:user-agent:mime-version:in-reply-to
- :content-language:content-transfer-encoding;
- bh=fcCqCe4aEFC3Zh+ldOtHWDR5dSdrg+Le4/pd1mv10KI=;
- b=H1m1drcrRQu3X8saYnU95ZGcPJIWkvFTEh372P8ZVKr36mns83cmccnRoEzp/8G5wH
- l9ArAJn3hGwTXvMRNMSTEonbak3LrsoOz2yf57Q5GLpHrbkUOXhRq6XYLFn/mqTsddZ0
- AG0OUMTHmNa11Widjmadijs7eeaknamTT6p2LB40be/L3I8FcmuaDj9ltMG3sbHI4Fc4
- AIH6Bu+adTDXwH8Ht4zu2f8sDaE83SxmaW1z7iLdcQ/NMUnsyohLrKwf9rViBgnY83eX
- hUqkfWvGtYTyEJF/O5nQHigAvLBgfGAeBl4mnn33SOpzPAr84wLA1PGq+A3eQ/nW0Sxk
- rMjw==
-X-Gm-Message-State: AOAM533JVCFaX15NLL0Mn/Dm3rlpPCbAsywAI3+EfPZD3uNLu5R+Vuts
- spkzg45QneOVVeM9z2CJ0xsDSexHPc+eLlcAh6v7gISKQFjTjd9nGsq6WlrkA++Ck4bntihD2D3
- PGn+Trhd5JXh3Ay0=
-X-Received: by 2002:a7b:c38c:: with SMTP id s12mr4749875wmj.136.1594135703765; 
- Tue, 07 Jul 2020 08:28:23 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJwAmNKML0PpHomBDs/aMk0qtLj7L9/fXdoZlgrgoQhnML815V2iOW2AKHypLTyqjxqbjH54kg==
-X-Received: by 2002:a7b:c38c:: with SMTP id s12mr4749857wmj.136.1594135703448; 
- Tue, 07 Jul 2020 08:28:23 -0700 (PDT)
-Received: from [192.168.1.36] (138.red-83-57-170.dynamicip.rima-tde.net.
- [83.57.170.138])
- by smtp.gmail.com with ESMTPSA id v5sm1544148wmh.12.2020.07.07.08.28.22
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 07 Jul 2020 08:28:22 -0700 (PDT)
-Subject: Re: [PULL 00/12] Block patches
-To: Stefan Hajnoczi <stefanha@redhat.com>,
- Peter Maydell <peter.maydell@linaro.org>
-References: <20200624100210.59975-1-stefanha@redhat.com>
- <CAFEAcA_K7MtnEjRMZCbmYrJCm6qD4N7ZMHvGuAzXL9gD2zQNuA@mail.gmail.com>
- <20200626102506.GD281902@stefanha-x1.localdomain>
-From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
-Autocrypt: addr=philmd@redhat.com; keydata=
- mQINBDXML8YBEADXCtUkDBKQvNsQA7sDpw6YLE/1tKHwm24A1au9Hfy/OFmkpzo+MD+dYc+7
- bvnqWAeGweq2SDq8zbzFZ1gJBd6+e5v1a/UrTxvwBk51yEkadrpRbi+r2bDpTJwXc/uEtYAB
- GvsTZMtiQVA4kRID1KCdgLa3zztPLCj5H1VZhqZsiGvXa/nMIlhvacRXdbgllPPJ72cLUkXf
- z1Zu4AkEKpccZaJspmLWGSzGu6UTZ7UfVeR2Hcc2KI9oZB1qthmZ1+PZyGZ/Dy+z+zklC0xl
- XIpQPmnfy9+/1hj1LzJ+pe3HzEodtlVA+rdttSvA6nmHKIt8Ul6b/h1DFTmUT1lN1WbAGxmg
- CH1O26cz5nTrzdjoqC/b8PpZiT0kO5MKKgiu5S4PRIxW2+RA4H9nq7nztNZ1Y39bDpzwE5Sp
- bDHzd5owmLxMLZAINtCtQuRbSOcMjZlg4zohA9TQP9krGIk+qTR+H4CV22sWldSkVtsoTaA2
- qNeSJhfHQY0TyQvFbqRsSNIe2gTDzzEQ8itsmdHHE/yzhcCVvlUzXhAT6pIN0OT+cdsTTfif
- MIcDboys92auTuJ7U+4jWF1+WUaJ8gDL69ThAsu7mGDBbm80P3vvUZ4fQM14NkxOnuGRrJxO
- qjWNJ2ZUxgyHAh5TCxMLKWZoL5hpnvx3dF3Ti9HW2dsUUWICSQARAQABtDJQaGlsaXBwZSBN
- YXRoaWV1LURhdWTDqSAoUGhpbCkgPHBoaWxtZEByZWRoYXQuY29tPokCVQQTAQgAPwIbDwYL
- CQgHAwIGFQgCCQoLBBYCAwECHgECF4AWIQSJweePYB7obIZ0lcuio/1u3q3A3gUCXsfWwAUJ
- KtymWgAKCRCio/1u3q3A3ircD/9Vjh3aFNJ3uF3hddeoFg1H038wZr/xi8/rX27M1Vj2j9VH
- 0B8Olp4KUQw/hyO6kUxqkoojmzRpmzvlpZ0cUiZJo2bQIWnvScyHxFCv33kHe+YEIqoJlaQc
- JfKYlbCoubz+02E2A6bFD9+BvCY0LBbEj5POwyKGiDMjHKCGuzSuDRbCn0Mz4kCa7nFMF5Jv
- piC+JemRdiBd6102ThqgIsyGEBXuf1sy0QIVyXgaqr9O2b/0VoXpQId7yY7OJuYYxs7kQoXI
- 6WzSMpmuXGkmfxOgbc/L6YbzB0JOriX0iRClxu4dEUg8Bs2pNnr6huY2Ft+qb41RzCJvvMyu
- gS32LfN0bTZ6Qm2A8ayMtUQgnwZDSO23OKgQWZVglGliY3ezHZ6lVwC24Vjkmq/2yBSLakZE
- 6DZUjZzCW1nvtRK05ebyK6tofRsx8xB8pL/kcBb9nCuh70aLR+5cmE41X4O+MVJbwfP5s/RW
- 9BFSL3qgXuXso/3XuWTQjJJGgKhB6xXjMmb1J4q/h5IuVV4juv1Fem9sfmyrh+Wi5V1IzKI7
- RPJ3KVb937eBgSENk53P0gUorwzUcO+ASEo3Z1cBKkJSPigDbeEjVfXQMzNt0oDRzpQqH2vp
- apo2jHnidWt8BsckuWZpxcZ9+/9obQ55DyVQHGiTN39hkETy3Emdnz1JVHTU0Q==
-Message-ID: <cab22670-6804-9ddc-c3ee-b6dcf3a74ac4@redhat.com>
-Date: Tue, 7 Jul 2020 17:28:21 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.5.0
+ (Exim 4.90_1) (envelope-from <aaron@os.amperecomputing.com>)
+ id 1jspj6-0001ub-7t
+ for qemu-devel@nongnu.org; Tue, 07 Jul 2020 11:41:44 -0400
+Received: from mail-bn7nam10on2131.outbound.protection.outlook.com
+ ([40.107.92.131]:39584 helo=NAM10-BN7-obe.outbound.protection.outlook.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <aaron@os.amperecomputing.com>)
+ id 1jspj4-0001bR-3t
+ for qemu-devel@nongnu.org; Tue, 07 Jul 2020 11:41:43 -0400
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=Rne0PJe3JovzYQ68jp+64vpkn57Vej7fMvFhXD+PIeMBaEvh29c5gwopVlR+/vBfBEgZEY/FTvHUTpNJIY6tCTvamK0vzPutlsdgTRwElJnitc0QqybZrw2g3I9QFlYkHJE/SkQCqaztXfD8O3DNNIcKPibTzYs9EWl0AqrB+pgC7Yc0Vokxxos60eXVDoKSfcdF/7HDSl3qqtZaVcItA/ze5e5OQGG2owCv/u0QHmJQ1YgyZtlEFku7rsSQo3h7+b4F/Td1pwTZLMTuircP8/yiB+7kilTkN3ES6Br4GGTeromSTgjp0iTNK2A4ARC0piX1fFGQF+ME3RNyJGa5uQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=bPIDLzlmtOMC8OIHYkFs+dw4pLNtmVjjucHaWPhtQr8=;
+ b=hEh4Vrg0cAKGkiou4mBjiZAMBucfrYt2XHDeam/5PpPydny8N/1RJsThqRPyu4WJYEz7gWJrm4BYkrWU3cobJ1RMzAUtJPMM2yTxWCKqqVdxVq/FWnbNMr0Gv5Wt1WH7FD/DoU/Z/8qM/IWsHkRUL/9ymA7ybITdwzbgNQVJsAhVaOqETT5/UwIlLD7ORtAuFFvqEbpIBIvdJw7h5g16i/BkpQlN6z3+qtCDJsohFQsvD3tCtxtkzTnatmXNwftrGvdhhgICXhDm6uNq7MhA7b7+AS2WwbgJ03y/Uc2ZiJxpyM+mZtZ59RMu9DCQa6YZr7cAdj1cuPM9IqfAc6XDbQ==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=os.amperecomputing.com; dmarc=pass action=none
+ header.from=os.amperecomputing.com; dkim=pass
+ header.d=os.amperecomputing.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=os.amperecomputing.com; s=selector2;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=bPIDLzlmtOMC8OIHYkFs+dw4pLNtmVjjucHaWPhtQr8=;
+ b=S60Fuyug5zvH+57GTewV0KVNvK43D47P8nLOWVRH1RlXXpoKBKP/x26w+BIm4PciwUQMi4vXwi0vr6nBoq3J3RERrzNOQMWPvFca7+MBJKpka1OjleFtyLuFA5XwnfUo9C9vUF5R0SlGO4cNl5fql6SlBLemxc1oFd03TSM5308=
+Authentication-Results: nongnu.org; dkim=none (message not signed)
+ header.d=none;nongnu.org; dmarc=none action=none
+ header.from=os.amperecomputing.com;
+Received: from SN6PR01MB4304.prod.exchangelabs.com (2603:10b6:805:a6::23) by
+ SN6PR01MB3823.prod.exchangelabs.com (2603:10b6:805:19::13) with Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.3153.28; Tue, 7 Jul 2020 15:26:36 +0000
+Received: from SN6PR01MB4304.prod.exchangelabs.com
+ ([fe80::3daa:94bb:9223:161f]) by SN6PR01MB4304.prod.exchangelabs.com
+ ([fe80::3daa:94bb:9223:161f%5]) with mapi id 15.20.3153.029; Tue, 7 Jul 2020
+ 15:26:36 +0000
+From: Aaron Lindsay <aaron@os.amperecomputing.com>
+To: qemu-devel@nongnu.org,
+	Peter Maydell <peter.maydell@linaro.org>
+Cc: Aaron Lindsay <aaron@os.amperecomputing.com>
+Subject: [PATCH] target/arm: Don't do raw writes for PMINTENCLR
+Date: Tue,  7 Jul 2020 11:26:16 -0400
+Message-Id: <20200707152616.1917154-1-aaron@os.amperecomputing.com>
+X-Mailer: git-send-email 2.27.0
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-ClientProxiedBy: CY4PR1201CA0021.namprd12.prod.outlook.com
+ (2603:10b6:910:16::31) To SN6PR01MB4304.prod.exchangelabs.com
+ (2603:10b6:805:a6::23)
 MIME-Version: 1.0
-In-Reply-To: <20200626102506.GD281902@stefanha-x1.localdomain>
-Content-Language: en-US
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=philmd@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=windows-1252
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=205.139.110.120; envelope-from=philmd@redhat.com;
- helo=us-smtp-1.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/07/07 06:04:49
-X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
-X-Spam_score_int: -40
-X-Spam_score: -4.1
-X-Spam_bar: ----
-X-Spam_report: (-4.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-1, SPF_HELO_NONE=0.001,
+X-MS-Exchange-MessageSentRepresentingType: 1
+Received: from strawberry.amperecomputing.com (68.73.113.219) by
+ CY4PR1201CA0021.namprd12.prod.outlook.com (2603:10b6:910:16::31) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3174.20 via Frontend
+ Transport; Tue, 7 Jul 2020 15:26:35 +0000
+X-Mailer: git-send-email 2.27.0
+X-Originating-IP: [68.73.113.219]
+X-MS-PublicTrafficType: Email
+X-MS-Office365-Filtering-Correlation-Id: 4d97f1ce-1080-486f-8057-08d8228a22b5
+X-MS-TrafficTypeDiagnostic: SN6PR01MB3823:
+X-MS-Exchange-Transport-Forked: True
+X-Microsoft-Antispam-PRVS: <SN6PR01MB38230AD340B058443987F2D28A660@SN6PR01MB3823.prod.exchangelabs.com>
+X-MS-Oob-TLC-OOBClassifiers: OLM:6430;
+X-Forefront-PRVS: 0457F11EAF
+X-MS-Exchange-SenderADCheck: 1
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: zGIZeyqNH8HqPPe1CNsCabgVC5YoKra2/JYOkAcAiA/BGzIlxstrAcCwWuRuKgqpMfWULC8KICZ4AzvrB45K5Up2M61okZCl1vFGQ4zbsk6+VlCV/5L/YvmBvPflc1GuyFjTIUO7pyXoLx0/irSoDlY2tDtbIPDbh6WZOzhO/R8hLcQDx4GJpE2UgSD6i9775FBuQB9phS8TY0VxAdQtzjtP5xT0K1v6NsBdhKB0Eq3w2M/sOw3BYdY737z5b2xdrjKsm3M3Kr7YfhLt9a6MgkotjdxygsjMDI+gWIe6U8IGmkyIB6cdSrEYAnXXhdfO
+X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:SN6PR01MB4304.prod.exchangelabs.com; PTR:; CAT:NONE;
+ SFTY:;
+ SFS:(4636009)(366004)(39840400004)(396003)(136003)(376002)(346002)(6916009)(4326008)(2906002)(52116002)(186003)(107886003)(16526019)(26005)(66946007)(6512007)(83380400001)(8676002)(66556008)(8936002)(1076003)(66476007)(478600001)(5660300002)(6506007)(86362001)(956004)(2616005)(6486002)(6666004)(316002);
+ DIR:OUT; SFP:1102; 
+X-MS-Exchange-AntiSpam-MessageData: wmST5L2bwO5rI50dZUsKHS1jjmW4XsICVU5W8ANZy0NOftCt2HmLZWQNpXa4aOL99/ZUTIu5KrasPwjubTrxCpqHq2oA1HrYwmZbyk3RC5rq0G++w0m7Jk65Wq7kAUCy4FGznwNC60Kxwzes/cjL/tIrvQ3ra2zkfr7oo0WWQyMJiodZu10eYfnUw7Tsi+DN4ixG30nXNRqC7cuHR+f7qImyRTNp0SdjOAF/jslWQRSA/5RJ3ibTigf87lOj3F5W/V3kvfH9uQoXze2VHZGfMAtW9XnPxlJzOKsP5EmLF4rnvgihOVk7lvGOtvCgkUYYDOW0wxbMp1UL57dnSy7LSmH2kFuZLm+ir1Nx2pytdOFfkuBSnGHX6QAkv4UaTGnSQ+W+UluVY01xxBClJMLVeRsBuBLZVUkl+M/s0mibHs0fbZaYdq/2vs1NXSXWdbdFdYAQHsTv2DvglrSBCsLHB8KWws6wXWM7tRTgJi1//yM=
+X-OriginatorOrg: os.amperecomputing.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 4d97f1ce-1080-486f-8057-08d8228a22b5
+X-MS-Exchange-CrossTenant-AuthSource: SN6PR01MB4304.prod.exchangelabs.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 07 Jul 2020 15:26:35.8815 (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 3bc2b170-fd94-476d-b0ce-4229bdc904a7
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: +Ya/N2xodcBUYHXPgsgKMqrLjiJg1A+Ko0GZhLrWEOJgoF8iAPMSQzEggUgIXzI8PgmgZo4v1VJNHgYIcRSFYUOGowiK6tMB23vIfNUS6dE=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: SN6PR01MB3823
+Received-SPF: pass client-ip=40.107.92.131;
+ envelope-from=aaron@os.amperecomputing.com;
+ helo=NAM10-BN7-obe.outbound.protection.outlook.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/07/07 11:41:40
+X-ACL-Warn: Detected OS   = Windows NT kernel [generic] [fuzzy]
+X-Spam_score_int: -36
+X-Spam_score: -3.7
+X-Spam_bar: ---
+X-Spam_report: (-3.7 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, MSGID_FROM_MTA_HEADER=0.001,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-1, SPF_HELO_PASS=-0.001,
  SPF_PASS=-0.001, URIBL_BLOCKED=0.001 autolearn=_AUTOLEARN
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -125,141 +119,40 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Kevin Wolf <kwolf@redhat.com>, Fam Zheng <fam@euphon.net>,
- Eduardo Habkost <ehabkost@redhat.com>, Qemu-block <qemu-block@nongnu.org>,
- QEMU Developers <qemu-devel@nongnu.org>, Max Reitz <mreitz@redhat.com>,
- Cleber Rosa <crosa@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 6/26/20 12:25 PM, Stefan Hajnoczi wrote:
-> On Thu, Jun 25, 2020 at 02:31:14PM +0100, Peter Maydell wrote:
->> On Wed, 24 Jun 2020 at 11:02, Stefan Hajnoczi <stefanha@redhat.com> wrote:
->>>
->>> The following changes since commit 171199f56f5f9bdf1e5d670d09ef1351d8f01bae:
->>>
->>>   Merge remote-tracking branch 'remotes/alistair/tags/pull-riscv-to-apply-20200619-3' into staging (2020-06-22 14:45:25 +0100)
->>>
->>> are available in the Git repository at:
->>>
->>>   https://github.com/stefanha/qemu.git tags/block-pull-request
->>>
->>> for you to fetch changes up to 7838c67f22a81fcf669785cd6c0876438422071a:
->>>
->>>   block/nvme: support nested aio_poll() (2020-06-23 15:46:08 +0100)
->>>
->>> ----------------------------------------------------------------
->>> Pull request
->>>
->>> ----------------------------------------------------------------
->>
->> Failure on iotest 030, x86-64 Linux:
->>
->>   TEST    iotest-qcow2: 030 [fail]
->> QEMU          --
->> "/home/petmay01/linaro/qemu-for-merges/build/alldbg/tests/qemu-iotests/../../x86_64-softmmu/qemu-system-x86_64"
->> -nodefaults -display none -accel qtest
->> QEMU_IMG      --
->> "/home/petmay01/linaro/qemu-for-merges/build/alldbg/tests/qemu-iotests/../../qemu-img"
->> QEMU_IO       --
->> "/home/petmay01/linaro/qemu-for-merges/build/alldbg/tests/qemu-iotests/../../qemu-io"
->>  --cache writeback --aio threads -f qcow2
->> QEMU_NBD      --
->> "/home/petmay01/linaro/qemu-for-merges/build/alldbg/tests/qemu-iotests/../../qemu-nbd"
->> IMGFMT        -- qcow2 (compat=1.1)
->> IMGPROTO      -- file
->> PLATFORM      -- Linux/x86_64 e104462 4.15.0-76-generic
->> TEST_DIR      --
->> /home/petmay01/linaro/qemu-for-merges/build/alldbg/tests/qemu-iotests/scratch
->> SOCK_DIR      -- /tmp/tmp.8tgdDjoZcO
->> SOCKET_SCM_HELPER --
->> /home/petmay01/linaro/qemu-for-merges/build/alldbg/tests/qemu-iotest/socket_scm_helper
->>
->> --- /home/petmay01/linaro/qemu-for-merges/tests/qemu-iotests/030.out
->>  2019-07-15 17:18:35.251364738 +0100
->> +++ /home/petmay01/linaro/qemu-for-merges/build/alldbg/tests/qemu-iotests/030.out.bad
->>   2020-06-25 14:04:28.500534007 +0100
->> @@ -1,5 +1,17 @@
->> -...........................
->> +.............F.............
->> +======================================================================
->> +FAIL: test_stream_parallel (__main__.TestParallelOps)
->> +----------------------------------------------------------------------
->> +Traceback (most recent call last):
->> +  File "030", line 246, in test_stream_parallel
->> +    self.assert_qmp(result, 'return', {})
->> +  File "/home/petmay01/linaro/qemu-for-merges/tests/qemu-iotests/iotests.py",
->> line 848, in assert_qmp
->> +    result = self.dictpath(d, path)
->> +  File "/home/petmay01/linaro/qemu-for-merges/tests/qemu-iotests/iotests.py",
->> line 822, in dictpath
->> +    self.fail(f'failed path traversal for "{path}" in "{d}"')
->> +AssertionError: failed path traversal for "return" in "{'error':
->> {'class': 'DeviceNotActive', 'desc': "Block job 'stream-node8' not
->> found"}}"
->> +
->>  ----------------------------------------------------------------------
->>  Ran 27 tests
->>
->> -OK
->> +FAILED (failures=1)
-> 
-> Strange, I can't reproduce this failure on my pull request branch or on
-> qemu.git/master.
-> 
-> Is this failure deterministic? Are you sure it is introduced by this
-> pull request?
+Raw writes to this register when in KVM mode can cause interrupts to be
+raised (even when the PMU is disabled). Because the underlying state is
+already aliased to PMINTENSET (which already provides raw write
+functions), we can safely disable raw accesses to PMINTENCLR entirely.
 
-Probably not introduced by this pullreq, but I also hit it on FreeBSD:
-https://cirrus-ci.com/task/4620718312783872?command=main#L5803
+Signed-off-by: Aaron Lindsay <aaron@os.amperecomputing.com>
+---
+ target/arm/helper.c | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
-  TEST    iotest-qcow2: 030 [fail]
-QEMU          --
-"/tmp/cirrus-ci-build/build/tests/qemu-iotests/../../aarch64-softmmu/qemu-system-aarch64"
--nodefaults -display none -machine virt -accel qtest
-QEMU_IMG      --
-"/tmp/cirrus-ci-build/build/tests/qemu-iotests/../../qemu-img"
-QEMU_IO       --
-"/tmp/cirrus-ci-build/build/tests/qemu-iotests/../../qemu-io"  --cache
-writeback --aio threads -f qcow2
-QEMU_NBD      --
-"/tmp/cirrus-ci-build/build/tests/qemu-iotests/../../qemu-nbd"
-IMGFMT        -- qcow2 (compat=1.1)
-IMGPROTO      -- file
-PLATFORM      -- FreeBSD/amd64 cirrus-task-4620718312783872 12.1-RELEASE
-TEST_DIR      -- /tmp/cirrus-ci-build/build/tests/qemu-iotests/scratch
-SOCK_DIR      -- /tmp/tmp.aZ5pxFLF
-SOCKET_SCM_HELPER --
---- /tmp/cirrus-ci-build/tests/qemu-iotests/030.out	2020-07-07
-14:48:48.123804000 +0000
-+++ /tmp/cirrus-ci-build/build/tests/qemu-iotests/030.out.bad	2020-07-07
-15:05:07.863685000 +0000
-@@ -1,5 +1,17 @@
--...........................
-+.............F.............
-+======================================================================
-+FAIL: test_stream_parallel (__main__.TestParallelOps)
- ----------------------------------------------------------------------
-+Traceback (most recent call last):
-+  File "030", line 246, in test_stream_parallel
-+    self.assert_qmp(result, 'return', {})
-+  File "/tmp/cirrus-ci-build/tests/qemu-iotests/iotests.py", line 848,
-in assert_qmp
-+    result = self.dictpath(d, path)
-+  File "/tmp/cirrus-ci-build/tests/qemu-iotests/iotests.py", line 822,
-in dictpath
-+    self.fail(f'failed path traversal for "{path}" in "{d}"')
-+AssertionError: failed path traversal for "return" in "{'error':
-{'class': 'DeviceNotActive', 'desc': "Block job 'stream-node8' not found"}}"
-+
-+----------------------------------------------------------------------
- Ran 27 tests
-
--OK
-+FAILED (failures=1)
-Failed 1 of 74 iotests
-gmake: *** [/tmp/cirrus-ci-build/tests/Makefile.include:880:
-check-tests/check-block.sh] Error 1
-Exit status: 2
+diff --git a/target/arm/helper.c b/target/arm/helper.c
+index dc9c29f998..c69a2baf1d 100644
+--- a/target/arm/helper.c
++++ b/target/arm/helper.c
+@@ -2269,13 +2269,13 @@ static const ARMCPRegInfo v7_cp_reginfo[] = {
+       .resetvalue = 0x0 },
+     { .name = "PMINTENCLR", .cp = 15, .crn = 9, .crm = 14, .opc1 = 0, .opc2 = 2,
+       .access = PL1_RW, .accessfn = access_tpm,
+-      .type = ARM_CP_ALIAS | ARM_CP_IO,
++      .type = ARM_CP_ALIAS | ARM_CP_IO | ARM_CP_NO_RAW,
+       .fieldoffset = offsetof(CPUARMState, cp15.c9_pminten),
+       .writefn = pmintenclr_write, },
+     { .name = "PMINTENCLR_EL1", .state = ARM_CP_STATE_AA64,
+       .opc0 = 3, .opc1 = 0, .crn = 9, .crm = 14, .opc2 = 2,
+       .access = PL1_RW, .accessfn = access_tpm,
+-      .type = ARM_CP_ALIAS | ARM_CP_IO,
++      .type = ARM_CP_ALIAS | ARM_CP_IO | ARM_CP_NO_RAW,
+       .fieldoffset = offsetof(CPUARMState, cp15.c9_pminten),
+       .writefn = pmintenclr_write },
+     { .name = "CCSIDR", .state = ARM_CP_STATE_BOTH,
+-- 
+2.17.1
 
 
