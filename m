@@ -2,72 +2,81 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C0C5021745C
-	for <lists+qemu-devel@lfdr.de>; Tue,  7 Jul 2020 18:46:40 +0200 (CEST)
-Received: from localhost ([::1]:34420 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4A0B6217409
+	for <lists+qemu-devel@lfdr.de>; Tue,  7 Jul 2020 18:35:14 +0200 (CEST)
+Received: from localhost ([::1]:43850 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jsqjv-0000xA-PU
-	for lists+qemu-devel@lfdr.de; Tue, 07 Jul 2020 12:46:39 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:33222)
+	id 1jsqYr-0005AV-9J
+	for lists+qemu-devel@lfdr.de; Tue, 07 Jul 2020 12:35:13 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:33316)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <stefanha@redhat.com>)
- id 1jsqB8-0002Rc-FW
- for qemu-devel@nongnu.org; Tue, 07 Jul 2020 12:10:42 -0400
-Received: from us-smtp-1.mimecast.com ([205.139.110.61]:35602)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <stefanha@redhat.com>)
- id 1jsqB6-0007gH-Ax
- for qemu-devel@nongnu.org; Tue, 07 Jul 2020 12:10:41 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1594138239;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=BPDB8S1Ifc9RbpISTGmqL+hqWTYUrTnEIXXa+3mt/ns=;
- b=DYNbbrdfqBSzDJgA70NTnEU+8EcopH7klXHZ4F21zjXBkgqtbx7CaMomNfYCpQu7UzzF9w
- Ed+Dg+NOoVldnfwD5EucrIvvpz8V/j2zBlYeWF6aEWbbEfjMiWPqOGghZNKxhgiCdJCjRv
- xuL17KDKe4CjbxO0KJWzhocIggfO4JM=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-14-PQTqer9IP-6KTIQktyBFGg-1; Tue, 07 Jul 2020 12:10:27 -0400
-X-MC-Unique: PQTqer9IP-6KTIQktyBFGg-1
-Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
- [10.5.11.22])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id D94C8800D5C;
- Tue,  7 Jul 2020 16:10:25 +0000 (UTC)
-Received: from localhost (ovpn-113-68.ams2.redhat.com [10.36.113.68])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 51E081002394;
- Tue,  7 Jul 2020 16:10:25 +0000 (UTC)
-Date: Tue, 7 Jul 2020 17:10:24 +0100
-From: Stefan Hajnoczi <stefanha@redhat.com>
-To: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
-Subject: Re: [PATCH 2/5] block/io: introduce bdrv_co_range_try_lock
-Message-ID: <20200707161024.GB459887@stefanha-x1.localdomain>
-References: <20200620143649.225852-1-vsementsov@virtuozzo.com>
- <20200620143649.225852-3-vsementsov@virtuozzo.com>
+ (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
+ id 1jsqBH-0002et-9q; Tue, 07 Jul 2020 12:10:51 -0400
+Received: from mail-wr1-x441.google.com ([2a00:1450:4864:20::441]:34033)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
+ id 1jsqBF-0007lU-6c; Tue, 07 Jul 2020 12:10:50 -0400
+Received: by mail-wr1-x441.google.com with SMTP id f7so42772470wrw.1;
+ Tue, 07 Jul 2020 09:10:48 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=sender:subject:to:cc:references:from:message-id:date:user-agent
+ :mime-version:in-reply-to:content-language:content-transfer-encoding;
+ bh=uuhPgvFhv/D+1NOUM9brURnzXdt1PoE7vE9LvxA+Y1s=;
+ b=c6GCuJWDoU8gEzmyQRxrEe+pD11OA8bNJDW0yDVN0SZDitIm2e4p4bZY+aeZ9wDyYQ
+ 3A5HZEdTQ+Xp4mK2X9if9ONKcxAsykf4r1trjcWdKY3UDrEdooaBVTybgwNZs2QxP6Cj
+ Ab0snwADxgk8Abf9ndE5T6tEte/FpXLT8aeDf5aYyD1MPY2f+uSvMQoEV+GCTrzf8Vh6
+ qnf1oeZAx03FHXHdyH84JJ6034SaTQgtB8/jiM3ZYL/fJGnT4dwBbHrIkpHtcqw/yEjP
+ OevTUiKI4fQ5BDyDjsjdobfskIx5+uOKv1slJfJ68hFq63XlKLxy8ANsKsTcOCQEU1um
+ dmeg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:sender:subject:to:cc:references:from:message-id
+ :date:user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=uuhPgvFhv/D+1NOUM9brURnzXdt1PoE7vE9LvxA+Y1s=;
+ b=R0vE2OSM0Axfx+1aERyY3qfZJENwLyLMMRZIVUaJsGWjSZe4fsApya485PWuq62aFB
+ ED2JBmfz/kwTxlpe8SIh6NCui+NARn6SenSpXmybkWdgCB6l8ybgFUc5hfcdLJDlDEfu
+ HZQZ+7J9HRFpyMcggXGtH7smy2GaSYKXA/XAHn7rqrDWCyVOzBxYpoVtaKsmHctlrd+c
+ mBP20A70mLxjzIDRPjGdyq5m6UUiwC/dEbrvlr9NZSTV0Dg3X4sqEG3NtS3fWVuRoRrd
+ Lm+OO+KdEl82u+QAclJXjG5d/99mfx8UjaT9w9USRb583C4gJoagfmznUw94i5ErWu6W
+ uHtw==
+X-Gm-Message-State: AOAM532IhU3uUBUGmHLWOoLf0HHZHCT8bvvqnSHjq5JZKjmG287/q/3W
+ ltsrIbJjMoWBgEMruWlJEPE=
+X-Google-Smtp-Source: ABdhPJyYWNDda2IkbHH3hOPoCNYdpaGCA2gExGo+3ZBwVV4iRYAHSgeFAyUNmATuprxv7jQbIruLTw==
+X-Received: by 2002:a5d:5706:: with SMTP id a6mr18967911wrv.328.1594138247214; 
+ Tue, 07 Jul 2020 09:10:47 -0700 (PDT)
+Received: from [192.168.1.36] (138.red-83-57-170.dynamicip.rima-tde.net.
+ [83.57.170.138])
+ by smtp.gmail.com with ESMTPSA id 5sm1586122wmk.9.2020.07.07.09.10.45
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Tue, 07 Jul 2020 09:10:46 -0700 (PDT)
+Subject: Re: [PATCH 1/2] tests/acceptance/boot_linux: Truncate SD card image
+ to power of 2
+To: Alistair Francis <alistair23@gmail.com>
+References: <20200707132116.26207-1-f4bug@amsat.org>
+ <20200707132116.26207-2-f4bug@amsat.org>
+ <CAKmqyKPSh4e+XVBLni71rHDZoTUV+cYQgZpO+FBYv-riLYW9eQ@mail.gmail.com>
+From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>
+Message-ID: <99dca865-75ca-6313-c522-6ced46e2f88e@amsat.org>
+Date: Tue, 7 Jul 2020 18:10:45 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.5.0
 MIME-Version: 1.0
-In-Reply-To: <20200620143649.225852-3-vsementsov@virtuozzo.com>
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=stefanha@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature"; boundary="R3G7APHDIzY6R/pk"
-Content-Disposition: inline
-Received-SPF: pass client-ip=205.139.110.61; envelope-from=stefanha@redhat.com;
- helo=us-smtp-1.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/07/07 00:31:00
-X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
-X-Spam_score_int: -30
-X-Spam_score: -3.1
-X-Spam_bar: ---
-X-Spam_report: (-3.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H3=-0.01, RCVD_IN_MSPIKE_WL=-0.01,
+In-Reply-To: <CAKmqyKPSh4e+XVBLni71rHDZoTUV+cYQgZpO+FBYv-riLYW9eQ@mail.gmail.com>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=2a00:1450:4864:20::441;
+ envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wr1-x441.google.com
+X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
+ That's all we know.
+X-Spam_score_int: 0
+X-Spam_score: 0.0
+X-Spam_bar: /
+X-Spam_report: (0.0 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1, DKIM_VALID=-0.1,
+ DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=1, FREEMAIL_FROM=0.001,
+ HEADER_FROM_DIFFERENT_DOMAINS=1, RCVD_IN_DNSWL_NONE=-0.0001,
  SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=_AUTOLEARN
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -81,79 +90,91 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: fam@euphon.net, kwolf@redhat.com, qemu-block@nongnu.org,
- Anton.Nefedov@acronis.com, armbru@redhat.com, qemu-devel@nongnu.org,
- mreitz@redhat.com, den@openvz.org
+Cc: Peter Maydell <peter.maydell@linaro.org>,
+ Qemu-block <qemu-block@nongnu.org>, Alistair Francis <alistair@alistair23.me>,
+ "qemu-devel@nongnu.org Developers" <qemu-devel@nongnu.org>,
+ Wainer dos Santos Moschetta <wainersm@redhat.com>,
+ Niek Linnenbank <nieklinnenbank@gmail.com>, Cleber Rosa <crosa@redhat.com>,
+ Paolo Bonzini <pbonzini@redhat.com>,
+ =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
---R3G7APHDIzY6R/pk
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+On 7/7/20 5:53 PM, Alistair Francis wrote:
+> n Tue, Jul 7, 2020 at 6:21 AM Philippe Mathieu-Daudé <f4bug@amsat.org> wrote:
+>>
+>> In the next commit we won't allow SD card images with invalid
+>> size (not aligned to a power of 2). Prepare the tests: add the
+>> pow2ceil() and image_pow2ceil_truncate() methods and truncate
+>> the images of the tests using SD cards.
+>>
+>> Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
+>> ---
+>>  tests/acceptance/boot_linux_console.py | 15 +++++++++++++++
+>>  1 file changed, 15 insertions(+)
+>>
+>> diff --git a/tests/acceptance/boot_linux_console.py b/tests/acceptance/boot_linux_console.py
+>> index 3d02519660..f4d4e3635f 100644
+>> --- a/tests/acceptance/boot_linux_console.py
+>> +++ b/tests/acceptance/boot_linux_console.py
+>> @@ -28,6 +28,18 @@
+>>  except CmdNotFoundError:
+>>      P7ZIP_AVAILABLE = False
+>>
+>> +# round up to next power of 2
+>> +def pow2ceil(x):
+>> +    return 1 if x == 0 else 2**(x - 1).bit_length()
+>> +
+>> +# truncate file size to next power of 2
+>> +def image_pow2ceil_truncate(path):
+>> +        size = os.path.getsize(path)
+>> +        size_aligned = pow2ceil(size)
+>> +        if size != size_aligned:
+>> +            with open(path, 'ab+') as fd:
+>> +                fd.truncate(size_aligned)
+> 
+> Why truncate the image, can't we expand it instead?
 
-On Sat, Jun 20, 2020 at 05:36:46PM +0300, Vladimir Sementsov-Ogievskiy wrot=
-e:
-> @@ -83,6 +84,12 @@ typedef struct BdrvTrackedRequest {
->      CoQueue wait_queue; /* coroutines blocked on this request */
-> =20
->      struct BdrvTrackedRequest *waiting_for;
-> +
-> +    /*
-> +     * If non-zero, the request is under lock, so it's allowed to inters=
-ect
-> +     * (actully it must be inside) the @lock request.
+pow2ceil() round UP to the next power of 2. I think this
+Python truncate() is a simple wrapper around the ftruncate()
+syscall. IOW we only "expand the image". Note, these are
+test images copied in tmpdir and discarded after the tests
+ran. I'll improve the description.
 
-s/actully/actually/
-
-> @@ -745,15 +747,26 @@ static bool coroutine_fn wait_or_find_conflicts(Bdr=
-vTrackedRequest *self,
->              if (tracked_request_overlaps(req, self->overlap_offset,
->                                           self->overlap_bytes))
->              {
-> -                /* Hitting this means there was a reentrant request, for
-> -                 * example, a block driver issuing nested requests.  Thi=
-s must
-> -                 * never happen since it means deadlock.
-> +                if (self->lock =3D=3D req) {
-> +                    /* This is atomic request under range_lock */
-> +                    assert(req->type =3D=3D BDRV_TRACKED_LOCK);
-> +                    assert(self->offset >=3D req->offset);
-> +                    assert(self->bytes <=3D req->bytes);
-
-These assertions do not catch requests that start within the locked
-region but span beyond the end of the region. How about:
-
-  assert(self->offset + self->bytes - req->offset >=3D req->bytes);
-
-> +int coroutine_fn bdrv_co_pwrite_zeroes_locked(BdrvChild *child, int64_t =
-offset,
-> +                                              int bytes, BdrvRequestFlag=
-s flags,
-> +                                              BdrvTrackedRequest *lock)
-
-The name is confusing because _locked() normally means that a mutex
-should be held. Functions using that naming convention already exist in
-block/io.c. It would be nice to distinguish between functions that need
-BdrvTrackedRequest and functions that must be called with a mutex held.
-
-How about bdrv_co_pwrite_zeroes_with_lock()?
-
---R3G7APHDIzY6R/pk
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQEzBAEBCAAdFiEEhpWov9P5fNqsNXdanKSrs4Grc8gFAl8EnnAACgkQnKSrs4Gr
-c8gXUQgAu0lOL2QLEvdxnujCgFFKg9JzQvKuCbg/8jGipCJmJXqb5bPW73z6CvN/
-gJ146ciswO0qwbOUMLV9HWu0IiLYwScrGs/1iV5Dhj/ICu2LShICfV3gqhUiO2Xy
-/qUoiMbu1t+2rQ+QQi00JHzqyRePJ/awdcTHY3/KuZJmatwKTFQF3iSSQUzNd7CM
-2I///XNi2Vxen4Yn/dEQmub4/rwa8l8WH39p3eNo+3IW/vf7EV2cwrd9UnJs9TLZ
-J/Hn7uj1OjzhJBuU1lVchhR8iFGnNnFefwRHY0DBlrSWJs2V+++D4Nysxkw42ptW
-nBZHdnwMU9wmEWleR7DsLJWQmhXudw==
-=eHam
------END PGP SIGNATURE-----
-
---R3G7APHDIzY6R/pk--
-
+> 
+> Alistair
+> 
+>> +
+>>  class LinuxKernelTest(Test):
+>>      KERNEL_COMMON_COMMAND_LINE = 'printk.time=0 '
+>>
+>> @@ -635,6 +647,7 @@ def test_arm_orangepi_sd(self):
+>>          rootfs_path_xz = self.fetch_asset(rootfs_url, asset_hash=rootfs_hash)
+>>          rootfs_path = os.path.join(self.workdir, 'rootfs.cpio')
+>>          archive.lzma_uncompress(rootfs_path_xz, rootfs_path)
+>> +        image_pow2ceil_truncate(rootfs_path)
+>>
+>>          self.vm.set_console()
+>>          kernel_command_line = (self.KERNEL_COMMON_COMMAND_LINE +
+>> @@ -679,6 +692,7 @@ def test_arm_orangepi_bionic(self):
+>>          image_name = 'Armbian_19.11.3_Orangepipc_bionic_current_5.3.9.img'
+>>          image_path = os.path.join(self.workdir, image_name)
+>>          process.run("7z e -o%s %s" % (self.workdir, image_path_7z))
+>> +        image_pow2ceil_truncate(image_path)
+>>
+>>          self.vm.set_console()
+>>          self.vm.add_args('-drive', 'file=' + image_path + ',if=sd,format=raw',
+>> @@ -728,6 +742,7 @@ def test_arm_orangepi_uboot_netbsd9(self):
+>>          image_hash = '2babb29d36d8360adcb39c09e31060945259917a'
+>>          image_path_gz = self.fetch_asset(image_url, asset_hash=image_hash)
+>>          image_path = os.path.join(self.workdir, 'armv7.img')
+>> +        image_pow2ceil_truncate(image_path)
+>>          image_drive_args = 'if=sd,format=raw,snapshot=on,file=' + image_path
+>>          archive.gzip_uncompress(image_path_gz, image_path)
+>>
+>> --
+>> 2.21.3
+>>
+>>
+> 
 
