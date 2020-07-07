@@ -2,63 +2,67 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7DBAC2176FD
-	for <lists+qemu-devel@lfdr.de>; Tue,  7 Jul 2020 20:46:32 +0200 (CEST)
-Received: from localhost ([::1]:49370 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5D365217700
+	for <lists+qemu-devel@lfdr.de>; Tue,  7 Jul 2020 20:47:51 +0200 (CEST)
+Received: from localhost ([::1]:54736 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jssbv-0005fR-J6
-	for lists+qemu-devel@lfdr.de; Tue, 07 Jul 2020 14:46:31 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:41848)
+	id 1jssdC-0007rI-8e
+	for lists+qemu-devel@lfdr.de; Tue, 07 Jul 2020 14:47:50 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:41868)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <lvivier@redhat.com>)
- id 1jssav-0004tS-Vu
- for qemu-devel@nongnu.org; Tue, 07 Jul 2020 14:45:29 -0400
-Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:33913
+ id 1jssb8-00058x-EU
+ for qemu-devel@nongnu.org; Tue, 07 Jul 2020 14:45:42 -0400
+Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:29680
  helo=us-smtp-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
  (Exim 4.90_1) (envelope-from <lvivier@redhat.com>)
- id 1jssat-00079c-Q0
- for qemu-devel@nongnu.org; Tue, 07 Jul 2020 14:45:29 -0400
+ id 1jssb6-0007F7-5q
+ for qemu-devel@nongnu.org; Tue, 07 Jul 2020 14:45:42 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1594147526;
+ s=mimecast20190719; t=1594147539;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding;
- bh=6gnqjkt3fnKF9LXOupIzNaeOCcIi+brE7zc4hRT7iRE=;
- b=R/v3Xe2SV2sJ7iAZwXexFvGSOUNyQdwbDtngteJCVLSl4SRA50Aq0MFoS/h/Tq5k4/AU+N
- uRiuibDg9mRI8QN+u04ayyURCgwfEof+tEXdrJVGz9Anht8PBhwx3sPKRs1coqTLusVTQH
- Vn1OyGrNDNoat975f9MCXUEGZKaeFqY=
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=gR59wA1IW8js6Hw+yLL7CoKyJyCyFu9O9hAYxwg3x/g=;
+ b=AtudMlL2idEYCZyB0XmO9431jxX06UeYQhYDnq/aOPXEPc/tLO1AxPj0xpPWlIdfJ1JRfh
+ 0C/L+3DWZULPEsSxI6KnUw/s3h3IVaPTw+WaIkPHRyJqPA+t8CE6M30wHxRTwWX9AvwKp1
+ DsmN0CSw05Z0fKjwsQrdEEDP1rLU+PQ=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-377-U3GRS5-wMMWBHcDroCmNkg-1; Tue, 07 Jul 2020 14:45:24 -0400
-X-MC-Unique: U3GRS5-wMMWBHcDroCmNkg-1
+ us-mta-148-PmzJJ0vkMFCZwxRWW8bRDg-1; Tue, 07 Jul 2020 14:45:36 -0400
+X-MC-Unique: PmzJJ0vkMFCZwxRWW8bRDg-1
 Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
  [10.5.11.12])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id A8CD08064DF;
- Tue,  7 Jul 2020 18:45:23 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id E73A68015CE;
+ Tue,  7 Jul 2020 18:45:35 +0000 (UTC)
 Received: from thinkpad.redhat.com (ovpn-112-252.ams2.redhat.com
  [10.36.112.252])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 1557C70100;
- Tue,  7 Jul 2020 18:45:15 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 121DB61981;
+ Tue,  7 Jul 2020 18:45:23 +0000 (UTC)
 From: Laurent Vivier <lvivier@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v4 0/2] net: tap: check file descriptor can be used
-Date: Tue,  7 Jul 2020 20:45:13 +0200
-Message-Id: <20200707184515.371476-1-lvivier@redhat.com>
+Subject: [PATCH v4 1/2] net: check if the file descriptor is valid before
+ using it
+Date: Tue,  7 Jul 2020 20:45:14 +0200
+Message-Id: <20200707184515.371476-2-lvivier@redhat.com>
+In-Reply-To: <20200707184515.371476-1-lvivier@redhat.com>
+References: <20200707184515.371476-1-lvivier@redhat.com>
 MIME-Version: 1.0
 X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=lvivier@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=207.211.31.120; envelope-from=lvivier@redhat.com;
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=205.139.110.120; envelope-from=lvivier@redhat.com;
  helo=us-smtp-1.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/07/07 00:46:09
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/07/07 06:04:49
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
 X-Spam_score_int: -40
 X-Spam_score: -4.1
@@ -88,42 +92,278 @@ Cc: Laurent Vivier <lvivier@redhat.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-v4: use qemu_try_set_nonblock() with vhostfd in net_init_tap_one(),=0D
-    and with fd in net_init_socket()=0D
-=0D
-v3: move qemu_fd_is_valid() checking into a new function=0D
-    qemu_try_set_nonblock(), and use qemu_try_set_nonblock() in=0D
-    qemu_set_nonblock().=0D
-=0D
-v2: Add patch from Daniel to check the fd can be used=0D
-=0D
-    I have updated Daniel's patch not to check for EINVAL on TUNGETIFF=0D
-    as I think we can avoid this special case because TUNGETIFF=0D
-    is available since kernel v2.6.27 (October 2008)=0D
-    Moreover I think the code was wrong as it was checking with -EINVAL and=
-=0D
-    not EINVAL.=0D
-=0D
-Daniel P. Berrang=C3=A9 (1):=0D
-  net: detect errors from probing vnet hdr flag for TAP devices=0D
-=0D
-Laurent Vivier (1):=0D
-  net: check if the file descriptor is valid before using it=0D
-=0D
- include/qemu/sockets.h |  1 +=0D
- net/socket.c           |  9 +++++--=0D
- net/tap-bsd.c          |  2 +-=0D
- net/tap-linux.c        |  8 +++---=0D
- net/tap-solaris.c      |  2 +-=0D
- net/tap-stub.c         |  2 +-=0D
- net/tap.c              | 50 +++++++++++++++++++++++++++++-------=0D
- net/tap_int.h          |  2 +-=0D
- util/oslib-posix.c     | 26 +++++++++++++------=0D
- util/oslib-win32.c     | 57 ++++++++++++++++++++++++------------------=0D
- 10 files changed, 108 insertions(+), 51 deletions(-)=0D
-=0D
---=20=0D
-2.26.2=0D
-=0D
+qemu_set_nonblock() checks that the file descriptor can be used and, if
+not, crashes QEMU. An assert() is used for that. The use of assert() is
+used to detect programming error and the coredump will allow to debug
+the problem.
+
+But in the case of the tap device, this assert() can be triggered by
+a misconfiguration by the user. At startup, it's not a real problem, but it
+can also happen during the hot-plug of a new device, and here it's a
+problem because we can crash a perfectly healthy system.
+
+For instance:
+ # ip link add link virbr0 name macvtap0 type macvtap mode bridge
+ # ip link set macvtap0 up
+ # TAP=/dev/tap$(ip -o link show macvtap0 | cut -d: -f1)
+ # qemu-system-x86_64 -machine q35 -device pcie-root-port,id=pcie-root-port-0 -monitor stdio 9<> $TAP
+ (qemu) netdev_add type=tap,id=hostnet0,vhost=on,fd=9
+ (qemu) device_add driver=virtio-net-pci,netdev=hostnet0,id=net0,bus=pcie-root-port-0
+ (qemu) device_del net0
+ (qemu) netdev_del hostnet0
+ (qemu) netdev_add type=tap,id=hostnet1,vhost=on,fd=9
+ qemu-system-x86_64: .../util/oslib-posix.c:247: qemu_set_nonblock: Assertion `f != -1' failed.
+ Aborted (core dumped)
+
+To avoid that, add a function, qemu_try_set_nonblock(), that allows to report the
+problem without crashing.
+
+In the same way, we also update the function for vhostfd in net_init_tap_one() and
+for fd in net_init_socket() (both descriptors are provided by the user and can
+be wrong).
+
+Signed-off-by: Laurent Vivier <lvivier@redhat.com>
+Reviewed-by: Philippe Mathieu-Daudé <philmd@redhat.com>
+---
+ include/qemu/sockets.h |  1 +
+ net/socket.c           |  9 +++++--
+ net/tap.c              | 25 +++++++++++++++---
+ util/oslib-posix.c     | 26 +++++++++++++------
+ util/oslib-win32.c     | 57 ++++++++++++++++++++++++------------------
+ 5 files changed, 79 insertions(+), 39 deletions(-)
+
+diff --git a/include/qemu/sockets.h b/include/qemu/sockets.h
+index 57cd049d6edd..7d1f8135767d 100644
+--- a/include/qemu/sockets.h
++++ b/include/qemu/sockets.h
+@@ -18,6 +18,7 @@ int qemu_accept(int s, struct sockaddr *addr, socklen_t *addrlen);
+ int socket_set_cork(int fd, int v);
+ int socket_set_nodelay(int fd);
+ void qemu_set_block(int fd);
++int qemu_try_set_nonblock(int fd);
+ void qemu_set_nonblock(int fd);
+ int socket_set_fast_reuse(int fd);
+ 
+diff --git a/net/socket.c b/net/socket.c
+index c92354049bca..2d21fddd9cd6 100644
+--- a/net/socket.c
++++ b/net/socket.c
+@@ -725,13 +725,18 @@ int net_init_socket(const Netdev *netdev, const char *name,
+     }
+ 
+     if (sock->has_fd) {
+-        int fd;
++        int fd, ret;
+ 
+         fd = monitor_fd_param(cur_mon, sock->fd, errp);
+         if (fd == -1) {
+             return -1;
+         }
+-        qemu_set_nonblock(fd);
++        ret = qemu_try_set_nonblock(fd);
++        if (ret < 0) {
++            error_setg_errno(errp, -ret, "%s: Can't use file descriptor %d",
++                             name, fd);
++            return -1;
++        }
+         if (!net_socket_fd_init(peer, "socket", name, fd, 1, sock->mcast,
+                                 errp)) {
+             return -1;
+diff --git a/net/tap.c b/net/tap.c
+index 6207f61f84ab..41a20102fd0b 100644
+--- a/net/tap.c
++++ b/net/tap.c
+@@ -689,6 +689,8 @@ static void net_init_tap_one(const NetdevTapOptions *tap, NetClientState *peer,
+         }
+ 
+         if (vhostfdname) {
++            int ret;
++
+             vhostfd = monitor_fd_param(cur_mon, vhostfdname, &err);
+             if (vhostfd == -1) {
+                 if (tap->has_vhostforce && tap->vhostforce) {
+@@ -698,7 +700,12 @@ static void net_init_tap_one(const NetdevTapOptions *tap, NetClientState *peer,
+                 }
+                 return;
+             }
+-            qemu_set_nonblock(vhostfd);
++            ret = qemu_try_set_nonblock(vhostfd);
++            if (ret < 0) {
++                error_setg_errno(errp, -ret, "%s: Can't use file descriptor %d",
++                                 name, fd);
++                return;
++            }
+         } else {
+             vhostfd = open("/dev/vhost-net", O_RDWR);
+             if (vhostfd < 0) {
+@@ -766,6 +773,7 @@ int net_init_tap(const Netdev *netdev, const char *name,
+     Error *err = NULL;
+     const char *vhostfdname;
+     char ifname[128];
++    int ret = 0;
+ 
+     assert(netdev->type == NET_CLIENT_DRIVER_TAP);
+     tap = &netdev->u.tap;
+@@ -795,7 +803,12 @@ int net_init_tap(const Netdev *netdev, const char *name,
+             return -1;
+         }
+ 
+-        qemu_set_nonblock(fd);
++        ret = qemu_try_set_nonblock(fd);
++        if (ret < 0) {
++            error_setg_errno(errp, -ret, "%s: Can't use file descriptor %d",
++                             name, fd);
++            return -1;
++        }
+ 
+         vnet_hdr = tap_probe_vnet_hdr(fd);
+ 
+@@ -810,7 +823,6 @@ int net_init_tap(const Netdev *netdev, const char *name,
+         char **fds;
+         char **vhost_fds;
+         int nfds = 0, nvhosts = 0;
+-        int ret = 0;
+ 
+         if (tap->has_ifname || tap->has_script || tap->has_downscript ||
+             tap->has_vnet_hdr || tap->has_helper || tap->has_queues ||
+@@ -843,7 +855,12 @@ int net_init_tap(const Netdev *netdev, const char *name,
+                 goto free_fail;
+             }
+ 
+-            qemu_set_nonblock(fd);
++            ret = qemu_try_set_nonblock(fd);
++            if (ret < 0) {
++                error_setg_errno(errp, -ret, "%s: Can't use file descriptor %d",
++                                 name, fd);
++                goto free_fail;
++            }
+ 
+             if (i == 0) {
+                 vnet_hdr = tap_probe_vnet_hdr(fd);
+diff --git a/util/oslib-posix.c b/util/oslib-posix.c
+index 916f1be2243a..149254cd691f 100644
+--- a/util/oslib-posix.c
++++ b/util/oslib-posix.c
+@@ -253,25 +253,35 @@ void qemu_set_block(int fd)
+     assert(f != -1);
+ }
+ 
+-void qemu_set_nonblock(int fd)
++int qemu_try_set_nonblock(int fd)
+ {
+     int f;
+     f = fcntl(fd, F_GETFL);
+-    assert(f != -1);
+-    f = fcntl(fd, F_SETFL, f | O_NONBLOCK);
+-#ifdef __OpenBSD__
+     if (f == -1) {
++        return -errno;
++    }
++    if (fcntl(fd, F_SETFL, f | O_NONBLOCK) == -1) {
++#ifdef __OpenBSD__
+         /*
+          * Previous to OpenBSD 6.3, fcntl(F_SETFL) is not permitted on
+          * memory devices and sets errno to ENODEV.
+          * It's OK if we fail to set O_NONBLOCK on devices like /dev/null,
+          * because they will never block anyway.
+          */
+-        assert(errno == ENODEV);
+-    }
+-#else
+-    assert(f != -1);
++        if (errno == ENODEV) {
++            return 0;
++        }
+ #endif
++        return -errno;
++    }
++    return 0;
++}
++
++void qemu_set_nonblock(int fd)
++{
++    int f;
++    f = qemu_try_set_nonblock(fd);
++    assert(f == 0);
+ }
+ 
+ int socket_set_fast_reuse(int fd)
+diff --git a/util/oslib-win32.c b/util/oslib-win32.c
+index e9b14ab17847..5548ce6038f3 100644
+--- a/util/oslib-win32.c
++++ b/util/oslib-win32.c
+@@ -132,31 +132,6 @@ struct tm *localtime_r(const time_t *timep, struct tm *result)
+ }
+ #endif /* CONFIG_LOCALTIME_R */
+ 
+-void qemu_set_block(int fd)
+-{
+-    unsigned long opt = 0;
+-    WSAEventSelect(fd, NULL, 0);
+-    ioctlsocket(fd, FIONBIO, &opt);
+-}
+-
+-void qemu_set_nonblock(int fd)
+-{
+-    unsigned long opt = 1;
+-    ioctlsocket(fd, FIONBIO, &opt);
+-    qemu_fd_register(fd);
+-}
+-
+-int socket_set_fast_reuse(int fd)
+-{
+-    /* Enabling the reuse of an endpoint that was used by a socket still in
+-     * TIME_WAIT state is usually performed by setting SO_REUSEADDR. On Windows
+-     * fast reuse is the default and SO_REUSEADDR does strange things. So we
+-     * don't have to do anything here. More info can be found at:
+-     * http://msdn.microsoft.com/en-us/library/windows/desktop/ms740621.aspx */
+-    return 0;
+-}
+-
+-
+ static int socket_error(void)
+ {
+     switch (WSAGetLastError()) {
+@@ -233,6 +208,38 @@ static int socket_error(void)
+     }
+ }
+ 
++void qemu_set_block(int fd)
++{
++    unsigned long opt = 0;
++    WSAEventSelect(fd, NULL, 0);
++    ioctlsocket(fd, FIONBIO, &opt);
++}
++
++int qemu_try_set_nonblock(int fd)
++{
++    unsigned long opt = 1;
++    if (ioctlsocket(fd, FIONBIO, &opt) != NO_ERROR) {
++        return -socket_error();
++    }
++    qemu_fd_register(fd);
++    return 0;
++}
++
++void qemu_set_nonblock(int fd)
++{
++    (void)qemu_try_set_nonblock(fd);
++}
++
++int socket_set_fast_reuse(int fd)
++{
++    /* Enabling the reuse of an endpoint that was used by a socket still in
++     * TIME_WAIT state is usually performed by setting SO_REUSEADDR. On Windows
++     * fast reuse is the default and SO_REUSEADDR does strange things. So we
++     * don't have to do anything here. More info can be found at:
++     * http://msdn.microsoft.com/en-us/library/windows/desktop/ms740621.aspx */
++    return 0;
++}
++
+ int inet_aton(const char *cp, struct in_addr *ia)
+ {
+     uint32_t addr = inet_addr(cp);
+-- 
+2.26.2
 
 
