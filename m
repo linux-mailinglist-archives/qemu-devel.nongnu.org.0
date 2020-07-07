@@ -2,70 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4224D216D7E
-	for <lists+qemu-devel@lfdr.de>; Tue,  7 Jul 2020 15:12:01 +0200 (CEST)
-Received: from localhost ([::1]:46228 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 37ADB216D60
+	for <lists+qemu-devel@lfdr.de>; Tue,  7 Jul 2020 15:03:55 +0200 (CEST)
+Received: from localhost ([::1]:53702 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jsnOC-00063u-BO
-	for lists+qemu-devel@lfdr.de; Tue, 07 Jul 2020 09:12:00 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:38452)
+	id 1jsnGM-000514-8n
+	for lists+qemu-devel@lfdr.de; Tue, 07 Jul 2020 09:03:54 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:38394)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1jsn7n-0008K3-P1
- for qemu-devel@nongnu.org; Tue, 07 Jul 2020 08:55:03 -0400
-Received: from us-smtp-2.mimecast.com ([207.211.31.81]:33122
+ (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1jsn7l-0008Fa-5S
+ for qemu-devel@nongnu.org; Tue, 07 Jul 2020 08:55:01 -0400
+Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:24998
  helo=us-smtp-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1jsn7k-0004tV-Vj
- for qemu-devel@nongnu.org; Tue, 07 Jul 2020 08:55:03 -0400
+ (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1jsn7j-0004t8-G3
+ for qemu-devel@nongnu.org; Tue, 07 Jul 2020 08:55:00 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1594126500;
+ s=mimecast20190719; t=1594126498;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:content-type:content-type:in-reply-to:in-reply-to:
- references:references; bh=jEDeQL+0eY+fxl25+8ob2qVPKP/uEkYpHD39mrbj0FQ=;
- b=JQMjLbDudi4su5yBJ1uo9VzMC1CcSaMz2TkO1LD09VaQ2JjB9LGb4WJ8E5gEaltg0tgKi4
- VG+Xin9Rr5l4WUkkXz1MU01HCMMCTDIVUmQ26XIIcJtF3uFMD7IAZl/Q0sXwG2JPFVZ69a
- agVS3ZJIMul07jdJAkl53wKsSPeZkUI=
+ references:references; bh=WRQFF1Ean5S7aC9TWsKn+9OiHTseT6Iuu52pMwLAYM4=;
+ b=UsLVdLHyWMoqvETHcUjACbaGwmKgwfBKeGPW8wPA0NC4cbP0pVzPV2fsMlt1FGmB6j1ZGd
+ +HeF6JDoPpdCcR841TyB1FXPbkC7HN/dQUWrkcvx41Hf4s+wUmngS8p3WVPhWaGZYAQY0f
+ vW8Ke0Zk/cLKZ7yBCEpDGQf72tDOEsY=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-19-cfGlCA8-M02isXM8poGT0A-1; Tue, 07 Jul 2020 08:54:56 -0400
-X-MC-Unique: cfGlCA8-M02isXM8poGT0A-1
-Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
- [10.5.11.11])
+ us-mta-326--hNBxjIjN2mYDxfU9a2fxA-1; Tue, 07 Jul 2020 08:54:57 -0400
+X-MC-Unique: -hNBxjIjN2mYDxfU9a2fxA-1
+Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
+ [10.5.11.16])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 2DA5F19324A5;
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 9F3AD193F56E;
  Tue,  7 Jul 2020 12:54:33 +0000 (UTC)
 Received: from sirius.home.kraxel.org (ovpn-112-200.ams2.redhat.com
  [10.36.112.200])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 720D17846C;
+ by smtp.corp.redhat.com (Postfix) with ESMTP id CF26861780;
  Tue,  7 Jul 2020 12:54:16 +0000 (UTC)
 Received: by sirius.home.kraxel.org (Postfix, from userid 1000)
- id 5B0CB31F62; Tue,  7 Jul 2020 14:53:57 +0200 (CEST)
+ id 63F9D31F63; Tue,  7 Jul 2020 14:53:57 +0200 (CEST)
 From: Gerd Hoffmann <kraxel@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v5 10/20] microvm/acpi: use GSI 16-23 for virtio
-Date: Tue,  7 Jul 2020 14:53:46 +0200
-Message-Id: <20200707125356.32450-11-kraxel@redhat.com>
+Subject: [PATCH v5 11/20] microvm/acpi: use seabios with acpi=on
+Date: Tue,  7 Jul 2020 14:53:47 +0200
+Message-Id: <20200707125356.32450-12-kraxel@redhat.com>
 In-Reply-To: <20200707125356.32450-1-kraxel@redhat.com>
 References: <20200707125356.32450-1-kraxel@redhat.com>
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=kraxel@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=US-ASCII
-Received-SPF: pass client-ip=207.211.31.81; envelope-from=kraxel@redhat.com;
+Received-SPF: pass client-ip=205.139.110.120; envelope-from=kraxel@redhat.com;
  helo=us-smtp-1.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/07/07 00:20:54
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/07/07 06:04:49
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
-X-Spam_score_int: -30
-X-Spam_score: -3.1
-X-Spam_bar: ---
-X-Spam_report: (-3.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1,
+X-Spam_score_int: -40
+X-Spam_score: -4.1
+X-Spam_bar: ----
+X-Spam_report: (-4.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H3=-0.01, RCVD_IN_MSPIKE_WL=-0.01,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=_AUTOLEARN
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-1, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=_AUTOLEARN
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -88,31 +88,37 @@ Cc: Laurent Vivier <lvivier@redhat.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-With ACPI enabled and IO-APIC being properly declared in the ACPI tables
-we can use interrupt lines 16-23 for virtio and avoid shared interrupts.
-
-With acpi disabled we continue to use lines 5-12.
+With acpi=off continue to use qboot.
 
 Signed-off-by: Gerd Hoffmann <kraxel@redhat.com>
-Reviewed-by: Sergio Lopez <slp@redhat.com>
 Reviewed-by: Igor Mammedov <imammedo@redhat.com>
 ---
- hw/i386/microvm.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ hw/i386/microvm.c | 5 ++++-
+ 1 file changed, 4 insertions(+), 1 deletion(-)
 
 diff --git a/hw/i386/microvm.c b/hw/i386/microvm.c
-index 75eca7306b11..1bcd57a6fd80 100644
+index 1bcd57a6fd80..ac605d92b984 100644
 --- a/hw/i386/microvm.c
 +++ b/hw/i386/microvm.c
-@@ -125,7 +125,7 @@ static void microvm_devices_init(MicrovmMachineState *mms)
+@@ -52,6 +52,7 @@
+ #include "hw/xen/start_info.h"
  
-     kvmclock_create();
+ #define MICROVM_QBOOT_FILENAME "qboot.rom"
++#define MICROVM_BIOS_FILENAME  "bios-microvm.bin"
  
--    mms->virtio_irq_base = 5;
-+    mms->virtio_irq_base = x86_machine_is_acpi_enabled(x86ms) ? 16 : 5;
-     for (i = 0; i < VIRTIO_NUM_TRANSPORTS; i++) {
-         sysbus_create_simple("virtio-mmio",
-                              VIRTIO_MMIO_BASE + i * 512,
+ static void microvm_set_rtc(MicrovmMachineState *mms, ISADevice *s)
+ {
+@@ -174,7 +175,9 @@ static void microvm_devices_init(MicrovmMachineState *mms)
+     }
+ 
+     if (bios_name == NULL) {
+-        bios_name = MICROVM_QBOOT_FILENAME;
++        bios_name = x86_machine_is_acpi_enabled(x86ms)
++            ? MICROVM_BIOS_FILENAME
++            : MICROVM_QBOOT_FILENAME;
+     }
+     x86_bios_rom_init(get_system_memory(), true);
+ }
 -- 
 2.18.4
 
