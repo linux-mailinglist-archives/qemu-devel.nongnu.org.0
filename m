@@ -2,63 +2,61 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5BBFB2176AD
-	for <lists+qemu-devel@lfdr.de>; Tue,  7 Jul 2020 20:27:56 +0200 (CEST)
-Received: from localhost ([::1]:47118 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id CB4612176B9
+	for <lists+qemu-devel@lfdr.de>; Tue,  7 Jul 2020 20:29:35 +0200 (CEST)
+Received: from localhost ([::1]:54428 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jssJv-0006CP-Cv
-	for lists+qemu-devel@lfdr.de; Tue, 07 Jul 2020 14:27:55 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:35680)
+	id 1jssLW-0000j4-Qj
+	for lists+qemu-devel@lfdr.de; Tue, 07 Jul 2020 14:29:34 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:35686)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1jssA6-0008Ls-MJ
- for qemu-devel@nongnu.org; Tue, 07 Jul 2020 14:17:46 -0400
-Received: from mail-wr1-x442.google.com ([2a00:1450:4864:20::442]:43919)
+ id 1jssA7-0008Ni-Cv
+ for qemu-devel@nongnu.org; Tue, 07 Jul 2020 14:17:47 -0400
+Received: from mail-wr1-x443.google.com ([2a00:1450:4864:20::443]:38160)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1jssA4-0002uf-1t
- for qemu-devel@nongnu.org; Tue, 07 Jul 2020 14:17:46 -0400
-Received: by mail-wr1-x442.google.com with SMTP id j4so43823580wrp.10
- for <qemu-devel@nongnu.org>; Tue, 07 Jul 2020 11:17:43 -0700 (PDT)
+ id 1jssA5-0002un-Df
+ for qemu-devel@nongnu.org; Tue, 07 Jul 2020 14:17:47 -0400
+Received: by mail-wr1-x443.google.com with SMTP id z13so46239986wrw.5
+ for <qemu-devel@nongnu.org>; Tue, 07 Jul 2020 11:17:45 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=sender:from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=txab3m3TssngxVoIsAzuELD15FANA29ysc8/iwjge94=;
- b=ujaAcpLzg2wSRqm7ytdyXEboHnmym3WmHA7UWQbmTVLPFQ3uZK2Jzns/L/GXhpSlOz
- rvr8qYerZvZ4lwq84Cy2aUkfNyzFFNPHKitsirJmoD13gvecgWuFtx2umJY/lFglCHxn
- wEZ8lMQncEDnY+Znae8W3n8fSf2lfGZw/TR+87pu1eguTSY7ylzmGFGJsi4CS+liA5kY
- 5hX2aTIQT2RFeuPPWqdKWkvDMrLi2gWkYfiFOyt5weripLf/t7PKeH5GPEgalZ7vPJI1
- eQLk3rHx9RtcGI8vJBr2wvbke8uifOFGvJbR+nYbvpc9bS8XTsu9ELsmKNQ1wrFpQ8RV
- N2XQ==
+ bh=O107YrXsKkFeWTaD1YApZccV44XTJx4lc/e9VAg6jlo=;
+ b=NBiQkaAGXgeFpCcXtYRZRI0GgK1+Fwq2dWUNIC3qli0gaVyUei7CmhsFs0J12sqNSU
+ DT4ntZJ8cTUoq00rYcHo9rDwtvMPeIfLVepdP/1/ME1f83WRq1/vte2C5lK4BY/p0sNN
+ SjVCB4GRDYUOyZ6ey164WPUnPz1Oe0iNZ/FNcCkhql2OUlv3ZzqJSogLWLCz5dUbWt4k
+ fLsHem81WWqYeIRDxNZ/xAlJi33ofhD70KLXqdV7A0sP/mY2iuMqwBFwm2r3l5W6f3Tk
+ NgSwpGjMlNweyWp8Dm7xiwk+kBGmZnEkXn2ApSCUNdqR5VK/T5njvOQL3DCFxi19EtNp
+ yeKA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
  :in-reply-to:references:mime-version:content-transfer-encoding;
- bh=txab3m3TssngxVoIsAzuELD15FANA29ysc8/iwjge94=;
- b=JNlcu/iYxmIz0fKXY6b0Kp5ubMk9rqh5QVir5De2ANiOeU9WG1eOkn69eRb//YVJaN
- KoAgZsoN/4ya8lEBF7Du2b4EwXJD1AwMWBY7s28dasuXKrjk1jYGoz7Jwq2OmsgGYfms
- bHYG9VtnIAjGYBp+e/xfrnAgowKXr3m9BeWMVKv8OZNfg+CxwCVbuCnEKPoOjPUZ0HbZ
- 2lkmpRkR4zJmaypC8kSFtzpZRWVDIia30hLYoLwRWjjdPZQ8Vbhfv3p+TkfwZrAqMzcE
- Bo/eVUYj78Xx0fd1vMggCtJoeZTJKHf+U6cZvnA5eg1Ag8g9SrzpGCRjkgsEG6/PMdf/
- 8l1w==
-X-Gm-Message-State: AOAM530IhYRO2wIT6MpdlSKFSqHzBDVzDl9U2RzuAUCiF0csHiTL2H05
- nJX/q9C9N1khF30MSk9xWTKf4uQi
-X-Google-Smtp-Source: ABdhPJySjrlb3h+n0Hce4f3o4fK1vVMEz8HfWfUBUIv471gOPEUM+U0A1nY1UN13EA/HgVRdRUr0OA==
-X-Received: by 2002:a05:6000:1006:: with SMTP id
- a6mr52566985wrx.332.1594145862184; 
- Tue, 07 Jul 2020 11:17:42 -0700 (PDT)
+ bh=O107YrXsKkFeWTaD1YApZccV44XTJx4lc/e9VAg6jlo=;
+ b=dPEtVKUqxSSUAiVAmueTqirtMOO0iHSvCz644ADMEPePSR0HjXJ/8w0Qz3NtufBhEm
+ 39JLuYp/B+mwdpV3J2rQ37l3ynsv+PbK+Jkox+Kkp+Va4Jw5wi6DV3BvnNO+y8BK+VYg
+ ZLiQ/nd5BzM1XaZiNcneTTRm141aUQ96eK6CPjaYiw450yz77YY4qU577K+RdAk+rPpd
+ EJh+pbqJI/Yjbwgy7vlXXY5uWgOyUMDKg0v/UuGtCjvXyBOjRd73sKNkGw7qi9eIWC3Y
+ Gzr6bn0Wa6SowPsvtAQv+62dtLMZFE/pF3YEsf3+2A22TIWmVf5/apY9X4PG16UgdHmi
+ wrow==
+X-Gm-Message-State: AOAM530mSAf5ys7EwBvzFKxY2fZUC+tWd3ZxNHEt+EGJGLAGAW5wtO4P
+ F/SjJreZP/BCfxllHHzrN8a4cxmC
+X-Google-Smtp-Source: ABdhPJz8UorOc8Zlm0CKKuwuYgXh3+khYDxxr/FTmlN5SRrBsPrjMnNwCKUhhRY0Ljz2GLCfLWVjZA==
+X-Received: by 2002:adf:de07:: with SMTP id b7mr59116676wrm.302.1594145863791; 
+ Tue, 07 Jul 2020 11:17:43 -0700 (PDT)
 Received: from localhost.localdomain
  (138.red-83-57-170.dynamicip.rima-tde.net. [83.57.170.138])
- by smtp.gmail.com with ESMTPSA id 65sm2253337wma.48.2020.07.07.11.17.40
+ by smtp.gmail.com with ESMTPSA id 65sm2253337wma.48.2020.07.07.11.17.42
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 07 Jul 2020 11:17:41 -0700 (PDT)
+ Tue, 07 Jul 2020 11:17:43 -0700 (PDT)
 From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
 To: qemu-devel@nongnu.org
-Subject: [PULL 18/32] target/avr: Add support for disassembling via option '-d
- in_asm'
-Date: Tue,  7 Jul 2020 20:16:56 +0200
-Message-Id: <20200707181710.30950-19-f4bug@amsat.org>
+Subject: [PULL 19/32] target/avr: Register AVR support with the rest of QEMU
+Date: Tue,  7 Jul 2020 20:16:57 +0200
+Message-Id: <20200707181710.30950-20-f4bug@amsat.org>
 X-Mailer: git-send-email 2.21.3
 In-Reply-To: <20200707181710.30950-1-f4bug@amsat.org>
 References: <20200707181710.30950-1-f4bug@amsat.org>
@@ -66,8 +64,8 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::442;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wr1-x442.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::443;
+ envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wr1-x443.google.com
 X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
  That's all we know.
 X-Spam_score_int: 0
@@ -98,6 +96,7 @@ Cc: Laurent Vivier <lvivier@redhat.com>, Sarah Harris <S.E.Harris@kent.ac.uk>,
  Wainer dos Santos Moschetta <wainersm@redhat.com>,
  Thomas Huth <thuth@redhat.com>,
  =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>,
+ Aleksandar Markovic <amarkovic@wavecomp.com>,
  Michael Rolnik <mrolnik@gmail.com>, Paolo Bonzini <pbonzini@redhat.com>,
  Pavel Dovgalyuk <pavel.dovgaluk@ispras.ru>,
  =?UTF-8?q?Marc-Andr=C3=A9=20Lureau?= <marcandre.lureau@redhat.com>,
@@ -109,350 +108,200 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Michael Rolnik <mrolnik@gmail.com>
 
-Provide function disassembles executed instruction when '-d in_asm' is
-provided.
+Add AVR related definitions into QEMU, make AVR support buildable.
 
-Example:
-
-$ qemu-system-avr -bios free-rtos/Demo/AVR_ATMega2560_GCC/demo.elf -d in_asm
-    ...
-    IN:
-    0x0000014a:  CALL      0x3808
-
-    IN: main
-    0x00003808:  CALL      0x4b4
-
-    IN: vParTestInitialise
-    0x000004b4:  LDI       r24, 255
-    0x000004b6:  STS       r24, 0
-    0x000004b8:  MULS      r16, r20
-    0x000004ba:  OUT       $1, r24
-    0x000004bc:  LDS       r24, 0
-    0x000004be:  MULS      r16, r20
-    0x000004c0:  OUT       $2, r24
-    0x000004c2:  RET
-    ...
-
-Suggested-by: Richard Henderson <richard.henderson@linaro.org>
-Suggested-by: Philippe Mathieu-Daudé <philmd@redhat.com>
+[AM: Remove word 'Atmel' from filenames and all elements of code]
 Suggested-by: Aleksandar Markovic <aleksandar.m.mail@gmail.com>
 Signed-off-by: Michael Rolnik <mrolnik@gmail.com>
-[rth: Fix spacing and const mnemonic arrays]
 Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 Signed-off-by: Aleksandar Markovic <aleksandar.m.mail@gmail.com>
 Tested-by: Philippe Mathieu-Daudé <philmd@redhat.com>
-Reviewed-by: Philippe Mathieu-Daudé <philmd@redhat.com>
+Reviewed-by: Aleksandar Markovic <amarkovic@wavecomp.com>
 Signed-off-by: Thomas Huth <huth@tuxfamily.org>
-Message-Id: <20200705140315.260514-19-huth@tuxfamily.org>
+Message-Id: <20200705140315.260514-23-huth@tuxfamily.org>
+[PMD: Fixed @avr tag in qapi/machine.json]
 Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
 ---
- target/avr/cpu.h       |   1 +
- target/avr/cpu.c       |   2 +-
- target/avr/disas.c     | 246 +++++++++++++++++++++++++++++++++++++++++
- target/avr/translate.c |  12 ++
- 4 files changed, 260 insertions(+), 1 deletion(-)
- create mode 100644 target/avr/disas.c
+ configure                       |  7 +++++++
+ default-configs/avr-softmmu.mak |  1 +
+ qapi/machine.json               |  3 ++-
+ include/disas/dis-asm.h         | 19 ++++++++++++++++++
+ include/sysemu/arch_init.h      |  1 +
+ arch_init.c                     |  2 ++
+ MAINTAINERS                     |  9 +++++++++
+ target/avr/Makefile.objs        | 34 +++++++++++++++++++++++++++++++++
+ 8 files changed, 75 insertions(+), 1 deletion(-)
+ create mode 100644 default-configs/avr-softmmu.mak
+ create mode 100644 target/avr/Makefile.objs
 
-diff --git a/target/avr/cpu.h b/target/avr/cpu.h
-index f229ff78c0..ae95585cdc 100644
---- a/target/avr/cpu.h
-+++ b/target/avr/cpu.h
-@@ -161,6 +161,7 @@ bool avr_cpu_exec_interrupt(CPUState *cpu, int int_req);
- hwaddr avr_cpu_get_phys_page_debug(CPUState *cpu, vaddr addr);
- int avr_cpu_gdb_read_register(CPUState *cpu, GByteArray *buf, int reg);
- int avr_cpu_gdb_write_register(CPUState *cpu, uint8_t *buf, int reg);
-+int avr_print_insn(bfd_vma addr, disassemble_info *info);
- 
- static inline int avr_feature(CPUAVRState *env, AVRFeature feature)
- {
-diff --git a/target/avr/cpu.c b/target/avr/cpu.c
-index 7178e86f69..d7ebe4e23b 100644
---- a/target/avr/cpu.c
-+++ b/target/avr/cpu.c
-@@ -85,7 +85,7 @@ static void avr_cpu_reset(DeviceState *ds)
- static void avr_cpu_disas_set_info(CPUState *cpu, disassemble_info *info)
- {
-     info->mach = bfd_arch_avr;
--    info->print_insn = NULL;
-+    info->print_insn = avr_print_insn;
- }
- 
- static void avr_cpu_realizefn(DeviceState *dev, Error **errp)
-diff --git a/target/avr/disas.c b/target/avr/disas.c
+diff --git a/configure b/configure
+index c220ab4d80..11f7353e2f 100755
+--- a/configure
++++ b/configure
+@@ -8115,6 +8115,10 @@ case "$target_name" in
+     mttcg="yes"
+     gdb_xml_files="aarch64-core.xml aarch64-fpu.xml arm-core.xml arm-vfp.xml arm-vfp3.xml arm-neon.xml arm-m-profile.xml"
+   ;;
++  avr)
++    gdb_xml_files="avr-cpu.xml"
++    target_compiler=$cross_cc_avr
++  ;;
+   cris)
+   ;;
+   hppa)
+@@ -8359,6 +8363,9 @@ for i in $ARCH $TARGET_BASE_ARCH ; do
+       disas_config "ARM_A64"
+     fi
+   ;;
++  avr)
++    disas_config "AVR"
++  ;;
+   cris)
+     disas_config "CRIS"
+   ;;
+diff --git a/default-configs/avr-softmmu.mak b/default-configs/avr-softmmu.mak
 new file mode 100644
-index 0000000000..8c11509ce8
+index 0000000000..ca94aad4e1
 --- /dev/null
-+++ b/target/avr/disas.c
-@@ -0,0 +1,246 @@
-+/*
-+ * AVR disassembler
-+ *
-+ * Copyright (c) 2019-2020 Richard Henderson <rth@twiddle.net>
-+ * Copyright (c) 2019-2020 Michael Rolnik <mrolnik@gmail.com>
-+ *
-+ * This program is free software: you can redistribute it and/or modify
-+ * it under the terms of the GNU General Public License as published by
-+ * the Free Software Foundation, either version 2 of the License, or
-+ * (at your option) any later version.
-+ *
-+ * This program is distributed in the hope that it will be useful,
-+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
-+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-+ * GNU General Public License for more details.
-+ *
-+ * You should have received a copy of the GNU General Public License
-+ * along with this program.  If not, see <http://www.gnu.org/licenses/>.
-+ */
-+
-+#include "qemu/osdep.h"
-+#include "cpu.h"
-+
-+typedef struct {
-+    disassemble_info *info;
-+    uint16_t next_word;
-+    bool next_word_used;
-+} DisasContext;
-+
-+static int to_regs_16_31_by_one(DisasContext *ctx, int indx)
-+{
-+    return 16 + (indx % 16);
-+}
-+
-+static int to_regs_16_23_by_one(DisasContext *ctx, int indx)
-+{
-+    return 16 + (indx % 8);
-+}
-+
-+static int to_regs_24_30_by_two(DisasContext *ctx, int indx)
-+{
-+    return 24 + (indx % 4) * 2;
-+}
-+
-+static int to_regs_00_30_by_two(DisasContext *ctx, int indx)
-+{
-+    return (indx % 16) * 2;
-+}
-+
-+static uint16_t next_word(DisasContext *ctx)
-+{
-+    ctx->next_word_used = true;
-+    return ctx->next_word;
-+}
-+
-+static int append_16(DisasContext *ctx, int x)
-+{
-+    return x << 16 | next_word(ctx);
-+}
-+
-+
-+/* Include the auto-generated decoder.  */
-+static bool decode_insn(DisasContext *ctx, uint16_t insn);
-+#include "decode_insn.inc.c"
-+
-+#define output(mnemonic, format, ...) \
-+    (pctx->info->fprintf_func(pctx->info->stream, "%-9s " format, \
-+                        mnemonic, ##__VA_ARGS__))
-+
-+int avr_print_insn(bfd_vma addr, disassemble_info *info)
-+{
-+    DisasContext ctx;
-+    DisasContext *pctx = &ctx;
-+    bfd_byte buffer[4];
-+    uint16_t insn;
-+    int status;
-+
-+    ctx.info = info;
-+
-+    status = info->read_memory_func(addr, buffer, 4, info);
-+    if (status != 0) {
-+        info->memory_error_func(status, addr, info);
-+        return -1;
-+    }
-+    insn = bfd_getl16(buffer);
-+    ctx.next_word = bfd_getl16(buffer + 2);
-+    ctx.next_word_used = false;
-+
-+    if (!decode_insn(&ctx, insn)) {
-+        output(".db", "0x%02x, 0x%02x", buffer[0], buffer[1]);
-+    }
-+
-+    return ctx.next_word_used ? 4 : 2;
-+}
-+
-+
-+#define INSN(opcode, format, ...)                                   \
-+static bool trans_##opcode(DisasContext *pctx, arg_##opcode * a)        \
-+{                                                                       \
-+    output(#opcode, format, ##__VA_ARGS__);                             \
-+    return true;                                                        \
-+}
-+
-+#define INSN_MNEMONIC(opcode, mnemonic, format, ...)                \
-+static bool trans_##opcode(DisasContext *pctx, arg_##opcode * a)        \
-+{                                                                       \
-+    output(mnemonic, format, ##__VA_ARGS__);                            \
-+    return true;                                                        \
-+}
-+
-+/*
-+ *   C       Z       N       V       S       H       T       I
-+ *   0       1       2       3       4       5       6       7
-+ */
-+static const char brbc[][5] = {
-+    "BRCC", "BRNE", "BRPL", "BRVC", "BRGE", "BRHC", "BRTC", "BRID"
-+};
-+
-+static const char brbs[][5] = {
-+    "BRCS", "BREQ", "BRMI", "BRVS", "BRLT", "BRHS", "BRTS", "BRIE"
-+};
-+
-+static const char bset[][4] = {
-+    "SEC",  "SEZ",  "SEN",  "SEZ",  "SES",  "SEH",  "SET",  "SEI"
-+};
-+
-+static const char bclr[][4] = {
-+    "CLC",  "CLZ",  "CLN",  "CLZ",  "CLS",  "CLH",  "CLT",  "CLI"
-+};
-+
-+/*
-+ * Arithmetic Instructions
-+ */
-+INSN(ADD,    "r%d, r%d", a->rd, a->rr)
-+INSN(ADC,    "r%d, r%d", a->rd, a->rr)
-+INSN(ADIW,   "r%d:r%d, %d", a->rd + 1, a->rd, a->imm)
-+INSN(SUB,    "r%d, r%d", a->rd, a->rr)
-+INSN(SUBI,   "r%d, %d", a->rd, a->imm)
-+INSN(SBC,    "r%d, r%d", a->rd, a->rr)
-+INSN(SBCI,   "r%d, %d", a->rd, a->imm)
-+INSN(SBIW,   "r%d:r%d, %d", a->rd + 1, a->rd, a->imm)
-+INSN(AND,    "r%d, r%d", a->rd, a->rr)
-+INSN(ANDI,   "r%d, %d", a->rd, a->imm)
-+INSN(OR,     "r%d, r%d", a->rd, a->rr)
-+INSN(ORI,    "r%d, %d", a->rd, a->imm)
-+INSN(EOR,    "r%d, r%d", a->rd, a->rr)
-+INSN(COM,    "r%d", a->rd)
-+INSN(NEG,    "r%d", a->rd)
-+INSN(INC,    "r%d", a->rd)
-+INSN(DEC,    "r%d", a->rd)
-+INSN(MUL,    "r%d, r%d", a->rd, a->rr)
-+INSN(MULS,   "r%d, r%d", a->rd, a->rr)
-+INSN(MULSU,  "r%d, r%d", a->rd, a->rr)
-+INSN(FMUL,   "r%d, r%d", a->rd, a->rr)
-+INSN(FMULS,  "r%d, r%d", a->rd, a->rr)
-+INSN(FMULSU, "r%d, r%d", a->rd, a->rr)
-+INSN(DES,    "%d", a->imm)
-+
-+/*
-+ * Branch Instructions
-+ */
-+INSN(RJMP,   ".%+d", a->imm * 2)
-+INSN(IJMP,   "")
-+INSN(EIJMP,  "")
-+INSN(JMP,    "0x%x", a->imm * 2)
-+INSN(RCALL,  ".%+d", a->imm * 2)
-+INSN(ICALL,  "")
-+INSN(EICALL, "")
-+INSN(CALL,   "0x%x", a->imm * 2)
-+INSN(RET,    "")
-+INSN(RETI,   "")
-+INSN(CPSE,   "r%d, r%d", a->rd, a->rr)
-+INSN(CP,     "r%d, r%d", a->rd, a->rr)
-+INSN(CPC,    "r%d, r%d", a->rd, a->rr)
-+INSN(CPI,    "r%d, %d", a->rd, a->imm)
-+INSN(SBRC,   "r%d, %d", a->rr, a->bit)
-+INSN(SBRS,   "r%d, %d", a->rr, a->bit)
-+INSN(SBIC,   "$%d, %d", a->reg, a->bit)
-+INSN(SBIS,   "$%d, %d", a->reg, a->bit)
-+INSN_MNEMONIC(BRBS,  brbs[a->bit], ".%+d", a->imm * 2)
-+INSN_MNEMONIC(BRBC,  brbc[a->bit], ".%+d", a->imm * 2)
-+
-+/*
-+ * Data Transfer Instructions
-+ */
-+INSN(MOV,    "r%d, r%d", a->rd, a->rr)
-+INSN(MOVW,   "r%d:r%d, r%d:r%d", a->rd + 1, a->rd, a->rr + 1, a->rr)
-+INSN(LDI,    "r%d, %d", a->rd, a->imm)
-+INSN(LDS,    "r%d, %d", a->rd, a->imm)
-+INSN(LDX1,   "r%d, X", a->rd)
-+INSN(LDX2,   "r%d, X+", a->rd)
-+INSN(LDX3,   "r%d, -X", a->rd)
-+INSN(LDY2,   "r%d, Y+", a->rd)
-+INSN(LDY3,   "r%d, -Y", a->rd)
-+INSN(LDZ2,   "r%d, Z+", a->rd)
-+INSN(LDZ3,   "r%d, -Z", a->rd)
-+INSN(LDDY,   "r%d, Y+%d", a->rd, a->imm)
-+INSN(LDDZ,   "r%d, Z+%d", a->rd, a->imm)
-+INSN(STS,    "r%d, %d", a->rd, a->imm)
-+INSN(STX1,   "r%d, X", a->rr)
-+INSN(STX2,   "r%d, X+", a->rr)
-+INSN(STX3,   "r%d, -X", a->rr)
-+INSN(STY2,   "r%d, Y+", a->rd)
-+INSN(STY3,   "r%d, -Y", a->rd)
-+INSN(STZ2,   "r%d, Z+", a->rd)
-+INSN(STZ3,   "r%d, -Z", a->rd)
-+INSN(STDY,   "r%d, Y+%d", a->rd, a->imm)
-+INSN(STDZ,   "r%d, Z+%d", a->rd, a->imm)
-+INSN(LPM1,   "")
-+INSN(LPM2,   "r%d, Z", a->rd)
-+INSN(LPMX,   "r%d, Z+", a->rd)
-+INSN(ELPM1,  "")
-+INSN(ELPM2,  "r%d, Z", a->rd)
-+INSN(ELPMX,  "r%d, Z+", a->rd)
-+INSN(SPM,    "")
-+INSN(SPMX,   "Z+")
-+INSN(IN,     "r%d, $%d", a->rd, a->imm)
-+INSN(OUT,    "$%d, r%d", a->imm, a->rd)
-+INSN(PUSH,   "r%d", a->rd)
-+INSN(POP,    "r%d", a->rd)
-+INSN(XCH,    "Z, r%d", a->rd)
-+INSN(LAC,    "Z, r%d", a->rd)
-+INSN(LAS,    "Z, r%d", a->rd)
-+INSN(LAT,    "Z, r%d", a->rd)
-+
-+/*
-+ * Bit and Bit-test Instructions
-+ */
-+INSN(LSR,    "r%d", a->rd)
-+INSN(ROR,    "r%d", a->rd)
-+INSN(ASR,    "r%d", a->rd)
-+INSN(SWAP,   "r%d", a->rd)
-+INSN(SBI,    "$%d, %d", a->reg, a->bit)
-+INSN(CBI,    "%d, %d", a->reg, a->bit)
-+INSN(BST,    "r%d, %d", a->rd, a->bit)
-+INSN(BLD,    "r%d, %d", a->rd, a->bit)
-+INSN_MNEMONIC(BSET,  bset[a->bit], "")
-+INSN_MNEMONIC(BCLR,  bclr[a->bit], "")
-+
-+/*
-+ * MCU Control Instructions
-+ */
-+INSN(BREAK,  "")
-+INSN(NOP,    "")
-+INSN(SLEEP,  "")
-+INSN(WDR,    "")
-diff --git a/target/avr/translate.c b/target/avr/translate.c
-index 3d8a77e5ae..648dcd5c3e 100644
---- a/target/avr/translate.c
-+++ b/target/avr/translate.c
-@@ -3040,6 +3040,18 @@ done_generating:
++++ b/default-configs/avr-softmmu.mak
+@@ -0,0 +1 @@
++# Default configuration for avr-softmmu
+diff --git a/qapi/machine.json b/qapi/machine.json
+index ff7b5032e3..f59144023c 100644
+--- a/qapi/machine.json
++++ b/qapi/machine.json
+@@ -17,6 +17,7 @@
+ # being.
+ #
+ # @rx: since 5.0
++# @avr: since 5.1
+ #
+ # Notes: The resulting QMP strings can be appended to the "qemu-system-"
+ #        prefix to produce the corresponding QEMU executable name. This
+@@ -25,7 +26,7 @@
+ # Since: 3.0
+ ##
+ { 'enum' : 'SysEmuTarget',
+-  'data' : [ 'aarch64', 'alpha', 'arm', 'cris', 'hppa', 'i386', 'lm32',
++  'data' : [ 'aarch64', 'alpha', 'arm', 'avr', 'cris', 'hppa', 'i386', 'lm32',
+              'm68k', 'microblaze', 'microblazeel', 'mips', 'mips64',
+              'mips64el', 'mipsel', 'moxie', 'nios2', 'or1k', 'ppc',
+              'ppc64', 'riscv32', 'riscv64', 'rx', 's390x', 'sh4',
+diff --git a/include/disas/dis-asm.h b/include/disas/dis-asm.h
+index c5f9fa08ab..9856bf7921 100644
+--- a/include/disas/dis-asm.h
++++ b/include/disas/dis-asm.h
+@@ -211,6 +211,25 @@ enum bfd_architecture
+ #define bfd_mach_m32r          0  /* backwards compatibility */
+   bfd_arch_mn10200,    /* Matsushita MN10200 */
+   bfd_arch_mn10300,    /* Matsushita MN10300 */
++  bfd_arch_avr,        /* AVR microcontrollers */
++#define bfd_mach_avr1       1
++#define bfd_mach_avr2       2
++#define bfd_mach_avr25      25
++#define bfd_mach_avr3       3
++#define bfd_mach_avr31      31
++#define bfd_mach_avr35      35
++#define bfd_mach_avr4       4
++#define bfd_mach_avr5       5
++#define bfd_mach_avr51      51
++#define bfd_mach_avr6       6
++#define bfd_mach_avrtiny    100
++#define bfd_mach_avrxmega1  101
++#define bfd_mach_avrxmega2  102
++#define bfd_mach_avrxmega3  103
++#define bfd_mach_avrxmega4  104
++#define bfd_mach_avrxmega5  105
++#define bfd_mach_avrxmega6  106
++#define bfd_mach_avrxmega7  107
+   bfd_arch_cris,       /* Axis CRIS */
+ #define bfd_mach_cris_v0_v10   255
+ #define bfd_mach_cris_v32      32
+diff --git a/include/sysemu/arch_init.h b/include/sysemu/arch_init.h
+index 71a7a285ee..54f069d491 100644
+--- a/include/sysemu/arch_init.h
++++ b/include/sysemu/arch_init.h
+@@ -25,6 +25,7 @@ enum {
+     QEMU_ARCH_HPPA = (1 << 18),
+     QEMU_ARCH_RISCV = (1 << 19),
+     QEMU_ARCH_RX = (1 << 20),
++    QEMU_ARCH_AVR = (1 << 21),
  
-     tb->size = (ctx.npc - pc_start) * 2;
-     tb->icount = num_insns;
-+
-+#ifdef DEBUG_DISAS
-+    if (qemu_loglevel_mask(CPU_LOG_TB_IN_ASM)
-+        && qemu_log_in_addr_range(tb->pc)) {
-+        FILE *fd;
-+        fd = qemu_log_lock();
-+        qemu_log("IN: %s\n", lookup_symbol(tb->pc));
-+        log_target_disas(cs, tb->pc, tb->size);
-+        qemu_log("\n");
-+        qemu_log_unlock(fd);
-+    }
-+#endif
- }
+     QEMU_ARCH_NONE = (1 << 31),
+ };
+diff --git a/arch_init.c b/arch_init.c
+index 8afea4748b..7fd5c09b2b 100644
+--- a/arch_init.c
++++ b/arch_init.c
+@@ -90,6 +90,8 @@ int graphic_depth = 32;
+ #define QEMU_ARCH QEMU_ARCH_UNICORE32
+ #elif defined(TARGET_XTENSA)
+ #define QEMU_ARCH QEMU_ARCH_XTENSA
++#elif defined(TARGET_AVR)
++#define QEMU_ARCH QEMU_ARCH_AVR
+ #endif
  
- void restore_state_to_opc(CPUAVRState *env, TranslationBlock *tb,
+ const uint32_t arch_type = QEMU_ARCH;
+diff --git a/MAINTAINERS b/MAINTAINERS
+index d439aa41b6..3e6651ecc3 100644
+--- a/MAINTAINERS
++++ b/MAINTAINERS
+@@ -975,6 +975,15 @@ F: include/hw/*/nrf51*.h
+ F: include/hw/*/microbit*.h
+ F: tests/qtest/microbit-test.c
+ 
++AVR Machines
++-------------
++
++AVR MCUs
++M: Michael Rolnik <mrolnik@gmail.com>
++R: Sarah Harris <S.E.Harris@kent.ac.uk>
++S: Maintained
++F: default-configs/avr-softmmu.mak
++
+ CRIS Machines
+ -------------
+ Axis Dev88
+diff --git a/target/avr/Makefile.objs b/target/avr/Makefile.objs
+new file mode 100644
+index 0000000000..6e35ba2c5c
+--- /dev/null
++++ b/target/avr/Makefile.objs
+@@ -0,0 +1,34 @@
++#
++#  QEMU AVR
++#
++#  Copyright (c) 2016-2020 Michael Rolnik
++#
++#  This library is free software; you can redistribute it and/or
++#  modify it under the terms of the GNU Lesser General Public
++#  License as published by the Free Software Foundation; either
++#  version 2.1 of the License, or (at your option) any later version.
++#
++#  This library is distributed in the hope that it will be useful,
++#  but WITHOUT ANY WARRANTY; without even the implied warranty of
++#  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
++#  Lesser General Public License for more details.
++#
++#  You should have received a copy of the GNU Lesser General Public
++#  License along with this library; if not, see
++#  <http://www.gnu.org/licenses/lgpl-2.1.html>
++#
++
++DECODETREE = $(SRC_PATH)/scripts/decodetree.py
++decode-y = $(SRC_PATH)/target/avr/insn.decode
++
++target/avr/decode_insn.inc.c: $(decode-y) $(DECODETREE)
++	$(call quiet-command, \
++	  $(PYTHON) $(DECODETREE) -o $@ --decode decode_insn --insnwidth 16 $<, \
++	  "GEN", $(TARGET_DIR)$@)
++
++target/avr/translate.o: target/avr/decode_insn.inc.c
++
++obj-y += translate.o cpu.o helper.o
++obj-y += gdbstub.o
++obj-y += disas.o
++obj-$(CONFIG_SOFTMMU) += machine.o
 -- 
 2.21.3
 
