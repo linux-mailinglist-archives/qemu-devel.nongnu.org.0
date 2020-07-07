@@ -2,79 +2,79 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B01B0216C7D
-	for <lists+qemu-devel@lfdr.de>; Tue,  7 Jul 2020 14:05:44 +0200 (CEST)
-Received: from localhost ([::1]:52004 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7B67F216C83
+	for <lists+qemu-devel@lfdr.de>; Tue,  7 Jul 2020 14:07:14 +0200 (CEST)
+Received: from localhost ([::1]:56298 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jsmM3-0002Tg-QA
-	for lists+qemu-devel@lfdr.de; Tue, 07 Jul 2020 08:05:43 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:54134)
+	id 1jsmNV-0004fk-JO
+	for lists+qemu-devel@lfdr.de; Tue, 07 Jul 2020 08:07:13 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:54800)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1jsmKI-0001Bd-PZ
- for qemu-devel@nongnu.org; Tue, 07 Jul 2020 08:03:54 -0400
-Received: from us-smtp-2.mimecast.com ([205.139.110.61]:39130
- helo=us-smtp-delivery-1.mimecast.com)
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1jsmMJ-0003oy-NI
+ for qemu-devel@nongnu.org; Tue, 07 Jul 2020 08:05:59 -0400
+Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:51698
+ helo=us-smtp-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1jsmKH-0004Mn-1L
- for qemu-devel@nongnu.org; Tue, 07 Jul 2020 08:03:54 -0400
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1jsmMH-0004xC-IB
+ for qemu-devel@nongnu.org; Tue, 07 Jul 2020 08:05:59 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1594123432;
+ s=mimecast20190719; t=1594123557;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=FmfhiMJtahQ7Hi+R/Z4QNLj/V+gjSLRy4LCXx2Z8lgs=;
- b=A0dMI7AFjqqKK3Rzqcn6o2bMnFBebzdy49r9KtQHvqenaHyzqUM6Vlfe7o0qHXRL01oW1i
- 5MKSFUJyJelzJ4skPAT4lv5ecIgWhQLqeGQpH2aDvqNQB48uzWmYUZSp+B+jL7CXd+Vb/b
- iTy6njqP0Y1qpuvs520fqwmLZPtUMFo=
+ bh=+gLFuRBvLwoGvjKxJIwA+Kcn0+Go9lcau+AdrV9kDmw=;
+ b=MlEp+Yyo4pxTKowcPSxFNOJ5wr1iIhxy+6BoTXsO+R0KrSVm/qBhTK+hl0d62Ht4CPzWZh
+ hmytRaULv46bnmTUhMDtzJ+W4CbZ9aDJZAl2Oui//b1+csPfWw9Zs76NYdDKKWZ7Ja3my6
+ fcQs1/hNzRNFMwLebpzH5N7ErgpMTro=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-278-781L0jVHNWuQ-peHXeDbnw-1; Tue, 07 Jul 2020 08:03:50 -0400
-X-MC-Unique: 781L0jVHNWuQ-peHXeDbnw-1
-Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
- [10.5.11.12])
+ us-mta-79-slYNxlJKPtWnVSSzPxh5Gg-1; Tue, 07 Jul 2020 08:04:40 -0400
+X-MC-Unique: slYNxlJKPtWnVSSzPxh5Gg-1
+Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
+ [10.5.11.23])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 2F92E107B0E1;
- Tue,  7 Jul 2020 12:03:49 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id D2664107B265;
+ Tue,  7 Jul 2020 12:04:39 +0000 (UTC)
 Received: from blackfin.pond.sub.org (ovpn-112-143.ams2.redhat.com
  [10.36.112.143])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id F3F2760BF3;
- Tue,  7 Jul 2020 12:03:48 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 8782B19724;
+ Tue,  7 Jul 2020 12:04:39 +0000 (UTC)
 Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
- id 566D71132FD2; Tue,  7 Jul 2020 14:03:47 +0200 (CEST)
+ id 052351132FD2; Tue,  7 Jul 2020 14:04:38 +0200 (CEST)
 From: Markus Armbruster <armbru@redhat.com>
-To: Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <philmd@redhat.com>
+To: Thomas Huth <thuth@redhat.com>
 Subject: Re: [PATCH v2] util/qemu-option: Document the get_opt_value() function
 References: <20200629070858.19850-1-philmd@redhat.com>
- <87imezan9b.fsf@dusky.pond.sub.org>
- <e3a29383-ee77-e9be-c6a0-f795cdfc53cb@redhat.com>
-Date: Tue, 07 Jul 2020 14:03:47 +0200
-In-Reply-To: <e3a29383-ee77-e9be-c6a0-f795cdfc53cb@redhat.com> ("Philippe
- =?utf-8?Q?Mathieu-Daud=C3=A9=22's?= message of "Tue, 7 Jul 2020 08:11:20
- +0200")
-Message-ID: <87pn977crg.fsf@dusky.pond.sub.org>
+ <1dec6cd5-42f8-8e9f-cc87-108e46a926cc@linaro.org>
+ <87r1tnanuq.fsf@dusky.pond.sub.org>
+ <ba9d8dc5-e654-99a7-1481-c5174e366540@redhat.com>
+Date: Tue, 07 Jul 2020 14:04:37 +0200
+In-Reply-To: <ba9d8dc5-e654-99a7-1481-c5174e366540@redhat.com> (Thomas Huth's
+ message of "Tue, 7 Jul 2020 07:48:11 +0200")
+Message-ID: <87lfjv7cq2.fsf@dusky.pond.sub.org>
 User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/26.3 (gnu/linux)
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=armbru@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=utf-8
 Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=205.139.110.61; envelope-from=armbru@redhat.com;
- helo=us-smtp-delivery-1.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/07/07 00:31:00
+Received-SPF: pass client-ip=207.211.31.120; envelope-from=armbru@redhat.com;
+ helo=us-smtp-1.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/07/07 00:46:09
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
-X-Spam_score_int: -30
-X-Spam_score: -3.1
-X-Spam_bar: ---
-X-Spam_report: (-3.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1,
+X-Spam_score_int: -40
+X-Spam_score: -4.1
+X-Spam_bar: ----
+X-Spam_report: (-4.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H3=-0.01, RCVD_IN_MSPIKE_WL=-0.01,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=_AUTOLEARN
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-1, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=_AUTOLEARN
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -88,81 +88,50 @@ List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
 Cc: Damien Hedde <damien.hedde@greensocs.com>, Kevin Wolf <kwolf@redhat.com>,
- Daniel =?utf-8?Q?P=2EBerrang=C3=A9?= <berrange@redhat.com>,
- qemu-devel@nongnu.org
+ "Daniel P . =?utf-8?Q?Berrang=C3=A9?=" <berrange@redhat.com>,
+ Richard Henderson <richard.henderson@linaro.org>, qemu-devel@nongnu.org,
+ Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <philmd@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com> writes:
+Thomas Huth <thuth@redhat.com> writes:
 
-> On 7/7/20 7:48 AM, Markus Armbruster wrote:
->> Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com> writes:
+> On 07/07/2020 07.35, Markus Armbruster wrote:
+>> Richard Henderson <richard.henderson@linaro.org> writes:
 >>=20
->>> Coverity noticed commit 950c4e6c94 introduced a dereference before
->>> null check in get_opt_value (CID1391003):
+>>> On 6/29/20 12:08 AM, Philippe Mathieu-Daud=C3=A9 wrote:
+>>>> Coverity noticed commit 950c4e6c94 introduced a dereference before
+>>>> null check in get_opt_value (CID1391003):
+>>>>
+>>>>   In get_opt_value: All paths that lead to this null pointer
+>>>>   comparison already dereference the pointer earlier (CWE-476)
+>>>>
+>>>> We fixed this in commit 6e3ad3f0e31, but relaxed the check in commit
+>>>> 0c2f6e7ee99 because "No callers of get_opt_value() pass in a NULL
+>>>> for the 'value' parameter".
+>>>>
+>>>> Since this function is publicly exposed, it risks new users to do
+>>>> the same error again. Avoid that documenting the 'value' argument
+>>>> must not be NULL.
 >>>
->>>   In get_opt_value: All paths that lead to this null pointer
->>>   comparison already dereference the pointer earlier (CWE-476)
+>>> I think we should also add some use of __attribute__((nonnull(...))) to=
+ enforce
+>>> this within the compiler.
 >>>
->>> We fixed this in commit 6e3ad3f0e31, but relaxed the check in commit
->>> 0c2f6e7ee99 because "No callers of get_opt_value() pass in a NULL
->>> for the 'value' parameter".
->>>
->>> Since this function is publicly exposed, it risks new users to do
->>> the same error again. Avoid that documenting the 'value' argument
->>> must not be NULL.
->>>
->>> Signed-off-by: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
->>> ---
->>> v2: Drop confuse comment (Damien Hedde)
->>> ---
->>>  include/qemu/option.h | 13 +++++++++++++
->>>  1 file changed, 13 insertions(+)
->>>
->>> diff --git a/include/qemu/option.h b/include/qemu/option.h
->>> index eb4097889d..ac50d25774 100644
->>> --- a/include/qemu/option.h
->>> +++ b/include/qemu/option.h
->>> @@ -28,6 +28,19 @@
->>> =20
->>>  #include "qemu/queue.h"
->>> =20
->>> +/**
->>> + * get_opt_value
->>> + * @p: a pointer to the option name, delimited by commas
->>> + * @value: a non-NULL pointer that will received the delimited options
+>>> I recently did this without a qemu/compiler.h QEMU_FOO wrapper within
+>>> target/arm.  But the nonnull option has optional arguments, so it might=
+ be
+>>> difficult to wrap in macros.
 >>=20
->> s/received/receive/
->>=20
->>> + *
->>> + * The @value char pointer will be allocated and filled with
->>> + * the delimited options.
->>> + *
->>> + * Returns the position of the comma delimiter/zero byte after the
->>> + * option name in @p.
->>> + * The memory pointer in @value must be released with a call to g_free=
-()
->>> + * when no longer required.
->>> + */
->>>  const char *get_opt_value(const char *p, char **value);
->>> =20
->>>  void parse_option_size(const char *name, const char *value,
->>=20
->> You are adding a *second* doc comment: the definition already has one.
->> It's clearer than yours on some things, and less explicit on others.
->> Feel free to improve or replace it.  But do put it next to the
->> definition.
+>> Do we support building with a compuler that lacks this attribute?
 >
-> Hmm I haven't noticed it, because my reflex is to look at the usage
-> description in the prototype declaration, not in the implementation.
+> It seems to be available in GCC 4.0 already:
 >
-> I know, 2 different schools.
+> https://gcc.gnu.org/onlinedocs/gcc-4.0.0/gcc/Function-Attributes.html
 >
-> Maybe we can make both schools less unhappy by simply duplicating the
-> function description in both the header and the source files...
+> ... so the answer to your question is certainly "no". All supported
+> compilers should have this attribute.
 
-Worst of both worlds :)
-
-[...]
+Why a macro then?
 
 
