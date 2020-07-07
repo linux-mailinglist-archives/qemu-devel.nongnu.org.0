@@ -2,62 +2,62 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1B42A216DFB
-	for <lists+qemu-devel@lfdr.de>; Tue,  7 Jul 2020 15:44:21 +0200 (CEST)
-Received: from localhost ([::1]:48016 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id DCE24216E02
+	for <lists+qemu-devel@lfdr.de>; Tue,  7 Jul 2020 15:46:39 +0200 (CEST)
+Received: from localhost ([::1]:57720 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jsntU-0000Yu-4P
-	for lists+qemu-devel@lfdr.de; Tue, 07 Jul 2020 09:44:20 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:50744)
+	id 1jsnvi-0004x4-Us
+	for lists+qemu-devel@lfdr.de; Tue, 07 Jul 2020 09:46:38 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:50650)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1jsns7-00070A-Qz
- for qemu-devel@nongnu.org; Tue, 07 Jul 2020 09:42:55 -0400
-Received: from us-smtp-1.mimecast.com ([205.139.110.61]:34511
+ (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1jsnry-0006hW-5O
+ for qemu-devel@nongnu.org; Tue, 07 Jul 2020 09:42:46 -0400
+Received: from us-smtp-1.mimecast.com ([207.211.31.81]:42666
  helo=us-smtp-delivery-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1jsns6-0004bt-Ae
- for qemu-devel@nongnu.org; Tue, 07 Jul 2020 09:42:55 -0400
+ (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1jsnrw-0004ZG-Fb
+ for qemu-devel@nongnu.org; Tue, 07 Jul 2020 09:42:45 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1594129373;
+ s=mimecast20190719; t=1594129363;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:content-type:content-type:in-reply-to:in-reply-to:
- references:references; bh=lNfHrf/4zGKicBY5F9a1m8s+sgFe0y8Cq+RRcG0z6Bc=;
- b=M9i7thMN1xjZjxT83CYeJR95PfRxQ1rPkPGq+Rwg33aZ2wDHqw7/5ooLX/JClP/f5J/oVJ
- xowW9o0e+gxMSueDMNyOjQ6ppLjCKXGZdUdpgvijL6xbxD46e7RdzqInZ7r2zjQWsEu7vR
- hYjlhHQwa5neM7rBqj5m0Lw2akPr+gI=
+ references:references; bh=1hdbvzh0LRbpAMT6z/LPJ2AKfhbzIuEuBObNn/Wxwc0=;
+ b=bStGf60dXpHMWrH9WPOW9/pvwYQDgy4IbDizu+lr8aU/k9lJl2i42T+pNVp+A4f2cOJZX+
+ 8J1lkjifEFx7ItESWjTK5LIEwNdUR3dbX1JeTXhY4sQtWSZlehVDKeWXTtk95su8UUIv9O
+ lEYPPaU7oUVnTnn796rKrNk6ZKpjCl4=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-444-8QYteG6LOnCmd_hKFvKGEQ-1; Tue, 07 Jul 2020 09:42:49 -0400
-X-MC-Unique: 8QYteG6LOnCmd_hKFvKGEQ-1
-Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
- [10.5.11.23])
+ us-mta-493-HVRi6op3MHS7sKvO6qK8nw-1; Tue, 07 Jul 2020 09:42:39 -0400
+X-MC-Unique: HVRi6op3MHS7sKvO6qK8nw-1
+Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
+ [10.5.11.14])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id D4821EE01
- for <qemu-devel@nongnu.org>; Tue,  7 Jul 2020 13:42:48 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 8466983DE6D
+ for <qemu-devel@nongnu.org>; Tue,  7 Jul 2020 13:42:38 +0000 (UTC)
 Received: from sirius.home.kraxel.org (ovpn-112-200.ams2.redhat.com
  [10.36.112.200])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 4615A19D7C;
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 4C9805D9F3;
  Tue,  7 Jul 2020 13:42:37 +0000 (UTC)
 Received: by sirius.home.kraxel.org (Postfix, from userid 1000)
- id EA30E31F51; Tue,  7 Jul 2020 15:42:29 +0200 (CEST)
+ id 02C9C31F52; Tue,  7 Jul 2020 15:42:30 +0200 (CEST)
 From: Gerd Hoffmann <kraxel@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PULL 06/10] usb: build usb-redir as module
-Date: Tue,  7 Jul 2020 15:42:25 +0200
-Message-Id: <20200707134229.9773-7-kraxel@redhat.com>
+Subject: [PULL 07/10] vga: build qxl as module
+Date: Tue,  7 Jul 2020 15:42:26 +0200
+Message-Id: <20200707134229.9773-8-kraxel@redhat.com>
 In-Reply-To: <20200707134229.9773-1-kraxel@redhat.com>
 References: <20200707134229.9773-1-kraxel@redhat.com>
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=kraxel@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=US-ASCII
-Received-SPF: pass client-ip=205.139.110.61; envelope-from=kraxel@redhat.com;
+Received-SPF: pass client-ip=207.211.31.81; envelope-from=kraxel@redhat.com;
  helo=us-smtp-delivery-1.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/07/07 00:31:00
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/07/07 00:20:54
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
 X-Spam_score_int: -30
 X-Spam_score: -3.1
@@ -85,47 +85,56 @@ Cc: =?UTF-8?q?Marc-Andr=C3=A9=20Lureau?= <marcandre.lureau@redhat.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Drops libusbredirparser.so dependency from core qemu.
+First step in making spice support modular.
 
 Signed-off-by: Gerd Hoffmann <kraxel@redhat.com>
-Message-id: 20200624131045.14512-7-kraxel@redhat.com
+Message-id: 20200624131045.14512-8-kraxel@redhat.com
 ---
- util/module.c        | 1 +
- hw/usb/Makefile.objs | 9 ++++++---
- 2 files changed, 7 insertions(+), 3 deletions(-)
+ util/module.c            | 2 ++
+ hw/Makefile.objs         | 1 +
+ hw/display/Makefile.objs | 5 ++++-
+ 3 files changed, 7 insertions(+), 1 deletion(-)
 
 diff --git a/util/module.c b/util/module.c
-index 89da9a3cce05..e3226165e91c 100644
+index e3226165e91c..7c76d2a84b94 100644
 --- a/util/module.c
 +++ b/util/module.c
-@@ -263,6 +263,7 @@ static struct {
- } const qom_modules[] = {
+@@ -264,6 +264,8 @@ static struct {
      { "ccid-card-passthru",    "hw-", "usb-smartcard"         },
      { "ccid-card-emulated",    "hw-", "usb-smartcard"         },
-+    { "usb-redir",             "hw-", "usb-redirect"          },
+     { "usb-redir",             "hw-", "usb-redirect"          },
++    { "qxl-vga",               "hw-", "display-qxl"           },
++    { "qxl",                   "hw-", "display-qxl"           },
  };
  
  static bool module_loaded_qom_all;
-diff --git a/hw/usb/Makefile.objs b/hw/usb/Makefile.objs
-index 3c5b3d4fadd3..e342ff59fab0 100644
---- a/hw/usb/Makefile.objs
-+++ b/hw/usb/Makefile.objs
-@@ -43,9 +43,12 @@ endif
- 
- # usb redirection
- ifeq ($(CONFIG_USB),y)
--common-obj-$(CONFIG_USB_REDIR) += redirect.o quirks.o
--redirect.o-cflags = $(USB_REDIR_CFLAGS)
--redirect.o-libs = $(USB_REDIR_LIBS)
-+ifeq ($(CONFIG_USB_REDIR),y)
-+common-obj-m += redirect.mo
-+redirect.mo-objs = redirect.o quirks.o
-+redirect.mo-cflags = $(USB_REDIR_CFLAGS)
-+redirect.mo-libs = $(USB_REDIR_LIBS)
-+endif
+diff --git a/hw/Makefile.objs b/hw/Makefile.objs
+index af8fd9a510ed..14b7ea4eb62e 100644
+--- a/hw/Makefile.objs
++++ b/hw/Makefile.objs
+@@ -43,5 +43,6 @@ devices-dirs-y += smbios/
  endif
  
- # usb pass-through
+ common-obj-y += $(devices-dirs-y)
++common-obj-m += display/
+ common-obj-m += usb/
+ obj-y += $(devices-dirs-y)
+diff --git a/hw/display/Makefile.objs b/hw/display/Makefile.objs
+index 77a7d622bd2d..76b3571e4902 100644
+--- a/hw/display/Makefile.objs
++++ b/hw/display/Makefile.objs
+@@ -44,7 +44,10 @@ common-obj-$(CONFIG_ARTIST) += artist.o
+ 
+ obj-$(CONFIG_VGA) += vga.o
+ 
+-common-obj-$(CONFIG_QXL) += qxl.o qxl-logger.o qxl-render.o
++ifeq ($(CONFIG_QXL),y)
++common-obj-m += qxl.mo
++qxl.mo-objs = qxl.o qxl-logger.o qxl-render.o
++endif
+ 
+ obj-$(CONFIG_VIRTIO_GPU) += virtio-gpu-base.o virtio-gpu.o virtio-gpu-3d.o
+ obj-$(CONFIG_VHOST_USER_GPU) += vhost-user-gpu.o
 -- 
 2.18.4
 
