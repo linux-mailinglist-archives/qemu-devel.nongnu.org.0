@@ -2,80 +2,94 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A425C216A69
-	for <lists+qemu-devel@lfdr.de>; Tue,  7 Jul 2020 12:35:01 +0200 (CEST)
-Received: from localhost ([::1]:49796 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5A2ED216A6D
+	for <lists+qemu-devel@lfdr.de>; Tue,  7 Jul 2020 12:36:22 +0200 (CEST)
+Received: from localhost ([::1]:54114 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jskwG-0007kN-MX
-	for lists+qemu-devel@lfdr.de; Tue, 07 Jul 2020 06:35:00 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:59882)
+	id 1jskxZ-0001AD-F6
+	for lists+qemu-devel@lfdr.de; Tue, 07 Jul 2020 06:36:21 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:59946)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1jskv4-0006sy-12
- for qemu-devel@nongnu.org; Tue, 07 Jul 2020 06:33:46 -0400
-Received: from us-smtp-1.mimecast.com ([205.139.110.61]:55844
- helo=us-smtp-delivery-1.mimecast.com)
+ (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
+ id 1jskvS-0007Rc-H5
+ for qemu-devel@nongnu.org; Tue, 07 Jul 2020 06:34:11 -0400
+Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:35033
+ helo=us-smtp-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1jskv1-0005IL-4B
- for qemu-devel@nongnu.org; Tue, 07 Jul 2020 06:33:45 -0400
+ (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
+ id 1jskvO-0005LI-Ot
+ for qemu-devel@nongnu.org; Tue, 07 Jul 2020 06:34:10 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1594118022;
+ s=mimecast20190719; t=1594118046;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=ILm3e8DojcXLC7g7JGo5aJu8v1+4oqCqjulabZTFBNQ=;
- b=dPMidhnUL5SP6Ssr3atuPjMX261lqc+7aeSkPpaGIKIJNPqZISWtt0xoafjlw1hNjLWfeT
- yIZrMwSxzpcxD7sMkm3f4AKHl6w0VC6ln4Oz5GDcTPky2rvD2qAhi6QgrImW7YX1iwmBxb
- rvUjWPY0pcSDkcXG648EtDxpAAibht4=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-184-P917rZpXN3mx27GRH8OvoQ-1; Tue, 07 Jul 2020 06:33:38 -0400
-X-MC-Unique: P917rZpXN3mx27GRH8OvoQ-1
-Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
- [10.5.11.14])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 7D002107B274;
- Tue,  7 Jul 2020 10:33:37 +0000 (UTC)
-Received: from linux.fritz.box (ovpn-114-113.ams2.redhat.com [10.36.114.113])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 8A029607A0;
- Tue,  7 Jul 2020 10:33:32 +0000 (UTC)
-Date: Tue, 7 Jul 2020 12:33:31 +0200
-From: Kevin Wolf <kwolf@redhat.com>
-To: Peter Krempa <pkrempa@redhat.com>
-Subject: Re: [PATCH 2/6] migration: introduce savevm, loadvm, delvm QMP
- commands
-Message-ID: <20200707103331.GB7002@linux.fritz.box>
-References: <20200702175754.2211821-1-berrange@redhat.com>
- <20200702175754.2211821-3-berrange@redhat.com>
- <fcff0e8b-fd60-2897-0553-49ab24a9b7fa@redhat.com>
- <20200702182452.GP1888119@redhat.com>
- <20200703154933.GE6641@work-vm>
- <20200703160235.GM2213227@redhat.com>
- <20200706161555.GE5052@linux.fritz.box>
- <20200707063853.GA9048@angien.pipo.sk>
+ bh=FWvHmrLOmxsfYjQ6+vkZm8h8Tzoks4VZnKbjSz7d6Ks=;
+ b=DMOejQ1nNgpvMLZOyG3XKuOkZv5uk9TuhsvBg8jJJYDTZl2gJ9nXwwsvPaq4/WAYPCFUG9
+ o/2WYXe6So3stbXlj60Sa2eqQm++RcjcybCETyJC4WD8htqruj11uWxzdbeAfo9GD9QQy5
+ QrOzQ609QpKA4IaFtnKnHPbBHdjzszQ=
+Received: from mail-wr1-f69.google.com (mail-wr1-f69.google.com
+ [209.85.221.69]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-329-ZqGom5-cNROzQeIGKuiUTw-1; Tue, 07 Jul 2020 06:33:59 -0400
+X-MC-Unique: ZqGom5-cNROzQeIGKuiUTw-1
+Received: by mail-wr1-f69.google.com with SMTP id y13so48197991wrp.13
+ for <qemu-devel@nongnu.org>; Tue, 07 Jul 2020 03:33:59 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=FWvHmrLOmxsfYjQ6+vkZm8h8Tzoks4VZnKbjSz7d6Ks=;
+ b=RBj3LhETyljIXHbKK3CRGIrqGFHzn04d69tGL+3iXzt6LtimawmVK0mQintCkeKhd0
+ PKeAxHeznDEc6IwrgsB1NPSTUgr45Pi52PC9ZAc6077o0VWWxkS8ohGHhmOUkKA3vTh2
+ ZhpuT1PtX3nJPQ1sBaOUMphLxVTJHPd82vNJg05cAzKHBxzOZFBZgBNO98Xt/WlvN952
+ hRf2aclxB0C71HAXrAd7sijod44HchDj19qL5vggyE+AmgO6xBqhf3ftzqTiu4gG/psl
+ B/HIPeIEOEZLN42hkenJeVbiYbjBTxrF/+0biWGRCfpFaNkGsqGaOGoeRUycEtp1bk7K
+ QdfA==
+X-Gm-Message-State: AOAM5327UK20YPTE6ZgEZJWhG+rFdASEriDU9BlyP4mGeGIugqDDSZet
+ /1ABbdoyhNbKh9vX5Ik81wryXdI2R9KDIpAbEDvlKd8UNbyEqoQkAlJWAHk/CZpLYuyd9opnroO
+ FLtygfrDi3fNom+Y=
+X-Received: by 2002:adf:a3d0:: with SMTP id m16mr16645165wrb.232.1594118038280; 
+ Tue, 07 Jul 2020 03:33:58 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJxP+ztjG93pKZJ6/1fKlSquDTWw4UT+/I6Taf2Fs3oTCmf2O5pjHX3hArpECmsF+KMnv0inxw==
+X-Received: by 2002:adf:a3d0:: with SMTP id m16mr16645137wrb.232.1594118037842; 
+ Tue, 07 Jul 2020 03:33:57 -0700 (PDT)
+Received: from ?IPv6:2001:b07:6468:f312:e95f:9718:ec18:4c46?
+ ([2001:b07:6468:f312:e95f:9718:ec18:4c46])
+ by smtp.gmail.com with ESMTPSA id d18sm507885wrj.8.2020.07.07.03.33.57
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Tue, 07 Jul 2020 03:33:57 -0700 (PDT)
+Subject: Re: [qemu-web PATCH] blog post: Anatomy of a Boot, a QEMU perspective
+To: =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>,
+ qemu-devel@nongnu.org
+References: <20200703173948.22156-1-alex.bennee@linaro.org>
+From: Paolo Bonzini <pbonzini@redhat.com>
+Message-ID: <4b10e325-32df-9bc8-99ab-27f26eeed46f@redhat.com>
+Date: Tue, 7 Jul 2020 12:33:56 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.9.0
 MIME-Version: 1.0
-In-Reply-To: <20200707063853.GA9048@angien.pipo.sk>
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
+In-Reply-To: <20200703173948.22156-1-alex.bennee@linaro.org>
+Content-Language: en-US
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=kwolf@redhat.com
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=pbonzini@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=iso-8859-1
+Content-Type: text/plain; charset=utf-8
 Content-Transfer-Encoding: 8bit
-Content-Disposition: inline
-Received-SPF: pass client-ip=205.139.110.61; envelope-from=kwolf@redhat.com;
- helo=us-smtp-delivery-1.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/07/07 00:31:00
+Received-SPF: pass client-ip=207.211.31.120; envelope-from=pbonzini@redhat.com;
+ helo=us-smtp-1.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/07/07 00:46:09
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
-X-Spam_score_int: -30
-X-Spam_score: -3.1
-X-Spam_bar: ---
-X-Spam_report: (-3.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1,
+X-Spam_score_int: -40
+X-Spam_score: -4.1
+X-Spam_bar: ----
+X-Spam_report: (-4.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H3=-0.01, RCVD_IN_MSPIKE_WL=-0.01,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=_AUTOLEARN
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-1, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001, URIBL_BLOCKED=0.001 autolearn=_AUTOLEARN
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -88,67 +102,209 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Daniel =?iso-8859-1?Q?P=2E_Berrang=E9?= <berrange@redhat.com>,
- qemu-block@nongnu.org, Juan Quintela <quintela@redhat.com>,
- qemu-devel@nongnu.org, Markus Armbruster <armbru@redhat.com>,
- "Dr. David Alan Gilbert" <dgilbert@redhat.com>, Max Reitz <mreitz@redhat.com>,
- Pavel Dovgalyuk <pavel.dovgaluk@ispras.ru>,
- Paolo Bonzini <pbonzini@redhat.com>
+Cc: thuth@redhat.com, Richard Henderson <richard.henderson@linaro.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Am 07.07.2020 um 08:38 hat Peter Krempa geschrieben:
-> On Mon, Jul 06, 2020 at 18:15:55 +0200, Kevin Wolf wrote:
-> > Am 03.07.2020 um 18:02 hat Daniel P. Berrangé geschrieben:
-> > > On Fri, Jul 03, 2020 at 04:49:33PM +0100, Dr. David Alan Gilbert wrote:
-> > > > * Daniel P. Berrangé (berrange@redhat.com) wrote:
-> > > > > On Thu, Jul 02, 2020 at 01:12:52PM -0500, Eric Blake wrote:
-> > > > > > On 7/2/20 12:57 PM, Daniel P. Berrangé wrote:
+On 03/07/20 19:39, Alex Bennée wrote:
+> While working on some test cases I realised there was quite a lot of
+> assumed knowledge about how things boot up. I thought it would be
+> worth gathering this together in a user facing document where we could
+> pour in the details and background to the boot process. The consensus
+> seems to be this is better as a blog post.
 > 
-> [...]
+> The post follows the socratic method and leaves the reader to ask
+> themselves some questions in an effort to elucidate them about any
+> problems they may be having before telling them that they probably
+> wanted to use virt-manager all along.
 > 
-> > > migration only does vmstate, not disks. The current blockdev commands
-> > > are all related to external snapshots, nothing for internal snapshots
-> > > AFAIK. So we still need commands to load/save internal snapshots of
-> > > the disk data in the qcow2 files.
-> > > 
-> > > So we could look at loadvm/savevm conceptually as a syntax sugar above
-> > > a migration transport that targets disk images, and blockdev QMP command
-> > > that can do internal snapshots. Neither of these exist though and feel
-> > > like a significantly larger amount of work than using existing functionality
-> > > that is currently working.
-> > 
-> > There is blockdev-snapshot-internal-sync, which does a disk-only
-> > snapshot of a single node. A snapshot of multiple nodes can be taken by
-> > putting multiple blockdev-snapshot-internal-sync inside a 'transaction'
-> > command.
-> 
-> Libvirt never implemented support for disk-only internal snapshots as I
-> didn't think they are worth it. We also made a mistake by using the
-> VIR_DOMAIN_SNAPSHOT_DISK_ONLY to switch to an external snapshot, so
-> while the XML can modify the snapshot to be internal it's not very clear
-> nor user-friendly to force an internal disk only snapshot.
-> 
-> > If we want to build on top of this, we'd have to implement a
-> > transactionable command for storing only the VM state to a specific
-> > node. This would probably still be a long-running job.
-> 
-> IMO we really want this also for external snapshots. Driving the
-> migration as standard migration is really suboptimal especially when the
-> user wants minimal downtime. Transactioning a post-copy style copy-on
-> write migration would simplify this a lot. I agree though that this is
-> for a different conversation.
+> Based on Message-Id: <20200701161153.30988-2-alex.bennee@linaro.org>
+> Signed-off-by: Alex Bennée <alex.bennee@linaro.org>
+> [rth: review of doc form]
+> Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
 
-This is an interesting point actually. And while the implementation of
-the post-copy style live snapshotting is for a different conversation, I
-think the implications it has on the API are relevant for us now.
+Looks good to me.
 
-But even if we have an all-in-one snapshot job instead of a transaction
-to group all the individual operations together, I think you could still
-represent that by just specifying an empty list of nodes to be
-snapshotted. (I feel this is another argument for passing the nodes to
-include rather than nodes to exclude from the disk snapshot.)
+Paolo
 
-Kevin
+> 
+> ---
+> v3
+>   - convert from doc to blog post
+>   - address pm's comments
+>   - new intro/outro for blog style
+> ---
+>  _posts/2020-07-03-anatomy-of-a-boot.md | 161 +++++++++++++++++++++++++
+>  1 file changed, 161 insertions(+)
+>  create mode 100644 _posts/2020-07-03-anatomy-of-a-boot.md
+> 
+> diff --git a/_posts/2020-07-03-anatomy-of-a-boot.md b/_posts/2020-07-03-anatomy-of-a-boot.md
+> new file mode 100644
+> index 0000000..67aa72c
+> --- /dev/null
+> +++ b/_posts/2020-07-03-anatomy-of-a-boot.md
+> @@ -0,0 +1,161 @@
+> +---
+> +layout: post
+> +title:  "Anatomy of a Boot, a QEMU perspective"
+> +date:   2020-07-3 18:00:00:00 +0000
+> +last_modified_at: 2020-07-3 18:00:00:00 +0000
+> +author: Alex Bennée
+> +categories: [boot, softmmu, system, firmware]
+> +---
+> +
+> +Have you ever wondered about the process a machine goes through to get
+> +to the point of a usable system? This post will give an overview of
+> +how machines boot and how this matters to QEMU. We will discuss
+> +firmware and BIOSes and the things they do before the OS kernel is
+> +loaded and your usable system is finally ready.
+> +
+> +## Firmware
+> +
+> +When a CPU is powered up it knows nothing about its environment. The
+> +internal state, including the program counter (PC), will be reset to a
+> +defined set of values and it will attempt to fetch the first
+> +instruction and execute it. It is the job of the firmware to bring a
+> +CPU up from the initial few instructions to running in a relatively
+> +sane execution environment. Firmware tends to be specific to the
+> +hardware in question and is stored on non-volatile memory (memory that
+> +survives a power off), usually a ROM or flash device on the computers
+> +main board.
+> +
+> +Some examples of what firmware does include:
+> +
+> +### Early Hardware Setup
+> +
+> +Modern hardware often requires configuring before it is usable. For
+> +example most modern systems won't have working RAM until the memory
+> +controller has been programmed with the correct timings for whatever
+> +memory is installed on the system. Processors may boot with a very
+> +restricted view of the memory map until RAM and other key peripherals
+> +have been configured to appear in its address space. Some hardware
+> +may not even appear until some sort of blob has been loaded into it so
+> +it can start responding to the CPU.
+> +
+> +Fortunately for QEMU we don't have to worry too much about this very
+> +low level configuration. The device model we present to the CPU at
+> +start-up will generally respond to IO access from the processor straight
+> +away.
+> +
+> +### BIOS or Firmware Services
+> +
+> +In the early days of the PC era the BIOS or Basic Input/Output System
+> +provided an abstraction interface to the operating system which
+> +allowed the OS to do basic IO operations without having to directly
+> +drive the hardware. Since then the scope of these firmware services
+> +has grown as systems become more and more complex.
+> +
+> +Modern firmware often follows the Unified Extensible Firmware
+> +Interface (UEFI) which provides services like secure boot, persistent
+> +variables and external time-keeping.
+> +
+> +There can often be multiple levels of firmware service functions. For
+> +example systems which support secure execution enclaves generally have
+> +a firmware component that executes in this secure mode which the
+> +operating system can call in a defined secure manner to undertake
+> +security sensitive tasks on its behalf.
+> +
+> +### Hardware Enumeration
+> +
+> +It is easy to assume that modern hardware is built to be discoverable
+> +and all the operating system needs to do is enumerate the various
+> +buses on the system to find out what hardware exists. While buses like
+> +PCI and USB do support discovery there is usually much more on a
+> +modern system than just these two things.
+> +
+> +This process of discovery can take some time as devices usually need
+> +to be probed and some time allowed for the buses to settle and the
+> +probe to complete. For purely virtual machines operating in on-demand
+> +cloud environments you may operate with stripped down kernels that
+> +only support a fixed expected environment so they can boot as fast as
+> +possible.
+> +
+> +In the embedded world it used to be acceptable to have a similar
+> +custom compiled kernel which knew where everything is meant to be.
+> +However this was a brittle approach and not very flexible. For example
+> +a general purpose distribution would have to ship a special kernel for
+> +each variant of hardware you wanted to run on. If you try and use a
+> +kernel compiled for one platform that nominally uses the same
+> +processor as another platform the result will generally not work.
+> +
+> +The more modern approach is to have a "generic" kernel that has a
+> +number of different drivers compiled in which are then enabled based
+> +on a hardware description provided by the firmware. This allows
+> +flexibility on both sides. The software distribution is less concerned
+> +about managing lots of different kernels for different pieces of
+> +hardware. The hardware manufacturer is also able to make small changes
+> +to the board over time to fix bugs or change minor components.
+> +
+> +The two main methods for this are the Advanced Configuration and Power
+> +Interface (ACPI) and Device Trees. ACPI originated from the PC world
+> +although it is becoming increasingly common for "enterprise" hardware
+> +like servers. Device Trees of various forms have existed for a while
+> +with perhaps the most common being Flattened Device Trees (FDT).
+> +
+> +## Boot Code
+> +
+> +The line between firmware and boot code is a very blurry one. However
+> +from a functionality point of view we have moved from ensuring the
+> +hardware is usable as a computing device to finding and loading a
+> +kernel which is then going to take over control of the system. Modern
+> +firmware often has the ability to boot a kernel directly and in some
+> +systems you might chain through several boot loaders before the final
+> +kernel takes control.
+> +
+> +The boot loader needs to do 3 things:
+> +
+> +  - find a kernel and load it into RAM
+> +  - ensure the CPU is in the correct mode for the kernel to boot
+> +  - pass any information the kernel may need to boot and can't find itself
+> +
+> +Once it has done these things it can jump to the kernel and let it get
+> +on with things.
+> +
+> +## Kernel
+> +
+> +The Kernel now takes over and will be in charge of the system from now
+> +on. It will enumerate all the devices on the system (again) and load
+> +drivers that can control them. It will then locate some sort of
+> +file-system and eventually start running programs that actually do
+> +work.
+> +
+> +## Questions to ask yourself
+> +
+> +Having given this overview of booting here are some questions you
+> +should ask when diagnosing boot problems.
+> +
+> +### Hardware
+> +
+> + - is the platform fixed or dynamic?
+> + - is the platform enumeratable (e.g. PCI/USB)?
+> +
+> +### Firmware
+> +
+> + - is the firmware built for the platform you are booting?
+> + - does the firmware need storage for variables (boot index etc)?
+> + - does the firmware provide a service to kernels (e.g. ACPI/EFI)?
+> +
+> +### Kernel
+> +
+> + - is the kernel platform specific or generic?
+> + - how will the kernel enumerate the platform?
+> + - can the kernel interface talk to the firmware?
+> +
+> +## Final Thoughts
+> +
+> +When users visit the IRC channel to ask why a particular kernel won't
+> +boot our first response is almost always to check the kernel is
+> +actually matched to the hardware being instantiated. For ARM boards in
+> +particular just being built for the same processor is generally not
+> +enough and hopefully having made it through this post you see why.
+> +This complexity is also the reason why we generally suggest using a
+> +tool like [virt-manager](https://virt-manager.org/) to configure QEMU
+> +as it is designed to ensure the right components and firmware is
+> +selected to boot a given system.
+> +
+> 
 
 
