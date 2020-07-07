@@ -2,58 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5F7D3216DD4
-	for <lists+qemu-devel@lfdr.de>; Tue,  7 Jul 2020 15:36:20 +0200 (CEST)
-Received: from localhost ([::1]:38808 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 80E24216E05
+	for <lists+qemu-devel@lfdr.de>; Tue,  7 Jul 2020 15:48:18 +0200 (CEST)
+Received: from localhost ([::1]:33810 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jsnlj-0003hK-FH
-	for lists+qemu-devel@lfdr.de; Tue, 07 Jul 2020 09:36:19 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:49058)
+	id 1jsnxJ-0006r6-KP
+	for lists+qemu-devel@lfdr.de; Tue, 07 Jul 2020 09:48:17 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:50724)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <no-reply@patchew.org>)
- id 1jsnkp-0002pp-9Y; Tue, 07 Jul 2020 09:35:23 -0400
-Resent-Date: Tue, 07 Jul 2020 09:35:23 -0400
-Resent-Message-Id: <E1jsnkp-0002pp-9Y@lists.gnu.org>
-Received: from sender4-of-o57.zoho.com ([136.143.188.57]:21777)
+ (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1jsns5-0006uE-2K
+ for qemu-devel@nongnu.org; Tue, 07 Jul 2020 09:42:53 -0400
+Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:39177
+ helo=us-smtp-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <no-reply@patchew.org>)
- id 1jsnkn-0003Nt-DK; Tue, 07 Jul 2020 09:35:23 -0400
-ARC-Seal: i=1; a=rsa-sha256; t=1594128906; cv=none; 
- d=zohomail.com; s=zohoarc; 
- b=mv7lKHRa3bwQWJCJbEOTLK+9JmtXJXveLuJJ1/oz1seXzKdfG9NJD5mzpGBtt5A/uoBtqcrDhwI88PYoerfmetfPgCFG5k906HUun8v//FEh/bFJpgapQffGW6WITmXKYlMyrn5/h2aSDHsqCS3WLbHCTQcPgyqFEs+aVHbBe6k=
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.com;
- s=zohoarc; t=1594128906;
- h=Content-Type:Content-Transfer-Encoding:Cc:Date:From:In-Reply-To:MIME-Version:Message-ID:Reply-To:Subject:To;
- bh=FR2+n9EHAapbhSXBsmA2bR4X0zhP6VOxActEmUlnz+w=; 
- b=mSuz/xeP2kc5IzColFCSx3ic0TESMm52NKTgd/+79MbhBamBcKgqFq/mGLDcGFLIaKRE173zcqZSwENIwMP96uYJJCGtBb2JS25wL0gFg7K5ZHMciYtJ59gqfDPch1NkzjexUt6cBX7D8y+J45zENyQCgIplTNLohf4034yvdHc=
-ARC-Authentication-Results: i=1; mx.zohomail.com;
- spf=pass  smtp.mailfrom=no-reply@patchew.org;
- dmarc=pass header.from=<no-reply@patchew.org>
- header.from=<no-reply@patchew.org>
-Received: from [172.17.0.3] (23.253.156.214 [23.253.156.214]) by
- mx.zohomail.com with SMTPS id 1594128903178233.064757862742;
- Tue, 7 Jul 2020 06:35:03 -0700 (PDT)
-Subject: Re: [PATCH v5 00/20] microvm: add acpi support
-Message-ID: <159412890128.1183.957367283880211839@07a7f0d89f7d>
-In-Reply-To: <20200707125356.32450-1-kraxel@redhat.com>
+ (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1jsns3-0004bP-Bn
+ for qemu-devel@nongnu.org; Tue, 07 Jul 2020 09:42:52 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1594129370;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding;
+ bh=g8rzLsqIBr6kengzgWK0jKpoF83iSQGaFa7lknLGQ8E=;
+ b=PoBucZW+Xun7oT0BKf2IpO292rsd67qlfJahvqrmWT5xmHlbb9J75tbQB2RieUZ6oHqwm8
+ /4/RLhC4lg9RlWvr64UkT1Ol7lbLUadkLLYLldntad9/DbIp8qI96bc2bDtmA5wT5i8sWQ
+ WancxbPyPBqILdk9q3Ksct6pYWrfP8s=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-428-GKeg2HqBMmOFrLx--MTnLg-1; Tue, 07 Jul 2020 09:42:37 -0400
+X-MC-Unique: GKeg2HqBMmOFrLx--MTnLg-1
+Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
+ [10.5.11.14])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 61E6818829CB
+ for <qemu-devel@nongnu.org>; Tue,  7 Jul 2020 13:42:36 +0000 (UTC)
+Received: from sirius.home.kraxel.org (ovpn-112-200.ams2.redhat.com
+ [10.36.112.200])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 7F1165DD63;
+ Tue,  7 Jul 2020 13:42:30 +0000 (UTC)
+Received: by sirius.home.kraxel.org (Postfix, from userid 1000)
+ id A46F531E60; Tue,  7 Jul 2020 15:42:29 +0200 (CEST)
+From: Gerd Hoffmann <kraxel@redhat.com>
+To: qemu-devel@nongnu.org
+Subject: [PULL 00/10] Modules 20200707 patches
+Date: Tue,  7 Jul 2020 15:42:19 +0200
+Message-Id: <20200707134229.9773-1-kraxel@redhat.com>
 MIME-Version: 1.0
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=kraxel@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
-Resent-From: 
-From: no-reply@patchew.org
-To: kraxel@redhat.com
-Date: Tue, 7 Jul 2020 06:35:03 -0700 (PDT)
-X-ZohoMailClient: External
-Received-SPF: pass client-ip=136.143.188.57; envelope-from=no-reply@patchew.org;
- helo=sender4-of-o57.zoho.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/07/07 09:34:31
-X-ACL-Warn: Detected OS   = Linux 3.11 and newer [fuzzy]
-X-Spam_score_int: -18
-X-Spam_score: -1.9
-X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_NONE=-0.0001,
- RCVD_IN_MSPIKE_H3=-0.01, RCVD_IN_MSPIKE_WL=-0.01, SPF_HELO_NONE=0.001,
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=205.139.110.120; envelope-from=kraxel@redhat.com;
+ helo=us-smtp-1.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/07/07 06:04:49
+X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
+X-Spam_score_int: -40
+X-Spam_score: -4.1
+X-Spam_bar: ----
+X-Spam_report: (-4.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-1, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001, URIBL_BLOCKED=0.001 autolearn=_AUTOLEARN
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -67,54 +79,68 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: qemu-devel@nongnu.org
-Cc: lvivier@redhat.com, peter.maydell@linaro.org, thuth@redhat.com,
- ehabkost@redhat.com, slp@redhat.com, mst@redhat.com, qemu-devel@nongnu.org,
- shannon.zhaosl@gmail.com, qemu-arm@nongnu.org, kraxel@redhat.com,
- pbonzini@redhat.com, imammedo@redhat.com, rth@twiddle.net
+Cc: =?UTF-8?q?Marc-Andr=C3=A9=20Lureau?= <marcandre.lureau@redhat.com>,
+ =?UTF-8?q?Daniel=20P=2E=20Berrang=C3=A9?= <berrange@redhat.com>,
+ Gerd Hoffmann <kraxel@redhat.com>, Eduardo Habkost <ehabkost@redhat.com>,
+ Paolo Bonzini <pbonzini@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-UGF0Y2hldyBVUkw6IGh0dHBzOi8vcGF0Y2hldy5vcmcvUUVNVS8yMDIwMDcwNzEyNTM1Ni4zMjQ1
-MC0xLWtyYXhlbEByZWRoYXQuY29tLwoKCgpIaSwKClRoaXMgc2VyaWVzIGZhaWxlZCB0aGUgZG9j
-a2VyLXF1aWNrQGNlbnRvczcgYnVpbGQgdGVzdC4gUGxlYXNlIGZpbmQgdGhlIHRlc3RpbmcgY29t
-bWFuZHMgYW5kCnRoZWlyIG91dHB1dCBiZWxvdy4gSWYgeW91IGhhdmUgRG9ja2VyIGluc3RhbGxl
-ZCwgeW91IGNhbiBwcm9iYWJseSByZXByb2R1Y2UgaXQKbG9jYWxseS4KCj09PSBURVNUIFNDUklQ
-VCBCRUdJTiA9PT0KIyEvYmluL2Jhc2gKbWFrZSBkb2NrZXItaW1hZ2UtY2VudG9zNyBWPTEgTkVU
-V09SSz0xCnRpbWUgbWFrZSBkb2NrZXItdGVzdC1xdWlja0BjZW50b3M3IFNIT1dfRU5WPTEgSj0x
-NCBORVRXT1JLPTEKPT09IFRFU1QgU0NSSVBUIEVORCA9PT0KCmFjcGktdGVzdDogV2FybmluZyEg
-RFNEVCBiaW5hcnkgZmlsZSBtaXNtYXRjaC4gQWN0dWFsIFthbWw6L3RtcC9hbWwtWUIzU04wXSwg
-RXhwZWN0ZWQgW2FtbDp0ZXN0cy9kYXRhL2FjcGkvbWljcm92bS9EU0RUXS4KU2VlIHNvdXJjZSBm
-aWxlIHRlc3RzL3F0ZXN0L2Jpb3MtdGFibGVzLXRlc3QuYyBmb3IgaW5zdHJ1Y3Rpb25zIG9uIGhv
-dyB0byB1cGRhdGUgZXhwZWN0ZWQgZmlsZXMuCnRvIHNlZSBBU0wgZGlmZiBiZXR3ZWVuIG1pc21h
-dGNoZWQgZmlsZXMgaW5zdGFsbCBJQVNMLCByZWJ1aWxkIFFFTVUgZnJvbSBzY3JhdGNoIGFuZCBy
-ZS1ydW4gdGVzdHMgd2l0aCBWPTEgZW52aXJvbm1lbnQgdmFyaWFibGUgc2V0KioKRVJST1I6L3Rt
-cC9xZW11LXRlc3Qvc3JjL3Rlc3RzL3F0ZXN0L2Jpb3MtdGFibGVzLXRlc3QuYzo0OTU6dGVzdF9h
-Y3BpX2FzbDogYXNzZXJ0aW9uIGZhaWxlZDogKGFsbF90YWJsZXNfbWF0Y2gpCkVSUk9SIC0gQmFp
-bCBvdXQhIEVSUk9SOi90bXAvcWVtdS10ZXN0L3NyYy90ZXN0cy9xdGVzdC9iaW9zLXRhYmxlcy10
-ZXN0LmM6NDk1OnRlc3RfYWNwaV9hc2w6IGFzc2VydGlvbiBmYWlsZWQ6IChhbGxfdGFibGVzX21h
-dGNoKQptYWtlOiAqKiogW2NoZWNrLXF0ZXN0LXg4Nl82NF0gRXJyb3IgMQptYWtlOiAqKiogV2Fp
-dGluZyBmb3IgdW5maW5pc2hlZCBqb2JzLi4uLgogIFRFU1QgICAgaW90ZXN0LXFjb3cyOiAwMzAK
-ICBURVNUICAgIGlvdGVzdC1xY293MjogMDMxCi0tLQogICAgcmFpc2UgQ2FsbGVkUHJvY2Vzc0Vy
-cm9yKHJldGNvZGUsIGNtZCkKc3VicHJvY2Vzcy5DYWxsZWRQcm9jZXNzRXJyb3I6IENvbW1hbmQg
-J1snc3VkbycsICctbicsICdkb2NrZXInLCAncnVuJywgJy0tbGFiZWwnLCAnY29tLnFlbXUuaW5z
-dGFuY2UudXVpZD04ZjVmNDFlMzg2Yjg0NWE5YTBmNWVkYzJhZGUyMzFjNycsICctdScsICcxMDAz
-JywgJy0tc2VjdXJpdHktb3B0JywgJ3NlY2NvbXA9dW5jb25maW5lZCcsICctLXJtJywgJy1lJywg
-J1RBUkdFVF9MSVNUPScsICctZScsICdFWFRSQV9DT05GSUdVUkVfT1BUUz0nLCAnLWUnLCAnVj0n
-LCAnLWUnLCAnSj0xNCcsICctZScsICdERUJVRz0nLCAnLWUnLCAnU0hPV19FTlY9MScsICctZScs
-ICdDQ0FDSEVfRElSPS92YXIvdG1wL2NjYWNoZScsICctdicsICcvaG9tZS9wYXRjaGV3Mi8uY2Fj
-aGUvcWVtdS1kb2NrZXItY2NhY2hlOi92YXIvdG1wL2NjYWNoZTp6JywgJy12JywgJy92YXIvdG1w
-L3BhdGNoZXctdGVzdGVyLXRtcC1kZDdfdW5zZy9zcmMvZG9ja2VyLXNyYy4yMDIwLTA3LTA3LTA5
-LjE5LjIxLjEwNDU1Oi92YXIvdG1wL3FlbXU6eixybycsICdxZW11OmNlbnRvczcnLCAnL3Zhci90
-bXAvcWVtdS9ydW4nLCAndGVzdC1xdWljayddJyByZXR1cm5lZCBub24temVybyBleGl0IHN0YXR1
-cyAyLgpmaWx0ZXI9LS1maWx0ZXI9bGFiZWw9Y29tLnFlbXUuaW5zdGFuY2UudXVpZD04ZjVmNDFl
-Mzg2Yjg0NWE5YTBmNWVkYzJhZGUyMzFjNwptYWtlWzFdOiAqKiogW2RvY2tlci1ydW5dIEVycm9y
-IDEKbWFrZVsxXTogTGVhdmluZyBkaXJlY3RvcnkgYC92YXIvdG1wL3BhdGNoZXctdGVzdGVyLXRt
-cC1kZDdfdW5zZy9zcmMnCm1ha2U6ICoqKiBbZG9ja2VyLXJ1bi10ZXN0LXF1aWNrQGNlbnRvczdd
-IEVycm9yIDIKCnJlYWwgICAgMTVtNDIuMzM1cwp1c2VyICAgIDBtOC45ODFzCgoKVGhlIGZ1bGwg
-bG9nIGlzIGF2YWlsYWJsZSBhdApodHRwOi8vcGF0Y2hldy5vcmcvbG9ncy8yMDIwMDcwNzEyNTM1
-Ni4zMjQ1MC0xLWtyYXhlbEByZWRoYXQuY29tL3Rlc3RpbmcuZG9ja2VyLXF1aWNrQGNlbnRvczcv
-P3R5cGU9bWVzc2FnZS4KLS0tCkVtYWlsIGdlbmVyYXRlZCBhdXRvbWF0aWNhbGx5IGJ5IFBhdGNo
-ZXcgW2h0dHBzOi8vcGF0Y2hldy5vcmcvXS4KUGxlYXNlIHNlbmQgeW91ciBmZWVkYmFjayB0byBw
-YXRjaGV3LWRldmVsQHJlZGhhdC5jb20=
+The following changes since commit 7623b5ba017f61de5d7c2bba12c6feb3d55091b1:
+
+  Merge remote-tracking branch 'remotes/vivier2/tags/linux-user-for-5.1-pull-request' into staging (2020-07-06 11:40:10 +0100)
+
+are available in the Git repository at:
+
+  git://git.kraxel.org/qemu tags/modules-20200707-pull-request
+
+for you to fetch changes up to ef138c77249771081d8c2d09b8e729f7e92cdf28:
+
+  chardev: enable modules, use for braille (2020-07-07 15:33:59 +0200)
+
+----------------------------------------------------------------
+qom: add support for qom objects in modules.
+build some devices (qxl, virtio-gpu, ccid, usb-redir) as modules.
+build braille chardev as module.
+
+v2: more verbose comment for "build: fix device module builds" patch.
+
+note: qemu doesn't rebuild objects on cflags changes (specifically
+      -fPIC being added when code is switched from builtin to module).
+      Workaround for resulting build errors: "make clean", rebuild.
+
+----------------------------------------------------------------
+
+Gerd Hoffmann (10):
+  module: qom module support
+  object: qom module support
+  qdev: device module support
+  build: fix device module builds
+  ccid: build smartcard as module
+  usb: build usb-redir as module
+  vga: build qxl as module
+  vga: build virtio-gpu only once
+  vga: build virtio-gpu as module
+  chardev: enable modules, use for braille
+
+ Makefile.objs            |  2 ++
+ Makefile.target          | 14 +++++++++
+ include/qemu/module.h    |  2 ++
+ include/qom/object.h     | 12 +++++++
+ chardev/char.c           |  2 +-
+ hw/core/qdev.c           |  6 ++--
+ qdev-monitor.c           |  5 +--
+ qom/object.c             | 14 +++++++++
+ qom/qom-qmp-cmds.c       |  3 +-
+ softmmu/vl.c             |  4 +--
+ util/module.c            | 67 ++++++++++++++++++++++++++++++++++++++++
+ chardev/Makefile.objs    |  5 ++-
+ hw/Makefile.objs         |  2 ++
+ hw/display/Makefile.objs | 28 ++++++++++-------
+ hw/usb/Makefile.objs     | 13 +++++---
+ 15 files changed, 155 insertions(+), 24 deletions(-)
+
+-- 
+2.18.4
+
 
