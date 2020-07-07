@@ -2,62 +2,61 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D56B92176D0
-	for <lists+qemu-devel@lfdr.de>; Tue,  7 Jul 2020 20:34:15 +0200 (CEST)
-Received: from localhost ([::1]:45074 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2721F2176C2
+	for <lists+qemu-devel@lfdr.de>; Tue,  7 Jul 2020 20:31:30 +0200 (CEST)
+Received: from localhost ([::1]:60690 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jssQ2-00008X-Un
-	for lists+qemu-devel@lfdr.de; Tue, 07 Jul 2020 14:34:14 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:35746)
+	id 1jssNM-0003PF-T6
+	for lists+qemu-devel@lfdr.de; Tue, 07 Jul 2020 14:31:28 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:35760)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1jssAE-0000An-Sl
- for qemu-devel@nongnu.org; Tue, 07 Jul 2020 14:17:54 -0400
-Received: from mail-wm1-x330.google.com ([2a00:1450:4864:20::330]:36513)
+ id 1jssAG-0000Cs-Mb
+ for qemu-devel@nongnu.org; Tue, 07 Jul 2020 14:17:56 -0400
+Received: from mail-wm1-x343.google.com ([2a00:1450:4864:20::343]:51448)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1jssAB-0002wk-QI
- for qemu-devel@nongnu.org; Tue, 07 Jul 2020 14:17:53 -0400
-Received: by mail-wm1-x330.google.com with SMTP id 17so87331wmo.1
- for <qemu-devel@nongnu.org>; Tue, 07 Jul 2020 11:17:51 -0700 (PDT)
+ id 1jssAE-0002ww-JV
+ for qemu-devel@nongnu.org; Tue, 07 Jul 2020 14:17:55 -0400
+Received: by mail-wm1-x343.google.com with SMTP id 22so98567wmg.1
+ for <qemu-devel@nongnu.org>; Tue, 07 Jul 2020 11:17:52 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=sender:from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=zsTv03VARaihe+oGT92uCGB4KZTAlGdB70IybG3Qeu4=;
- b=edDvCar2cn9eMjXOdlh2Y7NDKzzd593p4RCZTIwlYx/SuoBwEFWjKEtqfR2kdKsFy7
- Mj44IjIKC3P0dEgF49Q4v12NNPAy7/7RALlpf4LbwiBmklqjsupAVm6xSvwavRfCaIiS
- 3qo3C5P8KVemVSffLchjtt80ORMl8o9L1mdmvRBmTB1QoJUHlScSpNkybv74PIoAmC3v
- Vvq3BGahvW90KIZgNT8FSNOwoF2KZV/oH766WcRZ8zhHsiVSs3zl+xrybO7hQWdeqnHa
- WjouK4kpqeBDhO8+y0hqzNvJ4JyNQgou3aL7UI5olmhet5EdiyQum2Xk0/1gmUME+ot6
- fhxQ==
+ bh=HbsTKp/p4cEpKC8gDBC3GLx2PfsjnhiMt227ELg1lQQ=;
+ b=hW5eELTRQ1vN7XsTdY+DVD7zjvYq9mawplQxUkIAcxYJAX0GEhKFKsFuiWQK0+X7yG
+ k66Gdb3Et9eOIxJdgT23fHDDMOo44ZirOSwsYMGmW6+al7kLI4l27ivoLuLZ+FBkRW86
+ ClsainyOxWaGD3+VYszBKccXoOezYlQZEIaTyx5vW9Si+21YhVG///EAF3Vh5wS8ED9K
+ rj8hSCBKsvvv/6XjjqVrq/aUFIKPM988zjhhaiFhJU+taHu63TnBVnVc1qoHFA0p7Y3B
+ ifY5NtQRorQkMfFJov5q5T4GXM2hTuAiVbFM7HL8RglVfLkG801v7+R7FI32F7pWmOs9
+ /D3Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
  :in-reply-to:references:mime-version:content-transfer-encoding;
- bh=zsTv03VARaihe+oGT92uCGB4KZTAlGdB70IybG3Qeu4=;
- b=cmZYcnHOJaLk3jnC+vMxQJ7mCttfeyoZNgmvem85wGdI/i5Sb5raRzlZSWCgxq+o9K
- 9g/5r4r6dtrUPwJUS+bqtq55jDYcQuFno4uO5LQL+vWYj6nEstlwVB3F1gHQQDKJW8+L
- wBTgtMlCJbTD2w/gc3ZEfnQab1/rFqmS5g7uHT5l7xv23JMZEnfaxglgxHgGT9d+MLQ4
- 7CDM4t+3wbLDxzUodxO0DK7cyh8wOpZh3S2RLfBOOYdpEOmnFkhHt4isCpvVOLDPW4ld
- /IN+MdERe1VE+HYl1jcrGzWr0+utHDQmaMePxuJ+OId3eP0nx53EHhmOGQJ3Z22kGpwW
- yrsQ==
-X-Gm-Message-State: AOAM530/8QnR7s5+K2VhfR8iRyytP7WXbO8GdOlO9vo/rVekDVY6G+Ek
- O/2lPBgxm41tQytXAAXo1G7djpyH
-X-Google-Smtp-Source: ABdhPJzlmqyfprzO9P3m8lD9u//smozCTVLQkk/fTb/HItQPf8oOoZHBIyUKGG1WjPUulDbE6GK6xA==
-X-Received: by 2002:a1c:2392:: with SMTP id j140mr5338922wmj.6.1594145870108; 
- Tue, 07 Jul 2020 11:17:50 -0700 (PDT)
+ bh=HbsTKp/p4cEpKC8gDBC3GLx2PfsjnhiMt227ELg1lQQ=;
+ b=PW9zZh4gAnedncqc/iSS+kP14NmLvz2v1wAmYyve+1RFCLyFqeyDNc0eSmZ/fhQWvD
+ gx/cHH9yYRiH9HYalgDY6zgnjtvcqQ37d2oS+dRg6gweL8eXZScCfFHc713oqUhA5flv
+ wJbz5NORAsgqBaipGKpCn6RTr3GlhPbmebh69Ihc8vtX9WCdhgaiBTcUWLzkGHv93MvV
+ DH3x+H7VwVpWwn4Le7NsTfQQwCc+T7E2GcvFS3iK9S/dm/GCI7AdW4BxT9SPIxPfdrSm
+ TzKoPivAkFBru+K4OtlHC7iNofPZFi75/fByhn+imlJGXrVAUDQ83jYu8MDD6SkQpLw7
+ 58rA==
+X-Gm-Message-State: AOAM532yFX6M3nX4e0nEYWgRnDtmrPjRo0KmJirRzLB1bmHPDE517Vm1
+ ptUw3FwnDw4xVSqLNx9x+6jhJrDt
+X-Google-Smtp-Source: ABdhPJw/ue8XCB8OirYiKhW1nIBACUuPrB60bhN5cJlRiqRy79zPOrbyqjVzJKR1b6BI4BqEnRiIJg==
+X-Received: by 2002:a1c:4e08:: with SMTP id g8mr5678446wmh.77.1594145871548;
+ Tue, 07 Jul 2020 11:17:51 -0700 (PDT)
 Received: from localhost.localdomain
  (138.red-83-57-170.dynamicip.rima-tde.net. [83.57.170.138])
- by smtp.gmail.com with ESMTPSA id 65sm2253337wma.48.2020.07.07.11.17.48
+ by smtp.gmail.com with ESMTPSA id 65sm2253337wma.48.2020.07.07.11.17.50
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 07 Jul 2020 11:17:49 -0700 (PDT)
+ Tue, 07 Jul 2020 11:17:51 -0700 (PDT)
 From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
 To: qemu-devel@nongnu.org
-Subject: [PULL 23/32] hw/misc: avr: Add limited support for power reduction
- device
-Date: Tue,  7 Jul 2020 20:17:01 +0200
-Message-Id: <20200707181710.30950-24-f4bug@amsat.org>
+Subject: [PULL 24/32] hw/avr: Add support for loading ELF/raw binaries
+Date: Tue,  7 Jul 2020 20:17:02 +0200
+Message-Id: <20200707181710.30950-25-f4bug@amsat.org>
 X-Mailer: git-send-email 2.21.3
 In-Reply-To: <20200707181710.30950-1-f4bug@amsat.org>
 References: <20200707181710.30950-1-f4bug@amsat.org>
@@ -65,8 +64,8 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::330;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wm1-x330.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::343;
+ envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wm1-x343.google.com
 X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
  That's all we know.
 X-Spam_score_int: 0
@@ -91,9 +90,7 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Cc: Laurent Vivier <lvivier@redhat.com>, Sarah Harris <S.E.Harris@kent.ac.uk>,
  Eduardo Habkost <ehabkost@redhat.com>, Thomas Huth <huth@tuxfamily.org>,
  =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>,
- Cleber Rosa <crosa@redhat.com>,
- Richard Henderson <richard.henderson@linaro.org>,
- Markus Armbruster <armbru@redhat.com>,
+ Cleber Rosa <crosa@redhat.com>, Markus Armbruster <armbru@redhat.com>,
  Wainer dos Santos Moschetta <wainersm@redhat.com>,
  Thomas Huth <thuth@redhat.com>,
  =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>,
@@ -106,254 +103,231 @@ Cc: Laurent Vivier <lvivier@redhat.com>, Sarah Harris <S.E.Harris@kent.ac.uk>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Michael Rolnik <mrolnik@gmail.com>
+Add avr_load_firmware() function to load firmware in ELF or
+raw binary format.
 
-This is a simple device of just one register, and whenever this
-register is written to it calls qemu_set_irq function for each
-of 8 bits/IRQs. It is used to implement AVR Power Reduction.
-
-[AM: Remove word 'Atmel' from filenames and all elements of code]
+[AM: Corrected the type of the variable containing e_flags]
+[AM: Moved definition of e_flags conversion function to boot.c]
 Suggested-by: Aleksandar Markovic <aleksandar.m.mail@gmail.com>
-Signed-off-by: Michael Rolnik <mrolnik@gmail.com>
 Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
-[rth: Squash include fix and file rename from f4bug]
-Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 Signed-off-by: Aleksandar Markovic <aleksandar.m.mail@gmail.com>
-Reviewed-by: Alex Bennée <alex.bennee@linaro.org>
+Reviewed-by: Aleksandar Markovic <aleksandar.m.mail@gmail.com>
 Signed-off-by: Thomas Huth <huth@tuxfamily.org>
-Message-Id: <20200705140315.260514-22-huth@tuxfamily.org>
+Message-Id: <20200705140315.260514-24-huth@tuxfamily.org>
+[PMD: Replace load_image_targphys() by load_image_mr()]
+Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
 ---
- include/hw/misc/avr_power.h |  46 +++++++++++++++
- hw/misc/avr_power.c         | 113 ++++++++++++++++++++++++++++++++++++
- MAINTAINERS                 |   2 +
- hw/misc/Kconfig             |   3 +
- hw/misc/Makefile.objs       |   2 +
- hw/misc/trace-events        |   4 ++
- 6 files changed, 170 insertions(+)
- create mode 100644 include/hw/misc/avr_power.h
- create mode 100644 hw/misc/avr_power.c
+ hw/avr/boot.h        |  33 +++++++++++++
+ include/elf.h        |   4 ++
+ hw/avr/boot.c        | 115 +++++++++++++++++++++++++++++++++++++++++++
+ MAINTAINERS          |   1 +
+ hw/avr/Makefile.objs |   1 +
+ 5 files changed, 154 insertions(+)
+ create mode 100644 hw/avr/boot.h
+ create mode 100644 hw/avr/boot.c
+ create mode 100644 hw/avr/Makefile.objs
 
-diff --git a/include/hw/misc/avr_power.h b/include/hw/misc/avr_power.h
+diff --git a/hw/avr/boot.h b/hw/avr/boot.h
 new file mode 100644
-index 0000000000..e08e44f629
+index 0000000000..684d553322
 --- /dev/null
-+++ b/include/hw/misc/avr_power.h
-@@ -0,0 +1,46 @@
++++ b/hw/avr/boot.h
+@@ -0,0 +1,33 @@
 +/*
-+ * AVR Power Reduction Management
++ * AVR loader helpers
 + *
-+ * Copyright (c) 2019-2020 Michael Rolnik
++ * Copyright (c) 2019-2020 Philippe Mathieu-Daudé
 + *
-+ * Permission is hereby granted, free of charge, to any person obtaining a copy
-+ * of this software and associated documentation files (the "Software"), to deal
-+ * in the Software without restriction, including without limitation the rights
-+ * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
-+ * copies of the Software, and to permit persons to whom the Software is
-+ * furnished to do so, subject to the following conditions:
-+ *
-+ * The above copyright notice and this permission notice shall be included in
-+ * all copies or substantial portions of the Software.
-+ *
-+ * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
-+ * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
-+ * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL
-+ * THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
-+ * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
-+ * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
-+ * THE SOFTWARE.
++ * This work is licensed under the terms of the GNU GPLv2 or later.
++ * See the COPYING file in the top-level directory.
++ * SPDX-License-Identifier: GPL-2.0-or-later
 + */
 +
-+#ifndef HW_MISC_AVR_POWER_H
-+#define HW_MISC_AVR_POWER_H
++#ifndef HW_AVR_BOOT_H
++#define HW_AVR_BOOT_H
 +
-+#include "hw/sysbus.h"
-+#include "hw/hw.h"
++#include "hw/boards.h"
++#include "cpu.h"
 +
++/**
++ * avr_load_firmware:   load an image into a memory region
++ *
++ * @cpu:        Handle a AVR CPU object
++ * @ms:         A MachineState
++ * @mr:         Memory Region to load into
++ * @firmware:   Path to the firmware file (raw binary or ELF format)
++ *
++ * Load a firmware supplied by the machine or by the user  with the
++ * '-bios' command line option, and put it in target memory.
++ *
++ * Returns: true on success, false on error.
++ */
++bool avr_load_firmware(AVRCPU *cpu, MachineState *ms,
++                       MemoryRegion *mr, const char *firmware);
 +
-+#define TYPE_AVR_MASK "avr-power"
-+#define AVR_MASK(obj) OBJECT_CHECK(AVRMaskState, (obj), TYPE_AVR_MASK)
++#endif
+diff --git a/include/elf.h b/include/elf.h
+index 8fbfe60e09..5b06b55f28 100644
+--- a/include/elf.h
++++ b/include/elf.h
+@@ -160,6 +160,8 @@ typedef struct mips_elf_abiflags_v0 {
+ 
+ #define EM_CRIS         76      /* Axis Communications 32-bit embedded processor */
+ 
++#define EM_AVR          83      /* AVR 8-bit microcontroller */
 +
-+typedef struct {
-+    /* <private> */
-+    SysBusDevice parent_obj;
+ #define EM_V850		87	/* NEC v850 */
+ 
+ #define EM_H8_300H      47      /* Hitachi H8/300H */
+@@ -202,6 +204,8 @@ typedef struct mips_elf_abiflags_v0 {
+ #define EM_MOXIE           223     /* Moxie processor family */
+ #define EM_MOXIE_OLD       0xFEED
+ 
++#define EF_AVR_MACH     0x7F       /* Mask for AVR e_flags to get core type */
 +
-+    /* <public> */
-+    MemoryRegion iomem;
-+
-+    uint8_t val;
-+    qemu_irq irq[8];
-+} AVRMaskState;
-+
-+#endif /* HW_MISC_AVR_POWER_H */
-diff --git a/hw/misc/avr_power.c b/hw/misc/avr_power.c
+ /* This is the info that is needed to parse the dynamic section of the file */
+ #define DT_NULL		0
+ #define DT_NEEDED	1
+diff --git a/hw/avr/boot.c b/hw/avr/boot.c
 new file mode 100644
-index 0000000000..a5412f2cfe
+index 0000000000..6fbcde4061
 --- /dev/null
-+++ b/hw/misc/avr_power.c
-@@ -0,0 +1,113 @@
++++ b/hw/avr/boot.c
+@@ -0,0 +1,115 @@
 +/*
-+ * AVR Power Reduction Management
++ * AVR loader helpers
 + *
-+ * Copyright (c) 2019-2020 Michael Rolnik
++ * Copyright (c) 2019-2020 Philippe Mathieu-Daudé
 + *
-+ * Permission is hereby granted, free of charge, to any person obtaining a copy
-+ * of this software and associated documentation files (the "Software"), to deal
-+ * in the Software without restriction, including without limitation the rights
-+ * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
-+ * copies of the Software, and to permit persons to whom the Software is
-+ * furnished to do so, subject to the following conditions:
-+ *
-+ * The above copyright notice and this permission notice shall be included in
-+ * all copies or substantial portions of the Software.
-+ *
-+ * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
-+ * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
-+ * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL
-+ * THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
-+ * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
-+ * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
-+ * THE SOFTWARE.
++ * This work is licensed under the terms of the GNU GPLv2 or later.
++ * See the COPYING file in the top-level directory.
++ * SPDX-License-Identifier: GPL-2.0-or-later
 + */
 +
 +#include "qemu/osdep.h"
-+#include "hw/misc/avr_power.h"
-+#include "qemu/log.h"
-+#include "hw/qdev-properties.h"
-+#include "hw/irq.h"
-+#include "trace.h"
++#include "qemu-common.h"
++#include "hw/loader.h"
++#include "elf.h"
++#include "boot.h"
++#include "qemu/error-report.h"
 +
-+static void avr_mask_reset(DeviceState *dev)
++static const char *avr_elf_e_flags_to_cpu_type(uint32_t flags)
 +{
-+    AVRMaskState *s = AVR_MASK(dev);
-+
-+    s->val = 0x00;
-+
-+    for (int i = 0; i < 8; i++) {
-+        qemu_set_irq(s->irq[i], 0);
++    switch (flags & EF_AVR_MACH) {
++    case bfd_mach_avr1:
++        return AVR_CPU_TYPE_NAME("avr1");
++    case bfd_mach_avr2:
++        return AVR_CPU_TYPE_NAME("avr2");
++    case bfd_mach_avr25:
++        return AVR_CPU_TYPE_NAME("avr25");
++    case bfd_mach_avr3:
++        return AVR_CPU_TYPE_NAME("avr3");
++    case bfd_mach_avr31:
++        return AVR_CPU_TYPE_NAME("avr31");
++    case bfd_mach_avr35:
++        return AVR_CPU_TYPE_NAME("avr35");
++    case bfd_mach_avr4:
++        return AVR_CPU_TYPE_NAME("avr4");
++    case bfd_mach_avr5:
++        return AVR_CPU_TYPE_NAME("avr5");
++    case bfd_mach_avr51:
++        return AVR_CPU_TYPE_NAME("avr51");
++    case bfd_mach_avr6:
++        return AVR_CPU_TYPE_NAME("avr6");
++    case bfd_mach_avrtiny:
++        return AVR_CPU_TYPE_NAME("avrtiny");
++    case bfd_mach_avrxmega2:
++        return AVR_CPU_TYPE_NAME("xmega2");
++    case bfd_mach_avrxmega3:
++        return AVR_CPU_TYPE_NAME("xmega3");
++    case bfd_mach_avrxmega4:
++        return AVR_CPU_TYPE_NAME("xmega4");
++    case bfd_mach_avrxmega5:
++        return AVR_CPU_TYPE_NAME("xmega5");
++    case bfd_mach_avrxmega6:
++        return AVR_CPU_TYPE_NAME("xmega6");
++    case bfd_mach_avrxmega7:
++        return AVR_CPU_TYPE_NAME("xmega7");
++    default:
++        return NULL;
 +    }
 +}
 +
-+static uint64_t avr_mask_read(void *opaque, hwaddr offset, unsigned size)
++bool avr_load_firmware(AVRCPU *cpu, MachineState *ms,
++                       MemoryRegion *program_mr, const char *firmware)
 +{
-+    assert(size == 1);
-+    assert(offset == 0);
-+    AVRMaskState *s = opaque;
++    const char *filename;
++    int bytes_loaded;
++    uint64_t entry;
++    uint32_t e_flags;
 +
-+    trace_avr_power_read(s->val);
-+
-+    return (uint64_t)s->val;
-+}
-+
-+static void avr_mask_write(void *opaque, hwaddr offset,
-+                           uint64_t val64, unsigned size)
-+{
-+    assert(size == 1);
-+    assert(offset == 0);
-+    AVRMaskState *s = opaque;
-+    uint8_t val8 = val64;
-+
-+    trace_avr_power_write(val8);
-+    s->val = val8;
-+    for (int i = 0; i < 8; i++) {
-+        qemu_set_irq(s->irq[i], (val8 & (1 << i)) != 0);
++    filename = qemu_find_file(QEMU_FILE_TYPE_BIOS, firmware);
++    if (filename == NULL) {
++        error_report("Unable to find %s", firmware);
++        return false;
 +    }
-+}
 +
-+static const MemoryRegionOps avr_mask_ops = {
-+    .read = avr_mask_read,
-+    .write = avr_mask_write,
-+    .endianness = DEVICE_NATIVE_ENDIAN,
-+    .impl = {
-+        .max_access_size = 1,
-+    },
-+};
++    bytes_loaded = load_elf_ram_sym(filename,
++                                    NULL, NULL, NULL,
++                                    &entry, NULL, NULL,
++                                    &e_flags, 0, EM_AVR, 0, 0,
++                                    NULL, true, NULL);
++    if (bytes_loaded >= 0) {
++        /* If ELF file is provided, determine CPU type reading ELF e_flags. */
++        const char *elf_cpu = avr_elf_e_flags_to_cpu_type(e_flags);
++        const char *mcu_cpu_type = object_get_typename(OBJECT(cpu));
++        int cpu_len = strlen(mcu_cpu_type) - strlen(AVR_CPU_TYPE_SUFFIX);
 +
-+static void avr_mask_init(Object *dev)
-+{
-+    AVRMaskState *s = AVR_MASK(dev);
-+    SysBusDevice *busdev = SYS_BUS_DEVICE(dev);
-+
-+    memory_region_init_io(&s->iomem, dev, &avr_mask_ops, s, TYPE_AVR_MASK,
-+                          0x01);
-+    sysbus_init_mmio(busdev, &s->iomem);
-+
-+    for (int i = 0; i < 8; i++) {
-+        sysbus_init_irq(busdev, &s->irq[i]);
++        if (entry) {
++            error_report("BIOS entry_point must be 0x0000 "
++                         "(ELF image '%s' has entry_point 0x%04" PRIx64 ")",
++                         firmware, entry);
++            return false;
++        }
++        if (!elf_cpu) {
++            warn_report("Could not determine CPU type for ELF image '%s', "
++                        "assuming '%.*s' CPU",
++                         firmware, cpu_len, mcu_cpu_type);
++            return true;
++        }
++        if (strcmp(elf_cpu, mcu_cpu_type)) {
++            error_report("Current machine: %s with '%.*s' CPU",
++                         MACHINE_GET_CLASS(ms)->desc, cpu_len, mcu_cpu_type);
++            error_report("ELF image '%s' is for '%.*s' CPU",
++                         firmware,
++                         (int)(strlen(elf_cpu) - strlen(AVR_CPU_TYPE_SUFFIX)),
++                         elf_cpu);
++            return false;
++        }
++    } else {
++        bytes_loaded = load_image_mr(filename, program_mr);
 +    }
-+    s->val = 0x00;
++    if (bytes_loaded < 0) {
++        error_report("Unable to load firmware image %s as ELF or raw binary",
++                     firmware);
++        return false;
++    }
++    return true;
 +}
-+
-+static void avr_mask_class_init(ObjectClass *klass, void *data)
-+{
-+    DeviceClass *dc = DEVICE_CLASS(klass);
-+
-+    dc->reset = avr_mask_reset;
-+}
-+
-+static const TypeInfo avr_mask_info = {
-+    .name          = TYPE_AVR_MASK,
-+    .parent        = TYPE_SYS_BUS_DEVICE,
-+    .instance_size = sizeof(AVRMaskState),
-+    .class_init    = avr_mask_class_init,
-+    .instance_init = avr_mask_init,
-+};
-+
-+static void avr_mask_register_types(void)
-+{
-+    type_register_static(&avr_mask_info);
-+}
-+
-+type_init(avr_mask_register_types)
 diff --git a/MAINTAINERS b/MAINTAINERS
-index 61a6017342..443b377a72 100644
+index 443b377a72..a78d4e56ff 100644
 --- a/MAINTAINERS
 +++ b/MAINTAINERS
-@@ -987,6 +987,8 @@ F: include/hw/char/avr_usart.h
+@@ -983,6 +983,7 @@ M: Michael Rolnik <mrolnik@gmail.com>
+ R: Sarah Harris <S.E.Harris@kent.ac.uk>
+ S: Maintained
+ F: default-configs/avr-softmmu.mak
++F: hw/avr/
+ F: include/hw/char/avr_usart.h
  F: hw/char/avr_usart.c
  F: include/hw/timer/avr_timer16.h
- F: hw/timer/avr_timer16.c
-+F: include/hw/misc/avr_power.h
-+F: hw/misc/avr_power.c
- 
- CRIS Machines
- -------------
-diff --git a/hw/misc/Kconfig b/hw/misc/Kconfig
-index bdd77d8020..92c397ca07 100644
---- a/hw/misc/Kconfig
-+++ b/hw/misc/Kconfig
-@@ -131,4 +131,7 @@ config MAC_VIA
-     select MOS6522
-     select ADB
- 
-+config AVR_POWER
-+    bool
-+
- source macio/Kconfig
-diff --git a/hw/misc/Makefile.objs b/hw/misc/Makefile.objs
-index 5aaca8a039..6be3d255ab 100644
---- a/hw/misc/Makefile.objs
-+++ b/hw/misc/Makefile.objs
-@@ -91,3 +91,5 @@ common-obj-$(CONFIG_NRF51_SOC) += nrf51_rng.o
- obj-$(CONFIG_MAC_VIA) += mac_via.o
- 
- common-obj-$(CONFIG_GRLIB) += grlib_ahb_apb_pnp.o
-+
-+obj-$(CONFIG_AVR_POWER) += avr_power.o
-diff --git a/hw/misc/trace-events b/hw/misc/trace-events
-index ebea53735c..066752aa90 100644
---- a/hw/misc/trace-events
-+++ b/hw/misc/trace-events
-@@ -19,6 +19,10 @@ allwinner_h3_dramphy_write(uint64_t offset, uint64_t data, unsigned size) "write
- allwinner_sid_read(uint64_t offset, uint64_t data, unsigned size) "offset 0x%" PRIx64 " data 0x%" PRIx64 " size %" PRIu32
- allwinner_sid_write(uint64_t offset, uint64_t data, unsigned size) "offset 0x%" PRIx64 " data 0x%" PRIx64 " size %" PRIu32
- 
-+# avr_power.c
-+avr_power_read(uint8_t value) "power_reduc read value:%u"
-+avr_power_write(uint8_t value) "power_reduc write value:%u"
-+
- # eccmemctl.c
- ecc_mem_writel_mer(uint32_t val) "Write memory enable 0x%08x"
- ecc_mem_writel_mdr(uint32_t val) "Write memory delay 0x%08x"
+diff --git a/hw/avr/Makefile.objs b/hw/avr/Makefile.objs
+new file mode 100644
+index 0000000000..123f174f0e
+--- /dev/null
++++ b/hw/avr/Makefile.objs
+@@ -0,0 +1 @@
++obj-y += boot.o
 -- 
 2.21.3
 
