@@ -2,54 +2,54 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0E37A216DF8
-	for <lists+qemu-devel@lfdr.de>; Tue,  7 Jul 2020 15:43:55 +0200 (CEST)
-Received: from localhost ([::1]:46384 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A87A5216DFA
+	for <lists+qemu-devel@lfdr.de>; Tue,  7 Jul 2020 15:44:17 +0200 (CEST)
+Received: from localhost ([::1]:47646 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jsnt3-0008Kn-4H
-	for lists+qemu-devel@lfdr.de; Tue, 07 Jul 2020 09:43:53 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:50614)
+	id 1jsntQ-0000PB-KW
+	for lists+qemu-devel@lfdr.de; Tue, 07 Jul 2020 09:44:16 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:50722)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1jsnrv-0006dU-0c
- for qemu-devel@nongnu.org; Tue, 07 Jul 2020 09:42:43 -0400
-Received: from us-smtp-1.mimecast.com ([205.139.110.61]:36680
+ (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1jsns4-0006tz-Uq
+ for qemu-devel@nongnu.org; Tue, 07 Jul 2020 09:42:52 -0400
+Received: from us-smtp-1.mimecast.com ([205.139.110.61]:41243
  helo=us-smtp-delivery-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1jsnrs-0004Yw-TF
- for qemu-devel@nongnu.org; Tue, 07 Jul 2020 09:42:42 -0400
+ (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1jsns3-0004bN-BQ
+ for qemu-devel@nongnu.org; Tue, 07 Jul 2020 09:42:52 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1594129360;
+ s=mimecast20190719; t=1594129370;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:content-type:content-type:in-reply-to:in-reply-to:
- references:references; bh=aWEGvrK7YSjXUBMVlkvwbjgfnMCter2xKCRiNrgagJg=;
- b=d8vF+U4Q6K4/lAGF/Td47Am782OKAB0CFUui8S34dTvkhISM2ntnUyTC6S0J++7hcVxtbO
- +3Ikq+MMa0wPSResOxyr+kCHswUAjR9U5uRHx7jwqVmdyGYZqXy2yUXD4wXDTFDIAVm96j
- WL8nt366U41a6S07iRwrG+wDVJhquJo=
+ references:references; bh=MYIUXR3CfD6NFerUROhZUSUnvg6P+uPCm/D3IMf65GE=;
+ b=DcOieJpbpkvWydwOE8yZEOALW66L7hSdzAZ4uZFimo6v3UasdcajZBK1Q50+O7e1ZA7XZW
+ n6iaaicStVHt6IWmMOoo0+WnmTMlI/2Oey2kQu1Ej4oLw5KTne2bwZFMnCHv0od4vz55GZ
+ aT2/w13uftAJkfkILWnx9cylnR7JknU=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-364-C0MNZ5h3MkG7ScI8bTOtow-1; Tue, 07 Jul 2020 09:42:38 -0400
-X-MC-Unique: C0MNZ5h3MkG7ScI8bTOtow-1
-Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
- [10.5.11.11])
+ us-mta-268--Jx8rmekOnu0PuAKs7dpvA-1; Tue, 07 Jul 2020 09:42:39 -0400
+X-MC-Unique: -Jx8rmekOnu0PuAKs7dpvA-1
+Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
+ [10.5.11.13])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id BB9C7DC28
- for <qemu-devel@nongnu.org>; Tue,  7 Jul 2020 13:42:37 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 9146BEE21
+ for <qemu-devel@nongnu.org>; Tue,  7 Jul 2020 13:42:38 +0000 (UTC)
 Received: from sirius.home.kraxel.org (ovpn-112-200.ams2.redhat.com
  [10.36.112.200])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 7FB6D7788F;
- Tue,  7 Jul 2020 13:42:30 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 77CF279810;
+ Tue,  7 Jul 2020 13:42:32 +0000 (UTC)
 Received: by sirius.home.kraxel.org (Postfix, from userid 1000)
- id CA73F31F24; Tue,  7 Jul 2020 15:42:29 +0200 (CEST)
+ id D302A31F2C; Tue,  7 Jul 2020 15:42:29 +0200 (CEST)
 From: Gerd Hoffmann <kraxel@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PULL 03/10] qdev: device module support
-Date: Tue,  7 Jul 2020 15:42:22 +0200
-Message-Id: <20200707134229.9773-4-kraxel@redhat.com>
+Subject: [PULL 04/10] build: fix device module builds
+Date: Tue,  7 Jul 2020 15:42:23 +0200
+Message-Id: <20200707134229.9773-5-kraxel@redhat.com>
 In-Reply-To: <20200707134229.9773-1-kraxel@redhat.com>
 References: <20200707134229.9773-1-kraxel@redhat.com>
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=kraxel@redhat.com
 X-Mimecast-Spam-Score: 0
@@ -65,7 +65,7 @@ X-Spam_bar: ---
 X-Spam_report: (-3.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H3=-0.01, RCVD_IN_MSPIKE_WL=-0.01,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=_AUTOLEARN
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001, URIBL_BLOCKED=0.001 autolearn=_AUTOLEARN
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -85,108 +85,46 @@ Cc: =?UTF-8?q?Marc-Andr=C3=A9=20Lureau?= <marcandre.lureau@redhat.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Hook module loading into the places where we
-need it when building devices as modules.
+Slightly hackish workaround, works ok as long as we don't
+have target-specific modules.  meson will obsolete this.
+
+See comment in the patch for the --verbose description.
 
 Signed-off-by: Gerd Hoffmann <kraxel@redhat.com>
-Message-id: 20200624131045.14512-4-kraxel@redhat.com
----
- hw/core/qdev.c     | 6 ++++--
- qdev-monitor.c     | 5 +++--
- qom/qom-qmp-cmds.c | 3 ++-
- softmmu/vl.c       | 4 ++--
- 4 files changed, 11 insertions(+), 7 deletions(-)
+Message-id: 20200624131045.14512-5-kraxel@redhat.com
 
-diff --git a/hw/core/qdev.c b/hw/core/qdev.c
-index 2131c7f951dd..9de16eae05b7 100644
---- a/hw/core/qdev.c
-+++ b/hw/core/qdev.c
-@@ -137,6 +137,9 @@ void qdev_set_parent_bus(DeviceState *dev, BusState *bus)
-  */
- DeviceState *qdev_new(const char *name)
- {
-+    if (!object_class_by_name(name)) {
-+        module_load_qom_one(name);
-+    }
-     return DEVICE(object_new(name));
- }
+[ kraxel: updated comment from discussions ]
+
+Signed-off-by: Gerd Hoffmann <kraxel@redhat.com>
+---
+ Makefile.target | 14 ++++++++++++++
+ 1 file changed, 14 insertions(+)
+
+diff --git a/Makefile.target b/Makefile.target
+index 8ed1eba95b9c..02bd9d7117dd 100644
+--- a/Makefile.target
++++ b/Makefile.target
+@@ -179,6 +179,20 @@ endif # CONFIG_SOFTMMU
+ dummy := $(call unnest-vars,,obj-y)
+ all-obj-y := $(obj-y)
  
-@@ -147,10 +150,9 @@ DeviceState *qdev_new(const char *name)
-  */
- DeviceState *qdev_try_new(const char *name)
- {
--    if (!object_class_by_name(name)) {
-+    if (!module_object_class_by_name(name)) {
-         return NULL;
-     }
--
-     return DEVICE(object_new(name));
- }
- 
-diff --git a/qdev-monitor.c b/qdev-monitor.c
-index 22da107484c5..8e7a7f7bbdbc 100644
---- a/qdev-monitor.c
-+++ b/qdev-monitor.c
-@@ -147,6 +147,7 @@ static void qdev_print_devinfos(bool show_no_user)
-     int i;
-     bool cat_printed;
- 
-+    module_load_qom_all();
-     list = object_class_get_list_sorted(TYPE_DEVICE, false);
- 
-     for (i = 0; i <= DEVICE_CATEGORY_MAX; i++) {
-@@ -215,13 +216,13 @@ static DeviceClass *qdev_get_device_class(const char **driver, Error **errp)
-     DeviceClass *dc;
-     const char *original_name = *driver;
- 
--    oc = object_class_by_name(*driver);
-+    oc = module_object_class_by_name(*driver);
-     if (!oc) {
-         const char *typename = find_typename_by_alias(*driver);
- 
-         if (typename) {
-             *driver = typename;
--            oc = object_class_by_name(*driver);
-+            oc = module_object_class_by_name(*driver);
-         }
-     }
- 
-diff --git a/qom/qom-qmp-cmds.c b/qom/qom-qmp-cmds.c
-index c5249e44d020..5e2c8cbf333f 100644
---- a/qom/qom-qmp-cmds.c
-+++ b/qom/qom-qmp-cmds.c
-@@ -116,6 +116,7 @@ ObjectTypeInfoList *qmp_qom_list_types(bool has_implements,
- {
-     ObjectTypeInfoList *ret = NULL;
- 
-+    module_load_qom_all();
-     object_class_foreach(qom_list_types_tramp, implements, abstract, &ret);
- 
-     return ret;
-@@ -130,7 +131,7 @@ ObjectPropertyInfoList *qmp_device_list_properties(const char *typename,
-     ObjectPropertyIterator iter;
-     ObjectPropertyInfoList *prop_list = NULL;
- 
--    klass = object_class_by_name(typename);
-+    klass = module_object_class_by_name(typename);
-     if (klass == NULL) {
-         error_set(errp, ERROR_CLASS_DEVICE_NOT_FOUND,
-                   "Device '%s' not found", typename);
-diff --git a/softmmu/vl.c b/softmmu/vl.c
-index 3e15ee243572..5acb65d7f48c 100644
---- a/softmmu/vl.c
-+++ b/softmmu/vl.c
-@@ -1772,8 +1772,8 @@ static bool vga_interface_available(VGAInterfaceType t)
- 
-     assert(t < VGA_TYPE_MAX);
-     return !ti->class_names[0] ||
--           object_class_by_name(ti->class_names[0]) ||
--           object_class_by_name(ti->class_names[1]);
-+           module_object_class_by_name(ti->class_names[0]) ||
-+           module_object_class_by_name(ti->class_names[1]);
- }
- 
- static const char *
++#
++# common-obj-m has some crap here, probably as side effect from
++# unnest-vars recursing into target directories to fill obj-y and not
++# properly handling the -m case.
++#
++# Clear common-obj-m as workaround.  Fixes suspious dependency errors
++# when building devices as modules.  A bit hackish, but should be ok
++# as long as we do not have any target-specific modules.
++#
++# The meson-based build system currently in development doesn't need
++# unnest-vars and will obsolete this workaround.
++#
++common-obj-m :=
++
+ include $(SRC_PATH)/Makefile.objs
+ dummy := $(call unnest-vars,.., \
+                authz-obj-y \
 -- 
 2.18.4
 
