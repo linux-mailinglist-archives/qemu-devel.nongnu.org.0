@@ -2,71 +2,72 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id AA63921673B
-	for <lists+qemu-devel@lfdr.de>; Tue,  7 Jul 2020 09:21:27 +0200 (CEST)
-Received: from localhost ([::1]:33112 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2955E216744
+	for <lists+qemu-devel@lfdr.de>; Tue,  7 Jul 2020 09:23:04 +0200 (CEST)
+Received: from localhost ([::1]:42202 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jshuw-0002fx-LW
-	for lists+qemu-devel@lfdr.de; Tue, 07 Jul 2020 03:21:26 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:42696)
+	id 1jshwV-0006PY-4i
+	for lists+qemu-devel@lfdr.de; Tue, 07 Jul 2020 03:23:03 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:43518)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1jshjH-000528-S6
- for qemu-devel@nongnu.org; Tue, 07 Jul 2020 03:09:23 -0400
-Received: from mail-wm1-x343.google.com ([2a00:1450:4864:20::343]:33550)
+ id 1jshoB-0006R7-9T
+ for qemu-devel@nongnu.org; Tue, 07 Jul 2020 03:14:27 -0400
+Received: from mail-wr1-x434.google.com ([2a00:1450:4864:20::434]:45561)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1jshjF-00046i-Vk
- for qemu-devel@nongnu.org; Tue, 07 Jul 2020 03:09:23 -0400
-Received: by mail-wm1-x343.google.com with SMTP id a6so1070448wmm.0
- for <qemu-devel@nongnu.org>; Tue, 07 Jul 2020 00:09:21 -0700 (PDT)
+ id 1jsho8-0004q3-Uo
+ for qemu-devel@nongnu.org; Tue, 07 Jul 2020 03:14:26 -0400
+Received: by mail-wr1-x434.google.com with SMTP id s10so43937961wrw.12
+ for <qemu-devel@nongnu.org>; Tue, 07 Jul 2020 00:14:24 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=Y0AvFK9jDhQslOqQ/+Gd4Ly1wJW6CnLI4eXMz6hvfIk=;
- b=Ha9b2I93IMyiA/qZRUClTEq9hMNYNlV7RFMmE/GrnzS0CDKv0d7t5f96jZ2qknQ4sX
- +fImQQ1b7HpWPKnEqiCkJAxOwK4TaS86K9H2SqMB+MVJz7DH+LfTLT0kpqTcXuAqDHwx
- ztHy3KZDmHqcUxDQMdCdLQ0aN/O3ZRsdCkgL+F+eiMq5HcDuZJ2YE0LILxPR0trGiezP
- F2X84S6Nl5ZS/TDxqLtD1v6En8QyywJm6n6T6b4y7q26nweebo/XcbxSyPYWLlw1CcXn
- IUiYFbnp8VPscIzvIxHPHOJUzOHuywIDNXuBvwJlRjml8yEiPF44DuyXh1C2zaTmLK6+
- Pzng==
+ bh=+v5zmTqMHanAlbP0rCuGswlB7G9ERwBp467Jydp4J1s=;
+ b=Hd9Rmt4SPUXUgR0Qsa0W06b7poQu1JKVGeX9VguAR8b4SL1A39TybJOB3rgKo8kHiT
+ FsyhWhqQ3/JaPvmAR401CrMQtAUoogplZy4NSP5KrfQPIfikEtlqu6wn8Gq23XHzNGgi
+ We9XtmnpYYK4tlGTo08Pe6wLW9j5XUX3ebNWKn0fv1o3gs5yNToDOhsR3bDNIXX7SfaF
+ 2e9XNbn+SwbXzmniemg0s95HIfB8Is0Ek/RzTEdgppZPCgpTm/AzErYK6rSKai5gfgkT
+ VRGPi/UYR83ESvpET/tpY3/B4iSeX+w/+5Bjke+zysM4pvt55ScDOILiTkdpdY1yc7bn
+ sOOg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=Y0AvFK9jDhQslOqQ/+Gd4Ly1wJW6CnLI4eXMz6hvfIk=;
- b=K9NHfWoJ8ePWTroaGHJ++gUEsyYziWRdKQl58plZVA5DHyT0kifRpA5yY4INy1VnCC
- pBux3i8SQu0bH7Tgjfi5jD/abx9+Ch/wuA7RaZZUNSWZ7xY+s5Y7UBBdLWUVXkoNQJVF
- NSC+Eka1H6H2yak5jsN7witTKZZdVtr6juo/4Sduq8uUI6h9484ENXl7Q6KZYPP4e73D
- OX4ASZhPyNCrwPHpUOpJ6pFqR29R9O4zMolGWvLGYZ5Ef1dYzuDhhe+edMnrzb90w0No
- KMZGJQnd6t/75j7O1OGahwnFpjdBAJcb4g44upTncLy/0Y0TefV/LPIu454lzhbeJGmy
- rOvg==
-X-Gm-Message-State: AOAM5323jhkqiFIkjlj9FLNvhP4XTG6TYpdUM5wU4R/iL6AlXoKalHdv
- LLtiDykJ/tLC1qT0nQ23dL+/uz4BeNI=
-X-Google-Smtp-Source: ABdhPJwKFsCTuTNtjG1EsPH+Lg2g69X0JvXXEsXrjl8CVk60wzkuG72cJvlWPgtAHEUAtxEoLZSCUg==
-X-Received: by 2002:a1c:303:: with SMTP id 3mr2730816wmd.180.1594105760534;
- Tue, 07 Jul 2020 00:09:20 -0700 (PDT)
+ bh=+v5zmTqMHanAlbP0rCuGswlB7G9ERwBp467Jydp4J1s=;
+ b=E6op6RUy/rBzSHqcVfwbR36/e2UmRxqaZBxLa7xhH8bpvd0coKm0HWqTxz6UURGkHX
+ mEeu6S1A8LzPbf+jZ7pwX77YqOIKmnRO99ourxoeMsFv3jqSdRB9zA53ABa7gH/yZNmU
+ t3XiR5anfeuuGjdScUn7xaOPNmH7iTgII8dRZCRySuuNOQIsaSPezIdk3caS6mlMkPgY
+ QSL1R7dvU+qB3tIvcWzOr3l0SBHs3NjDq5os1woXuXI/3Br5D7qoc4nqzeta8P8AN9uz
+ GnS/Xr4V7vDXhINDloMn2tOAo/m0rEBW8u5brvcXjr7oaljaH4ra6yOE9kfXqtfTJe2j
+ pL9Q==
+X-Gm-Message-State: AOAM533mJVeFHLIx01mifwe7t+7Csgy9+n3uH+CevW0SGly3bqiaUBQN
+ C6GWJqWrl3bCBT8JCw5RC9lRtw==
+X-Google-Smtp-Source: ABdhPJysvw1m3CkmR7Cj0h3x4mdyQQzavBWrpgkBvQayAcxfbK9c7ognjSpJbEOCsZi+PHS0Vq8/Yw==
+X-Received: by 2002:adf:f842:: with SMTP id d2mr56855091wrq.55.1594106063017; 
+ Tue, 07 Jul 2020 00:14:23 -0700 (PDT)
 Received: from zen.linaroharston ([51.148.130.216])
- by smtp.gmail.com with ESMTPSA id n17sm26170287wrs.2.2020.07.07.00.09.09
+ by smtp.gmail.com with ESMTPSA id e17sm26417761wrr.88.2020.07.07.00.14.22
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 07 Jul 2020 00:09:13 -0700 (PDT)
+ Tue, 07 Jul 2020 00:14:22 -0700 (PDT)
 Received: from zen.lan (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id 6F0461FFB5;
+ by zen.linaroharston (Postfix) with ESMTP id 9DD1F1FFB8;
  Tue,  7 Jul 2020 08:09:01 +0100 (BST)
 From: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
 To: peter.maydell@linaro.org
-Subject: [PULL 29/41] tests/tcg: add more default compilers to configure.sh
-Date: Tue,  7 Jul 2020 08:08:46 +0100
-Message-Id: <20200707070858.6622-30-alex.bennee@linaro.org>
+Subject: [PULL 31/41] linux-user/elfload: use MAP_FIXED_NOREPLACE in
+ pgb_reserved_va
+Date: Tue,  7 Jul 2020 08:08:48 +0100
+Message-Id: <20200707070858.6622-32-alex.bennee@linaro.org>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20200707070858.6622-1-alex.bennee@linaro.org>
 References: <20200707070858.6622-1-alex.bennee@linaro.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::343;
- envelope-from=alex.bennee@linaro.org; helo=mail-wm1-x343.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::434;
+ envelope-from=alex.bennee@linaro.org; helo=mail-wr1-x434.google.com
 X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
  That's all we know.
 X-Spam_score_int: -20
@@ -74,8 +75,8 @@ X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
  DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- URIBL_BLOCKED=0.001 autolearn=_AUTOLEARN
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=_AUTOLEARN
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -88,57 +89,58 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>,
- qemu-devel@nongnu.org
+Cc: Riku Voipio <riku.voipio@iki.fi>,
+ =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>, qemu-devel@nongnu.org,
+ Laurent Vivier <laurent@vivier.eu>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-We were missing a bunch of compilers which we could use if they were
-locally installed. The defaults are based on Debian as they seem to be
-the best distro for well distributed cross-build compilers.
+Given we assert the requested address matches what we asked we should
+also make that clear in the mmap flags. Otherwise we see failures in
+the GitLab environment for some currently unknown but allowable
+reason. We use MAP_FIXED_NOREPLACE if we can so we don't just clobber
+an existing mapping. Also include the strerror string for a bit more
+info on failure.
 
 Signed-off-by: Alex Bennée <alex.bennee@linaro.org>
-Message-Id: <20200701135652.1366-32-alex.bennee@linaro.org>
 
-diff --git a/tests/tcg/configure.sh b/tests/tcg/configure.sh
-index 2326f978562f..37e49736ca40 100755
---- a/tests/tcg/configure.sh
-+++ b/tests/tcg/configure.sh
-@@ -46,20 +46,29 @@ fi
- : ${cross_cc_aarch64="aarch64-linux-gnu-gcc"}
- : ${cross_cc_aarch64_be="$cross_cc_aarch64"}
- : ${cross_cc_cflags_aarch64_be="-mbig-endian"}
-+: $(cross_cc_alpha="alpha-linux-gnu-gcc")
- : ${cross_cc_arm="arm-linux-gnueabihf-gcc"}
- : ${cross_cc_cflags_armeb="-mbig-endian"}
-+: ${cross_cc_hppa="hppa-linux-gnu-gcc"}
- : ${cross_cc_i386="i386-pc-linux-gnu-gcc"}
- : ${cross_cc_cflags_i386="-m32"}
--: ${cross_cc_x86_64="x86_64-pc-linux-gnu-gcc"}
--: ${cross_cc_cflags_x86_64="-m64"}
-+: ${cross_cc_m68k="m68k-linux-gnu-gcc"}
-+: $(cross_cc_mips64el="mips64el-linux-gnuabi64-gcc")
-+: $(cross_cc_mips64="mips64-linux-gnuabi64-gcc")
-+: $(cross_cc_mipsel="mipsel-linux-gnu-gcc")
-+: $(cross_cc_mips="mips-linux-gnu-gcc")
- : ${cross_cc_ppc="powerpc-linux-gnu-gcc"}
- : ${cross_cc_cflags_ppc="-m32"}
--: ${cross_cc_ppc64="powerpc-linux-gnu-gcc"}
--: ${cross_cc_cflags_ppc64="-m64"}
-+: ${cross_cc_ppc64="powerpc64-linux-gnu-gcc"}
- : ${cross_cc_ppc64le="powerpc64le-linux-gnu-gcc"}
--: ${cross_cc_cflags_s390x="-m64"}
-+: $(cross_cc_riscv64="riscv64-linux-gnu-gcc")
-+: ${cross_cc_s390x="s390x-linux-gnu-gcc"}
-+: $(cross_cc_sh4="sh4-linux-gnu-gcc")
- : ${cross_cc_cflags_sparc="-m32 -mv8plus -mcpu=ultrasparc"}
-+: ${cross_cc_sparc64="sparc64-linux-gnu-gcc"}
- : ${cross_cc_cflags_sparc64="-m64 -mcpu=ultrasparc"}
-+: ${cross_cc_x86_64="x86_64-pc-linux-gnu-gcc"}
-+: ${cross_cc_cflags_x86_64="-m64"}
+Message-Id: <20200701135652.1366-34-alex.bennee@linaro.org>
+
+diff --git a/linux-user/elfload.c b/linux-user/elfload.c
+index b5cb21384a1c..7e7f642332dc 100644
+--- a/linux-user/elfload.c
++++ b/linux-user/elfload.c
+@@ -2294,7 +2294,7 @@ static void pgb_dynamic(const char *image_name, long align)
+ static void pgb_reserved_va(const char *image_name, abi_ulong guest_loaddr,
+                             abi_ulong guest_hiaddr, long align)
+ {
+-    const int flags = MAP_ANONYMOUS | MAP_PRIVATE | MAP_NORESERVE;
++    int flags = MAP_ANONYMOUS | MAP_PRIVATE | MAP_NORESERVE;
+     void *addr, *test;
  
- for target in $target_list; do
-   arch=${target%%-*}
+     if (guest_hiaddr > reserved_va) {
+@@ -2307,15 +2307,19 @@ static void pgb_reserved_va(const char *image_name, abi_ulong guest_loaddr,
+     /* Widen the "image" to the entire reserved address space. */
+     pgb_static(image_name, 0, reserved_va, align);
+ 
++#ifdef MAP_FIXED_NOREPLACE
++    flags |= MAP_FIXED_NOREPLACE;
++#endif
++
+     /* Reserve the memory on the host. */
+     assert(guest_base != 0);
+     test = g2h(0);
+     addr = mmap(test, reserved_va, PROT_NONE, flags, -1, 0);
+     if (addr == MAP_FAILED) {
+         error_report("Unable to reserve 0x%lx bytes of virtual address "
+-                     "space for use as guest address space (check your "
++                     "space (%s) for use as guest address space (check your "
+                      "virtual memory ulimit setting or reserve less "
+-                     "using -R option)", reserved_va);
++                     "using -R option)", reserved_va, strerror(errno));
+         exit(EXIT_FAILURE);
+     }
+     assert(addr == test);
 -- 
 2.20.1
 
