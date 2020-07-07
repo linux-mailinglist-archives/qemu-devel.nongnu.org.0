@@ -2,72 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4869721675A
-	for <lists+qemu-devel@lfdr.de>; Tue,  7 Jul 2020 09:26:14 +0200 (CEST)
-Received: from localhost ([::1]:55150 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 16591216727
+	for <lists+qemu-devel@lfdr.de>; Tue,  7 Jul 2020 09:16:49 +0200 (CEST)
+Received: from localhost ([::1]:38068 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jshzZ-0003XH-AM
-	for lists+qemu-devel@lfdr.de; Tue, 07 Jul 2020 03:26:13 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:45938)
+	id 1jshqS-0000u8-1c
+	for lists+qemu-devel@lfdr.de; Tue, 07 Jul 2020 03:16:48 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:43548)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1jshxu-0001bh-J4
- for qemu-devel@nongnu.org; Tue, 07 Jul 2020 03:24:30 -0400
-Received: from mail-wm1-x32a.google.com ([2a00:1450:4864:20::32a]:53825)
+ id 1jshoD-0006W6-CC
+ for qemu-devel@nongnu.org; Tue, 07 Jul 2020 03:14:29 -0400
+Received: from mail-wm1-x335.google.com ([2a00:1450:4864:20::335]:54869)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1jshxs-0006gg-GA
- for qemu-devel@nongnu.org; Tue, 07 Jul 2020 03:24:30 -0400
-Received: by mail-wm1-x32a.google.com with SMTP id j18so42153424wmi.3
- for <qemu-devel@nongnu.org>; Tue, 07 Jul 2020 00:24:28 -0700 (PDT)
+ id 1jshoA-0004qN-Lt
+ for qemu-devel@nongnu.org; Tue, 07 Jul 2020 03:14:29 -0400
+Received: by mail-wm1-x335.google.com with SMTP id o8so42115721wmh.4
+ for <qemu-devel@nongnu.org>; Tue, 07 Jul 2020 00:14:26 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=eRHrZQr4xxHTl8oAYYO/0TefLzk7Y8ib9xGkS3UKuCE=;
- b=fU3LyOASuwUlx1qff9Jk3ntYLstmYpSzeZoKLEC+bc3f6mWZ4G5eQSQVsVn71IzFJr
- 5Jt63hd0AqxnCqDh1+mG0BjrOgivo9fFAM4qxhLK0WrewF6JYiT9CStvNPX71bVJxQrs
- 9/sDmP1s4GazBkgjWa++2ruWhhJSgXwehDu5dQs7Bbmkr4/NW8UZBYNgW2mZMO+7ic8k
- MAAp1kPprAggmdxm4/IZqFLgt+L4KVYszqOtNolmdzEf8IN9NnaTEk6Vn6qnLzba4274
- 2uQB8KmignVrlTk4ufFfu+4PYUPI6KlxGr4J1MsoLbhyhAvEmS3og3/z5XZglQ3tveMu
- s+MQ==
+ bh=u0LOJgObk9rTvD/1EAGQv5c56FpOTGglsdotVrrqgmQ=;
+ b=tUV51HJL4Kodh/5UcDw8Xwj3KZBmQFwMrM2iG6JZNn+hwhwYIg2x5DQOUevBpJw9ZH
+ xmPsH3kk7Eq3TCHP7xF/h/O3n+k66GgrqC9cqF57i8txwzyjAV6dQNPE88xxaDQVyAjT
+ orm1iQkZqChEYK+ulNYaEGZELHdIfL2ghG2LrA7P1viNKQgFntG0nCHLZU/atBK4j5V2
+ eMRimtGy4O4d5RUBbS2BZl5pmTrKuwMMgIoHC/Ff3meVdOsP6GglJN6ye+ATGC4kj2h3
+ NGtQljkF1yl06XS+BST8Z3a6YU1FN8yX/nDz8NwKPIiGeMpG7ObRgM0no3smlXv/KBB7
+ ETnw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=eRHrZQr4xxHTl8oAYYO/0TefLzk7Y8ib9xGkS3UKuCE=;
- b=Y0BXS8y0viB301v5HjtRT+vOxvB7Cd2ETKV1g/Oe/vOwEy5Vepf9caNRVGVsYdenGA
- yXNwgMypsG7CPUK4ebm/vi4hkCy3JcaF/Mz1DLkayeIG5AzjxJ8pU+xnLV4DDxZUWZ5C
- QCDdrccOIpAfO3gfYK354749al/iVRXvOZrOecnGhAy2W7tPAkEwI6GNnyZYJFpAVcCP
- 6j/++XenvpX7GLwxiSs7U6RZshfBOMCa8/VnsoF4aYazsKuu4Nxy9jFbymeJmYTvl3p2
- VL3eBmdh3qVQHRlLu6kndgs5x0BpILq5EHbX2wkBTYneVChP+/zTi7StAW520hvhOtkZ
- vFPA==
-X-Gm-Message-State: AOAM5323K3mCrlNf6Wm7ZC3Zog69pJo2ViLDaPq2hpl7bYDg9EOc/Owr
- d+aHDkECopg5V5bBGoEd7rgU5Q==
-X-Google-Smtp-Source: ABdhPJwBG3algQWpp64WbkYPzyT5TH1YOhih+Ldz+BVru78aeLHBguFw7ZHNlBnfsRcSdWCWmxGLhQ==
-X-Received: by 2002:a05:600c:4109:: with SMTP id
- j9mr2622040wmi.157.1594106667008; 
- Tue, 07 Jul 2020 00:24:27 -0700 (PDT)
+ bh=u0LOJgObk9rTvD/1EAGQv5c56FpOTGglsdotVrrqgmQ=;
+ b=kmsDJm2Q33edazVWEDRNRO2Ch4ecb6A01iug4VvgvO5ARx9IfP9jttp6XsLQQCPIoR
+ kxY8sZq911KdLkMOgds6MVkM2AvR3TJlPn5Ac0a3YHJQ0tzGagC5OpeUAcUzC1a5EHqv
+ SJMEhHBdY3ITY+XfIGpaZtGwUUS23eRkvvWUASPeAuCCQZb2S9F+4AEnu6q3IvueOLXw
+ /ZUO+TC+JSmBz8ndsoNNJupGQWzVAzoEvdg1ktan/j6Mm14ARmygpipmktavW3BdVwOP
+ yyKr5SA5SOqS8rBK6Tm3vnwbTPb+g6J6YyIOIp3CIaTH/s4UgO/ZqONhgWleGQzeHeD1
+ 74FA==
+X-Gm-Message-State: AOAM533DEP6Tg2v7ogF7HqBABcz2zX6nDxNIc1oMqDbCgg5Sfk47So+6
+ bpf/E3hN8/XMqBQyHsWLtJavgQ==
+X-Google-Smtp-Source: ABdhPJwL92Ih1d6LTtRbygxemcOAsXbUo9dST1ltLDsCru/T960537cvDFqUTxvcw5g81BG8KjthBA==
+X-Received: by 2002:a7b:c185:: with SMTP id y5mr2779585wmi.85.1594106065131;
+ Tue, 07 Jul 2020 00:14:25 -0700 (PDT)
 Received: from zen.linaroharston ([51.148.130.216])
- by smtp.gmail.com with ESMTPSA id b184sm2343882wmc.20.2020.07.07.00.24.21
+ by smtp.gmail.com with ESMTPSA id n17sm26187222wrs.2.2020.07.07.00.14.22
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 07 Jul 2020 00:24:22 -0700 (PDT)
+ Tue, 07 Jul 2020 00:14:22 -0700 (PDT)
 Received: from zen.lan (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id 7B75C1FFA9;
+ by zen.linaroharston (Postfix) with ESMTP id 91D1B1FFAA;
  Tue,  7 Jul 2020 08:09:00 +0100 (BST)
 From: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
 To: peter.maydell@linaro.org
-Subject: [PULL 19/41] gitlab: build all container images during CI
-Date: Tue,  7 Jul 2020 08:08:36 +0100
-Message-Id: <20200707070858.6622-20-alex.bennee@linaro.org>
+Subject: [PULL 20/41] gitlab: convert jobs to use custom built containers
+Date: Tue,  7 Jul 2020 08:08:37 +0100
+Message-Id: <20200707070858.6622-21-alex.bennee@linaro.org>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20200707070858.6622-1-alex.bennee@linaro.org>
 References: <20200707070858.6622-1-alex.bennee@linaro.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::32a;
- envelope-from=alex.bennee@linaro.org; helo=mail-wm1-x32a.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::335;
+ envelope-from=alex.bennee@linaro.org; helo=mail-wm1-x335.google.com
 X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
  That's all we know.
 X-Spam_score_int: -20
@@ -99,294 +98,240 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Daniel P. Berrangé <berrange@redhat.com>
 
-We have a number of container images in tests/docker/dockerfiles
-that are intended to provide well defined environments for doing
-test builds. We want our CI system to use these containers too.
-
-This introduces builds of all of them as the first stage in the
-CI, so that the built containers are available for later build
-jobs. The containers are setup to use the GitLab container
-registry as the cache, so we only pay the penalty of the full
-build when the dockerfiles change. The main qemu-project/qemu
-repo is used as a second cache, so that users forking QEMU will
-see a fast turnaround time on their CI jobs.
+Now that we're building standard container images from
+dockerfiles in tests/docker/dockerfiles, we can convert
+the build jobs to use them. The key benefit of this is
+that a contributor can now more easily replicate the CI
+environment on their local machine. The container images
+are cached too, so we are not spending time waiting for
+the apt-get/dnf package installs to complete.
 
 Signed-off-by: Daniel P. Berrangé <berrange@redhat.com>
-Message-Id: <20200622153318.751107-3-berrange@redhat.com>
-[AJB: tweak the tag format]
+Message-Id: <20200622153318.751107-4-berrange@redhat.com>
+[AJB: tweak naming convention]
 Signed-off-by: Alex Bennée <alex.bennee@linaro.org>
 Acked-by: Thomas Huth <thuth@redhat.com>
-Message-Id: <20200701135652.1366-22-alex.bennee@linaro.org>
+Message-Id: <20200701135652.1366-23-alex.bennee@linaro.org>
 
-diff --git a/.gitlab-ci.d/containers.yml b/.gitlab-ci.d/containers.yml
-new file mode 100644
-index 000000000000..2afd01f1d179
---- /dev/null
-+++ b/.gitlab-ci.d/containers.yml
-@@ -0,0 +1,245 @@
-+.container_job_template: &container_job_definition
-+  image: docker:stable
-+  stage: containers
-+  services:
-+    - docker:dind
-+  before_script:
-+    - export TAG="$CI_REGISTRY_IMAGE/qemu/$NAME:latest"
-+    - export COMMON_TAG="$CI_REGISTRY/qemu-project/qemu/$NAME:latest"
-+    - docker info
-+    - docker login registry.gitlab.com -u "$CI_REGISTRY_USER" -p "$CI_REGISTRY_PASSWORD"
-+  script:
-+    - docker pull "$TAG" || docker pull "$COMMON_TAG" || true
-+    - sed -i -e "s,FROM qemu/,FROM $CI_REGISTRY_IMAGE/qemu/," tests/docker/dockerfiles/$NAME.docker
-+    - docker build --cache-from "$TAG" --cache-from "$COMMON_TAG" --tag "$TAG" -f "tests/docker/dockerfiles/$NAME.docker" tests/docker/dockerfiles
-+    - docker push "$TAG"
-+  after_script:
-+    - docker logout
-+
-+amd64-centos7-container:
-+  <<: *container_job_definition
-+  variables:
-+    NAME: centos7
-+
-+amd64-centos8-container:
-+  <<: *container_job_definition
-+  variables:
-+    NAME: centos8
-+
-+amd64-debian10-container:
-+  <<: *container_job_definition
-+  variables:
-+    NAME: debian10
-+
-+amd64-debian11-container:
-+  <<: *container_job_definition
-+  variables:
-+    NAME: debian11
-+
-+amd64-debian9-container:
-+  <<: *container_job_definition
-+  variables:
-+    NAME: debian9
-+
-+amd64-debian9-mxe-container:
-+  <<: *container_job_definition
-+  stage: containers-layer2
-+  needs: ['amd64-debian9-container']
-+  variables:
-+    NAME: debian9-mxe
-+
-+alpha-debian-cross-container:
-+  <<: *container_job_definition
-+  stage: containers-layer2
-+  needs: ['amd64-debian10-container']
-+  variables:
-+    NAME: debian-alpha-cross
-+
-+amd64-debian-cross-container:
-+  <<: *container_job_definition
-+  stage: containers-layer2
-+  needs: ['amd64-debian10-container']
-+  variables:
-+    NAME: debian-amd64-cross
-+
-+amd64-debian-container:
-+  <<: *container_job_definition
-+  stage: containers-layer2
-+  needs: ['amd64-debian10-container']
-+  variables:
-+    NAME: debian-amd64
-+
-+arm64-debian-cross-container:
-+  <<: *container_job_definition
-+  stage: containers-layer2
-+  needs: ['amd64-debian10-container']
-+  variables:
-+    NAME: debian-arm64-cross
-+
-+arm64-test-debian-cross-container:
-+  <<: *container_job_definition
-+  stage: containers-layer2
-+  needs: ['amd64-debian11-container']
-+  variables:
-+    NAME: debian-arm64-test-cross
-+
-+armel-debian-cross-container:
-+  <<: *container_job_definition
-+  stage: containers-layer2
-+  needs: ['amd64-debian10-container']
-+  variables:
-+    NAME: debian-armel-cross
-+
-+armhf-debian-cross-container:
-+  <<: *container_job_definition
-+  stage: containers-layer2
-+  needs: ['amd64-debian10-container']
-+  variables:
-+    NAME: debian-armhf-cross
-+
-+hppa-debian-cross-container:
-+  <<: *container_job_definition
-+  stage: containers-layer2
-+  needs: ['amd64-debian10-container']
-+  variables:
-+    NAME: debian-hppa-cross
-+
-+m68k-debian-cross-container:
-+  <<: *container_job_definition
-+  stage: containers-layer2
-+  needs: ['amd64-debian10-container']
-+  variables:
-+    NAME: debian-m68k-cross
-+
-+mips64-debian-cross-container:
-+  <<: *container_job_definition
-+  stage: containers-layer2
-+  needs: ['amd64-debian10-container']
-+  variables:
-+    NAME: debian-mips64-cross
-+
-+mips64el-debian-cross-container:
-+  <<: *container_job_definition
-+  stage: containers-layer2
-+  needs: ['amd64-debian10-container']
-+  variables:
-+    NAME: debian-mips64el-cross
-+
-+mips-debian-cross-container:
-+  <<: *container_job_definition
-+  stage: containers-layer2
-+  needs: ['amd64-debian10-container']
-+  variables:
-+    NAME: debian-mips-cross
-+
-+mipsel-debian-cross-container:
-+  <<: *container_job_definition
-+  stage: containers-layer2
-+  needs: ['amd64-debian10-container']
-+  variables:
-+    NAME: debian-mipsel-cross
-+
-+powerpc-debian-cross-container:
-+  <<: *container_job_definition
-+  stage: containers-layer2
-+  needs: ['amd64-debian10-container']
-+  variables:
-+    NAME: debian-powerpc-cross
-+
-+ppc64-debian-cross-container:
-+  <<: *container_job_definition
-+  stage: containers-layer2
-+  needs: ['amd64-debian10-container']
-+  variables:
-+    NAME: debian-ppc64-cross
-+
-+ppc64el-debian-cross-container:
-+  <<: *container_job_definition
-+  stage: containers-layer2
-+  needs: ['amd64-debian10-container']
-+  variables:
-+    NAME: debian-ppc64el-cross
-+
-+riscv64-debian-cross-container:
-+  <<: *container_job_definition
-+  stage: containers-layer2
-+  needs: ['amd64-debian10-container']
-+  variables:
-+    NAME: debian-riscv64-cross
-+
-+s390x-debian-cross-container:
-+  <<: *container_job_definition
-+  stage: containers-layer2
-+  needs: ['amd64-debian10-container']
-+  variables:
-+    NAME: debian-s390x-cross
-+
-+sh4-debian-cross-container:
-+  <<: *container_job_definition
-+  stage: containers-layer2
-+  needs: ['amd64-debian10-container']
-+  variables:
-+    NAME: debian-sh4-cross
-+
-+sparc64-debian-cross-container:
-+  <<: *container_job_definition
-+  stage: containers-layer2
-+  needs: ['amd64-debian10-container']
-+  variables:
-+    NAME: debian-sparc64-cross
-+
-+tricore-debian-cross-container:
-+  <<: *container_job_definition
-+  stage: containers-layer2
-+  needs: ['amd64-debian9-container']
-+  variables:
-+    NAME: debian-tricore-cross
-+
-+win32-debian-cross-container:
-+  <<: *container_job_definition
-+  stage: containers-layer3
-+  needs: ['amd64-debian9-mxe-container']
-+  variables:
-+    NAME: debian-win32-cross
-+
-+win64-debian-cross-container:
-+  <<: *container_job_definition
-+  stage: containers-layer3
-+  needs: ['amd64-debian9-mxe-container']
-+  variables:
-+    NAME: debian-win64-cross
-+
-+xtensa-debian-cross-container:
-+  <<: *container_job_definition
-+  variables:
-+    NAME: debian-xtensa-cross
-+
-+cris-fedora-cross-container:
-+  <<: *container_job_definition
-+  variables:
-+    NAME: fedora-cris-cross
-+
-+amd64-fedora-container:
-+  <<: *container_job_definition
-+  variables:
-+    NAME: fedora
-+
-+i386-fedora-cross-container:
-+  <<: *container_job_definition
-+  variables:
-+    NAME: fedora-i386-cross
-+
-+amd64-ubuntu1804-container:
-+  <<: *container_job_definition
-+  variables:
-+    NAME: ubuntu1804
-+
-+amd64-ubuntu2004-container:
-+  <<: *container_job_definition
-+  variables:
-+    NAME: ubuntu2004
-+
-+amd64-ubuntu-container:
-+  <<: *container_job_definition
-+  variables:
-+    NAME: ubuntu
 diff --git a/.gitlab-ci.yml b/.gitlab-ci.yml
-index 9fdc752ea636..72d688875fd7 100644
+index 72d688875fd7..a7abc55a5c6a 100644
 --- a/.gitlab-ci.yml
 +++ b/.gitlab-ci.yml
-@@ -1,10 +1,13 @@
- stages:
-   - containers
-+  - containers-layer2
-+  - containers-layer3
-   - build
- 
- include:
-   - local: '/.gitlab-ci.d/edk2.yml'
+@@ -9,133 +9,108 @@ include:
    - local: '/.gitlab-ci.d/opensbi.yml'
-+  - local: '/.gitlab-ci.d/containers.yml'
+   - local: '/.gitlab-ci.d/containers.yml'
  
- .update_apt_template: &before_script_apt
-  before_script:
+-.update_apt_template: &before_script_apt
+- before_script:
+-  - apt-get update -qq
+-  - apt-get install -y -qq git gcc libglib2.0-dev libpixman-1-dev make
+-        genisoimage
+-  - JOBS=$(expr $(nproc) + 1)
+-
+-.update_dnf_template: &before_script_dnf
+- before_script:
+-  - dnf update -y
+-  - dnf install -y bzip2 diffutils gcc git genisoimage findutils glib2-devel
+-        make python3 perl-podlators perl-Test-Harness pixman-devel zlib-devel
+-  - JOBS=$(expr $(nproc) + 1)
++.native_build_job_template: &native_build_job_definition
++  stage: build
++  image: $CI_REGISTRY_IMAGE/qemu/$IMAGE:latest
++  before_script:
++    - JOBS=$(expr $(nproc) + 1)
++  script:
++    - mkdir build
++    - cd build
++    - if test -n "$TARGETS";
++      then
++        ../configure --enable-werror $CONFIGURE_ARGS --target-list="$TARGETS" ;
++      else
++        ../configure --enable-werror $CONFIGURE_ARGS ;
++      fi
++    - make -j"$JOBS"
++    - make -j"$JOBS" $MAKE_CHECK_ARGS
+ 
+ build-system1:
+- stage: build
+- image: ubuntu:19.10
+- <<: *before_script_apt
+- script:
+- - apt-get install -y -qq libgtk-3-dev libvte-dev nettle-dev libcacard-dev
+-      libusb-dev libvde-dev libspice-protocol-dev libgl1-mesa-dev libvdeplug-dev
+- - mkdir build
+- - cd build
+- - ../configure --enable-werror --target-list="aarch64-softmmu alpha-softmmu
+-      cris-softmmu hppa-softmmu lm32-softmmu moxie-softmmu microblazeel-softmmu
+-      mips64el-softmmu m68k-softmmu ppc-softmmu riscv64-softmmu sparc-softmmu"
+- - make -j"$JOBS"
+- - make -j"$JOBS" check
++  <<: *native_build_job_definition
++  variables:
++    IMAGE: ubuntu2004
++    TARGETS: aarch64-softmmu alpha-softmmu cris-softmmu hppa-softmmu lm32-softmmu
++      moxie-softmmu microblazeel-softmmu mips64el-softmmu m68k-softmmu ppc-softmmu
++      riscv64-softmmu sparc-softmmu
++    MAKE_CHECK_ARGS: check
+ 
+ build-system2:
+- stage: build
+- image: fedora:latest
+- <<: *before_script_dnf
+- script:
+- - yum install -y SDL2-devel libgcrypt-devel brlapi-devel libaio-devel
+-       libfdt-devel lzo-devel librdmacm-devel libibverbs-devel libibumad-devel
+-       libzstd-devel
+- - mkdir build
+- - cd build
+- - ../configure --enable-werror --target-list="tricore-softmmu unicore32-softmmu
+-      microblaze-softmmu mips-softmmu riscv32-softmmu s390x-softmmu sh4-softmmu
+-      sparc64-softmmu x86_64-softmmu xtensa-softmmu nios2-softmmu or1k-softmmu"
+- - make -j"$JOBS"
+- - make -j"$JOBS" check
++  <<: *native_build_job_definition
++  variables:
++    IMAGE: fedora
++    TARGETS: tricore-softmmu unicore32-softmmu microblaze-softmmu mips-softmmu
++      riscv32-softmmu s390x-softmmu sh4-softmmu sparc64-softmmu x86_64-softmmu
++      xtensa-softmmu nios2-softmmu or1k-softmmu
++    MAKE_CHECK_ARGS: check
+ 
+ build-disabled:
+- stage: build
+- image: fedora:latest
+- <<: *before_script_dnf
+- script:
+- - mkdir build
+- - cd build
+- - ../configure --enable-werror --disable-rdma --disable-slirp --disable-curl
++  <<: *native_build_job_definition
++  variables:
++    IMAGE: fedora
++    CONFIGURE_ARGS: --disable-rdma --disable-slirp --disable-curl
+       --disable-capstone --disable-live-block-migration --disable-glusterfs
+       --disable-replication --disable-coroutine-pool --disable-smartcard
+       --disable-guest-agent --disable-curses --disable-libxml2 --disable-tpm
+       --disable-qom-cast-debug --disable-spice --disable-vhost-vsock
+       --disable-vhost-net --disable-vhost-crypto --disable-vhost-user
+-      --target-list="i386-softmmu ppc64-softmmu mips64-softmmu i386-linux-user"
+- - make -j"$JOBS"
+- - make -j"$JOBS" check-qtest SPEED=slow
++    TARGETS: i386-softmmu ppc64-softmmu mips64-softmmu i386-linux-user
++    MAKE_CHECK_ARGS: check-qtest SPEED=slow
+ 
+ build-tcg-disabled:
+- stage: build
+- image: centos:8
+- <<: *before_script_dnf
+- script:
+- - dnf install -y clang gtk3-devel libusbx-devel libgcrypt-devel
+- - mkdir build
+- - cd build
+- - ../configure --cc=clang --enable-werror --disable-tcg --audio-drv-list=""
+- - make -j"$JOBS"
+- - make check-unit
+- - make check-qapi-schema
+- - cd tests/qemu-iotests/
+- - ./check -raw 001 002 003 004 005 008 009 010 011 012 021 025 032 033 048
++  <<: *native_build_job_definition
++  variables:
++    IMAGE: centos8
++  script:
++    - mkdir build
++    - cd build
++    - ../configure --disable-tcg --audio-drv-list=""
++    - make -j"$JOBS"
++    - make check-unit
++    - make check-qapi-schema
++    - cd tests/qemu-iotests/
++    - ./check -raw 001 002 003 004 005 008 009 010 011 012 021 025 032 033 048
+             052 063 077 086 101 104 106 113 148 150 151 152 157 159 160 163
+             170 171 183 184 192 194 197 208 215 221 222 226 227 236 253 277
+- - ./check -qcow2 028 051 056 057 058 065 067 068 082 085 091 095 096 102 122
++    - ./check -qcow2 028 051 056 057 058 065 067 068 082 085 091 095 096 102 122
+             124 132 139 142 144 145 151 152 155 157 165 194 196 197 200 202
+             208 209 215 216 218 222 227 234 246 247 248 250 254 255 257 258
+             260 261 262 263 264 270 272 273 277 279
+ 
+ build-user:
+- stage: build
+- <<: *before_script_apt
+- script:
+- - mkdir build
+- - cd build
+- - ../configure --enable-werror --disable-system --disable-guest-agent
+-               --disable-capstone --disable-slirp --disable-fdt
+- - make -j"$JOBS"
+- - make run-tcg-tests-i386-linux-user run-tcg-tests-x86_64-linux-user
++  <<: *native_build_job_definition
++  variables:
++    IMAGE: ubuntu2004
++    CONFIGURE_ARGS: --disable-system --disable-guest-agent
++      --disable-capstone --disable-slirp --disable-fdt
++    MAKE_CHECK_ARGS:  run-tcg-tests-i386-linux-user run-tcg-tests-x86_64-linux-user
+ 
+ build-clang:
+- stage: build
+- image: fedora:latest
+- <<: *before_script_dnf
+- script:
+- - yum install -y clang SDL2-devel libattr-devel libcap-ng-devel xfsprogs-devel
+-       libiscsi-devel libnfs-devel libseccomp-devel gnutls-devel librbd-devel
+- - mkdir build
+- - cd build
+- - ../configure --cc=clang --cxx=clang++ --enable-werror
+-      --target-list="alpha-softmmu arm-softmmu m68k-softmmu mips64-softmmu
+-                     ppc-softmmu s390x-softmmu x86_64-softmmu arm-linux-user"
+- - make -j"$JOBS"
+- - make -j"$JOBS" check
++  <<: *native_build_job_definition
++  variables:
++    IMAGE: fedora
++    CONFIGURE_ARGS: --cc=clang --cxx=clang++
++    TARGETS: alpha-softmmu arm-softmmu m68k-softmmu mips64-softmmu
++      ppc-softmmu s390x-softmmu x86_64-softmmu arm-linux-user
++    MAKE_CHECK_ARGS: check
+ 
+ build-tci:
+- stage: build
+- image: centos:8
+- <<: *before_script_dnf
+- script:
+- - TARGETS="aarch64 alpha arm hppa m68k microblaze moxie ppc64 s390x x86_64"
+- - mkdir build
+- - cd build
+- - ../configure --enable-tcg-interpreter
+-      --target-list="$(for tg in $TARGETS; do echo -n ${tg}'-softmmu '; done)"
+- - make -j"$JOBS"
+- - make run-tcg-tests-x86_64-softmmu
+- - make tests/qtest/boot-serial-test tests/qtest/cdrom-test tests/qtest/pxe-test
+- - for tg in $TARGETS ; do
+-     export QTEST_QEMU_BINARY="${tg}-softmmu/qemu-system-${tg}" ;
+-     ./tests/qtest/boot-serial-test || exit 1 ;
+-     ./tests/qtest/cdrom-test || exit 1 ;
+-   done
+- - QTEST_QEMU_BINARY="x86_64-softmmu/qemu-system-x86_64" ./tests/qtest/pxe-test
+- - QTEST_QEMU_BINARY="s390x-softmmu/qemu-system-s390x"
+-   ./tests/qtest/pxe-test -m slow
++  <<: *native_build_job_definition
++  variables:
++    IMAGE: fedora
++  script:
++    - TARGETS="aarch64 alpha arm hppa m68k microblaze moxie ppc64 s390x x86_64"
++    - mkdir build
++    - cd build
++    - ../configure --enable-tcg-interpreter
++        --target-list="$(for tg in $TARGETS; do echo -n ${tg}'-softmmu '; done)"
++    - make -j"$JOBS"
++    - make run-tcg-tests-x86_64-softmmu
++    - make tests/qtest/boot-serial-test tests/qtest/cdrom-test tests/qtest/pxe-test
++    - for tg in $TARGETS ; do
++        export QTEST_QEMU_BINARY="${tg}-softmmu/qemu-system-${tg}" ;
++        ./tests/qtest/boot-serial-test || exit 1 ;
++        ./tests/qtest/cdrom-test || exit 1 ;
++      done
++    - QTEST_QEMU_BINARY="x86_64-softmmu/qemu-system-x86_64" ./tests/qtest/pxe-test
++    - QTEST_QEMU_BINARY="s390x-softmmu/qemu-system-s390x" ./tests/qtest/pxe-test -m slow
 -- 
 2.20.1
 
