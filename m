@@ -2,54 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8C16C216836
-	for <lists+qemu-devel@lfdr.de>; Tue,  7 Jul 2020 10:21:09 +0200 (CEST)
-Received: from localhost ([::1]:46464 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E125C21683E
+	for <lists+qemu-devel@lfdr.de>; Tue,  7 Jul 2020 10:22:38 +0200 (CEST)
+Received: from localhost ([::1]:50174 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jsiqi-0008MY-2l
-	for lists+qemu-devel@lfdr.de; Tue, 07 Jul 2020 04:21:08 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:56720)
+	id 1jsis9-0002SY-W3
+	for lists+qemu-devel@lfdr.de; Tue, 07 Jul 2020 04:22:38 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:57000)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <dgibson@ozlabs.org>)
- id 1jsipa-0007R9-MC; Tue, 07 Jul 2020 04:19:58 -0400
-Received: from bilbo.ozlabs.org ([203.11.71.1]:37529 helo=ozlabs.org)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <dgibson@ozlabs.org>)
- id 1jsipV-00075l-Qo; Tue, 07 Jul 2020 04:19:57 -0400
-Received: by ozlabs.org (Postfix, from userid 1007)
- id 4B1FjC5pgqz9sRK; Tue,  7 Jul 2020 18:19:43 +1000 (AEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=gibson.dropbear.id.au; s=201602; t=1594109983;
- bh=aRIslm7NJnT/HB9HWzDznfUKgYQvdCDYTbMa7qB/+Lo=;
- h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=FenY9shrwY0q7ujw/bZW829Yx6TuSmxpfBz53rnwfp6vQGVM9Lz8wfwaIoWK0tafZ
- jPgq8FGBnEodD4pQlpoh7bSwk7gI8Ok8/wI2/w2Ok+fTIo9ZdPBWWmcC/2F1YMdwAF
- bazzxTCJl3hdwgFk4GRJA3qOeH/mlAMyKpZVQES8=
-Date: Tue, 7 Jul 2020 18:19:38 +1000
-From: David Gibson <david@gibson.dropbear.id.au>
-To: Stefan Berger <stefanb@linux.vnet.ibm.com>
-Subject: Re: [PATCH v2 2/2] tests: Skip over pcrUpdateCounter byte in result
- comparison
-Message-ID: <20200707081938.GB18595@umbus.fritz.box>
-References: <20200707040522.4013885-1-stefanb@linux.vnet.ibm.com>
- <20200707040522.4013885-3-stefanb@linux.vnet.ibm.com>
+ (Exim 4.90_1) (envelope-from <th.huth@gmail.com>) id 1jsirD-0001iO-Rp
+ for qemu-devel@nongnu.org; Tue, 07 Jul 2020 04:21:39 -0400
+Received: from mail-ed1-f65.google.com ([209.85.208.65]:45064)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <th.huth@gmail.com>) id 1jsirA-0007Yd-Sy
+ for qemu-devel@nongnu.org; Tue, 07 Jul 2020 04:21:39 -0400
+Received: by mail-ed1-f65.google.com with SMTP id d16so30996571edz.12
+ for <qemu-devel@nongnu.org>; Tue, 07 Jul 2020 01:21:36 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:in-reply-to
+ :references:mime-version:content-transfer-encoding;
+ bh=m3PYqF8n5GoN2jqRnfjVJ/OPC4LHTtnjBVWtwlfV3dk=;
+ b=EF6KX1PkSeW/z8OfWumPpL4A36V/XijUfe9GCEzMV0EYlyHSQoZQeiwcwE+KKUGWxg
+ 8D/Qxa0j+DHPCLiRRFo1dPcLitB0WTW5/jCGIgLeCpuSW+PTYZOWgMCrdqyEi0Fin+v/
+ 3EoPfJXE2vk3r27dQ7AM9vH+z4nUITiENc/MjIead8z+WUg4waYPFQVcd4CAKdYRg0LB
+ q9+hRyD1Kui/qVFXSNm643py0JifkFOqnXbAcx7Bh8m72aZsrCA6/MPvFykN/HD5qaY2
+ Qz2iWFr7RXPX6suCQ7nmie67WhBfra9uOpddZ+OU9y940CzWFgOioTIZ8mOIeaKN8ryr
+ +EPQ==
+X-Gm-Message-State: AOAM5320LahUDeHga9Y6n1TMWAeAjENyNV4X4Kn+BpIdCqV88EldBa4K
+ fxcVnc6/zALp5TSczdmOdw0=
+X-Google-Smtp-Source: ABdhPJz02nx8GYNxG269aweE9mI39FLROZG1OUNsLf8BRzXD2xwc/8I0P7MXBqubajZSgLe75tdNsA==
+X-Received: by 2002:a05:6402:203c:: with SMTP id
+ ay28mr50929580edb.271.1594110094935; 
+ Tue, 07 Jul 2020 01:21:34 -0700 (PDT)
+Received: from thl530.multi.box (pd95758fa.dip0.t-ipconnect.de.
+ [217.87.88.250])
+ by smtp.gmail.com with ESMTPSA id d22sm17693028ejc.90.2020.07.07.01.21.33
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Tue, 07 Jul 2020 01:21:34 -0700 (PDT)
+Date: Tue, 7 Jul 2020 10:21:32 +0200
+From: Thomas Huth <huth@tuxfamily.org>
+To: Philippe =?UTF-8?B?TWF0aGlldS1EYXVkw6k=?= <f4bug@amsat.org>
+Subject: Re: [PATCH v2 1/4] target/avr/cpu: Drop tlb_flush() in avr_cpu_reset()
+Message-ID: <20200707102132.679ce497@thl530.multi.box>
+In-Reply-To: <20200707070021.10031-2-f4bug@amsat.org>
+References: <20200707070021.10031-1-f4bug@amsat.org>
+ <20200707070021.10031-2-f4bug@amsat.org>
+X-Mailer: Claws Mail 3.17.5 (GTK+ 2.24.32; x86_64-redhat-linux-gnu)
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature"; boundary="tsOsTdHNUZQcU9Ye"
-Content-Disposition: inline
-In-Reply-To: <20200707040522.4013885-3-stefanb@linux.vnet.ibm.com>
-Received-SPF: pass client-ip=203.11.71.1; envelope-from=dgibson@ozlabs.org;
- helo=ozlabs.org
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/07/07 04:19:44
-X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic]
-X-Spam_score_int: -9
-X-Spam_score: -1.0
-X-Spam_bar: -
-X-Spam_report: (-1.0 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, HEADER_FROM_DIFFERENT_DOMAINS=1,
- SPF_HELO_PASS=-0.001, SPF_PASS=-0.001,
- URIBL_BLOCKED=0.001 autolearn=_AUTOLEARN
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=209.85.208.65; envelope-from=th.huth@gmail.com;
+ helo=mail-ed1-f65.google.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/07/07 04:21:35
+X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
+X-Spam_score_int: -8
+X-Spam_score: -0.9
+X-Spam_bar: /
+X-Spam_report: (-0.9 / 5.0 requ) BAYES_00=-1.9, FREEMAIL_FORGED_FROMDOMAIN=1,
+ FREEMAIL_FROM=0.001, HEADER_FROM_DIFFERENT_DOMAINS=1,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-1, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=_AUTOLEARN
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -62,74 +76,36 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: marcandre.lureau@redhat.com, qemu-ppc@nongnu.org, qemu-devel@nongnu.org,
- Stefan Berger <stefanb@linux.ibm.com>
+Cc: Richard Henderson <richard.henderson@linaro.org>,
+ Joaquin de Andres <me@xcancerberox.com.ar>, Michael Rolnik <mrolnik@gmail.com>,
+ qemu-devel@nongnu.org, Sarah Harris <S.E.Harris@kent.ac.uk>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+Am Tue,  7 Jul 2020 09:00:18 +0200
+schrieb Philippe Mathieu-Daud=C3=A9 <f4bug@amsat.org>:
 
---tsOsTdHNUZQcU9Ye
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
-
-On Tue, Jul 07, 2020 at 12:05:22AM -0400, Stefan Berger wrote:
-> Due to a change in the TPM 2 code the pcrUpdate counter in the
-> PCRRead response is now different, so we skip comparison of the
-> 14th byte.
-
-Can you elaborate on this a bit, both in the code comment and the
-commit message.
-
+> Since commit 1f5c00cfdb tlb_flush() is called from cpu_common_reset().
 >=20
-> Signed-off-by: Stefan Berger <stefanb@linux.ibm.com>
+> Signed-off-by: Philippe Mathieu-Daud=C3=A9 <f4bug@amsat.org>
 > ---
->  tests/qtest/tpm-util.c | 6 +++++-
->  1 file changed, 5 insertions(+), 1 deletion(-)
+>  target/avr/cpu.c | 2 --
+>  1 file changed, 2 deletions(-)
 >=20
-> diff --git a/tests/qtest/tpm-util.c b/tests/qtest/tpm-util.c
-> index 34efae8f18..58a9593745 100644
-> --- a/tests/qtest/tpm-util.c
-> +++ b/tests/qtest/tpm-util.c
-> @@ -139,7 +139,11 @@ void tpm_util_pcrread(QTestState *s, tx_func *tx,
+> diff --git a/target/avr/cpu.c b/target/avr/cpu.c
+> index 4e4dd4f6aa..50fb1c378b 100644
+> --- a/target/avr/cpu.c
+> +++ b/target/avr/cpu.c
+> @@ -78,8 +78,6 @@ static void avr_cpu_reset(DeviceState *ds)
+>      env->skip =3D 0;
 > =20
->      tx(s, tpm_pcrread, sizeof(tpm_pcrread), buffer, sizeof(buffer));
-> =20
-> -    g_assert_cmpmem(buffer, exp_resp_size, exp_resp, exp_resp_size);
-> +    /* skip pcrUpdateCounter (14th byte) in comparison */
-> +    g_assert(exp_resp_size >=3D 15);
-> +    g_assert_cmpmem(buffer, 13, exp_resp, 13);
-> +    g_assert_cmpmem(&buffer[14], exp_resp_size - 14,
-> +                    &exp_resp[14], exp_resp_size - 14);
+>      memset(env->r, 0, sizeof(env->r));
+> -
+> -    tlb_flush(cs);
 >  }
 > =20
->  bool tpm_util_swtpm_has_tpm2(void)
+>  static void avr_cpu_disas_set_info(CPUState *cpu, disassemble_info
+> *info)
 
---=20
-David Gibson			| I'll have my music baroque, and my code
-david AT gibson.dropbear.id.au	| minimalist, thank you.  NOT _the_ _other_
-				| _way_ _around_!
-http://www.ozlabs.org/~dgibson
-
---tsOsTdHNUZQcU9Ye
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQIzBAEBCAAdFiEEdfRlhq5hpmzETofcbDjKyiDZs5IFAl8EMBoACgkQbDjKyiDZ
-s5K+Ew//eToEIVoQprVyUYeocXFn8irgQOQcLilNJxTeDo7qFcFSWXBIAXf2QuCu
-IHq4IcyOfqWUn0ONpIwBaCcwbHX2tGAocrdQ5slKe31dYFNZXaCWkPhLwv1G4pYu
-21oKg1rXxYnYs85x6x5mGccKEO3d7Iqe+2+x71xF83Yv5rsExvPY+2GiPp/E9dYG
-w85WxL6Jtcf9BVrzVpWInR2Apu22X8SsRA6JzXk85dGfEg7oAkCY6ty5GKnZxhXP
-tJBlwyLhCWW3Qx72+Ki92dLk3XUOS1DzOHKfOLWanN2ITeZsSn8sUX6/GZqWmdU/
-oFocSIcZuDkUaJ/xfAPidcIJE1PtIXMdRozzmO5O4wUKLtE9YFwEyKZaEYiGkkY4
-K4TZ4i83Qe4SaCoO5XLKoPk0Q7WZdo8+00BUb+p+93k+qJlQyA1RdMde76L2k5uk
-Rl6DQxLg1wL4PZMI1xe7EqusEle9z9uHJwNPa+zeJeKrfiN80AIsDoNqwSIopXYW
-ec6SoC0wzGLFv5fFvfst7H6KVByYo555pOvagpJSMDCLUE7Pdlddzc0TRdXwUGso
-htdj66mcCg9EUkfp7/spk4lkvvJPeyMcnjLYeXfcV5GpChCp3q2UO/pEnBHYVjhh
-d1moCGCWVcB/03wxgJuYX87pbACyvDWnfx8QcPFGqpBba7YqSWk=
-=z7n4
------END PGP SIGNATURE-----
-
---tsOsTdHNUZQcU9Ye--
+Reviewed-by: Thomas Huth <huth@tuxfamily.org>
 
