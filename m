@@ -2,69 +2,72 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A66842175AB
-	for <lists+qemu-devel@lfdr.de>; Tue,  7 Jul 2020 19:54:40 +0200 (CEST)
-Received: from localhost ([::1]:53082 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 645A82175A1
+	for <lists+qemu-devel@lfdr.de>; Tue,  7 Jul 2020 19:51:57 +0200 (CEST)
+Received: from localhost ([::1]:45902 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jsrnj-0000gu-GG
-	for lists+qemu-devel@lfdr.de; Tue, 07 Jul 2020 13:54:39 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:58308)
+	id 1jsrl6-00069i-6t
+	for lists+qemu-devel@lfdr.de; Tue, 07 Jul 2020 13:51:56 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:57754)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <alistair23@gmail.com>)
- id 1jsrmr-0008W0-Et; Tue, 07 Jul 2020 13:53:45 -0400
-Received: from mail-io1-xd44.google.com ([2607:f8b0:4864:20::d44]:44733)
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1jsrkM-0005jQ-Q2
+ for qemu-devel@nongnu.org; Tue, 07 Jul 2020 13:51:10 -0400
+Received: from mail-oi1-x243.google.com ([2607:f8b0:4864:20::243]:46035)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <alistair23@gmail.com>)
- id 1jsrmp-0007hk-Sk; Tue, 07 Jul 2020 13:53:45 -0400
-Received: by mail-io1-xd44.google.com with SMTP id i4so44060502iov.11;
- Tue, 07 Jul 2020 10:53:43 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1jsrkK-0007Py-3B
+ for qemu-devel@nongnu.org; Tue, 07 Jul 2020 13:51:10 -0400
+Received: by mail-oi1-x243.google.com with SMTP id j11so32904361oiw.12
+ for <qemu-devel@nongnu.org>; Tue, 07 Jul 2020 10:51:07 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=EHyMZ3wqlL652ip4NBYS9C55+jMGdjRPt+ZQVypflGE=;
- b=XHrRcZIXjDSvyFWyETR+STdpU4onQe5gcpKSzAY6dqyvs+tX55pwbSmudEvsaCHhjb
- +nv6aI/5fOfm22tkH9iJlimgBbZLo0IQeGvzPP9awuGUn1lk+Nt4c6dDCMzEDXNEujp+
- NMMBMOw7XiAfqj5SAQ6dgELGBeM1fz4DhIZz4Z1tTLT45B/kS3LlrBtGQAuYhOrjZHdJ
- b8u0WnGh96lLt6VfTzfn1shWG1xzYNYEiJIiQH0KNzwJM8Qn+eldJqyibkgih9Oxk81J
- 0Aa7GCaOLkSiSoq2f6q5Y5pBRU8e7UsMWXU+hRJ9gcXRrA/JAnlyPMDAkoNVbF+G1oS2
- p+Eg==
+ :cc; bh=NWlbCoZnqYGdfmKtiNBaJt2fa1fk0EPg7+EaCPHqiyo=;
+ b=DZd6KH/GH8Hlh32O71st9p/qhJu5OXtUDAuwLjq1OB1Mjk3ZrpvIUVN39OTGn+/6EL
+ V1NyMOjW15OTY+2wp/CpMcDKFq3iIH8wI5VPkzGJWBgMbhA5VT2Quk9A9PE6YjrIgyU5
+ aTwJEEFB4H5f1F/5UhrMzi+kyGfRJY7Qnq11ZZr4QcLNtvyoiSn4yZXwC66fpx65Qs/W
+ o87hwvOLS/+ajhszzdTBHWNaSxy8qv8VbL816v9shzaHo0Mwee8+cm2hyldOMYlzsAwQ
+ fN6F5IPW71ilj1nNW6jGKeO/hRDEP35kZqDj5cpSgGWGMNaFInoXQjzqGX2XXA0j86wt
+ jEng==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
  :message-id:subject:to:cc;
- bh=EHyMZ3wqlL652ip4NBYS9C55+jMGdjRPt+ZQVypflGE=;
- b=dXg3L1nphuKvjWVXqYb9Fsg+OO2/+kVNXQZ5E6zK2jU9rsJ+9MYJLuMxRn27YCGF3I
- JEteXDSzzYsZetJhVwp+Qzyno38XzDsMoxRT09wiyMdwFK987F+ezEcEtxQ+mvoaKbRf
- 3/8nMSz5IVtrdWdBmY9OTau2wZUNxUZ5KlHVzWz8r/nYPjScTA8R3I7eyQ8rqUdPay2d
- F+xYq7+syyetud2MXMZBJEiwA6IGDUd0BOWxPGom763ZM3GeGUXnJnOb0FKcMUtUIzEd
- t1NJSXkYUl6F2oXCIvfiyxfKKJOZAg8nfTZUjskp6s4Zey6VoyxmMOwiluj+Ff47oleR
- G9FQ==
-X-Gm-Message-State: AOAM533DfdNq9sk71xHv80ENSLWCiR9ia9nTtSrPvSOpv8d7dFrcOtVF
- Et5QgR45FOSXjAymisOwNhCD/WeQ7NwjRk/Y+Ek=
-X-Google-Smtp-Source: ABdhPJx6KpoxFqJunopKg0aZx1eVD0xiLaBeT20RCtO0JBZj3ylcyLWZ02KUNO6RMByWlE7o7bUCn71bWOq8vGUaeeM=
-X-Received: by 2002:a02:1a06:: with SMTP id 6mr62592045jai.8.1594144422339;
- Tue, 07 Jul 2020 10:53:42 -0700 (PDT)
+ bh=NWlbCoZnqYGdfmKtiNBaJt2fa1fk0EPg7+EaCPHqiyo=;
+ b=NR7/QHbbolE+P72QKXisTy3/I/NeY4wivfEOAlPjqTwRrLiDq98675NmoLugGgjP6C
+ VwVuNghmk0VZyrNxR19npMd7s92ESqpMTHoC1Oxbn0KpW6f7cbXWU9NJoBnx8tlxGv8Q
+ 0ACFihCXOIZD6Nk9TMyqXJD6JVquqztPvhqbeVK2uJMvPGUkPAMz8rexrV9VJcNZAEBS
+ ucePopYOwa3CqgX47aeX5QLP+8apZmOL+JbbyW+SOqMjnBYKEZ5yq5FSZ892FBwXfBTv
+ QRxf98CDRAcQ2DjwRBrMs9QFliyS/Qb7GlX3LpFyss1mh+pb4/v/PYVF9sVu8erXH3sQ
+ a6Ig==
+X-Gm-Message-State: AOAM532skJQ5LnPXfl0vTb8Khi3NWJLDo8ADC9J91dY+qtZBYsiwRLKG
+ 9iKzOxYVS6Yv0qmlZkF0RrO/uIN/Gq0M9tEKdAhukQ==
+X-Google-Smtp-Source: ABdhPJxNcsG0+k+gXVBrLPDY97db6l/8/9Sxsfkq6zEYpCkTn0gu+6MjLB1WQ8C8wwR+kUHo+TPL/jknB95Xp3JPyYc=
+X-Received: by 2002:aca:2819:: with SMTP id 25mr3971524oix.48.1594144266715;
+ Tue, 07 Jul 2020 10:51:06 -0700 (PDT)
 MIME-Version: 1.0
-References: <20200701183949.398134-1-atish.patra@wdc.com>
-In-Reply-To: <20200701183949.398134-1-atish.patra@wdc.com>
-From: Alistair Francis <alistair23@gmail.com>
-Date: Tue, 7 Jul 2020 10:43:54 -0700
-Message-ID: <CAKmqyKP_n9dcHcapZrnS=xHAKJ=9cU-n9n_xdaBi2c3UCc_jxA@mail.gmail.com>
-Subject: Re: [PATCH v4 0/4] Add OpenSBI dynamic firmware support
-To: Atish Patra <atish.patra@wdc.com>
+References: <20200704182750.1088103-1-mst@redhat.com>
+ <CAFEAcA_LrhvLmbwsSrhHUYZ+z9EZoDZwct+s3xfoaGLyLkOPfg@mail.gmail.com>
+ <20200707080049-mutt-send-email-mst@kernel.org>
+In-Reply-To: <20200707080049-mutt-send-email-mst@kernel.org>
+From: Peter Maydell <peter.maydell@linaro.org>
+Date: Tue, 7 Jul 2020 18:50:55 +0100
+Message-ID: <CAFEAcA_th3hhXcnyt2qV+rQNV1PgF62B5+=sEWzJKfHYj2=ooQ@mail.gmail.com>
+Subject: Re: [PULL v2 00/41] virtio,acpi: features, fixes, cleanups.
+To: "Michael S. Tsirkin" <mst@redhat.com>
 Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2607:f8b0:4864:20::d44;
- envelope-from=alistair23@gmail.com; helo=mail-io1-xd44.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::243;
+ envelope-from=peter.maydell@linaro.org; helo=mail-oi1-x243.google.com
 X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
  That's all we know.
-X-Spam_score_int: -17
-X-Spam_score: -1.8
-X-Spam_bar: -
-X-Spam_report: (-1.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
  DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- FREEMAIL_ENVFROM_END_DIGIT=0.25, FREEMAIL_FROM=0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- URIBL_BLOCKED=0.001 autolearn=_AUTOLEARN
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=_AUTOLEARN
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -77,70 +80,70 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: "open list:RISC-V" <qemu-riscv@nongnu.org>,
- Sagar Karandikar <sagark@eecs.berkeley.edu>,
- Bastian Koppelmann <kbastian@mail.uni-paderborn.de>,
- "qemu-devel@nongnu.org Developers" <qemu-devel@nongnu.org>,
- Alistair Francis <Alistair.Francis@wdc.com>,
- Alexander Richardson <Alexander.Richardson@cl.cam.ac.uk>,
- Palmer Dabbelt <palmer@dabbelt.com>, Bin Meng <bmeng.cn@gmail.com>
+Cc: QEMU Developers <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Wed, Jul 1, 2020 at 11:40 AM Atish Patra <atish.patra@wdc.com> wrote:
+On Tue, 7 Jul 2020 at 13:04, Michael S. Tsirkin <mst@redhat.com> wrote:
 >
-> This series adds support OpenSBI dynamic firmware support to Qemu.
-> Qemu loader passes the information about the DT and next stage (i.e. kernel
-> or U-boot) via "a2" register. It allows the user to build bigger OS images
-> without worrying about overwriting DT. It also unifies the reset vector code
-> in rom and dt placement. Now, the DT is copied directly in DRAM instead of ROM.
+> On Tue, Jul 07, 2020 at 12:40:38PM +0100, Peter Maydell wrote:
+> > On Sat, 4 Jul 2020 at 19:29, Michael S. Tsirkin <mst@redhat.com> wrote:
+> > >
+> > >
+> > > v2 of the pull, fixing non-Linux builds.
+> > >
+> > >
+> > > The following changes since commit fc1bff958998910ec8d25db86cd2f53ff125f7ab:
+> > >
+> > >   hw/misc/pca9552: Add missing TypeInfo::class_size field (2020-06-29 21:16:10 +0100)
+> > >
+> > > are available in the Git repository at:
+> > >
+> > >   git://git.kernel.org/pub/scm/virt/kvm/mst/qemu.git tags/for_upstream
+> > >
+> > > for you to fetch changes up to f7d98068bf7a0913744dd4ac0a28e8c841df2af5:
+> > >
+> > >   vhost-vdpa: introduce vhost-vdpa net client (2020-07-04 11:13:50 -0400)
+> > >
+> > > ----------------------------------------------------------------
+> > > virtio,acpi: features, fixes, cleanups.
+> > >
+> > > vdpa support
+> > > virtio-mem support
+> > > a handy script for disassembling acpi tables
+> > > misc fixes and cleanups
+> > >
+> > > Signed-off-by: Michael S. Tsirkin <mst@redhat.com>
+> > >
+> > > ----------------------------------------------------------------
+> >
+> > Hi; I'm afraid this fails to build on 32-bit:
+> >
+> > /home/peter.maydell/qemu/hw/virtio/vhost-vdpa.c: In function
+> > 'vhost_vdpa_dma_map':
+> > /home/peter.maydell/qemu/hw/virtio/vhost-vdpa.c:48:23: error: cast
+> > from pointer to integer of different size
+> > [-Werror=pointer-to-int-cast]
+> >      msg.iotlb.uaddr = (uint64_t)vaddr;
+> >                        ^
+> >
+> > This should probably be "= (uintptr_t)vaddr".
+> >
+> > thanks
+> > -- PMM
 >
-> The changes have been verified on following qemu machines.
->
-> 64bit:
->  - spike, sifive_u, virt
-> 32bit:
->  - virt
->
-> I have also verified fw_jump on all the above platforms to ensure that this
-> series doesn't break the existing setup.
->
-> Changes from v3->v4:
-> 1. Addressed all review comments.
-> 2. Added another patch that allows to boot a qemu machine from 64bit
->    start address for RV64.
->
-> Changes from v2->v3:
-> 1. Removed redundant header includes.
->
-> Changes from v1->v2:
-> 1. Rebased on top of latest upstream Qemu (with MSEL changes for sifive_u).
-> 2. Improved the code organization
->
-> Atish Patra (4):
-> riscv: Unify Qemu's reset vector code path
-> RISC-V: Copy the fdt in dram instead of ROM
-> riscv: Add opensbi firmware dynamic support
-> RISC-V: Support 64 bit start address
+> Precisely. Sorry about missing this.
+> I made this change and pushed to the same tag - don't want to spam
+> the list for a small thing like this. Can you pick this up pls?
+> Commit 849c48004df0e123b53fe9888770cb4f6eb5e8ab now
 
-Thanks!
+Sure. (You can always just resend a new v2 cover letter without
+all the patches; that's what most people do for minor respins.)
 
-Applied to riscv-to-apply.next
+Applied, thanks.
 
-Alistair
+Please update the changelog at https://wiki.qemu.org/ChangeLog/5.1
+for any user-visible changes.
 
->
-> hw/riscv/boot.c                 | 107 ++++++++++++++++++++++++++++++++
-> hw/riscv/sifive_u.c             |  51 +++++++++------
-> hw/riscv/spike.c                |  57 +++++------------
-> hw/riscv/virt.c                 |  55 +++++-----------
-> include/hw/riscv/boot.h         |   7 +++
-> include/hw/riscv/boot_opensbi.h |  58 +++++++++++++++++
-> 6 files changed, 236 insertions(+), 99 deletions(-)
-> create mode 100644 include/hw/riscv/boot_opensbi.h
->
-> --
-> 2.26.2
->
->
+-- PMM
 
