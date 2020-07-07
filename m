@@ -2,66 +2,66 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9D50D2192D9
-	for <lists+qemu-devel@lfdr.de>; Wed,  8 Jul 2020 23:52:06 +0200 (CEST)
-Received: from localhost ([::1]:54790 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6AB2F219294
+	for <lists+qemu-devel@lfdr.de>; Wed,  8 Jul 2020 23:36:04 +0200 (CEST)
+Received: from localhost ([::1]:50398 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jtHz3-0002G7-Lt
-	for lists+qemu-devel@lfdr.de; Wed, 08 Jul 2020 17:52:05 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:34664)
+	id 1jtHjX-0001qq-F0
+	for lists+qemu-devel@lfdr.de; Wed, 08 Jul 2020 17:36:03 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:34074)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1jtHd2-0002Pw-CR
- for qemu-devel@nongnu.org; Wed, 08 Jul 2020 17:29:20 -0400
-Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:32222
- helo=us-smtp-1.mimecast.com)
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1jtHbp-0008PM-3N
+ for qemu-devel@nongnu.org; Wed, 08 Jul 2020 17:28:05 -0400
+Received: from us-smtp-2.mimecast.com ([205.139.110.61]:60229
+ helo=us-smtp-delivery-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1jtHd0-0002Ep-2X
- for qemu-devel@nongnu.org; Wed, 08 Jul 2020 17:29:19 -0400
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1jtHbn-00026J-3R
+ for qemu-devel@nongnu.org; Wed, 08 Jul 2020 17:28:04 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1594243757;
+ s=mimecast20190719; t=1594243682;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=9OwwsdyqsHhrqm3+htQJ55Vjj9FnyOO88Eriy4dANd0=;
- b=bPCf+Vvvyq0r9s7Mc6V9eacDCJ08cq009W/YtuT9+a0HvY+i3gnKCGMNCOJq93WdWDVg6z
- Hp1mWuZlCbCosDSEt0uiWgP2yxdeoMTsolCGrFVSW4wm8/8OIJd3ugaoYTq34f7+3dzOcn
- BNchSkql0GTqLREH9mmGLmcjPnnt0bo=
+ bh=jabQErPsmpoGtnZhMOIHbd87/GujdgidRIpcz+4tzRw=;
+ b=Yl4km68sgt1rZ523BNtzI00cxMvhmvHRBJwxiC14eW/2x1Ranbg2i3cVU5cy+PK5SDnUd+
+ CrE1zVf8+t7GZ3ltjSWM+kSkmWL10GxcPO4wrtC8UIhuTgYnIIMa5Ip+DQunbehvvyRHAa
+ IXOKshmtEVAuO05sQerperE1vI+APZU=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-264-KGE6DpioMO-fpqaT5EQ3hQ-1; Tue, 07 Jul 2020 17:25:20 -0400
-X-MC-Unique: KGE6DpioMO-fpqaT5EQ3hQ-1
-Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
- [10.5.11.14])
+ us-mta-283-sJzNSYxENFyIaH1qr2y0JA-1; Tue, 07 Jul 2020 17:25:18 -0400
+X-MC-Unique: sJzNSYxENFyIaH1qr2y0JA-1
+Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
+ [10.5.11.22])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 90EB280183C;
- Tue,  7 Jul 2020 21:25:19 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 479FF87950B
+ for <qemu-devel@nongnu.org>; Tue,  7 Jul 2020 21:25:17 +0000 (UTC)
 Received: from blackfin.pond.sub.org (ovpn-112-143.ams2.redhat.com
  [10.36.112.143])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 12A455D9C9;
- Tue,  7 Jul 2020 21:25:19 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 1795F10013C2;
+ Tue,  7 Jul 2020 21:25:17 +0000 (UTC)
 Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
- id 84A5711275F9; Tue,  7 Jul 2020 23:25:04 +0200 (CEST)
+ id 88ADA11275FA; Tue,  7 Jul 2020 23:25:04 +0200 (CEST)
 From: Markus Armbruster <armbru@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PULL 31/53] qdev: Make functions taking Error ** return bool,
- not void
-Date: Tue,  7 Jul 2020 23:24:41 +0200
-Message-Id: <20200707212503.1495927-32-armbru@redhat.com>
+Subject: [PULL 32/53] qdev: Use returned bool to check for failure,
+ Coccinelle part
+Date: Tue,  7 Jul 2020 23:24:42 +0200
+Message-Id: <20200707212503.1495927-33-armbru@redhat.com>
 In-Reply-To: <20200707212503.1495927-1-armbru@redhat.com>
 References: <20200707212503.1495927-1-armbru@redhat.com>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=armbru@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=207.211.31.120; envelope-from=armbru@redhat.com;
- helo=us-smtp-1.mimecast.com
+Received-SPF: pass client-ip=205.139.110.61; envelope-from=armbru@redhat.com;
+ helo=us-smtp-delivery-1.mimecast.com
 X-detected-operating-system: by eggs.gnu.org: First seen = 2020/07/07 17:25:10
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
 X-Spam_score_int: -40
@@ -83,59 +83,92 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-See recent commit "error: Document Error API usage rules" for
-rationale.
+The previous commit enables conversion of
+
+    qdev_prop_set_drive_err(..., &err);
+    if (err) {
+    ...
+    }
+
+to
+
+    if (!qdev_prop_set_drive_err(..., errp)) {
+    ...
+    }
+
+Coccinelle script:
+
+    @@
+    identifier fun = qdev_prop_set_drive_err;
+    expression list args;
+    typedef Error;
+    Error *err;
+    @@
+    -    fun(args, &err);
+    -    if (err)
+    +    if (!fun(args, &err))
+         {
+             ...
+         }
+
+One line break tidied up manually.
 
 Signed-off-by: Markus Armbruster <armbru@redhat.com>
 Reviewed-by: Eric Blake <eblake@redhat.com>
-Reviewed-by: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
-Message-Id: <20200707160613.848843-32-armbru@redhat.com>
+Message-Id: <20200707160613.848843-33-armbru@redhat.com>
 ---
- include/hw/qdev-properties.h     | 4 ++--
- hw/core/qdev-properties-system.c | 4 ++--
- 2 files changed, 4 insertions(+), 4 deletions(-)
+ hw/scsi/scsi-bus.c | 3 +--
+ hw/sd/sd.c         | 3 +--
+ hw/sd/ssi-sd.c     | 5 ++---
+ 3 files changed, 4 insertions(+), 7 deletions(-)
 
-diff --git a/include/hw/qdev-properties.h b/include/hw/qdev-properties.h
-index 944e3f2e0c..587e5b7d31 100644
---- a/include/hw/qdev-properties.h
-+++ b/include/hw/qdev-properties.h
-@@ -239,8 +239,8 @@ extern const PropertyInfo qdev_prop_pcie_link_width;
- /*
-  * Set properties between creation and realization.
-  */
--void qdev_prop_set_drive_err(DeviceState *dev, const char *name,
--                         BlockBackend *value, Error **errp);
-+bool qdev_prop_set_drive_err(DeviceState *dev, const char *name,
-+                             BlockBackend *value, Error **errp);
+diff --git a/hw/scsi/scsi-bus.c b/hw/scsi/scsi-bus.c
+index a83939f7d0..38b66a2f45 100644
+--- a/hw/scsi/scsi-bus.c
++++ b/hw/scsi/scsi-bus.c
+@@ -277,8 +277,7 @@ SCSIDevice *scsi_bus_legacy_add_drive(SCSIBus *bus, BlockBackend *blk,
+     if (serial && object_property_find(OBJECT(dev), "serial", NULL)) {
+         qdev_prop_set_string(dev, "serial", serial);
+     }
+-    qdev_prop_set_drive_err(dev, "drive", blk, &err);
+-    if (err) {
++    if (!qdev_prop_set_drive_err(dev, "drive", blk, &err)) {
+         error_propagate(errp, err);
+         object_unparent(OBJECT(dev));
+         return NULL;
+diff --git a/hw/sd/sd.c b/hw/sd/sd.c
+index 97a9d32964..5137168d66 100644
+--- a/hw/sd/sd.c
++++ b/hw/sd/sd.c
+@@ -706,8 +706,7 @@ SDState *sd_init(BlockBackend *blk, bool is_spi)
  
- /*
-  * Set properties between creation and realization.
-diff --git a/hw/core/qdev-properties-system.c b/hw/core/qdev-properties-system.c
-index 810831b1df..7d2387f22c 100644
---- a/hw/core/qdev-properties-system.c
-+++ b/hw/core/qdev-properties-system.c
-@@ -421,7 +421,7 @@ const PropertyInfo qdev_prop_audiodev = {
-     .set = set_audiodev,
- };
- 
--void qdev_prop_set_drive_err(DeviceState *dev, const char *name,
-+bool qdev_prop_set_drive_err(DeviceState *dev, const char *name,
-                              BlockBackend *value, Error **errp)
- {
-     const char *ref = "";
-@@ -436,7 +436,7 @@ void qdev_prop_set_drive_err(DeviceState *dev, const char *name,
+     obj = object_new(TYPE_SD_CARD);
+     dev = DEVICE(obj);
+-    qdev_prop_set_drive_err(dev, "drive", blk, &err);
+-    if (err) {
++    if (!qdev_prop_set_drive_err(dev, "drive", blk, &err)) {
+         error_reportf_err(err, "sd_init failed: ");
+         return NULL;
+     }
+diff --git a/hw/sd/ssi-sd.c b/hw/sd/ssi-sd.c
+index ad825220e2..3717b2e721 100644
+--- a/hw/sd/ssi-sd.c
++++ b/hw/sd/ssi-sd.c
+@@ -254,9 +254,8 @@ static void ssi_sd_realize(SSISlave *d, Error **errp)
+     dinfo = drive_get_next(IF_SD);
+     carddev = qdev_new(TYPE_SD_CARD);
+     if (dinfo) {
+-        qdev_prop_set_drive_err(carddev, "drive", blk_by_legacy_dinfo(dinfo),
+-                                &err);
+-        if (err) {
++        if (!qdev_prop_set_drive_err(carddev, "drive",
++                                     blk_by_legacy_dinfo(dinfo), &err)) {
+             goto fail;
          }
      }
- 
--    object_property_set_str(OBJECT(dev), name, ref, errp);
-+    return object_property_set_str(OBJECT(dev), name, ref, errp);
- }
- 
- void qdev_prop_set_drive(DeviceState *dev, const char *name,
 -- 
 2.26.2
 
