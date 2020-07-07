@@ -2,66 +2,66 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8006D2174C1
-	for <lists+qemu-devel@lfdr.de>; Tue,  7 Jul 2020 19:09:19 +0200 (CEST)
-Received: from localhost ([::1]:35002 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id DF5EF2174A4
+	for <lists+qemu-devel@lfdr.de>; Tue,  7 Jul 2020 19:00:54 +0200 (CEST)
+Received: from localhost ([::1]:39462 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jsr5q-00073d-KQ
-	for lists+qemu-devel@lfdr.de; Tue, 07 Jul 2020 13:09:18 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:43528)
+	id 1jsqxh-0003zA-V4
+	for lists+qemu-devel@lfdr.de; Tue, 07 Jul 2020 13:00:53 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:43462)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1jsqoJ-0003qq-C4
- for qemu-devel@nongnu.org; Tue, 07 Jul 2020 12:51:11 -0400
-Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:44067
- helo=us-smtp-1.mimecast.com)
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1jsqoA-0003ST-25
+ for qemu-devel@nongnu.org; Tue, 07 Jul 2020 12:51:02 -0400
+Received: from us-smtp-2.mimecast.com ([205.139.110.61]:42726
+ helo=us-smtp-delivery-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1jsqoH-0006jX-IX
- for qemu-devel@nongnu.org; Tue, 07 Jul 2020 12:51:11 -0400
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1jsqo7-0006hw-1s
+ for qemu-devel@nongnu.org; Tue, 07 Jul 2020 12:51:01 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1594140669;
+ s=mimecast20190719; t=1594140657;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=XdaTtnXzRdmtkraOf3fJnKW205wPYgtaTPC/KbxTb9A=;
- b=TGr00+yTDXOHFHXzUUhSGVhWcNj6GObrm7dakTcvcESyWyB3neaHpXrUvmNOyv2sxTNi+Q
- WCdJXWI1ATaz0EE0NYBLlyP+zCgwqgEDj8vODY6Omrfo4brKN+sd4EYXY3Xpx4KwIo4gIs
- 3g9nSZAc85Z+wmTCsjtstk/hhQDPzbI=
+ bh=GtSQ9ltFDy+ZS6gTE2EcxmbrVjKJQ192ZTarFddQmh4=;
+ b=F+t3tyonELw0D1KNg967s+rmyG0No+a9bE3PYsCbz8gUg/Vc29hkiK4HseL5+wCWchJBp3
+ KqIRye7jYS+Tv+1iIfnGNeTOSu5Rcnc4jHCMirv9vN4vOGuy9HMpRABxa0paOUYiC9BR8R
+ CW9E15igDEN1AcUogt0PSDRh4nGhTWY=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-39-CKUKUa5lMlaT6ynxi7hKYw-1; Tue, 07 Jul 2020 12:51:02 -0400
-X-MC-Unique: CKUKUa5lMlaT6ynxi7hKYw-1
-Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
- [10.5.11.11])
+ us-mta-450-0UWQII4DOdu_QowMQ0wkdA-1; Tue, 07 Jul 2020 12:50:55 -0400
+X-MC-Unique: 0UWQII4DOdu_QowMQ0wkdA-1
+Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
+ [10.5.11.16])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 5205D804001;
- Tue,  7 Jul 2020 16:51:00 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 39B2E80183C;
+ Tue,  7 Jul 2020 16:50:54 +0000 (UTC)
 Received: from blackfin.pond.sub.org (ovpn-112-143.ams2.redhat.com
  [10.36.112.143])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 8857B512FE;
- Tue,  7 Jul 2020 16:50:54 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 8D5415C1D0;
+ Tue,  7 Jul 2020 16:50:48 +0000 (UTC)
 Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
- id 2D1D711326EC; Tue,  7 Jul 2020 18:50:37 +0200 (CEST)
+ id 3102611326F0; Tue,  7 Jul 2020 18:50:37 +0200 (CEST)
 From: Markus Armbruster <armbru@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v12 5/8] fw_cfg: Use ERRP_AUTO_PROPAGATE()
-Date: Tue,  7 Jul 2020 18:50:34 +0200
-Message-Id: <20200707165037.1026246-6-armbru@redhat.com>
+Subject: [PATCH v12 6/8] virtio-9p: Use ERRP_AUTO_PROPAGATE()
+Date: Tue,  7 Jul 2020 18:50:35 +0200
+Message-Id: <20200707165037.1026246-7-armbru@redhat.com>
 In-Reply-To: <20200707165037.1026246-1-armbru@redhat.com>
 References: <20200707165037.1026246-1-armbru@redhat.com>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=armbru@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=UTF-8
+Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=207.211.31.120; envelope-from=armbru@redhat.com;
- helo=us-smtp-1.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/07/07 00:46:09
+Received-SPF: pass client-ip=205.139.110.61; envelope-from=armbru@redhat.com;
+ helo=us-smtp-delivery-1.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/07/07 00:31:00
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
 X-Spam_score_int: -40
 X-Spam_score: -4.1
@@ -112,8 +112,7 @@ ERRP_AUTO_PROPAGATE macro, benefits are:
 
 This commit is generated by command
 
-    sed -n '/^Firmware configuration (fw_cfg)$/,/^$/{s/^F: //p}' \
-        MAINTAINERS | \
+    sed -n '/^virtio-9p$/,/^$/{s/^F: //p}' MAINTAINERS | \
     xargs git ls-files | grep '\.[hc]$' | \
     xargs spatch \
         --sp-file scripts/coccinelle/auto-propagated-errp.cocci \
@@ -123,51 +122,69 @@ This commit is generated by command
 Reported-by: Kevin Wolf <kwolf@redhat.com>
 Reported-by: Greg Kurz <groug@kaod.org>
 Signed-off-by: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
-Reviewed-by: Philippe Mathieu-Daudé <philmd@redhat.com>
+Acked-by: Greg Kurz <groug@kaod.org>
+Reviewed-by: Christian Schoenebeck <qemu_oss@crudebyte.com>
 [Commit message tweaked]
 Signed-off-by: Markus Armbruster <armbru@redhat.com>
 ---
- hw/nvram/fw_cfg.c | 14 ++++++--------
- 1 file changed, 6 insertions(+), 8 deletions(-)
+ hw/9pfs/9p-local.c | 12 +++++-------
+ hw/9pfs/9p.c       |  1 +
+ 2 files changed, 6 insertions(+), 7 deletions(-)
 
-diff --git a/hw/nvram/fw_cfg.c b/hw/nvram/fw_cfg.c
-index 0408a31f8e..d5386c3235 100644
---- a/hw/nvram/fw_cfg.c
-+++ b/hw/nvram/fw_cfg.c
-@@ -1231,12 +1231,11 @@ static Property fw_cfg_io_properties[] = {
+diff --git a/hw/9pfs/9p-local.c b/hw/9pfs/9p-local.c
+index 54e012e5b4..0361e0c0b4 100644
+--- a/hw/9pfs/9p-local.c
++++ b/hw/9pfs/9p-local.c
+@@ -1479,10 +1479,10 @@ static void error_append_security_model_hint(Error *const *errp)
  
- static void fw_cfg_io_realize(DeviceState *dev, Error **errp)
+ static int local_parse_opts(QemuOpts *opts, FsDriverEntry *fse, Error **errp)
  {
 +    ERRP_AUTO_PROPAGATE();
-     FWCfgIoState *s = FW_CFG_IO(dev);
+     const char *sec_model = qemu_opt_get(opts, "security_model");
+     const char *path = qemu_opt_get(opts, "path");
+     const char *multidevs = qemu_opt_get(opts, "multidevs");
 -    Error *local_err = NULL;
  
--    fw_cfg_file_slots_allocate(FW_CFG(s), &local_err);
--    if (local_err) {
--        error_propagate(errp, local_err);
-+    fw_cfg_file_slots_allocate(FW_CFG(s), errp);
-+    if (*errp) {
-         return;
+     if (!sec_model) {
+         error_setg(errp, "security_model property not set");
+@@ -1516,11 +1516,10 @@ static int local_parse_opts(QemuOpts *opts, FsDriverEntry *fse, Error **errp)
+             fse->export_flags &= ~V9FS_FORBID_MULTIDEVS;
+             fse->export_flags &= ~V9FS_REMAP_INODES;
+         } else {
+-            error_setg(&local_err, "invalid multidevs property '%s'",
++            error_setg(errp, "invalid multidevs property '%s'",
+                        multidevs);
+-            error_append_hint(&local_err, "Valid options are: multidevs="
++            error_append_hint(errp, "Valid options are: multidevs="
+                               "[remap|forbid|warn]\n");
+-            error_propagate(errp, local_err);
+             return -1;
+         }
+     }
+@@ -1530,9 +1529,8 @@ static int local_parse_opts(QemuOpts *opts, FsDriverEntry *fse, Error **errp)
+         return -1;
      }
  
-@@ -1282,14 +1281,13 @@ static Property fw_cfg_mem_properties[] = {
+-    if (fsdev_throttle_parse_opts(opts, &fse->fst, &local_err)) {
+-        error_propagate_prepend(errp, local_err,
+-                                "invalid throttle configuration: ");
++    if (fsdev_throttle_parse_opts(opts, &fse->fst, errp)) {
++        error_prepend(errp, "invalid throttle configuration: ");
+         return -1;
+     }
  
- static void fw_cfg_mem_realize(DeviceState *dev, Error **errp)
+diff --git a/hw/9pfs/9p.c b/hw/9pfs/9p.c
+index 9755fba9a9..bdb1360482 100644
+--- a/hw/9pfs/9p.c
++++ b/hw/9pfs/9p.c
+@@ -4011,6 +4011,7 @@ void pdu_submit(V9fsPDU *pdu, P9MsgHeader *hdr)
+ int v9fs_device_realize_common(V9fsState *s, const V9fsTransport *t,
+                                Error **errp)
  {
 +    ERRP_AUTO_PROPAGATE();
-     FWCfgMemState *s = FW_CFG_MEM(dev);
-     SysBusDevice *sbd = SYS_BUS_DEVICE(dev);
-     const MemoryRegionOps *data_ops = &fw_cfg_data_mem_ops;
--    Error *local_err = NULL;
- 
--    fw_cfg_file_slots_allocate(FW_CFG(s), &local_err);
--    if (local_err) {
--        error_propagate(errp, local_err);
-+    fw_cfg_file_slots_allocate(FW_CFG(s), errp);
-+    if (*errp) {
-         return;
-     }
- 
+     int i, len;
+     struct stat stat;
+     FsDriverEntry *fse;
 -- 
 2.26.2
 
