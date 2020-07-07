@@ -2,57 +2,58 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 95CF6217415
-	for <lists+qemu-devel@lfdr.de>; Tue,  7 Jul 2020 18:38:59 +0200 (CEST)
-Received: from localhost ([::1]:58246 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3D241217410
+	for <lists+qemu-devel@lfdr.de>; Tue,  7 Jul 2020 18:37:02 +0200 (CEST)
+Received: from localhost ([::1]:50602 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jsqcU-0003Bi-LK
-	for lists+qemu-devel@lfdr.de; Tue, 07 Jul 2020 12:38:58 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:60156)
+	id 1jsqab-00005F-9G
+	for lists+qemu-devel@lfdr.de; Tue, 07 Jul 2020 12:37:01 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:34564)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1jsq7e-0003JG-M4
- for qemu-devel@nongnu.org; Tue, 07 Jul 2020 12:07:06 -0400
-Received: from us-smtp-2.mimecast.com ([205.139.110.61]:37111
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1jsqGg-0005r4-0w
+ for qemu-devel@nongnu.org; Tue, 07 Jul 2020 12:16:26 -0400
+Received: from us-smtp-1.mimecast.com ([205.139.110.61]:31077
  helo=us-smtp-delivery-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1jsq7E-0006uH-IE
- for qemu-devel@nongnu.org; Tue, 07 Jul 2020 12:07:06 -0400
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1jsqGd-0000DY-82
+ for qemu-devel@nongnu.org; Tue, 07 Jul 2020 12:16:25 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1594137999;
+ s=mimecast20190719; t=1594138582;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=7RGv5ZXfgxJJyOl+k/aDW7Jx1xinunsjgM2Klsul6Wc=;
- b=ED8mS574+pC+JOWn7dD6vRrVXfOWAQ9wsF6Xsqu5GRCGt20EXO+xnaLSavoe3eeyEm6UPl
- fBW9l+ASSIfwZOD64lfWS8Awohe0yjsnJGIGPasO1ltiqiJv6CbS5qut2FtbBPHX8C8NO9
- yovejpi/1SN5LerO/3muPkSNUg6+1TA=
+ bh=DyYFikS632kM2CsDInBLimabKZipHM6vAi6PUxEmLz4=;
+ b=d/EKAWdXJ9VSMLFrSM5jnKwx6wyHOdIi7SSeOfcGSs86nS/e/fJHV/ZIHEEQAJtpkKtHqQ
+ deRIk4IKOhq8C1oFlTQ1ryb/BKcdYQfAmU9U94pGbCBayu90GOzATmVG89mAHQi3SjGcDh
+ H3aO4RXF+k+QdwpnmKXMbcAWy4PjJzY=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-426-sKU6dhArMNqEjOfSjHUZ-w-1; Tue, 07 Jul 2020 12:06:36 -0400
-X-MC-Unique: sKU6dhArMNqEjOfSjHUZ-w-1
-Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
- [10.5.11.13])
+ us-mta-464-wBfG9DL-P-S3WQZZ9L4XSQ-1; Tue, 07 Jul 2020 12:16:20 -0400
+X-MC-Unique: wBfG9DL-P-S3WQZZ9L4XSQ-1
+Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
+ [10.5.11.16])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 01059BFC0;
- Tue,  7 Jul 2020 16:06:35 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 9D0271005510;
+ Tue,  7 Jul 2020 16:16:18 +0000 (UTC)
 Received: from blackfin.pond.sub.org (ovpn-112-143.ams2.redhat.com
  [10.36.112.143])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id C134C7922B;
- Tue,  7 Jul 2020 16:06:31 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 842FE5C1BB;
+ Tue,  7 Jul 2020 16:15:59 +0000 (UTC)
 Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
- id 2766C10C4AE4; Tue,  7 Jul 2020 18:06:14 +0200 (CEST)
+ id 2EFF810C4AE6; Tue,  7 Jul 2020 18:06:14 +0200 (CEST)
 From: Markus Armbruster <armbru@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v4 41/45] qapi: Purge error_propagate() from QAPI core
-Date: Tue,  7 Jul 2020 18:06:09 +0200
-Message-Id: <20200707160613.848843-42-armbru@redhat.com>
+Subject: [PATCH v4 43/45] qemu-img: Ignore Error objects where the return
+ value suffices
+Date: Tue,  7 Jul 2020 18:06:11 +0200
+Message-Id: <20200707160613.848843-44-armbru@redhat.com>
 In-Reply-To: <20200707160613.848843-1-armbru@redhat.com>
 References: <20200707160613.848843-1-armbru@redhat.com>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=armbru@redhat.com
 X-Mimecast-Spam-Score: 0
@@ -91,110 +92,38 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 Signed-off-by: Markus Armbruster <armbru@redhat.com>
 Reviewed-by: Eric Blake <eblake@redhat.com>
 ---
- qapi/qapi-visit-core.c | 40 +++++++++++++++++++---------------------
- 1 file changed, 19 insertions(+), 21 deletions(-)
+ qemu-img.c | 8 ++------
+ 1 file changed, 2 insertions(+), 6 deletions(-)
 
-diff --git a/qapi/qapi-visit-core.c b/qapi/qapi-visit-core.c
-index 5a9c47aabf..7e5f40e7f0 100644
---- a/qapi/qapi-visit-core.c
-+++ b/qapi/qapi-visit-core.c
-@@ -39,19 +39,18 @@ void visit_free(Visitor *v)
- bool visit_start_struct(Visitor *v, const char *name, void **obj,
-                         size_t size, Error **errp)
+diff --git a/qemu-img.c b/qemu-img.c
+index fc405ee171..a6af0eaf80 100644
+--- a/qemu-img.c
++++ b/qemu-img.c
+@@ -464,22 +464,18 @@ static int add_old_style_options(const char *fmt, QemuOpts *opts,
+                                  const char *base_filename,
+                                  const char *base_fmt)
  {
 -    Error *err = NULL;
-+    bool ok;
- 
-     trace_visit_start_struct(v, name, obj, size);
-     if (obj) {
-         assert(size);
-         assert(!(v->type & VISITOR_OUTPUT) || *obj);
+-
+     if (base_filename) {
+         if (!qemu_opt_set(opts, BLOCK_OPT_BACKING_FILE, base_filename,
+-                          &err)) {
++                          NULL)) {
+             error_report("Backing file not supported for file format '%s'",
+                          fmt);
+-            error_free(err);
+             return -1;
+         }
      }
--    v->start_struct(v, name, obj, size, &err);
-+    ok = v->start_struct(v, name, obj, size, errp);
-     if (obj && (v->type & VISITOR_INPUT)) {
--        assert(!err != !*obj);
-+        assert(ok != !*obj);
+     if (base_fmt) {
+-        if (!qemu_opt_set(opts, BLOCK_OPT_BACKING_FMT, base_fmt, &err)) {
++        if (!qemu_opt_set(opts, BLOCK_OPT_BACKING_FMT, base_fmt, NULL)) {
+             error_report("Backing file format not supported for file "
+                          "format '%s'", fmt);
+-            error_free(err);
+             return -1;
+         }
      }
--    error_propagate(errp, err);
--    return !err;
-+    return ok;
- }
- 
- bool visit_check_struct(Visitor *v, Error **errp)
-@@ -69,16 +68,15 @@ void visit_end_struct(Visitor *v, void **obj)
- bool visit_start_list(Visitor *v, const char *name, GenericList **list,
-                       size_t size, Error **errp)
- {
--    Error *err = NULL;
-+    bool ok;
- 
-     assert(!list || size >= sizeof(GenericList));
-     trace_visit_start_list(v, name, list, size);
--    v->start_list(v, name, list, size, &err);
-+    ok = v->start_list(v, name, list, size, errp);
-     if (list && (v->type & VISITOR_INPUT)) {
--        assert(!(err && *list));
-+        assert(ok || !*list);
-     }
--    error_propagate(errp, err);
--    return !err;
-+    return ok;
- }
- 
- GenericList *visit_next_list(Visitor *v, GenericList *tail, size_t size)
-@@ -104,19 +102,20 @@ bool visit_start_alternate(Visitor *v, const char *name,
-                            GenericAlternate **obj, size_t size,
-                            Error **errp)
- {
--    Error *err = NULL;
-+    bool ok;
- 
-     assert(obj && size >= sizeof(GenericAlternate));
-     assert(!(v->type & VISITOR_OUTPUT) || *obj);
-     trace_visit_start_alternate(v, name, obj, size);
--    if (v->start_alternate) {
--        v->start_alternate(v, name, obj, size, &err);
-+    if (!v->start_alternate) {
-+        assert(!(v->type & VISITOR_INPUT));
-+        return true;
-     }
-+    ok = v->start_alternate(v, name, obj, size, errp);
-     if (v->type & VISITOR_INPUT) {
--        assert(v->start_alternate && !err != !*obj);
-+        assert(ok != !*obj);
-     }
--    error_propagate(errp, err);
--    return !err;
-+    return ok;
- }
- 
- void visit_end_alternate(Visitor *v, void **obj)
-@@ -309,7 +308,7 @@ bool visit_type_bool(Visitor *v, const char *name, bool *obj, Error **errp)
- 
- bool visit_type_str(Visitor *v, const char *name, char **obj, Error **errp)
- {
--    Error *err = NULL;
-+    bool ok;
- 
-     assert(obj);
-     /* TODO: Fix callers to not pass NULL when they mean "", so that we
-@@ -317,12 +316,11 @@ bool visit_type_str(Visitor *v, const char *name, char **obj, Error **errp)
-     assert(!(v->type & VISITOR_OUTPUT) || *obj);
-      */
-     trace_visit_type_str(v, name, obj);
--    v->type_str(v, name, obj, &err);
-+    ok = v->type_str(v, name, obj, errp);
-     if (v->type & VISITOR_INPUT) {
--        assert(!err != !*obj);
-+        assert(ok != !*obj);
-     }
--    error_propagate(errp, err);
--    return !err;
-+    return ok;
- }
- 
- bool visit_type_number(Visitor *v, const char *name, double *obj,
 -- 
 2.26.2
 
