@@ -2,71 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0FBA2216777
-	for <lists+qemu-devel@lfdr.de>; Tue,  7 Jul 2020 09:29:17 +0200 (CEST)
-Received: from localhost ([::1]:37186 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id DB823216758
+	for <lists+qemu-devel@lfdr.de>; Tue,  7 Jul 2020 09:25:54 +0200 (CEST)
+Received: from localhost ([::1]:53756 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jsi2W-0007mh-3M
-	for lists+qemu-devel@lfdr.de; Tue, 07 Jul 2020 03:29:16 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:43786)
+	id 1jshzF-0002y5-VA
+	for lists+qemu-devel@lfdr.de; Tue, 07 Jul 2020 03:25:54 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:45850)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1jshoQ-00073K-Py
- for qemu-devel@nongnu.org; Tue, 07 Jul 2020 03:14:42 -0400
-Received: from mail-wr1-x42f.google.com ([2a00:1450:4864:20::42f]:40374)
+ id 1jshxq-0001Rg-9P
+ for qemu-devel@nongnu.org; Tue, 07 Jul 2020 03:24:26 -0400
+Received: from mail-wr1-x435.google.com ([2a00:1450:4864:20::435]:36184)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1jshoN-0004sZ-Nv
- for qemu-devel@nongnu.org; Tue, 07 Jul 2020 03:14:42 -0400
-Received: by mail-wr1-x42f.google.com with SMTP id f2so16004074wrp.7
- for <qemu-devel@nongnu.org>; Tue, 07 Jul 2020 00:14:39 -0700 (PDT)
+ id 1jshxo-0006fs-Kq
+ for qemu-devel@nongnu.org; Tue, 07 Jul 2020 03:24:25 -0400
+Received: by mail-wr1-x435.google.com with SMTP id k6so44033166wrn.3
+ for <qemu-devel@nongnu.org>; Tue, 07 Jul 2020 00:24:24 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=BhAPRbyJ6wjGUojYdyED7mQgTxQ6WKTzi+98H1OGLvA=;
- b=tmvi6Rh60yUjJoJdLRzyAuDs3Uetu+eqE6la3Po2XNfZOV2GmBOtY5yjLNzLOYFKJZ
- 3F3nmlxXU8WmbfjHSLXi4q6o8fk5zz1FnSdhZXyaa+hBiRH9gv0NwldCupYmsUYPMboS
- z4jVdoOrgR7breirfvpvYZf9BhFMkpw1lVB0qEDTCMZrGShE9Qf9h4aLGCgLQGyuM8i2
- d8vOMEfAHR8aVJOlz1GaIay64MpiJdSwaDymepqnZrjGEkBWoYoMCDAve8CDHxzDbtFT
- WYgwfl31Hg8/iJfTBQW7p3Ct8DdR/H21YcV4QHXjkcgh7eb9Y8ByeWXr59qCyDpjB4C4
- VuqA==
+ bh=CJmGTUIDpDAF9NLfy0YY76xgc1xY2TT3QfY+IV2fyrk=;
+ b=gTwbzNRR1ZqKp4RUx0KY1/upcjiRfVGNG7g3WUso9pRHCucc5l2gRZaEOopQlKN6ox
+ KX9kdFy4k5SkMcIkTIpIi0LgWL6SXblLUm6tzXqYovOaeFb1jgirMlmkltPnNZaFI3UN
+ 5wMNnV7mHTIVcgN5UMXaxG6KZCCjzkjfpgAffJz2CQP+060F3KHCr9y7DKbdFuQTLlah
+ QnK5IKFf+65YD3+Pal5fiNQZwuLpyE/GfOjQfdFbVr6U23+5yvSu4oeABftk7MQmJe94
+ zBJFAEs17QgPekubj2E0z9V5h9yZs9VLo/oMt+LQm+kZxKB0kXLNpqrYocsLvfZ3pvmj
+ a+MA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=BhAPRbyJ6wjGUojYdyED7mQgTxQ6WKTzi+98H1OGLvA=;
- b=pcq8Xhu6dtuCZkfWJNLP+ymLmMNSOjpZVPUHhO3NGK5orrM3y23vdT+RBMhIKWLnGO
- 86ZhjSJ7JR9OkojSwCjPYZgXWXgrjxSALx8G4RDaBHrRodZURUwJ3yLpqGULnqI7Wi9F
- OOW8Grldn1a2nNAPibFbeNg672AmZpHsSe0CS/6xJf2tjb+rnXf3BlyeGKBTNjfmoFTC
- 4eW/6lHd7Sh9tHslPSiekE4GB5XbGY/kSloy3B2VjC9G4dR4pk3YI8b7PVvyHnj67wBJ
- g9tOsZqFCgg49xVNAr1b4/rzdycrC0iL09vob266tYWjiPapjgNyH50wm/hepzGFgivm
- lGiQ==
-X-Gm-Message-State: AOAM5331/Pn407Ivv91He96uk/qcQohi7vWMlZQbNAKQ4zqc/tt1vG8F
- rfWgx+nZxBdaLhjoSOXSuOrz/A==
-X-Google-Smtp-Source: ABdhPJzYVfoILTqBuFcDySh8hEF6doRJmzMuqjMzMgr/GC/Ol0zW59P4uUjgFdkbPt4tF1usAHLNXQ==
-X-Received: by 2002:a5d:630c:: with SMTP id i12mr57737967wru.158.1594106078157; 
- Tue, 07 Jul 2020 00:14:38 -0700 (PDT)
+ bh=CJmGTUIDpDAF9NLfy0YY76xgc1xY2TT3QfY+IV2fyrk=;
+ b=jZhwN9oaolGXp2BOika42h5SL1Q+tqG2fewyk5RP/hR6oFywXePK07ZZSBD2fpxsPY
+ YwnyBBhLC2gEam5DJz39k04aBj0MUgYsk8J+uvVQz8KMrq2jt43CevpcEbPbMwjXN70u
+ UuNB5NRMtsyVVdRBtiCcXXU+expCYQL+X0KMg2OrdZydOYpR7XcxuBuGR/EVbucEihy9
+ 79ef6rtR6Vyr6d0uJ1LeeJQor9JTx5w+FQ/kPzqEzuB4xQ2mfabRb87eV5sERwc6vdcb
+ gvV7WcK3lSo58mlAVLxuI9d4qXsCfVlAoyWd1Il+rsUgtUVzCWCHf1CDpIzdZG3qhMmr
+ 0TtQ==
+X-Gm-Message-State: AOAM533Pvox5RAa/c0331px2AxVvKI0SzyFiAwDkNZ085o1IpLjup7jD
+ InNLHstpStNlOHc+Pb0FIBYsPQ==
+X-Google-Smtp-Source: ABdhPJwe3E20HfitAPFGaBfJj8Ii8Lz6lMbHo8PuEx8y+LGtSY5xcAkEOzOLNiyoPUkNcWQb2hS1aQ==
+X-Received: by 2002:adf:ff8c:: with SMTP id j12mr51860693wrr.230.1594106662802; 
+ Tue, 07 Jul 2020 00:24:22 -0700 (PDT)
 Received: from zen.linaroharston ([51.148.130.216])
- by smtp.gmail.com with ESMTPSA id m16sm23078090wro.0.2020.07.07.00.14.26
+ by smtp.gmail.com with ESMTPSA id r1sm26188861wrw.24.2020.07.07.00.24.21
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 07 Jul 2020 00:14:28 -0700 (PDT)
+ Tue, 07 Jul 2020 00:24:21 -0700 (PDT)
 Received: from zen.lan (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id DABEA1FFAC;
+ by zen.linaroharston (Postfix) with ESMTP id F19181FFAE;
  Tue,  7 Jul 2020 08:09:00 +0100 (BST)
 From: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
 To: peter.maydell@linaro.org
-Subject: [PULL 23/41] tests/docker: add packages needed for check-acceptance
-Date: Tue,  7 Jul 2020 08:08:40 +0100
-Message-Id: <20200707070858.6622-24-alex.bennee@linaro.org>
+Subject: [PULL 24/41] tests/acceptance: skip s390x_ccw_vrtio_tcg on GitLab
+Date: Tue,  7 Jul 2020 08:08:41 +0100
+Message-Id: <20200707070858.6622-25-alex.bennee@linaro.org>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20200707070858.6622-1-alex.bennee@linaro.org>
 References: <20200707070858.6622-1-alex.bennee@linaro.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::42f;
- envelope-from=alex.bennee@linaro.org; helo=mail-wr1-x42f.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::435;
+ envelope-from=alex.bennee@linaro.org; helo=mail-wr1-x435.google.com
 X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
  That's all we know.
 X-Spam_score_int: -20
@@ -88,70 +88,42 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Fam Zheng <fam@euphon.net>,
- =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
- Thomas Huth <thuth@redhat.com>,
- =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>, qemu-devel@nongnu.org
+Cc: Thomas Huth <thuth@redhat.com>,
+ =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>,
+ Cornelia Huck <cohuck@redhat.com>, qemu-devel@nongnu.org,
+ Wainer dos Santos Moschetta <wainersm@redhat.com>,
+ "open list:S390 general arch..." <qemu-s390x@nongnu.org>,
+ Cleber Rosa <crosa@redhat.com>,
+ =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-We need additional python packages to run check-acceptance. Add them
-to the docker images we will be using later.
+Currently the test takes more the 900 seconds on GitLab and then times
+out. Running on Travis seems to be OK.
 
 Signed-off-by: Alex Bennée <alex.bennee@linaro.org>
-Reviewed-by: Philippe Mathieu-Daudé <philmd@redhat.com>
-Reviewed-by: Thomas Huth <thuth@redhat.com>
-Message-Id: <20200701135652.1366-26-alex.bennee@linaro.org>
+Message-Id: <20200701135652.1366-27-alex.bennee@linaro.org>
 
-diff --git a/tests/docker/dockerfiles/fedora.docker b/tests/docker/dockerfiles/fedora.docker
-index 798ddd2c3e0b..70b6186bd3ea 100644
---- a/tests/docker/dockerfiles/fedora.docker
-+++ b/tests/docker/dockerfiles/fedora.docker
-@@ -80,7 +80,12 @@ ENV PACKAGES \
-     pixman-devel \
-     python3 \
-     python3-PyYAML \
-+    python3-numpy \
-+    python3-opencv \
-+    python3-pillow \
-+    python3-pip \
-     python3-sphinx \
-+    python3-virtualenv \
-     rdma-core-devel \
-     SDL2-devel \
-     snappy-devel \
-@@ -89,6 +94,8 @@ ENV PACKAGES \
-     systemd-devel \
-     systemtap-sdt-devel \
-     tar \
-+    tesseract \
-+    tesseract-langpack-eng \
-     texinfo \
-     usbredir-devel \
-     virglrenderer-devel \
-diff --git a/tests/docker/dockerfiles/ubuntu2004.docker b/tests/docker/dockerfiles/ubuntu2004.docker
-index 6050ce7e8a80..f7aac840bf86 100644
---- a/tests/docker/dockerfiles/ubuntu2004.docker
-+++ b/tests/docker/dockerfiles/ubuntu2004.docker
-@@ -46,9 +46,17 @@ ENV PACKAGES flex bison \
-     libxen-dev \
-     libzstd-dev \
-     make \
--    python3-yaml \
-+    python3-numpy \
-+    python3-opencv \
-+    python3-pil \
-+    python3-pip \
-     python3-sphinx \
-+    python3-venv \
-+    python3-yaml \
-+    rpm2cpio \
-     sparse \
-+    tesseract-ocr \
-+    tesseract-ocr-eng \
-     texinfo \
-     xfslibs-dev\
-     vim
+diff --git a/tests/acceptance/boot_linux.py b/tests/acceptance/boot_linux.py
+index 3aa57e88b0bf..0055dc7cee77 100644
+--- a/tests/acceptance/boot_linux.py
++++ b/tests/acceptance/boot_linux.py
+@@ -20,6 +20,7 @@ from avocado.utils import network
+ from avocado.utils import vmimage
+ from avocado.utils import datadrainer
+ from avocado.utils.path import find_command
++from avocado import skipIf
+ 
+ ACCEL_NOT_AVAILABLE_FMT = "%s accelerator does not seem to be available"
+ KVM_NOT_AVAILABLE = ACCEL_NOT_AVAILABLE_FMT % "KVM"
+@@ -220,6 +221,7 @@ class BootLinuxS390X(BootLinux):
+ 
+     chksum = '4caaab5a434fd4d1079149a072fdc7891e354f834d355069ca982fdcaf5a122d'
+ 
++    @skipIf(os.getenv('GITLAB_CI'), 'Running on GitLab')
+     def test_s390_ccw_virtio_tcg(self):
+         """
+         :avocado: tags=machine:s390-ccw-virtio
 -- 
 2.20.1
 
