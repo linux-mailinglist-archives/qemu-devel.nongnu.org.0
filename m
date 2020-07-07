@@ -2,51 +2,51 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7BE5021748F
-	for <lists+qemu-devel@lfdr.de>; Tue,  7 Jul 2020 18:59:16 +0200 (CEST)
-Received: from localhost ([::1]:33730 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 98E92217469
+	for <lists+qemu-devel@lfdr.de>; Tue,  7 Jul 2020 18:49:35 +0200 (CEST)
+Received: from localhost ([::1]:46014 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jsqw7-0001fT-Hx
-	for lists+qemu-devel@lfdr.de; Tue, 07 Jul 2020 12:59:15 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:39778)
+	id 1jsqmk-0006m8-Km
+	for lists+qemu-devel@lfdr.de; Tue, 07 Jul 2020 12:49:34 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:39874)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1jsqZY-0007jn-9Z
- for qemu-devel@nongnu.org; Tue, 07 Jul 2020 12:35:56 -0400
-Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:31642
+ (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1jsqZe-0007xK-DH
+ for qemu-devel@nongnu.org; Tue, 07 Jul 2020 12:36:02 -0400
+Received: from us-smtp-2.mimecast.com ([207.211.31.81]:58844
  helo=us-smtp-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1jsqZV-0004AM-Ha
- for qemu-devel@nongnu.org; Tue, 07 Jul 2020 12:35:55 -0400
+ (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1jsqZc-0004D5-QW
+ for qemu-devel@nongnu.org; Tue, 07 Jul 2020 12:36:02 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1594139752;
+ s=mimecast20190719; t=1594139760;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=xV9xQIvDYBqDZoBJhdSVcyP2Syk+NPN6QiMwXim3Yvk=;
- b=U8qphw151+OEQSOpHInHAFN2RI+tJTLH/bzw/B+bMPhmAvfu5tAbcL13Zz7tP/nQvMg1/S
- OiPxQqGIBNyhm9Tmu3wCR+ty8iByt/0uivS1qNIrrOe0Vki/7SE/ksQU/TM1AAmc+ndQnc
- cdVD7HlUIAIAIgx8W1SezAFqQwvYQTc=
+ bh=+p6YA2/IQj/mVaMKF1Aasa3PnRi3csR0wcUPb/LERXc=;
+ b=aVmFUhATB4nIei4BDvvzygwTYGp/vSdsjvMyXCegN39q042aFEDTOgKnoFO4v8A4m8Y82k
+ N8YvhYtpdb9Au7DsICJU0hkeifLjUwJVGhdGvDt/5heY1M0kyapR1lNB/V2NtQrtJqn+9/
+ BWAiBBdalvXdkjxdiih+Qh2gGdw4IHU=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-37-ZP4RwPQ6NVSepc_wkOAjZA-1; Tue, 07 Jul 2020 12:35:47 -0400
-X-MC-Unique: ZP4RwPQ6NVSepc_wkOAjZA-1
+ us-mta-11-sGho9b6rNKS4_ybDfYRMpA-1; Tue, 07 Jul 2020 12:35:56 -0400
+X-MC-Unique: sGho9b6rNKS4_ybDfYRMpA-1
 Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
  [10.5.11.11])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id EEC07100A62B;
- Tue,  7 Jul 2020 16:35:45 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 2D6658B789B;
+ Tue,  7 Jul 2020 16:35:49 +0000 (UTC)
 Received: from linux.fritz.box.com (ovpn-114-113.ams2.redhat.com
  [10.36.114.113])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 985447848B;
- Tue,  7 Jul 2020 16:35:44 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 3BDF278460;
+ Tue,  7 Jul 2020 16:35:48 +0000 (UTC)
 From: Kevin Wolf <kwolf@redhat.com>
 To: qemu-block@nongnu.org
-Subject: [PULL 04/12] block: Finish deprecation of 'qemu-img convert -n -o'
-Date: Tue,  7 Jul 2020 18:34:56 +0200
-Message-Id: <20200707163504.194740-5-kwolf@redhat.com>
+Subject: [PULL 06/12] vmdk: Add trivial backing_fmt support
+Date: Tue,  7 Jul 2020 18:34:58 +0200
+Message-Id: <20200707163504.194740-7-kwolf@redhat.com>
 In-Reply-To: <20200707163504.194740-1-kwolf@redhat.com>
 References: <20200707163504.194740-1-kwolf@redhat.com>
 MIME-Version: 1.0
@@ -57,17 +57,17 @@ X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=207.211.31.120; envelope-from=kwolf@redhat.com;
+Received-SPF: pass client-ip=207.211.31.81; envelope-from=kwolf@redhat.com;
  helo=us-smtp-1.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/07/07 00:46:09
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/07/07 00:20:54
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
-X-Spam_score_int: -40
-X-Spam_score: -4.1
-X-Spam_bar: ----
-X-Spam_report: (-4.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1,
+X-Spam_score_int: -30
+X-Spam_score: -3.1
+X-Spam_bar: ---
+X-Spam_report: (-3.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-1, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=_AUTOLEARN
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H3=-0.01, RCVD_IN_MSPIKE_WL=-0.01,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=_AUTOLEARN
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -86,112 +86,60 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Eric Blake <eblake@redhat.com>
 
-It's been two releases since we started warning; time to make the
-combination an error as promised.  There was no iotest coverage, so
-add some.
-
-While touching the documentation, tweak another section heading for
-consistent style.
+vmdk already requires that if backing_file is present, that it be
+another vmdk image (see vmdk_co_do_create).  Meanwhile, we want to
+move towards always being explicit about the backing format for other
+drivers where it matters.  So for convenience, make qemu-img create -F
+vmdk work, while rejecting all other explicit formats (note that this
+is only for QemuOpts usage; there is no change to the QAPI to allow a
+format through -blockdev).
 
 Signed-off-by: Eric Blake <eblake@redhat.com>
-Message-Id: <20200706203954.341758-3-eblake@redhat.com>
+Message-Id: <20200706203954.341758-5-eblake@redhat.com>
 Signed-off-by: Kevin Wolf <kwolf@redhat.com>
 ---
- docs/system/deprecated.rst | 18 ++++++++----------
- qemu-img.c                 |  4 ++--
- tests/qemu-iotests/122     |  7 +++++++
- tests/qemu-iotests/122.out |  4 ++++
- 4 files changed, 21 insertions(+), 12 deletions(-)
+ block/vmdk.c | 14 ++++++++++++++
+ 1 file changed, 14 insertions(+)
 
-diff --git a/docs/system/deprecated.rst b/docs/system/deprecated.rst
-index 47f84be8e0..73b9d9f378 100644
---- a/docs/system/deprecated.rst
-+++ b/docs/system/deprecated.rst
-@@ -418,14 +418,6 @@ kernel in 2018, and has also been dropped from glibc.
- Related binaries
- ----------------
- 
--``qemu-img convert -n -o`` (since 4.2.0)
--''''''''''''''''''''''''''''''''''''''''
--
--All options specified in ``-o`` are image creation options, so
--they have no effect when used with ``-n`` to skip image creation.
--Silently ignored options can be confusing, so this combination of
--options will be made an error in future versions.
--
- Backwards compatibility
- -----------------------
- 
-@@ -531,8 +523,8 @@ spec you can use the ``-cpu rv64gcsu,priv_spec=v1.10.0`` command line argument.
- Related binaries
- ----------------
- 
--``qemu-nbd --partition`` (removed in 5.0.0)
--'''''''''''''''''''''''''''''''''''''''''''
-+``qemu-nbd --partition`` (removed in 5.0)
-+'''''''''''''''''''''''''''''''''''''''''
- 
- The ``qemu-nbd --partition $digit`` code (also spelled ``-P``)
- could only handle MBR partitions, and never correctly handled logical
-@@ -548,6 +540,12 @@ can be rewritten as::
- 
-   qemu-nbd -t --image-opts driver=raw,offset=1M,size=100M,file.driver=qcow2,file.file.driver=file,file.file.filename=file.qcow2
- 
-+``qemu-img convert -n -o`` (removed in 5.1)
-+'''''''''''''''''''''''''''''''''''''''''''
+diff --git a/block/vmdk.c b/block/vmdk.c
+index 62da465126..6c58e5ec2e 100644
+--- a/block/vmdk.c
++++ b/block/vmdk.c
+@@ -2638,6 +2638,14 @@ static int coroutine_fn vmdk_co_create_opts(BlockDriver *drv,
+     bool zeroed_grain;
+     bool compat6;
+     VMDKCreateOptsData data;
++    char *backing_fmt = NULL;
 +
-+All options specified in ``-o`` are image creation options, so
-+they are now rejected when used with ``-n`` to skip image creation.
-+
- Command line options
- --------------------
++    backing_fmt = qemu_opt_get_del(opts, BLOCK_OPT_BACKING_FMT);
++    if (backing_fmt && strcmp(backing_fmt, "vmdk") != 0) {
++        error_setg(errp, "backing_file must be a vmdk image");
++        ret = -EINVAL;
++        goto exit;
++    }
  
-diff --git a/qemu-img.c b/qemu-img.c
-index 74946f81ca..b366a89ce3 100644
---- a/qemu-img.c
-+++ b/qemu-img.c
-@@ -2369,8 +2369,8 @@ static int img_convert(int argc, char **argv)
-     }
+     if (filename_decompose(filename, path, prefix, postfix, PATH_MAX, errp)) {
+         ret = -EINVAL;
+@@ -2696,6 +2704,7 @@ static int coroutine_fn vmdk_co_create_opts(BlockDriver *drv,
+                             vmdk_co_create_opts_cb, &data, errp);
  
-     if (skip_create && options) {
--        warn_report("-o has no effect when skipping image creation");
--        warn_report("This will become an error in future QEMU versions.");
-+        error_report("-o has no effect when skipping image creation");
-+        goto fail_getopt;
-     }
- 
-     if (s.has_zero_init && !skip_create) {
-diff --git a/tests/qemu-iotests/122 b/tests/qemu-iotests/122
-index f7a3ae684a..2dc16b2ca4 100755
---- a/tests/qemu-iotests/122
-+++ b/tests/qemu-iotests/122
-@@ -290,6 +290,13 @@ TEST_IMG="$TEST_IMG".orig _make_test_img 64M
- # backing file"
- $QEMU_IMG convert -O $IMGFMT -B "$TEST_IMG".base -n "$TEST_IMG" "$TEST_IMG".orig
- 
-+echo
-+echo '=== -n incompatible with -o ==='
-+echo
-+
-+$QEMU_IMG convert -O $IMGFMT -o preallocation=metadata -n \
-+	  "$TEST_IMG" "$TEST_IMG".orig && echo "unexpected success"
-+
- # success, all done
- echo '*** done'
- rm -f $seq.full
-diff --git a/tests/qemu-iotests/122.out b/tests/qemu-iotests/122.out
-index 1a35951a80..c2e154a1e5 100644
---- a/tests/qemu-iotests/122.out
-+++ b/tests/qemu-iotests/122.out
-@@ -233,4 +233,8 @@ Images are identical.
- 
- Formatting 'TEST_DIR/t.IMGFMT.base', fmt=IMGFMT size=67108864
- Formatting 'TEST_DIR/t.IMGFMT.orig', fmt=IMGFMT size=67108864
-+
-+=== -n incompatible with -o ===
-+
-+qemu-img: -o has no effect when skipping image creation
- *** done
+ exit:
++    g_free(backing_fmt);
+     g_free(adapter_type);
+     g_free(backing_file);
+     g_free(hw_version);
+@@ -3031,6 +3040,11 @@ static QemuOptsList vmdk_create_opts = {
+             .type = QEMU_OPT_STRING,
+             .help = "File name of a base image"
+         },
++        {
++            .name = BLOCK_OPT_BACKING_FMT,
++            .type = QEMU_OPT_STRING,
++            .help = "Must be 'vmdk' if present",
++        },
+         {
+             .name = BLOCK_OPT_COMPAT6,
+             .type = QEMU_OPT_BOOL,
 -- 
 2.25.4
 
