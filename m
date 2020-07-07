@@ -2,56 +2,56 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2176A216AE1
-	for <lists+qemu-devel@lfdr.de>; Tue,  7 Jul 2020 12:58:38 +0200 (CEST)
-Received: from localhost ([::1]:35242 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 654AC216AD4
+	for <lists+qemu-devel@lfdr.de>; Tue,  7 Jul 2020 12:56:04 +0200 (CEST)
+Received: from localhost ([::1]:52698 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jslJ7-0003Gs-84
-	for lists+qemu-devel@lfdr.de; Tue, 07 Jul 2020 06:58:37 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:36304)
+	id 1jslGd-0006gW-Eb
+	for lists+qemu-devel@lfdr.de; Tue, 07 Jul 2020 06:56:03 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:36332)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <laurent@vivier.eu>)
- id 1jslDo-0001NW-LC; Tue, 07 Jul 2020 06:53:08 -0400
-Received: from mout.kundenserver.de ([212.227.126.135]:51313)
+ id 1jslDr-0001WD-Lu; Tue, 07 Jul 2020 06:53:11 -0400
+Received: from mout.kundenserver.de ([212.227.126.130]:42471)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <laurent@vivier.eu>)
- id 1jslDm-0000MU-3F; Tue, 07 Jul 2020 06:53:08 -0400
+ id 1jslDp-0000NK-R3; Tue, 07 Jul 2020 06:53:11 -0400
 Received: from localhost.localdomain ([82.252.135.106]) by
  mrelayeu.kundenserver.de (mreue011 [212.227.15.167]) with ESMTPSA (Nemesis)
- id 1MJVY8-1kCV1h2rAO-00JsDq; Tue, 07 Jul 2020 12:53:01 +0200
+ id 1N4Qg2-1kruOW14zO-011UiC; Tue, 07 Jul 2020 12:53:02 +0200
 From: Laurent Vivier <laurent@vivier.eu>
 To: qemu-devel@nongnu.org
-Subject: [PULL 5/7] util/qemu-option: Document the get_opt_value() function
-Date: Tue,  7 Jul 2020 12:52:53 +0200
-Message-Id: <20200707105255.362318-6-laurent@vivier.eu>
+Subject: [PULL 6/7] intel_iommu: "aw-bits" error message still refers to
+ "x-aw-bits"
+Date: Tue,  7 Jul 2020 12:52:54 +0200
+Message-Id: <20200707105255.362318-7-laurent@vivier.eu>
 X-Mailer: git-send-email 2.26.2
 In-Reply-To: <20200707105255.362318-1-laurent@vivier.eu>
 References: <20200707105255.362318-1-laurent@vivier.eu>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-X-Provags-ID: V03:K1:9oCtGKpKKzsIv9cTlg4Q4qrtDD+02QyzdTAM7K0KJVjmwVgjIB0
- YjA4owjy/8K63CYlHSCMIxC6r/yqE5XDbEeXVauhjo21iJRiJ3bK9JOlYGohopklAhxsfOk
- 8dRQjr7HKydHU9JCuyKSRFMmBN3O8TW26Rd9rPjBXRPWxLXSnXUMDRHTdvBh+BA6SaDvEP+
- VM74WGwV+r89243yE7uZQ==
-X-UI-Out-Filterresults: notjunk:1;V03:K0:JYFHMDF+G0A=:TaUbJbDIIicS7n5Y8PEHW5
- M/bB2QL24al2GWCr2KY033XOQ4QGwGLfjk0PmvaQqDjekaGqA+en49XwI67ZpCKl1QTU1z98l
- DnkPuibI/MUMyuVfv1SI4J/lOw3gy49dRGuStuPt8irhad/3c3GgzNSjsXw2rJaA6cEqNG6a5
- bP3857t5PMPb/Ut5/WtWyLftvRLCcTz3qacfLNC16kJzRV1I7lgTZAKa+4IBkIYeXcNcbUYhp
- NIiJJNXeVZ8uTed0/+XTKQden+COptlpfUH47+ynuYeK/xdksIE6jifbGk40D8gWxv8tI+eIm
- UObfQRdhWdKR24JbnvMyBPa0YBYCBv/TZVpzf6NnIbAt00xvvU59Uq0Qsb+kQxXNL/87UEqp9
- g6+RT8rdV34KUBKfCSgOwMokmVwjrJpWaJbLboTyQOBhmX3qjoUg84fJ3T7LykJJVIay21Kzy
- VKpIEu8b5AXvQqTLqhIwYCox/WhXv2lYfivaieA/QRhCdCb2lznkU6uT9MtbrHuSBpra3/6VX
- HpO//6DJVakNgI5j1H2/x9t6ALwrxcn9FhBtr0XaHQVsSKCKODOUdSqY/A+rYQXvpzuybVdQp
- tgKalg9ntaIqRkuRlEQNDdNw5neThIO7/5Vpex8/wluXqhvTV4J11DKHY10SA7UHsr3InUiVe
- Q23o/MsDjb0kkteixJdotaO6rBlyuxgcF5JB/NxEeURPs+p1YONMOqH5ETk/KfNgB4hFtOgra
- bXzLob61mF8rbDGhwD+vG3i1syye7pg/AwxTf79mITTARnTmiEll5WL0WP5xxgkTvz73dc1M4
- JdBN/sYX0K29yEKb2L9bM+GVeQoQHEjPwjiLVpVPWGsi2JrSYotNyu57jRSmp7+0ZxFz+8Z
-Received-SPF: none client-ip=212.227.126.135; envelope-from=laurent@vivier.eu;
+X-Provags-ID: V03:K1:Tjxij94jaeCZuREeSdluUcIJZxXxYNA+lTOYf6jE3evR0QxF+6w
+ eYp5VY+Qn1vQIrbrSJyYFAVFKXGt9xbQUTOUGBdmZmjdHahiNmZ+y/zfrneOun2KqMjZuGB
+ /S96OUlMu+2fpI262zUr/1p+SMCDrPLp0i5YfxDWpiY2+IhoHOL0YRagT5ls4lS5eERflZS
+ 5CFywyDks0E9cqzTf1+WA==
+X-UI-Out-Filterresults: notjunk:1;V03:K0:/1/l8sSZFUI=:Ksx3k/xJG6PmVt11Q1ZtRk
+ UsPcRkK4dWxBDQLjY63674+WIQEI22wKo1GKWPWh+lHZ6OhwjoPVqlONPBJ8y0/dJxYKYQnCd
+ 3QKwM9uoG5zyIiJUwKozwXd29TVtR7R6cNPX3tdOembsbCDyGmRuIgghFEoIjE8TT+zYSvTRY
+ fTYtOiXPDKSTAFRSnomDhSLVZ1MDVJaMb+Z7rLNbZ6wE4tpO9yW5Flrr7wtw18y6azMn0/ruK
+ hU/eUbPjPmfYhbvjA1vQsFhLEquGw3pByqE6YCImaM2GT8yParEcFPsZDEcXTS++jBERByP6p
+ 9lw2IOL0t1+MLy3Aj3o6Hwq+YQduNXolFFG8TnHWYg3rnbnB8dGdJtbSXwDbXd2aDxNqUhcqc
+ FYjw85gQuLf0kWp3s4KpNSqP5VUj7mT1MwjrtbH+icGP1sYRrUmgM4nR0J9fShw1hyr7E17Ze
+ 6Y643GDqP6tYYOZOz1+sP8669+dhSWzu8dNRE8LlynisrCAaBNdp9qUUaGOBBH/LD99jl2w2n
+ Lkfmw+N9T7WoBowxcpfK3XBmGrxMRA5SLUkpURoQcHZtqBPzM5169H8CEXxT2goo5BPn7dwvj
+ nIzjTlDX2TQHGgSvJhQs6HkZmvpG2Y98EWaHuTpS25YoZPQrQbn1SvI1w+lZ0rdWEAP+cBHHg
+ SFbHOYWDJqAsXCdIfaehlPjB+LoWfTZHavRSZux0CzU5mr7skM/A3+yO1+Plbo9bkQUUkPW6z
+ hILstGqvmRLHP5Pm40AstfEDKpM7pB6mqFQUuEepfGSE2DofbrPMYaR7/ZEMADDUJ718NogRW
+ 9UW8yD4Ap3B3h+5pDOkE8KgOjuJ3F7O1QCGSRdC8U6g6iddzbdN9Xz4aRii0i5ohk9Pt9Fp
+Received-SPF: none client-ip=212.227.126.130; envelope-from=laurent@vivier.eu;
  helo=mout.kundenserver.de
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/07/07 06:53:04
-X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic]
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/07/07 05:54:48
+X-ACL-Warn: Detected OS   = Linux 3.11 and newer
 X-Spam_score_int: -28
 X-Spam_score: -2.9
 X-Spam_bar: --
@@ -69,61 +69,38 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-trivial@nongnu.org,
- =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
- =?UTF-8?q?Daniel=20P=20=2E=20Berrang=C3=A9?= <berrange@redhat.com>,
+Cc: qemu-trivial@nongnu.org, Menno Lageman <menno.lageman@oracle.com>,
  Michael Tokarev <mjt@tls.msk.ru>, Laurent Vivier <laurent@vivier.eu>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Philippe Mathieu-Daudé <philmd@redhat.com>
+From: Menno Lageman <menno.lageman@oracle.com>
 
-Coverity noticed commit 950c4e6c94 introduced a dereference before
-null check in get_opt_value (CID1391003):
+Commit 4b49b586c4 ('intel_iommu: remove "x-" prefix for "aw-bits"')
+removed the "x-" prefix but but didn't update the error message
+accordingly.
 
-  In get_opt_value: All paths that lead to this null pointer
-  comparison already dereference the pointer earlier (CWE-476)
-
-We fixed this in commit 6e3ad3f0e31, but relaxed the check in commit
-0c2f6e7ee99 because "No callers of get_opt_value() pass in a NULL
-for the 'value' parameter".
-
-Since this function is publicly exposed, it risks new users to do
-the same error again. Avoid that documenting the 'value' argument
-must not be NULL.
-
-Signed-off-by: Philippe Mathieu-Daudé <philmd@redhat.com>
-Reviewed-by: Daniel P. Berrangé <berrange@redhat.com>
-Message-Id: <20200629070858.19850-1-philmd@redhat.com>
+Signed-off-by: Menno Lageman <menno.lageman@oracle.com>
+Reviewed-by: Laurent Vivier <laurent@vivier.eu>
+Message-Id: <20200625155258.1452425-1-menno.lageman@oracle.com>
 Signed-off-by: Laurent Vivier <laurent@vivier.eu>
 ---
- include/qemu/option.h | 13 +++++++++++++
- 1 file changed, 13 insertions(+)
+ hw/i386/intel_iommu.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/include/qemu/option.h b/include/qemu/option.h
-index eb4097889d52..ac50d257746a 100644
---- a/include/qemu/option.h
-+++ b/include/qemu/option.h
-@@ -28,6 +28,19 @@
- 
- #include "qemu/queue.h"
- 
-+/**
-+ * get_opt_value
-+ * @p: a pointer to the option name, delimited by commas
-+ * @value: a non-NULL pointer that will received the delimited options
-+ *
-+ * The @value char pointer will be allocated and filled with
-+ * the delimited options.
-+ *
-+ * Returns the position of the comma delimiter/zero byte after the
-+ * option name in @p.
-+ * The memory pointer in @value must be released with a call to g_free()
-+ * when no longer required.
-+ */
- const char *get_opt_value(const char *p, char **value);
- 
- void parse_option_size(const char *name, const char *value,
+diff --git a/hw/i386/intel_iommu.c b/hw/i386/intel_iommu.c
+index df7ad254ac15..c56398e99177 100644
+--- a/hw/i386/intel_iommu.c
++++ b/hw/i386/intel_iommu.c
+@@ -3758,7 +3758,7 @@ static bool vtd_decide_config(IntelIOMMUState *s, Error **errp)
+     /* Currently only address widths supported are 39 and 48 bits */
+     if ((s->aw_bits != VTD_HOST_AW_39BIT) &&
+         (s->aw_bits != VTD_HOST_AW_48BIT)) {
+-        error_setg(errp, "Supported values for x-aw-bits are: %d, %d",
++        error_setg(errp, "Supported values for aw-bits are: %d, %d",
+                    VTD_HOST_AW_39BIT, VTD_HOST_AW_48BIT);
+         return false;
+     }
 -- 
 2.26.2
 
