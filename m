@@ -2,62 +2,62 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 90AF92176AA
-	for <lists+qemu-devel@lfdr.de>; Tue,  7 Jul 2020 20:27:25 +0200 (CEST)
-Received: from localhost ([::1]:45292 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 32CE22176A1
+	for <lists+qemu-devel@lfdr.de>; Tue,  7 Jul 2020 20:25:43 +0200 (CEST)
+Received: from localhost ([::1]:38806 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jssJQ-0005Rm-Hp
-	for lists+qemu-devel@lfdr.de; Tue, 07 Jul 2020 14:27:24 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:35620)
+	id 1jssHm-0002hg-6a
+	for lists+qemu-devel@lfdr.de; Tue, 07 Jul 2020 14:25:42 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:35636)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1jssA2-00089V-3X
- for qemu-devel@nongnu.org; Tue, 07 Jul 2020 14:17:42 -0400
-Received: from mail-wm1-x331.google.com ([2a00:1450:4864:20::331]:52115)
+ id 1jssA3-0008CD-06
+ for qemu-devel@nongnu.org; Tue, 07 Jul 2020 14:17:43 -0400
+Received: from mail-wm1-x343.google.com ([2a00:1450:4864:20::343]:35931)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1jss9x-0002tn-MB
- for qemu-devel@nongnu.org; Tue, 07 Jul 2020 14:17:41 -0400
-Received: by mail-wm1-x331.google.com with SMTP id 22so97692wmg.1
- for <qemu-devel@nongnu.org>; Tue, 07 Jul 2020 11:17:37 -0700 (PDT)
+ id 1jssA0-0002u7-QH
+ for qemu-devel@nongnu.org; Tue, 07 Jul 2020 14:17:42 -0400
+Received: by mail-wm1-x343.google.com with SMTP id 17so86799wmo.1
+ for <qemu-devel@nongnu.org>; Tue, 07 Jul 2020 11:17:40 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=sender:from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=UNmrmQEZdvxsJuQlKcPOEFU7g9Z4G2MF3gyNz95UPcU=;
- b=IkA8XRkZqLvnrUFMY/WXRWm/MrmxWwrBwgS1u60kFsVd1FIoBq5HoTLdElcS109ek3
- Xr1NeTzmQMgOY2QVOayhZtiZ94cFkuBdrndN9hZCZ3QkKA1jMlLKwP9RwiHSlH+6ng7+
- ICs6E5Q0b6HzAKptsxDmGhZypR9idqVZYY9nRcIG2W2A1DrRh7fx//2WfJmos+CeigJe
- 2uaLcVhgBFRCKuvhVVaM5G4n6hYjLHA9LPbnRaMK6tPnH9J1ZkX9kIsTWDWpEqgxO06c
- QB3Ea6fRuYPG5OmjML8ueqbtzNn4OrqZLXsfnN4pQCrIEbYvk0FHPlszryjOHTv1BU3j
- cKYQ==
+ bh=JWr7zF+k8oFBsyaHnZf5qsM0o1jG6sfM9SYJG1HYeUM=;
+ b=jT4DaNpEE4YOcx4qp5P0XaCx8Mx7wNMqT1NCsoCSgm++F5ebNoMoJB/GscZiiyMC+6
+ EHdEc8W7ihimk15aAUoWlMsAK7MRgVz/4oYpzmg4LSMEhsbaofaySkhak1q+4J49/Ybp
+ GPGesCHmf3ZN2IQ716hsWYabKwP7uuAlcOoK0b7fSlgtsezpPmGEbjhAOPzPgjw1MamI
+ QtsUFroqiuKjfE7+tC65dZB/JvQ8NGnhYPJ2DpuUfgunAj4Uq9iqvQMqR+EWDaAvm4qK
+ KZMHF94yN7Uy9FMNcJC0r2FsphmhGRFA/1c0TjDeEAV8COOCjGpKf4ffVefHRIryqJQp
+ 4b/Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
  :in-reply-to:references:mime-version:content-transfer-encoding;
- bh=UNmrmQEZdvxsJuQlKcPOEFU7g9Z4G2MF3gyNz95UPcU=;
- b=c/LLKpbsB3N4aPRmc68ru1paMHDvOhUoCeeHj1KyU66Vna3CnYTuprvc7hfNAfLt6Z
- MjYel+TQbtXNEyYo+a2HgUkT35NfWZ+J6vcCYjEKROFHf/IOVEoM0BWYm42Ds1DlQwa0
- GRxQIpmcVymUw6DVPxMVbEmbbayeHetl8cBM2O0dDEzYNxR2ziCn8yz1yG9tocaKbUP2
- eVr1WcMtKjVGchuv7xz3yUTS8fGiuN2C+ktOSJnXcOj3aN9awuUlCEwNRAUhyMN22KZe
- pf7e5nX8iTQLQO7hYO+126MhHR2JFaWWSRKcYIsXNWhzPOP315fsq+C426X/cvY9TgP1
- j6sg==
-X-Gm-Message-State: AOAM531eV082QWtt7SIuPOqUyYry1N8UqCTVsJRTosyeEZcWu7xwSkqD
- nMUMWwriv92oou2g0Bb0MJ7PPFxx
-X-Google-Smtp-Source: ABdhPJxs9Axu9zUPFKIUezDm4gZmkcQctByWQ+PfVZ7A8RfsVOyd8R+hSrJQ3fuVlAkgpdSQI2LDgg==
-X-Received: by 2002:a1c:4e08:: with SMTP id g8mr5677450wmh.77.1594145855974;
- Tue, 07 Jul 2020 11:17:35 -0700 (PDT)
+ bh=JWr7zF+k8oFBsyaHnZf5qsM0o1jG6sfM9SYJG1HYeUM=;
+ b=q5DQodhbIN+NzdzdFcrwF0LBM+wFRjtBRRyiI73l68EjpWDHKkUy06eLshGCv/Kx5x
+ +Eq2J8yhtnh/bJVHt+nFEr0cZWH5m1Fp40wOe4fRj4pB9ahSjRZQcV35kfpVMgtBRSvK
+ tt51C4u4q74WFNKeouJpuNbXbu7kWrqgvO/XxOvUgNe/8L+kOn0xeeQvhr4pHduX7vEU
+ Vd0mFFfdMUNUTjfuumZQjimv99yYVgcnJXBpRUF12hwfqzbuv4KJWZTIVnRuvSfasaSo
+ 9mpUq5+fUNCwix7jQdUqHbZoYtL/BvOVZOwJxudmdne5dc1WRPphMeymgdIgDomzbfZD
+ VrOw==
+X-Gm-Message-State: AOAM530Mm9Q3Zev6WvK1pgzLl7gnYY08eBxqJNwEa0U48UmUPTUE5rb1
+ O/Ew7K1V6Ty/HzTS4mTCdPtBpZxm
+X-Google-Smtp-Source: ABdhPJxadVC0TpsuoHDV9JWPP6VrzLAdqWniZ587VbJwYVRJ3FEFvOGJDLOvybd3XER3E98piuOxaQ==
+X-Received: by 2002:a7b:c2f7:: with SMTP id e23mr5392818wmk.175.1594145858926; 
+ Tue, 07 Jul 2020 11:17:38 -0700 (PDT)
 Received: from localhost.localdomain
  (138.red-83-57-170.dynamicip.rima-tde.net. [83.57.170.138])
- by smtp.gmail.com with ESMTPSA id 65sm2253337wma.48.2020.07.07.11.17.34
+ by smtp.gmail.com with ESMTPSA id 65sm2253337wma.48.2020.07.07.11.17.37
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 07 Jul 2020 11:17:35 -0700 (PDT)
+ Tue, 07 Jul 2020 11:17:38 -0700 (PDT)
 From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
 To: qemu-devel@nongnu.org
-Subject: [PULL 14/32] target/avr: Add instruction translation - Bit and
- Bit-test Instructions
-Date: Tue,  7 Jul 2020 20:16:52 +0200
-Message-Id: <20200707181710.30950-15-f4bug@amsat.org>
+Subject: [PULL 16/32] target/avr: Add instruction translation - CPU main
+ translation function
+Date: Tue,  7 Jul 2020 20:16:54 +0200
+Message-Id: <20200707181710.30950-17-f4bug@amsat.org>
 X-Mailer: git-send-email 2.21.3
 In-Reply-To: <20200707181710.30950-1-f4bug@amsat.org>
 References: <20200707181710.30950-1-f4bug@amsat.org>
@@ -65,8 +65,8 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::331;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wm1-x331.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::343;
+ envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wm1-x343.google.com
 X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
  That's all we know.
 X-Spam_score_int: 0
@@ -108,303 +108,242 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Michael Rolnik <mrolnik@gmail.com>
 
-This includes:
-    - LSR, ROR
-    - ASR
-    - SWAP
-    - SBI, CBI
-    - BST, BLD
-    - BSET, BCLR
+Add the core of translation mechanism.
 
+Co-developed-by: Richard Henderson <richard.henderson@linaro.org>
+Co-developed-by: Michael Rolnik <mrolnik@gmail.com>
 Signed-off-by: Michael Rolnik <mrolnik@gmail.com>
 Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 Signed-off-by: Aleksandar Markovic <aleksandar.m.mail@gmail.com>
 Tested-by: Philippe Mathieu-Daudé <philmd@redhat.com>
 Reviewed-by: Aleksandar Markovic <aleksandar.m.mail@gmail.com>
 Signed-off-by: Thomas Huth <huth@tuxfamily.org>
-Message-Id: <20200705140315.260514-15-huth@tuxfamily.org>
+Message-Id: <20200705140315.260514-17-huth@tuxfamily.org>
 Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
 ---
- target/avr/insn.decode |  14 +++
- target/avr/translate.c | 247 +++++++++++++++++++++++++++++++++++++++++
- 2 files changed, 261 insertions(+)
+ target/avr/translate.c | 213 +++++++++++++++++++++++++++++++++++++++++
+ 1 file changed, 213 insertions(+)
 
-diff --git a/target/avr/insn.decode b/target/avr/insn.decode
-index 279ddfbc0c..7bb6ce7495 100644
---- a/target/avr/insn.decode
-+++ b/target/avr/insn.decode
-@@ -163,3 +163,17 @@ XCH             1001 001 rd:5 0100
- LAC             1001 001 rd:5 0110
- LAS             1001 001 rd:5 0101
- LAT             1001 001 rd:5 0111
-+
-+#
-+# Bit and Bit-test Instructions
-+#
-+LSR             1001 010 rd:5 0110
-+ROR             1001 010 rd:5 0111
-+ASR             1001 010 rd:5 0101
-+SWAP            1001 010 rd:5 0010
-+SBI             1001 1010 reg:5 bit:3
-+CBI             1001 1000 reg:5 bit:3
-+BST             1111 101 rd:5 0 bit:3
-+BLD             1111 100 rd:5 0 bit:3
-+BSET            1001 0100 0 bit:3 1000
-+BCLR            1001 0100 1 bit:3 1000
 diff --git a/target/avr/translate.c b/target/avr/translate.c
-index fce8b5af9a..884fbb6081 100644
+index ee7811995a..7ad3dec031 100644
 --- a/target/avr/translate.c
 +++ b/target/avr/translate.c
-@@ -2493,3 +2493,250 @@ static bool trans_LAT(DisasContext *ctx, arg_LAT *a)
+@@ -2805,3 +2805,216 @@ static bool trans_WDR(DisasContext *ctx, arg_WDR *a)
  
      return true;
  }
 +
 +/*
-+ * Bit and Bit-test Instructions
++ *  Core translation mechanism functions:
++ *
++ *    - translate()
++ *    - canonicalize_skip()
++ *    - gen_intermediate_code()
++ *    - restore_state_to_opc()
++ *
 + */
-+static void gen_rshift_ZNVSf(TCGv R)
++static void translate(DisasContext *ctx)
 +{
-+    tcg_gen_setcondi_tl(TCG_COND_EQ, cpu_Zf, R, 0); /* Zf = R == 0 */
-+    tcg_gen_shri_tl(cpu_Nf, R, 7); /* Nf = R(7) */
-+    tcg_gen_xor_tl(cpu_Vf, cpu_Nf, cpu_Cf);
-+    tcg_gen_xor_tl(cpu_Sf, cpu_Nf, cpu_Vf); /* Sf = Nf ^ Vf */
++    uint32_t opcode = next_word(ctx);
++
++    if (!decode_insn(ctx, opcode)) {
++        gen_helper_unsupported(cpu_env);
++        ctx->bstate = DISAS_NORETURN;
++    }
 +}
 +
-+/*
-+ *  Shifts all bits in Rd one place to the right. Bit 7 is cleared. Bit 0 is
-+ *  loaded into the C Flag of the SREG. This operation effectively divides an
-+ *  unsigned value by two. The C Flag can be used to round the result.
-+ */
-+static bool trans_LSR(DisasContext *ctx, arg_LSR *a)
++/* Standardize the cpu_skip condition to NE.  */
++static bool canonicalize_skip(DisasContext *ctx)
 +{
-+    TCGv Rd = cpu_r[a->rd];
++    switch (ctx->skip_cond) {
++    case TCG_COND_NEVER:
++        /* Normal case: cpu_skip is known to be false.  */
++        return false;
 +
-+    tcg_gen_andi_tl(cpu_Cf, Rd, 1);
-+    tcg_gen_shri_tl(Rd, Rd, 1);
++    case TCG_COND_ALWAYS:
++        /*
++         * Breakpoint case: cpu_skip is known to be true, via TB_FLAGS_SKIP.
++         * The breakpoint is on the instruction being skipped, at the start
++         * of the TranslationBlock.  No need to update.
++         */
++        return false;
 +
-+    /* update status register */
-+    tcg_gen_setcondi_tl(TCG_COND_EQ, cpu_Zf, Rd, 0); /* Zf = Rd == 0 */
-+    tcg_gen_movi_tl(cpu_Nf, 0);
-+    tcg_gen_mov_tl(cpu_Vf, cpu_Cf);
-+    tcg_gen_mov_tl(cpu_Sf, cpu_Vf);
-+
-+    return true;
-+}
-+
-+/*
-+ *  Shifts all bits in Rd one place to the right. The C Flag is shifted into
-+ *  bit 7 of Rd. Bit 0 is shifted into the C Flag.  This operation, combined
-+ *  with ASR, effectively divides multi-byte signed values by two. Combined with
-+ *  LSR it effectively divides multi-byte unsigned values by two. The Carry Flag
-+ *  can be used to round the result.
-+ */
-+static bool trans_ROR(DisasContext *ctx, arg_ROR *a)
-+{
-+    TCGv Rd = cpu_r[a->rd];
-+    TCGv t0 = tcg_temp_new_i32();
-+
-+    tcg_gen_shli_tl(t0, cpu_Cf, 7);
-+
-+    /* update status register */
-+    tcg_gen_andi_tl(cpu_Cf, Rd, 1);
-+
-+    /* update output register */
-+    tcg_gen_shri_tl(Rd, Rd, 1);
-+    tcg_gen_or_tl(Rd, Rd, t0);
-+
-+    /* update status register */
-+    gen_rshift_ZNVSf(Rd);
-+
-+    tcg_temp_free_i32(t0);
-+
-+    return true;
-+}
-+
-+/*
-+ *  Shifts all bits in Rd one place to the right. Bit 7 is held constant. Bit 0
-+ *  is loaded into the C Flag of the SREG. This operation effectively divides a
-+ *  signed value by two without changing its sign. The Carry Flag can be used to
-+ *  round the result.
-+ */
-+static bool trans_ASR(DisasContext *ctx, arg_ASR *a)
-+{
-+    TCGv Rd = cpu_r[a->rd];
-+    TCGv t0 = tcg_temp_new_i32();
-+
-+    /* update status register */
-+    tcg_gen_andi_tl(cpu_Cf, Rd, 1); /* Cf = Rd(0) */
-+
-+    /* update output register */
-+    tcg_gen_andi_tl(t0, Rd, 0x80); /* Rd = (Rd & 0x80) | (Rd >> 1) */
-+    tcg_gen_shri_tl(Rd, Rd, 1);
-+    tcg_gen_or_tl(Rd, Rd, t0);
-+
-+    /* update status register */
-+    gen_rshift_ZNVSf(Rd);
-+
-+    tcg_temp_free_i32(t0);
-+
-+    return true;
-+}
-+
-+/*
-+ *  Swaps high and low nibbles in a register.
-+ */
-+static bool trans_SWAP(DisasContext *ctx, arg_SWAP *a)
-+{
-+    TCGv Rd = cpu_r[a->rd];
-+    TCGv t0 = tcg_temp_new_i32();
-+    TCGv t1 = tcg_temp_new_i32();
-+
-+    tcg_gen_andi_tl(t0, Rd, 0x0f);
-+    tcg_gen_shli_tl(t0, t0, 4);
-+    tcg_gen_andi_tl(t1, Rd, 0xf0);
-+    tcg_gen_shri_tl(t1, t1, 4);
-+    tcg_gen_or_tl(Rd, t0, t1);
-+
-+    tcg_temp_free_i32(t1);
-+    tcg_temp_free_i32(t0);
-+
-+    return true;
-+}
-+
-+/*
-+ *  Sets a specified bit in an I/O Register. This instruction operates on
-+ *  the lower 32 I/O Registers -- addresses 0-31.
-+ */
-+static bool trans_SBI(DisasContext *ctx, arg_SBI *a)
-+{
-+    TCGv data = tcg_temp_new_i32();
-+    TCGv port = tcg_const_i32(a->reg);
-+
-+    gen_helper_inb(data, cpu_env, port);
-+    tcg_gen_ori_tl(data, data, 1 << a->bit);
-+    gen_helper_outb(cpu_env, port, data);
-+
-+    tcg_temp_free_i32(port);
-+    tcg_temp_free_i32(data);
-+
-+    return true;
-+}
-+
-+/*
-+ *  Clears a specified bit in an I/O Register. This instruction operates on
-+ *  the lower 32 I/O Registers -- addresses 0-31.
-+ */
-+static bool trans_CBI(DisasContext *ctx, arg_CBI *a)
-+{
-+    TCGv data = tcg_temp_new_i32();
-+    TCGv port = tcg_const_i32(a->reg);
-+
-+    gen_helper_inb(data, cpu_env, port);
-+    tcg_gen_andi_tl(data, data, ~(1 << a->bit));
-+    gen_helper_outb(cpu_env, port, data);
-+
-+    tcg_temp_free_i32(data);
-+    tcg_temp_free_i32(port);
-+
-+    return true;
-+}
-+
-+/*
-+ *  Stores bit b from Rd to the T Flag in SREG (Status Register).
-+ */
-+static bool trans_BST(DisasContext *ctx, arg_BST *a)
-+{
-+    TCGv Rd = cpu_r[a->rd];
-+
-+    tcg_gen_andi_tl(cpu_Tf, Rd, 1 << a->bit);
-+    tcg_gen_shri_tl(cpu_Tf, cpu_Tf, a->bit);
-+
-+    return true;
-+}
-+
-+/*
-+ *  Copies the T Flag in the SREG (Status Register) to bit b in register Rd.
-+ */
-+static bool trans_BLD(DisasContext *ctx, arg_BLD *a)
-+{
-+    TCGv Rd = cpu_r[a->rd];
-+    TCGv t1 = tcg_temp_new_i32();
-+
-+    tcg_gen_andi_tl(Rd, Rd, ~(1u << a->bit)); /* clear bit */
-+    tcg_gen_shli_tl(t1, cpu_Tf, a->bit); /* create mask */
-+    tcg_gen_or_tl(Rd, Rd, t1);
-+
-+    tcg_temp_free_i32(t1);
-+
-+    return true;
-+}
-+
-+/*
-+ *  Sets a single Flag or bit in SREG.
-+ */
-+static bool trans_BSET(DisasContext *ctx, arg_BSET *a)
-+{
-+    switch (a->bit) {
-+    case 0x00:
-+        tcg_gen_movi_tl(cpu_Cf, 0x01);
++    case TCG_COND_NE:
++        if (ctx->skip_var1 == NULL) {
++            tcg_gen_mov_tl(cpu_skip, ctx->skip_var0);
++        } else {
++            tcg_gen_xor_tl(cpu_skip, ctx->skip_var0, ctx->skip_var1);
++            ctx->skip_var1 = NULL;
++        }
 +        break;
-+    case 0x01:
-+        tcg_gen_movi_tl(cpu_Zf, 0x01);
-+        break;
-+    case 0x02:
-+        tcg_gen_movi_tl(cpu_Nf, 0x01);
-+        break;
-+    case 0x03:
-+        tcg_gen_movi_tl(cpu_Vf, 0x01);
-+        break;
-+    case 0x04:
-+        tcg_gen_movi_tl(cpu_Sf, 0x01);
-+        break;
-+    case 0x05:
-+        tcg_gen_movi_tl(cpu_Hf, 0x01);
-+        break;
-+    case 0x06:
-+        tcg_gen_movi_tl(cpu_Tf, 0x01);
-+        break;
-+    case 0x07:
-+        tcg_gen_movi_tl(cpu_If, 0x01);
++
++    default:
++        /* Convert to a NE condition vs 0. */
++        if (ctx->skip_var1 == NULL) {
++            tcg_gen_setcondi_tl(ctx->skip_cond, cpu_skip, ctx->skip_var0, 0);
++        } else {
++            tcg_gen_setcond_tl(ctx->skip_cond, cpu_skip,
++                               ctx->skip_var0, ctx->skip_var1);
++            ctx->skip_var1 = NULL;
++        }
++        ctx->skip_cond = TCG_COND_NE;
 +        break;
 +    }
-+
++    if (ctx->free_skip_var0) {
++        tcg_temp_free(ctx->skip_var0);
++        ctx->free_skip_var0 = false;
++    }
++    ctx->skip_var0 = cpu_skip;
 +    return true;
 +}
 +
-+/*
-+ *  Clears a single Flag in SREG.
-+ */
-+static bool trans_BCLR(DisasContext *ctx, arg_BCLR *a)
++void gen_intermediate_code(CPUState *cs, TranslationBlock *tb, int max_insns)
 +{
-+    switch (a->bit) {
-+    case 0x00:
-+        tcg_gen_movi_tl(cpu_Cf, 0x00);
-+        break;
-+    case 0x01:
-+        tcg_gen_movi_tl(cpu_Zf, 0x00);
-+        break;
-+    case 0x02:
-+        tcg_gen_movi_tl(cpu_Nf, 0x00);
-+        break;
-+    case 0x03:
-+        tcg_gen_movi_tl(cpu_Vf, 0x00);
-+        break;
-+    case 0x04:
-+        tcg_gen_movi_tl(cpu_Sf, 0x00);
-+        break;
-+    case 0x05:
-+        tcg_gen_movi_tl(cpu_Hf, 0x00);
-+        break;
-+    case 0x06:
-+        tcg_gen_movi_tl(cpu_Tf, 0x00);
-+        break;
-+    case 0x07:
-+        tcg_gen_movi_tl(cpu_If, 0x00);
-+        break;
++    CPUAVRState *env = cs->env_ptr;
++    DisasContext ctx = {
++        .tb = tb,
++        .cs = cs,
++        .env = env,
++        .memidx = 0,
++        .bstate = DISAS_NEXT,
++        .skip_cond = TCG_COND_NEVER,
++        .singlestep = cs->singlestep_enabled,
++    };
++    target_ulong pc_start = tb->pc / 2;
++    int num_insns = 0;
++
++    if (tb->flags & TB_FLAGS_FULL_ACCESS) {
++        /*
++         * This flag is set by ST/LD instruction we will regenerate it ONLY
++         * with mem/cpu memory access instead of mem access
++         */
++        max_insns = 1;
++    }
++    if (ctx.singlestep) {
++        max_insns = 1;
 +    }
 +
-+    return true;
++    gen_tb_start(tb);
++
++    ctx.npc = pc_start;
++    if (tb->flags & TB_FLAGS_SKIP) {
++        ctx.skip_cond = TCG_COND_ALWAYS;
++        ctx.skip_var0 = cpu_skip;
++    }
++
++    do {
++        TCGLabel *skip_label = NULL;
++
++        /* translate current instruction */
++        tcg_gen_insn_start(ctx.npc);
++        num_insns++;
++
++        /*
++         * this is due to some strange GDB behavior
++         * let's assume main has address 0x100
++         * b main   - sets breakpoint at address 0x00000100 (code)
++         * b *0x100 - sets breakpoint at address 0x00800100 (data)
++         */
++        if (unlikely(!ctx.singlestep &&
++                (cpu_breakpoint_test(cs, OFFSET_CODE + ctx.npc * 2, BP_ANY) ||
++                 cpu_breakpoint_test(cs, OFFSET_DATA + ctx.npc * 2, BP_ANY)))) {
++            canonicalize_skip(&ctx);
++            tcg_gen_movi_tl(cpu_pc, ctx.npc);
++            gen_helper_debug(cpu_env);
++            goto done_generating;
++        }
++
++        /* Conditionally skip the next instruction, if indicated.  */
++        if (ctx.skip_cond != TCG_COND_NEVER) {
++            skip_label = gen_new_label();
++            if (ctx.skip_var0 == cpu_skip) {
++                /*
++                 * Copy cpu_skip so that we may zero it before the branch.
++                 * This ensures that cpu_skip is non-zero after the label
++                 * if and only if the skipped insn itself sets a skip.
++                 */
++                ctx.free_skip_var0 = true;
++                ctx.skip_var0 = tcg_temp_new();
++                tcg_gen_mov_tl(ctx.skip_var0, cpu_skip);
++                tcg_gen_movi_tl(cpu_skip, 0);
++            }
++            if (ctx.skip_var1 == NULL) {
++                tcg_gen_brcondi_tl(ctx.skip_cond, ctx.skip_var0, 0, skip_label);
++            } else {
++                tcg_gen_brcond_tl(ctx.skip_cond, ctx.skip_var0,
++                                  ctx.skip_var1, skip_label);
++                ctx.skip_var1 = NULL;
++            }
++            if (ctx.free_skip_var0) {
++                tcg_temp_free(ctx.skip_var0);
++                ctx.free_skip_var0 = false;
++            }
++            ctx.skip_cond = TCG_COND_NEVER;
++            ctx.skip_var0 = NULL;
++        }
++
++        translate(&ctx);
++
++        if (skip_label) {
++            canonicalize_skip(&ctx);
++            gen_set_label(skip_label);
++            if (ctx.bstate == DISAS_NORETURN) {
++                ctx.bstate = DISAS_CHAIN;
++            }
++        }
++    } while (ctx.bstate == DISAS_NEXT
++             && num_insns < max_insns
++             && (ctx.npc - pc_start) * 2 < TARGET_PAGE_SIZE - 4
++             && !tcg_op_buf_full());
++
++    if (tb->cflags & CF_LAST_IO) {
++        gen_io_end();
++    }
++
++    bool nonconst_skip = canonicalize_skip(&ctx);
++
++    switch (ctx.bstate) {
++    case DISAS_NORETURN:
++        assert(!nonconst_skip);
++        break;
++    case DISAS_NEXT:
++    case DISAS_TOO_MANY:
++    case DISAS_CHAIN:
++        if (!nonconst_skip) {
++            /* Note gen_goto_tb checks singlestep.  */
++            gen_goto_tb(&ctx, 1, ctx.npc);
++            break;
++        }
++        tcg_gen_movi_tl(cpu_pc, ctx.npc);
++        /* fall through */
++    case DISAS_LOOKUP:
++        if (!ctx.singlestep) {
++            tcg_gen_lookup_and_goto_ptr();
++            break;
++        }
++        /* fall through */
++    case DISAS_EXIT:
++        if (ctx.singlestep) {
++            gen_helper_debug(cpu_env);
++        } else {
++            tcg_gen_exit_tb(NULL, 0);
++        }
++        break;
++    default:
++        g_assert_not_reached();
++    }
++
++done_generating:
++    gen_tb_end(tb, num_insns);
++
++    tb->size = (ctx.npc - pc_start) * 2;
++    tb->icount = num_insns;
++}
++
++void restore_state_to_opc(CPUAVRState *env, TranslationBlock *tb,
++                            target_ulong *data)
++{
++    env->pc_w = data[0];
 +}
 -- 
 2.21.3
