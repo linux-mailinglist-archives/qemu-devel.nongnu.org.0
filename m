@@ -2,53 +2,54 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2509A216ACD
-	for <lists+qemu-devel@lfdr.de>; Tue,  7 Jul 2020 12:54:14 +0200 (CEST)
-Received: from localhost ([::1]:44146 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 28795216AD2
+	for <lists+qemu-devel@lfdr.de>; Tue,  7 Jul 2020 12:55:41 +0200 (CEST)
+Received: from localhost ([::1]:50768 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jslEq-0002k5-Kn
-	for lists+qemu-devel@lfdr.de; Tue, 07 Jul 2020 06:54:12 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:36224)
+	id 1jslGG-0005Sa-7W
+	for lists+qemu-devel@lfdr.de; Tue, 07 Jul 2020 06:55:40 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:36250)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <laurent@vivier.eu>)
- id 1jslDi-0001Ed-I6; Tue, 07 Jul 2020 06:53:02 -0400
-Received: from mout.kundenserver.de ([212.227.126.131]:41381)
+ id 1jslDl-0001IP-Ul; Tue, 07 Jul 2020 06:53:05 -0400
+Received: from mout.kundenserver.de ([212.227.126.134]:55691)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <laurent@vivier.eu>)
- id 1jslDg-0000Lg-KM; Tue, 07 Jul 2020 06:53:02 -0400
+ id 1jslDk-0000M5-6l; Tue, 07 Jul 2020 06:53:05 -0400
 Received: from localhost.localdomain ([82.252.135.106]) by
  mrelayeu.kundenserver.de (mreue011 [212.227.15.167]) with ESMTPSA (Nemesis)
- id 1N5mWp-1kzscE2JJb-017HbN; Tue, 07 Jul 2020 12:52:57 +0200
+ id 1Mt7Ll-1km6xX10Jt-00tU5b; Tue, 07 Jul 2020 12:52:58 +0200
 From: Laurent Vivier <laurent@vivier.eu>
 To: qemu-devel@nongnu.org
-Subject: [PULL 0/7] Trivial branch for 5.1 patches
-Date: Tue,  7 Jul 2020 12:52:48 +0200
-Message-Id: <20200707105255.362318-1-laurent@vivier.eu>
+Subject: [PULL 1/7] fix the prototype of muls64/mulu64
+Date: Tue,  7 Jul 2020 12:52:49 +0200
+Message-Id: <20200707105255.362318-2-laurent@vivier.eu>
 X-Mailer: git-send-email 2.26.2
+In-Reply-To: <20200707105255.362318-1-laurent@vivier.eu>
+References: <20200707105255.362318-1-laurent@vivier.eu>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: quoted-printable
-X-Provags-ID: V03:K1:1l5DsXF8ueSUHUSlGRNVVLaomKJW/m/X6je67xnzY9/z8FaJ+nu
- By5/FCnfB3FmuvRtzk2DSoz893CkY9YM32bpDe52ZZUpEGeUf/gUVo94Qz5NkAq/QruXdHb
- c1y7gOAskNxBwy8gXxv3W/9qxIFRkc6J5PQdp+tJVeF2tD0HADXaNah68diVDyoocKVQk89
- yGmye1iBeSyoxKwSwtKCQ==
-X-UI-Out-Filterresults: notjunk:1;V03:K0:pd7gfTErXd0=:eizhLW7tyBaXgjnfEjVPjj
- 2sjE9JdGvmj9+J7nMGIvkTodtLOltwlKIQc9Vm21yg8So90B3Y/iy6HvmXp21sSIvgaMAi/yM
- 2HCHqSa2k+H5MHTx0HQBQFVDx9nsR15wGqzNVG9twKiREdMIlmIWKiG2+Xnd2tVmCKqobG5/H
- c3UUwSOlmuVT7OnEJLSOWXg5I7wKg8M3q4tL1QITuVrkAleoAfCCtRoaQnltzCmkoTNn0tnkt
- qMf8C1jjbQAund61ZjsNZs8g/PnKHWG8msEzgLnHtY73Jh2qNG6dARTgV7/AzfvCngrmMo97C
- IetCvLv5IdSxzUDyrUrRgx55fJMxQ2dKy3kbnGB3khAsaqDvSuw+yn5cEIjsE4eG8VJoamJMm
- dLFXkOw3QpEk6atTPNL+EaCFPc/QSgF8WSFA+vWX8517Eq7/lg5Thsh1AFEDj7KtQgQ0KssiQ
- Z74Lh6qs1DGvxKlj6DRX8GS4YNpsGzjDAT5b6nxC7u9Iwaqq70oOq88zuANntWx1Q1Jvn+DDV
- LJomxAYPTJQfQiBuhCgVLbVP4zQiL5yXvE1/HYRhtS2LX8y1xwxICys7Zjg1NrAkm+yHjVvPI
- gEfZDRMpzX7Ay9KC9EhPc1FtCzoGLfy0k6UYe2i4RO7IPXsAbDEHCqZ/5OmcJ+HUWWecEHvKX
- wKdMkFcwUDlR7NOwHZGzDjFOVGaduwk5FNVtB2IC0QDU//pdyf9e6ikrmF++vEOZANlRuYkLd
- EOmP5qj8za5vpQJwtoeCcw1C54RSM2sDUK2pCASYM48++OohbnH2O1yzW7megxfefS6vG0C78
- Ob3JvuIQEl+kpGeaIh6PkL8x2U9rAS9E+nrplE6V8/tZo01V+aaQe222ZADgkfn4j2SSMS8
-Received-SPF: none client-ip=212.227.126.131; envelope-from=laurent@vivier.eu;
+Content-Transfer-Encoding: 8bit
+X-Provags-ID: V03:K1:BUoMo39jGy6GF1XgD/UoYfsWaDEFsIM0YiRFiPc1eU5F/G4+x8W
+ kxGOKjQif+7tZEB69NrdVmWuT2ZH3WFCMvJPLoDqjeR/lhuekrIRk79p6cvZXvkeV8mCOM0
+ uErjqvYTRv6mKAFUFgQCdXMm438Z8LYGXnWLk/VidyBslWD7DnxAHf/4SV7GgWhLLc+34YR
+ SAXaCbA7BuXaxPg+4dKLQ==
+X-UI-Out-Filterresults: notjunk:1;V03:K0:1BMuvl2WX5E=:+9ubi42N74bGBUvgEdXGmU
+ M3zCsGgFRMy3M61FVv0BK4yVsevSauq7fDHeK8xoQByZaEFHRzlAtdd7mFqOYIzNUimLlyRJF
+ nR1F07/bYOWurL3YNLHtQT62n7jCoDRxkfKaZlb0T4w0FurAtaUdvM0JFGQWIrA+uruG1uBOF
+ 8Njs97gF3iVnLNMsg7o983Ka9YR84hP+RIfSRO9wpAx+PGP+koSFN8uh0knz1x9TceQejK2kY
+ MDs+j+2BuKl6wa6hXU5djWShg7sV0a9UVJsMAepJaDEKj8d40T8cKWqCQgTFuhu96aYXSb6n0
+ 52w4f0RQTRQuRSjOIQHr9U3vPoM+bJDzZZL9DYRCloUY8oeXYpzjMMWx4DSeL57Qey/4EVZaw
+ ZsvYknJXN3SX/6jrhzA4G2ezLtkQHgXSnBiKDBVXJ8FdArBMYBhwBulCO4F9xhy9XnCgJk318
+ gKgRjbJweAfEN3Og75Wt+WFJSdp9HWZARMHQ5KtSak82JwWFwAtF3DfgTIjsj+Qg4VXa6D/e5
+ mHb3tt+IgPDDi3w6atFd5p3ftMgF6fKZK1pmJW1mslpSGD/h4mnLOU49O4jFQ1dKIEgsuJSBy
+ B6NV0wzLBoFtNZiEceLC7YvDKuM9hoLdrfnZqO/c1n8x0rm/oQNT/kNv02dgQ9M2GrT1qdSr7
+ Pz9BEXsO24SL/Pbq9R1ct8vs09D6XIrptF5rpezhxnVnOObqd9OpbV4tiSukkHvveOT3pUOP2
+ k1b2cuYXpHe22UJjy0hlvjjqGwkNkE3KLLBSqcZxWlIFibKDcu0y7bhxlW3zFP5BsQzS4Tlba
+ 08KXDGzUDrXRJ1d0kp1GhjhiBapsSlwCMgG4jIHOnjZj7mE+GaO/UN6JmW0GyK50vfu5xm4
+Received-SPF: none client-ip=212.227.126.134; envelope-from=laurent@vivier.eu;
  helo=mout.kundenserver.de
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/07/07 06:52:58
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/07/07 06:53:02
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic]
 X-Spam_score_int: -28
 X-Spam_score: -2.9
@@ -67,63 +68,41 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-trivial@nongnu.org, Michael Tokarev <mjt@tls.msk.ru>,
- Laurent Vivier <laurent@vivier.eu>
+Cc: qemu-trivial@nongnu.org, Lijun Pan <ljp@linux.ibm.com>,
+ Richard Henderson <richard.henderson@linaro.org>,
+ Michael Tokarev <mjt@tls.msk.ru>, Laurent Vivier <laurent@vivier.eu>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The following changes since commit eb6490f544388dd24c0d054a96dd304bc7284450=
-:=0D
-=0D
-  Merge remote-tracking branch 'remotes/pmaydell/tags/pull-target-arm-20200=
-70=3D=0D
-3' into staging (2020-07-04 16:08:41 +0100)=0D
-=0D
-are available in the Git repository at:=0D
-=0D
-  git://github.com/vivier/qemu.git tags/trivial-branch-for-5.1-pull-request=
-=0D
-=0D
-for you to fetch changes up to 89615cfef57e04da0e5a1bd212a62f8696468e79:=0D
-=0D
-  net/tap-solaris.c: Include qemu-common.h for TFR macro (2020-07-07 12:38:=
-50=3D=0D
- +0200)=0D
-=0D
-----------------------------------------------------------------=0D
-trivial branch patches 20200707=0D
-=0D
-----------------------------------------------------------------=0D
-=0D
-Christophe de Dinechin (1):=0D
-  trivial: Respect alphabetical order of .o files in Makefile.objs=0D
-=0D
-Lijun Pan (1):=0D
-  fix the prototype of muls64/mulu64=0D
-=0D
-Menno Lageman (1):=0D
-  intel_iommu: "aw-bits" error message still refers to "x-aw-bits"=0D
-=0D
-Peter Maydell (1):=0D
-  net/tap-solaris.c: Include qemu-common.h for TFR macro=0D
-=0D
-Philippe Mathieu-Daud=3DC3=3DA9 (2):=0D
-  .mailmap: Update Alexander Graf email address=0D
-  util/qemu-option: Document the get_opt_value() function=0D
-=0D
-Radoslaw Biernacki (1):=0D
-  MAINTAINERS: Update Radoslaw Biernacki email address=0D
-=0D
- .mailmap                  |  2 ++=0D
- MAINTAINERS               |  2 +-=0D
- hw/i386/intel_iommu.c     |  2 +-=0D
- include/qemu/host-utils.h |  4 ++--=0D
- include/qemu/option.h     | 13 +++++++++++++=0D
- net/tap-solaris.c         |  1 +=0D
- stubs/Makefile.objs       |  2 +-=0D
- 7 files changed, 21 insertions(+), 5 deletions(-)=0D
-=0D
---=3D20=0D
-2.26.2=0D
-=0D
+From: Lijun Pan <ljp@linux.ibm.com>
+
+The prototypes of muls64/mulu64 in host-utils.h should match the
+definitions in host-utils.c
+
+Signed-off-by: Lijun Pan <ljp@linux.ibm.com>
+Message-Id: <20200701234344.91843-10-ljp@linux.ibm.com>
+Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
+Signed-off-by: Laurent Vivier <laurent@vivier.eu>
+---
+ include/qemu/host-utils.h | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
+
+diff --git a/include/qemu/host-utils.h b/include/qemu/host-utils.h
+index 4cd170e6cd53..cdca2991d8a8 100644
+--- a/include/qemu/host-utils.h
++++ b/include/qemu/host-utils.h
+@@ -77,8 +77,8 @@ static inline int divs128(int64_t *plow, int64_t *phigh, int64_t divisor)
+     }
+ }
+ #else
+-void muls64(uint64_t *phigh, uint64_t *plow, int64_t a, int64_t b);
+-void mulu64(uint64_t *phigh, uint64_t *plow, uint64_t a, uint64_t b);
++void muls64(uint64_t *plow, uint64_t *phigh, int64_t a, int64_t b);
++void mulu64(uint64_t *plow, uint64_t *phigh, uint64_t a, uint64_t b);
+ int divu128(uint64_t *plow, uint64_t *phigh, uint64_t divisor);
+ int divs128(int64_t *plow, int64_t *phigh, int64_t divisor);
+ 
+-- 
+2.26.2
+
 
