@@ -2,69 +2,95 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 382D92185E8
-	for <lists+qemu-devel@lfdr.de>; Wed,  8 Jul 2020 13:18:26 +0200 (CEST)
-Received: from localhost ([::1]:38866 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9BC72219395
+	for <lists+qemu-devel@lfdr.de>; Thu,  9 Jul 2020 00:37:49 +0200 (CEST)
+Received: from localhost ([::1]:45836 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jt85p-0003Y4-9x
-	for lists+qemu-devel@lfdr.de; Wed, 08 Jul 2020 07:18:25 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:50012)
+	id 1jtIhI-0000zw-I3
+	for lists+qemu-devel@lfdr.de; Wed, 08 Jul 2020 18:37:48 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:48138)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <r.bolshakov@yadro.com>)
- id 1jt84B-0002qY-RL; Wed, 08 Jul 2020 07:16:44 -0400
-Received: from mta-02.yadro.com ([89.207.88.252]:41326 helo=mta-01.yadro.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <r.bolshakov@yadro.com>)
- id 1jt842-0002us-Mj; Wed, 08 Jul 2020 07:16:42 -0400
-Received: from localhost (unknown [127.0.0.1])
- by mta-01.yadro.com (Postfix) with ESMTP id F07E74C895;
- Wed,  8 Jul 2020 11:16:29 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=yadro.com; h=
- in-reply-to:content-disposition:content-type:content-type
- :mime-version:references:message-id:subject:subject:from:from
- :date:date:received:received:received; s=mta-01; t=1594206989;
- x=1596021390; bh=IZP5UhMNqaSvqAnZInLSw7aMUyR9UHa4g7mz2kaJfkI=; b=
- LwlLD4gqzKhmjDg+9WVU7o3CgUCt71MSdjCZREhDV0oSr58YKSEbnCG0ZNKD2k5K
- K3tD35qHsix1ygABezMpCKHuFTf4V8AvRtKhcuyU/eAfNtdtkJ65uJTKxajbTCNI
- E8KgP0bcTL3+zm7qxjuC99ogd006+TMn84nN/V+WM88=
-X-Virus-Scanned: amavisd-new at yadro.com
-Received: from mta-01.yadro.com ([127.0.0.1])
- by localhost (mta-01.yadro.com [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id PGMWieCgyhvF; Wed,  8 Jul 2020 14:16:29 +0300 (MSK)
-Received: from T-EXCH-02.corp.yadro.com (t-exch-02.corp.yadro.com
- [172.17.10.102])
- (using TLSv1.2 with cipher ECDHE-RSA-AES256-SHA384 (256/256 bits))
- (No client certificate requested)
- by mta-01.yadro.com (Postfix) with ESMTPS id A617C4C889;
- Wed,  8 Jul 2020 14:16:25 +0300 (MSK)
-Received: from localhost (172.17.204.212) by T-EXCH-02.corp.yadro.com
- (172.17.10.102) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA384_P384) id 15.1.669.32; Wed, 8 Jul
- 2020 14:16:25 +0300
-Date: Wed, 8 Jul 2020 14:16:24 +0300
-From: Roman Bolshakov <r.bolshakov@yadro.com>
-To: Christophe de Dinechin <dinechin@redhat.com>
-Subject: Re: [PATCH] trivial: Remove trailing whitespaces
-Message-ID: <20200708111624.GA29018@SPB-NB-133.local>
-References: <20200706162300.1084753-1-dinechin@redhat.com>
+ (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
+ id 1jtIQO-00086t-Hy
+ for qemu-devel@nongnu.org; Wed, 08 Jul 2020 18:20:20 -0400
+Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:48085
+ helo=us-smtp-1.mimecast.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
+ id 1jtIQL-0000pS-Eq
+ for qemu-devel@nongnu.org; Wed, 08 Jul 2020 18:20:20 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1594246816;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=SAU8guv0EnKtdIROgounwh5ZS9K5pAHDQ7nVyrdiKP4=;
+ b=LaAf99VAVvOWxZuwhhLqxfiFZz32iHfTMmvh7mDGkH+GwNNaWmDKywdWYNJ87IAw2IF9WX
+ 5o9vajNkt/5lViG0L4cQrRU4Pm0PMiSrHhIWTsJ9CVdEh6c54eKlP39LCHxhWSns524eYR
+ tQHoaz/AEfQjiBfTusSTSBHgGOVJtSY=
+Received: from mail-wm1-f70.google.com (mail-wm1-f70.google.com
+ [209.85.128.70]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-402-uWWc8G6VPMmXkR9GQGP65g-1; Wed, 08 Jul 2020 07:17:15 -0400
+X-MC-Unique: uWWc8G6VPMmXkR9GQGP65g-1
+Received: by mail-wm1-f70.google.com with SMTP id 65so2535431wmd.8
+ for <qemu-devel@nongnu.org>; Wed, 08 Jul 2020 04:17:14 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=SAU8guv0EnKtdIROgounwh5ZS9K5pAHDQ7nVyrdiKP4=;
+ b=tYqDyssINO/qQxCfrPoH/dLoFstm05ntf7PVJNCqhhhNgn7LHkyldKaK8W0ci79vPB
+ dOG17M91VFlFAcGSK7WIZ4SB/FAAIbLHu2K4MPgYKMZruYiiFcRIJuksNhhqzW3GwrQY
+ aWSNhUn8KwIBfS+lhd2DKE3pcyDpJVpgdsc0ValkTGhx/OujqMokFhe0R4mBP0utvY/a
+ bjhEC5DNH14aigAb6kQIY9hXt4rVxrk8n9MrIZuhGiX2BmXrrTbaWB53dnMCkk5eP3Y8
+ pTSn/f2qwPPGP+uLdvMzVPvGG0+bLegJM1f5/ZLhEJkC1D16fFFe3h8WDpC1r1EaZz3d
+ rMig==
+X-Gm-Message-State: AOAM532OLd4PSV9I1TQbp2INpaZgYo3EcJL59dt/VfffcxgXskK8x8ke
+ WYst+3VF8yIhZc4tTyb4CSSaZN+r55dCCC6vMMaZeBflgDX15LQfvxBwCPTtw0XffdDxGq4DePO
+ /GHQ0A2RZ8WOi0u4=
+X-Received: by 2002:a1c:48d:: with SMTP id 135mr9124868wme.102.1594207033776; 
+ Wed, 08 Jul 2020 04:17:13 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJz/BRvLGQ+jgBLqvCSTx08SoEP8wYmVwK8vCHdhUQFRd0zI2zhoIFS7llgbZ0kkZ6lRvg7qoA==
+X-Received: by 2002:a1c:48d:: with SMTP id 135mr9124798wme.102.1594207032986; 
+ Wed, 08 Jul 2020 04:17:12 -0700 (PDT)
+Received: from ?IPv6:2001:b07:6468:f312:9541:9439:cb0f:89c?
+ ([2001:b07:6468:f312:9541:9439:cb0f:89c])
+ by smtp.gmail.com with ESMTPSA id u1sm6865840wrb.78.2020.07.08.04.17.12
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Wed, 08 Jul 2020 04:17:12 -0700 (PDT)
+Subject: Re: Migrating custom qemu.org infrastructure to GitLab
+To: =?UTF-8?Q?Daniel_P=2e_Berrang=c3=a9?= <berrange@redhat.com>,
+ Stefan Hajnoczi <stefanha@gmail.com>
+References: <CAJSP0QV3uB4QY6mzw2JFDedr0PJhGkU5FdmLF5PbjMPyxiYSuw@mail.gmail.com>
+ <20200708105353.GE3229307@redhat.com>
+From: Paolo Bonzini <pbonzini@redhat.com>
+Message-ID: <92e71916-0cf2-2833-6852-de76749c101d@redhat.com>
+Date: Wed, 8 Jul 2020 13:17:11 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.9.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset="us-ascii"
-Content-Disposition: inline
-In-Reply-To: <20200706162300.1084753-1-dinechin@redhat.com>
-X-Originating-IP: [172.17.204.212]
-X-ClientProxiedBy: T-EXCH-01.corp.yadro.com (172.17.10.101) To
- T-EXCH-02.corp.yadro.com (172.17.10.102)
-Received-SPF: pass client-ip=89.207.88.252; envelope-from=r.bolshakov@yadro.com;
- helo=mta-01.yadro.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/07/08 07:16:30
-X-ACL-Warn: Detected OS   = Linux 3.11 and newer
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001, URIBL_BLOCKED=0.001 autolearn=ham autolearn_force=no
+In-Reply-To: <20200708105353.GE3229307@redhat.com>
+Content-Language: en-US
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=pbonzini@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=207.211.31.120; envelope-from=pbonzini@redhat.com;
+ helo=us-smtp-1.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/07/07 17:25:10
+X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
+X-Spam_score_int: -40
+X-Spam_score: -4.1
+X-Spam_bar: ----
+X-Spam_report: (-4.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-1, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -77,51 +103,51 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Maydell <peter.maydell@linaro.org>,
- Dmitry Fleytman <dmitry.fleytman@gmail.com>,
- "Michael S. Tsirkin" <mst@redhat.com>, Jason Wang <jasowang@redhat.com>,
- Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>, qemu-devel@nongnu.org,
- Michael Roth <mdroth@linux.vnet.ibm.com>, Max Filippov <jcmvbkbc@gmail.com>,
- Gerd Hoffmann <kraxel@redhat.com>,
- "Edgar E. Iglesias" <edgar.iglesias@gmail.com>, Max Reitz <mreitz@redhat.com>,
- Marek Vasut <marex@denx.de>, Stefano Stabellini <sstabellini@kernel.org>,
- qemu-block@nongnu.org, qemu-trivial@nongnu.org, Paul Durrant <paul@xen.org>,
- Magnus Damm <magnus.damm@gmail.com>, Markus Armbruster <armbru@redhat.com>,
- =?iso-8859-1?Q?Herv=E9?= Poussineau <hpoussin@reactos.org>,
- Anthony Perard <anthony.perard@citrix.com>,
- =?iso-8859-1?Q?Marc-Andr=E9?= Lureau <marcandre.lureau@redhat.com>,
- Richard Henderson <rth@twiddle.net>, Artyom Tarasenko <atar4qemu@gmail.com>,
- Alistair Francis <alistair@alistair23.me>,
- Eduardo Habkost <ehabkost@redhat.com>, Michael Tokarev <mjt@tls.msk.ru>,
- Riku Voipio <riku.voipio@iki.fi>, Peter Lieven <pl@kamp.de>,
- "Dr. David Alan Gilbert" <dgilbert@redhat.com>, qemu-arm@nongnu.org,
- Peter Chubb <peter.chubb@nicta.com.au>,
- Ronnie Sahlberg <ronniesahlberg@gmail.com>, xen-devel@lists.xenproject.org,
- Alex =?iso-8859-1?Q?Benn=E9e?= <alex.bennee@linaro.org>,
- David Gibson <david@gibson.dropbear.id.au>, Kevin Wolf <kwolf@redhat.com>,
- Daniel =?iso-8859-1?Q?P=2E_Berrang=E9?= <berrange@redhat.com>,
- Yoshinori Sato <ysato@users.sourceforge.jp>,
- Philippe =?iso-8859-1?Q?Mathieu-Daud=E9?= <philmd@redhat.com>,
- Chris Wulff <crwulff@gmail.com>, Laurent Vivier <laurent@vivier.eu>,
- Jean-Christophe Dubois <jcd@tribudubois.net>, qemu-ppc@nongnu.org,
- Paolo Bonzini <pbonzini@redhat.com>
+Cc: Peter Maydell <peter.maydell@linaro.org>, Thomas Huth <thuth@redhat.com>,
+ Cleber Rosa <cleber@redhat.com>, Jeff Cody <codyprime@gmail.com>,
+ =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>,
+ qemu-devel <qemu-devel@nongnu.org>, Michael Roth <mdroth@linux.vnet.ibm.com>,
+ =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Mon, Jul 06, 2020 at 06:23:00PM +0200, Christophe de Dinechin wrote:
-> There are a number of unnecessary trailing whitespaces that have
-> accumulated over time in the source code. They cause stray changes
-> in patches if you use tools that automatically remove them.
+On 08/07/20 12:53, Daniel P. Berrangé wrote:
+> Consider if qemu-web.git is hosted on gitlab, using GitLab CI to
+> generate the static site content, and GitLab pages to host the
+> website. If a user wants to contribute to qemu-web, they can fork
+> the repo and be confident that the CI jobs in their fork are going
+> to work in the exact same way as in the master repo. They can use
+> GitLab Pages to browse the generated content for their fork to
+> see exactly how it will look.
 > 
-> Tested by doing a `git diff -w` after the change.
+> This eliminates the big pain point in qemu-web contribution. Many
+> times I was tripped up with the problem of qemu-web.git requiring
+> a version of Jekyll that is incompatible with the version that
+> ships on my distro.
+
+I would have no issue with using a pull request workflow for qemu-web.
+The lack of "git range-diff" functionality for gitlab is an absolute
+showstopper for using it in QEMU, though.
+
+>> GitLab's Continuous Integration (CI) system provides a powerful way to
+>> perform actions defined in yaml files in qemu.git. This includes
+>> running scripts, builds, publishing build artifacts, etc. We have
+>> already begun using it for automated builds and tests:
+>> https://gitlab.com/qemu-project/qemu/-/blob/master/.gitlab-ci.yml
 > 
-> This could probably be turned into a pre-commit hook.
+> The CI integration has probably been the single best thing about
+> libvirt's switch to GitLab.
+
+How do you handle non-x86 platforms?  Has there been any progress in
+gitlab runner support for s390 and PPC?
+
+> The Documentation/Platforms content arguably should be part of
+> the main qemu.git docs.
 > 
+> Many of the feature pages are probably better as part of the formal
+> QEMU documentation too.
 
-For HVF bits,
+Yes, definitely; but someone has to do the work.  At least the obsolete
+features are clearly marked as so.
 
-Reviewed-by: Roman Bolshakov <r.bolshakov@yadro.com>
-
-Thanks,
-Roman
 
