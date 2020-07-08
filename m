@@ -2,71 +2,76 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 27543218E27
-	for <lists+qemu-devel@lfdr.de>; Wed,  8 Jul 2020 19:21:59 +0200 (CEST)
-Received: from localhost ([::1]:49872 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5D3DA21937D
+	for <lists+qemu-devel@lfdr.de>; Thu,  9 Jul 2020 00:33:08 +0200 (CEST)
+Received: from localhost ([::1]:48804 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jtDle-0002XY-77
-	for lists+qemu-devel@lfdr.de; Wed, 08 Jul 2020 13:21:58 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:59662)
+	id 1jtIcl-0007IJ-8F
+	for lists+qemu-devel@lfdr.de; Wed, 08 Jul 2020 18:33:07 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:46788)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1jtDkP-0001Fu-Bg
- for qemu-devel@nongnu.org; Wed, 08 Jul 2020 13:20:41 -0400
-Received: from indium.canonical.com ([91.189.90.7]:53862)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1jtDkN-0004Vl-6Z
- for qemu-devel@nongnu.org; Wed, 08 Jul 2020 13:20:40 -0400
-Received: from loganberry.canonical.com ([91.189.90.37])
- by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
- id 1jtDkK-0000AK-WB
- for <qemu-devel@nongnu.org>; Wed, 08 Jul 2020 17:20:37 +0000
-Received: from loganberry.canonical.com (localhost [127.0.0.1])
- by loganberry.canonical.com (Postfix) with ESMTP id C7A602E80F0
- for <qemu-devel@nongnu.org>; Wed,  8 Jul 2020 17:20:36 +0000 (UTC)
+ (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1jtILL-0004zM-58
+ for qemu-devel@nongnu.org; Wed, 08 Jul 2020 18:15:07 -0400
+Received: from us-smtp-1.mimecast.com ([205.139.110.61]:22602
+ helo=us-smtp-delivery-1.mimecast.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1jtILH-0008R3-Tm
+ for qemu-devel@nongnu.org; Wed, 08 Jul 2020 18:15:06 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1594246503;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=FVuFmlGqpgLXtjBnNvJskw8oViYwTN4UkYXuQury5W8=;
+ b=dEU31dyyfd8UpDJRJjXgsKYxFVe/A9hbGYE2b3ivb+RdGLgip15dP3FNAY+/G6JJD2/vgB
+ NRKX7hILAvsm6sd7Jaq8NRo/HFumA9S8hdSvKa5Z3p6ekkFCXtt8uLjwEGeSXoKV74pACQ
+ VKN2i5nn5uj9E28zvH7xExxJrE4hk8Y=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-268-9BFeZVqLMmS0CyjUX4UB5g-1; Wed, 08 Jul 2020 13:13:40 -0400
+X-MC-Unique: 9BFeZVqLMmS0CyjUX4UB5g-1
+Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
+ [10.5.11.11])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id BDB3619057A0;
+ Wed,  8 Jul 2020 17:13:39 +0000 (UTC)
+Received: from linux.fritz.box (ovpn-114-206.ams2.redhat.com [10.36.114.206])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id ACC6D724A0;
+ Wed,  8 Jul 2020 17:13:38 +0000 (UTC)
+Date: Wed, 8 Jul 2020 19:13:37 +0200
+From: Kevin Wolf <kwolf@redhat.com>
+To: Keith Busch <kbusch@kernel.org>
+Subject: Re: [PATCH] MAINTAINERS: update nvme entry
+Message-ID: <20200708171337.GG4902@linux.fritz.box>
+References: <20200706194342.1996219-1-kbusch@kernel.org>
+ <20200707152613.GD7002@linux.fritz.box>
+ <20200708170330.GA2288218@dhcp-10-100-145-180.wdl.wdc.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: quoted-printable
-Date: Wed, 08 Jul 2020 17:12:30 -0000
-From: Laurent Vivier <1886811@bugs.launchpad.net>
-To: qemu-devel@nongnu.org
-X-Launchpad-Notification-Type: bug
-X-Launchpad-Bug: product=qemu; status=New; importance=Undecided; assignee=None;
-X-Launchpad-Bug: distribution=debian; sourcepackage=qemu; component=main;
- status=Unknown; importance=Unknown; assignee=None; 
-X-Launchpad-Bug-Tags: linux-user
-X-Launchpad-Bug-Information-Type: Public
-X-Launchpad-Bug-Private: no
-X-Launchpad-Bug-Security-Vulnerability: no
-X-Launchpad-Bug-Commenters: emojifreak laurent-vivier
-X-Launchpad-Bug-Reporter: Ryutaroh Matsumoto (emojifreak)
-X-Launchpad-Bug-Modifier: Laurent Vivier (laurent-vivier)
-References: <159420830935.32230.13858618076699173558.malonedeb@gac.canonical.com>
-Message-Id: <159422835063.26722.15104358349628207854.malone@wampee.canonical.com>
-Subject: [Bug 1886811] Re: systemd complains Failed to enqueue loopback
- interface start request: Operation not supported
-X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
-X-Launchpad-Message-For: qemu-devel-ml
-Precedence: bulk
-X-Generated-By: Launchpad (canonical.com);
- Revision="b24753402d6321ed1b9083e580f5f014a46bab00";
- Instance="production-secrets-lazr.conf"
-X-Launchpad-Hash: 7f70c89b796bc28603b5e4ec5b3136e1b961caca
-Received-SPF: none client-ip=91.189.90.7; envelope-from=bounces@canonical.com;
- helo=indium.canonical.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/07/08 13:20:37
-X-ACL-Warn: Detected OS   = Linux 3.11 and newer [fuzzy]
-X-Spam_score_int: -58
-X-Spam_score: -5.9
-X-Spam_bar: -----
-X-Spam_report: (-5.9 / 5.0 requ) BAYES_00=-1.9, HEADER_FROM_DIFFERENT_DOMAINS=1,
- RCVD_IN_DNSWL_HI=-5, RCVD_IN_MSPIKE_H3=-0.01, RCVD_IN_MSPIKE_WL=-0.01,
- SPF_HELO_NONE=0.001, SPF_NONE=0.001 autolearn=ham autolearn_force=no
+In-Reply-To: <20200708170330.GA2288218@dhcp-10-100-145-180.wdl.wdc.com>
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=kwolf@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Received-SPF: pass client-ip=205.139.110.61; envelope-from=kwolf@redhat.com;
+ helo=us-smtp-delivery-1.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/07/07 17:25:10
+X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
+X-Spam_score_int: -40
+X-Spam_score: -4.1
+X-Spam_bar: ----
+X-Spam_report: (-4.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-1, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
+Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -75,69 +80,33 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Bug 1886811 <1886811@bugs.launchpad.net>
+Cc: Klaus Jensen <its@irrelevant.dk>, qemu-devel@nongnu.org,
+ qemu-block@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-It would help to know which operation is not supported.
+Am 08.07.2020 um 19:03 hat Keith Busch geschrieben:
+> On Tue, Jul 07, 2020 at 05:26:13PM +0200, Kevin Wolf wrote:
+> > Am 06.07.2020 um 21:43 hat Keith Busch geschrieben:
+> > > The nvme emulated device development pace has increased recently.  Klaus
+> > > has offered to co-maintain, and since we have many new contributions
+> > > coming through, we're adding a repository to accumulate and test new
+> > > features.
+> > > 
+> > > Cc: Klaus Jensen <its@irrelevant.dk>
+> > > Signed-off-by: Keith Busch <kbusch@kernel.org>
+> > 
+> > I assume that you'll merge this as the first thing through your new
+> > tree, so instead of applying, I'll just add:
+> 
+> Thanks, I've started the new branch with this as the first commit. We'll
+> wait at least a few more days to see if we've agreement on new patches
+> before sending our pull request.
 
-Could you get the coredump?
-Is it possible to run the operation with "QEMU_STRACE" set in the environme=
-nt?
-Normally loop ioctls are supported.
+We're now in the freeze for 5.1 anyway, so everything except fixes (and
+I guess the MAINTAINERS update if you do send something) will have to
+wait until after the release.
 
-But it seems the following ones are not implemented in QEMU:
-LOOP_SET_CAPACITY, LOOP_SET_DIRECT_IO, LOOP_SET_BLOCK_SIZE.
+Kevin
 
-** Tags added: linux-user
-
--- =
-
-You received this bug notification because you are a member of qemu-
-devel-ml, which is subscribed to QEMU.
-https://bugs.launchpad.net/bugs/1886811
-
-Title:
-  systemd complains Failed to enqueue loopback interface start request:
-  Operation not supported
-
-Status in QEMU:
-  New
-Status in qemu package in Debian:
-  Unknown
-
-Bug description:
-  This symptom seems similar to
-  https://bugs.launchpad.net/qemu/+bug/1823790
-
-  Host Linux: Debian 11 Bullseye (testing) on x84-64 architecture
-  qemu version: latest git of git commit hash eb2c66b10efd2b914b56b20ae9065=
-5914310c925
-  compiled with "./configure --static --disable-system" =
-
-
-  Down stream bug report at https://bugs.debian.org/cgi-bin/bugreport.cgi?b=
-ug=3D964289
-  Bug report (closed) to systemd: https://github.com/systemd/systemd/issues=
-/16359
-
-  systemd in armhf and armel (both little endian 32-bit) containers fail to=
- start with
-  Failed to enqueue loopback interface start request: Operation not support=
-ed
-
-  How to reproduce on Debian (and probably Ubuntu):
-  mmdebstrap --components=3D"main contrib non-free" --architectures=3Darmhf=
- --variant=3Dimportant bullseye /var/lib/machines/armhf-bullseye
-  systemd-nspawn -D /var/lib/machines/armhf-bullseye -b
-
-  When "armhf" architecture is replaced with "mips" (32-bit big endian) or =
-"ppc64"
-  (64-bit big endian), the container starts up fine.
-
-  The same symptom is also observed with "powerpc" (32-bit big endian)
-  architecture.
-
-To manage notifications about this bug go to:
-https://bugs.launchpad.net/qemu/+bug/1886811/+subscriptions
 
