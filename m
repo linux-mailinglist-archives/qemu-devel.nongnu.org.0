@@ -2,67 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id AC9FB219531
-	for <lists+qemu-devel@lfdr.de>; Thu,  9 Jul 2020 02:35:14 +0200 (CEST)
-Received: from localhost ([::1]:46638 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E8048219556
+	for <lists+qemu-devel@lfdr.de>; Thu,  9 Jul 2020 02:45:32 +0200 (CEST)
+Received: from localhost ([::1]:46722 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jtKWv-0005Y6-GR
-	for lists+qemu-devel@lfdr.de; Wed, 08 Jul 2020 20:35:13 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:47632)
+	id 1jtKgu-0000ge-0X
+	for lists+qemu-devel@lfdr.de; Wed, 08 Jul 2020 20:45:32 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:49106)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1jtKW1-00057b-Bv
- for qemu-devel@nongnu.org; Wed, 08 Jul 2020 20:34:17 -0400
-Received: from us-smtp-1.mimecast.com ([205.139.110.61]:52908
- helo=us-smtp-delivery-1.mimecast.com)
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1jtKeX-00070i-SO
+ for qemu-devel@nongnu.org; Wed, 08 Jul 2020 20:43:05 -0400
+Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:58418
+ helo=us-smtp-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1jtKVy-0000hG-WF
- for qemu-devel@nongnu.org; Wed, 08 Jul 2020 20:34:16 -0400
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1jtKeV-0001mf-PU
+ for qemu-devel@nongnu.org; Wed, 08 Jul 2020 20:43:05 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1594254853;
+ s=mimecast20190719; t=1594255383;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
- bh=/Kt4dUMzFJfKDDMQUMiGjt500u7YdqYZVIrvMup+M6c=;
- b=CqG4hONhFR+ztXX9edxHnBu35LfodZNDIKLotu+HHIbuLIRXD7VSQ3PYF5jjvKrXSQO0up
- B7n31Y1O9UWpNEJRa27Ve1C8vExwQjpkBeosW9f3gLx/z/9i7AVYZ94l3b2ehZCuxxfqTb
- Bd3Y0W3WUSQ0irCrsRojLVArIpoDp94=
-Received: from mail-wm1-f69.google.com (mail-wm1-f69.google.com
- [209.85.128.69]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-121-OZJeysTEMs-_MmHLDkYQrA-1; Wed, 08 Jul 2020 04:30:17 -0400
-X-MC-Unique: OZJeysTEMs-_MmHLDkYQrA-1
-Received: by mail-wm1-f69.google.com with SMTP id v6so2222196wmg.1
- for <qemu-devel@nongnu.org>; Wed, 08 Jul 2020 01:30:17 -0700 (PDT)
+ bh=HC4ZhD5xH1OoGbJtx9xSSEoRAmbLPFa1Dv6pfKxMs7E=;
+ b=VcR6KXCWH2f4wmUqPxqpEHVIZyQtvFkZgmfQRkCZSX/w9TwVJBDq58+y89MtUDnMUTibmi
+ X8MdNxFo/76/4PEMzeddXvEOhWfNdL9BOhWboTbdfcv+ZxqwiabR4UmVMvE/Koly2seFKF
+ SWfPa6BZh/b5/8dln5oXK7AVXFWfwE4=
+Received: from mail-wr1-f71.google.com (mail-wr1-f71.google.com
+ [209.85.221.71]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-191-4vEQpbxYO8up8krntD8wpA-1; Wed, 08 Jul 2020 04:38:32 -0400
+X-MC-Unique: 4vEQpbxYO8up8krntD8wpA-1
+Received: by mail-wr1-f71.google.com with SMTP id c6so32126156wru.7
+ for <qemu-devel@nongnu.org>; Wed, 08 Jul 2020 01:38:32 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:subject:to:cc:references:from:autocrypt
  :message-id:date:user-agent:mime-version:in-reply-to
  :content-language:content-transfer-encoding;
- bh=/Kt4dUMzFJfKDDMQUMiGjt500u7YdqYZVIrvMup+M6c=;
- b=sjB5Bnu/CnqxDeBUWB42Y/OPlTg02OChlJ2xiT13/xKxGsvfqitg53q8+gXa+CB+OW
- xbt3hirB1Wec0Qxycos6Nw9yQ4zOY27Ohs1RI1/lEim0pEn7DGvWV2WF+TGf+4VuTxuJ
- HkRfF5qZ/tN5/ilcBH6ginyNS0Yc1+9Dw4n2qBCozAI6aDBtpnYlXV/NBs7ENrLkAa9u
- nEeht6Y10BNygCePqIC069PGRRr3O+DbmU8t83sTu8ylTwKJKck6NiUcz1usqCuh+hu8
- ZRoxLbtTKOGal9xN386EJL7o1klxAk6L9cB9piQLTkkZDz8BCbDHsWJgR8R50SFDAhr4
- rlYQ==
-X-Gm-Message-State: AOAM530M3SPq6Ieb7qzU4Gu3ixotAFolchYTNLa0iI5m+zG98H3NiBBS
- 8gu1W4u6pvjeYfuSxo1LkmMdKdcWGqECEX4lZXxyYk3JR4o0EDu0kbJ6qTeIB9z7uZJyylYI8CF
- Tc1Zgp/wxfZd9ZlQ=
-X-Received: by 2002:a5d:458a:: with SMTP id p10mr56614481wrq.184.1594197016886; 
- Wed, 08 Jul 2020 01:30:16 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJx3L2nIxk5ApXxwOT3Zp/3WIerQWYd+haUGxeub93QSXuS9JC0flYOvtOgzbo2a/2QYMTyS4Q==
-X-Received: by 2002:a5d:458a:: with SMTP id p10mr56614461wrq.184.1594197016674; 
- Wed, 08 Jul 2020 01:30:16 -0700 (PDT)
+ bh=HC4ZhD5xH1OoGbJtx9xSSEoRAmbLPFa1Dv6pfKxMs7E=;
+ b=ultzke/EeHsPmmKTTpolHPeXiI5AT36Ip5jx++0QGJmm7cOQGUYZOSyvP+kVon16/X
+ 2kA5BNG/t4mqdhQ4G8qvZQ+TbtAN4c3o/2zVJWsjqZazfPl03JHQEaJOt9/Kw16ehof8
+ Ro0TcCoU9oNKIQ6MI6FRWELV/kIX8Rr7Bf6z98U+MjQK2luRqfArGew6CoKzxKw5hfZI
+ fzDVHFOAjHYghyD1JV/dQ4cEPGOt1WNoJbhuppqmOVKVlcyGy77VeT+n+xufETiKGbzY
+ Mx2d26vsx5K13TEMn8Cnk0HoB6T307F9XxI51mWKmepndzd5/uD/ykHWMe/NgWC8WZcz
+ S7/Q==
+X-Gm-Message-State: AOAM532zi2bBLIEochZtyZpfJOjok938ATa01kk6CDuZ+Id6o81UYMe7
+ EfKoQ/9XmxDlAS+j2nEQk4jHwk8H/g+C+mBvHVIvIfir7hcC0Aw4hW+e695eDdttoddnLAJhjiD
+ 1qvlPSEmCo1nXFJE=
+X-Received: by 2002:a1c:e18a:: with SMTP id y132mr8035542wmg.27.1594197511500; 
+ Wed, 08 Jul 2020 01:38:31 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJxgUDDk10LCrh+Y+igZ17IJ1fnWT3avve9iqKvPNaZY3A5qAZVgU8OG8wYe236fvIjIUYbiXg==
+X-Received: by 2002:a1c:e18a:: with SMTP id y132mr8035511wmg.27.1594197511237; 
+ Wed, 08 Jul 2020 01:38:31 -0700 (PDT)
 Received: from [192.168.1.36] (138.red-83-57-170.dynamicip.rima-tde.net.
  [83.57.170.138])
- by smtp.gmail.com with ESMTPSA id c206sm5095063wmf.36.2020.07.08.01.30.15
+ by smtp.gmail.com with ESMTPSA id k18sm4678752wrx.34.2020.07.08.01.38.29
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Wed, 08 Jul 2020 01:30:16 -0700 (PDT)
-Subject: Re: [PATCH] ossaudio: fix out of bounds write
-To: =?UTF-8?Q?Volker_R=c3=bcmelin?= <vr_qemu@t-online.de>,
- Gerd Hoffmann <kraxel@redhat.com>
-References: <20200707180836.5435-1-vr_qemu@t-online.de>
+ Wed, 08 Jul 2020 01:38:30 -0700 (PDT)
+Subject: Re: [PATCH] cpu: Add starts_halted() method
+To: Thiago Jung Bauermann <bauerman@linux.ibm.com>,
+ Eduardo Habkost <ehabkost@redhat.com>
+References: <20200707204333.261506-1-bauerman@linux.ibm.com>
+ <20200707214917.GX7276@habkost.net> <87y2nu3nxq.fsf@morokweng.localdomain>
 From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
 Autocrypt: addr=philmd@redhat.com; keydata=
  mQINBDXML8YBEADXCtUkDBKQvNsQA7sDpw6YLE/1tKHwm24A1au9Hfy/OFmkpzo+MD+dYc+7
@@ -87,12 +88,12 @@ Autocrypt: addr=philmd@redhat.com; keydata=
  9BFSL3qgXuXso/3XuWTQjJJGgKhB6xXjMmb1J4q/h5IuVV4juv1Fem9sfmyrh+Wi5V1IzKI7
  RPJ3KVb937eBgSENk53P0gUorwzUcO+ASEo3Z1cBKkJSPigDbeEjVfXQMzNt0oDRzpQqH2vp
  apo2jHnidWt8BsckuWZpxcZ9+/9obQ55DyVQHGiTN39hkETy3Emdnz1JVHTU0Q==
-Message-ID: <4591613b-067d-ac5d-99d0-d8b7a3cf0ce1@redhat.com>
-Date: Wed, 8 Jul 2020 10:30:14 +0200
+Message-ID: <c53b36b7-ee7b-bb66-8220-cce788fd631d@redhat.com>
+Date: Wed, 8 Jul 2020 10:38:29 +0200
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
  Thunderbird/68.5.0
 MIME-Version: 1.0
-In-Reply-To: <20200707180836.5435-1-vr_qemu@t-online.de>
+In-Reply-To: <87y2nu3nxq.fsf@morokweng.localdomain>
 Content-Language: en-US
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=philmd@redhat.com
@@ -100,8 +101,8 @@ X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=utf-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=205.139.110.61; envelope-from=philmd@redhat.com;
- helo=us-smtp-delivery-1.mimecast.com
+Received-SPF: pass client-ip=207.211.31.120; envelope-from=philmd@redhat.com;
+ helo=us-smtp-1.mimecast.com
 X-detected-operating-system: by eggs.gnu.org: First seen = 2020/07/07 17:25:10
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
 X-Spam_score_int: -40
@@ -123,45 +124,136 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: QEMU <qemu-devel@nongnu.org>,
- =?UTF-8?B?Wm9sdMOhbiBLxZF2w6Fnw7M=?= <dirty.ice.hu@gmail.com>
+Cc: Laurent Vivier <lvivier@redhat.com>,
+ Peter Maydell <peter.maydell@linaro.org>, Thomas Huth <thuth@redhat.com>,
+ qemu-devel@nongnu.org, qemu-ppc@nongnu.org,
+ David Gibson <david@gibson.dropbear.id.au>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 7/7/20 8:08 PM, Volker Rümelin wrote:
-> In function oss_read() a read error currently does not exit the
-> read loop. With no data to read the variable pos will quickly
-> underflow and a subsequent successful read overwrites memory
-> outside the buffer. This patch adds the missing break statement
-> to the error path of the function.
+Hi Thiago,
 
-Correct, but ...
+On 7/8/20 1:28 AM, Thiago Jung Bauermann wrote:
+> 
+> Hello Eduardo,
+> 
+> Eduardo Habkost <ehabkost@redhat.com> writes:
+> 
+>> On Tue, Jul 07, 2020 at 05:43:33PM -0300, Thiago Jung Bauermann wrote:
+>>> PowerPC sPAPRs CPUs start in the halted state, but generic QEMU code
+>>> assumes that CPUs start in the non-halted state. spapr_reset_vcpu()
+>>> attempts to rectify this by setting CPUState::halted to 1. But that's too
+>>> late for hotplugged CPUs in a machine configured with 2 or mor threads per
+>>> core.
+>>>
+>>> By then, other parts of QEMU have already caused the vCPU to run in an
+>>> unitialized state a couple of times. For example, ppc_cpu_reset() calls
+>>> ppc_tlb_invalidate_all(), which ends up calling async_run_on_cpu(). This
+>>> kicks the new vCPU while it has CPUState::halted = 0, causing QEMU to issue
+>>> a KVM_RUN ioctl on the new vCPU before the guest is able to make the
+>>> start-cpu RTAS call to initialize its register state.
+>>>
+>>> This doesn't seem to cause visible issues for regular guests, but on a
+>>> secure guest running under the Ultravisor it does. The Ultravisor relies on
+>>> being able to snoop on the start-cpu RTAS call to map vCPUs to guests, and
+>>> this issue causes it to see a stray vCPU that doesn't belong to any guest.
+>>>
+>>> Fix by adding a starts_halted() method to the CPUState class, and making it
+>>> return 1 if the machine is an sPAPR guest.
+>>>
+>>> Signed-off-by: Thiago Jung Bauermann <bauerman@linux.ibm.com>
+>> [...]
+>>> +static uint32_t ppc_cpu_starts_halted(void)
+>>> +{
+>>> +    SpaprMachineState *spapr =
+>>> +        (SpaprMachineState *) object_dynamic_cast(qdev_get_machine(),
+>>> +                                                  TYPE_SPAPR_MACHINE);
+>>
+>> Wouldn't it be simpler to just implement this as a MachineClass
+>> boolean field?  e.g.:
+
+Class boolean field certainly sounds better, but I am not sure this
+is a property of the machine. Rather the arch? So move the field
+to CPUClass? Maybe not, let's discuss :)
+
+>>
+>> Signed-off-by: Eduardo Habkost <ehabkost@redhat.com>
+> 
+> Yes, indeed it would. Thanks for this patch. I just tested and it
+> also solves the problem (except for the nit mentioned below).
+> 
+> Tested-by: Thiago Jung Bauermann <bauerman@linux.ibm.com>
+> 
+> Should I submit a proper patch with these changes (with you as the
+> author)?
+> 
+>> ---
+>> diff --git a/include/hw/boards.h b/include/hw/boards.h
+>> index 426ce5f625..ffadc7a17d 100644
+>> --- a/include/hw/boards.h
+>> +++ b/include/hw/boards.h
+>> @@ -215,6 +215,7 @@ struct MachineClass {
+>>      bool nvdimm_supported;
+>>      bool numa_mem_supported;
+>>      bool auto_enable_numa;
+>> +    bool cpu_starts_halted;
+>>      const char *default_ram_id;
+>>
+>>      HotplugHandler *(*get_hotplug_handler)(MachineState *machine,
+>> diff --git a/hw/core/cpu.c b/hw/core/cpu.c
+>> index 0f23409f1d..08dd504034 100644
+>> --- a/hw/core/cpu.c
+>> +++ b/hw/core/cpu.c
+>> @@ -252,6 +252,7 @@ static void cpu_common_reset(DeviceState *dev)
+>>  {
+>>      CPUState *cpu = CPU(dev);
+>>      CPUClass *cc = CPU_GET_CLASS(cpu);
+>> +    MachineState *machine = object_dynamic_cast(qdev_get_machine(), TYPE_MACHINE);
+> 
+> I had to add a (MachineState *) cast here to get the code to compile.
+
+Btw why not use MACHINE(qdev_get_machine()) ?
 
 > 
-> To reproduce start qemu with -audiodev oss,id=audio0 and in the
-> guest start audio recording. After some time this will trigger
-> an exception.
+>>
+>>      if (qemu_loglevel_mask(CPU_LOG_RESET)) {
+>>          qemu_log("CPU Reset (CPU %d)\n", cpu->cpu_index);
+>> @@ -259,7 +260,7 @@ static void cpu_common_reset(DeviceState *dev)
+>>      }
+>>
+>>      cpu->interrupt_request = 0;
+>> -    cpu->halted = 0;
+>> +    cpu->halted = machine ? MACHINE_GET_CLASS(machine)->cpu_starts_halted : 0;
+>>      cpu->mem_io_pc = 0;
+>>      cpu->icount_extra = 0;
+>>      atomic_set(&cpu->icount_decr_ptr->u32, 0);
+>> diff --git a/hw/ppc/spapr.c b/hw/ppc/spapr.c
+>> index f6f034d039..d16ec33033 100644
+>> --- a/hw/ppc/spapr.c
+>> +++ b/hw/ppc/spapr.c
+>> @@ -4487,6 +4487,7 @@ static void spapr_machine_class_init(ObjectClass *oc, void *data)
+>>      mc->default_cpu_type = POWERPC_CPU_TYPE_NAME("power9_v2.0");
+>>      mc->has_hotpluggable_cpus = true;
+>>      mc->nvdimm_supported = true;
+>> +    mc->cpu_starts_halted = true;
+>>      smc->resize_hpt_default = SPAPR_RESIZE_HPT_ENABLED;
+>>      fwc->get_dev_path = spapr_get_fw_dev_path;
+>>      nc->nmi_monitor_handler = spapr_nmi;
+>>
+>>> +
+>>> +    /*
+>>> +     * In sPAPR, all CPUs start halted. CPU0 is unhalted from the machine level
+>>> +     * reset code and the rest are explicitly started up by the guest using an
+>>> +     * RTAS call.
+>>> +     */
+>>> +    return spapr != NULL;
+>>> +}
+>>> +
 > 
-> Fixes: 3ba4066d08 "ossaudio: port to the new audio backend api"
 > 
-> Signed-off-by: Volker Rümelin <vr_qemu@t-online.de>
-> ---
->  audio/ossaudio.c | 1 +
->  1 file changed, 1 insertion(+)
+> --
+> Thiago Jung Bauermann
+> IBM Linux Technology Center
 > 
-> diff --git a/audio/ossaudio.c b/audio/ossaudio.c
-> index f88d076ec2..a7dcaa31ad 100644
-> --- a/audio/ossaudio.c
-> +++ b/audio/ossaudio.c
-> @@ -691,6 +691,7 @@ static size_t oss_read(HWVoiceIn *hw, void *buf, size_t len)
->                             len, dst);
->                  break;
->              }
-> +            break;
->          }
->  
->          pos += nread;
-
-... now pos += -1, then the size returned misses the last byte.
 
 
