@@ -2,75 +2,86 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5987A2184CF
-	for <lists+qemu-devel@lfdr.de>; Wed,  8 Jul 2020 12:20:27 +0200 (CEST)
-Received: from localhost ([::1]:51722 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8868521940A
+	for <lists+qemu-devel@lfdr.de>; Thu,  9 Jul 2020 01:05:42 +0200 (CEST)
+Received: from localhost ([::1]:59636 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jt7Bh-0000lT-U4
-	for lists+qemu-devel@lfdr.de; Wed, 08 Jul 2020 06:20:25 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:36584)
+	id 1jtJ8H-0003YO-Kd
+	for lists+qemu-devel@lfdr.de; Wed, 08 Jul 2020 19:05:41 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:49634)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1jt7At-0000J1-EF
- for qemu-devel@nongnu.org; Wed, 08 Jul 2020 06:19:35 -0400
-Received: from mail-ot1-x333.google.com ([2607:f8b0:4864:20::333]:33388)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1jt7Ar-0003DV-J9
- for qemu-devel@nongnu.org; Wed, 08 Jul 2020 06:19:35 -0400
-Received: by mail-ot1-x333.google.com with SMTP id h13so15974796otr.0
- for <qemu-devel@nongnu.org>; Wed, 08 Jul 2020 03:19:32 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=WzO+/AGCeIT+6iVHGiXKgzMespIHEg5dTqBbn5kQD4g=;
- b=pRaPx40ScY/dN3H+5aiF0Lkxu753Id59VbOcR794doBpR2vP8nfCJ0EPqiM5fjEpdK
- kpAJDfT34qbbe67zjSnZpVJ4iX90/hqXE3Z/Ly0hO7OK2fKDgWnjm2TpLfpVaUu1WDtG
- yKe+TFVtvCQqhCVFnAGbwny9vSdYA85R46P9rcX55+gvsW7C/qE9njCTpdG43W/aro3e
- w/ck2VCojWicKxN1Ujm8gKF5Wh22Tyg1MtHRIZfwbNkOVO/cl/NShCSYATJd6KzRLjKq
- qlknun+qN5n5VXZAxdMIgQ2aU/rvmjlCSqBhPbTqSvGtwwoTURlv3OiouzQXnI5BUtsZ
- BSxg==
+ (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1jtIV4-0000jS-5f
+ for qemu-devel@nongnu.org; Wed, 08 Jul 2020 18:25:11 -0400
+Received: from us-smtp-1.mimecast.com ([207.211.31.81]:21001
+ helo=us-smtp-delivery-1.mimecast.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1jtIV0-0001Nq-TX
+ for qemu-devel@nongnu.org; Wed, 08 Jul 2020 18:25:09 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1594247104;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=dupB/GBcBJ1yGuAKbEijyxlFkrcAXveCSJLXHMOnpTU=;
+ b=XPZ7SLN9zVZFRjK46BOk9bq2EfX6jWR2qe3J5ZwQx6n7WqNwHWvMZ+O6swgUJj4l0imsxQ
+ Oxbrn1DokCV7OdQxvk6nr+qHpFOMgp/6H2mRq/tE1/JkF5lRAwnXY9GrNtEQdzCGt8jk9q
+ KbJSX+Ue2VuHxPkDdHpivwi2cq0rLLk=
+Received: from mail-wr1-f69.google.com (mail-wr1-f69.google.com
+ [209.85.221.69]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-302-a0nLcjxrP3itSNCddRSGbg-1; Wed, 08 Jul 2020 06:21:40 -0400
+X-MC-Unique: a0nLcjxrP3itSNCddRSGbg-1
+Received: by mail-wr1-f69.google.com with SMTP id y13so51481354wrp.13
+ for <qemu-devel@nongnu.org>; Wed, 08 Jul 2020 03:21:39 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=WzO+/AGCeIT+6iVHGiXKgzMespIHEg5dTqBbn5kQD4g=;
- b=n79hNQJ6OHWDpZsMkIor8+u5TkxEeEsL1l0E+eoC0z/wfQ4lJDqdwtiBFlGUL9ORFz
- LNB5UOUN2Nq7Qy/QD/sDWf5tZA/UMneaE9Ow3VtWVj0npUfSx2CfTbWfuBGsVMUOyavP
- waFjs95vfDVKJoZOpuR3+kBNE55SrqtFgFoLr4TVgyGYpdENhcXqRiCFec0A3Pm0vQgI
- p7iKEpseR6Fwuscf19ZIllQDJUKpA1SaNXn3KhJnQ6AhvpVzFQtxuavjBgPNxkYoHBB9
- fCq+HhOV7ll/yLoCWyL4FEFCRo7DLYLmkyqMQidEfwSKaS3YqhUjArxD9mFIvPfQ6Ugf
- 8ssA==
-X-Gm-Message-State: AOAM5317Vbjn9BP5uSyQDd9cfGHlvIQymIqiAxkXOyCjqSlprB9wGuGf
- DoobKtLa4MoVCysShBc91EPi5Ab/nhXVIa2nkQMcRg==
-X-Google-Smtp-Source: ABdhPJzeWATNJbTnlRvngTPI5WFygUBmm3lyLWJ9NLq7DlfokhbIUfA7Ydb+a+oMWEwcgmVKosgQb2UTS6GfzBLZNNk=
-X-Received: by 2002:a05:6830:10ce:: with SMTP id
- z14mr41998320oto.135.1594203571973; 
- Wed, 08 Jul 2020 03:19:31 -0700 (PDT)
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+ :mime-version:content-disposition:in-reply-to;
+ bh=dupB/GBcBJ1yGuAKbEijyxlFkrcAXveCSJLXHMOnpTU=;
+ b=ikqYxVKrfAqdxUUEbeJEPae2RLXz8Rs/zbkBwrij+5qtI1t5C16Y68paKVhVndD4ob
+ HC/HFWparTwNUOlA1YqI4rpq/VgivMc/DSbk5o3Tp0IJ6GZockZLEcQl+/2MEyHOWn+a
+ SyVwfxOx9ZwFjAW0Rk6ObNKo/aTLcxMo2fTP3IvSgBZJ0n2EuMDoNSpylQOtNQDm2jkn
+ xrAprHA1kTkp+N1ZQlas3takbNfgHhZQq/0JKDpi6bvd/Lepemmf90MBNpzAsFI/f75V
+ s+twPdgbUxjbyitEKKUi3ua8XRIZySUFL2UiGtsJcg6Y3wHIlrdhru9KHkqdzARPm5z5
+ YWnA==
+X-Gm-Message-State: AOAM5326NMMmf1EUj+VjOPNVvT3y4hu15vntm8gwqpcIWDfbL4/n8ppL
+ hPGc9gKx2BElSpK6HsVw4e85V3DOX1DI+XBFUp3H4u4vy1cVtL+vuc22anwbotDRhrSgRbo6uSE
+ VCV3sv36bUrTvOmA=
+X-Received: by 2002:adf:e546:: with SMTP id z6mr53932600wrm.99.1594203699034; 
+ Wed, 08 Jul 2020 03:21:39 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJz+zTO/Yonefs+9edHome6uufiYaZrGCmj0c6fXfW5B/eeRZIB8oRp5GzZaEThrYVtjj1kSwA==
+X-Received: by 2002:adf:e546:: with SMTP id z6mr53932564wrm.99.1594203698771; 
+ Wed, 08 Jul 2020 03:21:38 -0700 (PDT)
+Received: from redhat.com (bzq-79-182-31-92.red.bezeqint.net. [79.182.31.92])
+ by smtp.gmail.com with ESMTPSA id
+ r10sm5322365wrm.17.2020.07.08.03.21.34
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Wed, 08 Jul 2020 03:21:37 -0700 (PDT)
+Date: Wed, 8 Jul 2020 06:21:32 -0400
+From: "Michael S. Tsirkin" <mst@redhat.com>
+To: Cindy Lu <lulu@redhat.com>
+Subject: Re: [PATCH] vhost-vdpa: fix the compile issue without kvm
+Message-ID: <20200708062047-mutt-send-email-mst@kernel.org>
+References: <20200708084922.21904-1-lulu@redhat.com>
 MIME-Version: 1.0
-References: <20200704182750.1088103-1-mst@redhat.com>
- <CAFEAcA_LrhvLmbwsSrhHUYZ+z9EZoDZwct+s3xfoaGLyLkOPfg@mail.gmail.com>
- <20200707080049-mutt-send-email-mst@kernel.org>
- <CAFEAcA_th3hhXcnyt2qV+rQNV1PgF62B5+=sEWzJKfHYj2=ooQ@mail.gmail.com>
- <20200708024528-mutt-send-email-mst@kernel.org>
-In-Reply-To: <20200708024528-mutt-send-email-mst@kernel.org>
-From: Peter Maydell <peter.maydell@linaro.org>
-Date: Wed, 8 Jul 2020 11:19:20 +0100
-Message-ID: <CAFEAcA8QrmwYZTTQMThvqy-5B+2msu_NxM0S_mZah94L=0+A3A@mail.gmail.com>
-Subject: Re: [PULL v2 00/41] virtio,acpi: features, fixes, cleanups.
-To: "Michael S. Tsirkin" <mst@redhat.com>
-Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2607:f8b0:4864:20::333;
- envelope-from=peter.maydell@linaro.org; helo=mail-ot1-x333.google.com
-X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
- That's all we know.
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+In-Reply-To: <20200708084922.21904-1-lulu@redhat.com>
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=mst@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Received-SPF: pass client-ip=207.211.31.81; envelope-from=mst@redhat.com;
+ helo=us-smtp-delivery-1.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/07/07 17:25:09
+X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
+X-Spam_score_int: -30
+X-Spam_score: -3.1
+X-Spam_bar: ---
+X-Spam_report: (-3.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H3=-0.01, RCVD_IN_MSPIKE_WL=-0.01,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -83,22 +94,47 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: QEMU Developers <qemu-devel@nongnu.org>
+Cc: Peter Maydell <peter.maydell@linaro.org>, mhabets@solarflare.com,
+ qemu-devel@nongnu.org, rob.miller@broadcom.com, saugatm@xilinx.com,
+ hanand@xilinx.com, hch@infradead.org, eperezma@redhat.com, jgg@mellanox.com,
+ jasowang@redhat.com, shahafs@mellanox.com, kevin.tian@intel.com,
+ parav@mellanox.com, vmireyno@marvell.com, cunming.liang@intel.com,
+ gdawar@xilinx.com, jiri@mellanox.com, xiao.w.wang@intel.com,
+ stefanha@redhat.com, zhihong.wang@intel.com, aadam@redhat.com,
+ rdunlap@infradead.org, maxime.coquelin@redhat.com, lingshan.zhu@intel.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Wed, 8 Jul 2020 at 07:45, Michael S. Tsirkin <mst@redhat.com> wrote:
->
-> On Tue, Jul 07, 2020 at 06:50:55PM +0100, Peter Maydell wrote:
-> > Sure. (You can always just resend a new v2 cover letter without
-> > all the patches; that's what most people do for minor respins.)
->
-> As a reply-to or as a new thread?
+On Wed, Jul 08, 2020 at 04:49:22PM +0800, Cindy Lu wrote:
+> Fix the compile issue in the system without the kvm support
+> 
+> Signed-off-by: Cindy Lu <lulu@redhat.com>
 
-New thread. Just like sending a complete new pullreq, only you
-only send the cover letter to the list, not all the patch mails.
-Some people send "cover letter plus the mail for the patch
-that changed" if they feel the changes were significant.
+Applied, thanks!
+Peter if we need this fixed quickly, I pushed out for_upstream
+just with this one fix.
 
--- PMM
+Thanks!
+
+> ---
+>  hw/virtio/vhost-vdpa.c | 3 +--
+>  1 file changed, 1 insertion(+), 2 deletions(-)
+> 
+> diff --git a/hw/virtio/vhost-vdpa.c b/hw/virtio/vhost-vdpa.c
+> index a3d17fe0f9..65d5aaf08a 100644
+> --- a/hw/virtio/vhost-vdpa.c
+> +++ b/hw/virtio/vhost-vdpa.c
+> @@ -19,8 +19,7 @@
+>  #include "hw/virtio/virtio-net.h"
+>  #include "hw/virtio/vhost-vdpa.h"
+>  #include "qemu/main-loop.h"
+> -#include <linux/kvm.h>
+> -#include "sysemu/kvm.h"
+> +#include "cpu.h"
+>  
+>  static bool vhost_vdpa_listener_skipped_section(MemoryRegionSection *section)
+>  {
+> -- 
+> 2.21.1
+
 
