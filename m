@@ -2,120 +2,79 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 61E0C21931E
-	for <lists+qemu-devel@lfdr.de>; Thu,  9 Jul 2020 00:08:50 +0200 (CEST)
-Received: from localhost ([::1]:42562 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 231D421933C
+	for <lists+qemu-devel@lfdr.de>; Thu,  9 Jul 2020 00:18:08 +0200 (CEST)
+Received: from localhost ([::1]:60336 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jtIFF-0007KG-Br
-	for lists+qemu-devel@lfdr.de; Wed, 08 Jul 2020 18:08:49 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:37882)
+	id 1jtIOF-00024V-2Z
+	for lists+qemu-devel@lfdr.de; Wed, 08 Jul 2020 18:18:07 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:39596)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1jtHoP-0002vk-I8
- for qemu-devel@nongnu.org; Wed, 08 Jul 2020 17:41:05 -0400
-Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:37207
- helo=us-smtp-1.mimecast.com)
+ (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1jtHvH-000664-Sj
+ for qemu-devel@nongnu.org; Wed, 08 Jul 2020 17:48:11 -0400
+Received: from us-smtp-1.mimecast.com ([207.211.31.81]:36291
+ helo=us-smtp-delivery-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1jtHoM-0003pQ-OH
- for qemu-devel@nongnu.org; Wed, 08 Jul 2020 17:41:05 -0400
+ (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1jtHvE-0004hV-EM
+ for qemu-devel@nongnu.org; Wed, 08 Jul 2020 17:48:11 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1594244462;
+ s=mimecast20190719; t=1594244887;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
- bh=u1oLVhkwdrrqr9KIO/1hxkVUkb0RNCZZeyZDZKOVCXE=;
- b=AGxuaGibL+OU1bQaxqnoO8IE4wvouVQTrIOrDy09CRvNja9r1Qa8mn6/B/qtdmKHLBYzIJ
- TFffHS0DtazcwIYk5bjE2Fro3NvI8ixHO9Y7jBmP3vx0bzSzdhS3l2xtD3qTyTdHbCqJgJ
- YqeZYhUanuIQIC94wzEE+5ia+XaYtLk=
-Received: from mail-ej1-f72.google.com (mail-ej1-f72.google.com
- [209.85.218.72]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-276-gXDLiLhuPIyern6gXD1Zig-1; Wed, 08 Jul 2020 09:38:20 -0400
-X-MC-Unique: gXDLiLhuPIyern6gXD1Zig-1
-Received: by mail-ej1-f72.google.com with SMTP id d16so37167733eje.20
- for <qemu-devel@nongnu.org>; Wed, 08 Jul 2020 06:38:19 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:autocrypt
- :message-id:date:user-agent:mime-version:in-reply-to
- :content-language:content-transfer-encoding;
- bh=u1oLVhkwdrrqr9KIO/1hxkVUkb0RNCZZeyZDZKOVCXE=;
- b=Ne8tCM5y5Ji2OqkRo+FHCHOVgra7fvg7ZH/+f5SA5wddaEDZ/t5HbBLd3HbQxhVsQ2
- 50wTRb8U3bZYVPRB+4hgYiFrgEcHuPp1V8Fwvb/+Quldf4eaJk9O3Rz9uPxboT8EBE5O
- NUJdedvf/eFgdkOR2XOW71ZXqszs2bOTR9X/QLiZgmfL+GqkPxYLh37fcUiwn/Ry+tu2
- s4agOR0SMkadHwv4zkMMz7/s2yMMsg1WZ2RVnAmd7zwQDx7om8s6fGrpq0WMImR4rZnA
- 0dUEkvRVqoEu+QxOAIbOLkonXkv10m5Ty0peSLc89ctCVISafXlQGWHbFL/SVnRxRFFv
- dzSw==
-X-Gm-Message-State: AOAM531DHBLXSx7W/a3mSUQotWj9XGoBESfB3mdFHjHorHNKIGbtm9tM
- E5DVwMo89Ln2g8//59Lta/7UpCu+zwB7TMWrEgKfpwO8OhNFEMzTSubPyMrBJO8XcLDjt17SYyZ
- qIsXN+CXT50be44k=
-X-Received: by 2002:a17:906:1151:: with SMTP id
- i17mr54527025eja.535.1594215498716; 
- Wed, 08 Jul 2020 06:38:18 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJztMLb2QnoGWxmmjy6/tcHDgKUx9pm6rJHHmupxiOPjIKmvlhjWqaIZaokFKimPtw2mhcHnCw==
-X-Received: by 2002:a17:906:1151:: with SMTP id
- i17mr54527001eja.535.1594215498468; 
- Wed, 08 Jul 2020 06:38:18 -0700 (PDT)
-Received: from [192.168.1.36] (138.red-83-57-170.dynamicip.rima-tde.net.
- [83.57.170.138])
- by smtp.gmail.com with ESMTPSA id s1sm27946667edy.1.2020.07.08.06.38.16
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Wed, 08 Jul 2020 06:38:17 -0700 (PDT)
-Subject: Re: Migrating custom qemu.org infrastructure to GitLab
-To: =?UTF-8?Q?Daniel_P=2e_Berrang=c3=a9?= <berrange@redhat.com>
-References: <CAJSP0QV3uB4QY6mzw2JFDedr0PJhGkU5FdmLF5PbjMPyxiYSuw@mail.gmail.com>
- <20200708105353.GE3229307@redhat.com>
- <477ce8e8-283e-6f3e-d3ed-c7f758eaebdb@redhat.com>
- <67032ba5-41fc-8890-29b1-44d27d75f313@redhat.com>
- <20200708133214.GJ3229307@redhat.com>
-From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
-Autocrypt: addr=philmd@redhat.com; keydata=
- mQINBDXML8YBEADXCtUkDBKQvNsQA7sDpw6YLE/1tKHwm24A1au9Hfy/OFmkpzo+MD+dYc+7
- bvnqWAeGweq2SDq8zbzFZ1gJBd6+e5v1a/UrTxvwBk51yEkadrpRbi+r2bDpTJwXc/uEtYAB
- GvsTZMtiQVA4kRID1KCdgLa3zztPLCj5H1VZhqZsiGvXa/nMIlhvacRXdbgllPPJ72cLUkXf
- z1Zu4AkEKpccZaJspmLWGSzGu6UTZ7UfVeR2Hcc2KI9oZB1qthmZ1+PZyGZ/Dy+z+zklC0xl
- XIpQPmnfy9+/1hj1LzJ+pe3HzEodtlVA+rdttSvA6nmHKIt8Ul6b/h1DFTmUT1lN1WbAGxmg
- CH1O26cz5nTrzdjoqC/b8PpZiT0kO5MKKgiu5S4PRIxW2+RA4H9nq7nztNZ1Y39bDpzwE5Sp
- bDHzd5owmLxMLZAINtCtQuRbSOcMjZlg4zohA9TQP9krGIk+qTR+H4CV22sWldSkVtsoTaA2
- qNeSJhfHQY0TyQvFbqRsSNIe2gTDzzEQ8itsmdHHE/yzhcCVvlUzXhAT6pIN0OT+cdsTTfif
- MIcDboys92auTuJ7U+4jWF1+WUaJ8gDL69ThAsu7mGDBbm80P3vvUZ4fQM14NkxOnuGRrJxO
- qjWNJ2ZUxgyHAh5TCxMLKWZoL5hpnvx3dF3Ti9HW2dsUUWICSQARAQABtDJQaGlsaXBwZSBN
- YXRoaWV1LURhdWTDqSAoUGhpbCkgPHBoaWxtZEByZWRoYXQuY29tPokCVQQTAQgAPwIbDwYL
- CQgHAwIGFQgCCQoLBBYCAwECHgECF4AWIQSJweePYB7obIZ0lcuio/1u3q3A3gUCXsfWwAUJ
- KtymWgAKCRCio/1u3q3A3ircD/9Vjh3aFNJ3uF3hddeoFg1H038wZr/xi8/rX27M1Vj2j9VH
- 0B8Olp4KUQw/hyO6kUxqkoojmzRpmzvlpZ0cUiZJo2bQIWnvScyHxFCv33kHe+YEIqoJlaQc
- JfKYlbCoubz+02E2A6bFD9+BvCY0LBbEj5POwyKGiDMjHKCGuzSuDRbCn0Mz4kCa7nFMF5Jv
- piC+JemRdiBd6102ThqgIsyGEBXuf1sy0QIVyXgaqr9O2b/0VoXpQId7yY7OJuYYxs7kQoXI
- 6WzSMpmuXGkmfxOgbc/L6YbzB0JOriX0iRClxu4dEUg8Bs2pNnr6huY2Ft+qb41RzCJvvMyu
- gS32LfN0bTZ6Qm2A8ayMtUQgnwZDSO23OKgQWZVglGliY3ezHZ6lVwC24Vjkmq/2yBSLakZE
- 6DZUjZzCW1nvtRK05ebyK6tofRsx8xB8pL/kcBb9nCuh70aLR+5cmE41X4O+MVJbwfP5s/RW
- 9BFSL3qgXuXso/3XuWTQjJJGgKhB6xXjMmb1J4q/h5IuVV4juv1Fem9sfmyrh+Wi5V1IzKI7
- RPJ3KVb937eBgSENk53P0gUorwzUcO+ASEo3Z1cBKkJSPigDbeEjVfXQMzNt0oDRzpQqH2vp
- apo2jHnidWt8BsckuWZpxcZ9+/9obQ55DyVQHGiTN39hkETy3Emdnz1JVHTU0Q==
-Message-ID: <92d67b71-29db-c3e6-1b2c-e325f396ce0b@redhat.com>
-Date: Wed, 8 Jul 2020 15:38:16 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.5.0
+ in-reply-to:in-reply-to:references:references;
+ bh=AtJIuodvOZsJY6nobRtCiFIt5fJ3W1ul7TsOQcB7KbA=;
+ b=hwsIxPaSMvk7DQG4+8bBar5rr/7BKSRJ7UvlDbC1a7MLMjCp5lOPGxndxpiIGbCP4uOMPm
+ lvQ83I1K1bArCwp74cobKxHWK+JHomZOfR2+8aSWrqPt63PA06/8rBQOC1Q+zPFSrQy9WA
+ fRR1+/aGKg7q2dzzdNFhB9jtvHBWHZc=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-104-U1cRDlirNjSkkjSYbaNWaw-1; Wed, 08 Jul 2020 09:47:09 -0400
+X-MC-Unique: U1cRDlirNjSkkjSYbaNWaw-1
+Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
+ [10.5.11.15])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 9A25D107ACCA;
+ Wed,  8 Jul 2020 13:47:08 +0000 (UTC)
+Received: from sirius.home.kraxel.org (ovpn-112-200.ams2.redhat.com
+ [10.36.112.200])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id CF7AE7FEA6;
+ Wed,  8 Jul 2020 13:47:07 +0000 (UTC)
+Received: by sirius.home.kraxel.org (Postfix, from userid 1000)
+ id D27A031F5C; Wed,  8 Jul 2020 15:47:06 +0200 (CEST)
+Date: Wed, 8 Jul 2020 15:47:06 +0200
+From: Gerd Hoffmann <kraxel@redhat.com>
+To: Maxim Levitsky <mlevitsk@redhat.com>
+Subject: Re: [PATCH v8 11/14] block/core: add generic infrastructure for
+ x-blockdev-amend qmp command
+Message-ID: <20200708134706.7au7gdfuy6t6xjml@sirius.home.kraxel.org>
+References: <20200608094030.670121-1-mlevitsk@redhat.com>
+ <20200608094030.670121-12-mlevitsk@redhat.com>
+ <20200708123329.udy3k7ewtbcztjin@sirius.home.kraxel.org>
+ <71ce9ceb32e5bd8f18cd26621e380df364f25cb7.camel@redhat.com>
 MIME-Version: 1.0
-In-Reply-To: <20200708133214.GJ3229307@redhat.com>
-Content-Language: en-US
+In-Reply-To: <71ce9ceb32e5bd8f18cd26621e380df364f25cb7.camel@redhat.com>
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=philmd@redhat.com
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=kraxel@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=utf-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=207.211.31.120; envelope-from=philmd@redhat.com;
- helo=us-smtp-1.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/07/07 17:25:10
+Content-Disposition: inline
+Received-SPF: pass client-ip=207.211.31.81; envelope-from=kraxel@redhat.com;
+ helo=us-smtp-delivery-1.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/07/07 17:25:09
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
-X-Spam_score_int: -40
-X-Spam_score: -4.1
-X-Spam_bar: ----
-X-Spam_report: (-4.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1,
+X-Spam_score_int: -30
+X-Spam_score: -3.1
+X-Spam_bar: ---
+X-Spam_report: (-3.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-1, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H3=-0.01, RCVD_IN_MSPIKE_WL=-0.01,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -128,118 +87,252 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Maydell <peter.maydell@linaro.org>, Thomas Huth <thuth@redhat.com>,
- Cleber Rosa <cleber@redhat.com>, Jeff Cody <codyprime@gmail.com>,
- Stefan Hajnoczi <stefanha@gmail.com>, qemu-devel <qemu-devel@nongnu.org>,
- Michael Roth <mdroth@linux.vnet.ibm.com>, Paolo Bonzini <pbonzini@redhat.com>,
- =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>
+Cc: Kevin Wolf <kwolf@redhat.com>,
+ Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>,
+ qemu-block@nongnu.org, qemu-devel@nongnu.org,
+ Markus Armbruster <armbru@redhat.com>, Max Reitz <mreitz@redhat.com>,
+ John Snow <jsnow@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 7/8/20 3:32 PM, Daniel P. Berrangé wrote:
-> On Wed, Jul 08, 2020 at 03:19:08PM +0200, Philippe Mathieu-Daudé wrote:
->> On 7/8/20 1:48 PM, Thomas Huth wrote:
->>> On 08/07/2020 12.53, Daniel P. Berrangé wrote:
->>>> On Wed, Jul 08, 2020 at 10:52:38AM +0100, Stefan Hajnoczi wrote:
->>> [...]
->>>>> With this in mind I propose moving qemu.org infrastructure to GitLab
->>>>> incrementally. [...]
->>>
->>> FWIW, I think moving the QEMU infrastructure zoo to GitLab is a very
->>> good idea!
->>>
->>> Daniel already mentioned most of the things that I had in mind after
->>> reading your mail (well, actually he mentioned way more things that I
->>> had in mind), but let me add some sentences below anyway...
->>
->> Same comment ;)
->>
->> I find sometime confusing the see which GitLab features are restricted
->> to the paid version and which are available for open source projects.
->>
->>>>> 5. Issue tracking. Launchpad more or less works, but the login always
->>>>> bothers me. If we move git repo hosting then it makes sense to do
->>>>> issue tracking on GitLab too.
->>>>
->>>> The big thing that always bothers me about launchpad is how easy it
->>>> is to get confused between issues for QEMU upstream and issues for
->>>> legacy releases in Ubuntu distro.
->>>
->>> +1000 !
->>>
->>> I was already thinking of suggesting to move the bug tracker to either
->>> gitlab or github or anywhere else during next KVM forum, since it is
->>> IMHO a real pain.
->>>
->>> I've seen so many bugs that users tried to open against the downstream
->>> Ubuntu QEMU package but ended up in the upstream tracker instead. Apart
->>> from that, the Launchpad UI is partly really horrible in my eyes (for
->>> example you never know which action will trigger an immediate change and
->>> which needs to be confirmed by pressing a button). Additional many
->>> developers don't have a Launchpad account, so bugs can not be assigned
->>> properly and you just have to pray that people see the notification
->>> e-mails on the mailing list.
->>>
->>>> There is a question of what todo with existing bugs in launchpad.
->>>>
->>>> Essentially three choices
->>>>
->>>>  1. Move all the open bugs to gitlab
->>>>  2. Move some relevant bugs to gitlab, but close outdated ones
->>>>  3. Leave existing launchpad bugs but don't allow new ones filed
->>>
->>> I think we could set most (outdated) bugs simply to "incomplete" with a
->>> message saying that the reporter should open a new bug on Gitlab if
->>> necessary. Then after 60 days, the "incomplete" bugs will expire (i.e.
->>> auto-close).
->>
->> Some users hide their email on launchpad, so we would be hard to simply
->> re-import their bug on gitlab. Now if you ask them to import it, it is
->> easier. 60 days seem enough to react.
->>
->> Something that always bugged me on launchpad is you can not Cc other
->> people on a bug if they don't have a launchpad account. I haven't
->> checked if GitLab allows that (Bugzilla does).
+On Wed, Jul 08, 2020 at 04:06:45PM +0300, Maxim Levitsky wrote:
+> On Wed, 2020-07-08 at 14:33 +0200, Gerd Hoffmann wrote:
+> > On Mon, Jun 08, 2020 at 12:40:27PM +0300, Maxim Levitsky wrote:
+> > > blockdev-amend will be used similiar to blockdev-create
+> > > to allow on the fly changes of the structure of the format based block devices.
+> > 
+> > This one breaks the build:
+> > 
+> > In file included from /home/kraxel/projects/qemu/include/block/throttle-groups.h:29,
+> >                  from /home/kraxel/projects/qemu/include/sysemu/block-backend.h:17,
+> >                  from /home/kraxel/projects/qemu/qemu-img.c:46:
+> > /home/kraxel/projects/qemu/include/block/block_int.h:154:39: error: unknown type name ‘BlockdevAmendOptions’; did you mean ‘BlockdevAioOptions’?
+> >                                        BlockdevAmendOptions *opts,
+> >                                        ^~~~~~~~~~~~~~~~~~~~
+> >                                        BlockdevAioOptions
+> > make: *** [/home/kraxel/projects/qemu/rules.mak:69: qemu-img.o] Error 1
+> > 
+> > take care,
+> >   Gerd
+> > 
 > 
-> GitLab doesn't expose anyone's email address. Any interaction with other
-> users is exclusively via their GitLab user name. So yes, you need an
-> account to be added to notifications for an issue.
+> Apparently I didn't add #include of qapi-types-block-core.h in block_int.h (I'll fix this in a patch soon),
+> but it looks like throttle-groups.h includes "qemu/throttle.h" which includes "qapi/qapi-types-block-core.h",
+> so it should be included explicitly here.
 > 
->> We should do some experiments first, because I saw various ways to use
->> the GitLab ticket tags, and none convinced me it is practical.
+> Could you share your configure.sh options?
 > 
-> Why is that ?  I find the tagging to be one of the things i really
-> like coming over from the bugzilla world. It is useful for doing an
-> initial triage of bugs in particular, to sort them into logical buckets.
-> 
-> I think that's particularly useful with our subsystem maintainer model,
-> as it will let us direct bugs towards specific maintainers.
-> 
-> In libvirt we had some generic labels for all projects
-> 
->   https://gitlab.com/groups/libvirt/-/labels
-> 
-> And then further project specific labels
-> 
->   https://gitlab.com/libvirt/libvirt/-/labels
+> Best regards,
+> 	Maxim Levitsky
 
-Excellent, this is exactly what we need, so I'm not worried anymore :)
+---------- config.status ----------
+#!/bin/sh
+# Generated by configure.
+# Run this file to recreate the current configuration.
+# Compiler output produced by configure, useful for debugging
+# configure, is in config.log if it exists.
+unset AR
+unset AS
+unset CC
+unset CPP
+unset CXX
+unset INSTALL
+unset LD
+LD_LIBRARY_PATH='/opt/rh/devtoolset-8/root/usr/lib64:/opt/rh/devtoolset-8/root/usr/lib:/opt/rh/devtoolset-8/root/usr/lib64/dyninst:/opt/rh/devtoolset-8/root/usr/lib/dyninst:/opt/rh/devtoolset-8/root/usr/lib64:/opt/rh/devtoolset-8/root/usr/lib:/opt/rh/rh-ruby25/root/usr/local/lib64:/opt/rh/rh-ruby25/root/usr/lib64:/opt/rh/httpd24/root/usr/lib64'
+export LD_LIBRARY_PATH
+unset LIBTOOL
+unset MAKE
+unset NM
+unset OBJCOPY
+PATH='/opt/rh/devtoolset-8/root/usr/bin:/usr/lib64/qt-3.3/bin:/usr/lib64/ccache:/opt/rh/rh-ruby25/root/usr/local/bin:/opt/rh/rh-ruby25/root/usr/bin:/opt/rh/rh-git218/root/usr/bin:/usr/local/bin:/usr/local/sbin:/usr/bin:/usr/sbin:/bin:/sbin/bz:/home/kraxel/bin:/home/kraxel/bin/bz:/home/kraxel/.local/bin'
+export PATH
+unset PKG_CONFIG
+unset PKG_CONFIG_LIBDIR
+PKG_CONFIG_PATH='/opt/rh/devtoolset-8/root/usr/lib64/pkgconfig:/usr/local/lib/pkgconfig'
+export PKG_CONFIG_PATH
+unset PYTHON
+unset SDL2_CONFIG
+unset SMBD
+unset STRIP
+unset WINDRES
+exec '/home/kraxel/projects/qemu/build/default/../../configure' '--prefix=/home/kraxel' '--target-list= x86_64-softmmu aarch64-softmmu ppc64-softmmu sparc64-softmmu s390x-softmmu riscv64-softmmu ppc-softmmu arm-softmmu mips-softmmu x86_64-linux-user ppc64-linux-user' '--enable-debug' '--enable-modules' '--enable-sanitizers' "$@"
+---------- config-host.h ----------
+/* Automatically generated by create_config - do not modify */
+#define CONFIG_QEMU_CONFDIR "/home/kraxel/etc/qemu"
+#define CONFIG_QEMU_DATADIR "/home/kraxel/share/qemu"
+#define CONFIG_QEMU_FIRMWAREPATH "/home/kraxel/share/qemu-firmware"
+#define CONFIG_QEMU_DOCDIR "/home/kraxel/share/doc/qemu"
+#define CONFIG_QEMU_MODDIR "/home/kraxel/lib/qemu"
+#define CONFIG_QEMU_LOCALSTATEDIR "/home/kraxel/var"
+#define CONFIG_QEMU_HELPERDIR "/home/kraxel/libexec"
+#define CONFIG_QEMU_LOCALEDIR "/home/kraxel/share/locale"
+#define CONFIG_QEMU_ICONDIR "/home/kraxel/share/icons"
+#define CONFIG_QEMU_DESKTOPDIR "/home/kraxel/share/applications"
+#define HOST_X86_64 1
+#define CONFIG_MINIKCONF_MODE --defconfig
+#define CONFIG_DEBUG_TCG 1
+#define CONFIG_POSIX 1
+#define CONFIG_LINUX 1
+#define CONFIG_TOOLS 1
+#define CONFIG_SLIRP 1
+#define CONFIG_SMBD_COMMAND "/usr/sbin/smbd"
+#define CONFIG_L2TPV3 1
+#define CONFIG_LIBCAP_NG 1
+#define CONFIG_AUDIO_DRIVERS \
+    "pa",\
+    "oss",\
 
-> 
->> Should anyone add any tag? Should we restrict to a set of useful tags?
-> 
-> I believe only admins can define the tags, you can't add arbitrary
-> tags to a project as a user.
-
-We are good then (users can still suggest pertinent tags in when opening
-an issue).
-
-> 
->> I suppose tags are hints to maintainers, so keeping something similar to
->> the MAINTAINERS file separation could be useful.
-> 
-> Regards,
-> Daniel
-> 
+#define CONFIG_AUDIO_PA m
+#define CONFIG_AUDIO_OSS m
+#define CONFIG_BDRV_RW_WHITELIST\
+    NULL
+#define CONFIG_BDRV_RO_WHITELIST\
+    NULL
+#define CONFIG_VNC 1
+#define CONFIG_VNC_SASL 1
+#define CONFIG_VNC_JPEG 1
+#define CONFIG_VNC_PNG 1
+#define QEMU_VERSION "5.0.50"
+#define QEMU_VERSION_MAJOR 5
+#define QEMU_VERSION_MINOR 0
+#define QEMU_VERSION_MICRO 50
+#define CONFIG_STAMP _85ffce29f2848aafe2dd62142dd02ea2af85190f
+#define CONFIG_MODULES 1
+#define CONFIG_X11 1
+#define CONFIG_SDL m
+#define CONFIG_ICONV 1
+#define CONFIG_CURSES m
+#define CONFIG_PIPE2 1
+#define CONFIG_ACCEPT4 1
+#define CONFIG_SPLICE 1
+#define CONFIG_EVENTFD 1
+#define CONFIG_USBFS 1
+#define CONFIG_FALLOCATE 1
+#define CONFIG_FALLOCATE_PUNCH_HOLE 1
+#define CONFIG_FALLOCATE_ZERO_RANGE 1
+#define CONFIG_POSIX_FALLOCATE 1
+#define CONFIG_SYNC_FILE_RANGE 1
+#define CONFIG_FIEMAP 1
+#define CONFIG_DUP3 1
+#define CONFIG_PPOLL 1
+#define CONFIG_PRCTL_PR_SET_TIMERSLACK 1
+#define CONFIG_EPOLL 1
+#define CONFIG_EPOLL_CREATE1 1
+#define CONFIG_SENDFILE 1
+#define CONFIG_TIMERFD 1
+#define CONFIG_SETNS 1
+#define CONFIG_CLOCK_ADJTIME 1
+#define CONFIG_SYNCFS 1
+#define CONFIG_INOTIFY 1
+#define CONFIG_INOTIFY1 1
+#define CONFIG_SEM_TIMEDWAIT 1
+#define HAVE_STRCHRNUL 1
+#define HAVE_STRUCT_STAT_ST_ATIM 1
+#define CONFIG_BYTESWAP_H 1
+#define CONFIG_CURL m
+#define CONFIG_BRLAPI 1
+#define CONFIG_GTK m
+#define CONFIG_GTK_GL 1
+#define CONFIG_GIO 1
+#define CONFIG_TLS_PRIORITY "NORMAL"
+#define CONFIG_GNUTLS 1
+#define CONFIG_NETTLE 1
+#define CONFIG_NETTLE_VERSION_MAJOR 2
+#define CONFIG_QEMU_PRIVATE_XTS 1
+#define CONFIG_TASN1 1
+#define HAVE_IFADDRS_H 1
+#define CONFIG_VTE 1
+#define CONFIG_VIRGL 1
+#define CONFIG_LINUX_AIO 1
+#define CONFIG_ATTR 1
+#define CONFIG_VIRTFS 1
+#define CONFIG_MPATH 1
+#define CONFIG_VHOST_SCSI 1
+#define CONFIG_VHOST_NET 1
+#define CONFIG_VHOST_NET_USER 1
+#define CONFIG_VHOST_CRYPTO 1
+#define CONFIG_VHOST_VSOCK 1
+#define CONFIG_VHOST_USER_VSOCK 1
+#define CONFIG_VHOST_KERNEL 1
+#define CONFIG_VHOST_USER 1
+#define CONFIG_VHOST_USER_FS 1
+#define CONFIG_IOVEC 1
+#define CONFIG_PREADV 1
+#define CONFIG_FDT 1
+#define CONFIG_SIGNALFD 1
+#define CONFIG_TCG 1
+#define CONFIG_FDATASYNC 1
+#define CONFIG_MADVISE 1
+#define CONFIG_POSIX_MADVISE 1
+#define CONFIG_POSIX_MEMALIGN 1
+#define CONFIG_SPICE 1
+#define CONFIG_SMARTCARD 1
+#define CONFIG_USB_LIBUSB 1
+#define CONFIG_USB_REDIR 1
+#define CONFIG_OPENGL 1
+#define CONFIG_OPENGL_DMABUF 1
+#define CONFIG_GBM 1
+#define CONFIG_MALLOC_TRIM 1
+#define CONFIG_AVX2_OPT 1
+#define CONFIG_LZO 1
+#define CONFIG_SNAPPY 1
+#define CONFIG_BZIP2 1
+#define CONFIG_LIBISCSI m
+#define CONFIG_SECCOMP 1
+#define CONFIG_QOM_CAST_DEBUG 1
+#define CONFIG_RBD m
+#define CONFIG_COROUTINE_BACKEND ucontext
+#define CONFIG_COROUTINE_POOL 1
+#define CONFIG_OPEN_BY_HANDLE 1
+#define CONFIG_LINUX_MAGIC_H 1
+#define CONFIG_PRAGMA_DIAGNOSTIC_AVAILABLE 1
+#define CONFIG_HAS_ENVIRON 1
+#define CONFIG_CPUID_H 1
+#define CONFIG_INT128 1
+#define CONFIG_CMPXCHG128 1
+#define CONFIG_ATOMIC64 1
+#define CONFIG_ATTRIBUTE_ALIAS 1
+#define CONFIG_GETAUXVAL 1
+#define CONFIG_GLUSTERFS m
+#define CONFIG_GLUSTERFS_XLATOR_OPT 1
+#define CONFIG_GLUSTERFS_DISCARD 1
+#define CONFIG_GLUSTERFS_FALLOCATE 1
+#define CONFIG_GLUSTERFS_ZEROFILL 1
+#define CONFIG_GLUSTERFS_FTRUNCATE_HAS_STAT 1
+#define CONFIG_GLUSTERFS_IOCB_HAS_STAT 1
+#define CONFIG_LIVE_BLOCK_MIGRATION 1
+#define CONFIG_TPM 1
+#define CONFIG_TRACE_LOG 1
+#define CONFIG_TRACE_FILE trace
+#define CONFIG_RDMA 1
+#define CONFIG_PVRDMA 1
+#define CONFIG_RTNETLINK 1
+#define CONFIG_LIBXML2 1
+#define CONFIG_REPLICATION 1
+#define CONFIG_AF_VSOCK 1
+#define CONFIG_SYSMACROS 1
+#define CONFIG_STATIC_ASSERT 1
+#define HAVE_UTMPX 1
+#define CONFIG_IVSHMEM 1
+#define CONFIG_CAPSTONE 1
+#define CONFIG_DEBUG_MUTEX 1
+#define CONFIG_THREAD_SETNAME_BYTHREAD 1
+#define CONFIG_PTHREAD_SETNAME_NP_W_TID 1
+#define CONFIG_BOCHS 1
+#define CONFIG_CLOOP 1
+#define CONFIG_DMG 1
+#define CONFIG_QCOW1 1
+#define CONFIG_VDI 1
+#define CONFIG_VVFAT 1
+#define CONFIG_QED 1
+#define CONFIG_PARALLELS 1
+#define CONFIG_SHEEPDOG 1
+#define HAVE_GDB_BIN /opt/rh/devtoolset-8/root/usr/bin/gdb
+#define CONFIG_SECRET_KEYRING 1
+#define CONFIG_TEST_SECRET_KEYRING 1
+#define CONFIG_IASL iasl
+#define HOST_DSOSUF ".so"
+#define CONFIG_LIBUDEV 1
+#define CONFIG_NUMA 1
 
 
