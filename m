@@ -2,81 +2,74 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 85B9D219327
-	for <lists+qemu-devel@lfdr.de>; Thu,  9 Jul 2020 00:12:06 +0200 (CEST)
-Received: from localhost ([::1]:57688 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 08CB4218E6B
+	for <lists+qemu-devel@lfdr.de>; Wed,  8 Jul 2020 19:38:40 +0200 (CEST)
+Received: from localhost ([::1]:45734 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jtIIP-0005Sm-Jb
-	for lists+qemu-devel@lfdr.de; Wed, 08 Jul 2020 18:12:05 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:36890)
+	id 1jtE1n-0004vi-4g
+	for lists+qemu-devel@lfdr.de; Wed, 08 Jul 2020 13:38:39 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:35436)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <ehabkost@redhat.com>)
- id 1jtHkc-000510-7M
- for qemu-devel@nongnu.org; Wed, 08 Jul 2020 17:37:11 -0400
-Received: from us-smtp-1.mimecast.com ([207.211.31.81]:50777
- helo=us-smtp-delivery-1.mimecast.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <ehabkost@redhat.com>)
- id 1jtHkX-0003K3-Pd
- for qemu-devel@nongnu.org; Wed, 08 Jul 2020 17:37:08 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1594244222;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=UuAdTDv+dUPrs6AoSqoCsiFBVr4wGjrphEtfpnHhCR4=;
- b=BFD6pV2kMlpVWAyLzSwlM7eH4BnXN7YfiLcwttwKbbHMT6d4cvb6jaXtMUpAql/f1a8CZA
- nsJ4fE7g1csWjrFffLwCVMOegwSd4fx3KgAddATbY1nibH20XKTnLLOPFaVX2kIitp7/3q
- gvr1xDNA81PpVeTizJ8a1IKjvO9U+ec=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-201-dAW7sxZcMbGcfPTp7gCcpg-1; Wed, 08 Jul 2020 13:36:23 -0400
-X-MC-Unique: dAW7sxZcMbGcfPTp7gCcpg-1
-Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
- [10.5.11.23])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 5EE8819253C2;
- Wed,  8 Jul 2020 17:36:22 +0000 (UTC)
-Received: from localhost (ovpn-116-140.rdu2.redhat.com [10.10.116.140])
- by smtp.corp.redhat.com (Postfix) with ESMTP id B6E011A7CA;
- Wed,  8 Jul 2020 17:36:21 +0000 (UTC)
-Date: Wed, 8 Jul 2020 13:36:20 -0400
-From: Eduardo Habkost <ehabkost@redhat.com>
-To: Peter Maydell <peter.maydell@linaro.org>
-Subject: Re: [PATCH] cpu: Add starts_halted() method
-Message-ID: <20200708173620.GB780932@habkost.net>
-References: <20200707204333.261506-1-bauerman@linux.ibm.com>
- <20200707214917.GX7276@habkost.net>
- <87y2nu3nxq.fsf@morokweng.localdomain>
- <c53b36b7-ee7b-bb66-8220-cce788fd631d@redhat.com>
- <20200708100038.GG18595@umbus.fritz.box>
- <CAFEAcA9V7Uha9-rz+JY-5HkazCWuTk1vkLnw1m9Lw-bXXKbkvw@mail.gmail.com>
- <20200708152540.GZ7276@habkost.net>
- <CAFEAcA8mFM-O=mgCQHNz4TNB5N3Trid2o95s0Nx7JVp_q_dSrw@mail.gmail.com>
- <20200708160316.GA7276@habkost.net>
- <CAFEAcA89ueUQuVPC9O9xqbBBDEzdXmbCLL69OHvk0MJ=VvSnbw@mail.gmail.com>
+ (Exim 4.90_1) (envelope-from <jcmvbkbc@gmail.com>)
+ id 1jtE0v-0004UI-K8
+ for qemu-devel@nongnu.org; Wed, 08 Jul 2020 13:37:45 -0400
+Received: from mail-pf1-x443.google.com ([2607:f8b0:4864:20::443]:34677)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <jcmvbkbc@gmail.com>)
+ id 1jtE0u-0006To-A5
+ for qemu-devel@nongnu.org; Wed, 08 Jul 2020 13:37:45 -0400
+Received: by mail-pf1-x443.google.com with SMTP id u185so18232738pfu.1
+ for <qemu-devel@nongnu.org>; Wed, 08 Jul 2020 10:37:43 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=R1u14pRHN8pQGo+vXTT/czb6okc7fp85OLKnvf/ostw=;
+ b=WVtYK7t5RZndAV2Gpj8jpBTuYTZ0IcAINF8DWunR8DL6pth9eDpI4IEiVvj2TOTM1B
+ hAwYpqdp95NNZ2xFhfdmphq67clhQLC4Cq/pwDVucOxI3j3cujHSQL2m5vh2z5A9RZEK
+ /beiTVlKL/qnz+/VZUqMLM1NXuEUB9W0VSh3Q/hgzKwp9XKWeRLdGB6W6wMyWFwCQF2u
+ 4Aqq7ysGriOAC6PBlzjeBqqMtbtubio/XZvSR6qb7rjirIMcEujfE9nDkKfxeqS4xr7I
+ QfWmL5y/4qHWfoVzE+RdGuuwZYmvBp0DlZgZUdHAZmVAH5/MQrQPk80trteHOdRn6WbC
+ oL4w==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=R1u14pRHN8pQGo+vXTT/czb6okc7fp85OLKnvf/ostw=;
+ b=KB9IJ+bnoVmDf2RyGIZ5/2SLNffy84r9EXylQnkuHDrztOIu8U95mv7YQSrDIoA/H3
+ FAw+KkU6DIPowMmHw1tRCx4Y9Ud+6H89opjgLk6cSSGDLFsNQuHDpIelM7gnF5IxQ0Bg
+ feWl/Kg2b2t6vwcFM2f7Hof7uR2fYjrwoqHZZUy4ZfHkCr2Lj4ekuRIOo/ZzFC7wu8sc
+ TfFL33eCK2NCxaO4fZ59PSNpViGkYL19vf+4TVKCZTo7ErDuuJ8zpzym/i+1JqcjUP/G
+ /AREtpqOvYBeGlQKX4lnI9qTWBl8+EtqJ1Jgso9w1wZuM/1v5KvUkVQ58sipGOgdIMF3
+ B2RA==
+X-Gm-Message-State: AOAM531eBYQc6OxL3V2wtzyD1TtjadQaosv4h+TE7ux0joBUM/T+5H8Z
+ 4SugDTE52kjv4Ae7wdaRWa5tRie7d67Yn2sb5H0=
+X-Google-Smtp-Source: ABdhPJz+AZUqIlDYHM7ldgMN8GoznWigoVSfk/P09fAptkiyTrz/8r6zm1XVj0Tdpv4IowH6kOpp0gbmwiirpmT5C78=
+X-Received: by 2002:a63:9dcd:: with SMTP id
+ i196mr49447246pgd.378.1594229862767; 
+ Wed, 08 Jul 2020 10:37:42 -0700 (PDT)
 MIME-Version: 1.0
-In-Reply-To: <CAFEAcA89ueUQuVPC9O9xqbBBDEzdXmbCLL69OHvk0MJ=VvSnbw@mail.gmail.com>
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=ehabkost@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Received-SPF: pass client-ip=207.211.31.81; envelope-from=ehabkost@redhat.com;
- helo=us-smtp-delivery-1.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/07/07 17:25:09
-X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
-X-Spam_score_int: -30
-X-Spam_score: -3.1
-X-Spam_bar: ---
-X-Spam_report: (-3.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H3=-0.01, RCVD_IN_MSPIKE_WL=-0.01,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+References: <20200706234737.32378-1-jcmvbkbc@gmail.com>
+ <20200706234737.32378-10-jcmvbkbc@gmail.com>
+ <4fc60414-4b04-2402-3e72-50e77a7854b6@linaro.org>
+In-Reply-To: <4fc60414-4b04-2402-3e72-50e77a7854b6@linaro.org>
+From: Max Filippov <jcmvbkbc@gmail.com>
+Date: Wed, 8 Jul 2020 10:37:31 -0700
+Message-ID: <CAMo8BfKLbHrJBfz64vO9Mtyz6fWL8+ZekiOzvpdYVhg58_PxpQ@mail.gmail.com>
+Subject: Re: [PATCH 09/21] target/xtensa: add DFP option, registers and opcodes
+To: Richard Henderson <richard.henderson@linaro.org>
+Content-Type: text/plain; charset="UTF-8"
+Received-SPF: pass client-ip=2607:f8b0:4864:20::443;
+ envelope-from=jcmvbkbc@gmail.com; helo=mail-pf1-x443.google.com
+X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
+ That's all we know.
+X-Spam_score_int: -5
+X-Spam_score: -0.6
+X-Spam_bar: /
+X-Spam_report: (-0.6 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
+ FROM_LOCAL_NOVOWEL=0.5, HK_RANDOM_ENVFROM=0.001, HK_RANDOM_FROM=1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -89,57 +82,41 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Laurent Vivier <lvivier@redhat.com>, Thomas Huth <thuth@redhat.com>,
- Alex =?iso-8859-1?Q?Benn=E9e?= <alex.bennee@linaro.org>,
- QEMU Developers <qemu-devel@nongnu.org>, qemu-ppc <qemu-ppc@nongnu.org>,
- Philippe =?iso-8859-1?Q?Mathieu-Daud=E9?= <philmd@redhat.com>,
- Thiago Jung Bauermann <bauerman@linux.ibm.com>,
- David Gibson <david@gibson.dropbear.id.au>
+Cc: qemu-devel <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Wed, Jul 08, 2020 at 06:09:49PM +0100, Peter Maydell wrote:
-> On Wed, 8 Jul 2020 at 17:03, Eduardo Habkost <ehabkost@redhat.com> wrote:
-> >
-> > On Wed, Jul 08, 2020 at 04:32:51PM +0100, Peter Maydell wrote:
-> > > On Wed, 8 Jul 2020 at 16:25, Eduardo Habkost <ehabkost@redhat.com> wrote:
-> > > > On Wed, Jul 08, 2020 at 02:14:03PM +0100, Peter Maydell wrote:
-> > > > > The original bug as described in the commit message sounds
-> > > > > to me like something we should look to fix in the implementation
-> > > > > of async_run_on_cpu() -- it shouldn't cause a CPU that's halfway
-> > > > > through reset to do a KVM_RUN or otherwise run guest code,
-> > > > > whether that CPU is going to start powered-up or powered-down.
-> > > >
-> > > > What "halfway through reset" means, exactly?  Isn't halted==1
-> > > > enough to indicate the CPU is in that state?
-> > >
-> > > I mean "while we're in the middle of the CPU method that's
-> > > called by cpu_reset()". "halted==1" says "the CPU is halted";
-> > > that's not the same thing. KVM_RUN happening
-> > > as a side effect in the middle of that code is a bug
-> > > whether the CPU happens to be intended to be put into the
-> > > halted state or not. If the CPU is intended to be created
-> > > not-halted then KVM_RUN can happen after cpu reset
-> > > completes, but not before.
-> >
-> > Wait, I thought we already had mechanisms to prevent that from
-> > happening.  Otherwise, it would never be safe for cpu_reset() to
-> > touch the CPU registers.
-> 
-> Exactly. It appears that there's a bug in our mechanisms,
-> which is why I'm suggesting that the right thing is
-> to fix that bug rather than marking the CPU as halted
-> earlier in the reset process so that the KVM_RUN happens
-> to do nothing...
+On Wed, Jul 8, 2020 at 9:25 AM Richard Henderson
+<richard.henderson@linaro.org> wrote:
+>
+> On 7/6/20 4:47 PM, Max Filippov wrote:
+> > +float64 HELPER(add_d)(CPUXtensaState *env, float64 a, float64 b)
+> > +{
+> > +    set_use_first_nan(true, &env->fp_status);
+> > +    return float64_add(a, b, &env->fp_status);
+> > +}
+> > +
+> >  float32 HELPER(add_s)(CPUXtensaState *env, float32 a, float32 b)
+> >  {
+> > +    set_use_first_nan(env->config->use_first_nan, &env->fp_status);
+> >      return float32_add(a, b, &env->fp_status);
+> >  }
+>
+> I think you can do better than to set the use_first_nan flag before every
+> operation.
 
-I agree this is necessary, but it doesn't seem sufficient.
+And it was better, until I found that the rules for float64 are a
+bit... peculiar.
 
-Having cpu_reset() set halted=0 on spapr (and probably other
-machines) is also a bug, as it could still trigger unwanted
-KVM_RUN when cpu_reset() returns (and before machine code sets
-halted=1).
+> E.g. the translator could remember the previous setting within the TB, only
+> changing when necessary.  E.g. if env->config->use_first_nan, then set it
+> during reset and never change it again.  Similarly if DFP is not enabled.
+
+This thought crossed my mind too, but then set_use_first_nan only
+sets one variable in the float_status and gets inlined.
+Is it worth the trouble?
 
 -- 
-Eduardo
-
+Thanks.
+-- Max
 
