@@ -2,100 +2,98 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 35BE5219043
-	for <lists+qemu-devel@lfdr.de>; Wed,  8 Jul 2020 21:15:18 +0200 (CEST)
-Received: from localhost ([::1]:45088 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9A1EA219087
+	for <lists+qemu-devel@lfdr.de>; Wed,  8 Jul 2020 21:32:06 +0200 (CEST)
+Received: from localhost ([::1]:46902 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jtFXI-0000yy-SH
-	for lists+qemu-devel@lfdr.de; Wed, 08 Jul 2020 15:15:16 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:56404)
+	id 1jtFnZ-0005c6-Me
+	for lists+qemu-devel@lfdr.de; Wed, 08 Jul 2020 15:32:05 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:60428)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <andrey.shinkevich@virtuozzo.com>)
- id 1jtFWD-0000Tb-2a; Wed, 08 Jul 2020 15:14:09 -0400
-Received: from mail-am6eur05on2096.outbound.protection.outlook.com
- ([40.107.22.96]:64449 helo=EUR05-AM6-obe.outbound.protection.outlook.com)
+ (Exim 4.90_1) (envelope-from <vsementsov@virtuozzo.com>)
+ id 1jtFmg-0005D0-KJ
+ for qemu-devel@nongnu.org; Wed, 08 Jul 2020 15:31:10 -0400
+Received: from mail-eopbgr70093.outbound.protection.outlook.com
+ ([40.107.7.93]:33229 helo=EUR04-HE1-obe.outbound.protection.outlook.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <andrey.shinkevich@virtuozzo.com>)
- id 1jtFW9-0001Ec-FU; Wed, 08 Jul 2020 15:14:07 -0400
+ (Exim 4.90_1) (envelope-from <vsementsov@virtuozzo.com>)
+ id 1jtFmd-0003TB-9z
+ for qemu-devel@nongnu.org; Wed, 08 Jul 2020 15:31:09 -0400
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=EgseWSdieI7wFrfCLH7+iV31nlzIVfLU93MaiQRVuWzDyPqaBovV0wgAQ810a/1Fuf5f4QMrWWWWDLcf3njR1hKAKEQL0fmLSGxEJkS02Erxz6MWV5ovdchEG51SXWX7ifKFfGfZ8BwOmJ8Tr3bSDvfucnod1agbH9huN2sRn/ZLG/o6jtx+LWXyVq6K/mlyL1gXqUDOIp24Uuf/b8Im9cUv7vvCupJFqVlgRKnDjO/4rg0TeHXC75RA19BkAR4MvSS2j+o0bZ2n450okyxtgGt423+Wr6n4DbojW4Jpn2CQ0u1Tmkq0zs0rtvpC7HCifu0v66ceH/+jHDrTU0vR6g==
+ b=WaVn1qPerBrQF3GSW3vFXOuq3gMSUmxsq38WHHp2ZpwtZVarTdHP1gyPinUXZ29Inh+TJlu6CSRt2yc+xpdxIDyfwSHhD5NosX0r2J0iwIEwAAXy/lrqK+8vOqEGVT30PTY/nwDqpnA7/qbmvhISqFRCfK9tjtn7O4nODoRnubNRujbozj5kTkLjatDDQrm0hLNFuJK6ndciv/2Z1mBAcXguiz6OLysb2H0SEdpj6HmB/Whyy+PcN87cEZFIm3hnE48eL9UVynyuRxGKRuV2zRI9oDmPk0+Mu65+ydlnBCuOO2UQtl/KSMMYP4zp+9Y1g37Z1TFarp8QlqcVmBY9DA==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=RkK2nqYhvmfRVg4FbFE6YlY0mmETbH5nmqmbQkAS6JE=;
- b=fWTYjnG90LjQvYJp6OVFMFr8gwnMyOSe3zVr4ehh6lVeB1rAXIETrh/UkLC+MrBIlNQqaaEdhLsXafP3aGd5QL6Bq0gNSDxzm+8/xkTjNbo2cNMaVJ7MVg8hDqTywXKV+fgmJUmcpsIDsZkVpTiM8EuVbEwBgMEerJvOproXqUbCWwB7QlSv6B8JRXSTPP7oiwmbgLXyE7EoxLReGz0cPoPK+e5elTuhBH/Uw9NMQYVi8f1LqHCeoaQnJwdPmXyimHcBxabMBw3MvtbALwOBw/uaCBtVcxkabLmUH45Jcy8pCPDjaU+YNJqFtA/S04GtwtaAnQeXzPq5WhPRI7pZtw==
+ bh=bR0daKa29eUaIH7yu2YOHzp9BZH+ZpqaUqeZconu/Kk=;
+ b=VuPCyNEQMW3BBVTIsVnrlt99QcU93j2vkPMqzK8BJ0bx2zGs2ywkeh2zy+nwjch2gyTecYQKXsN262C6k1Buj10msFfTLHkxtI3VaYRoN2Ng2a4dEed0G2LD80DOJQuWNfQQDY2rGBfwR4Tns2vSLndLDjfy3Uc2Yd7AaVfIcYsHMpjoKrsAvR8vh4LyAzX7gqa8PoDSXcszYgpA6gFbpkNpXEI0qGR1RYEAwZYIeNZfqgGiiEralBW/wLa8jWwlBzMHN2z+LZfBHs3tbqnxCbDHxw3JxkvBUnNlWznrFbSf4UGENpcJHCLHuh1ycGWS7ynWMwvPPEFlr+X5/2ANPQ==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
  smtp.mailfrom=virtuozzo.com; dmarc=pass action=none
  header.from=virtuozzo.com; dkim=pass header.d=virtuozzo.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=virtuozzo.com;
  s=selector2;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=RkK2nqYhvmfRVg4FbFE6YlY0mmETbH5nmqmbQkAS6JE=;
- b=aWwA2oqRho9XXbHbcS+pT9d+rLA1Jo2WT1AzhoVNQeyDqq3LTeWC/zI5RdiLhFpEvZ6XzDk+En3k9ulAygz3J1Jf+1qGnXPNj33mki3QcaVKIXKtx5QTSih++BquSzVQz9otK1PRKfrNsj1o+0M7u2+ydRahmLhKxpRJjMWRfgo=
+ bh=bR0daKa29eUaIH7yu2YOHzp9BZH+ZpqaUqeZconu/Kk=;
+ b=TeFBoJNr74XCdlDosjINY1/Waog1UdYL5899uF35z3aS+l4Df+AfmFXGrioFfd0u9W1nyp9NTfJb7R0LZAtrnrZrqZdSFiGz0ZhUZQ88kH5sYGKMwyDfcrAhQRpTjY7+wpDS2gowZATVbOGRXZXfcHi42Fo71ppMhI5HN9OPEww=
 Authentication-Results: nongnu.org; dkim=none (message not signed)
  header.d=none;nongnu.org; dmarc=none action=none header.from=virtuozzo.com;
-Received: from AM6PR08MB4070.eurprd08.prod.outlook.com (2603:10a6:20b:a3::25)
- by AM7PR08MB5496.eurprd08.prod.outlook.com (2603:10a6:20b:de::20)
+Received: from AM7PR08MB5494.eurprd08.prod.outlook.com (2603:10a6:20b:dc::15)
+ by AM6PR08MB4070.eurprd08.prod.outlook.com (2603:10a6:20b:a3::25)
  with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3174.21; Wed, 8 Jul
- 2020 19:14:00 +0000
-Received: from AM6PR08MB4070.eurprd08.prod.outlook.com
- ([fe80::78ec:8cb6:41f7:b2a0]) by AM6PR08MB4070.eurprd08.prod.outlook.com
- ([fe80::78ec:8cb6:41f7:b2a0%5]) with mapi id 15.20.3174.021; Wed, 8 Jul 2020
- 19:14:00 +0000
-Subject: Re: [PATCH v7 13/47] block: Use CAFs in block status functions
-To: Max Reitz <mreitz@redhat.com>, qemu-block@nongnu.org
-References: <20200625152215.941773-1-mreitz@redhat.com>
- <20200625152215.941773-14-mreitz@redhat.com>
-From: Andrey Shinkevich <andrey.shinkevich@virtuozzo.com>
-Message-ID: <0b441000-d33b-e833-1ecd-dc343e7afe00@virtuozzo.com>
-Date: Wed, 8 Jul 2020 22:13:57 +0300
-User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:68.0)
- Gecko/20100101 Thunderbird/68.9.0
-In-Reply-To: <20200625152215.941773-14-mreitz@redhat.com>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Transfer-Encoding: 7bit
-Content-Language: en-GB
-X-ClientProxiedBy: AM0PR06CA0137.eurprd06.prod.outlook.com
- (2603:10a6:208:ab::42) To AM6PR08MB4070.eurprd08.prod.outlook.com
- (2603:10a6:20b:a3::25)
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3174.20; Wed, 8 Jul
+ 2020 19:16:01 +0000
+Received: from AM7PR08MB5494.eurprd08.prod.outlook.com
+ ([fe80::a408:2f0f:bc6c:d312]) by AM7PR08MB5494.eurprd08.prod.outlook.com
+ ([fe80::a408:2f0f:bc6c:d312%3]) with mapi id 15.20.3174.021; Wed, 8 Jul 2020
+ 19:15:55 +0000
+From: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
+To: qemu-devel@nongnu.org
+Subject: [PATCH 0/2] keepalive default
+Date: Wed,  8 Jul 2020 22:15:37 +0300
+Message-Id: <20200708191540.28455-1-vsementsov@virtuozzo.com>
+X-Mailer: git-send-email 2.21.0
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-ClientProxiedBy: AM0PR04CA0123.eurprd04.prod.outlook.com
+ (2603:10a6:208:55::28) To AM7PR08MB5494.eurprd08.prod.outlook.com
+ (2603:10a6:20b:dc::15)
 MIME-Version: 1.0
 X-MS-Exchange-MessageSentRepresentingType: 1
-Received: from Admins-MacBook-Pro.local (109.252.114.191) by
- AM0PR06CA0137.eurprd06.prod.outlook.com (2603:10a6:208:ab::42) with Microsoft
+Received: from localhost.localdomain (185.215.60.17) by
+ AM0PR04CA0123.eurprd04.prod.outlook.com (2603:10a6:208:55::28) with Microsoft
  SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.3174.22 via Frontend Transport; Wed, 8 Jul 2020 19:13:59 +0000
-X-Originating-IP: [109.252.114.191]
+ 15.20.3174.21 via Frontend Transport; Wed, 8 Jul 2020 19:15:54 +0000
+X-Mailer: git-send-email 2.21.0
+X-Originating-IP: [185.215.60.17]
 X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: 4292c001-1f43-45d6-b664-08d8237311c5
-X-MS-TrafficTypeDiagnostic: AM7PR08MB5496:
+X-MS-Office365-Filtering-Correlation-Id: 92c05d76-2256-4350-2624-08d82373569a
+X-MS-TrafficTypeDiagnostic: AM6PR08MB4070:
 X-MS-Exchange-Transport-Forked: True
-X-Microsoft-Antispam-PRVS: <AM7PR08MB54966820E9F636CB8737DF8FF4670@AM7PR08MB5496.eurprd08.prod.outlook.com>
-X-MS-Oob-TLC-OOBClassifiers: OLM:854;
+X-Microsoft-Antispam-PRVS: <AM6PR08MB40701D5BAF5494FDEF06F571C1670@AM6PR08MB4070.eurprd08.prod.outlook.com>
+X-MS-Oob-TLC-OOBClassifiers: OLM:6430;
 X-MS-Exchange-SenderADCheck: 1
 X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: j60rA12HQ7vNbMd8iEm+5fihT1i4wygarAGpUMfevuJiERecyo54ewaOS1mcNYE1I1pYS/rU5anUQWqTgzBLHQzW1MIdpZ6tK9HD+ehg15l88y+yR2fjXgJ95Os2PTcRAFADCRal1EZPayWmvnXOvd5hyrvHLnrgiJQdSHF9gdrafn/nJI6Xg/OAdh/VWB1a8MkD68pcNxpSiL61MJNk8WsQMZf7FEwWBpPhCsRpkGw2XfxgjC3NzdCc47oT/kmjlNfwEv8T+KNG6T8b9gkYigB4w6jEf2sHCrhqnnNOiW+fp4qRFV39USxulrdKUK3ozFLHVdJisDPUH2kUKFBg2XMnJyL3g+jSpt2PZuluLI8R0vOf2wHtlDBewBTimnUt
+X-Microsoft-Antispam-Message-Info: u3ZEB9XcBTXstgmnBJ2qolWm4DB4AldsWyjaBiUMYcxweYhITiIj2WsTuF8TEnezkwiDNg26bb9VDoRAsVts9PEXZ/X2ZcsUZpVFUjEvMiCXS/X9hoD5KVMD5JxlYgpNSBddBsDnDUHgi5FX+cNX8UhJYE7vGDaDpIgNJ6WQyh6B5Byq/5bML6Rn3GSsY98v6WgTZEYE8bc2oW0JMpCcOBQ6qNpn130vhLRv14cMobB920TVTf/myjWlL/+DwN8xmA8S0kzncyS184dmePATSweXMOXMG5R/t2BehXr2UiNqs7qQIbYbaTvCDG0TNJzFzn9zjkQqYfdzheHLis8TWdg9EVqZGinEQZcIGBAcjrG3BOSRLis9+nzINye3DcNV
 X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:AM6PR08MB4070.eurprd08.prod.outlook.com; PTR:; CAT:NONE;
+ IPV:NLI; SFV:NSPM; H:AM7PR08MB5494.eurprd08.prod.outlook.com; PTR:; CAT:NONE;
  SFTY:;
- SFS:(4636009)(396003)(346002)(376002)(136003)(366004)(39850400004)(53546011)(6506007)(5660300002)(26005)(186003)(16526019)(44832011)(54906003)(66476007)(66556008)(956004)(2616005)(316002)(6486002)(66946007)(8936002)(2906002)(8676002)(31696002)(36756003)(86362001)(52116002)(4326008)(31686004)(6512007)(83380400001)(478600001)(43740500002);
+ SFS:(4636009)(136003)(396003)(39850400004)(366004)(376002)(346002)(186003)(16526019)(86362001)(1076003)(6506007)(956004)(69590400007)(4744005)(26005)(6666004)(6486002)(5660300002)(316002)(52116002)(66476007)(66556008)(478600001)(4326008)(66946007)(8676002)(36756003)(8936002)(6512007)(2616005)(83380400001)(2906002)(6916009)(107886003);
  DIR:OUT; SFP:1102; 
-X-MS-Exchange-AntiSpam-MessageData: /fkWkpmKkyWvOJiOPXuJ0QAd6sZUdOZGQCtB8bh+QZwnoe4++SDL/NNhn/tpbL084Gy1B4ScqJfoCMyLAwz6jHvSN2Ut/isw3lmuGC/KT4SGvJTms6M5MknDkYi/Bg5K59XJvPKKBlLmltcuICp8J8AOekKngp6W3vQJ4wVFJlIF8km7RrSfgYdDHGDrdFPhVbRdIN3ijjQSCzl3pISJ0jkgR1GyB7B2mK8A1vZAeCT8MWTIqtktaZbvapzD7t/S8Q6IDv5hfFF9Yy1cX+BN7BApNDkbNBVqzpDhvNgbjpGM14ShHYDZUsN5pwn4QEboh2laGXJqmZRTXani3axgrhFthX39XfQrgFfmOus0Umruppy8REv3s6pSwr9ytEXuDWQ/FwN/lGerchCVk3tAfU7HQS08Xv2JGMBB7JPJ6HxRFMrclM8QoSG11tNgtV0JCEpJ+BPfh60VqvgVCYRDs4iHgn6cP8Up3rjow8A+0nxCWd5On+Tif3PhX0B8wxNC
+X-MS-Exchange-AntiSpam-MessageData: rAEhItFEd8Bm4Mtd5e+H8FvGfjliG93Igs8YCWMwrkrtqAH9ORJOfXPDY1jPBDToXx807KAkBEYOtK13O4km5/yRwwhmaoEuhXqKjEmau6vkhaTdU0vyn6Y+DW0zJBOxCbj1eX+5/3TF1ZTZp1s6FctlfJ96426/FI4HRBk0VkJOelyoNTPiPXX4zIDqsoY8lJwZP5Sdsu/LSNoxAHBNvD+KocTs48Zmz7b4KXyVCi2T23pnselyCBYn4y/yxl6Xus3EaLQEybA2jYuNRH2q4IldQaFpEiKlqmFXNnEcx9WdtYY35+IbG1T5MMpdTpYmcs2pGu7XRgzWoVGWDQ+Rh0D4pvfwWKBbOR6LzemT6g+szE0K1lIyNZox64ikd+Rt3AjukPY/aVdW90yxjSSsiE7kfe2p26MpDhE011pY4ev/SBV4GApyLlKqnECYfFVlARfuqIqCL3bD2L5ikUNxYfsr9QrlDUTSPGxlXHQwe1Y=
 X-OriginatorOrg: virtuozzo.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 4292c001-1f43-45d6-b664-08d8237311c5
-X-MS-Exchange-CrossTenant-AuthSource: AM6PR08MB4070.eurprd08.prod.outlook.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 92c05d76-2256-4350-2624-08d82373569a
+X-MS-Exchange-CrossTenant-AuthSource: AM7PR08MB5494.eurprd08.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 08 Jul 2020 19:14:00.2034 (UTC)
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 08 Jul 2020 19:15:55.5781 (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
 X-MS-Exchange-CrossTenant-Id: 0bc7f26d-0264-416e-a6fc-8352af79c58f
 X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: RFqg8FxzCdLgAAYSQdCgniH/R8v2ehi0puhwYhFKYZkkoTJhm2+BeBonPbBmmiIoUi+C8U4S7v8JVBxxH8lgwnBw6sFa91EVZye8z849Uuc=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: AM7PR08MB5496
-Received-SPF: pass client-ip=40.107.22.96;
- envelope-from=andrey.shinkevich@virtuozzo.com;
- helo=EUR05-AM6-obe.outbound.protection.outlook.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/07/08 15:14:02
+X-MS-Exchange-CrossTenant-UserPrincipalName: gbUQgIQb/J3Efgu37h+VkMh6sj23d+6tUTzGefQWgOqd1C6NfeVmG73Mu+GJ+FtLHfcbj+YOuUdq/5ZF+62VCT/UMemEQBRYGwEABI8sG0w=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: AM6PR08MB4070
+Received-SPF: pass client-ip=40.107.7.93;
+ envelope-from=vsementsov@virtuozzo.com;
+ helo=EUR04-HE1-obe.outbound.protection.outlook.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/07/08 15:31:05
 X-ACL-Warn: Detected OS   = Windows NT kernel [generic] [fuzzy]
 X-Spam_score_int: -37
 X-Spam_score: -3.8
@@ -116,82 +114,31 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Kevin Wolf <kwolf@redhat.com>,
- Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>, qemu-devel@nongnu.org
+Cc: vsementsov@virtuozzo.com, berrange@redhat.com, armbru@redhat.com,
+ kraxel@redhat.com, den@openvz.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 25.06.2020 18:21, Max Reitz wrote:
-> Use the child access functions in the block status inquiry functions as
-> appropriate.
->
-> Signed-off-by: Max Reitz <mreitz@redhat.com>
-> ---
->   block/io.c | 19 ++++++++++---------
->   1 file changed, 10 insertions(+), 9 deletions(-)
->
-> diff --git a/block/io.c b/block/io.c
-> index 385176b331..dc9891d6ce 100644
-> --- a/block/io.c
-> +++ b/block/io.c
-> @@ -2407,11 +2407,12 @@ static int coroutine_fn bdrv_co_block_status(BlockDriverState *bs,
->       if (ret & (BDRV_BLOCK_DATA | BDRV_BLOCK_ZERO)) {
->           ret |= BDRV_BLOCK_ALLOCATED;
->       } else if (want_zero) {
-> +        BlockDriverState *cow_bs = bdrv_cow_bs(bs);
-> +
->           if (bdrv_unallocated_blocks_are_zero(bs)) {
->               ret |= BDRV_BLOCK_ZERO;
-> -        } else if (bs->backing) {
-> -            BlockDriverState *bs2 = bs->backing->bs;
-> -            int64_t size2 = bdrv_getlength(bs2);
-> +        } else if (cow_bs) {
-> +            int64_t size2 = bdrv_getlength(cow_bs);
->   
->               if (size2 >= 0 && offset >= size2) {
->                   ret |= BDRV_BLOCK_ZERO;
-> @@ -2477,7 +2478,7 @@ static int coroutine_fn bdrv_co_block_status_above(BlockDriverState *bs,
->       bool first = true;
->   
->       assert(bs != base);
-> -    for (p = bs; p != base; p = backing_bs(p)) {
-> +    for (p = bs; p != base; p = bdrv_filter_or_cow_bs(p)) {
->           ret = bdrv_co_block_status(p, want_zero, offset, bytes, pnum, map,
->                                      file);
->           if (ret < 0) {
-> @@ -2551,7 +2552,7 @@ int bdrv_block_status_above(BlockDriverState *bs, BlockDriverState *base,
->   int bdrv_block_status(BlockDriverState *bs, int64_t offset, int64_t bytes,
->                         int64_t *pnum, int64_t *map, BlockDriverState **file)
->   {
-> -    return bdrv_block_status_above(bs, backing_bs(bs),
-> +    return bdrv_block_status_above(bs, bdrv_filter_or_cow_bs(bs),
->                                      offset, bytes, pnum, map, file);
->   }
->   
-> @@ -2561,9 +2562,9 @@ int coroutine_fn bdrv_is_allocated(BlockDriverState *bs, int64_t offset,
->       int ret;
->       int64_t dummy;
->   
-> -    ret = bdrv_common_block_status_above(bs, backing_bs(bs), false, offset,
-> -                                         bytes, pnum ? pnum : &dummy, NULL,
-> -                                         NULL);
-> +    ret = bdrv_common_block_status_above(bs, bdrv_filter_or_cow_bs(bs), false,
-> +                                         offset, bytes, pnum ? pnum : &dummy,
-> +                                         NULL, NULL);
->       if (ret < 0) {
->           return ret;
->       }
-> @@ -2626,7 +2627,7 @@ int bdrv_is_allocated_above(BlockDriverState *top,
->               break;
->           }
->   
-> -        intermediate = backing_bs(intermediate);
-> +        intermediate = bdrv_filter_or_cow_bs(intermediate);
->       }
->   
->       *pnum = n;
+Hi all!
 
+We understood, that keepalive is almost superfluous with default 2 hours
+in /proc/tcp_keepalive_time. Forcing user to setup keepalive for the
+whole system doesn't seem right, better setup it per-socket.
 
-Reviewed-by: Andrey Shinkevich <andrey.shinkevich@virtuozzo.com>
+These series suggests to set some defaults for keepalive settings as
+well as set keepalive itself by default.
+
+keepalive helps to not hang on io other side is down.
+
+Vladimir Sementsov-Ogievskiy (2):
+  sockets: keep-alive settings
+  util/qemu-sockets: make keep-alive enabled by default
+
+ qapi/sockets.json   | 33 +++++++++++++++++-
+ util/qemu-sockets.c | 81 +++++++++++++++++++++++++++++++++++++++------
+ 2 files changed, 102 insertions(+), 12 deletions(-)
+
+-- 
+2.21.0
 
 
