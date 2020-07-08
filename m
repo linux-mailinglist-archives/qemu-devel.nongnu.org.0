@@ -2,129 +2,80 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1CE0221934C
-	for <lists+qemu-devel@lfdr.de>; Thu,  9 Jul 2020 00:23:20 +0200 (CEST)
-Received: from localhost ([::1]:55822 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6D8BE21933B
+	for <lists+qemu-devel@lfdr.de>; Thu,  9 Jul 2020 00:18:07 +0200 (CEST)
+Received: from localhost ([::1]:60262 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jtITH-0003vK-3d
-	for lists+qemu-devel@lfdr.de; Wed, 08 Jul 2020 18:23:19 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:39456)
+	id 1jtIOE-00022h-Dk
+	for lists+qemu-devel@lfdr.de; Wed, 08 Jul 2020 18:18:06 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:39658)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1)
- (envelope-from <prvs=45148fd95=Dmitry.Fomichev@wdc.com>)
- id 1jtHuY-0004gb-Bg; Wed, 08 Jul 2020 17:47:26 -0400
-Received: from esa6.hgst.iphmx.com ([216.71.154.45]:33137)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1)
- (envelope-from <prvs=45148fd95=Dmitry.Fomichev@wdc.com>)
- id 1jtHuS-0004c9-UB; Wed, 08 Jul 2020 17:47:25 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple;
- d=wdc.com; i=@wdc.com; q=dns/txt; s=dkim.wdc.com;
- t=1594244841; x=1625780841;
- h=from:to:cc:subject:date:message-id:references:
- in-reply-to:content-transfer-encoding:mime-version;
- bh=+ehc2wqhXqTZ2yaUCPDeuXCXwCGUtxTBW8zDSEu0eXM=;
- b=ZhXrhSs07Sda6tY9Lw87FWUGehb1IU3Gx8hZuIgeJMhyfdPWeV2F9XNC
- bwHlZhXS8ZEfmyGOJxzzvrq8fyJXLE+VEF8QApQ2LwHnVEdVUqFFonYtq
- OlZyBdXNdoswdyyrLjNXcX4VqH06HzSHzecLt+BWAX/cy/B/b7QEJNrXj
- wYE9+ih6271nH7qvapVoVvXZxfbmhZaSJ6VlE7JB14ahsHgJMT0Ds0xOL
- EV+9J26BsGEZJ4x+y3MorObmSqpPywbFCl3k8iba0E3I6UP8ZBvab07a0
- yX8tX0wSDu6I8OvOcudpdfBO+6KaIFK5D0/kTNDcvamYocKhaRPHAIcsU Q==;
-IronPort-SDR: YklcA9ld5xTaGePypMwkgfx/8Wnn6cwFg/P1HA+R7b6zSQ2xuZnEtuCaG6xBjDPsHG+p9QRNTr
- 2X03UBb6DuYKFXp6kqCR4naIu8O5mO0JCty2Bq41fOLLtQ6fDZzfXF/uBgE5QHEcKlYNrXlkYC
- YByAlKzvTzDWXNvNgoMWgiyA4KbUv65Bn82mH3WpXMqEI6cELekPAP112S7kYnuYVYzJwV/1WB
- gJRteXI7EJ7DJyDNsdxZPpauX2fT784m2z6S1xpM+iiv8i+PuO7T1HHPxNUKRWrGu50dhPRNOd
- 2wY=
-X-IronPort-AV: E=Sophos;i="5.75,329,1589212800"; d="scan'208";a="143290038"
-Received: from mail-dm6nam11lp2171.outbound.protection.outlook.com (HELO
- NAM11-DM6-obe.outbound.protection.outlook.com) ([104.47.57.171])
- by ob1.hgst.iphmx.com with ESMTP; 09 Jul 2020 05:47:16 +0800
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=NnV0Sq53JSTRhFMRlMGCMwDcAIINxaF1XZdw7eNVNrhHjfZd8R++4o3QdmgUJ2AxoV4sRmUK5JScy+kfGXBmvcXXEu9cBKDhEPqNV8BbWt5Bjj01QUYVjBx5B60gYuaq15dOyAvRYp6SZYxH1w26YxRdzSopzva1GVsjVQqXCzhJbNuvX3uc5KTOBkn6Yi1ghgnzFCB2UzjfFpniQgrJyUOKvUlooE1eoRobs8ZR4wpZ6tSppF4idZm+ciQKJVDzfozAix0AyS8ARY8VZQWXKDKX+HaGIQTEXoz5w/0tQarzi3Jy4o7REYnktExuYigq4YEBtZcq1E/nlDGrX/fjEg==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=+ehc2wqhXqTZ2yaUCPDeuXCXwCGUtxTBW8zDSEu0eXM=;
- b=CWLyLBY7moU39oHILZDspGIBsmK8Q37iMFpIW8+QTQh1yBEKLWLC7/Zr8E6LeQo69KzEKSaKkmuYdZKE+3kl/ftXUhrpHC1gq8onI3bnXNp0LhexJytTtw8wftcjp17DGk3UvnahMItf5NTC8vLmP4VYl51FhbNO9DXlup8BXFzFlJwPDVfkqY7B3d6YE2dME8BI5BtiV9GFXTNgZUCjJwwdwkbvKZ2l1Q0aSZhMlbPWPvVr0C5nQvJeFsMP0FkvJy3nhe8Ifup3oRko6TiLyRQo9BrFZfHNGP06W5GzJCapMUY31IhKJB9lyvzN2d07icji+ldtldMzciGARdPNFA==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=wdc.com; dmarc=pass action=none header.from=wdc.com; dkim=pass
- header.d=wdc.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=sharedspace.onmicrosoft.com; s=selector2-sharedspace-onmicrosoft-com;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=+ehc2wqhXqTZ2yaUCPDeuXCXwCGUtxTBW8zDSEu0eXM=;
- b=c5x9H16VRKSt1r+BISuhef7dKurFiMnyUfKAmh5Lgv6yaU9z6jjGDQqSLwsH6DspshjUJTpUnRRxOmg/5vgBSC9nvlqXiHq5P6vnmSYQfJNGRTGOyxj3dVCNhqjWaQgz0GhjIOLgrTazgGRF42Bl0dVy1JojF7Gt32gYogjnP/U=
-Received: from MN2PR04MB5951.namprd04.prod.outlook.com (2603:10b6:208:3f::13)
- by MN2PR04MB5743.namprd04.prod.outlook.com (2603:10b6:208:38::32)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3153.20; Wed, 8 Jul
- 2020 21:47:13 +0000
-Received: from MN2PR04MB5951.namprd04.prod.outlook.com
- ([fe80::60c5:4424:8ce4:59a9]) by MN2PR04MB5951.namprd04.prod.outlook.com
- ([fe80::60c5:4424:8ce4:59a9%5]) with mapi id 15.20.3153.029; Wed, 8 Jul 2020
- 21:47:13 +0000
-From: Dmitry Fomichev <Dmitry.Fomichev@wdc.com>
-To: Klaus Jensen <its@irrelevant.dk>
-Subject: RE: [PATCH v3 01/18] hw/block/nvme: bump spec data structures to v1.3
-Thread-Topic: [PATCH v3 01/18] hw/block/nvme: bump spec data structures to v1.3
-Thread-Index: AQHWU1yMuYc/KnhFe0OWqQA0G0PhQqj+EpGAgAAi6wCAAAQjQA==
-Date: Wed, 8 Jul 2020 21:47:12 +0000
-Message-ID: <MN2PR04MB59518B3ACCDC857E87D0417DE1670@MN2PR04MB5951.namprd04.prod.outlook.com>
-References: <20200706061303.246057-1-its@irrelevant.dk>
- <20200706061303.246057-2-its@irrelevant.dk>
- <222a814fdd8a6ca878e04b30d64015ed629bac68.camel@wdc.com>
- <20200708212404.GA1018121@apples.localdomain>
-In-Reply-To: <20200708212404.GA1018121@apples.localdomain>
-Accept-Language: en-US
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-authentication-results: irrelevant.dk; dkim=none (message not signed)
- header.d=none;irrelevant.dk; dmarc=none action=none header.from=wdc.com;
-x-originating-ip: [199.255.44.250]
-x-ms-publictraffictype: Email
-x-ms-office365-filtering-ht: Tenant
-x-ms-office365-filtering-correlation-id: f463fa89-03c1-4232-94fb-08d82388794c
-x-ms-traffictypediagnostic: MN2PR04MB5743:
-x-microsoft-antispam-prvs: <MN2PR04MB574333B6FA1AE629659B545CE1670@MN2PR04MB5743.namprd04.prod.outlook.com>
-wdcipoutbound: EOP-TRUE
-x-ms-oob-tlc-oobclassifiers: OLM:6790;
-x-forefront-prvs: 04583CED1A
-x-ms-exchange-senderadcheck: 1
-x-microsoft-antispam: BCL:0;
-x-microsoft-antispam-message-info: Q0KEdNxJbxvW6iQu+bpUgs7RIIW4J7kqnWD/CzXbSIpxYWQwdvAws+XBuKePFe4Mg/RK5vFSuIZH3rtZZaq9npiYTSpbRo4E6Zj+7IJRbgbHkUcEB1IAIjw5ZC68h9ykmZCm47wyO7659KkSAYupSzuPjqBNjttrFYj0KkchoraxMHxa93xb3mA25rByfbrUP1sGgrk2h2U4KIEhcj4yD1/5+N1NzHyJyVZc56VYC3M42h5QwGSB9P52u/GnzeRQbEkpa/4K0+WmToCXmzPmu2ubMCymG/KDm/togj45sVXlRoqqZxv2xD6Lm/P7wCtWFmzibNF98pFMiDFhCt7gsw==
-x-forefront-antispam-report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:MN2PR04MB5951.namprd04.prod.outlook.com; PTR:; CAT:NONE;
- SFTY:;
- SFS:(4636009)(136003)(346002)(366004)(376002)(39860400002)(396003)(71200400001)(478600001)(316002)(86362001)(54906003)(53546011)(6506007)(7696005)(7416002)(66556008)(66446008)(55016002)(76116006)(66476007)(64756008)(66946007)(83380400001)(9686003)(5660300002)(6916009)(8676002)(2906002)(33656002)(52536014)(8936002)(26005)(4326008)(186003);
- DIR:OUT; SFP:1102; 
-x-ms-exchange-antispam-messagedata: m9xxJcwU3UzvzXB2F2RG/OIRZAYO8lJ120p1H9eMUJ8VHIvtuXsGIFGM4QrMyXIBpsUMgPQKDlAogRBspNv9km2oJ94555B8b1prLAqd5JgFSPwqDJJUXmfZw0dFAJcVeFlNaZBodQHSsVyR4L7k/ZDXW8f1IxW6B4uU3Ax+oZb1uE2gQPKOLUwMxQyHKgrf+tXrI9dasXhw6qtGUnjSNrPH2/LnYC/nwBG/he1xFbO7xuvSWeyLQjROYT3717tHWQuuWCXS4hPZmK6W9lFo1+u/IIsnCFndVUZKlyB0jUZZ5pd3nXij21v/3k1cV97G5HMomKdkHZI8QeR4G3MUPdKEn2pX5Qntxz5/cWF2Q/qw9rol7RESWBokLD4zF33zeWgkbL7Sxxqbj6j+GzomG+dl0w6ld92Os+rOusEX0VgGK/s6og1N5tOHh3jbJmnLWO6FVaD++SsOlW8L7RY/NUsqEfzt5ieoqWOhS0EdqUUpiOeJYZqWekE9WNxc5fHj
-x-ms-exchange-transport-forked: True
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+ (Exim 4.90_1) (envelope-from <hskinnemoen@google.com>)
+ id 1jtHvL-0006D6-1C
+ for qemu-devel@nongnu.org; Wed, 08 Jul 2020 17:48:15 -0400
+Received: from mail-vk1-xa41.google.com ([2607:f8b0:4864:20::a41]:45747)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <hskinnemoen@google.com>)
+ id 1jtHvH-0004i5-SE
+ for qemu-devel@nongnu.org; Wed, 08 Jul 2020 17:48:14 -0400
+Received: by mail-vk1-xa41.google.com with SMTP id h1so10525275vkn.12
+ for <qemu-devel@nongnu.org>; Wed, 08 Jul 2020 14:48:11 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=20161025;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc:content-transfer-encoding;
+ bh=CW3w8aXpYiNtlEq+t02GsBy4W29Z+h3Ij5vo0Nr7eGY=;
+ b=RIuKFq3VYiB07h4YmCvRG4I2anaJCjb7HeHEiuCQ17ZexjR0w1NItMqi4FTh4TALcy
+ 5nVW7IxxZmQka8OrMmZ69z7d8eFGa+B6tC4GpwQBW544pXuB5LWRe/cYkASj01NusQHI
+ kze1P8CJuaSFcT4m0I4mtDw3L48jHWVswsu/ZI0nHAiGhENr4QENEJMMOS096Bo3RgbF
+ /vc7BDW0FQe+3/aFefHPQATDsETYGTm6IPtmL94HBiWkDejcKdS38inABwJCs1aaApHx
+ kQHIS0BD2wIU8zs+nt679vLmDHek4xkOFcRYHTdVzTVujXz/W1AX2DT19C2J1T3CZGG3
+ R21w==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc:content-transfer-encoding;
+ bh=CW3w8aXpYiNtlEq+t02GsBy4W29Z+h3Ij5vo0Nr7eGY=;
+ b=K0B5MabdclSvNNSiN1GD0vuYN9rFwlppPjrHixrCPD4lzB/ZhE8/TA4j0c6ON1zxtU
+ hsLFEeQxYSAQ06GAm2maF+WBgk9CE03MoAzWqMznga9k7PyMAOV1BBpw6joQbi4HUHx3
+ M3aB6JRXbwgylp+wINzT9sU3HhZip/hWohbN/iLWZrb9Lq9EirvJThmbBklESbwFjAjA
+ B5SBxCbBbvxJe9KX7cblzE+ds+NqBmTM9iQwbUc7RSKToxgEm7mPr36YXbwL9RZkRtZM
+ V3b5GT7EwZhtUXYMahkO9YRRzHrMXFvukPw6jqGI6HCBuoVeeLlhfqwiuhmrUU3uPxdA
+ HqYQ==
+X-Gm-Message-State: AOAM533L4412+zJlRE8AiHzFeQ6DH/uWbjwhM1VBq61h8wdTsNiIBAuK
+ T8V9w7rLtDFoC/HgFLGNl47408YMy46s4QtI9ulGHA==
+X-Google-Smtp-Source: ABdhPJzSf9/srYfLG9Rh1B+5+0QBH9y/CKIw4oMCK3ve9e4nn9q/YlasiQ86uRlxKnJJrUViy4uWhHCbOImUntEXut8=
+X-Received: by 2002:a1f:9144:: with SMTP id t65mr35070332vkd.50.1594244890268; 
+ Wed, 08 Jul 2020 14:48:10 -0700 (PDT)
 MIME-Version: 1.0
-X-OriginatorOrg: wdc.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: MN2PR04MB5951.namprd04.prod.outlook.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: f463fa89-03c1-4232-94fb-08d82388794c
-X-MS-Exchange-CrossTenant-originalarrivaltime: 08 Jul 2020 21:47:12.8742 (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: b61c8803-16f3-4c35-9b17-6f65f441df86
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: wV2U831PJ2k2YN0Tr/X25hOShb4jk4wHNydjiVJU/LOw92qEdnk9uneBY/YY7yJRta6+2ErVbaERNheLkEAjuw==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: MN2PR04MB5743
-Received-SPF: pass client-ip=216.71.154.45;
- envelope-from=prvs=45148fd95=Dmitry.Fomichev@wdc.com; helo=esa6.hgst.iphmx.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/07/08 17:47:17
-X-ACL-Warn: Detected OS   = FreeBSD 9.x or newer [fuzzy]
-X-Spam_score_int: -43
-X-Spam_score: -4.4
-X-Spam_bar: ----
-X-Spam_report: (-4.4 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_MED=-2.3, SPF_HELO_PASS=-0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+References: <20200707184730.3047754-1-hskinnemoen@google.com>
+ <20200707184730.3047754-6-hskinnemoen@google.com>
+ <4b7130f2-032c-3067-b2b6-876a2b17b707@amsat.org>
+ <CAFQmdRYi5QFHbcWQH-bWqAsSCidzYMedC8n+mib1DPpJuEy-Rw@mail.gmail.com>
+In-Reply-To: <CAFQmdRYi5QFHbcWQH-bWqAsSCidzYMedC8n+mib1DPpJuEy-Rw@mail.gmail.com>
+From: Havard Skinnemoen <hskinnemoen@google.com>
+Date: Wed, 8 Jul 2020 14:47:58 -0700
+Message-ID: <CAFQmdRbF_tM4RaphCG1cgnEJ1z6YMdYv3fVjuu6crXKeAaS9Zg@mail.gmail.com>
+Subject: Re: [PATCH v4 05/12] hw/arm: Add NPCM730 and NPCM750 SoC models
+To: =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <f4bug@amsat.org>
+Cc: Peter Maydell <peter.maydell@linaro.org>, qemu-arm <qemu-arm@nongnu.org>, 
+ QEMU Developers <qemu-devel@nongnu.org>,
+ IS20 Avi Fishman <Avi.Fishman@nuvoton.com>, 
+ CS20 KFTing <kfting@nuvoton.com>, Joel Stanley <joel@jms.id.au>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=2607:f8b0:4864:20::a41;
+ envelope-from=hskinnemoen@google.com; helo=mail-vk1-xa41.google.com
+X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
+ That's all we know.
+X-Spam_score_int: -185
+X-Spam_score: -18.6
+X-Spam_bar: ------------------
+X-Spam_report: (-18.6 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_MED=-1,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ ENV_AND_HDR_SPF_MATCH=-0.5, RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001, USER_IN_DEF_DKIM_WL=-7.5,
+ USER_IN_DEF_SPF_WL=-7.5 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -137,36 +88,232 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: "fam@euphon.net" <fam@euphon.net>, "kwolf@redhat.com" <kwolf@redhat.com>,
- "qemu-block@nongnu.org" <qemu-block@nongnu.org>,
- "k.jensen@samsung.com" <k.jensen@samsung.com>,
- "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>,
- "mreitz@redhat.com" <mreitz@redhat.com>,
- "kbusch@kernel.org" <kbusch@kernel.org>,
- "javier.gonz@samsung.com" <javier.gonz@samsung.com>,
- "mlevitsk@redhat.com" <mlevitsk@redhat.com>,
- "philmd@redhat.com" <philmd@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-DQo+IC0tLS0tT3JpZ2luYWwgTWVzc2FnZS0tLS0tDQo+IEZyb206IEtsYXVzIEplbnNlbiA8aXRz
-QGlycmVsZXZhbnQuZGs+DQo+IFNlbnQ6IFdlZG5lc2RheSwgSnVseSA4LCAyMDIwIDU6MjQgUE0N
-Cj4gVG86IERtaXRyeSBGb21pY2hldiA8RG1pdHJ5LkZvbWljaGV2QHdkYy5jb20+DQo+IENjOiBx
-ZW11LWJsb2NrQG5vbmdudS5vcmc7IHFlbXUtZGV2ZWxAbm9uZ251Lm9yZzsgZmFtQGV1cGhvbi5u
-ZXQ7DQo+IGphdmllci5nb256QHNhbXN1bmcuY29tOyBrd29sZkByZWRoYXQuY29tOyBtcmVpdHpA
-cmVkaGF0LmNvbTsNCj4gbWxldml0c2tAcmVkaGF0LmNvbTsgcGhpbG1kQHJlZGhhdC5jb207IGti
-dXNjaEBrZXJuZWwub3JnOw0KPiBrLmplbnNlbkBzYW1zdW5nLmNvbQ0KPiBTdWJqZWN0OiBSZTog
-W1BBVENIIHYzIDAxLzE4XSBody9ibG9jay9udm1lOiBidW1wIHNwZWMgZGF0YSBzdHJ1Y3R1cmVz
-IHRvDQo+IHYxLjMNCj4gDQo+IE9uIEp1bCAgOCAxOToxOSwgRG1pdHJ5IEZvbWljaGV2IHdyb3Rl
-Og0KPiA+IExvb2tzIGdvb2Qgd2l0aCBhIHNtYWxsIG5pdCAoc2VlIGJlbG93KSwNCj4gPg0KPiA+
-IFJldmlld2VkLWJ5OiBEbWl0cnkgRm9taWNoZXYgPGRtaXRyeS5mb21pY2hldkB3ZGMuY29tPg0K
-PiA+DQo+ID4gPg0KPiA+IE9uIE1vbiwgMjAyMC0wNy0wNiBhdCAwODoxMiArMDIwMCwgS2xhdXMg
-SmVuc2VuIHdyb3RlOg0KPiA+ID4gKyNkZWZpbmUgTlZNRV9URU1QX1RNUFRIKHRlbXApICgodGVt
-cCA+PiAgMCkgJiAweGZmZmYpDQo+ID4NCj4gPiBUaGVyZSBpcyBhbiBleHRyYSBzcGFjZSBhZnRl
-ciB0ZW1wID4+DQo+ID4NCj4gDQo+IEdvb2QgY2F0Y2ghIEkgd29uJ3QgcmVwb3N0IGZvciB0aGlz
-IDspIC0gYnV0IEknbGwgZml4IGl0IGFuZCBhZGQgaXQgaW4NCj4gdGhlIHFlbXUtbnZtZSB0cmVl
-Lg0KDQpZZXMsIG5vIG5lZWQgdG8gcmVwb3N0IDopIFRoYW5rcyBmb3IgcmV2aWV3aW5nIG91ciBa
-TlMgc2VyaWVzISBJIGFtIHdvcmtpbmcNCm9uIGFkZHJlc3NpbmcgeW91ciBjb21tZW50cyBhbmQg
-SSBhbSBhbHNvIHN0YXJ0aW5nIHRvIHJldmlldyB5b3VyDQoiQUlPIGFuZCBhZGRyZXNzIG1hcHBp
-bmcgcmVmYWN0b3JpbmciIHBhdGNoc2V0Lg0KDQpDaGVlcnMsDQpEbWl0cnkNCg==
+On Wed, Jul 8, 2020 at 11:13 AM Havard Skinnemoen
+<hskinnemoen@google.com> wrote:
+>
+> On Wed, Jul 8, 2020 at 10:31 AM Philippe Mathieu-Daud=C3=A9 <f4bug@amsat.=
+org> wrote:
+> >
+> > On 7/7/20 8:47 PM, Havard Skinnemoen wrote:
+> > > +    /* System Global Control Registers (GCR) */
+> > > +    object_property_set_int(OBJECT(&s->gcr), nc->disabled_modules,
+> > > +                            "disabled-modules", &error_abort);
+> > > +    object_property_set_link(OBJECT(&s->gcr), OBJECT(s->dram), "dram=
+",
+> > > +                             &error_abort);
+> >
+> > I guess you can simplify using in npcm7xx_init():
+> >
+> >       object_property_add_const_link(obj, "dram-mr", OBJECT(&s->gcr));
+> >
+> > And in npcm7xx_gcr_realize()
+> >
+> >     obj =3D object_property_get_link(OBJECT(dev), "dram-mr", &err);
+> >     if (obj =3D=3D NULL) {
+> >         error_setg(errp, "%s: required dram-mr link not found: %s",
+> >                    __func__, error_get_pretty(err));
+> >         return;
+> >     }
+> >     s->dram =3D MEMORY_REGION(obj);
+>
+> OK, I'll try that, thanks!
+
+Hmm, I ended up doing
+
+-    object_property_set_link(OBJECT(&s->gcr), OBJECT(s->dram), "dram",
+-                             &error_abort);
++    object_property_add_const_link(OBJECT(&s->gcr), "dram-mr",
+OBJECT(s->dram));
+
+in realize() because s->dram isn't initialized yet in npcm7xx_init().
+Is this what you had in mind?
+
+Here's the diff from all the dram-related changes:
+
+diff --git a/include/hw/arm/npcm7xx.h b/include/hw/arm/npcm7xx.h
+index 39a1f28d8e..30e00a514d 100644
+--- a/include/hw/arm/npcm7xx.h
++++ b/include/hw/arm/npcm7xx.h
+@@ -28,6 +28,10 @@
+
+ #define NPCM7XX_MAX_NUM_CPUS    (2)
+
++/* The first half of the address space is reserved for DDR4 DRAM. */
++#define NPCM7XX_DRAM_BA         (0x00000000)
++#define NPCM7XX_DRAM_SZ         (2 * GiB)
++
+ /* Magic addresses for setting up direct kernel booting and SMP boot stubs=
+. */
+ #define NPCM7XX_LOADER_START            (0x00000000)  /* Start of SDRAM */
+ #define NPCM7XX_SMP_LOADER_START        (0xffff0000)  /* Boot ROM */
+diff --git a/include/hw/misc/npcm7xx_gcr.h b/include/hw/misc/npcm7xx_gcr.h
+index 49d699410f..4884676be2 100644
+--- a/include/hw/misc/npcm7xx_gcr.h
++++ b/include/hw/misc/npcm7xx_gcr.h
+@@ -68,7 +68,6 @@ typedef struct NPCM7xxGCRState {
+     uint32_t reset_pwron;
+     uint32_t reset_mdlr;
+     uint32_t reset_intcr3;
+-    MemoryRegion *dram;
+ } NPCM7xxGCRState;
+
+ #define TYPE_NPCM7XX_GCR "npcm7xx-gcr"
+diff --git a/hw/arm/npcm7xx.c b/hw/arm/npcm7xx.c
+index e64cf6a84c..a05a900197 100644
+--- a/hw/arm/npcm7xx.c
++++ b/hw/arm/npcm7xx.c
+@@ -26,10 +26,6 @@
+ #include "qemu/units.h"
+ #include "sysemu/sysemu.h"
+
+-/* The first half of the address space is reserved for DDR4 DRAM. */
+-#define NPCM7XX_DRAM_BA         (0x00000000)
+-#define NPCM7XX_DRAM_SZ         (2 * GiB)
+-
+ /*
+  * This covers the whole MMIO space. We'll use this to catch any MMIO acce=
+sses
+  * that aren't handled by any device.
+@@ -257,8 +253,7 @@ static void npcm7xx_realize(DeviceState *dev, Error **e=
+rrp)
+     /* System Global Control Registers (GCR) */
+     object_property_set_int(OBJECT(&s->gcr), nc->disabled_modules,
+                             "disabled-modules", &error_abort);
+-    object_property_set_link(OBJECT(&s->gcr), OBJECT(s->dram), "dram",
+-                             &error_abort);
++    object_property_add_const_link(OBJECT(&s->gcr), "dram-mr",
+OBJECT(s->dram));
+     sysbus_realize(SYS_BUS_DEVICE(&s->gcr), &error_abort);
+     sysbus_mmio_map(SYS_BUS_DEVICE(&s->gcr), 0, NPCM7XX_GCR_BA);
+
+@@ -326,13 +321,10 @@ static void npcm7xx_realize(DeviceState *dev,
+Error **errp)
+     memory_region_init_rom(&s->irom, OBJECT(dev), "irom", NPCM7XX_ROM_SZ,
+                            &error_abort);
+     memory_region_add_subregion(get_system_memory(), NPCM7XX_ROM_BA, &s->i=
+rom);
+-
+-    /* External DDR4 SDRAM */
+-    memory_region_add_subregion(get_system_memory(), NPCM7XX_DRAM_BA, s->d=
+ram);
+ }
+
+ static Property npcm7xx_properties[] =3D {
+-    DEFINE_PROP_LINK("dram", NPCM7xxState, dram, TYPE_MEMORY_REGION,
++    DEFINE_PROP_LINK("dram-mr", NPCM7xxState, dram, TYPE_MEMORY_REGION,
+                      MemoryRegion *),
+     DEFINE_PROP_END_OF_LIST(),
+ };
+diff --git a/hw/arm/npcm7xx_boards.c b/hw/arm/npcm7xx_boards.c
+index 2f66e699b1..cfb31ce6f5 100644
+--- a/hw/arm/npcm7xx_boards.c
++++ b/hw/arm/npcm7xx_boards.c
+@@ -83,21 +83,25 @@ static void npcm7xx_connect_flash(NPCM7xxFIUState
+*fiu, int cs_no,
+     sysbus_connect_irq(SYS_BUS_DEVICE(fiu), cs_no, flash_cs);
+ }
+
++static void npcm7xx_connect_dram(NPCM7xxState *soc, MemoryRegion *dram)
++{
++    memory_region_add_subregion(get_system_memory(), NPCM7XX_DRAM_BA, dram=
+);
++
++    object_property_set_link(OBJECT(soc), OBJECT(dram), "dram-mr",
++                             &error_abort);
++}
++
+ static NPCM7xxState *npcm7xx_create_soc(MachineState *machine,
+                                         uint32_t hw_straps)
+ {
+     NPCM7xxMachineClass *nmc =3D NPCM7XX_MACHINE_GET_CLASS(machine);
+-    NPCM7xxState *soc;
++    Object *obj;
+
+-    soc =3D NPCM7XX(object_new_with_props(nmc->soc_type, OBJECT(machine), =
+"soc",
+-                                        &error_abort, NULL));
+-    object_property_set_link(OBJECT(soc), OBJECT(machine->ram), "dram",
+-                             &error_abort);
+-    object_property_set_uint(OBJECT(soc), hw_straps, "power-on-straps",
+-                             &error_abort);
+-    qdev_realize(DEVICE(soc), NULL, &error_abort);
++    obj =3D object_new_with_props(nmc->soc_type, OBJECT(machine), "soc",
++                                &error_abort, NULL);
++    object_property_set_uint(obj, hw_straps, "power-on-straps", &error_abo=
+rt);
+
+-    return soc;
++    return NPCM7XX(obj);
+ }
+
+ static void npcm750_evb_init(MachineState *machine)
+@@ -105,6 +109,9 @@ static void npcm750_evb_init(MachineState *machine)
+     NPCM7xxState *soc;
+
+     soc =3D npcm7xx_create_soc(machine, NPCM750_EVB_POWER_ON_STRAPS);
++    npcm7xx_connect_dram(soc, machine->ram);
++    qdev_realize(DEVICE(soc), NULL, &error_abort);
++
+     npcm7xx_load_bootrom(soc);
+     npcm7xx_connect_flash(&soc->fiu[0], 0, "w25q256", drive_get(IF_MTD, 0,=
+ 0));
+     npcm7xx_load_kernel(machine, soc);
+@@ -115,6 +122,9 @@ static void quanta_gsj_init(MachineState *machine)
+     NPCM7xxState *soc;
+
+     soc =3D npcm7xx_create_soc(machine, QUANTA_GSJ_POWER_ON_STRAPS);
++    npcm7xx_connect_dram(soc, machine->ram);
++    qdev_realize(DEVICE(soc), NULL, &error_abort);
++
+     npcm7xx_load_bootrom(soc);
+     npcm7xx_connect_flash(&soc->fiu[0], 0, "mx25l25635e",
+                           drive_get(IF_MTD, 0, 0));
+diff --git a/hw/misc/npcm7xx_gcr.c b/hw/misc/npcm7xx_gcr.c
+index 78a885e265..9934cd238d 100644
+--- a/hw/misc/npcm7xx_gcr.c
++++ b/hw/misc/npcm7xx_gcr.c
+@@ -127,11 +127,16 @@ static void npcm7xx_gcr_realize(DeviceState
+*dev, Error **errp)
+ {
+     NPCM7xxGCRState *s =3D NPCM7XX_GCR(dev);
+     uint64_t dram_size;
++    Error *err =3D NULL;
++    Object *obj;
+
+-    if (!s->dram) {
+-        error_setg(errp, "npcm7xx_gcr: 'dram' link not set");
++    obj =3D object_property_get_link(OBJECT(dev), "dram-mr", &err);
++    if (!obj) {
++        error_setg(errp, "%s: required dram-mr link not found: %s",
++                   __func__, error_get_pretty(err));
+         return;
+     }
++    dram_size =3D memory_region_size(MEMORY_REGION(obj));
+
+     /* Power-on reset value */
+     s->reset_intcr3 =3D 0x00001002;
+@@ -149,7 +154,6 @@ static void npcm7xx_gcr_realize(DeviceState *dev,
+Error **errp)
+      *
+      * https://github.com/Nuvoton-Israel/u-boot/blob/2aef993bd2aafeb5408db=
+aad0f3ce099ee40c4aa/board/nuvoton/poleg/poleg.c#L244
+      */
+-    dram_size =3D int128_get64(s->dram->size);
+     if (dram_size >=3D 2 * GiB) {
+         s->reset_intcr3 |=3D 4 << 8;
+     } else if (dram_size >=3D 1 * GiB) {
+@@ -191,8 +195,6 @@ static const VMStateDescription vmstate_npcm7xx_gcr =3D=
+ {
+ static Property npcm7xx_gcr_properties[] =3D {
+     DEFINE_PROP_UINT32("disabled-modules", NPCM7xxGCRState, reset_mdlr, 0)=
+,
+     DEFINE_PROP_UINT32("power-on-straps", NPCM7xxGCRState, reset_pwron, 0)=
+,
+-    DEFINE_PROP_LINK("dram", NPCM7xxGCRState, dram, TYPE_MEMORY_REGION,
+-                     MemoryRegion *),
+     DEFINE_PROP_END_OF_LIST(),
+ };
 
