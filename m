@@ -2,81 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8982E218DF7
-	for <lists+qemu-devel@lfdr.de>; Wed,  8 Jul 2020 19:11:24 +0200 (CEST)
-Received: from localhost ([::1]:38184 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 27543218E27
+	for <lists+qemu-devel@lfdr.de>; Wed,  8 Jul 2020 19:21:59 +0200 (CEST)
+Received: from localhost ([::1]:49872 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jtDbP-0005Op-Kn
-	for lists+qemu-devel@lfdr.de; Wed, 08 Jul 2020 13:11:23 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:57162)
+	id 1jtDle-0002XY-77
+	for lists+qemu-devel@lfdr.de; Wed, 08 Jul 2020 13:21:58 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:59662)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1jtDa8-00045P-F3
- for qemu-devel@nongnu.org; Wed, 08 Jul 2020 13:10:04 -0400
-Received: from mail-ot1-x341.google.com ([2607:f8b0:4864:20::341]:46875)
+ (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
+ id 1jtDkP-0001Fu-Bg
+ for qemu-devel@nongnu.org; Wed, 08 Jul 2020 13:20:41 -0400
+Received: from indium.canonical.com ([91.189.90.7]:53862)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1jtDa5-0003Ai-PZ
- for qemu-devel@nongnu.org; Wed, 08 Jul 2020 13:10:03 -0400
-Received: by mail-ot1-x341.google.com with SMTP id n24so35266250otr.13
- for <qemu-devel@nongnu.org>; Wed, 08 Jul 2020 10:10:01 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=iCuXA/iQ2uGWqY3M5dYPGO4VtiB+D8mE8VxnJrmFoys=;
- b=b2MrkYlTdc5aG0Gd60aErLfudkekAs5ZLgaEXwoJdRBcq6f6k1lfn6QbhjfhMA23Yw
- wWkccZAc+bWijnSJJmfGTwEqx0/U74Je5nLpgMro3cc6N8ZJn94YSNJLM9rGLtVzyBGr
- Gx+NjjhflzALrP+cTdhvwLBKmYDqa4K3VwQ5hf0LWraYSv5EPJsjhTpTZ48iEJLS/lXy
- AcR/1KQ8tV4f+vYr8on6emtZb+E+5TfLE0ZfGhHr/6yRPH8XVA6iFqZioyTHUpTkf5jk
- JLdmfvsXer6vR/rh/2iTGDdz2RxemfS2Szkq6xclCJ3WA/1W7TPXPNbC/x3WP+eXlJzI
- 0+hQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=iCuXA/iQ2uGWqY3M5dYPGO4VtiB+D8mE8VxnJrmFoys=;
- b=BGcOhEQBD9ESdoCdZRxebs0mLSfTrHwIuoUsaF4hvCm4qc6I1wUOH9kngoZcZV/nY5
- YkG1Vr45uUgZmMWrU8k//fD7QWbFFd9qP7t32jAvs089u4WTP+Vv6Ayoa5FdvNo29c85
- HtvJ6B2m9lGhDISLl0xd+N/FaxX55CTtNpd6jhigTrmT44Q1xIQdsm3vpPdnJThbgK6N
- 50/dw6oSzPI5n4akuAu3WhcA8v0wBsE26orDVlajXuVm9qKqeO1qCRJsTwtYbjvgo7jf
- FYpqn/E/ALVkiId0l78Gl50upgybHUb3eFcT4PMdXxH+Rh6KUxJaPH69Cea/slrhlDqK
- u9xA==
-X-Gm-Message-State: AOAM5323xIsp7Lt33sIEUNSVlQA1tR7uXsto/DXjmzt6nLQtFWxqI3RU
- o8nZRw/2dJu9RxisMrtnf81yxm/n8/XmG/5HsDGm1A==
-X-Google-Smtp-Source: ABdhPJyO99EIVetRtwByqrZaKIUwHQMow8ePJUbSt0mJENRyhQUulSdLPxPphIfK2kg3fUdji745KBMGZZ0EKpYggMs=
-X-Received: by 2002:a9d:7303:: with SMTP id e3mr43141739otk.221.1594228200229; 
- Wed, 08 Jul 2020 10:10:00 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
+ id 1jtDkN-0004Vl-6Z
+ for qemu-devel@nongnu.org; Wed, 08 Jul 2020 13:20:40 -0400
+Received: from loganberry.canonical.com ([91.189.90.37])
+ by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
+ id 1jtDkK-0000AK-WB
+ for <qemu-devel@nongnu.org>; Wed, 08 Jul 2020 17:20:37 +0000
+Received: from loganberry.canonical.com (localhost [127.0.0.1])
+ by loganberry.canonical.com (Postfix) with ESMTP id C7A602E80F0
+ for <qemu-devel@nongnu.org>; Wed,  8 Jul 2020 17:20:36 +0000 (UTC)
 MIME-Version: 1.0
-References: <20200707204333.261506-1-bauerman@linux.ibm.com>
- <20200707214917.GX7276@habkost.net> <87y2nu3nxq.fsf@morokweng.localdomain>
- <c53b36b7-ee7b-bb66-8220-cce788fd631d@redhat.com>
- <20200708100038.GG18595@umbus.fritz.box>
- <CAFEAcA9V7Uha9-rz+JY-5HkazCWuTk1vkLnw1m9Lw-bXXKbkvw@mail.gmail.com>
- <20200708152540.GZ7276@habkost.net>
- <CAFEAcA8mFM-O=mgCQHNz4TNB5N3Trid2o95s0Nx7JVp_q_dSrw@mail.gmail.com>
- <20200708160316.GA7276@habkost.net>
-In-Reply-To: <20200708160316.GA7276@habkost.net>
-From: Peter Maydell <peter.maydell@linaro.org>
-Date: Wed, 8 Jul 2020 18:09:49 +0100
-Message-ID: <CAFEAcA89ueUQuVPC9O9xqbBBDEzdXmbCLL69OHvk0MJ=VvSnbw@mail.gmail.com>
-Subject: Re: [PATCH] cpu: Add starts_halted() method
-To: Eduardo Habkost <ehabkost@redhat.com>
-Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2607:f8b0:4864:20::341;
- envelope-from=peter.maydell@linaro.org; helo=mail-ot1-x341.google.com
-X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
- That's all we know.
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: quoted-printable
+Date: Wed, 08 Jul 2020 17:12:30 -0000
+From: Laurent Vivier <1886811@bugs.launchpad.net>
+To: qemu-devel@nongnu.org
+X-Launchpad-Notification-Type: bug
+X-Launchpad-Bug: product=qemu; status=New; importance=Undecided; assignee=None;
+X-Launchpad-Bug: distribution=debian; sourcepackage=qemu; component=main;
+ status=Unknown; importance=Unknown; assignee=None; 
+X-Launchpad-Bug-Tags: linux-user
+X-Launchpad-Bug-Information-Type: Public
+X-Launchpad-Bug-Private: no
+X-Launchpad-Bug-Security-Vulnerability: no
+X-Launchpad-Bug-Commenters: emojifreak laurent-vivier
+X-Launchpad-Bug-Reporter: Ryutaroh Matsumoto (emojifreak)
+X-Launchpad-Bug-Modifier: Laurent Vivier (laurent-vivier)
+References: <159420830935.32230.13858618076699173558.malonedeb@gac.canonical.com>
+Message-Id: <159422835063.26722.15104358349628207854.malone@wampee.canonical.com>
+Subject: [Bug 1886811] Re: systemd complains Failed to enqueue loopback
+ interface start request: Operation not supported
+X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
+X-Launchpad-Message-For: qemu-devel-ml
+Precedence: bulk
+X-Generated-By: Launchpad (canonical.com);
+ Revision="b24753402d6321ed1b9083e580f5f014a46bab00";
+ Instance="production-secrets-lazr.conf"
+X-Launchpad-Hash: 7f70c89b796bc28603b5e4ec5b3136e1b961caca
+Received-SPF: none client-ip=91.189.90.7; envelope-from=bounces@canonical.com;
+ helo=indium.canonical.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/07/08 13:20:37
+X-ACL-Warn: Detected OS   = Linux 3.11 and newer [fuzzy]
+X-Spam_score_int: -58
+X-Spam_score: -5.9
+X-Spam_bar: -----
+X-Spam_report: (-5.9 / 5.0 requ) BAYES_00=-1.9, HEADER_FROM_DIFFERENT_DOMAINS=1,
+ RCVD_IN_DNSWL_HI=-5, RCVD_IN_MSPIKE_H3=-0.01, RCVD_IN_MSPIKE_WL=-0.01,
+ SPF_HELO_NONE=0.001, SPF_NONE=0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
-Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -85,47 +75,69 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Laurent Vivier <lvivier@redhat.com>, Thomas Huth <thuth@redhat.com>,
- =?UTF-8?B?QWxleCBCZW5uw6ll?= <alex.bennee@linaro.org>,
- QEMU Developers <qemu-devel@nongnu.org>, qemu-ppc <qemu-ppc@nongnu.org>,
- =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <philmd@redhat.com>,
- Thiago Jung Bauermann <bauerman@linux.ibm.com>,
- David Gibson <david@gibson.dropbear.id.au>
+Reply-To: Bug 1886811 <1886811@bugs.launchpad.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Wed, 8 Jul 2020 at 17:03, Eduardo Habkost <ehabkost@redhat.com> wrote:
->
-> On Wed, Jul 08, 2020 at 04:32:51PM +0100, Peter Maydell wrote:
-> > On Wed, 8 Jul 2020 at 16:25, Eduardo Habkost <ehabkost@redhat.com> wrote:
-> > > On Wed, Jul 08, 2020 at 02:14:03PM +0100, Peter Maydell wrote:
-> > > > The original bug as described in the commit message sounds
-> > > > to me like something we should look to fix in the implementation
-> > > > of async_run_on_cpu() -- it shouldn't cause a CPU that's halfway
-> > > > through reset to do a KVM_RUN or otherwise run guest code,
-> > > > whether that CPU is going to start powered-up or powered-down.
-> > >
-> > > What "halfway through reset" means, exactly?  Isn't halted==1
-> > > enough to indicate the CPU is in that state?
-> >
-> > I mean "while we're in the middle of the CPU method that's
-> > called by cpu_reset()". "halted==1" says "the CPU is halted";
-> > that's not the same thing. KVM_RUN happening
-> > as a side effect in the middle of that code is a bug
-> > whether the CPU happens to be intended to be put into the
-> > halted state or not. If the CPU is intended to be created
-> > not-halted then KVM_RUN can happen after cpu reset
-> > completes, but not before.
->
-> Wait, I thought we already had mechanisms to prevent that from
-> happening.  Otherwise, it would never be safe for cpu_reset() to
-> touch the CPU registers.
+It would help to know which operation is not supported.
 
-Exactly. It appears that there's a bug in our mechanisms,
-which is why I'm suggesting that the right thing is
-to fix that bug rather than marking the CPU as halted
-earlier in the reset process so that the KVM_RUN happens
-to do nothing...
+Could you get the coredump?
+Is it possible to run the operation with "QEMU_STRACE" set in the environme=
+nt?
+Normally loop ioctls are supported.
 
--- PMM
+But it seems the following ones are not implemented in QEMU:
+LOOP_SET_CAPACITY, LOOP_SET_DIRECT_IO, LOOP_SET_BLOCK_SIZE.
+
+** Tags added: linux-user
+
+-- =
+
+You received this bug notification because you are a member of qemu-
+devel-ml, which is subscribed to QEMU.
+https://bugs.launchpad.net/bugs/1886811
+
+Title:
+  systemd complains Failed to enqueue loopback interface start request:
+  Operation not supported
+
+Status in QEMU:
+  New
+Status in qemu package in Debian:
+  Unknown
+
+Bug description:
+  This symptom seems similar to
+  https://bugs.launchpad.net/qemu/+bug/1823790
+
+  Host Linux: Debian 11 Bullseye (testing) on x84-64 architecture
+  qemu version: latest git of git commit hash eb2c66b10efd2b914b56b20ae9065=
+5914310c925
+  compiled with "./configure --static --disable-system" =
+
+
+  Down stream bug report at https://bugs.debian.org/cgi-bin/bugreport.cgi?b=
+ug=3D964289
+  Bug report (closed) to systemd: https://github.com/systemd/systemd/issues=
+/16359
+
+  systemd in armhf and armel (both little endian 32-bit) containers fail to=
+ start with
+  Failed to enqueue loopback interface start request: Operation not support=
+ed
+
+  How to reproduce on Debian (and probably Ubuntu):
+  mmdebstrap --components=3D"main contrib non-free" --architectures=3Darmhf=
+ --variant=3Dimportant bullseye /var/lib/machines/armhf-bullseye
+  systemd-nspawn -D /var/lib/machines/armhf-bullseye -b
+
+  When "armhf" architecture is replaced with "mips" (32-bit big endian) or =
+"ppc64"
+  (64-bit big endian), the container starts up fine.
+
+  The same symptom is also observed with "powerpc" (32-bit big endian)
+  architecture.
+
+To manage notifications about this bug go to:
+https://bugs.launchpad.net/qemu/+bug/1886811/+subscriptions
 
