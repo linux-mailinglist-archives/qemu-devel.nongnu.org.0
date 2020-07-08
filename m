@@ -2,70 +2,79 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3DF3C218C97
-	for <lists+qemu-devel@lfdr.de>; Wed,  8 Jul 2020 18:10:44 +0200 (CEST)
-Received: from localhost ([::1]:51028 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id BBA6F219387
+	for <lists+qemu-devel@lfdr.de>; Thu,  9 Jul 2020 00:35:31 +0200 (CEST)
+Received: from localhost ([::1]:33372 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jtCeh-00053B-Az
-	for lists+qemu-devel@lfdr.de; Wed, 08 Jul 2020 12:10:43 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:41670)
+	id 1jtIf4-0004DR-MH
+	for lists+qemu-devel@lfdr.de; Wed, 08 Jul 2020 18:35:30 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:46266)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <stefanha@gmail.com>)
- id 1jtCda-00048I-Ja
- for qemu-devel@nongnu.org; Wed, 08 Jul 2020 12:09:35 -0400
-Received: from mail-pf1-x433.google.com ([2607:f8b0:4864:20::433]:36915)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <stefanha@gmail.com>)
- id 1jtCdZ-0002wM-8P
- for qemu-devel@nongnu.org; Wed, 08 Jul 2020 12:09:34 -0400
-Received: by mail-pf1-x433.google.com with SMTP id s26so6530829pfm.4
- for <qemu-devel@nongnu.org>; Wed, 08 Jul 2020 09:09:32 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=cSfW7swPtf9W5qYNFaxoQbgmanbiHWZP73CaWNGOiKI=;
- b=VUZy0M5tjGWs0Q6vyeYnt/njF8MCNpU+ecYz1z2ZwSZw46HxhF2X+Jnj2VH6U1a54f
- uzMJjMwJuDxGhx8rvuX1b7SM8nFR09cwMTNip6O5PqEub8rq1+Sb71h2qoHdK7yk4OX6
- /Qfi20eljYNfjI85I4t8mLMdyBFVVlPBvJN2xBbVJRB8m8F8RpvRPYXet0KYtqwgYkZ1
- RzHhJM3EDYDgiTBK+QSRx+WjIg5en15cNZHWqUFbyBmUkq9TjZWr0KIPZ3dRjR9hdMFo
- +y/3gE4aPVf4uBkl1qpPYiJPy4HbJYtStMmltA047oBR3mUoT4tcsHz4iM0V6CRldKfy
- AWHw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=cSfW7swPtf9W5qYNFaxoQbgmanbiHWZP73CaWNGOiKI=;
- b=AT8YFAjhQQ2/KYR6NzJ1eE3tUm9bUhxz6kjGpEQCfizJ34x42EsMbw4nDi/sM58/1S
- f4oD/xFIfNAgFukwzrOZnPzzX8fkJG8p18Sg20tbnoNjRPOm30hPO4jmiglbJwVMbLtg
- B4Myl4EBASQ59WN6zdmIKQUQ8tYukm5frOp9K3r33ABzjaIUzODO+BvT3iOq6OQRDwA/
- hNjR8AN4+cMn0agu3eDt24RF0hVkTzt9YIXP75fuaQok0eNuPvJTcKiG/yNokNi4AIoz
- LJjQrdtLZNuOsfHMiYWWqRLOnTpFQG3scvNtF67/PPJ0LzuU6S3itf0U9+Saeetak7mm
- qALg==
-X-Gm-Message-State: AOAM531rGNtFi3AbdGTNTJAfaVLfiqaBH29Rl7QKh9GYb8DldZ2j0gFA
- 70Kx5N2wo5xI0kzJDavQdIXowgVuVJUFRNat54Al0QSiivg=
-X-Google-Smtp-Source: ABdhPJw/fNWJHKXX2gq2HTmyopyUJ+9I3BPvAfsUHtFwQ5IX5a0ylk30dfJGF/CBbrDOcxyiDEkkL3SYZiOmLZwFyFA=
-X-Received: by 2002:a63:2b91:: with SMTP id r139mr52803339pgr.61.1594224571432; 
- Wed, 08 Jul 2020 09:09:31 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <mlevitsk@redhat.com>)
+ id 1jtIJd-00017e-TT
+ for qemu-devel@nongnu.org; Wed, 08 Jul 2020 18:13:21 -0400
+Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:60417
+ helo=us-smtp-1.mimecast.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <mlevitsk@redhat.com>)
+ id 1jtIJc-0008C7-7k
+ for qemu-devel@nongnu.org; Wed, 08 Jul 2020 18:13:21 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1594246399;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=mqdM65JrbypnzjtpGUVHxwhutLPTSkR5SoLRuq6JJ+I=;
+ b=T5r5wu8rs4WpDBs32+Esa5s+LO01TLlhki0ApDLnCXI+XU2dTHLbYR1UM7gqj/a3lJfrtL
+ rp+yKx/Qy9qUP/5wV2gHKSwXBxQAQ0+LoW0YLj0u4hhebc7/TGXAYI/nJ4/5fJUlpOSIqp
+ i/TwO1FbTvZ2/VH0Llrae2Xw5bwcTK0=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-320-DHCiEE5pMRKVqj3LszPDcQ-1; Wed, 08 Jul 2020 12:11:15 -0400
+X-MC-Unique: DHCiEE5pMRKVqj3LszPDcQ-1
+Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
+ [10.5.11.15])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 3142788C7A5;
+ Wed,  8 Jul 2020 16:11:14 +0000 (UTC)
+Received: from starship (unknown [10.35.206.80])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 20513C0087;
+ Wed,  8 Jul 2020 16:11:08 +0000 (UTC)
+Message-ID: <8995e3e3eac07900eefc3d1df4b75b06df292e34.camel@redhat.com>
+Subject: Re: [PATCH v8 11/14] block/core: add generic infrastructure for
+ x-blockdev-amend qmp command
+From: Maxim Levitsky <mlevitsk@redhat.com>
+To: Gerd Hoffmann <kraxel@redhat.com>
+Date: Wed, 08 Jul 2020 19:11:07 +0300
+In-Reply-To: <20200708142312.beexccqrg2n4ma6m@sirius.home.kraxel.org>
+References: <20200608094030.670121-1-mlevitsk@redhat.com>
+ <20200608094030.670121-12-mlevitsk@redhat.com>
+ <20200708123329.udy3k7ewtbcztjin@sirius.home.kraxel.org>
+ <71ce9ceb32e5bd8f18cd26621e380df364f25cb7.camel@redhat.com>
+ <20200708142312.beexccqrg2n4ma6m@sirius.home.kraxel.org>
+User-Agent: Evolution 3.34.4 (3.34.4-1.fc31)
 MIME-Version: 1.0
-References: <CAJSP0QV3uB4QY6mzw2JFDedr0PJhGkU5FdmLF5PbjMPyxiYSuw@mail.gmail.com>
-In-Reply-To: <CAJSP0QV3uB4QY6mzw2JFDedr0PJhGkU5FdmLF5PbjMPyxiYSuw@mail.gmail.com>
-From: Stefan Hajnoczi <stefanha@gmail.com>
-Date: Wed, 8 Jul 2020 17:09:19 +0100
-Message-ID: <CAJSP0QXeOCG+7dQjm38gXrbPZaiyfMKzHFhaaG5s+Ya7_0n7yg@mail.gmail.com>
-Subject: Re: Migrating custom qemu.org infrastructure to GitLab
-To: qemu-devel <qemu-devel@nongnu.org>
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=mlevitsk@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2607:f8b0:4864:20::433;
- envelope-from=stefanha@gmail.com; helo=mail-pf1-x433.google.com
-X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
- That's all we know.
-X-Spam_score_int: -10
-X-Spam_score: -1.1
-X-Spam_bar: -
-X-Spam_report: (-1.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
- PDS_TONAME_EQ_TOLOCAL_SHORT=1, RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=no autolearn_force=no
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=205.139.110.120; envelope-from=mlevitsk@redhat.com;
+ helo=us-smtp-1.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/07/07 17:25:11
+X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
+X-Spam_score_int: -40
+X-Spam_score: -4.1
+X-Spam_bar: ----
+X-Spam_report: (-4.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-1, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -78,25 +87,55 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Maydell <peter.maydell@linaro.org>, Thomas Huth <thuth@redhat.com>,
- "Daniel P. Berrange" <berrange@redhat.com>, Cleber Rosa <cleber@redhat.com>,
- Jeff Cody <codyprime@gmail.com>,
- =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <philmd@redhat.com>,
- Michael Roth <mdroth@linux.vnet.ibm.com>, Paolo Bonzini <pbonzini@redhat.com>,
- =?UTF-8?B?QWxleCBCZW5uw6ll?= <alex.bennee@linaro.org>
+Cc: Kevin Wolf <kwolf@redhat.com>,
+ "Daniel P. =?ISO-8859-1?Q?Berrang=E9?=" <berrange@redhat.com>,
+ qemu-block@nongnu.org, qemu-devel@nongnu.org,
+ Markus Armbruster <armbru@redhat.com>, Max Reitz <mreitz@redhat.com>,
+ John Snow <jsnow@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Wed, Jul 8, 2020 at 10:52 AM Stefan Hajnoczi <stefanha@gmail.com> wrote:
+On Wed, 2020-07-08 at 16:23 +0200, Gerd Hoffmann wrote:
+> On Wed, Jul 08, 2020 at 04:06:45PM +0300, Maxim Levitsky wrote:
+> > On Wed, 2020-07-08 at 14:33 +0200, Gerd Hoffmann wrote:
+> > > On Mon, Jun 08, 2020 at 12:40:27PM +0300, Maxim Levitsky wrote:
+> > > > blockdev-amend will be used similiar to blockdev-create
+> > > > to allow on the fly changes of the structure of the format based block devices.
+> > > 
+> > > This one breaks the build:
+> > > 
+> > > In file included from /home/kraxel/projects/qemu/include/block/throttle-groups.h:29,
+> > >                  from /home/kraxel/projects/qemu/include/sysemu/block-backend.h:17,
+> > >                  from /home/kraxel/projects/qemu/qemu-img.c:46:
+> > > /home/kraxel/projects/qemu/include/block/block_int.h:154:39: error: unknown type name ‘BlockdevAmendOptions’; did you mean ‘BlockdevAioOptions’?
+> > >                                        BlockdevAmendOptions *opts,
+> > >                                        ^~~~~~~~~~~~~~~~~~~~
+> > >                                        BlockdevAioOptions
+> > > make: *** [/home/kraxel/projects/qemu/rules.mak:69: qemu-img.o] Error 1
+> > > 
+> > > take care,
+> > >   Gerd
+> > > 
+> > 
+> > Apparently I didn't add #include of qapi-types-block-core.h in block_int.h (I'll fix this in a patch soon),
+> > but it looks like throttle-groups.h includes "qemu/throttle.h" which includes "qapi/qapi-types-block-core.h",
+> > so it should be included explicitly here.
+> 
+> Ok, scratch that.
+> 
+> Seems this came from stale files still being around from an in-tree
+> build.  Dunno how that happened, usually I do out-of-tree builds
+> exclusively.
+> 
+> sorry for the extra work,
+>   Gerd
+> 
+No problem!
 
-Great, thanks for all the responses!
+I will send a patch to fix the include anyway though in few days.
 
-Since others are interested in qemu-web.git, the wiki, and the bug
-tracker, I will investigate git repo hosting (mirrors).
+Best regards,
+	Maxim levitsky
 
-I'll send an update once I have more experience with GitLab and a
-proposal for how to perform the switch. If anyone objects we can
-discuss their concerns.
 
-Stefan
 
