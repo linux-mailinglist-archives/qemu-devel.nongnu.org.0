@@ -2,88 +2,101 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A10A721945E
-	for <lists+qemu-devel@lfdr.de>; Thu,  9 Jul 2020 01:35:20 +0200 (CEST)
-Received: from localhost ([::1]:53890 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 99D092194CF
+	for <lists+qemu-devel@lfdr.de>; Thu,  9 Jul 2020 02:03:01 +0200 (CEST)
+Received: from localhost ([::1]:47320 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jtJax-0006gw-Mr
-	for lists+qemu-devel@lfdr.de; Wed, 08 Jul 2020 19:35:19 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:36720)
+	id 1jtK1k-0000hw-Nl
+	for lists+qemu-devel@lfdr.de; Wed, 08 Jul 2020 20:03:00 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:40922)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mlureau@redhat.com>)
- id 1jtJZt-0005OB-FA
- for qemu-devel@nongnu.org; Wed, 08 Jul 2020 19:34:14 -0400
-Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:49169
- helo=us-smtp-1.mimecast.com)
+ (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
+ id 1jtJzw-0008Rq-BG
+ for qemu-devel@nongnu.org; Wed, 08 Jul 2020 20:01:08 -0400
+Received: from us-smtp-1.mimecast.com ([207.211.31.81]:36745
+ helo=us-smtp-delivery-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <mlureau@redhat.com>)
- id 1jtJZr-0001zC-IU
- for qemu-devel@nongnu.org; Wed, 08 Jul 2020 19:34:12 -0400
+ (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
+ id 1jtJzs-0005FB-BO
+ for qemu-devel@nongnu.org; Wed, 08 Jul 2020 20:01:07 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1594251250;
+ s=mimecast20190719; t=1594252862;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=LoifMGgxTePknvrNXEUK97vhczdQZqBwq4sKBctm3k4=;
- b=YQ4f36/4oahm+tccJgQJo5cUnOm4V9jOso+w2wzHUdKMRtNDgTUsJeDCZcKHomQzZnhIYb
- kVMXdIbz6WN72f2xPIAJTBmkHIwN/V5hAoAFrYFTHWzjZYnjLN8mUFZ53X/xcvVeIsx1OG
- x+VJweHgiTpuOQ34bUZwr/v5nbuhl94=
-Received: from mail-io1-f71.google.com (mail-io1-f71.google.com
- [209.85.166.71]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-50-y8r62kXkP2q1DpRQisa42g-1; Wed, 08 Jul 2020 03:30:49 -0400
-X-MC-Unique: y8r62kXkP2q1DpRQisa42g-1
-Received: by mail-io1-f71.google.com with SMTP id a10so5095727ioc.23
- for <qemu-devel@nongnu.org>; Wed, 08 Jul 2020 00:30:48 -0700 (PDT)
+ bh=5KlhHp/7kWZ3WBnMdu7vyCbLvYFlWuleoFLwyuYzvi8=;
+ b=e4S6DAFKdIyWTWFXkNMunE7ZmX+CybjYt8fTcuDT/jg6i1wbAHw3fgOI99JNn0sthKfEkA
+ DLqVPRzzKRZWSUQLfh4grZvZbmGRqvOmcCEHpwavy5QkpVK2hb9NRjsDCnXfMFZz4o1elv
+ wy/q16p9Ka4iUG8lmX26haxPTrUCQgQ=
+Received: from mail-wm1-f72.google.com (mail-wm1-f72.google.com
+ [209.85.128.72]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-252-w6xiifn2PYepgTCqW7TQAA-1; Wed, 08 Jul 2020 03:58:21 -0400
+X-MC-Unique: w6xiifn2PYepgTCqW7TQAA-1
+Received: by mail-wm1-f72.google.com with SMTP id l5so2180438wml.7
+ for <qemu-devel@nongnu.org>; Wed, 08 Jul 2020 00:58:20 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc:content-transfer-encoding;
- bh=LoifMGgxTePknvrNXEUK97vhczdQZqBwq4sKBctm3k4=;
- b=UL4PV+faUTq+j24PIVR0eN3AtVE6F86oNCpWVmaq+XLvtvOIEpfDcEyHfwo/TJ3MZj
- th6LlDYKGT0LA5DsOZK1GKRDEnGQJH0QytRdxppoU/soI+T7zui+sVU2R6YD460tsELK
- JlOU9gDvpdcBGuUm3x3dezsR+MPEJPsZ9zGdqzYUziPDZboUJxw0Yy5Fmnsb413TSP/g
- Q7ZhzfQa4uF4JzTjK3iZS8UYaqGkbF4uRZ2qIR7j+a8ESK50+z5L/krL62RsFDRp9N+f
- C47LwNO12pbUsai3Oh2ssFL1IkSiamtqsYvmXSrlz9m/8nOptzmGWIQl5QjPBq7lyC7i
- h8fQ==
-X-Gm-Message-State: AOAM530MJFGJ1sSyvd3LvOjn0YJa4Rf+ua8EQ0TAcrUtj46h+nsu5KX0
- iDd8pS7+9BeAqHXgXINqQDgEeQZv2FDVTRid/rrou1QNqa7i/UfbZvkxWZbxiCuxHPm0yCyQrpE
- xtVQDmDiA4n38WN8DkVB3tIKvz13m+Sw=
-X-Received: by 2002:a05:6e02:e43:: with SMTP id
- l3mr38859753ilk.11.1594193448405; 
- Wed, 08 Jul 2020 00:30:48 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJyNi/xpzmXoF7pj5Gou1pjaGUzRkj0ygB6dEC2GuwEP/Yh35Ia5fhV7j1ML2RbhDTc/n32L3eNrmalqXU298bg=
-X-Received: by 2002:a05:6e02:e43:: with SMTP id
- l3mr38859731ilk.11.1594193448196; 
- Wed, 08 Jul 2020 00:30:48 -0700 (PDT)
+ h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=5KlhHp/7kWZ3WBnMdu7vyCbLvYFlWuleoFLwyuYzvi8=;
+ b=fT8VjXWP7sibOgRrwxU68RFV6ufknUkgzzHvShcFYjMAZg81VQJyueJqzjBFpY4s+1
+ YwtGDbtdPoHAygFJr8+OsjUZzLR3IlzN32jJ6Qjhwc/Tf/x5AuabBpBzcsLpRnwdRnch
+ 011HUesgTe8MruawiyvOrYGA/0f8Bwjch7JlizY1CTjGGUjYVojsUULXmQttnuzFCnDA
+ PzAeEpfo5TnIN0LD62IyhSH7yTNiokRuUEi4ZydVBxsqrmMZUs2RsrOKLw7C6DCEkY2T
+ AH8+ww2KruEtf5FmG06sgi0s/mbeyu+ZNrgg6vIn+IsX6wzCAbm/qNjO1EPsv3tkgfVC
+ DirA==
+X-Gm-Message-State: AOAM533BEMGaQV4j3UsL9He97xvnNNJRx2MkAcwPbR0JZIAO8/GwSHon
+ FI4LWRBccZg/NaKOO/2jYJ1SJp5MMGrbVlnHCH+0uuJf9Lb+xmIWZWkNVpHu7PnIBMIWFp5q4nt
+ XIqSbjLuC+x6Sclc=
+X-Received: by 2002:adf:e3c9:: with SMTP id k9mr55092779wrm.379.1594195100033; 
+ Wed, 08 Jul 2020 00:58:20 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJw/bedp8bdgAfiWEZDbwZ+FjkgjutqrqAoc7wQPOkSp+/54Hwm/rCEbtrPXfnBGHHiEd/xLUQ==
+X-Received: by 2002:adf:e3c9:: with SMTP id k9mr55092761wrm.379.1594195099799; 
+ Wed, 08 Jul 2020 00:58:19 -0700 (PDT)
+Received: from ?IPv6:2001:b07:6468:f312:9541:9439:cb0f:89c?
+ ([2001:b07:6468:f312:9541:9439:cb0f:89c])
+ by smtp.gmail.com with ESMTPSA id u84sm4683982wmg.7.2020.07.08.00.58.18
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Wed, 08 Jul 2020 00:58:19 -0700 (PDT)
+Subject: Re: [RFC v2 3/6] cpus: extract out kvm-specific code to accel/kvm
+To: Claudio Fontana <cfontana@suse.de>, Thomas Huth <thuth@redhat.com>,
+ Laurent Vivier <lvivier@redhat.com>, =?UTF-8?Q?Alex_Benn=c3=a9e?=
+ <alex.bennee@linaro.org>, Peter Maydell <peter.maydell@linaro.org>,
+ =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>,
+ Roman Bolshakov <r.bolshakov@yadro.com>,
+ Markus Armbruster <armbru@redhat.com>
+References: <20200707135808.9241-1-cfontana@suse.de>
+ <20200707135808.9241-4-cfontana@suse.de>
+ <dc01dc35-c053-656c-72f5-87cad56706fb@redhat.com>
+ <3f7f56ea-7b1d-106d-9f84-2d618aa5e7c9@suse.de>
+From: Paolo Bonzini <pbonzini@redhat.com>
+Message-ID: <ece0b845-fbe2-514f-1207-826c01240f2e@redhat.com>
+Date: Wed, 8 Jul 2020 09:58:17 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.9.0
 MIME-Version: 1.0
-References: <20200707201625.4177419-1-stefanb@linux.vnet.ibm.com>
- <20200707201625.4177419-3-stefanb@linux.vnet.ibm.com>
-In-Reply-To: <20200707201625.4177419-3-stefanb@linux.vnet.ibm.com>
-From: =?UTF-8?B?TWFyYy1BbmRyw6kgTHVyZWF1?= <marcandre.lureau@redhat.com>
-Date: Wed, 8 Jul 2020 11:30:36 +0400
-Message-ID: <CAMxuvawBjKum=0HD8pKUuZ-rqFKEt-=67MUZknq2N-h6Mo4GNA@mail.gmail.com>
-Subject: Re: [PATCH v3 2/2] tests: tpm: Skip over pcrUpdateCounter byte in
- result comparison
-To: Stefan Berger <stefanb@linux.vnet.ibm.com>
+In-Reply-To: <3f7f56ea-7b1d-106d-9f84-2d618aa5e7c9@suse.de>
+Content-Language: en-US
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=mlureau@redhat.com
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=pbonzini@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=205.139.110.120; envelope-from=mlureau@redhat.com;
- helo=us-smtp-1.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/07/07 17:25:11
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=207.211.31.81; envelope-from=pbonzini@redhat.com;
+ helo=us-smtp-delivery-1.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/07/07 17:25:09
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
-X-Spam_score_int: -40
-X-Spam_score: -4.1
-X-Spam_bar: ----
-X-Spam_report: (-4.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1,
+X-Spam_score_int: -30
+X-Spam_score: -3.1
+X-Spam_bar: ---
+X-Spam_report: (-3.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-1, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H3=-0.01, RCVD_IN_MSPIKE_WL=-0.01,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -96,52 +109,64 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Stefan Berger <stefanb@linux.ibm.com>, qemu-ppc <qemu-ppc@nongnu.org>,
- qemu-devel <qemu-devel@nongnu.org>, David Gibson <david@gibson.dropbear.id.au>
+Cc: Eduardo Habkost <ehabkost@redhat.com>, Colin Xu <colin.xu@intel.com>,
+ Marcelo Tosatti <mtosatti@redhat.com>, qemu-devel@nongnu.org,
+ haxm-team@intel.com, Wenchao Wang <wenchao.wang@intel.com>,
+ Sunil Muthuswamy <sunilmut@microsoft.com>, Richard Henderson <rth@twiddle.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Wed, Jul 8, 2020 at 12:16 AM Stefan Berger
-<stefanb@linux.vnet.ibm.com> wrote:
+On 08/07/20 09:40, Claudio Fontana wrote:
+> Ciao Paolo,
+> 
+> On 7/7/20 7:01 PM, Paolo Bonzini wrote:
+>> On 07/07/20 15:58, Claudio Fontana wrote:
+>>> +static void kvm_kick_vcpu_thread(CPUState *cpu)
+>>> +{
+>>> +    cpus_kick_thread(cpu);
+>>> +}
+>>> +
+>>
+>> I would just use cpus_kick_thread instead of wrapping it (and likewise
+> 
+> Here I left the common code in cpus_kick_thread, which is just used "as is" for kvm,
+> but for hax f.e. we have:
+> 
+> [...]
 >
-> The TPM 2 code in libtpms was fixed to handle the PCR 'TCB group' accordi=
-ng
-> to the PCClient profile. The change of the PCRs belonging to the 'TCB gro=
-up'
-> now affects the pcrUpdateCounter in the TPM2_PCRRead() responses where it=
-s
-> value is now different (typically lower by '1') than what it was before. =
-To
-> not fail the tests, we skip the comparison of the 14th byte, which
-> represents the pcrUpdateCounter.
->
-> Signed-off-by: Stefan Berger <stefanb@linux.ibm.com>
+> Maybe we will need additional code that specializes the kick also for HVF?
+> 
+> I cannot run cpus_kick_thread for _all_ accels, because it is not good for Windows (whpx and hax-windows).
 
-Reviewed-by: Marc-Andr=C3=A9 Lureau <marcandre.lureau@redhat.com>
+Yeah, I meant just initialize the function pointer with
+cpus_kick_thread, instead of having the wrapper, similar to the global
+noops.
 
-> ---
->  tests/qtest/tpm-util.c | 6 +++++-
->  1 file changed, 5 insertions(+), 1 deletion(-)
->
-> diff --git a/tests/qtest/tpm-util.c b/tests/qtest/tpm-util.c
-> index 34efae8f18..58a9593745 100644
-> --- a/tests/qtest/tpm-util.c
-> +++ b/tests/qtest/tpm-util.c
-> @@ -139,7 +139,11 @@ void tpm_util_pcrread(QTestState *s, tx_func *tx,
->
->      tx(s, tpm_pcrread, sizeof(tpm_pcrread), buffer, sizeof(buffer));
->
-> -    g_assert_cmpmem(buffer, exp_resp_size, exp_resp, exp_resp_size);
-> +    /* skip pcrUpdateCounter (14th byte) in comparison */
-> +    g_assert(exp_resp_size >=3D 15);
-> +    g_assert_cmpmem(buffer, 13, exp_resp, 13);
-> +    g_assert_cmpmem(&buffer[14], exp_resp_size - 14,
-> +                    &exp_resp[14], exp_resp_size - 14);
->  }
->
->  bool tpm_util_swtpm_has_tpm2(void)
-> --
-> 2.24.1
->
+>> would provide a global function for noop synchronization).
+> 
+> I will look into providing global noops, thanks!
+> 
+>> start_vcpu_thread is also a candidate for abstraction, so that
+> 
+> Thanks, will look into this!
+> The accel that I expect will resist this will be tcg, but will try to fit it.
+
+Yes, no problem if some of them are different.
+
+Paolo
+
+> 
+>> kvm_start_vcpu_thread(CPUState *cpu) would be just
+>>
+>> 	qemu_start_vcpu_thread(cpu, "KVM", kvm_vcpu_thread_fn);
+>>
+>> Paolo
+>>
+>>
+> 
+> Ciao,
+> 
+> Claudio
+> 
 
 
