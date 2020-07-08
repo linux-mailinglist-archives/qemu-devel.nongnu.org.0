@@ -2,68 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 788BC2193D4
-	for <lists+qemu-devel@lfdr.de>; Thu,  9 Jul 2020 00:52:15 +0200 (CEST)
-Received: from localhost ([::1]:57712 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E82362193D7
+	for <lists+qemu-devel@lfdr.de>; Thu,  9 Jul 2020 00:54:01 +0200 (CEST)
+Received: from localhost ([::1]:36934 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jtIvG-0004f7-FJ
-	for lists+qemu-devel@lfdr.de; Wed, 08 Jul 2020 18:52:14 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:48726)
+	id 1jtIwy-0007j5-UZ
+	for lists+qemu-devel@lfdr.de; Wed, 08 Jul 2020 18:54:00 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:48742)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <jcmvbkbc@gmail.com>)
- id 1jtIRx-0002T7-NI
- for qemu-devel@nongnu.org; Wed, 08 Jul 2020 18:21:57 -0400
-Received: from mail-pg1-x52d.google.com ([2607:f8b0:4864:20::52d]:32954)
+ id 1jtIRy-0002VX-MT
+ for qemu-devel@nongnu.org; Wed, 08 Jul 2020 18:21:58 -0400
+Received: from mail-pg1-x52c.google.com ([2607:f8b0:4864:20::52c]:39843)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <jcmvbkbc@gmail.com>)
- id 1jtIRv-00014r-Bj
- for qemu-devel@nongnu.org; Wed, 08 Jul 2020 18:21:57 -0400
-Received: by mail-pg1-x52d.google.com with SMTP id o13so38731pgf.0
- for <qemu-devel@nongnu.org>; Wed, 08 Jul 2020 15:21:54 -0700 (PDT)
+ id 1jtIRw-000155-Al
+ for qemu-devel@nongnu.org; Wed, 08 Jul 2020 18:21:58 -0400
+Received: by mail-pg1-x52c.google.com with SMTP id z5so24901pgb.6
+ for <qemu-devel@nongnu.org>; Wed, 08 Jul 2020 15:21:55 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=Fw5/uBouUwvOQQRqodgCjA158tcUzLdiGtbVVyhhVBA=;
- b=GH83bJBvR47fo8BdceozdfpF6wiF0qxwwDLeQ4OtPK2v2fLxoilxs9XejukDRcjLl3
- R0Y6mW5fN8Gq9wZOAwWckoytpdDN/kv38E9ni1RJwMSPOTBqzsvUn1+n/ZQmp2I80pjW
- 5VWZuSNe4f2XEhGrbhWCW0l1CoId1fpKntxRtlD7AkR9+JtRHwfghUulToVjq892Liif
- fzVTnvJpusJ6iUTmtT9Gh35w4K3sf0/b8xJQThmSUyEV3bVR06rR2v7gVSpgjLyCUuWa
- RPNOYt9yVLHDqjco1E7Ohar7Ahptp6hsUD1DIpqKv7fbMPFjzbsOFObT9XPT6eEO9VWg
- 9AXQ==
+ bh=m5mwiR1uGzS0Rpkrb6/VXRgvstz8vbC2nhHqzg+v2Y0=;
+ b=j8JwMwF5XTDLl55Y31s7+7Jcm2ghyFdiAqg9Qc+UyWJj78NzxO2dyNRXLF6wzor2Ef
+ 6kjiIJJt+QGC6ipbJP0dSWUHaHiISS5IgFWeMOv38XcMeXLcSZ4B51F+D7C/TOEwheo6
+ JDuBcV0HW1vMtxUa+HCeMG077AM9Z6gtBXyko85HRtFJtCsBmVVBGtanny9sJ0xfzQmm
+ KlBmLumDS2VYdregMVuzIDYY2KbfWlfV0Y8qkvPMFBT2CuqtgNZuOMgHGr4Q+uU9/cM6
+ GWtdHqwTHruCReoH417/TFmHUze7nXY+hNZegcXdWaPDVQV3sZWqIM8W9RlYUWc2hVXj
+ XWaQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=Fw5/uBouUwvOQQRqodgCjA158tcUzLdiGtbVVyhhVBA=;
- b=ru8qlnrI6RmcrBhdoha2b1jGYF71A3+Mu2ThWGkdqzZarMUKSOQYjpUuWPVmzAcK53
- 5Y7M5sBgbvIr/kNsdghp3Z7ve2ZKS9EaQIUMpdzP2tsJHFTYPraiTTSosqxlpbqFykB9
- ktji+1OAB9AxXcNZ0idDY/7QOSJPp7Mb09WNTdK0qVcXUgyoRrp1lHF+H17NimZO+VyY
- KrIOD8Klyui7obBEshqcSJIUpg9PJFyDTq/gNtQ1PtOjQ+x4Ihx4Thv5EUaBr7C0L39r
- 7Ndq2Ybdg7Pd6fYni7IZsjjATSkNWAOg8iSGHdZEwN9kQUtIS+n0emBRQoIGlxMuGCSC
- uhPg==
-X-Gm-Message-State: AOAM530TCm0bMOcq9U70MToE4sowNEkuo//Rt2PfzDsNtTER/mP/hm5e
- 9hpjVz2JpiJ6pNA6LpVcQTm6c8Es
-X-Google-Smtp-Source: ABdhPJzTTlJGKFRmKLfkrtPk6e6hwO0L4gZGtp0O4pnJWoc8K2DNL3yABq94j2Rb7B6hsRvxon0HnA==
-X-Received: by 2002:a63:4f1f:: with SMTP id d31mr27616261pgb.241.1594246913349; 
- Wed, 08 Jul 2020 15:21:53 -0700 (PDT)
+ bh=m5mwiR1uGzS0Rpkrb6/VXRgvstz8vbC2nhHqzg+v2Y0=;
+ b=qizbahllLDO41egL5BS2ybWtTIoQojAhrR4vIr/mavGFernHOTH4tpfeGPxOiLgtlq
+ v+AG2aERcFtTee2+AoAoYDfOCxmSnSicuZet7zhbo8aDwd0IYj7Ji4Pj77eXtS3UxDM7
+ GQSkKIK4x7oG9HxKg1G/+AgamJ3VYdMj+gjiw87vrL49peebNhO0Q6XltB1JmnkaVRu9
+ b7qiz8V51fm7HLh2M+CpOQIGW16f1TNHlZjDt6tu1qgKn7AWsfO9s3ZsSjBwJg6VpjoE
+ 7EhIENrXJvDLe4e1PKWBhzcQUcfdCIziy2i7cmHS6UibkKblvLwHpHvFxqFiiVVxmFen
+ Mxlw==
+X-Gm-Message-State: AOAM532uAVvEtk1mT2T2wr1EzQrBvjW77ZXi132IVsRNvOO+/KFKymdE
+ KO+apReV6Jcu57Xj557vII8QwYLD
+X-Google-Smtp-Source: ABdhPJz9TB/B92TIGijeZiWnqNhSfC8vUlL2yQT+sGf4in6dUKXKaD82TsiT3cfMsu4AnIob8qdVBg==
+X-Received: by 2002:a63:cb05:: with SMTP id p5mr26638286pgg.120.1594246914526; 
+ Wed, 08 Jul 2020 15:21:54 -0700 (PDT)
 Received: from octofox.cadence.com ([2601:641:400:e00:19b7:f650:7bbe:a7fb])
- by smtp.gmail.com with ESMTPSA id t73sm693517pfc.78.2020.07.08.15.21.52
+ by smtp.gmail.com with ESMTPSA id t73sm693517pfc.78.2020.07.08.15.21.53
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 08 Jul 2020 15:21:52 -0700 (PDT)
+ Wed, 08 Jul 2020 15:21:53 -0700 (PDT)
 From: Max Filippov <jcmvbkbc@gmail.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v3 01/21] softfloat: make NO_SIGNALING_NANS runtime property
-Date: Wed,  8 Jul 2020 15:20:41 -0700
-Message-Id: <20200708222101.24568-2-jcmvbkbc@gmail.com>
+Subject: [PATCH v3 02/21] softfloat: pass float_status pointer to pickNaN
+Date: Wed,  8 Jul 2020 15:20:42 -0700
+Message-Id: <20200708222101.24568-3-jcmvbkbc@gmail.com>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20200708222101.24568-1-jcmvbkbc@gmail.com>
 References: <20200708222101.24568-1-jcmvbkbc@gmail.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::52d;
- envelope-from=jcmvbkbc@gmail.com; helo=mail-pg1-x52d.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::52c;
+ envelope-from=jcmvbkbc@gmail.com; helo=mail-pg1-x52c.google.com
 X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
  That's all we know.
 X-Spam_score_int: -5
@@ -88,426 +88,150 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
 Cc: Max Filippov <jcmvbkbc@gmail.com>,
  =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>,
- =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>,
  Peter Maydell <peter.maydell@linaro.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-target/xtensa, the only user of NO_SIGNALING_NANS macro has FPU
-implementations with and without the corresponding property. With
-NO_SIGNALING_NANS being a macro they cannot be a part of the same QEMU
-executable.
-Replace macro with new property in float_status to allow cores with
-different FPU implementations coexist.
+Pass float_status structure pointer to the pickNaN so that
+machine-specific settings are available to NaN selection code.
+Add use_first_nan property to float_status and use it in Xtensa-specific
+pickNaN.
 
 Cc: Peter Maydell <peter.maydell@linaro.org>
 Cc: "Alex Bennée" <alex.bennee@linaro.org>
 Reviewed-by: Alex Bennée <alex.bennee@linaro.org>
-Reviewed-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
 Signed-off-by: Max Filippov <jcmvbkbc@gmail.com>
 ---
-Changes v1->v2:
-- use inline function for no_signaling_nans property to allow for
-  constant folding on architectures that have this property fixed.
-
- fpu/softfloat-specialize.inc.c  | 229 ++++++++++++++++----------------
- include/fpu/softfloat-helpers.h |   5 +
- include/fpu/softfloat-types.h   |   7 +-
- 3 files changed, 128 insertions(+), 113 deletions(-)
+ fpu/softfloat-specialize.inc.c  | 30 ++++++++++++++++++++++++------
+ fpu/softfloat.c                 |  2 +-
+ include/fpu/softfloat-helpers.h |  5 +++++
+ include/fpu/softfloat-types.h   |  1 +
+ 4 files changed, 31 insertions(+), 7 deletions(-)
 
 diff --git a/fpu/softfloat-specialize.inc.c b/fpu/softfloat-specialize.inc.c
-index 44f5b661f831..9d919ee2d993 100644
+index 9d919ee2d993..f519beca1b74 100644
 --- a/fpu/softfloat-specialize.inc.c
 +++ b/fpu/softfloat-specialize.inc.c
-@@ -79,12 +79,18 @@ this code that are retained.
-  * version 2 or later. See the COPYING file in the top-level directory.
-  */
+@@ -379,7 +379,7 @@ static float32 commonNaNToFloat32(commonNaNT a, float_status *status)
+ *----------------------------------------------------------------------------*/
  
--/* Define for architectures which deviate from IEEE in not supporting
-+/*
-+ * Define whether architecture deviates from IEEE in not supporting
-  * signaling NaNs (so all NaNs are treated as quiet).
-  */
-+static inline bool no_signaling_nans(float_status *status)
-+{
- #if defined(TARGET_XTENSA)
--#define NO_SIGNALING_NANS 1
-+    return status->no_signaling_nans;
-+#else
-+    return false;
- #endif
-+}
- 
- /* Define how the architecture discriminates signaling NaNs.
-  * This done with the most significant bit of the fraction.
-@@ -111,12 +117,12 @@ static inline bool snan_bit_is_one(float_status *status)
- 
- static bool parts_is_snan_frac(uint64_t frac, float_status *status)
+ static int pickNaN(FloatClass a_cls, FloatClass b_cls,
+-                   bool aIsLargerSignificand)
++                   bool aIsLargerSignificand, float_status *status)
  {
--#ifdef NO_SIGNALING_NANS
--    return false;
--#else
--    bool msb = extract64(frac, DECOMPOSED_BINARY_POINT - 1, 1);
--    return msb == snan_bit_is_one(status);
--#endif
-+    if (no_signaling_nans(status)) {
-+        return false;
+ #if defined(TARGET_ARM) || defined(TARGET_MIPS) || defined(TARGET_HPPA)
+     /* ARM mandated NaN propagation rules (see FPProcessNaNs()), take
+@@ -412,7 +412,7 @@ static int pickNaN(FloatClass a_cls, FloatClass b_cls,
+     } else {
+         return 1;
+     }
+-#elif defined(TARGET_PPC) || defined(TARGET_XTENSA) || defined(TARGET_M68K)
++#elif defined(TARGET_PPC) || defined(TARGET_M68K)
+     /* PowerPC propagation rules:
+      *  1. A if it sNaN or qNaN
+      *  2. B if it sNaN or qNaN
+@@ -437,6 +437,24 @@ static int pickNaN(FloatClass a_cls, FloatClass b_cls,
+     } else {
+         return 1;
+     }
++#elif defined(TARGET_XTENSA)
++    /*
++     * Xtensa has two NaN propagation modes.
++     * Which one is active is controlled by float_status::use_first_nan.
++     */
++    if (status->use_first_nan) {
++        if (is_nan(a_cls)) {
++            return 0;
++        } else {
++            return 1;
++        }
 +    } else {
-+        bool msb = extract64(frac, DECOMPOSED_BINARY_POINT - 1, 1);
-+        return msb == snan_bit_is_one(status);
++        if (is_nan(b_cls)) {
++            return 1;
++        } else {
++            return 0;
++        }
 +    }
- }
- 
- /*----------------------------------------------------------------------------
-@@ -170,9 +176,8 @@ static FloatParts parts_default_nan(float_status *status)
- 
- static FloatParts parts_silence_nan(FloatParts a, float_status *status)
- {
--#ifdef NO_SIGNALING_NANS
--    g_assert_not_reached();
--#elif defined(TARGET_HPPA)
-+    g_assert(!no_signaling_nans(status));
-+#if defined(TARGET_HPPA)
-     a.frac &= ~(1ULL << (DECOMPOSED_BINARY_POINT - 1));
-     a.frac |= 1ULL << (DECOMPOSED_BINARY_POINT - 2);
  #else
-@@ -247,16 +252,16 @@ typedef struct {
- 
- bool float16_is_quiet_nan(float16 a_, float_status *status)
- {
--#ifdef NO_SIGNALING_NANS
--    return float16_is_any_nan(a_);
--#else
--    uint16_t a = float16_val(a_);
--    if (snan_bit_is_one(status)) {
--        return (((a >> 9) & 0x3F) == 0x3E) && (a & 0x1FF);
-+    if (no_signaling_nans(status)) {
-+        return float16_is_any_nan(a_);
-     } else {
--        return ((a & ~0x8000) >= 0x7C80);
-+        uint16_t a = float16_val(a_);
-+        if (snan_bit_is_one(status)) {
-+            return (((a >> 9) & 0x3F) == 0x3E) && (a & 0x1FF);
-+        } else {
-+            return ((a & ~0x8000) >= 0x7C80);
-+        }
+     /* This implements x87 NaN propagation rules:
+      * SNaN + QNaN => return the QNaN
+@@ -624,7 +642,7 @@ static float32 propagateFloat32NaN(float32 a, float32 b, float_status *status)
+         aIsLargerSignificand = (av < bv) ? 1 : 0;
      }
--#endif
- }
  
- /*----------------------------------------------------------------------------
-@@ -266,16 +271,16 @@ bool float16_is_quiet_nan(float16 a_, float_status *status)
- 
- bool float16_is_signaling_nan(float16 a_, float_status *status)
- {
--#ifdef NO_SIGNALING_NANS
--    return 0;
--#else
--    uint16_t a = float16_val(a_);
--    if (snan_bit_is_one(status)) {
--        return ((a & ~0x8000) >= 0x7C80);
-+    if (no_signaling_nans(status)) {
-+        return 0;
-     } else {
--        return (((a >> 9) & 0x3F) == 0x3E) && (a & 0x1FF);
-+        uint16_t a = float16_val(a_);
-+        if (snan_bit_is_one(status)) {
-+            return ((a & ~0x8000) >= 0x7C80);
-+        } else {
-+            return (((a >> 9) & 0x3F) == 0x3E) && (a & 0x1FF);
-+        }
+-    if (pickNaN(a_cls, b_cls, aIsLargerSignificand)) {
++    if (pickNaN(a_cls, b_cls, aIsLargerSignificand, status)) {
+         if (is_snan(b_cls)) {
+             return float32_silence_nan(b, status);
+         }
+@@ -762,7 +780,7 @@ static float64 propagateFloat64NaN(float64 a, float64 b, float_status *status)
+         aIsLargerSignificand = (av < bv) ? 1 : 0;
      }
--#endif
- }
  
- /*----------------------------------------------------------------------------
-@@ -285,16 +290,16 @@ bool float16_is_signaling_nan(float16 a_, float_status *status)
- 
- bool float32_is_quiet_nan(float32 a_, float_status *status)
- {
--#ifdef NO_SIGNALING_NANS
--    return float32_is_any_nan(a_);
--#else
--    uint32_t a = float32_val(a_);
--    if (snan_bit_is_one(status)) {
--        return (((a >> 22) & 0x1FF) == 0x1FE) && (a & 0x003FFFFF);
-+    if (no_signaling_nans(status)) {
-+        return float32_is_any_nan(a_);
-     } else {
--        return ((uint32_t)(a << 1) >= 0xFF800000);
-+        uint32_t a = float32_val(a_);
-+        if (snan_bit_is_one(status)) {
-+            return (((a >> 22) & 0x1FF) == 0x1FE) && (a & 0x003FFFFF);
-+        } else {
-+            return ((uint32_t)(a << 1) >= 0xFF800000);
-+        }
+-    if (pickNaN(a_cls, b_cls, aIsLargerSignificand)) {
++    if (pickNaN(a_cls, b_cls, aIsLargerSignificand, status)) {
+         if (is_snan(b_cls)) {
+             return float64_silence_nan(b, status);
+         }
+@@ -926,7 +944,7 @@ floatx80 propagateFloatx80NaN(floatx80 a, floatx80 b, float_status *status)
+         aIsLargerSignificand = (a.high < b.high) ? 1 : 0;
      }
--#endif
- }
  
- /*----------------------------------------------------------------------------
-@@ -304,16 +309,16 @@ bool float32_is_quiet_nan(float32 a_, float_status *status)
- 
- bool float32_is_signaling_nan(float32 a_, float_status *status)
- {
--#ifdef NO_SIGNALING_NANS
--    return 0;
--#else
--    uint32_t a = float32_val(a_);
--    if (snan_bit_is_one(status)) {
--        return ((uint32_t)(a << 1) >= 0xFF800000);
-+    if (no_signaling_nans(status)) {
-+        return 0;
-     } else {
--        return (((a >> 22) & 0x1FF) == 0x1FE) && (a & 0x003FFFFF);
-+        uint32_t a = float32_val(a_);
-+        if (snan_bit_is_one(status)) {
-+            return ((uint32_t)(a << 1) >= 0xFF800000);
-+        } else {
-+            return (((a >> 22) & 0x1FF) == 0x1FE) && (a & 0x003FFFFF);
-+        }
+-    if (pickNaN(a_cls, b_cls, aIsLargerSignificand)) {
++    if (pickNaN(a_cls, b_cls, aIsLargerSignificand, status)) {
+         if (is_snan(b_cls)) {
+             return floatx80_silence_nan(b, status);
+         }
+@@ -1074,7 +1092,7 @@ static float128 propagateFloat128NaN(float128 a, float128 b,
+         aIsLargerSignificand = (a.high < b.high) ? 1 : 0;
      }
--#endif
- }
  
- /*----------------------------------------------------------------------------
-@@ -639,17 +644,17 @@ static float32 propagateFloat32NaN(float32 a, float32 b, float_status *status)
- 
- bool float64_is_quiet_nan(float64 a_, float_status *status)
- {
--#ifdef NO_SIGNALING_NANS
--    return float64_is_any_nan(a_);
--#else
--    uint64_t a = float64_val(a_);
--    if (snan_bit_is_one(status)) {
--        return (((a >> 51) & 0xFFF) == 0xFFE)
--            && (a & 0x0007FFFFFFFFFFFFULL);
-+    if (no_signaling_nans(status)) {
-+        return float64_is_any_nan(a_);
+-    if (pickNaN(a_cls, b_cls, aIsLargerSignificand)) {
++    if (pickNaN(a_cls, b_cls, aIsLargerSignificand, status)) {
+         if (is_snan(b_cls)) {
+             return float128_silence_nan(b, status);
+         }
+diff --git a/fpu/softfloat.c b/fpu/softfloat.c
+index 5e9746c2876f..a89056a1816e 100644
+--- a/fpu/softfloat.c
++++ b/fpu/softfloat.c
+@@ -881,7 +881,7 @@ static FloatParts pick_nan(FloatParts a, FloatParts b, float_status *s)
      } else {
--        return ((a << 1) >= 0xFFF0000000000000ULL);
-+        uint64_t a = float64_val(a_);
-+        if (snan_bit_is_one(status)) {
-+            return (((a >> 51) & 0xFFF) == 0xFFE)
-+                && (a & 0x0007FFFFFFFFFFFFULL);
-+        } else {
-+            return ((a << 1) >= 0xFFF0000000000000ULL);
-+        }
-     }
--#endif
- }
- 
- /*----------------------------------------------------------------------------
-@@ -659,17 +664,17 @@ bool float64_is_quiet_nan(float64 a_, float_status *status)
- 
- bool float64_is_signaling_nan(float64 a_, float_status *status)
- {
--#ifdef NO_SIGNALING_NANS
--    return 0;
--#else
--    uint64_t a = float64_val(a_);
--    if (snan_bit_is_one(status)) {
--        return ((a << 1) >= 0xFFF0000000000000ULL);
-+    if (no_signaling_nans(status)) {
-+        return 0;
-     } else {
--        return (((a >> 51) & 0xFFF) == 0xFFE)
--            && (a & UINT64_C(0x0007FFFFFFFFFFFF));
-+        uint64_t a = float64_val(a_);
-+        if (snan_bit_is_one(status)) {
-+            return ((a << 1) >= 0xFFF0000000000000ULL);
-+        } else {
-+            return (((a >> 51) & 0xFFF) == 0xFFE)
-+                && (a & UINT64_C(0x0007FFFFFFFFFFFF));
-+        }
-     }
--#endif
- }
- 
- /*----------------------------------------------------------------------------
-@@ -778,21 +783,21 @@ static float64 propagateFloat64NaN(float64 a, float64 b, float_status *status)
- 
- int floatx80_is_quiet_nan(floatx80 a, float_status *status)
- {
--#ifdef NO_SIGNALING_NANS
--    return floatx80_is_any_nan(a);
--#else
--    if (snan_bit_is_one(status)) {
--        uint64_t aLow;
--
--        aLow = a.low & ~0x4000000000000000ULL;
--        return ((a.high & 0x7FFF) == 0x7FFF)
--            && (aLow << 1)
--            && (a.low == aLow);
-+    if (no_signaling_nans(status)) {
-+        return floatx80_is_any_nan(a);
-     } else {
--        return ((a.high & 0x7FFF) == 0x7FFF)
--            && (UINT64_C(0x8000000000000000) <= ((uint64_t)(a.low << 1)));
-+        if (snan_bit_is_one(status)) {
-+            uint64_t aLow;
-+
-+            aLow = a.low & ~0x4000000000000000ULL;
-+            return ((a.high & 0x7FFF) == 0x7FFF)
-+                && (aLow << 1)
-+                && (a.low == aLow);
-+        } else {
-+            return ((a.high & 0x7FFF) == 0x7FFF)
-+                && (UINT64_C(0x8000000000000000) <= ((uint64_t)(a.low << 1)));
-+        }
-     }
--#endif
- }
- 
- /*----------------------------------------------------------------------------
-@@ -803,21 +808,21 @@ int floatx80_is_quiet_nan(floatx80 a, float_status *status)
- 
- int floatx80_is_signaling_nan(floatx80 a, float_status *status)
- {
--#ifdef NO_SIGNALING_NANS
--    return 0;
--#else
--    if (snan_bit_is_one(status)) {
--        return ((a.high & 0x7FFF) == 0x7FFF)
--            && ((a.low << 1) >= 0x8000000000000000ULL);
-+    if (no_signaling_nans(status)) {
-+        return 0;
-     } else {
--        uint64_t aLow;
-+        if (snan_bit_is_one(status)) {
-+            return ((a.high & 0x7FFF) == 0x7FFF)
-+                && ((a.low << 1) >= 0x8000000000000000ULL);
-+        } else {
-+            uint64_t aLow;
- 
--        aLow = a.low & ~UINT64_C(0x4000000000000000);
--        return ((a.high & 0x7FFF) == 0x7FFF)
--            && (uint64_t)(aLow << 1)
--            && (a.low == aLow);
-+            aLow = a.low & ~UINT64_C(0x4000000000000000);
-+            return ((a.high & 0x7FFF) == 0x7FFF)
-+                && (uint64_t)(aLow << 1)
-+                && (a.low == aLow);
-+        }
-     }
--#endif
- }
- 
- /*----------------------------------------------------------------------------
-@@ -941,17 +946,17 @@ floatx80 propagateFloatx80NaN(floatx80 a, floatx80 b, float_status *status)
- 
- bool float128_is_quiet_nan(float128 a, float_status *status)
- {
--#ifdef NO_SIGNALING_NANS
--    return float128_is_any_nan(a);
--#else
--    if (snan_bit_is_one(status)) {
--        return (((a.high >> 47) & 0xFFFF) == 0xFFFE)
--            && (a.low || (a.high & 0x00007FFFFFFFFFFFULL));
-+    if (no_signaling_nans(status)) {
-+        return float128_is_any_nan(a);
-     } else {
--        return ((a.high << 1) >= 0xFFFF000000000000ULL)
--            && (a.low || (a.high & 0x0000FFFFFFFFFFFFULL));
-+        if (snan_bit_is_one(status)) {
-+            return (((a.high >> 47) & 0xFFFF) == 0xFFFE)
-+                && (a.low || (a.high & 0x00007FFFFFFFFFFFULL));
-+        } else {
-+            return ((a.high << 1) >= 0xFFFF000000000000ULL)
-+                && (a.low || (a.high & 0x0000FFFFFFFFFFFFULL));
-+        }
-     }
--#endif
- }
- 
- /*----------------------------------------------------------------------------
-@@ -961,17 +966,17 @@ bool float128_is_quiet_nan(float128 a, float_status *status)
- 
- bool float128_is_signaling_nan(float128 a, float_status *status)
- {
--#ifdef NO_SIGNALING_NANS
--    return 0;
--#else
--    if (snan_bit_is_one(status)) {
--        return ((a.high << 1) >= 0xFFFF000000000000ULL)
--            && (a.low || (a.high & 0x0000FFFFFFFFFFFFULL));
-+    if (no_signaling_nans(status)) {
-+        return 0;
-     } else {
--        return (((a.high >> 47) & 0xFFFF) == 0xFFFE)
--            && (a.low || (a.high & UINT64_C(0x00007FFFFFFFFFFF)));
-+        if (snan_bit_is_one(status)) {
-+            return ((a.high << 1) >= 0xFFFF000000000000ULL)
-+                && (a.low || (a.high & 0x0000FFFFFFFFFFFFULL));
-+        } else {
-+            return (((a.high >> 47) & 0xFFFF) == 0xFFFE)
-+                && (a.low || (a.high & UINT64_C(0x00007FFFFFFFFFFF)));
-+        }
-     }
--#endif
- }
- 
- /*----------------------------------------------------------------------------
-@@ -981,16 +986,16 @@ bool float128_is_signaling_nan(float128 a, float_status *status)
- 
- float128 float128_silence_nan(float128 a, float_status *status)
- {
--#ifdef NO_SIGNALING_NANS
--    g_assert_not_reached();
--#else
--    if (snan_bit_is_one(status)) {
--        return float128_default_nan(status);
-+    if (no_signaling_nans(status)) {
-+        g_assert_not_reached();
-     } else {
--        a.high |= UINT64_C(0x0000800000000000);
--        return a;
-+        if (snan_bit_is_one(status)) {
-+            return float128_default_nan(status);
-+        } else {
-+            a.high |= UINT64_C(0x0000800000000000);
-+            return a;
-+        }
-     }
--#endif
- }
- 
- /*----------------------------------------------------------------------------
+         if (pickNaN(a.cls, b.cls,
+                     a.frac > b.frac ||
+-                    (a.frac == b.frac && a.sign < b.sign))) {
++                    (a.frac == b.frac && a.sign < b.sign), s)) {
+             a = b;
+         }
+         if (is_snan(a.cls)) {
 diff --git a/include/fpu/softfloat-helpers.h b/include/fpu/softfloat-helpers.h
-index 735ed6b653ee..e842f83a1285 100644
+index e842f83a1285..2f0674fbddec 100644
 --- a/include/fpu/softfloat-helpers.h
 +++ b/include/fpu/softfloat-helpers.h
 @@ -95,6 +95,11 @@ static inline void set_snan_bit_is_one(bool val, float_status *status)
      status->snan_bit_is_one = val;
  }
  
-+static inline void set_no_signaling_nans(bool val, float_status *status)
++static inline void set_use_first_nan(bool val, float_status *status)
 +{
-+    status->no_signaling_nans = val;
++    status->use_first_nan = val;
 +}
 +
- static inline bool get_float_detect_tininess(float_status *status)
+ static inline void set_no_signaling_nans(bool val, float_status *status)
  {
-     return status->tininess_before_rounding;
+     status->no_signaling_nans = val;
 diff --git a/include/fpu/softfloat-types.h b/include/fpu/softfloat-types.h
-index 7680193ebc1c..d6f167c1b0c4 100644
+index d6f167c1b0c4..c7ddcab8caee 100644
 --- a/include/fpu/softfloat-types.h
 +++ b/include/fpu/softfloat-types.h
-@@ -165,8 +165,13 @@ typedef struct float_status {
-     /* should denormalised inputs go to zero and set the input_denormal flag? */
-     bool flush_inputs_to_zero;
-     bool default_nan_mode;
--    /* not always used -- see snan_bit_is_one() in softfloat-specialize.h */
-+    /*
-+     * The flags below are not used on all specializations and may
-+     * constant fold away (see snan_bit_is_one()/no_signalling_nans() in
-+     * softfloat-specialize.inc.c)
-+     */
+@@ -171,6 +171,7 @@ typedef struct float_status {
+      * softfloat-specialize.inc.c)
+      */
      bool snan_bit_is_one;
-+    bool no_signaling_nans;
++    bool use_first_nan;
+     bool no_signaling_nans;
  } float_status;
  
- #endif /* SOFTFLOAT_TYPES_H */
 -- 
 2.20.1
 
