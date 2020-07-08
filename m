@@ -2,71 +2,65 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3796F2190F5
-	for <lists+qemu-devel@lfdr.de>; Wed,  8 Jul 2020 21:51:33 +0200 (CEST)
-Received: from localhost ([::1]:60112 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5F6C22190EA
+	for <lists+qemu-devel@lfdr.de>; Wed,  8 Jul 2020 21:42:33 +0200 (CEST)
+Received: from localhost ([::1]:49766 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jtG6O-0003iv-34
-	for lists+qemu-devel@lfdr.de; Wed, 08 Jul 2020 15:51:32 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:35738)
+	id 1jtFxg-0007aZ-8u
+	for lists+qemu-devel@lfdr.de; Wed, 08 Jul 2020 15:42:32 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:34038)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1jtG5Y-0003Hm-46
- for qemu-devel@nongnu.org; Wed, 08 Jul 2020 15:50:40 -0400
-Received: from indium.canonical.com ([91.189.90.7]:49798)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1jtG5V-0005f9-PZ
- for qemu-devel@nongnu.org; Wed, 08 Jul 2020 15:50:39 -0400
-Received: from loganberry.canonical.com ([91.189.90.37])
- by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
- id 1jtG5T-0008CU-O1
- for <qemu-devel@nongnu.org>; Wed, 08 Jul 2020 19:50:35 +0000
-Received: from loganberry.canonical.com (localhost [127.0.0.1])
- by loganberry.canonical.com (Postfix) with ESMTP id B37B12E80E7
- for <qemu-devel@nongnu.org>; Wed,  8 Jul 2020 19:50:35 +0000 (UTC)
+ (Exim 4.90_1) (envelope-from <no-reply@patchew.org>)
+ id 1jtFwr-00079S-AV
+ for qemu-devel@nongnu.org; Wed, 08 Jul 2020 15:41:41 -0400
+Resent-Date: Wed, 08 Jul 2020 15:41:41 -0400
+Resent-Message-Id: <E1jtFwr-00079S-AV@lists.gnu.org>
+Received: from sender4-of-o57.zoho.com ([136.143.188.57]:21718)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <no-reply@patchew.org>)
+ id 1jtFwo-0004eB-M6
+ for qemu-devel@nongnu.org; Wed, 08 Jul 2020 15:41:40 -0400
+ARC-Seal: i=1; a=rsa-sha256; t=1594237283; cv=none; 
+ d=zohomail.com; s=zohoarc; 
+ b=gtDAk9ec4l6eOmf7oXJjYoWskCImY14z6Md95BJPs/1v+D+cS/CwiXaVDy0l5Iv6z2hDkXLUI5VWpeOWYbHVf2rLZhyUOBs9oPvNFPwHErf+YcZxivES714lqspdNHHVLhPmfVjNOKAbxOZ3Io2d9WInzZBHHDH/ntuY4NfVQB0=
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.com;
+ s=zohoarc; t=1594237283;
+ h=Content-Type:Content-Transfer-Encoding:Cc:Date:From:In-Reply-To:MIME-Version:Message-ID:Reply-To:Subject:To;
+ bh=9MENnI/2MiMROXLGzOvUXBeO9R9qlWUrijuUYmM3nJk=; 
+ b=SiwEgJRlsiynXhMQQrE7jkJSGpuaro7YBdnWPJ62K4qLb3zh3CLtgIlDWfarUTnbIaziWzRGpHNIHGs6vtMVXlcZ/M6Ub8MaftdiXtPMAT+XS8EdE48oPHI8LOTn/5j4EPxCCgB/o5OjWq1cfjgIY749qbKMZTPTsugjAUHNV44=
+ARC-Authentication-Results: i=1; mx.zohomail.com;
+ spf=pass  smtp.mailfrom=no-reply@patchew.org;
+ dmarc=pass header.from=<no-reply@patchew.org>
+ header.from=<no-reply@patchew.org>
+Received: from [172.17.0.3] (23.253.156.214 [23.253.156.214]) by
+ mx.zohomail.com with SMTPS id 1594237280276623.5001523861886;
+ Wed, 8 Jul 2020 12:41:20 -0700 (PDT)
+Subject: Re: [PATCH 0/2] keepalive default
+Message-ID: <159423727868.12725.11739775474362564458@07a7f0d89f7d>
+In-Reply-To: <20200708191540.28455-1-vsementsov@virtuozzo.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: quoted-printable
-Date: Wed, 08 Jul 2020 19:39:51 -0000
-From: Laurent Vivier <1886811@bugs.launchpad.net>
-To: qemu-devel@nongnu.org
-X-Launchpad-Notification-Type: bug
-X-Launchpad-Bug: product=qemu; status=New; importance=Undecided; assignee=None;
-X-Launchpad-Bug: distribution=debian; sourcepackage=qemu; component=main;
- status=Unknown; importance=Unknown; assignee=None; 
-X-Launchpad-Bug-Tags: linux-user
-X-Launchpad-Bug-Information-Type: Public
-X-Launchpad-Bug-Private: no
-X-Launchpad-Bug-Security-Vulnerability: no
-X-Launchpad-Bug-Commenters: emojifreak laurent-vivier
-X-Launchpad-Bug-Reporter: Ryutaroh Matsumoto (emojifreak)
-X-Launchpad-Bug-Modifier: Laurent Vivier (laurent-vivier)
-References: <159420830935.32230.13858618076699173558.malonedeb@gac.canonical.com>
-Message-Id: <159423719152.31014.16822620682754425167.malone@soybean.canonical.com>
-Subject: [Bug 1886811] Re: systemd complains Failed to enqueue loopback
- interface start request: Operation not supported
-X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
-X-Launchpad-Message-For: qemu-devel-ml
-Precedence: bulk
-X-Generated-By: Launchpad (canonical.com);
- Revision="b24753402d6321ed1b9083e580f5f014a46bab00";
- Instance="production-secrets-lazr.conf"
-X-Launchpad-Hash: 64414757d0f32f492d81e0c7712bc151f46fe10b
-Received-SPF: none client-ip=91.189.90.7; envelope-from=bounces@canonical.com;
- helo=indium.canonical.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/07/08 15:50:36
+Content-Transfer-Encoding: base64
+Resent-From: 
+From: no-reply@patchew.org
+To: vsementsov@virtuozzo.com
+Date: Wed, 8 Jul 2020 12:41:20 -0700 (PDT)
+X-ZohoMailClient: External
+Received-SPF: pass client-ip=136.143.188.57; envelope-from=no-reply@patchew.org;
+ helo=sender4-of-o57.zoho.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/07/08 15:41:34
 X-ACL-Warn: Detected OS   = Linux 3.11 and newer [fuzzy]
-X-Spam_score_int: -58
-X-Spam_score: -5.9
-X-Spam_bar: -----
-X-Spam_report: (-5.9 / 5.0 requ) BAYES_00=-1.9, HEADER_FROM_DIFFERENT_DOMAINS=1,
- RCVD_IN_DNSWL_HI=-5, RCVD_IN_MSPIKE_H3=-0.01, RCVD_IN_MSPIKE_WL=-0.01,
- SPF_HELO_NONE=0.001, SPF_NONE=0.001 autolearn=ham autolearn_force=no
+X-Spam_score_int: -18
+X-Spam_score: -1.9
+X-Spam_bar: -
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_NONE=-0.0001,
+ RCVD_IN_MSPIKE_H3=-0.01, RCVD_IN_MSPIKE_WL=-0.01, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
+Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -75,75 +69,73 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Bug 1886811 <1886811@bugs.launchpad.net>
+Reply-To: qemu-devel@nongnu.org
+Cc: vsementsov@virtuozzo.com, berrange@redhat.com, qemu-devel@nongnu.org,
+ armbru@redhat.com, kraxel@redhat.com, den@openvz.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-It seems systemd is trying to use RTM_SETLINK.
-
-Could you try this patch:
-
-diff --git a/linux-user/fd-trans.c b/linux-user/fd-trans.c
-index c0687c52e62b..b09b5b7c13e0 100644
---- a/linux-user/fd-trans.c
-+++ b/linux-user/fd-trans.c
-@@ -1200,6 +1200,7 @@ static abi_long target_to_host_data_route(struct nlms=
-ghdr *nlh)
-         break;
-     case RTM_NEWLINK:
-     case RTM_DELLINK:
-+    case RTM_SETLINK:
-         if (nlh->nlmsg_len >=3D NLMSG_LENGTH(sizeof(*ifi))) {
-             ifi =3D NLMSG_DATA(nlh);
-             ifi->ifi_type =3D tswap16(ifi->ifi_type);
-
--- =
-
-You received this bug notification because you are a member of qemu-
-devel-ml, which is subscribed to QEMU.
-https://bugs.launchpad.net/bugs/1886811
-
-Title:
-  systemd complains Failed to enqueue loopback interface start request:
-  Operation not supported
-
-Status in QEMU:
-  New
-Status in qemu package in Debian:
-  Unknown
-
-Bug description:
-  This symptom seems similar to
-  https://bugs.launchpad.net/qemu/+bug/1823790
-
-  Host Linux: Debian 11 Bullseye (testing) on x84-64 architecture
-  qemu version: latest git of git commit hash eb2c66b10efd2b914b56b20ae9065=
-5914310c925
-  compiled with "./configure --static --disable-system" =
-
-
-  Down stream bug report at https://bugs.debian.org/cgi-bin/bugreport.cgi?b=
-ug=3D964289
-  Bug report (closed) to systemd: https://github.com/systemd/systemd/issues=
-/16359
-
-  systemd in armhf and armel (both little endian 32-bit) containers fail to=
- start with
-  Failed to enqueue loopback interface start request: Operation not support=
-ed
-
-  How to reproduce on Debian (and probably Ubuntu):
-  mmdebstrap --components=3D"main contrib non-free" --architectures=3Darmhf=
- --variant=3Dimportant bullseye /var/lib/machines/armhf-bullseye
-  systemd-nspawn -D /var/lib/machines/armhf-bullseye -b
-
-  When "armhf" architecture is replaced with "mips" (32-bit big endian) or =
-"ppc64"
-  (64-bit big endian), the container starts up fine.
-
-  The same symptom is also observed with "powerpc" (32-bit big endian)
-  architecture.
-
-To manage notifications about this bug go to:
-https://bugs.launchpad.net/qemu/+bug/1886811/+subscriptions
+UGF0Y2hldyBVUkw6IGh0dHBzOi8vcGF0Y2hldy5vcmcvUUVNVS8yMDIwMDcwODE5MTU0MC4yODQ1
+NS0xLXZzZW1lbnRzb3ZAdmlydHVvenpvLmNvbS8KCgoKSGksCgpUaGlzIHNlcmllcyBmYWlsZWQg
+dGhlIGRvY2tlci1taW5nd0BmZWRvcmEgYnVpbGQgdGVzdC4gUGxlYXNlIGZpbmQgdGhlIHRlc3Rp
+bmcgY29tbWFuZHMgYW5kCnRoZWlyIG91dHB1dCBiZWxvdy4gSWYgeW91IGhhdmUgRG9ja2VyIGlu
+c3RhbGxlZCwgeW91IGNhbiBwcm9iYWJseSByZXByb2R1Y2UgaXQKbG9jYWxseS4KCj09PSBURVNU
+IFNDUklQVCBCRUdJTiA9PT0KIyEgL2Jpbi9iYXNoCmV4cG9ydCBBUkNIPXg4Nl82NAptYWtlIGRv
+Y2tlci1pbWFnZS1mZWRvcmEgVj0xIE5FVFdPUks9MQp0aW1lIG1ha2UgZG9ja2VyLXRlc3QtbWlu
+Z3dAZmVkb3JhIEo9MTQgTkVUV09SSz0xCj09PSBURVNUIFNDUklQVCBFTkQgPT09CgogIENDICAg
+ICAgaHcvaHBwYS90cmFjZS5vCkluIGZpbGUgaW5jbHVkZWQgZnJvbSAvdG1wL3FlbXUtdGVzdC9z
+cmMvdXRpbC9xZW11LXNvY2tldHMuYzoyNDoKL3RtcC9xZW11LXRlc3Qvc3JjL3V0aWwvcWVtdS1z
+b2NrZXRzLmM6IEluIGZ1bmN0aW9uICdpbmV0X3NldF9rZWVwYWxpdmUnOgovdG1wL3FlbXUtdGVz
+dC9zcmMvdXRpbC9xZW11LXNvY2tldHMuYzo0Njk6NDY6IGVycm9yOiAnVENQX0tFRVBJRExFJyB1
+bmRlY2xhcmVkIChmaXJzdCB1c2UgaW4gdGhpcyBmdW5jdGlvbikKICA0NjkgfCAgICAgcmV0ID0g
+cWVtdV9zZXRzb2Nrb3B0KHNvY2ssIElQUFJPVE9fVENQLCBUQ1BfS0VFUElETEUsICZ2YWwsIHNp
+emVvZih2YWwpKTsKICAgICAgfCAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAg
+ICAgICAgICBefn5+fn5+fn5+fn4KL3RtcC9xZW11LXRlc3Qvc3JjL2luY2x1ZGUvcWVtdS1jb21t
+b24uaDo0ODozMTogbm90ZTogaW4gZGVmaW5pdGlvbiBvZiBtYWNybyAncWVtdV9zZXRzb2Nrb3B0
+JwotLS0KL3RtcC9xZW11LXRlc3Qvc3JjL2luY2x1ZGUvcWVtdS1jb21tb24uaDo0ODozMTogbm90
+ZTogaW4gZGVmaW5pdGlvbiBvZiBtYWNybyAncWVtdV9zZXRzb2Nrb3B0JwogICA0OCB8ICAgICBz
+ZXRzb2Nrb3B0KHNvY2tmZCwgbGV2ZWwsIG9wdG5hbWUsIChjb25zdCB2b2lkICopb3B0dmFsLCBv
+cHRsZW4pCiAgICAgIHwgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgXn5+fn5+fgovdG1w
+L3FlbXUtdGVzdC9zcmMvdXRpbC9xZW11LXNvY2tldHMuYzo0NzY6NDY6IGVycm9yOiAnVENQX0tF
+RVBJTlRWTCcgdW5kZWNsYXJlZCAoZmlyc3QgdXNlIGluIHRoaXMgZnVuY3Rpb24pCiAgNDc2IHwg
+ICAgIHJldCA9IHFlbXVfc2V0c29ja29wdChzb2NrLCBJUFBST1RPX1RDUCwgVENQX0tFRVBJTlRW
+TCwgJnZhbCwgc2l6ZW9mKHZhbCkpOwogICAgICB8ICAgICAgICAgICAgICAgICAgICAgICAgICAg
+ICAgICAgICAgICAgICAgICAgIF5+fn5+fn5+fn5+fn4KL3RtcC9xZW11LXRlc3Qvc3JjL2luY2x1
+ZGUvcWVtdS1jb21tb24uaDo0ODozMTogbm90ZTogaW4gZGVmaW5pdGlvbiBvZiBtYWNybyAncWVt
+dV9zZXRzb2Nrb3B0JwogICA0OCB8ICAgICBzZXRzb2Nrb3B0KHNvY2tmZCwgbGV2ZWwsIG9wdG5h
+bWUsIChjb25zdCB2b2lkICopb3B0dmFsLCBvcHRsZW4pCiAgICAgIHwgICAgICAgICAgICAgICAg
+ICAgICAgICAgICAgICAgXn5+fn5+fgovdG1wL3FlbXUtdGVzdC9zcmMvdXRpbC9xZW11LXNvY2tl
+dHMuYzo0ODM6NDY6IGVycm9yOiAnVENQX0tFRVBDTlQnIHVuZGVjbGFyZWQgKGZpcnN0IHVzZSBp
+biB0aGlzIGZ1bmN0aW9uKQogIDQ4MyB8ICAgICByZXQgPSBxZW11X3NldHNvY2tvcHQoc29jaywg
+SVBQUk9UT19UQ1AsIFRDUF9LRUVQQ05ULCAmdmFsLCBzaXplb2YodmFsKSk7CiAgICAgIHwgICAg
+ICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgXn5+fn5+fn5+fn4KL3Rt
+cC9xZW11LXRlc3Qvc3JjL2luY2x1ZGUvcWVtdS1jb21tb24uaDo0ODozMTogbm90ZTogaW4gZGVm
+aW5pdGlvbiBvZiBtYWNybyAncWVtdV9zZXRzb2Nrb3B0JwogICA0OCB8ICAgICBzZXRzb2Nrb3B0
+KHNvY2tmZCwgbGV2ZWwsIG9wdG5hbWUsIChjb25zdCB2b2lkICopb3B0dmFsLCBvcHRsZW4pCiAg
+ICAgIHwgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgXn5+fn5+fgptYWtlOiAqKiogWy90
+bXAvcWVtdS10ZXN0L3NyYy9ydWxlcy5tYWs6Njk6IHV0aWwvcWVtdS1zb2NrZXRzLm9dIEVycm9y
+IDEKbWFrZTogKioqIFdhaXRpbmcgZm9yIHVuZmluaXNoZWQgam9icy4uLi4KVHJhY2ViYWNrICht
+b3N0IHJlY2VudCBjYWxsIGxhc3QpOgogIEZpbGUgIi4vdGVzdHMvZG9ja2VyL2RvY2tlci5weSIs
+IGxpbmUgNjY5LCBpbiA8bW9kdWxlPgotLS0KICAgIHJhaXNlIENhbGxlZFByb2Nlc3NFcnJvcihy
+ZXRjb2RlLCBjbWQpCnN1YnByb2Nlc3MuQ2FsbGVkUHJvY2Vzc0Vycm9yOiBDb21tYW5kICdbJ3N1
+ZG8nLCAnLW4nLCAnZG9ja2VyJywgJ3J1bicsICctLWxhYmVsJywgJ2NvbS5xZW11Lmluc3RhbmNl
+LnV1aWQ9YmFiMjU1MjQ1ZDk0NDMyYWFiZWZlYjQxODljNmFjZWQnLCAnLXUnLCAnMTAwMScsICct
+LXNlY3VyaXR5LW9wdCcsICdzZWNjb21wPXVuY29uZmluZWQnLCAnLS1ybScsICctZScsICdUQVJH
+RVRfTElTVD0nLCAnLWUnLCAnRVhUUkFfQ09ORklHVVJFX09QVFM9JywgJy1lJywgJ1Y9JywgJy1l
+JywgJ0o9MTQnLCAnLWUnLCAnREVCVUc9JywgJy1lJywgJ1NIT1dfRU5WPScsICctZScsICdDQ0FD
+SEVfRElSPS92YXIvdG1wL2NjYWNoZScsICctdicsICcvaG9tZS9wYXRjaGV3Ly5jYWNoZS9xZW11
+LWRvY2tlci1jY2FjaGU6L3Zhci90bXAvY2NhY2hlOnonLCAnLXYnLCAnL3Zhci90bXAvcGF0Y2hl
+dy10ZXN0ZXItdG1wLW1jazA0YjV1L3NyYy9kb2NrZXItc3JjLjIwMjAtMDctMDgtMTUuMzguMDgu
+MTczNzY6L3Zhci90bXAvcWVtdTp6LHJvJywgJ3FlbXU6ZmVkb3JhJywgJy92YXIvdG1wL3FlbXUv
+cnVuJywgJ3Rlc3QtbWluZ3cnXScgcmV0dXJuZWQgbm9uLXplcm8gZXhpdCBzdGF0dXMgMi4KZmls
+dGVyPS0tZmlsdGVyPWxhYmVsPWNvbS5xZW11Lmluc3RhbmNlLnV1aWQ9YmFiMjU1MjQ1ZDk0NDMy
+YWFiZWZlYjQxODljNmFjZWQKbWFrZVsxXTogKioqIFtkb2NrZXItcnVuXSBFcnJvciAxCm1ha2Vb
+MV06IExlYXZpbmcgZGlyZWN0b3J5IGAvdmFyL3RtcC9wYXRjaGV3LXRlc3Rlci10bXAtbWNrMDRi
+NXUvc3JjJwptYWtlOiAqKiogW2RvY2tlci1ydW4tdGVzdC1taW5nd0BmZWRvcmFdIEVycm9yIDIK
+CnJlYWwgICAgM20xMS4yNjRzCnVzZXIgICAgMG04Ljk3NnMKCgpUaGUgZnVsbCBsb2cgaXMgYXZh
+aWxhYmxlIGF0Cmh0dHA6Ly9wYXRjaGV3Lm9yZy9sb2dzLzIwMjAwNzA4MTkxNTQwLjI4NDU1LTEt
+dnNlbWVudHNvdkB2aXJ0dW96em8uY29tL3Rlc3RpbmcuZG9ja2VyLW1pbmd3QGZlZG9yYS8/dHlw
+ZT1tZXNzYWdlLgotLS0KRW1haWwgZ2VuZXJhdGVkIGF1dG9tYXRpY2FsbHkgYnkgUGF0Y2hldyBb
+aHR0cHM6Ly9wYXRjaGV3Lm9yZy9dLgpQbGVhc2Ugc2VuZCB5b3VyIGZlZWRiYWNrIHRvIHBhdGNo
+ZXctZGV2ZWxAcmVkaGF0LmNvbQ==
 
