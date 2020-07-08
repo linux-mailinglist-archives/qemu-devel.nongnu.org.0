@@ -2,62 +2,79 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 455AF218B2E
-	for <lists+qemu-devel@lfdr.de>; Wed,  8 Jul 2020 17:26:41 +0200 (CEST)
-Received: from localhost ([::1]:48990 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 72C3521928A
+	for <lists+qemu-devel@lfdr.de>; Wed,  8 Jul 2020 23:31:26 +0200 (CEST)
+Received: from localhost ([::1]:34038 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jtBy4-00028x-9L
-	for lists+qemu-devel@lfdr.de; Wed, 08 Jul 2020 11:26:40 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:57830)
+	id 1jtHf3-0003AC-Cq
+	for lists+qemu-devel@lfdr.de; Wed, 08 Jul 2020 17:31:25 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:33534)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1jtBwJ-0000k3-SD
- for qemu-devel@nongnu.org; Wed, 08 Jul 2020 11:24:51 -0400
-Received: from mout.kundenserver.de ([212.227.126.131]:33413)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1jtBwG-0003rj-Hd
- for qemu-devel@nongnu.org; Wed, 08 Jul 2020 11:24:51 -0400
-Received: from localhost.localdomain ([82.252.135.106]) by
- mrelayeu.kundenserver.de (mreue011 [212.227.15.167]) with ESMTPSA (Nemesis)
- id 1MryCb-1ke3Oi2Y9F-00nyk5; Wed, 08 Jul 2020 17:24:45 +0200
-From: Laurent Vivier <laurent@vivier.eu>
-To: qemu-devel@nongnu.org
-Subject: [PATCH v2 2/2] linux-user: fix print_syscall_err() when syscall
- returned value is negative
-Date: Wed,  8 Jul 2020 17:24:35 +0200
-Message-Id: <20200708152435.706070-3-laurent@vivier.eu>
-X-Mailer: git-send-email 2.26.2
-In-Reply-To: <20200708152435.706070-1-laurent@vivier.eu>
-References: <20200708152435.706070-1-laurent@vivier.eu>
+ (Exim 4.90_1) (envelope-from <ehabkost@redhat.com>)
+ id 1jtHaG-0006Gr-MF
+ for qemu-devel@nongnu.org; Wed, 08 Jul 2020 17:26:28 -0400
+Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:50201
+ helo=us-smtp-1.mimecast.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <ehabkost@redhat.com>)
+ id 1jtHaE-0001q2-VA
+ for qemu-devel@nongnu.org; Wed, 08 Jul 2020 17:26:28 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1594243585;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=LrW3ISu0KT6KfnFR7UAWObZg8Y6b4dfrBXbmannj/eU=;
+ b=SAp0S1mW1CUbvbaCrF93kwo8xidgEvzBKME7vufod2mC8iPGUfRRCAxAmKG2hdq/2i/M7a
+ H/PY/PU+S2w+TjRRVAWjBHTWJL+BvPn1TP0m/nwYLZgTBxm5t71A/ryboEk9LuNY5DXs2f
+ tsFgfFx2KGB2OdA/PotdzRbjI36+lzo=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-27-JCA3oVQVOPi1V7yB-82Haw-1; Wed, 08 Jul 2020 11:25:43 -0400
+X-MC-Unique: JCA3oVQVOPi1V7yB-82Haw-1
+Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
+ [10.5.11.23])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 68ED7800401;
+ Wed,  8 Jul 2020 15:25:42 +0000 (UTC)
+Received: from localhost (ovpn-116-140.rdu2.redhat.com [10.10.116.140])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 4123E1A8EC;
+ Wed,  8 Jul 2020 15:25:41 +0000 (UTC)
+Date: Wed, 8 Jul 2020 11:25:40 -0400
+From: Eduardo Habkost <ehabkost@redhat.com>
+To: Peter Maydell <peter.maydell@linaro.org>
+Subject: Re: [PATCH] cpu: Add starts_halted() method
+Message-ID: <20200708152540.GZ7276@habkost.net>
+References: <20200707204333.261506-1-bauerman@linux.ibm.com>
+ <20200707214917.GX7276@habkost.net>
+ <87y2nu3nxq.fsf@morokweng.localdomain>
+ <c53b36b7-ee7b-bb66-8220-cce788fd631d@redhat.com>
+ <20200708100038.GG18595@umbus.fritz.box>
+ <CAFEAcA9V7Uha9-rz+JY-5HkazCWuTk1vkLnw1m9Lw-bXXKbkvw@mail.gmail.com>
 MIME-Version: 1.0
+In-Reply-To: <CAFEAcA9V7Uha9-rz+JY-5HkazCWuTk1vkLnw1m9Lw-bXXKbkvw@mail.gmail.com>
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=ehabkost@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=iso-8859-1
 Content-Transfer-Encoding: 8bit
-X-Provags-ID: V03:K1:SlgJvoPbMIPRGZqKxi52xr+quYCcDCXIErC0wCyf+Ir2Yr29VYo
- ZB3s7qqyzN5pgoXhvH+NvxR0KyVa/c2aKvYdUycjOEJ1DfeAMLAoFlpelJRuivwG1xElZW6
- RaMVWCw6DcaupVESJBY3EKA+Squ5xOEhlUY6hbDh8Ij8kqKJdXRCbMzi0bWKedXpgNwiaw/
- l4Oq+X95ZGoOzOxI1s7Vw==
-X-UI-Out-Filterresults: notjunk:1;V03:K0:1yZvhYdCusY=:vgX2h1pxeyx/F85cGtE2on
- weLOe4HuP4FB1X+1OhsWitn/xUXABCOYWIOW8g6nc/2kW2D4do1fP0CUP7b2ClcztoV39ZJM7
- VL0zHBlSRfT73dchhfUBwNgcrvYV9oaT/8OH3/j9u4Tzi5an83RrtiHEcEe47wegLovIbVNPT
- I0AeRpQe9VA1PrLsZVrze5LOGleMy8oAiz3sLCJTMxZITzVUdtkf+Q64UmXYU0UGuQp8gLw3k
- WjzLzY3Be9VdkRS4f6ILN6aGTsvHtbOioQYjqi94PXi2GbB+4UlqWwUdBz+UIUnpZmYc0vUHU
- jIK0DZp+yeXIeUnWbvbsZWCn9LFutucDyimWwvdAx2nSgCz7vKGWlIcJjYThO5jRyzD6ZoDl9
- 9J9eiKuNNXqJcIEne2XY5+2LjpgumuXS9wVOopyljU7/DYeYvTdxg/gmJUbDDlcyh0ucwA0f2
- LCC8AfUGwUOhVbLchv8nz/xVdGmaJz6rUd0ud2OHP5qq4/qycXJ8m9NhIcAabCvSApQnxBHy2
- FhGTsCP2gSXUM0xx7+ET1JYqXb/PPaOfbndG1lXJflsb69+9DUbmkpmtCvHQdwN5EzAwuccwR
- j+EWZizMRdKXAgM/Pu/r8affTjgWBPqfsBJdymTErmqs1UEwWEV87ydZAMVvvQRRIRwc1GRWi
- LM8/hG2UOYpiSLufbp1ESPfleAUn1YoKffCtv/S1EfOrd6kIMBPKgDTA5hxV9jCm8gMyEZ4Nf
- FgmGY6QZlGjHLTMFPmQDn1ygqojrztG/nrLH2MPu+RKWsO9IK3RBBYYJeJEAZmpy2UyAj0Rbm
- OxnWPVczpMnyWFWzihE+bqWYwqzeGN+iZG5J59yqzSv5SW2ckbYhNuTaI9bBV7xDgKspoJt
-Received-SPF: none client-ip=212.227.126.131; envelope-from=laurent@vivier.eu;
- helo=mout.kundenserver.de
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/07/08 11:24:47
-X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic]
-X-Spam_score_int: -28
-X-Spam_score: -2.9
-X-Spam_bar: --
-X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_NONE=-0.0001,
- RCVD_IN_MSPIKE_H2=-1, SPF_HELO_NONE=0.001,
- SPF_NONE=0.001 autolearn=ham autolearn_force=no
+Content-Disposition: inline
+Received-SPF: pass client-ip=205.139.110.120; envelope-from=ehabkost@redhat.com;
+ helo=us-smtp-1.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/07/07 17:25:11
+X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
+X-Spam_score_int: -40
+X-Spam_score: -4.1
+X-Spam_bar: ----
+X-Spam_report: (-4.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-1, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -70,137 +87,47 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Laurent Vivier <laurent@vivier.eu>, Filip Bozuta <Filip.Bozuta@syrmia.com>
+Cc: Laurent Vivier <lvivier@redhat.com>, Thomas Huth <thuth@redhat.com>,
+ Alex =?iso-8859-1?Q?Benn=E9e?= <alex.bennee@linaro.org>,
+ QEMU Developers <qemu-devel@nongnu.org>, qemu-ppc <qemu-ppc@nongnu.org>,
+ Philippe =?iso-8859-1?Q?Mathieu-Daud=E9?= <philmd@redhat.com>,
+ Thiago Jung Bauermann <bauerman@linux.ibm.com>,
+ David Gibson <david@gibson.dropbear.id.au>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-print_syscall_err() relies on the sign of the returned value to know
-if it is an errno value or not.
+On Wed, Jul 08, 2020 at 02:14:03PM +0100, Peter Maydell wrote:
+> On Wed, 8 Jul 2020 at 12:12, David Gibson <david@gibson.dropbear.id.au> wrote:
+> > On Wed, Jul 08, 2020 at 10:38:29AM +0200, Philippe Mathieu-Daudé wrote:
+> > > Class boolean field certainly sounds better, but I am not sure this
+> > > is a property of the machine. Rather the arch? So move the field
+> > > to CPUClass? Maybe not, let's discuss :)
+> >
+> > It is absolutely a property of the machine.  e.g. I don't think we
+> > want this for powernv.  pseries is a bit of a special case since it is
+> > explicitly a paravirt platform.  But even for emulated hardware, the
+> > board can absolutely strap things so that cpus do or don't start
+> > immediately.
+> 
+> It's a property of the individual CPU, I think. One common setup
+> for Arm systems is that the primary CPU starts powered up but
+> the secondaries all start powered down.
 
-But in some cases the returned value can have the most signicant bit
-set without being an errno.
+Both statements can be true.  It can be a property of the
+individual CPU (although I'm not convinced it has to), but it
+still needs to be controlled by the machine.
 
-This patch restores previous behaviour that was also checking if
-we can decode the errno to validate it.
+> 
+> The original bug as described in the commit message sounds
+> to me like something we should look to fix in the implementation
+> of async_run_on_cpu() -- it shouldn't cause a CPU that's halfway
+> through reset to do a KVM_RUN or otherwise run guest code,
+> whether that CPU is going to start powered-up or powered-down.
 
-This patch fixes this kind of problem (qemu-m68k):
+What "halfway through reset" means, exactly?  Isn't halted==1
+enough to indicate the CPU is in that state?
 
-  root@sid:/# QEMU_STRACE= ls
-  3 brk(NULL) = -1 errno=21473607683 uname(0x407fff8a) = 0
-
-to become:
-
-  root@sid:/# QEMU_STRACE= ls
-  3 brk(NULL) = 0x8001e000
-  3 uname(0xffffdf8a) = 0
-
-Fixes: c84be71f6854 ("linux-user: Extend strace support to enable argument printing after syscall execution")
-Cc: Filip.Bozuta@syrmia.com
-Signed-off-by: Laurent Vivier <laurent@vivier.eu>
----
- linux-user/strace.c | 36 +++++++++++++-----------------------
- 1 file changed, 13 insertions(+), 23 deletions(-)
-
-diff --git a/linux-user/strace.c b/linux-user/strace.c
-index b42664bbd180..17f2554643f0 100644
---- a/linux-user/strace.c
-+++ b/linux-user/strace.c
-@@ -724,19 +724,20 @@ print_ipc(const struct syscallname *name,
-  * Variants for the return value output function
-  */
- 
--static void
-+static bool
- print_syscall_err(abi_long ret)
- {
--    const char *errstr = NULL;
-+    const char *errstr;
- 
-     qemu_log(" = ");
-     if (ret < 0) {
--        qemu_log("-1 errno=%d", (int)-ret);
-         errstr = target_strerror(-ret);
-         if (errstr) {
--            qemu_log(" (%s)", errstr);
-+            qemu_log("-1 errno=%d (%s)", (int)-ret, errstr);
-+            return true;
-         }
-     }
-+    return false;
- }
- 
- static void
-@@ -744,11 +745,10 @@ print_syscall_ret_addr(const struct syscallname *name, abi_long ret,
-                        abi_long arg0, abi_long arg1, abi_long arg2,
-                        abi_long arg3, abi_long arg4, abi_long arg5)
- {
--    print_syscall_err(ret);
--
--    if (ret >= 0) {
--        qemu_log("0x" TARGET_ABI_FMT_lx "\n", ret);
-+    if (!print_syscall_err(ret)) {
-+        qemu_log("0x" TARGET_ABI_FMT_lx, ret);
-     }
-+    qemu_log("\n");
- }
- 
- #if 0 /* currently unused */
-@@ -765,9 +765,7 @@ print_syscall_ret_newselect(const struct syscallname *name, abi_long ret,
-                             abi_long arg0, abi_long arg1, abi_long arg2,
-                             abi_long arg3, abi_long arg4, abi_long arg5)
- {
--    print_syscall_err(ret);
--
--    if (ret >= 0) {
-+    if (!print_syscall_err(ret)) {
-         qemu_log(" = 0x" TARGET_ABI_FMT_lx " (", ret);
-         print_fdset(arg0, arg1);
-         qemu_log(",");
-@@ -796,9 +794,7 @@ print_syscall_ret_adjtimex(const struct syscallname *name, abi_long ret,
-                            abi_long arg0, abi_long arg1, abi_long arg2,
-                            abi_long arg3, abi_long arg4, abi_long arg5)
- {
--    print_syscall_err(ret);
--
--    if (ret >= 0) {
-+    if (!print_syscall_err(ret)) {
-         qemu_log(TARGET_ABI_FMT_ld, ret);
-         switch (ret) {
-         case TARGET_TIME_OK:
-@@ -833,9 +829,7 @@ print_syscall_ret_listxattr(const struct syscallname *name, abi_long ret,
-                             abi_long arg0, abi_long arg1, abi_long arg2,
-                             abi_long arg3, abi_long arg4, abi_long arg5)
- {
--    print_syscall_err(ret);
--
--    if (ret >= 0) {
-+    if (!print_syscall_err(ret)) {
-         qemu_log(TARGET_ABI_FMT_ld, ret);
-         qemu_log(" (list = ");
-         if (arg1 != 0) {
-@@ -866,9 +860,7 @@ print_syscall_ret_ioctl(const struct syscallname *name, abi_long ret,
-                         abi_long arg0, abi_long arg1, abi_long arg2,
-                         abi_long arg3, abi_long arg4, abi_long arg5)
- {
--    print_syscall_err(ret);
--
--    if (ret >= 0) {
-+    if (!print_syscall_err(ret)) {
-         qemu_log(TARGET_ABI_FMT_ld, ret);
- 
-         const IOCTLEntry *ie;
-@@ -3189,9 +3181,7 @@ print_syscall_ret(int num, abi_long ret,
-                                   arg1, arg2, arg3,
-                                   arg4, arg5, arg6);
-             } else {
--                print_syscall_err(ret);
--
--                if (ret >= 0) {
-+                if (!print_syscall_err(ret)) {
-                     qemu_log(TARGET_ABI_FMT_ld, ret);
-                 }
-                 qemu_log("\n");
 -- 
-2.26.2
+Eduardo
 
 
