@@ -2,65 +2,67 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id BA7B621945A
-	for <lists+qemu-devel@lfdr.de>; Thu,  9 Jul 2020 01:34:41 +0200 (CEST)
-Received: from localhost ([::1]:50658 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5C0DF21948A
+	for <lists+qemu-devel@lfdr.de>; Thu,  9 Jul 2020 01:46:35 +0200 (CEST)
+Received: from localhost ([::1]:37536 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jtJaK-0005LL-Pj
-	for lists+qemu-devel@lfdr.de; Wed, 08 Jul 2020 19:34:40 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:36604)
+	id 1jtJlq-0003op-Em
+	for lists+qemu-devel@lfdr.de; Wed, 08 Jul 2020 19:46:34 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:38774)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <no-reply@patchew.org>)
- id 1jtJZO-0004uZ-9I
- for qemu-devel@nongnu.org; Wed, 08 Jul 2020 19:33:42 -0400
-Resent-Date: Wed, 08 Jul 2020 19:33:42 -0400
-Resent-Message-Id: <E1jtJZO-0004uZ-9I@lists.gnu.org>
-Received: from sender4-of-o53.zoho.com ([136.143.188.53]:21338)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <no-reply@patchew.org>)
- id 1jtJZM-0001wd-1g
- for qemu-devel@nongnu.org; Wed, 08 Jul 2020 19:33:42 -0400
-ARC-Seal: i=1; a=rsa-sha256; t=1594251214; cv=none; 
- d=zohomail.com; s=zohoarc; 
- b=A5LESFH6dG2053ojECbgg4bve/hlCq/nA/pMPxhHAPj/HAI8sMSDkFH6EjjjBnJ94cd//CsCTd5FDwqrq2eItGfQ5zte5aw0xuwunqRArJeuLkEcpD3MFVL0RdopC0fRLrKDpma2ovI7DQdbQebgeRNFTcUvrerl3ihmIfl2Zgg=
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.com;
- s=zohoarc; t=1594251214;
- h=Content-Type:Content-Transfer-Encoding:Cc:Date:From:In-Reply-To:MIME-Version:Message-ID:Reply-To:Subject:To;
- bh=wKRLIi7GsifJv2keNpeo1yCLez+1kRvFxXAWovT/ZVg=; 
- b=Zpq0dZtF22JQYCqpYSFHGt4cbQHsUWvVOB4aW5mqHLl9sYC34dtFnbabEfUtr53Jp0WTCeyohJtzLAc44SU5XDi4+D9Nov7yC2/YnLQrYkWJmkTMskxHV1EP87j5QR2IQVuusWHSZpy9Dl2x0twmgneNcpBl7RgFywPaF5H3ShA=
-ARC-Authentication-Results: i=1; mx.zohomail.com;
- spf=pass  smtp.mailfrom=no-reply@patchew.org;
- dmarc=pass header.from=<no-reply@patchew.org>
- header.from=<no-reply@patchew.org>
-Received: from [172.17.0.3] (23.253.156.214 [23.253.156.214]) by
- mx.zohomail.com with SMTPS id 1594251212977996.3672773534997;
- Wed, 8 Jul 2020 16:33:32 -0700 (PDT)
-Subject: Re: [RFC PATCH 0/5] Use ACPI PCI hot-plug for q35
-Message-ID: <159425121178.14243.14211274465329160712@07a7f0d89f7d>
-In-Reply-To: <20200708224615.114077-1-jusual@redhat.com>
+ (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
+ id 1jtJl3-0003Bb-Kt
+ for qemu-devel@nongnu.org; Wed, 08 Jul 2020 19:45:45 -0400
+Received: from indium.canonical.com ([91.189.90.7]:37998)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
+ id 1jtJl1-0003PG-CF
+ for qemu-devel@nongnu.org; Wed, 08 Jul 2020 19:45:45 -0400
+Received: from loganberry.canonical.com ([91.189.90.37])
+ by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
+ id 1jtJkz-0000rv-Pu
+ for <qemu-devel@nongnu.org>; Wed, 08 Jul 2020 23:45:41 +0000
+Received: from loganberry.canonical.com (localhost [127.0.0.1])
+ by loganberry.canonical.com (Postfix) with ESMTP id BB14C2E80ED
+ for <qemu-devel@nongnu.org>; Wed,  8 Jul 2020 23:45:41 +0000 (UTC)
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
-Resent-From: 
-From: no-reply@patchew.org
-To: jusual@redhat.com
-Date: Wed, 8 Jul 2020 16:33:32 -0700 (PDT)
-X-ZohoMailClient: External
-Received-SPF: pass client-ip=136.143.188.53; envelope-from=no-reply@patchew.org;
- helo=sender4-of-o53.zoho.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/07/08 19:29:37
+Content-Transfer-Encoding: quoted-printable
+Date: Wed, 08 Jul 2020 23:36:22 -0000
+From: Alex Austin <1886602@bugs.launchpad.net>
+To: qemu-devel@nongnu.org
+X-Launchpad-Notification-Type: bug
+X-Launchpad-Bug: product=qemu; status=New; importance=Undecided; assignee=None;
+X-Launchpad-Bug-Information-Type: Public
+X-Launchpad-Bug-Private: no
+X-Launchpad-Bug-Security-Vulnerability: no
+X-Launchpad-Bug-Commenters: circuitsoft lersek
+X-Launchpad-Bug-Reporter: Alex Austin (circuitsoft)
+X-Launchpad-Bug-Modifier: Alex Austin (circuitsoft)
+References: <159408874500.32011.1427435858163411654.malonedeb@gac.canonical.com>
+Message-Id: <159425138304.26885.1674346626863488567.malone@wampee.canonical.com>
+Subject: [Bug 1886602] Re: Windows 10 very slow with OVMF
+X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
+X-Launchpad-Message-For: qemu-devel-ml
+Precedence: bulk
+X-Generated-By: Launchpad (canonical.com);
+ Revision="b24753402d6321ed1b9083e580f5f014a46bab00";
+ Instance="production-secrets-lazr.conf"
+X-Launchpad-Hash: 1e637d589c0d2c36bbad06a7ff19fb45a884dc09
+Received-SPF: none client-ip=91.189.90.7; envelope-from=bounces@canonical.com;
+ helo=indium.canonical.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/07/08 15:50:36
 X-ACL-Warn: Detected OS   = Linux 3.11 and newer [fuzzy]
-X-Spam_score_int: -18
-X-Spam_score: -1.9
-X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_NONE=-0.0001,
- RCVD_IN_MSPIKE_H4=-0.01, RCVD_IN_MSPIKE_WL=-0.01, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Spam_score_int: -58
+X-Spam_score: -5.9
+X-Spam_bar: -----
+X-Spam_report: (-5.9 / 5.0 requ) BAYES_00=-1.9, HEADER_FROM_DIFFERENT_DOMAINS=1,
+ RCVD_IN_DNSWL_HI=-5, RCVD_IN_MSPIKE_H3=-0.01, RCVD_IN_MSPIKE_WL=-0.01,
+ SPF_HELO_NONE=0.001, SPF_NONE=0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
-Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -69,53 +71,107 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: qemu-devel@nongnu.org
-Cc: imammedo@redhat.com, jusual@redhat.com, qemu-devel@nongnu.org,
- mst@redhat.com
+Reply-To: Bug 1886602 <1886602@bugs.launchpad.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-UGF0Y2hldyBVUkw6IGh0dHBzOi8vcGF0Y2hldy5vcmcvUUVNVS8yMDIwMDcwODIyNDYxNS4xMTQw
-NzctMS1qdXN1YWxAcmVkaGF0LmNvbS8KCgoKSGksCgpUaGlzIHNlcmllcyBmYWlsZWQgdGhlIGRv
-Y2tlci1taW5nd0BmZWRvcmEgYnVpbGQgdGVzdC4gUGxlYXNlIGZpbmQgdGhlIHRlc3RpbmcgY29t
-bWFuZHMgYW5kCnRoZWlyIG91dHB1dCBiZWxvdy4gSWYgeW91IGhhdmUgRG9ja2VyIGluc3RhbGxl
-ZCwgeW91IGNhbiBwcm9iYWJseSByZXByb2R1Y2UgaXQKbG9jYWxseS4KCj09PSBURVNUIFNDUklQ
-VCBCRUdJTiA9PT0KIyEgL2Jpbi9iYXNoCmV4cG9ydCBBUkNIPXg4Nl82NAptYWtlIGRvY2tlci1p
-bWFnZS1mZWRvcmEgVj0xIE5FVFdPUks9MQp0aW1lIG1ha2UgZG9ja2VyLXRlc3QtbWluZ3dAZmVk
-b3JhIEo9MTQgTkVUV09SSz0xCj09PSBURVNUIFNDUklQVCBFTkQgPT09CgogIENDICAgICAgaHcv
-YWNwaS9hY3BpX2ludGVyZmFjZS5vCiAgQ0MgICAgICBody9hY3BpL2Jpb3MtbGlua2VyLWxvYWRl
-ci5vCi90bXAvcWVtdS10ZXN0L3NyYy9ody9hY3BpL2ljaDkuYzogSW4gZnVuY3Rpb24gJ2ljaDlf
-cG1faW5pdCc6Ci90bXAvcWVtdS10ZXN0L3NyYy9ody9hY3BpL2ljaDkuYzozMTM6OTogZXJyb3I6
-IHRvbyBtYW55IGFyZ3VtZW50cyB0byBmdW5jdGlvbiAncWJ1c19zZXRfaG90cGx1Z19oYW5kbGVy
-JwogIDMxMyB8ICAgICAgICAgcWJ1c19zZXRfaG90cGx1Z19oYW5kbGVyKEJVUyhwY2lfZ2V0X2J1
-cyhscGNfcGNpKSksCiAgICAgIHwgICAgICAgICBefn5+fn5+fn5+fn5+fn5+fn5+fn5+fn4KSW4g
-ZmlsZSBpbmNsdWRlZCBmcm9tIC90bXAvcWVtdS10ZXN0L3NyYy9pbmNsdWRlL2h3L2lzYS9pc2Eu
-aDo4LAotLS0KL3RtcC9xZW11LXRlc3Qvc3JjL2luY2x1ZGUvaHcvcWRldi1jb3JlLmg6NTM4OjY6
-IG5vdGU6IGRlY2xhcmVkIGhlcmUKICA1MzggfCB2b2lkIHFidXNfc2V0X2hvdHBsdWdfaGFuZGxl
-cihCdXNTdGF0ZSAqYnVzLCBPYmplY3QgKmhhbmRsZXIpOwogICAgICB8ICAgICAgXn5+fn5+fn5+
-fn5+fn5+fn5+fn5+fn5+Cm1ha2U6ICoqKiBbL3RtcC9xZW11LXRlc3Qvc3JjL3J1bGVzLm1hazo2
-OTogaHcvYWNwaS9pY2g5Lm9dIEVycm9yIDEKbWFrZTogKioqIFdhaXRpbmcgZm9yIHVuZmluaXNo
-ZWQgam9icy4uLi4KICBDQyAgICAgIGh3L2FjcGkvYW1sLWJ1aWxkLm8KVHJhY2ViYWNrIChtb3N0
-IHJlY2VudCBjYWxsIGxhc3QpOgotLS0KICAgIHJhaXNlIENhbGxlZFByb2Nlc3NFcnJvcihyZXRj
-b2RlLCBjbWQpCnN1YnByb2Nlc3MuQ2FsbGVkUHJvY2Vzc0Vycm9yOiBDb21tYW5kICdbJ3N1ZG8n
-LCAnLW4nLCAnZG9ja2VyJywgJ3J1bicsICctLWxhYmVsJywgJ2NvbS5xZW11Lmluc3RhbmNlLnV1
-aWQ9ZjQwMTk4Yjk5MWViNGJmNGExNWNjY2JmODFlY2NiZjUnLCAnLXUnLCAnMTAwMycsICctLXNl
-Y3VyaXR5LW9wdCcsICdzZWNjb21wPXVuY29uZmluZWQnLCAnLS1ybScsICctZScsICdUQVJHRVRf
-TElTVD0nLCAnLWUnLCAnRVhUUkFfQ09ORklHVVJFX09QVFM9JywgJy1lJywgJ1Y9JywgJy1lJywg
-J0o9MTQnLCAnLWUnLCAnREVCVUc9JywgJy1lJywgJ1NIT1dfRU5WPScsICctZScsICdDQ0FDSEVf
-RElSPS92YXIvdG1wL2NjYWNoZScsICctdicsICcvaG9tZS9wYXRjaGV3Mi8uY2FjaGUvcWVtdS1k
-b2NrZXItY2NhY2hlOi92YXIvdG1wL2NjYWNoZTp6JywgJy12JywgJy92YXIvdG1wL3BhdGNoZXct
-dGVzdGVyLXRtcC10dmt0aDZhdC9zcmMvZG9ja2VyLXNyYy4yMDIwLTA3LTA4LTE5LjMwLjAwLjE4
-MTcyOi92YXIvdG1wL3FlbXU6eixybycsICdxZW11OmZlZG9yYScsICcvdmFyL3RtcC9xZW11L3J1
-bicsICd0ZXN0LW1pbmd3J10nIHJldHVybmVkIG5vbi16ZXJvIGV4aXQgc3RhdHVzIDIuCmZpbHRl
-cj0tLWZpbHRlcj1sYWJlbD1jb20ucWVtdS5pbnN0YW5jZS51dWlkPWY0MDE5OGI5OTFlYjRiZjRh
-MTVjY2NiZjgxZWNjYmY1Cm1ha2VbMV06ICoqKiBbZG9ja2VyLXJ1bl0gRXJyb3IgMQptYWtlWzFd
-OiBMZWF2aW5nIGRpcmVjdG9yeSBgL3Zhci90bXAvcGF0Y2hldy10ZXN0ZXItdG1wLXR2a3RoNmF0
-L3NyYycKbWFrZTogKioqIFtkb2NrZXItcnVuLXRlc3QtbWluZ3dAZmVkb3JhXSBFcnJvciAyCgpy
-ZWFsICAgIDNtMzIuMjAzcwp1c2VyICAgIDBtOC40MjRzCgoKVGhlIGZ1bGwgbG9nIGlzIGF2YWls
-YWJsZSBhdApodHRwOi8vcGF0Y2hldy5vcmcvbG9ncy8yMDIwMDcwODIyNDYxNS4xMTQwNzctMS1q
-dXN1YWxAcmVkaGF0LmNvbS90ZXN0aW5nLmRvY2tlci1taW5nd0BmZWRvcmEvP3R5cGU9bWVzc2Fn
-ZS4KLS0tCkVtYWlsIGdlbmVyYXRlZCBhdXRvbWF0aWNhbGx5IGJ5IFBhdGNoZXcgW2h0dHBzOi8v
-cGF0Y2hldy5vcmcvXS4KUGxlYXNlIHNlbmQgeW91ciBmZWVkYmFjayB0byBwYXRjaGV3LWRldmVs
-QHJlZGhhdC5jb20=
+I did try the most recent OVMF from QEMU 5.0
+(https://git.qemu.org/?p=3Dqemu.git;a=3Dblob_plain;f=3Dpc-
+bios/edk2-x86_64-code.fd.bz2;hb=3Dfdd76fecdde) and there was no
+difference.
+
+I will re-build qemu sometime soon.
+
+=3D=3D=3D=3D=3D=3D=3D
+$ cat /proc/cpuinfo =
+
+processor       : 0
+vendor_id       : GenuineIntel
+cpu family      : 6
+model           : 142
+model name      : Intel(R) Core(TM) i7-7500U CPU @ 2.70GHz
+stepping        : 9
+microcode       : 0xca
+cpu MHz         : 659.478
+cache size      : 4096 KB
+physical id     : 0
+siblings        : 4
+core id         : 0
+cpu cores       : 2
+apicid          : 0
+initial apicid  : 0
+fpu             : yes
+fpu_exception   : yes
+cpuid level     : 22
+wp              : yes
+flags           : fpu vme de pse tsc msr pae mce cx8 apic sep mtrr pge mca =
+cmov pat pse36 clflush dts acpi mmx fxsr sse sse2 ss ht tm pbe syscall nx p=
+dpe1gb rdtscp lm constant_tsc art arch_perfmon pebs bts rep_good nopl xtopo=
+logy nonstop_tsc cpuid aperfmperf tsc_known_freq pni pclmulqdq dtes64 monit=
+or ds_cpl vmx est tm2 ssse3 sdbg fma cx16 xtpr pdcm pcid sse4_1 sse4_2 x2ap=
+ic movbe popcnt tsc_deadline_timer aes xsave avx f16c rdrand lahf_lm abm 3d=
+nowprefetch cpuid_fault epb invpcid_single pti ssbd ibrs ibpb stibp tpr_sha=
+dow vnmi flexpriority ept vpid ept_ad fsgsbase tsc_adjust bmi1 avx2 smep bm=
+i2 erms invpcid mpx rdseed adx smap clflushopt intel_pt xsaveopt xsavec xge=
+tbv1 xsaves dtherm ida arat pln pts hwp hwp_notify hwp_act_window hwp_epp m=
+d_clear flush_l1d
+bugs            : cpu_meltdown spectre_v1 spectre_v2 spec_store_bypass l1tf=
+ mds swapgs itlb_multihit srbds
+bogomips        : 5808.00
+clflush size    : 64
+cache_alignment : 64
+address sizes   : 39 bits physical, 48 bits virtual
+power management:
+
+=3D=3D=3D=3D=3D=3D=3D
+$ grep . /sys/module/kvm_*/parameters/*
+/sys/module/kvm_intel/parameters/emulate_invalid_guest_state:Y
+/sys/module/kvm_intel/parameters/enable_apicv:N
+/sys/module/kvm_intel/parameters/enable_shadow_vmcs:N
+/sys/module/kvm_intel/parameters/enlightened_vmcs:N
+/sys/module/kvm_intel/parameters/ept:Y
+/sys/module/kvm_intel/parameters/eptad:Y
+/sys/module/kvm_intel/parameters/fasteoi:Y
+/sys/module/kvm_intel/parameters/flexpriority:Y
+/sys/module/kvm_intel/parameters/nested:N
+/sys/module/kvm_intel/parameters/ple_gap:128
+/sys/module/kvm_intel/parameters/ple_window:4096
+/sys/module/kvm_intel/parameters/ple_window_grow:2
+/sys/module/kvm_intel/parameters/ple_window_max:4294967295
+/sys/module/kvm_intel/parameters/ple_window_shrink:0
+/sys/module/kvm_intel/parameters/pml:Y
+/sys/module/kvm_intel/parameters/preemption_timer:Y
+/sys/module/kvm_intel/parameters/unrestricted_guest:Y
+/sys/module/kvm_intel/parameters/vmentry_l1d_flush:cond
+/sys/module/kvm_intel/parameters/vnmi:Y
+/sys/module/kvm_intel/parameters/vpid:Y
+
+-- =
+
+You received this bug notification because you are a member of qemu-
+devel-ml, which is subscribed to QEMU.
+https://bugs.launchpad.net/bugs/1886602
+
+Title:
+  Windows 10 very slow with OVMF
+
+Status in QEMU:
+  New
+
+Bug description:
+  Debian Buster
+
+  Kernel 4.19.0-9-amd64
+  qemu-kvm 1:3.1+dfsg-8+deb10u5
+  ovmf 0~20181115.85588389-3+deb10u1
+
+  Machine: Thinkpad T470, i7-7500u, 20GB RAM
+  VM: 4 CPUs, 8GB RAM, Broadwell-noTSX CPU Model
+
+  Windows 10, under this VM, seems to be exceedingly slow with all
+  operations. This is a clean install with very few services running.
+  Task Manager can take 30% CPU looking at an idle system.
+
+To manage notifications about this bug go to:
+https://bugs.launchpad.net/qemu/+bug/1886602/+subscriptions
 
