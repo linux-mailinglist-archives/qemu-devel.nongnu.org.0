@@ -2,105 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4DF2621957C
-	for <lists+qemu-devel@lfdr.de>; Thu,  9 Jul 2020 03:03:05 +0200 (CEST)
-Received: from localhost ([::1]:35242 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 968032192BA
+	for <lists+qemu-devel@lfdr.de>; Wed,  8 Jul 2020 23:45:48 +0200 (CEST)
+Received: from localhost ([::1]:33684 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jtKxs-0000GN-Az
-	for lists+qemu-devel@lfdr.de; Wed, 08 Jul 2020 21:03:04 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:52058)
+	id 1jtHsx-0001eG-IB
+	for lists+qemu-devel@lfdr.de; Wed, 08 Jul 2020 17:45:47 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:34776)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1jtKwH-0007DA-0L
- for qemu-devel@nongnu.org; Wed, 08 Jul 2020 21:01:25 -0400
-Received: from us-smtp-2.mimecast.com ([207.211.31.81]:56079
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1jtHdq-0003Pj-7j
+ for qemu-devel@nongnu.org; Wed, 08 Jul 2020 17:30:10 -0400
+Received: from us-smtp-1.mimecast.com ([207.211.31.81]:52087
  helo=us-smtp-delivery-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1jtKwF-0003sX-3M
- for qemu-devel@nongnu.org; Wed, 08 Jul 2020 21:01:24 -0400
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1jtHdo-0002KI-CC
+ for qemu-devel@nongnu.org; Wed, 08 Jul 2020 17:30:09 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1594256482;
+ s=mimecast20190719; t=1594243807;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
- bh=SP7p10zQCTFQ0IeMD+wPAl0MwWTRVAjofBdESwNrtUI=;
- b=Lwu2xY29OzjAo8p8K4GlLBnouf4rLKdAwQoFzb61SvTdrURioqEYQlmLNFGJo196x63lkw
- awbebXJOctXzI/21tQWwhQqstpMPniIJpewqUYM42ByxdtXKyYA9nZiY3c+amJLMV9QKf3
- ljxxzRxPc+XE9ZN773A6SavCGtQ64JM=
-Received: from mail-wm1-f69.google.com (mail-wm1-f69.google.com
- [209.85.128.69]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-502-ajxZ1pdyOcWz8BSR-3X1BQ-1; Wed, 08 Jul 2020 04:57:34 -0400
-X-MC-Unique: ajxZ1pdyOcWz8BSR-3X1BQ-1
-Received: by mail-wm1-f69.google.com with SMTP id b13so2220086wme.9
- for <qemu-devel@nongnu.org>; Wed, 08 Jul 2020 01:57:34 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:autocrypt
- :message-id:date:user-agent:mime-version:in-reply-to
- :content-language:content-transfer-encoding;
- bh=SP7p10zQCTFQ0IeMD+wPAl0MwWTRVAjofBdESwNrtUI=;
- b=OfmuLxS5iuB7gvUnKUiG3ZVFkdPQbqugPuez+T5jahMhAMmJv4GkMF+Gd6HTcD7UPa
- fgiDm6uAWz/m8BNKKlwh+kAo9Aln1vquiAyOKvqdQ3QWztTUnxfQNFP6vnpD/PrCm6Vi
- np46sR7rBKmjj0cUzfP8cF03pQqDd+h5a02RAJ0sR03z4rL8KiHetk/2wdOyjAORJ72x
- +IXnyboG9+lCY6xoPDrLpLP7KChaClSuXK/j2RtYLQlVnLHeVWc3dviOP9tutcdvTj2g
- rKDSyyrn0iUXkcBrtWFBCLe2yyg4Ql2Q4Wj5Of8upbiUQxj2hhBikgqNnwCa1MJKFlVY
- DoXw==
-X-Gm-Message-State: AOAM5305IvPBB1FKJ8pA5sdrokpi1vPXeeitIxg87AZ1ZA8/bJjSCOAN
- QKSM+jzt2DFdZKO7jZjSOXJTPQ7yG0UwWors0Xw1f/d/bJgbvzXd/EqPPrbB0cl1+wyAVMOCX+Z
- cNA3tA8rNyxp49mE=
-X-Received: by 2002:a1c:dd86:: with SMTP id u128mr8251370wmg.123.1594198653529; 
- Wed, 08 Jul 2020 01:57:33 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJx9Us5m2JT1t8/6MrVDBKMynH7y2zThyqANYVV5x0fIpjL4/Bfibc4V1x+Kip3wPDCvcbzoPQ==
-X-Received: by 2002:a1c:dd86:: with SMTP id u128mr8251353wmg.123.1594198653291; 
- Wed, 08 Jul 2020 01:57:33 -0700 (PDT)
-Received: from [192.168.1.36] (138.red-83-57-170.dynamicip.rima-tde.net.
- [83.57.170.138])
- by smtp.gmail.com with ESMTPSA id q1sm4679275wro.82.2020.07.08.01.57.32
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Wed, 08 Jul 2020 01:57:32 -0700 (PDT)
-Subject: Re: [PATCH v2] MAINTAINERS: Cover the firmware JSON schema
-To: "Michael S. Tsirkin" <mst@redhat.com>
-References: <20200703183450.32398-1-philmd@redhat.com>
- <20200708024434-mutt-send-email-mst@kernel.org>
-From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
-Autocrypt: addr=philmd@redhat.com; keydata=
- mQINBDXML8YBEADXCtUkDBKQvNsQA7sDpw6YLE/1tKHwm24A1au9Hfy/OFmkpzo+MD+dYc+7
- bvnqWAeGweq2SDq8zbzFZ1gJBd6+e5v1a/UrTxvwBk51yEkadrpRbi+r2bDpTJwXc/uEtYAB
- GvsTZMtiQVA4kRID1KCdgLa3zztPLCj5H1VZhqZsiGvXa/nMIlhvacRXdbgllPPJ72cLUkXf
- z1Zu4AkEKpccZaJspmLWGSzGu6UTZ7UfVeR2Hcc2KI9oZB1qthmZ1+PZyGZ/Dy+z+zklC0xl
- XIpQPmnfy9+/1hj1LzJ+pe3HzEodtlVA+rdttSvA6nmHKIt8Ul6b/h1DFTmUT1lN1WbAGxmg
- CH1O26cz5nTrzdjoqC/b8PpZiT0kO5MKKgiu5S4PRIxW2+RA4H9nq7nztNZ1Y39bDpzwE5Sp
- bDHzd5owmLxMLZAINtCtQuRbSOcMjZlg4zohA9TQP9krGIk+qTR+H4CV22sWldSkVtsoTaA2
- qNeSJhfHQY0TyQvFbqRsSNIe2gTDzzEQ8itsmdHHE/yzhcCVvlUzXhAT6pIN0OT+cdsTTfif
- MIcDboys92auTuJ7U+4jWF1+WUaJ8gDL69ThAsu7mGDBbm80P3vvUZ4fQM14NkxOnuGRrJxO
- qjWNJ2ZUxgyHAh5TCxMLKWZoL5hpnvx3dF3Ti9HW2dsUUWICSQARAQABtDJQaGlsaXBwZSBN
- YXRoaWV1LURhdWTDqSAoUGhpbCkgPHBoaWxtZEByZWRoYXQuY29tPokCVQQTAQgAPwIbDwYL
- CQgHAwIGFQgCCQoLBBYCAwECHgECF4AWIQSJweePYB7obIZ0lcuio/1u3q3A3gUCXsfWwAUJ
- KtymWgAKCRCio/1u3q3A3ircD/9Vjh3aFNJ3uF3hddeoFg1H038wZr/xi8/rX27M1Vj2j9VH
- 0B8Olp4KUQw/hyO6kUxqkoojmzRpmzvlpZ0cUiZJo2bQIWnvScyHxFCv33kHe+YEIqoJlaQc
- JfKYlbCoubz+02E2A6bFD9+BvCY0LBbEj5POwyKGiDMjHKCGuzSuDRbCn0Mz4kCa7nFMF5Jv
- piC+JemRdiBd6102ThqgIsyGEBXuf1sy0QIVyXgaqr9O2b/0VoXpQId7yY7OJuYYxs7kQoXI
- 6WzSMpmuXGkmfxOgbc/L6YbzB0JOriX0iRClxu4dEUg8Bs2pNnr6huY2Ft+qb41RzCJvvMyu
- gS32LfN0bTZ6Qm2A8ayMtUQgnwZDSO23OKgQWZVglGliY3ezHZ6lVwC24Vjkmq/2yBSLakZE
- 6DZUjZzCW1nvtRK05ebyK6tofRsx8xB8pL/kcBb9nCuh70aLR+5cmE41X4O+MVJbwfP5s/RW
- 9BFSL3qgXuXso/3XuWTQjJJGgKhB6xXjMmb1J4q/h5IuVV4juv1Fem9sfmyrh+Wi5V1IzKI7
- RPJ3KVb937eBgSENk53P0gUorwzUcO+ASEo3Z1cBKkJSPigDbeEjVfXQMzNt0oDRzpQqH2vp
- apo2jHnidWt8BsckuWZpxcZ9+/9obQ55DyVQHGiTN39hkETy3Emdnz1JVHTU0Q==
-Message-ID: <3dafd514-f66c-96c5-3217-86ef990dda1b@redhat.com>
-Date: Wed, 8 Jul 2020 10:57:31 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.5.0
+ in-reply-to:in-reply-to:references:references;
+ bh=DHNaDP30Y0z64Qau1BQkfPRIFI8A6468tSSeYZ3almU=;
+ b=LY1dHPeF07+qkydq9vH7BRfR6wzPnY9hRYJKyRn1OwpofbkhfHVfXI9N4Rce56hw9+LuH9
+ wdBwVus6+2jUqq7atkCfcJ33ypVMvvaycVRtAqMIKLW5sunngW2U06mYQ4oC8OIiq4fOiL
+ TkRzIYR62nMKeyNbRexOHxglrcCqiZ8=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-449-TPcfYAm3MmmdNIduf44Qnw-1; Wed, 08 Jul 2020 05:24:47 -0400
+X-MC-Unique: TPcfYAm3MmmdNIduf44Qnw-1
+Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
+ [10.5.11.12])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 7A99310059BA;
+ Wed,  8 Jul 2020 09:24:46 +0000 (UTC)
+Received: from blackfin.pond.sub.org (ovpn-112-143.ams2.redhat.com
+ [10.36.112.143])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 2946B60E1C;
+ Wed,  8 Jul 2020 09:24:45 +0000 (UTC)
+Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
+ id 704C61132FD2; Wed,  8 Jul 2020 11:24:44 +0200 (CEST)
+From: Markus Armbruster <armbru@redhat.com>
+To: Daniel P. =?utf-8?Q?Berrang=C3=A9?= <berrange@redhat.com>
+Subject: Re: Slow down with: 'Make "info qom-tree" show children sorted'
+References: <20200527084754.7531-1-armbru@redhat.com>
+ <20200527084754.7531-3-armbru@redhat.com>
+ <49bea110-0a3d-5a40-6647-67b116fb41b5@redhat.com>
+ <20200707094006.GE2649462@redhat.com>
+Date: Wed, 08 Jul 2020 11:24:44 +0200
+In-Reply-To: <20200707094006.GE2649462@redhat.com> ("Daniel P. =?utf-8?Q?B?=
+ =?utf-8?Q?errang=C3=A9=22's?=
+ message of "Tue, 7 Jul 2020 10:40:06 +0100")
+Message-ID: <87tuyi2wbn.fsf@dusky.pond.sub.org>
+User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/26.3 (gnu/linux)
 MIME-Version: 1.0
-In-Reply-To: <20200708024434-mutt-send-email-mst@kernel.org>
-Content-Language: en-US
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=philmd@redhat.com
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=armbru@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=207.211.31.81; envelope-from=philmd@redhat.com;
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=207.211.31.81; envelope-from=armbru@redhat.com;
  helo=us-smtp-delivery-1.mimecast.com
 X-detected-operating-system: by eggs.gnu.org: First seen = 2020/07/07 17:25:09
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
@@ -110,8 +75,7 @@ X-Spam_bar: ---
 X-Spam_report: (-3.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H3=-0.01, RCVD_IN_MSPIKE_WL=-0.01,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- URIBL_BLOCKED=0.001 autolearn=unavailable autolearn_force=no
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -124,72 +88,77 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: "Daniel P . Berrange" <berrange@redhat.com>,
- Kashyap Chamarthy <kchamart@redhat.com>,
- QEMU Trivial <qemu-trivial@nongnu.org>, qemu-devel@nongnu.org,
- Gerd Hoffmann <kraxel@redhat.com>, Laszlo Ersek <lersek@redhat.com>
+Cc: Laurent Vivier <lvivier@redhat.com>, Thomas Huth <thuth@redhat.com>,
+ ehabkost@redhat.com, philmd@redhat.com, mark.cave-ayland@ilande.co.uk,
+ Markus Armbruster <armbru@redhat.com>, qemu-devel@nongnu.org,
+ Greg Kurz <groug@kaod.org>, =?utf-8?Q?C=C3=A9dric?= Le Goater <clg@kaod.org>,
+ pbonzini@redhat.com, David Gibson <dgibson@redhat.com>,
+ Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-+qemu-trivial
+Daniel P. Berrang=C3=A9 <berrange@redhat.com> writes:
 
-On 7/8/20 8:45 AM, Michael S. Tsirkin wrote:
-> On Fri, Jul 03, 2020 at 08:34:50PM +0200, Philippe Mathieu-DaudÃƒÂ© wrote:
->> Add an entry to cover firmware.json (see commit 3a0adfc9bf:
->> schema that describes the different uses and properties of
->> virtual machine firmware).
->>
->> Cc: Laszlo Ersek <lersek@redhat.com>
->> Cc: Gerd Hoffmann <kraxel@redhat.com>
->> Cc: Michael S. Tsirkin <mst@redhat.com>
->> Cc: Kashyap Chamarthy <kchamart@redhat.com>
->> Cc: Daniel P. Berrange <berrange@redhat.com>
->> Suggested-by: Laszlo Ersek <lersek@redhat.com>
->> Signed-off-by: Philippe Mathieu-DaudÃƒÂ© <philmd@redhat.com>
-> 
-> 
-> Reviewed-by: Michael S. Tsirkin <mst@redhat.com>
+> On Tue, Jul 07, 2020 at 06:45:57AM +0200, Thomas Huth wrote:
+>> On 27/05/2020 10.47, Markus Armbruster wrote:
+>> > "info qom-tree" prints children in unstable order.  This is a pain
+>> > when diffing output for different versions to find change.  Print it
+>> > sorted.
+>> >=20
+>> > Signed-off-by: Markus Armbruster <armbru@redhat.com>
+>> > ---
+>> >  qom/qom-hmp-cmds.c | 24 ++++++++++++++++--------
+>> >  1 file changed, 16 insertions(+), 8 deletions(-)
+>>=20
+>>  Hi Markus,
+>>=20
+>> this patch causes a slow down of the qtests which becomes quite massive
+>> when e.g. using the ppc64 and thourough testing. When I'm running
+>>=20
+>> QTEST_QEMU_BINARY=3D"ppc64-softmmu/qemu-system-ppc64" time \
+>> ./tests/qtest/device-introspect-test -m slow | tail -n 10
+>>=20
+>> the test runs for ca. 6m40s here before the patch got applied, and for
+>> mor than 20 minutes after the patch got applied!
+>
+> I think the test case itself could be optimized. Currently it does
+> approx
+>
+>    for each device type
+>       info qom-tree
+>       device_addr type,help
+>       info qom-tree
+>
+> it compares the before/after qom-tree to look for stray objects or
+> to try to trigger crashes.
+>
+> The info qom-tree calls could be pushed outside the loop
+>
+>    info qom-tree
+>    for each device type
+>       device_addr type,help
+>    info qom-tree
+>
+> Taking /x86_64/device/introspect/concrete/defaults/pc-q35-5.1 as a
+> example, this change is the difference between 20 seconds running and
+> 3 seconds running.
 
-Thanks Michael. If you plan to do a pull request, can you
-include this patch please? (modulo the weird UTF8 mojibakes)
+Patch?
 
-Else it can simply go via the trivial tree.
+> Reverting Markus' change actually didn't make much difference, only
+> reducing the 20 seconds to 17 seconds.
 
-> 
->> ---
->> Since RFC v1:
->> - Added Daniel & Kashyap as reviewer
->> - Added myself as co-maintainer with Laszlo
->>
->> Based on a comment from Laszlo:
->> https://www.mail-archive.com/qemu-devel@nongnu.org/msg604925.html
->> Background info from Kashyap:
->> https://lists.nongnu.org/archive/html/qemu-devel/2018-03/msg01978.html
->> ---
->>  MAINTAINERS | 8 ++++++++
->>  1 file changed, 8 insertions(+)
->>
->> diff --git a/MAINTAINERS b/MAINTAINERS
->> index dec252f38b..64bcea658d 100644
->> --- a/MAINTAINERS
->> +++ b/MAINTAINERS
->> @@ -2601,6 +2601,14 @@ F: include/hw/i2c/smbus_master.h
->>  F: include/hw/i2c/smbus_slave.h
->>  F: include/hw/i2c/smbus_eeprom.h
->>  
->> +Firmware schema specifications
->> +M: Laszlo Ersek <lersek@redhat.com>
->> +M: Philippe Mathieu-DaudÃƒÂ© <philmd@redhat.com>
->> +R: Daniel P. Berrange <berrange@redhat.com>
->> +R: Kashyap Chamarthy <kchamart@redhat.com>
->> +S: Maintained
->> +F: docs/interop/firmware.json
->> +
->>  EDK2 Firmware
->>  M: Laszlo Ersek <lersek@redhat.com>
->>  M: Philippe Mathieu-DaudÃƒÂ© <philmd@redhat.com>
->> -- 
->> 2.21.3
-> 
+I found and plugged a memory leak.  I haven't checked its impact on test
+performance.
+
+> The downside is that if there is a stray object/crash, it would not
+> immediately associate with the device type. I'm not sure that's a
+> real problem though. Especially if we are running this as pre-merge
+> CI we'll only need to look at the patch series to find the broken
+> device. If this is quick enough that we can run it as standard,
+> instead of only with -m slow, then its a net win I think.
+
+Easier investigation of failures is a valid argument, but not at this
+price.  Our "make check" is painfully slow.
 
 
