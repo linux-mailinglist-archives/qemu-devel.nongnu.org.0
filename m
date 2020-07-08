@@ -2,109 +2,50 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id CEF3F218CB2
-	for <lists+qemu-devel@lfdr.de>; Wed,  8 Jul 2020 18:14:39 +0200 (CEST)
-Received: from localhost ([::1]:53842 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 81AD9218CBA
+	for <lists+qemu-devel@lfdr.de>; Wed,  8 Jul 2020 18:16:09 +0200 (CEST)
+Received: from localhost ([::1]:58056 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jtCiU-0006Ry-T0
-	for lists+qemu-devel@lfdr.de; Wed, 08 Jul 2020 12:14:38 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:42806)
+	id 1jtCjw-0008EI-K9
+	for lists+qemu-devel@lfdr.de; Wed, 08 Jul 2020 12:16:08 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:42838)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1jtChF-0005s0-Ca
- for qemu-devel@nongnu.org; Wed, 08 Jul 2020 12:13:21 -0400
-Received: from mout.kundenserver.de ([217.72.192.74]:47853)
+ (Exim 4.90_1) (envelope-from <cfontana@suse.de>) id 1jtChO-00060h-HF
+ for qemu-devel@nongnu.org; Wed, 08 Jul 2020 12:13:30 -0400
+Received: from mx2.suse.de ([195.135.220.15]:46414)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1jtChD-0003Pv-F1
- for qemu-devel@nongnu.org; Wed, 08 Jul 2020 12:13:21 -0400
-Received: from [192.168.100.1] ([82.252.135.106]) by mrelayeu.kundenserver.de
- (mreue107 [213.165.67.119]) with ESMTPSA (Nemesis) id
- 1MMnru-1k9deR3B4u-00IiCU; Wed, 08 Jul 2020 18:13:15 +0200
-To: Richard Henderson <richard.henderson@linaro.org>, qemu-devel@nongnu.org
-References: <20200708152435.706070-1-laurent@vivier.eu>
- <20200708152435.706070-3-laurent@vivier.eu>
- <91f28ac2-c3be-7088-db8a-6bad60fc2c1f@linaro.org>
-From: Laurent Vivier <laurent@vivier.eu>
-Autocrypt: addr=laurent@vivier.eu; prefer-encrypt=mutual; keydata=
- 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
-Subject: Re: [PATCH v2 2/2] linux-user: fix print_syscall_err() when syscall
- returned value is negative
-Message-ID: <a9b2795a-9e2f-92ba-2f76-b783b64cd8aa@vivier.eu>
-Date: Wed, 8 Jul 2020 18:13:14 +0200
+ (Exim 4.90_1) (envelope-from <cfontana@suse.de>) id 1jtChM-0003R6-7J
+ for qemu-devel@nongnu.org; Wed, 08 Jul 2020 12:13:30 -0400
+X-Virus-Scanned: by amavisd-new at test-mx.suse.de
+Received: from relay2.suse.de (unknown [195.135.221.27])
+ by mx2.suse.de (Postfix) with ESMTP id 60869AE8C;
+ Wed,  8 Jul 2020 16:13:26 +0000 (UTC)
+Subject: Re: [PULL 00/53] Misc patches for QEMU 5.1 soft freeze
+To: Peter Maydell <peter.maydell@linaro.org>,
+ Paolo Bonzini <pbonzini@redhat.com>
+References: <20200706164155.24696-1-pbonzini@redhat.com>
+ <CAFEAcA-F1FGde+=c3iS3wcRWG+i0RgYj5-jwafn0sX6EEYEsWA@mail.gmail.com>
+From: Claudio Fontana <cfontana@suse.de>
+Message-ID: <1a9ad36f-f4ae-2ea5-3d69-03aa5580b60e@suse.de>
+Date: Wed, 8 Jul 2020 18:13:25 +0200
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.9.0
+ Thunderbird/68.4.1
 MIME-Version: 1.0
-In-Reply-To: <91f28ac2-c3be-7088-db8a-6bad60fc2c1f@linaro.org>
+In-Reply-To: <CAFEAcA-F1FGde+=c3iS3wcRWG+i0RgYj5-jwafn0sX6EEYEsWA@mail.gmail.com>
 Content-Type: text/plain; charset=utf-8
-Content-Language: fr
+Content-Language: en-US
 Content-Transfer-Encoding: 8bit
-X-Provags-ID: V03:K1:0v7RImuYTzpdskbKeJmqMmnkM/d7weZoMof83nQrDk4lGI2pGVW
- MBpnWT4sK/h4RliXFfslGIKbolzFIgZKJ88RKtStG8C13n939d77yqQK/uzhGGJ2fLYAi4p
- KBR8HxaBGCofnMwobfeQMTo1Ug6dH6x09Wae1JiLi3tV0G1A2csnj9WGiVNKUaJn+1pY1kF
- +diCNkWNORYDNDNZ/USCA==
-X-UI-Out-Filterresults: notjunk:1;V03:K0:CAwDTRJRy5s=:5t2yb2Rwzoo4fbXuRzbsKV
- Kv5vVHT08YKQQDLyyqPEj2V4RecfR6CRhgjVG98WJqErjh2eaR3UPloJ37PuicHn6WV5x5hSN
- BsunAvbtcONc9yCc+YVQXFLMWhv+vbATWfA82tohkKmm4GVaAzMuKctC4ISDemGfe96HGp3Kh
- qR+iUdxCGtmkgh19VVNzJ4dlzBaTVgot/Ogx795iEpta8PRfEco1MV8shZGWCd58oq9T3nv/q
- VXkslfPHde7k9XQZXFm9Qcbb04YN+eeotmH/fJTQKCHXmnn1Vo70/FV+tN3aIdpQyhEBCipBc
- FOlIiTlPugrcTEMuEnfQJRwSK6Qw6qwYwfR7LO94TeLQvOqdKuYsUCLls+iszex3pFk90g6cR
- 4d51ytog93bmI7qEM76PakY5kh7HqEEeGPg6gu1qeWQ9ltVZY9kp2DtjiutObk8aMO323aeo+
- OVe683iPVOgRBMmoBghk8DVv4NnnJcDSDZeNnBugoRWhYyAWfQ6mA8rjNXFgI6f/lKiMMUamR
- SB3b8P/oP1p3e+gqO/l50J4o4nYpzwwwBDLxMeWerNpSVRI/FrQx2TBsuQv964z0yqiVJgHYK
- M/EfRypF1HaJE9pFQ+ScDNEhrCq0z+QHaIAOeYT/QH6ZRhZyXTB25Ewc1xHVtp2WNqBGxFgYT
- blMQMkvEYsgQKgjC5fpBxo3J8GTjwN+rhhVWBXaydITPsikE6Ip0t0QY8lFHf6N94GZxaqn5n
- swJjvRlQdI+vpB1J0OMgQaEdCmP0mSsCUb+/6LWejRuHA0S8qYezDbzFMtdqkElAbocty0jt6
- qdJrS6hBDH9RW1dT0nlViTayxtl8ructPvAWmM+IfaNo8Pnskd066nsrHp0VFk78mVdZ4AN
-Received-SPF: none client-ip=217.72.192.74; envelope-from=laurent@vivier.eu;
- helo=mout.kundenserver.de
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/07/08 12:13:17
-X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic]
-X-Spam_score_int: -28
-X-Spam_score: -2.9
-X-Spam_bar: --
-X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_NONE=-0.0001,
- RCVD_IN_MSPIKE_H2=-1, SPF_HELO_NONE=0.001,
- SPF_NONE=0.001 autolearn=ham autolearn_force=no
+Received-SPF: pass client-ip=195.135.220.15; envelope-from=cfontana@suse.de;
+ helo=mx2.suse.de
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/07/07 17:20:38
+X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x (no timestamps) [generic]
+X-Spam_score_int: -41
+X-Spam_score: -4.2
+X-Spam_bar: ----
+X-Spam_report: (-4.2 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_MED=-2.3,
+ RCVD_IN_MSPIKE_H3=-0.01, RCVD_IN_MSPIKE_WL=-0.01, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -117,54 +58,239 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Filip Bozuta <Filip.Bozuta@syrmia.com>
+Cc: QEMU Developers <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Le 08/07/2020 à 17:52, Richard Henderson a écrit :
-> On 7/8/20 8:24 AM, Laurent Vivier wrote:
->> -static void
->> +static bool
->>  print_syscall_err(abi_long ret)
->>  {
->> -    const char *errstr = NULL;
->> +    const char *errstr;
->>  
->>      qemu_log(" = ");
->>      if (ret < 0) {
+On 7/7/20 8:37 PM, Peter Maydell wrote:
+> On Mon, 6 Jul 2020 at 17:48, Paolo Bonzini <pbonzini@redhat.com> wrote:
+>>
+>> The following changes since commit fc1bff958998910ec8d25db86cd2f53ff125f7ab:
+>>
+>>   hw/misc/pca9552: Add missing TypeInfo::class_size field (2020-06-29 21:16:10 +0100)
+>>
+>> are available in the Git repository at:
+>>
+>>   git://github.com/bonzini/qemu.git tags/for-upstream
+>>
+>> for you to fetch changes up to 80270507070ec73ea82741ce24cb7909a9258ea3:
+>>
+>>   scripts: improve message when TAP based tests fail (2020-07-06 12:14:25 -0400)
+>>
+>> ----------------------------------------------------------------
+>> * Make checkpatch say 'qemu' instead of 'kernel' (Aleksandar)
+>> * Fix PSE guests with emulated NPT (Alexander B. #1)
+>> * Fix leak (Alexander B. #2)
+>> * HVF fixes (Roman, Cameron)
+>> * New Sapphire Rapids CPUID bits (Cathy)
+>> * cpus.c and softmmu/ cleanups (Claudio)
+>> * TAP driver tweaks (Daniel, Havard)
+>> * object-add bugfix and testcases (Eric A.)
+>> * Fix Coverity MIN_CONST and MAX_CONST (Eric B.)
+>> * SSE fixes (Joseph)
+>> * "-msg guest-name" option (Mario)
+>> * support for AMD nested live migration (myself)
+>> * Small i386 TCG fixes (myself)
+>> * improved error reporting for Xen (myself)
+>> * fix "-cpu host -overcommit cpu-pm=on" (myself)
+>> * Add accel/Kconfig (Philippe)
+>> * KVM API cleanup (Philippe)
+>> * iscsi sense handling fixes (Yongji)
+>> * Misc bugfixes
 > 
-> This should be a target-specific test.
+> Hi; various build or test failures (5 total):
 > 
-> E.g. on most asm-generic I'm pretty sure this should be
+> 1) OSX:
 > 
->     if ((abi_ulong)ret > -(abi_ulong)512)
-
-I think the test in target_strerror() gives the same result:
-
-    if ((err >= ERRNO_TABLE_SIZE) || (err < 0)) {
-        return NULL;
-    }
-
-and it also ensures we don't overflow when we will access
-target_to_host_errno_table[].
-
-It's why we rely on errstr to know if the errno is valid or not
-(we might also remove the "if (ret < 0)" in print_syscall_err).
-
-> whereas for Alpha it should be
+> /Users/pm215/src/qemu-for-merges/ui/cocoa.m:1478:9: error: implicit
+> declaration of function 'cpu_throttle_set' is invalid in C99 [-
+> Werror,-Wimplicit-function-declaration]
+>         cpu_throttle_set(throttle_pct);
+>         ^
 > 
->     /*
->      * Syscall writes 0 to V0 to bypass error check, similar
->      * to how this is handled internal to Linux kernel.
->      */
->     if (ret < 0 && env->ir[IR_V0] != 0)
+> 2) aarch64 and aarch32 linux:
+> 
+> /home/pm/qemu/target/arm/kvm.c: In function ‘kvm_arch_init’:
+> /home/pm/qemu/target/arm/kvm.c:248:29: error: passing argument 1 of
+> ‘kvm_check_extension’ makes integer from pointer without a cast
+>  [-Werror=int-conversion]
+>   248 |     if (kvm_check_extension(s, KVM_CAP_ARM_NISV_TO_USER)) {
+>       |                             ^
+>       |                             |
+>       |                             KVMState * {aka struct KVMState *}
+> In file included from /home/pm/qemu/target/arm/kvm.c:23:
+> /home/pm/qemu/include/sysemu/kvm.h:439:38: note: expected ‘unsigned
+> int’ but argument is of type ‘KVMState *’ {aka ‘struct KVMState
+>  *’}
+>   439 | int kvm_check_extension(unsigned int extension);
+>       |                         ~~~~~~~~~~~~~^~~~~~~~~
+> /home/pm/qemu/target/arm/kvm.c:248:9: error: too many arguments to
+> function ‘kvm_check_extension’
+>   248 |     if (kvm_check_extension(s, KVM_CAP_ARM_NISV_TO_USER)) {
+>       |         ^~~~~~~~~~~~~~~~~~~
+> In file included from /home/pm/qemu/target/arm/kvm.c:23:
+> /home/pm/qemu/include/sysemu/kvm.h:439:5: note: declared here
+>   439 | int kvm_check_extension(unsigned int extension);
+>       |     ^~~~~~~~~~~~~~~~~~~
+> /home/pm/qemu/target/arm/kvm.c:253:59: error: passing argument 1 of
+> ‘kvm_check_extension’ makes integer from pointer without a cast
+>  [-Werror=int-conversion]
+>   253 |             cap_has_inject_ext_dabt = kvm_check_extension(s,
+>       |                                                           ^
+>       |                                                           |
+>       |
+> KVMState * {aka struct KVMState *}
+> In file included from /home/pm/qemu/target/arm/kvm.c:23:
+> /home/pm/qemu/include/sysemu/kvm.h:439:38: note: expected ‘unsigned
+> int’ but argument is of type ‘KVMState *’ {aka ‘struct KVMState
+>  *’}
+>   439 | int kvm_check_extension(unsigned int extension);
+>       |                         ~~~~~~~~~~~~~^~~~~~~~~
+> /home/pm/qemu/target/arm/kvm.c:253:39: error: too many arguments to
+> function ‘kvm_check_extension’
+>   253 |             cap_has_inject_ext_dabt = kvm_check_extension(s,
+>       |                                       ^~~~~~~~~~~~~~~~~~~
+> In file included from /home/pm/qemu/target/arm/kvm.c:23:
+> /home/pm/qemu/include/sysemu/kvm.h:439:5: note: declared here
+>   439 | int kvm_check_extension(unsigned int extension);
+>       |     ^~~~~~~~~~~~~~~~~~~
+> 
+> 3) PPC64 had a failure on iotest 030 (though I think this may
+> be an intermittent in master):
+> 
+>   TEST    iotest-qcow2: 030 [fail]
+> QEMU          --
+> "/home/pm215/qemu/build/all/tests/qemu-iotests/../../ppc64-softmmu/qemu-system-ppc64"
+> -nodefaults -display none -accel qtest
+> QEMU_IMG      -- "/home/pm215/qemu/build/all/tests/qemu-iotests/../../qemu-img"
+> QEMU_IO       --
+> "/home/pm215/qemu/build/all/tests/qemu-iotests/../../qemu-io"  --cache
+> writeback --aio threads -f qcow2
+> QEMU_NBD      -- "/home/pm215/qemu/build/all/tests/qemu-iotests/../../qemu-nbd"
+> IMGFMT        -- qcow2 (compat=1.1)
+> IMGPROTO      -- file
+> PLATFORM      -- Linux/ppc64 gcc1-power7 3.10.0-862.14.4.el7.ppc64
+> TEST_DIR      -- /home/pm215/qemu/build/all/tests/qemu-iotests/scratch
+> SOCK_DIR      -- /tmp/tmp.icAW30swbG
+> SOCKET_SCM_HELPER --
+> /home/pm215/qemu/build/all/tests/qemu-iotests/socket_scm_helper
+> 
+> --- /home/pm215/qemu/tests/qemu-iotests/030.out 2019-07-15
+> 15:12:04.941863802 +0000
+> +++ /home/pm215/qemu/build/all/tests/qemu-iotests/030.out.bad
+> 2020-07-07 18:01:06.975652394 +0000
+> @@ -1,5 +1,17 @@
+> -...........................
+> +.............F.............
+> +======================================================================
+> +FAIL: test_stream_parallel (__main__.TestParallelOps)
+> +----------------------------------------------------------------------
+> +Traceback (most recent call last):
+> +  File "030", line 246, in test_stream_parallel
+> +    self.assert_qmp(result, 'return', {})
+> +  File "/home/pm215/qemu/tests/qemu-iotests/iotests.py", line 848, in
+> assert_qmp
+> +    result = self.dictpath(d, path)
+> +  File "/home/pm215/qemu/tests/qemu-iotests/iotests.py", line 822, in dictpath
+> +    self.fail(f'failed path traversal for "{path}" in "{d}"')
+> +AssertionError: failed path traversal for "return" in "{'error':
+> {'class': 'DeviceNotActive', 'desc': "Block job 'stream-node8' not
+> found"}}"
+> +
+>  ----------------------------------------------------------------------
+>  Ran 27 tests
+> 
+> -OK
+> +FAILED (failures=1)
+> 
+> 4) s390x failed on iotest 267:
+> 
+>   TEST    iotest-qcow2: 267 [fail]
+> QEMU          --
+> "/home/ubuntu/qemu/build/all/tests/qemu-iotests/../../s390x-softmmu/qemu-system-s390x"
+> -nodefaults -display none -accel qtest
+> QEMU_IMG      -- "/home/ubuntu/qemu/build/all/tests/qemu-iotests/../../qemu-img"
+> QEMU_IO       --
+> "/home/ubuntu/qemu/build/all/tests/qemu-iotests/../../qemu-io"
+> --cache writeback --aio threads -f qcow2
+> QEMU_NBD      -- "/home/ubuntu/qemu/build/all/tests/qemu-iotests/../../qemu-nbd"
+> IMGFMT        -- qcow2 (compat=1.1)
+> IMGPROTO      -- file
+> PLATFORM      -- Linux/s390x qemu01 4.15.0-72-generic
+> TEST_DIR      -- /home/ubuntu/qemu/build/all/tests/qemu-iotests/scratch
+> SOCK_DIR      -- /tmp/tmp.REW8Sy64t9
+> SOCKET_SCM_HELPER --
+> /home/ubuntu/qemu/build/all/tests/qemu-iotests/socket_scm_helper
+> 
+> --- /home/ubuntu/qemu/tests/qemu-iotests/267.out        2019-12-19
+> 08:32:33.382319918 -0500
+> +++ /home/ubuntu/qemu/build/all/tests/qemu-iotests/267.out.bad
+> 2020-07-07 14:15:44.173300793 -0400
+> @@ -137,6 +137,9 @@
+>  ID        TAG                 VM SIZE                DATE       VM CLOCK
+>  --        snap0                  SIZE yyyy-mm-dd hh:mm:ss   00:00:00.000
+>  (qemu) loadvm snap0
+> +Unexpected storage key flag data: 0
+> +error while loading state for instance 0x0 of device 's390-skeys'
+> +Error: Error -22 while loading VM state
+>  (qemu) quit
+> 
+>  Formatting 'TEST_DIR/t.IMGFMT', fmt=IMGFMT size=134217728
+> backing_file=TEST_DIR/t.IMGFMT.base
+> 
+> 5) And a link error on x86-64 Linux:
+> 
+>   LINK    x86_64-softmmu/qemu-system-x86_64
+> softmmu/cpus.o: In function `tcg_get_icount_limit':
+> /home/petmay01/linaro/qemu-for-merges/softmmu/cpus.c:563: undefined
+> reference to `icount_round'
+> softmmu/cpus.o: In function `process_icount_data':
+> /home/petmay01/linaro/qemu-for-merges/softmmu/cpus.c:618: undefined
+> reference to `icount_update'
+> target/i386/helper.o: In function `x86_cpu_dump_state':
+> /home/petmay01/linaro/qemu-for-merges/target/i386/helper.c:547:
+> undefined reference to `update_mxcsr_from_sse_status'
+> target/i386/gdbstub.o: In function `x86_cpu_gdb_read_register':
+> /home/petmay01/linaro/qemu-for-merges/target/i386/gdbstub.c:187:
+> undefined reference to `update_mxcsr_from_sse_status'
+> collect2: error: ld returned 1 exit status
+> Makefile:205: recipe for target 'qemu-system-x86_64' failed
+> 
+> thanks
+> -- PMM
+> 
 
-We don't have access to "env" in strace.c.
+Hi Peter, Paolo,
 
-it's an improvement regarding the code that has been modified.
-If we want it I think it should be added in a separate patch.
+I am trying to understand this failure (5), which is triggered by one of my patches,
+containing clearly an issue that does not trigger here, although it is apparent to me (I did not provide all necessary stubs).
+
+Could you provide the ./configure command line, config.status, compiler version?
+
+Clearly it is something I have to fix, but would help to be able not to be "blind".
+
+The patch introducing icount_round and icount_update is
+
+"cpu-timers, icount: new modules",
+
+and the issue stems I think from the fact that cpus.c references
+
+icount_round() and icount_update() in code that is conditional on icount_enabled().
+
+If the code is configured with --disable-tcg, in stubs/icount.c , icount_enabled is defined as always returning 0,
+and my compiler takes that clue and elides all static functions conditional on that return value,
+
+so I don't get any tcg_get_icount_limit() compiled in, and no errors.
+
+I think that having comparable configure command line and compiler version/flags would help me pin down any related issue.
 
 Thanks,
-Laurent
+
+Claudio
+
+
+
+
+
 
 
