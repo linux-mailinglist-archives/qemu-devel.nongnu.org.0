@@ -2,64 +2,109 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5DF0A219369
-	for <lists+qemu-devel@lfdr.de>; Thu,  9 Jul 2020 00:28:22 +0200 (CEST)
-Received: from localhost ([::1]:53166 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3E60B219344
+	for <lists+qemu-devel@lfdr.de>; Thu,  9 Jul 2020 00:21:16 +0200 (CEST)
+Received: from localhost ([::1]:46984 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jtIY9-000630-C0
-	for lists+qemu-devel@lfdr.de; Wed, 08 Jul 2020 18:28:21 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:40814)
+	id 1jtIRH-0008Mm-8K
+	for lists+qemu-devel@lfdr.de; Wed, 08 Jul 2020 18:21:15 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:40412)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <cohuck@redhat.com>) id 1jtI06-0005KQ-IZ
- for qemu-devel@nongnu.org; Wed, 08 Jul 2020 17:53:10 -0400
-Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:34629
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1jtHyJ-0002KC-DM
+ for qemu-devel@nongnu.org; Wed, 08 Jul 2020 17:51:19 -0400
+Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:44379
  helo=us-smtp-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <cohuck@redhat.com>) id 1jtI04-0005KS-RY
- for qemu-devel@nongnu.org; Wed, 08 Jul 2020 17:53:10 -0400
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1jtHyG-00059T-Qv
+ for qemu-devel@nongnu.org; Wed, 08 Jul 2020 17:51:19 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1594245187;
+ s=mimecast20190719; t=1594245076;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=zTzr5iD2CS9STbPsb2S2gZXB7VKOk3wVYAvVkMESVIc=;
- b=AGiXd983W2hD4JGyhQmMZAfE5rGefINfQfObFcFKrbOAcgZ1HojD4PJ74WFF6xdmnSTmFf
- PoLJXn5WD7EkxjsyIPudvJooFsS3wF1E3f33agTZ6nbGR3+x4O2UvIXhFSHH83BG6C+huB
- +a10Gp2O79ec4E+Qr1GYMHJgPN0iDpY=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-330-s8dxpJkBMYiCm1AidWXiFg-1; Wed, 08 Jul 2020 12:50:37 -0400
-X-MC-Unique: s8dxpJkBMYiCm1AidWXiFg-1
-Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
- [10.5.11.12])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 1DE101082;
- Wed,  8 Jul 2020 16:50:35 +0000 (UTC)
-Received: from gondolin (ovpn-112-239.ams2.redhat.com [10.36.112.239])
- by smtp.corp.redhat.com (Postfix) with ESMTP id DB38260E1C;
- Wed,  8 Jul 2020 16:50:26 +0000 (UTC)
-Date: Wed, 8 Jul 2020 18:50:12 +0200
-From: Cornelia Huck <cohuck@redhat.com>
-To: Stefan Hajnoczi <stefanha@redhat.com>
-Subject: Re: [PATCH v5 3/5] virtio-scsi: default num_queues to -smp N
-Message-ID: <20200708185012.470125bb.cohuck@redhat.com>
-In-Reply-To: <20200708130526.GD487183@stefanha-x1.localdomain>
-References: <20200706135650.438362-1-stefanha@redhat.com>
- <20200706135650.438362-4-stefanha@redhat.com>
- <20200707174453.50c3ec85.cohuck@redhat.com>
- <20200708130526.GD487183@stefanha-x1.localdomain>
-Organization: Red Hat GmbH
+ to:to:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
+ bh=EFAURhhEZjwOIthRplw96ApWbu7HPwfzmrhPNCfhLdE=;
+ b=W0Dku7J88jergdduzIcW/P5eF1vKMJ0n2U52G4ROo5Z5TNMCwO7rSgDdiNr6dVr6olp75J
+ J4C8XuvLAW/JeKwczhG4fmAyB2sQGyH/9/Suytj8CU3uaKUuZRm1FVMmXPwbukXaDJkNL4
+ gQzTIaQhoqCqlZKhqpuP9umMB30LrU8=
+Received: from mail-wr1-f69.google.com (mail-wr1-f69.google.com
+ [209.85.221.69]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-295-VwI-fXaHPUKkLTq4nXPyjQ-1; Wed, 08 Jul 2020 12:50:33 -0400
+X-MC-Unique: VwI-fXaHPUKkLTq4nXPyjQ-1
+Received: by mail-wr1-f69.google.com with SMTP id o25so52490655wro.16
+ for <qemu-devel@nongnu.org>; Wed, 08 Jul 2020 09:50:32 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:subject:to:references:from:autocrypt:message-id
+ :date:user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=EFAURhhEZjwOIthRplw96ApWbu7HPwfzmrhPNCfhLdE=;
+ b=fDNlINzCCsqYR4s5akPkFli2/lq63fgj8e/m1WQE9InqIZLCxPp5qtrYa5J2HL18C3
+ bh9mEICa0COJUyhae37eFoxF5OP7iJ44Q2/RHyiHS4baqcvE5Le0qd+K9uK9JmpiR7OG
+ 9rW2ny7W0Gthnxjz6nPwsLW6UZ2sNGlCedia50KZ0r8i/sbYv+PfKnBWyQpPBAJwOiJa
+ wpEs7JOvifW+zTwmx436jLIGm7zAGFf2wCbLvPgoE0wxYUg70I5qlSKMtWZ9KICTYdut
+ YZUcZJGG0BlNsfw3sG6v/jIUZt71s5HD9QltDR4yNXJQJp7reMuav9xP31M11L76qEwZ
+ Z6zQ==
+X-Gm-Message-State: AOAM533b2AjJ3I1mf+AVS7DaEFn73C1dqre0lWqj69cW7leH5Nes3cUK
+ kGgvdggf5QIditi9zQnodqvunfwW42S1EjCe6den2JfP04XYwbnHfTXojekjSTcudCjpKYqtOz5
+ 5O9GXA+npj9/xGwo=
+X-Received: by 2002:adf:ef46:: with SMTP id c6mr59450010wrp.34.1594227031574; 
+ Wed, 08 Jul 2020 09:50:31 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJy8FO8YN+A4TMFeUTdPVcQABFgUzQsaOABrMZVj3IkafJK1UxJlbU6MyADXKkcZTIrAC9t2Gw==
+X-Received: by 2002:adf:ef46:: with SMTP id c6mr59449990wrp.34.1594227031322; 
+ Wed, 08 Jul 2020 09:50:31 -0700 (PDT)
+Received: from [192.168.1.36] (138.red-83-57-170.dynamicip.rima-tde.net.
+ [83.57.170.138])
+ by smtp.gmail.com with ESMTPSA id n16sm912288wra.19.2020.07.08.09.50.29
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Wed, 08 Jul 2020 09:50:30 -0700 (PDT)
+Subject: Re: build error of unused function as MACRO
+ G_DEFINE_AUTOPTR_CLEANUP_FUNC expand
+To: Li Qiang <liq3ea@163.com>, "qemu-devel@nongnu.org"
+ <qemu-devel@nongnu.org>, "eblake@redhat.com" <eblake@redhat.com>,
+ "liq3ea@gmail.com" <liq3ea@gmail.com>, Alexander Bulekov <alxndr@bu.edu>,
+ Paolo Bonzini <pbonzini@redhat.com>, Stefan Hajnoczi <stefanha@redhat.com>,
+ Bandan Das <bsd@redhat.com>
+References: <5F05E942.FB9110.20278@mail-m971.mail.163.com>
+From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
+Autocrypt: addr=philmd@redhat.com; keydata=
+ mQINBDXML8YBEADXCtUkDBKQvNsQA7sDpw6YLE/1tKHwm24A1au9Hfy/OFmkpzo+MD+dYc+7
+ bvnqWAeGweq2SDq8zbzFZ1gJBd6+e5v1a/UrTxvwBk51yEkadrpRbi+r2bDpTJwXc/uEtYAB
+ GvsTZMtiQVA4kRID1KCdgLa3zztPLCj5H1VZhqZsiGvXa/nMIlhvacRXdbgllPPJ72cLUkXf
+ z1Zu4AkEKpccZaJspmLWGSzGu6UTZ7UfVeR2Hcc2KI9oZB1qthmZ1+PZyGZ/Dy+z+zklC0xl
+ XIpQPmnfy9+/1hj1LzJ+pe3HzEodtlVA+rdttSvA6nmHKIt8Ul6b/h1DFTmUT1lN1WbAGxmg
+ CH1O26cz5nTrzdjoqC/b8PpZiT0kO5MKKgiu5S4PRIxW2+RA4H9nq7nztNZ1Y39bDpzwE5Sp
+ bDHzd5owmLxMLZAINtCtQuRbSOcMjZlg4zohA9TQP9krGIk+qTR+H4CV22sWldSkVtsoTaA2
+ qNeSJhfHQY0TyQvFbqRsSNIe2gTDzzEQ8itsmdHHE/yzhcCVvlUzXhAT6pIN0OT+cdsTTfif
+ MIcDboys92auTuJ7U+4jWF1+WUaJ8gDL69ThAsu7mGDBbm80P3vvUZ4fQM14NkxOnuGRrJxO
+ qjWNJ2ZUxgyHAh5TCxMLKWZoL5hpnvx3dF3Ti9HW2dsUUWICSQARAQABtDJQaGlsaXBwZSBN
+ YXRoaWV1LURhdWTDqSAoUGhpbCkgPHBoaWxtZEByZWRoYXQuY29tPokCVQQTAQgAPwIbDwYL
+ CQgHAwIGFQgCCQoLBBYCAwECHgECF4AWIQSJweePYB7obIZ0lcuio/1u3q3A3gUCXsfWwAUJ
+ KtymWgAKCRCio/1u3q3A3ircD/9Vjh3aFNJ3uF3hddeoFg1H038wZr/xi8/rX27M1Vj2j9VH
+ 0B8Olp4KUQw/hyO6kUxqkoojmzRpmzvlpZ0cUiZJo2bQIWnvScyHxFCv33kHe+YEIqoJlaQc
+ JfKYlbCoubz+02E2A6bFD9+BvCY0LBbEj5POwyKGiDMjHKCGuzSuDRbCn0Mz4kCa7nFMF5Jv
+ piC+JemRdiBd6102ThqgIsyGEBXuf1sy0QIVyXgaqr9O2b/0VoXpQId7yY7OJuYYxs7kQoXI
+ 6WzSMpmuXGkmfxOgbc/L6YbzB0JOriX0iRClxu4dEUg8Bs2pNnr6huY2Ft+qb41RzCJvvMyu
+ gS32LfN0bTZ6Qm2A8ayMtUQgnwZDSO23OKgQWZVglGliY3ezHZ6lVwC24Vjkmq/2yBSLakZE
+ 6DZUjZzCW1nvtRK05ebyK6tofRsx8xB8pL/kcBb9nCuh70aLR+5cmE41X4O+MVJbwfP5s/RW
+ 9BFSL3qgXuXso/3XuWTQjJJGgKhB6xXjMmb1J4q/h5IuVV4juv1Fem9sfmyrh+Wi5V1IzKI7
+ RPJ3KVb937eBgSENk53P0gUorwzUcO+ASEo3Z1cBKkJSPigDbeEjVfXQMzNt0oDRzpQqH2vp
+ apo2jHnidWt8BsckuWZpxcZ9+/9obQ55DyVQHGiTN39hkETy3Emdnz1JVHTU0Q==
+Message-ID: <b02161d0-a027-5018-af05-8ccbc5c90cc9@redhat.com>
+Date: Wed, 8 Jul 2020 18:50:29 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.5.0
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
+In-Reply-To: <5F05E942.FB9110.20278@mail-m971.mail.163.com>
+Content-Language: en-US
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=cohuck@redhat.com
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=philmd@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: multipart/signed; boundary="Sig_/Dl+_goxTFu6j_rkQ.+Ak8zL";
- protocol="application/pgp-signature"; micalg=pgp-sha256
-Received-SPF: pass client-ip=207.211.31.120; envelope-from=cohuck@redhat.com;
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=207.211.31.120; envelope-from=philmd@redhat.com;
  helo=us-smtp-1.mimecast.com
 X-detected-operating-system: by eggs.gnu.org: First seen = 2020/07/07 17:25:10
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
@@ -82,87 +127,151 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Kevin Wolf <kwolf@redhat.com>, Fam Zheng <fam@euphon.net>,
- Eduardo Habkost <ehabkost@redhat.com>, qemu-block@nongnu.org,
- "Michael S. Tsirkin" <mst@redhat.com>,
- Pankaj Gupta <pankaj.gupta.linux@gmail.com>, qemu-devel@nongnu.org,
- Raphael Norwitz <raphael.norwitz@nutanix.com>,
- Paolo Bonzini <pbonzini@redhat.com>, Max Reitz <mreitz@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
---Sig_/Dl+_goxTFu6j_rkQ.+Ak8zL
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: quoted-printable
+Cc'ing the fuzzing maintainers.
 
-On Wed, 8 Jul 2020 14:05:26 +0100
-Stefan Hajnoczi <stefanha@redhat.com> wrote:
-
-> On Tue, Jul 07, 2020 at 05:44:53PM +0200, Cornelia Huck wrote:
-> > On Mon,  6 Jul 2020 14:56:48 +0100
-> > Stefan Hajnoczi <stefanha@redhat.com> wrote:
-
-> > > diff --git a/hw/virtio/virtio-scsi-pci.c b/hw/virtio/virtio-scsi-pci.=
-c
-> > > index 3ff9eb7ef6..fa4b3bfb50 100644
-> > > --- a/hw/virtio/virtio-scsi-pci.c
-> > > +++ b/hw/virtio/virtio-scsi-pci.c
-> > > @@ -46,13 +46,17 @@ static void virtio_scsi_pci_realize(VirtIOPCIProx=
-y *vpci_dev, Error **errp)
-> > >  {
-> > >      VirtIOSCSIPCI *dev =3D VIRTIO_SCSI_PCI(vpci_dev);
-> > >      DeviceState *vdev =3D DEVICE(&dev->vdev);
-> > > -    VirtIOSCSICommon *vs =3D VIRTIO_SCSI_COMMON(vdev);
-> > >      DeviceState *proxy =3D DEVICE(vpci_dev);
-> > > +    VirtIOSCSIConf *conf =3D &dev->vdev.parent_obj.conf;
-> > >      char *bus_name;
-> > > =20
-> > > +    if (conf->num_queues =3D=3D VIRTIO_SCSI_AUTO_NUM_QUEUES) {
-> > > +        conf->num_queues =3D
-> > > +            virtio_pci_optimal_num_queues(VIRTIO_SCSI_VQ_NUM_FIXED);
-> > > +    }
-> > > +
-> > >      if (vpci_dev->nvectors =3D=3D DEV_NVECTORS_UNSPECIFIED) {
-> > > -        vpci_dev->nvectors =3D vs->conf.num_queues +
-> > > -                             VIRTIO_SCSI_VQ_NUM_FIXED + 1;
-> > > +        vpci_dev->nvectors =3D conf->num_queues + VIRTIO_SCSI_VQ_NUM=
-_FIXED + 1;
-> > >      }
-> > > =20
-> > >      /* =20
-> >=20
-> > One corner case where the setup may end up being a bit odd is a
-> > situation where nvectors was specified, but num_queues was not, and the
-> > device suddenly ends up with more queues than vectors. But I don't see
-> > a reason why you would want to specify nvectors but not num_queues in a
-> > real word scenario, so I think we can ignore that corner case. =20
->=20
-> I agree, I've ignored that case. Other options include printing a
-> warning or even an error when num_queues disagrees with nvectors.
-
-I think an error would be too harsh, but a warning sounds useful.
-
---Sig_/Dl+_goxTFu6j_rkQ.+Ak8zL
-Content-Type: application/pgp-signature
-Content-Description: OpenPGP digital signature
-
------BEGIN PGP SIGNATURE-----
-
-iQIzBAEBCAAdFiEEw9DWbcNiT/aowBjO3s9rk8bwL68FAl8F+UQACgkQ3s9rk8bw
-L6+V3RAAnYFSyFWK8HM50TTRM8dSI1hjqm7VFu78RJyDX8+cSUku9+/oySGgwlP+
-SmERgZKJuh3JqgXMjBMNNB0uRl2kMTMFJr7JmP+RQfNOQgiHPkKjKU7ivAkE9ivv
-kj1uJbZ3jOjSD2GIVBxGdTl+Kg75B7Zzidhr7uax5H9fSkUQgGuuHng46PqKYPyN
-5QpdI+YI3XGr4KGk59yY+CJwlWOcgzd9sh6D2BGjmzQTncVgBSRCS4PGFRki+oMT
-f/9zzZLDZCBNG7VETThC7aXrezTXsFH13wfz2OUlZ/LVLy5RP6EE7vCLfmoSQHPv
-49WzxKY7ee2GlaGh520Cm7fU3AHDDnuTyQA2ac2cDLjDvvYhPbLfOYw0FB4++1lT
-gW8GISvKeErB5pr8v9c9Ae7MfOC/z2leOywhrKZcwyGfYV9zTiL4XjAU+0WvrNBW
-Y9dlS5r05dELLQR3ZOtbm/02Tc3gICnYyJofNNUNOpf2r6Blosrrz80WqlrOWHoe
-UF0ok4lRZ2ZY6abSFuz3AWm/QVOIdT54/rj9DWKeWPJFuNytODDIG7J24NYwcO+7
-sBPmzjJgfWkuMV5THvgeCv+kteHJj9ClXfNj5U6zD0ZDb4+tIEk6dv/jjCpaSLS6
-GV9obfJ/iokGPkk9G1nouvw+uBt3oi8iBmWDoii5d5t+wDCPHm0=
-=/oAN
------END PGP SIGNATURE-----
-
---Sig_/Dl+_goxTFu6j_rkQ.+Ak8zL--
+On 7/8/20 5:41 PM, Li Qiang wrote:
+> Hello all,
+> 
+>  
+> 
+> I build qemu with fuzzing enabled using clang and following error come.
+> 
+>  
+> 
+> nbd/server.c:1937:1: error: unused function
+> 'glib_listautoptr_cleanup_NBDExtentArray' [-Werror,-Wunused-function]
+> 
+> G_DEFINE_AUTOPTR_CLEANUP_FUNC(NBDExtentArray, nbd_extent_array_free);
+> 
+> ^
+> 
+> /usr/include/glib-2.0/glib/gmacros.h:462:22: note: expanded from macro
+> 'G_DEFINE_AUTOPTR_CLEANUP_FUNC'
+> 
+>   static inline void _GLIB_AUTOPTR_LIST_FUNC_NAME(TypeName) (GList **_l)
+> { g_list_free_full (*_l, (GDestroyNotify) func); } \
+> 
+>                      ^
+> 
+> /usr/include/glib-2.0/glib/gmacros.h:443:48: note: expanded from macro
+> '_GLIB_AUTOPTR_LIST_FUNC_NAME'
+> 
+> #define _GLIB_AUTOPTR_LIST_FUNC_NAME(TypeName)
+> glib_listautoptr_cleanup_##TypeName
+> 
+>                                                ^
+> 
+> <scratch space>:170:1: note:   CC      crypto/hash-glib.o
+> 
+> expanded from here
+> 
+> glib_listautoptr_cleanup_NBDExtentArray
+> 
+> ^
+> 
+> nbd/server.c:1937:1: error: unused function
+> 'glib_slistautoptr_cleanup_NBDExtentArray' [-Werror,-Wunused-function]
+> 
+> /usr/include/glib-2.0/glib/gmacros.h:463:22: note: expanded from macro
+> 'G_DEFINE_AUTOPTR_CLEANUP_FUNC'
+> 
+>   static inline void _GLIB_AUTOPTR_SLIST_FUNC_NAME(TypeName) (GSList
+> **_l) { g_slist_free_full (*_l, (GDestroyNotify) func); } \
+> 
+>                      ^
+> 
+> /usr/include/glib-2.0/glib/gmacros.h:445:49: note: expanded from macro
+> '_GLIB_AUTOPTR_SLIST_FUNC_NAME'
+> 
+> #define _GLIB_AUTOPTR_SLIST_FUNC_NAME(TypeName)
+> glib_slistautoptr_cleanup_##TypeName
+> 
+>                                                 ^
+> 
+> <scratch space>:171:1: note: expanded from here
+> 
+> glib_slistautoptr_cleanup_NBDExtentArray
+> 
+>  
+> 
+>  
+> 
+> I see Eric’s patch 9bda600b083(“build: Silence clang warning on older
+> glib autoptr usage”)
+> 
+> So I know there should be a ‘-Wno-unused-function’ in CFLAGS. It is
+> after ./configure:
+> 
+>  
+> 
+> CFLAGS            -g  -Wno-unused-function
+> 
+> QEMU_CFLAGS       -I/usr/include/pixman-1  -Werror  -pthread
+> -I/usr/include/glib-2.0 -I/usr/lib/x86_64-linux-gnu/glib-2.0/include
+> -fPIE -DPIE -m64 -mcx16 -D_GNU_SOURCE -D_FILE_OFFSET_BITS=64
+> -D_LARGEFILE_SOURCE -Wstrict-prototypes -Wredundant-decls -Wall -Wundef
+> -Wwrite-strings -Wmissing-prototypes -fno-strict-aliasing -fno-common
+> -fwrapv -std=gnu99  -Wno-string-plus-int -Wno-typedef-redefinition
+> -Wno-initializer-overrides -Wexpansion-to-defined -Wendif-labels
+> -Wno-shift-negative-value -Wno-missing-include-dirs -Wempty-body
+> -Wnested-externs -Wformat-security -Wformat-y2k -Winit-self
+> -Wignored-qualifiers -Wold-style-definition -Wtype-limits
+> -fstack-protector-strong -I$(SRC_PATH)/capstone/include
+> 
+>  
+> 
+> However while I ‘make V=1’ I see the build nbd/serer.c using following
+> command:
+> 
+> clang-8 -iquote /home/test/qemu/nbd -iquote nbd -iquote
+> /home/test/qemu/tcg/i386 -isystem /home/test/qemu/linux-headers -isystem
+> /home/test/qemu/linux-headers -iquote . -iquote /home/test/qemu -iquote
+> /home/test/qemu/accel/tcg -iquote /home/test/qemu/include -iquote
+> /home/test/qemu/disas/libvixl -I/usr/include/pixman-1  -Werror  -pthread
+> -I/usr/include/glib-2.0 -I/usr/lib/x86_64-linux-gnu/glib-2.0/include
+> -fPIE -DPIE -m64 -mcx16 -D_GNU_SOURCE -D_FILE_OFFSET_BITS=64
+> -D_LARGEFILE_SOURCE -Wstrict-prototypes -Wredundant-decls -Wall -Wundef
+> -Wwrite-strings -Wmissing-prototypes -fno-strict-aliasing -fno-common
+> -fwrapv -std=gnu99  -Wno-string-plus-int -Wno-typedef-redefinition
+> -Wno-initializer-overrides -Wexpansion-to-defined -Wendif-labels
+> -Wno-shift-negative-value -Wno-missing-include-dirs -Wempty-body
+> -Wnested-externs -Wformat-security -Wformat-y2k -Winit-self
+> -Wignored-qualifiers -Wold-style-definition -Wtype-limits
+> -fstack-protector-strong -I/home/test/qemu/capstone/include
+> -I/home/test/qemu/tests -I/home/test/qemu/tests/qtest -MMD -MP -MT
+> nbd/server.o -MF nbd/server.d -fsanitize=address,fuzzer-no-link  -c -o
+> nbd/server.o nbd/server.c
+> 
+>  
+> 
+> There’s no CFLAGS ‘-Wno-unused-function’.
+> 
+>  
+> 
+> So I want to know:
+> 
+> 1.    Wha’t the relation of CFLAGS and QEMU_CFLAGS, it seems the CFLAGS
+> doesn’t work in this.
+> 
+> 2.    Any hits to solve this? My env error or needs a patch?
+> 
+>  
+> 
+> I use following command in Ubuntu 18.04.1.
+> 
+> CC=clang-8 CXX=clang++-8  ./configure  --target-list="i386-softmmu" 
+> --enable-debug --enable-debug  --enable-kvm --enable-fuzzing
+> 
+>  
+> 
+>  
+> 
+> Thanks,
+> 
+> Li Qiang
+> 
 
 
