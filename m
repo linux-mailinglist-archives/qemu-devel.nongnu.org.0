@@ -2,72 +2,79 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C08C6219383
-	for <lists+qemu-devel@lfdr.de>; Thu,  9 Jul 2020 00:34:01 +0200 (CEST)
-Received: from localhost ([::1]:53906 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 40C4C21936C
+	for <lists+qemu-devel@lfdr.de>; Thu,  9 Jul 2020 00:29:08 +0200 (CEST)
+Received: from localhost ([::1]:57962 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jtIdc-0000xZ-J9
-	for lists+qemu-devel@lfdr.de; Wed, 08 Jul 2020 18:34:00 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:43636)
+	id 1jtIYt-0007wg-99
+	for lists+qemu-devel@lfdr.de; Wed, 08 Jul 2020 18:29:07 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:44180)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <eric.auger@redhat.com>)
- id 1jtIAr-0007Rd-6T
- for qemu-devel@nongnu.org; Wed, 08 Jul 2020 18:04:17 -0400
-Received: from us-smtp-2.mimecast.com ([205.139.110.61]:54974
+ (Exim 4.90_1) (envelope-from <ehabkost@redhat.com>)
+ id 1jtICf-00032F-Po
+ for qemu-devel@nongnu.org; Wed, 08 Jul 2020 18:06:09 -0400
+Received: from us-smtp-2.mimecast.com ([207.211.31.81]:45006
  helo=us-smtp-delivery-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <eric.auger@redhat.com>)
- id 1jtIAo-0006yi-8g
- for qemu-devel@nongnu.org; Wed, 08 Jul 2020 18:04:16 -0400
+ (Exim 4.90_1) (envelope-from <ehabkost@redhat.com>)
+ id 1jtICd-0007Kb-Uv
+ for qemu-devel@nongnu.org; Wed, 08 Jul 2020 18:06:09 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1594245853;
+ s=mimecast20190719; t=1594245966;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding;
- bh=o2m2buV1dKa2VfM+T5GuJKXe6mIfufBwTZlCdyuv+w0=;
- b=YbFnmBf0UfAvBpXhcA+A7w56veJWP6iBzoPcvXIpBN9urgeLUqjCPpsnFGChwcxUlNBcXw
- ykW1VaFy4YX7T3GncklB7v1hx64hqFY5Hy9zxFAvBrNHEpI7XIfE29jFYlaiY9hL6MwI3e
- 5g3V/NQfza9pfNa6yKf3OcVVDBb6Yt0=
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=fKAR/TlDJxklde5VvXngoiU1t+o/GZ8czbgqEJC96/4=;
+ b=Hy4rS91tk0SHNr0tloXIynCYMe43xx+i6o4Yxta2OVkzh4PCqpRTFQVjlBjNeOoQyRV2ZC
+ kS6d8VTM3kylBNxfPVcJgiZeNbH4YiWhhP540nkxMOFiokrk/b4d1nXT6h/lAThITtEUSK
+ ckFdYGgkG0qh9NMwKnveeAIor6WMRSw=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-33-tODts6DKM8KD8xNXP00_qw-1; Wed, 08 Jul 2020 12:01:58 -0400
-X-MC-Unique: tODts6DKM8KD8xNXP00_qw-1
-Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
- [10.5.11.16])
+ us-mta-428-lO1BF1yoO-2jhhLiqqaIdQ-1; Wed, 08 Jul 2020 12:03:20 -0400
+X-MC-Unique: lO1BF1yoO-2jhhLiqqaIdQ-1
+Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
+ [10.5.11.14])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id C7A4E19057B1;
- Wed,  8 Jul 2020 16:01:56 +0000 (UTC)
-Received: from laptop.redhat.com (ovpn-113-241.ams2.redhat.com [10.36.113.241])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 57AAA5C1D3;
- Wed,  8 Jul 2020 16:01:52 +0000 (UTC)
-From: Eric Auger <eric.auger@redhat.com>
-To: eric.auger.pro@gmail.com, eric.auger@redhat.com, qemu-devel@nongnu.org,
- qemu-arm@nongnu.org, peter.maydell@linaro.org
-Subject: [PATCH] virtio-iommu: Fix coverity issue in
- virtio_iommu_handle_command()
-Date: Wed,  8 Jul 2020 18:01:47 +0200
-Message-Id: <20200708160147.18426-1-eric.auger@redhat.com>
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 784F11082;
+ Wed,  8 Jul 2020 16:03:18 +0000 (UTC)
+Received: from localhost (ovpn-116-140.rdu2.redhat.com [10.10.116.140])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 8BD785D9DD;
+ Wed,  8 Jul 2020 16:03:17 +0000 (UTC)
+Date: Wed, 8 Jul 2020 12:03:16 -0400
+From: Eduardo Habkost <ehabkost@redhat.com>
+To: Peter Maydell <peter.maydell@linaro.org>
+Subject: Re: [PATCH] cpu: Add starts_halted() method
+Message-ID: <20200708160316.GA7276@habkost.net>
+References: <20200707204333.261506-1-bauerman@linux.ibm.com>
+ <20200707214917.GX7276@habkost.net>
+ <87y2nu3nxq.fsf@morokweng.localdomain>
+ <c53b36b7-ee7b-bb66-8220-cce788fd631d@redhat.com>
+ <20200708100038.GG18595@umbus.fritz.box>
+ <CAFEAcA9V7Uha9-rz+JY-5HkazCWuTk1vkLnw1m9Lw-bXXKbkvw@mail.gmail.com>
+ <20200708152540.GZ7276@habkost.net>
+ <CAFEAcA8mFM-O=mgCQHNz4TNB5N3Trid2o95s0Nx7JVp_q_dSrw@mail.gmail.com>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
+In-Reply-To: <CAFEAcA8mFM-O=mgCQHNz4TNB5N3Trid2o95s0Nx7JVp_q_dSrw@mail.gmail.com>
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=eric.auger@redhat.com
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=ehabkost@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=205.139.110.61;
- envelope-from=eric.auger@redhat.com; helo=us-smtp-delivery-1.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/07/07 17:25:10
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Received-SPF: pass client-ip=207.211.31.81; envelope-from=ehabkost@redhat.com;
+ helo=us-smtp-delivery-1.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/07/07 17:25:09
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
-X-Spam_score_int: -40
-X-Spam_score: -4.1
-X-Spam_bar: ----
-X-Spam_report: (-4.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1,
+X-Spam_score_int: -30
+X-Spam_score: -3.1
+X-Spam_bar: ---
+X-Spam_report: (-3.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-1, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H3=-0.01, RCVD_IN_MSPIKE_WL=-0.01,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -80,33 +87,41 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Cc: Laurent Vivier <lvivier@redhat.com>, Thomas Huth <thuth@redhat.com>,
+ Alex =?iso-8859-1?Q?Benn=E9e?= <alex.bennee@linaro.org>,
+ QEMU Developers <qemu-devel@nongnu.org>, qemu-ppc <qemu-ppc@nongnu.org>,
+ Philippe =?iso-8859-1?Q?Mathieu-Daud=E9?= <philmd@redhat.com>,
+ Thiago Jung Bauermann <bauerman@linux.ibm.com>,
+ David Gibson <david@gibson.dropbear.id.au>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Coverity points out (CID 1430180) that the new case is missing
-break or a /* fallthrough */ comment. Break is the right thing to
-do as in that case, tail is not used.
+On Wed, Jul 08, 2020 at 04:32:51PM +0100, Peter Maydell wrote:
+> On Wed, 8 Jul 2020 at 16:25, Eduardo Habkost <ehabkost@redhat.com> wrote:
+> > On Wed, Jul 08, 2020 at 02:14:03PM +0100, Peter Maydell wrote:
+> > > The original bug as described in the commit message sounds
+> > > to me like something we should look to fix in the implementation
+> > > of async_run_on_cpu() -- it shouldn't cause a CPU that's halfway
+> > > through reset to do a KVM_RUN or otherwise run guest code,
+> > > whether that CPU is going to start powered-up or powered-down.
+> >
+> > What "halfway through reset" means, exactly?  Isn't halted==1
+> > enough to indicate the CPU is in that state?
+> 
+> I mean "while we're in the middle of the CPU method that's
+> called by cpu_reset()". "halted==1" says "the CPU is halted";
+> that's not the same thing. KVM_RUN happening
+> as a side effect in the middle of that code is a bug
+> whether the CPU happens to be intended to be put into the
+> halted state or not. If the CPU is intended to be created
+> not-halted then KVM_RUN can happen after cpu reset
+> completes, but not before.
 
-Fixes 1733eebb9e ("virtio-iommu: Implement RESV_MEM probe request")
-Signed-off-by: Eric Auger <eric.auger@redhat.com>
-Reported-by: Peter Maydell <peter.maydell@linaro.org>
----
- hw/virtio/virtio-iommu.c | 1 +
- 1 file changed, 1 insertion(+)
+Wait, I thought we already had mechanisms to prevent that from
+happening.  Otherwise, it would never be safe for cpu_reset() to
+touch the CPU registers.
 
-diff --git a/hw/virtio/virtio-iommu.c b/hw/virtio/virtio-iommu.c
-index b39e836181..5d56865e56 100644
---- a/hw/virtio/virtio-iommu.c
-+++ b/hw/virtio/virtio-iommu.c
-@@ -534,6 +534,7 @@ static void virtio_iommu_handle_command(VirtIODevice *vdev, VirtQueue *vq)
-             ptail = (struct virtio_iommu_req_tail *)
-                         (buf + s->config.probe_size);
-             ptail->status = virtio_iommu_handle_probe(s, iov, iov_cnt, buf);
-+            break;
-         }
-         default:
-             tail.status = VIRTIO_IOMMU_S_UNSUPP;
 -- 
-2.21.3
+Eduardo
 
 
