@@ -2,50 +2,50 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B34F3219402
-	for <lists+qemu-devel@lfdr.de>; Thu,  9 Jul 2020 01:04:10 +0200 (CEST)
-Received: from localhost ([::1]:55268 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id EF96D2193D3
+	for <lists+qemu-devel@lfdr.de>; Thu,  9 Jul 2020 00:51:48 +0200 (CEST)
+Received: from localhost ([::1]:55474 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jtJ6n-0001kq-PC
-	for lists+qemu-devel@lfdr.de; Wed, 08 Jul 2020 19:04:09 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:54682)
+	id 1jtIup-0003l5-VE
+	for lists+qemu-devel@lfdr.de; Wed, 08 Jul 2020 18:51:48 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:54696)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jusual@redhat.com>) id 1jtIpz-000225-F2
- for qemu-devel@nongnu.org; Wed, 08 Jul 2020 18:46:47 -0400
-Received: from us-smtp-2.mimecast.com ([207.211.31.81]:51808
- helo=us-smtp-delivery-1.mimecast.com)
+ (Exim 4.90_1) (envelope-from <jusual@redhat.com>) id 1jtIq3-0002AN-4r
+ for qemu-devel@nongnu.org; Wed, 08 Jul 2020 18:46:51 -0400
+Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:39884
+ helo=us-smtp-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <jusual@redhat.com>) id 1jtIpx-0004TI-RE
- for qemu-devel@nongnu.org; Wed, 08 Jul 2020 18:46:47 -0400
+ (Exim 4.90_1) (envelope-from <jusual@redhat.com>) id 1jtIq1-0004Tz-MJ
+ for qemu-devel@nongnu.org; Wed, 08 Jul 2020 18:46:50 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1594248404;
+ s=mimecast20190719; t=1594248409;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=J/A3Chz1ln5q+MvD3cpUxiOAXEzEo/CWpJ5SgurclSY=;
- b=KiyL9vmxVGyDKjU8Gm53uZBSBlQka6k+rf7F6ygI12UGMTo2VVdxu3GtPGtDjZtf/D+zzC
- U4L/LC7U3xYzDu+tfEUdwzYnwibxP8znMdg/UKv1dLkIucIpOYvUKQvSGm7gogpo1/snAG
- i6IZLG30EkL2jHMe8cakFlwq8ckGk64=
+ bh=ouWdXdrIeKkuQRCrlFCUv9l/hCha8V8+dalKpOSQXDo=;
+ b=LPNpUIB+UcrHwIab52xwnsnpBZrv1FWKigNoaZsxnmDq87MJr4xUPh0XwF4O5fZNzISCku
+ Ss5/dDr39kgJqDv+TfYZZ0YH+K10tROtoS0tdH9FozQjG/vwtMIskjth9iMuo8ZFmrRlxl
+ Y3jCDqxqn7VR9OND5PkirWKJZdRRygU=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-309-qQ1LGX-MPRqHFrTUFUFpbg-1; Wed, 08 Jul 2020 18:46:43 -0400
-X-MC-Unique: qQ1LGX-MPRqHFrTUFUFpbg-1
+ us-mta-241-gGXQsHSwOtG4kAQH7UmIhw-1; Wed, 08 Jul 2020 18:46:47 -0400
+X-MC-Unique: gGXQsHSwOtG4kAQH7UmIhw-1
 Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
  [10.5.11.22])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 1B8F7802788;
- Wed,  8 Jul 2020 22:46:42 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 483FA1089;
+ Wed,  8 Jul 2020 22:46:45 +0000 (UTC)
 Received: from localhost.com (unknown [10.40.192.44])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 6D9D910016E8;
- Wed,  8 Jul 2020 22:46:40 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id B0BBA10016E8;
+ Wed,  8 Jul 2020 22:46:43 +0000 (UTC)
 From: Julia Suvorova <jusual@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [RFC PATCH 1/5] hw/acpi/pcihp: Introduce find_host()
-Date: Thu,  9 Jul 2020 00:46:11 +0200
-Message-Id: <20200708224615.114077-2-jusual@redhat.com>
+Subject: [RFC PATCH 2/5] hw/acpi/ich9: Trace ich9_gpe_readb()/writeb()
+Date: Thu,  9 Jul 2020 00:46:12 +0200
+Message-Id: <20200708224615.114077-3-jusual@redhat.com>
 In-Reply-To: <20200708224615.114077-1-jusual@redhat.com>
 References: <20200708224615.114077-1-jusual@redhat.com>
 MIME-Version: 1.0
@@ -56,18 +56,17 @@ X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=207.211.31.81; envelope-from=jusual@redhat.com;
- helo=us-smtp-delivery-1.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/07/07 17:25:09
+Received-SPF: pass client-ip=207.211.31.120; envelope-from=jusual@redhat.com;
+ helo=us-smtp-1.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/07/07 17:25:10
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
-X-Spam_score_int: -18
-X-Spam_score: -1.9
-X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1,
+X-Spam_score_int: -28
+X-Spam_score: -2.9
+X-Spam_bar: --
+X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_FAKE_HELO_DOTCOM=1.189, RCVD_IN_DNSWL_NONE=-0.0001,
- RCVD_IN_MSPIKE_H3=-0.01, RCVD_IN_MSPIKE_WL=-0.01, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=no autolearn_force=no
+ RCVD_FAKE_HELO_DOTCOM=1.189, RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-1,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -85,74 +84,60 @@ Cc: Igor Mammedov <imammedo@redhat.com>, Julia Suvorova <jusual@redhat.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Returns the current host bus with ACPI PCI hot-plug support: q35 or i440fx.
+Add trace events similar to piix4_gpe_readb() to check gpe status.
 
 Signed-off-by: Julia Suvorova <jusual@redhat.com>
 ---
- hw/i386/acpi-build.h |  2 ++
- hw/acpi/pcihp.c      | 13 +++++++++++++
- hw/i386/acpi-build.c |  2 +-
- 3 files changed, 16 insertions(+), 1 deletion(-)
+ hw/acpi/ich9.c       | 7 ++++++-
+ hw/acpi/trace-events | 4 ++++
+ 2 files changed, 10 insertions(+), 1 deletion(-)
 
-diff --git a/hw/i386/acpi-build.h b/hw/i386/acpi-build.h
-index 74df5fc612..0696b4e48d 100644
---- a/hw/i386/acpi-build.h
-+++ b/hw/i386/acpi-build.h
-@@ -7,4 +7,6 @@ extern const struct AcpiGenericAddress x86_nvdimm_acpi_dsmio;
- 
- void acpi_setup(void);
- 
-+Object *acpi_get_i386_pci_host(void);
-+
- #endif
-diff --git a/hw/acpi/pcihp.c b/hw/acpi/pcihp.c
-index d42906ea19..3d4ee3af72 100644
---- a/hw/acpi/pcihp.c
-+++ b/hw/acpi/pcihp.c
-@@ -33,10 +33,12 @@
+diff --git a/hw/acpi/ich9.c b/hw/acpi/ich9.c
+index 2d204babc6..0fdd736da4 100644
+--- a/hw/acpi/ich9.c
++++ b/hw/acpi/ich9.c
+@@ -36,6 +36,7 @@
  #include "hw/acpi/acpi.h"
+ #include "hw/acpi/tco.h"
  #include "exec/address-spaces.h"
- #include "hw/pci/pci_bus.h"
-+#include "hw/pci/pci_host.h"
- #include "migration/vmstate.h"
- #include "qapi/error.h"
- #include "qom/qom-qobject.h"
- #include "trace.h"
-+#include "hw/i386/acpi-build.h"
++#include "trace.h"
  
- #define ACPI_PCIHP_ADDR 0xae00
- #define ACPI_PCIHP_SIZE 0x0014
-@@ -86,6 +88,17 @@ static void *acpi_set_bsel(PCIBus *bus, void *opaque)
-     return bsel_alloc;
+ #include "hw/i386/ich9.h"
+ #include "hw/mem/pc-dimm.h"
+@@ -59,13 +60,17 @@ static void ich9_pm_update_sci_fn(ACPIREGS *regs)
+ static uint64_t ich9_gpe_readb(void *opaque, hwaddr addr, unsigned width)
+ {
+     ICH9LPCPMRegs *pm = opaque;
+-    return acpi_gpe_ioport_readb(&pm->acpi_regs, addr);
++    uint64_t val = acpi_gpe_ioport_readb(&pm->acpi_regs, addr);
++
++    trace_ich9_gpe_readb(addr, width, val);
++    return val;
  }
  
-+static PCIBus *find_host(void)
-+{
-+    Object *obj = acpi_get_i386_pci_host();
-+
-+    if (obj) {
-+        return PCI_HOST_BRIDGE(obj)->bus;
-+    }
-+
-+    return NULL;
-+}
-+
- static void acpi_set_pci_info(void)
+ static void ich9_gpe_writeb(void *opaque, hwaddr addr, uint64_t val,
+                             unsigned width)
  {
-     static bool bsel_is_set;
-diff --git a/hw/i386/acpi-build.c b/hw/i386/acpi-build.c
-index 900f786d08..11c598f955 100644
---- a/hw/i386/acpi-build.c
-+++ b/hw/i386/acpi-build.c
-@@ -270,7 +270,7 @@ static void acpi_get_misc_info(AcpiMiscInfo *info)
-  * Because of the PXB hosts we cannot simply query TYPE_PCI_HOST_BRIDGE.
-  * On i386 arch we only have two pci hosts, so we can look only for them.
-  */
--static Object *acpi_get_i386_pci_host(void)
-+Object *acpi_get_i386_pci_host(void)
- {
-     PCIHostState *host;
+     ICH9LPCPMRegs *pm = opaque;
++    trace_ich9_gpe_writeb(addr, width, val);
+     acpi_gpe_ioport_writeb(&pm->acpi_regs, addr, val);
+     acpi_update_sci(&pm->acpi_regs, pm->irq);
+ }
+diff --git a/hw/acpi/trace-events b/hw/acpi/trace-events
+index afbc77de1c..b9f4827afc 100644
+--- a/hw/acpi/trace-events
++++ b/hw/acpi/trace-events
+@@ -32,6 +32,10 @@ cpuhp_acpi_ejecting_cpu(uint32_t idx) "0x%"PRIx32
+ cpuhp_acpi_write_ost_ev(uint32_t slot, uint32_t ev) "idx[0x%"PRIx32"] OST EVENT: 0x%"PRIx32
+ cpuhp_acpi_write_ost_status(uint32_t slot, uint32_t st) "idx[0x%"PRIx32"] OST STATUS: 0x%"PRIx32
  
++# ich9.c
++ich9_gpe_readb(uint64_t addr, unsigned width, uint64_t val) "addr: 0x%" PRIx64 " width: %d ==> 0x%" PRIx64
++ich9_gpe_writeb(uint64_t addr, unsigned width, uint64_t val) "addr: 0x%" PRIx64 " width: %d <== 0x%" PRIx64
++
+ # pcihp.c
+ acpi_pci_eject_slot(unsigned bsel, unsigned slot) "bsel: %u slot: %u"
+ acpi_pci_unplug(int bsel, int slot) "bsel: %d slot: %d"
 -- 
 2.25.4
 
