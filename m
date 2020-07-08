@@ -2,70 +2,81 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id DCA0C2192F0
-	for <lists+qemu-devel@lfdr.de>; Wed,  8 Jul 2020 23:56:19 +0200 (CEST)
-Received: from localhost ([::1]:42930 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2BD5A219314
+	for <lists+qemu-devel@lfdr.de>; Thu,  9 Jul 2020 00:06:10 +0200 (CEST)
+Received: from localhost ([::1]:57286 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jtI38-0000fG-SC
-	for lists+qemu-devel@lfdr.de; Wed, 08 Jul 2020 17:56:18 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:35164)
+	id 1jtICf-0001g4-3b
+	for lists+qemu-devel@lfdr.de; Wed, 08 Jul 2020 18:06:09 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:37308)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1jtHf2-0004WD-H3
- for qemu-devel@nongnu.org; Wed, 08 Jul 2020 17:31:24 -0400
-Received: from us-smtp-2.mimecast.com ([205.139.110.61]:28754
+ (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1jtHmA-0007Hy-2L
+ for qemu-devel@nongnu.org; Wed, 08 Jul 2020 17:38:46 -0400
+Received: from us-smtp-1.mimecast.com ([205.139.110.61]:31934
  helo=us-smtp-delivery-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1jtHew-0002av-KH
- for qemu-devel@nongnu.org; Wed, 08 Jul 2020 17:31:23 -0400
+ (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1jtHm8-0003S3-5C
+ for qemu-devel@nongnu.org; Wed, 08 Jul 2020 17:38:45 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1594243876;
+ s=mimecast20190719; t=1594244323;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=iOZc+sS6pLV2kd9pJ6dA58VvTf6atoy7FM4jtPqtdMQ=;
- b=LLi2r3dyjOzCX613JKtDDJ0iAFN61HQr3vOWbls/nEtPPp2/8dfjqVUOipJHqbGqULe2sY
- oFpv9yFadRw/L9dKBvh5Z9Pn0GqADiqpHGtYTKSrp1N5B1W0zHiz1Vw9cADoXLUk+rAQau
- rY9v/kut60GpNubn4ByzrBkunACCfY8=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-469--qaPJYYLNM2MhsxDtzCpEg-1; Wed, 08 Jul 2020 06:30:01 -0400
-X-MC-Unique: -qaPJYYLNM2MhsxDtzCpEg-1
-Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
- [10.5.11.23])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 1EEB11800D42;
- Wed,  8 Jul 2020 10:30:00 +0000 (UTC)
-Received: from sirius.home.kraxel.org (ovpn-112-200.ams2.redhat.com
- [10.36.112.200])
- by smtp.corp.redhat.com (Postfix) with ESMTP id BAAC52DE70;
- Wed,  8 Jul 2020 10:29:59 +0000 (UTC)
-Received: by sirius.home.kraxel.org (Postfix, from userid 1000)
- id DC8E616E18; Wed,  8 Jul 2020 12:29:58 +0200 (CEST)
-Date: Wed, 8 Jul 2020 12:29:58 +0200
-From: Gerd Hoffmann <kraxel@redhat.com>
-To: Paul Zimmerman <pauldzim@gmail.com>
-Subject: Re: Failure prints during format or mounting a usb storage device
-Message-ID: <20200708102958.kxnlr5outhsufxv5@sirius.home.kraxel.org>
-References: <BY5PR02MB677298C4D2C2B63EF409AA5CCA6B0@BY5PR02MB6772.namprd02.prod.outlook.com>
- <CADBGO7-hp4Pyfn+rq9d=ZxHmpMwitv-oLjYPJmCKSH6cLHVx=w@mail.gmail.com>
- <CADBGO78-mqwapj+mdpFUO-puL0OZ_1QeBc+4yo4S9g1O4deNjg@mail.gmail.com>
- <2d312ec0-d280-c0e3-2b1e-ff9c70c3168f@gmail.com>
- <20200707075740.dkc76ceb7wytdoem@sirius.home.kraxel.org>
- <CADBGO79KSm3KV7=otOg=u7WjwBV=j3T7iU0fcTF-nGgtZvy+Aw@mail.gmail.com>
- <20200708072947.7hynrm53622tp3ha@sirius.home.kraxel.org>
- <CADBGO7-38Q3MS-G5rCbW1i_1rvq7NRf2J+bMErXr=7xhZ=jEWg@mail.gmail.com>
+ bh=b0Ma7ijg3Nvpwxwl5uTE3a13so6FxTARUYgVyjWwO9k=;
+ b=BnF8wetis5V+1zJK5wQ66Fz/r6okzMIImkk3ykyNEsRb2nvv+QnHbma0d5hnSBoZtyBiku
+ /dCZRgEs9O/md1oZlRNDrib/VFbcBVBl1utgJwU0smSudH3NfZAx7ZOXl/eFz2LzChi5WC
+ OdQ4Ek1mT6TxgWEMqm0sKRwNtSCAqV8=
+Received: from mail-wr1-f69.google.com (mail-wr1-f69.google.com
+ [209.85.221.69]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-159-hvzt-rUvNTa5xgiLk_M6eA-1; Wed, 08 Jul 2020 06:37:49 -0400
+X-MC-Unique: hvzt-rUvNTa5xgiLk_M6eA-1
+Received: by mail-wr1-f69.google.com with SMTP id j16so46241651wrw.3
+ for <qemu-devel@nongnu.org>; Wed, 08 Jul 2020 03:37:49 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+ :mime-version:content-disposition:content-transfer-encoding
+ :in-reply-to;
+ bh=b0Ma7ijg3Nvpwxwl5uTE3a13so6FxTARUYgVyjWwO9k=;
+ b=tQk3QwYDwaURY8CrJ8gko4pcVX71bs7lahHk0y05NrehJd3KB6s4+s/oXHPvbm2FjK
+ XeVWV/wQxy288fbcZKg0FxsUbQOLXBetCeC5A+jlG51IyaEuYwNo7/KechehK/ur7kQK
+ aFGUx4C3zDKtCP93BXuU2OlBlJtKU65ZJ1f3N7ZWEzsg5c88sN+f9imHXsPwZP+U8SVK
+ mpEKOS5ra8xkCQ+NjV6vrOtaTN5ciLZQc0YGeJAhy+fSfRr6QQekDLlgl72Vx4Ki8OEV
+ DA1GMYhIYKqwUBT7AMmvRSEtEUUmbqDW9JPGhYCl0OO0R/j03lNKHx9BW9zwGEwTKlw4
+ 7eVA==
+X-Gm-Message-State: AOAM530jF71otgawdQ85+w3oqRv2VfGgY7wcGznTM9MxwQo0lK3X0sxO
+ +vkUyWYTtdJ3FPdJRtSJbBtdsVmoOxbBNlDrlWiC0OuQUKe68npdHcVQZ0WiDy0F62ZnsFBXRYI
+ tDzAAL7auPP9smPg=
+X-Received: by 2002:a1c:7fd7:: with SMTP id a206mr8578692wmd.104.1594204668555; 
+ Wed, 08 Jul 2020 03:37:48 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJwbpeZoGStBwww98/41W96R4yDpqf+YUwDklw7WGwqzqdlbIblYxjnu3Tise3Dv1+JK3pUKmw==
+X-Received: by 2002:a1c:7fd7:: with SMTP id a206mr8578659wmd.104.1594204668216; 
+ Wed, 08 Jul 2020 03:37:48 -0700 (PDT)
+Received: from redhat.com (bzq-79-182-31-92.red.bezeqint.net. [79.182.31.92])
+ by smtp.gmail.com with ESMTPSA id
+ 133sm5923591wme.5.2020.07.08.03.37.46
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Wed, 08 Jul 2020 03:37:47 -0700 (PDT)
+Date: Wed, 8 Jul 2020 06:37:44 -0400
+From: "Michael S. Tsirkin" <mst@redhat.com>
+To: Philippe =?iso-8859-1?Q?Mathieu-Daud=E9?= <philmd@redhat.com>
+Subject: Re: [PATCH v2] MAINTAINERS: Cover the firmware JSON schema
+Message-ID: <20200708063659-mutt-send-email-mst@kernel.org>
+References: <20200703183450.32398-1-philmd@redhat.com>
+ <20200708024434-mutt-send-email-mst@kernel.org>
+ <3dafd514-f66c-96c5-3217-86ef990dda1b@redhat.com>
 MIME-Version: 1.0
-In-Reply-To: <CADBGO7-38Q3MS-G5rCbW1i_1rvq7NRf2J+bMErXr=7xhZ=jEWg@mail.gmail.com>
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
+In-Reply-To: <3dafd514-f66c-96c5-3217-86ef990dda1b@redhat.com>
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=kraxel@redhat.com
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=mst@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: 8bit
 Content-Disposition: inline
-Received-SPF: pass client-ip=205.139.110.61; envelope-from=kraxel@redhat.com;
+Received-SPF: pass client-ip=205.139.110.61; envelope-from=mst@redhat.com;
  helo=us-smtp-delivery-1.mimecast.com
 X-detected-operating-system: by eggs.gnu.org: First seen = 2020/07/07 17:25:10
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
@@ -88,30 +99,75 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Sai Pavan Boddu <saipava@xilinx.com>,
- Peter Maydell <peter.maydell@linaro.org>,
- "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>,
- Vikram Garhwal <fnuv@xilinx.com>
+Cc: "Daniel P . Berrange" <berrange@redhat.com>,
+ Kashyap Chamarthy <kchamart@redhat.com>,
+ QEMU Trivial <qemu-trivial@nongnu.org>, qemu-devel@nongnu.org,
+ Gerd Hoffmann <kraxel@redhat.com>, Laszlo Ersek <lersek@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-  Hi,
+On Wed, Jul 08, 2020 at 10:57:31AM +0200, Philippe Mathieu-Daudé wrote:
+> +qemu-trivial
+> 
+> On 7/8/20 8:45 AM, Michael S. Tsirkin wrote:
+> > On Fri, Jul 03, 2020 at 08:34:50PM +0200, Philippe Mathieu-DaudÃƒÂ© wrote:
+> >> Add an entry to cover firmware.json (see commit 3a0adfc9bf:
+> >> schema that describes the different uses and properties of
+> >> virtual machine firmware).
+> >>
+> >> Cc: Laszlo Ersek <lersek@redhat.com>
+> >> Cc: Gerd Hoffmann <kraxel@redhat.com>
+> >> Cc: Michael S. Tsirkin <mst@redhat.com>
+> >> Cc: Kashyap Chamarthy <kchamart@redhat.com>
+> >> Cc: Daniel P. Berrange <berrange@redhat.com>
+> >> Suggested-by: Laszlo Ersek <lersek@redhat.com>
+> >> Signed-off-by: Philippe Mathieu-DaudÃƒÂ© <philmd@redhat.com>
+> > 
+> > 
+> > Reviewed-by: Michael S. Tsirkin <mst@redhat.com>
+> 
+> Thanks Michael. If you plan to do a pull request, can you
+> include this patch please? (modulo the weird UTF8 mojibakes)
 
-> IIRC, without the dev-storage patch, the very first SCSI command
-> would get stuck waiting for the CSW, because the CSW is not a
-> multiple of MPS. I will have to work on getting a debug trace for
-> you, I'll get back to you with that.
+I'll try, hopefully utf8 will be fine when I do.
 
-Hmm, dev-storage should be fine with the packet being larger than
-needed.  It'll actually do a short transfer then.  So I suspect the
-patch just papers over the underlying issue.
-
-Can you post a trace of this?
-
-(dev-storage has no trace support, so I think tracing usb_dwc2* to
- stderr and enable DEBUG_MSD in dev-storage.c works best)
-
-take care,
-  Gerd
+> Else it can simply go via the trivial tree.
+> 
+> > 
+> >> ---
+> >> Since RFC v1:
+> >> - Added Daniel & Kashyap as reviewer
+> >> - Added myself as co-maintainer with Laszlo
+> >>
+> >> Based on a comment from Laszlo:
+> >> https://www.mail-archive.com/qemu-devel@nongnu.org/msg604925.html
+> >> Background info from Kashyap:
+> >> https://lists.nongnu.org/archive/html/qemu-devel/2018-03/msg01978.html
+> >> ---
+> >>  MAINTAINERS | 8 ++++++++
+> >>  1 file changed, 8 insertions(+)
+> >>
+> >> diff --git a/MAINTAINERS b/MAINTAINERS
+> >> index dec252f38b..64bcea658d 100644
+> >> --- a/MAINTAINERS
+> >> +++ b/MAINTAINERS
+> >> @@ -2601,6 +2601,14 @@ F: include/hw/i2c/smbus_master.h
+> >>  F: include/hw/i2c/smbus_slave.h
+> >>  F: include/hw/i2c/smbus_eeprom.h
+> >>  
+> >> +Firmware schema specifications
+> >> +M: Laszlo Ersek <lersek@redhat.com>
+> >> +M: Philippe Mathieu-DaudÃƒÂ© <philmd@redhat.com>
+> >> +R: Daniel P. Berrange <berrange@redhat.com>
+> >> +R: Kashyap Chamarthy <kchamart@redhat.com>
+> >> +S: Maintained
+> >> +F: docs/interop/firmware.json
+> >> +
+> >>  EDK2 Firmware
+> >>  M: Laszlo Ersek <lersek@redhat.com>
+> >>  M: Philippe Mathieu-DaudÃƒÂ© <philmd@redhat.com>
+> >> -- 
+> >> 2.21.3
+> > 
 
 
