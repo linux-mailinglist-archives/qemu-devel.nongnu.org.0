@@ -2,69 +2,108 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 770F0219505
-	for <lists+qemu-devel@lfdr.de>; Thu,  9 Jul 2020 02:25:34 +0200 (CEST)
-Received: from localhost ([::1]:37484 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9FB29219516
+	for <lists+qemu-devel@lfdr.de>; Thu,  9 Jul 2020 02:29:57 +0200 (CEST)
+Received: from localhost ([::1]:42284 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jtKNZ-0001Ga-HZ
-	for lists+qemu-devel@lfdr.de; Wed, 08 Jul 2020 20:25:33 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:45442)
+	id 1jtKRo-0003U2-OI
+	for lists+qemu-devel@lfdr.de; Wed, 08 Jul 2020 20:29:56 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:46632)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jasowang@redhat.com>)
- id 1jtKMO-0000mL-Jf
- for qemu-devel@nongnu.org; Wed, 08 Jul 2020 20:24:20 -0400
-Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:60016
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1jtKQT-0002vf-HI
+ for qemu-devel@nongnu.org; Wed, 08 Jul 2020 20:28:33 -0400
+Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:25840
  helo=us-smtp-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <jasowang@redhat.com>)
- id 1jtKMM-0007n0-7X
- for qemu-devel@nongnu.org; Wed, 08 Jul 2020 20:24:19 -0400
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1jtKQR-0008OT-OG
+ for qemu-devel@nongnu.org; Wed, 08 Jul 2020 20:28:33 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1594254256;
+ s=mimecast20190719; t=1594254511;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=LWfOAsQ1QWp0Cwq2YvBob072V/RAkLAQjkzXLSMp0nQ=;
- b=SjQFne8oXWvfC5/3FYTldCydQQKD58nIt/oxEgCnT1fFWgA57x1qUkFbNX+enu6eJustxK
- gxuszMdPzPxp86kM+uUP/hDHUC7oQk/Q28Sg61KXM0Ll3/gG41+KG11S/zODcQcHk5Rr+p
- 5U6ZCUFt1N5QtVOUEpLOvPswUd0ov7c=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-422-tJzwwO_gNASJ3HmMJfzx3A-1; Wed, 08 Jul 2020 04:22:58 -0400
-X-MC-Unique: tJzwwO_gNASJ3HmMJfzx3A-1
-Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
- [10.5.11.15])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 091C618A823C;
- Wed,  8 Jul 2020 08:22:47 +0000 (UTC)
-Received: from [10.72.12.240] (ovpn-12-240.pek2.redhat.com [10.72.12.240])
- by smtp.corp.redhat.com (Postfix) with ESMTP id D88FA7C3CB;
- Wed,  8 Jul 2020 08:21:36 +0000 (UTC)
-Subject: Re: [PATCH] vhost-vdpa: fix the compile issue without kvm
-To: Cindy Lu <lulu@redhat.com>, mst@redhat.com, armbru@redhat.com,
- eblake@redhat.com, cohuck@redhat.com
-References: <20200708071255.31184-1-lulu@redhat.com>
-From: Jason Wang <jasowang@redhat.com>
-Message-ID: <d877ef6f-fa7a-bba5-fb79-86cbf8e779fe@redhat.com>
-Date: Wed, 8 Jul 2020 16:21:34 +0800
+ in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
+ bh=iJb9fYNjkzSr5Iw2KwRMMG4vhKWK7vZpwj58aUzwXeE=;
+ b=K4AP+7Z13cs8DK2gOITx/LgfWOsMLgtixSgf+2K+/Fo2z2tltYY6dJyHjfDCo747+thY+m
+ 8eRa/tC/bLJ0NTegDafaXwRbA78ZIXtIOQxQ0+PEiZBIm6S742Y3vORGiw0c36HOtqdC/G
+ PmX+yn6DzfX8VMJgJ26pWytwnVshABQ=
+Received: from mail-wr1-f71.google.com (mail-wr1-f71.google.com
+ [209.85.221.71]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-37-FGSLnO2OP9eSx7muN2dVcQ-1; Wed, 08 Jul 2020 04:25:41 -0400
+X-MC-Unique: FGSLnO2OP9eSx7muN2dVcQ-1
+Received: by mail-wr1-f71.google.com with SMTP id g14so51213263wrp.8
+ for <qemu-devel@nongnu.org>; Wed, 08 Jul 2020 01:25:40 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:subject:to:cc:references:from:autocrypt
+ :message-id:date:user-agent:mime-version:in-reply-to
+ :content-language:content-transfer-encoding;
+ bh=iJb9fYNjkzSr5Iw2KwRMMG4vhKWK7vZpwj58aUzwXeE=;
+ b=htDvvbqyuAdMZ7nO6LEK6Fn3D9T99bAu/pGDnieB7y7qE6REkK/r5WbdT7pm2+x5c4
+ zIuhYSwlv39GOTrVR0JufpMAxf5Lx5L/Jej6Sltv69doHI2MnqCpcXWWFXLfIIKQwDuM
+ VfWIAV2yrNBy0pyVAs/rVPLaCoTuGK3CNJR4PXOiBfEpu3TyKfdhOKg4QlwGZAJj9EYT
+ XC9EaR9tgDbZcofIryBqD+ij9l6V7KtrBp5aqtCsoGBajDvkGzp8/lMRI1bOJL/R467I
+ Hj10vJmzakDOiwW3D3xvSAIE6kmY/vOvtO2ShPU9in3PT3TUkC3SgH9bPGAUhiIsDlXq
+ ScJQ==
+X-Gm-Message-State: AOAM531A5W/I4ncHWaZR92Jv5KFb1LeOrSp4YXg3bNWfBwwUU+767ibx
+ GzLUp4P8tSQep4GdCnDmxnJFXJ6iZ9phW39mRQKHsJVWg+vMnA5s0TTEUuQ1fPZjw1oYW/IXEKI
+ xqHhqydJRyQ0zNi8=
+X-Received: by 2002:a7b:c841:: with SMTP id c1mr8654625wml.25.1594196739688;
+ Wed, 08 Jul 2020 01:25:39 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJybU0ywWLmOQfgLIPLfsr9yDxP6OtgbXsz3CbQ9xqRopwFP0ewVBKsGfKLP8RGoUNrTkS6W9w==
+X-Received: by 2002:a7b:c841:: with SMTP id c1mr8654606wml.25.1594196739454;
+ Wed, 08 Jul 2020 01:25:39 -0700 (PDT)
+Received: from [192.168.1.36] (138.red-83-57-170.dynamicip.rima-tde.net.
+ [83.57.170.138])
+ by smtp.gmail.com with ESMTPSA id k14sm4482571wrn.76.2020.07.08.01.25.38
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Wed, 08 Jul 2020 01:25:38 -0700 (PDT)
+Subject: Re: [PULL 00/53] Misc patches for QEMU 5.1 soft freeze
+To: Peter Maydell <peter.maydell@linaro.org>,
+ Paolo Bonzini <pbonzini@redhat.com>
+References: <20200706164155.24696-1-pbonzini@redhat.com>
+ <CAFEAcA-F1FGde+=c3iS3wcRWG+i0RgYj5-jwafn0sX6EEYEsWA@mail.gmail.com>
+From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
+Autocrypt: addr=philmd@redhat.com; keydata=
+ mQINBDXML8YBEADXCtUkDBKQvNsQA7sDpw6YLE/1tKHwm24A1au9Hfy/OFmkpzo+MD+dYc+7
+ bvnqWAeGweq2SDq8zbzFZ1gJBd6+e5v1a/UrTxvwBk51yEkadrpRbi+r2bDpTJwXc/uEtYAB
+ GvsTZMtiQVA4kRID1KCdgLa3zztPLCj5H1VZhqZsiGvXa/nMIlhvacRXdbgllPPJ72cLUkXf
+ z1Zu4AkEKpccZaJspmLWGSzGu6UTZ7UfVeR2Hcc2KI9oZB1qthmZ1+PZyGZ/Dy+z+zklC0xl
+ XIpQPmnfy9+/1hj1LzJ+pe3HzEodtlVA+rdttSvA6nmHKIt8Ul6b/h1DFTmUT1lN1WbAGxmg
+ CH1O26cz5nTrzdjoqC/b8PpZiT0kO5MKKgiu5S4PRIxW2+RA4H9nq7nztNZ1Y39bDpzwE5Sp
+ bDHzd5owmLxMLZAINtCtQuRbSOcMjZlg4zohA9TQP9krGIk+qTR+H4CV22sWldSkVtsoTaA2
+ qNeSJhfHQY0TyQvFbqRsSNIe2gTDzzEQ8itsmdHHE/yzhcCVvlUzXhAT6pIN0OT+cdsTTfif
+ MIcDboys92auTuJ7U+4jWF1+WUaJ8gDL69ThAsu7mGDBbm80P3vvUZ4fQM14NkxOnuGRrJxO
+ qjWNJ2ZUxgyHAh5TCxMLKWZoL5hpnvx3dF3Ti9HW2dsUUWICSQARAQABtDJQaGlsaXBwZSBN
+ YXRoaWV1LURhdWTDqSAoUGhpbCkgPHBoaWxtZEByZWRoYXQuY29tPokCVQQTAQgAPwIbDwYL
+ CQgHAwIGFQgCCQoLBBYCAwECHgECF4AWIQSJweePYB7obIZ0lcuio/1u3q3A3gUCXsfWwAUJ
+ KtymWgAKCRCio/1u3q3A3ircD/9Vjh3aFNJ3uF3hddeoFg1H038wZr/xi8/rX27M1Vj2j9VH
+ 0B8Olp4KUQw/hyO6kUxqkoojmzRpmzvlpZ0cUiZJo2bQIWnvScyHxFCv33kHe+YEIqoJlaQc
+ JfKYlbCoubz+02E2A6bFD9+BvCY0LBbEj5POwyKGiDMjHKCGuzSuDRbCn0Mz4kCa7nFMF5Jv
+ piC+JemRdiBd6102ThqgIsyGEBXuf1sy0QIVyXgaqr9O2b/0VoXpQId7yY7OJuYYxs7kQoXI
+ 6WzSMpmuXGkmfxOgbc/L6YbzB0JOriX0iRClxu4dEUg8Bs2pNnr6huY2Ft+qb41RzCJvvMyu
+ gS32LfN0bTZ6Qm2A8ayMtUQgnwZDSO23OKgQWZVglGliY3ezHZ6lVwC24Vjkmq/2yBSLakZE
+ 6DZUjZzCW1nvtRK05ebyK6tofRsx8xB8pL/kcBb9nCuh70aLR+5cmE41X4O+MVJbwfP5s/RW
+ 9BFSL3qgXuXso/3XuWTQjJJGgKhB6xXjMmb1J4q/h5IuVV4juv1Fem9sfmyrh+Wi5V1IzKI7
+ RPJ3KVb937eBgSENk53P0gUorwzUcO+ASEo3Z1cBKkJSPigDbeEjVfXQMzNt0oDRzpQqH2vp
+ apo2jHnidWt8BsckuWZpxcZ9+/9obQ55DyVQHGiTN39hkETy3Emdnz1JVHTU0Q==
+Message-ID: <90266035-b1f2-b448-0df8-5b38a22588ff@redhat.com>
+Date: Wed, 8 Jul 2020 10:25:37 +0200
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.8.0
+ Thunderbird/68.5.0
 MIME-Version: 1.0
-In-Reply-To: <20200708071255.31184-1-lulu@redhat.com>
+In-Reply-To: <CAFEAcA-F1FGde+=c3iS3wcRWG+i0RgYj5-jwafn0sX6EEYEsWA@mail.gmail.com>
 Content-Language: en-US
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=jasowang@redhat.com
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=philmd@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Type: text/plain; charset=utf-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=207.211.31.120; envelope-from=jasowang@redhat.com;
+Received-SPF: pass client-ip=205.139.110.120; envelope-from=philmd@redhat.com;
  helo=us-smtp-1.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/07/07 17:25:10
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/07/07 17:25:11
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
 X-Spam_score_int: -40
 X-Spam_score: -4.1
@@ -85,43 +124,76 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: mhabets@solarflare.com, qemu-devel@nongnu.org, rob.miller@broadcom.com,
- saugatm@xilinx.com, hanand@xilinx.com, hch@infradead.org, eperezma@redhat.com,
- jgg@mellanox.com, shahafs@mellanox.com, kevin.tian@intel.com,
- parav@mellanox.com, vmireyno@marvell.com, cunming.liang@intel.com,
- gdawar@xilinx.com, jiri@mellanox.com, xiao.w.wang@intel.com,
- stefanha@redhat.com, zhihong.wang@intel.com, aadam@redhat.com,
- rdunlap@infradead.org, maxime.coquelin@redhat.com, lingshan.zhu@intel.com
+Cc: QEMU Developers <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+On 7/7/20 8:37 PM, Peter Maydell wrote:
+> On Mon, 6 Jul 2020 at 17:48, Paolo Bonzini <pbonzini@redhat.com> wrote:
+>>
+>> The following changes since commit fc1bff958998910ec8d25db86cd2f53ff125f7ab:
+>>
+>>   hw/misc/pca9552: Add missing TypeInfo::class_size field (2020-06-29 21:16:10 +0100)
+>>
+>> are available in the Git repository at:
+>>
+>>   git://github.com/bonzini/qemu.git tags/for-upstream
+>>
+>> for you to fetch changes up to 80270507070ec73ea82741ce24cb7909a9258ea3:
+>>
+>>   scripts: improve message when TAP based tests fail (2020-07-06 12:14:25 -0400)
+>>
+>> ----------------------------------------------------------------
+>> * Make checkpatch say 'qemu' instead of 'kernel' (Aleksandar)
+>> * Fix PSE guests with emulated NPT (Alexander B. #1)
+>> * Fix leak (Alexander B. #2)
+>> * HVF fixes (Roman, Cameron)
+>> * New Sapphire Rapids CPUID bits (Cathy)
+>> * cpus.c and softmmu/ cleanups (Claudio)
+>> * TAP driver tweaks (Daniel, Havard)
+>> * object-add bugfix and testcases (Eric A.)
+>> * Fix Coverity MIN_CONST and MAX_CONST (Eric B.)
+>> * SSE fixes (Joseph)
+>> * "-msg guest-name" option (Mario)
+>> * support for AMD nested live migration (myself)
+>> * Small i386 TCG fixes (myself)
+>> * improved error reporting for Xen (myself)
+>> * fix "-cpu host -overcommit cpu-pm=on" (myself)
+>> * Add accel/Kconfig (Philippe)
+>> * KVM API cleanup (Philippe)
+>> * iscsi sense handling fixes (Yongji)
+>> * Misc bugfixes
+> 
+> Hi; various build or test failures (5 total):
 
-On 2020/7/8 下午3:12, Cindy Lu wrote:
-> Fix the compile issue in the system without the kvm support
->
-> Signed-off-by: Cindy Lu <lulu@redhat.com>
-> ---
->   hw/virtio/vhost-vdpa.c | 3 +--
->   1 file changed, 1 insertion(+), 2 deletions(-)
->
-> diff --git a/hw/virtio/vhost-vdpa.c b/hw/virtio/vhost-vdpa.c
-> index a3d17fe0f9..65d5aaf08a 100644
-> --- a/hw/virtio/vhost-vdpa.c
-> +++ b/hw/virtio/vhost-vdpa.c
-> @@ -19,8 +19,7 @@
->   #include "hw/virtio/virtio-net.h"
->   #include "hw/virtio/vhost-vdpa.h"
->   #include "qemu/main-loop.h"
-> -#include <linux/kvm.h>
-> -#include "sysemu/kvm.h"
-> +#include "cpu.h"
->   
->   static bool vhost_vdpa_listener_skipped_section(MemoryRegionSection *section)
->   {
+> 2) aarch64 and aarch32 linux:
+> 
+> /home/pm/qemu/target/arm/kvm.c: In function ‘kvm_arch_init’:
+> /home/pm/qemu/target/arm/kvm.c:248:29: error: passing argument 1 of
+> ‘kvm_check_extension’ makes integer from pointer without a cast
+>  [-Werror=int-conversion]
+>   248 |     if (kvm_check_extension(s, KVM_CAP_ARM_NISV_TO_USER)) {
+>       |                             ^
+>       |                             |
+>       |                             KVMState * {aka struct KVMState *}
 
+I was sure I tested that on ARM hosts, so I double checked and
+this code is new, merged last Saturday in 1711bfa5f5 ("target/arm: kvm:
+Handle misconfigured dabt injection"), so an unfortunate merge race
+problem.
 
-Acked-by: Jason Wang <jasowang@redhat.com>
+> 3) PPC64 had a failure on iotest 030 (though I think this may
+> be an intermittent in master):
+> 
+>   TEST    iotest-qcow2: 030 [fail]
+[...]
+> +AssertionError: failed path traversal for "return" in "{'error':
+> {'class': 'DeviceNotActive', 'desc': "Block job 'stream-node8' not
+> found"}}"
 
-
+So this is now more intermittent, and this has been reported on:
+- Linux/x86
+- FreeBSD/x86
+- Linux/ppc64
 
 
