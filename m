@@ -2,103 +2,60 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 356E62193E9
-	for <lists+qemu-devel@lfdr.de>; Thu,  9 Jul 2020 00:57:41 +0200 (CEST)
-Received: from localhost ([::1]:54752 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D3DEC218B2D
+	for <lists+qemu-devel@lfdr.de>; Wed,  8 Jul 2020 17:26:39 +0200 (CEST)
+Received: from localhost ([::1]:48904 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jtJ0W-0006jA-7O
-	for lists+qemu-devel@lfdr.de; Wed, 08 Jul 2020 18:57:40 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:49708)
+	id 1jtBy2-00026n-Ta
+	for lists+qemu-devel@lfdr.de; Wed, 08 Jul 2020 11:26:38 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:57828)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1jtIVC-0000qR-Fz
- for qemu-devel@nongnu.org; Wed, 08 Jul 2020 18:25:19 -0400
-Received: from us-smtp-2.mimecast.com ([205.139.110.61]:26425
- helo=us-smtp-delivery-1.mimecast.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1jtIV5-0001OG-HV
- for qemu-devel@nongnu.org; Wed, 08 Jul 2020 18:25:18 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1594247110;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=CHGAEaesgAPitP8JdS597nS94aQyRssWojXDYB54AS4=;
- b=PA+MpYRuBZgK+CpKUsR0bA5sGsGUOaR4FF7hpMp9VNxvB/h96v5vjoFSKWi+2NG9KlMcpY
- D645pzHnPOOMqLc5mp9eYzXtL76MNzbZ8urU4JEISQQNpHf2VM09sRLsL6d6bS7Pm20TM5
- st++tFQ/Hwb4Hc6mJEEwXxucgkdirBQ=
-Received: from mail-wr1-f71.google.com (mail-wr1-f71.google.com
- [209.85.221.71]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-32-SXetMSfXNG-n_IMihJLG2A-1; Wed, 08 Jul 2020 11:23:22 -0400
-X-MC-Unique: SXetMSfXNG-n_IMihJLG2A-1
-Received: by mail-wr1-f71.google.com with SMTP id y18so32821479wrq.4
- for <qemu-devel@nongnu.org>; Wed, 08 Jul 2020 08:23:22 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=CHGAEaesgAPitP8JdS597nS94aQyRssWojXDYB54AS4=;
- b=WxAhRLLsvdLrdYO0TUbG2dErRSJZfnbHZYjLJo/IQgdM7Hdi1zT+FAXEXs+TYYqIZM
- mEfOl56XH09Fq55EYsxB46+rX5lN+N7vZB1snh/XjOvvjf2p47sTiydgljjrGnc7Uhmt
- zdGbLsv1j5ML3EmJQXTTh5m9pa6EDsEbg6f9rqBXF97aJ5Tnuk2CJJ3aIGTdYjQKvw/I
- nCf+L6K0PlBLGA8FAtWQku6eP1bxwGBioQPqRSvlfWh9H9aiHvKLforZUkC4JPR6kyyT
- PY3nJPN+bSZgcCzKg7IzJ6PY+ZXGetR2vP+NfrU2GxLivjlwNd91UK71+ge7bsIKOHRR
- 8mdg==
-X-Gm-Message-State: AOAM530od8lqTxSjbT+uFYNYawT/KNJHeIvprz9qgooafkpHyKIg/+xE
- NQxyQkCODs1fFR6nXAlv9+PR05oDG6QXOtVljcC70kqfd28NCVH6bnuNGHW81emTvhZGdgtmTrR
- XVJAq5tDUlv1mJxc=
-X-Received: by 2002:a5d:628b:: with SMTP id k11mr59658653wru.107.1594221801326; 
- Wed, 08 Jul 2020 08:23:21 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJz9QXoNdqhFKHAj89SR91jKlnAFP2kQ+YJ++EPkH9loBWINnn5lztNWMrwMhkE834fNMADN3g==
-X-Received: by 2002:a5d:628b:: with SMTP id k11mr59658632wru.107.1594221801098; 
- Wed, 08 Jul 2020 08:23:21 -0700 (PDT)
-Received: from ?IPv6:2001:b07:6468:f312:9541:9439:cb0f:89c?
- ([2001:b07:6468:f312:9541:9439:cb0f:89c])
- by smtp.gmail.com with ESMTPSA id j16sm484430wrt.7.2020.07.08.08.23.20
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Wed, 08 Jul 2020 08:23:20 -0700 (PDT)
-Subject: Re: [PATCH 3/3] cpu-timers, icount: new modules
-To: Claudio Fontana <cfontana@suse.de>, Thomas Huth <thuth@redhat.com>,
- Laurent Vivier <lvivier@redhat.com>, =?UTF-8?Q?Alex_Benn=c3=a9e?=
- <alex.bennee@linaro.org>, Peter Maydell <peter.maydell@linaro.org>,
- =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>,
- Roman Bolshakov <r.bolshakov@yadro.com>,
- Markus Armbruster <armbru@redhat.com>
-References: <20200629093504.3228-1-cfontana@suse.de>
- <20200629093504.3228-4-cfontana@suse.de>
- <aa45a793-35b1-d3bd-18a8-4c52ad888029@redhat.com>
- <f89f249d-dbc4-779b-5b53-fc408461f072@suse.de>
- <ecf5f26b-ce86-3e13-5c5c-567919433acb@redhat.com>
- <46322ba4-8aff-e8d6-8a1c-ea1043098624@suse.de>
-From: Paolo Bonzini <pbonzini@redhat.com>
-Message-ID: <bc76504a-0d81-7f81-42fd-c70d8cc13bc5@redhat.com>
-Date: Wed, 8 Jul 2020 17:23:19 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.9.0
+ (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1jtBwJ-0000jt-AQ
+ for qemu-devel@nongnu.org; Wed, 08 Jul 2020 11:24:51 -0400
+Received: from mout.kundenserver.de ([212.227.126.187]:41975)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1jtBwG-0003rk-Nz
+ for qemu-devel@nongnu.org; Wed, 08 Jul 2020 11:24:51 -0400
+Received: from localhost.localdomain ([82.252.135.106]) by
+ mrelayeu.kundenserver.de (mreue011 [212.227.15.167]) with ESMTPSA (Nemesis)
+ id 1MYNeM-1kOSK631Ig-00VLzq; Wed, 08 Jul 2020 17:24:44 +0200
+From: Laurent Vivier <laurent@vivier.eu>
+To: qemu-devel@nongnu.org
+Subject: [PATCH v2 0/2] linux-user: fix print_syscall_err()
+Date: Wed,  8 Jul 2020 17:24:33 +0200
+Message-Id: <20200708152435.706070-1-laurent@vivier.eu>
+X-Mailer: git-send-email 2.26.2
+Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
-In-Reply-To: <46322ba4-8aff-e8d6-8a1c-ea1043098624@suse.de>
-Content-Language: en-US
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=pbonzini@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=205.139.110.61; envelope-from=pbonzini@redhat.com;
- helo=us-smtp-delivery-1.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/07/07 17:25:10
-X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
-X-Spam_score_int: -40
-X-Spam_score: -4.1
-X-Spam_bar: ----
-X-Spam_report: (-4.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-1, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Content-Transfer-Encoding: quoted-printable
+X-Provags-ID: V03:K1:fLcC9BCfeTyot3W2W95e23GqUQ+BUR4MvvLFLNcJyaE3SuoCcQQ
+ 7iFM6FMZWksTTYpO++voz/6y1uR7iETRerFi1FRBweue1f52CZaXw0QsZdAsFtNSP4y4OiT
+ QcMFPVeMw8fs6SY+i4B7cLBqNteGPU1GUEforsm+1vvDwStebFzNUyaR1HxLAU5WAzFA0uA
+ FYBkcCadt97lpUd9uTARg==
+X-UI-Out-Filterresults: notjunk:1;V03:K0:IEnEzrYY+Hw=:NaqVEgwG6j4UF207puxNTU
+ /Rzfx7y2s/BczmFbglhcYqz6tMsqKwcmcGuzL46qKngCXHg9DNZ6lEqcY/wOme9PG4ws3+dGC
+ wlBG6seibCHklU1tGR9Ag7CwkzHvdbE1tlue1DlHI9m7swsBl6Wbmk1jVaYD2UNxCDxN0/u/c
+ OmRI7nsotzJ8cbqmYqhaGh+M/xkXapcuNiZCY00qO1gUxu3bj+x9pZMGRxMQx/Oxa+yV0DBW9
+ gqYJo0owjGN/7mbBjAQezZpDXvD9bxZPArwsTDYoXXbY+UNiUZN9KMKFLL9ladv0a3fOA8YXr
+ E+I8nQd5H72MF95sxbaItlBSbrRMFV/tVWM8dP1Gl9kdTYiWzY5dIfZCaSSAzBdQ0Wm1hf5+6
+ JnV7u1L3K6znvbyh0Ahup8i21RBvw3Y8qPyEyncI/3b9vqvqwA5uL6rvMSMmdue67to7frvGi
+ n3Jq1olo8KfIGz2H4LHNGxPaG5TWO0Ea0Q6h19SP/1xsIve8bOV6aVe9YELmyzKgQG1/akotS
+ 7rdg0LFydS4QmmjnK0e+1YXmsE4TMMAFWlQicgMNfy0PYdY3g+ZU6UD0D+HGC9vfSlQIqPAw+
+ PbIStpIRk4D5XUj1F+B5T7Hgib+LNX6QAUac7h61x473eiSvkfkKSy04ac6nEz8jVMqtMfTxk
+ 582mMxKX30zeoJr73hRa8cUGVkHAkwSJYfU+CNT1hwycjsT7UZ3CGXxtohsBIhz5UVDYamV8W
+ kbaiwKx38/O9eLUjdPZ6T21EvwU2dfBbUk7N+C26KX0Ej3Qk81iGHJlZGybQHfrX4ZGBG4uuO
+ M6n0QYeSr2z2Y0SFnHUw60BpV04blvvJR1YPsqAjcnP11ruEoy5pTpEmQNuMkYZA4FqQAMU
+Received-SPF: none client-ip=212.227.126.187; envelope-from=laurent@vivier.eu;
+ helo=mout.kundenserver.de
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/07/08 11:24:47
+X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic]
+X-Spam_score_int: -28
+X-Spam_score: -2.9
+X-Spam_bar: --
+X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_NONE=-0.0001,
+ RCVD_IN_MSPIKE_H2=-1, SPF_HELO_NONE=0.001,
+ SPF_NONE=0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -111,59 +68,33 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Eduardo Habkost <ehabkost@redhat.com>, Colin Xu <colin.xu@intel.com>,
- Marcelo Tosatti <mtosatti@redhat.com>, qemu-devel@nongnu.org,
- haxm-team@intel.com, Wenchao Wang <wenchao.wang@intel.com>,
- Sunil Muthuswamy <sunilmut@microsoft.com>, Richard Henderson <rth@twiddle.net>
+Cc: Laurent Vivier <laurent@vivier.eu>, Filip Bozuta <Filip.Bozuta@syrmia.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 08/07/20 17:17, Claudio Fontana wrote:
-> On 7/8/20 5:05 PM, Paolo Bonzini wrote:
->> On 08/07/20 17:00, Claudio Fontana wrote:
->>>> Bisectable, 100% failure rate, etc. :(  Can you split the patch in
->>>> multiple parts, specifically separating any rename or introducing of
->>>> includes from the final file move?
->>> Hi Paolo,
->>>
->>> will take a look!
->>>
->>> Is this captured by some travis / cirrus-ci / anything I can easily see the result of?
->>>
->>>
->>
->> Nope, unfortunately we don't have an s390 CI.  But if you can get your
->> hands on one, just "./configure --target-list=s390x-softmmu && make &&
->> make check-block" will show it.
->>
->>>>
->>>> 	#if defined CONFIG_TCG || !defined NEED_CPU_H
->>>> 	extern bool icount_enabled(void);
->>>> 	#else
->>>> 	#define icount_enabled() 0
->>>> 	#endif
->>>>
->>>> (This way, more TCG-only code in cpus.c gets elided).  You can integrate
->>>> this change in the next version.
->>>>
->>>> Paolo
->>>>
->>>
->>> Weird, I tested with --disable-tcg explicitly (but may be some time ago now, as I constantly rebased).
->>>
->>> Will take a look at the introduction of this #defines in place of variables,
->>> as this mechanisms will not work in the future for target-specific modules.
->>
->> This is only done for per-target files so it should not be a problem.
->>
->> Paolo
->>
-> 
-> K, I tried with latest master, disable-tcg build still works for me on x86, so it is something in queue I guess?
-
-Peter reported the issue in the v1 pull request; there were two
-different breakages but the cpus.c one was yours.
-
-Paolo
-
+This function has been introduced to manage in a generic way the error=0D
+code of the syscall in the strace output.=0D
+=0D
+But it has introduced a regression regarding two previous commits:=0D
+=0D
+2a7e12455c1d ("linux-user/strace.c: Correct errno printing for mmap etc")=0D
+   that intoduced the use of "-ret" rather than of "errno"=0D
+962b289ef350 ("linux-user: fix QEMU_STRACE=3D1 segfault")=0D
+   that checks "-ret" is a valid error number=0D
+=0D
+That series fixes that.=0D
+=0D
+v2: add the patch to check "-ret" is valid=0D
+=0D
+Laurent Vivier (2):=0D
+  linux-user: fix the errno value in print_syscall_err()=0D
+  linux-user: fix print_syscall_err() when syscall returned value is=0D
+    negative=0D
+=0D
+ linux-user/strace.c | 36 +++++++++++++-----------------------=0D
+ 1 file changed, 13 insertions(+), 23 deletions(-)=0D
+=0D
+-- =0D
+2.26.2=0D
+=0D
 
