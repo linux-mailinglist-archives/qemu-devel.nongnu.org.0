@@ -2,97 +2,81 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id DB781219362
-	for <lists+qemu-devel@lfdr.de>; Thu,  9 Jul 2020 00:27:00 +0200 (CEST)
-Received: from localhost ([::1]:45312 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 58465218DA6
+	for <lists+qemu-devel@lfdr.de>; Wed,  8 Jul 2020 18:57:25 +0200 (CEST)
+Received: from localhost ([::1]:36316 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jtIWp-0002re-Rq
-	for lists+qemu-devel@lfdr.de; Wed, 08 Jul 2020 18:26:59 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:41714)
+	id 1jtDNr-0000qf-TI
+	for lists+qemu-devel@lfdr.de; Wed, 08 Jul 2020 12:57:23 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:53900)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1jtI43-0003O7-Uk
- for qemu-devel@nongnu.org; Wed, 08 Jul 2020 17:57:15 -0400
-Received: from us-smtp-1.mimecast.com ([205.139.110.61]:27948)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1jtI42-0005pu-4b
- for qemu-devel@nongnu.org; Wed, 08 Jul 2020 17:57:15 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1594245433;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=krOrMaNDViBLAdn2O1gActk6oXSacNNMPEImh2PMkH4=;
- b=hL5Ph0Lw5XcDJ9tUQd9FyZnqNuqS6OKU5ms+6SlVYDWWuhcUBiZ4Wp1upNEWYIW0VvTzF0
- /O+EZpKIpi66Gh8/rfgcCvsmMvj2AnckUdL/hIhQMma3tUjfA9UBFo0nMzJH1HmUBIttGb
- uAJYn5Hcr7wZtxUO2QI+wDVkYifp7QI=
-Received: from mail-wr1-f70.google.com (mail-wr1-f70.google.com
- [209.85.221.70]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-251-NpCPDnwyMRudtPcMcZJP1A-1; Wed, 08 Jul 2020 12:55:49 -0400
-X-MC-Unique: NpCPDnwyMRudtPcMcZJP1A-1
-Received: by mail-wr1-f70.google.com with SMTP id s16so39475652wrv.1
- for <qemu-devel@nongnu.org>; Wed, 08 Jul 2020 09:55:48 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
+ id 1jtDMx-0000Ir-HT; Wed, 08 Jul 2020 12:56:27 -0400
+Received: from mail-wm1-x342.google.com ([2a00:1450:4864:20::342]:35257)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
+ id 1jtDMv-0001bf-UU; Wed, 08 Jul 2020 12:56:27 -0400
+Received: by mail-wm1-x342.google.com with SMTP id l2so3979022wmf.0;
+ Wed, 08 Jul 2020 09:56:25 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=sender:subject:to:cc:references:from:message-id:date:user-agent
+ :mime-version:in-reply-to:content-language:content-transfer-encoding;
+ bh=EAXU/TTClvGdi/zI+hMr8WfP/Y7qjetMMediXvP5wR8=;
+ b=O3IvFx7amBt/cXfoHJiG5BetCs3YWCQoGaoF71UeSdRiHHVIDHgCkH7fUvoA5F7t9d
+ i+fSJvQbLFl+UK+UWOtxwuNF2JOF+bY9ICdvYT1pL6UvuECtAIcfnkA9D5MabRRmQS8P
+ 88tUO0e3czI32EUuARfan2FLtU5grpDJzLgC2BA10dPCqPNrFT+DOgBT6WUTejCjkKv2
+ D1Aty418lVCCtKYnbDN5bxzCEmviD9qJgdikop8CPrtUkQwAWCZ2VmH4+x0/fJB9Fz94
+ 3br2bITpgj8aAoXoKVXDfMh0LwfY1nN1wNOs9S6S/bONQJjXmv4uUzIQmQtZazyyRpO1
+ xWqA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
+ h=x-gm-message-state:sender:subject:to:cc:references:from:message-id
+ :date:user-agent:mime-version:in-reply-to:content-language
  :content-transfer-encoding;
- bh=krOrMaNDViBLAdn2O1gActk6oXSacNNMPEImh2PMkH4=;
- b=fTl4/q4ygxX34MGE84g4Imum9C2Mt/c4hjKZ0MZnNQKi38LJ32r4oE4XGEzyr9gBMj
- skRL8/04eCzPvzP1yc6sSF7lqU9Z9w7+2CITdeYULQvIm56x7/YulgfLLAo+K0a5GpAn
- 12Kroj3XrQ/n3b/mFnGoMhAZ90l7vH0PnGF+2K7P/ZLeYANF28iWqyKzPkXDIaPLXOoF
- p5QrRvli9uCVFuEfWpc1CoFutiK+3qY6dk6MrRmbynZtJlWdVX/kUYseubAFE9XI9Wza
- iLXhfMevB8Si90U9PJO/lNofZrfeuSNEdQrboeTQkyvufeYXqnWxwuwqIAqCP50NElQN
- HCLQ==
-X-Gm-Message-State: AOAM533SYEnsf0AjrI/NhJERuIzoLnEy8GANs365Lbtr5Rhqnji0kVpb
- oi3mdONHQLaqJVj7PTdRLzutL3ipUFV0gu17N//R4h3RICKMSe/wA6Fau2/CKsH5m/CIGP+sgmk
- fZEMpMP/GLD7fIr0=
-X-Received: by 2002:a5d:4a45:: with SMTP id v5mr59919270wrs.228.1594227347773; 
- Wed, 08 Jul 2020 09:55:47 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJyouR+rGf3f8tM0Fl2jmqjUBefaOjD5gA37Wrcj2S4NQpNIVrbm93YcG3dEH4Jdcuhj+s6dvw==
-X-Received: by 2002:a5d:4a45:: with SMTP id v5mr59919257wrs.228.1594227347544; 
- Wed, 08 Jul 2020 09:55:47 -0700 (PDT)
-Received: from ?IPv6:2001:b07:6468:f312:9541:9439:cb0f:89c?
- ([2001:b07:6468:f312:9541:9439:cb0f:89c])
- by smtp.gmail.com with ESMTPSA id u65sm567385wmg.5.2020.07.08.09.55.46
+ bh=EAXU/TTClvGdi/zI+hMr8WfP/Y7qjetMMediXvP5wR8=;
+ b=B6LqLN5W2zAQNnwe4RSXa9FW8xmKb7X2GxStAi3U/7kCwhxP6Lv73XfUXjZmaV+ihq
+ 0Ilh0ahiTZtNKmgFHWHp73Ds01eHxg18ro2HalntfmwO2xFcF5xn5nG9MwCkO1icF9uP
+ RVlrW62d7RiK0xihSV4dGAFylVsa2t8mjpu5XF+ofpuvFb+tp3+lUtmKlcqNgPN6eYsD
+ jUJORqbzTpDq2b70RnWqdRSKgvJU7ZeVOMKG/BkIPWNAF7ZNlTx+01YMs124mqb45moO
+ 0O93Yzur40gm5VkHXpD8fcPY5jMlb1C2d+k5w6SGZdmoluMVc4m9aUZc+4/1wKuhuFYA
+ sFBQ==
+X-Gm-Message-State: AOAM531FB63WVOo+8zF6e26Vg99HvV2mE61TCe9Ce/etZwGjP8hpMLjE
+ XsSnlqqaufXwSLn1fRHpN3du5LNB
+X-Google-Smtp-Source: ABdhPJxhDOuloOWMoN3fy3KasBKogjfSw6tEYzBvcug5ZzAxOMVOIgg7dnq4J9m5AUTgGCRiEmMl9g==
+X-Received: by 2002:a05:600c:2182:: with SMTP id
+ e2mr10040563wme.186.1594227383825; 
+ Wed, 08 Jul 2020 09:56:23 -0700 (PDT)
+Received: from [192.168.1.36] (138.red-83-57-170.dynamicip.rima-tde.net.
+ [83.57.170.138])
+ by smtp.gmail.com with ESMTPSA id y16sm774472wro.71.2020.07.08.09.56.22
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Wed, 08 Jul 2020 09:55:47 -0700 (PDT)
-Subject: Re: [PULL 00/53] Misc patches for QEMU 5.1 soft freeze
-To: Claudio Fontana <cfontana@suse.de>,
- Peter Maydell <peter.maydell@linaro.org>
-References: <20200706164155.24696-1-pbonzini@redhat.com>
- <CAFEAcA-F1FGde+=c3iS3wcRWG+i0RgYj5-jwafn0sX6EEYEsWA@mail.gmail.com>
- <1a9ad36f-f4ae-2ea5-3d69-03aa5580b60e@suse.de>
- <de27589f-6afb-b8cf-05a0-f5d34f9d2a58@redhat.com>
- <f17ca47d-f5e9-e710-5edb-9d92839ee7c1@suse.de>
-From: Paolo Bonzini <pbonzini@redhat.com>
-Message-ID: <56c7e153-e47b-aa5c-80c0-ab4f5c3d85e8@redhat.com>
-Date: Wed, 8 Jul 2020 18:55:46 +0200
+ Wed, 08 Jul 2020 09:56:23 -0700 (PDT)
+Subject: Re: [PATCH v4 01/12] npcm7xx: Add config symbol
+To: Havard Skinnemoen <hskinnemoen@google.com>, peter.maydell@linaro.org
+References: <20200707184730.3047754-1-hskinnemoen@google.com>
+ <20200707184730.3047754-2-hskinnemoen@google.com>
+From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>
+Message-ID: <9b824a33-13d4-445d-4986-0c5a135c4bb8@amsat.org>
+Date: Wed, 8 Jul 2020 18:56:22 +0200
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.9.0
+ Thunderbird/68.5.0
 MIME-Version: 1.0
-In-Reply-To: <f17ca47d-f5e9-e710-5edb-9d92839ee7c1@suse.de>
-Content-Language: en-US
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=pbonzini@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
+In-Reply-To: <20200707184730.3047754-2-hskinnemoen@google.com>
 Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
 Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=205.139.110.61; envelope-from=pbonzini@redhat.com;
- helo=us-smtp-1.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/07/07 17:25:10
-X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
-X-Spam_score_int: -40
-X-Spam_score: -4.1
-X-Spam_bar: ----
-X-Spam_report: (-4.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-1, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Received-SPF: pass client-ip=2a00:1450:4864:20::342;
+ envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wm1-x342.google.com
+X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
+ That's all we know.
+X-Spam_score_int: 0
+X-Spam_score: 0.0
+X-Spam_bar: /
+X-Spam_report: (0.0 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1, DKIM_VALID=-0.1,
+ DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=1, FREEMAIL_FROM=0.001,
+ HEADER_FROM_DIFFERENT_DOMAINS=1, RCVD_IN_DNSWL_NONE=-0.0001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -105,36 +89,60 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: QEMU Developers <qemu-devel@nongnu.org>
+Cc: kfting@nuvoton.com, qemu-arm@nongnu.org, Joel Stanley <joel@jms.id.au>,
+ qemu-devel@nongnu.org, Avi.Fishman@nuvoton.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 08/07/20 18:45, Claudio Fontana wrote:
-> C++ is used to link the final qemu-system binary and on my system c++ has LTO:
+On 7/7/20 8:47 PM, Havard Skinnemoen wrote:
+> Add a config symbol for the NPCM7xx BMC SoC family that subsequent
+> patches can use in Makefiles.
 > 
-> c++ -v
-> Using built-in specs.
-> COLLECT_GCC=c++
-> COLLECT_LTO_WRAPPER=/usr/lib64/gcc/x86_64-suse-linux/7/lto-wrapper
-> OFFLOAD_TARGET_NAMES=hsa:nvptx-none
-> Target: x86_64-suse-linux
-> Configured with: ../configure --prefix=/usr --infodir=/usr/share/info
-> --mandir=/usr/share/man --libdir=/usr/lib64 --libexecdir=/usr/lib64
-> --enable-languages=c,c++,objc,fortran,obj-c++,ada,go
-> --enable-offload-targets=hsa,nvptx-none=/usr/nvptx-none,
-> --without-cuda-driver --enable-checking=release --disable-werror
-> --with-gxx-include-dir=/usr/include/c++/7 --enable-ssp --disable-libssp
-> --disable-libvtv --disable-libcc1 --disable-plugin
-> --with-bugurl=https://bugs.opensuse.org/ --with-pkgversion='SUSE Linux' --with-slibdir=/lib64 --with-system-zlib --enable-libstdcxx-allocator=new --disable-libstdcxx-pch --enable-version-specific-runtime-libs --with-gcc-major-version-only --enable-linker-build-id --enable-linux-futex --enable-gnu-indirect-function --program-suffix=-7 --without-system-libunwind --enable-multilib --with-arch-32=x86-64 --with-tune=generic --build=x86_64-suse-linux --host=x86_64-suse-linux
-> Thread model: posix
-> gcc version 7.5.0 (SUSE Linux) 
+> Reviewed-by: Tyrone Ting <kfting@nuvoton.com>
+> Acked-by: Joel Stanley <joel@jms.id.au>
+> Signed-off-by: Havard Skinnemoen <hskinnemoen@google.com>
+> ---
+>  default-configs/arm-softmmu.mak | 1 +
+>  hw/arm/Kconfig                  | 8 ++++++++
+>  2 files changed, 9 insertions(+)
 > 
-> 
-> I checked cc but did not think to check c++ . I will find a way to disable this thing and will correct the patch accordingly.
+> diff --git a/default-configs/arm-softmmu.mak b/default-configs/arm-softmmu.mak
+> index 8fc09a4a51..9a94ebd0be 100644
+> --- a/default-configs/arm-softmmu.mak
+> +++ b/default-configs/arm-softmmu.mak
+> @@ -27,6 +27,7 @@ CONFIG_GUMSTIX=y
+>  CONFIG_SPITZ=y
+>  CONFIG_TOSA=y
+>  CONFIG_Z2=y
+> +CONFIG_NPCM7XX=y
 
-Having LTO support is not the same thing as having it enabled.  Are you
-compiling and linking with "-flto"?
+I'd squash this in patch 6: "Add two NPCM7xx-based machines"
 
-Paolo
+>  CONFIG_COLLIE=y
+>  CONFIG_ASPEED_SOC=y
+>  CONFIG_NETDUINO2=y
+> diff --git a/hw/arm/Kconfig b/hw/arm/Kconfig
+> index 4a224a6351..a31d0d282f 100644
+> --- a/hw/arm/Kconfig
+> +++ b/hw/arm/Kconfig
+> @@ -354,6 +354,14 @@ config XLNX_VERSAL
+>      select VIRTIO_MMIO
+>      select UNIMP
+>  
+> +config NPCM7XX
+> +    bool
+> +    select A9MPCORE
+> +    select ARM_GIC
+> +    select PL310  # cache controller
+> +    select SERIAL
+> +    select UNIMP
+
+And this in patch 5: "Add NPCM730 and NPCM750 SoC models"
+
+> +
+>  config FSL_IMX25
+>      bool
+>      select IMX
+> 
 
 
