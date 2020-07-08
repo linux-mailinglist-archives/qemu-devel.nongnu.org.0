@@ -2,27 +2,67 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 95424218AAD
-	for <lists+qemu-devel@lfdr.de>; Wed,  8 Jul 2020 17:02:14 +0200 (CEST)
-Received: from localhost ([::1]:54988 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9D184219349
+	for <lists+qemu-devel@lfdr.de>; Thu,  9 Jul 2020 00:22:35 +0200 (CEST)
+Received: from localhost ([::1]:52236 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jtBaP-0006wI-8F
-	for lists+qemu-devel@lfdr.de; Wed, 08 Jul 2020 11:02:13 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:50866)
+	id 1jtISY-0002IS-Kb
+	for lists+qemu-devel@lfdr.de; Wed, 08 Jul 2020 18:22:34 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:44654)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <cfontana@suse.de>) id 1jtBYZ-00065g-GE
- for qemu-devel@nongnu.org; Wed, 08 Jul 2020 11:00:19 -0400
-Received: from mx2.suse.de ([195.135.220.15]:42250)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <cfontana@suse.de>) id 1jtBYX-00073O-6h
- for qemu-devel@nongnu.org; Wed, 08 Jul 2020 11:00:18 -0400
-X-Virus-Scanned: by amavisd-new at test-mx.suse.de
-Received: from relay2.suse.de (unknown [195.135.221.27])
- by mx2.suse.de (Postfix) with ESMTP id 35F6AAFCD;
- Wed,  8 Jul 2020 15:00:16 +0000 (UTC)
+ (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
+ id 1jtIDv-0005ez-IA
+ for qemu-devel@nongnu.org; Wed, 08 Jul 2020 18:07:27 -0400
+Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:58084
+ helo=us-smtp-1.mimecast.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
+ id 1jtIDt-0007TA-R4
+ for qemu-devel@nongnu.org; Wed, 08 Jul 2020 18:07:27 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1594246044;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=dgdh5XnFk6045WTIDPahGD6XWi9Av6OMK5UmBjgvK6g=;
+ b=CnXtJmWez8573QjfB538qn1uRRUSyELgw+RI8diudKRmH5oVE5dhJzF5SBlhnd7YR/Aujb
+ OjS0oLWydOck6hRnu8efisdCstVABwQtocIo6Mq0M0X1PRmS4E4RDoZKFVWObxbIPWZbr0
+ 1XXofR+lQS1kJLG5r8QqjCvNs2Iymns=
+Received: from mail-wm1-f69.google.com (mail-wm1-f69.google.com
+ [209.85.128.69]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-469-jCz_Gd2AOe22eO_9ycYA7Q-1; Wed, 08 Jul 2020 11:05:19 -0400
+X-MC-Unique: jCz_Gd2AOe22eO_9ycYA7Q-1
+Received: by mail-wm1-f69.google.com with SMTP id z11so3284100wmg.5
+ for <qemu-devel@nongnu.org>; Wed, 08 Jul 2020 08:05:19 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=dgdh5XnFk6045WTIDPahGD6XWi9Av6OMK5UmBjgvK6g=;
+ b=mXLbi0YeBizzAys34/lhEYdq6APzCnFw/awnBcNvpUSJ1RhBlMd2/BkQlVBs3JZ1Rd
+ /1js/Fxxh95eqlUjVPPcdvMYE/cjuQkQbRaswLmuC45+Ks/7/MLGlxtDPSKjkbXMw19B
+ 6yQuyvxZHoqogi+E2UAOzd1ZMXS0cS836d/TUwXm/vYPh9YsO2UMbkQUBkBVlWfdgsWn
+ P5+419rQeDkIH2ZvhAS3dvGm3aTv4TXo2yblKuDvf0H9rnGaae5YBjNZTmEWB9JRX58F
+ 04o9fYtknOYKZxMtntbs+LcaMJyls4JDCgODm7hTr0aFXlHcoEaJNg8YX4Hh0SvOwiIa
+ p4fQ==
+X-Gm-Message-State: AOAM533lkghqIb5sBdeIOf6YFL7xxBlMKWy9ocX+c1WJ8U043vM7/rC0
+ 8CXcNV834Aiiqru/K60fh8nRys/kuicCV4n7bfTxKN5RgmL6urQD1zSSjEjy3p9TmPHl9R5dsbf
+ xQ+8rnhFtS1Mkago=
+X-Received: by 2002:a5d:484b:: with SMTP id n11mr56600665wrs.320.1594220718538; 
+ Wed, 08 Jul 2020 08:05:18 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJwKTRS1XOg1ilJ+1ZWz7zHmvG0DFO85S/YWOzxEM1KivPc8TecLIrFaTZpAcJ86Ykc51I3P8g==
+X-Received: by 2002:a5d:484b:: with SMTP id n11mr56600637wrs.320.1594220718342; 
+ Wed, 08 Jul 2020 08:05:18 -0700 (PDT)
+Received: from ?IPv6:2001:b07:6468:f312:9541:9439:cb0f:89c?
+ ([2001:b07:6468:f312:9541:9439:cb0f:89c])
+ by smtp.gmail.com with ESMTPSA id e17sm288121wrr.88.2020.07.08.08.05.16
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Wed, 08 Jul 2020 08:05:17 -0700 (PDT)
 Subject: Re: [PATCH 3/3] cpu-timers, icount: new modules
-To: Paolo Bonzini <pbonzini@redhat.com>, Thomas Huth <thuth@redhat.com>,
+To: Claudio Fontana <cfontana@suse.de>, Thomas Huth <thuth@redhat.com>,
  Laurent Vivier <lvivier@redhat.com>, =?UTF-8?Q?Alex_Benn=c3=a9e?=
  <alex.bennee@linaro.org>, Peter Maydell <peter.maydell@linaro.org>,
  =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>,
@@ -31,25 +71,31 @@ To: Paolo Bonzini <pbonzini@redhat.com>, Thomas Huth <thuth@redhat.com>,
 References: <20200629093504.3228-1-cfontana@suse.de>
  <20200629093504.3228-4-cfontana@suse.de>
  <aa45a793-35b1-d3bd-18a8-4c52ad888029@redhat.com>
-From: Claudio Fontana <cfontana@suse.de>
-Message-ID: <f89f249d-dbc4-779b-5b53-fc408461f072@suse.de>
-Date: Wed, 8 Jul 2020 17:00:14 +0200
+ <f89f249d-dbc4-779b-5b53-fc408461f072@suse.de>
+From: Paolo Bonzini <pbonzini@redhat.com>
+Message-ID: <ecf5f26b-ce86-3e13-5c5c-567919433acb@redhat.com>
+Date: Wed, 8 Jul 2020 17:05:16 +0200
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.4.1
+ Thunderbird/68.9.0
 MIME-Version: 1.0
-In-Reply-To: <aa45a793-35b1-d3bd-18a8-4c52ad888029@redhat.com>
-Content-Type: text/plain; charset=utf-8
+In-Reply-To: <f89f249d-dbc4-779b-5b53-fc408461f072@suse.de>
 Content-Language: en-US
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=195.135.220.15; envelope-from=cfontana@suse.de;
- helo=mx2.suse.de
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/07/07 17:20:38
-X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x (no timestamps) [generic]
-X-Spam_score_int: -41
-X-Spam_score: -4.2
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=pbonzini@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=205.139.110.120; envelope-from=pbonzini@redhat.com;
+ helo=us-smtp-1.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/07/07 17:25:11
+X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
+X-Spam_score_int: -40
+X-Spam_score: -4.1
 X-Spam_bar: ----
-X-Spam_report: (-4.2 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_MED=-2.3,
- RCVD_IN_MSPIKE_H3=-0.01, RCVD_IN_MSPIKE_WL=-0.01, SPF_HELO_NONE=0.001,
+X-Spam_report: (-4.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-1, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -70,72 +116,42 @@ Cc: Eduardo Habkost <ehabkost@redhat.com>, Colin Xu <colin.xu@intel.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 7/8/20 4:34 PM, Paolo Bonzini wrote:
-> On 29/06/20 11:35, Claudio Fontana wrote:
->> refactoring of cpus.c continues with cpu timer state extraction.
+On 08/07/20 17:00, Claudio Fontana wrote:
+>> Bisectable, 100% failure rate, etc. :(  Can you split the patch in
+>> multiple parts, specifically separating any rename or introducing of
+>> includes from the final file move?
+> Hi Paolo,
+> 
+> will take a look!
+> 
+> Is this captured by some travis / cirrus-ci / anything I can easily see the result of?
+> 
+> 
+
+Nope, unfortunately we don't have an s390 CI.  But if you can get your
+hands on one, just "./configure --target-list=s390x-softmmu && make &&
+make check-block" will show it.
+
 >>
->> cpu-timers: responsible for the cpu timers state, and for access to
->> cpu clocks and ticks.
+>> 	#if defined CONFIG_TCG || !defined NEED_CPU_H
+>> 	extern bool icount_enabled(void);
+>> 	#else
+>> 	#define icount_enabled() 0
+>> 	#endif
 >>
->> icount: counts the TCG instructions executed. As such it is specific to
->> the TCG accelerator. Therefore, it is built only under CONFIG_TCG.
+>> (This way, more TCG-only code in cpus.c gets elided).  You can integrate
+>> this change in the next version.
 >>
->> One complication is due to qtest, which misuses icount to warp time
->> (qtest_clock_warp). In order to solve this problem, detach instead qtest
->> from icount, and use a trivial separate counter for it.
+>> Paolo
 >>
->> This requires fixing assumptions scattered in the code that
->> qtest_enabled() implies icount_enabled().
->>
->> No functionality change.
->>
->> Signed-off-by: Claudio Fontana <cfontana@suse.de>
->> Reviewed-by: Alex Bennée <alex.bennee@linaro.org>
 > 
-> Claudio,
+> Weird, I tested with --disable-tcg explicitly (but may be some time ago now, as I constantly rebased).
 > 
-> this weirdly enough causes iotest 267 (i.e. basically vmstate
-> save/restore) to break on s390:
-> 
-> +Unexpected storage key flag data: 0
-> +error while loading state for instance 0x0 of device 's390-skeys'
-> +Error: Error -22 while loading VM state
-> 
-> Bisectable, 100% failure rate, etc. :(  Can you split the patch in
-> multiple parts, specifically separating any rename or introducing of
-> includes from the final file move?
+> Will take a look at the introduction of this #defines in place of variables,
+> as this mechanisms will not work in the future for target-specific modules.
 
-Hi Paolo,
+This is only done for per-target files so it should not be a problem.
 
-will take a look!
-
-Is this captured by some travis / cirrus-ci / anything I can easily see the result of?
-
-
-> 
-> Also, the patch breaks --disable-tcg, which is easily fixed by changing
-> the prototype for icount_enabled() to
-> 
-> 	#if defined CONFIG_TCG || !defined NEED_CPU_H
-> 	extern bool icount_enabled(void);
-> 	#else
-> 	#define icount_enabled() 0
-> 	#endif
-> 
-> (This way, more TCG-only code in cpus.c gets elided).  You can integrate
-> this change in the next version.
-> 
-> Paolo
-> 
-
-Weird, I tested with --disable-tcg explicitly (but may be some time ago now, as I constantly rebased).
-
-Will take a look at the introduction of this #defines in place of variables,
-as this mechanisms will not work in the future for target-specific modules.
-
-Ciao, will let you know what I find,
-
-Claudio
-
+Paolo
 
 
