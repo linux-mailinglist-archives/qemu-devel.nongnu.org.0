@@ -2,80 +2,79 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2373F219140
-	for <lists+qemu-devel@lfdr.de>; Wed,  8 Jul 2020 22:13:05 +0200 (CEST)
-Received: from localhost ([::1]:45960 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5BF7421932A
+	for <lists+qemu-devel@lfdr.de>; Thu,  9 Jul 2020 00:13:38 +0200 (CEST)
+Received: from localhost ([::1]:37654 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jtGRE-0002jM-5Z
-	for lists+qemu-devel@lfdr.de; Wed, 08 Jul 2020 16:13:04 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:42814)
+	id 1jtIJt-0000WQ-DU
+	for lists+qemu-devel@lfdr.de; Wed, 08 Jul 2020 18:13:37 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:37046)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1jtGQN-0002Co-6h
- for qemu-devel@nongnu.org; Wed, 08 Jul 2020 16:12:11 -0400
-Received: from mail-ot1-x341.google.com ([2607:f8b0:4864:20::341]:35298)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1jtGQL-0000cS-25
- for qemu-devel@nongnu.org; Wed, 08 Jul 2020 16:12:10 -0400
-Received: by mail-ot1-x341.google.com with SMTP id d4so91662otk.2
- for <qemu-devel@nongnu.org>; Wed, 08 Jul 2020 13:12:08 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=T25QxnJT8Tg64T4WzNZ3qJHfCnNjmcdAJFHkhMaxhiU=;
- b=fgEnv3tCBeXdvKm83K5t/c8UWCD6v8E0KQyjjCMtiXSL8D3qhEzyru4JwLI+uGN2e8
- ddmy6EI00SxGz+pYFUMcEe+NwxWWXNODnSp05TGEbL7cb5iPAEDO4a4AAUhbF0mwxW/w
- DUnPitGRK4u+m7ZdPSWEa8eCYu3m6tMZr4k/EaMF9mj7AX3jgB4M99CIq6bOFA5R3Q0q
- wCjWMYyqSJ7fhesQSH/PSkB65f3AOQHcLDMtV8Sj7lmppgAKCluFruSoTP7UsYlA0Yn6
- b9QVJgm0oAdOHzAe7MrgS5MVm9SZpNwf2mpDmYbAdg4oniTmyWlcronLyQUK+uqVS2vg
- Kzdg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=T25QxnJT8Tg64T4WzNZ3qJHfCnNjmcdAJFHkhMaxhiU=;
- b=TuUXvEeZBLLMyGTdEhflx68OP5vfiBp+a61W9yusqigmCyKuGHNU0w7nnDANrd3Ncp
- 5G5Nj6YnguvrJL4La9oF5edHD0mBxXFI/UyHZIxArct34RVC5zESZbWz/Naa9UlFenUj
- +VwdmtNMUsNVONE3jeXhY6p6Fuw70mVRZ2DLOunYh9mNtA+BBOeK3FO1dAGuxUhbF8bK
- AXJ8doIsRrRdgGgLvXTzH3hau8Mv1wPRVvmror7Kt8gP7oFV6yoZTIEfgaejpVKxVLhx
- 5tYaU1XyQCK9i5DaDPQBjUUWtnpwga+LTeO/9Wa33vLFATjeWLFYD0NsDsGZxpSSIn/n
- 4Hag==
-X-Gm-Message-State: AOAM532NkHwPfUqf4p/3IBOCjRFMxYS/998i8CyO+bODM5DVz/lxgLh8
- ylxM73eVXSNzMplSdTUv7mStSTMzQMos5VE5IpWOnQ==
-X-Google-Smtp-Source: ABdhPJxW2W1ZdzBwZhbwJ9YILYYNk8VR0a2jUrv6W+cLL/lU5lwy2Xi2OEC6VGxzyKB2l9lpQUF1TJYikObx+7jaKAE=
-X-Received: by 2002:a05:6830:10ce:: with SMTP id
- z14mr44123272oto.135.1594239127024; 
- Wed, 08 Jul 2020 13:12:07 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <eblake@redhat.com>) id 1jtHlK-0005v7-P7
+ for qemu-devel@nongnu.org; Wed, 08 Jul 2020 17:37:54 -0400
+Received: from us-smtp-1.mimecast.com ([205.139.110.61]:57150
+ helo=us-smtp-delivery-1.mimecast.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <eblake@redhat.com>) id 1jtHlI-0003Ls-QE
+ for qemu-devel@nongnu.org; Wed, 08 Jul 2020 17:37:54 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1594244272;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=Yt7m2kqSaXPvwE8XugjXNjsKEjPT/tiPJCT5i+NZ8Qk=;
+ b=MdOgXVHF2STBrwHEuOPT7bHd0DkBMzBA+iKNtp7Vi9SCDjlZoy56mIPmFCDEWzC+C1GjQt
+ EFFCnQLtfp86ImQIvFRkYs194B5nQ2ZfPHAGG2GZ2qwnVnhLAy35SvtcM3Y71k6agSXTbA
+ 3vv97HhvGjETpBsTHg+wtHpNOqhMQ0w=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-481--ao7au6vM2ea7ZB5gBjcSA-1; Wed, 08 Jul 2020 16:37:10 -0400
+X-MC-Unique: -ao7au6vM2ea7ZB5gBjcSA-1
+Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
+ [10.5.11.22])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 041788014D7;
+ Wed,  8 Jul 2020 20:37:09 +0000 (UTC)
+Received: from [10.3.115.46] (ovpn-115-46.phx2.redhat.com [10.3.115.46])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 54E8B1001B0B;
+ Wed,  8 Jul 2020 20:37:08 +0000 (UTC)
+Subject: Re: [PATCH v7 00/47] block: Deal with filters
+To: Andrey Shinkevich <andrey.shinkevich@virtuozzo.com>,
+ Max Reitz <mreitz@redhat.com>, qemu-block@nongnu.org
+References: <20200625152215.941773-1-mreitz@redhat.com>
+ <4d7fa326-ef87-5753-cc2a-bb26fc555864@virtuozzo.com>
+ <e51d9c26-bd94-bf8e-cfed-82db15243188@redhat.com>
+ <54c4b18b-b6ee-b506-b153-b44eb3879da2@virtuozzo.com>
+From: Eric Blake <eblake@redhat.com>
+Organization: Red Hat, Inc.
+Message-ID: <d866ace7-09c9-430e-53f8-ecf12d08b0a4@redhat.com>
+Date: Wed, 8 Jul 2020 15:37:07 -0500
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.9.0
 MIME-Version: 1.0
-References: <20200707204333.261506-1-bauerman@linux.ibm.com>
- <20200707214917.GX7276@habkost.net> <87y2nu3nxq.fsf@morokweng.localdomain>
- <c53b36b7-ee7b-bb66-8220-cce788fd631d@redhat.com>
- <20200708100038.GG18595@umbus.fritz.box>
- <CAFEAcA9V7Uha9-rz+JY-5HkazCWuTk1vkLnw1m9Lw-bXXKbkvw@mail.gmail.com>
- <20200708152540.GZ7276@habkost.net>
- <CAFEAcA8mFM-O=mgCQHNz4TNB5N3Trid2o95s0Nx7JVp_q_dSrw@mail.gmail.com>
- <20200708160316.GA7276@habkost.net>
- <CAFEAcA89ueUQuVPC9O9xqbBBDEzdXmbCLL69OHvk0MJ=VvSnbw@mail.gmail.com>
- <20200708173620.GB780932@habkost.net>
-In-Reply-To: <20200708173620.GB780932@habkost.net>
-From: Peter Maydell <peter.maydell@linaro.org>
-Date: Wed, 8 Jul 2020 21:11:55 +0100
-Message-ID: <CAFEAcA_bLs+PzjfmCaHQQ3z1BrQ9Uack_Qj7Za-dJwtHWu=8kw@mail.gmail.com>
-Subject: Re: [PATCH] cpu: Add starts_halted() method
-To: Eduardo Habkost <ehabkost@redhat.com>
-Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2607:f8b0:4864:20::341;
- envelope-from=peter.maydell@linaro.org; helo=mail-ot1-x341.google.com
-X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
- That's all we know.
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+In-Reply-To: <54c4b18b-b6ee-b506-b153-b44eb3879da2@virtuozzo.com>
+Content-Language: en-US
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=eblake@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=205.139.110.61; envelope-from=eblake@redhat.com;
+ helo=us-smtp-delivery-1.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/07/07 17:25:10
+X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
+X-Spam_score_int: -40
+X-Spam_score: -4.1
+X-Spam_bar: ----
+X-Spam_report: (-4.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-1, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -88,42 +87,54 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Laurent Vivier <lvivier@redhat.com>, Thomas Huth <thuth@redhat.com>,
- =?UTF-8?B?QWxleCBCZW5uw6ll?= <alex.bennee@linaro.org>,
- QEMU Developers <qemu-devel@nongnu.org>, qemu-ppc <qemu-ppc@nongnu.org>,
- =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <philmd@redhat.com>,
- Thiago Jung Bauermann <bauerman@linux.ibm.com>,
- David Gibson <david@gibson.dropbear.id.au>
+Cc: Kevin Wolf <kwolf@redhat.com>,
+ Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>, qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Wed, 8 Jul 2020 at 18:36, Eduardo Habkost <ehabkost@redhat.com> wrote:
->
-> On Wed, Jul 08, 2020 at 06:09:49PM +0100, Peter Maydell wrote:
-> > Exactly. It appears that there's a bug in our mechanisms,
-> > which is why I'm suggesting that the right thing is
-> > to fix that bug rather than marking the CPU as halted
-> > earlier in the reset process so that the KVM_RUN happens
-> > to do nothing...
->
-> I agree this is necessary, but it doesn't seem sufficient.
->
-> Having cpu_reset() set halted=0 on spapr (and probably other
-> machines) is also a bug, as it could still trigger unwanted
-> KVM_RUN when cpu_reset() returns (and before machine code sets
-> halted=1).
+On 7/8/20 2:46 PM, Andrey Shinkevich wrote:
+> 
+> On 08.07.2020 20:32, Eric Blake wrote:
+>> On 7/8/20 12:20 PM, Andrey Shinkevich wrote:
+>>> On 25.06.2020 18:21, Max Reitz wrote:
+>>>> v6: 
+>>>> https://lists.nongnu.org/archive/html/qemu-devel/2019-08/msg01715.html
+>>>>
+>>>> Branch: https://github.com/XanClic/qemu.git child-access-functions-v7
+>>>> Branch: https://git.xanclic.moe/XanClic/qemu.git 
+>>>> child-access-functions-v7
+>>>>
+>>>>
+>>> I cloned the branch from the github and built successfully.
+>>>
+>>> Running the iotests reports multiple errors of such a kind:
+>>>
+>>> 128: readarray -td '' formatting_line < <(sed -e 's/, fmt=/\x0/')
+>>>
+>>> "./common.filter: line 128: readarray: -d: invalid option"
+>>>
+>>
+>> Arrgh. If I'm reading bash's changelog correctly, readarray -d was 
+>> introduced in bash 4.4, so I'm guessing you're still on 4.3 or 
+>> earlier? What bash version and platform are you using?
+>>
+> My bash version is 4.2.46.
+> 
+> It is the latest in the virtuozzolinux-base repository. I should install 
+> the 4.4 package manually.
 
-The Arm handling of starting-halted sets halted=1 within cpu_reset,
-based on whether the CPU object was created with a
-"start-powered-off" property.
+Well, if bash 4.2 is the default installed version on any of our 
+platforms that meet our supported criteria, then we should instead fix 
+the patch in question to avoid non-portable use of readarray.
 
-I'm not sure in practice that anything can get in asynchronously
-and cause a KVM_RUN in between spapr_reset_vcpu() calling
-cpu_reset() and it setting cs->halted (and the other stuff),
-though. This function ought to be called with the iothread
-lock held, so KVM_RUN will only happen if it calls some
-other function which incorrectly lets the CPU run.
+Per https://repology.org/project/bash/versions (hinted from 
+docs/system/build-platforms.rst), at least CentOS 7 still ships bash 
+4.2, and per 'make docker', centos7 is still a viable build target.  So 
+we do indeed need to fix our regression.
 
-thanks
--- PMM
+-- 
+Eric Blake, Principal Software Engineer
+Red Hat, Inc.           +1-919-301-3226
+Virtualization:  qemu.org | libvirt.org
+
 
