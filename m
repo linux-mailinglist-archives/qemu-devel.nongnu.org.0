@@ -2,92 +2,82 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 82792219355
-	for <lists+qemu-devel@lfdr.de>; Thu,  9 Jul 2020 00:26:00 +0200 (CEST)
-Received: from localhost ([::1]:40534 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4A08C218C89
+	for <lists+qemu-devel@lfdr.de>; Wed,  8 Jul 2020 18:08:31 +0200 (CEST)
+Received: from localhost ([::1]:46560 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jtIVr-0000oU-Iw
-	for lists+qemu-devel@lfdr.de; Wed, 08 Jul 2020 18:25:59 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:44998)
+	id 1jtCcX-00037u-Ub
+	for lists+qemu-devel@lfdr.de; Wed, 08 Jul 2020 12:08:29 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:41282)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1jtIF1-00082R-9J
- for qemu-devel@nongnu.org; Wed, 08 Jul 2020 18:08:35 -0400
-Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:50775
- helo=us-smtp-1.mimecast.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1jtIEz-0007Zb-B9
- for qemu-devel@nongnu.org; Wed, 08 Jul 2020 18:08:34 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1594246112;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=CgmaAxo6fmWtsoTPhFRh0NpaPV7AtIZ6Fvm8jXBM5aE=;
- b=d1w4anF302j8PFudjOx1kpZbYj32ZqAU7dIRFmF9fjC3bDaaEeM2mBaZ95szt//WnxFDpf
- tQQpqF2iFxXHp0vi3ihmu6lN3Xo6PxJCbx1SBpQ3KYc/Hr4PpwEZRXazfoEpARqmlAkKtb
- NKZbXxH8Ex1OC0tkKhAPCZkEfQy89g0=
-Received: from mail-wr1-f69.google.com (mail-wr1-f69.google.com
- [209.85.221.69]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-127-QrS2mFtnMMqX4rqCenV5OA-1; Wed, 08 Jul 2020 12:07:38 -0400
-X-MC-Unique: QrS2mFtnMMqX4rqCenV5OA-1
-Received: by mail-wr1-f69.google.com with SMTP id j5so52456786wro.6
- for <qemu-devel@nongnu.org>; Wed, 08 Jul 2020 09:07:37 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1jtCbq-0002iu-N2
+ for qemu-devel@nongnu.org; Wed, 08 Jul 2020 12:07:46 -0400
+Received: from mail-pj1-x1041.google.com ([2607:f8b0:4864:20::1041]:40782)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1jtCbo-0002nT-K1
+ for qemu-devel@nongnu.org; Wed, 08 Jul 2020 12:07:46 -0400
+Received: by mail-pj1-x1041.google.com with SMTP id t15so1382255pjq.5
+ for <qemu-devel@nongnu.org>; Wed, 08 Jul 2020 09:07:44 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=subject:to:cc:references:from:message-id:date:user-agent
+ :mime-version:in-reply-to:content-language:content-transfer-encoding;
+ bh=SQl+MVhqr/sC6MkWYzcTIi6xaFLm4F3ff68mqDMkyME=;
+ b=GLpdZrGq7F+FITwSk+HB/MJoF6Er54RdlE2HlzZ2T3xKYM5TzKyxGeIGpD5OrL/scr
+ aPxCy/8gWriSEdy3qXZXm1qEFosn07EbbZkAcDno9fJUrTRMIC4mQeVtFtFaT9CwL+NE
+ tj8DlF/iWjimsF7GAmczMgmtXJ527wRWkRwXh5vorJslv5jzThissSYsW+v89R0A6Ebp
+ 8IxoQspFgEdSYEo8Cbc+WRqRlhWrIdKPkFc4IDxmzJfIZAuGgjHVSJA1+kYferf481ZT
+ qitJkpLL/y/Q6iChmOuFRRCF3NHGALZTzx8TIJQWslNlQ3W+zc3pOfMoN2i2pIgvD0xU
+ XAvg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:subject:to:cc:references:from:message-id:date
  :user-agent:mime-version:in-reply-to:content-language
  :content-transfer-encoding;
- bh=CgmaAxo6fmWtsoTPhFRh0NpaPV7AtIZ6Fvm8jXBM5aE=;
- b=lJLLM+cVWx/YVMeEklBRmBpA7tDs9v656B7jYv/u4jIwnFw+mUwMuD7E5qQb5AftMI
- HBQ66Mg137aqg29XpWm2Vigj6Tvt8GtUUaz7zCk6FMepDxpcFKNtG/yY4cX5XZVh2+Te
- DH4I1PzQqg5UaKIl/Yhi2xnUI8+iNC1GMI9TXX69zpYWYBtKMiA9aL+Ev/cvGuHfUcmf
- 5I+niXo2ChkDjsc8SD0MEGyVTjg3HOM3XRn2etroMBCEML1xWbzg/FEHkJENl3+z5Q61
- lqQ+pcVFU5sEHVUwk+i/zIiz06tR/KCpE8tyQk5h8e2o0SFAWbnwBGHg4NUHUsmEVyFG
- l7LQ==
-X-Gm-Message-State: AOAM532o1srklj6kbwCtV23P7axUawhtAHbTmzw7EsK581hVBWv8Dxhe
- nu3WHG0i9PwUhhjwkYAW0aEQUa+evsoN3PHkabOoPsYj0nYgFmdE7VDNcshyOCG6QU3g85ynMv0
- O8V4gBk989v/edYU=
-X-Received: by 2002:a1c:9a81:: with SMTP id c123mr9678478wme.46.1594224457009; 
- Wed, 08 Jul 2020 09:07:37 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJyN00OIt/eSWJi65ZC9R4Zx61OKf1LAE0m9BTBlNqTFPd+JNpu3WhZy5c2u2o4k0+vIVAB0Mw==
-X-Received: by 2002:a1c:9a81:: with SMTP id c123mr9678455wme.46.1594224456760; 
- Wed, 08 Jul 2020 09:07:36 -0700 (PDT)
-Received: from ?IPv6:2001:b07:6468:f312:9541:9439:cb0f:89c?
- ([2001:b07:6468:f312:9541:9439:cb0f:89c])
- by smtp.gmail.com with ESMTPSA id j15sm592488wrx.69.2020.07.08.09.07.35
+ bh=SQl+MVhqr/sC6MkWYzcTIi6xaFLm4F3ff68mqDMkyME=;
+ b=jGli2OUoHTKBAhkuoKQuUKv3VtOO8JQjDTOW3lPzc1MM4jJyx5WrN0LNL5nadqteQh
+ 9K4kGEPld/4/V3fJFY6hw4lkSjjZxOpmO7mmf0SsXq7p3flMupwdduE4H7mJXG7fbOIx
+ xGecsAThtRdayxmTp1Xo4Hg2ocleXWzM9ehwBD8Qa7w1ES5iwEhZfKK11yZabktXzA/F
+ WTew1MXpztBYe5sOpku4aUlYa8JixFpNhqe3D+0xTvANgE664vgx5KWP5SrnfrLxd/42
+ diFtoTqC2mjgaVY5LJisIqBckPbS90wCDd1ISBeP5wW5zuXbpGIMbhO7cBPYwW+0aWSD
+ dNbg==
+X-Gm-Message-State: AOAM531XYQ6IACjE2RjHY+UV5I8X4QkSx2ecIfzAwyYd2ybopUaqXC/L
+ 25423rrTbQplmNJ458jUPUY8AQ==
+X-Google-Smtp-Source: ABdhPJzlrx/fvBGxMAv3sxQkD/gkJnw1fiHUuiSW8hwWxiDT/8MkMwmZczgRn6lhOEbI6HSEq921zg==
+X-Received: by 2002:a17:902:d892:: with SMTP id
+ b18mr52507299plz.335.1594224462954; 
+ Wed, 08 Jul 2020 09:07:42 -0700 (PDT)
+Received: from [192.168.7.121] (24-113-145-216.wavecable.com. [24.113.145.216])
+ by smtp.gmail.com with ESMTPSA id z11sm285852pfk.46.2020.07.08.09.07.41
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Wed, 08 Jul 2020 09:07:35 -0700 (PDT)
-Subject: Re: [PATCH v2] apic: Report current_count via 'info lapic'
-To: Jan Kiszka <jan.kiszka@siemens.com>, qemu-devel <qemu-devel@nongnu.org>
-References: <e00e2896-ca5b-a929-de7a-8e5762f0c1c2@siemens.com>
-From: Paolo Bonzini <pbonzini@redhat.com>
-Message-ID: <d40f3b59-e32e-30be-ff6c-ecc86ca302f0@redhat.com>
-Date: Wed, 8 Jul 2020 18:07:35 +0200
+ Wed, 08 Jul 2020 09:07:41 -0700 (PDT)
+Subject: Re: [PATCH 03/21] softfloat: add xtensa specialization for
+ pickNaNMulAdd
+To: Max Filippov <jcmvbkbc@gmail.com>, qemu-devel@nongnu.org
+References: <20200706234737.32378-1-jcmvbkbc@gmail.com>
+ <20200706234737.32378-4-jcmvbkbc@gmail.com>
+From: Richard Henderson <richard.henderson@linaro.org>
+Message-ID: <ed5c1993-1aa9-1c53-9038-1b32b863deee@linaro.org>
+Date: Wed, 8 Jul 2020 09:07:39 -0700
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.9.0
+ Thunderbird/68.8.0
 MIME-Version: 1.0
-In-Reply-To: <e00e2896-ca5b-a929-de7a-8e5762f0c1c2@siemens.com>
-Content-Language: en-US
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=pbonzini@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
+In-Reply-To: <20200706234737.32378-4-jcmvbkbc@gmail.com>
 Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=205.139.110.120; envelope-from=pbonzini@redhat.com;
- helo=us-smtp-1.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/07/07 17:25:11
-X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
-X-Spam_score_int: -40
-X-Spam_score: -4.1
-X-Spam_bar: ----
-X-Spam_report: (-4.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-1, SPF_HELO_NONE=0.001,
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=2607:f8b0:4864:20::1041;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pj1-x1041.google.com
+X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
+ That's all we know.
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -101,126 +91,27 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>,
- "Michael S. Tsirkin" <mst@redhat.com>
+Cc: Peter Maydell <peter.maydell@linaro.org>,
+ =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 07/02/20 07:43, Jan Kiszka wrote:
-> From: Jan Kiszka <jan.kiszka@siemens.com>
-> 
-> This is helpful when debugging stuck guest timers.
-> 
-> As we need apic_get_current_count for that, and it is really not
-> emulation specific, move it to apic_common.c and export it. Fix its
-> style at this chance as well.
-> 
-> Signed-off-by: Jan Kiszka <jan.kiszka@siemens.com>
-> Reviewed-by: Philippe Mathieu-Daudé <philmd@redhat.com>
-> ---
-> 
-> Changes in v2:
->  - fix style of apic_get_current_count
-> 
->  hw/intc/apic.c                  | 18 ------------------
->  hw/intc/apic_common.c           | 19 +++++++++++++++++++
->  include/hw/i386/apic_internal.h |  1 +
->  target/i386/helper.c            |  5 +++--
->  4 files changed, 23 insertions(+), 20 deletions(-)
-> 
-> diff --git a/hw/intc/apic.c b/hw/intc/apic.c
-> index bd40467965..f2207d0ace 100644
-> --- a/hw/intc/apic.c
-> +++ b/hw/intc/apic.c
-> @@ -615,24 +615,6 @@ int apic_accept_pic_intr(DeviceState *dev)
->      return 0;
->  }
->  
-> -static uint32_t apic_get_current_count(APICCommonState *s)
-> -{
-> -    int64_t d;
-> -    uint32_t val;
-> -    d = (qemu_clock_get_ns(QEMU_CLOCK_VIRTUAL) - s->initial_count_load_time) >>
-> -        s->count_shift;
-> -    if (s->lvt[APIC_LVT_TIMER] & APIC_LVT_TIMER_PERIODIC) {
-> -        /* periodic */
-> -        val = s->initial_count - (d % ((uint64_t)s->initial_count + 1));
-> -    } else {
-> -        if (d >= s->initial_count)
-> -            val = 0;
-> -        else
-> -            val = s->initial_count - d;
-> -    }
-> -    return val;
-> -}
-> -
->  static void apic_timer_update(APICCommonState *s, int64_t current_time)
->  {
->      if (apic_next_timer(s, current_time)) {
-> diff --git a/hw/intc/apic_common.c b/hw/intc/apic_common.c
-> index 9ec0f2deb2..fb432e83f2 100644
-> --- a/hw/intc/apic_common.c
-> +++ b/hw/intc/apic_common.c
-> @@ -189,6 +189,25 @@ bool apic_next_timer(APICCommonState *s, int64_t current_time)
->      return true;
->  }
->  
-> +uint32_t apic_get_current_count(APICCommonState *s)
-> +{
-> +    int64_t d;
-> +    uint32_t val;
-> +    d = (qemu_clock_get_ns(QEMU_CLOCK_VIRTUAL) - s->initial_count_load_time) >>
-> +        s->count_shift;
-> +    if (s->lvt[APIC_LVT_TIMER] & APIC_LVT_TIMER_PERIODIC) {
-> +        /* periodic */
-> +        val = s->initial_count - (d % ((uint64_t)s->initial_count + 1));
-> +    } else {
-> +        if (d >= s->initial_count) {
-> +            val = 0;
-> +        } else {
-> +            val = s->initial_count - d;
-> +        }
-> +    }
-> +    return val;
-> +}
-> +
->  void apic_init_reset(DeviceState *dev)
->  {
->      APICCommonState *s;
-> diff --git a/include/hw/i386/apic_internal.h b/include/hw/i386/apic_internal.h
-> index b04bdd947f..2597000e03 100644
-> --- a/include/hw/i386/apic_internal.h
-> +++ b/include/hw/i386/apic_internal.h
-> @@ -211,6 +211,7 @@ void vapic_report_tpr_access(DeviceState *dev, CPUState *cpu, target_ulong ip,
->                               TPRAccess access);
->  
->  int apic_get_ppr(APICCommonState *s);
-> +uint32_t apic_get_current_count(APICCommonState *s);
->  
->  static inline void apic_set_bit(uint32_t *tab, int index)
->  {
-> diff --git a/target/i386/helper.c b/target/i386/helper.c
-> index c3a6e4fabe..e3c3726c29 100644
-> --- a/target/i386/helper.c
-> +++ b/target/i386/helper.c
-> @@ -370,10 +370,11 @@ void x86_cpu_dump_local_apic_state(CPUState *cs, int flags)
->      dump_apic_lvt("LVTTHMR", lvt[APIC_LVT_THERMAL], false);
->      dump_apic_lvt("LVTT", lvt[APIC_LVT_TIMER], true);
->  
-> -    qemu_printf("Timer\t DCR=0x%x (divide by %u) initial_count = %u\n",
-> +    qemu_printf("Timer\t DCR=0x%x (divide by %u) initial_count = %u"
-> +                " current_count = %u\n",
->                  s->divide_conf & APIC_DCR_MASK,
->                  divider_conf(s->divide_conf),
-> -                s->initial_count);
-> +                s->initial_count, apic_get_current_count(s));
->  
->      qemu_printf("SPIV\t 0x%08x APIC %s, focus=%s, spurious vec %u\n",
->                  s->spurious_vec,
-> 
+On 7/6/20 4:47 PM, Max Filippov wrote:
+> pickNaNMulAdd logic on Xtensa is the same as pickNaN when applied to
+> the expression (a * b) + c. So with two pickNaN variants there must be
+> two pickNaNMulAdd variants.
 
-Queued, thanks.
+"Is the same as"?
 
-Paolo
+I question the non-use of the infzero parameter.
 
+When infzero, (a * b) = (Inf * 0), which will produce a default QNaN.  Your
+sentence above would suggest that pickNaN is applied twice, so that if
+use_first_nan, the default nan is chosen above any nan within c.
+
+In addition, is the invalid flag raised for (Inf * 0) + NaN?  Does that happen
+regardless of the use_first_nan setting, or does the whole operation short-circuit?
+
+
+r~
 
