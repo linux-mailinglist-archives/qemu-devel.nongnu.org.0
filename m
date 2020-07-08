@@ -2,79 +2,55 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0AFED2193E3
-	for <lists+qemu-devel@lfdr.de>; Thu,  9 Jul 2020 00:56:21 +0200 (CEST)
-Received: from localhost ([::1]:47720 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6EBB7218A2E
+	for <lists+qemu-devel@lfdr.de>; Wed,  8 Jul 2020 16:31:40 +0200 (CEST)
+Received: from localhost ([::1]:35570 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jtIzE-0003oe-2j
-	for lists+qemu-devel@lfdr.de; Wed, 08 Jul 2020 18:56:20 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:49620)
+	id 1jtB6p-0005Tu-24
+	for lists+qemu-devel@lfdr.de; Wed, 08 Jul 2020 10:31:39 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:42962)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1jtIV2-0000fk-9s
- for qemu-devel@nongnu.org; Wed, 08 Jul 2020 18:25:08 -0400
-Received: from us-smtp-1.mimecast.com ([207.211.31.81]:29678
- helo=us-smtp-delivery-1.mimecast.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1jtIUx-0001Nc-Bl
- for qemu-devel@nongnu.org; Wed, 08 Jul 2020 18:25:05 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1594247102;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=X44xsdR5cqd4WdFXxIWzrMQF0C9rsR7ttbgCfNc8KAE=;
- b=PQMOCFhkan5/8g5K9AFbC0vCFofplrXvoT4c5yuo+Br+plnq2aLtdvVYb2Nx6Ha7eFEUAR
- llkn3ZA3W2mHeZNxTgE+eaAVuEDEjEp32/PiJ3bsjKD1physbuaqJeCNAWC5Pj6uqA/nhF
- 0V0FH1wSkxt5fLwv5v/MWy6I15Kt8bg=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-221-FMPVWMcmMBGjwHYJgffcJA-1; Wed, 08 Jul 2020 10:23:15 -0400
-X-MC-Unique: FMPVWMcmMBGjwHYJgffcJA-1
-Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
- [10.5.11.14])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 17A0980BCBB;
- Wed,  8 Jul 2020 14:23:14 +0000 (UTC)
-Received: from sirius.home.kraxel.org (ovpn-112-200.ams2.redhat.com
- [10.36.112.200])
- by smtp.corp.redhat.com (Postfix) with ESMTP id C29E25D9F3;
- Wed,  8 Jul 2020 14:23:13 +0000 (UTC)
-Received: by sirius.home.kraxel.org (Postfix, from userid 1000)
- id EA1D6B17; Wed,  8 Jul 2020 16:23:12 +0200 (CEST)
-Date: Wed, 8 Jul 2020 16:23:12 +0200
-From: Gerd Hoffmann <kraxel@redhat.com>
-To: Maxim Levitsky <mlevitsk@redhat.com>
-Subject: Re: [PATCH v8 11/14] block/core: add generic infrastructure for
- x-blockdev-amend qmp command
-Message-ID: <20200708142312.beexccqrg2n4ma6m@sirius.home.kraxel.org>
-References: <20200608094030.670121-1-mlevitsk@redhat.com>
- <20200608094030.670121-12-mlevitsk@redhat.com>
- <20200708123329.udy3k7ewtbcztjin@sirius.home.kraxel.org>
- <71ce9ceb32e5bd8f18cd26621e380df364f25cb7.camel@redhat.com>
+ (Exim 4.90_1) (envelope-from <cfontana@suse.de>) id 1jtB5a-0004vW-OX
+ for qemu-devel@nongnu.org; Wed, 08 Jul 2020 10:30:22 -0400
+Received: from mx2.suse.de ([195.135.220.15]:53226)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <cfontana@suse.de>) id 1jtB5Y-0002ah-17
+ for qemu-devel@nongnu.org; Wed, 08 Jul 2020 10:30:22 -0400
+X-Virus-Scanned: by amavisd-new at test-mx.suse.de
+Received: from relay2.suse.de (unknown [195.135.221.27])
+ by mx2.suse.de (Postfix) with ESMTP id CFC6CAC40;
+ Wed,  8 Jul 2020 14:30:18 +0000 (UTC)
+Subject: Re: [RFC v2 1/6] cpus: extract out TCG-specific code to accel/tcg
+To: Paolo Bonzini <pbonzini@redhat.com>, Thomas Huth <thuth@redhat.com>,
+ Laurent Vivier <lvivier@redhat.com>, =?UTF-8?Q?Alex_Benn=c3=a9e?=
+ <alex.bennee@linaro.org>, Peter Maydell <peter.maydell@linaro.org>,
+ =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>,
+ Roman Bolshakov <r.bolshakov@yadro.com>,
+ Markus Armbruster <armbru@redhat.com>
+References: <20200707135808.9241-1-cfontana@suse.de>
+ <20200707135808.9241-2-cfontana@suse.de>
+ <e8e8eab6-370b-46c9-ba51-e1e1416aaac2@redhat.com>
+From: Claudio Fontana <cfontana@suse.de>
+Message-ID: <2c2b0f73-bf29-1e99-9917-82b7b63b1fd7@suse.de>
+Date: Wed, 8 Jul 2020 16:30:17 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.4.1
 MIME-Version: 1.0
-In-Reply-To: <71ce9ceb32e5bd8f18cd26621e380df364f25cb7.camel@redhat.com>
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=kraxel@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
+In-Reply-To: <e8e8eab6-370b-46c9-ba51-e1e1416aaac2@redhat.com>
 Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: 8bit
-Content-Disposition: inline
-Received-SPF: pass client-ip=207.211.31.81; envelope-from=kraxel@redhat.com;
- helo=us-smtp-delivery-1.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/07/07 17:25:09
-X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
-X-Spam_score_int: -30
-X-Spam_score: -3.1
-X-Spam_bar: ---
-X-Spam_report: (-3.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H3=-0.01, RCVD_IN_MSPIKE_WL=-0.01,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=195.135.220.15; envelope-from=cfontana@suse.de;
+ helo=mx2.suse.de
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/07/07 17:20:38
+X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x (no timestamps) [generic]
+X-Spam_score_int: -41
+X-Spam_score: -4.2
+X-Spam_bar: ----
+X-Spam_report: (-4.2 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_MED=-2.3,
+ RCVD_IN_MSPIKE_H3=-0.01, RCVD_IN_MSPIKE_WL=-0.01, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -87,46 +63,53 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Kevin Wolf <kwolf@redhat.com>,
- Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>,
- qemu-block@nongnu.org, qemu-devel@nongnu.org,
- Markus Armbruster <armbru@redhat.com>, Max Reitz <mreitz@redhat.com>,
- John Snow <jsnow@redhat.com>
+Cc: Eduardo Habkost <ehabkost@redhat.com>,
+ Marcelo Tosatti <mtosatti@redhat.com>, qemu-devel@nongnu.org,
+ haxm-team@intel.com, Wenchao Wang <wenchao.wang@intel.com>,
+ Sunil Muthuswamy <sunilmut@microsoft.com>, Richard Henderson <rth@twiddle.net>,
+ Colin Xu <colin.xu@intel.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Wed, Jul 08, 2020 at 04:06:45PM +0300, Maxim Levitsky wrote:
-> On Wed, 2020-07-08 at 14:33 +0200, Gerd Hoffmann wrote:
-> > On Mon, Jun 08, 2020 at 12:40:27PM +0300, Maxim Levitsky wrote:
-> > > blockdev-amend will be used similiar to blockdev-create
-> > > to allow on the fly changes of the structure of the format based block devices.
-> > 
-> > This one breaks the build:
-> > 
-> > In file included from /home/kraxel/projects/qemu/include/block/throttle-groups.h:29,
-> >                  from /home/kraxel/projects/qemu/include/sysemu/block-backend.h:17,
-> >                  from /home/kraxel/projects/qemu/qemu-img.c:46:
-> > /home/kraxel/projects/qemu/include/block/block_int.h:154:39: error: unknown type name ‘BlockdevAmendOptions’; did you mean ‘BlockdevAioOptions’?
-> >                                        BlockdevAmendOptions *opts,
-> >                                        ^~~~~~~~~~~~~~~~~~~~
-> >                                        BlockdevAioOptions
-> > make: *** [/home/kraxel/projects/qemu/rules.mak:69: qemu-img.o] Error 1
-> > 
-> > take care,
-> >   Gerd
-> > 
+On 7/7/20 6:58 PM, Paolo Bonzini wrote:
+> On 07/07/20 15:58, Claudio Fontana wrote:
+>> +
+>> +CpusAccel tcg_cpus = {
+>> +    .create_vcpu_thread = tcg_start_vcpu_thread,
+>> +    .kick_vcpu_thread = tcg_kick_vcpu_thread,
+>> +
+>> +    .synchronize_post_reset = tcg_cpu_synchronize_noop,
+>> +    .synchronize_post_init = tcg_cpu_synchronize_noop,
+>> +    .synchronize_state = tcg_cpu_synchronize_noop,
+>> +    .synchronize_pre_loadvm = tcg_cpu_synchronize_noop,
+>> +};
 > 
-> Apparently I didn't add #include of qapi-types-block-core.h in block_int.h (I'll fix this in a patch soon),
-> but it looks like throttle-groups.h includes "qemu/throttle.h" which includes "qapi/qapi-types-block-core.h",
-> so it should be included explicitly here.
+> Could this struct reside in AccelClass instead, so that there's no need
+> to register the operations explicitly?
 
-Ok, scratch that.
+This I tried a few times before, you can dig the history a bit of the comments.
 
-Seems this came from stale files still being around from an in-tree
-build.  Dunno how that happened, usually I do out-of-tree builds
-exclusively.
+The result of my attempts is that you end up replacing an "explicit registration", with an explicit internal copy from a structure defined in kvm-cpus.c
+(for example) to the accelerator state, so you just switch one registration for another.
 
-sorry for the extra work,
-  Gerd
+The result is a pile of boilerplate of no use that is just confusing for the reader. 
+
+> We could still cache it in a
+> global variable in accel_init_machine, in order to avoid pointer chasing.
+
+Indeed, the "cache" though ends up being the only useful thing,
+and it can be even more confusing for the reader to see the whole machinery in AccelClass.
+
+> 
+> Thanks,
+> 
+> Paolo
+> 
+
+Still if you are interested to see what the result ends up being I can share it, will need some fiddling..
+
+Ciao,
+
+Claudio
 
 
