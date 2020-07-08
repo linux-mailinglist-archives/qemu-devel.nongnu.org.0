@@ -2,56 +2,55 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A7EF421847F
-	for <lists+qemu-devel@lfdr.de>; Wed,  8 Jul 2020 11:58:19 +0200 (CEST)
-Received: from localhost ([::1]:39960 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E18E82185C8
+	for <lists+qemu-devel@lfdr.de>; Wed,  8 Jul 2020 13:13:53 +0200 (CEST)
+Received: from localhost ([::1]:36102 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jt6qI-0002u1-Fx
-	for lists+qemu-devel@lfdr.de; Wed, 08 Jul 2020 05:58:18 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:32936)
+	id 1jt81Q-00021D-H8
+	for lists+qemu-devel@lfdr.de; Wed, 08 Jul 2020 07:13:52 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:49196)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <groug@kaod.org>) id 1jt6pT-0002KB-KX
- for qemu-devel@nongnu.org; Wed, 08 Jul 2020 05:57:27 -0400
-Received: from 8.mo6.mail-out.ovh.net ([178.33.42.204]:55232)
+ (Exim 4.90_1) (envelope-from <dgibson@ozlabs.org>)
+ id 1jt805-0001LK-0s; Wed, 08 Jul 2020 07:12:29 -0400
+Received: from ozlabs.org ([2401:3900:2:1::2]:59877)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <groug@kaod.org>) id 1jt6pQ-0000rJ-LN
- for qemu-devel@nongnu.org; Wed, 08 Jul 2020 05:57:27 -0400
-Received: from player691.ha.ovh.net (unknown [10.108.57.43])
- by mo6.mail-out.ovh.net (Postfix) with ESMTP id 9364E21DD22
- for <qemu-devel@nongnu.org>; Wed,  8 Jul 2020 11:57:14 +0200 (CEST)
-Received: from kaod.org (lns-bzn-46-82-253-208-248.adsl.proxad.net
- [82.253.208.248]) (Authenticated sender: groug@kaod.org)
- by player691.ha.ovh.net (Postfix) with ESMTPSA id B26B4143F7C04;
- Wed,  8 Jul 2020 09:57:07 +0000 (UTC)
-Authentication-Results: garm.ovh; auth=pass
- (GARM-104R005f0d96140-8318-41ac-8bea-8f9268244146,0BF91703714D46BDA1F6A43CC116E83107949C6A)
- smtp.auth=groug@kaod.org
-Date: Wed, 8 Jul 2020 11:57:03 +0200
-From: Greg Kurz <groug@kaod.org>
-To: Thomas Huth <thuth@redhat.com>
-Subject: Re: qemu-system-ppc64 abort()s with pcie bridges
-Message-ID: <20200708115703.7926205a@bahia.lan>
-In-Reply-To: <211dfb13-64cc-850b-4936-0f20f0157d7c@redhat.com>
-References: <211dfb13-64cc-850b-4936-0f20f0157d7c@redhat.com>
-X-Mailer: Claws Mail 3.17.5 (GTK+ 2.24.32; x86_64-redhat-linux-gnu)
+ (Exim 4.90_1) (envelope-from <dgibson@ozlabs.org>)
+ id 1jt801-0002Nk-JE; Wed, 08 Jul 2020 07:12:28 -0400
+Received: by ozlabs.org (Postfix, from userid 1007)
+ id 4B1xTl1Sxpz9sRN; Wed,  8 Jul 2020 21:12:11 +1000 (AEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=gibson.dropbear.id.au; s=201602; t=1594206731;
+ bh=KzZ3l7/0bUaPXMlIZQ5x9zfQ8X2cyhuVGjUpRus/mDg=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=c6N5UZJ5MIP6eSQyN6yQGDqcAMLP48LBRHsy8pW+bA33fIdfdsD7yhLZ2pzBuxcoi
+ JJxYW7BMtnzxypAIHoqN3+VNDr7iEbEa1sBSvW02bkpZtZgC9Ogwz149c1xQWSdVzL
+ xO0nQujkxKlrnM4eRCrLABD/9bIMyOy+fXoMed7M=
+Date: Wed, 8 Jul 2020 20:00:38 +1000
+From: David Gibson <david@gibson.dropbear.id.au>
+To: Philippe =?iso-8859-1?Q?Mathieu-Daud=E9?= <philmd@redhat.com>
+Subject: Re: [PATCH] cpu: Add starts_halted() method
+Message-ID: <20200708100038.GG18595@umbus.fritz.box>
+References: <20200707204333.261506-1-bauerman@linux.ibm.com>
+ <20200707214917.GX7276@habkost.net>
+ <87y2nu3nxq.fsf@morokweng.localdomain>
+ <c53b36b7-ee7b-bb66-8220-cce788fd631d@redhat.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
-X-Ovh-Tracer-Id: 10987094242469189938
-X-VR-SPAMSTATE: OK
-X-VR-SPAMSCORE: -100
-X-VR-SPAMCAUSE: gggruggvucftvghtrhhoucdtuddrgeduiedrudejgddvvdcutefuodetggdotefrodftvfcurfhrohhfihhlvgemucfqggfjpdevjffgvefmvefgnecuuegrihhlohhuthemucehtddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenucfjughrpeffhffvuffkjghfofggtgfgsehtqhertdertdejnecuhfhrohhmpefirhgvghcumfhurhiiuceoghhrohhugheskhgrohgurdhorhhgqeenucggtffrrghtthgvrhhnpeeukeejkeeiffeftdevueekvdetjeegieevhffgjefgtdeluddvgfefleekueevueenucfkpheptddrtddrtddrtddpkedvrddvheefrddvtdekrddvgeeknecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmohguvgepshhmthhpqdhouhhtpdhhvghlohepphhlrgihvghrieeluddrhhgrrdhovhhhrdhnvghtpdhinhgvtheptddrtddrtddrtddpmhgrihhlfhhrohhmpehgrhhouhhgsehkrghougdrohhrghdprhgtphhtthhopehqvghmuhdquggvvhgvlhesnhhonhhgnhhurdhorhhg
-Received-SPF: pass client-ip=178.33.42.204; envelope-from=groug@kaod.org;
- helo=8.mo6.mail-out.ovh.net
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/07/08 05:57:14
-X-ACL-Warn: Detected OS   = Linux 3.11 and newer
-X-Spam_score_int: -18
-X-Spam_score: -1.9
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature"; boundary="XaUbO9McV5wPQijU"
+Content-Disposition: inline
+In-Reply-To: <c53b36b7-ee7b-bb66-8220-cce788fd631d@redhat.com>
+Received-SPF: pass client-ip=2401:3900:2:1::2; envelope-from=dgibson@ozlabs.org;
+ helo=ozlabs.org
+X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
+ That's all we know.
+X-Spam_score_int: -9
+X-Spam_score: -1.0
 X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_NONE=-0.0001,
- RCVD_IN_MSPIKE_H3=-0.01, RCVD_IN_MSPIKE_WL=-0.01, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+X-Spam_report: (-1.0 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, HEADER_FROM_DIFFERENT_DOMAINS=1,
+ SPF_HELO_PASS=-0.001, SPF_PASS=-0.001,
+ URIBL_BLOCKED=0.001 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -64,87 +63,106 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Laurent Vivier <lvivier@redhat.com>, Markus Armbruster <armbru@redhat.com>,
- QEMU Developers <qemu-devel@nongnu.org>,
- "qemu-ppc@nongnu.org" <qemu-ppc@nongnu.org>,
- =?UTF-8?B?Q8Op?= =?UTF-8?B?ZHJpYw==?= Le Goater <clg@kaod.org>,
- David Gibson <dgibson@redhat.com>
+Cc: Laurent Vivier <lvivier@redhat.com>,
+ Peter Maydell <peter.maydell@linaro.org>, Thomas Huth <thuth@redhat.com>,
+ Eduardo Habkost <ehabkost@redhat.com>, qemu-devel@nongnu.org,
+ qemu-ppc@nongnu.org, Thiago Jung Bauermann <bauerman@linux.ibm.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Wed, 8 Jul 2020 10:03:47 +0200
-Thomas Huth <thuth@redhat.com> wrote:
 
+--XaUbO9McV5wPQijU
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
+
+On Wed, Jul 08, 2020 at 10:38:29AM +0200, Philippe Mathieu-Daud=E9 wrote:
+> Hi Thiago,
 >=20
->  Hi,
+> On 7/8/20 1:28 AM, Thiago Jung Bauermann wrote:
+> >=20
+> > Hello Eduardo,
+> >=20
+> > Eduardo Habkost <ehabkost@redhat.com> writes:
+> >=20
+> >> On Tue, Jul 07, 2020 at 05:43:33PM -0300, Thiago Jung Bauermann wrote:
+> >>> PowerPC sPAPRs CPUs start in the halted state, but generic QEMU code
+> >>> assumes that CPUs start in the non-halted state. spapr_reset_vcpu()
+> >>> attempts to rectify this by setting CPUState::halted to 1. But that's=
+ too
+> >>> late for hotplugged CPUs in a machine configured with 2 or mor thread=
+s per
+> >>> core.
+> >>>
+> >>> By then, other parts of QEMU have already caused the vCPU to run in an
+> >>> unitialized state a couple of times. For example, ppc_cpu_reset() cal=
+ls
+> >>> ppc_tlb_invalidate_all(), which ends up calling async_run_on_cpu(). T=
+his
+> >>> kicks the new vCPU while it has CPUState::halted =3D 0, causing QEMU =
+to issue
+> >>> a KVM_RUN ioctl on the new vCPU before the guest is able to make the
+> >>> start-cpu RTAS call to initialize its register state.
+> >>>
+> >>> This doesn't seem to cause visible issues for regular guests, but on a
+> >>> secure guest running under the Ultravisor it does. The Ultravisor rel=
+ies on
+> >>> being able to snoop on the start-cpu RTAS call to map vCPUs to guests=
+, and
+> >>> this issue causes it to see a stray vCPU that doesn't belong to any g=
+uest.
+> >>>
+> >>> Fix by adding a starts_halted() method to the CPUState class, and mak=
+ing it
+> >>> return 1 if the machine is an sPAPR guest.
+> >>>
+> >>> Signed-off-by: Thiago Jung Bauermann <bauerman@linux.ibm.com>
+> >> [...]
+> >>> +static uint32_t ppc_cpu_starts_halted(void)
+> >>> +{
+> >>> +    SpaprMachineState *spapr =3D
+> >>> +        (SpaprMachineState *) object_dynamic_cast(qdev_get_machine(),
+> >>> +                                                  TYPE_SPAPR_MACHINE=
+);
+> >>
+> >> Wouldn't it be simpler to just implement this as a MachineClass
+> >> boolean field?  e.g.:
 >=20
-> qemu-system-ppc64 currently abort()s when it is started with a pcie
-> bridge device:
->=20
-> $ qemu-system-ppc64 -M pseries-5.1 -device pcie-pci-bridge
-> Unexpected error in object_property_find() at qom/object.c:1240:
-> qemu-system-ppc64: -device pcie-pci-bridge: Property '.chassis_nr' not fo=
-und
-> Aborted (core dumped)
->=20
-> or:
->=20
-> $ qemu-system-ppc64 -M pseries -device dec-21154-p2p-bridge
-> Unexpected error in object_property_find() at qom/object.c:1240:
-> qemu-system-ppc64: -device dec-21154-p2p-bridge: Property '.chassis_nr'
-> not found
-> Aborted (core dumped)
->=20
-> That's kind of ugly, and it shows up as error when running
-> scripts/device-crash-test. Is there an easy way to avoid the abort() and
-> fail more gracefully here?
->=20
+> Class boolean field certainly sounds better, but I am not sure this
+> is a property of the machine. Rather the arch? So move the field
+> to CPUClass? Maybe not, let's discuss :)
 
-And even worse, this can tear down a running guest with hotplug :\
+It is absolutely a property of the machine.  e.g. I don't think we
+want this for powernv.  pseries is a bit of a special case since it is
+explicitly a paravirt platform.  But even for emulated hardware, the
+board can absolutely strap things so that cpus do or don't start
+immediately.
 
-(qemu) device_add pcie-pci-bridge=20
-Unexpected error in object_property_find() at /home/greg/Work/qemu/qemu-ppc=
-/qom/object.c:1240:
-Property '.chassis_nr' not found
-Aborted (core dumped)
+--=20
+David Gibson			| I'll have my music baroque, and my code
+david AT gibson.dropbear.id.au	| minimalist, thank you.  NOT _the_ _other_
+				| _way_ _around_!
+http://www.ozlabs.org/~dgibson
 
-This is caused by recent commit:
+--XaUbO9McV5wPQijU
+Content-Type: application/pgp-signature; name="signature.asc"
 
-commit 7ef1553dac8ef8dbe547b58d7420461a16be0eeb
-Author: Markus Armbruster <armbru@redhat.com>
-Date:   Tue May 5 17:29:25 2020 +0200
+-----BEGIN PGP SIGNATURE-----
 
-    spapr_pci: Drop some dead error handling
-   =20
-    chassis_from_bus() uses object_property_get_uint() to get property
-    "chassis_nr" of the bridge device.  Failure would be a programming
-    error.  Pass &error_abort, and simplify its callers.
-   =20
-    Cc: David Gibson <david@gibson.dropbear.id.au>
-    Cc: qemu-ppc@nongnu.org
-    Signed-off-by: Markus Armbruster <armbru@redhat.com>
-    Acked-by: David Gibson <david@gibson.dropbear.id.au>
-    Reviewed-by: Greg Kurz <groug@kaod.org>
-    Reviewed-by: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
-    Reviewed-by: Paolo Bonzini <pbonzini@redhat.com>
-    Message-Id: <20200505152926.18877-18-armbru@redhat.com>
+iQIzBAEBCAAdFiEEdfRlhq5hpmzETofcbDjKyiDZs5IFAl8FmUMACgkQbDjKyiDZ
+s5J5ThAAmnqiq7JbTXzWm67r+1FBN3CmpPCZH3BLbi/sZCIXol06kRUzCDIENBoX
+IzRw+hP16z84YKSXtQgZ3eFjtjzJkOEOAe1Iplf3RHDZcqtFMyw8luk2U1gvglG/
+8An/bLstvajt5vBgg28uTIFqvxorCzabmLXntwLAyfA8K7s/Pag3VJmOPa7JtO91
+7sNVlmctRX9yPx+Y+USj/vXx7hbh64TSUqmN7sRYSj8k3Vhb8zbreNcLIeN23TJX
+gOO4vtducAghgMtyz2bTrLpwh1HIfbnERt9xcWyPsImLsGM44BRx+oiUvgTx6lHA
+IowCYU5lhRgoh8dRD9SLHgrsyEpwgstaAjmr02hnDwKuxKrn2fX6joK9PZswm2AC
+rr1g7U7ykFhRYxw2XjF2HEUXzyGDgDdl1OegBkQG3gyRUeS4diHRYydX5nhCXLs5
+PfnpgNj32xwfnA4RajFuNxFC9j9hbpNipIpLmOgtKI7o+FMmR2jYi9YffI5S/1vs
+YG+401t+eC7qXKR07/mMpplHH7EkqrsaB0Xb8EPvEK2VPK1R+m3fx2NgNPL6ybUl
+qCp0l4eFJN9GY0xjNnZWCsl2E8A7UsrOX5ocu4AjI6MW1q5xB+sM2tVpnWGMgHCB
+jB+NfiWiciu4P3HBkCU346pU+AU8Hp8L/RV11OmvgOmWk/5vlfk=
+=ZWY6
+-----END PGP SIGNATURE-----
 
-Before that, we would simply print the "chassir_nr not found" error,
-and in case of a cold plugged device exit.
-
-The root cause is that the sPAPR PCI code assumes that a PCI bridge
-has a "chassir_nr" property, ie. it is a standard PCI bridge. Other
-PCI bridge types don't have that. Not sure yet why this information
-is required, I'll check LoPAPR.
-
-In the meantime, since we're in soft freeze, I guess we should
-revert Markus's patch and add a big fat comment to explain
-what's going on and maybe change the error message to something
-more informative, eg. "PCIE-to-PCI bridges are not supported".
-
-Thoughts ?
-
->  Thomas
->=20
-
+--XaUbO9McV5wPQijU--
 
