@@ -2,74 +2,53 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id AAD3D21936B
-	for <lists+qemu-devel@lfdr.de>; Thu,  9 Jul 2020 00:29:04 +0200 (CEST)
-Received: from localhost ([::1]:57642 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id CB07621881C
+	for <lists+qemu-devel@lfdr.de>; Wed,  8 Jul 2020 14:55:28 +0200 (CEST)
+Received: from localhost ([::1]:57976 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jtIYp-0007ou-NO
-	for lists+qemu-devel@lfdr.de; Wed, 08 Jul 2020 18:29:03 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:45588)
+	id 1jt9bj-0001Rc-F5
+	for lists+qemu-devel@lfdr.de; Wed, 08 Jul 2020 08:55:27 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:43172)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <stefanha@redhat.com>)
- id 1jtIH4-0003iM-NU
- for qemu-devel@nongnu.org; Wed, 08 Jul 2020 18:10:42 -0400
-Received: from us-smtp-1.mimecast.com ([207.211.31.81]:42116
- helo=us-smtp-delivery-1.mimecast.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <stefanha@redhat.com>)
- id 1jtIH3-0007qt-1h
- for qemu-devel@nongnu.org; Wed, 08 Jul 2020 18:10:42 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1594246240;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=pDfH0AX/DwK7ZPvF71x75ez1WGs/pKHu/0moSnyPVj0=;
- b=d9+C1EusEhXRbVbx9bB7IcX34B+qJt0YMUnlyOvuv1rIkPYBfmzzasVMZZi+nMxEHng6X6
- qxoEsGkJFhLGlx4fB+YFfizYtKhZec1pc61EHvoBkF0Gktt0xUhen4yV3bRup2HA/xaf3y
- jfXOtghLYZAjh8A8tHirlMT/e67yrhU=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-72-bGZb2fwBM2KkRmYhrdDfoA-1; Wed, 08 Jul 2020 08:09:43 -0400
-X-MC-Unique: bGZb2fwBM2KkRmYhrdDfoA-1
-Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
- [10.5.11.12])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id D9965185B3AD;
- Wed,  8 Jul 2020 12:09:41 +0000 (UTC)
-Received: from localhost (ovpn-115-17.ams2.redhat.com [10.36.115.17])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 6AD9460C80;
- Wed,  8 Jul 2020 12:09:41 +0000 (UTC)
-Date: Wed, 8 Jul 2020 13:09:40 +0100
-From: Stefan Hajnoczi <stefanha@redhat.com>
-To: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
-Subject: Re: [PATCH 5/5] iotests: add 298 to test new preallocate filter driver
-Message-ID: <20200708120940.GE459887@stefanha-x1.localdomain>
-References: <20200620143649.225852-1-vsementsov@virtuozzo.com>
- <20200620143649.225852-6-vsementsov@virtuozzo.com>
+ (Exim 4.90_1) (envelope-from <dgibson@ozlabs.org>)
+ id 1jt9ac-0000r5-6X; Wed, 08 Jul 2020 08:54:19 -0400
+Received: from ozlabs.org ([2401:3900:2:1::2]:60451)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <dgibson@ozlabs.org>)
+ id 1jt9aY-0006bn-9h; Wed, 08 Jul 2020 08:54:17 -0400
+Received: by ozlabs.org (Postfix, from userid 1007)
+ id 4B1zlN3Rfxz9sRK; Wed,  8 Jul 2020 22:54:06 +1000 (AEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=gibson.dropbear.id.au; s=201602; t=1594212848;
+ bh=iYQmoCWDIVnJDYsb3hVPQMlqmB9cMM7lbOgmj5jH4cI=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=f7uuQW87WaHMX6Wb/WmerWkvtEiD9Ch/X7+ThTrYekCVGG5gG1bPt3Bi7DCMN6Vqr
+ 4VkswRIcqMKa3eQl6noI9TuG/aNibWYFPWJZ5Eon/iki8PZy8tFaHVTtx2aGt5kDpe
+ MCNfJiKZH/1jhOXaqmH0pGaicZZpuFvTJ1xl2cW8=
+Date: Wed, 8 Jul 2020 22:22:12 +1000
+From: David Gibson <david@gibson.dropbear.id.au>
+To: Lijun Pan <ljp@linux.ibm.com>
+Subject: Re: [PATCH v4 04/11] target/ppc: convert vmuluwm to tcg_gen_gvec_mul
+Message-ID: <20200708122212.GK18595@umbus.fritz.box>
+References: <20200701234344.91843-1-ljp@linux.ibm.com>
+ <20200701234344.91843-5-ljp@linux.ibm.com>
 MIME-Version: 1.0
-In-Reply-To: <20200620143649.225852-6-vsementsov@virtuozzo.com>
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=stefanha@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
 Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature"; boundary="YkJPYEFdoxh/AXLE"
+ protocol="application/pgp-signature"; boundary="6CXocAQn8Xbegyxo"
 Content-Disposition: inline
-Received-SPF: pass client-ip=207.211.31.81; envelope-from=stefanha@redhat.com;
- helo=us-smtp-delivery-1.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/07/07 17:25:09
-X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
-X-Spam_score_int: -30
-X-Spam_score: -3.1
-X-Spam_bar: ---
-X-Spam_report: (-3.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H3=-0.01, RCVD_IN_MSPIKE_WL=-0.01,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+In-Reply-To: <20200701234344.91843-5-ljp@linux.ibm.com>
+Received-SPF: pass client-ip=2401:3900:2:1::2; envelope-from=dgibson@ozlabs.org;
+ helo=ozlabs.org
+X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
+ That's all we know.
+X-Spam_score_int: -9
+X-Spam_score: -1.0
+X-Spam_bar: -
+X-Spam_report: (-1.0 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, HEADER_FROM_DIFFERENT_DOMAINS=1,
+ SPF_HELO_PASS=-0.001, SPF_PASS=-0.001,
+ URIBL_BLOCKED=0.001 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -82,43 +61,111 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: fam@euphon.net, kwolf@redhat.com, qemu-block@nongnu.org,
- Anton.Nefedov@acronis.com, armbru@redhat.com, qemu-devel@nongnu.org,
- mreitz@redhat.com, den@openvz.org
+Cc: richard.henderson@linaro.org, qemu-ppc@nongnu.org, qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
---YkJPYEFdoxh/AXLE
+
+--6CXocAQn8Xbegyxo
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-On Sat, Jun 20, 2020 at 05:36:49PM +0300, Vladimir Sementsov-Ogievskiy wrote:
-> Signed-off-by: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
+On Wed, Jul 01, 2020 at 06:43:39PM -0500, Lijun Pan wrote:
+> Convert the original implementation of vmuluwm to the more generic
+> tcg_gen_gvec_mul.
+>=20
+> Signed-off-by: Lijun Pan <ljp@linux.ibm.com>
+
+Applied to ppc-for-5.2.
+
 > ---
->  tests/qemu-iotests/298     | 45 ++++++++++++++++++++++++++++++++++++++
->  tests/qemu-iotests/298.out |  5 +++++
->  tests/qemu-iotests/group   |  1 +
->  3 files changed, 51 insertions(+)
->  create mode 100644 tests/qemu-iotests/298
->  create mode 100644 tests/qemu-iotests/298.out
+> Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
+> v3: newly introduced
+>=20
+>  target/ppc/helper.h                 |  1 -
+>  target/ppc/int_helper.c             | 13 -------------
+>  target/ppc/translate/vmx-impl.inc.c |  2 +-
+>  3 files changed, 1 insertion(+), 15 deletions(-)
+>=20
+> diff --git a/target/ppc/helper.h b/target/ppc/helper.h
+> index 2dfa1c6942..69416b6d7c 100644
+> --- a/target/ppc/helper.h
+> +++ b/target/ppc/helper.h
+> @@ -184,7 +184,6 @@ DEF_HELPER_3(vmulosw, void, avr, avr, avr)
+>  DEF_HELPER_3(vmuloub, void, avr, avr, avr)
+>  DEF_HELPER_3(vmulouh, void, avr, avr, avr)
+>  DEF_HELPER_3(vmulouw, void, avr, avr, avr)
+> -DEF_HELPER_3(vmuluwm, void, avr, avr, avr)
+>  DEF_HELPER_3(vslo, void, avr, avr, avr)
+>  DEF_HELPER_3(vsro, void, avr, avr, avr)
+>  DEF_HELPER_3(vsrv, void, avr, avr, avr)
+> diff --git a/target/ppc/int_helper.c b/target/ppc/int_helper.c
+> index be53cd6f68..bd3e6d7cc7 100644
+> --- a/target/ppc/int_helper.c
+> +++ b/target/ppc/int_helper.c
+> @@ -523,19 +523,6 @@ void helper_vprtybq(ppc_avr_t *r, ppc_avr_t *b)
+>      r->VsrD(0) =3D 0;
+>  }
+> =20
+> -#define VARITH_DO(name, op, element)                                    \
+> -    void helper_v##name(ppc_avr_t *r, ppc_avr_t *a, ppc_avr_t *b)       \
+> -    {                                                                   \
+> -        int i;                                                          \
+> -                                                                        \
+> -        for (i =3D 0; i < ARRAY_SIZE(r->element); i++) {                =
+  \
+> -            r->element[i] =3D a->element[i] op b->element[i];           =
+  \
+> -        }                                                               \
+> -    }
+> -VARITH_DO(muluwm, *, u32)
+> -#undef VARITH_DO
+> -#undef VARITH
+> -
+>  #define VARITHFP(suffix, func)                                          \
+>      void helper_v##suffix(CPUPPCState *env, ppc_avr_t *r, ppc_avr_t *a, \
+>                            ppc_avr_t *b)                                 \
+> diff --git a/target/ppc/translate/vmx-impl.inc.c b/target/ppc/translate/v=
+mx-impl.inc.c
+> index 403ed3a01c..6e79ffa650 100644
+> --- a/target/ppc/translate/vmx-impl.inc.c
+> +++ b/target/ppc/translate/vmx-impl.inc.c
+> @@ -801,7 +801,7 @@ static void trans_vclzd(DisasContext *ctx)
+>  GEN_VXFORM(vmuloub, 4, 0);
+>  GEN_VXFORM(vmulouh, 4, 1);
+>  GEN_VXFORM(vmulouw, 4, 2);
+> -GEN_VXFORM(vmuluwm, 4, 2);
+> +GEN_VXFORM_V(vmuluwm, MO_32, tcg_gen_gvec_mul, 4, 2);
+>  GEN_VXFORM_DUAL(vmulouw, PPC_ALTIVEC, PPC_NONE,
+>                  vmuluwm, PPC_NONE, PPC2_ALTIVEC_207)
+>  GEN_VXFORM(vmulosb, 4, 4);
 
-Reviewed-by: Stefan Hajnoczi <stefanha@redhat.com>
+--=20
+David Gibson			| I'll have my music baroque, and my code
+david AT gibson.dropbear.id.au	| minimalist, thank you.  NOT _the_ _other_
+				| _way_ _around_!
+http://www.ozlabs.org/~dgibson
 
---YkJPYEFdoxh/AXLE
+--6CXocAQn8Xbegyxo
 Content-Type: application/pgp-signature; name="signature.asc"
 
 -----BEGIN PGP SIGNATURE-----
 
-iQEzBAEBCAAdFiEEhpWov9P5fNqsNXdanKSrs4Grc8gFAl8Ft4QACgkQnKSrs4Gr
-c8jwCQf+NqjKv/xfL23GmUVsrgS/FdAAEejXstmrJE9HeQkZYzabP0sDDwaYhuY2
-J7VJ4xfAJuhxonwFJpLoSyF9nuu5F1tbwI/lMPYAmkbaBR4gDmgkJ3ikTEiXY6U/
-VnWwuDuPra4b1TrC0BItcgxz8458SKNNjfpVJHG4BBboqh6eb+jf4SZtsSxUUzTk
-ukgk6a5ThPXSH1zohrW69mVhlwoU8EdKLygRDBY7nprdXRSuUchGH379QXMbfe7R
-yMpxaSHnW3O+l0TPCIt1BUFIaJtCQDVZaBV3o2+R966FgDE5Qv7MwYaJSEZvbxKj
-foHrSBpQy83cbbV3i22vgqqtnu9szA==
-=0NMl
+iQIzBAEBCAAdFiEEdfRlhq5hpmzETofcbDjKyiDZs5IFAl8FunEACgkQbDjKyiDZ
+s5K9zBAAvXoc40jg6/hkqMyhL7k2gk7fvjH88f6/VmRkOoRxsYRKaw6RVhdGiOpD
+kuo5sDUYcCVcG7FZFtLNaU8h9di/zRKk4kfin+A5iFUErrbXwOMBioTpykVv75r9
+OdQzVfNzi7N+omb0atlB/05Fn/R8k8N889FpWa1s7TeqFeLZHaoWIUTD/cJlZx8L
+2DRROtmBHboYt2LGSjZGc4a3Y4EZMW9CDcdCdShwXUptFOutzWAqSyLJBlhbgVta
+Uv30BjJxjB2t2bZ7BdAZxpKn0rE8oigCEzFGuEBBY//dm3cvGbZdM8FPpOBy6Bpm
+qggQA09LDlvwYXG6brKCNSeUCpTJZN6kdW1QbiIfYrtjXRqu04xSn6hHIhoQuziz
+F9tVnsEagFFVhH2WEU9EhoRKnde6nj665K/HEP3bPyygdAXqJKPcv2F8jOfHOdwI
+FRXx8PIwWmuB6AiMSplzudDozz4uvMoOoe/W0CeRpz+aMgS1CQmVooOc6kElHTW+
+4W4/249qZS3YCprkOWENYd/T82wCHdosOC4Lc8e1DlvMd8Jox+4pT7Jjv33TgTj5
+EU5/uZiHZJFLvpaX0O+kAgKs+Vww/fV6vRg74JFFdZcVCWpydzzRMyApTrBwqOaH
+rGy/nu9yFAHKyG54GnEGlMDBrje2XK2xQMWfxj+4vzn8josYgm0=
+=C+Jn
 -----END PGP SIGNATURE-----
 
---YkJPYEFdoxh/AXLE--
-
+--6CXocAQn8Xbegyxo--
 
