@@ -2,83 +2,74 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 85C14218D81
-	for <lists+qemu-devel@lfdr.de>; Wed,  8 Jul 2020 18:48:46 +0200 (CEST)
-Received: from localhost ([::1]:58756 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5DF0A219369
+	for <lists+qemu-devel@lfdr.de>; Thu,  9 Jul 2020 00:28:22 +0200 (CEST)
+Received: from localhost ([::1]:53166 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jtDFV-0006Jl-JH
-	for lists+qemu-devel@lfdr.de; Wed, 08 Jul 2020 12:48:45 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:51876)
+	id 1jtIY9-000630-C0
+	for lists+qemu-devel@lfdr.de; Wed, 08 Jul 2020 18:28:21 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:40814)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1jtDEb-0005tm-Qt
- for qemu-devel@nongnu.org; Wed, 08 Jul 2020 12:47:49 -0400
-Received: from mail-wr1-x443.google.com ([2a00:1450:4864:20::443]:40967)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1jtDEa-0000Vo-BT
- for qemu-devel@nongnu.org; Wed, 08 Jul 2020 12:47:49 -0400
-Received: by mail-wr1-x443.google.com with SMTP id z15so38435175wrl.8
- for <qemu-devel@nongnu.org>; Wed, 08 Jul 2020 09:47:47 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=sender:subject:to:cc:references:from:message-id:date:user-agent
- :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=HXWBxb2lo8UYckhDJIb2cbmMTH7ZdneKGs+GmaZyiqM=;
- b=tsu/EkZZFsZB5uK97UrwNw3ExvTRWcUjRTAtRji7TZlz8bVN09l1CzIgyxOG/SBoCv
- GaBo6BW3GJq5onzhfUb3dG8FcVxK4hIqjHG/dB5Z6+hEUjFiY+ujbhq0YvT3Ryy+4OUt
- EWshsW3vs11dN/AKQ7i+Q27b+vbDmqEI50YYDQZ2D03K3ddjpYG9/og5ORAW37eoOn4f
- jl8xPlBtzay+jtGfRQ26PEuaE5KPkifUKSxebx4+he8u7G9xwl6HwkTindmHk6ynoVFe
- Ut77o+peiHar1alX8O0CtHzmBuidE1l+oBJirWSdjoQW1/Hn7RWOzMLoDyyCH6XbrfiC
- dfOw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:sender:subject:to:cc:references:from:message-id
- :date:user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=HXWBxb2lo8UYckhDJIb2cbmMTH7ZdneKGs+GmaZyiqM=;
- b=pnNqxLWmJ4Kceqi4DL2ETa4l9raBEexvaooxYA/IUUPC4UBCsIJ55j+tkP6g1cjWsd
- i3+oxGCdmopKCIufxTbfewBq58ucCXnnWbaSQ1to4UbefaqRwl2AvHNVZAVZlFyVTE2W
- Xw7d5+RsbG1MWJTV78zGkRiSGwHIvbsjW5LB2N2S9HBiFiOGvDqJSZBcTHidGdx5lkji
- nXL9T2OLfzoXizWnrdzFRko4tTOv4dPvz2qPTnTcOUJnFveXRqXszGGpcULk/gam44Ex
- zhhrIgtilxcScZKmOhg1pDb1nSoRID151adSpaC/R3nP583IE6uCicRuhhiaML9B30Z2
- yzag==
-X-Gm-Message-State: AOAM530zDhJNGeKUliytn3o6Tqayp7VhwdoC6ifp9VkDJWWGMm9JofvR
- pnccgb27diwR4YcgMXpOxQhH8ESK
-X-Google-Smtp-Source: ABdhPJzwwSerzqOeAJD9eIoIsLgpZFi2C+r2qEn1VCmsTX6yq8Qf4m+WJEnPpFXE0+Ttx0FlwhOY1Q==
-X-Received: by 2002:adf:ecc8:: with SMTP id s8mr60306389wro.317.1594226866852; 
- Wed, 08 Jul 2020 09:47:46 -0700 (PDT)
-Received: from [192.168.1.36] (138.red-83-57-170.dynamicip.rima-tde.net.
- [83.57.170.138])
- by smtp.gmail.com with ESMTPSA id 133sm499964wme.5.2020.07.08.09.47.45
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Wed, 08 Jul 2020 09:47:45 -0700 (PDT)
-Subject: Re: [PATCH v2 1/2] linux-user: fix the errno value in
- print_syscall_err()
-To: Laurent Vivier <laurent@vivier.eu>, qemu-devel@nongnu.org
-References: <20200708152435.706070-1-laurent@vivier.eu>
- <20200708152435.706070-2-laurent@vivier.eu>
-From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>
-Message-ID: <90e3b430-25a8-eaf9-c8b4-e9c1b4051b44@amsat.org>
-Date: Wed, 8 Jul 2020 18:47:44 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.5.0
+ (Exim 4.90_1) (envelope-from <cohuck@redhat.com>) id 1jtI06-0005KQ-IZ
+ for qemu-devel@nongnu.org; Wed, 08 Jul 2020 17:53:10 -0400
+Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:34629
+ helo=us-smtp-1.mimecast.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <cohuck@redhat.com>) id 1jtI04-0005KS-RY
+ for qemu-devel@nongnu.org; Wed, 08 Jul 2020 17:53:10 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1594245187;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=zTzr5iD2CS9STbPsb2S2gZXB7VKOk3wVYAvVkMESVIc=;
+ b=AGiXd983W2hD4JGyhQmMZAfE5rGefINfQfObFcFKrbOAcgZ1HojD4PJ74WFF6xdmnSTmFf
+ PoLJXn5WD7EkxjsyIPudvJooFsS3wF1E3f33agTZ6nbGR3+x4O2UvIXhFSHH83BG6C+huB
+ +a10Gp2O79ec4E+Qr1GYMHJgPN0iDpY=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-330-s8dxpJkBMYiCm1AidWXiFg-1; Wed, 08 Jul 2020 12:50:37 -0400
+X-MC-Unique: s8dxpJkBMYiCm1AidWXiFg-1
+Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
+ [10.5.11.12])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 1DE101082;
+ Wed,  8 Jul 2020 16:50:35 +0000 (UTC)
+Received: from gondolin (ovpn-112-239.ams2.redhat.com [10.36.112.239])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id DB38260E1C;
+ Wed,  8 Jul 2020 16:50:26 +0000 (UTC)
+Date: Wed, 8 Jul 2020 18:50:12 +0200
+From: Cornelia Huck <cohuck@redhat.com>
+To: Stefan Hajnoczi <stefanha@redhat.com>
+Subject: Re: [PATCH v5 3/5] virtio-scsi: default num_queues to -smp N
+Message-ID: <20200708185012.470125bb.cohuck@redhat.com>
+In-Reply-To: <20200708130526.GD487183@stefanha-x1.localdomain>
+References: <20200706135650.438362-1-stefanha@redhat.com>
+ <20200706135650.438362-4-stefanha@redhat.com>
+ <20200707174453.50c3ec85.cohuck@redhat.com>
+ <20200708130526.GD487183@stefanha-x1.localdomain>
+Organization: Red Hat GmbH
 MIME-Version: 1.0
-In-Reply-To: <20200708152435.706070-2-laurent@vivier.eu>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::443;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wr1-x443.google.com
-X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
- That's all we know.
-X-Spam_score_int: 0
-X-Spam_score: 0.0
-X-Spam_bar: /
-X-Spam_report: (0.0 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1, DKIM_VALID=-0.1,
- DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=1, FREEMAIL_FROM=0.001,
- HEADER_FROM_DIFFERENT_DOMAINS=1, RCVD_IN_DNSWL_NONE=-0.0001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=no autolearn_force=no
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=cohuck@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: multipart/signed; boundary="Sig_/Dl+_goxTFu6j_rkQ.+Ak8zL";
+ protocol="application/pgp-signature"; micalg=pgp-sha256
+Received-SPF: pass client-ip=207.211.31.120; envelope-from=cohuck@redhat.com;
+ helo=us-smtp-1.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/07/07 17:25:10
+X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
+X-Spam_score_int: -40
+X-Spam_score: -4.1
+X-Spam_bar: ----
+X-Spam_report: (-4.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-1, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -91,39 +82,87 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Filip Bozuta <Filip.Bozuta@syrmia.com>
+Cc: Kevin Wolf <kwolf@redhat.com>, Fam Zheng <fam@euphon.net>,
+ Eduardo Habkost <ehabkost@redhat.com>, qemu-block@nongnu.org,
+ "Michael S. Tsirkin" <mst@redhat.com>,
+ Pankaj Gupta <pankaj.gupta.linux@gmail.com>, qemu-devel@nongnu.org,
+ Raphael Norwitz <raphael.norwitz@nutanix.com>,
+ Paolo Bonzini <pbonzini@redhat.com>, Max Reitz <mreitz@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 7/8/20 5:24 PM, Laurent Vivier wrote:
-> errno of the target is returned as a negative value by the syscall,
-> not in the host errno variable.
-> 
-> The emulation of the target syscall can return an error while the
-> host doesn't set an errno value. Target errnos and host errnos can
-> also differ in some cases.
-> 
-> Fixes: c84be71f6854 ("linux-user: Extend strace support to enable argument printing after syscall execution")
-> Cc: Filip.Bozuta@syrmia.com
-> Signed-off-by: Laurent Vivier <laurent@vivier.eu>
-> ---
->  linux-user/strace.c | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
-> 
-> diff --git a/linux-user/strace.c b/linux-user/strace.c
-> index 5235b2260cdd..b42664bbd180 100644
-> --- a/linux-user/strace.c
-> +++ b/linux-user/strace.c
-> @@ -731,7 +731,7 @@ print_syscall_err(abi_long ret)
->  
->      qemu_log(" = ");
->      if (ret < 0) {
-> -        qemu_log("-1 errno=%d", errno);
-> +        qemu_log("-1 errno=%d", (int)-ret);
->          errstr = target_strerror(-ret);
->          if (errstr) {
->              qemu_log(" (%s)", errstr);
-> 
+--Sig_/Dl+_goxTFu6j_rkQ.+Ak8zL
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: quoted-printable
 
-Reviewed-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
+On Wed, 8 Jul 2020 14:05:26 +0100
+Stefan Hajnoczi <stefanha@redhat.com> wrote:
+
+> On Tue, Jul 07, 2020 at 05:44:53PM +0200, Cornelia Huck wrote:
+> > On Mon,  6 Jul 2020 14:56:48 +0100
+> > Stefan Hajnoczi <stefanha@redhat.com> wrote:
+
+> > > diff --git a/hw/virtio/virtio-scsi-pci.c b/hw/virtio/virtio-scsi-pci.=
+c
+> > > index 3ff9eb7ef6..fa4b3bfb50 100644
+> > > --- a/hw/virtio/virtio-scsi-pci.c
+> > > +++ b/hw/virtio/virtio-scsi-pci.c
+> > > @@ -46,13 +46,17 @@ static void virtio_scsi_pci_realize(VirtIOPCIProx=
+y *vpci_dev, Error **errp)
+> > >  {
+> > >      VirtIOSCSIPCI *dev =3D VIRTIO_SCSI_PCI(vpci_dev);
+> > >      DeviceState *vdev =3D DEVICE(&dev->vdev);
+> > > -    VirtIOSCSICommon *vs =3D VIRTIO_SCSI_COMMON(vdev);
+> > >      DeviceState *proxy =3D DEVICE(vpci_dev);
+> > > +    VirtIOSCSIConf *conf =3D &dev->vdev.parent_obj.conf;
+> > >      char *bus_name;
+> > > =20
+> > > +    if (conf->num_queues =3D=3D VIRTIO_SCSI_AUTO_NUM_QUEUES) {
+> > > +        conf->num_queues =3D
+> > > +            virtio_pci_optimal_num_queues(VIRTIO_SCSI_VQ_NUM_FIXED);
+> > > +    }
+> > > +
+> > >      if (vpci_dev->nvectors =3D=3D DEV_NVECTORS_UNSPECIFIED) {
+> > > -        vpci_dev->nvectors =3D vs->conf.num_queues +
+> > > -                             VIRTIO_SCSI_VQ_NUM_FIXED + 1;
+> > > +        vpci_dev->nvectors =3D conf->num_queues + VIRTIO_SCSI_VQ_NUM=
+_FIXED + 1;
+> > >      }
+> > > =20
+> > >      /* =20
+> >=20
+> > One corner case where the setup may end up being a bit odd is a
+> > situation where nvectors was specified, but num_queues was not, and the
+> > device suddenly ends up with more queues than vectors. But I don't see
+> > a reason why you would want to specify nvectors but not num_queues in a
+> > real word scenario, so I think we can ignore that corner case. =20
+>=20
+> I agree, I've ignored that case. Other options include printing a
+> warning or even an error when num_queues disagrees with nvectors.
+
+I think an error would be too harsh, but a warning sounds useful.
+
+--Sig_/Dl+_goxTFu6j_rkQ.+Ak8zL
+Content-Type: application/pgp-signature
+Content-Description: OpenPGP digital signature
+
+-----BEGIN PGP SIGNATURE-----
+
+iQIzBAEBCAAdFiEEw9DWbcNiT/aowBjO3s9rk8bwL68FAl8F+UQACgkQ3s9rk8bw
+L6+V3RAAnYFSyFWK8HM50TTRM8dSI1hjqm7VFu78RJyDX8+cSUku9+/oySGgwlP+
+SmERgZKJuh3JqgXMjBMNNB0uRl2kMTMFJr7JmP+RQfNOQgiHPkKjKU7ivAkE9ivv
+kj1uJbZ3jOjSD2GIVBxGdTl+Kg75B7Zzidhr7uax5H9fSkUQgGuuHng46PqKYPyN
+5QpdI+YI3XGr4KGk59yY+CJwlWOcgzd9sh6D2BGjmzQTncVgBSRCS4PGFRki+oMT
+f/9zzZLDZCBNG7VETThC7aXrezTXsFH13wfz2OUlZ/LVLy5RP6EE7vCLfmoSQHPv
+49WzxKY7ee2GlaGh520Cm7fU3AHDDnuTyQA2ac2cDLjDvvYhPbLfOYw0FB4++1lT
+gW8GISvKeErB5pr8v9c9Ae7MfOC/z2leOywhrKZcwyGfYV9zTiL4XjAU+0WvrNBW
+Y9dlS5r05dELLQR3ZOtbm/02Tc3gICnYyJofNNUNOpf2r6Blosrrz80WqlrOWHoe
+UF0ok4lRZ2ZY6abSFuz3AWm/QVOIdT54/rj9DWKeWPJFuNytODDIG7J24NYwcO+7
+sBPmzjJgfWkuMV5THvgeCv+kteHJj9ClXfNj5U6zD0ZDb4+tIEk6dv/jjCpaSLS6
+GV9obfJ/iokGPkk9G1nouvw+uBt3oi8iBmWDoii5d5t+wDCPHm0=
+=/oAN
+-----END PGP SIGNATURE-----
+
+--Sig_/Dl+_goxTFu6j_rkQ.+Ak8zL--
+
 
