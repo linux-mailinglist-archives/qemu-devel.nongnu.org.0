@@ -2,75 +2,77 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id EEF98219374
-	for <lists+qemu-devel@lfdr.de>; Thu,  9 Jul 2020 00:30:33 +0200 (CEST)
-Received: from localhost ([::1]:38564 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6372021934F
+	for <lists+qemu-devel@lfdr.de>; Thu,  9 Jul 2020 00:24:04 +0200 (CEST)
+Received: from localhost ([::1]:60306 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jtIaH-00032w-0F
-	for lists+qemu-devel@lfdr.de; Wed, 08 Jul 2020 18:30:33 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:44822)
+	id 1jtITz-0005mj-A2
+	for lists+qemu-devel@lfdr.de; Wed, 08 Jul 2020 18:24:03 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:44974)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <stefanha@redhat.com>)
- id 1jtIEm-0007XF-Iz
- for qemu-devel@nongnu.org; Wed, 08 Jul 2020 18:08:20 -0400
-Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:49581
- helo=us-smtp-1.mimecast.com)
+ (Exim 4.90_1) (envelope-from <mlevitsk@redhat.com>)
+ id 1jtIEz-0007yP-J2
+ for qemu-devel@nongnu.org; Wed, 08 Jul 2020 18:08:33 -0400
+Received: from us-smtp-2.mimecast.com ([207.211.31.81]:32884
+ helo=us-smtp-delivery-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <stefanha@redhat.com>)
- id 1jtIEk-0007XO-LM
- for qemu-devel@nongnu.org; Wed, 08 Jul 2020 18:08:20 -0400
+ (Exim 4.90_1) (envelope-from <mlevitsk@redhat.com>)
+ id 1jtIEx-0007ZM-Qy
+ for qemu-devel@nongnu.org; Wed, 08 Jul 2020 18:08:33 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1594246097;
+ s=mimecast20190719; t=1594246111;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=j+ttr32z6Bgh0aepTpDFjD/3vB8/iYZZG1FyuCX/euQ=;
- b=GktkyhqipZYP1sEbQ/S38vJ+EZ+Hs42oFFR6tgvs14mfkQbZJbStxy+W0U3F7r5L+jRAmc
- nI5sW33xk7uFWxOBXjbSNbwoa6xB2/jZEhzniuxhVy/qnPx9A9iEXsep4pe+qIGB9n0YKi
- YUZ2ySwHd8x/Wxjr1oYDt/+cNu6ber8=
+ bh=qeQHJXSA7nBv8209xwxlYccIg8Y1tb3sy0L5+6VExMU=;
+ b=TZM8mZnAUoc17/TiV0Y8cYx9qRHM40y0Dv8a+sZL+UidPX6ZmWL9MuSkJ80sdqBYea9m4G
+ qz/vabq79+I877AGRbhU6jYuUmEG/fHPeQTqaln0kJR1o6ltp1in4C+o2OAWygbCur/VMw
+ 9xCEDtbyi6Kz4DlkNf6G+iHQs32ft+o=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-464-eEnMhgpJPku_t1HFa_bYNg-1; Wed, 08 Jul 2020 09:05:32 -0400
-X-MC-Unique: eEnMhgpJPku_t1HFa_bYNg-1
-Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
- [10.5.11.11])
+ us-mta-236-L-b7-Z2APjOsdAi9O3pYFw-1; Wed, 08 Jul 2020 09:06:56 -0400
+X-MC-Unique: L-b7-Z2APjOsdAi9O3pYFw-1
+Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
+ [10.5.11.14])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id EC55788C797;
- Wed,  8 Jul 2020 13:05:30 +0000 (UTC)
-Received: from localhost (ovpn-115-17.ams2.redhat.com [10.36.115.17])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 7C86D7846C;
- Wed,  8 Jul 2020 13:05:27 +0000 (UTC)
-Date: Wed, 8 Jul 2020 14:05:26 +0100
-From: Stefan Hajnoczi <stefanha@redhat.com>
-To: Cornelia Huck <cohuck@redhat.com>
-Subject: Re: [PATCH v5 3/5] virtio-scsi: default num_queues to -smp N
-Message-ID: <20200708130526.GD487183@stefanha-x1.localdomain>
-References: <20200706135650.438362-1-stefanha@redhat.com>
- <20200706135650.438362-4-stefanha@redhat.com>
- <20200707174453.50c3ec85.cohuck@redhat.com>
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 80C0788C923;
+ Wed,  8 Jul 2020 13:06:55 +0000 (UTC)
+Received: from starship (unknown [10.35.206.247])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 3BCCE75550;
+ Wed,  8 Jul 2020 13:06:46 +0000 (UTC)
+Message-ID: <71ce9ceb32e5bd8f18cd26621e380df364f25cb7.camel@redhat.com>
+Subject: Re: [PATCH v8 11/14] block/core: add generic infrastructure for
+ x-blockdev-amend qmp command
+From: Maxim Levitsky <mlevitsk@redhat.com>
+To: Gerd Hoffmann <kraxel@redhat.com>
+Date: Wed, 08 Jul 2020 16:06:45 +0300
+In-Reply-To: <20200708123329.udy3k7ewtbcztjin@sirius.home.kraxel.org>
+References: <20200608094030.670121-1-mlevitsk@redhat.com>
+ <20200608094030.670121-12-mlevitsk@redhat.com>
+ <20200708123329.udy3k7ewtbcztjin@sirius.home.kraxel.org>
+User-Agent: Evolution 3.34.4 (3.34.4-1.fc31)
 MIME-Version: 1.0
-In-Reply-To: <20200707174453.50c3ec85.cohuck@redhat.com>
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=stefanha@redhat.com
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=mlevitsk@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature"; boundary="LTeJQqWS0MN7I/qa"
-Content-Disposition: inline
-Received-SPF: pass client-ip=205.139.110.120; envelope-from=stefanha@redhat.com;
- helo=us-smtp-1.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/07/07 17:25:11
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=207.211.31.81; envelope-from=mlevitsk@redhat.com;
+ helo=us-smtp-delivery-1.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/07/07 17:25:09
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
-X-Spam_score_int: -40
-X-Spam_score: -4.1
-X-Spam_bar: ----
-X-Spam_report: (-4.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1,
+X-Spam_score_int: -30
+X-Spam_score: -3.1
+X-Spam_bar: ---
+X-Spam_report: (-3.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-1, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H3=-0.01, RCVD_IN_MSPIKE_WL=-0.01,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -83,106 +85,41 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Kevin Wolf <kwolf@redhat.com>, Fam Zheng <fam@euphon.net>,
- Eduardo Habkost <ehabkost@redhat.com>, qemu-block@nongnu.org,
- "Michael S. Tsirkin" <mst@redhat.com>,
- Pankaj Gupta <pankaj.gupta.linux@gmail.com>, qemu-devel@nongnu.org,
- Raphael Norwitz <raphael.norwitz@nutanix.com>,
- Paolo Bonzini <pbonzini@redhat.com>, Max Reitz <mreitz@redhat.com>
+Cc: Kevin Wolf <kwolf@redhat.com>,
+ "Daniel P. =?ISO-8859-1?Q?Berrang=E9?=" <berrange@redhat.com>,
+ qemu-block@nongnu.org, qemu-devel@nongnu.org,
+ Markus Armbruster <armbru@redhat.com>, Max Reitz <mreitz@redhat.com>,
+ John Snow <jsnow@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
---LTeJQqWS0MN7I/qa
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+On Wed, 2020-07-08 at 14:33 +0200, Gerd Hoffmann wrote:
+> On Mon, Jun 08, 2020 at 12:40:27PM +0300, Maxim Levitsky wrote:
+> > blockdev-amend will be used similiar to blockdev-create
+> > to allow on the fly changes of the structure of the format based block devices.
+> 
+> This one breaks the build:
+> 
+> In file included from /home/kraxel/projects/qemu/include/block/throttle-groups.h:29,
+>                  from /home/kraxel/projects/qemu/include/sysemu/block-backend.h:17,
+>                  from /home/kraxel/projects/qemu/qemu-img.c:46:
+> /home/kraxel/projects/qemu/include/block/block_int.h:154:39: error: unknown type name ‘BlockdevAmendOptions’; did you mean ‘BlockdevAioOptions’?
+>                                        BlockdevAmendOptions *opts,
+>                                        ^~~~~~~~~~~~~~~~~~~~
+>                                        BlockdevAioOptions
+> make: *** [/home/kraxel/projects/qemu/rules.mak:69: qemu-img.o] Error 1
+> 
+> take care,
+>   Gerd
+> 
 
-On Tue, Jul 07, 2020 at 05:44:53PM +0200, Cornelia Huck wrote:
-> On Mon,  6 Jul 2020 14:56:48 +0100
-> Stefan Hajnoczi <stefanha@redhat.com> wrote:
->=20
-> Maybe mention 'pci' in the subject as well?
+Apparently I didn't add #include of qapi-types-block-core.h in block_int.h (I'll fix this in a patch soon),
+but it looks like throttle-groups.h includes "qemu/throttle.h" which includes "qapi/qapi-types-block-core.h",
+so it should be included explicitly here.
 
-I think this patch does too many things. I'll split up the generic and
-PCI parts so that the commit message is more accurate.
+Could you share your configure.sh options?
 
-> > Automatically size the number of virtio-scsi-pci, vhost-scsi-pci, and
-> > vhost-user-scsi-pci request virtqueues to match the number of vCPUs.
-> > Other transports continue to default to 1 request virtqueue.
-> >=20
-> > A 1:1 virtqueue:vCPU mapping ensures that completion interrupts are
-> > handled on the same vCPU that submitted the request.  No IPI is
-> > necessary to complete an I/O request and performance is improved.  The
-> > maximum number of MSI-X vectors and virtqueues limit are respected.
-> >=20
-> > Signed-off-by: Stefan Hajnoczi <stefanha@redhat.com>
-> > ---
-> >  include/hw/virtio/virtio-scsi.h |  2 ++
-> >  hw/core/machine.c               |  3 +++
-> >  hw/scsi/vhost-scsi.c            |  3 ++-
-> >  hw/scsi/vhost-user-scsi.c       |  3 ++-
-> >  hw/scsi/virtio-scsi.c           |  6 +++++-
-> >  hw/virtio/vhost-scsi-pci.c      | 10 +++++++---
-> >  hw/virtio/vhost-user-scsi-pci.c | 10 +++++++---
-> >  hw/virtio/virtio-scsi-pci.c     | 10 +++++++---
-> >  8 files changed, 35 insertions(+), 12 deletions(-)
->=20
-> (...)
->=20
-> > diff --git a/hw/virtio/virtio-scsi-pci.c b/hw/virtio/virtio-scsi-pci.c
-> > index 3ff9eb7ef6..fa4b3bfb50 100644
-> > --- a/hw/virtio/virtio-scsi-pci.c
-> > +++ b/hw/virtio/virtio-scsi-pci.c
-> > @@ -46,13 +46,17 @@ static void virtio_scsi_pci_realize(VirtIOPCIProxy =
-*vpci_dev, Error **errp)
-> >  {
-> >      VirtIOSCSIPCI *dev =3D VIRTIO_SCSI_PCI(vpci_dev);
-> >      DeviceState *vdev =3D DEVICE(&dev->vdev);
-> > -    VirtIOSCSICommon *vs =3D VIRTIO_SCSI_COMMON(vdev);
-> >      DeviceState *proxy =3D DEVICE(vpci_dev);
-> > +    VirtIOSCSIConf *conf =3D &dev->vdev.parent_obj.conf;
-> >      char *bus_name;
-> > =20
-> > +    if (conf->num_queues =3D=3D VIRTIO_SCSI_AUTO_NUM_QUEUES) {
-> > +        conf->num_queues =3D
-> > +            virtio_pci_optimal_num_queues(VIRTIO_SCSI_VQ_NUM_FIXED);
-> > +    }
-> > +
-> >      if (vpci_dev->nvectors =3D=3D DEV_NVECTORS_UNSPECIFIED) {
-> > -        vpci_dev->nvectors =3D vs->conf.num_queues +
-> > -                             VIRTIO_SCSI_VQ_NUM_FIXED + 1;
-> > +        vpci_dev->nvectors =3D conf->num_queues + VIRTIO_SCSI_VQ_NUM_F=
-IXED + 1;
-> >      }
-> > =20
-> >      /*
->=20
-> One corner case where the setup may end up being a bit odd is a
-> situation where nvectors was specified, but num_queues was not, and the
-> device suddenly ends up with more queues than vectors. But I don't see
-> a reason why you would want to specify nvectors but not num_queues in a
-> real word scenario, so I think we can ignore that corner case.
-
-I agree, I've ignored that case. Other options include printing a
-warning or even an error when num_queues disagrees with nvectors.
-
-> Reviewed-by: Cornelia Huck <cohuck@redhat.com>
-
---LTeJQqWS0MN7I/qa
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQEzBAEBCAAdFiEEhpWov9P5fNqsNXdanKSrs4Grc8gFAl8FxJYACgkQnKSrs4Gr
-c8hm3Af/UZ8zREP+OtdcXNPkzTW0qtTrWNA0n03akdKUDtrydgriLIzou1etv+Aa
-PPpfi+7J1UD2QiNaTBxmqM+MQnpEEOtcdlbfB0EcDC0yx7czzqBNbMn8nuL18//+
-jwpBHbLRbjmItf+lU+3WSu7CYTa4EAeTPYmjgXGwAlxYeYchDDikVHWMl89oG+3I
-VdfSncSKD+/d3YJ/uIbp2ydc8MVrWDITW/q3cvaOqs3D1xAowLav20WpNtKo8cga
-ssrqySJAEsqpJDY4/IXlG92m78nSOMj83auZCP6CxY2IrBsmELwlsvsNjSIGteRw
-5a5zU3LZiX9uwH9PvvY4/rusAxWUGA==
-=DREa
------END PGP SIGNATURE-----
-
---LTeJQqWS0MN7I/qa--
+Best regards,
+	Maxim Levitsky
 
 
