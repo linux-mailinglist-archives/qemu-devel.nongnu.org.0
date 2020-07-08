@@ -2,71 +2,108 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5689D219353
-	for <lists+qemu-devel@lfdr.de>; Thu,  9 Jul 2020 00:25:21 +0200 (CEST)
-Received: from localhost ([::1]:37660 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 35BE5219043
+	for <lists+qemu-devel@lfdr.de>; Wed,  8 Jul 2020 21:15:18 +0200 (CEST)
+Received: from localhost ([::1]:45088 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jtIVE-000827-Co
-	for lists+qemu-devel@lfdr.de; Wed, 08 Jul 2020 18:25:20 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:40886)
+	id 1jtFXI-0000yy-SH
+	for lists+qemu-devel@lfdr.de; Wed, 08 Jul 2020 15:15:16 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:56404)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <david@redhat.com>) id 1jtI0K-0005nl-Hq
- for qemu-devel@nongnu.org; Wed, 08 Jul 2020 17:53:24 -0400
-Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:29222
- helo=us-smtp-1.mimecast.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <david@redhat.com>) id 1jtI0I-0005LV-9s
- for qemu-devel@nongnu.org; Wed, 08 Jul 2020 17:53:24 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1594245201;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=cedthYX9XANVte4Y0kCgMXK9EVZ7zMFGGO304Vk6GPU=;
- b=bZWJX8OS5kKFFuy5LCcUFWtZFpaWwzYma3SY+82vlQ6HSeRxu9n+gqdrHeyHoNh7AuhegA
- BmJLvYSULNFZNqqEJ3JGIvymGw+gcQTkt9dzwd8QdY2Zi6nlzPHJqWIr5klwI6EFKtD88T
- Iz7uACTIMAVa7+DpJ4rXP178AgH440A=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-311-P62WhY8wPrWW435dLj4wmg-1; Wed, 08 Jul 2020 14:52:43 -0400
-X-MC-Unique: P62WhY8wPrWW435dLj4wmg-1
-Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
- [10.5.11.14])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 04F531E0A;
- Wed,  8 Jul 2020 18:52:40 +0000 (UTC)
-Received: from t480s.redhat.com (ovpn-113-117.ams2.redhat.com [10.36.113.117])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 9AE725D9F3;
- Wed,  8 Jul 2020 18:52:28 +0000 (UTC)
-From: David Hildenbrand <david@redhat.com>
-To: qemu-devel@nongnu.org
-Subject: [PATCH RFC 5/5] s390x: initial support for virtio-mem
-Date: Wed,  8 Jul 2020 20:51:35 +0200
-Message-Id: <20200708185135.46694-6-david@redhat.com>
-In-Reply-To: <20200708185135.46694-1-david@redhat.com>
-References: <20200708185135.46694-1-david@redhat.com>
+ (Exim 4.90_1) (envelope-from <andrey.shinkevich@virtuozzo.com>)
+ id 1jtFWD-0000Tb-2a; Wed, 08 Jul 2020 15:14:09 -0400
+Received: from mail-am6eur05on2096.outbound.protection.outlook.com
+ ([40.107.22.96]:64449 helo=EUR05-AM6-obe.outbound.protection.outlook.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <andrey.shinkevich@virtuozzo.com>)
+ id 1jtFW9-0001Ec-FU; Wed, 08 Jul 2020 15:14:07 -0400
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=EgseWSdieI7wFrfCLH7+iV31nlzIVfLU93MaiQRVuWzDyPqaBovV0wgAQ810a/1Fuf5f4QMrWWWWDLcf3njR1hKAKEQL0fmLSGxEJkS02Erxz6MWV5ovdchEG51SXWX7ifKFfGfZ8BwOmJ8Tr3bSDvfucnod1agbH9huN2sRn/ZLG/o6jtx+LWXyVq6K/mlyL1gXqUDOIp24Uuf/b8Im9cUv7vvCupJFqVlgRKnDjO/4rg0TeHXC75RA19BkAR4MvSS2j+o0bZ2n450okyxtgGt423+Wr6n4DbojW4Jpn2CQ0u1Tmkq0zs0rtvpC7HCifu0v66ceH/+jHDrTU0vR6g==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=RkK2nqYhvmfRVg4FbFE6YlY0mmETbH5nmqmbQkAS6JE=;
+ b=fWTYjnG90LjQvYJp6OVFMFr8gwnMyOSe3zVr4ehh6lVeB1rAXIETrh/UkLC+MrBIlNQqaaEdhLsXafP3aGd5QL6Bq0gNSDxzm+8/xkTjNbo2cNMaVJ7MVg8hDqTywXKV+fgmJUmcpsIDsZkVpTiM8EuVbEwBgMEerJvOproXqUbCWwB7QlSv6B8JRXSTPP7oiwmbgLXyE7EoxLReGz0cPoPK+e5elTuhBH/Uw9NMQYVi8f1LqHCeoaQnJwdPmXyimHcBxabMBw3MvtbALwOBw/uaCBtVcxkabLmUH45Jcy8pCPDjaU+YNJqFtA/S04GtwtaAnQeXzPq5WhPRI7pZtw==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=virtuozzo.com; dmarc=pass action=none
+ header.from=virtuozzo.com; dkim=pass header.d=virtuozzo.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=virtuozzo.com;
+ s=selector2;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=RkK2nqYhvmfRVg4FbFE6YlY0mmETbH5nmqmbQkAS6JE=;
+ b=aWwA2oqRho9XXbHbcS+pT9d+rLA1Jo2WT1AzhoVNQeyDqq3LTeWC/zI5RdiLhFpEvZ6XzDk+En3k9ulAygz3J1Jf+1qGnXPNj33mki3QcaVKIXKtx5QTSih++BquSzVQz9otK1PRKfrNsj1o+0M7u2+ydRahmLhKxpRJjMWRfgo=
+Authentication-Results: nongnu.org; dkim=none (message not signed)
+ header.d=none;nongnu.org; dmarc=none action=none header.from=virtuozzo.com;
+Received: from AM6PR08MB4070.eurprd08.prod.outlook.com (2603:10a6:20b:a3::25)
+ by AM7PR08MB5496.eurprd08.prod.outlook.com (2603:10a6:20b:de::20)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3174.21; Wed, 8 Jul
+ 2020 19:14:00 +0000
+Received: from AM6PR08MB4070.eurprd08.prod.outlook.com
+ ([fe80::78ec:8cb6:41f7:b2a0]) by AM6PR08MB4070.eurprd08.prod.outlook.com
+ ([fe80::78ec:8cb6:41f7:b2a0%5]) with mapi id 15.20.3174.021; Wed, 8 Jul 2020
+ 19:14:00 +0000
+Subject: Re: [PATCH v7 13/47] block: Use CAFs in block status functions
+To: Max Reitz <mreitz@redhat.com>, qemu-block@nongnu.org
+References: <20200625152215.941773-1-mreitz@redhat.com>
+ <20200625152215.941773-14-mreitz@redhat.com>
+From: Andrey Shinkevich <andrey.shinkevich@virtuozzo.com>
+Message-ID: <0b441000-d33b-e833-1ecd-dc343e7afe00@virtuozzo.com>
+Date: Wed, 8 Jul 2020 22:13:57 +0300
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:68.0)
+ Gecko/20100101 Thunderbird/68.9.0
+In-Reply-To: <20200625152215.941773-14-mreitz@redhat.com>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Transfer-Encoding: 7bit
+Content-Language: en-GB
+X-ClientProxiedBy: AM0PR06CA0137.eurprd06.prod.outlook.com
+ (2603:10a6:208:ab::42) To AM6PR08MB4070.eurprd08.prod.outlook.com
+ (2603:10a6:20b:a3::25)
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=david@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=207.211.31.120; envelope-from=david@redhat.com;
- helo=us-smtp-1.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/07/07 17:25:10
-X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
-X-Spam_score_int: -40
-X-Spam_score: -4.1
-X-Spam_bar: ----
-X-Spam_report: (-4.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-1, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-MS-Exchange-MessageSentRepresentingType: 1
+Received: from Admins-MacBook-Pro.local (109.252.114.191) by
+ AM0PR06CA0137.eurprd06.prod.outlook.com (2603:10a6:208:ab::42) with Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.3174.22 via Frontend Transport; Wed, 8 Jul 2020 19:13:59 +0000
+X-Originating-IP: [109.252.114.191]
+X-MS-PublicTrafficType: Email
+X-MS-Office365-Filtering-Correlation-Id: 4292c001-1f43-45d6-b664-08d8237311c5
+X-MS-TrafficTypeDiagnostic: AM7PR08MB5496:
+X-MS-Exchange-Transport-Forked: True
+X-Microsoft-Antispam-PRVS: <AM7PR08MB54966820E9F636CB8737DF8FF4670@AM7PR08MB5496.eurprd08.prod.outlook.com>
+X-MS-Oob-TLC-OOBClassifiers: OLM:854;
+X-MS-Exchange-SenderADCheck: 1
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: j60rA12HQ7vNbMd8iEm+5fihT1i4wygarAGpUMfevuJiERecyo54ewaOS1mcNYE1I1pYS/rU5anUQWqTgzBLHQzW1MIdpZ6tK9HD+ehg15l88y+yR2fjXgJ95Os2PTcRAFADCRal1EZPayWmvnXOvd5hyrvHLnrgiJQdSHF9gdrafn/nJI6Xg/OAdh/VWB1a8MkD68pcNxpSiL61MJNk8WsQMZf7FEwWBpPhCsRpkGw2XfxgjC3NzdCc47oT/kmjlNfwEv8T+KNG6T8b9gkYigB4w6jEf2sHCrhqnnNOiW+fp4qRFV39USxulrdKUK3ozFLHVdJisDPUH2kUKFBg2XMnJyL3g+jSpt2PZuluLI8R0vOf2wHtlDBewBTimnUt
+X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:AM6PR08MB4070.eurprd08.prod.outlook.com; PTR:; CAT:NONE;
+ SFTY:;
+ SFS:(4636009)(396003)(346002)(376002)(136003)(366004)(39850400004)(53546011)(6506007)(5660300002)(26005)(186003)(16526019)(44832011)(54906003)(66476007)(66556008)(956004)(2616005)(316002)(6486002)(66946007)(8936002)(2906002)(8676002)(31696002)(36756003)(86362001)(52116002)(4326008)(31686004)(6512007)(83380400001)(478600001)(43740500002);
+ DIR:OUT; SFP:1102; 
+X-MS-Exchange-AntiSpam-MessageData: /fkWkpmKkyWvOJiOPXuJ0QAd6sZUdOZGQCtB8bh+QZwnoe4++SDL/NNhn/tpbL084Gy1B4ScqJfoCMyLAwz6jHvSN2Ut/isw3lmuGC/KT4SGvJTms6M5MknDkYi/Bg5K59XJvPKKBlLmltcuICp8J8AOekKngp6W3vQJ4wVFJlIF8km7RrSfgYdDHGDrdFPhVbRdIN3ijjQSCzl3pISJ0jkgR1GyB7B2mK8A1vZAeCT8MWTIqtktaZbvapzD7t/S8Q6IDv5hfFF9Yy1cX+BN7BApNDkbNBVqzpDhvNgbjpGM14ShHYDZUsN5pwn4QEboh2laGXJqmZRTXani3axgrhFthX39XfQrgFfmOus0Umruppy8REv3s6pSwr9ytEXuDWQ/FwN/lGerchCVk3tAfU7HQS08Xv2JGMBB7JPJ6HxRFMrclM8QoSG11tNgtV0JCEpJ+BPfh60VqvgVCYRDs4iHgn6cP8Up3rjow8A+0nxCWd5On+Tif3PhX0B8wxNC
+X-OriginatorOrg: virtuozzo.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 4292c001-1f43-45d6-b664-08d8237311c5
+X-MS-Exchange-CrossTenant-AuthSource: AM6PR08MB4070.eurprd08.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 08 Jul 2020 19:14:00.2034 (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 0bc7f26d-0264-416e-a6fc-8352af79c58f
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: RFqg8FxzCdLgAAYSQdCgniH/R8v2ehi0puhwYhFKYZkkoTJhm2+BeBonPbBmmiIoUi+C8U4S7v8JVBxxH8lgwnBw6sFa91EVZye8z849Uuc=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: AM7PR08MB5496
+Received-SPF: pass client-ip=40.107.22.96;
+ envelope-from=andrey.shinkevich@virtuozzo.com;
+ helo=EUR05-AM6-obe.outbound.protection.outlook.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/07/08 15:14:02
+X-ACL-Warn: Detected OS   = Windows NT kernel [generic] [fuzzy]
+X-Spam_score_int: -37
+X-Spam_score: -3.8
+X-Spam_bar: ---
+X-Spam_report: (-3.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ MSGID_FROM_MTA_HEADER=0.001, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-1,
+ SPF_HELO_PASS=-0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -79,288 +116,82 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Thomas Huth <thuth@redhat.com>, Janosch Frank <frankja@linux.ibm.com>,
- "Michael S . Tsirkin" <mst@redhat.com>, Cornelia Huck <cohuck@redhat.com>,
- Heiko Carstens <heiko.carstens@de.ibm.com>, Halil Pasic <pasic@linux.ibm.com>,
- Christian Borntraeger <borntraeger@de.ibm.com>, qemu-s390x@nongnu.org,
- David Hildenbrand <david@redhat.com>,
- Claudio Imbrenda <imbrenda@linux.ibm.com>, Richard Henderson <rth@twiddle.net>
+Cc: Kevin Wolf <kwolf@redhat.com>,
+ Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>, qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Let's wire up the initial, basic virtio-mem implementation in QEMU. It will
-have to see some important extensions (esp., resizeable allocations)
-before it can be considered production ready. Also, the focus on the Linux
-driver side is on memory hotplug, there are a lot of things optimize in
-the future to improve memory unplug capabilities. However, the basics
-are in place.
+On 25.06.2020 18:21, Max Reitz wrote:
+> Use the child access functions in the block status inquiry functions as
+> appropriate.
+>
+> Signed-off-by: Max Reitz <mreitz@redhat.com>
+> ---
+>   block/io.c | 19 ++++++++++---------
+>   1 file changed, 10 insertions(+), 9 deletions(-)
+>
+> diff --git a/block/io.c b/block/io.c
+> index 385176b331..dc9891d6ce 100644
+> --- a/block/io.c
+> +++ b/block/io.c
+> @@ -2407,11 +2407,12 @@ static int coroutine_fn bdrv_co_block_status(BlockDriverState *bs,
+>       if (ret & (BDRV_BLOCK_DATA | BDRV_BLOCK_ZERO)) {
+>           ret |= BDRV_BLOCK_ALLOCATED;
+>       } else if (want_zero) {
+> +        BlockDriverState *cow_bs = bdrv_cow_bs(bs);
+> +
+>           if (bdrv_unallocated_blocks_are_zero(bs)) {
+>               ret |= BDRV_BLOCK_ZERO;
+> -        } else if (bs->backing) {
+> -            BlockDriverState *bs2 = bs->backing->bs;
+> -            int64_t size2 = bdrv_getlength(bs2);
+> +        } else if (cow_bs) {
+> +            int64_t size2 = bdrv_getlength(cow_bs);
+>   
+>               if (size2 >= 0 && offset >= size2) {
+>                   ret |= BDRV_BLOCK_ZERO;
+> @@ -2477,7 +2478,7 @@ static int coroutine_fn bdrv_co_block_status_above(BlockDriverState *bs,
+>       bool first = true;
+>   
+>       assert(bs != base);
+> -    for (p = bs; p != base; p = backing_bs(p)) {
+> +    for (p = bs; p != base; p = bdrv_filter_or_cow_bs(p)) {
+>           ret = bdrv_co_block_status(p, want_zero, offset, bytes, pnum, map,
+>                                      file);
+>           if (ret < 0) {
+> @@ -2551,7 +2552,7 @@ int bdrv_block_status_above(BlockDriverState *bs, BlockDriverState *base,
+>   int bdrv_block_status(BlockDriverState *bs, int64_t offset, int64_t bytes,
+>                         int64_t *pnum, int64_t *map, BlockDriverState **file)
+>   {
+> -    return bdrv_block_status_above(bs, backing_bs(bs),
+> +    return bdrv_block_status_above(bs, bdrv_filter_or_cow_bs(bs),
+>                                      offset, bytes, pnum, map, file);
+>   }
+>   
+> @@ -2561,9 +2562,9 @@ int coroutine_fn bdrv_is_allocated(BlockDriverState *bs, int64_t offset,
+>       int ret;
+>       int64_t dummy;
+>   
+> -    ret = bdrv_common_block_status_above(bs, backing_bs(bs), false, offset,
+> -                                         bytes, pnum ? pnum : &dummy, NULL,
+> -                                         NULL);
+> +    ret = bdrv_common_block_status_above(bs, bdrv_filter_or_cow_bs(bs), false,
+> +                                         offset, bytes, pnum ? pnum : &dummy,
+> +                                         NULL, NULL);
+>       if (ret < 0) {
+>           return ret;
+>       }
+> @@ -2626,7 +2627,7 @@ int bdrv_is_allocated_above(BlockDriverState *top,
+>               break;
+>           }
+>   
+> -        intermediate = backing_bs(intermediate);
+> +        intermediate = bdrv_filter_or_cow_bs(intermediate);
+>       }
+>   
+>       *pnum = n;
 
-Block migration for now, as we'll have to take proper care of storage
-keys and storage attributes. Also, make sure to not hotplug huge pages
-to a setup without huge pages.
 
-With a Linux guest that supports virtio-mem (and has
-CONFIG_MEMORY_HOTPLUG_DEFAULT_ONLINE set for now), a basic example.
-
-1. Start a VM with 2G initial memory and a virtio-mem device with a maximum
-   capacity of 18GB (and an initial size of 300M):
-    sudo qemu-system-s390x \
-        --enable-kvm \
-        -m 2G,maxmem=20G \
-        -smp 4 \
-        -nographic \
-        -chardev socket,id=monitor,path=/var/tmp/monitor,server,nowait \
-        -mon chardev=monitor,mode=readline \
-        -net nic -net user \
-        -hda s390x.cow2 \
-        -object memory-backend-ram,id=mem0,size=18G \
-        -device virtio-mem-ccw,id=vm0,memdev=mem0,requested-size=300M
-
-2. Query the current size of virtio-mem device:
-    (qemu) info memory-devices
-    Memory device [virtio-mem]: "vm0"
-      memaddr: 0x80000000
-      node: 0
-      requested-size: 314572800
-      size: 314572800
-      max-size: 19327352832
-      block-size: 1048576
-      memdev: /objects/mem0
-
-3. Request to grow it to 8GB:
-    (qemu) qom-set vm0 requested-size 8G
-    (qemu) info memory-devices
-    Memory device [virtio-mem]: "vm0"
-      memaddr: 0x80000000
-      node: 0
-      requested-size: 8589934592
-      size: 8589934592
-      max-size: 19327352832
-      block-size: 1048576
-      memdev: /objects/mem0
-
-4. Request to shrink it to 800M (might take a while, might not fully
-   succeed, and might not be able to remove memory blocks in Linux):
-  (qemu) qom-set vm0 requested-size 800M
-  (qemu) info memory-devices
-  Memory device [virtio-mem]: "vm0"
-    memaddr: 0x80000000
-    node: 0
-    requested-size: 838860800
-    size: 838860800
-    max-size: 19327352832
-    block-size: 1048576
-    memdev: /objects/mem0
-
-Note: Due to lack of resizeable allocations, we will go ahead and
-reserve a 18GB vmalloc area + size the QEMU RAM slot + KVM mamory slot
-18GB. echo 1 > /proc/sys/vm/overcommit_memory might be required for
-now. In the future, this area will instead grow on actual demand and shrink
-when possible.
-
-Signed-off-by: David Hildenbrand <david@redhat.com>
----
- hw/s390x/Kconfig           |   1 +
- hw/s390x/Makefile.objs     |   1 +
- hw/s390x/s390-virtio-ccw.c | 116 ++++++++++++++++++++++++++++++++++++-
- hw/virtio/virtio-mem.c     |   2 +
- 4 files changed, 118 insertions(+), 2 deletions(-)
-
-diff --git a/hw/s390x/Kconfig b/hw/s390x/Kconfig
-index 5e7d8a2bae..b8619c1adc 100644
---- a/hw/s390x/Kconfig
-+++ b/hw/s390x/Kconfig
-@@ -10,3 +10,4 @@ config S390_CCW_VIRTIO
-     select SCLPCONSOLE
-     select VIRTIO_CCW
-     select MSI_NONBROKEN
-+    select VIRTIO_MEM_SUPPORTED
-diff --git a/hw/s390x/Makefile.objs b/hw/s390x/Makefile.objs
-index a46a1c7894..924775d6f0 100644
---- a/hw/s390x/Makefile.objs
-+++ b/hw/s390x/Makefile.objs
-@@ -20,6 +20,7 @@ obj-$(CONFIG_VIRTIO_NET) += virtio-ccw-net.o
- obj-$(CONFIG_VIRTIO_BLK) += virtio-ccw-blk.o
- obj-$(call land,$(CONFIG_VIRTIO_9P),$(CONFIG_VIRTFS)) += virtio-ccw-9p.o
- obj-$(CONFIG_VHOST_VSOCK) += vhost-vsock-ccw.o
-+obj-$(CONFIG_VIRTIO_MEM) += virtio-ccw-mem.o
- endif
- obj-y += css-bridge.o
- obj-y += ccw-device.o
-diff --git a/hw/s390x/s390-virtio-ccw.c b/hw/s390x/s390-virtio-ccw.c
-index 577590e623..e714035077 100644
---- a/hw/s390x/s390-virtio-ccw.c
-+++ b/hw/s390x/s390-virtio-ccw.c
-@@ -45,6 +45,7 @@
- #include "sysemu/sysemu.h"
- #include "hw/s390x/pv.h"
- #include "migration/blocker.h"
-+#include "hw/mem/memory-device.h"
- 
- static Error *pv_mig_blocker;
- 
-@@ -542,11 +543,119 @@ static void s390_machine_reset(MachineState *machine)
-     s390_ipl_clear_reset_request();
- }
- 
-+static void s390_virtio_md_pre_plug(HotplugHandler *hotplug_dev,
-+                                    DeviceState *dev, Error **errp)
-+{
-+    HotplugHandler *hotplug_dev2 = qdev_get_bus_hotplug_handler(dev);
-+    MemoryDeviceState *md = MEMORY_DEVICE(dev);
-+    MemoryDeviceClass *mdc = MEMORY_DEVICE_GET_CLASS(md);
-+    Error *local_err = NULL;
-+
-+    if (!hotplug_dev2 && dev->hotplugged) {
-+        /*
-+         * Without a bus hotplug handler, we cannot control the plug/unplug
-+         * order. We should never reach this point when hotplugging, however,
-+         * better add a safety net.
-+         */
-+        error_setg(errp, "hotplug of virtio based memory devices not supported"
-+                         " on this bus.");
-+        return;
-+    }
-+
-+    /*
-+     * KVM does not support device memory with a bigger page size than initial
-+     * memory. The new memory backend is not mapped yet, so
-+     * qemu_maxrampagesize() won't consider it.
-+     */
-+    if (kvm_enabled()) {
-+        MemoryRegion *mr = mdc->get_memory_region(md, &local_err);
-+
-+        if (local_err) {
-+            goto out;
-+        }
-+        if (qemu_ram_pagesize(mr->ram_block) > qemu_maxrampagesize()) {
-+            error_setg(&local_err, "Device memory has a bigger page size than"
-+                       " initial memory");
-+            goto out;
-+        }
-+    }
-+
-+    /*
-+     * First, see if we can plug this memory device at all. If that
-+     * succeeds, branch of to the actual hotplug handler.
-+     */
-+    memory_device_pre_plug(md, MACHINE(hotplug_dev), NULL, &local_err);
-+    if (!local_err && hotplug_dev2) {
-+        hotplug_handler_pre_plug(hotplug_dev2, dev, &local_err);
-+    }
-+out:
-+    error_propagate(errp, local_err);
-+}
-+
-+static void s390_virtio_md_plug(HotplugHandler *hotplug_dev,
-+                                DeviceState *dev, Error **errp)
-+{
-+    HotplugHandler *hotplug_dev2 = qdev_get_bus_hotplug_handler(dev);
-+    static Error *migration_blocker;
-+    bool add_blocker = !migration_blocker;
-+    Error *local_err = NULL;
-+
-+    /*
-+     * Until we support migration of storage keys and storage attributes
-+     * for anything that's not initial memory, let's block migration.
-+     */
-+    if (add_blocker) {
-+        error_setg(&migration_blocker, "storage keys/attributes not yet"
-+                   " migrated for memory devices");
-+        migrate_add_blocker(migration_blocker, &local_err);
-+        if (local_err) {
-+            error_free_or_abort(&migration_blocker);
-+            goto out;
-+        }
-+    }
-+
-+    /*
-+     * Plug the memory device first and then branch off to the actual
-+     * hotplug handler. If that one fails, we can easily undo the memory
-+     * device bits.
-+     */
-+    memory_device_plug(MEMORY_DEVICE(dev), MACHINE(hotplug_dev));
-+    if (hotplug_dev2) {
-+        hotplug_handler_plug(hotplug_dev2, dev, &local_err);
-+        if (local_err) {
-+            memory_device_unplug(MEMORY_DEVICE(dev), MACHINE(hotplug_dev));
-+            if (add_blocker) {
-+                migrate_del_blocker(migration_blocker);
-+                error_free_or_abort(&migration_blocker);
-+            }
-+        }
-+    }
-+out:
-+    error_propagate(errp, local_err);
-+}
-+
-+static void s390_virtio_md_unplug_request(HotplugHandler *hotplug_dev,
-+                                          DeviceState *dev, Error **errp)
-+{
-+    /* We don't support hot unplug of virtio based memory devices */
-+    error_setg(errp, "virtio based memory devices cannot be unplugged.");
-+}
-+
-+static void s390_machine_device_pre_plug(HotplugHandler *hotplug_dev,
-+                                         DeviceState *dev, Error **errp)
-+{
-+    if (object_dynamic_cast(OBJECT(dev), TYPE_VIRTIO_MEM_CCW)) {
-+        s390_virtio_md_pre_plug(hotplug_dev, dev, errp);
-+    }
-+}
-+
- static void s390_machine_device_plug(HotplugHandler *hotplug_dev,
-                                      DeviceState *dev, Error **errp)
- {
-     if (object_dynamic_cast(OBJECT(dev), TYPE_CPU)) {
-         s390_cpu_plug(hotplug_dev, dev, errp);
-+    } else if (object_dynamic_cast(OBJECT(dev), TYPE_VIRTIO_MEM_CCW)) {
-+        s390_virtio_md_plug(hotplug_dev, dev, errp);
-     }
- }
- 
-@@ -555,7 +664,8 @@ static void s390_machine_device_unplug_request(HotplugHandler *hotplug_dev,
- {
-     if (object_dynamic_cast(OBJECT(dev), TYPE_CPU)) {
-         error_setg(errp, "CPU hot unplug not supported on this machine");
--        return;
-+    } else if (object_dynamic_cast(OBJECT(dev), TYPE_VIRTIO_MEM_CCW)) {
-+        s390_virtio_md_unplug_request(hotplug_dev, dev, errp);
-     }
- }
- 
-@@ -596,7 +706,8 @@ static const CPUArchIdList *s390_possible_cpu_arch_ids(MachineState *ms)
- static HotplugHandler *s390_get_hotplug_handler(MachineState *machine,
-                                                 DeviceState *dev)
- {
--    if (object_dynamic_cast(OBJECT(dev), TYPE_CPU)) {
-+    if (object_dynamic_cast(OBJECT(dev), TYPE_CPU) ||
-+        object_dynamic_cast(OBJECT(dev), TYPE_VIRTIO_MEM_CCW)) {
-         return HOTPLUG_HANDLER(machine);
-     }
-     return NULL;
-@@ -668,6 +779,7 @@ static void ccw_machine_class_init(ObjectClass *oc, void *data)
-     mc->possible_cpu_arch_ids = s390_possible_cpu_arch_ids;
-     /* it is overridden with 'host' cpu *in kvm_arch_init* */
-     mc->default_cpu_type = S390_CPU_TYPE_NAME("qemu");
-+    hc->pre_plug = s390_machine_device_pre_plug;
-     hc->plug = s390_machine_device_plug;
-     hc->unplug_request = s390_machine_device_unplug_request;
-     nc->nmi_monitor_handler = s390_nmi;
-diff --git a/hw/virtio/virtio-mem.c b/hw/virtio/virtio-mem.c
-index 65850530e7..e1b3275089 100644
---- a/hw/virtio/virtio-mem.c
-+++ b/hw/virtio/virtio-mem.c
-@@ -53,6 +53,8 @@
-  */
- #if defined(TARGET_X86_64) || defined(TARGET_I386)
- #define VIRTIO_MEM_USABLE_EXTENT (2 * (128 * MiB))
-+#elif defined(TARGET_S390X)
-+#define VIRTIO_MEM_USABLE_EXTENT (2 * (256 * MiB))
- #else
- #error VIRTIO_MEM_USABLE_EXTENT not defined
- #endif
--- 
-2.26.2
+Reviewed-by: Andrey Shinkevich <andrey.shinkevich@virtuozzo.com>
 
 
