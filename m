@@ -2,130 +2,76 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B82DA21937B
-	for <lists+qemu-devel@lfdr.de>; Thu,  9 Jul 2020 00:32:48 +0200 (CEST)
-Received: from localhost ([::1]:47220 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B1EC42193A1
+	for <lists+qemu-devel@lfdr.de>; Thu,  9 Jul 2020 00:40:01 +0200 (CEST)
+Received: from localhost ([::1]:56776 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jtIcR-0006dZ-OS
-	for lists+qemu-devel@lfdr.de; Wed, 08 Jul 2020 18:32:47 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:45836)
+	id 1jtIjQ-0005Sv-Kz
+	for lists+qemu-devel@lfdr.de; Wed, 08 Jul 2020 18:40:00 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:48674)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1)
- (envelope-from <prvs=45148fd95=Dmitry.Fomichev@wdc.com>)
- id 1jtIHx-0005sO-Ka; Wed, 08 Jul 2020 18:11:37 -0400
-Received: from esa4.hgst.iphmx.com ([216.71.154.42]:15435)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1)
- (envelope-from <prvs=45148fd95=Dmitry.Fomichev@wdc.com>)
- id 1jtIHt-00081O-Aq; Wed, 08 Jul 2020 18:11:37 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple;
- d=wdc.com; i=@wdc.com; q=dns/txt; s=dkim.wdc.com;
- t=1594246293; x=1625782293;
- h=from:to:cc:subject:date:message-id:references:
- in-reply-to:content-id:content-transfer-encoding: mime-version;
- bh=+0HWQhhNg59F9KRyuxj9MWrM4TEi/vT4N6EKs81OPD4=;
- b=rEmyI/b5GVhwEi2JV2CV3286chmYt4bvQ9wPs/G4o4FJtbjnf41rLkPb
- Bl1WUUbGa823h8U0W1/NlyLkPwjN3FFcW/4H8q075G25nNrQIkVDcIzHP
- kuJ+cn+vPxpfB+JGZMxqnyTA/cAc9g7yWzpvAylAnhweaRWAAo5eyDsS2
- 28E/c2BTVhQK0x4UVRTYuLMx/i9geZbTNmtf+2VwghntH4Mc9xvVLs/SU
- a1l7x7AwAITVjSJpRgW59FgSVVRAei/As+kjjTblB4P1JM9Pue8qk6bSC
- i7VZ4lIs4EKjX1ZcDKzv21939RbKsu1c1b2DH3/QeeM2mvHjn0/VlSeoM w==;
-IronPort-SDR: pwW4RKNgFzFMdW14IOD0NIWnRjmkFtvI1K0Gwhua4wr5Z5jltKC94+gpYjwUDk1/9fmfsz1JlI
- 77DLK925A5JFzeWQ2amz0nJeZcMyZ3DeftkA7ZFDyqFsH95PF9hW5KML4cQThXcdT6iTJGX+bz
- EpAQHzcvF7tgkCccLAfzN+cygQXQv3ceH7ruKcqLgont/Hzs9T60e/RlcDkIvSyYsOx1iBaLtQ
- KJk8gpv2YJDXz3jh5/kwVWqrOtA0juGNtHHF5EEeDJBLDbhjIgqbYZAVXZr8ssD/cJDsk899PW
- WHc=
-X-IronPort-AV: E=Sophos;i="5.75,329,1589212800"; d="scan'208";a="141965960"
-Received: from mail-bn8nam11lp2177.outbound.protection.outlook.com (HELO
- NAM11-BN8-obe.outbound.protection.outlook.com) ([104.47.58.177])
- by ob1.hgst.iphmx.com with ESMTP; 09 Jul 2020 06:11:29 +0800
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=JXqSXa2RNZu2I0POnfEg3EGPu8BxSFJwP6b08z9UyRBmlWw422uXqCWPtZOqjGJ6U2qKTAzuJCupf3cq5HQqPTP0kIt6VPsTe/eXCLBQhbCTsdmAqgMY46kUCHEWS4aUmEoQO33QrMDInBbSblZGd3I9UAW1j8hVabljA7b9UpJLEMaRHU41ugbXQcbtSO49YGclKLKzaLygkMCMcqZpS0nCnQztjIMnoNRdNzPpn85N4TUrgm0q5Rgj6jpqa2C/J8NAwb1rLayGC6l+5uq5tQvBbTmCYq0mwLeWZbrXuRp/b/NVsHdss0lB+vG0g8yar8Rs/U+ZpF93F1BF1IA4yw==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=+0HWQhhNg59F9KRyuxj9MWrM4TEi/vT4N6EKs81OPD4=;
- b=JU2SHFBeO9rZ2FabNYM1Epf5RFCDtE4/w+N0Ry3ON0KxCfhMSvNy0bRfBOUlR82rbUasM3DlwUc32j5JVajaLW9TwsBioKJX5OwOyNh/7lE64o2SI6S2FY/z1DX9xl4yrlsbTCywUe44YvS/YglwSU/XWX7aUToKxKe6gOirgZ7snph53B7mM9vGfXiehWsU/hlJ5Z87hN5NgV0yU03iwR5p+JGFtgsrxWPazOpPoLdpdWxkm5IpAzyXGhBml1SUfSppqHyW4/soEq7zwx0F713u98gblc0PkLfR6MWpqkVU61D57MfSvgzJ6/dAckO78F45ol3gDDAhUdAyT3BxEg==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=wdc.com; dmarc=pass action=none header.from=wdc.com; dkim=pass
- header.d=wdc.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=sharedspace.onmicrosoft.com; s=selector2-sharedspace-onmicrosoft-com;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=+0HWQhhNg59F9KRyuxj9MWrM4TEi/vT4N6EKs81OPD4=;
- b=h7pFScvwDihXjud2EvPZZZlqOqFwERE9x/PId3ic0vnzubzPaltR9EmsOV9F3dAe6O3U7cwfhA4qxu67i+5d157M8cLJd+S69DL1BiZhN9Qny6dBDTm5UKaPXe55CPncIB8Dv6kdQsmy1kM08kiO40Vs/bHIp+S73NPMQZPFOok=
-Received: from MN2PR04MB5951.namprd04.prod.outlook.com (2603:10b6:208:3f::13)
- by MN2PR04MB5629.namprd04.prod.outlook.com (2603:10b6:208:a6::23)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3153.22; Wed, 8 Jul
- 2020 22:11:26 +0000
-Received: from MN2PR04MB5951.namprd04.prod.outlook.com
- ([fe80::60c5:4424:8ce4:59a9]) by MN2PR04MB5951.namprd04.prod.outlook.com
- ([fe80::60c5:4424:8ce4:59a9%5]) with mapi id 15.20.3153.029; Wed, 8 Jul 2020
- 22:11:26 +0000
-From: Dmitry Fomichev <Dmitry.Fomichev@wdc.com>
-To: "philmd@redhat.com" <philmd@redhat.com>, "qemu-devel@nongnu.org"
- <qemu-devel@nongnu.org>
-Subject: Re: [PATCH v3 1/4] hw/block/nvme: Update specification URL
-Thread-Topic: [PATCH v3 1/4] hw/block/nvme: Update specification URL
-Thread-Index: AQHWTs5IX/GZFQcqYEqsstSyx6DlXKj+S9OA
-Date: Wed, 8 Jul 2020 22:11:26 +0000
-Message-ID: <d77bf9934304827d313a962ea5dc9b2ac37b4f97.camel@wdc.com>
-References: <20200630110429.19972-1-philmd@redhat.com>
- <20200630110429.19972-2-philmd@redhat.com>
-In-Reply-To: <20200630110429.19972-2-philmd@redhat.com>
-Accept-Language: en-US
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-user-agent: Evolution 3.32.5 (3.32.5-1.fc30) 
-authentication-results: redhat.com; dkim=none (message not signed)
- header.d=none;redhat.com; dmarc=none action=none header.from=wdc.com;
-x-originating-ip: [100.35.204.196]
-x-ms-publictraffictype: Email
-x-ms-office365-filtering-ht: Tenant
-x-ms-office365-filtering-correlation-id: 5d0af543-e46a-48a9-9741-08d8238bdb98
-x-ms-traffictypediagnostic: MN2PR04MB5629:
-x-microsoft-antispam-prvs: <MN2PR04MB56290951513DECC53BFA4477E1670@MN2PR04MB5629.namprd04.prod.outlook.com>
-wdcipoutbound: EOP-TRUE
-x-ms-oob-tlc-oobclassifiers: OLM:3968;
-x-forefront-prvs: 04583CED1A
-x-ms-exchange-senderadcheck: 1
-x-microsoft-antispam: BCL:0;
-x-microsoft-antispam-message-info: 3MyWN2wkcW0VqUp16/yp+cgD0qXsHjoL3cdyDh3K84gegF36XWFBc0ViODa4Ws/RA3Kud+19tFoVcGS5VBdeQfJGdzxo520e9S+TK/5biTQ4YWmm9+DrSwEBjpjNZh+CepX69j+gep991n5bGqpRk7XgH72ckxPaJQAaO0jDFwLbD+jXOcGR79tuIvzQGdWjtU/wOhfeERhUWnnFVYoNfGz5x2iH7q9u/Nw1n66lsuLbtbkVa+pXUASXj/XNxNV/cw0zjQ/cg4EgvnuXFfJ6QinISo8mtKncpyu2xGJM/MXenVZKq4imClmWOq4gkueKeCKSGyCB+4CDJEResP3pTFM8FkKWRNNPUQyJJeSUnZ6q2XABG+I/cZXoG4QrM+kJ8zTYuEnKrDg89xfK1sTJbw==
-x-forefront-antispam-report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:MN2PR04MB5951.namprd04.prod.outlook.com; PTR:; CAT:NONE;
- SFTY:;
- SFS:(4636009)(396003)(376002)(346002)(366004)(39860400002)(136003)(8676002)(966005)(15650500001)(71200400001)(5660300002)(2906002)(8936002)(26005)(186003)(66446008)(110136005)(86362001)(76116006)(54906003)(36756003)(4326008)(6506007)(2616005)(66476007)(64756008)(66556008)(6486002)(4744005)(83380400001)(6512007)(478600001)(316002)(66946007);
- DIR:OUT; SFP:1102; 
-x-ms-exchange-antispam-messagedata: 2v9W02MONE1vg/4Hg/1Ih8eqcwy7lmkur5CeYz7yoCO+1shCcn6cT0gmucbSMK+GktfFMSdQ9l6Sb46iifE0y8fIc19LfBFED+swst1MbUdCqtSgHa12zGxLATxYMJwWM0LoPNKUaM+XLDGo3J6tYO4UVNdCYUgygSPY+I2jccD7Znmux4TFgFrc9ymbyOv6ODSjYBI8nGDpZRaVjjLqNY6s1DmL1ZyP/jBmZklguqp1+GGXc26IRc/t9fpRbVH4xLBV6sOXzbi5N1xSTecqhVKCmnElMbEI5if/7G3vWTKQrfVOfm39New49Lsvu4Bu+lONC/FvHA5F7udSoarRvaKqd+OFAqHh4p1criAaC1WmFXA12+tw9DGMkg1gZRQbQtbhgU6kzkRSiS1hrYZotIhb9b9QVqOCrxgT5WetssYlax+YM7/CxDu5vWpswx9NcB4ATD+j9fR25AqUVAcChdsBb/MB3L6ygJQeW+ykKhZwXVE/mtc0Pb3zj0JclC4j
-x-ms-exchange-transport-forked: True
-Content-Type: text/plain; charset="utf-8"
-Content-ID: <E20E5ABC28A80B44960A30BFD3F6199A@namprd04.prod.outlook.com>
-Content-Transfer-Encoding: base64
+ (Exim 4.90_1) (envelope-from <jcmvbkbc@gmail.com>)
+ id 1jtIRv-0002Nu-Ns
+ for qemu-devel@nongnu.org; Wed, 08 Jul 2020 18:21:55 -0400
+Received: from mail-pf1-x433.google.com ([2607:f8b0:4864:20::433]:35773)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <jcmvbkbc@gmail.com>)
+ id 1jtIRu-00014k-37
+ for qemu-devel@nongnu.org; Wed, 08 Jul 2020 18:21:55 -0400
+Received: by mail-pf1-x433.google.com with SMTP id a14so102311pfi.2
+ for <qemu-devel@nongnu.org>; Wed, 08 Jul 2020 15:21:53 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=AoJvDAGT430G1BTP39FXCnWjeJM+zidJp/hRJrqeMXI=;
+ b=FXp5LteJZtF9vT967ojQnq3Gv8/f5lwTgc8+kLwDOpMNIELzjCLakVWxpEG6NjJzjQ
+ /vkuxorQD6is4PDxPFfme5II6jxL7AB3sWWA+xgzRvrssw/7CnzZAJ4YOZLw488Ix5to
+ +0yUh6uTC0EPWiXj4IS2+hsni9zU69+Ng0wNPmbFYCXRyTsSJUV6SOOzgTWxX6cm+FKh
+ +whGn6BM4DUbMp/sqIRL9NgkDr4olY4SOFHHqISGrJbe7VOivwx7CtjzXP7AZJfdLVgJ
+ tC3/DeTOMAXBU8l1iR9vQVekWrkMwi6EGkDS49Ql7rzyBmob/Rr3WiMDsXZ3eIjR6yUV
+ /KrA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=AoJvDAGT430G1BTP39FXCnWjeJM+zidJp/hRJrqeMXI=;
+ b=i769YucXNF2dAe7pK0E6JgcmWQjlB5piOvhyma/puIBujFzwYuWepDYJ6a4JCCER/7
+ 2iEZcjqdAMNspqNLsAw+0UBxRITRW6l/nUiuCVOdfy1eCRhfnYSHRbiuFV+oxk5tApVb
+ zZDUaOmWWhDnZi/ZivIUpUayjT5lZMI52l0+SFCfbo1+eqXsO1FuylRsfZQpVI/KAdAK
+ a9mcbQxkNDgMKvO+NOjeAnAcWNh4KJ1QwiFmrXeOjOG8fTAHABi9xZaADgsaKu4MMHf1
+ +BExw1f+Tmyv5C9FXb2N8HZ8J4X18mwr0stiS5O3sFa3myV00WNuBUsC0UGcVOOK2L94
+ xYOQ==
+X-Gm-Message-State: AOAM530vz6XsTvHy14GL7musjkPe0aLoV7gkLJCqYmA9hsZJpm+3ITW+
+ 4TtpE9UfoZD1dL5EQI+sIul9jIiz
+X-Google-Smtp-Source: ABdhPJzhoLbUCo9Yq3/a9wpcJfij8dK0v1rQBxOwxpqh4aYKq8gpffgXemTobnNkVsOWpv6qHsyPHQ==
+X-Received: by 2002:a63:7a56:: with SMTP id j22mr51495943pgn.293.1594246912295; 
+ Wed, 08 Jul 2020 15:21:52 -0700 (PDT)
+Received: from octofox.cadence.com ([2601:641:400:e00:19b7:f650:7bbe:a7fb])
+ by smtp.gmail.com with ESMTPSA id t73sm693517pfc.78.2020.07.08.15.21.51
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Wed, 08 Jul 2020 15:21:51 -0700 (PDT)
+From: Max Filippov <jcmvbkbc@gmail.com>
+To: qemu-devel@nongnu.org
+Subject: [PATCH 00/21] target/xtensa: implement double precision FPU
+Date: Wed,  8 Jul 2020 15:20:40 -0700
+Message-Id: <20200708222101.24568-1-jcmvbkbc@gmail.com>
+X-Mailer: git-send-email 2.20.1
 MIME-Version: 1.0
-X-OriginatorOrg: wdc.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: MN2PR04MB5951.namprd04.prod.outlook.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 5d0af543-e46a-48a9-9741-08d8238bdb98
-X-MS-Exchange-CrossTenant-originalarrivaltime: 08 Jul 2020 22:11:26.2453 (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: b61c8803-16f3-4c35-9b17-6f65f441df86
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: +9/UCL7O3Vu+On6SruVh+xcRiO8la1DAb/leXvlvsSlONKIihX4/XGketSC2wgrHVy9Qc3DEUbI8OWbxQqatkA==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: MN2PR04MB5629
-Received-SPF: pass client-ip=216.71.154.42;
- envelope-from=prvs=45148fd95=Dmitry.Fomichev@wdc.com; helo=esa4.hgst.iphmx.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/07/08 18:11:30
-X-ACL-Warn: Detected OS   = FreeBSD 9.x or newer [fuzzy]
-X-Spam_score_int: -43
-X-Spam_score: -4.4
-X-Spam_bar: ----
-X-Spam_report: (-4.4 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_MED=-2.3, SPF_HELO_PASS=-0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=2607:f8b0:4864:20::433;
+ envelope-from=jcmvbkbc@gmail.com; helo=mail-pf1-x433.google.com
+X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
+ That's all we know.
+X-Spam_score_int: -5
+X-Spam_score: -0.6
+X-Spam_bar: /
+X-Spam_report: (-0.6 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
+ FROM_LOCAL_NOVOWEL=0.5, HK_RANDOM_ENVFROM=0.001, HK_RANDOM_FROM=1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -138,27 +84,103 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: "kwolf@redhat.com" <kwolf@redhat.com>,
- "kbusch@kernel.org" <kbusch@kernel.org>,
- "k.jensen@samsung.com" <k.jensen@samsung.com>,
- "qemu-block@nongnu.org" <qemu-block@nongnu.org>,
- "mreitz@redhat.com" <mreitz@redhat.com>
+Cc: Max Filippov <jcmvbkbc@gmail.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-T24gVHVlLCAyMDIwLTA2LTMwIGF0IDEzOjA0ICswMjAwLCBQaGlsaXBwZSBNYXRoaWV1LURhdWTD
-qSB3cm90ZToNCj4gQXQgc29tZSBwb2ludCB0aGUgVVJMIGNoYW5nZWQsIHVwZGF0ZSBpdCB0byBh
-dm9pZCBvdGhlcg0KPiBkZXZlbG9wZXJzIHRvIHNlYXJjaCBmb3IgaXQuDQo+IA0KPiBSZXZpZXdl
-ZC1ieTogS2xhdXMgSmVuc2VuIDxrLmplbnNlbkBzYW1zdW5nLmNvbT4NCj4gU2lnbmVkLW9mZi1i
-eTogUGhpbGlwcGUgTWF0aGlldS1EYXVkw6kgPHBoaWxtZEByZWRoYXQuY29tPg0KPiAtLS0NCj4g
-IGh3L2Jsb2NrL252bWUuYyB8IDIgKy0NCj4gIDEgZmlsZSBjaGFuZ2VkLCAxIGluc2VydGlvbigr
-KSwgMSBkZWxldGlvbigtKQ0KPiANCj4gZGlmZiAtLWdpdCBhL2h3L2Jsb2NrL252bWUuYyBiL2h3
-L2Jsb2NrL252bWUuYw0KPiBpbmRleCAxYWVlMDQyZDRjLi42NjI4ZDBhNGJhIDEwMDY0NA0KPiAt
-LS0gYS9ody9ibG9jay9udm1lLmMNCj4gKysrIGIvaHcvYmxvY2svbnZtZS5jDQo+IEBAIC0xMSw3
-ICsxMSw3IEBADQo+ICAvKioNCj4gICAqIFJlZmVyZW5jZSBTcGVjczogaHR0cDovL3d3dy5udm1l
-eHByZXNzLm9yZywgMS4yLCAxLjEsIDEuMGUNCj4gICAqDQo+IC0gKiAgaHR0cDovL3d3dy5udm1l
-eHByZXNzLm9yZy9yZXNvdXJjZXMvDQo+ICsgKiAgaHR0cHM6Ly9udm1leHByZXNzLm9yZy9kZXZl
-bG9wZXJzL252bWUtc3BlY2lmaWNhdGlvbi8NCj4gICAqLw0KPiAgDQo+ICAvKioNCj4gLS0gDQo+
-IDIuMjEuMw0KPiANCj4gDQoNClJldmlld2VkLWJ5OiBEbWl0cnkgRm9taWNoZXYgPGRtaXRyeS5m
-b21pY2hldkB3ZGMuY29tPg0KDQo=
+Hello,
+
+this series implements double precision floating point unit option for
+target/xtensa, updates FPU tests and adds two new CPU cores, one with
+FPU2000 option and one with DFPU option.
+
+It is tagged xtensa-5.1-dfp-v3 in the qemu-xtensa tree at
+git://github.com/OSLL/qemu-xtensa.git
+
+Changes v2->v3:
+- handle infzero case in pickNaNMulAdd properly and reword commit
+  message
+- add more infzero tests for FPU2000 and DFPU
+- fix test names in test_dfp0_arith.S
+- add licenses to newly imported cores
+- rename DE_233L_FPU to de233_fpu to be more consistent with other
+  core names
+
+Changes v1->v2:
+- use inline function for no_signaling_nans property to allow for
+  constant folding on architectures that have this property fixed.
+
+Max Filippov (21):
+  softfloat: make NO_SIGNALING_NANS runtime property
+  softfloat: pass float_status pointer to pickNaN
+  softfloat: add xtensa specialization for pickNaNMulAdd
+  target/xtensa: add geometry to xtensa_get_regfile_by_name
+  target/xtensa: support copying registers up to 64 bits wide
+  target/xtensa: rename FPU2000 translators and helpers
+  target/xtensa: move FSR/FCR register accessors
+  target/xtensa: don't access BR regfile directly
+  target/xtensa: add DFP option, registers and opcodes
+  target/xtensa: implement FPU division and square root
+  tests/tcg/xtensa: fix test execution on ISS
+  tests/tcg/xtensa: update test_fp0_arith for DFPU
+  tests/tcg/xtensa: expand madd tests
+  tests/tcg/xtensa: update test_fp0_conv for DFPU
+  tests/tcg/xtensa: update test_fp1 for DFPU
+  tests/tcg/xtensa: update test_lsc for DFPU
+  tests/tcg/xtensa: add fp0 div and sqrt tests
+  tests/tcg/xtensa: test double precision load/store
+  tests/tcg/xtensa: add DFP0 arithmetic tests
+  target/xtensa: import de233_fpu core
+  target/xtensa: import DSP3400 core
+
+ fpu/softfloat-specialize.inc.c                |    285 +-
+ fpu/softfloat.c                               |      2 +-
+ include/fpu/softfloat-helpers.h               |     10 +
+ include/fpu/softfloat-types.h                 |      8 +-
+ target/xtensa/Makefile.objs                   |      2 +
+ target/xtensa/core-de233_fpu.c                |     58 +
+ target/xtensa/core-de233_fpu/core-isa.h       |    727 +
+ target/xtensa/core-de233_fpu/core-matmap.h    |    717 +
+ target/xtensa/core-de233_fpu/gdb-config.inc.c |    277 +
+ .../core-de233_fpu/xtensa-modules.inc.c       |  20758 ++
+ target/xtensa/core-dsp3400.c                  |     58 +
+ target/xtensa/core-dsp3400/core-isa.h         |    452 +
+ target/xtensa/core-dsp3400/core-matmap.h      |    312 +
+ target/xtensa/core-dsp3400/gdb-config.inc.c   |    400 +
+ .../xtensa/core-dsp3400/xtensa-modules.inc.c  | 171906 +++++++++++++++
+ target/xtensa/cpu.c                           |      4 +
+ target/xtensa/cpu.h                           |      7 +-
+ target/xtensa/fpu_helper.c                    |    314 +-
+ target/xtensa/helper.c                        |      4 +-
+ target/xtensa/helper.h                        |     53 +-
+ target/xtensa/overlay_tool.h                  |      6 +
+ target/xtensa/translate.c                     |   1345 +-
+ tests/tcg/xtensa/fpu.h                        |    142 +
+ tests/tcg/xtensa/macros.inc                   |     10 +-
+ tests/tcg/xtensa/test_dfp0_arith.S            |    162 +
+ tests/tcg/xtensa/test_fp0_arith.S             |    282 +-
+ tests/tcg/xtensa/test_fp0_conv.S              |    299 +-
+ tests/tcg/xtensa/test_fp0_div.S               |     82 +
+ tests/tcg/xtensa/test_fp0_sqrt.S              |     76 +
+ tests/tcg/xtensa/test_fp1.S                   |     62 +-
+ tests/tcg/xtensa/test_lsc.S                   |    170 +-
+ 31 files changed, 198452 insertions(+), 538 deletions(-)
+ create mode 100644 target/xtensa/core-de233_fpu.c
+ create mode 100644 target/xtensa/core-de233_fpu/core-isa.h
+ create mode 100644 target/xtensa/core-de233_fpu/core-matmap.h
+ create mode 100644 target/xtensa/core-de233_fpu/gdb-config.inc.c
+ create mode 100644 target/xtensa/core-de233_fpu/xtensa-modules.inc.c
+ create mode 100644 target/xtensa/core-dsp3400.c
+ create mode 100644 target/xtensa/core-dsp3400/core-isa.h
+ create mode 100644 target/xtensa/core-dsp3400/core-matmap.h
+ create mode 100644 target/xtensa/core-dsp3400/gdb-config.inc.c
+ create mode 100644 target/xtensa/core-dsp3400/xtensa-modules.inc.c
+ create mode 100644 tests/tcg/xtensa/fpu.h
+ create mode 100644 tests/tcg/xtensa/test_dfp0_arith.S
+ create mode 100644 tests/tcg/xtensa/test_fp0_div.S
+ create mode 100644 tests/tcg/xtensa/test_fp0_sqrt.S
+
+-- 
+2.20.1
+
 
