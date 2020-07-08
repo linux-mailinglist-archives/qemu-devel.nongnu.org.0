@@ -2,82 +2,96 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B217A218CB8
-	for <lists+qemu-devel@lfdr.de>; Wed,  8 Jul 2020 18:15:23 +0200 (CEST)
-Received: from localhost ([::1]:56190 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8B9A92193B1
+	for <lists+qemu-devel@lfdr.de>; Thu,  9 Jul 2020 00:43:15 +0200 (CEST)
+Received: from localhost ([::1]:43556 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jtCjC-0007QA-MY
-	for lists+qemu-devel@lfdr.de; Wed, 08 Jul 2020 12:15:22 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:42948)
+	id 1jtImY-0003d9-Hf
+	for lists+qemu-devel@lfdr.de; Wed, 08 Jul 2020 18:43:14 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:47584)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1jtChz-0006Tk-NF
- for qemu-devel@nongnu.org; Wed, 08 Jul 2020 12:14:07 -0400
-Received: from mail-pf1-x441.google.com ([2607:f8b0:4864:20::441]:43821)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1jtChx-0003Um-O7
- for qemu-devel@nongnu.org; Wed, 08 Jul 2020 12:14:07 -0400
-Received: by mail-pf1-x441.google.com with SMTP id u18so4862086pfk.10
- for <qemu-devel@nongnu.org>; Wed, 08 Jul 2020 09:14:05 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=subject:to:references:from:message-id:date:user-agent:mime-version
- :in-reply-to:content-language:content-transfer-encoding;
- bh=yRszIO+asOdMN81y4SKo72hakbQ2LURyUSdgABBh96Q=;
- b=u9laT7XMXQXFhXpvDTVrfVM1XEq0x5acrq5l32VbZAKts0J2dBFwe2wW1tsiphKhl4
- hxa6uW9XiJQZdVz3/KoMoIjLYk1tMuqJhDtjnzhPrnzKl+pzOEDodIppd5V8kNL+1LVa
- SLSz85BYKJfFA9QBQSCW0dw/3bMvVjEku/pGGQUhOwug2dlLUhW3LbqsWB6pxjobXqNy
- jhIEnCLA2SU0NjIS26/TNE5I8iuSMbHgXPI7dlYNrAmaAKgzLGRxdDFojPZuHlMNCb9c
- 98fV1yXXrjpkmxa2ciaDOjp8M4gTXeHjfqtsvTVNTHuANIYn9grr+60msWnJWN9dhG0k
- WzEw==
+ (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
+ id 1jtIOQ-0003kg-Hi
+ for qemu-devel@nongnu.org; Wed, 08 Jul 2020 18:18:18 -0400
+Received: from us-smtp-1.mimecast.com ([207.211.31.81]:47758
+ helo=us-smtp-delivery-1.mimecast.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
+ id 1jtIOO-0000ZD-Uu
+ for qemu-devel@nongnu.org; Wed, 08 Jul 2020 18:18:18 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1594246696;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=QVt+OUUr9X5mD9N3X4BFUJRyDB1NHohEvt7H7YL398A=;
+ b=gIBYRStvUyhnj17toLYLCE9m4weejBF5bfgHqFXALhF9jpBkiNwoO7S7YA/k0+CJUwbafr
+ UdGZ8AbjTgeFQd9SfSzuSbD54YiIEj1MtU/B4tCtO1w1KdgHbXBFOG/8PkwkRg1kdGHXuO
+ DNkoXReOexADgmHnMjQUDbUXu1Vinug=
+Received: from mail-wm1-f69.google.com (mail-wm1-f69.google.com
+ [209.85.128.69]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-73-0KBQU13oPeOUnUtJfH1SAg-1; Wed, 08 Jul 2020 12:16:44 -0400
+X-MC-Unique: 0KBQU13oPeOUnUtJfH1SAg-1
+Received: by mail-wm1-f69.google.com with SMTP id g124so3462508wmg.6
+ for <qemu-devel@nongnu.org>; Wed, 08 Jul 2020 09:16:44 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:references:from:message-id:date
+ h=x-gm-message-state:subject:to:cc:references:from:message-id:date
  :user-agent:mime-version:in-reply-to:content-language
  :content-transfer-encoding;
- bh=yRszIO+asOdMN81y4SKo72hakbQ2LURyUSdgABBh96Q=;
- b=QWJQJvJWyjKQDIORInYTnKlty+hxQRe1fbYVrwFQ0DDkCHN050ni3dU32Qkm47ztQv
- HZTwN2/X7/YHv52vsV8SU7OgMEifQPYRl99o+N6Ys8YV4Wn5xVDYOhsYZ2TNTYq2RkmN
- UMwRwe06JtT2yoa9Xi9i0WGNLaorbgzzi5RvjM4IQa15hDb0W2LEhDTPhuNJ86P6VQmA
- 8879Sz09iLhUUIvJ6za7XwBXYuBiCZcMCRPODJ9vUf73/DxxRJ40ffxDHwTvosll2cHr
- D8WAAO9WgFiBtKURpn9cl+d0HyuAn6ICURuYgfzvkFyyU7mXGVJAz9GxdB7dYdVAGtRy
- f2dg==
-X-Gm-Message-State: AOAM532v7ZYJJpxYaxKw9ASjzVBIkmyc1VNWV/SBy9Lu0j92g+EYsNnf
- jBoaC4VbX5a3ng4JUOW1zdm4i6XKZGc=
-X-Google-Smtp-Source: ABdhPJzcqdlEqRnXEobD/djKbPVKGZmxcfNyHhnahmqABZvAbKW7Pl/GyMob8silVYrzLN6HNiteXQ==
-X-Received: by 2002:a65:5682:: with SMTP id v2mr49794309pgs.231.1594224843644; 
- Wed, 08 Jul 2020 09:14:03 -0700 (PDT)
-Received: from [192.168.7.121] (24-113-145-216.wavecable.com. [24.113.145.216])
- by smtp.gmail.com with ESMTPSA id a19sm273046pfn.136.2020.07.08.09.14.02
+ bh=QVt+OUUr9X5mD9N3X4BFUJRyDB1NHohEvt7H7YL398A=;
+ b=lGJ9SvUUSg8AjKoX1CSRw/imNno/uyO4JG6ewWKd6g07Hfe3k56Nq6zKpQkN5w4fgN
+ TlbDoorBgunaVAUfrkbNPBBMzmml1skIpoKNQk21IjwnzaTO4j1eL2oO0awVhjQ693Kd
+ A6gntW3q0KayGzMITRAlY4uQ4Anq0Ey913a8HHRsFEuLzxLQHxsH/9YVmDZ5gytytlEG
+ dIyRCgqhYMqr1YSXMjc52tMM74ipXBzDDTlqhb7QlxF/cNPgVbWH5of/oVNVfiMXN8At
+ LDswfTCyulHqj5wvHoNXHwTG0IgREMq+sK7DyueLzTyrSEE8qIlVNyAi7V4e4XLaSMzF
+ B3nA==
+X-Gm-Message-State: AOAM532O4IHWaonKbr4qQcj9w1vshI6wCfm3oPukEB/9yWuqauSv08X7
+ J5lfumOpVM+8plB/+oOHOVaa9Ja/mWFnG2104Ef7qgeyhOw3OvCiay7UrvyQI2f9N4SJPKEbGAG
+ cPww3Ro+3hn88qqA=
+X-Received: by 2002:a1c:6408:: with SMTP id y8mr9902356wmb.122.1594225003536; 
+ Wed, 08 Jul 2020 09:16:43 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJzgdoHXj8AVG2kwD3KbC4+KRNZBbKFFJmZv4z1ZZYCt9+epfIH8hgc61hA8Fc9pafStOA62/Q==
+X-Received: by 2002:a1c:6408:: with SMTP id y8mr9902342wmb.122.1594225003357; 
+ Wed, 08 Jul 2020 09:16:43 -0700 (PDT)
+Received: from ?IPv6:2001:b07:6468:f312:9541:9439:cb0f:89c?
+ ([2001:b07:6468:f312:9541:9439:cb0f:89c])
+ by smtp.gmail.com with ESMTPSA id y77sm403884wmd.36.2020.07.08.09.16.42
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Wed, 08 Jul 2020 09:14:02 -0700 (PDT)
-Subject: Re: [PATCH 05/21] target/xtensa: support copying registers up to 64
- bits wide
-To: Max Filippov <jcmvbkbc@gmail.com>, qemu-devel@nongnu.org
-References: <20200706234737.32378-1-jcmvbkbc@gmail.com>
- <20200706234737.32378-6-jcmvbkbc@gmail.com>
-From: Richard Henderson <richard.henderson@linaro.org>
-Message-ID: <2f591058-a694-81a6-ee1b-a426b7402ae9@linaro.org>
-Date: Wed, 8 Jul 2020 09:14:00 -0700
+ Wed, 08 Jul 2020 09:16:42 -0700 (PDT)
+Subject: Re: [PULL 00/53] Misc patches for QEMU 5.1 soft freeze
+To: Claudio Fontana <cfontana@suse.de>,
+ Peter Maydell <peter.maydell@linaro.org>
+References: <20200706164155.24696-1-pbonzini@redhat.com>
+ <CAFEAcA-F1FGde+=c3iS3wcRWG+i0RgYj5-jwafn0sX6EEYEsWA@mail.gmail.com>
+ <1a9ad36f-f4ae-2ea5-3d69-03aa5580b60e@suse.de>
+From: Paolo Bonzini <pbonzini@redhat.com>
+Message-ID: <de27589f-6afb-b8cf-05a0-f5d34f9d2a58@redhat.com>
+Date: Wed, 8 Jul 2020 18:16:42 +0200
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.8.0
+ Thunderbird/68.9.0
 MIME-Version: 1.0
-In-Reply-To: <20200706234737.32378-6-jcmvbkbc@gmail.com>
-Content-Type: text/plain; charset=utf-8
+In-Reply-To: <1a9ad36f-f4ae-2ea5-3d69-03aa5580b60e@suse.de>
 Content-Language: en-US
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=pbonzini@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=utf-8
 Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::441;
- envelope-from=richard.henderson@linaro.org; helo=mail-pf1-x441.google.com
-X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
- That's all we know.
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Received-SPF: pass client-ip=207.211.31.81; envelope-from=pbonzini@redhat.com;
+ helo=us-smtp-delivery-1.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/07/07 17:25:09
+X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
+X-Spam_score_int: -30
+X-Spam_score: -3.1
+X-Spam_bar: ---
+X-Spam_report: (-3.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H3=-0.01, RCVD_IN_MSPIKE_WL=-0.01,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -90,23 +104,19 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Cc: QEMU Developers <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 7/6/20 4:47 PM, Max Filippov wrote:
-> +                if (arg_copy[i].arg->num_bits <= 32) {
-> +                    temp = tcg_temp_local_new_i32();
-> +                    tcg_gen_mov_i32(temp, arg_copy[i].arg->in);
-> +                } else if (arg_copy[i].arg->num_bits <= 64) {
-> +                    temp = tcg_temp_local_new_i64();
-> +                    tcg_gen_mov_i64(temp, arg_copy[i].arg->in);
+On 08/07/20 18:13, Claudio Fontana wrote:
+> so I don't get any tcg_get_icount_limit() compiled in, and no
+> errors.
+> 
+> I think that having comparable configure command line and compiler
+> version/flags would help me pin down any related issue.
 
-This shouldn't compile.
+Are you using link-time optimization by chance?
 
-You can't assign both TCGv_i32 and TCGv_i64 to the same variable.
+Paolo
 
-What's going on here?
-
-
-r~
 
