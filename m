@@ -2,56 +2,58 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9A1EA219087
-	for <lists+qemu-devel@lfdr.de>; Wed,  8 Jul 2020 21:32:06 +0200 (CEST)
-Received: from localhost ([::1]:46902 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D033921905D
+	for <lists+qemu-devel@lfdr.de>; Wed,  8 Jul 2020 21:19:10 +0200 (CEST)
+Received: from localhost ([::1]:50998 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jtFnZ-0005c6-Me
-	for lists+qemu-devel@lfdr.de; Wed, 08 Jul 2020 15:32:05 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:60428)
+	id 1jtFb3-0003bI-TO
+	for lists+qemu-devel@lfdr.de; Wed, 08 Jul 2020 15:19:09 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:57248)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <vsementsov@virtuozzo.com>)
- id 1jtFmg-0005D0-KJ
- for qemu-devel@nongnu.org; Wed, 08 Jul 2020 15:31:10 -0400
-Received: from mail-eopbgr70093.outbound.protection.outlook.com
- ([40.107.7.93]:33229 helo=EUR04-HE1-obe.outbound.protection.outlook.com)
+ id 1jtFYf-0002Iv-QA
+ for qemu-devel@nongnu.org; Wed, 08 Jul 2020 15:16:41 -0400
+Received: from mail-eopbgr50098.outbound.protection.outlook.com
+ ([40.107.5.98]:19714 helo=EUR03-VE1-obe.outbound.protection.outlook.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <vsementsov@virtuozzo.com>)
- id 1jtFmd-0003TB-9z
- for qemu-devel@nongnu.org; Wed, 08 Jul 2020 15:31:09 -0400
+ id 1jtFYe-0001hk-1b
+ for qemu-devel@nongnu.org; Wed, 08 Jul 2020 15:16:41 -0400
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=WaVn1qPerBrQF3GSW3vFXOuq3gMSUmxsq38WHHp2ZpwtZVarTdHP1gyPinUXZ29Inh+TJlu6CSRt2yc+xpdxIDyfwSHhD5NosX0r2J0iwIEwAAXy/lrqK+8vOqEGVT30PTY/nwDqpnA7/qbmvhISqFRCfK9tjtn7O4nODoRnubNRujbozj5kTkLjatDDQrm0hLNFuJK6ndciv/2Z1mBAcXguiz6OLysb2H0SEdpj6HmB/Whyy+PcN87cEZFIm3hnE48eL9UVynyuRxGKRuV2zRI9oDmPk0+Mu65+ydlnBCuOO2UQtl/KSMMYP4zp+9Y1g37Z1TFarp8QlqcVmBY9DA==
+ b=dK7H2R4Un5JQQc5BCd9w2B7w535EvKoY3xA4Dw6QI0TNxqyvkJUN8uFuDAlIjk+DkDRK84lwOxhzTXZbwx0PKN0zWACeTCMbR6g7r5Jls8iJHRAzsXh/7BKhAhOPyyW0NoBhuNb4QY6iAtC+rUPu7qlW+tXQQ5bkov5xB2oXAfRKs7ehpHdTEVWlgeKh1Vv0EmNwfg3vOlCDS/7Sb+wGpas1FDCdQeEYXlC96364wAuujE8YgZ3Lx289JPIZGuLlfaoyXnEX1Reu/3bqnQee/y544BAWZDZz9xTLzOWmMkvnhW9xpRDRCwzKAhrVDiZCSoX9gX+fM8HeqZ06hn0l6A==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=bR0daKa29eUaIH7yu2YOHzp9BZH+ZpqaUqeZconu/Kk=;
- b=VuPCyNEQMW3BBVTIsVnrlt99QcU93j2vkPMqzK8BJ0bx2zGs2ywkeh2zy+nwjch2gyTecYQKXsN262C6k1Buj10msFfTLHkxtI3VaYRoN2Ng2a4dEed0G2LD80DOJQuWNfQQDY2rGBfwR4Tns2vSLndLDjfy3Uc2Yd7AaVfIcYsHMpjoKrsAvR8vh4LyAzX7gqa8PoDSXcszYgpA6gFbpkNpXEI0qGR1RYEAwZYIeNZfqgGiiEralBW/wLa8jWwlBzMHN2z+LZfBHs3tbqnxCbDHxw3JxkvBUnNlWznrFbSf4UGENpcJHCLHuh1ycGWS7ynWMwvPPEFlr+X5/2ANPQ==
+ bh=GRnYapanj2hvIF536VTHpHcFXNca4qFgv1jGKv0/7bY=;
+ b=nu+TgXxW+9A1pRuuio1Yvkn6Ux91MhMWEgitg3v2gAJ7vQ09bVQykkqtGBwVlrL3xyZHsEnstke6Y1JFAFyIfZEFz7j0xOVhkG6Ul6tK1G6YhR0onFhXIclFveB+L8S+Yk55VTrbYmTmzztCzZNy0wroZP109toIHcW4CQddMmsPaMUUql+6nrSml0Aw1k6VcdCaT/lgHTEeQroGLVErsP96Rfs8mXeKsj1flU+Z7wK4ywd9V2S2D1Sv9P8fPwsxvFHRdXZnERn1dnSUFx/9QO7BXwVVTeub2AFJmkSyJq0JLKtavGu5L67fipsjvKoZ+i6Fsi3mpapaYUgnN1kqdQ==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
  smtp.mailfrom=virtuozzo.com; dmarc=pass action=none
  header.from=virtuozzo.com; dkim=pass header.d=virtuozzo.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=virtuozzo.com;
  s=selector2;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=bR0daKa29eUaIH7yu2YOHzp9BZH+ZpqaUqeZconu/Kk=;
- b=TeFBoJNr74XCdlDosjINY1/Waog1UdYL5899uF35z3aS+l4Df+AfmFXGrioFfd0u9W1nyp9NTfJb7R0LZAtrnrZrqZdSFiGz0ZhUZQ88kH5sYGKMwyDfcrAhQRpTjY7+wpDS2gowZATVbOGRXZXfcHi42Fo71ppMhI5HN9OPEww=
+ bh=GRnYapanj2hvIF536VTHpHcFXNca4qFgv1jGKv0/7bY=;
+ b=iCC1BGKa9nQKU/7ji4qao8j0klcurKAPcvO4l71isitpVfqGPRbJcsDvCkGwjE801pvXUpqraIhBfvbq2LG+aZ1jHbPL/SvdkmSsXXtmmEQq2Vx0EVi2P0fJ0WGqmt/fJnJenj+wW/vCd/2ICDv8MtVFrOF+jTFhMoeNQOb+F+U=
 Authentication-Results: nongnu.org; dkim=none (message not signed)
  header.d=none;nongnu.org; dmarc=none action=none header.from=virtuozzo.com;
 Received: from AM7PR08MB5494.eurprd08.prod.outlook.com (2603:10a6:20b:dc::15)
  by AM6PR08MB4070.eurprd08.prod.outlook.com (2603:10a6:20b:a3::25)
  with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3174.20; Wed, 8 Jul
- 2020 19:16:01 +0000
+ 2020 19:16:02 +0000
 Received: from AM7PR08MB5494.eurprd08.prod.outlook.com
  ([fe80::a408:2f0f:bc6c:d312]) by AM7PR08MB5494.eurprd08.prod.outlook.com
  ([fe80::a408:2f0f:bc6c:d312%3]) with mapi id 15.20.3174.021; Wed, 8 Jul 2020
- 19:15:55 +0000
+ 19:16:02 +0000
 From: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH 0/2] keepalive default
-Date: Wed,  8 Jul 2020 22:15:37 +0300
-Message-Id: <20200708191540.28455-1-vsementsov@virtuozzo.com>
+Subject: [PATCH 1/2] sockets: keep-alive settings
+Date: Wed,  8 Jul 2020 22:15:38 +0300
+Message-Id: <20200708191540.28455-2-vsementsov@virtuozzo.com>
 X-Mailer: git-send-email 2.21.0
+In-Reply-To: <20200708191540.28455-1-vsementsov@virtuozzo.com>
+References: <20200708191540.28455-1-vsementsov@virtuozzo.com>
 Content-Transfer-Encoding: 8bit
 Content-Type: text/plain
 X-ClientProxiedBy: AM0PR04CA0123.eurprd04.prod.outlook.com
@@ -62,45 +64,45 @@ X-MS-Exchange-MessageSentRepresentingType: 1
 Received: from localhost.localdomain (185.215.60.17) by
  AM0PR04CA0123.eurprd04.prod.outlook.com (2603:10a6:208:55::28) with Microsoft
  SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.3174.21 via Frontend Transport; Wed, 8 Jul 2020 19:15:54 +0000
+ 15.20.3174.21 via Frontend Transport; Wed, 8 Jul 2020 19:15:55 +0000
 X-Mailer: git-send-email 2.21.0
 X-Originating-IP: [185.215.60.17]
 X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: 92c05d76-2256-4350-2624-08d82373569a
+X-MS-Office365-Filtering-Correlation-Id: c43810b1-62a2-4844-41a8-08d823735705
 X-MS-TrafficTypeDiagnostic: AM6PR08MB4070:
 X-MS-Exchange-Transport-Forked: True
-X-Microsoft-Antispam-PRVS: <AM6PR08MB40701D5BAF5494FDEF06F571C1670@AM6PR08MB4070.eurprd08.prod.outlook.com>
-X-MS-Oob-TLC-OOBClassifiers: OLM:6430;
+X-Microsoft-Antispam-PRVS: <AM6PR08MB4070928A9DE425BEBBC7EC16C1670@AM6PR08MB4070.eurprd08.prod.outlook.com>
+X-MS-Oob-TLC-OOBClassifiers: OLM:8273;
 X-MS-Exchange-SenderADCheck: 1
 X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: u3ZEB9XcBTXstgmnBJ2qolWm4DB4AldsWyjaBiUMYcxweYhITiIj2WsTuF8TEnezkwiDNg26bb9VDoRAsVts9PEXZ/X2ZcsUZpVFUjEvMiCXS/X9hoD5KVMD5JxlYgpNSBddBsDnDUHgi5FX+cNX8UhJYE7vGDaDpIgNJ6WQyh6B5Byq/5bML6Rn3GSsY98v6WgTZEYE8bc2oW0JMpCcOBQ6qNpn130vhLRv14cMobB920TVTf/myjWlL/+DwN8xmA8S0kzncyS184dmePATSweXMOXMG5R/t2BehXr2UiNqs7qQIbYbaTvCDG0TNJzFzn9zjkQqYfdzheHLis8TWdg9EVqZGinEQZcIGBAcjrG3BOSRLis9+nzINye3DcNV
+X-Microsoft-Antispam-Message-Info: iv4UZVI5r92eixjZllFpvt4+aDiVE0KSK1PSSd08jCvdKHHg6xnyC0/GMTROcNz5vNZCWKoVMtTvbjzc5SbQIDYKqszGeFl+H+lLdFPiHYZJVtgKde32P0H6n5aULKKn02QtutxM1gQ3jqsqVllgd+3scGDslsCj2c35t4mfZRXkEDYXQKxkeNCuvuTb3PCw1cqXZX8a9/xy4hUIoak1HvLpsSCABxzybzn/n7EAgw3urcUTfWKM1HgB+cIFCqf8dcK6fiZjM6I4honbkjArrFZpEgsueTuuOlK78AdNsKhOFXPURQ3dW/xKtv+E0viwwVYiIqeBigk8Ny+Hs97OQ2SVSSnNZMeKiscfe9fZToFG4FAJvprQXDwZlLR1wCT7
 X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
  IPV:NLI; SFV:NSPM; H:AM7PR08MB5494.eurprd08.prod.outlook.com; PTR:; CAT:NONE;
  SFTY:;
- SFS:(4636009)(136003)(396003)(39850400004)(366004)(376002)(346002)(186003)(16526019)(86362001)(1076003)(6506007)(956004)(69590400007)(4744005)(26005)(6666004)(6486002)(5660300002)(316002)(52116002)(66476007)(66556008)(478600001)(4326008)(66946007)(8676002)(36756003)(8936002)(6512007)(2616005)(83380400001)(2906002)(6916009)(107886003);
+ SFS:(4636009)(136003)(396003)(39850400004)(366004)(376002)(346002)(186003)(16526019)(86362001)(1076003)(6506007)(956004)(69590400007)(26005)(6666004)(6486002)(5660300002)(316002)(52116002)(66476007)(66556008)(478600001)(4326008)(66946007)(8676002)(36756003)(8936002)(6512007)(2616005)(83380400001)(2906002)(6916009)(107886003);
  DIR:OUT; SFP:1102; 
-X-MS-Exchange-AntiSpam-MessageData: rAEhItFEd8Bm4Mtd5e+H8FvGfjliG93Igs8YCWMwrkrtqAH9ORJOfXPDY1jPBDToXx807KAkBEYOtK13O4km5/yRwwhmaoEuhXqKjEmau6vkhaTdU0vyn6Y+DW0zJBOxCbj1eX+5/3TF1ZTZp1s6FctlfJ96426/FI4HRBk0VkJOelyoNTPiPXX4zIDqsoY8lJwZP5Sdsu/LSNoxAHBNvD+KocTs48Zmz7b4KXyVCi2T23pnselyCBYn4y/yxl6Xus3EaLQEybA2jYuNRH2q4IldQaFpEiKlqmFXNnEcx9WdtYY35+IbG1T5MMpdTpYmcs2pGu7XRgzWoVGWDQ+Rh0D4pvfwWKBbOR6LzemT6g+szE0K1lIyNZox64ikd+Rt3AjukPY/aVdW90yxjSSsiE7kfe2p26MpDhE011pY4ev/SBV4GApyLlKqnECYfFVlARfuqIqCL3bD2L5ikUNxYfsr9QrlDUTSPGxlXHQwe1Y=
+X-MS-Exchange-AntiSpam-MessageData: dV+FuJE8QMHluEiuvN+cTEtHNX05kV3F8oVG2zjmI0GG77SLKFGrZ31UwGrDwWqhOc3Qr+nETzxuZhEpC7YWIojPkiYEpqX9E5Ab0hcsvR2p2B/ni+cHnx+ArDBDJGDK/NDqfQlumbFp10lPaGM5XS4Mn83fDDev7BElKw59bFi2Vg/LdR5L3kdrIxK87AvpzbkgIUvN+cv1arH2CX0EoWR4hMeRVpC2CwPJ520tlAtdheWnIkxakGCEW9QgCHyNI1S9Sf2CGVqEOzuHtPrCp9lhhJvkBelSFkQKZK1ZnqFWg5ZgwdrhgiscaCRTGXKk96tkYtY7XOAAClVase5d5Ph0OVVOGpfYF4J6MJthFDo4UqAgqjBP3Gq2zgyK0ePxfxei4+CyW1UwecJ0gqIo4H7I0lcdTr0MJSnqtc6X9q/G+SMyaBEx754B8FlLritTcMhv8lKqYKtPB8PKBLMdOGePYFbdy7OCpeDq9Qks21I=
 X-OriginatorOrg: virtuozzo.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 92c05d76-2256-4350-2624-08d82373569a
+X-MS-Exchange-CrossTenant-Network-Message-Id: c43810b1-62a2-4844-41a8-08d823735705
 X-MS-Exchange-CrossTenant-AuthSource: AM7PR08MB5494.eurprd08.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 08 Jul 2020 19:15:55.5781 (UTC)
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 08 Jul 2020 19:15:56.2860 (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
 X-MS-Exchange-CrossTenant-Id: 0bc7f26d-0264-416e-a6fc-8352af79c58f
 X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: gbUQgIQb/J3Efgu37h+VkMh6sj23d+6tUTzGefQWgOqd1C6NfeVmG73Mu+GJ+FtLHfcbj+YOuUdq/5ZF+62VCT/UMemEQBRYGwEABI8sG0w=
+X-MS-Exchange-CrossTenant-UserPrincipalName: BMEdCZwRgHCanOJQcrt62UqdRs8GhtJiXbUQePQfDi/KlNTV2Rw0NZDTmmVJlF+jveHxVKerNUme9YzSBYStz8ko6gwdVjH1fujS0wCf70Q=
 X-MS-Exchange-Transport-CrossTenantHeadersStamped: AM6PR08MB4070
-Received-SPF: pass client-ip=40.107.7.93;
+Received-SPF: pass client-ip=40.107.5.98;
  envelope-from=vsementsov@virtuozzo.com;
- helo=EUR04-HE1-obe.outbound.protection.outlook.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/07/08 15:31:05
+ helo=EUR03-VE1-obe.outbound.protection.outlook.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/07/08 15:16:36
 X-ACL-Warn: Detected OS   = Windows NT kernel [generic] [fuzzy]
-X-Spam_score_int: -37
-X-Spam_score: -3.8
+X-Spam_score_int: -30
+X-Spam_score: -3.1
 X-Spam_bar: ---
-X-Spam_report: (-3.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+X-Spam_report: (-3.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
  DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- MSGID_FROM_MTA_HEADER=0.001, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-1,
+ MSGID_FROM_MTA_HEADER=0.001, RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-1,
  SPF_HELO_PASS=-0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -119,25 +121,187 @@ Cc: vsementsov@virtuozzo.com, berrange@redhat.com, armbru@redhat.com,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Hi all!
+Introduce keep-alive settings (TCP_KEEPCNT, TCP_KEEPIDLE,
+TCP_KEEPINTVL) and chose some defaults.
 
-We understood, that keepalive is almost superfluous with default 2 hours
-in /proc/tcp_keepalive_time. Forcing user to setup keepalive for the
-whole system doesn't seem right, better setup it per-socket.
+The linux default of 2 hours for /proc/tcp_keepalive_time
+(corresponding to TCP_KEEPIDLE) makes keep-alive option almost
+superfluous. Let's add a possibility to set the options by hand
+and specify some defaults resulting in smaller total time to terminate
+idle connection.
 
-These series suggests to set some defaults for keepalive settings as
-well as set keepalive itself by default.
+Do not document the default values in QAPI as they may be altered in
+future (careful user will use explicit values).
 
-keepalive helps to not hang on io other side is down.
+Signed-off-by: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
+---
 
-Vladimir Sementsov-Ogievskiy (2):
-  sockets: keep-alive settings
-  util/qemu-sockets: make keep-alive enabled by default
+Suggested default numbers are RFC, any better suggestion is welcome.
+I just looked at /etc/libvirt/qemu.conf in my system and take values of
+keepalive_interval and keepalive_count.
+The only thing I'm sure in is that 2 hours is too long.
 
- qapi/sockets.json   | 33 +++++++++++++++++-
- util/qemu-sockets.c | 81 +++++++++++++++++++++++++++++++++++++++------
- 2 files changed, 102 insertions(+), 12 deletions(-)
+ qapi/sockets.json   | 33 +++++++++++++++++++-
+ util/qemu-sockets.c | 76 ++++++++++++++++++++++++++++++++++++++-------
+ 2 files changed, 97 insertions(+), 12 deletions(-)
 
+diff --git a/qapi/sockets.json b/qapi/sockets.json
+index cbd6ef35d0..73ff66a5d5 100644
+--- a/qapi/sockets.json
++++ b/qapi/sockets.json
+@@ -37,6 +37,37 @@
+     'host': 'str',
+     'port': 'str' } }
+ 
++##
++# @KeepAliveSettings:
++#
++# @idle: The time (in seconds) the connection needs to remain idle
++#        before TCP starts sending keepalive probes (sets TCP_KEEPIDLE).
++# @interval: The time (in seconds) between individual keepalive probes
++#            (sets TCP_KEEPINTVL).
++# @count: The maximum number of keepalive probes TCP should send before
++#         dropping the connection (sets TCP_KEEPCNT).
++#
++# Since: 5.2
++##
++{ 'struct': 'KeepAliveSettings',
++  'data': {
++    'idle': 'int',
++    'interval': 'int',
++    'count': 'int' } }
++
++##
++# @KeepAliveField:
++#
++# @enabled: If true, enable keep-alive with some default settings
++# @settings: Enable keep-alive and use explicit settings
++#
++# Since: 5.2
++##
++{ 'alternate': 'KeepAliveField',
++  'data': {
++    'enabled': 'bool',
++    'settings': 'KeepAliveSettings' } }
++
+ ##
+ # @InetSocketAddress:
+ #
+@@ -65,7 +96,7 @@
+     '*to': 'uint16',
+     '*ipv4': 'bool',
+     '*ipv6': 'bool',
+-    '*keep-alive': 'bool' } }
++    '*keep-alive': 'KeepAliveField' } }
+ 
+ ##
+ # @UnixSocketAddress:
+diff --git a/util/qemu-sockets.c b/util/qemu-sockets.c
+index b37d288866..b961963472 100644
+--- a/util/qemu-sockets.c
++++ b/util/qemu-sockets.c
+@@ -433,6 +433,57 @@ static struct addrinfo *inet_parse_connect_saddr(InetSocketAddress *saddr,
+     return res;
+ }
+ 
++/*
++ * inet_set_keepalive
++ *
++ * Handle keep_alive settings. If user specified settings explicitly, fail if
++ * can't set the settings. If user just enabled keep-alive, not specifying the
++ * settings, try to set defaults but ignore failures.
++ */
++static int inet_set_keepalive(int sock, bool has_keep_alive,
++                              KeepAliveField *keep_alive, Error **errp)
++{
++    int ret;
++    int val;
++    bool has_settings = has_keep_alive &&  keep_alive->type == QTYPE_QDICT;
++
++    if (!has_keep_alive || (keep_alive->type == QTYPE_QBOOL &&
++                            !keep_alive->u.enabled))
++    {
++        return 0;
++    }
++
++    val = 1;
++    ret = qemu_setsockopt(sock, SOL_SOCKET, SO_KEEPALIVE, &val, sizeof(val));
++    if (ret < 0) {
++        error_setg_errno(errp, errno, "Unable to set KEEPALIVE");
++        return -1;
++    }
++
++    val = has_settings ? keep_alive->u.settings.idle : 30;
++    ret = qemu_setsockopt(sock, IPPROTO_TCP, TCP_KEEPIDLE, &val, sizeof(val));
++    if (has_settings && ret < 0) {
++        error_setg_errno(errp, errno, "Unable to set TCP_KEEPIDLE");
++        return -1;
++    }
++
++    val = has_settings ? keep_alive->u.settings.interval : 30;
++    ret = qemu_setsockopt(sock, IPPROTO_TCP, TCP_KEEPINTVL, &val, sizeof(val));
++    if (has_settings && ret < 0) {
++        error_setg_errno(errp, errno, "Unable to set TCP_KEEPINTVL");
++        return -1;
++    }
++
++    val = has_settings ? keep_alive->u.settings.count : 20;
++    ret = qemu_setsockopt(sock, IPPROTO_TCP, TCP_KEEPCNT, &val, sizeof(val));
++    if (has_settings && ret < 0) {
++        error_setg_errno(errp, errno, "Unable to set TCP_KEEPCNT");
++        return -1;
++    }
++
++    return 0;
++}
++
+ /**
+  * Create a socket and connect it to an address.
+  *
+@@ -468,16 +519,11 @@ int inet_connect_saddr(InetSocketAddress *saddr, Error **errp)
+         return sock;
+     }
+ 
+-    if (saddr->keep_alive) {
+-        int val = 1;
+-        int ret = qemu_setsockopt(sock, SOL_SOCKET, SO_KEEPALIVE,
+-                                  &val, sizeof(val));
+-
+-        if (ret < 0) {
+-            error_setg_errno(errp, errno, "Unable to set KEEPALIVE");
+-            close(sock);
+-            return -1;
+-        }
++    if (inet_set_keepalive(sock, saddr->has_keep_alive, saddr->keep_alive,
++                           errp) < 0)
++    {
++        close(sock);
++        return -1;
+     }
+ 
+     return sock;
+@@ -677,12 +723,20 @@ int inet_parse(InetSocketAddress *addr, const char *str, Error **errp)
+     }
+     begin = strstr(optstr, ",keep-alive");
+     if (begin) {
++        bool val;
++
+         if (inet_parse_flag("keep-alive", begin + strlen(",keep-alive"),
+-                            &addr->keep_alive, errp) < 0)
++                            &val, errp) < 0)
+         {
+             return -1;
+         }
++
+         addr->has_keep_alive = true;
++        addr->keep_alive = g_new(KeepAliveField, 1);
++        *addr->keep_alive = (KeepAliveField) {
++            .type = QTYPE_QBOOL,
++            .u.enabled = val
++        };
+     }
+     return 0;
+ }
 -- 
 2.21.0
 
