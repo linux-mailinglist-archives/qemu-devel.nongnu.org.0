@@ -2,108 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 31EDB218E30
-	for <lists+qemu-devel@lfdr.de>; Wed,  8 Jul 2020 19:26:21 +0200 (CEST)
-Received: from localhost ([::1]:34890 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id DC0BA21928B
+	for <lists+qemu-devel@lfdr.de>; Wed,  8 Jul 2020 23:32:27 +0200 (CEST)
+Received: from localhost ([::1]:37054 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jtDps-00087k-9Z
-	for lists+qemu-devel@lfdr.de; Wed, 08 Jul 2020 13:26:20 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:60694)
+	id 1jtHg2-0004Za-RD
+	for lists+qemu-devel@lfdr.de; Wed, 08 Jul 2020 17:32:26 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:33820)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <andrey.shinkevich@virtuozzo.com>)
- id 1jtDoK-0006uT-Kc; Wed, 08 Jul 2020 13:24:45 -0400
-Received: from mail-db8eur05on2093.outbound.protection.outlook.com
- ([40.107.20.93]:57664 helo=EUR05-DB8-obe.outbound.protection.outlook.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <andrey.shinkevich@virtuozzo.com>)
- id 1jtDoI-0004v9-SK; Wed, 08 Jul 2020 13:24:44 -0400
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=G2PmGNnumOKKc2KeJaYIgmDXWN0d2CjgPs4Avmlg2oTQE9gt6JKKejfRyiZTz6WJbMl92zRllWyah7vMk/YePIXaUa/y4zTxMwcSAJJC5LSpDzgndlXk0pNyGeWasamdViWDACKsAahNotUCavqxiyWmsaPIz/htwkJ91hmL7CM0QXvEODUdg4PnNeUgUb9a/WYKai/wmQAMXqc+KTuakmKpGSxIzBLuw7B8aEKbHexl6AgwAFIZe7ZLBvBbTL2DMMmcDKwcCt0QFdl38aMGzgbMadahtN0rwiPnXeDLAUvKgra3QFjyWMMXNiH1ALs+TSXwcR32ntpzhIqcUWNn7g==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=JuTPtbLmD/s39rjDn63FDiPdOO+qEWciuIlxAHMEUqU=;
- b=Or4wxKYAZHKVIY0SMlE/PsKpyMTMpNDaS7pwoccenoYLhlSyW6xHAgd4+N3Teihe1m1plNF0xKmJtFOl2PAwNG2SgXjqiNtmv7sKbBVHraw4DnkQqzv+TL1qSDsjlv0a+ffZHX8Y7262P1d7RH0Rv4vrlvKi03f1vdlmLkOQ2M6Mp5+WyCf/DDO+cI0WqxqBJw5vr5eNfd+NwgfIEDBUcnb0CdQ4y+rWjhyVPt1lGIyRTnCp6ly8uMSIbsvDTV+dofWIgzBCykBOyXCFB9Tv3dEbnhO1a9XES46bRg8b59WuMlWHv6kvuEWRrzj3yk89Wc0p5bjBiwXHDWRMKcBgWA==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=virtuozzo.com; dmarc=pass action=none
- header.from=virtuozzo.com; dkim=pass header.d=virtuozzo.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=virtuozzo.com;
- s=selector2;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=JuTPtbLmD/s39rjDn63FDiPdOO+qEWciuIlxAHMEUqU=;
- b=Ftu8MPdzwBHa+qkoIndYC7SBA24NWPxOBIL0Y5ErSWEXCwEe/ijhXbbzONFGjWlo7dGPLjkH255ukxfGjU3Jr+WArYe9But/hGONh4A56JkZDTzzyOVEWI1KDJu+T2ZlcgFlTNAd7ZNJ7zs0eBVSucFa1QSlglSjfdLcegejA50=
-Authentication-Results: nongnu.org; dkim=none (message not signed)
- header.d=none;nongnu.org; dmarc=none action=none header.from=virtuozzo.com;
-Received: from AM6PR08MB4070.eurprd08.prod.outlook.com (2603:10a6:20b:a3::25)
- by AM6PR08MB2984.eurprd08.prod.outlook.com (2603:10a6:209:4e::28)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3174.20; Wed, 8 Jul
- 2020 17:24:40 +0000
-Received: from AM6PR08MB4070.eurprd08.prod.outlook.com
- ([fe80::78ec:8cb6:41f7:b2a0]) by AM6PR08MB4070.eurprd08.prod.outlook.com
- ([fe80::78ec:8cb6:41f7:b2a0%5]) with mapi id 15.20.3174.021; Wed, 8 Jul 2020
- 17:24:40 +0000
-Subject: Re: [PATCH v7 04/47] block: bdrv_set_backing_hd() is about bs->backing
-To: Max Reitz <mreitz@redhat.com>, qemu-block@nongnu.org
-References: <20200625152215.941773-1-mreitz@redhat.com>
- <20200625152215.941773-5-mreitz@redhat.com>
-From: Andrey Shinkevich <andrey.shinkevich@virtuozzo.com>
-Message-ID: <9b61c710-175e-a681-ab8d-2680299aff14@virtuozzo.com>
-Date: Wed, 8 Jul 2020 20:24:37 +0300
-User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:68.0)
- Gecko/20100101 Thunderbird/68.9.0
-In-Reply-To: <20200625152215.941773-5-mreitz@redhat.com>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Transfer-Encoding: 7bit
-Content-Language: en-GB
-X-ClientProxiedBy: AM0PR10CA0116.EURPRD10.PROD.OUTLOOK.COM
- (2603:10a6:208:e6::33) To AM6PR08MB4070.eurprd08.prod.outlook.com
- (2603:10a6:20b:a3::25)
+ (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
+ id 1jtHb1-0007Lq-Qu
+ for qemu-devel@nongnu.org; Wed, 08 Jul 2020 17:27:15 -0400
+Received: from us-smtp-2.mimecast.com ([205.139.110.61]:28871
+ helo=us-smtp-delivery-1.mimecast.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
+ id 1jtHay-0001uE-4X
+ for qemu-devel@nongnu.org; Wed, 08 Jul 2020 17:27:15 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1594243631;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding;
+ bh=uBT8eRmgazDE8HmBR8SE0wg5tL1h7e2ESNuR88aZYgE=;
+ b=f+bJ6iwnCoZlm09Gcdc0Kf1+70kP3v7wyvF3X2EKR3bwoOlOuMbiVe9FQ1WKJF6UhTheQE
+ 5JPMVUlNjQqlyV1D9vqCHpAjNhLWMC4FkOOsLXNNEWcCJerdg3vOhYyRbLk5q8ienbnfhy
+ /Rg2PAdixtZD9bqK6Hl9LS1510tSbLs=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-391-PNjo1Q4UPjO1gMvK3OAGsw-1; Wed, 08 Jul 2020 13:25:44 -0400
+X-MC-Unique: PNjo1Q4UPjO1gMvK3OAGsw-1
+Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
+ [10.5.11.15])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 92645107B7C6
+ for <qemu-devel@nongnu.org>; Wed,  8 Jul 2020 17:25:43 +0000 (UTC)
+Received: from virtlab701.virt.lab.eng.bos.redhat.com
+ (virtlab701.virt.lab.eng.bos.redhat.com [10.19.152.228])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 5418B119DED
+ for <qemu-devel@nongnu.org>; Wed,  8 Jul 2020 17:25:43 +0000 (UTC)
+From: Paolo Bonzini <pbonzini@redhat.com>
+To: qemu-devel@nongnu.org
+Subject: [PULL v2 00/52] Misc patches for QEMU 5.1 soft freeze
+Date: Wed,  8 Jul 2020 13:25:39 -0400
+Message-Id: <20200708172542.25012-1-pbonzini@redhat.com>
 MIME-Version: 1.0
-X-MS-Exchange-MessageSentRepresentingType: 1
-Received: from Admins-MacBook-Pro.local (109.252.114.191) by
- AM0PR10CA0116.EURPRD10.PROD.OUTLOOK.COM (2603:10a6:208:e6::33) with Microsoft
- SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.3174.21 via Frontend Transport; Wed, 8 Jul 2020 17:24:39 +0000
-X-Originating-IP: [109.252.114.191]
-X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: a0e05a85-eb41-4c1f-1be7-08d82363cba9
-X-MS-TrafficTypeDiagnostic: AM6PR08MB2984:
-X-MS-Exchange-Transport-Forked: True
-X-Microsoft-Antispam-PRVS: <AM6PR08MB2984E55FE678B025C13194C5F4670@AM6PR08MB2984.eurprd08.prod.outlook.com>
-X-MS-Oob-TLC-OOBClassifiers: OLM:2276;
-X-MS-Exchange-SenderADCheck: 1
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: Y8XuQQyxZsdn719DrblE2a83rHDDpIPlzMVV9JnSS6l65eO7IPix4lsebR5X783pclvFGBR3cJ9fu5VjA1apGHBHKTL80Kib63Tx6Ox8npQZBzM63tVO0wvqjnlgwZdB+nEuLDSatRMwe268UjpqpjySazZnyzMuU5pa/oqjxwe12QhcSwNn7crQNaEznIfpTcsH9sQLjPXw2mk5w+xLsRO3b2YbyuWdoxkd4N30GlMsa+ZJbmT3SV+rlasEpmqvkBE/hmB5aUOVFPGj0JX1GN4AmmmDw9bqroM7xMT7adTzsjlZoOfzPH+iHHCW1NnrVaI3NFSjeiNNH/LWM7rHD1xFhi/8ElyuhLExXCV5IRBHBN2CXC7RUBYhdcs7B/TS
-X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:AM6PR08MB4070.eurprd08.prod.outlook.com; PTR:; CAT:NONE;
- SFTY:;
- SFS:(4636009)(366004)(8676002)(16526019)(956004)(6512007)(2616005)(8936002)(54906003)(26005)(186003)(44832011)(31686004)(2906002)(53546011)(498600001)(4326008)(5660300002)(66556008)(52116002)(6486002)(83380400001)(86362001)(66476007)(66946007)(6506007)(31696002)(36756003)(43740500002);
- DIR:OUT; SFP:1102; 
-X-MS-Exchange-AntiSpam-MessageData: DkASfvMr9kRHBII1ncvAwIGQHkuod4dAGKBomYj2xZ/PBxgFhsxLJ5DTkOqtDtNhcE3oiLRSkxeYcM3o7GUBW8MPd5HJWUxWvYLusXeWAyMn5u0X5SjMbAXpmm1p2MUgn2nwhnd3EeNMDvDSTAhzE3q9C2lijpU7jUSxLvHZ7kzXtZdZRpOb+k1qCc4TXTR3bpHk6jN8MfeGImQGEjG3qdzixli9rNXU2FT3sRVIC77P/nmT89FY6FT8c7/iegsDknZVGxnS+rxwABTq4D/KQ4qVCggxQgStdhEi35OprSaS20ZS1TtFmdLYIadFf9smKwB+I6XG1h8gLFfqhteXomG7H8C03OvYRBX7klkFGxu3sCMvdlkQE/IaxaQvaaMw4ENfi62SlI7u3FeHctE0O/T0ByKraDJWv8b1fgtaI3E9owMPlJCBGliudu444U5kI+AXHOUC4eMAdLdzwplF4r7zVCTx85lTY5529y8u4t4=
-X-OriginatorOrg: virtuozzo.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: a0e05a85-eb41-4c1f-1be7-08d82363cba9
-X-MS-Exchange-CrossTenant-AuthSource: AM6PR08MB4070.eurprd08.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 08 Jul 2020 17:24:40.0646 (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 0bc7f26d-0264-416e-a6fc-8352af79c58f
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: 4kI2gugAdRGhMBHOsp+BLXYRFOTIk51vAxbXpGvHRZcXsOFin5kf0ee5aFyc3TKR23kDPU+0Cl0XRJcGHWgYF4YgKdq0FsxHui1pYKnp1Rk=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: AM6PR08MB2984
-Received-SPF: pass client-ip=40.107.20.93;
- envelope-from=andrey.shinkevich@virtuozzo.com;
- helo=EUR05-DB8-obe.outbound.protection.outlook.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/07/08 13:24:40
-X-ACL-Warn: Detected OS   = Windows NT kernel [generic] [fuzzy]
-X-Spam_score_int: -37
-X-Spam_score: -3.8
-X-Spam_bar: ---
-X-Spam_report: (-3.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- MSGID_FROM_MTA_HEADER=0.001, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-1,
- SPF_HELO_PASS=-0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=pbonzini@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=205.139.110.61; envelope-from=pbonzini@redhat.com;
+ helo=us-smtp-delivery-1.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/07/07 17:25:10
+X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
+X-Spam_score_int: -40
+X-Spam_score: -4.1
+X-Spam_bar: ----
+X-Spam_report: (-4.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-1, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -116,43 +79,239 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Kevin Wolf <kwolf@redhat.com>,
- Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>, qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 25.06.2020 18:21, Max Reitz wrote:
-> bdrv_set_backing_hd() is a function that explicitly cares about the
-> bs->backing child.  Highlight that in its description and use
-> child_bs(bs->backing) instead of backing_bs(bs) to make it more obvious.
->
-> Signed-off-by: Max Reitz <mreitz@redhat.com>
-> Reviewed-by: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
-> ---
->   block.c | 4 ++--
->   1 file changed, 2 insertions(+), 2 deletions(-)
->
-> diff --git a/block.c b/block.c
-> index f3e2aae49c..d139ffb57d 100644
-> --- a/block.c
-> +++ b/block.c
-> @@ -2846,7 +2846,7 @@ static BdrvChildRole bdrv_backing_role(BlockDriverState *bs)
->   }
->   
->   /*
-> - * Sets the backing file link of a BDS. A new reference is created; callers
-> + * Sets the bs->backing link of a BDS. A new reference is created; callers
->    * which don't need their own reference any more must call bdrv_unref().
->    */
->   void bdrv_set_backing_hd(BlockDriverState *bs, BlockDriverState *backing_hd,
-> @@ -2855,7 +2855,7 @@ void bdrv_set_backing_hd(BlockDriverState *bs, BlockDriverState *backing_hd,
->       bool update_inherits_from = bdrv_chain_contains(bs, backing_hd) &&
->           bdrv_inherits_from_recursive(backing_hd, bs);
->   
-> -    if (bdrv_is_backing_chain_frozen(bs, backing_bs(bs), errp)) {
-> +    if (bdrv_is_backing_chain_frozen(bs, child_bs(bs->backing), errp)) {
->           return;
->       }
->   
-Reviewed-by: Andrey Shinkevich <andrey.shinkevich@virtuozzo.com>
+The following changes since commit eb2c66b10efd2b914b56b20ae90655914310c925:
+
+  Merge remote-tracking branch 'remotes/maxreitz/tags/pull-block-2020-07-06' into staging (2020-07-07 19:47:26 +0100)
+
+are available in the Git repository at:
+
+  git://github.com/bonzini/qemu.git tags/for-upstream
+
+for you to fetch changes up to 392f34e59755f99d69586a63e0f5d80a7ef67f94:
+
+  apic: Report current_count via 'info lapic' (2020-07-08 10:01:08 -0400)
+
+----------------------------------------------------------------
+* Make checkpatch say 'qemu' instead of 'kernel' (Aleksandar)
+* Fix PSE guests with emulated NPT (Alexander B. #1)
+* Fix leak (Alexander B. #2)
+* HVF fixes (Roman, Cameron)
+* New Sapphire Rapids CPUID bits (Cathy)
+* cpus.c and softmmu/ cleanups (Claudio)
+* TAP driver tweaks (Daniel, Havard)
+* object-add bugfix and testcases (Eric A.)
+* Fix Coverity MIN_CONST and MAX_CONST (Eric B.)
+* "info lapic" improvement (Jan)
+* SSE fixes (Joseph)
+* "-msg guest-name" option (Mario)
+* support for AMD nested live migration (myself)
+* Small i386 TCG fixes (myself)
+* improved error reporting for Xen (myself)
+* fix "-cpu host -overcommit cpu-pm=on" (myself)
+* Add accel/Kconfig (Philippe)
+* KVM API cleanup (Philippe)
+* iscsi sense handling fixes (Yongji)
+* Misc bugfixes
+
+----------------------------------------------------------------
+v1->v2: add TCG stub for "target/i386: fix IEEE SSE floating-point exception raising"
+	remove "cpu-timers, icount: new modules" due to s390 failures
+	remove "chardev/tcp: fix error message double free error" which was merged independently
+	add "apic: Report current_count via 'info lapic'"
+	fix semantic conflict
+
+Aleksandar Markovic (1):
+      checkpatch: Change occurences of 'kernel' to 'qemu' in user messages
+
+Alexander Boettcher (1):
+      tcg/svm: use host cr4 during NPT page table walk
+
+Alexander Bulekov (1):
+      pc: fix leak in pc_system_flash_cleanup_unused
+
+Cameron Esfahani (1):
+      i386: hvf: Make long mode enter and exit clearer
+
+Cathy Zhang (2):
+      target/i386: Add SERIALIZE cpu feature
+      target/i386: Enable TSX Suspend Load Address Tracking feature
+
+Claudio Fontana (2):
+      softmmu: move softmmu only files from root
+      cpu-throttle: new module, extracted from cpus.c
+
+Daniel P. Berrangé (1):
+      scripts: improve message when TAP based tests fail
+
+Eric Auger (3):
+      qom: Introduce object_property_try_add_child()
+      tests/qmp-cmd-test: Add qmp/object-add-duplicate-id
+      tests/qmp-cmd-test: Add qmp/object-add-failure-modes
+
+Eric Blake (1):
+      coverity: provide Coverity-friendly MIN_CONST and MAX_CONST
+
+Havard Skinnemoen (1):
+      tests: Inject test name also when the test fails
+
+Jan Kiszka (1):
+      apic: Report current_count via 'info lapic'
+
+Joseph Myers (2):
+      target/i386: set SSE FTZ in correct floating-point state
+      target/i386: fix IEEE SSE floating-point exception raising
+
+Luwei Kang (1):
+      target/i386: Correct the warning message of Intel PT
+
+Mario Smarduch (1):
+      util/qemu-error: prepend guest name to error message to identify affected VM owner
+
+Paolo Bonzini (7):
+      KVM: add support for AMD nested live migration
+      Makefile: simplify MINIKCONF rules
+      target/i386: remove gen_io_end
+      target/i386: implement undocumented "smsw r32" behavior
+      KVM: x86: believe what KVM says about WAITPKG
+      target/i386: sev: provide proper error reporting for query-sev-capabilities
+      target/i386: sev: fail query-sev-capabilities if QEMU cannot use SEV
+
+Philippe Mathieu-Daudé (16):
+      hw/core/null-machine: Do not initialize unused chardev backends
+      MAINTAINERS: Fix KVM path expansion glob
+      MAINTAINERS: Add an 'overall' entry for accelerators
+      MAINTAINERS: Cover the HAX accelerator stub
+      Makefile: Remove dangerous EOL trailing backslash
+      Makefile: Write MINIKCONF variables as one entry per line
+      accel/Kconfig: Extract accel selectors into their own config
+      accel/Kconfig: Add the TCG selector
+      accel/tcg: Add stub for probe_access()
+      cpus: Move CPU code from exec.c to cpus-common.c
+      accel/kvm: Let kvm_check_extension use global KVM state
+      accel/kvm: Simplify kvm_check_extension()
+      accel/kvm: Simplify kvm_check_extension_list()
+      target/i386/kvm: Simplify get_para_features()
+      target/i386/kvm: Simplify kvm_get_mce_cap_supported()
+      target/i386/kvm: Simplify kvm_get_supported_[feature]_msrs()
+
+Roman Bolshakov (7):
+      i386: hvf: Set env->eip in macvm_set_rip()
+      i386: hvf: Move synchronize functions to sysemu
+      i386: hvf: Add hvf_cpu_synchronize_pre_loadvm()
+      i386: hvf: Move Guest LMA reset to macvm_set_cr0()
+      i386: hvf: Don't duplicate register reset
+      i386: hvf: Clean up synchronize functions
+      MAINTAINERS: Add Cameron as HVF co-maintainer
+
+Thomas Huth (1):
+      softmmu/vl: Remove the check for colons in -accel parameters
+
+Xie Yongji (2):
+      iscsi: handle check condition status in retry loop
+      iscsi: return -EIO when sense fields are meaningless
+
+ Kconfig                                      |   4 +
+ Kconfig.host                                 |   7 -
+ MAINTAINERS                                  |  29 +-
+ Makefile                                     |  12 +-
+ Makefile.target                              |   7 +-
+ accel/Kconfig                                |   9 +
+ accel/kvm/kvm-all.c                          |  72 +--
+ accel/stubs/tcg-stub.c                       |   7 +
+ block/iscsi.c                                |  22 +-
+ cpus-common.c                                |  18 +
+ exec.c                                       |  22 -
+ hw/core/null-machine.c                       |   5 +
+ hw/hyperv/hyperv.c                           |   2 +-
+ hw/i386/kvm/clock.c                          |   2 +-
+ hw/i386/kvm/i8254.c                          |   4 +-
+ hw/i386/kvm/ioapic.c                         |   2 +-
+ hw/i386/pc_sysfw.c                           |   5 +
+ hw/intc/apic.c                               |  18 -
+ hw/intc/apic_common.c                        |  19 +
+ hw/intc/arm_gic_kvm.c                        |   2 +-
+ hw/intc/openpic_kvm.c                        |   2 +-
+ hw/intc/xics_kvm.c                           |   2 +-
+ hw/s390x/s390-stattrib-kvm.c                 |   2 +-
+ include/hw/core/cpu.h                        |  37 --
+ include/hw/i386/apic_internal.h              |   1 +
+ include/qemu/error-report.h                  |   2 +
+ include/qemu/main-loop.h                     |   5 +
+ include/qemu/osdep.h                         |  21 +-
+ include/qom/object.h                         |  26 +-
+ include/sysemu/cpu-throttle.h                |  68 +++
+ include/sysemu/hvf.h                         |   2 +-
+ include/sysemu/hw_accel.h                    |  13 +
+ include/sysemu/kvm.h                         |   2 +-
+ migration/migration.c                        |   1 +
+ migration/ram.c                              |   1 +
+ qemu-options.hx                              |  12 +-
+ qom/object.c                                 |  21 +-
+ qom/object_interfaces.c                      |   7 +-
+ scripts/checkpatch.pl                        |   6 +-
+ scripts/tap-driver.pl                        |   2 +-
+ softmmu/Makefile.objs                        |  11 +
+ arch_init.c => softmmu/arch_init.c           |   0
+ balloon.c => softmmu/balloon.c               |   0
+ softmmu/cpu-throttle.c                       | 122 ++++
+ cpus.c => softmmu/cpus.c                     | 107 +---
+ ioport.c => softmmu/ioport.c                 |   0
+ memory.c => softmmu/memory.c                 |   0
+ memory_mapping.c => softmmu/memory_mapping.c |   0
+ qtest.c => softmmu/qtest.c                   |   0
+ softmmu/vl.c                                 |  14 +-
+ target/arm/kvm.c                             |  18 +-
+ target/arm/kvm32.c                           |   2 +-
+ target/arm/kvm64.c                           |  15 +-
+ target/i386/Makefile.objs                    |   1 +
+ target/i386/cpu.c                            |  13 +-
+ target/i386/cpu.h                            |  10 +
+ target/i386/excp_helper.c                    |   4 +-
+ target/i386/fpu_helper.c                     |  37 +-
+ target/i386/gdbstub.c                        |   1 +
+ target/i386/helper.c                         |   6 +-
+ target/i386/helper.h                         |   1 +
+ target/i386/hvf/hvf.c                        | 137 +----
+ target/i386/hvf/vmx.h                        |  17 +-
+ target/i386/kvm.c                            | 143 +++--
+ target/i386/kvm_i386.h                       |   1 +
+ target/i386/machine.c                        |  31 +-
+ target/i386/monitor.c                        |  10 +-
+ target/i386/ops_sse.h                        |  28 +-
+ target/i386/sev-stub.c                       |   3 +-
+ target/i386/sev.c                            |  27 +-
+ target/i386/sev_i386.h                       |   2 +-
+ target/i386/svm.h                            |   1 +
+ target/i386/svm_helper.c                     |   7 +-
+ target/i386/tcg-stub.c                       |  25 +
+ target/i386/translate.c                      |  36 +-
+ target/mips/kvm.c                            |   4 +-
+ target/ppc/kvm.c                             |  34 +-
+ target/s390x/cpu_models.c                    |   3 +-
+ target/s390x/kvm.c                           |  30 +-
+ tests/Makefile.include                       |   2 +-
+ tests/qtest/qmp-cmd-test.c                   | 109 +++-
+ tests/tcg/i386/Makefile.target               |   4 +
+ tests/tcg/i386/test-i386-sse-exceptions.c    | 813 +++++++++++++++++++++++++++
+ util/qemu-error.c                            |   7 +
+ 84 files changed, 1750 insertions(+), 587 deletions(-)
+ create mode 100644 Kconfig
+ create mode 100644 accel/Kconfig
+ create mode 100644 include/sysemu/cpu-throttle.h
+ rename arch_init.c => softmmu/arch_init.c (100%)
+ rename balloon.c => softmmu/balloon.c (100%)
+ create mode 100644 softmmu/cpu-throttle.c
+ rename cpus.c => softmmu/cpus.c (95%)
+ rename ioport.c => softmmu/ioport.c (100%)
+ rename memory.c => softmmu/memory.c (100%)
+ rename memory_mapping.c => softmmu/memory_mapping.c (100%)
+ rename qtest.c => softmmu/qtest.c (100%)
+ create mode 100644 target/i386/tcg-stub.c
+ create mode 100644 tests/tcg/i386/test-i386-sse-exceptions.c
+-- 
+2.26.2
+
 
