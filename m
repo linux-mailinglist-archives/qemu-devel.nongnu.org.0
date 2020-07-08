@@ -2,74 +2,67 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C16BC219508
-	for <lists+qemu-devel@lfdr.de>; Thu,  9 Jul 2020 02:26:15 +0200 (CEST)
-Received: from localhost ([::1]:39764 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0E81F219560
+	for <lists+qemu-devel@lfdr.de>; Thu,  9 Jul 2020 02:55:22 +0200 (CEST)
+Received: from localhost ([::1]:53780 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jtKOE-0002J4-Sw
-	for lists+qemu-devel@lfdr.de; Wed, 08 Jul 2020 20:26:14 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:45856)
+	id 1jtKqP-0004Dl-3t
+	for lists+qemu-devel@lfdr.de; Wed, 08 Jul 2020 20:55:21 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:50704)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <lulu@redhat.com>) id 1jtKNM-0001VQ-F8
- for qemu-devel@nongnu.org; Wed, 08 Jul 2020 20:25:20 -0400
-Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:29422
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1jtKpS-0003mu-2R
+ for qemu-devel@nongnu.org; Wed, 08 Jul 2020 20:54:22 -0400
+Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:29693
  helo=us-smtp-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <lulu@redhat.com>) id 1jtKNH-0007tD-Oz
- for qemu-devel@nongnu.org; Wed, 08 Jul 2020 20:25:20 -0400
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1jtKpQ-0002wz-Jx
+ for qemu-devel@nongnu.org; Wed, 08 Jul 2020 20:54:21 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1594254311;
+ s=mimecast20190719; t=1594256059;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=HKmzbj7SFA6mjmbzFnqWXeKG4mgWbHX0+dPyVtF8dlM=;
- b=Lo2tvnlJgxqZTjKNakKL64ieC5qaQsOG0RuzU5mKN1rLDmpUZ54jugAugVbuz5bSuLRbIL
- b/HCQqfSH5JWEnYwv382rucL3jPNiJI8xlEjfveqChcLKJVfw8azUu3ZH0Nwk7fWmRM7E5
- o/bbvgCKkEmhE5sEX24mBSiyAZhRAjs=
-Received: from mail-pg1-f199.google.com (mail-pg1-f199.google.com
- [209.85.215.199]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-100-Cuj9ISaTM3-sM1TFygWdOg-1; Wed, 08 Jul 2020 00:17:45 -0400
-X-MC-Unique: Cuj9ISaTM3-sM1TFygWdOg-1
-Received: by mail-pg1-f199.google.com with SMTP id t6so9296878pgv.5
- for <qemu-devel@nongnu.org>; Tue, 07 Jul 2020 21:17:45 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=HKmzbj7SFA6mjmbzFnqWXeKG4mgWbHX0+dPyVtF8dlM=;
- b=bDjpeTBF+hvePtXiA5WLAVgwywqPuLJf2kYrTcXtuvi9hhVD+FtKT6PUH9bstvhEwF
- LriMRY20dnY2g0pKTWZdshLaFTmUoNTzRCeoilfYf0PIIFPOJa9GqSKp/PyBPOI2zuj3
- nLUEpv1NmRDpZf1YZJNyojYOIDkDbG5yNqpCK4kTe1W78MWS/zvtCB3Nc4BpdmRJSycf
- o/4/aQI9GNSz91LNilC1Tmwoyl7dRL34XgZ0eImYty98a9bWZduyhT4+hwU16gMPfmFJ
- uC5nNop7RFurWqMpn+nxEZxIrSHWol2BSN2Ue3l/GAcOH4xlHVHTrq0n4ohnMB6uZqff
- uowg==
-X-Gm-Message-State: AOAM533UWClAJv69XJKc9c2LI+SNfhdoaNWeJS7tTtGV/fMOc7rqiMi7
- 8ElLZZsjhxbCmFaZw4jtzwsEXCY2USKC9VMvxWs3aDEqnmKM/kI5wMw9Q21YjQsuz7B7Wz3Bvh4
- Hnb0NF5mX/d+hxIrVstGapL+aFKfnz14=
-X-Received: by 2002:a17:90b:30c4:: with SMTP id
- hi4mr7240917pjb.166.1594181864490; 
- Tue, 07 Jul 2020 21:17:44 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJx+/2XVgOD8e4b99gOYFkQT3AWvSKWnkkN5CqvgGTbjRBVD3dci4HCkbsDblxM2RML03dnN5yvIL3V/qhD+ruo=
-X-Received: by 2002:a17:90b:30c4:: with SMTP id
- hi4mr7240881pjb.166.1594181864019; 
- Tue, 07 Jul 2020 21:17:44 -0700 (PDT)
+ bh=QEAewR6DMBSdUpuDdRQ5n7oV+Y/XYxQ3xW5tKWXBnDw=;
+ b=NrNAYuSHJR0o/bH2WOYI/iBdVjN3Zl2GMFfUhgcJRLFQyo0GseLSvG9EvWbfMXvX67EQDv
+ llvb65cT52BataA7JUtihBmx2DVGW8TnJ4XWBYiZHaf8BZugoFJEUBUfqXTBuP6SlcktAj
+ VrWcYPNAqEynMd/dJrHuOPEUKDUmSX4=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-367-EdVxt1oYPmuBe6xsp1aRgw-1; Wed, 08 Jul 2020 00:51:56 -0400
+X-MC-Unique: EdVxt1oYPmuBe6xsp1aRgw-1
+Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
+ [10.5.11.14])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id BC69A800D5C
+ for <qemu-devel@nongnu.org>; Wed,  8 Jul 2020 04:51:55 +0000 (UTC)
+Received: from blackfin.pond.sub.org (ovpn-112-143.ams2.redhat.com
+ [10.36.112.143])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 8C9EC5D9C9;
+ Wed,  8 Jul 2020 04:51:47 +0000 (UTC)
+Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
+ id 057FB1132FD2; Wed,  8 Jul 2020 06:51:46 +0200 (CEST)
+From: Markus Armbruster <armbru@redhat.com>
+To: =?utf-8?Q?Marc-Andr=C3=A9?= Lureau <marcandre.lureau@redhat.com>
+Subject: Re: [PATCH] chardev: don't abort on attempt to add duplicated chardev
+References: <20200706182156.334207-1-marcandre.lureau@redhat.com>
+Date: Wed, 08 Jul 2020 06:51:45 +0200
+In-Reply-To: <20200706182156.334207-1-marcandre.lureau@redhat.com>
+ (=?utf-8?Q?=22Marc-Andr=C3=A9?= Lureau"'s message of "Mon, 6 Jul 2020
+ 22:21:56 +0400")
+Message-ID: <87eepm4nj2.fsf@dusky.pond.sub.org>
+User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/26.3 (gnu/linux)
 MIME-Version: 1.0
-References: <20200703090252.368694-1-mst@redhat.com>
- <20200703090252.368694-41-mst@redhat.com>
- <6987a2f4cedcf680a47c8bc5ed87e76a9f6a5887.camel@suse.com>
-In-Reply-To: <6987a2f4cedcf680a47c8bc5ed87e76a9f6a5887.camel@suse.com>
-From: Cindy Lu <lulu@redhat.com>
-Date: Wed, 8 Jul 2020 12:17:32 +0800
-Message-ID: <CACLfguW8VUSsgs=cPu1b4rAC5ewMuzzvaKURAbmtXXYF=s6nvw@mail.gmail.com>
-Subject: Re: [PULL 40/41] vhost-vdpa: introduce vhost-vdpa backend
-To: Bruce Rogers <brogers@suse.com>
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=lulu@redhat.com
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=armbru@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=205.139.110.120; envelope-from=lulu@redhat.com;
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=205.139.110.120; envelope-from=armbru@redhat.com;
  helo=us-smtp-1.mimecast.com
 X-detected-operating-system: by eggs.gnu.org: First seen = 2020/07/07 17:25:11
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
@@ -92,405 +85,61 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Maydell <peter.maydell@linaro.org>, Tiwei Bie <tiwei.bie@intel.com>,
- "Michael S. Tsirkin" <mst@redhat.com>, Jason Wang <jasowang@redhat.com>,
- qemu-devel@nongnu.org, Lingshan zhu <lingshan.zhu@intel.com>
+Cc: eric.auger@redhat.com, qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Wed, Jul 8, 2020 at 8:08 AM Bruce Rogers <brogers@suse.com> wrote:
+Marc-Andr=C3=A9 Lureau <marcandre.lureau@redhat.com> writes:
+
+> This is a regression from commit
+> d2623129a7dec1d3041ad1221dda1ca49c667532 ("qom: Drop parameter @errp of
+> object_property_add() & friends").
 >
-> On Fri, 2020-07-03 at 05:05 -0400, Michael S. Tsirkin wrote:
-> > From: Cindy Lu <lulu@redhat.com>
-> >
-> > Currently we have 2 types of vhost backends in QEMU: vhost kernel and
-> > vhost-user. The above patch provides a generic device for vDPA
-> > purpose,
-> > this vDPA device exposes to user space a non-vendor-specific
-> > configuration
-> > interface for setting up a vhost HW accelerator, this patch set
-> > introduces
-> > a third vhost backend called vhost-vdpa based on the vDPA interface.
-> >
-> > Vhost-vdpa usage:
-> >
-> > qemu-system-x86_64 -cpu host -enable-kvm \
-> >     ......
-> >     -netdev type=vhost-vdpa,vhostdev=/dev/vhost-vdpa-id,id=vhost-
-> > vdpa0 \
-> >     -device virtio-net-pci,netdev=vhost-vdpa0,page-per-vq=on \
-> >
-> > Signed-off-by: Lingshan zhu <lingshan.zhu@intel.com>
-> > Signed-off-by: Tiwei Bie <tiwei.bie@intel.com>
-> > Signed-off-by: Cindy Lu <lulu@redhat.com>
-> > Signed-off-by: Jason Wang <jasowang@redhat.com>
-> > Message-Id: <20200701145538.22333-14-lulu@redhat.com>
-> > Reviewed-by: Michael S. Tsirkin <mst@redhat.com>
-> > Signed-off-by: Michael S. Tsirkin <mst@redhat.com>
-> > Acked-by: Jason Wang <jasowang@redhat.com>
-> > ---
-> >  configure                         |  21 ++
-> >  include/hw/virtio/vhost-backend.h |   4 +-
-> >  include/hw/virtio/vhost-vdpa.h    |  26 ++
-> >  include/hw/virtio/vhost.h         |   7 +
-> >  hw/net/vhost_net.c                |  19 +-
-> >  hw/net/virtio-net.c               |  19 ++
-> >  hw/virtio/vhost-backend.c         |   6 +
-> >  hw/virtio/vhost-vdpa.c            | 475
-> > ++++++++++++++++++++++++++++++
-> >  docs/interop/index.rst            |   1 +
-> >  docs/interop/vhost-vdpa.rst       |  17 ++
-> >  hw/virtio/Makefile.objs           |   1 +
-> >  qemu-options.hx                   |  12 +
-> >  12 files changed, 601 insertions(+), 7 deletions(-)
-> >  create mode 100644 include/hw/virtio/vhost-vdpa.h
-> >  create mode 100644 hw/virtio/vhost-vdpa.c
-> >  create mode 100644 docs/interop/vhost-vdpa.rst
-> >
-> > diff --git a/configure b/configure
-> > index 4a22dcd563..3db7f20185 100755
-> > --- a/configure
-> > +++ b/configure
-> > @@ -1575,6 +1575,10 @@ for opt do
-> >    ;;
-> >    --enable-vhost-user) vhost_user="yes"
-> >    ;;
-> > +  --disable-vhost-vdpa) vhost_vdpa="no"
-> > +  ;;
-> > +  --enable-vhost-vdpa) vhost_vdpa="yes"
-> > +  ;;
-> >    --disable-vhost-kernel) vhost_kernel="no"
-> >    ;;
-> >    --enable-vhost-kernel) vhost_kernel="yes"
-> > @@ -1883,6 +1887,7 @@ disabled with --disable-FEATURE, default is
-> > enabled if available:
-> >    vhost-crypto    vhost-user-crypto backend support
-> >    vhost-kernel    vhost kernel backend support
-> >    vhost-user      vhost-user backend support
-> > +  vhost-vdpa      vhost-vdpa kernel backend support
-> >    spice           spice
-> >    rbd             rados block device (rbd)
-> >    libiscsi        iscsi support
-> > @@ -2394,6 +2399,10 @@ test "$vhost_user" = "" && vhost_user=yes
-> >  if test "$vhost_user" = "yes" && test "$mingw32" = "yes"; then
-> >    error_exit "vhost-user isn't available on win32"
-> >  fi
-> > +test "$vhost_vdpa" = "" && vhost_vdpa=$linux
-> > +if test "$vhost_vdpa" = "yes" && test "$linux" != "yes"; then
-> > +  error_exit "vhost-vdpa is only available on Linux"
-> > +fi
-> >  test "$vhost_kernel" = "" && vhost_kernel=$linux
-> >  if test "$vhost_kernel" = "yes" && test "$linux" != "yes"; then
-> >    error_exit "vhost-kernel is only available on Linux"
-> > @@ -2422,6 +2431,11 @@ test "$vhost_user_fs" = "" &&
-> > vhost_user_fs=$vhost_user
-> >  if test "$vhost_user_fs" = "yes" && test "$vhost_user" = "no"; then
-> >    error_exit "--enable-vhost-user-fs requires --enable-vhost-user"
-> >  fi
-> > +#vhost-vdpa backends
-> > +test "$vhost_net_vdpa" = "" && vhost_net_vdpa=$vhost_vdpa
-> > +if test "$vhost_net_vdpa" = "yes" && test "$vhost_vdpa" = "no"; then
-> > +  error_exit "--enable-vhost-net-vdpa requires --enable-vhost-vdpa"
-> > +fi
-> >
-> >  # OR the vhost-kernel and vhost-user values for simplicity
-> >  if test "$vhost_net" = ""; then
-> > @@ -6936,6 +6950,7 @@ echo "vhost-scsi support $vhost_scsi"
-> >  echo "vhost-vsock support $vhost_vsock"
-> >  echo "vhost-user support $vhost_user"
-> >  echo "vhost-user-fs support $vhost_user_fs"
-> > +echo "vhost-vdpa support $vhost_vdpa"
-> >  echo "Trace backends    $trace_backends"
-> >  if have_backend "simple"; then
-> >  echo "Trace output file $trace_file-<pid>"
-> > @@ -7437,6 +7452,9 @@ fi
-> >  if test "$vhost_net_user" = "yes" ; then
-> >    echo "CONFIG_VHOST_NET_USER=y" >> $config_host_mak
-> >  fi
-> > +if test "$vhost_net_vdpa" = "yes" ; then
-> > +  echo "CONFIG_VHOST_NET_VDPA=y" >> $config_host_mak
-> > +fi
-> >  if test "$vhost_crypto" = "yes" ; then
-> >    echo "CONFIG_VHOST_CRYPTO=y" >> $config_host_mak
-> >  fi
-> > @@ -7452,6 +7470,9 @@ fi
-> >  if test "$vhost_user" = "yes" ; then
-> >    echo "CONFIG_VHOST_USER=y" >> $config_host_mak
-> >  fi
-> > +if test "$vhost_vdpa" = "yes" ; then
-> > +  echo "CONFIG_VHOST_VDPA=y" >> $config_host_mak
-> > +fi
-> >  if test "$vhost_user_fs" = "yes" ; then
-> >    echo "CONFIG_VHOST_USER_FS=y" >> $config_host_mak
-> >  fi
-> > diff --git a/include/hw/virtio/vhost-backend.h
-> > b/include/hw/virtio/vhost-backend.h
-> > index e7cb8d028c..8825bd278f 100644
-> > --- a/include/hw/virtio/vhost-backend.h
-> > +++ b/include/hw/virtio/vhost-backend.h
-> > @@ -17,7 +17,8 @@ typedef enum VhostBackendType {
-> >      VHOST_BACKEND_TYPE_NONE = 0,
-> >      VHOST_BACKEND_TYPE_KERNEL = 1,
-> >      VHOST_BACKEND_TYPE_USER = 2,
-> > -    VHOST_BACKEND_TYPE_MAX = 3,
-> > +    VHOST_BACKEND_TYPE_VDPA = 3,
-> > +    VHOST_BACKEND_TYPE_MAX = 4,
-> >  } VhostBackendType;
-> >
-> >  typedef enum VhostSetConfigType {
-> > @@ -170,6 +171,7 @@ typedef struct VhostOps {
-> >  } VhostOps;
-> >
-> >  extern const VhostOps user_ops;
-> > +extern const VhostOps vdpa_ops;
-> >
-> >  int vhost_set_backend_type(struct vhost_dev *dev,
-> >                             VhostBackendType backend_type);
-> > diff --git a/include/hw/virtio/vhost-vdpa.h
-> > b/include/hw/virtio/vhost-vdpa.h
-> > new file mode 100644
-> > index 0000000000..6455663388
-> > --- /dev/null
-> > +++ b/include/hw/virtio/vhost-vdpa.h
-> > @@ -0,0 +1,26 @@
-> > +/*
-> > + * vhost-vdpa.h
-> > + *
-> > + * Copyright(c) 2017-2018 Intel Corporation.
-> > + * Copyright(c) 2020 Red Hat, Inc.
-> > + *
-> > + * This work is licensed under the terms of the GNU GPL, version 2
-> > or later.
-> > + * See the COPYING file in the top-level directory.
-> > + *
-> > + */
-> > +
-> > +#ifndef HW_VIRTIO_VHOST_VDPA_H
-> > +#define HW_VIRTIO_VHOST_VDPA_H
-> > +
-> > +#include "hw/virtio/virtio.h"
-> > +
-> > +typedef struct vhost_vdpa {
-> > +    int device_fd;
-> > +    uint32_t msg_type;
-> > +    MemoryListener listener;
-> > +} VhostVDPA;
-> > +
-> > +extern AddressSpace address_space_memory;
-> > +extern int vhost_vdpa_get_device_id(struct vhost_dev *dev,
-> > +                                   uint32_t *device_id);
-> > +#endif
-> > diff --git a/include/hw/virtio/vhost.h b/include/hw/virtio/vhost.h
-> > index 085450c6f8..767a95ec0b 100644
-> > --- a/include/hw/virtio/vhost.h
-> > +++ b/include/hw/virtio/vhost.h
-> > @@ -92,6 +92,13 @@ struct vhost_dev {
-> >      const VhostDevConfigOps *config_ops;
-> >  };
-> >
-> > +struct vhost_net {
-> > +    struct vhost_dev dev;
-> > +    struct vhost_virtqueue vqs[2];
-> > +    int backend;
-> > +    NetClientState *nc;
-> > +};
-> > +
-> >  int vhost_dev_init(struct vhost_dev *hdev, void *opaque,
-> >                     VhostBackendType backend_type,
-> >                     uint32_t busyloop_timeout);
-> > diff --git a/hw/net/vhost_net.c b/hw/net/vhost_net.c
-> > index 4561665f6b..e165594cf3 100644
-> > --- a/hw/net/vhost_net.c
-> > +++ b/hw/net/vhost_net.c
-> > @@ -17,8 +17,10 @@
-> >  #include "net/net.h"
-> >  #include "net/tap.h"
-> >  #include "net/vhost-user.h"
-> > +#include "net/vhost-vdpa.h"
-> >
-> >  #include "standard-headers/linux/vhost_types.h"
-> > +#include "linux-headers/linux/vhost.h"
-> >  #include "hw/virtio/virtio-net.h"
-> >  #include "net/vhost_net.h"
-> >  #include "qemu/error-report.h"
-> > @@ -33,12 +35,6 @@
-> >  #include "hw/virtio/vhost.h"
-> >  #include "hw/virtio/virtio-bus.h"
-> >
-> > -struct vhost_net {
-> > -    struct vhost_dev dev;
-> > -    struct vhost_virtqueue vqs[2];
-> > -    int backend;
-> > -    NetClientState *nc;
-> > -};
-> >
-> >  /* Features supported by host kernel. */
-> >  static const int kernel_feature_bits[] = {
-> > @@ -96,6 +92,11 @@ static const int
-> > *vhost_net_get_feature_bits(struct vhost_net *net)
-> >      case NET_CLIENT_DRIVER_VHOST_USER:
-> >          feature_bits = user_feature_bits;
-> >          break;
-> > +#ifdef CONFIG_VHOST_NET_VDPA
-> > +    case NET_CLIENT_DRIVER_VHOST_VDPA:
-> > +        feature_bits = vdpa_feature_bits;
-> > +        break;
-> > +#endif
-> >      default:
-> >          error_report("Feature bits not defined for this type: %d",
-> >                  net->nc->info->type);
-> > @@ -443,6 +444,12 @@ VHostNetState *get_vhost_net(NetClientState *nc)
-> >          vhost_net = vhost_user_get_vhost_net(nc);
-> >          assert(vhost_net);
-> >          break;
-> > +#endif
-> > +#ifdef CONFIG_VHOST_NET_VDPA
-> > +    case NET_CLIENT_DRIVER_VHOST_VDPA:
-> > +        vhost_net = vhost_vdpa_get_vhost_net(nc);
-> > +        assert(vhost_net);
-> > +        break;
-> >  #endif
-> >      default:
-> >          break;
-> > diff --git a/hw/net/virtio-net.c b/hw/net/virtio-net.c
-> > index aff67a92df..0a54b1910a 100644
-> > --- a/hw/net/virtio-net.c
-> > +++ b/hw/net/virtio-net.c
-> > @@ -43,6 +43,7 @@
-> >  #include "monitor/qdev.h"
-> >  #include "hw/pci/pci.h"
-> >  #include "net_rx_pkt.h"
-> > +#include "hw/virtio/vhost.h"
-> >
-> >  #define VIRTIO_NET_VM_VERSION    11
-> >
-> > @@ -125,6 +126,8 @@ static void virtio_net_get_config(VirtIODevice
-> > *vdev, uint8_t *config)
-> >      VirtIONet *n = VIRTIO_NET(vdev);
-> >      struct virtio_net_config netcfg;
-> >
-> > +    int ret = 0;
-> > +    memset(&netcfg, 0 , sizeof(struct virtio_net_config));
-> >      virtio_stw_p(vdev, &netcfg.status, n->status);
-> >      virtio_stw_p(vdev, &netcfg.max_virtqueue_pairs, n->max_queues);
-> >      virtio_stw_p(vdev, &netcfg.mtu, n->net_conf.mtu);
-> > @@ -138,6 +141,15 @@ static void virtio_net_get_config(VirtIODevice
-> > *vdev, uint8_t *config)
-> >      virtio_stl_p(vdev, &netcfg.supported_hash_types,
-> >                   VIRTIO_NET_RSS_SUPPORTED_HASHES);
-> >      memcpy(config, &netcfg, n->config_size);
-> > +
-> > +    NetClientState *nc = qemu_get_queue(n->nic);
-> > +    if (nc->peer->info->type == NET_CLIENT_DRIVER_VHOST_VDPA) {
-> > +        ret = vhost_net_get_config(get_vhost_net(nc->peer), (uint8_t
-> > *)&netcfg,
-> > +                             n->config_size);
-> > +    if (ret != -1) {
-> > +        memcpy(config, &netcfg, n->config_size);
-> > +    }
-> > +    }
-> >  }
-> >
-> >  static void virtio_net_set_config(VirtIODevice *vdev, const uint8_t
-> > *config)
-> > @@ -153,6 +165,13 @@ static void virtio_net_set_config(VirtIODevice
-> > *vdev, const uint8_t *config)
-> >          memcpy(n->mac, netcfg.mac, ETH_ALEN);
-> >          qemu_format_nic_info_str(qemu_get_queue(n->nic), n->mac);
-> >      }
-> > +
-> > +    NetClientState *nc = qemu_get_queue(n->nic);
-> > +    if (nc->peer->info->type == NET_CLIENT_DRIVER_VHOST_VDPA) {
-> > +        vhost_net_set_config(get_vhost_net(nc->peer), (uint8_t
-> > *)&netcfg,
-> > +                               0, n->config_size,
-> > +                        VHOST_SET_CONFIG_TYPE_MASTER);
-> > +      }
-> >  }
-> >
-> >  static bool virtio_net_started(VirtIONet *n, uint8_t status)
-> > diff --git a/hw/virtio/vhost-backend.c b/hw/virtio/vhost-backend.c
-> > index 48905383f8..782b1d67d9 100644
-> > --- a/hw/virtio/vhost-backend.c
-> > +++ b/hw/virtio/vhost-backend.c
-> > @@ -15,6 +15,7 @@
-> >  #include "qemu/main-loop.h"
-> >  #include "standard-headers/linux/vhost_types.h"
-> >
-> > +#include "hw/virtio/vhost-vdpa.h"
-> >  #ifdef CONFIG_VHOST_KERNEL
-> >  #include <linux/vhost.h>
-> >  #include <sys/ioctl.h>
-> > @@ -285,6 +286,11 @@ int vhost_set_backend_type(struct vhost_dev
-> > *dev, VhostBackendType backend_type)
-> >      case VHOST_BACKEND_TYPE_USER:
-> >          dev->vhost_ops = &user_ops;
-> >          break;
-> > +#endif
-> > +#ifdef CONFIG_VHOST_VDPA
-> > +    case VHOST_BACKEND_TYPE_VDPA:
-> > +        dev->vhost_ops = &vdpa_ops;
-> > +        break;
-> >  #endif
-> >      default:
-> >          error_report("Unknown vhost backend type");
-> > diff --git a/hw/virtio/vhost-vdpa.c b/hw/virtio/vhost-vdpa.c
-> > new file mode 100644
-> > index 0000000000..6f2b01c25e
-> > --- /dev/null
-> > +++ b/hw/virtio/vhost-vdpa.c
-> > @@ -0,0 +1,475 @@
-> > +/*
-> > + * vhost-vdpa
-> > + *
-> > + *  Copyright(c) 2017-2018 Intel Corporation.
-> > + *  Copyright(c) 2020 Red Hat, Inc.
-> > + *
-> > + * This work is licensed under the terms of the GNU GPL, version 2
-> > or later.
-> > + * See the COPYING file in the top-level directory.
-> > + *
-> > + */
-> > +
-> > +#include "qemu/osdep.h"
-> > +#include <linux/vhost.h>
-> > +#include <linux/vfio.h>
-> > +#include <sys/eventfd.h>
-> > +#include <sys/ioctl.h>
-> > +#include "hw/virtio/vhost.h"
-> > +#include "hw/virtio/vhost-backend.h"
-> > +#include "hw/virtio/virtio-net.h"
-> > +#include "hw/virtio/vhost-vdpa.h"
-> > +#include "qemu/main-loop.h"
-> > +#include <linux/kvm.h>
-> > +#include "sysemu/kvm.h"
-> There is an issue here ^^^
-> Now that this patch is in mainline, I find that hw/virtio/vhost-vdpa.c
-> does not compile on a RISCV host (I'm using the openSUSE Build Service,
-> which provides a number of architectures, including RISCV64). This host
-> doesn't have KVM support.
+> (qemu) chardev-add id=3Dnull,backend=3Dnull
+> (qemu) chardev-add id=3Dnull,backend=3Dnull
+> Unexpected error in object_property_try_add() at /home/elmarco/src/qemu/q=
+om/object.c:1166:
+> attempt to add duplicate property 'null' to object (type 'container')
 >
-> The failure is as follows:
-> In file included from /home/abuild/rpmbuild/BUILD/qemu-
-> 5.0.50/hw/virtio/vhost-vdpa.c:22:
-> /home/abuild/rpmbuild/BUILD/qemu-5.0.50/linux-
-> headers/linux/kvm.h:14:10: fatal error: asm/kvm.h: No such file or
-> directory
->    14 | #include <asm/kvm.h>
+> That case is currently not covered in the test suite, but will be with
+> the queued patch "char: fix use-after-free with dup chardev &
+> reconnect".
 >
-> As I wondered why we have a kvm reference in this file at all, I
-> removed the last two #include lines above and recompiled, I find that
-> TARGET_PAGE_MASK and TARGET_PAGE_ALIGN are not defined, so poking
-> around a bit it seemed that including "cpu.h" might be the solution
-> there, and it indeed compiles ok that way.
+
+Please add
+
+  Fixes: d2623129a7dec1d3041ad1221dda1ca49c667532
+
+Bonus: you can then shorten the hash above for readability.
+
+> Signed-off-by: Marc-Andr=C3=A9 Lureau <marcandre.lureau@redhat.com>
+> ---
+>  chardev/char.c | 5 ++++-
+>  1 file changed, 4 insertions(+), 1 deletion(-)
 >
-> I'll leave it to the patch author or sub-maintainer to identify the
-> best solution.
->
-> Thanks,
->
-> Bruce
->
-Thanks a lot Bruce, I will send out a patch soon
+> diff --git a/chardev/char.c b/chardev/char.c
+> index e3051295ac3..876e41bb592 100644
+> --- a/chardev/char.c
+> +++ b/chardev/char.c
+> @@ -998,7 +998,10 @@ static Chardev *chardev_new(const char *id, const ch=
+ar *typename,
+>      }
+> =20
+>      if (id) {
+> -        object_property_add_child(get_chardevs_root(), id, obj);
+> +        object_property_try_add_child(get_chardevs_root(), id, obj, &loc=
+al_err);
+
+Suggest to break this line before &local_err.
+
+> +        if (local_err) {
+> +            goto end;
+> +        }
+>          object_unref(obj);
+>      }
+
+Sorry for breaking this.
+
+Reviewed-by: Markus Armbruster <armbru@redhat.com>
 
 
