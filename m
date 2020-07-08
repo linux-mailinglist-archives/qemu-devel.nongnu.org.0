@@ -2,83 +2,72 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 198C4219478
-	for <lists+qemu-devel@lfdr.de>; Thu,  9 Jul 2020 01:42:03 +0200 (CEST)
-Received: from localhost ([::1]:34772 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A9F9121949F
+	for <lists+qemu-devel@lfdr.de>; Thu,  9 Jul 2020 01:50:47 +0200 (CEST)
+Received: from localhost ([::1]:39708 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jtJhS-0002PY-4V
-	for lists+qemu-devel@lfdr.de; Wed, 08 Jul 2020 19:42:02 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:38086)
+	id 1jtJpu-0004uP-PS
+	for lists+qemu-devel@lfdr.de; Wed, 08 Jul 2020 19:50:46 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:39262)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1jtJgZ-0001pM-Db
- for qemu-devel@nongnu.org; Wed, 08 Jul 2020 19:41:07 -0400
-Received: from mail-pf1-x442.google.com ([2607:f8b0:4864:20::442]:42611)
+ (Exim 4.90_1) (envelope-from <liq3ea@gmail.com>) id 1jtJou-0004TR-LN
+ for qemu-devel@nongnu.org; Wed, 08 Jul 2020 19:49:44 -0400
+Received: from mail-oi1-x22f.google.com ([2607:f8b0:4864:20::22f]:41793)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1jtJgW-0002q5-33
- for qemu-devel@nongnu.org; Wed, 08 Jul 2020 19:41:07 -0400
-Received: by mail-pf1-x442.google.com with SMTP id 1so165081pfn.9
- for <qemu-devel@nongnu.org>; Wed, 08 Jul 2020 16:41:03 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=subject:to:cc:references:from:message-id:date:user-agent
- :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=1UkOWbeQctjkd0+Ogbpvj1L/TqjRumxU2EBvZJQeXG8=;
- b=lb7+FHUobW5Qq1NHHtLjA7ApGrLtrv1NcfGvuz5vU5bYN8X0vVpr3c/e4fhBXSOIpt
- 2LxZPTqSIp0UXbRM3EisPeeiZriowVWNMaai+PDH1F044Z7eFKTco6hEmPUspARhgdT3
- LpHQvfPRLD6HDW+oQLDkYrqAOQNyMLxCly5Tm/MrOb2lop6W6g3In1HqTGjXNk8DAJvH
- 9zj3OOD1FqUVkBOrmgcK1kBinbADFkuRYbn/ISEDi6iJ7lfHcUy0XK6WMtzFKmWG3qml
- vX+39Vi7bpxQ9fGb261Tbt5W4NZ9nRYS5UO82lqTQ0vxYE6ukRVsTM/6Z9Ci2acOGaQ9
- NyqA==
+ (Exim 4.90_1) (envelope-from <liq3ea@gmail.com>) id 1jtJot-0003j9-4u
+ for qemu-devel@nongnu.org; Wed, 08 Jul 2020 19:49:44 -0400
+Received: by mail-oi1-x22f.google.com with SMTP id y22so418758oie.8
+ for <qemu-devel@nongnu.org>; Wed, 08 Jul 2020 16:49:42 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc:content-transfer-encoding;
+ bh=fZDXokwWMRUDp2VygwJr08cRd91R4Vllb0vRv1vvqec=;
+ b=LPUGUQrXpwRs7kcwXb+yQ5hlwCzFJN3b7CXO36DAF3KOErDdAMRdPTuH65F8Xdwbxs
+ 2I/QcwjYrmh6keC+poMDWjczNjBr2GTflujQDwGEj+DbkQayn5pJSKzPDWiPH3JwMa9r
+ Td8oC/oh+BXdBuf/8MGD2v9OHtkSMDp/z0xrKmO3OpAyFxJRb11Bgmr71O8kjlu2wtQE
+ RR0pNKHFD9TIvum4g93dtKtVsGDpHBDyromCU0eqbWwruzr5sU0hUOl42j+Rr/KBdh3y
+ eBvX7+hXnaiWlGrJKkJeStJmnkArNWaAFARHNxQblgsklAV+O/QzkIL5mWJB5Qun0opO
+ ioCg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=1UkOWbeQctjkd0+Ogbpvj1L/TqjRumxU2EBvZJQeXG8=;
- b=AcsIVMWHcx99fVncLhyQBYdXC+dmYwnx4OwsHbp2uzkHdBr1X0iHAZ/S9NaNn6Gcyj
- n2T6/d8/bcxcVCFm53PwaHzd0KaAOHSY8lRnraIyl9nciGKdcjfypOEooErXQkxHJI2h
- 3ZmGbwln2p4iISKZdilk26DsjqCk/QO7NCjA+f+HUnN6+AqhYzaFoui1LVcaHwMErc2e
- gIzwkmykbbb50WIxu8yu/OgXWhGrM55vpF9EGaeHIqhMox3R/3eWMJ8TL/3XnwxzMn7I
- LgXDWiFF9RCTyimez414YFbVgpe8N5DNrLgb9X9oZhCJfNQkMeJxWkSS84qd73LVy0pL
- PeDA==
-X-Gm-Message-State: AOAM532GADTtCUk8Jad/uuuQoBm6fBxL2+5NlAYO3q+/+QhSprcEjufD
- slJzn2zn41B3r1RtOHqV8VrwHw==
-X-Google-Smtp-Source: ABdhPJyT6WV2j8t4QJIFL7zC60t7dV21LOuVF3hy4Rh+au7xYoasDhNuHeFGWcREqVZPI7t4+p3M4g==
-X-Received: by 2002:a63:7c4d:: with SMTP id l13mr51986513pgn.12.1594251662283; 
- Wed, 08 Jul 2020 16:41:02 -0700 (PDT)
-Received: from [192.168.7.121] (24-113-145-216.wavecable.com. [24.113.145.216])
- by smtp.gmail.com with ESMTPSA id k189sm762822pfd.175.2020.07.08.16.41.00
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Wed, 08 Jul 2020 16:41:01 -0700 (PDT)
-Subject: Re: [PATCH 7/7] hw/watchdog/wdt_aspeed: Reduce timer precision to
- micro-second
-To: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>,
- qemu-devel@nongnu.org
-References: <20200616075121.12837-1-f4bug@amsat.org>
- <20200616075121.12837-8-f4bug@amsat.org>
-From: Richard Henderson <richard.henderson@linaro.org>
-Message-ID: <9a5a9f82-8646-6a11-6633-ca714b76a482@linaro.org>
-Date: Wed, 8 Jul 2020 16:40:58 -0700
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.8.0
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc:content-transfer-encoding;
+ bh=fZDXokwWMRUDp2VygwJr08cRd91R4Vllb0vRv1vvqec=;
+ b=UQGIUNi/OmcupWaguMGtjtjygElH9AR1XRx5m5AkzOnq22SYdCcUuKVwStkvBZht8e
+ cc9ZAlkiNzRQe0zmF0vJkCJ8tTNHKaqA2pajH775mMMAP4IBBYSdy9dkcwjYG9KiD/m8
+ Njmu9TyUEOX3w0HNJJUVHUtFpk77e/FEOD8zLXZc/Wd2O9MgdGkaWF5Hfs3XCQFGyLoy
+ qRTVGaoFyX8Vmi76ytOQCHJobLei20xKRKqYxUYC43x4GYpE2Joc5fs0e7xfApSb/nYt
+ uRWGVYUm/GMX141w3+oidc/Df0UtLM0Cfsq6PiGvPeAEH6kc+56bKOtuBEdti0XmpDS4
+ V4mA==
+X-Gm-Message-State: AOAM530wX5/vDexSyf8lvCkOnvkw/MNfbPqtbh4OPKYA1lyeqdc0a2+8
+ PTBmKrxuyu2JGPuDpWacFVloUnA53it7Df0mFng=
+X-Google-Smtp-Source: ABdhPJxHdVO+6nx0aJgERwTF3M/PB2Lu/Ir35EIBEjMa6uDbXNteVkqdig04lzO2WIDjOhW7czSd5fV9khIqXQxNy44=
+X-Received: by 2002:aca:494d:: with SMTP id w74mr9397002oia.97.1594252181585; 
+ Wed, 08 Jul 2020 16:49:41 -0700 (PDT)
 MIME-Version: 1.0
-In-Reply-To: <20200616075121.12837-8-f4bug@amsat.org>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::442;
- envelope-from=richard.henderson@linaro.org; helo=mail-pf1-x442.google.com
+References: <20200708200104.21978-1-alxndr@bu.edu>
+ <20200708200104.21978-2-alxndr@bu.edu>
+In-Reply-To: <20200708200104.21978-2-alxndr@bu.edu>
+From: Li Qiang <liq3ea@gmail.com>
+Date: Thu, 9 Jul 2020 07:49:05 +0800
+Message-ID: <CAKXe6S+_wk93hxfUJH=0F9TL3WE0XmYOTwc5oHXs4h7878zaZA@mail.gmail.com>
+Subject: Re: [PATCH-for-5.1 1/2] configure: do not clobber CFLAGS with
+ --enable-fuzzing
+To: Alexander Bulekov <alxndr@bu.edu>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=2607:f8b0:4864:20::22f;
+ envelope-from=liq3ea@gmail.com; helo=mail-oi1-x22f.google.com
 X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
  That's all we know.
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -91,26 +80,46 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Kevin Wolf <kwolf@redhat.com>, Peter Maydell <peter.maydell@linaro.org>,
- qemu-block@nongnu.org, Corey Minyard <minyard@acm.org>,
- David Hildenbrand <david@redhat.com>, Andrew Jeffery <andrew@aj.id.au>,
- "Michael S. Tsirkin" <mst@redhat.com>,
- Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>,
- Max Reitz <mreitz@redhat.com>, qemu-arm@nongnu.org,
- Joel Stanley <joel@jms.id.au>, Paolo Bonzini <pbonzini@redhat.com>,
- =?UTF-8?Q?C=c3=a9dric_Le_Goater?= <clg@kaod.org>
+Cc: =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <philmd@redhat.com>,
+ =?UTF-8?B?5p2O5by6?= <liq3ea@163.com>, Qemu Developers <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 6/16/20 12:51 AM, Philippe Mathieu-Daudé wrote:
-> -        reload = muldiv64(s->regs[WDT_RELOAD_VALUE], NANOSECONDS_PER_SECOND,
-> +        reload = muldiv64(s->regs[WDT_RELOAD_VALUE],
-> +                          NANOSECONDS_PER_SECOND / SCALE_US,
->                            s->pclk_freq);
+Alexander Bulekov <alxndr@bu.edu> =E4=BA=8E2020=E5=B9=B47=E6=9C=889=E6=97=
+=A5=E5=91=A8=E5=9B=9B =E4=B8=8A=E5=8D=884:02=E5=86=99=E9=81=93=EF=BC=9A
+>
+> When configuring with --enable-fuzzing, we overwrote the CFLAGS
+> added by all the preceding checks. Instead of overwriting CFLAGS, append
+> the ones we need.
+>
+> Fixes: adc28027ff ("fuzz: add configure flag --enable-fuzzing")
+> Reported-by: Li Qiang <liq3ea@163.com>
+> Signed-off-by: Alexander Bulekov <alxndr@bu.edu>
 
-Similarly, I would prefer MICROSECONDS_PER_SECOND.  Though again, I don't see
-what we gain from changing units.
 
+Tested-by: Li Qiang <liq3ea@gmail.com>
+Reviewed-by: Li Qiang <liq3ea@gmail.com>
 
-r~
+> ---
+>  configure | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
+>
+> diff --git a/configure b/configure
+> index ee6c3c6792..078ebaa9f3 100755
+> --- a/configure
+> +++ b/configure
+> @@ -7898,7 +7898,7 @@ if test "$fuzzing" =3D "yes" ; then
+>    if test "$have_fuzzer" =3D "yes"; then
+>      FUZZ_LDFLAGS=3D" -fsanitize=3Daddress,fuzzer"
+>      FUZZ_CFLAGS=3D" -fsanitize=3Daddress,fuzzer"
+> -    CFLAGS=3D" -fsanitize=3Daddress,fuzzer-no-link"
+> +    CFLAGS=3D"$CFLAGS -fsanitize=3Daddress,fuzzer-no-link"
+>    else
+>      error_exit "Your compiler doesn't support -fsanitize=3Daddress,fuzze=
+r"
+>      exit 1
+> --
+> 2.26.2
+>
+>
 
