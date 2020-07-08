@@ -2,67 +2,47 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9D184219349
-	for <lists+qemu-devel@lfdr.de>; Thu,  9 Jul 2020 00:22:35 +0200 (CEST)
-Received: from localhost ([::1]:52236 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3BD8D219388
+	for <lists+qemu-devel@lfdr.de>; Thu,  9 Jul 2020 00:35:39 +0200 (CEST)
+Received: from localhost ([::1]:34062 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jtISY-0002IS-Kb
-	for lists+qemu-devel@lfdr.de; Wed, 08 Jul 2020 18:22:34 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:44654)
+	id 1jtIfC-0004X8-6e
+	for lists+qemu-devel@lfdr.de; Wed, 08 Jul 2020 18:35:38 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:45022)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1jtIDv-0005ez-IA
- for qemu-devel@nongnu.org; Wed, 08 Jul 2020 18:07:27 -0400
-Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:58084
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1jtIF3-00086S-5U
+ for qemu-devel@nongnu.org; Wed, 08 Jul 2020 18:08:37 -0400
+Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:56965
  helo=us-smtp-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1jtIDt-0007TA-R4
- for qemu-devel@nongnu.org; Wed, 08 Jul 2020 18:07:27 -0400
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1jtIF1-0007a9-Eu
+ for qemu-devel@nongnu.org; Wed, 08 Jul 2020 18:08:36 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1594246044;
+ s=mimecast20190719; t=1594246114;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=dgdh5XnFk6045WTIDPahGD6XWi9Av6OMK5UmBjgvK6g=;
- b=CnXtJmWez8573QjfB538qn1uRRUSyELgw+RI8diudKRmH5oVE5dhJzF5SBlhnd7YR/Aujb
- OjS0oLWydOck6hRnu8efisdCstVABwQtocIo6Mq0M0X1PRmS4E4RDoZKFVWObxbIPWZbr0
- 1XXofR+lQS1kJLG5r8QqjCvNs2Iymns=
-Received: from mail-wm1-f69.google.com (mail-wm1-f69.google.com
- [209.85.128.69]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-469-jCz_Gd2AOe22eO_9ycYA7Q-1; Wed, 08 Jul 2020 11:05:19 -0400
-X-MC-Unique: jCz_Gd2AOe22eO_9ycYA7Q-1
-Received: by mail-wm1-f69.google.com with SMTP id z11so3284100wmg.5
- for <qemu-devel@nongnu.org>; Wed, 08 Jul 2020 08:05:19 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=dgdh5XnFk6045WTIDPahGD6XWi9Av6OMK5UmBjgvK6g=;
- b=mXLbi0YeBizzAys34/lhEYdq6APzCnFw/awnBcNvpUSJ1RhBlMd2/BkQlVBs3JZ1Rd
- /1js/Fxxh95eqlUjVPPcdvMYE/cjuQkQbRaswLmuC45+Ks/7/MLGlxtDPSKjkbXMw19B
- 6yQuyvxZHoqogi+E2UAOzd1ZMXS0cS836d/TUwXm/vYPh9YsO2UMbkQUBkBVlWfdgsWn
- P5+419rQeDkIH2ZvhAS3dvGm3aTv4TXo2yblKuDvf0H9rnGaae5YBjNZTmEWB9JRX58F
- 04o9fYtknOYKZxMtntbs+LcaMJyls4JDCgODm7hTr0aFXlHcoEaJNg8YX4Hh0SvOwiIa
- p4fQ==
-X-Gm-Message-State: AOAM533lkghqIb5sBdeIOf6YFL7xxBlMKWy9ocX+c1WJ8U043vM7/rC0
- 8CXcNV834Aiiqru/K60fh8nRys/kuicCV4n7bfTxKN5RgmL6urQD1zSSjEjy3p9TmPHl9R5dsbf
- xQ+8rnhFtS1Mkago=
-X-Received: by 2002:a5d:484b:: with SMTP id n11mr56600665wrs.320.1594220718538; 
- Wed, 08 Jul 2020 08:05:18 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJwKTRS1XOg1ilJ+1ZWz7zHmvG0DFO85S/YWOzxEM1KivPc8TecLIrFaTZpAcJ86Ykc51I3P8g==
-X-Received: by 2002:a5d:484b:: with SMTP id n11mr56600637wrs.320.1594220718342; 
- Wed, 08 Jul 2020 08:05:18 -0700 (PDT)
-Received: from ?IPv6:2001:b07:6468:f312:9541:9439:cb0f:89c?
- ([2001:b07:6468:f312:9541:9439:cb0f:89c])
- by smtp.gmail.com with ESMTPSA id e17sm288121wrr.88.2020.07.08.08.05.16
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Wed, 08 Jul 2020 08:05:17 -0700 (PDT)
+ in-reply-to:in-reply-to:references:references:openpgp:openpgp;
+ bh=v3CoZDbJvgTYESPRJU3GB8WApj1HDE+tT0IVzgq8jaA=;
+ b=DmemKlYVdQryn15tGKfvSKH/I8hZH9K/xCiWI4ylR80xKyGZYO0A2TwQMfWLeERzAh52Z4
+ mjOuSX4DTpbOdI4yalT2/Es1aagaQ2ycV67Q9JXoELSKegoTeKlFdYEnfK+M1pGA5sJntc
+ 8R9fXdlVqMhhQVm4bwvEH4N/Knid5LM=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-458-3mePE1YIOauzVd_9nFa8jw-1; Wed, 08 Jul 2020 11:07:47 -0400
+X-MC-Unique: 3mePE1YIOauzVd_9nFa8jw-1
+Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
+ [10.5.11.12])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id D6D3C80BCA0;
+ Wed,  8 Jul 2020 15:07:44 +0000 (UTC)
+Received: from thuth.remote.csb (ovpn-114-90.ams2.redhat.com [10.36.114.90])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 1717560E1C;
+ Wed,  8 Jul 2020 15:07:40 +0000 (UTC)
 Subject: Re: [PATCH 3/3] cpu-timers, icount: new modules
-To: Claudio Fontana <cfontana@suse.de>, Thomas Huth <thuth@redhat.com>,
+To: Paolo Bonzini <pbonzini@redhat.com>, Claudio Fontana <cfontana@suse.de>,
  Laurent Vivier <lvivier@redhat.com>, =?UTF-8?Q?Alex_Benn=c3=a9e?=
  <alex.bennee@linaro.org>, Peter Maydell <peter.maydell@linaro.org>,
  =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>,
@@ -72,21 +52,24 @@ References: <20200629093504.3228-1-cfontana@suse.de>
  <20200629093504.3228-4-cfontana@suse.de>
  <aa45a793-35b1-d3bd-18a8-4c52ad888029@redhat.com>
  <f89f249d-dbc4-779b-5b53-fc408461f072@suse.de>
-From: Paolo Bonzini <pbonzini@redhat.com>
-Message-ID: <ecf5f26b-ce86-3e13-5c5c-567919433acb@redhat.com>
-Date: Wed, 8 Jul 2020 17:05:16 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.9.0
+ <ecf5f26b-ce86-3e13-5c5c-567919433acb@redhat.com>
+From: Thomas Huth <thuth@redhat.com>
+Openpgp: preference=signencrypt
+Message-ID: <d5bb7a17-1e49-2436-a11b-3b6775589490@redhat.com>
+Date: Wed, 8 Jul 2020 17:07:39 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+ Thunderbird/60.9.0
 MIME-Version: 1.0
-In-Reply-To: <f89f249d-dbc4-779b-5b53-fc408461f072@suse.de>
+In-Reply-To: <ecf5f26b-ce86-3e13-5c5c-567919433acb@redhat.com>
 Content-Language: en-US
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=pbonzini@redhat.com
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=thuth@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=utf-8
 Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=205.139.110.120; envelope-from=pbonzini@redhat.com;
+Received-SPF: pass client-ip=205.139.110.120; envelope-from=thuth@redhat.com;
  helo=us-smtp-1.mimecast.com
 X-detected-operating-system: by eggs.gnu.org: First seen = 2020/07/07 17:25:11
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
@@ -116,42 +99,26 @@ Cc: Eduardo Habkost <ehabkost@redhat.com>, Colin Xu <colin.xu@intel.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 08/07/20 17:00, Claudio Fontana wrote:
->> Bisectable, 100% failure rate, etc. :(  Can you split the patch in
->> multiple parts, specifically separating any rename or introducing of
->> includes from the final file move?
-> Hi Paolo,
-> 
-> will take a look!
-> 
-> Is this captured by some travis / cirrus-ci / anything I can easily see the result of?
-> 
-> 
-
-Nope, unfortunately we don't have an s390 CI.  But if you can get your
-hands on one, just "./configure --target-list=s390x-softmmu && make &&
-make check-block" will show it.
-
+On 08/07/2020 17.05, Paolo Bonzini wrote:
+> On 08/07/20 17:00, Claudio Fontana wrote:
+>>> Bisectable, 100% failure rate, etc. :(  Can you split the patch in
+>>> multiple parts, specifically separating any rename or introducing of
+>>> includes from the final file move?
+>> Hi Paolo,
 >>
->> 	#if defined CONFIG_TCG || !defined NEED_CPU_H
->> 	extern bool icount_enabled(void);
->> 	#else
->> 	#define icount_enabled() 0
->> 	#endif
+>> will take a look!
 >>
->> (This way, more TCG-only code in cpus.c gets elided).  You can integrate
->> this change in the next version.
+>> Is this captured by some travis / cirrus-ci / anything I can easily see the result of?
 >>
->> Paolo
 >>
 > 
-> Weird, I tested with --disable-tcg explicitly (but may be some time ago now, as I constantly rebased).
-> 
-> Will take a look at the introduction of this #defines in place of variables,
-> as this mechanisms will not work in the future for target-specific modules.
+> Nope, unfortunately we don't have an s390 CI.  But if you can get your
+> hands on one, just "./configure --target-list=s390x-softmmu && make &&
+> make check-block" will show it.
 
-This is only done for per-target files so it should not be a problem.
+We've got a s390x builder on Travis ... or is this only about the s390x
+target?
 
-Paolo
+ Thomas
 
 
