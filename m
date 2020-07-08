@@ -2,70 +2,96 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id DB014218D0E
-	for <lists+qemu-devel@lfdr.de>; Wed,  8 Jul 2020 18:36:46 +0200 (CEST)
-Received: from localhost ([::1]:51420 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1A49121938A
+	for <lists+qemu-devel@lfdr.de>; Thu,  9 Jul 2020 00:36:18 +0200 (CEST)
+Received: from localhost ([::1]:37780 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jtD3t-0001xp-DH
-	for lists+qemu-devel@lfdr.de; Wed, 08 Jul 2020 12:36:45 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:32894)
+	id 1jtIfp-000697-41
+	for lists+qemu-devel@lfdr.de; Wed, 08 Jul 2020 18:36:17 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:47636)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <killpy178@gmail.com>)
- id 1jtAWl-0003VJ-GS
- for qemu-devel@nongnu.org; Wed, 08 Jul 2020 09:54:23 -0400
-Received: from mail-lj1-x233.google.com ([2a00:1450:4864:20::233]:36173)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <killpy178@gmail.com>)
- id 1jtAWj-0005zX-VH
- for qemu-devel@nongnu.org; Wed, 08 Jul 2020 09:54:23 -0400
-Received: by mail-lj1-x233.google.com with SMTP id d17so39625756ljl.3
- for <qemu-devel@nongnu.org>; Wed, 08 Jul 2020 06:54:21 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=mime-version:from:date:message-id:subject:to;
- bh=xNYnJRTawpxG3jwRYJG4qBN9Zdd7JrZ9B70Lq7ryvYs=;
- b=LH8mHx4su1SEvmPd/EWNpgQLjM3EJydGUzflyw4IXzZkHheVWBbYv6Jt33yvGH1xxB
- qY8lFPle5ONISr85G1HQs0leRAPGFQBSETTu2wgJDyga/Rv+sRTTQJJL/3In3/p8BKI2
- ZsZa3x/uS0zqANzTSoCuXsY1h/j2r7tXDzdXzz++TzmLzyD6WHiQ6lrVxznkzAzaBi/s
- Jrf4XCnLXVZ1wAXMYjXhBDNk6MGhnz71Gjsv5hIlY2wiQJhNSgTQ+hu8VGudHyXFhu6z
- KiEtgWhWzOXb9YdDmCq5oJ7i7hB4VmeaBzeKJCdK6QPraLfV2yI04zxUkn/ATkYC7XMO
- G4jw==
+ (Exim 4.90_1) (envelope-from <peterx@redhat.com>) id 1jtIOZ-0004BC-Ui
+ for qemu-devel@nongnu.org; Wed, 08 Jul 2020 18:18:27 -0400
+Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:33351
+ helo=us-smtp-1.mimecast.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <peterx@redhat.com>) id 1jtIOY-0000aG-D3
+ for qemu-devel@nongnu.org; Wed, 08 Jul 2020 18:18:27 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1594246705;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=0zNRKuJdNZOL+P96AeWfDN8lfkoWprOjCxNHWKJpjaY=;
+ b=KZAVAd35fRKsmOBf/CcpXAa8KxhJEgaHAbKBx1vEC9sRI2fUXu10wp5f70LZwJvRRRHp+B
+ r5ojEF9KSKTSVvrqaPwxDUxouJyZAXHxoXdip95Eu8rFMDepraihg7eDeWP6WUW8lgfOFb
+ lgemtMPLl/afEYTW82Ds5Nh0mSh5UeQ=
+Received: from mail-qt1-f198.google.com (mail-qt1-f198.google.com
+ [209.85.160.198]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-293-spEOIxOsNEGi4pHiWdMYTg-1; Wed, 08 Jul 2020 10:17:00 -0400
+X-MC-Unique: spEOIxOsNEGi4pHiWdMYTg-1
+Received: by mail-qt1-f198.google.com with SMTP id l53so1725883qtl.10
+ for <qemu-devel@nongnu.org>; Wed, 08 Jul 2020 07:17:00 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:from:date:message-id:subject:to;
- bh=xNYnJRTawpxG3jwRYJG4qBN9Zdd7JrZ9B70Lq7ryvYs=;
- b=eV7g6K5mluF44G0jmLoaYxWroNBpOmnnKYeIpj/BIVwPv3OBwR3auqYhvNolPj1E31
- E2BZP3hxB4r6+NYGbppsYFGgSKibFeg28yCULBnwIXYJFkJKkuGYe28BjBkxVjPP6PPB
- C+n2k3rMfXt3PtmVxDU2fplQ5L+LoHXK/0/z02HiopXK66fbFsXf959skxJs5iYvt4M4
- PVZLZf/SKOoH7XAf15OEw+AWYCMtP+3r1z6pBZZWe8kkGZf/TOezJ4B+IfRb9cdUxwWm
- oaAUJ5tVzaWN9DFUoXNZpEXh0Ov5Sx2FzKqhfcvw438xsYRQB3mLU6Pjd6TAM0lJBPnO
- NwCw==
-X-Gm-Message-State: AOAM5326zOFENUtAD5MiMmCXua2GVi+nwq3Waxa/ZMTMQ6ob9YXLNygG
- xi6MFKRFa9Kw7B0CuJ9243OKYjkCULrbZ5rvLunqNEZY9HI=
-X-Google-Smtp-Source: ABdhPJxuhJCuvY3cQUDqe49liJFc8RcBIKvL5xlfyKqX780HasDBc9eiA9CWWDXFpQ/CFkI7xjXOmZ1jW8TPiXX8vqI=
-X-Received: by 2002:a2e:b55a:: with SMTP id a26mr28060859ljn.349.1594216459107; 
- Wed, 08 Jul 2020 06:54:19 -0700 (PDT)
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+ :mime-version:content-disposition:in-reply-to;
+ bh=0zNRKuJdNZOL+P96AeWfDN8lfkoWprOjCxNHWKJpjaY=;
+ b=UUSlcDEKJ3aXqDVeuENIq60N+cZ3IgazDKp7ZMbQ8gVzWGx9F4n9mPOz6kqwIFo2sC
+ h9uR7+KxY5PNXpcTvIuDQm4AN7Pkv9mBDfbcgvHDE1ZrZv10vnNY5MDPoBm1PitYAJzc
+ bG4vaeaOQI/Oi2gwOF8ivGnaI0wFv1HY7OWR+AGelEXkzrK7prQvhIeQJVfNg7KM8RJX
+ VNfKq1jr2r62yesbO3qdwgFMEHNFyB3nKp2GtugLAmzwXAtUVnMRsD4qVoTLInrJl29y
+ KPzxkaG0c2jg//ERj1tALUNVWYdRTr8QWhtchVzTr6TS2CnMY/gFwwNrohQV8ABjpA3s
+ whGw==
+X-Gm-Message-State: AOAM5312iPeaQCLy6npI8NHcy2h+zOMMNBu5HbwQ9tkZEg2qR9xNUJsG
+ fcAXMfdAqky5ZZ9f2l1Cv428okYugb/OtAmKa02ikGoAXtiL+40mowJAL7Eu6b4rpedVZ1ierdV
+ wNxgg02pN/PFATv4=
+X-Received: by 2002:a0c:e78e:: with SMTP id x14mr40423426qvn.65.1594217820205; 
+ Wed, 08 Jul 2020 07:17:00 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJyCUaxenhH3eOsgIo6MbrAZAN3dmmrNXmc38NHns2mwzOM7ivBT3b62ww5246jzBKInEo8zHg==
+X-Received: by 2002:a0c:e78e:: with SMTP id x14mr40423371qvn.65.1594217819653; 
+ Wed, 08 Jul 2020 07:16:59 -0700 (PDT)
+Received: from xz-x1 ([2607:9880:19c8:6f::1f4f])
+ by smtp.gmail.com with ESMTPSA id k14sm7909959qtb.38.2020.07.08.07.16.58
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Wed, 08 Jul 2020 07:16:58 -0700 (PDT)
+Date: Wed, 8 Jul 2020 10:16:57 -0400
+From: Peter Xu <peterx@redhat.com>
+To: Jason Wang <jasowang@redhat.com>
+Subject: Re: [RFC v2 1/1] memory: Delete assertion in
+ memory_region_unregister_iommu_notifier
+Message-ID: <20200708141657.GA199122@xz-x1>
+References: <2589d0e9-cc5b-a4df-8790-189b49f1a40e@redhat.com>
+ <20200630153911.GD3138@xz-x1>
+ <69f6d6e7-a0b1-abae-894e-4e81b7e0cc90@redhat.com>
+ <ff9e7af0-18c4-57e8-fc94-904fdce1123a@redhat.com>
+ <20200702154540.GI40675@xz-x1>
+ <34fe0e55-c0ae-8e56-462b-6281b6cca4f5@redhat.com>
+ <20200703130338.GD6677@xz-x1>
+ <c985b804-126c-94a1-b05e-430075f9e390@redhat.com>
+ <20200707195429.GF88106@xz-x1>
+ <5004a059-6eb0-4ef3-40b7-94dfbf9ec08f@redhat.com>
 MIME-Version: 1.0
-From: Super Man <killpy178@gmail.com>
-Date: Wed, 8 Jul 2020 21:53:59 +0800
-Message-ID: <CAFB2YPkxtLqyf4Mo4Yx1jovSpwyrHz6TPz1tDZd27mazXNQRWA@mail.gmail.com>
-Subject: Memory callback
-To: qemu-devel@nongnu.org
-Content-Type: multipart/alternative; boundary="000000000000bd7f3505a9ee71ac"
-Received-SPF: pass client-ip=2a00:1450:4864:20::233;
- envelope-from=killpy178@gmail.com; helo=mail-lj1-x233.google.com
-X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
- That's all we know.
-X-Spam_score_int: -17
-X-Spam_score: -1.8
-X-Spam_bar: -
-X-Spam_report: (-1.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- FREEMAIL_ENVFROM_END_DIGIT=0.25, FREEMAIL_FROM=0.001, HTML_MESSAGE=0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+In-Reply-To: <5004a059-6eb0-4ef3-40b7-94dfbf9ec08f@redhat.com>
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=peterx@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Received-SPF: pass client-ip=205.139.110.120; envelope-from=peterx@redhat.com;
+ helo=us-smtp-1.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/07/07 17:25:11
+X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
+X-Spam_score_int: -40
+X-Spam_score: -4.1
+X-Spam_bar: ----
+X-Spam_report: (-4.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-1, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
-X-Mailman-Approved-At: Wed, 08 Jul 2020 12:35:46 -0400
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -77,170 +103,56 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Cc: Peter Maydell <peter.maydell@linaro.org>, Yan Zhao <yan.y.zhao@intel.com>,
+ "Michael S. Tsirkin" <mst@redhat.com>,
+ "libvir-list@redhat.com" <libvir-list@redhat.com>,
+ Juan Quintela <quintela@redhat.com>, qemu-devel@nongnu.org,
+ Eugenio =?utf-8?B?UMOpcmV6?= <eperezma@redhat.com>,
+ Eric Auger <eric.auger@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
---000000000000bd7f3505a9ee71ac
-Content-Type: text/plain; charset="UTF-8"
+On Wed, Jul 08, 2020 at 01:42:30PM +0800, Jason Wang wrote:
+> > > So it should be functional equivalent to vtd_as_has_notifier().
+> > For example: in vtd_iommu_replay() we'll skip the replay if vhost has
+> > registered the iommu notifier because vtd_as_has_map_notifier() will return
+> > false.
+> 
+> 
+> Two questions:
+> 
+> - Do we care the performance here? If not, vhost may just ignore the MAP
+> event?
 
-Sorry to bother you, I would like to ask a question.I want to use qemu to
-monitor the information of the target thread reading and writing memory. I
-see that qemu supports the tcg plugin, but I just find the following code
-in plugin-gen.c .Do I just need to add a record function in it? How do I
-read the current register values such as rip, rsp, how do I know the
-current target address and data that the CPU read or written?Is there any
-reference example?
+I think we care, because vtd_page_walk() can be expensive.
 
-/*
-> * These helpers are stubs that get dynamically switched out for calls
-> * direct to the plugin if they are subscribed to.
-> */
-> void HELPER(plugin_vcpu_udata_cb)(uint32_t cpu_index, void *udata)
-> { }
-> void HELPER(plugin_vcpu_mem_cb)(unsigned int vcpu_index,
-> qemu_plugin_meminfo_t info, uint64_t vaddr,
-> void *userdata)
-> { }
+> - If we care the performance, it's better to implement the MAP event for
+> vhost, otherwise it could be a lot of IOTLB miss
 
---000000000000bd7f3505a9ee71ac
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+I feel like these are two things.
 
-<div dir=3D"ltr">Sorry to bother you, I would like to ask a question.I want=
- to use qemu to monitor the information of the target thread reading and wr=
-iting memory. I see that qemu supports the tcg plugin, but I just find the =
-following code in plugin-gen.c .Do I just need to add a record function in =
-it? How do I read the current register values such as rip, rsp, how do I kn=
-ow the current target address and data that the CPU read or written?Is ther=
-e any reference example?<br><div><br></div><blockquote class=3D"gmail_quote=
-" style=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);=
-padding-left:1ex"><table class=3D"gmail-highlight gmail-tab-size gmail-js-f=
-ile-line-container" style=3D"border-spacing:0px;border-collapse:collapse;co=
-lor:rgb(36,41,46);font-family:-apple-system,BlinkMacSystemFont,&quot;Segoe =
-UI&quot;,Helvetica,Arial,sans-serif,&quot;Apple Color Emoji&quot;,&quot;Seg=
-oe UI Emoji&quot;;font-size:14px"><tbody style=3D"box-sizing:border-box"><t=
-r style=3D"box-sizing:border-box"><td id=3D"gmail-LC84" class=3D"gmail-blob=
--code gmail-blob-code-inner gmail-js-file-line" style=3D"box-sizing:border-=
-box;padding:0px 10px;line-height:20px;vertical-align:top;overflow:visible;f=
-ont-family:SFMono-Regular,Consolas,&quot;Liberation Mono&quot;,Menlo,monosp=
-ace;font-size:12px;white-space:pre"><span class=3D"gmail-pl-c" style=3D"box=
--sizing:border-box;color:rgb(106,115,125)"><span class=3D"gmail-pl-c" style=
-=3D"box-sizing:border-box">/*</span></span></td></tr><tr style=3D"box-sizin=
-g:border-box"><td id=3D"gmail-L85" class=3D"gmail-blob-num gmail-js-line-nu=
-mber" style=3D"box-sizing:border-box;padding:0px 10px;width:50px;min-width:=
-50px;font-family:SFMono-Regular,Consolas,&quot;Liberation Mono&quot;,Menlo,=
-monospace;font-size:12px;line-height:20px;color:rgba(27,31,35,0.3);text-ali=
-gn:right;white-space:nowrap;vertical-align:top"></td><td id=3D"gmail-LC85" =
-class=3D"gmail-blob-code gmail-blob-code-inner gmail-js-file-line" style=3D=
-"box-sizing:border-box;padding:0px 10px;line-height:20px;vertical-align:top=
-;overflow:visible;font-family:SFMono-Regular,Consolas,&quot;Liberation Mono=
-&quot;,Menlo,monospace;font-size:12px;white-space:pre"><span class=3D"gmail=
--pl-c" style=3D"box-sizing:border-box;color:rgb(106,115,125)"> * These help=
-ers are stubs that get dynamically switched out for calls</span></td></tr><=
-tr style=3D"box-sizing:border-box"><td id=3D"gmail-L86" class=3D"gmail-blob=
--num gmail-js-line-number" style=3D"box-sizing:border-box;padding:0px 10px;=
-width:50px;min-width:50px;font-family:SFMono-Regular,Consolas,&quot;Liberat=
-ion Mono&quot;,Menlo,monospace;font-size:12px;line-height:20px;color:rgba(2=
-7,31,35,0.3);text-align:right;white-space:nowrap;vertical-align:top"></td><=
-td id=3D"gmail-LC86" class=3D"gmail-blob-code gmail-blob-code-inner gmail-j=
-s-file-line" style=3D"box-sizing:border-box;padding:0px 10px;line-height:20=
-px;vertical-align:top;overflow:visible;font-family:SFMono-Regular,Consolas,=
-&quot;Liberation Mono&quot;,Menlo,monospace;font-size:12px;white-space:pre"=
-><span class=3D"gmail-pl-c" style=3D"box-sizing:border-box;color:rgb(106,11=
-5,125)"> * direct to the plugin if they are subscribed to.</span></td></tr>=
-<tr style=3D"box-sizing:border-box"><td id=3D"gmail-L87" class=3D"gmail-blo=
-b-num gmail-js-line-number" style=3D"box-sizing:border-box;padding:0px 10px=
-;width:50px;min-width:50px;font-family:SFMono-Regular,Consolas,&quot;Libera=
-tion Mono&quot;,Menlo,monospace;font-size:12px;line-height:20px;color:rgba(=
-27,31,35,0.3);text-align:right;white-space:nowrap;vertical-align:top"></td>=
-<td id=3D"gmail-LC87" class=3D"gmail-blob-code gmail-blob-code-inner gmail-=
-js-file-line" style=3D"box-sizing:border-box;padding:0px 10px;line-height:2=
-0px;vertical-align:top;overflow:visible;font-family:SFMono-Regular,Consolas=
-,&quot;Liberation Mono&quot;,Menlo,monospace;font-size:12px;white-space:pre=
-"><span class=3D"gmail-pl-c" style=3D"box-sizing:border-box;color:rgb(106,1=
-15,125)"> <span class=3D"gmail-pl-c" style=3D"box-sizing:border-box">*/</sp=
-an></span></td></tr><tr style=3D"box-sizing:border-box"><td id=3D"gmail-L88=
-" class=3D"gmail-blob-num gmail-js-line-number" style=3D"box-sizing:border-=
-box;padding:0px 10px;width:50px;min-width:50px;font-family:SFMono-Regular,C=
-onsolas,&quot;Liberation Mono&quot;,Menlo,monospace;font-size:12px;line-hei=
-ght:20px;color:rgba(27,31,35,0.3);text-align:right;white-space:nowrap;verti=
-cal-align:top"></td><td id=3D"gmail-LC88" class=3D"gmail-blob-code gmail-bl=
-ob-code-inner gmail-js-file-line" style=3D"box-sizing:border-box;padding:0p=
-x 10px;line-height:20px;vertical-align:top;overflow:visible;font-family:SFM=
-ono-Regular,Consolas,&quot;Liberation Mono&quot;,Menlo,monospace;font-size:=
-12px;white-space:pre"><span class=3D"gmail-pl-k" style=3D"box-sizing:border=
--box;color:rgb(215,58,73)">void</span> <span class=3D"gmail-pl-en" style=3D=
-"box-sizing:border-box;color:rgb(111,66,193)">HELPER</span>(plugin_vcpu_uda=
-ta_cb)(<span class=3D"gmail-pl-c1" style=3D"box-sizing:border-box;color:rgb=
-(0,92,197)">uint32_t</span> cpu_index, <span class=3D"gmail-pl-k" style=3D"=
-box-sizing:border-box;color:rgb(215,58,73)">void</span> *udata)</td></tr><t=
-r style=3D"box-sizing:border-box"><td id=3D"gmail-L89" class=3D"gmail-blob-=
-num gmail-js-line-number" style=3D"box-sizing:border-box;padding:0px 10px;w=
-idth:50px;min-width:50px;font-family:SFMono-Regular,Consolas,&quot;Liberati=
-on Mono&quot;,Menlo,monospace;font-size:12px;line-height:20px;color:rgba(27=
-,31,35,0.3);text-align:right;white-space:nowrap;vertical-align:top"></td><t=
-d id=3D"gmail-LC89" class=3D"gmail-blob-code gmail-blob-code-inner gmail-js=
--file-line" style=3D"box-sizing:border-box;padding:0px 10px;line-height:20p=
-x;vertical-align:top;overflow:visible;font-family:SFMono-Regular,Consolas,&=
-quot;Liberation Mono&quot;,Menlo,monospace;font-size:12px;white-space:pre">=
-{ }</td></tr><tr style=3D"box-sizing:border-box"><td id=3D"gmail-L90" class=
-=3D"gmail-blob-num gmail-js-line-number" style=3D"box-sizing:border-box;pad=
-ding:0px 10px;width:50px;min-width:50px;font-family:SFMono-Regular,Consolas=
-,&quot;Liberation Mono&quot;,Menlo,monospace;font-size:12px;line-height:20p=
-x;color:rgba(27,31,35,0.3);text-align:right;white-space:nowrap;vertical-ali=
-gn:top"></td><td id=3D"gmail-LC90" class=3D"gmail-blob-code gmail-blob-code=
--inner gmail-js-file-line" style=3D"box-sizing:border-box;padding:0px 10px;=
-line-height:20px;vertical-align:top;overflow:visible;font-family:SFMono-Reg=
-ular,Consolas,&quot;Liberation Mono&quot;,Menlo,monospace;font-size:12px;wh=
-ite-space:pre">
-</td></tr><tr style=3D"box-sizing:border-box"><td id=3D"gmail-L91" class=3D=
-"gmail-blob-num gmail-js-line-number" style=3D"box-sizing:border-box;paddin=
-g:0px 10px;width:50px;min-width:50px;font-family:SFMono-Regular,Consolas,&q=
-uot;Liberation Mono&quot;,Menlo,monospace;font-size:12px;line-height:20px;c=
-olor:rgba(27,31,35,0.3);text-align:right;white-space:nowrap;vertical-align:=
-top"></td><td id=3D"gmail-LC91" class=3D"gmail-blob-code gmail-blob-code-in=
-ner gmail-js-file-line" style=3D"box-sizing:border-box;padding:0px 10px;lin=
-e-height:20px;vertical-align:top;overflow:visible;font-family:SFMono-Regula=
-r,Consolas,&quot;Liberation Mono&quot;,Menlo,monospace;font-size:12px;white=
--space:pre"><span class=3D"gmail-pl-k" style=3D"box-sizing:border-box;color=
-:rgb(215,58,73)">void</span> <span class=3D"gmail-pl-en" style=3D"box-sizin=
-g:border-box;color:rgb(111,66,193)">HELPER</span>(plugin_vcpu_mem_cb)(<span=
- class=3D"gmail-pl-k" style=3D"box-sizing:border-box;color:rgb(215,58,73)">=
-unsigned</span> <span class=3D"gmail-pl-k" style=3D"box-sizing:border-box;c=
-olor:rgb(215,58,73)">int</span> vcpu_index,</td></tr><tr style=3D"box-sizin=
-g:border-box"><td id=3D"gmail-L92" class=3D"gmail-blob-num gmail-js-line-nu=
-mber" style=3D"box-sizing:border-box;padding:0px 10px;width:50px;min-width:=
-50px;font-family:SFMono-Regular,Consolas,&quot;Liberation Mono&quot;,Menlo,=
-monospace;font-size:12px;line-height:20px;color:rgba(27,31,35,0.3);text-ali=
-gn:right;white-space:nowrap;vertical-align:top"></td><td id=3D"gmail-LC92" =
-class=3D"gmail-blob-code gmail-blob-code-inner gmail-js-file-line" style=3D=
-"box-sizing:border-box;padding:0px 10px;line-height:20px;vertical-align:top=
-;overflow:visible;font-family:SFMono-Regular,Consolas,&quot;Liberation Mono=
-&quot;,Menlo,monospace;font-size:12px;white-space:pre">                    =
-            <span class=3D"gmail-pl-c1" style=3D"box-sizing:border-box;colo=
-r:rgb(0,92,197)">qemu_plugin_meminfo_t</span> info, <span class=3D"gmail-pl=
--c1" style=3D"box-sizing:border-box;color:rgb(0,92,197)">uint64_t</span> va=
-ddr,</td></tr><tr style=3D"box-sizing:border-box"><td id=3D"gmail-L93" clas=
-s=3D"gmail-blob-num gmail-js-line-number" style=3D"box-sizing:border-box;pa=
-dding:0px 10px;width:50px;min-width:50px;font-family:SFMono-Regular,Consola=
-s,&quot;Liberation Mono&quot;,Menlo,monospace;font-size:12px;line-height:20=
-px;color:rgba(27,31,35,0.3);text-align:right;white-space:nowrap;vertical-al=
-ign:top"></td><td id=3D"gmail-LC93" class=3D"gmail-blob-code gmail-blob-cod=
-e-inner gmail-js-file-line" style=3D"box-sizing:border-box;padding:0px 10px=
-;line-height:20px;vertical-align:top;overflow:visible;font-family:SFMono-Re=
-gular,Consolas,&quot;Liberation Mono&quot;,Menlo,monospace;font-size:12px;w=
-hite-space:pre">                                <span class=3D"gmail-pl-k" =
-style=3D"box-sizing:border-box;color:rgb(215,58,73)">void</span> *userdata)=
-</td></tr><tr style=3D"box-sizing:border-box"><td id=3D"gmail-L94" class=3D=
-"gmail-blob-num gmail-js-line-number" style=3D"box-sizing:border-box;paddin=
-g:0px 10px;width:50px;min-width:50px;font-family:SFMono-Regular,Consolas,&q=
-uot;Liberation Mono&quot;,Menlo,monospace;font-size:12px;line-height:20px;c=
-olor:rgba(27,31,35,0.3);text-align:right;white-space:nowrap;vertical-align:=
-top"></td><td id=3D"gmail-LC94" class=3D"gmail-blob-code gmail-blob-code-in=
-ner gmail-js-file-line" style=3D"box-sizing:border-box;padding:0px 10px;lin=
-e-height:20px;vertical-align:top;overflow:visible;font-family:SFMono-Regula=
-r,Consolas,&quot;Liberation Mono&quot;,Menlo,monospace;font-size:12px;white=
--space:pre">{ }</td></tr></tbody></table></blockquote></div>
+So far what we are talking about is whether vt-d should have knowledge about
+what kind of events one iommu notifier is interested in.  I still think we
+should keep this as answered in question 1.
 
---000000000000bd7f3505a9ee71ac--
+The other question is whether we want to switch vhost from UNMAP to MAP/UNMAP
+events even without vDMA, so that vhost can establish the mapping even before
+IO starts.  IMHO it's doable, but only if the guest runs DPDK workloads.  When
+the guest is using dynamic iommu page mappings, I feel like that can be even
+slower, because then the worst case is for each IO we'll need to vmexit twice:
+
+  - The first vmexit caused by an invalidation to MAP the page tables, so vhost
+    will setup the page table before IO starts
+
+  - IO/DMA triggers and completes
+
+  - The second vmexit caused by another invalidation to UNMAP the page tables
+
+So it seems to be worse than when vhost only uses UNMAP like right now.  At
+least we only have one vmexit (when UNMAP).  We'll have a vhost translate()
+request from kernel to userspace, but IMHO that's cheaper than the vmexit.
+
+-- 
+Peter Xu
+
 
