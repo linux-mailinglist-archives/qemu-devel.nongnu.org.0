@@ -2,70 +2,59 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5515B2193F8
-	for <lists+qemu-devel@lfdr.de>; Thu,  9 Jul 2020 01:01:15 +0200 (CEST)
-Received: from localhost ([::1]:43476 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id ECA12219435
+	for <lists+qemu-devel@lfdr.de>; Thu,  9 Jul 2020 01:17:04 +0200 (CEST)
+Received: from localhost ([::1]:43256 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jtJ3y-0005KC-Cp
-	for lists+qemu-devel@lfdr.de; Wed, 08 Jul 2020 19:01:14 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:57566)
+	id 1jtJJI-0000wx-1P
+	for lists+qemu-devel@lfdr.de; Wed, 08 Jul 2020 19:17:04 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:33096)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1jtJ1v-00022i-Hg
- for qemu-devel@nongnu.org; Wed, 08 Jul 2020 18:59:07 -0400
-Received: from us-smtp-1.mimecast.com ([205.139.110.61]:32041
- helo=us-smtp-delivery-1.mimecast.com)
+ (Exim 4.90_1) (envelope-from <lulu@redhat.com>) id 1jtJIV-0000Wa-3A
+ for qemu-devel@nongnu.org; Wed, 08 Jul 2020 19:16:15 -0400
+Received: from us-smtp-1.mimecast.com ([205.139.110.61]:53605)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1jtJ1u-00062u-1I
- for qemu-devel@nongnu.org; Wed, 08 Jul 2020 18:59:07 -0400
+ (Exim 4.90_1) (envelope-from <lulu@redhat.com>) id 1jtJIS-0008Q8-RZ
+ for qemu-devel@nongnu.org; Wed, 08 Jul 2020 19:16:14 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1594249145;
+ s=mimecast20190719; t=1594250171;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=9uhR7QoQgVQUY3RgfAYYUsaHg7utPK8LVq8kWz3F7IM=;
- b=HXNTqOEzxdAvN1vHFP8yynsyI8Ov8FuNMsdwCFmJcToktH1TTpBAmJlsRJDXYs4G/iOSte
- 2jWGBVr+kwtUw0PVfR1NGRz1+tKYSLF/vEqlI5tYGMnnMElFuyQ+DyV8bH/EsbHnlzJWTI
- A8IwWBIjAMTGfgF9WLTNFpUnMNv3gYU=
+ content-transfer-encoding:content-transfer-encoding;
+ bh=5nlw2UAlHcdrHXURHIkdHsw4gVdADye+G12wvGM82aE=;
+ b=QPl5Qa47zv4sQGl5x4nDOytdVctAHFqzNzLJWVPQzF0g/cgxPk58KKrNM19671Ly8uIdEq
+ vxEyo2bZjzTA22GWvlygKTQMPPWF45JkdsmLBgnrnuxsmRrJ7wjJOu0BXXPazv2Hx1+cBD
+ WloB9r4kLwoLGwWzMgkF4cE9IkYApck=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-180-3keVeGEvNpmx-CsyHtK7Jw-1; Wed, 08 Jul 2020 02:57:31 -0400
-X-MC-Unique: 3keVeGEvNpmx-CsyHtK7Jw-1
-Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
- [10.5.11.12])
+ us-mta-340-RMRFoewlMke_cS3kvSAHQg-1; Wed, 08 Jul 2020 03:13:19 -0400
+X-MC-Unique: RMRFoewlMke_cS3kvSAHQg-1
+Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
+ [10.5.11.13])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id D7C3F80183C;
- Wed,  8 Jul 2020 06:57:30 +0000 (UTC)
-Received: from blackfin.pond.sub.org (ovpn-112-143.ams2.redhat.com
- [10.36.112.143])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id A3AFD60E1C;
- Wed,  8 Jul 2020 06:57:30 +0000 (UTC)
-Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
- id 309371132FD2; Wed,  8 Jul 2020 08:57:29 +0200 (CEST)
-From: Markus Armbruster <armbru@redhat.com>
-To: Daniel P. =?utf-8?Q?Berrang=C3=A9?= <berrange@redhat.com>
-Subject: Re: [PATCH v2 3/3] block: switch to use qemu_open_err for improved
- errors
-References: <20200702125612.2176194-1-berrange@redhat.com>
- <20200702125612.2176194-4-berrange@redhat.com>
-Date: Wed, 08 Jul 2020 08:57:29 +0200
-In-Reply-To: <20200702125612.2176194-4-berrange@redhat.com> ("Daniel
- P. =?utf-8?Q?Berrang=C3=A9=22's?= message of "Thu, 2 Jul 2020 13:56:12
- +0100")
-Message-ID: <87y2nu3352.fsf@dusky.pond.sub.org>
-User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/26.3 (gnu/linux)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id BF89E1005510;
+ Wed,  8 Jul 2020 07:13:16 +0000 (UTC)
+Received: from laptop.redhat.com (ovpn-13-151.pek2.redhat.com [10.72.13.151])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 9A10F79247;
+ Wed,  8 Jul 2020 07:12:58 +0000 (UTC)
+From: Cindy Lu <lulu@redhat.com>
+To: mst@redhat.com, armbru@redhat.com, eblake@redhat.com, cohuck@redhat.com,
+ jasowang@redhat.com
+Subject: [PATCH] vhost-vdpa: fix the compile issue without kvm
+Date: Wed,  8 Jul 2020 15:12:55 +0800
+Message-Id: <20200708071255.31184-1-lulu@redhat.com>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=armbru@redhat.com
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=lulu@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=205.139.110.61; envelope-from=armbru@redhat.com;
- helo=us-smtp-delivery-1.mimecast.com
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=205.139.110.61; envelope-from=lulu@redhat.com;
+ helo=us-smtp-1.mimecast.com
 X-detected-operating-system: by eggs.gnu.org: First seen = 2020/07/07 17:25:10
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
 X-Spam_score_int: -40
@@ -87,50 +76,39 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Kevin Wolf <kwolf@redhat.com>, qemu-block@nongnu.org, qemu-devel@nongnu.org,
- P J P <ppandit@redhat.com>, Max Reitz <mreitz@redhat.com>,
- Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
+Cc: mhabets@solarflare.com, qemu-devel@nongnu.org, rob.miller@broadcom.com,
+ saugatm@xilinx.com, lulu@redhat.com, hanand@xilinx.com, hch@infradead.org,
+ eperezma@redhat.com, jgg@mellanox.com, shahafs@mellanox.com,
+ kevin.tian@intel.com, parav@mellanox.com, vmireyno@marvell.com,
+ cunming.liang@intel.com, gdawar@xilinx.com, jiri@mellanox.com,
+ xiao.w.wang@intel.com, stefanha@redhat.com, zhihong.wang@intel.com,
+ aadam@redhat.com, rdunlap@infradead.org, maxime.coquelin@redhat.com,
+ lingshan.zhu@intel.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Daniel P. Berrang=C3=A9 <berrange@redhat.com> writes:
+Fix the compile issue in the system without the kvm support
 
-> Currently at startup if using cache=3Dnone on a filesystem lacking
-> O_DIRECT such as tmpfs, at startup QEMU prints
->
-> qemu-system-x86_64: -drive file=3D/tmp/foo.img,cache=3Dnone: file system =
-may not support O_DIRECT
-> qemu-system-x86_64: -drive file=3D/tmp/foo.img,cache=3Dnone: Could not op=
-en '/tmp/foo.img': Invalid argument
->
-> while at QMP level the hint is missing, so QEMU reports just
->
->   "error": {
->       "class": "GenericError",
->       "desc": "Could not open '/tmp/foo.img': Invalid argument"
->   }
->
-> which is close to useless for the end user trying to figure out what
-> they did wrong
->
-> With this change at startup QEMU prints
->
-> qemu-system-x86_64: -drive file=3D/tmp/foo.img,cache=3Dnone: Unable to op=
-en '/tmp/foo.img' flags 0x4000: filesystem does not support O_DIRECT
->
-> while at the QMP level QEMU reports a massively more informative
->
->   "error": {
->      "class": "GenericError",
->      "desc": "Unable to open '/tmp/foo.img' flags 0x4002: filesystem does=
- not support O_DIRECT"
->   }
->
-> Signed-off-by: Daniel P. Berrang=C3=A9 <berrange@redhat.com>
+Signed-off-by: Cindy Lu <lulu@redhat.com>
+---
+ hw/virtio/vhost-vdpa.c | 3 +--
+ 1 file changed, 1 insertion(+), 2 deletions(-)
 
-Narrowing down the error's cause takes extra code, but the error message
-improvement is worth it.
-
-Reviewed-by: Markus Armbruster <armbru@redhat.com>
+diff --git a/hw/virtio/vhost-vdpa.c b/hw/virtio/vhost-vdpa.c
+index a3d17fe0f9..65d5aaf08a 100644
+--- a/hw/virtio/vhost-vdpa.c
++++ b/hw/virtio/vhost-vdpa.c
+@@ -19,8 +19,7 @@
+ #include "hw/virtio/virtio-net.h"
+ #include "hw/virtio/vhost-vdpa.h"
+ #include "qemu/main-loop.h"
+-#include <linux/kvm.h>
+-#include "sysemu/kvm.h"
++#include "cpu.h"
+ 
+ static bool vhost_vdpa_listener_skipped_section(MemoryRegionSection *section)
+ {
+-- 
+2.21.1
 
 
