@@ -2,79 +2,59 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 72C3521928A
-	for <lists+qemu-devel@lfdr.de>; Wed,  8 Jul 2020 23:31:26 +0200 (CEST)
-Received: from localhost ([::1]:34038 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 09796218B45
+	for <lists+qemu-devel@lfdr.de>; Wed,  8 Jul 2020 17:31:49 +0200 (CEST)
+Received: from localhost ([::1]:55528 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jtHf3-0003AC-Cq
-	for lists+qemu-devel@lfdr.de; Wed, 08 Jul 2020 17:31:25 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:33534)
+	id 1jtC31-0005EF-Q5
+	for lists+qemu-devel@lfdr.de; Wed, 08 Jul 2020 11:31:47 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:58892)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <ehabkost@redhat.com>)
- id 1jtHaG-0006Gr-MF
- for qemu-devel@nongnu.org; Wed, 08 Jul 2020 17:26:28 -0400
-Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:50201
- helo=us-smtp-1.mimecast.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <ehabkost@redhat.com>)
- id 1jtHaE-0001q2-VA
- for qemu-devel@nongnu.org; Wed, 08 Jul 2020 17:26:28 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1594243585;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=LrW3ISu0KT6KfnFR7UAWObZg8Y6b4dfrBXbmannj/eU=;
- b=SAp0S1mW1CUbvbaCrF93kwo8xidgEvzBKME7vufod2mC8iPGUfRRCAxAmKG2hdq/2i/M7a
- H/PY/PU+S2w+TjRRVAWjBHTWJL+BvPn1TP0m/nwYLZgTBxm5t71A/ryboEk9LuNY5DXs2f
- tsFgfFx2KGB2OdA/PotdzRbjI36+lzo=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-27-JCA3oVQVOPi1V7yB-82Haw-1; Wed, 08 Jul 2020 11:25:43 -0400
-X-MC-Unique: JCA3oVQVOPi1V7yB-82Haw-1
-Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
- [10.5.11.23])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 68ED7800401;
- Wed,  8 Jul 2020 15:25:42 +0000 (UTC)
-Received: from localhost (ovpn-116-140.rdu2.redhat.com [10.10.116.140])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 4123E1A8EC;
- Wed,  8 Jul 2020 15:25:41 +0000 (UTC)
-Date: Wed, 8 Jul 2020 11:25:40 -0400
-From: Eduardo Habkost <ehabkost@redhat.com>
-To: Peter Maydell <peter.maydell@linaro.org>
-Subject: Re: [PATCH] cpu: Add starts_halted() method
-Message-ID: <20200708152540.GZ7276@habkost.net>
-References: <20200707204333.261506-1-bauerman@linux.ibm.com>
- <20200707214917.GX7276@habkost.net>
- <87y2nu3nxq.fsf@morokweng.localdomain>
- <c53b36b7-ee7b-bb66-8220-cce788fd631d@redhat.com>
- <20200708100038.GG18595@umbus.fritz.box>
- <CAFEAcA9V7Uha9-rz+JY-5HkazCWuTk1vkLnw1m9Lw-bXXKbkvw@mail.gmail.com>
+ (Exim 4.90_1) (envelope-from <cfontana@suse.de>) id 1jtC1U-0004Z5-A4
+ for qemu-devel@nongnu.org; Wed, 08 Jul 2020 11:30:12 -0400
+Received: from mx2.suse.de ([195.135.220.15]:55298)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <cfontana@suse.de>) id 1jtC1S-0004bS-E5
+ for qemu-devel@nongnu.org; Wed, 08 Jul 2020 11:30:11 -0400
+X-Virus-Scanned: by amavisd-new at test-mx.suse.de
+Received: from relay2.suse.de (unknown [195.135.221.27])
+ by mx2.suse.de (Postfix) with ESMTP id 7B159AEC1;
+ Wed,  8 Jul 2020 15:30:09 +0000 (UTC)
+Subject: Re: [PATCH 3/3] cpu-timers, icount: new modules
+To: Paolo Bonzini <pbonzini@redhat.com>, Thomas Huth <thuth@redhat.com>,
+ Laurent Vivier <lvivier@redhat.com>, =?UTF-8?Q?Alex_Benn=c3=a9e?=
+ <alex.bennee@linaro.org>, Peter Maydell <peter.maydell@linaro.org>,
+ =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>,
+ Roman Bolshakov <r.bolshakov@yadro.com>,
+ Markus Armbruster <armbru@redhat.com>
+References: <20200629093504.3228-1-cfontana@suse.de>
+ <20200629093504.3228-4-cfontana@suse.de>
+ <aa45a793-35b1-d3bd-18a8-4c52ad888029@redhat.com>
+ <f89f249d-dbc4-779b-5b53-fc408461f072@suse.de>
+ <ecf5f26b-ce86-3e13-5c5c-567919433acb@redhat.com>
+ <46322ba4-8aff-e8d6-8a1c-ea1043098624@suse.de>
+ <bc76504a-0d81-7f81-42fd-c70d8cc13bc5@redhat.com>
+From: Claudio Fontana <cfontana@suse.de>
+Message-ID: <db4b0418-9b60-f456-08be-8f20472dbbb3@suse.de>
+Date: Wed, 8 Jul 2020 17:30:07 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.4.1
 MIME-Version: 1.0
-In-Reply-To: <CAFEAcA9V7Uha9-rz+JY-5HkazCWuTk1vkLnw1m9Lw-bXXKbkvw@mail.gmail.com>
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=ehabkost@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=iso-8859-1
-Content-Transfer-Encoding: 8bit
-Content-Disposition: inline
-Received-SPF: pass client-ip=205.139.110.120; envelope-from=ehabkost@redhat.com;
- helo=us-smtp-1.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/07/07 17:25:11
-X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
-X-Spam_score_int: -40
-X-Spam_score: -4.1
+In-Reply-To: <bc76504a-0d81-7f81-42fd-c70d8cc13bc5@redhat.com>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=195.135.220.15; envelope-from=cfontana@suse.de;
+ helo=mx2.suse.de
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/07/07 17:20:38
+X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x (no timestamps) [generic]
+X-Spam_score_int: -41
+X-Spam_score: -4.2
 X-Spam_bar: ----
-X-Spam_report: (-4.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-1, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+X-Spam_report: (-4.2 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_MED=-2.3,
+ RCVD_IN_MSPIKE_H3=-0.01, RCVD_IN_MSPIKE_WL=-0.01, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -87,47 +67,73 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Laurent Vivier <lvivier@redhat.com>, Thomas Huth <thuth@redhat.com>,
- Alex =?iso-8859-1?Q?Benn=E9e?= <alex.bennee@linaro.org>,
- QEMU Developers <qemu-devel@nongnu.org>, qemu-ppc <qemu-ppc@nongnu.org>,
- Philippe =?iso-8859-1?Q?Mathieu-Daud=E9?= <philmd@redhat.com>,
- Thiago Jung Bauermann <bauerman@linux.ibm.com>,
- David Gibson <david@gibson.dropbear.id.au>
+Cc: Eduardo Habkost <ehabkost@redhat.com>, Colin Xu <colin.xu@intel.com>,
+ Marcelo Tosatti <mtosatti@redhat.com>, qemu-devel@nongnu.org,
+ haxm-team@intel.com, Wenchao Wang <wenchao.wang@intel.com>,
+ Sunil Muthuswamy <sunilmut@microsoft.com>, Richard Henderson <rth@twiddle.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Wed, Jul 08, 2020 at 02:14:03PM +0100, Peter Maydell wrote:
-> On Wed, 8 Jul 2020 at 12:12, David Gibson <david@gibson.dropbear.id.au> wrote:
-> > On Wed, Jul 08, 2020 at 10:38:29AM +0200, Philippe Mathieu-Daudé wrote:
-> > > Class boolean field certainly sounds better, but I am not sure this
-> > > is a property of the machine. Rather the arch? So move the field
-> > > to CPUClass? Maybe not, let's discuss :)
-> >
-> > It is absolutely a property of the machine.  e.g. I don't think we
-> > want this for powernv.  pseries is a bit of a special case since it is
-> > explicitly a paravirt platform.  But even for emulated hardware, the
-> > board can absolutely strap things so that cpus do or don't start
-> > immediately.
+On 7/8/20 5:23 PM, Paolo Bonzini wrote:
+> On 08/07/20 17:17, Claudio Fontana wrote:
+>> On 7/8/20 5:05 PM, Paolo Bonzini wrote:
+>>> On 08/07/20 17:00, Claudio Fontana wrote:
+>>>>> Bisectable, 100% failure rate, etc. :(  Can you split the patch in
+>>>>> multiple parts, specifically separating any rename or introducing of
+>>>>> includes from the final file move?
+>>>> Hi Paolo,
+>>>>
+>>>> will take a look!
+>>>>
+>>>> Is this captured by some travis / cirrus-ci / anything I can easily see the result of?
+>>>>
+>>>>
+>>>
+>>> Nope, unfortunately we don't have an s390 CI.  But if you can get your
+>>> hands on one, just "./configure --target-list=s390x-softmmu && make &&
+>>> make check-block" will show it.
+>>>
+>>>>>
+>>>>> 	#if defined CONFIG_TCG || !defined NEED_CPU_H
+>>>>> 	extern bool icount_enabled(void);
+>>>>> 	#else
+>>>>> 	#define icount_enabled() 0
+>>>>> 	#endif
+>>>>>
+>>>>> (This way, more TCG-only code in cpus.c gets elided).  You can integrate
+>>>>> this change in the next version.
+>>>>>
+>>>>> Paolo
+>>>>>
+>>>>
+>>>> Weird, I tested with --disable-tcg explicitly (but may be some time ago now, as I constantly rebased).
+>>>>
+>>>> Will take a look at the introduction of this #defines in place of variables,
+>>>> as this mechanisms will not work in the future for target-specific modules.
+>>>
+>>> This is only done for per-target files so it should not be a problem.
+>>>
+>>> Paolo
+>>>
+>>
+>> K, I tried with latest master, disable-tcg build still works for me on x86, so it is something in queue I guess?
 > 
-> It's a property of the individual CPU, I think. One common setup
-> for Arm systems is that the primary CPU starts powered up but
-> the secondaries all start powered down.
-
-Both statements can be true.  It can be a property of the
-individual CPU (although I'm not convinced it has to), but it
-still needs to be controlled by the machine.
-
+> Peter reported the issue in the v1 pull request; there were two
+> different breakages but the cpus.c one was yours.
 > 
-> The original bug as described in the commit message sounds
-> to me like something we should look to fix in the implementation
-> of async_run_on_cpu() -- it shouldn't cause a CPU that's halfway
-> through reset to do a KVM_RUN or otherwise run guest code,
-> whether that CPU is going to start powered-up or powered-down.
+> Paolo
+> 
 
-What "halfway through reset" means, exactly?  Isn't halted==1
-enough to indicate the CPU is in that state?
+I see, since I don't manage to reproduce the problem at the moment, I will wait for master to be updated, after which I expect the issue to become apparent.
 
--- 
-Eduardo
+As of now, I do
 
+configure --disable-tcg
+make -j120
+
+which works for me, based on latest master.
+
+Ciao,
+
+C
 
