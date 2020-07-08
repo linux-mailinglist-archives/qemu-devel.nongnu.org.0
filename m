@@ -2,49 +2,73 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8B40E218D12
-	for <lists+qemu-devel@lfdr.de>; Wed,  8 Jul 2020 18:37:59 +0200 (CEST)
-Received: from localhost ([::1]:53564 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 63CB9219367
+	for <lists+qemu-devel@lfdr.de>; Thu,  9 Jul 2020 00:27:43 +0200 (CEST)
+Received: from localhost ([::1]:49172 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jtD54-0002xB-Kf
-	for lists+qemu-devel@lfdr.de; Wed, 08 Jul 2020 12:37:58 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:46582)
+	id 1jtIXW-0004Qq-Ea
+	for lists+qemu-devel@lfdr.de; Wed, 08 Jul 2020 18:27:42 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:42372)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <lma@suse.de>) id 1jtBIs-0001og-IG
- for qemu-devel@nongnu.org; Wed, 08 Jul 2020 10:44:06 -0400
-Received: from mx2.suse.de ([195.135.220.15]:33104)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <lma@suse.de>) id 1jtBIq-0004WY-Gz
- for qemu-devel@nongnu.org; Wed, 08 Jul 2020 10:44:06 -0400
-X-Virus-Scanned: by amavisd-new at test-mx.suse.de
-Received: from relay2.suse.de (unknown [195.135.221.27])
- by mx2.suse.de (Postfix) with ESMTP id 8CDA9AC40;
- Wed,  8 Jul 2020 14:44:02 +0000 (UTC)
+ (Exim 4.90_1) (envelope-from <cohuck@redhat.com>) id 1jtI6p-0008Ot-G5
+ for qemu-devel@nongnu.org; Wed, 08 Jul 2020 18:00:07 -0400
+Received: from us-smtp-1.mimecast.com ([207.211.31.81]:33469
+ helo=us-smtp-delivery-1.mimecast.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <cohuck@redhat.com>) id 1jtI6n-0006Jh-HU
+ for qemu-devel@nongnu.org; Wed, 08 Jul 2020 18:00:06 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1594245604;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=9YcfR3373Xl+BNKAzwdKIQ6DScKKiKbu+1oXSJaUt5k=;
+ b=QMPZh9WNRc+tyn7p26ZvWI7cDOv1DqlsRWD5jP8l8fsR9q5k8CTcPVxyb6SOu/NQ9CQLmX
+ Fr4rplu969JTtvkSVKJvsHQozppZEjp4rBQV3HWNC02HZlfPzkL8bzNxFjftixGO9UARLi
+ LnBF2glX/xuaBRy0N9DlEicT1LdNpSQ=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-203-UC8gPyD3OLyrvJh-QA1-Kw-1; Wed, 08 Jul 2020 10:58:40 -0400
+X-MC-Unique: UC8gPyD3OLyrvJh-QA1-Kw-1
+Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
+ [10.5.11.11])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 7573E88C798
+ for <qemu-devel@nongnu.org>; Wed,  8 Jul 2020 14:58:39 +0000 (UTC)
+Received: from gondolin (ovpn-112-239.ams2.redhat.com [10.36.112.239])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 0A1A278534;
+ Wed,  8 Jul 2020 14:58:29 +0000 (UTC)
+Date: Wed, 8 Jul 2020 16:58:26 +0200
+From: Cornelia Huck <cohuck@redhat.com>
+To: David Hildenbrand <david@redhat.com>
+Subject: Re: [PATCH v1] virtio-mem-pci: force virtio version 1
+Message-ID: <20200708165826.461d0ca0.cohuck@redhat.com>
+In-Reply-To: <20200708143619.38743-1-david@redhat.com>
+References: <20200708143619.38743-1-david@redhat.com>
+Organization: Red Hat GmbH
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII;
- format=flowed
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=cohuck@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: 7bit
-Date: Wed, 08 Jul 2020 14:44:01 +0000
-From: lma <lma@suse.de>
-To: qemu-devel@nongnu.org
-Subject: Questions about online resizing a lun passthrough disk with
- virtio-scsi
-User-Agent: Roundcube Webmail
-Message-ID: <af3e33e4a5bb15d9f0b30c8de4941a37@suse.de>
-X-Sender: lma@suse.de
-Received-SPF: pass client-ip=195.135.220.15; envelope-from=lma@suse.de;
- helo=mx2.suse.de
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/07/07 17:20:38
-X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x (no timestamps) [generic]
-X-Spam_score_int: -41
-X-Spam_score: -4.2
-X-Spam_bar: ----
-X-Spam_report: (-4.2 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_MED=-2.3,
- RCVD_IN_MSPIKE_H3=-0.01, RCVD_IN_MSPIKE_WL=-0.01, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001, URIBL_BLOCKED=0.001 autolearn=ham autolearn_force=no
+Received-SPF: pass client-ip=207.211.31.81; envelope-from=cohuck@redhat.com;
+ helo=us-smtp-delivery-1.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/07/07 17:25:09
+X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
+X-Spam_score_int: -30
+X-Spam_score: -3.1
+X-Spam_bar: ---
+X-Spam_report: (-3.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H3=-0.01, RCVD_IN_MSPIKE_WL=-0.01,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
-X-Mailman-Approved-At: Wed, 08 Jul 2020 12:35:46 -0400
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -56,65 +80,44 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: pbonzini@redhat.com
+Cc: qemu-devel@nongnu.org, "Michael S. Tsirkin" <mst@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Hi all,
+On Wed,  8 Jul 2020 16:36:19 +0200
+David Hildenbrand <david@redhat.com> wrote:
 
-I have questions about online resizing a scsi lun passthrough disk.
-Here is my test scenario:
-host A:
-- the local 50GB sata /dev/sdd1 is configured as a physical volume,
-   Created a 10GB logical volume.
-- exported the lv by iscsi target by targetcli.
+> Let's force virtio version 1. While at it, use qdev_realize() to set
+> the parent bus and realize - like most other virtio-*-pci
+> implementations.
 
-host B:
-- connected to the above iscsi target to obtain a 'local' scsi disk,
-   say the /dev/sdb.
-- scsi lun passed through this /dev/sdb to a qemu-kvm linux guest.
+Yes, there's recently been a mass conversion to qdev_realize().
 
-hostA:~ # lvresize -L +5G /dev/vg0/lv0
-hostB:~ # rescan-scsi-bus.sh -s //this script is in sg3_utils, '-s'
-look for resized disks.
-hostB:~ # block_resize via qmp to notify qemu self and guest os.
-guest:~ # rescan-scsi-bus.sh -s
-guest:~ # use the extended disk space.
+> 
+> Fixes: 0b9a2443a48b ("virtio-pci: Proxy for virtio-mem")
+> Cc: Cornelia Huck <cohuck@redhat.com>
+> Cc: "Michael S. Tsirkin" <mst@redhat.com>
+> Signed-off-by: David Hildenbrand <david@redhat.com>
+> ---
+>  hw/virtio/virtio-mem-pci.c | 4 ++--
+>  1 file changed, 2 insertions(+), 2 deletions(-)
+> 
+> diff --git a/hw/virtio/virtio-mem-pci.c b/hw/virtio/virtio-mem-pci.c
+> index 1a8e854123..831022aa86 100644
+> --- a/hw/virtio/virtio-mem-pci.c
+> +++ b/hw/virtio/virtio-mem-pci.c
+> @@ -21,8 +21,8 @@ static void virtio_mem_pci_realize(VirtIOPCIProxy *vpci_dev, Error **errp)
+>      VirtIOMEMPCI *mem_pci = VIRTIO_MEM_PCI(vpci_dev);
+>      DeviceState *vdev = DEVICE(&mem_pci->vdev);
+>  
+> -    qdev_set_parent_bus(vdev, BUS(&vpci_dev->bus));
+> -    object_property_set_bool(OBJECT(vdev), true, "realized", errp);
+> +    virtio_pci_force_virtio_1(vpci_dev);
+> +    qdev_realize(vdev, BUS(&vpci_dev->bus), errp);
+>  }
+>  
+>  static void virtio_mem_pci_set_addr(MemoryDeviceState *md, uint64_t addr,
 
-My questions are:
-Is the 'block_resize' mandatory to notify guest os after online resizing
-a lun passed through disk? I'm curious it because I found there're 
-couple
-of ways can make guest os realize the disk capacity change.
-e.g:
-* run 'block_resize' via qmp to let virtio-scsi notify the frontend 
-about
-   capacity change.
-* run 'rescan-scsi-bus.sh -s' inside guest.
-* run 'sg_readcap --16 /dev/sda' inside guest.
+Reviewed-by: Cornelia Huck <cohuck@redhat.com>
 
-I knew that the purpose of 'block_resize' is not only to notify guest 
-os,
-but also to update some internal structure's member, say 
-bs->total_sectors.
-What if I forgot to run 'block_resize', but run 'rescan-scsi-bus.sh -s' 
-in guest?
-In this case, Although the qemu's bs->total_sectors value isn't updated 
-due
-to missing 'block_resize', The guest os is still able to see the 
-capacity
-change, I'm curious is there any potential risks while using the 
-extended
-disk space in guest?
-
-What is the best practice for online resizing a lun passed through disk?
-Are all of below steps mandatory? OR may I omit either step 3 of 4?
-1. online resize on storage side.
-2. scsi rescan to realize the capacity change on hypervisor side.
-3. block_resize via qmp.
-4. scsi rescan to realize the capacity change in guest.
-5. use the extended disk space in guest.
-
-Many thanks,
-Lin
 
