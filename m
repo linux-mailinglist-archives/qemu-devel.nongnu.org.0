@@ -2,27 +2,47 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C17E8218AFD
-	for <lists+qemu-devel@lfdr.de>; Wed,  8 Jul 2020 17:16:58 +0200 (CEST)
-Received: from localhost ([::1]:39182 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id DC09E219386
+	for <lists+qemu-devel@lfdr.de>; Thu,  9 Jul 2020 00:34:37 +0200 (CEST)
+Received: from localhost ([::1]:57160 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jtBof-0005m3-D0
-	for lists+qemu-devel@lfdr.de; Wed, 08 Jul 2020 11:16:57 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:55098)
+	id 1jtIeC-0002IM-QO
+	for lists+qemu-devel@lfdr.de; Wed, 08 Jul 2020 18:34:36 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:47178)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <cfontana@suse.de>) id 1jtBn9-0005FC-1s
- for qemu-devel@nongnu.org; Wed, 08 Jul 2020 11:15:23 -0400
-Received: from mx2.suse.de ([195.135.220.15]:50578)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <cfontana@suse.de>) id 1jtBn7-0002Of-Dq
- for qemu-devel@nongnu.org; Wed, 08 Jul 2020 11:15:22 -0400
-X-Virus-Scanned: by amavisd-new at test-mx.suse.de
-Received: from relay2.suse.de (unknown [195.135.221.27])
- by mx2.suse.de (Postfix) with ESMTP id C36CDAFD8;
- Wed,  8 Jul 2020 15:15:19 +0000 (UTC)
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1jtIMg-00084c-Dt
+ for qemu-devel@nongnu.org; Wed, 08 Jul 2020 18:16:30 -0400
+Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:29528
+ helo=us-smtp-1.mimecast.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1jtIMe-0000QG-Qr
+ for qemu-devel@nongnu.org; Wed, 08 Jul 2020 18:16:30 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1594246588;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references:openpgp:openpgp;
+ bh=uzwPAJPpswOpk8OSZX9HfIThGw0rLQZG3zUbuYObOas=;
+ b=cCj5IRjKVwnB3RBwnJiWrUW8H+IXeHKsNkJonldeeQPElE1Di2BL0XBoTuhe4g6f8arYHZ
+ OmE/d1dUQd5ytPlEJTv73HWJtkYfqPEQDVKiJt7CyVL9un+Qeo6wZOMcxOc7S3HrRTVeg8
+ G9qOKXEgNGZT3a+bs7IsKnIS2gP1FU4=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-413-0oValh4JMTqWbOC5lgKCNw-1; Wed, 08 Jul 2020 11:15:30 -0400
+X-MC-Unique: 0oValh4JMTqWbOC5lgKCNw-1
+Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
+ [10.5.11.14])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id B7482E91C;
+ Wed,  8 Jul 2020 15:15:28 +0000 (UTC)
+Received: from thuth.remote.csb (ovpn-114-90.ams2.redhat.com [10.36.114.90])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id BF9E95D9DD;
+ Wed,  8 Jul 2020 15:15:25 +0000 (UTC)
 Subject: Re: [PATCH 3/3] cpu-timers, icount: new modules
-To: Paolo Bonzini <pbonzini@redhat.com>, Thomas Huth <thuth@redhat.com>,
+To: Paolo Bonzini <pbonzini@redhat.com>, Claudio Fontana <cfontana@suse.de>,
  Laurent Vivier <lvivier@redhat.com>, =?UTF-8?Q?Alex_Benn=c3=a9e?=
  <alex.bennee@linaro.org>, Peter Maydell <peter.maydell@linaro.org>,
  =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>,
@@ -35,25 +55,32 @@ References: <20200629093504.3228-1-cfontana@suse.de>
  <ecf5f26b-ce86-3e13-5c5c-567919433acb@redhat.com>
  <d5bb7a17-1e49-2436-a11b-3b6775589490@redhat.com>
  <afec1f63-166a-5c82-3bc6-e2afbb68f066@redhat.com>
-From: Claudio Fontana <cfontana@suse.de>
-Message-ID: <962fa395-d153-f28a-14eb-8af048156e22@suse.de>
-Date: Wed, 8 Jul 2020 17:15:18 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.4.1
+From: Thomas Huth <thuth@redhat.com>
+Openpgp: preference=signencrypt
+Message-ID: <9d17212b-b80a-3ac1-3fd0-880cf5443e12@redhat.com>
+Date: Wed, 8 Jul 2020 17:15:24 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+ Thunderbird/60.9.0
 MIME-Version: 1.0
 In-Reply-To: <afec1f63-166a-5c82-3bc6-e2afbb68f066@redhat.com>
-Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=thuth@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=utf-8
 Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=195.135.220.15; envelope-from=cfontana@suse.de;
- helo=mx2.suse.de
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/07/07 17:20:38
-X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x (no timestamps) [generic]
-X-Spam_score_int: -41
-X-Spam_score: -4.2
+Received-SPF: pass client-ip=205.139.110.120; envelope-from=thuth@redhat.com;
+ helo=us-smtp-1.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/07/07 17:25:11
+X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
+X-Spam_score_int: -40
+X-Spam_score: -4.1
 X-Spam_bar: ----
-X-Spam_report: (-4.2 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_MED=-2.3,
- RCVD_IN_MSPIKE_H3=-0.01, RCVD_IN_MSPIKE_WL=-0.01, SPF_HELO_NONE=0.001,
+X-Spam_report: (-4.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-1, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -74,7 +101,7 @@ Cc: Eduardo Habkost <ehabkost@redhat.com>, Colin Xu <colin.xu@intel.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 7/8/20 5:12 PM, Paolo Bonzini wrote:
+On 08/07/2020 17.12, Paolo Bonzini wrote:
 > On 08/07/20 17:07, Thomas Huth wrote:
 >>> Nope, unfortunately we don't have an s390 CI.  But if you can get your
 >>> hands on one, just "./configure --target-list=s390x-softmmu && make &&
@@ -85,14 +112,9 @@ On 7/8/20 5:12 PM, Paolo Bonzini wrote:
 > 
 > It is about s390 host.  But Travis is not covering all submitted
 > patches, is it?
-> 
-> Paolo
-> 
 
-Probably something in-flight (in the queues), because for me it was all green for [s390] on travis,
-supposing that the tests run as part of travis CI include check-block.
+No, but everybody can enable it for their github repo if they like.
 
-Thanks,
+ Thomas
 
-CLaudio 
 
