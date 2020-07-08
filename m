@@ -2,59 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D518A219311
-	for <lists+qemu-devel@lfdr.de>; Thu,  9 Jul 2020 00:04:19 +0200 (CEST)
-Received: from localhost ([::1]:47840 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 42E9921932C
+	for <lists+qemu-devel@lfdr.de>; Thu,  9 Jul 2020 00:14:35 +0200 (CEST)
+Received: from localhost ([::1]:42344 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jtIAs-0006FD-Qe
-	for lists+qemu-devel@lfdr.de; Wed, 08 Jul 2020 18:04:18 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:37128)
+	id 1jtIKo-0002Wz-8h
+	for lists+qemu-devel@lfdr.de; Wed, 08 Jul 2020 18:14:34 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:38022)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <david@redhat.com>) id 1jtHlX-000681-BX
- for qemu-devel@nongnu.org; Wed, 08 Jul 2020 17:38:07 -0400
-Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:52093
+ (Exim 4.90_1) (envelope-from <eric.auger@redhat.com>)
+ id 1jtHoq-0003Sq-1V
+ for qemu-devel@nongnu.org; Wed, 08 Jul 2020 17:41:32 -0400
+Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:24956
  helo=us-smtp-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <david@redhat.com>) id 1jtHlV-0003Pg-KA
- for qemu-devel@nongnu.org; Wed, 08 Jul 2020 17:38:06 -0400
+ (Exim 4.90_1) (envelope-from <eric.auger@redhat.com>)
+ id 1jtHoo-0003qq-Ad
+ for qemu-devel@nongnu.org; Wed, 08 Jul 2020 17:41:31 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1594244284;
+ s=mimecast20190719; t=1594244489;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding;
- bh=qBCXg+FZQ9J/rwU6QyiFwNwm9aFsRv0faM/Aq7n7ZxM=;
- b=NXRrhoRcTHN1ISGMzMLg88BSQdVxS273BJHLfCqUqHWkYTV6vqyOYmFsPtG+bysNvyj0rL
- cQ3rUs51y6jawt0cEgYPB5PBfN0XUcIxKMGGU/LmOxForLDRSFZ5AWEWPYyAFUQLb2PEN4
- oH7BdKbT8RVmXltRxFtjVjDuvXqRCUM=
+ to:to:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=pOv6tU5DTnmCc08vAr+FFI7nvp7MvkxbN0TJYxFA4Es=;
+ b=PykGUhv6RMMPQ4pJH7gxUZUO8V6a2Qtmg9tA3QMS5IdcV2BDU/bmZyqoGSjx43einVFLK2
+ 0nlXTPKdg1DjRuHcffvSxRKmqkxC/D8ZaWCQOv4D2hz1ARE13l5kqpV7bNJJR9lC0zBqvq
+ UrkMWMHfjff+G5A6FQLiWV4GN1wppT0=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-101-gIh202IQPBix27V34K3QXQ-1; Wed, 08 Jul 2020 10:36:27 -0400
-X-MC-Unique: gIh202IQPBix27V34K3QXQ-1
+ us-mta-456-EpnuRc5vPZGGSPEvCf6XoA-1; Wed, 08 Jul 2020 10:40:07 -0400
+X-MC-Unique: EpnuRc5vPZGGSPEvCf6XoA-1
 Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
  [10.5.11.11])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id D200980BCAF
- for <qemu-devel@nongnu.org>; Wed,  8 Jul 2020 14:36:26 +0000 (UTC)
-Received: from t480s.redhat.com (ovpn-113-117.ams2.redhat.com [10.36.113.117])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 0C4237847C;
- Wed,  8 Jul 2020 14:36:19 +0000 (UTC)
-From: David Hildenbrand <david@redhat.com>
-To: qemu-devel@nongnu.org
-Subject: [PATCH v1] virtio-mem-pci: force virtio version 1
-Date: Wed,  8 Jul 2020 16:36:19 +0200
-Message-Id: <20200708143619.38743-1-david@redhat.com>
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id E97711015EA2;
+ Wed,  8 Jul 2020 14:40:06 +0000 (UTC)
+Received: from [10.36.113.241] (ovpn-113-241.ams2.redhat.com [10.36.113.241])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 56B877847B;
+ Wed,  8 Jul 2020 14:40:06 +0000 (UTC)
+Subject: Re: [PULL 05/34] virtio-iommu: Implement RESV_MEM probe request
+To: Peter Maydell <peter.maydell@linaro.org>,
+ QEMU Developers <qemu-devel@nongnu.org>
+References: <20200703165405.17672-1-peter.maydell@linaro.org>
+ <20200703165405.17672-6-peter.maydell@linaro.org>
+ <CAFEAcA9+RE_Fk3XrnqCD5b3HMK8L+RDVyz+BkUd0bGRJQXB-1A@mail.gmail.com>
+From: Auger Eric <eric.auger@redhat.com>
+Message-ID: <4c31aaf5-7d48-790b-efc2-cf0b5af88ff9@redhat.com>
+Date: Wed, 8 Jul 2020 16:40:04 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.5.0
 MIME-Version: 1.0
+In-Reply-To: <CAFEAcA9+RE_Fk3XrnqCD5b3HMK8L+RDVyz+BkUd0bGRJQXB-1A@mail.gmail.com>
+Content-Language: en-US
 X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=david@redhat.com
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=eric.auger@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=205.139.110.120; envelope-from=david@redhat.com;
- helo=us-smtp-1.mimecast.com
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=205.139.110.120;
+ envelope-from=eric.auger@redhat.com; helo=us-smtp-1.mimecast.com
 X-detected-operating-system: by eggs.gnu.org: First seen = 2020/07/07 17:25:11
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
 X-Spam_score_int: -40
@@ -76,39 +87,53 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Cornelia Huck <cohuck@redhat.com>, "Michael S. Tsirkin" <mst@redhat.com>,
- David Hildenbrand <david@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Let's force virtio version 1. While at it, use qdev_realize() to set
-the parent bus and realize - like most other virtio-*-pci
-implementations.
+Hi Peter,
 
-Fixes: 0b9a2443a48b ("virtio-pci: Proxy for virtio-mem")
-Cc: Cornelia Huck <cohuck@redhat.com>
-Cc: "Michael S. Tsirkin" <mst@redhat.com>
-Signed-off-by: David Hildenbrand <david@redhat.com>
----
- hw/virtio/virtio-mem-pci.c | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+On 7/5/20 8:21 PM, Peter Maydell wrote:
+> On Fri, 3 Jul 2020 at 17:54, Peter Maydell <peter.maydell@linaro.org> wrote:
+>>
+>> From: Eric Auger <eric.auger@redhat.com>
+>>
+>> This patch implements the PROBE request. At the moment,
+>> only THE RESV_MEM property is handled. The first goal is
+>> to report iommu wide reserved regions such as the MSI regions
+>> set by the machine code. On x86 this will be the IOAPIC MSI
+>> region, [0xFEE00000 - 0xFEEFFFFF], on ARM this may be the ITS
+>> doorbell.
+> 
+>> @@ -452,6 +524,17 @@ static void virtio_iommu_handle_command(VirtIODevice *vdev, VirtQueue *vq)
+>>          case VIRTIO_IOMMU_T_UNMAP:
+>>              tail.status = virtio_iommu_handle_unmap(s, iov, iov_cnt);
+>>              break;
+>> +        case VIRTIO_IOMMU_T_PROBE:
+>> +        {
+>> +            struct virtio_iommu_req_tail *ptail;
+>> +
+>> +            output_size = s->config.probe_size + sizeof(tail);
+>> +            buf = g_malloc0(output_size);
+>> +
+>> +            ptail = (struct virtio_iommu_req_tail *)
+>> +                        (buf + s->config.probe_size);
+>> +            ptail->status = virtio_iommu_handle_probe(s, iov, iov_cnt, buf);
+>> +        }
+>>          default:
+>>              tail.status = VIRTIO_IOMMU_S_UNSUPP;
+>>          }
+> 
+> Hi Eric -- Coverity points out (CID 1430180) that this new case
+> has neither a 'break' nor a /* fallthrough */ comment. Which is correct?
+Thank you for reporting. Sure I will send a fix. This is harmless from a
+functional pov.
 
-diff --git a/hw/virtio/virtio-mem-pci.c b/hw/virtio/virtio-mem-pci.c
-index 1a8e854123..831022aa86 100644
---- a/hw/virtio/virtio-mem-pci.c
-+++ b/hw/virtio/virtio-mem-pci.c
-@@ -21,8 +21,8 @@ static void virtio_mem_pci_realize(VirtIOPCIProxy *vpci_dev, Error **errp)
-     VirtIOMEMPCI *mem_pci = VIRTIO_MEM_PCI(vpci_dev);
-     DeviceState *vdev = DEVICE(&mem_pci->vdev);
- 
--    qdev_set_parent_bus(vdev, BUS(&vpci_dev->bus));
--    object_property_set_bool(OBJECT(vdev), true, "realized", errp);
-+    virtio_pci_force_virtio_1(vpci_dev);
-+    qdev_realize(vdev, BUS(&vpci_dev->bus), errp);
- }
- 
- static void virtio_mem_pci_set_addr(MemoryDeviceState *md, uint64_t addr,
--- 
-2.26.2
+Best Regards
+
+Eric
+> 
+> thanks
+> -- PMM
+> 
 
 
