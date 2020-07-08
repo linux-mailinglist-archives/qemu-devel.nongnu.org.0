@@ -2,68 +2,77 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 85B9221957B
-	for <lists+qemu-devel@lfdr.de>; Thu,  9 Jul 2020 03:02:47 +0200 (CEST)
-Received: from localhost ([::1]:34658 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C2697219350
+	for <lists+qemu-devel@lfdr.de>; Thu,  9 Jul 2020 00:24:51 +0200 (CEST)
+Received: from localhost ([::1]:36384 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jtKxa-0008Sf-9T
-	for lists+qemu-devel@lfdr.de; Wed, 08 Jul 2020 21:02:46 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:51966)
+	id 1jtIUk-0007Wm-Qq
+	for lists+qemu-devel@lfdr.de; Wed, 08 Jul 2020 18:24:50 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:39570)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1jtKvy-0006v9-Dr
- for qemu-devel@nongnu.org; Wed, 08 Jul 2020 21:01:06 -0400
-Received: from us-smtp-2.mimecast.com ([205.139.110.61]:53405
+ (Exim 4.90_1) (envelope-from <jasowang@redhat.com>)
+ id 1jtHvG-00063B-8N
+ for qemu-devel@nongnu.org; Wed, 08 Jul 2020 17:48:10 -0400
+Received: from us-smtp-1.mimecast.com ([205.139.110.61]:55062
  helo=us-smtp-delivery-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1jtKvv-0003qw-Ke
- for qemu-devel@nongnu.org; Wed, 08 Jul 2020 21:01:06 -0400
+ (Exim 4.90_1) (envelope-from <jasowang@redhat.com>)
+ id 1jtHvE-0004hM-ES
+ for qemu-devel@nongnu.org; Wed, 08 Jul 2020 17:48:09 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1594256462;
+ s=mimecast20190719; t=1594244887;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=smbKjRsU5i3KhKg3QbXzYi2KAz29ytP0Ea1NEY02NP8=;
- b=YAAGcmDWuVrJowkMtV3D5IYbN+aKY2j7sVY1vDMSIVI/FGTjf/FgFc220jHKGgxlaz0nRm
- h7+TUQ6VsaWMK1OuFQp015gJZ5scbyq3bh/TWBqZyhBDD2V2pItVthSKdq6dJcE6iJCsjG
- ICIL7js3qii6wvkpB1MPprhYX3AJfsI=
+ bh=j21N4yUr1lJUCFKo3UGze6l1P5VU4mEmZu1jTSNrfAQ=;
+ b=GxdyIjcWjdJR27RgxX7i3U08SfwzM5TQ6GiV9D8wbysvzPUQwgwwI21cI0Yy43GxmpK4L1
+ /dvB5o0kiHZBud11I66zOB9fRRNgcNgD3tks3JXSLK/pqXo6MNFgSrDbxAPkucV6dZKg+o
+ I1yHn9b5wVrtB3u1lOrPAAHeOY81Wg4=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-407-Pw-148vnOlaI8JRnwwDe1w-1; Wed, 08 Jul 2020 00:57:53 -0400
-X-MC-Unique: Pw-148vnOlaI8JRnwwDe1w-1
-Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
- [10.5.11.11])
+ us-mta-378-lUxyPUqdOqW2FwjcjCEQfg-1; Wed, 08 Jul 2020 01:42:48 -0400
+X-MC-Unique: lUxyPUqdOqW2FwjcjCEQfg-1
+Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
+ [10.5.11.12])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id C50A11005510;
- Wed,  8 Jul 2020 04:57:48 +0000 (UTC)
-Received: from blackfin.pond.sub.org (ovpn-112-143.ams2.redhat.com
- [10.36.112.143])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 676E271678;
- Wed,  8 Jul 2020 04:57:34 +0000 (UTC)
-Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
- id B747E1132FD2; Wed,  8 Jul 2020 06:57:32 +0200 (CEST)
-From: Markus Armbruster <armbru@redhat.com>
-To: Daniel P. =?utf-8?Q?Berrang=C3=A9?= <berrange@redhat.com>
-Subject: Re: [PATCH] trivial: Remove trailing whitespaces
-References: <20200706162300.1084753-1-dinechin@redhat.com>
- <20200707102510.GF2649462@redhat.com>
-Date: Wed, 08 Jul 2020 06:57:32 +0200
-In-Reply-To: <20200707102510.GF2649462@redhat.com> ("Daniel P. =?utf-8?Q?B?=
- =?utf-8?Q?errang=C3=A9=22's?=
- message of "Tue, 7 Jul 2020 11:25:10 +0100")
-Message-ID: <878sfu4n9f.fsf@dusky.pond.sub.org>
-User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/26.3 (gnu/linux)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 01C038005B0;
+ Wed,  8 Jul 2020 05:42:47 +0000 (UTC)
+Received: from [10.72.12.240] (ovpn-12-240.pek2.redhat.com [10.72.12.240])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 6D3A460E1C;
+ Wed,  8 Jul 2020 05:42:32 +0000 (UTC)
+Subject: Re: [RFC v2 1/1] memory: Delete assertion in
+ memory_region_unregister_iommu_notifier
+To: Peter Xu <peterx@redhat.com>
+References: <54d2cdfd-97b8-9e1d-a607-d7a5e96be3a1@redhat.com>
+ <20200629133403.GA266532@xz-x1>
+ <2589d0e9-cc5b-a4df-8790-189b49f1a40e@redhat.com>
+ <20200630153911.GD3138@xz-x1>
+ <69f6d6e7-a0b1-abae-894e-4e81b7e0cc90@redhat.com>
+ <ff9e7af0-18c4-57e8-fc94-904fdce1123a@redhat.com>
+ <20200702154540.GI40675@xz-x1>
+ <34fe0e55-c0ae-8e56-462b-6281b6cca4f5@redhat.com>
+ <20200703130338.GD6677@xz-x1>
+ <c985b804-126c-94a1-b05e-430075f9e390@redhat.com>
+ <20200707195429.GF88106@xz-x1>
+From: Jason Wang <jasowang@redhat.com>
+Message-ID: <5004a059-6eb0-4ef3-40b7-94dfbf9ec08f@redhat.com>
+Date: Wed, 8 Jul 2020 13:42:30 +0800
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.8.0
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
+In-Reply-To: <20200707195429.GF88106@xz-x1>
+Content-Language: en-US
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=armbru@redhat.com
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=jasowang@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=205.139.110.61; envelope-from=armbru@redhat.com;
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=205.139.110.61; envelope-from=jasowang@redhat.com;
  helo=us-smtp-delivery-1.mimecast.com
 X-detected-operating-system: by eggs.gnu.org: First seen = 2020/07/07 17:25:10
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
@@ -73,7 +82,7 @@ X-Spam_bar: ----
 X-Spam_report: (-4.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-1, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001, URIBL_BLOCKED=0.001 autolearn=unavailable autolearn_force=no
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -86,67 +95,76 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Maydell <peter.maydell@linaro.org>,
- Dmitry Fleytman <dmitry.fleytman@gmail.com>,
- "Michael S. Tsirkin" <mst@redhat.com>, Jason Wang <jasowang@redhat.com>,
- Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>, qemu-devel@nongnu.org,
- Max Filippov <jcmvbkbc@gmail.com>, Gerd Hoffmann <kraxel@redhat.com>,
- "Edgar E. Iglesias" <edgar.iglesias@gmail.com>,
- Jean-Christophe Dubois <jcd@tribudubois.net>, Marek Vasut <marex@denx.de>,
- Stefano Stabellini <sstabellini@kernel.org>, qemu-block@nongnu.org,
- qemu-trivial@nongnu.org, Paul Durrant <paul@xen.org>,
- Magnus Damm <magnus.damm@gmail.com>, Michael Roth <mdroth@linux.vnet.ibm.com>,
- =?utf-8?Q?Herv=C3=A9?= Poussineau <hpoussin@reactos.org>,
- Anthony Perard <anthony.perard@citrix.com>,
- =?utf-8?Q?Marc-Andr=C3=A9?= Lureau <marcandre.lureau@redhat.com>,
- David Gibson <david@gibson.dropbear.id.au>,
- Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
- Artyom Tarasenko <atar4qemu@gmail.com>, Riku Voipio <riku.voipio@iki.fi>,
- Eduardo Habkost <ehabkost@redhat.com>, Michael Tokarev <mjt@tls.msk.ru>,
- Alistair Francis <alistair@alistair23.me>, Peter Lieven <pl@kamp.de>,
- "Dr. David Alan Gilbert" <dgilbert@redhat.com>,
- Roman Bolshakov <r.bolshakov@yadro.com>, qemu-arm@nongnu.org,
- Peter Chubb <peter.chubb@nicta.com.au>,
- Ronnie Sahlberg <ronniesahlberg@gmail.com>, xen-devel@lists.xenproject.org,
- Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>,
- Richard Henderson <rth@twiddle.net>, Kevin Wolf <kwolf@redhat.com>,
- Yoshinori Sato <ysato@users.sourceforge.jp>, Chris Wulff <crwulff@gmail.com>,
- Laurent Vivier <laurent@vivier.eu>, Max Reitz <mreitz@redhat.com>,
- qemu-ppc@nongnu.org, Christophe de Dinechin <dinechin@redhat.com>,
- Paolo Bonzini <pbonzini@redhat.com>
+Cc: Peter Maydell <peter.maydell@linaro.org>, Yan Zhao <yan.y.zhao@intel.com>,
+ "Michael S. Tsirkin" <mst@redhat.com>,
+ "libvir-list@redhat.com" <libvir-list@redhat.com>,
+ Juan Quintela <quintela@redhat.com>, qemu-devel@nongnu.org,
+ =?UTF-8?Q?Eugenio_P=c3=a9rez?= <eperezma@redhat.com>,
+ Eric Auger <eric.auger@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Daniel P. Berrang=C3=A9 <berrange@redhat.com> writes:
 
-> On Mon, Jul 06, 2020 at 06:23:00PM +0200, Christophe de Dinechin wrote:
->> There are a number of unnecessary trailing whitespaces that have
->> accumulated over time in the source code. They cause stray changes
->> in patches if you use tools that automatically remove them.
->>=20
->> Tested by doing a `git diff -w` after the change.
->>=20
->> This could probably be turned into a pre-commit hook.
+On 2020/7/8 上午3:54, Peter Xu wrote:
+> On Tue, Jul 07, 2020 at 04:03:10PM +0800, Jason Wang wrote:
+>> On 2020/7/3 下午9:03, Peter Xu wrote:
+>>> On Fri, Jul 03, 2020 at 03:24:19PM +0800, Jason Wang wrote:
+>>>> On 2020/7/2 下午11:45, Peter Xu wrote:
+>>>>> On Thu, Jul 02, 2020 at 11:01:54AM +0800, Jason Wang wrote:
+>>>>>> So I think we agree that a new notifier is needed?
+>>>>> Good to me, or a new flag should be easier (IOMMU_NOTIFIER_DEV_IOTLB)?
+>>>> That should work but I wonder something as following is better.
+>>>>
+>>>> Instead of introducing new flags, how about carry the type of event in the
+>>>> notifier then the device (vhost) can choose the message it want to process
+>>>> like:
+>>>>
+>>>> static vhost_iommu_event(IOMMUNotifier *n, IOMMUTLBEvent *event)
+>>>>
+>>>> {
+>>>>
+>>>> switch (event->type) {
+>>>>
+>>>> case IOMMU_MAP:
+>>>> case IOMMU_UNMAP:
+>>>> case IOMMU_DEV_IOTLB_UNMAP:
+>>>> ...
+>>>>
+>>>> }
+>>> Looks ok to me, though imo we should still keep the registration information,
+>>> so VT-d knows which notifiers is interested in which events.  E.g., we can
+>>> still do something like vtd_as_has_map_notifier().
+>>
+>> Is this for a better performance?
+>>
+>> I wonder whether it's worth since we can't not have both vhost and vtd to be
+>> registered into the same as.
+> /me failed to follow this sentence.. :(
 
-See .git/hooks/pre-commit.sample.
 
-Expected test output is prone to flunk the whitespace test.  One
-solution is to strip trailing whitespace from test output.
+Sorry, I meant "vfio" instead "vtd".
 
-> scripts/checkpatch.pl ought to be made to check it.
+
 >
->>=20
->> Signed-off-by: Christophe de Dinechin <dinechin@redhat.com>
->> ---
-[...]
->>  78 files changed, 440 insertions(+), 440 deletions(-)
+>> So it should be functional equivalent to vtd_as_has_notifier().
+> For example: in vtd_iommu_replay() we'll skip the replay if vhost has
+> registered the iommu notifier because vtd_as_has_map_notifier() will return
+> false.
+
+
+Two questions:
+
+- Do we care the performance here? If not, vhost may just ignore the MAP 
+event?
+- If we care the performance, it's better to implement the MAP event for 
+vhost, otherwise it could be a lot of IOTLB miss
+
+Thanks
+
+
+>    It'll only return true if the device is a vfio-pci device.
 >
-> The cleanup is a good idea, however, I think it is probably better to
-> split the patch approx into subsystems. That will make it much easier
-> to cherry-pick for people doing backports.
-
-I doubt that's worth the trouble.
-
-Acked-by: Markus Armbruster <armbru@redhat.com>
+> Without vtd_as_has_map_notifier(), how could we do that?
+>
 
 
