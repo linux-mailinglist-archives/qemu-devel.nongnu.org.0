@@ -2,51 +2,50 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5BDC5219359
-	for <lists+qemu-devel@lfdr.de>; Thu,  9 Jul 2020 00:26:53 +0200 (CEST)
-Received: from localhost ([::1]:44748 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id F091F21934B
+	for <lists+qemu-devel@lfdr.de>; Thu,  9 Jul 2020 00:23:15 +0200 (CEST)
+Received: from localhost ([::1]:55854 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jtIWi-0002cz-Cj
-	for lists+qemu-devel@lfdr.de; Wed, 08 Jul 2020 18:26:52 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:40642)
+	id 1jtITD-0003w0-0Q
+	for lists+qemu-devel@lfdr.de; Wed, 08 Jul 2020 18:23:15 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:40740)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <david@redhat.com>) id 1jtHzK-00041g-6j
- for qemu-devel@nongnu.org; Wed, 08 Jul 2020 17:52:22 -0400
-Received: from us-smtp-1.mimecast.com ([207.211.31.81]:21043
+ (Exim 4.90_1) (envelope-from <david@redhat.com>) id 1jtHzc-0004Xu-BF
+ for qemu-devel@nongnu.org; Wed, 08 Jul 2020 17:52:40 -0400
+Received: from us-smtp-1.mimecast.com ([205.139.110.61]:22728
  helo=us-smtp-delivery-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <david@redhat.com>) id 1jtHzI-0005G8-CK
- for qemu-devel@nongnu.org; Wed, 08 Jul 2020 17:52:21 -0400
+ (Exim 4.90_1) (envelope-from <david@redhat.com>) id 1jtHza-0005Hf-1W
+ for qemu-devel@nongnu.org; Wed, 08 Jul 2020 17:52:40 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1594245139;
+ s=mimecast20190719; t=1594245157;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=ibC8VBxKDigT75V4r6cBk01+W7vG9M45onQMHCdIq18=;
- b=ZDBDlMkpTPavJ51JXUkMzoDcqksIBQsVEJe8jwxyVN3F/hHWUM+4wy79q5u90cHzfT13lG
- NnwvbeVnJagCs9+0LzRAkHGN9XkMiiVsJeO+xkXk/QjIJz7LOqOG93xUYtCE3XKkud4y5z
- 64s6SJmNfD+t4Zc/0ynPQUHBXVt70/8=
+ bh=lvsml5SkldcIC+94tbIyaovLnNYw/WpFjcjBx3vvPBk=;
+ b=SljljaIIKk0NyrsPoBOv3omPwbgk2i9YVI/FXcwJTiwiwmchszk303r6KmMHvSJTJelT/5
+ 3uSAyd/xHV7wJjMANu8o77hp6IYxA24VIa4Wu4KzlB2ML2KIIh+byMDeIqHlTWhu3Qa/hD
+ 5fA1+wnL3b5RtoppZofy7gZ5egUh4+A=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-216-TTI4SnaMMM6CVVsPbzBsLg-1; Wed, 08 Jul 2020 14:51:56 -0400
-X-MC-Unique: TTI4SnaMMM6CVVsPbzBsLg-1
+ us-mta-460-6k6sN3VPPhKaCTv42SwX9A-1; Wed, 08 Jul 2020 14:52:15 -0400
+X-MC-Unique: 6k6sN3VPPhKaCTv42SwX9A-1
 Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
  [10.5.11.14])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id B32918015F5;
- Wed,  8 Jul 2020 18:51:52 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 270D1801E6A;
+ Wed,  8 Jul 2020 18:52:14 +0000 (UTC)
 Received: from t480s.redhat.com (ovpn-113-117.ams2.redhat.com [10.36.113.117])
- by smtp.corp.redhat.com (Postfix) with ESMTP id C49EA7554B;
- Wed,  8 Jul 2020 18:51:47 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 0ACA87554B;
+ Wed,  8 Jul 2020 18:51:52 +0000 (UTC)
 From: David Hildenbrand <david@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH RFC 1/5] s390x: move setting of maximum ram size to machine
- init
-Date: Wed,  8 Jul 2020 20:51:31 +0200
-Message-Id: <20200708185135.46694-2-david@redhat.com>
+Subject: [PATCH RFC 2/5] s390x: implement diag260
+Date: Wed,  8 Jul 2020 20:51:32 +0200
+Message-Id: <20200708185135.46694-3-david@redhat.com>
 In-Reply-To: <20200708185135.46694-1-david@redhat.com>
 References: <20200708185135.46694-1-david@redhat.com>
 MIME-Version: 1.0
@@ -57,17 +56,17 @@ X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=207.211.31.81; envelope-from=david@redhat.com;
+Received-SPF: pass client-ip=205.139.110.61; envelope-from=david@redhat.com;
  helo=us-smtp-delivery-1.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/07/07 17:25:09
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/07/07 17:25:10
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
-X-Spam_score_int: -30
-X-Spam_score: -3.1
-X-Spam_bar: ---
-X-Spam_report: (-3.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1,
+X-Spam_score_int: -40
+X-Spam_score: -4.1
+X-Spam_bar: ----
+X-Spam_report: (-4.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H3=-0.01, RCVD_IN_MSPIKE_WL=-0.01,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-1, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -89,96 +88,177 @@ Cc: Thomas Huth <thuth@redhat.com>, Janosch Frank <frankja@linux.ibm.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-As we no longer fixup the maximum ram size in sclp code, let's move
-setting the maximum ram size to ccw_init()->s390_memory_init(), which
-now looks like a better fit.
+Let's implement the "storage configuration" part of diag260. This diag
+is found under z/VM, to indicate usable chunks of memory tot he guest OS.
+As I don't have access to documentation, I have no clue what the actual
+error cases are, and which other stuff we could eventually query using this
+interface. Somebody with access to documentation should fix this. This
+implementation seems to work with Linux guests just fine.
+
+The Linux kernel supports diag260 to query the available memory since
+v4.20. Older kernels / kvm-unit-tests will later fail to run in such a VM
+(with maxmem being defined and bigger than the memory size, e.g., "-m
+ 2G,maxmem=4G"), just as if support for SCLP storage information is not
+implemented. They will fail to detect the actual initial memory size.
+
+This interface allows us to expose the maximum ramsize via sclp
+and the initial ramsize via diag260 - without having to mess with the
+memory increment size and having to align the initial memory size to it.
+
+This is a preparation for memory device support. We'll unlock the
+implementation with a new QEMU machine that supports memory devices.
 
 Signed-off-by: David Hildenbrand <david@redhat.com>
 ---
- hw/s390x/s390-virtio-ccw.c | 19 ++++++++++++++++---
- hw/s390x/sclp.c            | 20 +-------------------
- 2 files changed, 17 insertions(+), 22 deletions(-)
+ target/s390x/diag.c        | 57 ++++++++++++++++++++++++++++++++++++++
+ target/s390x/internal.h    |  2 ++
+ target/s390x/kvm.c         | 11 ++++++++
+ target/s390x/misc_helper.c |  6 ++++
+ target/s390x/translate.c   |  4 +++
+ 5 files changed, 80 insertions(+)
 
-diff --git a/hw/s390x/s390-virtio-ccw.c b/hw/s390x/s390-virtio-ccw.c
-index 023fd25f2b..2e6d292c23 100644
---- a/hw/s390x/s390-virtio-ccw.c
-+++ b/hw/s390x/s390-virtio-ccw.c
-@@ -160,13 +160,26 @@ static void virtio_ccw_register_hcalls(void)
-                                    virtio_ccw_hcall_early_printk);
+diff --git a/target/s390x/diag.c b/target/s390x/diag.c
+index 1a48429564..c3b1e24b2c 100644
+--- a/target/s390x/diag.c
++++ b/target/s390x/diag.c
+@@ -23,6 +23,63 @@
+ #include "hw/s390x/pv.h"
+ #include "kvm_s390x.h"
+ 
++void handle_diag_260(CPUS390XState *env, uint64_t r1, uint64_t r3, uintptr_t ra)
++{
++    MachineState *ms = MACHINE(qdev_get_machine());
++    const ram_addr_t initial_ram_size = ms->ram_size;
++    const uint64_t subcode = env->regs[r3];
++    S390CPU *cpu = env_archcpu(env);
++    ram_addr_t addr, length;
++    uint64_t tmp;
++
++    /* TODO: Unlock with new QEMU machine. */
++    if (false) {
++        s390_program_interrupt(env, PGM_OPERATION, ra);
++        return;
++    }
++
++    /*
++     * There also seems to be subcode "0xc", which stores the size of the
++     * first chunk and the total size to r1/r2. It's only used by very old
++     * Linux, so don't implement it.
++     */
++    if ((r1 & 1) || subcode != 0x10) {
++        s390_program_interrupt(env, PGM_SPECIFICATION, ra);
++        return;
++    }
++    addr = env->regs[r1];
++    length = env->regs[r1 + 1];
++
++    /* FIXME: Somebody with documentation should fix this. */
++    if (!QEMU_IS_ALIGNED(addr, 16) || !QEMU_IS_ALIGNED(length, 16)) {
++        s390_program_interrupt(env, PGM_SPECIFICATION, ra);
++        return;
++    }
++
++    /* FIXME: Somebody with documentation should fix this. */
++    if (!length) {
++        setcc(cpu, 3);
++        return;
++    }
++
++    /* FIXME: Somebody with documentation should fix this. */
++    if (!address_space_access_valid(&address_space_memory, addr, length, true,
++                                    MEMTXATTRS_UNSPECIFIED)) {
++        s390_program_interrupt(env, PGM_ADDRESSING, ra);
++        return;
++    }
++
++    /* Indicate our initial memory ([0 .. ram_size - 1]) */
++    tmp = cpu_to_be64(0);
++    cpu_physical_memory_write(addr, &tmp, sizeof(tmp));
++    tmp = cpu_to_be64(initial_ram_size - 1);
++    cpu_physical_memory_write(addr + sizeof(tmp), &tmp, sizeof(tmp));
++
++    /* Exactly one entry was stored. */
++    env->regs[r3] = 1;
++    setcc(cpu, 0);
++}
++
+ int handle_diag_288(CPUS390XState *env, uint64_t r1, uint64_t r3)
+ {
+     uint64_t func = env->regs[r1];
+diff --git a/target/s390x/internal.h b/target/s390x/internal.h
+index b1e0ebf67f..a7a3df9a3b 100644
+--- a/target/s390x/internal.h
++++ b/target/s390x/internal.h
+@@ -372,6 +372,8 @@ int mmu_translate_real(CPUS390XState *env, target_ulong raddr, int rw,
+ 
+ 
+ /* misc_helper.c */
++void handle_diag_260(CPUS390XState *env, uint64_t r1, uint64_t r3,
++                     uintptr_t ra);
+ int handle_diag_288(CPUS390XState *env, uint64_t r1, uint64_t r3);
+ void handle_diag_308(CPUS390XState *env, uint64_t r1, uint64_t r3,
+                      uintptr_t ra);
+diff --git a/target/s390x/kvm.c b/target/s390x/kvm.c
+index f2f75d2a57..d6de3ad86c 100644
+--- a/target/s390x/kvm.c
++++ b/target/s390x/kvm.c
+@@ -1565,6 +1565,14 @@ static int handle_hypercall(S390CPU *cpu, struct kvm_run *run)
+     return ret;
  }
  
--static void s390_memory_init(MemoryRegion *ram)
-+static void s390_memory_init(MachineState *machine)
- {
-     MemoryRegion *sysmem = get_system_memory();
-     Error *local_err = NULL;
-+    uint64_t hw_limit;
-+    int ret;
++static void kvm_handle_diag_260(S390CPU *cpu, struct kvm_run *run)
++{
++    const uint64_t r1 = (run->s390_sieic.ipa & 0x00f0) >> 4;
++    const uint64_t r3 = run->s390_sieic.ipa & 0x000f;
 +
-+    /* We have to set the memory limit before adding any regions to sysmem. */
-+    ret = s390_set_memory_limit(machine->maxram_size, &hw_limit);
-+    if (ret == -E2BIG) {
-+        error_report("host supports a maximum of %" PRIu64 " GB",
-+                     hw_limit / GiB);
-+        exit(EXIT_FAILURE);
-+    } else if (ret) {
-+        error_report("setting the guest size failed");
-+        exit(EXIT_FAILURE);
++    handle_diag_260(&cpu->env, r1, r3, 0);
++}
++
+ static void kvm_handle_diag_288(S390CPU *cpu, struct kvm_run *run)
+ {
+     uint64_t r1, r3;
+@@ -1614,6 +1622,9 @@ static int handle_diag(S390CPU *cpu, struct kvm_run *run, uint32_t ipb)
+      */
+     func_code = decode_basedisp_rs(&cpu->env, ipb, NULL) & DIAG_KVM_CODE_MASK;
+     switch (func_code) {
++    case 0x260:
++        kvm_handle_diag_260(cpu, run);
++        break;
+     case DIAG_TIMEREVENT:
+         kvm_handle_diag_288(cpu, run);
+         break;
+diff --git a/target/s390x/misc_helper.c b/target/s390x/misc_helper.c
+index 58dbc023eb..d7274eb320 100644
+--- a/target/s390x/misc_helper.c
++++ b/target/s390x/misc_helper.c
+@@ -116,6 +116,12 @@ void HELPER(diag)(CPUS390XState *env, uint32_t r1, uint32_t r3, uint32_t num)
+     uint64_t r;
+ 
+     switch (num) {
++    case 0x260:
++        qemu_mutex_lock_iothread();
++        handle_diag_260(env, r1, r3, GETPC());
++        qemu_mutex_unlock_iothread();
++        r = 0;
++        break;
+     case 0x500:
+         /* KVM hypercall */
+         qemu_mutex_lock_iothread();
+diff --git a/target/s390x/translate.c b/target/s390x/translate.c
+index 4f6f1e31cd..6bb8b6e513 100644
+--- a/target/s390x/translate.c
++++ b/target/s390x/translate.c
+@@ -2398,6 +2398,10 @@ static DisasJumpType op_diag(DisasContext *s, DisasOps *o)
+     TCGv_i32 func_code = tcg_const_i32(get_field(s, i2));
+ 
+     gen_helper_diag(cpu_env, r1, r3, func_code);
++    /* Only some diags modify the CC. */
++    if (get_field(s, i2) == 0x260) {
++        set_cc_static(s);
 +    }
  
-     /* allocate RAM for core */
--    memory_region_add_subregion(sysmem, 0, ram);
-+    memory_region_add_subregion(sysmem, 0, machine->ram);
- 
-     /*
-      * Configure the maximum page size. As no memory devices were created
-@@ -249,7 +262,7 @@ static void ccw_init(MachineState *machine)
- 
-     s390_sclp_init();
-     /* init memory + setup max page size. Required for the CPU model */
--    s390_memory_init(machine->ram);
-+    s390_memory_init(machine);
- 
-     /* init CPUs (incl. CPU model) early so s390_has_feature() works */
-     s390_init_cpus(machine);
-diff --git a/hw/s390x/sclp.c b/hw/s390x/sclp.c
-index d39f6d7785..f59195e15a 100644
---- a/hw/s390x/sclp.c
-+++ b/hw/s390x/sclp.c
-@@ -327,32 +327,14 @@ void s390_sclp_init(void)
- 
- static void sclp_realize(DeviceState *dev, Error **errp)
- {
--    MachineState *machine = MACHINE(qdev_get_machine());
-     SCLPDevice *sclp = SCLP(dev);
--    Error *err = NULL;
--    uint64_t hw_limit;
--    int ret;
- 
-     /*
-      * qdev_device_add searches the sysbus for TYPE_SCLP_EVENTS_BUS. As long
-      * as we can't find a fitting bus via the qom tree, we have to add the
-      * event facility to the sysbus, so e.g. a sclp console can be created.
-      */
--    sysbus_realize(SYS_BUS_DEVICE(sclp->event_facility), &err);
--    if (err) {
--        goto out;
--    }
--
--    ret = s390_set_memory_limit(machine->maxram_size, &hw_limit);
--    if (ret == -E2BIG) {
--        error_setg(&err, "host supports a maximum of %" PRIu64 " GB",
--                   hw_limit / GiB);
--    } else if (ret) {
--        error_setg(&err, "setting the guest size failed");
--    }
--
--out:
--    error_propagate(errp, err);
-+    sysbus_realize(SYS_BUS_DEVICE(sclp->event_facility), errp);
- }
- 
- static void sclp_memory_init(SCLPDevice *sclp)
+     tcg_temp_free_i32(func_code);
+     tcg_temp_free_i32(r3);
 -- 
 2.26.2
 
