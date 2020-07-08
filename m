@@ -2,67 +2,86 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5C0DF21948A
-	for <lists+qemu-devel@lfdr.de>; Thu,  9 Jul 2020 01:46:35 +0200 (CEST)
-Received: from localhost ([::1]:37536 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id EF8C2219461
+	for <lists+qemu-devel@lfdr.de>; Thu,  9 Jul 2020 01:37:57 +0200 (CEST)
+Received: from localhost ([::1]:57724 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jtJlq-0003op-Em
-	for lists+qemu-devel@lfdr.de; Wed, 08 Jul 2020 19:46:34 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:38774)
+	id 1jtJdV-0008SL-2r
+	for lists+qemu-devel@lfdr.de; Wed, 08 Jul 2020 19:37:57 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:37202)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1jtJl3-0003Bb-Kt
- for qemu-devel@nongnu.org; Wed, 08 Jul 2020 19:45:45 -0400
-Received: from indium.canonical.com ([91.189.90.7]:37998)
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1jtJck-0007sG-Hp
+ for qemu-devel@nongnu.org; Wed, 08 Jul 2020 19:37:10 -0400
+Received: from mail-pf1-x443.google.com ([2607:f8b0:4864:20::443]:43047)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1jtJl1-0003PG-CF
- for qemu-devel@nongnu.org; Wed, 08 Jul 2020 19:45:45 -0400
-Received: from loganberry.canonical.com ([91.189.90.37])
- by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
- id 1jtJkz-0000rv-Pu
- for <qemu-devel@nongnu.org>; Wed, 08 Jul 2020 23:45:41 +0000
-Received: from loganberry.canonical.com (localhost [127.0.0.1])
- by loganberry.canonical.com (Postfix) with ESMTP id BB14C2E80ED
- for <qemu-devel@nongnu.org>; Wed,  8 Jul 2020 23:45:41 +0000 (UTC)
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1jtJch-0002Lx-O7
+ for qemu-devel@nongnu.org; Wed, 08 Jul 2020 19:37:10 -0400
+Received: by mail-pf1-x443.google.com with SMTP id u18so158665pfk.10
+ for <qemu-devel@nongnu.org>; Wed, 08 Jul 2020 16:37:07 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=subject:to:cc:references:from:message-id:date:user-agent
+ :mime-version:in-reply-to:content-language:content-transfer-encoding;
+ bh=WceBtQWSpGLTKnkZN5L7rcXzyOV0jJpQGsWGP7upb1c=;
+ b=Rgh45eAczmk8THU3qInwYBRNdnG0PqDKJkOiTlJSesM0w4usRXwVVeTOS9Yfdv12JE
+ EJi2h/uXPskS9AFHT4IS8MYdVf2NF38IXC2brDe7WwccbODCVgFHV8KFuwBazSYqq+r6
+ lFDtkgeuYjsiDGTeFHvFyXYquK901mddzpIrxak0Six0Ic0QNaXTe42tpMxQlTYq80vk
+ 12cA+4rSgBK/AJCSVE7eiUhWaF+ja/pNWX3xncqRP34pibgOIfQmxL0/kU2N00oxY+l1
+ lQjW1P0sj1pAOSsrHLvuDtSOrTkKIguY2nChXrXO+NPgMDWlcPWHohH8P6tClUJW+lnc
+ TEUw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=WceBtQWSpGLTKnkZN5L7rcXzyOV0jJpQGsWGP7upb1c=;
+ b=BBOssrjGPv9wPkf885CLWFrCdxz/Mgj8HmjmZK8ZqHypm8DU76p4iRzjgUuUGWtO5M
+ JEh//fMn2Lx4qkubWKqjef/0jY7r0MwzZXdSwCSVxmCLvcDsVmnmCuplHhSmTCgm2M34
+ 0Gng8zi4kCq/6RqocXtzY1L4vOLrg6B4BQWIVSwJtA4vn069v1mjir4wLVdBtJny6gFq
+ HF9ojitX7sOk3j0Vbcg0kol8SsZnY67o1s7+nb1VRGTIMrwHA9+cEaP00X1X+A20R0lL
+ GjNFDz7x+vMbkM7VMu1q4JpbGSpeEY4AjyZ6SeGegStRK0eUPpWrWrvscAo9MU1AXSsS
+ iztQ==
+X-Gm-Message-State: AOAM532fVRbJOajC0R9VoAAe9qYN0jQjhGkv5XE5DDx0tv7Q8K/ySNFO
+ 1rkx29tJb4Mkz7o/qVIN4HGU9Q==
+X-Google-Smtp-Source: ABdhPJwHp88cJ9XaoE4Llw0mtcO963vJKkEoWx+d+iB891VGl+tIlFvQ3s0/UWl+nbBVnvF2ZLLgSg==
+X-Received: by 2002:a63:371c:: with SMTP id e28mr50934365pga.114.1594251426167; 
+ Wed, 08 Jul 2020 16:37:06 -0700 (PDT)
+Received: from [192.168.7.121] (24-113-145-216.wavecable.com. [24.113.145.216])
+ by smtp.gmail.com with ESMTPSA id gx23sm532481pjb.39.2020.07.08.16.37.04
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Wed, 08 Jul 2020 16:37:05 -0700 (PDT)
+Subject: Re: [PATCH 0/7] misc: Reduce QEMUTimer pressure by using lower
+ precision when possible
+To: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>,
+ qemu-devel@nongnu.org
+References: <20200616075121.12837-1-f4bug@amsat.org>
+From: Richard Henderson <richard.henderson@linaro.org>
+Message-ID: <fd72928d-04ce-6562-39cd-6f3902b49ee6@linaro.org>
+Date: Wed, 8 Jul 2020 16:37:02 -0700
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.8.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: quoted-printable
-Date: Wed, 08 Jul 2020 23:36:22 -0000
-From: Alex Austin <1886602@bugs.launchpad.net>
-To: qemu-devel@nongnu.org
-X-Launchpad-Notification-Type: bug
-X-Launchpad-Bug: product=qemu; status=New; importance=Undecided; assignee=None;
-X-Launchpad-Bug-Information-Type: Public
-X-Launchpad-Bug-Private: no
-X-Launchpad-Bug-Security-Vulnerability: no
-X-Launchpad-Bug-Commenters: circuitsoft lersek
-X-Launchpad-Bug-Reporter: Alex Austin (circuitsoft)
-X-Launchpad-Bug-Modifier: Alex Austin (circuitsoft)
-References: <159408874500.32011.1427435858163411654.malonedeb@gac.canonical.com>
-Message-Id: <159425138304.26885.1674346626863488567.malone@wampee.canonical.com>
-Subject: [Bug 1886602] Re: Windows 10 very slow with OVMF
-X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
-X-Launchpad-Message-For: qemu-devel-ml
-Precedence: bulk
-X-Generated-By: Launchpad (canonical.com);
- Revision="b24753402d6321ed1b9083e580f5f014a46bab00";
- Instance="production-secrets-lazr.conf"
-X-Launchpad-Hash: 1e637d589c0d2c36bbad06a7ff19fb45a884dc09
-Received-SPF: none client-ip=91.189.90.7; envelope-from=bounces@canonical.com;
- helo=indium.canonical.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/07/08 15:50:36
-X-ACL-Warn: Detected OS   = Linux 3.11 and newer [fuzzy]
-X-Spam_score_int: -58
-X-Spam_score: -5.9
-X-Spam_bar: -----
-X-Spam_report: (-5.9 / 5.0 requ) BAYES_00=-1.9, HEADER_FROM_DIFFERENT_DOMAINS=1,
- RCVD_IN_DNSWL_HI=-5, RCVD_IN_MSPIKE_H3=-0.01, RCVD_IN_MSPIKE_WL=-0.01,
- SPF_HELO_NONE=0.001, SPF_NONE=0.001 autolearn=ham autolearn_force=no
+In-Reply-To: <20200616075121.12837-1-f4bug@amsat.org>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=2607:f8b0:4864:20::443;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pf1-x443.google.com
+X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
+ That's all we know.
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
+Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -71,107 +90,30 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Bug 1886602 <1886602@bugs.launchpad.net>
+Cc: Kevin Wolf <kwolf@redhat.com>, Peter Maydell <peter.maydell@linaro.org>,
+ qemu-block@nongnu.org, Corey Minyard <minyard@acm.org>,
+ David Hildenbrand <david@redhat.com>, Andrew Jeffery <andrew@aj.id.au>,
+ "Michael S. Tsirkin" <mst@redhat.com>, Max Reitz <mreitz@redhat.com>,
+ qemu-arm@nongnu.org, Joel Stanley <joel@jms.id.au>,
+ Paolo Bonzini <pbonzini@redhat.com>,
+ =?UTF-8?Q?C=c3=a9dric_Le_Goater?= <clg@kaod.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-I did try the most recent OVMF from QEMU 5.0
-(https://git.qemu.org/?p=3Dqemu.git;a=3Dblob_plain;f=3Dpc-
-bios/edk2-x86_64-code.fd.bz2;hb=3Dfdd76fecdde) and there was no
-difference.
+On 6/16/20 12:51 AM, Philippe Mathieu-Daudé wrote:
+> This series contains few patches resulting from the notes I
+> took while reviewing Mark ADB series last Sunday, in particular:
+> https://www.mail-archive.com/qemu-devel@nongnu.org/msg712078.html
+> 
+> I have another patch for hw/input/hid.c but I prefer to hold it
+> to test it more.
 
-I will re-build qemu sometime soon.
+How does this reduce pressure?  The resolution of the timer doesn't seem to be
+affected by these patches, only the precision of the inputs.
 
-=3D=3D=3D=3D=3D=3D=3D
-$ cat /proc/cpuinfo =
+It seems like standardizing on nanoseconds makes some things easier, and allows
+the resolution of the implementation to vary to a much larger degree.
 
-processor       : 0
-vendor_id       : GenuineIntel
-cpu family      : 6
-model           : 142
-model name      : Intel(R) Core(TM) i7-7500U CPU @ 2.70GHz
-stepping        : 9
-microcode       : 0xca
-cpu MHz         : 659.478
-cache size      : 4096 KB
-physical id     : 0
-siblings        : 4
-core id         : 0
-cpu cores       : 2
-apicid          : 0
-initial apicid  : 0
-fpu             : yes
-fpu_exception   : yes
-cpuid level     : 22
-wp              : yes
-flags           : fpu vme de pse tsc msr pae mce cx8 apic sep mtrr pge mca =
-cmov pat pse36 clflush dts acpi mmx fxsr sse sse2 ss ht tm pbe syscall nx p=
-dpe1gb rdtscp lm constant_tsc art arch_perfmon pebs bts rep_good nopl xtopo=
-logy nonstop_tsc cpuid aperfmperf tsc_known_freq pni pclmulqdq dtes64 monit=
-or ds_cpl vmx est tm2 ssse3 sdbg fma cx16 xtpr pdcm pcid sse4_1 sse4_2 x2ap=
-ic movbe popcnt tsc_deadline_timer aes xsave avx f16c rdrand lahf_lm abm 3d=
-nowprefetch cpuid_fault epb invpcid_single pti ssbd ibrs ibpb stibp tpr_sha=
-dow vnmi flexpriority ept vpid ept_ad fsgsbase tsc_adjust bmi1 avx2 smep bm=
-i2 erms invpcid mpx rdseed adx smap clflushopt intel_pt xsaveopt xsavec xge=
-tbv1 xsaves dtherm ida arat pln pts hwp hwp_notify hwp_act_window hwp_epp m=
-d_clear flush_l1d
-bugs            : cpu_meltdown spectre_v1 spectre_v2 spec_store_bypass l1tf=
- mds swapgs itlb_multihit srbds
-bogomips        : 5808.00
-clflush size    : 64
-cache_alignment : 64
-address sizes   : 39 bits physical, 48 bits virtual
-power management:
 
-=3D=3D=3D=3D=3D=3D=3D
-$ grep . /sys/module/kvm_*/parameters/*
-/sys/module/kvm_intel/parameters/emulate_invalid_guest_state:Y
-/sys/module/kvm_intel/parameters/enable_apicv:N
-/sys/module/kvm_intel/parameters/enable_shadow_vmcs:N
-/sys/module/kvm_intel/parameters/enlightened_vmcs:N
-/sys/module/kvm_intel/parameters/ept:Y
-/sys/module/kvm_intel/parameters/eptad:Y
-/sys/module/kvm_intel/parameters/fasteoi:Y
-/sys/module/kvm_intel/parameters/flexpriority:Y
-/sys/module/kvm_intel/parameters/nested:N
-/sys/module/kvm_intel/parameters/ple_gap:128
-/sys/module/kvm_intel/parameters/ple_window:4096
-/sys/module/kvm_intel/parameters/ple_window_grow:2
-/sys/module/kvm_intel/parameters/ple_window_max:4294967295
-/sys/module/kvm_intel/parameters/ple_window_shrink:0
-/sys/module/kvm_intel/parameters/pml:Y
-/sys/module/kvm_intel/parameters/preemption_timer:Y
-/sys/module/kvm_intel/parameters/unrestricted_guest:Y
-/sys/module/kvm_intel/parameters/vmentry_l1d_flush:cond
-/sys/module/kvm_intel/parameters/vnmi:Y
-/sys/module/kvm_intel/parameters/vpid:Y
-
--- =
-
-You received this bug notification because you are a member of qemu-
-devel-ml, which is subscribed to QEMU.
-https://bugs.launchpad.net/bugs/1886602
-
-Title:
-  Windows 10 very slow with OVMF
-
-Status in QEMU:
-  New
-
-Bug description:
-  Debian Buster
-
-  Kernel 4.19.0-9-amd64
-  qemu-kvm 1:3.1+dfsg-8+deb10u5
-  ovmf 0~20181115.85588389-3+deb10u1
-
-  Machine: Thinkpad T470, i7-7500u, 20GB RAM
-  VM: 4 CPUs, 8GB RAM, Broadwell-noTSX CPU Model
-
-  Windows 10, under this VM, seems to be exceedingly slow with all
-  operations. This is a clean install with very few services running.
-  Task Manager can take 30% CPU looking at an idle system.
-
-To manage notifications about this bug go to:
-https://bugs.launchpad.net/qemu/+bug/1886602/+subscriptions
+r~
 
