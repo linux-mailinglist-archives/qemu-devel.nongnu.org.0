@@ -2,68 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id F3B1D2193D1
-	for <lists+qemu-devel@lfdr.de>; Thu,  9 Jul 2020 00:51:11 +0200 (CEST)
-Received: from localhost ([::1]:51768 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8917A2193D5
+	for <lists+qemu-devel@lfdr.de>; Thu,  9 Jul 2020 00:53:30 +0200 (CEST)
+Received: from localhost ([::1]:34202 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jtIuE-0002Dc-VP
-	for lists+qemu-devel@lfdr.de; Wed, 08 Jul 2020 18:51:10 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:48912)
+	id 1jtIwT-0006ag-IC
+	for lists+qemu-devel@lfdr.de; Wed, 08 Jul 2020 18:53:29 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:48936)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <jcmvbkbc@gmail.com>)
- id 1jtISA-0002xs-1F
- for qemu-devel@nongnu.org; Wed, 08 Jul 2020 18:22:10 -0400
-Received: from mail-pl1-x643.google.com ([2607:f8b0:4864:20::643]:42425)
+ id 1jtISB-00030n-5C
+ for qemu-devel@nongnu.org; Wed, 08 Jul 2020 18:22:11 -0400
+Received: from mail-pl1-x642.google.com ([2607:f8b0:4864:20::642]:36525)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <jcmvbkbc@gmail.com>)
- id 1jtIS8-00018q-CR
- for qemu-devel@nongnu.org; Wed, 08 Jul 2020 18:22:09 -0400
-Received: by mail-pl1-x643.google.com with SMTP id q17so4345759pls.9
- for <qemu-devel@nongnu.org>; Wed, 08 Jul 2020 15:22:07 -0700 (PDT)
+ id 1jtIS9-000190-4T
+ for qemu-devel@nongnu.org; Wed, 08 Jul 2020 18:22:10 -0400
+Received: by mail-pl1-x642.google.com with SMTP id d10so6735611pll.3
+ for <qemu-devel@nongnu.org>; Wed, 08 Jul 2020 15:22:08 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=rzz0QASvhiLiMcKKjELZE5GUtAHuQdcLXEQeVo4joCE=;
- b=CRZhcoWt+2a8vaCUYStZkPgo8AGh+j5GVaDGWnYDaaU9F45hSOWDZ7hQoWdjE7xQmk
- Xu3nGkWZRb15st7hjFeS97ffL5thNuynIX++d3BR/981HrkzMB+kTwdKzmCbTA/7ZRKc
- VQ/3YJ3LSn3rKGOkmbIt6nVuYx9jl0AaL48fP54AUz6QetJhKo8UQpBc1MghDcFZy/6a
- iXzbc6XzFlnF0H0QS2x65pKC9kX/yIvtpTSufGgtoHFK03u9S7SjnEBHMt9sw/LqM8y4
- Kk3B0G0PFPFcn4/lbWumrPhsjg8ZaQBdn7aPR3K5RcTvXpPUp+tjN8pe1jEx7RHLLzz/
- JwcA==
+ bh=R+lITptw5fn9ER442LKhdifOCNEK9wzAb+CMXJ6Z8J0=;
+ b=hFr2h946Mn3DofozNRLT1dqTvkdpq5fl9gwPRUtY/kZILdv/ayrU58n2NtucYFRGTx
+ GaaldW7p4AdhL0EVeZgli37Y4GKwMUpD15jOBLTS8HQfj/sxyKRX3ra2YEAu+PwKw8hP
+ 4XWSOMCE6NnE2gbacF9uu38WJlzibVbdRjNISVgP0WAZd+EJrFHWETlIvq7pTZBUXcyO
+ EepXQJraYo/fR3eZz8uAUVfaml63VdZaHCYOZXfeBGhsPCB/PkOeWXoT4tGc36g/h1tw
+ PBlYsdOvTm6zXI9d+bhqU1M7NBB5xB4fxZmNqCC2rk+4QNLrXtjb9NKeELKP9ZtBdCgq
+ TlOA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=rzz0QASvhiLiMcKKjELZE5GUtAHuQdcLXEQeVo4joCE=;
- b=Ns85Ivs90Alo8FQFmMfwbH38u+KbDCOHw+1flFQHWd8S48KHzeojV8iOQWAM8mwnjl
- HLuatEluIFaNQoyRHBWRw1tQtRlaswkyJatcHhd7GfIpTVEegumCo0F04r45vsNit0HM
- ISVyzAtQGyBMASAGVdw2V1e6q9qhNtUuvbpR3VDnsfnwIQSWZow7Bn2tWlQEgfZamlzd
- LiENfmEm66KMZqGSDDtKUkak88b2/P16nAUU6QJzAMMqFECiACoq+i07G8g9doI3RAVi
- G5wQp96dMgKteSLIMqUk8zJZUt/oJVYJ3n6VF7Uzc6Ccc+u78PMDrU8rtM6YMjfId9kF
- tBkA==
-X-Gm-Message-State: AOAM533LLvDiYANd2rxvcj/bmV/ybKiQGqwiGsK5OkhKUpGQvTydfTQA
- X6Cpv+n5Qo8xfOArpFwH4Vy3qjOO
-X-Google-Smtp-Source: ABdhPJyZ1EqK1AWL4GEwOUbIm4GMfw2djIk5PK9dba9uIXxjU5ov1NeOc5tMex0Q0kkE0ihoMRW2Rg==
-X-Received: by 2002:a17:90a:780f:: with SMTP id
- w15mr11551611pjk.235.1594246926939; 
- Wed, 08 Jul 2020 15:22:06 -0700 (PDT)
+ bh=R+lITptw5fn9ER442LKhdifOCNEK9wzAb+CMXJ6Z8J0=;
+ b=ovvTMu9dOguqmU2rp5KKtLmAdIQAN0ZzFNXNKWvD08q1/hXLw15g3z0C9ThiW5ucr0
+ eMY1A8t9Rd/ySNzZz/2a9wfOjOAQYJZkueT4UbYiAgf9k0uII7cd+nnPqem5/ijpzbIJ
+ KIpJM8GtQU0nI0FRBBz3idZ1CqmHwaTHVv4ewP312mWz7++bKTiwrllgkxdcqNVtNev4
+ swxzsz0Og2OjnhDF44OTjHIPwGhckbquSoo+wNSfYVvyjZxvIBRHa1zeKWJg7ApkRmAt
+ vQf0vsgc9Fr4YpRlyOxD1TFOQ4DKfvSdvw8opfTnkeVuaX7kW2G1vMSJ1sbUscZqd3PL
+ FU8Q==
+X-Gm-Message-State: AOAM533fGBrFmalhjlEk2YhEwbTJ0iM6VsJtnHDFzzysfumgTHHVKA4N
+ 81RkJbj+mF9N0HlahdjpssHk06uu
+X-Google-Smtp-Source: ABdhPJz1K1eiOaOTLhy2jITUX0ZXy6VAApYSy8z0zU9TsyEYJ/xSBdO4Uitfd5CkMVNoyp1pVXPbSg==
+X-Received: by 2002:a17:902:a515:: with SMTP id
+ s21mr44802343plq.192.1594246927752; 
+ Wed, 08 Jul 2020 15:22:07 -0700 (PDT)
 Received: from octofox.cadence.com ([2601:641:400:e00:19b7:f650:7bbe:a7fb])
- by smtp.gmail.com with ESMTPSA id t73sm693517pfc.78.2020.07.08.15.22.05
+ by smtp.gmail.com with ESMTPSA id t73sm693517pfc.78.2020.07.08.15.22.07
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 08 Jul 2020 15:22:06 -0700 (PDT)
+ Wed, 08 Jul 2020 15:22:07 -0700 (PDT)
 From: Max Filippov <jcmvbkbc@gmail.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v3 15/21] tests/tcg/xtensa: update test_fp1 for DFPU
-Date: Wed,  8 Jul 2020 15:20:55 -0700
-Message-Id: <20200708222101.24568-16-jcmvbkbc@gmail.com>
+Subject: [PATCH v3 16/21] tests/tcg/xtensa: update test_lsc for DFPU
+Date: Wed,  8 Jul 2020 15:20:56 -0700
+Message-Id: <20200708222101.24568-17-jcmvbkbc@gmail.com>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20200708222101.24568-1-jcmvbkbc@gmail.com>
 References: <20200708222101.24568-1-jcmvbkbc@gmail.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::643;
- envelope-from=jcmvbkbc@gmail.com; helo=mail-pl1-x643.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::642;
+ envelope-from=jcmvbkbc@gmail.com; helo=mail-pl1-x642.google.com
 X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
  That's all we know.
 X-Spam_score_int: -5
@@ -90,132 +90,113 @@ Cc: Max Filippov <jcmvbkbc@gmail.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-DFPU sets Invalid flag in FSR when at least one argument of FP
-comparison opcodes is NaN, SNaN for most opcodes, any NaN for olt/ole.
-Add checks for FSR and expected FSR values.
+DFPU doesn't have pre-increment FP load/store opcodes, it has
+post-increment opcodes instead. Test increment opcodes present in the
+current config.
 
 Signed-off-by: Max Filippov <jcmvbkbc@gmail.com>
 ---
- tests/tcg/xtensa/test_fp1.S | 62 ++++++++++++++++++++-----------------
- 1 file changed, 34 insertions(+), 28 deletions(-)
+ tests/tcg/xtensa/test_lsc.S | 47 +++++++++++++++++++++++++++----------
+ 1 file changed, 34 insertions(+), 13 deletions(-)
 
-diff --git a/tests/tcg/xtensa/test_fp1.S b/tests/tcg/xtensa/test_fp1.S
-index 6e182e5964bd..77336a3fcf2c 100644
---- a/tests/tcg/xtensa/test_fp1.S
-+++ b/tests/tcg/xtensa/test_fp1.S
+diff --git a/tests/tcg/xtensa/test_lsc.S b/tests/tcg/xtensa/test_lsc.S
+index 0578bf19e72e..9d59c1815a9e 100644
+--- a/tests/tcg/xtensa/test_lsc.S
++++ b/tests/tcg/xtensa/test_lsc.S
 @@ -1,4 +1,5 @@
  #include "macros.inc"
 +#include "fpu.h"
  
- test_suite fp1
+ test_suite lsc
  
-@@ -9,7 +10,7 @@ test_suite fp1
-     wfr     \fr, a2
- .endm
- 
--.macro test_ord_ex op, br, fr0, fr1, v0, v1, r
-+.macro test_ord_ex op, br, fr0, fr1, v0, v1, r, sr
-     movi    a2, 0
-     wur     a2, fsr
-     movfp   \fr0, \v0
-@@ -20,65 +21,70 @@ test_suite fp1
-     movt    a2, a3, \br
-     assert  eqi, a2, \r
-     rur     a2, fsr
-+#if DFPU
-+    movi    a3, \sr
-+    assert  eq, a2, a3
-+#else
-     assert  eqi, a2, 0
-+#endif
- .endm
- 
--.macro test_ord op, br, fr0, fr1, v0, v1, r
-+.macro test_ord op, br, fr0, fr1, v0, v1, r, sr
-     movi    a2, 0
-     wur     a2, fcr
--    test_ord_ex \op, \br, \fr0, \fr1, \v0, \v1, \r
-+    test_ord_ex \op, \br, \fr0, \fr1, \v0, \v1, \r, \sr
-     movi    a2, 0x7c
-     wur     a2, fcr
--    test_ord_ex \op, \br, \fr0, \fr1, \v0, \v1, \r
-+    test_ord_ex \op, \br, \fr0, \fr1, \v0, \v1, \r, \sr
- .endm
- 
--.macro test_ord_all op, aa, ab, ba, aPI, PIa, aN, Na, II, IN, NI
--    test_ord \op  b0,  f0,  f1, 0x3f800000, 0x3f800000, \aa
--    test_ord \op  b1,  f2,  f3, 0x3f800000, 0x3fc00000, \ab
--    test_ord \op  b2,  f4,  f5, 0x3fc00000, 0x3f800000, \ba
--    test_ord \op  b3,  f6,  f7, 0x3f800000, 0x7f800000, \aPI
--    test_ord \op  b4,  f8,  f9, 0x7f800000, 0x3f800000, \PIa
--    test_ord \op  b5, f10, f11, 0x3f800000, 0xffc00001, \aN
--    test_ord \op  b6, f12, f13, 0x3f800000, 0xff800001, \aN
--    test_ord \op  b7, f14, f15, 0x3f800000, 0x7f800001, \aN
--    test_ord \op  b8,  f0,  f1, 0x3f800000, 0x7fc00000, \aN
--    test_ord \op  b9,  f2,  f3, 0xffc00001, 0x3f800000, \Na
--    test_ord \op b10,  f4,  f5, 0xff800001, 0x3f800000, \Na
--    test_ord \op b11,  f6,  f7, 0x7f800001, 0x3f800000, \Na
--    test_ord \op b12,  f8,  f9, 0x7fc00000, 0x3f800000, \Na
--    test_ord \op b13, f10, f11, 0x7f800000, 0x7f800000, \II
--    test_ord \op b14, f12, f13, 0x7f800000, 0x7fc00000, \IN
--    test_ord \op b15, f14, f15, 0x7fc00000, 0x7f800000, \NI
-+.macro test_ord_all op, aa, ab, ba, aPI, PIa, aN, Na, II, IN, NI, qnan_sr
-+    test_ord \op  b0,  f0,  f1, 0x3f800000, 0x3f800000, \aa,  FSR__    /*   ord == ord */
-+    test_ord \op  b1,  f2,  f3, 0x3f800000, 0x3fc00000, \ab,  FSR__    /*   ord <  ord */
-+    test_ord \op  b2,  f4,  f5, 0x3fc00000, 0x3f800000, \ba,  FSR__    /*   ord >  ord */
-+    test_ord \op  b3,  f6,  f7, 0x3f800000, 0x7f800000, \aPI, FSR__    /*   ord   +INF */
-+    test_ord \op  b4,  f8,  f9, 0x7f800000, 0x3f800000, \PIa, FSR__    /*  +INF    ord */
-+    test_ord \op  b5, f10, f11, 0x3f800000, 0xffc00001, \aN,  \qnan_sr /*   ord  -QNaN */
-+    test_ord \op  b6, f12, f13, 0x3f800000, 0xff800001, \aN,  FSR_V    /*   ord  -SNaN */
-+    test_ord \op  b7, f14, f15, 0x3f800000, 0x7f800001, \aN,  FSR_V    /*   ord  +SNaN */
-+    test_ord \op  b8,  f0,  f1, 0x3f800000, 0x7fc00000, \aN,  \qnan_sr /*   ord  +QNaN */
-+    test_ord \op  b9,  f2,  f3, 0xffc00001, 0x3f800000, \Na,  \qnan_sr /* -QNaN    ord */
-+    test_ord \op b10,  f4,  f5, 0xff800001, 0x3f800000, \Na,  FSR_V    /* -SNaN    ord */
-+    test_ord \op b11,  f6,  f7, 0x7f800001, 0x3f800000, \Na,  FSR_V    /* +SNaN    ord */
-+    test_ord \op b12,  f8,  f9, 0x7fc00000, 0x3f800000, \Na,  \qnan_sr /* +QNaN    ord */
-+    test_ord \op b13, f10, f11, 0x7f800000, 0x7f800000, \II,  FSR__    /*  +INF   +INF */
-+    test_ord \op b14, f12, f13, 0x7f800000, 0x7fc00000, \IN,  \qnan_sr /*  +INF  +QNaN */
-+    test_ord \op b15, f14, f15, 0x7fc00000, 0x7f800000, \NI,  \qnan_sr /* +QNaN   +INF */
- .endm
- 
- test un_s
-     movi    a2, 1
+@@ -9,9 +10,14 @@ test lsi
      wsr     a2, cpenable
--    test_ord_all un.s, 0, 0, 0, 0, 0, 1, 1, 0, 1, 1
-+    test_ord_all un.s, 0, 0, 0, 0, 0, 1, 1, 0, 1, 1, FSR__
- test_end
  
- test oeq_s
--    test_ord_all oeq.s, 1, 0, 0, 0, 0, 0, 0, 1, 0, 0
-+    test_ord_all oeq.s, 1, 0, 0, 0, 0, 0, 0, 1, 0, 0, FSR__
- test_end
+     movi    a2, 1f
+-    lsi     f0, a2, 0
+     lsi     f1, a2, 4
++#if DFPU
++    lsi     f2, a2, 8
++    lsip    f0, a2, 8
++#else
++    lsi     f0, a2, 0
+     lsiu    f2, a2, 8
++#endif
+     movi    a3, 1f + 8
+     assert  eq, a2, a3
+     rfr     a2, f0
+@@ -34,13 +40,18 @@ test ssi
+     movi    a2, 1f
+     movi    a3, 0x40800000
+     wfr     f3, a3
+-    ssi     f3, a2, 0
+     movi    a3, 0x40a00000
+     wfr     f4, a3
+-    ssi     f4, a2, 4
+     movi    a3, 0x40c00000
+     wfr     f5, a3
++    ssi     f4, a2, 4
++#if DFPU
++    ssi     f5, a2, 8
++    ssip    f3, a2, 8
++#else
++    ssi     f3, a2, 0
+     ssiu    f5, a2, 8
++#endif
+     movi    a3, 1f + 8
+     assert  eq, a2, a3
+     l32i    a4, a2, -8
+@@ -62,11 +73,16 @@ test_end
+ test lsx
+     movi    a2, 1f
+     movi    a3, 0
++    movi    a4, 4
++    movi    a5, 8
++    lsx     f7, a2, a4
++#if DFPU
++    lsx     f8, a2, a5
++    lsxp    f6, a2, a5
++#else
+     lsx     f6, a2, a3
+-    movi    a3, 4
+-    lsx     f7, a2, a3
+-    movi    a3, 8
+-    lsxu    f8, a2, a3
++    lsxu    f8, a2, a5
++#endif
+     movi    a3, 1f + 8
+     assert  eq, a2, a3
+     rfr     a2, f6
+@@ -87,18 +103,23 @@ test_end
  
- test ueq_s
--    test_ord_all ueq.s, 1, 0, 0, 0, 0, 1, 1, 1, 1, 1
-+    test_ord_all ueq.s, 1, 0, 0, 0, 0, 1, 1, 1, 1, 1, FSR__
- test_end
- 
- test olt_s
--    test_ord_all olt.s, 0, 1, 0, 1, 0, 0, 0, 0, 0, 0
-+    test_ord_all olt.s, 0, 1, 0, 1, 0, 0, 0, 0, 0, 0, FSR_V
- test_end
- 
- test ult_s
--    test_ord_all ult.s, 0, 1, 0, 1, 0, 1, 1, 0, 1, 1
-+    test_ord_all ult.s, 0, 1, 0, 1, 0, 1, 1, 0, 1, 1, FSR__
- test_end
- 
- test ole_s
--    test_ord_all ole.s, 1, 1, 0, 1, 0, 0, 0, 1, 0, 0
-+    test_ord_all ole.s, 1, 1, 0, 1, 0, 0, 0, 1, 0, 0, FSR_V
- test_end
- 
- test ule_s
--    test_ord_all ule.s, 1, 1, 0, 1, 0, 1, 1, 1, 1, 1
-+    test_ord_all ule.s, 1, 1, 0, 1, 0, 1, 1, 1, 1, 1, FSR__
- test_end
- 
- .macro test_cond op, fr0, fr1, cr, v0, v1, r
+ test ssx
+     movi    a2, 1f
+-    movi    a3, 0
+     movi    a4, 0x41200000
+     wfr     f9, a4
+-    ssx     f9, a2, a3
+-    movi    a3, 4
+     movi    a4, 0x41300000
+     wfr     f10, a4
+-    ssx     f10, a2, a3
+-    movi    a3, 8
+     movi    a4, 0x41400000
+     wfr     f11, a4
+-    ssxu    f11, a2, a3
++    movi    a3, 0
++    movi    a4, 4
++    movi    a5, 8
++    ssx     f10, a2, a4
++#if DFPU
++    ssx     f11, a2, a5
++    ssxp    f9, a2, a5
++#else
++    ssx     f9, a2, a3
++    ssxu    f11, a2, a5
++#endif
+     movi    a3, 1f + 8
+     assert  eq, a2, a3
+     l32i    a4, a2, -8
 -- 
 2.20.1
 
