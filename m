@@ -2,81 +2,58 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4BD0A21932F
-	for <lists+qemu-devel@lfdr.de>; Thu,  9 Jul 2020 00:16:16 +0200 (CEST)
-Received: from localhost ([::1]:50512 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E166921932D
+	for <lists+qemu-devel@lfdr.de>; Thu,  9 Jul 2020 00:15:13 +0200 (CEST)
+Received: from localhost ([::1]:45598 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jtIMR-00065G-9i
-	for lists+qemu-devel@lfdr.de; Wed, 08 Jul 2020 18:16:15 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:38228)
+	id 1jtILQ-0003sS-Pb
+	for lists+qemu-devel@lfdr.de; Wed, 08 Jul 2020 18:15:12 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:40774)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1jtHpW-0004XC-M9
- for qemu-devel@nongnu.org; Wed, 08 Jul 2020 17:42:15 -0400
-Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:24123
+ (Exim 4.90_1) (envelope-from <david@redhat.com>) id 1jtI00-00058P-Oy
+ for qemu-devel@nongnu.org; Wed, 08 Jul 2020 17:53:04 -0400
+Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:37802
  helo=us-smtp-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1jtHpU-0003uX-W0
- for qemu-devel@nongnu.org; Wed, 08 Jul 2020 17:42:14 -0400
+ (Exim 4.90_1) (envelope-from <david@redhat.com>) id 1jtHzy-0005K2-Od
+ for qemu-devel@nongnu.org; Wed, 08 Jul 2020 17:53:04 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1594244532;
+ s=mimecast20190719; t=1594245182;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=7+WAwotAy68UUoWChwPDe7d1tI8AOGVg1p8qlVWWa2Y=;
- b=Lc7C+IpDcGYheZEVbwoH7IqTa+eC1imeJHKpaxFUY6JE90qjbI4BzLquR1J5PHyPpaerQk
- ++FTUPWvcGFl51AE26IpwjzkWZ5OcbgNuT9l+acXULiO3VJMFa7fADDw/mhZT4rfmm2TCO
- +if6ulxl/aNk3E4tVbc57p5r1ACXMUo=
-Received: from mail-ej1-f69.google.com (mail-ej1-f69.google.com
- [209.85.218.69]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-375-4ovaCZ4QPgOIJwUbpVTw7g-1; Wed, 08 Jul 2020 14:41:31 -0400
-X-MC-Unique: 4ovaCZ4QPgOIJwUbpVTw7g-1
-Received: by mail-ej1-f69.google.com with SMTP id cf15so44563286ejb.6
- for <qemu-devel@nongnu.org>; Wed, 08 Jul 2020 11:41:30 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=7+WAwotAy68UUoWChwPDe7d1tI8AOGVg1p8qlVWWa2Y=;
- b=dYw1e+VxFGaWiVtAa+2HMX5ebrk/ypXtGQGIlbYlEbhKyWFfTQjES/1MgiCTEMtRC2
- BpHVQ7IxzWjF1WZ4EJOm8HNbEe7q2RpvPbrzWunNhIATzeEYpbZ9918U/tXRCg/5/553
- e7KopIkbd7IEUQZg6xI0AC+mY+0KicI7pC0cDTCGPmh4vYlKOqY80J5Jte+hp27WzUX/
- 4xzvWn3CbQUtkifdvb7+pXIt2VuFUBJzhhFIZJZ4C7wZUm7yEMLY/pLIWlvCSAv+I1ve
- k2k8cf1bjYCNPMHmL+LRHabwaS71OuFg3BpzOSMZ353N1qX8oUl4vCwT08Vxk13njtGR
- EIyg==
-X-Gm-Message-State: AOAM533VCI7mOJvUSa45J1lLJ8Aeki9hhQEr++gRdDOA/IH+nn8grtMZ
- 5Kd39D8jVb6TxYvqnToC8I8KCRTP6AdIcxVnQ0CmfJfA7kYnyWVUIziWGnTkwVpDAM0/Ty9TfYn
- KcVGelMP6VaxiVGmZWPn+doSD3uMwhtQ=
-X-Received: by 2002:a17:906:5657:: with SMTP id
- v23mr54690178ejr.196.1594233690071; 
- Wed, 08 Jul 2020 11:41:30 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJwmeMf5hFTyo/lpUv49Csts1upu35yhEmMo7zelt5HsQo/4YwZKK6U/vyjIvNDKG7PFczLZ+BmzbWWyShov57k=
-X-Received: by 2002:a17:906:5657:: with SMTP id
- v23mr54690162ejr.196.1594233689831; 
- Wed, 08 Jul 2020 11:41:29 -0700 (PDT)
+ content-transfer-encoding:content-transfer-encoding;
+ bh=uL46dyyS3F+dLe3yNRsdp2copcuq3axoY4l1EWF7sGs=;
+ b=JvDCrHF/TQyzCTRnAqe/aMX2Rq4hKCAy2MxOMjzUnVJEIGnvYP5tQV7/0mHnLuUh49xZKe
+ xY2JHSteJtYuBQP9RhX2H6ZjBlZHGKRzjAxx1eF4x4JkewByvIE2IZfuxqTdhcxAYRcWPg
+ 6zZVWHxdt0b7sJ+oYagOV8y0nc0vL9w=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-294-m_ccbSlIO9qOIxNZvNp3ww-1; Wed, 08 Jul 2020 14:51:49 -0400
+X-MC-Unique: m_ccbSlIO9qOIxNZvNp3ww-1
+Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
+ [10.5.11.14])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 79FFB88C921;
+ Wed,  8 Jul 2020 18:51:47 +0000 (UTC)
+Received: from t480s.redhat.com (ovpn-113-117.ams2.redhat.com [10.36.113.117])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id D9A5E75556;
+ Wed,  8 Jul 2020 18:51:35 +0000 (UTC)
+From: David Hildenbrand <david@redhat.com>
+To: qemu-devel@nongnu.org
+Subject: [PATCH RFC 0/5] s390x: initial support for virtio-mem
+Date: Wed,  8 Jul 2020 20:51:30 +0200
+Message-Id: <20200708185135.46694-1-david@redhat.com>
 MIME-Version: 1.0
-References: <20200706164155.24696-1-pbonzini@redhat.com>
- <CAFEAcA-F1FGde+=c3iS3wcRWG+i0RgYj5-jwafn0sX6EEYEsWA@mail.gmail.com>
- <1a9ad36f-f4ae-2ea5-3d69-03aa5580b60e@suse.de>
- <de27589f-6afb-b8cf-05a0-f5d34f9d2a58@redhat.com>
- <f17ca47d-f5e9-e710-5edb-9d92839ee7c1@suse.de>
- <56c7e153-e47b-aa5c-80c0-ab4f5c3d85e8@redhat.com>
- <57c79f36-4cf9-6188-ef40-b4f775add83d@suse.de>
- <0a3ab45d-468a-65f2-5b9d-440a0a950ded@suse.de>
-In-Reply-To: <0a3ab45d-468a-65f2-5b9d-440a0a950ded@suse.de>
-From: Paolo Bonzini <pbonzini@redhat.com>
-Date: Wed, 8 Jul 2020 20:41:18 +0200
-Message-ID: <CABgObfZA4+7q9+mg2NTXQC1f+usEsF0sXaNVt0+ursiJ4rAS=A@mail.gmail.com>
-Subject: Re: [PULL 00/53] Misc patches for QEMU 5.1 soft freeze
-To: Claudio Fontana <cfontana@suse.de>
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=pbonzini@redhat.com
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=david@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: multipart/alternative; boundary="000000000000c5a09c05a9f274cb"
-Received-SPF: pass client-ip=207.211.31.120; envelope-from=pbonzini@redhat.com;
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=207.211.31.120; envelope-from=david@redhat.com;
  helo=us-smtp-1.mimecast.com
 X-detected-operating-system: by eggs.gnu.org: First seen = 2020/07/07 17:25:10
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
@@ -85,8 +62,8 @@ X-Spam_score: -4.1
 X-Spam_bar: ----
 X-Spam_report: (-4.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- HTML_MESSAGE=0.001, RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-1,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-1, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -99,92 +76,66 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Maydell <peter.maydell@linaro.org>,
- QEMU Developers <qemu-devel@nongnu.org>
+Cc: Thomas Huth <thuth@redhat.com>, Janosch Frank <frankja@linux.ibm.com>,
+ "Michael S . Tsirkin" <mst@redhat.com>, Cornelia Huck <cohuck@redhat.com>,
+ Heiko Carstens <heiko.carstens@de.ibm.com>, Halil Pasic <pasic@linux.ibm.com>,
+ Christian Borntraeger <borntraeger@de.ibm.com>, qemu-s390x@nongnu.org,
+ David Hildenbrand <david@redhat.com>,
+ Claudio Imbrenda <imbrenda@linux.ibm.com>, Richard Henderson <rth@twiddle.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
---000000000000c5a09c05a9f274cb
-Content-Type: text/plain; charset="UTF-8"
+This wires up the initial, basic version of virito-mem for s390x. General
+information about virtio-mem can be found at [1] and in QEMU commit [2].
+Patch #5 contains a short example for s390x.
 
-Il mer 8 lug 2020, 20:25 Claudio Fontana <cfontana@suse.de> ha scritto:
+virtio-mem for x86-64 Linux is part of v5.8-rc1. A branch with a s390x
+prototype can be found at:
+    git@github.com:davidhildenbrand/linux.git virtio-mem-s390x
 
-> What I did notice is that all the code that directly or indirectly uses
-> the functions is under an
->
-> if (0) (
-> )
->
-> since tcg_enabled is the constant 0.
->
-> By "indirectly" I mean that the static void qemu_tcg_cpu_thread_fn()
-> function that calls those is referenced only by static void
-> qemu_tcg_init_vcpu(), which is called only under an if (0),
-> ie if (tcg_enabled()).
->
+Note that the kernel should either be compiled via
+ CONFIG_MEMORY_HOTPLUG_DEFAULT_ONLINE, or "memhp_default_state=online"
+ should be passed on the kernel cmdline.
 
-Maybe my compiler is older.
+This series can be found at:
+    git@github.com:davidhildenbrand/qemu.git virtio-mem-s390x
 
-I admit I am not familiar with the rationale of why the stubs are all built
-> regardless, could we have that icount.o from stubs/ is replacing
-> softmmu/icount.o to cause this?
->
+Related to s390x, we'll have to tackle migration of storage keys and
+storage attributes (especially, skipping unplugged parts). Not sure if
+I am missing something else (any ideas?). For virtio-mem in general, there
+are a couple of TODOs, e.g., documented in [1] and [2], both in QEMU and
+Linux. However, the basics are around.
 
-No, stubs are in a static library and therefore are always overridden by
-symbols in the executable's .o files.
+I only tested this with fairly small amount of RAM in a z/VM environemnt
+...
 
-Paolo
+[1] https://virtio-mem.gitlab.io/
+[2] 910b25766b33 ("virtio-mem: Paravirtualized memory hot(un)plug")
 
+David Hildenbrand (5):
+  s390x: move setting of maximum ram size to machine init
+  s390x: implement diag260
+  s390x: prepare device memory address space
+  s390x: implement virtio-mem-ccw
+  s390x: initial support for virtio-mem
 
-> Thanks,
->
-> Claudio
->
->
->
->
+ hw/s390x/Kconfig                   |   1 +
+ hw/s390x/Makefile.objs             |   1 +
+ hw/s390x/s390-virtio-ccw.c         | 178 ++++++++++++++++++++++++++++-
+ hw/s390x/sclp.c                    |  32 ++----
+ hw/s390x/virtio-ccw-mem.c          | 165 ++++++++++++++++++++++++++
+ hw/s390x/virtio-ccw.h              |  13 +++
+ hw/virtio/virtio-mem.c             |   2 +
+ include/hw/s390x/s390-virtio-ccw.h |   3 +
+ target/s390x/diag.c                |  57 +++++++++
+ target/s390x/internal.h            |   2 +
+ target/s390x/kvm.c                 |  11 ++
+ target/s390x/misc_helper.c         |   6 +
+ target/s390x/translate.c           |   4 +
+ 13 files changed, 449 insertions(+), 26 deletions(-)
+ create mode 100644 hw/s390x/virtio-ccw-mem.c
 
---000000000000c5a09c05a9f274cb
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-
-<div dir=3D"auto"><div><br><br><div class=3D"gmail_quote"><div dir=3D"ltr" =
-class=3D"gmail_attr">Il mer 8 lug 2020, 20:25 Claudio Fontana &lt;<a href=
-=3D"mailto:cfontana@suse.de">cfontana@suse.de</a>&gt; ha scritto:<br></div>=
-<blockquote class=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;border-left:1p=
-x #ccc solid;padding-left:1ex">What I did notice is that all the code that =
-directly or indirectly uses the functions is under an<br>
-<br>
-if (0) (<br>
-)<br>
-<br>
-since tcg_enabled is the constant 0.<br>
-<br>
-By &quot;indirectly&quot; I mean that the static void qemu_tcg_cpu_thread_f=
-n() function that calls those is referenced only by static void qemu_tcg_in=
-it_vcpu(), which is called only under an if (0),<br>
-ie if (tcg_enabled()).<br></blockquote></div></div><div dir=3D"auto"><br></=
-div><div dir=3D"auto">Maybe my compiler is older.</div><div dir=3D"auto"><b=
-r></div><div dir=3D"auto"><div class=3D"gmail_quote"><blockquote class=3D"g=
-mail_quote" style=3D"margin:0 0 0 .8ex;border-left:1px #ccc solid;padding-l=
-eft:1ex">I admit I am not familiar with the rationale of why the stubs are =
-all built regardless, could we have that icount.o from stubs/ is replacing =
-softmmu/icount.o to cause this?<br></blockquote></div></div><div dir=3D"aut=
-o"><br></div><div dir=3D"auto">No, stubs are in a static library and theref=
-ore are always overridden by symbols in the executable&#39;s .o files.</div=
-><div dir=3D"auto"><br></div><div dir=3D"auto">Paolo</div><div dir=3D"auto"=
-><br></div><div dir=3D"auto"><div class=3D"gmail_quote"><blockquote class=
-=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;border-left:1px #ccc solid;padd=
-ing-left:1ex">
-<br>
-Thanks,<br>
-<br>
-Claudio<br>
-<br>
-<br>
-<br>
-</blockquote></div></div></div>
-
---000000000000c5a09c05a9f274cb--
+-- 
+2.26.2
 
 
