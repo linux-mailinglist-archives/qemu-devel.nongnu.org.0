@@ -2,78 +2,79 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 851A7219F87
-	for <lists+qemu-devel@lfdr.de>; Thu,  9 Jul 2020 14:02:11 +0200 (CEST)
-Received: from localhost ([::1]:38712 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7F975219F90
+	for <lists+qemu-devel@lfdr.de>; Thu,  9 Jul 2020 14:03:52 +0200 (CEST)
+Received: from localhost ([::1]:42732 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jtVFi-0000qq-Jr
-	for lists+qemu-devel@lfdr.de; Thu, 09 Jul 2020 08:02:10 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:36754)
+	id 1jtVHL-0002Yq-Jp
+	for lists+qemu-devel@lfdr.de; Thu, 09 Jul 2020 08:03:51 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:37566)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1jtVDx-0008I7-VV
- for qemu-devel@nongnu.org; Thu, 09 Jul 2020 08:00:22 -0400
-Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:48233
+ id 1jtVFo-0001cK-Na
+ for qemu-devel@nongnu.org; Thu, 09 Jul 2020 08:02:16 -0400
+Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:26528
  helo=us-smtp-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
  (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1jtVDw-0007GD-1I
- for qemu-devel@nongnu.org; Thu, 09 Jul 2020 08:00:21 -0400
+ id 1jtVFj-0007eN-85
+ for qemu-devel@nongnu.org; Thu, 09 Jul 2020 08:02:16 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1594296018;
+ s=mimecast20190719; t=1594296130;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=O+dONCW3NR7CQ2TtfnxIkIwc7NM2tp+KFy6GMY6RXN0=;
- b=d/meLyNfqB+1gd9+tUt3pG1trjONbG6r5HNiDOOjZl/1yn3Y8YN6m/pOc5vNYVw0ajzUlB
- 0q8A5z5+pP9wkAyU6FQlJoEx6XH8EyLMBXcZlg+LzU0yGBmZIDdTZI+nJNAcIdEJ6nuz92
- 0Je7ApitSz1TZXYKdNlQoeJs9sBZWIA=
-Received: from mail-wm1-f70.google.com (mail-wm1-f70.google.com
- [209.85.128.70]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-495-Fsgkd35uMaq7y31cZ8ycQA-1; Thu, 09 Jul 2020 08:00:17 -0400
-X-MC-Unique: Fsgkd35uMaq7y31cZ8ycQA-1
-Received: by mail-wm1-f70.google.com with SMTP id b13so1900981wme.9
- for <qemu-devel@nongnu.org>; Thu, 09 Jul 2020 05:00:17 -0700 (PDT)
+ bh=YX1sDgoP22ScqeHNk+xTLoG0T3XazrUr5HicImrn7tw=;
+ b=LLF+K82xQHMk2Dy0a0SO0Dx/cwwasdvhcUEbJlC6dfLLUEZesfquOc+ed4xXjFBpYZKP1K
+ JiB7jUfNcMdGN5PLIffcMOoKijaVGY94puJwu+xdaKKP+WJP3OYB4C1uneFbQM3fuEkI3S
+ s7BsTsd9X6JrQKuoTyNztarWhxH2wyw=
+Received: from mail-wr1-f72.google.com (mail-wr1-f72.google.com
+ [209.85.221.72]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-3-FuJHJKAHNgGmUkPAphn3Og-1; Thu, 09 Jul 2020 08:02:08 -0400
+X-MC-Unique: FuJHJKAHNgGmUkPAphn3Og-1
+Received: by mail-wr1-f72.google.com with SMTP id y18so1741618wrq.4
+ for <qemu-devel@nongnu.org>; Thu, 09 Jul 2020 05:02:08 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:subject:to:cc:references:from:message-id:date
  :user-agent:mime-version:in-reply-to:content-language
  :content-transfer-encoding;
- bh=O+dONCW3NR7CQ2TtfnxIkIwc7NM2tp+KFy6GMY6RXN0=;
- b=sXGO8sXKmAb0nB0X92//j9neotPJw8H9NMJTbfC4m5I5X6+F4SnxkYVbyjLYkw6t7l
- 8fpvQDNM5/qvBQAhNaNVtOAvssZjJN3wEDHlhOky17GNEUq87y+GFED0jCzEeTP/8zRr
- XrKku7Sy90zghGBgzP+84RPecpfZFbj0GU+y4X3RKivJRamwVCt8efjzLdAkaCjOcmSK
- w6nRUljLR8FRimF4RYiCxATPgwx7el5A6yQ7Ehjuh7rqIWwc2kglZ77CAEfOB4c5jrxK
- 5EMXx+V1TP0ERCX2iraFsE2P028HgpiC0WRLvn/JeNZGBvoV9Q7v4FazpiT16zx+HKwJ
- XM0g==
-X-Gm-Message-State: AOAM531dEz7Gtl3t1oDB5nBFZQIS2Wvy8AEe0xNaFSLQq1buZnXsn4YB
- +rKQQ0RV3ehFzIZ6chlVdgW2c7QaDL+Z/cCVnQDFT6E6huYPNrQ4Goc4chyA4YbtmipjvrpTqfe
- 4iZymrbQy40SBPfY=
-X-Received: by 2002:a1c:48:: with SMTP id 69mr14440098wma.32.1594296015948;
- Thu, 09 Jul 2020 05:00:15 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJyCiGCV0bEs/RQHxrX7YLvWL+DJmld202/ZnB0aXP4FV34QxfC73GZ3+2chN8dFK7fNMQ7lsw==
-X-Received: by 2002:a1c:48:: with SMTP id 69mr14440077wma.32.1594296015679;
- Thu, 09 Jul 2020 05:00:15 -0700 (PDT)
+ bh=YX1sDgoP22ScqeHNk+xTLoG0T3XazrUr5HicImrn7tw=;
+ b=lfKZTfmB+46hle/+W+AaSDpS0x1uqDmT4p3Q4FbqNp8jsirsjkRWdUVDte8G+z+IOG
+ R2lVmtj8cfvT6QPZVvtobSyyJQ0x0AQ2VyVoir+B9cCcHWuI1kS52wM4XHz5UXgjC67R
+ iUXZbAxKLRSsIyx6dQaIur7xsS1uzGnHUH4sAOKDCckFSEWf8yeL6dnj+m+ifKaZq7qB
+ t5nr484RHY3G2FfWnTBUcQZS/Y3y60tiajRnLsw0uylyKXXWo6tfbjLDxEt/wq/lVCEX
+ vJ0zwy/rpIMO+sPYTBDCCSXDUfUrfm1wblHryKqWsbnlDDBppRGVg/fq9WKm6SaVeB46
+ KGtg==
+X-Gm-Message-State: AOAM533CEJGxZxrL77P1teCdhY6w7m+uhUjc6KbCPX2dtn/wggiNlPnq
+ s/+k0xq1RkB/b34lwxDnZwUJGFDE3vG2r5AED8RmZgj702StG7QYnW8tw1KUTBLZqzGz/Opa4I9
+ 9QyKfRDkagWUfbxM=
+X-Received: by 2002:adf:f452:: with SMTP id f18mr62181669wrp.389.1594296127460; 
+ Thu, 09 Jul 2020 05:02:07 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJxj7l8wMoTdJtphiP4UaoyDkBXTrBbnSnXUlUG7PSPJfU9nq6ITwgIYhVDuM9fedlboXKCdNQ==
+X-Received: by 2002:adf:f452:: with SMTP id f18mr62181642wrp.389.1594296127168; 
+ Thu, 09 Jul 2020 05:02:07 -0700 (PDT)
 Received: from ?IPv6:2001:b07:6468:f312:9541:9439:cb0f:89c?
  ([2001:b07:6468:f312:9541:9439:cb0f:89c])
- by smtp.gmail.com with ESMTPSA id u23sm5781255wru.94.2020.07.09.05.00.14
+ by smtp.gmail.com with ESMTPSA id e23sm4225122wme.35.2020.07.09.05.02.05
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 09 Jul 2020 05:00:14 -0700 (PDT)
-Subject: Re: Questions about online resizing a lun passthrough disk with
- virtio-scsi
-To: Lin Ma <lma@suse.de>
-References: <af3e33e4a5bb15d9f0b30c8de4941a37@suse.de>
- <a1d96da7-444e-d3b0-abd5-63cdab92e869@redhat.com>
- <bb1050f276b9f0a6447f64f1e31b69c9@suse.de>
+ Thu, 09 Jul 2020 05:02:06 -0700 (PDT)
+Subject: Re: [PATCH v2 2/7] Implement drain_call_rcu and use it in
+ hmp_device_del
+To: Maxim Levitsky <mlevitsk@redhat.com>, Markus Armbruster <armbru@redhat.com>
+References: <20200511160951.8733-1-mlevitsk@redhat.com>
+ <20200511160951.8733-3-mlevitsk@redhat.com>
+ <87wo3csyn4.fsf@dusky.pond.sub.org>
+ <36fae287a2b5e06c35facf22e5d9c16fbbf9908e.camel@redhat.com>
 From: Paolo Bonzini <pbonzini@redhat.com>
-Message-ID: <3c1d7530-91bf-4e6b-c53c-06e6c5b31cac@redhat.com>
-Date: Thu, 9 Jul 2020 14:00:13 +0200
+Message-ID: <75bd7143-450f-08a1-1195-7e3df730aafb@redhat.com>
+Date: Thu, 9 Jul 2020 14:02:04 +0200
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
  Thunderbird/68.9.0
 MIME-Version: 1.0
-In-Reply-To: <bb1050f276b9f0a6447f64f1e31b69c9@suse.de>
+In-Reply-To: <36fae287a2b5e06c35facf22e5d9c16fbbf9908e.camel@redhat.com>
 Content-Language: en-US
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=pbonzini@redhat.com
@@ -104,20 +105,73 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-devel@nongnu.org
+Cc: Fam Zheng <fam@euphon.net>, "Michael S. Tsirkin" <mst@redhat.com>,
+ =?UTF-8?Q?Daniel_P=2eBerrang=c3=a9?= <berrange@redhat.com>,
+ qemu-devel@nongnu.org, Eduardo Habkost <ehabkost@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 09/07/20 13:52, Lin Ma wrote:
->> It's not recommended however, because block_resize will report the
->> change to the guest directly with a CAPACITY HAS CHANGED unit attention
->> condition.
+On 09/07/20 13:56, Maxim Levitsky wrote:
+> On Thu, 2020-07-09 at 13:42 +0200, Markus Armbruster wrote:
+>> Maxim Levitsky <mlevitsk@redhat.com> writes:
+>>
+>>> This allows to preserve the semantics of hmp_device_del,
+>>> that the device is deleted immediatly which was changed by previos
+>>> patch that delayed this to RCU callback
+>>>
+>>> Suggested-by: Stefan Hajnoczi <stefanha@gmail.com>
+>>> Signed-off-by: Maxim Levitsky <mlevitsk@redhat.com>
+>>> ---
+>>>  include/qemu/rcu.h |  1 +
+>>>  qdev-monitor.c     |  3 +++
+>>>  util/rcu.c         | 33 +++++++++++++++++++++++++++++++++
+>>>  3 files changed, 37 insertions(+)
+>>>
+>>> diff --git a/include/qemu/rcu.h b/include/qemu/rcu.h
+>>> index 570aa603eb..0e375ebe13 100644
+>>> --- a/include/qemu/rcu.h
+>>> +++ b/include/qemu/rcu.h
+>>> @@ -133,6 +133,7 @@ struct rcu_head {
+>>>  };
+>>>  
+>>>  extern void call_rcu1(struct rcu_head *head, RCUCBFunc *func);
+>>> +extern void drain_call_rcu(void);
+>>>  
+>>>  /* The operands of the minus operator must have the same type,
+>>>   * which must be the one that we specify in the cast.
+>>> diff --git a/qdev-monitor.c b/qdev-monitor.c
+>>> index 56cee1483f..70877840a2 100644
+>>> --- a/qdev-monitor.c
+>>> +++ b/qdev-monitor.c
+>>> @@ -812,6 +812,8 @@ void qmp_device_add(QDict *qdict, QObject **ret_data, Error **errp)
+>>>          return;
+>>>      }
+>>>      dev = qdev_device_add(opts, &local_err);
+>>> +    drain_call_rcu();
+>>> +
+>>>      if (!dev) {
+>>>          error_propagate(errp, local_err);
+>>>          qemu_opts_del(opts);
+>>> @@ -904,6 +906,7 @@ void qmp_device_del(const char *id, Error **errp)
+>>>          }
+>>>  
+>>>          qdev_unplug(dev, errp);
+>>> +        drain_call_rcu();
+>>>      }
+>>>  }
+>>>  
+>>
+>> Subject claims "in hmp_device_del", code has it in qmp_device_add() and
+>> qmp_device_del().  Please advise.
 > 
-> Got it, The 'block_resize' is the recommended or necessary step, Even for
-> passthrough disk online resizing.
+> I added it in both, because addition of a device can fail and trigger removal,
+> which can also be now delayed due to RCU.
+> Since both device_add and device_del aren't used often, the overhead won't
+> be a problem IMHO.
 
-If your target is able to report the unit attention itself, it is okay
-to skip it.  AFAIK drivers/target/ doesn't, though.
+Ok, just mention this in the commit message.  It may also be a good idea
+to move it from qmp_device_add to the error-propagation section of
+qdev_device_add.
 
 Paolo
 
