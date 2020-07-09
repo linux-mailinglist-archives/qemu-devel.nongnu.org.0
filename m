@@ -2,78 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9C8ED219F17
-	for <lists+qemu-devel@lfdr.de>; Thu,  9 Jul 2020 13:31:49 +0200 (CEST)
-Received: from localhost ([::1]:56336 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4FB03219F11
+	for <lists+qemu-devel@lfdr.de>; Thu,  9 Jul 2020 13:29:59 +0200 (CEST)
+Received: from localhost ([::1]:54176 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jtUmK-0007tR-N9
-	for lists+qemu-devel@lfdr.de; Thu, 09 Jul 2020 07:31:48 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:52390)
+	id 1jtUkX-0006pJ-TG
+	for lists+qemu-devel@lfdr.de; Thu, 09 Jul 2020 07:29:57 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:52000)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <abologna@redhat.com>)
- id 1jtUkf-0007JL-Mu
- for qemu-devel@nongnu.org; Thu, 09 Jul 2020 07:30:05 -0400
-Received: from us-smtp-2.mimecast.com ([207.211.31.81]:39784
- helo=us-smtp-delivery-1.mimecast.com)
+ (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
+ id 1jtUjl-0006MW-3c
+ for qemu-devel@nongnu.org; Thu, 09 Jul 2020 07:29:09 -0400
+Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:35142
+ helo=us-smtp-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <abologna@redhat.com>)
- id 1jtUkd-000227-Oe
- for qemu-devel@nongnu.org; Thu, 09 Jul 2020 07:30:05 -0400
+ (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
+ id 1jtUjh-0001q1-L7
+ for qemu-devel@nongnu.org; Thu, 09 Jul 2020 07:29:07 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1594294201;
+ s=mimecast20190719; t=1594294144;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=xPdA4UDiA7K/5OS4U/6wpvL/bm+Ai4kA2FNaMg8lw10=;
- b=KQD5mAIkm+AhmumCEJ0vXSsSaxzgtv0jlkoOGJtns4jZ7L2XPDJFS1qMJegX1ybh9c7NGU
- mUd2QgjD6ReZ6mm5uDCOiP82goZGf+z/QH5m6JBS7J/lMdnkQ5w1BV2/CpmDWDrKEX8tJ3
- DnOs7OLnytjCxyn2CENnz9REBvRHcNc=
+ content-transfer-encoding:content-transfer-encoding;
+ bh=w9CTFcztZXOHRtwLxvUc3BnkRbdncxBnD8z9W3Pyc7M=;
+ b=hdnr8RL81UP5o+0Fxywp5xWLNgcpx0ifqdajzDNJpm0QYEKTbU10ISuHBYqS3cJNa4T0M6
+ BUrVigmXtmPog0PU6COqe9uXhKLRG1cmo2MfLrITx4gbHJecSNxva+BKRtuF0rR3Rb9Ahq
+ abGERJzVDFDX82ljC5yxyjrpxdKcDtw=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-50-D4E0W20MP0qjzrQYUJqN-g-1; Thu, 09 Jul 2020 07:28:37 -0400
-X-MC-Unique: D4E0W20MP0qjzrQYUJqN-g-1
-Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
- [10.5.11.14])
+ us-mta-409-NsvKGYX5PiyaYMsLtdwFgw-1; Thu, 09 Jul 2020 07:29:02 -0400
+X-MC-Unique: NsvKGYX5PiyaYMsLtdwFgw-1
+Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
+ [10.5.11.23])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 9477C186A8E0;
- Thu,  9 Jul 2020 11:28:36 +0000 (UTC)
-Received: from kinshicho.usersys.redhat.com (unknown [10.40.195.38])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id DC7C35D9F3;
- Thu,  9 Jul 2020 11:28:29 +0000 (UTC)
-Message-ID: <a462a7e1094fea39e13436a940ef91bec809a8fc.camel@redhat.com>
-Subject: Re: [PATCH v2 2/2] GitLab Gating CI: initial set of jobs,
- documentation and scripts
-From: Andrea Bolognani <abologna@redhat.com>
-To: "Daniel P." =?ISO-8859-1?Q?Berrang=E9?= <berrange@redhat.com>, Cleber
- Rosa <crosa@redhat.com>
-Date: Thu, 09 Jul 2020 13:28:27 +0200
-In-Reply-To: <20200709103029.GK3753300@redhat.com>
-References: <20200709024657.2500558-1-crosa@redhat.com>
- <20200709024657.2500558-3-crosa@redhat.com>
- <20200709103029.GK3753300@redhat.com>
-User-Agent: Evolution 3.34.4 (3.34.4-1.fc31)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id C0A8A87952C
+ for <qemu-devel@nongnu.org>; Thu,  9 Jul 2020 11:29:01 +0000 (UTC)
+Received: from localhost.localdomain.com (unknown [10.36.110.45])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 8CA1A2DE60;
+ Thu,  9 Jul 2020 11:28:59 +0000 (UTC)
+From: =?UTF-8?q?Daniel=20P=2E=20Berrang=C3=A9?= <berrange@redhat.com>
+To: qemu-devel@nongnu.org
+Subject: [PATCH] tests: improve performance of device-introspect-test
+Date: Thu,  9 Jul 2020 12:28:57 +0100
+Message-Id: <20200709112857.3760116-1-berrange@redhat.com>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=abologna@redhat.com
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=berrange@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=207.211.31.81; envelope-from=abologna@redhat.com;
- helo=us-smtp-delivery-1.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/07/09 04:33:23
+Received-SPF: pass client-ip=207.211.31.120; envelope-from=berrange@redhat.com;
+ helo=us-smtp-1.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/07/07 17:25:10
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
-X-Spam_score_int: -30
-X-Spam_score: -3.1
-X-Spam_bar: ---
-X-Spam_report: (-3.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1,
+X-Spam_score_int: -40
+X-Spam_score: -4.1
+X-Spam_bar: ----
+X-Spam_report: (-4.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H3=-0.01, RCVD_IN_MSPIKE_WL=-0.01,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-1, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -86,67 +78,108 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Maydell <peter.maydell@linaro.org>, Thomas Huth <thuth@redhat.com>,
- Beraldo Leal <bleal@redhat.com>, Erik Skultety <eskultet@redhat.com>,
- Alex =?ISO-8859-1?Q?Benn=E9e?= <alex.bennee@linaro.org>, qemu-devel@nongnu.org,
- Wainer dos Santos Moschetta <wainersm@redhat.com>,
- Willian Rampazzo <wrampazz@redhat.com>,
- Philippe =?ISO-8859-1?Q?Mathieu-Daud=E9?= <philmd@redhat.com>,
- Eduardo Habkost <ehabkost@redhat.com>
+Cc: Laurent Vivier <lvivier@redhat.com>, Thomas Huth <thuth@redhat.com>,
+ =?UTF-8?q?Daniel=20P=2E=20Berrang=C3=A9?= <berrange@redhat.com>,
+ Markus Armbruster <armbru@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>,
+ =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Thu, 2020-07-09 at 11:30 +0100, Daniel P. Berrangé wrote:
-> On Wed, Jul 08, 2020 at 10:46:57PM -0400, Cleber Rosa wrote:
-> > +- name: Installation of basic packages to build QEMU
-> > +  hosts: all
-> > +  vars_files:
-> > +    - vars.yml
-> > +  tasks:
-> > +    - name: Install basic packages to build QEMU on Ubuntu 18.04/20.04
-> > +      apt:
-> > +        update_cache: yes
-> > +        # This matches the packages on tests/docker/Dockerfiles/ubuntu1804.docker
-> 
-> I'd be inclined to actually use docker on the custom runners.
-> 
-> eg. instead of having separate physical machines or VMs for each
-> (distro, arch) pair, have a single host distro for the arch. Then
-> use docker to provide the build environment against each distro.
-> 
-> IOW, a RHEL-8 aarch64 host, running docker for ubuntu18.04, fedora30
-> etc.
-> 
-> That way we don't end up duplicating all these packages, and instead
-> can use  tests/docker/Dockerfiles/ubuntu1804.docker.  This ensures
-> that if a user needs to reproduce a build failure on their own local
-> aarch64 machine, they can run docker and get the exact same build
-> architecture.
-> 
-> It also has the benefit that we don't need to worry about how to
-> setup gitlab runners for every distro we care about. We only need to
-> do gitlab runner for the standard host distro, which spawns a pristine
-> throwaway docker env.
-> 
-> I appreciate this is a big change from what you've done in this patch
-> though, so don't consider this comment a blocker for initial merge.
-> I think we should do this as the long term strategy though. Essentially
-> for Linux builds, everything should always be container based.
+Total execution time with "-m slow" and x86_64 QEMU, drops from 3
+minutes 15 seconds, down to 54 seconds.
 
-Agreed. You should be able to set up a fairly minimal environment,
-which consists of Docker, gitlab-runner and not much else, using a
-long-term supported distro such as CentOS and then just schedule
-whatever container build on it. No need to provision a new machine
-every time a new Fedora release comes out, just create a container
-image for it and add it to the mix.
+Individual tests drop from 17-20 seconds, down to 3-4 seconds.
 
-Additionally, the gitlab-runner Docker executor provides more
-isolation than the shell executor, so running untrusted builds
-becomes a more reasonable proposition - this is how the shared
-runners on gitlab.com work - and you don't have to worry about your
-jobs cleaning up properly after themselves nearly as much.
+The cost of this change is that any QOM bugs resulting in the test
+failure will not be directly associated with the device that caused
+the failure. The test case is not frequently identifying such bugs
+though, and the cause is likely easily visible in the patch series
+that causes the failure. So overall the shorter running time is
+considered the more important factor.
 
+Signed-off-by: Daniel P. Berrangé <berrange@redhat.com>
+---
+ tests/qtest/device-introspect-test.c | 38 +++++++++++++---------------
+ 1 file changed, 18 insertions(+), 20 deletions(-)
+
+diff --git a/tests/qtest/device-introspect-test.c b/tests/qtest/device-introspect-test.c
+index 9abb5ec889..b4af1e19f6 100644
+--- a/tests/qtest/device-introspect-test.c
++++ b/tests/qtest/device-introspect-test.c
+@@ -105,14 +105,9 @@ static void test_one_device(QTestState *qts, const char *type)
+ {
+     QDict *resp;
+     char *help;
+-    char *qom_tree_start, *qom_tree_end;
+-    char *qtree_start, *qtree_end;
+ 
+     g_test_message("Testing device '%s'", type);
+ 
+-    qom_tree_start = qtest_hmp(qts, "info qom-tree");
+-    qtree_start = qtest_hmp(qts, "info qtree");
+-
+     resp = qtest_qmp(qts, "{'execute': 'device-list-properties',"
+                           " 'arguments': {'typename': %s}}",
+                type);
+@@ -120,21 +115,6 @@ static void test_one_device(QTestState *qts, const char *type)
+ 
+     help = qtest_hmp(qts, "device_add \"%s,help\"", type);
+     g_free(help);
+-
+-    /*
+-     * Some devices leave dangling pointers in QOM behind.
+-     * "info qom-tree" or "info qtree" have a good chance at crashing then.
+-     * Also make sure that the tree did not change.
+-     */
+-    qom_tree_end = qtest_hmp(qts, "info qom-tree");
+-    g_assert_cmpstr(qom_tree_start, ==, qom_tree_end);
+-    g_free(qom_tree_start);
+-    g_free(qom_tree_end);
+-
+-    qtree_end = qtest_hmp(qts, "info qtree");
+-    g_assert_cmpstr(qtree_start, ==, qtree_end);
+-    g_free(qtree_start);
+-    g_free(qtree_end);
+ }
+ 
+ static void test_device_intro_list(void)
+@@ -232,10 +212,17 @@ static void test_device_intro_concrete(const void *args)
+     QListEntry *entry;
+     const char *type;
+     QTestState *qts;
++    g_autofree char *qom_tree_start = NULL;
++    g_autofree char *qom_tree_end = NULL;
++    g_autofree char *qtree_start = NULL;
++    g_autofree char *qtree_end = NULL;
+ 
+     qts = qtest_init(args);
+     types = device_type_list(qts, false);
+ 
++    qom_tree_start = qtest_hmp(qts, "info qom-tree");
++    qtree_start = qtest_hmp(qts, "info qtree");
++
+     QLIST_FOREACH_ENTRY(types, entry) {
+         type = qdict_get_try_str(qobject_to(QDict, qlist_entry_obj(entry)),
+                                  "name");
+@@ -243,6 +230,17 @@ static void test_device_intro_concrete(const void *args)
+         test_one_device(qts, type);
+     }
+ 
++    /*
++     * Some devices leave dangling pointers in QOM behind.
++     * "info qom-tree" or "info qtree" have a good chance at crashing then.
++     * Also make sure that the tree did not change.
++     */
++    qom_tree_end = qtest_hmp(qts, "info qom-tree");
++    g_assert_cmpstr(qom_tree_start, ==, qom_tree_end);
++
++    qtree_end = qtest_hmp(qts, "info qtree");
++    g_assert_cmpstr(qtree_start, ==, qtree_end);
++
+     qobject_unref(types);
+     qtest_quit(qts);
+     g_free((void *)args);
 -- 
-Andrea Bolognani / Red Hat / Virtualization
+2.26.2
 
 
