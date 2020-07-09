@@ -2,62 +2,66 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3F87721A808
-	for <lists+qemu-devel@lfdr.de>; Thu,  9 Jul 2020 21:46:33 +0200 (CEST)
-Received: from localhost ([::1]:60938 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id ECD9321A821
+	for <lists+qemu-devel@lfdr.de>; Thu,  9 Jul 2020 21:49:45 +0200 (CEST)
+Received: from localhost ([::1]:45400 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jtcV6-0003tv-6G
-	for lists+qemu-devel@lfdr.de; Thu, 09 Jul 2020 15:46:32 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:58870)
+	id 1jtcYD-0000jH-0x
+	for lists+qemu-devel@lfdr.de; Thu, 09 Jul 2020 15:49:45 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:59954)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <marcandre.lureau@redhat.com>)
- id 1jtcTA-0000hJ-Iz
- for qemu-devel@nongnu.org; Thu, 09 Jul 2020 15:44:32 -0400
-Received: from us-smtp-1.mimecast.com ([207.211.31.81]:32723
+ (Exim 4.90_1) (envelope-from <ehabkost@redhat.com>)
+ id 1jtcX3-0007u7-WD
+ for qemu-devel@nongnu.org; Thu, 09 Jul 2020 15:48:34 -0400
+Received: from us-smtp-2.mimecast.com ([207.211.31.81]:44426
  helo=us-smtp-delivery-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <marcandre.lureau@redhat.com>)
- id 1jtcT8-0000Y6-TM
- for qemu-devel@nongnu.org; Thu, 09 Jul 2020 15:44:32 -0400
+ (Exim 4.90_1) (envelope-from <ehabkost@redhat.com>)
+ id 1jtcX1-00014e-Bq
+ for qemu-devel@nongnu.org; Thu, 09 Jul 2020 15:48:33 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1594323868;
+ s=mimecast20190719; t=1594324110;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=tmQOmzoXNPFy7lvbkX3U0bBsr3nZbOM0fdmkkek9Xik=;
- b=L6Dfo7bFrpgwLoJsGchw0vEJfCYsCZCN9m1hMqCAeoOpzcq6HVdUFf/4wjURftJmXbZwS6
- tvbA1zTsgeyHsknqJxc8Jv7gubL8A0X6atTLtzz0P12gfriF502O0PDlh4a3TZ3y31s5nO
- edGO9rLXB1+Ia4rsjbq0Abse9W05pPc=
+ bh=nFfA0qcui2ENuDo7HtKumZfSJ/Tnhf0pY0BbFNAWXuo=;
+ b=W9hTl2BJX0J6Y/27LIQEpOVBCFir9q7Sg3dFg+V4ICKbA2vuXPXli7pgfRXajG4iKmirTQ
+ 7gkT7HW0xlzHcrc6a/OOQFP494XEOIg+sAjCh6xYded2WOUi94/zSWczOO3lgT49vGVYOP
+ a0G9MpRxoXoYsuxGU/R/evkfqNn5MQQ=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-449-gX9a53mlOiyRFrluW6_zJQ-1; Thu, 09 Jul 2020 15:44:26 -0400
-X-MC-Unique: gX9a53mlOiyRFrluW6_zJQ-1
+ us-mta-281-tARpYom-MX6rHLMzY2md6Q-1; Thu, 09 Jul 2020 15:48:27 -0400
+X-MC-Unique: tARpYom-MX6rHLMzY2md6Q-1
 Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
  [10.5.11.14])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 825DF100A8E7;
- Thu,  9 Jul 2020 19:44:25 +0000 (UTC)
-Received: from localhost (unknown [10.36.110.13])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 3385C5D9C9;
- Thu,  9 Jul 2020 19:44:20 +0000 (UTC)
-From: =?UTF-8?q?Marc-Andr=C3=A9=20Lureau?= <marcandre.lureau@redhat.com>
-To: qemu-devel@nongnu.org
-Subject: [PATCH 13/13] ssh: add GUri-based URI parsing
-Date: Thu,  9 Jul 2020 23:42:34 +0400
-Message-Id: <20200709194234.2117650-14-marcandre.lureau@redhat.com>
-In-Reply-To: <20200709194234.2117650-1-marcandre.lureau@redhat.com>
-References: <20200709194234.2117650-1-marcandre.lureau@redhat.com>
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 6D06218FF67B;
+ Thu,  9 Jul 2020 19:48:24 +0000 (UTC)
+Received: from localhost (ovpn-116-140.rdu2.redhat.com [10.10.116.140])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id ECD165DC1E;
+ Thu,  9 Jul 2020 19:48:22 +0000 (UTC)
+Date: Thu, 9 Jul 2020 15:48:22 -0400
+From: Eduardo Habkost <ehabkost@redhat.com>
+To: Philippe =?iso-8859-1?Q?Mathieu-Daud=E9?= <f4bug@amsat.org>
+Subject: Re: [RFC PATCH 2/3] hw/i2c/smbus_eeprom: Add description based on
+ child name
+Message-ID: <20200709194822.GJ780932@habkost.net>
+References: <20200626102744.15053-1-f4bug@amsat.org>
+ <20200626102744.15053-3-f4bug@amsat.org>
+ <alpine.BSF.2.22.395.2006261255120.94870@zero.eik.bme.hu>
+ <5895e827-68e9-8204-aeba-e066d8c0d680@amsat.org>
 MIME-Version: 1.0
+In-Reply-To: <5895e827-68e9-8204-aeba-e066d8c0d680@amsat.org>
 X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=UTF-8
+Content-Type: text/plain; charset=iso-8859-1
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=207.211.31.81;
- envelope-from=marcandre.lureau@redhat.com;
+Content-Disposition: inline
+Received-SPF: pass client-ip=207.211.31.81; envelope-from=ehabkost@redhat.com;
  helo=us-smtp-delivery-1.mimecast.com
 X-detected-operating-system: by eggs.gnu.org: First seen = 2020/07/09 11:02:51
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
@@ -67,8 +71,7 @@ X-Spam_bar: ---
 X-Spam_report: (-3.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H3=-0.01, RCVD_IN_MSPIKE_WL=-0.01,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- URIBL_BLOCKED=0.001 autolearn=ham autolearn_force=no
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -81,137 +84,65 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Kevin Wolf <kwolf@redhat.com>, integration@gluster.org,
- sheepdog@lists.wpkg.org, qemu-block@nongnu.org, Peter Lieven <pl@kamp.de>,
- "Richard W.M. Jones" <rjones@redhat.com>, Max Reitz <mreitz@redhat.com>,
- =?UTF-8?q?Marc-Andr=C3=A9=20Lureau?= <marcandre.lureau@redhat.com>,
- Liu Yuan <namei.unix@gmail.com>
+Cc: Corey Minyard <cminyard@mvista.com>,
+ Aleksandar Rikalo <aleksandar.rikalo@syrmia.com>, qemu-devel@nongnu.org,
+ Jiaxun Yang <jiaxun.yang@flygoat.com>, Markus Armbruster <armbru@redhat.com>,
+ Aleksandar Markovic <aleksandar.qemu.devel@gmail.com>, qemu-ppc@nongnu.org,
+ =?iso-8859-1?Q?C=E9dric?= Le Goater <clg@kaod.org>,
+ Huacai Chen <chenhc@lemote.com>,
+ Philippe =?iso-8859-1?Q?Mathieu-Daud=E9?= <philmd@redhat.com>,
+ David Gibson <david@gibson.dropbear.id.au>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Signed-off-by: Marc-André Lureau <marcandre.lureau@redhat.com>
----
- block/ssh.c | 75 +++++++++++++++++++++++++++++++++++++++++------------
- 1 file changed, 58 insertions(+), 17 deletions(-)
+On Fri, Jun 26, 2020 at 04:26:33PM +0200, Philippe Mathieu-Daudé wrote:
+> On 6/26/20 1:00 PM, BALATON Zoltan wrote:
+> > On Fri, 26 Jun 2020, Philippe Mathieu-Daudé wrote:
+> >> Suggested-by: Markus Armbruster <armbru@redhat.com>
+> >> Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
+> >> ---
+> >> hw/i2c/smbus_eeprom.c | 3 +++
+> >> 1 file changed, 3 insertions(+)
+> >>
+> >> diff --git a/hw/i2c/smbus_eeprom.c b/hw/i2c/smbus_eeprom.c
+> >> index 879fd7c416..22ba7b20d4 100644
+> >> --- a/hw/i2c/smbus_eeprom.c
+> >> +++ b/hw/i2c/smbus_eeprom.c
+> >> @@ -47,6 +47,7 @@ typedef struct SMBusEEPROMDevice {
+> >>     uint8_t *init_data;
+> >>     uint8_t offset;
+> >>     bool accessed;
+> >> +    char *description;
+> >> } SMBusEEPROMDevice;
+> >>
+> >> static uint8_t eeprom_receive_byte(SMBusDevice *dev)
+> >> @@ -134,7 +135,9 @@ static void smbus_eeprom_realize(DeviceState *dev,
+> >> Error **errp)
+> >>     smbus_eeprom_reset(dev);
+> >>     if (eeprom->init_data == NULL) {
+> >>         error_setg(errp, "init_data cannot be NULL");
+> >> +        return;
+> >>     }
+> >> +    eeprom->description =
+> >> object_get_canonical_path_component(OBJECT(dev));
+> >> }
+> >>
+> >> static void smbus_eeprom_class_initfn(ObjectClass *klass, void *data)
+> > 
+> > What is this for? Shouldn't this description field be in some parent
+> > object and whatever wants to print it could use the
+> > object_get_canonical_path_component() as default value if it's not set
+> > instead of adding more boiler plate to every object?
+> 
+> You are right, if we want to use this field generically, it should be
+> a static Object field. I'll defer that question to Eduardo/Markus.
 
-diff --git a/block/ssh.c b/block/ssh.c
-index c8f6ad79e3c..d2bc6277613 100644
---- a/block/ssh.c
-+++ b/block/ssh.c
-@@ -180,9 +180,37 @@ static void sftp_error_trace(BDRVSSHState *s, const char *op)
- 
- static int parse_uri(const char *filename, QDict *options, Error **errp)
- {
-+    g_autofree char *port_str = NULL;
-+    const char *scheme, *server, *path, *user, *key, *value;
-+    gint port;
-+
-+#ifdef HAVE_GLIB_GURI
-+    g_autoptr(GUri) uri = NULL;
-+    g_autoptr(GHashTable) params = NULL;
-+    g_autoptr(GError) err = NULL;
-+    GHashTableIter iter;
-+
-+    uri = g_uri_parse(filename, G_URI_FLAGS_ENCODED_QUERY, &err);
-+    if (!uri) {
-+        error_setg(errp, "Failed to parse SSH URI: %s", err->message);
-+        return -EINVAL;
-+    }
-+
-+    params = g_uri_parse_params(g_uri_get_query(uri), -1,
-+                                "&;", G_URI_PARAMS_NONE, &err);
-+    if (err) {
-+        error_report("Failed to parse SSH URI query: %s", err->message);
-+        return -EINVAL;
-+    }
-+
-+    scheme = g_uri_get_scheme(uri);
-+    user = g_uri_get_user(uri);
-+    server = g_uri_get_host(uri);
-+    path = g_uri_get_path(uri);
-+    port = g_uri_get_port(uri);
-+#else
-     g_autoptr(URI) uri = NULL;
-     g_autoptr(QueryParams) qp = NULL;
--    g_autofree char *port_str = NULL;
-     int i;
- 
-     uri = uri_parse(filename);
-@@ -190,44 +218,57 @@ static int parse_uri(const char *filename, QDict *options, Error **errp)
-         return -EINVAL;
-     }
- 
--    if (g_strcmp0(uri->scheme, "ssh") != 0) {
--        error_setg(errp, "URI scheme must be 'ssh'");
-+    qp = query_params_parse(uri->query);
-+    if (!qp) {
-+        error_setg(errp, "could not parse query parameters");
-         return -EINVAL;
-     }
- 
--    if (!uri->server || strcmp(uri->server, "") == 0) {
--        error_setg(errp, "missing hostname in URI");
-+    scheme = uri->scheme;
-+    user = uri->user;
-+    server = uri->server;
-+    path = uri->path;
-+    port = uri->port;
-+#endif
-+    if (g_strcmp0(scheme, "ssh") != 0) {
-+        error_setg(errp, "URI scheme must be 'ssh'");
-         return -EINVAL;
-     }
- 
--    if (!uri->path || strcmp(uri->path, "") == 0) {
--        error_setg(errp, "missing remote path in URI");
-+    if (!server || strcmp(server, "") == 0) {
-+        error_setg(errp, "missing hostname in URI");
-         return -EINVAL;
-     }
- 
--    qp = query_params_parse(uri->query);
--    if (!qp) {
--        error_setg(errp, "could not parse query parameters");
-+    if (!path || strcmp(path, "") == 0) {
-+        error_setg(errp, "missing remote path in URI");
-         return -EINVAL;
-     }
- 
--    if(uri->user && strcmp(uri->user, "") != 0) {
--        qdict_put_str(options, "user", uri->user);
-+    if (user && strcmp(user, "") != 0) {
-+        qdict_put_str(options, "user", user);
-     }
- 
--    qdict_put_str(options, "server.host", uri->server);
-+    qdict_put_str(options, "server.host", server);
- 
--    port_str = g_strdup_printf("%d", uri->port ?: 22);
-+    port_str = g_strdup_printf("%d", port ?: 22);
-     qdict_put_str(options, "server.port", port_str);
- 
--    qdict_put_str(options, "path", uri->path);
-+    qdict_put_str(options, "path", path);
- 
-     /* Pick out any query parameters that we understand, and ignore
-      * the rest.
-      */
-+#ifdef HAVE_GLIB_GURI
-+    g_hash_table_iter_init(&iter, params);
-+    while (g_hash_table_iter_next(&iter, (void **)&key, (void **)&value)) {
-+#else
-     for (i = 0; i < qp->n; ++i) {
--        if (strcmp(qp->p[i].name, "host_key_check") == 0) {
--            qdict_put_str(options, "host_key_check", qp->p[i].value);
-+        key = qp->p[i].name;
-+        value = qp->p[i].value;
-+#endif
-+        if (g_strcmp0(key, "host_key_check") == 0) {
-+            qdict_put_str(options, "host_key_check", value);
-         }
-     }
- 
+I don't understand what's the question here.  What would be the
+purpose of a static Object field, and why it would be better than
+simply calling object_get_canonical_path_component() when you
+need it?
+
 -- 
-2.27.0.221.ga08a83db2b
+Eduardo
 
 
