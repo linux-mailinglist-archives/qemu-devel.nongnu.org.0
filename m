@@ -2,70 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id AC034219DA7
-	for <lists+qemu-devel@lfdr.de>; Thu,  9 Jul 2020 12:23:37 +0200 (CEST)
-Received: from localhost ([::1]:56072 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id EF98C219DB1
+	for <lists+qemu-devel@lfdr.de>; Thu,  9 Jul 2020 12:26:57 +0200 (CEST)
+Received: from localhost ([::1]:59746 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jtTiK-0005C2-Hg
-	for lists+qemu-devel@lfdr.de; Thu, 09 Jul 2020 06:23:36 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:56628)
+	id 1jtTlZ-0006wi-04
+	for lists+qemu-devel@lfdr.de; Thu, 09 Jul 2020 06:26:57 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:57202)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1jtThQ-0004YL-Mv
- for qemu-devel@nongnu.org; Thu, 09 Jul 2020 06:22:40 -0400
-Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:36367
- helo=us-smtp-1.mimecast.com)
+ (Exim 4.90_1) (envelope-from <mlevitsk@redhat.com>)
+ id 1jtTjo-0005sy-Kk
+ for qemu-devel@nongnu.org; Thu, 09 Jul 2020 06:25:08 -0400
+Received: from us-smtp-1.mimecast.com ([205.139.110.61]:31418
+ helo=us-smtp-delivery-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1jtThN-0007H9-Lw
- for qemu-devel@nongnu.org; Thu, 09 Jul 2020 06:22:40 -0400
+ (Exim 4.90_1) (envelope-from <mlevitsk@redhat.com>)
+ id 1jtTjm-0007YU-B5
+ for qemu-devel@nongnu.org; Thu, 09 Jul 2020 06:25:08 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1594290156;
+ s=mimecast20190719; t=1594290305;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references:openpgp:openpgp;
- bh=28iGsc1ZkLSTmCJkgzMa8DGpODfti5zeY6YkOa65aXw=;
- b=OPTVFyTQ6iStHJzctdNVRQYr6VL6XkxjJBNQxdtiAaDJtvl48anN9qCAI2IYorGLZEf7TM
- 6dPn/iYCsLuNjSYydSEREKIMUysIrLXnV5TzKqHjniTYsw9Iw48p2qm4MbkWtUPAqJz0ZY
- qcg11MXVT4InG1RR9WkkdNvBmHVqhAI=
+ in-reply-to:in-reply-to:references:references;
+ bh=VYjJpbLmDRg8oBOiPHHX0aZz4NC0y0Ul0MEpxaJ8L4E=;
+ b=Vdd3TT/selbZaIcroE1hl0MCmixa1Y3WqzthqCU6mcdVtWKylHeUmnNzzge+HL5yLj8NUH
+ 9nyvE6fm8+wSyHJKOBUiII5QxKAs6PW9+XW34uqyz0C20YI0J5Pfh6OksAMqimc4026ale
+ zvKFWXpjVVmfRw58OTvATF9BG35TznE=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-354-8BZOTH6bPAOVxXBU7IDZeQ-1; Thu, 09 Jul 2020 06:22:30 -0400
-X-MC-Unique: 8BZOTH6bPAOVxXBU7IDZeQ-1
-Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
- [10.5.11.15])
+ us-mta-52-Sm_zLCILOiqE8dZQ5O25MA-1; Thu, 09 Jul 2020 06:25:01 -0400
+X-MC-Unique: Sm_zLCILOiqE8dZQ5O25MA-1
+Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
+ [10.5.11.16])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 11F4919253CE;
- Thu,  9 Jul 2020 10:22:29 +0000 (UTC)
-Received: from thuth.remote.csb (ovpn-112-106.ams2.redhat.com [10.36.112.106])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 057027F8BF;
- Thu,  9 Jul 2020 10:22:20 +0000 (UTC)
-Subject: Re: Migrating custom qemu.org infrastructure to GitLab
-To: Gerd Hoffmann <kraxel@redhat.com>,
- =?UTF-8?Q?Daniel_P=2e_Berrang=c3=a9?= <berrange@redhat.com>
-References: <CAJSP0QV3uB4QY6mzw2JFDedr0PJhGkU5FdmLF5PbjMPyxiYSuw@mail.gmail.com>
- <20200708105353.GE3229307@redhat.com>
- <20200709101602.lc2uipjlxobjvjn3@sirius.home.kraxel.org>
-From: Thomas Huth <thuth@redhat.com>
-Openpgp: preference=signencrypt
-Message-ID: <3dacddaa-c739-445b-a24a-02f9e51b9b0e@redhat.com>
-Date: Thu, 9 Jul 2020 12:22:19 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
- Thunderbird/60.9.0
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id B94EF19253C5;
+ Thu,  9 Jul 2020 10:25:00 +0000 (UTC)
+Received: from starship (unknown [10.35.206.232])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 144225C1C3;
+ Thu,  9 Jul 2020 10:24:55 +0000 (UTC)
+Message-ID: <a1cde9f7784e2463d214c7cf8435fa8ae44e65e2.camel@redhat.com>
+Subject: Re: [PATCH v2 4/7] device-core: use atomic_set on .realized property
+From: Maxim Levitsky <mlevitsk@redhat.com>
+To: Stefan Hajnoczi <stefanha@gmail.com>
+Date: Thu, 09 Jul 2020 13:24:54 +0300
+In-Reply-To: <20200527150053.GJ29137@stefanha-x1.localdomain>
+References: <20200511160951.8733-1-mlevitsk@redhat.com>
+ <20200511160951.8733-5-mlevitsk@redhat.com>
+ <20200527150053.GJ29137@stefanha-x1.localdomain>
+User-Agent: Evolution 3.34.4 (3.34.4-1.fc31)
 MIME-Version: 1.0
-In-Reply-To: <20200709101602.lc2uipjlxobjvjn3@sirius.home.kraxel.org>
-Content-Language: en-US
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=thuth@redhat.com
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=mlevitsk@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=205.139.110.120; envelope-from=thuth@redhat.com;
- helo=us-smtp-1.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/07/09 01:47:04
+Received-SPF: pass client-ip=205.139.110.61; envelope-from=mlevitsk@redhat.com;
+ helo=us-smtp-delivery-1.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/07/09 04:20:09
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
 X-Spam_score_int: -40
 X-Spam_score: -4.1
@@ -86,43 +84,72 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Maydell <peter.maydell@linaro.org>, Cleber Rosa <cleber@redhat.com>,
- Jeff Cody <codyprime@gmail.com>, Stefan Hajnoczi <stefanha@gmail.com>,
- qemu-devel <qemu-devel@nongnu.org>, Michael Roth <mdroth@linux.vnet.ibm.com>,
- =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>,
- Paolo Bonzini <pbonzini@redhat.com>,
- =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
+Cc: Fam Zheng <fam@euphon.net>,
+ "Daniel P. =?ISO-8859-1?Q?Berrang=E9?=" <berrange@redhat.com>,
+ Eduardo Habkost <ehabkost@redhat.com>, "Michael S.
+ Tsirkin" <mst@redhat.com>, qemu-devel@nongnu.org,
+ Paolo Bonzini <pbonzini@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 09/07/2020 12.16, Gerd Hoffmann wrote:
->   Hi,
+On Wed, 2020-05-27 at 16:00 +0100, Stefan Hajnoczi wrote:
+> On Mon, May 11, 2020 at 07:09:48PM +0300, Maxim Levitsky wrote:
+> > Some code might race with placement of new devices on a bus.
+> > We currently first place a (unrealized) device on the bus
+> > and then realize it.
+> > 
+> > As a workaround, users that scan the child device list, can
+> > check the realized property to see if it is safe to access such a device.
+> > Use an atomic write here too to aid with this.
+> > 
+> > A separate discussion is what to do with devices that are unrealized:
+> > It looks like for this case we only call the hotplug handler's unplug
+> > callback and its up to it to unrealize the device.
+> > An atomic operation doesn't cause harm for this code path though.
+> > 
+> > Signed-off-by: Maxim Levitsky <mlevitsk@redhat.com>
+> > ---
+> >  hw/core/qdev.c | 15 ++++++++++++++-
+> >  1 file changed, 14 insertions(+), 1 deletion(-)
 > 
->>> 2. wiki.qemu.org is a MediaWiki instance. Account creation is a hurdle
->>> to one-time or new contributors. It is unclear whether GitLab's wiki
->>> is expressive enough for a lossless conversion of the existing QEMU
->>> wiki. Any volunteers interested in evaluating the wiki migration would
->>> be appreciated.
->>
->> Yeah, this is a potentially big piece of work. We didn't finish this
->> in libvirt either. Looking at the libvirt mediawiki though, I decided
->> not todo a straight export/import of all content.
+> Please add a comment to struct DeviceState saying the realized field
+> must be accessed with atomic_load_acquire() when used outside the QEMU
+> global mutex.
 > 
-> FYI: gitlab wiki is basically just a git repo with markdown pages +
-> renderer + gui editor.  You can also update the wiki using git clone +
-> edit + git commit + git push.
+> > diff --git a/hw/core/qdev.c b/hw/core/qdev.c
+> > index 732789e2b7..d530c5922f 100644
+> > --- a/hw/core/qdev.c
+> > +++ b/hw/core/qdev.c
+> > @@ -964,7 +964,20 @@ static void device_set_realized(Object *obj, bool value, Error **errp)
+> >              }
+> >         }
+> >  
+> > +       atomic_store_release(&dev->realized, value);
+> > +
+> >      } else if (!value && dev->realized) {
+> > +
+> > +        /*
+> > +         * Change the value so that any concurrent users are aware
+> > +         * that the device is going to be unrealized
+> > +         *
+> > +         * TODO: change .realized property to enum that states
+> > +         * each phase of the device realization/unrealization
+> > +         */
+> > +
+> > +        atomic_store_release(&dev->realized, value);
+> 
+> I'm not sure if atomic_store_release() is strong enough in the true ->
+> false case:
+> 
+>   Operations coming after ``atomic_store_release()`` can still be
+>   reordered before it.
+> 
+> A reader may already seen changes made to unrealize the DeviceState even
+> though realized still appears to be true. A full write memory barrier
+> seems safer here.
+Done.
 
-FWIW, seems like we could use the "pandoc" tool to convert Mediawiki
-(our old Wiki) to Markdown (Gitlab wiki). I've done a quick test and
-converted https://wiki.qemu.org/Contribute/MailingLists into
-https://gitlab.com/huth/qemu/-/wikis/Contribute/MailingLists with some
-few clicks.
-
-But the longer I look at most Wiki pages, the more I think that we
-should convert the important pages rather into a part of qemu-web
-instead. I'll have a closer look and will suggest some patches when time
-permits...
-
- Thomas
+Best regards,
+	Maxim Levitsky
 
 
