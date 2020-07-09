@@ -2,105 +2,72 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A6E87219AB3
-	for <lists+qemu-devel@lfdr.de>; Thu,  9 Jul 2020 10:22:23 +0200 (CEST)
-Received: from localhost ([::1]:54826 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 15046219ADB
+	for <lists+qemu-devel@lfdr.de>; Thu,  9 Jul 2020 10:32:29 +0200 (CEST)
+Received: from localhost ([::1]:35744 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jtRp0-0001Vo-Ou
-	for lists+qemu-devel@lfdr.de; Thu, 09 Jul 2020 04:22:22 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:52340)
+	id 1jtRym-0005mS-5m
+	for lists+qemu-devel@lfdr.de; Thu, 09 Jul 2020 04:32:28 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:55028)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mreitz@redhat.com>) id 1jtRnr-0000a2-Ss
- for qemu-devel@nongnu.org; Thu, 09 Jul 2020 04:21:12 -0400
-Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:47948
- helo=us-smtp-1.mimecast.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <mreitz@redhat.com>) id 1jtRnp-00073y-TP
- for qemu-devel@nongnu.org; Thu, 09 Jul 2020 04:21:11 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1594282865;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
- bh=fACF4Y1hxAJIg2fQfepcIGg3TyqIqmPxOtcf4/Im5SQ=;
- b=Em1Rj1z1d/23WbD1hnpdTmcR/ICuI6P/D5/7PP9L63Yq2n+e/lkDoydl8ekfkDHd6S9pSI
- jMgVzytLb2vccmH9jS7lfuFOl7uReC4hlLF20LJozacI3/wqnPuYdeC44/r1/B1x1q7UkH
- SfA0/AI5s9+ljA9FEFiV1WRB80WKCGE=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-342-c27z7xV5PAmNjuT-JXMVwA-1; Thu, 09 Jul 2020 04:21:03 -0400
-X-MC-Unique: c27z7xV5PAmNjuT-JXMVwA-1
-Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
- [10.5.11.23])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 2149AA6B67;
- Thu,  9 Jul 2020 08:21:02 +0000 (UTC)
-Received: from dresden.str.redhat.com (ovpn-113-127.ams2.redhat.com
- [10.36.113.127])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id BE6C31A7CA;
- Thu,  9 Jul 2020 08:21:00 +0000 (UTC)
-Subject: Re: [PATCH v7 00/47] block: Deal with filters
-To: Eric Blake <eblake@redhat.com>,
- Andrey Shinkevich <andrey.shinkevich@virtuozzo.com>, qemu-block@nongnu.org
-References: <20200625152215.941773-1-mreitz@redhat.com>
- <4d7fa326-ef87-5753-cc2a-bb26fc555864@virtuozzo.com>
- <f36f56ba-1549-1612-8b24-4e93337b2f39@redhat.com>
-From: Max Reitz <mreitz@redhat.com>
-Autocrypt: addr=mreitz@redhat.com; prefer-encrypt=mutual; keydata=
- mQENBFXOJlcBCADEyyhOTsoa/2ujoTRAJj4MKA21dkxxELVj3cuILpLTmtachWj7QW+TVG8U
- /PsMCFbpwsQR7oEy8eHHZwuGQsNpEtNC2G/L8Yka0BIBzv7dEgrPzIu+W3anZXQW4702+uES
- U29G8TP/NGfXRRHGlbBIH9KNUnOSUD2vRtpOLXkWsV5CN6vQFYgQfFvmp5ZpPeUe6xNplu8V
- mcTw8OSEDW/ZnxJc8TekCKZSpdzYoxfzjm7xGmZqB18VFwgJZlIibt1HE0EB4w5GsD7x5ekh
- awIe3RwoZgZDLQMdOitJ1tUc8aqaxvgA4tz6J6st8D8pS//m1gAoYJWGwwIVj1DjTYLtABEB
- AAG0HU1heCBSZWl0eiA8bXJlaXR6QHJlZGhhdC5jb20+iQFTBBMBCAA9AhsDBQkSzAMABQsJ
- CAcCBhUICQoLAgQWAgMBAh4BAheABQJVzie5FRhoa3A6Ly9rZXlzLmdudXBnLm5ldAAKCRD0
- B9sAYdXPQDcIB/9uNkbYEex1rHKz3mr12uxYMwLOOFY9fstP5aoVJQ1nWQVB6m2cfKGdcRe1
- 2/nFaHSNAzT0NnKz2MjhZVmcrpyd2Gp2QyISCfb1FbT82GMtXFj1wiHmPb3CixYmWGQUUh+I
- AvUqsevLA+WihgBUyaJq/vuDVM1/K9Un+w+Tz5vpeMidlIsTYhcsMhn0L9wlCjoucljvbDy/
- 8C9L2DUdgi3XTa0ORKeflUhdL4gucWoAMrKX2nmPjBMKLgU7WLBc8AtV+84b9OWFML6NEyo4
- 4cP7cM/07VlJK53pqNg5cHtnWwjHcbpGkQvx6RUx6F1My3y52vM24rNUA3+ligVEgPYBuQEN
- BFXOJlcBCADAmcVUNTWT6yLWQHvxZ0o47KCP8OcLqD+67T0RCe6d0LP8GsWtrJdeDIQk+T+F
- xO7DolQPS6iQ6Ak2/lJaPX8L0BkEAiMuLCKFU6Bn3lFOkrQeKp3u05wCSV1iKnhg0UPji9V2
- W5eNfy8F4ZQHpeGUGy+liGXlxqkeRVhLyevUqfU0WgNqAJpfhHSGpBgihUupmyUg7lfUPeRM
- DzAN1pIqoFuxnN+BRHdAecpsLcbR8sQddXmDg9BpSKozO/JyBmaS1RlquI8HERQoe6EynJhd
- 64aICHDfj61rp+/0jTIcevxIIAzW70IadoS/y3DVIkuhncgDBvGbF3aBtjrJVP+5ABEBAAGJ
- ASUEGAEIAA8FAlXOJlcCGwwFCRLMAwAACgkQ9AfbAGHVz0CbFwf9F/PXxQR9i4N0iipISYjU
- sxVdjJOM2TMut+ZZcQ6NSMvhZ0ogQxJ+iEQ5OjnIputKvPVd5U7WRh+4lF1lB/NQGrGZQ1ic
- alkj6ocscQyFwfib+xIe9w8TG1CVGkII7+TbS5pXHRxZH1niaRpoi/hYtgzkuOPp35jJyqT/
- /ELbqQTDAWcqtJhzxKLE/ugcOMK520dJDeb6x2xVES+S5LXby0D4juZlvUj+1fwZu+7Io5+B
- bkhSVPb/QdOVTpnz7zWNyNw+OONo1aBUKkhq2UIByYXgORPFnbfMY7QWHcjpBVw9MgC4tGeF
- R4bv+1nAMMxKmb5VvQCExr0eFhJUAHAhVg==
-Message-ID: <f9746566-1e3d-5b24-add0-aea49955a950@redhat.com>
-Date: Thu, 9 Jul 2020 10:20:59 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.9.0
+ (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
+ id 1jtRxM-0004UM-2i
+ for qemu-devel@nongnu.org; Thu, 09 Jul 2020 04:31:00 -0400
+Received: from indium.canonical.com ([91.189.90.7]:40620)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
+ id 1jtRxJ-0008Rt-Vo
+ for qemu-devel@nongnu.org; Thu, 09 Jul 2020 04:30:59 -0400
+Received: from loganberry.canonical.com ([91.189.90.37])
+ by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
+ id 1jtRxH-0004Rl-UT
+ for <qemu-devel@nongnu.org>; Thu, 09 Jul 2020 08:30:55 +0000
+Received: from loganberry.canonical.com (localhost [127.0.0.1])
+ by loganberry.canonical.com (Postfix) with ESMTP id CCF942E80F1
+ for <qemu-devel@nongnu.org>; Thu,  9 Jul 2020 08:30:55 +0000 (UTC)
 MIME-Version: 1.0
-In-Reply-To: <f36f56ba-1549-1612-8b24-4e93337b2f39@redhat.com>
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=mreitz@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature";
- boundary="DztaPVJcYxz5QPPGUnUqzjyOM4Rm5tayb"
-Received-SPF: pass client-ip=205.139.110.120; envelope-from=mreitz@redhat.com;
- helo=us-smtp-1.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/07/09 01:47:04
-X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
-X-Spam_score_int: -40
-X-Spam_score: -4.1
-X-Spam_bar: ----
-X-Spam_report: (-4.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-1, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001, URIBL_BLOCKED=0.001 autolearn=ham autolearn_force=no
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: quoted-printable
+Date: Thu, 09 Jul 2020 08:24:22 -0000
+From: Laurent Vivier <1886811@bugs.launchpad.net>
+To: qemu-devel@nongnu.org
+X-Launchpad-Notification-Type: bug
+X-Launchpad-Bug: product=qemu; status=In Progress; importance=Undecided;
+ assignee=Laurent@vivier.eu; 
+X-Launchpad-Bug: distribution=debian; sourcepackage=qemu; component=main;
+ status=Unknown; importance=Unknown; assignee=None; 
+X-Launchpad-Bug-Tags: linux-user
+X-Launchpad-Bug-Information-Type: Public
+X-Launchpad-Bug-Private: no
+X-Launchpad-Bug-Security-Vulnerability: no
+X-Launchpad-Bug-Commenters: emojifreak laurent-vivier
+X-Launchpad-Bug-Reporter: Ryutaroh Matsumoto (emojifreak)
+X-Launchpad-Bug-Modifier: Laurent Vivier (laurent-vivier)
+References: <159420830935.32230.13858618076699173558.malonedeb@gac.canonical.com>
+Message-Id: <159428306350.27041.9464553324362178246.launchpad@wampee.canonical.com>
+Subject: [Bug 1886811] Re: systemd complains Failed to enqueue loopback
+ interface start request: Operation not supported
+X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
+X-Launchpad-Message-For: qemu-devel-ml
+Precedence: bulk
+X-Generated-By: Launchpad (canonical.com);
+ Revision="b24753402d6321ed1b9083e580f5f014a46bab00";
+ Instance="production-secrets-lazr.conf"
+X-Launchpad-Hash: 80fd20524417945a8a78f58df577691247c9262c
+Received-SPF: none client-ip=91.189.90.7; envelope-from=bounces@canonical.com;
+ helo=indium.canonical.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/07/09 04:30:56
+X-ACL-Warn: Detected OS   = Linux 3.11 and newer [fuzzy]
+X-Spam_score_int: -58
+X-Spam_score: -5.9
+X-Spam_bar: -----
+X-Spam_report: (-5.9 / 5.0 requ) BAYES_00=-1.9, HEADER_FROM_DIFFERENT_DOMAINS=1,
+ RCVD_IN_DNSWL_HI=-5, RCVD_IN_MSPIKE_H3=-0.01, RCVD_IN_MSPIKE_WL=-0.01,
+ SPF_HELO_NONE=0.001, SPF_NONE=0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
-Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -109,79 +76,63 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Kevin Wolf <kwolf@redhat.com>,
- Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>, qemu-devel@nongnu.org
+Reply-To: Bug 1886811 <1886811@bugs.launchpad.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
---DztaPVJcYxz5QPPGUnUqzjyOM4Rm5tayb
-Content-Type: multipart/mixed; boundary="Mj4CoePhBzQVjDmG08ZIxMkxf7SpfvpuN"
+** Changed in: qemu
+       Status: New =3D> In Progress
 
---Mj4CoePhBzQVjDmG08ZIxMkxf7SpfvpuN
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: quoted-printable
+** Changed in: qemu
+     Assignee: (unassigned) =3D> Laurent Vivier (laurent-vivier)
 
-On 08.07.20 22:47, Eric Blake wrote:
-> On 7/8/20 12:20 PM, Andrey Shinkevich wrote:
->> On 25.06.2020 18:21, Max Reitz wrote:
->>> v6:
->>> https://lists.nongnu.org/archive/html/qemu-devel/2019-08/msg01715.html
->>>
->>> Branch: https://github.com/XanClic/qemu.git child-access-functions-v7
->>> Branch: https://git.xanclic.moe/XanClic/qemu.git
->>> child-access-functions-v7
->>>
->>>
->> I cloned the branch from the github and built successfully.
->>
->> Running the iotests reports multiple errors of such a kind:
->>
->> 128: readarray -td '' formatting_line < <(sed -e 's/, fmt=3D/\x0/')
->>
->> "./common.filter: line 128: readarray: -d: invalid option"
->>
->> introduced with the commit
->>
->> a7399eb iotests: Make _filter_img_create more active
->=20
-> You appear to be staging off an unreleased preliminary tree.=C2=A0 a7399e=
-b is
-> not upstream; the upstream commit 'iotests: Make _filter_img_create more
-> active' is commit 57ee95ed, and while it uses readarray, it does not use
-> the problematic -d.=C2=A0 In other words, it looks like the problem was
-> caught and fixed in between the original patch creation and the pull
-> request.
+-- =
 
-Ah, sorry, my mail client=E2=80=99s threading layout hid this mail from me =
-a bit.
+You received this bug notification because you are a member of qemu-
+devel-ml, which is subscribed to QEMU.
+https://bugs.launchpad.net/bugs/1886811
 
-Yes.  Well, no, it wasn=E2=80=99t fixed before the pull request, but it was
-fixed in the second pull request.  But yes.
+Title:
+  systemd complains Failed to enqueue loopback interface start request:
+  Operation not supported
 
-Max
+Status in QEMU:
+  In Progress
+Status in qemu package in Debian:
+  Unknown
+
+Bug description:
+  This symptom seems similar to
+  https://bugs.launchpad.net/qemu/+bug/1823790
+
+  Host Linux: Debian 11 Bullseye (testing) on x84-64 architecture
+  qemu version: latest git of git commit hash eb2c66b10efd2b914b56b20ae9065=
+5914310c925
+  compiled with "./configure --static --disable-system" =
 
 
---Mj4CoePhBzQVjDmG08ZIxMkxf7SpfvpuN--
+  Down stream bug report at https://bugs.debian.org/cgi-bin/bugreport.cgi?b=
+ug=3D964289
+  Bug report (closed) to systemd: https://github.com/systemd/systemd/issues=
+/16359
 
---DztaPVJcYxz5QPPGUnUqzjyOM4Rm5tayb
-Content-Type: application/pgp-signature; name="signature.asc"
-Content-Description: OpenPGP digital signature
-Content-Disposition: attachment; filename="signature.asc"
+  systemd in armhf and armel (both little endian 32-bit) containers fail to=
+ start with
+  Failed to enqueue loopback interface start request: Operation not support=
+ed
 
------BEGIN PGP SIGNATURE-----
+  How to reproduce on Debian (and probably Ubuntu):
+  mmdebstrap --components=3D"main contrib non-free" --architectures=3Darmhf=
+ --variant=3Dimportant bullseye /var/lib/machines/armhf-bullseye
+  systemd-nspawn -D /var/lib/machines/armhf-bullseye -b
 
-iQEzBAEBCAAdFiEEkb62CjDbPohX0Rgp9AfbAGHVz0AFAl8G02sACgkQ9AfbAGHV
-z0BXjwgAgnGzpI6R8EUh7zQtC9yVy5hDakMiI9GkPXN7WqWFuigPOLydiCVrh40z
-6KWfT3zCR9D3FUHZpABBDHXm8YcqNfpr1RxKxbby5AVrgHJpiBVKFz1f6iCm9ijo
-io8qG6MDMBBAOdT4qoJhr7tsYT0sBZeO/AdeWRph75KNh17oM8Ksf66LlmOj2zQo
-hx/rcAdyWQPaJBHFBIDAKlEMJpuPaUdsLVmicBaaTu+4MPd33qwUsjPVFxWliwwT
-RycPG9Es+PIEb97L2LA6zfO7e5iljSpYctohb1q2aJ1jtCzKg/2A2oZAkK2k0CaF
-hY/DYkogIvZS8wjlfPNxuHyqcMqFIA==
-=XfQS
------END PGP SIGNATURE-----
+  When "armhf" architecture is replaced with "mips" (32-bit big endian) or =
+"ppc64"
+  (64-bit big endian), the container starts up fine.
 
---DztaPVJcYxz5QPPGUnUqzjyOM4Rm5tayb--
+  The same symptom is also observed with "powerpc" (32-bit big endian)
+  architecture.
 
+To manage notifications about this bug go to:
+https://bugs.launchpad.net/qemu/+bug/1886811/+subscriptions
 
