@@ -2,56 +2,56 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 967C921A80D
-	for <lists+qemu-devel@lfdr.de>; Thu,  9 Jul 2020 21:47:49 +0200 (CEST)
-Received: from localhost ([::1]:38236 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C6DDE21A81F
+	for <lists+qemu-devel@lfdr.de>; Thu,  9 Jul 2020 21:49:10 +0200 (CEST)
+Received: from localhost ([::1]:42444 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jtcWK-0006Cr-Kt
-	for lists+qemu-devel@lfdr.de; Thu, 09 Jul 2020 15:47:48 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:58558)
+	id 1jtcXd-0007vT-Rt
+	for lists+qemu-devel@lfdr.de; Thu, 09 Jul 2020 15:49:09 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:58634)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <marcandre.lureau@redhat.com>)
- id 1jtcSV-0007Hn-2I
- for qemu-devel@nongnu.org; Thu, 09 Jul 2020 15:43:51 -0400
-Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:44413
+ id 1jtcSd-0007dU-6M
+ for qemu-devel@nongnu.org; Thu, 09 Jul 2020 15:43:59 -0400
+Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:37184
  helo=us-smtp-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
  (Exim 4.90_1) (envelope-from <marcandre.lureau@redhat.com>)
- id 1jtcST-0000RD-JL
- for qemu-devel@nongnu.org; Thu, 09 Jul 2020 15:43:50 -0400
+ id 1jtcSb-0000SU-Jt
+ for qemu-devel@nongnu.org; Thu, 09 Jul 2020 15:43:58 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1594323828;
+ s=mimecast20190719; t=1594323836;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=Bkl7cwOb2a8P7fMe9noZEIdXMC9VahbQOXgtqu+JrC0=;
- b=MW7/6ptETNuSt7nue31edwWeFMgq/tCiCZLXQs/8WWdH+K+amStAvst5vh78C+ri6lYqNE
- TGr2OXZ7OwR0e0INigjnSFdJnkbkJhlGZhRjRM/9+U0wENcFbRGCkH7LN7dc4HN8PDvfhr
- JKvD8LHBsUxFgly1JggduZZm3f6/PdA=
+ bh=Pk3jIQFr9iRGsjTDLaCnZKtMC1NMpbKjg4fliRW6U+4=;
+ b=fo1RCabvnpBMAbik8YsJjBs/frH4sfaNt64uCtxtIRXaDdg1EDS4MTj0Va3pumLKiS93xK
+ Vyh8FnO8sqB5bKTS2oHzH23q8gU0MtZeJSbaWYqErFwp0VjKwubk4DMHOynltPqye6OerF
+ fSYKSTEfXEYyHUcMZ1pS/d7NURlF/xY=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-459-pClpXKNPOVa8L_p8CTyH_g-1; Thu, 09 Jul 2020 15:43:45 -0400
-X-MC-Unique: pClpXKNPOVa8L_p8CTyH_g-1
-Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
- [10.5.11.13])
+ us-mta-313-TmxEc6QKOAmjWnysWdc2uw-1; Thu, 09 Jul 2020 15:43:53 -0400
+X-MC-Unique: TmxEc6QKOAmjWnysWdc2uw-1
+Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
+ [10.5.11.16])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id BA6EB1086;
- Thu,  9 Jul 2020 19:43:43 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 0FB80100A8E7;
+ Thu,  9 Jul 2020 19:43:52 +0000 (UTC)
 Received: from localhost (unknown [10.36.110.13])
- by smtp.corp.redhat.com (Postfix) with ESMTP id D8FCF79CE6;
- Thu,  9 Jul 2020 19:43:39 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 0901E5C1C3;
+ Thu,  9 Jul 2020 19:43:47 +0000 (UTC)
 From: =?UTF-8?q?Marc-Andr=C3=A9=20Lureau?= <marcandre.lureau@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH 08/13] build-sys: add HAVE_GLIB_GURI
-Date: Thu,  9 Jul 2020 23:42:29 +0400
-Message-Id: <20200709194234.2117650-9-marcandre.lureau@redhat.com>
+Subject: [PATCH 09/13] nbd: add GUri-based URI parsing version
+Date: Thu,  9 Jul 2020 23:42:30 +0400
+Message-Id: <20200709194234.2117650-10-marcandre.lureau@redhat.com>
 In-Reply-To: <20200709194234.2117650-1-marcandre.lureau@redhat.com>
 References: <20200709194234.2117650-1-marcandre.lureau@redhat.com>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=UTF-8
@@ -66,7 +66,7 @@ X-Spam_bar: ----
 X-Spam_report: (-4.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-1, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+ SPF_PASS=-0.001, URIBL_BLOCKED=0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -89,34 +89,172 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 Signed-off-by: Marc-André Lureau <marcandre.lureau@redhat.com>
 ---
- configure | 7 +++++++
- 1 file changed, 7 insertions(+)
+ block/nbd.c        | 86 +++++++++++++++++++++++++++++++++++-----------
+ util/Makefile.objs |  2 +-
+ 2 files changed, 66 insertions(+), 22 deletions(-)
 
-diff --git a/configure b/configure
-index ee6c3c6792a..cd2fc120aed 100755
---- a/configure
-+++ b/configure
-@@ -3924,6 +3924,10 @@ if $pkg_config --atleast-version=$glib_req_ver gio-unix-2.0; then
-     gio_libs="$gio_libs $($pkg_config --libs gio-unix-2.0)"
- fi
+diff --git a/block/nbd.c b/block/nbd.c
+index faadcab442b..fdc4a53a98f 100644
+--- a/block/nbd.c
++++ b/block/nbd.c
+@@ -31,7 +31,10 @@
+ #include "qemu/osdep.h"
  
-+if $pkg_config --atleast-version=2.65.0 glib-2.0; then
-+    glib_guri=yes
-+fi
+ #include "trace.h"
++#ifndef HAVE_GLIB_GURI
+ #include "qemu/uri.h"
++#endif
++#include "qemu/error-report.h"
+ #include "qemu/option.h"
+ #include "qemu/cutils.h"
+ #include "qemu/main-loop.h"
+@@ -1513,71 +1516,112 @@ static int nbd_client_connect(BlockDriverState *bs, Error **errp)
+ /*
+  * Parse nbd_open options
+  */
+-
+ static int nbd_parse_uri(const char *filename, QDict *options)
+ {
++    const char *p, *scheme, *server, *socket = NULL;
++    int port;
++    bool is_unix;
 +
- # Sanity check that the current size_t matches the
- # size that glib thinks it should be. This catches
- # problems on multi-arch where people try to build
-@@ -7377,6 +7381,9 @@ if test "$gio" = "yes" ; then
-     echo "GIO_LIBS=$gio_libs" >> $config_host_mak
-     echo "GDBUS_CODEGEN=$gdbus_codegen" >> $config_host_mak
- fi
-+if test "$glib_guri" = "yes" ; then
-+    echo "HAVE_GLIB_GURI=y" >> $config_host_mak
-+fi
- echo "CONFIG_TLS_PRIORITY=\"$tls_priority\"" >> $config_host_mak
- if test "$gnutls" = "yes" ; then
-   echo "CONFIG_GNUTLS=y" >> $config_host_mak
++#ifdef HAVE_GLIB_GURI
++    g_autoptr(GUri) uri = NULL;
++    g_autoptr(GHashTable) params = NULL;
++    g_autoptr(GError) err = NULL;
++
++    uri = g_uri_parse(filename, G_URI_FLAGS_ENCODED_QUERY, &err);
++    if (!uri) {
++        error_report("Failed to parse NBD URI: %s", err->message);
++        return -EINVAL;
++    }
++
++    p = g_uri_get_path(uri);
++    scheme = g_uri_get_scheme(uri);
++    server = g_uri_get_host(uri);
++    port = g_uri_get_port(uri);
++#else
+     g_autoptr(URI) uri = NULL;
+     g_autoptr(QueryParams) qp = NULL;
+-    const char *p;
+-    bool is_unix;
+ 
+     uri = uri_parse(filename);
+     if (!uri) {
+         return -EINVAL;
+     }
+ 
++    p = uri->path ? uri->path : "";
++    scheme = uri->scheme;
++    server = uri->server;
++    port = uri->port;
++#endif
+     /* transport */
+-    if (!g_strcmp0(uri->scheme, "nbd")) {
++    if (!g_strcmp0(scheme, "nbd")) {
+         is_unix = false;
+-    } else if (!g_strcmp0(uri->scheme, "nbd+tcp")) {
++    } else if (!g_strcmp0(scheme, "nbd+tcp")) {
+         is_unix = false;
+-    } else if (!g_strcmp0(uri->scheme, "nbd+unix")) {
++    } else if (!g_strcmp0(scheme, "nbd+unix")) {
+         is_unix = true;
+     } else {
+         return -EINVAL;
+     }
+-
+-    p = uri->path ? uri->path : "";
+-    if (p[0] == '/') {
+-        p++;
++#ifdef HAVE_GLIB_GURI
++    params = g_uri_parse_params(g_uri_get_query(uri), -1,
++                                "&;", G_URI_PARAMS_NONE, &err);
++    if (err) {
++        error_report("Failed to parse NBD URI query: %s", err->message);
++        return -EINVAL;
+     }
+-    if (p[0]) {
+-        qdict_put_str(options, "export", p);
++    if ((is_unix && g_hash_table_size(params) != 1) ||
++        (!is_unix && g_hash_table_size(params) != 0)) {
++        return -EINVAL;
+     }
+-
++    if (is_unix) {
++        socket = g_hash_table_lookup(params, "socket");
++    }
++#else
+     qp = query_params_parse(uri->query);
+     if (qp->n > 1 || (is_unix && !qp->n) || (!is_unix && qp->n)) {
+         return -EINVAL;
+     }
++    if (is_unix) {
++        if (!g_str_equal(qp->p[0].name, "socket")) {
++            return -EINVAL;
++        }
++        socket = qp->p[0].value;
++    }
++#endif
++    if (p[0] == '/') {
++        p++;
++    }
++    if (p[0]) {
++        qdict_put_str(options, "export", p);
++    }
+ 
+     if (is_unix) {
+         /* nbd+unix:///export?socket=path */
+-        if (uri->server || uri->port || strcmp(qp->p[0].name, "socket")) {
++        if (server || port > 0) {
+             return -EINVAL;
+         }
+         qdict_put_str(options, "server.type", "unix");
+-        qdict_put_str(options, "server.path", qp->p[0].value);
++        qdict_put_str(options, "server.path", socket);
+     } else {
+         QString *host;
+         g_autofree char *port_str = NULL;
+ 
+         /* nbd[+tcp]://host[:port]/export */
+-        if (!uri->server) {
++        if (!server) {
+             return -EINVAL;
+         }
+ 
+         /* strip braces from literal IPv6 address */
+-        if (uri->server[0] == '[') {
+-            host = qstring_from_substr(uri->server, 1,
+-                                       strlen(uri->server) - 1);
++        if (server[0] == '[') {
++            host = qstring_from_substr(server, 1,
++                                       strlen(server) - 1);
+         } else {
+-            host = qstring_from_str(uri->server);
++            host = qstring_from_str(server);
+         }
+ 
+         qdict_put_str(options, "server.type", "inet");
+         qdict_put(options, "server.host", host);
+ 
+-        port_str = g_strdup_printf("%d", uri->port ?: NBD_DEFAULT_PORT);
++        port_str = g_strdup_printf("%d", port > 0 ? port : NBD_DEFAULT_PORT);
+         qdict_put_str(options, "server.port", port_str);
+     }
+ 
+diff --git a/util/Makefile.objs b/util/Makefile.objs
+index cc5e37177af..5a162178ae9 100644
+--- a/util/Makefile.objs
++++ b/util/Makefile.objs
+@@ -73,7 +73,7 @@ util-obj-y += qemu-timer.o
+ util-obj-y += thread-pool.o
+ util-obj-y += throttle.o
+ util-obj-y += timed-average.o
+-util-obj-y += uri.o
++util-obj-$(call lnot,$(HAVE_GLIB_GURI)) += uri.o
+ 
+ util-obj-$(CONFIG_LINUX) += vfio-helpers.o
+ util-obj-$(CONFIG_INOTIFY1) += filemonitor-inotify.o
 -- 
 2.27.0.221.ga08a83db2b
 
