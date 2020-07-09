@@ -2,69 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id EDD7E21A1E3
-	for <lists+qemu-devel@lfdr.de>; Thu,  9 Jul 2020 16:15:19 +0200 (CEST)
-Received: from localhost ([::1]:40766 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4178E21A1E4
+	for <lists+qemu-devel@lfdr.de>; Thu,  9 Jul 2020 16:15:20 +0200 (CEST)
+Received: from localhost ([::1]:40784 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jtXKY-0001tg-VE
+	id 1jtXKZ-0001tt-9n
 	for lists+qemu-devel@lfdr.de; Thu, 09 Jul 2020 10:15:19 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:50824)
+Received: from eggs.gnu.org ([2001:470:142:3::10]:50844)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1jtXIt-0000CK-CM
- for qemu-devel@nongnu.org; Thu, 09 Jul 2020 10:13:35 -0400
-Received: from mail-wm1-x344.google.com ([2a00:1450:4864:20::344]:40606)
+ id 1jtXIu-0000Ch-7T
+ for qemu-devel@nongnu.org; Thu, 09 Jul 2020 10:13:36 -0400
+Received: from mail-wm1-x343.google.com ([2a00:1450:4864:20::343]:36578)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1jtXIq-0001K0-99
+ id 1jtXIs-0001KG-Aw
  for qemu-devel@nongnu.org; Thu, 09 Jul 2020 10:13:35 -0400
-Received: by mail-wm1-x344.google.com with SMTP id f139so1968851wmf.5
- for <qemu-devel@nongnu.org>; Thu, 09 Jul 2020 07:13:31 -0700 (PDT)
+Received: by mail-wm1-x343.google.com with SMTP id 17so1983484wmo.1
+ for <qemu-devel@nongnu.org>; Thu, 09 Jul 2020 07:13:33 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=OOuPlfztkt7djXH2mMYOdaRbdatzT6SNkYWnOe5/IrI=;
- b=qBLAfZfz7M74GYiMzWb5IZwT75mIUiCgpqpnR197qyOSAHQCOwDirQ0c6wvvTokPpK
- +Am/Wk3OFP1e7lv5GQOcJ7AEsNY3DWTmtTHFTMnNenl2qUt9pO9nd0b5lfay0VBwHzpe
- q/qjHPnqFZb+XfFCazNE3yFyfVJgwJvbxONx/EDkbKvg4ZDcGFDTHHsyOvvmmGxhvfLr
- 00s4gPqV/Mrrg9lsYKuoKJAZUH7kEwh++Tn1Pdm3sRZnm1+wRX1J6mW+KVuL9LtZyi6b
- hKh+EpAA7KYJVoe4vKtJBp3Gvwyj/TGZEGJrQQBteeNxBOGm42KzfP8Fzw7RjHjnTlFj
- Qqbw==
+ h=from:to:cc:subject:date:message-id:in-reply-to:references
+ :mime-version:content-transfer-encoding;
+ bh=Vdk5UoE5LdEgYcDXZFPkkMaZLzAjEGlDyIOfyPLg77o=;
+ b=OJcECKwXnq81b0jF+fH3+ni/W67kLpbHqjcPt4c+4pyD/TXUXvYeoRcW7akC+77oto
+ y64ntRhuctGj9X0JBtU4OSJ6vPE3daLQVQ9+QnDF8kLEYIGJHQh0no/x/nOReAePILtA
+ iQL4Gus9xPyU+pamzEHh+6gyeuf/q/4MDU3i7kir126Dk598txaCxo4EPXj2LnERaRTL
+ hI/l3isJ/Rp5AOIj0neTu4Xyx78GUrRMk1oR9CH/bixnssdGaIIITAQ2bjwt7crCDeEd
+ GcAydwWV/eCHHMtQW++kC/4VvaJpF8Ef22SaqGG11rhjOe8kaf4Cj9LlRtYv60oDNkTa
+ /3OQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=OOuPlfztkt7djXH2mMYOdaRbdatzT6SNkYWnOe5/IrI=;
- b=NEVceVj7vqygnsCD129XTcKuXxXRzPa6STix2EGwcFyUFuSNavH2418juO6fD93KbC
- QsU13AGBPfDMr9pgdV4jWj2Ot2sns4rxWriO435PgL32DkSd9EQFnknGZrs938ejmbOU
- 9pr2jTK0f8q4lhs1q7d0ojIL1l+Vxi6TYH/mMFKhpHJr13G8rOCmRiGEmDd10C8vtGpH
- XA0LKr/U5MnySd6rGqNyUrSi52+37vvvnrhCPJvknChySBDAwVsNILxrdMuTt0imoyvp
- SRIY2m199N0msvQZ8hFuJ+FUtKB8M1alsk5H8aD2+AtIza90qgPQKUuqybg44p0TlNvr
- XmcQ==
-X-Gm-Message-State: AOAM533SByyBF1xwH88k2NjQboC+vQ0DU4FUMoE28BbYgxP6Wwl4f2cv
- avxQhyx8pdDvRe3iw3kNouving==
-X-Google-Smtp-Source: ABdhPJy2j/T4cVWEY+idpHlY79RrGlAEBpyH4KRzAltqfK2tQiXzo+0zrXItDvdGWkFRXKG5ElzvLg==
-X-Received: by 2002:a05:600c:249:: with SMTP id 9mr230994wmj.80.1594304009844; 
- Thu, 09 Jul 2020 07:13:29 -0700 (PDT)
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+ :references:mime-version:content-transfer-encoding;
+ bh=Vdk5UoE5LdEgYcDXZFPkkMaZLzAjEGlDyIOfyPLg77o=;
+ b=FIYjlhLq9CvbR0/+sKjhEGvX72aq6TPaO1oP24IFjWd0zbmp+pFqBEO5lUgyCHdRsp
+ pzNjIwgkxGVhHCGGHwpLxHPcOJRFITug64PT2+/YOtdgOGOPc302Tufjm3y+WBenhCTR
+ s2wLOZQXxP/YXsz4QrSYLHlaAxJUHWqfXePzncTTBJj3afEJ4N0Cm4c2qbN9Fzre8r0i
+ usgs9VibZHu4t3cRjw+Xda1b+WH0POvVGrPepVeeZmYBr9SdeL05hHJpUTacdypr+9Jf
+ Hh5UeEkTyLbjjD9lSG5iPB8PStKBEpKSP9uJuqUt+DLUIEswai4Q8jENTgm1OCkm7ogk
+ ncEg==
+X-Gm-Message-State: AOAM532HL4uIP80fPPnsQsr7a6jXMk/RipNmwLSbYChuV2WDvAL7ujHT
+ 3JDVWqnJAu1VJnNRWeML5LQbFg==
+X-Google-Smtp-Source: ABdhPJxnZEK7HahvA4VA0uep2m8TvwGVchXXiNfgkO+o8ZE23LrRuwmT4ENgS1AVz6H0cUjNbChlyA==
+X-Received: by 2002:a1c:2982:: with SMTP id p124mr274753wmp.26.1594304012896; 
+ Thu, 09 Jul 2020 07:13:32 -0700 (PDT)
 Received: from zen.linaroharston ([51.148.130.216])
- by smtp.gmail.com with ESMTPSA id j16sm5710380wrt.7.2020.07.09.07.13.28
+ by smtp.gmail.com with ESMTPSA id k126sm5166387wmf.3.2020.07.09.07.13.28
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
  Thu, 09 Jul 2020 07:13:28 -0700 (PDT)
 Received: from zen.lan (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id 5F5871FF7E;
+ by zen.linaroharston (Postfix) with ESMTP id 77ABC1FF87;
  Thu,  9 Jul 2020 15:13:27 +0100 (BST)
 From: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PATCH  v1 00/13] misc rc0 fixes (docs, plugins, docker)
-Date: Thu,  9 Jul 2020 15:13:14 +0100
-Message-Id: <20200709141327.14631-1-alex.bennee@linaro.org>
+Subject: [PATCH v1 01/13] docs/devel: convert and update MTTCG design document
+Date: Thu,  9 Jul 2020 15:13:15 +0100
+Message-Id: <20200709141327.14631-2-alex.bennee@linaro.org>
 X-Mailer: git-send-email 2.20.1
+In-Reply-To: <20200709141327.14631-1-alex.bennee@linaro.org>
+References: <20200709141327.14631-1-alex.bennee@linaro.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::344;
- envelope-from=alex.bennee@linaro.org; helo=mail-wm1-x344.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::343;
+ envelope-from=alex.bennee@linaro.org; helo=mail-wm1-x343.google.com
 X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
  That's all we know.
 X-Spam_score_int: -20
@@ -72,8 +74,8 @@ X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
  DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- URIBL_BLOCKED=0.001 autolearn=ham autolearn_force=no
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -94,72 +96,137 @@ Cc: fam@euphon.net, berrange@redhat.com, robert.foley@linaro.org,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Hi,
+Do a light conversion to .rst and clean-up some of the language at the
+start now MTTCG has been merged for a while.
 
-These are some candidate patches for rc0 along with a few plugin
-patches that haven't yet gotten review. The new functionality won't
-get added to the PR but I'd like to get the cputlb fix in.
-
-Alongside the plugin stuff there are some documentation updates which
-are worth adding and some tweaks to the docker cache handling that
-I only discovered after I sent the last PR.
-
-Based on:
-
-  Message-Id: <20200707070858.6622-1-alex.bennee@linaro.org>
-  https://github.com/stsquad/qemu.git tags/pull-testing-and-misc-070720-1
-
-The following need review:
-
- - configure: remove all dependencies on a (re)configure
- - tests/docker: fall back more gracefully when pull fails
- - tests/plugins: add -Wno-unknown-warning-option to handle -Wpsabi
- - target/sh4: revert to using cpu_lduw_code to decode gusa
- - plugins: expand the bb plugin to be thread safe and track per-cpu
- - cputlb: ensure we save the IOTLB data in case of reset
-
-Alex Bennée (11):
-  docs/devel: convert and update MTTCG design document
-  docs/devel: add some notes on tcg-icount for developers
-  cputlb: ensure we save the IOTLB data in case of reset
-  hw/virtio/pci: include vdev name in registered PCI sections
-  plugins: add API to return a name for a IO device
-  plugins: new hwprofile plugin
-  plugins: expand the bb plugin to be thread safe and track per-cpu
-  target/sh4: revert to using cpu_lduw_code to decode gusa
-  tests/plugins: add -Wno-unknown-warning-option to handle -Wpsabi
-  tests/docker: fall back more gracefully when pull fails
-  configure: remove all dependencies on a (re)configure
-
-Jon Doron (1):
-  docs: Add to gdbstub documentation the PhyMemMode
-
-Max Filippov (1):
-  tests/docker: update toolchain set in debian-xtensa-cross
-
- docs/devel/index.rst                          |   2 +
- ...ti-thread-tcg.txt => multi-thread-tcg.rst} |  52 +--
- docs/devel/tcg-icount.rst                     |  97 ++++++
- docs/system/gdb.rst                           |  20 ++
- configure                                     |  15 +-
- include/hw/core/cpu.h                         |   4 +
- include/qemu/qemu-plugin.h                    |   6 +
- include/qemu/typedefs.h                       |   1 +
- accel/tcg/cputlb.c                            |  57 +++-
- hw/virtio/virtio-pci.c                        |  22 +-
- plugins/api.c                                 |  20 ++
- target/sh4/translate.c                        |   8 +-
- tests/plugin/bb.c                             |  96 +++++-
- tests/plugin/hwprofile.c                      | 305 ++++++++++++++++++
- tests/docker/docker.py                        |  11 +-
- .../dockerfiles/debian-xtensa-cross.docker    |   6 +-
- tests/plugin/Makefile                         |   3 +-
- tests/tcg/Makefile.target                     |  12 +-
- 18 files changed, 673 insertions(+), 64 deletions(-)
+Signed-off-by: Alex Bennée <alex.bennee@linaro.org>
+Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
+---
+ docs/devel/index.rst                          |  1 +
+ ...ti-thread-tcg.txt => multi-thread-tcg.rst} | 52 ++++++++++++-------
+ 2 files changed, 34 insertions(+), 19 deletions(-)
  rename docs/devel/{multi-thread-tcg.txt => multi-thread-tcg.rst} (90%)
- create mode 100644 docs/devel/tcg-icount.rst
- create mode 100644 tests/plugin/hwprofile.c
 
+diff --git a/docs/devel/index.rst b/docs/devel/index.rst
+index bb8238c5d6de..4ecaea3643fb 100644
+--- a/docs/devel/index.rst
++++ b/docs/devel/index.rst
+@@ -23,6 +23,7 @@ Contents:
+    decodetree
+    secure-coding-practices
+    tcg
++   multi-thread-tcg
+    tcg-plugins
+    bitops
+    reset
+diff --git a/docs/devel/multi-thread-tcg.txt b/docs/devel/multi-thread-tcg.rst
+similarity index 90%
+rename from docs/devel/multi-thread-tcg.txt
+rename to docs/devel/multi-thread-tcg.rst
+index 3c85ac0eab9b..42158b77c707 100644
+--- a/docs/devel/multi-thread-tcg.txt
++++ b/docs/devel/multi-thread-tcg.rst
+@@ -1,15 +1,17 @@
+-Copyright (c) 2015-2016 Linaro Ltd.
++..
++  Copyright (c) 2015-2020 Linaro Ltd.
+ 
+-This work is licensed under the terms of the GNU GPL, version 2 or
+-later. See the COPYING file in the top-level directory.
++  This work is licensed under the terms of the GNU GPL, version 2 or
++  later. See the COPYING file in the top-level directory.
+ 
+ Introduction
+ ============
+ 
+-This document outlines the design for multi-threaded TCG system-mode
+-emulation. The current user-mode emulation mirrors the thread
+-structure of the translated executable. Some of the work will be
+-applicable to both system and linux-user emulation.
++This document outlines the design for multi-threaded TCG (a.k.a MTTCG)
++system-mode emulation. user-mode emulation has always mirrored the
++thread structure of the translated executable although some of the
++changes done for MTTCG system emulation have improved the stability of
++linux-user emulation.
+ 
+ The original system-mode TCG implementation was single threaded and
+ dealt with multiple CPUs with simple round-robin scheduling. This
+@@ -21,9 +23,18 @@ vCPU Scheduling
+ ===============
+ 
+ We introduce a new running mode where each vCPU will run on its own
+-user-space thread. This will be enabled by default for all FE/BE
+-combinations that have had the required work done to support this
+-safely.
++user-space thread. This is enabled by default for all FE/BE
++combinations where the host memory model is able to accommodate the
++guest (TCG_GUEST_DEFAULT_MO & ~TCG_TARGET_DEFAULT_MO is zero) and the
++guest has had the required work done to support this safely
++(TARGET_SUPPORTS_MTTCG).
++
++System emulation will fall back to the original round robin approach
++if:
++
++* forced by --accel tcg,thread=single
++* enabling --icount mode
++* 64 bit guests on 32 bit hosts (TCG_OVERSIZED_GUEST)
+ 
+ In the general case of running translated code there should be no
+ inter-vCPU dependencies and all vCPUs should be able to run at full
+@@ -61,7 +72,9 @@ have their block-to-block jumps patched.
+ Global TCG State
+ ----------------
+ 
+-### User-mode emulation
++User-mode emulation
++~~~~~~~~~~~~~~~~~~~
++
+ We need to protect the entire code generation cycle including any post
+ generation patching of the translated code. This also implies a shared
+ translation buffer which contains code running on all cores. Any
+@@ -78,9 +91,11 @@ patching.
+ 
+ Code generation is serialised with mmap_lock().
+ 
+-### !User-mode emulation
++!User-mode emulation
++~~~~~~~~~~~~~~~~~~~~
++
+ Each vCPU has its own TCG context and associated TCG region, thereby
+-requiring no locking.
++requiring no locking during translation.
+ 
+ Translation Blocks
+ ------------------
+@@ -92,6 +107,7 @@ including:
+ 
+   - debugging operations (breakpoint insertion/removal)
+   - some CPU helper functions
++  - linux-user spawning it's first thread
+ 
+ This is done with the async_safe_run_on_cpu() mechanism to ensure all
+ vCPUs are quiescent when changes are being made to shared global
+@@ -250,8 +266,10 @@ to enforce a particular ordering of memory operations from the point
+ of view of external observers (e.g. another processor core). They can
+ apply to any memory operations as well as just loads or stores.
+ 
+-The Linux kernel has an excellent write-up on the various forms of
+-memory barrier and the guarantees they can provide [1].
++The Linux kernel has an excellent `write-up
++<https://git.kernel.org/cgit/linux/kernel/git/torvalds/linux.git/plain/Documentation/memory-barriers.txt>`
++on the various forms of memory barrier and the guarantees they can
++provide.
+ 
+ Barriers are often wrapped around synchronisation primitives to
+ provide explicit memory ordering semantics. However they can be used
+@@ -352,7 +370,3 @@ an exclusive lock which ensures all emulation is serialised.
+ While the atomic helpers look good enough for now there may be a need
+ to look at solutions that can more closely model the guest
+ architectures semantics.
+-
+-==========
+-
+-[1] https://git.kernel.org/cgit/linux/kernel/git/torvalds/linux.git/plain/Documentation/memory-barriers.txt
 -- 
 2.20.1
 
