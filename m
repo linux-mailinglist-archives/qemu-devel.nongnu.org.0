@@ -2,64 +2,64 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0B34521A1F7
-	for <lists+qemu-devel@lfdr.de>; Thu,  9 Jul 2020 16:20:21 +0200 (CEST)
-Received: from localhost ([::1]:57746 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9B70721A206
+	for <lists+qemu-devel@lfdr.de>; Thu,  9 Jul 2020 16:22:45 +0200 (CEST)
+Received: from localhost ([::1]:41270 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jtXPQ-0000kT-2B
-	for lists+qemu-devel@lfdr.de; Thu, 09 Jul 2020 10:20:20 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:50984)
+	id 1jtXRk-0005ey-L9
+	for lists+qemu-devel@lfdr.de; Thu, 09 Jul 2020 10:22:44 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:50986)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1jtXJ5-0000WQ-SD
- for qemu-devel@nongnu.org; Thu, 09 Jul 2020 10:13:47 -0400
-Received: from mail-wm1-x342.google.com ([2a00:1450:4864:20::342]:37060)
+ id 1jtXJ6-0000X4-4V
+ for qemu-devel@nongnu.org; Thu, 09 Jul 2020 10:13:48 -0400
+Received: from mail-wm1-x342.google.com ([2a00:1450:4864:20::342]:51445)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1jtXJ4-0001Lj-9m
+ id 1jtXJ4-0001Lw-BD
  for qemu-devel@nongnu.org; Thu, 09 Jul 2020 10:13:47 -0400
-Received: by mail-wm1-x342.google.com with SMTP id o2so1980048wmh.2
- for <qemu-devel@nongnu.org>; Thu, 09 Jul 2020 07:13:42 -0700 (PDT)
+Received: by mail-wm1-x342.google.com with SMTP id 22so1989935wmg.1
+ for <qemu-devel@nongnu.org>; Thu, 09 Jul 2020 07:13:45 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=CYKi9P2sb/KSIxgc0hWiYAqxm+j/yuO8AIw+hiHGW8Q=;
- b=OETuDee/gKUepqTzzA/1/0eB6wAG5xehvoDlGLBs6bNt2ti9btU+hhAceHcDMOYElT
- rzL7GxahM3ZtGIcsloTe5H34ZbCaXhwhVxidIu9dWtneytypgR2+6p7kbKybc/uLVuLR
- shPjIkRoE8lo5jqdnxkr6oflWTh/8MXHMQZjNqx22W/n+vOxOJL0yDbnCjMzEddyo3OU
- +abbvrojblXAchnsJBI6d5Djn2XdAQSxw5zs8iBoCnATDepT1YGYCpX6rNuvYp2i83H3
- 4ZGk1NA5kGETuGUzngktPYxVBjVuNGHqmF3U690GCQjt03fSfncTQruQPW4e5OiSrOFb
- 8O3g==
+ bh=D9RzuX/3jxkQtQdTH0rTmm3wMB62+kPBSn4Xf4Inji8=;
+ b=gZAdFkz7gRtleAGVUtsnPlJAPrRIuvAGIW3mF3xRHMEZ6lpCwAu5KKkqOawxGgjumC
+ yZQsBebJ8tCQuGLUpNSbZAM6FAL2YQ59hxUvf255zCFSwIK7BIxAouLIWx8gQsd/4Qd5
+ vyg3WN7lmuWPYqbkQgITLDpTuostWwVNpZ0S+lPDq93j0GnlbOSwAtTY5Wv3bMC01DPB
+ LX1bLFQ9egXfkA4C6bhQbYiLsWZHXB8L4qMX7YeHJ6RRC1MKxTp3m0d0UvFqv/vGb2xa
+ CNJ07x7EvRiiH14T+2xhOh+wTCkFwcgrK8LCHIiIIl9gagloDG0w0pFD4NVpDZJmlQ9m
+ 80qA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=CYKi9P2sb/KSIxgc0hWiYAqxm+j/yuO8AIw+hiHGW8Q=;
- b=MJKovdGgXHUwaPOVnV6lzEuEZwuOkHEi57mJHvRMrUWGAhK/B8TESBnFRkORUwDTPe
- 147EG6kXBqHpTHTirD/5+Qp30jiirKLuzhValM4/uMve+9/Jh/x/73uhM261rey1AscW
- /FU5V/faGxLggnNQJhJZ3yUUn5v9lPqTsE6VEIrJFlCc1RCyxiV3o1JHzdBN/4BNxOG9
- Q5XiTLrCqgDWEcb8p87oP4RYpIXuGLQu6zOr/25wN6IOola5LuhxdJt+M49JR3FV5HPW
- 53aTXOCMTDTE6T4JNxcy9mrcir3G6c22aSGW68E/WWaHEPRCjys+jrTYEfxf4J1Yc2JV
- gGuQ==
-X-Gm-Message-State: AOAM532RXY+DqZBQgZxn22+M6kUVa01HSXLf2AQHRmfbITFylv1O/jXj
- 2Eq9xbDQqu6KUa+b4HU17SZtkw==
-X-Google-Smtp-Source: ABdhPJwkZeCZEfVW5RqQTV63WvCaNdyx1TrfFh/9NAamKk1BnPKryAqsZwDaZWuQ29dEnjELNd+z+A==
-X-Received: by 2002:a1c:f60d:: with SMTP id w13mr215476wmc.51.1594304021844;
- Thu, 09 Jul 2020 07:13:41 -0700 (PDT)
+ bh=D9RzuX/3jxkQtQdTH0rTmm3wMB62+kPBSn4Xf4Inji8=;
+ b=FXCw2snWQSPglyImYM/DSU0KfpwbWMJjrB8yL58lbr0qPFrimIJCx2QUXV7RflWmkb
+ GQdhwxvkK+GhQxsMn0LdP7aqX9HFhO8mnb6xlp8F6UAN+6Y030wW9xEyL0qNJRnBy5IW
+ BiAamGpOpnzY4hLDDMT+/YAx7xRdjtKRHxqyI5BOkBaqJKEgsCqrDx2my6cs0EtfSxdd
+ uDOU9TYWDtMdMdIO7zn2MA7MFj79nky1CISNOe5xQkVYDMeMvLflg0rwIBrIQkHTYaAY
+ 9ZnimYKQAjv773pYDijLvWxLWTgMiGLamXeXEY38ozyz495PgoBbuzqE7QcJd0MneGvf
+ L/4w==
+X-Gm-Message-State: AOAM531eUii4xuw+ysA4/ALUvk0LLXRNjt4NQa0vu4K0kdsYNk61MyOS
+ w0nFU4iEruwI3yXr9MbjYJz1Zw==
+X-Google-Smtp-Source: ABdhPJzLY9yGGHDOfv/Vyv4KiaL1g5I1Oda6K54Mkn1jaVQT2uuTtCvtcoBGTW08lD05ydMZ8BMAkg==
+X-Received: by 2002:a1c:2392:: with SMTP id j140mr259414wmj.6.1594304024625;
+ Thu, 09 Jul 2020 07:13:44 -0700 (PDT)
 Received: from zen.linaroharston ([51.148.130.216])
- by smtp.gmail.com with ESMTPSA id q4sm4932417wmc.1.2020.07.09.07.13.33
+ by smtp.gmail.com with ESMTPSA id j16sm5710714wrt.7.2020.07.09.07.13.33
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
  Thu, 09 Jul 2020 07:13:34 -0700 (PDT)
 Received: from zen.lan (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id 6EF8E1FF9A;
+ by zen.linaroharston (Postfix) with ESMTP id 867251FF9B;
  Thu,  9 Jul 2020 15:13:28 +0100 (BST)
 From: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v1 11/13] tests/docker: fall back more gracefully when pull
- fails
-Date: Thu,  9 Jul 2020 15:13:25 +0100
-Message-Id: <20200709141327.14631-12-alex.bennee@linaro.org>
+Subject: [PATCH v1 12/13] tests/docker: update toolchain set in
+ debian-xtensa-cross
+Date: Thu,  9 Jul 2020 15:13:26 +0100
+Message-Id: <20200709141327.14631-13-alex.bennee@linaro.org>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20200709141327.14631-1-alex.bennee@linaro.org>
 References: <20200709141327.14631-1-alex.bennee@linaro.org>
@@ -75,8 +75,8 @@ X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
  DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- URIBL_BLOCKED=0.001 autolearn=ham autolearn_force=no
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -93,45 +93,45 @@ Cc: fam@euphon.net, berrange@redhat.com, robert.foley@linaro.org,
  =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>,
  richard.henderson@linaro.org, f4bug@amsat.org, robhenry@microsoft.com,
  =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
- aaron@os.amperecomputing.com, cota@braap.org, kuhn.chenqun@huawei.com,
- peter.puhov@linaro.org, aurelien@aurel32.net
+ Max Filippov <jcmvbkbc@gmail.com>, aaron@os.amperecomputing.com,
+ cota@braap.org, kuhn.chenqun@huawei.com, peter.puhov@linaro.org,
+ aurelien@aurel32.net
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-I only spotted this in the small window between my testing with my
-registry while waiting for the gitlab PR to go in. As we pre-pull the
-registry image we know if that fails there isn't any point attempting
-to use the cache. Fall back to the way we used to do it at that point.
+From: Max Filippov <jcmvbkbc@gmail.com>
 
+Switch to the prebuilt xtensa toolchains release 2020.07.
+Drop csp toolchain as the csp core is not a part of QEMU.
+Add de233_fpu and dsp3400 toolchains to enable DFPU and FPU2000 tests.
+
+Signed-off-by: Max Filippov <jcmvbkbc@gmail.com>
 Signed-off-by: Alex Bennée <alex.bennee@linaro.org>
+Message-Id: <20200708082347.27318-1-jcmvbkbc@gmail.com>
 ---
- tests/docker/docker.py | 11 ++++++-----
- 1 file changed, 6 insertions(+), 5 deletions(-)
+ tests/docker/dockerfiles/debian-xtensa-cross.docker | 6 +++---
+ 1 file changed, 3 insertions(+), 3 deletions(-)
 
-diff --git a/tests/docker/docker.py b/tests/docker/docker.py
-index 9684f07bdebe..2d67bbd15a5b 100755
---- a/tests/docker/docker.py
-+++ b/tests/docker/docker.py
-@@ -306,13 +306,14 @@ class Docker(object):
-         checksum = _text_checksum(_dockerfile_preprocess(dockerfile))
+diff --git a/tests/docker/dockerfiles/debian-xtensa-cross.docker b/tests/docker/dockerfiles/debian-xtensa-cross.docker
+index beb73f46baa6..ba4148299c5a 100644
+--- a/tests/docker/dockerfiles/debian-xtensa-cross.docker
++++ b/tests/docker/dockerfiles/debian-xtensa-cross.docker
+@@ -18,12 +18,12 @@ RUN apt-get update && \
+         git \
+         python3-minimal
  
-         if registry is not None:
--            dockerfile = dockerfile.replace("FROM qemu/",
--                                            "FROM %s/qemu/" %
--                                            (registry))
-             # see if we can fetch a cache copy, may fail...
-             pull_args = ["pull", "%s/%s" % (registry, tag)]
--            self._do(pull_args, quiet=quiet)
--
-+            if self._do(pull_args, quiet=quiet) == 0:
-+                dockerfile = dockerfile.replace("FROM qemu/",
-+                                                "FROM %s/qemu/" %
-+                                                (registry))
-+            else:
-+                registry = None
+-ENV CPU_LIST csp dc232b dc233c
+-ENV TOOLCHAIN_RELEASE 2018.02
++ENV CPU_LIST dc232b dc233c de233_fpu dsp3400
++ENV TOOLCHAIN_RELEASE 2020.07
  
-         tmp_df = tempfile.NamedTemporaryFile(mode="w+t",
-                                              encoding='utf-8',
+ RUN for cpu in $CPU_LIST; do \
+         curl -#SL http://github.com/foss-xtensa/toolchain/releases/download/$TOOLCHAIN_RELEASE/x86_64-$TOOLCHAIN_RELEASE-xtensa-$cpu-elf.tar.gz \
+         | tar -xzC /opt; \
+     done
+ 
+-ENV PATH $PATH:/opt/$TOOLCHAIN_RELEASE/xtensa-dc232b-elf/bin:/opt/$TOOLCHAIN_RELEASE/xtensa-dc233c-elf/bin:/opt/$TOOLCHAIN_RELEASE/xtensa-csp-elf/bin
++ENV PATH $PATH:/opt/$TOOLCHAIN_RELEASE/xtensa-dc232b-elf/bin:/opt/$TOOLCHAIN_RELEASE/xtensa-dc233c-elf/bin:/opt/$TOOLCHAIN_RELEASE/xtensa-de233_fpu-elf/bin:/opt/$TOOLCHAIN_RELEASE/xtensa-dsp3400-elf/bin
 -- 
 2.20.1
 
