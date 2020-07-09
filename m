@@ -2,109 +2,107 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B2EF0219B77
-	for <lists+qemu-devel@lfdr.de>; Thu,  9 Jul 2020 10:50:50 +0200 (CEST)
-Received: from localhost ([::1]:51442 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 50D8A219BB3
+	for <lists+qemu-devel@lfdr.de>; Thu,  9 Jul 2020 11:10:22 +0200 (CEST)
+Received: from localhost ([::1]:50450 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jtSGX-0004fZ-Fy
-	for lists+qemu-devel@lfdr.de; Thu, 09 Jul 2020 04:50:49 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:59114)
+	id 1jtSZR-0000b5-E8
+	for lists+qemu-devel@lfdr.de; Thu, 09 Jul 2020 05:10:21 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:38756)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <vsementsov@virtuozzo.com>)
- id 1jtSFD-0004E5-W6
- for qemu-devel@nongnu.org; Thu, 09 Jul 2020 04:49:28 -0400
-Received: from mail-eopbgr70090.outbound.protection.outlook.com
- ([40.107.7.90]:49574 helo=EUR04-HE1-obe.outbound.protection.outlook.com)
+ (Exim 4.90_1) (envelope-from <den@virtuozzo.com>) id 1jtSYI-0008Dz-Oj
+ for qemu-devel@nongnu.org; Thu, 09 Jul 2020 05:09:10 -0400
+Received: from mail-eopbgr70097.outbound.protection.outlook.com
+ ([40.107.7.97]:62663 helo=EUR04-HE1-obe.outbound.protection.outlook.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <vsementsov@virtuozzo.com>)
- id 1jtSF8-0002ZN-Pp
- for qemu-devel@nongnu.org; Thu, 09 Jul 2020 04:49:26 -0400
+ (Exim 4.90_1) (envelope-from <den@virtuozzo.com>) id 1jtSYG-0006Co-9Z
+ for qemu-devel@nongnu.org; Thu, 09 Jul 2020 05:09:10 -0400
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=bsJV4EuZ4EpCvnTsraM3vt5HAJ5mPNAR+Xg0O9bi/fi8mIsahwaZW/kdKSTtUAk60vsCnMUfx0XMtbeJLetGj3owE2aCbXy+ZhsUG/dmP7dnZH5MXRybLcOZrOvadvJ5Z409WNrbNxejIYVZpL+kw5lPbvwnT7Lql3RigbHHtLJYd+1VSmKNT8J3AuVWTmW0iWhWEE7/VS7UoWpxGmD3NkcyizRggtq9XchUFhrJNuxDC5SZMbov3J2C/vkc5IUfaXRH+lWKh4egArqepcLu1pEMY8BpFKI0u5Qa6uuxbLRoUXNIG29xiCSeEcyyOITu3q+FBV2DPs5hde36xi7sJA==
+ b=C7p/KyqmZ8iL2b9a0TSDaPqCqydAteFpvMw118rplcUYAVWrYDpIG3qcWfgOD8JdFI5QE+GC9kUswIRtmJZzpAcf63h/9lgTh2tfF9ieG7QMv44hy5p6FcD5u647Q+nhibhkknzNQ9oKMdIw8ms8chNtQu2iF3Wq8pR6PeslVcpxRhy+u48wgH2Oyhm0Uqbb4yNs19JFwbA7sTaYOwjxpWHt904MCqfIAvOoA1FJhgwneFMe+TtQSYfCIUfFc2cXnzBegueVxcGSgxefwb+KIuDqargoOtHdnV0Ov5OReMt1Hxx9T1l7KK2h/QvPf1KQcYjrCHUjSb3bKFHbFVC4Ww==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=4B90SG+UA2wcOUsmJmg/GJRfp3HjGB/iEVmNeVANXlY=;
- b=dAYdUV1WRxNwIMRUDdfpNLEGBygE4eT86vjFyeEXmaNMsSLrllbKhaKTwKjSKk0zsBPoLtNaHCitxl6qOBlekLJIDb1m43FsFZYYoFpCplSxCzIbhnG4g9IpyeXNwBy+QcvmgdXGZZzgbUbt0YnBW5noCyLKBFQI7Y/4umcnr7s2GnrqBDVqWHR0XpEiJlvBM3A9QVyuT2Jp4qrWU0dsKHNzB8TwS3LMnFO8RGdIQTouhrpH2Tn2xsd8Z0Yd6vcpH9HIJOQvIMwwGYJCh6oqfGBeXqy3hBIFthZpQhrwVhspGszbReEzG6sISxr6wUz3h0hboOFstiyWseyUWGD4Mg==
+ bh=+9TzhTUYILa/I2kFf9BMmGBn1s3A8cF9f6tkJTPZEcA=;
+ b=KRBNnfI9NJWbKBLJqJYt/U7fgFxdLp9v9Fs3bfgePqmUvhfA+OZh4YWk4+pIk27bo7vjeh3TaG/rlLe7hcEvSH+LWWrn/ejhpIaRDNZQMnP5sDLtSvITxU1Zeck8EjN1kgfFR7hN2h6g0DF2LnmvRpw/WVW6K5jlmNeyEDQ2rIMYCmD2WvQ7kYsq6/W+Kj8kUke3968raOx3OujQUo3nOvBRTQjJql9vj7/Fsz1SLUN8n0KH1ItUoMiqn6djG+dG0y0F4g09zcuei9/gfO9zwKnbTVI1qdMJCHwUXriPDi/A2ASrX8sOCpevz6sdr8g+QFtWrQHhEzuKu5icPkEU1g==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=virtuozzo.com; dmarc=pass action=none
- header.from=virtuozzo.com; dkim=pass header.d=virtuozzo.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=virtuozzo.com;
+ smtp.mailfrom=virtuozzo.com; dmarc=pass action=none header.from=openvz.org;
+ dkim=pass header.d=openvz.org; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=openvz.org;
  s=selector2;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=4B90SG+UA2wcOUsmJmg/GJRfp3HjGB/iEVmNeVANXlY=;
- b=FZuSUPWwMEj8aXA5wL+II3Z7abihspLT9i9gFE33nGVAXkbPrwUnbNtcj1K30nWCOrsVcV+X3NjJQUhEeMGHHl9YCVS+jJPM0IduQaxvsu9kiJXHAtibRItyT8qx+HU/pz5WHtnknHBNr89knqpxer/TSbMq9UhNyKwW7TKriL0=
-Authentication-Results: openvz.org; dkim=none (message not signed)
- header.d=none;openvz.org; dmarc=none action=none header.from=virtuozzo.com;
-Received: from AM7PR08MB5494.eurprd08.prod.outlook.com (2603:10a6:20b:dc::15)
- by AM6PR08MB4597.eurprd08.prod.outlook.com (2603:10a6:20b:90::26)
+ bh=+9TzhTUYILa/I2kFf9BMmGBn1s3A8cF9f6tkJTPZEcA=;
+ b=CuIuFEejZ1K3uDqqVlEUknT2XIG36Q8YeggAVRfkL13Ra5vEisaOwIgxGSc0W6CTW+J05+dss1CLeB8oGj2g9PEFga9M0TI/IIUOD6f/L68CQuW4t0UfJaRvUmcXJTPOeMmMVdXost8v/V1+YliRjkF0T0y+CtfYGhYBr74j9AE=
+Authentication-Results: redhat.com; dkim=none (message not signed)
+ header.d=none;redhat.com; dmarc=none action=none header.from=openvz.org;
+Received: from AM6PR08MB4214.eurprd08.prod.outlook.com (2603:10a6:20b:8d::30)
+ by AM5PR0801MB1843.eurprd08.prod.outlook.com (2603:10a6:203:3a::12)
  with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3174.22; Thu, 9 Jul
- 2020 08:49:19 +0000
-Received: from AM7PR08MB5494.eurprd08.prod.outlook.com
- ([fe80::a408:2f0f:bc6c:d312]) by AM7PR08MB5494.eurprd08.prod.outlook.com
- ([fe80::a408:2f0f:bc6c:d312%3]) with mapi id 15.20.3174.021; Thu, 9 Jul 2020
- 08:49:19 +0000
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3174.20; Thu, 9 Jul
+ 2020 08:54:04 +0000
+Received: from AM6PR08MB4214.eurprd08.prod.outlook.com
+ ([fe80::821:7596:cf7f:68f8]) by AM6PR08MB4214.eurprd08.prod.outlook.com
+ ([fe80::821:7596:cf7f:68f8%4]) with mapi id 15.20.3174.021; Thu, 9 Jul 2020
+ 08:54:03 +0000
 Subject: Re: [PATCH 2/2] util/qemu-sockets: make keep-alive enabled by default
-To: =?UTF-8?Q?Daniel_P=2e_Berrang=c3=a9?= <berrange@redhat.com>
+To: =?UTF-8?Q?Daniel_P=2e_Berrang=c3=a9?= <berrange@redhat.com>,
+ Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
 References: <20200708191540.28455-1-vsementsov@virtuozzo.com>
  <20200708191540.28455-3-vsementsov@virtuozzo.com>
  <20200709082954.GD3753300@redhat.com>
-From: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
-Message-ID: <62e64c31-1f6b-f27e-82ca-dfb3085a9869@virtuozzo.com>
-Date: Thu, 9 Jul 2020 11:49:17 +0300
+From: "Denis V. Lunev" <den@openvz.org>
+Message-ID: <a59b626e-c54a-1619-9b67-d699971c5816@openvz.org>
+Date: Thu, 9 Jul 2020 11:54:00 +0300
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.10.0
+ Thunderbird/68.8.0
 In-Reply-To: <20200709082954.GD3753300@redhat.com>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
+Content-Type: text/plain; charset=utf-8
 Content-Transfer-Encoding: 8bit
-X-ClientProxiedBy: AM0PR04CA0112.eurprd04.prod.outlook.com
- (2603:10a6:208:55::17) To AM7PR08MB5494.eurprd08.prod.outlook.com
- (2603:10a6:20b:dc::15)
+Content-Language: en-US
+X-ClientProxiedBy: HE1PR0202CA0029.eurprd02.prod.outlook.com
+ (2603:10a6:3:e4::15) To AM6PR08MB4214.eurprd08.prod.outlook.com
+ (2603:10a6:20b:8d::30)
 MIME-Version: 1.0
 X-MS-Exchange-MessageSentRepresentingType: 1
-Received: from [192.168.100.2] (185.215.60.13) by
- AM0PR04CA0112.eurprd04.prod.outlook.com (2603:10a6:208:55::17) with Microsoft
+Received: from [192.168.1.27] (31.148.204.195) by
+ HE1PR0202CA0029.eurprd02.prod.outlook.com (2603:10a6:3:e4::15) with Microsoft
  SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.3174.20 via Frontend Transport; Thu, 9 Jul 2020 08:49:18 +0000
-X-Originating-IP: [185.215.60.13]
+ 15.20.3174.21 via Frontend Transport; Thu, 9 Jul 2020 08:54:02 +0000
+X-Originating-IP: [31.148.204.195]
 X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: 85c785ee-53d5-4059-6b91-08d823e4f792
-X-MS-TrafficTypeDiagnostic: AM6PR08MB4597:
+X-MS-Office365-Filtering-Correlation-Id: 03bab910-25a4-4242-bccb-08d823e5a15a
+X-MS-TrafficTypeDiagnostic: AM5PR0801MB1843:
 X-MS-Exchange-Transport-Forked: True
-X-Microsoft-Antispam-PRVS: <AM6PR08MB4597803ADE91C9AEDBCD0191C1640@AM6PR08MB4597.eurprd08.prod.outlook.com>
-X-MS-Oob-TLC-OOBClassifiers: OLM:7219;
+X-Microsoft-Antispam-PRVS: <AM5PR0801MB18436FEC33E13B9D6543A08DB6640@AM5PR0801MB1843.eurprd08.prod.outlook.com>
+X-MS-Oob-TLC-OOBClassifiers: OLM:7691;
 X-MS-Exchange-SenderADCheck: 1
 X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: 5LDYJ6PeMepOijyenH8nIA76Y9klALx1SaJ6vN+MWCyKLK28DXN1T7J2reb2ytXMnenUixVOsmokXsjPRfYqTXHj2z/6Yy4KqEhnEjDQtvYWuQ0amk2JyYUuGmEYImMHI5ltNLDZIO2btd+GPNARx/5Hp+S7R7S4RvwNSXO3gVlJccOo24nkCtFEEnpo4zBY5sFQqaMEP6F4HjHO3+S7uVfNyfGtkPseg1QgLXwyDNGfSkfm9bQlBSQBlj4eH6dGXdJlVh/FgumHubuN/STonDcqoNgwU3fiiHILhBWJfN86hVAEhVakToFxn2lNKp6oqVOjy2rSOdql4M7iOix0m+oB5EJnhJfYkhPm1kokklAyeoKLrwex8L4IagkDpoKm
+X-Microsoft-Antispam-Message-Info: JZVX/W9dEYXSjuX0nwA5f5NKpRjjBhknYXctNN/LypXgD5w5HT/qjOBt3LB3vcu2bWpPBKd+yjnqJY6nSSzcpn8y6FiZp7MrQgSp8Q3upUrFwrY+ybBCC3VBL3QaBOPQp8Y+UKR4T9RsGVZYqnWhjKxDbaphI0MDRGkBZEnX1REb1SyP/N7pR7XWrRytxvaotmyYbXeIvRzJSsKjzQm3rfHXMmbuRRmVRNjMBC0aCPpSHvlOOeNz21mUzn1FBDNRUrNjxm3UnRDuBrw0PQ88YyxuRqy8S/POm+dyPsdCumHIUlZ1xGwtstJ6SZeGinGH49IwDYQ6lq5Xut4+xq6Vj3sJWOmtytejANi+PH3piKvgr9oQID/OQdzbrFJFf0gD
 X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:AM7PR08MB5494.eurprd08.prod.outlook.com; PTR:; CAT:NONE;
+ IPV:NLI; SFV:NSPM; H:AM6PR08MB4214.eurprd08.prod.outlook.com; PTR:; CAT:NONE;
  SFTY:;
- SFS:(4636009)(136003)(376002)(346002)(396003)(39850400004)(366004)(31686004)(6486002)(6916009)(26005)(2616005)(956004)(4326008)(83380400001)(16576012)(66476007)(8936002)(52116002)(36756003)(107886003)(86362001)(66556008)(186003)(31696002)(316002)(16526019)(5660300002)(2906002)(478600001)(66946007)(8676002)(43740500002);
+ SFS:(4636009)(136003)(39840400004)(396003)(376002)(346002)(366004)(110136005)(36756003)(31696002)(478600001)(31686004)(66946007)(26005)(186003)(16526019)(53546011)(2616005)(316002)(4326008)(42882007)(956004)(16576012)(2906002)(52116002)(83170400001)(83380400001)(8676002)(8936002)(5660300002)(66556008)(66476007)(6486002)(43740500002);
  DIR:OUT; SFP:1102; 
-X-MS-Exchange-AntiSpam-MessageData: opl7tGauy43LuSKScVbzSHjn5AApVIqbvVBQklMpMa6eB8la4rAiY43IFqUKYcX0EjciJW8Kl4qwAO2/TL1aHfY2UMwvopWI/6xW7fff/sDLBvZZsQ7FLcRHpy1Yahm32p17HD/YMx6Z87jL45msphs5w8AEpLsViTrJnpky6f/Fgb+5TjxxXplnNseL2EBGJdDCqJHmdnHiUvugt2iVJTI+iAURrIrxeOZ6FPOf7yoMIkjIKVlyCZpEGk36pGduYmrEyF/JqPgP+kNSfdoehpvjc6VH6vr36a52L6SeYZ6IP0A+bNMVr554HvPKQ1PvMFUx3hgumBqk30jfi8DAwxw+jCTl2uE7zU5dczIRPpYpcFp5NXD6I2yO2T3IeJdr0tI4njphKqT5LEInb1Hi0It7yozmcfSyw9pKio8BGCv0mwUgD9Hib1dG9NovencEzDESTe3Fiy6IPYNn9rZBPq51PYHPlKBcqpOjA85jvpA=
-X-OriginatorOrg: virtuozzo.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 85c785ee-53d5-4059-6b91-08d823e4f792
-X-MS-Exchange-CrossTenant-AuthSource: AM7PR08MB5494.eurprd08.prod.outlook.com
+X-MS-Exchange-AntiSpam-MessageData: aCRfw6uPGXZC69VRJw+Npc2DSQ+sVu+9CQgzA6m3Jdwmq6A//KGWrRacU6s62IDtk2iKqciGZ+Kx51PE5x5m1ES3TE+bZlgZ/HPTyZdgrzwg19kOZ0HPu99VhQnJpO8kqRtUiHBBwgVOgWwozfNs4CVDJI9H1gmpU7HLq/XbCRuhK5RO+XTcu18EkI3m1exor5k7YoalESaaMYbcHCb8rdq+jTxr0R4A58bSA6iICWIZgZABPQpwFgLRzWR3QEKCV35ghsvMZZpCSXsOHGtkv1VkWZb9XNvdUnBKwEo5yyyEjtO05GBSHt9KP44RzN+SgwTrPI4jbn9y+aEy+GuhZKpPiJw6FRL5RgG4zY0zQz6FNzX6YVQtrGlC0H9ZIdK01nRGSX3CtlGsNl/oSI2gOoH17litqh6xZM8oq6MER1p7OEgdY22qZFl8YVQCamCKp7YKWkN6ZNKMAs8VH1XA86rE00OCRhLkrVgXsZjEAADrKAa+qd9qtzLES3yF5V+U
+X-OriginatorOrg: openvz.org
+X-MS-Exchange-CrossTenant-Network-Message-Id: 03bab910-25a4-4242-bccb-08d823e5a15a
+X-MS-Exchange-CrossTenant-AuthSource: AM6PR08MB4214.eurprd08.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 09 Jul 2020 08:49:18.8966 (UTC)
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 09 Jul 2020 08:54:03.7404 (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
 X-MS-Exchange-CrossTenant-Id: 0bc7f26d-0264-416e-a6fc-8352af79c58f
 X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: kHz5T0c4iM50sVmWOya0L2q3gy8atI7oecCwYciM6P8AQgQiFMP0L5DWisRFq4sgxYoZJl/y2QZVgDDY/J2oDFkvrFAEtIGJnvGtUDs+n24=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: AM6PR08MB4597
-Received-SPF: pass client-ip=40.107.7.90;
- envelope-from=vsementsov@virtuozzo.com;
+X-MS-Exchange-CrossTenant-UserPrincipalName: pffLfN3M8BPea5TmZd23olGKpVeFGD+uX9GD/YMyDo4HLjMGGVgkJlxpSHirrDCr/57vnjAKaGboF2f1hWlB0g==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: AM5PR0801MB1843
+Received-SPF: pass client-ip=40.107.7.97; envelope-from=den@virtuozzo.com;
  helo=EUR04-HE1-obe.outbound.protection.outlook.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/07/09 02:51:20
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/07/09 05:09:06
 X-ACL-Warn: Detected OS   = Windows NT kernel [generic] [fuzzy]
-X-Spam_score_int: -37
-X-Spam_score: -3.8
-X-Spam_bar: ---
-X-Spam_report: (-3.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+X-Spam_score_int: -26
+X-Spam_score: -2.7
+X-Spam_bar: --
+X-Spam_report: (-2.7 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, HEADER_FROM_DIFFERENT_DOMAINS=1,
  MSGID_FROM_MTA_HEADER=0.001, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-1,
  SPF_HELO_PASS=-0.001, SPF_PASS=-0.001,
  URIBL_BLOCKED=0.001 autolearn=ham autolearn_force=no
@@ -120,103 +118,63 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: den@openvz.org, kraxel@redhat.com, qemu-devel@nongnu.org, armbru@redhat.com
+Cc: kraxel@redhat.com, qemu-devel@nongnu.org, armbru@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-09.07.2020 11:29, Daniel P. Berrangé wrote:
+On 7/9/20 11:29 AM, Daniel P. Berrangé wrote:
 > On Wed, Jul 08, 2020 at 10:15:39PM +0300, Vladimir Sementsov-Ogievskiy wrote:
 >> Keep-alive won't hurt, let's try to enable it even if not requested by
 >> user.
-> 
 > Keep-alive intentionally breaks TCP connections earlier than normal
 > in face of transient networking problems.
-> 
+>
 > The question is more about which type of pain is more desirable. A
 > stall in the network connection (for a potentially very long time),
 > or an intentionally broken socket.
-> 
+>
 > I'm not at all convinced it is a good idea to intentionally break
 > /all/ QEMU sockets in the face of transient problems, even if the
-> problems last for 2 hours or more.
-> 
+> problems last for 2 hours or more. 
+>
 > I could see keep-alives being ok on some QEMU socket. For example
 > VNC/SPICE clients, as there is no downside to proactively culling
 > them as they can trivially reconnect. Migration too is quite
 > reasonable to use keep alives, as you generally want migration to
 > run to completion in a short amount of time, and aborting migration
 > needs to be safe no matter what.
-> 
+>
 > Breaking chardevs or block devices or network devices that use
 > QEMU sockets though will be disruptive. The only solution once
 > those backends have a dead socket is going to be to kill QEMU
 > and cold-boot the VM again.
-> 
 
-Reasonable, thanks for explanation.
+nope, and this is exactly what we are trying to achive.
 
-We are mostly interested in keep-alive for migration and NBD connections.
-(NBD driver has ability to reconnect). What do you think about setting
-keep-alive (with some KEEPIDLE smaller than 2 hours) by default for
-migration and NBD (at least when NBD reconnect is enabled), would it be
-valid?
+Let us assume that QEMU NBD is connected to the
+outside world, f.e. to some HA service running in
+other virtual machine. Once that far away VM is
+becoming dead, it is re-started on some other host
+with the same IP.
 
-> 
->> Signed-off-by: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
->> ---
->>   util/qemu-sockets.c | 15 ++++++++++-----
->>   1 file changed, 10 insertions(+), 5 deletions(-)
->>
->> diff --git a/util/qemu-sockets.c b/util/qemu-sockets.c
->> index b961963472..f6851376f5 100644
->> --- a/util/qemu-sockets.c
->> +++ b/util/qemu-sockets.c
->> @@ -438,7 +438,8 @@ static struct addrinfo *inet_parse_connect_saddr(InetSocketAddress *saddr,
->>    *
->>    * Handle keep_alive settings. If user specified settings explicitly, fail if
->>    * can't set the settings. If user just enabled keep-alive, not specifying the
->> - * settings, try to set defaults but ignore failures.
->> + * settings, try to set defaults but ignore failures. If keep-alive option is
->> + * not specified, try to set it but ignore failures.
->>    */
->>   static int inet_set_keepalive(int sock, bool has_keep_alive,
->>                                 KeepAliveField *keep_alive, Error **errp)
->> @@ -447,8 +448,8 @@ static int inet_set_keepalive(int sock, bool has_keep_alive,
->>       int val;
->>       bool has_settings = has_keep_alive &&  keep_alive->type == QTYPE_QDICT;
->>   
->> -    if (!has_keep_alive || (keep_alive->type == QTYPE_QBOOL &&
->> -                            !keep_alive->u.enabled))
->> +    if (has_keep_alive &&
->> +        keep_alive->type == QTYPE_QBOOL && !keep_alive->u.enabled)
->>       {
->>           return 0;
->>       }
->> @@ -456,8 +457,12 @@ static int inet_set_keepalive(int sock, bool has_keep_alive,
->>       val = 1;
->>       ret = qemu_setsockopt(sock, SOL_SOCKET, SO_KEEPALIVE, &val, sizeof(val));
->>       if (ret < 0) {
->> -        error_setg_errno(errp, errno, "Unable to set KEEPALIVE");
->> -        return -1;
->> +        if (has_keep_alive) {
->> +            error_setg_errno(errp, errno, "Unable to set KEEPALIVE");
->> +            return -1;
->> +        } else {
->> +            return 0;
->> +        }
->>       }
->>   
->>       val = has_settings ? keep_alive->u.settings.idle : 30;
->> -- 
->> 2.21.0
->>
-> 
-> Regards,
-> Daniel
-> 
+QEMU NBD has an ability to reconnect to this same
+endpoint and this process is transient for the guest.
 
+This is the workflow we are trying to improve.
 
--- 
-Best regards,
-Vladimir
+Anyway, sitting over dead socket is somewhat
+which is not productive. This is like NFS hard and
+soft mounts. In hypervisor world using hard mounts
+(defaults before the patch) leads to various non
+detectable deadlocks, that is why we are proposing
+soft with such defaults.
+
+It should also be noted that this is more consistent
+as we could face the problem if we perform write
+to the dead socket OR we could hang forever, thus
+the problem with the current state is still possible.
+With new settings we would consistently observe
+the problem.
+
+Den
 
