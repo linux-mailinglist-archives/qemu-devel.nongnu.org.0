@@ -2,63 +2,80 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 125A921A461
-	for <lists+qemu-devel@lfdr.de>; Thu,  9 Jul 2020 18:08:07 +0200 (CEST)
-Received: from localhost ([::1]:39226 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D896B21A482
+	for <lists+qemu-devel@lfdr.de>; Thu,  9 Jul 2020 18:14:41 +0200 (CEST)
+Received: from localhost ([::1]:47280 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jtZ5i-0002pi-4V
-	for lists+qemu-devel@lfdr.de; Thu, 09 Jul 2020 12:08:06 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:56662)
+	id 1jtZC4-0006Qy-Ni
+	for lists+qemu-devel@lfdr.de; Thu, 09 Jul 2020 12:14:40 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:59270)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1jtZ2m-0007T8-Ti
- for qemu-devel@nongnu.org; Thu, 09 Jul 2020 12:05:04 -0400
-Received: from us-smtp-1.mimecast.com ([205.139.110.61]:46022
- helo=us-smtp-delivery-1.mimecast.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1jtZ2j-0000zv-Ug
- for qemu-devel@nongnu.org; Thu, 09 Jul 2020 12:05:04 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1594310700;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:content-type:content-type;
- bh=1uP0rRX5sys7IyYf81527/O/Op13w4EXz/SwyxzIwdA=;
- b=GV6HelsQoLwk++MxE0UjeMvWtL4p0wc8lcaOTCt5B/igP1eACHs3I9XXbt2Hd0aTFgYEJY
- NzFnQ0hxjc3zkTvVzJ+LRGsPvunxpluhdnmWZgNG50hR5y0ZuaItq4aVZf2TJK7Ti2Rvfv
- b3AVWnKF9TjG5l2gTX/1JkcUrPJmeFo=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-180-D1ihEJy-OiylAYsqzMmpqQ-1; Thu, 09 Jul 2020 12:04:43 -0400
-X-MC-Unique: D1ihEJy-OiylAYsqzMmpqQ-1
-Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
- [10.5.11.12])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 3D3D8186A8DE;
- Thu,  9 Jul 2020 16:04:42 +0000 (UTC)
-Received: from thuth.com (ovpn-112-106.ams2.redhat.com [10.36.112.106])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 3098B60BE2;
- Thu,  9 Jul 2020 16:04:40 +0000 (UTC)
-From: Thomas Huth <thuth@redhat.com>
-To: qemu-devel@nongnu.org,
-	Cornelia Huck <cohuck@redhat.com>
-Subject: [PATCH] docs/system/s390x: Improve the 3270 documentation
-Date: Thu,  9 Jul 2020 18:04:39 +0200
-Message-Id: <20200709160439.15088-1-thuth@redhat.com>
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=US-ASCII
-Received-SPF: pass client-ip=205.139.110.61; envelope-from=thuth@redhat.com;
- helo=us-smtp-delivery-1.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/07/09 10:34:01
-X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
-X-Spam_score_int: -40
-X-Spam_score: -4.1
-X-Spam_bar: ----
-X-Spam_report: (-4.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-1, SPF_HELO_NONE=0.001,
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1jtZB3-0005sv-Li
+ for qemu-devel@nongnu.org; Thu, 09 Jul 2020 12:13:37 -0400
+Received: from mail-pf1-x444.google.com ([2607:f8b0:4864:20::444]:39960)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1jtZB1-0002Bw-U4
+ for qemu-devel@nongnu.org; Thu, 09 Jul 2020 12:13:37 -0400
+Received: by mail-pf1-x444.google.com with SMTP id u5so1216203pfn.7
+ for <qemu-devel@nongnu.org>; Thu, 09 Jul 2020 09:13:34 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=subject:to:cc:references:from:message-id:date:user-agent
+ :mime-version:in-reply-to:content-language:content-transfer-encoding;
+ bh=4NJXxUlKii+vxrQ6oZHz5sOoMFRNxDPI8rm2z+fpA3g=;
+ b=rhO3aO/Wi7Z5Azf4N41HQLGSbMTRwG98iKeWWJ7iIJWlFNcJg7GVASC2xAt2KSoJvX
+ hoixXl2oyIzsgSFLXaeAqTo4AVIFVibw+CHBPy/1/JlpJt6LBxr/XcBCQdx83nLSjrcG
+ W3fgWl+FuP84xOlDBH3I8vKRdAwNcMqRKkUTrfk23qKs6dz0BMc3A8Ym8NjBCwbWwSFN
+ zTHDr4T+YGNNe4KX9AWEiBAZpr9Idtbqlj+Cinff8Iza5pG2Vnr6AymYFmI61rcbEb7X
+ 3dOXDCc7dqQbbVc96qSeTq0fI8+GPdqC82n7PoMYeJchb6gPUpFfwUdRmNA/WHOSf+xM
+ IYfA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=4NJXxUlKii+vxrQ6oZHz5sOoMFRNxDPI8rm2z+fpA3g=;
+ b=FejGcoIv8z00qHJuwyyyzrsNJu1kXLNzxYoBnoikbRDHSGla+hEEPlnrVjdLrwXLL5
+ Yg+1q9+pD0d2VjAueImgjploZrNKIicpmKV7CCVGXFt5Mi642Y/i5KNlxRiCchuNBfdB
+ u1DpMzOKqdocTIBWMO8ijA3waWqjBYldPvfYkJ9xXqWU6bMfPitN5kqmY0Vc1V2VWcdo
+ 9XE4kUWAwlKaOmemQ/ZHT+9msmawx38mqEaGNOFH2VkxOJAido236BLoV3japsfPOoRj
+ 0u0zWzCWBzyLI64g3m1fH+aMwBnUWGX4kVhewF1swtN3dRfsMuGSXCwQ3o4u8RUvUoS9
+ 7FJQ==
+X-Gm-Message-State: AOAM5310ujx75AiUC/zhA/07NKRVHve5BZ5Y0twqe+dEkejoQ11aIAAA
+ Z6H6G61TnFIQxGSsNoHKTou0qg==
+X-Google-Smtp-Source: ABdhPJw95tLGVBLc9Dfd8Mi00GzCklLXbSM2rPiiI13qsHUW5rdds7VY9skuQAPG71d1Toedz/uDqA==
+X-Received: by 2002:a65:60d4:: with SMTP id r20mr50602078pgv.436.1594311213810; 
+ Thu, 09 Jul 2020 09:13:33 -0700 (PDT)
+Received: from [192.168.7.121] (24-113-145-216.wavecable.com. [24.113.145.216])
+ by smtp.gmail.com with ESMTPSA id j26sm3009409pfe.200.2020.07.09.09.13.32
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Thu, 09 Jul 2020 09:13:33 -0700 (PDT)
+Subject: Re: [PATCH] disas/sh4: Add missing fallthrough annotations
+To: Thomas Huth <thuth@redhat.com>, qemu-devel@nongnu.org,
+ Yoshinori Sato <ysato@users.sourceforge.jp>
+References: <20200630055953.9309-1-thuth@redhat.com>
+From: Richard Henderson <richard.henderson@linaro.org>
+Message-ID: <8267e832-ef6d-6ed2-cc70-5a17d5577ee3@linaro.org>
+Date: Thu, 9 Jul 2020 09:13:30 -0700
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.8.0
+MIME-Version: 1.0
+In-Reply-To: <20200630055953.9309-1-thuth@redhat.com>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=2607:f8b0:4864:20::444;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pf1-x444.google.com
+X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
+ That's all we know.
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -72,88 +89,23 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-s390x@nongnu.org
+Cc: qemu-trivial@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-There is some additional information about the 3270 support in our
-Wiki at https://wiki.qemu.org/Features/3270 - so let's include this
-information into the main documentation now to have one single
-source of information (the Wiki page could later be removed).
+On 6/29/20 10:59 PM, Thomas Huth wrote:
+> Add fallthrough annotations to be able to compile the code without
+> warnings with -Wimplicit-fallthrough. Looking at the code, it seems
+> like the fallthrough is indeed intended here, so the comments should
+> be appropriate.
+> 
+> Signed-off-by: Thomas Huth <thuth@redhat.com>
+> ---
+>  Note: The new lines use TABs since all the surounding code uses TABs, too.
+>  Please ignore the checkpatch warnings.
 
-Signed-off-by: Thomas Huth <thuth@redhat.com>
----
- docs/system/s390x/3270.rst | 43 ++++++++++++++++++++++++++++++++------
- 1 file changed, 37 insertions(+), 6 deletions(-)
+Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
 
-diff --git a/docs/system/s390x/3270.rst b/docs/system/s390x/3270.rst
-index 1774cdcadf..80350264d7 100644
---- a/docs/system/s390x/3270.rst
-+++ b/docs/system/s390x/3270.rst
-@@ -1,9 +1,15 @@
- 3270 devices
- ============
- 
--QEMU supports connecting an external 3270 terminal emulator (such as
--``x3270``) to make a single 3270 device available to a guest. Note that this
--supports basic features only.
-+The 3270 is the classic 'green-screen' console of the mainframes (see the
-+`IBM 3270 Wikipedia article <https://en.wikipedia.org/wiki/IBM_3270>`__).
-+
-+The 3270 data stream is not implemented within QEMU; the device only provides
-+TN3270 (a telnet extension; see `RFC 854 <https://tools.ietf.org/html/rfc854>`__
-+and `RFC 1576 <https://tools.ietf.org/html/rfc1576>`__) and leaves the heavy
-+lifting to an external 3270 terminal emulator (such as ``x3270``) to make a
-+single 3270 device available to a guest. Note that this supports basic
-+features only.
- 
- To provide a 3270 device to a guest, create a ``x-terminal3270`` linked to
- a ``tn3270`` chardev. The guest will see a 3270 channel device. In order
-@@ -12,10 +18,14 @@ to actually be able to use it, attach the ``x3270`` emulator to the chardev.
- Example configuration
- ---------------------
- 
-+* Make sure that 3270 support is enabled in the guest's kernel. You need
-+  ``CONFIG_TN3270`` and at least one of ``CONFIG_TN3270_TTY`` (for additional
-+  ttys) or ``CONFIG_TN3270_CONSOLE`` (for a 3270 console).
-+
- * Add a ``tn3270`` chardev and a ``x-terminal3270`` to the QEMU command line::
- 
--    -chardev socket,id=char_0,host=0.0.0.0,port=2300,nowait,server,tn3270
--    -device x-terminal3270,chardev=char_0,devno=fe.0.000a,id=terminal_0
-+   -chardev socket,id=ch0,host=0.0.0.0,port=2300,nowait,server,tn3270
-+   -device x-terminal3270,chardev=ch0,devno=fe.0.000a,id=terminal0
- 
- * Start the guest. In the guest, use ``chccwdev -e 0.0.000a`` to enable
-   the device.
-@@ -29,4 +39,25 @@ Example configuration
- 
-     systemctl start serial-getty@3270-tty1.service
- 
--This should get you an addtional tty for logging into the guest.
-+  This should get you an addtional tty for logging into the guest.
-+
-+* If you want to use the 3270 device as the kernel console instead of an
-+  additional tty, you can also append ``conmode=3270 condev=000a`` to the
-+  guest's kernel command line. The kernel then should use the 3270 as
-+  console after the next boot.
-+
-+Restrictions
-+------------
-+
-+3270 support is still experimental. In particular:
-+
-+* Only one 3270 device is supported.
-+
-+* It has only been tested with Linux guests and the x3270 emulator.
-+
-+* TLS/SSL is not yet supported.
-+
-+* Resizing on reattach is not yet supported.
-+
-+* Multiple commands in one inbound buffer (for example, when the reset key
-+  is pressed while the network is slow) are not yet supported.
--- 
-2.18.1
 
+r~
 
