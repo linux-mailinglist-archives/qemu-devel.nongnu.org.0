@@ -2,72 +2,88 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D2FDC21A115
-	for <lists+qemu-devel@lfdr.de>; Thu,  9 Jul 2020 15:43:19 +0200 (CEST)
-Received: from localhost ([::1]:37294 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B75FA21A0FA
+	for <lists+qemu-devel@lfdr.de>; Thu,  9 Jul 2020 15:35:23 +0200 (CEST)
+Received: from localhost ([::1]:50406 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jtWpa-00037t-Se
-	for lists+qemu-devel@lfdr.de; Thu, 09 Jul 2020 09:43:18 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:40592)
+	id 1jtWhu-0004qu-Pu
+	for lists+qemu-devel@lfdr.de; Thu, 09 Jul 2020 09:35:22 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:38572)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1jtWnc-0000z1-8y
- for qemu-devel@nongnu.org; Thu, 09 Jul 2020 09:41:16 -0400
-Received: from indium.canonical.com ([91.189.90.7]:57134)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1jtWna-0004mr-0I
- for qemu-devel@nongnu.org; Thu, 09 Jul 2020 09:41:15 -0400
-Received: from loganberry.canonical.com ([91.189.90.37])
- by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
- id 1jtWnY-0000IX-5t
- for <qemu-devel@nongnu.org>; Thu, 09 Jul 2020 13:41:12 +0000
-Received: from loganberry.canonical.com (localhost [127.0.0.1])
- by loganberry.canonical.com (Postfix) with ESMTP id 2B82A2E8025
- for <qemu-devel@nongnu.org>; Thu,  9 Jul 2020 13:41:12 +0000 (UTC)
-MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: quoted-printable
-Date: Thu, 09 Jul 2020 13:33:21 -0000
-From: Bug Watch Updater <1886811@bugs.launchpad.net>
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1jtWgv-0004Qa-P1
+ for qemu-devel@nongnu.org; Thu, 09 Jul 2020 09:34:21 -0400
+Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:50966
+ helo=us-smtp-1.mimecast.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1jtWgt-0003je-AD
+ for qemu-devel@nongnu.org; Thu, 09 Jul 2020 09:34:21 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1594301658;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding;
+ bh=pDsqSQQ8gP0qR3ZQLjnVIJ/ymoSLCPmhFPtjAoidZQ8=;
+ b=NzjhOI9kUigxCVzcH7DHFu+ATfk4OBWWvGr69c4h/46qYjLUIKa0yhBp7FeLXsfj6FGxLp
+ b2JBxDwZsvBST7Uot+ve2pXWDL0GQ1nMN4we8b/bXN1/XpdnuosF1VEGGZwI9jYV8D1mtj
+ fjPmuF61Rkaqvj91AoLDKeAdWD9Zhkg=
+Received: from mail-wm1-f70.google.com (mail-wm1-f70.google.com
+ [209.85.128.70]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-88-SdXlpLbLMkG3i0ZMkB_sFw-1; Thu, 09 Jul 2020 09:34:16 -0400
+X-MC-Unique: SdXlpLbLMkG3i0ZMkB_sFw-1
+Received: by mail-wm1-f70.google.com with SMTP id q20so2181695wme.3
+ for <qemu-devel@nongnu.org>; Thu, 09 Jul 2020 06:34:16 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=pDsqSQQ8gP0qR3ZQLjnVIJ/ymoSLCPmhFPtjAoidZQ8=;
+ b=QVBi3E8cKZkCIWOtF47FT5C6wnU9qbIq9NFrDhKPuUke2bRhHVHKMYdlA2+6/W8xzW
+ 0Cr4o1aNM/wmqCNi/FAxNUgfs+eQ2ryLItjGfB9y3Xtru+jgEFTaG3TSkX9RTcNtNpz4
+ rLHKpTavgdRT7LKLY0uF8dJl//96gxsFuPv6o+5mnVitf2LV620sG/ts2gN9E5iC2/l8
+ HStgi4yUUL6/WzbnRX51R5UR0musXran4/SzsgipuvhGH+x/BEorKZcFKgPbFVZr0RvJ
+ 0je4q/L5bRl37tiQ4kWAeh43Z+hs2+3eIhQYRgIj0sVBFNF90hcGC01LdRGCmkio5Rnq
+ C1TA==
+X-Gm-Message-State: AOAM530P5A7+lzkFhoybF35CaX7NTRGdmOADU4geh1mpIXF/y/73MOYU
+ hY2vvheU3GtGTFTueZ0mDxzSWGVMYZ9qAyla1HvJtHJoZjMRvOIo0+Ayqe8RGb0mYsfBEtkTCjQ
+ eg7cQ3Ze7h7uusHs=
+X-Received: by 2002:a7b:ca52:: with SMTP id m18mr41127wml.92.1594301654881;
+ Thu, 09 Jul 2020 06:34:14 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJyRjD47pMoPv0Pykkc+NwbLHI+zwl5flW3MmhaXslaZfGB8TM4R0VeYQvZVs/EBeKHXQ8TkOg==
+X-Received: by 2002:a7b:ca52:: with SMTP id m18mr41031wml.92.1594301653713;
+ Thu, 09 Jul 2020 06:34:13 -0700 (PDT)
+Received: from localhost.localdomain
+ (138.red-83-57-170.dynamicip.rima-tde.net. [83.57.170.138])
+ by smtp.gmail.com with ESMTPSA id 65sm6350358wre.6.2020.07.09.06.34.12
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Thu, 09 Jul 2020 06:34:13 -0700 (PDT)
+From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>
 To: qemu-devel@nongnu.org
-X-Launchpad-Notification-Type: bug
-X-Launchpad-Bug: product=qemu; status=In Progress; importance=Undecided;
- assignee=Laurent@vivier.eu; 
-X-Launchpad-Bug: distribution=debian; sourcepackage=qemu; component=main;
- status=Confirmed; importance=Unknown; assignee=None; 
-X-Launchpad-Bug-Tags: linux-user
-X-Launchpad-Bug-Information-Type: Public
-X-Launchpad-Bug-Private: no
-X-Launchpad-Bug-Security-Vulnerability: no
-X-Launchpad-Bug-Commenters: emojifreak laurent-vivier
-X-Launchpad-Bug-Reporter: Ryutaroh Matsumoto (emojifreak)
-X-Launchpad-Bug-Modifier: Bug Watch Updater (bug-watch-updater)
-References: <159420830935.32230.13858618076699173558.malonedeb@gac.canonical.com>
-Message-Id: <159430160237.6409.9083409569498492778.launchpad@loganberry.canonical.com>
-Subject: [Bug 1886811] Re: systemd complains Failed to enqueue loopback
- interface start request: Operation not supported
-X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
-X-Launchpad-Message-For: qemu-devel-ml
-Precedence: bulk
-X-Generated-By: Launchpad (canonical.com);
- Revision="4809fcb62f445aaa3ae919f7f6c3cc7d156ea57a";
- Instance="production-secrets-lazr.conf"
-X-Launchpad-Hash: 512332af4a8d6b57df670a722b18f2029b4fc985
-Received-SPF: none client-ip=91.189.90.7; envelope-from=bounces@canonical.com;
- helo=indium.canonical.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/07/09 09:41:12
-X-ACL-Warn: Detected OS   = Linux 3.11 and newer [fuzzy]
-X-Spam_score_int: -58
-X-Spam_score: -5.9
-X-Spam_bar: -----
-X-Spam_report: (-5.9 / 5.0 requ) BAYES_00=-1.9, HEADER_FROM_DIFFERENT_DOMAINS=1,
- RCVD_IN_DNSWL_HI=-5, RCVD_IN_MSPIKE_H3=-0.01, RCVD_IN_MSPIKE_WL=-0.01,
- SPF_HELO_NONE=0.001, SPF_NONE=0.001 autolearn=ham autolearn_force=no
+Subject: [PATCH] softmmu/vl: Include "qemu/rcu.h" for rcu_disable_atfork()
+Date: Thu,  9 Jul 2020 15:34:11 +0200
+Message-Id: <20200709133411.23929-1-philmd@redhat.com>
+X-Mailer: git-send-email 2.21.3
+MIME-Version: 1.0
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=UTF-8;
+	text/plain; charset="utf-8"
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=205.139.110.120; envelope-from=philmd@redhat.com;
+ helo=us-smtp-1.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/07/09 01:47:04
+X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
+X-Spam_score_int: -40
+X-Spam_score: -4.1
+X-Spam_bar: ----
+X-Spam_report: (-4.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-1, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
+Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -76,60 +92,37 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Bug 1886811 <1886811@bugs.launchpad.net>
+Cc: Paolo Bonzini <pbonzini@redhat.com>,
+ =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-** Changed in: qemu (Debian)
-       Status: Unknown =3D> Confirmed
+In commit 73c6e4013b we let vl.c use rcu_disable_atfork()
+which is declared in "qemu/rcu.h", but forgot to include
+this header. Fortunately has never been a problem since
+vl.c includes "exec/memory.h" which includes "qemu/rcu.h".
 
--- =
+Include the missing header now in case we split vl.c later.
 
-You received this bug notification because you are a member of qemu-
-devel-ml, which is subscribed to QEMU.
-https://bugs.launchpad.net/bugs/1886811
+Fixes: 73c6e4013b ("rcu: disable pthread_atfork callbacks ASAP")
+Signed-off-by: Philippe Mathieu-Daudé <philmd@redhat.com>
+---
+ softmmu/vl.c | 1 +
+ 1 file changed, 1 insertion(+)
 
-Title:
-  systemd complains Failed to enqueue loopback interface start request:
-  Operation not supported
+diff --git a/softmmu/vl.c b/softmmu/vl.c
+index ecbc18ba75..f243745c51 100644
+--- a/softmmu/vl.c
++++ b/softmmu/vl.c
+@@ -83,6 +83,7 @@
+ #include "qemu/config-file.h"
+ #include "qemu-options.h"
+ #include "qemu/main-loop.h"
++#include "qemu/rcu.h"
+ #ifdef CONFIG_VIRTFS
+ #include "fsdev/qemu-fsdev.h"
+ #endif
+-- 
+2.21.3
 
-Status in QEMU:
-  In Progress
-Status in qemu package in Debian:
-  Confirmed
-
-Bug description:
-  This symptom seems similar to
-  https://bugs.launchpad.net/qemu/+bug/1823790
-
-  Host Linux: Debian 11 Bullseye (testing) on x84-64 architecture
-  qemu version: latest git of git commit hash eb2c66b10efd2b914b56b20ae9065=
-5914310c925
-  compiled with "./configure --static --disable-system" =
-
-
-  Down stream bug report at https://bugs.debian.org/cgi-bin/bugreport.cgi?b=
-ug=3D964289
-  Bug report (closed) to systemd: https://github.com/systemd/systemd/issues=
-/16359
-
-  systemd in armhf and armel (both little endian 32-bit) containers fail to=
- start with
-  Failed to enqueue loopback interface start request: Operation not support=
-ed
-
-  How to reproduce on Debian (and probably Ubuntu):
-  mmdebstrap --components=3D"main contrib non-free" --architectures=3Darmhf=
- --variant=3Dimportant bullseye /var/lib/machines/armhf-bullseye
-  systemd-nspawn -D /var/lib/machines/armhf-bullseye -b
-
-  When "armhf" architecture is replaced with "mips" (32-bit big endian) or =
-"ppc64"
-  (64-bit big endian), the container starts up fine.
-
-  The same symptom is also observed with "powerpc" (32-bit big endian)
-  architecture.
-
-To manage notifications about this bug go to:
-https://bugs.launchpad.net/qemu/+bug/1886811/+subscriptions
 
