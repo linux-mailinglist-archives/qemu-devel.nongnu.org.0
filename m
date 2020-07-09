@@ -2,84 +2,50 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 77C5221A114
-	for <lists+qemu-devel@lfdr.de>; Thu,  9 Jul 2020 15:42:16 +0200 (CEST)
-Received: from localhost ([::1]:34156 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0C0EB21A11A
+	for <lists+qemu-devel@lfdr.de>; Thu,  9 Jul 2020 15:43:59 +0200 (CEST)
+Received: from localhost ([::1]:39164 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jtWoZ-0001oM-Hj
-	for lists+qemu-devel@lfdr.de; Thu, 09 Jul 2020 09:42:15 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:40570)
+	id 1jtWqE-0003xr-4r
+	for lists+qemu-devel@lfdr.de; Thu, 09 Jul 2020 09:43:58 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:41028)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1jtWnU-0000kG-Pv
- for qemu-devel@nongnu.org; Thu, 09 Jul 2020 09:41:08 -0400
-Received: from mail-oo1-xc44.google.com ([2607:f8b0:4864:20::c44]:39933)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1jtWnS-0004lB-Rd
- for qemu-devel@nongnu.org; Thu, 09 Jul 2020 09:41:08 -0400
-Received: by mail-oo1-xc44.google.com with SMTP id c4so352686oou.6
- for <qemu-devel@nongnu.org>; Thu, 09 Jul 2020 06:41:05 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc:content-transfer-encoding;
- bh=0cc+pvM4yPgo0naNrbwOO3SjzstSINRidB0LVaTtmx0=;
- b=WIg7MLZX5pCmn319ehfWbrwIk1nhJOFd8zJn40jff+vhMLqGXESj8UVsQnrdNTgttQ
- CVR67TXDepoTKOEwSqV2J0Q/vAMshGY3iyXociitQGPQi9CxBS9P91VKjYRbiJyoT+Kn
- aa9f+rNdhNkgNRZBTroOyb0L+SLzhkqRwzGZGD/dqe6qK/5orMik2vU9bduWIWB/a2aN
- OS9tNQBAG4xMKGfXi7xu/3dAYQJpLJUowcc3VOAFvbqAm4916wXLsL3xHVv70mCsjNoZ
- mKrw9iMQ0Wp1GUvP/69bQrltl0FyWfa8P1RTZJKvh5OqsGqLJ0Uypqrc8atU/CmMqz47
- q2Cg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc:content-transfer-encoding;
- bh=0cc+pvM4yPgo0naNrbwOO3SjzstSINRidB0LVaTtmx0=;
- b=CGN/nmXhOhPZz++27cS2Jx+I0u5yBAVmj/+KV1bWiwgcMNMHHkFew2WY7L8+6YACey
- 0InObB7RDXcM9NexDlFr69tcGB9V7ZUJnaSSJvi06/83niqiJmLbqyHSqEnv4cwNAmjq
- mrYV19Wu6ZFrsUngh3HCx1AukoYu1YCtIh0MnfqGexmhYoBSNf9DsCL0d1H/Cdw1wNqq
- zP/pDa4/eJEvN8B87s1U2Nzwab5yDKvUlEthr4vdccyetLOiCLyluX92Tct7msNDER5J
- a96r1YjwbXGSvq7EqqUaXVFlzYtAA390Q06n+YTwUsHnFmptGYFrRMsYECJkKZHfgI7h
- uFMA==
-X-Gm-Message-State: AOAM531057kT0OITFCO2OXaw2iMuo+5LtYgE5uqKmzD0KqRgMK6Di8b/
- 8w/9gk4SZpBACy2lhj5tscSX77D3Pre0rb/03XaH7g==
-X-Google-Smtp-Source: ABdhPJyF9tjVyfJ4nnmZS+Jvl17mxcL4J+cAURgFpRX5yuZvKDLk07YPoEdmDYzrhsDgp31Ww44II4GT2jtZ5QXvt1U=
-X-Received: by 2002:a4a:9653:: with SMTP id r19mr32661106ooi.85.1594302064337; 
- Thu, 09 Jul 2020 06:41:04 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <alxndr@bu.edu>) id 1jtWp8-000337-Kc
+ for qemu-devel@nongnu.org; Thu, 09 Jul 2020 09:42:52 -0400
+Received: from relay64.bu.edu ([128.197.228.104]:47037)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <alxndr@bu.edu>) id 1jtWp6-0004wC-Uh
+ for qemu-devel@nongnu.org; Thu, 09 Jul 2020 09:42:50 -0400
+X-Envelope-From: alxndr@bu.edu
+X-BU-AUTH: mozz.bu.edu [128.197.127.33]
+Received: from BU-AUTH (localhost.localdomain [127.0.0.1]) (authenticated
+ bits=0)
+ by relay64.bu.edu (8.14.3/8.14.3) with ESMTP id 069DfsIh027514
+ (version=TLSv1/SSLv3 cipher=AES256-GCM-SHA384 bits=256 verify=NO);
+ Thu, 9 Jul 2020 09:41:57 -0400
+Date: Thu, 9 Jul 2020 09:41:54 -0400
+From: Alexander Bulekov <alxndr@bu.edu>
+To: Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <philmd@redhat.com>
+Subject: Re: [PATCH] tests/qtest/fuzz: Add missing spaces in description
+Message-ID: <20200709134139.t4hfidzkecbo22sc@mozz.bu.edu>
+References: <20200709083719.22221-1-thuth@redhat.com>
+ <1b4acaae-f80b-68cd-8798-5fc5e0ce1021@redhat.com>
 MIME-Version: 1.0
-References: <20200707204333.261506-1-bauerman@linux.ibm.com>
- <20200707214917.GX7276@habkost.net> <87y2nu3nxq.fsf@morokweng.localdomain>
- <c53b36b7-ee7b-bb66-8220-cce788fd631d@redhat.com>
- <20200708100038.GG18595@umbus.fritz.box>
- <CAFEAcA9V7Uha9-rz+JY-5HkazCWuTk1vkLnw1m9Lw-bXXKbkvw@mail.gmail.com>
- <20200708152540.GZ7276@habkost.net>
- <da4b5a4c-7a72-6e07-b423-1487ad358c31@redhat.com>
- <20200708213900.GD780932@habkost.net>
- <714621e2-4585-e6ee-5812-f3a45aa09267@redhat.com>
- <20200709115413.722d4feb@bahia.lan>
- <69e8f708-4fa7-6240-1484-febae0246ae6@redhat.com>
- <20200709125525.29d28d6a@bahia.lan>
- <9951d4cb-7aba-bc65-91be-1fe57393d68e@redhat.com>
- <20200709151320.720fb0f0@bahia.lan>
-In-Reply-To: <20200709151320.720fb0f0@bahia.lan>
-From: Peter Maydell <peter.maydell@linaro.org>
-Date: Thu, 9 Jul 2020 14:40:53 +0100
-Message-ID: <CAFEAcA-w8zdi6uauxWpAAUXE=0qhUEJqmyMWLEhwYm+LQGP_yw@mail.gmail.com>
-Subject: Re: [PATCH] cpu: Add starts_halted() method
-To: Greg Kurz <groug@kaod.org>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=2607:f8b0:4864:20::c44;
- envelope-from=peter.maydell@linaro.org; helo=mail-oo1-xc44.google.com
-X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
- That's all we know.
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <1b4acaae-f80b-68cd-8798-5fc5e0ce1021@redhat.com>
+User-Agent: NeoMutt/20180716
+Received-SPF: pass client-ip=128.197.228.104; envelope-from=alxndr@bu.edu;
+ helo=relay64.bu.edu
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/07/09 09:39:07
+X-ACL-Warn: Detected OS   = Linux 2.6.x
+X-Spam_score_int: -31
+X-Spam_score: -3.2
+X-Spam_bar: ---
+X-Spam_report: (-3.2 / 5.0 requ) BAYES_00=-1.9, HK_RANDOM_ENVFROM=0.001,
+ HK_RANDOM_FROM=1, RCVD_IN_DNSWL_MED=-2.3, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -93,31 +59,49 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Laurent Vivier <lvivier@redhat.com>, Thomas Huth <thuth@redhat.com>,
- Eduardo Habkost <ehabkost@redhat.com>,
- =?UTF-8?B?QWxleCBCZW5uw6ll?= <alex.bennee@linaro.org>,
- QEMU Developers <qemu-devel@nongnu.org>, qemu-ppc <qemu-ppc@nongnu.org>,
- =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <philmd@redhat.com>,
- Thiago Jung Bauermann <bauerman@linux.ibm.com>,
- David Gibson <david@gibson.dropbear.id.au>
+Cc: Bandan Das <bsd@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>,
+ Thomas Huth <thuth@redhat.com>, qemu-devel@nongnu.org,
+ Stefan Hajnoczi <stefanha@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Thu, 9 Jul 2020 at 14:13, Greg Kurz <groug@kaod.org> wrote:
-> On Thu, 9 Jul 2020 14:21:04 +0200
-> Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com> wrote:
-> > The machine simply has to set the 'start-powered-off' flag on
-> > all vCPUS except the 1st one.
-> >
->
-> We only want the first vCPU to start when the platform is
-> fully configured, so I'd rather put 'start-powered-off' on
-> every body and explicitly power on the first one during
-> machine reset as we do now.
+On 200709 1228, Philippe Mathieu-Daudé wrote:
+> On 7/9/20 10:37 AM, Thomas Huth wrote:
+> > There should be a space between "forking" and "for".
+> > 
+> > Signed-off-by: Thomas Huth <thuth@redhat.com>
+> > ---
+> >  tests/qtest/fuzz/virtio_scsi_fuzz.c | 4 ++--
+> >  1 file changed, 2 insertions(+), 2 deletions(-)
+> > 
+> > diff --git a/tests/qtest/fuzz/virtio_scsi_fuzz.c b/tests/qtest/fuzz/virtio_scsi_fuzz.c
+> > index 51dce491ab..3a9ea13736 100644
+> > --- a/tests/qtest/fuzz/virtio_scsi_fuzz.c
+> > +++ b/tests/qtest/fuzz/virtio_scsi_fuzz.c
+> > @@ -191,7 +191,7 @@ static void register_virtio_scsi_fuzz_targets(void)
+> >  {
+> >      fuzz_add_qos_target(&(FuzzTarget){
+> >                  .name = "virtio-scsi-fuzz",
+> > -                .description = "Fuzz the virtio-scsi virtual queues, forking"
+> > +                .description = "Fuzz the virtio-scsi virtual queues, forking "
+> >                                  "for each fuzz run",
+> >                  .pre_vm_init = &counter_shm_init,
+> >                  .pre_fuzz = &virtio_scsi_pre_fuzz,
+> > @@ -202,7 +202,7 @@ static void register_virtio_scsi_fuzz_targets(void)
+> >  
+> >      fuzz_add_qos_target(&(FuzzTarget){
+> >                  .name = "virtio-scsi-flags-fuzz",
+> > -                .description = "Fuzz the virtio-scsi virtual queues, forking"
+> > +                .description = "Fuzz the virtio-scsi virtual queues, forking "
+> >                  "for each fuzz run (also fuzzes the virtio flags)",
+> >                  .pre_vm_init = &counter_shm_init,
+> >                  .pre_fuzz = &virtio_scsi_pre_fuzz,
+> > 
+> 
+> Uh I thought we had fixed these already :/
+> 
+> Reviewed-by: Philippe Mathieu-Daudé <philmd@redhat.com>
 
-Nothing should ever be able to run before the first
-machine reset has completed: that would be a pretty bad bug.
-
-thanks
--- PMM
+Same..
+Reviewed-by: Alexander Bulekov <alxndr@bu.edu>
 
