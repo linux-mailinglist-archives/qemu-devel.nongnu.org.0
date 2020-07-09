@@ -2,71 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id AC87721A1F8
-	for <lists+qemu-devel@lfdr.de>; Thu,  9 Jul 2020 16:20:23 +0200 (CEST)
-Received: from localhost ([::1]:57996 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2389721A201
+	for <lists+qemu-devel@lfdr.de>; Thu,  9 Jul 2020 16:22:17 +0200 (CEST)
+Received: from localhost ([::1]:38572 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jtXPS-0000qa-KW
-	for lists+qemu-devel@lfdr.de; Thu, 09 Jul 2020 10:20:22 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:51006)
+	id 1jtXRI-0004Yx-40
+	for lists+qemu-devel@lfdr.de; Thu, 09 Jul 2020 10:22:16 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:51714)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1jtXJ7-0000b3-Iy
- for qemu-devel@nongnu.org; Thu, 09 Jul 2020 10:13:49 -0400
-Received: from mail-wr1-x441.google.com ([2a00:1450:4864:20::441]:42832)
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1jtXKh-0003io-I7
+ for qemu-devel@nongnu.org; Thu, 09 Jul 2020 10:15:27 -0400
+Received: from mail-oi1-x243.google.com ([2607:f8b0:4864:20::243]:41239)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1jtXJ4-0001M2-Rj
- for qemu-devel@nongnu.org; Thu, 09 Jul 2020 10:13:49 -0400
-Received: by mail-wr1-x441.google.com with SMTP id o11so2546845wrv.9
- for <qemu-devel@nongnu.org>; Thu, 09 Jul 2020 07:13:46 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1jtXKf-0001db-W8
+ for qemu-devel@nongnu.org; Thu, 09 Jul 2020 10:15:27 -0400
+Received: by mail-oi1-x243.google.com with SMTP id y22so1965706oie.8
+ for <qemu-devel@nongnu.org>; Thu, 09 Jul 2020 07:15:25 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=from:to:cc:subject:date:message-id:in-reply-to:references
- :mime-version:content-transfer-encoding;
- bh=6oUsKppsQSQ9dDcWGFfn/h24xQJ4dIbnKOSlIto0GoA=;
- b=kMTwBEDNnNx8igNKTQwFi4OlDltpw0xtCqrvORcvBDvWTL4k4eLfqpMDdVZDnjJy9X
- u0ePj2buNN/3uRT5QZXRg1nlHDKcKNQdN7z2pLnBiMpcoIXzy0TLRHXsQMFVWxAynA8O
- QKKUT8MXP9ajSas+4ggQhxwSyUQHq0cBYvw6hZFzFkVDd+BiJPRTswGFj9TLvstQi1x/
- dWKF34T2JSXjZXzoibJgH4oxC+u32zcxq/1yj7WMPGFVfPt8nwASJ5EZqjgnqfxZ290/
- m6LRRICRWRHu+C+3CcDz1dy4ErDiqFr0GY6IwnJMBj9T1EhtJqup1iIFHShmD1eTXkIw
- +SHg==
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc:content-transfer-encoding;
+ bh=lNNjQi8b+t/1qYv7bRluAnLmEcCT/Chis9UZJWOYFX8=;
+ b=uWxs7Vte4OkImDsgBeKOHyi52hKkCtZkfFsqs51U7einmtgmNsZ9XeoRLE4BW7EXSb
+ hiDS8uTdTNA0RAyVquNzJUFatISVlnFAuXSMqVGWBWgQ9Rns95MooPBEJwGit4724z2a
+ 8BPeCYVoJ19SKKTOp9t9vxX7N0n4cO6xWMnok1syiSHdIiVqwzyIPxkrf0cSxvbTUAPs
+ hGouMIqj7Z/WUj8wgHvoTGM1McxMLXLeGjKA95eLK1oQjvzY8uGtVxcEu2gVOcg8FYSx
+ 7Pn3p0EGn8fZXmCp+ChUKPbs6+5fW6xBsAo0nHiXzJaEkY1Xv4hY0hwbC2tfdIUrRP/9
+ wgAw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
- :references:mime-version:content-transfer-encoding;
- bh=6oUsKppsQSQ9dDcWGFfn/h24xQJ4dIbnKOSlIto0GoA=;
- b=ONVPz7DiGx8zdMjyBIC2VMDW5ve3oLR0+cxjWgPpBUirddvsiDSKEVWmFBDfq3hYW0
- Np1T2x85C1YLkqnDgsmXk/Ge6lmPMkQgVDXAThq1GfnCeW/WZMqhgwOg5K9CvFO3GnYU
- bj0guCm2P+0UW8W2LHk2iOZxqlWXaHCt89Vv5yam/fFHk8kX+CWVqvI0yz4AjUJFeB/9
- Vv1O1Evu5Fy29rpsPt1xfIuMvPwDphBYfFFcI1jbPRocs11Zwt2+F0bZn41NExTGpZGT
- GYXhD4WbC73dvKeefBJr6U4VZx1ij2lMYamlwyLMoILfa1BMy3qC5RbubUP95p4BZsFK
- Stlw==
-X-Gm-Message-State: AOAM531HbnfKJ0YVPhra0orDhWiSRYS7z6RN81BjYSIJ+0Ip0gRRefxz
- Glu1OozmpH4NCZezgBT/pLw5Gg==
-X-Google-Smtp-Source: ABdhPJw4SgWFtowly5L9aq1IwICjqwM3HGDrpnHb/PgplbNrnxYyWwLA7TCutv9ryOTj3cHNF6TECA==
-X-Received: by 2002:adf:f388:: with SMTP id m8mr66146649wro.338.1594304025439; 
- Thu, 09 Jul 2020 07:13:45 -0700 (PDT)
-Received: from zen.linaroharston ([51.148.130.216])
- by smtp.gmail.com with ESMTPSA id 51sm6158514wrc.44.2020.07.09.07.13.34
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 09 Jul 2020 07:13:44 -0700 (PDT)
-Received: from zen.lan (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id 9C9F91FF9C;
- Thu,  9 Jul 2020 15:13:28 +0100 (BST)
-From: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
-To: qemu-devel@nongnu.org
-Subject: [PATCH v1 13/13] configure: remove all dependencies on a (re)configure
-Date: Thu,  9 Jul 2020 15:13:27 +0100
-Message-Id: <20200709141327.14631-14-alex.bennee@linaro.org>
-X-Mailer: git-send-email 2.20.1
-In-Reply-To: <20200709141327.14631-1-alex.bennee@linaro.org>
-References: <20200709141327.14631-1-alex.bennee@linaro.org>
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc:content-transfer-encoding;
+ bh=lNNjQi8b+t/1qYv7bRluAnLmEcCT/Chis9UZJWOYFX8=;
+ b=ponjY/tFMJmk4yOeCqn7h95ets6dWc5IP1PqbskvVkmCgLtUMFWA7wqNXz9vh8HiDR
+ 1KWFIfwoE0Ee86g7rIYKn1213WpPqlTA8b1pQK1/oY3rxaK0jo+hVAxGtWj5TBMUXiVZ
+ 6eN2tb78yUGIw6Lco30f/rM5X1ryRL8U4v1kn+fKpmYj7ZIL57aSunEUg8wM+wa8crmv
+ 7Ubd47fWnmGFapNQvptn0B/v8s7MhPbNaw5yrgewLVCjBlpTGrYPYrxPJ3EvPjBotMGm
+ c4SSKsxDAnWQN2+mqEmr76yIR2UKJ+l5OIhZ3osn/VdE5mJ96a15UjnGNwhNSCvlntvA
+ 1a2g==
+X-Gm-Message-State: AOAM530YQDQlfoo91ybgIRFqqNbWPw/Pdb9GRqn7UAj/rOGZE0ta/r2M
+ 7GBq5HYmXCwbSwiANh2KzTOMa0ttGlCh/ClMJJEzww==
+X-Google-Smtp-Source: ABdhPJzunFtHfvk67GEEnuqTBu8yTB5v6but9+Rajnh0I2FwwV7930mGdeNm07BPDDWROeVdOGphTrU9T+gzPTWN9hI=
+X-Received: by 2002:aca:54c9:: with SMTP id i192mr150802oib.163.1594304123770; 
+ Thu, 09 Jul 2020 07:15:23 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::441;
- envelope-from=alex.bennee@linaro.org; helo=mail-wr1-x441.google.com
+References: <20200707132116.26207-1-f4bug@amsat.org>
+ <20200707132116.26207-3-f4bug@amsat.org>
+ <CAKmqyKNY+7tE9tcZm7_Th9qapo1CH0AwNwBf7vaf+7vSqBNtVA@mail.gmail.com>
+ <CAFEAcA_ZXgNHMAhBVmjvstyG=PpaHOtcmo=VgvfBQ3Z9VJTk_g@mail.gmail.com>
+ <3f1bf3ba-d6c3-a148-9850-076b2caa64d0@amsat.org>
+ <CAPan3Wr09ZbbHWO-dhGeK3zhZQv3smrzLpUGMj71NWh0hToZDg@mail.gmail.com>
+ <e87550d9-e1cc-cc15-2674-755249e9a965@amsat.org>
+In-Reply-To: <e87550d9-e1cc-cc15-2674-755249e9a965@amsat.org>
+From: Peter Maydell <peter.maydell@linaro.org>
+Date: Thu, 9 Jul 2020 15:15:12 +0100
+Message-ID: <CAFEAcA8em-bgU2xd8OG+bPLDCSZCF8Y2ay9U57D8p9m1SWO=9g@mail.gmail.com>
+Subject: Re: [PATCH 2/2] hw/sd/sdcard: Do not allow invalid SD card sizes
+To: =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <f4bug@amsat.org>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=2607:f8b0:4864:20::243;
+ envelope-from=peter.maydell@linaro.org; helo=mail-oi1-x243.google.com
 X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
  That's all we know.
 X-Spam_score_int: -20
@@ -75,7 +73,7 @@ X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
  DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -88,76 +86,53 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: fam@euphon.net, berrange@redhat.com, robert.foley@linaro.org,
- =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>,
- richard.henderson@linaro.org, f4bug@amsat.org, robhenry@microsoft.com,
- aaron@os.amperecomputing.com, cota@braap.org, kuhn.chenqun@huawei.com,
- peter.puhov@linaro.org, aurelien@aurel32.net
+Cc: Qemu-block <qemu-block@nongnu.org>,
+ Alistair Francis <alistair@alistair23.me>,
+ "qemu-devel@nongnu.org Developers" <qemu-devel@nongnu.org>,
+ Wainer dos Santos Moschetta <wainersm@redhat.com>,
+ Niek Linnenbank <nieklinnenbank@gmail.com>,
+ Paolo Bonzini <pbonzini@redhat.com>, Cleber Rosa <crosa@redhat.com>,
+ Alistair Francis <alistair23@gmail.com>,
+ =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <philmd@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The previous code was brittle and missed cases such as the mipn32
-variants which for some reason has the 64 bit syscalls. This leads to
-a number of binary targets having deps lines like:
+On Thu, 9 Jul 2020 at 14:56, Philippe Mathieu-Daud=C3=A9 <f4bug@amsat.org> =
+wrote:
+>
+> On 7/7/20 10:29 PM, Niek Linnenbank wrote:
+> > So I manually copy & pasted the change into hw/sd/sd.c to test it.
+> > It looks like the check works, but my concern is that with this change,
+> > we will be getting this error on 'off-the-shelf' images as well.
+> > For example, the latest Raspbian image size also isn't a power of two:
+> >
+> > $ ./arm-softmmu/qemu-system-arm -M raspi2 -sd
+> > ~/Downloads/2020-05-27-raspios-buster-lite-armhf.img -nographic
+> > WARNING: Image format was not specified for
+> > '/home/me/Downloads/2020-05-27-raspios-buster-lite-armhf.img' and
+> > probing guessed raw.
+> >          Automatically detecting the format is dangerous for raw images=
+,
+> > write operations on block 0 will be restricted.
+> >          Specify the 'raw' format explicitly to remove the restrictions=
+.
+> > qemu-system-arm: Invalid SD card size: 1.73 GiB (expecting at least 2 G=
+iB)
+> >
+> > If we do decide that the change is needed, I would like to propose that
+> > we also give the user some instructions
+> > on how to fix it, maybe some 'dd' command?
+>
+> On POSIX we can suggest to use 'truncate -s 2G' from coreutils.
+> This is not in the default Darwin packages.
+> On Windows I have no clue.
 
-  all.clang-sanitizer/mipsn32el-linux-user/linux-user/signal.d
-  140:  /home/alex/lsrc/qemu.git/linux-user/mips64/syscall_nr.h \
-  455:/home/alex/lsrc/qemu.git/linux-user/mips64/syscall_nr.h:
+dd/truncate etc won't work if the image file is not raw (eg if
+it's qcow2). The only chance you have of something that's actually
+generic would probably involve "qemu-img resize". But I'm a bit
+wary of having an error message that recommends that, because
+what if we got it wrong?
 
-  all.clang-sanitizer/mipsn32el-linux-user/linux-user/syscall.d
-  146:  /home/alex/lsrc/qemu.git/linux-user/mips64/syscall_nr.h \
-  485:/home/alex/lsrc/qemu.git/linux-user/mips64/syscall_nr.h:
-
-which in turn would trigger the re-generation of syscall_nr.h in the
-source tree (thanks to generic %/syscall_nr.h rules). The previous
-code attempts to clean it out but misses edge cases but fails.
-
-After spending a day trying to understand how this was happening I'm
-unconvinced that there are not other such breakages possible with this
-"caching". As we add more auto-generated code to the build it is likely
-to trip up again. Apply a hammer to the problem.
-
-Fixes: 91e5998f18 (which fixes 5f29856b852d and 4d6a835dea47)
-Signed-off-by: Alex Bennée <alex.bennee@linaro.org>
----
- configure | 15 ++++++---------
- 1 file changed, 6 insertions(+), 9 deletions(-)
-
-diff --git a/configure b/configure
-index 1e977601a47a..3c404f31f4f4 100755
---- a/configure
-+++ b/configure
-@@ -1955,23 +1955,20 @@ EOF
- exit 0
- fi
- 
--# Remove old dependency files to make sure that they get properly regenerated
--rm -f */config-devices.mak.d
--
- # Remove syscall_nr.h to be sure they will be regenerated in the build
- # directory, not in the source directory
- for arch in alpha hppa m68k xtensa sh4 microblaze arm ppc s390x sparc sparc64 \
-     i386 x86_64 mips mips64 ; do
-     # remove the file if it has been generated in the source directory
-     rm -f "${source_path}/linux-user/${arch}/syscall_nr.h"
--    # remove the dependency files
--    for target in ${arch}*-linux-user ; do
--        test -d "${target}" && find "${target}" -type f -name "*.d" \
--             -exec grep -q "${source_path}/linux-user/${arch}/syscall_nr.h" {} \; \
--             -print | while read file ; do rm "${file}" "${file%.d}.o" ; done
--    done
- done
- 
-+# Clean out all old dependency files. As more files are generated we
-+# run the risk of old dependencies triggering generation in the wrong
-+# places. Previous brittle attempts to be surgical tend to miss edge
-+# cases leading to wasted time and much confusion.
-+find -type f -name "*.d" -exec rm -f {} \;
-+
- if test -z "$python"
- then
-     error_exit "Python not found. Use --python=/path/to/python"
--- 
-2.20.1
-
+thanks
+-- PMM
 
