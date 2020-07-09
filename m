@@ -2,64 +2,63 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B03F121A80A
-	for <lists+qemu-devel@lfdr.de>; Thu,  9 Jul 2020 21:47:11 +0200 (CEST)
-Received: from localhost ([::1]:36122 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D55A321A7FE
+	for <lists+qemu-devel@lfdr.de>; Thu,  9 Jul 2020 21:44:39 +0200 (CEST)
+Received: from localhost ([::1]:51168 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jtcVi-0005Ke-P0
-	for lists+qemu-devel@lfdr.de; Thu, 09 Jul 2020 15:47:10 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:58388)
+	id 1jtcTG-00089l-SX
+	for lists+qemu-devel@lfdr.de; Thu, 09 Jul 2020 15:44:38 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:58430)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <marcandre.lureau@redhat.com>)
- id 1jtcS1-00069y-NM
- for qemu-devel@nongnu.org; Thu, 09 Jul 2020 15:43:21 -0400
-Received: from us-smtp-2.mimecast.com ([205.139.110.61]:51697
- helo=us-smtp-delivery-1.mimecast.com)
+ id 1jtcS9-0006PA-3r
+ for qemu-devel@nongnu.org; Thu, 09 Jul 2020 15:43:29 -0400
+Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:35392
+ helo=us-smtp-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
  (Exim 4.90_1) (envelope-from <marcandre.lureau@redhat.com>)
- id 1jtcS0-0000OY-15
- for qemu-devel@nongnu.org; Thu, 09 Jul 2020 15:43:21 -0400
+ id 1jtcS7-0000P4-1l
+ for qemu-devel@nongnu.org; Thu, 09 Jul 2020 15:43:28 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1594323799;
+ s=mimecast20190719; t=1594323806;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=nmjlxskDCNemjY9i5T2AIdzGVyyu8NbAXBMJEbycPOk=;
- b=JgmrPsOgPkWsH12KaRIpyVRrexd0E7K3xM3hcl119SY/0OtNDRo582CSqFf/SqT6nYAGty
- K83l6jtATFpB716XiCeWzAcKEfOR6lODoy13cK/UBJJUxfjCgfISziPsqeVb6TuHFzrN+3
- hY8y8CnkTI/U2ft4sKA49dzikhseJ2U=
+ bh=nlDr7m50Avem+YD/KNfppD5uwE9lQQqI2yaQRTjmWAY=;
+ b=TV3LKpemyusQbzQjRTOasLMNPGPg/Sw9WgThWwPhkADIq2ebInUsX/TRWBKe75CzRASyCA
+ 76H/nVinI//IpG1hNl1g8vqV10B/JNSzveEd27uJAIeCpPGvHa6Axdtpv+7ZXredGk16Fi
+ DCdu1R00Dyva9HoRjtEJ7v3D5jYIL1U=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-380-M8iumT7oN4qMotzwYR6COg-1; Thu, 09 Jul 2020 15:43:15 -0400
-X-MC-Unique: M8iumT7oN4qMotzwYR6COg-1
-Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
- [10.5.11.12])
+ us-mta-320-D4Xzcr0EMwGvc-MaSAIWdA-1; Thu, 09 Jul 2020 15:43:24 -0400
+X-MC-Unique: D4Xzcr0EMwGvc-MaSAIWdA-1
+Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
+ [10.5.11.23])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 730DCC7465;
- Thu,  9 Jul 2020 19:43:14 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 43AC3102C7ED;
+ Thu,  9 Jul 2020 19:43:23 +0000 (UTC)
 Received: from localhost (unknown [10.36.110.13])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 460F160C80;
- Thu,  9 Jul 2020 19:43:09 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 2C9631972D;
+ Thu,  9 Jul 2020 19:43:18 +0000 (UTC)
 From: =?UTF-8?q?Marc-Andr=C3=A9=20Lureau?= <marcandre.lureau@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH 04/13] block/sheepdog: auto-ify URI parsing variables
-Date: Thu,  9 Jul 2020 23:42:25 +0400
-Message-Id: <20200709194234.2117650-5-marcandre.lureau@redhat.com>
+Subject: [PATCH 05/13] block/ssh: auto-ify URI parsing variables
+Date: Thu,  9 Jul 2020 23:42:26 +0400
+Message-Id: <20200709194234.2117650-6-marcandre.lureau@redhat.com>
 In-Reply-To: <20200709194234.2117650-1-marcandre.lureau@redhat.com>
 References: <20200709194234.2117650-1-marcandre.lureau@redhat.com>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=205.139.110.61;
- envelope-from=marcandre.lureau@redhat.com;
- helo=us-smtp-delivery-1.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/07/09 10:34:01
+Received-SPF: pass client-ip=205.139.110.120;
+ envelope-from=marcandre.lureau@redhat.com; helo=us-smtp-1.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/07/09 11:25:17
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
 X-Spam_score_int: -40
 X-Spam_score: -4.1
@@ -88,173 +87,80 @@ Cc: Kevin Wolf <kwolf@redhat.com>, integration@gluster.org,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Since we are going to introduce URI parsing alternative, I changed the
-way SheepdogConfig takes care of host/path & URI/QueryParams lifetimes.
-
 Signed-off-by: Marc-André Lureau <marcandre.lureau@redhat.com>
 ---
- block/sheepdog.c | 72 ++++++++++++++++++++----------------------------
- 1 file changed, 30 insertions(+), 42 deletions(-)
+ block/ssh.c | 23 +++++++----------------
+ 1 file changed, 7 insertions(+), 16 deletions(-)
 
-diff --git a/block/sheepdog.c b/block/sheepdog.c
-index 27a30d17f4c..3403adfc2cd 100644
---- a/block/sheepdog.c
-+++ b/block/sheepdog.c
-@@ -986,39 +986,33 @@ static bool sd_parse_snapid_or_tag(const char *str,
- }
+diff --git a/block/ssh.c b/block/ssh.c
+index 098dbe03c15..c8f6ad79e3c 100644
+--- a/block/ssh.c
++++ b/block/ssh.c
+@@ -180,9 +180,9 @@ static void sftp_error_trace(BDRVSSHState *s, const char *op)
  
- typedef struct {
--    const char *path;           /* non-null iff transport is tcp */
--    const char *host;           /* valid when transport is tcp */
-+    char *path;                 /* non-null iff transport is tcp */
-+    char *host;                 /* valid when transport is tcp */
-     int port;                   /* valid when transport is tcp */
-     char vdi[SD_MAX_VDI_LEN];
-     char tag[SD_MAX_VDI_TAG_LEN];
-     uint32_t snap_id;
--    /* Remainder is only for sd_config_done() */
--    URI *uri;
+ static int parse_uri(const char *filename, QDict *options, Error **errp)
+ {
+-    URI *uri = NULL;
 -    QueryParams *qp;
- } SheepdogConfig;
- 
- static void sd_config_done(SheepdogConfig *cfg)
- {
--    if (cfg->qp) {
--        query_params_free(cfg->qp);
--    }
--    uri_free(cfg->uri);
-+    g_clear_pointer(&cfg->host, g_free);
-+    g_clear_pointer(&cfg->path, g_free);
- }
- 
- static void sd_parse_uri(SheepdogConfig *cfg, const char *filename,
-                          Error **errp)
- {
--    Error *err = NULL;
--    QueryParams *qp = NULL;
-+    g_autoptr(QueryParams) qp = NULL;
+-    char *port_str;
 +    g_autoptr(URI) uri = NULL;
-     bool is_unix;
--    URI *uri;
++    g_autoptr(QueryParams) qp = NULL;
++    g_autofree char *port_str = NULL;
+     int i;
  
-     memset(cfg, 0, sizeof(*cfg));
+     uri = uri_parse(filename);
+@@ -192,23 +192,23 @@ static int parse_uri(const char *filename, QDict *options, Error **errp)
  
--    cfg->uri = uri = uri_parse(filename);
-+    uri = uri_parse(filename);
-     if (!uri) {
--        error_setg(&err, "invalid URI '%s'", filename);
--        goto out;
-+        error_setg(errp, "invalid URI '%s'", filename);
-+        return;
+     if (g_strcmp0(uri->scheme, "ssh") != 0) {
+         error_setg(errp, "URI scheme must be 'ssh'");
+-        goto err;
++        return -EINVAL;
      }
  
-     /* transport */
-@@ -1029,48 +1023,48 @@ static void sd_parse_uri(SheepdogConfig *cfg, const char *filename,
-     } else if (!g_strcmp0(uri->scheme, "sheepdog+unix")) {
-         is_unix = true;
-     } else {
--        error_setg(&err, "URI scheme must be 'sheepdog', 'sheepdog+tcp',"
-+        error_setg(errp, "URI scheme must be 'sheepdog', 'sheepdog+tcp',"
-                    " or 'sheepdog+unix'");
--        goto out;
-+        return;
+     if (!uri->server || strcmp(uri->server, "") == 0) {
+         error_setg(errp, "missing hostname in URI");
+-        goto err;
++        return -EINVAL;
      }
  
-     if (uri->path == NULL || !strcmp(uri->path, "/")) {
--        error_setg(&err, "missing file path in URI");
--        goto out;
-+        error_setg(errp, "missing file path in URI");
-+        return;
-     }
-     if (g_strlcpy(cfg->vdi, uri->path + 1, SD_MAX_VDI_LEN)
-         >= SD_MAX_VDI_LEN) {
--        error_setg(&err, "VDI name is too long");
--        goto out;
-+        error_setg(errp, "VDI name is too long");
-+        return;
+     if (!uri->path || strcmp(uri->path, "") == 0) {
+         error_setg(errp, "missing remote path in URI");
+-        goto err;
++        return -EINVAL;
      }
  
--    cfg->qp = qp = query_params_parse(uri->query);
-+    qp = query_params_parse(uri->query);
+     qp = query_params_parse(uri->query);
+     if (!qp) {
+         error_setg(errp, "could not parse query parameters");
+-        goto err;
++        return -EINVAL;
+     }
  
-     if (is_unix) {
-         /* sheepdog+unix:///vdiname?socket=path */
-         if (uri->server || uri->port) {
--            error_setg(&err, "URI scheme %s doesn't accept a server address",
-+            error_setg(errp, "URI scheme %s doesn't accept a server address",
-                        uri->scheme);
--            goto out;
-+            return;
+     if(uri->user && strcmp(uri->user, "") != 0) {
+@@ -219,7 +219,6 @@ static int parse_uri(const char *filename, QDict *options, Error **errp)
+ 
+     port_str = g_strdup_printf("%d", uri->port ?: 22);
+     qdict_put_str(options, "server.port", port_str);
+-    g_free(port_str);
+ 
+     qdict_put_str(options, "path", uri->path);
+ 
+@@ -232,15 +231,7 @@ static int parse_uri(const char *filename, QDict *options, Error **errp)
          }
-         if (!qp->n) {
--            error_setg(&err,
-+            error_setg(errp,
-                        "URI scheme %s requires query parameter 'socket'",
-                        uri->scheme);
--            goto out;
-+            return;
-         }
-         if (qp->n != 1 || strcmp(qp->p[0].name, "socket")) {
--            error_setg(&err, "unexpected query parameters");
--            goto out;
-+            error_setg(errp, "unexpected query parameters");
-+            return;
-         }
--        cfg->path = qp->p[0].value;
-+        cfg->path = g_strdup(qp->p[0].value);
-     } else {
-         /* sheepdog[+tcp]://[host:port]/vdiname */
-         if (qp->n) {
--            error_setg(&err, "unexpected query parameters");
--            goto out;
-+            error_setg(errp, "unexpected query parameters");
-+            return;
-         }
--        cfg->host = uri->server;
-+        cfg->host = g_strdup(uri->server);
-         cfg->port = uri->port;
      }
  
-@@ -1078,19 +1072,13 @@ static void sd_parse_uri(SheepdogConfig *cfg, const char *filename,
-     if (uri->fragment) {
-         if (!sd_parse_snapid_or_tag(uri->fragment,
-                                     &cfg->snap_id, cfg->tag)) {
--            error_setg(&err, "'%s' is not a valid snapshot ID",
-+            error_setg(errp, "'%s' is not a valid snapshot ID",
-                        uri->fragment);
--            goto out;
-+            return;
-         }
-     } else {
-         cfg->snap_id = CURRENT_VDI_ID; /* search current vdi */
-     }
+-    query_params_free(qp);
+-    uri_free(uri);
+     return 0;
 -
--out:
--    if (err) {
--        error_propagate(errp, err);
--        sd_config_done(cfg);
+- err:
+-    if (uri) {
+-      uri_free(uri);
 -    }
+-    return -EINVAL;
  }
  
- /*
-@@ -1184,7 +1172,7 @@ static void sd_parse_filename(const char *filename, QDict *options,
-     }
-     if (err) {
-         error_propagate(errp, err);
--        return;
-+        goto end;
-     }
- 
-     if (cfg.path) {
-@@ -1203,7 +1191,7 @@ static void sd_parse_filename(const char *filename, QDict *options,
-         snprintf(buf, sizeof(buf), "%d", cfg.snap_id);
-         qdict_set_default_str(options, "snap-id", buf);
-     }
--
-+end:
-     sd_config_done(&cfg);
- }
- 
+ static bool ssh_has_filename_options_conflict(QDict *options, Error **errp)
 -- 
 2.27.0.221.ga08a83db2b
 
