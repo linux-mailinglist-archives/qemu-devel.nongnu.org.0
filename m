@@ -2,85 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B5A8721A139
-	for <lists+qemu-devel@lfdr.de>; Thu,  9 Jul 2020 15:52:46 +0200 (CEST)
-Received: from localhost ([::1]:44586 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id CBFAF21A1A9
+	for <lists+qemu-devel@lfdr.de>; Thu,  9 Jul 2020 16:02:16 +0200 (CEST)
+Received: from localhost ([::1]:53018 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jtWyj-0006pA-R3
-	for lists+qemu-devel@lfdr.de; Thu, 09 Jul 2020 09:52:45 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:43286)
+	id 1jtX7v-0002Uc-Pl
+	for lists+qemu-devel@lfdr.de; Thu, 09 Jul 2020 10:02:15 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:45954)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1jtWxd-0006Dg-At
- for qemu-devel@nongnu.org; Thu, 09 Jul 2020 09:51:37 -0400
-Received: from mail-wr1-x434.google.com ([2a00:1450:4864:20::434]:40087)
+ (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
+ id 1jtX6h-00024b-Vz
+ for qemu-devel@nongnu.org; Thu, 09 Jul 2020 10:01:00 -0400
+Received: from indium.canonical.com ([91.189.90.7]:34490)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1jtWxb-000620-Bk
- for qemu-devel@nongnu.org; Thu, 09 Jul 2020 09:51:36 -0400
-Received: by mail-wr1-x434.google.com with SMTP id f2so2438524wrp.7
- for <qemu-devel@nongnu.org>; Thu, 09 Jul 2020 06:51:34 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=references:user-agent:from:to:cc:subject:in-reply-to:date
- :message-id:mime-version:content-transfer-encoding;
- bh=y+bVLnS6oBhp/NEDTw2sL3QeOkr612rrOy3X55FoDaw=;
- b=oQOsBkn9wQQXxBy0hvZzkiMDUUe+4tKsgJNc5+w+VXoMBFaihr/GzYYnuUEWMXiEnF
- jRhD2/CXMfZtZfsLdHcro40/leqoDW8oX36XznTtnBo1bSRUSptfRTh7pQqqnaRiPTZK
- 3XZN+fqrinfsWkGnd/JwS0Y7iZCta2awnwfAeLMItqwTjA+2GZSjp7LcPRjfkqRvV8WG
- kfbAdD7bvG0fW4YdruR9rhOzdNCg11CoPRNxlTne4s32ZYC+pJm9/DLvZ6fW/JKGJ3r6
- RaWP3KRsXLaMmr14UKBX5l230z185TyGIc+OxeZnx9Oqz5M0DN/b8/4WPIYf0fXK77X0
- /liA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:references:user-agent:from:to:cc:subject
- :in-reply-to:date:message-id:mime-version:content-transfer-encoding;
- bh=y+bVLnS6oBhp/NEDTw2sL3QeOkr612rrOy3X55FoDaw=;
- b=kK7RiDQoRJs3ynqg0BYmSHac02kWX51zLN0zXvXOt7g3lkdv9OOu7DMWi3p4VgX4G9
- fy5t+yr7yUPTchk4OmETvbIc5FUJ8lwWmRE97odmiHhYYgbAK2r8QKr5cJLPl9Gq+iF1
- cDxG4hcglJu0Ou4aHL2lAYAK8mcwPYWw2iEU1T0pSTe3VOjIDt24WGklhy+aVl5Q/4nd
- 80TctRKzzymSkPs60wUZiDMYjiwOxI4DUFwz0e/Q8HHnNlA/H1wyNbqjoFsmqjpdFO1O
- J195tEkCRdmJU6ZQV1zPpi44/3BiNm1umXh047lHd3y//Q/8PlpEHs/5XD5/GQ2TmQpG
- V6PQ==
-X-Gm-Message-State: AOAM531IxAAeDg47BCjtmIOxgZsz+rNyf4np3r/3dkROLZDii9DRqOOg
- RoMYRRTKC0a1R///fKI9GjhjRg==
-X-Google-Smtp-Source: ABdhPJyxur4OKWBzO1LV4UsrweH2lNAWxzmpW9uWenZLNgI9RM+bhr6bkH5l5PZYb2hef3zjN44TUg==
-X-Received: by 2002:adf:8462:: with SMTP id 89mr62380946wrf.420.1594302693492; 
- Thu, 09 Jul 2020 06:51:33 -0700 (PDT)
-Received: from zen.linaroharston ([51.148.130.216])
- by smtp.gmail.com with ESMTPSA id n16sm4844096wmc.40.2020.07.09.06.51.32
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 09 Jul 2020 06:51:32 -0700 (PDT)
-Received: from zen (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id 5C8601FF7E;
- Thu,  9 Jul 2020 14:51:31 +0100 (BST)
+ (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
+ id 1jtX6f-0007SZ-DN
+ for qemu-devel@nongnu.org; Thu, 09 Jul 2020 10:00:59 -0400
+Received: from loganberry.canonical.com ([91.189.90.37])
+ by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
+ id 1jtX6d-0003Hu-7L
+ for <qemu-devel@nongnu.org>; Thu, 09 Jul 2020 14:00:55 +0000
+Received: from loganberry.canonical.com (localhost [127.0.0.1])
+ by loganberry.canonical.com (Postfix) with ESMTP id 1CF892E8105
+ for <qemu-devel@nongnu.org>; Thu,  9 Jul 2020 14:00:55 +0000 (UTC)
+MIME-Version: 1.0
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: quoted-printable
+Date: Thu, 09 Jul 2020 13:51:31 -0000
+From: =?utf-8?q?Alex_Benn=C3=A9e?= <1885827@bugs.launchpad.net>
+To: qemu-devel@nongnu.org
+X-Launchpad-Notification-Type: bug
+X-Launchpad-Bug: product=qemu; status=New; importance=Undecided; assignee=None;
+X-Launchpad-Bug-Tags: plugins windows
+X-Launchpad-Bug-Information-Type: Public
+X-Launchpad-Bug-Private: no
+X-Launchpad-Bug-Security-Vulnerability: no
+X-Launchpad-Bug-Commenters: ajbennee casmac cota
+X-Launchpad-Bug-Reporter: Xiaolei (casmac)
+X-Launchpad-Bug-Modifier: =?utf-8?q?Alex_Benn=C3=A9e_=28ajbennee=29?=
 References: <159357217483.1717.4076077243388027502.malonedeb@chaenomeles.canonical.com>
  <159426310588.27029.9451813776430828516.malone@gac.canonical.com>
-User-agent: mu4e 1.5.4; emacs 28.0.50
-From: Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
-To: Bug 1885827 <1885827@bugs.launchpad.net>
+Message-Id: <87h7ugn6e4.fsf@linaro.org>
 Subject: Re: [Bug 1885827] Re: building plugin failed on Windows with mingw
-In-reply-to: <159426310588.27029.9451813776430828516.malone@gac.canonical.com>
-Date: Thu, 09 Jul 2020 14:51:31 +0100
-Message-ID: <87h7ugn6e4.fsf@linaro.org>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=2a00:1450:4864:20::434;
- envelope-from=alex.bennee@linaro.org; helo=mail-wr1-x434.google.com
-X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
- That's all we know.
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
+X-Launchpad-Message-For: qemu-devel-ml
+Precedence: bulk
+X-Generated-By: Launchpad (canonical.com);
+ Revision="4809fcb62f445aaa3ae919f7f6c3cc7d156ea57a";
+ Instance="production-secrets-lazr.conf"
+X-Launchpad-Hash: 8ca8a4bb8b07805750d7de1d47e07b880291fc72
+Received-SPF: none client-ip=91.189.90.7; envelope-from=bounces@canonical.com;
+ helo=indium.canonical.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/07/09 09:41:12
+X-ACL-Warn: Detected OS   = Linux 3.11 and newer [fuzzy]
+X-Spam_score_int: -58
+X-Spam_score: -5.9
+X-Spam_bar: -----
+X-Spam_report: (-5.9 / 5.0 requ) BAYES_00=-1.9, HEADER_FROM_DIFFERENT_DOMAINS=1,
+ RCVD_IN_DNSWL_HI=-5, RCVD_IN_MSPIKE_H3=-0.01, RCVD_IN_MSPIKE_WL=-0.01,
+ SPF_HELO_NONE=0.001, SPF_NONE=0.001,
+ URIBL_BLOCKED=0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
-Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -89,10 +74,9 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-devel@nongnu.org
+Reply-To: Bug 1885827 <1885827@bugs.launchpad.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
-
 
 Emilio G. Cota <1885827@bugs.launchpad.net> writes:
 
@@ -117,6 +101,147 @@ patch.
 
 Thanks.
 
---=20
+-- =
+
 Alex Benn=C3=A9e
+
+-- =
+
+You received this bug notification because you are a member of qemu-
+devel-ml, which is subscribed to QEMU.
+https://bugs.launchpad.net/bugs/1885827
+
+Title:
+  building plugin failed on Windows with mingw
+
+Status in QEMU:
+  New
+
+Bug description:
+  I want to build QEMU 4.2.0's plugin module on Windows 7/10 with Mingw, bu=
+t the building process faild.
+   =
+
+  The step I follow is listed below:
+  1. create "dsp_build" diretory under source file folder
+
+  2.  change directory to dsp_build , and run ../configure --target-list=3D=
+dsp-softmmu --cross-prefix=3Dx86_64-w64-mingw32- --enable-gtk --enable-sdl =
+--enable-debug --enable-plugins
+  3. build qemu project
+  4. switch dir to /dsp_build, make -C tests/plugin, yeilds error: =
+
+     CC      bb.o
+   D:/emu_devl/qemu_src/qemu-sr-dsp-a/qemu_tidsp_c3x/tests/plugin/bb.c:17:2=
+4: error: variable 'qemu_plugin_version' definition is marked dllimport
+     17 | QEMU_PLUGIN_EXPORT int qemu_plugin_version =3D QEMU_PLUGIN_VERSIO=
+N;
+        |                        ^~~~~~~~~~~~~~~~~~~
+   D:/emu_devl/qemu_src/qemu-sr-dsp-a/qemu_tidsp_c3x/tests/plugin/bb.c:17:2=
+4: warning: 'qemu_plugin_version' redeclared without dllimport attribute: p=
+revious dllimport ignored [-Wattributes]
+   D:/emu_devl/qemu_src/qemu-sr-dsp-a/qemu_tidsp_c3x/tests/plugin/bb.c: In =
+function 'vcpu_tb_exec':
+   D:/emu_devl/qemu_src/qemu-sr-dsp-a/qemu_tidsp_c3x/tests/plugin/bb.c:33:2=
+9: warning: cast from pointer to integer of different size [-Wpointer-to-in=
+t-cast]
+     33 |     unsigned long n_insns =3D (unsigned long)udata;
+        |                             ^
+   D:/emu_devl/qemu_src/qemu-sr-dsp-a/qemu_tidsp_c3x/tests/plugin/bb.c: In =
+function 'vcpu_tb_trans':
+   D:/emu_devl/qemu_src/qemu-sr-dsp-a/qemu_tidsp_c3x/tests/plugin/bb.c:51:4=
+6: warning: cast to pointer from integer of different size [-Wint-to-pointe=
+r-cast]
+     51 |                                              (void *)n_insns);
+
+  5.  Then , I modified the QEMU_flags and the compilation command
+  arguments($(CC) ..) in  the  makefile :
+
+                  BUILD_DIR :=3D $(CURDIR)/../..
+
+  		include $(BUILD_DIR)/config-host.mak
+  		include $(SRC_PATH)/rules.mak
+
+                  $(call set-vpath, $(SRC_PATH)/tests/plugin)
+
+  		NAMES :=3D
+  		NAMES +=3D bb
+  		NAMES +=3D empty
+  		NAMES +=3D insn
+  		NAMES +=3D mem
+  		NAMES +=3D hotblocks
+  		NAMES +=3D howvec
+  		NAMES +=3D hotpages
+
+                  SONAMES :=3D $(addsuffix .so,$(addprefix lib,$(NAMES)))
+
+  		QEMU_CFLAGS +=3D -fPIC	-DBUILDING_DLL  		#added  -DBUILDING_DLL
+  		QEMU_CFLAGS +=3D -I$(SRC_PATH)/include/qemu
+
+                  all: $(SONAMES)
+
+  		lib%.so: %.o
+  			$(CC) -fPIC -shared -o $@ $^ $(LDLIBS) -L /c/msys64/mingw64/lib/ -lgli=
+b-2.0
+  			# original cmd: $(CC) -shared -Wl,-soname,$@ -o $@ $^ $(LDLIBS)
+
+  		clean:
+  			rm -f *.o *.so *.d
+  			rm -Rf .libs
+
+                  .PHONY: all clean
+
+  6.  Executing make yeilds:
+
+  make: enter   =E2=80=9C/d/emu_devl/qemu_src/qemu-sr-dsp-a/qemu_tidsp_c3x/=
+build_dsp/tests/plugin=E2=80=9D
+    CC      bb.o
+  x86_64-w64-mingw32-gcc -fPIC -shared -o libbb.so bb.o  -L /c/msys64/mingw=
+64/lib/ -lglib-2.0
+  C:/msys64/mingw64/bin/../lib/gcc/x86_64-w64-mingw32/10.1.0/../../../../x8=
+6_64-w64-mingw32/bin/ld.exe: bb.o: in function `plugin_exit':
+  D:/emu_devl/qemu_src/qemu-sr-dsp-a/qemu_tidsp_c3x/tests/plugin/bb.c:28: u=
+ndefined reference to `qemu_plugin_outs'
+  C:/msys64/mingw64/bin/../lib/gcc/x86_64-w64-mingw32/10.1.0/../../../../x8=
+6_64-w64-mingw32/bin/ld.exe: D:/emu_devl/qemu_src/qemu-sr-dsp-a/qemu_tidsp_=
+c3x/tests/plugin/bb.c:29: undefined reference to `__stack_chk_fail'
+  C:/msys64/mingw64/bin/../lib/gcc/x86_64-w64-mingw32/10.1.0/../../../../x8=
+6_64-w64-mingw32/bin/ld.exe: bb.o: in function `vcpu_tb_trans':
+  D:/emu_devl/qemu_src/qemu-sr-dsp-a/qemu_tidsp_c3x/tests/plugin/bb.c:41: u=
+ndefined reference to `qemu_plugin_tb_n_insns'
+  C:/msys64/mingw64/bin/../lib/gcc/x86_64-w64-mingw32/10.1.0/../../../../x8=
+6_64-w64-mingw32/bin/ld.exe: D:/emu_devl/qemu_src/qemu-sr-dsp-a/qemu_tidsp_=
+c3x/tests/plugin/bb.c:44: undefined reference to `qemu_plugin_register_vcpu=
+_tb_exec_inline'
+  C:/msys64/mingw64/bin/../lib/gcc/x86_64-w64-mingw32/10.1.0/../../../../x8=
+6_64-w64-mingw32/bin/ld.exe: D:/emu_devl/qemu_src/qemu-sr-dsp-a/qemu_tidsp_=
+c3x/tests/plugin/bb.c:46: undefined reference to `qemu_plugin_register_vcpu=
+_tb_exec_inline'
+  C:/msys64/mingw64/bin/../lib/gcc/x86_64-w64-mingw32/10.1.0/../../../../x8=
+6_64-w64-mingw32/bin/ld.exe: D:/emu_devl/qemu_src/qemu-sr-dsp-a/qemu_tidsp_=
+c3x/tests/plugin/bb.c:49: undefined reference to `qemu_plugin_register_vcpu=
+_tb_exec_cb'
+  C:/msys64/mingw64/bin/../lib/gcc/x86_64-w64-mingw32/10.1.0/../../../../x8=
+6_64-w64-mingw32/bin/ld.exe: bb.o: in function `qemu_plugin_install':
+  D:/emu_devl/qemu_src/qemu-sr-dsp-a/qemu_tidsp_c3x/tests/plugin/bb.c:63: u=
+ndefined reference to `qemu_plugin_register_vcpu_tb_trans_cb'
+  C:/msys64/mingw64/bin/../lib/gcc/x86_64-w64-mingw32/10.1.0/../../../../x8=
+6_64-w64-mingw32/bin/ld.exe: D:/emu_devl/qemu_src/qemu-sr-dsp-a/qemu_tidsp_=
+c3x/tests/plugin/bb.c:64: undefined reference to `qemu_plugin_register_atex=
+it_cb'
+  C:/msys64/mingw64/bin/../lib/gcc/x86_64-w64-mingw32/10.1.0/../../../../x8=
+6_64-w64-mingw32/bin/ld.exe: bb.o:bb.c:(.rdata$.refptr.__stack_chk_guard[.r=
+efptr.__stack_chk_guard]+0x0): undefined reference to `__stack_chk_guard'
+  collect2.exe: error: ld returned 1 exit status
+
+     It looks like linking problem(fail to link functions defined in api.c,=
+ core.c...), but I have no idea what goes wrong. If I mannualy add api.o, c=
+ore.o in the compilation command, still get error like undefined reference =
+to '__stack_chk_guard'. =
+
+     My collegue can build 4.2.0  plugins on Ubuntu Linux without any probl=
+em.
+
+To manage notifications about this bug go to:
+https://bugs.launchpad.net/qemu/+bug/1885827/+subscriptions
 
