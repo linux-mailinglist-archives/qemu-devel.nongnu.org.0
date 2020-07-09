@@ -2,110 +2,74 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 50D8A219BB3
-	for <lists+qemu-devel@lfdr.de>; Thu,  9 Jul 2020 11:10:22 +0200 (CEST)
-Received: from localhost ([::1]:50450 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0F694219B93
+	for <lists+qemu-devel@lfdr.de>; Thu,  9 Jul 2020 10:58:36 +0200 (CEST)
+Received: from localhost ([::1]:33318 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jtSZR-0000b5-E8
-	for lists+qemu-devel@lfdr.de; Thu, 09 Jul 2020 05:10:21 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:38756)
+	id 1jtSO2-00017Q-KM
+	for lists+qemu-devel@lfdr.de; Thu, 09 Jul 2020 04:58:34 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:34094)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <den@virtuozzo.com>) id 1jtSYI-0008Dz-Oj
- for qemu-devel@nongnu.org; Thu, 09 Jul 2020 05:09:10 -0400
-Received: from mail-eopbgr70097.outbound.protection.outlook.com
- ([40.107.7.97]:62663 helo=EUR04-HE1-obe.outbound.protection.outlook.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <den@virtuozzo.com>) id 1jtSYG-0006Co-9Z
- for qemu-devel@nongnu.org; Thu, 09 Jul 2020 05:09:10 -0400
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=C7p/KyqmZ8iL2b9a0TSDaPqCqydAteFpvMw118rplcUYAVWrYDpIG3qcWfgOD8JdFI5QE+GC9kUswIRtmJZzpAcf63h/9lgTh2tfF9ieG7QMv44hy5p6FcD5u647Q+nhibhkknzNQ9oKMdIw8ms8chNtQu2iF3Wq8pR6PeslVcpxRhy+u48wgH2Oyhm0Uqbb4yNs19JFwbA7sTaYOwjxpWHt904MCqfIAvOoA1FJhgwneFMe+TtQSYfCIUfFc2cXnzBegueVxcGSgxefwb+KIuDqargoOtHdnV0Ov5OReMt1Hxx9T1l7KK2h/QvPf1KQcYjrCHUjSb3bKFHbFVC4Ww==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=+9TzhTUYILa/I2kFf9BMmGBn1s3A8cF9f6tkJTPZEcA=;
- b=KRBNnfI9NJWbKBLJqJYt/U7fgFxdLp9v9Fs3bfgePqmUvhfA+OZh4YWk4+pIk27bo7vjeh3TaG/rlLe7hcEvSH+LWWrn/ejhpIaRDNZQMnP5sDLtSvITxU1Zeck8EjN1kgfFR7hN2h6g0DF2LnmvRpw/WVW6K5jlmNeyEDQ2rIMYCmD2WvQ7kYsq6/W+Kj8kUke3968raOx3OujQUo3nOvBRTQjJql9vj7/Fsz1SLUN8n0KH1ItUoMiqn6djG+dG0y0F4g09zcuei9/gfO9zwKnbTVI1qdMJCHwUXriPDi/A2ASrX8sOCpevz6sdr8g+QFtWrQHhEzuKu5icPkEU1g==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=virtuozzo.com; dmarc=pass action=none header.from=openvz.org;
- dkim=pass header.d=openvz.org; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=openvz.org;
- s=selector2;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=+9TzhTUYILa/I2kFf9BMmGBn1s3A8cF9f6tkJTPZEcA=;
- b=CuIuFEejZ1K3uDqqVlEUknT2XIG36Q8YeggAVRfkL13Ra5vEisaOwIgxGSc0W6CTW+J05+dss1CLeB8oGj2g9PEFga9M0TI/IIUOD6f/L68CQuW4t0UfJaRvUmcXJTPOeMmMVdXost8v/V1+YliRjkF0T0y+CtfYGhYBr74j9AE=
-Authentication-Results: redhat.com; dkim=none (message not signed)
- header.d=none;redhat.com; dmarc=none action=none header.from=openvz.org;
-Received: from AM6PR08MB4214.eurprd08.prod.outlook.com (2603:10a6:20b:8d::30)
- by AM5PR0801MB1843.eurprd08.prod.outlook.com (2603:10a6:203:3a::12)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3174.20; Thu, 9 Jul
- 2020 08:54:04 +0000
-Received: from AM6PR08MB4214.eurprd08.prod.outlook.com
- ([fe80::821:7596:cf7f:68f8]) by AM6PR08MB4214.eurprd08.prod.outlook.com
- ([fe80::821:7596:cf7f:68f8%4]) with mapi id 15.20.3174.021; Thu, 9 Jul 2020
- 08:54:03 +0000
-Subject: Re: [PATCH 2/2] util/qemu-sockets: make keep-alive enabled by default
-To: =?UTF-8?Q?Daniel_P=2e_Berrang=c3=a9?= <berrange@redhat.com>,
- Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
-References: <20200708191540.28455-1-vsementsov@virtuozzo.com>
- <20200708191540.28455-3-vsementsov@virtuozzo.com>
- <20200709082954.GD3753300@redhat.com>
-From: "Denis V. Lunev" <den@openvz.org>
-Message-ID: <a59b626e-c54a-1619-9b67-d699971c5816@openvz.org>
-Date: Thu, 9 Jul 2020 11:54:00 +0300
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.8.0
-In-Reply-To: <20200709082954.GD3753300@redhat.com>
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: 8bit
-Content-Language: en-US
-X-ClientProxiedBy: HE1PR0202CA0029.eurprd02.prod.outlook.com
- (2603:10a6:3:e4::15) To AM6PR08MB4214.eurprd08.prod.outlook.com
- (2603:10a6:20b:8d::30)
+ (Exim 4.90_1) (envelope-from <eskultet@redhat.com>)
+ id 1jtSMc-0000Ec-TJ
+ for qemu-devel@nongnu.org; Thu, 09 Jul 2020 04:57:06 -0400
+Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:22536
+ helo=us-smtp-1.mimecast.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <eskultet@redhat.com>)
+ id 1jtSMY-00046j-Cg
+ for qemu-devel@nongnu.org; Thu, 09 Jul 2020 04:57:06 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1594285021;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=omc8HnRCdjr/8CsoWpfSoADz5w9mvWzEfy8ZyLYS5ss=;
+ b=jSREflzwYUY0LIABpJ/lCENUV95h3OUSKGknfwmjeQ+tpDZvtDT87GXuQrz3L8Kc9FVT+E
+ r2VshSYWiO5Yc5C6y2mvv+R0KRroPVMblD3DH6IS6uSmC8rPKJvH0kakB0vkrjMDMxXeKS
+ 90vfowcuPgdvB374RtodYRallERvU3I=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-227-t88pXWBRMuOYYUxkw3DkJA-1; Thu, 09 Jul 2020 04:55:13 -0400
+X-MC-Unique: t88pXWBRMuOYYUxkw3DkJA-1
+Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
+ [10.5.11.15])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 3A58388C79A;
+ Thu,  9 Jul 2020 08:55:12 +0000 (UTC)
+Received: from nautilus.usersys.redhat.com (unknown [10.40.193.117])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id E79457F8B7;
+ Thu,  9 Jul 2020 08:55:09 +0000 (UTC)
+Date: Thu, 9 Jul 2020 10:55:07 +0200
+From: Erik Skultety <eskultet@redhat.com>
+To: Cleber Rosa <crosa@redhat.com>
+Subject: Re: [PATCH v2 2/2] GitLab Gating CI: initial set of jobs,
+ documentation and scripts
+Message-ID: <20200709085507.GA536480@nautilus.usersys.redhat.com>
+References: <20200709024657.2500558-1-crosa@redhat.com>
+ <20200709024657.2500558-3-crosa@redhat.com>
 MIME-Version: 1.0
-X-MS-Exchange-MessageSentRepresentingType: 1
-Received: from [192.168.1.27] (31.148.204.195) by
- HE1PR0202CA0029.eurprd02.prod.outlook.com (2603:10a6:3:e4::15) with Microsoft
- SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.3174.21 via Frontend Transport; Thu, 9 Jul 2020 08:54:02 +0000
-X-Originating-IP: [31.148.204.195]
-X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: 03bab910-25a4-4242-bccb-08d823e5a15a
-X-MS-TrafficTypeDiagnostic: AM5PR0801MB1843:
-X-MS-Exchange-Transport-Forked: True
-X-Microsoft-Antispam-PRVS: <AM5PR0801MB18436FEC33E13B9D6543A08DB6640@AM5PR0801MB1843.eurprd08.prod.outlook.com>
-X-MS-Oob-TLC-OOBClassifiers: OLM:7691;
-X-MS-Exchange-SenderADCheck: 1
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: JZVX/W9dEYXSjuX0nwA5f5NKpRjjBhknYXctNN/LypXgD5w5HT/qjOBt3LB3vcu2bWpPBKd+yjnqJY6nSSzcpn8y6FiZp7MrQgSp8Q3upUrFwrY+ybBCC3VBL3QaBOPQp8Y+UKR4T9RsGVZYqnWhjKxDbaphI0MDRGkBZEnX1REb1SyP/N7pR7XWrRytxvaotmyYbXeIvRzJSsKjzQm3rfHXMmbuRRmVRNjMBC0aCPpSHvlOOeNz21mUzn1FBDNRUrNjxm3UnRDuBrw0PQ88YyxuRqy8S/POm+dyPsdCumHIUlZ1xGwtstJ6SZeGinGH49IwDYQ6lq5Xut4+xq6Vj3sJWOmtytejANi+PH3piKvgr9oQID/OQdzbrFJFf0gD
-X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:AM6PR08MB4214.eurprd08.prod.outlook.com; PTR:; CAT:NONE;
- SFTY:;
- SFS:(4636009)(136003)(39840400004)(396003)(376002)(346002)(366004)(110136005)(36756003)(31696002)(478600001)(31686004)(66946007)(26005)(186003)(16526019)(53546011)(2616005)(316002)(4326008)(42882007)(956004)(16576012)(2906002)(52116002)(83170400001)(83380400001)(8676002)(8936002)(5660300002)(66556008)(66476007)(6486002)(43740500002);
- DIR:OUT; SFP:1102; 
-X-MS-Exchange-AntiSpam-MessageData: aCRfw6uPGXZC69VRJw+Npc2DSQ+sVu+9CQgzA6m3Jdwmq6A//KGWrRacU6s62IDtk2iKqciGZ+Kx51PE5x5m1ES3TE+bZlgZ/HPTyZdgrzwg19kOZ0HPu99VhQnJpO8kqRtUiHBBwgVOgWwozfNs4CVDJI9H1gmpU7HLq/XbCRuhK5RO+XTcu18EkI3m1exor5k7YoalESaaMYbcHCb8rdq+jTxr0R4A58bSA6iICWIZgZABPQpwFgLRzWR3QEKCV35ghsvMZZpCSXsOHGtkv1VkWZb9XNvdUnBKwEo5yyyEjtO05GBSHt9KP44RzN+SgwTrPI4jbn9y+aEy+GuhZKpPiJw6FRL5RgG4zY0zQz6FNzX6YVQtrGlC0H9ZIdK01nRGSX3CtlGsNl/oSI2gOoH17litqh6xZM8oq6MER1p7OEgdY22qZFl8YVQCamCKp7YKWkN6ZNKMAs8VH1XA86rE00OCRhLkrVgXsZjEAADrKAa+qd9qtzLES3yF5V+U
-X-OriginatorOrg: openvz.org
-X-MS-Exchange-CrossTenant-Network-Message-Id: 03bab910-25a4-4242-bccb-08d823e5a15a
-X-MS-Exchange-CrossTenant-AuthSource: AM6PR08MB4214.eurprd08.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 09 Jul 2020 08:54:03.7404 (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 0bc7f26d-0264-416e-a6fc-8352af79c58f
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: pffLfN3M8BPea5TmZd23olGKpVeFGD+uX9GD/YMyDo4HLjMGGVgkJlxpSHirrDCr/57vnjAKaGboF2f1hWlB0g==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: AM5PR0801MB1843
-Received-SPF: pass client-ip=40.107.7.97; envelope-from=den@virtuozzo.com;
- helo=EUR04-HE1-obe.outbound.protection.outlook.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/07/09 05:09:06
-X-ACL-Warn: Detected OS   = Windows NT kernel [generic] [fuzzy]
-X-Spam_score_int: -26
-X-Spam_score: -2.7
-X-Spam_bar: --
-X-Spam_report: (-2.7 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, HEADER_FROM_DIFFERENT_DOMAINS=1,
- MSGID_FROM_MTA_HEADER=0.001, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-1,
- SPF_HELO_PASS=-0.001, SPF_PASS=-0.001,
- URIBL_BLOCKED=0.001 autolearn=ham autolearn_force=no
+In-Reply-To: <20200709024657.2500558-3-crosa@redhat.com>
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=eskultet@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Received-SPF: pass client-ip=207.211.31.120; envelope-from=eskultet@redhat.com;
+ helo=us-smtp-1.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/07/07 17:25:10
+X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
+X-Spam_score_int: -40
+X-Spam_score: -4.1
+X-Spam_bar: ----
+X-Spam_report: (-4.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-1, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001, URIBL_BLOCKED=0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -118,63 +82,154 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: kraxel@redhat.com, qemu-devel@nongnu.org, armbru@redhat.com
+Cc: Peter Maydell <peter.maydell@linaro.org>, Thomas Huth <thuth@redhat.com>,
+ Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>,
+ Beraldo Leal <bleal@redhat.com>,
+ Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
+ qemu-devel@nongnu.org, Wainer dos Santos Moschetta <wainersm@redhat.com>,
+ Willian Rampazzo <wrampazz@redhat.com>,
+ Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>,
+ Eduardo Habkost <ehabkost@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 7/9/20 11:29 AM, Daniel P. Berrangé wrote:
-> On Wed, Jul 08, 2020 at 10:15:39PM +0300, Vladimir Sementsov-Ogievskiy wrote:
->> Keep-alive won't hurt, let's try to enable it even if not requested by
->> user.
-> Keep-alive intentionally breaks TCP connections earlier than normal
-> in face of transient networking problems.
+On Wed, Jul 08, 2020 at 10:46:57PM -0400, Cleber Rosa wrote:
+> This is a mapping of Peter's "remake-merge-builds" and
+> "pull-buildtest" scripts, gone through some updates, adding some build
+> option and removing others.
 >
-> The question is more about which type of pain is more desirable. A
-> stall in the network connection (for a potentially very long time),
-> or an intentionally broken socket.
+> The jobs currently cover the machines that the QEMU project owns, and that
+> are setup and ready to run jobs:
 >
-> I'm not at all convinced it is a good idea to intentionally break
-> /all/ QEMU sockets in the face of transient problems, even if the
-> problems last for 2 hours or more. 
+>  - Ubuntu 18.04 on S390x
+>  - Ubuntu 20.04 on aarch64
 >
-> I could see keep-alives being ok on some QEMU socket. For example
-> VNC/SPICE clients, as there is no downside to proactively culling
-> them as they can trivially reconnect. Migration too is quite
-> reasonable to use keep alives, as you generally want migration to
-> run to completion in a short amount of time, and aborting migration
-> needs to be safe no matter what.
+> During the development of this set of jobs, the GitLab CI was tested
+> with many other architectures, including ppc64, s390x and aarch64,
+> along with the other OSs (not included here):
 >
-> Breaking chardevs or block devices or network devices that use
-> QEMU sockets though will be disruptive. The only solution once
-> those backends have a dead socket is going to be to kill QEMU
-> and cold-boot the VM again.
+>  - Fedora 30
+>  - FreeBSD 12.1
+>
+> More information can be found in the documentation itself.
+>
+> Signed-off-by: Cleber Rosa <crosa@redhat.com>
+> ---
+>  .gitlab-ci.d/gating.yml                | 146 +++++++++++++++++
+>  .gitlab-ci.yml                         |   1 +
+>  docs/devel/testing.rst                 | 147 +++++++++++++++++
+>  scripts/ci/setup/build-environment.yml | 217 +++++++++++++++++++++++++
+>  scripts/ci/setup/gitlab-runner.yml     |  72 ++++++++
+>  scripts/ci/setup/inventory             |   2 +
+>  scripts/ci/setup/vars.yml              |  13 ++
+>  7 files changed, 598 insertions(+)
+>  create mode 100644 .gitlab-ci.d/gating.yml
+>  create mode 100644 scripts/ci/setup/build-environment.yml
+>  create mode 100644 scripts/ci/setup/gitlab-runner.yml
+>  create mode 100644 scripts/ci/setup/inventory
+>  create mode 100644 scripts/ci/setup/vars.yml
+>
+> diff --git a/.gitlab-ci.d/gating.yml b/.gitlab-ci.d/gating.yml
+> new file mode 100644
+> index 0000000000..5562df5708
+> --- /dev/null
+> +++ b/.gitlab-ci.d/gating.yml
+> @@ -0,0 +1,146 @@
+> +variables:
+> +  GIT_SUBMODULE_STRATEGY: recursive
+> +
+> +# All ubuntu-18.04 jobs should run successfully in an environment
+> +# setup by the scripts/ci/setup/build-environment.yml task
+> +# "Install basic packages to build QEMU on Ubuntu 18.04/20.04"
+> +ubuntu-18.04-s390x-all-linux-static:
+> + tags:
+> + - ubuntu_18.04
+> + - s390x
+> + rules:
+> + - if: '$CI_COMMIT_REF_NAME == "staging"'
+> + script:
+> + # --disable-libssh is needed because of https://bugs.launchpad.net/qemu/+bug/1838763
+> + # --disable-glusterfs is needed because there's no static version of those libs in distro supplied packages
+> + - ./configure --enable-debug --static --disable-system --disable-glusterfs --disable-libssh
+> + - make --output-sync -j`nproc`
+> + - make --output-sync -j`nproc` check V=1
+> + - make --output-sync -j`nproc` check-tcg V=1
 
-nope, and this is exactly what we are trying to achive.
+I know this patch doesn't introduce a FreeBSD job, but later in the patch it's
+clear you'd want to introduce them at some point, so:
+'nproc' doesn't exist on FreeBSD, but `getconf _NPROCESSORS_ONLN` does, so you
+may want to use it right from the start.
 
-Let us assume that QEMU NBD is connected to the
-outside world, f.e. to some HA service running in
-other virtual machine. Once that far away VM is
-becoming dead, it is re-started on some other host
-with the same IP.
+...
 
-QEMU NBD has an ability to reconnect to this same
-endpoint and this process is transient for the guest.
+> +
+> +CI
+> +==
+> +
+> +QEMU has configurations enabled for a number of different CI services.
+> +The most update information about them and their status can be found
 
-This is the workflow we are trying to improve.
+s/update/up to date/
 
-Anyway, sitting over dead socket is somewhat
-which is not productive. This is like NFS hard and
-soft mounts. In hypervisor world using hard mounts
-(defaults before the patch) leads to various non
-detectable deadlocks, that is why we are proposing
-soft with such defaults.
+> +at::
+> +
+> +   https://wiki.qemu.org/Testing/CI
+> +
+> +Gating CI
+> +----------
+> +
+> +A Pull Requests will only to be merged if they successfully go through
 
-It should also be noted that this is more consistent
-as we could face the problem if we perform write
-to the dead socket OR we could hang forever, thus
-the problem with the current state is still possible.
-With new settings we would consistently observe
-the problem.
+s/A /
+s/to be/be/
 
-Den
+> +a different set of CI jobs.  GitLab's CI is the service/framework used
+
+s/a different set/different sets/       (I may be wrong with this one)
+
+...
+
+> +
+> +gitlab-runner setup and registration
+> +~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+> +
+> +The gitlab-runner agent needs to be installed on each machine that
+> +will run jobs.  The association between a machine and a GitLab project
+> +happens with a registration token.  To find the registration token for
+> +your repository/project, navigate on GitLab's web UI to:
+> +
+> + * Settings (the gears like icon), then
+> + * CI/CD, then
+> + * Runners, and click on the "Expand" button, then
+> + * Under "Set up a specific Runner manually", look for the value under
+> +   "Use the following registration token during setup"
+> +
+> +Edit the ``scripts/ci/setup/vars.yml`` file, setting the
+> +``gitlab_runner_registration_token`` variable to the value obtained
+> +earlier.
+> +
+> +.. note:: gitlab-runner is not available from the standard location
+> +          for all OS and architectures combinations.  For some systems,
+> +          a custom build may be necessary.  Some builds are avaiable
+> +          at https://cleber.fedorapeople.org/gitlab-runner/ and this
+> +          URI may be used as a value on ``vars.yml``
+> +
+> +To run the playbook, execute::
+> +
+> +  cd scripts/ci/setup
+> +  ansible-playbook -i inventory gitlab-runner.yml
+> +
+> +.. note:: there are currently limitations to gitlab-runner itself when
+> +          setting up a service under FreeBSD systems.  You will need to
+> +          perform steps 4 to 10 manually, as described at
+> +          https://docs.gitlab.com/runner/install/freebsd.html
+
+What kinds of limitations? Is it architecture constrained maybe? I'm asking
+because we have all of the steps covered by an Ansible playbook, so I kinda got
+triggered by the word "manually". Also, the document only mentions 9 steps
+overall.
+
+Regards,
+Erik
+
 
