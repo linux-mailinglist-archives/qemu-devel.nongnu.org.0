@@ -2,75 +2,109 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id CF4DB21A3B3
-	for <lists+qemu-devel@lfdr.de>; Thu,  9 Jul 2020 17:27:45 +0200 (CEST)
-Received: from localhost ([::1]:45642 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 03BD421A3BE
+	for <lists+qemu-devel@lfdr.de>; Thu,  9 Jul 2020 17:28:55 +0200 (CEST)
+Received: from localhost ([::1]:49930 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jtYSe-0001D3-Uf
-	for lists+qemu-devel@lfdr.de; Thu, 09 Jul 2020 11:27:44 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:46746)
+	id 1jtYTm-0002xH-31
+	for lists+qemu-devel@lfdr.de; Thu, 09 Jul 2020 11:28:54 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:46904)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1jtYRe-0008Ey-0g
- for qemu-devel@nongnu.org; Thu, 09 Jul 2020 11:26:42 -0400
-Received: from us-smtp-1.mimecast.com ([207.211.31.81]:34698
- helo=us-smtp-delivery-1.mimecast.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1jtYRc-0002Ep-8v
- for qemu-devel@nongnu.org; Thu, 09 Jul 2020 11:26:41 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1594308399;
- h=from:from:reply-to:reply-to:subject:subject:date:date:
- message-id:message-id:to:to:cc:cc:mime-version:mime-version:
- content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=oHzCcHLoEeM1HdWOUAl3dACq6/T5JLGytFiyfBg/XS0=;
- b=X69onLAF9RPY8R1DlDkf10nBXL8VwGmcqBd4OoipOelNAcHQ7O6/9YTv2mu0tdSm84QLYL
- nsRRkSAerwkE8JHI3wEWJey7AaNTDAgYY5b/kKwdZjgpjfLBtSNNrSzn06OrVHjWvSxzRB
- rDl0KKlH8jUWVfHc2439QvEx6YYZm6c=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-265-OEU2T0bRNrOZDB7kyMV7Xw-1; Thu, 09 Jul 2020 11:26:37 -0400
-X-MC-Unique: OEU2T0bRNrOZDB7kyMV7Xw-1
-Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
- [10.5.11.11])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 2053B102C80E;
- Thu,  9 Jul 2020 15:26:36 +0000 (UTC)
-Received: from redhat.com (unknown [10.36.110.45])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id D7AF8724A0;
- Thu,  9 Jul 2020 15:26:33 +0000 (UTC)
-Date: Thu, 9 Jul 2020 16:26:30 +0100
-From: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
-To: Thomas Huth <thuth@redhat.com>
-Subject: Re: Is VXHS actually maintained?
-Message-ID: <20200709152630.GW3753300@redhat.com>
-References: <CAJ+F1C+o7mcb8B9dy_F3w08i7XLrO71qWyqYNaJrjv0j3DhnSg@mail.gmail.com>
- <2666aec2-9872-6af6-7705-d7ce553f611c@redhat.com>
-MIME-Version: 1.0
-In-Reply-To: <2666aec2-9872-6af6-7705-d7ce553f611c@redhat.com>
-User-Agent: Mutt/1.14.3 (2020-06-14)
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8
+ (Exim 4.90_1) (envelope-from <andrey.shinkevich@virtuozzo.com>)
+ id 1jtYSg-0001sN-G4; Thu, 09 Jul 2020 11:27:46 -0400
+Received: from mail-eopbgr80090.outbound.protection.outlook.com
+ ([40.107.8.90]:6976 helo=EUR04-VI1-obe.outbound.protection.outlook.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <andrey.shinkevich@virtuozzo.com>)
+ id 1jtYSd-0002JB-Hr; Thu, 09 Jul 2020 11:27:45 -0400
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=RXCkGjGto0zef+SSjDemr1ERFyvqDw46udZNDYPb8B7DSsUrnbty/fmALEcxPexTOCYcx2buh/1wwLiQn1Zu1h4ly+25swYAJ+yN7t0+qUSoxvvMHIhgN9qDdT+e/664HynQdZvIP8UEyMybIz4HUyDTSA5mUUb2DR9mCfI+2hThxLBYWfbBZIZfU/uWJEWVCYLMfxbcG8bjWbZj11XjZGOh+xWpZrMIJoNuAY7HqbV/OUv7OKK8sHsL7d5NJJG4oOG1OdKWPNsrFNNn4aTTJkpiAN0KPFhtICVh/c/dFiTpgkQorcAC9oxa7G7VeP7R8oailhnEk1Hx8T9Hv5P8CA==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=NdT+P9niMP1ycnT/vTvg1vEdSFGI+Yb9eT9fMcPQW0s=;
+ b=m+6SAHbAK+bmeaYQfm3Jla34Hmf4NSPkyuvGbwQ84jg/VFpbVw17sFAmQ0p3QDI+pEtfG2ONZGq7bFUEOrCjAYeRKCE78+yCF/jiFxbuLaAUCfuKCjliu+QF1G36J7H+FIqhixikVBqt/ATjJ9/h4Ag2NdyA3s+IfgfdKjWhYKpUeNXKMr2kwNselJhM0Zzl2KHMPe8gxQWRQORq1ogDs+BnQDVQV1wN8nodxwiZQIXt6suRAHVvVUN+UDblv0O6TmFCmwc5bOqPWuy5VX3g6NdaXboTZLCbFcb+5d6ZJ1KcSC21B0H99lWGg7xkH8dakBr1Y3Os0KNEz+l+Sdlk0w==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=virtuozzo.com; dmarc=pass action=none
+ header.from=virtuozzo.com; dkim=pass header.d=virtuozzo.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=virtuozzo.com;
+ s=selector2;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=NdT+P9niMP1ycnT/vTvg1vEdSFGI+Yb9eT9fMcPQW0s=;
+ b=l3nJl0AhERyxrIU1FLGIoF6GdWD5FwmBJyCqHZK+DnvwGBKBFMDGMtvtbHWKjpJEXw2NLXmXmVVY5YSjLX43iMj7eNWTTco5WwiPsMUElTKKKgSLcJDo96SLTm/PvS5xCQ/mzzDJUOR5Z5Hio3RGViSsaEYqS1UGdD2M53ykvfM=
+Authentication-Results: nongnu.org; dkim=none (message not signed)
+ header.d=none;nongnu.org; dmarc=none action=none header.from=virtuozzo.com;
+Received: from AM6PR08MB4070.eurprd08.prod.outlook.com (2603:10a6:20b:a3::25)
+ by AM6PR08MB4721.eurprd08.prod.outlook.com (2603:10a6:20b:c7::19)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3174.20; Thu, 9 Jul
+ 2020 15:27:40 +0000
+Received: from AM6PR08MB4070.eurprd08.prod.outlook.com
+ ([fe80::78ec:8cb6:41f7:b2a0]) by AM6PR08MB4070.eurprd08.prod.outlook.com
+ ([fe80::78ec:8cb6:41f7:b2a0%5]) with mapi id 15.20.3174.021; Thu, 9 Jul 2020
+ 15:27:40 +0000
+Subject: Re: [PATCH v7 14/47] stream: Deal with filters
+From: Andrey Shinkevich <andrey.shinkevich@virtuozzo.com>
+To: Max Reitz <mreitz@redhat.com>, qemu-block@nongnu.org
+References: <20200625152215.941773-1-mreitz@redhat.com>
+ <20200625152215.941773-15-mreitz@redhat.com>
+ <ed502f80-f4a2-bfb8-7395-5842f8103991@virtuozzo.com>
+Message-ID: <e60d230b-d064-2533-5e25-d6e58bd5deea@virtuozzo.com>
+Date: Thu, 9 Jul 2020 18:27:35 +0300
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:68.0)
+ Gecko/20100101 Thunderbird/68.9.0
+In-Reply-To: <ed502f80-f4a2-bfb8-7395-5842f8103991@virtuozzo.com>
+Content-Type: text/plain; charset=utf-8; format=flowed
 Content-Transfer-Encoding: 8bit
-Content-Disposition: inline
-Received-SPF: pass client-ip=207.211.31.81; envelope-from=berrange@redhat.com;
- helo=us-smtp-delivery-1.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/07/09 11:02:51
-X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
-X-Spam_score_int: -30
-X-Spam_score: -3.1
+Content-Language: en-GB
+X-ClientProxiedBy: AM0PR04CA0047.eurprd04.prod.outlook.com
+ (2603:10a6:208:1::24) To AM6PR08MB4070.eurprd08.prod.outlook.com
+ (2603:10a6:20b:a3::25)
+MIME-Version: 1.0
+X-MS-Exchange-MessageSentRepresentingType: 1
+Received: from Admins-MacBook-Pro.local (109.252.114.191) by
+ AM0PR04CA0047.eurprd04.prod.outlook.com (2603:10a6:208:1::24) with Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.3174.20 via Frontend Transport; Thu, 9 Jul 2020 15:27:38 +0000
+X-Originating-IP: [109.252.114.191]
+X-MS-PublicTrafficType: Email
+X-MS-Office365-Filtering-Correlation-Id: cfd158c9-f3d9-4af5-e95a-08d8241c9dd2
+X-MS-TrafficTypeDiagnostic: AM6PR08MB4721:
+X-MS-Exchange-Transport-Forked: True
+X-Microsoft-Antispam-PRVS: <AM6PR08MB4721BF5BDD976ABDDF35351DF4640@AM6PR08MB4721.eurprd08.prod.outlook.com>
+X-MS-Oob-TLC-OOBClassifiers: OLM:3826;
+X-MS-Exchange-SenderADCheck: 1
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: x0ZBR6kBGzAqrp8p2bVXOtsRknz9I0FZpETd7ycTjQDXDWC/tddLpkot+HxYd5Y0pzCKvo1Vz0z4a2PaoW1qENbqofrGv4RNj8qBXfVA6PQEFQAvI24/fTfXH7+3IruJ1pjPSEhGvGX3hdQaDVXEI09LN6ZscrIwKegFJPioWWWvKUDfgReVnnyhiQ54hSicrcfDX6oZqy17eZWpWoGziqbrxjUmZu/Wvr7KIbGrIb6bKjtvoGcQBnTvIQ7A5jPW2tTzUdKBV1UUbqOdDOSpIUBH5bee1ftyNWzNI+cfcL8b9QCp1eG1c9vKKbNG/nKFD59BO1ksnkeTjJhgDUy2n0oARIn73AovnxI7do+DmfcptW8PBJDgOBBQdwPG8u8R
+X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:AM6PR08MB4070.eurprd08.prod.outlook.com; PTR:; CAT:NONE;
+ SFTY:;
+ SFS:(4636009)(346002)(136003)(39840400004)(376002)(396003)(366004)(54906003)(66556008)(66476007)(66946007)(52116002)(31696002)(83380400001)(4326008)(2906002)(86362001)(8936002)(31686004)(8676002)(478600001)(6512007)(316002)(16526019)(956004)(6666004)(6486002)(5660300002)(36756003)(2616005)(26005)(53546011)(186003)(6506007)(44832011)(43740500002);
+ DIR:OUT; SFP:1102; 
+X-MS-Exchange-AntiSpam-MessageData: pYUQ1hK+Um3sjwPuRWWLs2D0+9cBQCSa2LRirgt8hm9xV4J7ZY9apny33B9GDOptp8dMn2h59qQX0qiHnN6qHfeJRZxPZJqQ0+34EDPMmkmTmtTAUN2AVujVU/eN0e/LExPW9jOHxg5RcyPL+NXUOUk+09co0lOiWdj7ezKC21edE9LOljqPZ2RJhSDHTM/KEzIxLNo1IUu0I0zBOjnwTFw+X0LvgEZJ6Gp+x7TMWOX7yQg+oNJvxBOM6R8JIfXDVPFPgYuCTqmVDkI1FGVS/b+XsEtRsfpg6KA7KdOy653Egg2/J52Wx+iEBLCUgjItXkpgwrVDCzmTjSZbzKzfR4krqEB3a5MHt9cffo9mw1GgM3k/HHMcPRH+zXpcad4veb9O/C9EgifOWWRDxJU3O4IWrbCkud57yP5T73NUjDzMKDXevWgo27bHnpo0R8edbVUdFW+642GEsuWMLEHzEZkcaF6/oZ+44q4aNSY+tZ8hAAyzcozP0Fgrf1PmO2EQ
+X-OriginatorOrg: virtuozzo.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: cfd158c9-f3d9-4af5-e95a-08d8241c9dd2
+X-MS-Exchange-CrossTenant-AuthSource: AM6PR08MB4070.eurprd08.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 09 Jul 2020 15:27:39.9444 (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 0bc7f26d-0264-416e-a6fc-8352af79c58f
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: pGp1fuTOQ5U1RtwXOwi930RTTKcVhyNZ8sksa/klCaniqvZZKvxgWDZPTXt5ado2dsPtl4fm+gSPu7/cdkOZw7RKl0sScZuZKbdeUs58DmU=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: AM6PR08MB4721
+Received-SPF: pass client-ip=40.107.8.90;
+ envelope-from=andrey.shinkevich@virtuozzo.com;
+ helo=EUR04-VI1-obe.outbound.protection.outlook.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/07/09 11:27:41
+X-ACL-Warn: Detected OS   = Windows NT kernel [generic] [fuzzy]
+X-Spam_score_int: -37
+X-Spam_score: -3.8
 X-Spam_bar: ---
-X-Spam_report: (-3.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H3=-0.01, RCVD_IN_MSPIKE_WL=-0.01,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+X-Spam_report: (-3.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ MSGID_FROM_MTA_HEADER=0.001, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-1,
+ SPF_HELO_PASS=-0.001, SPF_PASS=-0.001,
  URIBL_BLOCKED=0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -84,41 +118,48 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
-Cc: Kevin Wolf <kwolf@redhat.com>, Jeff Cody <codyprime@gmail.com>,
- QEMU <qemu-devel@nongnu.org>, Max Reitz <mreitz@redhat.com>,
- =?utf-8?Q?Marc-Andr=C3=A9?= Lureau <marcandre.lureau@gmail.com>,
- ashmit602@gmail.com
+Cc: Kevin Wolf <kwolf@redhat.com>,
+ Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>, qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Thu, Jul 09, 2020 at 05:20:58PM +0200, Thomas Huth wrote:
-> On 09/07/2020 17.10, Marc-André Lureau wrote:
-> > Hi,
-> > 
-> > VXHS block device was added ~3y ago in commit da92c3ff60b (block/vxhs.c:
-> > Add support for a new block device type called "vxhs"), but it doesn't
-> > compile anymore, at least since v5.0 (I haven't checked earlier).
-> > 
-> > The upstream repository (https://github.com/VeritasHyperScale/libqnio)
-> > hasn't received any update since then.
-> > 
-> > What should we do about it?
-> 
-> IMHO: Mark it as deprecated in docs/system/deprecated.rst, then remove
-> it in two releases if nobody shows up to maintain it.
+On 09.07.2020 17:52, Andrey Shinkevich wrote:
+> On 25.06.2020 18:21, Max Reitz wrote:
+>> Because of the (not so recent anymore) changes that make the stream job
+>> independent of the base node and instead track the node above it, we
+>> have to split that "bottom" node into two cases: The bottom COW node,
+>> and the node directly above the base node (which may be an R/W filter
+>> or the bottom COW node).
+>>
+>> Signed-off-by: Max Reitz <mreitz@redhat.com>
+>> ---
+>>   qapi/block-core.json |  4 +++
+>>   block/stream.c       | 63 ++++++++++++++++++++++++++++++++------------
+>>   blockdev.c           |  4 ++-
+>>   3 files changed, 53 insertions(+), 18 deletions(-)
+>>
+...
+>> +    BlockDriverState *base_overlay = bdrv_find_overlay(bs, base);
+>> +    BlockDriverState *above_base;
+>>   -    if (bdrv_freeze_backing_chain(bs, bottom, errp) < 0) {
+>> +    if (!base_overlay) {
+>> +        error_setg(errp, "'%s' is not in the backing chain of '%s'",
+>> +                   base->node_name, bs->node_name);
+>
+> Sorry, I am not clear with the error message.
+>
+> In this case, there is no an intermediate COW node but the base, if 
+> not NULL, is
+>
+> in the backing chain of bs, isn't it?
+>
+I am discarding this question. No need to answer.
 
-If it doesn't even compile, do we even need to go through the full
-deprecation cycle ? I tend to feel like the release where it first
-fails to compile automatically starts the deprecation countdown.
-So depending on when it first bit-rotted, we could be justified in
-deleting it right away.
+Andrey
 
-Regards,
-Daniel
--- 
-|: https://berrange.com      -o-    https://www.flickr.com/photos/dberrange :|
-|: https://libvirt.org         -o-            https://fstop138.berrange.com :|
-|: https://entangle-photo.org    -o-    https://www.instagram.com/dberrange :|
+
+>> +        return;
+>> +    }
+>> +
 
 
