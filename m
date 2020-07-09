@@ -2,63 +2,66 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D55A321A7FE
-	for <lists+qemu-devel@lfdr.de>; Thu,  9 Jul 2020 21:44:39 +0200 (CEST)
-Received: from localhost ([::1]:51168 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B8E5321A818
+	for <lists+qemu-devel@lfdr.de>; Thu,  9 Jul 2020 21:48:29 +0200 (CEST)
+Received: from localhost ([::1]:40688 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jtcTG-00089l-SX
-	for lists+qemu-devel@lfdr.de; Thu, 09 Jul 2020 15:44:38 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:58430)
+	id 1jtcWy-0007DR-Qb
+	for lists+qemu-devel@lfdr.de; Thu, 09 Jul 2020 15:48:28 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:58482)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <marcandre.lureau@redhat.com>)
- id 1jtcS9-0006PA-3r
- for qemu-devel@nongnu.org; Thu, 09 Jul 2020 15:43:29 -0400
-Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:35392
- helo=us-smtp-1.mimecast.com)
+ id 1jtcSJ-0006oF-Dq
+ for qemu-devel@nongnu.org; Thu, 09 Jul 2020 15:43:39 -0400
+Received: from us-smtp-2.mimecast.com ([205.139.110.61]:50725
+ helo=us-smtp-delivery-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
  (Exim 4.90_1) (envelope-from <marcandre.lureau@redhat.com>)
- id 1jtcS7-0000P4-1l
- for qemu-devel@nongnu.org; Thu, 09 Jul 2020 15:43:28 -0400
+ id 1jtcSG-0000Pb-O2
+ for qemu-devel@nongnu.org; Thu, 09 Jul 2020 15:43:39 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1594323806;
+ s=mimecast20190719; t=1594323816;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=nlDr7m50Avem+YD/KNfppD5uwE9lQQqI2yaQRTjmWAY=;
- b=TV3LKpemyusQbzQjRTOasLMNPGPg/Sw9WgThWwPhkADIq2ebInUsX/TRWBKe75CzRASyCA
- 76H/nVinI//IpG1hNl1g8vqV10B/JNSzveEd27uJAIeCpPGvHa6Axdtpv+7ZXredGk16Fi
- DCdu1R00Dyva9HoRjtEJ7v3D5jYIL1U=
+ bh=t+IbM3xwYAY/VI4dtaY7g+fX5XhriWiuxxDy+v1AUxs=;
+ b=UQv0JRl4IBsy98n+Jtf/7hb21GfdEH/OxsTkP0slByVjWnIKw14LpPHjUmp7aS6mHlHjc/
+ ALegtpD/WzAgITdbz9MGkv8YG/98qCsU5TXu592YU0Z3IsIMgRwrDfGo+nC8tVX1VEkIaV
+ ZDve3VKHc8UodH8v1lTOEL1FKQpwEFo=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-320-D4Xzcr0EMwGvc-MaSAIWdA-1; Thu, 09 Jul 2020 15:43:24 -0400
-X-MC-Unique: D4Xzcr0EMwGvc-MaSAIWdA-1
-Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
- [10.5.11.23])
+ us-mta-98-r6WXM9-JPSy09rGqassihQ-1; Thu, 09 Jul 2020 15:43:32 -0400
+X-MC-Unique: r6WXM9-JPSy09rGqassihQ-1
+Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
+ [10.5.11.15])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 43AC3102C7ED;
- Thu,  9 Jul 2020 19:43:23 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id E934780040A;
+ Thu,  9 Jul 2020 19:43:30 +0000 (UTC)
 Received: from localhost (unknown [10.36.110.13])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 2C9631972D;
- Thu,  9 Jul 2020 19:43:18 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 2CC8F7F8A5;
+ Thu,  9 Jul 2020 19:43:26 +0000 (UTC)
 From: =?UTF-8?q?Marc-Andr=C3=A9=20Lureau?= <marcandre.lureau@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH 05/13] block/ssh: auto-ify URI parsing variables
-Date: Thu,  9 Jul 2020 23:42:26 +0400
-Message-Id: <20200709194234.2117650-6-marcandre.lureau@redhat.com>
+Subject: [PATCH 06/13] block/nfs: auto-ify URI parsing variables
+Date: Thu,  9 Jul 2020 23:42:27 +0400
+Message-Id: <20200709194234.2117650-7-marcandre.lureau@redhat.com>
 In-Reply-To: <20200709194234.2117650-1-marcandre.lureau@redhat.com>
 References: <20200709194234.2117650-1-marcandre.lureau@redhat.com>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=marcandre.lureau@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=205.139.110.120;
- envelope-from=marcandre.lureau@redhat.com; helo=us-smtp-1.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/07/09 11:25:17
+Received-SPF: pass client-ip=205.139.110.61;
+ envelope-from=marcandre.lureau@redhat.com;
+ helo=us-smtp-delivery-1.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/07/09 10:34:01
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
 X-Spam_score_int: -40
 X-Spam_score: -4.1
@@ -66,7 +69,7 @@ X-Spam_bar: ----
 X-Spam_report: (-4.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-1, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+ SPF_PASS=-0.001, URIBL_BLOCKED=0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -89,78 +92,92 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 Signed-off-by: Marc-André Lureau <marcandre.lureau@redhat.com>
 ---
- block/ssh.c | 23 +++++++----------------
- 1 file changed, 7 insertions(+), 16 deletions(-)
+ block/nfs.c | 32 ++++++++++++--------------------
+ 1 file changed, 12 insertions(+), 20 deletions(-)
 
-diff --git a/block/ssh.c b/block/ssh.c
-index 098dbe03c15..c8f6ad79e3c 100644
---- a/block/ssh.c
-+++ b/block/ssh.c
-@@ -180,9 +180,9 @@ static void sftp_error_trace(BDRVSSHState *s, const char *op)
+diff --git a/block/nfs.c b/block/nfs.c
+index b1718d125a4..93d719551d2 100644
+--- a/block/nfs.c
++++ b/block/nfs.c
+@@ -77,34 +77,34 @@ typedef struct NFSRPC {
  
- static int parse_uri(const char *filename, QDict *options, Error **errp)
+ static int nfs_parse_uri(const char *filename, QDict *options, Error **errp)
  {
 -    URI *uri = NULL;
--    QueryParams *qp;
--    char *port_str;
+-    QueryParams *qp = NULL;
+-    int ret = -EINVAL, i;
 +    g_autoptr(URI) uri = NULL;
 +    g_autoptr(QueryParams) qp = NULL;
-+    g_autofree char *port_str = NULL;
-     int i;
++    int i;
  
      uri = uri_parse(filename);
-@@ -192,23 +192,23 @@ static int parse_uri(const char *filename, QDict *options, Error **errp)
- 
-     if (g_strcmp0(uri->scheme, "ssh") != 0) {
-         error_setg(errp, "URI scheme must be 'ssh'");
--        goto err;
+     if (!uri) {
+         error_setg(errp, "Invalid URI specified");
+-        goto out;
++        return -EINVAL;
+     }
+     if (g_strcmp0(uri->scheme, "nfs") != 0) {
+         error_setg(errp, "URI scheme must be 'nfs'");
+-        goto out;
 +        return -EINVAL;
      }
  
-     if (!uri->server || strcmp(uri->server, "") == 0) {
+     if (!uri->server) {
          error_setg(errp, "missing hostname in URI");
--        goto err;
+-        goto out;
 +        return -EINVAL;
      }
  
-     if (!uri->path || strcmp(uri->path, "") == 0) {
-         error_setg(errp, "missing remote path in URI");
--        goto err;
+     if (!uri->path) {
+         error_setg(errp, "missing file path in URI");
+-        goto out;
 +        return -EINVAL;
      }
  
      qp = query_params_parse(uri->query);
      if (!qp) {
          error_setg(errp, "could not parse query parameters");
--        goto err;
+-        goto out;
 +        return -EINVAL;
      }
  
-     if(uri->user && strcmp(uri->user, "") != 0) {
-@@ -219,7 +219,6 @@ static int parse_uri(const char *filename, QDict *options, Error **errp)
- 
-     port_str = g_strdup_printf("%d", uri->port ?: 22);
-     qdict_put_str(options, "server.port", port_str);
--    g_free(port_str);
- 
-     qdict_put_str(options, "path", uri->path);
- 
-@@ -232,15 +231,7 @@ static int parse_uri(const char *filename, QDict *options, Error **errp)
+     qdict_put_str(options, "server.host", uri->server);
+@@ -116,12 +116,12 @@ static int nfs_parse_uri(const char *filename, QDict *options, Error **errp)
+         if (!qp->p[i].value) {
+             error_setg(errp, "Value for NFS parameter expected: %s",
+                        qp->p[i].name);
+-            goto out;
++            return -EINVAL;
+         }
+         if (parse_uint_full(qp->p[i].value, &val, 0)) {
+             error_setg(errp, "Illegal value for NFS parameter: %s",
+                        qp->p[i].name);
+-            goto out;
++            return -EINVAL;
+         }
+         if (!strcmp(qp->p[i].name, "uid")) {
+             qdict_put_str(options, "user", qp->p[i].value);
+@@ -138,18 +138,10 @@ static int nfs_parse_uri(const char *filename, QDict *options, Error **errp)
+         } else {
+             error_setg(errp, "Unknown NFS parameter name: %s",
+                        qp->p[i].name);
+-            goto out;
++            return -EINVAL;
          }
      }
- 
--    query_params_free(qp);
--    uri_free(uri);
-     return 0;
--
-- err:
--    if (uri) {
--      uri_free(uri);
+-    ret = 0;
+-out:
+-    if (qp) {
+-        query_params_free(qp);
 -    }
--    return -EINVAL;
+-    if (uri) {
+-        uri_free(uri);
+-    }
+-    return ret;
++    return 0;
  }
  
- static bool ssh_has_filename_options_conflict(QDict *options, Error **errp)
+ static bool nfs_has_filename_options_conflict(QDict *options, Error **errp)
 -- 
 2.27.0.221.ga08a83db2b
 
