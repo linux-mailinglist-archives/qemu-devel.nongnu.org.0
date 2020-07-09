@@ -2,79 +2,78 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D896B21A482
-	for <lists+qemu-devel@lfdr.de>; Thu,  9 Jul 2020 18:14:41 +0200 (CEST)
-Received: from localhost ([::1]:47280 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 83A6821A4C5
+	for <lists+qemu-devel@lfdr.de>; Thu,  9 Jul 2020 18:28:33 +0200 (CEST)
+Received: from localhost ([::1]:37464 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jtZC4-0006Qy-Ni
-	for lists+qemu-devel@lfdr.de; Thu, 09 Jul 2020 12:14:40 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:59270)
+	id 1jtZPU-0006cW-Jl
+	for lists+qemu-devel@lfdr.de; Thu, 09 Jul 2020 12:28:32 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:35414)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1jtZB3-0005sv-Li
- for qemu-devel@nongnu.org; Thu, 09 Jul 2020 12:13:37 -0400
-Received: from mail-pf1-x444.google.com ([2607:f8b0:4864:20::444]:39960)
+ (Exim 4.90_1) (envelope-from <alistair23@gmail.com>)
+ id 1jtZOV-000665-Hl; Thu, 09 Jul 2020 12:27:31 -0400
+Received: from mail-il1-x141.google.com ([2607:f8b0:4864:20::141]:34592)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1jtZB1-0002Bw-U4
- for qemu-devel@nongnu.org; Thu, 09 Jul 2020 12:13:37 -0400
-Received: by mail-pf1-x444.google.com with SMTP id u5so1216203pfn.7
- for <qemu-devel@nongnu.org>; Thu, 09 Jul 2020 09:13:34 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=subject:to:cc:references:from:message-id:date:user-agent
- :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=4NJXxUlKii+vxrQ6oZHz5sOoMFRNxDPI8rm2z+fpA3g=;
- b=rhO3aO/Wi7Z5Azf4N41HQLGSbMTRwG98iKeWWJ7iIJWlFNcJg7GVASC2xAt2KSoJvX
- hoixXl2oyIzsgSFLXaeAqTo4AVIFVibw+CHBPy/1/JlpJt6LBxr/XcBCQdx83nLSjrcG
- W3fgWl+FuP84xOlDBH3I8vKRdAwNcMqRKkUTrfk23qKs6dz0BMc3A8Ym8NjBCwbWwSFN
- zTHDr4T+YGNNe4KX9AWEiBAZpr9Idtbqlj+Cinff8Iza5pG2Vnr6AymYFmI61rcbEb7X
- 3dOXDCc7dqQbbVc96qSeTq0fI8+GPdqC82n7PoMYeJchb6gPUpFfwUdRmNA/WHOSf+xM
- IYfA==
+ (Exim 4.90_1) (envelope-from <alistair23@gmail.com>)
+ id 1jtZOQ-0004kT-Qw; Thu, 09 Jul 2020 12:27:31 -0400
+Received: by mail-il1-x141.google.com with SMTP id t4so2565839iln.1;
+ Thu, 09 Jul 2020 09:27:26 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc:content-transfer-encoding;
+ bh=ZXvggOZ6MvAQVnD8GqWLsbh+z4f+zwImENZh6Y47h+w=;
+ b=mWp0ONKmfbPNwXoaThIPefruhT8pVGpSFIer4MlEc9W5cMH4dCbNPcZV13CvEvnsn1
+ HNDlGFjrMD9zWnzWKd05DjLrZDun1WmWCaKTLM6YhamKiVqHVSRIvXWiIt1w3t5gxapj
+ fZHWRrYwCcezhB+/AvHHpuweOtZ679ugNY9xhhm4L9mgBEYsuWmRgdtNWSJ/C8PhdUy+
+ KboF0+ROzVDH3PTkh0yLRp7gGRvOJ5vhak0R3pLhfs1FzmUdaNSHRkANBIWpLxLWRBBV
+ iLJ0yKFMHwLBdsV+u4e32Yj+2i26tYTC0llhCsg21ZySgpmFVlc/RiOeMInMZTULzYpV
+ 5RpQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=4NJXxUlKii+vxrQ6oZHz5sOoMFRNxDPI8rm2z+fpA3g=;
- b=FejGcoIv8z00qHJuwyyyzrsNJu1kXLNzxYoBnoikbRDHSGla+hEEPlnrVjdLrwXLL5
- Yg+1q9+pD0d2VjAueImgjploZrNKIicpmKV7CCVGXFt5Mi642Y/i5KNlxRiCchuNBfdB
- u1DpMzOKqdocTIBWMO8ijA3waWqjBYldPvfYkJ9xXqWU6bMfPitN5kqmY0Vc1V2VWcdo
- 9XE4kUWAwlKaOmemQ/ZHT+9msmawx38mqEaGNOFH2VkxOJAido236BLoV3japsfPOoRj
- 0u0zWzCWBzyLI64g3m1fH+aMwBnUWGX4kVhewF1swtN3dRfsMuGSXCwQ3o4u8RUvUoS9
- 7FJQ==
-X-Gm-Message-State: AOAM5310ujx75AiUC/zhA/07NKRVHve5BZ5Y0twqe+dEkejoQ11aIAAA
- Z6H6G61TnFIQxGSsNoHKTou0qg==
-X-Google-Smtp-Source: ABdhPJw95tLGVBLc9Dfd8Mi00GzCklLXbSM2rPiiI13qsHUW5rdds7VY9skuQAPG71d1Toedz/uDqA==
-X-Received: by 2002:a65:60d4:: with SMTP id r20mr50602078pgv.436.1594311213810; 
- Thu, 09 Jul 2020 09:13:33 -0700 (PDT)
-Received: from [192.168.7.121] (24-113-145-216.wavecable.com. [24.113.145.216])
- by smtp.gmail.com with ESMTPSA id j26sm3009409pfe.200.2020.07.09.09.13.32
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 09 Jul 2020 09:13:33 -0700 (PDT)
-Subject: Re: [PATCH] disas/sh4: Add missing fallthrough annotations
-To: Thomas Huth <thuth@redhat.com>, qemu-devel@nongnu.org,
- Yoshinori Sato <ysato@users.sourceforge.jp>
-References: <20200630055953.9309-1-thuth@redhat.com>
-From: Richard Henderson <richard.henderson@linaro.org>
-Message-ID: <8267e832-ef6d-6ed2-cc70-5a17d5577ee3@linaro.org>
-Date: Thu, 9 Jul 2020 09:13:30 -0700
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.8.0
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc:content-transfer-encoding;
+ bh=ZXvggOZ6MvAQVnD8GqWLsbh+z4f+zwImENZh6Y47h+w=;
+ b=AsufJYU+ketUOITs3XmOOev9XtEUCxWSZKPUAPFGbLmWwcHIEQ+by65CcJxP+sWBkI
+ vc+/RbkKrNqIC/4z7W13sN/RDGIX7qb12OVueIHb7rbP7bmAA/jf0yw4rkEdmu6S7zwd
+ 7bHmen9PR3XZcM+KhWubTIm9Rj9EiuWGqJDVrmkefmEff3XyREZM91EJA57XtiC+cYlS
+ yslNjyR0mF7CbjOsmZ+bwG7cRzk3SRmdS9WF8ACPapItGeqpIfZ1ROd0dzpxxovk4XAm
+ Reb0+ljiOdBvAex5/gTw5F4LIYmGFqcwnAg5apyToQVMbc7mvLw5s7Dg1hbhBa/uzHaE
+ K1jg==
+X-Gm-Message-State: AOAM533OFEfAiSaW8EGIvsUPYvw2GoWpIxLLiG3ivHFXAISz5nRz0qpP
+ ZbMJN4+MCsfzFCJdqmqX3C1QAPPFkBZ2hYN3Z/8=
+X-Google-Smtp-Source: ABdhPJxgGsYi2giFwkGGqWUzi6qpkItOKydXnlLtXSwtph3Y0136pZYLjxSHPbdP8axI+r8j7XXrBsI6XRkkCXas6Z8=
+X-Received: by 2002:a05:6e02:d51:: with SMTP id
+ h17mr48304544ilj.131.1594312045279; 
+ Thu, 09 Jul 2020 09:27:25 -0700 (PDT)
 MIME-Version: 1.0
-In-Reply-To: <20200630055953.9309-1-thuth@redhat.com>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::444;
- envelope-from=richard.henderson@linaro.org; helo=mail-pf1-x444.google.com
+References: <20200707132116.26207-1-f4bug@amsat.org>
+ <20200707132116.26207-3-f4bug@amsat.org>
+ <CAKmqyKNY+7tE9tcZm7_Th9qapo1CH0AwNwBf7vaf+7vSqBNtVA@mail.gmail.com>
+ <CAFEAcA_ZXgNHMAhBVmjvstyG=PpaHOtcmo=VgvfBQ3Z9VJTk_g@mail.gmail.com>
+ <3f1bf3ba-d6c3-a148-9850-076b2caa64d0@amsat.org>
+ <CAPan3Wr09ZbbHWO-dhGeK3zhZQv3smrzLpUGMj71NWh0hToZDg@mail.gmail.com>
+ <e87550d9-e1cc-cc15-2674-755249e9a965@amsat.org>
+ <CAFEAcA8em-bgU2xd8OG+bPLDCSZCF8Y2ay9U57D8p9m1SWO=9g@mail.gmail.com>
+ <f263f4aa-eb94-8760-6fc4-a1d46c15d099@amsat.org>
+In-Reply-To: <f263f4aa-eb94-8760-6fc4-a1d46c15d099@amsat.org>
+From: Alistair Francis <alistair23@gmail.com>
+Date: Thu, 9 Jul 2020 09:17:33 -0700
+Message-ID: <CAKmqyKM1h37fKNs-_jh+9Yr6EGvQ+hdbSQHHSnOoePHdLyf1Zw@mail.gmail.com>
+Subject: Re: [PATCH 2/2] hw/sd/sdcard: Do not allow invalid SD card sizes
+To: =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <f4bug@amsat.org>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=2607:f8b0:4864:20::141;
+ envelope-from=alistair23@gmail.com; helo=mail-il1-x141.google.com
 X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
  That's all we know.
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+X-Spam_score_int: -17
+X-Spam_score: -1.8
+X-Spam_bar: -
+X-Spam_report: (-1.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
  DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ FREEMAIL_ENVFROM_END_DIGIT=0.25, FREEMAIL_FROM=0.001,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
@@ -89,23 +88,76 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-trivial@nongnu.org
+Cc: Peter Maydell <peter.maydell@linaro.org>,
+ Qemu-block <qemu-block@nongnu.org>, Alistair Francis <alistair@alistair23.me>,
+ "qemu-devel@nongnu.org Developers" <qemu-devel@nongnu.org>,
+ Wainer dos Santos Moschetta <wainersm@redhat.com>,
+ Niek Linnenbank <nieklinnenbank@gmail.com>, Cleber Rosa <crosa@redhat.com>,
+ Paolo Bonzini <pbonzini@redhat.com>,
+ =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <philmd@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 6/29/20 10:59 PM, Thomas Huth wrote:
-> Add fallthrough annotations to be able to compile the code without
-> warnings with -Wimplicit-fallthrough. Looking at the code, it seems
-> like the fallthrough is indeed intended here, so the comments should
-> be appropriate.
-> 
-> Signed-off-by: Thomas Huth <thuth@redhat.com>
-> ---
->  Note: The new lines use TABs since all the surounding code uses TABs, too.
->  Please ignore the checkpatch warnings.
+On Thu, Jul 9, 2020 at 7:35 AM Philippe Mathieu-Daud=C3=A9 <f4bug@amsat.org=
+> wrote:
+>
+> On 7/9/20 4:15 PM, Peter Maydell wrote:
+> > On Thu, 9 Jul 2020 at 14:56, Philippe Mathieu-Daud=C3=A9 <f4bug@amsat.o=
+rg> wrote:
+> >>
+> >> On 7/7/20 10:29 PM, Niek Linnenbank wrote:
+> >>> So I manually copy & pasted the change into hw/sd/sd.c to test it.
+> >>> It looks like the check works, but my concern is that with this chang=
+e,
+> >>> we will be getting this error on 'off-the-shelf' images as well.
+> >>> For example, the latest Raspbian image size also isn't a power of two=
+:
+> >>>
+> >>> $ ./arm-softmmu/qemu-system-arm -M raspi2 -sd
+> >>> ~/Downloads/2020-05-27-raspios-buster-lite-armhf.img -nographic
+> >>> WARNING: Image format was not specified for
+> >>> '/home/me/Downloads/2020-05-27-raspios-buster-lite-armhf.img' and
+> >>> probing guessed raw.
+> >>>          Automatically detecting the format is dangerous for raw imag=
+es,
+> >>> write operations on block 0 will be restricted.
+> >>>          Specify the 'raw' format explicitly to remove the restrictio=
+ns.
+> >>> qemu-system-arm: Invalid SD card size: 1.73 GiB (expecting at least 2=
+ GiB)
+> >>>
+> >>> If we do decide that the change is needed, I would like to propose th=
+at
+> >>> we also give the user some instructions
+> >>> on how to fix it, maybe some 'dd' command?
+> >>
+> >> On POSIX we can suggest to use 'truncate -s 2G' from coreutils.
+> >> This is not in the default Darwin packages.
+> >> On Windows I have no clue.
+> >
+> > dd/truncate etc won't work if the image file is not raw (eg if
+> > it's qcow2).
+>
+> Good catch...
+>
+> > The only chance you have of something that's actually
+> > generic would probably involve "qemu-img resize". But I'm a bit
+> > wary of having an error message that recommends that, because
+> > what if we got it wrong?
+>
+> I am not sure what to recommend then.
+>
+> Would that work as hint?
+>
+>   qemu-system-arm -M raspi2 -sd ./buster-lite-armhf.img
+>   qemu-system-arm: Invalid SD card size: 1.73 GiB
+>   SD card size has to be a power of 2, e.g. 2GiB.
 
-Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
+That sounds good to me. That's enough for a user to figure out the next ste=
+p.
 
+If you want you could also add: "qemu-img might be able to help." or
+something like that.
 
-r~
+Alistair
 
