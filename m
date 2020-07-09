@@ -2,70 +2,90 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id CBFAF21A1A9
-	for <lists+qemu-devel@lfdr.de>; Thu,  9 Jul 2020 16:02:16 +0200 (CEST)
-Received: from localhost ([::1]:53018 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 48DAA21A182
+	for <lists+qemu-devel@lfdr.de>; Thu,  9 Jul 2020 15:57:43 +0200 (CEST)
+Received: from localhost ([::1]:47884 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jtX7v-0002Uc-Pl
-	for lists+qemu-devel@lfdr.de; Thu, 09 Jul 2020 10:02:15 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:45954)
+	id 1jtX3W-000069-Bh
+	for lists+qemu-devel@lfdr.de; Thu, 09 Jul 2020 09:57:42 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:44758)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1jtX6h-00024b-Vz
- for qemu-devel@nongnu.org; Thu, 09 Jul 2020 10:01:00 -0400
-Received: from indium.canonical.com ([91.189.90.7]:34490)
+ (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
+ id 1jtX2k-00084B-F0; Thu, 09 Jul 2020 09:56:54 -0400
+Received: from mail-wm1-x344.google.com ([2a00:1450:4864:20::344]:38680)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1jtX6f-0007SZ-DN
- for qemu-devel@nongnu.org; Thu, 09 Jul 2020 10:00:59 -0400
-Received: from loganberry.canonical.com ([91.189.90.37])
- by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
- id 1jtX6d-0003Hu-7L
- for <qemu-devel@nongnu.org>; Thu, 09 Jul 2020 14:00:55 +0000
-Received: from loganberry.canonical.com (localhost [127.0.0.1])
- by loganberry.canonical.com (Postfix) with ESMTP id 1CF892E8105
- for <qemu-devel@nongnu.org>; Thu,  9 Jul 2020 14:00:55 +0000 (UTC)
+ (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
+ id 1jtX2i-0006jF-EL; Thu, 09 Jul 2020 09:56:54 -0400
+Received: by mail-wm1-x344.google.com with SMTP id f18so1907178wml.3;
+ Thu, 09 Jul 2020 06:56:51 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=sender:subject:to:cc:references:from:message-id:date:user-agent
+ :mime-version:in-reply-to:content-language:content-transfer-encoding;
+ bh=u3aKQ8+cwKjgCr/L+GyujiTh8CUSLj1WqlsO4uLLmIk=;
+ b=YErqQGSEhmOrMNwXi6VUclL9pLZPX3ODKkdC0s9GdZ3FaAM0x5L8TzDSMUXR2lF8Uw
+ 6bFvSZ3NEkF2ZxsIeah6f0RLuHQkwq5XUA2RHnvZayTidu3DAoL0MoZjufX0Z1LsccWz
+ pNMEHAUVHbqrwOhDJ972zOSexIumesk7pIFcl1u4kmpHoojntWpJ2UkFFTdUWx0jmop4
+ ZmpU88+ig94Wwv+3QhHxQ+fDGMWQcziJbLT5UUN/dJXoYKOG24EB+0TUOm8exji20ZTv
+ FjGmWq9exHvl4xf5Wz1w+6y+fdmobo61sEAorePV9UeOXN7oeeqILevZN1AbsenC+kfr
+ fLiQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:sender:subject:to:cc:references:from:message-id
+ :date:user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=u3aKQ8+cwKjgCr/L+GyujiTh8CUSLj1WqlsO4uLLmIk=;
+ b=G8TdZJ8YTmynMTAk+MzMhXfq4rNEmvnhjU2Uwl+pURtZNxDBdJkRZN6cn+LTF4VHDZ
+ x213ukIm5i2rypYAJAAWTrGaoEPzm7wHPLHjQPJutQmQUoTQG/Iby57aqAMEFDYfi+zb
+ 16w5EDgIdLtAbPZTyfKgxCe3pQCYnwqY/3FmvZ/9bC38aR/thEuQrpD0R9AX8dloPy1U
+ pKrdnfpJ75loLMxrfgnt6UObmCb4r+aUnWD/5xu84K8fekNbUPRqGNFZXPtBwThFLECo
+ XMr6q53696NSYlAMVBbaPDnckS5IaBDa5JKW4Vk1XA6+K51pQxl73SOGXNc0YqK9jciI
+ ceTA==
+X-Gm-Message-State: AOAM5332l6EU6GQEnBmapVyRYRctg1KmrUEmJW6jLp89E0DAxlXvNbRr
+ xLR16T4UwCZVwiqttgAQJ38=
+X-Google-Smtp-Source: ABdhPJwd6PlcKxlzxrxkxwj1QyGyXLXuB/wBx7B9O0qxeYeJ8/oapgJraIuSwUQphUAxjooqxJL5Zg==
+X-Received: by 2002:a05:600c:2152:: with SMTP id
+ v18mr129053wml.5.1594303010207; 
+ Thu, 09 Jul 2020 06:56:50 -0700 (PDT)
+Received: from [192.168.1.37] (138.red-83-57-170.dynamicip.rima-tde.net.
+ [83.57.170.138])
+ by smtp.gmail.com with ESMTPSA id j24sm5893685wrd.43.2020.07.09.06.56.48
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Thu, 09 Jul 2020 06:56:49 -0700 (PDT)
+Subject: Re: [PATCH 2/2] hw/sd/sdcard: Do not allow invalid SD card sizes
+To: Niek Linnenbank <nieklinnenbank@gmail.com>
+References: <20200707132116.26207-1-f4bug@amsat.org>
+ <20200707132116.26207-3-f4bug@amsat.org>
+ <CAKmqyKNY+7tE9tcZm7_Th9qapo1CH0AwNwBf7vaf+7vSqBNtVA@mail.gmail.com>
+ <CAFEAcA_ZXgNHMAhBVmjvstyG=PpaHOtcmo=VgvfBQ3Z9VJTk_g@mail.gmail.com>
+ <3f1bf3ba-d6c3-a148-9850-076b2caa64d0@amsat.org>
+ <CAPan3Wr09ZbbHWO-dhGeK3zhZQv3smrzLpUGMj71NWh0hToZDg@mail.gmail.com>
+From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>
+Message-ID: <e87550d9-e1cc-cc15-2674-755249e9a965@amsat.org>
+Date: Thu, 9 Jul 2020 15:56:48 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.5.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: quoted-printable
-Date: Thu, 09 Jul 2020 13:51:31 -0000
-From: =?utf-8?q?Alex_Benn=C3=A9e?= <1885827@bugs.launchpad.net>
-To: qemu-devel@nongnu.org
-X-Launchpad-Notification-Type: bug
-X-Launchpad-Bug: product=qemu; status=New; importance=Undecided; assignee=None;
-X-Launchpad-Bug-Tags: plugins windows
-X-Launchpad-Bug-Information-Type: Public
-X-Launchpad-Bug-Private: no
-X-Launchpad-Bug-Security-Vulnerability: no
-X-Launchpad-Bug-Commenters: ajbennee casmac cota
-X-Launchpad-Bug-Reporter: Xiaolei (casmac)
-X-Launchpad-Bug-Modifier: =?utf-8?q?Alex_Benn=C3=A9e_=28ajbennee=29?=
-References: <159357217483.1717.4076077243388027502.malonedeb@chaenomeles.canonical.com>
- <159426310588.27029.9451813776430828516.malone@gac.canonical.com>
-Message-Id: <87h7ugn6e4.fsf@linaro.org>
-Subject: Re: [Bug 1885827] Re: building plugin failed on Windows with mingw
-X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
-X-Launchpad-Message-For: qemu-devel-ml
-Precedence: bulk
-X-Generated-By: Launchpad (canonical.com);
- Revision="4809fcb62f445aaa3ae919f7f6c3cc7d156ea57a";
- Instance="production-secrets-lazr.conf"
-X-Launchpad-Hash: 8ca8a4bb8b07805750d7de1d47e07b880291fc72
-Received-SPF: none client-ip=91.189.90.7; envelope-from=bounces@canonical.com;
- helo=indium.canonical.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/07/09 09:41:12
-X-ACL-Warn: Detected OS   = Linux 3.11 and newer [fuzzy]
-X-Spam_score_int: -58
-X-Spam_score: -5.9
-X-Spam_bar: -----
-X-Spam_report: (-5.9 / 5.0 requ) BAYES_00=-1.9, HEADER_FROM_DIFFERENT_DOMAINS=1,
- RCVD_IN_DNSWL_HI=-5, RCVD_IN_MSPIKE_H3=-0.01, RCVD_IN_MSPIKE_WL=-0.01,
- SPF_HELO_NONE=0.001, SPF_NONE=0.001,
- URIBL_BLOCKED=0.001 autolearn=ham autolearn_force=no
+In-Reply-To: <CAPan3Wr09ZbbHWO-dhGeK3zhZQv3smrzLpUGMj71NWh0hToZDg@mail.gmail.com>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=2a00:1450:4864:20::344;
+ envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wm1-x344.google.com
+X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
+ That's all we know.
+X-Spam_score_int: 0
+X-Spam_score: 0.0
+X-Spam_bar: /
+X-Spam_report: (0.0 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1, DKIM_VALID=-0.1,
+ DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=1, FREEMAIL_FROM=0.001,
+ HEADER_FROM_DIFFERENT_DOMAINS=1, RCVD_IN_DNSWL_NONE=-0.0001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ URIBL_BLOCKED=0.001 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
+Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -74,174 +94,221 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Bug 1885827 <1885827@bugs.launchpad.net>
+Cc: Peter Maydell <peter.maydell@linaro.org>,
+ Qemu-block <qemu-block@nongnu.org>, Alistair Francis <alistair@alistair23.me>,
+ "qemu-devel@nongnu.org Developers" <qemu-devel@nongnu.org>,
+ Wainer dos Santos Moschetta <wainersm@redhat.com>,
+ Paolo Bonzini <pbonzini@redhat.com>, Cleber Rosa <crosa@redhat.com>,
+ Alistair Francis <alistair23@gmail.com>,
+ =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Emilio G. Cota <1885827@bugs.launchpad.net> writes:
+On 7/7/20 10:29 PM, Niek Linnenbank wrote:
+> Hi Philippe,
+> 
+> Just tried out your patch on latest master, and I noticed I couldn't
+> apply it without getting this error:
+> 
+> $ git am ~/Downloads/patches/\[PATCH\ 2_2\]\ hw_sd_sdcard\:\ Do\ not\
+> allow\ invalid\ SD\ card\ sizes\ -\ Philippe\ Mathieu-Daudé\
+> \<f4bug@amsat.org <mailto:f4bug@amsat.org>\>\ -\ 2020-07-07\ 1521.eml
+> Applying: hw/sd/sdcard: Do not allow invalid SD card sizes
+> error: patch failed: hw/sd/sd.c:2130
+> error: hw/sd/sd.c: patch does not apply
+> Patch failed at 0001 hw/sd/sdcard: Do not allow invalid SD card sizes
+> Use 'git am --show-current-patch' to see the failed patch
+> When you have resolved this problem, run "git am --continue".
+> If you prefer to skip this patch, run "git am --skip" instead.
+> To restore the original branch and stop patching, run "git am --abort".
+> 
+> The first patch did go OK. Maybe this one just needs to be rebased, or I
+> made a mistake.
 
-> You should then find out why libqemu_plugin.dll.a is not working. It is
-> possible though that your linked is calling the import library something
-> else, for instance adding a .dll extension to it.
->
-> You will have to run a few tests with your linker (I'd just use the
-> examples from the stackoverflow links I posted above) to see the name of
-> the import library that gets created. My assumption is that some library
-> gets created, otherwise the linked should give you an error and AFAICT
-> it does not.
->
-> Once you find what the import library us, you should be in good shape to
-> adapt the above for QEMU. Let us know how it goes!
+Sorry it was not clear on the cover:
 
-I did have a go but couldn't get far with the mingw docker images. I got
-somewhat distracted yesterday solving the mysterious regenerating
-syscall_nr.h problem so I've run out of bandwidth to look at this any
-longer. If the two of you find an eventual solution please send me a
-patch.
+  Part 1 is already reviewed:
+  https://www.mail-archive.com/qemu-devel@nongnu.org/msg718150.html
+  Based-on: <20200630133912.9428-1-f4bug@amsat.org>
 
-Thanks.
+This series is based on the "Part 1".
 
--- =
+> So I manually copy & pasted the change into hw/sd/sd.c to test it.
+> It looks like the check works, but my concern is that with this change,
+> we will be getting this error on 'off-the-shelf' images as well.
+> For example, the latest Raspbian image size also isn't a power of two:
+> 
+> $ ./arm-softmmu/qemu-system-arm -M raspi2 -sd
+> ~/Downloads/2020-05-27-raspios-buster-lite-armhf.img -nographic
+> WARNING: Image format was not specified for
+> '/home/me/Downloads/2020-05-27-raspios-buster-lite-armhf.img' and
+> probing guessed raw.
+>          Automatically detecting the format is dangerous for raw images,
+> write operations on block 0 will be restricted.
+>          Specify the 'raw' format explicitly to remove the restrictions.
+> qemu-system-arm: Invalid SD card size: 1.73 GiB (expecting at least 2 GiB)
+> 
+> If we do decide that the change is needed, I would like to propose that
+> we also give the user some instructions
+> on how to fix it, maybe some 'dd' command?
 
-Alex Benn=C3=A9e
+On POSIX we can suggest to use 'truncate -s 2G' from coreutils.
+This is not in the default Darwin packages.
+On Windows I have no clue.
 
--- =
+> In my opinion that should
+> also go in some of the documentation file(s),
+> possibly also in the one for the OrangePi PC at
+> docs/system/arm/orangepi.rst (I can also provide a patch for that if you
+> wish).
 
-You received this bug notification because you are a member of qemu-
-devel-ml, which is subscribed to QEMU.
-https://bugs.launchpad.net/bugs/1885827
+Good idea, if you can send that patch that would a precious help,
+and I'd include it with the other patches :)
 
-Title:
-  building plugin failed on Windows with mingw
+Note that this was your orangepi-pc acceptance test that catched
+this bug!
+See https://travis-ci.org/github/philmd/qemu/jobs/705653532#L5672:
 
-Status in QEMU:
-  New
+ CPU: ARMv7 Processor [410fc075] revision 5 (ARMv7), cr=50c5387d
+ OF: fdt: Machine model: Xunlong Orange Pi PC
+ Kernel command line: printk.time=0 console=ttyS0,115200
+root=/dev/mmcblk0 rootwait rw panic=-1 noreboot
+ sunxi-mmc 1c0f000.mmc: Linked as a consumer to regulator.2
+ sunxi-mmc 1c0f000.mmc: Got CD GPIO
+ sunxi-mmc 1c0f000.mmc: initialized, max. request size: 16384 KB
+ mmc0: host does not support reading read-only switch, assuming write-enable
+ mmc0: Problem switching card into high-speed mode!
+ mmc0: new SD card at address 4567
+ mmcblk0: mmc0:4567 QEMU! 60.0 MiB
+ EXT4-fs (mmcblk0): mounting ext2 file system using the ext4 subsystem
+ EXT4-fs (mmcblk0): mounted filesystem without journal. Opts: (null)
+ VFS: Mounted root (ext2 filesystem) on device 179:0.
+ EXT4-fs (mmcblk0): re-mounted. Opts: block_validity,barrier,user_xattr,acl
+ Populating /dev using udev: udevd[204]: starting version 3.2.7
+ udevadm settle failed
+ done
+ udevd[205]: worker [208]
+/devices/platform/soc/1c0f000.mmc/mmc_host/mmc0/mmc0:4567/block/mmcblk0
+is taking a long time
+Runner error occurred: Timeout reached
+Original status: ERROR
 
-Bug description:
-  I want to build QEMU 4.2.0's plugin module on Windows 7/10 with Mingw, bu=
-t the building process faild.
-   =
+(I'll add that in the commit description too).
 
-  The step I follow is listed below:
-  1. create "dsp_build" diretory under source file folder
+Thanks for your testing/review!
 
-  2.  change directory to dsp_build , and run ../configure --target-list=3D=
-dsp-softmmu --cross-prefix=3Dx86_64-w64-mingw32- --enable-gtk --enable-sdl =
---enable-debug --enable-plugins
-  3. build qemu project
-  4. switch dir to /dsp_build, make -C tests/plugin, yeilds error: =
-
-     CC      bb.o
-   D:/emu_devl/qemu_src/qemu-sr-dsp-a/qemu_tidsp_c3x/tests/plugin/bb.c:17:2=
-4: error: variable 'qemu_plugin_version' definition is marked dllimport
-     17 | QEMU_PLUGIN_EXPORT int qemu_plugin_version =3D QEMU_PLUGIN_VERSIO=
-N;
-        |                        ^~~~~~~~~~~~~~~~~~~
-   D:/emu_devl/qemu_src/qemu-sr-dsp-a/qemu_tidsp_c3x/tests/plugin/bb.c:17:2=
-4: warning: 'qemu_plugin_version' redeclared without dllimport attribute: p=
-revious dllimport ignored [-Wattributes]
-   D:/emu_devl/qemu_src/qemu-sr-dsp-a/qemu_tidsp_c3x/tests/plugin/bb.c: In =
-function 'vcpu_tb_exec':
-   D:/emu_devl/qemu_src/qemu-sr-dsp-a/qemu_tidsp_c3x/tests/plugin/bb.c:33:2=
-9: warning: cast from pointer to integer of different size [-Wpointer-to-in=
-t-cast]
-     33 |     unsigned long n_insns =3D (unsigned long)udata;
-        |                             ^
-   D:/emu_devl/qemu_src/qemu-sr-dsp-a/qemu_tidsp_c3x/tests/plugin/bb.c: In =
-function 'vcpu_tb_trans':
-   D:/emu_devl/qemu_src/qemu-sr-dsp-a/qemu_tidsp_c3x/tests/plugin/bb.c:51:4=
-6: warning: cast to pointer from integer of different size [-Wint-to-pointe=
-r-cast]
-     51 |                                              (void *)n_insns);
-
-  5.  Then , I modified the QEMU_flags and the compilation command
-  arguments($(CC) ..) in  the  makefile :
-
-                  BUILD_DIR :=3D $(CURDIR)/../..
-
-  		include $(BUILD_DIR)/config-host.mak
-  		include $(SRC_PATH)/rules.mak
-
-                  $(call set-vpath, $(SRC_PATH)/tests/plugin)
-
-  		NAMES :=3D
-  		NAMES +=3D bb
-  		NAMES +=3D empty
-  		NAMES +=3D insn
-  		NAMES +=3D mem
-  		NAMES +=3D hotblocks
-  		NAMES +=3D howvec
-  		NAMES +=3D hotpages
-
-                  SONAMES :=3D $(addsuffix .so,$(addprefix lib,$(NAMES)))
-
-  		QEMU_CFLAGS +=3D -fPIC	-DBUILDING_DLL  		#added  -DBUILDING_DLL
-  		QEMU_CFLAGS +=3D -I$(SRC_PATH)/include/qemu
-
-                  all: $(SONAMES)
-
-  		lib%.so: %.o
-  			$(CC) -fPIC -shared -o $@ $^ $(LDLIBS) -L /c/msys64/mingw64/lib/ -lgli=
-b-2.0
-  			# original cmd: $(CC) -shared -Wl,-soname,$@ -o $@ $^ $(LDLIBS)
-
-  		clean:
-  			rm -f *.o *.so *.d
-  			rm -Rf .libs
-
-                  .PHONY: all clean
-
-  6.  Executing make yeilds:
-
-  make: enter   =E2=80=9C/d/emu_devl/qemu_src/qemu-sr-dsp-a/qemu_tidsp_c3x/=
-build_dsp/tests/plugin=E2=80=9D
-    CC      bb.o
-  x86_64-w64-mingw32-gcc -fPIC -shared -o libbb.so bb.o  -L /c/msys64/mingw=
-64/lib/ -lglib-2.0
-  C:/msys64/mingw64/bin/../lib/gcc/x86_64-w64-mingw32/10.1.0/../../../../x8=
-6_64-w64-mingw32/bin/ld.exe: bb.o: in function `plugin_exit':
-  D:/emu_devl/qemu_src/qemu-sr-dsp-a/qemu_tidsp_c3x/tests/plugin/bb.c:28: u=
-ndefined reference to `qemu_plugin_outs'
-  C:/msys64/mingw64/bin/../lib/gcc/x86_64-w64-mingw32/10.1.0/../../../../x8=
-6_64-w64-mingw32/bin/ld.exe: D:/emu_devl/qemu_src/qemu-sr-dsp-a/qemu_tidsp_=
-c3x/tests/plugin/bb.c:29: undefined reference to `__stack_chk_fail'
-  C:/msys64/mingw64/bin/../lib/gcc/x86_64-w64-mingw32/10.1.0/../../../../x8=
-6_64-w64-mingw32/bin/ld.exe: bb.o: in function `vcpu_tb_trans':
-  D:/emu_devl/qemu_src/qemu-sr-dsp-a/qemu_tidsp_c3x/tests/plugin/bb.c:41: u=
-ndefined reference to `qemu_plugin_tb_n_insns'
-  C:/msys64/mingw64/bin/../lib/gcc/x86_64-w64-mingw32/10.1.0/../../../../x8=
-6_64-w64-mingw32/bin/ld.exe: D:/emu_devl/qemu_src/qemu-sr-dsp-a/qemu_tidsp_=
-c3x/tests/plugin/bb.c:44: undefined reference to `qemu_plugin_register_vcpu=
-_tb_exec_inline'
-  C:/msys64/mingw64/bin/../lib/gcc/x86_64-w64-mingw32/10.1.0/../../../../x8=
-6_64-w64-mingw32/bin/ld.exe: D:/emu_devl/qemu_src/qemu-sr-dsp-a/qemu_tidsp_=
-c3x/tests/plugin/bb.c:46: undefined reference to `qemu_plugin_register_vcpu=
-_tb_exec_inline'
-  C:/msys64/mingw64/bin/../lib/gcc/x86_64-w64-mingw32/10.1.0/../../../../x8=
-6_64-w64-mingw32/bin/ld.exe: D:/emu_devl/qemu_src/qemu-sr-dsp-a/qemu_tidsp_=
-c3x/tests/plugin/bb.c:49: undefined reference to `qemu_plugin_register_vcpu=
-_tb_exec_cb'
-  C:/msys64/mingw64/bin/../lib/gcc/x86_64-w64-mingw32/10.1.0/../../../../x8=
-6_64-w64-mingw32/bin/ld.exe: bb.o: in function `qemu_plugin_install':
-  D:/emu_devl/qemu_src/qemu-sr-dsp-a/qemu_tidsp_c3x/tests/plugin/bb.c:63: u=
-ndefined reference to `qemu_plugin_register_vcpu_tb_trans_cb'
-  C:/msys64/mingw64/bin/../lib/gcc/x86_64-w64-mingw32/10.1.0/../../../../x8=
-6_64-w64-mingw32/bin/ld.exe: D:/emu_devl/qemu_src/qemu-sr-dsp-a/qemu_tidsp_=
-c3x/tests/plugin/bb.c:64: undefined reference to `qemu_plugin_register_atex=
-it_cb'
-  C:/msys64/mingw64/bin/../lib/gcc/x86_64-w64-mingw32/10.1.0/../../../../x8=
-6_64-w64-mingw32/bin/ld.exe: bb.o:bb.c:(.rdata$.refptr.__stack_chk_guard[.r=
-efptr.__stack_chk_guard]+0x0): undefined reference to `__stack_chk_guard'
-  collect2.exe: error: ld returned 1 exit status
-
-     It looks like linking problem(fail to link functions defined in api.c,=
- core.c...), but I have no idea what goes wrong. If I mannualy add api.o, c=
-ore.o in the compilation command, still get error like undefined reference =
-to '__stack_chk_guard'. =
-
-     My collegue can build 4.2.0  plugins on Ubuntu Linux without any probl=
-em.
-
-To manage notifications about this bug go to:
-https://bugs.launchpad.net/qemu/+bug/1885827/+subscriptions
+> Kind regards,
+> 
+> Niek
+> 
+> 
+> On Tue, Jul 7, 2020 at 6:11 PM Philippe Mathieu-Daudé <f4bug@amsat.org
+> <mailto:f4bug@amsat.org>> wrote:
+> 
+>     On 7/7/20 6:06 PM, Peter Maydell wrote:
+>     > On Tue, 7 Jul 2020 at 17:04, Alistair Francis
+>     <alistair23@gmail.com <mailto:alistair23@gmail.com>> wrote:
+>     >>
+>     >> On Tue, Jul 7, 2020 at 6:22 AM Philippe Mathieu-Daudé
+>     <f4bug@amsat.org <mailto:f4bug@amsat.org>> wrote:
+>     >>>
+>     >>> QEMU allows to create SD card with unrealistic sizes. This could
+>     work,
+>     >>> but some guests (at least Linux) consider sizes that are not a power
+>     >>> of 2 as a firmware bug and fix the card size to the next power of 2.
+>     >>>
+>     >>> Before CVE-2020-13253 fix, this would allow OOB read/write accesses
+>     >>> past the image size end.
+>     >>>
+>     >>> CVE-2020-13253 has been fixed as:
+>     >>>
+>     >>>     Read command is rejected if BLOCK_LEN_ERROR or ADDRESS_ERROR
+>     >>>     occurred and no data transfer is performed.
+>     >>>
+>     >>>     Write command is rejected if BLOCK_LEN_ERROR or ADDRESS_ERROR
+>     >>>     occurred and no data transfer is performed.
+>     >>>
+>     >>>     WP_VIOLATION errors are not modified: the error bit is set, we
+>     >>>     stay in receive-data state, wait for a stop command. All further
+>     >>>     data transfer is ignored. See the check on sd->card_status
+>     at the
+>     >>>     beginning of sd_read_data() and sd_write_data().
+>     >>>
+>     >>> While this is the correct behavior, in case QEMU create smaller SD
+>     >>> cards, guests still try to access past the image size end, and QEMU
+>     >>> considers this is an invalid address, thus "all further data
+>     transfer
+>     >>> is ignored". This is wrong and make the guest looping until
+>     >>> eventually timeouts.
+>     >>>
+>     >>> Fix by not allowing invalid SD card sizes.  Suggesting the expected
+>     >>> size as a hint:
+>     >>>
+>     >>>   $ qemu-system-arm -M orangepi-pc -drive
+>     file=rootfs.ext2,if=sd,format=raw
+>     >>>   qemu-system-arm: Invalid SD card size: 60 MiB (expecting at
+>     least 64 MiB)
+>     >>>
+>     >>> Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org
+>     <mailto:f4bug@amsat.org>>
+>     >>> ---
+>     >>>  hw/sd/sd.c | 16 ++++++++++++++++
+>     >>>  1 file changed, 16 insertions(+)
+>     >>>
+>     >>> diff --git a/hw/sd/sd.c b/hw/sd/sd.c
+>     >>> index cb81487e5c..c45106b78e 100644
+>     >>> --- a/hw/sd/sd.c
+>     >>> +++ b/hw/sd/sd.c
+>     >>> @@ -32,6 +32,7 @@
+>     >>>
+>     >>>  #include "qemu/osdep.h"
+>     >>>  #include "qemu/units.h"
+>     >>> +#include "qemu/cutils.h"
+>     >>>  #include "hw/irq.h"
+>     >>>  #include "hw/registerfields.h"
+>     >>>  #include "sysemu/block-backend.h"
+>     >>> @@ -2130,11 +2131,26 @@ static void sd_realize(DeviceState *dev,
+>     Error **errp)
+>     >>>      }
+>     >>>
+>     >>>      if (sd->blk) {
+>     >>> +        int64_t blk_size;
+>     >>> +
+>     >>>          if (blk_is_read_only(sd->blk)) {
+>     >>>              error_setg(errp, "Cannot use read-only drive as SD
+>     card");
+>     >>>              return;
+>     >>>          }
+>     >>>
+>     >>> +        blk_size = blk_getlength(sd->blk);
+>     >>> +        if (blk_size > 0 && !is_power_of_2(blk_size)) {
+>     >>> +            int64_t blk_size_aligned = pow2ceil(blk_size);
+>     >>> +            char *blk_size_str = size_to_str(blk_size);
+>     >>> +            char *blk_size_aligned_str =
+>     size_to_str(blk_size_aligned);
+>     >>> +
+>     >>> +            error_setg(errp, "Invalid SD card size: %s
+>     (expecting at least %s)",
+>     >>> +                       blk_size_str, blk_size_aligned_str);
+>     >>
+>     >> Should we print that we expect a power of 2? This isn't always
+>     obvious
+>     >> from the message.
+>     >
+>     > Mmm, I was thinking that. Perhaps
+>     >  "expecting a power of 2, e.g. %s"
+>     > ?
+> 
+>     OK, thanks guys!
+> 
+>     >
+>     > thanks
+>     > -- PMM
+>     >
+> 
+> 
+> 
+> -- 
+> Niek Linnenbank
+> 
 
