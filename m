@@ -2,70 +2,74 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 60DF9219655
-	for <lists+qemu-devel@lfdr.de>; Thu,  9 Jul 2020 04:48:13 +0200 (CEST)
-Received: from localhost ([::1]:53468 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 01A19219657
+	for <lists+qemu-devel@lfdr.de>; Thu,  9 Jul 2020 04:49:18 +0200 (CEST)
+Received: from localhost ([::1]:57114 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jtMbb-0006uZ-Vp
-	for lists+qemu-devel@lfdr.de; Wed, 08 Jul 2020 22:48:12 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:44228)
+	id 1jtMcf-0008O2-2A
+	for lists+qemu-devel@lfdr.de; Wed, 08 Jul 2020 22:49:17 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:44230)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <crosa@redhat.com>) id 1jtMae-0006FP-LG
+ (Exim 4.90_1) (envelope-from <crosa@redhat.com>) id 1jtMae-0006FQ-LG
  for qemu-devel@nongnu.org; Wed, 08 Jul 2020 22:47:12 -0400
-Received: from us-smtp-1.mimecast.com ([207.211.31.81]:53536
+Received: from us-smtp-2.mimecast.com ([205.139.110.61]:29544
  helo=us-smtp-delivery-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <crosa@redhat.com>) id 1jtMac-00089d-2F
- for qemu-devel@nongnu.org; Wed, 08 Jul 2020 22:47:11 -0400
+ (Exim 4.90_1) (envelope-from <crosa@redhat.com>) id 1jtMac-00089i-9j
+ for qemu-devel@nongnu.org; Wed, 08 Jul 2020 22:47:12 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1594262827;
+ s=mimecast20190719; t=1594262829;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding;
- bh=L1mElrFaZr9pzaFgBeT4XKcV0c8nkMrnpmFLh5GMpLE=;
- b=TKe7ZHbxU6x9sx0lrtS51udeLwsqqzYvVM0l8t1SdMLqKiKLlWaaSHQCrh7qp2FP/cu7pn
- MsDYrPaSm2Ab6hCq+0rvhCOAAL8ZlxSjPpdPXzF2wIUTc9qWD93m8LgrVuk6jdCPigczAL
- SPN/XWg227BFq0Zy4GmmojGpihxD2Bk=
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=+Y5eZiMdEJ0SKo7WG2X6MchZqCGukcs0EJ8cVlQ9Iro=;
+ b=f2Ozja1vgXw6nhok0fms98bwj4O7KAWzTpjN7pXeTHbRaACzASqvO0aGN4kinhfV5ZgTqA
+ dJNRsgaEPkqALYN6fvvhL4jHuphQU9lE46s2wBmgmFRjzs0bZncXxG8Bbw8DnXp7JiSKqS
+ JoR+x8rfwelE36q1tXBNbDB/QKAHI3Y=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-87-7wROBuMeOX6Qdc5ZygsoGQ-1; Wed, 08 Jul 2020 22:47:04 -0400
-X-MC-Unique: 7wROBuMeOX6Qdc5ZygsoGQ-1
+ us-mta-40-IKeuzAlhOumGiqX-FFe-EQ-1; Wed, 08 Jul 2020 22:47:05 -0400
+X-MC-Unique: IKeuzAlhOumGiqX-FFe-EQ-1
 Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
  [10.5.11.12])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 10E9B8015F7;
- Thu,  9 Jul 2020 02:47:03 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 771B580183C;
+ Thu,  9 Jul 2020 02:47:04 +0000 (UTC)
 Received: from localhost.localdomain.com (ovpn-112-247.rdu2.redhat.com
  [10.10.112.247])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id ED05F60C80;
- Thu,  9 Jul 2020 02:46:58 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 37FCC61981;
+ Thu,  9 Jul 2020 02:47:03 +0000 (UTC)
 From: Cleber Rosa <crosa@redhat.com>
 To: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>,
  qemu-devel@nongnu.org, Peter Maydell <peter.maydell@linaro.org>
-Subject: [PATCH v2 0/2] QEMU Gating CI
-Date: Wed,  8 Jul 2020 22:46:55 -0400
-Message-Id: <20200709024657.2500558-1-crosa@redhat.com>
+Subject: [PATCH v2 1/2] GitLab Gating CI: introduce pipeline-status contrib
+ script
+Date: Wed,  8 Jul 2020 22:46:56 -0400
+Message-Id: <20200709024657.2500558-2-crosa@redhat.com>
+In-Reply-To: <20200709024657.2500558-1-crosa@redhat.com>
+References: <20200709024657.2500558-1-crosa@redhat.com>
 MIME-Version: 1.0
 X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=crosa@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=207.211.31.81; envelope-from=crosa@redhat.com;
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=205.139.110.61; envelope-from=crosa@redhat.com;
  helo=us-smtp-delivery-1.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/07/07 17:25:09
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/07/07 17:25:10
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
-X-Spam_score_int: -30
-X-Spam_score: -3.1
-X-Spam_bar: ---
-X-Spam_report: (-3.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1,
+X-Spam_score_int: -40
+X-Spam_score: -4.1
+X-Spam_bar: ----
+X-Spam_report: (-4.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H3=-0.01, RCVD_IN_MSPIKE_WL=-0.01,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-1, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -88,82 +92,185 @@ Cc: Thomas Huth <thuth@redhat.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The idea about a public facing Gating CI for QEMU was summarized in an=0D
-RFC[1].  Since then, it was decided that a simpler version should be=0D
-attempted first.=0D
-=0D
-At this point, there are two specific runners (an aarch64 and an s390)=0D
-registered with GitLab, at https://gitlab.com/qemu-project, currently=0D
-setup to the "qemu" repository.=0D
-=0D
-Changes from v1:=0D
-=0D
-- Added jobs that require specific GitLab runners already available=0D
-  (Ubuntu 20.04 on aarch64, and Ubuntu 18.04 on s390x)=0D
-- Removed jobs that require specific GitLab runners not yet available=0D
-  (Fedora 30, FreeBSD 12.1)=0D
-- Updated documentation=0D
-- Added copyright and license to new scripts=0D
-- Moved script to from "contrib" to "scripts/ci/"=0D
-- Moved setup playbooks form "contrib" to "scripts/ci/setup"=0D
-- Moved "gating.yml" to ".gitlab-ci.d" directory=0D
-- Removed "staging" only branch restriction on jobs defined in=0D
-  ".gitlab-ci.yml", assumes that the additional jobs on the staging=0D
-  branch running on the freely available gitlab shared runner are=0D
-  positive=0D
-- Dropped patches 1-3 (already merged)=0D
-- Simplified amount of version specifity on Ubuntu, from 18.04.3 to=0D
-  simply 18.04 (assumes no diverse minor levels will be used or=0D
-  specific runners)=0D
-=0D
-Changes from the RFC patches[2] accompanying the RFC document:=0D
-=0D
-- Moved gating job definitions to .gitlab-ci-gating.yml=0D
-- Added info on "--disable-libssh" build option requirement=0D
-  (https://bugs.launchpad.net/qemu/+bug/1838763) to Ubuntu 18.04 jobs=0D
-- Added info on "--disable-glusterfs" build option requirement=0D
-  (there's no static version of those libs in distro supplied=0D
-  packages) to one=0D
-- Dropped ubuntu-18.04.3-x86_64-notools job definition, because it=0D
-  doesn't fall into the general scope of gating job described by PMM=0D
-  (and it did not run any test)=0D
-- Added w32 and w64 cross builds based on Fedora 30=0D
-- Added a FreeBSD based job that builds all targets and runs `make=0D
-  check`=0D
-- Added "-j`nproc`" and "-j`sysctl -n hw.ncpu`" options to make as a=0D
-  simple but effective way of speeding up the builds and tests by=0D
-  using a number of make jobs matching the number of CPUs=0D
-- Because the Ansible playbooks reference the content on Dockerfiles,=0D
-  some fixes to some Dockerfiles caught in the process were included=0D
-- New patch with script to check or wait on a pipeline execution=0D
-=0D
-[1] - https://lists.gnu.org/archive/html/qemu-devel/2019-12/msg00231.html=
-=0D
-[2] - https://lists.gnu.org/archive/html/qemu-devel/2020-02/msg00154.html=
-=0D
-=0D
-Cleber Rosa (2):=0D
-  GitLab Gating CI: introduce pipeline-status contrib script=0D
-  GitLab Gating CI: initial set of jobs, documentation and scripts=0D
-=0D
- .gitlab-ci.d/gating.yml                | 146 +++++++++++++++++=0D
- .gitlab-ci.yml                         |   1 +=0D
- docs/devel/testing.rst                 | 147 +++++++++++++++++=0D
- scripts/ci/gitlab-pipeline-status      | 156 ++++++++++++++++++=0D
- scripts/ci/setup/build-environment.yml | 217 +++++++++++++++++++++++++=0D
- scripts/ci/setup/gitlab-runner.yml     |  72 ++++++++=0D
- scripts/ci/setup/inventory             |   2 +=0D
- scripts/ci/setup/vars.yml              |  13 ++=0D
- 8 files changed, 754 insertions(+)=0D
- create mode 100644 .gitlab-ci.d/gating.yml=0D
- create mode 100755 scripts/ci/gitlab-pipeline-status=0D
- create mode 100644 scripts/ci/setup/build-environment.yml=0D
- create mode 100644 scripts/ci/setup/gitlab-runner.yml=0D
- create mode 100644 scripts/ci/setup/inventory=0D
- create mode 100644 scripts/ci/setup/vars.yml=0D
-=0D
---=20=0D
-2.25.4=0D
-=0D
+This script is intended to be used right after a push to a branch.
+
+By default, it will look for the pipeline associated with the commit
+that is the HEAD of the *local* staging branch.  It can be used as a
+one time check, or with the `--wait` option to wait until the pipeline
+completes.
+
+If the pipeline is successful, then a merge of the staging branch into
+the master branch should be the next step.
+
+Signed-off-by: Cleber Rosa <crosa@redhat.com>
+---
+ scripts/ci/gitlab-pipeline-status | 156 ++++++++++++++++++++++++++++++
+ 1 file changed, 156 insertions(+)
+ create mode 100755 scripts/ci/gitlab-pipeline-status
+
+diff --git a/scripts/ci/gitlab-pipeline-status b/scripts/ci/gitlab-pipeline-status
+new file mode 100755
+index 0000000000..4a9de39872
+--- /dev/null
++++ b/scripts/ci/gitlab-pipeline-status
+@@ -0,0 +1,156 @@
++#!/usr/bin/env python3
++#
++# Copyright (c) 2019-2020 Red Hat, Inc.
++#
++# Author:
++#  Cleber Rosa <crosa@redhat.com>
++#
++# This work is licensed under the terms of the GNU GPL, version 2 or
++# later.  See the COPYING file in the top-level directory.
++
++"""
++Checks the GitLab pipeline status for a given commit commit
++"""
++
++# pylint: disable=C0103
++
++import argparse
++import http.client
++import json
++import os
++import subprocess
++import time
++import sys
++
++
++def get_local_staging_branch_commit():
++    """
++    Returns the commit sha1 for the *local* branch named "staging"
++    """
++    result = subprocess.run(['git', 'rev-parse', 'staging'],
++                            stdin=subprocess.DEVNULL,
++                            stdout=subprocess.PIPE,
++                            stderr=subprocess.DEVNULL,
++                            cwd=os.path.dirname(__file__),
++                            universal_newlines=True).stdout.strip()
++    if result == 'staging':
++        raise ValueError("There's no local staging branch")
++    if len(result) != 40:
++        raise ValueError("Branch staging HEAD doesn't look like a sha1")
++    return result
++
++
++def get_pipeline_status(project_id, commit_sha1):
++    """
++    Returns the JSON content of the pipeline status API response
++    """
++    url = '/api/v4/projects/{}/pipelines?sha={}'.format(project_id,
++                                                        commit_sha1)
++    connection = http.client.HTTPSConnection('gitlab.com')
++    connection.request('GET', url=url)
++    response = connection.getresponse()
++    if response.code != http.HTTPStatus.OK:
++        raise ValueError("Failed to receive a successful response")
++    json_response = json.loads(response.read())
++    # afaict, there should one one pipeline for the same project + commit
++    # if this assumption is false, we can add further filters to the
++    # url, such as username, and order_by.
++    if not json_response:
++        raise ValueError("No pipeline found")
++    return json_response[0]
++
++
++def wait_on_pipeline_success(timeout, interval,
++                             project_id, commit_sha):
++    """
++    Waits for the pipeline to end up to the timeout given
++    """
++    start = time.time()
++    while True:
++        if time.time() >= (start + timeout):
++            print("Waiting on the pipeline success timed out")
++            return False
++
++        status = get_pipeline_status(project_id, commit_sha)
++        if status['status'] == 'running':
++            time.sleep(interval)
++            print('running...')
++            continue
++
++        if status['status'] == 'success':
++            return True
++
++        msg = "Pipeline ended unsuccessfully, check: %s" % status['web_url']
++        print(msg)
++        return False
++
++
++def main():
++    """
++    Script entry point
++    """
++    parser = argparse.ArgumentParser(
++        prog='pipeline-status',
++        description='check or wait on a pipeline status')
++
++    parser.add_argument('-t', '--timeout', type=int, default=7200,
++                        help=('Amount of time (in seconds) to wait for the '
++                              'pipeline to complete.  Defaults to '
++                              '%(default)s'))
++    parser.add_argument('-i', '--interval', type=int, default=60,
++                        help=('Amount of time (in seconds) to wait between '
++                              'checks of the pipeline status.  Defaults '
++                              'to %(default)s'))
++    parser.add_argument('-w', '--wait', action='store_true', default=False,
++                        help=('Wether to wait, instead of checking only once '
++                              'the status of a pipeline'))
++    parser.add_argument('-p', '--project-id', type=int, default=11167699,
++                        help=('The GitLab project ID. Defaults to the project '
++                              'for https://gitlab.com/qemu-project/qemu, that '
++                              'is, "%(default)s"'))
++    try:
++        default_commit = get_local_staging_branch_commit()
++        commit_required = False
++    except ValueError:
++        default_commit = ''
++        commit_required = True
++    parser.add_argument('-c', '--commit', required=commit_required,
++                        default=default_commit,
++                        help=('Look for a pipeline associated with the given '
++                              'commit.  If one is not explicitly given, the '
++                              'commit associated with the local branch named '
++                              '"staging" is used.  Default: %(default)s'))
++    parser.add_argument('--verbose', action='store_true', default=False,
++                        help=('A minimal verbosity level that prints the '
++                              'overall result of the check/wait'))
++
++    args = parser.parse_args()
++
++    try:
++        if args.wait:
++            success = wait_on_pipeline_success(
++                args.timeout,
++                args.interval,
++                args.project_id,
++                args.commit)
++        else:
++            status = get_pipeline_status(args.project_id,
++                                         args.commit)
++            success = status['status'] == 'success'
++    except Exception as error:      # pylint: disable=W0703
++        success = False
++        if args.verbose:
++            print("ERROR: %s" % error.args[0])
++
++    if success:
++        if args.verbose:
++            print('success')
++        sys.exit(0)
++    else:
++        if args.verbose:
++            print('failure')
++        sys.exit(1)
++
++
++if __name__ == '__main__':
++    main()
+-- 
+2.25.4
 
 
