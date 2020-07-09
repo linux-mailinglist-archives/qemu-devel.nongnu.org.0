@@ -2,78 +2,92 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2389721A201
-	for <lists+qemu-devel@lfdr.de>; Thu,  9 Jul 2020 16:22:17 +0200 (CEST)
-Received: from localhost ([::1]:38572 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id DB31D21A209
+	for <lists+qemu-devel@lfdr.de>; Thu,  9 Jul 2020 16:24:06 +0200 (CEST)
+Received: from localhost ([::1]:47368 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jtXRI-0004Yx-40
-	for lists+qemu-devel@lfdr.de; Thu, 09 Jul 2020 10:22:16 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:51714)
+	id 1jtXT3-0008Ka-Up
+	for lists+qemu-devel@lfdr.de; Thu, 09 Jul 2020 10:24:05 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:52734)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1jtXKh-0003io-I7
- for qemu-devel@nongnu.org; Thu, 09 Jul 2020 10:15:27 -0400
-Received: from mail-oi1-x243.google.com ([2607:f8b0:4864:20::243]:41239)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1jtXKf-0001db-W8
- for qemu-devel@nongnu.org; Thu, 09 Jul 2020 10:15:27 -0400
-Received: by mail-oi1-x243.google.com with SMTP id y22so1965706oie.8
- for <qemu-devel@nongnu.org>; Thu, 09 Jul 2020 07:15:25 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc:content-transfer-encoding;
- bh=lNNjQi8b+t/1qYv7bRluAnLmEcCT/Chis9UZJWOYFX8=;
- b=uWxs7Vte4OkImDsgBeKOHyi52hKkCtZkfFsqs51U7einmtgmNsZ9XeoRLE4BW7EXSb
- hiDS8uTdTNA0RAyVquNzJUFatISVlnFAuXSMqVGWBWgQ9Rns95MooPBEJwGit4724z2a
- 8BPeCYVoJ19SKKTOp9t9vxX7N0n4cO6xWMnok1syiSHdIiVqwzyIPxkrf0cSxvbTUAPs
- hGouMIqj7Z/WUj8wgHvoTGM1McxMLXLeGjKA95eLK1oQjvzY8uGtVxcEu2gVOcg8FYSx
- 7Pn3p0EGn8fZXmCp+ChUKPbs6+5fW6xBsAo0nHiXzJaEkY1Xv4hY0hwbC2tfdIUrRP/9
- wgAw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc:content-transfer-encoding;
- bh=lNNjQi8b+t/1qYv7bRluAnLmEcCT/Chis9UZJWOYFX8=;
- b=ponjY/tFMJmk4yOeCqn7h95ets6dWc5IP1PqbskvVkmCgLtUMFWA7wqNXz9vh8HiDR
- 1KWFIfwoE0Ee86g7rIYKn1213WpPqlTA8b1pQK1/oY3rxaK0jo+hVAxGtWj5TBMUXiVZ
- 6eN2tb78yUGIw6Lco30f/rM5X1ryRL8U4v1kn+fKpmYj7ZIL57aSunEUg8wM+wa8crmv
- 7Ubd47fWnmGFapNQvptn0B/v8s7MhPbNaw5yrgewLVCjBlpTGrYPYrxPJ3EvPjBotMGm
- c4SSKsxDAnWQN2+mqEmr76yIR2UKJ+l5OIhZ3osn/VdE5mJ96a15UjnGNwhNSCvlntvA
- 1a2g==
-X-Gm-Message-State: AOAM530YQDQlfoo91ybgIRFqqNbWPw/Pdb9GRqn7UAj/rOGZE0ta/r2M
- 7GBq5HYmXCwbSwiANh2KzTOMa0ttGlCh/ClMJJEzww==
-X-Google-Smtp-Source: ABdhPJzunFtHfvk67GEEnuqTBu8yTB5v6but9+Rajnh0I2FwwV7930mGdeNm07BPDDWROeVdOGphTrU9T+gzPTWN9hI=
-X-Received: by 2002:aca:54c9:: with SMTP id i192mr150802oib.163.1594304123770; 
- Thu, 09 Jul 2020 07:15:23 -0700 (PDT)
-MIME-Version: 1.0
-References: <20200707132116.26207-1-f4bug@amsat.org>
- <20200707132116.26207-3-f4bug@amsat.org>
- <CAKmqyKNY+7tE9tcZm7_Th9qapo1CH0AwNwBf7vaf+7vSqBNtVA@mail.gmail.com>
- <CAFEAcA_ZXgNHMAhBVmjvstyG=PpaHOtcmo=VgvfBQ3Z9VJTk_g@mail.gmail.com>
- <3f1bf3ba-d6c3-a148-9850-076b2caa64d0@amsat.org>
- <CAPan3Wr09ZbbHWO-dhGeK3zhZQv3smrzLpUGMj71NWh0hToZDg@mail.gmail.com>
- <e87550d9-e1cc-cc15-2674-755249e9a965@amsat.org>
-In-Reply-To: <e87550d9-e1cc-cc15-2674-755249e9a965@amsat.org>
-From: Peter Maydell <peter.maydell@linaro.org>
-Date: Thu, 9 Jul 2020 15:15:12 +0100
-Message-ID: <CAFEAcA8em-bgU2xd8OG+bPLDCSZCF8Y2ay9U57D8p9m1SWO=9g@mail.gmail.com>
-Subject: Re: [PATCH 2/2] hw/sd/sdcard: Do not allow invalid SD card sizes
-To: =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <f4bug@amsat.org>
-Content-Type: text/plain; charset="UTF-8"
+ (Exim 4.90_1) (envelope-from <jag.raman@oracle.com>)
+ id 1jtXOC-000067-ED
+ for qemu-devel@nongnu.org; Thu, 09 Jul 2020 10:19:05 -0400
+Received: from aserp2120.oracle.com ([141.146.126.78]:52864)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <jag.raman@oracle.com>)
+ id 1jtXOA-0001y0-Cd
+ for qemu-devel@nongnu.org; Thu, 09 Jul 2020 10:19:03 -0400
+Received: from pps.filterd (aserp2120.oracle.com [127.0.0.1])
+ by aserp2120.oracle.com (8.16.0.42/8.16.0.42) with SMTP id 069EGi16192374;
+ Thu, 9 Jul 2020 14:18:41 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com;
+ h=content-type :
+ mime-version : subject : from : in-reply-to : date : cc :
+ content-transfer-encoding : message-id : references : to;
+ s=corp-2020-01-29; bh=la6Wbq4x3VaHENzXZUNagc2jofjdNe/HZpsRNTH9a2E=;
+ b=xqGPD/1O0KsSVU2R5Ctmw/MXy1a8+jvXHJmAO0ja/zgt9TSizfj+Hs1ZGA2rZQXhtFpE
+ KsswKk8L5r4LeTEGkwMhkrp/jpjtgswXVCzoD2MadkZF4k5a++V4gS3V8x+Gmk5rAgum
+ uxWGYbr+Fq950Zmj82mNVsc6Iupuhvuow2BZRpuHUHnQH6DtufVnz9OCdbtyrN/uQbVx
+ 4HH9SaQzo667YRNGVTPf3vG85/m9nCY1UQ0ypg8u5KwtX5MGM28V+5hCaV+qQPSB+AeC
+ dU+cLIa1UbLN7WkO5vCM9On1By4iGxl+17Ge3KlSIlwU+dbxWIBomr6DHIEw4aiLM8DL dg== 
+Received: from userp3020.oracle.com (userp3020.oracle.com [156.151.31.79])
+ by aserp2120.oracle.com with ESMTP id 325y0ahwk7-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=FAIL);
+ Thu, 09 Jul 2020 14:18:41 +0000
+Received: from pps.filterd (userp3020.oracle.com [127.0.0.1])
+ by userp3020.oracle.com (8.16.0.42/8.16.0.42) with SMTP id 069EDKP8190331;
+ Thu, 9 Jul 2020 14:16:41 GMT
+Received: from userv0122.oracle.com (userv0122.oracle.com [156.151.31.75])
+ by userp3020.oracle.com with ESMTP id 325k3han5r-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+ Thu, 09 Jul 2020 14:16:40 +0000
+Received: from abhmp0020.oracle.com (abhmp0020.oracle.com [141.146.116.26])
+ by userv0122.oracle.com (8.14.4/8.14.4) with ESMTP id 069EGbBC011543;
+ Thu, 9 Jul 2020 14:16:37 GMT
+Received: from [10.39.237.80] (/10.39.237.80)
+ by default (Oracle Beehive Gateway v4.0)
+ with ESMTP ; Thu, 09 Jul 2020 07:16:36 -0700
+Content-Type: text/plain;
+	charset=utf-8
+Mime-Version: 1.0 (Mac OS X Mail 13.4 \(3608.80.23.2.2\))
+Subject: Re: [PATCH v7 00/21] Initial support for multi-process qemu
+From: Jag Raman <jag.raman@oracle.com>
+In-Reply-To: <20200702134042.GG152912@stefanha-x1.localdomain>
+Date: Thu, 9 Jul 2020 10:16:31 -0400
 Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=2607:f8b0:4864:20::243;
- envelope-from=peter.maydell@linaro.org; helo=mail-oi1-x243.google.com
-X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
- That's all we know.
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+Message-Id: <4316F79B-02ED-40D7-A1B2-7EA9D2EBA32A@oracle.com>
+References: <cover.1593273671.git.elena.ufimtseva@oracle.com>
+ <20200702134042.GG152912@stefanha-x1.localdomain>
+To: Stefan Hajnoczi <stefanha@redhat.com>
+X-Mailer: Apple Mail (2.3608.80.23.2.2)
+X-Proofpoint-Virus-Version: vendor=nai engine=6000 definitions=9676
+ signatures=668680
+X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 adultscore=0
+ bulkscore=0 mlxscore=0
+ spamscore=0 malwarescore=0 phishscore=0 mlxlogscore=999 suspectscore=0
+ classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2006250000
+ definitions=main-2007090105
+X-Proofpoint-Virus-Version: vendor=nai engine=6000 definitions=9676
+ signatures=668680
+X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 adultscore=0
+ mlxscore=0
+ priorityscore=1501 spamscore=0 phishscore=0 clxscore=1011 mlxlogscore=999
+ lowpriorityscore=0 malwarescore=0 bulkscore=0 suspectscore=0
+ impostorscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2006250000 definitions=main-2007090106
+Received-SPF: pass client-ip=141.146.126.78; envelope-from=jag.raman@oracle.com;
+ helo=aserp2120.oracle.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/07/09 10:18:58
+X-ACL-Warn: Detected OS   = Linux 3.1-3.10 [fuzzy]
+X-Spam_score_int: -63
+X-Spam_score: -6.4
+X-Spam_bar: ------
+X-Spam_report: (-6.4 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_MED=-2.3, RCVD_IN_MSPIKE_H2=-1, SPF_HELO_PASS=-0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -86,53 +100,80 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Qemu-block <qemu-block@nongnu.org>,
- Alistair Francis <alistair@alistair23.me>,
- "qemu-devel@nongnu.org Developers" <qemu-devel@nongnu.org>,
- Wainer dos Santos Moschetta <wainersm@redhat.com>,
- Niek Linnenbank <nieklinnenbank@gmail.com>,
- Paolo Bonzini <pbonzini@redhat.com>, Cleber Rosa <crosa@redhat.com>,
- Alistair Francis <alistair23@gmail.com>,
- =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <philmd@redhat.com>
+Cc: Elena Ufimtseva <elena.ufimtseva@oracle.com>, fam@euphon.net,
+ Swapnil Ingle <swapnil.ingle@nutanix.com>,
+ John G Johnson <john.g.johnson@oracle.com>, qemu-devel@nongnu.org,
+ kraxel@redhat.com, quintela@redhat.com, "Michael S. Tsirkin" <mst@redhat.com>,
+ armbru@redhat.com, kanth.ghatraju@oracle.com, felipe@nutanix.com,
+ thuth@redhat.com, ehabkost@redhat.com, konrad.wilk@oracle.com,
+ dgilbert@redhat.com, liran.alon@oracle.com, pbonzini@redhat.com,
+ rth@twiddle.net, kwolf@redhat.com, berrange@redhat.com, mreitz@redhat.com,
+ ross.lagerwall@citrix.com, marcandre.lureau@gmail.com,
+ thanos.makatos@nutanix.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Thu, 9 Jul 2020 at 14:56, Philippe Mathieu-Daud=C3=A9 <f4bug@amsat.org> =
+
+
+> On Jul 2, 2020, at 9:40 AM, Stefan Hajnoczi <stefanha@redhat.com> =
 wrote:
->
-> On 7/7/20 10:29 PM, Niek Linnenbank wrote:
-> > So I manually copy & pasted the change into hw/sd/sd.c to test it.
-> > It looks like the check works, but my concern is that with this change,
-> > we will be getting this error on 'off-the-shelf' images as well.
-> > For example, the latest Raspbian image size also isn't a power of two:
-> >
-> > $ ./arm-softmmu/qemu-system-arm -M raspi2 -sd
-> > ~/Downloads/2020-05-27-raspios-buster-lite-armhf.img -nographic
-> > WARNING: Image format was not specified for
-> > '/home/me/Downloads/2020-05-27-raspios-buster-lite-armhf.img' and
-> > probing guessed raw.
-> >          Automatically detecting the format is dangerous for raw images=
-,
-> > write operations on block 0 will be restricted.
-> >          Specify the 'raw' format explicitly to remove the restrictions=
-.
-> > qemu-system-arm: Invalid SD card size: 1.73 GiB (expecting at least 2 G=
-iB)
-> >
-> > If we do decide that the change is needed, I would like to propose that
-> > we also give the user some instructions
-> > on how to fix it, maybe some 'dd' command?
->
-> On POSIX we can suggest to use 'truncate -s 2G' from coreutils.
-> This is not in the default Darwin packages.
-> On Windows I have no clue.
+>=20
+> On Sat, Jun 27, 2020 at 10:09:22AM -0700, elena.ufimtseva@oracle.com =
+wrote:
+>> From: Elena Ufimtseva <elena.ufimtseva@oracle.com>
+>>=20
+>> This is the v7 of the patchset.
+>=20
+> I have completed the review and left comments on the patches.
+>=20
+> I'm glad it was possible to simplify this feature. The overall =
+approach
 
-dd/truncate etc won't work if the image file is not raw (eg if
-it's qcow2). The only chance you have of something that's actually
-generic would probably involve "qemu-img resize". But I'm a bit
-wary of having an error message that recommends that, because
-what if we got it wrong?
+Hi Stefan,
 
-thanks
--- PMM
+We=E2=80=99re also with you on this. The feature looks much simpler now.
+
+> makes sense to me and I see how it forms the base on which
+> VFIO-over-socket and smaller remote program builds using Kconfig can =
+be
+> developed.
+>=20
+> My main concern is that the object lifecycle has not been fully
+> implemented in the proxy and remote device. Error handling is
+
+Thank you for your feedback on. FWIW, we did check about the unrealize() =
+path
+in the object lifecycle management. We noticed that the destructor for =
+the PCI
+devices (pci_qdev_unrealize()) is currently not invoking the instance =
+specific
+destructor/unrealize functions. While this is not an excuse for not =
+implementing
+the unrealize functions, it currently doesn=E2=80=99t have an impact on =
+the hot unplug path.
+
+You=E2=80=99re correct, we should implement the unrealize/destructor for =
+the Proxy & remote
+objects. We=E2=80=99ll also look into any background for why the PCI =
+devices don=E2=80=99t call
+instance specific destructor.
+
+> incomplete, resources are leaked, and hot unplug does not work. =
+Thinking
+
+We=E2=80=99ll double check the resource leak issues, specifically with =
+respect to open
+file destructors.
+
+> through the lifecycle is very important so that additional work can
+> build on top of this later. I have tried to point out these issues in
+> the individual patches.
+
+We got a chance to go over your feedback. We will send out responses to =
+them
+shortly.
+
+Thank you very much!
+--
+Jag=
 
