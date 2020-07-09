@@ -2,68 +2,78 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 05F93219E9A
-	for <lists+qemu-devel@lfdr.de>; Thu,  9 Jul 2020 13:03:11 +0200 (CEST)
-Received: from localhost ([::1]:46294 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9C8ED219F17
+	for <lists+qemu-devel@lfdr.de>; Thu,  9 Jul 2020 13:31:49 +0200 (CEST)
+Received: from localhost ([::1]:56336 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jtUKc-0001Cb-4H
-	for lists+qemu-devel@lfdr.de; Thu, 09 Jul 2020 07:03:10 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:38776)
+	id 1jtUmK-0007tR-N9
+	for lists+qemu-devel@lfdr.de; Thu, 09 Jul 2020 07:31:48 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:52390)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mreitz@redhat.com>) id 1jtUJn-0000cn-H3
- for qemu-devel@nongnu.org; Thu, 09 Jul 2020 07:02:19 -0400
-Received: from us-smtp-1.mimecast.com ([205.139.110.61]:25836
+ (Exim 4.90_1) (envelope-from <abologna@redhat.com>)
+ id 1jtUkf-0007JL-Mu
+ for qemu-devel@nongnu.org; Thu, 09 Jul 2020 07:30:05 -0400
+Received: from us-smtp-2.mimecast.com ([207.211.31.81]:39784
  helo=us-smtp-delivery-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <mreitz@redhat.com>) id 1jtUJl-0004Ym-8V
- for qemu-devel@nongnu.org; Thu, 09 Jul 2020 07:02:19 -0400
+ (Exim 4.90_1) (envelope-from <abologna@redhat.com>)
+ id 1jtUkd-000227-Oe
+ for qemu-devel@nongnu.org; Thu, 09 Jul 2020 07:30:05 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1594292536;
+ s=mimecast20190719; t=1594294201;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding;
- bh=Os62HM816HWFtB8DH8AfDZzFOxdciiOj3PSe7qaj0C4=;
- b=fQEif+7KD64bEfYST49eOs4H4Xjc5UGJDwlB7sGt4nCMfRQjn58MZ695aXfE4+/FIQNf1W
- pOfWD/+VsTnGszVW9Rj2pSapbe2ION7/HavB70sHYy3E3AEeLDdLFkGCyvh4Re1uSCyH7G
- yqELX47QKaMXxfoh0oQYaHBViHRpG0I=
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=xPdA4UDiA7K/5OS4U/6wpvL/bm+Ai4kA2FNaMg8lw10=;
+ b=KQD5mAIkm+AhmumCEJ0vXSsSaxzgtv0jlkoOGJtns4jZ7L2XPDJFS1qMJegX1ybh9c7NGU
+ mUd2QgjD6ReZ6mm5uDCOiP82goZGf+z/QH5m6JBS7J/lMdnkQ5w1BV2/CpmDWDrKEX8tJ3
+ DnOs7OLnytjCxyn2CENnz9REBvRHcNc=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-358-e-e-f9AAMbmDlTLtRGW2Ng-1; Thu, 09 Jul 2020 07:02:14 -0400
-X-MC-Unique: e-e-f9AAMbmDlTLtRGW2Ng-1
-Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
- [10.5.11.11])
+ us-mta-50-D4E0W20MP0qjzrQYUJqN-g-1; Thu, 09 Jul 2020 07:28:37 -0400
+X-MC-Unique: D4E0W20MP0qjzrQYUJqN-g-1
+Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
+ [10.5.11.14])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id AE63E1932480;
- Thu,  9 Jul 2020 11:02:13 +0000 (UTC)
-Received: from localhost (ovpn-113-127.ams2.redhat.com [10.36.113.127])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id E67F76FEDA;
- Thu,  9 Jul 2020 11:02:06 +0000 (UTC)
-From: Max Reitz <mreitz@redhat.com>
-To: qemu-block@nongnu.org
-Subject: [PATCH] iotests: Simplify _filter_img_create() a bit
-Date: Thu,  9 Jul 2020 13:02:05 +0200
-Message-Id: <20200709110205.310942-1-mreitz@redhat.com>
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 9477C186A8E0;
+ Thu,  9 Jul 2020 11:28:36 +0000 (UTC)
+Received: from kinshicho.usersys.redhat.com (unknown [10.40.195.38])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id DC7C35D9F3;
+ Thu,  9 Jul 2020 11:28:29 +0000 (UTC)
+Message-ID: <a462a7e1094fea39e13436a940ef91bec809a8fc.camel@redhat.com>
+Subject: Re: [PATCH v2 2/2] GitLab Gating CI: initial set of jobs,
+ documentation and scripts
+From: Andrea Bolognani <abologna@redhat.com>
+To: "Daniel P." =?ISO-8859-1?Q?Berrang=E9?= <berrange@redhat.com>, Cleber
+ Rosa <crosa@redhat.com>
+Date: Thu, 09 Jul 2020 13:28:27 +0200
+In-Reply-To: <20200709103029.GK3753300@redhat.com>
+References: <20200709024657.2500558-1-crosa@redhat.com>
+ <20200709024657.2500558-3-crosa@redhat.com>
+ <20200709103029.GK3753300@redhat.com>
+User-Agent: Evolution 3.34.4 (3.34.4-1.fc31)
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=mreitz@redhat.com
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=abologna@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=US-ASCII
+Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=205.139.110.61; envelope-from=mreitz@redhat.com;
+Received-SPF: pass client-ip=207.211.31.81; envelope-from=abologna@redhat.com;
  helo=us-smtp-delivery-1.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/07/09 04:20:09
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/07/09 04:33:23
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
-X-Spam_score_int: -40
-X-Spam_score: -4.1
-X-Spam_bar: ----
-X-Spam_report: (-4.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1,
+X-Spam_score_int: -30
+X-Spam_score: -3.1
+X-Spam_bar: ---
+X-Spam_report: (-3.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-1, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H3=-0.01, RCVD_IN_MSPIKE_WL=-0.01,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -76,221 +86,67 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Kevin Wolf <kwolf@redhat.com>, qemu-devel@nongnu.org,
- Max Reitz <mreitz@redhat.com>
+Cc: Peter Maydell <peter.maydell@linaro.org>, Thomas Huth <thuth@redhat.com>,
+ Beraldo Leal <bleal@redhat.com>, Erik Skultety <eskultet@redhat.com>,
+ Alex =?ISO-8859-1?Q?Benn=E9e?= <alex.bennee@linaro.org>, qemu-devel@nongnu.org,
+ Wainer dos Santos Moschetta <wainersm@redhat.com>,
+ Willian Rampazzo <wrampazz@redhat.com>,
+ Philippe =?ISO-8859-1?Q?Mathieu-Daud=E9?= <philmd@redhat.com>,
+ Eduardo Habkost <ehabkost@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Not only is it a bit stupid to try to filter multi-line "Formatting"
-output (because we only need it for a single test, which can easily be
-amended to no longer need it), it is also problematic when there can be
-output after a "Formatting" line that we do not want to filter as if it
-were part of it.
+On Thu, 2020-07-09 at 11:30 +0100, Daniel P. Berrangé wrote:
+> On Wed, Jul 08, 2020 at 10:46:57PM -0400, Cleber Rosa wrote:
+> > +- name: Installation of basic packages to build QEMU
+> > +  hosts: all
+> > +  vars_files:
+> > +    - vars.yml
+> > +  tasks:
+> > +    - name: Install basic packages to build QEMU on Ubuntu 18.04/20.04
+> > +      apt:
+> > +        update_cache: yes
+> > +        # This matches the packages on tests/docker/Dockerfiles/ubuntu1804.docker
+> 
+> I'd be inclined to actually use docker on the custom runners.
+> 
+> eg. instead of having separate physical machines or VMs for each
+> (distro, arch) pair, have a single host distro for the arch. Then
+> use docker to provide the build environment against each distro.
+> 
+> IOW, a RHEL-8 aarch64 host, running docker for ubuntu18.04, fedora30
+> etc.
+> 
+> That way we don't end up duplicating all these packages, and instead
+> can use  tests/docker/Dockerfiles/ubuntu1804.docker.  This ensures
+> that if a user needs to reproduce a build failure on their own local
+> aarch64 machine, they can run docker and get the exact same build
+> architecture.
+> 
+> It also has the benefit that we don't need to worry about how to
+> setup gitlab runners for every distro we care about. We only need to
+> do gitlab runner for the standard host distro, which spawns a pristine
+> throwaway docker env.
+> 
+> I appreciate this is a big change from what you've done in this patch
+> though, so don't consider this comment a blocker for initial merge.
+> I think we should do this as the long term strategy though. Essentially
+> for Linux builds, everything should always be container based.
 
-So rename _filter_img_create to _do_filter_img_create, let it filter
-only a single line, and let _filter_img_create loop over all input
-lines, calling _do_filter_img_create only on those that match
-/^Formatting/ (basically, what _filter_img_create_in_qmp did already).
-(And fix 020 to work with that.)
+Agreed. You should be able to set up a fairly minimal environment,
+which consists of Docker, gitlab-runner and not much else, using a
+long-term supported distro such as CentOS and then just schedule
+whatever container build on it. No need to provision a new machine
+every time a new Fedora release comes out, just create a container
+image for it and add it to the mix.
 
-Reported-by: Kevin Wolf <kwolf@redhat.com>
-Signed-off-by: Max Reitz <mreitz@redhat.com>
----
-Kevin noted that the changes to _filter_img_create broke Eric's patch to
-flush the Formatting line out before a potential error message.  This
-patch should fix it (and the diff stat is negative, so that's nice).
----
- tests/qemu-iotests/020           | 29 ++++++++-------
- tests/qemu-iotests/020.out       | 13 +------
- tests/qemu-iotests/141           |  2 +-
- tests/qemu-iotests/common.filter | 62 ++++++++++++++------------------
- 4 files changed, 45 insertions(+), 61 deletions(-)
+Additionally, the gitlab-runner Docker executor provides more
+isolation than the shell executor, so running untrusted builds
+becomes a more reasonable proposition - this is how the shared
+runners on gitlab.com work - and you don't have to worry about your
+jobs cleaning up properly after themselves nearly as much.
 
-diff --git a/tests/qemu-iotests/020 b/tests/qemu-iotests/020
-index 20f8f185d0..b488000cb9 100755
---- a/tests/qemu-iotests/020
-+++ b/tests/qemu-iotests/020
-@@ -115,18 +115,23 @@ TEST_IMG="$TEST_IMG.base" _make_test_img 1M
- # Create an image with a null backing file to which committing will fail (with
- # ENOSPC so we can distinguish the result from some generic EIO which may be
- # generated anywhere in the block layer)
--_make_test_img -b "json:{'driver': '$IMGFMT',
--                         'file': {
--                             'driver': 'blkdebug',
--                             'inject-error': [{
--                                 'event': 'write_aio',
--                                 'errno': 28,
--                                 'once': true
--                             }],
--                             'image': {
--                                 'driver': 'file',
--                                 'filename': '$TEST_IMG.base'
--                             }}}"
-+backing="json:{'driver': '$IMGFMT',
-+               'file': {
-+                   'driver': 'blkdebug',
-+                   'inject-error': [{
-+                       'event': 'write_aio',
-+                       'errno': 28,
-+                       'once': true
-+                   }],
-+                   'image': {
-+                       'driver': 'file',
-+                       'filename': '$TEST_IMG.base'
-+                   }}}"
-+
-+# Filter out newlines and collapse spaces
-+backing=$(echo "$backing" | tr -d '\n' | tr -s ' ')
-+
-+_make_test_img -b "$backing"
- 
- # Just write anything so committing will not be a no-op
- $QEMU_IO -c 'writev 0 64k' "$TEST_IMG" | _filter_qemu_io
-diff --git a/tests/qemu-iotests/020.out b/tests/qemu-iotests/020.out
-index 4b722b2dd0..4668ac59df 100644
---- a/tests/qemu-iotests/020.out
-+++ b/tests/qemu-iotests/020.out
-@@ -1079,18 +1079,7 @@ No errors were found on the image.
- Testing failing commit
- 
- Formatting 'TEST_DIR/t.IMGFMT.base', fmt=IMGFMT size=1048576
--Formatting 'TEST_DIR/t.IMGFMT', fmt=IMGFMT size=1048576 backing_file=json:{'driver': 'IMGFMT',,
--                         'file': {
--                             'driver': 'blkdebug',,
--                             'inject-error': [{
--                                 'event': 'write_aio',,
--                                 'errno': 28,,
--                                 'once': true
--                             }],,
--                             'image': {
--                                 'driver': 'file',,
--                                 'filename': 'TEST_DIR/t.IMGFMT.base'
--                             }}}
-+Formatting 'TEST_DIR/t.IMGFMT', fmt=IMGFMT size=1048576 backing_file=json:{'driver': 'IMGFMT',, 'file': { 'driver': 'blkdebug',, 'inject-error': [{ 'event': 'write_aio',, 'errno': 28,, 'once': true }],, 'image': { 'driver': 'file',, 'filename': 'TEST_DIR/t.IMGFMT.base' }}}
- wrote 65536/65536 bytes at offset 0
- 64 KiB, X ops; XX:XX:XX.X (XXX YYY/sec and XXX ops/sec)
- qemu-img: Block job failed: No space left on device
-diff --git a/tests/qemu-iotests/141 b/tests/qemu-iotests/141
-index 6d1b7b0d4c..5192d256e3 100755
---- a/tests/qemu-iotests/141
-+++ b/tests/qemu-iotests/141
-@@ -68,7 +68,7 @@ test_blockjob()
-     _send_qemu_cmd $QEMU_HANDLE \
-         "$1" \
-         "$2" \
--        | _filter_img_create_in_qmp | _filter_qmp_empty_return
-+        | _filter_img_create | _filter_qmp_empty_return
- 
-     # We want this to return an error because the block job is still running
-     _send_qemu_cmd $QEMU_HANDLE \
-diff --git a/tests/qemu-iotests/common.filter b/tests/qemu-iotests/common.filter
-index d967adc59a..3833206327 100644
---- a/tests/qemu-iotests/common.filter
-+++ b/tests/qemu-iotests/common.filter
-@@ -119,8 +119,21 @@ _filter_actual_image_size()
-     $SED -s 's/\("actual-size":\s*\)[0-9]\+/\1SIZE/g'
- }
- 
-+# Filename filters for qemu-img create
-+_filter_img_create_filenames()
-+{
-+    $SED \
-+        -e "s#$REMOTE_TEST_DIR#TEST_DIR#g" \
-+        -e "s#$IMGPROTO:$TEST_DIR#TEST_DIR#g" \
-+        -e "s#$TEST_DIR#TEST_DIR#g" \
-+        -e "s#$SOCK_DIR#SOCK_DIR#g" \
-+        -e "s#$IMGFMT#IMGFMT#g" \
-+        -e 's#nbd:127.0.0.1:[0-9]\\+#TEST_DIR/t.IMGFMT#g' \
-+        -e 's#nbd+unix:///\??socket=SOCK_DIR/nbd#TEST_DIR/t.IMGFMT#g'
-+}
-+
- # replace driver-specific options in the "Formatting..." line
--_filter_img_create()
-+_do_filter_img_create()
- {
-     # Split the line into the pre-options part ($filename_part, which
-     # precedes ", fmt=") and the options part ($options, which starts
-@@ -128,23 +141,10 @@ _filter_img_create()
-     # (And just echo everything before the first "^Formatting")
-     readarray formatting_line < <($SED -e 's/, fmt=/\n/')
- 
--    filename_part=''
--    options=''
--    lines=${#formatting_line[@]}
--    for ((i = 0; i < $lines; i++)); do
--        line=${formatting_line[i]}
--        unset formatting_line[i]
--
--        filename_part="$filename_part$line"
-+    filename_part=${formatting_line[0]}
-+    unset formatting_line[0]
- 
--        if echo "$line" | grep -q '^Formatting'; then
--            next_i=$((i + 1))
--            if [ -n "${formatting_line[next_i]}" ]; then
--                options="fmt=${formatting_line[@]}"
--            fi
--            break
--        fi
--    done
-+    options="fmt=${formatting_line[@]}"
- 
-     # Set grep_data_file to '\|data_file' to keep it; make it empty
-     # to drop it.
-@@ -156,17 +156,7 @@ _filter_img_create()
-         grep_data_file=()
-     fi
- 
--    filename_filters=(
--        -e "s#$REMOTE_TEST_DIR#TEST_DIR#g" \
--        -e "s#$IMGPROTO:$TEST_DIR#TEST_DIR#g" \
--        -e "s#$TEST_DIR#TEST_DIR#g" \
--        -e "s#$SOCK_DIR#SOCK_DIR#g" \
--        -e "s#$IMGFMT#IMGFMT#g" \
--        -e 's#nbd:127.0.0.1:[0-9]\\+#TEST_DIR/t.IMGFMT#g' \
--        -e 's#nbd+unix:///\??socket=SOCK_DIR/nbd#TEST_DIR/t.IMGFMT#g'
--    )
--
--    filename_part=$(echo "$filename_part" | $SED "${filename_filters[@]}")
-+    filename_part=$(echo "$filename_part" | _filter_img_create_filenames)
- 
-     # Break the option line before each option (preserving pre-existing
-     # line breaks by replacing them by \0 and restoring them at the end),
-@@ -179,7 +169,8 @@ _filter_img_create()
-         | $SED -e 's/ \([a-z0-9_.-]*\)=/\n\1=/g' \
-         | grep -a -e '^fmt' -e '^size' -e '^backing' -e '^preallocation' \
-                   -e '^encryption' "${grep_data_file[@]}" \
--        | $SED "${filename_filters[@]}" \
-+        | _filter_img_create_filenames \
-+        | $SED \
-             -e 's/^\(fmt\)/0-\1/' \
-             -e 's/^\(size\)/1-\1/' \
-             -e 's/^\(backing\)/2-\1/' \
-@@ -199,17 +190,16 @@ _filter_img_create()
-     fi
- }
- 
--# Filter the "Formatting..." line in QMP output (leaving the QMP output
--# untouched)
--# (In contrast to _filter_img_create(), this function does not support
--# multi-line Formatting output)
--_filter_img_create_in_qmp()
-+# Filter qemu-img create output:
-+# Pipe all ^Formatting lines through _do_filter_img_create, and all
-+# other lines through _filter_img_create_filenames
-+_filter_img_create()
- {
-     while read -r line; do
-         if echo "$line" | grep -q '^Formatting'; then
--            echo "$line" | _filter_img_create
-+            echo "$line" | _do_filter_img_create
-         else
--            echo "$line"
-+            echo "$line" | _filter_img_create_filenames
-         fi
-     done
- }
 -- 
-2.26.2
+Andrea Bolognani / Red Hat / Virtualization
 
 
