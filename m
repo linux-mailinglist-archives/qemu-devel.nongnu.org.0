@@ -2,65 +2,63 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id F04F921AA58
-	for <lists+qemu-devel@lfdr.de>; Fri, 10 Jul 2020 00:14:27 +0200 (CEST)
-Received: from localhost ([::1]:40532 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8C58921AA74
+	for <lists+qemu-devel@lfdr.de>; Fri, 10 Jul 2020 00:23:44 +0200 (CEST)
+Received: from localhost ([::1]:54502 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jteoE-0006zl-W7
-	for lists+qemu-devel@lfdr.de; Thu, 09 Jul 2020 18:14:27 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:39076)
+	id 1jtexD-0005I4-K3
+	for lists+qemu-devel@lfdr.de; Thu, 09 Jul 2020 18:23:43 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:42174)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <ehabkost@redhat.com>)
- id 1jtemq-0005rV-8Y
- for qemu-devel@nongnu.org; Thu, 09 Jul 2020 18:13:00 -0400
-Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:21788
+ id 1jtewH-0004aV-Sh
+ for qemu-devel@nongnu.org; Thu, 09 Jul 2020 18:22:45 -0400
+Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:57488
  helo=us-smtp-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
  (Exim 4.90_1) (envelope-from <ehabkost@redhat.com>)
- id 1jtemo-0003jA-NY
- for qemu-devel@nongnu.org; Thu, 09 Jul 2020 18:12:59 -0400
+ id 1jtewF-0005MP-NJ
+ for qemu-devel@nongnu.org; Thu, 09 Jul 2020 18:22:45 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1594332777;
+ s=mimecast20190719; t=1594333362;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  in-reply-to:in-reply-to:references:references;
- bh=Ml5FKUKnYHZsTWk15Ev+B9F4v60VD7kLhAS0ZRjIvWw=;
- b=K8vZkmBX2znSuI7kzR4s19SO2fEq14FJ+oAgTRSqbJwSkOiHLwXq0xHdBC63vXCJ96BVyH
- Xjz5nLjGemKLirkbAmZV+aECScpKccQnw2+UMLR9rtiQ46By0TI2kLfKfQrT0kGpmLTMYe
- GGN3xtdqOPXXwyxvd3E+wMES6xl2QIs=
+ bh=UesnIdcrlVaElfEENkp/c6kyIy8xBRUqEOIe0QbC+Zg=;
+ b=YjeYXrCGRHqwFlXYiqglUxZq8YcjdTA/CwjKlMVqIGV17p0oHYLJ65hBXgt8tQKiVpg7Ph
+ 0zoN6Jd2Va57DtOZ6fj+QxYa/D+jep84vlqTKxSEYuqHBUXjvn4Fs3S1a6fXJq1HmKrxJT
+ ZbZDhslpwrW6if72KPO1sVgwmQr0SCI=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-40-5qELZ-6sMo6q1eaNxC0GUQ-1; Thu, 09 Jul 2020 18:12:56 -0400
-X-MC-Unique: 5qELZ-6sMo6q1eaNxC0GUQ-1
-Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
- [10.5.11.22])
+ us-mta-289-U0bzlmJGMvKEIvFqLbxGjA-1; Thu, 09 Jul 2020 18:22:40 -0400
+X-MC-Unique: U0bzlmJGMvKEIvFqLbxGjA-1
+Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
+ [10.5.11.16])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id DDD361081;
- Thu,  9 Jul 2020 22:12:54 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 27653107ACCA;
+ Thu,  9 Jul 2020 22:22:39 +0000 (UTC)
 Received: from localhost (ovpn-116-140.rdu2.redhat.com [10.10.116.140])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 9394B10013C2;
- Thu,  9 Jul 2020 22:12:54 +0000 (UTC)
-Date: Thu, 9 Jul 2020 18:12:54 -0400
+ by smtp.corp.redhat.com (Postfix) with ESMTP id DBD095C1D6;
+ Thu,  9 Jul 2020 22:22:38 +0000 (UTC)
+Date: Thu, 9 Jul 2020 18:22:34 -0400
 From: Eduardo Habkost <ehabkost@redhat.com>
 To: Chenyi Qiang <chenyi.qiang@intel.com>
-Subject: Re: [PATCH v5 4/4] target/i386: modify Icelake-Server CPU model number
-Message-ID: <20200709221254.GN780932@habkost.net>
+Subject: Re: [PATCH v5 2/4] target/i386: add fast short REP MOV support
+Message-ID: <20200709222234.GO780932@habkost.net>
 References: <20200619073114.24303-1-chenyi.qiang@intel.com>
- <20200619073114.24303-5-chenyi.qiang@intel.com>
+ <20200619073114.24303-3-chenyi.qiang@intel.com>
 MIME-Version: 1.0
-In-Reply-To: <20200619073114.24303-5-chenyi.qiang@intel.com>
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=ehabkost@redhat.com
+In-Reply-To: <20200619073114.24303-3-chenyi.qiang@intel.com>
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Received-SPF: pass client-ip=205.139.110.120; envelope-from=ehabkost@redhat.com;
+Received-SPF: pass client-ip=207.211.31.120; envelope-from=ehabkost@redhat.com;
  helo=us-smtp-1.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/07/09 11:25:17
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/07/09 18:12:34
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
 X-Spam_score_int: -40
 X-Spam_score: -4.1
@@ -87,37 +85,13 @@ Cc: Paolo Bonzini <pbonzini@redhat.com>, Robert Hoo <robert.hu@linux.intel.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Fri, Jun 19, 2020 at 03:31:14PM +0800, Chenyi Qiang wrote:
-> According to the Intel Icelake family list, Icelake-Server uses model
-> number 106(0x6A).
+On Fri, Jun 19, 2020 at 03:31:12PM +0800, Chenyi Qiang wrote:
+> For CPUs support fast short REP MOV[CPUID.(EAX=7,ECX=0):EDX(bit4)], e.g
+> Icelake and Tigerlake, expose it to the guest VM.
 > 
 > Signed-off-by: Chenyi Qiang <chenyi.qiang@intel.com>
 
-Same question as in patch 1/4: why are you changing v1 instead of
-adding a new version?
-
-
-> ---
->  target/i386/cpu.c | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
-> 
-> diff --git a/target/i386/cpu.c b/target/i386/cpu.c
-> index 3c81ca543f..f919607fa0 100644
-> --- a/target/i386/cpu.c
-> +++ b/target/i386/cpu.c
-> @@ -3384,7 +3384,7 @@ static X86CPUDefinition builtin_x86_defs[] = {
->          .level = 0xd,
->          .vendor = CPUID_VENDOR_INTEL,
->          .family = 6,
-> -        .model = 134,
-> +        .model = 106,
->          .stepping = 0,
->          .features[FEAT_1_EDX] =
->              CPUID_VME | CPUID_SSE2 | CPUID_SSE | CPUID_FXSR | CPUID_MMX |
-> -- 
-> 2.17.1
-> 
-> 
+Reviewed-by: Eduardo Habkost <ehabkost@redhat.com>
 
 -- 
 Eduardo
