@@ -2,70 +2,73 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4FB03219F11
-	for <lists+qemu-devel@lfdr.de>; Thu,  9 Jul 2020 13:29:59 +0200 (CEST)
-Received: from localhost ([::1]:54176 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 344D4219F1D
+	for <lists+qemu-devel@lfdr.de>; Thu,  9 Jul 2020 13:32:57 +0200 (CEST)
+Received: from localhost ([::1]:58572 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jtUkX-0006pJ-TG
-	for lists+qemu-devel@lfdr.de; Thu, 09 Jul 2020 07:29:57 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:52000)
+	id 1jtUnQ-0000XN-85
+	for lists+qemu-devel@lfdr.de; Thu, 09 Jul 2020 07:32:56 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:52824)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1jtUjl-0006MW-3c
- for qemu-devel@nongnu.org; Thu, 09 Jul 2020 07:29:09 -0400
-Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:35142
- helo=us-smtp-1.mimecast.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1jtUjh-0001q1-L7
- for qemu-devel@nongnu.org; Thu, 09 Jul 2020 07:29:07 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1594294144;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding;
- bh=w9CTFcztZXOHRtwLxvUc3BnkRbdncxBnD8z9W3Pyc7M=;
- b=hdnr8RL81UP5o+0Fxywp5xWLNgcpx0ifqdajzDNJpm0QYEKTbU10ISuHBYqS3cJNa4T0M6
- BUrVigmXtmPog0PU6COqe9uXhKLRG1cmo2MfLrITx4gbHJecSNxva+BKRtuF0rR3Rb9Ahq
- abGERJzVDFDX82ljC5yxyjrpxdKcDtw=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-409-NsvKGYX5PiyaYMsLtdwFgw-1; Thu, 09 Jul 2020 07:29:02 -0400
-X-MC-Unique: NsvKGYX5PiyaYMsLtdwFgw-1
-Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
- [10.5.11.23])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id C0A8A87952C
- for <qemu-devel@nongnu.org>; Thu,  9 Jul 2020 11:29:01 +0000 (UTC)
-Received: from localhost.localdomain.com (unknown [10.36.110.45])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 8CA1A2DE60;
- Thu,  9 Jul 2020 11:28:59 +0000 (UTC)
-From: =?UTF-8?q?Daniel=20P=2E=20Berrang=C3=A9?= <berrange@redhat.com>
-To: qemu-devel@nongnu.org
-Subject: [PATCH] tests: improve performance of device-introspect-test
-Date: Thu,  9 Jul 2020 12:28:57 +0100
-Message-Id: <20200709112857.3760116-1-berrange@redhat.com>
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1jtUmG-0008FM-Cq
+ for qemu-devel@nongnu.org; Thu, 09 Jul 2020 07:31:44 -0400
+Received: from mail-ot1-x330.google.com ([2607:f8b0:4864:20::330]:42816)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1jtUmD-0002Kz-RM
+ for qemu-devel@nongnu.org; Thu, 09 Jul 2020 07:31:43 -0400
+Received: by mail-ot1-x330.google.com with SMTP id g37so1436149otb.9
+ for <qemu-devel@nongnu.org>; Thu, 09 Jul 2020 04:31:41 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc:content-transfer-encoding;
+ bh=WLWZV1rpOnDKtVi670UWK2xy4CeDE+Irw2r/vUCgnms=;
+ b=kjQAKWYv9EIXX5RVpfbWF1rm/pFfG6Cts0qGYocQa1lFZ62EhHJ8kDOMFOE0U5dEVZ
+ hEJucaWN527OdKdLFBUN71LVp65ji9nNUYLRk+DoutlA8/vCHdOXYBUUOVZTNlHi4gbP
+ xpFnK/UMEKXuwFVJUo3wDb5aR1RaGkGY+PSVIzg/7zyheA56J/4G7wNvpADcQMPxqZgr
+ svFDMcpsV00DMT7+5Fl+ksklsB1oFdic4FspV/GHkhAPvQrU7OeC/6bqRqg2Xh1lLOlv
+ +d/GsgZArFdMtWJNSuekzJ2p7CSfYPEj5sMPO/6IfHJWK/6BEOyVtluAa3Ph6bvk6dFs
+ hcIA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc:content-transfer-encoding;
+ bh=WLWZV1rpOnDKtVi670UWK2xy4CeDE+Irw2r/vUCgnms=;
+ b=N0bfyWHVuVm92ChFSOsIRH5NTpEWa71SWjwqKZPonHrngymysInAKRKMzkFUtMQ8Dk
+ BYpRKCWAIPDcD8G/ZzyuOzhBoa3J4bCituFajmnxRLKcjhsYNeWFI+mst9py0CCQ2bIJ
+ 2SxWZipY3unDnH4vO3kpuwSVGf4+c7BjnLJXBKwg9u4ccA1h0kQva9LvviIg9dCZ8g9N
+ y5L36tl+CAk5/y1CSqwSZH079+FUheV0UqDYZY4+UrfnHxm87ICITwjU2QNvNvUzpHag
+ vfdfF8hXe6YC9Nhikn++ySqmTy7vMgw6ZDbIoHJMncgMBpeldu/d2rETYne577H+mxXY
+ 9JmA==
+X-Gm-Message-State: AOAM530oW/dU7uwNw97/CjsMPBPb10122JkuEbIUs95/equaMGhOrYAQ
+ fbHevy1mv3ucVqpuEZCx3uWkSBaJRiHcJ/kynwxkbg==
+X-Google-Smtp-Source: ABdhPJxYc/B8nYPfOoATU0pGgMUTKnNFmONQcR31/ESpN/b+kO6A/mIxk+4ESO5k3ur4WZaGl8OISQL1RGrdr0gA8vg=
+X-Received: by 2002:a05:6830:10ce:: with SMTP id
+ z14mr46471855oto.135.1594294300289; 
+ Thu, 09 Jul 2020 04:31:40 -0700 (PDT)
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=berrange@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=207.211.31.120; envelope-from=berrange@redhat.com;
- helo=us-smtp-1.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/07/07 17:25:10
-X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
-X-Spam_score_int: -40
-X-Spam_score: -4.1
-X-Spam_bar: ----
-X-Spam_report: (-4.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-1, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+References: <20200707070858.6622-1-alex.bennee@linaro.org>
+In-Reply-To: <20200707070858.6622-1-alex.bennee@linaro.org>
+From: Peter Maydell <peter.maydell@linaro.org>
+Date: Thu, 9 Jul 2020 12:31:28 +0100
+Message-ID: <CAFEAcA80gPAFRsJcFyO8ogNbSa_ex6fSaxnBYU6awU=Ug+Y7wg@mail.gmail.com>
+Subject: Re: [PULL 00/41] testing updates (vm, gitlab, misc build fixes)
+To: =?UTF-8?B?QWxleCBCZW5uw6ll?= <alex.bennee@linaro.org>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=2607:f8b0:4864:20::330;
+ envelope-from=peter.maydell@linaro.org; helo=mail-ot1-x330.google.com
+X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
+ That's all we know.
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ URIBL_BLOCKED=0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -78,108 +81,233 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Laurent Vivier <lvivier@redhat.com>, Thomas Huth <thuth@redhat.com>,
- =?UTF-8?q?Daniel=20P=2E=20Berrang=C3=A9?= <berrange@redhat.com>,
- Markus Armbruster <armbru@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>,
- =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>
+Cc: QEMU Developers <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Total execution time with "-m slow" and x86_64 QEMU, drops from 3
-minutes 15 seconds, down to 54 seconds.
+On Tue, 7 Jul 2020 at 08:09, Alex Benn=C3=A9e <alex.bennee@linaro.org> wrot=
+e:
+>
+> There will be some docker failures until the official repository has
+> seeded but local builds should continue to work.
+>
+> ----
+>
+> The following changes since commit eb6490f544388dd24c0d054a96dd304bc72844=
+50:
+>
+>   Merge remote-tracking branch 'remotes/pmaydell/tags/pull-target-arm-202=
+00703' into staging (2020-07-04 16:08:41 +0100)
+>
+> are available in the Git repository at:
+>
+>   https://github.com/stsquad/qemu.git tags/pull-testing-and-misc-070720-1
+>
+> for you to fetch changes up to 6a726e8ca0286e3ed69945abd447099f6f6a903c:
+>
+>   tests/qht-bench: Adjust threshold computation (2020-07-07 07:57:41 +010=
+0)
+>
+> ----------------------------------------------------------------
+> Testing and build updates:
+>
+>   - tests/vm support for aarch64 VMs
+>   - tests/tcg better cross-compiler detection
+>   - update docker tooling to support registries
+>   - gitlab build docker images and store in registry
+>   - gitlab use docker images for builds
+>   - a number of skipIf updates to support move
+>   - linux-user MAP_FIXED_NOREPLACE fix
+>   - qht-bench compiler tweaks
+>   - configure fix for secret keyring
+>   - tsan fiber annotation clean-up
 
-Individual tests drop from 17-20 seconds, down to 3-4 seconds.
+freebsd failed:
 
-The cost of this change is that any QOM bugs resulting in the test
-failure will not be directly associated with the device that caused
-the failure. The test case is not frequently identifying such bugs
-though, and the cause is likely easily visible in the patch series
-that causes the failure. So overall the shorter running time is
-considered the more important factor.
+perl: warning: Please check that your locale settings:
+perl: warning: Falling back to the standard locale ("C").
+perl: warning: Setting locale failed.
+perl: warning: Please check that your locale settings:
+con recv: Loading /boot/defaults/loader.conf
+con recv: Loading /boot/device.hints
+con recv: Loading /boot/loader.conf
+con recv: Loading /boot/loader.conf.local
+con recv: \/  ```                        ` s` `.....---.......--.```
+-/ +o   .--`         /y:`      +.  yo`:.            :o      `+-   y/
+            -/`   -o/  .-                  ::/sy+:.  /
+    `--  / `:                          :` `:
+:`  /                          /  .-                        -.   --
+                  -.    `:`                  `:`      .--
+`--.         .---.....----.  ______               ____   _____ _____
+|  ____|             |  _ \ / ____|  __ \  | |___ _ __ ___  ___ | |_)
+| (___ | |  | | |  ___| '__/ _ \/ _ \|  _ < \___ \| |  | | | |   | | |
+ __/  __/| |_) |____) | |__| | | |   | | |    |    ||     |      |
+ | |_|   |_|  \___|\___||____/|_____/|_____/
+...........................................................................=
+...........................................................................=
+...........................................................................=
+...........................................................................=
+..............................Welcome
+to FreeBSD1. Boot Multi user [Enter]2. Boot Single user3. Escape to
+loader prompt4. RebootOptions:/\/\5. Kernel: default/kernel (1 of 1)6.
+Boot OptionsAutoboot
+con send: 3
+con recv:  in 10 seconds, hit [Enter] to boot or any other key to stop
+con recv:
+con recv: Exiting menu!
+con recv: Type '?' for a list of commands, 'help' for more detailed help.
+con recv: OK
+con send: set console=3Dcomconsole<enter>
+console: *** read timeout ***
+console: waiting for: 'OK'
+console: line buffer:
 
-Signed-off-by: Daniel P. Berrangé <berrange@redhat.com>
----
- tests/qtest/device-introspect-test.c | 38 +++++++++++++---------------
- 1 file changed, 18 insertions(+), 20 deletions(-)
+con recv:  set console=3Dcomconso
 
-diff --git a/tests/qtest/device-introspect-test.c b/tests/qtest/device-introspect-test.c
-index 9abb5ec889..b4af1e19f6 100644
---- a/tests/qtest/device-introspect-test.c
-+++ b/tests/qtest/device-introspect-test.c
-@@ -105,14 +105,9 @@ static void test_one_device(QTestState *qts, const char *type)
- {
-     QDict *resp;
-     char *help;
--    char *qom_tree_start, *qom_tree_end;
--    char *qtree_start, *qtree_end;
- 
-     g_test_message("Testing device '%s'", type);
- 
--    qom_tree_start = qtest_hmp(qts, "info qom-tree");
--    qtree_start = qtest_hmp(qts, "info qtree");
--
-     resp = qtest_qmp(qts, "{'execute': 'device-list-properties',"
-                           " 'arguments': {'typename': %s}}",
-                type);
-@@ -120,21 +115,6 @@ static void test_one_device(QTestState *qts, const char *type)
- 
-     help = qtest_hmp(qts, "device_add \"%s,help\"", type);
-     g_free(help);
--
--    /*
--     * Some devices leave dangling pointers in QOM behind.
--     * "info qom-tree" or "info qtree" have a good chance at crashing then.
--     * Also make sure that the tree did not change.
--     */
--    qom_tree_end = qtest_hmp(qts, "info qom-tree");
--    g_assert_cmpstr(qom_tree_start, ==, qom_tree_end);
--    g_free(qom_tree_start);
--    g_free(qom_tree_end);
--
--    qtree_end = qtest_hmp(qts, "info qtree");
--    g_assert_cmpstr(qtree_start, ==, qtree_end);
--    g_free(qtree_start);
--    g_free(qtree_end);
- }
- 
- static void test_device_intro_list(void)
-@@ -232,10 +212,17 @@ static void test_device_intro_concrete(const void *args)
-     QListEntry *entry;
-     const char *type;
-     QTestState *qts;
-+    g_autofree char *qom_tree_start = NULL;
-+    g_autofree char *qom_tree_end = NULL;
-+    g_autofree char *qtree_start = NULL;
-+    g_autofree char *qtree_end = NULL;
- 
-     qts = qtest_init(args);
-     types = device_type_list(qts, false);
- 
-+    qom_tree_start = qtest_hmp(qts, "info qom-tree");
-+    qtree_start = qtest_hmp(qts, "info qtree");
-+
-     QLIST_FOREACH_ENTRY(types, entry) {
-         type = qdict_get_try_str(qobject_to(QDict, qlist_entry_obj(entry)),
-                                  "name");
-@@ -243,6 +230,17 @@ static void test_device_intro_concrete(const void *args)
-         test_one_device(qts, type);
-     }
- 
-+    /*
-+     * Some devices leave dangling pointers in QOM behind.
-+     * "info qom-tree" or "info qtree" have a good chance at crashing then.
-+     * Also make sure that the tree did not change.
-+     */
-+    qom_tree_end = qtest_hmp(qts, "info qom-tree");
-+    g_assert_cmpstr(qom_tree_start, ==, qom_tree_end);
-+
-+    qtree_end = qtest_hmp(qts, "info qtree");
-+    g_assert_cmpstr(qtree_start, ==, qtree_end);
-+
-     qobject_unref(types);
-     qtest_quit(qts);
-     g_free((void *)args);
--- 
-2.26.2
+Failed to prepare guest environment
+Traceback (most recent call last):
+  File "/home/peter.maydell/qemu-freebsd/tests/vm/basevm.py", line 628, in =
+main
+    return vm.build_image(args.image)
+  File "/home/peter.maydell/qemu-freebsd/tests/vm/freebsd", line 163,
+in build_image
+    self.console_boot_serial()
+  File "/home/peter.maydell/qemu-freebsd/tests/vm/freebsd", line 76,
+in console_boot_serial
+    self.console_wait_send("OK", "boot\n")
+  File "/home/peter.maydell/qemu-freebsd/tests/vm/basevm.py", line
+400, in console_wait_send
+    self.console_wait(wait)
+  File "/home/peter.maydell/qemu-freebsd/tests/vm/basevm.py", line
+340, in console_wait
+    chars =3D vm.console_socket.recv(1)
+  File "/home/peter.maydell/qemu-freebsd/tests/vm/../../python/qemu/console=
+_socket.py",
+line 96, in recv
+    raise socket.timeout
+socket.timeout
 
+
+NetBSD failed:
+con recv: postfix: rebuilding /etc/mail/aliases (missing /etc/mail/aliases.=
+db)
+con recv: Starting inetd.
+con recv: Starting cron.
+con recv: Thu Jul  9 10:40:07 UTC 2020
+con recv: NetBSD/amd64 (localhost) (constty)
+con recv: login:
+con send: qemu<enter>
+con recv:  Jul  9 10:40:09 localhost getty[756]: /dev/ttyE2: Device
+not configured
+con recv: Jul  9 10:40:09 localhost getty[703]: /dev/ttyE3: Device not
+configured
+con recv: Jul  9 10:40:09 localhost getty[753]: /dev/ttyE1: Device not
+configured
+con recv: qemu
+con recv: Password:
+con send: qemupass<enter>
+con recv: Login incorrect or refused on this terminal.
+console: *** read timeout ***
+console: waiting for: 'localhost$'
+console: line buffer:
+
+con recv: login:
+
+Failed to prepare guest environment
+Traceback (most recent call last):
+  File "/home/peter.maydell/qemu-netbsd/tests/vm/basevm.py", line 628, in m=
+ain
+    return vm.build_image(args.image)
+  File "/home/peter.maydell/qemu-netbsd/tests/vm/netbsd", line 174, in
+build_image
+    self._config["guest_pass"])
+  File "/home/peter.maydell/qemu-netbsd/tests/vm/basevm.py", line 408,
+in console_ssh_init
+    self.console_wait_send(prompt,      "mkdir .ssh\n")
+  File "/home/peter.maydell/qemu-netbsd/tests/vm/basevm.py", line 400,
+in console_wait_send
+    self.console_wait(wait)
+  File "/home/peter.maydell/qemu-netbsd/tests/vm/basevm.py", line 340,
+in console_wait
+    chars =3D vm.console_socket.recv(1)
+  File "/home/peter.maydell/qemu-netbsd/tests/vm/../../python/qemu/console_=
+socket.py",
+line 96, in recv
+    raise socket.timeout
+socket.timeout
+
+arm-linux-static check-tcg failed:
+  TEST    pauth-4 on aarch64
+  TEST    semihosting on aarch64
+  SKIPPED semiconsole on aarch64 because MANUAL ONLY
+  TEST    basic gdbstub support
+/tmp/tmp6ftb0v61qemu-gdbstub/gdbstub.socket: No such device or address.
+SKIPPING (not connected)
+  BUILD   TCG tests for aarch64_be-linux-user
+  BUILD   aarch64_be-linux-user guest-tests SKIPPED
+  RUN     TCG tests for aarch64_be-linux-user
+  RUN     tests for aarch64_be-linux-user SKIPPED
+make: Entering directory
+'/home/petmay01/linaro/qemu-for-merges/build/all-linux-static'
+  BUILD   debian10
+Error response from daemon: manifest for
+registry.gitlab.com/qemu-project/qemu/qemu/debian10:latest not found
+make: Leaving directory
+'/home/petmay01/linaro/qemu-for-merges/build/all-linux-static'
+make: Entering directory
+'/home/petmay01/linaro/qemu-for-merges/build/all-linux-static'
+  BUILD   debian-alpha-cross
+Error response from daemon: manifest for
+registry.gitlab.com/qemu-project/qemu/qemu/debian-alpha-cross:latest
+not found
+registry.gitlab.com/qemu-project/qemu/qemu/debian10:latest not found
+Traceback (most recent call last):
+  File "/home/petmay01/linaro/qemu-for-merges/tests/docker/docker.py",
+line 701, in <module>
+    sys.exit(main())
+  File "/home/petmay01/linaro/qemu-for-merges/tests/docker/docker.py",
+line 697, in main
+    return args.cmdobj.run(args, argv)
+  File "/home/petmay01/linaro/qemu-for-merges/tests/docker/docker.py",
+line 494, in run
+    extra_files_cksum=3Dcksum)
+  File "/home/petmay01/linaro/qemu-for-merges/tests/docker/docker.py",
+line 347, in build_image
+    quiet=3Dquiet)
+  File "/home/petmay01/linaro/qemu-for-merges/tests/docker/docker.py",
+line 244, in _do_check
+    return subprocess.check_call(self._command + cmd, **kwargs)
+  File "/usr/lib/python3.6/subprocess.py", line 311, in check_call
+    raise CalledProcessError(retcode, cmd)
+subprocess.CalledProcessError: Command '['docker', 'build', '-t',
+'qemu/debian-alpha-cross', '-f',
+'/tmp/docker_buildsstz1jcy/tmp_7c70xjh.docker', '--build-arg',
+'BUILDKIT_INLINE_CACHE=3D1', '--cache-from',
+'registry.gitlab.com/qemu-project/qemu/qemu/debian-alpha-cross',
+'/tmp/docker_buildsstz1jcy']' returned non-zero exit status 1.
+/home/petmay01/linaro/qemu-for-merges/tests/docker/Makefile.include:58:
+recipe for target 'docker-image-debian-alpha-cross' failed
+make: *** [docker-image-debian-alpha-cross] Error 1
+
+
+Also a compile failure on s390x, but since this isn't related
+to changes you made afaict I wonder if it's the result of
+a change in the build environment:
+/home/ubuntu/qemu/block/ssh.c: In function =E2=80=98check_host_key_knownhos=
+ts=E2=80=99:
+/home/ubuntu/qemu/block/ssh.c:281:28: error: storage size of =E2=80=98state=
+=E2=80=99 isn=E2=80=99t known
+     enum ssh_known_hosts_e state;
+                            ^~~~~
+/home/ubuntu/qemu/block/ssh.c:289:13: error: implicit declaration of
+function =E2=80=98ssh_session_is_known_server=E2=80=99 [-Werror=3Dimplicit-=
+funct
+ion-declaration]
+     state =3D ssh_session_is_known_server(s->session);
+             ^~~~~~~~~~~~~~~~~~~~~~~~~~~
+[and other errors]
+
+
+thanks
+-- PMM
 
