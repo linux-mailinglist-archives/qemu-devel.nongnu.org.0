@@ -2,75 +2,73 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1FA27219DE0
-	for <lists+qemu-devel@lfdr.de>; Thu,  9 Jul 2020 12:32:08 +0200 (CEST)
-Received: from localhost ([::1]:47208 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B5D14219DE1
+	for <lists+qemu-devel@lfdr.de>; Thu,  9 Jul 2020 12:33:14 +0200 (CEST)
+Received: from localhost ([::1]:50276 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jtTqZ-00059E-6E
-	for lists+qemu-devel@lfdr.de; Thu, 09 Jul 2020 06:32:07 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:58656)
+	id 1jtTrd-0006PC-Qk
+	for lists+qemu-devel@lfdr.de; Thu, 09 Jul 2020 06:33:13 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:59570)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1jtTpG-00046S-S4
- for qemu-devel@nongnu.org; Thu, 09 Jul 2020 06:30:46 -0400
-Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:22445
- helo=us-smtp-1.mimecast.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1jtTpD-0008Px-NZ
- for qemu-devel@nongnu.org; Thu, 09 Jul 2020 06:30:46 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1594290643;
- h=from:from:reply-to:reply-to:subject:subject:date:date:
- message-id:message-id:to:to:cc:cc:mime-version:mime-version:
- content-type:content-type:in-reply-to:in-reply-to:  references:references;
- bh=I35Pwx7CbfuzSwzuLDUS5USxCDWOYJ7+Z44uPLx4BGA=;
- b=Vkz388VRsR+ERpllPt5D5K6C7CXRcSVEBCYd/8nFsYZQBZnPh3Z/spERPtr+g+sNEtcMQG
- p8hqXhLAIqjJeFH/a1GVk9guQKPFl+7RdBi8T92iQy5MwSKfhp8CBE57bwj2N6PuUIRj4S
- rB4hcTICHSIQLwNAseRqqJyF0w6XxHo=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-282-kOLTMEAUPbKleJ2hnjEeLw-1; Thu, 09 Jul 2020 06:30:39 -0400
-X-MC-Unique: kOLTMEAUPbKleJ2hnjEeLw-1
-Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
- [10.5.11.22])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 8890F1081;
- Thu,  9 Jul 2020 10:30:38 +0000 (UTC)
-Received: from redhat.com (unknown [10.36.110.45])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 6F97010013C2;
- Thu,  9 Jul 2020 10:30:32 +0000 (UTC)
-Date: Thu, 9 Jul 2020 11:30:29 +0100
-From: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
-To: Cleber Rosa <crosa@redhat.com>
-Subject: Re: [PATCH v2 2/2] GitLab Gating CI: initial set of jobs,
- documentation and scripts
-Message-ID: <20200709103029.GK3753300@redhat.com>
-References: <20200709024657.2500558-1-crosa@redhat.com>
- <20200709024657.2500558-3-crosa@redhat.com>
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1jtTql-0005ut-4f
+ for qemu-devel@nongnu.org; Thu, 09 Jul 2020 06:32:19 -0400
+Received: from mail-oi1-x236.google.com ([2607:f8b0:4864:20::236]:37962)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1jtTqj-0000KI-FS
+ for qemu-devel@nongnu.org; Thu, 09 Jul 2020 06:32:18 -0400
+Received: by mail-oi1-x236.google.com with SMTP id r8so1488008oij.5
+ for <qemu-devel@nongnu.org>; Thu, 09 Jul 2020 03:32:17 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=A0QhFbFxcIIuhO/urbNNC19h3fpqR1KgvzQMwrt8WBs=;
+ b=MqFSq/pQ8YqFPoQ7EntTR1jkDgV1Q4vgDxzVHzQnrd/8Pi6io6VhCZrBsA2FXxc9KD
+ dRnfUT2LJmNOJt/D8OtRuWu/5FIn+LHUtqhV3wGaRz+Xa0+zWmuziYeTjvBZJ3/kMbDh
+ CmhzDOkTOxvVurYVthlZbn87TchQ6k5HEqblWsoujOw3tj5HoR9eLM8ddKf0oV7C7VHT
+ vSATdDk6jMOU5j2tUAFPgxkc/jFH0978EjQZBVbh6o3qn053jlcINYZK0k6yiNbUKeah
+ fzSqdp1WZvuS9WLsBbEWX1ttxXW3NciEyKXEun/HjzJSup6Ujk5iKgoMxT01xoKx+2UK
+ KQAQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=A0QhFbFxcIIuhO/urbNNC19h3fpqR1KgvzQMwrt8WBs=;
+ b=P0WWeRkQdO0gjMQgjG/NcqVxlhqnHMRgJ5m2zrutskMp0usqABF5WJV5oYOtSLkx33
+ NE4bKrslXNFte2VHcjlIE3n+4bpRR7s1ku0q/4BWWkyHCwYwe/1k6ZnOQj3aEwNA2bjL
+ FnVTCNvsUS3XXu6gQSD+rfjyM6o3M0WSKRMtH43/N/pt4qCNrA9sY71BE3nB27R8PK7F
+ pz2HfxSS1WQgc0mAKCms2L77atjLkVQ3MpBYHYuKryFA85LP2WO3bUvE6VR47GM456ZA
+ DCrK2ERVXOHqJyNeXvU6xXhBgQPNlgFjt6A6SlTRe71WtA6ct9XFI32SqfkULMvZXKwA
+ hoyQ==
+X-Gm-Message-State: AOAM530a8RlITRuD0Z/DZTuydL2mz70VXxzLj7QPVW3vidDZ8VCIhZNT
+ V49pZWtYef8nK1HfylCNjZvmHKlXgPSSqNY4g3eoYA==
+X-Google-Smtp-Source: ABdhPJxPnmUPgOZDycAb8RZdMVAcuLM9sg63+Oj2C1xXrGx63689rItxbYqbzWd1FG0ZC1T+cSPWlG6BF0Lcf534jB4=
+X-Received: by 2002:aca:1706:: with SMTP id j6mr10124935oii.146.1594290736325; 
+ Thu, 09 Jul 2020 03:32:16 -0700 (PDT)
 MIME-Version: 1.0
-In-Reply-To: <20200709024657.2500558-3-crosa@redhat.com>
-User-Agent: Mutt/1.14.3 (2020-06-14)
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=berrange@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Received-SPF: pass client-ip=205.139.110.120; envelope-from=berrange@redhat.com;
- helo=us-smtp-1.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/07/09 01:47:04
-X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
-X-Spam_score_int: -40
-X-Spam_score: -4.1
-X-Spam_bar: ----
-X-Spam_report: (-4.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-1, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001, URIBL_BLOCKED=0.001 autolearn=ham autolearn_force=no
+References: <20200704182750.1088103-1-mst@redhat.com>
+ <CAFEAcA_LrhvLmbwsSrhHUYZ+z9EZoDZwct+s3xfoaGLyLkOPfg@mail.gmail.com>
+ <20200707080049-mutt-send-email-mst@kernel.org>
+ <CAFEAcA_th3hhXcnyt2qV+rQNV1PgF62B5+=sEWzJKfHYj2=ooQ@mail.gmail.com>
+In-Reply-To: <CAFEAcA_th3hhXcnyt2qV+rQNV1PgF62B5+=sEWzJKfHYj2=ooQ@mail.gmail.com>
+From: Peter Maydell <peter.maydell@linaro.org>
+Date: Thu, 9 Jul 2020 11:32:05 +0100
+Message-ID: <CAFEAcA_sD0ZPJ7YNk+2bdhwqAFdoKipEPfg-E-xQQh-ukUsiUA@mail.gmail.com>
+Subject: Re: [PULL v2 00/41] virtio,acpi: features, fixes, cleanups.
+To: "Michael S. Tsirkin" <mst@redhat.com>
+Content-Type: text/plain; charset="UTF-8"
+Received-SPF: pass client-ip=2607:f8b0:4864:20::236;
+ envelope-from=peter.maydell@linaro.org; helo=mail-oi1-x236.google.com
+X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
+ That's all we know.
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -83,149 +81,27 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
-Cc: Peter Maydell <peter.maydell@linaro.org>, Thomas Huth <thuth@redhat.com>,
- Beraldo Leal <bleal@redhat.com>, Erik Skultety <eskultet@redhat.com>,
- Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
- qemu-devel@nongnu.org, Wainer dos Santos Moschetta <wainersm@redhat.com>,
- Willian Rampazzo <wrampazz@redhat.com>,
- Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>,
- Eduardo Habkost <ehabkost@redhat.com>
+Cc: QEMU Developers <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Wed, Jul 08, 2020 at 10:46:57PM -0400, Cleber Rosa wrote:
-> This is a mapping of Peter's "remake-merge-builds" and
-> "pull-buildtest" scripts, gone through some updates, adding some build
-> option and removing others.
-> 
-> The jobs currently cover the machines that the QEMU project owns, and that
-> are setup and ready to run jobs:
-> 
->  - Ubuntu 18.04 on S390x
->  - Ubuntu 20.04 on aarch64
-> 
-> During the development of this set of jobs, the GitLab CI was tested
-> with many other architectures, including ppc64, s390x and aarch64,
-> along with the other OSs (not included here):
-> 
->  - Fedora 30
->  - FreeBSD 12.1
-> 
-> More information can be found in the documentation itself.
-> 
-> Signed-off-by: Cleber Rosa <crosa@redhat.com>
-> ---
->  .gitlab-ci.d/gating.yml                | 146 +++++++++++++++++
+On Tue, 7 Jul 2020 at 18:50, Peter Maydell <peter.maydell@linaro.org> wrote:
+>
+> On Tue, 7 Jul 2020 at 13:04, Michael S. Tsirkin <mst@redhat.com> wrote:
+> > Precisely. Sorry about missing this.
+> > I made this change and pushed to the same tag - don't want to spam
+> > the list for a small thing like this. Can you pick this up pls?
+> > Commit 849c48004df0e123b53fe9888770cb4f6eb5e8ab now
+>
+> Sure. (You can always just resend a new v2 cover letter without
+> all the patches; that's what most people do for minor respins.)
+>
+> Applied, thanks.
 
-AFAIK, the jobs in this file just augment what is already defined
-in the main .gitlab-ci.yml. Also since we're providing setup info
-for other people to configure custom runners, these jobs are usable
-for non-gating CI scenarios too.
+I've just noticed that the commit that got merged was not the
+one you quote but 1e0a84ea49b68b7cf60e -- can you check whether
+anything was missed or the wrong version ?
 
-IOW, the jobs in this file happen to be usable for gating, but they
-are not the only gating jobs, and can be used for non-gating reasons.
-
-This is a complicated way of saying that gating.yml is not a desirable
-filename, so I'd suggest splitting it in two and having these files
-named based on what their contents is, rather than their use case:
-
-   .gitlab-ci.d/runners-s390x.yml
-   .gitlab-ci.d/runners-aarch64.yml
-
-The existing jobs in .gitlab-ci.yml could possibly be moved into
-a .gitlab-ci.d/runners-shared.yml file for consistency.
-
->  .gitlab-ci.yml                         |   1 +
->  docs/devel/testing.rst                 | 147 +++++++++++++++++
->  scripts/ci/setup/build-environment.yml | 217 +++++++++++++++++++++++++
->  scripts/ci/setup/gitlab-runner.yml     |  72 ++++++++
->  scripts/ci/setup/inventory             |   2 +
->  scripts/ci/setup/vars.yml              |  13 ++
->  7 files changed, 598 insertions(+)
->  create mode 100644 .gitlab-ci.d/gating.yml
->  create mode 100644 scripts/ci/setup/build-environment.yml
->  create mode 100644 scripts/ci/setup/gitlab-runner.yml
->  create mode 100644 scripts/ci/setup/inventory
->  create mode 100644 scripts/ci/setup/vars.yml
-> 
-> diff --git a/.gitlab-ci.d/gating.yml b/.gitlab-ci.d/gating.yml
-> new file mode 100644
-> index 0000000000..5562df5708
-> --- /dev/null
-> +++ b/.gitlab-ci.d/gating.yml
-> @@ -0,0 +1,146 @@
-> +variables:
-> +  GIT_SUBMODULE_STRATEGY: recursive
-> +
-> +# All ubuntu-18.04 jobs should run successfully in an environment
-> +# setup by the scripts/ci/setup/build-environment.yml task
-> +# "Install basic packages to build QEMU on Ubuntu 18.04/20.04"
-> +ubuntu-18.04-s390x-all-linux-static:
-> + tags:
-> + - ubuntu_18.04
-> + - s390x
-> + rules:
-> + - if: '$CI_COMMIT_REF_NAME == "staging"'
-
-I think I'd make it more flexible in particular to allow multiple
-branches. For example I have multiple subsystems and have separate
-branches for each.
-
-This could be as simple as allowing a regex prefix
-
-  - if: '$CI_COMMIT_REF_NAME =~ /^staging/'
-
-
-
-
-> diff --git a/scripts/ci/setup/build-environment.yml b/scripts/ci/setup/build-environment.yml
-> new file mode 100644
-> index 0000000000..89b35386c7
-> --- /dev/null
-> +++ b/scripts/ci/setup/build-environment.yml
-> @@ -0,0 +1,217 @@
-> +---
-> +- name: Installation of basic packages to build QEMU
-> +  hosts: all
-> +  vars_files:
-> +    - vars.yml
-> +  tasks:
-> +    - name: Install basic packages to build QEMU on Ubuntu 18.04/20.04
-> +      apt:
-> +        update_cache: yes
-> +        # This matches the packages on tests/docker/Dockerfiles/ubuntu1804.docker
-
-I'd be inclined to actually use docker on the custom runners.
-
-eg. instead of having separate physical machines or VMs for each
-(distro, arch) pair, have a single host distro for the arch. Then
-use docker to provide the build environment against each distro.
-
-IOW, a RHEL-8 aarch64 host, running docker for ubuntu18.04, fedora30
-etc.
-
-That way we don't end up duplicating all these packages, and instead
-can use  tests/docker/Dockerfiles/ubuntu1804.docker.  This ensures
-that if a user needs to reproduce a build failure on their own local
-aarch64 machine, they can run docker and get the exact same build
-architecture.
-
-It also has the benefit that we don't need to worry about how to
-setup gitlab runners for every distro we care about. We only need to
-do gitlab runner for the standard host distro, which spawns a pristine
-throwaway docker env.
-
-I appreciate this is a big change from what you've done in this patch
-though, so don't consider this comment a blocker for initial merge.
-I think we should do this as the long term strategy though. Essentially
-for Linux builds, everything should always be container based.
-
-Regards,
-Daniel
--- 
-|: https://berrange.com      -o-    https://www.flickr.com/photos/dberrange :|
-|: https://libvirt.org         -o-            https://fstop138.berrange.com :|
-|: https://entangle-photo.org    -o-    https://www.instagram.com/dberrange :|
-
+thanks
+-- PMM
 
