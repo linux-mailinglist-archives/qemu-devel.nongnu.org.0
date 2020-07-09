@@ -2,62 +2,63 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 806A621A328
-	for <lists+qemu-devel@lfdr.de>; Thu,  9 Jul 2020 17:16:52 +0200 (CEST)
-Received: from localhost ([::1]:55572 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2091521A369
+	for <lists+qemu-devel@lfdr.de>; Thu,  9 Jul 2020 17:21:13 +0200 (CEST)
+Received: from localhost ([::1]:60118 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jtYI7-0001Y4-B9
-	for lists+qemu-devel@lfdr.de; Thu, 09 Jul 2020 11:16:51 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:43938)
+	id 1jtYMK-0003bj-7k
+	for lists+qemu-devel@lfdr.de; Thu, 09 Jul 2020 11:21:12 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:45200)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1jtYGQ-0000am-Sd
- for qemu-devel@nongnu.org; Thu, 09 Jul 2020 11:15:06 -0400
-Received: from mail-oi1-x242.google.com ([2607:f8b0:4864:20::242]:35380)
+ id 1jtYLT-00039F-5v
+ for qemu-devel@nongnu.org; Thu, 09 Jul 2020 11:20:19 -0400
+Received: from mail-oi1-x241.google.com ([2607:f8b0:4864:20::241]:35458)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1jtYGO-0000e6-Fm
- for qemu-devel@nongnu.org; Thu, 09 Jul 2020 11:15:06 -0400
-Received: by mail-oi1-x242.google.com with SMTP id k4so2167080oik.2
- for <qemu-devel@nongnu.org>; Thu, 09 Jul 2020 08:15:03 -0700 (PDT)
+ id 1jtYLR-0001J3-7I
+ for qemu-devel@nongnu.org; Thu, 09 Jul 2020 11:20:18 -0400
+Received: by mail-oi1-x241.google.com with SMTP id k4so2182191oik.2
+ for <qemu-devel@nongnu.org>; Thu, 09 Jul 2020 08:20:16 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=a9v06V1+XrX3+C+l6vH5TCzZOPyiKXb0t5CSeFWvgDw=;
- b=mZx14f8fkSZA+AqtimtgJkQqhD6HdgUhmZNlPhUu71ooynfvJ2jhkqogMFOTcXQGe3
- 3VupSrKDydY9DO6qYS2kvBAfU2fYidpKgM9noFmMrotraDqXcgQvJYmmW8aFG3suvmOA
- V1Cafk0fjuertC9u8etMf6Ih/+JOot73cliBigKVDwP9OJ6yOMvyalczNBP0oL3/Hd+W
- l49jZkZl4/b9O/IiBLoYOAsgKR0W56KRkNPuWuRahkWkwx1CHXx8gX+Z/EIfN6BySUEk
- frnaq3ceUmvnM82kg8bI1ScGlwSSQn9m3WAfEeJ0ATPKwXmB69CvwRVhbnlOCEXtVIvu
- z3Kw==
+ :cc; bh=T7/zCGA22Ngtvb4/MPX9h5Tza+9mGX7z8XLEHzLUC3Y=;
+ b=z7Z2/lriazVcXDyoT9EVqKFssJtw2sc5kkcnlXJ7Arhcx1LVz67lYBTSN9hB2zPMeW
+ Ea+rgPPbTcCSHBZaxeE7gkKc3yEkS6qTEP0gWkZnNvrQTrmTCvLYemlmRY26Mpqya7EC
+ NyAZzvewc1U/jAnU0Lq9hjP6PSHMdf4CAb5AUvNA4w0ikmCDJSzVvctMFZFo+XmZPv7o
+ Y2OA0/CmpVdrdYKfLYPzHf2rSZ0lUt/rCZOxt8IZH4iArKvpN/dQUfCwyaQiSAQx7HsO
+ 66ExSakM3zih4fRlJeq7OkqY+PUzj4eKaTgYABa0o4hqSf/Q8GRfQ+Gw8HunVBMeCPZz
+ QRSA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
  :message-id:subject:to:cc;
- bh=a9v06V1+XrX3+C+l6vH5TCzZOPyiKXb0t5CSeFWvgDw=;
- b=guRERaC6R0c0eMIXDYd1lAjb2TJxaTCtn62ojU8/y01AQchpMp8O4a5tJrmFtEyfPG
- X6F3ZCoczXLRPYUrC0tJDaclcLIQfnooOQr4FJsOnb0DfUfkwO5pbyyMbMXJ/Qs+P3sy
- 9msdBaa3tZlfTPLA3TTc4HOl7ETpSP0Zwmk21p1GCuY43+22y1ddq2wkXd6dIbmwogMR
- Pj9LTuXb8+dbys0Srjgh0m5dfSwalPoYkdxY/caTujcjJ9uwcSNSFfVJWXBCL1eRKsW6
- /5GpiD/mcHlmzoyKUEPPKdil1oEHU0udiCVg7TwcoMlnsoCr+rTtqtcgkLhVScZFTnNR
- xx3A==
-X-Gm-Message-State: AOAM532lJDVtu5NTEyxHVCdk2SUVDxb9a85F3wVfdLI0Dm8tQ4UL60cE
- z3M29xMexW5IRwMFxAbFiZiUOVljeoSk/q5+4pIUlg==
-X-Google-Smtp-Source: ABdhPJzWHM5fQzVRaCBcs7znQgXmYkjZI0LpGvheeumpVCYTJ4dOxmZUf4EvkRR9HGA+bpVX69CkPbzi4kumIyazGpc=
-X-Received: by 2002:aca:2819:: with SMTP id 25mr454726oix.48.1594307702997;
- Thu, 09 Jul 2020 08:15:02 -0700 (PDT)
+ bh=T7/zCGA22Ngtvb4/MPX9h5Tza+9mGX7z8XLEHzLUC3Y=;
+ b=qTStr/Tyz4+RdeXaMArAexOgUQ4bKJP52w5uGjII6nE9wLEfagTrfjbCf6xx5jDQzC
+ ATaeq3tUIdsFj/zOGGcGayd+7mqo8q75dv23Awt32s962199staf5umkh9G86AR0cTwR
+ QPIqr1WXDAsVLUUrSdSTSl/KQk+GYrcPobgBcGQQbydrzYb/m7JqMr/xg1T+C04bzEGr
+ uWqsUtZH8/gbyqRwER3fUVIE45CTDaZNpYgCOcQ5NPCO4+WLC1Do0hfb6UCBW46EVl6+
+ cYrcl8Q5OzvxfHkGeuFLn4H7lSCNnEk30Buo9+K3lgE/VFr3E3GbpyI5l6LIXuTZe9ju
+ 86AQ==
+X-Gm-Message-State: AOAM530PjVASf6ySv/uCtDYh6oAgepcYpiZnwxGMdb7gfg6VQYPQhaZM
+ cSW99Cn+vyYnuQ0/jC6uWTr6evzUmk2Y3HqCHon3Kw==
+X-Google-Smtp-Source: ABdhPJwbenphork55+7Pdc/MOWw9AXYRUwfItiq9h0EKgBThAAWydrJW6kMGsQkuaBWzNfr+6aTH18mkAAyTa+YJ/iA=
+X-Received: by 2002:aca:54c9:: with SMTP id i192mr446107oib.163.1594308015819; 
+ Thu, 09 Jul 2020 08:20:15 -0700 (PDT)
 MIME-Version: 1.0
-References: <20200704182750.1088103-1-mst@redhat.com>
- <20200704182750.1088103-41-mst@redhat.com>
-In-Reply-To: <20200704182750.1088103-41-mst@redhat.com>
+References: <20200704162545.311133-1-laurent@vivier.eu>
+ <20200704162545.311133-12-laurent@vivier.eu>
+In-Reply-To: <20200704162545.311133-12-laurent@vivier.eu>
 From: Peter Maydell <peter.maydell@linaro.org>
-Date: Thu, 9 Jul 2020 16:14:52 +0100
-Message-ID: <CAFEAcA-j5dgjCEEf7jOSYhezvzjQMZ0CiEaJJ8Xv1Zniq4VBZw@mail.gmail.com>
-Subject: Re: [PULL v2 40/41] vhost-vdpa: introduce vhost-vdpa backend
-To: "Michael S. Tsirkin" <mst@redhat.com>
+Date: Thu, 9 Jul 2020 16:20:04 +0100
+Message-ID: <CAFEAcA-AYy_ixjHsX+OYN=Vx-63qdeEDY-cTit7A7wHLMiq_xA@mail.gmail.com>
+Subject: Re: [PULL 11/12] linux-user: Add strace support for printing
+ arguments of ioctl()
+To: Laurent Vivier <laurent@vivier.eu>
 Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2607:f8b0:4864:20::242;
- envelope-from=peter.maydell@linaro.org; helo=mail-oi1-x242.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::241;
+ envelope-from=peter.maydell@linaro.org; helo=mail-oi1-x241.google.com
 X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
  That's all we know.
 X-Spam_score_int: -20
@@ -79,93 +80,100 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Jason Wang <jasowang@redhat.com>, Tiwei Bie <tiwei.bie@intel.com>,
- Lingshan zhu <lingshan.zhu@intel.com>, QEMU Developers <qemu-devel@nongnu.org>,
- Cindy Lu <lulu@redhat.com>
+Cc: Riku Voipio <riku.voipio@iki.fi>,
+ Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>,
+ QEMU Developers <qemu-devel@nongnu.org>,
+ Filip Bozuta <Filip.Bozuta@syrmia.com>, Artyom Tarasenko <atar4qemu@gmail.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Sat, 4 Jul 2020 at 19:31, Michael S. Tsirkin <mst@redhat.com> wrote:
+On Sat, 4 Jul 2020 at 17:36, Laurent Vivier <laurent@vivier.eu> wrote:
 >
-> From: Cindy Lu <lulu@redhat.com>
+> From: Filip Bozuta <Filip.Bozuta@syrmia.com>
 >
-> Currently we have 2 types of vhost backends in QEMU: vhost kernel and
-> vhost-user. The above patch provides a generic device for vDPA purpose,
-> this vDPA device exposes to user space a non-vendor-specific configuration
-> interface for setting up a vhost HW accelerator, this patch set introduces
-> a third vhost backend called vhost-vdpa based on the vDPA interface.
->
-> Vhost-vdpa usage:
->
-> qemu-system-x86_64 -cpu host -enable-kvm \
->     ......
->     -netdev type=vhost-vdpa,vhostdev=/dev/vhost-vdpa-id,id=vhost-vdpa0 \
->     -device virtio-net-pci,netdev=vhost-vdpa0,page-per-vq=on \
+> This patch implements functionality for strace argument printing for ioctls.
 
-Hi; Coverity reports some issues with this change:
+Hi; Coverity points out some issues in this change:
 
 
-> +static int vhost_vdpa_dma_map(struct vhost_vdpa *v, hwaddr iova, hwaddr size,
-> +                              void *vaddr, bool readonly)
+> +#ifdef TARGET_NR_ioctl
+> +static void
+> +print_syscall_ret_ioctl(const struct syscallname *name, abi_long ret,
+> +                        abi_long arg0, abi_long arg1, abi_long arg2,
+> +                        abi_long arg3, abi_long arg4, abi_long arg5)
 > +{
-> +    struct vhost_msg_v2 msg;
-> +    int fd = v->device_fd;
-> +    int ret = 0;
+> +    print_syscall_err(ret);
 > +
-> +    msg.type = v->msg_type;
-> +    msg.iotlb.iova = iova;
-> +    msg.iotlb.size = size;
-> +    msg.iotlb.uaddr = (uint64_t)vaddr;
-> +    msg.iotlb.perm = readonly ? VHOST_ACCESS_RO : VHOST_ACCESS_RW;
-> +    msg.iotlb.type = VHOST_IOTLB_UPDATE;
+> +    if (ret >= 0) {
+> +        qemu_log(TARGET_ABI_FMT_ld, ret);
 > +
-> +    if (write(fd, &msg, sizeof(msg)) != sizeof(msg)) {
+> +        const IOCTLEntry *ie;
+> +        const argtype *arg_type;
+> +        void *argptr;
+> +        int target_size;
+> +
+> +        for (ie = ioctl_entries; ie->target_cmd != 0; ie++) {
+> +            if (ie->target_cmd == arg1) {
+> +                break;
+> +            }
+> +        }
+> +
+> +        if (ie->target_cmd == arg1 &&
+> +           (ie->access == IOC_R || ie->access == IOC_RW)) {
+> +            arg_type = ie->arg_type;
+> +            qemu_log(" (");
+> +            arg_type++;
+> +            target_size = thunk_type_size(arg_type, 0);
+> +            argptr = lock_user(VERIFY_READ, arg2, target_size, 1);
 
-Here we write the contents of the struct down the pipe,
-but we have not initialized all its fields; specifically,
-msg.reserved is not initialized and so those bytes will
-be random. We'll also transfer random contents from the
-stack in the padding, potentially.
+Here we fail to check that lock_user() didn't return NULL...
 
-This is CID 1420267.
+> +            thunk_print(argptr, arg_type);
 
-The easy fix is to zero-initialize the whole struct at the start:
+...which would cause a segfault in thunk_print().
+This is CID 1430271.
 
-   struct vhost_msg_v2 msg = {};
-
-
-> +        error_report("failed to write, fd=%d, errno=%d (%s)",
-> +            fd, errno, strerror(errno));
-> +        return -EIO ;
+> +            unlock_user(argptr, arg2, target_size);
+> +            qemu_log(")");
+> +        }
 > +    }
-> +
-> +    return ret;
+> +    qemu_log("\n");
 > +}
-> +
-> +static int vhost_vdpa_dma_unmap(struct vhost_vdpa *v, hwaddr iova,
-> +                                hwaddr size)
+> +#endif
+
+> +#ifdef TARGET_NR_ioctl
+> +static void
+> +print_ioctl(const struct syscallname *name,
+> +            abi_long arg0, abi_long arg1, abi_long arg2,
+> +            abi_long arg3, abi_long arg4, abi_long arg5)
 > +{
-> +    struct vhost_msg_v2 msg;
-> +    int fd = v->device_fd;
-> +    int ret = 0;
-> +
-> +    msg.type = v->msg_type;
-> +    msg.iotlb.iova = iova;
-> +    msg.iotlb.size = size;
-> +    msg.iotlb.type = VHOST_IOTLB_INVALIDATE;
-> +
-> +    if (write(fd, &msg, sizeof(msg)) != sizeof(msg)) {
-> +        error_report("failed to write, fd=%d, errno=%d (%s)",
-> +            fd, errno, strerror(errno));
-> +        return -EIO ;
+
+> +            case TYPE_PTR:
+> +                switch (ie->access) {
+> +                case IOC_R:
+> +                    print_pointer(arg2, 1);
+> +                    break;
+> +                case IOC_W:
+> +                case IOC_RW:
+> +                    arg_type++;
+> +                    target_size = thunk_type_size(arg_type, 0);
+> +                    argptr = lock_user(VERIFY_READ, arg2, target_size, 1);
+> +                    thunk_print(argptr, arg_type);
+
+Similarly here we need to check that lock_user didn't fail.
+This is CID 1430272.
+
+> +                    unlock_user(argptr, arg2, target_size);
+> +                    break;
+> +                }
+> +                break;
+> +            default:
+> +                g_assert_not_reached();
+> +            }
+> +        }
 > +    }
-
-Same here (CID 1430270)
-
-> +
-> +    return ret;
+> +    print_syscall_epilogue(name);
 > +}
-> +
 
 thanks
 -- PMM
