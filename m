@@ -2,83 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A1B7321A57A
-	for <lists+qemu-devel@lfdr.de>; Thu,  9 Jul 2020 19:11:05 +0200 (CEST)
-Received: from localhost ([::1]:35316 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id EFDAD21A588
+	for <lists+qemu-devel@lfdr.de>; Thu,  9 Jul 2020 19:13:06 +0200 (CEST)
+Received: from localhost ([::1]:38284 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jta4e-00049t-94
-	for lists+qemu-devel@lfdr.de; Thu, 09 Jul 2020 13:11:04 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:47978)
+	id 1jta6c-0005RQ-0H
+	for lists+qemu-devel@lfdr.de; Thu, 09 Jul 2020 13:13:06 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:48572)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <hskinnemoen@google.com>)
- id 1jta3c-0002x6-QI
- for qemu-devel@nongnu.org; Thu, 09 Jul 2020 13:10:00 -0400
-Received: from mail-vs1-xe41.google.com ([2607:f8b0:4864:20::e41]:32775)
+ (Exim 4.90_1)
+ (envelope-from <bounce+2dc402.947b4-qemu-devel=nongnu.org@mg.gitlab.com>)
+ id 1jta5D-0004zQ-1q
+ for qemu-devel@nongnu.org; Thu, 09 Jul 2020 13:11:39 -0400
+Received: from do158-143.mg.gitlab.com ([192.237.158.143]:49913)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <hskinnemoen@google.com>)
- id 1jta3a-0002cj-NG
- for qemu-devel@nongnu.org; Thu, 09 Jul 2020 13:10:00 -0400
-Received: by mail-vs1-xe41.google.com with SMTP id u133so1508553vsc.0
- for <qemu-devel@nongnu.org>; Thu, 09 Jul 2020 10:09:57 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=20161025;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc:content-transfer-encoding;
- bh=oWgx/HXjd5VuWIsM/+lPXPhN2h9TrQ0jlUJlxiNqTTA=;
- b=OfdGahAlbLmlOCZtXS8KB+fM9hpNrgIJuQ7q/dAJ0IuBsfLq0rfi9sTBVI3nW7/Xvv
- 95AdYyzksUZui11wOvNsGOkR8zb/OmG/mbdjKUAYGGSGJW3B9d4r5rpidAzhx8OcE7Z4
- YPTly7856bfzqMJrKfTeLWZmJXozH+RmHq5eel3J41ozhjeOxKGF+RBWFsG4homlKHeu
- XCgpJ8i+8uTm8iMY35VdtxDMXEDUyPnXglhZj0mWQly9fCHX/gizt1KJ0NdK3rx89R8X
- QPREHrFlSye7L4lN1rkDWjdZzo/Vpb0sArVE9EtrQlvwZaMGSO50dhHcI9WkZlbuqOUB
- XklA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc:content-transfer-encoding;
- bh=oWgx/HXjd5VuWIsM/+lPXPhN2h9TrQ0jlUJlxiNqTTA=;
- b=FTT120ix4BmYqFRKVHs3VaSjMyVcqSwRHr6lLdYyic7a+UfNRdMuK5QGheI7X+hIpX
- eKUJxIk4R4H5ldtiwYiUH8v9TASpTYJ+om8MuN9j/y4HYluaPG2V3Fapa7eGjdXrQNg/
- bItfyeDvmlFHkzVBpIGL7iAkCtc/6cZ2nM9V6TmLZwVlX/rfNk23L799HL+IjOJhEu44
- ygsk//uW2qRpqeoSYaIR97Z6hUY4/SyiPALQEI4akkt/zGj5Dh2kFMuTHBtMXcmgh3Dn
- X8d9l4WfVDY7dPhb6kM5u3XpyI4OV7d6QLPb+HuWWdI/kuTYFTQhtWXtWpj6Y23uvIYc
- OPpA==
-X-Gm-Message-State: AOAM53389WO2vcywl8TEjCWX+RB9uqHBpvBEPlVcCiSSr0lDWyW+kHXn
- KgeiuKFWpFKWB4S/lGQUvGEconWvLG1D2Zn8/Pu0HQ==
-X-Google-Smtp-Source: ABdhPJymgopyJXkhTmqWErmhAbej2EY/ejRNVRzVuvpa/hWQq4OoI6MLRV2bcYmbOw8BR+WqfuNiuZSythOFoQcl4RA=
-X-Received: by 2002:a67:d88c:: with SMTP id f12mr46990229vsj.92.1594314596019; 
- Thu, 09 Jul 2020 10:09:56 -0700 (PDT)
-MIME-Version: 1.0
-References: <20200709003608.3834629-1-hskinnemoen@google.com>
- <20200709003608.3834629-2-hskinnemoen@google.com>
- <2fe8ea5e-56de-f57f-6146-8355125daa7f@amsat.org>
- <CAFQmdRYx99PpWz6bftCvBR7=YRftD_WNex_A9aoDaeRg=4tsCw@mail.gmail.com>
- <bd2972b0-0684-e379-6d66-16ceb62deade@amsat.org>
-In-Reply-To: <bd2972b0-0684-e379-6d66-16ceb62deade@amsat.org>
-From: Havard Skinnemoen <hskinnemoen@google.com>
-Date: Thu, 9 Jul 2020 10:09:44 -0700
-Message-ID: <CAFQmdRbHXhd9-HUQP5ET=JQEnQ3FMCQBHajwZrP5d7=iCc0tzA@mail.gmail.com>
-Subject: Re: [PATCH v5 01/11] hw/misc: Add NPCM7xx System Global Control
- Registers device model
-To: =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <f4bug@amsat.org>
-Cc: Peter Maydell <peter.maydell@linaro.org>, qemu-arm <qemu-arm@nongnu.org>, 
- QEMU Developers <qemu-devel@nongnu.org>,
- IS20 Avi Fishman <Avi.Fishman@nuvoton.com>, 
- CS20 KFTing <kfting@nuvoton.com>, Joel Stanley <joel@jms.id.au>,
- =?UTF-8?Q?C=C3=A9dric_Le_Goater?= <clg@kaod.org>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=2607:f8b0:4864:20::e41;
- envelope-from=hskinnemoen@google.com; helo=mail-vs1-xe41.google.com
-X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
- That's all we know.
-X-Spam_score_int: -185
-X-Spam_score: -18.6
-X-Spam_bar: ------------------
-X-Spam_report: (-18.6 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_MED=-1,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- ENV_AND_HDR_SPF_MATCH=-0.5, RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001, USER_IN_DEF_DKIM_WL=-7.5,
- USER_IN_DEF_SPF_WL=-7.5 autolearn=ham autolearn_force=no
+ (Exim 4.90_1)
+ (envelope-from <bounce+2dc402.947b4-qemu-devel=nongnu.org@mg.gitlab.com>)
+ id 1jta5B-0002xV-5T
+ for qemu-devel@nongnu.org; Thu, 09 Jul 2020 13:11:38 -0400
+DKIM-Signature: a=rsa-sha256; v=1; c=relaxed/relaxed; d=mg.gitlab.com;
+ q=dns/txt; 
+ s=mailo; t=1594314695; h=List-Id: Content-Transfer-Encoding:
+ Content-Type: Mime-Version: Subject: Message-ID: Reply-To: From: Date:
+ Sender; bh=11ChjOBsKvEONMUUiKfih6zIoKgwwKZb8L+kmHjl8ZQ=;
+ b=b47obNY64PIh3jdi/dZpkFm2LwtWgCFHGdzgvGKeju/nX8+7R47f5H/N6NTWT17y/YB44SyZ
+ Yh4QVB2kiV1uWEkZyL043VYLGL4A62wKFcjFX76BR+yuKsu+GkGCF14fNq4nd7yiqTgIK9XE
+ DV2lIpEAZWqk1w4keaAwu/ZzbV4=
+X-Mailgun-Sending-Ip: 192.237.158.143
+X-Mailgun-Sid: WyI3MWYzYSIsICJxZW11LWRldmVsQG5vbmdudS5vcmciLCAiOTQ3YjQiXQ==
+Received: from mg.gitlab.com (74.90.74.34.bc.googleusercontent.com
+ [34.74.90.74]) by smtp-out-n18.prod.us-west-2.postgun.com with SMTP id
+ 5f074fb9a33b1a3dd4571072 (version=TLS1.3, cipher=TLS_AES_128_GCM_SHA256);
+ Thu, 09 Jul 2020 17:11:21 GMT
+Date: Thu, 09 Jul 2020 17:11:20 +0000
+Message-ID: <5f074fb827f26_7cd93fa34d371dbc1570d@sidekiq-catchall-02-sv-gprd.mail>
+Subject: QEMU | Pipeline #164899134 has failed for master | 3d7cad3c
+Mime-Version: 1.0
+Content-Type: multipart/alternative;
+ boundary="--==_mimepart_5f074fb81cadc_7cd93fa34d371dbc1569dd";
+ charset=UTF-8
+Content-Transfer-Encoding: 7bit
+X-GitLab-Project: QEMU
+X-GitLab-Project-Id: 11167699
+X-GitLab-Project-Path: qemu-project/qemu
+X-GitLab-Pipeline-Id: 164899134
+X-GitLab-Pipeline-Ref: master
+X-GitLab-Pipeline-Status: failed
+Auto-Submitted: auto-generated
+X-Auto-Response-Suppress: All
+Received-SPF: pass client-ip=192.237.158.143;
+ envelope-from=bounce+2dc402.947b4-qemu-devel=nongnu.org@mg.gitlab.com;
+ helo=do158-143.mg.gitlab.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/07/09 11:54:02
+X-ACL-Warn: Detected OS   = Linux 3.11 and newer [fuzzy]
+X-Spam_score_int: -9
+X-Spam_score: -1.0
+X-Spam_bar: -
+X-Spam_report: (-1.0 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1,
+ HTML_FONT_LOW_CONTRAST=0.001, HTML_MESSAGE=0.001, MISSING_HEADERS=1.021,
+ RCVD_IN_DNSWL_MED=-2.3, RCVD_IN_MSPIKE_BL=0.01, RCVD_IN_MSPIKE_L4=1.7,
+ REPLYTO_WITHOUT_TO_CC=1.552, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ URIBL_BLOCKED=0.001 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -93,214 +79,493 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
+Reply-to: GitLab <noreply@gitlab.com>, GitLab <gitlab@mg.gitlab.com>
+From: GitLab via <qemu-devel@nongnu.org>
 
-On Thu, Jul 9, 2020 at 9:23 AM Philippe Mathieu-Daud=C3=A9 <f4bug@amsat.org=
-> wrote:
+
+----==_mimepart_5f074fb81cadc_7cd93fa34d371dbc1569dd
+Content-Type: text/plain;
+ charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
+
+
+
+Your pipeline has failed.
+
+Project: QEMU ( https://gitlab.com/qemu-project/qemu )
+Branch: master ( https://gitlab.com/qemu-project/qemu/-/commits/master )
+
+Commit: 3d7cad3c ( https://gitlab.com/qemu-project/qemu/-/commit/3d7cad3c=
+2388cb74451d50cf455a42d349236161 )
+Commit Message: Merge remote-tracking branch 'remotes/vivier2/t...
+Commit Author: Peter Maydell ( https://gitlab.com/pm215 )
+
+Pipeline #164899134 ( https://gitlab.com/qemu-project/qemu/-/pipelines/16=
+4899134 ) triggered by Alex Benn=C3=A9e ( https://gitlab.com/stsquad )
+had 1 failed build.
+
+Job #631609165 ( https://gitlab.com/qemu-project/qemu/-/jobs/631609165/ra=
+w )
+
+Stage: test
+Name: build-disabled
+Trace: Could not access KVM kernel module: No such file or directory
+qemu-system-i386: -accel kvm: failed to initialize kvm: No such file or d=
+irectory
+qemu-system-i386: falling back to tcg
+Could not access KVM kernel module: No such file or directory
+qemu-system-i386: -accel kvm: failed to initialize kvm: No such file or d=
+irectory
+qemu-system-i386: falling back to tcg
+  TEST    check-qtest-i386: tests/qtest/device-introspect-test
+  TEST    check-qtest-i386: tests/qtest/machine-none-test
+  TEST    check-qtest-i386: tests/qtest/qmp-test
+  TEST    check-qtest-i386: tests/qtest/qmp-cmd-test
+  TEST    check-qtest-i386: tests/qtest/qom-test
+  TEST    check-qtest-i386: tests/qtest/test-hmp
+  TEST    check-qtest-i386: tests/qtest/qos-test
+  TEST    check-qtest-mips64: tests/qtest/endianness-test
+  TEST    check-qtest-mips64: tests/qtest/display-vga-test
+  TEST    check-qtest-mips64: tests/qtest/cdrom-test
+  TEST    check-qtest-mips64: tests/qtest/device-introspect-test
+  TEST    check-qtest-mips64: tests/qtest/machine-none-test
+  TEST    check-qtest-mips64: tests/qtest/qmp-test
+  TEST    check-qtest-mips64: tests/qtest/qmp-cmd-test
+  TEST    check-qtest-mips64: tests/qtest/qom-test
+  TEST    check-qtest-mips64: tests/qtest/test-hmp
+  TEST    check-qtest-mips64: tests/qtest/qos-test
+  TEST    check-qtest-ppc64: tests/qtest/machine-none-test
+  TEST    check-qtest-ppc64: tests/qtest/qmp-test
+  TEST    check-qtest-ppc64: tests/qtest/qmp-cmd-test
+  TEST    check-qtest-ppc64: tests/qtest/qom-test
+  TEST    check-qtest-ppc64: tests/qtest/test-hmp
+section_end:1594314606:step_script
+=1B[0K=1B[31;1mERROR: Job failed: execution took longer than 1h0m0s secon=
+ds
+=1B[0;m
+
+
+-- =
+
+You're receiving this email because of your account on gitlab.com.
+
+
+
+
+----==_mimepart_5f074fb81cadc_7cd93fa34d371dbc1569dd
+Content-Type: text/html;
+ charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://ww=
+w.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns=3D"http://www.w3.org/1999/xhtml" lang=3D"en" xml:lang=3D"en">=
+
+<head>
+<meta content=3D"text/html; charset=3DUTF-8" http-equiv=3D"Content-Type" =
+/>
+<meta content=3D"width=3Ddevice-width, initial-scale=3D1" name=3D"viewpor=
+t" />
+<meta content=3D"IE=3Dedge" http-equiv=3D"X-UA-Compatible" />
+<title>QEMU | Pipeline #164899134 has failed for master | 3d7cad3c</title=
 >
-> On 7/9/20 8:43 AM, Havard Skinnemoen wrote:
-> > On Wed, Jul 8, 2020 at 11:04 PM Philippe Mathieu-Daud=C3=A9 <f4bug@amsa=
-t.org> wrote:
-> >> On 7/9/20 2:35 AM, Havard Skinnemoen wrote:
-> >>> Implement a device model for the System Global Control Registers in t=
-he
-> >>> NPCM730 and NPCM750 BMC SoCs.
-> >>>
-> >>> This is primarily used to enable SMP boot (the boot ROM spins reading
-> >>> the SCRPAD register) and DDR memory initialization; other registers a=
-re
-> >>> best effort for now.
-> >>>
-> >>> The reset values of the MDLR and PWRON registers are determined by th=
-e
-> >>> SoC variant (730 vs 750) and board straps respectively.
-> >>>
-> >>> Reviewed-by: Joel Stanley <joel@jms.id.au>
-> >>> Reviewed-by: C=C3=A9dric Le Goater <clg@kaod.org>
-> >>> Signed-off-by: Havard Skinnemoen <hskinnemoen@google.com>
-> >>> ---
-> [...]
-> >>> diff --git a/hw/misc/npcm7xx_gcr.c b/hw/misc/npcm7xx_gcr.c
-> >>> new file mode 100644
-> >>> index 0000000000..9934cd238d
-> >>> --- /dev/null
-> >>> +++ b/hw/misc/npcm7xx_gcr.c
-> >>> @@ -0,0 +1,226 @@
-> >>> +/*
-> >>> + * Nuvoton NPCM7xx System Global Control Registers.
-> >>> + *
-> >>> + * Copyright 2020 Google LLC
-> >>> + *
-> >>> + * This program is free software; you can redistribute it and/or mod=
-ify it
-> >>> + * under the terms of the GNU General Public License as published by=
- the
-> >>> + * Free Software Foundation; either version 2 of the License, or
-> >>> + * (at your option) any later version.
-> >>> + *
-> >>> + * This program is distributed in the hope that it will be useful, b=
-ut WITHOUT
-> >>> + * ANY WARRANTY; without even the implied warranty of MERCHANTABILIT=
-Y or
-> >>> + * FITNESS FOR A PARTICULAR PURPOSE. See the GNU General Public Lice=
-nse
-> >>> + * for more details.
-> >>> + */
-> >>> +
-> >>> +#include "qemu/osdep.h"
-> >>> +
-> >>> +#include "hw/misc/npcm7xx_gcr.h"
-> >>> +#include "hw/qdev-properties.h"
-> >>> +#include "migration/vmstate.h"
-> >>> +#include "qapi/error.h"
-> >>> +#include "qemu/log.h"
-> >>> +#include "qemu/module.h"
-> >>> +#include "qemu/units.h"
-> >>> +
-> >>> +#include "trace.h"
-> >>> +
-> >>> +static const uint32_t cold_reset_values[NPCM7XX_GCR_NR_REGS] =3D {
-> >>> +    [NPCM7XX_GCR_PDID]          =3D 0x04a92750,   /* Poleg A1 */
-> >>> +    [NPCM7XX_GCR_MISCPE]        =3D 0x0000ffff,
-> >>> +    [NPCM7XX_GCR_SPSWC]         =3D 0x00000003,
-> >>> +    [NPCM7XX_GCR_INTCR]         =3D 0x0000035e,
-> >>> +    [NPCM7XX_GCR_HIFCR]         =3D 0x0000004e,
-> >>> +    [NPCM7XX_GCR_INTCR2]        =3D (1U << 19),   /* DDR initialized=
- */
-> >>> +    [NPCM7XX_GCR_RESSR]         =3D 0x80000000,
-> >>> +    [NPCM7XX_GCR_DSCNT]         =3D 0x000000c0,
-> >>> +    [NPCM7XX_GCR_DAVCLVLR]      =3D 0x5a00f3cf,
-> >>> +    [NPCM7XX_GCR_SCRPAD]        =3D 0x00000008,
-> >>> +    [NPCM7XX_GCR_USB1PHYCTL]    =3D 0x034730e4,
-> >>> +    [NPCM7XX_GCR_USB2PHYCTL]    =3D 0x034730e4,
-> >>> +};
-> >>> +
-> >>> +static uint64_t npcm7xx_gcr_read(void *opaque, hwaddr offset, unsign=
-ed size)
-> >>> +{
-> >>> +    uint32_t reg =3D offset / sizeof(uint32_t);
-> >>> +    NPCM7xxGCRState *s =3D opaque;
-> >>> +
-> >>> +    if (reg >=3D NPCM7XX_GCR_NR_REGS) {
-> >>> +        qemu_log_mask(LOG_GUEST_ERROR, "%s: offset 0x%04x out of ran=
-ge\n",
-> >>> +                      __func__, (unsigned int)offset);
-> >>
-> >> Maybe use HWADDR_PRIx instead of casting to int?
-> >
-> > Will do, thanks!
+<style data-premailer=3D"ignore" type=3D"text/css">
+body,table,td,a{-webkit-text-size-adjust:100%;-ms-text-size-adjust:100%}t=
+able,td{mso-table-lspace:0pt;mso-table-rspace:0pt}img{-ms-interpolation-m=
+ode:bicubic}.hidden{display:none !important;visibility:hidden !important}=
+a[x-apple-data-detectors]{color:inherit !important;text-decoration:none !=
+important;font-size:inherit !important;font-family:inherit !important;fon=
+t-weight:inherit !important;line-height:inherit !important}div[style*=3D'=
+margin: 16px 0']{margin:0 !important}@media only screen and (max-width: 6=
+39px){body,#body{min-width:320px !important}table.wrapper{width:100% !imp=
+ortant;min-width:320px !important}table.wrapper td.wrapper-cell{border-le=
+ft:0 !important;border-right:0 !important;border-radius:0 !important;padd=
+ing-left:10px !important;padding-right:10px !important}}
+
+</style>
+
+<style>body {
+margin: 0 !important; background-color: #fafafa; padding: 0; text-align: =
+center; min-width: 640px; width: 100%; height: 100%; font-family: "Helvet=
+ica Neue", Helvetica, Arial, sans-serif;
+}
+</style></head>
+<body style=3D"text-align: center; min-width: 640px; width: 100%; height:=
+ 100%; font-family: &quot;Helvetica Neue&quot;, Helvetica, Arial, sans-se=
+rif; margin: 0; padding: 0;" bgcolor=3D"#fafafa">
+<table border=3D"0" cellpadding=3D"0" cellspacing=3D"0" id=3D"body" style=
+=3D"text-align: center; min-width: 640px; width: 100%; margin: 0; padding=
+: 0;" bgcolor=3D"#fafafa">
+<tbody>
+<tr class=3D"line">
+<td style=3D"font-family: &quot;Helvetica Neue&quot;, Helvetica, Arial, s=
+ans-serif; height: 4px; font-size: 4px; line-height: 4px;" bgcolor=3D"#6b=
+4fbb"></td>
+</tr>
+<tr class=3D"header">
+<td style=3D"font-family: &quot;Helvetica Neue&quot;, Helvetica, Arial, s=
+ans-serif; font-size: 13px; line-height: 1.6; color: #5c5c5c; padding: 25=
+px 0;">
+
+<img alt=3D"GitLab" src=3D"https://gitlab.com/assets/mailers/gitlab_heade=
+r_logo-153749eaa7ea6fafcb995161abd3247bc4c4500f31498b0c4024f50093983ac0.g=
+if" width=3D"55" height=3D"50" />
+</td>
+</tr>
+<tr>
+<td style=3D"font-family: &quot;Helvetica Neue&quot;, Helvetica, Arial, s=
+ans-serif;">
+<table border=3D"0" cellpadding=3D"0" cellspacing=3D"0" class=3D"wrapper"=
+ style=3D"width: 640px; border-collapse: separate; border-spacing: 0; mar=
+gin: 0 auto;">
+<tbody>
+<tr>
+<td class=3D"wrapper-cell" style=3D"font-family: &quot;Helvetica Neue&quo=
+t;, Helvetica, Arial, sans-serif; border-radius: 3px; overflow: hidden; p=
+adding: 18px 25px; border: 1px solid #ededed;" align=3D"left" bgcolor=3D"=
+#ffffff">
+<table border=3D"0" cellpadding=3D"0" cellspacing=3D"0" class=3D"content"=
+ style=3D"width: 100%; border-collapse: separate; border-spacing: 0;">
+<tbody>
+<tr class=3D"alert">
+<td style=3D"font-family: 'Helvetica Neue',Helvetica,Arial,sans-serif; bo=
+rder-radius: 3px; font-size: 14px; line-height: 1.3; overflow: hidden; co=
+lor: #ffffff; padding: 10px;" align=3D"center" bgcolor=3D"#d22f57">
+<table border=3D"0" cellpadding=3D"0" cellspacing=3D"0" class=3D"img" sty=
+le=3D"border-collapse: collapse; margin: 0 auto;">
+<tbody>
+<tr>
+<td style=3D"font-family: 'Helvetica Neue',Helvetica,Arial,sans-serif; co=
+lor: #ffffff; padding-right: 5px; line-height: 1;" align=3D"center" valig=
+n=3D"middle">
+<img alt=3D"&#10006;" height=3D"13" src=3D"https://gitlab.com/assets/mail=
+ers/ci_pipeline_notif_v1/icon-x-red-inverted-06edddd39ba2a7f9a32f6201e420=
+175db85a4b6ac0348203fdc069001b440149.gif" style=3D"display: block;" width=
+=3D"13" />
+</td>
+<td style=3D"font-family: 'Helvetica Neue',Helvetica,Arial,sans-serif; co=
+lor: #ffffff;" align=3D"center" valign=3D"middle">
+Your pipeline has failed.
+</td>
+</tr>
+</tbody>
+</table>
+</td>
+</tr>
+<tr class=3D"spacer">
+<td style=3D"font-family: 'Helvetica Neue',Helvetica,Arial,sans-serif; he=
+ight: 18px; font-size: 18px; line-height: 18px;">
+&#160;
+</td>
+</tr>
+<tr class=3D"section">
+<td style=3D"font-family: 'Helvetica Neue',Helvetica,Arial,sans-serif; bo=
+rder-radius: 3px; overflow: hidden; padding: 0 15px; border: 1px solid #e=
+deded;">
+<table border=3D"0" cellpadding=3D"0" cellspacing=3D"0" class=3D"table-in=
+fo" style=3D"width: 100%;">
+<tbody>
+<tr>
+<td style=3D"font-family: 'Helvetica Neue',Helvetica,Arial,sans-serif; fo=
+nt-size: 15px; line-height: 1.4; color: #8c8c8c; font-weight: 300; margin=
+: 0; padding: 14px 0;">Project</td>
+<td style=3D"font-family: 'Helvetica Neue',Helvetica,Arial,sans-serif; fo=
+nt-size: 15px; line-height: 1.4; font-weight: 500; color: #333333; width:=
+ 75%; margin: 0; padding: 14px 0 14px 5px;">
+<a class=3D"muted" href=3D"https://gitlab.com/qemu-project" style=3D"colo=
+r: #333333; text-decoration: none;">
+QEMU
+</a>
+/
+<a class=3D"muted" href=3D"https://gitlab.com/qemu-project/qemu" style=3D=
+"color: #333333; text-decoration: none;">
+QEMU
+</a>
+</td>
+</tr>
+<tr>
+<td style=3D"font-family: 'Helvetica Neue',Helvetica,Arial,sans-serif; fo=
+nt-size: 15px; line-height: 1.4; color: #8c8c8c; font-weight: 300; border=
+-top-width: 1px; border-top-color: #ededed; border-top-style: solid; marg=
+in: 0; padding: 14px 0;">Branch</td>
+<td style=3D"font-family: 'Helvetica Neue',Helvetica,Arial,sans-serif; fo=
+nt-size: 15px; line-height: 1.4; font-weight: 500; color: #333333; width:=
+ 75%; border-top-width: 1px; border-top-color: #ededed; border-top-style:=
+ solid; margin: 0; padding: 14px 0 14px 5px;">
+<table border=3D"0" cellpadding=3D"0" cellspacing=3D"0" class=3D"img" sty=
+le=3D"border-collapse: collapse;">
+<tbody>
+<tr>
+<td style=3D"font-family: 'Helvetica Neue',Helvetica,Arial,sans-serif; fo=
+nt-size: 15px; line-height: 1.4; padding-right: 5px;" valign=3D"middle">
+<img alt=3D"" height=3D"13" src=3D"https://gitlab.com/assets/mailers/ci_p=
+ipeline_notif_v1/icon-branch-gray-53618a7fc19d4d32ccbabac2f6d59bebe67202a=
+9f2f1255e3f72c69756c0dd9c.gif" style=3D"display: block;" width=3D"13" />
+</td>
+<td style=3D"font-family: 'Helvetica Neue',Helvetica,Arial,sans-serif; fo=
+nt-size: 15px; line-height: 1.4;" valign=3D"middle">
+<a class=3D"muted" href=3D"https://gitlab.com/qemu-project/qemu/-/commits=
+/master" style=3D"color: #333333; text-decoration: none;">
+master
+</a>
+</td>
+</tr>
+</tbody>
+</table>
+</td>
+</tr>
+<tr>
+<td style=3D"font-family: 'Helvetica Neue',Helvetica,Arial,sans-serif; fo=
+nt-size: 15px; line-height: 1.4; color: #8c8c8c; font-weight: 300; border=
+-top-width: 1px; border-top-color: #ededed; border-top-style: solid; marg=
+in: 0; padding: 14px 0;">Commit</td>
+<td style=3D"font-family: 'Helvetica Neue',Helvetica,Arial,sans-serif; fo=
+nt-size: 15px; line-height: 1.4; font-weight: 400; color: #333333; width:=
+ 75%; border-top-width: 1px; border-top-color: #ededed; border-top-style:=
+ solid; margin: 0; padding: 14px 0 14px 5px;">
+<table border=3D"0" cellpadding=3D"0" cellspacing=3D"0" class=3D"img" sty=
+le=3D"border-collapse: collapse;">
+<tbody>
+<tr>
+<td style=3D"font-family: 'Helvetica Neue',Helvetica,Arial,sans-serif; fo=
+nt-size: 15px; line-height: 1.4; padding-right: 5px;" valign=3D"middle">
+<img alt=3D"" height=3D"13" src=3D"https://gitlab.com/assets/mailers/ci_p=
+ipeline_notif_v1/icon-commit-gray-c10243ac24cde64b549aec91de35e6b49c8739b=
+506b86472b54614c10d8b4aac.gif" style=3D"display: block;" width=3D"13" />
+</td>
+<td style=3D"font-family: 'Helvetica Neue',Helvetica,Arial,sans-serif; fo=
+nt-size: 15px; line-height: 1.4;" valign=3D"middle">
+<a href=3D"https://gitlab.com/qemu-project/qemu/-/commit/3d7cad3c2388cb74=
+451d50cf455a42d349236161" style=3D"color: #3777b0; text-decoration: none;=
+">
+3d7cad3c
+</a>
+</td>
+</tr>
+</tbody>
+</table>
+<div class=3D"commit" style=3D"color: #5c5c5c; font-weight: 300;">
+Merge remote-tracking branch 'remotes/vivier2/t...
+</div>
+</td>
+</tr>
+<tr>
+<td style=3D"font-family: 'Helvetica Neue',Helvetica,Arial,sans-serif; fo=
+nt-size: 15px; line-height: 1.4; color: #8c8c8c; font-weight: 300; border=
+-top-width: 1px; border-top-color: #ededed; border-top-style: solid; marg=
+in: 0; padding: 14px 0;">Commit Author</td>
+<td style=3D"font-family: 'Helvetica Neue',Helvetica,Arial,sans-serif; fo=
+nt-size: 15px; line-height: 1.4; font-weight: 500; color: #333333; width:=
+ 75%; border-top-width: 1px; border-top-color: #ededed; border-top-style:=
+ solid; margin: 0; padding: 14px 0 14px 5px;">
+<table border=3D"0" cellpadding=3D"0" cellspacing=3D"0" class=3D"img" sty=
+le=3D"border-collapse: collapse;">
+<tbody>
+<tr>
+<td style=3D"font-family: 'Helvetica Neue',Helvetica,Arial,sans-serif; fo=
+nt-size: 15px; line-height: 1.4; padding-right: 5px;" valign=3D"middle">
+<img alt=3D"" class=3D"avatar" height=3D"24" src=3D"https://secure.gravat=
+ar.com/avatar/98261ce19b4e9da714d577154686723a?s=3D48&amp;d=3Didenticon" =
+style=3D"display: block; border-radius: 12px; margin: -2px 0;" width=3D"2=
+4" />
+</td>
+<td style=3D"font-family: 'Helvetica Neue',Helvetica,Arial,sans-serif; fo=
+nt-size: 15px; line-height: 1.4;" valign=3D"middle">
+<a class=3D"muted" href=3D"https://gitlab.com/pm215" style=3D"color: #333=
+333; text-decoration: none;">
+Peter Maydell
+</a>
+</td>
+</tr>
+</tbody>
+</table>
+</td>
+</tr>
+</tbody>
+</table>
+</td>
+</tr>
+<tr class=3D"spacer">
+<td style=3D"font-family: 'Helvetica Neue',Helvetica,Arial,sans-serif; he=
+ight: 18px; font-size: 18px; line-height: 18px;">
+&#160;
+</td>
+</tr>
+<tr class=3D"pre-section">
+<td style=3D"font-family: 'Helvetica Neue',Helvetica,Arial,sans-serif; co=
+lor: #333333; font-size: 15px; font-weight: 400; line-height: 1.4; paddin=
+g: 15px 5px 0;" align=3D"center">
+<table border=3D"0" cellpadding=3D"0" cellspacing=3D"0" class=3D"img" sty=
+le=3D"border-collapse: collapse; margin: 0 auto;">
+<tbody>
+<tr>
+<td style=3D"font-family: 'Helvetica Neue',Helvetica,Arial,sans-serif; fo=
+nt-size: 15px; font-weight: 500; line-height: 1.4;" valign=3D"baseline">
+Pipeline
+<a href=3D"https://gitlab.com/qemu-project/qemu/-/pipelines/164899134" st=
+yle=3D"color: #3777b0; text-decoration: none;">
+#164899134
+</a>
+triggered by
+</td>
+<td style=3D"font-family: 'Helvetica Neue',Helvetica,Arial,sans-serif; fo=
+nt-size: 15px; line-height: 1.4; padding-right: 5px; padding-left: 5px;" =
+width=3D"24" valign=3D"middle">
+<img alt=3D"" class=3D"avatar" height=3D"24" src=3D"https://secure.gravat=
+ar.com/avatar/a7d7f408c0b3370bbbeb98833d6c50e4?s=3D48&amp;d=3Didenticon" =
+style=3D"display: block; border-radius: 12px; margin: -2px 0;" width=3D"2=
+4" />
+</td>
+<td style=3D"font-family: 'Helvetica Neue',Helvetica,Arial,sans-serif; fo=
+nt-size: 15px; font-weight: 500; line-height: 1.4;" valign=3D"baseline">
+<a class=3D"muted" href=3D"https://gitlab.com/stsquad" style=3D"color: #3=
+33333; text-decoration: none;">
+Alex Benn&#233;e
+</a>
+</td>
+</tr>
+</tbody>
+</table>
+</td>
+</tr>
+<tr>
+<td colspan=3D"2" style=3D"font-family: 'Helvetica Neue',Helvetica,Arial,=
+sans-serif; color: #333333; font-size: 14px; font-weight: 400; line-heigh=
+t: 1.4; padding: 0 8px 16px;" align=3D"center">
+had
+1
+failed
+build.
+</td>
+</tr>
+<tr class=3D"table-warning">
+<td style=3D"font-family: 'Helvetica Neue',Helvetica,Arial,sans-serif; bo=
+rder-radius: 4px 4px 0 0; overflow: hidden; color: #d22852; font-size: 14=
+px; line-height: 1.4; padding: 8px 16px; border-color: #ededed; border-st=
+yle: solid; border-width: 1px 1px 0;" align=3D"center" bgcolor=3D"#fdf4f6=
+">
+Logs may contain sensitive data. Please consider before forwarding this e=
+mail.
+</td>
+</tr>
+<tr class=3D"section">
+<td style=3D"font-family: 'Helvetica Neue',Helvetica,Arial,sans-serif; ov=
+erflow: hidden; border-radius: 0 0 4px 4px; padding: 0 16px; border-color=
+: #ededed; border-style: solid; border-width: 0 1px 1px;">
+<table border=3D"0" cellpadding=3D"0" cellspacing=3D"0" class=3D"builds" =
+style=3D"width: 100%; border-collapse: collapse;">
+<tbody>
+<tr class=3D"build-state">
+<td style=3D"font-family: 'Helvetica Neue',Helvetica,Arial,sans-serif; co=
+lor: #8c8c8c; font-weight: 500; font-size: 14px; padding: 16px 0;">
+<table border=3D"0" cellpadding=3D"0" cellspacing=3D"0" class=3D"img" sty=
+le=3D"border-collapse: collapse;">
+<tbody>
+<tr>
+<td style=3D"font-family: 'Helvetica Neue',Helvetica,Arial,sans-serif; co=
+lor: #d22f57; font-weight: 500; font-size: 16px; padding-right: 8px; line=
+-height: 10px;" valign=3D"middle">
+<img alt=3D"&#10006;" height=3D"10" src=3D"https://gitlab.com/assets/mail=
+ers/ci_pipeline_notif_v1/icon-x-red-67056b7b99899e30453df79abfbe16162f6a2=
+6ed789d8236f81afcaea216ffe6.gif" style=3D"display: block;" width=3D"10" /=
 >
-> Glad you are not annoyed by my review comments.
->
-> FYI your series quality is in my top-4 "adding new machine to QEMU".
-> I'd like to use it as example to follow.
->
-> I am slowly reviewing because this is not part of my work duties,
-> so I do that in my free time before/after work, which is why I can
-> barely do more that 2 per day, as I have to learn the SoC and
-> cross check documentation (or in this case, existing firmware code
-> since there is no public doc).
+</td>
+<td style=3D"font-family: 'Helvetica Neue',Helvetica,Arial,sans-serif; co=
+lor: #8c8c8c; font-weight: 500; font-size: 14px;" valign=3D"middle">
+test
+</td>
+</tr>
+</tbody>
+</table>
+</td>
+<td align=3D"right" style=3D"font-family: 'Helvetica Neue',Helvetica,Aria=
+l,sans-serif; color: #8c8c8c; font-weight: 500; font-size: 14px; padding:=
+ 16px 0;">
+<a href=3D"https://gitlab.com/qemu-project/qemu/-/jobs/631609165" style=3D=
+"color: #3777b0; text-decoration: none;">
+build-disabled
+</a>
 
-Your feedback is super valuable, thanks a lot. I really appreciate it.
+</td>
+</tr>
+<tr class=3D"build-log">
+<td colspan=3D"2" style=3D"font-family: 'Helvetica Neue',Helvetica,Arial,=
+sans-serif; padding: 0 0 16px;">
+<pre style=3D"font-family: Monaco,'Lucida Console','Courier New',Courier,=
+monospace; background-color: #fafafa; border-radius: 4px; overflow: hidde=
+n; white-space: pre-wrap; word-break: break-all; font-size: 13px; line-he=
+ight: 1.4; color: #333333; margin: 0; padding: 16px 8px;"><span>Could not=
+ access KVM kernel module: No such file or directory<br />qemu-system-i38=
+6: -accel kvm: failed to initialize kvm: No such file or directory<br />q=
+emu-system-i386: falling back to tcg<br />Could not access KVM kernel mod=
+ule: No such file or directory<br />qemu-system-i386: -accel kvm: failed =
+to initialize kvm: No such file or directory<br />qemu-system-i386: falli=
+ng back to tcg<br />  TEST    check-qtest-i386: tests/qtest/device-intros=
+pect-test<br />  TEST    check-qtest-i386: tests/qtest/machine-none-test<=
+br />  TEST    check-qtest-i386: tests/qtest/qmp-test<br />  TEST    chec=
+k-qtest-i386: tests/qtest/qmp-cmd-test<br />  TEST    check-qtest-i386: t=
+ests/qtest/qom-test<br />  TEST    check-qtest-i386: tests/qtest/test-hmp=
+<br />  TEST    check-qtest-i386: tests/qtest/qos-test<br />  TEST    che=
+ck-qtest-mips64: tests/qtest/endianness-test<br />  TEST    check-qtest-m=
+ips64: tests/qtest/display-vga-test<br />  TEST    check-qtest-mips64: te=
+sts/qtest/cdrom-test<br />  TEST    check-qtest-mips64: tests/qtest/devic=
+e-introspect-test<br />  TEST    check-qtest-mips64: tests/qtest/machine-=
+none-test<br />  TEST    check-qtest-mips64: tests/qtest/qmp-test<br />  =
+TEST    check-qtest-mips64: tests/qtest/qmp-cmd-test<br />  TEST    check=
+-qtest-mips64: tests/qtest/qom-test<br />  TEST    check-qtest-mips64: te=
+sts/qtest/test-hmp<br />  TEST    check-qtest-mips64: tests/qtest/qos-tes=
+t<br />  TEST    check-qtest-ppc64: tests/qtest/machine-none-test<br />  =
+TEST    check-qtest-ppc64: tests/qtest/qmp-test<br />  TEST    check-qtes=
+t-ppc64: tests/qtest/qmp-cmd-test<br />  TEST    check-qtest-ppc64: tests=
+/qtest/qom-test<br />  TEST    check-qtest-ppc64: tests/qtest/test-hmp<br=
+ /></span><span class=3D"term-fg-l-red term-bold">ERROR: Job failed: exec=
+ution took longer than 1h0m0s seconds<br /></span></pre>
+</td>
+</tr>
+</tbody>
+</table>
+</td>
+</tr>
 
->
-> [...]
-> >>> +static void npcm7xx_gcr_realize(DeviceState *dev, Error **errp)
-> >>> +{
-> >>> +    NPCM7xxGCRState *s =3D NPCM7XX_GCR(dev);
-> >>> +    uint64_t dram_size;
-> >>> +    Error *err =3D NULL;
-> >>> +    Object *obj;
-> >>> +
-> >>> +    obj =3D object_property_get_link(OBJECT(dev), "dram-mr", &err);
-> >>> +    if (!obj) {
-> >>> +        error_setg(errp, "%s: required dram-mr link not found: %s",
-> >>> +                   __func__, error_get_pretty(err));
-> >>> +        return;
-> >>> +    }
-> >>> +    dram_size =3D memory_region_size(MEMORY_REGION(obj));
-> >>> +
-> >>> +    /* Power-on reset value */
-> >>> +    s->reset_intcr3 =3D 0x00001002;
-> >>> +
-> >>> +    /*
-> >>> +     * The GMMAP (Graphics Memory Map) field is used by u-boot to de=
-tect the
-> >>> +     * DRAM size, and is normally initialized by the boot block as p=
-art of DRAM
-> >>> +     * training. However, since we don't have a complete emulation o=
-f the
-> >>> +     * memory controller and try to make it look like it has already=
- been
-> >>> +     * initialized, the boot block will skip this initialization, an=
-d we need
-> >>> +     * to make sure this field is set correctly up front.
-> >>> +     *
-> >>> +     * WARNING: some versions of u-boot only looks at bits 8 and 9, =
-so 2 GiB or
-> >>> +     * more of DRAM will be interpreted as 128 MiB.
-> >>
-> >> I'd say u-boot is right in wrapping at 2GB, as more DRAM is
-> >> un-addressable.
-> >
-> > Ah, maybe I shouldn't have said "or more". The bug is that if you
-> > specify _exactly_ 2GiB, u-boot will see 128 MiB.
-> >
-> > But I agree more than 2GiB doesn't make sense, so I'll add a check for =
-that.
-> >
-> > Not sure if I agree that the check should be here. > 2 GiB is an
-> > addressing limitation, and the GCR module shouldn't really know what
-> > the SoC's address space looks like. The lower limit is because the GCR
-> > module can't encode anything less than 128 MiB.
-> >
-> >>> +     *
-> >>> +     * https://github.com/Nuvoton-Israel/u-boot/blob/2aef993bd2aafeb=
-5408dbaad0f3ce099ee40c4aa/board/nuvoton/poleg/poleg.c#L244
-> >>> +     */
-> >>> +    if (dram_size >=3D 2 * GiB) {
-> >>
-> >> See my comment in this series on the machine patch.
-> >>
-> >>> +        s->reset_intcr3 |=3D 4 << 8;
-> >>> +    } else if (dram_size >=3D 1 * GiB) {
-> >>> +        s->reset_intcr3 |=3D 3 << 8;
-> >>> +    } else if (dram_size >=3D 512 * MiB) {
-> >>> +        s->reset_intcr3 |=3D 2 << 8;
-> >>> +    } else if (dram_size >=3D 256 * MiB) {
-> >>> +        s->reset_intcr3 |=3D 1 << 8;
-> >>> +    } else if (dram_size >=3D 128 * MiB) {
-> >>> +        s->reset_intcr3 |=3D 0 << 8;
->
-> I think this can be simplified as:
->
->          s->reset_intcr3 =3D (4 - clz32(dram_size)) << 8;
->
-> Which implicitly truncate to power of 2 (which is what this
-> block does, as you can have only 1 bank managed per this SGC).
 
-Good idea. I find this a little easier to understand though:
+</tbody>
+</table>
+</td>
+</tr>
+</tbody>
+</table>
+</td>
+</tr>
 
-#define NPCM7XX_GCR_MIN_DRAM_SIZE   (128 * MiB)
+<tr class=3D"footer">
+<td style=3D"font-family: &quot;Helvetica Neue&quot;, Helvetica, Arial, s=
+ans-serif; font-size: 13px; line-height: 1.6; color: #5c5c5c; padding: 25=
+px 0;">
+<img alt=3D"GitLab" height=3D"33" src=3D"https://gitlab.com/assets/mailer=
+s/gitlab_footer_logo-078860f148cc9596195e6bb3fa7db31c30538355576c5c3b569c=
+414902e3d095.gif" width=3D"90" style=3D"display: block; margin: 0 auto 1e=
+m;" />
+<div>
+You're receiving this email because of your account on gitlab.com. <a cla=
+ss=3D"mng-notif-link" href=3D"https://gitlab.com/profile/notifications" s=
+tyle=3D"color: #3777b0; text-decoration: none;">Manage all notifications<=
+/a> &#183; <a class=3D"help-link" href=3D"https://gitlab.com/help" style=3D=
+"color: #3777b0; text-decoration: none;">Help</a>
+</div>
+</td>
+</tr>
 
-    s->reset_intcr3 |=3D ctz64(dram_size / NPCM7XX_GCR_MIN_DRAM_SIZE) << 8;
+<tr>
+<td class=3D"footer-message" style=3D"font-family: &quot;Helvetica Neue&q=
+uot;, Helvetica, Arial, sans-serif; font-size: 13px; line-height: 1.6; co=
+lor: #5c5c5c; padding: 25px 0;">
 
-> But checking is_power_of_2(dram_size) and reporting an error
-> else, is probably even better.
+</td>
+</tr>
+</tbody>
+</table>
+</body>
+</html>
 
-OK, I'll add a check for this, and also explicit checks for too large
-and too small. The former is currently redundant with the DRAM size
-check I'm adding to npcm7xx_realize(), but I kind of like the idea of
-checking for encoding limitations and addressing limitations
-separately, as they may not necessarily stay the same forever.
-
-> >>> +    } else {
-> >>> +        error_setg(errp,
-> >>> +                   "npcm7xx_gcr: DRAM size %" PRIu64
-> >>> +                   " is too small (need 128 MiB minimum)",
-> >>> +                   dram_size);
-> >>
-> >> Ah, so you could add the same error for >2GB. Easier.
-> >>
-> >> Preferably using HWADDR_PRIx, and similar error for >2GB:
-> >> Reviewed-by: Philippe Mathieu-Daud=C3=A9 <f4bug@amsat.org>
+----==_mimepart_5f074fb81cadc_7cd93fa34d371dbc1569dd--
 
