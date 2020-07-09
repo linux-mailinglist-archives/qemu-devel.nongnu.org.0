@@ -2,74 +2,95 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id DBB24219A4E
-	for <lists+qemu-devel@lfdr.de>; Thu,  9 Jul 2020 09:57:58 +0200 (CEST)
-Received: from localhost ([::1]:41256 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 56F81219AAD
+	for <lists+qemu-devel@lfdr.de>; Thu,  9 Jul 2020 10:21:42 +0200 (CEST)
+Received: from localhost ([::1]:52550 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jtRRN-0002iV-F2
-	for lists+qemu-devel@lfdr.de; Thu, 09 Jul 2020 03:57:57 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:46002)
+	id 1jtRoL-0000Yf-D9
+	for lists+qemu-devel@lfdr.de; Thu, 09 Jul 2020 04:21:41 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:52106)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1jtRQe-0002IV-SB
- for qemu-devel@nongnu.org; Thu, 09 Jul 2020 03:57:12 -0400
-Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:52504
- helo=us-smtp-1.mimecast.com)
+ (Exim 4.90_1) (envelope-from <mreitz@redhat.com>) id 1jtRmx-00087a-0V
+ for qemu-devel@nongnu.org; Thu, 09 Jul 2020 04:20:15 -0400
+Received: from us-smtp-1.mimecast.com ([205.139.110.61]:56477
+ helo=us-smtp-delivery-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1jtRQc-0003HG-Ko
- for qemu-devel@nongnu.org; Thu, 09 Jul 2020 03:57:11 -0400
+ (Exim 4.90_1) (envelope-from <mreitz@redhat.com>) id 1jtRmt-0006o9-OJ
+ for qemu-devel@nongnu.org; Thu, 09 Jul 2020 04:20:14 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1594281429;
+ s=mimecast20190719; t=1594282809;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=xur7qcXaM7PrGsE+7iF6T01eG9k2tg7HJwhCEMlRjn4=;
- b=ah2B6ZFCI0gmsCTZDQ7vFnCN0wi3t7zvskN9KvBrtkOvY/Q4gyCVbDWiyb9AZg85pMCj5u
- HWwG9sGqcZGt3LmcW8vhyA4RFQy/ARQgIT+lC78zlWAupSOF3iR4PWho98/EWAxrxaDLy4
- 6G1i1Opj+nR3AS2gqoU83Vtk26vXH4I=
+ in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
+ bh=JTidOwynI+vP4x9pUqGa9OoYUwqFACJw3ILv9THAIT0=;
+ b=gyRXd5Y35JfY3NovqilCEQ7hXVt5Bs+Q0w2KziWJmrMSAcJTNo+v+dn67ccSytgUn3Gdk7
+ BmNiD/mEiKiJa1WHj/bnM5PO55oFGraaz+bMvQFwvIyYDHpo1hUfsCV6MP3RPCeSvxnqB7
+ F188hAEUvAU1FEDopHNVoF4sXPCwqas=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-91-Yh02UzWzMW2-IsCOAuVjaw-1; Thu, 09 Jul 2020 03:57:06 -0400
-X-MC-Unique: Yh02UzWzMW2-IsCOAuVjaw-1
-Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
- [10.5.11.15])
+ us-mta-230-iEeql080OvSqqGgr0s6W7A-1; Thu, 09 Jul 2020 04:19:49 -0400
+X-MC-Unique: iEeql080OvSqqGgr0s6W7A-1
+Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
+ [10.5.11.22])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id BA332107B46F;
- Thu,  9 Jul 2020 07:57:04 +0000 (UTC)
-Received: from sirius.home.kraxel.org (ovpn-112-200.ams2.redhat.com
- [10.36.112.200])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 93AB773FF9;
- Thu,  9 Jul 2020 07:57:03 +0000 (UTC)
-Received: by sirius.home.kraxel.org (Postfix, from userid 1000)
- id 6CDAC31E58; Thu,  9 Jul 2020 09:57:02 +0200 (CEST)
-Date: Thu, 9 Jul 2020 09:57:02 +0200
-From: Gerd Hoffmann <kraxel@redhat.com>
-To: Paul Zimmerman <pauldzim@gmail.com>
-Subject: Re: Failure prints during format or mounting a usb storage device
-Message-ID: <20200709075702.2mrm45ncbfmmikde@sirius.home.kraxel.org>
-References: <BY5PR02MB677298C4D2C2B63EF409AA5CCA6B0@BY5PR02MB6772.namprd02.prod.outlook.com>
- <CADBGO7-hp4Pyfn+rq9d=ZxHmpMwitv-oLjYPJmCKSH6cLHVx=w@mail.gmail.com>
- <CADBGO78-mqwapj+mdpFUO-puL0OZ_1QeBc+4yo4S9g1O4deNjg@mail.gmail.com>
- <2d312ec0-d280-c0e3-2b1e-ff9c70c3168f@gmail.com>
- <20200707075740.dkc76ceb7wytdoem@sirius.home.kraxel.org>
- <CADBGO79KSm3KV7=otOg=u7WjwBV=j3T7iU0fcTF-nGgtZvy+Aw@mail.gmail.com>
- <20200708072947.7hynrm53622tp3ha@sirius.home.kraxel.org>
- <CADBGO7-38Q3MS-G5rCbW1i_1rvq7NRf2J+bMErXr=7xhZ=jEWg@mail.gmail.com>
- <20200708102958.kxnlr5outhsufxv5@sirius.home.kraxel.org>
- <CADBGO7_08su0HqP1uiwvkLfwq3NUmUxoLhRK5H3b0v=C4iPYFg@mail.gmail.com>
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 6B3B588C79C;
+ Thu,  9 Jul 2020 08:19:48 +0000 (UTC)
+Received: from dresden.str.redhat.com (ovpn-113-127.ams2.redhat.com
+ [10.36.113.127])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 351B81002388;
+ Thu,  9 Jul 2020 08:19:44 +0000 (UTC)
+Subject: Re: [PATCH v7 00/47] block: Deal with filters
+To: Eric Blake <eblake@redhat.com>,
+ Andrey Shinkevich <andrey.shinkevich@virtuozzo.com>, qemu-block@nongnu.org
+References: <20200625152215.941773-1-mreitz@redhat.com>
+ <4d7fa326-ef87-5753-cc2a-bb26fc555864@virtuozzo.com>
+ <e51d9c26-bd94-bf8e-cfed-82db15243188@redhat.com>
+ <54c4b18b-b6ee-b506-b153-b44eb3879da2@virtuozzo.com>
+ <d866ace7-09c9-430e-53f8-ecf12d08b0a4@redhat.com>
+From: Max Reitz <mreitz@redhat.com>
+Autocrypt: addr=mreitz@redhat.com; prefer-encrypt=mutual; keydata=
+ mQENBFXOJlcBCADEyyhOTsoa/2ujoTRAJj4MKA21dkxxELVj3cuILpLTmtachWj7QW+TVG8U
+ /PsMCFbpwsQR7oEy8eHHZwuGQsNpEtNC2G/L8Yka0BIBzv7dEgrPzIu+W3anZXQW4702+uES
+ U29G8TP/NGfXRRHGlbBIH9KNUnOSUD2vRtpOLXkWsV5CN6vQFYgQfFvmp5ZpPeUe6xNplu8V
+ mcTw8OSEDW/ZnxJc8TekCKZSpdzYoxfzjm7xGmZqB18VFwgJZlIibt1HE0EB4w5GsD7x5ekh
+ awIe3RwoZgZDLQMdOitJ1tUc8aqaxvgA4tz6J6st8D8pS//m1gAoYJWGwwIVj1DjTYLtABEB
+ AAG0HU1heCBSZWl0eiA8bXJlaXR6QHJlZGhhdC5jb20+iQFTBBMBCAA9AhsDBQkSzAMABQsJ
+ CAcCBhUICQoLAgQWAgMBAh4BAheABQJVzie5FRhoa3A6Ly9rZXlzLmdudXBnLm5ldAAKCRD0
+ B9sAYdXPQDcIB/9uNkbYEex1rHKz3mr12uxYMwLOOFY9fstP5aoVJQ1nWQVB6m2cfKGdcRe1
+ 2/nFaHSNAzT0NnKz2MjhZVmcrpyd2Gp2QyISCfb1FbT82GMtXFj1wiHmPb3CixYmWGQUUh+I
+ AvUqsevLA+WihgBUyaJq/vuDVM1/K9Un+w+Tz5vpeMidlIsTYhcsMhn0L9wlCjoucljvbDy/
+ 8C9L2DUdgi3XTa0ORKeflUhdL4gucWoAMrKX2nmPjBMKLgU7WLBc8AtV+84b9OWFML6NEyo4
+ 4cP7cM/07VlJK53pqNg5cHtnWwjHcbpGkQvx6RUx6F1My3y52vM24rNUA3+ligVEgPYBuQEN
+ BFXOJlcBCADAmcVUNTWT6yLWQHvxZ0o47KCP8OcLqD+67T0RCe6d0LP8GsWtrJdeDIQk+T+F
+ xO7DolQPS6iQ6Ak2/lJaPX8L0BkEAiMuLCKFU6Bn3lFOkrQeKp3u05wCSV1iKnhg0UPji9V2
+ W5eNfy8F4ZQHpeGUGy+liGXlxqkeRVhLyevUqfU0WgNqAJpfhHSGpBgihUupmyUg7lfUPeRM
+ DzAN1pIqoFuxnN+BRHdAecpsLcbR8sQddXmDg9BpSKozO/JyBmaS1RlquI8HERQoe6EynJhd
+ 64aICHDfj61rp+/0jTIcevxIIAzW70IadoS/y3DVIkuhncgDBvGbF3aBtjrJVP+5ABEBAAGJ
+ ASUEGAEIAA8FAlXOJlcCGwwFCRLMAwAACgkQ9AfbAGHVz0CbFwf9F/PXxQR9i4N0iipISYjU
+ sxVdjJOM2TMut+ZZcQ6NSMvhZ0ogQxJ+iEQ5OjnIputKvPVd5U7WRh+4lF1lB/NQGrGZQ1ic
+ alkj6ocscQyFwfib+xIe9w8TG1CVGkII7+TbS5pXHRxZH1niaRpoi/hYtgzkuOPp35jJyqT/
+ /ELbqQTDAWcqtJhzxKLE/ugcOMK520dJDeb6x2xVES+S5LXby0D4juZlvUj+1fwZu+7Io5+B
+ bkhSVPb/QdOVTpnz7zWNyNw+OONo1aBUKkhq2UIByYXgORPFnbfMY7QWHcjpBVw9MgC4tGeF
+ R4bv+1nAMMxKmb5VvQCExr0eFhJUAHAhVg==
+Message-ID: <cc37e07b-e350-faeb-e2b0-75dde7e98a96@redhat.com>
+Date: Thu, 9 Jul 2020 10:19:42 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.9.0
 MIME-Version: 1.0
-In-Reply-To: <CADBGO7_08su0HqP1uiwvkLfwq3NUmUxoLhRK5H3b0v=C4iPYFg@mail.gmail.com>
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
+In-Reply-To: <d866ace7-09c9-430e-53f8-ecf12d08b0a4@redhat.com>
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=kraxel@redhat.com
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=mreitz@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Received-SPF: pass client-ip=207.211.31.120; envelope-from=kraxel@redhat.com;
- helo=us-smtp-1.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/07/07 17:25:10
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature";
+ boundary="m7MJ6UcOKGWXFmEij9lqQpsSjMHIrZXn4"
+Received-SPF: pass client-ip=205.139.110.61; envelope-from=mreitz@redhat.com;
+ helo=us-smtp-delivery-1.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/07/09 04:20:09
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
 X-Spam_score_int: -40
 X-Spam_score: -4.1
@@ -77,7 +98,7 @@ X-Spam_bar: ----
 X-Spam_report: (-4.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-1, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ SPF_PASS=-0.001, URIBL_BLOCKED=0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -90,33 +111,98 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Sai Pavan Boddu <saipava@xilinx.com>,
- Peter Maydell <peter.maydell@linaro.org>,
- "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>,
- Vikram Garhwal <fnuv@xilinx.com>
+Cc: Kevin Wolf <kwolf@redhat.com>,
+ Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>, qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-> Starting at line 1746 is the first CBW, it's for an Inquiry command.
-> 
-> Starting at line 1759 is the response, notice at line 1761 the MSD debug
-> says "Data in 64/36", which is strange.
+This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
+--m7MJ6UcOKGWXFmEij9lqQpsSjMHIrZXn4
+Content-Type: multipart/mixed; boundary="ceQYSWe2Epe1EE1T7ehX1mmMhcWt4dJta"
 
-Not really.  First is the packet size, second is the (remaining) data
-size.  Inquiry data is 36 bytes, and dwc2 uses 64 byte instead of 36
-byte transfers.
+--ceQYSWe2Epe1EE1T7ehX1mmMhcWt4dJta
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: quoted-printable
 
-> Then the MSD defers the packet, even though the full 36 bytes has
-> already been received.
+On 08.07.20 22:37, Eric Blake wrote:
+> On 7/8/20 2:46 PM, Andrey Shinkevich wrote:
+>>
+>> On 08.07.2020 20:32, Eric Blake wrote:
+>>> On 7/8/20 12:20 PM, Andrey Shinkevich wrote:
+>>>> On 25.06.2020 18:21, Max Reitz wrote:
+>>>>> v6:
+>>>>> https://lists.nongnu.org/archive/html/qemu-devel/2019-08/msg01715.htm=
+l
+>>>>>
+>>>>> Branch: https://github.com/XanClic/qemu.git child-access-functions-v7
+>>>>> Branch: https://git.xanclic.moe/XanClic/qemu.git
+>>>>> child-access-functions-v7
+>>>>>
+>>>>>
+>>>> I cloned the branch from the github and built successfully.
+>>>>
+>>>> Running the iotests reports multiple errors of such a kind:
+>>>>
+>>>> 128: readarray -td '' formatting_line < <(sed -e 's/, fmt=3D/\x0/')
+>>>>
+>>>> "./common.filter: line 128: readarray: -d: invalid option"
+>>>>
+>>>
+>>> Arrgh. If I'm reading bash's changelog correctly, readarray -d was
+>>> introduced in bash 4.4, so I'm guessing you're still on 4.3 or
+>>> earlier? What bash version and platform are you using?
+>>>
+>> My bash version is 4.2.46.
+>>
+>> It is the latest in the virtuozzolinux-base repository. I should
+>> install the 4.4 package manually.
+>=20
+> Well, if bash 4.2 is the default installed version on any of our
+> platforms that meet our supported criteria, then we should instead fix
+> the patch in question to avoid non-portable use of readarray.
+>=20
+> Per https://repology.org/project/bash/versions (hinted from
+> docs/system/build-platforms.rst), at least CentOS 7 still ships bash
+> 4.2, and per 'make docker', centos7 is still a viable build target.=C2=A0=
+ So
+> we do indeed need to fix our regression.
 
-Yes, and this is the problem.  The condition checks whenever there is
-room left in the usb packet.  But we should also check whenever there
-is actually more data pending, so how about this:
+There is no regression.  It=E2=80=99s just that I based this series on an
+earlier version of =E2=80=9CMake _filter_img_create more active=E2=80=9D =
+=E2=80=93 when I sent a
+pull request for that version, Peter already reported to me that it
+failed on some test environments, so I revised it.
 
-    if (p->actual_length < p->iov.size && s->mode == USB_MSDM_DATAIN) {
-        DPRINTF("Deferring packet %p [wait data-in]\n", p);
+You=E2=80=99ll find there is no a7399eb in master; it=E2=80=99s 57ee95ed4ee=
+ there and
+doesn=E2=80=99t use -d.
 
-take care,
-  Gerd
+(My branch on github/gitea is still based on that older version, though,
+because that=E2=80=99s what I wrote it on.)
+
+Max
+
+
+--ceQYSWe2Epe1EE1T7ehX1mmMhcWt4dJta--
+
+--m7MJ6UcOKGWXFmEij9lqQpsSjMHIrZXn4
+Content-Type: application/pgp-signature; name="signature.asc"
+Content-Description: OpenPGP digital signature
+Content-Disposition: attachment; filename="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAEBCAAdFiEEkb62CjDbPohX0Rgp9AfbAGHVz0AFAl8G0x4ACgkQ9AfbAGHV
+z0B2LwgAg73D3u8x9WhvsDQIYCuj9kDtE5/4WrytQZ9SMRN4p0mB5gpV3BiIXo73
+ZR28da5HnoviXfQiAgSQDrIPclVbr7F1rgO89tVWpqFaYJ9XsCaEqkRynGyl9vQb
+/gar0N0MkBDFZGFThIiVkXcSmPIpM7/9wJv0rIhCO+byV22S+Ve/E0PkR88mYX16
+jVSVh6uSbgxz4paCeF2Luq0BVl/zR+uUXx+hMaXSU2vEF1FrrgV95bg/uhWpdGAu
++NWSvv8ru77+pKT31zG5G6CXaQSGOVjw3nsl+NSUXy2+5shrsnc2W4XvqmfuKVBl
+weo9aWvwGhDW/7IsgFGO3Uk6bgDBFw==
+=lPAV
+-----END PGP SIGNATURE-----
+
+--m7MJ6UcOKGWXFmEij9lqQpsSjMHIrZXn4--
 
 
