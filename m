@@ -2,80 +2,77 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8185D2194FB
-	for <lists+qemu-devel@lfdr.de>; Thu,  9 Jul 2020 02:24:11 +0200 (CEST)
-Received: from localhost ([::1]:35230 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 150A121953E
+	for <lists+qemu-devel@lfdr.de>; Thu,  9 Jul 2020 02:38:05 +0200 (CEST)
+Received: from localhost ([::1]:52546 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jtKME-0000Jb-K0
-	for lists+qemu-devel@lfdr.de; Wed, 08 Jul 2020 20:24:10 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:45268)
+	id 1jtKZg-0008DI-3Z
+	for lists+qemu-devel@lfdr.de; Wed, 08 Jul 2020 20:38:04 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:48018)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <hskinnemoen@google.com>)
- id 1jtKLM-0008Bc-8V
- for qemu-devel@nongnu.org; Wed, 08 Jul 2020 20:23:16 -0400
-Received: from mail-ua1-x942.google.com ([2607:f8b0:4864:20::942]:34144)
+ (Exim 4.90_1) (envelope-from
+ <3iWYGXwsKCm4TeWUZZQYaQZSaaSXQ.OaYcQYg-PQhQXZaZSZg.adS@flex--hskinnemoen.bounces.google.com>)
+ id 1jtKYC-0006Fh-4W
+ for qemu-devel@nongnu.org; Wed, 08 Jul 2020 20:36:32 -0400
+Received: from mail-qt1-x84a.google.com ([2607:f8b0:4864:20::84a]:37645)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <hskinnemoen@google.com>)
- id 1jtKLJ-0007j2-Pw
- for qemu-devel@nongnu.org; Wed, 08 Jul 2020 20:23:15 -0400
-Received: by mail-ua1-x942.google.com with SMTP id o25so184145uar.1
- for <qemu-devel@nongnu.org>; Wed, 08 Jul 2020 17:23:13 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from
+ <3iWYGXwsKCm4TeWUZZQYaQZSaaSXQ.OaYcQYg-PQhQXZaZSZg.adS@flex--hskinnemoen.bounces.google.com>)
+ id 1jtKY8-00010Z-CS
+ for qemu-devel@nongnu.org; Wed, 08 Jul 2020 20:36:31 -0400
+Received: by mail-qt1-x84a.google.com with SMTP id h10so417707qtc.4
+ for <qemu-devel@nongnu.org>; Wed, 08 Jul 2020 17:36:27 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=20161025;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc:content-transfer-encoding;
- bh=5Ti6cFxCewPwMoqTLpH2XDVbkKwcEvNBNKBsSM3cnDc=;
- b=E64MPyc+SlIAJF9sGuCz4wyo1n/WNW7s5SgBzb9VP3utwQ/XadFXdqXPSnGnscBwme
- P5XR920PEl87SAycabDnsHYYtesyzlnOqBgmQedF2lwJmv3RebkcqUddSnafiwXo6DdZ
- /2QoNSKJGExjcV55EndDRU/FJ4/NVappxos1M6BwHZuxJmz1WPaHBL749hVdX55aE34z
- heZj3BaY2Fmtq0yxWpB5unp0eq+/fMpgxUmHtWLT1z+AvTw3+zoTXbzkPUcDxO7XEVfr
- VQuBJmQNDF1Df2xXqlUEuXzWmfI3/iiyFWhcPj6X6XWTQf2cnaQlAbfC/Az/cQ5aysm5
- XNRQ==
+ h=date:message-id:mime-version:subject:from:to:cc
+ :content-transfer-encoding;
+ bh=7fW9/xZb40G9DdQZ4s3WiW2TJyjs36i2Y9C/vVoPeRc=;
+ b=v9R2YSn+aG0qX3Yjg394B/Em7KAFPQwweFCe9io4VL+F1pN0VhfEt1d5Y/AHgz1oTz
+ aHtRnoWJXWDIAKa/RUXJViMh8NiZEwx8KH/e7RVfYE6jWOAaPCvSCb/fUuT5O2OJzi+q
+ hb84agElWmJXV9O/TUWT0qhvQ8A6sf8wzMijb7VUl2aFa90bf8ZP0nJslkZuPGNoVNLt
+ 94fROT/xgfhjRPiifXKs/zGEyEdUxltS+WMywpHiO2trkXgEB4r9jxVa4kHHNcVG5t6e
+ lIWM4N96os7o/PUP4tf0PiovB+Ql5nQm8SNd2JjwUwPC8QGIuWibYfmaEtSjOuSTopJf
+ Yw/g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc:content-transfer-encoding;
- bh=5Ti6cFxCewPwMoqTLpH2XDVbkKwcEvNBNKBsSM3cnDc=;
- b=G6UoXuljE9Mh8uuxuEbwhYV1jcVUSZsIyxki/Nt2dG6I9fSnYiIRBtjo6sH51BrLkn
- 5LG8AjpbApLYz4SEr6fg3JQhjmhpdmNUj8ps6U+5wn1eo+50AF1u+gi2Ew/G7atRjbj1
- o6EdlONrjx3wCxvG87PZdBXMo//om31qescfD8z+fKLPZpamAsrNpnUaUC7fhrUAxSD/
- 2F2I+ZA0SGYyj8TWsymjQu4lYBUNjmXhSeVmEYhSEX9/iU3NmWBNjxLULju6l1uyWxix
- oPHGY//LKATwQNve6mGUFUfahA6AGf2YNI86gQMNQN9NkfG21xRvzgxlYPsBOsJSGTqG
- YSbA==
-X-Gm-Message-State: AOAM533F+m9V+3u/oAdJMBXFa/E619dUqgaaKmYd4i+JVwWkCEq4W6sW
- 9IHVptf+xdxGkYvcVn+xryt4PqaUvZI4mnZ0O3BAlg==
-X-Google-Smtp-Source: ABdhPJxR4EmaVUPoPA69IIW3D/BMzxq1Ptt8unMJPIKCo7Wx1hIBEKTID8mq9kOIY0dKp19NVh9AOUbsfngZ4vHk+Eo=
-X-Received: by 2002:ab0:4e98:: with SMTP id l24mr12576181uah.15.1594254192420; 
- Wed, 08 Jul 2020 17:23:12 -0700 (PDT)
-MIME-Version: 1.0
-References: <20200707184730.3047754-1-hskinnemoen@google.com>
- <20200707184730.3047754-6-hskinnemoen@google.com>
- <4b7130f2-032c-3067-b2b6-876a2b17b707@amsat.org>
- <2d1e272b-6575-30df-22ff-5d720973951d@amsat.org>
-In-Reply-To: <2d1e272b-6575-30df-22ff-5d720973951d@amsat.org>
+ h=x-gm-message-state:date:message-id:mime-version:subject:from:to:cc
+ :content-transfer-encoding;
+ bh=7fW9/xZb40G9DdQZ4s3WiW2TJyjs36i2Y9C/vVoPeRc=;
+ b=TSVfGo2YPIpwUUKHr5Pr8ITiceOGIfD98ugU87F+FTrtRCcRQhqessMDEmF7Hgr0/l
+ 5B3vtSQglJGrcoj01eVFfoxQaskYp/ZnC2446CvS9bzYZK2zhTx8QNcjI9ldNz4WFe4G
+ K4K6YUusy18nIU9uB43r82YQZKqNdqhVZvzYnMoncQvZsplnixZxfBN9XE0Zsz5FsnwQ
+ 0+fHv4BT5D9chpdFqqpzIMYBk7lYMtBQGHwBJg7xNsPHVzIQbHs/h0IRqa/UwII/FYt3
+ wXPIb3YVZ+7/rCM6ehpG7HHEeXZGyNzMUc3EGk5y8VOICzpVCJxv5E/bgNw+j0WNGQLV
+ SVTQ==
+X-Gm-Message-State: AOAM530fG32cTrRAGu+HCgZIS0nKJBC4MUIQUbEMPBg916y3tkqIJtqO
+ oakXXUVJFB6xcsaDuYLIYBEs45Vqp5rWUh5wVg==
+X-Google-Smtp-Source: ABdhPJyaAkY53jDJU5kQOYrFbodh7cqNNtIjOc/2mAMh3+VWpMLCNydHO7zzJ4FFL2uksqRsWzflbenlnbJo4wsoKw==
+X-Received: by 2002:a0c:b712:: with SMTP id t18mr46510002qvd.205.1594254985255; 
+ Wed, 08 Jul 2020 17:36:25 -0700 (PDT)
+Date: Wed,  8 Jul 2020 17:35:57 -0700
+Message-Id: <20200709003608.3834629-1-hskinnemoen@google.com>
+Mime-Version: 1.0
+X-Mailer: git-send-email 2.27.0.383.g050319c2ae-goog
+Subject: [PATCH v5 00/11] Add Nuvoton NPCM730/NPCM750 SoCs and two BMC machines
 From: Havard Skinnemoen <hskinnemoen@google.com>
-Date: Wed, 8 Jul 2020 17:23:00 -0700
-Message-ID: <CAFQmdRZ-fZGD-Zzr6YvRyB7oEaqdek-e6UeCjekW-DnZLOfbrQ@mail.gmail.com>
-Subject: Re: [PATCH v4 05/12] hw/arm: Add NPCM730 and NPCM750 SoC models
-To: =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <f4bug@amsat.org>
-Cc: Peter Maydell <peter.maydell@linaro.org>, CS20 KFTing <kfting@nuvoton.com>,
- qemu-arm <qemu-arm@nongnu.org>, Joel Stanley <joel@jms.id.au>, 
- QEMU Developers <qemu-devel@nongnu.org>,
- IS20 Avi Fishman <Avi.Fishman@nuvoton.com>
+To: peter.maydell@linaro.org, f4bug@amsat.org
+Cc: qemu-arm@nongnu.org, qemu-devel@nongnu.org, Avi.Fishman@nuvoton.com, 
+ kfting@nuvoton.com, Havard Skinnemoen <hskinnemoen@google.com>
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=2607:f8b0:4864:20::942;
- envelope-from=hskinnemoen@google.com; helo=mail-ua1-x942.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::84a;
+ envelope-from=3iWYGXwsKCm4TeWUZZQYaQZSaaSXQ.OaYcQYg-PQhQXZaZSZg.adS@flex--hskinnemoen.bounces.google.com;
+ helo=mail-qt1-x84a.google.com
 X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
  That's all we know.
-X-Spam_score_int: -185
-X-Spam_score: -18.6
-X-Spam_bar: ------------------
-X-Spam_report: (-18.6 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_MED=-1,
+X-Spam_score_int: -105
+X-Spam_score: -10.6
+X-Spam_bar: ----------
+X-Spam_report: (-10.6 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_MED=-1,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- ENV_AND_HDR_SPF_MATCH=-0.5, RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001, URIBL_BLOCKED=0.001, USER_IN_DEF_DKIM_WL=-7.5,
- USER_IN_DEF_SPF_WL=-7.5 autolearn=unavailable autolearn_force=no
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ URIBL_BLOCKED=0.001,
+ USER_IN_DEF_DKIM_WL=-7.5 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -91,108 +88,201 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Wed, Jul 8, 2020 at 10:56 AM Philippe Mathieu-Daud=C3=A9 <f4bug@amsat.or=
-g> wrote:
->
-> On 7/8/20 7:31 PM, Philippe Mathieu-Daud=C3=A9 wrote:
-> > Hi Havard,
-> >
-> > On 7/7/20 8:47 PM, Havard Skinnemoen wrote:
-> >> The Nuvoton NPCM7xx SoC family are used to implement Baseboard
-> >> Management Controllers in servers. While the family includes four SoCs=
-,
-> >> this patch implements limited support for two of them: NPCM730 (target=
-ed
-> >> for Data Center applications) and NPCM750 (targeted for Enterprise
-> >> applications).
-> >>
-> >> This patch includes little more than the bare minimum needed to boot a
-> >> Linux kernel built with NPCM7xx support in direct-kernel mode:
-> >>
-> >>   - Two Cortex-A9 CPU cores with built-in periperhals.
-> >>   - Global Configuration Registers.
-> >>   - Clock Management.
-> >>   - 3 Timer Modules with 5 timers each.
-> >>   - 4 serial ports.
-> >>
-> >> The chips themselves have a lot more features, some of which will be
-> >> added to the model at a later stage.
-> [...]
->
-> >> +static void npcm7xx_realize(DeviceState *dev, Error **errp)
-> >> +{
-> >> +    NPCM7xxState *s =3D NPCM7XX(dev);
-> >> +    NPCM7xxClass *nc =3D NPCM7XX_GET_CLASS(s);
-> >> +    Error *err =3D NULL;
-> >> +    int i;
-> >> +
-> >> +    /* I/O space -- unimplemented unless overridden below. */
-> >> +    create_unimplemented_device("npcm7xx.io", NPCM7XX_MMIO_BA, NPCM7X=
-X_MMIO_SZ);
-> >
-> > I still insist this is not the best, but as "The data sheet for these
-> > SoCs is not generally available" there is not much I can suggest to
-> > improve.
->
-> From your other comment I found:
->
-> https://github.com/Nuvoton-Israel/bootblock/blob/master/SWC_HAL/Chips/npc=
-m750/npcm750.h
->
-> In particular:
->
-> #define AHB1_BASE_ADDR                  0xF0000000      /* AHB1
-> allocation (Including APB allocations)  */
-> #define AHB18_BASE_ADDR                 0x80000000      /* AHB18
-> allocation  */
-> #define AHB3_BASE_ADDR                  0xA0000000      /* AHB3
-> allocation  */
-> #define XBUSR_BASE_ADDR                 0xC0002000      /* XBUS
-> registers  */
-> #define AHB14_BASE_ADDR                 0xE0000000      /* AHB14
-> Allocation  */
-> #define APB14_BASE_ADDR                 0xE0000000      /* APB14
-> Allocation  */
-> #define VDMX_BASE_ADDR                  0xE0800000      /* VDMX  */
->
-> XBUS doesn't seem important.
->
-> If SPI flashes aren't connected, returning bus transaction sounds
-> correct:
->
-> #define SPI0CS0_BASE_ADDR               0x80000000      /* SPI0 direct
-> access CS0  */
-> #define SPI0CS1_BASE_ADDR               0x88000000      /* SPI0 direct
-> access CS1  */
-> #define SPI0CS2_BASE_ADDR               0x90000000      /* SPI0 direct
-> access CS2  */
-> #define SPI0CS3_BASE_ADDR               0x98000000      /* SPI0 direct
-> access CS3  */
->
-> #define SPI3CS0_BASE_ADDR               0xA0000000      /* SPI3 direct
-> access CS0  */
-> #define SPI3CS1_BASE_ADDR               0xA8000000      /* SPI3 direct
-> access CS1  */
-> #define SPI3CS2_BASE_ADDR               0xB0000000      /* SPI3 direct
-> access CS2  */
-> #define SPI3CS3_BASE_ADDR               0xB8000000      /* SPI3 direct
-> access CS3  */
->
-> So I'd prefer you use:
->
->   create_unimplemented_device("npcm7xx.AHB1",  0xf0000000, 256 * MiB);
->
-> Maybe for the PCI root complex:
->
->   create_unimplemented_device("npcm7xx.AHB14", 0xe0000000, 256 * MiB);
->
-> What do you think?
+I also pushed this and the previous two patchsets to my qemu fork on github=
+.
+The branches are named npcm7xx-v[1-5].
 
-I went ahead and added them all since they are all defined in that
-public file. It does make the -d unimp output a lot more helpful.
+  https://github.com/hskinnemoen/qemu
 
-I'll send v5 tonight. Not sure if I got the DRAM stuff 100% right.
-Please let me know what you think.
+This patch series models enough of the Nuvoton NPCM730 and NPCM750 SoCs to =
+boot
+an OpenBMC image built for quanta-gsj. This includes device models for:
+
+  - Global Configuration Registers
+  - Clock Control
+  - Timers
+  - Fuses
+  - Memory Controller
+  - Flash Controller
+
+These modules, along with the existing Cortex A9 CPU cores and built-in
+peripherals, are integrated into a NPCM730 or NPCM750 SoC, which in turn fo=
+rm
+the foundation for the quanta-gsj and npcm750-evb machines, respectively. T=
+he
+two SoCs are very similar; the only difference is that NPCM730 is missing s=
+ome
+peripherals that NPCM750 has, and which are not considered essential for
+datacenter use (e.g. graphics controllers). For more information, see
+
+https://www.nuvoton.com/products/cloud-computing/ibmc/
+
+Both quanta-gsj and npcm750-evb correspond to real boards supported by Open=
+BMC.
+At the end of the series, qemu can boot an OpenBMC image built for one of t=
+hese
+boards with some minor modifications.
+
+The patches in this series were developed by Google and reviewed by Nuvoton=
+. We
+will be maintaining the machine and peripheral support together.
+
+The data sheet for these SoCs is not generally available. Please let me kno=
+w if
+more comments are needed to understand the device behavior.
+
+Changes since v4:
+  - OTP cleanups suggested by Philippe Mathieu-Daud=C3=A9.
+      - Added fuse array definitions based on public Nuvoton bootblock code=
+.
+      - Moved class structure to .c file since it's only used internally.
+      - Readability improvements.
+  - Split the first patch and folded parts of it into three other patches s=
+o
+    that CONFIG_NPCM7XX is only enabled after the initial NPCM7xx machine
+    support is added.
+  - DRAM init moved to machine init code.
+  - Consistently use lower-case hex literals.
+  - Switched to fine-grained unimplemented devices, based on public bootblo=
+ck
+    source code. Added a tiny SRAM that got left out previously.
+  - Simplified error handling in npcm7xx_realize() since the board code wil=
+l
+    abort anyway, and SoCs are not hot-pluggable.
+
+Changes since v3:
+
+  - License headers are now GPL v2-or-later throughout.
+  - Added vmstate throughout (except the memory controller, which doesn't
+    really have any state worth saving). Successfully booted a gsj image
+    with two stop/savevm/quit/loadvm cycles along the way.
+      - JFFS2 really doesn't like it if I let qemu keep running after savev=
+m,
+        and then jump back in time with loadvm. I assume this is expected.
+  - Fixed an error API violation in npcm7xx_realize, removed pointless erro=
+r
+    check after object_property_set_link().
+  - Switched the OTP device to use an embedded array instead of a g_malloc0=
+'d
+    one because I couldn't figure out how to set up vmstate for the latter.
+
+Changes since v2:
+
+  - Simplified the MAINTAINERS entry.
+  - Added link to OpenPOWER jenkins for gsj BMC images.
+  - Reverted the smpboot change, back to byte swapping.
+  - Adapted to upstream API changes:
+      - sysbus_init_child_obj -> object_initialize_child
+      - object_property_set_bool -> qdev_realize / sysbus_realize
+      - ssi_create_slave_no_init -> qdev_new
+      - qdev_init_nofail -> qdev_realize_and_unref
+      - ssi_auto_connect_slaves removed
+  - Moved Boot ROM loading from soc to machine init.
+  - Plumbed power-on-straps property from GCR to the machine init code so i=
+t
+    can be properly initialized. Turns out npcm750 memory init doesn't work
+    without this. npcm730 is fine either way, though I'm not sure why.
+  - Reworked the flash init code so it looks more like aspeed (i.e. the fla=
+sh
+    device gets added even if there's no drive).
+
+Changes since v1 (requested by reviewers):
+
+  - Clarify the source of CLK reset values.
+  - Made smpboot a constant byte array, eliinated byte swapping.
+  - NPCM7xxState now stores an array of ARMCPUs, not pointers to ARMCPUs.
+  - Clarify why EL3 is disabled.
+  - Introduce NPCM7XX_NUM_IRQ constant.
+  - Set the number of CPUs according to SoC variant, and disallow command l=
+ine
+    overrides (i.e. you can no longer override the number of CPUs with the =
+-smp
+    parameter). This is trying to follow the spirit of
+    https://patchwork.kernel.org/patch/11595407/.
+  - Switch register operations to DEVICE_LITTLE_ENDIAN throughout.
+  - Machine documentation added (new patch).
+
+Changes since v1 to support flash booting:
+
+  - GCR reset value changes to get past memory initialization when booting
+    from flash (patches 2 and 5):
+      - INTCR2 now indicates that the DDR controller is initialized.
+      - INTCR3 is initialized according to DDR memory size. A realize()
+	method was implemented to achieve this.
+  - Refactor the machine initialization a bit to make it easier to drop in
+    machine-specific flash initialization (patch 6).
+  - Extend the series with additional patches to enable booting from flash:
+      - Boot ROM (through the -bios option).
+      - OTP (fuse) controller.
+      - Memory Controller stub (just enough to skip memory training).
+      - Flash controller.
+      - Board-specific flash initialization.
+
+Thanks for reviewing,
 
 Havard
+
+Havard Skinnemoen (11):
+  hw/misc: Add NPCM7xx System Global Control Registers device model
+  hw/misc: Add NPCM7xx Clock Controller device model
+  hw/timer: Add NPCM7xx Timer device model
+  hw/arm: Add NPCM730 and NPCM750 SoC models
+  hw/arm: Add two NPCM7xx-based machines
+  hw/arm: Load -bios image as a boot ROM for npcm7xx
+  hw/nvram: NPCM7xx OTP device model
+  hw/mem: Stubbed out NPCM7xx Memory Controller model
+  hw/ssi: NPCM7xx Flash Interface Unit device model
+  hw/arm: Wire up BMC boot flash for npcm750-evb and quanta-gsj
+  docs/system: Add Nuvoton machine documentation
+
+ docs/system/arm/nuvoton.rst      |  92 ++++++
+ docs/system/target-arm.rst       |   1 +
+ default-configs/arm-softmmu.mak  |   1 +
+ include/hw/arm/npcm7xx.h         | 112 +++++++
+ include/hw/mem/npcm7xx_mc.h      |  36 +++
+ include/hw/misc/npcm7xx_clk.h    |  66 ++++
+ include/hw/misc/npcm7xx_gcr.h    |  76 +++++
+ include/hw/nvram/npcm7xx_otp.h   |  88 ++++++
+ include/hw/ssi/npcm7xx_fiu.h     | 100 ++++++
+ include/hw/timer/npcm7xx_timer.h |  96 ++++++
+ hw/arm/npcm7xx.c                 | 464 ++++++++++++++++++++++++++++
+ hw/arm/npcm7xx_boards.c          | 200 ++++++++++++
+ hw/mem/npcm7xx_mc.c              |  84 +++++
+ hw/misc/npcm7xx_clk.c            | 230 ++++++++++++++
+ hw/misc/npcm7xx_gcr.c            | 226 ++++++++++++++
+ hw/nvram/npcm7xx_otp.c           | 424 +++++++++++++++++++++++++
+ hw/ssi/npcm7xx_fiu.c             | 510 +++++++++++++++++++++++++++++++
+ hw/timer/npcm7xx_timer.c         | 468 ++++++++++++++++++++++++++++
+ MAINTAINERS                      |   8 +
+ hw/arm/Kconfig                   |   9 +
+ hw/arm/Makefile.objs             |   1 +
+ hw/mem/Makefile.objs             |   1 +
+ hw/misc/Makefile.objs            |   2 +
+ hw/misc/trace-events             |   8 +
+ hw/nvram/Makefile.objs           |   1 +
+ hw/ssi/Makefile.objs             |   1 +
+ hw/ssi/trace-events              |   9 +
+ hw/timer/Makefile.objs           |   1 +
+ hw/timer/trace-events            |   5 +
+ 29 files changed, 3320 insertions(+)
+ create mode 100644 docs/system/arm/nuvoton.rst
+ create mode 100644 include/hw/arm/npcm7xx.h
+ create mode 100644 include/hw/mem/npcm7xx_mc.h
+ create mode 100644 include/hw/misc/npcm7xx_clk.h
+ create mode 100644 include/hw/misc/npcm7xx_gcr.h
+ create mode 100644 include/hw/nvram/npcm7xx_otp.h
+ create mode 100644 include/hw/ssi/npcm7xx_fiu.h
+ create mode 100644 include/hw/timer/npcm7xx_timer.h
+ create mode 100644 hw/arm/npcm7xx.c
+ create mode 100644 hw/arm/npcm7xx_boards.c
+ create mode 100644 hw/mem/npcm7xx_mc.c
+ create mode 100644 hw/misc/npcm7xx_clk.c
+ create mode 100644 hw/misc/npcm7xx_gcr.c
+ create mode 100644 hw/nvram/npcm7xx_otp.c
+ create mode 100644 hw/ssi/npcm7xx_fiu.c
+ create mode 100644 hw/timer/npcm7xx_timer.c
+
+--=20
+2.27.0.383.g050319c2ae-goog
+
 
