@@ -2,104 +2,102 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9F71E219BAD
-	for <lists+qemu-devel@lfdr.de>; Thu,  9 Jul 2020 11:09:04 +0200 (CEST)
-Received: from localhost ([::1]:47184 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B6404219BCD
+	for <lists+qemu-devel@lfdr.de>; Thu,  9 Jul 2020 11:12:05 +0200 (CEST)
+Received: from localhost ([::1]:52708 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jtSYB-0007eS-Nw
-	for lists+qemu-devel@lfdr.de; Thu, 09 Jul 2020 05:09:03 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:38362)
+	id 1jtSb6-0001iD-P7
+	for lists+qemu-devel@lfdr.de; Thu, 09 Jul 2020 05:12:04 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:39184)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <andrey.shinkevich@virtuozzo.com>)
- id 1jtSXI-000775-5c; Thu, 09 Jul 2020 05:08:08 -0400
-Received: from mail-eopbgr80102.outbound.protection.outlook.com
- ([40.107.8.102]:62171 helo=EUR04-VI1-obe.outbound.protection.outlook.com)
+ id 1jtSaF-0001FZ-00; Thu, 09 Jul 2020 05:11:11 -0400
+Received: from mail-eopbgr130113.outbound.protection.outlook.com
+ ([40.107.13.113]:2128 helo=EUR01-HE1-obe.outbound.protection.outlook.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <andrey.shinkevich@virtuozzo.com>)
- id 1jtSXE-00064F-8Z; Thu, 09 Jul 2020 05:08:07 -0400
+ id 1jtSaC-0006ZA-24; Thu, 09 Jul 2020 05:11:10 -0400
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=QUltvagGG40qLH74NGQwGmhtJst+ytVaPDn0FweFmxR3VCE67RbF4PJqFTLoQCbPhPDZaTzDB42LNr1i9mNrCen6VJG3Rv3VEcnqTrr3X62cSv/YKuHNHF3FBEK2ky8qMrvI0S09+0xvSaXMLb/3rgmrL1J7+jlG/ho1hghmmKyg26zjf8HxXgbKA8UF5bAbAhWn5pD76mfDvaY/iG0+9g0dEAv4PRWKGA295RbgPcLaP0ze8tvoKDlCSKs0DevjeT/ABQw1vAtB1iZJSsQgKJlXiFw8zp0dID98JKCRNpcANOscmJvykx7wodCB6sNoRhI9xKeKLJxwYtLIzmf95Q==
+ b=RILvqaFrwECVePMdKz1Th/gIU5IoKwk/GydSsi5ns4gwAFXwwgc5Q6++4bXBiCrFTbxGUR5+PJRD5jPChSuqdZvXaSTWRWzUXZ4SzRnQDbA88iZJYvCYe6dF9qTKXPjfqzX4FgruahxWp2dVb8F/xE6WQdGRWCzAo3Cwfj0EBX2gpcE9txJoC4hYJL18lH4AEk7bCEnwPaYDOaLJ0/sl+hNm+BnXboLXERHmQvzuQFZQg72FssDBYeMj5PnsR5AvkloF3wdcyTPAGejiywOG16nL4MXv8w5uIGqXEok9+mLP1X34PtXmZ3b3Whe+u1JkLqWbZSZBy7MOIfUCWI0eOQ==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=oU/XVa2xNpW5HQKZ8hXqHJUhCdx/NnqeRdEJ3RM07HI=;
- b=LNj04rmEveykddX1pLeBUGF2ZdGFtyhvy4TwH29PdzhSSfk7BUc+D8vm9T53jYZl3yTzLRXt30ZAqagvhEwWesEZs9h7N18TMxrNCyzYWpp7FKKBN0o4JEQdTHx0NJHvLaYTY1PoLz29VMcKG4PuknN/XCQLRvInoGW8+YCBFUviDljJR4dSWEln/lU5w8cUoYnF+mL8T5SgIwZR5FsZo3BMHrylrMdREl41GSfCXKRIWNFwmTjwiKr0o/alMEnNbeU61Td9lClDDQCSZUdL3Jto0y5CV2XIXSDfz7/QjZgfYr+fW18Cu+K8hVMVqWyPLQsC8PkOCBU10hmhJhCfzg==
+ bh=229RO4Uttj/T0q3is462ZP8beLIt/Ar7BXHV0bWKn44=;
+ b=MpQ4GTng7E3Cf9MNK1GZTi6udTc5ZkNpX09mVjmLwnZUBjXZGXZrqz8DQOVQ9omGRltnDLPPH9Qr89lKZKOE8Kt8vhY1svlExmCQHwXbOcSbxcreXj63v1++1+gl8BfXf+F/+ujKNur9YqWH1JeYrXDmHSs/8gGvt+7NXUQCmQHCZTTfwa6vAfex376X2mQc7RiCQvJl8LBzfZiRMgQelM0n01asZx0fUWajknwM//yk59JeFEc5Ig2ND+F5xXjKBjqnwzcdCpAwprA16tJVP7ORVmD2aYFaUrB70cCbqFr3zXyiA7o3k2z87iLqjsIiUqulsqzVEJ30BJ5OAG8XJw==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
  smtp.mailfrom=virtuozzo.com; dmarc=pass action=none
  header.from=virtuozzo.com; dkim=pass header.d=virtuozzo.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=virtuozzo.com;
  s=selector2;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=oU/XVa2xNpW5HQKZ8hXqHJUhCdx/NnqeRdEJ3RM07HI=;
- b=H6heK5SsfE7gMPgRw6mrU2er260pU54F4cxQqmMTbh5GqmuzWbWrYfoV2cGDzo++3Y2LDkEQFdm2l1oueFDs0s96xipYhn3ace+CZMedTs9y/dZuLgJUj922+QK94shpzemJR1Ru620x9P9FuNVH+tlnwnks++7DOkLm/n+HHUo=
+ bh=229RO4Uttj/T0q3is462ZP8beLIt/Ar7BXHV0bWKn44=;
+ b=ch2RhSSq946e5Ro63WfyG9pws3+IP79K9QdAGhzH1Jy9/RYxwZYFdONT6mDzGgMUS30SNR8TP3D5LfzbX/52NVWiRcnx+O/zSFF4GXGEkxls4OSV+QcUIUqLqJ4WUyqfV00qwOfjUvk2KAMUzeaXuzmM4bKwiz3fZZ6O41/9ey4=
 Authentication-Results: nongnu.org; dkim=none (message not signed)
  header.d=none;nongnu.org; dmarc=none action=none header.from=virtuozzo.com;
 Received: from AM6PR08MB4070.eurprd08.prod.outlook.com (2603:10a6:20b:a3::25)
- by AM6PR08MB3957.eurprd08.prod.outlook.com (2603:10a6:20b:a2::14)
+ by AM5PR0801MB2034.eurprd08.prod.outlook.com (2603:10a6:203:4b::16)
  with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3153.21; Thu, 9 Jul
- 2020 09:08:00 +0000
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3174.21; Thu, 9 Jul
+ 2020 09:11:04 +0000
 Received: from AM6PR08MB4070.eurprd08.prod.outlook.com
  ([fe80::78ec:8cb6:41f7:b2a0]) by AM6PR08MB4070.eurprd08.prod.outlook.com
  ([fe80::78ec:8cb6:41f7:b2a0%5]) with mapi id 15.20.3174.021; Thu, 9 Jul 2020
- 09:08:00 +0000
-Subject: Re: [PATCH v7 02/47] block: Add chain helper functions
+ 09:11:04 +0000
+Subject: Re: [PATCH v7 12/47] block: Use bdrv_filter_(bs|child) where obvious
 To: Max Reitz <mreitz@redhat.com>, qemu-block@nongnu.org
 References: <20200625152215.941773-1-mreitz@redhat.com>
- <20200625152215.941773-3-mreitz@redhat.com>
- <5c2a81c7-851c-aeb4-84b7-3bd61417495e@virtuozzo.com>
- <7244733b-3092-a1f1-55f1-35a964a7c791@redhat.com>
+ <20200625152215.941773-13-mreitz@redhat.com>
+ <82792291-86a1-34cc-98e8-6d585755c79b@virtuozzo.com>
+ <898d0f61-8994-4750-98bd-d6870335d223@redhat.com>
 From: Andrey Shinkevich <andrey.shinkevich@virtuozzo.com>
-Message-ID: <3f648f72-3161-9570-05ea-66cc45a3f2c0@virtuozzo.com>
-Date: Thu, 9 Jul 2020 12:07:58 +0300
+Message-ID: <1f2987b2-14ea-41c6-8f5f-3922549f4ca7@virtuozzo.com>
+Date: Thu, 9 Jul 2020 12:11:01 +0300
 User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:68.0)
  Gecko/20100101 Thunderbird/68.9.0
-In-Reply-To: <7244733b-3092-a1f1-55f1-35a964a7c791@redhat.com>
+In-Reply-To: <898d0f61-8994-4750-98bd-d6870335d223@redhat.com>
 Content-Type: text/plain; charset=utf-8; format=flowed
 Content-Transfer-Encoding: 8bit
 Content-Language: en-GB
-X-ClientProxiedBy: AM0PR01CA0116.eurprd01.prod.exchangelabs.com
- (2603:10a6:208:168::21) To AM6PR08MB4070.eurprd08.prod.outlook.com
+X-ClientProxiedBy: AM0P190CA0024.EURP190.PROD.OUTLOOK.COM
+ (2603:10a6:208:190::34) To AM6PR08MB4070.eurprd08.prod.outlook.com
  (2603:10a6:20b:a3::25)
 MIME-Version: 1.0
 X-MS-Exchange-MessageSentRepresentingType: 1
 Received: from Admins-MacBook-Pro.local (109.252.114.191) by
- AM0PR01CA0116.eurprd01.prod.exchangelabs.com (2603:10a6:208:168::21) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3174.20 via Frontend
- Transport; Thu, 9 Jul 2020 09:07:59 +0000
+ AM0P190CA0024.EURP190.PROD.OUTLOOK.COM (2603:10a6:208:190::34) with Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.3174.21 via Frontend Transport; Thu, 9 Jul 2020 09:11:03 +0000
 X-Originating-IP: [109.252.114.191]
 X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: 697b889b-426d-45eb-2153-08d823e7943d
-X-MS-TrafficTypeDiagnostic: AM6PR08MB3957:
+X-MS-Office365-Filtering-Correlation-Id: 6b4b3dab-5c45-4cb9-683c-08d823e8018f
+X-MS-TrafficTypeDiagnostic: AM5PR0801MB2034:
 X-MS-Exchange-Transport-Forked: True
-X-Microsoft-Antispam-PRVS: <AM6PR08MB395736E3DE0138BBB2F8FFB4F4640@AM6PR08MB3957.eurprd08.prod.outlook.com>
-X-MS-Oob-TLC-OOBClassifiers: OLM:8882;
-X-Forefront-PRVS: 04599F3534
+X-Microsoft-Antispam-PRVS: <AM5PR0801MB2034FC947B8D2E2CC98995EFF4640@AM5PR0801MB2034.eurprd08.prod.outlook.com>
+X-MS-Oob-TLC-OOBClassifiers: OLM:4502;
 X-MS-Exchange-SenderADCheck: 1
 X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: TtgB8OMXPpEjqwH5rQO3Ff9/IbbzGB6IWL1yKnaS4JX13e80GirZrcTtix+iAJySNBQ5nRaueIdhsWKyW2/pGfRYwQZfq42cwimPz98UjgVk9c9PIKBufEaMNKAJJ1sNzLsg8wHt3EqEZMhG6JWowCNKz094MOyDJpmNYRmPwlkPj/LQ1DH4rKxG6RyU6AiMAvYZdeYpl0+JFPmUAHggR4863p02QGkpSaLtcnCgmDYbfCn+o1DIsVLcp0ShdhZsF4Zvf8pwvywkj8WUgiSzV0Nk0HSUnullCS0k4nwic3DtG6gVqxXJhh09y9HR8wegvJgXrIZGUtAkGkSlra7KJgse9kfi8GNXtuYYdR/GZ4WpsEzqxw/agNhhAOTct5MR
+X-Microsoft-Antispam-Message-Info: j3Kao4+H+wWyxEkDp1gHBvTROeAuiOtHhReVtlQ2O72xfADsYVwsirFiDjB+K7YiNrmXvo4Mnp6VLL9OCQT3hqMoT7d5TMMZ+1PFZoI9/wqEqucU6ZNmCZQx0eYY/TxU+ZOdr1dNAqCrPsrPXcYStghGrn50qu0XqNr36jQyuVbDwQf+hp5Ip9gpUL3Bgqw0wHFJDZT5319fpuW0hsQjhzCntDyHymqx02VlMfJqJEqD9k1q1jx0JJpXPhfWqxS9S/2ZhDZDiOcaf12b72Ve6YWl3yCV6UAXfAIUIoWMQ8K1pvOrS174uG5JejL29J0lssg85h0JoJZBLXwsdiIrUAuRB2gA6MwFmfFldZ1Umkg7dX8L7zliuUdyFs+piG6g
 X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
  IPV:NLI; SFV:NSPM; H:AM6PR08MB4070.eurprd08.prod.outlook.com; PTR:; CAT:NONE;
  SFTY:;
- SFS:(4636009)(376002)(136003)(396003)(346002)(366004)(39850400004)(26005)(6506007)(8936002)(5660300002)(186003)(4326008)(31686004)(6512007)(86362001)(16526019)(2906002)(6486002)(2616005)(31696002)(956004)(8676002)(44832011)(52116002)(36756003)(66556008)(83380400001)(66476007)(53546011)(66946007)(54906003)(478600001)(316002)(43740500002);
+ SFS:(4636009)(136003)(39850400004)(376002)(396003)(366004)(346002)(36756003)(44832011)(66476007)(2616005)(956004)(316002)(52116002)(53546011)(4326008)(6506007)(2906002)(8936002)(8676002)(31696002)(83380400001)(86362001)(26005)(16526019)(186003)(54906003)(66556008)(5660300002)(66946007)(31686004)(6512007)(478600001)(6486002)(43740500002);
  DIR:OUT; SFP:1102; 
-X-MS-Exchange-AntiSpam-MessageData: rtqQ4Cu1JEs8bBk1dyIZif47yD/bm7MKWpD06j2xv8XloaxL4MtWSXyLXvt/fS31JAWgayzan2Z6rCK+TRM3ppcCn8u0E/4JhbFR+/4PUD4JrrAFVNOGBaRTwKeNw93QiFfDzjk8xag+i+kQRvXjpqX2Ex7nWkz1HCq9R8LRLzGzL5z5ETj+6b2frA6rPnE7bxLpJkV5e4YrTH8AGNQ0SiuZlmudBMHPP0T37/cItM+TkBa6De0VlaZxpYcPyIZVtIS/lNk41Hu0okbyZW4kfuPQS5wTzvGdIq7AFk/nx4xK3INRicR5+jL53HQQnmfeP+M0wvVT44ocKYO91RUzm0a54668S06jVsqJ0y1mM4hDUId7NInCLbjYfbdZLZYZNqQ/uWOTRbmNGxZwOkKJAel5g7aCEbnhHAkHotpt4cd6NNjeATMlgxilUUPCHt2jmFNMVs4AtUkan+N4WD2ICovgvGIx3AbWkPtG1bc6BNNuXwUANfartO1eUTM98MRn
+X-MS-Exchange-AntiSpam-MessageData: ZxwnyR4zSxYgWp+oG9vdNNocaNz1MhVMx7IDFLZJGTBzs0QjWuxZtd9F3rNB5dUH9esVpKtT/dalo27183SXF3wp1MzfgbLH3O/Ws3LBdFSUN1IY1xij11ThFfuadVHan0WuZO9z9mcRHdDfCURNPIRouIt48XX8YvmIGyCPwSAWfCIf7B1C4s+Up+aQnM9ZJvUqGpMFhuc9DUsnXF5bjQ/etWv0KJGKso6KZ73HYckJ88lktRHrqbtoUzhqTDjIx7GCnIkvYdkvvCLUAynnXu7xufXbcUZXkTr2xF8x/nEIn3Fvq3JIv52bi2ajUR1euH8FxTUMT1tX3+sNKkhxurqEMH1Gx+5+g9j96EyIrXpf7im5ymFQ3XkyoZt2xBvE7C8/YoWh2DAHlGkJfBmbfqDUCQdp4lXU8Zt01JijZINRB6R/kEzTi8Z5QhVz+XffGc8GZylASjYvbvnpSjZkiGjdMY+3r5fHNOO2oBl7KX9V/r10rI/af6Nt0aOBPxTA
 X-OriginatorOrg: virtuozzo.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 697b889b-426d-45eb-2153-08d823e7943d
+X-MS-Exchange-CrossTenant-Network-Message-Id: 6b4b3dab-5c45-4cb9-683c-08d823e8018f
 X-MS-Exchange-CrossTenant-AuthSource: AM6PR08MB4070.eurprd08.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 09 Jul 2020 09:08:00.5346 (UTC)
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 09 Jul 2020 09:11:03.9514 (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
 X-MS-Exchange-CrossTenant-Id: 0bc7f26d-0264-416e-a6fc-8352af79c58f
 X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: MkUY7OB9ccyB1SpVobk4lzXTJoCpI91SWhLLbdjnOtJe5W8xcQ3PVrD9m7cPFIhMK8EZAZVx6PU/cc0KPKSqzsXTBgUkb7yIft3sYL6eplY=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: AM6PR08MB3957
-Received-SPF: pass client-ip=40.107.8.102;
+X-MS-Exchange-CrossTenant-UserPrincipalName: /7PTU/MdFIiOLSFgzUQrAjoiLPFkM8HlIkOPVB+HnRv9OOGtyixd3rQZoSvIQjyvwUOtT0ZkaZZ79q1tUMRcmnrPkcnIOTB5Co7OqpMQ+3Q=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: AM5PR0801MB2034
+Received-SPF: pass client-ip=40.107.13.113;
  envelope-from=andrey.shinkevich@virtuozzo.com;
- helo=EUR04-VI1-obe.outbound.protection.outlook.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/07/09 05:08:01
+ helo=EUR01-HE1-obe.outbound.protection.outlook.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/07/09 05:11:05
 X-ACL-Warn: Detected OS   = Windows NT kernel [generic] [fuzzy]
 X-Spam_score_int: -37
 X-Spam_score: -3.8
@@ -126,74 +124,69 @@ Cc: Kevin Wolf <kwolf@redhat.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 09.07.2020 11:24, Max Reitz wrote:
-> On 08.07.20 19:20, Andrey Shinkevich wrote:
+On 09.07.2020 11:59, Max Reitz wrote:
+> On 08.07.20 20:24, Andrey Shinkevich wrote:
 >> On 25.06.2020 18:21, Max Reitz wrote:
->>> Add some helper functions for skipping filters in a chain of block
->>> nodes.
+>>> Places that use patterns like
+>>>
+>>>       if (bs->drv->is_filter && bs->file) {
+>>>           ... something about bs->file->bs ...
+>>>       }
+>>>
+>>> should be
+>>>
+>>>       BlockDriverState *filtered = bdrv_filter_bs(bs);
+>>>       if (filtered) {
+>>>           ... something about @filtered ...
+>>>       }
+>>>
+>>> instead.
 >>>
 >>> Signed-off-by: Max Reitz <mreitz@redhat.com>
 >>> ---
->>>    include/block/block_int.h |  3 +++
->>>    block.c                   | 55 +++++++++++++++++++++++++++++++++++++++
->>>    2 files changed, 58 insertions(+)
+>>>    block.c                        | 31 ++++++++++++++++++++-----------
+>>>    block/io.c                     |  7 +++++--
+>>>    migration/block-dirty-bitmap.c |  8 +-------
+>>>    3 files changed, 26 insertions(+), 20 deletions(-)
 >>>
->>> diff --git a/include/block/block_int.h b/include/block/block_int.h
->>> index bb3457c5e8..5da793bfc3 100644
->>> --- a/include/block/block_int.h
->>> +++ b/include/block/block_int.h
->>> @@ -1382,6 +1382,9 @@ BdrvChild *bdrv_cow_child(BlockDriverState *bs);
->>>    BdrvChild *bdrv_filter_child(BlockDriverState *bs);
->>>    BdrvChild *bdrv_filter_or_cow_child(BlockDriverState *bs);
->>>    BdrvChild *bdrv_primary_child(BlockDriverState *bs);
->>> +BlockDriverState *bdrv_skip_implicit_filters(BlockDriverState *bs);
->>> +BlockDriverState *bdrv_skip_filters(BlockDriverState *bs);
->>> +BlockDriverState *bdrv_backing_chain_next(BlockDriverState *bs);
->>>      static inline BlockDriverState *child_bs(BdrvChild *child)
+>> ...
+>>> diff --git a/block/io.c b/block/io.c
+>>> index df8f2a98d4..385176b331 100644
+>>> --- a/block/io.c
+>>> +++ b/block/io.c
+>>> @@ -3307,6 +3307,7 @@ int coroutine_fn bdrv_co_truncate(BdrvChild
+>>> *child, int64_t offset, bool exact,
+>>>                                      Error **errp)
 >>>    {
->>> diff --git a/block.c b/block.c
->>> index 5a42ef49fd..0a0b855261 100644
->>> --- a/block.c
->>> +++ b/block.c
->>> @@ -7008,3 +7008,58 @@ BdrvChild *bdrv_primary_child(BlockDriverState
->>> *bs)
->>>          return NULL;
->>>    }
+>>>        BlockDriverState *bs = child->bs;
+>>> +    BdrvChild *filtered;
+>>>        BlockDriver *drv = bs->drv;
+>>>        BdrvTrackedRequest req;
+>>>        int64_t old_size, new_bytes;
+>>> @@ -3358,6 +3359,8 @@ int coroutine_fn bdrv_co_truncate(BdrvChild
+>>> *child, int64_t offset, bool exact,
+>>>            goto out;
+>>>        }
+>>>    +    filtered = bdrv_filter_child(bs);
 >>> +
->>> +static BlockDriverState *bdrv_do_skip_filters(BlockDriverState *bs,
->>> +                                              bool
->>> stop_on_explicit_filter)
->>> +{
->>> +    BdrvChild *c;
->>> +
->>> +    if (!bs) {
->>> +        return NULL;
->>> +    }
->>> +
->>> +    while (!(stop_on_explicit_filter && !bs->implicit)) {
->>> +        c = bdrv_filter_child(bs);
->>> +        if (!c) {
->>> +            break;
->>> +        }
->>> +        bs = c->bs;
->> Could it be child_bs(bs) ?
-> Well, in a sense, but not really.  We need to check whether there is a
-> child before overwriting @bs (because @bs must stay a non-NULL pointer),
-> so we wouldn’t have fewer lines of code if we replaced “BdrvChild *c” by
-> “BlockDriverState *child_bs”, and then used bdrv_child() to set child_bs.
+>> Isn't better to have this initialization right before the relevant
+>> if/else block?
+> Hm, well, yes.  In this case, though, maybe not.  Patch 16 will add
+> another BdrvChild to be initialized here (@backing), and we need to
+> initialize that one here.  So I felt it made sense to group them together.
 >
-> (And because we have to check whether @c is NULL anyway, there is no
-> real reason to use child_bs(c) instead of c->bs afterwards.)
+> They got split up when I decided to put @filtered into this patch and
+> @backing into its own.  So now it may look a bit weird, but I feel like
+> after patch 16 it makes sense.
+>
+> (I’m indifferent, basically.)
+>
+> Max
 
-Got it, thanks.
+Yes, it makes a sence. I am on the way to reviewing further and have not 
+reached the 16th yet.
 
-Andrey
-
->>> +    }
->> Reviewed-by: Andrey Shinkevich <andrey.shinkevich@virtuozzo.com>
-> Thanks a lot for reviewing!
-
-Pleasure!
+It is a minor thing anyway )) Thank you for your response.
 
 Andrey
 
