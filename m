@@ -2,111 +2,76 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9C2BA21A41A
-	for <lists+qemu-devel@lfdr.de>; Thu,  9 Jul 2020 17:55:54 +0200 (CEST)
-Received: from localhost ([::1]:35146 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8D47221A45D
+	for <lists+qemu-devel@lfdr.de>; Thu,  9 Jul 2020 18:07:00 +0200 (CEST)
+Received: from localhost ([::1]:34874 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jtYtt-0005NL-IZ
-	for lists+qemu-devel@lfdr.de; Thu, 09 Jul 2020 11:55:53 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:52978)
+	id 1jtZ4d-000152-22
+	for lists+qemu-devel@lfdr.de; Thu, 09 Jul 2020 12:06:59 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:55860)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <Filip.Bozuta@syrmia.com>)
- id 1jtYr9-0002tZ-29
- for qemu-devel@nongnu.org; Thu, 09 Jul 2020 11:53:03 -0400
-Received: from mail-eopbgr40114.outbound.protection.outlook.com
- ([40.107.4.114]:3260 helo=EUR03-DB5-obe.outbound.protection.outlook.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <Filip.Bozuta@syrmia.com>)
- id 1jtYr7-0006dz-1A
- for qemu-devel@nongnu.org; Thu, 09 Jul 2020 11:53:02 -0400
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=a+LDxif9TsHQJ7ygeMRteY4vJtAZ9rFNIwPVAFYSUP5zwGk8bnDlmvjpdl+pGnjbc+pgWtxYOmcgD6/Add8ntYQ+wrrxxLdHOk88YEtQzOVKkYiCWwQQ9DSuFZ9cvVVro+/E/e45g6oLpwJretq04MU1uHFkszLypRgwWjlgTafrFibbQcXHikFEgwSiTZUs1T9JB+LX1xeNChrVaeOvgBwE5KWFwuXdAbhcZnQHzdhrp6QqDkl9/bT1Q0zpgcWFBA0Z7Xg+RV9+85KmkKJ0gibe7dGa+ui1Jyg7/FlJDiQr7NH9NLUjxWFE/NgVlBG3Yu4dF02iRA0X6AH9+rO3mg==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=jfoaKSfdP+I+cOvQUxQemrNNZOo1EGm2i7J7QyBhX+8=;
- b=LeXhZ8vm4zJDCEPPM55U20xgCVjwqCWBaPP/5ADkkJblGqxTKGUTkGAYoPVuqoI05y4+XvNIL9f06nuH7021HfHaZLTfzqEHYk7P94UU/njrbJjsDsVRxnq1yLEfiTO3QWzjXPm4GXgzHM14DawHPkkHUn9eu4l7jqoPTJCUqgFqpDYL6hMKRJIumW+Nby6iqeVUjp0KKuv2FcHhtJcnhcreBRC+lzWGE8Ng23NIw+u2FG0arHkVkFq6akUOfXSUIuCyztRMuYNJ0m8/FkAEQ4YEoWWx02g0q0mP9e1CPwEaTDbyKUB+AATZMvFI6hxq6hEJ04LPYSFFS5UV1zxhOQ==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=syrmia.com; dmarc=pass action=none header.from=syrmia.com;
- dkim=pass header.d=syrmia.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=syrmia.com;
- s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=jfoaKSfdP+I+cOvQUxQemrNNZOo1EGm2i7J7QyBhX+8=;
- b=GVjTUsTeTp+INGWVrnNu7VwyZLppt8CJnYXPKZ9dToKe6VJ20n5zLtX/ytnXZqeWas6BlWpjW9A/jV6Y3vxWIxXuABFBetU6jtg09N2slhWgfgYHjR4IxfDaxvfcw3+bkyXEpkf3zVbetGgiIRxO7MKoz1DmftjdQIrmvyr8uXw=
-Authentication-Results: nongnu.org; dkim=none (message not signed)
- header.d=none;nongnu.org; dmarc=none action=none header.from=syrmia.com;
-Received: from AM6PR03MB5233.eurprd03.prod.outlook.com (2603:10a6:20b:d1::19)
- by AM6PR0302MB3223.eurprd03.prod.outlook.com (2603:10a6:209:1d::18)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3153.27; Thu, 9 Jul
- 2020 15:52:24 +0000
-Received: from AM6PR03MB5233.eurprd03.prod.outlook.com
- ([fe80::98f0:b948:78a8:f618]) by AM6PR03MB5233.eurprd03.prod.outlook.com
- ([fe80::98f0:b948:78a8:f618%7]) with mapi id 15.20.3174.021; Thu, 9 Jul 2020
- 15:52:24 +0000
-From: Filip Bozuta <Filip.Bozuta@syrmia.com>
-To: qemu-devel@nongnu.org
-Subject: [PATCH 4/4] linux-user: Add support for a group of btrfs ioctls used
- to get/set features
-Date: Thu,  9 Jul 2020 17:52:03 +0200
-Message-Id: <20200709155203.21106-5-Filip.Bozuta@syrmia.com>
-X-Mailer: git-send-email 2.25.1
-In-Reply-To: <20200709155203.21106-1-Filip.Bozuta@syrmia.com>
-References: <20200709155203.21106-1-Filip.Bozuta@syrmia.com>
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-ClientProxiedBy: AM3PR07CA0147.eurprd07.prod.outlook.com
- (2603:10a6:207:8::33) To AM6PR03MB5233.eurprd03.prod.outlook.com
- (2603:10a6:20b:d1::19)
+ (Exim 4.90_1) (envelope-from <marcandre.lureau@gmail.com>)
+ id 1jtZ0G-00054A-SG
+ for qemu-devel@nongnu.org; Thu, 09 Jul 2020 12:02:28 -0400
+Received: from mail-wm1-x32c.google.com ([2a00:1450:4864:20::32c]:40720)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <marcandre.lureau@gmail.com>)
+ id 1jtZ0B-0000Qg-E7
+ for qemu-devel@nongnu.org; Thu, 09 Jul 2020 12:02:28 -0400
+Received: by mail-wm1-x32c.google.com with SMTP id f139so2386400wmf.5
+ for <qemu-devel@nongnu.org>; Thu, 09 Jul 2020 09:02:23 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=UkEzIs/2mGlssaRdFH3mLGeknEVjmlMoUHWypue5+QU=;
+ b=m6lf57UAGGJYA4sbgoftRnHRBxDNEYZeX0ZjhxbEHexuDJEXbQLpaWwW7/zBYkcwsQ
+ C8bA/GX5JIaoa0yPe8UGL1NJhrvZcHAWShB3JOJYEQh+fTInFK9ed4/9sU6lc5QE3BJ4
+ DGLeCgJ/XqwBYAj3NcPOsov1aIA5ha0s3WD5Bg5dCYPlvzygFvSugEXNtTDVHBXDzJFl
+ WzohEJ4xGtXh0ZP1X4vbmfnkL0evfc7SB9EvFyNpzcLRls3RCcRRxqyw/iWD0kV8Nc8u
+ DPa9FI2bxsfGVMSSu3jLh/rXiFLFD7MPD9jvjM6/6j3w48dv0Hu4CKHn7XR64nWdhnSf
+ qYZw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=UkEzIs/2mGlssaRdFH3mLGeknEVjmlMoUHWypue5+QU=;
+ b=a1AFK85cK6EO+E1rjIzIeCx4T/JgzmDSsvIGFy/PS5Jqj86vCE3rn5OSwkMqi6EaGz
+ +x1fyL1GQ2TdhvpjSmYijr46v1D1JbnJwgb550Lz84zvcWde/gEegDev6/qetGApIyfo
+ 58Jf97X/vqVVCu4uiXjZFj334L1339Eyl+Yd2Gd5nXzTV+PkO4QQ/nVpwox9ALNPmi4V
+ 1DWh1BWMwIjWQAuw65WV3GEADsTSeLiX2T6bL+ulK3ZRAZLcmorKrsxqCzuIx7X+mfs9
+ PG3yOa2oCEcEU6pNfJzwtyv6piaPNWv+9VnaJgsdkqj6J19k69aEVTE7jLdAl/ExUWl2
+ k41g==
+X-Gm-Message-State: AOAM530tHurCkMpc7h6rGo6ZpaEqz0U8h6pfbqlCdsCh+4NnQuUixcR0
+ kMwkcYoLZlN27yZxlZ5Ny8EAxTnXr796odZIuPg=
+X-Google-Smtp-Source: ABdhPJzyf1v1lQTHlQqfOpmmuaNVIJrrRKFdEzGINWfz3UxlvZQdEonLJi9fF16mtoout+5QaANZlUlW/whI7w0Me/Y=
+X-Received: by 2002:a1c:2982:: with SMTP id p124mr787743wmp.26.1594310541668; 
+ Thu, 09 Jul 2020 09:02:21 -0700 (PDT)
 MIME-Version: 1.0
-X-MS-Exchange-MessageSentRepresentingType: 1
-Received: from localhost.localdomain (109.245.225.24) by
- AM3PR07CA0147.eurprd07.prod.outlook.com (2603:10a6:207:8::33) with Microsoft
- SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.3174.8 via Frontend Transport; Thu, 9 Jul 2020 15:52:23 +0000
-X-Mailer: git-send-email 2.25.1
-X-Originating-IP: [109.245.225.24]
-X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: d3ddf253-1b00-4645-24ad-08d824201257
-X-MS-TrafficTypeDiagnostic: AM6PR0302MB3223:
-X-MS-Exchange-Transport-Forked: True
-X-Microsoft-Antispam-PRVS: <AM6PR0302MB3223A2B9A67386D6A49B8416EB640@AM6PR0302MB3223.eurprd03.prod.outlook.com>
-X-MS-Oob-TLC-OOBClassifiers: OLM:9508;
-X-Forefront-PRVS: 04599F3534
-X-MS-Exchange-SenderADCheck: 1
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: jpSXjQcM3vUBuAI8VnrP2jYePfpsXikC1zKff52tPOhFuhmTSs4sHLtkvUlY3g5zL7t1nudizyV9JKTWwHC+01OhOBpxOOnxRIQEvbC6As9IiYJ0sWbWuz9CNaOB5PHf1I4U7RxllktJkU3Pdm56hqgz3+laYBIGArx+q2R83tFu4ZalO0A8GNavJgvs+2CZt+pQVyEniP3zWWp0Tp2NvybFWmyL1l0SwhyfoMkSC3kWcVbIw5m+sHjkAk/fETbWZ0RgzanC1tApP4BEKSGcf2DBxUBH4BBYPWel1yeUrc5u9HDnljyLUEICNLGiTLEJDbhZVqCLL4NZjpgkzEe0icIX2S0zBd60SBrjOjyVmAptYTC18P5oFoqqYn8Ld4CNQCAzMLeyGY6fsRwyOgqG7IV/w96KiI/lhiipXZNnr3ylt1i28P7ZxgezAfHpumz2OUSyS5z5FVVD+9hmIB7U6Q==
-X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:AM6PR03MB5233.eurprd03.prod.outlook.com; PTR:; CAT:NONE;
- SFTY:;
- SFS:(376002)(396003)(39830400003)(366004)(136003)(346002)(66946007)(66476007)(16526019)(186003)(66556008)(26005)(36756003)(52116002)(2616005)(966005)(956004)(6506007)(6916009)(107886003)(2906002)(6486002)(54906003)(6512007)(86362001)(1076003)(4326008)(8676002)(508600001)(5660300002)(316002)(6666004)(69590400007)(8936002);
- DIR:OUT; SFP:1102; 
-X-MS-Exchange-AntiSpam-MessageData: mqmMjRXDFmMs/KPhZg1oPgcEHHghr63qXIfmoKBM+Iqwnf0Pi2c6vu6cKcp0HQfg3Fkq2vZUjlwXtMON0AGQFFZZlOIwt/34E6VP0qMlOjzvM+9YTGQJk/78uxh3PlVYE4kEPgkim3mrvPX27xqeGmy4d5RJvi92Z8B8HKwkQMKzd9TJm6gLLuIU3We3xBCwZ4ajDE1xvl145NC9Cxsg3YN+o6R5RZ9Lk+4D65OcFk2B0epgyiXU5g7Ai/jHERYTllpUZXdjm+wZbEPKXbF9C8Qq3Hi0zIrdTFtJOGxtNq1L02u6VOEprqIs+9/3VbYAFSYhok9tRthsJPV3QdghSTglnesRJGx0aGDQOmdkpxY7HPd5oOQp5OQAgP4deKXSvInHCEj0iC5XNQxYfz7cXRmwPOAq93v+8fPY0o4QtQvLqNoblyin/RYta8lIY7BGdcHB4o6zMOWAG7jQeMDiEWrs4TA03YMJ//uIRdt0uOs=
-X-OriginatorOrg: syrmia.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: d3ddf253-1b00-4645-24ad-08d824201257
-X-MS-Exchange-CrossTenant-AuthSource: AM6PR03MB5233.eurprd03.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 09 Jul 2020 15:52:23.9908 (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 19214a73-c1ab-4e19-8f59-14bdcb09a66e
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: b4aiMQiFo1ZJf9h28YYEt1jPRI7qT5DqgK34j8DAOL2zKBfH0qzKXf1n5M0LxHkVIV50kEsvTAwXazSrSZpF3Q==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: AM6PR0302MB3223
-Received-SPF: pass client-ip=40.107.4.114;
- envelope-from=Filip.Bozuta@syrmia.com;
- helo=EUR03-DB5-obe.outbound.protection.outlook.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/07/09 11:52:55
-X-ACL-Warn: Detected OS   = Windows NT kernel [generic] [fuzzy]
-X-Spam_score_int: -4
-X-Spam_score: -0.5
-X-Spam_bar: /
-X-Spam_report: (-0.5 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- MSGID_FROM_MTA_HEADER=0.001, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-1,
- RCVD_IN_SBL_CSS=3.335, SPF_HELO_PASS=-0.001, SPF_PASS=-0.001,
- URIBL_BLOCKED=0.001 autolearn=no autolearn_force=no
+References: <CAJ+F1C+o7mcb8B9dy_F3w08i7XLrO71qWyqYNaJrjv0j3DhnSg@mail.gmail.com>
+ <2666aec2-9872-6af6-7705-d7ce553f611c@redhat.com>
+ <20200709152630.GW3753300@redhat.com>
+ <CAFEAcA_9NUeMJQWuzbmm9raW4zBgu3FFhgCabxBD_RhKMo9GxQ@mail.gmail.com>
+ <CAJ+F1C+MK0tEyHS_xSD6bBWJZFALF6jOwFAU2zYoJimnyGRdAw@mail.gmail.com>
+ <874kqgn0vj.fsf@linaro.org>
+ <CAFEAcA_nk_EjsR59BGkBzYo_Gvkuqi_3AyODOxBm1Ec2gfxKww@mail.gmail.com>
+In-Reply-To: <CAFEAcA_nk_EjsR59BGkBzYo_Gvkuqi_3AyODOxBm1Ec2gfxKww@mail.gmail.com>
+From: =?UTF-8?B?TWFyYy1BbmRyw6kgTHVyZWF1?= <marcandre.lureau@gmail.com>
+Date: Thu, 9 Jul 2020 20:02:09 +0400
+Message-ID: <CAJ+F1CJBuNvsUDkFVM2CgwjZjCeAztrVTsoo3tSVT90GR5rDNQ@mail.gmail.com>
+Subject: Re: Is VXHS actually maintained?
+To: Peter Maydell <peter.maydell@linaro.org>
+Content-Type: multipart/alternative; boundary="0000000000007f75da05aa045964"
+Received-SPF: pass client-ip=2a00:1450:4864:20::32c;
+ envelope-from=marcandre.lureau@gmail.com; helo=mail-wm1-x32c.google.com
+X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
+ That's all we know.
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
+ HTML_MESSAGE=0.001, RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -119,120 +84,62 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Riku Voipio <riku.voipio@iki.fi>, Laurent Vivier <laurent@vivier.eu>,
- Filip Bozuta <Filip.Bozuta@syrmia.com>
+Cc: Kevin Wolf <kwolf@redhat.com>, Thomas Huth <thuth@redhat.com>,
+ =?UTF-8?Q?Daniel_P=2E_Berrang=C3=A9?= <berrange@redhat.com>,
+ Jeff Cody <codyprime@gmail.com>, QEMU <qemu-devel@nongnu.org>,
+ Max Reitz <mreitz@redhat.com>,
+ =?UTF-8?B?QWxleCBCZW5uw6ll?= <alex.bennee@linaro.org>, ashmit602@gmail.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-This patch implements functionality for following ioctls:
+--0000000000007f75da05aa045964
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-BTRFS_IOC_GET_FEATURES - Getting feature flags
+Hi
 
-    Read feature flags for a btrfs filesystem. The feature flags
-    are returned inside the ioctl's third argument which represents
-    a pointer to a following structure type:
+On Thu, Jul 9, 2020 at 7:52 PM Peter Maydell <peter.maydell@linaro.org>
+wrote:
 
-    struct btrfs_ioctl_feature_flags {
-	__u64 compat_flags;
-	__u64 compat_ro_flags;
-	__u64 incompat_flags;
-    };
+> On Thu, 9 Jul 2020 at 16:50, Alex Benn=C3=A9e <alex.bennee@linaro.org> wr=
+ote:
+> > That looks more like it got missed in a clean-up series because we don'=
+t
+> > have coverage in our typical builds and CI?
+>
+> Yes, very likely. But there's no point in fixing and then adding CI
+> for a config that our users have demonstrated that they do not use;
+> better to just remove it.
+>
 
-    All of the structure field represent bit masks that can be composed
-    of values which can be found on:
-    https://elixir.bootlin.com/linux/latest/source/fs/btrfs/ctree.h#L282
+Agree, I'll send a patch then.
 
-BTRFS_IOC_SET_FEATURES - Setting feature flags
 
-    Set and clear feature flags for a btrfs filesystem. The feature flags
-    are set using the ioctl's third argument which represents a
-    'struct btrfs_ioctl_feature_flags[2]' array. The first element of the
-    array represent flags which are to be cleared and the second element of
-    the array represent flags which are to be set. The second element has the
-    priority over the first, which means that if there are matching flags
-    in the elements, they will be set in the filesystem. If the flag values
-    in the third argument aren't correctly set to be composed of the available
-    predefined flag values, errno ENOPERM ("Operation not permitted") is returned.
+--=20
+Marc-Andr=C3=A9 Lureau
 
-BTRFS_IOC_GET_SUPPORTED_FEATURES - Getting supported feature flags
+--0000000000007f75da05aa045964
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-    Read supported feature flags for a btrfs filesystem. The supported
-    feature flags are read using the ioctl's third argument which represents
-    a 'struct btrfs_ioctl_feature_flags[3]' array. The first element of this
-    array represents all of the supported flags in the btrfs filesystem.
-    The second element represents flags that can be safely set and third element
-    represent flags that can be safely clearead.
+<div dir=3D"ltr"><div>Hi</div><div><br></div><div><div class=3D"gmail_quote=
+"><div dir=3D"ltr" class=3D"gmail_attr">On Thu, Jul 9, 2020 at 7:52 PM Pete=
+r Maydell &lt;<a href=3D"mailto:peter.maydell@linaro.org">peter.maydell@lin=
+aro.org</a>&gt; wrote:<br></div><blockquote class=3D"gmail_quote" style=3D"=
+margin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);padding-lef=
+t:1ex">On Thu, 9 Jul 2020 at 16:50, Alex Benn=C3=A9e &lt;<a href=3D"mailto:=
+alex.bennee@linaro.org" target=3D"_blank">alex.bennee@linaro.org</a>&gt; wr=
+ote:<br>
+&gt; That looks more like it got missed in a clean-up series because we don=
+&#39;t<br>
+&gt; have coverage in our typical builds and CI?<br>
+<br>
+Yes, very likely. But there&#39;s no point in fixing and then adding CI<br>
+for a config that our users have demonstrated that they do not use;<br>
+better to just remove it.<br></blockquote><div><br></div><div>Agree, I&#39;=
+ll send a patch then.<br></div><br clear=3D"all"></div><br>-- <br><div dir=
+=3D"ltr" class=3D"gmail_signature">Marc-Andr=C3=A9 Lureau<br></div></div></=
+div>
 
-Implementation notes:
-
-    All of the implemented ioctls use 'struct btrfs_ioctl_feature_flags' as
-    third argument. That is the reason why a corresponding defintion was added
-    in file 'linux-user/syscall_types.h'.
-
-Signed-off-by: Filip Bozuta <Filip.Bozuta@syrmia.com>
----
- linux-user/ioctls.h        | 12 ++++++++++++
- linux-user/syscall_defs.h  |  6 ++++++
- linux-user/syscall_types.h |  5 +++++
- 3 files changed, 23 insertions(+)
-
-diff --git a/linux-user/ioctls.h b/linux-user/ioctls.h
-index c20bd97736..c6303a0406 100644
---- a/linux-user/ioctls.h
-+++ b/linux-user/ioctls.h
-@@ -216,6 +216,18 @@
-      IOCTL(BTRFS_IOC_GET_DEV_STATS, IOC_RW,
-            MK_PTR(MK_STRUCT(STRUCT_btrfs_ioctl_get_dev_stats)))
- #endif
-+#ifdef BTRFS_IOC_GET_FEATURES
-+     IOCTL(BTRFS_IOC_GET_FEATURES, IOC_R,
-+           MK_PTR(MK_STRUCT(STRUCT_btrfs_ioctl_feature_flags)))
-+#endif
-+#ifdef BTRFS_IOC_SET_FEATURES
-+     IOCTL(BTRFS_IOC_SET_FEATURES, IOC_W,
-+           MK_PTR(MK_ARRAY(MK_STRUCT(STRUCT_btrfs_ioctl_feature_flags), 2)))
-+#endif
-+#ifdef BTRFS_IOC_GET_SUPPORTED_FEATURES
-+     IOCTL(BTRFS_IOC_GET_SUPPORTED_FEATURES, IOC_R,
-+           MK_PTR(MK_ARRAY(MK_STRUCT(STRUCT_btrfs_ioctl_feature_flags), 3)))
-+#endif
- #ifdef BTRFS_IOC_GET_SUBVOL_INFO
-      IOCTL(BTRFS_IOC_GET_SUBVOL_INFO, IOC_R,
-            MK_PTR(MK_STRUCT(STRUCT_btrfs_ioctl_get_subvol_info_args)))
-diff --git a/linux-user/syscall_defs.h b/linux-user/syscall_defs.h
-index 20c03cd145..9db6f46cba 100644
---- a/linux-user/syscall_defs.h
-+++ b/linux-user/syscall_defs.h
-@@ -990,6 +990,12 @@ struct target_rtc_pll_info {
-                                           30, struct btrfs_ioctl_dev_info_args)
- #define TARGET_BTRFS_IOC_GET_DEV_STATS          TARGET_IOWR(BTRFS_IOCTL_MAGIC,\
-                                           52, struct btrfs_ioctl_get_dev_stats)
-+#define TARGET_BTRFS_IOC_GET_FEATURES           TARGET_IOR(BTRFS_IOCTL_MAGIC, \
-+                                         57, struct btrfs_ioctl_feature_flags)
-+#define TARGET_BTRFS_IOC_SET_FEATURES           TARGET_IOW(BTRFS_IOCTL_MAGIC, \
-+                                       57, struct btrfs_ioctl_feature_flags[2])
-+#define TARGET_BTRFS_IOC_GET_SUPPORTED_FEATURES TARGET_IOR(BTRFS_IOCTL_MAGIC, \
-+                                       57, struct btrfs_ioctl_feature_flags[3])
- #define TARGET_BTRFS_IOC_GET_SUBVOL_INFO        TARGET_IOR(BTRFS_IOCTL_MAGIC, \
-                                    60, struct btrfs_ioctl_get_subvol_info_args)
- 
-diff --git a/linux-user/syscall_types.h b/linux-user/syscall_types.h
-index b5718231e5..e26ab01e8f 100644
---- a/linux-user/syscall_types.h
-+++ b/linux-user/syscall_types.h
-@@ -365,6 +365,11 @@ STRUCT(btrfs_ioctl_get_dev_stats,
-        MK_ARRAY(TYPE_ULONGLONG,
-                 128 - 2 - BTRFS_DEV_STAT_VALUES_MAX)) /* unused */
- 
-+STRUCT(btrfs_ioctl_feature_flags,
-+       TYPE_ULONGLONG, /* compat_flags */
-+       TYPE_ULONGLONG, /* compat_ro_flags */
-+       TYPE_ULONGLONG) /* incompat_flags */
-+
- STRUCT(rtc_time,
-        TYPE_INT, /* tm_sec */
-        TYPE_INT, /* tm_min */
--- 
-2.25.1
-
+--0000000000007f75da05aa045964--
 
