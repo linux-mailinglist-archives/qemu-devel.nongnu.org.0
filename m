@@ -2,49 +2,74 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 224A8219AA2
-	for <lists+qemu-devel@lfdr.de>; Thu,  9 Jul 2020 10:17:42 +0200 (CEST)
-Received: from localhost ([::1]:49220 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 49032219AD2
+	for <lists+qemu-devel@lfdr.de>; Thu,  9 Jul 2020 10:31:22 +0200 (CEST)
+Received: from localhost ([::1]:60432 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jtRkS-0007JH-Mc
-	for lists+qemu-devel@lfdr.de; Thu, 09 Jul 2020 04:17:40 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:51222)
+	id 1jtRxg-0004IC-Ox
+	for lists+qemu-devel@lfdr.de; Thu, 09 Jul 2020 04:31:20 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:54844)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <zhengchuan@huawei.com>)
- id 1jtRjQ-0006rT-Ig
- for qemu-devel@nongnu.org; Thu, 09 Jul 2020 04:16:36 -0400
-Received: from szxga04-in.huawei.com ([45.249.212.190]:3717 helo=huawei.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <zhengchuan@huawei.com>)
- id 1jtRiy-0006Os-8G
- for qemu-devel@nongnu.org; Thu, 09 Jul 2020 04:16:36 -0400
-Received: from DGGEMS408-HUB.china.huawei.com (unknown [172.30.72.60])
- by Forcepoint Email with ESMTP id 55EF5BA132FCBD106A22;
- Thu,  9 Jul 2020 16:16:02 +0800 (CST)
-Received: from huawei.com (10.175.101.6) by DGGEMS408-HUB.china.huawei.com
- (10.3.19.208) with Microsoft SMTP Server id 14.3.487.0; Thu, 9 Jul 2020
- 16:15:53 +0800
-From: Chuan Zheng <zhengchuan@huawei.com>
-To: <quintela@redhat.com>, <dgilbert@redhat.com>
-Subject: [PATCH] migration: fix memory leak in qmp_migrate_set_parameters
-Date: Thu, 9 Jul 2020 16:28:25 +0800
-Message-ID: <1594283305-105724-1-git-send-email-zhengchuan@huawei.com>
-X-Mailer: git-send-email 1.8.3.1
+ (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
+ id 1jtRwW-0003Oq-Pg
+ for qemu-devel@nongnu.org; Thu, 09 Jul 2020 04:30:09 -0400
+Received: from us-smtp-1.mimecast.com ([205.139.110.61]:41205
+ helo=us-smtp-delivery-1.mimecast.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
+ id 1jtRwU-0008Af-7V
+ for qemu-devel@nongnu.org; Thu, 09 Jul 2020 04:30:08 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1594283404;
+ h=from:from:reply-to:reply-to:subject:subject:date:date:
+ message-id:message-id:to:to:cc:cc:mime-version:mime-version:
+ content-type:content-type:in-reply-to:in-reply-to:  references:references;
+ bh=OF1EmsRNpFf8YfEColzaZAya3nk/R5BNnKhMx7BEZn8=;
+ b=bRzsXl73fQ5n+3Bm148S8KXutMqDxpbL1yHP8Y6q5ey7gObWHo6UfW4k3Sti7dpDZicm6G
+ WbI8dY3YBNP1i4nLpKsHSblU0Z6niPwPqk9WnXWd2zrKEb0WWg5R9UNBUdeGkwOAQx0PW5
+ khcoDzPozpzoIISuSmY1pP1ahF3t1Lc=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-80-QtVTxnrpNBqN9WegqOe2-A-1; Thu, 09 Jul 2020 04:30:03 -0400
+X-MC-Unique: QtVTxnrpNBqN9WegqOe2-A-1
+Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
+ [10.5.11.13])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id F29281087;
+ Thu,  9 Jul 2020 08:30:01 +0000 (UTC)
+Received: from redhat.com (unknown [10.36.110.45])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 2E40079814;
+ Thu,  9 Jul 2020 08:29:57 +0000 (UTC)
+Date: Thu, 9 Jul 2020 09:29:54 +0100
+From: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
+To: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
+Subject: Re: [PATCH 2/2] util/qemu-sockets: make keep-alive enabled by default
+Message-ID: <20200709082954.GD3753300@redhat.com>
+References: <20200708191540.28455-1-vsementsov@virtuozzo.com>
+ <20200708191540.28455-3-vsementsov@virtuozzo.com>
 MIME-Version: 1.0
-Content-Type: text/plain
-X-Originating-IP: [10.175.101.6]
-X-CFilter-Loop: Reflected
-Received-SPF: pass client-ip=45.249.212.190;
- envelope-from=zhengchuan@huawei.com; helo=huawei.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/07/09 04:16:04
-X-ACL-Warn: Detected OS   = Linux 3.11 and newer [fuzzy]
-X-Spam_score_int: -41
-X-Spam_score: -4.2
+In-Reply-To: <20200708191540.28455-3-vsementsov@virtuozzo.com>
+User-Agent: Mutt/1.14.3 (2020-06-14)
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=berrange@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Received-SPF: pass client-ip=205.139.110.61; envelope-from=berrange@redhat.com;
+ helo=us-smtp-delivery-1.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/07/09 04:20:09
+X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
+X-Spam_score_int: -40
+X-Spam_score: -4.1
 X-Spam_bar: ----
-X-Spam_report: (-4.2 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_MED=-2.3,
- RCVD_IN_MSPIKE_H4=-0.01, RCVD_IN_MSPIKE_WL=-0.01, SPF_HELO_PASS=-0.001,
- SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+X-Spam_report: (-4.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-1, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001, URIBL_BLOCKED=0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -57,82 +82,93 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: zhang.zhanghailiang@huawei.com, linyilu@huawei.com, qemu-devel@nongnu.org,
- alex.chen@huawei.com, fangying1@huawei.com, zhukeqian1@huawei.com
+Reply-To: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
+Cc: den@openvz.org, kraxel@redhat.com, qemu-devel@nongnu.org, armbru@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Zheng Chuan <zhengchuan@huawei.com>
+On Wed, Jul 08, 2020 at 10:15:39PM +0300, Vladimir Sementsov-Ogievskiy wrote:
+> Keep-alive won't hurt, let's try to enable it even if not requested by
+> user.
 
-"tmp.tls_hostname" and "tmp.tls_creds" allocated by migrate_params_test_apply()
-is forgot to free at the end of qmp_migrate_set_parameters(). Fix that.
+Keep-alive intentionally breaks TCP connections earlier than normal
+in face of transient networking problems.
 
-The leak stack:
-Direct leak of 2 byte(s) in 2 object(s) allocated from:
-   #0 0xffffb597c20b in __interceptor_malloc (/usr/lib64/libasan.so.4+0xd320b)
-   #1 0xffffb52dcb1b in g_malloc (/usr/lib64/libglib-2.0.so.0+0x58b1b)
-   #2 0xffffb52f8143 in g_strdup (/usr/lib64/libglib-2.0.so.0+0x74143)
-   #3 0xaaaac52447fb in migrate_params_test_apply (/usr/src/debug/qemu-4.1.0/migration/migration.c:1377)
-   #4 0xaaaac52fdca7 in qmp_migrate_set_parameters (/usr/src/debug/qemu-4.1.0/qapi/qapi-commands-migration.c:192)
-   #5 0xaaaac551d543 in qmp_dispatch (/usr/src/debug/qemu-4.1.0/qapi/qmp-dispatch.c:165)
-   #6 0xaaaac52a0a8f in qmp_dispatch (/usr/src/debug/qemu-4.1.0/monitor/qmp.c:125)
-   #7 0xaaaac52a1c7f in monitor_qmp_dispatch (/usr/src/debug/qemu-4.1.0/monitor/qmp.c:214)
-   #8 0xaaaac55cb0cf in aio_bh_call (/usr/src/debug/qemu-4.1.0/util/async.c:117)
-   #9 0xaaaac55d4543 in aio_bh_poll (/usr/src/debug/qemu-4.1.0/util/aio-posix.c:459)
-   #10 0xaaaac55cae0f in aio_dispatch (/usr/src/debug/qemu-4.1.0/util/async.c:268)
-   #11 0xffffb52d6a7b in g_main_context_dispatch (/usr/lib64/libglib-2.0.so.0+0x52a7b)
-   #12 0xaaaac55d1e3b(/usr/bin/qemu-kvm-4.1.0+0x1622e3b)
-   #13 0xaaaac4e314bb(/usr/bin/qemu-kvm-4.1.0+0xe824bb)
-   #14 0xaaaac47f45ef(/usr/bin/qemu-kvm-4.1.0+0x8455ef)
-   #15 0xffffb4bfef3f in __libc_start_main (/usr/lib64/libc.so.6+0x23f3f)
-   #16 0xaaaac47ffacb(/usr/bin/qemu-kvm-4.1.0+0x850acb)
+The question is more about which type of pain is more desirable. A
+stall in the network connection (for a potentially very long time),
+or an intentionally broken socket.
 
-Direct leak of 2 byte(s) in 2 object(s) allocated from:
-   #0 0xffffb597c20b in __interceptor_malloc (/usr/lib64/libasan.so.4+0xd320b)
-   #1 0xffffb52dcb1b in g_malloc (/usr/lib64/libglib-2.0.so.0+0x58b1b)
-   #2 0xffffb52f8143 in g_strdup (/usr/lib64/libglib-2.0.so.0+0x74143)
-   #3 0xaaaac5244893 in migrate_params_test_apply (/usr/src/debug/qemu-4.1.0/migration/migration.c:1382)
-   #4 0xaaaac52fdca7 in qmp_migrate_set_parameters (/usr/src/debug/qemu-4.1.0/qapi/qapi-commands-migration.c:192)
-   #5 0xaaaac551d543 in qmp_dispatch (/usr/src/debug/qemu-4.1.0/qapi/qmp-dispatch.c)
-   #6 0xaaaac52a0a8f in qmp_dispatch (/usr/src/debug/qemu-4.1.0/monitor/qmp.c:125)
-   #7 0xaaaac52a1c7f in monitor_qmp_dispatch (/usr/src/debug/qemu-4.1.0/monitor/qmp.c:214)
-   #8 0xaaaac55cb0cf in aio_bh_call (/usr/src/debug/qemu-4.1.0/util/async.c:117)
-   #9 0xaaaac55d4543 in aio_bh_poll (/usr/src/debug/qemu-4.1.0/util/aio-posix.c:459)
-   #10 0xaaaac55cae0f in in aio_dispatch (/usr/src/debug/qemu-4.1.0/util/async.c:268)
-   #11 0xffffb52d6a7b in g_main_context_dispatch (/usr/lib64/libglib-2.0.so.0+0x52a7b)
-   #12 0xaaaac55d1e3b(/usr/bin/qemu-kvm-4.1.0+0x1622e3b)
-   #13 0xaaaac4e314bb(/usr/bin/qemu-kvm-4.1.0+0xe824bb)
-   #14 0xaaaac47f45ef (/usr/bin/qemu-kvm-4.1.0+0x8455ef)
-   #15 0xffffb4bfef3f in __libc_start_main (/usr/lib64/libc.so.6+0x23f3f)
-   #16 0xaaaac47ffacb(/usr/bin/qemu-kvm-4.1.0+0x850acb)
+I'm not at all convinced it is a good idea to intentionally break
+/all/ QEMU sockets in the face of transient problems, even if the
+problems last for 2 hours or more. 
 
-Signed-off-by: Chuan Zheng <zhengchuan@huawei.com>
-Reviewed-by: KeQian Zhu <zhukeqian1@huawei.com>
-Reviewed-by: HaiLiang <zhang.zhanghailiang@huawei.com@huawei.com>
----
- migration/migration.c | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+I could see keep-alives being ok on some QEMU socket. For example
+VNC/SPICE clients, as there is no downside to proactively culling
+them as they can trivially reconnect. Migration too is quite
+reasonable to use keep alives, as you generally want migration to
+run to completion in a short amount of time, and aborting migration
+needs to be safe no matter what.
 
-diff --git a/migration/migration.c b/migration/migration.c
-index 92e44e0..045180c 100644
---- a/migration/migration.c
-+++ b/migration/migration.c
-@@ -1342,12 +1342,12 @@ static void migrate_params_test_apply(MigrateSetParameters *params,
- 
-     if (params->has_tls_creds) {
-         assert(params->tls_creds->type == QTYPE_QSTRING);
--        dest->tls_creds = g_strdup(params->tls_creds->u.s);
-+        dest->tls_creds = params->tls_creds->u.s;
-     }
- 
-     if (params->has_tls_hostname) {
-         assert(params->tls_hostname->type == QTYPE_QSTRING);
--        dest->tls_hostname = g_strdup(params->tls_hostname->u.s);
-+        dest->tls_hostname = params->tls_hostname->u.s;
-     }
- 
-     if (params->has_max_bandwidth) {
+Breaking chardevs or block devices or network devices that use
+QEMU sockets though will be disruptive. The only solution once
+those backends have a dead socket is going to be to kill QEMU
+and cold-boot the VM again.
+
+
+> Signed-off-by: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
+> ---
+>  util/qemu-sockets.c | 15 ++++++++++-----
+>  1 file changed, 10 insertions(+), 5 deletions(-)
+> 
+> diff --git a/util/qemu-sockets.c b/util/qemu-sockets.c
+> index b961963472..f6851376f5 100644
+> --- a/util/qemu-sockets.c
+> +++ b/util/qemu-sockets.c
+> @@ -438,7 +438,8 @@ static struct addrinfo *inet_parse_connect_saddr(InetSocketAddress *saddr,
+>   *
+>   * Handle keep_alive settings. If user specified settings explicitly, fail if
+>   * can't set the settings. If user just enabled keep-alive, not specifying the
+> - * settings, try to set defaults but ignore failures.
+> + * settings, try to set defaults but ignore failures. If keep-alive option is
+> + * not specified, try to set it but ignore failures.
+>   */
+>  static int inet_set_keepalive(int sock, bool has_keep_alive,
+>                                KeepAliveField *keep_alive, Error **errp)
+> @@ -447,8 +448,8 @@ static int inet_set_keepalive(int sock, bool has_keep_alive,
+>      int val;
+>      bool has_settings = has_keep_alive &&  keep_alive->type == QTYPE_QDICT;
+>  
+> -    if (!has_keep_alive || (keep_alive->type == QTYPE_QBOOL &&
+> -                            !keep_alive->u.enabled))
+> +    if (has_keep_alive &&
+> +        keep_alive->type == QTYPE_QBOOL && !keep_alive->u.enabled)
+>      {
+>          return 0;
+>      }
+> @@ -456,8 +457,12 @@ static int inet_set_keepalive(int sock, bool has_keep_alive,
+>      val = 1;
+>      ret = qemu_setsockopt(sock, SOL_SOCKET, SO_KEEPALIVE, &val, sizeof(val));
+>      if (ret < 0) {
+> -        error_setg_errno(errp, errno, "Unable to set KEEPALIVE");
+> -        return -1;
+> +        if (has_keep_alive) {
+> +            error_setg_errno(errp, errno, "Unable to set KEEPALIVE");
+> +            return -1;
+> +        } else {
+> +            return 0;
+> +        }
+>      }
+>  
+>      val = has_settings ? keep_alive->u.settings.idle : 30;
+> -- 
+> 2.21.0
+> 
+
+Regards,
+Daniel
 -- 
-1.8.3.1
+|: https://berrange.com      -o-    https://www.flickr.com/photos/dberrange :|
+|: https://libvirt.org         -o-            https://fstop138.berrange.com :|
+|: https://entangle-photo.org    -o-    https://www.instagram.com/dberrange :|
 
 
