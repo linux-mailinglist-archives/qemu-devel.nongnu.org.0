@@ -2,74 +2,75 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 49032219AD2
-	for <lists+qemu-devel@lfdr.de>; Thu,  9 Jul 2020 10:31:22 +0200 (CEST)
-Received: from localhost ([::1]:60432 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 03DE2219AE8
+	for <lists+qemu-devel@lfdr.de>; Thu,  9 Jul 2020 10:34:19 +0200 (CEST)
+Received: from localhost ([::1]:39088 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jtRxg-0004IC-Ox
-	for lists+qemu-devel@lfdr.de; Thu, 09 Jul 2020 04:31:20 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:54844)
+	id 1jtS0Y-00079U-46
+	for lists+qemu-devel@lfdr.de; Thu, 09 Jul 2020 04:34:18 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:55598)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1jtRwW-0003Oq-Pg
- for qemu-devel@nongnu.org; Thu, 09 Jul 2020 04:30:09 -0400
-Received: from us-smtp-1.mimecast.com ([205.139.110.61]:41205
+ id 1jtRzj-0006jc-Fj
+ for qemu-devel@nongnu.org; Thu, 09 Jul 2020 04:33:27 -0400
+Received: from us-smtp-2.mimecast.com ([207.211.31.81]:35686
  helo=us-smtp-delivery-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
  (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1jtRwU-0008Af-7V
- for qemu-devel@nongnu.org; Thu, 09 Jul 2020 04:30:08 -0400
+ id 1jtRzg-0000FP-PN
+ for qemu-devel@nongnu.org; Thu, 09 Jul 2020 04:33:26 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1594283404;
+ s=mimecast20190719; t=1594283603;
  h=from:from:reply-to:reply-to:subject:subject:date:date:
  message-id:message-id:to:to:cc:cc:mime-version:mime-version:
  content-type:content-type:in-reply-to:in-reply-to:  references:references;
- bh=OF1EmsRNpFf8YfEColzaZAya3nk/R5BNnKhMx7BEZn8=;
- b=bRzsXl73fQ5n+3Bm148S8KXutMqDxpbL1yHP8Y6q5ey7gObWHo6UfW4k3Sti7dpDZicm6G
- WbI8dY3YBNP1i4nLpKsHSblU0Z6niPwPqk9WnXWd2zrKEb0WWg5R9UNBUdeGkwOAQx0PW5
- khcoDzPozpzoIISuSmY1pP1ahF3t1Lc=
+ bh=GH2dm/jqcXu2x1SLTHkNzIF77MKaTUN64DG+VLFwHs8=;
+ b=T/okCyj2Vv/oF8XrTLGM7XNJ4N5Ez+uUCv4v4hmciFtVZROTt5LqIwqimOUSV/8+qCpvdK
+ Cr/5WjZ0eazSDlNoSlaXKlA2SkeVtRWJVxLG7GSuL1iRtwdqfzDtCx1xJKsRK+0GgKR5k2
+ WJx8tnnTo3WuDL8OUdvB/iBSxAr50tM=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-80-QtVTxnrpNBqN9WegqOe2-A-1; Thu, 09 Jul 2020 04:30:03 -0400
-X-MC-Unique: QtVTxnrpNBqN9WegqOe2-A-1
-Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
- [10.5.11.13])
+ us-mta-395-AlXC2T5jPdymqAJ-m7ZNJw-1; Thu, 09 Jul 2020 04:33:19 -0400
+X-MC-Unique: AlXC2T5jPdymqAJ-m7ZNJw-1
+Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
+ [10.5.11.15])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id F29281087;
- Thu,  9 Jul 2020 08:30:01 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 0D916105250D;
+ Thu,  9 Jul 2020 08:33:18 +0000 (UTC)
 Received: from redhat.com (unknown [10.36.110.45])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 2E40079814;
- Thu,  9 Jul 2020 08:29:57 +0000 (UTC)
-Date: Thu, 9 Jul 2020 09:29:54 +0100
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 21B177F8C1;
+ Thu,  9 Jul 2020 08:33:12 +0000 (UTC)
+Date: Thu, 9 Jul 2020 09:33:09 +0100
 From: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
 To: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
-Subject: Re: [PATCH 2/2] util/qemu-sockets: make keep-alive enabled by default
-Message-ID: <20200709082954.GD3753300@redhat.com>
+Subject: Re: [PATCH 1/2] sockets: keep-alive settings
+Message-ID: <20200709083309.GE3753300@redhat.com>
 References: <20200708191540.28455-1-vsementsov@virtuozzo.com>
- <20200708191540.28455-3-vsementsov@virtuozzo.com>
+ <20200708191540.28455-2-vsementsov@virtuozzo.com>
 MIME-Version: 1.0
-In-Reply-To: <20200708191540.28455-3-vsementsov@virtuozzo.com>
+In-Reply-To: <20200708191540.28455-2-vsementsov@virtuozzo.com>
 User-Agent: Mutt/1.14.3 (2020-06-14)
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=berrange@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-Received-SPF: pass client-ip=205.139.110.61; envelope-from=berrange@redhat.com;
+Received-SPF: pass client-ip=207.211.31.81; envelope-from=berrange@redhat.com;
  helo=us-smtp-delivery-1.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/07/09 04:20:09
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/07/09 04:33:23
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
-X-Spam_score_int: -40
-X-Spam_score: -4.1
-X-Spam_bar: ----
-X-Spam_report: (-4.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1,
+X-Spam_score_int: -30
+X-Spam_score: -3.1
+X-Spam_bar: ---
+X-Spam_report: (-3.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-1, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001, URIBL_BLOCKED=0.001 autolearn=ham autolearn_force=no
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H3=-0.01, RCVD_IN_MSPIKE_WL=-0.01,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ URIBL_BLOCKED=0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -87,79 +88,192 @@ Cc: den@openvz.org, kraxel@redhat.com, qemu-devel@nongnu.org, armbru@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Wed, Jul 08, 2020 at 10:15:39PM +0300, Vladimir Sementsov-Ogievskiy wrote:
-> Keep-alive won't hurt, let's try to enable it even if not requested by
-> user.
+On Wed, Jul 08, 2020 at 10:15:38PM +0300, Vladimir Sementsov-Ogievskiy wrote:
+> Introduce keep-alive settings (TCP_KEEPCNT, TCP_KEEPIDLE,
+> TCP_KEEPINTVL) and chose some defaults.
+> 
+> The linux default of 2 hours for /proc/tcp_keepalive_time
+> (corresponding to TCP_KEEPIDLE) makes keep-alive option almost
+> superfluous. Let's add a possibility to set the options by hand
+> and specify some defaults resulting in smaller total time to terminate
+> idle connection.
 
-Keep-alive intentionally breaks TCP connections earlier than normal
-in face of transient networking problems.
+As you say, 2 hours just a default. The sysadmin can override that
+as they wish to change the behaviour globally on the system, so using
+the global settings is quite reasonable IMHO.
 
-The question is more about which type of pain is more desirable. A
-stall in the network connection (for a potentially very long time),
-or an intentionally broken socket.
-
-I'm not at all convinced it is a good idea to intentionally break
-/all/ QEMU sockets in the face of transient problems, even if the
-problems last for 2 hours or more. 
-
-I could see keep-alives being ok on some QEMU socket. For example
-VNC/SPICE clients, as there is no downside to proactively culling
-them as they can trivially reconnect. Migration too is quite
-reasonable to use keep alives, as you generally want migration to
-run to completion in a short amount of time, and aborting migration
-needs to be safe no matter what.
-
-Breaking chardevs or block devices or network devices that use
-QEMU sockets though will be disruptive. The only solution once
-those backends have a dead socket is going to be to kill QEMU
-and cold-boot the VM again.
-
-
+> Do not document the default values in QAPI as they may be altered in
+> future (careful user will use explicit values).
+> 
 > Signed-off-by: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
 > ---
->  util/qemu-sockets.c | 15 ++++++++++-----
->  1 file changed, 10 insertions(+), 5 deletions(-)
 > 
+> Suggested default numbers are RFC, any better suggestion is welcome.
+> I just looked at /etc/libvirt/qemu.conf in my system and take values of
+> keepalive_interval and keepalive_count.
+> The only thing I'm sure in is that 2 hours is too long.
+> 
+>  qapi/sockets.json   | 33 +++++++++++++++++++-
+>  util/qemu-sockets.c | 76 ++++++++++++++++++++++++++++++++++++++-------
+>  2 files changed, 97 insertions(+), 12 deletions(-)
+> 
+> diff --git a/qapi/sockets.json b/qapi/sockets.json
+> index cbd6ef35d0..73ff66a5d5 100644
+> --- a/qapi/sockets.json
+> +++ b/qapi/sockets.json
+> @@ -37,6 +37,37 @@
+>      'host': 'str',
+>      'port': 'str' } }
+>  
+> +##
+> +# @KeepAliveSettings:
+> +#
+> +# @idle: The time (in seconds) the connection needs to remain idle
+> +#        before TCP starts sending keepalive probes (sets TCP_KEEPIDLE).
+> +# @interval: The time (in seconds) between individual keepalive probes
+> +#            (sets TCP_KEEPINTVL).
+> +# @count: The maximum number of keepalive probes TCP should send before
+> +#         dropping the connection (sets TCP_KEEPCNT).
+> +#
+> +# Since: 5.2
+> +##
+> +{ 'struct': 'KeepAliveSettings',
+> +  'data': {
+> +    'idle': 'int',
+> +    'interval': 'int',
+> +    'count': 'int' } }
+> +
+> +##
+> +# @KeepAliveField:
+> +#
+> +# @enabled: If true, enable keep-alive with some default settings
+> +# @settings: Enable keep-alive and use explicit settings
+> +#
+> +# Since: 5.2
+> +##
+> +{ 'alternate': 'KeepAliveField',
+> +  'data': {
+> +    'enabled': 'bool',
+> +    'settings': 'KeepAliveSettings' } }
+> +
+>  ##
+>  # @InetSocketAddress:
+>  #
+> @@ -65,7 +96,7 @@
+>      '*to': 'uint16',
+>      '*ipv4': 'bool',
+>      '*ipv6': 'bool',
+> -    '*keep-alive': 'bool' } }
+> +    '*keep-alive': 'KeepAliveField' } }
+>  
+>  ##
+>  # @UnixSocketAddress:
 > diff --git a/util/qemu-sockets.c b/util/qemu-sockets.c
-> index b961963472..f6851376f5 100644
+> index b37d288866..b961963472 100644
 > --- a/util/qemu-sockets.c
 > +++ b/util/qemu-sockets.c
-> @@ -438,7 +438,8 @@ static struct addrinfo *inet_parse_connect_saddr(InetSocketAddress *saddr,
+> @@ -433,6 +433,57 @@ static struct addrinfo *inet_parse_connect_saddr(InetSocketAddress *saddr,
+>      return res;
+>  }
+>  
+> +/*
+> + * inet_set_keepalive
+> + *
+> + * Handle keep_alive settings. If user specified settings explicitly, fail if
+> + * can't set the settings. If user just enabled keep-alive, not specifying the
+> + * settings, try to set defaults but ignore failures.
+> + */
+> +static int inet_set_keepalive(int sock, bool has_keep_alive,
+> +                              KeepAliveField *keep_alive, Error **errp)
+> +{
+> +    int ret;
+> +    int val;
+> +    bool has_settings = has_keep_alive &&  keep_alive->type == QTYPE_QDICT;
+> +
+> +    if (!has_keep_alive || (keep_alive->type == QTYPE_QBOOL &&
+> +                            !keep_alive->u.enabled))
+> +    {
+> +        return 0;
+> +    }
+> +
+> +    val = 1;
+> +    ret = qemu_setsockopt(sock, SOL_SOCKET, SO_KEEPALIVE, &val, sizeof(val));
+> +    if (ret < 0) {
+> +        error_setg_errno(errp, errno, "Unable to set KEEPALIVE");
+> +        return -1;
+> +    }
+> +
+> +    val = has_settings ? keep_alive->u.settings.idle : 30;
+> +    ret = qemu_setsockopt(sock, IPPROTO_TCP, TCP_KEEPIDLE, &val, sizeof(val));
+> +    if (has_settings && ret < 0) {
+> +        error_setg_errno(errp, errno, "Unable to set TCP_KEEPIDLE");
+> +        return -1;
+> +    }
+> +
+> +    val = has_settings ? keep_alive->u.settings.interval : 30;
+> +    ret = qemu_setsockopt(sock, IPPROTO_TCP, TCP_KEEPINTVL, &val, sizeof(val));
+> +    if (has_settings && ret < 0) {
+> +        error_setg_errno(errp, errno, "Unable to set TCP_KEEPINTVL");
+> +        return -1;
+> +    }
+> +
+> +    val = has_settings ? keep_alive->u.settings.count : 20;
+> +    ret = qemu_setsockopt(sock, IPPROTO_TCP, TCP_KEEPCNT, &val, sizeof(val));
+> +    if (has_settings && ret < 0) {
+> +        error_setg_errno(errp, errno, "Unable to set TCP_KEEPCNT");
+> +        return -1;
+> +    }
+> +
+> +    return 0;
+> +}
+> +
+>  /**
+>   * Create a socket and connect it to an address.
 >   *
->   * Handle keep_alive settings. If user specified settings explicitly, fail if
->   * can't set the settings. If user just enabled keep-alive, not specifying the
-> - * settings, try to set defaults but ignore failures.
-> + * settings, try to set defaults but ignore failures. If keep-alive option is
-> + * not specified, try to set it but ignore failures.
->   */
->  static int inet_set_keepalive(int sock, bool has_keep_alive,
->                                KeepAliveField *keep_alive, Error **errp)
-> @@ -447,8 +448,8 @@ static int inet_set_keepalive(int sock, bool has_keep_alive,
->      int val;
->      bool has_settings = has_keep_alive &&  keep_alive->type == QTYPE_QDICT;
->  
-> -    if (!has_keep_alive || (keep_alive->type == QTYPE_QBOOL &&
-> -                            !keep_alive->u.enabled))
-> +    if (has_keep_alive &&
-> +        keep_alive->type == QTYPE_QBOOL && !keep_alive->u.enabled)
->      {
->          return 0;
->      }
-> @@ -456,8 +457,12 @@ static int inet_set_keepalive(int sock, bool has_keep_alive,
->      val = 1;
->      ret = qemu_setsockopt(sock, SOL_SOCKET, SO_KEEPALIVE, &val, sizeof(val));
->      if (ret < 0) {
-> -        error_setg_errno(errp, errno, "Unable to set KEEPALIVE");
-> -        return -1;
-> +        if (has_keep_alive) {
-> +            error_setg_errno(errp, errno, "Unable to set KEEPALIVE");
-> +            return -1;
-> +        } else {
-> +            return 0;
-> +        }
+> @@ -468,16 +519,11 @@ int inet_connect_saddr(InetSocketAddress *saddr, Error **errp)
+>          return sock;
 >      }
 >  
->      val = has_settings ? keep_alive->u.settings.idle : 30;
+> -    if (saddr->keep_alive) {
+> -        int val = 1;
+> -        int ret = qemu_setsockopt(sock, SOL_SOCKET, SO_KEEPALIVE,
+> -                                  &val, sizeof(val));
+> -
+> -        if (ret < 0) {
+> -            error_setg_errno(errp, errno, "Unable to set KEEPALIVE");
+> -            close(sock);
+> -            return -1;
+> -        }
+> +    if (inet_set_keepalive(sock, saddr->has_keep_alive, saddr->keep_alive,
+> +                           errp) < 0)
+> +    {
+> +        close(sock);
+> +        return -1;
+>      }
+>  
+>      return sock;
+> @@ -677,12 +723,20 @@ int inet_parse(InetSocketAddress *addr, const char *str, Error **errp)
+>      }
+>      begin = strstr(optstr, ",keep-alive");
+>      if (begin) {
+> +        bool val;
+> +
+>          if (inet_parse_flag("keep-alive", begin + strlen(",keep-alive"),
+> -                            &addr->keep_alive, errp) < 0)
+> +                            &val, errp) < 0)
+>          {
+>              return -1;
+>          }
+> +
+>          addr->has_keep_alive = true;
+> +        addr->keep_alive = g_new(KeepAliveField, 1);
+> +        *addr->keep_alive = (KeepAliveField) {
+> +            .type = QTYPE_QBOOL,
+> +            .u.enabled = val
+> +        };
+>      }
+>      return 0;
+>  }
 > -- 
 > 2.21.0
 > 
