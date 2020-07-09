@@ -2,82 +2,109 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 30F67219DBB
-	for <lists+qemu-devel@lfdr.de>; Thu,  9 Jul 2020 12:28:16 +0200 (CEST)
-Received: from localhost ([::1]:35560 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id AFA67219DCC
+	for <lists+qemu-devel@lfdr.de>; Thu,  9 Jul 2020 12:29:28 +0200 (CEST)
+Received: from localhost ([::1]:40122 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jtTmp-0000FM-8H
-	for lists+qemu-devel@lfdr.de; Thu, 09 Jul 2020 06:28:15 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:57670)
+	id 1jtTnz-00028h-OX
+	for lists+qemu-devel@lfdr.de; Thu, 09 Jul 2020 06:29:27 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:58110)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <quintela@redhat.com>)
- id 1jtTlU-0007XO-68
- for qemu-devel@nongnu.org; Thu, 09 Jul 2020 06:26:52 -0400
-Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:46044
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1jtTn5-0001G6-0A
+ for qemu-devel@nongnu.org; Thu, 09 Jul 2020 06:28:31 -0400
+Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:22290
  helo=us-smtp-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <quintela@redhat.com>)
- id 1jtTlR-0007tq-Sk
- for qemu-devel@nongnu.org; Thu, 09 Jul 2020 06:26:51 -0400
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1jtTn3-000874-8T
+ for qemu-devel@nongnu.org; Thu, 09 Jul 2020 06:28:30 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1594290409;
- h=from:from:reply-to:reply-to:subject:subject:date:date:
- message-id:message-id:to:to:cc:cc:mime-version:mime-version:
- content-type:content-type:in-reply-to:in-reply-to:  references:references;
- bh=R5Cj9XfO1jyGBU+E0BYhqSIh2NIiAirwW98mKz3sCBo=;
- b=MvLzXuJN4JBd20xrTaNk81S4vy9d+Vz7sxOVc9ZEATr4qwta8Awzq6eW8m5kQQY6LRG4Xq
- mlOU9xHkzEOvM0f+fGe+r2i0CP9TuVoW+VphGfa+amm1A8R0EfWt0PNp3z6Va2xSWiZ+/r
- xmD+Z5EvGR2a0oApxEGfaof4IG5Zuak=
-Received: from mail-wr1-f72.google.com (mail-wr1-f72.google.com
- [209.85.221.72]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-483-7vwwr4zbOoq3VZiBENKiZQ-1; Thu, 09 Jul 2020 06:26:47 -0400
-X-MC-Unique: 7vwwr4zbOoq3VZiBENKiZQ-1
-Received: by mail-wr1-f72.google.com with SMTP id i12so1591086wrx.11
- for <qemu-devel@nongnu.org>; Thu, 09 Jul 2020 03:26:47 -0700 (PDT)
+ s=mimecast20190719; t=1594290508;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
+ bh=K9ctq1FDF0rB6Mx0Cnye0CpnGBH4W0D7Kox0avHd/D0=;
+ b=O3BWAgm30pUudfPG+p4y72S3DM0A1GJi95zXgRm0KhyUARZufDU9MJthDHJ0rAjmihfOWw
+ L0KypTPaw8Y1viLc6lrsAiQMOZCyXQJAlzxGDv/XtQhN/qg3SrKCNaHRPg4QYfDzBni/t9
+ kP4d1ZNYEnoR9OqpRhUmKcjyMQiq3Qk=
+Received: from mail-wm1-f71.google.com (mail-wm1-f71.google.com
+ [209.85.128.71]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-486-W6aXms_GO4KCCgajsd4S5w-1; Thu, 09 Jul 2020 06:28:27 -0400
+X-MC-Unique: W6aXms_GO4KCCgajsd4S5w-1
+Received: by mail-wm1-f71.google.com with SMTP id g187so1839899wme.0
+ for <qemu-devel@nongnu.org>; Thu, 09 Jul 2020 03:28:26 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:in-reply-to:references
- :user-agent:reply-to:date:message-id:mime-version;
- bh=R5Cj9XfO1jyGBU+E0BYhqSIh2NIiAirwW98mKz3sCBo=;
- b=rWjJk08pKiGAS0QpVVl7ontKoyPD3hjhDePk7STYejbLGLb3xTPP72eO7GnIwKJmDl
- /ABubri5Uy10FZcLEyiwPVVQ9fg33FM5hqQt4oEfRiNdBhmXFSgOUkWjg3yY3OXPFnjJ
- Bi1hTysm+zzgFSI06jVT4CJDwoOP3DDXfzAaNpBsXgHFF6p4LHPNlXGUbX5x0KFPWuxt
- Cdd1MtkXEamAVnzx2DMsA22m5Lr1ZgHQKRLDvNfKuyCmzcAdCJrWoMnQgTWuKofniTGJ
- 5iuJexkHyzJoJ0l4LRqvrmSfofQORcooflX9lQqhBll1S5HWvlb89OK5cZBFkqoKZsk4
- PiMw==
-X-Gm-Message-State: AOAM530rvt/WRRGofqKmL60d27Iy5Xp9RgdOy1o3C2bNgxn/WmxvF3Ck
- VC04BhjkG1kp/21XnaqZtU6U3towVN3MeQfmHvfX595/3jneJEZZfGbpB2BCIstvpPIk+XL/9/+
- TUXLT5Ewb4bUj5+A=
-X-Received: by 2002:a5d:470b:: with SMTP id y11mr65483854wrq.101.1594290406334; 
- Thu, 09 Jul 2020 03:26:46 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJx84+d+N9Wi5XT+1Hsq5zcCEaEtZqGB0xxuR34SKLBowFYurqJslf7oJSaGp9mXAdPe+mRlgQ==
-X-Received: by 2002:a5d:470b:: with SMTP id y11mr65483830wrq.101.1594290406065; 
- Thu, 09 Jul 2020 03:26:46 -0700 (PDT)
-Received: from localhost (trasno.trasno.org. [83.165.45.250])
- by smtp.gmail.com with ESMTPSA id k18sm4864474wrx.34.2020.07.09.03.26.45
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 09 Jul 2020 03:26:45 -0700 (PDT)
-From: Juan Quintela <quintela@redhat.com>
-To: "Denis V. Lunev" <den@openvz.org>
-Subject: Re: [PATCH 1/7] migration/savevm: respect qemu_fclose() error code in
- save_snapshot()
-In-Reply-To: <20200703161130.23772-2-den@openvz.org> (Denis V. Lunev's message
- of "Fri, 3 Jul 2020 19:11:24 +0300")
-References: <20200703161130.23772-1-den@openvz.org>
- <20200703161130.23772-2-den@openvz.org>
-User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/26.3 (gnu/linux)
-Date: Thu, 09 Jul 2020 12:26:44 +0200
-Message-ID: <87imex2dcr.fsf@secure.mitica>
+ h=x-gm-message-state:subject:to:cc:references:from:autocrypt
+ :message-id:date:user-agent:mime-version:in-reply-to
+ :content-language:content-transfer-encoding;
+ bh=K9ctq1FDF0rB6Mx0Cnye0CpnGBH4W0D7Kox0avHd/D0=;
+ b=t78lHzbGwAT4XhZW6+0aJOKK1//ejCPZV6PBnp7Q0VUdMk8gV93R4BRpE9p4mLihJf
+ caSiKukeeoUPTHtzUxdXRfIiQvO+9Xr2B8vIcIR710CXG62Ysn8xOvScnTbtjv+bQvAe
+ EYtktvi7VheehDRFMlfGie+xRBxpX7s5OQJVJcREg4a5QeuWn+RfVjQweAJUyx7XprNL
+ AztFUTL9OvGCWSuxN9Oq9KcrUun/hOAXpHU2/tDZzPQH9F4zQc0TQHqaB+o5AgcMoS4+
+ 9VOd8ioMExaS7qDoKz+Lojp48s7v61GC29HN4nQtKP6dGYlJ96y9hreRwwT95m6itSFJ
+ 0EWg==
+X-Gm-Message-State: AOAM530qzv0SULEg9z4eGos1VVM+Ogz8yZwKLH7/qr3pKUhhVLTBuh2l
+ YNR8uUqjyNhQtEvaGwJEe4+Z/thjPPYVbyLmKABZ3JbwV+5Muz4CuB2s+uOvTRq2ibtpBCTIpVk
+ DfyIcln98DqAi468=
+X-Received: by 2002:a05:6000:86:: with SMTP id
+ m6mr29862166wrx.173.1594290505825; 
+ Thu, 09 Jul 2020 03:28:25 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJyp8IEokrYsA6tMx4HPbQda5ax+PfqvaedpR5P/lMdk2TbTnc94rvLRwNJUMDyObOr8+fm4aw==
+X-Received: by 2002:a05:6000:86:: with SMTP id
+ m6mr29862154wrx.173.1594290505661; 
+ Thu, 09 Jul 2020 03:28:25 -0700 (PDT)
+Received: from [192.168.1.37] (138.red-83-57-170.dynamicip.rima-tde.net.
+ [83.57.170.138])
+ by smtp.gmail.com with ESMTPSA id a22sm4015534wmj.9.2020.07.09.03.28.24
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Thu, 09 Jul 2020 03:28:25 -0700 (PDT)
+Subject: Re: [PATCH] tests/qtest/fuzz: Add missing spaces in description
+To: Thomas Huth <thuth@redhat.com>, Alexander Bulekov <alxndr@bu.edu>,
+ qemu-devel@nongnu.org
+References: <20200709083719.22221-1-thuth@redhat.com>
+From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
+Autocrypt: addr=philmd@redhat.com; keydata=
+ mQINBDXML8YBEADXCtUkDBKQvNsQA7sDpw6YLE/1tKHwm24A1au9Hfy/OFmkpzo+MD+dYc+7
+ bvnqWAeGweq2SDq8zbzFZ1gJBd6+e5v1a/UrTxvwBk51yEkadrpRbi+r2bDpTJwXc/uEtYAB
+ GvsTZMtiQVA4kRID1KCdgLa3zztPLCj5H1VZhqZsiGvXa/nMIlhvacRXdbgllPPJ72cLUkXf
+ z1Zu4AkEKpccZaJspmLWGSzGu6UTZ7UfVeR2Hcc2KI9oZB1qthmZ1+PZyGZ/Dy+z+zklC0xl
+ XIpQPmnfy9+/1hj1LzJ+pe3HzEodtlVA+rdttSvA6nmHKIt8Ul6b/h1DFTmUT1lN1WbAGxmg
+ CH1O26cz5nTrzdjoqC/b8PpZiT0kO5MKKgiu5S4PRIxW2+RA4H9nq7nztNZ1Y39bDpzwE5Sp
+ bDHzd5owmLxMLZAINtCtQuRbSOcMjZlg4zohA9TQP9krGIk+qTR+H4CV22sWldSkVtsoTaA2
+ qNeSJhfHQY0TyQvFbqRsSNIe2gTDzzEQ8itsmdHHE/yzhcCVvlUzXhAT6pIN0OT+cdsTTfif
+ MIcDboys92auTuJ7U+4jWF1+WUaJ8gDL69ThAsu7mGDBbm80P3vvUZ4fQM14NkxOnuGRrJxO
+ qjWNJ2ZUxgyHAh5TCxMLKWZoL5hpnvx3dF3Ti9HW2dsUUWICSQARAQABtDJQaGlsaXBwZSBN
+ YXRoaWV1LURhdWTDqSAoUGhpbCkgPHBoaWxtZEByZWRoYXQuY29tPokCVQQTAQgAPwIbDwYL
+ CQgHAwIGFQgCCQoLBBYCAwECHgECF4AWIQSJweePYB7obIZ0lcuio/1u3q3A3gUCXsfWwAUJ
+ KtymWgAKCRCio/1u3q3A3ircD/9Vjh3aFNJ3uF3hddeoFg1H038wZr/xi8/rX27M1Vj2j9VH
+ 0B8Olp4KUQw/hyO6kUxqkoojmzRpmzvlpZ0cUiZJo2bQIWnvScyHxFCv33kHe+YEIqoJlaQc
+ JfKYlbCoubz+02E2A6bFD9+BvCY0LBbEj5POwyKGiDMjHKCGuzSuDRbCn0Mz4kCa7nFMF5Jv
+ piC+JemRdiBd6102ThqgIsyGEBXuf1sy0QIVyXgaqr9O2b/0VoXpQId7yY7OJuYYxs7kQoXI
+ 6WzSMpmuXGkmfxOgbc/L6YbzB0JOriX0iRClxu4dEUg8Bs2pNnr6huY2Ft+qb41RzCJvvMyu
+ gS32LfN0bTZ6Qm2A8ayMtUQgnwZDSO23OKgQWZVglGliY3ezHZ6lVwC24Vjkmq/2yBSLakZE
+ 6DZUjZzCW1nvtRK05ebyK6tofRsx8xB8pL/kcBb9nCuh70aLR+5cmE41X4O+MVJbwfP5s/RW
+ 9BFSL3qgXuXso/3XuWTQjJJGgKhB6xXjMmb1J4q/h5IuVV4juv1Fem9sfmyrh+Wi5V1IzKI7
+ RPJ3KVb937eBgSENk53P0gUorwzUcO+ASEo3Z1cBKkJSPigDbeEjVfXQMzNt0oDRzpQqH2vp
+ apo2jHnidWt8BsckuWZpxcZ9+/9obQ55DyVQHGiTN39hkETy3Emdnz1JVHTU0Q==
+Message-ID: <1b4acaae-f80b-68cd-8798-5fc5e0ce1021@redhat.com>
+Date: Thu, 9 Jul 2020 12:28:24 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.5.0
 MIME-Version: 1.0
+In-Reply-To: <20200709083719.22221-1-thuth@redhat.com>
+Content-Language: en-US
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=quintela@redhat.com
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=philmd@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain
-Received-SPF: pass client-ip=207.211.31.120; envelope-from=quintela@redhat.com;
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=205.139.110.120; envelope-from=philmd@redhat.com;
  helo=us-smtp-1.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/07/07 17:25:10
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/07/09 01:47:04
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
 X-Spam_score_int: -40
 X-Spam_score: -4.1
@@ -98,69 +125,45 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: quintela@redhat.com
-Cc: Kevin Wolf <kwolf@redhat.com>, Fam Zheng <fam@euphon.net>,
- qemu-block@nongnu.org, qemu-devel@nongnu.org, Max Reitz <mreitz@redhat.com>,
- Denis Plotnikov <dplotnikov@virtuozzo.com>,
+Cc: Paolo Bonzini <pbonzini@redhat.com>, Bandan Das <bsd@redhat.com>,
  Stefan Hajnoczi <stefanha@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-"Denis V. Lunev" <den@openvz.org> wrote:
-> qemu_fclose() could return error, f.e. if bdrv_co_flush() will return
-> the error.
->
-> This validation will become more important once we will start waiting of
-> asynchronous IO operations, started from bdrv_write_vmstate(), which are
-> coming soon.
->
-> Signed-off-by: Denis V. Lunev <den@openvz.org>
-> Reviewed-by: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
-> Reviewed-by: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
-> CC: Kevin Wolf <kwolf@redhat.com>
-> CC: Max Reitz <mreitz@redhat.com>
-> CC: Stefan Hajnoczi <stefanha@redhat.com>
-> CC: Fam Zheng <fam@euphon.net>
-> CC: Juan Quintela <quintela@redhat.com>
-> CC: Denis Plotnikov <dplotnikov@virtuozzo.com>
-
-Reviewed-by: Juan Quintela <quintela@redhat.com>
-
-queued
-
-
+On 7/9/20 10:37 AM, Thomas Huth wrote:
+> There should be a space between "forking" and "for".
+> 
+> Signed-off-by: Thomas Huth <thuth@redhat.com>
 > ---
->  migration/savevm.c | 8 ++++++--
->  1 file changed, 6 insertions(+), 2 deletions(-)
->
-> diff --git a/migration/savevm.c b/migration/savevm.c
-> index b979ea6e7f..da3dead4e9 100644
-> --- a/migration/savevm.c
-> +++ b/migration/savevm.c
-> @@ -2628,7 +2628,7 @@ int save_snapshot(const char *name, Error **errp)
+>  tests/qtest/fuzz/virtio_scsi_fuzz.c | 4 ++--
+>  1 file changed, 2 insertions(+), 2 deletions(-)
+> 
+> diff --git a/tests/qtest/fuzz/virtio_scsi_fuzz.c b/tests/qtest/fuzz/virtio_scsi_fuzz.c
+> index 51dce491ab..3a9ea13736 100644
+> --- a/tests/qtest/fuzz/virtio_scsi_fuzz.c
+> +++ b/tests/qtest/fuzz/virtio_scsi_fuzz.c
+> @@ -191,7 +191,7 @@ static void register_virtio_scsi_fuzz_targets(void)
 >  {
->      BlockDriverState *bs, *bs1;
->      QEMUSnapshotInfo sn1, *sn = &sn1, old_sn1, *old_sn = &old_sn1;
-> -    int ret = -1;
-> +    int ret = -1, ret2;
->      QEMUFile *f;
->      int saved_vm_running;
->      uint64_t vm_state_size;
-> @@ -2712,10 +2712,14 @@ int save_snapshot(const char *name, Error **errp)
->      }
->      ret = qemu_savevm_state(f, errp);
->      vm_state_size = qemu_ftell(f);
-> -    qemu_fclose(f);
-> +    ret2 = qemu_fclose(f);
->      if (ret < 0) {
->          goto the_end;
->      }
-> +    if (ret2 < 0) {
-> +        ret = ret2;
-> +        goto the_end;
-> +    }
+>      fuzz_add_qos_target(&(FuzzTarget){
+>                  .name = "virtio-scsi-fuzz",
+> -                .description = "Fuzz the virtio-scsi virtual queues, forking"
+> +                .description = "Fuzz the virtio-scsi virtual queues, forking "
+>                                  "for each fuzz run",
+>                  .pre_vm_init = &counter_shm_init,
+>                  .pre_fuzz = &virtio_scsi_pre_fuzz,
+> @@ -202,7 +202,7 @@ static void register_virtio_scsi_fuzz_targets(void)
 >  
->      /* The bdrv_all_create_snapshot() call that follows acquires the AioContext
->       * for itself.  BDRV_POLL_WHILE() does not support nested locking because
+>      fuzz_add_qos_target(&(FuzzTarget){
+>                  .name = "virtio-scsi-flags-fuzz",
+> -                .description = "Fuzz the virtio-scsi virtual queues, forking"
+> +                .description = "Fuzz the virtio-scsi virtual queues, forking "
+>                  "for each fuzz run (also fuzzes the virtio flags)",
+>                  .pre_vm_init = &counter_shm_init,
+>                  .pre_fuzz = &virtio_scsi_pre_fuzz,
+> 
+
+Uh I thought we had fixed these already :/
+
+Reviewed-by: Philippe Mathieu-Daudé <philmd@redhat.com>
 
 
