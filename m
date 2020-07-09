@@ -2,74 +2,74 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0C52221A77F
-	for <lists+qemu-devel@lfdr.de>; Thu,  9 Jul 2020 21:06:08 +0200 (CEST)
-Received: from localhost ([::1]:56962 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4B88D21A79A
+	for <lists+qemu-devel@lfdr.de>; Thu,  9 Jul 2020 21:14:25 +0200 (CEST)
+Received: from localhost ([::1]:34086 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jtbrz-0004hk-3u
-	for lists+qemu-devel@lfdr.de; Thu, 09 Jul 2020 15:06:07 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:48508)
+	id 1jtbzy-0007PT-T0
+	for lists+qemu-devel@lfdr.de; Thu, 09 Jul 2020 15:14:22 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:50768)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1jtbqP-0003Zt-FK
- for qemu-devel@nongnu.org; Thu, 09 Jul 2020 15:04:30 -0400
-Received: from mail-ot1-x341.google.com ([2607:f8b0:4864:20::341]:38115)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1jtbqM-0003tH-7N
- for qemu-devel@nongnu.org; Thu, 09 Jul 2020 15:04:28 -0400
-Received: by mail-ot1-x341.google.com with SMTP id t18so2447628otq.5
- for <qemu-devel@nongnu.org>; Thu, 09 Jul 2020 12:04:25 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc:content-transfer-encoding;
- bh=J2eeil11Dp8L21Nn5ph9GH8uW7TeEfvf8jiDfM/NIMY=;
- b=U03TCP4IQ2bidnA5mdFofgkt7yVuEnRY64FMdHQqsEuAz9WM87Nksbg1hveSfrREs6
- T79vSZyb/gvqcPYCDXbP/6LwB90Edy8AexZ9cUxxhnB0IBa5fFJ9V83XmLQ0mXHSPzC8
- a1utXvK0YvMgRBUUhVnSvBIn8kTUbo6ugpqwq18V/JMxgc+QGrcEob3uAnpld688NGLA
- AYM1JtjipQ22mTV0kguQAWii3PflVt5Assrge72J65/YGn6HBteNNnbl1F47i7eUjqzE
- xAL0EiK3VaVj5YZWjwLGvGkmF5TL9vW+xvs6huqu6aI8nLkEhqwb/PUTpvr6U/hZwWml
- nuNg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc:content-transfer-encoding;
- bh=J2eeil11Dp8L21Nn5ph9GH8uW7TeEfvf8jiDfM/NIMY=;
- b=eKeWALiyyF13FnvBv6/WePt7TzBFQjTmZ6vW1wiruyY2MtOMbALNf3QnUyXXs9uANO
- XVaLuzhThczPuEHGjibiRrUMu6sI2LhjKPyPUxroJN2BIPH12JFYJ/cC3SHJ8FDXxzVa
- e/vAkj5no/2mYziwrsTRWCNRX/mOKbGTu0mMFFOVPoY0vvrlF2pCV0azYDKDgPf+LGK1
- qSLQg7hst5O6pzU4BnM1sUrIccRXh/W2NHwjUVtrPX6dS/mA8jKPe9NVEia55OcIgBSR
- JzRSFjlXzIVlKtwtr5/VfZ0eCrmLLW2lYu16HdZPxMQtDiz7QamfBNvSDzF7ofJKYMlz
- aiRw==
-X-Gm-Message-State: AOAM530fcMy7H8mO5hyk13rMGoh09xxmZwf+fkkNpB9tdf9PWsgtIccH
- uPs+xI5zhD1DD+juGl/mzUbZmi02Khd1iPqaSWVBgg==
-X-Google-Smtp-Source: ABdhPJxNuHhqbLFcA582VIiCiCQkkA3CfaZtL1TiHSl2POFsxnCghk7j4aM7IyMQGdhtaGoc4uyaRylyb+srfncNmd0=
-X-Received: by 2002:a9d:7303:: with SMTP id e3mr47557016otk.221.1594321464982; 
- Thu, 09 Jul 2020 12:04:24 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <ehabkost@redhat.com>)
+ id 1jtbz6-0006u2-D0
+ for qemu-devel@nongnu.org; Thu, 09 Jul 2020 15:13:28 -0400
+Received: from us-smtp-2.mimecast.com ([207.211.31.81]:23185
+ helo=us-smtp-delivery-1.mimecast.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <ehabkost@redhat.com>)
+ id 1jtbz3-0004xr-BE
+ for qemu-devel@nongnu.org; Thu, 09 Jul 2020 15:13:27 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1594322003;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=o61SBWDAhCKKLWUhk2861tgk54LZbL4dIS40E+MaPC0=;
+ b=QnakQhtzIt427fsoUrbY2B9xAIzGgO+cLLzNoYBDsIEkGnFoUbcwD+oSBD5OfzydC7mQC1
+ YDxDdtIdkpzIFptLMnHJJdhKN60WkLPewdyLMnL5cj+ztusUmkXsuboPu2pCZI91HaaPlc
+ QvhVg3vY1T9EazaXp4T7wqgBxycwWr4=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-361-kHjnVacmP-aelhsYSt6P0w-1; Thu, 09 Jul 2020 15:13:19 -0400
+X-MC-Unique: kHjnVacmP-aelhsYSt6P0w-1
+Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
+ [10.5.11.11])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 0B45510059A4;
+ Thu,  9 Jul 2020 19:13:18 +0000 (UTC)
+Received: from localhost (ovpn-116-140.rdu2.redhat.com [10.10.116.140])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id F31E86FEC6;
+ Thu,  9 Jul 2020 19:13:07 +0000 (UTC)
+Date: Thu, 9 Jul 2020 15:13:07 -0400
+From: Eduardo Habkost <ehabkost@redhat.com>
+To: Jim Mattson <jmattson@google.com>
+Subject: Re: [PATCH 2/2] x86/cpu: Handle GUEST_MAXPHYADDR < HOST_MAXPHYADDR
+ for hosts that don't support it
+Message-ID: <20200709191307.GH780932@habkost.net>
+References: <20200619155344.79579-1-mgamal@redhat.com>
+ <20200619155344.79579-3-mgamal@redhat.com>
+ <20200708171621.GA780932@habkost.net>
+ <20200708172653.GL3229307@redhat.com>
+ <20200709094415.yvdh6hsfukqqeadp@sirius.home.kraxel.org>
+ <CALMp9eQnrdu-9sZhW3aXpK4pizOW=8G=bj1wkumSgHVNfG=CbQ@mail.gmail.com>
 MIME-Version: 1.0
-References: <20200703201911.26573-1-f4bug@amsat.org>
- <20200703201911.26573-9-f4bug@amsat.org>
-In-Reply-To: <20200703201911.26573-9-f4bug@amsat.org>
-From: Peter Maydell <peter.maydell@linaro.org>
-Date: Thu, 9 Jul 2020 20:04:14 +0100
-Message-ID: <CAFEAcA_Eis4KXhM-ZKNUP+o0qLQM3Xsx9QWmnP4j0eX=Dj5ULg@mail.gmail.com>
-Subject: Re: [PATCH 08/18] hw/core/split-irq: Mark the device with no
- migratable fields
-To: =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <f4bug@amsat.org>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=2607:f8b0:4864:20::341;
- envelope-from=peter.maydell@linaro.org; helo=mail-ot1-x341.google.com
-X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
- That's all we know.
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <CALMp9eQnrdu-9sZhW3aXpK4pizOW=8G=bj1wkumSgHVNfG=CbQ@mail.gmail.com>
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
+Received-SPF: pass client-ip=207.211.31.81; envelope-from=ehabkost@redhat.com;
+ helo=us-smtp-delivery-1.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/07/09 11:02:51
+X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
+X-Spam_score_int: -30
+X-Spam_score: -3.1
+X-Spam_bar: ---
+X-Spam_report: (-3.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H3=-0.01, RCVD_IN_MSPIKE_WL=-0.01,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -82,35 +82,37 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Laurent Vivier <laurent@vivier.eu>, Gerd Hoffmann <kraxel@redhat.com>,
- =?UTF-8?Q?Daniel_P=2E_Berrang=C3=A9?= <berrange@redhat.com>,
- Eduardo Habkost <ehabkost@redhat.com>, Juan Quintela <quintela@redhat.com>,
- Andrew Jeffery <andrew@aj.id.au>,
- Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>,
- "Dr . David Alan Gilbert" <dgilbert@redhat.com>,
- Andrew Baumann <Andrew.Baumann@microsoft.com>,
- QEMU Developers <qemu-devel@nongnu.org>, qemu-arm <qemu-arm@nongnu.org>,
- =?UTF-8?Q?C=C3=A9dric_Le_Goater?= <clg@kaod.org>,
- Paolo Bonzini <pbonzini@redhat.com>,
- Subbaraya Sundeep <sundeep.lkml@gmail.com>,
- =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <philmd@redhat.com>,
- Artyom Tarasenko <atar4qemu@gmail.com>, Joel Stanley <joel@jms.id.au>
+Cc: Guilherme Piccoli <gpiccoli@canonical.com>,
+ Pedro Principeza <pedro.principeza@canonical.com>,
+ kvm list <kvm@vger.kernel.org>, libvir-list@redhat.com,
+ Dann Frazier <dann.frazier@canonical.com>, mtosatti@redhat.com,
+ "Dr. David Alan Gilbert" <dgilbert@redhat.com>,
+ Christian Ehrhardt <christian.ehrhardt@canonical.com>, qemu-devel@nongnu.org,
+ Gerd Hoffmann <kraxel@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>,
+ Daniel =?iso-8859-1?Q?P=2E_Berrang=E9?= <berrange@redhat.com>,
+ Mohammed Gamal <mgamal@redhat.com>, Laszlo Ersek <lersek@redhat.com>,
+ fw@gpiccoli.net, rth@twiddle.net
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Fri, 3 Jul 2020 at 21:19, Philippe Mathieu-Daud=C3=A9 <f4bug@amsat.org> =
-wrote:
->
-> This device doesn't have fields to migrate. Be explicit
-> by using vmstate_qdev_no_state_to_migrate.
->
-> Signed-off-by: Philippe Mathieu-Daud=C3=A9 <f4bug@amsat.org>
-> ---
->  hw/core/split-irq.c | 1 +
->  1 file changed, 1 insertion(+)
+On Thu, Jul 09, 2020 at 10:00:59AM -0700, Jim Mattson wrote:
+> On Thu, Jul 9, 2020 at 2:44 AM Gerd Hoffmann <kraxel@redhat.com> wrote:
+> 
+> > (2) GUEST_MAXPHYADDR < HOST_MAXPHYADDR
+> >
+> >     Mostly fine.  Some edge cases, like different page fault errors for
+> >     addresses above GUEST_MAXPHYADDR and below HOST_MAXPHYADDR.  Which I
+> >     think Mohammed fixed in the kernel recently.
+> 
+> Doesn't this require intercepting MOV-to-CR3 when the guest is in PAE
+> mode, so that the hypervisor can validate the high bits in the PDPTEs?
 
-Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
+If the fix has additional overhead, is the additional overhead
+bad enough to warrant making it optional?  Most existing
+GUEST_MAXPHYADDR < HOST_MAXPHYADDR guests already work today
+without the fix.
 
-thanks
--- PMM
+-- 
+Eduardo
+
 
