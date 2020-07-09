@@ -2,96 +2,40 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4976B21A0BC
-	for <lists+qemu-devel@lfdr.de>; Thu,  9 Jul 2020 15:23:35 +0200 (CEST)
-Received: from localhost ([::1]:58786 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id CD66021A0DF
+	for <lists+qemu-devel@lfdr.de>; Thu,  9 Jul 2020 15:29:35 +0200 (CEST)
+Received: from localhost ([::1]:42206 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jtWWU-0004UJ-D6
-	for lists+qemu-devel@lfdr.de; Thu, 09 Jul 2020 09:23:34 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:34408)
+	id 1jtWcI-00017e-Rb
+	for lists+qemu-devel@lfdr.de; Thu, 09 Jul 2020 09:29:34 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:36022)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1jtWVW-0003qI-SU
- for qemu-devel@nongnu.org; Thu, 09 Jul 2020 09:22:34 -0400
-Received: from us-smtp-1.mimecast.com ([205.139.110.61]:32509
- helo=us-smtp-delivery-1.mimecast.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1jtWVU-00020y-55
- for qemu-devel@nongnu.org; Thu, 09 Jul 2020 09:22:34 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1594300951;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=HOk/PLk+HfHz4svNXprht7tkOnAzgGtikysQLLEG7zM=;
- b=KLsdNULYn0U0IwStHCGXionb2NEWiOC2n741ITQXzp1slA3bUZw/8WCZXJDP74U6LpYjr3
- n0EnBAYabma1nJzI86iFrohEPLTBCTG2b7lcfMUGnC30ehHURNPP5PMIekLELpKqFrcf23
- /V36r0Mn46t3P9aOqQFQTnbmc5JAFyo=
-Received: from mail-wr1-f69.google.com (mail-wr1-f69.google.com
- [209.85.221.69]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-86-_yL_6eytOf-e4DyUxG1VNA-1; Thu, 09 Jul 2020 09:22:29 -0400
-X-MC-Unique: _yL_6eytOf-e4DyUxG1VNA-1
-Received: by mail-wr1-f69.google.com with SMTP id s16so1938213wrv.1
- for <qemu-devel@nongnu.org>; Thu, 09 Jul 2020 06:22:29 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=HOk/PLk+HfHz4svNXprht7tkOnAzgGtikysQLLEG7zM=;
- b=o95ip8AUM3TcgU3E7/TsP9QSYpyU3E2nr4q2YBi2eLZKWWDyZ72Er4HDmIqJ+Qr+nY
- yg1iKebUAC3V5J35PdBC62Fu5udOG3EgdGhcnCxb8pIhwL4YM4Qajid2tTpR+t9yVYPw
- J9QlZUaWwjz/aUpifAyiSTZLeYYiP8OqNRsWIdb3/la7zhG8uf+vR7UAJdxfUGdQwTrr
- DFJGz/PgEoZee5Cm5a0o2Oj57FRtpj2G6I09npNPMgafmzSNSTW2clizyVQV9AAbDPSr
- Iv/CONvA7Ukp+Fpiu7rcrNQarqkliA6LRacjRbcxFmG4q/kVKwCkLDnv0Hf/Pb3QfmRP
- GM+g==
-X-Gm-Message-State: AOAM532E/RNHYrrLOB86Ro25dTbM0Rwmtfa85zLzzBKp91SdwNJNApx+
- IfuACwvErO5Yui/tHVLK01ZCZnFvZ074AhRqmozQgGa1/PSmGqYTeVx8qLn27KxF0LYqkGBzoM0
- jv3IMVGepif8NrBM=
-X-Received: by 2002:adf:92c4:: with SMTP id 62mr61654775wrn.290.1594300948296; 
- Thu, 09 Jul 2020 06:22:28 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJwdRUne8B5H3/mjfpeO+DyZblGRkvqXGyafgBxDX3A+LyhpikQt6w0ernEU5AigtIbeKUxS5A==
-X-Received: by 2002:adf:92c4:: with SMTP id 62mr61654745wrn.290.1594300947987; 
- Thu, 09 Jul 2020 06:22:27 -0700 (PDT)
-Received: from ?IPv6:2001:b07:6468:f312:9541:9439:cb0f:89c?
- ([2001:b07:6468:f312:9541:9439:cb0f:89c])
- by smtp.gmail.com with ESMTPSA id 133sm4909109wme.5.2020.07.09.06.22.26
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 09 Jul 2020 06:22:26 -0700 (PDT)
-Subject: Re: Delete some Wiki pages (was: Migrating custom qemu.org
- infrastructure to GitLab)
-To: Thomas Huth <thuth@redhat.com>, Gerd Hoffmann <kraxel@redhat.com>
-References: <CAJSP0QV3uB4QY6mzw2JFDedr0PJhGkU5FdmLF5PbjMPyxiYSuw@mail.gmail.com>
- <20200708105353.GE3229307@redhat.com>
- <20200709101602.lc2uipjlxobjvjn3@sirius.home.kraxel.org>
- <3dacddaa-c739-445b-a24a-02f9e51b9b0e@redhat.com>
- <8e1276e2-8957-49db-0409-e85ab2f09739@redhat.com>
- <4e5404a7-20dc-cb5d-6307-b66fae8f77a4@redhat.com>
-From: Paolo Bonzini <pbonzini@redhat.com>
-Message-ID: <158ec779-f640-9e76-5ac7-45797a1aa0a4@redhat.com>
-Date: Thu, 9 Jul 2020 15:22:25 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.9.0
-MIME-Version: 1.0
-In-Reply-To: <4e5404a7-20dc-cb5d-6307-b66fae8f77a4@redhat.com>
-Content-Language: en-US
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=205.139.110.61; envelope-from=pbonzini@redhat.com;
- helo=us-smtp-delivery-1.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/07/09 04:20:09
-X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
-X-Spam_score_int: -40
-X-Spam_score: -4.1
-X-Spam_bar: ----
-X-Spam_report: (-4.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-1, SPF_HELO_NONE=0.001,
+ (Exim 4.90_1) (envelope-from <den@openvz.org>)
+ id 1jtWZj-0005JY-0N; Thu, 09 Jul 2020 09:26:55 -0400
+Received: from relay.sw.ru ([185.231.240.75]:58686 helo=relay3.sw.ru)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <den@openvz.org>)
+ id 1jtWZg-0002ZX-Cc; Thu, 09 Jul 2020 09:26:54 -0400
+Received: from [192.168.15.130] (helo=iris.sw.ru)
+ by relay3.sw.ru with esmtp (Exim 4.93)
+ (envelope-from <den@openvz.org>)
+ id 1jtWZX-00044k-4O; Thu, 09 Jul 2020 16:26:43 +0300
+From: "Denis V. Lunev" <den@openvz.org>
+To: qemu-block@nongnu.org,
+	qemu-devel@nongnu.org
+Subject: [PATCH v8 0/6] block: seriously improve savevm/loadvm performance
+Date: Thu,  9 Jul 2020 16:26:38 +0300
+Message-Id: <20200709132644.28470-1-den@openvz.org>
+X-Mailer: git-send-email 2.17.1
+Received-SPF: pass client-ip=185.231.240.75; envelope-from=den@openvz.org;
+ helo=relay3.sw.ru
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/07/09 09:26:47
+X-ACL-Warn: Detected OS   = Linux 3.11 and newer
+X-Spam_score_int: -18
+X-Spam_score: -1.9
+X-Spam_bar: -
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -105,72 +49,85 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Kevin Wolf <kwolf@redhat.com>, Peter Maydell <peter.maydell@linaro.org>,
- =?UTF-8?Q?Daniel_P=2e_Berrang=c3=a9?= <berrange@redhat.com>,
- Cleber Rosa <cleber@redhat.com>, Jeff Cody <codyprime@gmail.com>,
- Stefan Hajnoczi <stefanha@gmail.com>, qemu-devel <qemu-devel@nongnu.org>,
- Michael Roth <mdroth@linux.vnet.ibm.com>,
- =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>,
- Max Reitz <mreitz@redhat.com>,
- =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
+Cc: Kevin Wolf <kwolf@redhat.com>, Fam Zheng <fam@euphon.net>,
+ Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>,
+ Juan Quintela <quintela@redhat.com>,
+ "Dr. David Alan Gilbert" <dgilbert@redhat.com>, Max Reitz <mreitz@redhat.com>,
+ Denis Plotnikov <dplotnikov@virtuozzo.com>,
+ Stefan Hajnoczi <stefanha@redhat.com>, "Denis V . Lunev" <den@openvz.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 09/07/20 15:10, Thomas Huth wrote:
-> - https://wiki.qemu.org/Features/40p :
-> - https://wiki.qemu.org/Features/PRePCleanup :
-> - https://wiki.qemu.org/Features/BeBox
-> - https://wiki.qemu.org/Features/DriveRefactoring
-> - https://wiki.qemu.org/Features/LegacyRemoval
-> - https://wiki.qemu.org/Features/Machines/Edison
-> - https://wiki.qemu.org/Features/Tegra2
+This series do standard basic things:
+- it creates intermediate buffer for all writes from QEMU migration code
+  to QCOW2 image,
+- this buffer is sent to disk asynchronously, allowing several writes to
+  run in parallel.
 
-Can you make them either "Completed feature pages" or "Obsolete feature
-pages"?  We can certainly drop the obsolete features if we migrate to
-the GitLab wiki.
+In general, migration code is fantastically inefficent (by observation),
+buffers are not aligned and sent with arbitrary pieces, a lot of time
+less than 100 bytes at a chunk, which results in read-modify-write
+operations with non-cached operations. It should also be noted that all
+operations are performed into unallocated image blocks, which also suffer
+due to partial writes to such new clusters.
 
-> - https://wiki.qemu.org/Features/Documentation/interop
->   that has been superseded by:
->   https://www.qemu.org/docs/master/interop/index.html
-> 
-> - https://wiki.qemu.org/Features/Documentation/specs
->   that has been superseded by:
->   https://www.qemu.org/docs/master/specs/index.html
+This patch series is an implementation of idea discussed in the RFC
+posted by Denis Plotnikov
+https://lists.gnu.org/archive/html/qemu-devel/2020-04/msg01925.html
+Results with this series over NVME are better than original code
+                original     rfc    this
+cached:          1.79s      2.38s   1.27s
+non-cached:      3.29s      1.31s   0.81s
 
-Need to check if there's anything else left to do for those two manuals.
- Probably the rST conversion of QMP documentation.  I would leave them
-around, they are linked from the main Features/Documentation page.
+Changes from v7:
+- dropped lock from LoadVMState
+- fixed assert in last patch
+- dropped patch 1 as queued
 
-> - https://wiki.qemu.org/Features/LibvirtWiresharkDissector
->   seems to be a libvirt proposal - IMHO should not be in the QEMU wiki
+Changes from v6:
+- blk_load_vmstate kludges added (patchew problem fixed)
 
-Probably an internship idea.
+Changes from v5:
+- loadvm optimizations added with Vladimir comments included
 
-> - https://wiki.qemu.org/Features/Version3.0
->   Old suggestions for QEMU version 3.0 ... we're close to 5.1 already
+Changes from v4:
+- added patch 4 with blk_save_vmstate() cleanup
+- added R-By
+- bdrv_flush_vmstate -> bdrv_finalize_vmstate
+- fixed return code of bdrv_co_do_save_vmstate
+- fixed typos in comments (Eric, thanks!)
+- fixed patchew warnings
 
-This is more like ideas for deprecation.
+Changes from v3:
+- rebased to master
+- added patch 3 which removes aio_task_pool_wait_one()
+- added R-By to patch 1
+- patch 4 is rewritten via bdrv_run_co
+- error path in blk_save_vmstate() is rewritten to call bdrv_flush_vmstate
+  unconditionally
+- added some comments
+- fixes initialization in bdrv_co_vmstate_save_task_entry as suggested
 
-> - https://wiki.qemu.org/KeySigningParty2013
->   https://wiki.qemu.org/KeySigningParty2014
->   https://wiki.qemu.org/KeySigningParty2015
->   Only some few old information here, useless nowadays?
-> 
-> - https://wiki.qemu.org/Features/network_reentrant
->   Old ideas from 2013 ... I think vhost-net superseded this?
+Changes from v2:
+- code moved from QCOW2 level to generic block level
+- created bdrv_flush_vmstate helper to fix 022, 029 tests
+- added recursive for bs->file in bdrv_co_flush_vmstate (fix 267)
+- fixed blk_save_vmstate helper
+- fixed coroutine wait as Vladimir suggested with waiting fixes from me
 
-It's in [[Category:Obsolete feature pages]] for a reason. :)
+Changes from v1:
+- patchew warning fixed
+- fixed validation that only 1 waiter is allowed in patch 1
 
-> - https://wiki.qemu.org/Planning/Relicensing
->   I think this has been completed. The page looks very outdated now.
+Signed-off-by: Denis V. Lunev <den@openvz.org>
+CC: Kevin Wolf <kwolf@redhat.com>
+CC: Max Reitz <mreitz@redhat.com>
+CC: Stefan Hajnoczi <stefanha@redhat.com>
+CC: Fam Zheng <fam@euphon.net>
+CC: Juan Quintela <quintela@redhat.com>
+CC: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
+CC: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
+CC: Denis Plotnikov <dplotnikov@virtuozzo.com>
 
-No, it's not completed and it's probably never going to be.
-
-> - https://wiki.qemu.org/SecurityProcess
->   Should be replaced with a redirect
-
-Done.
-
-Paolo
 
 
