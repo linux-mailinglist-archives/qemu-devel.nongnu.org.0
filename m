@@ -2,72 +2,104 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 15046219ADB
-	for <lists+qemu-devel@lfdr.de>; Thu,  9 Jul 2020 10:32:29 +0200 (CEST)
-Received: from localhost ([::1]:35744 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id AD0E2219ABB
+	for <lists+qemu-devel@lfdr.de>; Thu,  9 Jul 2020 10:25:42 +0200 (CEST)
+Received: from localhost ([::1]:57244 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jtRym-0005mS-5m
-	for lists+qemu-devel@lfdr.de; Thu, 09 Jul 2020 04:32:28 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:55028)
+	id 1jtRsD-0002fH-QV
+	for lists+qemu-devel@lfdr.de; Thu, 09 Jul 2020 04:25:41 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:53452)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1jtRxM-0004UM-2i
- for qemu-devel@nongnu.org; Thu, 09 Jul 2020 04:31:00 -0400
-Received: from indium.canonical.com ([91.189.90.7]:40620)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1jtRxJ-0008Rt-Vo
- for qemu-devel@nongnu.org; Thu, 09 Jul 2020 04:30:59 -0400
-Received: from loganberry.canonical.com ([91.189.90.37])
- by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
- id 1jtRxH-0004Rl-UT
- for <qemu-devel@nongnu.org>; Thu, 09 Jul 2020 08:30:55 +0000
-Received: from loganberry.canonical.com (localhost [127.0.0.1])
- by loganberry.canonical.com (Postfix) with ESMTP id CCF942E80F1
- for <qemu-devel@nongnu.org>; Thu,  9 Jul 2020 08:30:55 +0000 (UTC)
+ (Exim 4.90_1) (envelope-from <mreitz@redhat.com>) id 1jtRrM-0002A3-Ho
+ for qemu-devel@nongnu.org; Thu, 09 Jul 2020 04:24:48 -0400
+Received: from us-smtp-1.mimecast.com ([205.139.110.61]:47153
+ helo=us-smtp-delivery-1.mimecast.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <mreitz@redhat.com>) id 1jtRrJ-0007OE-MC
+ for qemu-devel@nongnu.org; Thu, 09 Jul 2020 04:24:48 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1594283085;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
+ bh=xJs22n6nBvbDAhlh7YOjxdMebZQRH57ci+85DxTHC1A=;
+ b=PxRgkqm7YOCR8iaRTu3WA6pFQFtOFYCYyGxy/VgItLgWhY90yLJHYYxt7L0K9RSHi4rQp6
+ HmNGDYe+dDhNm6qIAblOXS3hE4HYdx1V7T9TppepYv5IzJmBlFEnIgKhgP72mIQ8xDoaHf
+ ew1lSIVGZZKIYQz1bvXyIUa3V61rAfU=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-190-_Men2jVmMqyWXggbciibzA-1; Thu, 09 Jul 2020 04:24:42 -0400
+X-MC-Unique: _Men2jVmMqyWXggbciibzA-1
+Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
+ [10.5.11.23])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id D4E1318FF660;
+ Thu,  9 Jul 2020 08:24:41 +0000 (UTC)
+Received: from dresden.str.redhat.com (ovpn-113-127.ams2.redhat.com
+ [10.36.113.127])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 79EB21A7CA;
+ Thu,  9 Jul 2020 08:24:40 +0000 (UTC)
+Subject: Re: [PATCH v7 02/47] block: Add chain helper functions
+To: Andrey Shinkevich <andrey.shinkevich@virtuozzo.com>, qemu-block@nongnu.org
+References: <20200625152215.941773-1-mreitz@redhat.com>
+ <20200625152215.941773-3-mreitz@redhat.com>
+ <5c2a81c7-851c-aeb4-84b7-3bd61417495e@virtuozzo.com>
+From: Max Reitz <mreitz@redhat.com>
+Autocrypt: addr=mreitz@redhat.com; prefer-encrypt=mutual; keydata=
+ mQENBFXOJlcBCADEyyhOTsoa/2ujoTRAJj4MKA21dkxxELVj3cuILpLTmtachWj7QW+TVG8U
+ /PsMCFbpwsQR7oEy8eHHZwuGQsNpEtNC2G/L8Yka0BIBzv7dEgrPzIu+W3anZXQW4702+uES
+ U29G8TP/NGfXRRHGlbBIH9KNUnOSUD2vRtpOLXkWsV5CN6vQFYgQfFvmp5ZpPeUe6xNplu8V
+ mcTw8OSEDW/ZnxJc8TekCKZSpdzYoxfzjm7xGmZqB18VFwgJZlIibt1HE0EB4w5GsD7x5ekh
+ awIe3RwoZgZDLQMdOitJ1tUc8aqaxvgA4tz6J6st8D8pS//m1gAoYJWGwwIVj1DjTYLtABEB
+ AAG0HU1heCBSZWl0eiA8bXJlaXR6QHJlZGhhdC5jb20+iQFTBBMBCAA9AhsDBQkSzAMABQsJ
+ CAcCBhUICQoLAgQWAgMBAh4BAheABQJVzie5FRhoa3A6Ly9rZXlzLmdudXBnLm5ldAAKCRD0
+ B9sAYdXPQDcIB/9uNkbYEex1rHKz3mr12uxYMwLOOFY9fstP5aoVJQ1nWQVB6m2cfKGdcRe1
+ 2/nFaHSNAzT0NnKz2MjhZVmcrpyd2Gp2QyISCfb1FbT82GMtXFj1wiHmPb3CixYmWGQUUh+I
+ AvUqsevLA+WihgBUyaJq/vuDVM1/K9Un+w+Tz5vpeMidlIsTYhcsMhn0L9wlCjoucljvbDy/
+ 8C9L2DUdgi3XTa0ORKeflUhdL4gucWoAMrKX2nmPjBMKLgU7WLBc8AtV+84b9OWFML6NEyo4
+ 4cP7cM/07VlJK53pqNg5cHtnWwjHcbpGkQvx6RUx6F1My3y52vM24rNUA3+ligVEgPYBuQEN
+ BFXOJlcBCADAmcVUNTWT6yLWQHvxZ0o47KCP8OcLqD+67T0RCe6d0LP8GsWtrJdeDIQk+T+F
+ xO7DolQPS6iQ6Ak2/lJaPX8L0BkEAiMuLCKFU6Bn3lFOkrQeKp3u05wCSV1iKnhg0UPji9V2
+ W5eNfy8F4ZQHpeGUGy+liGXlxqkeRVhLyevUqfU0WgNqAJpfhHSGpBgihUupmyUg7lfUPeRM
+ DzAN1pIqoFuxnN+BRHdAecpsLcbR8sQddXmDg9BpSKozO/JyBmaS1RlquI8HERQoe6EynJhd
+ 64aICHDfj61rp+/0jTIcevxIIAzW70IadoS/y3DVIkuhncgDBvGbF3aBtjrJVP+5ABEBAAGJ
+ ASUEGAEIAA8FAlXOJlcCGwwFCRLMAwAACgkQ9AfbAGHVz0CbFwf9F/PXxQR9i4N0iipISYjU
+ sxVdjJOM2TMut+ZZcQ6NSMvhZ0ogQxJ+iEQ5OjnIputKvPVd5U7WRh+4lF1lB/NQGrGZQ1ic
+ alkj6ocscQyFwfib+xIe9w8TG1CVGkII7+TbS5pXHRxZH1niaRpoi/hYtgzkuOPp35jJyqT/
+ /ELbqQTDAWcqtJhzxKLE/ugcOMK520dJDeb6x2xVES+S5LXby0D4juZlvUj+1fwZu+7Io5+B
+ bkhSVPb/QdOVTpnz7zWNyNw+OONo1aBUKkhq2UIByYXgORPFnbfMY7QWHcjpBVw9MgC4tGeF
+ R4bv+1nAMMxKmb5VvQCExr0eFhJUAHAhVg==
+Message-ID: <7244733b-3092-a1f1-55f1-35a964a7c791@redhat.com>
+Date: Thu, 9 Jul 2020 10:24:38 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.9.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: quoted-printable
-Date: Thu, 09 Jul 2020 08:24:22 -0000
-From: Laurent Vivier <1886811@bugs.launchpad.net>
-To: qemu-devel@nongnu.org
-X-Launchpad-Notification-Type: bug
-X-Launchpad-Bug: product=qemu; status=In Progress; importance=Undecided;
- assignee=Laurent@vivier.eu; 
-X-Launchpad-Bug: distribution=debian; sourcepackage=qemu; component=main;
- status=Unknown; importance=Unknown; assignee=None; 
-X-Launchpad-Bug-Tags: linux-user
-X-Launchpad-Bug-Information-Type: Public
-X-Launchpad-Bug-Private: no
-X-Launchpad-Bug-Security-Vulnerability: no
-X-Launchpad-Bug-Commenters: emojifreak laurent-vivier
-X-Launchpad-Bug-Reporter: Ryutaroh Matsumoto (emojifreak)
-X-Launchpad-Bug-Modifier: Laurent Vivier (laurent-vivier)
-References: <159420830935.32230.13858618076699173558.malonedeb@gac.canonical.com>
-Message-Id: <159428306350.27041.9464553324362178246.launchpad@wampee.canonical.com>
-Subject: [Bug 1886811] Re: systemd complains Failed to enqueue loopback
- interface start request: Operation not supported
-X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
-X-Launchpad-Message-For: qemu-devel-ml
-Precedence: bulk
-X-Generated-By: Launchpad (canonical.com);
- Revision="b24753402d6321ed1b9083e580f5f014a46bab00";
- Instance="production-secrets-lazr.conf"
-X-Launchpad-Hash: 80fd20524417945a8a78f58df577691247c9262c
-Received-SPF: none client-ip=91.189.90.7; envelope-from=bounces@canonical.com;
- helo=indium.canonical.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/07/09 04:30:56
-X-ACL-Warn: Detected OS   = Linux 3.11 and newer [fuzzy]
-X-Spam_score_int: -58
-X-Spam_score: -5.9
-X-Spam_bar: -----
-X-Spam_report: (-5.9 / 5.0 requ) BAYES_00=-1.9, HEADER_FROM_DIFFERENT_DOMAINS=1,
- RCVD_IN_DNSWL_HI=-5, RCVD_IN_MSPIKE_H3=-0.01, RCVD_IN_MSPIKE_WL=-0.01,
- SPF_HELO_NONE=0.001, SPF_NONE=0.001 autolearn=ham autolearn_force=no
+In-Reply-To: <5c2a81c7-851c-aeb4-84b7-3bd61417495e@virtuozzo.com>
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=mreitz@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature";
+ boundary="H006wDWmRSfeXG8UiXiRW4DyMbSEjOUqT"
+Received-SPF: pass client-ip=205.139.110.61; envelope-from=mreitz@redhat.com;
+ helo=us-smtp-delivery-1.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/07/09 04:20:09
+X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
+X-Spam_score_int: -40
+X-Spam_score: -4.1
+X-Spam_bar: ----
+X-Spam_report: (-4.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-1, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
+Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -76,63 +108,114 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Bug 1886811 <1886811@bugs.launchpad.net>
+Cc: Kevin Wolf <kwolf@redhat.com>,
+ Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>, qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-** Changed in: qemu
-       Status: New =3D> In Progress
+This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
+--H006wDWmRSfeXG8UiXiRW4DyMbSEjOUqT
+Content-Type: multipart/mixed; boundary="rLKlzxse3QKS5YskAmqTt5mtvjMvowVKf"
 
-** Changed in: qemu
-     Assignee: (unassigned) =3D> Laurent Vivier (laurent-vivier)
+--rLKlzxse3QKS5YskAmqTt5mtvjMvowVKf
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: quoted-printable
 
--- =
+On 08.07.20 19:20, Andrey Shinkevich wrote:
+> On 25.06.2020 18:21, Max Reitz wrote:
+>> Add some helper functions for skipping filters in a chain of block
+>> nodes.
+>>
+>> Signed-off-by: Max Reitz <mreitz@redhat.com>
+>> ---
+>> =C2=A0 include/block/block_int.h |=C2=A0 3 +++
+>> =C2=A0 block.c=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 | 55 ++++++++++++++++++=
++++++++++++++++++++++
+>> =C2=A0 2 files changed, 58 insertions(+)
+>>
+>> diff --git a/include/block/block_int.h b/include/block/block_int.h
+>> index bb3457c5e8..5da793bfc3 100644
+>> --- a/include/block/block_int.h
+>> +++ b/include/block/block_int.h
+>> @@ -1382,6 +1382,9 @@ BdrvChild *bdrv_cow_child(BlockDriverState *bs);
+>> =C2=A0 BdrvChild *bdrv_filter_child(BlockDriverState *bs);
+>> =C2=A0 BdrvChild *bdrv_filter_or_cow_child(BlockDriverState *bs);
+>> =C2=A0 BdrvChild *bdrv_primary_child(BlockDriverState *bs);
+>> +BlockDriverState *bdrv_skip_implicit_filters(BlockDriverState *bs);
+>> +BlockDriverState *bdrv_skip_filters(BlockDriverState *bs);
+>> +BlockDriverState *bdrv_backing_chain_next(BlockDriverState *bs);
+>> =C2=A0 =C2=A0 static inline BlockDriverState *child_bs(BdrvChild *child)
+>> =C2=A0 {
+>> diff --git a/block.c b/block.c
+>> index 5a42ef49fd..0a0b855261 100644
+>> --- a/block.c
+>> +++ b/block.c
+>> @@ -7008,3 +7008,58 @@ BdrvChild *bdrv_primary_child(BlockDriverState
+>> *bs)
+>> =C2=A0 =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 return NULL;
+>> =C2=A0 }
+>> +
+>> +static BlockDriverState *bdrv_do_skip_filters(BlockDriverState *bs,
+>> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
+=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 bool
+>> stop_on_explicit_filter)
+>> +{
+>> +=C2=A0=C2=A0=C2=A0 BdrvChild *c;
+>> +
+>> +=C2=A0=C2=A0=C2=A0 if (!bs) {
+>> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 return NULL;
+>> +=C2=A0=C2=A0=C2=A0 }
+>> +
+>> +=C2=A0=C2=A0=C2=A0 while (!(stop_on_explicit_filter && !bs->implicit)) =
+{
+>> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 c =3D bdrv_filter_child(bs);
+>> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 if (!c) {
+>> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 brea=
+k;
+>> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 }
+>> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 bs =3D c->bs;
+>=20
+> Could it be child_bs(bs) ?
 
-You received this bug notification because you are a member of qemu-
-devel-ml, which is subscribed to QEMU.
-https://bugs.launchpad.net/bugs/1886811
+Well, in a sense, but not really.  We need to check whether there is a
+child before overwriting @bs (because @bs must stay a non-NULL pointer),
+so we wouldn=E2=80=99t have fewer lines of code if we replaced =E2=80=9CBdr=
+vChild *c=E2=80=9D by
+=E2=80=9CBlockDriverState *child_bs=E2=80=9D, and then used bdrv_child() to=
+ set child_bs.
 
-Title:
-  systemd complains Failed to enqueue loopback interface start request:
-  Operation not supported
+(And because we have to check whether @c is NULL anyway, there is no
+real reason to use child_bs(c) instead of c->bs afterwards.)
 
-Status in QEMU:
-  In Progress
-Status in qemu package in Debian:
-  Unknown
+>> +=C2=A0=C2=A0=C2=A0 }
+> Reviewed-by: Andrey Shinkevich <andrey.shinkevich@virtuozzo.com>
 
-Bug description:
-  This symptom seems similar to
-  https://bugs.launchpad.net/qemu/+bug/1823790
-
-  Host Linux: Debian 11 Bullseye (testing) on x84-64 architecture
-  qemu version: latest git of git commit hash eb2c66b10efd2b914b56b20ae9065=
-5914310c925
-  compiled with "./configure --static --disable-system" =
+Thanks a lot for reviewing!
 
 
-  Down stream bug report at https://bugs.debian.org/cgi-bin/bugreport.cgi?b=
-ug=3D964289
-  Bug report (closed) to systemd: https://github.com/systemd/systemd/issues=
-/16359
+--rLKlzxse3QKS5YskAmqTt5mtvjMvowVKf--
 
-  systemd in armhf and armel (both little endian 32-bit) containers fail to=
- start with
-  Failed to enqueue loopback interface start request: Operation not support=
-ed
+--H006wDWmRSfeXG8UiXiRW4DyMbSEjOUqT
+Content-Type: application/pgp-signature; name="signature.asc"
+Content-Description: OpenPGP digital signature
+Content-Disposition: attachment; filename="signature.asc"
 
-  How to reproduce on Debian (and probably Ubuntu):
-  mmdebstrap --components=3D"main contrib non-free" --architectures=3Darmhf=
- --variant=3Dimportant bullseye /var/lib/machines/armhf-bullseye
-  systemd-nspawn -D /var/lib/machines/armhf-bullseye -b
+-----BEGIN PGP SIGNATURE-----
 
-  When "armhf" architecture is replaced with "mips" (32-bit big endian) or =
-"ppc64"
-  (64-bit big endian), the container starts up fine.
+iQEzBAEBCAAdFiEEkb62CjDbPohX0Rgp9AfbAGHVz0AFAl8G1EYACgkQ9AfbAGHV
+z0C+5wf9HE9Hz1AtZSaRjGxPf5PAPgBXy5X3+FZoqlAwaN3ac82C5pU226LKISp8
+kOZ+y6VTgub7ijXvS2HGrMChkyF24J/XwLiJ2XcjKZu1jJyLH7IshqjM5XJiSSxB
+ZF5EoABKtmNwla6aXkfVyNs4Atn2B9i9EbpqKFSnR0RgC/2deiT4ESaGyGHHfSw9
+Mg4b16dCTvcpXtakLjjIxivtKTMg5OAWdOrJ184c1tfsFSFA5AXo5QULseG22sGw
+hj6riNFrlv968wr/cIC4Jzd+dezxWDYU8jeaYm9X1rFwA8OVm90ucJs8d8ElVnuj
+7y3vl2++qf+KQ92OQ7y+SpxdF/NKgw==
+=zDhQ
+-----END PGP SIGNATURE-----
 
-  The same symptom is also observed with "powerpc" (32-bit big endian)
-  architecture.
+--H006wDWmRSfeXG8UiXiRW4DyMbSEjOUqT--
 
-To manage notifications about this bug go to:
-https://bugs.launchpad.net/qemu/+bug/1886811/+subscriptions
 
