@@ -2,83 +2,51 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B75FA21A0FA
-	for <lists+qemu-devel@lfdr.de>; Thu,  9 Jul 2020 15:35:23 +0200 (CEST)
-Received: from localhost ([::1]:50406 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D8D6F21A10C
+	for <lists+qemu-devel@lfdr.de>; Thu,  9 Jul 2020 15:40:19 +0200 (CEST)
+Received: from localhost ([::1]:56572 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jtWhu-0004qu-Pu
-	for lists+qemu-devel@lfdr.de; Thu, 09 Jul 2020 09:35:22 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:38572)
+	id 1jtWmg-0007jr-Se
+	for lists+qemu-devel@lfdr.de; Thu, 09 Jul 2020 09:40:18 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:40040)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1jtWgv-0004Qa-P1
- for qemu-devel@nongnu.org; Thu, 09 Jul 2020 09:34:21 -0400
-Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:50966
- helo=us-smtp-1.mimecast.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1jtWgt-0003je-AD
- for qemu-devel@nongnu.org; Thu, 09 Jul 2020 09:34:21 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1594301658;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding;
- bh=pDsqSQQ8gP0qR3ZQLjnVIJ/ymoSLCPmhFPtjAoidZQ8=;
- b=NzjhOI9kUigxCVzcH7DHFu+ATfk4OBWWvGr69c4h/46qYjLUIKa0yhBp7FeLXsfj6FGxLp
- b2JBxDwZsvBST7Uot+ve2pXWDL0GQ1nMN4we8b/bXN1/XpdnuosF1VEGGZwI9jYV8D1mtj
- fjPmuF61Rkaqvj91AoLDKeAdWD9Zhkg=
-Received: from mail-wm1-f70.google.com (mail-wm1-f70.google.com
- [209.85.128.70]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-88-SdXlpLbLMkG3i0ZMkB_sFw-1; Thu, 09 Jul 2020 09:34:16 -0400
-X-MC-Unique: SdXlpLbLMkG3i0ZMkB_sFw-1
-Received: by mail-wm1-f70.google.com with SMTP id q20so2181695wme.3
- for <qemu-devel@nongnu.org>; Thu, 09 Jul 2020 06:34:16 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=pDsqSQQ8gP0qR3ZQLjnVIJ/ymoSLCPmhFPtjAoidZQ8=;
- b=QVBi3E8cKZkCIWOtF47FT5C6wnU9qbIq9NFrDhKPuUke2bRhHVHKMYdlA2+6/W8xzW
- 0Cr4o1aNM/wmqCNi/FAxNUgfs+eQ2ryLItjGfB9y3Xtru+jgEFTaG3TSkX9RTcNtNpz4
- rLHKpTavgdRT7LKLY0uF8dJl//96gxsFuPv6o+5mnVitf2LV620sG/ts2gN9E5iC2/l8
- HStgi4yUUL6/WzbnRX51R5UR0musXran4/SzsgipuvhGH+x/BEorKZcFKgPbFVZr0RvJ
- 0je4q/L5bRl37tiQ4kWAeh43Z+hs2+3eIhQYRgIj0sVBFNF90hcGC01LdRGCmkio5Rnq
- C1TA==
-X-Gm-Message-State: AOAM530P5A7+lzkFhoybF35CaX7NTRGdmOADU4geh1mpIXF/y/73MOYU
- hY2vvheU3GtGTFTueZ0mDxzSWGVMYZ9qAyla1HvJtHJoZjMRvOIo0+Ayqe8RGb0mYsfBEtkTCjQ
- eg7cQ3Ze7h7uusHs=
-X-Received: by 2002:a7b:ca52:: with SMTP id m18mr41127wml.92.1594301654881;
- Thu, 09 Jul 2020 06:34:14 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJyRjD47pMoPv0Pykkc+NwbLHI+zwl5flW3MmhaXslaZfGB8TM4R0VeYQvZVs/EBeKHXQ8TkOg==
-X-Received: by 2002:a7b:ca52:: with SMTP id m18mr41031wml.92.1594301653713;
- Thu, 09 Jul 2020 06:34:13 -0700 (PDT)
-Received: from localhost.localdomain
- (138.red-83-57-170.dynamicip.rima-tde.net. [83.57.170.138])
- by smtp.gmail.com with ESMTPSA id 65sm6350358wre.6.2020.07.09.06.34.12
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 09 Jul 2020 06:34:13 -0700 (PDT)
-From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>
-To: qemu-devel@nongnu.org
-Subject: [PATCH] softmmu/vl: Include "qemu/rcu.h" for rcu_disable_atfork()
-Date: Thu,  9 Jul 2020 15:34:11 +0200
-Message-Id: <20200709133411.23929-1-philmd@redhat.com>
-X-Mailer: git-send-email 2.21.3
+ (Exim 4.90_1) (envelope-from <alxndr@bu.edu>)
+ id 1jtWlb-0006ax-25; Thu, 09 Jul 2020 09:39:11 -0400
+Received: from relay64.bu.edu ([128.197.228.104]:46777)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <alxndr@bu.edu>)
+ id 1jtWlY-0004SV-SD; Thu, 09 Jul 2020 09:39:10 -0400
+X-Envelope-From: alxndr@bu.edu
+X-BU-AUTH: mozz.bu.edu [128.197.127.33]
+Received: from BU-AUTH (localhost.localdomain [127.0.0.1]) (authenticated
+ bits=0)
+ by relay64.bu.edu (8.14.3/8.14.3) with ESMTP id 069Dcf2H025248
+ (version=TLSv1/SSLv3 cipher=AES256-GCM-SHA384 bits=256 verify=NO);
+ Thu, 9 Jul 2020 09:38:44 -0400
+Date: Thu, 9 Jul 2020 09:38:41 -0400
+From: Alexander Bulekov <alxndr@bu.edu>
+To: Thomas Huth <thuth@redhat.com>
+Subject: Re: [PATCH-for-5.1 2/2] fuzz: add missing header for rcu_enable_atfork
+Message-ID: <20200709133841.olbpg7jwaeklc6v6@mozz.bu.edu>
+References: <20200708200104.21978-1-alxndr@bu.edu>
+ <20200708200104.21978-3-alxndr@bu.edu>
+ <75c61011-3be4-a450-3188-4b875703df07@redhat.com>
 MIME-Version: 1.0
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=UTF-8;
-	text/plain; charset="utf-8"
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=205.139.110.120; envelope-from=philmd@redhat.com;
- helo=us-smtp-1.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/07/09 01:47:04
-X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
-X-Spam_score_int: -40
-X-Spam_score: -4.1
-X-Spam_bar: ----
-X-Spam_report: (-4.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-1, SPF_HELO_NONE=0.001,
+In-Reply-To: <75c61011-3be4-a450-3188-4b875703df07@redhat.com>
+User-Agent: NeoMutt/20180716
+Received-SPF: pass client-ip=128.197.228.104; envelope-from=alxndr@bu.edu;
+ helo=relay64.bu.edu
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/07/09 09:39:07
+X-ACL-Warn: Detected OS   = Linux 2.6.x
+X-Spam_score_int: -31
+X-Spam_score: -3.2
+X-Spam_bar: ---
+X-Spam_report: (-3.2 / 5.0 requ) BAYES_00=-1.9, HK_RANDOM_ENVFROM=0.001,
+ HK_RANDOM_FROM=1, RCVD_IN_DNSWL_MED=-2.3, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -92,37 +60,74 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Paolo Bonzini <pbonzini@redhat.com>,
- =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>
+Cc: Laurent Vivier <lvivier@redhat.com>, QEMU Trivial <qemu-trivial@nongnu.org>,
+ liq3ea@163.com, qemu-devel@nongnu.org, Bandan Das <bsd@redhat.com>,
+ Stefan Hajnoczi <stefanha@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>,
+ philmd@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-In commit 73c6e4013b we let vl.c use rcu_disable_atfork()
-which is declared in "qemu/rcu.h", but forgot to include
-this header. Fortunately has never been a problem since
-vl.c includes "exec/memory.h" which includes "qemu/rcu.h".
+On 200709 0718, Thomas Huth wrote:
+> On 08/07/2020 22.01, Alexander Bulekov wrote:
+> > In 45222b9a90, I fixed a broken check for rcu_enable_atfork introduced
+> > in d6919e4cb6. I added a call to rcu_enable_atfork after the
+> > call to qemu_init in fuzz.c, but forgot to include the corresponding
+> > header, breaking --enable-fuzzing --enable-werror builds.
+> > 
+> > Fixes: 45222b9a90 ("fuzz: fix broken qtest check at rcu_disable_atfork")
+> > Signed-off-by: Alexander Bulekov <alxndr@bu.edu>
+> > ---
+> >  tests/qtest/fuzz/fuzz.c | 1 +
+> >  1 file changed, 1 insertion(+)
+> > 
+> > diff --git a/tests/qtest/fuzz/fuzz.c b/tests/qtest/fuzz/fuzz.c
+> > index a36d9038e0..0b66e43409 100644
+> > --- a/tests/qtest/fuzz/fuzz.c
+> > +++ b/tests/qtest/fuzz/fuzz.c
+> > @@ -19,6 +19,7 @@
+> >  #include "sysemu/runstate.h"
+> >  #include "sysemu/sysemu.h"
+> >  #include "qemu/main-loop.h"
+> > +#include "qemu/rcu.h"
+> >  #include "tests/qtest/libqtest.h"
+> >  #include "tests/qtest/libqos/qgraph.h"
+> >  #include "fuzz.h"
+> 
+> D'oh, mea culpa, I also apparently did not properly compile test that
+> patch :-( I think we need a CI job that at least compile tests the
+> fuzzing code - I can look into that once Alex Bennée's current testing
+> pull request has been merged.
 
-Include the missing header now in case we split vl.c later.
+My bad - I should have done a clean build with a version of clang
+that doesn't require me to -disable-werror
 
-Fixes: 73c6e4013b ("rcu: disable pthread_atfork callbacks ASAP")
-Signed-off-by: Philippe Mathieu-Daudé <philmd@redhat.com>
----
- softmmu/vl.c | 1 +
- 1 file changed, 1 insertion(+)
+> Alexander, is there also a way to run a fuzzer just for some few
+> minutes? E.g. a fuzzing test that finishes quickly, or an option to
+> limit the time that a test is running? If so, we could also add that
+> quick test to the CI pipeline, to make sure that the fuzzer code does
+> not only compile, but is also able to run (at least a little bit).
 
-diff --git a/softmmu/vl.c b/softmmu/vl.c
-index ecbc18ba75..f243745c51 100644
---- a/softmmu/vl.c
-+++ b/softmmu/vl.c
-@@ -83,6 +83,7 @@
- #include "qemu/config-file.h"
- #include "qemu-options.h"
- #include "qemu/main-loop.h"
-+#include "qemu/rcu.h"
- #ifdef CONFIG_VIRTFS
- #include "fsdev/qemu-fsdev.h"
- #endif
--- 
-2.21.3
+Yes. I think the sequence could look something like:
+CC=clang CXX=clang++ ../configure --enable-fuzzing --enable-sanitizers \
+             --enable-werror
+make i386-softmmu/fuzz
+./i386-softmmu/qemu-fuzz-i386 --fuzz-target=i440fx-qtest-reboot-fuzz -runs=5000
 
+This will run the i440fx fuzzer over 5000 inputs which should finish in
+a second or so. I don't expect it to actually find any crashes in the
+i440fx in such a short period, so, ideally, all errors would be
+fuzzer-related.
+
+Where can I get started with building out a CI job for this?
+
+One aside: running this right now, QEMU exits and AddressSanitizer
+complains about some leaks. There is a patch in Paolo's PR that should
+fix this, but I was surprised that existing CI tests didn't catch it. Is
+leak detection usually disabled in CI?
+
+> For this patch here:
+> Reviewed-by: Thomas Huth <thuth@redhat.com>
+
+Thanks!
+-Alex
 
