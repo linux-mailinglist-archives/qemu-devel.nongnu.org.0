@@ -2,114 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2B20421A599
-	for <lists+qemu-devel@lfdr.de>; Thu,  9 Jul 2020 19:16:10 +0200 (CEST)
-Received: from localhost ([::1]:47156 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 362BD21A5D6
+	for <lists+qemu-devel@lfdr.de>; Thu,  9 Jul 2020 19:29:42 +0200 (CEST)
+Received: from localhost ([::1]:58652 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jta9Z-00011m-1D
-	for lists+qemu-devel@lfdr.de; Thu, 09 Jul 2020 13:16:09 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:49892)
+	id 1jtaMf-0006YR-9b
+	for lists+qemu-devel@lfdr.de; Thu, 09 Jul 2020 13:29:41 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:53200)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <vsementsov@virtuozzo.com>)
- id 1jta8U-0008Jd-Vz
- for qemu-devel@nongnu.org; Thu, 09 Jul 2020 13:15:03 -0400
-Received: from mail-eopbgr130093.outbound.protection.outlook.com
- ([40.107.13.93]:48282 helo=EUR01-HE1-obe.outbound.protection.outlook.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <vsementsov@virtuozzo.com>)
- id 1jta8P-0003yc-L0
- for qemu-devel@nongnu.org; Thu, 09 Jul 2020 13:15:01 -0400
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=AIoIKjeunssT2yccxlrvaNFdV8XF3nkknq6RHROi2hQuFgI94rhohtbxWe53A3kDqYyfllK/OSA+qyIBxh0Wu47hT1QxvL4TggOwJ1fQzqWLyDtQelv5vUxq6BxRJDRNsUOlXWiML89HUA9dsGUoEr8TnQmXngrhTYgJu0lwPh7RUGAZnEx2GCqxV07Kn9vRzcmqQcR58CwOd7bPWEKn4vGrKp1QdQF6Z3izPhBwjU3usCRlPCe5Ra3hzOSPWE97If4qUzOCgUA5VxsVZHirRoMX7xmGGFXsWuRib6LfHP/BOTCez66uMpRYWAGQJQD4H0AZ8A7jV2IPawxvFWrKHw==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=YVoMtPWiinm6KUopFcJPA9WqxlihcpwCa58qNDTUKq8=;
- b=bTi2CZ+Zlck1sHoSPVa2EGFxt9C3g/Wn882W84xdj+s/iZ4F/3KXHHeIum+k1yjjYwPJIyxAk2XW580bf4kp4AXnbs3CQlZAGYDm5IMGSj1plSanwnSbkugT1igrD1Tijfl5WL3juFHHhu7TNMZHBa0jcCLWwTqnqFwwqb0lvdvIxGGrpkct+hPFs7fkF7TUhTRB44tFg9auARo0mty2qmoWymQQjXm8bywfuE2IzpCKvRR7eVQBYaQvUUfIw4bGO7hum7dUGiNwmWBVcjgqd4gZ+ZZ3pPPHMmY838w3yIECqGW87nHG1A96JTbtBgFo2AUoFmclw27HDhsZbs1XgA==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=virtuozzo.com; dmarc=pass action=none
- header.from=virtuozzo.com; dkim=pass header.d=virtuozzo.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=virtuozzo.com;
- s=selector2;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=YVoMtPWiinm6KUopFcJPA9WqxlihcpwCa58qNDTUKq8=;
- b=N8/esuUX9wXG1wQM3rkel0F06EFAmzEQCPHi522hzgJ7Jfkuij+Z0NlSSlOUjE/1MK30zi410WNkV7940aRffA6aRBeo6J6ekumdyuk230LtHv9q9JkdOQ3ggh5ON9ZOjpgvaUKXaInOoKtMTjOe3LPLAbqQEGvWTu18I5rtG2M=
-Authentication-Results: openvz.org; dkim=none (message not signed)
- header.d=none;openvz.org; dmarc=none action=none header.from=virtuozzo.com;
-Received: from AM7PR08MB5494.eurprd08.prod.outlook.com (2603:10a6:20b:dc::15)
- by AM6PR08MB3960.eurprd08.prod.outlook.com (2603:10a6:20b:ad::11)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3153.20; Thu, 9 Jul
- 2020 17:14:54 +0000
-Received: from AM7PR08MB5494.eurprd08.prod.outlook.com
- ([fe80::a408:2f0f:bc6c:d312]) by AM7PR08MB5494.eurprd08.prod.outlook.com
- ([fe80::a408:2f0f:bc6c:d312%3]) with mapi id 15.20.3174.021; Thu, 9 Jul 2020
- 17:14:54 +0000
-Subject: Re: [PATCH 0/2] keepalive default
-To: Eric Blake <eblake@redhat.com>, =?UTF-8?Q?Daniel_P=2e_Berrang=c3=a9?=
- <berrange@redhat.com>
-References: <20200708191540.28455-1-vsementsov@virtuozzo.com>
- <20200709083510.GF3753300@redhat.com>
- <daa7864d-8979-1987-caf7-cca3cb9849ca@redhat.com>
-From: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
-Message-ID: <436ac597-c25d-16a8-31bc-a895938af807@virtuozzo.com>
-Date: Thu, 9 Jul 2020 20:14:52 +0300
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.10.0
-In-Reply-To: <daa7864d-8979-1987-caf7-cca3cb9849ca@redhat.com>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 8bit
-X-ClientProxiedBy: AM4PR0902CA0018.eurprd09.prod.outlook.com
- (2603:10a6:200:9b::28) To AM7PR08MB5494.eurprd08.prod.outlook.com
- (2603:10a6:20b:dc::15)
+ (Exim 4.90_1) (envelope-from <alistair23@gmail.com>)
+ id 1jtaLu-00067e-SJ; Thu, 09 Jul 2020 13:28:54 -0400
+Received: from mail-io1-xd41.google.com ([2607:f8b0:4864:20::d41]:43063)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <alistair23@gmail.com>)
+ id 1jtaLt-0005oq-Ax; Thu, 09 Jul 2020 13:28:54 -0400
+Received: by mail-io1-xd41.google.com with SMTP id k23so3137661iom.10;
+ Thu, 09 Jul 2020 10:28:52 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc:content-transfer-encoding;
+ bh=3eprv0vHNk1cbTgErogcMPWD9Mv/u0rtXsYYUQqfdws=;
+ b=W0it/BS56cMeA2rGFhIKK+swKAhyEp0Rpc6cSDoVTUnCiio8ujrRtxIxyJzZJNLl9F
+ q/qa6+hDqvbK0mtfgISerCPSIwA9iybdI8oxDfvsLJdfDcqz5LtJlMS4D/MLqn3MbL/N
+ gt+ORKa0T4BcueAkl+0U2wt1OTjGdiW75EifMuo3J3oYAXoaxbADkPeWqfzgHNTcTcUd
+ QZA0QIzZf0tH6LQQg1XMtng5wtVhLwUEPxsBGttaKfXKConD6KJitiJ54Bt6bK6UV9tK
+ Dff6gs3RN9UYKAyBGWi7xRyMGpdqCZ0Dlhx0BNvnREkOXisi4SpM25UJR6pB0as1OcT9
+ dt4g==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc:content-transfer-encoding;
+ bh=3eprv0vHNk1cbTgErogcMPWD9Mv/u0rtXsYYUQqfdws=;
+ b=rln10qOLUJK1RWOp9S/z8xllryYk0rXFeegqXDyWDOHa3pkJ0L9JFYYIKlAdlDQgqZ
+ bXISrl4HZ4sg09qiYm0SWVKv6f2tc+5p01WeIUVdG+7J4/OPT45zXlvBOj/CPUZAns0H
+ 202piKjY7I2WgmndQ0O+IbGNU0P8HWG/kxrL2rnmiVBvZ7M6oBvSx9GFKRhfGrhcuhGz
+ 04s9I+PPnxVHvkCUpbiEKhZJsPAyZfGO48azfTEJarDofgGdCVVzC+g3dd+RLyn3uF/a
+ TqgcYbEdYeXul0yhelkckgw6CUV2Fzt8XPEHvyECsJYkyMxNPeloheALd4lv50Do1mAf
+ 19pg==
+X-Gm-Message-State: AOAM530PR/Nx0vzt2yaOaU9pK9eKgwovYOELpjuQQMijeu8T5nGgLGCn
+ QYkw7x/kVKYV+8+MNF/G+CyzIy5vy0F2M54fNDk=
+X-Google-Smtp-Source: ABdhPJw/Je0m2CCSDIYtbFl2epzVL4KdxRSTPktcxbTBObac7BG6J40qAN9IIAqNJQ5L4Ht6d5kjJryRC/dachQ+Hps=
+X-Received: by 2002:a02:6c4c:: with SMTP id w73mr74782575jab.26.1594315731840; 
+ Thu, 09 Jul 2020 10:28:51 -0700 (PDT)
 MIME-Version: 1.0
-X-MS-Exchange-MessageSentRepresentingType: 1
-Received: from [192.168.100.2] (185.215.60.189) by
- AM4PR0902CA0018.eurprd09.prod.outlook.com (2603:10a6:200:9b::28) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3174.21 via Frontend
- Transport; Thu, 9 Jul 2020 17:14:53 +0000
-X-Originating-IP: [185.215.60.189]
-X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: 9ee0421c-685e-460a-ce82-08d8242b98d3
-X-MS-TrafficTypeDiagnostic: AM6PR08MB3960:
-X-MS-Exchange-Transport-Forked: True
-X-Microsoft-Antispam-PRVS: <AM6PR08MB396077E3D384E1434A17C89BC1640@AM6PR08MB3960.eurprd08.prod.outlook.com>
-X-MS-Oob-TLC-OOBClassifiers: OLM:820;
-X-Forefront-PRVS: 04599F3534
-X-MS-Exchange-SenderADCheck: 1
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: tKUo2YmfWTcRJgmdjKZDk6JKaXeR3CPKM3BcS55iBMp4oKBr2IJPmFIj+JW8WmZlL9CyNcqWXtqMvenOHgB4GP8pr8XNWNZQxIc3QahFNmBAHEIiKXXkmxCOAfsqRZO25W8R9I8ukDZu6L34vVcwsiNp8z8wOveQkt/qzTohwDcvJ87R66d5cRehFSmoZgEYUj1+7EnfmwFu5f1cQZi4bQbWgplIzvJzgzDf9OU/qkP5PHCxVUAsEDuSjbC9FKI5aAvB7vj8ThPCx2zONzws2YoOBKnZmGhjt/fhV7iarH9YlWRPZp1/ykA04MApkhrgMQiPs6o6OR19NlX2NQGtV5Ctzx2bGgdKREt3Xt0poD6wwzpwd/DY48jwwyZCuY9L
-X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:AM7PR08MB5494.eurprd08.prod.outlook.com; PTR:; CAT:NONE;
- SFTY:;
- SFS:(4636009)(366004)(39840400004)(136003)(396003)(346002)(376002)(956004)(31696002)(36756003)(31686004)(6486002)(107886003)(2906002)(2616005)(66946007)(66476007)(52116002)(5660300002)(66556008)(16576012)(86362001)(186003)(8936002)(16526019)(26005)(316002)(4326008)(478600001)(83380400001)(8676002)(110136005)(53546011)(43740500002);
- DIR:OUT; SFP:1102; 
-X-MS-Exchange-AntiSpam-MessageData: B7Ud2dMS3ellSbO0Ws/128PBa4kbjsR95eWS6EY2BnQGAsJC8ssILWkCWJ0PWzh4nBDa0O72yt1w2YAYSsva7qobWUMNiKuJU6BYMrkkCdkZprPrhp54EpQqNkoBN1SLxXqwVzFa1bVpNYWRN5brP+McU7/Gd9OeIqoJrEaU4BVtuSrXuqqkmVsqHgXqFKjF5S5mg4PEPAhOD6tS1NquyjCoh6Lddtf6RMqElHhhJ1zyBHQn5qchWUduVHlDCElhOf9dYJr8ZeJjXtC00whaq9s/h5o0GWA4GoJs4+bIlnGSvdvwGVCGDQ1T1Tc00ZypYxTccNaUHTQhbUimD3gQmm6vem4ROR7UfimdHAQu2thUwZEU9VNuR8uCRv/Bahgh0I2fm1DkadAOeskuSrbleyI2ZxL34kAnOjJnH+hjoGKcOB0n1VSWqf3ULfoeeaHVVTm/o0+PgC31r+Kf+XOXgKmHjlfo2zx1WlhmsD0dEnb+eN7/ZAOlx194eHu9V6Oi
-X-OriginatorOrg: virtuozzo.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 9ee0421c-685e-460a-ce82-08d8242b98d3
-X-MS-Exchange-CrossTenant-AuthSource: AM7PR08MB5494.eurprd08.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 09 Jul 2020 17:14:54.0460 (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 0bc7f26d-0264-416e-a6fc-8352af79c58f
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: lyF5eSEShGcz7hbfr4YD40eCoD4HnqapaRAeF4O+y4lrcham5/yHJmfaylY6vo8mANRE/EsYngm0853BJXBI3x9A0jhnS34kZY+vUPiJwrQ=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: AM6PR08MB3960
-Received-SPF: pass client-ip=40.107.13.93;
- envelope-from=vsementsov@virtuozzo.com;
- helo=EUR01-HE1-obe.outbound.protection.outlook.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/07/09 13:14:55
-X-ACL-Warn: Detected OS   = Windows NT kernel [generic] [fuzzy]
-X-Spam_score_int: -37
-X-Spam_score: -3.8
-X-Spam_bar: ---
-X-Spam_report: (-3.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+References: <1594289144-24723-1-git-send-email-bmeng.cn@gmail.com>
+In-Reply-To: <1594289144-24723-1-git-send-email-bmeng.cn@gmail.com>
+From: Alistair Francis <alistair23@gmail.com>
+Date: Thu, 9 Jul 2020 10:19:00 -0700
+Message-ID: <CAKmqyKPYG8wuS5zP58PqqZD=ZAYpmsE=+VwUH7N6ZiBH3APMBg@mail.gmail.com>
+Subject: Re: [PATCH v2 1/2] hw/riscv: Modify MROM size to end at 0x10000
+To: Bin Meng <bmeng.cn@gmail.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=2607:f8b0:4864:20::d41;
+ envelope-from=alistair23@gmail.com; helo=mail-io1-xd41.google.com
+X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
+ That's all we know.
+X-Spam_score_int: -17
+X-Spam_score: -1.8
+X-Spam_bar: -
+X-Spam_report: (-1.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
  DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- MSGID_FROM_MTA_HEADER=0.001, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-1,
- SPF_HELO_PASS=-0.001, SPF_PASS=-0.001,
+ FREEMAIL_ENVFROM_END_DIGIT=0.25, FREEMAIL_FROM=0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
  URIBL_BLOCKED=0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -123,31 +79,83 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: den@openvz.org, kraxel@redhat.com, qemu-devel@nongnu.org, armbru@redhat.com
+Cc: Bin Meng <bin.meng@windriver.com>,
+ "open list:RISC-V" <qemu-riscv@nongnu.org>,
+ Sagar Karandikar <sagark@eecs.berkeley.edu>,
+ Bastian Koppelmann <kbastian@mail.uni-paderborn.de>,
+ Palmer Dabbelt <palmerdabbelt@google.com>,
+ "qemu-devel@nongnu.org Developers" <qemu-devel@nongnu.org>,
+ Alistair Francis <Alistair.Francis@wdc.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-09.07.2020 18:34, Eric Blake wrote:
-> On 7/9/20 3:35 AM, Daniel P. Berrangé wrote:
->> On Wed, Jul 08, 2020 at 10:15:37PM +0300, Vladimir Sementsov-Ogievskiy wrote:
->>> Hi all!
->>>
->>> We understood, that keepalive is almost superfluous with default 2 hours
->>> in /proc/tcp_keepalive_time. Forcing user to setup keepalive for the
->>> whole system doesn't seem right, better setup it per-socket.
->>
->> Adding the ability to explicitly configure the keepalive settings makes
->> sense for QEMU. Completely ignoring system defaults when no explicit
->> settings are given though is not valid IMHO.
-> 
-> We already have the ability to add per-socket keepalive (see commit aec21d3175, in 4.2).  I guess what you are trying to further do is determine whether the default value for that field, when not explicitly specified by the user, can have saner semantics (default off for chardev sockets, default on for nbd clients where retry was enabled).  But since you already have to explicitly opt-in to nbd retry, what's so hard about opting in to keepalive at the same time, other than more typing?  Given that the easiest way to do this is via a machine-coded generation of the command line or QMP command, it doesn't seem that hard to just keep things as they are with explicit opt-in to per-socket keepalive.
-> 
+On Thu, Jul 9, 2020 at 3:06 AM Bin Meng <bmeng.cn@gmail.com> wrote:
+>
+> From: Bin Meng <bin.meng@windriver.com>
+>
+> At present the size of Mask ROM for sifive_u / spike / virt machines
+> is set to 0x11000, which ends at an unusual address. This changes the
+> size to 0xf000 so that it ends at 0x10000.
+>
+> Signed-off-by: Bin Meng <bin.meng@windriver.com>
+> Reviewed-by: Philippe Mathieu-Daud=C3=A9 <f4bug@amsat.org>
 
-Hmm. Looking at the code, I remember that reconnect is not optional, it works by default now. The option we have is "reconnect-delay" which only specify, after how much seconds we'll automatically fail the requests, not retrying them (0 seconds by default). Still, NBD tries to reconnect in background anyway.
+Thanks!
 
-In our downstream we have now old version of nbd-reconnect interface and enabled non-zero "delay" by default.
+Applied to riscv-to-apply.next
 
--- 
-Best regards,
-Vladimir
+Alistair
+
+> ---
+>
+> (no changes since v1)
+>
+>  hw/riscv/sifive_u.c | 2 +-
+>  hw/riscv/spike.c    | 2 +-
+>  hw/riscv/virt.c     | 2 +-
+>  3 files changed, 3 insertions(+), 3 deletions(-)
+>
+> diff --git a/hw/riscv/sifive_u.c b/hw/riscv/sifive_u.c
+> index dc46f64..3413369 100644
+> --- a/hw/riscv/sifive_u.c
+> +++ b/hw/riscv/sifive_u.c
+> @@ -70,7 +70,7 @@ static const struct MemmapEntry {
+>      hwaddr size;
+>  } sifive_u_memmap[] =3D {
+>      [SIFIVE_U_DEBUG] =3D    {        0x0,      0x100 },
+> -    [SIFIVE_U_MROM] =3D     {     0x1000,    0x11000 },
+> +    [SIFIVE_U_MROM] =3D     {     0x1000,     0xf000 },
+>      [SIFIVE_U_CLINT] =3D    {  0x2000000,    0x10000 },
+>      [SIFIVE_U_L2LIM] =3D    {  0x8000000,  0x2000000 },
+>      [SIFIVE_U_PLIC] =3D     {  0xc000000,  0x4000000 },
+> diff --git a/hw/riscv/spike.c b/hw/riscv/spike.c
+> index a187aa3..ea4be98 100644
+> --- a/hw/riscv/spike.c
+> +++ b/hw/riscv/spike.c
+> @@ -57,7 +57,7 @@ static const struct MemmapEntry {
+>      hwaddr base;
+>      hwaddr size;
+>  } spike_memmap[] =3D {
+> -    [SPIKE_MROM] =3D     {     0x1000,    0x11000 },
+> +    [SPIKE_MROM] =3D     {     0x1000,     0xf000 },
+>      [SPIKE_CLINT] =3D    {  0x2000000,    0x10000 },
+>      [SPIKE_DRAM] =3D     { 0x80000000,        0x0 },
+>  };
+> diff --git a/hw/riscv/virt.c b/hw/riscv/virt.c
+> index 5ca49c5..37b8c55 100644
+> --- a/hw/riscv/virt.c
+> +++ b/hw/riscv/virt.c
+> @@ -53,7 +53,7 @@ static const struct MemmapEntry {
+>      hwaddr size;
+>  } virt_memmap[] =3D {
+>      [VIRT_DEBUG] =3D       {        0x0,         0x100 },
+> -    [VIRT_MROM] =3D        {     0x1000,       0x11000 },
+> +    [VIRT_MROM] =3D        {     0x1000,        0xf000 },
+>      [VIRT_TEST] =3D        {   0x100000,        0x1000 },
+>      [VIRT_RTC] =3D         {   0x101000,        0x1000 },
+>      [VIRT_CLINT] =3D       {  0x2000000,       0x10000 },
+> --
+> 2.7.4
+>
+>
 
