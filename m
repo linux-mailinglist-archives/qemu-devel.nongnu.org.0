@@ -2,61 +2,62 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0947121A208
-	for <lists+qemu-devel@lfdr.de>; Thu,  9 Jul 2020 16:24:04 +0200 (CEST)
-Received: from localhost ([::1]:47236 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A311321A205
+	for <lists+qemu-devel@lfdr.de>; Thu,  9 Jul 2020 16:22:40 +0200 (CEST)
+Received: from localhost ([::1]:40802 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jtXT1-0008HV-2R
-	for lists+qemu-devel@lfdr.de; Thu, 09 Jul 2020 10:24:03 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:52514)
+	id 1jtXRf-0005TC-Nj
+	for lists+qemu-devel@lfdr.de; Thu, 09 Jul 2020 10:22:39 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:52644)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1jtXN8-0006wy-Q7
- for qemu-devel@nongnu.org; Thu, 09 Jul 2020 10:17:58 -0400
-Received: from mail-ot1-x344.google.com ([2607:f8b0:4864:20::344]:41630)
+ id 1jtXNm-0007pD-Ck
+ for qemu-devel@nongnu.org; Thu, 09 Jul 2020 10:18:38 -0400
+Received: from mail-oi1-x241.google.com ([2607:f8b0:4864:20::241]:37864)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1jtXN6-0001tw-S5
- for qemu-devel@nongnu.org; Thu, 09 Jul 2020 10:17:58 -0400
-Received: by mail-ot1-x344.google.com with SMTP id a21so1786104otq.8
- for <qemu-devel@nongnu.org>; Thu, 09 Jul 2020 07:17:56 -0700 (PDT)
+ id 1jtXNk-0001wl-Pw
+ for qemu-devel@nongnu.org; Thu, 09 Jul 2020 10:18:38 -0400
+Received: by mail-oi1-x241.google.com with SMTP id 12so2002521oir.4
+ for <qemu-devel@nongnu.org>; Thu, 09 Jul 2020 07:18:35 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=zxGK37NzPSfncdak5WpAZKiTh8SZRZCRr6jp4IZyh9g=;
- b=Jsh2EkVmNovcrYAM7TJ5ZjHXmN/jqXECaZXxcniTIh64jDUGflDUIPWZ90LUDQePIT
- IzYMlI/illDwDf66wJrZ8XXqQbhSVP+waexjfdk2H9WHTuZIBjxdgz66MGw7N1FR4Ryj
- U9ZRRiTrifIwqES1AhAFUOfq6d8j9p5qb6L0aYtgwEKh1FWg6NpRbfSvmQTH7fR1kqLg
- aNW0TwDn6YqL6iMLXrIPOFKtMeTgDSYZ4cLayNJrp5ExpdnfHcKfsgI4KItJdOdkXx5/
- rzn+dVCSnDAJ7kxez5FM7vbnOpNZmI+0f3FgnCm2F0GDFqEUrY8p2uRU+884N98qbsUd
- H7Rw==
+ :cc; bh=SjSf6hCBtUL97Io9jvyEFUHtBwR9Elv/asoVkUIeEx4=;
+ b=FoxwY+uGGxQ04XDEwhyX0idakgKDHz3CfN6Y3gPRg/9mTc7lppZ+XkakxaAhlqz3Xz
+ +GCnvOFXHVlFMIsdRV9/4mJo5QXOzFACXB0URygfmxErVryqi2+a3np4GUXcPyNvwS9I
+ /fC8TZuwFxkKA3cJ4Ka/VZNiHdd+2vmV7XMc/VAzLHQtgrGYFbfjZNpfuEPI/ytug962
+ zrzYGuhjjB4aKXIUJ6tA2ahiBT0FDvPkiRPtaYzgEfQ/IQ4a5TTr5RyzcLBEz/ee7f2d
+ So/ms9ZonsIpDF6N3Mtd9uC9089ANwFNHEDs+Jm4vXOrZivUMP6rZ6+rltCMpmtm19iX
+ luRw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
  :message-id:subject:to:cc;
- bh=zxGK37NzPSfncdak5WpAZKiTh8SZRZCRr6jp4IZyh9g=;
- b=uPh7+r1ZeVa7U6yttIKGpsPQIQSakt7av3+GGAHl3tsgxL4sR0v2q+Qn9gZx9f1JCm
- 3yJJXtb2dyYfBpNQSHr7geLG0srzAkn2NInybyDJ5tc08GHbSlfTgxFKhpnSaRwFq0u0
- KSLZtJ030ddU9JdybxPlrmKFRkn//7EyB/f+9T/4EjJqN6GRTer0ZzaqUUeYVkgET3F4
- 0ncsZCm7PedEmx/XsH0lHo0YnfLOcZB9FlWjRFqiCWMxozC8uDTBQX+OR7DTvDUWcuM+
- BTuc2FImSUD02di4Akpvppdwwn2T8VpYChzzN1Qdv7Uq+QD4wta0XP+VzeGSq/jPy9hu
- dhxg==
-X-Gm-Message-State: AOAM531b+9cL+Sv8XZo3cJ+x/GoaK6+26wJVR1DEXGAqR1Y2N8wQ55ls
- Sd3VgvzFfmBsaquM1a5bsPlpEq+0a8CMcFMeykpqeBc8
-X-Google-Smtp-Source: ABdhPJzigK2bMoVLRUCelTwxKgG9d68E6675gr6ATqxa1nKS6mznAOQGpRy3FtN2qZ+BVfFUS1+p1KldQYtrfeG0uow=
-X-Received: by 2002:a9d:7303:: with SMTP id e3mr46470169otk.221.1594304275463; 
- Thu, 09 Jul 2020 07:17:55 -0700 (PDT)
+ bh=SjSf6hCBtUL97Io9jvyEFUHtBwR9Elv/asoVkUIeEx4=;
+ b=TB3w4faHa7RXf8GHND4Mmvf8B6E4DIAEDloa6+QyeW12VE10kOmD0fGqZHFnKkmNU0
+ y+C92/aBaevIQjKWhQbnwAZp70+ed2+pJLSRWgS8mCqC59DQ/ombGnzNLEyQU4/590Q3
+ LxEmbWUHE5uZ/jn5oKAJ+EhwZIS/fZH7unKxBLMA8py8k8uHz08d3DYMyjv40VZzA2H8
+ J6AHI9HSV4+HBhGFaNpDwy07rigKBeb52QzDr/4xYTAjOkpT/vm+azkL7RRaAhQF6rfw
+ hZxGGutLpIVQKVmV9gBEp+8qepGAixu7qucDZCKKtEiwh3k6fAIoJboyQuaO60LS3x7M
+ nVCw==
+X-Gm-Message-State: AOAM531eJF/H1OiyNl+Ac3rnI4BJYVwtLeWbzXgHDDZc+CAtP8IXb4CG
+ gBY1EnHsMSmJVtN9DI9ONN/d1w7OluW31SNZYgE/QQ==
+X-Google-Smtp-Source: ABdhPJyky5MBZp4qNKGYbSqF0BhTvAVeh/pp9lBT8lVS0chIcbz/9j3WOJsb3C0mVK6kuJYwZ9MtLKaet0KQlQlqPLE=
+X-Received: by 2002:aca:54c9:: with SMTP id i192mr166150oib.163.1594304314786; 
+ Thu, 09 Jul 2020 07:18:34 -0700 (PDT)
 MIME-Version: 1.0
-References: <20200707152616.1917154-1-aaron@os.amperecomputing.com>
-In-Reply-To: <20200707152616.1917154-1-aaron@os.amperecomputing.com>
+References: <20200708160147.18426-1-eric.auger@redhat.com>
+In-Reply-To: <20200708160147.18426-1-eric.auger@redhat.com>
 From: Peter Maydell <peter.maydell@linaro.org>
-Date: Thu, 9 Jul 2020 15:17:44 +0100
-Message-ID: <CAFEAcA_7+9TfeAeLYnpfF91zaGmk23p0S_0AgrDiPQ+rR1-EnA@mail.gmail.com>
-Subject: Re: [PATCH] target/arm: Don't do raw writes for PMINTENCLR
-To: Aaron Lindsay <aaron@os.amperecomputing.com>
+Date: Thu, 9 Jul 2020 15:18:24 +0100
+Message-ID: <CAFEAcA_pvbeMEo9pmqbjEd1ojm-GF=Hcav9Lx-anVtU02GR=oQ@mail.gmail.com>
+Subject: Re: [PATCH] virtio-iommu: Fix coverity issue in
+ virtio_iommu_handle_command()
+To: Eric Auger <eric.auger@redhat.com>
 Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2607:f8b0:4864:20::344;
- envelope-from=peter.maydell@linaro.org; helo=mail-ot1-x344.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::241;
+ envelope-from=peter.maydell@linaro.org; helo=mail-oi1-x241.google.com
 X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
  That's all we know.
 X-Spam_score_int: -20
@@ -78,48 +79,27 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: QEMU Developers <qemu-devel@nongnu.org>
+Cc: qemu-arm <qemu-arm@nongnu.org>, QEMU Developers <qemu-devel@nongnu.org>,
+ Eric Auger <eric.auger.pro@gmail.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Tue, 7 Jul 2020 at 16:26, Aaron Lindsay <aaron@os.amperecomputing.com> wrote:
+On Wed, 8 Jul 2020 at 17:02, Eric Auger <eric.auger@redhat.com> wrote:
 >
-> Raw writes to this register when in KVM mode can cause interrupts to be
-> raised (even when the PMU is disabled). Because the underlying state is
-> already aliased to PMINTENSET (which already provides raw write
-> functions), we can safely disable raw accesses to PMINTENCLR entirely.
+> Coverity points out (CID 1430180) that the new case is missing
+> break or a /* fallthrough */ comment. Break is the right thing to
+> do as in that case, tail is not used.
 >
-> Signed-off-by: Aaron Lindsay <aaron@os.amperecomputing.com>
+> Fixes 1733eebb9e ("virtio-iommu: Implement RESV_MEM probe request")
+> Signed-off-by: Eric Auger <eric.auger@redhat.com>
+> Reported-by: Peter Maydell <peter.maydell@linaro.org>
 > ---
->  target/arm/helper.c | 4 ++--
->  1 file changed, 2 insertions(+), 2 deletions(-)
->
-> diff --git a/target/arm/helper.c b/target/arm/helper.c
-> index dc9c29f998..c69a2baf1d 100644
-> --- a/target/arm/helper.c
-> +++ b/target/arm/helper.c
-> @@ -2269,13 +2269,13 @@ static const ARMCPRegInfo v7_cp_reginfo[] = {
->        .resetvalue = 0x0 },
->      { .name = "PMINTENCLR", .cp = 15, .crn = 9, .crm = 14, .opc1 = 0, .opc2 = 2,
->        .access = PL1_RW, .accessfn = access_tpm,
-> -      .type = ARM_CP_ALIAS | ARM_CP_IO,
-> +      .type = ARM_CP_ALIAS | ARM_CP_IO | ARM_CP_NO_RAW,
->        .fieldoffset = offsetof(CPUARMState, cp15.c9_pminten),
->        .writefn = pmintenclr_write, },
->      { .name = "PMINTENCLR_EL1", .state = ARM_CP_STATE_AA64,
->        .opc0 = 3, .opc1 = 0, .crn = 9, .crm = 14, .opc2 = 2,
->        .access = PL1_RW, .accessfn = access_tpm,
-> -      .type = ARM_CP_ALIAS | ARM_CP_IO,
-> +      .type = ARM_CP_ALIAS | ARM_CP_IO | ARM_CP_NO_RAW,
->        .fieldoffset = offsetof(CPUARMState, cp15.c9_pminten),
->        .writefn = pmintenclr_write },
->      { .name = "CCSIDR", .state = ARM_CP_STATE_BOTH,
-> --
-> 2.17.1
+>  hw/virtio/virtio-iommu.c | 1 +
+>  1 file changed, 1 insertion(+)
 
-Applied to target-arm.next, thanks. (Annoyingly I have forgotten
-what the test case was and now can't repro it, but this fix
-looks right.)
+
+
+Applied to target-arm.next, thanks.
 
 -- PMM
 
