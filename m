@@ -2,72 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9B70721A206
-	for <lists+qemu-devel@lfdr.de>; Thu,  9 Jul 2020 16:22:45 +0200 (CEST)
-Received: from localhost ([::1]:41270 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id AC87721A1F8
+	for <lists+qemu-devel@lfdr.de>; Thu,  9 Jul 2020 16:20:23 +0200 (CEST)
+Received: from localhost ([::1]:57996 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jtXRk-0005ey-L9
-	for lists+qemu-devel@lfdr.de; Thu, 09 Jul 2020 10:22:44 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:50986)
+	id 1jtXPS-0000qa-KW
+	for lists+qemu-devel@lfdr.de; Thu, 09 Jul 2020 10:20:22 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:51006)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1jtXJ6-0000X4-4V
- for qemu-devel@nongnu.org; Thu, 09 Jul 2020 10:13:48 -0400
-Received: from mail-wm1-x342.google.com ([2a00:1450:4864:20::342]:51445)
+ id 1jtXJ7-0000b3-Iy
+ for qemu-devel@nongnu.org; Thu, 09 Jul 2020 10:13:49 -0400
+Received: from mail-wr1-x441.google.com ([2a00:1450:4864:20::441]:42832)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1jtXJ4-0001Lw-BD
- for qemu-devel@nongnu.org; Thu, 09 Jul 2020 10:13:47 -0400
-Received: by mail-wm1-x342.google.com with SMTP id 22so1989935wmg.1
- for <qemu-devel@nongnu.org>; Thu, 09 Jul 2020 07:13:45 -0700 (PDT)
+ id 1jtXJ4-0001M2-Rj
+ for qemu-devel@nongnu.org; Thu, 09 Jul 2020 10:13:49 -0400
+Received: by mail-wr1-x441.google.com with SMTP id o11so2546845wrv.9
+ for <qemu-devel@nongnu.org>; Thu, 09 Jul 2020 07:13:46 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=D9RzuX/3jxkQtQdTH0rTmm3wMB62+kPBSn4Xf4Inji8=;
- b=gZAdFkz7gRtleAGVUtsnPlJAPrRIuvAGIW3mF3xRHMEZ6lpCwAu5KKkqOawxGgjumC
- yZQsBebJ8tCQuGLUpNSbZAM6FAL2YQ59hxUvf255zCFSwIK7BIxAouLIWx8gQsd/4Qd5
- vyg3WN7lmuWPYqbkQgITLDpTuostWwVNpZ0S+lPDq93j0GnlbOSwAtTY5Wv3bMC01DPB
- LX1bLFQ9egXfkA4C6bhQbYiLsWZHXB8L4qMX7YeHJ6RRC1MKxTp3m0d0UvFqv/vGb2xa
- CNJ07x7EvRiiH14T+2xhOh+wTCkFwcgrK8LCHIiIIl9gagloDG0w0pFD4NVpDZJmlQ9m
- 80qA==
+ bh=6oUsKppsQSQ9dDcWGFfn/h24xQJ4dIbnKOSlIto0GoA=;
+ b=kMTwBEDNnNx8igNKTQwFi4OlDltpw0xtCqrvORcvBDvWTL4k4eLfqpMDdVZDnjJy9X
+ u0ePj2buNN/3uRT5QZXRg1nlHDKcKNQdN7z2pLnBiMpcoIXzy0TLRHXsQMFVWxAynA8O
+ QKKUT8MXP9ajSas+4ggQhxwSyUQHq0cBYvw6hZFzFkVDd+BiJPRTswGFj9TLvstQi1x/
+ dWKF34T2JSXjZXzoibJgH4oxC+u32zcxq/1yj7WMPGFVfPt8nwASJ5EZqjgnqfxZ290/
+ m6LRRICRWRHu+C+3CcDz1dy4ErDiqFr0GY6IwnJMBj9T1EhtJqup1iIFHShmD1eTXkIw
+ +SHg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=D9RzuX/3jxkQtQdTH0rTmm3wMB62+kPBSn4Xf4Inji8=;
- b=FXCw2snWQSPglyImYM/DSU0KfpwbWMJjrB8yL58lbr0qPFrimIJCx2QUXV7RflWmkb
- GQdhwxvkK+GhQxsMn0LdP7aqX9HFhO8mnb6xlp8F6UAN+6Y030wW9xEyL0qNJRnBy5IW
- BiAamGpOpnzY4hLDDMT+/YAx7xRdjtKRHxqyI5BOkBaqJKEgsCqrDx2my6cs0EtfSxdd
- uDOU9TYWDtMdMdIO7zn2MA7MFj79nky1CISNOe5xQkVYDMeMvLflg0rwIBrIQkHTYaAY
- 9ZnimYKQAjv773pYDijLvWxLWTgMiGLamXeXEY38ozyz495PgoBbuzqE7QcJd0MneGvf
- L/4w==
-X-Gm-Message-State: AOAM531eUii4xuw+ysA4/ALUvk0LLXRNjt4NQa0vu4K0kdsYNk61MyOS
- w0nFU4iEruwI3yXr9MbjYJz1Zw==
-X-Google-Smtp-Source: ABdhPJzLY9yGGHDOfv/Vyv4KiaL1g5I1Oda6K54Mkn1jaVQT2uuTtCvtcoBGTW08lD05ydMZ8BMAkg==
-X-Received: by 2002:a1c:2392:: with SMTP id j140mr259414wmj.6.1594304024625;
- Thu, 09 Jul 2020 07:13:44 -0700 (PDT)
+ bh=6oUsKppsQSQ9dDcWGFfn/h24xQJ4dIbnKOSlIto0GoA=;
+ b=ONVPz7DiGx8zdMjyBIC2VMDW5ve3oLR0+cxjWgPpBUirddvsiDSKEVWmFBDfq3hYW0
+ Np1T2x85C1YLkqnDgsmXk/Ge6lmPMkQgVDXAThq1GfnCeW/WZMqhgwOg5K9CvFO3GnYU
+ bj0guCm2P+0UW8W2LHk2iOZxqlWXaHCt89Vv5yam/fFHk8kX+CWVqvI0yz4AjUJFeB/9
+ Vv1O1Evu5Fy29rpsPt1xfIuMvPwDphBYfFFcI1jbPRocs11Zwt2+F0bZn41NExTGpZGT
+ GYXhD4WbC73dvKeefBJr6U4VZx1ij2lMYamlwyLMoILfa1BMy3qC5RbubUP95p4BZsFK
+ Stlw==
+X-Gm-Message-State: AOAM531HbnfKJ0YVPhra0orDhWiSRYS7z6RN81BjYSIJ+0Ip0gRRefxz
+ Glu1OozmpH4NCZezgBT/pLw5Gg==
+X-Google-Smtp-Source: ABdhPJw4SgWFtowly5L9aq1IwICjqwM3HGDrpnHb/PgplbNrnxYyWwLA7TCutv9ryOTj3cHNF6TECA==
+X-Received: by 2002:adf:f388:: with SMTP id m8mr66146649wro.338.1594304025439; 
+ Thu, 09 Jul 2020 07:13:45 -0700 (PDT)
 Received: from zen.linaroharston ([51.148.130.216])
- by smtp.gmail.com with ESMTPSA id j16sm5710714wrt.7.2020.07.09.07.13.33
+ by smtp.gmail.com with ESMTPSA id 51sm6158514wrc.44.2020.07.09.07.13.34
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 09 Jul 2020 07:13:34 -0700 (PDT)
+ Thu, 09 Jul 2020 07:13:44 -0700 (PDT)
 Received: from zen.lan (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id 867251FF9B;
+ by zen.linaroharston (Postfix) with ESMTP id 9C9F91FF9C;
  Thu,  9 Jul 2020 15:13:28 +0100 (BST)
 From: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v1 12/13] tests/docker: update toolchain set in
- debian-xtensa-cross
-Date: Thu,  9 Jul 2020 15:13:26 +0100
-Message-Id: <20200709141327.14631-13-alex.bennee@linaro.org>
+Subject: [PATCH v1 13/13] configure: remove all dependencies on a (re)configure
+Date: Thu,  9 Jul 2020 15:13:27 +0100
+Message-Id: <20200709141327.14631-14-alex.bennee@linaro.org>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20200709141327.14631-1-alex.bennee@linaro.org>
 References: <20200709141327.14631-1-alex.bennee@linaro.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::342;
- envelope-from=alex.bennee@linaro.org; helo=mail-wm1-x342.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::441;
+ envelope-from=alex.bennee@linaro.org; helo=mail-wr1-x441.google.com
 X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
  That's all we know.
 X-Spam_score_int: -20
@@ -92,46 +91,72 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Cc: fam@euphon.net, berrange@redhat.com, robert.foley@linaro.org,
  =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>,
  richard.henderson@linaro.org, f4bug@amsat.org, robhenry@microsoft.com,
- =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
- Max Filippov <jcmvbkbc@gmail.com>, aaron@os.amperecomputing.com,
- cota@braap.org, kuhn.chenqun@huawei.com, peter.puhov@linaro.org,
- aurelien@aurel32.net
+ aaron@os.amperecomputing.com, cota@braap.org, kuhn.chenqun@huawei.com,
+ peter.puhov@linaro.org, aurelien@aurel32.net
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Max Filippov <jcmvbkbc@gmail.com>
+The previous code was brittle and missed cases such as the mipn32
+variants which for some reason has the 64 bit syscalls. This leads to
+a number of binary targets having deps lines like:
 
-Switch to the prebuilt xtensa toolchains release 2020.07.
-Drop csp toolchain as the csp core is not a part of QEMU.
-Add de233_fpu and dsp3400 toolchains to enable DFPU and FPU2000 tests.
+  all.clang-sanitizer/mipsn32el-linux-user/linux-user/signal.d
+  140:  /home/alex/lsrc/qemu.git/linux-user/mips64/syscall_nr.h \
+  455:/home/alex/lsrc/qemu.git/linux-user/mips64/syscall_nr.h:
 
-Signed-off-by: Max Filippov <jcmvbkbc@gmail.com>
+  all.clang-sanitizer/mipsn32el-linux-user/linux-user/syscall.d
+  146:  /home/alex/lsrc/qemu.git/linux-user/mips64/syscall_nr.h \
+  485:/home/alex/lsrc/qemu.git/linux-user/mips64/syscall_nr.h:
+
+which in turn would trigger the re-generation of syscall_nr.h in the
+source tree (thanks to generic %/syscall_nr.h rules). The previous
+code attempts to clean it out but misses edge cases but fails.
+
+After spending a day trying to understand how this was happening I'm
+unconvinced that there are not other such breakages possible with this
+"caching". As we add more auto-generated code to the build it is likely
+to trip up again. Apply a hammer to the problem.
+
+Fixes: 91e5998f18 (which fixes 5f29856b852d and 4d6a835dea47)
 Signed-off-by: Alex Bennée <alex.bennee@linaro.org>
-Message-Id: <20200708082347.27318-1-jcmvbkbc@gmail.com>
 ---
- tests/docker/dockerfiles/debian-xtensa-cross.docker | 6 +++---
- 1 file changed, 3 insertions(+), 3 deletions(-)
+ configure | 15 ++++++---------
+ 1 file changed, 6 insertions(+), 9 deletions(-)
 
-diff --git a/tests/docker/dockerfiles/debian-xtensa-cross.docker b/tests/docker/dockerfiles/debian-xtensa-cross.docker
-index beb73f46baa6..ba4148299c5a 100644
---- a/tests/docker/dockerfiles/debian-xtensa-cross.docker
-+++ b/tests/docker/dockerfiles/debian-xtensa-cross.docker
-@@ -18,12 +18,12 @@ RUN apt-get update && \
-         git \
-         python3-minimal
+diff --git a/configure b/configure
+index 1e977601a47a..3c404f31f4f4 100755
+--- a/configure
++++ b/configure
+@@ -1955,23 +1955,20 @@ EOF
+ exit 0
+ fi
  
--ENV CPU_LIST csp dc232b dc233c
--ENV TOOLCHAIN_RELEASE 2018.02
-+ENV CPU_LIST dc232b dc233c de233_fpu dsp3400
-+ENV TOOLCHAIN_RELEASE 2020.07
+-# Remove old dependency files to make sure that they get properly regenerated
+-rm -f */config-devices.mak.d
+-
+ # Remove syscall_nr.h to be sure they will be regenerated in the build
+ # directory, not in the source directory
+ for arch in alpha hppa m68k xtensa sh4 microblaze arm ppc s390x sparc sparc64 \
+     i386 x86_64 mips mips64 ; do
+     # remove the file if it has been generated in the source directory
+     rm -f "${source_path}/linux-user/${arch}/syscall_nr.h"
+-    # remove the dependency files
+-    for target in ${arch}*-linux-user ; do
+-        test -d "${target}" && find "${target}" -type f -name "*.d" \
+-             -exec grep -q "${source_path}/linux-user/${arch}/syscall_nr.h" {} \; \
+-             -print | while read file ; do rm "${file}" "${file%.d}.o" ; done
+-    done
+ done
  
- RUN for cpu in $CPU_LIST; do \
-         curl -#SL http://github.com/foss-xtensa/toolchain/releases/download/$TOOLCHAIN_RELEASE/x86_64-$TOOLCHAIN_RELEASE-xtensa-$cpu-elf.tar.gz \
-         | tar -xzC /opt; \
-     done
- 
--ENV PATH $PATH:/opt/$TOOLCHAIN_RELEASE/xtensa-dc232b-elf/bin:/opt/$TOOLCHAIN_RELEASE/xtensa-dc233c-elf/bin:/opt/$TOOLCHAIN_RELEASE/xtensa-csp-elf/bin
-+ENV PATH $PATH:/opt/$TOOLCHAIN_RELEASE/xtensa-dc232b-elf/bin:/opt/$TOOLCHAIN_RELEASE/xtensa-dc233c-elf/bin:/opt/$TOOLCHAIN_RELEASE/xtensa-de233_fpu-elf/bin:/opt/$TOOLCHAIN_RELEASE/xtensa-dsp3400-elf/bin
++# Clean out all old dependency files. As more files are generated we
++# run the risk of old dependencies triggering generation in the wrong
++# places. Previous brittle attempts to be surgical tend to miss edge
++# cases leading to wasted time and much confusion.
++find -type f -name "*.d" -exec rm -f {} \;
++
+ if test -z "$python"
+ then
+     error_exit "Python not found. Use --python=/path/to/python"
 -- 
 2.20.1
 
