@@ -2,82 +2,56 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D83E421A10B
-	for <lists+qemu-devel@lfdr.de>; Thu,  9 Jul 2020 15:40:01 +0200 (CEST)
-Received: from localhost ([::1]:55676 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B6CA921A113
+	for <lists+qemu-devel@lfdr.de>; Thu,  9 Jul 2020 15:42:04 +0200 (CEST)
+Received: from localhost ([::1]:33418 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jtWmO-0007Mb-Mv
-	for lists+qemu-devel@lfdr.de; Thu, 09 Jul 2020 09:40:00 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:40012)
+	id 1jtWoN-0001UK-QI
+	for lists+qemu-devel@lfdr.de; Thu, 09 Jul 2020 09:42:03 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:40516)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1jtWlU-0006RA-3n; Thu, 09 Jul 2020 09:39:04 -0400
-Received: from mail-wm1-x341.google.com ([2a00:1450:4864:20::341]:56028)
+ (Exim 4.90_1) (envelope-from <berto@igalia.com>)
+ id 1jtWnI-0000XS-EC; Thu, 09 Jul 2020 09:40:56 -0400
+Received: from fanzine.igalia.com ([178.60.130.6]:35468)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1jtWlS-0004R3-EC; Thu, 09 Jul 2020 09:39:03 -0400
-Received: by mail-wm1-x341.google.com with SMTP id g75so1835333wme.5;
- Thu, 09 Jul 2020 06:39:01 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=sender:subject:to:cc:references:from:message-id:date:user-agent
- :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=IMAkJsQQS63Q07JJMyqhaX6Y/9enYz61VenxRjMy40c=;
- b=GwITJ2Chbft3/qxp5OL2M0q4asDG0nPH42mL2uvWLSoh9xhWA/sD2lh0+WmbI+Kpbm
- OcxTuN1JIxqOu1Kg5ruXD5Es854msFPJH8dLUbt6/kM4XMwa72ehURnSNzMnTnQMzr+W
- Oku7dVDdxZxvp2sIgD0yzIr8q2nTtBDqR3CJ/1Qo1BZ2Wcdb6Izsp99HKMH6y2im+mW0
- d49ubplfCshZwmNIQXikFUUqjPEdzuAcaFydYSBmCQpVQA2UQor2NS3glgBQ25QSKCHf
- HVflyRmFGjOlT4qZLdCeNBJPg7BMrJgCwBS50zyG1KSP4Zxrp/adaJza5fx/A1RjDxOf
- GTXQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:sender:subject:to:cc:references:from:message-id
- :date:user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=IMAkJsQQS63Q07JJMyqhaX6Y/9enYz61VenxRjMy40c=;
- b=ehMianQI8pkKr5yPlsukCWjA/tAk5kJM1F8lsLc3J6jiigLuppFvpfd5UWQ2g8CM5N
- zc9r/rbyBtY4YOdcqdKdsBV3YztwcslH2KEoueqk8iMbl1XcYkdJHbv5kg34uZaKfpiS
- pu4gALhE+vTYoUeRfVrBAZazLzoXogYn314OOFnBG1xRS4JVla5wNAtXAXFq4hCftTbk
- Q7lZIKJ6YnUAsCelOQ4jIzEruwV7avgqoZbx4A2xtRo1GOo0Bshcpc8A7riDIrgmyxhb
- Ul87dhqhysPuUFLSqdyca+szfv7u9bjLnTqLVzsrcoqQqueiUzwIFzbkGZB5CKZr+X45
- OJng==
-X-Gm-Message-State: AOAM531mr0vJbgF7N2KfJcaHWnQ/g1QGPNVV5ya33s1svkQ9tk1AdjXT
- lCgcBFWYxNqE4afHcd757XwUdNUTV8E=
-X-Google-Smtp-Source: ABdhPJxXPjk99ZIrLW7Z3jxWnHgoT2fh0qmhvHStHHXIUx6XPzr/uzLcMAV3FnCq7NXSRfG9WHSrwQ==
-X-Received: by 2002:a1c:2e58:: with SMTP id u85mr6597wmu.123.1594301940287;
- Thu, 09 Jul 2020 06:39:00 -0700 (PDT)
-Received: from [192.168.1.37] (138.red-83-57-170.dynamicip.rima-tde.net.
- [83.57.170.138])
- by smtp.gmail.com with ESMTPSA id q7sm5973238wrs.27.2020.07.09.06.38.58
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 09 Jul 2020 06:38:59 -0700 (PDT)
-Subject: Re: [PATCH] Fix MIPS add.s after
- 1ace099f2acb952eaaef0ba7725879949a7e4406
-To: Aleksandar Markovic <aleksandar.m.mail@gmail.com>,
- Alex Richardson <Alexander.Richardson@cl.cam.ac.uk>
-References: <20200703161515.25966-1-Alexander.Richardson@cl.cam.ac.uk>
- <CAL1e-=huJ8hLCb7gG=cZ6bXcqMOUSA17NHpnCEED18MR4mKXhw@mail.gmail.com>
-From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>
-Message-ID: <7449e90a-7d04-5a4c-d301-21a46242a1a6@amsat.org>
-Date: Thu, 9 Jul 2020 15:38:58 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.5.0
+ (Exim 4.90_1) (envelope-from <berto@igalia.com>)
+ id 1jtWnF-0004e4-Mz; Thu, 09 Jul 2020 09:40:55 -0400
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=igalia.com;
+ s=20170329; 
+ h=Content-Type:MIME-Version:Message-ID:Date:References:In-Reply-To:Subject:Cc:To:From;
+ bh=v5Irnfn987+S6iLAIt8dtQ7Up0TG1so6lxQGdsGAJkM=; 
+ b=ZGAu0YWiN4Nmc3MA64HYKiICZZiDXTVEPlnFifayjW8XfawTJ5ydhWp0Wn0Sl0LDntt9elU9xW5Qft7NJyQ7JFx2eF+nioDqcW7YYwie3L8oxTdiRFzEKb/hxfFeVN6buoo+JTzHaZ2DV23vUnZRFwJUpwDbZC5E2MxEXGI1kucFQ/fyrzmGvo7noPqM4gF7j7Lw6a3lKPhzzvIskxAoN7oWcJpTugbTryIRDwaMDnltVC0hhBCHxurZRbcblmvsE6OitwfL5p03Rssnf4L+T/W2aClKUBDk31ztBWRLg9luJlr7XoTuZXyGBmsbWyg7UDbW4oPdo7jFc7FNPZAFWA==;
+Received: from maestria.local.igalia.com ([192.168.10.14] helo=mail.igalia.com)
+ by fanzine.igalia.com with esmtps 
+ (Cipher TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128) (Exim)
+ id 1jtWmq-0005pv-Ug; Thu, 09 Jul 2020 15:40:29 +0200
+Received: from berto by mail.igalia.com with local (Exim)
+ id 1jtWmq-0001vK-Jt; Thu, 09 Jul 2020 15:40:28 +0200
+From: Alberto Garcia <berto@igalia.com>
+To: Max Reitz <mreitz@redhat.com>, qemu-devel@nongnu.org
+Subject: Re: [PATCH v10 31/34] qcow2: Add the 'extended_l2' option and the
+ QCOW2_INCOMPAT_EXTL2 bit
+In-Reply-To: <297b0c60-9f5e-dfdf-0086-470e762ac22b@redhat.com>
+References: <cover.1593791819.git.berto@igalia.com>
+ <7bd13895731899d66f75d4f6790957aefc5ba353.1593791819.git.berto@igalia.com>
+ <297b0c60-9f5e-dfdf-0086-470e762ac22b@redhat.com>
+User-Agent: Notmuch/0.18.2 (http://notmuchmail.org) Emacs/24.4.1
+ (i586-pc-linux-gnu)
+Date: Thu, 09 Jul 2020 15:40:28 +0200
+Message-ID: <w517dvcrelv.fsf@maestria.local.igalia.com>
 MIME-Version: 1.0
-In-Reply-To: <CAL1e-=huJ8hLCb7gG=cZ6bXcqMOUSA17NHpnCEED18MR4mKXhw@mail.gmail.com>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::341;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wm1-x341.google.com
-X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
- That's all we know.
-X-Spam_score_int: 0
-X-Spam_score: 0.0
-X-Spam_bar: /
-X-Spam_report: (0.0 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1, DKIM_VALID=-0.1,
- DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=1, FREEMAIL_FROM=0.001,
- HEADER_FROM_DIFFERENT_DOMAINS=1, RCVD_IN_DNSWL_NONE=-0.0001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=no autolearn_force=no
+Content-Type: text/plain
+Received-SPF: pass client-ip=178.60.130.6; envelope-from=berto@igalia.com;
+ helo=fanzine.igalia.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/07/09 09:40:30
+X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x (no timestamps) [generic] [fuzzy]
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001, URIBL_BLOCKED=0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -90,54 +64,26 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: QEMU Trivial <qemu-trivial@nongnu.org>,
- Aleksandar Markovic <aleksandar.qemu.devel@gmail.com>,
- Aleksandar Rikalo <aleksandar.rikalo@syrmia.com>,
- Aurelien Jarno <aurelien@aurel32.net>,
- "open list:All patches CC here" <qemu-devel@nongnu.org>
+Cc: Kevin Wolf <kwolf@redhat.com>, Derek Su <dereksu@qnap.com>,
+ Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>, qemu-block@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Hi Aleksandar,
-
-On 7/7/20 6:26 PM, Aleksandar Markovic wrote:
-> On Fri, Jul 3, 2020 at 6:33 PM Alex Richardson
-> <Alexander.Richardson@cl.cam.ac.uk> wrote:
->>
->> After merging latest QEMU upstream into our CHERI fork, I noticed that
->> some of the FPU tests in our MIPS baremetal testsuite
->> (https://github.com/CTSRD-CHERI/cheritest) started failing. It turns out
->> this commit accidentally changed add.s into a subtract.
->>
->> Signed-off-by: Alex Richardson <Alexander.Richardson@cl.cam.ac.uk>
+On Thu 09 Jul 2020 03:07:29 PM CEST, Max Reitz wrote:
+> On 03.07.20 17:58, Alberto Garcia wrote:
+>> Now that the implementation of subclusters is complete we can finally
+>> add the necessary options to create and read images with this feature,
+>> which we call "extended L2 entries".
+>> 
+>> Signed-off-by: Alberto Garcia <berto@igalia.com>
+>> Reviewed-by: Eric Blake <eblake@redhat.com>
+>> Reviewed-by: Max Reitz <mreitz@redhat.com>
 >> ---
-> 
-> Applied to MIPS + TCG Continuous Benchmarking queue.
+>
+> (This requires quite a bit of a rebase, but nothing spectacularly
+> interesting, I think.)
 
-If you don't mind I'll include this patch for the mips pull request I
-plan to send before hard freeze (on the list). I'm keeping your S-o-b.
+Yeah I noticed, I can send v11 after the rebase.
 
-> 
->>  target/mips/fpu_helper.c | 2 +-
->>  1 file changed, 1 insertion(+), 1 deletion(-)
->>
->> diff --git a/target/mips/fpu_helper.c b/target/mips/fpu_helper.c
->> index 7a3a61cab3..56beda49d8 100644
->> --- a/target/mips/fpu_helper.c
->> +++ b/target/mips/fpu_helper.c
->> @@ -1221,7 +1221,7 @@ uint32_t helper_float_add_s(CPUMIPSState *env,
->>  {
->>      uint32_t wt2;
->>
->> -    wt2 = float32_sub(fst0, fst1, &env->active_fpu.fp_status);
->> +    wt2 = float32_add(fst0, fst1, &env->active_fpu.fp_status);
->>      update_fcr31(env, GETPC());
->>      return wt2;
->>  }
->> --
->> 2.27.0
->>
->>
-> 
-
+Berto
 
