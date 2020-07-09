@@ -2,74 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0D0B521A3DD
-	for <lists+qemu-devel@lfdr.de>; Thu,  9 Jul 2020 17:37:40 +0200 (CEST)
-Received: from localhost ([::1]:34342 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6825D21A406
+	for <lists+qemu-devel@lfdr.de>; Thu,  9 Jul 2020 17:50:04 +0200 (CEST)
+Received: from localhost ([::1]:45162 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jtYcF-0000Oe-5p
-	for lists+qemu-devel@lfdr.de; Thu, 09 Jul 2020 11:37:39 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:48764)
+	id 1jtYoF-0005ez-GQ
+	for lists+qemu-devel@lfdr.de; Thu, 09 Jul 2020 11:50:03 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:51682)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <eblake@redhat.com>) id 1jtYZS-0006O7-3X
- for qemu-devel@nongnu.org; Thu, 09 Jul 2020 11:34:46 -0400
-Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:31750
- helo=us-smtp-1.mimecast.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <eblake@redhat.com>) id 1jtYZP-0003YJ-I0
- for qemu-devel@nongnu.org; Thu, 09 Jul 2020 11:34:45 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1594308881;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=NUUZMKzG3HElZpaU5Bfc1hDOw6I1pjVK5k9m9qb3Gc0=;
- b=fruYPevjWZXneiDIyU1bSO0f3Kz8HnLNRq4dwz/TYv1FiRvxuPYM5dIhsUgcm8Dcq7O7nu
- 7V1rBe1Uj3bQnEcGzeqzDTCvRpc72rvphCMU+xjP4EuRJB0qB0tXFcFuCHgMFmbzIclaRk
- 1WGKSfc9hesq+rfLuomfkmJawDajU3U=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-393-phJc49R_PUiT1PrPoqi9pQ-1; Thu, 09 Jul 2020 11:34:34 -0400
-X-MC-Unique: phJc49R_PUiT1PrPoqi9pQ-1
-Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
- [10.5.11.14])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 7751219057A2;
- Thu,  9 Jul 2020 15:34:33 +0000 (UTC)
-Received: from [10.3.113.207] (ovpn-113-207.phx2.redhat.com [10.3.113.207])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 1BEDC5D9C9;
- Thu,  9 Jul 2020 15:34:29 +0000 (UTC)
-Subject: Re: [PATCH 0/2] keepalive default
-To: =?UTF-8?Q?Daniel_P=2e_Berrang=c3=a9?= <berrange@redhat.com>,
- Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
-References: <20200708191540.28455-1-vsementsov@virtuozzo.com>
- <20200709083510.GF3753300@redhat.com>
-From: Eric Blake <eblake@redhat.com>
-Organization: Red Hat, Inc.
-Message-ID: <daa7864d-8979-1987-caf7-cca3cb9849ca@redhat.com>
-Date: Thu, 9 Jul 2020 10:34:29 -0500
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.9.0
+ (Exim 4.90_1) (envelope-from <alistair23@gmail.com>)
+ id 1jtYme-0004dv-Hi; Thu, 09 Jul 2020 11:48:25 -0400
+Received: from mail-il1-x141.google.com ([2607:f8b0:4864:20::141]:37829)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <alistair23@gmail.com>)
+ id 1jtYmc-0005zz-4J; Thu, 09 Jul 2020 11:48:24 -0400
+Received: by mail-il1-x141.google.com with SMTP id r12so2437231ilh.4;
+ Thu, 09 Jul 2020 08:48:21 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc:content-transfer-encoding;
+ bh=Fpa8HUPV37FoOLZoHXCskLa20ZEOASDoIll7jYCiy28=;
+ b=kLmoLImEQcINmXRT9MWPkIQua1OmQxr5WN+gkxkD6zxbnsQFqsVCe4bYB2cciSLVF+
+ 1obXhuydOV6lts/NAl7XkgLBG9OHMp0GVaIlSJ2hTwlDVuRFEyyN290Sp491qdueDbI+
+ Udc03xeRSwQb69CyhxkBM3ee54IQU/uhjOcLxpJ5uOsogSWgIgE3tjNQzk61aQqqpZdf
+ GV8DuFA42Cm3H7brgjK4ZaujAuLCwIPXs++fUgaC1gz4AITKiSPBOoen/ZfgAZsdPfD2
+ Qcy7+bhJFuSi5ScLatM5VouMIdJxSvtNeVJklZLd7L4WJyPfkuW1m7P6i39hRboo3ILM
+ 11Dg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc:content-transfer-encoding;
+ bh=Fpa8HUPV37FoOLZoHXCskLa20ZEOASDoIll7jYCiy28=;
+ b=pQgAGqi089Vv6g3EWT7JhWPllq21A1x8vO+jlJBUa2+jIn9d+zNnAM1yQp7q6ciUY7
+ 2CwZz3FOAN11ayaswvk7zTnUE0mSnFPrbN+qgVghHbDBfQhnpIHsbSkmKwoh9Rz/4zfA
+ XR3cgAzN1u00MhLyOGKih5iUGVX9qXq5mNpXyNnNr2IgORUfOYdEE0g6REekg2f/s1pP
+ uKpIBma6HFLki/EgH5/a/oFgmFVbbvi6eWbcyU7XKXKTOWQ/DmlJqzdOlm5e/YQ7mEAo
+ 9kPSZ9CAY/JP6WCK1ZOEfU9oXB/zBQ+npcrL8b8tzcO1I75zFDqIxshDzWIesmWqkfoN
+ /yEQ==
+X-Gm-Message-State: AOAM5312+F1sunujMXVla/o27oG+yPPNbjcry+2NSO3U/4OeHb1eWBbq
+ HETB06EwiaNXm5jR/J1Xjhp5w6UjIJwE7f7NFdQ=
+X-Google-Smtp-Source: ABdhPJzbtmRSlU4BYNYkeTvujJ6ZTjiZmE5DPuVJKR/XZhX/wmHzOLlYrKl0oj9tzqKM+M2kzTdSyOqlxHldxNOIcJk=
+X-Received: by 2002:a92:c213:: with SMTP id j19mr48011468ilo.40.1594309700335; 
+ Thu, 09 Jul 2020 08:48:20 -0700 (PDT)
 MIME-Version: 1.0
-In-Reply-To: <20200709083510.GF3753300@redhat.com>
-Content-Language: en-US
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=207.211.31.120; envelope-from=eblake@redhat.com;
- helo=us-smtp-1.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/07/09 11:02:45
-X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
-X-Spam_score_int: -40
-X-Spam_score: -4.1
-X-Spam_bar: ----
-X-Spam_report: (-4.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-1, SPF_HELO_NONE=0.001,
+References: <20200709152337.15533-1-f4bug@amsat.org>
+In-Reply-To: <20200709152337.15533-1-f4bug@amsat.org>
+From: Alistair Francis <alistair23@gmail.com>
+Date: Thu, 9 Jul 2020 08:38:28 -0700
+Message-ID: <CAKmqyKNhCRC_tGFiM29cBrn01AiKG39C9TKZaD3s8xTaiGaaFQ@mail.gmail.com>
+Subject: Re: [PATCH] hw/cpu/a9mpcore: Verify the machine use Cortex-A9 cores
+To: =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <f4bug@amsat.org>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=2607:f8b0:4864:20::141;
+ envelope-from=alistair23@gmail.com; helo=mail-il1-x141.google.com
+X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
+ That's all we know.
+X-Spam_score_int: -17
+X-Spam_score: -1.8
+X-Spam_bar: -
+X-Spam_report: (-1.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ FREEMAIL_ENVFROM_END_DIGIT=0.25, FREEMAIL_FROM=0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -83,36 +79,78 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: den@openvz.org, kraxel@redhat.com, qemu-devel@nongnu.org, armbru@redhat.com
+Cc: Peter Maydell <peter.maydell@linaro.org>, Rob Herring <robh@kernel.org>,
+ Igor Mitsyanko <i.mitsyanko@gmail.com>,
+ Alistair Francis <alistair@alistair23.me>,
+ "qemu-devel@nongnu.org Developers" <qemu-devel@nongnu.org>,
+ Jean-Christophe Dubois <jcd@tribudubois.net>, qemu-arm <qemu-arm@nongnu.org>,
+ Randy Yates <yates@ieee.org>, "Edgar E. Iglesias" <edgar.iglesias@gmail.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 7/9/20 3:35 AM, Daniel P. Berrangé wrote:
-> On Wed, Jul 08, 2020 at 10:15:37PM +0300, Vladimir Sementsov-Ogievskiy wrote:
->> Hi all!
->>
->> We understood, that keepalive is almost superfluous with default 2 hours
->> in /proc/tcp_keepalive_time. Forcing user to setup keepalive for the
->> whole system doesn't seem right, better setup it per-socket.
-> 
-> Adding the ability to explicitly configure the keepalive settings makes
-> sense for QEMU. Completely ignoring system defaults when no explicit
-> settings are given though is not valid IMHO.
+On Thu, Jul 9, 2020 at 8:23 AM Philippe Mathieu-Daud=C3=A9 <f4bug@amsat.org=
+> wrote:
+>
+> The 'Cortex-A9MPCore internal peripheral' block can only be
+> used with Cortex A5 and A9 cores. As we don't model the A5
+> yet, simply check the machine cpu core is a Cortex A9. If
+> not return an error.
+>
+> Signed-off-by: Philippe Mathieu-Daud=C3=A9 <f4bug@amsat.org>
 
-We already have the ability to add per-socket keepalive (see commit 
-aec21d3175, in 4.2).  I guess what you are trying to further do is 
-determine whether the default value for that field, when not explicitly 
-specified by the user, can have saner semantics (default off for chardev 
-sockets, default on for nbd clients where retry was enabled).  But since 
-you already have to explicitly opt-in to nbd retry, what's so hard about 
-opting in to keepalive at the same time, other than more typing?  Given 
-that the easiest way to do this is via a machine-coded generation of the 
-command line or QMP command, it doesn't seem that hard to just keep 
-things as they are with explicit opt-in to per-socket keepalive.
+Reviewed-by: Alistair Francis <alistair.francis@wdc.com>
 
--- 
-Eric Blake, Principal Software Engineer
-Red Hat, Inc.           +1-919-301-3226
-Virtualization:  qemu.org | libvirt.org
+Alistair
 
+> ---
+>  hw/cpu/a9mpcore.c | 12 +++++++++++-
+>  1 file changed, 11 insertions(+), 1 deletion(-)
+>
+> diff --git a/hw/cpu/a9mpcore.c b/hw/cpu/a9mpcore.c
+> index 642363d2f4..1724baf17c 100644
+> --- a/hw/cpu/a9mpcore.c
+> +++ b/hw/cpu/a9mpcore.c
+> @@ -15,6 +15,7 @@
+>  #include "hw/irq.h"
+>  #include "hw/qdev-properties.h"
+>  #include "hw/core/cpu.h"
+> +#include "cpu.h"
+>
+>  #define A9_GIC_NUM_PRIORITY_BITS    5
+>
+> @@ -53,8 +54,18 @@ static void a9mp_priv_realize(DeviceState *dev, Error =
+**errp)
+>      Error *err =3D NULL;
+>      int i;
+>      bool has_el3;
+> +    CPUState *cpu0;
+>      Object *cpuobj;
+>
+> +    cpu0 =3D qemu_get_cpu(0);
+> +    cpuobj =3D OBJECT(cpu0);
+> +    if (strcmp(object_get_typename(cpuobj), ARM_CPU_TYPE_NAME("cortex-a9=
+"))) {
+> +        /* We might allow Cortex-A5 once we model it */
+> +        error_setg(errp,
+> +                   "Cortex-A9MPCore peripheral can only use Cortex-A9 CP=
+U");
+> +        return;
+> +    }
+> +
+>      scudev =3D DEVICE(&s->scu);
+>      qdev_prop_set_uint32(scudev, "num-cpu", s->num_cpu);
+>      sysbus_realize(SYS_BUS_DEVICE(&s->scu), &err);
+> @@ -73,7 +84,6 @@ static void a9mp_priv_realize(DeviceState *dev, Error *=
+*errp)
+>      /* Make the GIC's TZ support match the CPUs. We assume that
+>       * either all the CPUs have TZ, or none do.
+>       */
+> -    cpuobj =3D OBJECT(qemu_get_cpu(0));
+>      has_el3 =3D object_property_find(cpuobj, "has_el3", NULL) &&
+>          object_property_get_bool(cpuobj, "has_el3", &error_abort);
+>      qdev_prop_set_bit(gicdev, "has-security-extensions", has_el3);
+> --
+> 2.21.3
+>
+>
 
