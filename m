@@ -2,80 +2,77 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 83A6821A4C5
-	for <lists+qemu-devel@lfdr.de>; Thu,  9 Jul 2020 18:28:33 +0200 (CEST)
-Received: from localhost ([::1]:37464 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2AF3021A48F
+	for <lists+qemu-devel@lfdr.de>; Thu,  9 Jul 2020 18:19:41 +0200 (CEST)
+Received: from localhost ([::1]:53610 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jtZPU-0006cW-Jl
-	for lists+qemu-devel@lfdr.de; Thu, 09 Jul 2020 12:28:32 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:35414)
+	id 1jtZGt-0000wL-Pb
+	for lists+qemu-devel@lfdr.de; Thu, 09 Jul 2020 12:19:39 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:32808)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <alistair23@gmail.com>)
- id 1jtZOV-000665-Hl; Thu, 09 Jul 2020 12:27:31 -0400
-Received: from mail-il1-x141.google.com ([2607:f8b0:4864:20::141]:34592)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <alistair23@gmail.com>)
- id 1jtZOQ-0004kT-Qw; Thu, 09 Jul 2020 12:27:31 -0400
-Received: by mail-il1-x141.google.com with SMTP id t4so2565839iln.1;
- Thu, 09 Jul 2020 09:27:26 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc:content-transfer-encoding;
- bh=ZXvggOZ6MvAQVnD8GqWLsbh+z4f+zwImENZh6Y47h+w=;
- b=mWp0ONKmfbPNwXoaThIPefruhT8pVGpSFIer4MlEc9W5cMH4dCbNPcZV13CvEvnsn1
- HNDlGFjrMD9zWnzWKd05DjLrZDun1WmWCaKTLM6YhamKiVqHVSRIvXWiIt1w3t5gxapj
- fZHWRrYwCcezhB+/AvHHpuweOtZ679ugNY9xhhm4L9mgBEYsuWmRgdtNWSJ/C8PhdUy+
- KboF0+ROzVDH3PTkh0yLRp7gGRvOJ5vhak0R3pLhfs1FzmUdaNSHRkANBIWpLxLWRBBV
- iLJ0yKFMHwLBdsV+u4e32Yj+2i26tYTC0llhCsg21ZySgpmFVlc/RiOeMInMZTULzYpV
- 5RpQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc:content-transfer-encoding;
- bh=ZXvggOZ6MvAQVnD8GqWLsbh+z4f+zwImENZh6Y47h+w=;
- b=AsufJYU+ketUOITs3XmOOev9XtEUCxWSZKPUAPFGbLmWwcHIEQ+by65CcJxP+sWBkI
- vc+/RbkKrNqIC/4z7W13sN/RDGIX7qb12OVueIHb7rbP7bmAA/jf0yw4rkEdmu6S7zwd
- 7bHmen9PR3XZcM+KhWubTIm9Rj9EiuWGqJDVrmkefmEff3XyREZM91EJA57XtiC+cYlS
- yslNjyR0mF7CbjOsmZ+bwG7cRzk3SRmdS9WF8ACPapItGeqpIfZ1ROd0dzpxxovk4XAm
- Reb0+ljiOdBvAex5/gTw5F4LIYmGFqcwnAg5apyToQVMbc7mvLw5s7Dg1hbhBa/uzHaE
- K1jg==
-X-Gm-Message-State: AOAM533OFEfAiSaW8EGIvsUPYvw2GoWpIxLLiG3ivHFXAISz5nRz0qpP
- ZbMJN4+MCsfzFCJdqmqX3C1QAPPFkBZ2hYN3Z/8=
-X-Google-Smtp-Source: ABdhPJxgGsYi2giFwkGGqWUzi6qpkItOKydXnlLtXSwtph3Y0136pZYLjxSHPbdP8axI+r8j7XXrBsI6XRkkCXas6Z8=
-X-Received: by 2002:a05:6e02:d51:: with SMTP id
- h17mr48304544ilj.131.1594312045279; 
- Thu, 09 Jul 2020 09:27:25 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1jtZG9-0000WY-9h
+ for qemu-devel@nongnu.org; Thu, 09 Jul 2020 12:18:53 -0400
+Received: from us-smtp-2.mimecast.com ([207.211.31.81]:37775
+ helo=us-smtp-delivery-1.mimecast.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1jtZG6-00031n-6G
+ for qemu-devel@nongnu.org; Thu, 09 Jul 2020 12:18:52 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1594311528;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=/ByT3+9XzxBI/T1x9+9cI+wWAbLp5p4KbxqSVDfKjIg=;
+ b=iHOKa0hCjUNZgA9VCe4jjQ+TH50RHpwCfxhUJWsWkpBmGRG4TnefP1YDVhCWnTBOScj8bI
+ jXicfCMgIQTwN9U/p+zZLIzBrZ46JgQ1Hc71yF9Vo5ekOT9BNspZWMgn69UQy5a5Mzrwy/
+ 9zNM65aV0LnEDXjfao1NPGUzgeiPBvg=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-319-ruxwdub1PayXfvKgvPPe0w-1; Thu, 09 Jul 2020 12:18:45 -0400
+X-MC-Unique: ruxwdub1PayXfvKgvPPe0w-1
+Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
+ [10.5.11.22])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id E8317107ACCA
+ for <qemu-devel@nongnu.org>; Thu,  9 Jul 2020 16:18:44 +0000 (UTC)
+Received: from blackfin.pond.sub.org (ovpn-112-143.ams2.redhat.com
+ [10.36.112.143])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id B28DB1001B07;
+ Thu,  9 Jul 2020 16:18:44 +0000 (UTC)
+Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
+ id 290A41132FD2; Thu,  9 Jul 2020 18:18:43 +0200 (CEST)
+From: Markus Armbruster <armbru@redhat.com>
+To: Laurent Vivier <lvivier@redhat.com>
+Subject: Re: [PATCH] tests: improve performance of device-introspect-test
+References: <20200709112857.3760116-1-berrange@redhat.com>
+ <1b401730-4a54-d42f-a069-2125bd71e1f1@redhat.com>
+ <20200709115906.GM3753300@redhat.com>
+ <b474592d-ab56-eef7-b340-df9881f3327c@redhat.com>
+Date: Thu, 09 Jul 2020 18:18:43 +0200
+In-Reply-To: <b474592d-ab56-eef7-b340-df9881f3327c@redhat.com> (Laurent
+ Vivier's message of "Thu, 9 Jul 2020 14:14:40 +0200")
+Message-ID: <87tuygr7a4.fsf@dusky.pond.sub.org>
+User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/26.3 (gnu/linux)
 MIME-Version: 1.0
-References: <20200707132116.26207-1-f4bug@amsat.org>
- <20200707132116.26207-3-f4bug@amsat.org>
- <CAKmqyKNY+7tE9tcZm7_Th9qapo1CH0AwNwBf7vaf+7vSqBNtVA@mail.gmail.com>
- <CAFEAcA_ZXgNHMAhBVmjvstyG=PpaHOtcmo=VgvfBQ3Z9VJTk_g@mail.gmail.com>
- <3f1bf3ba-d6c3-a148-9850-076b2caa64d0@amsat.org>
- <CAPan3Wr09ZbbHWO-dhGeK3zhZQv3smrzLpUGMj71NWh0hToZDg@mail.gmail.com>
- <e87550d9-e1cc-cc15-2674-755249e9a965@amsat.org>
- <CAFEAcA8em-bgU2xd8OG+bPLDCSZCF8Y2ay9U57D8p9m1SWO=9g@mail.gmail.com>
- <f263f4aa-eb94-8760-6fc4-a1d46c15d099@amsat.org>
-In-Reply-To: <f263f4aa-eb94-8760-6fc4-a1d46c15d099@amsat.org>
-From: Alistair Francis <alistair23@gmail.com>
-Date: Thu, 9 Jul 2020 09:17:33 -0700
-Message-ID: <CAKmqyKM1h37fKNs-_jh+9Yr6EGvQ+hdbSQHHSnOoePHdLyf1Zw@mail.gmail.com>
-Subject: Re: [PATCH 2/2] hw/sd/sdcard: Do not allow invalid SD card sizes
-To: =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <f4bug@amsat.org>
-Content-Type: text/plain; charset="UTF-8"
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=utf-8
 Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=2607:f8b0:4864:20::141;
- envelope-from=alistair23@gmail.com; helo=mail-il1-x141.google.com
-X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
- That's all we know.
-X-Spam_score_int: -17
-X-Spam_score: -1.8
-X-Spam_bar: -
-X-Spam_report: (-1.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- FREEMAIL_ENVFROM_END_DIGIT=0.25, FREEMAIL_FROM=0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Received-SPF: pass client-ip=207.211.31.81; envelope-from=armbru@redhat.com;
+ helo=us-smtp-delivery-1.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/07/09 11:02:51
+X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
+X-Spam_score_int: -30
+X-Spam_score: -3.1
+X-Spam_bar: ---
+X-Spam_report: (-3.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H3=-0.01, RCVD_IN_MSPIKE_WL=-0.01,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -88,76 +85,89 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Maydell <peter.maydell@linaro.org>,
- Qemu-block <qemu-block@nongnu.org>, Alistair Francis <alistair@alistair23.me>,
- "qemu-devel@nongnu.org Developers" <qemu-devel@nongnu.org>,
- Wainer dos Santos Moschetta <wainersm@redhat.com>,
- Niek Linnenbank <nieklinnenbank@gmail.com>, Cleber Rosa <crosa@redhat.com>,
+Cc: Thomas Huth <thuth@redhat.com>,
+ "Daniel P. =?utf-8?Q?Berrang=C3=A9?=" <berrange@redhat.com>,
+ qemu-devel@nongnu.org, Markus Armbruster <armbru@redhat.com>,
  Paolo Bonzini <pbonzini@redhat.com>,
- =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <philmd@redhat.com>
+ Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <philmd@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Thu, Jul 9, 2020 at 7:35 AM Philippe Mathieu-Daud=C3=A9 <f4bug@amsat.org=
-> wrote:
->
-> On 7/9/20 4:15 PM, Peter Maydell wrote:
-> > On Thu, 9 Jul 2020 at 14:56, Philippe Mathieu-Daud=C3=A9 <f4bug@amsat.o=
-rg> wrote:
-> >>
-> >> On 7/7/20 10:29 PM, Niek Linnenbank wrote:
-> >>> So I manually copy & pasted the change into hw/sd/sd.c to test it.
-> >>> It looks like the check works, but my concern is that with this chang=
-e,
-> >>> we will be getting this error on 'off-the-shelf' images as well.
-> >>> For example, the latest Raspbian image size also isn't a power of two=
-:
-> >>>
-> >>> $ ./arm-softmmu/qemu-system-arm -M raspi2 -sd
-> >>> ~/Downloads/2020-05-27-raspios-buster-lite-armhf.img -nographic
-> >>> WARNING: Image format was not specified for
-> >>> '/home/me/Downloads/2020-05-27-raspios-buster-lite-armhf.img' and
-> >>> probing guessed raw.
-> >>>          Automatically detecting the format is dangerous for raw imag=
-es,
-> >>> write operations on block 0 will be restricted.
-> >>>          Specify the 'raw' format explicitly to remove the restrictio=
-ns.
-> >>> qemu-system-arm: Invalid SD card size: 1.73 GiB (expecting at least 2=
- GiB)
-> >>>
-> >>> If we do decide that the change is needed, I would like to propose th=
-at
-> >>> we also give the user some instructions
-> >>> on how to fix it, maybe some 'dd' command?
-> >>
-> >> On POSIX we can suggest to use 'truncate -s 2G' from coreutils.
-> >> This is not in the default Darwin packages.
-> >> On Windows I have no clue.
-> >
-> > dd/truncate etc won't work if the image file is not raw (eg if
-> > it's qcow2).
->
-> Good catch...
->
-> > The only chance you have of something that's actually
-> > generic would probably involve "qemu-img resize". But I'm a bit
-> > wary of having an error message that recommends that, because
-> > what if we got it wrong?
->
-> I am not sure what to recommend then.
->
-> Would that work as hint?
->
->   qemu-system-arm -M raspi2 -sd ./buster-lite-armhf.img
->   qemu-system-arm: Invalid SD card size: 1.73 GiB
->   SD card size has to be a power of 2, e.g. 2GiB.
+Laurent Vivier <lvivier@redhat.com> writes:
 
-That sounds good to me. That's enough for a user to figure out the next ste=
-p.
+> On 09/07/2020 13:59, Daniel P. Berrang=C3=A9 wrote:
+>> On Thu, Jul 09, 2020 at 01:44:45PM +0200, Laurent Vivier wrote:
+>>> On 09/07/2020 13:28, Daniel P. Berrang=C3=A9 wrote:
+>>>> Total execution time with "-m slow" and x86_64 QEMU, drops from 3
+>>>> minutes 15 seconds, down to 54 seconds.
+>>>>
+>>>> Individual tests drop from 17-20 seconds, down to 3-4 seconds.
+>>>>
+>>>> The cost of this change is that any QOM bugs resulting in the test
+>>>> failure will not be directly associated with the device that caused
+>>>> the failure. The test case is not frequently identifying such bugs
+>>>> though, and the cause is likely easily visible in the patch series
+>>>> that causes the failure. So overall the shorter running time is
+>>>> considered the more important factor.
+>>>
+>>> You don't report the test to test_device_intro_none() and
+>>> test_device_intro_abstract(): is it intended ?
+>>=20
+>> Since neither of those tests will result in any device being created the=
+re
+>> didn't seem any point in chceking the qtree output.
+>>=20
+>> IIUC, both of those tests should result in an error being reported from
+>> the device_add command, but I see nothing actually validates that is the
+>> case.=20
+>
+> I think the purpose of these tests is precisely to ensure nothing is
+> created. This is why they check the qtree and not the reported error.
+>
+> Markus?
 
-If you want you could also add: "qemu-img might be able to help." or
-something like that.
+Before I answer the question, let me provide a bit of background.
 
-Alistair
+The tests we're discussing exercise QMP command device-list-properties.
+We're trying to catch two kinds of bugs:
+
+* device introspection crashes or hangs outright, and
+
+* device introspection has unwelcome side effects.
+
+We're vulnerable to such bugs since device introspection has to create
+and destroy an instance (consequence of QOM's design), and the device
+code that gets run on creation and destruction can do anything.
+
+To catch crashs or hangs, we execute one introspection, throwing away
+its result.
+
+Catching general side effects is impossible, so we instead catch special
+side effects that (a) have a history of actual bugs, and (b) are easy to
+observe: changes to the qdev tree visible in info qtree, and changes to
+the QOM composition tree visible in info qom-tree.
+
+Now I'm ready to answer the question.
+
+test_device_intro_none() covers introspection of nonexistent device type
+"nonexistent".  device-list-properties is expected to fail without
+creating a device instance, let alone run device code.
+
+test_device_intro_abstract() covers introspection of abstract device
+type "abstract".  device-list-properties is again expected to fail
+without creating a device instance.
+
+The test neglects to cover "type exists, but is not a device" (my
+fault).  Same thing.
+
+In all these cases, side effects on "info qtree" and "info qom-tree" in
+the (tiny amount of) generic code they run are theoretically possible,
+but vanishingly unlikely.  If generic code ever gets confused enough to
+somehow create an instance, all bets are off, of course.
+
+Daniel's patch loses us some insurance against this kind of confusion.
+Do we care?
+
+I guess the insurance is nice to have when it costs basically nothing.
+
 
