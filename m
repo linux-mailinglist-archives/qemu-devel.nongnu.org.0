@@ -2,71 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6AD312194D6
-	for <lists+qemu-devel@lfdr.de>; Thu,  9 Jul 2020 02:07:39 +0200 (CEST)
-Received: from localhost ([::1]:51956 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1EE882194E5
+	for <lists+qemu-devel@lfdr.de>; Thu,  9 Jul 2020 02:17:46 +0200 (CEST)
+Received: from localhost ([::1]:57928 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jtK6E-00034A-Gf
-	for lists+qemu-devel@lfdr.de; Wed, 08 Jul 2020 20:07:38 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:41920)
+	id 1jtKG0-000660-Sa
+	for lists+qemu-devel@lfdr.de; Wed, 08 Jul 2020 20:17:44 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:43914)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <hskinnemoen@google.com>)
- id 1jtK5K-0002US-3n
- for qemu-devel@nongnu.org; Wed, 08 Jul 2020 20:06:42 -0400
-Received: from mail-vk1-xa41.google.com ([2607:f8b0:4864:20::a41]:43809)
+ (Exim 4.90_1) (envelope-from <jkz@google.com>) id 1jtKEt-0005Ny-L1
+ for qemu-devel@nongnu.org; Wed, 08 Jul 2020 20:16:35 -0400
+Received: from mail-pf1-x443.google.com ([2607:f8b0:4864:20::443]:34560)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <hskinnemoen@google.com>)
- id 1jtK5I-0005q4-JN
- for qemu-devel@nongnu.org; Wed, 08 Jul 2020 20:06:41 -0400
-Received: by mail-vk1-xa41.google.com with SMTP id e10so42400vkm.10
- for <qemu-devel@nongnu.org>; Wed, 08 Jul 2020 17:06:40 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <jkz@google.com>) id 1jtKEr-00076P-Fj
+ for qemu-devel@nongnu.org; Wed, 08 Jul 2020 20:16:35 -0400
+Received: by mail-pf1-x443.google.com with SMTP id u185so216190pfu.1
+ for <qemu-devel@nongnu.org>; Wed, 08 Jul 2020 17:16:31 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=20161025;
  h=mime-version:references:in-reply-to:from:date:message-id:subject:to
  :cc:content-transfer-encoding;
- bh=0QjbGbfdZrC4ER9Op5TZkuMTIqOSXOzGsj5W0a7/Z28=;
- b=gM5jz38ZhokgtSHk4gJ9CoFWqhE8Yryxdl/eXz6y+qXpmVJuVPgiaw6V0GMdPdyohj
- 9rKup83NjrvQvlQEbk74BZHVMwHTbxVKgaH/s0cd+5ExSHws4fYgbwRoRHuiwVXIAwcb
- 6se59hrOYyPbwe3sXL9iON1mg3jsEgA3YTmdNiMBy383N0MRTeYObfPgOHO4nDUAgEda
- wXvOstpgcH0dxJwPoPzYBTY6AkvJozkEk5mWRd8uM4Nc3VxbF0oI1i/C5Sn1hrcDllun
- lSxoTiY8HhxUSoDXIEumVBumS064WlBwx6gv/dmqvCdGu0JPg9eWZ1r8ifLAQr8kNlmU
- pZww==
+ bh=WE/1zqYFZ8Zbu2PyPgx/xwOi3MoytYCM38ELMcZLIwk=;
+ b=bv4z/6TvZUN8K1BNlevEXisttQH3edjuqOnQuw80RLeHoXfjEZ2Gr6Umy7XsAoqFz3
+ //5qG0doIRd3pHvRRyv6CYR4pshrjKMZonCovTT2oYUjFyx1tKwwiczUL8KA4jJpCpZb
+ jZjayYQO0UVihCQtD0G7xGd6ZbXq74vkPlTsdTWuS6BsmlwsP6qakmhi0wa9oC+Kdmtq
+ Lvq4/lRoSbqQAs1eyc8oXtgONf/PbtwBHI6jCMtgKioK3k+igil419bIGUFm9vv8fcoY
+ 0OUbLeWaSBIjyUuzK9kXa0hn5R1H2tXXYRYafZSXHe60eqKwbCx3J+Eg3g7CohjSSU8K
+ w9Gg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
  :message-id:subject:to:cc:content-transfer-encoding;
- bh=0QjbGbfdZrC4ER9Op5TZkuMTIqOSXOzGsj5W0a7/Z28=;
- b=pRVDpJUiUtiVHhOpHJ1oRkAyr3NnZEwhUVyEr5kIkZwhhgwmbzhB70akftn+gCgJXZ
- O+zMk+j4wA+nOxaQafz9HCFgTaWGNrUniuMn5Qx4w1Z7/lx8Ut+XfD5Dyfn5hC34RfO3
- XOtNl9ueKhMhav93IIb9YwryGcJ8NYhQcJhl56/8pfgqpBjTa27ims7lyNefHQ2gHd0L
- aXXksgh+1AYmB51QlYF/rQut41iaVyKbDxM+u8o+P2FvX/sYiZve2nIxuBYuyK5NrXb/
- QCEYWPoH2BwdZ8vg6lNZkoUWapvKcyPpizAqNTzfhWDpWzW2Bo6GcGd+l8LRUKI8xZA0
- Y0Kw==
-X-Gm-Message-State: AOAM533LiR8xFX9nOHuf6PGbnUSc2XF3U2nIiMv9mQrw/+zhAixqooYV
- cUDe/D8AMVjN7g8/eNMdWmrDocUbisrVJTMH5kb2lw==
-X-Google-Smtp-Source: ABdhPJzi8caXorcntwgygNhgvgvmG03Pnd+qvUuFfbv04ZiNn9Wlqd+gPkNwBtyqZSyRZmPYMK2zpoc18bPvuuj+60k=
-X-Received: by 2002:a05:6122:130b:: with SMTP id
- e11mr12160252vkp.20.1594253199000; 
- Wed, 08 Jul 2020 17:06:39 -0700 (PDT)
+ bh=WE/1zqYFZ8Zbu2PyPgx/xwOi3MoytYCM38ELMcZLIwk=;
+ b=GFFaBKj1NxqSCAkoGLGoKITJCOyWiS9BKJBbQSay7kYXwaK17v16AUnlRCslmID2Oy
+ TTUvkmH7e5IOv1y0RYW84EwMr/Dy6fKDH57QIWexqzfUIOZz/uBY+t4VY9aJlQML0nKK
+ tmmkGBFHCIvaYuys5NdrU7Sy77hEhdd3jDa2TOTBqEA3HUNPesu0g0eL0MtMYangtI4U
+ Ne69txn+sx2RgGb+AY05ZvdWj5nseCEXtkz//wue710mK6s4L2h1pbVfCGEz7xPETi/f
+ ET5ElhmvgsxNBsGFME1qTDEkeYhtyQ9WOoS4DSSmbI9ViOAban4lbQB5IDqOvPxTiSfy
+ sHDA==
+X-Gm-Message-State: AOAM5335XsWGY07ZlVgWCJ68G5BUnI4zsCQA/+oRmU94aWsyY6vodbTg
+ WOTfSmC3p5COCleTae1JaICTtEkfLmMT5DKJPrjBWA==
+X-Google-Smtp-Source: ABdhPJx4f/ozuThmaM9TbWIVect3j9CxlXNAPSNcV543AIwwr/E0yRsJSLZGfwwj2TjFpRwnNhBT2ULtIo8KhxWIPvY=
+X-Received: by 2002:aa7:9ac3:: with SMTP id x3mr45149389pfp.261.1594253789943; 
+ Wed, 08 Jul 2020 17:16:29 -0700 (PDT)
 MIME-Version: 1.0
-References: <20200707184730.3047754-1-hskinnemoen@google.com>
- <20200707184730.3047754-6-hskinnemoen@google.com>
- <4b7130f2-032c-3067-b2b6-876a2b17b707@amsat.org>
- <CAFQmdRYi5QFHbcWQH-bWqAsSCidzYMedC8n+mib1DPpJuEy-Rw@mail.gmail.com>
-In-Reply-To: <CAFQmdRYi5QFHbcWQH-bWqAsSCidzYMedC8n+mib1DPpJuEy-Rw@mail.gmail.com>
-From: Havard Skinnemoen <hskinnemoen@google.com>
-Date: Wed, 8 Jul 2020 17:06:27 -0700
-Message-ID: <CAFQmdRZdUKvmi_eKdtCnR8uP63sRP9X0Z7oxZES56mtSz_=7FA@mail.gmail.com>
-Subject: Re: [PATCH v4 05/12] hw/arm: Add NPCM730 and NPCM750 SoC models
-To: =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <f4bug@amsat.org>
-Cc: Peter Maydell <peter.maydell@linaro.org>, qemu-arm <qemu-arm@nongnu.org>, 
- QEMU Developers <qemu-devel@nongnu.org>,
- IS20 Avi Fishman <Avi.Fishman@nuvoton.com>, 
- CS20 KFTing <kfting@nuvoton.com>, Joel Stanley <joel@jms.id.au>
+References: <20200612014606.147691-1-jkz@google.com>
+ <20200612014606.147691-5-jkz@google.com>
+ <87h7vbyowf.fsf@linaro.org>
+ <CADgy-2uOn835LrnOBDacbqznW8MR7ZQy55kBmpjDbK2Uy1xPEg@mail.gmail.com>
+ <877dvy9opz.fsf@linaro.org>
+ <CADgy-2tB0Z133RB1i8OdnpKMD3xATL059dFoduHOjdim11G4-A@mail.gmail.com>
+ <87k0zw7opa.fsf@linaro.org>
+In-Reply-To: <87k0zw7opa.fsf@linaro.org>
+From: Josh Kunz <jkz@google.com>
+Date: Wed, 8 Jul 2020 17:16:17 -0700
+Message-ID: <CADgy-2ug-vUStvRCUivM9AYp9qBzdLtt3pwMONvjahpcJajVqw@mail.gmail.com>
+Subject: Re: [PATCH 4/5] linux-user: Support CLONE_VM and extended clone
+ options
+To: =?UTF-8?B?QWxleCBCZW5uw6ll?= <alex.bennee@linaro.org>
+Cc: QEMU Developers <qemu-devel@nongnu.org>, Laurent Vivier <laurent@vivier.eu>,
+ Riku Voipio <riku.voipio@iki.fi>
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=2607:f8b0:4864:20::a41;
- envelope-from=hskinnemoen@google.com; helo=mail-vk1-xa41.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::443;
+ envelope-from=jkz@google.com; helo=mail-pf1-x443.google.com
 X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
  That's all we know.
 X-Spam_score_int: -185
@@ -92,20 +91,169 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Wed, Jul 8, 2020 at 11:13 AM Havard Skinnemoen
-<hskinnemoen@google.com> wrote:
-> On Wed, Jul 8, 2020 at 10:31 AM Philippe Mathieu-Daud=C3=A9 <f4bug@amsat.=
-org> wrote:
-> > On 7/7/20 8:47 PM, Havard Skinnemoen wrote:
-> > > +typedef struct NPCM7xxClass {
-> > > +    DeviceClass         parent;
-> >
-> > Similar comment that elsewhere on this series, if NPCM7xxClass not used
-> > outside of npcm7xx.c, keep it local.
+Sorry for the late reply, response inline. Also I noticed a couple
+mails ago I seemed to have removed the devel list and maintainers.
+I've re-added them to the CC line.
+
+On Wed, Jun 24, 2020 at 3:17 AM Alex Benn=C3=A9e <alex.bennee@linaro.org> w=
+rote:
 >
-> OK, will do.
+>
+> Josh Kunz <jkz@google.com> writes:
+>
+> > On Tue, Jun 23, 2020, 1:21 AM Alex Benn=C3=A9e <alex.bennee@linaro.org>=
+ wrote:
+> >
+> > (snip)
+> >
+> >> >> > * Non-standard libc extension to allow creating TLS images indepe=
+ndent
+> >> >> >   of threads. This would allow us to just `clone` the child direc=
+tly
+> >> >> >   instead of this complicated maneuver. Though we probably would =
+still
+> >> >> >   need the cleanup logic. For libcs, TLS image allocation is tigh=
+tly
+> >> >> >   connected to thread stack allocation, which is also arch-specif=
+ic. I
+> >> >> >   do not have enough experience with libc development to know if
+> >> >> >   maintainers of any popular libcs would be open to supporting su=
+ch an
+> >> >> >   API. Additionally, since it will probably take years before a l=
+ibc
+> >> >> >   fix would be widely deployed, we need an interim solution anywa=
+ys.
+> >> >>
+> >> >> We could consider a custom lib stub that intercepts calls to the gu=
+ests
+> >> >> original libc and replaces it with a QEMU aware one?
+> >> >
+> >> > Unfortunately the problem here is host libc, rather than guest libc.
+> >> > We need to make TLS variables in QEMU itself work, so intercepting
+> >> > guest libc calls won't help much. Or am I misunderstanding the point=
+?
+> >>
+> >> Hold up - I'm a little confused now. Why does the host TLS affect the
+> >> guest TLS? We have complete control over the guests view of the world =
+so
+> >> we should be able to control it's TLS storage.
+> >
+> > Guest TLS is unaffected, just like in the existing case for guest
+> > threads. Guest TLS is handled by the guest libc and the CPU emulation.
+> > Just to be clear: This series changes nothing about guest TLS.
+> >
+> > The complexity of this series is to deal with *host* usage of TLS.
+> > That is to say: use of thread local variables in QEMU itself. Host TLS
+> > is needed to allow the subprocess created with `clone(CLONE_VM, ...)`
+> > to run at all. TLS variables are used in QEMU for the RCU
+> > implementation, parts of the TCG, and all over the place to access the
+> > CPU/TaskState for the running thread. Host TLS is managed by the host
+> > libc, and TLS is only set up for host threads created via
+> > `pthread_create`. Subprocesses created with `clone(CLONE_VM)` share a
+> > virtual memory map *and* TLS data with their parent[1], since libcs
+> > provide no special handling of TLS when `clone(CLONE_VM)` is used.
+> > Without the workaround used in this patch, both the parent and child
+> > process's thread local variables reference the same memory locations.
+> > This just doesn't work, since thread local data is assumed to actually
+> > be thread local.
+> >
+> > The "alternative" proposed was to make the host libc support TLS for
+> > processes created using clone (there are several ways to go about
+> > this, each with different tradeoffs). You mentioned that "We could
+> > consider a custom lib stub that intercepts calls to the guests
+> > original libc..." in your comment. Since *guest* libc is not involved
+> > here I was a bit confused about how this could help, and wanted to
+> > clarify.
+> >
+> >> >> Have you considered a daemon which could co-ordinate between the
+> >> >> multiple processes that are sharing some state?
+> >> >
+> >> > Not really for the `CLONE_VM` support added in this patch series. I
+> >> > have considered trying to pull tcg out of the guest process, but not
+> >> > very seriously, since it seems like a pretty heavyweight approach.
+> >> > Especially compared to the solution included in this series. Do you
+> >> > think there's a simpler approach that involves using a daemon to do
+> >> > coordination?
+> >>
+> >> I'm getting a little lost now. Exactly what state are we trying to sha=
+re
+> >> between two QEMU guests which are now in separate execution contexts?
+> >
+> > Since this series only deals with `clone(CLONE_VM)` we always want to
+> > share guest virtual memory between the execution contexts. There is
+> > also some extra state that needs to be shared depending on which flags
+> > are provided to `clone()`. E.g., signal handler tables for
+> > CLONE_SIGHAND, file descriptor tables for CLONE_FILES, etc.
+> >
+> > The problem is that since QEMU and the guest live in the same virtual
+> > memory map, keeping the mappings the same between the guest parent and
+> > guest child means that the mappings also stay the same between the
+> > host (QEMU) parent and host child. Two hosts can live in the same
+> > virtual memory map, like we do right now with threads, but *only* with
+> > valid TLS for each thread/process. That's why we bend-over backwards
+> > to get set-up TLS for emulation in the child process.
+>
+> OK thanks for that. I'd obviously misunderstood from my first read
+> through. So while hiding the underlying bits of QEMU from the guest is
+> relatively easy it's quite hard to hide QEMU from itself in this
+> CLONE_VM case.
 
-Turns out it is used in npcm7xx_boards.c, so it has to stay where it is.
+Yes exactly.
 
-Havard
+> The other approach would be to suppress CLONE_VM for the actual process
+> (thereby allowing QEMU to safely have a new instance and no clashing
+> shared data) but emulate CLONE_VM for the guest itself (making the guest
+> portions of memory shared and visible to each other). The trouble then
+> would be co-ordination of mapping operations and other things that
+> should be visible in a real CLONE_VM setup. This is the sort of
+> situation I envisioned a co-ordination daemon might be useful.
+
+Ah. This is interesting. Effectively the inverse of this patch. I had
+not considered this approach. Thinking more about it, a "no shared
+memory" approach does seem more straightforward implementation wise.
+Unfortunately I think there would be a few substantial drawbacks:
+
+1. Memory overhead. Every guest thread would need a full copy of QEMU
+memory, including the translated guest binary.
+2. Performance overhead. To keep virtual memory maps consistent across
+tasks, a heavyweight 2 phase commit scheme, or similar, would be
+needed for every `mmap`. That could have substantial performance
+overhead for the guest. This could be a huge problem for processes
+that use a large number of threads *and* do a lot of memory mapping or
+frequently change page permissions.
+3. There would be lots of similarly-fiddly bits that need to be shared
+and coordinated in addition to guest memory. At least the signal
+handler tables and fd_trans tables, but there are likely others I'm
+missing.
+
+The performance drawbacks could be largely mitigated by using the
+current thread-only `CLONE_VM` support, but having *any* threads in
+the process at all would lead to deadlocks after fork() or similar
+non-CLONE_VM clone() calls. This could be worked around with a "stop
+the world" button somewhat like `start_exclusive`, but expanded to
+include all emulator threads. That will substantially slow down
+fork().
+
+Given all this I think the approach used in this series is probably at
+least as "good" as a "no shared memory" approach. It has its own
+complexities and drawbacks, but doesn't have obvious performance
+issues. If you or other maintainers disagree, I'd be happy to write up
+an RFC comparing the approaches in more detail (or we can just use
+this thread), just let me know. Until then I'll keep pursuing this
+patch.
+
+> > [1] At least on x86_64, because TLS references are defined in terms of
+> > the %fs segment, which is inherited on linux. Theoretically it's up to
+> > the architecture to specify how TLS is inherited across execution
+> > contexts. t's possible that the child actually ends up with no valid
+> > TLS rather than using the parent TLS data. But that's not really
+> > relevant here. The important thing is that the child ends up with
+> > *valid* TLS, not invalid or inherited TLS.
+>
+>
+> --
+> Alex Benn=C3=A9e
+
+--
+Josh Kunz
 
