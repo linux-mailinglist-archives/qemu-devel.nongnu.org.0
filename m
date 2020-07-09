@@ -2,81 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id CF196219F20
-	for <lists+qemu-devel@lfdr.de>; Thu,  9 Jul 2020 13:33:46 +0200 (CEST)
-Received: from localhost ([::1]:60482 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5F680219F34
+	for <lists+qemu-devel@lfdr.de>; Thu,  9 Jul 2020 13:41:59 +0200 (CEST)
+Received: from localhost ([::1]:40128 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jtUoD-0001Ln-T6
-	for lists+qemu-devel@lfdr.de; Thu, 09 Jul 2020 07:33:45 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:53014)
+	id 1jtUwA-0005Cz-Dq
+	for lists+qemu-devel@lfdr.de; Thu, 09 Jul 2020 07:41:58 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:56030)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1jtUms-0000TD-9D
- for qemu-devel@nongnu.org; Thu, 09 Jul 2020 07:32:22 -0400
-Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:47034
- helo=us-smtp-1.mimecast.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1jtUmq-0002Ow-Fx
- for qemu-devel@nongnu.org; Thu, 09 Jul 2020 07:32:21 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1594294339;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references:openpgp:openpgp;
- bh=S2mVR5CG6ygyTCvWdjkVVVf64CqHthXCeEGFuyedGXU=;
- b=AOwJ8UC67lgE3mPx6Dp7d4CaE+jSpaq7AxNzblX+QjMfYs0BDULmfGb0FOeDB7yyThsPpk
- UZRO+EZCIuj6pqryWp5C1sGlcd1Boo87L1AQ6i6LURqRgkGTbU34GP7k3PPAbyQiGW3hn1
- deUV0eo/98Z5OMsofLURExgZHcgIfsc=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-262-laY559H1OLiVp2AvXJBZ8A-1; Thu, 09 Jul 2020 07:32:13 -0400
-X-MC-Unique: laY559H1OLiVp2AvXJBZ8A-1
-Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
- [10.5.11.12])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id C94B580BCA0;
- Thu,  9 Jul 2020 11:32:12 +0000 (UTC)
-Received: from thuth.remote.csb (ovpn-112-106.ams2.redhat.com [10.36.112.106])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id E501960F8D;
- Thu,  9 Jul 2020 11:32:11 +0000 (UTC)
-Subject: Re: [qemu-web PATCH] new page: conservancy.md
-To: Paolo Bonzini <pbonzini@redhat.com>, =?UTF-8?Q?Alex_Benn=c3=a9e?=
- <alex.bennee@linaro.org>, qemu-devel@nongnu.org
-References: <20200707145110.10906-1-alex.bennee@linaro.org>
- <06e4b9a6-4ea7-8d90-3aca-68c0474a57be@redhat.com>
-From: Thomas Huth <thuth@redhat.com>
-Openpgp: preference=signencrypt
-Message-ID: <872e60f3-22e8-990b-4442-685b2f1877f5@redhat.com>
-Date: Thu, 9 Jul 2020 13:32:10 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
- Thunderbird/60.9.0
+ (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
+ id 1jtUvM-0004Oy-He
+ for qemu-devel@nongnu.org; Thu, 09 Jul 2020 07:41:08 -0400
+Received: from indium.canonical.com ([91.189.90.7]:52330)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
+ id 1jtUvK-0003d2-7y
+ for qemu-devel@nongnu.org; Thu, 09 Jul 2020 07:41:08 -0400
+Received: from loganberry.canonical.com ([91.189.90.37])
+ by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
+ id 1jtUvH-0005T3-K0
+ for <qemu-devel@nongnu.org>; Thu, 09 Jul 2020 11:41:03 +0000
+Received: from loganberry.canonical.com (localhost [127.0.0.1])
+ by loganberry.canonical.com (Postfix) with ESMTP id 94B632E8024
+ for <qemu-devel@nongnu.org>; Thu,  9 Jul 2020 11:41:03 +0000 (UTC)
 MIME-Version: 1.0
-In-Reply-To: <06e4b9a6-4ea7-8d90-3aca-68c0474a57be@redhat.com>
-Content-Language: en-US
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=thuth@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=205.139.110.120; envelope-from=thuth@redhat.com;
- helo=us-smtp-1.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/07/09 01:47:04
-X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
-X-Spam_score_int: -40
-X-Spam_score: -4.1
-X-Spam_bar: ----
-X-Spam_report: (-4.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-1, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001, URIBL_BLOCKED=0.001 autolearn=ham autolearn_force=no
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: quoted-printable
+Date: Thu, 09 Jul 2020 11:32:25 -0000
+From: Laurent Vivier <1886076@bugs.launchpad.net>
+To: qemu-devel@nongnu.org
+X-Launchpad-Notification-Type: bug
+X-Launchpad-Bug: product=qemu; status=New; importance=Undecided; assignee=None;
+X-Launchpad-Bug-Tags: risc-v
+X-Launchpad-Bug-Information-Type: Public
+X-Launchpad-Bug-Private: no
+X-Launchpad-Bug-Security-Vulnerability: no
+X-Launchpad-Bug-Commenters: laurent-vivier nroyer
+X-Launchpad-Bug-Reporter: Nicolas Royer (nroyer)
+X-Launchpad-Bug-Modifier: Laurent Vivier (laurent-vivier)
+References: <159371008164.16126.4627604650696899204.malonedeb@soybean.canonical.com>
+Message-Id: <159429434518.31066.10783347168196519513.malone@soybean.canonical.com>
+Subject: [Bug 1886076] Re: risc-v pmp implementation error
+X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
+X-Launchpad-Message-For: qemu-devel-ml
+Precedence: bulk
+X-Generated-By: Launchpad (canonical.com);
+ Revision="b24753402d6321ed1b9083e580f5f014a46bab00";
+ Instance="production-secrets-lazr.conf"
+X-Launchpad-Hash: 14151ed46d46f0400699068339d154b73cabb7cf
+Received-SPF: none client-ip=91.189.90.7; envelope-from=bounces@canonical.com;
+ helo=indium.canonical.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/07/09 07:41:03
+X-ACL-Warn: Detected OS   = Linux 3.11 and newer [fuzzy]
+X-Spam_score_int: -58
+X-Spam_score: -5.9
+X-Spam_bar: -----
+X-Spam_report: (-5.9 / 5.0 requ) BAYES_00=-1.9, HEADER_FROM_DIFFERENT_DOMAINS=1,
+ RCVD_IN_DNSWL_HI=-5, RCVD_IN_MSPIKE_H3=-0.01, RCVD_IN_MSPIKE_WL=-0.01,
+ SPF_HELO_NONE=0.001, SPF_NONE=0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
-Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -85,55 +72,76 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Reply-To: Bug 1886076 <1886076@bugs.launchpad.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 07/07/2020 17.19, Paolo Bonzini wrote:
-> On 07/07/20 16:51, Alex Bennée wrote:
->> +QEMU interacts with Conservancy through a Leadership Committee,
->> +currently composed of the following members:
->> +
->> +* Alex Bennée
->> +* Paolo Bonzini
->> +* Andreas Färber
->> +* Alexander Graf
->> +* Stefan Hajnoczi
->> +* Peter Maydell
->> +
->> +The committee votes via simple majority. There cannot be more than two
->> +members employed by the same company at once.
-> 
-> s/two members/one third of the members (currently two)/
-> 
-> s/company/entity/ (because Stefan and I are still employed by Red Hat,
-> not IBM).
-> 
->> +
->> +If you would like to raise an issue to the Leadership Committee,
->> +please email [qemu-devel@nongnu.org](mailto:qemu-devel@nongnu.org) and
->> +CC at least one of the members so they can bring the issue forward.
->> +For private emails you can send an email
-> 
-> Missing "to" here.
-> 
->> +[qemu@sfconservancy.org](mailto:qemu@sfconservancy.org) which is a
->> +private list that all the leadership committee are subscribed to.
-> 
-> Missing comma before "which", or remove "which is" altogether after
-> adding the comma.
-> 
-> I would also add a link to the first column of _includes/footer.html.
+Nicolas,
 
-I've done the suggested modifications and pushed the page now. Please
-double-check whether it looks as expected!
+to be reviewed your patch must be sent to qemu-devel@nongnu.org
 
-Paolo, could you please update the link on
-https://wiki.qemu.org/Main_Page ? I do not have the access rights to
-edit that page. Once that is done, I think we can delete the old page
-https://wiki.qemu.org/Conservancy in the wiki (or turn it into a
-redirect page instead?).
+-- =
 
- Thanks,
-  Thomas
+You received this bug notification because you are a member of qemu-
+devel-ml, which is subscribed to QEMU.
+https://bugs.launchpad.net/bugs/1886076
 
+Title:
+  risc-v pmp implementation error
+
+Status in QEMU:
+  New
+
+Bug description:
+  QEMU Commit fc1bff958998910ec8d25db86cd2f53ff125f7ab
+
+  =
+
+  RISC-V PMP implementation is not correct on QEMU.
+
+  When an access is granted there is no more PMP check on the 4KB memory ra=
+nge of the accessed location.
+  A cache flush is needed in order to force a PMP check on next access to t=
+his 4KB memory range.
+  A correct implementation would be to grant access to the maximum allowed =
+area around the accessed location within the 4KB memory range.
+
+  For instance, if PMP is configured to block all accesses from 0x80003000 =
+to 0x800037FF and from 0x80003C00 to 0x80003FFF:
+  1st case:
+      1) A read access is done @0x80003900 --> access OK as expected
+      2) Then a read access is done @0x80003400 --> access OK while it must=
+ be blocked!
+  2nd case:
+      1) A read access is done @0x80003900 --> access OK as expected
+      2) Cache is flushed (__asm__ __volatile__ ("sfence.vma" : : : "memory=
+");)  =
+
+      3) A read access is done @0x80003400 --> access blocked as expected
+
+  Analysis:
+      After the 1st read @0x80003900 QEMU add the memory range 0x80003000 t=
+o 0x80003FFF into a TLB entry.
+      Then no more PMP check is done from 0x80003000 to 0x80003FFF until th=
+e TLB is flushed.
+  What should be done:
+      Only the range 0x80003800 to 0x80003BFF should be added to the TLB en=
+try.
+
+  The 4KB range is the default size of a TLB page on QEMU for RISCV.
+  The minimum size that can be set is 64Bytes. However the PMP granularity =
+can be as low as 4Bytes.
+
+  I tested a quick fix and PMP is working as expected.
+  The quick fix consist in replacing this line:
+  tlb_set_page(cs, address & TARGET_PAGE_MASK, pa & TARGET_PAGE_MASK, prot,=
+ mmu_idx, TARGET_PAGE_SIZE);
+  By this one in target/riscv/cpu_helper.c:
+  tlb_set_page(cs, address & ~0x3, pa & ~0x3, prot, mmu_idx, size);
+
+  This quick fix has to be optimized in order to consume less HW
+  resources, as explained at the beginning.
+
+To manage notifications about this bug go to:
+https://bugs.launchpad.net/qemu/+bug/1886076/+subscriptions
 
