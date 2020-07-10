@@ -2,102 +2,57 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 181A621C017
-	for <lists+qemu-devel@lfdr.de>; Sat, 11 Jul 2020 00:46:29 +0200 (CEST)
-Received: from localhost ([::1]:38426 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id BA7F821B9D7
+	for <lists+qemu-devel@lfdr.de>; Fri, 10 Jul 2020 17:49:27 +0200 (CEST)
+Received: from localhost ([::1]:37326 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ju1ml-0002g9-LL
-	for lists+qemu-devel@lfdr.de; Fri, 10 Jul 2020 18:46:27 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:41966)
+	id 1jtvHC-0007zt-P6
+	for lists+qemu-devel@lfdr.de; Fri, 10 Jul 2020 11:49:26 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:34586)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1ju1lw-0002An-Nn
- for qemu-devel@nongnu.org; Fri, 10 Jul 2020 18:45:36 -0400
-Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:52359
- helo=us-smtp-1.mimecast.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1ju1lu-00044J-8z
- for qemu-devel@nongnu.org; Fri, 10 Jul 2020 18:45:35 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1594421132;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=LF2fOKBGuMeuXlGewjdotMctgnGZ9q58vKmwAYxyhRw=;
- b=NkHEUtVjgGq5A75MqRXHmOT+R1sSEwfXRGgu69epFCts2pUVbK28e7nG1vqwGdGLflVLjt
- 15Kq9R2vDlpUP8mutWGEV2xNsy7Jjm+Oh2IpspHA119mxjfull8/c19T9XUtWl39d/4EHv
- rOtiy1fZaSSAwOwPcpNNp5mEZt8pNBQ=
-Received: from mail-wm1-f72.google.com (mail-wm1-f72.google.com
- [209.85.128.72]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-359-hKiH96CaNKSLobHp3cX_3g-1; Fri, 10 Jul 2020 18:45:29 -0400
-X-MC-Unique: hKiH96CaNKSLobHp3cX_3g-1
-Received: by mail-wm1-f72.google.com with SMTP id o13so8254409wmh.9
- for <qemu-devel@nongnu.org>; Fri, 10 Jul 2020 15:45:29 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=LF2fOKBGuMeuXlGewjdotMctgnGZ9q58vKmwAYxyhRw=;
- b=XqGvRm4aQbrZZ9kcyIh1zvD22HdeedzK+UWaxgXTaC4KmPehvetLPMkup/KOG0z5UJ
- 0gKzHjVn84DFztBr77BhKLFIe5eQbVcKM9tvszSGtpg4lSiU3q+mrhO9KbULkXNkBksl
- Nz8T3f+KlDq4ZRI3lx3qrWRgVC5re86IReOUZvuHm58KTOcHUgq81UWksOo2MVcvyH5B
- K4Fdn2v/mTz+NDyXPcumQPFuGj/5Xtzm/hxpxDt6LYl0/sS43IIwoyTLK8/61bL9ILDq
- G1IneJMau3FxAlYngmao0dZ2SAEKmXAb7SmQ4wcytPQJOE3TcG/muu8u+cN9v+Zz7EBr
- sjPg==
-X-Gm-Message-State: AOAM533ofJzX9JGJz4hwNuV2R9yIPytQTK6fYUZK6u0axXGGAHTvtfEB
- 9iJ4zjzpI6iGcNbYqz5Xw/KXMPr1wlKqOgBGwlNt7FqkiIgAuDKb60wXhtiFoRbCNuNkx3pQGR+
- lcWmoDzPVrXlEl/8=
-X-Received: by 2002:adf:b190:: with SMTP id q16mr501864wra.356.1594421128814; 
- Fri, 10 Jul 2020 15:45:28 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJyYjcMh2epn2F97nwKH1u4vIg6eVXyk8cH3zecrI1vx4qoM+clsdpxnr8KXspCJggACswTk5g==
-X-Received: by 2002:adf:b190:: with SMTP id q16mr501834wra.356.1594421128555; 
- Fri, 10 Jul 2020 15:45:28 -0700 (PDT)
-Received: from ?IPv6:2001:b07:6468:f312:ef:39d9:1ecb:6054?
- ([2001:b07:6468:f312:ef:39d9:1ecb:6054])
- by smtp.gmail.com with ESMTPSA id f14sm13081264wro.90.2020.07.10.15.45.27
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Fri, 10 Jul 2020 15:45:28 -0700 (PDT)
-Subject: Re: [PATCH 3/3] cpu-timers, icount: new modules
-To: Thomas Huth <thuth@redhat.com>, Claudio Fontana <cfontana@suse.de>,
- Laurent Vivier <lvivier@redhat.com>, =?UTF-8?Q?Alex_Benn=c3=a9e?=
- <alex.bennee@linaro.org>, Peter Maydell <peter.maydell@linaro.org>,
- =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>,
- Roman Bolshakov <r.bolshakov@yadro.com>,
- Markus Armbruster <armbru@redhat.com>
-References: <20200629093504.3228-1-cfontana@suse.de>
- <20200629093504.3228-4-cfontana@suse.de>
- <aa45a793-35b1-d3bd-18a8-4c52ad888029@redhat.com>
- <f89f249d-dbc4-779b-5b53-fc408461f072@suse.de>
- <ecf5f26b-ce86-3e13-5c5c-567919433acb@redhat.com>
- <e9dca3d1-f52d-13ce-2d7d-66958bc15765@suse.de>
- <996dc455-548e-5964-9c87-f4abe5b63907@redhat.com>
-From: Paolo Bonzini <pbonzini@redhat.com>
-Message-ID: <146b0cf2-509b-6a48-e82b-b93740e4c60d@redhat.com>
-Date: Sat, 11 Jul 2020 00:45:27 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.9.0
+ (Exim 4.90_1) (envelope-from <wentong.wu@intel.com>)
+ id 1jtvEK-0005Nn-WE; Fri, 10 Jul 2020 11:46:29 -0400
+Received: from mga02.intel.com ([134.134.136.20]:55298)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <wentong.wu@intel.com>)
+ id 1jtvEJ-0008Ob-AV; Fri, 10 Jul 2020 11:46:28 -0400
+IronPort-SDR: 0qRnyIwsyObCp8JJ6ajXOYnwgFj1iZ1JMIlmi2ge0dL3s3aUxbO1e/hc+WE3swwvIaN25jJZWO
+ eeWlJwJ3Llag==
+X-IronPort-AV: E=McAfee;i="6000,8403,9678"; a="136427512"
+X-IronPort-AV: E=Sophos;i="5.75,336,1589266800"; d="scan'208";a="136427512"
+X-Amp-Result: SKIPPED(no attachment in message)
+X-Amp-File-Uploaded: False
+Received: from fmsmga005.fm.intel.com ([10.253.24.32])
+ by orsmga101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 10 Jul 2020 08:46:15 -0700
+IronPort-SDR: sNJvHibO3HmZs/Pemt+BXXteic9oJ7gh/dqpXIK/401nj86pC+dX9hrE/qIcifsvr37TJLQAZU
+ f5SIjgji6e2A==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.75,336,1589266800"; d="scan'208";a="484686318"
+Received: from unknown (HELO localhost.localdomain.sh.intel.com)
+ ([10.239.153.142])
+ by fmsmga005.fm.intel.com with ESMTP; 10 Jul 2020 08:46:14 -0700
+From: Wentong Wu <wentong.wu@intel.com>
+To: qemu-devel@nongnu.org,
+	peter.maydell@linaro.org
+Subject: [PATCH v2 1/4] target/nios2: add DISAS_NORETURN case for nothing more
+ to generate
+Date: Fri, 10 Jul 2020 19:34:30 -0400
+Message-Id: <20200710233433.19729-1-wentong.wu@intel.com>
+X-Mailer: git-send-email 2.21.3
 MIME-Version: 1.0
-In-Reply-To: <996dc455-548e-5964-9c87-f4abe5b63907@redhat.com>
-Content-Language: en-US
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=207.211.31.120; envelope-from=pbonzini@redhat.com;
- helo=us-smtp-1.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/07/10 18:45:32
-X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
-X-Spam_score_int: -40
-X-Spam_score: -4.1
-X-Spam_bar: ----
-X-Spam_report: (-4.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-1, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=134.134.136.20; envelope-from=wentong.wu@intel.com;
+ helo=mga02.intel.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/07/10 11:46:16
+X-ACL-Warn: Detected OS   = FreeBSD 9.x or newer [fuzzy]
+X-Spam_score_int: -22
+X-Spam_score: -2.3
+X-Spam_bar: --
+X-Spam_report: (-2.3 / 5.0 requ) BAYES_00=-1.9, DATE_IN_FUTURE_06_12=1.947,
+ RCVD_IN_DNSWL_MED=-2.3, RCVD_IN_MSPIKE_H3=-0.01, RCVD_IN_MSPIKE_WL=-0.01,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -110,25 +65,52 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Eduardo Habkost <ehabkost@redhat.com>, Colin Xu <colin.xu@intel.com>,
- Marcelo Tosatti <mtosatti@redhat.com>, qemu-devel@nongnu.org,
- haxm-team@intel.com, Wenchao Wang <wenchao.wang@intel.com>,
- Sunil Muthuswamy <sunilmut@microsoft.com>, Richard Henderson <rth@twiddle.net>
+Cc: qemu-trivial@nongnu.org, marex@denx.de, crwulff@gmail.com,
+ Wentong Wu <wentong.wu@intel.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 10/07/20 06:36, Thomas Huth wrote:
-> 
-> In short this goes away if I again set icount to enabled for qtest,
-> basically ensuring that --enable-tcg is there and then reenabling icount.
-> 
-> qtest was forcing icount and shift=0 by creating qemu options, in order to misuse its counter feature,
-> instead of using a separate counter.
+Add DISAS_NORETURN case for nothing more to generate because at runtime
+execution will never return from some helper call. And at the same time
+replace DISAS_UPDATE in t_gen_helper_raise_exception and gen_exception
+with the newly added DISAS_NORETURN.
 
-Why would it need a separate counter?  In both cases it's a
-manually-updated counter that is used for QEMU_CLOCK_VIRTUAL.  The only
-difference is that shift > 0 doesn't make sense for qtest.
+Signed-off-by: Wentong Wu <wentong.wu@intel.com>
+---
+ target/nios2/translate.c | 5 +++--
+ 1 file changed, 3 insertions(+), 2 deletions(-)
 
-Paolo
+diff --git a/target/nios2/translate.c b/target/nios2/translate.c
+index e17656e6..b052be85 100644
+--- a/target/nios2/translate.c
++++ b/target/nios2/translate.c
+@@ -149,7 +149,7 @@ static void t_gen_helper_raise_exception(DisasContext *dc,
+     tcg_gen_movi_tl(dc->cpu_R[R_PC], dc->pc);
+     gen_helper_raise_exception(dc->cpu_env, tmp);
+     tcg_temp_free_i32(tmp);
+-    dc->is_jmp = DISAS_UPDATE;
++    dc->is_jmp = DISAS_NORETURN;
+ }
+ 
+ static bool use_goto_tb(DisasContext *dc, uint32_t dest)
+@@ -802,7 +802,7 @@ static void gen_exception(DisasContext *dc, uint32_t excp)
+     tcg_gen_movi_tl(cpu_R[R_PC], dc->pc);
+     gen_helper_raise_exception(cpu_env, tmp);
+     tcg_temp_free_i32(tmp);
+-    dc->is_jmp = DISAS_UPDATE;
++    dc->is_jmp = DISAS_NORETURN;
+ }
+ 
+ /* generate intermediate code for basic block 'tb'.  */
+@@ -877,6 +877,7 @@ void gen_intermediate_code(CPUState *cs, TranslationBlock *tb, int max_insns)
+         tcg_gen_exit_tb(NULL, 0);
+         break;
+ 
++    case DISAS_NORETURN:
+     case DISAS_TB_JUMP:
+         /* nothing more to generate */
+         break;
+-- 
+2.21.3
 
 
