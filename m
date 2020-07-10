@@ -2,85 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0F07521BCD6
-	for <lists+qemu-devel@lfdr.de>; Fri, 10 Jul 2020 20:17:42 +0200 (CEST)
-Received: from localhost ([::1]:54422 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B3F9521BCFB
+	for <lists+qemu-devel@lfdr.de>; Fri, 10 Jul 2020 20:30:39 +0200 (CEST)
+Received: from localhost ([::1]:46476 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jtxaf-00028f-5K
-	for lists+qemu-devel@lfdr.de; Fri, 10 Jul 2020 14:17:41 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:41924)
+	id 1jtxnC-0002Sk-OI
+	for lists+qemu-devel@lfdr.de; Fri, 10 Jul 2020 14:30:38 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:43860)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1jtxZs-0001UO-7H
- for qemu-devel@nongnu.org; Fri, 10 Jul 2020 14:16:52 -0400
-Received: from mail-wr1-x441.google.com ([2a00:1450:4864:20::441]:38092)
+ (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
+ id 1jtxiV-0006Zx-Sl
+ for qemu-devel@nongnu.org; Fri, 10 Jul 2020 14:25:47 -0400
+Received: from indium.canonical.com ([91.189.90.7]:41668)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1jtxZq-0004Mi-83
- for qemu-devel@nongnu.org; Fri, 10 Jul 2020 14:16:51 -0400
-Received: by mail-wr1-x441.google.com with SMTP id z13so6881439wrw.5
- for <qemu-devel@nongnu.org>; Fri, 10 Jul 2020 11:16:49 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=references:user-agent:from:to:cc:subject:in-reply-to:date
- :message-id:mime-version:content-transfer-encoding;
- bh=/X2nUt0u+nO35jjzlgdfajdxH5O84jnoFpCRg/XBUAU=;
- b=YwNDT5aK+7QSq5uVTFnL8oll8GO78meCT9SL0fIB3/lU5RYEhrDex3juDiTPtqAoMK
- Q+l5PGq9wlIVSg611fNHtAtaQ4B9NzaY6Na7eDPgPYq6y57/6T51fnIrs2eMD1CB4kd6
- zwV/dNEm0vlsHGWtigfFQ4nMVmuay5fhC34ANUc0pRMXok1MSxyLO9kcMAGnmLtu8aJJ
- Z61v7VLR5GooY44cMyxmqyGYzy3jwYwXt9QszTUfTrrHwdxLq+3dqm3K8mVt5IGAWkUw
- gO2zLzXfp5joBWP3UkPJBiEpDEcam8J7W4hl32WizEp7cTnIA+o+bUHO254idJUKoohv
- 6+Ww==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:references:user-agent:from:to:cc:subject
- :in-reply-to:date:message-id:mime-version:content-transfer-encoding;
- bh=/X2nUt0u+nO35jjzlgdfajdxH5O84jnoFpCRg/XBUAU=;
- b=m81w5Ib8AWPk75nfuC5ctura6/LLrESaxvqLe1yjxJDI2Z7b5U7Fd9p6wRE12y5LKf
- r84DcX1BmHqbA+IUaECB+CEH4Zb7rw98C0GpCw8qI3h1dthRX2uN8LgpzKeNm1bAG6n0
- TH9uOfBM+SURjRMZfon1N2b8C47KXYTT5JOnQiKlJHoyjAVdP2sH59DOl8pN4S6vgNqg
- 1JU5sLNG+Mj+aw8Xr0hjXxe9B81X0kpjaVtTNPVnr9ccz0QzIr42Q1OGwSmACumRyXqU
- nbPbp2y8vdnBWaADVfCjIUUCiwJodG9fI7vVjwF8qj62gw4uEcDt1nGUs4pQZf2+ds6W
- UWGw==
-X-Gm-Message-State: AOAM530g1HoUgV+7eOHNHiiODGs+Wc9YGTQcSErsNK0nJs+liAh5IhDG
- /zyvU+UsfDhzYxf88i4ElcUg+w==
-X-Google-Smtp-Source: ABdhPJzga2PUmtETlad4aQiYldxGR5B4W8VIMgFkNR87NpQZAl55QG3NJOpIVSgKrAzlyapO0f4j+w==
-X-Received: by 2002:adf:de8d:: with SMTP id w13mr67736969wrl.129.1594405008520; 
- Fri, 10 Jul 2020 11:16:48 -0700 (PDT)
-Received: from zen.linaroharston ([51.148.130.216])
- by smtp.gmail.com with ESMTPSA id d28sm10670664wrc.50.2020.07.10.11.16.46
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 10 Jul 2020 11:16:47 -0700 (PDT)
-Received: from zen (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id 505E61FF7E;
- Fri, 10 Jul 2020 19:16:46 +0100 (BST)
-References: <20200701135652.1366-1-alex.bennee@linaro.org>
- <20200701135652.1366-12-alex.bennee@linaro.org>
-User-agent: mu4e 1.5.4; emacs 28.0.50
-From: Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
-To: qemu-devel@nongnu.org
-Subject: Re: [PATCH  v4 11/40] tests/vm: change scripts to use self._config
-In-reply-to: <20200701135652.1366-12-alex.bennee@linaro.org>
-Date: Fri, 10 Jul 2020 19:16:46 +0100
-Message-ID: <87r1tjjkvl.fsf@linaro.org>
+ (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
+ id 1jtxiS-0005Xp-6L
+ for qemu-devel@nongnu.org; Fri, 10 Jul 2020 14:25:47 -0400
+Received: from loganberry.canonical.com ([91.189.90.37])
+ by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
+ id 1jtxiR-0002p0-4G
+ for <qemu-devel@nongnu.org>; Fri, 10 Jul 2020 18:25:43 +0000
+Received: from loganberry.canonical.com (localhost [127.0.0.1])
+ by loganberry.canonical.com (Postfix) with ESMTP id 1C1612E806D
+ for <qemu-devel@nongnu.org>; Fri, 10 Jul 2020 18:25:43 +0000 (UTC)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=2a00:1450:4864:20::441;
- envelope-from=alex.bennee@linaro.org; helo=mail-wr1-x441.google.com
-X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
- That's all we know.
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- URIBL_BLOCKED=0.001 autolearn=ham autolearn_force=no
+Date: Fri, 10 Jul 2020 18:18:12 -0000
+From: Dmitry <1885332@bugs.launchpad.net>
+To: qemu-devel@nongnu.org
+X-Launchpad-Notification-Type: bug
+X-Launchpad-Bug: product=qemu; status=New; importance=Undecided; assignee=None;
+X-Launchpad-Bug-Information-Type: Public
+X-Launchpad-Bug-Private: no
+X-Launchpad-Bug-Security-Vulnerability: no
+X-Launchpad-Bug-Commenters: langston0 xeioexception
+X-Launchpad-Bug-Reporter: Langston (langston0)
+X-Launchpad-Bug-Modifier: Dmitry (xeioexception)
+References: <159320263008.26082.15752081078008046631.malonedeb@gac.canonical.com>
+Message-Id: <159440509211.11910.6418686072155246577.malone@soybean.canonical.com>
+Subject: [Bug 1885332] Re: Error in user-mode calculation of ELF aux vector's
+ AT_PHDR
+X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
+X-Launchpad-Message-For: qemu-devel-ml
+Precedence: bulk
+X-Generated-By: Launchpad (canonical.com);
+ Revision="4809fcb62f445aaa3ae919f7f6c3cc7d156ea57a";
+ Instance="production-secrets-lazr.conf"
+X-Launchpad-Hash: b117ec187318f90e3720eaed0f044ccf1d1929cd
+Received-SPF: none client-ip=91.189.90.7; envelope-from=bounces@canonical.com;
+ helo=indium.canonical.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/07/10 14:25:42
+X-ACL-Warn: Detected OS   = Linux 3.11 and newer [fuzzy]
+X-Spam_score_int: -58
+X-Spam_score: -5.9
+X-Spam_bar: -----
+X-Spam_report: (-5.9 / 5.0 requ) BAYES_00=-1.9, HEADER_FROM_DIFFERENT_DOMAINS=1,
+ RCVD_IN_DNSWL_HI=-5, RCVD_IN_MSPIKE_H3=-0.01, RCVD_IN_MSPIKE_WL=-0.01,
+ SPF_HELO_NONE=0.001, SPF_NONE=0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
-Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -89,211 +72,143 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: fam@euphon.net, berrange@redhat.com, Robert Foley <robert.foley@linaro.org>,
- Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>,
- richard.henderson@linaro.org, f4bug@amsat.org,
- Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <philmd@redhat.com>, cota@braap.org,
- Peter Puhov <peter.puhov@linaro.org>, aurelien@aurel32.net
+Reply-To: Bug 1885332 <1885332@bugs.launchpad.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+> runs just fine on top of the Linux kernel in QEMU full-system
+emulation, but crashes before main in user-mode emulation
 
-Alex Benn=C3=A9e <alex.bennee@linaro.org> writes:
+So it seems system vs user-mode is not the issue here, probably it is
+related to gdb mode in user-mode qemu.
 
-> From: Robert Foley <robert.foley@linaro.org>
->
-> This change converts existing scripts to using for example self.ROOT_PASS,
-> to self._config['root_pass'].
-> We made similar changes for GUEST_USER, and GUEST_PASS.
-> This allows us also to remove the change in basevm.py,
-> which adds __getattr__ for backwards compatibility.
->
-> Signed-off-by: Robert Foley <robert.foley@linaro.org>
-> Reviewed-by: Peter Puhov <peter.puhov@linaro.org>
-> Signed-off-by: Alex Benn=C3=A9e <alex.bennee@linaro.org>
-> Reviewed-by: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
-> Message-Id: <20200601211421.1277-8-robert.foley@linaro.org>
-> ---
->  tests/vm/basevm.py | 11 ++---------
->  tests/vm/fedora    | 17 +++++++++--------
->  tests/vm/freebsd   | 16 ++++++++--------
->  tests/vm/netbsd    | 19 ++++++++++---------
->  tests/vm/openbsd   | 17 +++++++++--------
->  5 files changed, 38 insertions(+), 42 deletions(-)
->
-> diff --git a/tests/vm/basevm.py b/tests/vm/basevm.py
-> index 5fd66f6b26a..f716798b405 100644
-> --- a/tests/vm/basevm.py
-> +++ b/tests/vm/basevm.py
-> @@ -183,13 +183,6 @@ class BaseVM(object):
->          self.console_init(timeout=3Dtimeout)
->          self.console_wait(wait_string)
->=20=20
-> -    def __getattr__(self, name):
-> -        # Support direct access to config by key.
-> -        # for example, access self._config['cpu'] by self.cpu
-> -        if name.lower() in self._config.keys():
-> -            return self._config[name.lower()]
-> -        return object.__getattribute__(self, name)
-> -
->      def _download_with_cache(self, url, sha256sum=3DNone, sha512sum=3DNo=
-ne):
->          def check_sha256sum(fname):
->              if not sha256sum:
-> @@ -239,13 +232,13 @@ class BaseVM(object):
->          return r
->=20=20
->      def ssh(self, *cmd):
-> -        return self._ssh_do(self.GUEST_USER, cmd, False)
-> +        return self._ssh_do(self._config["guest_user"], cmd, False)
->=20=20
->      def ssh_root(self, *cmd):
->          return self._ssh_do("root", cmd, False)
->=20=20
->      def ssh_check(self, *cmd):
-> -        self._ssh_do(self.GUEST_USER, cmd, True)
-> +        self._ssh_do(self._config["guest_user"], cmd, True)
->=20=20
->      def ssh_root_check(self, *cmd):
->          self._ssh_do("root", cmd, True)
-> diff --git a/tests/vm/fedora b/tests/vm/fedora
-> index a9195670f4b..b2b478fdbca 100755
-> --- a/tests/vm/fedora
-> +++ b/tests/vm/fedora
-> @@ -108,20 +108,20 @@ class FedoraVM(basevm.BaseVM):
->=20=20
->          self.console_wait_send("7) [!] Root password",     "7\n")
->          self.console_wait("Password:")
-> -        self.console_send("%s\n" % self.ROOT_PASS)
-> +        self.console_send("%s\n" % self._config["root_pass"])
->          self.console_wait("Password (confirm):")
-> -        self.console_send("%s\n" % self.ROOT_PASS)
-> +        self.console_send("%s\n" % self._config["root_pass"])
->=20=20
->          self.console_wait_send("8) [ ] User creation",     "8\n")
->          self.console_wait_send("1) [ ] Create user",       "1\n")
->          self.console_wait_send("3) User name",             "3\n")
-> -        self.console_wait_send("ENTER:", "%s\n" % self.GUEST_USER)
-> +        self.console_wait_send("ENTER:", "%s\n" % self._config["guest_us=
-er"])
->          self.console_wait_send("4) [ ] Use password",      "4\n")
->          self.console_wait_send("5) Password",              "5\n")
->          self.console_wait("Password:")
-> -        self.console_send("%s\n" % self.GUEST_PASS)
-> +        self.console_send("%s\n" % self._config["guest_pass"])
->          self.console_wait("Password (confirm):")
-> -        self.console_send("%s\n" % self.GUEST_PASS)
-> +        self.console_send("%s\n" % self._config["guest_pass"])
->          self.console_wait_send("7) Groups",                "c\n")
->=20=20
->          while True:
-> @@ -139,7 +139,7 @@ class FedoraVM(basevm.BaseVM):
->              if good:
->                  break
->              time.sleep(10)
-> -            self.console_send("r\n" % self.GUEST_PASS)
-> +            self.console_send("r\n" % self._config["guest_pass"])
->=20=20
->          self.console_wait_send("'b' to begin install",     "b\n")
->=20=20
-> @@ -150,12 +150,13 @@ class FedoraVM(basevm.BaseVM):
->=20=20
->          # setup qemu user
->          prompt =3D " ~]$"
-> -        self.console_ssh_init(prompt, self.GUEST_USER, self.GUEST_PASS)
-> +        self.console_ssh_init(prompt, self._config["guest_user"],
-> +                                      self._config["guest_pass"])
->          self.console_wait_send(prompt, "exit\n")
->=20=20
->          # setup root user
->          prompt =3D " ~]#"
-> -        self.console_ssh_init(prompt, "root", self.ROOT_PASS)
-> +        self.console_ssh_init(prompt, "root", self._config["root_pass"])
->          self.console_sshd_config(prompt)
->=20=20
->          # setup virtio-blk #1 (tarfile)
-> diff --git a/tests/vm/freebsd b/tests/vm/freebsd
-> index f87db2b126e..29252fa4a64 100755
-> --- a/tests/vm/freebsd
-> +++ b/tests/vm/freebsd
-> @@ -113,9 +113,9 @@ class FreeBSDVM(basevm.BaseVM):
->=20=20
->          # post-install configuration
->          self.console_wait("New Password:")
-> -        self.console_send("%s\n" % self.ROOT_PASS)
-> +        self.console_send("%s\n" % self._config["root_pass"])
->          self.console_wait("Retype New Password:")
-> -        self.console_send("%s\n" % self.ROOT_PASS)
-> +        self.console_send("%s\n" % self._config["root_pass"])
->=20=20
->          self.console_wait_send("Network Configuration", "\n")
->          self.console_wait_send("IPv4",                  "y")
-> @@ -134,9 +134,9 @@ class FreeBSDVM(basevm.BaseVM):
->          # qemu user
->          self.console_wait_send("Add User Accounts", "y")
->          self.console_wait("Username")
-> -        self.console_send("%s\n" % self.GUEST_USER)
-> +        self.console_send("%s\n" % self._config["guest_user"])
->          self.console_wait("Full name")
-> -        self.console_send("%s\n" % self.GUEST_USER)
-> +        self.console_send("%s\n" % self._config["guest_user"])
->          self.console_wait_send("Uid",                   "\n")
->          self.console_wait_send("Login group",           "\n")
->          self.console_wait_send("Login group",           "\n")
-> @@ -148,9 +148,9 @@ class FreeBSDVM(basevm.BaseVM):
->          self.console_wait_send("Use an empty password", "\n")
->          self.console_wait_send("Use a random password", "\n")
->          self.console_wait("Enter password:")
-> -        self.console_send("%s\n" % self.GUEST_PASS)
-> +        self.console_send("%s\n" % self._config["guest_pass"])
->          self.console_wait("Enter password again:")
-> -        self.console_send("%s\n" % self.GUEST_PASS)
-> +        self.console_send("%s\n" % self._config["guest_pass"])
->          self.console_wait_send("Lock out",              "\n")
->          self.console_wait_send("OK",                    "yes\n")
->          self.console_wait_send("Add another user",      "no\n")
-> @@ -164,12 +164,12 @@ class FreeBSDVM(basevm.BaseVM):
->=20=20
->          # setup qemu user
->          prompt =3D "$"
-> -        self.console_ssh_init(prompt, self.GUEST_USER, self.GUEST_PASS)
-> +        self.console_ssh_init(prompt, self._config["guest_user"], self._=
-config["guest_pass"])
->          self.console_wait_send(prompt, "exit\n")
->=20=20
->          # setup root user
->          prompt =3D "root@freebsd:~ #"
-> -        self.console_ssh_init(prompt, "root", self.ROOT_PASS)
-> +        self.console_ssh_init(prompt, "root", self._config["root_pass"])
->          self.console_sshd_config(prompt)
->=20=20
->          # setup serial console
-> diff --git a/tests/vm/netbsd b/tests/vm/netbsd
-> index cdac502dad8..dc0e45c1d45 100755
-> --- a/tests/vm/netbsd
-> +++ b/tests/vm/netbsd
-> @@ -120,24 +120,24 @@ class NetBSDVM(basevm.BaseVM):
->          self.console_wait_send("d: Change root password",  "d\n")
->          self.console_wait_send("a: Yes",                   "a\n")
->          self.console_wait("New password:")
-> -        self.console_send("%s\n" % self.ROOT_PASS)
-> +        self.console_send("%s\n" % self._config["root_pass"])
->          self.console_wait("New password:")
-> -        self.console_send("%s\n" % self.ROOT_PASS)
-> +        self.console_send("%s\n" % self._config["root_pass"])
->          self.console_wait("Retype new password:")
-> -        self.console_send("%s\n" % self.ROOT_PASS)
-> +        self.console_send("%s\n" % self._config["root_pass"])
->=20=20
->          self.console_wait_send("o: Add a user",            "o\n")
->          self.console_wait("username")
-> -        self.console_send("%s\n" % self.GUEST_USER)
-> +        self.console_send("%s\n" % self._config["guest_pass"])
+-- =
 
-Can you see where we went wrong ;-)
+You received this bug notification because you are a member of qemu-
+devel-ml, which is subscribed to QEMU.
+https://bugs.launchpad.net/bugs/1885332
 
-<snip>
+Title:
+  Error in user-mode calculation of ELF aux vector's AT_PHDR
 
---=20
-Alex Benn=C3=A9e
+Status in QEMU:
+  New
+
+Bug description:
+  =
+
+  I have an (admittedly strange) statically-linked ELF binary for Linux tha=
+t runs just fine on top of the Linux kernel in QEMU full-system emulation, =
+but crashes before main in user-mode emulation. Specifically, it crashes wh=
+en initializing thread-local storage in glibc's _dl_aux_init, because it re=
+ads out a strange value from the AT_PHDR entry of the ELF aux vector.
+
+  The binary has these program headers:
+
+    Program Headers:
+      Type           Offset   VirtAddr   PhysAddr   FileSiz MemSiz  Flg Ali=
+gn
+      EXIDX          0x065874 0x00075874 0x00075874 0x00570 0x00570 R   0x4
+      PHDR           0x0a3000 0x00900000 0x00900000 0x00160 0x00160 R   0x1=
+000
+      LOAD           0x0a3000 0x00900000 0x00900000 0x00160 0x00160 R   0x1=
+000
+      LOAD           0x000000 0x00010000 0x00010000 0x65de8 0x65de8 R E 0x1=
+0000
+      LOAD           0x066b7c 0x00086b7c 0x00086b7c 0x02384 0x02384 RW  0x1=
+0000
+      NOTE           0x000114 0x00010114 0x00010114 0x00044 0x00044 R   0x4
+      TLS            0x066b7c 0x00086b7c 0x00086b7c 0x00010 0x00030 R   0x4
+      GNU_STACK      0x000000 0x00000000 0x00000000 0x00000 0x00000 RW  0x8
+      GNU_RELRO      0x066b7c 0x00086b7c 0x00086b7c 0x00484 0x00484 R   0x1
+      LOAD           0x07e000 0x00089000 0x00089000 0x03f44 0x03f44 R E 0x1=
+000
+      LOAD           0x098000 0x00030000 0x00030000 0x01000 0x01000 RW  0x1=
+000
+
+  If I build the Linux kernel with the following patch to the very end
+  of create_elf_tables in fs/binfmt_elf.c
+
+    /* Put the elf_info on the stack in the right place.  */
+    elf_addr_t *my_auxv =3D (elf_addr_t *) mm->saved_auxv;
+    int i;
+    for (i =3D 0; i < 15; i++) {
+      printk("0x%x =3D 0x%x", my_auxv[2*i], my_auxv[(2*i)+ 1]);
+    }
+    if (copy_to_user(sp, mm->saved_auxv, ei_index * sizeof(elf_addr_t)))
+        return -EFAULT;
+    return 0;
+
+  and run it like this:
+
+    qemu-system-arm \
+      -M versatilepb \
+      -nographic \
+      -dtb ./dts/versatile-pb.dtb \
+      -kernel zImage \
+      -M versatilepb \
+      -m 128M \
+      -append "earlyprintk=3Dvga,keep" \
+      -initrd initramfs
+
+  after I've built the kernel initramfs like this (where "init" is the
+  binary in question):
+
+    make ARCH=3Darm versatile_defconfig
+    make ARCH=3Darm CROSS_COMPILE=3Darm-linux-gnueabi- all -j10
+    cp "$1" arch/arm/boot/init
+    cd arch/arm/boot
+    echo init | cpio -o --format=3Dnewc > initramfs
+
+  then I get the following output. This is the kernel's view of the aux
+  vector for this binary:
+
+    0x10 =3D 0x1d7
+    0x6 =3D 0x1000
+    0x11 =3D 0x64
+    0x3 =3D 0x900000
+    0x4 =3D 0x20
+    0x5 =3D 0xb
+    0x7 =3D 0x0
+    0x8 =3D 0x0
+    0x9 =3D 0x101b8
+    0xb =3D 0x0
+    0xc =3D 0x0
+    0xd =3D 0x0
+    0xe =3D 0x0
+    0x17 =3D 0x0
+    0x19 =3D 0xbec62fb5
+
+  However, if I run "qemu-arm -g 12345 binary" and use GDB to peek at
+  the aux vector at the beginning of __libc_start_init (for example,
+  using this Python GDB API script: https://gist.github.com/langston-
+  barrett/5573d64ae0c9953e2fa0fe26847a5e1e), then I see the following
+  values:
+
+    AT_PHDR =3D 0xae000
+    AT_PHENT =3D 0x20
+    AT_PHNUM =3D 0xb
+    AT_PAGESZ =3D 0x1000
+    AT_BASE =3D 0x0
+    AT_FLAGS =3D 0x0
+    AT_ENTRY =3D 0x10230
+    AT_UID =3D 0x3e9
+    AT_EUID =3D 0x3e9
+    AT_GID =3D 0x3e9
+    AT_EGID =3D 0x3e9
+    AT_HWCAP =3D 0x1fb8d7
+    AT_CLKTCK =3D 0x64
+    AT_RANDOM =3D -0x103c0
+    AT_HWCAP2 =3D 0x1f
+    AT_NULL =3D 0x0
+
+  The crucial difference is in AT_PHDR (0x3), which is indeed the
+  virtual address of the PHDR segment when the kernel calculates it, but
+  is not when QEMU calculates it.
+
+  qemu-arm --version
+  qemu-arm version 2.11.1(Debian 1:2.11+dfsg-1ubuntu7.26)
+
+To manage notifications about this bug go to:
+https://bugs.launchpad.net/qemu/+bug/1885332/+subscriptions
 
