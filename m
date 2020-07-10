@@ -2,77 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5368621B636
-	for <lists+qemu-devel@lfdr.de>; Fri, 10 Jul 2020 15:21:58 +0200 (CEST)
-Received: from localhost ([::1]:35650 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1154021B386
+	for <lists+qemu-devel@lfdr.de>; Fri, 10 Jul 2020 12:56:53 +0200 (CEST)
+Received: from localhost ([::1]:40722 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jtsyT-0006EE-CC
-	for lists+qemu-devel@lfdr.de; Fri, 10 Jul 2020 09:21:57 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:39160)
+	id 1jtqi3-0007Lw-KC
+	for lists+qemu-devel@lfdr.de; Fri, 10 Jul 2020 06:56:51 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:39362)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <frank.chang@sifive.com>)
- id 1jtqgJ-0006Z3-72
- for qemu-devel@nongnu.org; Fri, 10 Jul 2020 06:55:03 -0400
-Received: from mail-pf1-x432.google.com ([2607:f8b0:4864:20::432]:40367)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <frank.chang@sifive.com>)
- id 1jtqgH-00077G-Ll
- for qemu-devel@nongnu.org; Fri, 10 Jul 2020 06:55:02 -0400
-Received: by mail-pf1-x432.google.com with SMTP id u5so2384231pfn.7
- for <qemu-devel@nongnu.org>; Fri, 10 Jul 2020 03:55:01 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=sifive.com; s=google;
- h=from:to:cc:subject:date:message-id:in-reply-to:references;
- bh=C1U8Izc0b3t3sXzcooCzT3Y031BGcWH4g1HXYarHp70=;
- b=QCu4nkqwSNQjO7B7PB/9PqqSLZPJs6G9pZOTH7SVhsE3k090cyi0KwPRIB4Sysbnk4
- l1cbuq4PdsEh+5l8HV1lcCkf7RU2AgOvO2hWLoylw/yaUM7aEpmNwf5vVLsOQiD72M7T
- uICYQo5nvJKzekltVTXvkJ1ksxRKxadjYPW5gHIYWRJ3fX+ceUDkiPQBCRveEmSTibWN
- yRn92mgN9BammY2h3ufW+5zpo5D6HfcSlRWco1ZeWx2Cs9L/HgDO2pVfsC61tR503jJ4
- WV+x5b+WlQeCTO3LjjT01NeYVQtqcEtf1J93IY9BaQPeAcen5kIMAafGVAxcRp8LKGNo
- ibMw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
- :references;
- bh=C1U8Izc0b3t3sXzcooCzT3Y031BGcWH4g1HXYarHp70=;
- b=gt1b68j9TqHbtp0FjwbEzj21gaz3XP9eT72/41cmF14fvIQiJnxpyusOKbwuuWak5D
- jukK89eX4+85HCinVfBHaygPe85lNv48C3M0m5q/UYy/Hl7LPp+rC9DWIHT24FRUFqLm
- bIttZ4HDi21YbZy1vfRJWLzztWOYmUd/tFNFO4S7z9Be5nK0DYHHYytltyt5MaqZCfmA
- yuYSqhsk0iPFmHcuCg07H3L1ty83Ptts81TpKUMvvNY+mGbl+4Pc/WQtKO1fZclt9Szu
- 8RdWCELvAvCk9cgX+jrdsbZL+uOr2y9HcZlxWiqRoGSf6uCFfjfp+hGNAq90OqV1wurC
- UL7g==
-X-Gm-Message-State: AOAM53310us3uJ0L1GMhsoDi1uVPF2XVK7QBqRrdlVCZv+rTPDdD/b5n
- wwcLdaD9n7I0h+EKhfBAKNN3HfgloWeubg==
-X-Google-Smtp-Source: ABdhPJzJNWZNMwAhyvn9MxbO2+Q2/9fpd0+JT4V1jb1eG06ED6ktmTLisBlYZfVnaKNXiIgthPFQyQ==
-X-Received: by 2002:a65:4502:: with SMTP id n2mr46508147pgq.132.1594378500297; 
- Fri, 10 Jul 2020 03:55:00 -0700 (PDT)
-Received: from frankchang-ThinkPad-T490.internal.sifive.com
- (114-34-229-221.HINET-IP.hinet.net. [114.34.229.221])
- by smtp.gmail.com with ESMTPSA id r191sm5519406pfr.181.2020.07.10.03.54.58
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 10 Jul 2020 03:54:59 -0700 (PDT)
-From: frank.chang@sifive.com
-To: qemu-devel@nongnu.org,
-	qemu-riscv@nongnu.org
-Subject: [RFC 65/65] target/riscv: bump to RVV 0.9
-Date: Fri, 10 Jul 2020 18:49:19 +0800
-Message-Id: <20200710104920.13550-66-frank.chang@sifive.com>
-X-Mailer: git-send-email 2.17.1
-In-Reply-To: <20200710104920.13550-1-frank.chang@sifive.com>
-References: <20200710104920.13550-1-frank.chang@sifive.com>
-Received-SPF: pass client-ip=2607:f8b0:4864:20::432;
- envelope-from=frank.chang@sifive.com; helo=mail-pf1-x432.google.com
-X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
- That's all we know.
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- URIBL_BLOCKED=0.001 autolearn=unavailable autolearn_force=no
+ (Exim 4.90_1) (envelope-from <cohuck@redhat.com>) id 1jtqhL-0006wg-PR
+ for qemu-devel@nongnu.org; Fri, 10 Jul 2020 06:56:07 -0400
+Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:39796
+ helo=us-smtp-1.mimecast.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <cohuck@redhat.com>) id 1jtqhJ-0007QZ-1I
+ for qemu-devel@nongnu.org; Fri, 10 Jul 2020 06:56:07 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1594378563;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=Ks7iuyYKJHeDIYWDoSkyhY64uCvd/4aY7BeO4C6p37M=;
+ b=TAjYFlouKVQHE5J5iw718IccunNXgLa8T70AJA/dDS3cBPSy6eMoKlgI03e6+sK/dBcrTw
+ +5CjQRSsjvh3lFQeDAOZDEaYmzdoHlzCFdfg32s5ETdppzcEpBJT30soJzSxsjg2kcefoN
+ 99GSbuAgvMXi+ZbZ5ZMnhXskNKEEotM=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-300-C57vMGE5PlqioVAXMMyNSQ-1; Fri, 10 Jul 2020 06:55:57 -0400
+X-MC-Unique: C57vMGE5PlqioVAXMMyNSQ-1
+Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
+ [10.5.11.22])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 6A6F9100CCC0;
+ Fri, 10 Jul 2020 10:55:56 +0000 (UTC)
+Received: from gondolin (ovpn-112-227.ams2.redhat.com [10.36.112.227])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id D945710016DA;
+ Fri, 10 Jul 2020 10:55:54 +0000 (UTC)
+Date: Fri, 10 Jul 2020 12:55:52 +0200
+From: Cornelia Huck <cohuck@redhat.com>
+To: Thomas Huth <thuth@redhat.com>
+Subject: Re: [PATCH] docs/system/s390x: Improve the 3270 documentation
+Message-ID: <20200710125552.1ad24571.cohuck@redhat.com>
+In-Reply-To: <20200709160439.15088-1-thuth@redhat.com>
+References: <20200709160439.15088-1-thuth@redhat.com>
+Organization: Red Hat GmbH
+MIME-Version: 1.0
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=205.139.110.120; envelope-from=cohuck@redhat.com;
+ helo=us-smtp-1.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/07/10 04:36:30
+X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
+X-Spam_score_int: -40
+X-Spam_score: -4.1
+X-Spam_bar: ----
+X-Spam_report: (-4.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-1, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
-X-Mailman-Approved-At: Fri, 10 Jul 2020 08:57:18 -0400
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -84,69 +78,115 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Frank Chang <frank.chang@sifive.com>,
- Alistair Francis <Alistair.Francis@wdc.com>,
- Palmer Dabbelt <palmer@dabbelt.com>,
- Sagar Karandikar <sagark@eecs.berkeley.edu>,
- Bastian Koppelmann <kbastian@mail.uni-paderborn.de>
+Cc: qemu-s390x@nongnu.org, qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Frank Chang <frank.chang@sifive.com>
+On Thu,  9 Jul 2020 18:04:39 +0200
+Thomas Huth <thuth@redhat.com> wrote:
 
-Signed-off-by: Frank Chang <frank.chang@sifive.com>
----
- target/riscv/cpu.c | 8 ++++----
- target/riscv/cpu.h | 2 +-
- 2 files changed, 5 insertions(+), 5 deletions(-)
+> There is some additional information about the 3270 support in our
+> Wiki at https://wiki.qemu.org/Features/3270 - so let's include this
+> information into the main documentation now to have one single
+> source of information (the Wiki page could later be removed).
 
-diff --git a/target/riscv/cpu.c b/target/riscv/cpu.c
-index 871c2ddfa1..6168166e64 100644
---- a/target/riscv/cpu.c
-+++ b/target/riscv/cpu.c
-@@ -340,7 +340,7 @@ static void riscv_cpu_realize(DeviceState *dev, Error **errp)
-     CPURISCVState *env = &cpu->env;
-     RISCVCPUClass *mcc = RISCV_CPU_GET_CLASS(dev);
-     int priv_version = PRIV_VERSION_1_11_0;
--    int vext_version = VEXT_VERSION_0_07_1;
-+    int vext_version = VEXT_VERSION_0_09_0;
-     target_ulong target_misa = 0;
-     Error *local_err = NULL;
- 
-@@ -456,8 +456,8 @@ static void riscv_cpu_realize(DeviceState *dev, Error **errp)
-                 return;
-             }
-             if (cpu->cfg.vext_spec) {
--                if (!g_strcmp0(cpu->cfg.vext_spec, "v0.7.1")) {
--                    vext_version = VEXT_VERSION_0_07_1;
-+                if (!g_strcmp0(cpu->cfg.vext_spec, "v0.9")) {
-+                    vext_version = VEXT_VERSION_0_09_0;
-                 } else {
-                     error_setg(errp,
-                            "Unsupported vector spec version '%s'",
-@@ -466,7 +466,7 @@ static void riscv_cpu_realize(DeviceState *dev, Error **errp)
-                 }
-             } else {
-                 qemu_log("vector verison is not specified, "
--                        "use the default value v0.7.1\n");
-+                        "use the default value v0.9\n");
-             }
-             set_vext_version(env, vext_version);
-         }
-diff --git a/target/riscv/cpu.h b/target/riscv/cpu.h
-index 8b4a370572..18015f0bc0 100644
---- a/target/riscv/cpu.h
-+++ b/target/riscv/cpu.h
-@@ -81,7 +81,7 @@ enum {
- #define PRIV_VERSION_1_10_0 0x00011000
- #define PRIV_VERSION_1_11_0 0x00011100
- 
--#define VEXT_VERSION_0_07_1 0x00000701
-+#define VEXT_VERSION_0_09_0 0x00000900
- 
- #define TRANSLATE_PMP_FAIL 2
- #define TRANSLATE_FAIL 1
--- 
-2.17.1
+No objection; but what should our general policy with regard to wiki
+pages vs. documentation be? The 3270 support is pretty much static, but
+e.g. for vfio-ccw, we use the wiki page as a place where we track
+things that should be worked on etc.
+
+(Related: What is the scope of our QEMU documentation? Is a libvirt XML
+snippet on topic? Kernel configuration options (as in here)?)
+
+> 
+> Signed-off-by: Thomas Huth <thuth@redhat.com>
+> ---
+>  docs/system/s390x/3270.rst | 43 ++++++++++++++++++++++++++++++++------
+>  1 file changed, 37 insertions(+), 6 deletions(-)
+> 
+> diff --git a/docs/system/s390x/3270.rst b/docs/system/s390x/3270.rst
+> index 1774cdcadf..80350264d7 100644
+> --- a/docs/system/s390x/3270.rst
+> +++ b/docs/system/s390x/3270.rst
+> @@ -1,9 +1,15 @@
+>  3270 devices
+>  ============
+>  
+> -QEMU supports connecting an external 3270 terminal emulator (such as
+> -``x3270``) to make a single 3270 device available to a guest. Note that this
+> -supports basic features only.
+> +The 3270 is the classic 'green-screen' console of the mainframes (see the
+> +`IBM 3270 Wikipedia article <https://en.wikipedia.org/wiki/IBM_3270>`__).
+> +
+> +The 3270 data stream is not implemented within QEMU; the device only provides
+> +TN3270 (a telnet extension; see `RFC 854 <https://tools.ietf.org/html/rfc854>`__
+> +and `RFC 1576 <https://tools.ietf.org/html/rfc1576>`__) and leaves the heavy
+> +lifting to an external 3270 terminal emulator (such as ``x3270``) to make a
+> +single 3270 device available to a guest. Note that this supports basic
+> +features only.
+>  
+>  To provide a 3270 device to a guest, create a ``x-terminal3270`` linked to
+>  a ``tn3270`` chardev. The guest will see a 3270 channel device. In order
+> @@ -12,10 +18,14 @@ to actually be able to use it, attach the ``x3270`` emulator to the chardev.
+>  Example configuration
+>  ---------------------
+>  
+> +* Make sure that 3270 support is enabled in the guest's kernel. You need
+> +  ``CONFIG_TN3270`` and at least one of ``CONFIG_TN3270_TTY`` (for additional
+> +  ttys) or ``CONFIG_TN3270_CONSOLE`` (for a 3270 console).
+> +
+>  * Add a ``tn3270`` chardev and a ``x-terminal3270`` to the QEMU command line::
+>  
+> -    -chardev socket,id=char_0,host=0.0.0.0,port=2300,nowait,server,tn3270
+> -    -device x-terminal3270,chardev=char_0,devno=fe.0.000a,id=terminal_0
+> +   -chardev socket,id=ch0,host=0.0.0.0,port=2300,nowait,server,tn3270
+> +   -device x-terminal3270,chardev=ch0,devno=fe.0.000a,id=terminal0
+
+Any reason why you changed this?
+
+>  
+>  * Start the guest. In the guest, use ``chccwdev -e 0.0.000a`` to enable
+>    the device.
+> @@ -29,4 +39,25 @@ Example configuration
+>  
+>      systemctl start serial-getty@3270-tty1.service
+>  
+> -This should get you an addtional tty for logging into the guest.
+> +  This should get you an addtional tty for logging into the guest.
+> +
+> +* If you want to use the 3270 device as the kernel console instead of an
+> +  additional tty, you can also append ``conmode=3270 condev=000a`` to the
+> +  guest's kernel command line. The kernel then should use the 3270 as
+> +  console after the next boot.
+> +
+> +Restrictions
+> +------------
+> +
+> +3270 support is still experimental. In particular:
+
+s/still experimental/very basic/
+
+I don't think there's much progress on the horizon; let's not give
+people false hope :)
+
+> +
+> +* Only one 3270 device is supported.
+> +
+> +* It has only been tested with Linux guests and the x3270 emulator.
+> +
+> +* TLS/SSL is not yet supported.
+
+s/yet //
+
+> +
+> +* Resizing on reattach is not yet supported.
+
+s/yet //
+
+> +
+> +* Multiple commands in one inbound buffer (for example, when the reset key
+> +  is pressed while the network is slow) are not yet supported.
+
+s/yet //
 
 
