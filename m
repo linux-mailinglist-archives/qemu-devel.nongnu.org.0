@@ -2,61 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id AD26121BB38
-	for <lists+qemu-devel@lfdr.de>; Fri, 10 Jul 2020 18:41:57 +0200 (CEST)
-Received: from localhost ([::1]:54098 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E929821BB31
+	for <lists+qemu-devel@lfdr.de>; Fri, 10 Jul 2020 18:40:44 +0200 (CEST)
+Received: from localhost ([::1]:49984 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jtw60-00034m-P5
-	for lists+qemu-devel@lfdr.de; Fri, 10 Jul 2020 12:41:56 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:47974)
+	id 1jtw4q-0001GN-0s
+	for lists+qemu-devel@lfdr.de; Fri, 10 Jul 2020 12:40:44 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:48652)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <eblake@redhat.com>) id 1jtw0D-0001z0-An
- for qemu-devel@nongnu.org; Fri, 10 Jul 2020 12:35:57 -0400
-Received: from us-smtp-1.mimecast.com ([205.139.110.61]:38414
- helo=us-smtp-delivery-1.mimecast.com)
+ (Exim 4.90_1) (envelope-from <eblake@redhat.com>) id 1jtw3Q-0007lT-Cw
+ for qemu-devel@nongnu.org; Fri, 10 Jul 2020 12:39:16 -0400
+Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:59785
+ helo=us-smtp-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <eblake@redhat.com>) id 1jtw0B-0000B9-PE
- for qemu-devel@nongnu.org; Fri, 10 Jul 2020 12:35:57 -0400
+ (Exim 4.90_1) (envelope-from <eblake@redhat.com>) id 1jtw3N-0000RF-Sx
+ for qemu-devel@nongnu.org; Fri, 10 Jul 2020 12:39:15 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1594398955;
+ s=mimecast20190719; t=1594399152;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=B0WA5cXZ1Z4wsOqNvn5OZV4PqMHW3J2C73QzCZtU1HQ=;
- b=eKBfgPq2RRndxiZYVk72CwcRmFZDtEMRAbSkmW5vmBs2pfScuHMsXbpBT8uJEJvXBHDDwG
- p00/YO4AvDs+Lhby20EA8XrNMNTH5JnEnmJ0BPGOyoCzxHVaHC2Z5L+z1yKoq8bMLbn1Ka
- Dd5yd+UAerRkiO1/Rs3XTgfFLjppP94=
+ bh=vZi2Pdm6MvaSFUKLt3WL3fW6ndOP6zucU/Cd82vh+aI=;
+ b=enJfGjt1EKuRJ0WFDIJQCG2DvuPbS1KddQRPG9FnTAgPnz2eNe1j+HsRXsvgaN0FhXjCkp
+ YnE/pWX0pwJjNH1mzXHtpr6HZ7Hfz6LC2aSDMJSnsLY0vAZ2nzomAlX572NDWE/Ny+HGgz
+ NkrifbcXWjm4mW81Lg+o60yv0KeAozk=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-424-STbG8QuyMUWWq0Etc-qXMQ-1; Fri, 10 Jul 2020 12:35:53 -0400
-X-MC-Unique: STbG8QuyMUWWq0Etc-qXMQ-1
-Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
- [10.5.11.12])
+ us-mta-8-TqW7TZKNMwCb9jyVOFgXHQ-1; Fri, 10 Jul 2020 12:39:04 -0400
+X-MC-Unique: TqW7TZKNMwCb9jyVOFgXHQ-1
+Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
+ [10.5.11.11])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 26F21800685;
- Fri, 10 Jul 2020 16:35:52 +0000 (UTC)
-Received: from blue.redhat.com (ovpn-112-178.phx2.redhat.com [10.3.112.178])
- by smtp.corp.redhat.com (Postfix) with ESMTP id AD04C610F3;
- Fri, 10 Jul 2020 16:35:51 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 071431015DA1;
+ Fri, 10 Jul 2020 16:39:03 +0000 (UTC)
+Received: from [10.3.112.178] (ovpn-112-178.phx2.redhat.com [10.3.112.178])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 9C15E6FEC3;
+ Fri, 10 Jul 2020 16:39:02 +0000 (UTC)
+Subject: Re: [PATCH 1/2] iotests: Drop readarray from _do_filter_img_create
+To: Max Reitz <mreitz@redhat.com>, qemu-block@nongnu.org
+References: <20200710163253.381630-1-mreitz@redhat.com>
+ <20200710163253.381630-2-mreitz@redhat.com>
 From: Eric Blake <eblake@redhat.com>
-To: qemu-devel@nongnu.org
-Subject: [PATCH] fixup! qemu-img: Deprecate use of -b without -F
-Date: Fri, 10 Jul 2020 11:35:49 -0500
-Message-Id: <20200710163549.1202360-1-eblake@redhat.com>
-In-Reply-To: <20200709121713.283092-1-kwolf@redhat.com>
-References: <20200709121713.283092-1-kwolf@redhat.com>
+Organization: Red Hat, Inc.
+Message-ID: <3ba028de-0c0c-8c92-3085-3fb642fc560c@redhat.com>
+Date: Fri, 10 Jul 2020 11:39:01 -0500
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.9.0
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
+In-Reply-To: <20200710163253.381630-2-mreitz@redhat.com>
+Content-Language: en-US
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=eblake@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=205.139.110.61; envelope-from=eblake@redhat.com;
- helo=us-smtp-delivery-1.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/07/09 22:08:55
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=205.139.110.120; envelope-from=eblake@redhat.com;
+ helo=us-smtp-1.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/07/10 04:36:30
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
 X-Spam_score_int: -40
 X-Spam_score: -4.1
@@ -77,33 +84,28 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: kwolf@redhat.com, peter.maydell@linaro.org,
- "open list:Block layer core" <qemu-block@nongnu.org>,
- Max Reitz <mreitz@redhat.com>
+Cc: Kevin Wolf <kwolf@redhat.com>, John Snow <jsnow@redhat.com>,
+ qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Port to BSD truncate.
+On 7/10/20 11:32 AM, Max Reitz wrote:
+> Some systems where we run tests on do not have a 4.x bash, so they do
+> not have readarray.  While it looked a bit nicer than messing with
+> `head` and `tail`, we do not really need it, so we might as well not use
+> it.
+> 
+> Reported-by: Claudio Fontana <cfontana@suse.de>
+> Signed-off-by: Max Reitz <mreitz@redhat.com>
+> ---
+>   tests/qemu-iotests/common.filter | 10 +++++-----
+>   1 file changed, 5 insertions(+), 5 deletions(-)
+> 
 
-Signed-off-by: Eric Blake <eblake@redhat.com>
----
- tests/qemu-iotests/114 | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
-
-diff --git a/tests/qemu-iotests/114 b/tests/qemu-iotests/114
-index 143683381334..d0609c499388 100755
---- a/tests/qemu-iotests/114
-+++ b/tests/qemu-iotests/114
-@@ -45,7 +45,7 @@ _unsupported_imgopts data_file
- # Intentionally specify backing file without backing format; demonstrate
- # the difference in warning messages when backing file could be probed.
- # Note that only a non-raw probe result will affect the resulting image.
--truncate --size=64M "$TEST_IMG.orig"
-+truncate -s $((64 * 1024 * 1024)) "$TEST_IMG.orig"
- _make_test_img -b "$TEST_IMG.orig" 64M
-
- TEST_IMG="$TEST_IMG.base" _make_test_img 64M
+Reviewed-by: Eric Blake <eblake@redhat.com>
 -- 
-2.27.0
+Eric Blake, Principal Software Engineer
+Red Hat, Inc.           +1-919-301-3226
+Virtualization:  qemu.org | libvirt.org
 
 
