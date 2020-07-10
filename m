@@ -2,64 +2,62 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 41AB621B111
-	for <lists+qemu-devel@lfdr.de>; Fri, 10 Jul 2020 10:14:20 +0200 (CEST)
-Received: from localhost ([::1]:58876 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5366C21B107
+	for <lists+qemu-devel@lfdr.de>; Fri, 10 Jul 2020 10:11:07 +0200 (CEST)
+Received: from localhost ([::1]:55434 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jtoAl-0006fl-9B
-	for lists+qemu-devel@lfdr.de; Fri, 10 Jul 2020 04:14:19 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:54644)
+	id 1jto7Z-00052u-BF
+	for lists+qemu-devel@lfdr.de; Fri, 10 Jul 2020 04:11:01 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:54874)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1jto5r-0004EY-0Y
- for qemu-devel@nongnu.org; Fri, 10 Jul 2020 04:09:15 -0400
-Received: from mail-ot1-x344.google.com ([2607:f8b0:4864:20::344]:44177)
+ id 1jto6Z-0004Re-UQ
+ for qemu-devel@nongnu.org; Fri, 10 Jul 2020 04:09:59 -0400
+Received: from mail-oi1-x22f.google.com ([2607:f8b0:4864:20::22f]:36719)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1jto5p-0002ZR-FH
- for qemu-devel@nongnu.org; Fri, 10 Jul 2020 04:09:14 -0400
-Received: by mail-ot1-x344.google.com with SMTP id 5so3584712oty.11
- for <qemu-devel@nongnu.org>; Fri, 10 Jul 2020 01:09:13 -0700 (PDT)
+ id 1jto6Y-0002eP-EP
+ for qemu-devel@nongnu.org; Fri, 10 Jul 2020 04:09:59 -0400
+Received: by mail-oi1-x22f.google.com with SMTP id h17so4145246oie.3
+ for <qemu-devel@nongnu.org>; Fri, 10 Jul 2020 01:09:57 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc:content-transfer-encoding;
- bh=tdo/JqiaNsp9LECei1PvVs6KFP17g9QYXiYUTy1eg34=;
- b=Bug1KHu7z7KA7ZPo1RdFLjFhbEL0YNFrrgMHwR5MOd3s7IsLiLwQpbFPbhXkZL4cfs
- YHEyIiWUHZul43ZXaDbvWNuC57y5P308fDFjzjGcL+Z3DRmdwoUjDd/Qj4gK7K7YOOQs
- OYrJJ/366U5OdP9ElZTQcwhH47xpvWKf9WNFHtqRWN9Ry2HKsaeHXhrA43xuv3yHDicP
- LCHZiCiFM/M2EUCTnl4qf4hOsN0b0OJrw1FIXi+SyQUnQFcYrPGHsrHtvuKvX3GqaNe4
- PilQdV+AcOtrDJ51wzyNOg+Al1b07WfvBU2QIiyqkCzqCMjxA5Ezho88N9m1jcmXRRNl
- +tJg==
+ :cc; bh=HJeIKqh69VZhJUijKQU0waW5RlliDXLFOROv1dON+Sg=;
+ b=ZSJo6xzlstnefKZyapQP62zjuY7QlDiAnM07qofvsp16sN2d0Omn0wCBVpCYacIHEy
+ sYAvhDYxqgdYAGDW2MrZOwF7W4XBwhDRGHrbxwV+5A2i6AQKF69Kr752hrEj7RLcw1ee
+ nQWKsctUgKg2V98TAmn2GME/oYrJMcaUvIqdQYqeaph4h1D+Jm+cXCSF3DefrUxD9CFx
+ Ip/oj5PT+YHkpQ7zK0frZtOCb1epxl0R/pmR0FjxCWVGlT/SFm8dvyRz5pwY19/g54Ho
+ FTG0PbRQTruJh1eDXZfurWpl17R7E9F9gL6Uttgf+ZeMqzyrhSeAMgq5dsR1Nxs0Mq8u
+ o48w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc:content-transfer-encoding;
- bh=tdo/JqiaNsp9LECei1PvVs6KFP17g9QYXiYUTy1eg34=;
- b=sddmEE7q5eOVvByvV28OF6f8rQmeZtJLd5/Lu+zz5t3hUus/M3+hMUsM99XleadZxR
- aMN6x6ASYE08CZg/89jxJaBAPccjJMjDnKK9E1Js64TTcPsKyxog7E0Ug20cEvZMIMY6
- zIOrRBIqrkSQRmJrdo5PYu0A8zDwgaCvNhR1odCypvAzUL+4TjH//l9Juqbpfd17fV2y
- efP+bSUzLcDmEjn2yGJ0GZB8WQhrwEFv3ogDNkf6eoE3B4tk8hJNmXkYJqwWfUBzYFUf
- ud3I5ya5qcZaAclHiFrUjb0Glwoyq3CFQYr8pxywcComajASm8K0BK3oIt1XXznn5f9o
- r35w==
-X-Gm-Message-State: AOAM531lNi5GDou2/Pb6sofFduX06FADw2TjjeIbZ6tNFnb8tYM9T14v
- Zggj7qeDo3IzV0LVPQ/haSsThSgDLlTiCcQdWv7crQ==
-X-Google-Smtp-Source: ABdhPJyCOKz4+fCcfU7FziXjftQDfDLlEt9UYpLp7XARkD7cMVjyn1M95PlwaAQR/wuDkZJ5MzOh1BJuR5o4+N/gwZg=
-X-Received: by 2002:a05:6830:1bd3:: with SMTP id
- v19mr54747359ota.91.1594368552071; 
- Fri, 10 Jul 2020 01:09:12 -0700 (PDT)
+ :message-id:subject:to:cc;
+ bh=HJeIKqh69VZhJUijKQU0waW5RlliDXLFOROv1dON+Sg=;
+ b=I+q/NVQO1kG5KE836geVDjFyRpZCmhyzEqCBcRbtyiCf9UQ1W2/frnctMKmEGIoMqG
+ cprCL0AQqftFsgxvGDVD67FIgA08Axg3L/FtmPoo4X2i52kyQ3a4xvSNYfzL5CaInLwW
+ qT0lFz3fYryiDmwaX69t05eRMqgFuC5ROVpxGK6NmjK12D+VpaPxfuc4dhNbvkXOD1EH
+ 3jw5XrKFXmd5Oo7fjwRRW4eKffs1tWgSkiuM1QNmqzepmYwr4766F1pqi1qwNlxzjhGX
+ 8a78vfQ0AFAhw78Mfbny49nfwfZp06Retd2+dbqI/0ewHWcKOkJx687lzjqJAhxstMDY
+ P2WQ==
+X-Gm-Message-State: AOAM531y8a3zT4GlL5nESDI7Q3/3m/ZZi0Ac/z+Z5BI92VOnO0ltem3L
+ x0Pmf7UXvoDCQt8M4Yw26UrRlsD7Ng1mhkyv8vVh7A==
+X-Google-Smtp-Source: ABdhPJzTbb1wDBNT8Q3gsO+WKfX+eb73Rq3C4GlaCTxsqEiaSzLs1uIZZaMx+721mam3K/YHfaKjokgMk0fOxYEWzMk=
+X-Received: by 2002:aca:2819:: with SMTP id 25mr3115305oix.48.1594368597027;
+ Fri, 10 Jul 2020 01:09:57 -0700 (PDT)
 MIME-Version: 1.0
-References: <20200709184728.2051009-1-marcandre.lureau@redhat.com>
-In-Reply-To: <20200709184728.2051009-1-marcandre.lureau@redhat.com>
+References: <E646BE29-B46F-4B56-ADF5-B0DC6CCEF422@livius.net>
+ <0a3689e1-001a-76ec-894d-0bb63115ecdd@redhat.com>
+In-Reply-To: <0a3689e1-001a-76ec-894d-0bb63115ecdd@redhat.com>
 From: Peter Maydell <peter.maydell@linaro.org>
-Date: Fri, 10 Jul 2020 09:09:01 +0100
-Message-ID: <CAFEAcA8M0YdS8NpsSSFbkn-sqDU=bSKrA0SnX66o_E_2OnHj1Q@mail.gmail.com>
-Subject: Re: [PATCH] Remove VXHS block device
-To: =?UTF-8?B?TWFyYy1BbmRyw6kgTHVyZWF1?= <marcandre.lureau@redhat.com>
+Date: Fri, 10 Jul 2020 09:09:45 +0100
+Message-ID: <CAFEAcA-Y_e9V2UTEZoVbxOWQcs_eP96cMQ1J2BtC6Y0AAUTgSA@mail.gmail.com>
+Subject: Re: Separate notifications from list messages?
+To: Thomas Huth <thuth@redhat.com>
 Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=2607:f8b0:4864:20::344;
- envelope-from=peter.maydell@linaro.org; helo=mail-ot1-x344.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::22f;
+ envelope-from=peter.maydell@linaro.org; helo=mail-oi1-x22f.google.com
 X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
  That's all we know.
 X-Spam_score_int: -20
@@ -81,42 +79,23 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Kevin Wolf <kwolf@redhat.com>, QEMU Developers <qemu-devel@nongnu.org>,
- ashmit602@gmail.com, Max Reitz <mreitz@redhat.com>
+Cc: Liviu Ionescu <ilg@livius.net>,
+ =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <philmd@redhat.com>,
+ Qemu Developers <qemu-devel@nongnu.org>, Stefan Hajnoczi <stefanha@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Thu, 9 Jul 2020 at 19:49, Marc-Andr=C3=A9 Lureau
-<marcandre.lureau@redhat.com> wrote:
+On Fri, 10 Jul 2020 at 05:20, Thomas Huth <thuth@redhat.com> wrote:
 >
-> The vxhs code doesn't compile since v2.12.0. There's no point in fixing
-> and then adding CI for a config that our users have demonstrated that
-> they do not use; better to just remove it.
+> On 09/07/2020 20.14, Liviu Ionescu wrote:
+> > Now, with the migration to GitLab under way, could you consider separating the notifications sent by GitLab from the messages exchanged on the list?
+> >
+> > I mean allowing those interested in receiving the notifications to explicitly subscribe to them, and no longer sending all of them to the full list.
 >
-> Signed-off-by: Marc-Andr=C3=A9 Lureau <marcandre.lureau@redhat.com>
-> ---
->  configure                        |  39 --
->  qapi/block-core.json             |  22 +-
->  block/vxhs.c                     | 590 -------------------------------
->  block/Makefile.objs              |   2 -
->  block/trace-events               |  17 -
->  tests/qemu-iotests/017           |   1 -
->  tests/qemu-iotests/029           |   1 -
->  tests/qemu-iotests/073           |   1 -
->  tests/qemu-iotests/114           |   1 -
->  tests/qemu-iotests/130           |   1 -
->  tests/qemu-iotests/134           |   1 -
->  tests/qemu-iotests/156           |   1 -
->  tests/qemu-iotests/158           |   1 -
->  tests/qemu-iotests/282           |   1 -
->  tests/qemu-iotests/check         |  10 -
->  tests/qemu-iotests/common.filter |   1 -
->  tests/qemu-iotests/common.rc     |  33 --
->  17 files changed, 2 insertions(+), 721 deletions(-)
->  delete mode 100644 block/vxhs.c
+> That's maybe a good idea. Stefan, Philippe, what do you think about
+> creating a qemu-notify mailing list for notification e-mails?
 
-Could you add a subsection to the "Recently removed features"
-section of docs/system/deprecated.rst noting the removal, please?
+What sort of notifications are we talking about here ?
 
 thanks
 -- PMM
