@@ -2,85 +2,96 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 28ADC21B93F
-	for <lists+qemu-devel@lfdr.de>; Fri, 10 Jul 2020 17:19:15 +0200 (CEST)
-Received: from localhost ([::1]:46160 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 18ED021B9C2
+	for <lists+qemu-devel@lfdr.de>; Fri, 10 Jul 2020 17:44:48 +0200 (CEST)
+Received: from localhost ([::1]:54644 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jtuny-0002Uj-89
-	for lists+qemu-devel@lfdr.de; Fri, 10 Jul 2020 11:19:14 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:55132)
+	id 1jtvCh-00036s-5t
+	for lists+qemu-devel@lfdr.de; Fri, 10 Jul 2020 11:44:47 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:55266)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1jtumq-0001dQ-El
- for qemu-devel@nongnu.org; Fri, 10 Jul 2020 11:18:04 -0400
-Received: from mail-wr1-x443.google.com ([2a00:1450:4864:20::443]:37255)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1jtump-00040u-0D
- for qemu-devel@nongnu.org; Fri, 10 Jul 2020 11:18:04 -0400
-Received: by mail-wr1-x443.google.com with SMTP id a6so6348511wrm.4
- for <qemu-devel@nongnu.org>; Fri, 10 Jul 2020 08:18:02 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=sender:subject:to:cc:references:from:message-id:date:user-agent
- :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=/WYIO9BrIBpug4SqrjwVxOv5g8GW1doshoEqeRS23oY=;
- b=UZYbU+sxrBVlPxYSqT6xlVUdS7stVGbOgmwZ0iQkeNmneuRKFOzFPyTS39xmXHMa2N
- 6xinCr2KxEyBtjdfrwdaL1C0hCmi+hkmeVlvuV5xVASNvZsEFr6S/E385LPOV/NAIBH4
- Dkj60Auf38LJ6Ry3p7zW4FITTn5iob0kzLjenimRvg3VoMuTpz/10dfTBHb5FThEA2xE
- O3FGtbNVvqCiMPG4GfFoMn5fR0GlzVYozpHq1ppAUT0HUvRwQn5oFrF/+Xo6F4BL9/5h
- Gfpr+OOYbj/rQSthDd1OHGLyMHJkVv2vf+Db31QW82WP1tAx8zNqeeshUm44md2qgE6n
- 6ZNg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:sender:subject:to:cc:references:from:message-id
- :date:user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=/WYIO9BrIBpug4SqrjwVxOv5g8GW1doshoEqeRS23oY=;
- b=jIFGQSthbIk2mjPr02HhoVDYE3Utvwa/jXi4BvRI+f/L31bCUcbZSs3mUDrmkxS62K
- ccGXV/DM5eJNWu8ona+RR2jsk7LnvXLrbp3O1ekiTi05lM688V6bo8Bh91Nhjz5o2DC2
- mKnRlk4SFqxZI0QuuPql+/nfFdyCZpr46HTrYEJ5eHaFs95gH6NKxoe94exGjflZG5OV
- pViVMbZucYv3YOk8b1r59WaBTPJvqG2kBmKs3qRT4EsM2wNPXPjm37LS80RLiPp4RaQh
- QMmv4xb+eZ5hO7ZkqAg0kYVXc+E/rAyg2/Bx032GSeikKBkRUu3zbZP0KmeTRaXP/M8N
- Gn1A==
-X-Gm-Message-State: AOAM531VcYSgutbDeLX5iq6TxuOoxLWqBs8Qhc+Exfnvyu9sMMlJgycL
- d+ReawefOCPq1c8hbnVkLss=
-X-Google-Smtp-Source: ABdhPJxegX0jBbHtzItO+gENVIlPA+Za/Gl+c8fLOW399VqLby2byE9sJazMyKat4sjTNQIH/R/gqQ==
-X-Received: by 2002:adf:f0ce:: with SMTP id x14mr65628726wro.137.1594394281417; 
- Fri, 10 Jul 2020 08:18:01 -0700 (PDT)
-Received: from [192.168.1.37] (138.red-83-57-170.dynamicip.rima-tde.net.
- [83.57.170.138])
- by smtp.gmail.com with ESMTPSA id f16sm9611353wmh.27.2020.07.10.08.17.59
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Fri, 10 Jul 2020 08:18:00 -0700 (PDT)
-Subject: Re: [PULL 00/32] AVR port
-To: Peter Maydell <peter.maydell@linaro.org>, Thomas Huth <thuth@redhat.com>
-References: <20200707181710.30950-1-f4bug@amsat.org>
- <CAFEAcA85TE+W39fphhm77hNKmAJyEMmaTseDkL1t4gTkzzcbJQ@mail.gmail.com>
- <47ca6b92-cedb-a6c4-754b-b7cd5da597e7@redhat.com>
- <CAFEAcA_wBT+Yfsn+DFZkcRxYWKmF04U2JHNVz5mNuXabeDcN5g@mail.gmail.com>
-From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>
-Message-ID: <544208da-9dad-5fab-ab43-b2537a1f2f90@amsat.org>
-Date: Fri, 10 Jul 2020 17:17:59 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.5.0
+ (Exim 4.90_1) (envelope-from <hca@linux.ibm.com>)
+ id 1jtunF-0002AX-2o; Fri, 10 Jul 2020 11:18:29 -0400
+Received: from mx0b-001b2d01.pphosted.com ([148.163.158.5]:52164)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <hca@linux.ibm.com>)
+ id 1jtunD-00042M-B0; Fri, 10 Jul 2020 11:18:28 -0400
+Received: from pps.filterd (m0098421.ppops.net [127.0.0.1])
+ by mx0a-001b2d01.pphosted.com (8.16.0.42/8.16.0.42) with SMTP id
+ 06AF26Q8028580; Fri, 10 Jul 2020 11:18:24 -0400
+Received: from pps.reinject (localhost [127.0.0.1])
+ by mx0a-001b2d01.pphosted.com with ESMTP id 326bpfr2rs-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Fri, 10 Jul 2020 11:18:24 -0400
+Received: from m0098421.ppops.net (m0098421.ppops.net [127.0.0.1])
+ by pps.reinject (8.16.0.36/8.16.0.36) with SMTP id 06AF3HoU033263;
+ Fri, 10 Jul 2020 11:18:24 -0400
+Received: from ppma06fra.de.ibm.com (48.49.7a9f.ip4.static.sl-reverse.com
+ [159.122.73.72])
+ by mx0a-001b2d01.pphosted.com with ESMTP id 326bpfr2q0-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Fri, 10 Jul 2020 11:18:23 -0400
+Received: from pps.filterd (ppma06fra.de.ibm.com [127.0.0.1])
+ by ppma06fra.de.ibm.com (8.16.0.42/8.16.0.42) with SMTP id 06AFG4O4004491;
+ Fri, 10 Jul 2020 15:18:22 GMT
+Received: from b06cxnps3075.portsmouth.uk.ibm.com
+ (d06relay10.portsmouth.uk.ibm.com [9.149.109.195])
+ by ppma06fra.de.ibm.com with ESMTP id 326bcvrb63-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Fri, 10 Jul 2020 15:18:21 +0000
+Received: from b06wcsmtp001.portsmouth.uk.ibm.com
+ (b06wcsmtp001.portsmouth.uk.ibm.com [9.149.105.160])
+ by b06cxnps3075.portsmouth.uk.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
+ 06AFIIcV54001816
+ (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+ Fri, 10 Jul 2020 15:18:19 GMT
+Received: from b06wcsmtp001.portsmouth.uk.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id DE6ADA4060;
+ Fri, 10 Jul 2020 15:18:18 +0000 (GMT)
+Received: from b06wcsmtp001.portsmouth.uk.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id 68233A405C;
+ Fri, 10 Jul 2020 15:18:18 +0000 (GMT)
+Received: from osiris (unknown [9.171.65.223])
+ by b06wcsmtp001.portsmouth.uk.ibm.com (Postfix) with ESMTPS;
+ Fri, 10 Jul 2020 15:18:18 +0000 (GMT)
+Date: Fri, 10 Jul 2020 17:18:16 +0200
+From: Heiko Carstens <hca@linux.ibm.com>
+To: David Hildenbrand <david@redhat.com>
+Subject: Re: [PATCH RFC 2/5] s390x: implement diag260
+Message-ID: <20200710151816.GC14845@osiris>
+References: <20200708185135.46694-1-david@redhat.com>
+ <20200708185135.46694-3-david@redhat.com>
+ <efe7e845-2e0f-96ba-7e29-c6ac74db9e2f@de.ibm.com>
+ <c86e5b12-883a-8522-a15c-9af3804e003c@redhat.com>
+ <a337aa94-cd0a-de6f-70df-35428b3e3a3a@redhat.com>
+ <0e04ce47-b761-27c3-bc80-ba8338d4253e@redhat.com>
 MIME-Version: 1.0
-In-Reply-To: <CAFEAcA_wBT+Yfsn+DFZkcRxYWKmF04U2JHNVz5mNuXabeDcN5g@mail.gmail.com>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::443;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wr1-x443.google.com
-X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
- That's all we know.
-X-Spam_score_int: 0
-X-Spam_score: 0.0
-X-Spam_bar: /
-X-Spam_report: (0.0 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1, DKIM_VALID=-0.1,
- DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=1, FREEMAIL_FROM=0.001,
- HEADER_FROM_DIFFERENT_DOMAINS=1, RCVD_IN_DNSWL_NONE=-0.0001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=no autolearn_force=no
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <0e04ce47-b761-27c3-bc80-ba8338d4253e@redhat.com>
+X-TM-AS-GCONF: 00
+X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:6.0.235, 18.0.687
+ definitions=2020-07-10_10:2020-07-10,
+ 2020-07-10 signatures=0
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ spamscore=0 mlxlogscore=695
+ adultscore=0 clxscore=1011 mlxscore=0 phishscore=0 bulkscore=0
+ priorityscore=1501 lowpriorityscore=0 malwarescore=0 suspectscore=1
+ impostorscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2006250000 definitions=main-2007100103
+Received-SPF: pass client-ip=148.163.158.5; envelope-from=hca@linux.ibm.com;
+ helo=mx0b-001b2d01.pphosted.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/07/10 11:18:24
+X-ACL-Warn: Detected OS   = Linux 3.x [generic]
+X-Spam_score_int: -35
+X-Spam_score: -3.6
+X-Spam_bar: ---
+X-Spam_report: (-3.6 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_LOW=-0.7,
+ RCVD_IN_MSPIKE_H2=-1, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
+X-Mailman-Approved-At: Fri, 10 Jul 2020 11:43:26 -0400
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -92,64 +103,23 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Laurent Vivier <lvivier@redhat.com>, Sarah Harris <S.E.Harris@kent.ac.uk>,
- Eduardo Habkost <ehabkost@redhat.com>, Thomas Huth <huth@tuxfamily.org>,
- =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>,
- QEMU Developers <qemu-devel@nongnu.org>,
- Wainer dos Santos Moschetta <wainersm@redhat.com>,
- Markus Armbruster <armbru@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>,
- Michael Rolnik <mrolnik@gmail.com>, Pavel Dovgalyuk <pavel.dovgaluk@ispras.ru>,
- Cleber Rosa <crosa@redhat.com>,
- =?UTF-8?Q?Marc-Andr=c3=a9_Lureau?= <marcandre.lureau@redhat.com>,
- =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>,
- Richard Henderson <rth@twiddle.net>
+Cc: Thomas Huth <thuth@redhat.com>, Janosch Frank <frankja@linux.ibm.com>,
+ "Michael S . Tsirkin" <mst@redhat.com>, Cornelia Huck <cohuck@redhat.com>,
+ qemu-devel@nongnu.org, Halil Pasic <pasic@linux.ibm.com>,
+ Christian Borntraeger <borntraeger@de.ibm.com>, qemu-s390x@nongnu.org,
+ Claudio Imbrenda <imbrenda@linux.ibm.com>, Richard Henderson <rth@twiddle.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 7/10/20 5:12 PM, Peter Maydell wrote:
-> On Fri, 10 Jul 2020 at 16:03, Thomas Huth <thuth@redhat.com> wrote:
->> Endianess bug ... this should fix it:
->>
->> diff --git a/target/avr/helper.c b/target/avr/helper.c
->> --- a/target/avr/helper.c
->> +++ b/target/avr/helper.c
->> @@ -337,6 +337,7 @@ void helper_fullwr(CPUAVRState *env, uint32_t data,
->> uint32_t addr)
->>          helper_outb(env, addr - NUMBER_OF_CPU_REGISTERS, data);
->>      } else {
->>          /* memory */
->> -        cpu_physical_memory_write(OFFSET_DATA + addr, &data, 1);
->> +        uint8_t data8 = data;
->> +        cpu_physical_memory_write(OFFSET_DATA + addr, &data8, 1);
->>      }
+On Fri, Jul 10, 2020 at 02:12:33PM +0200, David Hildenbrand wrote:
+> > Note: Reading about diag260 subcode 0xc, we could modify Linux to query
+> > the maximum possible pfn via diag260 0xc. Then, we maybe could avoid
+> > indicating maxram size via SCLP, and keep diag260-unaware OSs keep
+> > working as before. Thoughts?
 > 
-> Or equivalently
->   address_space_stb(&address_space_memory, data, MEMTXATTRS_UNSPECIFIED, NULL);
-> 
-> (better choices of address space may be available, but this is
-> the exact-same-behaviour one).
+> Implemented it, seems to work fine.
 
-Ah, this is my stashed fix:
-
--- >8 --
-@@ -320,8 +320,10 @@ target_ulong helper_fullrd(CPUAVRState *env,
-uint32_t addr)
-  *  this function implements ST instruction when there is a posibility
-to write
-  *  into a CPU register
-  */
--void helper_fullwr(CPUAVRState *env, uint32_t data, uint32_t addr)
-+void helper_fullwr(CPUAVRState *env, uint32_t data32, uint32_t addr)
- {
-+    uint8_t data = data32;
-+    assert(data == data32);
-+
-     env->fullacc = false;
-
----
-
-3 ways to do the same :) The assert is probably superfluous.
-
-I don't like the fact that env->r[addr] (which is u8) is silently casted
-from u32.
+The returned value would not include standby/reserved memory within
+z/VM. So this seems not to work.
+Also: why do you want to change this?
 
