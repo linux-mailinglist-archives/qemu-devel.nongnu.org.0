@@ -2,67 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3C2A521B63C
-	for <lists+qemu-devel@lfdr.de>; Fri, 10 Jul 2020 15:23:45 +0200 (CEST)
-Received: from localhost ([::1]:44152 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 59EC921B65B
+	for <lists+qemu-devel@lfdr.de>; Fri, 10 Jul 2020 15:28:55 +0200 (CEST)
+Received: from localhost ([::1]:39730 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jtt0C-0001Ex-9y
-	for lists+qemu-devel@lfdr.de; Fri, 10 Jul 2020 09:23:44 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:39066)
+	id 1jtt5C-0002ZG-Df
+	for lists+qemu-devel@lfdr.de; Fri, 10 Jul 2020 09:28:54 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:39094)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <frank.chang@sifive.com>)
- id 1jtqg5-0006Ku-Jo
- for qemu-devel@nongnu.org; Fri, 10 Jul 2020 06:54:49 -0400
-Received: from mail-pg1-x535.google.com ([2607:f8b0:4864:20::535]:36702)
+ id 1jtqg8-0006MB-5x
+ for qemu-devel@nongnu.org; Fri, 10 Jul 2020 06:54:52 -0400
+Received: from mail-pl1-x62a.google.com ([2607:f8b0:4864:20::62a]:40547)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <frank.chang@sifive.com>)
- id 1jtqg3-000749-Kn
- for qemu-devel@nongnu.org; Fri, 10 Jul 2020 06:54:49 -0400
-Received: by mail-pg1-x535.google.com with SMTP id p3so2382043pgh.3
- for <qemu-devel@nongnu.org>; Fri, 10 Jul 2020 03:54:47 -0700 (PDT)
+ id 1jtqg6-00074Z-MH
+ for qemu-devel@nongnu.org; Fri, 10 Jul 2020 06:54:51 -0400
+Received: by mail-pl1-x62a.google.com with SMTP id x11so2099613plo.7
+ for <qemu-devel@nongnu.org>; Fri, 10 Jul 2020 03:54:50 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=sifive.com; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references;
- bh=p0+5sllnaV2tm87OEkeWNPkIZ/rbPv0yLmAGeCI7suI=;
- b=ZQmF/pVKTChxEFbi0wTDQERnb3/xD4+NjlJdj2p8h4IcFUXB4flyDNsoENq2VWAqMz
- +fnwVbQC8fXgU9Be9wuCnNMvNCtBVrImCTsD+DTy70OEQ4osnfwYDorKDn6cERqlLznO
- JuTqS75OvD3BWOsGyiv6aG0GtSnXmYY/f6LPArIviofoKWW6Ak4gmxeilVMwnXLrJKyF
- 0Xwe9hMHTpLhit0IWKo09yor6IIyV9W0MbnaChAGAzI+39W93w6eHpCOEWSQ3zPH3FBg
- 33Y+yjqmkMyI2psqFVp7NEZdi5n5af59P0cK80TGN6BZYNmg1lRTccis6diGFxHZI/jI
- R8vA==
+ bh=SKD/DhQEn/UQ94d5S9pD7tK+1lZR6VM2VkYrrkLV7J4=;
+ b=ZZj9894HTv+8KxNebQlFTNtA8pQjogyWTDbNLUGX2+fddy4E0IHBMAGAsmpkuq7EAN
+ 51Q8FkTsepEb4oIOq6Bw3GlT4Ggp0Fup8AMCgUdNcwGR7Pga5NZYhucYZf68cghOExq7
+ Db8WM/17bztpm4wnL5a3e2QwQMDz4L+ig3Vo6V0q3+I6EPloxm66Ri4qjppbqMsUC47p
+ OTB5MavBV/E1HdpAJASi15+C6nNbFijxWPwgDTcZquwX+HT+rbueHSdG10KEooGnHly1
+ TGL6lyMm1SDNm52K3f5vAwFK0E1bnWW1wAim1cqgMRBMHX9bXtgK9MM8UkQswT9EwHhb
+ 2qSg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references;
- bh=p0+5sllnaV2tm87OEkeWNPkIZ/rbPv0yLmAGeCI7suI=;
- b=YYC0BETUb5VakrrfaqR6Xldyrw9TWC7aw3VueiRYGLU60hHIC0U4QX8wRzd8SEOn6j
- WJKiRH43TW6HW8nlB8tTew1AwbsojnSwM6W4GNR0VaWSWNWNGDuPoxPkFpIFgx6v6UTG
- UQStkTl3sehCaA7geCp7KJVpKFxwca1fFAXBDniV2ClFAFLS9hW7U3qGqIfMNYhjS0Fl
- tRJNPeD1QnGGwk/SkNJYPVL/PaZ6SLO2CgbueUmYJQxitwYkwu3GBI1TpGKB03fGs9Xh
- 73AHZFN6RpgPWEYSQVCL/cSB6G+x1f8NbBiURfUGc2UhvVY7h/9dC52VftI+L3LH8d7H
- IAyg==
-X-Gm-Message-State: AOAM531TJa0I/Sov7gTuNBZgkws4vhQzvI3/EY5/Lhx8Phy34/iGlHUY
- SpTA8geZDfcJRwx/yt+aJACW51A0JkYEmw==
-X-Google-Smtp-Source: ABdhPJzkDAAjPBqznzJ+F9HN993gaixcaYDTnhqjdNQxUjX0aAksifB/O9NyYshOYEnnzHNBzcb/4w==
-X-Received: by 2002:a05:6a00:2257:: with SMTP id
- i23mr54770187pfu.25.1594378485889; 
- Fri, 10 Jul 2020 03:54:45 -0700 (PDT)
+ bh=SKD/DhQEn/UQ94d5S9pD7tK+1lZR6VM2VkYrrkLV7J4=;
+ b=fMvThLEXT/28Q7+NJITRGWFCbWN5SrLGasjb7sHON51KAJxkftAGQrKvVlxf1cLbNp
+ iNmpbSbDtexjwV+WsoipI1VG/5as2qouqJUL516UQ/TpQRsA5w3/Y7ksiV7Hl/YfpuBe
+ KcCs/8L1pk+EvaV7AeevGLmjBWcMl227wwKAQZejOugzlqo/u9ziN+3/MZgGS5EfvA+A
+ oQs8ZCZ/wKD08eFqBoRbQ43c3KLX9hxONayA+K3M+4FGqUMITWIG0GZE+X2m6v2n91Je
+ Unov9zlnv0t1q/qEd8JfHLoMlANu3II9qSoq/ivml6AUSIcFh33Bt45OQWhHPlp1+ZsS
+ 21ag==
+X-Gm-Message-State: AOAM532Jvfy0KYKiYS9Bd8DylriTZ8af97F435pRyaJZ0ojXqyvgccpm
+ CzDiW59kuAUWQBr1xfeU49Z1GoQxukm13w==
+X-Google-Smtp-Source: ABdhPJxC36HZ5lLUBYdX9NT2D6ttgRmeUbBXduOf2me3EWc7HpqviGGDERUOd6H5aORz2iaCbIuYYQ==
+X-Received: by 2002:a17:902:d70f:: with SMTP id
+ w15mr20220275ply.110.1594378489191; 
+ Fri, 10 Jul 2020 03:54:49 -0700 (PDT)
 Received: from frankchang-ThinkPad-T490.internal.sifive.com
  (114-34-229-221.HINET-IP.hinet.net. [114.34.229.221])
- by smtp.gmail.com with ESMTPSA id r191sm5519406pfr.181.2020.07.10.03.54.43
+ by smtp.gmail.com with ESMTPSA id r191sm5519406pfr.181.2020.07.10.03.54.47
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 10 Jul 2020 03:54:45 -0700 (PDT)
+ Fri, 10 Jul 2020 03:54:48 -0700 (PDT)
 From: frank.chang@sifive.com
 To: qemu-devel@nongnu.org,
 	qemu-riscv@nongnu.org
-Subject: [RFC 63/65] fpu: implement full set compare for fp16
-Date: Fri, 10 Jul 2020 18:49:17 +0800
-Message-Id: <20200710104920.13550-64-frank.chang@sifive.com>
+Subject: [RFC 64/65] target/riscv: use softfloat lib float16 comparison
+ functions
+Date: Fri, 10 Jul 2020 18:49:18 +0800
+Message-Id: <20200710104920.13550-65-frank.chang@sifive.com>
 X-Mailer: git-send-email 2.17.1
 In-Reply-To: <20200710104920.13550-1-frank.chang@sifive.com>
 References: <20200710104920.13550-1-frank.chang@sifive.com>
-Received-SPF: pass client-ip=2607:f8b0:4864:20::535;
- envelope-from=frank.chang@sifive.com; helo=mail-pg1-x535.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::62a;
+ envelope-from=frank.chang@sifive.com; helo=mail-pl1-x62a.google.com
 X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
  That's all we know.
 X-Spam_score_int: -20
@@ -85,301 +86,65 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Maydell <peter.maydell@linaro.org>,
- Frank Chang <frank.chang@sifive.com>, Chih-Min Chao <chihmin.chao@sifive.com>,
- Kito Cheng <kito.cheng@sifive.com>,
- =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>,
- Aurelien Jarno <aurelien@aurel32.net>
+Cc: Frank Chang <frank.chang@sifive.com>,
+ Alistair Francis <Alistair.Francis@wdc.com>,
+ Palmer Dabbelt <palmer@dabbelt.com>,
+ Sagar Karandikar <sagark@eecs.berkeley.edu>,
+ Bastian Koppelmann <kbastian@mail.uni-paderborn.de>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Kito Cheng <kito.cheng@sifive.com>
+From: Frank Chang <frank.chang@sifive.com>
 
-Signed-off-by: Kito Cheng <kito.cheng@sifive.com>
-Signed-off-by: Chih-Min Chao <chihmin.chao@sifive.com>
 Signed-off-by: Frank Chang <frank.chang@sifive.com>
 ---
- fpu/softfloat.c         | 240 ++++++++++++++++++++++++++++++++++++++++
- include/fpu/softfloat.h |   8 ++
- 2 files changed, 248 insertions(+)
+ target/riscv/vector_helper.c | 19 -------------------
+ 1 file changed, 19 deletions(-)
 
-diff --git a/fpu/softfloat.c b/fpu/softfloat.c
-index 028b857167..8bebea1142 100644
---- a/fpu/softfloat.c
-+++ b/fpu/softfloat.c
-@@ -401,6 +401,34 @@ float64_gen2(float64 xa, float64 xb, float_status *s,
-     return soft(ua.s, ub.s, s);
+diff --git a/target/riscv/vector_helper.c b/target/riscv/vector_helper.c
+index aac055c6b6..c206b50182 100644
+--- a/target/riscv/vector_helper.c
++++ b/target/riscv/vector_helper.c
+@@ -3969,12 +3969,6 @@ void HELPER(NAME)(void *vd, void *v0, void *vs1, void *vs2,      \
+     }                                                            \
  }
  
-+/*----------------------------------------------------------------------------
-+| Returns the fraction bits of the half-precision floating-point value `a'.
-+*----------------------------------------------------------------------------*/
-+
-+static inline uint32_t extractFloat16Frac(float16 a)
-+{
-+    return float16_val(a) & 0x3ff;
-+}
-+
-+/*----------------------------------------------------------------------------
-+| Returns the exponent bits of the half-precision floating-point value `a'.
-+*----------------------------------------------------------------------------*/
-+
-+static inline int extractFloat16Exp(float16 a)
-+{
-+    return (float16_val(a) >> 10) & 0x1f;
-+}
-+
-+/*----------------------------------------------------------------------------
-+| Returns the sign bit of the half-precision floating-point value `a'.
-+*----------------------------------------------------------------------------*/
-+
-+static inline bool extractFloat16Sign(float16 a)
-+{
-+    return float16_val(a) >> 15;
-+}
-+
-+
- /*----------------------------------------------------------------------------
- | Returns the fraction bits of the single-precision floating-point value `a'.
- *----------------------------------------------------------------------------*/
-@@ -5006,6 +5034,218 @@ float64 float64_log2(float64 a, float_status *status)
-     return normalizeRoundAndPackFloat64(zSign, 0x408, zSig, status);
- }
+-static bool float16_eq_quiet(uint16_t a, uint16_t b, float_status *s)
+-{
+-    FloatRelation compare = float16_compare_quiet(a, b, s);
+-    return compare == float_relation_equal;
+-}
+-
+ GEN_VEXT_CMP_VV_ENV(vmfeq_vv_h, uint16_t, H2, float16_eq_quiet)
+ GEN_VEXT_CMP_VV_ENV(vmfeq_vv_w, uint32_t, H4, float32_eq_quiet)
+ GEN_VEXT_CMP_VV_ENV(vmfeq_vv_d, uint64_t, H8, float64_eq_quiet)
+@@ -4033,12 +4027,6 @@ GEN_VEXT_CMP_VF(vmfne_vf_h, uint16_t, H2, vmfne16)
+ GEN_VEXT_CMP_VF(vmfne_vf_w, uint32_t, H4, vmfne32)
+ GEN_VEXT_CMP_VF(vmfne_vf_d, uint64_t, H8, vmfne64)
  
-+/*----------------------------------------------------------------------------
-+| Returns 1 if the half-precision floating-point value `a' is equal to
-+| the corresponding value `b', and 0 otherwise.  The invalid exception is
-+| raised if either operand is a NaN.  Otherwise, the comparison is performed
-+| according to the IEC/IEEE Standard for Binary Floating-Point Arithmetic.
-+*----------------------------------------------------------------------------*/
-+
-+int float16_eq(float16 a, float16 b, float_status *status)
-+{
-+    uint16_t av, bv;
-+    a = float16_squash_input_denormal(a, status);
-+    b = float16_squash_input_denormal(b, status);
-+
-+    if (((extractFloat16Exp(a) == 0x1F) && extractFloat16Frac(a))
-+        || ((extractFloat16Exp(b) == 0x1F) && extractFloat16Frac(b))) {
-+        float_raise(float_flag_invalid, status);
-+        return 0;
-+    }
-+    av = float16_val(a);
-+    bv = float16_val(b);
-+    return (av == bv) || ((uint16_t) ((av | bv) << 1) == 0);
-+}
-+
-+/*----------------------------------------------------------------------------
-+| Returns 1 if the half-precision floating-point value `a' is less than
-+| or equal to the corresponding value `b', and 0 otherwise.  The invalid
-+| exception is raised if either operand is a NaN.  The comparison is performed
-+| according to the IEC/IEEE Standard for Binary Floating-Point Arithmetic.
-+*----------------------------------------------------------------------------*/
-+
-+int float16_le(float16 a, float16 b, float_status *status)
-+{
-+    bool aSign, bSign;
-+    uint16_t av, bv;
-+    a = float16_squash_input_denormal(a, status);
-+    b = float16_squash_input_denormal(b, status);
-+
-+    if (((extractFloat16Exp(a) == 0x1F) && extractFloat16Frac(a))
-+        || ((extractFloat16Exp(b) == 0x1F) && extractFloat16Frac(b))) {
-+        float_raise(float_flag_invalid, status);
-+        return 0;
-+    }
-+    aSign = extractFloat16Sign(a);
-+    bSign = extractFloat16Sign(b);
-+    av = float16_val(a);
-+    bv = float16_val(b);
-+    if (aSign != bSign) {
-+        return aSign || ((uint16_t) ((av | bv) << 1) == 0);
-+    }
-+    return (av == bv) || (aSign ^ (av < bv));
-+}
-+
-+/*----------------------------------------------------------------------------
-+| Returns 1 if the half-precision floating-point value `a' is less than
-+| the corresponding value `b', and 0 otherwise.  The invalid exception is
-+| raised if either operand is a NaN.  The comparison is performed according
-+| to the IEC/IEEE Standard for Binary Floating-Point Arithmetic.
-+*----------------------------------------------------------------------------*/
-+
-+int float16_lt(float16 a, float16 b, float_status *status)
-+{
-+    bool aSign, bSign;
-+    uint16_t av, bv;
-+    a = float16_squash_input_denormal(a, status);
-+    b = float16_squash_input_denormal(b, status);
-+
-+    if (((extractFloat16Exp(a) == 0x1F) && extractFloat16Frac(a))
-+        || ((extractFloat16Exp(b) == 0x1F) && extractFloat16Frac(b))) {
-+        float_raise(float_flag_invalid, status);
-+        return 0;
-+    }
-+    aSign = extractFloat16Sign(a);
-+    bSign = extractFloat16Sign(b);
-+    av = float16_val(a);
-+    bv = float16_val(b);
-+    if (aSign != bSign) {
-+        return aSign && ((uint16_t) ((av | bv) << 1) != 0);
-+    }
-+    return (av != bv) && (aSign ^ (av < bv));
-+}
-+
-+/*----------------------------------------------------------------------------
-+| Returns 1 if the half-precision floating-point values `a' and `b' cannot
-+| be compared, and 0 otherwise.  The invalid exception is raised if either
-+| operand is a NaN.  The comparison is performed according to the IEC/IEEE
-+| Standard for Binary Floating-Point Arithmetic.
-+*----------------------------------------------------------------------------*/
-+
-+int float16_unordered(float16 a, float16 b, float_status *status)
-+{
-+    a = float16_squash_input_denormal(a, status);
-+    b = float16_squash_input_denormal(b, status);
-+
-+    if (((extractFloat16Exp(a) == 0x1F) && extractFloat16Frac(a))
-+        || ((extractFloat16Exp(b) == 0x1F) && extractFloat16Frac(b))) {
-+        float_raise(float_flag_invalid, status);
-+        return 1;
-+    }
-+    return 0;
-+}
-+
-+/*----------------------------------------------------------------------------
-+| Returns 1 if the half-precision floating-point value `a' is equal to
-+| the corresponding value `b', and 0 otherwise.  Quiet NaNs do not cause an
-+| exception.  The comparison is performed according to the IEC/IEEE Standard
-+| for Binary Floating-Point Arithmetic.
-+*----------------------------------------------------------------------------*/
-+
-+int float16_eq_quiet(float16 a, float16 b, float_status *status)
-+{
-+    a = float16_squash_input_denormal(a, status);
-+    b = float16_squash_input_denormal(b, status);
-+
-+    if (((extractFloat16Exp(a) == 0x1F) && extractFloat16Frac(a))
-+        || ((extractFloat16Exp(b) == 0x1F) && extractFloat16Frac(b))) {
-+        if (float16_is_signaling_nan(a, status)
-+        || float16_is_signaling_nan(b, status)) {
-+            float_raise(float_flag_invalid, status);
-+        }
-+        return 0;
-+    }
-+    return (float16_val(a) == float16_val(b)) ||
-+            ((uint16_t) ((float16_val(a) | float16_val(b)) << 1) == 0);
-+}
-+
-+/*----------------------------------------------------------------------------
-+| Returns 1 if the half-precision floating-point value `a' is less than or
-+| equal to the corresponding value `b', and 0 otherwise.  Quiet NaNs do not
-+| cause an exception.  Otherwise, the comparison is performed according to the
-+| IEC/IEEE Standard for Binary Floating-Point Arithmetic.
-+*----------------------------------------------------------------------------*/
-+
-+int float16_le_quiet(float16 a, float16 b, float_status *status)
-+{
-+    bool aSign, bSign;
-+    uint16_t av, bv;
-+    a = float16_squash_input_denormal(a, status);
-+    b = float16_squash_input_denormal(b, status);
-+
-+    if (((extractFloat16Exp(a) == 0x1F) && extractFloat16Frac(a))
-+        || ((extractFloat16Exp(b) == 0x1F) && extractFloat16Frac(b))) {
-+        if (float16_is_signaling_nan(a, status)
-+        || float16_is_signaling_nan(b, status)) {
-+            float_raise(float_flag_invalid, status);
-+        }
-+        return 0;
-+    }
-+    aSign = extractFloat16Sign(a);
-+    bSign = extractFloat16Sign(b);
-+    av = float16_val(a);
-+    bv = float16_val(b);
-+    if (aSign != bSign) {
-+        return aSign || ((uint16_t) ((av | bv) << 1) == 0);
-+    }
-+    return (av == bv) || (aSign ^ (av < bv));
-+}
-+
-+/*----------------------------------------------------------------------------
-+| Returns 1 if the half-precision floating-point value `a' is less than
-+| the corresponding value `b', and 0 otherwise.  Quiet NaNs do not cause an
-+| exception.  Otherwise, the comparison is performed according to the IEC/IEEE
-+| Standard for Binary Floating-Point Arithmetic.
-+*----------------------------------------------------------------------------*/
-+
-+int float16_lt_quiet(float16 a, float16 b, float_status *status)
-+{
-+    bool aSign, bSign;
-+    uint16_t av, bv;
-+    a = float16_squash_input_denormal(a, status);
-+    b = float16_squash_input_denormal(b, status);
-+
-+    if (((extractFloat16Exp(a) == 0x1F) && extractFloat16Frac(a))
-+        || ((extractFloat16Exp(b) == 0x1F) && extractFloat16Frac(b))) {
-+        if (float16_is_signaling_nan(a, status)
-+        || float16_is_signaling_nan(b, status)) {
-+            float_raise(float_flag_invalid, status);
-+        }
-+        return 0;
-+    }
-+    aSign = extractFloat16Sign(a);
-+    bSign = extractFloat16Sign(b);
-+    av = float16_val(a);
-+    bv = float16_val(b);
-+    if (aSign != bSign) {
-+        return aSign && ((uint16_t) ((av | bv) << 1) != 0);
-+    }
-+    return (av != bv) && (aSign ^ (av < bv));
-+}
-+
-+/*----------------------------------------------------------------------------
-+| Returns 1 if the half-precision floating-point values `a' and `b' cannot
-+| be compared, and 0 otherwise.  Quiet NaNs do not cause an exception.  The
-+| comparison is performed according to the IEC/IEEE Standard for Binary
-+| Floating-Point Arithmetic.
-+*----------------------------------------------------------------------------*/
-+
-+int float16_unordered_quiet(float16 a, float16 b, float_status *status)
-+{
-+    a = float16_squash_input_denormal(a, status);
-+    b = float16_squash_input_denormal(b, status);
-+
-+    if (((extractFloat16Exp(a) == 0x1F) && extractFloat16Frac(a))
-+        || ((extractFloat16Exp(b) == 0x1F) && extractFloat16Frac(b))) {
-+        if (float16_is_signaling_nan(a, status)
-+        || float16_is_signaling_nan(b, status)) {
-+            float_raise(float_flag_invalid, status);
-+        }
-+        return 1;
-+    }
-+    return 0;
-+}
-+
- /*----------------------------------------------------------------------------
- | Returns the result of converting the extended double-precision floating-
- | point value `a' to the 32-bit two's complement integer format.  The
-diff --git a/include/fpu/softfloat.h b/include/fpu/softfloat.h
-index 075c680456..d36a54be3e 100644
---- a/include/fpu/softfloat.h
-+++ b/include/fpu/softfloat.h
-@@ -244,6 +244,14 @@ float16 float16_maxnum_noprop(float16, float16, float_status *status);
- float16 float16_sqrt(float16, float_status *status);
- FloatRelation float16_compare(float16, float16, float_status *status);
- FloatRelation float16_compare_quiet(float16, float16, float_status *status);
-+int float16_eq(float16, float16, float_status *status);
-+int float16_le(float16, float16, float_status *status);
-+int float16_lt(float16, float16, float_status *status);
-+int float16_unordered(float16, float16, float_status *status);
-+int float16_eq_quiet(float16, float16, float_status *status);
-+int float16_le_quiet(float16, float16, float_status *status);
-+int float16_lt_quiet(float16, float16, float_status *status);
-+int float16_unordered_quiet(float16, float16, float_status *status);
+-static bool float16_lt(uint16_t a, uint16_t b, float_status *s)
+-{
+-    FloatRelation compare = float16_compare(a, b, s);
+-    return compare == float_relation_less;
+-}
+-
+ GEN_VEXT_CMP_VV_ENV(vmflt_vv_h, uint16_t, H2, float16_lt)
+ GEN_VEXT_CMP_VV_ENV(vmflt_vv_w, uint32_t, H4, float32_lt)
+ GEN_VEXT_CMP_VV_ENV(vmflt_vv_d, uint64_t, H8, float64_lt)
+@@ -4046,13 +4034,6 @@ GEN_VEXT_CMP_VF(vmflt_vf_h, uint16_t, H2, float16_lt)
+ GEN_VEXT_CMP_VF(vmflt_vf_w, uint32_t, H4, float32_lt)
+ GEN_VEXT_CMP_VF(vmflt_vf_d, uint64_t, H8, float64_lt)
  
- bool float16_is_quiet_nan(float16, float_status *status);
- bool float16_is_signaling_nan(float16, float_status *status);
+-static bool float16_le(uint16_t a, uint16_t b, float_status *s)
+-{
+-    FloatRelation compare = float16_compare(a, b, s);
+-    return compare == float_relation_less ||
+-           compare == float_relation_equal;
+-}
+-
+ GEN_VEXT_CMP_VV_ENV(vmfle_vv_h, uint16_t, H2, float16_le)
+ GEN_VEXT_CMP_VV_ENV(vmfle_vv_w, uint32_t, H4, float32_le)
+ GEN_VEXT_CMP_VV_ENV(vmfle_vv_d, uint64_t, H8, float64_le)
 -- 
 2.17.1
 
