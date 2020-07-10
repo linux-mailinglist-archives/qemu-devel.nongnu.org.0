@@ -2,34 +2,34 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id AAC6221BCF3
-	for <lists+qemu-devel@lfdr.de>; Fri, 10 Jul 2020 20:29:00 +0200 (CEST)
-Received: from localhost ([::1]:43034 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id CC37C21BCEC
+	for <lists+qemu-devel@lfdr.de>; Fri, 10 Jul 2020 20:27:53 +0200 (CEST)
+Received: from localhost ([::1]:40222 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jtxlb-00014A-QI
-	for lists+qemu-devel@lfdr.de; Fri, 10 Jul 2020 14:28:59 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:43854)
+	id 1jtxkW-0008Ll-UV
+	for lists+qemu-devel@lfdr.de; Fri, 10 Jul 2020 14:27:52 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:43840)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1jtxiV-0006ZN-GB
- for qemu-devel@nongnu.org; Fri, 10 Jul 2020 14:25:47 -0400
-Received: from indium.canonical.com ([91.189.90.7]:41636)
+ id 1jtxiU-0006Xy-Eb
+ for qemu-devel@nongnu.org; Fri, 10 Jul 2020 14:25:46 -0400
+Received: from indium.canonical.com ([91.189.90.7]:41650)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1jtxiS-0005XY-09
- for qemu-devel@nongnu.org; Fri, 10 Jul 2020 14:25:47 -0400
+ id 1jtxiS-0005XZ-5P
+ for qemu-devel@nongnu.org; Fri, 10 Jul 2020 14:25:46 -0400
 Received: from loganberry.canonical.com ([91.189.90.37])
  by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
- id 1jtxiP-0002oz-PV
- for <qemu-devel@nongnu.org>; Fri, 10 Jul 2020 18:25:41 +0000
+ id 1jtxiQ-0002os-Ak
+ for <qemu-devel@nongnu.org>; Fri, 10 Jul 2020 18:25:42 +0000
 Received: from loganberry.canonical.com (localhost [127.0.0.1])
- by loganberry.canonical.com (Postfix) with ESMTP id 957AD2E80F1
- for <qemu-devel@nongnu.org>; Fri, 10 Jul 2020 18:25:41 +0000 (UTC)
+ by loganberry.canonical.com (Postfix) with ESMTP id 2D68B2E80F1
+ for <qemu-devel@nongnu.org>; Fri, 10 Jul 2020 18:25:42 +0000 (UTC)
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: quoted-printable
-Date: Fri, 10 Jul 2020 18:09:39 -0000
+Date: Fri, 10 Jul 2020 18:14:23 -0000
 From: Dmitry <1885332@bugs.launchpad.net>
 To: qemu-devel@nongnu.org
 X-Launchpad-Notification-Type: bug
@@ -41,7 +41,7 @@ X-Launchpad-Bug-Commenters: langston0 xeioexception
 X-Launchpad-Bug-Reporter: Langston (langston0)
 X-Launchpad-Bug-Modifier: Dmitry (xeioexception)
 References: <159320263008.26082.15752081078008046631.malonedeb@gac.canonical.com>
-Message-Id: <159440457965.19540.14125391390154347989.malone@chaenomeles.canonical.com>
+Message-Id: <159440486352.11965.4867942811511201666.malone@soybean.canonical.com>
 Subject: [Bug 1885332] Re: Error in user-mode calculation of ELF aux vector's
  AT_PHDR
 X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
@@ -50,7 +50,7 @@ Precedence: bulk
 X-Generated-By: Launchpad (canonical.com);
  Revision="4809fcb62f445aaa3ae919f7f6c3cc7d156ea57a";
  Instance="production-secrets-lazr.conf"
-X-Launchpad-Hash: 0e43cc233172cb4527166e0a4e42fc146924b558
+X-Launchpad-Hash: 434950cd1bf178176641c894adfd13d4e183f6b0
 Received-SPF: none client-ip=91.189.90.7; envelope-from=bounces@canonical.com;
  helo=indium.canonical.com
 X-detected-operating-system: by eggs.gnu.org: First seen = 2020/07/10 14:25:42
@@ -76,63 +76,18 @@ Reply-To: Bug 1885332 <1885332@bugs.launchpad.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-@langston0 Thanks for detailed explanation, got the same problem for
-qemu-s390.
+BTW, before "sudo bash -c "echo -1 > /proc/sys/fs/binfmt_misc/qemu-
+s390x"
 
+njs-s390 also works on the host:
 
-The way to reproduce (linux kernel >=3D 4.8, for example: Ubuntu 18.04):
-# Register qemu binfmt_misc handlers
-$ docker run --rm --privileged multiarch/qemu-user-static --reset -p yes
-
-$ cat Dockerfile.s390x =
-
-FROM s390x/ubuntu
-RUN apt-get update && \
-    apt-get install -y \
-    gcc make libpcre3-dev libreadline-dev
-
-RUN cd /home && git clone https://github.com/nginx/njs
-
-RUN cd /home/njs && ./configure --cc-opt=3D'-O0 -static -lm -lrt -pthread
--Wl,--whole-archive -lpthread -ltinfo -Wl,--no-whole-archive' && make
-njs
-
-$ docker build -t njs/390x -f Dockerfile.s390x .
-
-# check the binary (WORKS!)
-# inside docker s390 binaries are executed using qemu-s390-static from the =
-host
-$ docker run  -t njs/390x /home/njs/build/njs -c 'console.log("hello")'
+$ ./njs-s390 -c 'console.log("hello")'
 hello
 
-# copy binary to host
-$ docker run  -v `pwd`:/m -ti njs/390x cp /home/njs/build/njs /m/njs-s390
-
-# deregister binfmt handler
-$ sudo bash -c "echo -1 > /proc/sys/fs/binfmt_misc/qemu-s390x"
-
-# run qemu gdb
-$ qemu-s390x  -g 12345 ./njs-s390
-
-# in a separate terminal
-$ gdb-multiarch ./njs-s390 -ex 'target remote localhost:12345'
-0x0000000001000520 in _start ()
-(gdb) si
-0x0000000001000524 in _start ()
-(gdb) si
-0x000000000100052a in _start ()
-(gdb) c
-Continuing.
-
-Program received signal SIGILL, Illegal instruction.
-0x00000000011a418c in _dl_aux_init ()
-(gdb) bt
-#0  0x00000000011a418c in _dl_aux_init ()
-#1  0x00000000011663f0 in __libc_start_main ()
-#2  0x0000000001000564 in _start ()
-
-qemu-s390x --version
-qemu-s390x version 2.11.1(Debian 1:2.11+dfsg-1ubuntu7.28)
+$ file njs-s390
+njs-s390: ELF 64-bit MSB executable, IBM S/390, version 1 (GNU/Linux), stat=
+ically linked, BuildID[sha1]=3De37618578fb0a8c60f426826167a800e4f314ef3, fo=
+r GNU/Linux 3.2.0, with debug_info, not stripped
 
 -- =
 
