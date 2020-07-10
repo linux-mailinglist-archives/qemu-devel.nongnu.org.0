@@ -2,69 +2,78 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id CB23521B9CE
-	for <lists+qemu-devel@lfdr.de>; Fri, 10 Jul 2020 17:47:15 +0200 (CEST)
-Received: from localhost ([::1]:59032 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6AF2A21B9D2
+	for <lists+qemu-devel@lfdr.de>; Fri, 10 Jul 2020 17:47:40 +0200 (CEST)
+Received: from localhost ([::1]:59638 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jtvF4-00057H-NT
-	for lists+qemu-devel@lfdr.de; Fri, 10 Jul 2020 11:47:14 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:34344)
+	id 1jtvFT-0005O1-Av
+	for lists+qemu-devel@lfdr.de; Fri, 10 Jul 2020 11:47:39 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:34442)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1jtvDL-0004Fm-C4
- for qemu-devel@nongnu.org; Fri, 10 Jul 2020 11:45:28 -0400
-Received: from us-smtp-2.mimecast.com ([207.211.31.81]:47512
+ (Exim 4.90_1) (envelope-from <david@redhat.com>) id 1jtvDi-0004N0-OU
+ for qemu-devel@nongnu.org; Fri, 10 Jul 2020 11:45:51 -0400
+Received: from us-smtp-2.mimecast.com ([207.211.31.81]:32608
  helo=us-smtp-delivery-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1jtvDH-0008Fn-I9
- for qemu-devel@nongnu.org; Fri, 10 Jul 2020 11:45:26 -0400
+ (Exim 4.90_1) (envelope-from <david@redhat.com>) id 1jtvDh-0008NY-69
+ for qemu-devel@nongnu.org; Fri, 10 Jul 2020 11:45:50 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1594395921;
+ s=mimecast20190719; t=1594395947;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references:openpgp:openpgp;
- bh=F+4Xyk4MNefNGQ2BcIq91VLQea/AHI/7gAXPVV3J3uE=;
- b=S7uoxruuVJxQmWyoGo42sn2vbX/HUssG7YuveDMKgVe3Zt08RPtEFlpy4URTJebtdVXM+F
- GI9WAgmIZ3eJPFGhtdTPUuoPXpEEwe8NLaCi5NWNYCzn80TCxzfPhC0hqiJV5oEY4Jyo+p
- yJ2tZ9x1N7MeHvneNJHJkEWZq7ZaiyU=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-333-QuZG9FCKOHikvwxq6jwSEQ-1; Fri, 10 Jul 2020 11:45:19 -0400
-X-MC-Unique: QuZG9FCKOHikvwxq6jwSEQ-1
-Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
- [10.5.11.15])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id E9E2B800D5C;
- Fri, 10 Jul 2020 15:45:17 +0000 (UTC)
-Received: from thuth.remote.csb (ovpn-112-68.ams2.redhat.com [10.36.112.68])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id E78257EFA6;
- Fri, 10 Jul 2020 15:45:05 +0000 (UTC)
-Subject: Re: [PULL 00/32] AVR port
-To: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>,
- Peter Maydell <peter.maydell@linaro.org>
-References: <20200707181710.30950-1-f4bug@amsat.org>
- <CAFEAcA85TE+W39fphhm77hNKmAJyEMmaTseDkL1t4gTkzzcbJQ@mail.gmail.com>
- <47ca6b92-cedb-a6c4-754b-b7cd5da597e7@redhat.com>
- <CAFEAcA_wBT+Yfsn+DFZkcRxYWKmF04U2JHNVz5mNuXabeDcN5g@mail.gmail.com>
- <544208da-9dad-5fab-ab43-b2537a1f2f90@amsat.org>
- <d2dd51b4-2f10-a33a-66be-6357c52d8564@amsat.org>
-From: Thomas Huth <thuth@redhat.com>
-Openpgp: preference=signencrypt
-Message-ID: <f3796a46-1fb1-e70b-a08f-93ddec443184@redhat.com>
-Date: Fri, 10 Jul 2020 17:45:03 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
- Thunderbird/60.9.0
-MIME-Version: 1.0
-In-Reply-To: <d2dd51b4-2f10-a33a-66be-6357c52d8564@amsat.org>
-Content-Language: en-US
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
+ in-reply-to:in-reply-to:references:references;
+ bh=lz5G2H6f5V29k6eHdICD/l/Xbqcp2DbhTnjDYQtOVkM=;
+ b=DkNKTV8NxVNkTb2lRuchEobg9MYnNgZfw8u3hzSRKIzsrxSEj1LYhh8/vUfYOSkceED1fv
+ KJCYmzitZnZMFc4jpVg1dbBYrOAobX1qsaxfnabgDhOlOzGpI6/bW9i3FkwMuG97UhFCGo
+ ACRs5lmPkDz20bm5Jcnx0sFYFKUomTE=
+Received: from mail-wr1-f70.google.com (mail-wr1-f70.google.com
+ [209.85.221.70]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-67-Z4ZrjnzRPTymUu0ySUqrow-1; Fri, 10 Jul 2020 11:45:46 -0400
+X-MC-Unique: Z4ZrjnzRPTymUu0ySUqrow-1
+Received: by mail-wr1-f70.google.com with SMTP id f5so6364255wrv.22
+ for <qemu-devel@nongnu.org>; Fri, 10 Jul 2020 08:45:45 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:content-transfer-encoding:from:mime-version
+ :subject:date:message-id:references:cc:in-reply-to:to;
+ bh=DytXzLV8SAHzkbW5xUKQTbTJkvCc2JKF6EoeCFnJ3gs=;
+ b=PZlbL5eWgC9gnTALsEJ0Hwxnrp0sLVc1rkxitxJnoxIvoJ5cEftPNaUGRtOoQfjHxt
+ oAqRcsP4wSZ2rE61dYBELsncMVTwWt1KqCcflzr6OGID9XU4pw9QGFB+ENjKxIIQ0zeh
+ 2mmiklXzZokHKyDhNbEmC0kTMVCYkvP2K8qy++2mRSmu9YrPba+A2SLfMWtdhSsNSXLK
+ offJ0bBW2t1jjY+wI88virMmA7BNItMWXB9URUxyb+Kkti9K2H2uZvfqjVzD2bE0GxLV
+ nQaASwfsDSY/zdE65gbgxEnp9b3e+mB1af0EvNsIwM/kN2xvDTOxD1So3P/0oz2eDo8v
+ xWUg==
+X-Gm-Message-State: AOAM5314rvoXMR0BRjVwPFp7Xouy1DmEBSv/dH73drXBUzXcRusSt9w5
+ 9K1gp2XdorZ7yX8CsKKAWv9EOAMjilN6Mrh1R2zf08AiBDGptbLj2NHQ4f/EVjgHqHEQhHguxNr
+ HZP0fWKZXZ1kDmt8=
+X-Received: by 2002:adf:e7c8:: with SMTP id e8mr67308184wrn.20.1594395945133; 
+ Fri, 10 Jul 2020 08:45:45 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJygqZVeic02m2U1SbN0GX2ycuSK7PvlU1kVc2n7j6qi9TTSt3SlfXZC+HA6srptAV5MzpAC2Q==
+X-Received: by 2002:adf:e7c8:: with SMTP id e8mr67308170wrn.20.1594395944911; 
+ Fri, 10 Jul 2020 08:45:44 -0700 (PDT)
+Received: from ?IPv6:2a01:598:b902:a219:a4a6:bc3a:36a3:3b20?
+ ([2a01:598:b902:a219:a4a6:bc3a:36a3:3b20])
+ by smtp.gmail.com with ESMTPSA id l1sm10218542wrb.12.2020.07.10.08.45.43
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Fri, 10 Jul 2020 08:45:44 -0700 (PDT)
+From: David Hildenbrand <david@redhat.com>
+Mime-Version: 1.0 (1.0)
+Subject: Re: [PATCH RFC 2/5] s390x: implement diag260
+Date: Fri, 10 Jul 2020 17:45:42 +0200
+Message-Id: <50DB9C15-AE46-4F41-83F3-A18D1E86B6FA@redhat.com>
+References: <20200710154302.GD14845@osiris>
+In-Reply-To: <20200710154302.GD14845@osiris>
+To: Heiko Carstens <hca@linux.ibm.com>
+X-Mailer: iPhone Mail (17F80)
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=david@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=207.211.31.81; envelope-from=thuth@redhat.com;
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=207.211.31.81; envelope-from=david@redhat.com;
  helo=us-smtp-delivery-1.mimecast.com
 X-detected-operating-system: by eggs.gnu.org: First seen = 2020/07/09 23:35:58
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
@@ -87,80 +96,58 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Laurent Vivier <lvivier@redhat.com>, Sarah Harris <S.E.Harris@kent.ac.uk>,
- Eduardo Habkost <ehabkost@redhat.com>, Thomas Huth <huth@tuxfamily.org>,
- QEMU Developers <qemu-devel@nongnu.org>,
- Wainer dos Santos Moschetta <wainersm@redhat.com>,
- Markus Armbruster <armbru@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>,
- Michael Rolnik <mrolnik@gmail.com>, Pavel Dovgalyuk <pavel.dovgaluk@ispras.ru>,
- Cleber Rosa <crosa@redhat.com>,
- =?UTF-8?Q?Marc-Andr=c3=a9_Lureau?= <marcandre.lureau@redhat.com>,
- =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>,
- Richard Henderson <rth@twiddle.net>
+Cc: Thomas Huth <thuth@redhat.com>, Janosch Frank <frankja@linux.ibm.com>,
+ David Hildenbrand <david@redhat.com>, Cornelia Huck <cohuck@redhat.com>,
+ qemu-devel@nongnu.org, Halil Pasic <pasic@linux.ibm.com>,
+ Christian Borntraeger <borntraeger@de.ibm.com>, qemu-s390x@nongnu.org,
+ "Michael S . Tsirkin" <mst@redhat.com>,
+ Claudio Imbrenda <imbrenda@linux.ibm.com>, Richard Henderson <rth@twiddle.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 10/07/2020 17.32, Philippe Mathieu-Daudé wrote:
-> On 7/10/20 5:17 PM, Philippe Mathieu-Daudé wrote:
->> On 7/10/20 5:12 PM, Peter Maydell wrote:
->>> On Fri, 10 Jul 2020 at 16:03, Thomas Huth <thuth@redhat.com> wrote:
->>>> Endianess bug ... this should fix it:
->>>>
->>>> diff --git a/target/avr/helper.c b/target/avr/helper.c
->>>> --- a/target/avr/helper.c
->>>> +++ b/target/avr/helper.c
->>>> @@ -337,6 +337,7 @@ void helper_fullwr(CPUAVRState *env, uint32_t data,
->>>> uint32_t addr)
->>>>          helper_outb(env, addr - NUMBER_OF_CPU_REGISTERS, data);
->>>>      } else {
->>>>          /* memory */
->>>> -        cpu_physical_memory_write(OFFSET_DATA + addr, &data, 1);
->>>> +        uint8_t data8 = data;
->>>> +        cpu_physical_memory_write(OFFSET_DATA + addr, &data8, 1);
->>>>      }
->>>
->>> Or equivalently
->>>   address_space_stb(&address_space_memory, data, MEMTXATTRS_UNSPECIFIED, NULL);
->>>
->>> (better choices of address space may be available, but this is
->>> the exact-same-behaviour one).
->>
->> Ah, this is my stashed fix:
->>
->> -- >8 --
->> @@ -320,8 +320,10 @@ target_ulong helper_fullrd(CPUAVRState *env,
->> uint32_t addr)
->>   *  this function implements ST instruction when there is a posibility
->> to write
->>   *  into a CPU register
->>   */
->> -void helper_fullwr(CPUAVRState *env, uint32_t data, uint32_t addr)
->> +void helper_fullwr(CPUAVRState *env, uint32_t data32, uint32_t addr)
->>  {
->> +    uint8_t data = data32;
->> +    assert(data == data32);
->> +
->>      env->fullacc = false;
->>
->> ---
->>
->> 3 ways to do the same :) The assert is probably superfluous.
->>
->> I don't like the fact that env->r[addr] (which is u8) is silently casted
->> from u32.
-> 
-> I'll squash Peter suggested fix:
-[...]
-> @@ -305,13 +308,14 @@ target_ulong helper_fullrd(CPUAVRState *env,
-> uint32_t addr)
-> 
->      if (addr < NUMBER_OF_CPU_REGISTERS) {
->          /* CPU registers */
-> -        data = env->r[addr];
-> +        data = cpu_to_le32(env->r[addr]);
 
-That part looks wrong?
 
- Thomas
+> Am 10.07.2020 um 17:43 schrieb Heiko Carstens <hca@linux.ibm.com>:
+>=20
+> =EF=BB=BFOn Fri, Jul 10, 2020 at 05:24:07PM +0200, David Hildenbrand wrot=
+e:
+>>> On 10.07.20 17:18, Heiko Carstens wrote:
+>>> On Fri, Jul 10, 2020 at 02:12:33PM +0200, David Hildenbrand wrote:
+>>>>> Note: Reading about diag260 subcode 0xc, we could modify Linux to que=
+ry
+>>>>> the maximum possible pfn via diag260 0xc. Then, we maybe could avoid
+>>>>> indicating maxram size via SCLP, and keep diag260-unaware OSs keep
+>>>>> working as before. Thoughts?
+>>>>=20
+>>>> Implemented it, seems to work fine.
+>>>=20
+>>> The returned value would not include standby/reserved memory within
+>>> z/VM. So this seems not to work.
+>>=20
+>> Which value exactly are you referencing? diag 0xc returns two values.
+>> One of them seems to do exactly what we need.
+>=20
+> Maybe I'm missing something as usual, but to me this
+> --------
+> Usage Notes:
+> ...
+> 2. If the RESERVED or STANDBY option was used on the DEFINE STORAGE
+> command to configure reserved or standby storage for a guest, the
+> values returned in Rx and Ry will be the current values, but these
+> values can change dynamically depending on the options specified and
+> any dynamic storage reconfiguration (DSR) changes initiated by the
+> guest.
+> --------
+> reads like it is not doing what you want. That is: it does *not*
+> include standby memory and therefore will not return the highest
+> possible pfn.
+>=20
+
+Ah, yes. See the kernel patch, I take the max of both values (SCLP, diag260=
+(0xc)) values.
+
+Anyhow, what would be your recommendation?
+
+Thanks!
 
 
