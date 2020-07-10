@@ -2,55 +2,49 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A575521BA0C
-	for <lists+qemu-devel@lfdr.de>; Fri, 10 Jul 2020 17:56:26 +0200 (CEST)
-Received: from localhost ([::1]:56292 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 29F5E21BA10
+	for <lists+qemu-devel@lfdr.de>; Fri, 10 Jul 2020 17:57:09 +0200 (CEST)
+Received: from localhost ([::1]:60414 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jtvNK-0007s5-LF
-	for lists+qemu-devel@lfdr.de; Fri, 10 Jul 2020 11:55:46 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:35548)
+	id 1jtvOe-0001HF-6V
+	for lists+qemu-devel@lfdr.de; Fri, 10 Jul 2020 11:57:08 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:36398)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1jtvIc-0002wW-Dl
- for qemu-devel@nongnu.org; Fri, 10 Jul 2020 11:50:54 -0400
-Received: from mail-oo1-xc44.google.com ([2607:f8b0:4864:20::c44]:33083)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1jtvIW-0000bE-7l
- for qemu-devel@nongnu.org; Fri, 10 Jul 2020 11:50:54 -0400
-Received: by mail-oo1-xc44.google.com with SMTP id d125so1084484oob.0
- for <qemu-devel@nongnu.org>; Fri, 10 Jul 2020 08:50:47 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc:content-transfer-encoding;
- bh=8mEhu8veV3Gnf9WIN+SjyxzLBHgb7ONc/B1MVOgnFH8=;
- b=kdqpCd8pmaytLDjuxWHuXXjFm1lUjjxv0wTFqdsCEY1jhZqwN9Y0yoOwbgzgWFrKdb
- 4AzQ9Bf9VPsMqP/+5OvHeKN2U36vh/MxUQ25E+sOtNSoiTq1CZbR2PJWUDJQkehu53ix
- JWFbEJo+u28qOj27MYzzKhZ5dKWurYamdaZuHVpXmYgo8I5/LYB9uTQ+JVdmm34VPRMp
- gK+vupFJB6TkLo5Wr/0E33XWFxo+T0qbJ3QGdmMiiNnIVEJQbDjsHqsWJPhWob7qHk/D
- w8WA48BdiU3HoGPrU79vmssn9Q6fBK+ODI2H2Ho59iAMI6X/tha0GwjPEUFGWaTVSOWU
- 6yTw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc:content-transfer-encoding;
- bh=8mEhu8veV3Gnf9WIN+SjyxzLBHgb7ONc/B1MVOgnFH8=;
- b=IsIo3cmkhjTUIp3eNWfU4hyXRVOI3OFDEhoIjW0lnzwpSD8kIaseHHbV1Okz7Oxt3J
- Zx5fuAWNZy9TpaRbGf8wQSMSX0iKRM9OmMq9OVhsvTJqEzZVlAzKFfZYYR0Krwll/LCN
- EDhpOhVmgxDzeLqOM/n23Brr/ZYoBNt2deEY9JTWjdERdFWHs4dCIepnkXf2UecGAYO6
- pgwYb0ewKMmvtAPnYelr9DYWOXtHqvgiyrtH8fuK3uD4ZwdOaaslQH2N1LbkmyVgiE3+
- S6+ZF/Y66cjkwcfGPOqiJA+9DVXH37vAeFFU66r1aELEgldO8+cku0Fwi1GsY+uOSOYE
- eTPA==
-X-Gm-Message-State: AOAM531XwlEHu8jAbIZnOjP/VXDGzDVY5aWKcdhfaYyMmZIPflPIDzjh
- HC1579q4D7dvYw2L4NP51im4fd22k+UQMZI26rcHRg==
-X-Google-Smtp-Source: ABdhPJyFq9PrtR89HStX4qxDsSJFNPrs+ED3KuyHZri2G/y/0oQTlCE+NsipV9FI6t3hUERhAmRstuJbwQ9Hzpvcm3g=
-X-Received: by 2002:a4a:2f15:: with SMTP id p21mr59592290oop.20.1594396246853; 
- Fri, 10 Jul 2020 08:50:46 -0700 (PDT)
-MIME-Version: 1.0
-References: <20200708172542.25012-1-pbonzini@redhat.com>
- <CAFEAcA8b6sn8fXOKwqOF6MvsKT5oKqS+4jjYDPAPvnXmVimLiQ@mail.gmail.com>
- <9631042d-00e4-2a2e-292b-66ca1b590120@suse.de>
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1jtvLW-0006Lm-9f
+ for qemu-devel@nongnu.org; Fri, 10 Jul 2020 11:53:54 -0400
+Received: from us-smtp-2.mimecast.com ([205.139.110.61]:38895
+ helo=us-smtp-delivery-1.mimecast.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1jtvLU-0000w3-3U
+ for qemu-devel@nongnu.org; Fri, 10 Jul 2020 11:53:53 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1594396430;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references:openpgp:openpgp;
+ bh=R64k3LBmeci8PljdRSfOmgciz9niQuCWC6CXvdwFHLQ=;
+ b=C8SUINJNaMH1gLfSkjU9wpMGQaC04Ee2flQ1asoJgpXbfIM7bt6hrLDpJK2eEfLpnQBUgH
+ og7L6LmZEswBX2+JIWo4eerBWY1qNRTloEqWRmD7vpjMYJF/ZW5E/LtFdq9En2/cEtEHxb
+ UR5qa/8leiGxkhJ3vCcoZ0Yl2Bap4Oo=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-202-rwrUSTobONWXKDcv56RgFA-1; Fri, 10 Jul 2020 11:53:48 -0400
+X-MC-Unique: rwrUSTobONWXKDcv56RgFA-1
+Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
+ [10.5.11.16])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 92FDC80BCB2;
+ Fri, 10 Jul 2020 15:53:47 +0000 (UTC)
+Received: from thuth.remote.csb (ovpn-112-68.ams2.redhat.com [10.36.112.68])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 1E5445C1D3;
+ Fri, 10 Jul 2020 15:53:44 +0000 (UTC)
+Subject: Re: [PULL v2 00/52] Misc patches for QEMU 5.1 soft freeze
+To: =?UTF-8?Q?Daniel_P=2e_Berrang=c3=a9?= <berrange@redhat.com>,
+ Peter Maydell <peter.maydell@linaro.org>
+References: <9631042d-00e4-2a2e-292b-66ca1b590120@suse.de>
  <CAFEAcA-UbHpj_xSbqjTsaURt8yPZjuYOmd3pe97vg_G7--17Cw@mail.gmail.com>
  <e78820bb-af5f-c2a0-7727-1a0caedfa584@suse.de>
  <CAFEAcA-raDJ2pSUG-OYHcJi_LnQwxMHvcyjsD7+=WxGYcrSz3w@mail.gmail.com>
@@ -60,26 +54,32 @@ References: <20200708172542.25012-1-pbonzini@redhat.com>
  <CAFEAcA80XK4voLDj+8kVFcHJb35HT9HL+Qh8kGb3_Qe5Em9ouw@mail.gmail.com>
  <adeb1f02-c712-e256-6840-649795fdc3b5@redhat.com>
  <CAFEAcA9f0tadztJP7Ki0potF6=E+GaG8a_X_5HTyH2yw2T7goA@mail.gmail.com>
- <2ea3943d-fc5b-4d75-deb2-06723da2ac74@redhat.com>
-In-Reply-To: <2ea3943d-fc5b-4d75-deb2-06723da2ac74@redhat.com>
-From: Peter Maydell <peter.maydell@linaro.org>
-Date: Fri, 10 Jul 2020 16:50:35 +0100
-Message-ID: <CAFEAcA8xyqyY4dKxZo-3=G2P177X9_v6wHG8Txrkin52gE=oMA@mail.gmail.com>
-Subject: Re: [PULL v2 00/52] Misc patches for QEMU 5.1 soft freeze
-To: Max Reitz <mreitz@redhat.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=2607:f8b0:4864:20::c44;
- envelope-from=peter.maydell@linaro.org; helo=mail-oo1-xc44.google.com
-X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
- That's all we know.
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ <20200710154706.GC4034168@redhat.com>
+From: Thomas Huth <thuth@redhat.com>
+Openpgp: preference=signencrypt
+Message-ID: <22ef268b-3607-8513-2fac-69e1e22b292e@redhat.com>
+Date: Fri, 10 Jul 2020 17:53:42 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+ Thunderbird/60.9.0
+MIME-Version: 1.0
+In-Reply-To: <20200710154706.GC4034168@redhat.com>
+Content-Language: en-US
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=205.139.110.61; envelope-from=thuth@redhat.com;
+ helo=us-smtp-delivery-1.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/07/09 22:08:55
+X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
+X-Spam_score_int: -40
+X-Spam_score: -4.1
+X-Spam_bar: ----
+X-Spam_report: (-4.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-1, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001, URIBL_BLOCKED=0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -92,52 +92,41 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Paolo Bonzini <pbonzini@redhat.com>,
- =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <philmd@redhat.com>,
- Claudio Fontana <cfontana@suse.de>, QEMU Developers <qemu-devel@nongnu.org>
+Cc: Paolo Bonzini <pbonzini@redhat.com>, Max Reitz <mreitz@redhat.com>,
+ =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>,
+ QEMU Developers <qemu-devel@nongnu.org>, Claudio Fontana <cfontana@suse.de>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Fri, 10 Jul 2020 at 16:46, Max Reitz <mreitz@redhat.com> wrote:
->
-> On 10.07.20 17:42, Peter Maydell wrote:
-> > On Fri, 10 Jul 2020 at 16:31, Max Reitz <mreitz@redhat.com> wrote:
-> >>
-> >> On 10.07.20 17:18, Peter Maydell wrote:
-> >>> readarray only arrived sometime in bash 4, and the OSX system
-> >>> bash is 3.2.57, so it won't have that builtin.
-> >>
-> >> It arrived with 4.0, actually, which was released 11 years ago.
-> >> I had assumed that would be sufficiently mature.
-> >>
-> >> So, um, 11 years isn=E2=80=99t sufficiently mature then and I=E2=80=99=
-ll have to work
-> >> around not having readarray for macOS?
-> >
-> > It's the usual Apple-vs-GPL3 issue.
-> >
-> > I note that the iotests do seem to regularly run into
-> > non-portable constructs: Kevin's latest pullreq has
-> > just failed due to a use of 'truncate' that doesn't
-> > work on the BSDs.
->
-> :/
->
-> I=E2=80=99ll send a patch to drop readarray.
+On 10/07/2020 17.47, Daniel P. Berrangé wrote:
+> On Fri, Jul 10, 2020 at 04:42:11PM +0100, Peter Maydell wrote:
+>> On Fri, 10 Jul 2020 at 16:31, Max Reitz <mreitz@redhat.com> wrote:
+>>>
+>>> On 10.07.20 17:18, Peter Maydell wrote:
+>>>> readarray only arrived sometime in bash 4, and the OSX system
+>>>> bash is 3.2.57, so it won't have that builtin.
+>>>
+>>> It arrived with 4.0, actually, which was released 11 years ago.
+>>> I had assumed that would be sufficiently mature.
+>>>
+>>> So, um, 11 years isn’t sufficiently mature then and I’ll have to work
+>>> around not having readarray for macOS?
+>>
+>> It's the usual Apple-vs-GPL3 issue.
+>>
+>> I note that the iotests do seem to regularly run into
+>> non-portable constructs: Kevin's latest pullreq has
+>> just failed due to a use of 'truncate' that doesn't
+>> work on the BSDs.
+> 
+> Since we already depend on homebrew for the build environment, we can
+> pull in the newer bash from homebrew, and ignore the ancient version
+> from macOS stock install.
 
-Thanks. I realised as a result of discussion on IRC that
-this slipped through my testing because my OSX system
-wasn't running iotests at all because it didn't have a
-GNU sed available.
+I just had the same idea. And then add a simple check for bash 3.x in
+tests/check-block.sh so that it skips the iotests if only the old
+version is available.
 
-As Dan says, the other option is to do the same thing we
-do for GNU sed, and skip all the iotests if we don't
-have a new enough bash. I can always install sed and
-bash out of homebrew to bring my setup into line with the
-cirrus CI one. If we take that path we should update the
-cirrus CI config to make sure it also installs homebrew
-bash (and that the iotests use bash-from-the-path, not
-/bin/bash.)
+ Thomas
 
--- PMM
 
