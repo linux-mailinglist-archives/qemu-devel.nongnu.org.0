@@ -2,55 +2,149 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1BAC821BD86
-	for <lists+qemu-devel@lfdr.de>; Fri, 10 Jul 2020 21:21:54 +0200 (CEST)
-Received: from localhost ([::1]:58474 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1D33321BD89
+	for <lists+qemu-devel@lfdr.de>; Fri, 10 Jul 2020 21:22:24 +0200 (CEST)
+Received: from localhost ([::1]:60716 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jtyan-0004zv-50
-	for lists+qemu-devel@lfdr.de; Fri, 10 Jul 2020 15:21:53 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:55736)
+	id 1jtybH-0005tg-41
+	for lists+qemu-devel@lfdr.de; Fri, 10 Jul 2020 15:22:23 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:55808)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <cfontana@suse.de>) id 1jtyZL-0003nd-QR
- for qemu-devel@nongnu.org; Fri, 10 Jul 2020 15:20:23 -0400
-Received: from mx2.suse.de ([195.135.220.15]:36162)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <cfontana@suse.de>) id 1jtyZD-0003yl-N9
- for qemu-devel@nongnu.org; Fri, 10 Jul 2020 15:20:23 -0400
-X-Virus-Scanned: by amavisd-new at test-mx.suse.de
-Received: from relay2.suse.de (unknown [195.135.221.27])
- by mx2.suse.de (Postfix) with ESMTP id DA4CEAD04;
- Fri, 10 Jul 2020 19:20:11 +0000 (UTC)
-Subject: Re: [PATCH 3/3] cpu-timers, icount: new modules
-To: Cornelia Huck <cohuck@redhat.com>
-References: <20200629093504.3228-1-cfontana@suse.de>
- <20200629093504.3228-4-cfontana@suse.de>
- <aa45a793-35b1-d3bd-18a8-4c52ad888029@redhat.com>
- <f89f249d-dbc4-779b-5b53-fc408461f072@suse.de>
- <ecf5f26b-ce86-3e13-5c5c-567919433acb@redhat.com>
- <e9dca3d1-f52d-13ce-2d7d-66958bc15765@suse.de>
- <d0bc3f23-98c0-eadb-55ed-3377f43c494a@suse.de>
- <20200710083356.4c6e9f78.cohuck@redhat.com>
-From: Claudio Fontana <cfontana@suse.de>
-Message-ID: <eb8e29c7-4cb5-8273-1c94-e62ea9e06485@suse.de>
-Date: Fri, 10 Jul 2020 21:20:08 +0200
+ (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1jtyZq-0004Qz-Sa
+ for qemu-devel@nongnu.org; Fri, 10 Jul 2020 15:20:54 -0400
+Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:34969
+ helo=us-smtp-1.mimecast.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1jtyZm-000499-5e
+ for qemu-devel@nongnu.org; Fri, 10 Jul 2020 15:20:54 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1594408848;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
+ bh=JBXzWfzDLMe7osIi1a2VXwF3yrsfeeZKJVfMKHj+ieM=;
+ b=MQ7lHF3lScc0YSTI1CDoHLi1rJXlqQDJ1HMkibLWUCQ1+9m8JDFzRRK8BPgI6ikqD4l75C
+ EUhmLlyjl+5i+vPZZ8GcnK2rOI/iitoZJzzCPegfTWoU8e0kFUyTotC30nJ0YCJDZyIpJJ
+ i3NnZ7YvYt+vcHcLby2+gyPcm0hXALQ=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-430-p5w8n2CvNz-vwB7PyOpEzQ-1; Fri, 10 Jul 2020 15:20:32 -0400
+X-MC-Unique: p5w8n2CvNz-vwB7PyOpEzQ-1
+Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
+ [10.5.11.14])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id B7735100A614;
+ Fri, 10 Jul 2020 19:20:30 +0000 (UTC)
+Received: from [10.10.118.196] (ovpn-118-196.rdu2.redhat.com [10.10.118.196])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 90AD278A3E;
+ Fri, 10 Jul 2020 19:20:29 +0000 (UTC)
+Subject: Re: [PULL 10/41] python/qemu: Add ConsoleSocket for optional use in
+ QEMUMachine
+To: =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>,
+ peter.maydell@linaro.org
+References: <20200707070858.6622-1-alex.bennee@linaro.org>
+ <20200707070858.6622-11-alex.bennee@linaro.org>
+From: John Snow <jsnow@redhat.com>
+Autocrypt: addr=jsnow@redhat.com; prefer-encrypt=mutual; keydata=
+ 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
+Message-ID: <fa8ee177-3a53-cde0-a8f1-8b0e8eba678f@redhat.com>
+Date: Fri, 10 Jul 2020 15:20:28 -0400
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.4.1
+ Thunderbird/68.5.0
 MIME-Version: 1.0
-In-Reply-To: <20200710083356.4c6e9f78.cohuck@redhat.com>
-Content-Type: text/plain; charset=utf-8
+In-Reply-To: <20200707070858.6622-11-alex.bennee@linaro.org>
 Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=195.135.220.15; envelope-from=cfontana@suse.de;
- helo=mx2.suse.de
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/07/10 00:07:08
-X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x (no timestamps) [generic]
-X-Spam_score_int: -41
-X-Spam_score: -4.2
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=205.139.110.120; envelope-from=jsnow@redhat.com;
+ helo=us-smtp-1.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/07/10 15:06:59
+X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
+X-Spam_score_int: -40
+X-Spam_score: -4.1
 X-Spam_bar: ----
-X-Spam_report: (-4.2 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_MED=-2.3,
- RCVD_IN_MSPIKE_H3=-0.01, RCVD_IN_MSPIKE_WL=-0.01, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Spam_report: (-4.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-1, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001, URIBL_BLOCKED=0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -63,315 +157,279 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Laurent Vivier <lvivier@redhat.com>,
- Peter Maydell <peter.maydell@linaro.org>, Thomas Huth <thuth@redhat.com>,
- "Jason J. Herne" <jjherne@linux.ibm.com>,
+Cc: Robert Foley <robert.foley@linaro.org>, qemu-devel@nongnu.org,
+ Cleber Rosa <crosa@redhat.com>, Peter Puhov <peter.puhov@linaro.org>,
  =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>,
- Marcelo Tosatti <mtosatti@redhat.com>, Markus Armbruster <armbru@redhat.com>,
- qemu-devel@nongnu.org, Roman Bolshakov <r.bolshakov@yadro.com>,
- Wenchao Wang <wenchao.wang@intel.com>, haxm-team@intel.com,
- Colin Xu <colin.xu@intel.com>, Paolo Bonzini <pbonzini@redhat.com>,
- Sunil Muthuswamy <sunilmut@microsoft.com>, Richard Henderson <rth@twiddle.net>,
- =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>,
  Eduardo Habkost <ehabkost@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 7/10/20 8:33 AM, Cornelia Huck wrote:
-> On Thu, 9 Jul 2020 20:46:56 +0200
-> Claudio Fontana <cfontana@suse.de> wrote:
+
+
+On 7/7/20 3:08 AM, Alex Bennée wrote:
+> From: Robert Foley <robert.foley@linaro.org>
 > 
->> On 7/9/20 8:38 PM, Claudio Fontana wrote:
->>> On 7/8/20 5:05 PM, Paolo Bonzini wrote:  
->>>> On 08/07/20 17:00, Claudio Fontana wrote:  
->>>>>> Bisectable, 100% failure rate, etc. :(  Can you split the patch in
->>>>>> multiple parts, specifically separating any rename or introducing of
->>>>>> includes from the final file move?  
->>>>> Hi Paolo,
->>>>>
->>>>> will take a look!
->>>>>
->>>>> Is this captured by some travis / cirrus-ci / anything I can easily see the result of?
->>>>>
->>>>>  
->>>>
->>>> Nope, unfortunately we don't have an s390 CI.  But if you can get your
->>>> hands on one, just "./configure --target-list=s390x-softmmu && make &&
->>>> make check-block" will show it.  
->>>
->>> So this is tricky, but I am making some progress after getting my hands on one.
->>> Maybe if someone understands s390 keys better, I could be clued in.  
->>
->>
->> Also adding Cornelia to Cc:.
->>
->> Maybe the savevm_s390_storage_keys SaveVMHandlers etc assume that the icount state part of the vmstate is there?
+
+Hi, this creates some pylint regressions, can they please be addressed
+first?
+
+> We add the ConsoleSocket object, which has a socket interface
+> and which will consume all arriving characters on the
+> socket, placing them into an in memory buffer.
+> This will also provide those chars via recv() as
+> would a regular socket.
+> ConsoleSocket also has the option of dumping
+> the console bytes to a log file.
 > 
-> I don't see anything that would deal with icount here. Adding Jason to
-> cc: in case he has an idea. (I assume it would behave the same under
-> KVM, as the only thing different are the internal callbacks.)
-
-yes, same between tcg and kvm.
-
+> We also give QEMUMachine the option of using ConsoleSocket
+> to drain and to use for logging console to a file.
+> By default QEMUMachine does not use ConsoleSocket.
 > 
->>
->>
->>>
->>> In short this goes away if I again set icount to enabled for qtest,
->>> basically ensuring that --enable-tcg is there and then reenabling icount.
->>>
->>> qtest was forcing icount and shift=0 by creating qemu options, in order to misuse its counter feature,
->>> instead of using a separate counter.
->>>
->>> Removing that ugliness we end up with different behavior of save/load, because vmstate will now suddenly not contain icount-related values anymore.
->>> What I do not understand is why this causes a problem because save should just not store the icount state and load should just not load the icount state,
->>> and why we die on the load of s390 keys state (it works just fine for other architectures).
+> This is added in preparation for use by basevm.py in a later commit.
+> This is a workaround we found was needed for basevm.py since
+> there is a known issue where QEMU will hang waiting
+> for console characters to be consumed.
 > 
-> Yes, I don't really see why skeys is so special. No endianness stuff, I
-> assume?
-
-
-No, does not seem to be the issue.
-
-I discovered a way simpler way to "fix" it: 
-
-static bool icount_state_needed(void *opaque)
-{
-    return 1;
-}
-
-Ie, making sure that the state is always saved/restored, even when unused.
-
-Really weird.
-
-I logged/debugged the vmstate code, and I can see that things seem symmetric between save and load when it comes to timers.
-
-something puts 0s into the key somehow...
-
-
-
-
-
-
-
+> Cc: Eduardo Habkost <ehabkost@redhat.com>
+> Cc: Cleber Rosa <crosa@redhat.com>
+> Signed-off-by: Robert Foley <robert.foley@linaro.org>
+> Reviewed-by: Peter Puhov <peter.puhov@linaro.org>
+> Acked-by: Alex Bennée <alex.bennee@linaro.org>
+> Tested-by: Philippe Mathieu-Daudé <philmd@redhat.com>
+> Signed-off-by: Alex Bennée <alex.bennee@linaro.org>
+> Message-Id: <20200601211421.1277-9-robert.foley@linaro.org>
+> Message-Id: <20200701135652.1366-13-alex.bennee@linaro.org>
 > 
->>>
->>> Here is a diff that makes the problem disappear, but needs --enable-tcg:
->>>
->>>
->>> ----------------------------------------------------------------------------------------------------
->>> diff --git a/accel/qtest.c b/accel/qtest.c
->>> index 119d0f16a4..4cb16abc2c 100644
->>> --- a/accel/qtest.c
->>> +++ b/accel/qtest.c
->>> @@ -23,6 +23,12 @@
->>>  
->>>  static int qtest_init_accel(MachineState *ms)
->>>  {
->>> +    QemuOpts *opts = qemu_opts_create(qemu_find_opts("icount"), NULL, 0,
->>> +                                      &error_abort);
->>> +    qemu_opt_set(opts, "shift", "0", &error_abort);
->>> +    icount_configure(opts, &error_abort);
->>> +    qemu_opts_del(opts);
->>> +
->>>      return 0;
->>>  }
->>>  
->>> diff --git a/softmmu/vl.c b/softmmu/vl.c
->>> index f39fd5270b..a5e788c86a 100644
->>> --- a/softmmu/vl.c
->>> +++ b/softmmu/vl.c
->>> @@ -2786,10 +2786,12 @@ static void configure_accelerators(const char *progname)
->>>          error_report("falling back to %s", ac->name);
->>>      }
->>>  
->>> +    /*
->>>      if (icount_enabled() && !tcg_enabled()) {
->>>          error_report("-icount is not allowed with hardware virtualization");
->>>          exit(1);
->>>     }
->>> +    */
->>>  }
->>>  
->>>  static void create_default_memdev(MachineState *ms, const char *path)
->>> ----------------------------------------------------------------------------------------------------
->>>
->>> Without this patch, here is the full failure, maybe someone has a good hint, otherwise I'll keep digging from here inside the s390-specific code.
->>>
->>> QA output created by 267
->>>
->>> === No block devices at all ===
->>>
->>> Formatting 'TEST_DIR/t.IMGFMT', fmt=IMGFMT size=134217728
->>> Testing:
->>> QEMU X.Y.Z monitor - type 'help' for more information
->>> (qemu) savevm snap0
->>> Error: No block device can accept snapshots
->>> (qemu) info snapshots
->>> No available block device supports snapshots
->>> (qemu) loadvm snap0
->>> Error: No block device supports snapshots
->>> (qemu) quit
->>>
->>>
->>> === -drive if=none ===
->>>
->>> Formatting 'TEST_DIR/t.IMGFMT', fmt=IMGFMT size=134217728
->>> Testing: -drive driver=file,file=TEST_DIR/t.IMGFMT,if=none
->>> QEMU X.Y.Z monitor - type 'help' for more information
->>> (qemu) savevm snap0
->>> Error: Device 'none0' is writable but does not support snapshots
->>> (qemu) info snapshots
->>> No available block device supports snapshots
->>> (qemu) loadvm snap0
->>> Error: Device 'none0' is writable but does not support snapshots
->>> (qemu) quit
->>>
->>> Formatting 'TEST_DIR/t.IMGFMT', fmt=IMGFMT size=134217728
->>> Testing: -drive driver=IMGFMT,file=TEST_DIR/t.IMGFMT,if=none
->>> QEMU X.Y.Z monitor - type 'help' for more information
->>> (qemu) savevm snap0
->>> (qemu) info snapshots
->>> List of snapshots present on all disks:
->>> ID        TAG                     VM SIZE                DATE       VM CLOCK
->>> --        snap0                      SIZE yyyy-mm-dd hh:mm:ss   00:00:00.000
->>> (qemu) loadvm snap0
->>> (qemu) quit
->>>
->>> Formatting 'TEST_DIR/t.IMGFMT', fmt=IMGFMT size=134217728
->>> Testing: -drive driver=IMGFMT,file=TEST_DIR/t.IMGFMT,if=none -device virtio-blk,drive=none0
->>> QEMU X.Y.Z monitor - type 'help' for more information
->>> (qemu) savevm snap0
->>> (qemu) info snapshots
->>> List of snapshots present on all disks:
->>> ID        TAG                     VM SIZE                DATE       VM CLOCK
->>> --        snap0                      SIZE yyyy-mm-dd hh:mm:ss   00:00:00.000
->>> (qemu) loadvm snap0
->>> (qemu) quit
->>>
->>>
->>> === -drive if=virtio ===
->>>
->>> Formatting 'TEST_DIR/t.IMGFMT', fmt=IMGFMT size=134217728
->>> Testing: -drive driver=file,file=TEST_DIR/t.IMGFMT,if=virtio
->>> QEMU X.Y.Z monitor - type 'help' for more information
->>> (qemu) savevm snap0
->>> Error: Device 'virtio0' is writable but does not support snapshots
->>> (qemu) info snapshots
->>> No available block device supports snapshots
->>> (qemu) loadvm snap0
->>> Error: Device 'virtio0' is writable but does not support snapshots
->>> (qemu) quit
->>>
->>> Formatting 'TEST_DIR/t.IMGFMT', fmt=IMGFMT size=134217728
->>> Testing: -drive driver=IMGFMT,file=TEST_DIR/t.IMGFMT,if=virtio
->>> QEMU X.Y.Z monitor - type 'help' for more information
->>> (qemu) savevm snap0
->>> (qemu) info snapshots
->>> List of snapshots present on all disks:
->>> ID        TAG                     VM SIZE                DATE       VM CLOCK
->>> --        snap0                      SIZE yyyy-mm-dd hh:mm:ss   00:00:00.000
->>> (qemu) loadvm snap0
->>> (qemu) quit
->>>
->>>
->>> === Simple -blockdev ===
->>>
->>> Formatting 'TEST_DIR/t.IMGFMT', fmt=IMGFMT size=134217728
->>> Testing: -blockdev driver=file,filename=TEST_DIR/t.IMGFMT,node-name=file
->>> QEMU X.Y.Z monitor - type 'help' for more information
->>> (qemu) savevm snap0
->>> Error: Device '' is writable but does not support snapshots
->>> (qemu) info snapshots
->>> No available block device supports snapshots
->>> (qemu) loadvm snap0
->>> Error: Device '' is writable but does not support snapshots
->>> (qemu) quit
->>>
->>> Formatting 'TEST_DIR/t.IMGFMT', fmt=IMGFMT size=134217728
->>> Testing: -blockdev driver=file,filename=TEST_DIR/t.IMGFMT,node-name=file -blockdev driver=IMGFMT,file=file,node-name=fmt
->>> QEMU X.Y.Z monitor - type 'help' for more information
->>> (qemu) savevm snap0
->>> (qemu) info snapshots
->>> List of snapshots present on all disks:
->>> ID        TAG                     VM SIZE                DATE       VM CLOCK
->>> --        snap0                      SIZE yyyy-mm-dd hh:mm:ss   00:00:00.000
->>> (qemu) loadvm snap0
->>> (qemu) quit
->>>
->>> Formatting 'TEST_DIR/t.IMGFMT', fmt=IMGFMT size=134217728
->>> Testing: -blockdev driver=file,filename=TEST_DIR/t.IMGFMT,node-name=file -blockdev driver=raw,file=file,node-name=raw -blockdev driver=IMGFMT,file=raw,node-name=fmt
->>> QEMU X.Y.Z monitor - type 'help' for more information
->>> (qemu) savevm snap0
->>> (qemu) info snapshots
->>> List of snapshots present on all disks:
->>> ID        TAG                     VM SIZE                DATE       VM CLOCK
->>> --        snap0                      SIZE yyyy-mm-dd hh:mm:ss   00:00:00.000
->>> (qemu) loadvm snap0
->>> (qemu) quit
->>>
->>>
->>> === -blockdev with a filter on top ===
->>>
->>> Formatting 'TEST_DIR/t.IMGFMT', fmt=IMGFMT size=134217728
->>> Testing: -blockdev driver=file,filename=TEST_DIR/t.IMGFMT,node-name=file -blockdev driver=IMGFMT,file=file,node-name=fmt -blockdev driver=copy-on-read,file=fmt,node-name=filter
->>> QEMU X.Y.Z monitor - type 'help' for more information
->>> (qemu) savevm snap0
->>> (qemu) info snapshots
->>> List of snapshots present on all disks:
->>> ID        TAG                     VM SIZE                DATE       VM CLOCK
->>> --        snap0                      SIZE yyyy-mm-dd hh:mm:ss   00:00:00.000
->>> (qemu) loadvm snap0
->>> (qemu) quit
->>>
->>>
->>> === -blockdev with a backing file ===
->>>
->>> Formatting 'TEST_DIR/t.IMGFMT.base', fmt=IMGFMT size=134217728
->>> Formatting 'TEST_DIR/t.IMGFMT', fmt=IMGFMT size=134217728 backing_file=TEST_DIR/t.IMGFMT.base
->>> Testing: -blockdev driver=file,filename=TEST_DIR/t.IMGFMT.base,node-name=backing-file -blockdev driver=file,filename=TEST_DIR/t.IMGFMT,node-name=file -blockdev driver=IMGFMT,file=file,backing=backing-file,node-name=fmt
->>> QEMU X.Y.Z monitor - type 'help' for more information
->>> (qemu) savevm snap0
->>> (qemu) info snapshots
->>> List of snapshots present on all disks:
->>> ID        TAG                     VM SIZE                DATE       VM CLOCK
->>> --        snap0                      SIZE yyyy-mm-dd hh:mm:ss   00:00:00.000
->>> (qemu) loadvm snap0
->>> Unexpected storage key flag data: 0
->>> error while loading state for instance 0x0 of device 's390-skeys'
->>> Error: Error -22 while loading VM state
->>>
->>>
->>>
->>>   
->>>>  
->>>>>>
->>>>>> 	#if defined CONFIG_TCG || !defined NEED_CPU_H
->>>>>> 	extern bool icount_enabled(void);
->>>>>> 	#else
->>>>>> 	#define icount_enabled() 0
->>>>>> 	#endif
->>>>>>
->>>>>> (This way, more TCG-only code in cpus.c gets elided).  You can integrate
->>>>>> this change in the next version.
->>>>>>
->>>>>> Paolo
->>>>>>  
->>>>>
->>>>> Weird, I tested with --disable-tcg explicitly (but may be some time ago now, as I constantly rebased).
->>>>>
->>>>> Will take a look at the introduction of this #defines in place of variables,
->>>>> as this mechanisms will not work in the future for target-specific modules.  
->>>>
->>>> This is only done for per-target files so it should not be a problem.
->>>>
->>>> Paolo
->>>>
->>>>  
->>>
->>>   
->>
+> diff --git a/python/qemu/console_socket.py b/python/qemu/console_socket.py
+> new file mode 100644
+> index 000000000000..830cb7c62825
+> --- /dev/null
+> +++ b/python/qemu/console_socket.py
+> @@ -0,0 +1,110 @@
+> +#!/usr/bin/env python3
+
+> +#
+> +# This python module implements a ConsoleSocket object which is
+> +# designed always drain the socket itself, and place
+> +# the bytes into a in memory buffer for later processing.
+> +#
+> +# Optionally a file path can be passed in and we will also
+> +# dump the characters to this file for debug.
+> +#
+
+Convert to a module docstring, please.
+
+> +# Copyright 2020 Linaro
+> +#
+> +# Authors:
+> +#  Robert Foley <robert.foley@linaro.org>
+> +#
+> +# This code is licensed under the GPL version 2 or later.  See
+> +# the COPYING file in the top-level directory.
+> +#
+> +import asyncore
+> +import socket
+> +import threading
+
+vvv
+
+> +import io
+> +import os
+> +import sys
+
+^^^ unused, remove
+
+> +from collections import deque
+> +import time
+> +import traceback
+> +
+
+Add one more blank line here, for flake8.
+
+> +class ConsoleSocket(asyncore.dispatcher):
+> +
+> +    def __init__(self, address, file=None):
+> +        self._recv_timeout_sec = 300
+> +        self._buffer = deque()
+> +        self._asyncore_thread = None
+> +        self._sock = socket.socket(socket.AF_UNIX, socket.SOCK_STREAM)
+> +        self._sock.connect(address)
+> +        self._logfile = None
+> +        if file:
+> +            self._logfile = open(file, "w")
+> +        asyncore.dispatcher.__init__(self, sock=self._sock)
+> +        self._open = True
+> +        self._thread_start()
+> +
+> +    def _thread_start(self):
+> +        """Kick off a thread to wait on the asyncore.loop"""
+> +        if self._asyncore_thread is not None:
+> +            return
+> +        self._asyncore_thread = threading.Thread(target=asyncore.loop,
+> +                                                 kwargs={'timeout':1})
+
+Add a space after the colon here.
+
+> +        self._asyncore_thread.daemon = True
+> +        self._asyncore_thread.start()
+> +
+> +    def handle_close(self):
+> +        """redirect close to base class"""
+> +        # Call the base class close, but not self.close() since
+> +        # handle_close() occurs in the context of the thread which
+> +        # self.close() attempts to join.
+> +        asyncore.dispatcher.close(self)
+> +
+> +    def close(self):
+> +        """Close the base object and wait for the thread to terminate"""
+> +        if self._open:
+> +            self._open = False
+> +            asyncore.dispatcher.close(self)
+> +            if self._asyncore_thread is not None:
+> +                thread, self._asyncore_thread = self._asyncore_thread, None
+> +                thread.join()
+> +            if self._logfile:
+> +                self._logfile.close()
+> +                self._logfile = None
+> +
+> +    def handle_read(self):
+> +        """process arriving characters into in memory _buffer"""
+> +        try:
+> +            data = asyncore.dispatcher.recv(self, 1)
+> +            # latin1 is needed since there are some chars
+> +            # we are receiving that cannot be encoded to utf-8
+> +            # such as 0xe2, 0x80, 0xA6.
+> +            string = data.decode("latin1")
+> +        except:
+> +            print("Exception seen.")
+> +            traceback.print_exc()
+> +            return
+
+Please, no bare exceptions unless you re-raise the error.
+If you want to handle the error, please handle the error in the caller
+and not the shared library code.
+
+As it is, I have no idea what errors you saw that might have warranted
+this exclusion.
+
+> +        if self._logfile:
+> +            self._logfile.write("{}".format(string))
+> +            self._logfile.flush()
+> +        for c in string:
+> +            self._buffer.extend(c)
+> +
+
+Pylint complains about the usage of 'c' here, but that's okay. Please
+amend pylintrc to allow this usage by amending the "good-names" section.
+
+> +    def recv(self, n=1, sleep_delay_s=0.1):
+> +        """Return chars from in memory buffer"""
+> +        start_time = time.time()
+> +        while len(self._buffer) < n:
+> +            time.sleep(sleep_delay_s)
+> +            elapsed_sec = time.time() - start_time
+> +            if elapsed_sec > self._recv_timeout_sec:
+> +                raise socket.timeout
+> +        chars = ''.join([self._buffer.popleft() for i in range(n)])
+> +        # We choose to use latin1 to remain consistent with
+> +        # handle_read() and give back the same data as the user would
+> +        # receive if they were reading directly from the
+> +        # socket w/o our intervention.
+> +        return chars.encode("latin1")
+> +
+
+console_socket.py:89:4: W0221: Parameters differ from overridden 'recv'
+method (arguments-differ)
+
+Seems pretty different from the asyncore.dispatcher recv method, is that
+intentional?
+
+https://github.com/python/cpython/blob/master/Lib/asyncore.py
+
+Does overriding this way break any other methods that we expect to work?
+
+> +    def set_blocking(self):
+> +        """Maintain compatibility with socket API"""
+> +        pass
+> +
+
+You can remove the pass statement here because the docstring fulfills
+the role of providing a function body.
+
+> +    def settimeout(self, seconds):
+> +        """Set current timeout on recv"""
+> +        self._recv_timeout_sec = seconds
+> diff --git a/python/qemu/machine.py b/python/qemu/machine.py
+> index 041c615052e4..c25f0b42cf60 100644
+> --- a/python/qemu/machine.py
+> +++ b/python/qemu/machine.py
+> @@ -26,6 +26,7 @@ import socket
+>  import tempfile
+>  from typing import Optional, Type
+>  from types import TracebackType
+> +from qemu.console_socket import ConsoleSocket
+>  
+
+Match the import style for other relative imports in the module, as below.
+
+>  from . import qmp
+>  
+> @@ -75,7 +76,8 @@ class QEMUMachine:
+>  
+>      def __init__(self, binary, args=None, wrapper=None, name=None,
+>                   test_dir="/var/tmp", monitor_address=None,
+> -                 socket_scm_helper=None, sock_dir=None):
+> +                 socket_scm_helper=None, sock_dir=None,
+> +                 drain_console=False, console_log=None):
+>          '''
+>          Initialize a QEMUMachine
+>  
+> @@ -86,6 +88,9 @@ class QEMUMachine:
+>          @param test_dir: where to create socket and log file
+>          @param monitor_address: address for QMP monitor
+>          @param socket_scm_helper: helper program, required for send_fd_scm()
+> +        @param sock_dir: where to create socket (overrides test_dir for sock)
+> +        @param console_log: (optional) path to console log file
+> +        @param drain_console: (optional) True to drain console socket to buffer
+>          @note: Qemu process is not started until launch() is used.
+>          '''
+>          if args is None:
+> @@ -122,6 +127,12 @@ class QEMUMachine:
+>          self._console_address = None
+>          self._console_socket = None
+>          self._remove_files = []
+> +        self._console_log_path = console_log
+> +        if self._console_log_path:
+> +            # In order to log the console, buffering needs to be enabled.
+> +            self._drain_console = True
+> +        else:
+> +            self._drain_console = drain_console
+>  
+>      def __enter__(self):
+>          return self
+> @@ -580,7 +591,11 @@ class QEMUMachine:
+>          Returns a socket connected to the console
+>          """
+>          if self._console_socket is None:
+> -            self._console_socket = socket.socket(socket.AF_UNIX,
+> -                                                 socket.SOCK_STREAM)
+> -            self._console_socket.connect(self._console_address)
+> +            if self._drain_console:
+> +                self._console_socket = ConsoleSocket(self._console_address,
+> +                                                    file=self._console_log_path)
+
+Needs one more space, but the line is already too long as-is.
+
+> +            else:
+> +                self._console_socket = socket.socket(socket.AF_UNIX,
+> +                                                     socket.SOCK_STREAM)
+> +                self._console_socket.connect(self._console_address)
+>          return self._console_socket
 > 
-> 
+
+This makes the typing for _console_socket really tough ... but
+technically not a regression as the mypy code isn't merged yet.
+
+--js
 
 
