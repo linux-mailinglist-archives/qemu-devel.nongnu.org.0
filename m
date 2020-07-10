@@ -2,48 +2,64 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3995C21B438
-	for <lists+qemu-devel@lfdr.de>; Fri, 10 Jul 2020 13:44:42 +0200 (CEST)
-Received: from localhost ([::1]:36312 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id BFBB021B462
+	for <lists+qemu-devel@lfdr.de>; Fri, 10 Jul 2020 13:59:14 +0200 (CEST)
+Received: from localhost ([::1]:45388 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jtrSL-0004Rn-8i
-	for lists+qemu-devel@lfdr.de; Fri, 10 Jul 2020 07:44:41 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:49798)
+	id 1jtrgP-0000jh-Df
+	for lists+qemu-devel@lfdr.de; Fri, 10 Jul 2020 07:59:13 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:54110)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1jtrRE-0003zR-P3
- for qemu-devel@nongnu.org; Fri, 10 Jul 2020 07:43:32 -0400
-Received: from us-smtp-1.mimecast.com ([207.211.31.81]:58006
- helo=us-smtp-delivery-1.mimecast.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1jtrRC-0005Gs-2w
- for qemu-devel@nongnu.org; Fri, 10 Jul 2020 07:43:32 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1594381408;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references:openpgp:openpgp;
- bh=ML75WD+90Fett/Dr2JwiOxAyRTCdyuGSUrI6n8p+3wg=;
- b=Zp/Ca4kSmR145A51e4s/M3vWV+WG83Pgezv26XdPgar4XNv86GubmpsNTzG9SCXA9ZBFT7
- y6UjR8e4otRwDYGGPTyhjf4jrYJY2HulTbqxmkH1dOlTc9qjspwO2xVP8UuPnOfPhcgRjA
- yAxcBEDsWYmpRXp3SS2BkOzPihUWGQg=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-511-HbwiFkZsMb2dLLJ9kRz8xA-1; Fri, 10 Jul 2020 07:43:26 -0400
-X-MC-Unique: HbwiFkZsMb2dLLJ9kRz8xA-1
-Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
- [10.5.11.13])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 7AD4C100CC84;
- Fri, 10 Jul 2020 11:43:25 +0000 (UTC)
-Received: from thuth.remote.csb (ovpn-112-68.ams2.redhat.com [10.36.112.68])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id C211574F5F;
- Fri, 10 Jul 2020 11:43:16 +0000 (UTC)
+ (Exim 4.90_1) (envelope-from <ilg@livius.net>) id 1jtrfH-0000IS-GU
+ for qemu-devel@nongnu.org; Fri, 10 Jul 2020 07:58:03 -0400
+Received: from mail-ej1-x636.google.com ([2a00:1450:4864:20::636]:44717)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <ilg@livius.net>) id 1jtrfF-0007Q7-Og
+ for qemu-devel@nongnu.org; Fri, 10 Jul 2020 07:58:03 -0400
+Received: by mail-ej1-x636.google.com with SMTP id ga4so5726364ejb.11
+ for <qemu-devel@nongnu.org>; Fri, 10 Jul 2020 04:58:01 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=livius-net.20150623.gappssmtp.com; s=20150623;
+ h=mime-version:subject:from:in-reply-to:date:cc
+ :content-transfer-encoding:message-id:references:to;
+ bh=DoqPCNiRSXL12p7webWUWk7PRO1X5BZfTyKbFD4kzLA=;
+ b=MgxSH2Sl0HE0JpUHNW4Z2ZY45FsgAtwV9+H2Y5sdEKmnmGbnTERZf6FsbbPZUN7LhA
+ KxntWTmEo25lWNhGaK2RV8Xc8EdjxKWqpXiGCi2dyBPttQxZ4hHeQwhqmYxGavqsJaIB
+ C0XftwuC5UOXKX6an2WiBWoaDgUbzSyfzECqxSIQFf9FdoUcr48deuT1CxYvj28SDVpN
+ y7NJ1eTsgbPhMPva8Vmj8PZbusHuRr0gWdKQ4m52EFpst8nGNMwZRLwxvYlSfn+zwTVw
+ muZ1Kk95bdONVt0bM5ey7KgzKtNVcHwAsCuEMFNrF8EqL5d0gqzVYGv2YvvAzUdlcW4m
+ Elxw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:subject:from:in-reply-to:date:cc
+ :content-transfer-encoding:message-id:references:to;
+ bh=DoqPCNiRSXL12p7webWUWk7PRO1X5BZfTyKbFD4kzLA=;
+ b=pTUb/RKaPiIGrFG8+PJNSXPdrFU4PSCkLXgqHRjcWmaNCJq3E0tIL5YOW/oVDmTqXm
+ KrOZ2U43UVTIHFaArPiwmO5NIXVmCyn/8eKMNbCd13elsScuBnK4slVK4h4u2a1aQfBp
+ BB80bIvphTP3Vy1mY/0IolqxbBL5Y3O2XKv2EYl/vtW9kgHfOyESRUdxkdaoiDao5TDO
+ +g2EwhuEPniaYh/DNDOhszysluKQp4ipdG6kFyl6atD5u4GVKferGlWvu97d5LlJJIua
+ 7UdUD4ZZe1QT7dqUcWUo0bSRS+ERFvvDBX8p1q8rnj8EjFYDBODPF/xI+kshy3zviToY
+ hkLw==
+X-Gm-Message-State: AOAM530odEUTC9dxF1atZdNNxgprCB2NghNaQmV3GMjxqseG2ptfvBES
+ 6OSlAQrLF4CnLHO+LA5v14BH3A==
+X-Google-Smtp-Source: ABdhPJwlj1c3aXnPe3rSw4yEtZyTAvAuanw/PtIfWAAqmqzTP6Z/2QYYvtHDYUQHgCG1k/1r41UUfg==
+X-Received: by 2002:a17:906:7e04:: with SMTP id
+ e4mr53533541ejr.83.1594382280051; 
+ Fri, 10 Jul 2020 04:58:00 -0700 (PDT)
+Received: from wks.local ([86.121.22.151])
+ by smtp.gmail.com with ESMTPSA id x4sm3492693eju.2.2020.07.10.04.57.58
+ (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
+ Fri, 10 Jul 2020 04:57:59 -0700 (PDT)
+Content-Type: text/plain;
+	charset=us-ascii
+Mime-Version: 1.0 (Mac OS X Mail 13.4 \(3608.80.23.2.2\))
 Subject: Re: Separate notifications from list messages?
-To: Liviu Ionescu <ilg@livius.net>, =?UTF-8?Q?Daniel_P=2e_Berrang=c3=a9?=
- <berrange@redhat.com>
+From: Liviu Ionescu <ilg@livius.net>
+In-Reply-To: <663720e1-7ee1-8d0b-df6e-ada96bfc3e8a@redhat.com>
+Date: Fri, 10 Jul 2020 14:57:58 +0300
+Content-Transfer-Encoding: quoted-printable
+Message-Id: <CFE41710-0440-4D27-BD1B-4FD47F2F41A2@livius.net>
 References: <E646BE29-B46F-4B56-ADF5-B0DC6CCEF422@livius.net>
  <0a3689e1-001a-76ec-894d-0bb63115ecdd@redhat.com>
  <CAFEAcA-Y_e9V2UTEZoVbxOWQcs_eP96cMQ1J2BtC6Y0AAUTgSA@mail.gmail.com>
@@ -52,31 +68,19 @@ References: <E646BE29-B46F-4B56-ADF5-B0DC6CCEF422@livius.net>
  <008CCEB6-D3F4-4F1A-80DE-83F47873851F@livius.net>
  <20200710085454.GD4017912@redhat.com>
  <94ACA177-24F6-461F-B12E-79958D713BF1@livius.net>
-From: Thomas Huth <thuth@redhat.com>
-Openpgp: preference=signencrypt
-Message-ID: <663720e1-7ee1-8d0b-df6e-ada96bfc3e8a@redhat.com>
-Date: Fri, 10 Jul 2020 13:43:14 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
- Thunderbird/60.9.0
-MIME-Version: 1.0
-In-Reply-To: <94ACA177-24F6-461F-B12E-79958D713BF1@livius.net>
-Content-Language: en-US
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=207.211.31.81; envelope-from=thuth@redhat.com;
- helo=us-smtp-delivery-1.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/07/09 23:35:58
-X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
-X-Spam_score_int: -30
-X-Spam_score: -3.1
-X-Spam_bar: ---
-X-Spam_report: (-3.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H3=-0.01, RCVD_IN_MSPIKE_WL=-0.01,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ <663720e1-7ee1-8d0b-df6e-ada96bfc3e8a@redhat.com>
+To: Thomas Huth <thuth@redhat.com>
+X-Mailer: Apple Mail (2.3608.80.23.2.2)
+Received-SPF: none client-ip=2a00:1450:4864:20::636;
+ envelope-from=ilg@livius.net; helo=mail-ej1-x636.google.com
+X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
+ That's all we know.
+X-Spam_score_int: -18
+X-Spam_score: -1.9
+X-Spam_bar: -
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_NONE=0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -90,34 +94,34 @@ List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
 Cc: Peter Maydell <peter.maydell@linaro.org>,
- =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>,
- Qemu Developers <qemu-devel@nongnu.org>, Stefan Hajnoczi <stefanha@redhat.com>
+ =?utf-8?B?IkRhbmllbCBQLiBCZXJyYW5nw6ki?= <berrange@redhat.com>,
+ Qemu Developers <qemu-devel@nongnu.org>, Stefan Hajnoczi <stefanha@redhat.com>,
+ =?utf-8?Q?Philippe_Mathieu-Daud=C3=A9?= <philmd@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 10/07/2020 11.24, Liviu Ionescu wrote:
-> 
-> 
->> On 10 Jul 2020, at 11:54, Daniel P. Berrangé <berrange@redhat.com> wrote:
->>
->> This wasn't a mistake - it was very delibrate, precisely so that all
->> involved in QEMU development will see the failures, instead of expecting
->> a handful of people to take all the work of dealing with failures. In
->> general anyone who's a regular contributor has a shared responsibility
->> to help keep QEMU building reliably.
-> 
-> Yes, sure, but the typical workflow allows anyone to submit contributions, these contributions are automatically checked by CI, and if they pass, someone with administrative rights merges them into the repo.
-> 
-> Thus the main responsibility for dealing with failures goes to the contributor, there is little the community can do to fix the failures.
 
-Ok, I think here's the misunderstanding: The Gitlab messages that you
-can see currently on the list are from the main repository, not from a
-contributor's private repo! Yes, there is currently quite a bit broken
-in master, and that's why you get all these messages via the mailing
-list. Before Philippe turned them on, they went almost unnoticed, apart
-from some few people who used gitlab on their own. Now these problems
-get at least some more attention ;-)
 
- Thomas
+> On 10 Jul 2020, at 14:43, Thomas Huth <thuth@redhat.com> wrote:
+>=20
+> ... The Gitlab messages that you
+> can see currently on the list are from the main repository, not from a
+> contributor's private repo!
+
+I don't know why we should worry about contributor's private repos, but =
+anyway, the GitLab workflow seems different from GitHub, probably not =
+using pull request, and I hope you all master it, since I don't. :-(
+
+> Now these problems
+> get at least some more attention ;-)
+
+sure, but is there anything the members of this list can/are expected to =
+do to fix them? do these messages increase the people knowledge on the =
+project? are these messages useful in any way to the list members?
+
+
+regards,
+
+Liviu
 
 
