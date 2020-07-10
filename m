@@ -2,82 +2,59 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3759F21BC3F
-	for <lists+qemu-devel@lfdr.de>; Fri, 10 Jul 2020 19:31:06 +0200 (CEST)
-Received: from localhost ([::1]:49444 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A8E3C21BC48
+	for <lists+qemu-devel@lfdr.de>; Fri, 10 Jul 2020 19:32:43 +0200 (CEST)
+Received: from localhost ([::1]:54564 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jtwrZ-0001zN-8j
-	for lists+qemu-devel@lfdr.de; Fri, 10 Jul 2020 13:31:05 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:59844)
+	id 1jtwt8-0004BI-PR
+	for lists+qemu-devel@lfdr.de; Fri, 10 Jul 2020 13:32:42 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:60100)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1jtwpD-0007BO-Op
- for qemu-devel@nongnu.org; Fri, 10 Jul 2020 13:28:39 -0400
-Received: from mail-pl1-x641.google.com ([2607:f8b0:4864:20::641]:34923)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1jtwp8-0006lF-15
- for qemu-devel@nongnu.org; Fri, 10 Jul 2020 13:28:39 -0400
-Received: by mail-pl1-x641.google.com with SMTP id x9so2531937plr.2
- for <qemu-devel@nongnu.org>; Fri, 10 Jul 2020 10:28:33 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=subject:to:cc:references:from:message-id:date:user-agent
- :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=iqNLFpP6KUyrc5tyIbpCb/TXFVDQR8Mx3rkLviBHfbI=;
- b=wWOvmgZf8TiQi+xST8ykq28skl1D3gT8r+4dP99LSJrovJHbsaDLfmtwRuO2CneQsQ
- TMybQbz6KlQF7KY9CVSU29opLOGN9JdI0o7HjZeQq8aA7OuV259FMT2gBGGmCzGS/9yQ
- LyIFBVRhQgxhTEaGNw3R3OC1LaA481V0CidRZouzCW1mAc6/AcD2QC28Ag0geEyZYM5w
- W1UcjzJpikqhIy8yJuD/7VNUEObU51q7bitZe8MV4ombCEyV3hiasJhpbe8XWbLVYT33
- CyOMWIwjGQ21mfP6wP/TTE22X0JXdP2c0d/Hb53PaIdS5qmSdseBoyT1z6Fv6IcsGth4
- fP9Q==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=iqNLFpP6KUyrc5tyIbpCb/TXFVDQR8Mx3rkLviBHfbI=;
- b=akpLVD8o+oRZG82EZ2g1jecHKH5SHKq270ZNRL9PzYnzIg4CM21X0GEn263y0A/DMA
- UpqkrepdErV4x0iygwddLFIxgxoLeJizrJ6rph0KVNl2Oe6vMeS6tmNnJWY4U6dxA1pi
- Zmi2+iA+vjSBbstemFyk3oQt4G7xXd84ue1dB2onWBbnu7wQ9b2aj1zVoc0A0UFxL7fv
- 7XWPjhhDjXPtFnzEfAz1ckdnBkjfvfGMIABoVwMtvJxVWsZ3ZoJVasPtMxdPT8WgdVFF
- vcIk+OSVHv3EfHGN860tbcovofQg5pMRx9Fd9WOyt1Y3sSY8q1u68VobKxJq2swJduiP
- x3AA==
-X-Gm-Message-State: AOAM530jEbMquUe4Baa6z4G0VrvNj3s8GiMqgnumrEl6K4tvbkKAbNYP
- OS5Xtqu4J3fi4VfWs/QTC88lgQ==
-X-Google-Smtp-Source: ABdhPJxspcPfHJ/8hn/s70vrxVpTvFLBm+ujlQABMl0Rvuv2J6nYUZa9zt1RfKWZiVuFoZ07X9k1gQ==
-X-Received: by 2002:a17:902:6b87:: with SMTP id
- p7mr55323783plk.275.1594402112594; 
- Fri, 10 Jul 2020 10:28:32 -0700 (PDT)
-Received: from [192.168.1.11] (174-21-143-238.tukw.qwest.net. [174.21.143.238])
- by smtp.gmail.com with ESMTPSA id c139sm6470541pfb.65.2020.07.10.10.28.31
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Fri, 10 Jul 2020 10:28:31 -0700 (PDT)
-Subject: Re: [RFC 08/65] target/riscv: rvv-0.9: update mstatus_vs by tb_flags
-To: frank.chang@sifive.com, qemu-devel@nongnu.org, qemu-riscv@nongnu.org
-References: <20200710104920.13550-1-frank.chang@sifive.com>
- <20200710104920.13550-9-frank.chang@sifive.com>
-From: Richard Henderson <richard.henderson@linaro.org>
-Message-ID: <af51b2ed-e27e-452e-6488-81d42148ad22@linaro.org>
-Date: Fri, 10 Jul 2020 10:28:29 -0700
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.8.0
+ (Exim 4.90_1) (envelope-from <no-reply@patchew.org>)
+ id 1jtwq7-0000fM-I9; Fri, 10 Jul 2020 13:29:35 -0400
+Resent-Date: Fri, 10 Jul 2020 13:29:35 -0400
+Resent-Message-Id: <E1jtwq7-0000fM-I9@lists.gnu.org>
+Received: from sender4-of-o57.zoho.com ([136.143.188.57]:21707)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <no-reply@patchew.org>)
+ id 1jtwq4-0006q1-OP; Fri, 10 Jul 2020 13:29:35 -0400
+ARC-Seal: i=1; a=rsa-sha256; t=1594402135; cv=none; 
+ d=zohomail.com; s=zohoarc; 
+ b=M3n9jX3p+R1L86ySdZMBPY+KsY2KN88uRu3eQERs5FRr/I2g31L3q/DxGJOgoqOmUrku9bwmE86jc+ZsKWPqWfrnBuEfnnzzppvYBTRjkuIK38FJBB1BLx5gG9e9Xf1Dlq7i+/eCaukDrRU9zfJ3TNqnbIQZl1nP4Xyzvvxirfs=
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.com;
+ s=zohoarc; t=1594402135;
+ h=Content-Type:Content-Transfer-Encoding:Cc:Date:From:In-Reply-To:MIME-Version:Message-ID:Reply-To:Subject:To;
+ bh=YIi36bSX5AkDFtD1cxiJFGxIO1XmyY3gVYqAVdkPg/I=; 
+ b=l24SE5g+dQAG/uYNqPoTjiMWHPxx8sYuL4dtGBgljcNq2mMmaofOtG6Xw8a4R0yFG7eTZKF1cuPD+IbgvUouLsd3mIZVsw7mToXNL3wgmxSsN9sLv4dC6WMupLb6z3sIpZikQYIH1wNiGf3dGPVRedwlhqwvMv+70ncrWx07U4I=
+ARC-Authentication-Results: i=1; mx.zohomail.com;
+ spf=pass  smtp.mailfrom=no-reply@patchew.org;
+ dmarc=pass header.from=<no-reply@patchew.org>
+ header.from=<no-reply@patchew.org>
+Received: from [172.17.0.3] (23.253.156.214 [23.253.156.214]) by
+ mx.zohomail.com with SMTPS id 1594402132661673.1242360130083;
+ Fri, 10 Jul 2020 10:28:52 -0700 (PDT)
+Subject: Re: [PATCH v11 00/34] Add subcluster allocation to qcow2
+Message-ID: <159440213114.29400.17809502281758198860@07a7f0d89f7d>
+In-Reply-To: <cover.1594396418.git.berto@igalia.com>
 MIME-Version: 1.0
-In-Reply-To: <20200710104920.13550-9-frank.chang@sifive.com>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::641;
- envelope-from=richard.henderson@linaro.org; helo=mail-pl1-x641.google.com
-X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
- That's all we know.
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
+Resent-From: 
+From: no-reply@patchew.org
+To: berto@igalia.com
+Date: Fri, 10 Jul 2020 10:28:52 -0700 (PDT)
+X-ZohoMailClient: External
+Received-SPF: pass client-ip=136.143.188.57; envelope-from=no-reply@patchew.org;
+ helo=sender4-of-o57.zoho.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/07/10 12:44:35
+X-ACL-Warn: Detected OS   = Linux 3.11 and newer [fuzzy]
+X-Spam_score_int: -18
+X-Spam_score: -1.9
+X-Spam_bar: -
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_NONE=-0.0001,
+ RCVD_IN_MSPIKE_H3=-0.01, RCVD_IN_MSPIKE_WL=-0.01, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001, URIBL_BLOCKED=0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -90,61 +67,53 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Bastian Koppelmann <kbastian@mail.uni-paderborn.de>,
- Alistair Francis <Alistair.Francis@wdc.com>,
- Palmer Dabbelt <palmer@dabbelt.com>,
- Sagar Karandikar <sagark@eecs.berkeley.edu>, LIU Zhiwei <zhiwei_liu@c-sky.com>
+Reply-To: qemu-devel@nongnu.org
+Cc: kwolf@redhat.com, vsementsov@virtuozzo.com, berto@igalia.com,
+ qemu-block@nongnu.org, dereksu@qnap.com, qemu-devel@nongnu.org,
+ mreitz@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 7/10/20 3:48 AM, frank.chang@sifive.com wrote:
-> From: LIU Zhiwei <zhiwei_liu@c-sky.com>
-> 
-> Signed-off-by: LIU Zhiwei <zhiwei_liu@c-sky.com>
-> Signed-off-by: Frank Chang <frank.chang@sifive.com>
-> ---
->  target/riscv/cpu.h       | 2 ++
->  target/riscv/translate.c | 1 +
->  2 files changed, 3 insertions(+)
-
-This belongs with the second half of the previous patch, the translate portion.
-
-
-r~
-
-> 
-> diff --git a/target/riscv/cpu.h b/target/riscv/cpu.h
-> index 0cf3fe9456..c02690ed0d 100644
-> --- a/target/riscv/cpu.h
-> +++ b/target/riscv/cpu.h
-> @@ -361,6 +361,7 @@ void riscv_cpu_set_fflags(CPURISCVState *env, target_ulong);
->  
->  #define TB_FLAGS_MMU_MASK   3
->  #define TB_FLAGS_MSTATUS_FS MSTATUS_FS
-> +#define TB_FLAGS_MSTATUS_VS MSTATUS_VS
->  
->  typedef CPURISCVState CPUArchState;
->  typedef RISCVCPU ArchCPU;
-> @@ -411,6 +412,7 @@ static inline void cpu_get_tb_cpu_state(CPURISCVState *env, target_ulong *pc,
->  
->  #ifdef CONFIG_USER_ONLY
->      flags |= TB_FLAGS_MSTATUS_FS;
-> +    flags |= TB_FLAGS_MSTATUS_VS;
->  #else
->      flags |= cpu_mmu_index(env, 0);
->      if (riscv_cpu_fp_enabled(env)) {
-> diff --git a/target/riscv/translate.c b/target/riscv/translate.c
-> index a806e33301..02b4204584 100644
-> --- a/target/riscv/translate.c
-> +++ b/target/riscv/translate.c
-> @@ -796,6 +796,7 @@ static void riscv_tr_init_disas_context(DisasContextBase *dcbase, CPUState *cs)
->      ctx->pc_succ_insn = ctx->base.pc_first;
->      ctx->mem_idx = tb_flags & TB_FLAGS_MMU_MASK;
->      ctx->mstatus_fs = tb_flags & TB_FLAGS_MSTATUS_FS;
-> +    ctx->mstatus_vs = tb_flags & TB_FLAGS_MSTATUS_VS;
->      ctx->priv_ver = env->priv_ver;
->  #if !defined(CONFIG_USER_ONLY)
->      if (riscv_has_ext(env, RVH)) {
-> 
-
+UGF0Y2hldyBVUkw6IGh0dHBzOi8vcGF0Y2hldy5vcmcvUUVNVS9jb3Zlci4xNTk0Mzk2NDE4Lmdp
+dC5iZXJ0b0BpZ2FsaWEuY29tLwoKCgpIaSwKClRoaXMgc2VyaWVzIGZhaWxlZCB0aGUgZG9ja2Vy
+LXF1aWNrQGNlbnRvczcgYnVpbGQgdGVzdC4gUGxlYXNlIGZpbmQgdGhlIHRlc3RpbmcgY29tbWFu
+ZHMgYW5kCnRoZWlyIG91dHB1dCBiZWxvdy4gSWYgeW91IGhhdmUgRG9ja2VyIGluc3RhbGxlZCwg
+eW91IGNhbiBwcm9iYWJseSByZXByb2R1Y2UgaXQKbG9jYWxseS4KCj09PSBURVNUIFNDUklQVCBC
+RUdJTiA9PT0KIyEvYmluL2Jhc2gKbWFrZSBkb2NrZXItaW1hZ2UtY2VudG9zNyBWPTEgTkVUV09S
+Sz0xCnRpbWUgbWFrZSBkb2NrZXItdGVzdC1xdWlja0BjZW50b3M3IFNIT1dfRU5WPTEgSj0xNCBO
+RVRXT1JLPTEKPT09IFRFU1QgU0NSSVBUIEVORCA9PT0KCiAgQ0MgICAgICBibG9jay9ibGt2ZXJp
+ZnkubwogIENDICAgICAgYmxvY2svYmxrcmVwbGF5Lm8KL3RtcC9xZW11LXRlc3Qvc3JjL2Jsb2Nr
+L3Fjb3cyLWNsdXN0ZXIuYzogSW4gZnVuY3Rpb24gJ3Fjb3cyX2dldF9ob3N0X29mZnNldCc6Ci90
+bXAvcWVtdS10ZXN0L3NyYy9ibG9jay9xY293Mi1jbHVzdGVyLmM6NDczOjE5OiBlcnJvcjogJ2V4
+cGVjdGVkX3R5cGUnIG1heSBiZSB1c2VkIHVuaW5pdGlhbGl6ZWQgaW4gdGhpcyBmdW5jdGlvbiBb
+LVdlcnJvcj1tYXliZS11bmluaXRpYWxpemVkXQogICAgICAgICB9IGVsc2UgaWYgKHR5cGUgIT0g
+ZXhwZWN0ZWRfdHlwZSkgewogICAgICAgICAgICAgICAgICAgXgovdG1wL3FlbXUtdGVzdC9zcmMv
+YmxvY2svcWNvdzItY2x1c3Rlci5jOjQ0OToyNTogbm90ZTogJ2V4cGVjdGVkX3R5cGUnIHdhcyBk
+ZWNsYXJlZCBoZXJlCiAgICAgUUNvdzJTdWJjbHVzdGVyVHlwZSBleHBlY3RlZF90eXBlLCB0eXBl
+OwogICAgICAgICAgICAgICAgICAgICAgICAgXgpjYzE6IGFsbCB3YXJuaW5ncyBiZWluZyB0cmVh
+dGVkIGFzIGVycm9ycwptYWtlOiAqKiogW2Jsb2NrL3Fjb3cyLWNsdXN0ZXIub10gRXJyb3IgMQpt
+YWtlOiAqKiogV2FpdGluZyBmb3IgdW5maW5pc2hlZCBqb2JzLi4uLgpUcmFjZWJhY2sgKG1vc3Qg
+cmVjZW50IGNhbGwgbGFzdCk6CiAgRmlsZSAiLi90ZXN0cy9kb2NrZXIvZG9ja2VyLnB5IiwgbGlu
+ZSA2NjksIGluIDxtb2R1bGU+Ci0tLQogICAgcmFpc2UgQ2FsbGVkUHJvY2Vzc0Vycm9yKHJldGNv
+ZGUsIGNtZCkKc3VicHJvY2Vzcy5DYWxsZWRQcm9jZXNzRXJyb3I6IENvbW1hbmQgJ1snc3Vkbycs
+ICctbicsICdkb2NrZXInLCAncnVuJywgJy0tbGFiZWwnLCAnY29tLnFlbXUuaW5zdGFuY2UudXVp
+ZD0yMWRhN2UwZmRkMDg0ZWVhOGIwMDk3MTk1M2EzZmYyYScsICctdScsICcxMDAxJywgJy0tc2Vj
+dXJpdHktb3B0JywgJ3NlY2NvbXA9dW5jb25maW5lZCcsICctLXJtJywgJy1lJywgJ1RBUkdFVF9M
+SVNUPScsICctZScsICdFWFRSQV9DT05GSUdVUkVfT1BUUz0nLCAnLWUnLCAnVj0nLCAnLWUnLCAn
+Sj0xNCcsICctZScsICdERUJVRz0nLCAnLWUnLCAnU0hPV19FTlY9MScsICctZScsICdDQ0FDSEVf
+RElSPS92YXIvdG1wL2NjYWNoZScsICctdicsICcvaG9tZS9wYXRjaGV3Ly5jYWNoZS9xZW11LWRv
+Y2tlci1jY2FjaGU6L3Zhci90bXAvY2NhY2hlOnonLCAnLXYnLCAnL3Zhci90bXAvcGF0Y2hldy10
+ZXN0ZXItdG1wLXlvYTZ4eXQ0L3NyYy9kb2NrZXItc3JjLjIwMjAtMDctMTAtMTMuMjYuMjUuMjU2
+MjE6L3Zhci90bXAvcWVtdTp6LHJvJywgJ3FlbXU6Y2VudG9zNycsICcvdmFyL3RtcC9xZW11L3J1
+bicsICd0ZXN0LXF1aWNrJ10nIHJldHVybmVkIG5vbi16ZXJvIGV4aXQgc3RhdHVzIDIuCmZpbHRl
+cj0tLWZpbHRlcj1sYWJlbD1jb20ucWVtdS5pbnN0YW5jZS51dWlkPTIxZGE3ZTBmZGQwODRlZWE4
+YjAwOTcxOTUzYTNmZjJhCm1ha2VbMV06ICoqKiBbZG9ja2VyLXJ1bl0gRXJyb3IgMQptYWtlWzFd
+OiBMZWF2aW5nIGRpcmVjdG9yeSBgL3Zhci90bXAvcGF0Y2hldy10ZXN0ZXItdG1wLXlvYTZ4eXQ0
+L3NyYycKbWFrZTogKioqIFtkb2NrZXItcnVuLXRlc3QtcXVpY2tAY2VudG9zN10gRXJyb3IgMgoK
+cmVhbCAgICAybTI3LjE4OXMKdXNlciAgICAwbTguNjkxcwoKClRoZSBmdWxsIGxvZyBpcyBhdmFp
+bGFibGUgYXQKaHR0cDovL3BhdGNoZXcub3JnL2xvZ3MvY292ZXIuMTU5NDM5NjQxOC5naXQuYmVy
+dG9AaWdhbGlhLmNvbS90ZXN0aW5nLmRvY2tlci1xdWlja0BjZW50b3M3Lz90eXBlPW1lc3NhZ2Uu
+Ci0tLQpFbWFpbCBnZW5lcmF0ZWQgYXV0b21hdGljYWxseSBieSBQYXRjaGV3IFtodHRwczovL3Bh
+dGNoZXcub3JnL10uClBsZWFzZSBzZW5kIHlvdXIgZmVlZGJhY2sgdG8gcGF0Y2hldy1kZXZlbEBy
+ZWRoYXQuY29t
 
