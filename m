@@ -2,116 +2,67 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 68F7B21B8E0
-	for <lists+qemu-devel@lfdr.de>; Fri, 10 Jul 2020 16:41:22 +0200 (CEST)
-Received: from localhost ([::1]:53704 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 850B621B8F6
+	for <lists+qemu-devel@lfdr.de>; Fri, 10 Jul 2020 16:52:03 +0200 (CEST)
+Received: from localhost ([::1]:36918 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jtuDJ-0004rl-Hc
-	for lists+qemu-devel@lfdr.de; Fri, 10 Jul 2020 10:41:21 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:45096)
+	id 1jtuNe-0001hv-Ks
+	for lists+qemu-devel@lfdr.de; Fri, 10 Jul 2020 10:52:02 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:47416)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <vsementsov@virtuozzo.com>)
- id 1jtuCE-0003qD-Ab; Fri, 10 Jul 2020 10:40:14 -0400
-Received: from mail-am6eur05on2129.outbound.protection.outlook.com
- ([40.107.22.129]:39424 helo=EUR05-AM6-obe.outbound.protection.outlook.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <vsementsov@virtuozzo.com>)
- id 1jtuCB-0006Nm-4i; Fri, 10 Jul 2020 10:40:13 -0400
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=I0M4/UmwzCIyZKesvTP6b0l2G+Nui3AcuCReghM5jBHsyv06kAOdopVfnJP/YDXNMpT9EH0fZ6FKWvdI1vmJPSvnws06DOvmzT49RyfqpZybX2K6rgM69qTLvpgLUCjD1pBaK0jKQGDu5gNM7itz6jQuZQkoCCg+cK4bEiUAgQ6KzIcZKIpsh9wnzZ50qza7jy1kCh5DsiAxJHR/RBqVPl2IRBNhF/wdZUcnLrc8JCDp/Hw2x5wZJdiiPSxaIXa5h4wWi2mave6ULUkaujOJJHsDUl37YcEq/1L+SOeUwd73aniTQk6NlRj88j5DOncUzDQARrqNJ2p7jMqbKZcoUg==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=I9iQ6hy+5up+2ukwZEhJi2WiYiogPpDsRrNz7uajO+E=;
- b=lr6OaQEir7VQuthKnqX2FYc8HsKLKN5wK60N/oeMhjpHdl2g80jAtm0HoUYeeqjFyEijCz/zAbBSjvYgHTM0SQw5HbDVWt/X5zonO1vMVmPqrKVY2UnHUmkGFrZzC+udQfo42J6Lz0LfPHD0feCANBCVgdokh2018b2/ta+I8ZI/uohTD99az7UbygkHy6P/h5Wpmg4FQRAAnaCSA4FIerOJhej/fn0ZlEC/bGge4ZWGM5UWLOwfofAORmVayVpC54hNwQzMV6cGnuXbk/GTR+vsuEacvCgltsEeg6RdNvIIGywkPhTA9TUfcw/RFyFshXOzKJcU/+eHuQEx5mmG0Q==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=virtuozzo.com; dmarc=pass action=none
- header.from=virtuozzo.com; dkim=pass header.d=virtuozzo.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=virtuozzo.com;
- s=selector2;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=I9iQ6hy+5up+2ukwZEhJi2WiYiogPpDsRrNz7uajO+E=;
- b=tY9KfIXkdb7JYS+DdZYLtyc3u8OaVbq3K6XLlDJP4zDCsgxBwem608ksVcJf5ff04aqHiL3KRhyPYdR9gZ6bTgoaZpNnPj2aO+iJZ7Eam4bnKmgcganCJfM3V/wlJx3qmUvaery4g5a1588JHLdxZ9uEa9kVAXKl4wMxYBX3zpI=
-Authentication-Results: virtuozzo.com; dkim=none (message not signed)
- header.d=none;virtuozzo.com; dmarc=none action=none
- header.from=virtuozzo.com;
-Received: from AM7PR08MB5494.eurprd08.prod.outlook.com (2603:10a6:20b:dc::15)
- by AM6PR08MB3767.eurprd08.prod.outlook.com (2603:10a6:20b:84::28)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3174.23; Fri, 10 Jul
- 2020 14:40:06 +0000
-Received: from AM7PR08MB5494.eurprd08.prod.outlook.com
- ([fe80::a408:2f0f:bc6c:d312]) by AM7PR08MB5494.eurprd08.prod.outlook.com
- ([fe80::a408:2f0f:bc6c:d312%3]) with mapi id 15.20.3174.021; Fri, 10 Jul 2020
- 14:40:06 +0000
-Subject: Re: [PATCH 6/6] block/io: improve loadvm performance
-To: "Denis V. Lunev" <den@openvz.org>, qemu-block@nongnu.org,
- qemu-devel@nongnu.org
-References: <20200709132644.28470-1-den@openvz.org>
- <20200709132644.28470-7-den@openvz.org>
-From: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
-Message-ID: <b5725ffa-60a1-8c15-d8c2-33c47ad11441@virtuozzo.com>
-Date: Fri, 10 Jul 2020 17:40:04 +0300
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.10.0
-In-Reply-To: <20200709132644.28470-7-den@openvz.org>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-X-ClientProxiedBy: AM4PR0902CA0011.eurprd09.prod.outlook.com
- (2603:10a6:200:9b::21) To AM7PR08MB5494.eurprd08.prod.outlook.com
- (2603:10a6:20b:dc::15)
+ (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
+ id 1jtuMn-0000rr-9M
+ for qemu-devel@nongnu.org; Fri, 10 Jul 2020 10:51:09 -0400
+Received: from indium.canonical.com ([91.189.90.7]:43478)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
+ id 1jtuMk-0007ua-Qf
+ for qemu-devel@nongnu.org; Fri, 10 Jul 2020 10:51:09 -0400
+Received: from loganberry.canonical.com ([91.189.90.37])
+ by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
+ id 1jtuMh-000124-NU
+ for <qemu-devel@nongnu.org>; Fri, 10 Jul 2020 14:51:03 +0000
+Received: from loganberry.canonical.com (localhost [127.0.0.1])
+ by loganberry.canonical.com (Postfix) with ESMTP id 41E982E8113
+ for <qemu-devel@nongnu.org>; Fri, 10 Jul 2020 14:51:03 +0000 (UTC)
 MIME-Version: 1.0
-X-MS-Exchange-MessageSentRepresentingType: 1
-Received: from [192.168.100.2] (185.215.60.189) by
- AM4PR0902CA0011.eurprd09.prod.outlook.com (2603:10a6:200:9b::21) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3174.20 via Frontend
- Transport; Fri, 10 Jul 2020 14:40:05 +0000
-X-Originating-IP: [185.215.60.189]
-X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: 5ddcd2d1-eb8a-49bd-a32d-08d824df2367
-X-MS-TrafficTypeDiagnostic: AM6PR08MB3767:
-X-MS-Exchange-Transport-Forked: True
-X-Microsoft-Antispam-PRVS: <AM6PR08MB3767452CE39F1370E9D1CA14C1650@AM6PR08MB3767.eurprd08.prod.outlook.com>
-X-MS-Oob-TLC-OOBClassifiers: OLM:7219;
-X-MS-Exchange-SenderADCheck: 1
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: 87FL4dWfKgShDJMStSpXQbNG5h12joQhAlZEOqCyMgH/iznq77RnS4Kmdl86zpUQS4s69fCWhyWxojViOosjAeJFUEK/1HkqgqpvrP/dn3SiKoC+FKxn+wNYZFGQs1Kmr+CE/5twR6bPXce+pKwmfu6hPf1Rpws1Nr5lISnzrP10L6kGgkYaaI1nbuETU10ZgwLQMfE7OVCQfsU/0OAd6mqF/jeCm97+cS+qL5bl2vkM+jsF6p4fECZGvsaojzMbhYcphm9g0cRXmpYN9eNYAN75SzLINxiOD/SZBDWIRMSgFLbABroe8MKLtMQoiYv3vJHeFqwwV2L02PmtWTs4Ey44uPF6BHr0Xn0TG7uq7XIgAhRTenozqhLhtx7jl8Wj
-X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:AM7PR08MB5494.eurprd08.prod.outlook.com; PTR:; CAT:NONE;
- SFTY:;
- SFS:(4636009)(396003)(366004)(346002)(39840400004)(376002)(136003)(5660300002)(54906003)(316002)(4744005)(6486002)(66556008)(66476007)(83380400001)(16576012)(66946007)(186003)(16526019)(26005)(8936002)(36756003)(86362001)(2616005)(956004)(31696002)(2906002)(52116002)(31686004)(4326008)(107886003)(8676002)(478600001)(43740500002);
- DIR:OUT; SFP:1102; 
-X-MS-Exchange-AntiSpam-MessageData: f2eDkpsK73LNQM4ojyqv91Awaf9Pv9adT6ZKpwih0ZEhd4oOGQ3Dn+YjGhdk+PD+2mxZW1ZTi7x/NavMfvYWahQRYGTRBHxHT8Pqd+chQNvgQ4dMGx+wEXwWd8WNBa4PZbvt+3x/P6KuLiy5he4QWmNAhh6wnJ3YSNjzGHLRXGKCHSZz8IL6hkRiZKcIUk6TSgog2EvxygaoKUs4OH4mPU1w2g6kI9d8uvrSILrwStyGDY6vspL23j7RF0lqsF4m5CmI7FqbmU6lESblH7hkEoXhHgZwQGPv+ScBcu402BTzCq2rV9H9r7aKC+7XvMFqZ2uGurj4BjXKjbx1cW6USAa6QvJraRiJ6J2NflfV1iKsGwfjTAqO8MTXg33cjhiaqojYDyp8WMEkNGkLzwHfWi2mbnh1FLqxfKJ9dHw1w5ZvmbmzuQHHsliBDUzQiecozey9UtNZtbEi3OVrYETZubL/yQ/Wd2xJs5cPjXArV1V1ZmOmQtMrv9Ugb+k42tez
-X-OriginatorOrg: virtuozzo.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 5ddcd2d1-eb8a-49bd-a32d-08d824df2367
-X-MS-Exchange-CrossTenant-AuthSource: AM7PR08MB5494.eurprd08.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 10 Jul 2020 14:40:06.4481 (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 0bc7f26d-0264-416e-a6fc-8352af79c58f
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: fi4tDJ8A0ox1Zp3pYZ1ltJPzAoUwOVZl/3OB8sf+VTThCuos0YGQ4s8gQ7TGj0j+QmMeai1+jUuuAbjqxjMGqRrK1SArgBticCADoZGTM7Y=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: AM6PR08MB3767
-Received-SPF: pass client-ip=40.107.22.129;
- envelope-from=vsementsov@virtuozzo.com;
- helo=EUR05-AM6-obe.outbound.protection.outlook.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/07/10 10:40:07
-X-ACL-Warn: Detected OS   = Windows NT kernel [generic] [fuzzy]
-X-Spam_score_int: -37
-X-Spam_score: -3.8
-X-Spam_bar: ---
-X-Spam_report: (-3.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- MSGID_FROM_MTA_HEADER=0.001, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-1,
- SPF_HELO_PASS=-0.001, SPF_PASS=-0.001,
- URIBL_BLOCKED=0.001 autolearn=ham autolearn_force=no
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: quoted-printable
+Date: Fri, 10 Jul 2020 14:41:34 -0000
+From: Heiko Sieger <1856335@bugs.launchpad.net>
+To: qemu-devel@nongnu.org
+X-Launchpad-Notification-Type: bug
+X-Launchpad-Bug: product=qemu; status=New; importance=Undecided; assignee=None;
+X-Launchpad-Bug-Information-Type: Public
+X-Launchpad-Bug-Private: no
+X-Launchpad-Bug-Security-Vulnerability: no
+X-Launchpad-Bug-Commenters: babumoger djdatte h-sieger janklos
+X-Launchpad-Bug-Reporter: Damir (djdatte)
+X-Launchpad-Bug-Modifier: Heiko Sieger (h-sieger)
+References: <157625616239.22064.10423897892496347105.malonedeb@gac.canonical.com>
+Message-Id: <159439209432.13087.1244059823844611715.malone@gac.canonical.com>
+Subject: [Bug 1856335] Re: Cache Layout wrong on many Zen Arch CPUs
+X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
+X-Launchpad-Message-For: qemu-devel-ml
+Precedence: bulk
+X-Generated-By: Launchpad (canonical.com);
+ Revision="4809fcb62f445aaa3ae919f7f6c3cc7d156ea57a";
+ Instance="production-secrets-lazr.conf"
+X-Launchpad-Hash: c9e977d130860646050e8d4388247a380b03cc26
+Received-SPF: none client-ip=91.189.90.7; envelope-from=bounces@canonical.com;
+ helo=indium.canonical.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/07/10 10:51:04
+X-ACL-Warn: Detected OS   = Linux 3.11 and newer [fuzzy]
+X-Spam_score_int: -58
+X-Spam_score: -5.9
+X-Spam_bar: -----
+X-Spam_report: (-5.9 / 5.0 requ) BAYES_00=-1.9, HEADER_FROM_DIFFERENT_DOMAINS=1,
+ RCVD_IN_DNSWL_HI=-5, RCVD_IN_MSPIKE_H3=-0.01, RCVD_IN_MSPIKE_WL=-0.01,
+ SPF_HELO_NONE=0.001, SPF_NONE=0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
-Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -120,39 +71,231 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Kevin Wolf <kwolf@redhat.com>, Fam Zheng <fam@euphon.net>,
- Juan Quintela <quintela@redhat.com>, Max Reitz <mreitz@redhat.com>,
- Denis Plotnikov <dplotnikov@virtuozzo.com>,
- Stefan Hajnoczi <stefanha@redhat.com>
+Reply-To: Bug 1856335 <1856335@bugs.launchpad.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-09.07.2020 16:26, Denis V. Lunev wrote:
-> This patch creates intermediate buffer for reading from block driver
-> state and performs read-ahead to this buffer. Snapshot code performs
-> reads sequentially and thus we know what offsets will be required
-> and when they will become not needed.
-> 
-> Results are fantastic. Switch to snapshot times of 2GB Fedora 31 VM
-> over NVME storage are the following:
->                  original     fixed
-> cached:          1.84s       1.16s
-> non-cached:     12.74s       1.27s
-> 
-> The difference over HDD would be more significant:)
-> 
-> Signed-off-by: Denis V. Lunev<den@openvz.org>
-> CC: Vladimir Sementsov-Ogievskiy<vsementsov@virtuozzo.com>
-> CC: Kevin Wolf<kwolf@redhat.com>
-> CC: Max Reitz<mreitz@redhat.com>
-> CC: Stefan Hajnoczi<stefanha@redhat.com>
-> CC: Fam Zheng<fam@euphon.net>
-> CC: Juan Quintela<quintela@redhat.com>
-> CC: Denis Plotnikov<dplotnikov@virtuozzo.com>
+@Jan: this coreinfo output looks good.
 
-Reviewed-by: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
+I finally managed to get the core /cache alignment right, I believe:
 
--- 
-Best regards,
-Vladimir
+  <vcpu placement=3D"static" current=3D"24">32</vcpu>
+  <vcpus>
+    <vcpu id=3D"0" enabled=3D"yes" hotpluggable=3D"no"/>
+    <vcpu id=3D"1" enabled=3D"yes" hotpluggable=3D"yes"/>
+    <vcpu id=3D"2" enabled=3D"yes" hotpluggable=3D"yes"/>
+    <vcpu id=3D"3" enabled=3D"yes" hotpluggable=3D"yes"/>
+    <vcpu id=3D"4" enabled=3D"yes" hotpluggable=3D"yes"/>
+    <vcpu id=3D"5" enabled=3D"yes" hotpluggable=3D"yes"/>
+    <vcpu id=3D"6" enabled=3D"no" hotpluggable=3D"yes"/>
+    <vcpu id=3D"7" enabled=3D"no" hotpluggable=3D"yes"/>
+    <vcpu id=3D"8" enabled=3D"yes" hotpluggable=3D"yes"/>
+    <vcpu id=3D"9" enabled=3D"yes" hotpluggable=3D"yes"/>
+    <vcpu id=3D"10" enabled=3D"yes" hotpluggable=3D"yes"/>
+    <vcpu id=3D"11" enabled=3D"yes" hotpluggable=3D"yes"/>
+    <vcpu id=3D"12" enabled=3D"yes" hotpluggable=3D"yes"/>
+    <vcpu id=3D"13" enabled=3D"yes" hotpluggable=3D"yes"/>
+    <vcpu id=3D"14" enabled=3D"no" hotpluggable=3D"yes"/>
+    <vcpu id=3D"15" enabled=3D"no" hotpluggable=3D"yes"/>
+    <vcpu id=3D"16" enabled=3D"yes" hotpluggable=3D"yes"/>
+    <vcpu id=3D"17" enabled=3D"yes" hotpluggable=3D"yes"/>
+    <vcpu id=3D"18" enabled=3D"yes" hotpluggable=3D"yes"/>
+    <vcpu id=3D"19" enabled=3D"yes" hotpluggable=3D"yes"/>
+    <vcpu id=3D"20" enabled=3D"yes" hotpluggable=3D"yes"/>
+    <vcpu id=3D"21" enabled=3D"yes" hotpluggable=3D"yes"/>
+    <vcpu id=3D"22" enabled=3D"no" hotpluggable=3D"yes"/>
+    <vcpu id=3D"23" enabled=3D"no" hotpluggable=3D"yes"/>
+    <vcpu id=3D"24" enabled=3D"yes" hotpluggable=3D"yes"/>
+    <vcpu id=3D"25" enabled=3D"yes" hotpluggable=3D"yes"/>
+    <vcpu id=3D"26" enabled=3D"yes" hotpluggable=3D"yes"/>
+    <vcpu id=3D"27" enabled=3D"yes" hotpluggable=3D"yes"/>
+    <vcpu id=3D"28" enabled=3D"yes" hotpluggable=3D"yes"/>
+    <vcpu id=3D"29" enabled=3D"yes" hotpluggable=3D"yes"/>
+    <vcpu id=3D"30" enabled=3D"no" hotpluggable=3D"yes"/>
+    <vcpu id=3D"31" enabled=3D"no" hotpluggable=3D"yes"/>
+  </vcpus>
+  <cputune>
+    <vcpupin vcpu=3D"0" cpuset=3D"0"/>
+    <vcpupin vcpu=3D"1" cpuset=3D"12"/>
+    <vcpupin vcpu=3D"2" cpuset=3D"1"/>
+    <vcpupin vcpu=3D"3" cpuset=3D"13"/>
+    <vcpupin vcpu=3D"4" cpuset=3D"2"/>
+    <vcpupin vcpu=3D"5" cpuset=3D"14"/>
+    <vcpupin vcpu=3D"8" cpuset=3D"3"/>
+    <vcpupin vcpu=3D"9" cpuset=3D"15"/>
+    <vcpupin vcpu=3D"10" cpuset=3D"4"/>
+    <vcpupin vcpu=3D"11" cpuset=3D"16"/>
+    <vcpupin vcpu=3D"12" cpuset=3D"5"/>
+    <vcpupin vcpu=3D"13" cpuset=3D"17"/>
+    <vcpupin vcpu=3D"16" cpuset=3D"6"/>
+    <vcpupin vcpu=3D"17" cpuset=3D"18"/>
+    <vcpupin vcpu=3D"18" cpuset=3D"7"/>
+    <vcpupin vcpu=3D"19" cpuset=3D"19"/>
+    <vcpupin vcpu=3D"20" cpuset=3D"8"/>
+    <vcpupin vcpu=3D"21" cpuset=3D"20"/>
+    <vcpupin vcpu=3D"24" cpuset=3D"9"/>
+    <vcpupin vcpu=3D"25" cpuset=3D"21"/>
+    <vcpupin vcpu=3D"26" cpuset=3D"10"/>
+    <vcpupin vcpu=3D"27" cpuset=3D"22"/>
+    <vcpupin vcpu=3D"28" cpuset=3D"11"/>
+    <vcpupin vcpu=3D"29" cpuset=3D"23"/>
+  </cputune>
+
+...
+  <cpu mode=3D"host-passthrough" check=3D"none">
+    <topology sockets=3D"1" dies=3D"1" cores=3D"16" threads=3D"2"/>
+    <cache mode=3D"passthrough"/>
+
+
+The Windows Coreinfo output is this:
+
+Logical to Physical Processor Map:
+**----------------  Physical Processor 0 (Hyperthreaded)
+--**--------------  Physical Processor 1 (Hyperthreaded)
+----**------------  Physical Processor 2 (Hyperthreaded)
+------**----------  Physical Processor 3 (Hyperthreaded)
+--------**--------  Physical Processor 4 (Hyperthreaded)
+----------**------  Physical Processor 5 (Hyperthreaded)
+------------**----  Physical Processor 6 (Hyperthreaded)
+--------------**--  Physical Processor 7 (Hyperthreaded)
+----------------**  Physical Processor 8 (Hyperthreaded)
+
+Logical Processor to Socket Map:
+******************  Socket 0
+
+Logical Processor to NUMA Node Map:
+******************  NUMA Node 0
+
+No NUMA nodes.
+
+Logical Processor to Cache Map:
+**----------------  Data Cache          0, Level 1,   32 KB, Assoc   8, Lin=
+eSize  64
+**----------------  Instruction Cache   0, Level 1,   32 KB, Assoc   8, Lin=
+eSize  64
+**----------------  Unified Cache       0, Level 2,  512 KB, Assoc   8, Lin=
+eSize  64
+******------------  Unified Cache       1, Level 3,   16 MB, Assoc  16, Lin=
+eSize  64
+--**--------------  Data Cache          1, Level 1,   32 KB, Assoc   8, Lin=
+eSize  64
+--**--------------  Instruction Cache   1, Level 1,   32 KB, Assoc   8, Lin=
+eSize  64
+--**--------------  Unified Cache       2, Level 2,  512 KB, Assoc   8, Lin=
+eSize  64
+----**------------  Data Cache          2, Level 1,   32 KB, Assoc   8, Lin=
+eSize  64
+----**------------  Instruction Cache   2, Level 1,   32 KB, Assoc   8, Lin=
+eSize  64
+----**------------  Unified Cache       3, Level 2,  512 KB, Assoc   8, Lin=
+eSize  64
+------**----------  Data Cache          3, Level 1,   32 KB, Assoc   8, Lin=
+eSize  64
+------**----------  Instruction Cache   3, Level 1,   32 KB, Assoc   8, Lin=
+eSize  64
+------**----------  Unified Cache       4, Level 2,  512 KB, Assoc   8, Lin=
+eSize  64
+------******------  Unified Cache       5, Level 3,   16 MB, Assoc  16, Lin=
+eSize  64
+--------**--------  Data Cache          4, Level 1,   32 KB, Assoc   8, Lin=
+eSize  64
+--------**--------  Instruction Cache   4, Level 1,   32 KB, Assoc   8, Lin=
+eSize  64
+--------**--------  Unified Cache       6, Level 2,  512 KB, Assoc   8, Lin=
+eSize  64
+----------**------  Data Cache          5, Level 1,   32 KB, Assoc   8, Lin=
+eSize  64
+----------**------  Instruction Cache   5, Level 1,   32 KB, Assoc   8, Lin=
+eSize  64
+----------**------  Unified Cache       7, Level 2,  512 KB, Assoc   8, Lin=
+eSize  64
+------------**----  Data Cache          6, Level 1,   32 KB, Assoc   8, Lin=
+eSize  64
+------------**----  Instruction Cache   6, Level 1,   32 KB, Assoc   8, Lin=
+eSize  64
+------------**----  Unified Cache       8, Level 2,  512 KB, Assoc   8, Lin=
+eSize  64
+------------******  Unified Cache       9, Level 3,   16 MB, Assoc  16, Lin=
+eSize  64
+--------------**--  Data Cache          7, Level 1,   32 KB, Assoc   8, Lin=
+eSize  64
+--------------**--  Instruction Cache   7, Level 1,   32 KB, Assoc   8, Lin=
+eSize  64
+--------------**--  Unified Cache      10, Level 2,  512 KB, Assoc   8, Lin=
+eSize  64
+----------------**  Data Cache          8, Level 1,   32 KB, Assoc   8, Lin=
+eSize  64
+----------------**  Instruction Cache   8, Level 1,   32 KB, Assoc   8, Lin=
+eSize  64
+----------------**  Unified Cache      11, Level 2,  512 KB, Assoc   8, Lin=
+eSize  64
+
+Logical Processor to Group Map:
+******************  Group 0
+
+
+Haven't been able to test if it performs as expected. Need to do that.
+
+Of course it would be great if QEMU was patched to recognize correct CCX
+alignment as I'm not sure if and what will be the penalty of this weird
+setup.
+
+-- =
+
+You received this bug notification because you are a member of qemu-
+devel-ml, which is subscribed to QEMU.
+https://bugs.launchpad.net/bugs/1856335
+
+Title:
+  Cache Layout wrong on many Zen Arch CPUs
+
+Status in QEMU:
+  New
+
+Bug description:
+  AMD CPUs have L3 cache per 2, 3 or 4 cores. Currently, TOPOEXT seems
+  to always map Cache ass if it was an 4-Core per CCX CPU, which is
+  incorrect, and costs upwards 30% performance (more realistically 10%)
+  in L3 Cache Layout aware applications.
+
+  Example on a 4-CCX CPU (1950X /w 8 Cores and no SMT):
+
+  =C2=A0=C2=A0<cpu mode=3D'custom' match=3D'exact' check=3D'full'>
+  =C2=A0=C2=A0=C2=A0=C2=A0<model fallback=3D'forbid'>EPYC-IBPB</model>
+  =C2=A0=C2=A0=C2=A0=C2=A0<vendor>AMD</vendor>
+  =C2=A0=C2=A0=C2=A0=C2=A0<topology sockets=3D'1' cores=3D'8' threads=3D'1'=
+/>
+
+  In windows, coreinfo reports correctly:
+
+  ****----  Unified Cache 1, Level 3,    8 MB, Assoc  16, LineSize  64
+  ----****  Unified Cache 6, Level 3,    8 MB, Assoc  16, LineSize  64
+
+  On a 3-CCX CPU (3960X /w 6 cores and no SMT):
+
+  =C2=A0<cpu mode=3D'custom' match=3D'exact' check=3D'full'>
+  =C2=A0=C2=A0=C2=A0=C2=A0<model fallback=3D'forbid'>EPYC-IBPB</model>
+  =C2=A0=C2=A0=C2=A0=C2=A0<vendor>AMD</vendor>
+  =C2=A0=C2=A0=C2=A0=C2=A0<topology sockets=3D'1' cores=3D'6' threads=3D'1'=
+/>
+
+  in windows, coreinfo reports incorrectly:
+
+  ****--  Unified Cache  1, Level 3,    8 MB, Assoc  16, LineSize  64
+  ----**  Unified Cache  6, Level 3,    8 MB, Assoc  16, LineSize  64
+
+  Validated against 3.0, 3.1, 4.1 and 4.2 versions of qemu-kvm.
+
+  With newer Qemu there is a fix (that does behave correctly) in using the =
+dies parameter:
+  =C2=A0<qemu:arg value=3D'cores=3D3,threads=3D1,dies=3D2,sockets=3D1'/>
+
+  The problem is that the dies are exposed differently than how AMD does
+  it natively, they are exposed to Windows as sockets, which means, that
+  if you are nto a business user, you can't ever have a machine with
+  more than two CCX (6 cores) as consumer versions of Windows only
+  supports two sockets. (Should this be reported as a separate bug?)
+
+To manage notifications about this bug go to:
+https://bugs.launchpad.net/qemu/+bug/1856335/+subscriptions
 
