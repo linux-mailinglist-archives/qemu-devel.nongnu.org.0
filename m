@@ -2,61 +2,73 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A546E21B8F5
-	for <lists+qemu-devel@lfdr.de>; Fri, 10 Jul 2020 16:51:48 +0200 (CEST)
-Received: from localhost ([::1]:35818 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C5BB921B901
+	for <lists+qemu-devel@lfdr.de>; Fri, 10 Jul 2020 17:00:02 +0200 (CEST)
+Received: from localhost ([::1]:44156 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jtuNP-0001G0-Nr
-	for lists+qemu-devel@lfdr.de; Fri, 10 Jul 2020 10:51:47 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:47382)
+	id 1jtuVN-00053e-81
+	for lists+qemu-devel@lfdr.de; Fri, 10 Jul 2020 11:00:01 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:49746)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1jtuMZ-0000en-Si
- for qemu-devel@nongnu.org; Fri, 10 Jul 2020 10:50:55 -0400
-Received: from mail-oo1-xc31.google.com ([2607:f8b0:4864:20::c31]:33741)
+ (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
+ id 1jtuTz-0004SG-T2
+ for qemu-devel@nongnu.org; Fri, 10 Jul 2020 10:58:35 -0400
+Received: from mail-wm1-x344.google.com ([2a00:1450:4864:20::344]:54182)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1jtuMY-0007u5-5V
- for qemu-devel@nongnu.org; Fri, 10 Jul 2020 10:50:55 -0400
-Received: by mail-oo1-xc31.google.com with SMTP id d125so1046949oob.0
- for <qemu-devel@nongnu.org>; Fri, 10 Jul 2020 07:50:53 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
+ id 1jtuTy-0000Pf-3b
+ for qemu-devel@nongnu.org; Fri, 10 Jul 2020 10:58:35 -0400
+Received: by mail-wm1-x344.google.com with SMTP id j18so6488400wmi.3
+ for <qemu-devel@nongnu.org>; Fri, 10 Jul 2020 07:58:33 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=6iCxcWjFIrWlKjnwyh2LZ2tHdA23LuCdkm6wbODE1dk=;
- b=Add8Hc4oy1EB60OG2fhg6468BWRZ0E7K6+ccXL0IWMeA6+IAyXwjKzwD1KbCbVt34J
- joTlNG4X3gy9q8sltTDMANQcVBDnbsA5eWIHP7oRQFpLZ/gSLua+eEcHEb0ovOeYUBxP
- /OMD06qYppB/zzYoKRUvZ0OMI3UVN0sIkDVUjl6Z9rRs+0+7l5ZRJwW33CnuSN5Dan8G
- 0EFGwMCMlOZX99i07yL/IPC2Aeo06TY01jinS5jcdZtBKlNx1NL2AUWXto5ik4JKyu10
- scqj8ME0RxUYrXke+IHWBCU1HP7+hVW41brp+SlWeBXs8PaUdC/i0H4Ja+n2PrBkhedR
- g8zg==
+ h=references:user-agent:from:to:cc:subject:in-reply-to:date
+ :message-id:mime-version:content-transfer-encoding;
+ bh=YA42+GguNg3+vUwUMkhPpOhXoSusEGT9DETqKr4nQmM=;
+ b=sxOoW1skSoe/7GOnky99ShKmb01ra7KatMlYlmfAskz8QiH4GFswopeyNrOG0LBtEy
+ 7UHVYNCoU5g3ja/UARFLIQJMK9BAvRD9IXrGrbvFMoEbxXGIiI5QqLnNyhLSbakQCvsi
+ /+pVzb665fIJBi8qhdFhKU506srM5HfsECvLdRpurGpSV3f3BMZ2suKpNtr6t4NmxsH5
+ cLsxPAecsQDKL9COyYrHFEJq8h0aJtDfHb1YmQJeE5EYUQLFaSet2CT2yEo2FaU+aQdB
+ yUKSKH+A482qXQKVCq6/bvO/Il1CK2FdNOmihfaUZVEIo/zTUVoqpSgeBa0YCS0sPP5d
+ CK+w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=6iCxcWjFIrWlKjnwyh2LZ2tHdA23LuCdkm6wbODE1dk=;
- b=nxE+0qTj0DDllxB/ImDmJyEHywfWo6C3Q4TM+WRlTINatFpCRzmu7UGi9wy7Zo8Zs3
- L9goe+Hjy/EJWV0mO2GQ0OD03ip1nwDuo0TdHeLB8YHgzssicS+w+jfJwplvWKXbs7Ma
- eX2RzX/qp2bQkkq7KnHOjfuVDHUGRmY20IIAuCQtEcRgdG44HVUcYrUOZJRyuTxnyO+Y
- 2C42URlF3r636TdZLvY2V3CYCfUc3iql7fbCGRU5XfJe/uOjB1tCnfFGxU/5pEdYwj+Y
- uvm7RsEGghbc32Wtp3fpb8SqjLLe/ccLsZbwjPC1x25XmBuKyyIFLBLQSm4toRpYVZXb
- oRDw==
-X-Gm-Message-State: AOAM530d3lrfhiITxLt24WTmLiBKq+m3+GfPreMIV0MePBJp9jDi8SOS
- qs/jUhFkc83/OqDTdaByZGhvSZsN844jz8sT5hu/LQ==
-X-Google-Smtp-Source: ABdhPJwgAhNMoOe5eb5GDaN4oep1eZv7mkUMlW4iWtWkJViA59gG/I5f73b8OiKFegEfoJTgfUpNgOlDypMhCnomYFE=
-X-Received: by 2002:a4a:2f15:: with SMTP id p21mr59352812oop.20.1594392652784; 
- Fri, 10 Jul 2020 07:50:52 -0700 (PDT)
+ h=x-gm-message-state:references:user-agent:from:to:cc:subject
+ :in-reply-to:date:message-id:mime-version:content-transfer-encoding;
+ bh=YA42+GguNg3+vUwUMkhPpOhXoSusEGT9DETqKr4nQmM=;
+ b=HFVwQuz12YWrwtkpSTQqT+vQ6q4DGZ8d+XyNwNotSd3DvLwFDzNRTIXKVYAbBl/UO6
+ COCzykTGiVc/FDW4o5LFqtrzBiwLdMgKEh6D9c8ZQv+sqBcSAf3YnsCY7iXNHHqFiH+u
+ o9q0z5HNx2dLjs0aNhZ4K7JC1oQVoZrkFl+GwvTAZM1oUiGl8HRkLUT4JUjWEf7Gdo2y
+ jWBm72azhNiDMT1og6Y7IDq4farw+vJ2UlRsejV8M1t5wC13T4uQgR6xVWNlTzMeqWBl
+ I35LP10YqRgPa7YXl0DuwzTK7pxxc9ngpZklh3D1gc5ImoGoDWlSdPnTFF9dYMTNxuJV
+ +pxg==
+X-Gm-Message-State: AOAM533fjx5KLtz8iccvvoQjB822g1m5ztyLahMK9dPzoShc/KNaPA1r
+ RcNt8zuTqK/S7/y6UFR3uqPn2Q==
+X-Google-Smtp-Source: ABdhPJwh4sZ1VOLv7HmM+3xm0XLOA5rTX7O4BTtYikfZe6Z1HOkuuarx5H5NAHMtR1iWI6BYDYnC6g==
+X-Received: by 2002:a1c:9994:: with SMTP id b142mr5341317wme.141.1594393111985; 
+ Fri, 10 Jul 2020 07:58:31 -0700 (PDT)
+Received: from zen.linaroharston ([51.148.130.216])
+ by smtp.gmail.com with ESMTPSA id m9sm9316840wml.45.2020.07.10.07.58.30
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Fri, 10 Jul 2020 07:58:30 -0700 (PDT)
+Received: from zen (localhost [127.0.0.1])
+ by zen.linaroharston (Postfix) with ESMTP id 198321FF7E;
+ Fri, 10 Jul 2020 15:58:29 +0100 (BST)
+References: <20200701135652.1366-1-alex.bennee@linaro.org>
+ <20200701135652.1366-37-alex.bennee@linaro.org>
+ <03ef8691-5839-12aa-4649-b4e04172a15c@redhat.com>
+User-agent: mu4e 1.5.4; emacs 28.0.50
+From: Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
+To: Thomas Huth <thuth@redhat.com>
+Subject: Re: [PATCH v4 36/40] gitlab: split build-disabled into two phases
+In-reply-to: <03ef8691-5839-12aa-4649-b4e04172a15c@redhat.com>
+Date: Fri, 10 Jul 2020 15:58:29 +0100
+Message-ID: <87365zl8mi.fsf@linaro.org>
 MIME-Version: 1.0
-References: <20200710133103.2153250-1-armbru@redhat.com>
-In-Reply-To: <20200710133103.2153250-1-armbru@redhat.com>
-From: Peter Maydell <peter.maydell@linaro.org>
-Date: Fri, 10 Jul 2020 15:50:41 +0100
-Message-ID: <CAFEAcA_c0e0GeBGNBbzx0Lw2qhpEgzmqUTS6PcGwBB3GOCfmDQ@mail.gmail.com>
-Subject: Re: [PULL v2 00/53] Error reporting patches patches for 2020-07-07
-To: Markus Armbruster <armbru@redhat.com>
-Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2607:f8b0:4864:20::c31;
- envelope-from=peter.maydell@linaro.org; helo=mail-oo1-xc31.google.com
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=2a00:1450:4864:20::344;
+ envelope-from=alex.bennee@linaro.org; helo=mail-wm1-x344.google.com
 X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
  That's all we know.
 X-Spam_score_int: -20
@@ -64,8 +76,8 @@ X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
  DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- URIBL_BLOCKED=0.001 autolearn=ham autolearn_force=no
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -78,38 +90,37 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: QEMU Developers <qemu-devel@nongnu.org>
+Cc: fam@euphon.net, berrange@redhat.com, richard.henderson@linaro.org,
+ qemu-devel@nongnu.org, Wainer dos Santos Moschetta <wainersm@redhat.com>,
+ f4bug@amsat.org, cota@braap.org,
+ Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
+ aurelien@aurel32.net
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Fri, 10 Jul 2020 at 14:31, Markus Armbruster <armbru@redhat.com> wrote:
+
+Thomas Huth <thuth@redhat.com> writes:
+
+> On 01/07/2020 15.56, Alex Benn=C3=A9e wrote:
+>> As we run check-qtest in "SLOW" mode this can timeout so split into
+>> two jobs.
+>>=20
+>> Signed-off-by: Alex Benn=C3=A9e <alex.bennee@linaro.org>
+>> Reviewed-by: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
+>> Reviewed-by: Thomas Huth <thuth@redhat.com>
 >
-> The following changes since commit b6d7e9b66f59ca6ebc6e9b830cd5e7bf849d31cf:
+>  Hi Alex,
 >
->   Merge remote-tracking branch 'remotes/stefanha/tags/tracing-pull-request' into staging (2020-07-10 09:01:28 +0100)
+> I think you can drop this patch and use "[PATCH v2] tests: improve
+> performance of device-introspect-test" instead.
+
+As I'm re-rolling the PR sure...
+
 >
-> are available in the Git repository at:
->
->   git://repo.or.cz/qemu/armbru.git tags/pull-error-2020-07-07-v2
->
-> for you to fetch changes up to 1de7096d8378a57e2d75d9cacc9a119e7e41640d:
->
->   xen: Use ERRP_GUARD() (2020-07-10 15:18:09 +0200)
->
-> ----------------------------------------------------------------
-> Error reporting patches patches for 2020-07-07
->
-> * Improve documentation
-> * Codify rules for less clumsy error handling
-> * Convert a substantial amount of code to adhere to them
-> * ERRP_GUARD() infrastructure to avoid more clumsiness
-> * First batch of conversions to it
+>  Thanks,
+>   Thomas
 
 
-Applied, thanks.
-
-Please update the changelog at https://wiki.qemu.org/ChangeLog/5.1
-for any user-visible changes.
-
--- PMM
+--=20
+Alex Benn=C3=A9e
 
