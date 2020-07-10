@@ -2,79 +2,101 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6AF2A21B9D2
-	for <lists+qemu-devel@lfdr.de>; Fri, 10 Jul 2020 17:47:40 +0200 (CEST)
-Received: from localhost ([::1]:59638 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 55C3B21B9F1
+	for <lists+qemu-devel@lfdr.de>; Fri, 10 Jul 2020 17:50:22 +0200 (CEST)
+Received: from localhost ([::1]:40360 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jtvFT-0005O1-Av
-	for lists+qemu-devel@lfdr.de; Fri, 10 Jul 2020 11:47:39 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:34442)
+	id 1jtvI5-0000te-D9
+	for lists+qemu-devel@lfdr.de; Fri, 10 Jul 2020 11:50:21 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:34654)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <david@redhat.com>) id 1jtvDi-0004N0-OU
- for qemu-devel@nongnu.org; Fri, 10 Jul 2020 11:45:51 -0400
-Received: from us-smtp-2.mimecast.com ([207.211.31.81]:32608
- helo=us-smtp-delivery-1.mimecast.com)
+ (Exim 4.90_1) (envelope-from <mreitz@redhat.com>) id 1jtvEo-0005kQ-Ps
+ for qemu-devel@nongnu.org; Fri, 10 Jul 2020 11:46:59 -0400
+Received: from us-smtp-2.mimecast.com ([207.211.31.81]:51089
+ helo=us-smtp-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <david@redhat.com>) id 1jtvDh-0008NY-69
- for qemu-devel@nongnu.org; Fri, 10 Jul 2020 11:45:50 -0400
+ (Exim 4.90_1) (envelope-from <mreitz@redhat.com>) id 1jtvEm-0008SI-DH
+ for qemu-devel@nongnu.org; Fri, 10 Jul 2020 11:46:58 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1594395947;
+ s=mimecast20190719; t=1594396015;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=lz5G2H6f5V29k6eHdICD/l/Xbqcp2DbhTnjDYQtOVkM=;
- b=DkNKTV8NxVNkTb2lRuchEobg9MYnNgZfw8u3hzSRKIzsrxSEj1LYhh8/vUfYOSkceED1fv
- KJCYmzitZnZMFc4jpVg1dbBYrOAobX1qsaxfnabgDhOlOzGpI6/bW9i3FkwMuG97UhFCGo
- ACRs5lmPkDz20bm5Jcnx0sFYFKUomTE=
-Received: from mail-wr1-f70.google.com (mail-wr1-f70.google.com
- [209.85.221.70]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-67-Z4ZrjnzRPTymUu0ySUqrow-1; Fri, 10 Jul 2020 11:45:46 -0400
-X-MC-Unique: Z4ZrjnzRPTymUu0ySUqrow-1
-Received: by mail-wr1-f70.google.com with SMTP id f5so6364255wrv.22
- for <qemu-devel@nongnu.org>; Fri, 10 Jul 2020 08:45:45 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:content-transfer-encoding:from:mime-version
- :subject:date:message-id:references:cc:in-reply-to:to;
- bh=DytXzLV8SAHzkbW5xUKQTbTJkvCc2JKF6EoeCFnJ3gs=;
- b=PZlbL5eWgC9gnTALsEJ0Hwxnrp0sLVc1rkxitxJnoxIvoJ5cEftPNaUGRtOoQfjHxt
- oAqRcsP4wSZ2rE61dYBELsncMVTwWt1KqCcflzr6OGID9XU4pw9QGFB+ENjKxIIQ0zeh
- 2mmiklXzZokHKyDhNbEmC0kTMVCYkvP2K8qy++2mRSmu9YrPba+A2SLfMWtdhSsNSXLK
- offJ0bBW2t1jjY+wI88virMmA7BNItMWXB9URUxyb+Kkti9K2H2uZvfqjVzD2bE0GxLV
- nQaASwfsDSY/zdE65gbgxEnp9b3e+mB1af0EvNsIwM/kN2xvDTOxD1So3P/0oz2eDo8v
- xWUg==
-X-Gm-Message-State: AOAM5314rvoXMR0BRjVwPFp7Xouy1DmEBSv/dH73drXBUzXcRusSt9w5
- 9K1gp2XdorZ7yX8CsKKAWv9EOAMjilN6Mrh1R2zf08AiBDGptbLj2NHQ4f/EVjgHqHEQhHguxNr
- HZP0fWKZXZ1kDmt8=
-X-Received: by 2002:adf:e7c8:: with SMTP id e8mr67308184wrn.20.1594395945133; 
- Fri, 10 Jul 2020 08:45:45 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJygqZVeic02m2U1SbN0GX2ycuSK7PvlU1kVc2n7j6qi9TTSt3SlfXZC+HA6srptAV5MzpAC2Q==
-X-Received: by 2002:adf:e7c8:: with SMTP id e8mr67308170wrn.20.1594395944911; 
- Fri, 10 Jul 2020 08:45:44 -0700 (PDT)
-Received: from ?IPv6:2a01:598:b902:a219:a4a6:bc3a:36a3:3b20?
- ([2a01:598:b902:a219:a4a6:bc3a:36a3:3b20])
- by smtp.gmail.com with ESMTPSA id l1sm10218542wrb.12.2020.07.10.08.45.43
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Fri, 10 Jul 2020 08:45:44 -0700 (PDT)
-From: David Hildenbrand <david@redhat.com>
-Mime-Version: 1.0 (1.0)
-Subject: Re: [PATCH RFC 2/5] s390x: implement diag260
-Date: Fri, 10 Jul 2020 17:45:42 +0200
-Message-Id: <50DB9C15-AE46-4F41-83F3-A18D1E86B6FA@redhat.com>
-References: <20200710154302.GD14845@osiris>
-In-Reply-To: <20200710154302.GD14845@osiris>
-To: Heiko Carstens <hca@linux.ibm.com>
-X-Mailer: iPhone Mail (17F80)
+ in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
+ bh=VPVnLiKIFiK/9Ui2qexB47hJpFV6cj0oOmmUx/0iEW0=;
+ b=UpeuS8X3HLx+UtaGbRYiR0mCTRxSZ05gmGneFZHbuCnkcJ1n+aDNNuzHBs/WOV06R/3p6j
+ AVNqUFMgut2ubReszJQstNvSGP+tBBEqBvDdGNNjNqYCk1XR0kn0wiWUTu4Kwt6u3la1ha
+ WeQo9de/T+CUmyWH+Y5oD4if4mMfjgE=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-3-oFcHhfZoNteA-39AippQsg-1; Fri, 10 Jul 2020 11:46:53 -0400
+X-MC-Unique: oFcHhfZoNteA-39AippQsg-1
+Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
+ [10.5.11.15])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 844951083E84;
+ Fri, 10 Jul 2020 15:46:52 +0000 (UTC)
+Received: from dresden.str.redhat.com (ovpn-113-127.ams2.redhat.com
+ [10.36.113.127])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 7E2787EF9B;
+ Fri, 10 Jul 2020 15:46:51 +0000 (UTC)
+Subject: Re: [PULL v2 00/52] Misc patches for QEMU 5.1 soft freeze
+To: Peter Maydell <peter.maydell@linaro.org>
+References: <20200708172542.25012-1-pbonzini@redhat.com>
+ <CAFEAcA8b6sn8fXOKwqOF6MvsKT5oKqS+4jjYDPAPvnXmVimLiQ@mail.gmail.com>
+ <9631042d-00e4-2a2e-292b-66ca1b590120@suse.de>
+ <CAFEAcA-UbHpj_xSbqjTsaURt8yPZjuYOmd3pe97vg_G7--17Cw@mail.gmail.com>
+ <e78820bb-af5f-c2a0-7727-1a0caedfa584@suse.de>
+ <CAFEAcA-raDJ2pSUG-OYHcJi_LnQwxMHvcyjsD7+=WxGYcrSz3w@mail.gmail.com>
+ <a8113ed1-c508-0502-4f88-77f875d1a739@redhat.com>
+ <40f4c566-8a5b-c27e-22a7-2a112a0cd77d@suse.de>
+ <c6e3336f-38b8-a8fa-4862-58e6f094711d@redhat.com>
+ <CAFEAcA80XK4voLDj+8kVFcHJb35HT9HL+Qh8kGb3_Qe5Em9ouw@mail.gmail.com>
+ <adeb1f02-c712-e256-6840-649795fdc3b5@redhat.com>
+ <CAFEAcA9f0tadztJP7Ki0potF6=E+GaG8a_X_5HTyH2yw2T7goA@mail.gmail.com>
+From: Max Reitz <mreitz@redhat.com>
+Autocrypt: addr=mreitz@redhat.com; prefer-encrypt=mutual; keydata=
+ mQENBFXOJlcBCADEyyhOTsoa/2ujoTRAJj4MKA21dkxxELVj3cuILpLTmtachWj7QW+TVG8U
+ /PsMCFbpwsQR7oEy8eHHZwuGQsNpEtNC2G/L8Yka0BIBzv7dEgrPzIu+W3anZXQW4702+uES
+ U29G8TP/NGfXRRHGlbBIH9KNUnOSUD2vRtpOLXkWsV5CN6vQFYgQfFvmp5ZpPeUe6xNplu8V
+ mcTw8OSEDW/ZnxJc8TekCKZSpdzYoxfzjm7xGmZqB18VFwgJZlIibt1HE0EB4w5GsD7x5ekh
+ awIe3RwoZgZDLQMdOitJ1tUc8aqaxvgA4tz6J6st8D8pS//m1gAoYJWGwwIVj1DjTYLtABEB
+ AAG0HU1heCBSZWl0eiA8bXJlaXR6QHJlZGhhdC5jb20+iQFTBBMBCAA9AhsDBQkSzAMABQsJ
+ CAcCBhUICQoLAgQWAgMBAh4BAheABQJVzie5FRhoa3A6Ly9rZXlzLmdudXBnLm5ldAAKCRD0
+ B9sAYdXPQDcIB/9uNkbYEex1rHKz3mr12uxYMwLOOFY9fstP5aoVJQ1nWQVB6m2cfKGdcRe1
+ 2/nFaHSNAzT0NnKz2MjhZVmcrpyd2Gp2QyISCfb1FbT82GMtXFj1wiHmPb3CixYmWGQUUh+I
+ AvUqsevLA+WihgBUyaJq/vuDVM1/K9Un+w+Tz5vpeMidlIsTYhcsMhn0L9wlCjoucljvbDy/
+ 8C9L2DUdgi3XTa0ORKeflUhdL4gucWoAMrKX2nmPjBMKLgU7WLBc8AtV+84b9OWFML6NEyo4
+ 4cP7cM/07VlJK53pqNg5cHtnWwjHcbpGkQvx6RUx6F1My3y52vM24rNUA3+ligVEgPYBuQEN
+ BFXOJlcBCADAmcVUNTWT6yLWQHvxZ0o47KCP8OcLqD+67T0RCe6d0LP8GsWtrJdeDIQk+T+F
+ xO7DolQPS6iQ6Ak2/lJaPX8L0BkEAiMuLCKFU6Bn3lFOkrQeKp3u05wCSV1iKnhg0UPji9V2
+ W5eNfy8F4ZQHpeGUGy+liGXlxqkeRVhLyevUqfU0WgNqAJpfhHSGpBgihUupmyUg7lfUPeRM
+ DzAN1pIqoFuxnN+BRHdAecpsLcbR8sQddXmDg9BpSKozO/JyBmaS1RlquI8HERQoe6EynJhd
+ 64aICHDfj61rp+/0jTIcevxIIAzW70IadoS/y3DVIkuhncgDBvGbF3aBtjrJVP+5ABEBAAGJ
+ ASUEGAEIAA8FAlXOJlcCGwwFCRLMAwAACgkQ9AfbAGHVz0CbFwf9F/PXxQR9i4N0iipISYjU
+ sxVdjJOM2TMut+ZZcQ6NSMvhZ0ogQxJ+iEQ5OjnIputKvPVd5U7WRh+4lF1lB/NQGrGZQ1ic
+ alkj6ocscQyFwfib+xIe9w8TG1CVGkII7+TbS5pXHRxZH1niaRpoi/hYtgzkuOPp35jJyqT/
+ /ELbqQTDAWcqtJhzxKLE/ugcOMK520dJDeb6x2xVES+S5LXby0D4juZlvUj+1fwZu+7Io5+B
+ bkhSVPb/QdOVTpnz7zWNyNw+OONo1aBUKkhq2UIByYXgORPFnbfMY7QWHcjpBVw9MgC4tGeF
+ R4bv+1nAMMxKmb5VvQCExr0eFhJUAHAhVg==
+Message-ID: <2ea3943d-fc5b-4d75-deb2-06723da2ac74@redhat.com>
+Date: Fri, 10 Jul 2020 17:46:49 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.9.0
+MIME-Version: 1.0
+In-Reply-To: <CAFEAcA9f0tadztJP7Ki0potF6=E+GaG8a_X_5HTyH2yw2T7goA@mail.gmail.com>
+Content-Language: en-US
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=david@redhat.com
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=mreitz@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=207.211.31.81; envelope-from=david@redhat.com;
- helo=us-smtp-delivery-1.mimecast.com
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=207.211.31.81; envelope-from=mreitz@redhat.com;
+ helo=us-smtp-1.mimecast.com
 X-detected-operating-system: by eggs.gnu.org: First seen = 2020/07/09 23:35:58
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
 X-Spam_score_int: -30
@@ -96,58 +118,36 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Thomas Huth <thuth@redhat.com>, Janosch Frank <frankja@linux.ibm.com>,
- David Hildenbrand <david@redhat.com>, Cornelia Huck <cohuck@redhat.com>,
- qemu-devel@nongnu.org, Halil Pasic <pasic@linux.ibm.com>,
- Christian Borntraeger <borntraeger@de.ibm.com>, qemu-s390x@nongnu.org,
- "Michael S . Tsirkin" <mst@redhat.com>,
- Claudio Imbrenda <imbrenda@linux.ibm.com>, Richard Henderson <rth@twiddle.net>
+Cc: Paolo Bonzini <pbonzini@redhat.com>,
+ =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>,
+ Claudio Fontana <cfontana@suse.de>, QEMU Developers <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+On 10.07.20 17:42, Peter Maydell wrote:
+> On Fri, 10 Jul 2020 at 16:31, Max Reitz <mreitz@redhat.com> wrote:
+>>
+>> On 10.07.20 17:18, Peter Maydell wrote:
+>>> readarray only arrived sometime in bash 4, and the OSX system
+>>> bash is 3.2.57, so it won't have that builtin.
+>>
+>> It arrived with 4.0, actually, which was released 11 years ago.
+>> I had assumed that would be sufficiently mature.
+>>
+>> So, um, 11 years isn’t sufficiently mature then and I’ll have to work
+>> around not having readarray for macOS?
+> 
+> It's the usual Apple-vs-GPL3 issue.
+> 
+> I note that the iotests do seem to regularly run into
+> non-portable constructs: Kevin's latest pullreq has
+> just failed due to a use of 'truncate' that doesn't
+> work on the BSDs.
 
+:/
 
-> Am 10.07.2020 um 17:43 schrieb Heiko Carstens <hca@linux.ibm.com>:
->=20
-> =EF=BB=BFOn Fri, Jul 10, 2020 at 05:24:07PM +0200, David Hildenbrand wrot=
-e:
->>> On 10.07.20 17:18, Heiko Carstens wrote:
->>> On Fri, Jul 10, 2020 at 02:12:33PM +0200, David Hildenbrand wrote:
->>>>> Note: Reading about diag260 subcode 0xc, we could modify Linux to que=
-ry
->>>>> the maximum possible pfn via diag260 0xc. Then, we maybe could avoid
->>>>> indicating maxram size via SCLP, and keep diag260-unaware OSs keep
->>>>> working as before. Thoughts?
->>>>=20
->>>> Implemented it, seems to work fine.
->>>=20
->>> The returned value would not include standby/reserved memory within
->>> z/VM. So this seems not to work.
->>=20
->> Which value exactly are you referencing? diag 0xc returns two values.
->> One of them seems to do exactly what we need.
->=20
-> Maybe I'm missing something as usual, but to me this
-> --------
-> Usage Notes:
-> ...
-> 2. If the RESERVED or STANDBY option was used on the DEFINE STORAGE
-> command to configure reserved or standby storage for a guest, the
-> values returned in Rx and Ry will be the current values, but these
-> values can change dynamically depending on the options specified and
-> any dynamic storage reconfiguration (DSR) changes initiated by the
-> guest.
-> --------
-> reads like it is not doing what you want. That is: it does *not*
-> include standby memory and therefore will not return the highest
-> possible pfn.
->=20
+I’ll send a patch to drop readarray.
 
-Ah, yes. See the kernel patch, I take the max of both values (SCLP, diag260=
-(0xc)) values.
-
-Anyhow, what would be your recommendation?
-
-Thanks!
+Max
 
 
