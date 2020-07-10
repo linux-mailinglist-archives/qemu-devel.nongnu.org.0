@@ -2,55 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 068A221B8E5
-	for <lists+qemu-devel@lfdr.de>; Fri, 10 Jul 2020 16:46:04 +0200 (CEST)
-Received: from localhost ([::1]:60056 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A546E21B8F5
+	for <lists+qemu-devel@lfdr.de>; Fri, 10 Jul 2020 16:51:48 +0200 (CEST)
+Received: from localhost ([::1]:35818 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jtuHr-0007bB-2w
-	for lists+qemu-devel@lfdr.de; Fri, 10 Jul 2020 10:46:03 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:46014)
+	id 1jtuNP-0001G0-Nr
+	for lists+qemu-devel@lfdr.de; Fri, 10 Jul 2020 10:51:47 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:47382)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <cfontana@suse.de>) id 1jtuGD-0006gs-5Q
- for qemu-devel@nongnu.org; Fri, 10 Jul 2020 10:44:21 -0400
-Received: from mx2.suse.de ([195.135.220.15]:50272)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <cfontana@suse.de>) id 1jtuGB-0006wM-AH
- for qemu-devel@nongnu.org; Fri, 10 Jul 2020 10:44:20 -0400
-X-Virus-Scanned: by amavisd-new at test-mx.suse.de
-Received: from relay2.suse.de (unknown [195.135.221.27])
- by mx2.suse.de (Postfix) with ESMTP id 4FF34AC24;
- Fri, 10 Jul 2020 14:44:17 +0000 (UTC)
-Subject: Re: [PULL v2 00/52] Misc patches for QEMU 5.1 soft freeze
-To: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>,
- Peter Maydell <peter.maydell@linaro.org>
-References: <20200708172542.25012-1-pbonzini@redhat.com>
- <CAFEAcA8b6sn8fXOKwqOF6MvsKT5oKqS+4jjYDPAPvnXmVimLiQ@mail.gmail.com>
- <9631042d-00e4-2a2e-292b-66ca1b590120@suse.de>
- <CAFEAcA-UbHpj_xSbqjTsaURt8yPZjuYOmd3pe97vg_G7--17Cw@mail.gmail.com>
- <e78820bb-af5f-c2a0-7727-1a0caedfa584@suse.de>
- <CAFEAcA-raDJ2pSUG-OYHcJi_LnQwxMHvcyjsD7+=WxGYcrSz3w@mail.gmail.com>
- <a8113ed1-c508-0502-4f88-77f875d1a739@redhat.com>
-From: Claudio Fontana <cfontana@suse.de>
-Message-ID: <40f4c566-8a5b-c27e-22a7-2a112a0cd77d@suse.de>
-Date: Fri, 10 Jul 2020 16:44:16 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.4.1
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1jtuMZ-0000en-Si
+ for qemu-devel@nongnu.org; Fri, 10 Jul 2020 10:50:55 -0400
+Received: from mail-oo1-xc31.google.com ([2607:f8b0:4864:20::c31]:33741)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1jtuMY-0007u5-5V
+ for qemu-devel@nongnu.org; Fri, 10 Jul 2020 10:50:55 -0400
+Received: by mail-oo1-xc31.google.com with SMTP id d125so1046949oob.0
+ for <qemu-devel@nongnu.org>; Fri, 10 Jul 2020 07:50:53 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=6iCxcWjFIrWlKjnwyh2LZ2tHdA23LuCdkm6wbODE1dk=;
+ b=Add8Hc4oy1EB60OG2fhg6468BWRZ0E7K6+ccXL0IWMeA6+IAyXwjKzwD1KbCbVt34J
+ joTlNG4X3gy9q8sltTDMANQcVBDnbsA5eWIHP7oRQFpLZ/gSLua+eEcHEb0ovOeYUBxP
+ /OMD06qYppB/zzYoKRUvZ0OMI3UVN0sIkDVUjl6Z9rRs+0+7l5ZRJwW33CnuSN5Dan8G
+ 0EFGwMCMlOZX99i07yL/IPC2Aeo06TY01jinS5jcdZtBKlNx1NL2AUWXto5ik4JKyu10
+ scqj8ME0RxUYrXke+IHWBCU1HP7+hVW41brp+SlWeBXs8PaUdC/i0H4Ja+n2PrBkhedR
+ g8zg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=6iCxcWjFIrWlKjnwyh2LZ2tHdA23LuCdkm6wbODE1dk=;
+ b=nxE+0qTj0DDllxB/ImDmJyEHywfWo6C3Q4TM+WRlTINatFpCRzmu7UGi9wy7Zo8Zs3
+ L9goe+Hjy/EJWV0mO2GQ0OD03ip1nwDuo0TdHeLB8YHgzssicS+w+jfJwplvWKXbs7Ma
+ eX2RzX/qp2bQkkq7KnHOjfuVDHUGRmY20IIAuCQtEcRgdG44HVUcYrUOZJRyuTxnyO+Y
+ 2C42URlF3r636TdZLvY2V3CYCfUc3iql7fbCGRU5XfJe/uOjB1tCnfFGxU/5pEdYwj+Y
+ uvm7RsEGghbc32Wtp3fpb8SqjLLe/ccLsZbwjPC1x25XmBuKyyIFLBLQSm4toRpYVZXb
+ oRDw==
+X-Gm-Message-State: AOAM530d3lrfhiITxLt24WTmLiBKq+m3+GfPreMIV0MePBJp9jDi8SOS
+ qs/jUhFkc83/OqDTdaByZGhvSZsN844jz8sT5hu/LQ==
+X-Google-Smtp-Source: ABdhPJwgAhNMoOe5eb5GDaN4oep1eZv7mkUMlW4iWtWkJViA59gG/I5f73b8OiKFegEfoJTgfUpNgOlDypMhCnomYFE=
+X-Received: by 2002:a4a:2f15:: with SMTP id p21mr59352812oop.20.1594392652784; 
+ Fri, 10 Jul 2020 07:50:52 -0700 (PDT)
 MIME-Version: 1.0
-In-Reply-To: <a8113ed1-c508-0502-4f88-77f875d1a739@redhat.com>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=195.135.220.15; envelope-from=cfontana@suse.de;
- helo=mx2.suse.de
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/07/10 00:07:08
-X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x (no timestamps) [generic]
-X-Spam_score_int: -41
-X-Spam_score: -4.2
-X-Spam_bar: ----
-X-Spam_report: (-4.2 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_MED=-2.3,
- RCVD_IN_MSPIKE_H3=-0.01, RCVD_IN_MSPIKE_WL=-0.01, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001, URIBL_BLOCKED=0.001 autolearn=ham autolearn_force=no
+References: <20200710133103.2153250-1-armbru@redhat.com>
+In-Reply-To: <20200710133103.2153250-1-armbru@redhat.com>
+From: Peter Maydell <peter.maydell@linaro.org>
+Date: Fri, 10 Jul 2020 15:50:41 +0100
+Message-ID: <CAFEAcA_c0e0GeBGNBbzx0Lw2qhpEgzmqUTS6PcGwBB3GOCfmDQ@mail.gmail.com>
+Subject: Re: [PULL v2 00/53] Error reporting patches patches for 2020-07-07
+To: Markus Armbruster <armbru@redhat.com>
+Content-Type: text/plain; charset="UTF-8"
+Received-SPF: pass client-ip=2607:f8b0:4864:20::c31;
+ envelope-from=peter.maydell@linaro.org; helo=mail-oo1-xc31.google.com
+X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
+ That's all we know.
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ URIBL_BLOCKED=0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -63,59 +78,38 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Paolo Bonzini <pbonzini@redhat.com>,
- QEMU Developers <qemu-devel@nongnu.org>, Max Reitz <mreitz@redhat.com>
+Cc: QEMU Developers <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 7/10/20 3:11 PM, Philippe Mathieu-Daudé wrote:
-> On 7/10/20 2:55 PM, Peter Maydell wrote:
->> On Fri, 10 Jul 2020 at 13:52, Claudio Fontana <cfontana@suse.de> wrote:
->>> If you can access it,
->>>
->>> https://cirrus-ci.com/task/5537514263937024?command=main#L2039
->>>
->>> the thing is treated here as a warning, which is in the middle of a large amount of other warnings.
->>>
->>> private/var/folders/3y/l0z1x3693dl_8n0qybp4dqwh0000gn/T/cirrus-ci-build/ui/vnc-auth-sasl.c:648:29: warning: 'sasl_errdetail' is deprecated: first deprecated in macOS 10.11 [-Wdeprecated-declarations]
->>>                             sasl_errdetail(vs->sasl.conn));
->>>
->>> /* ... lots of similar warnings */
->>>
->>> private/var/folders/3y/l0z1x3693dl_8n0qybp4dqwh0000gn/T/cirrus-ci-build/ui/cocoa.m:1478:9: warning: implicit declaration of function 'cpu_throttle_set' is invalid in C99 [-Wimplicit-function-declaration]
->>>         cpu_throttle_set(throttle_pct);
->>>         ^
->>>
->>>
->>> Apparently the cirrus-ci I am using is not treating this as an error, while what you are using is..
->>
->> Ah, I see. Yeah, configure by default doesn't enable -Werror for OSX.
->> My build tree has
->>  '--extra-cflags=-fdiagnostics-color=never -Werror
->> -Wno-error=deprecated-declarations'
-> 
-> TIL this is different on OSX...
-> 
->>
->> (of which the last two are relevant here). We should probably
->> make configure use -Werror on OSX now with the same logic as Linux,
->> I've been using it that way for ages without issues.
-> 
-> Yes please!
-> 
+On Fri, 10 Jul 2020 at 14:31, Markus Armbruster <armbru@redhat.com> wrote:
+>
+> The following changes since commit b6d7e9b66f59ca6ebc6e9b830cd5e7bf849d31cf:
+>
+>   Merge remote-tracking branch 'remotes/stefanha/tags/tracing-pull-request' into staging (2020-07-10 09:01:28 +0100)
+>
+> are available in the Git repository at:
+>
+>   git://repo.or.cz/qemu/armbru.git tags/pull-error-2020-07-07-v2
+>
+> for you to fetch changes up to 1de7096d8378a57e2d75d9cacc9a119e7e41640d:
+>
+>   xen: Use ERRP_GUARD() (2020-07-10 15:18:09 +0200)
+>
+> ----------------------------------------------------------------
+> Error reporting patches patches for 2020-07-07
+>
+> * Improve documentation
+> * Codify rules for less clumsy error handling
+> * Convert a substantial amount of code to adhere to them
+> * ERRP_GUARD() infrastructure to avoid more clumsiness
+> * First batch of conversions to it
 
-Speaking of MacOS and CI, commit 57ee95ed4ee7b4c039ec5f0705c45734c56706bc
 
-Author: Max Reitz <mreitz@redhat.com>
-Date:   Thu Jun 25 14:55:30 2020 +0200
+Applied, thanks.
 
-    iotests: Make _filter_img_create more active
+Please update the changelog at https://wiki.qemu.org/ChangeLog/5.1
+for any user-visible changes.
 
-broke cirrus-ci completely for me due to missing "readarray" builtin.
-
-Maybe it is bash vs zsh?
-
-Ciao,
-
-Claudio
+-- PMM
 
