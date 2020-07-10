@@ -2,82 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 34F7821BB21
-	for <lists+qemu-devel@lfdr.de>; Fri, 10 Jul 2020 18:37:22 +0200 (CEST)
-Received: from localhost ([::1]:34430 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6A10521BB0B
+	for <lists+qemu-devel@lfdr.de>; Fri, 10 Jul 2020 18:32:56 +0200 (CEST)
+Received: from localhost ([::1]:41152 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jtw1Z-0003IZ-6I
-	for lists+qemu-devel@lfdr.de; Fri, 10 Jul 2020 12:37:21 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:43292)
+	id 1jtvxH-0002yL-Gp
+	for lists+qemu-devel@lfdr.de; Fri, 10 Jul 2020 12:32:55 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:43776)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1jtvgx-0006MH-Vl
- for qemu-devel@nongnu.org; Fri, 10 Jul 2020 12:16:04 -0400
-Received: from mail-pf1-x429.google.com ([2607:f8b0:4864:20::429]:32882)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1jtvgw-0005Mw-08
- for qemu-devel@nongnu.org; Fri, 10 Jul 2020 12:16:03 -0400
-Received: by mail-pf1-x429.google.com with SMTP id m9so2753635pfh.0
- for <qemu-devel@nongnu.org>; Fri, 10 Jul 2020 09:16:01 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=subject:to:cc:references:from:message-id:date:user-agent
- :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=5JBKco125G8ctmNQfP5V9Ud8ho8hOBKNgwv5/p7XGOg=;
- b=I6HaVg4G0Qr1ufv8+yDpTgDqgV/5wu+hKLVU2QYJ/vGiHO5u2Gwsd+gabxpaIT5A9r
- H7lK0t0nS7zWr+J8w1H0lX3zm62pvnUg9ColjUYW2G67YYTPoU1/P4rkUN+UDuhEUrqp
- 2VrQvi1dNZIn2PmRk3uulzbIuIUu53LddOzLh5Y5ZEXC3GNecy8X6ZHYQAnNBvgaOygx
- 4zCJZ6tDV06e3nz3gtKu8IaZv1Yo2GS4d4aoLLyWVz8lJZClGiiaCPKBldhu/lxW27M0
- HAC6GbiVUcwq6ae41jFA+Kg4rQgOHVpkpOGcGgib0u4Pa4f2fIuIsEjIv2OaLLCL/fYs
- L6DQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=5JBKco125G8ctmNQfP5V9Ud8ho8hOBKNgwv5/p7XGOg=;
- b=BjRaG/eAzUujsmpbiMt0l9gV0DyHVyD+BsrzjX1/5KCvCi2K0U15ms4hfe4NN3Acla
- MOUDIMqSKS7DRKK9pEszbFHURsxlGDQUhSFUbg8EDEovBXLNLcpf1aW//ROaMxBF45Yw
- wTh8WfqsfLj/l7tmWaV5Zkyqch+wymTrPSoADmTF3eHdex9Eqh1vJCq+hRBpA5kWYy4c
- 44WSPzj12f192de/1hRPZrMnuOOk4AIZXNCSCyLFPwpTYHXQnbLtijU/RP2Gz8ba59oo
- v2IcqBBAKBI3uDpMyI+ezPRIuc6tc6RXedZ0cwh69w3XgyeaWrtgir8VNT8IgSkEMlOA
- eRow==
-X-Gm-Message-State: AOAM530Ch+dkTmQh+GGFgyY5FQu5fh8yNOhT6b131e8vPFGDNoOtqi8Z
- vezGcFWize3hEhAtDE21TiNq4w==
-X-Google-Smtp-Source: ABdhPJyRpmEfGtXTPJMZofPjde+rsgeNMvsaxZt2vmmck8fxp+Z19aICemIj3D2yBirrJml5nH6mrQ==
-X-Received: by 2002:a05:6a00:2bc:: with SMTP id
- q28mr64246459pfs.250.1594397760495; 
- Fri, 10 Jul 2020 09:16:00 -0700 (PDT)
-Received: from [192.168.1.11] (174-21-143-238.tukw.qwest.net. [174.21.143.238])
- by smtp.gmail.com with ESMTPSA id d22sm6493420pfd.105.2020.07.10.09.15.59
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Fri, 10 Jul 2020 09:15:59 -0700 (PDT)
-Subject: Re: [RFC 04/65] target/riscv: fix vill bit index in vtype register
-To: frank.chang@sifive.com, qemu-devel@nongnu.org, qemu-riscv@nongnu.org
-References: <20200710104920.13550-1-frank.chang@sifive.com>
- <20200710104920.13550-5-frank.chang@sifive.com>
-From: Richard Henderson <richard.henderson@linaro.org>
-Message-ID: <6eac5a4a-aa03-314e-e284-9fcf1c21941e@linaro.org>
-Date: Fri, 10 Jul 2020 09:15:57 -0700
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.8.0
+ (Exim 4.90_1) (envelope-from <imammedo@redhat.com>)
+ id 1jtvjF-0001zl-2D
+ for qemu-devel@nongnu.org; Fri, 10 Jul 2020 12:18:25 -0400
+Received: from us-smtp-2.mimecast.com ([205.139.110.61]:25416
+ helo=us-smtp-delivery-1.mimecast.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <imammedo@redhat.com>)
+ id 1jtvjD-0005ZD-HF
+ for qemu-devel@nongnu.org; Fri, 10 Jul 2020 12:18:24 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1594397902;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding;
+ bh=GNhRONvgSchpmOBnztX5CiUSmt4KFErMB1zOVJIATW0=;
+ b=b5qPn/U0hAbURqzRsVlFjpg1n2uKAiOyN2iqBuoG5sWym0QSRJB4E16UmvcoW7e0iL2a3w
+ BKs3GL/FGfkfJ4ZmxxdmZ7WsrHIAMO6pOmhv11YoMwJvv8Iyhyn2W7/Za4Wm35ZgIuanAx
+ tD+oZeTEghKfd6GZ2L+fVTfDtyFocvM=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-411-yxo3UxxlNtui2jN0RMoCjA-1; Fri, 10 Jul 2020 12:17:09 -0400
+X-MC-Unique: yxo3UxxlNtui2jN0RMoCjA-1
+Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
+ [10.5.11.15])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 82EE110059A9;
+ Fri, 10 Jul 2020 16:17:08 +0000 (UTC)
+Received: from dell-r430-03.lab.eng.brq.redhat.com
+ (dell-r430-03.lab.eng.brq.redhat.com [10.37.153.18])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 804BD7EF9E;
+ Fri, 10 Jul 2020 16:17:07 +0000 (UTC)
+From: Igor Mammedov <imammedo@redhat.com>
+To: qemu-devel@nongnu.org
+Subject: [RFC 0/3] x86: fix cpu hotplug with secure boot
+Date: Fri, 10 Jul 2020 12:17:01 -0400
+Message-Id: <20200710161704.309824-1-imammedo@redhat.com>
 MIME-Version: 1.0
-In-Reply-To: <20200710104920.13550-5-frank.chang@sifive.com>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::429;
- envelope-from=richard.henderson@linaro.org; helo=mail-pf1-x429.google.com
-X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
- That's all we know.
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=205.139.110.61; envelope-from=imammedo@redhat.com;
+ helo=us-smtp-delivery-1.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/07/09 22:08:55
+X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
+X-Spam_score_int: -40
+X-Spam_score: -4.1
+X-Spam_bar: ----
+X-Spam_report: (-4.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-1, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -90,28 +77,40 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Palmer Dabbelt <palmer@dabbelt.com>,
- Alistair Francis <Alistair.Francis@wdc.com>,
- Sagar Karandikar <sagark@eecs.berkeley.edu>,
- Bastian Koppelmann <kbastian@mail.uni-paderborn.de>
+Cc: lersek@redhat.com, boris.ostrovsky@oracle.com, liran.alon@oracle.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 7/10/20 3:48 AM, frank.chang@sifive.com wrote:
-> From: Frank Chang <frank.chang@sifive.com>
-> 
-> vill bit is at vtype[XLEN-1].
-> 
-> Signed-off-by: Frank Chang <frank.chang@sifive.com>
-> ---
->  target/riscv/cpu.h | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
+CPU hotplug with Secure Boot was not really supported and firmware wasn't aware
+of hotplugged CPUs (which might lead to guest crashes). During 4.2 we introduced
+locked SMI handler RAM arrea to make sure that guest OS wasn't able to inject
+its own SMI handler and OVMF added initial CPU hotplug support.
 
-Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
+This series is QEMU part of that support [1] which lets QMVF tell QEMU that
+CPU hotplug with SMI broadcast enabled is supported so that QEMU would be able
+to prevent hotplug in case it's not supported and trigger SMI on hotplug when
+it's necessary. 
 
-Alistair, this one should be queued for 5.1 as a bug fix.
+1) CPU hotplug negotiation part was introduced later so it might not be
+in upstream OVMF yet or I might have missed the patch on edk2-devel
+(Laszlo will point out to it/post formal patch)
 
+Igor Mammedov (3):
+  x86: lpc9: let firmware negotiate CPU hotplug SMI feature
+  x86: cphp: prevent guest crash on CPU hotplug when broadcast SMI is in
+    use
+  x68: acpi: trigger SMI before scanning for hotplugged CPUs
 
-r~
+ include/hw/acpi/cpu.h  |  1 +
+ include/hw/i386/ich9.h |  1 +
+ hw/acpi/cpu.c          |  6 ++++++
+ hw/acpi/ich9.c         | 12 +++++++++++-
+ hw/i386/acpi-build.c   | 33 ++++++++++++++++++++++++++++++++-
+ hw/i386/pc.c           | 15 ++++++++++++++-
+ hw/isa/lpc_ich9.c      | 10 ++++++++++
+ 7 files changed, 75 insertions(+), 3 deletions(-)
+
+-- 
+2.26.2
 
 
