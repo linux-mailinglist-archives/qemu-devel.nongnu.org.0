@@ -2,68 +2,67 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 224CA21B5E6
-	for <lists+qemu-devel@lfdr.de>; Fri, 10 Jul 2020 15:09:40 +0200 (CEST)
-Received: from localhost ([::1]:33360 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 52A5321B639
+	for <lists+qemu-devel@lfdr.de>; Fri, 10 Jul 2020 15:22:51 +0200 (CEST)
+Received: from localhost ([::1]:40178 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jtsmZ-0007TU-3A
-	for lists+qemu-devel@lfdr.de; Fri, 10 Jul 2020 09:09:39 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:38382)
+	id 1jtszJ-00083X-Ct
+	for lists+qemu-devel@lfdr.de; Fri, 10 Jul 2020 09:22:49 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:38416)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <frank.chang@sifive.com>)
- id 1jtqeo-0005pN-3g
- for qemu-devel@nongnu.org; Fri, 10 Jul 2020 06:53:30 -0400
-Received: from mail-pl1-x633.google.com ([2607:f8b0:4864:20::633]:43013)
+ id 1jtqes-0005ry-5x
+ for qemu-devel@nongnu.org; Fri, 10 Jul 2020 06:53:34 -0400
+Received: from mail-pl1-x636.google.com ([2607:f8b0:4864:20::636]:39862)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <frank.chang@sifive.com>)
- id 1jtqem-0006t8-BQ
- for qemu-devel@nongnu.org; Fri, 10 Jul 2020 06:53:29 -0400
-Received: by mail-pl1-x633.google.com with SMTP id x8so2093420plm.10
- for <qemu-devel@nongnu.org>; Fri, 10 Jul 2020 03:53:27 -0700 (PDT)
+ id 1jtqeq-0006uA-KK
+ for qemu-devel@nongnu.org; Fri, 10 Jul 2020 06:53:33 -0400
+Received: by mail-pl1-x636.google.com with SMTP id b9so2099831plx.6
+ for <qemu-devel@nongnu.org>; Fri, 10 Jul 2020 03:53:32 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=sifive.com; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references;
- bh=Ygjrrf7rRZnUnKLXc2yMhphcba8GxuFslumP6WN+l3w=;
- b=H8J0lfR09NUZ7HHXlMR9BcCcHgD2L4i3KaZ+QFZ4ZlcKGU4NH4Gd0Mu1yN6myf10Ka
- PLoGMEpqQYf2BpIsUcYszpGL79RDQMB8H+0/wnMJwFD4tl2Jiv4k8scJBFK1tAHC8TAD
- T//8VzAIUpMk7dkf5vWAtlDR4Wv2Alp6FHGNdwZ+nLGoQX9IJoIXzyEznwC0sZLh+Jq6
- YxUUqfcHrZuHhwyuq67mvLTwCihu0VVA/9bFWfUNJYx0AMFZENrBU0X/tApbjwaBxPwU
- QjxpYultUgTQb+MK4L79dOKU/zadBRZlJb7muRt1lHkDd6yYlS47CAb+ZH8xupp2Bdjm
- S4gQ==
+ bh=tBnAJhAlit3EEk4IfkYd7FFS8r9QvZAaywDv+5JnQ7Q=;
+ b=LagQYw+IagncTPgGcAlFm+IFVkta/5EeKu/6H8pf0Qep8R3oCZ/kI9OyBsiGxSRGV3
+ XqH96f/h5DXQd8Mp56BuhAwz5ZBUU6kJNKAUqBZqtdin0SqD2PG90nIUZjS4YSYO4Dhf
+ FfINVKRv+eQ8lO2rAUG1D0ENm3ZcAUh6MbSsp/SbB9AALMAn2BmUZGMiJzqrGUbSbMQ4
+ XJIS3R14SqkQ43KDDlw3+2DAdwf1WWsdWWby0puxinAXEL1LewTJmU6tjeMa68tLRXIG
+ cLpNKX+L5F6gKsJfpIiELJyFUOY57s5q3DyB4tTonoz8VEj7zrpZKw4jY8z4xHnkhH6M
+ 2v5A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references;
- bh=Ygjrrf7rRZnUnKLXc2yMhphcba8GxuFslumP6WN+l3w=;
- b=rrf+HD4m3j6nNYSiYQQooUOposLO7rHVS/qFXMGEGvOiGmKFsKtkLReuIdcE+bCiGK
- nwT9fmd5pQ8bfEBY4a29i9fKKQO0/Gaw/GaNuv4IPXuLb3mXJwT/ODJA590ynHdUZCTb
- fCM78NbMhRSjiytr7P2HEl2p00lL/XEq63R9jdk5hSRvbKgBmTthHPE7kx6elDSmjFA0
- Gnc5xqam/CYC96Dxn24NIcXpvsYUlLLGdE3itii3P8ufNkrK7yOCnostsQjnfu3UOScn
- qSC5Co+HpiFNSf2xWP3daZydir0leP4q+/XarvpN5AsN/De9TeNf26kfi044woflgB5q
- W0Lw==
-X-Gm-Message-State: AOAM532BCz59jdRfqblJWJYzRTskrEYHu/nz71oiYJPMhO1bRPlkXtyX
- mDX3SkZa0cgE6Uv6fGegBCBmnk22sh1CFA==
-X-Google-Smtp-Source: ABdhPJyVPHyNekeLprL7Tsw6zvaKGqRoxOHeKgGFmAFO38u1ezz5zMqyOS3bBND3HY7vvMNHO//1zw==
-X-Received: by 2002:a17:90a:a788:: with SMTP id
- f8mr4956070pjq.39.1594378406984; 
- Fri, 10 Jul 2020 03:53:26 -0700 (PDT)
+ bh=tBnAJhAlit3EEk4IfkYd7FFS8r9QvZAaywDv+5JnQ7Q=;
+ b=WSntnJ9QHh8ciHqSPxKQcCYMgEQLFhXyOOfzlEXYzd/t4wkYeG5uc+LLuMxuUk85kd
+ PDgmSiaj3frssBrczoLxGYV4t4NyvVGISb/UrpOrbPzzoYWXQp04GRW77QcV8WY1tZaR
+ ECXHUNjh6Fsbg9o/XSFf8+8DoJbd+5zhQtKPE7LY2I6m7EQRjYFwDfX3P79ylV+CI5ts
+ 7eK/XfcyPtlSjR4TH2eOYacOU9GWXJIdMokIqGLs6kVzLtmtN99oIyq6d5goE/VipiEo
+ Ybgn9gP785wh027cb0unTks3hpahPaCSIby5ttOG2R3tckyS/M21oQ2nfBNiiOCGjUM8
+ sDEA==
+X-Gm-Message-State: AOAM531lAidXGxejiB2L3/8dOblplzMUy+A8KCsH87edA3mmQjLG+r4T
+ fQ0TzMJ1g1//SRV1MQ0iErugVtfik+Jheg==
+X-Google-Smtp-Source: ABdhPJx0oG42neUAwxJRcYgy/v6vVZqwdVvptIUEFwjlApq6+Jhmuq3dOryyIDceU/lLNGnAsy/LAQ==
+X-Received: by 2002:a17:902:524:: with SMTP id
+ 33mr38535288plf.218.1594378411028; 
+ Fri, 10 Jul 2020 03:53:31 -0700 (PDT)
 Received: from frankchang-ThinkPad-T490.internal.sifive.com
  (114-34-229-221.HINET-IP.hinet.net. [114.34.229.221])
- by smtp.gmail.com with ESMTPSA id r191sm5519406pfr.181.2020.07.10.03.53.24
+ by smtp.gmail.com with ESMTPSA id r191sm5519406pfr.181.2020.07.10.03.53.28
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 10 Jul 2020 03:53:26 -0700 (PDT)
+ Fri, 10 Jul 2020 03:53:30 -0700 (PDT)
 From: frank.chang@sifive.com
 To: qemu-devel@nongnu.org,
 	qemu-riscv@nongnu.org
-Subject: [RFC 43/65] target/riscv: rvv-0.9: widening integer reduction
- instructions
-Date: Fri, 10 Jul 2020 18:48:57 +0800
-Message-Id: <20200710104920.13550-44-frank.chang@sifive.com>
+Subject: [RFC 44/65] target/riscv: rvv-0.9: mask-register logical instructions
+Date: Fri, 10 Jul 2020 18:48:58 +0800
+Message-Id: <20200710104920.13550-45-frank.chang@sifive.com>
 X-Mailer: git-send-email 2.17.1
 In-Reply-To: <20200710104920.13550-1-frank.chang@sifive.com>
 References: <20200710104920.13550-1-frank.chang@sifive.com>
-Received-SPF: pass client-ip=2607:f8b0:4864:20::633;
- envelope-from=frank.chang@sifive.com; helo=mail-pl1-x633.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::636;
+ envelope-from=frank.chang@sifive.com; helo=mail-pl1-x636.google.com
 X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
  That's all we know.
 X-Spam_score_int: -20
@@ -99,58 +98,77 @@ From: Frank Chang <frank.chang@sifive.com>
 
 Signed-off-by: Frank Chang <frank.chang@sifive.com>
 ---
- target/riscv/insn_trans/trans_rvv.inc.c | 12 ++++++++++--
- target/riscv/vector_helper.c            | 12 ++++++------
- 2 files changed, 16 insertions(+), 8 deletions(-)
+ target/riscv/insn_trans/trans_rvv.inc.c | 30 ++++++++++++-------------
+ target/riscv/vector_helper.c            |  7 ++++--
+ 2 files changed, 20 insertions(+), 17 deletions(-)
 
 diff --git a/target/riscv/insn_trans/trans_rvv.inc.c b/target/riscv/insn_trans/trans_rvv.inc.c
-index 7d44ce7e0a..f441385f3a 100644
+index f441385f3a..59b25e17f8 100644
 --- a/target/riscv/insn_trans/trans_rvv.inc.c
 +++ b/target/riscv/insn_trans/trans_rvv.inc.c
-@@ -2747,8 +2747,16 @@ GEN_OPIVV_TRANS(vredor_vs, reduction_check)
- GEN_OPIVV_TRANS(vredxor_vs, reduction_check)
+@@ -2774,22 +2774,22 @@ GEN_OPFVV_WIDEN_TRANS(vfwredsum_vs, reduction_check)
+ #define GEN_MM_TRANS(NAME)                                         \
+ static bool trans_##NAME(DisasContext *s, arg_r *a)                \
+ {                                                                  \
+-    if (vext_check_isa_ill(s)) {                                   \
+-        uint32_t data = 0;                                         \
+-        gen_helper_gvec_4_ptr *fn = gen_helper_##NAME;             \
+-        TCGLabel *over = gen_new_label();                          \
+-        tcg_gen_brcondi_tl(TCG_COND_EQ, cpu_vl, 0, over);          \
++    REQUIRE_RVV;                                                   \
++    VEXT_CHECK_ISA_ILL(s);                                         \
+                                                                    \
+-        data = FIELD_DP32(data, VDATA, LMUL, s->lmul);             \
+-        data = FIELD_DP32(data, VDATA, VMA, s->vma);               \
+-        tcg_gen_gvec_4_ptr(vreg_ofs(s, a->rd), vreg_ofs(s, 0),     \
+-                           vreg_ofs(s, a->rs1),                    \
+-                           vreg_ofs(s, a->rs2), cpu_env, 0,        \
+-                           s->vlen / 8, data, fn);                 \
+-        gen_set_label(over);                                       \
+-        return true;                                               \
+-    }                                                              \
+-    return false;                                                  \
++    uint32_t data = 0;                                             \
++    gen_helper_gvec_4_ptr *fn = gen_helper_##NAME;                 \
++    TCGLabel *over = gen_new_label();                              \
++    tcg_gen_brcondi_tl(TCG_COND_EQ, cpu_vl, 0, over);              \
++                                                                   \
++    data = FIELD_DP32(data, VDATA, LMUL, s->lmul);                 \
++    data = FIELD_DP32(data, VDATA, VMA, s->vma);                   \
++    tcg_gen_gvec_4_ptr(vreg_ofs(s, a->rd), vreg_ofs(s, 0),         \
++                       vreg_ofs(s, a->rs1),                        \
++                       vreg_ofs(s, a->rs2), cpu_env, 0,            \
++                       s->vlen / 8, data, fn);                     \
++    gen_set_label(over);                                           \
++    return true;                                                   \
+ }
  
- /* Vector Widening Integer Reduction Instructions */
--GEN_OPIVV_WIDEN_TRANS(vwredsum_vs, reduction_check)
--GEN_OPIVV_WIDEN_TRANS(vwredsumu_vs, reduction_check)
-+static bool reduction_widen_check(DisasContext *s, arg_rmrr *a)
-+{
-+    REQUIRE_RVV;
-+    VEXT_CHECK_ISA_ILL(s);
-+    VEXT_CHECK_REDUCTION(s, a->rs2, true);
-+    return true;
-+}
-+
-+GEN_OPIVV_WIDEN_TRANS(vwredsum_vs, reduction_widen_check)
-+GEN_OPIVV_WIDEN_TRANS(vwredsumu_vs, reduction_widen_check)
- 
- /* Vector Single-Width Floating-Point Reduction Instructions */
- GEN_OPFVV_TRANS(vfredsum_vs, reduction_check)
+ GEN_MM_TRANS(vmand_mm)
 diff --git a/target/riscv/vector_helper.c b/target/riscv/vector_helper.c
-index a7f960184b..7a10b957df 100644
+index 7a10b957df..6484c660c6 100644
 --- a/target/riscv/vector_helper.c
 +++ b/target/riscv/vector_helper.c
-@@ -4627,14 +4627,14 @@ GEN_VEXT_RED(vredxor_vs_d, int64_t, int64_t, H8, H8, DO_XOR)
+@@ -4731,6 +4731,7 @@ void HELPER(NAME)(void *vd, void *v0, void *vs1,          \
+                   uint32_t desc)                          \
+ {                                                         \
+     uint32_t vlmax = env_archcpu(env)->cfg.vlen;          \
++    uint32_t vta = vext_vta(desc);                        \
+     uint32_t vl = env->vl;                                \
+     uint32_t i;                                           \
+     int a, b;                                             \
+@@ -4740,8 +4741,10 @@ void HELPER(NAME)(void *vd, void *v0, void *vs1,          \
+         b = vext_elem_mask(vs2, i);                       \
+         vext_set_elem_mask(vd, i, OP(b, a));              \
+     }                                                     \
+-    for (; i < vlmax; i++) {                              \
+-        vext_set_elem_mask(vd, i, 0);                     \
++    if (vta == 1) {                                       \
++        for (; i < vlmax; i++) {                          \
++            vext_set_elem_mask(vd, i, 0);                 \
++        }                                                 \
+     }                                                     \
+ }
  
- /* Vector Widening Integer Reduction Instructions */
- /* signed sum reduction into double-width accumulator */
--GEN_VEXT_RED(vwredsum_vs_b, int16_t, int8_t, H2, H1, DO_ADD, clearh)
--GEN_VEXT_RED(vwredsum_vs_h, int32_t, int16_t, H4, H2, DO_ADD, clearl)
--GEN_VEXT_RED(vwredsum_vs_w, int64_t, int32_t, H8, H4, DO_ADD, clearq)
-+GEN_VEXT_RED(vwredsum_vs_b, int16_t, int8_t,  H2, H1, DO_ADD)
-+GEN_VEXT_RED(vwredsum_vs_h, int32_t, int16_t, H4, H2, DO_ADD)
-+GEN_VEXT_RED(vwredsum_vs_w, int64_t, int32_t, H8, H4, DO_ADD)
- 
- /* Unsigned sum reduction into double-width accumulator */
--GEN_VEXT_RED(vwredsumu_vs_b, uint16_t, uint8_t, H2, H1, DO_ADD, clearh)
--GEN_VEXT_RED(vwredsumu_vs_h, uint32_t, uint16_t, H4, H2, DO_ADD, clearl)
--GEN_VEXT_RED(vwredsumu_vs_w, uint64_t, uint32_t, H8, H4, DO_ADD, clearq)
-+GEN_VEXT_RED(vwredsumu_vs_b, uint16_t, uint8_t,  H2, H1, DO_ADD)
-+GEN_VEXT_RED(vwredsumu_vs_h, uint32_t, uint16_t, H4, H2, DO_ADD)
-+GEN_VEXT_RED(vwredsumu_vs_w, uint64_t, uint32_t, H8, H4, DO_ADD)
- 
- /* Vector Single-Width Floating-Point Reduction Instructions */
- #define GEN_VEXT_FRED(NAME, TD, TS2, HD, HS2, OP, CLEAR_FN)\
 -- 
 2.17.1
 
