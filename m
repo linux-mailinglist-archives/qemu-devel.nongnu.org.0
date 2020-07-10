@@ -2,86 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0885A21ACE3
-	for <lists+qemu-devel@lfdr.de>; Fri, 10 Jul 2020 04:08:50 +0200 (CEST)
-Received: from localhost ([::1]:44910 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id BD67D21AE0B
+	for <lists+qemu-devel@lfdr.de>; Fri, 10 Jul 2020 06:26:59 +0200 (CEST)
+Received: from localhost ([::1]:37842 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jtiT2-0001XH-L5
-	for lists+qemu-devel@lfdr.de; Thu, 09 Jul 2020 22:08:48 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:34400)
+	id 1jtkck-00068B-R8
+	for lists+qemu-devel@lfdr.de; Fri, 10 Jul 2020 00:26:58 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:41842)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <lulu@redhat.com>) id 1jtiSJ-00018O-Vx
- for qemu-devel@nongnu.org; Thu, 09 Jul 2020 22:08:04 -0400
-Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:36848
- helo=us-smtp-1.mimecast.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <lulu@redhat.com>) id 1jtiSH-0000kc-2t
- for qemu-devel@nongnu.org; Thu, 09 Jul 2020 22:08:03 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1594346878;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=klZ/SYEfFfZ9p7WW3ljBmx4ZXE5dn8I/W9Vms1/FYk0=;
- b=R1zfntrqomQROrAYbd/90lLY6VPhd0K9LZhpIr2V6cCpiOS2heNYt72GGJjpEWR55mieIm
- 7yf4V7pWeSU10nRRQ3UkyTqj8Pksg0lBW19xLv0deqzeABV8D5aIkKyRxGGzYuohxhzxML
- nbtWk1sVlcm7tDCy5oPGL7VPlCoyUmQ=
-Received: from mail-pl1-f198.google.com (mail-pl1-f198.google.com
- [209.85.214.198]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-477-JDo39rXgODmn2-bjD1sK3w-1; Thu, 09 Jul 2020 22:07:56 -0400
-X-MC-Unique: JDo39rXgODmn2-bjD1sK3w-1
-Received: by mail-pl1-f198.google.com with SMTP id v8so2504001plo.1
- for <qemu-devel@nongnu.org>; Thu, 09 Jul 2020 19:07:56 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=klZ/SYEfFfZ9p7WW3ljBmx4ZXE5dn8I/W9Vms1/FYk0=;
- b=qHdKi8zwX0GvMV7sjeiIGJGfzgSQMX19N7Lb0E8f9oyLjC2siwErB8zIrhbP33dBoK
- TvVUNzjyIyAtsaZiGGYFIUxPesaevv5jlNYJLzqkpmmO06FcTrwEG/HxY/eqyvk6LYwf
- E7gKNX9NSNd3vbblU00gS7dy1CSMJMjd3gYamj+C3YKBw4WhrbPWj2Uu8yVZwZCA28lg
- FovvpTdDeEbsl3yMT98uO1FNaApGcpv68isqwGEQDNjKiRHTzNmtpMBz/z3Rza0gaXsz
- r1zyWm0mmDihx4BGvoli57czxf9bHNSwbU5VW18JeY6hKlvBYn5kIuWLiM44WKD9V9GT
- WDOQ==
-X-Gm-Message-State: AOAM532bE/7ruYO5qpt201q9epALHpxb5kUeiMt2NpJS9sPP/Kw6rcbq
- GeL6U8zlrxLVCAG9m0CpXSWOf6d3aHcgEGXiWyf/GtTH4aciXyOo+OBnn4WLte/6fBIi/usgMQg
- 3RUytC+nZ9oH2pcTPIE0lVpjjGkik770=
-X-Received: by 2002:a17:90a:1d06:: with SMTP id
- c6mr3290937pjd.194.1594346875494; 
- Thu, 09 Jul 2020 19:07:55 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJxyIH021OfEe0CVT9e5kW7i+yK/fVHr/lweqJxILl+7tKCWwOsRZ7tM1JlO7JqdILqtoXDdqrIad7M7a+teUso=
-X-Received: by 2002:a17:90a:1d06:: with SMTP id
- c6mr3290920pjd.194.1594346875256; 
- Thu, 09 Jul 2020 19:07:55 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
+ id 1jtkc2-0005gw-BG
+ for qemu-devel@nongnu.org; Fri, 10 Jul 2020 00:26:14 -0400
+Received: from indium.canonical.com ([91.189.90.7]:53502)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
+ id 1jtkc0-0001Xs-4z
+ for qemu-devel@nongnu.org; Fri, 10 Jul 2020 00:26:14 -0400
+Received: from loganberry.canonical.com ([91.189.90.37])
+ by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
+ id 1jtkbw-0000Vt-1B
+ for <qemu-devel@nongnu.org>; Fri, 10 Jul 2020 04:26:08 +0000
+Received: from loganberry.canonical.com (localhost [127.0.0.1])
+ by loganberry.canonical.com (Postfix) with ESMTP id CC01A2E8124
+ for <qemu-devel@nongnu.org>; Fri, 10 Jul 2020 04:26:02 +0000 (UTC)
 MIME-Version: 1.0
-References: <20200704182750.1088103-1-mst@redhat.com>
- <20200704182750.1088103-41-mst@redhat.com>
- <CAFEAcA-j5dgjCEEf7jOSYhezvzjQMZ0CiEaJJ8Xv1Zniq4VBZw@mail.gmail.com>
-In-Reply-To: <CAFEAcA-j5dgjCEEf7jOSYhezvzjQMZ0CiEaJJ8Xv1Zniq4VBZw@mail.gmail.com>
-From: Cindy Lu <lulu@redhat.com>
-Date: Fri, 10 Jul 2020 10:07:44 +0800
-Message-ID: <CACLfguWSP_=h9JPXfE7uqEzxEWWcnqWKpRuFSnLFkzYw3Snp5A@mail.gmail.com>
-Subject: Re: [PULL v2 40/41] vhost-vdpa: introduce vhost-vdpa backend
-To: Peter Maydell <peter.maydell@linaro.org>
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: multipart/alternative; boundary="000000000000261b6605aa0ccfe9"
-Received-SPF: pass client-ip=207.211.31.120; envelope-from=lulu@redhat.com;
- helo=us-smtp-1.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/07/09 22:07:58
-X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
-X-Spam_score_int: -40
-X-Spam_score: -4.1
-X-Spam_bar: ----
-X-Spam_report: (-4.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- HTML_MESSAGE=0.001, RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-1,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: quoted-printable
+Date: Fri, 10 Jul 2020 04:17:26 -0000
+From: Launchpad Bug Tracker <1877526@bugs.launchpad.net>
+To: qemu-devel@nongnu.org
+X-Launchpad-Notification-Type: bug
+X-Launchpad-Bug: product=qemu; status=Expired; importance=Undecided;
+ assignee=None; 
+X-Launchpad-Bug-Information-Type: Public
+X-Launchpad-Bug-Private: no
+X-Launchpad-Bug-Security-Vulnerability: no
+X-Launchpad-Bug-Commenters: agpr123 janitor th-huth
+X-Launchpad-Bug-Reporter: Prashant (agpr123)
+X-Launchpad-Bug-Modifier: Launchpad Janitor (janitor)
+References: <158892251663.4400.3590186641467240793.malonedeb@chaenomeles.canonical.com>
+Message-Id: <159435464671.10725.7510666587256131622.malone@loganberry.canonical.com>
+Subject: [Bug 1877526] Re: KVM internal crash
+X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
+X-Launchpad-Message-For: qemu-devel-ml
+Precedence: bulk
+X-Generated-By: Launchpad (canonical.com);
+ Revision="4809fcb62f445aaa3ae919f7f6c3cc7d156ea57a";
+ Instance="production-secrets-lazr.conf"
+X-Launchpad-Hash: 5cd30eb0ae1a7f602545ccc5c1e17c1816b0a251
+Received-SPF: none client-ip=91.189.90.7; envelope-from=bounces@canonical.com;
+ helo=indium.canonical.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/07/10 00:26:09
+X-ACL-Warn: Detected OS   = Linux 3.11 and newer [fuzzy]
+X-Spam_score_int: -58
+X-Spam_score: -5.9
+X-Spam_bar: -----
+X-Spam_report: (-5.9 / 5.0 requ) BAYES_00=-1.9, HEADER_FROM_DIFFERENT_DOMAINS=1,
+ RCVD_IN_DNSWL_HI=-5, RCVD_IN_MSPIKE_H3=-0.01, RCVD_IN_MSPIKE_WL=-0.01,
+ SPF_HELO_NONE=0.001, SPF_NONE=0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
-Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -90,229 +72,90 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Jason Wang <jasowang@redhat.com>, Lingshan zhu <lingshan.zhu@intel.com>,
- QEMU Developers <qemu-devel@nongnu.org>, Tiwei Bie <tiwei.bie@intel.com>,
- "Michael S. Tsirkin" <mst@redhat.com>
+Reply-To: Bug 1877526 <1877526@bugs.launchpad.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
---000000000000261b6605aa0ccfe9
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+[Expired for QEMU because there has been no activity for 60 days.]
 
-Peter Maydell <peter.maydell@linaro.org> =E4=BA=8E2020=E5=B9=B47=E6=9C=889=
-=E6=97=A5=E5=91=A8=E5=9B=9B =E4=B8=8B=E5=8D=8811:15=E5=86=99=E9=81=93=EF=BC=
-=9A
+** Changed in: qemu
+       Status: Incomplete =3D> Expired
 
-> On Sat, 4 Jul 2020 at 19:31, Michael S. Tsirkin <mst@redhat.com> wrote:
-> >
-> > From: Cindy Lu <lulu@redhat.com>
-> >
-> > Currently we have 2 types of vhost backends in QEMU: vhost kernel and
-> > vhost-user. The above patch provides a generic device for vDPA purpose,
-> > this vDPA device exposes to user space a non-vendor-specific
-> configuration
-> > interface for setting up a vhost HW accelerator, this patch set
-> introduces
-> > a third vhost backend called vhost-vdpa based on the vDPA interface.
-> >
-> > Vhost-vdpa usage:
-> >
-> > qemu-system-x86_64 -cpu host -enable-kvm \
-> >     ......
-> >     -netdev type=3Dvhost-vdpa,vhostdev=3D/dev/vhost-vdpa-id,id=3Dvhost-=
-vdpa0 \
-> >     -device virtio-net-pci,netdev=3Dvhost-vdpa0,page-per-vq=3Don \
->
-> Hi; Coverity reports some issues with this change:
->
->
-> > +static int vhost_vdpa_dma_map(struct vhost_vdpa *v, hwaddr iova, hwadd=
-r
-> size,
-> > +                              void *vaddr, bool readonly)
-> > +{
-> > +    struct vhost_msg_v2 msg;
-> > +    int fd =3D v->device_fd;
-> > +    int ret =3D 0;
-> > +
-> > +    msg.type =3D v->msg_type;
-> > +    msg.iotlb.iova =3D iova;
-> > +    msg.iotlb.size =3D size;
-> > +    msg.iotlb.uaddr =3D (uint64_t)vaddr;
-> > +    msg.iotlb.perm =3D readonly ? VHOST_ACCESS_RO : VHOST_ACCESS_RW;
-> > +    msg.iotlb.type =3D VHOST_IOTLB_UPDATE;
-> > +
-> > +    if (write(fd, &msg, sizeof(msg)) !=3D sizeof(msg)) {
->
-> Here we write the contents of the struct down the pipe,
-> but we have not initialized all its fields; specifically,
-> msg.reserved is not initialized and so those bytes will
-> be random. We'll also transfer random contents from the
-> stack in the padding, potentially.
->
-> This is CID 1420267.
->
-> The easy fix is to zero-initialize the whole struct at the start:
->
->    struct vhost_msg_v2 msg =3D {};
->
->
-> > +        error_report("failed to write, fd=3D%d, errno=3D%d (%s)",
-> > +            fd, errno, strerror(errno));
-> > +        return -EIO ;
-> > +    }
-> > +
-> > +    return ret;
-> > +}
-> > +
-> > +static int vhost_vdpa_dma_unmap(struct vhost_vdpa *v, hwaddr iova,
-> > +                                hwaddr size)
-> > +{
-> > +    struct vhost_msg_v2 msg;
-> > +    int fd =3D v->device_fd;
-> > +    int ret =3D 0;
-> > +
-> > +    msg.type =3D v->msg_type;
-> > +    msg.iotlb.iova =3D iova;
-> > +    msg.iotlb.size =3D size;
-> > +    msg.iotlb.type =3D VHOST_IOTLB_INVALIDATE;
-> > +
-> > +    if (write(fd, &msg, sizeof(msg)) !=3D sizeof(msg)) {
-> > +        error_report("failed to write, fd=3D%d, errno=3D%d (%s)",
-> > +            fd, errno, strerror(errno));
-> > +        return -EIO ;
-> > +    }
->
-> Same here (CID 1430270)
->
-> > +
-> > +    return ret;
-> > +}
-> > +
->
-> thanks
-> -- PMM
->
-> Thank you Peter, I will fix this soon
+-- =
 
---000000000000261b6605aa0ccfe9
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+You received this bug notification because you are a member of qemu-
+devel-ml, which is subscribed to QEMU.
+https://bugs.launchpad.net/bugs/1877526
 
-<div dir=3D"ltr"><div dir=3D"ltr"><br></div><br><div class=3D"gmail_quote">=
-<div dir=3D"ltr" class=3D"gmail_attr">Peter Maydell &lt;<a href=3D"mailto:p=
-eter.maydell@linaro.org">peter.maydell@linaro.org</a>&gt; =E4=BA=8E2020=E5=
-=B9=B47=E6=9C=889=E6=97=A5=E5=91=A8=E5=9B=9B =E4=B8=8B=E5=8D=8811:15=E5=86=
-=99=E9=81=93=EF=BC=9A<br></div><blockquote class=3D"gmail_quote" style=3D"m=
-argin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);padding-left=
-:1ex">On Sat, 4 Jul 2020 at 19:31, Michael S. Tsirkin &lt;<a href=3D"mailto=
-:mst@redhat.com" target=3D"_blank">mst@redhat.com</a>&gt; wrote:<br>
-&gt;<br>
-&gt; From: Cindy Lu &lt;<a href=3D"mailto:lulu@redhat.com" target=3D"_blank=
-">lulu@redhat.com</a>&gt;<br>
-&gt;<br>
-&gt; Currently we have 2 types of vhost backends in QEMU: vhost kernel and<=
-br>
-&gt; vhost-user. The above patch provides a generic device for vDPA purpose=
-,<br>
-&gt; this vDPA device exposes to user space a non-vendor-specific configura=
-tion<br>
-&gt; interface for setting up a vhost HW accelerator, this patch set introd=
-uces<br>
-&gt; a third vhost backend called vhost-vdpa based on the vDPA interface.<b=
-r>
-&gt;<br>
-&gt; Vhost-vdpa usage:<br>
-&gt;<br>
-&gt; qemu-system-x86_64 -cpu host -enable-kvm \<br>
-&gt;=C2=A0 =C2=A0 =C2=A0......<br>
-&gt;=C2=A0 =C2=A0 =C2=A0-netdev type=3Dvhost-vdpa,vhostdev=3D/dev/vhost-vdp=
-a-id,id=3Dvhost-vdpa0 \<br>
-&gt;=C2=A0 =C2=A0 =C2=A0-device virtio-net-pci,netdev=3Dvhost-vdpa0,page-pe=
-r-vq=3Don \<br>
-<br>
-Hi; Coverity reports some issues with this change:<br>
-<br>
-<br>
-&gt; +static int vhost_vdpa_dma_map(struct vhost_vdpa *v, hwaddr iova, hwad=
-dr size,<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=
- =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 void *vaddr, bool readonly)<br>
-&gt; +{<br>
-&gt; +=C2=A0 =C2=A0 struct vhost_msg_v2 msg;<br>
-&gt; +=C2=A0 =C2=A0 int fd =3D v-&gt;device_fd;<br>
-&gt; +=C2=A0 =C2=A0 int ret =3D 0;<br>
-&gt; +<br>
-&gt; +=C2=A0 =C2=A0 msg.type =3D v-&gt;msg_type;<br>
-&gt; +=C2=A0 =C2=A0 msg.iotlb.iova =3D iova;<br>
-&gt; +=C2=A0 =C2=A0 msg.iotlb.size =3D size;<br>
-&gt; +=C2=A0 =C2=A0 msg.iotlb.uaddr =3D (uint64_t)vaddr;<br>
-&gt; +=C2=A0 =C2=A0 msg.iotlb.perm =3D readonly ? VHOST_ACCESS_RO : VHOST_A=
-CCESS_RW;<br>
-&gt; +=C2=A0 =C2=A0 msg.iotlb.type =3D VHOST_IOTLB_UPDATE;<br>
-&gt; +<br>
-&gt; +=C2=A0 =C2=A0 if (write(fd, &amp;msg, sizeof(msg)) !=3D sizeof(msg)) =
-{<br>
-<br>
-Here we write the contents of the struct down the pipe,<br>
-but we have not initialized all its fields; specifically,<br>
-msg.reserved is not initialized and so those bytes will<br>
-be random. We&#39;ll also transfer random contents from the<br>
-stack in the padding, potentially.<br>
-<br>
-This is CID 1420267.<br>
-<br>
-The easy fix is to zero-initialize the whole struct at the start:<br>
-<br>
-=C2=A0 =C2=A0struct vhost_msg_v2 msg =3D {};<br>
-<br>
-<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 error_report(&quot;failed to write, fd=3D=
-%d, errno=3D%d (%s)&quot;,<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 fd, errno, strerror(errno))=
-;<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 return -EIO ;<br>
-&gt; +=C2=A0 =C2=A0 }<br>
-&gt; +<br>
-&gt; +=C2=A0 =C2=A0 return ret;<br>
-&gt; +}<br>
-&gt; +<br>
-&gt; +static int vhost_vdpa_dma_unmap(struct vhost_vdpa *v, hwaddr iova,<br=
->
-&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=
- =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 hwaddr size)<br>
-&gt; +{<br>
-&gt; +=C2=A0 =C2=A0 struct vhost_msg_v2 msg;<br>
-&gt; +=C2=A0 =C2=A0 int fd =3D v-&gt;device_fd;<br>
-&gt; +=C2=A0 =C2=A0 int ret =3D 0;<br>
-&gt; +<br>
-&gt; +=C2=A0 =C2=A0 msg.type =3D v-&gt;msg_type;<br>
-&gt; +=C2=A0 =C2=A0 msg.iotlb.iova =3D iova;<br>
-&gt; +=C2=A0 =C2=A0 msg.iotlb.size =3D size;<br>
-&gt; +=C2=A0 =C2=A0 msg.iotlb.type =3D VHOST_IOTLB_INVALIDATE;<br>
-&gt; +<br>
-&gt; +=C2=A0 =C2=A0 if (write(fd, &amp;msg, sizeof(msg)) !=3D sizeof(msg)) =
-{<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 error_report(&quot;failed to write, fd=3D=
-%d, errno=3D%d (%s)&quot;,<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 fd, errno, strerror(errno))=
-;<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 return -EIO ;<br>
-&gt; +=C2=A0 =C2=A0 }<br>
-<br>
-Same here (CID 1430270)<br>
-<br>
-&gt; +<br>
-&gt; +=C2=A0 =C2=A0 return ret;<br>
-&gt; +}<br>
-&gt; +<br>
-<br>
-thanks<br>
--- PMM<br>
-<br></blockquote><div>Thank you Peter, I will fix this soon=C2=A0</div></di=
-v></div>
+Title:
+  KVM internal crash
 
---000000000000261b6605aa0ccfe9--
+Status in QEMU:
+  Expired
 
+Bug description:
+  Hi,
+  I am new to this. (apologies if I miss something)
+
+  I see the following error on my host mc when I run an application on
+  my QEMU based VM running ubuntu linux:
+
+  Code=3D4d 39 c8 7f 64 0f 1f 40 00 4d 8d 40 80 49 81 f8 80 00 00 00 <66> 0=
+f 7f 07 66 0f 7f 47 10 66 0f 7f 47 20 66 0f 7f 47 30
+  66 0f 7f 47 40 66 0f 7f 47 50 66
+  KVM internal error. Suberror: 1
+  emulation failure
+  RAX=3D00007fffeb85a000 RBX=3D00000000069ee400 RCX=3D0000000000000000 RDX=
+=3D0000000000000000
+  RSI=3D0000000000000000 RDI=3D00007fffeb85a000 RBP=3D00007fffffff9570 RSP=
+=3D00007fffffff9548
+  R8 =3D0000000000000f80 R9 =3D0000000001000000 R10=3D0000000000000000 R11=
+=3D0000003694e83f3a
+  R12=3D0000000000000000 R13=3D0000000000000000 R14=3D0000000000000000 R15=
+=3D0000000006b75350
+  RIP=3D0000003694e8443b RFL=3D00010206 [-----P-] CPL=3D3 II=3D0 A20=3D1 SM=
+M=3D0 HLT=3D0
+  ES =3D0000 0000000000000000 ffffffff 00000000
+  CS =3D0033 0000000000000000 ffffffff 00a0fb00 DPL=3D3 CS64 [-RA]
+  SS =3D002b 0000000000000000 ffffffff 00c0f300 DPL=3D3 DS   [-WA]
+  DS =3D0000 0000000000000000 ffffffff 00000000
+  FS =3D0000 00007ffff45b5720 ffffffff 00000000
+  GS =3D0000 0000000000000000 ffffffff 00000000
+  LDT=3D0000 0000000000000000 ffffffff 00000000
+  TR =3D0040 ffff88047fd13140 00002087 00008b00 DPL=3D0 TSS64-busy
+  GDT=3D	 ffff88047fd04000 0000007f
+  IDT=3D	 ffffffffff57c000 00000fff
+  CR0=3D80050033 CR2=3D00007ffff7ff4000 CR3=3D000000046cb38000 CR4=3D000006=
+e0
+  DR0=3D0000000000000000 DR1=3D0000000000000000 DR2=3D0000000000000000 DR3=
+=3D0000000000000000
+  DR6=3D00000000ffff0ff0 DR7=3D0000000000000400
+  EFER=3D0000000000000d01
+
+  This occurs with qemu-kvm version(host m/c has RHEL 6.6) :
+  Name        : qemu-kvm
+  Arch        : x86_64
+  Epoch       : 2
+  Version     : 0.12.1.2
+  Release     : 2.506.el6_10.7
+
+  I have another m/c with RHEL 7.5, and the same test case passes with the =
+1.5.3 version.
+  yum info qemu-kvm
+  Name        : qemu-kvm
+  Arch        : x86_64
+  Epoch       : 10
+  Version     : 1.5.3
+
+  How do I investigate this?
+  I would need to patch up the qemu-kvm on the host to get this fixed, I th=
+ink.
+
+  Please let me know if I need to provide more info, (and what?)
+
+  Regards,
+  Prashant
+
+To manage notifications about this bug go to:
+https://bugs.launchpad.net/qemu/+bug/1877526/+subscriptions
 
