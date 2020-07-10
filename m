@@ -2,65 +2,65 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id AEDC421B64C
-	for <lists+qemu-devel@lfdr.de>; Fri, 10 Jul 2020 15:26:41 +0200 (CEST)
-Received: from localhost ([::1]:56126 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id F413121B65F
+	for <lists+qemu-devel@lfdr.de>; Fri, 10 Jul 2020 15:29:36 +0200 (CEST)
+Received: from localhost ([::1]:44302 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jtt32-0006Ar-MN
-	for lists+qemu-devel@lfdr.de; Fri, 10 Jul 2020 09:26:40 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:49894)
+	id 1jtt5s-0004R1-1V
+	for lists+qemu-devel@lfdr.de; Fri, 10 Jul 2020 09:29:36 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:49916)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <anthony.perard@citrix.com>)
- id 1jtsos-0004JI-3l
- for qemu-devel@nongnu.org; Fri, 10 Jul 2020 09:12:02 -0400
-Received: from esa6.hc3370-68.iphmx.com ([216.71.155.175]:1501)
+ id 1jtsov-0004RA-1l
+ for qemu-devel@nongnu.org; Fri, 10 Jul 2020 09:12:05 -0400
+Received: from esa2.hc3370-68.iphmx.com ([216.71.145.153]:60236)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <anthony.perard@citrix.com>)
- id 1jtsoq-0001jK-5q
- for qemu-devel@nongnu.org; Fri, 10 Jul 2020 09:12:01 -0400
+ id 1jtsos-0001jb-Pf
+ for qemu-devel@nongnu.org; Fri, 10 Jul 2020 09:12:04 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple;
- d=citrix.com; s=securemail; t=1594386720;
+ d=citrix.com; s=securemail; t=1594386723;
  h=from:to:cc:subject:date:message-id:in-reply-to:
  references:mime-version:content-transfer-encoding;
- bh=gKGoav32jy6D1wTYeXqZwznlDdJCPEmNvpiim4Sia2E=;
- b=TjRFcUfbRZZN1Ux5w5/MJ3FYZRfB6OWZ6n/KJEfb6vmyedtDSDjHno7R
- 5nWHo3gMhH7dsTW8kaO/zxgoguhweds3snNL5NusrUdMDMI1eWlZ/Jmhl
- c1nklS5MolX2VIQNSqj3OFFUUNXo5AicgDtmssP+BlGZoSO3Okzt+nz5I o=;
-Authentication-Results: esa6.hc3370-68.iphmx.com;
+ bh=Nmb6NQAhCzH4JjUSe1UKDKjxPSYUFa2abwapsmcYj28=;
+ b=X+HGq+nrL9+MxjAIoTpUoywlRWzufKxPaD/OLDoMP6TIm0+2+2T4CHoX
+ s+djc9Cgtbo1YQK/+ZGLwHrx8GNHqp9cmbmmAitWWhoIZ0Yc21K9a9nWD
+ fBy3dAmGQvJ4bnGJ/VCK8K38C3k2xuWR5g3MsyZXsHKGG5OMIZFbNvRCw I=;
+Authentication-Results: esa2.hc3370-68.iphmx.com;
  dkim=none (message not signed) header.i=none
-IronPort-SDR: PAEOZAOKqwv1y16lNBHg3giB8y3OZJyWJXsMaUXbOJ9Hc7VtEC77P29THrOmz6qG2SZYDoxRFW
- h6F7PAcRbfX+CjoSrh/Dcrcg0W52hgNAOgRHBIyDsyAquBlvYLHbTovsY5g9Xyu0HfoY1KGqjt
- S/xoGRgnuesTHCeVHRu+qqLTObwKfNW5ojPbJ6FHA3VhlnEVL6IKsber/OW8VEX7HoFG7RfXxX
- cewNIK1QNbRl04dnyt/sDRmSFMBRNMK+9Rh9jieeXMwgvTXnpUP0iXxBCDlng4Tyvew5BFxzJA
- eYE=
+IronPort-SDR: 6NtbgrUcwTzHphZC00mVAgYezMiyjPFVaIvLjrIxDt0uyB1mfUWbETZ8MXofdy7WWIP/f99xNK
+ THx3E4q70CtUqwk7DEhBuLQ5EN+Vd5dShH2ZMpXq31yq04fTUSoQ+TEUzEZv3Hsok6uMchbEkG
+ 3B/9g1pXg+gnbkdS4YFQspoSpXHGkTe2erQGk6bGKF7GheyyiXAJwhhCVV86RYTlRexKmmmI9V
+ 4Ie535q++HE0g7oRpfQCaITPndOvHl5VrsgJIDHFdaIYc4rcoLKeqP1Dw2MdwYhpziBU1WOcFb
+ /88=
 X-SBRS: 2.7
-X-MesageID: 22397957
-X-Ironport-Server: esa6.hc3370-68.iphmx.com
+X-MesageID: 22068708
+X-Ironport-Server: esa2.hc3370-68.iphmx.com
 X-Remote-IP: 162.221.158.21
 X-Policy: $RELAYED
-X-IronPort-AV: E=Sophos;i="5.75,335,1589256000"; d="scan'208";a="22397957"
+X-IronPort-AV: E=Sophos;i="5.75,335,1589256000"; d="scan'208";a="22068708"
 From: Anthony PERARD <anthony.perard@citrix.com>
 To: <qemu-devel@nongnu.org>
-Subject: [PULL 1/2] xen: Fix xen-legacy-backend qdev types
-Date: Fri, 10 Jul 2020 14:11:44 +0100
-Message-ID: <20200710131145.589476-2-anthony.perard@citrix.com>
+Subject: [PULL 2/2] xen: cleanup unrealized flash devices
+Date: Fri, 10 Jul 2020 14:11:45 +0100
+Message-ID: <20200710131145.589476-3-anthony.perard@citrix.com>
 X-Mailer: git-send-email 2.27.0
 In-Reply-To: <20200710131145.589476-1-anthony.perard@citrix.com>
 References: <20200710131145.589476-1-anthony.perard@citrix.com>
 MIME-Version: 1.0
+Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-Received-SPF: pass client-ip=216.71.155.175;
- envelope-from=anthony.perard@citrix.com; helo=esa6.hc3370-68.iphmx.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/07/10 09:11:58
+Received-SPF: pass client-ip=216.71.145.153;
+ envelope-from=anthony.perard@citrix.com; helo=esa2.hc3370-68.iphmx.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/07/10 09:12:00
 X-ACL-Warn: Detected OS   = FreeBSD 9.x or newer [fuzzy]
 X-Spam_score_int: -53
 X-Spam_score: -5.4
 X-Spam_bar: -----
 X-Spam_report: (-5.4 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_MED=-2.3, RCVD_IN_MSPIKE_H4=-0.01, RCVD_IN_MSPIKE_WL=-0.01,
+ RCVD_IN_DNSWL_MED=-2.3, RCVD_IN_MSPIKE_H3=-0.01, RCVD_IN_MSPIKE_WL=-0.01,
  SPF_HELO_PASS=-0.001, SPF_PASS=-0.001,
  URIBL_BLOCKED=0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
@@ -76,64 +76,85 @@ List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
 Cc: Anthony PERARD <anthony.perard@citrix.com>,
- Peter Maydell <peter.maydell@linaro.org>, Jason Andryuk <jandryuk@gmail.com>,
+ Peter Maydell <peter.maydell@linaro.org>, Paul Durrant <pdurrant@amazon.com>,
  xen-devel@lists.xenproject.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Jason Andryuk <jandryuk@gmail.com>
+From: Paul Durrant <pdurrant@amazon.com>
 
-xen-sysdev is a TYPE_SYS_BUS_DEVICE.  bus_type should not be changed so
-that it can plug into the System bus.  Otherwise this assert triggers:
-qemu-system-i386: hw/core/qdev.c:102: qdev_set_parent_bus: Assertion
-`dc->bus_type && object_dynamic_cast(OBJECT(bus), dc->bus_type)'
-failed.
+The generic pc_machine_initfn() calls pc_system_flash_create() which creates
+'system.flash0' and 'system.flash1' devices. These devices are then realized
+by pc_system_flash_map() which is called from pc_system_firmware_init() which
+itself is called via pc_memory_init(). The latter however is not called when
+xen_enable() is true and hence the following assertion fails:
 
-TYPE_XENBACKEND attaches to TYPE_XENSYSBUS, so its class_init needs to
-be set accordingly to attach the qdev.  Otherwise the following assert
-triggers:
-qemu-system-i386: hw/core/qdev.c:102: qdev_set_parent_bus: Assertion
-`dc->bus_type && object_dynamic_cast(OBJECT(bus), dc->bus_type)'
-failed.
+qemu-system-i386: hw/core/qdev.c:439: qdev_assert_realized_properly:
+Assertion `dev->realized' failed
 
-TYPE_XENBACKEND is not a subclass of XEN_XENSYSDEV, so it's parent
-is just TYPE_DEVICE.  Change that.
+These flash devices are unneeded when using Xen so this patch avoids the
+assertion by simply removing them using pc_system_flash_cleanup_unused().
 
-Signed-off-by: Jason Andryuk <jandryuk@gmail.com>
-Acked-by: Paul Durrant <pdurrant@amazon.com>
-Fixes: 81cb05732efb ("qdev: Assert devices are plugged into a bus that can take them")
-Message-Id: <20200624121939.10282-1-jandryuk@gmail.com>
+Reported-by: Jason Andryuk <jandryuk@gmail.com>
+Fixes: ebc29e1beab0 ("pc: Support firmware configuration with -blockdev")
+Signed-off-by: Paul Durrant <pdurrant@amazon.com>
+Tested-by: Jason Andryuk <jandryuk@gmail.com>
+Reviewed-by: Anthony PERARD <anthony.perard@citrix.com>
+Reviewed-by: Philippe Mathieu-Daudé <philmd@redhat.com>
+Message-Id: <20200624121841.17971-3-paul@xen.org>
+Fixes: dfe8c79c4468 ("qdev: Assert onboard devices all get realized properly")
 Signed-off-by: Anthony PERARD <anthony.perard@citrix.com>
 ---
- hw/xen/xen-legacy-backend.c | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+ hw/i386/pc_piix.c    | 9 ++++++---
+ hw/i386/pc_sysfw.c   | 2 +-
+ include/hw/i386/pc.h | 1 +
+ 3 files changed, 8 insertions(+), 4 deletions(-)
 
-diff --git a/hw/xen/xen-legacy-backend.c b/hw/xen/xen-legacy-backend.c
-index 7d4b13351e06..083d8dc1b28b 100644
---- a/hw/xen/xen-legacy-backend.c
-+++ b/hw/xen/xen-legacy-backend.c
-@@ -789,11 +789,12 @@ static void xendev_class_init(ObjectClass *klass, void *data)
-     set_bit(DEVICE_CATEGORY_MISC, dc->categories);
-     /* xen-backend devices can be plugged/unplugged dynamically */
-     dc->user_creatable = true;
-+    dc->bus_type = TYPE_XENSYSBUS;
+diff --git a/hw/i386/pc_piix.c b/hw/i386/pc_piix.c
+index 2bb42a814144..3469b1fd1072 100644
+--- a/hw/i386/pc_piix.c
++++ b/hw/i386/pc_piix.c
+@@ -186,9 +186,12 @@ static void pc_init1(MachineState *machine,
+     if (!xen_enabled()) {
+         pc_memory_init(pcms, system_memory,
+                        rom_memory, &ram_memory);
+-    } else if (machine->kernel_filename != NULL) {
+-        /* For xen HVM direct kernel boot, load linux here */
+-        xen_load_linux(pcms);
++    } else {
++        pc_system_flash_cleanup_unused(pcms);
++        if (machine->kernel_filename != NULL) {
++            /* For xen HVM direct kernel boot, load linux here */
++            xen_load_linux(pcms);
++        }
+     }
+ 
+     gsi_state = pc_gsi_create(&x86ms->gsi, pcmc->pci_enabled);
+diff --git a/hw/i386/pc_sysfw.c b/hw/i386/pc_sysfw.c
+index ec2a3b3e7eff..0ff47a4b5915 100644
+--- a/hw/i386/pc_sysfw.c
++++ b/hw/i386/pc_sysfw.c
+@@ -108,7 +108,7 @@ void pc_system_flash_create(PCMachineState *pcms)
+     }
  }
  
- static const TypeInfo xendev_type_info = {
-     .name          = TYPE_XENBACKEND,
--    .parent        = TYPE_XENSYSDEV,
-+    .parent        = TYPE_DEVICE,
-     .class_init    = xendev_class_init,
-     .instance_size = sizeof(struct XenLegacyDevice),
- };
-@@ -824,7 +825,6 @@ static void xen_sysdev_class_init(ObjectClass *klass, void *data)
-     DeviceClass *dc = DEVICE_CLASS(klass);
+-static void pc_system_flash_cleanup_unused(PCMachineState *pcms)
++void pc_system_flash_cleanup_unused(PCMachineState *pcms)
+ {
+     char *prop_name;
+     int i;
+diff --git a/include/hw/i386/pc.h b/include/hw/i386/pc.h
+index a802e699749a..3d7ed3a55e30 100644
+--- a/include/hw/i386/pc.h
++++ b/include/hw/i386/pc.h
+@@ -186,6 +186,7 @@ ISADevice *pc_find_fdc0(void);
  
-     device_class_set_props(dc, xen_sysdev_properties);
--    dc->bus_type = TYPE_XENSYSBUS;
- }
+ /* pc_sysfw.c */
+ void pc_system_flash_create(PCMachineState *pcms);
++void pc_system_flash_cleanup_unused(PCMachineState *pcms);
+ void pc_system_firmware_init(PCMachineState *pcms, MemoryRegion *rom_memory);
  
- static const TypeInfo xensysdev_info = {
+ /* acpi-build.c */
 -- 
 Anthony PERARD
 
