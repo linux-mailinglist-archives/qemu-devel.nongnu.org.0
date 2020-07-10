@@ -2,50 +2,50 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B0B0921AE86
-	for <lists+qemu-devel@lfdr.de>; Fri, 10 Jul 2020 07:26:07 +0200 (CEST)
-Received: from localhost ([::1]:50426 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7116421AEA9
+	for <lists+qemu-devel@lfdr.de>; Fri, 10 Jul 2020 07:29:32 +0200 (CEST)
+Received: from localhost ([::1]:40924 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jtlXy-0005MN-LN
-	for lists+qemu-devel@lfdr.de; Fri, 10 Jul 2020 01:26:06 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:50830)
+	id 1jtlbH-0004cA-Hh
+	for lists+qemu-devel@lfdr.de; Fri, 10 Jul 2020 01:29:31 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:50894)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1jtlUe-0007de-8R
- for qemu-devel@nongnu.org; Fri, 10 Jul 2020 01:22:40 -0400
-Received: from us-smtp-2.mimecast.com ([205.139.110.61]:45901
- helo=us-smtp-delivery-1.mimecast.com)
+ (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1jtlUh-0007mK-4B
+ for qemu-devel@nongnu.org; Fri, 10 Jul 2020 01:22:43 -0400
+Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:47132
+ helo=us-smtp-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1jtlUb-0008Ej-PV
- for qemu-devel@nongnu.org; Fri, 10 Jul 2020 01:22:39 -0400
+ (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1jtlUf-0008Fg-D4
+ for qemu-devel@nongnu.org; Fri, 10 Jul 2020 01:22:42 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1594358557;
+ s=mimecast20190719; t=1594358560;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=Gt5bdR8o0JAhInkTgPVMvDF+0bcSYyhERKJO3jGGaJE=;
- b=jWRHCCoyqnUbVX+y+zNo+OPko/mz7EXovWBw9K7/aHrWdAe5S+BYlfM5BDCdVoSn5JwQja
- Nq31LqKir4CZngVgCyaTyHlmGzrCWK2hLc0k4mqXeF4qUhHnNzLqIiOWk03nUGSdX5HYcx
- Ea58Z1/InVt0xxPoRjNYoeQyun/Vvd4=
+ bh=xy9s+1wdx+fQwdHHZY7/5KndW5zbjdDLC4YYERX1j7M=;
+ b=IbviGaNeC4uIN8A9t9Gk7V6plrQR+UGOyzzdfdYBtnxtZ2AAYbjy9cJMHwPAApNs0sfHkd
+ JUtMklDabAnRjNC+hRVnrZ7E9A62ZMt36RlhLzVjtOMPQ4dxmF6jKhrZ+hS5wL53Vaw8nl
+ HHyi+uWgVR+fSm4H5v66EH46a6RlA7I=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-494-vRjlN3tHNc235PiY77egTA-1; Fri, 10 Jul 2020 01:22:34 -0400
-X-MC-Unique: vRjlN3tHNc235PiY77egTA-1
+ us-mta-467-279Qz5BWPhC5Lm3wr7NrFw-1; Fri, 10 Jul 2020 01:22:36 -0400
+X-MC-Unique: 279Qz5BWPhC5Lm3wr7NrFw-1
 Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
  [10.5.11.13])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 07B9019057A4;
- Fri, 10 Jul 2020 05:22:34 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 37FF91082;
+ Fri, 10 Jul 2020 05:22:35 +0000 (UTC)
 Received: from probe.redhat.com (ovpn-118-196.rdu2.redhat.com [10.10.118.196])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 02FC3920CA;
- Fri, 10 Jul 2020 05:22:32 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 33E0379231;
+ Fri, 10 Jul 2020 05:22:34 +0000 (UTC)
 From: John Snow <jsnow@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v5 10/16] python/machine.py: Handle None events in events_wait
-Date: Fri, 10 Jul 2020 01:22:14 -0400
-Message-Id: <20200710052220.3306-11-jsnow@redhat.com>
+Subject: [PATCH v5 11/16] python/machine.py: use qmp.command
+Date: Fri, 10 Jul 2020 01:22:15 -0400
+Message-Id: <20200710052220.3306-12-jsnow@redhat.com>
 In-Reply-To: <20200710052220.3306-1-jsnow@redhat.com>
 References: <20200710052220.3306-1-jsnow@redhat.com>
 MIME-Version: 1.0
@@ -54,9 +54,9 @@ X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=205.139.110.61; envelope-from=jsnow@redhat.com;
- helo=us-smtp-delivery-1.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/07/09 22:08:55
+Received-SPF: pass client-ip=207.211.31.120; envelope-from=jsnow@redhat.com;
+ helo=us-smtp-1.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/07/10 00:36:21
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
 X-Spam_score_int: -40
 X-Spam_score: -4.1
@@ -84,74 +84,72 @@ Cc: Kevin Wolf <kwolf@redhat.com>, Eduardo Habkost <ehabkost@redhat.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-If the timeout is 0, we can get None back. Handle this explicitly.
+machine.py and qmp.py both do the same thing here; refactor machine.py
+to use qmp.py's functionality more directly.
 
 Signed-off-by: John Snow <jsnow@redhat.com>
 Reviewed-by: Kevin Wolf <kwolf@redhat.com>
 ---
- python/qemu/machine.py | 27 ++++++++++++++++++++-------
- 1 file changed, 20 insertions(+), 7 deletions(-)
+ python/qemu/machine.py | 26 +++++++++++++++-----------
+ 1 file changed, 15 insertions(+), 11 deletions(-)
 
 diff --git a/python/qemu/machine.py b/python/qemu/machine.py
-index 37e859f6d2..48e70253fa 100644
+index 48e70253fa..0df94c3211 100644
 --- a/python/qemu/machine.py
 +++ b/python/qemu/machine.py
-@@ -33,7 +33,7 @@
- from types import TracebackType
+@@ -26,6 +26,8 @@
+ import socket
+ import tempfile
+ from typing import (
++    Any,
++    Dict,
+     List,
+     Optional,
+     Type,
+@@ -505,17 +507,23 @@ def set_qmp_monitor(self, enabled=True):
+             self._qmp_set = False
+             self._qmp = None
  
- from . import qmp
--from .qmp import SocketAddrT
-+from .qmp import SocketAddrT, QMPMessage
+-    def qmp(self, cmd, conv_keys=True, **args):
+-        """
+-        Invoke a QMP command and return the response dict
+-        """
++    @classmethod
++    def _qmp_args(cls, _conv_keys: bool = True, **args: Any) -> Dict[str, Any]:
+         qmp_args = dict()
+         for key, value in args.items():
+-            if conv_keys:
++            if _conv_keys:
+                 qmp_args[key.replace('_', '-')] = value
+             else:
+                 qmp_args[key] = value
++        return qmp_args
  
- LOG = logging.getLogger(__name__)
++    def qmp(self, cmd: str,
++            conv_keys: bool = True,
++            **args: Any) -> QMPMessage:
++        """
++        Invoke a QMP command and return the response dict
++        """
++        qmp_args = self._qmp_args(conv_keys, **args)
+         return self._qmp.cmd(cmd, args=qmp_args)
  
-@@ -594,13 +594,20 @@ def event_wait(self, name, timeout=60.0, match=None):
- 
-     def events_wait(self, events, timeout=60.0):
+     def command(self, cmd, conv_keys=True, **args):
+@@ -524,12 +532,8 @@ def command(self, cmd, conv_keys=True, **args):
+         On success return the response dict.
+         On failure raise an exception.
          """
--        events_wait waits for and returns a named event
--        from QMP with a timeout.
-+        events_wait waits for and returns a single named event from QMP.
-+        In the case of multiple qualifying events, this function returns the
-+        first one.
+-        reply = self.qmp(cmd, conv_keys, **args)
+-        if reply is None:
+-            raise qmp.QMPError("Monitor is closed")
+-        if "error" in reply:
+-            raise qmp.QMPResponseError(reply)
+-        return reply["return"]
++        qmp_args = self._qmp_args(conv_keys, **args)
++        return self._qmp.command(cmd, **qmp_args)
  
--        events: a sequence of (name, match_criteria) tuples.
--                The match criteria are optional and may be None.
--                See event_match for details.
--        timeout: QEMUMonitorProtocol.pull_event timeout parameter.
-+        :param events: A sequence of (name, match_criteria) tuples.
-+                       The match criteria are optional and may be None.
-+                       See event_match for details.
-+        :param timeout: Optional timeout, in seconds.
-+                        See QEMUMonitorProtocol.pull_event.
-+
-+        :raise QMPTimeoutError: If timeout was non-zero and no matching events
-+                                were found.
-+        :return: A QMP event matching the filter criteria.
-+                 If timeout was 0 and no event matched, None.
+     def get_qmp_event(self, wait=False):
          """
-         def _match(event):
-             for name, match in events:
-@@ -608,6 +615,8 @@ def _match(event):
-                     return True
-             return False
- 
-+        event: Optional[QMPMessage]
-+
-         # Search cached events
-         for event in self._events:
-             if _match(event):
-@@ -617,6 +626,10 @@ def _match(event):
-         # Poll for new events
-         while True:
-             event = self._qmp.pull_event(wait=timeout)
-+            if event is None:
-+                # NB: None is only returned when timeout is false-ish.
-+                # Timeouts raise QMPTimeoutError instead!
-+                break
-             if _match(event):
-                 return event
-             self._events.append(event)
 -- 
 2.21.3
 
