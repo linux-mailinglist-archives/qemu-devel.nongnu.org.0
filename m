@@ -2,61 +2,63 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0744921BB0E
-	for <lists+qemu-devel@lfdr.de>; Fri, 10 Jul 2020 18:34:17 +0200 (CEST)
-Received: from localhost ([::1]:47946 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 14EB621BB1B
+	for <lists+qemu-devel@lfdr.de>; Fri, 10 Jul 2020 18:36:02 +0200 (CEST)
+Received: from localhost ([::1]:56744 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jtvya-0005jJ-3H
-	for lists+qemu-devel@lfdr.de; Fri, 10 Jul 2020 12:34:16 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:47046)
+	id 1jtw0H-0000pp-14
+	for lists+qemu-devel@lfdr.de; Fri, 10 Jul 2020 12:36:01 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:47088)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mreitz@redhat.com>) id 1jtvxO-00044s-10
- for qemu-devel@nongnu.org; Fri, 10 Jul 2020 12:33:02 -0400
-Received: from us-smtp-1.mimecast.com ([205.139.110.61]:57159
- helo=us-smtp-delivery-1.mimecast.com)
+ (Exim 4.90_1) (envelope-from <mreitz@redhat.com>) id 1jtvxQ-0004AJ-DC
+ for qemu-devel@nongnu.org; Fri, 10 Jul 2020 12:33:04 -0400
+Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:25135
+ helo=us-smtp-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <mreitz@redhat.com>) id 1jtvxM-0007vh-G6
- for qemu-devel@nongnu.org; Fri, 10 Jul 2020 12:33:01 -0400
+ (Exim 4.90_1) (envelope-from <mreitz@redhat.com>) id 1jtvxO-0007wF-Jy
+ for qemu-devel@nongnu.org; Fri, 10 Jul 2020 12:33:04 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1594398779;
+ s=mimecast20190719; t=1594398781;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=cvyzzuBWOhSh/D2b/DAr+rl5JnwWsbc2V629CLjsrqI=;
- b=ijZh+43bbf/ZpAN2OwgJfF22XY+Wvn8C8KmC4wSrLx5A5yw6xUM/7lcB/AJ2Xgd33h8Eej
- 8hsau9TUF4fnxj8aN+w9kKUMIICztRssppgN0lHsTRJI1sWgGKzCQ7pvI8n+/brJ8vEavS
- R/mHv9suNdqvbhX0iVUjTr6bYdBCVZw=
+ bh=1qvgfdDbJyx0FSKKYpjGqjvLuz7TsNE3OArmZbqiiGM=;
+ b=I6dtjP460tWBRQGerBqNEAeOGEz++PL7imx+vDeXWdAwKF2Pcc+26hhJWG3Gi67mreQe91
+ uIjfEr2Q584N8sZT8ZzDe3fyHzakdN8EZ4BKzRiWWpOZjKrQ+lznhJbROy3Ei7XDGYgF1v
+ jrjtQexcIvq04P/fjUvAfwqS/Kja2mM=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-198-krdl1TxwMjqcSqRuSs_jpw-1; Fri, 10 Jul 2020 12:32:58 -0400
-X-MC-Unique: krdl1TxwMjqcSqRuSs_jpw-1
-Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
- [10.5.11.14])
+ us-mta-30-j1scYp37OkOJRR9pTFUalw-1; Fri, 10 Jul 2020 12:33:00 -0400
+X-MC-Unique: j1scYp37OkOJRR9pTFUalw-1
+Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
+ [10.5.11.23])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 17525107BEF5;
- Fri, 10 Jul 2020 16:32:57 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 22BF2800685;
+ Fri, 10 Jul 2020 16:32:59 +0000 (UTC)
 Received: from localhost (ovpn-113-127.ams2.redhat.com [10.36.113.127])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id B050C17D82;
- Fri, 10 Jul 2020 16:32:56 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id BA69E1A913;
+ Fri, 10 Jul 2020 16:32:58 +0000 (UTC)
 From: Max Reitz <mreitz@redhat.com>
 To: qemu-block@nongnu.org
-Subject: [PATCH 1/2] iotests: Drop readarray from _do_filter_img_create
-Date: Fri, 10 Jul 2020 18:32:51 +0200
-Message-Id: <20200710163253.381630-2-mreitz@redhat.com>
+Subject: [PATCH 2/2] iotests: Set LC_ALL=C for sort
+Date: Fri, 10 Jul 2020 18:32:52 +0200
+Message-Id: <20200710163253.381630-3-mreitz@redhat.com>
 In-Reply-To: <20200710163253.381630-1-mreitz@redhat.com>
 References: <20200710163253.381630-1-mreitz@redhat.com>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=mreitz@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=205.139.110.61; envelope-from=mreitz@redhat.com;
- helo=us-smtp-delivery-1.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/07/09 22:08:55
+Received-SPF: pass client-ip=205.139.110.120; envelope-from=mreitz@redhat.com;
+ helo=us-smtp-1.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/07/10 04:36:30
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
 X-Spam_score_int: -40
 X-Spam_score: -4.1
@@ -82,40 +84,31 @@ Cc: Kevin Wolf <kwolf@redhat.com>, John Snow <jsnow@redhat.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Some systems where we run tests on do not have a 4.x bash, so they do
-not have readarray.  While it looked a bit nicer than messing with
-`head` and `tail`, we do not really need it, so we might as well not use
-it.
+Otherwise the result is basically unpredictable.
 
-Reported-by: Claudio Fontana <cfontana@suse.de>
+(Note that the precise environment variable to control sorting order is
+LC_COLLATE, but LC_ALL overrides LC_COLLATE, and we do not want the
+sorting order to be messed up if LC_ALL is set in the environment.)
+
+Reported-by: John Snow <jsnow@redhat.com>
 Signed-off-by: Max Reitz <mreitz@redhat.com>
 ---
- tests/qemu-iotests/common.filter | 10 +++++-----
- 1 file changed, 5 insertions(+), 5 deletions(-)
+ tests/qemu-iotests/common.filter | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
 diff --git a/tests/qemu-iotests/common.filter b/tests/qemu-iotests/common.filter
-index 3833206327..345c3ca03e 100644
+index 345c3ca03e..4fd5c29b2a 100644
 --- a/tests/qemu-iotests/common.filter
 +++ b/tests/qemu-iotests/common.filter
-@@ -138,13 +138,13 @@ _do_filter_img_create()
-     # Split the line into the pre-options part ($filename_part, which
-     # precedes ", fmt=") and the options part ($options, which starts
-     # with "fmt=")
--    # (And just echo everything before the first "^Formatting")
--    readarray formatting_line < <($SED -e 's/, fmt=/\n/')
-+    read formatting_line
- 
--    filename_part=${formatting_line[0]}
--    unset formatting_line[0]
-+    # Split line at the first ", fmt="
-+    formatting_line=$(echo "$formatting_line" | $SED -e 's/, fmt=/\nfmt=/')
- 
--    options="fmt=${formatting_line[@]}"
-+    filename_part=$(echo "$formatting_line" | head -n 1)
-+    options=$(echo "$formatting_line" | tail -n +2)
- 
-     # Set grep_data_file to '\|data_file' to keep it; make it empty
-     # to drop it.
+@@ -177,7 +177,7 @@ _do_filter_img_create()
+             -e 's/^\(data_file\)/3-\1/' \
+             -e 's/^\(encryption\)/4-\1/' \
+             -e 's/^\(preallocation\)/8-\1/' \
+-        | sort \
++        | LC_ALL=C sort \
+         | $SED -e 's/^[0-9]-//' \
+         | tr '\n\0' ' \n' \
+         | $SED -e 's/^ *$//' -e 's/ *$//'
 -- 
 2.26.2
 
