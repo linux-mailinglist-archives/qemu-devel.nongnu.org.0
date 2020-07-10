@@ -2,75 +2,74 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3BCF521BB23
-	for <lists+qemu-devel@lfdr.de>; Fri, 10 Jul 2020 18:38:04 +0200 (CEST)
-Received: from localhost ([::1]:37326 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A3ABA21BB30
+	for <lists+qemu-devel@lfdr.de>; Fri, 10 Jul 2020 18:40:44 +0200 (CEST)
+Received: from localhost ([::1]:49938 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jtw2F-0004VK-9G
-	for lists+qemu-devel@lfdr.de; Fri, 10 Jul 2020 12:38:03 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:45456)
+	id 1jtw4p-0001FD-MK
+	for lists+qemu-devel@lfdr.de; Fri, 10 Jul 2020 12:40:43 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:45706)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1jtvrE-0001lm-0O
- for qemu-devel@nongnu.org; Fri, 10 Jul 2020 12:26:40 -0400
-Received: from mail-wm1-x341.google.com ([2a00:1450:4864:20::341]:36797)
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1jtvsK-0003ir-7B
+ for qemu-devel@nongnu.org; Fri, 10 Jul 2020 12:27:48 -0400
+Received: from mail-pj1-x1036.google.com ([2607:f8b0:4864:20::1036]:56251)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1jtvrC-0006p7-4P
- for qemu-devel@nongnu.org; Fri, 10 Jul 2020 12:26:39 -0400
-Received: by mail-wm1-x341.google.com with SMTP id 17so6486737wmo.1
- for <qemu-devel@nongnu.org>; Fri, 10 Jul 2020 09:26:37 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1jtvsI-0006wu-FO
+ for qemu-devel@nongnu.org; Fri, 10 Jul 2020 12:27:47 -0400
+Received: by mail-pj1-x1036.google.com with SMTP id ch3so2830084pjb.5
+ for <qemu-devel@nongnu.org>; Fri, 10 Jul 2020 09:27:46 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=references:user-agent:from:to:cc:subject:in-reply-to:date
- :message-id:mime-version:content-transfer-encoding;
- bh=3s478deOtkUPFKIhLl/EcsPM0RzNKQYs5vdQkkQwchY=;
- b=OJSjmaC0fTfsbNJOHPEHJROwFQePateQOWvUZgLkVRwpFYb0trMDs+WkpaDlJT1lgC
- Rc2aJjEB/tEMkBluEV0Cp2zyeoAW00HKcq506GLKUeAOf49ewNC8gwwE5s8GQI7qNT3n
- N8HvW+cik59KNia3lDjePHLm/zbzSCWlxH+l39kjCy9W29foVVM0z8zSQtGNlbZ/F/g1
- Ef48DqyZez46kPh1RTdq/3zCi3KFC66RQ3Z9A8vTF/DcjBMf2/LZS/wlJUiXnZsdiAWo
- r3YqxvwPhAmAcd8K6gh+LELZh0d5snD8WPxhzsS8VsCwFWVmSpAeI03KbM++Ub/+PL73
- Iinw==
+ h=subject:to:cc:references:from:message-id:date:user-agent
+ :mime-version:in-reply-to:content-language:content-transfer-encoding;
+ bh=CYS9TLyYkHg1F2blr6tDCqhey8HUKUq7La1KlDpHz8k=;
+ b=b4S5gQWEmeRUXSw1LPYVFF2h9xp+Ew4iv9DDRyleCx/HMg8nLCeoQxTzpWbUUoeaZL
+ /UOQlihvkVXi/87FNPtY/5EOs/rOLupVdvnFxOKvQ2MI6HwZVSZKQg16s9t2NtbzBo6X
+ 4NJLALFdMZMawQZC+sPMQwQExEaKTvgaARgi1TMsz0g0fh2Z/aCJz3XCVni/Qhqwxqrg
+ kzW1q8QZmkTk/Ofr6O97S8AM4ymzlgaotQrzjn1QjALB23N/GmAyzEcKKqPcxBhGsvA/
+ ktoXb8pSkvQdgsufNXK1NF6+xFUzo51veZkzhhi32sXKl9oEE3zQI8RuxvCgzSok9NH+
+ vmWw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:references:user-agent:from:to:cc:subject
- :in-reply-to:date:message-id:mime-version:content-transfer-encoding;
- bh=3s478deOtkUPFKIhLl/EcsPM0RzNKQYs5vdQkkQwchY=;
- b=fpNGFPy/UcTWCQDGGB8VZ4Pp96v2Zc9oS/5NKFph+GkTrN2ep1FXwnkc+XFRcs6ewx
- qjztWOnpYFUl97/xuzCenRKlqE+z5xzjcqagtMwrbtCAmcwZ+uMgOI3EVS8uX97A6ZtG
- NRN6kECnRZWFKGPGIlrST/uFuRJxnxISUmHck1cnQLIY5ZLNnMqsOh+gJ1ePT846+0UX
- LYvCOBvfctAPGglsFTJU4eYAapOUZ+qNNlPeTp6GcUfBYNhx30dK6XOMsh9KD54O6DxB
- nbh3tIzxtE4OsFvPltcVHUZJT4ujtjg+md81Xkh9TS9YNTAEmnNLamE9Y4zIgPFMKiXY
- 2u4Q==
-X-Gm-Message-State: AOAM5334E/jmZNUKSB8JuAsthpxFOfXJhxxfQrBeH0GV2zIcndY9xGkV
- YqJ9SromTwcsRJtVTEjGgyOGNw==
-X-Google-Smtp-Source: ABdhPJz9oZoOGW/8R2E6LKAw8xW5Foh/JYUqWjf1opS/I4KYo5SWYPJc+RLY2hCeBKf+7ybXOTpQSA==
-X-Received: by 2002:a7b:c197:: with SMTP id y23mr6310693wmi.114.1594398396428; 
- Fri, 10 Jul 2020 09:26:36 -0700 (PDT)
-Received: from zen.linaroharston ([51.148.130.216])
- by smtp.gmail.com with ESMTPSA id d81sm24871401wmc.0.2020.07.10.09.26.35
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 10 Jul 2020 09:26:35 -0700 (PDT)
-Received: from zen (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id 704841FF7E;
- Fri, 10 Jul 2020 17:26:34 +0100 (BST)
-References: <20200701135652.1366-1-alex.bennee@linaro.org>
- <20200701135652.1366-37-alex.bennee@linaro.org>
- <03ef8691-5839-12aa-4649-b4e04172a15c@redhat.com>
- <87365zl8mi.fsf@linaro.org>
- <b2b2b438-5879-e3cb-0ddb-017bd0fa77df@amsat.org>
-User-agent: mu4e 1.5.4; emacs 28.0.50
-From: Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
-To: Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
-Subject: Re: [PATCH v4 36/40] gitlab: split build-disabled into two phases
-In-reply-to: <b2b2b438-5879-e3cb-0ddb-017bd0fa77df@amsat.org>
-Date: Fri, 10 Jul 2020 17:26:34 +0100
-Message-ID: <87tuyfjpz9.fsf@linaro.org>
+ h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=CYS9TLyYkHg1F2blr6tDCqhey8HUKUq7La1KlDpHz8k=;
+ b=Ywq2cft11DDWLxh+S+2i4xNRyQE7VtxEff9jSZ0ek/OJnfTLqh43ojeDdeZJ3f7Ce2
+ ynzF6Rjyciz4JH98gYrWnEuxQPDzlyMxfQZsTbwC1UHKsTTV0QDB4fwRNJuhHBE+LZ1t
+ MYKlpC7m6LDuX0zIQ72b6EaZewp6LWO1HagJLqoasm/UoLyt7rUqY+HzkklWSS0zXy8n
+ VgDPLXdsS4V6ecv1k3KdEUM16bb+b+VLaTfpNNobtaW7gTv6iEyw1vi3FZgqWch2Y5HX
+ rsZ4Ax0ku9hO2v4NSb03352Hx4jezi0NYmaNWY5LHjcyz7nSX8w5xZM4ZU7vJP5JRgnB
+ N4Ag==
+X-Gm-Message-State: AOAM532ANeSqhF25OnBe+nM5v6IYFrlofvZ4m8PM0G1KerRt6a0S11Od
+ kPIrlOZgWnOPBQlKT3jxS9v7Pg==
+X-Google-Smtp-Source: ABdhPJzN+X7DCHttvgPvNeovPz1niVw7u+tNAOzvoA0AxISFI/W9plhWXjdfiLed4lZs1PdL+YFXyg==
+X-Received: by 2002:a17:902:326:: with SMTP id
+ 35mr60162464pld.301.1594398464793; 
+ Fri, 10 Jul 2020 09:27:44 -0700 (PDT)
+Received: from [192.168.1.11] (174-21-143-238.tukw.qwest.net. [174.21.143.238])
+ by smtp.gmail.com with ESMTPSA id 129sm6648788pfv.161.2020.07.10.09.27.43
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Fri, 10 Jul 2020 09:27:43 -0700 (PDT)
+Subject: Re: [RFC 05/65] target/riscv: remove vsll.vi, vsrl.vi, vsra.vi insns
+ from using gvec
+To: frank.chang@sifive.com, qemu-devel@nongnu.org, qemu-riscv@nongnu.org
+References: <20200710104920.13550-1-frank.chang@sifive.com>
+ <20200710104920.13550-6-frank.chang@sifive.com>
+From: Richard Henderson <richard.henderson@linaro.org>
+Message-ID: <452e8bc7-4622-77c2-ec81-9aa6f25705fc@linaro.org>
+Date: Fri, 10 Jul 2020 09:27:42 -0700
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.8.0
 MIME-Version: 1.0
+In-Reply-To: <20200710104920.13550-6-frank.chang@sifive.com>
 Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=2a00:1450:4864:20::341;
- envelope-from=alex.bennee@linaro.org; helo=mail-wm1-x341.google.com
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=2607:f8b0:4864:20::1036;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pj1-x1036.google.com
 X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
  That's all we know.
 X-Spam_score_int: -20
@@ -92,43 +91,39 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: fam@euphon.net, Thomas Huth <thuth@redhat.com>, berrange@redhat.com,
- richard.henderson@linaro.org, qemu-devel@nongnu.org,
- Wainer dos Santos Moschetta <wainersm@redhat.com>, cota@braap.org,
- Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
- aurelien@aurel32.net
+Cc: Alistair Francis <Alistair.Francis@wdc.com>,
+ Palmer Dabbelt <palmer@dabbelt.com>, LIU Zhiwei <zhiwei_liu@c-sky.com>,
+ Sagar Karandikar <sagark@eecs.berkeley.edu>,
+ Bastian Koppelmann <kbastian@mail.uni-paderborn.de>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+On 7/10/20 3:48 AM, frank.chang@sifive.com wrote:
+> From: Frank Chang <frank.chang@sifive.com>
+> 
+> vsll.vi, vsrl.vi, vsra.vi cannot use shli gvec as it requires the
+> shift immediate value to be within the range: [0.. SEW bits].
+> Otherwise, it will hit the assertion:
+> tcg_debug_assert(shift >= 0 && shift < (8 << vece));
+> 
+> However, RVV spec does not have such constraint, therefore we have to
+> use helper functions instead.
 
-Philippe Mathieu-Daud=C3=A9 <f4bug@amsat.org> writes:
+Why do you say that?  It does have such a constraint:
 
-> On 7/10/20 4:58 PM, Alex Benn=C3=A9e wrote:
->>=20
->> Thomas Huth <thuth@redhat.com> writes:
->>=20
->>> On 01/07/2020 15.56, Alex Benn=C3=A9e wrote:
->>>> As we run check-qtest in "SLOW" mode this can timeout so split into
->>>> two jobs.
->>>>
->>>> Signed-off-by: Alex Benn=C3=A9e <alex.bennee@linaro.org>
->>>> Reviewed-by: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
->>>> Reviewed-by: Thomas Huth <thuth@redhat.com>
->>>
->>>  Hi Alex,
->>>
->>> I think you can drop this patch and use "[PATCH v2] tests: improve
->>> performance of device-introspect-test" instead.
->>=20
->> As I'm re-rolling the PR sure...
->
-> Also maybe:
->
-> https://www.mail-archive.com/qemu-devel@nongnu.org/msg721458.html
+# Only the low lg2(SEW) bits are read to obtain the shift amount from a
+register value.
 
-I don't think it's directly related - can we just avoid pilling a bunch
-of stuff in on a re-roll please.
+While that only talks about the register value, I sincerely doubt that the same
+truncation does not actually apply to immediates.
 
---=20
-Alex Benn=C3=A9e
+And if the entire immediate value does apply, the manual should certainly
+specify what should happen in that case.  And at present it doesn't.
+
+It seems to me the bug is the bare use of GEN_OPIVI_GVEC_TRANS and thence
+do_opivi_gvec.  The ZX parameter should be extended to more than just "zero vs
+sign-extend", it should have an option for truncating the immediate to s->sew.
+
+
+r~
 
