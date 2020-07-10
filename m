@@ -2,51 +2,50 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6DCA921AE54
-	for <lists+qemu-devel@lfdr.de>; Fri, 10 Jul 2020 07:08:28 +0200 (CEST)
-Received: from localhost ([::1]:58596 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1A29021AE58
+	for <lists+qemu-devel@lfdr.de>; Fri, 10 Jul 2020 07:10:03 +0200 (CEST)
+Received: from localhost ([::1]:38760 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jtlGt-0001kU-D8
-	for lists+qemu-devel@lfdr.de; Fri, 10 Jul 2020 01:08:27 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:47786)
+	id 1jtlIQ-00057N-1Y
+	for lists+qemu-devel@lfdr.de; Fri, 10 Jul 2020 01:10:02 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:47800)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1jtlFY-0008K2-S0
- for qemu-devel@nongnu.org; Fri, 10 Jul 2020 01:07:04 -0400
-Received: from us-smtp-2.mimecast.com ([205.139.110.61]:39563
+ (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1jtlFa-0008Od-Pi
+ for qemu-devel@nongnu.org; Fri, 10 Jul 2020 01:07:06 -0400
+Received: from us-smtp-1.mimecast.com ([205.139.110.61]:53025
  helo=us-smtp-delivery-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1jtlFX-0006WH-A6
- for qemu-devel@nongnu.org; Fri, 10 Jul 2020 01:07:04 -0400
+ (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1jtlFZ-0006WX-9b
+ for qemu-devel@nongnu.org; Fri, 10 Jul 2020 01:07:06 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1594357622;
+ s=mimecast20190719; t=1594357624;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=fkJ8hUlWRvnz65aFt1QkMyOPu4kYG90PHBXmxYIwPRo=;
- b=W8pHImo1l6rzJ70Msbx+luAaV4P5U6mPEc8RT6vbkvjzVll6PLXl7Sg8roAGCk9gr+oNvF
- FbdqQ+wHfa9ZdNwTDIRjn6yuz3BLDyhkxUvJ1Gxp8ZQMFYBHTMguRmmImpJ/2ZA4gdzHBu
- I4ebDJirz3+HQavGs/txB5/srVjv26E=
+ bh=9v80O3fWqGNBt/FomJzB2cVwGtaWrYQoqftjGdBjHXA=;
+ b=EyjNqONqIlWxZEdNhygcSkgwbhPnKwNhrdjRroUVuwzWB+Fq0XDsPxBALW3XIC9oXizK7s
+ w7DhiFBnaQStEVOw9L2UfCjKuaiWrLi+U5uwy7Unozj30WG2rbAzieO2FCuTFiLx/Balka
+ 8dTj1aPfEBz+OFFlKuHdhHftfq+GuJs=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-320-9wOtbyJBORyl0nj1gf5ZLQ-1; Fri, 10 Jul 2020 01:07:00 -0400
-X-MC-Unique: 9wOtbyJBORyl0nj1gf5ZLQ-1
+ us-mta-372-cqD7cpcuP6ODUZ-CaN0Tfw-1; Fri, 10 Jul 2020 01:07:02 -0400
+X-MC-Unique: cqD7cpcuP6ODUZ-CaN0Tfw-1
 Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
  [10.5.11.22])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 926CA1082;
- Fri, 10 Jul 2020 05:06:59 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 5154391C941;
+ Fri, 10 Jul 2020 05:07:01 +0000 (UTC)
 Received: from probe.redhat.com (ovpn-118-196.rdu2.redhat.com [10.10.118.196])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 5E54810098A1;
- Fri, 10 Jul 2020 05:06:58 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id C64CB100EBA9;
+ Fri, 10 Jul 2020 05:06:59 +0000 (UTC)
 From: John Snow <jsnow@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v5 04/12] python/machine.py: Perform early cleanup for wait()
- calls, too
-Date: Fri, 10 Jul 2020 01:06:41 -0400
-Message-Id: <20200710050649.32434-5-jsnow@redhat.com>
+Subject: [PATCH v5 05/12] python/machine.py: Prohibit multiple shutdown() calls
+Date: Fri, 10 Jul 2020 01:06:42 -0400
+Message-Id: <20200710050649.32434-6-jsnow@redhat.com>
 In-Reply-To: <20200710050649.32434-1-jsnow@redhat.com>
 References: <20200710050649.32434-1-jsnow@redhat.com>
 MIME-Version: 1.0
@@ -88,27 +87,65 @@ Cc: kwolf@redhat.com, Aleksandar Rikalo <aleksandar.rikalo@syrmia.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-This is primarily for consistency, and is a step towards wait() and
-shutdown() sharing the same implementation so that the two cleanup paths
-cannot diverge.
+If the VM is not launched, don't try to shut it down. As a change,
+_post_shutdown now unconditionally also calls _early_cleanup in order to
+offer comprehensive object cleanup in failure cases.
+
+As a courtesy, treat it as a NOP instead of rejecting it as an
+error. This is slightly nicer for acceptance tests where vm.shutdown()
+is issued unconditionally in tearDown callbacks.
 
 Signed-off-by: John Snow <jsnow@redhat.com>
 ---
- python/qemu/machine.py | 1 +
- 1 file changed, 1 insertion(+)
+ python/qemu/machine.py | 14 +++++++++++++-
+ 1 file changed, 13 insertions(+), 1 deletion(-)
 
 diff --git a/python/qemu/machine.py b/python/qemu/machine.py
-index 4280aab380..cac466fbe6 100644
+index cac466fbe6..e66a7d66dd 100644
 --- a/python/qemu/machine.py
 +++ b/python/qemu/machine.py
-@@ -369,6 +369,7 @@ def wait(self):
-         """
-         Wait for the VM to power off
-         """
-+        self._early_cleanup()
-         self._popen.wait()
-         self._post_shutdown()
+@@ -283,6 +283,13 @@ def _post_launch(self):
+             self._qmp.accept()
  
+     def _post_shutdown(self):
++        """
++        Called to cleanup the VM instance after the process has exited.
++        May also be called after a failed launch.
++        """
++        # Comprehensive reset for the failed launch case:
++        self._early_cleanup()
++
+         if self._qmp:
+             self._qmp.close()
+             self._qmp = None
+@@ -328,7 +335,7 @@ def launch(self):
+             self._launch()
+             self._launched = True
+         except:
+-            self.shutdown()
++            self._post_shutdown()
+ 
+             LOG.debug('Error launching VM')
+             if self._qemu_full_args:
+@@ -357,6 +364,8 @@ def _launch(self):
+     def _early_cleanup(self) -> None:
+         """
+         Perform any cleanup that needs to happen before the VM exits.
++
++        Called additionally by _post_shutdown for comprehensive cleanup.
+         """
+         # If we keep the console socket open, we may deadlock waiting
+         # for QEMU to exit, while QEMU is waiting for the socket to
+@@ -377,6 +386,9 @@ def shutdown(self, has_quit=False, hard=False):
+         """
+         Terminate the VM and clean up
+         """
++        if not self._launched:
++            return
++
+         self._early_cleanup()
+ 
+         if self.is_running():
 -- 
 2.21.3
 
