@@ -2,70 +2,82 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E172621BEA5
-	for <lists+qemu-devel@lfdr.de>; Fri, 10 Jul 2020 22:38:30 +0200 (CEST)
-Received: from localhost ([::1]:41194 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 78AC821BEEF
+	for <lists+qemu-devel@lfdr.de>; Fri, 10 Jul 2020 23:03:29 +0200 (CEST)
+Received: from localhost ([::1]:54052 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jtzmv-0003UW-UY
-	for lists+qemu-devel@lfdr.de; Fri, 10 Jul 2020 16:38:29 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:43950)
+	id 1ju0B6-0002by-1i
+	for lists+qemu-devel@lfdr.de; Fri, 10 Jul 2020 17:03:28 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:49286)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1jtzlZ-0002Hy-PE
- for qemu-devel@nongnu.org; Fri, 10 Jul 2020 16:37:05 -0400
-Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:49692
- helo=us-smtp-1.mimecast.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1jtzlX-00059F-CV
- for qemu-devel@nongnu.org; Fri, 10 Jul 2020 16:37:05 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1594413422;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:content-type:content-type:in-reply-to:in-reply-to:
- references:references; bh=8qlGmGrgHANwfMvpo6+UtQCStftgDKpMZzRk3Hfn5U0=;
- b=TRtIH1HL0P7lzQYOQKT8iDu9ag3iZOkAC6HanR81Clqgkq8r7u7IRfxfFp6cv+3k2ipJqF
- GKplxp0FmJEw+sF5IzvuVGVwx4Is974U959sT4C3tnGDNAeOYyFvkCWN3eZzY+AXTinLIg
- XFPEQQOlvwu6Iwkya4hxwudn6ucQUuw=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-106-h9LMx_KqOuqu02HeEBmO4w-1; Fri, 10 Jul 2020 16:36:57 -0400
-X-MC-Unique: h9LMx_KqOuqu02HeEBmO4w-1
-Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
- [10.5.11.13])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 4C61B100A691;
- Fri, 10 Jul 2020 20:36:56 +0000 (UTC)
-Received: from sirius.home.kraxel.org (ovpn-115-89.ams2.redhat.com
- [10.36.115.89])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 4792874F50;
- Fri, 10 Jul 2020 20:36:53 +0000 (UTC)
-Received: by sirius.home.kraxel.org (Postfix, from userid 1000)
- id 92F2B17510; Fri, 10 Jul 2020 22:36:52 +0200 (CEST)
-From: Gerd Hoffmann <kraxel@redhat.com>
-To: qemu-devel@nongnu.org
-Subject: [PATCH 2/2] Revert "vga: build virtio-gpu as module"
-Date: Fri, 10 Jul 2020 22:36:52 +0200
-Message-Id: <20200710203652.9708-3-kraxel@redhat.com>
-In-Reply-To: <20200710203652.9708-1-kraxel@redhat.com>
-References: <20200710203652.9708-1-kraxel@redhat.com>
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=kraxel@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=US-ASCII
-Received-SPF: pass client-ip=205.139.110.120; envelope-from=kraxel@redhat.com;
- helo=us-smtp-1.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/07/10 15:06:59
-X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
-X-Spam_score_int: -40
-X-Spam_score: -4.1
-X-Spam_bar: ----
-X-Spam_report: (-4.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-1, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001, URIBL_BLOCKED=0.001 autolearn=ham autolearn_force=no
+ (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
+ id 1ju0AH-00025t-He
+ for qemu-devel@nongnu.org; Fri, 10 Jul 2020 17:02:37 -0400
+Received: from mail-wm1-x342.google.com ([2a00:1450:4864:20::342]:38809)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
+ id 1ju0AF-0008Ms-Pi
+ for qemu-devel@nongnu.org; Fri, 10 Jul 2020 17:02:37 -0400
+Received: by mail-wm1-x342.google.com with SMTP id f18so7181655wml.3
+ for <qemu-devel@nongnu.org>; Fri, 10 Jul 2020 14:02:35 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=references:user-agent:from:to:cc:subject:in-reply-to:date
+ :message-id:mime-version:content-transfer-encoding;
+ bh=O1y9yYA/o/HzSAWykiYrrgEbKdJXgXx74QYZQ1QKLlA=;
+ b=VU/NXzd4xCmmiTN3kvbrudogO21tAqdjotL/MtVDhXr8fsJoOOfxm5p94lcj86HLv8
+ Qu/SNgsUu0FJXcNUAUTX3f1JiV3HMHfDgFt84FrE0OEaUFYvsOp6MvcD10bs1Bo+cYwQ
+ wEFIgIWeiQ8veQKj/9QRlPteHg9sHB/p+MM57bqo1QwUvuYqWt82EZq0R+3soLGjLTxf
+ YonOWARalWRZwck23GuIJSsuF8cJE/MJrEisNCzyScwt/gqlXyIfAEjTIWrC6KiL+qB0
+ dPwJOu/pgeDjzqAyaxUIJglW1cmpM91Q8h9HbvggyMQq5/CPB63XysFWezfZbtnwDimA
+ EB2A==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:references:user-agent:from:to:cc:subject
+ :in-reply-to:date:message-id:mime-version:content-transfer-encoding;
+ bh=O1y9yYA/o/HzSAWykiYrrgEbKdJXgXx74QYZQ1QKLlA=;
+ b=MgRAGjhmuXBikGpzYv9ch563534rs+89r4DBgdqY1IXInOIzx0TKCcW2YejePvp0I3
+ NvkfftmZHB0ba47uqv4eMHkZ22/50a+jTOACy3S0JGN5pKQ9/+42Py0lLYvfIocjQFpa
+ /DJV0cjYuh3NS7Kk6RZ3vzXfIl6EF+Km1ZVjXZrXDtc5DkrO4K/5nGAYSViwTb/NJvyR
+ 5cs1mNAAQgh2vebC0wqGJHKYwdjMIfT+aaPLtUW9nRTca7oDOzFJb0rP6ytjA8T82xUv
+ WpL0v8DHxomwTHEl9RGFwCrnFCXyQU6yYJTzhspc1UuQjKpjOlgXFERGxZqoqZ9w4s9a
+ aenw==
+X-Gm-Message-State: AOAM533/OzP4MgOKp02SolXc3Y5hscl2ikDFoVAq4KgogWVcuJgVtJeQ
+ msWRZ/+OUXqLtRcdWXthCYn9mA==
+X-Google-Smtp-Source: ABdhPJxMfUv3wN89PJ/88haEY9ge2mzDfhkRu2wE+JrsmHvwXaqc0iWkVg8t2lMRyIurrZqIJtATVQ==
+X-Received: by 2002:a05:600c:258:: with SMTP id
+ 24mr6873695wmj.70.1594414953455; 
+ Fri, 10 Jul 2020 14:02:33 -0700 (PDT)
+Received: from zen.linaroharston ([51.148.130.216])
+ by smtp.gmail.com with ESMTPSA id u8sm11414270wrt.28.2020.07.10.14.02.32
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Fri, 10 Jul 2020 14:02:32 -0700 (PDT)
+Received: from zen (localhost [127.0.0.1])
+ by zen.linaroharston (Postfix) with ESMTP id 21C381FF7E;
+ Fri, 10 Jul 2020 22:02:31 +0100 (BST)
+References: <20200710163253.381630-1-mreitz@redhat.com>
+ <20200710163253.381630-2-mreitz@redhat.com>
+User-agent: mu4e 1.5.4; emacs 28.0.50
+From: Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
+To: Max Reitz <mreitz@redhat.com>
+Subject: Re: [PATCH 1/2] iotests: Drop readarray from _do_filter_img_create
+In-reply-to: <20200710163253.381630-2-mreitz@redhat.com>
+Date: Fri, 10 Jul 2020 22:02:30 +0100
+Message-ID: <87imevjd7d.fsf@linaro.org>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=2a00:1450:4864:20::342;
+ envelope-from=alex.bennee@linaro.org; helo=mail-wm1-x342.google.com
+X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
+ That's all we know.
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -78,81 +90,56 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Laurent Vivier <lvivier@redhat.com>,
- Peter Maydell <peter.maydell@linaro.org>, Thomas Huth <thuth@redhat.com>,
- Gerd Hoffmann <kraxel@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>,
- =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>
+Cc: Kevin Wolf <kwolf@redhat.com>, John Snow <jsnow@redhat.com>,
+ qemu-devel@nongnu.org, qemu-block@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-This reverts commit 8d5a24c83dba90b08ef163bbf166d6dfbad9019b.
 
-Compiling all virtio-gpu objects into a single module isn't a good plan
-because the individual objects have different CONFIG_* dependencies.
-Leads to module load failures on s390x due to vga support being
-disabled, which in turn breaks '-device virtio-gpu-device' (flagged by
-travis ci).
+Max Reitz <mreitz@redhat.com> writes:
 
-So back to the drawing board for modular virtio-gpu ...
+> Some systems where we run tests on do not have a 4.x bash, so they do
+> not have readarray.  While it looked a bit nicer than messing with
+> `head` and `tail`, we do not really need it, so we might as well not use
+> it.
 
-Signed-off-by: Gerd Hoffmann <kraxel@redhat.com>
----
- util/module.c            |  6 ------
- hw/display/Makefile.objs | 23 ++++++++++-------------
- 2 files changed, 10 insertions(+), 19 deletions(-)
+I've fixed the cirrus build failure by brew installing a more recent
+bash. However if we prefer we could do this.
 
-diff --git a/util/module.c b/util/module.c
-index 32b0547b8266..90e9bd42c6c7 100644
---- a/util/module.c
-+++ b/util/module.c
-@@ -266,12 +266,6 @@ static struct {
-     { "usb-redir",             "hw-", "usb-redirect"          },
-     { "qxl-vga",               "hw-", "display-qxl"           },
-     { "qxl",                   "hw-", "display-qxl"           },
--    { "virtio-gpu-device",     "hw-", "display-virtio-gpu"    },
--    { "virtio-gpu-pci",        "hw-", "display-virtio-gpu"    },
--    { "virtio-vga",            "hw-", "display-virtio-gpu"    },
--    { "vhost-user-gpu-device", "hw-", "display-virtio-gpu"    },
--    { "vhost-user-gpu-pci",    "hw-", "display-virtio-gpu"    },
--    { "vhost-user-vga",        "hw-", "display-virtio-gpu"    },
-     { "chardev-braille",       "chardev-", "baum"             },
- };
- 
-diff --git a/hw/display/Makefile.objs b/hw/display/Makefile.objs
-index e907f3182b0c..d619594ad4d3 100644
---- a/hw/display/Makefile.objs
-+++ b/hw/display/Makefile.objs
-@@ -49,19 +49,16 @@ common-obj-m += qxl.mo
- qxl.mo-objs = qxl.o qxl-logger.o qxl-render.o
- endif
- 
--ifeq ($(CONFIG_VIRTIO_GPU),y)
--common-obj-m += virtio-gpu.mo
--virtio-gpu-obj-$(CONFIG_VIRTIO_GPU) += virtio-gpu-base.o virtio-gpu.o virtio-gpu-3d.o
--virtio-gpu-obj-$(CONFIG_VHOST_USER_GPU) += vhost-user-gpu.o
--virtio-gpu-obj-$(call land,$(CONFIG_VIRTIO_GPU),$(CONFIG_VIRTIO_PCI)) += virtio-gpu-pci.o
--virtio-gpu-obj-$(call land,$(CONFIG_VHOST_USER_GPU),$(CONFIG_VIRTIO_PCI)) += vhost-user-gpu-pci.o
--virtio-gpu-obj-$(CONFIG_VIRTIO_VGA) += virtio-vga.o
--virtio-gpu-obj-$(CONFIG_VHOST_USER_VGA) += vhost-user-vga.o
--virtio-gpu.mo-objs := $(virtio-gpu-obj-y)
--virtio-gpu.mo-cflags := $(VIRGL_CFLAGS)
--virtio-gpu.mo-libs := $(VIRGL_LIBS)
--endif
--
-+common-obj-$(CONFIG_VIRTIO_GPU) += virtio-gpu-base.o virtio-gpu.o virtio-gpu-3d.o
-+common-obj-$(CONFIG_VHOST_USER_GPU) += vhost-user-gpu.o
-+common-obj-$(call land,$(CONFIG_VIRTIO_GPU),$(CONFIG_VIRTIO_PCI)) += virtio-gpu-pci.o
-+common-obj-$(call land,$(CONFIG_VHOST_USER_GPU),$(CONFIG_VIRTIO_PCI)) += vhost-user-gpu-pci.o
-+common-obj-$(CONFIG_VIRTIO_VGA) += virtio-vga.o
-+common-obj-$(CONFIG_VHOST_USER_VGA) += vhost-user-vga.o
-+virtio-gpu.o-cflags := $(VIRGL_CFLAGS)
-+virtio-gpu.o-libs += $(VIRGL_LIBS)
-+virtio-gpu-3d.o-cflags := $(VIRGL_CFLAGS)
-+virtio-gpu-3d.o-libs += $(VIRGL_LIBS)
- common-obj-$(CONFIG_DPCD) += dpcd.o
- common-obj-$(CONFIG_XLNX_ZYNQMP_ARM) += xlnx_dp.o
- 
--- 
-2.18.4
+>
+> Reported-by: Claudio Fontana <cfontana@suse.de>
+> Signed-off-by: Max Reitz <mreitz@redhat.com>
+> ---
+>  tests/qemu-iotests/common.filter | 10 +++++-----
+>  1 file changed, 5 insertions(+), 5 deletions(-)
+>
+> diff --git a/tests/qemu-iotests/common.filter b/tests/qemu-iotests/common=
+.filter
+> index 3833206327..345c3ca03e 100644
+> --- a/tests/qemu-iotests/common.filter
+> +++ b/tests/qemu-iotests/common.filter
+> @@ -138,13 +138,13 @@ _do_filter_img_create()
+>      # Split the line into the pre-options part ($filename_part, which
+>      # precedes ", fmt=3D") and the options part ($options, which starts
+>      # with "fmt=3D")
+> -    # (And just echo everything before the first "^Formatting")
+> -    readarray formatting_line < <($SED -e 's/, fmt=3D/\n/')
+> +    read formatting_line
+>=20=20
+> -    filename_part=3D${formatting_line[0]}
+> -    unset formatting_line[0]
+> +    # Split line at the first ", fmt=3D"
+> +    formatting_line=3D$(echo "$formatting_line" | $SED -e 's/, fmt=3D/\n=
+fmt=3D/')
+>=20=20
+> -    options=3D"fmt=3D${formatting_line[@]}"
+> +    filename_part=3D$(echo "$formatting_line" | head -n 1)
+> +    options=3D$(echo "$formatting_line" | tail -n +2)
+>=20=20
+>      # Set grep_data_file to '\|data_file' to keep it; make it empty
+>      # to drop it.
 
+
+--=20
+Alex Benn=C3=A9e
 
