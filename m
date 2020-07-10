@@ -2,69 +2,84 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 32E3D21B939
-	for <lists+qemu-devel@lfdr.de>; Fri, 10 Jul 2020 17:17:50 +0200 (CEST)
-Received: from localhost ([::1]:40598 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 28ADC21B93F
+	for <lists+qemu-devel@lfdr.de>; Fri, 10 Jul 2020 17:19:15 +0200 (CEST)
+Received: from localhost ([::1]:46160 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jtumb-0000BT-8N
-	for lists+qemu-devel@lfdr.de; Fri, 10 Jul 2020 11:17:49 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:54430)
+	id 1jtuny-0002Uj-89
+	for lists+qemu-devel@lfdr.de; Fri, 10 Jul 2020 11:19:14 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:55132)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <david@redhat.com>) id 1jtuk3-0005xS-Pr
- for qemu-devel@nongnu.org; Fri, 10 Jul 2020 11:15:11 -0400
-Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:48230
- helo=us-smtp-1.mimecast.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <david@redhat.com>) id 1jtujy-0003a1-CE
- for qemu-devel@nongnu.org; Fri, 10 Jul 2020 11:15:11 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1594394105;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=cedthYX9XANVte4Y0kCgMXK9EVZ7zMFGGO304Vk6GPU=;
- b=SKZkcPkJFeZ7rLsnXK97CXqvXy7khWtgpZ+CrQYfWuZVrqiqBkMwtWJJ1k3Br5x0xQ+Ahj
- t4IcTZNvqEbg+5fCeZrsW+d416WnlS061siZvJdYOWr8gIg3uRQfAIkH91DdAz608OJlLo
- JFg7OCp9gcQi1OvwJ9afRvIGKLNzqEk=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-323-NgN0xhMBO8WSsBtPbF89VA-1; Fri, 10 Jul 2020 11:15:01 -0400
-X-MC-Unique: NgN0xhMBO8WSsBtPbF89VA-1
-Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
- [10.5.11.16])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 9FBD51940920;
- Fri, 10 Jul 2020 15:14:59 +0000 (UTC)
-Received: from t480s.redhat.com (ovpn-114-41.ams2.redhat.com [10.36.114.41])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 0F1025C1BD;
- Fri, 10 Jul 2020 15:14:51 +0000 (UTC)
-From: David Hildenbrand <david@redhat.com>
-To: qemu-devel@nongnu.org
-Subject: [PATCH RFCv2 6/6] s390x: initial support for virtio-mem
-Date: Fri, 10 Jul 2020 17:14:51 +0200
-Message-Id: <20200710151451.39643-1-david@redhat.com>
-In-Reply-To: <20200710151239.39370-1-david@redhat.com>
-References: <20200710151239.39370-1-david@redhat.com>
+ (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
+ id 1jtumq-0001dQ-El
+ for qemu-devel@nongnu.org; Fri, 10 Jul 2020 11:18:04 -0400
+Received: from mail-wr1-x443.google.com ([2a00:1450:4864:20::443]:37255)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
+ id 1jtump-00040u-0D
+ for qemu-devel@nongnu.org; Fri, 10 Jul 2020 11:18:04 -0400
+Received: by mail-wr1-x443.google.com with SMTP id a6so6348511wrm.4
+ for <qemu-devel@nongnu.org>; Fri, 10 Jul 2020 08:18:02 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=sender:subject:to:cc:references:from:message-id:date:user-agent
+ :mime-version:in-reply-to:content-language:content-transfer-encoding;
+ bh=/WYIO9BrIBpug4SqrjwVxOv5g8GW1doshoEqeRS23oY=;
+ b=UZYbU+sxrBVlPxYSqT6xlVUdS7stVGbOgmwZ0iQkeNmneuRKFOzFPyTS39xmXHMa2N
+ 6xinCr2KxEyBtjdfrwdaL1C0hCmi+hkmeVlvuV5xVASNvZsEFr6S/E385LPOV/NAIBH4
+ Dkj60Auf38LJ6Ry3p7zW4FITTn5iob0kzLjenimRvg3VoMuTpz/10dfTBHb5FThEA2xE
+ O3FGtbNVvqCiMPG4GfFoMn5fR0GlzVYozpHq1ppAUT0HUvRwQn5oFrF/+Xo6F4BL9/5h
+ Gfpr+OOYbj/rQSthDd1OHGLyMHJkVv2vf+Db31QW82WP1tAx8zNqeeshUm44md2qgE6n
+ 6ZNg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:sender:subject:to:cc:references:from:message-id
+ :date:user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=/WYIO9BrIBpug4SqrjwVxOv5g8GW1doshoEqeRS23oY=;
+ b=jIFGQSthbIk2mjPr02HhoVDYE3Utvwa/jXi4BvRI+f/L31bCUcbZSs3mUDrmkxS62K
+ ccGXV/DM5eJNWu8ona+RR2jsk7LnvXLrbp3O1ekiTi05lM688V6bo8Bh91Nhjz5o2DC2
+ mKnRlk4SFqxZI0QuuPql+/nfFdyCZpr46HTrYEJ5eHaFs95gH6NKxoe94exGjflZG5OV
+ pViVMbZucYv3YOk8b1r59WaBTPJvqG2kBmKs3qRT4EsM2wNPXPjm37LS80RLiPp4RaQh
+ QMmv4xb+eZ5hO7ZkqAg0kYVXc+E/rAyg2/Bx032GSeikKBkRUu3zbZP0KmeTRaXP/M8N
+ Gn1A==
+X-Gm-Message-State: AOAM531VcYSgutbDeLX5iq6TxuOoxLWqBs8Qhc+Exfnvyu9sMMlJgycL
+ d+ReawefOCPq1c8hbnVkLss=
+X-Google-Smtp-Source: ABdhPJxegX0jBbHtzItO+gENVIlPA+Za/Gl+c8fLOW399VqLby2byE9sJazMyKat4sjTNQIH/R/gqQ==
+X-Received: by 2002:adf:f0ce:: with SMTP id x14mr65628726wro.137.1594394281417; 
+ Fri, 10 Jul 2020 08:18:01 -0700 (PDT)
+Received: from [192.168.1.37] (138.red-83-57-170.dynamicip.rima-tde.net.
+ [83.57.170.138])
+ by smtp.gmail.com with ESMTPSA id f16sm9611353wmh.27.2020.07.10.08.17.59
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Fri, 10 Jul 2020 08:18:00 -0700 (PDT)
+Subject: Re: [PULL 00/32] AVR port
+To: Peter Maydell <peter.maydell@linaro.org>, Thomas Huth <thuth@redhat.com>
+References: <20200707181710.30950-1-f4bug@amsat.org>
+ <CAFEAcA85TE+W39fphhm77hNKmAJyEMmaTseDkL1t4gTkzzcbJQ@mail.gmail.com>
+ <47ca6b92-cedb-a6c4-754b-b7cd5da597e7@redhat.com>
+ <CAFEAcA_wBT+Yfsn+DFZkcRxYWKmF04U2JHNVz5mNuXabeDcN5g@mail.gmail.com>
+From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>
+Message-ID: <544208da-9dad-5fab-ab43-b2537a1f2f90@amsat.org>
+Date: Fri, 10 Jul 2020 17:17:59 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.5.0
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=207.211.31.120; envelope-from=david@redhat.com;
- helo=us-smtp-1.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/07/10 00:36:21
-X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
-X-Spam_score_int: -40
-X-Spam_score: -4.1
-X-Spam_bar: ----
-X-Spam_report: (-4.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-1, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+In-Reply-To: <CAFEAcA_wBT+Yfsn+DFZkcRxYWKmF04U2JHNVz5mNuXabeDcN5g@mail.gmail.com>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=2a00:1450:4864:20::443;
+ envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wr1-x443.google.com
+X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
+ That's all we know.
+X-Spam_score_int: 0
+X-Spam_score: 0.0
+X-Spam_bar: /
+X-Spam_report: (0.0 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1, DKIM_VALID=-0.1,
+ DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=1, FREEMAIL_FROM=0.001,
+ HEADER_FROM_DIFFERENT_DOMAINS=1, RCVD_IN_DNSWL_NONE=-0.0001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -77,288 +92,64 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Thomas Huth <thuth@redhat.com>, Janosch Frank <frankja@linux.ibm.com>,
- "Michael S . Tsirkin" <mst@redhat.com>, Heiko Carstens <hca@linux.ibm.com>,
- Cornelia Huck <cohuck@redhat.com>, David Hildenbrand <david@redhat.com>,
- Halil Pasic <pasic@linux.ibm.com>,
- Christian Borntraeger <borntraeger@de.ibm.com>, qemu-s390x@nongnu.org,
- Claudio Imbrenda <imbrenda@linux.ibm.com>, Richard Henderson <rth@twiddle.net>
+Cc: Laurent Vivier <lvivier@redhat.com>, Sarah Harris <S.E.Harris@kent.ac.uk>,
+ Eduardo Habkost <ehabkost@redhat.com>, Thomas Huth <huth@tuxfamily.org>,
+ =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>,
+ QEMU Developers <qemu-devel@nongnu.org>,
+ Wainer dos Santos Moschetta <wainersm@redhat.com>,
+ Markus Armbruster <armbru@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>,
+ Michael Rolnik <mrolnik@gmail.com>, Pavel Dovgalyuk <pavel.dovgaluk@ispras.ru>,
+ Cleber Rosa <crosa@redhat.com>,
+ =?UTF-8?Q?Marc-Andr=c3=a9_Lureau?= <marcandre.lureau@redhat.com>,
+ =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>,
+ Richard Henderson <rth@twiddle.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Let's wire up the initial, basic virtio-mem implementation in QEMU. It will
-have to see some important extensions (esp., resizeable allocations)
-before it can be considered production ready. Also, the focus on the Linux
-driver side is on memory hotplug, there are a lot of things optimize in
-the future to improve memory unplug capabilities. However, the basics
-are in place.
+On 7/10/20 5:12 PM, Peter Maydell wrote:
+> On Fri, 10 Jul 2020 at 16:03, Thomas Huth <thuth@redhat.com> wrote:
+>> Endianess bug ... this should fix it:
+>>
+>> diff --git a/target/avr/helper.c b/target/avr/helper.c
+>> --- a/target/avr/helper.c
+>> +++ b/target/avr/helper.c
+>> @@ -337,6 +337,7 @@ void helper_fullwr(CPUAVRState *env, uint32_t data,
+>> uint32_t addr)
+>>          helper_outb(env, addr - NUMBER_OF_CPU_REGISTERS, data);
+>>      } else {
+>>          /* memory */
+>> -        cpu_physical_memory_write(OFFSET_DATA + addr, &data, 1);
+>> +        uint8_t data8 = data;
+>> +        cpu_physical_memory_write(OFFSET_DATA + addr, &data8, 1);
+>>      }
+> 
+> Or equivalently
+>   address_space_stb(&address_space_memory, data, MEMTXATTRS_UNSPECIFIED, NULL);
+> 
+> (better choices of address space may be available, but this is
+> the exact-same-behaviour one).
 
-Block migration for now, as we'll have to take proper care of storage
-keys and storage attributes. Also, make sure to not hotplug huge pages
-to a setup without huge pages.
+Ah, this is my stashed fix:
 
-With a Linux guest that supports virtio-mem (and has
-CONFIG_MEMORY_HOTPLUG_DEFAULT_ONLINE set for now), a basic example.
-
-1. Start a VM with 2G initial memory and a virtio-mem device with a maximum
-   capacity of 18GB (and an initial size of 300M):
-    sudo qemu-system-s390x \
-        --enable-kvm \
-        -m 2G,maxmem=20G \
-        -smp 4 \
-        -nographic \
-        -chardev socket,id=monitor,path=/var/tmp/monitor,server,nowait \
-        -mon chardev=monitor,mode=readline \
-        -net nic -net user \
-        -hda s390x.cow2 \
-        -object memory-backend-ram,id=mem0,size=18G \
-        -device virtio-mem-ccw,id=vm0,memdev=mem0,requested-size=300M
-
-2. Query the current size of virtio-mem device:
-    (qemu) info memory-devices
-    Memory device [virtio-mem]: "vm0"
-      memaddr: 0x80000000
-      node: 0
-      requested-size: 314572800
-      size: 314572800
-      max-size: 19327352832
-      block-size: 1048576
-      memdev: /objects/mem0
-
-3. Request to grow it to 8GB:
-    (qemu) qom-set vm0 requested-size 8G
-    (qemu) info memory-devices
-    Memory device [virtio-mem]: "vm0"
-      memaddr: 0x80000000
-      node: 0
-      requested-size: 8589934592
-      size: 8589934592
-      max-size: 19327352832
-      block-size: 1048576
-      memdev: /objects/mem0
-
-4. Request to shrink it to 800M (might take a while, might not fully
-   succeed, and might not be able to remove memory blocks in Linux):
-  (qemu) qom-set vm0 requested-size 800M
-  (qemu) info memory-devices
-  Memory device [virtio-mem]: "vm0"
-    memaddr: 0x80000000
-    node: 0
-    requested-size: 838860800
-    size: 838860800
-    max-size: 19327352832
-    block-size: 1048576
-    memdev: /objects/mem0
-
-Note: Due to lack of resizeable allocations, we will go ahead and
-reserve a 18GB vmalloc area + size the QEMU RAM slot + KVM mamory slot
-18GB. echo 1 > /proc/sys/vm/overcommit_memory might be required for
-now. In the future, this area will instead grow on actual demand and shrink
-when possible.
-
-Signed-off-by: David Hildenbrand <david@redhat.com>
----
- hw/s390x/Kconfig           |   1 +
- hw/s390x/Makefile.objs     |   1 +
- hw/s390x/s390-virtio-ccw.c | 116 ++++++++++++++++++++++++++++++++++++-
- hw/virtio/virtio-mem.c     |   2 +
- 4 files changed, 118 insertions(+), 2 deletions(-)
-
-diff --git a/hw/s390x/Kconfig b/hw/s390x/Kconfig
-index 5e7d8a2bae..b8619c1adc 100644
---- a/hw/s390x/Kconfig
-+++ b/hw/s390x/Kconfig
-@@ -10,3 +10,4 @@ config S390_CCW_VIRTIO
-     select SCLPCONSOLE
-     select VIRTIO_CCW
-     select MSI_NONBROKEN
-+    select VIRTIO_MEM_SUPPORTED
-diff --git a/hw/s390x/Makefile.objs b/hw/s390x/Makefile.objs
-index a46a1c7894..924775d6f0 100644
---- a/hw/s390x/Makefile.objs
-+++ b/hw/s390x/Makefile.objs
-@@ -20,6 +20,7 @@ obj-$(CONFIG_VIRTIO_NET) += virtio-ccw-net.o
- obj-$(CONFIG_VIRTIO_BLK) += virtio-ccw-blk.o
- obj-$(call land,$(CONFIG_VIRTIO_9P),$(CONFIG_VIRTFS)) += virtio-ccw-9p.o
- obj-$(CONFIG_VHOST_VSOCK) += vhost-vsock-ccw.o
-+obj-$(CONFIG_VIRTIO_MEM) += virtio-ccw-mem.o
- endif
- obj-y += css-bridge.o
- obj-y += ccw-device.o
-diff --git a/hw/s390x/s390-virtio-ccw.c b/hw/s390x/s390-virtio-ccw.c
-index 577590e623..e714035077 100644
---- a/hw/s390x/s390-virtio-ccw.c
-+++ b/hw/s390x/s390-virtio-ccw.c
-@@ -45,6 +45,7 @@
- #include "sysemu/sysemu.h"
- #include "hw/s390x/pv.h"
- #include "migration/blocker.h"
-+#include "hw/mem/memory-device.h"
- 
- static Error *pv_mig_blocker;
- 
-@@ -542,11 +543,119 @@ static void s390_machine_reset(MachineState *machine)
-     s390_ipl_clear_reset_request();
- }
- 
-+static void s390_virtio_md_pre_plug(HotplugHandler *hotplug_dev,
-+                                    DeviceState *dev, Error **errp)
-+{
-+    HotplugHandler *hotplug_dev2 = qdev_get_bus_hotplug_handler(dev);
-+    MemoryDeviceState *md = MEMORY_DEVICE(dev);
-+    MemoryDeviceClass *mdc = MEMORY_DEVICE_GET_CLASS(md);
-+    Error *local_err = NULL;
-+
-+    if (!hotplug_dev2 && dev->hotplugged) {
-+        /*
-+         * Without a bus hotplug handler, we cannot control the plug/unplug
-+         * order. We should never reach this point when hotplugging, however,
-+         * better add a safety net.
-+         */
-+        error_setg(errp, "hotplug of virtio based memory devices not supported"
-+                         " on this bus.");
-+        return;
-+    }
-+
-+    /*
-+     * KVM does not support device memory with a bigger page size than initial
-+     * memory. The new memory backend is not mapped yet, so
-+     * qemu_maxrampagesize() won't consider it.
-+     */
-+    if (kvm_enabled()) {
-+        MemoryRegion *mr = mdc->get_memory_region(md, &local_err);
-+
-+        if (local_err) {
-+            goto out;
-+        }
-+        if (qemu_ram_pagesize(mr->ram_block) > qemu_maxrampagesize()) {
-+            error_setg(&local_err, "Device memory has a bigger page size than"
-+                       " initial memory");
-+            goto out;
-+        }
-+    }
-+
-+    /*
-+     * First, see if we can plug this memory device at all. If that
-+     * succeeds, branch of to the actual hotplug handler.
-+     */
-+    memory_device_pre_plug(md, MACHINE(hotplug_dev), NULL, &local_err);
-+    if (!local_err && hotplug_dev2) {
-+        hotplug_handler_pre_plug(hotplug_dev2, dev, &local_err);
-+    }
-+out:
-+    error_propagate(errp, local_err);
-+}
-+
-+static void s390_virtio_md_plug(HotplugHandler *hotplug_dev,
-+                                DeviceState *dev, Error **errp)
-+{
-+    HotplugHandler *hotplug_dev2 = qdev_get_bus_hotplug_handler(dev);
-+    static Error *migration_blocker;
-+    bool add_blocker = !migration_blocker;
-+    Error *local_err = NULL;
-+
-+    /*
-+     * Until we support migration of storage keys and storage attributes
-+     * for anything that's not initial memory, let's block migration.
-+     */
-+    if (add_blocker) {
-+        error_setg(&migration_blocker, "storage keys/attributes not yet"
-+                   " migrated for memory devices");
-+        migrate_add_blocker(migration_blocker, &local_err);
-+        if (local_err) {
-+            error_free_or_abort(&migration_blocker);
-+            goto out;
-+        }
-+    }
-+
-+    /*
-+     * Plug the memory device first and then branch off to the actual
-+     * hotplug handler. If that one fails, we can easily undo the memory
-+     * device bits.
-+     */
-+    memory_device_plug(MEMORY_DEVICE(dev), MACHINE(hotplug_dev));
-+    if (hotplug_dev2) {
-+        hotplug_handler_plug(hotplug_dev2, dev, &local_err);
-+        if (local_err) {
-+            memory_device_unplug(MEMORY_DEVICE(dev), MACHINE(hotplug_dev));
-+            if (add_blocker) {
-+                migrate_del_blocker(migration_blocker);
-+                error_free_or_abort(&migration_blocker);
-+            }
-+        }
-+    }
-+out:
-+    error_propagate(errp, local_err);
-+}
-+
-+static void s390_virtio_md_unplug_request(HotplugHandler *hotplug_dev,
-+                                          DeviceState *dev, Error **errp)
-+{
-+    /* We don't support hot unplug of virtio based memory devices */
-+    error_setg(errp, "virtio based memory devices cannot be unplugged.");
-+}
-+
-+static void s390_machine_device_pre_plug(HotplugHandler *hotplug_dev,
-+                                         DeviceState *dev, Error **errp)
-+{
-+    if (object_dynamic_cast(OBJECT(dev), TYPE_VIRTIO_MEM_CCW)) {
-+        s390_virtio_md_pre_plug(hotplug_dev, dev, errp);
-+    }
-+}
-+
- static void s390_machine_device_plug(HotplugHandler *hotplug_dev,
-                                      DeviceState *dev, Error **errp)
- {
-     if (object_dynamic_cast(OBJECT(dev), TYPE_CPU)) {
-         s390_cpu_plug(hotplug_dev, dev, errp);
-+    } else if (object_dynamic_cast(OBJECT(dev), TYPE_VIRTIO_MEM_CCW)) {
-+        s390_virtio_md_plug(hotplug_dev, dev, errp);
-     }
- }
- 
-@@ -555,7 +664,8 @@ static void s390_machine_device_unplug_request(HotplugHandler *hotplug_dev,
- {
-     if (object_dynamic_cast(OBJECT(dev), TYPE_CPU)) {
-         error_setg(errp, "CPU hot unplug not supported on this machine");
--        return;
-+    } else if (object_dynamic_cast(OBJECT(dev), TYPE_VIRTIO_MEM_CCW)) {
-+        s390_virtio_md_unplug_request(hotplug_dev, dev, errp);
-     }
- }
- 
-@@ -596,7 +706,8 @@ static const CPUArchIdList *s390_possible_cpu_arch_ids(MachineState *ms)
- static HotplugHandler *s390_get_hotplug_handler(MachineState *machine,
-                                                 DeviceState *dev)
- {
--    if (object_dynamic_cast(OBJECT(dev), TYPE_CPU)) {
-+    if (object_dynamic_cast(OBJECT(dev), TYPE_CPU) ||
-+        object_dynamic_cast(OBJECT(dev), TYPE_VIRTIO_MEM_CCW)) {
-         return HOTPLUG_HANDLER(machine);
-     }
-     return NULL;
-@@ -668,6 +779,7 @@ static void ccw_machine_class_init(ObjectClass *oc, void *data)
-     mc->possible_cpu_arch_ids = s390_possible_cpu_arch_ids;
-     /* it is overridden with 'host' cpu *in kvm_arch_init* */
-     mc->default_cpu_type = S390_CPU_TYPE_NAME("qemu");
-+    hc->pre_plug = s390_machine_device_pre_plug;
-     hc->plug = s390_machine_device_plug;
-     hc->unplug_request = s390_machine_device_unplug_request;
-     nc->nmi_monitor_handler = s390_nmi;
-diff --git a/hw/virtio/virtio-mem.c b/hw/virtio/virtio-mem.c
-index 65850530e7..e1b3275089 100644
---- a/hw/virtio/virtio-mem.c
-+++ b/hw/virtio/virtio-mem.c
-@@ -53,6 +53,8 @@
+-- >8 --
+@@ -320,8 +320,10 @@ target_ulong helper_fullrd(CPUAVRState *env,
+uint32_t addr)
+  *  this function implements ST instruction when there is a posibility
+to write
+  *  into a CPU register
   */
- #if defined(TARGET_X86_64) || defined(TARGET_I386)
- #define VIRTIO_MEM_USABLE_EXTENT (2 * (128 * MiB))
-+#elif defined(TARGET_S390X)
-+#define VIRTIO_MEM_USABLE_EXTENT (2 * (256 * MiB))
- #else
- #error VIRTIO_MEM_USABLE_EXTENT not defined
- #endif
--- 
-2.26.2
+-void helper_fullwr(CPUAVRState *env, uint32_t data, uint32_t addr)
++void helper_fullwr(CPUAVRState *env, uint32_t data32, uint32_t addr)
+ {
++    uint8_t data = data32;
++    assert(data == data32);
++
+     env->fullacc = false;
 
+---
+
+3 ways to do the same :) The assert is probably superfluous.
+
+I don't like the fact that env->r[addr] (which is u8) is silently casted
+from u32.
 
