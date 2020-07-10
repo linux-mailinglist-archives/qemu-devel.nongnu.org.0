@@ -2,67 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E955921B5CD
-	for <lists+qemu-devel@lfdr.de>; Fri, 10 Jul 2020 15:05:51 +0200 (CEST)
-Received: from localhost ([::1]:44906 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5FE9121B5B3
+	for <lists+qemu-devel@lfdr.de>; Fri, 10 Jul 2020 15:00:27 +0200 (CEST)
+Received: from localhost ([::1]:48058 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jtsis-0000aY-U9
-	for lists+qemu-devel@lfdr.de; Fri, 10 Jul 2020 09:05:50 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:36450)
+	id 1jtsde-0007CE-8G
+	for lists+qemu-devel@lfdr.de; Fri, 10 Jul 2020 09:00:26 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:36518)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <frank.chang@sifive.com>)
- id 1jtqc8-0004tD-0o
- for qemu-devel@nongnu.org; Fri, 10 Jul 2020 06:50:44 -0400
-Received: from mail-pl1-x62c.google.com ([2607:f8b0:4864:20::62c]:44450)
+ id 1jtqcD-0004v3-V5
+ for qemu-devel@nongnu.org; Fri, 10 Jul 2020 06:50:49 -0400
+Received: from mail-pj1-x1044.google.com ([2607:f8b0:4864:20::1044]:50482)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <frank.chang@sifive.com>)
- id 1jtqc5-0006MP-7Y
- for qemu-devel@nongnu.org; Fri, 10 Jul 2020 06:50:43 -0400
-Received: by mail-pl1-x62c.google.com with SMTP id w17so2088976ply.11
- for <qemu-devel@nongnu.org>; Fri, 10 Jul 2020 03:50:40 -0700 (PDT)
+ id 1jtqcB-0006Rp-Fr
+ for qemu-devel@nongnu.org; Fri, 10 Jul 2020 06:50:49 -0400
+Received: by mail-pj1-x1044.google.com with SMTP id k71so2455784pje.0
+ for <qemu-devel@nongnu.org>; Fri, 10 Jul 2020 03:50:47 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=sifive.com; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references;
- bh=AVzzG3mHFPsuqM2JRCy5Jzl40BEHC7YkQgKLxYxD8UQ=;
- b=KkjlVoop46PW20Jlca2ZJMHvKd0stl0hZl0cMf7qsNO4xpDd+ls1z+6Qh3KA3obeyf
- 8fSAiaiz6ZZRFr1QpBc7CM+LVFAHnKh0n5NwQ5f6uRVhSiIQPC9gFcazs9zB1vVvX+xH
- cCN5UnTjPWt2IGCxgzv025cFjk9cG9Wqg4dTyB3SqbQx55hSOk21NWrJuZZ2rQTK1K4c
- 6vNwGbLKMCEUk6lVq5JLj6kOZUISNC2YJyT6DcRdzIn4E/LvMKvVvB0EfVCgbNPemoN/
- 66gisARJlqxFI3UY7mPvi17YHcZ0SLiJ4hgEAy+R6NcTJ9wnfDcaSQF1TnJM+V1Bn5lU
- IxIA==
+ bh=4bn+oUGGFPh+TBNTW+1Y2E2/tR5+d9f5YZSgdQZEwD0=;
+ b=lrVZGaY+4FcvyQAQ9GygGzkp2ku8QP3JRRKoNwf6xrJtYAVqrMN3BJBRO3stiej/tq
+ gu03Ktef4NXjl1N4bD9w523Nd5KfdKJheYAMDppWWzL4ir+nn1g9q+cga2QORXMb7mSH
+ 4/V1Lzd19y5ufi3ev7WfSANBUmkymLl0HRcIuBU8r4lwyrouN03hDioEzxN2BLq0jc2w
+ PNa1cB3LrZLSOCfO7TU5J03tUNqmrskXtQtiucDXNh4N8caZ9Zwf3il+Vt/GovQuu2OH
+ W14h3gX7fhjY62uJhBvqSq/a3Y05a1DC2OEtQWiOKnrGf9P1vOoxgI6l+OH6d8TQdIs1
+ Ytcw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references;
- bh=AVzzG3mHFPsuqM2JRCy5Jzl40BEHC7YkQgKLxYxD8UQ=;
- b=hqi+58iZcOOzRevRyASH4xfzTJ6KYCzJORxex9V2or01FZk7Sy3Dsf28jbFwKo+N4E
- F6Fl60AgNOA/bGu9CrdtpHox4GZrBHTiPWlkDD04I6yV5AJ3sWo+Sn8gikObW5SX0L+q
- BTTg6pquHT6Ba41IwpN+PjqfhoZ+POrEO3BIJn7e4SGbzF9Q+cKrvMFdSu14COHSp01m
- Agu0nu+vKCksVrdQIbX4OZ9UsxA3zejQUyRLAtcBxSnW5IxDzxgRzrAMfh8PnsROkMxz
- f7O5DCcxh7yufkqGCAhQcvgv3jcGAmhEhu6ZqxIE6q+25enfbFAAbF3IDd9cCnjhtYVC
- 9B9w==
-X-Gm-Message-State: AOAM530GhHIiQ2Pwh47H03V7DnnrS0rf49s4jIpGlMiKlBaReS8PvprM
- 0Rr0Fv3X/eEKQ1zHSjhXjavey22s1Dn5vQ==
-X-Google-Smtp-Source: ABdhPJzwO4Pdnm1rqKNT6GXb4lB9o6CmT/jfYAOOUvNJm3Ebvdx8hv7ZawjmoyReWAlTs3qOT7DmJQ==
-X-Received: by 2002:a17:90b:4d06:: with SMTP id
- mw6mr5326424pjb.190.1594378239856; 
- Fri, 10 Jul 2020 03:50:39 -0700 (PDT)
+ bh=4bn+oUGGFPh+TBNTW+1Y2E2/tR5+d9f5YZSgdQZEwD0=;
+ b=FSurS/RDo8zHDFnXEWiHYDaCzXkruD7Ur2CEZqeOwlT5PCPFCzPaGgBtvXf6iy7tyK
+ AkR8S3xwtqVYu1Z08iV4623zzJfMX4ctiWJbUdNC+ctJ351bztYkThiudSF7tKt+46l6
+ gdOOa4mjlw3k0hrnlzuKlU3AxRHyPc7sTStZZog2VN50qSfIjet4JZBEz/uVLjocfTwK
+ 7XZML6nJ2+Vo7g78j94quYLxBfDq4UaZpyVINgTTBGzFv7b2PrFB7fksJiiiLYry/cl0
+ jSKReLUD8vo0RR5fWpSoWJZ1Bbp7QSaPlkg2jrQ5q5gwPL6YtbarDOVTWUkf1CX+sAfX
+ qYng==
+X-Gm-Message-State: AOAM5300xqA29+nbyuR+ua8vknAHCVEucACkBNjnP9UPD2+KaYU9drSw
+ f6Iif8oiZ6r18ou0nV7DzSi7N08Pb+bNYQ==
+X-Google-Smtp-Source: ABdhPJzw/B6DXZl7APkB8F0jY3xolapGTEsmaH9URq66xwoGzNoxulIszyK+w33pkgC0Ula6P2s2YA==
+X-Received: by 2002:a17:90a:ba05:: with SMTP id
+ s5mr4665123pjr.132.1594378246081; 
+ Fri, 10 Jul 2020 03:50:46 -0700 (PDT)
 Received: from frankchang-ThinkPad-T490.internal.sifive.com
  (114-34-229-221.HINET-IP.hinet.net. [114.34.229.221])
- by smtp.gmail.com with ESMTPSA id r191sm5519406pfr.181.2020.07.10.03.50.37
+ by smtp.gmail.com with ESMTPSA id r191sm5519406pfr.181.2020.07.10.03.50.43
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 10 Jul 2020 03:50:39 -0700 (PDT)
+ Fri, 10 Jul 2020 03:50:45 -0700 (PDT)
 From: frank.chang@sifive.com
 To: qemu-devel@nongnu.org,
 	qemu-riscv@nongnu.org
-Subject: [RFC 04/65] target/riscv: fix vill bit index in vtype register
-Date: Fri, 10 Jul 2020 18:48:18 +0800
-Message-Id: <20200710104920.13550-5-frank.chang@sifive.com>
+Subject: [RFC 05/65] target/riscv: remove vsll.vi, vsrl.vi,
+ vsra.vi insns from using gvec
+Date: Fri, 10 Jul 2020 18:48:19 +0800
+Message-Id: <20200710104920.13550-6-frank.chang@sifive.com>
 X-Mailer: git-send-email 2.17.1
 In-Reply-To: <20200710104920.13550-1-frank.chang@sifive.com>
 References: <20200710104920.13550-1-frank.chang@sifive.com>
-Received-SPF: pass client-ip=2607:f8b0:4864:20::62c;
- envelope-from=frank.chang@sifive.com; helo=mail-pl1-x62c.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::1044;
+ envelope-from=frank.chang@sifive.com; helo=mail-pj1-x1044.google.com
 X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
  That's all we know.
 X-Spam_score_int: -20
@@ -85,36 +86,47 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Frank Chang <frank.chang@sifive.com>,
+Cc: Sagar Karandikar <sagark@eecs.berkeley.edu>,
+ Frank Chang <frank.chang@sifive.com>,
+ Bastian Koppelmann <kbastian@mail.uni-paderborn.de>,
+ Richard Henderson <richard.henderson@linaro.org>,
  Alistair Francis <Alistair.Francis@wdc.com>,
- Palmer Dabbelt <palmer@dabbelt.com>,
- Sagar Karandikar <sagark@eecs.berkeley.edu>,
- Bastian Koppelmann <kbastian@mail.uni-paderborn.de>
+ Palmer Dabbelt <palmer@dabbelt.com>, LIU Zhiwei <zhiwei_liu@c-sky.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Frank Chang <frank.chang@sifive.com>
 
-vill bit is at vtype[XLEN-1].
+vsll.vi, vsrl.vi, vsra.vi cannot use shli gvec as it requires the
+shift immediate value to be within the range: [0.. SEW bits].
+Otherwise, it will hit the assertion:
+tcg_debug_assert(shift >= 0 && shift < (8 << vece));
+
+However, RVV spec does not have such constraint, therefore we have to
+use helper functions instead.
 
 Signed-off-by: Frank Chang <frank.chang@sifive.com>
 ---
- target/riscv/cpu.h | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ target/riscv/insn_trans/trans_rvv.inc.c | 6 +++---
+ 1 file changed, 3 insertions(+), 3 deletions(-)
 
-diff --git a/target/riscv/cpu.h b/target/riscv/cpu.h
-index eef20ca6e5..a804a5d0ba 100644
---- a/target/riscv/cpu.h
-+++ b/target/riscv/cpu.h
-@@ -98,7 +98,7 @@ FIELD(VTYPE, VLMUL, 0, 2)
- FIELD(VTYPE, VSEW, 2, 3)
- FIELD(VTYPE, VEDIV, 5, 2)
- FIELD(VTYPE, RESERVED, 7, sizeof(target_ulong) * 8 - 9)
--FIELD(VTYPE, VILL, sizeof(target_ulong) * 8 - 2, 1)
-+FIELD(VTYPE, VILL, sizeof(target_ulong) * 8 - 1, 1)
+diff --git a/target/riscv/insn_trans/trans_rvv.inc.c b/target/riscv/insn_trans/trans_rvv.inc.c
+index c0b7375927..70d31a5525 100644
+--- a/target/riscv/insn_trans/trans_rvv.inc.c
++++ b/target/riscv/insn_trans/trans_rvv.inc.c
+@@ -1427,9 +1427,9 @@ GEN_OPIVX_GVEC_SHIFT_TRANS(vsll_vx,  shls)
+ GEN_OPIVX_GVEC_SHIFT_TRANS(vsrl_vx,  shrs)
+ GEN_OPIVX_GVEC_SHIFT_TRANS(vsra_vx,  sars)
  
- struct CPURISCVState {
-     target_ulong gpr[32];
+-GEN_OPIVI_GVEC_TRANS(vsll_vi, 1, vsll_vx,  shli)
+-GEN_OPIVI_GVEC_TRANS(vsrl_vi, 1, vsrl_vx,  shri)
+-GEN_OPIVI_GVEC_TRANS(vsra_vi, 1, vsra_vx,  sari)
++GEN_OPIVI_TRANS(vsll_vi, 1, vsll_vx, opivx_check)
++GEN_OPIVI_TRANS(vsrl_vi, 1, vsrl_vx, opivx_check)
++GEN_OPIVI_TRANS(vsra_vi, 1, vsra_vx, opivx_check)
+ 
+ /* Vector Narrowing Integer Right Shift Instructions */
+ static bool opivv_narrow_check(DisasContext *s, arg_rmrr *a)
 -- 
 2.17.1
 
