@@ -2,50 +2,50 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id EE09F21B964
-	for <lists+qemu-devel@lfdr.de>; Fri, 10 Jul 2020 17:25:43 +0200 (CEST)
-Received: from localhost ([::1]:55292 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D14E921B975
+	for <lists+qemu-devel@lfdr.de>; Fri, 10 Jul 2020 17:28:45 +0200 (CEST)
+Received: from localhost ([::1]:60424 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jtuuF-0006hD-10
-	for lists+qemu-devel@lfdr.de; Fri, 10 Jul 2020 11:25:43 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:56508)
+	id 1jtuxA-0000cf-UL
+	for lists+qemu-devel@lfdr.de; Fri, 10 Jul 2020 11:28:44 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:57244)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mreitz@redhat.com>) id 1jtut3-0005gh-Fk
- for qemu-devel@nongnu.org; Fri, 10 Jul 2020 11:24:29 -0400
-Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:34853
+ (Exim 4.90_1) (envelope-from <mreitz@redhat.com>) id 1jtuw0-0008Bv-MD
+ for qemu-devel@nongnu.org; Fri, 10 Jul 2020 11:27:32 -0400
+Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:48400
  helo=us-smtp-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <mreitz@redhat.com>) id 1jtut1-0004jC-7w
- for qemu-devel@nongnu.org; Fri, 10 Jul 2020 11:24:29 -0400
+ (Exim 4.90_1) (envelope-from <mreitz@redhat.com>) id 1jtuvz-0005B2-3M
+ for qemu-devel@nongnu.org; Fri, 10 Jul 2020 11:27:32 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1594394665;
+ s=mimecast20190719; t=1594394850;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
- bh=Fo+kfY8phiHhNzZbx9QvUT5Ew4X71yABJimvv44+rCE=;
- b=KpelBSH1u2MdVvBYo8gKyuXrbA+BdDxjdJY9kS4aEQYgLsyZdeA2V2SKZQxzuP3Fon7EZb
- lFC3e7GI/ZdY46y69UpCuyDQVyP9XrZ/3/ogdR22ybopX4XrauHEoOI3dtNDmBlPNLZn9s
- E9RrY4zyDuVXDn14CFz6Zzpvw0JEp3g=
+ bh=A6IWpjPo9qLDJmODsBkPS5GTwu2482hpOJHBni5JE/s=;
+ b=e9SuTItQssP2ozL8eHT5gkTendm4dVzKXK6Cxptvn9JZXB6zaNRPI20L8SFuKn/a+OM8QH
+ QrC/bjZ9lbL8h9TsdTy/zeqcMBfdwDyS4PxiaodMIgYuOfXmvh/HNdg0oLJ2GJ9M8nnapN
+ SrSXKl3KHfXRcvhgHP0q0Y2MaUkG41c=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-450-QtL0QMe7Mk2ItbiWD2iKQQ-1; Fri, 10 Jul 2020 11:24:23 -0400
-X-MC-Unique: QtL0QMe7Mk2ItbiWD2iKQQ-1
-Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
- [10.5.11.14])
+ us-mta-176-jChgojqUN-61WguSqaDqjw-1; Fri, 10 Jul 2020 11:27:28 -0400
+X-MC-Unique: jChgojqUN-61WguSqaDqjw-1
+Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
+ [10.5.11.16])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 5FA41100CCC0;
- Fri, 10 Jul 2020 15:24:22 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 20F2D1932483;
+ Fri, 10 Jul 2020 15:27:27 +0000 (UTC)
 Received: from dresden.str.redhat.com (ovpn-113-127.ams2.redhat.com
  [10.36.113.127])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 055425D9EF;
- Fri, 10 Jul 2020 15:24:20 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id D38FF5C1BD;
+ Fri, 10 Jul 2020 15:27:25 +0000 (UTC)
 Subject: Re: [PATCH v7 14/47] stream: Deal with filters
 To: Andrey Shinkevich <andrey.shinkevich@virtuozzo.com>, qemu-block@nongnu.org
 References: <20200625152215.941773-1-mreitz@redhat.com>
  <20200625152215.941773-15-mreitz@redhat.com>
- <ed502f80-f4a2-bfb8-7395-5842f8103991@virtuozzo.com>
+ <e8aa1eff-ba6c-d8f0-58a6-d7c9ddfe090e@virtuozzo.com>
 From: Max Reitz <mreitz@redhat.com>
 Autocrypt: addr=mreitz@redhat.com; prefer-encrypt=mutual; keydata=
  mQENBFXOJlcBCADEyyhOTsoa/2ujoTRAJj4MKA21dkxxELVj3cuILpLTmtachWj7QW+TVG8U
@@ -71,18 +71,18 @@ Autocrypt: addr=mreitz@redhat.com; prefer-encrypt=mutual; keydata=
  /ELbqQTDAWcqtJhzxKLE/ugcOMK520dJDeb6x2xVES+S5LXby0D4juZlvUj+1fwZu+7Io5+B
  bkhSVPb/QdOVTpnz7zWNyNw+OONo1aBUKkhq2UIByYXgORPFnbfMY7QWHcjpBVw9MgC4tGeF
  R4bv+1nAMMxKmb5VvQCExr0eFhJUAHAhVg==
-Message-ID: <63ad2152-3861-1f9f-1bb9-1c14fd68cfbd@redhat.com>
-Date: Fri, 10 Jul 2020 17:24:19 +0200
+Message-ID: <29c2f784-1ab9-5942-ae20-8a1a2c27b94d@redhat.com>
+Date: Fri, 10 Jul 2020 17:27:24 +0200
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
  Thunderbird/68.9.0
 MIME-Version: 1.0
-In-Reply-To: <ed502f80-f4a2-bfb8-7395-5842f8103991@virtuozzo.com>
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
+In-Reply-To: <e8aa1eff-ba6c-d8f0-58a6-d7c9ddfe090e@virtuozzo.com>
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Type: multipart/signed; micalg=pgp-sha256;
  protocol="application/pgp-signature";
- boundary="JSYgP1lqE3wvsphKi39Ri95XB6TcxIQyD"
+ boundary="CMsZ3rCUkZjo7mKtXA7pp3vuovIlsKpzi"
 Received-SPF: pass client-ip=205.139.110.120; envelope-from=mreitz@redhat.com;
  helo=us-smtp-1.mimecast.com
 X-detected-operating-system: by eggs.gnu.org: First seen = 2020/07/10 04:36:30
@@ -112,15 +112,15 @@ Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
---JSYgP1lqE3wvsphKi39Ri95XB6TcxIQyD
-Content-Type: multipart/mixed; boundary="2MKmjT0Ndq5qyfUMWTdgbQalst3qlUHHh"
+--CMsZ3rCUkZjo7mKtXA7pp3vuovIlsKpzi
+Content-Type: multipart/mixed; boundary="JfMPYrE8V8CJttHXzLEzsVggArdc63dPr"
 
---2MKmjT0Ndq5qyfUMWTdgbQalst3qlUHHh
+--JfMPYrE8V8CJttHXzLEzsVggArdc63dPr
 Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
 Content-Transfer-Encoding: quoted-printable
 
-On 09.07.20 16:52, Andrey Shinkevich wrote:
+On 09.07.20 17:13, Andrey Shinkevich wrote:
 > On 25.06.2020 18:21, Max Reitz wrote:
 >> Because of the (not so recent anymore) changes that make the stream job
 >> independent of the base node and instead track the node above it, we
@@ -150,312 +150,45 @@ On 09.07.20 16:52, Andrey Shinkevich wrote:
 >> non-filter
 >> +# overlay node below it to point to base's backing node (or NULL if
 >> @base was
->> +# not specified) instead of modifying @device itself.
->> +#
->> =C2=A0 # @job-id: identifier for the newly-created block job. If
->> =C2=A0 #=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 omitted, =
-the device name will be used. (Since 2.7)
->> =C2=A0 #
->> diff --git a/block/stream.c b/block/stream.c
->> index aa2e7af98e..b9c1141656 100644
->> --- a/block/stream.c
->> +++ b/block/stream.c
->> @@ -31,7 +31,8 @@ enum {
->> =C2=A0 =C2=A0 typedef struct StreamBlockJob {
->> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 BlockJob common;
->> -=C2=A0=C2=A0=C2=A0 BlockDriverState *bottom;
->> +=C2=A0=C2=A0=C2=A0 BlockDriverState *base_overlay; /* COW overlay (stre=
-am from this) */
->> +=C2=A0=C2=A0=C2=A0 BlockDriverState *above_base;=C2=A0=C2=A0 /* Node di=
-rectly above the base */
 >=20
-> Keeping the base_overlay is enough to complete the stream job.
-
-Depends on the definition.  If we decide it isn=E2=80=99t enough, then it i=
-sn=E2=80=99t
-enough.
-
-> The above_base may disappear during the job and we can't rely on it.
-
-In this version of this series, it may not, because the chain is frozen.
- So the above_base cannot disappear.
-
-We can discuss whether we should allow it to disappear, but I think not.
-
-The problem is, we need something to set as the backing file after
-streaming.  How do we figure out what that should be?  My proposal is we
-keep above_base and use its immediate child.
-
-If we don=E2=80=99t keep above_base, then we=E2=80=99re basically left gues=
-sing as to
-what should be the backing file after the stream job.
-
->> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 BlockdevOnError on_error;
->> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 char *backing_file_str;
->> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 bool bs_read_only;
->> @@ -53,7 +54,7 @@ static void stream_abort(Job *job)
->> =C2=A0 =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 if (s->chain_frozen) {
->> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 BlockJob *bjob =
-=3D &s->common;
->> -=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 bdrv_unfreeze_backing_chain(=
-blk_bs(bjob->blk), s->bottom);
->> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 bdrv_unfreeze_backing_chain(=
-blk_bs(bjob->blk), s->above_base);
->> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 }
->> =C2=A0 }
->> =C2=A0 @@ -62,14 +63,15 @@ static int stream_prepare(Job *job)
->> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 StreamBlockJob *s =3D container_of(job, S=
-treamBlockJob, common.job);
->> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 BlockJob *bjob =3D &s->common;
->> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 BlockDriverState *bs =3D blk_bs(bjob->blk=
-);
->> -=C2=A0=C2=A0=C2=A0 BlockDriverState *base =3D backing_bs(s->bottom);
->> +=C2=A0=C2=A0=C2=A0 BlockDriverState *unfiltered_bs =3D bdrv_skip_filter=
-s(bs);
->> +=C2=A0=C2=A0=C2=A0 BlockDriverState *base =3D bdrv_filter_or_cow_bs(s->=
-above_base);
+> Forgot one thing. To me, it would be more understandable to read
 >=20
-> The initial base node may be a top node for a concurrent commit job and
+> "...to point to the base as backing node..." because it may be thought
+> as a backing
 >=20
-> may disappear.
-Then it would just be replaced by another node, though, so above_base
-keeps a child.  The @base here is not necessarily the initial @base, and
-that=E2=80=99s intentional.
+> node of the base.
 
-> base =3D bdrv_filter_or_cow_bs(s->base_overlay) is more reliable.
+This doesn=E2=80=99t sound like it=E2=80=99s about understandability; =E2=
+=80=9Cpoint to the base
+as backing node=E2=80=9D and =E2=80=9Cpoint to base=E2=80=99s backing node =
+[as backing node]=E2=80=9D
+are semantically different.
 
-But also wrong.  The point of keeping above_base around is to get its
-child here to use that child as the new backing child of the top node.
-
->> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 Error *local_err =3D NULL;
->> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 int ret =3D 0;
->> =C2=A0 -=C2=A0=C2=A0=C2=A0 bdrv_unfreeze_backing_chain(bs, s->bottom);
->> +=C2=A0=C2=A0=C2=A0 bdrv_unfreeze_backing_chain(bs, s->above_base);
->> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 s->chain_frozen =3D false;
->> =C2=A0 -=C2=A0=C2=A0=C2=A0 if (bs->backing) {
->> +=C2=A0=C2=A0=C2=A0 if (bdrv_cow_child(unfiltered_bs)) {
->> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 const char *base_=
-id =3D NULL, *base_fmt =3D NULL;
->> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 if (base) {
->> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0 base_id =3D s->backing_file_str;
->> @@ -77,8 +79,8 @@ static int stream_prepare(Job *job)
->> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 base_fmt =3D base->drv->format_name;
->> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0 }
->> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 }
->> -=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 bdrv_set_backing_hd(bs, base=
-, &local_err);
->> -=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 ret =3D bdrv_change_backing_=
-file(bs, base_id, base_fmt);
->> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 bdrv_set_backing_hd(unfilter=
-ed_bs, base, &local_err);
->> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 ret =3D bdrv_change_backing_=
-file(unfiltered_bs, base_id,
->> base_fmt);
->> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 if (local_err) {
->> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0 error_report_err(local_err);
->> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0 return -EPERM;
->> @@ -109,14 +111,15 @@ static int coroutine_fn stream_run(Job *job,
->> Error **errp)
->> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 StreamBlockJob *s =3D container_of(job, S=
-treamBlockJob, common.job);
->> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 BlockBackend *blk =3D s->common.blk;
->> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 BlockDriverState *bs =3D blk_bs(blk);
->> -=C2=A0=C2=A0=C2=A0 bool enable_cor =3D !backing_bs(s->bottom);
->> +=C2=A0=C2=A0=C2=A0 BlockDriverState *unfiltered_bs =3D bdrv_skip_filter=
-s(bs);
->> +=C2=A0=C2=A0=C2=A0 bool enable_cor =3D !bdrv_cow_child(s->base_overlay)=
-;
->> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 int64_t len;
->> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 int64_t offset =3D 0;
->> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 uint64_t delay_ns =3D 0;
->> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 int error =3D 0;
->> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 int64_t n =3D 0; /* bytes */
->> =C2=A0 -=C2=A0=C2=A0=C2=A0 if (bs =3D=3D s->bottom) {
->> +=C2=A0=C2=A0=C2=A0 if (unfiltered_bs =3D=3D s->base_overlay) {
->> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 /* Nothing to str=
-eam */
->> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 return 0;
->> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 }
->> @@ -150,13 +153,14 @@ static int coroutine_fn stream_run(Job *job,
->> Error **errp)
->> =C2=A0 =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 copy =3D f=
-alse;
->> =C2=A0 -=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 ret =3D bdrv_is_alloc=
-ated(bs, offset, STREAM_CHUNK, &n);
->> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 ret =3D bdrv_is_allocated(un=
-filtered_bs, offset, STREAM_CHUNK,
->> &n);
->> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 if (ret =3D=3D 1)=
- {
->> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0 /* Allocated in the top, no need to copy.=C2=A0 */
->> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 } else if (ret >=
-=3D 0) {
->> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0 /* Copy if allocated in the intermediate images.=C2=A0 Limit
->> to the
->> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0 * known-unallocated area [offset,
->> offset+n*BDRV_SECTOR_SIZE).=C2=A0 */
->> -=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 ret =
-=3D bdrv_is_allocated_above(backing_bs(bs), s->bottom,
->> true,
->> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 ret =
-=3D bdrv_is_allocated_above(bdrv_cow_bs(unfiltered_bs),
->> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0=C2=A0=C2=A0=C2=A0 s->base_overlay, true,
->> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 offset, n, &n);
->> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0 /* Finish early if end of backing file has been reached */
->> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0 if (ret =3D=3D 0 && n =3D=3D 0) {
->> @@ -223,9 +227,29 @@ void stream_start(const char *job_id,
->> BlockDriverState *bs,
->> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 BlockDriverState *iter;
->> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 bool bs_read_only;
->> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 int basic_flags =3D BLK_PERM_CONSISTENT_R=
-EAD |
->> BLK_PERM_WRITE_UNCHANGED;
->> -=C2=A0=C2=A0=C2=A0 BlockDriverState *bottom =3D bdrv_find_overlay(bs, b=
-ase);
->> +=C2=A0=C2=A0=C2=A0 BlockDriverState *base_overlay =3D bdrv_find_overlay=
-(bs, base);
->> +=C2=A0=C2=A0=C2=A0 BlockDriverState *above_base;
->> =C2=A0 -=C2=A0=C2=A0=C2=A0 if (bdrv_freeze_backing_chain(bs, bottom, err=
-p) < 0) {
->> +=C2=A0=C2=A0=C2=A0 if (!base_overlay) {
->> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 error_setg(errp, "'%s' is no=
-t in the backing chain of '%s'",
->> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 base->node_name, bs->node_name);
->=20
-> Sorry, I am not clear with the error message.
->=20
-> In this case, there is no an intermediate COW node but the base, if not
-> NULL, is
->=20
-> in the backing chain of bs, isn't it?
->=20
->> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 return;
->> +=C2=A0=C2=A0=C2=A0 }
->> +
->> +=C2=A0=C2=A0=C2=A0 /*
->> +=C2=A0=C2=A0=C2=A0=C2=A0 * Find the node directly above @base.=C2=A0 @b=
-ase_overlay is a COW
->> overlay, so
->> +=C2=A0=C2=A0=C2=A0=C2=A0 * it must have a bdrv_cow_child(), but it is t=
-he immediate
->> overlay of
->> +=C2=A0=C2=A0=C2=A0=C2=A0 * @base, so between the two there can only be =
-filters.
->> +=C2=A0=C2=A0=C2=A0=C2=A0 */
->> +=C2=A0=C2=A0=C2=A0 above_base =3D base_overlay;
->> +=C2=A0=C2=A0=C2=A0 if (bdrv_cow_bs(above_base) !=3D base) {
->> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 above_base =3D bdrv_cow_bs(a=
-bove_base);
->> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 while (bdrv_filter_bs(above_=
-base) !=3D base) {
->> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 abov=
-e_base =3D bdrv_filter_bs(above_base);
->> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 }
->> +=C2=A0=C2=A0=C2=A0 }
->> +
->> +=C2=A0=C2=A0=C2=A0 if (bdrv_freeze_backing_chain(bs, above_base, errp) =
-< 0) {
->=20
-> When a concurrent stream job tries to freeze or remove the above_base nod=
-e,
->=20
-> we will encounter the frozen node error. The above_base node is a part
-> of the
->=20
-> concurrent job frozen chain.
-
-Correct.
-
->> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 return;
->> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 }
->> =C2=A0 @@ -255,14 +279,19 @@ void stream_start(const char *job_id,
->> BlockDriverState *bs,
->> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 * and resizes. Reassign the base no=
-de pointer because the
->> backing BS of the
->> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 * bottom node might change after th=
-e call to
->> bdrv_reopen_set_read_only()
->> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 * due to parallel block jobs runnin=
-g.
->> +=C2=A0=C2=A0=C2=A0=C2=A0 * above_base node might change after the call =
-to
-> Yes, if not frozen.
->> +=C2=A0=C2=A0=C2=A0=C2=A0 * bdrv_reopen_set_read_only() due to parallel =
-block jobs running.
->> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 */
->> -=C2=A0=C2=A0=C2=A0 base =3D backing_bs(bottom);
->> -=C2=A0=C2=A0=C2=A0 for (iter =3D backing_bs(bs); iter && iter !=3D base=
-; iter =3D
->> backing_bs(iter)) {
->> +=C2=A0=C2=A0=C2=A0 base =3D bdrv_filter_or_cow_bs(above_base);
->> +=C2=A0=C2=A0=C2=A0 for (iter =3D bdrv_filter_or_cow_bs(bs); iter !=3D b=
-ase;
->> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 iter =3D bdrv_filter_o=
-r_cow_bs(iter))
->> +=C2=A0=C2=A0=C2=A0 {
->> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 block_job_add_bdr=
-v(&s->common, "intermediate node", iter, 0,
->> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0=C2=A0=C2=A0 basic_flags, &error_abort);
->> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 }
->> =C2=A0 -=C2=A0=C2=A0=C2=A0 s->bottom =3D bottom;
->> +=C2=A0=C2=A0=C2=A0 s->base_overlay =3D base_overlay;
->> +=C2=A0=C2=A0=C2=A0 s->above_base =3D above_base;
->=20
-> Generally, being the filter for a concurrent job, the above_base node
-> may be deleted any time
->=20
-> and we will keep the dangling pointer. It may happen even earlier if
-> above_base is not frozen.
->=20
-> If it is, as it here, we may get the frozen link error then.
-
-I=E2=80=99m not sure what you mean here.  Freezing it was absolutely
-intentional.  A dangling pointer would be a problem, but that=E2=80=99s why=
- it=E2=80=99s
-frozen, so it stays around and can=E2=80=99t be deleted any time.
+Was my phrasing just wrong?  @base should be the backing node, so yours
+seems correct.
 
 Max
 
 
---2MKmjT0Ndq5qyfUMWTdgbQalst3qlUHHh--
+--JfMPYrE8V8CJttHXzLEzsVggArdc63dPr--
 
---JSYgP1lqE3wvsphKi39Ri95XB6TcxIQyD
+--CMsZ3rCUkZjo7mKtXA7pp3vuovIlsKpzi
 Content-Type: application/pgp-signature; name="signature.asc"
 Content-Description: OpenPGP digital signature
 Content-Disposition: attachment; filename="signature.asc"
 
 -----BEGIN PGP SIGNATURE-----
 
-iQEzBAEBCAAdFiEEkb62CjDbPohX0Rgp9AfbAGHVz0AFAl8IiCMACgkQ9AfbAGHV
-z0B95Af8DFwRgQqeupX+ThzsFeWVefdWWfa7RQ519iRmx5iVxa8J2oZEUoP4qZon
-5O/5xmQH8flgTceU+dMeJjOMXYJETF1+RAgFbN0PwcOpbY2rXqv+cpAvzaApwc4G
-Aid6R17C1NsyD5aAXqFfysdWfxJtDv4rC3GMq6uaeSBL7Toy8dNRJjs4u+DLHHs+
-snO35HFLNkYsWuoj3c+C8DIx3i0696GS9vvEwvpqMQQF0cUiRLrTTgh2uMHIOz3h
-jYfUvcycgeT26eUbjftlCh5iGE1fn6VmvVftdc4oOCk9ypgC38YPGZgaU371HRQ2
-0y+9H1qsNSi/6rd6WDPT0+6gwXcJTg==
-=nCOr
+iQEzBAEBCAAdFiEEkb62CjDbPohX0Rgp9AfbAGHVz0AFAl8IiNwACgkQ9AfbAGHV
+z0Ckewf8CG5b+RnC0FeGD26h0CJp0sB5aLbSNKOhpVXuI1KzanIHMtnoi8MHdo6+
+Rb6MF2kbsJRL88ByaqWlsd5Uqzkeg0NFmbgFRUK1IfeviYwuX3qfGcQ3QFswUzCV
+Np60HiuUGPYwn0xHDqhjLleRYfp/vY56uzYFqk6FfHKi9jg/p8A/g6LYOwdYm6PN
+/hx69PYr+JUlnDSXh14XRwfCIThu+tpHSYZncJE9qNIWpwJ93SSX4hl8wMAC1UQR
+Kl0a6Ekx/GUIv9cXr3wSWWdXfkf1NRkoacft+V9wxVyZC4cRvpB6LmUor6c7NYL1
+KR7BE8fH/2waGJkV9Ra1gbVlMiToaw==
+=C5Ts
 -----END PGP SIGNATURE-----
 
---JSYgP1lqE3wvsphKi39Ri95XB6TcxIQyD--
+--CMsZ3rCUkZjo7mKtXA7pp3vuovIlsKpzi--
 
 
