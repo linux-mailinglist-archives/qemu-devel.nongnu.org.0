@@ -2,67 +2,64 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 850B621B8F6
-	for <lists+qemu-devel@lfdr.de>; Fri, 10 Jul 2020 16:52:03 +0200 (CEST)
-Received: from localhost ([::1]:36918 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id EECB021B8E4
+	for <lists+qemu-devel@lfdr.de>; Fri, 10 Jul 2020 16:45:46 +0200 (CEST)
+Received: from localhost ([::1]:59450 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jtuNe-0001hv-Ks
-	for lists+qemu-devel@lfdr.de; Fri, 10 Jul 2020 10:52:02 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:47416)
+	id 1jtuHZ-0007MF-Pv
+	for lists+qemu-devel@lfdr.de; Fri, 10 Jul 2020 10:45:45 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:45956)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1jtuMn-0000rr-9M
- for qemu-devel@nongnu.org; Fri, 10 Jul 2020 10:51:09 -0400
-Received: from indium.canonical.com ([91.189.90.7]:43478)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1jtuMk-0007ua-Qf
- for qemu-devel@nongnu.org; Fri, 10 Jul 2020 10:51:09 -0400
-Received: from loganberry.canonical.com ([91.189.90.37])
- by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
- id 1jtuMh-000124-NU
- for <qemu-devel@nongnu.org>; Fri, 10 Jul 2020 14:51:03 +0000
-Received: from loganberry.canonical.com (localhost [127.0.0.1])
- by loganberry.canonical.com (Postfix) with ESMTP id 41E982E8113
- for <qemu-devel@nongnu.org>; Fri, 10 Jul 2020 14:51:03 +0000 (UTC)
+ (Exim 4.90_1) (envelope-from <no-reply@patchew.org>)
+ id 1jtuG5-0006Wg-2U; Fri, 10 Jul 2020 10:44:13 -0400
+Resent-Date: Fri, 10 Jul 2020 10:44:13 -0400
+Resent-Message-Id: <E1jtuG5-0006Wg-2U@lists.gnu.org>
+Received: from sender4-of-o53.zoho.com ([136.143.188.53]:21368)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <no-reply@patchew.org>)
+ id 1jtuG1-0006vs-HR; Fri, 10 Jul 2020 10:44:12 -0400
+ARC-Seal: i=1; a=rsa-sha256; t=1594392240; cv=none; 
+ d=zohomail.com; s=zohoarc; 
+ b=lc8TWmWhsij+oPqCBzwl+smKzEIacxcMafwWWBU986muf+OqwPPJqjHXDKsY2zqkhFvTCpTZL4SF/dbGAh7no6PC/Jy5n4lomQU2npJGtICuzGAVp8pWAEXIS+It9jXU3DKxhZnHEVpXYEpxOKkVxOCFvtkGrmK1EiwtDXKfZRM=
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.com;
+ s=zohoarc; t=1594392240;
+ h=Content-Type:Content-Transfer-Encoding:Cc:Date:From:In-Reply-To:MIME-Version:Message-ID:Reply-To:Subject:To;
+ bh=bxfgSwX5qar/2RzFVcBMMW6nyHoQPmuQf0lASy2MVio=; 
+ b=MJUAWnbepYL4lARw1USBF9E3a5wJT2Wr+vZaUPp0U2vslF9fPmuq4fqGr0s82hHvMgQnki6fTEZszRInmdH4uiUMWVW89H+aQ5mrf1KNsmV/rvXWUWscDa7SysMNQcsirc7lSiEnt+wYdyKNsby9U600VleHNaWOGBGEB5/fxAA=
+ARC-Authentication-Results: i=1; mx.zohomail.com;
+ spf=pass  smtp.mailfrom=no-reply@patchew.org;
+ dmarc=pass header.from=<no-reply@patchew.org>
+ header.from=<no-reply@patchew.org>
+Received: from [172.17.0.3] (23.253.156.214 [23.253.156.214]) by
+ mx.zohomail.com with SMTPS id 1594392238737574.4975147863648;
+ Fri, 10 Jul 2020 07:43:58 -0700 (PDT)
+Subject: Re: [PATCH for-5.1 0/2] qemu-img convert: Fix abort with unaligned
+ image size
+Message-ID: <159439223749.26758.17350663750335377085@07a7f0d89f7d>
+In-Reply-To: <20200710142149.40962-1-kwolf@redhat.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: quoted-printable
-Date: Fri, 10 Jul 2020 14:41:34 -0000
-From: Heiko Sieger <1856335@bugs.launchpad.net>
-To: qemu-devel@nongnu.org
-X-Launchpad-Notification-Type: bug
-X-Launchpad-Bug: product=qemu; status=New; importance=Undecided; assignee=None;
-X-Launchpad-Bug-Information-Type: Public
-X-Launchpad-Bug-Private: no
-X-Launchpad-Bug-Security-Vulnerability: no
-X-Launchpad-Bug-Commenters: babumoger djdatte h-sieger janklos
-X-Launchpad-Bug-Reporter: Damir (djdatte)
-X-Launchpad-Bug-Modifier: Heiko Sieger (h-sieger)
-References: <157625616239.22064.10423897892496347105.malonedeb@gac.canonical.com>
-Message-Id: <159439209432.13087.1244059823844611715.malone@gac.canonical.com>
-Subject: [Bug 1856335] Re: Cache Layout wrong on many Zen Arch CPUs
-X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
-X-Launchpad-Message-For: qemu-devel-ml
-Precedence: bulk
-X-Generated-By: Launchpad (canonical.com);
- Revision="4809fcb62f445aaa3ae919f7f6c3cc7d156ea57a";
- Instance="production-secrets-lazr.conf"
-X-Launchpad-Hash: c9e977d130860646050e8d4388247a380b03cc26
-Received-SPF: none client-ip=91.189.90.7; envelope-from=bounces@canonical.com;
- helo=indium.canonical.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/07/10 10:51:04
+Content-Transfer-Encoding: base64
+Resent-From: 
+From: no-reply@patchew.org
+To: kwolf@redhat.com
+Date: Fri, 10 Jul 2020 07:43:58 -0700 (PDT)
+X-ZohoMailClient: External
+Received-SPF: pass client-ip=136.143.188.53; envelope-from=no-reply@patchew.org;
+ helo=sender4-of-o53.zoho.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/07/10 10:44:07
 X-ACL-Warn: Detected OS   = Linux 3.11 and newer [fuzzy]
-X-Spam_score_int: -58
-X-Spam_score: -5.9
-X-Spam_bar: -----
-X-Spam_report: (-5.9 / 5.0 requ) BAYES_00=-1.9, HEADER_FROM_DIFFERENT_DOMAINS=1,
- RCVD_IN_DNSWL_HI=-5, RCVD_IN_MSPIKE_H3=-0.01, RCVD_IN_MSPIKE_WL=-0.01,
- SPF_HELO_NONE=0.001, SPF_NONE=0.001 autolearn=ham autolearn_force=no
+X-Spam_score_int: -18
+X-Spam_score: -1.9
+X-Spam_bar: -
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_NONE=-0.0001,
+ RCVD_IN_MSPIKE_H4=-0.01, RCVD_IN_MSPIKE_WL=-0.01, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001, URIBL_BLOCKED=0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
+Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -71,231 +68,43 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Bug 1856335 <1856335@bugs.launchpad.net>
+Reply-To: qemu-devel@nongnu.org
+Cc: kwolf@redhat.com, nsoffer@redhat.com, qemu-devel@nongnu.org,
+ qemu-block@nongnu.org, mreitz@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-@Jan: this coreinfo output looks good.
-
-I finally managed to get the core /cache alignment right, I believe:
-
-  <vcpu placement=3D"static" current=3D"24">32</vcpu>
-  <vcpus>
-    <vcpu id=3D"0" enabled=3D"yes" hotpluggable=3D"no"/>
-    <vcpu id=3D"1" enabled=3D"yes" hotpluggable=3D"yes"/>
-    <vcpu id=3D"2" enabled=3D"yes" hotpluggable=3D"yes"/>
-    <vcpu id=3D"3" enabled=3D"yes" hotpluggable=3D"yes"/>
-    <vcpu id=3D"4" enabled=3D"yes" hotpluggable=3D"yes"/>
-    <vcpu id=3D"5" enabled=3D"yes" hotpluggable=3D"yes"/>
-    <vcpu id=3D"6" enabled=3D"no" hotpluggable=3D"yes"/>
-    <vcpu id=3D"7" enabled=3D"no" hotpluggable=3D"yes"/>
-    <vcpu id=3D"8" enabled=3D"yes" hotpluggable=3D"yes"/>
-    <vcpu id=3D"9" enabled=3D"yes" hotpluggable=3D"yes"/>
-    <vcpu id=3D"10" enabled=3D"yes" hotpluggable=3D"yes"/>
-    <vcpu id=3D"11" enabled=3D"yes" hotpluggable=3D"yes"/>
-    <vcpu id=3D"12" enabled=3D"yes" hotpluggable=3D"yes"/>
-    <vcpu id=3D"13" enabled=3D"yes" hotpluggable=3D"yes"/>
-    <vcpu id=3D"14" enabled=3D"no" hotpluggable=3D"yes"/>
-    <vcpu id=3D"15" enabled=3D"no" hotpluggable=3D"yes"/>
-    <vcpu id=3D"16" enabled=3D"yes" hotpluggable=3D"yes"/>
-    <vcpu id=3D"17" enabled=3D"yes" hotpluggable=3D"yes"/>
-    <vcpu id=3D"18" enabled=3D"yes" hotpluggable=3D"yes"/>
-    <vcpu id=3D"19" enabled=3D"yes" hotpluggable=3D"yes"/>
-    <vcpu id=3D"20" enabled=3D"yes" hotpluggable=3D"yes"/>
-    <vcpu id=3D"21" enabled=3D"yes" hotpluggable=3D"yes"/>
-    <vcpu id=3D"22" enabled=3D"no" hotpluggable=3D"yes"/>
-    <vcpu id=3D"23" enabled=3D"no" hotpluggable=3D"yes"/>
-    <vcpu id=3D"24" enabled=3D"yes" hotpluggable=3D"yes"/>
-    <vcpu id=3D"25" enabled=3D"yes" hotpluggable=3D"yes"/>
-    <vcpu id=3D"26" enabled=3D"yes" hotpluggable=3D"yes"/>
-    <vcpu id=3D"27" enabled=3D"yes" hotpluggable=3D"yes"/>
-    <vcpu id=3D"28" enabled=3D"yes" hotpluggable=3D"yes"/>
-    <vcpu id=3D"29" enabled=3D"yes" hotpluggable=3D"yes"/>
-    <vcpu id=3D"30" enabled=3D"no" hotpluggable=3D"yes"/>
-    <vcpu id=3D"31" enabled=3D"no" hotpluggable=3D"yes"/>
-  </vcpus>
-  <cputune>
-    <vcpupin vcpu=3D"0" cpuset=3D"0"/>
-    <vcpupin vcpu=3D"1" cpuset=3D"12"/>
-    <vcpupin vcpu=3D"2" cpuset=3D"1"/>
-    <vcpupin vcpu=3D"3" cpuset=3D"13"/>
-    <vcpupin vcpu=3D"4" cpuset=3D"2"/>
-    <vcpupin vcpu=3D"5" cpuset=3D"14"/>
-    <vcpupin vcpu=3D"8" cpuset=3D"3"/>
-    <vcpupin vcpu=3D"9" cpuset=3D"15"/>
-    <vcpupin vcpu=3D"10" cpuset=3D"4"/>
-    <vcpupin vcpu=3D"11" cpuset=3D"16"/>
-    <vcpupin vcpu=3D"12" cpuset=3D"5"/>
-    <vcpupin vcpu=3D"13" cpuset=3D"17"/>
-    <vcpupin vcpu=3D"16" cpuset=3D"6"/>
-    <vcpupin vcpu=3D"17" cpuset=3D"18"/>
-    <vcpupin vcpu=3D"18" cpuset=3D"7"/>
-    <vcpupin vcpu=3D"19" cpuset=3D"19"/>
-    <vcpupin vcpu=3D"20" cpuset=3D"8"/>
-    <vcpupin vcpu=3D"21" cpuset=3D"20"/>
-    <vcpupin vcpu=3D"24" cpuset=3D"9"/>
-    <vcpupin vcpu=3D"25" cpuset=3D"21"/>
-    <vcpupin vcpu=3D"26" cpuset=3D"10"/>
-    <vcpupin vcpu=3D"27" cpuset=3D"22"/>
-    <vcpupin vcpu=3D"28" cpuset=3D"11"/>
-    <vcpupin vcpu=3D"29" cpuset=3D"23"/>
-  </cputune>
-
-...
-  <cpu mode=3D"host-passthrough" check=3D"none">
-    <topology sockets=3D"1" dies=3D"1" cores=3D"16" threads=3D"2"/>
-    <cache mode=3D"passthrough"/>
-
-
-The Windows Coreinfo output is this:
-
-Logical to Physical Processor Map:
-**----------------  Physical Processor 0 (Hyperthreaded)
---**--------------  Physical Processor 1 (Hyperthreaded)
-----**------------  Physical Processor 2 (Hyperthreaded)
-------**----------  Physical Processor 3 (Hyperthreaded)
---------**--------  Physical Processor 4 (Hyperthreaded)
-----------**------  Physical Processor 5 (Hyperthreaded)
-------------**----  Physical Processor 6 (Hyperthreaded)
---------------**--  Physical Processor 7 (Hyperthreaded)
-----------------**  Physical Processor 8 (Hyperthreaded)
-
-Logical Processor to Socket Map:
-******************  Socket 0
-
-Logical Processor to NUMA Node Map:
-******************  NUMA Node 0
-
-No NUMA nodes.
-
-Logical Processor to Cache Map:
-**----------------  Data Cache          0, Level 1,   32 KB, Assoc   8, Lin=
-eSize  64
-**----------------  Instruction Cache   0, Level 1,   32 KB, Assoc   8, Lin=
-eSize  64
-**----------------  Unified Cache       0, Level 2,  512 KB, Assoc   8, Lin=
-eSize  64
-******------------  Unified Cache       1, Level 3,   16 MB, Assoc  16, Lin=
-eSize  64
---**--------------  Data Cache          1, Level 1,   32 KB, Assoc   8, Lin=
-eSize  64
---**--------------  Instruction Cache   1, Level 1,   32 KB, Assoc   8, Lin=
-eSize  64
---**--------------  Unified Cache       2, Level 2,  512 KB, Assoc   8, Lin=
-eSize  64
-----**------------  Data Cache          2, Level 1,   32 KB, Assoc   8, Lin=
-eSize  64
-----**------------  Instruction Cache   2, Level 1,   32 KB, Assoc   8, Lin=
-eSize  64
-----**------------  Unified Cache       3, Level 2,  512 KB, Assoc   8, Lin=
-eSize  64
-------**----------  Data Cache          3, Level 1,   32 KB, Assoc   8, Lin=
-eSize  64
-------**----------  Instruction Cache   3, Level 1,   32 KB, Assoc   8, Lin=
-eSize  64
-------**----------  Unified Cache       4, Level 2,  512 KB, Assoc   8, Lin=
-eSize  64
-------******------  Unified Cache       5, Level 3,   16 MB, Assoc  16, Lin=
-eSize  64
---------**--------  Data Cache          4, Level 1,   32 KB, Assoc   8, Lin=
-eSize  64
---------**--------  Instruction Cache   4, Level 1,   32 KB, Assoc   8, Lin=
-eSize  64
---------**--------  Unified Cache       6, Level 2,  512 KB, Assoc   8, Lin=
-eSize  64
-----------**------  Data Cache          5, Level 1,   32 KB, Assoc   8, Lin=
-eSize  64
-----------**------  Instruction Cache   5, Level 1,   32 KB, Assoc   8, Lin=
-eSize  64
-----------**------  Unified Cache       7, Level 2,  512 KB, Assoc   8, Lin=
-eSize  64
-------------**----  Data Cache          6, Level 1,   32 KB, Assoc   8, Lin=
-eSize  64
-------------**----  Instruction Cache   6, Level 1,   32 KB, Assoc   8, Lin=
-eSize  64
-------------**----  Unified Cache       8, Level 2,  512 KB, Assoc   8, Lin=
-eSize  64
-------------******  Unified Cache       9, Level 3,   16 MB, Assoc  16, Lin=
-eSize  64
---------------**--  Data Cache          7, Level 1,   32 KB, Assoc   8, Lin=
-eSize  64
---------------**--  Instruction Cache   7, Level 1,   32 KB, Assoc   8, Lin=
-eSize  64
---------------**--  Unified Cache      10, Level 2,  512 KB, Assoc   8, Lin=
-eSize  64
-----------------**  Data Cache          8, Level 1,   32 KB, Assoc   8, Lin=
-eSize  64
-----------------**  Instruction Cache   8, Level 1,   32 KB, Assoc   8, Lin=
-eSize  64
-----------------**  Unified Cache      11, Level 2,  512 KB, Assoc   8, Lin=
-eSize  64
-
-Logical Processor to Group Map:
-******************  Group 0
-
-
-Haven't been able to test if it performs as expected. Need to do that.
-
-Of course it would be great if QEMU was patched to recognize correct CCX
-alignment as I'm not sure if and what will be the penalty of this weird
-setup.
-
--- =
-
-You received this bug notification because you are a member of qemu-
-devel-ml, which is subscribed to QEMU.
-https://bugs.launchpad.net/bugs/1856335
-
-Title:
-  Cache Layout wrong on many Zen Arch CPUs
-
-Status in QEMU:
-  New
-
-Bug description:
-  AMD CPUs have L3 cache per 2, 3 or 4 cores. Currently, TOPOEXT seems
-  to always map Cache ass if it was an 4-Core per CCX CPU, which is
-  incorrect, and costs upwards 30% performance (more realistically 10%)
-  in L3 Cache Layout aware applications.
-
-  Example on a 4-CCX CPU (1950X /w 8 Cores and no SMT):
-
-  =C2=A0=C2=A0<cpu mode=3D'custom' match=3D'exact' check=3D'full'>
-  =C2=A0=C2=A0=C2=A0=C2=A0<model fallback=3D'forbid'>EPYC-IBPB</model>
-  =C2=A0=C2=A0=C2=A0=C2=A0<vendor>AMD</vendor>
-  =C2=A0=C2=A0=C2=A0=C2=A0<topology sockets=3D'1' cores=3D'8' threads=3D'1'=
-/>
-
-  In windows, coreinfo reports correctly:
-
-  ****----  Unified Cache 1, Level 3,    8 MB, Assoc  16, LineSize  64
-  ----****  Unified Cache 6, Level 3,    8 MB, Assoc  16, LineSize  64
-
-  On a 3-CCX CPU (3960X /w 6 cores and no SMT):
-
-  =C2=A0<cpu mode=3D'custom' match=3D'exact' check=3D'full'>
-  =C2=A0=C2=A0=C2=A0=C2=A0<model fallback=3D'forbid'>EPYC-IBPB</model>
-  =C2=A0=C2=A0=C2=A0=C2=A0<vendor>AMD</vendor>
-  =C2=A0=C2=A0=C2=A0=C2=A0<topology sockets=3D'1' cores=3D'6' threads=3D'1'=
-/>
-
-  in windows, coreinfo reports incorrectly:
-
-  ****--  Unified Cache  1, Level 3,    8 MB, Assoc  16, LineSize  64
-  ----**  Unified Cache  6, Level 3,    8 MB, Assoc  16, LineSize  64
-
-  Validated against 3.0, 3.1, 4.1 and 4.2 versions of qemu-kvm.
-
-  With newer Qemu there is a fix (that does behave correctly) in using the =
-dies parameter:
-  =C2=A0<qemu:arg value=3D'cores=3D3,threads=3D1,dies=3D2,sockets=3D1'/>
-
-  The problem is that the dies are exposed differently than how AMD does
-  it natively, they are exposed to Windows as sockets, which means, that
-  if you are nto a business user, you can't ever have a machine with
-  more than two CCX (6 cores) as consumer versions of Windows only
-  supports two sockets. (Should this be reported as a separate bug?)
-
-To manage notifications about this bug go to:
-https://bugs.launchpad.net/qemu/+bug/1856335/+subscriptions
+UGF0Y2hldyBVUkw6IGh0dHBzOi8vcGF0Y2hldy5vcmcvUUVNVS8yMDIwMDcxMDE0MjE0OS40MDk2
+Mi0xLWt3b2xmQHJlZGhhdC5jb20vCgoKCkhpLAoKVGhpcyBzZXJpZXMgZmFpbGVkIHRoZSBkb2Nr
+ZXItcXVpY2tAY2VudG9zNyBidWlsZCB0ZXN0LiBQbGVhc2UgZmluZCB0aGUgdGVzdGluZyBjb21t
+YW5kcyBhbmQKdGhlaXIgb3V0cHV0IGJlbG93LiBJZiB5b3UgaGF2ZSBEb2NrZXIgaW5zdGFsbGVk
+LCB5b3UgY2FuIHByb2JhYmx5IHJlcHJvZHVjZSBpdApsb2NhbGx5LgoKPT09IFRFU1QgU0NSSVBU
+IEJFR0lOID09PQojIS9iaW4vYmFzaAptYWtlIGRvY2tlci1pbWFnZS1jZW50b3M3IFY9MSBORVRX
+T1JLPTEKdGltZSBtYWtlIGRvY2tlci10ZXN0LXF1aWNrQGNlbnRvczcgU0hPV19FTlY9MSBKPTE0
+IE5FVFdPUks9MQo9PT0gVEVTVCBTQ1JJUFQgRU5EID09PQoKTm90IHJ1bjogMjU5CkZhaWx1cmVz
+OiAyNjgKRmFpbGVkIDEgb2YgMTE5IGlvdGVzdHMKbWFrZTogKioqIFtjaGVjay10ZXN0cy9jaGVj
+ay1ibG9jay5zaF0gRXJyb3IgMQpUcmFjZWJhY2sgKG1vc3QgcmVjZW50IGNhbGwgbGFzdCk6CiAg
+RmlsZSAiLi90ZXN0cy9kb2NrZXIvZG9ja2VyLnB5IiwgbGluZSA2NjksIGluIDxtb2R1bGU+CiAg
+ICBzeXMuZXhpdChtYWluKCkpCi0tLQogICAgcmFpc2UgQ2FsbGVkUHJvY2Vzc0Vycm9yKHJldGNv
+ZGUsIGNtZCkKc3VicHJvY2Vzcy5DYWxsZWRQcm9jZXNzRXJyb3I6IENvbW1hbmQgJ1snc3Vkbycs
+ICctbicsICdkb2NrZXInLCAncnVuJywgJy0tbGFiZWwnLCAnY29tLnFlbXUuaW5zdGFuY2UudXVp
+ZD03ZGQyMjI0ZjZkN2I0Yzc5YTYwNGQzMzAyMWU4MGMxOScsICctdScsICcxMDAxJywgJy0tc2Vj
+dXJpdHktb3B0JywgJ3NlY2NvbXA9dW5jb25maW5lZCcsICctLXJtJywgJy1lJywgJ1RBUkdFVF9M
+SVNUPScsICctZScsICdFWFRSQV9DT05GSUdVUkVfT1BUUz0nLCAnLWUnLCAnVj0nLCAnLWUnLCAn
+Sj0xNCcsICctZScsICdERUJVRz0nLCAnLWUnLCAnU0hPV19FTlY9MScsICctZScsICdDQ0FDSEVf
+RElSPS92YXIvdG1wL2NjYWNoZScsICctdicsICcvaG9tZS9wYXRjaGV3Ly5jYWNoZS9xZW11LWRv
+Y2tlci1jY2FjaGU6L3Zhci90bXAvY2NhY2hlOnonLCAnLXYnLCAnL3Zhci90bXAvcGF0Y2hldy10
+ZXN0ZXItdG1wLXZ6MHRia2Q2L3NyYy9kb2NrZXItc3JjLjIwMjAtMDctMTAtMTAuMjcuNDIuODkz
+MjovdmFyL3RtcC9xZW11Onoscm8nLCAncWVtdTpjZW50b3M3JywgJy92YXIvdG1wL3FlbXUvcnVu
+JywgJ3Rlc3QtcXVpY2snXScgcmV0dXJuZWQgbm9uLXplcm8gZXhpdCBzdGF0dXMgMi4KZmlsdGVy
+PS0tZmlsdGVyPWxhYmVsPWNvbS5xZW11Lmluc3RhbmNlLnV1aWQ9N2RkMjIyNGY2ZDdiNGM3OWE2
+MDRkMzMwMjFlODBjMTkKbWFrZVsxXTogKioqIFtkb2NrZXItcnVuXSBFcnJvciAxCm1ha2VbMV06
+IExlYXZpbmcgZGlyZWN0b3J5IGAvdmFyL3RtcC9wYXRjaGV3LXRlc3Rlci10bXAtdnowdGJrZDYv
+c3JjJwptYWtlOiAqKiogW2RvY2tlci1ydW4tdGVzdC1xdWlja0BjZW50b3M3XSBFcnJvciAyCgpy
+ZWFsICAgIDE2bTE2LjMyNnMKdXNlciAgICAwbTkuMDUycwoKClRoZSBmdWxsIGxvZyBpcyBhdmFp
+bGFibGUgYXQKaHR0cDovL3BhdGNoZXcub3JnL2xvZ3MvMjAyMDA3MTAxNDIxNDkuNDA5NjItMS1r
+d29sZkByZWRoYXQuY29tL3Rlc3RpbmcuZG9ja2VyLXF1aWNrQGNlbnRvczcvP3R5cGU9bWVzc2Fn
+ZS4KLS0tCkVtYWlsIGdlbmVyYXRlZCBhdXRvbWF0aWNhbGx5IGJ5IFBhdGNoZXcgW2h0dHBzOi8v
+cGF0Y2hldy5vcmcvXS4KUGxlYXNlIHNlbmQgeW91ciBmZWVkYmFjayB0byBwYXRjaGV3LWRldmVs
+QHJlZGhhdC5jb20=
 
