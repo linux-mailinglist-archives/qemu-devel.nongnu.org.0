@@ -2,80 +2,66 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 98C0221B917
-	for <lists+qemu-devel@lfdr.de>; Fri, 10 Jul 2020 17:08:04 +0200 (CEST)
-Received: from localhost ([::1]:55712 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B03EA21B92E
+	for <lists+qemu-devel@lfdr.de>; Fri, 10 Jul 2020 17:15:54 +0200 (CEST)
+Received: from localhost ([::1]:32968 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jtud9-0002Vs-DH
-	for lists+qemu-devel@lfdr.de; Fri, 10 Jul 2020 11:08:03 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:52286)
+	id 1jtukj-0005Ln-Nj
+	for lists+qemu-devel@lfdr.de; Fri, 10 Jul 2020 11:15:53 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:53810)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1jtucB-0001jH-Ge
- for qemu-devel@nongnu.org; Fri, 10 Jul 2020 11:07:04 -0400
-Received: from mail-wm1-x343.google.com ([2a00:1450:4864:20::343]:51745)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1jtuc7-0002Po-L6
- for qemu-devel@nongnu.org; Fri, 10 Jul 2020 11:07:02 -0400
-Received: by mail-wm1-x343.google.com with SMTP id 22so6519136wmg.1
- for <qemu-devel@nongnu.org>; Fri, 10 Jul 2020 08:06:57 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=references:user-agent:from:to:cc:subject:in-reply-to:date
- :message-id:mime-version:content-transfer-encoding;
- bh=rqOmeLrwKKNLxr0lwXIx6nEo8Jp/EPVJoIhfXf0Y5Bs=;
- b=uGZ3BAEY5nXKJeKWKwOL0JiNgYNoCQXhKv/wfTXuGIJcTxt5djzowQ3K+ZpOvOo1Vf
- T5Fb/IDvxj/0BqU9/K5MlAVS//L3AdOCtKHTm+qX27+bPgq6KUj8fcHnNmi63KO+FGDS
- qUTg/Treo5NRgMJFB7hduS7EF6bJZ24OkxHGAvGxzEwHz0F7Lgli8DeatJElPf0aWqN0
- k0nUmQa7Ot5r65fRuGoJs53dbIY11R3gGGVcuOM8cIMHDWQxCvDC1LyM4DpfpAEdoh8w
- ScMxkX8iFx0pW4Lvzgey7lDeeAUN4UX60RyiBz/OV3FtojW6IwSNwzuPqfXRcrj2G3Su
- 5x7w==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:references:user-agent:from:to:cc:subject
- :in-reply-to:date:message-id:mime-version:content-transfer-encoding;
- bh=rqOmeLrwKKNLxr0lwXIx6nEo8Jp/EPVJoIhfXf0Y5Bs=;
- b=owbCrxGmNlbQdZDdVkmAHKfbxBEGXW+htwObCvCYUskPXp7+jn5l+itth77v2lXJ8o
- Vwulfknk9vU1gsfnfmaViI/nAg58IQU9O9dbBEZgDqNnFxkdEa6x/q29eYJzWQXp34cF
- lA3g4O7MsQUYfIdODB0mmVjOK+6BvwdQ8eRdAYPdbZkqWO3sknOnkVo+DibPcVtnVq68
- DNOzqlI1Op6Hp2MP8dXqpQ1ojGFXJKzaSCu+jRjPYFpsIILX+EDIafirvcpB/PiZm2wf
- 9Iawx50b0TNbhXJ693d+RyEvHVoBYtRCzluwYasEkNvUYvgf+RE2umcrl5jloU2Rzm6t
- rkXw==
-X-Gm-Message-State: AOAM5337PUj5zHQYlWAJ9D/94FpQFj+yFk7K69jLmpbDKloJ8dltxg9J
- 7zKQqjygtwH20iFLKs00KtH7oj3aZ6Q=
-X-Google-Smtp-Source: ABdhPJxW+X95/i/itnF1+bdYPQ/BP630uTdZR21aiTKAU24fL6Ibn+ZSqRMHEv9967uVG5owTjdePw==
-X-Received: by 2002:a1c:303:: with SMTP id 3mr5763032wmd.180.1594393615713;
- Fri, 10 Jul 2020 08:06:55 -0700 (PDT)
-Received: from zen.linaroharston ([51.148.130.216])
- by smtp.gmail.com with ESMTPSA id d13sm10357208wrn.61.2020.07.10.08.06.53
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 10 Jul 2020 08:06:54 -0700 (PDT)
-Received: from zen (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id CCDDE1FF7E;
- Fri, 10 Jul 2020 16:06:52 +0100 (BST)
-References: <20200710060719.22386-1-thuth@redhat.com>
-User-agent: mu4e 1.5.4; emacs 28.0.50
-From: Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
-To: Thomas Huth <thuth@redhat.com>
-Subject: Re: [PATCH v2] tests: improve performance of device-introspect-test
-In-reply-to: <20200710060719.22386-1-thuth@redhat.com>
-Date: Fri, 10 Jul 2020 16:06:52 +0100
-Message-ID: <87wo3bjto3.fsf@linaro.org>
+ (Exim 4.90_1) (envelope-from <david@redhat.com>) id 1jtuhu-0003Za-Cu
+ for qemu-devel@nongnu.org; Fri, 10 Jul 2020 11:12:58 -0400
+Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:34820
+ helo=us-smtp-1.mimecast.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <david@redhat.com>) id 1jtuhp-0003Mz-LA
+ for qemu-devel@nongnu.org; Fri, 10 Jul 2020 11:12:57 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1594393972;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding;
+ bh=sd2OvhcRON3NpqfjEpSaTABPdowdkCxWiH8onWpY+gs=;
+ b=d5f5BRx7QmSoYUIB+NDikvm5wOdXiQPDBA2Tn/fOOlaTpnNmu8Urw27H8ERIzQ674JhOAf
+ A1rdw5wQD7nDM1TVXw8fvNypqZRQclSXqRcIE0VCPZ0ZpyVLA841X+nNlWvxd8VZTsPEyJ
+ SrVQpyl9MCefVTDIbOjzbiN9Qv12z1U=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-466-oMZQPiFAO_aIyKwFEMhLPA-1; Fri, 10 Jul 2020 11:12:49 -0400
+X-MC-Unique: oMZQPiFAO_aIyKwFEMhLPA-1
+Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
+ [10.5.11.23])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id C1348100A8C1;
+ Fri, 10 Jul 2020 15:12:47 +0000 (UTC)
+Received: from t480s.redhat.com (ovpn-114-41.ams2.redhat.com [10.36.114.41])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 0F4E81A7D8;
+ Fri, 10 Jul 2020 15:12:39 +0000 (UTC)
+From: David Hildenbrand <david@redhat.com>
+To: qemu-devel@nongnu.org
+Subject: [PATCH RFCv2 0/6] s390x: initial support for virtio-mem
+Date: Fri, 10 Jul 2020 17:12:33 +0200
+Message-Id: <20200710151239.39370-1-david@redhat.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=2a00:1450:4864:20::343;
- envelope-from=alex.bennee@linaro.org; helo=mail-wm1-x343.google.com
-X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
- That's all we know.
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=205.139.110.120; envelope-from=david@redhat.com;
+ helo=us-smtp-1.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/07/10 04:36:30
+X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
+X-Spam_score_int: -40
+X-Spam_score: -4.1
+X-Spam_bar: ----
+X-Spam_report: (-4.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-1, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001, URIBL_BLOCKED=0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -88,172 +74,81 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Laurent Vivier <lvivier@redhat.com>,
- "Daniel P . Berrange" <berrange@redhat.com>,
- Markus Armbruster <armbru@redhat.com>, qemu-devel@nongnu.org
+Cc: Thomas Huth <thuth@redhat.com>, Janosch Frank <frankja@linux.ibm.com>,
+ "Michael S . Tsirkin" <mst@redhat.com>, Heiko Carstens <hca@linux.ibm.com>,
+ Cornelia Huck <cohuck@redhat.com>, David Hildenbrand <david@redhat.com>,
+ Halil Pasic <pasic@linux.ibm.com>,
+ Christian Borntraeger <borntraeger@de.ibm.com>, qemu-s390x@nongnu.org,
+ Claudio Imbrenda <imbrenda@linux.ibm.com>, Richard Henderson <rth@twiddle.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+This wires up the initial, basic version of virito-mem for s390x. General
+information about virtio-mem can be found at [1] and in QEMU commit [2].
+Patch #5 contains a short example for s390x.
 
-Thomas Huth <thuth@redhat.com> writes:
+virtio-mem for x86-64 Linux is part of v5.8-rc1. A branch with a s390x
+prototype can be found at:
+    git@github.com:davidhildenbrand/linux.git virtio-mem-s390x
 
-> From: Daniel P. Berrang=C3=A9 <berrange@redhat.com>
->
-> Total execution time with "-m slow" and x86_64 QEMU, drops from 3
-> minutes 15 seconds, down to 54 seconds.
->
-> Individual tests drop from 17-20 seconds, down to 3-4 seconds.
->
-> The cost of this change is that any QOM bugs resulting in the test
-> failure will not be directly associated with the device that caused
-> the failure. The test case is not frequently identifying such bugs
-> though, and the cause is likely easily visible in the patch series
-> that causes the failure. So overall the shorter running time is
-> considered the more important factor.
->
-> Signed-off-by: Daniel P. Berrang=C3=A9 <berrange@redhat.com>
-> [thuth: Add the tree check to test_device_intro_none() and
->  test_device_intro_abstract(), too, just to be sure...]
-> Signed-off-by: Thomas Huth <thuth@redhat.com>
+Note that the kernel should either be compiled via
+ CONFIG_MEMORY_HOTPLUG_DEFAULT_ONLINE, or "memhp_default_state=online"
+ should be passed on the kernel cmdline.
 
-Queued to pr/100720-testing-and-misc-2 in lieu of gitlab: split
-build-disabled into two phases, thanks.
+This series can be found at:
+    git@github.com:davidhildenbrand/qemu.git virtio-mem-s390x-rfcv2
 
-> ---
->  v2: Add the tree check to test_device_intro_none() and
->      test_device_intro_abstract(), too
->
->  When I run the following command, the test time drops from more
->  than 20 minutes to 50 seconds now (wow!):
->=20=20
->  QTEST_QEMU_BINARY=3Dppc64-softmmu/qemu-system-ppc64 \
->   time tests/qtest/device-introspect-test -m slow > /dev/null
->
->  tests/qtest/device-introspect-test.c | 60 ++++++++++++++++++----------
->  1 file changed, 38 insertions(+), 22 deletions(-)
->
-> diff --git a/tests/qtest/device-introspect-test.c b/tests/qtest/device-in=
-trospect-test.c
-> index 9abb5ec889..d68b7856a7 100644
-> --- a/tests/qtest/device-introspect-test.c
-> +++ b/tests/qtest/device-introspect-test.c
-> @@ -105,14 +105,9 @@ static void test_one_device(QTestState *qts, const c=
-har *type)
->  {
->      QDict *resp;
->      char *help;
-> -    char *qom_tree_start, *qom_tree_end;
-> -    char *qtree_start, *qtree_end;
->=20=20
->      g_test_message("Testing device '%s'", type);
->=20=20
-> -    qom_tree_start =3D qtest_hmp(qts, "info qom-tree");
-> -    qtree_start =3D qtest_hmp(qts, "info qtree");
-> -
->      resp =3D qtest_qmp(qts, "{'execute': 'device-list-properties',"
->                            " 'arguments': {'typename': %s}}",
->                 type);
-> @@ -120,21 +115,6 @@ static void test_one_device(QTestState *qts, const c=
-har *type)
->=20=20
->      help =3D qtest_hmp(qts, "device_add \"%s,help\"", type);
->      g_free(help);
-> -
-> -    /*
-> -     * Some devices leave dangling pointers in QOM behind.
-> -     * "info qom-tree" or "info qtree" have a good chance at crashing th=
-en.
-> -     * Also make sure that the tree did not change.
-> -     */
-> -    qom_tree_end =3D qtest_hmp(qts, "info qom-tree");
-> -    g_assert_cmpstr(qom_tree_start, =3D=3D, qom_tree_end);
-> -    g_free(qom_tree_start);
-> -    g_free(qom_tree_end);
-> -
-> -    qtree_end =3D qtest_hmp(qts, "info qtree");
-> -    g_assert_cmpstr(qtree_start, =3D=3D, qtree_end);
-> -    g_free(qtree_start);
-> -    g_free(qtree_end);
->  }
->=20=20
->  static void test_device_intro_list(void)
-> @@ -213,16 +193,38 @@ static void test_qom_list_fields(void)
->  static void test_device_intro_none(void)
->  {
->      QTestState *qts =3D qtest_init(common_args);
-> +    g_autofree char *qom_tree_start =3D qtest_hmp(qts, "info qom-tree");
-> +    g_autofree char *qom_tree_end =3D NULL;
-> +    g_autofree char *qtree_start =3D qtest_hmp(qts, "info qtree");
-> +    g_autofree char *qtree_end =3D NULL;
->=20=20
->      test_one_device(qts, "nonexistent");
-> +
-> +    /* Make sure that really nothing changed in the trees */
-> +    qom_tree_end =3D qtest_hmp(qts, "info qom-tree");
-> +    g_assert_cmpstr(qom_tree_start, =3D=3D, qom_tree_end);
-> +    qtree_end =3D qtest_hmp(qts, "info qtree");
-> +    g_assert_cmpstr(qtree_start, =3D=3D, qtree_end);
-> +
->      qtest_quit(qts);
->  }
->=20=20
->  static void test_device_intro_abstract(void)
->  {
->      QTestState *qts =3D qtest_init(common_args);
-> +    g_autofree char *qom_tree_start =3D qtest_hmp(qts, "info qom-tree");
-> +    g_autofree char *qom_tree_end =3D NULL;
-> +    g_autofree char *qtree_start =3D qtest_hmp(qts, "info qtree");
-> +    g_autofree char *qtree_end =3D NULL;
->=20=20
->      test_one_device(qts, "device");
-> +
-> +    /* Make sure that really nothing changed in the trees */
-> +    qom_tree_end =3D qtest_hmp(qts, "info qom-tree");
-> +    g_assert_cmpstr(qom_tree_start, =3D=3D, qom_tree_end);
-> +    qtree_end =3D qtest_hmp(qts, "info qtree");
-> +    g_assert_cmpstr(qtree_start, =3D=3D, qtree_end);
-> +
->      qtest_quit(qts);
->  }
->=20=20
-> @@ -231,9 +233,12 @@ static void test_device_intro_concrete(const void *a=
-rgs)
->      QList *types;
->      QListEntry *entry;
->      const char *type;
-> -    QTestState *qts;
-> +    QTestState *qts =3D qtest_init(args);
-> +    g_autofree char *qom_tree_start =3D qtest_hmp(qts, "info qom-tree");
-> +    g_autofree char *qom_tree_end =3D NULL;
-> +    g_autofree char *qtree_start =3D qtest_hmp(qts, "info qtree");
-> +    g_autofree char *qtree_end =3D NULL;
->=20=20
-> -    qts =3D qtest_init(args);
->      types =3D device_type_list(qts, false);
->=20=20
->      QLIST_FOREACH_ENTRY(types, entry) {
-> @@ -243,6 +248,17 @@ static void test_device_intro_concrete(const void *a=
-rgs)
->          test_one_device(qts, type);
->      }
->=20=20
-> +    /*
-> +     * Some devices leave dangling pointers in QOM behind.
-> +     * "info qom-tree" or "info qtree" have a good chance at crashing th=
-en.
-> +     * Also make sure that the tree did not change.
-> +     */
-> +    qom_tree_end =3D qtest_hmp(qts, "info qom-tree");
-> +    g_assert_cmpstr(qom_tree_start, =3D=3D, qom_tree_end);
-> +
-> +    qtree_end =3D qtest_hmp(qts, "info qtree");
-> +    g_assert_cmpstr(qtree_start, =3D=3D, qtree_end);
-> +
->      qobject_unref(types);
->      qtest_quit(qts);
->      g_free((void *)args);
+Related to s390x, we'll have to tackle migration of storage keys and
+storage attributes (especially, skipping unplugged parts). Not sure if
+I am missing something else (any ideas?). For virtio-mem in general, there
+are a couple of TODOs, e.g., documented in [1] and [2], both in QEMU and
+Linux. However, the basics are around.
 
+I only tested this with fairly small amount of RAM in a z/VM environemnt
+and under TCG ...
 
---=20
-Alex Benn=C3=A9e
+[1] https://virtio-mem.gitlab.io/
+[2] 910b25766b33 ("virtio-mem: Paravirtualized memory hot(un)plug")
+
+RFCv1 -> RFCv2:
+- "s390x/diag: no need to check for PGM_PRIVILEGED in diag308"
+-- Added
+- "s390x/diag: implement diag260"
+-- Implement according to doc (fix error cases)
+-- Implement subcode 0xc.
+-- Enable the new diag unconditionally
+- "s390x: prepare device memory address space"
+-- Expose maxram size now via diag260 (0xc), not via SCLP. Unfmodified
+   guests can now boot without any issues. This needed kernel changes
+   (updated the Linux kernel branch)
+- "s390x: implement virtio-mem-ccw"
+-- Force virtio revision 1
+
+David Hildenbrand (6):
+  s390x: move setting of maximum ram size to machine init
+  s390x/diag: no need to check for PGM_PRIVILEGED in diag308
+  s390x/diag: implement diag260
+  s390x: prepare device memory address space
+  s390x: implement virtio-mem-ccw
+  s390x: initial support for virtio-mem
+
+ hw/s390x/Kconfig                   |   1 +
+ hw/s390x/Makefile.objs             |   1 +
+ hw/s390x/s390-virtio-ccw.c         | 178 ++++++++++++++++++++++++++++-
+ hw/s390x/sclp.c                    |  23 +---
+ hw/s390x/virtio-ccw-mem.c          | 167 +++++++++++++++++++++++++++
+ hw/s390x/virtio-ccw.h              |  13 +++
+ hw/virtio/virtio-mem.c             |   2 +
+ include/hw/s390x/s390-virtio-ccw.h |   3 +
+ target/s390x/diag.c                |  62 +++++++++-
+ target/s390x/internal.h            |   2 +
+ target/s390x/kvm.c                 |  11 ++
+ target/s390x/misc_helper.c         |   6 +
+ target/s390x/translate.c           |   7 ++
+ 13 files changed, 446 insertions(+), 30 deletions(-)
+ create mode 100644 hw/s390x/virtio-ccw-mem.c
+
+-- 
+2.26.2
+
 
