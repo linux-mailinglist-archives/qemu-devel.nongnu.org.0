@@ -2,98 +2,51 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 724DC21BA78
-	for <lists+qemu-devel@lfdr.de>; Fri, 10 Jul 2020 18:13:14 +0200 (CEST)
-Received: from localhost ([::1]:38026 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7A61621BAA4
+	for <lists+qemu-devel@lfdr.de>; Fri, 10 Jul 2020 18:18:53 +0200 (CEST)
+Received: from localhost ([::1]:60842 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jtveD-0000UY-Ao
-	for lists+qemu-devel@lfdr.de; Fri, 10 Jul 2020 12:13:13 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:41870)
+	id 1jtvjg-0001dU-HP
+	for lists+qemu-devel@lfdr.de; Fri, 10 Jul 2020 12:18:52 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:42356)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mreitz@redhat.com>) id 1jtvdG-0008QP-Tq
- for qemu-devel@nongnu.org; Fri, 10 Jul 2020 12:12:14 -0400
-Received: from us-smtp-2.mimecast.com ([207.211.31.81]:48967
- helo=us-smtp-delivery-1.mimecast.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <mreitz@redhat.com>) id 1jtvdD-0004ms-UB
- for qemu-devel@nongnu.org; Fri, 10 Jul 2020 12:12:14 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1594397530;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
- bh=Uo/tqg+mAZQO4FzkorI9aJlkBABUAuJHgD/eZ+8AmlM=;
- b=bYPGxku5DewwteZgKBtxi8zJ4b1PNPxzG9zGOAGgnEBmfcO035xGRNtOC0lJKFL33Xz0KG
- jN4Vg0JxZX0965qixWK3byUeyx3QluLdINT396KMDBZG02YaWapwahoeDzxQIzaAvogGhk
- godXbaznPJYjVDos9hGfgVh8QqB2JwI=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-311-KYm94O0hNS-3S4pvdTSe3Q-1; Fri, 10 Jul 2020 12:12:08 -0400
-X-MC-Unique: KYm94O0hNS-3S4pvdTSe3Q-1
-Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
- [10.5.11.14])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 2E1FF18FF661;
- Fri, 10 Jul 2020 16:12:07 +0000 (UTC)
-Received: from dresden.str.redhat.com (ovpn-113-127.ams2.redhat.com
- [10.36.113.127])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 0D08578A45;
- Fri, 10 Jul 2020 16:12:05 +0000 (UTC)
-Subject: Re: [PATCH for-5.1] file-posix: Mitigate file fragmentation with
- extent size hints
-To: Kevin Wolf <kwolf@redhat.com>, qemu-block@nongnu.org
-References: <20200707142329.48303-1-kwolf@redhat.com>
- <20200707161741.GG7002@linux.fritz.box>
-From: Max Reitz <mreitz@redhat.com>
-Autocrypt: addr=mreitz@redhat.com; prefer-encrypt=mutual; keydata=
- mQENBFXOJlcBCADEyyhOTsoa/2ujoTRAJj4MKA21dkxxELVj3cuILpLTmtachWj7QW+TVG8U
- /PsMCFbpwsQR7oEy8eHHZwuGQsNpEtNC2G/L8Yka0BIBzv7dEgrPzIu+W3anZXQW4702+uES
- U29G8TP/NGfXRRHGlbBIH9KNUnOSUD2vRtpOLXkWsV5CN6vQFYgQfFvmp5ZpPeUe6xNplu8V
- mcTw8OSEDW/ZnxJc8TekCKZSpdzYoxfzjm7xGmZqB18VFwgJZlIibt1HE0EB4w5GsD7x5ekh
- awIe3RwoZgZDLQMdOitJ1tUc8aqaxvgA4tz6J6st8D8pS//m1gAoYJWGwwIVj1DjTYLtABEB
- AAG0HU1heCBSZWl0eiA8bXJlaXR6QHJlZGhhdC5jb20+iQFTBBMBCAA9AhsDBQkSzAMABQsJ
- CAcCBhUICQoLAgQWAgMBAh4BAheABQJVzie5FRhoa3A6Ly9rZXlzLmdudXBnLm5ldAAKCRD0
- B9sAYdXPQDcIB/9uNkbYEex1rHKz3mr12uxYMwLOOFY9fstP5aoVJQ1nWQVB6m2cfKGdcRe1
- 2/nFaHSNAzT0NnKz2MjhZVmcrpyd2Gp2QyISCfb1FbT82GMtXFj1wiHmPb3CixYmWGQUUh+I
- AvUqsevLA+WihgBUyaJq/vuDVM1/K9Un+w+Tz5vpeMidlIsTYhcsMhn0L9wlCjoucljvbDy/
- 8C9L2DUdgi3XTa0ORKeflUhdL4gucWoAMrKX2nmPjBMKLgU7WLBc8AtV+84b9OWFML6NEyo4
- 4cP7cM/07VlJK53pqNg5cHtnWwjHcbpGkQvx6RUx6F1My3y52vM24rNUA3+ligVEgPYBuQEN
- BFXOJlcBCADAmcVUNTWT6yLWQHvxZ0o47KCP8OcLqD+67T0RCe6d0LP8GsWtrJdeDIQk+T+F
- xO7DolQPS6iQ6Ak2/lJaPX8L0BkEAiMuLCKFU6Bn3lFOkrQeKp3u05wCSV1iKnhg0UPji9V2
- W5eNfy8F4ZQHpeGUGy+liGXlxqkeRVhLyevUqfU0WgNqAJpfhHSGpBgihUupmyUg7lfUPeRM
- DzAN1pIqoFuxnN+BRHdAecpsLcbR8sQddXmDg9BpSKozO/JyBmaS1RlquI8HERQoe6EynJhd
- 64aICHDfj61rp+/0jTIcevxIIAzW70IadoS/y3DVIkuhncgDBvGbF3aBtjrJVP+5ABEBAAGJ
- ASUEGAEIAA8FAlXOJlcCGwwFCRLMAwAACgkQ9AfbAGHVz0CbFwf9F/PXxQR9i4N0iipISYjU
- sxVdjJOM2TMut+ZZcQ6NSMvhZ0ogQxJ+iEQ5OjnIputKvPVd5U7WRh+4lF1lB/NQGrGZQ1ic
- alkj6ocscQyFwfib+xIe9w8TG1CVGkII7+TbS5pXHRxZH1niaRpoi/hYtgzkuOPp35jJyqT/
- /ELbqQTDAWcqtJhzxKLE/ugcOMK520dJDeb6x2xVES+S5LXby0D4juZlvUj+1fwZu+7Io5+B
- bkhSVPb/QdOVTpnz7zWNyNw+OONo1aBUKkhq2UIByYXgORPFnbfMY7QWHcjpBVw9MgC4tGeF
- R4bv+1nAMMxKmb5VvQCExr0eFhJUAHAhVg==
-Message-ID: <451ed32d-72e8-0238-8793-f5a80ae991c4@redhat.com>
-Date: Fri, 10 Jul 2020 18:12:04 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.9.0
+ (Exim 4.90_1) (envelope-from <berto@igalia.com>)
+ id 1jtvf1-00024P-Ch; Fri, 10 Jul 2020 12:14:03 -0400
+Received: from fanzine.igalia.com ([178.60.130.6]:43483)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <berto@igalia.com>)
+ id 1jtvex-0004ux-3Z; Fri, 10 Jul 2020 12:14:03 -0400
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=igalia.com;
+ s=20170329; 
+ h=Content-Transfer-Encoding:MIME-Version:Message-Id:Date:Subject:Cc:To:From;
+ bh=XFoNsmS5Nv7em5WMMp7wfSpyrw7JYXy1aCqYZTX4OWg=; 
+ b=IDsdZrhlHsC4xV5jNosN4uRrbIkkv4M+K5VdKlJx8weW/cAZArLC5KnBfGTooK2/XSbtF532Zw3ltqNCG0SrUoAfkXVpA4AGi7zrI7XefB2lyfmw65TQ+SyR7TZfodAXtcBvzOw7QarZSYVrXbuKQcXizgV5DJhZJzhUcp6Ha9K+WtCK7K7yUtvpgokROKrWYLqZGifmIQEl6AFoW9ln7Tjrp0dLly/4Z3oXfSgBXrCREzLru8i1lfmNhvBLiaS8gPTsgXRdFrc0g1xDn6uhoSkXj7USJ80k5D5RKHfBVEd4Csp9UdUglQiMPmvuVCMkb9jjbSiaHQ4ZHFoGHH6Fkg==;
+Received: from [81.0.43.0] (helo=perseus.local)
+ by fanzine.igalia.com with esmtpsa 
+ (Cipher TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256) (Exim)
+ id 1jtveZ-0003jQ-3R; Fri, 10 Jul 2020 18:13:35 +0200
+Received: from berto by perseus.local with local (Exim 4.92)
+ (envelope-from <berto@igalia.com>)
+ id 1jtveK-0001Q8-Hl; Fri, 10 Jul 2020 18:13:20 +0200
+From: Alberto Garcia <berto@igalia.com>
+To: qemu-devel@nongnu.org
+Subject: [PATCH v11 00/34] Add subcluster allocation to qcow2
+Date: Fri, 10 Jul 2020 18:12:42 +0200
+Message-Id: <cover.1594396418.git.berto@igalia.com>
+X-Mailer: git-send-email 2.20.1
 MIME-Version: 1.0
-In-Reply-To: <20200707161741.GG7002@linux.fritz.box>
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature";
- boundary="Rd55P4OmxNat95E0BBHNw3m88C4tcEMlC"
-Received-SPF: pass client-ip=207.211.31.81; envelope-from=mreitz@redhat.com;
- helo=us-smtp-delivery-1.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/07/09 23:35:58
-X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
-X-Spam_score_int: -30
-X-Spam_score: -3.1
-X-Spam_bar: ---
-X-Spam_report: (-3.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H3=-0.01, RCVD_IN_MSPIKE_WL=-0.01,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=178.60.130.6; envelope-from=berto@igalia.com;
+ helo=fanzine.igalia.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/07/10 12:13:35
+X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x (no timestamps) [generic] [fuzzy]
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001, URIBL_BLOCKED=0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -106,134 +59,162 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-devel@nongnu.org
+Cc: Kevin Wolf <kwolf@redhat.com>,
+ Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>,
+ Alberto Garcia <berto@igalia.com>, qemu-block@nongnu.org,
+ Derek Su <dereksu@qnap.com>, Max Reitz <mreitz@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
---Rd55P4OmxNat95E0BBHNw3m88C4tcEMlC
-Content-Type: multipart/mixed; boundary="cwY92oLKOF5Rt91MZGoqMUruUHWHC4eFX"
+Hi,
 
---cwY92oLKOF5Rt91MZGoqMUruUHWHC4eFX
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: quoted-printable
+here's the new version of the patches to add subcluster allocation
+support to qcow2.
 
-On 07.07.20 18:17, Kevin Wolf wrote:
-> Am 07.07.2020 um 16:23 hat Kevin Wolf geschrieben:
->> Espeically when O_DIRECT is used with image files so that the page cache
->> indirection can't cause a merge of allocating requests, the file will
->> fragment on the file system layer, with a potentially very small
->> fragment size (this depends on the requests the guest sent).
->>
->> On Linux, fragmentation can be reduced by setting an extent size hint
->> when creating the file (at least on XFS, it can't be set any more after
->> the first extent has been allocated), basically giving raw files a
->> "cluster size" for allocation.
->>
->> This adds an create option to set the extent size hint, and changes the
->> default from not setting a hint to setting it to 1 MB. The main reason
->> why qcow2 defaults to smaller cluster sizes is that COW becomes more
->> expensive, which is not an issue with raw files, so we can choose a
->> larger file. The tradeoff here is only potentially wasted disk space.
->>
->> For qcow2 (or other image formats) over file-posix, the advantage should
->> even be greater because they grow sequentially without leaving holes, so
->> there won't be wasted space. Setting even larger extent size hints for
->> such images may make sense. This can be done with the new option, but
->> let's keep the default conservative for now.
->>
->> The effect is very visible with a test that intentionally creates a
->> badly fragmented file with qemu-img bench (the time difference while
->> creating the file is already remarkable) and then looks at the number of
->> extents and the take a simple "qemu-img map" takes.
->>
->> Without an extent size hint:
->>
->>     $ ./qemu-img create -f raw -o extent_size_hint=3D0 ~/tmp/test.raw 10=
-G
->>     Formatting '/home/kwolf/tmp/test.raw', fmt=3Draw size=3D10737418240 =
-extent_size_hint=3D0
->>     $ ./qemu-img bench -f raw -t none -n -w ~/tmp/test.raw -c 1000000 -S=
- 8192 -o 0
->>     Sending 1000000 write requests, 4096 bytes each, 64 in parallel (sta=
-rting at offset 0, step size 8192)
->>     Run completed in 25.848 seconds.
->>     $ ./qemu-img bench -f raw -t none -n -w ~/tmp/test.raw -c 1000000 -S=
- 8192 -o 4096
->>     Sending 1000000 write requests, 4096 bytes each, 64 in parallel (sta=
-rting at offset 4096, step size 8192)
->>     Run completed in 19.616 seconds.
->>     $ filefrag ~/tmp/test.raw
->>     /home/kwolf/tmp/test.raw: 2000000 extents found
->>     $ time ./qemu-img map ~/tmp/test.raw
->>     Offset          Length          Mapped to       File
->>     0               0x1e8480000     0               /home/kwolf/tmp/test=
-.raw
->>
->>     real    0m1,279s
->>     user    0m0,043s
->>     sys     0m1,226s
->>
->> With the new default extent size hint of 1 MB:
->>
->>     $ ./qemu-img create -f raw -o extent_size_hint=3D1M ~/tmp/test.raw 1=
-0G
->>     Formatting '/home/kwolf/tmp/test.raw', fmt=3Draw size=3D10737418240 =
-extent_size_hint=3D1048576
->>     $ ./qemu-img bench -f raw -t none -n -w ~/tmp/test.raw -c 1000000 -S=
- 8192 -o 0
->>     Sending 1000000 write requests, 4096 bytes each, 64 in parallel (sta=
-rting at offset 0, step size 8192)
->>     Run completed in 11.833 seconds.
->>     $ ./qemu-img bench -f raw -t none -n -w ~/tmp/test.raw -c 1000000 -S=
- 8192 -o 4096
->>     Sending 1000000 write requests, 4096 bytes each, 64 in parallel (sta=
-rting at offset 4096, step size 8192)
->>     Run completed in 10.155 seconds.
->>     $ filefrag ~/tmp/test.raw
->>     /home/kwolf/tmp/test.raw: 178 extents found
->>     $ time ./qemu-img map ~/tmp/test.raw
->>     Offset          Length          Mapped to       File
->>     0               0x1e8480000     0               /home/kwolf/tmp/test=
-.raw
->>
->>     real    0m0,061s
->>     user    0m0,040s
->>     sys     0m0,014s
->>
->> Signed-off-by: Kevin Wolf <kwolf@redhat.com>
->=20
-> I also need to squash in a few trivial qemu-iotests updates, for which I
-> won't send a v2:
+Please refer to the cover letter of the first version for a full
+description of the patches:
 
-The additional specifications in 243 make it print a warning on tmpfs
-(because the option doesn=E2=80=99t work there).  I suppose the same may be=
- true
-on other filesystems as well.  Should it be filtered out?
+   https://lists.gnu.org/archive/html/qemu-block/2019-10/msg00983.html
 
-Max
+This version is rebased on top of the latest master (f2a1cf9180),
+fixes the relevant conflicts (particularly after df373fb0a3) and
+updates the test expectations.
 
+Berto
 
---cwY92oLKOF5Rt91MZGoqMUruUHWHC4eFX--
+v11:
+- Patch 31: Fix rebase conflicts after df373fb0a3, update test
+            expectations.
+- Patch 34: Update test expectations.
 
---Rd55P4OmxNat95E0BBHNw3m88C4tcEMlC
-Content-Type: application/pgp-signature; name="signature.asc"
-Content-Description: OpenPGP digital signature
-Content-Disposition: attachment; filename="signature.asc"
+v10: https://lists.gnu.org/archive/html/qemu-block/2020-07/msg00328.html
+v9: https://lists.gnu.org/archive/html/qemu-block/2020-06/msg01526.html
+v8: https://lists.gnu.org/archive/html/qemu-block/2020-06/msg00546.html
+v7: https://lists.gnu.org/archive/html/qemu-block/2020-05/msg01683.html
+v6: https://lists.gnu.org/archive/html/qemu-block/2020-05/msg01583.html
+v5: https://lists.gnu.org/archive/html/qemu-block/2020-05/msg00251.html
+v4: https://lists.gnu.org/archive/html/qemu-block/2020-03/msg00966.html
+v3: https://lists.gnu.org/archive/html/qemu-block/2019-12/msg00587.html
+v2: https://lists.gnu.org/archive/html/qemu-block/2019-10/msg01642.html
+v1: https://lists.gnu.org/archive/html/qemu-block/2019-10/msg00983.html
 
------BEGIN PGP SIGNATURE-----
+Output of git backport-diff against v10:
 
-iQEzBAEBCAAdFiEEkb62CjDbPohX0Rgp9AfbAGHVz0AFAl8Ik1QACgkQ9AfbAGHV
-z0Ds5AgAi7Mvr1uQbZ0r5ww5hOrfurAk4xkpyx+xf/cMBPUpStu8nRdldA56/Vfw
-C59oKSudjY29LNrSzmedvxZOComNN5OOYX2Ama28IUano1kIU2uW3POo9eBbxh9H
-M3o56wgPxwkqgcEFwWfl2qrioy245dZAc/Ixw69VBmjizG3Kfs4F5wDfBvv3jpXE
-XxFVOxGXTUqpMjjPRSIb7SGUSsUmsYkvEw2YrN342SnXjK7+F6JKbTmREX4NKyxr
-l33KL+y87Z3LkjHwF5nMXfMt0vyOgQGtolLu2MOK9ul9heqI1VN6ON3fT/dNbYoy
-+R9MStQ8VZ0zFLr7mZYBTslULhFN7w==
-=9HhK
------END PGP SIGNATURE-----
+Key:
+[----] : patches are identical
+[####] : number of functional differences between upstream/downstream patch
+[down] : patch is downstream-only
+The flags [FC] indicate (F)unctional and (C)ontextual differences, respectively
 
---Rd55P4OmxNat95E0BBHNw3m88C4tcEMlC--
+001/34:[----] [--] 'qcow2: Make Qcow2AioTask store the full host offset'
+002/34:[----] [--] 'qcow2: Convert qcow2_get_cluster_offset() into qcow2_get_host_offset()'
+003/34:[----] [--] 'qcow2: Add calculate_l2_meta()'
+004/34:[----] [--] 'qcow2: Split cluster_needs_cow() out of count_cow_clusters()'
+005/34:[----] [--] 'qcow2: Process QCOW2_CLUSTER_ZERO_ALLOC clusters in handle_copied()'
+006/34:[----] [--] 'qcow2: Add get_l2_entry() and set_l2_entry()'
+007/34:[----] [--] 'qcow2: Document the Extended L2 Entries feature'
+008/34:[----] [--] 'qcow2: Add dummy has_subclusters() function'
+009/34:[----] [--] 'qcow2: Add subcluster-related fields to BDRVQcow2State'
+010/34:[----] [--] 'qcow2: Add offset_to_sc_index()'
+011/34:[----] [--] 'qcow2: Add offset_into_subcluster() and size_to_subclusters()'
+012/34:[----] [--] 'qcow2: Add l2_entry_size()'
+013/34:[----] [--] 'qcow2: Update get/set_l2_entry() and add get/set_l2_bitmap()'
+014/34:[----] [--] 'qcow2: Add QCow2SubclusterType and qcow2_get_subcluster_type()'
+015/34:[----] [--] 'qcow2: Add qcow2_get_subcluster_range_type()'
+016/34:[----] [--] 'qcow2: Add qcow2_cluster_is_allocated()'
+017/34:[----] [--] 'qcow2: Add cluster type parameter to qcow2_get_host_offset()'
+018/34:[----] [--] 'qcow2: Replace QCOW2_CLUSTER_* with QCOW2_SUBCLUSTER_*'
+019/34:[----] [--] 'qcow2: Handle QCOW2_SUBCLUSTER_UNALLOCATED_ALLOC'
+020/34:[----] [--] 'qcow2: Add subcluster support to calculate_l2_meta()'
+021/34:[----] [--] 'qcow2: Add subcluster support to qcow2_get_host_offset()'
+022/34:[----] [--] 'qcow2: Add subcluster support to zero_in_l2_slice()'
+023/34:[----] [--] 'qcow2: Add subcluster support to discard_in_l2_slice()'
+024/34:[----] [--] 'qcow2: Add subcluster support to check_refcounts_l2()'
+025/34:[----] [--] 'qcow2: Update L2 bitmap in qcow2_alloc_cluster_link_l2()'
+026/34:[----] [--] 'qcow2: Clear the L2 bitmap when allocating a compressed cluster'
+027/34:[----] [--] 'qcow2: Add subcluster support to handle_alloc_space()'
+028/34:[----] [--] 'qcow2: Add subcluster support to qcow2_co_pwrite_zeroes()'
+029/34:[----] [--] 'qcow2: Add subcluster support to qcow2_measure()'
+030/34:[----] [--] 'qcow2: Add prealloc field to QCowL2Meta'
+031/34:[0493] [FC] 'qcow2: Add the 'extended_l2' option and the QCOW2_INCOMPAT_EXTL2 bit'
+032/34:[----] [--] 'qcow2: Allow preallocation and backing files if extended_l2 is set'
+033/34:[----] [--] 'qcow2: Assert that expand_zero_clusters_in_l1() does not support subclusters'
+034/34:[0006] [FC] 'iotests: Add tests for qcow2 images with extended L2 entries'
+
+Alberto Garcia (34):
+  qcow2: Make Qcow2AioTask store the full host offset
+  qcow2: Convert qcow2_get_cluster_offset() into qcow2_get_host_offset()
+  qcow2: Add calculate_l2_meta()
+  qcow2: Split cluster_needs_cow() out of count_cow_clusters()
+  qcow2: Process QCOW2_CLUSTER_ZERO_ALLOC clusters in handle_copied()
+  qcow2: Add get_l2_entry() and set_l2_entry()
+  qcow2: Document the Extended L2 Entries feature
+  qcow2: Add dummy has_subclusters() function
+  qcow2: Add subcluster-related fields to BDRVQcow2State
+  qcow2: Add offset_to_sc_index()
+  qcow2: Add offset_into_subcluster() and size_to_subclusters()
+  qcow2: Add l2_entry_size()
+  qcow2: Update get/set_l2_entry() and add get/set_l2_bitmap()
+  qcow2: Add QCow2SubclusterType and qcow2_get_subcluster_type()
+  qcow2: Add qcow2_get_subcluster_range_type()
+  qcow2: Add qcow2_cluster_is_allocated()
+  qcow2: Add cluster type parameter to qcow2_get_host_offset()
+  qcow2: Replace QCOW2_CLUSTER_* with QCOW2_SUBCLUSTER_*
+  qcow2: Handle QCOW2_SUBCLUSTER_UNALLOCATED_ALLOC
+  qcow2: Add subcluster support to calculate_l2_meta()
+  qcow2: Add subcluster support to qcow2_get_host_offset()
+  qcow2: Add subcluster support to zero_in_l2_slice()
+  qcow2: Add subcluster support to discard_in_l2_slice()
+  qcow2: Add subcluster support to check_refcounts_l2()
+  qcow2: Update L2 bitmap in qcow2_alloc_cluster_link_l2()
+  qcow2: Clear the L2 bitmap when allocating a compressed cluster
+  qcow2: Add subcluster support to handle_alloc_space()
+  qcow2: Add subcluster support to qcow2_co_pwrite_zeroes()
+  qcow2: Add subcluster support to qcow2_measure()
+  qcow2: Add prealloc field to QCowL2Meta
+  qcow2: Add the 'extended_l2' option and the QCOW2_INCOMPAT_EXTL2 bit
+  qcow2: Allow preallocation and backing files if extended_l2 is set
+  qcow2: Assert that expand_zero_clusters_in_l1() does not support
+    subclusters
+  iotests: Add tests for qcow2 images with extended L2 entries
+
+ docs/interop/qcow2.txt           |  68 ++-
+ docs/qcow2-cache.txt             |  19 +-
+ qapi/block-core.json             |   7 +
+ block/qcow2.h                    | 211 ++++++-
+ include/block/block_int.h        |   1 +
+ block/qcow2-cluster.c            | 912 +++++++++++++++++++++----------
+ block/qcow2-refcount.c           |  47 +-
+ block/qcow2.c                    | 302 ++++++----
+ block/trace-events               |   2 +-
+ tests/qemu-iotests/031.out       |   8 +-
+ tests/qemu-iotests/036.out       |   4 +-
+ tests/qemu-iotests/049.out       | 102 ++--
+ tests/qemu-iotests/060.out       |   3 +-
+ tests/qemu-iotests/061           |   6 +
+ tests/qemu-iotests/061.out       |  25 +-
+ tests/qemu-iotests/065           |  12 +-
+ tests/qemu-iotests/082.out       |  39 +-
+ tests/qemu-iotests/085.out       |  38 +-
+ tests/qemu-iotests/144.out       |   4 +-
+ tests/qemu-iotests/182.out       |   2 +-
+ tests/qemu-iotests/185.out       |   8 +-
+ tests/qemu-iotests/198           |   2 +
+ tests/qemu-iotests/206.out       |   6 +-
+ tests/qemu-iotests/242.out       |   5 +
+ tests/qemu-iotests/255.out       |   8 +-
+ tests/qemu-iotests/271           | 901 ++++++++++++++++++++++++++++++
+ tests/qemu-iotests/271.out       | 726 ++++++++++++++++++++++++
+ tests/qemu-iotests/274.out       |  49 +-
+ tests/qemu-iotests/280.out       |   2 +-
+ tests/qemu-iotests/291.out       |   2 +
+ tests/qemu-iotests/common.filter |   1 +
+ tests/qemu-iotests/group         |   1 +
+ 32 files changed, 2950 insertions(+), 573 deletions(-)
+ create mode 100755 tests/qemu-iotests/271
+ create mode 100644 tests/qemu-iotests/271.out
+
+-- 
+2.20.1
 
 
