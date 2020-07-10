@@ -2,85 +2,76 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7354021BA47
-	for <lists+qemu-devel@lfdr.de>; Fri, 10 Jul 2020 18:03:54 +0200 (CEST)
-Received: from localhost ([::1]:49954 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C5C6621BA4C
+	for <lists+qemu-devel@lfdr.de>; Fri, 10 Jul 2020 18:04:14 +0200 (CEST)
+Received: from localhost ([::1]:51908 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jtvVA-0001Qj-Us
-	for lists+qemu-devel@lfdr.de; Fri, 10 Jul 2020 12:03:52 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:38680)
+	id 1jtvVV-0002Cr-N8
+	for lists+qemu-devel@lfdr.de; Fri, 10 Jul 2020 12:04:13 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:39078)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1jtvTF-000753-1q
- for qemu-devel@nongnu.org; Fri, 10 Jul 2020 12:01:53 -0400
-Received: from mail-wr1-x443.google.com ([2a00:1450:4864:20::443]:36569)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1jtvTC-0002Xz-TE
- for qemu-devel@nongnu.org; Fri, 10 Jul 2020 12:01:52 -0400
-Received: by mail-wr1-x443.google.com with SMTP id k6so6508123wrn.3
- for <qemu-devel@nongnu.org>; Fri, 10 Jul 2020 09:01:50 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=sender:subject:to:cc:references:from:message-id:date:user-agent
- :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=DN9AkGAf9SefWz/TktqdW0P3y1nNRGRiJCiRHlfiwaA=;
- b=B5cAvvwEGp5llc4RRFl4HLgGol03NEJ33eEwRwR8x5GMOqHoP7W6oIlgSBdOethWLA
- YQ+9e2vmp+1PQUvRErkcSjt7YrIonSSj2I0tfsM+qbvRX7XtADyWzlD4rCyuNqwTlCTL
- ocojYfKEFRpRv0NbNUCvQcpZNOrMDLAobw/lTYTPurrlUZEkDel2xc4kuJLnIimHvsCY
- aVqoOmXfqUuTW94zWg3hUEModIt91++5Hr5zxwz5HOqchNe6k7arVZBKLKx57x0c4mk8
- 0SkwslUS5r8K+U0HHRJbxtlf/b3QFixpmM5L/3KmA69eHpGITGjBu/Nyq8qTSGZmr0v9
- ygIQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:sender:subject:to:cc:references:from:message-id
- :date:user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=DN9AkGAf9SefWz/TktqdW0P3y1nNRGRiJCiRHlfiwaA=;
- b=eltgG5ofLR2oHsS6/9NeSD1HTMWqcqTpe/Mn72bEJatdGlqC4Kp4dx7YtlXSS5jPBV
- 7yxhkKuxBhGBal0aN9N9pYVYH6sIjLiybtVl1hwwAbFoCnkPEZnU+T+F1UptoaiZ+ZAo
- 4En2sRFHnKbfyLhl5MbBIwQJecuCXd7aCMMCZP4hIDY46zroHw6BJ7M/gL4+tyveWoaV
- EFIjTwiXssHYIFtl/0JuhhLLVTt5ucJbq/LDg1NZWGz+4wSteb8cBwZg2abaTykUkVY2
- pELs+2Q5C0obpWLdfdHiA5f3iJoAo7fc/TDqM9zQJkmgw8E5Otguz57XfgIHt2SwbJgO
- I5kg==
-X-Gm-Message-State: AOAM530RCFRuY8cAbTcPOhSJG0j2AfhFpzmbEI23EZUeIVmCJGxmpeAu
- utuagVtUdQHz2YJO5LBizeY=
-X-Google-Smtp-Source: ABdhPJyvigIHtgmiNfoU/XuS165fOEwUQgUHbFjubMRSmev9t46vsEMf05s0V/I+iqsWkDNIaPvhZg==
-X-Received: by 2002:adf:fa81:: with SMTP id h1mr69062101wrr.266.1594396908875; 
- Fri, 10 Jul 2020 09:01:48 -0700 (PDT)
-Received: from [192.168.1.37] (138.red-83-57-170.dynamicip.rima-tde.net.
- [83.57.170.138])
- by smtp.gmail.com with ESMTPSA id t4sm10525133wmf.4.2020.07.10.09.01.47
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Fri, 10 Jul 2020 09:01:48 -0700 (PDT)
-Subject: Re: [PATCH v4 36/40] gitlab: split build-disabled into two phases
-To: =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>,
- Thomas Huth <thuth@redhat.com>
-References: <20200701135652.1366-1-alex.bennee@linaro.org>
- <20200701135652.1366-37-alex.bennee@linaro.org>
- <03ef8691-5839-12aa-4649-b4e04172a15c@redhat.com> <87365zl8mi.fsf@linaro.org>
-From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>
-Message-ID: <b2b2b438-5879-e3cb-0ddb-017bd0fa77df@amsat.org>
-Date: Fri, 10 Jul 2020 18:01:47 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.5.0
+ (Exim 4.90_1) (envelope-from <ehabkost@redhat.com>)
+ id 1jtvU5-00009B-6l
+ for qemu-devel@nongnu.org; Fri, 10 Jul 2020 12:02:45 -0400
+Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:25994
+ helo=us-smtp-1.mimecast.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <ehabkost@redhat.com>)
+ id 1jtvU2-00036c-Bd
+ for qemu-devel@nongnu.org; Fri, 10 Jul 2020 12:02:43 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1594396961;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=zl45dVHmDZx6IEfEZafVPCqEImSVzPw+lTIq9OVS82A=;
+ b=FHPQyvg5CkBJfOpKRBadqCr4dTbK/AZXgpqsrhMBUcxlG478uHTjxms9YQP4uXpbnCRtSb
+ Smik2zkj0whhVDsFiLSd/HLgFctpeZXKQKwtVHW0qA6XW2HmZebeTkpcY+ld/x3azhK2il
+ vbpznpTyoS12R23xrpfr6FO+emzTcrE=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-120-PwVCdYqgM2SKbaDCfeWZqw-1; Fri, 10 Jul 2020 12:02:34 -0400
+X-MC-Unique: PwVCdYqgM2SKbaDCfeWZqw-1
+Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
+ [10.5.11.22])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id A0B44800FF1;
+ Fri, 10 Jul 2020 16:02:32 +0000 (UTC)
+Received: from localhost (ovpn-116-140.rdu2.redhat.com [10.10.116.140])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 93AD81002382;
+ Fri, 10 Jul 2020 16:02:20 +0000 (UTC)
+Date: Fri, 10 Jul 2020 12:02:19 -0400
+From: Eduardo Habkost <ehabkost@redhat.com>
+To: Paolo Bonzini <pbonzini@redhat.com>
+Subject: Re: [PATCH 2/2] x86/cpu: Handle GUEST_MAXPHYADDR < HOST_MAXPHYADDR
+ for hosts that don't support it
+Message-ID: <20200710160219.GQ780932@habkost.net>
+References: <20200619155344.79579-1-mgamal@redhat.com>
+ <20200619155344.79579-3-mgamal@redhat.com>
+ <20200708171621.GA780932@habkost.net>
+ <20200708172653.GL3229307@redhat.com>
+ <20200709094415.yvdh6hsfukqqeadp@sirius.home.kraxel.org>
+ <CALMp9eQnrdu-9sZhW3aXpK4pizOW=8G=bj1wkumSgHVNfG=CbQ@mail.gmail.com>
+ <20200709191307.GH780932@habkost.net>
+ <79aa7955-6bc1-d8b2-fed0-48a0990d9dea@redhat.com>
 MIME-Version: 1.0
-In-Reply-To: <87365zl8mi.fsf@linaro.org>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::443;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wr1-x443.google.com
-X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
- That's all we know.
-X-Spam_score_int: 0
-X-Spam_score: 0.0
-X-Spam_bar: /
-X-Spam_report: (0.0 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1, DKIM_VALID=-0.1,
- DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=1, FREEMAIL_FROM=0.001,
- HEADER_FROM_DIFFERENT_DOMAINS=1, RCVD_IN_DNSWL_NONE=-0.0001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- URIBL_BLOCKED=0.001 autolearn=no autolearn_force=no
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <79aa7955-6bc1-d8b2-fed0-48a0990d9dea@redhat.com>
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
+Received-SPF: pass client-ip=205.139.110.120; envelope-from=ehabkost@redhat.com;
+ helo=us-smtp-1.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/07/10 04:36:30
+X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
+X-Spam_score_int: -40
+X-Spam_score: -4.1
+X-Spam_bar: ----
+X-Spam_report: (-4.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-1, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -93,33 +84,35 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: fam@euphon.net, berrange@redhat.com, richard.henderson@linaro.org,
- qemu-devel@nongnu.org, Wainer dos Santos Moschetta <wainersm@redhat.com>,
- cota@braap.org, =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>,
- aurelien@aurel32.net
+Cc: Guilherme Piccoli <gpiccoli@canonical.com>,
+ Pedro Principeza <pedro.principeza@canonical.com>,
+ kvm list <kvm@vger.kernel.org>, libvir-list@redhat.com,
+ Dann Frazier <dann.frazier@canonical.com>, rth@twiddle.net,
+ mtosatti@redhat.com, "Dr. David Alan Gilbert" <dgilbert@redhat.com>,
+ Christian Ehrhardt <christian.ehrhardt@canonical.com>, qemu-devel@nongnu.org,
+ Gerd Hoffmann <kraxel@redhat.com>,
+ Daniel =?iso-8859-1?Q?P=2E_Berrang=E9?= <berrange@redhat.com>,
+ Mohammed Gamal <mgamal@redhat.com>, Laszlo Ersek <lersek@redhat.com>,
+ fw@gpiccoli.net, Jim Mattson <jmattson@google.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 7/10/20 4:58 PM, Alex Bennée wrote:
+On Fri, Jul 10, 2020 at 09:22:42AM +0200, Paolo Bonzini wrote:
+> On 09/07/20 21:13, Eduardo Habkost wrote:
+> >> Doesn't this require intercepting MOV-to-CR3 when the guest is in PAE
+> >> mode, so that the hypervisor can validate the high bits in the PDPTEs?
+> > If the fix has additional overhead, is the additional overhead
+> > bad enough to warrant making it optional?  Most existing
+> > GUEST_MAXPHYADDR < HOST_MAXPHYADDR guests already work today
+> > without the fix.
 > 
-> Thomas Huth <thuth@redhat.com> writes:
-> 
->> On 01/07/2020 15.56, Alex Bennée wrote:
->>> As we run check-qtest in "SLOW" mode this can timeout so split into
->>> two jobs.
->>>
->>> Signed-off-by: Alex Bennée <alex.bennee@linaro.org>
->>> Reviewed-by: Philippe Mathieu-Daudé <philmd@redhat.com>
->>> Reviewed-by: Thomas Huth <thuth@redhat.com>
->>
->>  Hi Alex,
->>
->> I think you can drop this patch and use "[PATCH v2] tests: improve
->> performance of device-introspect-test" instead.
-> 
-> As I'm re-rolling the PR sure...
+> The problematic case is when host maxphyaddr is 52.  That case wouldn't
+> work at all without the fix.
 
-Also maybe:
+What can QEMU do to do differentiate "can't work at all without
+the fix" from "not the best idea, but will probably work"?
 
-https://www.mail-archive.com/qemu-devel@nongnu.org/msg721458.html
+-- 
+Eduardo
+
 
