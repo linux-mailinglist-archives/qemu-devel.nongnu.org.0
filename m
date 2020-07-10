@@ -2,49 +2,72 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id BE10521B68C
-	for <lists+qemu-devel@lfdr.de>; Fri, 10 Jul 2020 15:35:11 +0200 (CEST)
-Received: from localhost ([::1]:42770 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 67BE921B69B
+	for <lists+qemu-devel@lfdr.de>; Fri, 10 Jul 2020 15:38:03 +0200 (CEST)
+Received: from localhost ([::1]:55192 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jttBG-00071W-Rb
-	for lists+qemu-devel@lfdr.de; Fri, 10 Jul 2020 09:35:10 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:53198)
+	id 1jttE2-0003hh-GB
+	for lists+qemu-devel@lfdr.de; Fri, 10 Jul 2020 09:38:02 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:53370)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <alxndr@bu.edu>) id 1jtt1D-0004Gj-Ca
- for qemu-devel@nongnu.org; Fri, 10 Jul 2020 09:24:47 -0400
-Received: from relay64.bu.edu ([128.197.228.104]:50948)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <alxndr@bu.edu>) id 1jtt1B-0003IX-Ew
- for qemu-devel@nongnu.org; Fri, 10 Jul 2020 09:24:46 -0400
-X-Envelope-From: alxndr@bu.edu
-X-BU-AUTH: mozz.bu.edu [128.197.127.33]
-Received: from BU-AUTH (localhost.localdomain [127.0.0.1]) (authenticated
- bits=0)
- by relay64.bu.edu (8.14.3/8.14.3) with ESMTP id 06ADNUa2010187
- (version=TLSv1/SSLv3 cipher=AES256-GCM-SHA384 bits=256 verify=NO);
- Fri, 10 Jul 2020 09:23:35 -0400
-Date: Fri, 10 Jul 2020 09:23:30 -0400
-From: Alexander Bulekov <alxndr@bu.edu>
-To: Thomas Huth <thuth@redhat.com>
-Subject: Re: [PATCH] softmmu/vl: Be less verbose about missing KVM when
- running the qtests
-Message-ID: <20200710132330.7xgutur2hhki75ez@mozz.bu.edu>
-References: <20200710085020.28222-1-thuth@redhat.com>
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1jtt27-0005rJ-7W
+ for qemu-devel@nongnu.org; Fri, 10 Jul 2020 09:25:43 -0400
+Received: from mail-ot1-x341.google.com ([2607:f8b0:4864:20::341]:39055)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1jtt24-0003UO-TG
+ for qemu-devel@nongnu.org; Fri, 10 Jul 2020 09:25:42 -0400
+Received: by mail-ot1-x341.google.com with SMTP id 18so4178659otv.6
+ for <qemu-devel@nongnu.org>; Fri, 10 Jul 2020 06:25:40 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc:content-transfer-encoding;
+ bh=MFCeImX5ooKRV/2bwGukA3M2+Lqtr4UmmsiIQA8M91o=;
+ b=SVwHdbHDUEn+EYKjjNG+fANQzGKSsVJlnOcV/0R7C6tagRHXNpb0wg2cne2HlEz+Rl
+ C5BaEooeOC+8llgF8nSh+FJ5qYJbuHHRMs56tvsg0xIDnM9Slibk/iu1XmQBkDLVwGxh
+ VCdb5AZ4STDBh9xvCUXmmwp+I3q6oYlWHOl8A0PboT+fur3eZwBqLkHhzNLPRpsQTICz
+ QboeFaGAlyhvJfYt8Cr24+gvleZEWhNJg7tULojb0bzS31XluLBfb6LKcxVRlqOZkEZC
+ 8Eg65LwRnCHELCrDhN8TgWMGHqz6UABK9IeyS5sBRcl7SSnxbqBiqvKew9KI02H1r6Zz
+ dAcQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc:content-transfer-encoding;
+ bh=MFCeImX5ooKRV/2bwGukA3M2+Lqtr4UmmsiIQA8M91o=;
+ b=UrjRc+ZMs/gOd0LEqj3HTGNfd9OGgrMfAgf2+NdN4ZHRurUIC4FihzOY/o+zpK+kaR
+ dFaULJJ/lZ/xe//Fc3P5wdt+84v4CXQAyf11Kbf6PKaekQDLYVor4NuwKdjX194kTp5h
+ zRaPsERzHwg0237WFy82XTE4uOhibejaWr3K5JpMBQlJs//BbJQP/wWwcWOdM31b0B4b
+ en4riun833aWmNqpslMXp8kN31TZ+tu9kb+qz4nAG67M0HDuq1LY4uA5nak1rN+BGm3/
+ PWN79/byoaxK1wnMaj4qOxyE7bkH1bQNrA8asTLfuJ9Q73P9oGlkP04saEh3k66VJTCa
+ 9gKw==
+X-Gm-Message-State: AOAM5315e1GRNw5wpSd7BHDJvs7pppU79sWNy5jR5m5lfkwHiZH0yFxc
+ zn64EIRW3QnxWowvAtFS2tjNuiBddXkTCSI01ECOfA==
+X-Google-Smtp-Source: ABdhPJzF1fl79EdU+rjNxGrDTvNqIOOto1ku12zcE/ky/AV7tRe0pNk6Q52SeTpb2YQeAP1O/Dtap4p9QC962I2fdaE=
+X-Received: by 2002:a05:6830:10ce:: with SMTP id
+ z14mr51356976oto.135.1594387539187; 
+ Fri, 10 Jul 2020 06:25:39 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20200710085020.28222-1-thuth@redhat.com>
-User-Agent: NeoMutt/20180716
-Received-SPF: pass client-ip=128.197.228.104; envelope-from=alxndr@bu.edu;
- helo=relay64.bu.edu
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/07/10 09:24:44
-X-ACL-Warn: Detected OS   = Linux 2.6.x
-X-Spam_score_int: -31
-X-Spam_score: -3.2
-X-Spam_bar: ---
-X-Spam_report: (-3.2 / 5.0 requ) BAYES_00=-1.9, HK_RANDOM_ENVFROM=0.001,
- HK_RANDOM_FROM=1, RCVD_IN_DNSWL_MED=-2.3, SPF_HELO_NONE=0.001,
+References: <20200710045515.25986-1-thuth@redhat.com>
+In-Reply-To: <20200710045515.25986-1-thuth@redhat.com>
+From: Peter Maydell <peter.maydell@linaro.org>
+Date: Fri, 10 Jul 2020 14:25:28 +0100
+Message-ID: <CAFEAcA8vdzu0Td320VxOFHM9+Q3oxQ0ER9-FF4iOS+GsGuc=Zg@mail.gmail.com>
+Subject: Re: [PATCH v2] Remove the CONFIG_PRAGMA_DIAGNOSTIC_AVAILABLE switch
+To: Thomas Huth <thuth@redhat.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=2607:f8b0:4864:20::341;
+ envelope-from=peter.maydell@linaro.org; helo=mail-ot1-x341.google.com
+X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
+ That's all we know.
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -58,93 +81,53 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Paolo Bonzini <pbonzini@redhat.com>, qemu-devel@nongnu.org
+Cc: Kevin Wolf <kwolf@redhat.com>, Eduardo Habkost <ehabkost@redhat.com>,
+ QEMU Developers <qemu-devel@nongnu.org>, Gerd Hoffmann <kraxel@redhat.com>,
+ Stefan Hajnoczi <stefanha@redhat.com>, Cleber Rosa <crosa@redhat.com>,
+ Paolo Bonzini <pbonzini@redhat.com>, Richard Henderson <rth@twiddle.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 200710 1050, Thomas Huth wrote:
-> Some of the qtests use "-accel kvm -accel tcg" to run real guest code.
-> This causes some error messages when kvm is not available. We do not
-> really care about these messages since the fallback to tcg is expected
-> here. So let's silence them to avoid that they spoil the output of
-> the tests.
-> 
-> Unfortunately, we can not use the qtest_enabled() wrapper in this case,
-> since the qtest accelerator itself is not initialized. Thus we have to
-> test for the qtest_chrdev variable instead.
-> 
+On Fri, 10 Jul 2020 at 05:56, Thomas Huth <thuth@redhat.com> wrote:
+>
+> GCC supports "#pragma GCC diagnostic" since version 4.6, and
+> Clang seems to support it, too, since its early versions 3.x.
+> That means that our minimum required compiler versions all support
+> this pragma already and we can remove the test from configure and
+> all the related #ifdefs in the code.
+>
+> Reviewed-by: Daniel P. Berrang=C3=A9 <berrange@redhat.com>
 > Signed-off-by: Thomas Huth <thuth@redhat.com>
-
-Reviewed-by: Alexander Bulekov <alxndr@bu.edu>
-
 > ---
->  softmmu/vl.c | 19 ++++++++++++-------
->  1 file changed, 12 insertions(+), 7 deletions(-)
-> 
-> diff --git a/softmmu/vl.c b/softmmu/vl.c
-> index 3f58ffd4dc..0066f50fb2 100644
-> --- a/softmmu/vl.c
-> +++ b/softmmu/vl.c
-> @@ -164,8 +164,9 @@ bool boot_strict;
->  uint8_t *boot_splash_filedata;
->  int only_migratable; /* turn it off unless user states otherwise */
->  bool wakeup_suspend_enabled;
-> -
->  int icount_align_option;
-> +static const char *qtest_chrdev;
-> +static const char *qtest_log;
->  
->  /* The bytes in qemu_uuid are in the order specified by RFC4122, _not_ in the
->   * little-endian "wire format" described in the SMBIOS 2.6 specification.
-> @@ -2693,10 +2694,15 @@ static int do_configure_accelerator(void *opaque, QemuOpts *opts, Error **errp)
->      AccelClass *ac = accel_find(acc);
->      AccelState *accel;
->      int ret;
-> +    bool qtest_with_kvm;
-> +
-> +    qtest_with_kvm = g_str_equal(acc, "kvm") && qtest_chrdev != NULL;
->  
->      if (!ac) {
->          *p_init_failed = true;
-> -        error_report("invalid accelerator %s", acc);
-> +        if (!qtest_with_kvm) {
-> +            error_report("invalid accelerator %s", acc);
-> +        }
->          return 0;
->      }
->      accel = ACCEL(object_new_with_class(OBJECT_CLASS(ac)));
-> @@ -2708,8 +2714,9 @@ static int do_configure_accelerator(void *opaque, QemuOpts *opts, Error **errp)
->      ret = accel_init_machine(accel, current_machine);
->      if (ret < 0) {
->          *p_init_failed = true;
-> -        error_report("failed to initialize %s: %s",
-> -                     acc, strerror(-ret));
-> +        if (!qtest_with_kvm || ret != -ENOENT) {
-> +            error_report("failed to initialize %s: %s", acc, strerror(-ret));
-> +        }
->          return 0;
->      }
->  
-> @@ -2780,7 +2787,7 @@ static void configure_accelerators(const char *progname)
->          exit(1);
->      }
->  
-> -    if (init_failed) {
-> +    if (init_failed && !qtest_chrdev) {
->          AccelClass *ac = ACCEL_GET_CLASS(current_accel());
->          error_report("falling back to %s", ac->name);
->      }
-> @@ -2830,8 +2837,6 @@ void qemu_init(int argc, char **argv, char **envp)
->      MachineClass *machine_class;
->      const char *cpu_option;
->      const char *vga_model = NULL;
-> -    const char *qtest_chrdev = NULL;
-> -    const char *qtest_log = NULL;
->      const char *incoming = NULL;
->      bool userconfig = true;
->      bool nographic = false;
-> -- 
-> 2.18.1
-> 
-> 
+>  v2: Keep the !defined(__clang__) in coroutine-ucontext.c
+
+If we're going to mandate "at least gcc 4.6 or clang", perhaps
+we should have a sanity check for it, something like
+
+#if !defined __clang__
+# if !QEMU_GNUC_PREREQ(4, 6)
+#  error QEMU requires at least GCC 4.6
+# endif
+#endif
+
+(maybe also check clang version, though that is more awkward
+because upstream clang and Apple's compiler set the version
+number defines differently.)
+
+We could put that in compiler.h. Checking in configure would be
+more userfriendly but maybe a little more effort.
+The other advantage of this check is we have effectively
+some internal documentation of our current minimum
+compiler requirement.
+
+There is also some tidying up that can then be done:
+several places in the code use QEMU_GNU_PREREQ() to insist
+on "at least gcc 4.4" or "at least gcc 4.6", and that
+ifdeffery can probably be removed (though some caution
+is required as I think even modern clang may advertise
+itself as gcc 4.2. In some cases __has_whatever feature
+tests may be usable instead.)
+
+thanks
+-- PMM
 
