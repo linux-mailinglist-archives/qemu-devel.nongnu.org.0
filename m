@@ -2,66 +2,67 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D1C0521B61F
-	for <lists+qemu-devel@lfdr.de>; Fri, 10 Jul 2020 15:17:28 +0200 (CEST)
-Received: from localhost ([::1]:41200 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0F14B21B5CE
+	for <lists+qemu-devel@lfdr.de>; Fri, 10 Jul 2020 15:05:54 +0200 (CEST)
+Received: from localhost ([::1]:45130 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jtsu7-0005Qj-T9
-	for lists+qemu-devel@lfdr.de; Fri, 10 Jul 2020 09:17:27 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:37544)
+	id 1jtsiv-0000g6-3O
+	for lists+qemu-devel@lfdr.de; Fri, 10 Jul 2020 09:05:53 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:37584)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <frank.chang@sifive.com>)
- id 1jtqdh-0005SZ-9R
- for qemu-devel@nongnu.org; Fri, 10 Jul 2020 06:52:21 -0400
-Received: from mail-pf1-x432.google.com ([2607:f8b0:4864:20::432]:34644)
+ id 1jtqdl-0005Tr-2d
+ for qemu-devel@nongnu.org; Fri, 10 Jul 2020 06:52:25 -0400
+Received: from mail-pj1-x1032.google.com ([2607:f8b0:4864:20::1032]:35222)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <frank.chang@sifive.com>)
- id 1jtqdf-0006gO-KJ
- for qemu-devel@nongnu.org; Fri, 10 Jul 2020 06:52:21 -0400
-Received: by mail-pf1-x432.google.com with SMTP id u185so2395064pfu.1
- for <qemu-devel@nongnu.org>; Fri, 10 Jul 2020 03:52:19 -0700 (PDT)
+ id 1jtqdj-0006gp-De
+ for qemu-devel@nongnu.org; Fri, 10 Jul 2020 06:52:24 -0400
+Received: by mail-pj1-x1032.google.com with SMTP id f16so2454615pjt.0
+ for <qemu-devel@nongnu.org>; Fri, 10 Jul 2020 03:52:23 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=sifive.com; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references;
- bh=kBSFjsOF78wUPVmQ5lBjOZbQCpF/mwVTJu2jvHOc3+g=;
- b=PDsdGMHWlXCRahX0RZac3AZ2gKUzzI6yvjN+0srmuTpZ04yzqN0zwQ2GegzYKvQ56C
- j00ao4GNbh66KoWWQpCm0dHGG9INV7M7zg+mJry3HfoNEv2LkvkemnHGHqukN/1f2k7v
- 0a17CAdvqrsPOCwijNAh4Whyj3M0ZBv7wOiEisVfxzikPmei5sEmY0IS/lXBS1P4Jvqb
- 5DU9llssjEOQ/L2xrF6ksPokQ4UC0IXWwqHDOB/iWqPgdfXevtysL5FvNmqZxBXfhJHC
- StZZwrljnIJeDAHjFz4OYORLcWzRtCw221o1urKZJPd6DFA0mt6L7t4PL5G+Qz6f04cg
- Bmng==
+ bh=g/n/shcRANt+Py1I0cI3sy7fFEukQpkbO1lT8zVmbBo=;
+ b=CaAea5qlN4iZPKQSrur0UwqT+jO+TLP75GdCROEsX7YU9vYC1ZdY8iRRtRv9cRnv1G
+ I+dgMg+j6YrqY64cyaBSadn8tbAU/a/RjLviVzuwlYMNeHpKV1Cye3KKq1fLeUIavJd+
+ OwlqKEYEHCTseLunsw4OO+wfkAdMGYct0029vwtIQyPFoeCqp7xDfwgLB61INV51ICGb
+ nWREnQ1sl9njPfIk8kCWaYCI3nqa+ZTb3Zy4QxwVgWWBdhVG54nkyFVQveVzLDPz8Ik1
+ +n0ky7TqGRHNrVHoA3Of5uiJFhzIusq/BT7Uyq1fjlFNOwGMiqXlpqCXw6J3OBkWaHzm
+ 4++g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references;
- bh=kBSFjsOF78wUPVmQ5lBjOZbQCpF/mwVTJu2jvHOc3+g=;
- b=sbs3SCGZ2O9Trm8hj+WmMqCd2zZkXpGhLneuLwh8wXfb4revhNilop3z/XTSZ9y5nm
- EyTC8XZwLRPd7L59T4YqcdOEQCU9F44L6cLkZF49DtcJsd4JMZSPXIhJ6SWAGaN8KHiI
- TtWxmr4Ni0oJ9FIBVa+l76uw3cwIo2E7EUgCIMDBvbXwabVy02F4rPY59ZQtoalHv+PN
- /ZedpN9s4Iq+irQYCtdH7vWd6/6XcizMQXqabnVxLpYDeCCuR5tOXr9YO0OSChiig+de
- Hdk0bbx3Cjm7Zv8t/EyRpwQiKknT/HCwjWwmV6mz6O+spvfSuZ/UdxtGVR8eILgvjUaX
- gaFQ==
-X-Gm-Message-State: AOAM531K4pV7xmxoyHECUrwIxou7DKH537bpwDX0m9SJ8uE4b0q7cMqX
- av0HyU9AYaf8hjWaCDuNVOdj/tAhWNPpUg==
-X-Google-Smtp-Source: ABdhPJzXgggfyVwUaRX09Yd4crffuz2bMi1LCZPdBZ4skdncVLOo/n6GuqbdYUcmojhZ00sbd2hAqQ==
-X-Received: by 2002:a63:5fcc:: with SMTP id t195mr48744127pgb.56.1594378338131; 
- Fri, 10 Jul 2020 03:52:18 -0700 (PDT)
+ bh=g/n/shcRANt+Py1I0cI3sy7fFEukQpkbO1lT8zVmbBo=;
+ b=Qlc7RggOzcfufh7s6zNPHXr2NiQ53JkzJO9yQgDF39M8fhjxLqmbEPrv6cV7jIPe2S
+ UTKQfyYJmbIkmH9qYoNTGhZ/jvXGl6VyZl0ahdUmFbk+IoHeLGK5Hkkr/tOZJFz1pbyt
+ 6JtCI80MHzZ5JSydUS1Y+ove5nnjMW6cETGuwl4tUYjmOABadwBKEaGN6CmLWBKK8gUe
+ lqMhON9++fGpxdjErU/+l41b5rdzcIVvTdVXwLGccfcFh4gKZ2OeoXwRmDG9l4AaB6+U
+ H4XhUZ4O7AHoBHqiA9jGfjh6rMHbdUdTSPIvm9diFOtf1PZI09n2vId2Ro4KH7Nw7TpA
+ njzw==
+X-Gm-Message-State: AOAM533UsmE8QUvord94LzNjgdaxJ7hSp9SvIhoAEQBlX2LCTnxQdCo/
+ SNJCuZEwy5CNwVpXalpXD7vNGYKX8uZ4fg==
+X-Google-Smtp-Source: ABdhPJyhrkEF4D8Bzz+uw5RCletqdpmNwNH6eDst71YKDB6ORObdXCOVxrxmj7ZKPXdRq5z0Zc2W4g==
+X-Received: by 2002:a17:90a:3624:: with SMTP id
+ s33mr5038586pjb.148.1594378342130; 
+ Fri, 10 Jul 2020 03:52:22 -0700 (PDT)
 Received: from frankchang-ThinkPad-T490.internal.sifive.com
  (114-34-229-221.HINET-IP.hinet.net. [114.34.229.221])
- by smtp.gmail.com with ESMTPSA id r191sm5519406pfr.181.2020.07.10.03.52.15
+ by smtp.gmail.com with ESMTPSA id r191sm5519406pfr.181.2020.07.10.03.52.19
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 10 Jul 2020 03:52:17 -0700 (PDT)
+ Fri, 10 Jul 2020 03:52:21 -0700 (PDT)
 From: frank.chang@sifive.com
 To: qemu-devel@nongnu.org,
 	qemu-riscv@nongnu.org
-Subject: [RFC 26/65] target/riscv: rvv-0.9: set-X-first mask bit instructions
-Date: Fri, 10 Jul 2020 18:48:40 +0800
-Message-Id: <20200710104920.13550-27-frank.chang@sifive.com>
+Subject: [RFC 27/65] target/riscv: rvv-0.9: iota instruction
+Date: Fri, 10 Jul 2020 18:48:41 +0800
+Message-Id: <20200710104920.13550-28-frank.chang@sifive.com>
 X-Mailer: git-send-email 2.17.1
 In-Reply-To: <20200710104920.13550-1-frank.chang@sifive.com>
 References: <20200710104920.13550-1-frank.chang@sifive.com>
-Received-SPF: pass client-ip=2607:f8b0:4864:20::432;
- envelope-from=frank.chang@sifive.com; helo=mail-pf1-x432.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::1032;
+ envelope-from=frank.chang@sifive.com; helo=mail-pj1-x1032.google.com
 X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
  That's all we know.
 X-Spam_score_int: -20
@@ -97,94 +98,93 @@ From: Frank Chang <frank.chang@sifive.com>
 
 Signed-off-by: Frank Chang <frank.chang@sifive.com>
 ---
- target/riscv/insn32.decode              |  6 ++---
- target/riscv/insn_trans/trans_rvv.inc.c | 32 +++++++++++++------------
- target/riscv/vector_helper.c            |  4 ----
- 3 files changed, 20 insertions(+), 22 deletions(-)
+ target/riscv/insn32.decode              |  2 +-
+ target/riscv/insn_trans/trans_rvv.inc.c | 44 ++++++++++++-------------
+ target/riscv/vector_helper.c            |  2 +-
+ 3 files changed, 24 insertions(+), 24 deletions(-)
 
 diff --git a/target/riscv/insn32.decode b/target/riscv/insn32.decode
-index b5b59fe6dd..37b2582981 100644
+index 37b2582981..4560bc4379 100644
 --- a/target/riscv/insn32.decode
 +++ b/target/riscv/insn32.decode
-@@ -575,9 +575,9 @@ vmornot_mm      011100 - ..... ..... 010 ..... 1010111 @r
- vmxnor_mm       011111 - ..... ..... 010 ..... 1010111 @r
- vpopc_m         010000 . ..... 10000 010 ..... 1010111 @r2_vm
- vfirst_m        010000 . ..... 10001 010 ..... 1010111 @r2_vm
--vmsbf_m         010110 . ..... 00001 010 ..... 1010111 @r2_vm
--vmsif_m         010110 . ..... 00011 010 ..... 1010111 @r2_vm
--vmsof_m         010110 . ..... 00010 010 ..... 1010111 @r2_vm
-+vmsbf_m         010100 . ..... 00001 010 ..... 1010111 @r2_vm
-+vmsif_m         010100 . ..... 00011 010 ..... 1010111 @r2_vm
-+vmsof_m         010100 . ..... 00010 010 ..... 1010111 @r2_vm
- viota_m         010110 . ..... 10000 010 ..... 1010111 @r2_vm
+@@ -578,7 +578,7 @@ vfirst_m        010000 . ..... 10001 010 ..... 1010111 @r2_vm
+ vmsbf_m         010100 . ..... 00001 010 ..... 1010111 @r2_vm
+ vmsif_m         010100 . ..... 00011 010 ..... 1010111 @r2_vm
+ vmsof_m         010100 . ..... 00010 010 ..... 1010111 @r2_vm
+-viota_m         010110 . ..... 10000 010 ..... 1010111 @r2_vm
++viota_m         010100 . ..... 10000 010 ..... 1010111 @r2_vm
  vid_v           010110 . 00000 10001 010 ..... 1010111 @r1_vm
  vext_x_v        001100 1 ..... ..... 010 ..... 1010111 @r
+ vmv_s_x         001101 1 00000 ..... 110 ..... 1010111 @r2
 diff --git a/target/riscv/insn_trans/trans_rvv.inc.c b/target/riscv/insn_trans/trans_rvv.inc.c
-index 2db7e7f58f..c1efb87e8d 100644
+index c1efb87e8d..0e552c3660 100644
 --- a/target/riscv/insn_trans/trans_rvv.inc.c
 +++ b/target/riscv/insn_trans/trans_rvv.inc.c
-@@ -2758,22 +2758,24 @@ static bool trans_vfirst_m(DisasContext *s, arg_rmr *a)
- #define GEN_M_TRANS(NAME)                                          \
- static bool trans_##NAME(DisasContext *s, arg_rmr *a)              \
- {                                                                  \
--    if (vext_check_isa_ill(s)) {                                   \
--        uint32_t data = 0;                                         \
--        gen_helper_gvec_3_ptr *fn = gen_helper_##NAME;             \
--        TCGLabel *over = gen_new_label();                          \
--        tcg_gen_brcondi_tl(TCG_COND_EQ, cpu_vl, 0, over);          \
-+    REQUIRE_RVV;                                                   \
-+    VEXT_CHECK_ISA_ILL(s);                                         \
-+    require_vm(a->vm, a->rd);                                      \
-+    require(a->rd != a->rs2);                                      \
-                                                                    \
--        data = FIELD_DP32(data, VDATA, VM, a->vm);                 \
--        data = FIELD_DP32(data, VDATA, LMUL, s->lmul);             \
--        data = FIELD_DP32(data, VDATA, VMA, s->vma);               \
--        tcg_gen_gvec_3_ptr(vreg_ofs(s, a->rd),                     \
--                           vreg_ofs(s, 0), vreg_ofs(s, a->rs2),    \
--                           cpu_env, 0, s->vlen / 8, data, fn);     \
--        gen_set_label(over);                                       \
--        return true;                                               \
--    }                                                              \
--    return false;                                                  \
-+    uint32_t data = 0;                                             \
-+    gen_helper_gvec_3_ptr *fn = gen_helper_##NAME;                 \
-+    TCGLabel *over = gen_new_label();                              \
-+    tcg_gen_brcondi_tl(TCG_COND_EQ, cpu_vl, 0, over);              \
-+                                                                   \
-+    data = FIELD_DP32(data, VDATA, VM, a->vm);                     \
-+    data = FIELD_DP32(data, VDATA, LMUL, s->lmul);                 \
-+    data = FIELD_DP32(data, VDATA, VMA, s->vma);                   \
-+    tcg_gen_gvec_3_ptr(vreg_ofs(s, a->rd),                         \
-+                       vreg_ofs(s, 0), vreg_ofs(s, a->rs2),        \
-+                       cpu_env, 0, s->vlen / 8, data, fn);         \
-+    gen_set_label(over);                                           \
-+    return true;                                                   \
+@@ -2785,29 +2785,29 @@ GEN_M_TRANS(vmsof_m)
+ /* Vector Iota Instruction */
+ static bool trans_viota_m(DisasContext *s, arg_viota_m *a)
+ {
+-    if (vext_check_isa_ill(s) &&
+-        vext_check_reg(s, a->rd, false) &&
+-        vext_check_overlap_group(a->rd, 1 << s->lmul, a->rs2, 1) &&
+-        (a->vm != 0 || a->rd != 0)) {
+-        uint32_t data = 0;
+-        TCGLabel *over = gen_new_label();
+-        tcg_gen_brcondi_tl(TCG_COND_EQ, cpu_vl, 0, over);
++    REQUIRE_RVV;
++    VEXT_CHECK_ISA_ILL(s);
++    require_noover(a->rd, s->flmul, a->rs2, 1);
++    require_vm(a->vm, a->rd);
++    require_align(a->rd, s->flmul);
+ 
+-        data = FIELD_DP32(data, VDATA, VM, a->vm);
+-        data = FIELD_DP32(data, VDATA, LMUL, s->lmul);
+-        data = FIELD_DP32(data, VDATA, VTA, s->vta);
+-        data = FIELD_DP32(data, VDATA, VMA, s->vma);
+-        static gen_helper_gvec_3_ptr * const fns[4] = {
+-            gen_helper_viota_m_b, gen_helper_viota_m_h,
+-            gen_helper_viota_m_w, gen_helper_viota_m_d,
+-        };
+-        tcg_gen_gvec_3_ptr(vreg_ofs(s, a->rd), vreg_ofs(s, 0),
+-                           vreg_ofs(s, a->rs2), cpu_env, 0,
+-                           s->vlen / 8, data, fns[s->sew]);
+-        gen_set_label(over);
+-        return true;
+-    }
+-    return false;
++    uint32_t data = 0;
++    TCGLabel *over = gen_new_label();
++    tcg_gen_brcondi_tl(TCG_COND_EQ, cpu_vl, 0, over);
++
++    data = FIELD_DP32(data, VDATA, VM, a->vm);
++    data = FIELD_DP32(data, VDATA, LMUL, s->lmul);
++    data = FIELD_DP32(data, VDATA, VTA, s->vta);
++    data = FIELD_DP32(data, VDATA, VMA, s->vma);
++    static gen_helper_gvec_3_ptr * const fns[4] = {
++        gen_helper_viota_m_b, gen_helper_viota_m_h,
++        gen_helper_viota_m_w, gen_helper_viota_m_d,
++    };
++    tcg_gen_gvec_3_ptr(vreg_ofs(s, a->rd), vreg_ofs(s, 0),
++                       vreg_ofs(s, a->rs2), cpu_env, 0,
++                       s->vlen / 8, data, fns[s->sew]);
++    gen_set_label(over);
++    return true;
  }
  
- GEN_M_TRANS(vmsbf_m)
+ /* Vector Element Index Instruction */
 diff --git a/target/riscv/vector_helper.c b/target/riscv/vector_helper.c
-index f13f6c6dda..bc1363fb7d 100644
+index bc1363fb7d..71a12c6c9b 100644
 --- a/target/riscv/vector_helper.c
 +++ b/target/riscv/vector_helper.c
-@@ -4675,7 +4675,6 @@ enum set_mask_type {
- static void vmsetm(void *vd, void *v0, void *vs2, CPURISCVState *env,
-                    uint32_t desc, enum set_mask_type type)
- {
--    uint32_t vlmax = env_archcpu(env)->cfg.vlen;
-     uint32_t vm = vext_vm(desc);
-     uint32_t vl = env->vl;
-     int i;
-@@ -4705,9 +4704,6 @@ static void vmsetm(void *vd, void *v0, void *vs2, CPURISCVState *env,
-             }
-         }
-     }
--    for (; i < vlmax; i++) {
--        vext_set_elem_mask(vd, i, 0);
--    }
+@@ -4748,7 +4748,7 @@ void HELPER(NAME)(void *vd, void *v0, void *vs2, CPURISCVState *env,      \
+     CLEAR_FN(vd, vta, vl, vl * sizeof(ETYPE), vlmax * sizeof(ETYPE));     \
  }
  
- void HELPER(vmsbf_m)(void *vd, void *v0, void *vs2, CPURISCVState *env,
+-GEN_VEXT_VIOTA_M(viota_m_b, uint8_t, H1, clearb)
++GEN_VEXT_VIOTA_M(viota_m_b, uint8_t,  H1, clearb)
+ GEN_VEXT_VIOTA_M(viota_m_h, uint16_t, H2, clearh)
+ GEN_VEXT_VIOTA_M(viota_m_w, uint32_t, H4, clearl)
+ GEN_VEXT_VIOTA_M(viota_m_d, uint64_t, H8, clearq)
 -- 
 2.17.1
 
