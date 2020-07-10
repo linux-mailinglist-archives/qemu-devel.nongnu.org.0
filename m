@@ -2,77 +2,61 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 79A9621BCE8
-	for <lists+qemu-devel@lfdr.de>; Fri, 10 Jul 2020 20:26:47 +0200 (CEST)
-Received: from localhost ([::1]:36612 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2300F21BCFE
+	for <lists+qemu-devel@lfdr.de>; Fri, 10 Jul 2020 20:30:46 +0200 (CEST)
+Received: from localhost ([::1]:46780 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jtxjS-0006tI-IF
-	for lists+qemu-devel@lfdr.de; Fri, 10 Jul 2020 14:26:46 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:43760)
+	id 1jtxnJ-0002a7-6N
+	for lists+qemu-devel@lfdr.de; Fri, 10 Jul 2020 14:30:45 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:44530)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1jtxiG-0006Gt-FE
- for qemu-devel@nongnu.org; Fri, 10 Jul 2020 14:25:32 -0400
-Received: from mail-pl1-x644.google.com ([2607:f8b0:4864:20::644]:36633)
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1jtxll-0001k2-3s
+ for qemu-devel@nongnu.org; Fri, 10 Jul 2020 14:29:09 -0400
+Received: from mail-ot1-x330.google.com ([2607:f8b0:4864:20::330]:36373)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1jtxiF-0005U2-2c
- for qemu-devel@nongnu.org; Fri, 10 Jul 2020 14:25:32 -0400
-Received: by mail-pl1-x644.google.com with SMTP id d10so2591783pll.3
- for <qemu-devel@nongnu.org>; Fri, 10 Jul 2020 11:25:30 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1jtxlj-0005oy-0H
+ for qemu-devel@nongnu.org; Fri, 10 Jul 2020 14:29:08 -0400
+Received: by mail-ot1-x330.google.com with SMTP id 72so4883766otc.3
+ for <qemu-devel@nongnu.org>; Fri, 10 Jul 2020 11:29:06 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=subject:to:cc:references:from:message-id:date:user-agent
- :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=oZx5zNpDuCVQIImo8UZ34arIH8i7Ln286Ic8aFPR3ko=;
- b=nUqx9LRKXs3zqQqZdmgK/Xn2XXAjd93o0CpdQL03Vnagw55m2/z9pCkzfivHo7HtRn
- P6L/CkyUuermBv4/EqjpJ+8r1SAPvr02ATfIx1oFjnklOHH27SZEI9tb+Tu0sWQXHFV9
- nImzkfN6uqE8x/x8tTQZRGF2TV6CUaR3j/7egIDq9lBAl+Kog84GGVmjnTdSth7qg+Qr
- 8cKQRIOwq8XZPGpbAMiXyJJYDBogf7qUzsug3QU7aIlWMwM6udV7SQdujw7PaIxd+fPG
- KNnyklM3hL75N9fux0Z2Ukeh6SpAFGf5dUBcFUwJVSSgBfdSy3qMDYLoPrbr+FRr8w2r
- wRHg==
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=63ZT757P5weU9D1gEkdPogX86zZV2Md4Bn6eVgv+H38=;
+ b=u5oHFlPk+PviXgvqv3eg50G0VYKC+wJZYmRw5S5Xx3AkHWiPW26yZNFeRDI+Uz31iW
+ lBtswkddEZytCy7sPm80GUyUxZs/xca7iCag2x7BF9BG6yRIhJlxeH2STZ1oalIMlxAs
+ KpvlMaDMJk/doDsJlryZwPysKLJI1NRAKofcD9Ftb4WccLjrwdL2TGOQ0ZSYOSr3bQh0
+ Ds6NeXWGTjMhVyukO9Goi20l1WZJbY1JM7Iw2UJTNHg/xjuN+zYSAssvy0XD9dMK9hTF
+ stLzpobr/+HABo/D+GNMfraZrT64mrvmq2BTdo+ItOYdaHxuhPtFLdX9YEoj84U4y2+J
+ fGfA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=oZx5zNpDuCVQIImo8UZ34arIH8i7Ln286Ic8aFPR3ko=;
- b=nRT4pKPaCgrVPQmhn3a2rq2N0/XYY0HAx+Zx7TM5e+e3Rih53uZalMzDeo8EC4Z3HE
- wmt/kB6GrQUkqM+Lc78G0u820J7P+yT/JVfovkLTlzuYYn8g/ZLJwk+TEhuaodork6qc
- 1lGIATgdG/0o/6AeNRbjvNlO2fXEc+b2DNLWd4T19SgrauOojS1UNorcxSMlHQ8Xztnj
- krHcCmAjQ/wMCqs9XFQDfz3mK7sre8wP9r5rEqg+0/2UxFLpvGcW8CVUKYO+T3zH8JJ2
- dBYhlrZqHZiJrdDWxL61LcmuzrnrhyYiLjGHujiAdnsM+Nq88gPlPZSTqIqEusUqEtBG
- uapg==
-X-Gm-Message-State: AOAM530eh4D3NT3x67bs37JZpVRke+jClqLHW4+ms8Rqf8QpCE9p+mbg
- 0fzskWlOc4RhDzV5vZMZIqu5Yw==
-X-Google-Smtp-Source: ABdhPJxH5nlNE88caxLe1vuFtGR5wfZhUQvQ+gJ8rquMi9ItK+U//qQuaosPyjDK/P+R7zp+TUvapA==
-X-Received: by 2002:a17:90a:c003:: with SMTP id
- p3mr7129114pjt.120.1594405529617; 
- Fri, 10 Jul 2020 11:25:29 -0700 (PDT)
-Received: from [192.168.1.11] (174-21-143-238.tukw.qwest.net. [174.21.143.238])
- by smtp.gmail.com with ESMTPSA id y198sm6654054pfg.116.2020.07.10.11.25.28
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Fri, 10 Jul 2020 11:25:28 -0700 (PDT)
-Subject: Re: [RFC PATCH v2 4/4] target/avr/translate: Fix SBRC/SBRS
- instructions
-To: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>,
- qemu-devel@nongnu.org
-References: <20200707070021.10031-1-f4bug@amsat.org>
- <20200707070021.10031-5-f4bug@amsat.org>
- <9c799b29-baa9-82c1-7329-aa9a3bff4664@linaro.org>
- <eea7799a-9959-0fb0-3bc4-001f97cbea50@amsat.org>
-From: Richard Henderson <richard.henderson@linaro.org>
-Message-ID: <e3c613e9-a596-cbf8-30b9-68c8cfde1ee7@linaro.org>
-Date: Fri, 10 Jul 2020 11:25:26 -0700
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.8.0
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=63ZT757P5weU9D1gEkdPogX86zZV2Md4Bn6eVgv+H38=;
+ b=fGGj4rTLw1xmszhC1pCijalqd309GpCA52B0gYHMryPxHMA3IEQO6i1h10KgMOYLER
+ 9LwKiJw/wr8TWWEW6Ay23I3LAP3Lz1uAEpoF1CoTYoyI+s40qyLdGr5QiOZ7mReGCyek
+ FR7Na8aw9LC/fFX2xaXCwfyeZpL10Tt/TKvsdjYiOwCfPr7xmpbUZzDU+Lw9jRuQ4xfl
+ cbWJizUzQbSeYR1fJJylQOqZWcR9POg3iFsGAX6RVeUkzfNGKiTVbzOztW8yAgv3vady
+ V/HngXoXVdRx0wSMz2NWD5zFksG0n3YuEAonr9jTNTStkxjjoXhvmhy4D/ELnbMVXmno
+ xJ8A==
+X-Gm-Message-State: AOAM530mHI46i8goe9vjkaq2fp55yEVFODYoVFwukcFfqG3eZ0SPVVkS
+ IknqHoE7cj4YTfDVuICWwz4BVIbHBnIkMyLHYIT5msCt
+X-Google-Smtp-Source: ABdhPJxcsCisJDuORubEMj9hcxIeQDLJsyzIoD976PWiya7vi0ja6xesz8IT9FlEgjuqn5Asm0T1mY2hSjPwiSorjnM=
+X-Received: by 2002:a9d:7303:: with SMTP id e3mr51466110otk.221.1594405745535; 
+ Fri, 10 Jul 2020 11:29:05 -0700 (PDT)
 MIME-Version: 1.0
-In-Reply-To: <eea7799a-9959-0fb0-3bc4-001f97cbea50@amsat.org>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::644;
- envelope-from=richard.henderson@linaro.org; helo=mail-pl1-x644.google.com
+References: <20200707210749.18699-1-mark.cave-ayland@ilande.co.uk>
+In-Reply-To: <20200707210749.18699-1-mark.cave-ayland@ilande.co.uk>
+From: Peter Maydell <peter.maydell@linaro.org>
+Date: Fri, 10 Jul 2020 19:28:54 +0100
+Message-ID: <CAFEAcA9sX0KBoRwLziAXtawRCWodnU1PZX=q3VSQm_5kkv=s4Q@mail.gmail.com>
+Subject: Re: [PULL 0/1] qemu-openbios queue 20200707
+To: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
+Content-Type: text/plain; charset="UTF-8"
+Received-SPF: pass client-ip=2607:f8b0:4864:20::330;
+ envelope-from=peter.maydell@linaro.org; helo=mail-ot1-x330.google.com
 X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
  That's all we know.
 X-Spam_score_int: -20
@@ -94,28 +78,35 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Thomas Huth <huth@tuxfamily.org>,
- Joaquin de Andres <me@xcancerberox.com.ar>, Michael Rolnik <mrolnik@gmail.com>,
- Sarah Harris <S.E.Harris@kent.ac.uk>
+Cc: QEMU Developers <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 7/7/20 9:58 AM, Philippe Mathieu-Daudé wrote:
-> I couldn't run Sarah's test suite on Fedora 30:
-> 
-> /usr/lib/gcc/avr/9.2.0/../../../../avr/bin/ld: cannot find
-> crtatmega2560.o: No such file or directory
-> /usr/lib/gcc/avr/9.2.0/../../../../avr/bin/ld: cannot find -lm
-> /usr/lib/gcc/avr/9.2.0/../../../../avr/bin/ld: cannot find -lc
-> /usr/lib/gcc/avr/9.2.0/../../../../avr/bin/ld: cannot find -latmega2560
-> collect2: error: ld returned 1 exit status
-> 
-> I'll try on some Debian based host.
+On Tue, 7 Jul 2020 at 22:08, Mark Cave-Ayland
+<mark.cave-ayland@ilande.co.uk> wrote:
+>
+> The following changes since commit eb2c66b10efd2b914b56b20ae90655914310c925:
+>
+>   Merge remote-tracking branch 'remotes/maxreitz/tags/pull-block-2020-07-06' into staging (2020-07-07 19:47:26 +0100)
+>
+> are available in the Git repository at:
+>
+>   git://github.com/mcayland/qemu.git tags/qemu-openbios-20200707
+>
+> for you to fetch changes up to 1e04092feecfc8caaf314df2670bf9c645a0b122:
+>
+>   Update OpenBIOS images to 75fbb41d built from submodule. (2020-07-07 21:54:37 +0100)
+>
+> ----------------------------------------------------------------
+> qemu-openbios queue
+>
+> ----------------------------------------------------------------
 
-I believe the debian avr-libc package will have those, and should be pulled in
-by gcc-avr.
 
+Applied, thanks.
 
+Please update the changelog at https://wiki.qemu.org/ChangeLog/5.1
+for any user-visible changes.
 
-r~
+-- PMM
 
