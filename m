@@ -2,58 +2,75 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5DEEE21B9FE
-	for <lists+qemu-devel@lfdr.de>; Fri, 10 Jul 2020 17:51:31 +0200 (CEST)
-Received: from localhost ([::1]:43386 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E7E2F21C0D2
+	for <lists+qemu-devel@lfdr.de>; Sat, 11 Jul 2020 01:38:37 +0200 (CEST)
+Received: from localhost ([::1]:43354 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jtvJC-0002C7-CC
-	for lists+qemu-devel@lfdr.de; Fri, 10 Jul 2020 11:51:30 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:34602)
+	id 1ju2bE-0008PV-KD
+	for lists+qemu-devel@lfdr.de; Fri, 10 Jul 2020 19:38:36 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:50066)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <wentong.wu@intel.com>)
- id 1jtvEV-0005bh-Le; Fri, 10 Jul 2020 11:46:39 -0400
-Received: from mga06.intel.com ([134.134.136.31]:41018)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <wentong.wu@intel.com>)
- id 1jtvET-0008Qq-2L; Fri, 10 Jul 2020 11:46:39 -0400
-IronPort-SDR: Iv8Ru4CMog5ZsfQgUuHPnzxu3bqrznBqdnCHT5UIE+HnLDzehmWIY+ko2028B2g17LyrMRW3vj
- BXKs5kxmJS7Q==
-X-IronPort-AV: E=McAfee;i="6000,8403,9678"; a="209754753"
-X-IronPort-AV: E=Sophos;i="5.75,336,1589266800"; d="scan'208";a="209754753"
-X-Amp-Result: SKIPPED(no attachment in message)
-X-Amp-File-Uploaded: False
-Received: from fmsmga005.fm.intel.com ([10.253.24.32])
- by orsmga104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 10 Jul 2020 08:46:34 -0700
-IronPort-SDR: TQRhjWwWId/AWMmXjERSCPjmdXHso115aC8naLI78bJsJlzur2rABZgZ1ZFDubgQfaf+s0OBuh
- YRQkRYqRHhUA==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.75,336,1589266800"; d="scan'208";a="484686394"
-Received: from unknown (HELO localhost.localdomain.sh.intel.com)
- ([10.239.153.142])
- by fmsmga005.fm.intel.com with ESMTP; 10 Jul 2020 08:46:32 -0700
-From: Wentong Wu <wentong.wu@intel.com>
-To: qemu-devel@nongnu.org,
-	peter.maydell@linaro.org
-Subject: [PATCH v2 4/4] hw/nios2: exit to main CPU loop only when unmasking
- interrupts
-Date: Fri, 10 Jul 2020 19:34:33 -0400
-Message-Id: <20200710233433.19729-4-wentong.wu@intel.com>
-X-Mailer: git-send-email 2.21.3
-In-Reply-To: <20200710233433.19729-1-wentong.wu@intel.com>
-References: <20200710233433.19729-1-wentong.wu@intel.com>
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1ju2aU-0007yb-Iu
+ for qemu-devel@nongnu.org; Fri, 10 Jul 2020 19:37:50 -0400
+Received: from mail-pj1-x1043.google.com ([2607:f8b0:4864:20::1043]:50522)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1ju2aS-0001jo-RG
+ for qemu-devel@nongnu.org; Fri, 10 Jul 2020 19:37:50 -0400
+Received: by mail-pj1-x1043.google.com with SMTP id k71so3253827pje.0
+ for <qemu-devel@nongnu.org>; Fri, 10 Jul 2020 16:37:48 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=WQIquz29/3Mrs8KUr9l4jEYupeyadrQoaBZ2fCjluGU=;
+ b=TwKiIPkLB049OzbPEaP6CU3m5yO1dUvja6BAohH5PHb0Mnnabb4MEJeujTQ5k6pas4
+ FZbWfeikMy28Rt9GnLNvS3Tn5YihyqV0szBNLNtooOpOHU1bGh7daOgHKPgmRJwa70xR
+ 5zBWwyuR9l4YeOGDuFpEWhtNzR4+1qq5cCYfaYPrOnSNHfGMIt5XUB86TU4/z1S7FIHl
+ LJGzSi7g/OFPT1k6Yl/NLoAX7cfcfaGHJuBgjFtfMnJuIMevNOuIetXDS/vMyMBkedNi
+ 59JdtjsQSrDdGB+RrGbZ4upxSUNs8oGR9wymOYWNNqeSCQJAEBrN0mOmNJko8F1eiUOx
+ rXow==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=WQIquz29/3Mrs8KUr9l4jEYupeyadrQoaBZ2fCjluGU=;
+ b=Ie+6O1YEgrQhWzzv54Nyr2I7l41Uxisl8R5tZ1+8IeNDMuB1o9nXtYeQfTPpucQhja
+ d7Q9JnqQD+g3USSyj97iM8avTfUq+k7nuBfIJMFcDkQT780ar9973KM6BnqwWlZU5Hkp
+ BNO4aXInw0dWCFKH3l+Xulzsm5PLBXwVlA0b1cPJGp9BZG2n41v5IHtixexp50LqATNC
+ XALEVfmF64DvV5gPHNPkVPjaCzhoCG3pHCrem3SELE0bkUk/RNaoewQGyABZ0CTIjnvd
+ u7JhfzGzNDxKtrJqCQCH1sx0+0EHpN03KzNpckmKCOW6qqaA+V0B4v+CHjDYm7YV20Ls
+ QW3Q==
+X-Gm-Message-State: AOAM531hRQgTODUB12G/29jED3pZBULfBuqFB7L78OTOyKprgLMI5VUp
+ eGRxZppav3VuSwS7NHc+qm3/IVWNn9A=
+X-Google-Smtp-Source: ABdhPJwpj6n6o6QzCNzXB+A/qwqQEadvT2OrOwXPXOhg5uSDsY/eHXtEDQxyLpscTwW8cCNe9wkxHQ==
+X-Received: by 2002:a17:90a:c305:: with SMTP id
+ g5mr7491809pjt.62.1594424266748; 
+ Fri, 10 Jul 2020 16:37:46 -0700 (PDT)
+Received: from localhost.localdomain (174-21-143-238.tukw.qwest.net.
+ [174.21.143.238])
+ by smtp.gmail.com with ESMTPSA id e16sm7097326pff.180.2020.07.10.16.37.44
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Fri, 10 Jul 2020 16:37:45 -0700 (PDT)
+From: Richard Henderson <richard.henderson@linaro.org>
+To: qemu-devel@nongnu.org
+Subject: [PATCH for-5.1] tcg: Save/restore vecop_list around minmax fallback
+Date: Fri, 10 Jul 2020 16:37:43 -0700
+Message-Id: <20200710233743.177884-1-richard.henderson@linaro.org>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=134.134.136.31; envelope-from=wentong.wu@intel.com;
- helo=mga06.intel.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/07/10 11:46:35
-X-ACL-Warn: Detected OS   = FreeBSD 9.x or newer [fuzzy]
-X-Spam_score_int: -22
-X-Spam_score: -2.3
+Received-SPF: pass client-ip=2607:f8b0:4864:20::1043;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pj1-x1043.google.com
+X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
+ That's all we know.
+X-Spam_score_int: -20
+X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.3 / 5.0 requ) BAYES_00=-1.9, DATE_IN_FUTURE_06_12=1.947,
- RCVD_IN_DNSWL_MED=-2.3, SPF_HELO_NONE=0.001,
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -67,35 +84,45 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-trivial@nongnu.org, marex@denx.de, crwulff@gmail.com,
- Wentong Wu <wentong.wu@intel.com>
+Cc: alex.bennee@linaro.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Only when guest code is unmasking interrupts, terminate the excution
-of translated code and exit to the main CPU loop to handle previous
-pended interrupts because of the interrupts mask by guest code.
+Forgetting this asserts when tcg_gen_cmp_vec is called from
+within tcg_gen_cmpsel_vec.
 
-Signed-off-by: Wentong Wu <wentong.wu@intel.com>
+Fixes: 72b4c792c7a
+Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 ---
- hw/nios2/cpu_pic.c | 3 ++-
- 1 file changed, 2 insertions(+), 1 deletion(-)
 
-diff --git a/hw/nios2/cpu_pic.c b/hw/nios2/cpu_pic.c
-index 1c1989d5..5ea7e52a 100644
---- a/hw/nios2/cpu_pic.c
-+++ b/hw/nios2/cpu_pic.c
-@@ -54,7 +54,8 @@ static void nios2_pic_cpu_handler(void *opaque, int irq, int level)
- 
- void nios2_check_interrupts(CPUNios2State *env)
+I found this while testing SVE2 (and the patch is included in the
+large SVE2 patch set), but it seems like it should be reproducible
+with master.  What's needed is a guest vector minmax operation of
+a size that is not supported by the host.  In the case of x86_64
+host, that would be a 64-bit minmax.
+
+
+r~
+
+---
+ tcg/tcg-op-vec.c | 2 ++
+ 1 file changed, 2 insertions(+)
+
+diff --git a/tcg/tcg-op-vec.c b/tcg/tcg-op-vec.c
+index f784517d84..ed6fb55fe1 100644
+--- a/tcg/tcg-op-vec.c
++++ b/tcg/tcg-op-vec.c
+@@ -657,7 +657,9 @@ static void do_minmax(unsigned vece, TCGv_vec r, TCGv_vec a,
+                       TCGv_vec b, TCGOpcode opc, TCGCond cond)
  {
--    if (env->irq_pending) {
-+    if (env->irq_pending &&
-+        (env->regs[CR_STATUS] & CR_STATUS_PIE)) {
-         env->irq_pending = 0;
-         cpu_interrupt(env_cpu(env), CPU_INTERRUPT_HARD);
+     if (!do_op3(vece, r, a, b, opc)) {
++        const TCGOpcode *hold_list = tcg_swap_vecop_list(NULL);
+         tcg_gen_cmpsel_vec(cond, vece, r, a, b, a, b);
++        tcg_swap_vecop_list(hold_list);
      }
+ }
+ 
 -- 
-2.21.3
+2.25.1
 
 
