@@ -2,72 +2,72 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A9FAA21B570
-	for <lists+qemu-devel@lfdr.de>; Fri, 10 Jul 2020 14:48:57 +0200 (CEST)
-Received: from localhost ([::1]:49758 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 845EF21B576
+	for <lists+qemu-devel@lfdr.de>; Fri, 10 Jul 2020 14:51:23 +0200 (CEST)
+Received: from localhost ([::1]:54234 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jtsSW-0003so-P2
-	for lists+qemu-devel@lfdr.de; Fri, 10 Jul 2020 08:48:56 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:43300)
+	id 1jtsUs-0005uf-Kf
+	for lists+qemu-devel@lfdr.de; Fri, 10 Jul 2020 08:51:22 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:43920)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1jtsR3-0002XK-8O
- for qemu-devel@nongnu.org; Fri, 10 Jul 2020 08:47:25 -0400
-Received: from us-smtp-1.mimecast.com ([205.139.110.61]:24653
+ (Exim 4.90_1) (envelope-from <stefanha@redhat.com>)
+ id 1jtsTz-0005Qn-7W
+ for qemu-devel@nongnu.org; Fri, 10 Jul 2020 08:50:27 -0400
+Received: from us-smtp-2.mimecast.com ([207.211.31.81]:39026
  helo=us-smtp-delivery-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1jtsQz-0006tO-EA
- for qemu-devel@nongnu.org; Fri, 10 Jul 2020 08:47:24 -0400
+ (Exim 4.90_1) (envelope-from <stefanha@redhat.com>)
+ id 1jtsTx-0007BH-O2
+ for qemu-devel@nongnu.org; Fri, 10 Jul 2020 08:50:26 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1594385239;
+ s=mimecast20190719; t=1594385424;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  in-reply-to:in-reply-to:references:references;
- bh=TMbh7ncc7Pr71ciNJTLZOwujQPhrLUJWBXqlGt+Xalc=;
- b=Kzc4ig+zVgGNT0of7JASQWKT/43q1bbfK53yrkvT0xjOC5XEjYXCtb6kkbWQH6MFPWDF5B
- zYeiBTRwpKJzsQWgy8OM4qIcWS5ngw7aMgcmbtpm2M9qP9epi1sJ5H8u38k2UNXuXDc5nH
- ZV2/b6mqO23a0zRE/vewQbxxqHgnM70=
+ bh=O9uk1YEQkSGeb3X+mw8Vu/iL9x7qAn7jB1eIWXkTdic=;
+ b=PY91f7/Grhmd101jP5yIOlb/EdKQZ+DHXDJ43s0aofUhKTt/Qh5uOthGNTMcFTjn2+7xwn
+ YwvCbsx41Z4uusuoSP/jYSOKc1YdbBh4SRzNQuAstHSqqL3Hr2BHojUo/54oO/ctpLWSIK
+ /7U7s1ULX+fei0gKuONYa804k7Ny6UU=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-408-1v_QbkIPPX6jxY9dB1EBLA-1; Fri, 10 Jul 2020 08:47:18 -0400
-X-MC-Unique: 1v_QbkIPPX6jxY9dB1EBLA-1
-Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
- [10.5.11.12])
+ us-mta-289-0ngP4ucKM-OzeHWuRtzspw-1; Fri, 10 Jul 2020 08:50:22 -0400
+X-MC-Unique: 0ngP4ucKM-OzeHWuRtzspw-1
+Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
+ [10.5.11.13])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 229E410059AF;
- Fri, 10 Jul 2020 12:47:17 +0000 (UTC)
-Received: from blackfin.pond.sub.org (ovpn-112-143.ams2.redhat.com
- [10.36.112.143])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id C2AC06111F;
- Fri, 10 Jul 2020 12:47:16 +0000 (UTC)
-Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
- id 49B1B1132FD2; Fri, 10 Jul 2020 14:47:15 +0200 (CEST)
-From: Markus Armbruster <armbru@redhat.com>
-To: Peter Maydell <peter.maydell@linaro.org>
-Subject: Re: [PULL 00/53] Error reporting patches patches for 2020-07-07
-References: <20200707212503.1495927-1-armbru@redhat.com>
-Date: Fri, 10 Jul 2020 14:47:15 +0200
-In-Reply-To: <20200707212503.1495927-1-armbru@redhat.com> (Markus Armbruster's
- message of "Tue, 7 Jul 2020 23:24:10 +0200")
-Message-ID: <874kqfo7u4.fsf@dusky.pond.sub.org>
-User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/26.3 (gnu/linux)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 54F241902EA1;
+ Fri, 10 Jul 2020 12:50:21 +0000 (UTC)
+Received: from localhost (ovpn-114-251.ams2.redhat.com [10.36.114.251])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 0C36E1CA;
+ Fri, 10 Jul 2020 12:50:17 +0000 (UTC)
+Date: Fri, 10 Jul 2020 13:50:16 +0100
+From: Stefan Hajnoczi <stefanha@redhat.com>
+To: Thomas Huth <thuth@redhat.com>
+Subject: Re: [PATCH v2] Remove the CONFIG_PRAGMA_DIAGNOSTIC_AVAILABLE switch
+Message-ID: <20200710125016.GA8433@stefanha-x1.localdomain>
+References: <20200710045515.25986-1-thuth@redhat.com>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
+In-Reply-To: <20200710045515.25986-1-thuth@redhat.com>
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain
-Received-SPF: pass client-ip=205.139.110.61; envelope-from=armbru@redhat.com;
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature"; boundary="5mCyUwZo2JvN/JJP"
+Content-Disposition: inline
+Received-SPF: pass client-ip=207.211.31.81; envelope-from=stefanha@redhat.com;
  helo=us-smtp-delivery-1.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/07/09 22:08:55
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/07/09 23:35:58
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
-X-Spam_score_int: -40
-X-Spam_score: -4.1
-X-Spam_bar: ----
-X-Spam_report: (-4.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1,
+X-Spam_score_int: -30
+X-Spam_score: -3.1
+X-Spam_bar: ---
+X-Spam_report: (-3.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-1, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H3=-0.01, RCVD_IN_MSPIKE_WL=-0.01,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ URIBL_BLOCKED=0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -80,129 +80,55 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-devel@nongnu.org
+Cc: Kevin Wolf <kwolf@redhat.com>, Eduardo Habkost <ehabkost@redhat.com>,
+ qemu-devel@nongnu.org, Gerd Hoffmann <kraxel@redhat.com>,
+ Cleber Rosa <crosa@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>,
+ Richard Henderson <rth@twiddle.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-This now conflicts with master (b6d7e9b66f5).
+--5mCyUwZo2JvN/JJP
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-Conflict #1: include/hw/audio/pcspk.h
+On Fri, Jul 10, 2020 at 06:55:15AM +0200, Thomas Huth wrote:
+> GCC supports "#pragma GCC diagnostic" since version 4.6, and
+> Clang seems to support it, too, since its early versions 3.x.
+> That means that our minimum required compiler versions all support
+> this pragma already and we can remove the test from configure and
+> all the related #ifdefs in the code.
+>=20
+> Reviewed-by: Daniel P. Berrang=E9 <berrange@redhat.com>
+> Signed-off-by: Thomas Huth <thuth@redhat.com>
+> ---
+>  v2: Keep the !defined(__clang__) in coroutine-ucontext.c
+>=20
+>  configure                 | 29 -----------------------------
+>  include/ui/gtk.h          |  4 ----
+>  include/ui/qemu-pixman.h  |  4 ----
+>  scripts/decodetree.py     | 12 ++++--------
+>  ui/gtk.c                  |  4 ----
+>  util/coroutine-ucontext.c |  4 ++--
+>  6 files changed, 6 insertions(+), 51 deletions(-)
 
-    2336172d9b "audio: set default value for pcspk.iobase property"
+Reviewed-by: Stefan Hajnoczi <stefanha@redhat.com>
 
-    2336172d9b audio: set default value for pcspk.iobase property
-    diff --git a/include/hw/audio/pcspk.h b/include/hw/audio/pcspk.h
-    index 8b48560267..06cba00b83 100644
-    --- a/include/hw/audio/pcspk.h
-    +++ b/include/hw/audio/pcspk.h
-    @@ -33,11 +33,7 @@
+--5mCyUwZo2JvN/JJP
+Content-Type: application/pgp-signature; name="signature.asc"
 
-     static inline void pcspk_init(ISADevice *isadev, ISABus *bus, ISADevice *pit)
-     {
-    -    DeviceState *dev;
-    -
-    -    dev = DEVICE(isadev);
-    -    qdev_prop_set_uint32(dev, "iobase", 0x61);
-    -    object_property_set_link(OBJECT(dev), OBJECT(pit), "pit", NULL);
-    +    object_property_set_link(OBJECT(isadev), OBJECT(pit), "pit", NULL);
-         isa_realize_and_unref(isadev, bus, &error_fatal);
-     }
+-----BEGIN PGP SIGNATURE-----
 
-    9eb2af7743 qom: Put name parameter before value / visitor parameter
-    diff --git a/include/hw/audio/pcspk.h b/include/hw/audio/pcspk.h
-    index 7e7f5f49dc..6386491288 100644
-    --- a/include/hw/audio/pcspk.h
-    +++ b/include/hw/audio/pcspk.h
-    @@ -39,7 +39,7 @@ static inline ISADevice *pcspk_init(ISABus *bus, ISADevice *pit)
-         isadev = isa_new(TYPE_PC_SPEAKER);
-         dev = DEVICE(isadev);
-         qdev_prop_set_uint32(dev, "iobase", 0x61);
-    -    object_property_set_link(OBJECT(dev), OBJECT(pit), "pit", NULL);
-    +    object_property_set_link(OBJECT(dev), "pit", OBJECT(pit), NULL);
-         isa_realize_and_unref(isadev, bus, &error_fatal);
+iQEzBAEBCAAdFiEEhpWov9P5fNqsNXdanKSrs4Grc8gFAl8IZAYACgkQnKSrs4Gr
+c8iD0gf8DHhkLqQFH2xcybKvp5+098mzmQbNNysxUaAS2mK6pJg5fUX3sb2YDtpF
+GT16MPe7tWgyc01c/YLzrfp9vs2yZ8mkfBXW7bzdjw71qN9W+u4AwMKGUNb+RWFW
+BVw5gwU8Wy/bBVhzvenV0nqY43WiOFdi9mtEtLKD35blSz9ZqNeHDRPVGF44SslZ
+436TENXB/ZnonOZFOkHSiYUPnYSSVlCo/ECbufiQnXXezzncRMPQ/xk5UICpvmL4
+K2uiiqJaK//0JzJYUKTNOlPGRy1lsmcIHjOf4mk4sfvY70O2mhcbyGiJRr2M4yWs
+oeQfTi6PiAWfXJn3DAQ7y33tqUn1vQ==
+=Po3J
+-----END PGP SIGNATURE-----
 
-         return isadev;
-
-Resolution is trivial, just redo 9eb2af7743's swap of the arguments:
-
-    static inline void pcspk_init(ISADevice *isadev, ISABus *bus, ISADevice *pit)
-    {
-        object_property_set_link(OBJECT(isadev), "pit", OBJECT(pit), NULL);
-        isa_realize_and_unref(isadev, bus, &error_fatal);
-    }
-
-Conflict #2: qemu-img.c
-
-    0b6786a9c1 block/amend: refactor qcow2 amend options
-    diff --git a/qemu-img.c b/qemu-img.c
-    index 1a0a85089b..7f4938a5ef 100644
-    --- a/qemu-img.c
-    +++ b/qemu-img.c
-    [...]
-    @@ -4219,7 +4218,22 @@ static int img_amend(int argc, char **argv)
-         amend_opts = qemu_opts_append(amend_opts, bs->drv->amend_opts);
-         opts = qemu_opts_create(amend_opts, NULL, 0, &error_abort);
-         qemu_opts_do_parse(opts, options, NULL, &err);
-    +
-         if (err) {
-    +        /* Try to parse options using the create options */
-    +        Error *err1 = NULL;
-    +        amend_opts = qemu_opts_append(amend_opts, bs->drv->create_opts);
-    +        qemu_opts_del(opts);
-    +        opts = qemu_opts_create(amend_opts, NULL, 0, &error_abort);
-    +        qemu_opts_do_parse(opts, options, NULL, &err1);
-    +
-    +        if (!err1) {
-    +            error_append_hint(&err,
-    +                              "This option is only supported for image creation\n");
-    +        } else {
-    +            error_free(err1);
-    +        }
-    +
-             error_report_err(err);
-             ret = -1;
-             goto out;
-
-    0bc2a50e17 qemu-option: Use returned bool to check for failure
-    diff --git a/qemu-img.c b/qemu-img.c
-    index bdb9f6aa46..fc405ee171 100644
-    --- a/qemu-img.c
-    +++ b/qemu-img.c
-    [...]
-    @@ -4212,8 +4209,7 @@ static int img_amend(int argc, char **argv)
-
-         create_opts = qemu_opts_append(create_opts, bs->drv->create_opts);
-         opts = qemu_opts_create(create_opts, NULL, 0, &error_abort);
-    -    qemu_opts_do_parse(opts, options, NULL, &err);
-    -    if (err) {
-    +    if (!qemu_opts_do_parse(opts, options, NULL, &err)) {
-             error_report_err(err);
-             ret = -1;
-             goto out;
-
-Simply rerunning latter commit' Coccinelle script on master's version
-would be possible, but suboptimal, because the former commit adds an
-awkward error ignore a rebase would clean up.  Manual resolution:
-
-        amend_opts = qemu_opts_append(amend_opts, bs->drv->amend_opts);
-        opts = qemu_opts_create(amend_opts, NULL, 0, &error_abort);
-        if (!qemu_opts_do_parse(opts, options, NULL, &err)) {
-            /* Try to parse options using the create options */
-            amend_opts = qemu_opts_append(amend_opts, bs->drv->create_opts);
-            qemu_opts_del(opts);
-            opts = qemu_opts_create(amend_opts, NULL, 0, &error_abort);
-            if (qemu_opts_do_parse(opts, options, NULL, NULL)) {
-                error_append_hint(&err,
-                                  "This option is only supported for image creation\n");
-            }
-
-            error_report_err(err);
-            ret = -1;
-            goto out;
-        }
-
-If you'd prefer a rebased pull request, let me know.
-
-Tests are still running.
+--5mCyUwZo2JvN/JJP--
 
 
