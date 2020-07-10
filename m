@@ -2,66 +2,66 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id DC8CE21B61A
-	for <lists+qemu-devel@lfdr.de>; Fri, 10 Jul 2020 15:16:06 +0200 (CEST)
-Received: from localhost ([::1]:33446 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D1C0521B61F
+	for <lists+qemu-devel@lfdr.de>; Fri, 10 Jul 2020 15:17:28 +0200 (CEST)
+Received: from localhost ([::1]:41200 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jtssn-0002GE-UP
-	for lists+qemu-devel@lfdr.de; Fri, 10 Jul 2020 09:16:05 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:37512)
+	id 1jtsu7-0005Qj-T9
+	for lists+qemu-devel@lfdr.de; Fri, 10 Jul 2020 09:17:27 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:37544)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <frank.chang@sifive.com>)
- id 1jtqdd-0005RQ-HX
- for qemu-devel@nongnu.org; Fri, 10 Jul 2020 06:52:17 -0400
-Received: from mail-pf1-x435.google.com ([2607:f8b0:4864:20::435]:36572)
+ id 1jtqdh-0005SZ-9R
+ for qemu-devel@nongnu.org; Fri, 10 Jul 2020 06:52:21 -0400
+Received: from mail-pf1-x432.google.com ([2607:f8b0:4864:20::432]:34644)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <frank.chang@sifive.com>)
- id 1jtqdb-0006g3-GK
- for qemu-devel@nongnu.org; Fri, 10 Jul 2020 06:52:17 -0400
-Received: by mail-pf1-x435.google.com with SMTP id 207so2393490pfu.3
- for <qemu-devel@nongnu.org>; Fri, 10 Jul 2020 03:52:15 -0700 (PDT)
+ id 1jtqdf-0006gO-KJ
+ for qemu-devel@nongnu.org; Fri, 10 Jul 2020 06:52:21 -0400
+Received: by mail-pf1-x432.google.com with SMTP id u185so2395064pfu.1
+ for <qemu-devel@nongnu.org>; Fri, 10 Jul 2020 03:52:19 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=sifive.com; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references;
- bh=7+Phgr47Js30IrnaYEobO0zdh9saSWyAbNz69kU125E=;
- b=JNCRTnBHGjWhvVrCJK6coy5FAJAd3yV4S7+wt3D+uVztHERTN7XeUDB77GkWLQ363h
- R6kZkSdKk2jsvVRQl8W+VUl72oLW01u+1O3kaRCYygWsvb++vOQeOKUF3Yx/vc7FTShb
- 6+Y3y1Y8uPcNT+EPc/yX26G3yizVFUpyzAQV3SNbMpwAPnroRIRWSCz3dLI+VAD9jyOn
- OxEZENAkid6UTMnZ+3o6WJhhsWjOkbOUNtR+1hT27gou2VeBdBh/GPMUOk+3U+lWbFPQ
- B9hp0/sbMz5JLuEXJCsEVcaNMLewhxWnvFN1nv/7Su4fqVFGJVEb55PUCIrVzFS2Iv/Y
- VN9A==
+ bh=kBSFjsOF78wUPVmQ5lBjOZbQCpF/mwVTJu2jvHOc3+g=;
+ b=PDsdGMHWlXCRahX0RZac3AZ2gKUzzI6yvjN+0srmuTpZ04yzqN0zwQ2GegzYKvQ56C
+ j00ao4GNbh66KoWWQpCm0dHGG9INV7M7zg+mJry3HfoNEv2LkvkemnHGHqukN/1f2k7v
+ 0a17CAdvqrsPOCwijNAh4Whyj3M0ZBv7wOiEisVfxzikPmei5sEmY0IS/lXBS1P4Jvqb
+ 5DU9llssjEOQ/L2xrF6ksPokQ4UC0IXWwqHDOB/iWqPgdfXevtysL5FvNmqZxBXfhJHC
+ StZZwrljnIJeDAHjFz4OYORLcWzRtCw221o1urKZJPd6DFA0mt6L7t4PL5G+Qz6f04cg
+ Bmng==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references;
- bh=7+Phgr47Js30IrnaYEobO0zdh9saSWyAbNz69kU125E=;
- b=HT/dZg6aCYjmm/mIvOKUDDhfJiSjo5A0mtFig3uu/vquIqqQo8hMMGmOTvz4yp/+f2
- vUnB/XzQT2F1t4+xQBQ1y9qXn+h7iPnhxWfZcpBDH2ZA+KKp5w4sP4cfZbzmah1eP+Zq
- dv7vTmXVn0J4bIpO+f8O6eQN2xFE4s5Xdyrcj9ZHPlctE5JBwkZrNkqG7eIaus5H14rE
- 2CcxxyezfqAKmeZmHs3aW0XHuJBCtg1FVEBwMoUMkHtCLZAWDFVmHUu2UY02zjBJK9Yu
- ikEIpwWgOUDPGcgggqhxzvGYaKlhQz/hwxBKfpPTJmw/kGwTm/yCEuveTPGWo6QBkpAD
- ZM2Q==
-X-Gm-Message-State: AOAM530N3qt4ibEwAp9oG3c4bwCmk7Y1Lc+j0fCtuDHwdZCnpWXdffCn
- Mk4iYPx6i9x9WyKUafNm7r3uYaoiPsQapw==
-X-Google-Smtp-Source: ABdhPJxe24ZhSMARmUqwj7d+UjKl+Q8YSPHaLhDYfrF2ze7iS5lqAhpyXf6mqOHr0Dy7K5hwKMc7eQ==
-X-Received: by 2002:a63:8c5c:: with SMTP id q28mr57264897pgn.111.1594378334029; 
- Fri, 10 Jul 2020 03:52:14 -0700 (PDT)
+ bh=kBSFjsOF78wUPVmQ5lBjOZbQCpF/mwVTJu2jvHOc3+g=;
+ b=sbs3SCGZ2O9Trm8hj+WmMqCd2zZkXpGhLneuLwh8wXfb4revhNilop3z/XTSZ9y5nm
+ EyTC8XZwLRPd7L59T4YqcdOEQCU9F44L6cLkZF49DtcJsd4JMZSPXIhJ6SWAGaN8KHiI
+ TtWxmr4Ni0oJ9FIBVa+l76uw3cwIo2E7EUgCIMDBvbXwabVy02F4rPY59ZQtoalHv+PN
+ /ZedpN9s4Iq+irQYCtdH7vWd6/6XcizMQXqabnVxLpYDeCCuR5tOXr9YO0OSChiig+de
+ Hdk0bbx3Cjm7Zv8t/EyRpwQiKknT/HCwjWwmV6mz6O+spvfSuZ/UdxtGVR8eILgvjUaX
+ gaFQ==
+X-Gm-Message-State: AOAM531K4pV7xmxoyHECUrwIxou7DKH537bpwDX0m9SJ8uE4b0q7cMqX
+ av0HyU9AYaf8hjWaCDuNVOdj/tAhWNPpUg==
+X-Google-Smtp-Source: ABdhPJzXgggfyVwUaRX09Yd4crffuz2bMi1LCZPdBZ4skdncVLOo/n6GuqbdYUcmojhZ00sbd2hAqQ==
+X-Received: by 2002:a63:5fcc:: with SMTP id t195mr48744127pgb.56.1594378338131; 
+ Fri, 10 Jul 2020 03:52:18 -0700 (PDT)
 Received: from frankchang-ThinkPad-T490.internal.sifive.com
  (114-34-229-221.HINET-IP.hinet.net. [114.34.229.221])
- by smtp.gmail.com with ESMTPSA id r191sm5519406pfr.181.2020.07.10.03.52.11
+ by smtp.gmail.com with ESMTPSA id r191sm5519406pfr.181.2020.07.10.03.52.15
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 10 Jul 2020 03:52:13 -0700 (PDT)
+ Fri, 10 Jul 2020 03:52:17 -0700 (PDT)
 From: frank.chang@sifive.com
 To: qemu-devel@nongnu.org,
 	qemu-riscv@nongnu.org
-Subject: [RFC 25/65] target/riscv: rvv-0.9: find-first-set mask bit instruction
-Date: Fri, 10 Jul 2020 18:48:39 +0800
-Message-Id: <20200710104920.13550-26-frank.chang@sifive.com>
+Subject: [RFC 26/65] target/riscv: rvv-0.9: set-X-first mask bit instructions
+Date: Fri, 10 Jul 2020 18:48:40 +0800
+Message-Id: <20200710104920.13550-27-frank.chang@sifive.com>
 X-Mailer: git-send-email 2.17.1
 In-Reply-To: <20200710104920.13550-1-frank.chang@sifive.com>
 References: <20200710104920.13550-1-frank.chang@sifive.com>
-Received-SPF: pass client-ip=2607:f8b0:4864:20::435;
- envelope-from=frank.chang@sifive.com; helo=mail-pf1-x435.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::432;
+ envelope-from=frank.chang@sifive.com; helo=mail-pf1-x432.google.com
 X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
  That's all we know.
 X-Spam_score_int: -20
@@ -97,120 +97,94 @@ From: Frank Chang <frank.chang@sifive.com>
 
 Signed-off-by: Frank Chang <frank.chang@sifive.com>
 ---
- target/riscv/helper.h                   |  2 +-
- target/riscv/insn32.decode              |  2 +-
- target/riscv/insn_trans/trans_rvv.inc.c | 49 +++++++++++++------------
- target/riscv/vector_helper.c            |  6 +--
- 4 files changed, 30 insertions(+), 29 deletions(-)
+ target/riscv/insn32.decode              |  6 ++---
+ target/riscv/insn_trans/trans_rvv.inc.c | 32 +++++++++++++------------
+ target/riscv/vector_helper.c            |  4 ----
+ 3 files changed, 20 insertions(+), 22 deletions(-)
 
-diff --git a/target/riscv/helper.h b/target/riscv/helper.h
-index 226f8e96a5..f759d4cbc6 100644
---- a/target/riscv/helper.h
-+++ b/target/riscv/helper.h
-@@ -1050,7 +1050,7 @@ DEF_HELPER_6(vmxnor_mm, void, ptr, ptr, ptr, ptr, env, i32)
- 
- DEF_HELPER_4(vpopc_m, tl, ptr, ptr, env, i32)
- 
--DEF_HELPER_4(vmfirst_m, tl, ptr, ptr, env, i32)
-+DEF_HELPER_4(vfirst_m, tl, ptr, ptr, env, i32)
- 
- DEF_HELPER_5(vmsbf_m, void, ptr, ptr, ptr, env, i32)
- DEF_HELPER_5(vmsif_m, void, ptr, ptr, ptr, env, i32)
 diff --git a/target/riscv/insn32.decode b/target/riscv/insn32.decode
-index c9c9f30742..b5b59fe6dd 100644
+index b5b59fe6dd..37b2582981 100644
 --- a/target/riscv/insn32.decode
 +++ b/target/riscv/insn32.decode
-@@ -574,7 +574,7 @@ vmnor_mm        011110 - ..... ..... 010 ..... 1010111 @r
- vmornot_mm      011100 - ..... ..... 010 ..... 1010111 @r
+@@ -575,9 +575,9 @@ vmornot_mm      011100 - ..... ..... 010 ..... 1010111 @r
  vmxnor_mm       011111 - ..... ..... 010 ..... 1010111 @r
  vpopc_m         010000 . ..... 10000 010 ..... 1010111 @r2_vm
--vmfirst_m       010101 . ..... ----- 010 ..... 1010111 @r2_vm
-+vfirst_m        010000 . ..... 10001 010 ..... 1010111 @r2_vm
- vmsbf_m         010110 . ..... 00001 010 ..... 1010111 @r2_vm
- vmsif_m         010110 . ..... 00011 010 ..... 1010111 @r2_vm
- vmsof_m         010110 . ..... 00010 010 ..... 1010111 @r2_vm
+ vfirst_m        010000 . ..... 10001 010 ..... 1010111 @r2_vm
+-vmsbf_m         010110 . ..... 00001 010 ..... 1010111 @r2_vm
+-vmsif_m         010110 . ..... 00011 010 ..... 1010111 @r2_vm
+-vmsof_m         010110 . ..... 00010 010 ..... 1010111 @r2_vm
++vmsbf_m         010100 . ..... 00001 010 ..... 1010111 @r2_vm
++vmsif_m         010100 . ..... 00011 010 ..... 1010111 @r2_vm
++vmsof_m         010100 . ..... 00010 010 ..... 1010111 @r2_vm
+ viota_m         010110 . ..... 10000 010 ..... 1010111 @r2_vm
+ vid_v           010110 . 00000 10001 010 ..... 1010111 @r1_vm
+ vext_x_v        001100 1 ..... ..... 010 ..... 1010111 @r
 diff --git a/target/riscv/insn_trans/trans_rvv.inc.c b/target/riscv/insn_trans/trans_rvv.inc.c
-index 8191326e94..2db7e7f58f 100644
+index 2db7e7f58f..c1efb87e8d 100644
 --- a/target/riscv/insn_trans/trans_rvv.inc.c
 +++ b/target/riscv/insn_trans/trans_rvv.inc.c
-@@ -2720,35 +2720,36 @@ static bool trans_vpopc_m(DisasContext *s, arg_rmr *a)
+@@ -2758,22 +2758,24 @@ static bool trans_vfirst_m(DisasContext *s, arg_rmr *a)
+ #define GEN_M_TRANS(NAME)                                          \
+ static bool trans_##NAME(DisasContext *s, arg_rmr *a)              \
+ {                                                                  \
+-    if (vext_check_isa_ill(s)) {                                   \
+-        uint32_t data = 0;                                         \
+-        gen_helper_gvec_3_ptr *fn = gen_helper_##NAME;             \
+-        TCGLabel *over = gen_new_label();                          \
+-        tcg_gen_brcondi_tl(TCG_COND_EQ, cpu_vl, 0, over);          \
++    REQUIRE_RVV;                                                   \
++    VEXT_CHECK_ISA_ILL(s);                                         \
++    require_vm(a->vm, a->rd);                                      \
++    require(a->rd != a->rs2);                                      \
+                                                                    \
+-        data = FIELD_DP32(data, VDATA, VM, a->vm);                 \
+-        data = FIELD_DP32(data, VDATA, LMUL, s->lmul);             \
+-        data = FIELD_DP32(data, VDATA, VMA, s->vma);               \
+-        tcg_gen_gvec_3_ptr(vreg_ofs(s, a->rd),                     \
+-                           vreg_ofs(s, 0), vreg_ofs(s, a->rs2),    \
+-                           cpu_env, 0, s->vlen / 8, data, fn);     \
+-        gen_set_label(over);                                       \
+-        return true;                                               \
+-    }                                                              \
+-    return false;                                                  \
++    uint32_t data = 0;                                             \
++    gen_helper_gvec_3_ptr *fn = gen_helper_##NAME;                 \
++    TCGLabel *over = gen_new_label();                              \
++    tcg_gen_brcondi_tl(TCG_COND_EQ, cpu_vl, 0, over);              \
++                                                                   \
++    data = FIELD_DP32(data, VDATA, VM, a->vm);                     \
++    data = FIELD_DP32(data, VDATA, LMUL, s->lmul);                 \
++    data = FIELD_DP32(data, VDATA, VMA, s->vma);                   \
++    tcg_gen_gvec_3_ptr(vreg_ofs(s, a->rd),                         \
++                       vreg_ofs(s, 0), vreg_ofs(s, a->rs2),        \
++                       cpu_env, 0, s->vlen / 8, data, fn);         \
++    gen_set_label(over);                                           \
++    return true;                                                   \
  }
  
- /* vmfirst find-first-set mask bit */
--static bool trans_vmfirst_m(DisasContext *s, arg_rmr *a)
-+static bool trans_vfirst_m(DisasContext *s, arg_rmr *a)
- {
--    if (vext_check_isa_ill(s)) {
--        TCGv_ptr src2, mask;
--        TCGv dst;
--        TCGv_i32 desc;
--        uint32_t data = 0;
--        data = FIELD_DP32(data, VDATA, VM, a->vm);
--        data = FIELD_DP32(data, VDATA, LMUL, s->lmul);
--        data = FIELD_DP32(data, VDATA, VMA, s->vma);
-+    REQUIRE_RVV;
-+    VEXT_CHECK_ISA_ILL(s);
- 
--        mask = tcg_temp_new_ptr();
--        src2 = tcg_temp_new_ptr();
--        dst = tcg_temp_new();
--        desc = tcg_const_i32(simd_desc(0, s->vlen / 8, data));
-+    TCGv_ptr src2, mask;
-+    TCGv dst;
-+    TCGv_i32 desc;
-+    uint32_t data = 0;
-+    data = FIELD_DP32(data, VDATA, VM, a->vm);
-+    data = FIELD_DP32(data, VDATA, LMUL, s->lmul);
-+    data = FIELD_DP32(data, VDATA, VMA, s->vma);
- 
--        tcg_gen_addi_ptr(src2, cpu_env, vreg_ofs(s, a->rs2));
--        tcg_gen_addi_ptr(mask, cpu_env, vreg_ofs(s, 0));
-+    mask = tcg_temp_new_ptr();
-+    src2 = tcg_temp_new_ptr();
-+    dst = tcg_temp_new();
-+    desc = tcg_const_i32(simd_desc(0, s->vlen / 8, data));
- 
--        gen_helper_vmfirst_m(dst, mask, src2, cpu_env, desc);
--        gen_set_gpr(a->rd, dst);
-+    tcg_gen_addi_ptr(src2, cpu_env, vreg_ofs(s, a->rs2));
-+    tcg_gen_addi_ptr(mask, cpu_env, vreg_ofs(s, 0));
- 
--        tcg_temp_free_ptr(mask);
--        tcg_temp_free_ptr(src2);
--        tcg_temp_free(dst);
--        tcg_temp_free_i32(desc);
--        return true;
--    }
--    return false;
-+    gen_helper_vfirst_m(dst, mask, src2, cpu_env, desc);
-+    gen_set_gpr(a->rd, dst);
-+
-+    tcg_temp_free_ptr(mask);
-+    tcg_temp_free_ptr(src2);
-+    tcg_temp_free(dst);
-+    tcg_temp_free_i32(desc);
-+
-+    return true;
- }
- 
- /* vmsbf.m set-before-first mask bit */
+ GEN_M_TRANS(vmsbf_m)
 diff --git a/target/riscv/vector_helper.c b/target/riscv/vector_helper.c
-index bb7ca8aca7..f13f6c6dda 100644
+index f13f6c6dda..bc1363fb7d 100644
 --- a/target/riscv/vector_helper.c
 +++ b/target/riscv/vector_helper.c
-@@ -4648,9 +4648,9 @@ target_ulong HELPER(vpopc_m)(void *v0, void *vs2, CPURISCVState *env,
-     return cnt;
- }
- 
--/* vmfirst find-first-set mask bit*/
--target_ulong HELPER(vmfirst_m)(void *v0, void *vs2, CPURISCVState *env,
--                               uint32_t desc)
-+/* vfirst find-first-set mask bit*/
-+target_ulong HELPER(vfirst_m)(void *v0, void *vs2, CPURISCVState *env,
-+                              uint32_t desc)
+@@ -4675,7 +4675,6 @@ enum set_mask_type {
+ static void vmsetm(void *vd, void *v0, void *vs2, CPURISCVState *env,
+                    uint32_t desc, enum set_mask_type type)
  {
+-    uint32_t vlmax = env_archcpu(env)->cfg.vlen;
      uint32_t vm = vext_vm(desc);
      uint32_t vl = env->vl;
+     int i;
+@@ -4705,9 +4704,6 @@ static void vmsetm(void *vd, void *v0, void *vs2, CPURISCVState *env,
+             }
+         }
+     }
+-    for (; i < vlmax; i++) {
+-        vext_set_elem_mask(vd, i, 0);
+-    }
+ }
+ 
+ void HELPER(vmsbf_m)(void *vd, void *v0, void *vs2, CPURISCVState *env,
 -- 
 2.17.1
 
