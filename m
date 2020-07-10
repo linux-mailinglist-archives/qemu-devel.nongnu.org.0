@@ -2,83 +2,49 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id DA64221B67B
-	for <lists+qemu-devel@lfdr.de>; Fri, 10 Jul 2020 15:33:27 +0200 (CEST)
-Received: from localhost ([::1]:33196 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id BE10521B68C
+	for <lists+qemu-devel@lfdr.de>; Fri, 10 Jul 2020 15:35:11 +0200 (CEST)
+Received: from localhost ([::1]:42770 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jtt9a-00037o-UC
-	for lists+qemu-devel@lfdr.de; Fri, 10 Jul 2020 09:33:26 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:52086)
+	id 1jttBG-00071W-Rb
+	for lists+qemu-devel@lfdr.de; Fri, 10 Jul 2020 09:35:10 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:53198)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mcascell@redhat.com>)
- id 1jtsxI-0004wF-G0
- for qemu-devel@nongnu.org; Fri, 10 Jul 2020 09:20:44 -0400
-Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:35661
- helo=us-smtp-1.mimecast.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <mcascell@redhat.com>)
- id 1jtsxG-0002qo-KM
- for qemu-devel@nongnu.org; Fri, 10 Jul 2020 09:20:44 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1594387241;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=mqszcgvdPDw8SpORCSiqDEUSYgctVFGgYc2o/0RFKDY=;
- b=eNlE9d1gXUYEFDK7WLGlhjQ5020il0zUnfqKDfuodhDNtStCKo4uEEOLQrc/YsDgYg2cBE
- FI0ncuf2WuCI3y4WjL6hi08V6jknKGPe9gsNLNcLJQ7xVD/tb0HIjsenYFyBZgb5xMtJXq
- 8/7d0EUrY44eO2Q0nvny274Y1Kj3X6U=
-Received: from mail-ej1-f69.google.com (mail-ej1-f69.google.com
- [209.85.218.69]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-189-PqE6Cc73O5eS-O0wSQrkvQ-1; Fri, 10 Jul 2020 09:20:40 -0400
-X-MC-Unique: PqE6Cc73O5eS-O0wSQrkvQ-1
-Received: by mail-ej1-f69.google.com with SMTP id do21so6475040ejc.2
- for <qemu-devel@nongnu.org>; Fri, 10 Jul 2020 06:20:40 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=mqszcgvdPDw8SpORCSiqDEUSYgctVFGgYc2o/0RFKDY=;
- b=clg04SUZ2evgwPbTQ3MTIDFEhKZW8Masyv6jmYK07s4M3JjWwizNjSeYy08X9tmGrf
- bQ8Hio3NgaGoQLoPshJZKBRbtffkWh4Aneb9pgFN45K1wjoTEMPkN+HxzlFMVkCFxmF1
- H58kAOgT3lwmaV8VuPncD5wTbfdkev+DmC8i8RdRvJ8SP+rfZ0vw7JcSgeWvLQL7dUsw
- 0PGWl2LZmh5p/aUozKDudw76aURAlHHapI/bLTnFMUxyRUr6vUFY0TodO6wn954r7xaF
- qhfJhYQkjOZsBM9zV7Ulexf2ZbJ3hojJ/IU3BqwOBijBgHIdWi1MAQD3TDtnQOA+sCcD
- FMhg==
-X-Gm-Message-State: AOAM532AcxzUWnEvfIqaSKb8W4dsu9eiMlM88K34s5Mq28b5YeUZbSSR
- W7/9ZB9WpHztWe9socuD0aD7Vi3Z5NV8wMGQpsK+ih5kw21XkA0qXOpRojzCQSRkCQ23pNTEU8w
- 9GVksZ3yvnGBnZ0HQn0ixAwlankmCf+0=
-X-Received: by 2002:a05:6402:3048:: with SMTP id
- bu8mr79773116edb.367.1594387239171; 
- Fri, 10 Jul 2020 06:20:39 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJyNzwyO5TJsS623hQd2fQfBWh5e36L3OtMEClpuVshBhJUtYEaXpfIuTVuht6gcpihNkSxHWU8L+MONMvBPuxs=
-X-Received: by 2002:a05:6402:3048:: with SMTP id
- bu8mr79773092edb.367.1594387238825; 
- Fri, 10 Jul 2020 06:20:38 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <alxndr@bu.edu>) id 1jtt1D-0004Gj-Ca
+ for qemu-devel@nongnu.org; Fri, 10 Jul 2020 09:24:47 -0400
+Received: from relay64.bu.edu ([128.197.228.104]:50948)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <alxndr@bu.edu>) id 1jtt1B-0003IX-Ew
+ for qemu-devel@nongnu.org; Fri, 10 Jul 2020 09:24:46 -0400
+X-Envelope-From: alxndr@bu.edu
+X-BU-AUTH: mozz.bu.edu [128.197.127.33]
+Received: from BU-AUTH (localhost.localdomain [127.0.0.1]) (authenticated
+ bits=0)
+ by relay64.bu.edu (8.14.3/8.14.3) with ESMTP id 06ADNUa2010187
+ (version=TLSv1/SSLv3 cipher=AES256-GCM-SHA384 bits=256 verify=NO);
+ Fri, 10 Jul 2020 09:23:35 -0400
+Date: Fri, 10 Jul 2020 09:23:30 -0400
+From: Alexander Bulekov <alxndr@bu.edu>
+To: Thomas Huth <thuth@redhat.com>
+Subject: Re: [PATCH] softmmu/vl: Be less verbose about missing KVM when
+ running the qtests
+Message-ID: <20200710132330.7xgutur2hhki75ez@mozz.bu.edu>
+References: <20200710085020.28222-1-thuth@redhat.com>
 MIME-Version: 1.0
-References: <20200710085417.638904-1-mcascell@redhat.com>
- <CAFEAcA-pRXOz5JVcwHa8=oaeogwaOK0YVXYQiJUpdM_rFZ+QTA@mail.gmail.com>
-In-Reply-To: <CAFEAcA-pRXOz5JVcwHa8=oaeogwaOK0YVXYQiJUpdM_rFZ+QTA@mail.gmail.com>
-From: Mauro Matteo Cascella <mcascell@redhat.com>
-Date: Fri, 10 Jul 2020 15:20:28 +0200
-Message-ID: <CAA8xKjWpU_e5wPoT0jQWx9kFG-A_iO8MioMAqS-raDSPG3nX1A@mail.gmail.com>
-Subject: Re: [PATCH] hw/net/ftgmac100: Fix integer overflow in
- ftgmac100_do_tx()
-To: Peter Maydell <peter.maydell@linaro.org>
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=207.211.31.120; envelope-from=mcascell@redhat.com;
- helo=us-smtp-1.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/07/10 00:36:21
-X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
-X-Spam_score_int: -40
-X-Spam_score: -4.1
-X-Spam_bar: ----
-X-Spam_report: (-4.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-1, SPF_HELO_NONE=0.001,
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20200710085020.28222-1-thuth@redhat.com>
+User-Agent: NeoMutt/20180716
+Received-SPF: pass client-ip=128.197.228.104; envelope-from=alxndr@bu.edu;
+ helo=relay64.bu.edu
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/07/10 09:24:44
+X-ACL-Warn: Detected OS   = Linux 2.6.x
+X-Spam_score_int: -31
+X-Spam_score: -3.2
+X-Spam_bar: ---
+X-Spam_report: (-3.2 / 5.0 requ) BAYES_00=-1.9, HK_RANDOM_ENVFROM=0.001,
+ HK_RANDOM_FROM=1, RCVD_IN_DNSWL_MED=-2.3, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -92,74 +58,93 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Andrew Jeffery <andrew@aj.id.au>, qemu-arm <qemu-arm@nongnu.org>,
- QEMU Developers <qemu-devel@nongnu.org>, ziming zhang <ezrakiez@gmail.com>,
- =?UTF-8?Q?C=C3=A9dric_Le_Goater?= <clg@kaod.org>
+Cc: Paolo Bonzini <pbonzini@redhat.com>, qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Fri, Jul 10, 2020 at 1:33 PM Peter Maydell <peter.maydell@linaro.org> wrote:
->
-> On Fri, 10 Jul 2020 at 09:56, Mauro Matteo Cascella <mcascell@redhat.com> wrote:
-> >
-> > An integer overflow issue was reported by Mr. Ziming Zhang, CC'd here. It
-> > occurs while inserting the VLAN tag in packets whose length is less than
-> > 12 bytes, as (len-12) is passed to memmove() without proper checking.
-> > This patch is intended to fix this issue by checking the minimum
-> > Ethernet frame size during packet transmission.
-> >
-> > Reported-by: Ziming Zhang <ezrakiez@gmail.com>
-> > Signed-off-by: Mauro Matteo Cascella <mcascell@redhat.com>
-> > ---
-> >  hw/net/ftgmac100.c | 14 ++++++++++++++
-> >  1 file changed, 14 insertions(+)
-> >
-> > diff --git a/hw/net/ftgmac100.c b/hw/net/ftgmac100.c
-> > index 043ba61b86..bcf4d84aea 100644
-> > --- a/hw/net/ftgmac100.c
-> > +++ b/hw/net/ftgmac100.c
-> > @@ -238,6 +238,11 @@ typedef struct {
-> >   */
-> >  #define FTGMAC100_MAX_FRAME_SIZE    9220
-> >
-> > +/*
-> > + * Min frame size
-> > + */
-> > +#define FTGMAC100_MIN_FRAME_SIZE    64
-> > +
-> >  /* Limits depending on the type of the frame
-> >   *
-> >   *   9216 for Jumbo frames (+ 4 for VLAN)
-> > @@ -507,6 +512,15 @@ static void ftgmac100_do_tx(FTGMAC100State *s, uint32_t tx_ring,
-> >          }
-> >
-> >          len = FTGMAC100_TXDES0_TXBUF_SIZE(bd.des0);
-> > +
-> > +        /* drop small packets */
-> > +        if (bd.des0 & FTGMAC100_TXDES0_FTS &&
-> > +            len < FTGMAC100_MIN_FRAME_SIZE) {
-> > +            qemu_log_mask(LOG_GUEST_ERROR, "%s: frame too small: %d bytes\n",
-> > +                          __func__, len);
-> > +            break;
-> > +        }
-> > +
->
-> Andrew, Cedric: do you have the datasheet for this devic? Do you
-> know if we should also be flagging the error back to the
-> guest somehow?
->
-> I think a 'break' here means we'll never update the
-> descriptor flags to hand it back to the guest, which
-> is probably not what the hardware does.
->
-> thanks
-> -- PMM
->
+On 200710 1050, Thomas Huth wrote:
+> Some of the qtests use "-accel kvm -accel tcg" to run real guest code.
+> This causes some error messages when kvm is not available. We do not
+> really care about these messages since the fallback to tcg is expected
+> here. So let's silence them to avoid that they spoil the output of
+> the tests.
+> 
+> Unfortunately, we can not use the qtest_enabled() wrapper in this case,
+> since the qtest accelerator itself is not initialized. Thus we have to
+> test for the qtest_chrdev variable instead.
+> 
+> Signed-off-by: Thomas Huth <thuth@redhat.com>
 
-I thought of setting FTGMAC100_INT_XPKT_LOST, but not sure if this is
-the most appropriate flag here.
+Reviewed-by: Alexander Bulekov <alxndr@bu.edu>
 
-Regards,
-Mauro
-
+> ---
+>  softmmu/vl.c | 19 ++++++++++++-------
+>  1 file changed, 12 insertions(+), 7 deletions(-)
+> 
+> diff --git a/softmmu/vl.c b/softmmu/vl.c
+> index 3f58ffd4dc..0066f50fb2 100644
+> --- a/softmmu/vl.c
+> +++ b/softmmu/vl.c
+> @@ -164,8 +164,9 @@ bool boot_strict;
+>  uint8_t *boot_splash_filedata;
+>  int only_migratable; /* turn it off unless user states otherwise */
+>  bool wakeup_suspend_enabled;
+> -
+>  int icount_align_option;
+> +static const char *qtest_chrdev;
+> +static const char *qtest_log;
+>  
+>  /* The bytes in qemu_uuid are in the order specified by RFC4122, _not_ in the
+>   * little-endian "wire format" described in the SMBIOS 2.6 specification.
+> @@ -2693,10 +2694,15 @@ static int do_configure_accelerator(void *opaque, QemuOpts *opts, Error **errp)
+>      AccelClass *ac = accel_find(acc);
+>      AccelState *accel;
+>      int ret;
+> +    bool qtest_with_kvm;
+> +
+> +    qtest_with_kvm = g_str_equal(acc, "kvm") && qtest_chrdev != NULL;
+>  
+>      if (!ac) {
+>          *p_init_failed = true;
+> -        error_report("invalid accelerator %s", acc);
+> +        if (!qtest_with_kvm) {
+> +            error_report("invalid accelerator %s", acc);
+> +        }
+>          return 0;
+>      }
+>      accel = ACCEL(object_new_with_class(OBJECT_CLASS(ac)));
+> @@ -2708,8 +2714,9 @@ static int do_configure_accelerator(void *opaque, QemuOpts *opts, Error **errp)
+>      ret = accel_init_machine(accel, current_machine);
+>      if (ret < 0) {
+>          *p_init_failed = true;
+> -        error_report("failed to initialize %s: %s",
+> -                     acc, strerror(-ret));
+> +        if (!qtest_with_kvm || ret != -ENOENT) {
+> +            error_report("failed to initialize %s: %s", acc, strerror(-ret));
+> +        }
+>          return 0;
+>      }
+>  
+> @@ -2780,7 +2787,7 @@ static void configure_accelerators(const char *progname)
+>          exit(1);
+>      }
+>  
+> -    if (init_failed) {
+> +    if (init_failed && !qtest_chrdev) {
+>          AccelClass *ac = ACCEL_GET_CLASS(current_accel());
+>          error_report("falling back to %s", ac->name);
+>      }
+> @@ -2830,8 +2837,6 @@ void qemu_init(int argc, char **argv, char **envp)
+>      MachineClass *machine_class;
+>      const char *cpu_option;
+>      const char *vga_model = NULL;
+> -    const char *qtest_chrdev = NULL;
+> -    const char *qtest_log = NULL;
+>      const char *incoming = NULL;
+>      bool userconfig = true;
+>      bool nographic = false;
+> -- 
+> 2.18.1
+> 
+> 
 
