@@ -2,45 +2,47 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id BA7F821B9D7
-	for <lists+qemu-devel@lfdr.de>; Fri, 10 Jul 2020 17:49:27 +0200 (CEST)
-Received: from localhost ([::1]:37326 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id CE7E721B9D6
+	for <lists+qemu-devel@lfdr.de>; Fri, 10 Jul 2020 17:48:52 +0200 (CEST)
+Received: from localhost ([::1]:35226 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jtvHC-0007zt-P6
-	for lists+qemu-devel@lfdr.de; Fri, 10 Jul 2020 11:49:26 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:34586)
+	id 1jtvGd-00074j-Q8
+	for lists+qemu-devel@lfdr.de; Fri, 10 Jul 2020 11:48:51 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:34558)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <wentong.wu@intel.com>)
- id 1jtvEK-0005Nn-WE; Fri, 10 Jul 2020 11:46:29 -0400
-Received: from mga02.intel.com ([134.134.136.20]:55298)
+ id 1jtvEH-0005HC-Kq; Fri, 10 Jul 2020 11:46:25 -0400
+Received: from mga02.intel.com ([134.134.136.20]:55304)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <wentong.wu@intel.com>)
- id 1jtvEJ-0008Ob-AV; Fri, 10 Jul 2020 11:46:28 -0400
-IronPort-SDR: 0qRnyIwsyObCp8JJ6ajXOYnwgFj1iZ1JMIlmi2ge0dL3s3aUxbO1e/hc+WE3swwvIaN25jJZWO
- eeWlJwJ3Llag==
-X-IronPort-AV: E=McAfee;i="6000,8403,9678"; a="136427512"
-X-IronPort-AV: E=Sophos;i="5.75,336,1589266800"; d="scan'208";a="136427512"
+ id 1jtvEF-0008Ol-3u; Fri, 10 Jul 2020 11:46:25 -0400
+IronPort-SDR: hYf2wDwxyQpMFXtr/4W3h4rdVafDz+IwuD1sNbFN0LTIDS9lWUCe62j7ngyfLiU+837vhg1Ehw
+ b0/cmD9CYLgA==
+X-IronPort-AV: E=McAfee;i="6000,8403,9678"; a="136427517"
+X-IronPort-AV: E=Sophos;i="5.75,336,1589266800"; d="scan'208";a="136427517"
 X-Amp-Result: SKIPPED(no attachment in message)
 X-Amp-File-Uploaded: False
 Received: from fmsmga005.fm.intel.com ([10.253.24.32])
  by orsmga101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 10 Jul 2020 08:46:15 -0700
-IronPort-SDR: sNJvHibO3HmZs/Pemt+BXXteic9oJ7gh/dqpXIK/401nj86pC+dX9hrE/qIcifsvr37TJLQAZU
- f5SIjgji6e2A==
+ 10 Jul 2020 08:46:19 -0700
+IronPort-SDR: gHwNG1r9OK42eLBQcVH6hasSGyfPMRx8u8NWkWsfVX3/MBdEEHguCNCzG3IB4/Yi8C4yAUeBTa
+ Fd/SyE00rqqQ==
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.75,336,1589266800"; d="scan'208";a="484686318"
+X-IronPort-AV: E=Sophos;i="5.75,336,1589266800"; d="scan'208";a="484686336"
 Received: from unknown (HELO localhost.localdomain.sh.intel.com)
  ([10.239.153.142])
- by fmsmga005.fm.intel.com with ESMTP; 10 Jul 2020 08:46:14 -0700
+ by fmsmga005.fm.intel.com with ESMTP; 10 Jul 2020 08:46:18 -0700
 From: Wentong Wu <wentong.wu@intel.com>
 To: qemu-devel@nongnu.org,
 	peter.maydell@linaro.org
-Subject: [PATCH v2 1/4] target/nios2: add DISAS_NORETURN case for nothing more
- to generate
-Date: Fri, 10 Jul 2020 19:34:30 -0400
-Message-Id: <20200710233433.19729-1-wentong.wu@intel.com>
+Subject: [PATCH v2 2/4] target/nios2: in line the semantics of DISAS_UPDATE
+ with other targets
+Date: Fri, 10 Jul 2020 19:34:31 -0400
+Message-Id: <20200710233433.19729-2-wentong.wu@intel.com>
 X-Mailer: git-send-email 2.21.3
+In-Reply-To: <20200710233433.19729-1-wentong.wu@intel.com>
+References: <20200710233433.19729-1-wentong.wu@intel.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 Received-SPF: pass client-ip=134.134.136.20; envelope-from=wentong.wu@intel.com;
@@ -70,45 +72,34 @@ Cc: qemu-trivial@nongnu.org, marex@denx.de, crwulff@gmail.com,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Add DISAS_NORETURN case for nothing more to generate because at runtime
-execution will never return from some helper call. And at the same time
-replace DISAS_UPDATE in t_gen_helper_raise_exception and gen_exception
-with the newly added DISAS_NORETURN.
+In line the semantics of DISAS_UPDATE on nios2 target with other targets
+which is to explicitly write the PC back into the cpu state before doing
+a tcg_gen_exit_tb().
 
 Signed-off-by: Wentong Wu <wentong.wu@intel.com>
 ---
- target/nios2/translate.c | 5 +++--
- 1 file changed, 3 insertions(+), 2 deletions(-)
+ target/nios2/translate.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
 diff --git a/target/nios2/translate.c b/target/nios2/translate.c
-index e17656e6..b052be85 100644
+index b052be85..83c10eb2 100644
 --- a/target/nios2/translate.c
 +++ b/target/nios2/translate.c
-@@ -149,7 +149,7 @@ static void t_gen_helper_raise_exception(DisasContext *dc,
-     tcg_gen_movi_tl(dc->cpu_R[R_PC], dc->pc);
-     gen_helper_raise_exception(dc->cpu_env, tmp);
-     tcg_temp_free_i32(tmp);
--    dc->is_jmp = DISAS_UPDATE;
-+    dc->is_jmp = DISAS_NORETURN;
- }
- 
- static bool use_goto_tb(DisasContext *dc, uint32_t dest)
-@@ -802,7 +802,7 @@ static void gen_exception(DisasContext *dc, uint32_t excp)
-     tcg_gen_movi_tl(cpu_R[R_PC], dc->pc);
-     gen_helper_raise_exception(cpu_env, tmp);
-     tcg_temp_free_i32(tmp);
--    dc->is_jmp = DISAS_UPDATE;
-+    dc->is_jmp = DISAS_NORETURN;
- }
- 
- /* generate intermediate code for basic block 'tb'.  */
-@@ -877,6 +877,7 @@ void gen_intermediate_code(CPUState *cs, TranslationBlock *tb, int max_insns)
+@@ -865,6 +865,7 @@ void gen_intermediate_code(CPUState *cs, TranslationBlock *tb, int max_insns)
+     /* Indicate where the next block should start */
+     switch (dc->is_jmp) {
+     case DISAS_NEXT:
++    case DISAS_UPDATE:
+         /* Save the current PC back into the CPU register */
+         tcg_gen_movi_tl(cpu_R[R_PC], dc->pc);
          tcg_gen_exit_tb(NULL, 0);
-         break;
+@@ -872,7 +873,6 @@ void gen_intermediate_code(CPUState *cs, TranslationBlock *tb, int max_insns)
  
-+    case DISAS_NORETURN:
-     case DISAS_TB_JUMP:
-         /* nothing more to generate */
+     default:
+     case DISAS_JUMP:
+-    case DISAS_UPDATE:
+         /* The jump will already have updated the PC register */
+         tcg_gen_exit_tb(NULL, 0);
          break;
 -- 
 2.21.3
