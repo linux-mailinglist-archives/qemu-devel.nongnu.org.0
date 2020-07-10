@@ -2,58 +2,66 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 38CE821B1CA
-	for <lists+qemu-devel@lfdr.de>; Fri, 10 Jul 2020 10:58:15 +0200 (CEST)
-Received: from localhost ([::1]:49600 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 81C5A21B1C5
+	for <lists+qemu-devel@lfdr.de>; Fri, 10 Jul 2020 10:56:17 +0200 (CEST)
+Received: from localhost ([::1]:45356 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jtorG-0003Uz-AY
-	for lists+qemu-devel@lfdr.de; Fri, 10 Jul 2020 04:58:14 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:37840)
+	id 1jtopM-0001fY-IG
+	for lists+qemu-devel@lfdr.de; Fri, 10 Jul 2020 04:56:16 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:37148)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mcascell@redhat.com>)
- id 1jtoqS-0002vN-Qz
- for qemu-devel@nongnu.org; Fri, 10 Jul 2020 04:57:24 -0400
-Received: from us-smtp-1.mimecast.com ([205.139.110.61]:39487
+ (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
+ id 1jtooF-0000VS-Ip
+ for qemu-devel@nongnu.org; Fri, 10 Jul 2020 04:55:07 -0400
+Received: from us-smtp-1.mimecast.com ([205.139.110.61]:48769
  helo=us-smtp-delivery-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <mcascell@redhat.com>)
- id 1jtoqR-0000F3-C9
- for qemu-devel@nongnu.org; Fri, 10 Jul 2020 04:57:24 -0400
+ (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
+ id 1jtooD-0008HO-PS
+ for qemu-devel@nongnu.org; Fri, 10 Jul 2020 04:55:07 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1594371442;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding;
- bh=6UuvXk6F+b+Tv3n3h9p2quCLU/54dxm2IrU0BRnuky0=;
- b=D/3BM+Nb1ESS3hw5jPxkyq5H43eiScWg30fbNwiS1rlXT6KH7z61AL/OllxZ0uYwMyrivr
- wN/pkrhwJ0vZRDhBZ+9v1SMpe52KzyPBoz07+ryoXgfnIdhzpIcrG9aWBq6R64Ia/KQIaI
- awuXMWEN4uyPJgvo7fKj7f1IiSUAayE=
+ s=mimecast20190719; t=1594371304;
+ h=from:from:reply-to:reply-to:subject:subject:date:date:
+ message-id:message-id:to:to:cc:cc:mime-version:mime-version:
+ content-type:content-type:in-reply-to:in-reply-to:  references:references;
+ bh=hSK3YT+bBH1LkWCzHcxv8lG9Iqnh/QyCOuQuwSwg5l4=;
+ b=TS562ITUtmTx/zU0yvVEpI6I5NX8RztYCIDLc/zKxH1IWcdeKJ/TquUfK32b9AwVcffe8J
+ TnLaq3kiRg5bEOL66S+o9e/J40TNt8AJ1r893cVHkwX1AAyLU3KPHNc01wwdqN2iHH8iRu
+ UaUECxEVfRKZ6DhXJZ9lwErRtgkVS0k=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-285-0jJaHsoGMbWBjIj1jSPDjA-1; Fri, 10 Jul 2020 04:56:12 -0400
-X-MC-Unique: 0jJaHsoGMbWBjIj1jSPDjA-1
-Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
- [10.5.11.13])
+ us-mta-362-33B3PpzfMiafor5fYsyBxg-1; Fri, 10 Jul 2020 04:55:02 -0400
+X-MC-Unique: 33B3PpzfMiafor5fYsyBxg-1
+Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
+ [10.5.11.16])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 48B781B18BDB;
- Fri, 10 Jul 2020 08:56:11 +0000 (UTC)
-Received: from fedora.redhat.com (unknown [10.40.193.187])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 7F7E574F48;
- Fri, 10 Jul 2020 08:56:09 +0000 (UTC)
-From: Mauro Matteo Cascella <mcascell@redhat.com>
-To: qemu-devel@nongnu.org
-Subject: [PATCH] hw/net/ftgmac100: Fix integer overflow in ftgmac100_do_tx()
-Date: Fri, 10 Jul 2020 10:54:18 +0200
-Message-Id: <20200710085417.638904-1-mcascell@redhat.com>
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id D37498014D7;
+ Fri, 10 Jul 2020 08:55:01 +0000 (UTC)
+Received: from redhat.com (unknown [10.36.110.42])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 3EA7C5C1BD;
+ Fri, 10 Jul 2020 08:54:57 +0000 (UTC)
+Date: Fri, 10 Jul 2020 09:54:54 +0100
+From: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
+To: Liviu Ionescu <ilg@livius.net>
+Subject: Re: Separate notifications from list messages?
+Message-ID: <20200710085454.GD4017912@redhat.com>
+References: <E646BE29-B46F-4B56-ADF5-B0DC6CCEF422@livius.net>
+ <0a3689e1-001a-76ec-894d-0bb63115ecdd@redhat.com>
+ <CAFEAcA-Y_e9V2UTEZoVbxOWQcs_eP96cMQ1J2BtC6Y0AAUTgSA@mail.gmail.com>
+ <FF6A540C-7C16-4FFC-9A6D-FAB9EFE56B7F@livius.net>
+ <CAFEAcA_c3M-NQcXMt7pnA1qn9B8AYSnFMP1zHx3i_cU2cqpnSQ@mail.gmail.com>
+ <008CCEB6-D3F4-4F1A-80DE-83F47873851F@livius.net>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
+In-Reply-To: <008CCEB6-D3F4-4F1A-80DE-83F47873851F@livius.net>
+User-Agent: Mutt/1.14.3 (2020-06-14)
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=205.139.110.61; envelope-from=mcascell@redhat.com;
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Received-SPF: pass client-ip=205.139.110.61; envelope-from=berrange@redhat.com;
  helo=us-smtp-delivery-1.mimecast.com
 X-detected-operating-system: by eggs.gnu.org: First seen = 2020/07/09 22:08:55
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
@@ -63,7 +71,7 @@ X-Spam_bar: ----
 X-Spam_report: (-4.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-1, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ SPF_PASS=-0.001, URIBL_BLOCKED=0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -76,56 +84,41 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: peter.maydell@linaro.org, Mauro Matteo Cascella <mcascell@redhat.com>,
- andrew@aj.id.au, qemu-arm@nongnu.org, clg@kaod.org, ezrakiez@gmail.com
+Reply-To: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
+Cc: Peter Maydell <peter.maydell@linaro.org>, Thomas Huth <thuth@redhat.com>,
+ Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
+ Qemu Developers <qemu-devel@nongnu.org>, Stefan Hajnoczi <stefanha@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-An integer overflow issue was reported by Mr. Ziming Zhang, CC'd here. It
-occurs while inserting the VLAN tag in packets whose length is less than
-12 bytes, as (len-12) is passed to memmove() without proper checking.
-This patch is intended to fix this issue by checking the minimum
-Ethernet frame size during packet transmission.
+On Fri, Jul 10, 2020 at 11:40:05AM +0300, Liviu Ionescu wrote:
+> 
+> 
+> > On 10 Jul 2020, at 11:32, Peter Maydell <peter.maydell@linaro.org> wrote:
+> > 
+> > ... Do we expect any other
+> > kinds to appear as we make more use of gitlab?
+> 
+> I have zero experience with gitlab, but on github yes, most project activity can trigger notifications.
+> 
+> this is not a problem in itself. the problem is that, instead of
+> using a personal email address, the qemu-devel list was used
+> somewhere in the project settings, and all notifications go to the list.
 
-Reported-by: Ziming Zhang <ezrakiez@gmail.com>
-Signed-off-by: Mauro Matteo Cascella <mcascell@redhat.com>
----
- hw/net/ftgmac100.c | 14 ++++++++++++++
- 1 file changed, 14 insertions(+)
+This wasn't a mistake - it was very delibrate, precisely so that all
+involved in QEMU development will see the failures, instead of expecting
+a handful of people to take all the work of dealing with failures. In
+general anyone who's a regular contributor has a shared responsibility
+to help keep QEMU building reliably.
 
-diff --git a/hw/net/ftgmac100.c b/hw/net/ftgmac100.c
-index 043ba61b86..bcf4d84aea 100644
---- a/hw/net/ftgmac100.c
-+++ b/hw/net/ftgmac100.c
-@@ -238,6 +238,11 @@ typedef struct {
-  */
- #define FTGMAC100_MAX_FRAME_SIZE    9220
- 
-+/*
-+ * Min frame size
-+ */
-+#define FTGMAC100_MIN_FRAME_SIZE    64
-+
- /* Limits depending on the type of the frame
-  *
-  *   9216 for Jumbo frames (+ 4 for VLAN)
-@@ -507,6 +512,15 @@ static void ftgmac100_do_tx(FTGMAC100State *s, uint32_t tx_ring,
-         }
- 
-         len = FTGMAC100_TXDES0_TXBUF_SIZE(bd.des0);
-+
-+        /* drop small packets */
-+        if (bd.des0 & FTGMAC100_TXDES0_FTS &&
-+            len < FTGMAC100_MIN_FRAME_SIZE) {
-+            qemu_log_mask(LOG_GUEST_ERROR, "%s: frame too small: %d bytes\n",
-+                          __func__, len);
-+            break;
-+        }
-+
-         if (frame_size + len > sizeof(s->frame)) {
-             qemu_log_mask(LOG_GUEST_ERROR, "%s: frame too big : %d bytes\n",
-                           __func__, len);
+Given the overall volume of mail on qemu-devel, a handful of notifications
+from CI each day is not a burden IMHO.
+
+Regards,
+Daniel
 -- 
-2.26.2
+|: https://berrange.com      -o-    https://www.flickr.com/photos/dberrange :|
+|: https://libvirt.org         -o-            https://fstop138.berrange.com :|
+|: https://entangle-photo.org    -o-    https://www.instagram.com/dberrange :|
 
 
