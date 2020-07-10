@@ -2,67 +2,67 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7050121B63D
-	for <lists+qemu-devel@lfdr.de>; Fri, 10 Jul 2020 15:24:35 +0200 (CEST)
-Received: from localhost ([::1]:47572 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6283C21B600
+	for <lists+qemu-devel@lfdr.de>; Fri, 10 Jul 2020 15:12:58 +0200 (CEST)
+Received: from localhost ([::1]:46818 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jtt10-0002bq-Dw
-	for lists+qemu-devel@lfdr.de; Fri, 10 Jul 2020 09:24:34 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:38072)
+	id 1jtspl-0004bb-E2
+	for lists+qemu-devel@lfdr.de; Fri, 10 Jul 2020 09:12:57 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:38172)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <frank.chang@sifive.com>)
- id 1jtqeR-0005iv-3K
- for qemu-devel@nongnu.org; Fri, 10 Jul 2020 06:53:07 -0400
-Received: from mail-pg1-x541.google.com ([2607:f8b0:4864:20::541]:39636)
+ id 1jtqeY-0005kW-SB
+ for qemu-devel@nongnu.org; Fri, 10 Jul 2020 06:53:14 -0400
+Received: from mail-pl1-x62c.google.com ([2607:f8b0:4864:20::62c]:36836)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <frank.chang@sifive.com>)
- id 1jtqeO-0006oi-MF
- for qemu-devel@nongnu.org; Fri, 10 Jul 2020 06:53:06 -0400
-Received: by mail-pg1-x541.google.com with SMTP id z5so2371328pgb.6
- for <qemu-devel@nongnu.org>; Fri, 10 Jul 2020 03:53:04 -0700 (PDT)
+ id 1jtqeT-0006pP-1S
+ for qemu-devel@nongnu.org; Fri, 10 Jul 2020 06:53:14 -0400
+Received: by mail-pl1-x62c.google.com with SMTP id d10so2106743pll.3
+ for <qemu-devel@nongnu.org>; Fri, 10 Jul 2020 03:53:08 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=sifive.com; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references;
- bh=7C1r4OVFVMYGC91Xet/7rXpO/0WQ8sJ/vzsKzoXBcPY=;
- b=HFyCsCFr9wF3cMhJv6J+vVdEEu8uwFKhsiKOL5h8cUUJZhmzr4rEVTv08u/linJ19A
- /l2LLIwSMIvXa6Nk5YeBGcR1wm7SVAadQHUWjIEhdOVhUXdPSlrA7Nk5/CdsJq1LwX1o
- JDf1TFeqSlLZpiA/dHLCid+eEkKkaofPE9PE2LcZNIciuVbyad4C6VKvKkklllwphroZ
- JTtv4g0znQeDLdwt0OsqoxYYOfSk90oKQ0MNKQYcYbIOWFTiQ97haWJqmj16Nt6c0rky
- bdwxpD5f6Yig/74Rd9WdWWRmWdF8qqYvnS04cXoS5etN1+dJKxEwiWZFqQSggOqo4NQ3
- gJOw==
+ bh=8b327ix3NdI+IyOCojftJRh9SEKGizCjfc1TFHjeQ9U=;
+ b=VZwN9XJhn2jvr10USyXeZHHWHgYMbHDXDeFHg5W7XsHBUMv4+znEQxkPnGEfzw00QY
+ 2Zcc8IHMiTHphtYNQtbqbbAKSHMIo0en7RCjSH5dd2Iz4H9taW4bk2uhGczXKuYb+LmG
+ RW6G2OlvvUjMyReFSFqT33gv0gXeaUJh28sNi+Kr58V84CbwCSuO9Pl9hxmWTMhvS9Fi
+ 9NaEONHm40e/+nIHPDcyDWnL0hHQxM4YSkFfYQkKdiuCzf96ultn5xthmCoA556zoSnp
+ Uv+5BR2WErVTILp863lH6PKow5tsQVrFC4Jt7nCrJ0BIFRYrJCJrdZzslWbLA6okR8q4
+ uRWQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references;
- bh=7C1r4OVFVMYGC91Xet/7rXpO/0WQ8sJ/vzsKzoXBcPY=;
- b=npz6LTT0bmb9QA/1DFqqhy1PFeeorJBv5BQ6zkiohNk/nOSNoKwHoHlNKWFKAuB7sj
- c1Ub4PmyynyPvCdAfDvpOxeRC+Oze2BZa8xCvZgb82Pvy9M+qi94aGkcGFPcymtILRuo
- 7zbWe6AkJqfu7vz2VqERzFiS3TJOqDgVycCleBKdycLVNxt4r3ZRMW0xsSDUjFoLeQ40
- FG+py+TlV9sqy+q7uG3s2rAx4jrtQsctTAWW7PpVGgzA08uw+d1lf08lfCJK4QiqvkdY
- MUb5H+CQRa94B2bYgvoDv4KpGpHFBQP4LLVDVQJ7f1mM/FG/xYqe6DQjNdoP9SuH25Vi
- eaQQ==
-X-Gm-Message-State: AOAM530lQvzetQCTZ/0KCzMt7jf7UfEbnqxd1F1fCtF5Ascu4DobZnUd
- mNvDsyjt2oCkOXxGM5tNkkPwWz7IAAchTQ==
-X-Google-Smtp-Source: ABdhPJxFRuxIqJyDQccXsQeIO9lf9VnO6I1y/qos9JSW/se2x8fTy3wrbzen9IKtS/R+dk1vVouQMw==
-X-Received: by 2002:a63:eb52:: with SMTP id b18mr56235417pgk.434.1594378383218; 
- Fri, 10 Jul 2020 03:53:03 -0700 (PDT)
+ bh=8b327ix3NdI+IyOCojftJRh9SEKGizCjfc1TFHjeQ9U=;
+ b=uggAUe5sU8w4yBqie+1rnZtSwEco85yGGMMPmKiItOkGnPsOA/ScpoIl1sGOX8f1Ns
+ OUCdSFwAC3jA845kOrWQiDSQsJfGN1NzkAy+7Zs989pSJ/tpWcP28vs/2JOrMB0Mi1oS
+ 0RfmCHK9IGKYVFAE2LH4gjo4QPKo25JALAU9M2/Ns0ZZuIEc7UQB6AO15nEGZpwVMElC
+ 1Nyvt2YW+nb4sYsQ7aWGe4I/e/0v2TbQOboyShwzf8M9ZJiUfOcAFoUw27hrF7Drx4Ah
+ 1EzKCnBJh7YbrqgQAbQEuByCgQKG1nsX/rd+zAiiha4+F9OjgCQmYBZBP80ySl5tZGzA
+ jVzw==
+X-Gm-Message-State: AOAM530Qrqf8bJWoNlSwN8PklSJ02yfNqxmRXHpKLBzFa/obCX5i003S
+ IjpnpA+V8QCDYtp+kmRG+TqGabJ4oxXQ7w==
+X-Google-Smtp-Source: ABdhPJyPjogd93mChuVAtAMQfFOM/unHlKDYHICNgocpfMYwf/PcHy2FAkywUJ5/PxpJo4fZf/CoxQ==
+X-Received: by 2002:a17:902:b287:: with SMTP id
+ u7mr48681577plr.107.1594378387492; 
+ Fri, 10 Jul 2020 03:53:07 -0700 (PDT)
 Received: from frankchang-ThinkPad-T490.internal.sifive.com
  (114-34-229-221.HINET-IP.hinet.net. [114.34.229.221])
- by smtp.gmail.com with ESMTPSA id r191sm5519406pfr.181.2020.07.10.03.53.00
+ by smtp.gmail.com with ESMTPSA id r191sm5519406pfr.181.2020.07.10.03.53.04
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 10 Jul 2020 03:53:02 -0700 (PDT)
+ Fri, 10 Jul 2020 03:53:07 -0700 (PDT)
 From: frank.chang@sifive.com
 To: qemu-devel@nongnu.org,
 	qemu-riscv@nongnu.org
-Subject: [RFC 37/65] target/riscv: rvv-0.9: quad-widening integer multiply-add
- instructions
-Date: Fri, 10 Jul 2020 18:48:51 +0800
-Message-Id: <20200710104920.13550-38-frank.chang@sifive.com>
+Subject: [RFC 38/65] target/riscv: rvv-0.9: integer merge and move instructions
+Date: Fri, 10 Jul 2020 18:48:52 +0800
+Message-Id: <20200710104920.13550-39-frank.chang@sifive.com>
 X-Mailer: git-send-email 2.17.1
 In-Reply-To: <20200710104920.13550-1-frank.chang@sifive.com>
 References: <20200710104920.13550-1-frank.chang@sifive.com>
-Received-SPF: pass client-ip=2607:f8b0:4864:20::541;
- envelope-from=frank.chang@sifive.com; helo=mail-pg1-x541.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::62c;
+ envelope-from=frank.chang@sifive.com; helo=mail-pl1-x62c.google.com
 X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
  That's all we know.
 X-Spam_score_int: -20
@@ -96,222 +96,227 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Frank Chang <frank.chang@sifive.com>
 
-Add the following instructions:
-
-* vqmaccu.vv
-* vqmaccu.vx
-* vqmacc.vv
-* vqmacc.vx
-* vqmaccsu.vv
-* vqmaccsu.vx
-* vqmaccus.vx
-
 Signed-off-by: Frank Chang <frank.chang@sifive.com>
 ---
- target/riscv/helper.h                   | 15 +++++
- target/riscv/insn32.decode              |  7 ++
- target/riscv/insn_trans/trans_rvv.inc.c | 85 ++++++++++++++++++++++++-
- target/riscv/vector_helper.c            | 40 ++++++++++++
- 4 files changed, 146 insertions(+), 1 deletion(-)
+ target/riscv/insn_trans/trans_rvv.inc.c | 179 ++++++++++++------------
+ 1 file changed, 90 insertions(+), 89 deletions(-)
 
-diff --git a/target/riscv/helper.h b/target/riscv/helper.h
-index 151ed5ac64..2a4e1ea773 100644
---- a/target/riscv/helper.h
-+++ b/target/riscv/helper.h
-@@ -622,6 +622,21 @@ DEF_HELPER_6(vwmaccus_vx_b, void, ptr, ptr, tl, ptr, env, i32)
- DEF_HELPER_6(vwmaccus_vx_h, void, ptr, ptr, tl, ptr, env, i32)
- DEF_HELPER_6(vwmaccus_vx_w, void, ptr, ptr, tl, ptr, env, i32)
- 
-+DEF_HELPER_6(vqmaccu_vv_b, void, ptr, ptr, ptr, ptr, env, i32)
-+DEF_HELPER_6(vqmaccu_vv_h, void, ptr, ptr, ptr, ptr, env, i32)
-+DEF_HELPER_6(vqmacc_vv_b, void, ptr, ptr, ptr, ptr, env, i32)
-+DEF_HELPER_6(vqmacc_vv_h, void, ptr, ptr, ptr, ptr, env, i32)
-+DEF_HELPER_6(vqmaccsu_vv_b, void, ptr, ptr, ptr, ptr, env, i32)
-+DEF_HELPER_6(vqmaccsu_vv_h, void, ptr, ptr, ptr, ptr, env, i32)
-+DEF_HELPER_6(vqmaccu_vx_b, void, ptr, ptr, tl, ptr, env, i32)
-+DEF_HELPER_6(vqmaccu_vx_h, void, ptr, ptr, tl, ptr, env, i32)
-+DEF_HELPER_6(vqmacc_vx_b, void, ptr, ptr, tl, ptr, env, i32)
-+DEF_HELPER_6(vqmacc_vx_h, void, ptr, ptr, tl, ptr, env, i32)
-+DEF_HELPER_6(vqmaccsu_vx_b, void, ptr, ptr, tl, ptr, env, i32)
-+DEF_HELPER_6(vqmaccsu_vx_h, void, ptr, ptr, tl, ptr, env, i32)
-+DEF_HELPER_6(vqmaccus_vx_b, void, ptr, ptr, tl, ptr, env, i32)
-+DEF_HELPER_6(vqmaccus_vx_h, void, ptr, ptr, tl, ptr, env, i32)
-+
- DEF_HELPER_6(vmerge_vvm_b, void, ptr, ptr, ptr, ptr, env, i32)
- DEF_HELPER_6(vmerge_vvm_h, void, ptr, ptr, ptr, ptr, env, i32)
- DEF_HELPER_6(vmerge_vvm_w, void, ptr, ptr, ptr, ptr, env, i32)
-diff --git a/target/riscv/insn32.decode b/target/riscv/insn32.decode
-index c6a7145aa5..acd65cb3a7 100644
---- a/target/riscv/insn32.decode
-+++ b/target/riscv/insn32.decode
-@@ -423,6 +423,13 @@ vwmacc_vx       111101 . ..... ..... 110 ..... 1010111 @r_vm
- vwmaccsu_vv     111111 . ..... ..... 010 ..... 1010111 @r_vm
- vwmaccsu_vx     111111 . ..... ..... 110 ..... 1010111 @r_vm
- vwmaccus_vx     111110 . ..... ..... 110 ..... 1010111 @r_vm
-+vqmaccu_vv      111100 . ..... ..... 000 ..... 1010111 @r_vm
-+vqmaccu_vx      111100 . ..... ..... 100 ..... 1010111 @r_vm
-+vqmacc_vv       111101 . ..... ..... 000 ..... 1010111 @r_vm
-+vqmacc_vx       111101 . ..... ..... 100 ..... 1010111 @r_vm
-+vqmaccsu_vv     111111 . ..... ..... 000 ..... 1010111 @r_vm
-+vqmaccsu_vx     111111 . ..... ..... 100 ..... 1010111 @r_vm
-+vqmaccus_vx     111110 . ..... ..... 100 ..... 1010111 @r_vm
- vmv_v_v         010111 1 00000 ..... 000 ..... 1010111 @r2
- vmv_v_x         010111 1 00000 ..... 100 ..... 1010111 @r2
- vmv_v_i         010111 1 00000 ..... 011 ..... 1010111 @r2
 diff --git a/target/riscv/insn_trans/trans_rvv.inc.c b/target/riscv/insn_trans/trans_rvv.inc.c
-index 48b376c133..89718fdbc7 100644
+index 89718fdbc7..53c8dce159 100644
 --- a/target/riscv/insn_trans/trans_rvv.inc.c
 +++ b/target/riscv/insn_trans/trans_rvv.inc.c
-@@ -303,6 +303,33 @@ static uint32_t vreg_ofs(DisasContext *s, int reg)
-     }                                                              \
- } while (0)
+@@ -2008,121 +2008,122 @@ GEN_OPIVX_QUAD_WIDEN_TRANS(vqmacc_vx)
+ GEN_OPIVX_QUAD_WIDEN_TRANS(vqmaccsu_vx)
+ GEN_OPIVX_QUAD_WIDEN_TRANS(vqmaccus_vx)
  
-+/*
-+ * Check function for vector instruction with format:
-+ * quad-width result and single-width sources (4*SEW = SEW op SEW)
-+ *
-+ * is_vs1: indicates whether insn[19:15] is a vs1 field or not.
-+ */
-+#define VEXT_CHECK_QSS(s, rd, rs1, rs2, vm, is_vs1) do {           \
-+    require(s->flmul <= 2);                                        \
-+    require(s->sew < 2);                                           \
-+    require_align(rd, s->flmul * 4);                               \
-+    require_align(rs2, s->flmul);                                  \
-+    require_vm(rd, vm);                                            \
-+    if (s->flmul < 1) {                                            \
-+        require_noover(rd, s->flmul * 4, rs2, s->flmul);           \
-+    } else {                                                       \
-+        require_noover_widen(rd, s->flmul * 4, rs2, s->flmul);     \
-+    }                                                              \
-+    if (is_vs1) {                                                  \
-+        require_align(rs1, s->flmul);                              \
-+        if (s->flmul < 1) {                                        \
-+            require_noover(rd, s->flmul * 4, rs1, s->flmul);       \
-+        } else {                                                   \
-+            require_noover_widen(rd, s->flmul * 4, rs1, s->flmul); \
-+        }                                                          \
-+    }                                                              \
-+} while (0)
-+
- /*
-  * Check function for vector instruction with format:
-  * double-width result and double-width source1 and single-width
-@@ -1924,7 +1951,63 @@ GEN_OPIVX_WIDEN_TRANS(vwmacc_vx)
- GEN_OPIVX_WIDEN_TRANS(vwmaccsu_vx)
- GEN_OPIVX_WIDEN_TRANS(vwmaccus_vx)
- 
--/* Vector Integer Merge and Move Instructions */
-+/* Vector Quad-Widening Integer Multiply-Add Instructions (Extension Zvqmac) */
-+/* OPIVV with QUAD-WIDEN */
-+static bool opivv_quad_widen_check(DisasContext *s, arg_rmrr *a)
-+{
-+    REQUIRE_RVV;
-+    VEXT_CHECK_ISA_ILL(s);
-+    VEXT_CHECK_QSS(s, a->rd, a->rs1, a->rs2, a->vm, true);
-+    return true;
-+}
-+
-+#define GEN_OPIVV_QUAD_WIDEN_TRANS(NAME, CHECK)        \
-+static bool trans_##NAME(DisasContext *s, arg_rmrr *a) \
-+{                                                      \
-+    static gen_helper_gvec_4_ptr * const fns[2] = {    \
-+        gen_helper_##NAME##_b,                         \
-+        gen_helper_##NAME##_h                          \
-+    };                                                 \
-+    return do_opivv_widen(s, a, fns[s->sew], CHECK);   \
-+}
-+
-+GEN_OPIVV_QUAD_WIDEN_TRANS(vqmaccu_vv, opivv_quad_widen_check)
-+GEN_OPIVV_QUAD_WIDEN_TRANS(vqmacc_vv, opivv_quad_widen_check)
-+GEN_OPIVV_QUAD_WIDEN_TRANS(vqmaccsu_vv, opivv_quad_widen_check)
-+
-+/* OPIVX with QUAD-WIDEN */
-+static bool opivx_quad_widen_check(DisasContext *s, arg_rmrr *a)
-+{
-+    REQUIRE_RVV;
-+    VEXT_CHECK_ISA_ILL(s);
-+    VEXT_CHECK_QSS(s, a->rd, a->rs1, a->rs2, a->vm, false);
-+    return true;
-+}
-+
-+static bool do_opivx_quad_widen(DisasContext *s, arg_rmrr *a,
-+                                gen_helper_opivx *fn)
-+{
-+    if (opivx_quad_widen_check(s, a)) {
-+        return opivx_trans(a->rd, a->rs1, a->rs2, a->vm, fn, s);
-+    }
-+    return false;
-+}
-+
-+#define GEN_OPIVX_QUAD_WIDEN_TRANS(NAME)               \
-+static bool trans_##NAME(DisasContext *s, arg_rmrr *a) \
-+{                                                      \
-+    static gen_helper_opivx * const fns[3] = {         \
-+        gen_helper_##NAME##_b,                         \
-+        gen_helper_##NAME##_h                          \
-+    };                                                 \
-+    return do_opivx_quad_widen(s, a, fns[s->sew]);     \
-+}
-+
-+GEN_OPIVX_QUAD_WIDEN_TRANS(vqmaccu_vx)
-+GEN_OPIVX_QUAD_WIDEN_TRANS(vqmacc_vx)
-+GEN_OPIVX_QUAD_WIDEN_TRANS(vqmaccsu_vx)
-+GEN_OPIVX_QUAD_WIDEN_TRANS(vqmaccus_vx)
-+
++/* Vector Integer Move Instructions */
  static bool trans_vmv_v_v(DisasContext *s, arg_vmv_v_v *a)
  {
-     if (vext_check_isa_ill(s) &&
-diff --git a/target/riscv/vector_helper.c b/target/riscv/vector_helper.c
-index 454864a90b..47ba264f1f 100644
---- a/target/riscv/vector_helper.c
-+++ b/target/riscv/vector_helper.c
-@@ -2127,6 +2127,46 @@ GEN_VEXT_VX(vwmaccus_vx_b, 1, 2, clearh)
- GEN_VEXT_VX(vwmaccus_vx_h, 2, 4, clearl)
- GEN_VEXT_VX(vwmaccus_vx_w, 4, 8, clearq)
+-    if (vext_check_isa_ill(s) &&
+-        vext_check_reg(s, a->rd, false) &&
+-        vext_check_reg(s, a->rs1, false)) {
++    REQUIRE_RVV;
++    VEXT_CHECK_ISA_ILL(s);
++    /* vmv.v.v has rs2 = 0 and vm = 1 */
++    VEXT_CHECK_SSS(s, a->rd, a->rs1, 0, 1, true);
  
-+/* Vector Quad-Widening Integer Multiply-Add Instructions */
-+#define QOP_UUU_B uint32_t, uint8_t, uint8_t, uint32_t, uint32_t
-+#define QOP_UUU_H uint64_t, uint16_t, uint16_t, uint64_t, uint64_t
-+#define QOP_SSS_B int32_t, int8_t, int8_t, int32_t, int32_t
-+#define QOP_SSS_H int64_t, int16_t, int16_t, int64_t, int64_t
-+#define QOP_SUS_B int32_t, uint8_t, int8_t, uint32_t, int32_t
-+#define QOP_SUS_H int64_t, uint16_t, int16_t, uint64_t, int64_t
-+#define QOP_SSU_B int32_t, int8_t, uint8_t, int32_t, uint32_t
-+#define QOP_SSU_H int64_t, int16_t, uint16_t, int64_t, uint64_t
+-        if (s->vl_eq_vlmax) {
+-            tcg_gen_gvec_mov(s->sew, vreg_ofs(s, a->rd),
+-                             vreg_ofs(s, a->rs1),
+-                             MAXSZ(s), MAXSZ(s));
+-        } else {
+-            uint32_t data = 0;
+-            data = FIELD_DP32(data, VDATA, LMUL, s->lmul);
+-            data = FIELD_DP32(data, VDATA, VTA, s->vta);
+-            static gen_helper_gvec_2_ptr * const fns[4] = {
+-                gen_helper_vmv_v_v_b, gen_helper_vmv_v_v_h,
+-                gen_helper_vmv_v_v_w, gen_helper_vmv_v_v_d,
+-            };
+-            TCGLabel *over = gen_new_label();
+-            tcg_gen_brcondi_tl(TCG_COND_EQ, cpu_vl, 0, over);
++    if (s->vl_eq_vlmax) {
++        tcg_gen_gvec_mov(s->sew, vreg_ofs(s, a->rd),
++                         vreg_ofs(s, a->rs1),
++                         MAXSZ(s), MAXSZ(s));
++    } else {
++        uint32_t data = 0;
++        data = FIELD_DP32(data, VDATA, LMUL, s->lmul);
++        data = FIELD_DP32(data, VDATA, VTA, s->vta);
++        static gen_helper_gvec_2_ptr * const fns[4] = {
++            gen_helper_vmv_v_v_b, gen_helper_vmv_v_v_h,
++            gen_helper_vmv_v_v_w, gen_helper_vmv_v_v_d,
++        };
++        TCGLabel *over = gen_new_label();
++        tcg_gen_brcondi_tl(TCG_COND_EQ, cpu_vl, 0, over);
+ 
+-            tcg_gen_gvec_2_ptr(vreg_ofs(s, a->rd), vreg_ofs(s, a->rs1),
+-                               cpu_env, 0, s->vlen / 8, data, fns[s->sew]);
+-            gen_set_label(over);
+-        }
+-        return true;
++        tcg_gen_gvec_2_ptr(vreg_ofs(s, a->rd), vreg_ofs(s, a->rs1),
++                           cpu_env, 0, s->vlen / 8, data, fns[s->sew]);
++        gen_set_label(over);
+     }
+-    return false;
++    return true;
+ }
+ 
+ typedef void gen_helper_vmv_vx(TCGv_ptr, TCGv_i64, TCGv_env, TCGv_i32);
+ static bool trans_vmv_v_x(DisasContext *s, arg_vmv_v_x *a)
+ {
+-    if (vext_check_isa_ill(s) &&
+-        vext_check_reg(s, a->rd, false)) {
+-
+-        TCGv s1;
+-        TCGLabel *over = gen_new_label();
+-        tcg_gen_brcondi_tl(TCG_COND_EQ, cpu_vl, 0, over);
++    REQUIRE_RVV;
++    VEXT_CHECK_ISA_ILL(s);
++    /* vmv.v.x has rs2 = 0 and vm = 1 */
++    VEXT_CHECK_SSS(s, a->rd, a->rs1, 0, 1, false);
+ 
+-        s1 = tcg_temp_new();
+-        gen_get_gpr(s1, a->rs1);
++    TCGv s1;
++    TCGLabel *over = gen_new_label();
++    tcg_gen_brcondi_tl(TCG_COND_EQ, cpu_vl, 0, over);
+ 
+-        if (s->vl_eq_vlmax) {
+-            tcg_gen_gvec_dup_tl(s->sew, vreg_ofs(s, a->rd),
+-                                MAXSZ(s), MAXSZ(s), s1);
+-        } else {
+-            TCGv_i32 desc ;
+-            TCGv_i64 s1_i64 = tcg_temp_new_i64();
+-            TCGv_ptr dest = tcg_temp_new_ptr();
+-            uint32_t data = 0;
+-            data = FIELD_DP32(data, VDATA, LMUL, s->lmul);
+-            data = FIELD_DP32(data, VDATA, VTA, s->vta);
+-            static gen_helper_vmv_vx * const fns[4] = {
+-                gen_helper_vmv_v_x_b, gen_helper_vmv_v_x_h,
+-                gen_helper_vmv_v_x_w, gen_helper_vmv_v_x_d,
+-            };
++    s1 = tcg_temp_new();
++    gen_get_gpr(s1, a->rs1);
+ 
+-            tcg_gen_ext_tl_i64(s1_i64, s1);
+-            desc = tcg_const_i32(simd_desc(0, s->vlen / 8, data));
+-            tcg_gen_addi_ptr(dest, cpu_env, vreg_ofs(s, a->rd));
+-            fns[s->sew](dest, s1_i64, cpu_env, desc);
++    if (s->vl_eq_vlmax) {
++        tcg_gen_gvec_dup_tl(s->sew, vreg_ofs(s, a->rd),
++                            MAXSZ(s), MAXSZ(s), s1);
++    } else {
++        TCGv_i32 desc ;
++        TCGv_i64 s1_i64 = tcg_temp_new_i64();
++        TCGv_ptr dest = tcg_temp_new_ptr();
++        uint32_t data = 0;
++        data = FIELD_DP32(data, VDATA, LMUL, s->lmul);
++        data = FIELD_DP32(data, VDATA, VTA, s->vta);
++        static gen_helper_vmv_vx * const fns[4] = {
++            gen_helper_vmv_v_x_b, gen_helper_vmv_v_x_h,
++            gen_helper_vmv_v_x_w, gen_helper_vmv_v_x_d,
++        };
+ 
+-            tcg_temp_free_ptr(dest);
+-            tcg_temp_free_i32(desc);
+-            tcg_temp_free_i64(s1_i64);
+-        }
++        tcg_gen_ext_tl_i64(s1_i64, s1);
++        desc = tcg_const_i32(simd_desc(0, s->vlen / 8, data));
++        tcg_gen_addi_ptr(dest, cpu_env, vreg_ofs(s, a->rd));
++        fns[s->sew](dest, s1_i64, cpu_env, desc);
+ 
+-        tcg_temp_free(s1);
+-        gen_set_label(over);
+-        return true;
++        tcg_temp_free_ptr(dest);
++        tcg_temp_free_i32(desc);
++        tcg_temp_free_i64(s1_i64);
+     }
+-    return false;
 +
-+RVVCALL(OPIVV3, vqmaccu_vv_b,  QOP_UUU_B, H4, H1, H1, DO_MACC)
-+RVVCALL(OPIVV3, vqmaccu_vv_h,  QOP_UUU_H, H8, H2, H2, DO_MACC)
-+RVVCALL(OPIVV3, vqmacc_vv_b,   QOP_SSS_B, H4, H1, H1, DO_MACC)
-+RVVCALL(OPIVV3, vqmacc_vv_h,   QOP_SSS_H, H8, H2, H2, DO_MACC)
-+RVVCALL(OPIVV3, vqmaccsu_vv_b, QOP_SSU_B, H4, H1, H1, DO_MACC)
-+RVVCALL(OPIVV3, vqmaccsu_vv_h, QOP_SSU_H, H8, H2, H2, DO_MACC)
-+GEN_VEXT_VV(vqmaccu_vv_b,  1, 4, clearl)
-+GEN_VEXT_VV(vqmaccu_vv_h,  2, 8, clearq)
-+GEN_VEXT_VV(vqmacc_vv_b,   1, 4, clearl)
-+GEN_VEXT_VV(vqmacc_vv_h,   2, 8, clearq)
-+GEN_VEXT_VV(vqmaccsu_vv_b, 1, 4, clearl)
-+GEN_VEXT_VV(vqmaccsu_vv_h, 2, 8, clearq)
-+
-+RVVCALL(OPIVX3, vqmaccu_vx_b,  QOP_UUU_B, H4, H1, DO_MACC)
-+RVVCALL(OPIVX3, vqmaccu_vx_h,  QOP_UUU_H, H8, H2, DO_MACC)
-+RVVCALL(OPIVX3, vqmacc_vx_b,   QOP_SSS_B, H4, H1, DO_MACC)
-+RVVCALL(OPIVX3, vqmacc_vx_h,   QOP_SSS_H, H8, H2, DO_MACC)
-+RVVCALL(OPIVX3, vqmaccsu_vx_b, QOP_SSU_B, H4, H1, DO_MACC)
-+RVVCALL(OPIVX3, vqmaccsu_vx_h, QOP_SSU_H, H8, H2, DO_MACC)
-+RVVCALL(OPIVX3, vqmaccus_vx_b, QOP_SUS_B, H4, H1, DO_MACC)
-+RVVCALL(OPIVX3, vqmaccus_vx_h, QOP_SUS_H, H8, H2, DO_MACC)
-+GEN_VEXT_VX(vqmaccu_vx_b,  1, 4, clearl)
-+GEN_VEXT_VX(vqmaccu_vx_h,  2, 8, clearq)
-+GEN_VEXT_VX(vqmacc_vx_b,   1, 4, clearl)
-+GEN_VEXT_VX(vqmacc_vx_h,   2, 8, clearq)
-+GEN_VEXT_VX(vqmaccsu_vx_b, 1, 4, clearl)
-+GEN_VEXT_VX(vqmaccsu_vx_h, 2, 8, clearq)
-+GEN_VEXT_VX(vqmaccus_vx_b, 1, 4, clearl)
-+GEN_VEXT_VX(vqmaccus_vx_h, 2, 8, clearq)
-+
- /* Vector Integer Merge and Move Instructions */
- #define GEN_VEXT_VMV_VV(NAME, ETYPE, H, CLEAR_FN)                    \
- void HELPER(NAME)(void *vd, void *vs1, CPURISCVState *env,           \
++    tcg_temp_free(s1);
++    gen_set_label(over);
++    return true;
+ }
+ 
+ static bool trans_vmv_v_i(DisasContext *s, arg_vmv_v_i *a)
+ {
+-    if (vext_check_isa_ill(s) &&
+-        vext_check_reg(s, a->rd, false)) {
++    REQUIRE_RVV;
++    VEXT_CHECK_ISA_ILL(s);
++    /* vmv.v.i has rs2 = 0 and vm = 1 */
++    VEXT_CHECK_SSS(s, a->rd, a->rs1, 0, 1, false);
+ 
+-        int64_t simm = sextract64(a->rs1, 0, 5);
+-        if (s->vl_eq_vlmax) {
+-            tcg_gen_gvec_dup_imm(s->sew, vreg_ofs(s, a->rd),
+-                                 MAXSZ(s), MAXSZ(s), simm);
+-        } else {
+-            TCGv_i32 desc;
+-            TCGv_i64 s1;
+-            TCGv_ptr dest;
+-            uint32_t data = 0;
+-            data = FIELD_DP32(data, VDATA, LMUL, s->lmul);
+-            data = FIELD_DP32(data, VDATA, VTA, s->vta);
+-            data = FIELD_DP32(data, VDATA, VMA, s->vma);
+-            static gen_helper_vmv_vx * const fns[4] = {
+-                gen_helper_vmv_v_x_b, gen_helper_vmv_v_x_h,
+-                gen_helper_vmv_v_x_w, gen_helper_vmv_v_x_d,
+-            };
+-            TCGLabel *over = gen_new_label();
+-            tcg_gen_brcondi_tl(TCG_COND_EQ, cpu_vl, 0, over);
++    int64_t simm = sextract64(a->rs1, 0, 5);
++    if (s->vl_eq_vlmax) {
++        tcg_gen_gvec_dup_imm(s->sew, vreg_ofs(s, a->rd),
++                             MAXSZ(s), MAXSZ(s), simm);
++    } else {
++        TCGv_i32 desc;
++        TCGv_i64 s1;
++        TCGv_ptr dest;
++        uint32_t data = 0;
++        data = FIELD_DP32(data, VDATA, LMUL, s->lmul);
++        data = FIELD_DP32(data, VDATA, VTA, s->vta);
++        data = FIELD_DP32(data, VDATA, VMA, s->vma);
++        static gen_helper_vmv_vx * const fns[4] = {
++            gen_helper_vmv_v_x_b, gen_helper_vmv_v_x_h,
++            gen_helper_vmv_v_x_w, gen_helper_vmv_v_x_d,
++        };
++        TCGLabel *over = gen_new_label();
++        tcg_gen_brcondi_tl(TCG_COND_EQ, cpu_vl, 0, over);
+ 
+-            s1 = tcg_const_i64(simm);
+-            dest = tcg_temp_new_ptr();
+-            desc = tcg_const_i32(simd_desc(0, s->vlen / 8, data));
+-            tcg_gen_addi_ptr(dest, cpu_env, vreg_ofs(s, a->rd));
+-            fns[s->sew](dest, s1, cpu_env, desc);
++        s1 = tcg_const_i64(simm);
++        dest = tcg_temp_new_ptr();
++        desc = tcg_const_i32(simd_desc(0, s->vlen / 8, data));
++        tcg_gen_addi_ptr(dest, cpu_env, vreg_ofs(s, a->rd));
++        fns[s->sew](dest, s1, cpu_env, desc);
+ 
+-            tcg_temp_free_ptr(dest);
+-            tcg_temp_free_i32(desc);
+-            tcg_temp_free_i64(s1);
+-            gen_set_label(over);
+-        }
+-        return true;
++        tcg_temp_free_ptr(dest);
++        tcg_temp_free_i32(desc);
++        tcg_temp_free_i64(s1);
++        gen_set_label(over);
+     }
+-    return false;
++    return true;
+ }
+ 
++/* Vector Integer Merge Instructions */
+ GEN_OPIVV_TRANS(vmerge_vvm, opivv_vadc_check)
+ GEN_OPIVX_TRANS(vmerge_vxm, opivx_vadc_check)
+ GEN_OPIVI_TRANS(vmerge_vim, 0, vmerge_vxm, opivx_vadc_check)
 -- 
 2.17.1
 
