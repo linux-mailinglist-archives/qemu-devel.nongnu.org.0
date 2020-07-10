@@ -2,69 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7879921BD30
-	for <lists+qemu-devel@lfdr.de>; Fri, 10 Jul 2020 20:50:02 +0200 (CEST)
-Received: from localhost ([::1]:35446 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id AF00821BD5E
+	for <lists+qemu-devel@lfdr.de>; Fri, 10 Jul 2020 21:10:18 +0200 (CEST)
+Received: from localhost ([::1]:49396 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jty5x-0002Bk-H2
-	for lists+qemu-devel@lfdr.de; Fri, 10 Jul 2020 14:50:01 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:48704)
+	id 1jtyPZ-0000cM-Op
+	for lists+qemu-devel@lfdr.de; Fri, 10 Jul 2020 15:10:17 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:53426)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <raphael.s.norwitz@gmail.com>)
- id 1jty4v-0001gN-3P; Fri, 10 Jul 2020 14:48:57 -0400
-Received: from mail-io1-xd41.google.com ([2607:f8b0:4864:20::d41]:45012)
+ (Exim 4.90_1) (envelope-from <alistair23@gmail.com>)
+ id 1jtyOd-0008A9-0A; Fri, 10 Jul 2020 15:09:19 -0400
+Received: from mail-il1-x142.google.com ([2607:f8b0:4864:20::142]:43891)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <raphael.s.norwitz@gmail.com>)
- id 1jty4t-0008Mz-JB; Fri, 10 Jul 2020 14:48:56 -0400
-Received: by mail-io1-xd41.google.com with SMTP id i4so7042446iov.11;
- Fri, 10 Jul 2020 11:48:54 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <alistair23@gmail.com>)
+ id 1jtyOb-0002QA-2b; Fri, 10 Jul 2020 15:09:18 -0400
+Received: by mail-il1-x142.google.com with SMTP id i18so5980752ilk.10;
+ Fri, 10 Jul 2020 12:09:16 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=66FR+c4DqNdXUwvYi1YyRl/cEIU0V2J6LwBnZSRmZ0g=;
- b=p/JnpFa2Y8DpGN2TE2XuAbmAV3YRnP/9NZf6qPhoQ0M9BnzCRvw1pco57ysWRC0Uj3
- wC6XdvD3qQczKPbRJ91m666DllIYO0AJAm5SilX1Wq37fX8PEy3WSWbDphF12lD4/xvf
- O7Q0VAVaoS61ZrZScSzBk/a6HAkYuGrMY+k8OHo+cxYxfe2NTXxfqYWSxV2wORm7v+PO
- 3qriYc/sk1GH7ardLvb0sVEf0Dl2P0QfMdMq2feHdoZNM95EbSj9Yk2l+9yRjG/q5Q7h
- yoMA6n0vTEmbd9l6utnI4yt+VsSMO6hNugTJFNwA/nDOjIuvJU5kLpt4Tf7qkOV/7rG4
- rX7A==
+ :cc; bh=nKZXlti+L91iuMBh9bT9YlYjyPr5sL4Oaw58ubgKmIc=;
+ b=jQWVQPdmyVjWC8o0iDBeFmr2YHhDlIaMp1uPClsDiWjBuK89wV6MJlqoPizlIj+VRZ
+ MeGW2pHS/Fqi2ypgXecmyn15YGl2Itp4jKAZFO6+qoFossyPvKaurPdB3mcwoehbdZlf
+ 7c7DeAt/FDPsIp1iQn6RRsMaENjV+YAbUwe6myNs6lxKGz6rKcqVPrZH7HwZstOWzHVh
+ 01/N+UNkCZ8dVVhszE8a0O5bd9Z+FAesAtZGxQkGOmfUBXD7JnXuPWWHvkC89zLt4R1C
+ wBfq1NPz7BvMyt3gwqnM5VOsntpOOIsECf7L7mul4093VX8XophpXLMLyYjwCcpYqxRd
+ F02Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
  :message-id:subject:to:cc;
- bh=66FR+c4DqNdXUwvYi1YyRl/cEIU0V2J6LwBnZSRmZ0g=;
- b=NXzm8jnScB7Q34S8oJTjuuJFzvYsnKNaC6/FG/Nd30l+YY3ZRsoRbDXi1uWFw/Uu/n
- DNRPYVgnWx0gdfR07l2TH+Z8ePZhKKZjLTC0RNVNbxUn57Sob4oOPFbk5v62mIlUz836
- Qs/VPjxuUdwcAz0caKJ5BG/rVcxD3/RemGnZPdYOvHlUUdgp70ZLj9wGQ3nGI/APs256
- ooMY6BSMFpq3a8hAxiwLVrpn+NihxOdk9jKrW5032YaOv7v5bctb5d2pCurzMyI8UlCd
- LThpY9/VKSoguYe3yAO5JU7CYbvh4OGD/TPpjXcqLz0JTzxPNeScOpdR1f3rJ5iZUf4h
- hAMw==
-X-Gm-Message-State: AOAM531OEpPTgh6I6GlUNqHyYkZg04Uejj17qflgTEZ5JgFtpzJmNhaG
- Ff5Tvu8qxaKvkXlbIZn87e//fX2UHOGtQQszFy0=
-X-Google-Smtp-Source: ABdhPJxv0laaiW1+ei9cDuIFx0EaOzV545PykXUu2dlE+KeMRMjz5ba31PaBFaEPdmuoZ7gN89l3ul3lgwPzuOvBWyo=
-X-Received: by 2002:a02:cb92:: with SMTP id u18mr57105323jap.143.1594406933621; 
- Fri, 10 Jul 2020 11:48:53 -0700 (PDT)
+ bh=nKZXlti+L91iuMBh9bT9YlYjyPr5sL4Oaw58ubgKmIc=;
+ b=V4m2DB2vGpiXKvP8JLjco4Pe33KcymppGojkX1kS0KSr8VuHwNvC4IvC6tWv4Jn/6+
+ Wo0bc6/Yv3O7G1U0r93tR+/xri+RYeXwGC1m/nmhJx4qE1Ce4UyLk46QwY74eYkkjleC
+ +f9vWDGjtdu/iK+BJ1bMlc5WkRhXJnJ1UAvXHWpkO49sEzYCkwO9/HuDZ0lP2/CllIgj
+ AXOqvha8svdHecS+ONtnh5PgY0bpaX742z932wkLneQzmA14BVjwXchKYoIfZSiHp0o0
+ 6OfPQaP/l7PBP9d+viiBEjsm/7ZCn9rIjN4aOE+OfwSs0gQvOgiGsYEWNGUy9j3Hn8S4
+ /4Ow==
+X-Gm-Message-State: AOAM530urP+o0NFI35/HGEwFRiv5DbqXOCFbzADDFQS5XroUFsxaep4d
+ t1Shr6vaOXBebVJY2Q10l/WFi8/W2OQaatnTKsQ=
+X-Google-Smtp-Source: ABdhPJx5IjsJVp7KGHbt5PTRT+Q/i6lm8vWXNpCKeXdTrFbPwHG7OgfpKUmsTHBXBajKS/6PoruC8smfU5XfViqp0eA=
+X-Received: by 2002:a92:c213:: with SMTP id j19mr54067392ilo.40.1594408155725; 
+ Fri, 10 Jul 2020 12:09:15 -0700 (PDT)
 MIME-Version: 1.0
-References: <20200706135650.438362-1-stefanha@redhat.com>
- <20200706135650.438362-6-stefanha@redhat.com>
- <CAFubqFsSTv_j_46sq=+Kz7uDnk8eYvB+moCLNeuV8nG9YKzb7A@mail.gmail.com>
- <20200710125334.GB8433@stefanha-x1.localdomain>
-In-Reply-To: <20200710125334.GB8433@stefanha-x1.localdomain>
-From: Raphael Norwitz <raphael.s.norwitz@gmail.com>
-Date: Fri, 10 Jul 2020 11:48:42 -0700
-Message-ID: <CAFubqFvQu_3otsVg9+8q80WRt6JP+a8JXnrKjY06PH=L8d3=GQ@mail.gmail.com>
-Subject: Re: [PATCH v5 5/5] vhost-user-blk: default num_queues to -smp N
-To: Stefan Hajnoczi <stefanha@redhat.com>
+References: <1594357499-29068-1-git-send-email-bmeng.cn@gmail.com>
+In-Reply-To: <1594357499-29068-1-git-send-email-bmeng.cn@gmail.com>
+From: Alistair Francis <alistair23@gmail.com>
+Date: Fri, 10 Jul 2020 11:59:22 -0700
+Message-ID: <CAKmqyKN9QFwo=EFYOSNvrmkHJfJZmZM+SuuiatEEa64_RteGig@mail.gmail.com>
+Subject: Re: [PATCH v4 0/7] riscv: Switch to use generic platform fw_dynamic
+ type opensbi bios images
+To: Bin Meng <bmeng.cn@gmail.com>
 Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2607:f8b0:4864:20::d41;
- envelope-from=raphael.s.norwitz@gmail.com; helo=mail-io1-xd41.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::142;
+ envelope-from=alistair23@gmail.com; helo=mail-il1-x142.google.com
 X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
  That's all we know.
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
+X-Spam_score_int: -17
+X-Spam_score: -1.8
+X-Spam_bar: -
+X-Spam_report: (-1.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ FREEMAIL_ENVFROM_END_DIGIT=0.25, FREEMAIL_FROM=0.001,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
@@ -79,42 +78,92 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Kevin Wolf <kwolf@redhat.com>, Fam Zheng <fam@euphon.net>,
- Eduardo Habkost <ehabkost@redhat.com>, qemu-block@nongnu.org,
- "Michael S. Tsirkin" <mst@redhat.com>, cohuck@redhat.com,
- QEMU <qemu-devel@nongnu.org>, Max Reitz <mreitz@redhat.com>,
- Pankaj Gupta <pankaj.gupta.linux@gmail.com>,
- Paolo Bonzini <pbonzini@redhat.com>,
- Raphael Norwitz <raphael.norwitz@nutanix.com>
+Cc: Bin Meng <bin.meng@windriver.com>,
+ "open list:RISC-V" <qemu-riscv@nongnu.org>,
+ Sagar Karandikar <sagark@eecs.berkeley.edu>,
+ Bastian Koppelmann <kbastian@mail.uni-paderborn.de>,
+ Palmer Dabbelt <palmerdabbelt@google.com>,
+ "qemu-devel@nongnu.org Developers" <qemu-devel@nongnu.org>,
+ Alistair Francis <Alistair.Francis@wdc.com>, Anup Patel <anup@brainfault.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Fri, Jul 10, 2020 at 5:53 AM Stefan Hajnoczi <stefanha@redhat.com> wrote:
+On Thu, Jul 9, 2020 at 10:05 PM Bin Meng <bmeng.cn@gmail.com> wrote:
 >
-> On Thu, Jul 09, 2020 at 11:02:24AM -0700, Raphael Norwitz wrote:
-> > On Mon, Jul 6, 2020 at 7:00 AM Stefan Hajnoczi <stefanha@redhat.com> wrote:
-> > > diff --git a/hw/block/vhost-user-blk.c b/hw/block/vhost-user-blk.c
-> > > index a00b854736..39aec42dae 100644
-> > > --- a/hw/block/vhost-user-blk.c
-> > > +++ b/hw/block/vhost-user-blk.c
-> > > @@ -420,6 +420,9 @@ static void vhost_user_blk_device_realize(DeviceState *dev, Error **errp)
-> > >          return;
-> > >      }
-> > >
-> > > +    if (s->num_queues == VHOST_USER_BLK_AUTO_NUM_QUEUES) {
-> > > +        s->num_queues = 1;
-> > > +    }
-> >
-> > What is this check for? Is it just a backstop to ensure that
-> > num_queues is set to 1 if vhost-user-blk-pci doesn't update it?
+> From: Bin Meng <bin.meng@windriver.com>
 >
-> For the non-PCI VIRTIO transports that do not handle num_queues ==
-> VHOST_USER_BLK_AUTO_NUM_QUEUES themselves.
+> The RISC-V generic platform is a flattened device tree (FDT) based
+> platform where all platform specific functionality is provided based
+> on FDT passed by previous booting stage. The support was added in
+> the upstream OpenSBI v0.8 release recently.
 >
+> This series updates QEMU to switch to use generic platform of opensbi
+> bios images. With the recent fw_dynamic image support, let's replace
+> the fw_jump images with fw_dynamic ones too.
+>
+> The patch emails do not contain binary bits, please grab all updates
+> at https://github.com/lbmeng/qemu.git bios branch.
+>
+> Changes in v4:
+> - Remove old binaries in the Makefile for `make install` bisection
+>
+> Changes in v3:
+> - Change fw_jump to fw_dynamic in the make rules
+> - Change to fw_dynamic.bin for virt & sifive_u
+> - Change to fw_dynamic.elf for Spike
+> - Generate fw_dynamic images in the artifacts
+> - change fw_jump to fw_dynamic in the Makefile
+>
+> Changes in v2:
+> - new patch: configure: Create symbolic links for pc-bios/*.elf files
+> - Upgrade OpenSBI to v0.8 release
+> - Copy the ELF images too in the make rules
+> - Include ELF images in the artifacts
+> - new patch: Makefile: Ship the generic platform bios images for RISC-V
+>
+> Bin Meng (7):
+>   configure: Create symbolic links for pc-bios/*.elf files
+>   roms/opensbi: Upgrade from v0.7 to v0.8
+>   roms/Makefile: Build the generic platform for RISC-V OpenSBI firmware
+>   hw/riscv: Use pre-built bios image of generic platform for virt &
+>     sifive_u
+>   hw/riscv: spike: Change the default bios to use generic platform image
+>   gitlab-ci/opensbi: Update GitLab CI to build generic platform
+>   Makefile: Ship the generic platform bios images for RISC-V
 
-Got it. Looks good then.
+Reviewed-by: Alistair Francis <alistair.francis@wdc.com>
 
-Reviewed-by: Raphael Norwitz <raphael.norwitz@nutanix.com>
+Alistair
 
-> Stefan
+>
+>  .gitlab-ci.d/opensbi.yml                       |  28 ++++++++--------------
+>  Makefile                                       |   4 ++--
+>  configure                                      |   1 +
+>  hw/riscv/sifive_u.c                            |   4 ++--
+>  hw/riscv/spike.c                               |   9 +++++--
+>  hw/riscv/virt.c                                |   4 ++--
+>  pc-bios/opensbi-riscv32-generic-fw_dynamic.bin | Bin 0 -> 62144 bytes
+>  pc-bios/opensbi-riscv32-generic-fw_dynamic.elf | Bin 0 -> 558668 bytes
+>  pc-bios/opensbi-riscv32-sifive_u-fw_jump.bin   | Bin 49520 -> 0 bytes
+>  pc-bios/opensbi-riscv32-virt-fw_jump.bin       | Bin 49504 -> 0 bytes
+>  pc-bios/opensbi-riscv64-generic-fw_dynamic.bin | Bin 0 -> 70792 bytes
+>  pc-bios/opensbi-riscv64-generic-fw_dynamic.elf | Bin 0 -> 620424 bytes
+>  pc-bios/opensbi-riscv64-sifive_u-fw_jump.bin   | Bin 57936 -> 0 bytes
+>  pc-bios/opensbi-riscv64-virt-fw_jump.bin       | Bin 57920 -> 0 bytes
+>  roms/Makefile                                  |  32 ++++++++-----------------
+>  roms/opensbi                                   |   2 +-
+>  16 files changed, 35 insertions(+), 49 deletions(-)
+>  create mode 100644 pc-bios/opensbi-riscv32-generic-fw_dynamic.bin
+>  create mode 100644 pc-bios/opensbi-riscv32-generic-fw_dynamic.elf
+>  delete mode 100644 pc-bios/opensbi-riscv32-sifive_u-fw_jump.bin
+>  delete mode 100644 pc-bios/opensbi-riscv32-virt-fw_jump.bin
+>  create mode 100644 pc-bios/opensbi-riscv64-generic-fw_dynamic.bin
+>  create mode 100644 pc-bios/opensbi-riscv64-generic-fw_dynamic.elf
+>  delete mode 100644 pc-bios/opensbi-riscv64-sifive_u-fw_jump.bin
+>  delete mode 100644 pc-bios/opensbi-riscv64-virt-fw_jump.bin
+>
+> --
+> 2.7.4
+>
+>
 
