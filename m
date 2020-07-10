@@ -2,67 +2,66 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 090B421B5A3
-	for <lists+qemu-devel@lfdr.de>; Fri, 10 Jul 2020 14:58:39 +0200 (CEST)
-Received: from localhost ([::1]:39792 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3885521B5C6
+	for <lists+qemu-devel@lfdr.de>; Fri, 10 Jul 2020 15:04:11 +0200 (CEST)
+Received: from localhost ([::1]:36740 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jtsbu-0003du-0M
-	for lists+qemu-devel@lfdr.de; Fri, 10 Jul 2020 08:58:38 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:36306)
+	id 1jtshG-0005iF-6I
+	for lists+qemu-devel@lfdr.de; Fri, 10 Jul 2020 09:04:10 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:36368)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <frank.chang@sifive.com>)
- id 1jtqbv-0004kq-HN
- for qemu-devel@nongnu.org; Fri, 10 Jul 2020 06:50:31 -0400
-Received: from mail-pf1-x433.google.com ([2607:f8b0:4864:20::433]:42307)
+ id 1jtqc0-0004nw-UK
+ for qemu-devel@nongnu.org; Fri, 10 Jul 2020 06:50:36 -0400
+Received: from mail-pg1-x541.google.com ([2607:f8b0:4864:20::541]:38169)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <frank.chang@sifive.com>)
- id 1jtqbt-0006EK-3N
- for qemu-devel@nongnu.org; Fri, 10 Jul 2020 06:50:31 -0400
-Received: by mail-pf1-x433.google.com with SMTP id 1so2374836pfn.9
- for <qemu-devel@nongnu.org>; Fri, 10 Jul 2020 03:50:28 -0700 (PDT)
+ id 1jtqby-0006Ia-7C
+ for qemu-devel@nongnu.org; Fri, 10 Jul 2020 06:50:36 -0400
+Received: by mail-pg1-x541.google.com with SMTP id e8so2368718pgc.5
+ for <qemu-devel@nongnu.org>; Fri, 10 Jul 2020 03:50:33 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=sifive.com; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references;
- bh=dY1VnCufQZpa+aF68DC4K7OikxwvWj2GSrpOqri/zyA=;
- b=ZY9uldhl3XCVsiWK2GRXkZh5RfFmPh6KGV9OSMRbSVpk9NNnpIYmjImeKM1/xkw7W0
- fDvXKgrFg4TMXvNQXZSjdLZStDsMOISYAuIpWkrVkxYCY4wAcxopuBlaS3BTP2tlyqLU
- /EcUjFVLYtN1Y1peKwJXd0WiBrSLkcfYL7hIknrKCtk7x4+J5uowplOjEPjerkHzplMu
- wqXPTWJHHC/H3lzk8VgoOrgHfFDMfS0RjmdFcgK0gNjmhijKX3JStmBWqwL5KexpHdtB
- uMNiLgh9K5FqTTAzKRIwM+DK2eM9+4vMZ5NF2GAOAEzpPLLHZ/spTsbANhnSg0Vu3Ghm
- 39Ng==
+ bh=gIClYh77YnToY+rzZTLHItNPlAaqhPTdCd+nqEyek5o=;
+ b=LEuYT8eqtQgmCuymrPSdwWN1uE7Rq+koBF0TxKfmNtzZMGu/JRP4eNUa6WjG9ETPLr
+ dA3KjZgG8bLvsRUsygC2TuanBeFeeGGp29OF5mGkX3eSPkX5LtWlt1qS8auijXDEreQq
+ u770GH+K1cSkQ315ZOcjh0b/jEeawwJbRvQ2lV0qy8ST+TSYQOECE4xYjbt5MUCnj5pZ
+ pIpVGcwkfqYI70g2HnXOJmvaXrGOjRzhv14pw62lOXCgiWfBU183yx6V1eNSoUpu4N+p
+ nqUctDXQRZUp02x/hn38uBJqb+55nFWfFMtks06h+yy5JpVJWNRHeSW57Npkvdzq3F35
+ TsgQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references;
- bh=dY1VnCufQZpa+aF68DC4K7OikxwvWj2GSrpOqri/zyA=;
- b=ujeNr5oTZ2V/O4OXIRja5x43we1bzWFXLBe+7XfczmLkb9MdanLPJC4UzIMv7937ta
- bKMPtguZLOuotktBv6gOIAdDlbF7G9AZSLlA57MJDrvratQbtnkWN51c7d+wqTg0r9Zz
- ngDmwvxn/kyx1/ovtDeHRSQ07Je7V7/26d8gU9K66joPRVjMY+zPe3YMN7rL55yQshCC
- DQcTSc7lZE3cAsHka1M3Fd2lEiiIWXuEz6sQxA8J5+qVCcL9ILPovpy87cXTwZakQPNS
- Ql3xLDKjRnA3lPPzNAb5+H09TANZas5L65OrzMCTUE3jONWVkomcJwYQJpqHrQI9vzCn
- GcAQ==
-X-Gm-Message-State: AOAM531MWfAlHPWJ1hXAQqOp3FuPbOozgLeF7DGxNNkogyrpboAPuNVy
- 1oYcI+AMRxLghPwgg8Eyolxf3k3ccLBekg==
-X-Google-Smtp-Source: ABdhPJxy8e+X38Cnw0Gzb9HAP1qeyzPcOIpSgG90Z2J1eL2fzHkCQrqPMN8kbArg0IupXeaXgzmj0A==
-X-Received: by 2002:a65:4502:: with SMTP id n2mr46494850pgq.132.1594378227180; 
- Fri, 10 Jul 2020 03:50:27 -0700 (PDT)
+ bh=gIClYh77YnToY+rzZTLHItNPlAaqhPTdCd+nqEyek5o=;
+ b=JaKjKnd+648JcZkgkv/rBUGdgGupPxu5Tb9DoObV9wOIJqrBJNssjd2Zea55aQe0FK
+ eUPX5eD3lHZgZp0xoR0R/bQfyY8UW8xLORTPbu/HEjplbKGTqlfxx/CTjfFXOfJ6coYu
+ +ykJc3vc5/I+upwZNLlPkgefvdmpSRQSSEy1bmP06aSd2Uhx6aCpJ3T7lxudAQXBSUIS
+ xfaQHlSxSii763K6XAw6V5fYaPIq8eDI1J/jwLq4fMNea1KPv6+X1+WgtSewnUtiXSRt
+ sCjiwu7pnYh22jCQO9SgZBwMpLNVe7w56jERt5d3LFIQJknxCi66cAcKpSHkN/3yO136
+ YPow==
+X-Gm-Message-State: AOAM531NFxhN4paLbWsrxrWfBCX9lc/HG5kxV7R9GVmToWwFhtXuJ4JT
+ cJO149l1ppp/tb1w8iFlY2nbJ94kQvAzpw==
+X-Google-Smtp-Source: ABdhPJx1cTTD54qhMUuyphj3/zVDEMzhCmqbbM+eMuwOelyIhZsiWGqWmNNzg2OMB3tG+xfndm7Fjw==
+X-Received: by 2002:a63:4b44:: with SMTP id k4mr60175496pgl.305.1594378232762; 
+ Fri, 10 Jul 2020 03:50:32 -0700 (PDT)
 Received: from frankchang-ThinkPad-T490.internal.sifive.com
  (114-34-229-221.HINET-IP.hinet.net. [114.34.229.221])
- by smtp.gmail.com with ESMTPSA id r191sm5519406pfr.181.2020.07.10.03.50.24
+ by smtp.gmail.com with ESMTPSA id r191sm5519406pfr.181.2020.07.10.03.50.30
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 10 Jul 2020 03:50:26 -0700 (PDT)
+ Fri, 10 Jul 2020 03:50:32 -0700 (PDT)
 From: frank.chang@sifive.com
 To: qemu-devel@nongnu.org,
 	qemu-riscv@nongnu.org
-Subject: [RFC 02/65] target/riscv: correct the gvec IR called in
- gen_vec_rsub16_i64()
-Date: Fri, 10 Jul 2020 18:48:16 +0800
-Message-Id: <20200710104920.13550-3-frank.chang@sifive.com>
+Subject: [RFC 03/65] target/riscv: fix return value of do_opivx_widen()
+Date: Fri, 10 Jul 2020 18:48:17 +0800
+Message-Id: <20200710104920.13550-4-frank.chang@sifive.com>
 X-Mailer: git-send-email 2.17.1
 In-Reply-To: <20200710104920.13550-1-frank.chang@sifive.com>
 References: <20200710104920.13550-1-frank.chang@sifive.com>
-Received-SPF: pass client-ip=2607:f8b0:4864:20::433;
- envelope-from=frank.chang@sifive.com; helo=mail-pf1-x433.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::541;
+ envelope-from=frank.chang@sifive.com; helo=mail-pg1-x541.google.com
 X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
  That's all we know.
 X-Spam_score_int: -20
@@ -96,24 +95,26 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Frank Chang <frank.chang@sifive.com>
 
+do_opivx_widen() should return false if check function returns false.
+
 Signed-off-by: Frank Chang <frank.chang@sifive.com>
 ---
  target/riscv/insn_trans/trans_rvv.inc.c | 2 +-
  1 file changed, 1 insertion(+), 1 deletion(-)
 
 diff --git a/target/riscv/insn_trans/trans_rvv.inc.c b/target/riscv/insn_trans/trans_rvv.inc.c
-index 433cdacbe1..7cd08f0868 100644
+index 7cd08f0868..c0b7375927 100644
 --- a/target/riscv/insn_trans/trans_rvv.inc.c
 +++ b/target/riscv/insn_trans/trans_rvv.inc.c
-@@ -937,7 +937,7 @@ static void gen_vec_rsub8_i64(TCGv_i64 d, TCGv_i64 a, TCGv_i64 b)
- 
- static void gen_vec_rsub16_i64(TCGv_i64 d, TCGv_i64 a, TCGv_i64 b)
- {
--    tcg_gen_vec_sub8_i64(d, b, a);
-+    tcg_gen_vec_sub16_i64(d, b, a);
+@@ -1151,7 +1151,7 @@ static bool do_opivx_widen(DisasContext *s, arg_rmrr *a,
+     if (opivx_widen_check(s, a)) {
+         return opivx_trans(a->rd, a->rs1, a->rs2, a->vm, fn, s);
+     }
+-    return true;
++    return false;
  }
  
- static void gen_rsub_i32(TCGv_i32 ret, TCGv_i32 arg1, TCGv_i32 arg2)
+ #define GEN_OPIVX_WIDEN_TRANS(NAME) \
 -- 
 2.17.1
 
