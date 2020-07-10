@@ -2,68 +2,66 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E929821BB31
-	for <lists+qemu-devel@lfdr.de>; Fri, 10 Jul 2020 18:40:44 +0200 (CEST)
-Received: from localhost ([::1]:49984 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3697221BB3E
+	for <lists+qemu-devel@lfdr.de>; Fri, 10 Jul 2020 18:44:58 +0200 (CEST)
+Received: from localhost ([::1]:33014 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jtw4q-0001GN-0s
-	for lists+qemu-devel@lfdr.de; Fri, 10 Jul 2020 12:40:44 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:48652)
+	id 1jtw8v-00068h-9L
+	for lists+qemu-devel@lfdr.de; Fri, 10 Jul 2020 12:44:57 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:49708)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <eblake@redhat.com>) id 1jtw3Q-0007lT-Cw
- for qemu-devel@nongnu.org; Fri, 10 Jul 2020 12:39:16 -0400
-Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:59785
- helo=us-smtp-1.mimecast.com)
+ (Exim 4.90_1) (envelope-from <eblake@redhat.com>) id 1jtw7l-0005DP-KJ
+ for qemu-devel@nongnu.org; Fri, 10 Jul 2020 12:43:45 -0400
+Received: from us-smtp-1.mimecast.com ([205.139.110.61]:48235
+ helo=us-smtp-delivery-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <eblake@redhat.com>) id 1jtw3N-0000RF-Sx
- for qemu-devel@nongnu.org; Fri, 10 Jul 2020 12:39:15 -0400
+ (Exim 4.90_1) (envelope-from <eblake@redhat.com>) id 1jtw7j-00018X-Mf
+ for qemu-devel@nongnu.org; Fri, 10 Jul 2020 12:43:45 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1594399152;
+ s=mimecast20190719; t=1594399422;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=vZi2Pdm6MvaSFUKLt3WL3fW6ndOP6zucU/Cd82vh+aI=;
- b=enJfGjt1EKuRJ0WFDIJQCG2DvuPbS1KddQRPG9FnTAgPnz2eNe1j+HsRXsvgaN0FhXjCkp
- YnE/pWX0pwJjNH1mzXHtpr6HZ7Hfz6LC2aSDMJSnsLY0vAZ2nzomAlX572NDWE/Ny+HGgz
- NkrifbcXWjm4mW81Lg+o60yv0KeAozk=
+ bh=InadC5TOqoqB6qQhz0nTXrTyan+cWBBU0/ongNo2P6k=;
+ b=anVyG7kPYYqinA2XYd9VINU9aH0KkBIIhOHw9HdwUYeNfgqPuQ7G1OVoRvFVJUijYLKwt0
+ wqPMlWRh7d+vX2bcKaniGYA1Tb2E33EuYciRFTQ3TCSlqh7c5ZfUUIH7OnJUSQTUGIoz9U
+ SHkkAkFtTauYfj47fxeIJUuIheOCQyY=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-8-TqW7TZKNMwCb9jyVOFgXHQ-1; Fri, 10 Jul 2020 12:39:04 -0400
-X-MC-Unique: TqW7TZKNMwCb9jyVOFgXHQ-1
-Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
- [10.5.11.11])
+ us-mta-400-BNSkM2MLPN2vUtSIWsQZ0A-1; Fri, 10 Jul 2020 12:43:41 -0400
+X-MC-Unique: BNSkM2MLPN2vUtSIWsQZ0A-1
+Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
+ [10.5.11.23])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 071431015DA1;
- Fri, 10 Jul 2020 16:39:03 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 005F0800401;
+ Fri, 10 Jul 2020 16:43:40 +0000 (UTC)
 Received: from [10.3.112.178] (ovpn-112-178.phx2.redhat.com [10.3.112.178])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 9C15E6FEC3;
- Fri, 10 Jul 2020 16:39:02 +0000 (UTC)
-Subject: Re: [PATCH 1/2] iotests: Drop readarray from _do_filter_img_create
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 8F8451A922;
+ Fri, 10 Jul 2020 16:43:39 +0000 (UTC)
+Subject: Re: [PATCH 2/2] iotests: Set LC_ALL=C for sort
 To: Max Reitz <mreitz@redhat.com>, qemu-block@nongnu.org
 References: <20200710163253.381630-1-mreitz@redhat.com>
- <20200710163253.381630-2-mreitz@redhat.com>
+ <20200710163253.381630-3-mreitz@redhat.com>
 From: Eric Blake <eblake@redhat.com>
 Organization: Red Hat, Inc.
-Message-ID: <3ba028de-0c0c-8c92-3085-3fb642fc560c@redhat.com>
-Date: Fri, 10 Jul 2020 11:39:01 -0500
+Message-ID: <10f510f8-7544-3879-0bc5-3ed421414c08@redhat.com>
+Date: Fri, 10 Jul 2020 11:43:39 -0500
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
  Thunderbird/68.9.0
 MIME-Version: 1.0
-In-Reply-To: <20200710163253.381630-2-mreitz@redhat.com>
+In-Reply-To: <20200710163253.381630-3-mreitz@redhat.com>
 Content-Language: en-US
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=eblake@redhat.com
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=utf-8; format=flowed
 Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=205.139.110.120; envelope-from=eblake@redhat.com;
- helo=us-smtp-1.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/07/10 04:36:30
+Received-SPF: pass client-ip=205.139.110.61; envelope-from=eblake@redhat.com;
+ helo=us-smtp-delivery-1.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/07/09 22:08:55
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
 X-Spam_score_int: -40
 X-Spam_score: -4.1
@@ -90,19 +88,39 @@ Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 On 7/10/20 11:32 AM, Max Reitz wrote:
-> Some systems where we run tests on do not have a 4.x bash, so they do
-> not have readarray.  While it looked a bit nicer than messing with
-> `head` and `tail`, we do not really need it, so we might as well not use
-> it.
+> Otherwise the result is basically unpredictable.
 > 
-> Reported-by: Claudio Fontana <cfontana@suse.de>
+> (Note that the precise environment variable to control sorting order is
+> LC_COLLATE, but LC_ALL overrides LC_COLLATE, and we do not want the
+> sorting order to be messed up if LC_ALL is set in the environment.)
+
+Yep, that logic is correct.
+
+> 
+> Reported-by: John Snow <jsnow@redhat.com>
 > Signed-off-by: Max Reitz <mreitz@redhat.com>
 > ---
->   tests/qemu-iotests/common.filter | 10 +++++-----
->   1 file changed, 5 insertions(+), 5 deletions(-)
-> 
+>   tests/qemu-iotests/common.filter | 2 +-
+>   1 file changed, 1 insertion(+), 1 deletion(-)
 
 Reviewed-by: Eric Blake <eblake@redhat.com>
+
+> 
+> diff --git a/tests/qemu-iotests/common.filter b/tests/qemu-iotests/common.filter
+> index 345c3ca03e..4fd5c29b2a 100644
+> --- a/tests/qemu-iotests/common.filter
+> +++ b/tests/qemu-iotests/common.filter
+> @@ -177,7 +177,7 @@ _do_filter_img_create()
+>               -e 's/^\(data_file\)/3-\1/' \
+>               -e 's/^\(encryption\)/4-\1/' \
+>               -e 's/^\(preallocation\)/8-\1/' \
+> -        | sort \
+> +        | LC_ALL=C sort \
+>           | $SED -e 's/^[0-9]-//' \
+>           | tr '\n\0' ' \n' \
+>           | $SED -e 's/^ *$//' -e 's/ *$//'
+> 
+
 -- 
 Eric Blake, Principal Software Engineer
 Red Hat, Inc.           +1-919-301-3226
