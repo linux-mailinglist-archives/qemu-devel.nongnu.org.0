@@ -2,74 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 207A921B694
-	for <lists+qemu-devel@lfdr.de>; Fri, 10 Jul 2020 15:35:55 +0200 (CEST)
-Received: from localhost ([::1]:45892 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 96A6821B4DD
+	for <lists+qemu-devel@lfdr.de>; Fri, 10 Jul 2020 14:18:26 +0200 (CEST)
+Received: from localhost ([::1]:41420 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jttBx-0008HE-U6
-	for lists+qemu-devel@lfdr.de; Fri, 10 Jul 2020 09:35:53 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:32780)
+	id 1jtryz-0003pt-Mp
+	for lists+qemu-devel@lfdr.de; Fri, 10 Jul 2020 08:18:25 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:33260)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <frank.chang@sifive.com>)
- id 1jtrwX-0001CY-QW
- for qemu-devel@nongnu.org; Fri, 10 Jul 2020 08:15:53 -0400
-Received: from mail-oo1-xc33.google.com ([2607:f8b0:4864:20::c33]:44899)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <frank.chang@sifive.com>)
- id 1jtrwV-0001tW-Ru
- for qemu-devel@nongnu.org; Fri, 10 Jul 2020 08:15:53 -0400
-Received: by mail-oo1-xc33.google.com with SMTP id o36so947080ooi.11
- for <qemu-devel@nongnu.org>; Fri, 10 Jul 2020 05:15:51 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=sifive.com; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=yDT+xjbmnBte6qteDf60M/ur8XNiuBuAS62SAURwG3k=;
- b=C6fogeXkPiLhlQDXxKIrRSQhObU9bT8gK7T0kUgqQ3N47gmRikkk8EUjQEob0fop7C
- f7PPXISnFp8BJs7J0azVnPJdOnQx9d55RtIQbSaJabRyN4Oljx3riOdkD6yCNq/LEzLt
- Sn0UTAYNYn0MwcsvkGCVIm2/59tbVgN7HCSCdAnZTLyHKzqPAJ+DYjiFAKSsfuLnMnVu
- zdyZPY/8E34xz28XvIjlZz5ity8h3uvcO27JRT6Yk8yn3W123sw6JuwX9VJw1+qrCmi+
- PoFq0MDePXJLJd70CwKDJK8M2Z10wfg3Wt1zeZehvnLwAVrrZTSlf1Yzq1MLYBNoHRTp
- yanQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=yDT+xjbmnBte6qteDf60M/ur8XNiuBuAS62SAURwG3k=;
- b=dGduLD1uZTqLYqa7Q9xk1oqYvL4vKBIqbS4mQwXd3A70gxUr2B9gU2I6F6Zwn5MuxC
- ys0ZmgeqGG5TKSk7eQRkkR4TAmaELNiKMbOpsQ+rZEU/Z4vWHKu7PWabBxv3vKkPvGnm
- +Rcb1rdyzK0BXUC8A0WM+mQug7jU0EqHLVcoRc6hAGfMnSutNRjqbSjKxJvGuSWeA99Q
- WlvpbzAzRq4j6zzVtY03TnGmlLt1madh0HtmXkCs6Bwkpwgz4KFcbLwsvWgUpiWNWJrK
- RjVfa4LnqHHOZayBwROZuAQS9xDqACVwonzwek9tXmjcF53uTJDtTOavanRPvwhVJYaY
- Ma8A==
-X-Gm-Message-State: AOAM530oUv3w3B7tO/M/2OrY/ZDWviqqIpaXakq4wzkLQuhMDd7me10/
- lbOF31SCXgQlQIPRMr/XwpvViM91Nm0sOuaeggo1oQ==
-X-Google-Smtp-Source: ABdhPJwO2/B5rFJaobapmPDWRjaAC8DsbqGLa3X8OzLuayknrC8dKNHVVqqJIau8WdB1LLxi4pFPd2cKhMeCLVJULmQ=
-X-Received: by 2002:a4a:2a41:: with SMTP id x1mr59812266oox.79.1594383350670; 
- Fri, 10 Jul 2020 05:15:50 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1jtry4-0003JL-9i
+ for qemu-devel@nongnu.org; Fri, 10 Jul 2020 08:17:28 -0400
+Received: from us-smtp-1.mimecast.com ([205.139.110.61]:36234
+ helo=us-smtp-delivery-1.mimecast.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1jtry0-000242-6B
+ for qemu-devel@nongnu.org; Fri, 10 Jul 2020 08:17:28 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1594383443;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding;
+ bh=Vei0SeYgSo+k8RDJISsuBk8eEp+SxIoByu+nuJsGaJg=;
+ b=a1NOfoLerKjfhFs/QxqMWa045Keji+LepLHTp2Fj1qLlT0e0ewzH9et8DSHuYG6lmQnQjg
+ VOn5IoVlmqdrS4hKpWw6R4ObQ4oVqtIabpCfCiLKk/c0SnNpC9JoSS62a/Xe5uVD3e36Q+
+ 9/+kESVxYiF+pRjGsA4My6AIGnY+CEI=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-422-NeyeCKh3PFSAdZvavo2Aag-1; Fri, 10 Jul 2020 08:17:21 -0400
+X-MC-Unique: NeyeCKh3PFSAdZvavo2Aag-1
+Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
+ [10.5.11.15])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id CF1DF8015F3;
+ Fri, 10 Jul 2020 12:17:20 +0000 (UTC)
+Received: from linux.fritz.box.com (ovpn-114-57.ams2.redhat.com [10.36.114.57])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 90EBB7EF8F;
+ Fri, 10 Jul 2020 12:17:19 +0000 (UTC)
+From: Kevin Wolf <kwolf@redhat.com>
+To: qemu-block@nongnu.org
+Subject: [PATCH for-5.1] qemu-img resize: Require --shrink for shrinking all
+ image formats
+Date: Fri, 10 Jul 2020 14:17:17 +0200
+Message-Id: <20200710121717.28339-1-kwolf@redhat.com>
 MIME-Version: 1.0
-References: <20200710104920.13550-1-frank.chang@sifive.com>
- <20200710104920.13550-61-frank.chang@sifive.com> <87k0zblgjx.fsf@linaro.org>
-In-Reply-To: <87k0zblgjx.fsf@linaro.org>
-From: Frank Chang <frank.chang@sifive.com>
-Date: Fri, 10 Jul 2020 20:15:39 +0800
-Message-ID: <CAE_xrPhKg1FeRwW0zS-jpfo8XL7WvSFywif27X0kAYgh044N6w@mail.gmail.com>
-Subject: Re: [RFC 60/65] softfloat: add fp16 and uint8/int8 interconvert
- functions
-To: =?UTF-8?B?QWxleCBCZW5uw6ll?= <alex.bennee@linaro.org>
-Content-Type: multipart/alternative; boundary="00000000000040c49a05aa154d29"
-Received-SPF: pass client-ip=2607:f8b0:4864:20::c33;
- envelope-from=frank.chang@sifive.com; helo=mail-oo1-xc33.google.com
-X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
- That's all we know.
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, HTML_MESSAGE=0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- URIBL_BLOCKED=0.001 autolearn=ham autolearn_force=no
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=205.139.110.61; envelope-from=kwolf@redhat.com;
+ helo=us-smtp-delivery-1.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/07/09 22:08:55
+X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
+X-Spam_score_int: -40
+X-Spam_score: -4.1
+X-Spam_bar: ----
+X-Spam_report: (-4.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-1, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
-X-Mailman-Approved-At: Fri, 10 Jul 2020 08:57:18 -0400
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -81,78 +75,54 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Maydell <peter.maydell@linaro.org>, qemu-riscv@nongnu.org,
- qemu-devel@nongnu.org, Aurelien Jarno <aurelien@aurel32.net>
+Cc: kwolf@redhat.com, peter.maydell@linaro.org, qemu-devel@nongnu.org,
+ mreitz@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
---00000000000040c49a05aa154d29
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+QEMU 2.11 introduced the --shrink option for qemu-img resize to avoid
+accidentally shrinking images (commit 4ffca8904a3). However, for
+compatibility reasons, it was not enforced for raw images yet, but only
+a deprecation warning was printed. This warning has existed for long
+enough that we can now finally require --shrink for raw images, too, and
+error out if it's not given.
 
-On Fri, Jul 10, 2020 at 8:07 PM Alex Benn=C3=A9e <alex.bennee@linaro.org> w=
-rote:
+Documentation already describes the state as it is after this patch.
 
->
-> frank.chang@sifive.com writes:
->
-> > From: Frank Chang <frank.chang@sifive.com>
-> >
-> > Signed-off-by: Frank Chang <frank.chang@sifive.com>
->
-> Did I miss the rest of the series somewhere?
->
-> Otherwise this looks fine to me:
->
-> Reviewed-by: Alex Benn=C3=A9e <alex.bennee@linaro.org>
->
-> If you mean float16 to uint8 and int8 conversion functions, this commit i=
-s
-everything.
-I think I just cc the mail based on *scripts/get_maintainer.pl
-<http://get_maintainer.pl>*, so probably didn't send the whole series to
-everyone.
---
-Frank Chang
+Signed-off-by: Kevin Wolf <kwolf@redhat.com>
+---
+ qemu-img.c | 17 +++--------------
+ 1 file changed, 3 insertions(+), 14 deletions(-)
 
-> --
-> Alex Benn=C3=A9e
->
+diff --git a/qemu-img.c b/qemu-img.c
+index e3b2ec3e78..f6a2703039 100644
+--- a/qemu-img.c
++++ b/qemu-img.c
+@@ -4011,20 +4011,9 @@ static int img_resize(int argc, char **argv)
+     }
+ 
+     if (total_size < current_size && !shrink) {
+-        warn_report("Shrinking an image will delete all data beyond the "
+-                    "shrunken image's end. Before performing such an "
+-                    "operation, make sure there is no important data there.");
+-
+-        if (g_strcmp0(bdrv_get_format_name(blk_bs(blk)), "raw") != 0) {
+-            error_report(
+-              "Use the --shrink option to perform a shrink operation.");
+-            ret = -1;
+-            goto out;
+-        } else {
+-            warn_report("Using the --shrink option will suppress this message. "
+-                        "Note that future versions of qemu-img may refuse to "
+-                        "shrink images without this option.");
+-        }
++        error_report("Use the --shrink option to perform a shrink operation.");
++        ret = -1;
++        goto out;
+     }
+ 
+     /*
+-- 
+2.25.4
 
---00000000000040c49a05aa154d29
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-
-<div dir=3D"ltr"><div dir=3D"ltr">On Fri, Jul 10, 2020 at 8:07 PM Alex Benn=
-=C3=A9e &lt;<a href=3D"mailto:alex.bennee@linaro.org">alex.bennee@linaro.or=
-g</a>&gt; wrote:<br></div><div class=3D"gmail_quote"><blockquote class=3D"g=
-mail_quote" style=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204=
-,204,204);padding-left:1ex"><br>
-<a href=3D"mailto:frank.chang@sifive.com" target=3D"_blank">frank.chang@sif=
-ive.com</a> writes:<br>
-<br>
-&gt; From: Frank Chang &lt;<a href=3D"mailto:frank.chang@sifive.com" target=
-=3D"_blank">frank.chang@sifive.com</a>&gt;<br>
-&gt;<br>
-&gt; Signed-off-by: Frank Chang &lt;<a href=3D"mailto:frank.chang@sifive.co=
-m" target=3D"_blank">frank.chang@sifive.com</a>&gt;<br>
-<br>
-Did I miss the rest of the series somewhere?<br>
-<br>
-Otherwise this looks fine to me:<br>
-<br>
-Reviewed-by: Alex Benn=C3=A9e &lt;<a href=3D"mailto:alex.bennee@linaro.org"=
- target=3D"_blank">alex.bennee@linaro.org</a>&gt;<br>
-<br></blockquote><div>If you mean float16 to uint8 and int8 conversion func=
-tions, this commit is everything.<br>I think I just cc the mail based on <i=
->scripts/<a href=3D"http://get_maintainer.pl">get_maintainer.pl</a></i>, so=
- probably=C2=A0didn&#39;t=C2=A0send the whole series to everyone.</div><div=
->--</div><div>Frank Chang</div><blockquote class=3D"gmail_quote" style=3D"m=
-argin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);padding-left=
-:1ex">
--- <br>
-Alex Benn=C3=A9e<br>
-</blockquote></div></div>
-
---00000000000040c49a05aa154d29--
 
