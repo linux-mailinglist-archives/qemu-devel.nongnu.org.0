@@ -2,72 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 158C121B1E7
-	for <lists+qemu-devel@lfdr.de>; Fri, 10 Jul 2020 11:01:56 +0200 (CEST)
-Received: from localhost ([::1]:52094 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 25A0221B1EE
+	for <lists+qemu-devel@lfdr.de>; Fri, 10 Jul 2020 11:04:17 +0200 (CEST)
+Received: from localhost ([::1]:58348 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jtoup-0004qA-5i
-	for lists+qemu-devel@lfdr.de; Fri, 10 Jul 2020 05:01:55 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:38770)
+	id 1jtox6-0007Tt-6q
+	for lists+qemu-devel@lfdr.de; Fri, 10 Jul 2020 05:04:16 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:39540)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1jtotk-0004Gv-UD
- for qemu-devel@nongnu.org; Fri, 10 Jul 2020 05:00:48 -0400
-Received: from mail-ot1-x343.google.com ([2607:f8b0:4864:20::343]:41261)
+ (Exim 4.90_1)
+ (envelope-from <bounce+2dc402.947b4-qemu-devel=nongnu.org@mg.gitlab.com>)
+ id 1jtovk-00067h-FL
+ for qemu-devel@nongnu.org; Fri, 10 Jul 2020 05:02:52 -0400
+Received: from do158-143.mg.gitlab.com ([192.237.158.143]:58961)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1jtoti-0000kF-Mq
- for qemu-devel@nongnu.org; Fri, 10 Jul 2020 05:00:48 -0400
-Received: by mail-ot1-x343.google.com with SMTP id a21so3686850otq.8
- for <qemu-devel@nongnu.org>; Fri, 10 Jul 2020 02:00:46 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=Ujs5s6dq+LXHgg/Ip1yjMFs8rA0xMczLbD0RicGjPrc=;
- b=FEtswf/4qTRuU8KQsh2QCzyn6gbv0vfuaUl9GVYnE8QE6S+YBz4km57AqeA67ZvnE0
- t0POKr9xF5jaGn5iuZkV/fo75a4qSoERCRG1vbsxOKIOqEQ6hr9zFSHnYw9P9OKwfuV/
- j+UKnxGM886PUO6+1mQPmh0LyQSXo+HcILuaaipR7NSr6PC/6pMCFAbilhxrhYtYjhL4
- OwROaVZSjiFhHjpmWMMEevw6Hr+XEPbzJmQBfj0j1HP+HHELPrhiILrWeTLmcYWoeDek
- hqFdSs1mziurGV1SxVJD+vccn+WJRyq1ZXDgoI5c/HLxsqCxkUM0jYwAWGqB59Lvq343
- nfXg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=Ujs5s6dq+LXHgg/Ip1yjMFs8rA0xMczLbD0RicGjPrc=;
- b=T+0DGGys3RIkl1o6zM2ZFsfWaaFo/99d4rhhP0LWJypM97yLEA6Dzn178xW1M8PDXW
- r0ejg8cdrUi0bPfZ/QYfgWzLlSD3UR5cipQd9pcUQ7WTijfZGT+oMdf1koKz54ofxE6R
- tS+RGxtUrnJ2wghFUqoQ6dlDtCXEJ4Np7OMjS34tD1QWHdK/+2AS7Dn/6s8Zh2z69gUE
- 5pcQCjAJ2U9+ZqoBwaXt2EV1t/orR90JKGT0+CzSRNGC1P3lBlOBumUKeQ1s2zCpwser
- UAe/Gi59m+LKpZ6YQlGcBZfz6SpNrnB9MgH9mK9bVC0CSzD9x7Fp3lfpk7XBc4Qd8Q5f
- VN7g==
-X-Gm-Message-State: AOAM530szXe++XkKcYGQoE9eWum7MXNAUKRPsC3AimFMWGqv8B5TncgD
- IMaGkEDSOQD3mOpl5vX+dZ0KH7vKwY+QyatwVopkgQ==
-X-Google-Smtp-Source: ABdhPJxfMq4XlkryjjWrnUe6t3fo3EHAWZI3yt6WiGxovnE23UhpVr8Y3LUysJPiQu1qQexLj8HmEEm4mI3k+qCAfEI=
-X-Received: by 2002:a05:6830:10ce:: with SMTP id
- z14mr50533620oto.135.1594371645160; 
- Fri, 10 Jul 2020 02:00:45 -0700 (PDT)
-MIME-Version: 1.0
-References: <20200708141856.15776-1-eric.auger@redhat.com>
- <20200708141856.15776-6-eric.auger@redhat.com>
-In-Reply-To: <20200708141856.15776-6-eric.auger@redhat.com>
-From: Peter Maydell <peter.maydell@linaro.org>
-Date: Fri, 10 Jul 2020 10:00:34 +0100
-Message-ID: <CAFEAcA84TctpCs7i-o-H2=FY9O6fuCc_A4OnWoRX2bg8attgiQ@mail.gmail.com>
-Subject: Re: [PATCH v3 05/11] hw/arm/smmu-common: Manage IOTLB block entries
-To: Eric Auger <eric.auger@redhat.com>
-Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2607:f8b0:4864:20::343;
- envelope-from=peter.maydell@linaro.org; helo=mail-ot1-x343.google.com
-X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
- That's all we know.
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+ (Exim 4.90_1)
+ (envelope-from <bounce+2dc402.947b4-qemu-devel=nongnu.org@mg.gitlab.com>)
+ id 1jtovh-00018K-KD
+ for qemu-devel@nongnu.org; Fri, 10 Jul 2020 05:02:52 -0400
+DKIM-Signature: a=rsa-sha256; v=1; c=relaxed/relaxed; d=mg.gitlab.com;
+ q=dns/txt; 
+ s=mailo; t=1594371770; h=List-Id: Content-Transfer-Encoding:
+ Content-Type: Mime-Version: Subject: Message-ID: Reply-To: From: Date:
+ Sender; bh=qGT3DQ0s6w96+laO7iMRNv8DbqdozjCjSw0hFh7CVk0=;
+ b=OcC7KGXMV5OqTe/JCOjZriftWXFzcKlNq0QkQcbQCJizPl2TVJIcNrlongb3PwWHDs9DPQvw
+ QqTd7VWpcaAH0Znj0K1gzWrRtVwm6ctOyC6cudD4m9HMFiTdYU7CO4/S6sCyZ6zbxsxkMuE7
+ QANafha4wytxZDRZq24siLoFAxg=
+X-Mailgun-Sending-Ip: 192.237.158.143
+X-Mailgun-Sid: WyI3MWYzYSIsICJxZW11LWRldmVsQG5vbmdudS5vcmciLCAiOTQ3YjQiXQ==
+Received: from mg.gitlab.com (64.90.74.34.bc.googleusercontent.com
+ [34.74.90.64]) by smtp-out-n10.prod.us-west-2.postgun.com with SMTP id
+ 5f082e82f97e988aab3e9a9b (version=TLS1.3, cipher=TLS_AES_128_GCM_SHA256);
+ Fri, 10 Jul 2020 09:01:54 GMT
+Date: Fri, 10 Jul 2020 09:01:52 +0000
+Message-ID: <5f082e8058e71_4ede3ff31ad90f242531f9@sidekiq-catchall-07-sv-gprd.mail>
+Subject: QEMU | Pipeline #165121243 has failed for master | aecdfcc3
+Mime-Version: 1.0
+Content-Type: multipart/alternative;
+ boundary="--==_mimepart_5f082e804ce47_4ede3ff31ad90f242530a2";
+ charset=UTF-8
+Content-Transfer-Encoding: 7bit
+X-GitLab-Project: QEMU
+X-GitLab-Project-Id: 11167699
+X-GitLab-Project-Path: qemu-project/qemu
+X-GitLab-Pipeline-Id: 165121243
+X-GitLab-Pipeline-Ref: master
+X-GitLab-Pipeline-Status: failed
+Auto-Submitted: auto-generated
+X-Auto-Response-Suppress: All
+Received-SPF: pass client-ip=192.237.158.143;
+ envelope-from=bounce+2dc402.947b4-qemu-devel=nongnu.org@mg.gitlab.com;
+ helo=do158-143.mg.gitlab.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/07/10 03:08:36
+X-ACL-Warn: Detected OS   = Linux 3.11 and newer [fuzzy]
+X-Spam_score_int: -9
+X-Spam_score: -1.0
+X-Spam_bar: -
+X-Spam_report: (-1.0 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1,
+ HTML_FONT_LOW_CONTRAST=0.001, HTML_MESSAGE=0.001, MISSING_HEADERS=1.021,
+ RCVD_IN_DNSWL_MED=-2.3, RCVD_IN_MSPIKE_BL=0.01, RCVD_IN_MSPIKE_L4=1.7,
+ REPLYTO_WITHOUT_TO_CC=1.552, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ URIBL_BLOCKED=0.001 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -80,135 +77,495 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Jean-Philippe Brucker <jean-philippe@linaro.org>,
- "Michael S. Tsirkin" <mst@redhat.com>, Robin Murphy <robin.murphy@arm.com>,
- zhangfei.gao@foxmail.com, QEMU Developers <qemu-devel@nongnu.org>,
- Peter Xu <peterx@redhat.com>, qemu-arm <qemu-arm@nongnu.org>,
- Shameerali Kolothum Thodi <shameerali.kolothum.thodi@huawei.com>,
- Will Deacon <will@kernel.org>, Rob Herring <robh@kernel.org>,
- Eric Auger <eric.auger.pro@gmail.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
+Reply-to: GitLab <noreply@gitlab.com>, GitLab <gitlab@mg.gitlab.com>
+From: GitLab via <qemu-devel@nongnu.org>
 
-On Wed, 8 Jul 2020 at 15:19, Eric Auger <eric.auger@redhat.com> wrote:
->
-> At the moment each entry in the IOTLB corresponds to a page sized
-> mapping (4K, 16K or 64K), even if the page belongs to a mapped
-> block. In case of block mapping this unefficiently consumes IOTLB
-> entries.
->
-> Change the value of the entry so that it reflects the actual
-> mapping it belongs to (block or page start address and size).
->
-> Also the level/tg of the entry is encoded in the key. In subsequent
-> patches we will enable range invalidation. This latter is able
-> to provide the level/tg of the entry.
->
-> Encoding the level/tg directly in the key will allow to invalidate
-> using g_hash_table_remove() when num_pages equals to 1.
->
-> Signed-off-by: Eric Auger <eric.auger@redhat.com>
->
-> ---
-> v2 -> v3:
-> - simplify the logic in smmu_hash_remove_by_asid_iova as
->   suggested by Peter
-> - the key is a struct. We take into account the lvl in the
->   jenkins hash function. Also the equal function is updated.
->
-> v1 -> v2:
-> - recompute starting_level
-> ---
->  hw/arm/smmu-internal.h       |  7 ++++
->  include/hw/arm/smmu-common.h | 10 ++++--
->  hw/arm/smmu-common.c         | 66 +++++++++++++++++++++++++-----------
->  hw/arm/smmuv3.c              |  6 ++--
->  hw/arm/trace-events          |  2 +-
->  5 files changed, 65 insertions(+), 26 deletions(-)
->
-> diff --git a/hw/arm/smmu-internal.h b/hw/arm/smmu-internal.h
-> index 3104f768cd..55147f29be 100644
-> --- a/hw/arm/smmu-internal.h
-> +++ b/hw/arm/smmu-internal.h
-> @@ -97,4 +97,11 @@ uint64_t iova_level_offset(uint64_t iova, int inputsize,
->  }
->
->  #define SMMU_IOTLB_ASID(key) ((key).asid)
-> +
-> +typedef struct SMMUIOTLBPageInvInfo {
-> +    int asid;
-> +    uint64_t iova;
-> +    uint64_t mask;
-> +} SMMUIOTLBPageInvInfo;
-> +
->  #endif
-> diff --git a/include/hw/arm/smmu-common.h b/include/hw/arm/smmu-common.h
-> index 79c2c6486a..8b13ab0951 100644
-> --- a/include/hw/arm/smmu-common.h
-> +++ b/include/hw/arm/smmu-common.h
-> @@ -97,6 +97,8 @@ typedef struct SMMUPciBus {
->  typedef struct SMMUIOTLBKey {
->      uint64_t iova;
->      uint16_t asid;
-> +    uint8_t tg;
-> +    uint8_t level;
->  } SMMUIOTLBKey;
->
->  typedef struct SMMUState {
-> @@ -159,12 +161,14 @@ IOMMUMemoryRegion *smmu_iommu_mr(SMMUState *s, uint32_t sid);
->
->  #define SMMU_IOTLB_MAX_SIZE 256
->
-> -SMMUTLBEntry *smmu_iotlb_lookup(SMMUState *bs, SMMUTransCfg *cfg, hwaddr iova);
-> +SMMUTLBEntry *smmu_iotlb_lookup(SMMUState *bs, SMMUTransCfg *cfg,
-> +                                SMMUTransTableInfo *tt, hwaddr iova);
->  void smmu_iotlb_insert(SMMUState *bs, SMMUTransCfg *cfg, SMMUTLBEntry *entry);
-> -SMMUIOTLBKey smmu_get_iotlb_key(uint16_t asid, uint64_t iova);
-> +SMMUIOTLBKey smmu_get_iotlb_key(uint16_t asid, uint64_t iova,
-> +                               uint8_t tg, uint8_t level);
->  void smmu_iotlb_inv_all(SMMUState *s);
->  void smmu_iotlb_inv_asid(SMMUState *s, uint16_t asid);
-> -void smmu_iotlb_inv_iova(SMMUState *s, uint16_t asid, dma_addr_t iova);
-> +void smmu_iotlb_inv_iova(SMMUState *s, int asid, dma_addr_t iova);
->
->  /* Unmap the range of all the notifiers registered to any IOMMU mr */
->  void smmu_inv_notifiers_all(SMMUState *s);
-> diff --git a/hw/arm/smmu-common.c b/hw/arm/smmu-common.c
-> index 398e958bb4..d373e30aa5 100644
-> --- a/hw/arm/smmu-common.c
-> +++ b/hw/arm/smmu-common.c
-> @@ -39,7 +39,7 @@ static guint smmu_iotlb_key_hash(gconstpointer v)
->
->      /* Jenkins hash */
->      a = b = c = JHASH_INITVAL + sizeof(*key);
-> -    a += key->asid;
-> +    a += key->asid + key->level;
 
-What's the rationale for putting the level into the hash
-but not the tg?
+----==_mimepart_5f082e804ce47_4ede3ff31ad90f242530a2
+Content-Type: text/plain;
+ charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
 
->      b += extract64(key->iova, 0, 32);
->      c += extract64(key->iova, 32, 32);
+
+
+Your pipeline has failed.
+
+Project: QEMU ( https://gitlab.com/qemu-project/qemu )
+Branch: master ( https://gitlab.com/qemu-project/qemu/-/commits/master )
+
+Commit: aecdfcc3 ( https://gitlab.com/qemu-project/qemu/-/commit/aecdfcc3=
+f8499b34a90e5b21159b4d245bc833c2 )
+Commit Message: Merge remote-tracking branch 'remotes/philmd-gi...
+Commit Author: Peter Maydell ( https://gitlab.com/pm215 )
+
+Pipeline #165121243 ( https://gitlab.com/qemu-project/qemu/-/pipelines/16=
+5121243 ) triggered by Alex Benn=C3=A9e ( https://gitlab.com/stsquad )
+had 1 failed build.
+
+Job #632556259 ( https://gitlab.com/qemu-project/qemu/-/jobs/632556259/ra=
+w )
+
+Stage: test
+Name: build-disabled
+Trace: qemu-system-i386: falling back to tcg
+Could not access KVM kernel module: No such file or directory
+qemu-system-i386: -accel kvm: failed to initialize kvm: No such file or d=
+irectory
+qemu-system-i386: falling back to tcg
+Could not access KVM kernel module: No such file or directory
+qemu-system-i386: -accel kvm: failed to initialize kvm: No such file or d=
+irectory
+qemu-system-i386: falling back to tcg
+  TEST    check-qtest-i386: tests/qtest/device-introspect-test
+  TEST    check-qtest-i386: tests/qtest/machine-none-test
+  TEST    check-qtest-i386: tests/qtest/qmp-test
+  TEST    check-qtest-i386: tests/qtest/qmp-cmd-test
+  TEST    check-qtest-i386: tests/qtest/qom-test
+  TEST    check-qtest-i386: tests/qtest/test-hmp
+  TEST    check-qtest-i386: tests/qtest/qos-test
+  TEST    check-qtest-mips64: tests/qtest/endianness-test
+  TEST    check-qtest-mips64: tests/qtest/display-vga-test
+  TEST    check-qtest-mips64: tests/qtest/cdrom-test
+  TEST    check-qtest-mips64: tests/qtest/device-introspect-test
+  TEST    check-qtest-mips64: tests/qtest/machine-none-test
+  TEST    check-qtest-mips64: tests/qtest/qmp-test
+  TEST    check-qtest-mips64: tests/qtest/qmp-cmd-test
+  TEST    check-qtest-mips64: tests/qtest/qom-test
+  TEST    check-qtest-mips64: tests/qtest/test-hmp
+  TEST    check-qtest-mips64: tests/qtest/qos-test
+  TEST    check-qtest-ppc64: tests/qtest/machine-none-test
+  TEST    check-qtest-ppc64: tests/qtest/qmp-test
+  TEST    check-qtest-ppc64: tests/qtest/qmp-cmd-test
+  TEST    check-qtest-ppc64: tests/qtest/qom-test
+section_end:1594371652:step_script
+=1B[0K=1B[31;1mERROR: Job failed: execution took longer than 1h0m0s secon=
+ds
+=1B[0;m
+
+
+-- =
+
+You're receiving this email because of your account on gitlab.com.
+
+
+
+
+----==_mimepart_5f082e804ce47_4ede3ff31ad90f242530a2
+Content-Type: text/html;
+ charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://ww=
+w.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns=3D"http://www.w3.org/1999/xhtml" lang=3D"en" xml:lang=3D"en">=
+
+<head>
+<meta content=3D"text/html; charset=3DUTF-8" http-equiv=3D"Content-Type" =
+/>
+<meta content=3D"width=3Ddevice-width, initial-scale=3D1" name=3D"viewpor=
+t" />
+<meta content=3D"IE=3Dedge" http-equiv=3D"X-UA-Compatible" />
+<title>QEMU | Pipeline #165121243 has failed for master | aecdfcc3</title=
 >
-> @@ -51,24 +51,38 @@ static guint smmu_iotlb_key_hash(gconstpointer v)
+<style data-premailer=3D"ignore" type=3D"text/css">
+body,table,td,a{-webkit-text-size-adjust:100%;-ms-text-size-adjust:100%}t=
+able,td{mso-table-lspace:0pt;mso-table-rspace:0pt}img{-ms-interpolation-m=
+ode:bicubic}.hidden{display:none !important;visibility:hidden !important}=
+a[x-apple-data-detectors]{color:inherit !important;text-decoration:none !=
+important;font-size:inherit !important;font-family:inherit !important;fon=
+t-weight:inherit !important;line-height:inherit !important}div[style*=3D'=
+margin: 16px 0']{margin:0 !important}@media only screen and (max-width: 6=
+39px){body,#body{min-width:320px !important}table.wrapper{width:100% !imp=
+ortant;min-width:320px !important}table.wrapper td.wrapper-cell{border-le=
+ft:0 !important;border-right:0 !important;border-radius:0 !important;padd=
+ing-left:10px !important;padding-right:10px !important}}
+
+</style>
+
+<style>body {
+margin: 0 !important; background-color: #fafafa; padding: 0; text-align: =
+center; min-width: 640px; width: 100%; height: 100%; font-family: "Helvet=
+ica Neue", Helvetica, Arial, sans-serif;
+}
+</style></head>
+<body style=3D"text-align: center; min-width: 640px; width: 100%; height:=
+ 100%; font-family: &quot;Helvetica Neue&quot;, Helvetica, Arial, sans-se=
+rif; margin: 0; padding: 0;" bgcolor=3D"#fafafa">
+<table border=3D"0" cellpadding=3D"0" cellspacing=3D"0" id=3D"body" style=
+=3D"text-align: center; min-width: 640px; width: 100%; margin: 0; padding=
+: 0;" bgcolor=3D"#fafafa">
+<tbody>
+<tr class=3D"line">
+<td style=3D"font-family: &quot;Helvetica Neue&quot;, Helvetica, Arial, s=
+ans-serif; height: 4px; font-size: 4px; line-height: 4px;" bgcolor=3D"#6b=
+4fbb"></td>
+</tr>
+<tr class=3D"header">
+<td style=3D"font-family: &quot;Helvetica Neue&quot;, Helvetica, Arial, s=
+ans-serif; font-size: 13px; line-height: 1.6; color: #5c5c5c; padding: 25=
+px 0;">
+
+<img alt=3D"GitLab" src=3D"https://gitlab.com/assets/mailers/gitlab_heade=
+r_logo-153749eaa7ea6fafcb995161abd3247bc4c4500f31498b0c4024f50093983ac0.g=
+if" width=3D"55" height=3D"50" />
+</td>
+</tr>
+<tr>
+<td style=3D"font-family: &quot;Helvetica Neue&quot;, Helvetica, Arial, s=
+ans-serif;">
+<table border=3D"0" cellpadding=3D"0" cellspacing=3D"0" class=3D"wrapper"=
+ style=3D"width: 640px; border-collapse: separate; border-spacing: 0; mar=
+gin: 0 auto;">
+<tbody>
+<tr>
+<td class=3D"wrapper-cell" style=3D"font-family: &quot;Helvetica Neue&quo=
+t;, Helvetica, Arial, sans-serif; border-radius: 3px; overflow: hidden; p=
+adding: 18px 25px; border: 1px solid #ededed;" align=3D"left" bgcolor=3D"=
+#ffffff">
+<table border=3D"0" cellpadding=3D"0" cellspacing=3D"0" class=3D"content"=
+ style=3D"width: 100%; border-collapse: separate; border-spacing: 0;">
+<tbody>
+<tr class=3D"alert">
+<td style=3D"font-family: 'Helvetica Neue',Helvetica,Arial,sans-serif; bo=
+rder-radius: 3px; font-size: 14px; line-height: 1.3; overflow: hidden; co=
+lor: #ffffff; padding: 10px;" align=3D"center" bgcolor=3D"#d22f57">
+<table border=3D"0" cellpadding=3D"0" cellspacing=3D"0" class=3D"img" sty=
+le=3D"border-collapse: collapse; margin: 0 auto;">
+<tbody>
+<tr>
+<td style=3D"font-family: 'Helvetica Neue',Helvetica,Arial,sans-serif; co=
+lor: #ffffff; padding-right: 5px; line-height: 1;" align=3D"center" valig=
+n=3D"middle">
+<img alt=3D"&#10006;" height=3D"13" src=3D"https://gitlab.com/assets/mail=
+ers/ci_pipeline_notif_v1/icon-x-red-inverted-06edddd39ba2a7f9a32f6201e420=
+175db85a4b6ac0348203fdc069001b440149.gif" style=3D"display: block;" width=
+=3D"13" />
+</td>
+<td style=3D"font-family: 'Helvetica Neue',Helvetica,Arial,sans-serif; co=
+lor: #ffffff;" align=3D"center" valign=3D"middle">
+Your pipeline has failed.
+</td>
+</tr>
+</tbody>
+</table>
+</td>
+</tr>
+<tr class=3D"spacer">
+<td style=3D"font-family: 'Helvetica Neue',Helvetica,Arial,sans-serif; he=
+ight: 18px; font-size: 18px; line-height: 18px;">
+&#160;
+</td>
+</tr>
+<tr class=3D"section">
+<td style=3D"font-family: 'Helvetica Neue',Helvetica,Arial,sans-serif; bo=
+rder-radius: 3px; overflow: hidden; padding: 0 15px; border: 1px solid #e=
+deded;">
+<table border=3D"0" cellpadding=3D"0" cellspacing=3D"0" class=3D"table-in=
+fo" style=3D"width: 100%;">
+<tbody>
+<tr>
+<td style=3D"font-family: 'Helvetica Neue',Helvetica,Arial,sans-serif; fo=
+nt-size: 15px; line-height: 1.4; color: #8c8c8c; font-weight: 300; margin=
+: 0; padding: 14px 0;">Project</td>
+<td style=3D"font-family: 'Helvetica Neue',Helvetica,Arial,sans-serif; fo=
+nt-size: 15px; line-height: 1.4; font-weight: 500; color: #333333; width:=
+ 75%; margin: 0; padding: 14px 0 14px 5px;">
+<a class=3D"muted" href=3D"https://gitlab.com/qemu-project" style=3D"colo=
+r: #333333; text-decoration: none;">
+QEMU
+</a>
+/
+<a class=3D"muted" href=3D"https://gitlab.com/qemu-project/qemu" style=3D=
+"color: #333333; text-decoration: none;">
+QEMU
+</a>
+</td>
+</tr>
+<tr>
+<td style=3D"font-family: 'Helvetica Neue',Helvetica,Arial,sans-serif; fo=
+nt-size: 15px; line-height: 1.4; color: #8c8c8c; font-weight: 300; border=
+-top-width: 1px; border-top-color: #ededed; border-top-style: solid; marg=
+in: 0; padding: 14px 0;">Branch</td>
+<td style=3D"font-family: 'Helvetica Neue',Helvetica,Arial,sans-serif; fo=
+nt-size: 15px; line-height: 1.4; font-weight: 500; color: #333333; width:=
+ 75%; border-top-width: 1px; border-top-color: #ededed; border-top-style:=
+ solid; margin: 0; padding: 14px 0 14px 5px;">
+<table border=3D"0" cellpadding=3D"0" cellspacing=3D"0" class=3D"img" sty=
+le=3D"border-collapse: collapse;">
+<tbody>
+<tr>
+<td style=3D"font-family: 'Helvetica Neue',Helvetica,Arial,sans-serif; fo=
+nt-size: 15px; line-height: 1.4; padding-right: 5px;" valign=3D"middle">
+<img alt=3D"" height=3D"13" src=3D"https://gitlab.com/assets/mailers/ci_p=
+ipeline_notif_v1/icon-branch-gray-53618a7fc19d4d32ccbabac2f6d59bebe67202a=
+9f2f1255e3f72c69756c0dd9c.gif" style=3D"display: block;" width=3D"13" />
+</td>
+<td style=3D"font-family: 'Helvetica Neue',Helvetica,Arial,sans-serif; fo=
+nt-size: 15px; line-height: 1.4;" valign=3D"middle">
+<a class=3D"muted" href=3D"https://gitlab.com/qemu-project/qemu/-/commits=
+/master" style=3D"color: #333333; text-decoration: none;">
+master
+</a>
+</td>
+</tr>
+</tbody>
+</table>
+</td>
+</tr>
+<tr>
+<td style=3D"font-family: 'Helvetica Neue',Helvetica,Arial,sans-serif; fo=
+nt-size: 15px; line-height: 1.4; color: #8c8c8c; font-weight: 300; border=
+-top-width: 1px; border-top-color: #ededed; border-top-style: solid; marg=
+in: 0; padding: 14px 0;">Commit</td>
+<td style=3D"font-family: 'Helvetica Neue',Helvetica,Arial,sans-serif; fo=
+nt-size: 15px; line-height: 1.4; font-weight: 400; color: #333333; width:=
+ 75%; border-top-width: 1px; border-top-color: #ededed; border-top-style:=
+ solid; margin: 0; padding: 14px 0 14px 5px;">
+<table border=3D"0" cellpadding=3D"0" cellspacing=3D"0" class=3D"img" sty=
+le=3D"border-collapse: collapse;">
+<tbody>
+<tr>
+<td style=3D"font-family: 'Helvetica Neue',Helvetica,Arial,sans-serif; fo=
+nt-size: 15px; line-height: 1.4; padding-right: 5px;" valign=3D"middle">
+<img alt=3D"" height=3D"13" src=3D"https://gitlab.com/assets/mailers/ci_p=
+ipeline_notif_v1/icon-commit-gray-c10243ac24cde64b549aec91de35e6b49c8739b=
+506b86472b54614c10d8b4aac.gif" style=3D"display: block;" width=3D"13" />
+</td>
+<td style=3D"font-family: 'Helvetica Neue',Helvetica,Arial,sans-serif; fo=
+nt-size: 15px; line-height: 1.4;" valign=3D"middle">
+<a href=3D"https://gitlab.com/qemu-project/qemu/-/commit/aecdfcc3f8499b34=
+a90e5b21159b4d245bc833c2" style=3D"color: #3777b0; text-decoration: none;=
+">
+aecdfcc3
+</a>
+</td>
+</tr>
+</tbody>
+</table>
+<div class=3D"commit" style=3D"color: #5c5c5c; font-weight: 300;">
+Merge remote-tracking branch 'remotes/philmd-gi...
+</div>
+</td>
+</tr>
+<tr>
+<td style=3D"font-family: 'Helvetica Neue',Helvetica,Arial,sans-serif; fo=
+nt-size: 15px; line-height: 1.4; color: #8c8c8c; font-weight: 300; border=
+-top-width: 1px; border-top-color: #ededed; border-top-style: solid; marg=
+in: 0; padding: 14px 0;">Commit Author</td>
+<td style=3D"font-family: 'Helvetica Neue',Helvetica,Arial,sans-serif; fo=
+nt-size: 15px; line-height: 1.4; font-weight: 500; color: #333333; width:=
+ 75%; border-top-width: 1px; border-top-color: #ededed; border-top-style:=
+ solid; margin: 0; padding: 14px 0 14px 5px;">
+<table border=3D"0" cellpadding=3D"0" cellspacing=3D"0" class=3D"img" sty=
+le=3D"border-collapse: collapse;">
+<tbody>
+<tr>
+<td style=3D"font-family: 'Helvetica Neue',Helvetica,Arial,sans-serif; fo=
+nt-size: 15px; line-height: 1.4; padding-right: 5px;" valign=3D"middle">
+<img alt=3D"" class=3D"avatar" height=3D"24" src=3D"https://secure.gravat=
+ar.com/avatar/98261ce19b4e9da714d577154686723a?s=3D48&amp;d=3Didenticon" =
+style=3D"display: block; border-radius: 12px; margin: -2px 0;" width=3D"2=
+4" />
+</td>
+<td style=3D"font-family: 'Helvetica Neue',Helvetica,Arial,sans-serif; fo=
+nt-size: 15px; line-height: 1.4;" valign=3D"middle">
+<a class=3D"muted" href=3D"https://gitlab.com/pm215" style=3D"color: #333=
+333; text-decoration: none;">
+Peter Maydell
+</a>
+</td>
+</tr>
+</tbody>
+</table>
+</td>
+</tr>
+</tbody>
+</table>
+</td>
+</tr>
+<tr class=3D"spacer">
+<td style=3D"font-family: 'Helvetica Neue',Helvetica,Arial,sans-serif; he=
+ight: 18px; font-size: 18px; line-height: 18px;">
+&#160;
+</td>
+</tr>
+<tr class=3D"pre-section">
+<td style=3D"font-family: 'Helvetica Neue',Helvetica,Arial,sans-serif; co=
+lor: #333333; font-size: 15px; font-weight: 400; line-height: 1.4; paddin=
+g: 15px 5px 0;" align=3D"center">
+<table border=3D"0" cellpadding=3D"0" cellspacing=3D"0" class=3D"img" sty=
+le=3D"border-collapse: collapse; margin: 0 auto;">
+<tbody>
+<tr>
+<td style=3D"font-family: 'Helvetica Neue',Helvetica,Arial,sans-serif; fo=
+nt-size: 15px; font-weight: 500; line-height: 1.4;" valign=3D"baseline">
+Pipeline
+<a href=3D"https://gitlab.com/qemu-project/qemu/-/pipelines/165121243" st=
+yle=3D"color: #3777b0; text-decoration: none;">
+#165121243
+</a>
+triggered by
+</td>
+<td style=3D"font-family: 'Helvetica Neue',Helvetica,Arial,sans-serif; fo=
+nt-size: 15px; line-height: 1.4; padding-right: 5px; padding-left: 5px;" =
+width=3D"24" valign=3D"middle">
+<img alt=3D"" class=3D"avatar" height=3D"24" src=3D"https://secure.gravat=
+ar.com/avatar/a7d7f408c0b3370bbbeb98833d6c50e4?s=3D48&amp;d=3Didenticon" =
+style=3D"display: block; border-radius: 12px; margin: -2px 0;" width=3D"2=
+4" />
+</td>
+<td style=3D"font-family: 'Helvetica Neue',Helvetica,Arial,sans-serif; fo=
+nt-size: 15px; font-weight: 500; line-height: 1.4;" valign=3D"baseline">
+<a class=3D"muted" href=3D"https://gitlab.com/stsquad" style=3D"color: #3=
+33333; text-decoration: none;">
+Alex Benn&#233;e
+</a>
+</td>
+</tr>
+</tbody>
+</table>
+</td>
+</tr>
+<tr>
+<td colspan=3D"2" style=3D"font-family: 'Helvetica Neue',Helvetica,Arial,=
+sans-serif; color: #333333; font-size: 14px; font-weight: 400; line-heigh=
+t: 1.4; padding: 0 8px 16px;" align=3D"center">
+had
+1
+failed
+build.
+</td>
+</tr>
+<tr class=3D"table-warning">
+<td style=3D"font-family: 'Helvetica Neue',Helvetica,Arial,sans-serif; bo=
+rder-radius: 4px 4px 0 0; overflow: hidden; color: #d22852; font-size: 14=
+px; line-height: 1.4; padding: 8px 16px; border-color: #ededed; border-st=
+yle: solid; border-width: 1px 1px 0;" align=3D"center" bgcolor=3D"#fdf4f6=
+">
+Logs may contain sensitive data. Please consider before forwarding this e=
+mail.
+</td>
+</tr>
+<tr class=3D"section">
+<td style=3D"font-family: 'Helvetica Neue',Helvetica,Arial,sans-serif; ov=
+erflow: hidden; border-radius: 0 0 4px 4px; padding: 0 16px; border-color=
+: #ededed; border-style: solid; border-width: 0 1px 1px;">
+<table border=3D"0" cellpadding=3D"0" cellspacing=3D"0" class=3D"builds" =
+style=3D"width: 100%; border-collapse: collapse;">
+<tbody>
+<tr class=3D"build-state">
+<td style=3D"font-family: 'Helvetica Neue',Helvetica,Arial,sans-serif; co=
+lor: #8c8c8c; font-weight: 500; font-size: 14px; padding: 16px 0;">
+<table border=3D"0" cellpadding=3D"0" cellspacing=3D"0" class=3D"img" sty=
+le=3D"border-collapse: collapse;">
+<tbody>
+<tr>
+<td style=3D"font-family: 'Helvetica Neue',Helvetica,Arial,sans-serif; co=
+lor: #d22f57; font-weight: 500; font-size: 16px; padding-right: 8px; line=
+-height: 10px;" valign=3D"middle">
+<img alt=3D"&#10006;" height=3D"10" src=3D"https://gitlab.com/assets/mail=
+ers/ci_pipeline_notif_v1/icon-x-red-67056b7b99899e30453df79abfbe16162f6a2=
+6ed789d8236f81afcaea216ffe6.gif" style=3D"display: block;" width=3D"10" /=
 >
->  static gboolean smmu_iotlb_key_equal(gconstpointer v1, gconstpointer v2)
->  {
-> -    const SMMUIOTLBKey *k1 = v1;
-> -    const SMMUIOTLBKey *k2 = v2;
-> -
-> -    return (k1->asid == k2->asid) && (k1->iova == k2->iova);
-> +    return !memcmp(v1, v2, sizeof(SMMUIOTLBKey));
+</td>
+<td style=3D"font-family: 'Helvetica Neue',Helvetica,Arial,sans-serif; co=
+lor: #8c8c8c; font-weight: 500; font-size: 14px;" valign=3D"middle">
+test
+</td>
+</tr>
+</tbody>
+</table>
+</td>
+<td align=3D"right" style=3D"font-family: 'Helvetica Neue',Helvetica,Aria=
+l,sans-serif; color: #8c8c8c; font-weight: 500; font-size: 14px; padding:=
+ 16px 0;">
+<a href=3D"https://gitlab.com/qemu-project/qemu/-/jobs/632556259" style=3D=
+"color: #3777b0; text-decoration: none;">
+build-disabled
+</a>
 
-Won't this also compare the padding at the end of the struct
-(which isn't guaranteed to be the same)? I think just comparing
-all the fields would be safer...
+</td>
+</tr>
+<tr class=3D"build-log">
+<td colspan=3D"2" style=3D"font-family: 'Helvetica Neue',Helvetica,Arial,=
+sans-serif; padding: 0 0 16px;">
+<pre style=3D"font-family: Monaco,'Lucida Console','Courier New',Courier,=
+monospace; background-color: #fafafa; border-radius: 4px; overflow: hidde=
+n; white-space: pre-wrap; word-break: break-all; font-size: 13px; line-he=
+ight: 1.4; color: #333333; margin: 0; padding: 16px 8px;"><span>qemu-syst=
+em-i386: falling back to tcg<br />Could not access KVM kernel module: No =
+such file or directory<br />qemu-system-i386: -accel kvm: failed to initi=
+alize kvm: No such file or directory<br />qemu-system-i386: falling back =
+to tcg<br />Could not access KVM kernel module: No such file or directory=
+<br />qemu-system-i386: -accel kvm: failed to initialize kvm: No such fil=
+e or directory<br />qemu-system-i386: falling back to tcg<br />  TEST    =
+check-qtest-i386: tests/qtest/device-introspect-test<br />  TEST    check=
+-qtest-i386: tests/qtest/machine-none-test<br />  TEST    check-qtest-i38=
+6: tests/qtest/qmp-test<br />  TEST    check-qtest-i386: tests/qtest/qmp-=
+cmd-test<br />  TEST    check-qtest-i386: tests/qtest/qom-test<br />  TES=
+T    check-qtest-i386: tests/qtest/test-hmp<br />  TEST    check-qtest-i3=
+86: tests/qtest/qos-test<br />  TEST    check-qtest-mips64: tests/qtest/e=
+ndianness-test<br />  TEST    check-qtest-mips64: tests/qtest/display-vga=
+-test<br />  TEST    check-qtest-mips64: tests/qtest/cdrom-test<br />  TE=
+ST    check-qtest-mips64: tests/qtest/device-introspect-test<br />  TEST =
+   check-qtest-mips64: tests/qtest/machine-none-test<br />  TEST    check=
+-qtest-mips64: tests/qtest/qmp-test<br />  TEST    check-qtest-mips64: te=
+sts/qtest/qmp-cmd-test<br />  TEST    check-qtest-mips64: tests/qtest/qom=
+-test<br />  TEST    check-qtest-mips64: tests/qtest/test-hmp<br />  TEST=
+    check-qtest-mips64: tests/qtest/qos-test<br />  TEST    check-qtest-p=
+pc64: tests/qtest/machine-none-test<br />  TEST    check-qtest-ppc64: tes=
+ts/qtest/qmp-test<br />  TEST    check-qtest-ppc64: tests/qtest/qmp-cmd-t=
+est<br />  TEST    check-qtest-ppc64: tests/qtest/qom-test<br /></span><s=
+pan class=3D"term-fg-l-red term-bold">ERROR: Job failed: execution took l=
+onger than 1h0m0s seconds<br /></span></pre>
+</td>
+</tr>
+</tbody>
+</table>
+</td>
+</tr>
 
->  }
 
-Otherwise
-Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
+</tbody>
+</table>
+</td>
+</tr>
+</tbody>
+</table>
+</td>
+</tr>
 
-thanks
--- PMM
+<tr class=3D"footer">
+<td style=3D"font-family: &quot;Helvetica Neue&quot;, Helvetica, Arial, s=
+ans-serif; font-size: 13px; line-height: 1.6; color: #5c5c5c; padding: 25=
+px 0;">
+<img alt=3D"GitLab" height=3D"33" src=3D"https://gitlab.com/assets/mailer=
+s/gitlab_footer_logo-078860f148cc9596195e6bb3fa7db31c30538355576c5c3b569c=
+414902e3d095.gif" width=3D"90" style=3D"display: block; margin: 0 auto 1e=
+m;" />
+<div>
+You're receiving this email because of your account on gitlab.com. <a cla=
+ss=3D"mng-notif-link" href=3D"https://gitlab.com/profile/notifications" s=
+tyle=3D"color: #3777b0; text-decoration: none;">Manage all notifications<=
+/a> &#183; <a class=3D"help-link" href=3D"https://gitlab.com/help" style=3D=
+"color: #3777b0; text-decoration: none;">Help</a>
+</div>
+</td>
+</tr>
+
+<tr>
+<td class=3D"footer-message" style=3D"font-family: &quot;Helvetica Neue&q=
+uot;, Helvetica, Arial, sans-serif; font-size: 13px; line-height: 1.6; co=
+lor: #5c5c5c; padding: 25px 0;">
+
+</td>
+</tr>
+</tbody>
+</table>
+</body>
+</html>
+
+----==_mimepart_5f082e804ce47_4ede3ff31ad90f242530a2--
 
