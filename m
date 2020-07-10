@@ -2,38 +2,38 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 693E321BAA0
-	for <lists+qemu-devel@lfdr.de>; Fri, 10 Jul 2020 18:17:25 +0200 (CEST)
-Received: from localhost ([::1]:54838 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E5FD321BAE4
+	for <lists+qemu-devel@lfdr.de>; Fri, 10 Jul 2020 18:29:46 +0200 (CEST)
+Received: from localhost ([::1]:57848 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jtviG-0007dz-E4
-	for lists+qemu-devel@lfdr.de; Fri, 10 Jul 2020 12:17:24 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:42508)
+	id 1jtvuE-0006cB-0X
+	for lists+qemu-devel@lfdr.de; Fri, 10 Jul 2020 12:29:46 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:42764)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <berto@igalia.com>)
- id 1jtvfJ-0002rX-AK; Fri, 10 Jul 2020 12:14:21 -0400
-Received: from fanzine.igalia.com ([178.60.130.6]:43617)
+ id 1jtvfR-0003Cn-CE; Fri, 10 Jul 2020 12:14:29 -0400
+Received: from fanzine.igalia.com ([178.60.130.6]:43745)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <berto@igalia.com>)
- id 1jtvfH-0004vK-ES; Fri, 10 Jul 2020 12:14:20 -0400
+ id 1jtvfJ-0004vk-KO; Fri, 10 Jul 2020 12:14:28 -0400
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=igalia.com;
  s=20170329; 
  h=Content-Transfer-Encoding:MIME-Version:References:In-Reply-To:Message-Id:Date:Subject:Cc:To:From;
- bh=6qQoyV/cm9Nvp5kDqRKMgyxeyG52rrfmDQLzMDkXXqo=; 
- b=i/yjpFBsC04af9nm5uIgYWoqmf4EFHvpgILrc50C9xHWHU3LwSxhkaLtOYSM1/KViA6CbCjpqwrCXxKrrNcFJ1pHhyfQrPFH/IU+A0uKwTU5d1TKgemZVuzGI4TCWkgh7yCMJixYeFNs5hcy8FuFwnG7mFEbYBjiyrgugZw0xq/MQJAGkPK8EKjCUt7pvHyhoTJX6DY/cIvPIY3KecHgzvLraOabrcYY1kF5ajIUhnKGUyioceu7jEflud0FrBU6gbIKfxpaVvtcSu9lV6rR+DIPdRJVX2J0SDzwAss0CPioVqwcuXJKM9uYHLIGAzEiTEOb6lbgtX/uWEmlKhRS2g==;
+ bh=AqMxC9rS7M2uuNi8b9+yg1HxSPKbRa+AtqgmAQMdwXU=; 
+ b=UWSa9+UrSr9CkzSzclxOlWssBJO3r9Szik6dygySKMRHP3dWCKIHe9ZXC2xZdG/5lO8Z3zNxg+neNtWZHHOzlLJU0kIP0mRzUVXxckjULyeCUObDXkUu31+9c+chypN8K4AbgAlhL2O1Su6FcUyOV+c4WFGH52x15mg4Al4GNLtdA7o81YC0aRFXpuWFWPy0Uo9b0vXRGl1a7WAw4IRP0Y7Onx9FYc53hTvTtkuiqLzBqGYeozaNp7XJKB4C00JQy0JSQanE+nppNv4NeY/5ocxBQf/HOiC4eAk6wDoe+IUscS3TzkTibXxTeLOgt9qRzt4EMuLYBSfW1cCI89RFlw==;
 Received: from [81.0.43.0] (helo=perseus.local)
  by fanzine.igalia.com with esmtpsa 
  (Cipher TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256) (Exim)
- id 1jtvea-0003ji-3e; Fri, 10 Jul 2020 18:13:36 +0200
+ id 1jtvea-0003jj-Gt; Fri, 10 Jul 2020 18:13:36 +0200
 Received: from berto by perseus.local with local (Exim 4.92)
  (envelope-from <berto@igalia.com>)
- id 1jtveL-0001Qk-2B; Fri, 10 Jul 2020 18:13:21 +0200
+ id 1jtveL-0001Qn-3J; Fri, 10 Jul 2020 18:13:21 +0200
 From: Alberto Garcia <berto@igalia.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v11 15/34] qcow2: Add qcow2_get_subcluster_range_type()
-Date: Fri, 10 Jul 2020 18:12:57 +0200
-Message-Id: <db917263d568ec6ffb4a41cac3c9100f96bf6c18.1594396418.git.berto@igalia.com>
+Subject: [PATCH v11 16/34] qcow2: Add qcow2_cluster_is_allocated()
+Date: Fri, 10 Jul 2020 18:12:58 +0200
+Message-Id: <6d8771c5c79cbdc6c519875a5078e1cc85856d63.1594396418.git.berto@igalia.com>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <cover.1594396418.git.berto@igalia.com>
 References: <cover.1594396418.git.berto@igalia.com>
@@ -68,84 +68,33 @@ Cc: Kevin Wolf <kwolf@redhat.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-There are situations in which we want to know how many contiguous
-subclusters of the same type there are in a given cluster. This can be
-done by simply iterating over the subclusters and repeatedly calling
-qcow2_get_subcluster_type() for each one of them.
-
-However once we determined the type of a subcluster we can check the
-rest efficiently by counting the number of adjacent ones (or zeroes)
-in the bitmap. This is what this function does.
+This helper function tells us if a cluster is allocated (that is,
+there is an associated host offset for it).
 
 Signed-off-by: Alberto Garcia <berto@igalia.com>
 Reviewed-by: Eric Blake <eblake@redhat.com>
 Reviewed-by: Max Reitz <mreitz@redhat.com>
 ---
- block/qcow2-cluster.c | 51 +++++++++++++++++++++++++++++++++++++++++++
- 1 file changed, 51 insertions(+)
+ block/qcow2.h | 6 ++++++
+ 1 file changed, 6 insertions(+)
 
-diff --git a/block/qcow2-cluster.c b/block/qcow2-cluster.c
-index 9ba60f3fde..751906c330 100644
---- a/block/qcow2-cluster.c
-+++ b/block/qcow2-cluster.c
-@@ -375,6 +375,57 @@ fail:
-     return ret;
+diff --git a/block/qcow2.h b/block/qcow2.h
+index 3aec6f452a..ea647c8bb5 100644
+--- a/block/qcow2.h
++++ b/block/qcow2.h
+@@ -780,6 +780,12 @@ QCow2SubclusterType qcow2_get_subcluster_type(BlockDriverState *bs,
+     }
  }
  
-+/*
-+ * For a given L2 entry, count the number of contiguous subclusters of
-+ * the same type starting from @sc_from. Compressed clusters are
-+ * treated as if they were divided into subclusters of size
-+ * s->subcluster_size.
-+ *
-+ * Return the number of contiguous subclusters and set @type to the
-+ * subcluster type.
-+ *
-+ * If the L2 entry is invalid return -errno and set @type to
-+ * QCOW2_SUBCLUSTER_INVALID.
-+ */
-+G_GNUC_UNUSED
-+static int qcow2_get_subcluster_range_type(BlockDriverState *bs,
-+                                           uint64_t l2_entry,
-+                                           uint64_t l2_bitmap,
-+                                           unsigned sc_from,
-+                                           QCow2SubclusterType *type)
++static inline bool qcow2_cluster_is_allocated(QCow2ClusterType type)
 +{
-+    BDRVQcow2State *s = bs->opaque;
-+    uint32_t val;
-+
-+    *type = qcow2_get_subcluster_type(bs, l2_entry, l2_bitmap, sc_from);
-+
-+    if (*type == QCOW2_SUBCLUSTER_INVALID) {
-+        return -EINVAL;
-+    } else if (!has_subclusters(s) || *type == QCOW2_SUBCLUSTER_COMPRESSED) {
-+        return s->subclusters_per_cluster - sc_from;
-+    }
-+
-+    switch (*type) {
-+    case QCOW2_SUBCLUSTER_NORMAL:
-+        val = l2_bitmap | QCOW_OFLAG_SUB_ALLOC_RANGE(0, sc_from);
-+        return cto32(val) - sc_from;
-+
-+    case QCOW2_SUBCLUSTER_ZERO_PLAIN:
-+    case QCOW2_SUBCLUSTER_ZERO_ALLOC:
-+        val = (l2_bitmap | QCOW_OFLAG_SUB_ZERO_RANGE(0, sc_from)) >> 32;
-+        return cto32(val) - sc_from;
-+
-+    case QCOW2_SUBCLUSTER_UNALLOCATED_PLAIN:
-+    case QCOW2_SUBCLUSTER_UNALLOCATED_ALLOC:
-+        val = ((l2_bitmap >> 32) | l2_bitmap)
-+            & ~QCOW_OFLAG_SUB_ALLOC_RANGE(0, sc_from);
-+        return ctz32(val) - sc_from;
-+
-+    default:
-+        g_assert_not_reached();
-+    }
++    return (type == QCOW2_CLUSTER_COMPRESSED || type == QCOW2_CLUSTER_NORMAL ||
++            type == QCOW2_CLUSTER_ZERO_ALLOC);
 +}
 +
- /*
-  * Checks how many clusters in a given L2 slice are contiguous in the image
-  * file. As soon as one of the flags in the bitmask stop_flags changes compared
+ /* Check whether refcounts are eager or lazy */
+ static inline bool qcow2_need_accurate_refcounts(BDRVQcow2State *s)
+ {
 -- 
 2.20.1
 
