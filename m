@@ -2,74 +2,112 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9D08221B68D
-	for <lists+qemu-devel@lfdr.de>; Fri, 10 Jul 2020 15:35:38 +0200 (CEST)
-Received: from localhost ([::1]:45186 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id BA90D21B709
+	for <lists+qemu-devel@lfdr.de>; Fri, 10 Jul 2020 15:49:36 +0200 (CEST)
+Received: from localhost ([::1]:42214 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jttBh-0007zz-Mr
-	for lists+qemu-devel@lfdr.de; Fri, 10 Jul 2020 09:35:37 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:54944)
+	id 1jttPD-0002Ii-Bn
+	for lists+qemu-devel@lfdr.de; Fri, 10 Jul 2020 09:49:35 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:60188)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1jtt7Q-0008Mb-Gg
- for qemu-devel@nongnu.org; Fri, 10 Jul 2020 09:31:12 -0400
-Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:53153
- helo=us-smtp-1.mimecast.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1jtt7O-0004vh-PD
- for qemu-devel@nongnu.org; Fri, 10 Jul 2020 09:31:12 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1594387868;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=k8N8jixqL4QSHMjT/aTNnIeog9nVg4heujReAzPbEOE=;
- b=JNCPiUl4JTk3M+ZL3bLhR8KSGT1IxfO0VIPdB18eJaGQ/ZWU2ykOQUKWlcpitk+O3VaI83
- A5UKYVuq/6sIJTelQw8ljx/PZ5PgkqHb/YWXfuJ22LqPdwpw4yJ3UBLictLa3lL1JgUl8N
- LRhNOTX1iMRG0d63s/4UeS/ZQKAmNhY=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-81-PSl73_6iPbqdiJYoerrDVw-1; Fri, 10 Jul 2020 09:31:06 -0400
-X-MC-Unique: PSl73_6iPbqdiJYoerrDVw-1
-Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
- [10.5.11.13])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 72B0F88C79C;
- Fri, 10 Jul 2020 13:31:05 +0000 (UTC)
-Received: from blackfin.pond.sub.org (ovpn-112-143.ams2.redhat.com
- [10.36.112.143])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id F078B74F5B;
- Fri, 10 Jul 2020 13:31:04 +0000 (UTC)
-Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
- id 80EAF11326E4; Fri, 10 Jul 2020 15:31:03 +0200 (CEST)
-From: Markus Armbruster <armbru@redhat.com>
-To: qemu-devel@nongnu.org
-Subject: [PULL v2 50/53] fw_cfg: Use ERRP_GUARD()
-Date: Fri, 10 Jul 2020 15:31:03 +0200
-Message-Id: <20200710133103.2153250-5-armbru@redhat.com>
-In-Reply-To: <20200710133103.2153250-1-armbru@redhat.com>
-References: <20200710133103.2153250-1-armbru@redhat.com>
+ (Exim 4.90_1) (envelope-from <Filip.Bozuta@syrmia.com>)
+ id 1jttOU-0001sg-Bp
+ for qemu-devel@nongnu.org; Fri, 10 Jul 2020 09:48:50 -0400
+Received: from mail-vi1eur05on2096.outbound.protection.outlook.com
+ ([40.107.21.96]:7081 helo=EUR05-VI1-obe.outbound.protection.outlook.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <Filip.Bozuta@syrmia.com>)
+ id 1jttOR-0008RW-Cl
+ for qemu-devel@nongnu.org; Fri, 10 Jul 2020 09:48:50 -0400
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=N3Xt3g0+Q3yt8UkyZ6qpSNGMrWB8hVKHM9VDyUCjA71aTTUyg5y3Vev2BcEUTAo5g+JiXYT3clC7smCAUW5caWRjKasxeqIf52X584nx8bXjwrucnJtOzEC0w2aBHufHmUxS2211XcKEwp2UoQ81il/yB9stQkCn55O2U9FMyb6/RjZZp8Goa+PKJuUquqZjALq2tLq+HlgbSJmkB1ex56aaHd+R0Wh4G4P6N5OSHG/1TPg/fatr7BablKqO816zyeEGvn4XsgQiNfx5cUfLYmhWgTuMnRAH0QHuVchoPzt1zOBUW7VARKDOw+azWbPG1j2mwQtjrQ7uIEABm6wBGg==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=JT+L9e4pVNWYazPrK0pk5adVFCpZfC1xygKCCdPK148=;
+ b=D/dosvIlLR5fmRXwUeMLcHF6lCQ5Yoe4jdwEc2AEfRtVjnV94CBVmDQkce0vcha59lpWhF9Ujp3I5E9TAx88vvP1CzeEa0F6NNpD6wTwc1WNjy9BibmwVAFZ50gptmJgDUSaGJC0UlYIkgOcSTguI2GoO3oNd6PlmyOWhnztv1DSd87615nu+B/0CNMMHw3nrtH5Bzvv+oK2IpzaxxkQFz5wowluKDCJCH3QtOSrFLyrXnp1MvoWdJty3Omvv9ZsLKRK+pmhQlknT1ofMC9VOk4mUz8lFVym4Y3cE8xwlss2ihApSgtValmFaw3lUAcmmWh7NqpsjKFnmFWPEbFzfg==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=syrmia.com; dmarc=pass action=none header.from=syrmia.com;
+ dkim=pass header.d=syrmia.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=syrmia.com;
+ s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=JT+L9e4pVNWYazPrK0pk5adVFCpZfC1xygKCCdPK148=;
+ b=yJ/PELETAEGwedEuuXhISov5JeF4+G984MxP+LCGK0Vb4hTKcHpcWBmixBr/2HxuhYggIQae4DIaU0pTV5VYn6rDB1T4n9WzRoNRqcW22IqsJP07kws4WUuazCt5yirdX19JsLy2GkZMsPJcKXsDtD4Cc/jazjdxMaMAzxQ1GFM=
+Authentication-Results: nongnu.org; dkim=none (message not signed)
+ header.d=none;nongnu.org; dmarc=none action=none header.from=syrmia.com;
+Received: from AM6PR03MB5233.eurprd03.prod.outlook.com (2603:10a6:20b:d1::19)
+ by AM6PR03MB3510.eurprd03.prod.outlook.com (2603:10a6:209:34::16)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3174.22; Fri, 10 Jul
+ 2020 13:48:43 +0000
+Received: from AM6PR03MB5233.eurprd03.prod.outlook.com
+ ([fe80::98f0:b948:78a8:f618]) by AM6PR03MB5233.eurprd03.prod.outlook.com
+ ([fe80::98f0:b948:78a8:f618%7]) with mapi id 15.20.3174.023; Fri, 10 Jul 2020
+ 13:48:43 +0000
+Subject: Re: [PATCH v2 1/2] linux-user: fix the errno value in
+ print_syscall_err()
+To: Laurent Vivier <laurent@vivier.eu>, qemu-devel@nongnu.org
+References: <20200708152435.706070-1-laurent@vivier.eu>
+ <20200708152435.706070-2-laurent@vivier.eu>
+From: Filip Bozuta <Filip.Bozuta@syrmia.com>
+Message-ID: <b3606000-ef9f-9578-cdc9-f2fdf88fdaff@syrmia.com>
+Date: Fri, 10 Jul 2020 15:48:41 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.8.0
+In-Reply-To: <20200708152435.706070-2-laurent@vivier.eu>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Transfer-Encoding: 7bit
+Content-Language: en-US
+X-ClientProxiedBy: AM0PR10CA0031.EURPRD10.PROD.OUTLOOK.COM
+ (2603:10a6:20b:150::11) To AM6PR03MB5233.eurprd03.prod.outlook.com
+ (2603:10a6:20b:d1::19)
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=armbru@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=207.211.31.120; envelope-from=armbru@redhat.com;
- helo=us-smtp-1.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/07/10 00:36:21
-X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
-X-Spam_score_int: -40
-X-Spam_score: -4.1
-X-Spam_bar: ----
-X-Spam_report: (-4.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-1, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-MS-Exchange-MessageSentRepresentingType: 1
+Received: from [192.168.43.62] (109.245.225.186) by
+ AM0PR10CA0031.EURPRD10.PROD.OUTLOOK.COM (2603:10a6:20b:150::11) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3174.22 via Frontend
+ Transport; Fri, 10 Jul 2020 13:48:42 +0000
+X-Originating-IP: [109.245.225.186]
+X-MS-PublicTrafficType: Email
+X-MS-Office365-Filtering-Correlation-Id: 551a861d-e145-4d8d-b5d3-08d824d7f5a5
+X-MS-TrafficTypeDiagnostic: AM6PR03MB3510:
+X-Microsoft-Antispam-PRVS: <AM6PR03MB35104B0C5F64F6668DAD50EAEB650@AM6PR03MB3510.eurprd03.prod.outlook.com>
+X-MS-Oob-TLC-OOBClassifiers: OLM:7219;
+X-MS-Exchange-SenderADCheck: 1
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: n8QvlwcpvaWCvtFzpZ/USsNake3rma2IDFnYdmdmSSBTeXp7qD5aM5O2TggUKWn43o6SP76gPSu4gXgFuErWJ3STwDR+PIjhYEDnJ4/Wrbsa0LyaPgUsccL9i/2di3h+JjDVmVlOvDsf2Wc5VfeihDypCfnLQvH2OnQsZ1zam5O8vfe+w63rrnS0rUVoXj3xPaC507oEuaOjNwqtm1uzzFEnO61rE1u28NbTVi71uKdEnyYgtfwe4POmqRB21HuCfDpMssiZvo46ow62KzocN7zQMAZlUD2LxvTgENuppf2i07e62MIQwmIwRZmCFixsjmhbJnbEtOxi/xZbE5CUR8Egn5Lg3o+daU74zWBXojdINSgCb+c51Ks2Q+L2mf10
+X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:AM6PR03MB5233.eurprd03.prod.outlook.com; PTR:; CAT:NONE;
+ SFTY:;
+ SFS:(376002)(346002)(39830400003)(396003)(136003)(366004)(31686004)(26005)(52116002)(2616005)(6486002)(956004)(5660300002)(66556008)(8676002)(36756003)(86362001)(508600001)(16576012)(316002)(31696002)(83380400001)(8936002)(16526019)(66946007)(66476007)(2906002)(186003)(43740500002);
+ DIR:OUT; SFP:1102; 
+X-MS-Exchange-AntiSpam-MessageData: P1HB9ahDAspTEkxWKcHIr1HQdwa7k4kgLiorQifd7E0pQ+gpoe5t7E39nfgBTJp8bSTH4yuet6++MrFRWQaa2I8RiqBCfu3bHyk9Fq28gw93fvuRcYiVcbrm4jn465lSq2abWTQbfLPqApK2UTzS9ggJsX64JqyZ7JZSrqDROHoLzImOu0wBUT4UkaYVoxudzgE6Pj99zssCNxNmW1Jd/faP/FGkZxwRNfG0TxmDKZ1DdSBiZE8ipg4P4KpMqGw81HBLAXMgujHs75B4G/Ez/URPYpyOIfNuGKBzGW85M/p0p58ZqvoS7j1h1J6yPcQSyt63HBpmVmFO3W1vYOXop+qgrZh/wNYtmU1LUMxedy0KEBrfG82L0nkYyUZuRwfVCrvikXJEncpogW2SA7LNzn8Oqr9VbD9p8CGGNYq4Jtgs85AKSJVF5bdfEroHg3fm6uO6yyMO8aNDPdLaDRf2WFz08NcL2JLFHjQmQJNsk0o=
+X-OriginatorOrg: syrmia.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 551a861d-e145-4d8d-b5d3-08d824d7f5a5
+X-MS-Exchange-CrossTenant-AuthSource: AM6PR03MB5233.eurprd03.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 10 Jul 2020 13:48:43.3280 (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 19214a73-c1ab-4e19-8f59-14bdcb09a66e
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: z0dr9qYsOBBpdToXbb6+3tX6q3DiVuulsJ2Ejr+mLcjqRgvaiGs9wy2KyoFOt+3majad5ct8Lq5Wb9rwhCFryg==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: AM6PR03MB3510
+Received-SPF: pass client-ip=40.107.21.96;
+ envelope-from=Filip.Bozuta@syrmia.com;
+ helo=EUR05-VI1-obe.outbound.protection.outlook.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/07/10 09:48:45
+X-ACL-Warn: Detected OS   = Windows NT kernel [generic] [fuzzy]
+X-Spam_score_int: -37
+X-Spam_score: -3.8
+X-Spam_bar: ---
+X-Spam_report: (-3.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ MSGID_FROM_MTA_HEADER=0.001, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-1,
+ SPF_HELO_PASS=-0.001, SPF_PASS=-0.001,
+ URIBL_BLOCKED=0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -82,116 +120,37 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Kevin Wolf <kwolf@redhat.com>, peter.maydell@linaro.org,
- Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>,
- =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
- Greg Kurz <groug@kaod.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
 
-If we want to check error after errp-function call, we need to
-introduce local_err and then propagate it to errp. Instead, use
-the ERRP_GUARD() macro, benefits are:
-1. No need of explicit error_propagate call
-2. No need of explicit local_err variable: use errp directly
-3. ERRP_GUARD() leaves errp as is if it's not NULL or
-   &error_fatal, this means that we don't break error_abort
-   (we'll abort on error_set, not on error_propagate)
-
-If we want to add some info to errp (by error_prepend() or
-error_append_hint()), we must use the ERRP_GUARD() macro.
-Otherwise, this info will not be added when errp == &error_fatal
-(the program will exit prior to the error_append_hint() or
-error_prepend() call).  No such cases are being fixed here.
-
-This commit is generated by command
-
-    sed -n '/^Firmware configuration (fw_cfg)$/,/^$/{s/^F: //p}' \
-        MAINTAINERS | \
-    xargs git ls-files | grep '\.[hc]$' | \
-    xargs spatch \
-        --sp-file scripts/coccinelle/errp-guard.cocci \
-        --macro-file scripts/cocci-macro-file.h \
-        --in-place --no-show-diff --max-width 80
-
-Reported-by: Kevin Wolf <kwolf@redhat.com>
-Reported-by: Greg Kurz <groug@kaod.org>
-Signed-off-by: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
-Reviewed-by: Philippe Mathieu-Daudé <philmd@redhat.com>
-[Commit message tweaked]
-Signed-off-by: Markus Armbruster <armbru@redhat.com>
-Message-Id: <20200707165037.1026246-6-armbru@redhat.com>
-[ERRP_AUTO_PROPAGATE() renamed to ERRP_GUARD(), and
-auto-propagated-errp.cocci to errp-guard.cocci.  Commit message
-tweaked again.  Coccinelle script rerun for commit 3203148917
-"hw/nvram/fw_cfg: Add the FW_CFG_DATA_GENERATOR interface"]
----
- hw/nvram/fw_cfg.c | 21 +++++++++------------
- 1 file changed, 9 insertions(+), 12 deletions(-)
-
-diff --git a/hw/nvram/fw_cfg.c b/hw/nvram/fw_cfg.c
-index 694722b212..3b1811d3bf 100644
---- a/hw/nvram/fw_cfg.c
-+++ b/hw/nvram/fw_cfg.c
-@@ -1035,8 +1035,8 @@ void *fw_cfg_modify_file(FWCfgState *s, const char *filename,
- void fw_cfg_add_from_generator(FWCfgState *s, const char *filename,
-                                const char *gen_id, Error **errp)
- {
-+    ERRP_GUARD();
-     FWCfgDataGeneratorClass *klass;
--    Error *local_err = NULL;
-     GByteArray *array;
-     Object *obj;
-     gsize size;
-@@ -1052,9 +1052,8 @@ void fw_cfg_add_from_generator(FWCfgState *s, const char *filename,
-         return;
-     }
-     klass = FW_CFG_DATA_GENERATOR_GET_CLASS(obj);
--    array = klass->get_data(obj, &local_err);
--    if (local_err) {
--        error_propagate(errp, local_err);
-+    array = klass->get_data(obj, errp);
-+    if (*errp) {
-         return;
-     }
-     size = array->len;
-@@ -1260,12 +1259,11 @@ static Property fw_cfg_io_properties[] = {
- 
- static void fw_cfg_io_realize(DeviceState *dev, Error **errp)
- {
-+    ERRP_GUARD();
-     FWCfgIoState *s = FW_CFG_IO(dev);
--    Error *local_err = NULL;
- 
--    fw_cfg_file_slots_allocate(FW_CFG(s), &local_err);
--    if (local_err) {
--        error_propagate(errp, local_err);
-+    fw_cfg_file_slots_allocate(FW_CFG(s), errp);
-+    if (*errp) {
-         return;
-     }
- 
-@@ -1311,14 +1309,13 @@ static Property fw_cfg_mem_properties[] = {
- 
- static void fw_cfg_mem_realize(DeviceState *dev, Error **errp)
- {
-+    ERRP_GUARD();
-     FWCfgMemState *s = FW_CFG_MEM(dev);
-     SysBusDevice *sbd = SYS_BUS_DEVICE(dev);
-     const MemoryRegionOps *data_ops = &fw_cfg_data_mem_ops;
--    Error *local_err = NULL;
- 
--    fw_cfg_file_slots_allocate(FW_CFG(s), &local_err);
--    if (local_err) {
--        error_propagate(errp, local_err);
-+    fw_cfg_file_slots_allocate(FW_CFG(s), errp);
-+    if (*errp) {
-         return;
-     }
- 
--- 
-2.26.2
-
+On 8.7.20. 17:24, Laurent Vivier wrote:
+> errno of the target is returned as a negative value by the syscall,
+> not in the host errno variable.
+>
+> The emulation of the target syscall can return an error while the
+> host doesn't set an errno value. Target errnos and host errnos can
+> also differ in some cases.
+>
+> Fixes: c84be71f6854 ("linux-user: Extend strace support to enable argument printing after syscall execution")
+> Cc: Filip.Bozuta@syrmia.com
+> Signed-off-by: Laurent Vivier <laurent@vivier.eu>
+> ---
+>   linux-user/strace.c | 2 +-
+>   1 file changed, 1 insertion(+), 1 deletion(-)
+>
+> diff --git a/linux-user/strace.c b/linux-user/strace.c
+> index 5235b2260cdd..b42664bbd180 100644
+> --- a/linux-user/strace.c
+> +++ b/linux-user/strace.c
+> @@ -731,7 +731,7 @@ print_syscall_err(abi_long ret)
+>   
+>       qemu_log(" = ");
+>       if (ret < 0) {
+> -        qemu_log("-1 errno=%d", errno);
+> +        qemu_log("-1 errno=%d", (int)-ret);
+>           errstr = target_strerror(-ret);
+>           if (errstr) {
+>               qemu_log(" (%s)", errstr);
+Reviewed-by: Filip Bozuta <Filip.Bozuta@syrmia.com>
 
