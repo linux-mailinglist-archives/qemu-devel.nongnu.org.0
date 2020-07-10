@@ -2,71 +2,75 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5366C21B107
-	for <lists+qemu-devel@lfdr.de>; Fri, 10 Jul 2020 10:11:07 +0200 (CEST)
-Received: from localhost ([::1]:55434 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4440021B113
+	for <lists+qemu-devel@lfdr.de>; Fri, 10 Jul 2020 10:15:16 +0200 (CEST)
+Received: from localhost ([::1]:33506 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jto7Z-00052u-BF
-	for lists+qemu-devel@lfdr.de; Fri, 10 Jul 2020 04:11:01 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:54874)
+	id 1jtoBf-0007rD-BC
+	for lists+qemu-devel@lfdr.de; Fri, 10 Jul 2020 04:15:15 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:55620)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1jto6Z-0004Re-UQ
- for qemu-devel@nongnu.org; Fri, 10 Jul 2020 04:09:59 -0400
-Received: from mail-oi1-x22f.google.com ([2607:f8b0:4864:20::22f]:36719)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1jto6Y-0002eP-EP
- for qemu-devel@nongnu.org; Fri, 10 Jul 2020 04:09:59 -0400
-Received: by mail-oi1-x22f.google.com with SMTP id h17so4145246oie.3
- for <qemu-devel@nongnu.org>; Fri, 10 Jul 2020 01:09:57 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=HJeIKqh69VZhJUijKQU0waW5RlliDXLFOROv1dON+Sg=;
- b=ZSJo6xzlstnefKZyapQP62zjuY7QlDiAnM07qofvsp16sN2d0Omn0wCBVpCYacIHEy
- sYAvhDYxqgdYAGDW2MrZOwF7W4XBwhDRGHrbxwV+5A2i6AQKF69Kr752hrEj7RLcw1ee
- nQWKsctUgKg2V98TAmn2GME/oYrJMcaUvIqdQYqeaph4h1D+Jm+cXCSF3DefrUxD9CFx
- Ip/oj5PT+YHkpQ7zK0frZtOCb1epxl0R/pmR0FjxCWVGlT/SFm8dvyRz5pwY19/g54Ho
- FTG0PbRQTruJh1eDXZfurWpl17R7E9F9gL6Uttgf+ZeMqzyrhSeAMgq5dsR1Nxs0Mq8u
- o48w==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=HJeIKqh69VZhJUijKQU0waW5RlliDXLFOROv1dON+Sg=;
- b=I+q/NVQO1kG5KE836geVDjFyRpZCmhyzEqCBcRbtyiCf9UQ1W2/frnctMKmEGIoMqG
- cprCL0AQqftFsgxvGDVD67FIgA08Axg3L/FtmPoo4X2i52kyQ3a4xvSNYfzL5CaInLwW
- qT0lFz3fYryiDmwaX69t05eRMqgFuC5ROVpxGK6NmjK12D+VpaPxfuc4dhNbvkXOD1EH
- 3jw5XrKFXmd5Oo7fjwRRW4eKffs1tWgSkiuM1QNmqzepmYwr4766F1pqi1qwNlxzjhGX
- 8a78vfQ0AFAhw78Mfbny49nfwfZp06Retd2+dbqI/0ewHWcKOkJx687lzjqJAhxstMDY
- P2WQ==
-X-Gm-Message-State: AOAM531y8a3zT4GlL5nESDI7Q3/3m/ZZi0Ac/z+Z5BI92VOnO0ltem3L
- x0Pmf7UXvoDCQt8M4Yw26UrRlsD7Ng1mhkyv8vVh7A==
-X-Google-Smtp-Source: ABdhPJzTbb1wDBNT8Q3gsO+WKfX+eb73Rq3C4GlaCTxsqEiaSzLs1uIZZaMx+721mam3K/YHfaKjokgMk0fOxYEWzMk=
-X-Received: by 2002:aca:2819:: with SMTP id 25mr3115305oix.48.1594368597027;
- Fri, 10 Jul 2020 01:09:57 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1jto9L-00063P-UW
+ for qemu-devel@nongnu.org; Fri, 10 Jul 2020 04:12:52 -0400
+Received: from us-smtp-1.mimecast.com ([205.139.110.61]:51797
+ helo=us-smtp-delivery-1.mimecast.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1jto9J-00031U-HN
+ for qemu-devel@nongnu.org; Fri, 10 Jul 2020 04:12:51 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1594368767;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references:openpgp:openpgp;
+ bh=RMzVTisi6ZQ+vniFvCBjv4juFY3mLrmQQKHG2PF1/rc=;
+ b=Q21PEEt9KGitR8HgdniZ53ng4efCxd73xAencjXVHUgmuB9gE6Uxj2ARHYGe6DJ667RLKY
+ BvtLbHQfrGokFm0l4BnGp0GrMzzG4BpQtlG1HTQ84Ld84c0HyPYyc41Zh5HIqQW6+xf6TR
+ 5jDYnqInLUgQsqvbkmpaK6lrpEaG34o=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-76-8mECPWvlPr6AJ3TNkd7how-1; Fri, 10 Jul 2020 04:12:44 -0400
+X-MC-Unique: 8mECPWvlPr6AJ3TNkd7how-1
+Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
+ [10.5.11.12])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 92BA31009600
+ for <qemu-devel@nongnu.org>; Fri, 10 Jul 2020 08:12:43 +0000 (UTC)
+Received: from thuth.remote.csb (ovpn-112-68.ams2.redhat.com [10.36.112.68])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id EB36E60C80;
+ Fri, 10 Jul 2020 08:12:35 +0000 (UTC)
+Subject: Re: [PULL 00/10] Modules 20200707 patches
+To: Gerd Hoffmann <kraxel@redhat.com>, qemu-devel@nongnu.org
+References: <20200707134229.9773-1-kraxel@redhat.com>
+From: Thomas Huth <thuth@redhat.com>
+Openpgp: preference=signencrypt
+Message-ID: <72615357-e5de-0f7d-faf3-1582ce668998@redhat.com>
+Date: Fri, 10 Jul 2020 10:12:33 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+ Thunderbird/60.9.0
 MIME-Version: 1.0
-References: <E646BE29-B46F-4B56-ADF5-B0DC6CCEF422@livius.net>
- <0a3689e1-001a-76ec-894d-0bb63115ecdd@redhat.com>
-In-Reply-To: <0a3689e1-001a-76ec-894d-0bb63115ecdd@redhat.com>
-From: Peter Maydell <peter.maydell@linaro.org>
-Date: Fri, 10 Jul 2020 09:09:45 +0100
-Message-ID: <CAFEAcA-Y_e9V2UTEZoVbxOWQcs_eP96cMQ1J2BtC6Y0AAUTgSA@mail.gmail.com>
-Subject: Re: Separate notifications from list messages?
-To: Thomas Huth <thuth@redhat.com>
-Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2607:f8b0:4864:20::22f;
- envelope-from=peter.maydell@linaro.org; helo=mail-oi1-x22f.google.com
-X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
- That's all we know.
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+In-Reply-To: <20200707134229.9773-1-kraxel@redhat.com>
+Content-Language: en-US
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=thuth@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=205.139.110.61; envelope-from=thuth@redhat.com;
+ helo=us-smtp-delivery-1.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/07/09 22:08:55
+X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
+X-Spam_score_int: -40
+X-Spam_score: -4.1
+X-Spam_bar: ----
+X-Spam_report: (-4.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-1, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001, URIBL_BLOCKED=0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -79,24 +83,59 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Liviu Ionescu <ilg@livius.net>,
- =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <philmd@redhat.com>,
- Qemu Developers <qemu-devel@nongnu.org>, Stefan Hajnoczi <stefanha@redhat.com>
+Cc: =?UTF-8?Q?Marc-Andr=c3=a9_Lureau?= <marcandre.lureau@redhat.com>,
+ =?UTF-8?Q?Daniel_P=2e_Berrang=c3=a9?= <berrange@redhat.com>,
+ Eduardo Habkost <ehabkost@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Fri, 10 Jul 2020 at 05:20, Thomas Huth <thuth@redhat.com> wrote:
->
-> On 09/07/2020 20.14, Liviu Ionescu wrote:
-> > Now, with the migration to GitLab under way, could you consider separating the notifications sent by GitLab from the messages exchanged on the list?
-> >
-> > I mean allowing those interested in receiving the notifications to explicitly subscribe to them, and no longer sending all of them to the full list.
->
-> That's maybe a good idea. Stefan, Philippe, what do you think about
-> creating a qemu-notify mailing list for notification e-mails?
+On 07/07/2020 15.42, Gerd Hoffmann wrote:
+> The following changes since commit 7623b5ba017f61de5d7c2bba12c6feb3d55091b1:
+> 
+>   Merge remote-tracking branch 'remotes/vivier2/tags/linux-user-for-5.1-pull-request' into staging (2020-07-06 11:40:10 +0100)
+> 
+> are available in the Git repository at:
+> 
+>   git://git.kraxel.org/qemu tags/modules-20200707-pull-request
+> 
+> for you to fetch changes up to ef138c77249771081d8c2d09b8e729f7e92cdf28:
+> 
+>   chardev: enable modules, use for braille (2020-07-07 15:33:59 +0200)
+> 
+> ----------------------------------------------------------------
+> qom: add support for qom objects in modules.
+> build some devices (qxl, virtio-gpu, ccid, usb-redir) as modules.
+> build braille chardev as module.
+> 
+> v2: more verbose comment for "build: fix device module builds" patch.
+> 
+> note: qemu doesn't rebuild objects on cflags changes (specifically
+>       -fPIC being added when code is switched from builtin to module).
+>       Workaround for resulting build errors: "make clean", rebuild.
+> 
+> ----------------------------------------------------------------
+> 
+> Gerd Hoffmann (10):
+>   module: qom module support
+>   object: qom module support
+>   qdev: device module support
+>   build: fix device module builds
+>   ccid: build smartcard as module
+>   usb: build usb-redir as module
+>   vga: build qxl as module
+>   vga: build virtio-gpu only once
+>   vga: build virtio-gpu as module
+>   chardev: enable modules, use for braille
 
-What sort of notifications are we talking about here ?
+ Hi Gerd,
 
-thanks
--- PMM
+something in this series seems to cause a build failure on Travis:
+
+ https://travis-ci.com/github/huth/qemu/jobs/359586799#L7404
+
+Could you please have a look?
+
+ Thanks,
+  Thomas
+
 
