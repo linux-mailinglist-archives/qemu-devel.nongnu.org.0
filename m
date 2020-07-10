@@ -2,68 +2,67 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D66AF21B60C
-	for <lists+qemu-devel@lfdr.de>; Fri, 10 Jul 2020 15:14:05 +0200 (CEST)
-Received: from localhost ([::1]:52782 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C3F2421B619
+	for <lists+qemu-devel@lfdr.de>; Fri, 10 Jul 2020 15:15:59 +0200 (CEST)
+Received: from localhost ([::1]:60916 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jtsqq-00070j-S4
-	for lists+qemu-devel@lfdr.de; Fri, 10 Jul 2020 09:14:04 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:37340)
+	id 1jtssg-0001up-PX
+	for lists+qemu-devel@lfdr.de; Fri, 10 Jul 2020 09:15:58 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:37414)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <frank.chang@sifive.com>)
- id 1jtqdS-0005NU-Ie
- for qemu-devel@nongnu.org; Fri, 10 Jul 2020 06:52:06 -0400
-Received: from mail-pl1-x62e.google.com ([2607:f8b0:4864:20::62e]:33673)
+ id 1jtqdV-0005OM-9l
+ for qemu-devel@nongnu.org; Fri, 10 Jul 2020 06:52:09 -0400
+Received: from mail-pf1-x436.google.com ([2607:f8b0:4864:20::436]:40362)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <frank.chang@sifive.com>)
- id 1jtqdQ-0006eI-IE
- for qemu-devel@nongnu.org; Fri, 10 Jul 2020 06:52:06 -0400
-Received: by mail-pl1-x62e.google.com with SMTP id 72so2112944ple.0
- for <qemu-devel@nongnu.org>; Fri, 10 Jul 2020 03:52:04 -0700 (PDT)
+ id 1jtqdT-0006es-Qs
+ for qemu-devel@nongnu.org; Fri, 10 Jul 2020 06:52:09 -0400
+Received: by mail-pf1-x436.google.com with SMTP id u5so2381475pfn.7
+ for <qemu-devel@nongnu.org>; Fri, 10 Jul 2020 03:52:07 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=sifive.com; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references;
- bh=mGnKSMkKMtsxEVb7JFS0nY27EekRK3d4wsP51kVAl90=;
- b=Zuf+vGmqjzcAJJn8IEs0hWUiO+M0vI+4INjHzDDG5u69S//0fx/ZqKsTOVsXWd/yPi
- ii+95JFuylF0GzdKwNom5gSf19r9b9sWofO7tZWBuOIWlG1/TEGK3zbIH5SyesySgAaE
- jkWABx3hXsHHSbU+ZozSqoVf2tmReRggfwyVGs5q8bu845I1na4geA0FyQGwNuW1y72w
- Smus/PKprmdsD/01NgfzJo+hgKzgf1GyxWQCiBAkT1EOvdtSYlqxYNSEhYAfR4rLATYJ
- Utt3aEus4oIBAfGK9pZEaVO1rBKfIYBRlfYHRy4KQXL8YBHhIKVs7d2sSSSi2+V6C54X
- C6tQ==
+ bh=4piOJT33/Ks8zF+9lTjhNZDrDdEfFTDr1vcWWDQC6yw=;
+ b=ksTjYxWdPj1ksMb3WDrIljRPevALRn6DhxvTjc0nHKyRJGMgAkyH+YnCi3vucNCUqr
+ nc6iFjvuxpA2AiGa8ni4RI/VIfleJRcorCi60D4aCul08jjaY4anY/76FdY0Gz/++TkW
+ uH5oI90akm4hfk2jymSe7YqgIwZhx7hErc3DXFL7ZjraTr59SYLflWxC5qRzEkuH6C0b
+ BCi5x4m2AlUt8zSBfcXnoPhcUU4RUXI+p5HvlxdfUmHfYRCFrEOimZoGXgEuq5PjRYUc
+ dA6WKcR+sMBMHtt2ylTWcwyDXKoVGgXa5wSIRYm9CNu6iRNRTHIaK9t9xqLwChl63YOP
+ F16A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references;
- bh=mGnKSMkKMtsxEVb7JFS0nY27EekRK3d4wsP51kVAl90=;
- b=Y5zIJb1nb4PTpZaCCRRpX6T5miiJFc02i5CSR9Rpfkx8P1qrAx1TgOyJ2t96JtmQvj
- rh9EBQFO4e8DGGyhuY7QykMNY13pleD0Qgni75G/WUqOKFTrUlx1R4c223r+iI5MV1Qz
- 4C3QKsHRKPq8Lim4rjZ07VarOX+7Du1H+5ZAKbDys6pPghGCSJzZmPGeh9GZz/aUruUc
- dKMVjzlej+MIlBucQVwiJjlrzIOhqQu0Ct0cquO/BxziUnUeuCh34UfjX1/KZ4S1a47G
- mosax39dUJ/W9LUuQPQxQoYRnwI0k1TAa5NaD+d+IYCa2C8RIxZVjQoex1Kezssfa6Ga
- iMSA==
-X-Gm-Message-State: AOAM531UxKHSeKrqA3rUGCw6oXgXl/Y9bmqD3LUdczzN0xFdmrgS33YG
- jYPlGqjnamMMpfAgTzXgTiFscAKSwtRDZQ==
-X-Google-Smtp-Source: ABdhPJyzbPxUZXhnlpeVNHG6c5CN+lyeYYtkgZ2qM4meUS8EtasSa4AvT/hJgq0kVLQW2oSi6p1dtg==
-X-Received: by 2002:a17:902:8204:: with SMTP id
- x4mr53877958pln.16.1594378323192; 
- Fri, 10 Jul 2020 03:52:03 -0700 (PDT)
+ bh=4piOJT33/Ks8zF+9lTjhNZDrDdEfFTDr1vcWWDQC6yw=;
+ b=fJwuUTkpGpgayeJiJ1gRq/RYrl64DQOgQ+/GNwTjRqnkagJ1uHX3EgMIxfaoP3hc77
+ 7mhCElZQHnlLn2F7qo80P57ne3S3Io9WHGfn/v3VkGvU36AUf3f34H3sqxOMnlkEt6M5
+ v34JXCjgpPQGyNgOEEZ2/+JcITccXlsZ0t3Jc7X2hCquvrL3/w3GY+Hk6+HBveSWV4IK
+ VMlfymO9jCKhn+q2cI2sL+bkHuSr/IO/omFI0ZHr6SW+XJKnhyxUV5MdF5/7ao4ABTp9
+ NM+ETTjDNbm3/7/KIflldFSPVJH2PytaG/T/uDEgiWhgW55uHvnZLOQrUkwsrQ3Gh3wE
+ /LsA==
+X-Gm-Message-State: AOAM531F4uNp52bSZIkU5mz1Au+fXURZjgXG9BsDkUYk47CLB8sl9way
+ 225QK61ibIs8tbv3TUwjxXmuRPCKdf9fWw==
+X-Google-Smtp-Source: ABdhPJxUg86F8XFbRrre2d2UX3el93oN91C9dHdbPiUxviEMiCwL3gYCHAsRmtX97j9Q40e2rEkIaA==
+X-Received: by 2002:a63:e60b:: with SMTP id g11mr59807259pgh.188.1594378326469; 
+ Fri, 10 Jul 2020 03:52:06 -0700 (PDT)
 Received: from frankchang-ThinkPad-T490.internal.sifive.com
  (114-34-229-221.HINET-IP.hinet.net. [114.34.229.221])
- by smtp.gmail.com with ESMTPSA id r191sm5519406pfr.181.2020.07.10.03.52.01
+ by smtp.gmail.com with ESMTPSA id r191sm5519406pfr.181.2020.07.10.03.52.04
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 10 Jul 2020 03:52:02 -0700 (PDT)
+ Fri, 10 Jul 2020 03:52:06 -0700 (PDT)
 From: frank.chang@sifive.com
 To: qemu-devel@nongnu.org,
 	qemu-riscv@nongnu.org
-Subject: [RFC 22/65] target/riscv: rvv-0.9: floating-point square-root
- instruction
-Date: Fri, 10 Jul 2020 18:48:36 +0800
-Message-Id: <20200710104920.13550-23-frank.chang@sifive.com>
+Subject: [RFC 23/65] target/riscv: rvv-0.9: floating-point classify
+ instructions
+Date: Fri, 10 Jul 2020 18:48:37 +0800
+Message-Id: <20200710104920.13550-24-frank.chang@sifive.com>
 X-Mailer: git-send-email 2.17.1
 In-Reply-To: <20200710104920.13550-1-frank.chang@sifive.com>
 References: <20200710104920.13550-1-frank.chang@sifive.com>
-Received-SPF: pass client-ip=2607:f8b0:4864:20::62e;
- envelope-from=frank.chang@sifive.com; helo=mail-pl1-x62e.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::436;
+ envelope-from=frank.chang@sifive.com; helo=mail-pf1-x436.google.com
 X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
  That's all we know.
 X-Spam_score_int: -20
@@ -72,7 +71,7 @@ X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
  DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- URIBL_BLOCKED=0.001 autolearn=unavailable autolearn_force=no
+ URIBL_BLOCKED=0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-Mailman-Approved-At: Fri, 10 Jul 2020 08:57:17 -0400
 X-BeenThere: qemu-devel@nongnu.org
@@ -102,18 +101,18 @@ Signed-off-by: Frank Chang <frank.chang@sifive.com>
  1 file changed, 1 insertion(+), 1 deletion(-)
 
 diff --git a/target/riscv/insn32.decode b/target/riscv/insn32.decode
-index e3f0fba912..1d34fa647b 100644
+index 1d34fa647b..7ad936e605 100644
 --- a/target/riscv/insn32.decode
 +++ b/target/riscv/insn32.decode
-@@ -509,7 +509,7 @@ vfwmsac_vv      111110 . ..... ..... 001 ..... 1010111 @r_vm
- vfwmsac_vf      111110 . ..... ..... 101 ..... 1010111 @r_vm
- vfwnmsac_vv     111111 . ..... ..... 001 ..... 1010111 @r_vm
- vfwnmsac_vf     111111 . ..... ..... 101 ..... 1010111 @r_vm
--vfsqrt_v        100011 . ..... 00000 001 ..... 1010111 @r2_vm
-+vfsqrt_v        010011 . ..... 00000 001 ..... 1010111 @r2_vm
- vfmin_vv        000100 . ..... ..... 001 ..... 1010111 @r_vm
- vfmin_vf        000100 . ..... ..... 101 ..... 1010111 @r_vm
- vfmax_vv        000110 . ..... ..... 001 ..... 1010111 @r_vm
+@@ -532,7 +532,7 @@ vmfgt_vf        011101 . ..... ..... 101 ..... 1010111 @r_vm
+ vmfge_vf        011111 . ..... ..... 101 ..... 1010111 @r_vm
+ vmford_vv       011010 . ..... ..... 001 ..... 1010111 @r_vm
+ vmford_vf       011010 . ..... ..... 101 ..... 1010111 @r_vm
+-vfclass_v       100011 . ..... 10000 001 ..... 1010111 @r2_vm
++vfclass_v       010011 . ..... 10000 001 ..... 1010111 @r2_vm
+ vfmerge_vfm     010111 0 ..... ..... 101 ..... 1010111 @r_vm_0
+ vfmv_v_f        010111 1 00000 ..... 101 ..... 1010111 @r2
+ vfcvt_xu_f_v    100010 . ..... 00000 001 ..... 1010111 @r2_vm
 -- 
 2.17.1
 
