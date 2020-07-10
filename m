@@ -2,58 +2,57 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6969421BEA6
-	for <lists+qemu-devel@lfdr.de>; Fri, 10 Jul 2020 22:38:33 +0200 (CEST)
-Received: from localhost ([::1]:41410 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id DD6B721BEAD
+	for <lists+qemu-devel@lfdr.de>; Fri, 10 Jul 2020 22:39:25 +0200 (CEST)
+Received: from localhost ([::1]:45390 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jtzmy-0003Zw-G5
-	for lists+qemu-devel@lfdr.de; Fri, 10 Jul 2020 16:38:32 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:43948)
+	id 1jtznp-0005El-0L
+	for lists+qemu-devel@lfdr.de; Fri, 10 Jul 2020 16:39:25 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:43968)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1jtzlZ-0002Hm-Pq
- for qemu-devel@nongnu.org; Fri, 10 Jul 2020 16:37:05 -0400
-Received: from us-smtp-1.mimecast.com ([207.211.31.81]:50443
+ (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1jtzla-0002Jc-Sw
+ for qemu-devel@nongnu.org; Fri, 10 Jul 2020 16:37:06 -0400
+Received: from us-smtp-1.mimecast.com ([207.211.31.81]:49487
  helo=us-smtp-delivery-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1jtzlX-000597-62
- for qemu-devel@nongnu.org; Fri, 10 Jul 2020 16:37:04 -0400
+ (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1jtzlZ-000598-DD
+ for qemu-devel@nongnu.org; Fri, 10 Jul 2020 16:37:06 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1594413421;
+ s=mimecast20190719; t=1594413422;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding;
- bh=H03OHWN5UjX7u2AtAx6M3/1ZJD23vcidHtw8Ou8wRmo=;
- b=JagtJzJLMpikUKTc/MaC8BWR3QZ347MAV4IpAhLYLJUWI4PjXG0M4TtR7lSt99L7aAMPbx
- OW2nxOeCNUQHSmvPIuWDN54cyXAS+vtVDP+Xnaqw9aZS/K6IahXRfEYTBfBdGv55LApaBf
- x7LXLaf4LLOA2VheJbHzdf3alDKyJz8=
+ to:to:cc:cc:content-type:content-type:in-reply-to:in-reply-to:
+ references:references; bh=hHZJgsW3IQX4fQJ0rRxzksbH60DRMF5WLNLaOTWN7p0=;
+ b=Aeei6sczD7d1bj2ZGyfQm9B09eedv0l5S3QEX1sDxYKUVS6Ha1SE/fY8tkrDWGyvsnhuV2
+ hxuFWxxnFJ6ym9x82/Ek/ie6PBnOhCgUy0KX8+Z47B9J5bUJfo1iuLuNRu9OVKPtyfYGoS
+ 7SEdpJULHAcAe6iY5o5XHwBEL4lrlAM=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-375-nVAPnXv_MraboYddc6pklg-1; Fri, 10 Jul 2020 16:36:58 -0400
-X-MC-Unique: nVAPnXv_MraboYddc6pklg-1
-Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
- [10.5.11.15])
+ us-mta-425-rO8s2LijPPyf6BUBmb0jaQ-1; Fri, 10 Jul 2020 16:37:00 -0400
+X-MC-Unique: rO8s2LijPPyf6BUBmb0jaQ-1
+Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
+ [10.5.11.22])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id EDD1A1B18BD1;
- Fri, 10 Jul 2020 20:36:56 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 608121B18BC1;
+ Fri, 10 Jul 2020 20:36:59 +0000 (UTC)
 Received: from sirius.home.kraxel.org (ovpn-115-89.ams2.redhat.com
  [10.36.115.89])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 45FEA7EFA3;
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 4B2201001B0B;
  Fri, 10 Jul 2020 20:36:53 +0000 (UTC)
 Received: by sirius.home.kraxel.org (Postfix, from userid 1000)
- id 8154E16E2C; Fri, 10 Jul 2020 22:36:52 +0200 (CEST)
+ id 89BF817447; Fri, 10 Jul 2020 22:36:52 +0200 (CEST)
 From: Gerd Hoffmann <kraxel@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH 0/2] module fixes
-Date: Fri, 10 Jul 2020 22:36:50 +0200
-Message-Id: <20200710203652.9708-1-kraxel@redhat.com>
-MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
+Subject: [PATCH 1/2] tests: fix "make check-qtest" for modular builds
+Date: Fri, 10 Jul 2020 22:36:51 +0200
+Message-Id: <20200710203652.9708-2-kraxel@redhat.com>
+In-Reply-To: <20200710203652.9708-1-kraxel@redhat.com>
+References: <20200710203652.9708-1-kraxel@redhat.com>
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=US-ASCII
 Received-SPF: pass client-ip=207.211.31.81; envelope-from=kraxel@redhat.com;
  helo=us-smtp-delivery-1.mimecast.com
 X-detected-operating-system: by eggs.gnu.org: First seen = 2020/07/09 23:35:58
@@ -84,17 +83,23 @@ Cc: Laurent Vivier <lvivier@redhat.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+Signed-off-by: Gerd Hoffmann <kraxel@redhat.com>
+---
+ tests/qtest/Makefile.include | 1 +
+ 1 file changed, 1 insertion(+)
 
-
-Gerd Hoffmann (2):
-  tests: fix "make check-qtest" for modular builds
-  Revert "vga: build virtio-gpu as module"
-
- util/module.c                |  6 ------
- hw/display/Makefile.objs     | 23 ++++++++++-------------
- tests/qtest/Makefile.include |  1 +
- 3 files changed, 11 insertions(+), 19 deletions(-)
-
+diff --git a/tests/qtest/Makefile.include b/tests/qtest/Makefile.include
+index 98af2c2d9338..6a0276fd42dd 100644
+--- a/tests/qtest/Makefile.include
++++ b/tests/qtest/Makefile.include
+@@ -277,6 +277,7 @@ tests/qtest/tco-test$(EXESUF): tests/qtest/tco-test.o $(libqos-pc-obj-y)
+ tests/qtest/virtio-ccw-test$(EXESUF): tests/qtest/virtio-ccw-test.o
+ tests/qtest/display-vga-test$(EXESUF): tests/qtest/display-vga-test.o
+ tests/qtest/qom-test$(EXESUF): tests/qtest/qom-test.o
++tests/qtest/modules-test$(EXESUF): tests/qtest/modules-test.o
+ tests/qtest/test-hmp$(EXESUF): tests/qtest/test-hmp.o
+ tests/qtest/machine-none-test$(EXESUF): tests/qtest/machine-none-test.o
+ tests/qtest/device-plug-test$(EXESUF): tests/qtest/device-plug-test.o
 -- 
 2.18.4
 
