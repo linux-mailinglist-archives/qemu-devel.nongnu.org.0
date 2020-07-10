@@ -2,68 +2,65 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B3F9521BCFB
-	for <lists+qemu-devel@lfdr.de>; Fri, 10 Jul 2020 20:30:39 +0200 (CEST)
-Received: from localhost ([::1]:46476 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7B45121BEC0
+	for <lists+qemu-devel@lfdr.de>; Fri, 10 Jul 2020 22:51:45 +0200 (CEST)
+Received: from localhost ([::1]:50460 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jtxnC-0002Sk-OI
-	for lists+qemu-devel@lfdr.de; Fri, 10 Jul 2020 14:30:38 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:43860)
+	id 1jtzzk-0008Sg-3r
+	for lists+qemu-devel@lfdr.de; Fri, 10 Jul 2020 16:51:44 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:42838)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1jtxiV-0006Zx-Sl
- for qemu-devel@nongnu.org; Fri, 10 Jul 2020 14:25:47 -0400
-Received: from indium.canonical.com ([91.189.90.7]:41668)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1jtxiS-0005Xp-6L
- for qemu-devel@nongnu.org; Fri, 10 Jul 2020 14:25:47 -0400
-Received: from loganberry.canonical.com ([91.189.90.37])
- by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
- id 1jtxiR-0002p0-4G
- for <qemu-devel@nongnu.org>; Fri, 10 Jul 2020 18:25:43 +0000
-Received: from loganberry.canonical.com (localhost [127.0.0.1])
- by loganberry.canonical.com (Postfix) with ESMTP id 1C1612E806D
- for <qemu-devel@nongnu.org>; Fri, 10 Jul 2020 18:25:43 +0000 (UTC)
-MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: quoted-printable
-Date: Fri, 10 Jul 2020 18:18:12 -0000
-From: Dmitry <1885332@bugs.launchpad.net>
+ (Exim 4.90_1) (envelope-from <hc981@poolhem.se>) id 1jtxdG-0004Sa-B9
+ for qemu-devel@nongnu.org; Fri, 10 Jul 2020 14:20:22 -0400
+Received: from mailout12.inleed.net ([2a0b:dc80:cafe:112::1]:33771
+ helo=ns12.inleed.net)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <hc981@poolhem.se>) id 1jtxdB-0004vH-MN
+ for qemu-devel@nongnu.org; Fri, 10 Jul 2020 14:20:22 -0400
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=poolhem.se; 
+ s=x;
+ h=Content-Transfer-Encoding:Content-Type:Mime-Version:Message-Id:
+ Subject:Cc:To:From:Date:Sender:Reply-To:Content-ID:Content-Description:
+ Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:
+ In-Reply-To:References:List-Id:List-Help:List-Unsubscribe:List-Subscribe:
+ List-Post:List-Owner:List-Archive;
+ bh=DNkV/ewRN+UhmM2VZBQ28bw5wOLViMM+78CPkqMN7Jk=; b=cT7a1Te6vfsD4PWUSRSChAg7Pu
+ AzT0G29/5R+8IUmU3OK+b1wMHUQch3rUmPsZb6jg8zd5xHPWutLFv/9AorfnBbvQbeF6XGXpuxXur
+ pvLOZMKCIRjmp2lKi1SWLDeED34lzzvtMx7dXx8/xWGumXzv/BN0pwJ0ITBoQfaD5znP8qXgQBTQ6
+ ujCXhqyU43EcpD6EI+l/lsRVqqeAVCdfMpoVwPSAf1EU/6Hj7Y9mhirgRFZZ98vqLtw36Z139glnc
+ 1986+Rm9LMeaMJftHadjhG4XzVbNKsDsvU7x3jLHQhNo3ZGoal42lsEKQGPVpXcjPx4bEZc8dR7H/
+ UWKxnSKQ==;
+Received: from [213.115.245.47] (helo=balrog.lkp.se)
+ by ns12.inleed.net with esmtpa (Exim 4.93.0.4)
+ (envelope-from <hc981@poolhem.se>)
+ id 1jtxd8-00D3tN-Sc; Fri, 10 Jul 2020 20:20:14 +0200
+Date: Fri, 10 Jul 2020 20:19:11 +0200
+From: Henrik Carlqvist <hc981@poolhem.se>
 To: qemu-devel@nongnu.org
-X-Launchpad-Notification-Type: bug
-X-Launchpad-Bug: product=qemu; status=New; importance=Undecided; assignee=None;
-X-Launchpad-Bug-Information-Type: Public
-X-Launchpad-Bug-Private: no
-X-Launchpad-Bug-Security-Vulnerability: no
-X-Launchpad-Bug-Commenters: langston0 xeioexception
-X-Launchpad-Bug-Reporter: Langston (langston0)
-X-Launchpad-Bug-Modifier: Dmitry (xeioexception)
-References: <159320263008.26082.15752081078008046631.malonedeb@gac.canonical.com>
-Message-Id: <159440509211.11910.6418686072155246577.malone@soybean.canonical.com>
-Subject: [Bug 1885332] Re: Error in user-mode calculation of ELF aux vector's
- AT_PHDR
-X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
-X-Launchpad-Message-For: qemu-devel-ml
-Precedence: bulk
-X-Generated-By: Launchpad (canonical.com);
- Revision="4809fcb62f445aaa3ae919f7f6c3cc7d156ea57a";
- Instance="production-secrets-lazr.conf"
-X-Launchpad-Hash: b117ec187318f90e3720eaed0f044ccf1d1929cd
-Received-SPF: none client-ip=91.189.90.7; envelope-from=bounces@canonical.com;
- helo=indium.canonical.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/07/10 14:25:42
-X-ACL-Warn: Detected OS   = Linux 3.11 and newer [fuzzy]
-X-Spam_score_int: -58
-X-Spam_score: -5.9
-X-Spam_bar: -----
-X-Spam_report: (-5.9 / 5.0 requ) BAYES_00=-1.9, HEADER_FROM_DIFFERENT_DOMAINS=1,
- RCVD_IN_DNSWL_HI=-5, RCVD_IN_MSPIKE_H3=-0.01, RCVD_IN_MSPIKE_WL=-0.01,
- SPF_HELO_NONE=0.001, SPF_NONE=0.001 autolearn=ham autolearn_force=no
+Subject: [PATCH] Emulate dip switch language layout settings on SUN keyboard
+Message-Id: <20200710201911.3a3e336c.hc981@poolhem.se>
+X-Mailer: Sylpheed version 0.9.7 (GTK+ 1.2.10; i686-pc-linux-gnu)
+Mime-Version: 1.0
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
+X-Authenticated-Id: henrik@poolhem.se
+Received-SPF: none client-ip=2a0b:dc80:cafe:112::1;
+ envelope-from=hc981@poolhem.se; helo=ns12.inleed.net
+X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
+ That's all we know.
+X-Spam_score_int: -13
+X-Spam_score: -1.4
+X-Spam_bar: -
+X-Spam_report: (-1.4 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ SPF_HELO_SOFTFAIL=0.732, SPF_NONE=0.001,
+ URIBL_BLOCKED=0.001 autolearn=no autolearn_force=no
 X-Spam_action: no action
+X-Mailman-Approved-At: Fri, 10 Jul 2020 16:50:43 -0400
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
+Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -72,143 +69,170 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Bug 1885332 <1885332@bugs.launchpad.net>
+Cc: marcandre.lureau@redhat.com, pbonzini@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-> runs just fine on top of the Linux kernel in QEMU full-system
-emulation, but crashes before main in user-mode emulation
+SUN Type 4, 5 and 5c keyboards have dip switches to choose the language
+layout of the keyboard. Solaris makes an ioctl to query the value of the
+dipswitches and uses that value to select keyboard layout. Also the SUN
+bios like the one in the file ss5.bin uses this value to support at least
+some keyboard layouts. However, the OpenBIOS provided with qemu is
+hardcoded to allways use an US keyboard layout.
 
-So it seems system vs user-mode is not the issue here, probably it is
-related to gdb mode in user-mode qemu.
+Before this patch, qemu allways gave dip switch value 0x21 (US keyboard),
+this patch uses the command line switch "-k" (keyboard layout) to select
+dip switch value. A table is used to lookup values from arguments like:
 
--- =
+-k fr
+-k es
 
-You received this bug notification because you are a member of qemu-
-devel-ml, which is subscribed to QEMU.
-https://bugs.launchpad.net/bugs/1885332
+But the patch also accepts numeric dip switch values directly to the -k
+switch:
 
-Title:
-  Error in user-mode calculation of ELF aux vector's AT_PHDR
+-k 0x2b
+-k 43
 
-Status in QEMU:
-  New
+Both values above are the same and select swedish keyboard as explained in
+table 3-15 at
+https://docs.oracle.com/cd/E19683-01/806-6642/new-43/index.html
 
-Bug description:
-  =
+Unless you want to do a full Solaris installation but happen to have
+access to a bios file, the easiest way to test that the patch works is to:
 
-  I have an (admittedly strange) statically-linked ELF binary for Linux tha=
-t runs just fine on top of the Linux kernel in QEMU full-system emulation, =
-but crashes before main in user-mode emulation. Specifically, it crashes wh=
-en initializing thread-local storage in glibc's _dl_aux_init, because it re=
-ads out a strange value from the AT_PHDR entry of the ELF aux vector.
+qemu-system-sparc -k sv -bios /path/to/ss5.bin
 
-  The binary has these program headers:
+If you already happen to have a Solaris installation in a qemu disk image
+file you can easily try different keyboard layouts after this patch is
+applied.
 
-    Program Headers:
-      Type           Offset   VirtAddr   PhysAddr   FileSiz MemSiz  Flg Ali=
-gn
-      EXIDX          0x065874 0x00075874 0x00075874 0x00570 0x00570 R   0x4
-      PHDR           0x0a3000 0x00900000 0x00900000 0x00160 0x00160 R   0x1=
-000
-      LOAD           0x0a3000 0x00900000 0x00900000 0x00160 0x00160 R   0x1=
-000
-      LOAD           0x000000 0x00010000 0x00010000 0x65de8 0x65de8 R E 0x1=
-0000
-      LOAD           0x066b7c 0x00086b7c 0x00086b7c 0x02384 0x02384 RW  0x1=
-0000
-      NOTE           0x000114 0x00010114 0x00010114 0x00044 0x00044 R   0x4
-      TLS            0x066b7c 0x00086b7c 0x00086b7c 0x00010 0x00030 R   0x4
-      GNU_STACK      0x000000 0x00000000 0x00000000 0x00000 0x00000 RW  0x8
-      GNU_RELRO      0x066b7c 0x00086b7c 0x00086b7c 0x00484 0x00484 R   0x1
-      LOAD           0x07e000 0x00089000 0x00089000 0x03f44 0x03f44 R E 0x1=
-000
-      LOAD           0x098000 0x00030000 0x00030000 0x01000 0x01000 RW  0x1=
-000
+Unfortunately my glib version is too old to compile later versions of qemu
+so even though this patch is made from latest git I have only been able to
+test it myself with qemu version 4.1.1. I think and hope that this patch will
+compile and work also with the latest version of git as it only affects one
+file and there hasn't been much changes to that file since tested version
+4.1.1.
 
-  If I build the Linux kernel with the following patch to the very end
-  of create_elf_tables in fs/binfmt_elf.c
+Best regards Henrik
 
-    /* Put the elf_info on the stack in the right place.  */
-    elf_addr_t *my_auxv =3D (elf_addr_t *) mm->saved_auxv;
-    int i;
-    for (i =3D 0; i < 15; i++) {
-      printk("0x%x =3D 0x%x", my_auxv[2*i], my_auxv[(2*i)+ 1]);
-    }
-    if (copy_to_user(sp, mm->saved_auxv, ei_index * sizeof(elf_addr_t)))
-        return -EFAULT;
-    return 0;
+From 2f86bd60750d44206b9181f76115e77b58dff544 Mon Sep 17 00:00:00 2001
+From: Henrik Carlqvist <hc1245@poolhem.se>
+Date: Fri, 10 Jul 2020 19:21:08 +0200
+Subject: [PATCH] Emulating sun keyboard languate layout dip switches, taking
+ the value for the dip switches from the "-k" option to qemu.
 
-  and run it like this:
+Signed-off-by: Henrik Carlqvist <hc1245@poolhem.se>
+---
+ hw/char/escc.c | 74
++++++++++++++++++++++++++++++++++++++++++++++++++++++++++- 1 file changed, 73
+insertions(+), 1 deletion(-)
 
-    qemu-system-arm \
-      -M versatilepb \
-      -nographic \
-      -dtb ./dts/versatile-pb.dtb \
-      -kernel zImage \
-      -M versatilepb \
-      -m 128M \
-      -append "earlyprintk=3Dvga,keep" \
-      -initrd initramfs
-
-  after I've built the kernel initramfs like this (where "init" is the
-  binary in question):
-
-    make ARCH=3Darm versatile_defconfig
-    make ARCH=3Darm CROSS_COMPILE=3Darm-linux-gnueabi- all -j10
-    cp "$1" arch/arm/boot/init
-    cd arch/arm/boot
-    echo init | cpio -o --format=3Dnewc > initramfs
-
-  then I get the following output. This is the kernel's view of the aux
-  vector for this binary:
-
-    0x10 =3D 0x1d7
-    0x6 =3D 0x1000
-    0x11 =3D 0x64
-    0x3 =3D 0x900000
-    0x4 =3D 0x20
-    0x5 =3D 0xb
-    0x7 =3D 0x0
-    0x8 =3D 0x0
-    0x9 =3D 0x101b8
-    0xb =3D 0x0
-    0xc =3D 0x0
-    0xd =3D 0x0
-    0xe =3D 0x0
-    0x17 =3D 0x0
-    0x19 =3D 0xbec62fb5
-
-  However, if I run "qemu-arm -g 12345 binary" and use GDB to peek at
-  the aux vector at the beginning of __libc_start_init (for example,
-  using this Python GDB API script: https://gist.github.com/langston-
-  barrett/5573d64ae0c9953e2fa0fe26847a5e1e), then I see the following
-  values:
-
-    AT_PHDR =3D 0xae000
-    AT_PHENT =3D 0x20
-    AT_PHNUM =3D 0xb
-    AT_PAGESZ =3D 0x1000
-    AT_BASE =3D 0x0
-    AT_FLAGS =3D 0x0
-    AT_ENTRY =3D 0x10230
-    AT_UID =3D 0x3e9
-    AT_EUID =3D 0x3e9
-    AT_GID =3D 0x3e9
-    AT_EGID =3D 0x3e9
-    AT_HWCAP =3D 0x1fb8d7
-    AT_CLKTCK =3D 0x64
-    AT_RANDOM =3D -0x103c0
-    AT_HWCAP2 =3D 0x1f
-    AT_NULL =3D 0x0
-
-  The crucial difference is in AT_PHDR (0x3), which is indeed the
-  virtual address of the PHDR segment when the kernel calculates it, but
-  is not when QEMU calculates it.
-
-  qemu-arm --version
-  qemu-arm version 2.11.1(Debian 1:2.11+dfsg-1ubuntu7.26)
-
-To manage notifications about this bug go to:
-https://bugs.launchpad.net/qemu/+bug/1885332/+subscriptions
+diff --git a/hw/char/escc.c b/hw/char/escc.c
+index 7d16ee8688..7287056b5f 100644
+--- a/hw/char/escc.c
++++ b/hw/char/escc.c
+@@ -30,6 +30,8 @@
+ #include "qemu/module.h"
+ #include "hw/char/escc.h"
+ #include "ui/console.h"
++#include "sysemu/sysemu.h"
++#include "qemu/cutils.h"
+ #include "trace.h"
+ 
+ /*
+@@ -175,6 +177,7 @@
+ #define R_MISC1I 14
+ #define R_EXTINT 15
+ 
++static unsigned char sun_keyboard_layout_dip_switch(void);
+ static void handle_kbd_command(ESCCChannelState *s, int val);
+ static int serial_can_receive(void *opaque);
+ static void serial_receive_byte(ESCCChannelState *s, int ch);
+@@ -730,6 +733,75 @@ static QemuInputHandler sunkbd_handler = {
+     .event = sunkbd_handle_event,
+ };
+ 
++static unsigned char sun_keyboard_layout_dip_switch(void)
++{
++    /* Return the value of the dip-switches in a SUN Type 5 keyboard */
++    static unsigned char ret = 0xff;
++
++    if ((ret == 0xff) && keyboard_layout) {
++        int i;
++        struct layout_values {
++            const char *lang;
++            unsigned char dip;
++        } languages[] =
++    /* Dip values from table 3-16 Layouts for Type 4, 5, and 5c Keyboards */
++            {
++                {"en-us", 0x21}, /* U.S.A. (US5.kt) */
++                                 /* 0x22 is some other US (US_UNIX5.kt)*/
++                {"fr",    0x23}, /* France (France5.kt) */
++                {"da",    0x24}, /* Denmark (Denmark5.kt) */
++                {"de",    0x25}, /* Germany (Germany5.kt) */
++                {"it",    0x26}, /* Italy (Italy5.kt) */
++                {"nl",    0x27}, /* The Netherlands (Netherland5.kt) */
++                {"no",    0x28}, /* Norway (Norway.kt) */
++                {"pt",    0x29}, /* Portugal (Portugal5.kt) */
++                {"es",    0x2a}, /* Spain (Spain5.kt) */
++                {"sv",    0x2b}, /* Sweden (Sweden5.kt) */
++                {"fr-ch", 0x2c}, /* Switzerland/French (Switzer_Fr5.kt) */
++                {"de-ch", 0x2d}, /* Switzerland/German (Switzer_Ge5.kt) */
++                {"en-gb", 0x2e}, /* Great Britain (UK5.kt) */
++                {"ko",    0x2f}, /* Korea (Korea5.kt) */
++                {"tw",    0x30}, /* Taiwan (Taiwan5.kt) */
++                {"ja",    0x31}, /* Japan (Japan5.kt) */
++                {"fr-ca", 0x32}, /* Canada/French (Canada_Fr5.kt) */
++                {"hu",    0x33}, /* Hungary (Hungary5.kt) */
++                {"pl",    0x34}, /* Poland (Poland5.kt) */
++                {"cz",    0x35}, /* Czech (Czech5.kt) */
++                {"ru",    0x36}, /* Russia (Russia5.kt) */
++                {"lv",    0x37}, /* Latvia (Latvia5.kt) */
++                {"tr",    0x38}, /* Turkey-Q5 (TurkeyQ5.kt) */
++                {"gr",    0x39}, /* Greece (Greece5.kt) */
++                {"ar",    0x3a}, /* Arabic (Arabic5.kt) */
++                {"lt",    0x3b}, /* Lithuania (Lithuania5.kt) */
++                {"nl-be", 0x3c}, /* Belgium (Belgian5.kt) */
++                {"be",    0x3c}, /* Belgium (Belgian5.kt) */
++            };
++
++        for (i = 0;
++             i < sizeof(languages) / sizeof(struct layout_values);
++             i++) {
++            if (!strcmp(keyboard_layout, languages[i].lang)) {
++                ret = languages[i].dip;
++                return ret;
++            }
++        }
++        /* Found no known language code */
++
++        if ((keyboard_layout[0] >= '0') && (keyboard_layout[0] <= '9')) {
++            unsigned int tmp;
++            /* As a fallback we also accept numeric dip switch value */
++            if (!qemu_strtoui(keyboard_layout, NULL, 0, &tmp)) {
++                ret = (unsigned char)tmp;
++            }
++        }
++    }
++    if (ret == 0xff) {
++        /* Final fallback if keyboard_layout was not set or recognized */
++        ret = 0x21; /* en-us layout */
++    }
++    return ret;
++}
++
+ static void handle_kbd_command(ESCCChannelState *s, int val)
+ {
+     trace_escc_kbd_command(val);
+@@ -751,7 +823,7 @@ static void handle_kbd_command(ESCCChannelState *s, int
+val)     case 0xf:
+         clear_queue(s);
+         put_queue(s, 0xfe);
+-        put_queue(s, 0x21); /*  en-us layout */
++        put_queue(s, sun_keyboard_layout_dip_switch());
+         break;
+     default:
+         break;
+-- 
+2.14.5
 
