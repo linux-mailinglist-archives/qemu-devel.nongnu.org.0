@@ -2,62 +2,64 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3AF6E21B104
-	for <lists+qemu-devel@lfdr.de>; Fri, 10 Jul 2020 10:08:22 +0200 (CEST)
-Received: from localhost ([::1]:52118 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 41AB621B111
+	for <lists+qemu-devel@lfdr.de>; Fri, 10 Jul 2020 10:14:20 +0200 (CEST)
+Received: from localhost ([::1]:58876 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jto4z-0003RS-9h
-	for lists+qemu-devel@lfdr.de; Fri, 10 Jul 2020 04:08:21 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:54226)
+	id 1jtoAl-0006fl-9B
+	for lists+qemu-devel@lfdr.de; Fri, 10 Jul 2020 04:14:19 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:54644)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1jto3w-00030Z-IZ
- for qemu-devel@nongnu.org; Fri, 10 Jul 2020 04:07:16 -0400
-Received: from mail-ot1-x343.google.com ([2607:f8b0:4864:20::343]:39656)
+ id 1jto5r-0004EY-0Y
+ for qemu-devel@nongnu.org; Fri, 10 Jul 2020 04:09:15 -0400
+Received: from mail-ot1-x344.google.com ([2607:f8b0:4864:20::344]:44177)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1jto3t-0002OW-KO
- for qemu-devel@nongnu.org; Fri, 10 Jul 2020 04:07:16 -0400
-Received: by mail-ot1-x343.google.com with SMTP id 18so3605747otv.6
- for <qemu-devel@nongnu.org>; Fri, 10 Jul 2020 01:07:13 -0700 (PDT)
+ id 1jto5p-0002ZR-FH
+ for qemu-devel@nongnu.org; Fri, 10 Jul 2020 04:09:14 -0400
+Received: by mail-ot1-x344.google.com with SMTP id 5so3584712oty.11
+ for <qemu-devel@nongnu.org>; Fri, 10 Jul 2020 01:09:13 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=u0/riIHD0M8pNf5Jl+xFOxpQVsrkKCuY7/pLjutqg5o=;
- b=RsvUIGJ7nEKzCqZw2ESbAuXpPA9IiWwpcgrCk3hz9cVNBM/CXnO34RHqyB3DMfNMO1
- NTEkZrtfBWuAjfoC9eo8HfzTFB7CWjYo0MXDbJewl3kCYRt+bqGQKjNROfTomcGZA3z7
- 0WgFi8emFLanSNeiveUtxd56rs58yB5crMB/Y8bPSAmuu9Olf6PVMmg6MQPj6AV0zi3a
- EsTUfgjHUEO3b+kNIK6i7AD94qSPmdRJ6gxWQ8Neibjh64aq5FQvViW7xKzeEz2Nuo9W
- vh1t8six3S8HbXWq+GZIV9hRSvlkN4sQdME0LugDq7NxTzBqTqsvCEEP7gEeqIdmVxuq
- H+Mw==
+ :cc:content-transfer-encoding;
+ bh=tdo/JqiaNsp9LECei1PvVs6KFP17g9QYXiYUTy1eg34=;
+ b=Bug1KHu7z7KA7ZPo1RdFLjFhbEL0YNFrrgMHwR5MOd3s7IsLiLwQpbFPbhXkZL4cfs
+ YHEyIiWUHZul43ZXaDbvWNuC57y5P308fDFjzjGcL+Z3DRmdwoUjDd/Qj4gK7K7YOOQs
+ OYrJJ/366U5OdP9ElZTQcwhH47xpvWKf9WNFHtqRWN9Ry2HKsaeHXhrA43xuv3yHDicP
+ LCHZiCiFM/M2EUCTnl4qf4hOsN0b0OJrw1FIXi+SyQUnQFcYrPGHsrHtvuKvX3GqaNe4
+ PilQdV+AcOtrDJ51wzyNOg+Al1b07WfvBU2QIiyqkCzqCMjxA5Ezho88N9m1jcmXRRNl
+ +tJg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=u0/riIHD0M8pNf5Jl+xFOxpQVsrkKCuY7/pLjutqg5o=;
- b=ZiB9sC33C836FixFXjZF+e4R+cJ8+1Khv9SGDwacdLuyBJNXs3x8PvaxBu4eXP7dmW
- wEXrlGxBG10Jel3ygvgXwz4QYPlkdZUCEwg26fNzBtVpDJzAzM6iiIkY0JU4ShfAyY3I
- X74aZB+q0u7LD/F7WkEDYCykGMfEqQo7L4OG6Oldx89b8mZ7ZR1pdLrWHQ4tqCIcbp9/
- ieBeetDWNodMwj4AeRiHK+gsv44ocgQrCYLO3hqlN573v/w0ryqGWpprMqIfs6hkZCuc
- 94TO0kaSSaNf/yKf/jeqvRjycBttGwpzQvpagyTs4CdnwVLQPJ0pmr+SJb0zq2viB7As
- p4Gw==
-X-Gm-Message-State: AOAM530HETTj6vPOO9RFBJjWtvrfE7RtOadAWuHHJTrxzIWlnhTipipG
- sHcuz7p4u7Ai1ckuTR3JE5OzndR6z2UTUPwsPRV4Dw==
-X-Google-Smtp-Source: ABdhPJz2S9OB0gSj84gRjzCBaKrK2wg5IqP8LjGdNZcB0bvT93njwHmTV+CUiJ/tG9RAfRePLH5D8JisgaX2ikaLYCM=
-X-Received: by 2002:a05:6830:10ce:: with SMTP id
- z14mr50394877oto.135.1594368432366; 
- Fri, 10 Jul 2020 01:07:12 -0700 (PDT)
+ :message-id:subject:to:cc:content-transfer-encoding;
+ bh=tdo/JqiaNsp9LECei1PvVs6KFP17g9QYXiYUTy1eg34=;
+ b=sddmEE7q5eOVvByvV28OF6f8rQmeZtJLd5/Lu+zz5t3hUus/M3+hMUsM99XleadZxR
+ aMN6x6ASYE08CZg/89jxJaBAPccjJMjDnKK9E1Js64TTcPsKyxog7E0Ug20cEvZMIMY6
+ zIOrRBIqrkSQRmJrdo5PYu0A8zDwgaCvNhR1odCypvAzUL+4TjH//l9Juqbpfd17fV2y
+ efP+bSUzLcDmEjn2yGJ0GZB8WQhrwEFv3ogDNkf6eoE3B4tk8hJNmXkYJqwWfUBzYFUf
+ ud3I5ya5qcZaAclHiFrUjb0Glwoyq3CFQYr8pxywcComajASm8K0BK3oIt1XXznn5f9o
+ r35w==
+X-Gm-Message-State: AOAM531lNi5GDou2/Pb6sofFduX06FADw2TjjeIbZ6tNFnb8tYM9T14v
+ Zggj7qeDo3IzV0LVPQ/haSsThSgDLlTiCcQdWv7crQ==
+X-Google-Smtp-Source: ABdhPJyCOKz4+fCcfU7FziXjftQDfDLlEt9UYpLp7XARkD7cMVjyn1M95PlwaAQR/wuDkZJ5MzOh1BJuR5o4+N/gwZg=
+X-Received: by 2002:a05:6830:1bd3:: with SMTP id
+ v19mr54747359ota.91.1594368552071; 
+ Fri, 10 Jul 2020 01:09:12 -0700 (PDT)
 MIME-Version: 1.0
-References: <20200710064642.24505-1-lulu@redhat.com>
-In-Reply-To: <20200710064642.24505-1-lulu@redhat.com>
+References: <20200709184728.2051009-1-marcandre.lureau@redhat.com>
+In-Reply-To: <20200709184728.2051009-1-marcandre.lureau@redhat.com>
 From: Peter Maydell <peter.maydell@linaro.org>
-Date: Fri, 10 Jul 2020 09:07:01 +0100
-Message-ID: <CAFEAcA9VOHS8ZcqFTvrj5fuKAtYK_uW5XYa4duYsQ_J5xwJK6Q@mail.gmail.com>
-Subject: Re: [PATCH v2] vhost-vdpa :Fix Coverity CID 1430270 / CID 1420267
-To: Cindy Lu <lulu@redhat.com>
+Date: Fri, 10 Jul 2020 09:09:01 +0100
+Message-ID: <CAFEAcA8M0YdS8NpsSSFbkn-sqDU=bSKrA0SnX66o_E_2OnHj1Q@mail.gmail.com>
+Subject: Re: [PATCH] Remove VXHS block device
+To: =?UTF-8?B?TWFyYy1BbmRyw6kgTHVyZWF1?= <marcandre.lureau@redhat.com>
 Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2607:f8b0:4864:20::343;
- envelope-from=peter.maydell@linaro.org; helo=mail-ot1-x343.google.com
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=2607:f8b0:4864:20::344;
+ envelope-from=peter.maydell@linaro.org; helo=mail-ot1-x344.google.com
 X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
  That's all we know.
 X-Spam_score_int: -20
@@ -79,30 +81,42 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: "Michael S. Tsirkin" <mst@redhat.com>, mhabets@solarflare.com,
- QEMU Developers <qemu-devel@nongnu.org>, rob.miller@broadcom.com,
- saugatm@xilinx.com, hanand@xilinx.com, Christoph Hellwig <hch@infradead.org>,
- eperezma@redhat.com, jgg@mellanox.com, Jason Wang <jasowang@redhat.com>,
- shahafs@mellanox.com, "Tian, Kevin" <kevin.tian@intel.com>, parav@mellanox.com,
- vmireyno@marvell.com, cunming.liang@intel.com, gdawar@xilinx.com,
- jiri@mellanox.com, xiao.w.wang@intel.com,
- Stefan Hajnoczi <stefanha@redhat.com>, zhihong.wang@intel.com,
- ian@iankelling.org, aadam@redhat.com, rdunlap@infradead.org,
- Maxime Coquelin <maxime.coquelin@redhat.com>,
- Lingshan zhu <lingshan.zhu@intel.com>
+Cc: Kevin Wolf <kwolf@redhat.com>, QEMU Developers <qemu-devel@nongnu.org>,
+ ashmit602@gmail.com, Max Reitz <mreitz@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Fri, 10 Jul 2020 at 07:47, Cindy Lu <lulu@redhat.com> wrote:
+On Thu, 9 Jul 2020 at 19:49, Marc-Andr=C3=A9 Lureau
+<marcandre.lureau@redhat.com> wrote:
 >
-> In the function vhost_vdpa_dma_map/unmap, The struct msg was not initialized all its fields.
+> The vxhs code doesn't compile since v2.12.0. There's no point in fixing
+> and then adding CI for a config that our users have demonstrated that
+> they do not use; better to just remove it.
 >
-> Signed-off-by: Cindy Lu <lulu@redhat.com>
+> Signed-off-by: Marc-Andr=C3=A9 Lureau <marcandre.lureau@redhat.com>
 > ---
->  hw/virtio/vhost-vdpa.c | 4 ++--
->  1 file changed, 2 insertions(+), 2 deletions(-)
->
-Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
+>  configure                        |  39 --
+>  qapi/block-core.json             |  22 +-
+>  block/vxhs.c                     | 590 -------------------------------
+>  block/Makefile.objs              |   2 -
+>  block/trace-events               |  17 -
+>  tests/qemu-iotests/017           |   1 -
+>  tests/qemu-iotests/029           |   1 -
+>  tests/qemu-iotests/073           |   1 -
+>  tests/qemu-iotests/114           |   1 -
+>  tests/qemu-iotests/130           |   1 -
+>  tests/qemu-iotests/134           |   1 -
+>  tests/qemu-iotests/156           |   1 -
+>  tests/qemu-iotests/158           |   1 -
+>  tests/qemu-iotests/282           |   1 -
+>  tests/qemu-iotests/check         |  10 -
+>  tests/qemu-iotests/common.filter |   1 -
+>  tests/qemu-iotests/common.rc     |  33 --
+>  17 files changed, 2 insertions(+), 721 deletions(-)
+>  delete mode 100644 block/vxhs.c
+
+Could you add a subsection to the "Recently removed features"
+section of docs/system/deprecated.rst noting the removal, please?
 
 thanks
 -- PMM
