@@ -2,80 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 23BCF21BD0A
-	for <lists+qemu-devel@lfdr.de>; Fri, 10 Jul 2020 20:32:23 +0200 (CEST)
-Received: from localhost ([::1]:50494 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C1DF921BD2D
+	for <lists+qemu-devel@lfdr.de>; Fri, 10 Jul 2020 20:47:15 +0200 (CEST)
+Received: from localhost ([::1]:33110 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jtxos-0004Fd-86
-	for lists+qemu-devel@lfdr.de; Fri, 10 Jul 2020 14:32:22 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:44812)
+	id 1jty3G-00014i-Qy
+	for lists+qemu-devel@lfdr.de; Fri, 10 Jul 2020 14:47:14 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:48268)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1jtxmz-0002q5-Gi
- for qemu-devel@nongnu.org; Fri, 10 Jul 2020 14:30:25 -0400
-Received: from mail-pl1-x643.google.com ([2607:f8b0:4864:20::643]:42348)
+ (Exim 4.90_1) (envelope-from <alistair23@gmail.com>)
+ id 1jty2P-0000cc-41; Fri, 10 Jul 2020 14:46:21 -0400
+Received: from mail-il1-x142.google.com ([2607:f8b0:4864:20::142]:36560)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1jtxmx-0005vo-Um
- for qemu-devel@nongnu.org; Fri, 10 Jul 2020 14:30:25 -0400
-Received: by mail-pl1-x643.google.com with SMTP id q17so2583319pls.9
- for <qemu-devel@nongnu.org>; Fri, 10 Jul 2020 11:30:23 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=subject:to:cc:references:from:message-id:date:user-agent
- :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=55fervx1vglqX/eRq5XewgkmlGkG0e3dJxxsm7oIer8=;
- b=JKdSa4CzV1Vb/PY2RQfhpsUtCPP7WuaAkU00Pqjc5yGzB1rbzPelFZlnfxhJcvB4fr
- ukru2lR2Tk9VUjf09sDURScBv9wvIWHzQoHZBtet90DoNxKvJJq+6MdWqCHQq5tDNgwN
- Wrf22W+L895/9j9VIyHPu5znbOj8e9wELjZRKEBdzOI/BZmEO8ZtTnh/URQ0pj9ERg9Q
- 6F6Ch5Esdl7qJKJGuu2BvXX9WXjEGkhJ/t8pV5UoDXh6M0vTCFlgQmOHXq3l8aDNUXC+
- TSPjHFzYzMjRuzddk3TYBP6hZRQpoC2xD/TbDE97LKiiOoKwbGzprs866h2ZoPL3Ww+N
- UubA==
+ (Exim 4.90_1) (envelope-from <alistair23@gmail.com>)
+ id 1jty2N-0008Aw-79; Fri, 10 Jul 2020 14:46:20 -0400
+Received: by mail-il1-x142.google.com with SMTP id x9so5951468ila.3;
+ Fri, 10 Jul 2020 11:46:18 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=74PRxuwVQhYKAeFYZ/fJ9AQ94hWBTbTARAGzqRn6L6Q=;
+ b=jhLsxzIVio/KldHc+nTKEFBOLHzlwdUC3BUWRAYCX3MOqw6VNaH25SYBMD4sfaw4+b
+ U7Cxo0VMBALLUp/7UzFQUoN9ayC6uIYMseZlj53fOx+eCALtpJ6jNi+1ZwBG1oBj7EAD
+ 6OZBSfxOH78sWASUveMxx754jIcOMThDpStAZ4X1WKI9OIC29EVFrSXZ81mqxPrqkzYq
+ PVhnx/shXTRiq0AB/T5qK2j9lXvr6JVfrppCo43jJliSu63Ei8PYlZhIoi5tnyco1FWV
+ UpdzG5AfpYlQW0kzoVdcPU7wY7o6nc4zmfyNRS2U9FF0iQZi88wy1XBG27OY0xgKklD3
+ lmGw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=55fervx1vglqX/eRq5XewgkmlGkG0e3dJxxsm7oIer8=;
- b=bCziiDJfrNAPtXBuFChDmfCv4yOi4OYjlgmWY1W/MVGydvXt/OhTNkZQPVrPuCtRA/
- NLlsfUgg37d75kQJvbFhA8tTgDjSjZ5uv2xVVxGMAToDINhrzgyDJi3HdE1LgW0UH2Fa
- 5G3/J+iAo/MvD6nRUTiyOElDT99jOwevjwT/PEyw+Uzmb5EYhelNf1OLBXlUDA+qhHLs
- eAfPPu97SldSHrO5ZcKYFK+uUfl7IelDh39MHByGR48O3bkAxf8aAcqboi6HJDB2tuB1
- CCZQ28/FLkMvyTHPry8dtJCxOtuBNAbttz4tCjH+z4O6DSoNLJjosBQXAv0gr3zvX5Tf
- VucQ==
-X-Gm-Message-State: AOAM530yLent7wYau2cDrKQOKi0Fd13d+ZKmOTP1ETtjDtOPVtwgCNuX
- 4d2l0L+bDkbtobt27Yi+TlmmPw==
-X-Google-Smtp-Source: ABdhPJzRsps83aoPEgdB7Yg3OpXKRpgdLJe7HkIGVSEbI7E10B6pJ0z0xoxgBXu1s6FG9665SUTYbg==
-X-Received: by 2002:a17:902:8d89:: with SMTP id
- v9mr59012074plo.191.1594405822531; 
- Fri, 10 Jul 2020 11:30:22 -0700 (PDT)
-Received: from [192.168.1.11] (174-21-143-238.tukw.qwest.net. [174.21.143.238])
- by smtp.gmail.com with ESMTPSA id a11sm6250784pjw.35.2020.07.10.11.30.21
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Fri, 10 Jul 2020 11:30:21 -0700 (PDT)
-Subject: Re: [PATCH] disas/riscv: Fix incorrect disassembly for `imm20`
- operand.
-To: Wei Wu <lazyparser@gmail.com>, qemu-devel@nongnu.org
-References: <20200707154336.4963-1-lazyparser@gmail.com>
-From: Richard Henderson <richard.henderson@linaro.org>
-Message-ID: <42554d7a-4c7b-af82-14cd-d448aab98bb3@linaro.org>
-Date: Fri, 10 Jul 2020 11:30:19 -0700
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.8.0
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=74PRxuwVQhYKAeFYZ/fJ9AQ94hWBTbTARAGzqRn6L6Q=;
+ b=nTTXsNutjMnyHFIApUZx11kKA/8FACmE7QxMJ1XOMOs10IIMfiGLxbHfH+XpiMNnnl
+ 7ewnV2ic4M6Go5yYPDg0Y+xRBPFNly3tDhUhCC2lhIkHMz6cLTk981vRtjz3WPo8Gh+2
+ n9CF8XXNo3ecHZzHLAUhSlCCQ8rVNJzLZyu/sf2GdTHQysE4FDOzqz0sFkwJNugPlfFU
+ 5fTYwnNqVTU0mZ9+7hfp0pRsTGe+r8epNvCchcva+oXHCEoYalwzfGAjejXGN9sgx+ht
+ pCMl+al49oeyDmNSFSUpjJBVihzrcpMML0dvVVUZNx3PaRYKI/bHeWL7dwnmO4Yu8vf7
+ hsAA==
+X-Gm-Message-State: AOAM533kO0z+rXGXM+VqKILfe6rUidIRu//iivvIuQbKvJXnvkzDU0IQ
+ sAR47aMRN2hD8Wt1kHnAhwr0sDjL+xRHA0vI8CM=
+X-Google-Smtp-Source: ABdhPJyxU/4bU23xfHtn4O1MWIDux9riBbVRSttITXs1Kx8vhIgPecyvE+AEhzwmWgNgYIKHi1gNmyksLKFdOGvQg8A=
+X-Received: by 2002:a92:d186:: with SMTP id z6mr56528745ilz.227.1594406777569; 
+ Fri, 10 Jul 2020 11:46:17 -0700 (PDT)
 MIME-Version: 1.0
-In-Reply-To: <20200707154336.4963-1-lazyparser@gmail.com>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::643;
- envelope-from=richard.henderson@linaro.org; helo=mail-pl1-x643.google.com
+References: <1594357499-29068-1-git-send-email-bmeng.cn@gmail.com>
+ <1594357499-29068-8-git-send-email-bmeng.cn@gmail.com>
+In-Reply-To: <1594357499-29068-8-git-send-email-bmeng.cn@gmail.com>
+From: Alistair Francis <alistair23@gmail.com>
+Date: Fri, 10 Jul 2020 11:36:24 -0700
+Message-ID: <CAKmqyKPf4YH9Ut1mTLRoRdk-aja6wTKS-FhA-5LynbCeajh-_Q@mail.gmail.com>
+Subject: Re: [PATCH v4 7/7] Makefile: Ship the generic platform bios images
+ for RISC-V
+To: Bin Meng <bmeng.cn@gmail.com>
+Content-Type: text/plain; charset="UTF-8"
+Received-SPF: pass client-ip=2607:f8b0:4864:20::142;
+ envelope-from=alistair23@gmail.com; helo=mail-il1-x142.google.com
 X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
  That's all we know.
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+X-Spam_score_int: -17
+X-Spam_score: -1.8
+X-Spam_bar: -
+X-Spam_report: (-1.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
  DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ FREEMAIL_ENVFROM_END_DIGIT=0.25, FREEMAIL_FROM=0.001,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
@@ -90,20 +79,65 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: palmer@dabbelt.com, Alistair.Francis@wdc.com
+Cc: Bin Meng <bin.meng@windriver.com>,
+ "open list:RISC-V" <qemu-riscv@nongnu.org>,
+ Sagar Karandikar <sagark@eecs.berkeley.edu>,
+ Bastian Koppelmann <kbastian@mail.uni-paderborn.de>,
+ Palmer Dabbelt <palmerdabbelt@google.com>,
+ "qemu-devel@nongnu.org Developers" <qemu-devel@nongnu.org>,
+ Alistair Francis <Alistair.Francis@wdc.com>, Anup Patel <anup@brainfault.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 7/7/20 8:43 AM, Wei Wu wrote:
->  static int32_t operand_imm20(rv_inst inst)
->  {
-> -    return (((int64_t)inst << 32) >> 44) << 12;
-> +    return ((int64_t)inst << 32) >> 44;
->  }
+On Thu, Jul 9, 2020 at 10:11 PM Bin Meng <bmeng.cn@gmail.com> wrote:
+>
+> From: Bin Meng <bin.meng@windriver.com>
+>
+> Update the install blob list to include the generic platform
+> fw_dynamic bios images.
+>
+> Signed-off-by: Bin Meng <bin.meng@windriver.com>
 
-There's no point in casting to int64_t, for one.  But it would be better to use
-sextract32(inst, 12, 20).
+You didn't address the comments in v3.
 
+Thinking about this more though it looks like we currently don't
+install anything, so this is an improvement.
 
-r~
+Reviewed-by: Alistair Francis <alistair.francis@wdc.com>
+
+Alistair
+
+>
+> ---
+>
+> (no changes since v3)
+>
+> Changes in v3:
+> - change fw_jump to fw_dynamic in the Makefile
+>
+> Changes in v2:
+> - new patch: Makefile: Ship the generic platform bios images for RISC-V
+>
+>  Makefile | 4 +++-
+>  1 file changed, 3 insertions(+), 1 deletion(-)
+>
+> diff --git a/Makefile b/Makefile
+> index f06b3ae..05e05bb 100644
+> --- a/Makefile
+> +++ b/Makefile
+> @@ -840,7 +840,9 @@ palcode-clipper \
+>  u-boot.e500 u-boot-sam460-20100605.bin \
+>  qemu_vga.ndrv \
+>  edk2-licenses.txt \
+> -hppa-firmware.img
+> +hppa-firmware.img \
+> +opensbi-riscv32-generic-fw_dynamic.bin opensbi-riscv32-generic-fw_dynamic.elf \
+> +opensbi-riscv64-generic-fw_dynamic.bin opensbi-riscv64-generic-fw_dynamic.elf
+>
+>
+>  DESCS=50-edk2-i386-secure.json 50-edk2-x86_64-secure.json \
+> --
+> 2.7.4
+>
+>
 
