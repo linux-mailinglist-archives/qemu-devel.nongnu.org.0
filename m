@@ -2,68 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id DD6B721BEAD
-	for <lists+qemu-devel@lfdr.de>; Fri, 10 Jul 2020 22:39:25 +0200 (CEST)
-Received: from localhost ([::1]:45390 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E172621BEA5
+	for <lists+qemu-devel@lfdr.de>; Fri, 10 Jul 2020 22:38:30 +0200 (CEST)
+Received: from localhost ([::1]:41194 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jtznp-0005El-0L
-	for lists+qemu-devel@lfdr.de; Fri, 10 Jul 2020 16:39:25 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:43968)
+	id 1jtzmv-0003UW-UY
+	for lists+qemu-devel@lfdr.de; Fri, 10 Jul 2020 16:38:29 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:43950)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1jtzla-0002Jc-Sw
- for qemu-devel@nongnu.org; Fri, 10 Jul 2020 16:37:06 -0400
-Received: from us-smtp-1.mimecast.com ([207.211.31.81]:49487
- helo=us-smtp-delivery-1.mimecast.com)
+ (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1jtzlZ-0002Hy-PE
+ for qemu-devel@nongnu.org; Fri, 10 Jul 2020 16:37:05 -0400
+Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:49692
+ helo=us-smtp-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1jtzlZ-000598-DD
- for qemu-devel@nongnu.org; Fri, 10 Jul 2020 16:37:06 -0400
+ (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1jtzlX-00059F-CV
+ for qemu-devel@nongnu.org; Fri, 10 Jul 2020 16:37:05 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
  s=mimecast20190719; t=1594413422;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:content-type:content-type:in-reply-to:in-reply-to:
- references:references; bh=hHZJgsW3IQX4fQJ0rRxzksbH60DRMF5WLNLaOTWN7p0=;
- b=Aeei6sczD7d1bj2ZGyfQm9B09eedv0l5S3QEX1sDxYKUVS6Ha1SE/fY8tkrDWGyvsnhuV2
- hxuFWxxnFJ6ym9x82/Ek/ie6PBnOhCgUy0KX8+Z47B9J5bUJfo1iuLuNRu9OVKPtyfYGoS
- 7SEdpJULHAcAe6iY5o5XHwBEL4lrlAM=
+ references:references; bh=8qlGmGrgHANwfMvpo6+UtQCStftgDKpMZzRk3Hfn5U0=;
+ b=TRtIH1HL0P7lzQYOQKT8iDu9ag3iZOkAC6HanR81Clqgkq8r7u7IRfxfFp6cv+3k2ipJqF
+ GKplxp0FmJEw+sF5IzvuVGVwx4Is974U959sT4C3tnGDNAeOYyFvkCWN3eZzY+AXTinLIg
+ XFPEQQOlvwu6Iwkya4hxwudn6ucQUuw=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-425-rO8s2LijPPyf6BUBmb0jaQ-1; Fri, 10 Jul 2020 16:37:00 -0400
-X-MC-Unique: rO8s2LijPPyf6BUBmb0jaQ-1
-Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
- [10.5.11.22])
+ us-mta-106-h9LMx_KqOuqu02HeEBmO4w-1; Fri, 10 Jul 2020 16:36:57 -0400
+X-MC-Unique: h9LMx_KqOuqu02HeEBmO4w-1
+Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
+ [10.5.11.13])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 608121B18BC1;
- Fri, 10 Jul 2020 20:36:59 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 4C61B100A691;
+ Fri, 10 Jul 2020 20:36:56 +0000 (UTC)
 Received: from sirius.home.kraxel.org (ovpn-115-89.ams2.redhat.com
  [10.36.115.89])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 4B2201001B0B;
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 4792874F50;
  Fri, 10 Jul 2020 20:36:53 +0000 (UTC)
 Received: by sirius.home.kraxel.org (Postfix, from userid 1000)
- id 89BF817447; Fri, 10 Jul 2020 22:36:52 +0200 (CEST)
+ id 92F2B17510; Fri, 10 Jul 2020 22:36:52 +0200 (CEST)
 From: Gerd Hoffmann <kraxel@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH 1/2] tests: fix "make check-qtest" for modular builds
-Date: Fri, 10 Jul 2020 22:36:51 +0200
-Message-Id: <20200710203652.9708-2-kraxel@redhat.com>
+Subject: [PATCH 2/2] Revert "vga: build virtio-gpu as module"
+Date: Fri, 10 Jul 2020 22:36:52 +0200
+Message-Id: <20200710203652.9708-3-kraxel@redhat.com>
 In-Reply-To: <20200710203652.9708-1-kraxel@redhat.com>
 References: <20200710203652.9708-1-kraxel@redhat.com>
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=kraxel@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=US-ASCII
-Received-SPF: pass client-ip=207.211.31.81; envelope-from=kraxel@redhat.com;
- helo=us-smtp-delivery-1.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/07/09 23:35:58
+Received-SPF: pass client-ip=205.139.110.120; envelope-from=kraxel@redhat.com;
+ helo=us-smtp-1.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/07/10 15:06:59
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
-X-Spam_score_int: -30
-X-Spam_score: -3.1
-X-Spam_bar: ---
-X-Spam_report: (-3.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1,
+X-Spam_score_int: -40
+X-Spam_score: -4.1
+X-Spam_bar: ----
+X-Spam_report: (-4.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H3=-0.01, RCVD_IN_MSPIKE_WL=-0.01,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-1, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001, URIBL_BLOCKED=0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -83,23 +85,73 @@ Cc: Laurent Vivier <lvivier@redhat.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+This reverts commit 8d5a24c83dba90b08ef163bbf166d6dfbad9019b.
+
+Compiling all virtio-gpu objects into a single module isn't a good plan
+because the individual objects have different CONFIG_* dependencies.
+Leads to module load failures on s390x due to vga support being
+disabled, which in turn breaks '-device virtio-gpu-device' (flagged by
+travis ci).
+
+So back to the drawing board for modular virtio-gpu ...
+
 Signed-off-by: Gerd Hoffmann <kraxel@redhat.com>
 ---
- tests/qtest/Makefile.include | 1 +
- 1 file changed, 1 insertion(+)
+ util/module.c            |  6 ------
+ hw/display/Makefile.objs | 23 ++++++++++-------------
+ 2 files changed, 10 insertions(+), 19 deletions(-)
 
-diff --git a/tests/qtest/Makefile.include b/tests/qtest/Makefile.include
-index 98af2c2d9338..6a0276fd42dd 100644
---- a/tests/qtest/Makefile.include
-+++ b/tests/qtest/Makefile.include
-@@ -277,6 +277,7 @@ tests/qtest/tco-test$(EXESUF): tests/qtest/tco-test.o $(libqos-pc-obj-y)
- tests/qtest/virtio-ccw-test$(EXESUF): tests/qtest/virtio-ccw-test.o
- tests/qtest/display-vga-test$(EXESUF): tests/qtest/display-vga-test.o
- tests/qtest/qom-test$(EXESUF): tests/qtest/qom-test.o
-+tests/qtest/modules-test$(EXESUF): tests/qtest/modules-test.o
- tests/qtest/test-hmp$(EXESUF): tests/qtest/test-hmp.o
- tests/qtest/machine-none-test$(EXESUF): tests/qtest/machine-none-test.o
- tests/qtest/device-plug-test$(EXESUF): tests/qtest/device-plug-test.o
+diff --git a/util/module.c b/util/module.c
+index 32b0547b8266..90e9bd42c6c7 100644
+--- a/util/module.c
++++ b/util/module.c
+@@ -266,12 +266,6 @@ static struct {
+     { "usb-redir",             "hw-", "usb-redirect"          },
+     { "qxl-vga",               "hw-", "display-qxl"           },
+     { "qxl",                   "hw-", "display-qxl"           },
+-    { "virtio-gpu-device",     "hw-", "display-virtio-gpu"    },
+-    { "virtio-gpu-pci",        "hw-", "display-virtio-gpu"    },
+-    { "virtio-vga",            "hw-", "display-virtio-gpu"    },
+-    { "vhost-user-gpu-device", "hw-", "display-virtio-gpu"    },
+-    { "vhost-user-gpu-pci",    "hw-", "display-virtio-gpu"    },
+-    { "vhost-user-vga",        "hw-", "display-virtio-gpu"    },
+     { "chardev-braille",       "chardev-", "baum"             },
+ };
+ 
+diff --git a/hw/display/Makefile.objs b/hw/display/Makefile.objs
+index e907f3182b0c..d619594ad4d3 100644
+--- a/hw/display/Makefile.objs
++++ b/hw/display/Makefile.objs
+@@ -49,19 +49,16 @@ common-obj-m += qxl.mo
+ qxl.mo-objs = qxl.o qxl-logger.o qxl-render.o
+ endif
+ 
+-ifeq ($(CONFIG_VIRTIO_GPU),y)
+-common-obj-m += virtio-gpu.mo
+-virtio-gpu-obj-$(CONFIG_VIRTIO_GPU) += virtio-gpu-base.o virtio-gpu.o virtio-gpu-3d.o
+-virtio-gpu-obj-$(CONFIG_VHOST_USER_GPU) += vhost-user-gpu.o
+-virtio-gpu-obj-$(call land,$(CONFIG_VIRTIO_GPU),$(CONFIG_VIRTIO_PCI)) += virtio-gpu-pci.o
+-virtio-gpu-obj-$(call land,$(CONFIG_VHOST_USER_GPU),$(CONFIG_VIRTIO_PCI)) += vhost-user-gpu-pci.o
+-virtio-gpu-obj-$(CONFIG_VIRTIO_VGA) += virtio-vga.o
+-virtio-gpu-obj-$(CONFIG_VHOST_USER_VGA) += vhost-user-vga.o
+-virtio-gpu.mo-objs := $(virtio-gpu-obj-y)
+-virtio-gpu.mo-cflags := $(VIRGL_CFLAGS)
+-virtio-gpu.mo-libs := $(VIRGL_LIBS)
+-endif
+-
++common-obj-$(CONFIG_VIRTIO_GPU) += virtio-gpu-base.o virtio-gpu.o virtio-gpu-3d.o
++common-obj-$(CONFIG_VHOST_USER_GPU) += vhost-user-gpu.o
++common-obj-$(call land,$(CONFIG_VIRTIO_GPU),$(CONFIG_VIRTIO_PCI)) += virtio-gpu-pci.o
++common-obj-$(call land,$(CONFIG_VHOST_USER_GPU),$(CONFIG_VIRTIO_PCI)) += vhost-user-gpu-pci.o
++common-obj-$(CONFIG_VIRTIO_VGA) += virtio-vga.o
++common-obj-$(CONFIG_VHOST_USER_VGA) += vhost-user-vga.o
++virtio-gpu.o-cflags := $(VIRGL_CFLAGS)
++virtio-gpu.o-libs += $(VIRGL_LIBS)
++virtio-gpu-3d.o-cflags := $(VIRGL_CFLAGS)
++virtio-gpu-3d.o-libs += $(VIRGL_LIBS)
+ common-obj-$(CONFIG_DPCD) += dpcd.o
+ common-obj-$(CONFIG_XLNX_ZYNQMP_ARM) += xlnx_dp.o
+ 
 -- 
 2.18.4
 
