@@ -2,67 +2,66 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 81F5F21B678
-	for <lists+qemu-devel@lfdr.de>; Fri, 10 Jul 2020 15:33:11 +0200 (CEST)
-Received: from localhost ([::1]:60288 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8B91D21B642
+	for <lists+qemu-devel@lfdr.de>; Fri, 10 Jul 2020 15:24:59 +0200 (CEST)
+Received: from localhost ([::1]:49714 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jtt9K-0002ek-HP
-	for lists+qemu-devel@lfdr.de; Fri, 10 Jul 2020 09:33:10 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:38812)
+	id 1jtt1O-0003TO-JP
+	for lists+qemu-devel@lfdr.de; Fri, 10 Jul 2020 09:24:58 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:38850)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <frank.chang@sifive.com>)
- id 1jtqfb-00069B-MH
- for qemu-devel@nongnu.org; Fri, 10 Jul 2020 06:54:19 -0400
-Received: from mail-pj1-x102a.google.com ([2607:f8b0:4864:20::102a]:39529)
+ id 1jtqff-0006AE-FD
+ for qemu-devel@nongnu.org; Fri, 10 Jul 2020 06:54:23 -0400
+Received: from mail-pf1-x435.google.com ([2607:f8b0:4864:20::435]:34653)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <frank.chang@sifive.com>)
- id 1jtqfa-0006zV-0D
- for qemu-devel@nongnu.org; Fri, 10 Jul 2020 06:54:19 -0400
-Received: by mail-pj1-x102a.google.com with SMTP id b92so2448435pjc.4
- for <qemu-devel@nongnu.org>; Fri, 10 Jul 2020 03:54:17 -0700 (PDT)
+ id 1jtqfe-0006zx-0f
+ for qemu-devel@nongnu.org; Fri, 10 Jul 2020 06:54:23 -0400
+Received: by mail-pf1-x435.google.com with SMTP id u185so2397068pfu.1
+ for <qemu-devel@nongnu.org>; Fri, 10 Jul 2020 03:54:21 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=sifive.com; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references;
- bh=0y2Zz7uq/+7dxNuHpbzv8HKYgLmeDEKfa3P6rGLA6+c=;
- b=A12frDBzzibMkK7Jj0OGmHNWp4Np+dnQPMTo3TLowKlU188u0DfoGAExV7kmk1YxA7
- 4SPZHUtkodeamqpqhBI9kZJ0uD5DYhVZCRaB859eWfRCx9doY8YhZWDJ896hsCO+8W0N
- hgTXkD6t+Z1jzU3/bBYdME7SsfYaVpSODLEmLMUpIgsZnxhxdRTi1QuceVby7XimRwrl
- di1oxGP9gRYgrXnT7/8C4OklGKW/CfF+5+jFpc0RB3tOaMIYBGwxeS5t5x90TGFQN2Xp
- r+iZtKTusM5ct+kcg9lmoG7wxpsnpPnfHNQUM9Kpcryi+gBxoTIUQew+JlM81aGzkE2B
- aWmA==
+ bh=QsDIouMcLmhjC1OHMDRAz89GdLgHmksZmjP0cqoOa0o=;
+ b=eAoofTdXU5H9pwvAB3Fl7M+erCBTMNPG+QhFHvb88xvcP+hV7RLga10zd9smjosxJI
+ Vo4rQTaxR2QD0byK73QGsQGpHfA9jCSN+7NNMjmXsmi7++HeJAWRZp0hLckt663COu3q
+ lbn2gDhL2W7ffA49Q+XsOHTcxfBya44CD/UTdWbC0Mig8FZQC0cZ2W9d43jHlLzF9d7W
+ BxW1djqWhDc13ICLVja42KujfysTgs8JAaPm0OQ4n47FtSefMjwfc4sj6g4+cpj6RCI6
+ +oGXRy8OzvGquCaGln9RZLFYblrcVhSqC6yqIxsAMZrXXoZPIsAkUomtXTk0MlSGMNT7
+ Sv4g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references;
- bh=0y2Zz7uq/+7dxNuHpbzv8HKYgLmeDEKfa3P6rGLA6+c=;
- b=WwjxFyUfBzZXU5mvA+uHrfS1I17B0qks7r2xjbBk0LQUNE4rqOM7xI+HFWHocWG1ci
- U2alDhAJEo5kcyrZzhiu8vE8bwJ/uPgX61sidCQLcUURW56Ub5f0uAIXVvoSEk5XyIku
- yrd9KB4ig0nFllSqIMmviACDWGu2JGQ2sljSTdnWTA6jUF5xxhOcxmQWppGDwlgcEa3Q
- EERfSWfHgjBR2R9mQh4STiABN9YstWpSdL8WcCKb956GiNQvpCJiPIMhcWEkgl+tw6et
- GWInGuzav9wZQwK4YLlO9GIVNKvimagIW4+pnRV0rreOZC8KNwUFgbDdCvPBTIHb3S/4
- Fmjg==
-X-Gm-Message-State: AOAM532C0/zCDYNkquqVbXsCcJ/8cWqpTbS+gTNupuGhZXcYE7fmbCDk
- 2jRdX5sC0TqhilDRY2WhjNdY9w2Z/jzm2Q==
-X-Google-Smtp-Source: ABdhPJwAKetzumjOLTBCPmX2UUm14xgr+EUvT/1d31qBPt9quCyOgHG7UTctjSFehEJ+wF8mpXSdFA==
-X-Received: by 2002:a17:90a:348d:: with SMTP id
- p13mr5011708pjb.108.1594378456632; 
- Fri, 10 Jul 2020 03:54:16 -0700 (PDT)
+ bh=QsDIouMcLmhjC1OHMDRAz89GdLgHmksZmjP0cqoOa0o=;
+ b=TR6BkuOQGXtWL9dceegeZbwb1CzrbhAfMnhUXhrJqBzsAxYK8XBrjvXePnWwlO+2pv
+ yKWSXjn0He7vSwHfrDDNQzWtfsuYtl3CzoimzjvbTLnbJzEJ5yQIDMm0twR80Jwu7jUc
+ Wp+KWeVG3/YFeSCdXF32opInP6wL0eo+Vk+39aRsET8ADCelHIHVgsNGALVdb2Uy2Q3d
+ m7YOmJ4RzUxPv/zZJGklfOcaeM/Wz8zJxTjbfs18H7VhazPPMm1uG+8qGRvsjvXkuUeD
+ NhGJVHBmxeLrPr5T6PUjf9ERjp9seHZ2iHrYb2dWp+OLL+VD6QwgnQuzN7egExLmY8nL
+ ywHw==
+X-Gm-Message-State: AOAM533FWjXKzAvL+D8Bi6oMEIyWSNXnc535uk77sMePvPhgGf+Q3eC1
+ ABtBb2n7zTWvEC3xopvW8I2zclczhbCLyg==
+X-Google-Smtp-Source: ABdhPJzhmxwKw5pdw9xdu5GF9j5xoAY+L3Ge+Sce6BELSAJGx0QlZ34G6sbkForpz2tt6DYX7A7ZhQ==
+X-Received: by 2002:a63:d911:: with SMTP id r17mr55932370pgg.202.1594378460674; 
+ Fri, 10 Jul 2020 03:54:20 -0700 (PDT)
 Received: from frankchang-ThinkPad-T490.internal.sifive.com
  (114-34-229-221.HINET-IP.hinet.net. [114.34.229.221])
- by smtp.gmail.com with ESMTPSA id r191sm5519406pfr.181.2020.07.10.03.54.14
+ by smtp.gmail.com with ESMTPSA id r191sm5519406pfr.181.2020.07.10.03.54.17
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 10 Jul 2020 03:54:16 -0700 (PDT)
+ Fri, 10 Jul 2020 03:54:20 -0700 (PDT)
 From: frank.chang@sifive.com
 To: qemu-devel@nongnu.org,
 	qemu-riscv@nongnu.org
-Subject: [RFC 55/65] target/riscv: rvv-0.9: remove vmford.vv and vmford.vf
-Date: Fri, 10 Jul 2020 18:49:09 +0800
-Message-Id: <20200710104920.13550-56-frank.chang@sifive.com>
+Subject: [RFC 56/65] target/riscv: rvv-0.9: remove integer extract instruction
+Date: Fri, 10 Jul 2020 18:49:10 +0800
+Message-Id: <20200710104920.13550-57-frank.chang@sifive.com>
 X-Mailer: git-send-email 2.17.1
 In-Reply-To: <20200710104920.13550-1-frank.chang@sifive.com>
 References: <20200710104920.13550-1-frank.chang@sifive.com>
-Received-SPF: pass client-ip=2607:f8b0:4864:20::102a;
- envelope-from=frank.chang@sifive.com; helo=mail-pj1-x102a.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::435;
+ envelope-from=frank.chang@sifive.com; helo=mail-pf1-x435.google.com
 X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
  That's all we know.
 X-Spam_score_int: -20
@@ -71,7 +70,7 @@ X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
  DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- URIBL_BLOCKED=0.001 autolearn=ham autolearn_force=no
+ URIBL_BLOCKED=0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-Mailman-Approved-At: Fri, 10 Jul 2020 08:57:18 -0400
 X-BeenThere: qemu-devel@nongnu.org
@@ -98,86 +97,63 @@ From: Frank Chang <frank.chang@sifive.com>
 
 Signed-off-by: Frank Chang <frank.chang@sifive.com>
 ---
- target/riscv/helper.h                   |  6 ------
- target/riscv/insn32.decode              |  2 --
- target/riscv/insn_trans/trans_rvv.inc.c |  2 --
- target/riscv/vector_helper.c            | 13 -------------
- 4 files changed, 23 deletions(-)
+ target/riscv/insn32.decode              |  1 -
+ target/riscv/insn_trans/trans_rvv.inc.c | 23 -----------------------
+ 2 files changed, 24 deletions(-)
 
-diff --git a/target/riscv/helper.h b/target/riscv/helper.h
-index b56342f333..e9655453bc 100644
---- a/target/riscv/helper.h
-+++ b/target/riscv/helper.h
-@@ -945,12 +945,6 @@ DEF_HELPER_6(vmfgt_vf_d, void, ptr, ptr, i64, ptr, env, i32)
- DEF_HELPER_6(vmfge_vf_h, void, ptr, ptr, i64, ptr, env, i32)
- DEF_HELPER_6(vmfge_vf_w, void, ptr, ptr, i64, ptr, env, i32)
- DEF_HELPER_6(vmfge_vf_d, void, ptr, ptr, i64, ptr, env, i32)
--DEF_HELPER_6(vmford_vv_h, void, ptr, ptr, ptr, ptr, env, i32)
--DEF_HELPER_6(vmford_vv_w, void, ptr, ptr, ptr, ptr, env, i32)
--DEF_HELPER_6(vmford_vv_d, void, ptr, ptr, ptr, ptr, env, i32)
--DEF_HELPER_6(vmford_vf_h, void, ptr, ptr, i64, ptr, env, i32)
--DEF_HELPER_6(vmford_vf_w, void, ptr, ptr, i64, ptr, env, i32)
--DEF_HELPER_6(vmford_vf_d, void, ptr, ptr, i64, ptr, env, i32)
- 
- DEF_HELPER_5(vfclass_v_h, void, ptr, ptr, ptr, env, i32)
- DEF_HELPER_5(vfclass_v_w, void, ptr, ptr, ptr, env, i32)
 diff --git a/target/riscv/insn32.decode b/target/riscv/insn32.decode
-index 2be673c2c7..47337abe52 100644
+index 47337abe52..bc0e44b8ab 100644
 --- a/target/riscv/insn32.decode
 +++ b/target/riscv/insn32.decode
-@@ -535,8 +535,6 @@ vmfle_vv        011001 . ..... ..... 001 ..... 1010111 @r_vm
- vmfle_vf        011001 . ..... ..... 101 ..... 1010111 @r_vm
- vmfgt_vf        011101 . ..... ..... 101 ..... 1010111 @r_vm
- vmfge_vf        011111 . ..... ..... 101 ..... 1010111 @r_vm
--vmford_vv       011010 . ..... ..... 001 ..... 1010111 @r_vm
--vmford_vf       011010 . ..... ..... 101 ..... 1010111 @r_vm
- vfclass_v       010011 . ..... 10000 001 ..... 1010111 @r2_vm
- vfmerge_vfm     010111 0 ..... ..... 101 ..... 1010111 @r_vm_0
- vfmv_v_f        010111 1 00000 ..... 101 ..... 1010111 @r2
+@@ -590,7 +590,6 @@ viota_m         010100 . ..... 10000 010 ..... 1010111 @r2_vm
+ vid_v           010100 . 00000 10001 010 ..... 1010111 @r1_vm
+ vmv_x_s         010000 1 ..... 00000 010 ..... 1010111 @r2rd
+ vmv_s_x         010000 1 00000 ..... 110 ..... 1010111 @r2
+-vext_x_v        001100 1 ..... ..... 010 ..... 1010111 @r
+ vfmv_f_s        010000 1 ..... 00000 001 ..... 1010111 @r2rd
+ vfmv_s_f        010000 1 00000 ..... 101 ..... 1010111 @r2
+ vslideup_vx     001110 . ..... ..... 100 ..... 1010111 @r_vm
 diff --git a/target/riscv/insn_trans/trans_rvv.inc.c b/target/riscv/insn_trans/trans_rvv.inc.c
-index 6481fa7465..2490fc5732 100644
+index 2490fc5732..fb2c119e13 100644
 --- a/target/riscv/insn_trans/trans_rvv.inc.c
 +++ b/target/riscv/insn_trans/trans_rvv.inc.c
-@@ -2564,7 +2564,6 @@ GEN_OPFVV_TRANS(vmfeq_vv, opfvv_cmp_check)
- GEN_OPFVV_TRANS(vmfne_vv, opfvv_cmp_check)
- GEN_OPFVV_TRANS(vmflt_vv, opfvv_cmp_check)
- GEN_OPFVV_TRANS(vmfle_vv, opfvv_cmp_check)
--GEN_OPFVV_TRANS(vmford_vv, opfvv_cmp_check)
+@@ -2959,8 +2959,6 @@ static bool trans_vid_v(DisasContext *s, arg_vid_v *a)
+  *** Vector Permutation Instructions
+  */
  
- static bool opfvf_cmp_check(DisasContext *s, arg_rmrr *a)
+-/* Integer Extract Instruction */
+-
+ static void load_element(TCGv_i64 dest, TCGv_ptr base,
+                          int ofs, int sew, bool sign)
  {
-@@ -2581,7 +2580,6 @@ GEN_OPFVF_TRANS(vmflt_vf, opfvf_cmp_check)
- GEN_OPFVF_TRANS(vmfle_vf, opfvf_cmp_check)
- GEN_OPFVF_TRANS(vmfgt_vf, opfvf_cmp_check)
- GEN_OPFVF_TRANS(vmfge_vf, opfvf_cmp_check)
--GEN_OPFVF_TRANS(vmford_vf, opfvf_cmp_check)
+@@ -3062,27 +3060,6 @@ static void vec_element_loadi(DisasContext *s, TCGv_i64 dest,
+     load_element(dest, cpu_env, endian_ofs(s, vreg, idx), s->sew, sign);
+ }
  
- /* Vector Floating-Point Classify Instruction */
- GEN_OPFV_TRANS(vfclass_v, opfv_check)
-diff --git a/target/riscv/vector_helper.c b/target/riscv/vector_helper.c
-index 41faa3592e..42a48be5fd 100644
---- a/target/riscv/vector_helper.c
-+++ b/target/riscv/vector_helper.c
-@@ -4107,19 +4107,6 @@ GEN_VEXT_CMP_VF(vmfge_vf_h, uint16_t, H2, vmfge16)
- GEN_VEXT_CMP_VF(vmfge_vf_w, uint32_t, H4, vmfge32)
- GEN_VEXT_CMP_VF(vmfge_vf_d, uint64_t, H8, vmfge64)
- 
--static bool float16_unordered_quiet(uint16_t a, uint16_t b, float_status *s)
+-static bool trans_vext_x_v(DisasContext *s, arg_r *a)
 -{
--    FloatRelation compare = float16_compare_quiet(a, b, s);
--    return compare == float_relation_unordered;
+-    TCGv_i64 tmp = tcg_temp_new_i64();
+-    TCGv dest = tcg_temp_new();
+-
+-    if (a->rs1 == 0) {
+-        /* Special case vmv.x.s rd, vs2. */
+-        vec_element_loadi(s, tmp, a->rs2, 0);
+-    } else {
+-        /* This instruction ignores LMUL and vector register groups */
+-        int vlmax = s->vlen >> (3 + s->sew);
+-        vec_element_loadx(s, tmp, a->rs2, cpu_gpr[a->rs1], vlmax);
+-    }
+-    tcg_gen_trunc_i64_tl(dest, tmp);
+-    gen_set_gpr(a->rd, dest);
+-
+-    tcg_temp_free(dest);
+-    tcg_temp_free_i64(tmp);
+-    return true;
 -}
 -
--GEN_VEXT_CMP_VV_ENV(vmford_vv_h, uint16_t, H2, !float16_unordered_quiet)
--GEN_VEXT_CMP_VV_ENV(vmford_vv_w, uint32_t, H4, !float32_unordered_quiet)
--GEN_VEXT_CMP_VV_ENV(vmford_vv_d, uint64_t, H8, !float64_unordered_quiet)
--GEN_VEXT_CMP_VF(vmford_vf_h, uint16_t, H2, !float16_unordered_quiet)
--GEN_VEXT_CMP_VF(vmford_vf_w, uint32_t, H4, !float32_unordered_quiet)
--GEN_VEXT_CMP_VF(vmford_vf_d, uint64_t, H8, !float64_unordered_quiet)
--
- /* Vector Floating-Point Classify Instruction */
- #define OPIVV1(NAME, TD, T2, TX2, HD, HS2, OP)         \
- static void do_##NAME(void *vd, void *vs2, int i)      \
+ /* Integer Scalar Move Instruction */
+ 
+ static void store_element(TCGv_i64 val, TCGv_ptr base,
 -- 
 2.17.1
 
