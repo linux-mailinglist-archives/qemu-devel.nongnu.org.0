@@ -2,70 +2,73 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C048C21B331
-	for <lists+qemu-devel@lfdr.de>; Fri, 10 Jul 2020 12:30:52 +0200 (CEST)
-Received: from localhost ([::1]:46990 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 07A7721B346
+	for <lists+qemu-devel@lfdr.de>; Fri, 10 Jul 2020 12:39:26 +0200 (CEST)
+Received: from localhost ([::1]:53828 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jtqIr-0004t1-TG
-	for lists+qemu-devel@lfdr.de; Fri, 10 Jul 2020 06:30:50 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:59818)
+	id 1jtqRA-0008Hy-Gl
+	for lists+qemu-devel@lfdr.de; Fri, 10 Jul 2020 06:39:24 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:33456)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1jtqHn-0004LD-MU
- for qemu-devel@nongnu.org; Fri, 10 Jul 2020 06:29:43 -0400
-Received: from mail-oi1-x243.google.com ([2607:f8b0:4864:20::243]:34090)
+ (Exim 4.90_1) (envelope-from <liq3ea@gmail.com>) id 1jtqPt-0007iO-6Z
+ for qemu-devel@nongnu.org; Fri, 10 Jul 2020 06:38:05 -0400
+Received: from mail-oi1-x241.google.com ([2607:f8b0:4864:20::241]:45797)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1jtqHm-0003ew-0i
- for qemu-devel@nongnu.org; Fri, 10 Jul 2020 06:29:43 -0400
-Received: by mail-oi1-x243.google.com with SMTP id e4so4420727oib.1
- for <qemu-devel@nongnu.org>; Fri, 10 Jul 2020 03:29:41 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ (Exim 4.90_1) (envelope-from <liq3ea@gmail.com>) id 1jtqPr-0004qE-It
+ for qemu-devel@nongnu.org; Fri, 10 Jul 2020 06:38:04 -0400
+Received: by mail-oi1-x241.google.com with SMTP id j11so4383183oiw.12
+ for <qemu-devel@nongnu.org>; Fri, 10 Jul 2020 03:38:03 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=YT1yL2dvNdbVLoHbR0MSMr6nlgNGNCdBLleRjwQF+Ic=;
- b=ZDRb8wUM3DAH2UY6cjsKL7IdByg5mowIGPjQ07Sozdz23x7Ep1F+o37kzru5oMBh+R
- /QksWO98Pm7yzLuteTdUg9ym5eHa4Irgyps+/eoZdSm2RMIAQjAaYWhVi0xUeWoi892y
- AW7c5qTAhii7BqCihQVkZljDRAtAI437hC6B9afVeWgCnSqUG4dArBS4FxCSIqs8UxVP
- fYskULQf4usMoYQ7FL5OihO7eiLv7GHG/1hl/9LDKTai4aOCmXdaOs6NMriSHZdoPKsU
- gnzfTF5ewhM0tt8pclOecB9blphHZ4d+sp5MSLq37DdcX8DqlUnzOtlCrfh+qmNoUenD
- ZmXQ==
+ :cc:content-transfer-encoding;
+ bh=jA7kcmdz/StLRdLNk02A347atjQiR3nH3pe9TdcT+HU=;
+ b=pTj9Ie77qFm4md4gcZi1EmofpHyO7jFZ5noEtotjghck45ObL/V2gFpS9Mz8dozbC0
+ gb9FE8DDmWpS1B9caaKPR1Vc4y/AzShrXi2AAzPfVQ0bxWUfuoIEqBLWkYqoi/igYP+e
+ rsFTbcx4ULKZbqqmOwNNGZeG4osyV33CD+BdR1NUf4EZwc416q4G5Df/66Su6tD6g+Sm
+ 2QHwZshBdlWfkQrLP/3EQ9oVZs76wdRyj2LblDcDfXhiVFDj5bLuAxBWfIgpn0og/Hl3
+ NWX9yUkVxxc8LRbrobJ9oKVN5qz5/oG16ZVEYNQxA3wJORSVoUP39k1Wg/0AV8R3kRMP
+ X/iA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=YT1yL2dvNdbVLoHbR0MSMr6nlgNGNCdBLleRjwQF+Ic=;
- b=QyJeb0/3K7pSo8l2gD+eVqVjxLdK+VcNIW0TCFQDJNw1+Yvertqih+3iCb6zQ/c6VR
- ICfvxXq74Y95aTsjrA2HPZBTqbf2EdISUx/+VK8IzWt21d3dSVNZxJ6UXN1D/rueKzB8
- QKZUefCDLA1y6iH8ztHEcKtRhiXW/M3uKulhxvP9FkRxrgxNYVYiNp2Wt6U56pFlSV+h
- wcv0EpTwr2R6shJdmA/LCPfH3apiP/sYR8yfrLgTTj0wZ0hiNq/+8X1CAFfAXWI97WYK
- QBh/8GXjKB3G9YIDvJfGLb4Y+i3he7OaE84wt4ULhZzH8krtIb1KQqSST23vubtH5hOx
- YZ/w==
-X-Gm-Message-State: AOAM533LngUbxU0/Oz3Rk5DSPfrBQcvYResHpoi1stEPdEaWYbU471OP
- PtNAZJz3U0OaLCAoM3O8WIPO1WhBhuF8L45ONx/UmA==
-X-Google-Smtp-Source: ABdhPJy/UB0vPry1wOEmmAucIQgXsYsY5UudbamO9fDCtiJG55fUsW5mI3cg0V0d0JUQuiEJFkKVjL3dumwGnKj9yM8=
-X-Received: by 2002:aca:54c9:: with SMTP id i192mr3642157oib.163.1594376980287; 
- Fri, 10 Jul 2020 03:29:40 -0700 (PDT)
+ :message-id:subject:to:cc:content-transfer-encoding;
+ bh=jA7kcmdz/StLRdLNk02A347atjQiR3nH3pe9TdcT+HU=;
+ b=dFbEdUJkYPiD+j123yKEf4ff9CHKarrH2IHiCof4NEiP6xB5UQDvMC7SKE+fMAyIP9
+ NjgJFxDg4XxK1l0WBxQfWTpSdMKIWdIcixYOWOo+R9rGMjZAhH0RglU2hZW66fdlhVMo
+ GCqlFNadWR8GyOboBfaHpHPvMnBBE5Z0mnA5Z/kJwK5YWeNngSKaKTZNli9vwBAMV10U
+ hjf5NJ8FxZ4qnwecyo6RYWv+cricL+0VyY4WwX2rwOAjkmP0I9Oemjmrg6ScXwSOZjbD
+ K5eFV8qtz7BKzlCgptEUWLbLJgvO5jLO5CUjYZPGEMvw/6tZQut3hLfmiqbIwXYQseBp
+ J2Ig==
+X-Gm-Message-State: AOAM5332U5hwRMeSiOVfD6x65ejoqm9fYijT2YshGe4o5kkBIgnWH4bj
+ Xsn2clXvqRaMdwy6R5bW8hYBk2H52dZr4xEkDqI=
+X-Google-Smtp-Source: ABdhPJwFtriuirmsxD7uv5EBUtw3gK4PbxwU8IHKX3R1nBvSRE42SnI1qXGTZUE7okdnpihl09catYYzq26a7niuBr0=
+X-Received: by 2002:aca:494d:: with SMTP id w74mr3721256oia.97.1594377482417; 
+ Fri, 10 Jul 2020 03:38:02 -0700 (PDT)
 MIME-Version: 1.0
-References: <20200707152024.459718-1-stefanha@redhat.com>
-In-Reply-To: <20200707152024.459718-1-stefanha@redhat.com>
-From: Peter Maydell <peter.maydell@linaro.org>
-Date: Fri, 10 Jul 2020 11:29:27 +0100
-Message-ID: <CAFEAcA9+Q40=3oxZFV+XDjEu13RzQk+aDZf3rSG2guCeqLJw+Q@mail.gmail.com>
-Subject: Re: [PULL 0/1] Tracing patches
-To: Stefan Hajnoczi <stefanha@redhat.com>
+References: <159400349818.1851.7243060688419202620.malonedeb@wampee.canonical.com>
+ <CAKXe6S+J3nARveToQjECbwV224gs66WkqGHybUhfw35t1+V8og@mail.gmail.com>
+ <2cbdf822-c74c-1af9-e5e6-7dd71412201e@redhat.com>
+In-Reply-To: <2cbdf822-c74c-1af9-e5e6-7dd71412201e@redhat.com>
+From: Li Qiang <liq3ea@gmail.com>
+Date: Fri, 10 Jul 2020 18:37:26 +0800
+Message-ID: <CAKXe6S+ct7D+ibGmrAMJnqKBBKyUpwVnCem8=d=jB-0tUT-N2Q@mail.gmail.com>
+Subject: Re: [Bug 1886362] [NEW] Heap use-after-free in lduw_he_p through
+ e1000e_write_to_rx_buffers
+To: Paolo Bonzini <pbonzini@redhat.com>
 Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2607:f8b0:4864:20::243;
- envelope-from=peter.maydell@linaro.org; helo=mail-oi1-x243.google.com
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=2607:f8b0:4864:20::241;
+ envelope-from=liq3ea@gmail.com; helo=mail-oi1-x241.google.com
 X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
  That's all we know.
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- URIBL_BLOCKED=0.001 autolearn=ham autolearn_force=no
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -78,44 +81,51 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Paolo Bonzini <pbonzini@redhat.com>, Cleber Rosa <crosa@redhat.com>,
- QEMU Developers <qemu-devel@nongnu.org>, Eduardo Habkost <ehabkost@redhat.com>,
- Gerd Hoffmann <kraxel@redhat.com>
+Cc: Bug 1886362 <1886362@bugs.launchpad.net>, Jason Wang <jasowang@redhat.com>,
+ Qemu Developers <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Tue, 7 Jul 2020 at 16:20, Stefan Hajnoczi <stefanha@redhat.com> wrote:
+Paolo Bonzini <pbonzini@redhat.com> =E4=BA=8E2020=E5=B9=B47=E6=9C=8810=E6=
+=97=A5=E5=91=A8=E4=BA=94 =E4=B8=8A=E5=8D=881:36=E5=86=99=E9=81=93=EF=BC=9A
 >
-> The following changes since commit 7623b5ba017f61de5d7c2bba12c6feb3d55091b1:
+> On 09/07/20 17:51, Li Qiang wrote:
+> > Maybe we should check whether the address is a RAM address in 'dma_memo=
+ry_rw'?
+> > But it is a hot path. I'm not sure it is right. Hope more discussion.
 >
->   Merge remote-tracking branch 'remotes/vivier2/tags/linux-user-for-5.1-pull-request' into staging (2020-07-06 11:40:10 +0100)
->
-> are available in the Git repository at:
->
->   https://github.com/stefanha/qemu.git tags/tracing-pull-request
->
-> for you to fetch changes up to 27e08bab94f7c6ebe0b75938c98c394c969e3fd8:
->
->   tracetool: work around ust <sys/sdt.h> include conflict (2020-07-07 16:07:14 +0100)
->
-> ----------------------------------------------------------------
-> Pull request
->
-> Fix for a LTTng Userspace Tracer header problem.
->
-> ----------------------------------------------------------------
->
-> Stefan Hajnoczi (1):
->   tracetool: work around ust <sys/sdt.h> include conflict
->
->  scripts/tracetool/backend/dtrace.py | 6 ++++++
->  1 file changed, 6 insertions(+)
+> Half of the purpose of dma-helpers.c (as opposed to address_space_*
+> functions in exec.c) is exactly to support writes to MMIO.  This is
+
+Hi Paolo,
+
+Could you please explain more about this(to support writes to MMIO).
+I can just see the dma helpers with sg DMA, not related with MMIO.
 
 
-Applied, thanks.
+> especially true of dma_blk_io, which takes care of doing the DMA via a
+> bounce buffer, possibly in multiple steps and even blocking due to
+> cpu_register_map_client.
+>
+> For dma_memory_rw this is not needed, so it only needs to handle
+> QEMUSGList, but I think the design should be the same.
+>
+> However, this is indeed a nightmare for re-entrancy.  The easiest
+> solution is to delay processing of descriptors to a bottom half whenever
+> MMIO is doing something complicated.  This is also better for latency
+> because it will free the vCPU thread more quickly and leave the work to
+> the I/O thread.
 
-Please update the changelog at https://wiki.qemu.org/ChangeLog/5.1
-for any user-visible changes.
+Do you mean we define a per-e1000e bottom half. And in the MMIO write
+or packet send
+trigger this bh? So even if we again trigger the MMIO write, then
+second bh will not be executed?
 
--- PMM
+
+Thanks,
+Li Qiang
+
+>
+> Paolo
+>
 
