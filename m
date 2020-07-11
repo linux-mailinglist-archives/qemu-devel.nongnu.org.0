@@ -2,71 +2,72 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B494121C56D
-	for <lists+qemu-devel@lfdr.de>; Sat, 11 Jul 2020 19:10:13 +0200 (CEST)
-Received: from localhost ([::1]:51976 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id BAF7F21C56A
+	for <lists+qemu-devel@lfdr.de>; Sat, 11 Jul 2020 19:08:51 +0200 (CEST)
+Received: from localhost ([::1]:44546 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1juJ0u-00082H-Il
-	for lists+qemu-devel@lfdr.de; Sat, 11 Jul 2020 13:10:12 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:33210)
+	id 1juIza-00054G-Km
+	for lists+qemu-devel@lfdr.de; Sat, 11 Jul 2020 13:08:50 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:33216)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1juIyS-0003NM-8E
+ id 1juIyS-0003OO-Ux
  for qemu-devel@nongnu.org; Sat, 11 Jul 2020 13:07:40 -0400
-Received: from mail-wr1-x444.google.com ([2a00:1450:4864:20::444]:46581)
+Received: from mail-wr1-x434.google.com ([2a00:1450:4864:20::434]:37235)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1juIyQ-0006hI-Az
- for qemu-devel@nongnu.org; Sat, 11 Jul 2020 13:07:39 -0400
-Received: by mail-wr1-x444.google.com with SMTP id r12so8945832wrj.13
- for <qemu-devel@nongnu.org>; Sat, 11 Jul 2020 10:07:37 -0700 (PDT)
+ id 1juIyR-0006hO-0E
+ for qemu-devel@nongnu.org; Sat, 11 Jul 2020 13:07:40 -0400
+Received: by mail-wr1-x434.google.com with SMTP id a6so8983389wrm.4
+ for <qemu-devel@nongnu.org>; Sat, 11 Jul 2020 10:07:38 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=OO5QET4LtmEfAVYxPO2I8IFA0YsWV4r+MxTZRfSVWs0=;
- b=UNd4SAMgmNKE4lxa3rqbPw26qbXY7peJGpfCyPDQLTQHNgydfzOD0Tl/m3JBkKOJpc
- AdPq/quto9L4pFuWf/oQ8UH43vPadSywzZSrPWLbhpy+m7GA5OeJD+Rm5hyRVSsbllYl
- On2SizG4QZl4NZRe8Y2WEYiZ0UTC+5GwuEl2vCD25yt9grK2BsJoEx7O2lF6VgX5mp7D
- PRoPAZSRw4EPkPFW3pZuyckOqAbXQRmvYWEKo1PaGKJ4sOrU/wkEanEvGXT2TmRwpgo6
- GnVmKI2roWaS05lBPZaXY4IkHqBCI4oL6erxC758i+VJKbqNemuUudAVao+lPHJ7D3N0
- ke5g==
+ bh=GlUgvngOZnRX3GgJ1xL0C8Uj1g/LwLg5JPDA/WlWH+w=;
+ b=RnPerTqm3aHrkXW+4VWK2Ac7jngKyC9bnsEq+1MloYKVxdzRnCoWWpyuHaFqy5SyXp
+ Asg+dyXwdeptZ5C5JnPooDg5FHZWm+OseYqulHCpl7io/DxJCqczBvBTp7809XvNmu3V
+ AZxf13OjpeZFTmE3RkXV5Sw8HkEfhh3ZawRm1egMzURdCk4Dfxy53w6bZBkSMRRusYE2
+ LAoQggCJtqXUG4Cs3aqNqwkjBHiqdfkjwHnX1xEcDn82/FChf6/I6DWApuONasXf8rN5
+ JPLT/r5fgYCebENoj1FoAP826+Z0V7VPmM1QtN4WmcnFdYlrGe//tUmFnHMfICzYHGpJ
+ FMyg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=OO5QET4LtmEfAVYxPO2I8IFA0YsWV4r+MxTZRfSVWs0=;
- b=e82oE2qj8c9vUogXp77P2BW+cMPCKCaUQrVNfFBkCBC088TxGi+8yiHqFvlo6s0fUC
- fjSZsGDjiJKXlKMyahddWdad8H0lp7Pka3KABrF3NVF1WYpnuNmUwef42OJ4tFJkjYei
- jbhSIRdB9IM4Hqxa6L+zknwgAfw5Lph74LQ6nwpddwR8ue3XB1PZ8Zt0OtvDirMY6T0t
- pXwnsXfcjkLHInWU6UVIFCSg0i2e1dwGFQg9h89qsABTqrMbfAvBtvt2S1lxLrtZzzzV
- nChTLVTGdIl2PgPdPOyGCmMEAAma/m6V6CbXNpuLzorLcj0Q02SDE0uSzdHq8lIvh9bq
- A3HQ==
-X-Gm-Message-State: AOAM530FvCqADDgloURlsSiGqfzPVthEqz7Xm43cq7L+xsDKkPWf286P
- LeMh+gOHVYisytzMCtmOjot7aQ==
-X-Google-Smtp-Source: ABdhPJyMrP0Fdtdp6MNFvl7zr2whETFWuyHh6fF+/Kw2RObkD/gHFuZ4GsuWlSy9pYro0EVDWLGEIA==
-X-Received: by 2002:adf:eec8:: with SMTP id a8mr73665988wrp.421.1594487256562; 
- Sat, 11 Jul 2020 10:07:36 -0700 (PDT)
+ bh=GlUgvngOZnRX3GgJ1xL0C8Uj1g/LwLg5JPDA/WlWH+w=;
+ b=oXx1qDZ4Stfu1DOzCwC6UO0mMNMEbKmmzwRgtwsTOyE1QsA7EoCN/QaNciEcU8mx6n
+ Ch+gtpGV8j5me2iKjH11KWShBUqisjb/tOGVUQ109NyqOt1QGFgHoAThdgQtUtRZ9I9a
+ p0j2KsI5ogB1WwMbQ8siflFY6tWRwlA8LJqc1/PTKD6MQQy3j2n+OjV2Ejt0zT30xMeR
+ xIAlzALk/z3zavjnPGax9C6ZmNihUgpRw5gx5hfaf1uC6l1wKUkPjcU+Vpama/wU2biu
+ igxht4vgh4ujFMBM9DALJbGBGhjVecs5t+aJGAkZujDiWfMhII/BYi3u+9W5zNM8kHAb
+ 5kJg==
+X-Gm-Message-State: AOAM53067aa9aBjLOLs3fxN4T0nlSWlndV7Fz0CLWWV0NZXZc8Faar/G
+ 8bUXLvmt/djXehmMpi5kEOwkLA==
+X-Google-Smtp-Source: ABdhPJx9reANItf2+uduOE3QgE/oERPRdPU3LF8kdclnZMOb7H7Bu3pfc5p526oS+mvVOR6g14hQ2Q==
+X-Received: by 2002:adf:c3c7:: with SMTP id d7mr70401426wrg.51.1594487257607; 
+ Sat, 11 Jul 2020 10:07:37 -0700 (PDT)
 Received: from zen.linaroharston ([51.148.130.216])
- by smtp.gmail.com with ESMTPSA id 65sm17571494wre.6.2020.07.11.10.07.32
+ by smtp.gmail.com with ESMTPSA id v12sm15239745wrt.31.2020.07.11.10.07.32
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
  Sat, 11 Jul 2020 10:07:32 -0700 (PDT)
 Received: from zen.lan (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id 514111FF8C;
+ by zen.linaroharston (Postfix) with ESMTP id 676101FF8F;
  Sat, 11 Jul 2020 18:07:32 +0100 (BST)
 From: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
 To: peter.maydell@linaro.org
-Subject: [PULL v2 42/50] docs/devel: convert and update MTTCG design document
-Date: Sat, 11 Jul 2020 18:07:24 +0100
-Message-Id: <20200711170732.26213-3-alex.bennee@linaro.org>
+Subject: [PULL v2 43/50] docs/devel: add some notes on tcg-icount for
+ developers
+Date: Sat, 11 Jul 2020 18:07:25 +0100
+Message-Id: <20200711170732.26213-4-alex.bennee@linaro.org>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20200711170732.26213-1-alex.bennee@linaro.org>
 References: <20200711170732.26213-1-alex.bennee@linaro.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::444;
- envelope-from=alex.bennee@linaro.org; helo=mail-wr1-x444.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::434;
+ envelope-from=alex.bennee@linaro.org; helo=mail-wr1-x434.google.com
 X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
  That's all we know.
 X-Spam_score_int: -20
@@ -89,137 +90,137 @@ List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
 Cc: Richard Henderson <richard.henderson@linaro.org>,
- =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>, qemu-devel@nongnu.org
+ =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>, qemu-devel@nongnu.org,
+ Pavel Dovgalyuk <dovgaluk@ispras.ru>, Paolo Bonzini <pbonzini@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Do a light conversion to .rst and clean-up some of the language at the
-start now MTTCG has been merged for a while.
+This attempts to bring together my understanding of the requirements
+for icount behaviour into one reference document for our developer
+notes.
 
 Signed-off-by: Alex Bennée <alex.bennee@linaro.org>
 Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
-Message-Id: <20200709141327.14631-2-alex.bennee@linaro.org>
+Cc: Paolo Bonzini <pbonzini@redhat.com>
+Cc: Pavel Dovgalyuk <dovgaluk@ispras.ru>
+Cc: Peter Maydell <peter.maydell@linaro.org>
+Message-Id: <20200709141327.14631-3-alex.bennee@linaro.org>
 
 diff --git a/docs/devel/index.rst b/docs/devel/index.rst
-index bb8238c5d6..4ecaea3643 100644
+index 4ecaea3643..ae6eac7c9c 100644
 --- a/docs/devel/index.rst
 +++ b/docs/devel/index.rst
 @@ -23,6 +23,7 @@ Contents:
     decodetree
     secure-coding-practices
     tcg
-+   multi-thread-tcg
++   tcg-icount
+    multi-thread-tcg
     tcg-plugins
     bitops
-    reset
-diff --git a/docs/devel/multi-thread-tcg.txt b/docs/devel/multi-thread-tcg.rst
-similarity index 90%
-rename from docs/devel/multi-thread-tcg.txt
-rename to docs/devel/multi-thread-tcg.rst
-index 3c85ac0eab..42158b77c7 100644
---- a/docs/devel/multi-thread-tcg.txt
-+++ b/docs/devel/multi-thread-tcg.rst
-@@ -1,15 +1,17 @@
--Copyright (c) 2015-2016 Linaro Ltd.
+diff --git a/docs/devel/tcg-icount.rst b/docs/devel/tcg-icount.rst
+new file mode 100644
+index 0000000000..8d67b6c076
+--- /dev/null
++++ b/docs/devel/tcg-icount.rst
+@@ -0,0 +1,97 @@
 +..
-+  Copyright (c) 2015-2020 Linaro Ltd.
- 
--This work is licensed under the terms of the GNU GPL, version 2 or
--later. See the COPYING file in the top-level directory.
-+  This work is licensed under the terms of the GNU GPL, version 2 or
-+  later. See the COPYING file in the top-level directory.
- 
- Introduction
- ============
- 
--This document outlines the design for multi-threaded TCG system-mode
--emulation. The current user-mode emulation mirrors the thread
--structure of the translated executable. Some of the work will be
--applicable to both system and linux-user emulation.
-+This document outlines the design for multi-threaded TCG (a.k.a MTTCG)
-+system-mode emulation. user-mode emulation has always mirrored the
-+thread structure of the translated executable although some of the
-+changes done for MTTCG system emulation have improved the stability of
-+linux-user emulation.
- 
- The original system-mode TCG implementation was single threaded and
- dealt with multiple CPUs with simple round-robin scheduling. This
-@@ -21,9 +23,18 @@ vCPU Scheduling
- ===============
- 
- We introduce a new running mode where each vCPU will run on its own
--user-space thread. This will be enabled by default for all FE/BE
--combinations that have had the required work done to support this
--safely.
-+user-space thread. This is enabled by default for all FE/BE
-+combinations where the host memory model is able to accommodate the
-+guest (TCG_GUEST_DEFAULT_MO & ~TCG_TARGET_DEFAULT_MO is zero) and the
-+guest has had the required work done to support this safely
-+(TARGET_SUPPORTS_MTTCG).
++   Copyright (c) 2020, Linaro Limited
++   Written by Alex Bennée
 +
-+System emulation will fall back to the original round robin approach
-+if:
 +
-+* forced by --accel tcg,thread=single
-+* enabling --icount mode
-+* 64 bit guests on 32 bit hosts (TCG_OVERSIZED_GUEST)
- 
- In the general case of running translated code there should be no
- inter-vCPU dependencies and all vCPUs should be able to run at full
-@@ -61,7 +72,9 @@ have their block-to-block jumps patched.
- Global TCG State
- ----------------
- 
--### User-mode emulation
-+User-mode emulation
-+~~~~~~~~~~~~~~~~~~~
++========================
++TCG Instruction Counting
++========================
 +
- We need to protect the entire code generation cycle including any post
- generation patching of the translated code. This also implies a shared
- translation buffer which contains code running on all cores. Any
-@@ -78,9 +91,11 @@ patching.
- 
- Code generation is serialised with mmap_lock().
- 
--### !User-mode emulation
-+!User-mode emulation
-+~~~~~~~~~~~~~~~~~~~~
++TCG has long supported a feature known as icount which allows for
++instruction counting during execution. This should not be confused
++with cycle accurate emulation - QEMU does not attempt to emulate how
++long an instruction would take on real hardware. That is a job for
++other more detailed (and slower) tools that simulate the rest of a
++micro-architecture.
 +
- Each vCPU has its own TCG context and associated TCG region, thereby
--requiring no locking.
-+requiring no locking during translation.
- 
- Translation Blocks
- ------------------
-@@ -92,6 +107,7 @@ including:
- 
-   - debugging operations (breakpoint insertion/removal)
-   - some CPU helper functions
-+  - linux-user spawning it's first thread
- 
- This is done with the async_safe_run_on_cpu() mechanism to ensure all
- vCPUs are quiescent when changes are being made to shared global
-@@ -250,8 +266,10 @@ to enforce a particular ordering of memory operations from the point
- of view of external observers (e.g. another processor core). They can
- apply to any memory operations as well as just loads or stores.
- 
--The Linux kernel has an excellent write-up on the various forms of
--memory barrier and the guarantees they can provide [1].
-+The Linux kernel has an excellent `write-up
-+<https://git.kernel.org/cgit/linux/kernel/git/torvalds/linux.git/plain/Documentation/memory-barriers.txt>`
-+on the various forms of memory barrier and the guarantees they can
-+provide.
- 
- Barriers are often wrapped around synchronisation primitives to
- provide explicit memory ordering semantics. However they can be used
-@@ -352,7 +370,3 @@ an exclusive lock which ensures all emulation is serialised.
- While the atomic helpers look good enough for now there may be a need
- to look at solutions that can more closely model the guest
- architectures semantics.
--
--==========
--
--[1] https://git.kernel.org/cgit/linux/kernel/git/torvalds/linux.git/plain/Documentation/memory-barriers.txt
++This feature is only available for system emulation and is
++incompatible with multi-threaded TCG. It can be used to better align
++execution time with wall-clock time so a "slow" device doesn't run too
++fast on modern hardware. It can also provides for a degree of
++deterministic execution and is an essential part of the record/replay
++support in QEMU.
++
++Core Concepts
++=============
++
++At its heart icount is simply a count of executed instructions which
++is stored in the TimersState of QEMU's timer sub-system. The number of
++executed instructions can then be used to calculate QEMU_CLOCK_VIRTUAL
++which represents the amount of elapsed time in the system since
++execution started. Depending on the icount mode this may either be a
++fixed number of ns per instruction or adjusted as execution continues
++to keep wall clock time and virtual time in sync.
++
++To be able to calculate the number of executed instructions the
++translator starts by allocating a budget of instructions to be
++executed. The budget of instructions is limited by how long it will be
++until the next timer will expire. We store this budget as part of a
++vCPU icount_decr field which shared with the machinery for handling
++cpu_exit(). The whole field is checked at the start of every
++translated block and will cause a return to the outer loop to deal
++with whatever caused the exit.
++
++In the case of icount, before the flag is checked we subtract the
++number of instructions the translation block would execute. If this
++would cause the instruction budget to go negative we exit the main
++loop and regenerate a new translation block with exactly the right
++number of instructions to take the budget to 0 meaning whatever timer
++was due to expire will expire exactly when we exit the main run loop.
++
++Dealing with MMIO
++-----------------
++
++While we can adjust the instruction budget for known events like timer
++expiry we cannot do the same for MMIO. Every load/store we execute
++might potentially trigger an I/O event, at which point we will need an
++up to date and accurate reading of the icount number.
++
++To deal with this case, when an I/O access is made we:
++
++  - restore un-executed instructions to the icount budget
++  - re-compile a single [1]_ instruction block for the current PC
++  - exit the cpu loop and execute the re-compiled block
++
++The new block is created with the CF_LAST_IO compile flag which
++ensures the final instruction translation starts with a call to
++gen_io_start() so we don't enter a perpetual loop constantly
++recompiling a single instruction block. For translators using the
++common translator_loop this is done automatically.
++  
++.. [1] sometimes two instructions if dealing with delay slots  
++
++Other I/O operations
++--------------------
++
++MMIO isn't the only type of operation for which we might need a
++correct and accurate clock. IO port instructions and accesses to
++system registers are the common examples here. These instructions have
++to be handled by the individual translators which have the knowledge
++of which operations are I/O operations.
++
++When the translator is handling an instruction of this kind:
++
++* it must call gen_io_start() if icount is enabled, at some
++   point before the generation of the code which actually does
++   the I/O, using a code fragment similar to:
++
++.. code:: c
++
++    if (tb_cflags(s->base.tb) & CF_USE_ICOUNT) {
++        gen_io_start();
++    }
++
++* it must end the TB immediately after this instruction
++
++Note that some older front-ends call a "gen_io_end()" function:
++this is obsolete and should not be used.
 -- 
 2.20.1
 
