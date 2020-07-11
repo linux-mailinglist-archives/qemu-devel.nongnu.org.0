@@ -2,65 +2,67 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id ED88F21C4A4
-	for <lists+qemu-devel@lfdr.de>; Sat, 11 Jul 2020 16:25:46 +0200 (CEST)
-Received: from localhost ([::1]:54974 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1956521C4A7
+	for <lists+qemu-devel@lfdr.de>; Sat, 11 Jul 2020 16:26:49 +0200 (CEST)
+Received: from localhost ([::1]:59538 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1juGRl-0001l3-8m
-	for lists+qemu-devel@lfdr.de; Sat, 11 Jul 2020 10:25:45 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:35316)
+	id 1juGSm-0003ei-23
+	for lists+qemu-devel@lfdr.de; Sat, 11 Jul 2020 10:26:48 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:35320)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1juGQa-0000bh-VH
- for qemu-devel@nongnu.org; Sat, 11 Jul 2020 10:24:32 -0400
-Received: from mail-wm1-x332.google.com ([2a00:1450:4864:20::332]:52081)
+ id 1juGQb-0000bl-5a
+ for qemu-devel@nongnu.org; Sat, 11 Jul 2020 10:24:33 -0400
+Received: from mail-wr1-x42a.google.com ([2a00:1450:4864:20::42a]:37564)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1juGQY-0003uh-WA
+ id 1juGQZ-0003ul-Ca
  for qemu-devel@nongnu.org; Sat, 11 Jul 2020 10:24:32 -0400
-Received: by mail-wm1-x332.google.com with SMTP id 22so8933465wmg.1
+Received: by mail-wr1-x42a.google.com with SMTP id a6so8689238wrm.4
  for <qemu-devel@nongnu.org>; Sat, 11 Jul 2020 07:24:30 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=U/Oph6SmnWBvGF9fJeRVDOZRNTOLPbEqlwXqKuB7Iqo=;
- b=HuO9224cyYF4Vhbng/WGxlFyvK9DsfNY8wNk6sYQYuZotdGOBIo/nKdvfDi82+h4SR
- zqHT6Kx+dKup8TQnLlSlkLg8wcGzA0m76C3udSuZ/bEK7Dbt5KFc6TG6pqwJr5SZTCMN
- i8oatzTxwsnJGooTN1LJhhghu/a0mYaHuR2Bm7hZuaZIGLD+h4sFFOvKrwCLATVC7sA8
- ZYwPt3dxGZUQB8v8DR38K2cIs+z7LQ1pvHxXvh6P4y5eBQryHYHiFpOoiwcrfPRBX5bT
- CTNRSi6t0P6TwLKi83Uw2e9uMvyn38ai+lWsvblvwD9iq//intgl9kH8enNISpPtKrXi
- bdQw==
+ h=from:to:cc:subject:date:message-id:in-reply-to:references
+ :mime-version:content-transfer-encoding;
+ bh=v8mHmtdIzSaQMbyzkPxWV2NqBNHMAqcUngVPlqJSJqg=;
+ b=rJz3iHtWLXviGhFqW2O0e/NmA3tEKOay1FUvlm5h/Ew2Sv8FAjCvyBUR4nCEtBZv7r
+ 6N+eyBW9ymGBkDOZE/e30pkDLm34VGKWGv7RllVLoGGS4LvXgYqv5JspRFOkt7u4t+bs
+ 6b9agSfYJPZ+6KJ0cZrx3JG/qTyGi+BZF5bHl6xLZot2h/zHxx2XXn2vpeQ+3rr+513g
+ +ZEYM3Mk8OyBDc3NY5+3iJSB0uUH8a8O+2lRUUSUYW3kNQio7UOL6MWlXZ+Ano7aVnkI
+ 2yaNwCahVPyckJ4fcnzowIeU4wx3Fr3+IdmsCIIUjLTBH7XPb8IdM4DlMINDNJwdL9Ul
+ wu5A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=U/Oph6SmnWBvGF9fJeRVDOZRNTOLPbEqlwXqKuB7Iqo=;
- b=UotR8QgzYlZ0gEEIh4dmk2hA6nCRKtU9cQA+McubflYJYfYN3JkUmAWezTkTAKODG/
- KZTkgdqwGMxwl7eJjQvpEZQtJ6Tx7RWtMT9PuL0IypgPhcE+l9T1CBMkrOIifGgcTBOv
- lBKO592XsRmci9AL9mvzFjq3eyU3CzyHBzdK3JSgROrQDlyEopcOzwQXWXl11bTgn7Xs
- 8cTWqZjy1LzeW3L4cTGyGfwUkz9YMbamkzIQ1xbov3If1+dwwF7JI5tsANz59xa9Owb+
- e1FxqNGdYuzf9yE9dVNzjaGvgxWGBKtKXkAo6tU5Y9r0uUNJiWdp8jURGgC063I2aPFT
- n0YQ==
-X-Gm-Message-State: AOAM532QxjTDaoRHOkJUVjomYFjb++WHzWuVxQAsrMi513hwqmQiKzaT
- a0U5u0KQ/gKmEuO2L3bXyq5pgl9/x7vgSw==
-X-Google-Smtp-Source: ABdhPJyJ/R3orizeK9cspsYyEzaVRtG0aKi36WCDDniemPW47uiXCJuj21ZUI3Ziigs1hp4om7Ydrg==
-X-Received: by 2002:a7b:c956:: with SMTP id i22mr10729130wml.95.1594477468431; 
- Sat, 11 Jul 2020 07:24:28 -0700 (PDT)
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+ :references:mime-version:content-transfer-encoding;
+ bh=v8mHmtdIzSaQMbyzkPxWV2NqBNHMAqcUngVPlqJSJqg=;
+ b=KbJbAiJ3quXUKjZwSxI6+CRJV4vZepUI8lyhCZzMFSE+9futTPc3oWe66Z4QvtxDkQ
+ hBGnzd3kGOkidPHW1AzdW7ge/hUY79IM2Enj26C3PlEYuNsARSlmLxAlZ3voAmryDSXb
+ jWh0QCtP9tzdrxpuYr3decwPUTsOWIw+Pc0lt7pVFf5JfFKEhGt6JRlobLwwlvoYRB8V
+ xKkJL8BTt7mnCmGGuo9uCVIFOWfzB4nKaT6+DqogDyoV+zCSg2Hckp2rQMVBMbJL5xoJ
+ k+1pUlbCRxEgHJeS+lvqsXOkGa4/MvVPOg9eQfkBZOTbdMh1uca6VjuTWke9c3kI+ZAO
+ sYZw==
+X-Gm-Message-State: AOAM531YMajoYfeRTuVxY5PtXu2Gz4nPlE/zbKKMr5OopwLiIxf4rkC8
+ m3ayBh+qihT9zwHcES/qJ4th67DK/JHviA==
+X-Google-Smtp-Source: ABdhPJywBn72rkUxB8FsYPticalsTBym/mOPEDyyBuaNtVyO8tMLZ8ndZmYTEyrRS2mRSPGg8IAF5g==
+X-Received: by 2002:adf:e7c8:: with SMTP id e8mr71002122wrn.20.1594477469465; 
+ Sat, 11 Jul 2020 07:24:29 -0700 (PDT)
 Received: from orth.archaic.org.uk (orth.archaic.org.uk. [81.2.115.148])
- by smtp.gmail.com with ESMTPSA id u10sm13448525wml.29.2020.07.11.07.24.27
+ by smtp.gmail.com with ESMTPSA id u10sm13448525wml.29.2020.07.11.07.24.28
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sat, 11 Jul 2020 07:24:27 -0700 (PDT)
+ Sat, 11 Jul 2020 07:24:28 -0700 (PDT)
 From: Peter Maydell <peter.maydell@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PATCH for-5.1 0/3] Move and improve qdev API doc comments
-Date: Sat, 11 Jul 2020 15:24:22 +0100
-Message-Id: <20200711142425.16283-1-peter.maydell@linaro.org>
+Subject: [PATCH for-5.1 1/3] qdev: Move doc comments from qdev.c to qdev-core.h
+Date: Sat, 11 Jul 2020 15:24:23 +0100
+Message-Id: <20200711142425.16283-2-peter.maydell@linaro.org>
 X-Mailer: git-send-email 2.20.1
+In-Reply-To: <20200711142425.16283-1-peter.maydell@linaro.org>
+References: <20200711142425.16283-1-peter.maydell@linaro.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::332;
- envelope-from=peter.maydell@linaro.org; helo=mail-wm1-x332.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::42a;
+ envelope-from=peter.maydell@linaro.org; helo=mail-wr1-x42a.google.com
 X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
  That's all we know.
 X-Spam_score_int: -20
@@ -86,44 +88,192 @@ Cc: Markus Armbruster <armbru@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-This patchset adds documentation comments to qdev-core.h (and in a few
-cases qdev-properties.h) to functions (but not all functions!) which
-were missing them.
+The doc-comments which document the qdev API are split between the
+header file and the C source files, because as a project we haven't
+been consistent about where we put them.
 
-The prompt for this was Markus' recent welcome cleanup and correction
-of the qdev realize functions to get reference count and bus parenting
-handling right. Markus put doc comments for new/changed functions in
-the qdev.c file. This is something where I have a fairly strong opinion:
- * the right place for doc comments for functions which expose API
-   to the rest of QEMU is in the header file, not the .c file
- * we should be consistent about this, especially within a single
-   header file but more generally as a project
+Move all the doc-comments in qdev.c to the header files, so that
+users of the APIs don't have to look at the implementation files for
+this information.
 
-So patch 1 moves doc comments from qdev.c to qdev-core.h (or
-for a few functions qdev-properties.h) to join the doc comments
-that were already in those header files. I have expanded on the
-comments in some places where I thought that summaries of the
-intended use case for the API was helpful.
+In the process, unify them into our doc-comment format and expand on
+them in some cases to clarify expected use cases.
 
-Because I didn't want to send out a patch that was moving doc
-comments around to fit my asserted preferred style and nothing else,
-I have attempted to sweeten the pot a bit with patches 2 and 3, which
-provide new doc comments for previously undocumented functions:
-qdev_unrealize(), and also all the GPIO creation/connection APIs.
+Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
+---
+ include/hw/qdev-core.h       | 57 ++++++++++++++++++++++++++++++++++++
+ include/hw/qdev-properties.h | 13 ++++++++
+ hw/core/qdev.c               | 33 ---------------------
+ 3 files changed, 70 insertions(+), 33 deletions(-)
 
-thanks
--- PMM
-
-Peter Maydell (3):
-  qdev: Move doc comments from qdev.c to qdev-core.h
-  qdev: Document qdev_unrealize()
-  qdev: Document GPIO related functions
-
- include/hw/qdev-core.h       | 267 ++++++++++++++++++++++++++++++++++-
- include/hw/qdev-properties.h |  13 ++
- hw/core/qdev.c               |  33 -----
- 3 files changed, 278 insertions(+), 35 deletions(-)
-
+diff --git a/include/hw/qdev-core.h b/include/hw/qdev-core.h
+index fe78073c708..2d441d1fb2e 100644
+--- a/include/hw/qdev-core.h
++++ b/include/hw/qdev-core.h
+@@ -320,9 +320,66 @@ compat_props_add(GPtrArray *arr,
+ 
+ /*** Board API.  This should go away once we have a machine config file.  ***/
+ 
++/**
++ * qdev_new: Create a device on the heap
++ * @name: device type to create (we assert() that this type exists)
++ *
++ * This only allocates the memory and initializes the device state
++ * structure, ready for the caller to set properties if they wish.
++ * The device still needs to be realized.
++ * The returned object has a reference count of 1.
++ */
+ DeviceState *qdev_new(const char *name);
++/**
++ * qdev_try_new: Try to create a device on the heap
++ * @name: device type to create
++ *
++ * This is like qdev_new(), except it returns %NULL when type @name
++ * does not exist, rather than asserting.
++ */
+ DeviceState *qdev_try_new(const char *name);
++/**
++ * qdev_realize: Realize @dev.
++ * @dev: device to realize
++ * @bus: bus to plug it into (may be NULL)
++ * @errp: pointer to error object
++ *
++ * "Realize" the device, i.e. perform the second phase of device
++ * initialization.
++ * @dev must not be plugged into a bus already.
++ * If @bus, plug @dev into @bus.  This takes a reference to @dev.
++ * If @dev has no QOM parent, make one up, taking another reference.
++ * On success, return true.
++ * On failure, store an error through @errp and return false.
++ *
++ * If you created @dev using qdev_new(), you probably want to use
++ * qdev_realize_and_unref() instead.
++ */
+ bool qdev_realize(DeviceState *dev, BusState *bus, Error **errp);
++/**
++ * qdev_realize_and_unref: Realize @dev and drop a reference
++ * @dev: device to realize
++ * @bus: bus to plug it into (may be NULL)
++ * @errp: pointer to error object
++ *
++ * Realize @dev and drop a reference.
++ * This is like qdev_realize(), except the caller must hold a
++ * (private) reference, which is dropped on return regardless of
++ * success or failure.  Intended use::
++ *
++ *     dev = qdev_new();
++ *     [...]
++ *     qdev_realize_and_unref(dev, bus, errp);
++ *
++ * Now @dev can go away without further ado.
++ *
++ * If you are embedding the device into some other QOM device and
++ * initialized it via some variant on object_initialize_child() then
++ * do not use this function, because that family of functions arrange
++ * for the only reference to the child device to be held by the parent
++ * via the child<> property, and so the reference-count-drop done here
++ * would be incorrect. For that use case you want qdev_realize().
++ */
+ bool qdev_realize_and_unref(DeviceState *dev, BusState *bus, Error **errp);
+ void qdev_unrealize(DeviceState *dev);
+ void qdev_set_legacy_instance_id(DeviceState *dev, int alias_id,
+diff --git a/include/hw/qdev-properties.h b/include/hw/qdev-properties.h
+index 587e5b7d317..8f3a98cba69 100644
+--- a/include/hw/qdev-properties.h
++++ b/include/hw/qdev-properties.h
+@@ -282,6 +282,19 @@ void error_set_from_qdev_prop_error(Error **errp, int ret, DeviceState *dev,
+  */
+ void qdev_property_add_static(DeviceState *dev, Property *prop);
+ 
++/**
++ * qdev_alias_all_properties: Create aliases on source for all target properties
++ * @target: Device which has properties to be aliased
++ * @source: Object to add alias properties to
++ *
++ * Add alias properties to the @source object for all qdev properties on
++ * the @target DeviceState.
++ *
++ * This is useful when @target is an internal implementation object
++ * owned by @source, and you want to expose all the properties of that
++ * implementation object as properties on the @source object so that users
++ * of @source can set them.
++ */
+ void qdev_alias_all_properties(DeviceState *target, Object *source);
+ 
+ /**
+diff --git a/hw/core/qdev.c b/hw/core/qdev.c
+index 01796823b41..96772a15bd5 100644
+--- a/hw/core/qdev.c
++++ b/hw/core/qdev.c
+@@ -128,13 +128,6 @@ void qdev_set_parent_bus(DeviceState *dev, BusState *bus)
+     }
+ }
+ 
+-/*
+- * Create a device on the heap.
+- * A type @name must exist.
+- * This only initializes the device state structure and allows
+- * properties to be set.  The device still needs to be realized.  See
+- * qdev-core.h.
+- */
+ DeviceState *qdev_new(const char *name)
+ {
+     if (!object_class_by_name(name)) {
+@@ -143,11 +136,6 @@ DeviceState *qdev_new(const char *name)
+     return DEVICE(object_new(name));
+ }
+ 
+-/*
+- * Try to create a device on the heap.
+- * This is like qdev_new(), except it returns %NULL when type @name
+- * does not exist.
+- */
+ DeviceState *qdev_try_new(const char *name)
+ {
+     if (!module_object_class_by_name(name)) {
+@@ -378,14 +366,6 @@ void qdev_simple_device_unplug_cb(HotplugHandler *hotplug_dev,
+     qdev_unrealize(dev);
+ }
+ 
+-/*
+- * Realize @dev.
+- * @dev must not be plugged into a bus.
+- * If @bus, plug @dev into @bus.  This takes a reference to @dev.
+- * If @dev has no QOM parent, make one up, taking another reference.
+- * On success, return true.
+- * On failure, store an error through @errp and return false.
+- */
+ bool qdev_realize(DeviceState *dev, BusState *bus, Error **errp)
+ {
+     assert(!dev->realized && !dev->parent_bus);
+@@ -399,16 +379,6 @@ bool qdev_realize(DeviceState *dev, BusState *bus, Error **errp)
+     return object_property_set_bool(OBJECT(dev), "realized", true, errp);
+ }
+ 
+-/*
+- * Realize @dev and drop a reference.
+- * This is like qdev_realize(), except the caller must hold a
+- * (private) reference, which is dropped on return regardless of
+- * success or failure.  Intended use:
+- *     dev = qdev_new();
+- *     [...]
+- *     qdev_realize_and_unref(dev, bus, errp);
+- * Now @dev can go away without further ado.
+- */
+ bool qdev_realize_and_unref(DeviceState *dev, BusState *bus, Error **errp)
+ {
+     bool ret;
+@@ -814,9 +784,6 @@ static void qdev_class_add_property(DeviceClass *klass, Property *prop)
+                                           prop->info->description);
+ }
+ 
+-/* @qdev_alias_all_properties - Add alias properties to the source object for
+- * all qdev properties on the target DeviceState.
+- */
+ void qdev_alias_all_properties(DeviceState *target, Object *source)
+ {
+     ObjectClass *class;
 -- 
 2.20.1
+
 
