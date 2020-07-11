@@ -2,69 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8A0E221C3F4
-	for <lists+qemu-devel@lfdr.de>; Sat, 11 Jul 2020 13:20:20 +0200 (CEST)
-Received: from localhost ([::1]:50126 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6CAFE21C3E9
+	for <lists+qemu-devel@lfdr.de>; Sat, 11 Jul 2020 13:13:42 +0200 (CEST)
+Received: from localhost ([::1]:54842 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1juDYJ-0006yd-HN
-	for lists+qemu-devel@lfdr.de; Sat, 11 Jul 2020 07:20:19 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:52878)
+	id 1juDRt-0005eL-39
+	for lists+qemu-devel@lfdr.de; Sat, 11 Jul 2020 07:13:41 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:52886)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <jcmvbkbc@gmail.com>)
- id 1juDMW-0004od-8h
- for qemu-devel@nongnu.org; Sat, 11 Jul 2020 07:08:08 -0400
-Received: from mail-pl1-x62e.google.com ([2607:f8b0:4864:20::62e]:39265)
+ id 1juDMX-0004pd-5Q
+ for qemu-devel@nongnu.org; Sat, 11 Jul 2020 07:08:09 -0400
+Received: from mail-pl1-x636.google.com ([2607:f8b0:4864:20::636]:42910)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <jcmvbkbc@gmail.com>)
- id 1juDMU-0006Pu-3i
- for qemu-devel@nongnu.org; Sat, 11 Jul 2020 07:08:07 -0400
-Received: by mail-pl1-x62e.google.com with SMTP id b9so3301094plx.6
- for <qemu-devel@nongnu.org>; Sat, 11 Jul 2020 04:08:05 -0700 (PDT)
+ id 1juDMV-0006QT-Eu
+ for qemu-devel@nongnu.org; Sat, 11 Jul 2020 07:08:08 -0400
+Received: by mail-pl1-x636.google.com with SMTP id q17so3295496pls.9
+ for <qemu-devel@nongnu.org>; Sat, 11 Jul 2020 04:08:06 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=dczlRWi7ZhKkrGTsLLmYfEd66aSo3puvzeQP9Y5BUgA=;
- b=LlItUsw3LDX+SUFMSFF5MdGs+S3SdT1pTPkxwaA2h94wLRn6roIz+tlN6Ummgfve7r
- 7p9dDWIqt4Qv3Dmvs4kY9SodQE3t9V4tay/nEMIITqLOZXfUhogLu4Q4ZwdMMpU4r6MI
- fVdQACbIlqPmi13TiQYnEdJvVSr6lj987VTMHnvdBknV6EleNHvsYHV+ihTwTo3QPhns
- 1pQS/Z6Frq2VgLrufFiwSdRD+lgf2xzNL0kKPtyG9lgcZ7dV2/SZKbOsoVb9NLYIlZNV
- nWKXmop3yWAQ6SdpaFk2oMsLUeVS1WA5c6PTNFufiyqHD6CGhTfD9SRe0wRTjFk7ZKuS
- 9v9g==
+ bh=xYpaV1GaTiVYZ9sz0Ztnms68+FSNRF9gxImePs/wc/0=;
+ b=uYz7LP/goZhLTEX00p5KRzlyX/rHd408UrL0SnP/kTDQbDk00G5Q+v5PPVyEH/tbBE
+ EksDT9oqOKvgWsEfIccAveKRcllklN0jQrs7Me/x8T9vrD2UtpAG4yvrIplBk49eb9ra
+ nsJ6GXQCOTNbfT503A/3Tjv84jd1JnxkmV2UQLjDAvd1ZVxfh42432F+FIieVck76w+a
+ bn4hVAwWcLFRE8FYY9AytFw2kYYcMxRvacA3C+GJZuiB8tTi9NR9PHn5DlIE1bqWnXrI
+ ACBLgAQ77Qr04xb3PKOD4Vbm9ydHYd4Q9/IvJlz5V0GSbFTGtt4OlAU2a3Zg9N98pPtY
+ kzKg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=dczlRWi7ZhKkrGTsLLmYfEd66aSo3puvzeQP9Y5BUgA=;
- b=ZY6lsi1RC1Tzza3d7+ClCRumryoUlAHYloJ7fLU1siBTF28RySnxszQzI/rJj9tR8Q
- nDLNYI8ioAh5i5sM6gDNHgN9N6uAGwj6uPFjNFxwddv7RlEoZuwMdM65q/EzmEMHAmmB
- Qe4bxkKB1sJ6eo/nMu+84THyir3zHuOiyhGt+0lCQonRbtaw3CkzxeOBR91/AKC0ejI8
- 58kDQZ4z0m4BbZVqQDoEUE5tGbMKdGf5yggRMa6GcZvNEkN5/Ma2oQm3xao451WgXKKy
- DhiSUyEpRr7gIDDEFf6o51SmUoTXbMJJVUHHV7c2NfGbn3YtY5NW3EXL5lVZg8Reu2EI
- Mh1Q==
-X-Gm-Message-State: AOAM531uEFCVE0ueBnmC2Pu/mTXYeb/kPzBlmvf1sqN463japZxHdr22
- t8fMBrWBWL9sejJQ6mc9Twr6cBz8
-X-Google-Smtp-Source: ABdhPJxV0G8QZUyWnuMwjYkXalQ35g1VToBaI+A4Lq7expR+0pX72jCWAZg+ka++gx9izVDIXDuDIA==
-X-Received: by 2002:a17:90a:30ea:: with SMTP id
- h97mr10344555pjb.32.1594465684738; 
- Sat, 11 Jul 2020 04:08:04 -0700 (PDT)
+ bh=xYpaV1GaTiVYZ9sz0Ztnms68+FSNRF9gxImePs/wc/0=;
+ b=K5v9me22fBAX9DkdxVPF57mwe4iPUv3nwtRqLHRkA6ZOcI8tThKCiwuZubrkF9rJiI
+ rCYU8dZIIr4L+Ofg3ywMXvIeHO1o3l6tl3DBt6IYnFgw0Hu+4drX/kt2JV0tfi956qDF
+ bnzSY4KL9JnEJr9RJD5SryxMqXx384k3iuEGkLOQymCpZEZe3UrWFbsDariUpgpv+BSJ
+ NvhOQ6AQ09MKiTejlZSVDoqg4zyIjny1EzRXz8ftBy86xUGQDcvrw8WKTF/xEJ09A+/5
+ RUf7nXdKhP/QK+gs+uTWi1yvSkrdmddu7DWuhImKC5WlaF4wuU+DR7pCxr+r487aZGFS
+ rboQ==
+X-Gm-Message-State: AOAM533CFe4NVjR2La7ob1V/O1zLqX8h7Vn1BFE2TX0B5jw747DAEKFw
+ nHyXKXPaw+U3lRhO3JXQMMwnSTvQ
+X-Google-Smtp-Source: ABdhPJz5bbGO1rZ/nqjzgIQtKWZhMMo2KgVUSGiRKiK9f+FMBQYBZUebFUOFo+v4MsZIDqH52Z/w/A==
+X-Received: by 2002:a17:90a:8c0e:: with SMTP id
+ a14mr10122671pjo.75.1594465685541; 
+ Sat, 11 Jul 2020 04:08:05 -0700 (PDT)
 Received: from octofox.hsd1.ca.comcast.net
  ([2601:641:400:e00:19b7:f650:7bbe:a7fb])
- by smtp.gmail.com with ESMTPSA id m31sm8925826pjb.52.2020.07.11.04.08.03
+ by smtp.gmail.com with ESMTPSA id m31sm8925826pjb.52.2020.07.11.04.08.04
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sat, 11 Jul 2020 04:08:04 -0700 (PDT)
+ Sat, 11 Jul 2020 04:08:05 -0700 (PDT)
 From: Max Filippov <jcmvbkbc@gmail.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v4 19/22] tests/tcg/xtensa: test double precision load/store
-Date: Sat, 11 Jul 2020 04:06:54 -0700
-Message-Id: <20200711110655.20287-20-jcmvbkbc@gmail.com>
+Subject: [PATCH v4 20/22] tests/tcg/xtensa: add DFP0 arithmetic tests
+Date: Sat, 11 Jul 2020 04:06:55 -0700
+Message-Id: <20200711110655.20287-21-jcmvbkbc@gmail.com>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20200711110655.20287-1-jcmvbkbc@gmail.com>
 References: <20200711110655.20287-1-jcmvbkbc@gmail.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::62e;
- envelope-from=jcmvbkbc@gmail.com; helo=mail-pl1-x62e.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::636;
+ envelope-from=jcmvbkbc@gmail.com; helo=mail-pl1-x636.google.com
 X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
  That's all we know.
 X-Spam_score_int: -5
@@ -73,8 +73,8 @@ X-Spam_bar: /
 X-Spam_report: (-0.6 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
  DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
  FROM_LOCAL_NOVOWEL=0.5, HK_RANDOM_ENVFROM=0.001, HK_RANDOM_FROM=1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=no autolearn_force=no
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ URIBL_BLOCKED=0.001 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -92,145 +92,186 @@ Cc: Max Filippov <jcmvbkbc@gmail.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Add ldi[p]/sdi[p]/ldx[p]/sdx[p] opcode tests to test_lsc.
+Add test for basic double precision opcode properties.
 
 Signed-off-by: Max Filippov <jcmvbkbc@gmail.com>
 ---
- tests/tcg/xtensa/test_lsc.S | 123 ++++++++++++++++++++++++++++++++++++
- 1 file changed, 123 insertions(+)
+Changes v2->v3:
+- add more infzero tests for DFPU
+- fix test names in test_dfp0_arith.S
 
-diff --git a/tests/tcg/xtensa/test_lsc.S b/tests/tcg/xtensa/test_lsc.S
-index 9d59c1815a9e..348822bdd359 100644
---- a/tests/tcg/xtensa/test_lsc.S
-+++ b/tests/tcg/xtensa/test_lsc.S
-@@ -140,4 +140,127 @@ test_end
- 
- #endif
- 
+ tests/tcg/xtensa/test_dfp0_arith.S | 162 +++++++++++++++++++++++++++++
+ 1 file changed, 162 insertions(+)
+ create mode 100644 tests/tcg/xtensa/test_dfp0_arith.S
+
+diff --git a/tests/tcg/xtensa/test_dfp0_arith.S b/tests/tcg/xtensa/test_dfp0_arith.S
+new file mode 100644
+index 000000000000..53bf8122d082
+--- /dev/null
++++ b/tests/tcg/xtensa/test_dfp0_arith.S
+@@ -0,0 +1,162 @@
++#include "macros.inc"
++#include "fpu.h"
++
++test_suite fp0_arith
++
 +#if XCHAL_HAVE_DFP
 +
-+#if XCHAL_HAVE_BE
-+#define F64_HIGH_OFF 0
-+#else
-+#define F64_HIGH_OFF 4
-+#endif
-+
-+.macro movdf fr, hi, lo
-+    movi    a2, \hi
-+    movi    a3, \lo
++.macro movfp fr, v
++    movi    a2, ((\v) >> 32) & 0xffffffff
++    movi    a3, ((\v) & 0xffffffff)
 +    wfrd    \fr, a2, a3
 +.endm
 +
-+test ldi
++.macro check_res fr, r, sr
++    rfrd    a2, \fr
++    dump    a2
++    movi    a3, ((\r) >> 32) & 0xffffffff
++    assert  eq, a2, a3
++    rfr    a2, \fr
++    dump    a2
++    movi    a3, ((\r) & 0xffffffff)
++    assert  eq, a2, a3
++    rur     a2, fsr
++    movi    a3, \sr
++    assert  eq, a2, a3
++.endm
++
++test add_d
 +    movi    a2, 1
 +    wsr     a2, cpenable
 +
-+    movi    a2, 1f
-+    ldi     f1, a2, 8
-+    ldi     f2, a2, 16
-+    ldip    f0, a2, 16
-+    movi    a3, 1f + 16
-+    assert  eq, a2, a3
-+    rfrd    a2, f0
-+    movi    a3, 0x3ff00000
-+    assert  eq, a2, a3
-+    rfrd    a2, f1
-+    movi    a3, 0x40000000
-+    assert  eq, a2, a3
-+    rfrd    a2, f2
-+    movi    a3, 0x40080000
-+    assert  eq, a2, a3
-+.data
-+    .align  8
-+1:
-+.double 1, 2, 3
-+.text
++    /* MAX_FLOAT + MAX_FLOAT = +inf/MAX_FLOAT  */
++    test_op2 add.d, f6, f7, f8, F64_MAX, F64_MAX, \
++        F64_PINF, F64_MAX, F64_PINF, F64_MAX, \
++          FSR_OI,  FSR_OI,   FSR_OI,  FSR_OI
 +test_end
 +
-+test sdi
-+    movdf   f3, 0x40800000, 0
-+    movdf   f4, 0x40a00000, 0
-+    movdf   f5, 0x40c00000, 0
-+    movi    a2, 1f
-+    sdi     f4, a2, 8
-+    sdi     f5, a2, 16
-+    sdip    f3, a2, 16
-+    movi    a3, 1f + 16
-+    assert  eq, a2, a3
-+    l32i    a4, a2, -16 + F64_HIGH_OFF
-+    movi    a3, 0x40800000
-+    assert  eq, a4, a3
-+    l32i    a4, a2, -8 + F64_HIGH_OFF
-+    movi    a3, 0x40a00000
-+    assert  eq, a4, a3
-+    l32i    a4, a2, F64_HIGH_OFF
-+    movi    a3, 0x40c00000
-+    assert  eq, a4, a3
-+.data
-+    .align  8
-+1:
-+.double 0, 0, 0
-+.text
++test add_d_inf
++    /* 1 + +inf = +inf  */
++    test_op2 add.d, f6, f7, f8, F64_1, F64_PINF, \
++        F64_PINF, F64_PINF, F64_PINF, F64_PINF, \
++           FSR__,    FSR__,    FSR__,    FSR__
++
++    /* +inf + -inf = default NaN */
++    test_op2 add.d, f0, f1, f2, F64_PINF, F64_NINF, \
++        F64_DNAN, F64_DNAN, F64_DNAN, F64_DNAN, \
++           FSR_V,    FSR_V,    FSR_V,    FSR_V
 +test_end
 +
-+test ldx
-+    movi    a2, 1f
-+    movi    a3, 0
-+    movi    a4, 8
-+    movi    a5, 16
-+    ldx     f7, a2, a4
-+    ldx     f8, a2, a5
-+    ldxp    f6, a2, a5
-+    movi    a3, 1f + 16
-+    assert  eq, a2, a3
-+    rfrd    a2, f6
-+    movi    a3, 0x401c0000
-+    assert  eq, a2, a3
-+    rfrd    a2, f7
-+    movi    a3, 0x40200000
-+    assert  eq, a2, a3
-+    rfrd    a2, f8
-+    movi    a3, 0x40220000
-+    assert  eq, a2, a3
-+.data
-+    .align  8
-+1:
-+.double 7, 8, 9
-+.text
++test add_d_nan_dfpu
++    /* 1 + QNaN = QNaN  */
++    test_op2 add.d, f9, f10, f11, F64_1, F64_QNAN(1), \
++        F64_QNAN(1), F64_QNAN(1), F64_QNAN(1), F64_QNAN(1), \
++              FSR__,       FSR__,       FSR__,       FSR__
++    /* 1 + SNaN = QNaN  */
++    test_op2 add.d, f12, f13, f14, F64_1, F64_SNAN(1), \
++        F64_QNAN(1), F64_QNAN(1), F64_QNAN(1), F64_QNAN(1), \
++              FSR_V,       FSR_V,       FSR_V,       FSR_V
++
++    /* SNaN1 + SNaN2 = QNaN2 */
++    test_op2 add.d, f15, f0, f1, F64_SNAN(1), F64_SNAN(2), \
++        F64_QNAN(1), F64_QNAN(1), F64_QNAN(1), F64_QNAN(1), \
++              FSR_V,       FSR_V,       FSR_V,       FSR_V
++    /* QNaN1 + SNaN2 = QNaN2 */
++    test_op2 add.d, f5, f6, f7, F64_QNAN(1), F64_SNAN(2), \
++        F64_QNAN(1), F64_QNAN(1), F64_QNAN(1), F64_QNAN(1), \
++              FSR_V,       FSR_V,       FSR_V,       FSR_V
++    /* SNaN1 + QNaN2 = QNaN2 */
++    test_op2 add.d, f8, f9, f10, F64_SNAN(1), F64_QNAN(2), \
++        F64_QNAN(1), F64_QNAN(1), F64_QNAN(1), F64_QNAN(1), \
++              FSR_V,       FSR_V,       FSR_V,       FSR_V
 +test_end
 +
-+test sdx
-+    movdf   f9, 0x41200000, 0
-+    movdf   f10, 0x41300000, 0
-+    movdf   f11, 0x41400000, 0
-+    movi    a2, 1f
-+    movi    a3, 0
-+    movi    a4, 8
-+    movi    a5, 16
-+    sdx     f10, a2, a4
-+    sdx     f11, a2, a5
-+    sdxp    f9, a2, a5
-+    movi    a3, 1f + 16
-+    assert  eq, a2, a3
-+    l32i    a4, a2, -16 + F64_HIGH_OFF
-+    movi    a3, 0x41200000
-+    assert  eq, a4, a3
-+    l32i    a4, a2, -8 + F64_HIGH_OFF
-+    movi    a3, 0x41300000
-+    assert  eq, a4, a3
-+    l32i    a4, a2, F64_HIGH_OFF
-+    movi    a3, 0x41400000
-+    assert  eq, a4, a3
-+.data
-+    .align  8
-+1:
-+.double 0, 0, 0
-+.text
++test sub_d
++    /* norm - norm = denorm */
++    test_op2 sub.d, f6, f7, f8, F64_MIN_NORM | 1, F64_MIN_NORM, \
++        0x00000001, 0x00000001, 0x00000001, 0x00000001, \
++             FSR__,      FSR__,      FSR__,      FSR__
++test_end
++
++test mul_d
++    test_op2 mul.d, f0, f1, f2, F64_1 | 1, F64_1 | 1, \
++        F64_1 | 2, F64_1 | 2, F64_1 | 3, F64_1 | 2, \
++            FSR_I,     FSR_I,     FSR_I,     FSR_I
++    /* MAX_FLOAT/2 * MAX_FLOAT/2 = +inf/MAX_FLOAT  */
++    test_op2 mul.d, f6, f7, f8, F64_MAX_2, F64_MAX_2, \
++        F64_PINF, F64_MAX, F64_PINF, F64_MAX, \
++          FSR_OI,  FSR_OI,   FSR_OI,  FSR_OI
++    /* min norm * min norm = 0/denorm */
++    test_op2 mul.d, f6, f7, f8, F64_MIN_NORM, F64_MIN_NORM, \
++         F64_0,  F64_0, 0x00000001,  F64_0, \
++        FSR_UI, FSR_UI,     FSR_UI, FSR_UI
++    /* inf * 0 = default NaN */
++    test_op2 mul.d, f6, f7, f8, F64_PINF, F64_0, \
++        F64_DNAN, F64_DNAN, F64_DNAN, F64_DNAN, \
++           FSR_V,    FSR_V,    FSR_V,    FSR_V
++test_end
++
++test madd_d
++    test_op3 madd.d, f0, f1, f2, f0, F64_0, F64_1 | 1, F64_1 | 1, \
++        F64_1 | 2, F64_1 | 2, F64_1 | 3, F64_1 | 2, \
++            FSR_I,     FSR_I,     FSR_I,     FSR_I
++test_end
++
++test madd_d_precision
++    test_op3 madd.d, f0, f1, f2, f0, \
++        F64_MINUS | F64_1 | 2, F64_1 | 1, F64_1 | 1, \
++        0x3970000000000000, 0x3970000000000000, 0x3970000000000000, 0x3970000000000000, \
++             FSR__,      FSR__,      FSR__,      FSR__
++test_end
++
++test madd_d_nan_dfpu
++    /* DFPU madd/msub NaN1, NaN2, NaN3 priority: NaN1, NaN3, NaN2 */
++    test_op3 madd.d, f0, f1, f2, f0, F64_QNAN(1), F64_1, F64_1, \
++        F64_QNAN(1), F64_QNAN(1), F64_QNAN(1), F64_QNAN(1), \
++              FSR__,       FSR__,       FSR__,       FSR__
++    test_op3 madd.d, f0, f1, f2, f0, F64_1, F64_QNAN(2), F64_1, \
++        F64_QNAN(2), F64_QNAN(2), F64_QNAN(2), F64_QNAN(2), \
++              FSR__,       FSR__,       FSR__,       FSR__
++    test_op3 madd.d, f0, f1, f2, f0, F64_1, F64_1, F64_QNAN(3), \
++        F64_QNAN(3), F64_QNAN(3), F64_QNAN(3), F64_QNAN(3), \
++              FSR__,       FSR__,       FSR__,       FSR__
++
++    test_op3 madd.d, f0, f1, f2, f0, F64_QNAN(1), F64_QNAN(2), F64_1, \
++        F64_QNAN(1), F64_QNAN(1), F64_QNAN(1), F64_QNAN(1), \
++              FSR__,       FSR__,       FSR__,       FSR__
++    test_op3 madd.d, f0, f1, f2, f0, F64_QNAN(1), F64_1, F64_QNAN(3), \
++        F64_QNAN(1), F64_QNAN(1), F64_QNAN(1), F64_QNAN(1), \
++              FSR__,       FSR__,       FSR__,       FSR__
++    test_op3 madd.d, f0, f1, f2, f0, F64_1, F64_QNAN(2), F64_QNAN(3), \
++        F64_QNAN(3), F64_QNAN(3), F64_QNAN(3), F64_QNAN(3), \
++              FSR__,       FSR__,       FSR__,       FSR__
++
++    test_op3 madd.d, f0, f1, f2, f0, F64_QNAN(1), F64_QNAN(2), F64_QNAN(3), \
++        F64_QNAN(1), F64_QNAN(1), F64_QNAN(1), F64_QNAN(1), \
++              FSR__,       FSR__,       FSR__,       FSR__
++
++    /* inf * 0 = default NaN */
++    test_op3 madd.d, f0, f1, f2, f0, F64_1, F64_PINF, F64_0, \
++        F64_DNAN, F64_DNAN, F64_DNAN, F64_DNAN, \
++           FSR_V,    FSR_V,    FSR_V,    FSR_V
++    /* inf * 0 + SNaN1 = QNaN1 */
++    test_op3 madd.d, f0, f1, f2, f0, F64_SNAN(1), F64_PINF, F64_0, \
++        F64_QNAN(1), F64_QNAN(1), F64_QNAN(1), F64_QNAN(1), \
++              FSR_V,       FSR_V,       FSR_V,       FSR_V
++    /* inf * 0 + QNaN1 = QNaN1 */
++    test_op3 madd.d, f0, f1, f2, f0, F64_QNAN(1), F64_PINF, F64_0, \
++        F64_QNAN(1), F64_QNAN(1), F64_QNAN(1), F64_QNAN(1), \
++              FSR_V,       FSR_V,       FSR_V,       FSR_V
++
++    /* madd/msub SNaN turns to QNaN and sets Invalid flag */
++    test_op3 madd.d, f0, f1, f2, f0, F64_SNAN(1), F64_1, F64_1, \
++        F64_QNAN(1), F64_QNAN(1), F64_QNAN(1), F64_QNAN(1), \
++              FSR_V,       FSR_V,       FSR_V,       FSR_V
++    test_op3 madd.d, f0, f1, f2, f0, F64_QNAN(1), F64_SNAN(2), F64_1, \
++        F64_QNAN(1), F64_QNAN(1), F64_QNAN(1), F64_QNAN(1), \
++              FSR_V,       FSR_V,       FSR_V,       FSR_V
 +test_end
 +
 +#endif
 +
- test_suite_end
++test_suite_end
 -- 
 2.20.1
 
