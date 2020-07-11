@@ -2,34 +2,34 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 791B021C6A3
-	for <lists+qemu-devel@lfdr.de>; Sun, 12 Jul 2020 00:56:26 +0200 (CEST)
-Received: from localhost ([::1]:45382 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 334AE21C6A8
+	for <lists+qemu-devel@lfdr.de>; Sun, 12 Jul 2020 01:06:28 +0200 (CEST)
+Received: from localhost ([::1]:48758 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1juOPx-0006lq-5i
-	for lists+qemu-devel@lfdr.de; Sat, 11 Jul 2020 18:56:25 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:58194)
+	id 1juOZf-0000N0-34
+	for lists+qemu-devel@lfdr.de; Sat, 11 Jul 2020 19:06:27 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:59306)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1juOPF-0006LV-05
- for qemu-devel@nongnu.org; Sat, 11 Jul 2020 18:55:41 -0400
-Received: from indium.canonical.com ([91.189.90.7]:53158)
+ id 1juOYt-00085L-CB
+ for qemu-devel@nongnu.org; Sat, 11 Jul 2020 19:05:39 -0400
+Received: from indium.canonical.com ([91.189.90.7]:53456)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1juOPC-0002kG-MU
- for qemu-devel@nongnu.org; Sat, 11 Jul 2020 18:55:40 -0400
+ id 1juOYr-0003tL-IG
+ for qemu-devel@nongnu.org; Sat, 11 Jul 2020 19:05:39 -0400
 Received: from loganberry.canonical.com ([91.189.90.37])
  by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
- id 1juOPA-0006pn-QA
- for <qemu-devel@nongnu.org>; Sat, 11 Jul 2020 22:55:36 +0000
+ id 1juOYp-0007Fi-Ko
+ for <qemu-devel@nongnu.org>; Sat, 11 Jul 2020 23:05:35 +0000
 Received: from loganberry.canonical.com (localhost [127.0.0.1])
- by loganberry.canonical.com (Postfix) with ESMTP id BAFA62E80E7
- for <qemu-devel@nongnu.org>; Sat, 11 Jul 2020 22:55:36 +0000 (UTC)
+ by loganberry.canonical.com (Postfix) with ESMTP id 872962E80EF
+ for <qemu-devel@nongnu.org>; Sat, 11 Jul 2020 23:05:35 +0000 (UTC)
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: quoted-printable
-Date: Sat, 11 Jul 2020 22:45:40 -0000
+Date: Sat, 11 Jul 2020 22:57:31 -0000
 From: Simon John <1886318@bugs.launchpad.net>
 To: qemu-devel@nongnu.org
 X-Launchpad-Notification-Type: bug
@@ -41,7 +41,7 @@ X-Launchpad-Bug-Commenters: mark-cave-ayland mjt+launchpad-tls sej7278
 X-Launchpad-Bug-Reporter: Simon John (sej7278)
 X-Launchpad-Bug-Modifier: Simon John (sej7278)
 References: <159394898604.17667.6684490731246411850.malonedeb@soybean.canonical.com>
-Message-Id: <159450754049.13408.14857547783916734174.malone@gac.canonical.com>
+Message-Id: <159450825194.7979.15124506007869937455.malone@wampee.canonical.com>
 Subject: [Bug 1886318] Re: Qemu after v5.0.0 breaks macos guests
 X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
 X-Launchpad-Message-For: qemu-devel-ml
@@ -49,7 +49,7 @@ Precedence: bulk
 X-Generated-By: Launchpad (canonical.com);
  Revision="4809fcb62f445aaa3ae919f7f6c3cc7d156ea57a";
  Instance="production-secrets-lazr.conf"
-X-Launchpad-Hash: affcc4f4343d7f2046b05b702eb48703cdcfd25b
+X-Launchpad-Hash: 02c531f8d66c0463bbe228c5ddeab40766a77de6
 Received-SPF: none client-ip=91.189.90.7; envelope-from=bounces@canonical.com;
  helo=indium.canonical.com
 X-detected-operating-system: by eggs.gnu.org: First seen = 2020/07/11 17:41:08
@@ -75,15 +75,12 @@ Reply-To: Bug 1886318 <1886318@bugs.launchpad.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-the debian patch is:
+yup, building debian 5.0-6 package minus that single patch gives me
+working macos catalina again.
 
-revert-memory-accept-mismatching-sizes-in-memory_region_access_valid-
-CVE-2020-13754.patch
-
-i'm currently building a deb package without it.
-
-mailserver has a geoip block and doesn't use ipv6, synapticconsulting at
-gmail dot com should work.
+now just got to figure out why any kernel newer than 5.5 crashes the
+host when using pci passthrough - i don't fancy bisecting a whole
+kernel!
 
 -- =
 
