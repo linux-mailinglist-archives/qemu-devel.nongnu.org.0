@@ -2,69 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id F209521C3EA
-	for <lists+qemu-devel@lfdr.de>; Sat, 11 Jul 2020 13:14:21 +0200 (CEST)
-Received: from localhost ([::1]:57760 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2147B21C3E8
+	for <lists+qemu-devel@lfdr.de>; Sat, 11 Jul 2020 13:13:03 +0200 (CEST)
+Received: from localhost ([::1]:51964 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1juDSW-0006pd-Vo
-	for lists+qemu-devel@lfdr.de; Sat, 11 Jul 2020 07:14:21 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:52722)
+	id 1juDRG-0004VU-3C
+	for lists+qemu-devel@lfdr.de; Sat, 11 Jul 2020 07:13:02 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:52724)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <jcmvbkbc@gmail.com>)
- id 1juDML-0004Wb-Qe
- for qemu-devel@nongnu.org; Sat, 11 Jul 2020 07:07:57 -0400
-Received: from mail-pj1-x1044.google.com ([2607:f8b0:4864:20::1044]:51522)
+ id 1juDMM-0004Yc-Fq
+ for qemu-devel@nongnu.org; Sat, 11 Jul 2020 07:07:58 -0400
+Received: from mail-pl1-x641.google.com ([2607:f8b0:4864:20::641]:43088)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <jcmvbkbc@gmail.com>)
- id 1juDMK-0006Nh-0l
- for qemu-devel@nongnu.org; Sat, 11 Jul 2020 07:07:57 -0400
-Received: by mail-pj1-x1044.google.com with SMTP id ls15so3700433pjb.1
- for <qemu-devel@nongnu.org>; Sat, 11 Jul 2020 04:07:55 -0700 (PDT)
+ id 1juDMK-0006Np-U5
+ for qemu-devel@nongnu.org; Sat, 11 Jul 2020 07:07:58 -0400
+Received: by mail-pl1-x641.google.com with SMTP id x8so3294775plm.10
+ for <qemu-devel@nongnu.org>; Sat, 11 Jul 2020 04:07:56 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=2vl/rYCgMLXaJUMTeLyqPlVj0/LJH31XeOUQaewsmQ4=;
- b=M6isDWKa34K3GtZV1fKdd5THH0gqOzx5c64h0sYD3EdYN3b15U0CCxya/wpha5yEJH
- GUBiGLJTDIEywvG9jU9rWNsITc4vtbaLPDK4/w2tOSQAZUp3AGoKLYwX5VyXh6qGRPX4
- 74zmlyyTLZvx9xEiUqFLlseXpU/C92Q/1qrk9d7bX1n6P+HFElnVyjb7KtnpdVAV3o1R
- xV5m21fjDsjNOi23+qhqcfu/udRx5/R1INNXoAmoHRj86USzxBMPuuSk4oDRXHXcpPjo
- DE5XGlezmUnuSvei+ySUsqMYBU5I30aTLMqhsmeyamYEUK9s2Kf5+7x96zV7B+CvZSuA
- MRBg==
+ bh=R0mDmcoY1c/T6ValqPe48xOd9C3NnWvFmUKnHSHnR6s=;
+ b=U5IVNUF1v1ZRNszumu/BmY2RU7Q5y7Mq+c5Rsvb73555YghxW4FsthwtvHmLrgIjhL
+ Ug7+u/hPUFCzD8H8zOde5ffLb6h9vkJ2rZVIh30i7d6YvvauVAdB9zirnBPqktInCHSW
+ LJyXdGk6DFhvhBDII2aDwUxf3f00+XJDcln33ttZVWXWfHRRFj1vtvrZ5SkGrDLUswtw
+ LhFn680Q007n03uzemaxuO7K95JiXmQ82ebHWy5oxINELySQCHxXHztzybhZY2qst/H/
+ 14MUu0U6YJcSuwlwjX2g8ftvSL8mXJaPAvK18PP2d3YC03WzXf/EHeJNWAbaHSvdQfrJ
+ XkHA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=2vl/rYCgMLXaJUMTeLyqPlVj0/LJH31XeOUQaewsmQ4=;
- b=Eia4bFbwA2ppLo4DAtxZGNID8zYeQ+d/f+ntxm0lfI3GIjuB5wE8BzGP1ObzlCmc2R
- 664NfATrRFbiTZ1PMwiTSiTSI3IQ3tcz/6TPcK8ViQ2FxjODbAqK7nkJR5snVTcF+waP
- pCTUOkozPLacZKpD18dO8BXkF0UW0jkKhl3U2NibvQTrV6gTvd2Yz/LZZN3CeuuOAkZr
- dkJHjwYBhTZyGdrmxSuOKOiyN2JPWEsBPS3bjNW57buuQSWt1vLHnN6Nfx3+2MUfB/CY
- hXfX9Ys0JipfVHLB6yKCiCl0o1AYiZzVQUfLq9Dkf7WSiSMgy+XfbQDJY93lQ9tplg8F
- 5F4Q==
-X-Gm-Message-State: AOAM530KvhRxRnNR7d/CHOiRyj1h37QItM1qDicmhfRsVd3JQicl6eHs
- bsSvBJBckSjunKOkbt5b1L3uGqsw
-X-Google-Smtp-Source: ABdhPJxQbyN7rFyS9WdQJNi7UK4Rc8rFZT334MmQCEez1TFblnZm+oQTBBFw4wsA/SaLx/QfR0UGjw==
-X-Received: by 2002:a17:90b:4a0f:: with SMTP id
- kk15mr5832689pjb.213.1594465674591; 
- Sat, 11 Jul 2020 04:07:54 -0700 (PDT)
+ bh=R0mDmcoY1c/T6ValqPe48xOd9C3NnWvFmUKnHSHnR6s=;
+ b=nenpKPSCbNmGLStSCaip1oyOkq8jGdoCkkQ2dCZ1GHEZl1LTZ0wXIFdR6HRyzraeOz
+ ++PlXDhAQqbvDObuMtnRHUn+kP4yDcPgxxQB8+Q+6I2hcg2QdBWxixa38smN0Ocu2iA+
+ Ie5nC4oyu4gjf5IZo7/7F478tMIj4kExpNi5m/cTdUD9KWPGNj0N83ZgJH2BcvAZqTCT
+ 7/ns1HcSMnw0MEVttCe2v+cf97hfGucWjps7FlRsgAaJw/PqU8b5C27UA5slK2sg1IvE
+ dcNFYUOWXJWknHWrsNUIspfymy3yr20/79KPDnNqf7Sa9cnMOb3UiTugmDaLX1k46svq
+ r99Q==
+X-Gm-Message-State: AOAM530SaOW+3HlmcZQFX6dkRyi1qFqpzYsR/aiItfFQxnE2OEtid1Tf
+ NLgTMoZGzl2J1yC33Qjg3IzodFch
+X-Google-Smtp-Source: ABdhPJw78i50m5vqnLUYZlYzJGJD7LRNgVuWuMQUhoNmk9PPDyAThIMCV2h2XC0wPSOqOSM5m8rnVg==
+X-Received: by 2002:a17:90a:d587:: with SMTP id
+ v7mr10745660pju.29.1594465675460; 
+ Sat, 11 Jul 2020 04:07:55 -0700 (PDT)
 Received: from octofox.hsd1.ca.comcast.net
  ([2601:641:400:e00:19b7:f650:7bbe:a7fb])
- by smtp.gmail.com with ESMTPSA id m31sm8925826pjb.52.2020.07.11.04.07.53
+ by smtp.gmail.com with ESMTPSA id m31sm8925826pjb.52.2020.07.11.04.07.54
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
  Sat, 11 Jul 2020 04:07:54 -0700 (PDT)
 From: Max Filippov <jcmvbkbc@gmail.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v4 08/22] target/xtensa: don't access BR regfile directly
-Date: Sat, 11 Jul 2020 04:06:43 -0700
-Message-Id: <20200711110655.20287-9-jcmvbkbc@gmail.com>
+Subject: [PATCH v4 09/22] target/xtensa: add DFPU option
+Date: Sat, 11 Jul 2020 04:06:44 -0700
+Message-Id: <20200711110655.20287-10-jcmvbkbc@gmail.com>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20200711110655.20287-1-jcmvbkbc@gmail.com>
 References: <20200711110655.20287-1-jcmvbkbc@gmail.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::1044;
- envelope-from=jcmvbkbc@gmail.com; helo=mail-pj1-x1044.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::641;
+ envelope-from=jcmvbkbc@gmail.com; helo=mail-pl1-x641.google.com
 X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
  That's all we know.
 X-Spam_score_int: -5
@@ -92,155 +92,79 @@ Cc: Max Filippov <jcmvbkbc@gmail.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-BR registers used in FPU comparison opcodes are available as opcode
-arguments for translators. Use them. This simplifies comparison helpers
-interface and makes them usable in FLIX bundles.
+Double precision floating point unit is a FPU implementation different
+from the FPU2000 in the following ways:
+- it may be configured with only single or with both single and double
+  precision operations support;
+- it may be configured with division and square root opcodes;
+- FSR register accumulates inValid, division by Zero, Overflow,
+  Underflow and Inexact result flags of operations;
+- QNaNs and SNaNs are handled properly;
+- NaN propagation rules are different.
 
-Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
 Signed-off-by: Max Filippov <jcmvbkbc@gmail.com>
 ---
- target/xtensa/fpu_helper.c | 42 +++++++++++++++++---------------------
- target/xtensa/helper.h     | 14 ++++++-------
- target/xtensa/translate.c  | 20 ++++++++++++++----
- 3 files changed, 42 insertions(+), 34 deletions(-)
+Changes v3->v4:
+- new patch split from the next one
 
-diff --git a/target/xtensa/fpu_helper.c b/target/xtensa/fpu_helper.c
-index 46e231bdaa51..35dacbd14d68 100644
---- a/target/xtensa/fpu_helper.c
-+++ b/target/xtensa/fpu_helper.c
-@@ -120,49 +120,45 @@ float32 HELPER(uitof_s)(CPUXtensaState *env, uint32_t v, uint32_t scale)
-                           (int32_t)scale, &env->fp_status);
- }
+ target/xtensa/cpu.h          |  2 ++
+ target/xtensa/overlay_tool.h | 23 +++++++++++++++++++++++
+ 2 files changed, 25 insertions(+)
+
+diff --git a/target/xtensa/cpu.h b/target/xtensa/cpu.h
+index 960f6573447f..6fc1565000b6 100644
+--- a/target/xtensa/cpu.h
++++ b/target/xtensa/cpu.h
+@@ -52,6 +52,8 @@ enum {
+     XTENSA_OPTION_COPROCESSOR,
+     XTENSA_OPTION_BOOLEAN,
+     XTENSA_OPTION_FP_COPROCESSOR,
++    XTENSA_OPTION_DFP_COPROCESSOR,
++    XTENSA_OPTION_DFPU_SINGLE_ONLY,
+     XTENSA_OPTION_MP_SYNCHRO,
+     XTENSA_OPTION_CONDITIONAL_STORE,
+     XTENSA_OPTION_ATOMCTL,
+diff --git a/target/xtensa/overlay_tool.h b/target/xtensa/overlay_tool.h
+index eb9f08af0bf6..9f0846c86b65 100644
+--- a/target/xtensa/overlay_tool.h
++++ b/target/xtensa/overlay_tool.h
+@@ -39,6 +39,26 @@
+ #define XCHAL_HAVE_DEPBITS 0
+ #endif
  
--static inline void set_br(CPUXtensaState *env, bool v, uint32_t br)
-+uint32_t HELPER(un_s)(CPUXtensaState *env, float32 a, float32 b)
- {
--    if (v) {
--        env->sregs[BR] |= br;
--    } else {
--        env->sregs[BR] &= ~br;
--    }
--}
--
--void HELPER(un_s)(CPUXtensaState *env, uint32_t br, float32 a, float32 b)
--{
--    set_br(env, float32_unordered_quiet(a, b, &env->fp_status), br);
-+    return float32_unordered_quiet(a, b, &env->fp_status);
- }
- 
--void HELPER(oeq_s)(CPUXtensaState *env, uint32_t br, float32 a, float32 b)
-+uint32_t HELPER(oeq_s)(CPUXtensaState *env, float32 a, float32 b)
- {
--    set_br(env, float32_eq_quiet(a, b, &env->fp_status), br);
-+    return float32_eq_quiet(a, b, &env->fp_status);
- }
- 
--void HELPER(ueq_s)(CPUXtensaState *env, uint32_t br, float32 a, float32 b)
-+uint32_t HELPER(ueq_s)(CPUXtensaState *env, float32 a, float32 b)
- {
-     FloatRelation v = float32_compare_quiet(a, b, &env->fp_status);
--    set_br(env, v == float_relation_equal || v == float_relation_unordered, br);
++#ifndef XCHAL_HAVE_DFP
++#define XCHAL_HAVE_DFP 0
++#endif
 +
-+    return v == float_relation_equal ||
-+           v == float_relation_unordered;
- }
- 
--void HELPER(olt_s)(CPUXtensaState *env, uint32_t br, float32 a, float32 b)
-+uint32_t HELPER(olt_s)(CPUXtensaState *env, float32 a, float32 b)
- {
--    set_br(env, float32_lt_quiet(a, b, &env->fp_status), br);
-+    return float32_lt_quiet(a, b, &env->fp_status);
- }
- 
--void HELPER(ult_s)(CPUXtensaState *env, uint32_t br, float32 a, float32 b)
-+uint32_t HELPER(ult_s)(CPUXtensaState *env, float32 a, float32 b)
- {
-     FloatRelation v = float32_compare_quiet(a, b, &env->fp_status);
--    set_br(env, v == float_relation_less || v == float_relation_unordered, br);
++#ifndef XCHAL_HAVE_DFPU_SINGLE_ONLY
++#define XCHAL_HAVE_DFPU_SINGLE_ONLY 0
++#endif
 +
-+    return v == float_relation_less ||
-+           v == float_relation_unordered;
- }
- 
--void HELPER(ole_s)(CPUXtensaState *env, uint32_t br, float32 a, float32 b)
-+uint32_t HELPER(ole_s)(CPUXtensaState *env, float32 a, float32 b)
- {
--    set_br(env, float32_le_quiet(a, b, &env->fp_status), br);
-+    return float32_le_quiet(a, b, &env->fp_status);
- }
- 
--void HELPER(ule_s)(CPUXtensaState *env, uint32_t br, float32 a, float32 b)
-+uint32_t HELPER(ule_s)(CPUXtensaState *env, float32 a, float32 b)
- {
-     FloatRelation v = float32_compare_quiet(a, b, &env->fp_status);
--    set_br(env, v != float_relation_greater, br);
++#ifndef XCHAL_HAVE_DFPU_SINGLE_DOUBLE
++#define XCHAL_HAVE_DFPU_SINGLE_DOUBLE XCHAL_HAVE_DFP
++#endif
 +
-+    return v != float_relation_greater;
- }
-diff --git a/target/xtensa/helper.h b/target/xtensa/helper.h
-index bce31cbd9ff1..02c00d8461c0 100644
---- a/target/xtensa/helper.h
-+++ b/target/xtensa/helper.h
-@@ -59,13 +59,13 @@ DEF_HELPER_FLAGS_3(ftoui_s, TCG_CALL_NO_RWG_SE, i32, f32, i32, i32)
- DEF_HELPER_3(itof_s, f32, env, i32, i32)
- DEF_HELPER_3(uitof_s, f32, env, i32, i32)
- 
--DEF_HELPER_4(un_s, void, env, i32, f32, f32)
--DEF_HELPER_4(oeq_s, void, env, i32, f32, f32)
--DEF_HELPER_4(ueq_s, void, env, i32, f32, f32)
--DEF_HELPER_4(olt_s, void, env, i32, f32, f32)
--DEF_HELPER_4(ult_s, void, env, i32, f32, f32)
--DEF_HELPER_4(ole_s, void, env, i32, f32, f32)
--DEF_HELPER_4(ule_s, void, env, i32, f32, f32)
-+DEF_HELPER_3(un_s,  i32, env, f32, f32)
-+DEF_HELPER_3(oeq_s, i32, env, f32, f32)
-+DEF_HELPER_3(ueq_s, i32, env, f32, f32)
-+DEF_HELPER_3(olt_s, i32, env, f32, f32)
-+DEF_HELPER_3(ult_s, i32, env, f32, f32)
-+DEF_HELPER_3(ole_s, i32, env, f32, f32)
-+DEF_HELPER_3(ule_s, i32, env, f32, f32)
- 
- DEF_HELPER_2(rer, i32, env, i32)
- DEF_HELPER_3(wer, void, env, i32, i32)
-diff --git a/target/xtensa/translate.c b/target/xtensa/translate.c
-index 1b643881e6e9..67a92379f9dc 100644
---- a/target/xtensa/translate.c
-+++ b/target/xtensa/translate.c
-@@ -6319,7 +6319,7 @@ enum {
- static void translate_compare_s(DisasContext *dc, const OpcodeArg arg[],
-                                 const uint32_t par[])
- {
--    static void (* const helper[])(TCGv_env env, TCGv_i32 bit,
-+    static void (* const helper[])(TCGv_i32 res, TCGv_env env,
-                                    TCGv_i32 s, TCGv_i32 t) = {
-         [COMPARE_UN] = gen_helper_un_s,
-         [COMPARE_OEQ] = gen_helper_oeq_s,
-@@ -6329,10 +6329,22 @@ static void translate_compare_s(DisasContext *dc, const OpcodeArg arg[],
-         [COMPARE_OLE] = gen_helper_ole_s,
-         [COMPARE_ULE] = gen_helper_ule_s,
-     };
--    TCGv_i32 bit = tcg_const_i32(1 << arg[0].imm);
-+    TCGv_i32 zero = tcg_const_i32(0);
-+    TCGv_i32 res = tcg_temp_new_i32();
-+    TCGv_i32 set_br = tcg_temp_new_i32();
-+    TCGv_i32 clr_br = tcg_temp_new_i32();
- 
--    helper[par[0]](cpu_env, bit, arg[1].in, arg[2].in);
--    tcg_temp_free(bit);
-+    tcg_gen_ori_i32(set_br, arg[0].in, 1 << arg[0].imm);
-+    tcg_gen_andi_i32(clr_br, arg[0].in, ~(1 << arg[0].imm));
++/*
++ * We need to know the type of FP unit, not only its precision.
++ * Unfortunately XCHAL macros don't tell this explicitly.
++ */
++#define XCHAL_HAVE_DFPU (XCHAL_HAVE_DFP || \
++                         XCHAL_HAVE_DFPU_SINGLE_ONLY || \
++                         XCHAL_HAVE_DFPU_SINGLE_DOUBLE)
 +
-+    helper[par[0]](res, cpu_env, arg[1].in, arg[2].in);
-+    tcg_gen_movcond_i32(TCG_COND_NE,
-+                        arg[0].out, res, zero,
-+                        set_br, clr_br);
-+    tcg_temp_free(zero);
-+    tcg_temp_free(res);
-+    tcg_temp_free(set_br);
-+    tcg_temp_free(clr_br);
- }
- 
- static void translate_float_s(DisasContext *dc, const OpcodeArg arg[],
+ #ifndef XCHAL_HAVE_DIV32
+ #define XCHAL_HAVE_DIV32 0
+ #endif
+@@ -99,6 +119,9 @@
+     XCHAL_OPTION(XCHAL_HAVE_CP, XTENSA_OPTION_COPROCESSOR) | \
+     XCHAL_OPTION(XCHAL_HAVE_BOOLEANS, XTENSA_OPTION_BOOLEAN) | \
+     XCHAL_OPTION(XCHAL_HAVE_FP, XTENSA_OPTION_FP_COPROCESSOR) | \
++    XCHAL_OPTION(XCHAL_HAVE_DFPU, XTENSA_OPTION_DFP_COPROCESSOR) | \
++    XCHAL_OPTION(XCHAL_HAVE_DFPU_SINGLE_ONLY, \
++                 XTENSA_OPTION_DFPU_SINGLE_ONLY) | \
+     XCHAL_OPTION(XCHAL_HAVE_RELEASE_SYNC, XTENSA_OPTION_MP_SYNCHRO) | \
+     XCHAL_OPTION(XCHAL_HAVE_S32C1I, XTENSA_OPTION_CONDITIONAL_STORE) | \
+     XCHAL_OPTION(((XCHAL_HAVE_S32C1I && XCHAL_HW_VERSION >= 230000) || \
 -- 
 2.20.1
 
