@@ -2,71 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C53AC21C3DC
-	for <lists+qemu-devel@lfdr.de>; Sat, 11 Jul 2020 13:09:15 +0200 (CEST)
-Received: from localhost ([::1]:34988 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id DFD9D21C3E4
+	for <lists+qemu-devel@lfdr.de>; Sat, 11 Jul 2020 13:11:18 +0200 (CEST)
+Received: from localhost ([::1]:43544 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1juDNa-00062V-MP
-	for lists+qemu-devel@lfdr.de; Sat, 11 Jul 2020 07:09:14 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:52638)
+	id 1juDPZ-00015P-RF
+	for lists+qemu-devel@lfdr.de; Sat, 11 Jul 2020 07:11:17 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:52652)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <jcmvbkbc@gmail.com>)
- id 1juDMG-0004JN-IC
- for qemu-devel@nongnu.org; Sat, 11 Jul 2020 07:07:52 -0400
-Received: from mail-pf1-x444.google.com ([2607:f8b0:4864:20::444]:42413)
+ id 1juDMH-0004Mb-RQ
+ for qemu-devel@nongnu.org; Sat, 11 Jul 2020 07:07:53 -0400
+Received: from mail-pg1-x52e.google.com ([2607:f8b0:4864:20::52e]:42192)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <jcmvbkbc@gmail.com>)
- id 1juDMF-0006Mu-40
- for qemu-devel@nongnu.org; Sat, 11 Jul 2020 07:07:52 -0400
-Received: by mail-pf1-x444.google.com with SMTP id 1so3683572pfn.9
- for <qemu-devel@nongnu.org>; Sat, 11 Jul 2020 04:07:50 -0700 (PDT)
+ id 1juDMG-0006N9-4p
+ for qemu-devel@nongnu.org; Sat, 11 Jul 2020 07:07:53 -0400
+Received: by mail-pg1-x52e.google.com with SMTP id m22so3686419pgv.9
+ for <qemu-devel@nongnu.org>; Sat, 11 Jul 2020 04:07:51 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=W7ATAkBU+e1u0gzazBhl9zvuSsGWGby/NXXI1rneX3w=;
- b=owPDPZfayFxW1DHQhwpwcVQf5OaPPUZCxE75IoviZoTybQammotxpT8LHVboYS2lXA
- ae/44LlNi0xYwFX0aMqkvCSmTh5/LecK7gHySpUTGx51z++n84gQXsFmJZMnByllslWi
- rYgW6byLfo/OtR7gpJlDzUuD/NQtGbQXrwAAosnmOqbOB09X+EjcB0WkRvuDCxpKndlb
- 9OrlOa/WRCjWwEGHK8/tS+7LN8s4PljOYz6DD5kumJF/0wAu7VN2FmstetZfCRdxNBnK
- uXjzGSfMeBuybRZRjFCBpRJ12y3wlfJaC3Pu/Ja5h+qKpejDB+H74Vuuj84AvZRReK8V
- RSvw==
+ bh=WZrxDgWWXXP9PmlZyyBGjdv9eqT/iSmUhBtmo9zxmiE=;
+ b=og6TEkuqvyL9WqFB2XPRBVNhqgGVqrluIQwOzhZXqjonXxaOtdcemhkx/tVmeHwbqF
+ XYvaSJyE1fa6QifMUiBfvlekqTneXmPoBzSZ+N3ANLozuOHHEFaKKFZSLeXUDfOT9Dsa
+ GxEnTX3OdAqC8xBpjxhxqfLa/ZU0ypxhiz6nJ6pq94mhN85eGtzz/OBlefvlpC6TVx6J
+ UHWx/yaEPwECXR8YeC99yIPCSNvLqavncnOnE9CvEUTnoOKna6cVV0XiQW4w3H6YcM/x
+ 9G0BsvtC4Jn3gBnjLnAR4rNiz8OLdwg8vA3z7l0p1/x0/U9Srt06ligpAuhP1d3l39UR
+ AGPQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=W7ATAkBU+e1u0gzazBhl9zvuSsGWGby/NXXI1rneX3w=;
- b=uGapu5oNnxhBduSTAVQ2wQexm4aF1u/f7XokkGGckt+muJJlpGHNe9FHh+Ejq8S0XO
- SokuMeyeqIxnxym5Ojbcm49S8wv+9aUMvHBZyERx2w/8HzK2Ze9+aO/yrYyZQ4X5GoHm
- VbdR2S24NN6+8SMlfRJ+yhV817yN5DWtR0uLVy5Dyoa8d81Xn8BeQxuOPL5LwGq1CWYV
- wqvWv1S1q95Ktc/Fh1Rb37Q9uKWEdavt1Gz9aCyX48Z4GM6DTc8H0MlqQOVy/0ar4Mj9
- UhT4jzPSCtSN/iTxJJuqUBG/kb+uXBreUE35/i3Wf3nZfzEy5FZwBq9cOxRdiJ55ofDJ
- WQSA==
-X-Gm-Message-State: AOAM530vjEFwmQ0pM6s8pSIpjnuoc66lGvrS457dDzYE47luijOTBwHY
- tpzOQJBAYilV2akDuvUbTBj1/IEq
-X-Google-Smtp-Source: ABdhPJyw61B+VIxjxdFLrUtWEED1Bj1JyxiCmc+nYVb05LMED7wn8k1m/REh7jj2wFTv9rV0Y1KtQw==
-X-Received: by 2002:a62:2b85:: with SMTP id
- r127mr22979159pfr.239.1594465669628; 
- Sat, 11 Jul 2020 04:07:49 -0700 (PDT)
+ bh=WZrxDgWWXXP9PmlZyyBGjdv9eqT/iSmUhBtmo9zxmiE=;
+ b=bYkxVMCguyRZm23dl9EjLF5B6jtm4NmpVois7NNH8Yf+zGjt+mebFftdbqxCnBsLho
+ caARUXqDEB9BQQnjV1qgeI0Fj/TXMpaU1GwPBf1r0nOIDiOARawGe4JR0IpMcXO9hZE1
+ oxoYSyEkerVSPv5XJBIuI/OG1mAvWgM+/roUWzzsURF5KhsamPbDErSkOszBT8VM4S2H
+ a7Yj1wOvJUhcPj4jNNaa/uXptIVl+GjDonxSILfxTCnKPLnONS7W9T0Kpv5RMOAiSfNV
+ A4YR5n7NaVS6xBekUXuceGRAqzNNx0H9/x8nfOcdiLpCLeFsUymDEvrUfFcd9H9+pmqV
+ DiZQ==
+X-Gm-Message-State: AOAM5324vhfYDlItA5bZ1UnbRS6KLJwoMf9Tssb/0GWHSTLGhpEg+tpd
+ Kq34FoyieheIrKsc3yJYkzhUeIXf
+X-Google-Smtp-Source: ABdhPJx91xbPfHduPmKK1qsZU3HwlKROZQ964Sj6EqC8/pdM9ZpyqIOZMfy/DFYTJgvMhloRRZyZcA==
+X-Received: by 2002:a62:6dc3:: with SMTP id
+ i186mr43211212pfc.104.1594465670640; 
+ Sat, 11 Jul 2020 04:07:50 -0700 (PDT)
 Received: from octofox.hsd1.ca.comcast.net
  ([2601:641:400:e00:19b7:f650:7bbe:a7fb])
- by smtp.gmail.com with ESMTPSA id m31sm8925826pjb.52.2020.07.11.04.07.48
+ by smtp.gmail.com with ESMTPSA id m31sm8925826pjb.52.2020.07.11.04.07.49
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sat, 11 Jul 2020 04:07:48 -0700 (PDT)
+ Sat, 11 Jul 2020 04:07:50 -0700 (PDT)
 From: Max Filippov <jcmvbkbc@gmail.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v4 03/22] softfloat: add xtensa specialization for
- pickNaNMulAdd
-Date: Sat, 11 Jul 2020 04:06:38 -0700
-Message-Id: <20200711110655.20287-4-jcmvbkbc@gmail.com>
+Subject: [PATCH v4 04/22] target/xtensa: add geometry to
+ xtensa_get_regfile_by_name
+Date: Sat, 11 Jul 2020 04:06:39 -0700
+Message-Id: <20200711110655.20287-5-jcmvbkbc@gmail.com>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20200711110655.20287-1-jcmvbkbc@gmail.com>
 References: <20200711110655.20287-1-jcmvbkbc@gmail.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::444;
- envelope-from=jcmvbkbc@gmail.com; helo=mail-pf1-x444.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::52e;
+ envelope-from=jcmvbkbc@gmail.com; helo=mail-pg1-x52e.google.com
 X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
  That's all we know.
 X-Spam_score_int: -5
@@ -89,69 +88,108 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>,
- Max Filippov <jcmvbkbc@gmail.com>,
- Richard Henderson <richard.henderson@linaro.org>,
- Peter Maydell <peter.maydell@linaro.org>
+Cc: Max Filippov <jcmvbkbc@gmail.com>,
+ Richard Henderson <richard.henderson@linaro.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-pickNaNMulAdd logic on Xtensa is to apply pickNaN to the inputs of the
-expression (a * b) + c. However if default NaN is produces as a result
-of (a * b) calculation it is not considered when c is NaN.
-So with two pickNaN variants there must be two pickNaNMulAdd variants.
-In addition the invalid flag is always set when (a * b) produces NaN.
+Register file name may not uniquely identify a register file in the set
+of configurations. E.g. floating point registers may have different size
+in different configurations. Use register file geometry as additional
+identifier.
 
-Cc: Peter Maydell <peter.maydell@linaro.org>
-Cc: "Alex Bennée" <alex.bennee@linaro.org>
-Cc: Richard Henderson <richard.henderson@linaro.org>
-Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
 Signed-off-by: Max Filippov <jcmvbkbc@gmail.com>
 ---
-Changes v2->v3:
-- handle infzero case in pickNaNMulAdd properly and reword commit
-  message
+ target/xtensa/cpu.h       |  2 +-
+ target/xtensa/helper.c    |  4 +++-
+ target/xtensa/translate.c | 35 +++++++++++++++++++++++++++--------
+ 3 files changed, 31 insertions(+), 10 deletions(-)
 
- fpu/softfloat-specialize.inc.c | 26 ++++++++++++++++++++++++++
- 1 file changed, 26 insertions(+)
-
-diff --git a/fpu/softfloat-specialize.inc.c b/fpu/softfloat-specialize.inc.c
-index f519beca1b74..914deac46ecf 100644
---- a/fpu/softfloat-specialize.inc.c
-+++ b/fpu/softfloat-specialize.inc.c
-@@ -585,6 +585,32 @@ static int pickNaNMulAdd(FloatClass a_cls, FloatClass b_cls, FloatClass c_cls,
-     } else {
-         return 1;
+diff --git a/target/xtensa/cpu.h b/target/xtensa/cpu.h
+index 0c96181212a5..0409aa6189cf 100644
+--- a/target/xtensa/cpu.h
++++ b/target/xtensa/cpu.h
+@@ -598,7 +598,7 @@ void xtensa_cpu_do_unaligned_access(CPUState *cpu, vaddr addr,
+ 
+ void xtensa_collect_sr_names(const XtensaConfig *config);
+ void xtensa_translate_init(void);
+-void **xtensa_get_regfile_by_name(const char *name);
++void **xtensa_get_regfile_by_name(const char *name, int entries, int bits);
+ void xtensa_breakpoint_handler(CPUState *cs);
+ void xtensa_register_core(XtensaConfigList *node);
+ void xtensa_sim_open_console(Chardev *chr);
+diff --git a/target/xtensa/helper.c b/target/xtensa/helper.c
+index 7073381f03b2..05e2b7f70a1e 100644
+--- a/target/xtensa/helper.c
++++ b/target/xtensa/helper.c
+@@ -133,8 +133,10 @@ static void init_libisa(XtensaConfig *config)
+     config->regfile = g_new(void **, regfiles);
+     for (i = 0; i < regfiles; ++i) {
+         const char *name = xtensa_regfile_name(config->isa, i);
++        int entries = xtensa_regfile_num_entries(config->isa, i);
++        int bits = xtensa_regfile_num_bits(config->isa, i);
+ 
+-        config->regfile[i] = xtensa_get_regfile_by_name(name);
++        config->regfile[i] = xtensa_get_regfile_by_name(name, entries, bits);
+ #ifdef DEBUG
+         if (config->regfile[i] == NULL) {
+             fprintf(stderr, "regfile '%s' not found for %s\n",
+diff --git a/target/xtensa/translate.c b/target/xtensa/translate.c
+index 03d796d7a1ed..9838bf6b3ec5 100644
+--- a/target/xtensa/translate.c
++++ b/target/xtensa/translate.c
+@@ -227,24 +227,43 @@ void xtensa_translate_init(void)
+                                "exclusive_val");
+ }
+ 
+-void **xtensa_get_regfile_by_name(const char *name)
++void **xtensa_get_regfile_by_name(const char *name, int entries, int bits)
+ {
++    char *geometry_name;
++    void **res;
++
+     if (xtensa_regfile_table == NULL) {
+         xtensa_regfile_table = g_hash_table_new(g_str_hash, g_str_equal);
++        /*
++         * AR is special. Xtensa translator uses it as a current register
++         * window, but configuration overlays represent it as a complete
++         * physical register file.
++         */
+         g_hash_table_insert(xtensa_regfile_table,
+-                            (void *)"AR", (void *)cpu_R);
++                            (void *)"AR 16x32", (void *)cpu_R);
+         g_hash_table_insert(xtensa_regfile_table,
+-                            (void *)"MR", (void *)cpu_MR);
++                            (void *)"AR 32x32", (void *)cpu_R);
+         g_hash_table_insert(xtensa_regfile_table,
+-                            (void *)"FR", (void *)cpu_FR);
++                            (void *)"AR 64x32", (void *)cpu_R);
++
+         g_hash_table_insert(xtensa_regfile_table,
+-                            (void *)"BR", (void *)cpu_BR);
++                            (void *)"MR 4x32", (void *)cpu_MR);
++
+         g_hash_table_insert(xtensa_regfile_table,
+-                            (void *)"BR4", (void *)cpu_BR4);
++                            (void *)"FR 16x32", (void *)cpu_FR);
++
+         g_hash_table_insert(xtensa_regfile_table,
+-                            (void *)"BR8", (void *)cpu_BR8);
++                            (void *)"BR 16x1", (void *)cpu_BR);
++        g_hash_table_insert(xtensa_regfile_table,
++                            (void *)"BR4 4x4", (void *)cpu_BR4);
++        g_hash_table_insert(xtensa_regfile_table,
++                            (void *)"BR8 2x8", (void *)cpu_BR8);
      }
-+#elif defined(TARGET_XTENSA)
-+    /*
-+     * For Xtensa, the (inf,zero,nan) case sets InvalidOp and returns
-+     * an input NaN if we have one (ie c).
-+     */
-+    if (infzero) {
-+        float_raise(float_flag_invalid, status);
-+        return 2;
-+    }
-+    if (status->use_first_nan) {
-+        if (is_nan(a_cls)) {
-+            return 0;
-+        } else if (is_nan(b_cls)) {
-+            return 1;
-+        } else {
-+            return 2;
-+        }
-+    } else {
-+        if (is_nan(c_cls)) {
-+            return 2;
-+        } else if (is_nan(b_cls)) {
-+            return 1;
-+        } else {
-+            return 0;
-+        }
-+    }
- #else
-     /* A default implementation: prefer a to b to c.
-      * This is unlikely to actually match any real implementation.
+-    return (void **)g_hash_table_lookup(xtensa_regfile_table, (void *)name);
++
++    geometry_name = g_strdup_printf("%s %dx%d", name, entries, bits);
++    res = (void **)g_hash_table_lookup(xtensa_regfile_table, geometry_name);
++    g_free(geometry_name);
++    return res;
+ }
+ 
+ static inline bool option_enabled(DisasContext *dc, int opt)
 -- 
 2.20.1
 
