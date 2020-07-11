@@ -2,88 +2,67 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5488A21C67A
-	for <lists+qemu-devel@lfdr.de>; Sat, 11 Jul 2020 23:43:16 +0200 (CEST)
-Received: from localhost ([::1]:54432 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C596521C699
+	for <lists+qemu-devel@lfdr.de>; Sun, 12 Jul 2020 00:02:01 +0200 (CEST)
+Received: from localhost ([::1]:60534 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1juNH9-0002mI-Bj
-	for lists+qemu-devel@lfdr.de; Sat, 11 Jul 2020 17:43:15 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:48424)
+	id 1juNZI-0006U7-Qu
+	for lists+qemu-devel@lfdr.de; Sat, 11 Jul 2020 18:02:00 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:50720)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1juNGO-0002Gw-Co
- for qemu-devel@nongnu.org; Sat, 11 Jul 2020 17:42:28 -0400
-Received: from mail-pj1-x1042.google.com ([2607:f8b0:4864:20::1042]:38184)
+ (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
+ id 1juNYK-000633-Fd
+ for qemu-devel@nongnu.org; Sat, 11 Jul 2020 18:01:00 -0400
+Received: from indium.canonical.com ([91.189.90.7]:49838)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1juNGL-0003UO-TX
- for qemu-devel@nongnu.org; Sat, 11 Jul 2020 17:42:28 -0400
-Received: by mail-pj1-x1042.google.com with SMTP id k5so4179121pjg.3
- for <qemu-devel@nongnu.org>; Sat, 11 Jul 2020 14:42:25 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=subject:to:cc:references:from:message-id:date:user-agent
- :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=WAnM+AEg28RYA/0yqxUHhCYjcfhg0sGRVBIvk6M3zVM=;
- b=xYOVdjbxhN/lKp45Dbc6suFqMijEw5NTs0SFzH2Cgx3udjTGF8GYAnItqYOga74aU3
- ZvAJmWxaJt0NWs7pzvlaWhHpAvFpNj5uRmdEu33Zfx28Svvj+t2lHJ6KT/YmBmiodSTo
- u+jAqHvOtrAzg5vVlV22X9nGtn5JO8pSn8hu9iHRerQFx45yTRSPlb47NJ4P6mTcThWD
- fU/a0vNYyO4r4HEcyFr7JiwO/6Gzeqk4bkMgls4g+voYgb4+pWPl4yf+G9877xo+gBXg
- anpNLFX5lE8arA3Q1vqQ2AydiTmtP2Wwi4EPZVjDe4ZXRcTp1WywPtBzqZI21nnPjhq3
- 9EKw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=WAnM+AEg28RYA/0yqxUHhCYjcfhg0sGRVBIvk6M3zVM=;
- b=kwg5aHIdgxq0rAmQQ8aHlF9I43s7k3Vl7PDmMvjcCydoIpJfXFfvf0GiYl9UUvGNkp
- itUvNuMCYR21fk2AKnEN2Ayd5gHmex1NlexP58nuv1wQ1Zfo/1npdrXlUFkEa+WUXAbt
- /P3cmHjEhY6kgF24TviK7XWFWgFP7L8kJNEd1LLYtt/9aZOkAg23x3aeO/LfOqgMuMhK
- DkUfXZ9KNpBvruxR+rC7Prf4fhOIDoUBecETuz7BspYE938ybA0yYvSr2Jl2bZDmdV3u
- DK1PhLFN5BfsrsZfWuQ15w/ZK+j29a96hXw/s3llNrr/cPfZfLCzh1rG0BrKagvr14YH
- 1yJQ==
-X-Gm-Message-State: AOAM53371VSYi4a/iy0jHMvxHJeJ9bKcOz8fXWxjU7vlkc9vE+jNMAxx
- DRDW7OJrzB0u/Z92SLXE/cfsCw==
-X-Google-Smtp-Source: ABdhPJw0Ol2Z9UOBsZmqgeBlNoAZjZUdX4T9IWFuLUCP4YeQAg+6ys2Jh/3Mav71XFDf5DTEO3q90g==
-X-Received: by 2002:a17:902:b204:: with SMTP id
- t4mr66587134plr.132.1594503744193; 
- Sat, 11 Jul 2020 14:42:24 -0700 (PDT)
-Received: from [192.168.1.11] (174-21-143-238.tukw.qwest.net. [174.21.143.238])
- by smtp.gmail.com with ESMTPSA id m1sm9290690pjy.0.2020.07.11.14.42.23
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Sat, 11 Jul 2020 14:42:23 -0700 (PDT)
-Subject: Re: [PATCH v2 01/17] tcg: Introduce target-specific page data for
- user-only
-To: Peter Maydell <peter.maydell@linaro.org>
-References: <20200605041733.415188-1-richard.henderson@linaro.org>
- <20200605041733.415188-2-richard.henderson@linaro.org>
- <CAFEAcA-qybDD6GWYPFB6tMfTb9Kj+_bCKCxPyDYMZBr8EwbDmQ@mail.gmail.com>
-From: Richard Henderson <richard.henderson@linaro.org>
-Message-ID: <d5659aa8-1e51-455f-c3be-379e3f224817@linaro.org>
-Date: Sat, 11 Jul 2020 14:42:21 -0700
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.8.0
+ (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
+ id 1juNYD-0005VD-Cc
+ for qemu-devel@nongnu.org; Sat, 11 Jul 2020 18:00:57 -0400
+Received: from loganberry.canonical.com ([91.189.90.37])
+ by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
+ id 1juNYB-00035Y-Bv
+ for <qemu-devel@nongnu.org>; Sat, 11 Jul 2020 22:00:51 +0000
+Received: from loganberry.canonical.com (localhost [127.0.0.1])
+ by loganberry.canonical.com (Postfix) with ESMTP id 526F32E80EE
+ for <qemu-devel@nongnu.org>; Sat, 11 Jul 2020 22:00:51 +0000 (UTC)
 MIME-Version: 1.0
-In-Reply-To: <CAFEAcA-qybDD6GWYPFB6tMfTb9Kj+_bCKCxPyDYMZBr8EwbDmQ@mail.gmail.com>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::1042;
- envelope-from=richard.henderson@linaro.org; helo=mail-pj1-x1042.google.com
-X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
- That's all we know.
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: quoted-printable
+Date: Sat, 11 Jul 2020 21:52:10 -0000
+From: Simon John <1886318@bugs.launchpad.net>
+To: qemu-devel@nongnu.org
+X-Launchpad-Notification-Type: bug
+X-Launchpad-Bug: product=qemu; status=New; importance=Undecided; assignee=None;
+X-Launchpad-Bug-Information-Type: Public
+X-Launchpad-Bug-Private: no
+X-Launchpad-Bug-Security-Vulnerability: no
+X-Launchpad-Bug-Commenters: mark-cave-ayland sej7278
+X-Launchpad-Bug-Reporter: Simon John (sej7278)
+X-Launchpad-Bug-Modifier: Simon John (sej7278)
+References: <159394898604.17667.6684490731246411850.malonedeb@soybean.canonical.com>
+Message-Id: <159450433113.12172.8885274593643733408.malone@soybean.canonical.com>
+Subject: [Bug 1886318] Re: Qemu after v5.0.0 breaks macos guests
+X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
+X-Launchpad-Message-For: qemu-devel-ml
+Precedence: bulk
+X-Generated-By: Launchpad (canonical.com);
+ Revision="4809fcb62f445aaa3ae919f7f6c3cc7d156ea57a";
+ Instance="production-secrets-lazr.conf"
+X-Launchpad-Hash: 45fbeb4e560191af82dfe29b02f93e9e0b81a2b0
+Received-SPF: none client-ip=91.189.90.7; envelope-from=bounces@canonical.com;
+ helo=indium.canonical.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/07/11 17:41:08
+X-ACL-Warn: Detected OS   = Linux 3.11 and newer [fuzzy]
+X-Spam_score_int: -58
+X-Spam_score: -5.9
+X-Spam_bar: -----
+X-Spam_report: (-5.9 / 5.0 requ) BAYES_00=-1.9, HEADER_FROM_DIFFERENT_DOMAINS=1,
+ RCVD_IN_DNSWL_HI=-5, RCVD_IN_MSPIKE_H3=-0.01, RCVD_IN_MSPIKE_WL=-0.01,
+ SPF_HELO_NONE=0.001, SPF_NONE=0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
-Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -92,81 +71,82 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-arm <qemu-arm@nongnu.org>, QEMU Developers <qemu-devel@nongnu.org>,
- Stephen Long <steplong@quicinc.com>
+Reply-To: Bug 1886318 <1886318@bugs.launchpad.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 6/25/20 9:20 AM, Peter Maydell wrote:
-> On Fri, 5 Jun 2020 at 05:17, Richard Henderson
-> <richard.henderson@linaro.org> wrote:
->>
->> This data can be allocated by page_alloc_target_data() and
->> released by page_set_flags(start, end, prot | PAGE_RESET).
->>
->> This data will be used to hold tag memory for AArch64 MTE.
->>
->> Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
->> ---
-> 
->> @@ -289,6 +295,8 @@ int walk_memory_regions(void *, walk_memory_regions_fn);
->>  int page_get_flags(target_ulong address);
->>  void page_set_flags(target_ulong start, target_ulong end, int flags);
->>  int page_check_range(target_ulong start, target_ulong len, int flags);
->> +void *page_get_target_data(target_ulong address);
->> +void *page_alloc_target_data(target_ulong address, size_t size);
-> 
-> Could we have a doc comment for any new function that's got
-> global scope, please?
-> 
->>  #endif
->>
->>  CPUArchState *cpu_copy(CPUArchState *env);
-> 
->> +void *page_alloc_target_data(target_ulong address, size_t size)
->> +{
->> +    PageDesc *p = page_find(address >> TARGET_PAGE_BITS);
->> +    void *ret = NULL;
->> +
->> +    if (p) {
->> +        ret = p->target_data;
->> +        if (!ret && (p->flags & PAGE_VALID)) {
->> +            p->target_data = ret = g_malloc0(size);
->> +        }
->> +    }
->> +    return ret;
-> 
-> Can a PageDesc validly have p->target_data != NULL but
-> p->flags with PAGE_VALID not set ?
+Woohoo! Simply reverting that one commit
+5d971f9e672507210e77d020d89e0e89165c8fc9 from today's master gets me
+running again.
 
-No.  But we can be called for a page that is not mapped (returning NULL) and
-can be called for a page that already has associated data (returning the old
-value).
+Not sure where that leaves us though....?
 
-> It's not clear to me why for a !PAGE_VALID page which
-> has target_data already we return that pointer but
-> if it doesn't have any we don't allocate: either
-> "always allocate" or "always return NULL for non-valid pages"
-> would seem more self-consistent.
+-- =
 
-I was expecting a non-valid page to have no data.  I will rearrange this to
+You received this bug notification because you are a member of qemu-
+devel-ml, which is subscribed to QEMU.
+https://bugs.launchpad.net/bugs/1886318
 
-    ret = NULL;
-    if (p->flags & PAGE_VALID) {
-        ret = p->target_data;
-        if (!ret) {
-            p->target_data = ret = g_malloc0(size);
-        }
-    }
+Title:
+  Qemu after v5.0.0 breaks macos guests
 
-which is probably clearer.
+Status in QEMU:
+  New
 
->> +        /* FIXME: Move page flags and target_data for each page.  */
-> 
-> Is this something we're going to address later in the patchset?
+Bug description:
+  The Debian Sid 5.0-6 qemu-kvm package can no longer get further than
+  the Clover bootloader whereas 5.0-6 and earlier worked fine.
 
-I had not, but I should.  Will fix.
+  So I built qemu master from github and it has the same problem,
+  whereas git tag v5.0.0 (or 4.2.1) does not, so something between
+  v5.0.0 release and the last few days has caused the problem.
 
+  Here's my qemu script, pretty standard macOS-Simple-KVM setup on a
+  Xeon host:
 
-r~
+  qemu-system-x86_64 \
+      -enable-kvm \
+      -m 4G \
+      -machine q35,accel=3Dkvm \
+      -smp 4,sockets=3D1,cores=3D2,threads=3D2 \
+      -cpu =
+
+  Penryn,vendor=3DGenuineIntel,kvm=3Don,+sse3,+sse4.2,+aes,+xsave,+avx,+xsa=
+veopt,+xsavec,+xgetbv1,+avx2,+bmi2,+smep,+bmi1,+fma,+movbe,+invtsc =
+
+  \
+      -device =
+
+  isa-applesmc,osk=3D"ourhardworkbythesewordsguardedpleasedontsteal(c)Apple=
+ComputerInc" =
+
+  \
+      -smbios type=3D2 \
+      -drive if=3Dpflash,format=3Draw,readonly,file=3D"/tmp/OVMF_CODE.fd" \
+      -drive if=3Dpflash,format=3Draw,file=3D"/tmp/macos_catalina_VARS.fd" \
+      -vga qxl \
+      -device ich9-ahci,id=3Dsata \
+      -drive id=3DESP,if=3Dnone,format=3Draw,file=3D/tmp/ESP.img \
+      -device ide-hd,bus=3Dsata.2,drive=3DESP \
+      -drive id=3DInstallMedia,format=3Draw,if=3Dnone,file=3D/tmp/BaseSyste=
+m.img \
+      -device ide-hd,bus=3Dsata.3,drive=3DInstallMedia \
+      -drive id=3DSystemDisk,if=3Dnone,format=3Draw,file=3D/tmp/macos_catal=
+ina.img \
+      -device ide-hd,bus=3Dsata.4,drive=3DSystemDisk \
+      -usb -device usb-kbd -device usb-mouse
+
+  Perhaps something has changed in Penryn support recently, as that's
+  required for macos?
+
+  See also https://bugs.debian.org/cgi-bin/bugreport.cgi?bug=3D964247
+
+  Also on a related note, kernel 5.6/5.7 (on Debian) hard crashes the
+  host when I try GPU passthrough on macos, whereas Ubuntu20/Win10 work
+  fine - as does 5.5 kernel.
+
+  See also https://bugs.debian.org/cgi-bin/bugreport.cgi?bug=3D961676
+
+To manage notifications about this bug go to:
+https://bugs.launchpad.net/qemu/+bug/1886318/+subscriptions
 
