@@ -2,112 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B7DD221C383
-	for <lists+qemu-devel@lfdr.de>; Sat, 11 Jul 2020 12:06:17 +0200 (CEST)
-Received: from localhost ([::1]:33992 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 73F1721C399
+	for <lists+qemu-devel@lfdr.de>; Sat, 11 Jul 2020 12:12:15 +0200 (CEST)
+Received: from localhost ([::1]:42300 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1juCOe-0007N8-7m
-	for lists+qemu-devel@lfdr.de; Sat, 11 Jul 2020 06:06:16 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:42588)
+	id 1juCUQ-0002XC-Du
+	for lists+qemu-devel@lfdr.de; Sat, 11 Jul 2020 06:12:14 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:43920)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <vsementsov@virtuozzo.com>)
- id 1juCNg-0006oV-45; Sat, 11 Jul 2020 06:05:16 -0400
-Received: from mail-eopbgr130108.outbound.protection.outlook.com
- ([40.107.13.108]:16499 helo=EUR01-HE1-obe.outbound.protection.outlook.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <vsementsov@virtuozzo.com>)
- id 1juCNc-0007VK-8D; Sat, 11 Jul 2020 06:05:15 -0400
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=EdNyX40RVV/gRiAGYXAR1yHz0HiUU8L5JJfNBXrLCO6q4vLZ+VkZr7hxjpMwKtdR3idfoT6pqV7HuffGOEehYIYspCSRGBVhMpcYv9I1706Csolo5QGOpgI6GWbM3e2HsVzwYqLlu2ubyihd7UCpWcGf17hwdEiZA1FlrQgxARIhPMxwpVYcuulgUHxafjN9nRsHcOT9YzMaRgiT01tJwq2UrLZTPK/tjmjyXFSyUdaU9hM8hU/TMVZjEjw/d20+Kdw+Wn0+aKBlg9/LFp5aFK+GpsVbL9I/ud5aGLzqQIH2LY0S1VzG9DbIELH4dHOKMguN2QqWTp4AJF4e7LI0VQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=3xrerJi4o/Ql+SjuINHkuIKGIH7QQXq4TX8qe2eL1SY=;
- b=AkWUQ3dWH5dz+QDFzo/tuEL7T6o4l7kpmV7GEobGpldmQLnt6uo7xkYf8U9ajKy2wIEbyd54M0oskpPlOzAVsMToKLQ7hS6RmtwzZihyzuMC/X5vNu6zRxXaEfBjGaTyMZS0LYul6hm6yV1MfhjLBEAiUWoBNIpb/hbubGQg7oYY5jjhMZqo5+chFZmnYpj71r65ABK0gvZxWUKvmckCk1P6N5YjKfND7uPcKBGGH+0gp3E0FX1ivXU6k1+CvN7TxOo/qyxue84fD+ZNd+NCPJyu4Za31eacYelCDR/7zwEo9FuFkoUgCfbZNJR4zxLUT4OVkv4kMHFUN9oV2Soi0g==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=virtuozzo.com; dmarc=pass action=none
- header.from=virtuozzo.com; dkim=pass header.d=virtuozzo.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=virtuozzo.com;
- s=selector2;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=3xrerJi4o/Ql+SjuINHkuIKGIH7QQXq4TX8qe2eL1SY=;
- b=Uh2S9QViDaoq80/LWzg4UfGOvFn7agB7J/2Dtjr53CHwDb9KdHgyGq/l7csO4zxb/LpVmpt7fAwL2hLJJ4GYzK7373eHPUYjG4Nd+F+RZmx6BwelBh9ZEtVR3RVRYyUgWKPOtjCY9Ve3ErRx3ILtvhfi3QSaLmKLQ3eky/cn26A=
-Authentication-Results: redhat.com; dkim=none (message not signed)
- header.d=none;redhat.com; dmarc=none action=none header.from=virtuozzo.com;
-Received: from AM7PR08MB5494.eurprd08.prod.outlook.com (2603:10a6:20b:dc::15)
- by AM6PR08MB3542.eurprd08.prod.outlook.com (2603:10a6:20b:4b::19)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3174.21; Sat, 11 Jul
- 2020 10:05:07 +0000
-Received: from AM7PR08MB5494.eurprd08.prod.outlook.com
- ([fe80::a408:2f0f:bc6c:d312]) by AM7PR08MB5494.eurprd08.prod.outlook.com
- ([fe80::a408:2f0f:bc6c:d312%3]) with mapi id 15.20.3174.024; Sat, 11 Jul 2020
- 10:05:07 +0000
-Subject: Re: [PATCH 1/2] block/block-backend: add converter from
- BlockAcctStats to BlockBackend
-To: "Denis V. Lunev" <den@openvz.org>, qemu-block@nongnu.org,
- qemu-devel@nongnu.org
-References: <20200710172711.8059-1-den@openvz.org>
- <20200710172711.8059-2-den@openvz.org>
-From: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
-Message-ID: <b9fb8507-bafd-5e60-accf-c3d01c2c611a@virtuozzo.com>
-Date: Sat, 11 Jul 2020 13:05:05 +0300
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.10.0
-In-Reply-To: <20200710172711.8059-2-den@openvz.org>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-X-ClientProxiedBy: AM0PR01CA0125.eurprd01.prod.exchangelabs.com
- (2603:10a6:208:168::30) To AM7PR08MB5494.eurprd08.prod.outlook.com
- (2603:10a6:20b:dc::15)
+ (Exim 4.90_1) (envelope-from <drjones@redhat.com>)
+ id 1juCT1-0000Z9-PM
+ for qemu-devel@nongnu.org; Sat, 11 Jul 2020 06:10:47 -0400
+Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:21310
+ helo=us-smtp-1.mimecast.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <drjones@redhat.com>)
+ id 1juCSx-0008Cn-KX
+ for qemu-devel@nongnu.org; Sat, 11 Jul 2020 06:10:47 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1594462241;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding;
+ bh=E5TVbsllvHb7k2KOJnzIsk6p4lNKAkI/R42Q7r3lHqI=;
+ b=hibsdlGLl98wdQ9cWxTECRosR5SrJP0NnaXC0+s5fHACazeYzr47bNABo9DvrAmurG0sb3
+ CAHxFwklFPAj4y+14e1pcrtr+xySaeVLglSMQ4P02lv/izEQsFJPHLPTNUiZVjS9KwQQ2l
+ yuqeygr3HlklFU8RFj/DZEnTF8gnrqs=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-168-qCXivhVbO8y7MY2jp7bKbA-1; Sat, 11 Jul 2020 06:10:38 -0400
+X-MC-Unique: qCXivhVbO8y7MY2jp7bKbA-1
+Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
+ [10.5.11.12])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 25D9B80183C;
+ Sat, 11 Jul 2020 10:10:37 +0000 (UTC)
+Received: from kamzik.brq.redhat.com (unknown [10.40.192.42])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id B6AD91E8;
+ Sat, 11 Jul 2020 10:10:35 +0000 (UTC)
+From: Andrew Jones <drjones@redhat.com>
+To: qemu-devel@nongnu.org,
+	qemu-arm@nongnu.org
+Subject: [PATCH 0/3] hw/arm/virt: Introduce kvm-steal-time
+Date: Sat, 11 Jul 2020 12:10:30 +0200
+Message-Id: <20200711101033.47371-1-drjones@redhat.com>
 MIME-Version: 1.0
-X-MS-Exchange-MessageSentRepresentingType: 1
-Received: from [192.168.100.2] (185.215.60.157) by
- AM0PR01CA0125.eurprd01.prod.exchangelabs.com (2603:10a6:208:168::30) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3174.21 via Frontend
- Transport; Sat, 11 Jul 2020 10:05:06 +0000
-X-Originating-IP: [185.215.60.157]
-X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: c1d8f600-1478-429d-4906-08d82581e3a8
-X-MS-TrafficTypeDiagnostic: AM6PR08MB3542:
-X-MS-Exchange-Transport-Forked: True
-X-Microsoft-Antispam-PRVS: <AM6PR08MB354292F88B549A1D2BC0DE51C1620@AM6PR08MB3542.eurprd08.prod.outlook.com>
-X-MS-Oob-TLC-OOBClassifiers: OLM:475;
-X-MS-Exchange-SenderADCheck: 1
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: KFxxx/lcRs/M8yN6y0Rg47fdQ60i+q34r0BqztS6hyemIuBqUO6DmFlyulqdSmInsheI2dPuJeWsN8+AZzKY0YfHKDMWENDWMT3qKUiefGTmLkYizxupFxFONlCdfbXJTAtQFi7GYTAFH8t8GIi4587WDlVXclLvWXj3Z9ZwRBe6BEMdglIeTjidHje9AvOO8jwj1UpqE2+b0a2Hz1hh1YYEGZHKzGGcZe/By4vmApYhIMOVv+W4AeBP9zAAVM0IZuTLDoG6vsyQLkiJkxz/zR2lnvRV5MvOZ4UQovhrsPoL2Q5BZlnL+696g7uSMEkuBoF2e+xVphd9INKabIrI8jVslVy0uKl9QTbArgIdBnDdsoPKwCKzdFFNApDnIiEj
-X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:AM7PR08MB5494.eurprd08.prod.outlook.com; PTR:; CAT:NONE;
- SFTY:;
- SFS:(4636009)(346002)(366004)(39840400004)(376002)(136003)(396003)(16526019)(956004)(2616005)(66556008)(66476007)(186003)(5660300002)(4326008)(54906003)(52116002)(2906002)(83380400001)(66946007)(26005)(6486002)(8936002)(8676002)(16576012)(316002)(86362001)(36756003)(31686004)(31696002)(478600001)(43740500002);
- DIR:OUT; SFP:1102; 
-X-MS-Exchange-AntiSpam-MessageData: adF3oQiZsi8UJp+q6lTdQSRZvcsPosJThLa0uM2RpUhRZt7671VM7IyREx7BC8tg1BBhR0sdVch/TLy/M4o/JohVZnAi3A6Tkk0hl+mD+SW7noBP5BTjl6AipsOPCLMm5n3aOIt59+6kNPQ0cAT0WmbWwkHU7xOkchzDqLl0R1COEdftvmJ1ojM0sg8OsVDQl9vJQowe9GZfO3xIDD6jhyKflebzMt0VwwaMdbxH7x+aop0jeiikNlCNS22onebTMIm/FiVxXxkfQfMteLBD4FSOIdcsGxIll8OFSZVcuVOv9/itZSHKaQLAiZ9buDCBsAG2/nAf377lYlGF0r62Et7d/6nVBnaZ8+xGqmgkmwTATp+Y8KugVJcyBkk/WRyMAZ4JSZeVf9d0SE3L4paptxzVt+sHwHgUVlo1V/Ywn9zwqbwszMVU51FSZlpZtqUjZPgvlrCXs8e4U3SGuXSSzfElyFoWIS5LSrKHKT341UHqwk1TJK97n9Ad+rE+GWrF
-X-OriginatorOrg: virtuozzo.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: c1d8f600-1478-429d-4906-08d82581e3a8
-X-MS-Exchange-CrossTenant-AuthSource: AM7PR08MB5494.eurprd08.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 11 Jul 2020 10:05:07.5212 (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 0bc7f26d-0264-416e-a6fc-8352af79c58f
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: bmW5X33jJyV3JbRIvC5asg36MTLGcfen6wuWb3K9FguLjgb9cY/mukRgfYvwNS9TiHAxaoblnKUxfbOcR8ZL8SOpK0/ND7ycUQnKdQFqSOw=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: AM6PR08MB3542
-Received-SPF: pass client-ip=40.107.13.108;
- envelope-from=vsementsov@virtuozzo.com;
- helo=EUR01-HE1-obe.outbound.protection.outlook.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/07/11 06:05:09
-X-ACL-Warn: Detected OS   = Windows NT kernel [generic] [fuzzy]
-X-Spam_score_int: -37
-X-Spam_score: -3.8
-X-Spam_bar: ---
-X-Spam_report: (-3.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- MSGID_FROM_MTA_HEADER=0.001, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-1,
- SPF_HELO_PASS=-0.001, SPF_PASS=-0.001,
- URIBL_BLOCKED=0.001 autolearn=ham autolearn_force=no
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=205.139.110.120; envelope-from=drjones@redhat.com;
+ helo=us-smtp-1.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/07/11 06:10:41
+X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
+X-Spam_score_int: -40
+X-Spam_score: -4.1
+X-Spam_bar: ----
+X-Spam_report: (-4.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-1, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001, URIBL_BLOCKED=0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -120,57 +77,66 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Kevin Wolf <kwolf@redhat.com>, Max Reitz <mreitz@redhat.com>
+Cc: peter.maydell@linaro.org, beata.michalska@linaro.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-10.07.2020 20:27, Denis V. Lunev wrote:
-> Right now BlockAcctStats is always reside on BlockBackend. This structure
-> is not used in any other place. Thus we are able to create a converter
-> from one pointer to another.
-> 
-> Signed-off-by: Denis V. Lunev <den@openvz.org>
-> CC: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
-> CC: Kevin Wolf <kwolf@redhat.com>
-> CC: Max Reitz <mreitz@redhat.com>
-> ---
->   block/block-backend.c          | 5 +++++
->   include/sysemu/block-backend.h | 1 +
->   2 files changed, 6 insertions(+)
-> 
-> diff --git a/block/block-backend.c b/block/block-backend.c
-> index 6936b25c83..e77a7e468e 100644
-> --- a/block/block-backend.c
-> +++ b/block/block-backend.c
-> @@ -2143,6 +2143,11 @@ BlockAcctStats *blk_get_stats(BlockBackend *blk)
->       return &blk->stats;
->   }
->   
-> +BlockBackend *blk_stats2blk(BlockAcctStats *s)
-> +{
-> +    return container_of(s, BlockBackend, stats);
-> +}
-> +
->   void *blk_aio_get(const AIOCBInfo *aiocb_info, BlockBackend *blk,
->                     BlockCompletionFunc *cb, void *opaque)
->   {
-> diff --git a/include/sysemu/block-backend.h b/include/sysemu/block-backend.h
-> index 8203d7f6f9..bd4694e7bc 100644
-> --- a/include/sysemu/block-backend.h
-> +++ b/include/sysemu/block-backend.h
-> @@ -227,6 +227,7 @@ void blk_add_insert_bs_notifier(BlockBackend *blk, Notifier *notify);
->   void blk_io_plug(BlockBackend *blk);
->   void blk_io_unplug(BlockBackend *blk);
->   BlockAcctStats *blk_get_stats(BlockBackend *blk);
-> +BlockBackend *blk_stats2blk(BlockAcctStats *stats);
->   BlockBackendRootState *blk_get_root_state(BlockBackend *blk);
->   void blk_update_root_state(BlockBackend *blk);
->   bool blk_get_detect_zeroes_from_root_state(BlockBackend *blk);
-> 
+KVM supports the ability to publish the amount of time that VCPUs
+were runnable, but not running due to other host threads running
+instead, to the guest. The guest scheduler may use that information
+when making decisions and the guest may expose it to its userspace
+(Linux publishes this information in /proc/stat). This feature is
+called "steal time" as it represents the amount of time stolen from
+a guest by scheduling out its VCPUs. To enable this feature KVM
+userspace must provide a memory region that will be used to publish
+the information to the guest. The memory region is typical migratable
+region. The GPA of the region is given to KVM through a VCPU device
+ioctl interface. This feature is only available for 64-bit hosts
+running 64-bit guests.
 
-Reviewed-by: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
+This series provides the QEMU support of this feature. It will
+be enabled by default for 5.1 machine types and later, but may
+be disabled with a new CPU property "kvm-steal-time".
+
+While testing migration it was observed that the amount of
+steal time as viewed by the guest was getting reset on each
+migration. Patch 3/5 of a pvtime fix series posted[*] for KVM
+should fix that.
+
+Migration testing:
+* virt-5.0 can migrate as usual, no kvm-steal-time enabled
+* virt-5.1 can migrate between hosts with steal-time enabled and
+  disabled when both hosts support steal-time
+* virt-5.1 with steal-time disabled can migrate to a host that
+  does not support steal-time
+* virt-5.1 with steal-time enabled will cleanly fail when migrating
+  to a host that does not support steal-time
+
+[*] https://lists.cs.columbia.edu/pipermail/kvmarm/2020-July/041538.html
+
+Thanks,
+drew
+
+
+Andrew Jones (3):
+  hw/arm/virt: Move post cpu realize check into its own function
+  hw/arm/virt: Move kvm pmu setup to virt_cpu_post_init
+  hw/arm/virt: Implement kvm-steal-time
+
+ docs/system/arm/cpu-features.rst |  11 ++++
+ hw/arm/virt.c                    | 103 +++++++++++++++++++++----------
+ include/hw/arm/virt.h            |   2 +
+ target/arm/cpu.c                 |  10 +++
+ target/arm/cpu.h                 |   4 ++
+ target/arm/kvm.c                 |  20 ++++++
+ target/arm/kvm32.c               |   5 ++
+ target/arm/kvm64.c               |  70 +++++++++++++++++++--
+ target/arm/kvm_arm.h             |  24 ++++++-
+ target/arm/monitor.c             |   2 +-
+ tests/qtest/arm-cpu-features.c   |  25 ++++++--
+ 11 files changed, 232 insertions(+), 44 deletions(-)
 
 -- 
-Best regards,
-Vladimir
+2.25.4
+
 
