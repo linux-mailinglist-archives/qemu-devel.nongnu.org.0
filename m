@@ -2,66 +2,65 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id EF1D021C45A
-	for <lists+qemu-devel@lfdr.de>; Sat, 11 Jul 2020 15:08:55 +0200 (CEST)
-Received: from localhost ([::1]:34460 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id DC0AB21C44F
+	for <lists+qemu-devel@lfdr.de>; Sat, 11 Jul 2020 14:49:42 +0200 (CEST)
+Received: from localhost ([::1]:53316 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1juFFO-0005Pk-DD
-	for lists+qemu-devel@lfdr.de; Sat, 11 Jul 2020 09:08:54 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:38488)
+	id 1juEwn-0000P5-8Z
+	for lists+qemu-devel@lfdr.de; Sat, 11 Jul 2020 08:49:41 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:42492)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <19210240159@fudan.edu.cn>)
- id 1juEcF-0005VE-9I
- for qemu-devel@nongnu.org; Sat, 11 Jul 2020 08:28:27 -0400
-Received: from mail.fudan.edu.cn ([202.120.224.73]:38955 helo=fudan.edu.cn)
- by eggs.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <19210240159@fudan.edu.cn>) id 1juEc1-0006fG-Kl
- for qemu-devel@nongnu.org; Sat, 11 Jul 2020 08:28:16 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=fudan.edu.cn; s=dkim; h=Received:Date:From:To:Subject:
- Content-Type:MIME-Version:Message-ID; bh=WCqurNbaTRsOrWKbMJoed5D
- C15Ua91RIq2C6TBBQHYc=; b=ml9vL1PwanSL95PayiDIHHK0ykos6s2qjs80tVb
- p05a8YcxlIr4cBbs8A1RAgvEa0f56SWZE7M9iZGWwCBZ27jMXjkv8wa7jod/xpra
- HBRNb7kd7scL5HRF7tta4CBYi5sRhQKTwd3jBePpYnmf8IluUmTqDs+3Cb9Yzyhg
- PP4k=
-Received: by ajax-webmail-app2 (Coremail) ; Sat, 11 Jul 2020 20:28:02 +0800
- (GMT+08:00)
-X-Originating-IP: [39.191.9.201]
-Date: Sat, 11 Jul 2020 20:28:02 +0800 (GMT+08:00)
-X-CM-HeaderCharset: UTF-8
-From: =?UTF-8?B?5p6X5aWV5biG?= <19210240159@fudan.edu.cn>
-To: qemu-devel@nongnu.org
-Subject: cve patch wanted
-X-Priority: 3
-X-Mailer: Coremail Webmail Server Version XT3.0.8 dev build
- 20190909(dad6f454) Copyright (c) 2002-2020 www.mailtech.cn fudan.edu.cn
-X-SendMailWithSms: false
-X-CM-CTRLDATA: Eo68DmZvb3Rlcl9odG09MjQyOjE0JmZvb3Rlcl90eHQ9MjIyOjEw
-Content-Type: multipart/alternative; 
- boundary="----=_Part_105418_199813722.1594470482194"
+ (Exim 4.90_1) (envelope-from <cfontana@suse.de>) id 1juEw5-0008P3-Qg
+ for qemu-devel@nongnu.org; Sat, 11 Jul 2020 08:48:57 -0400
+Received: from mx2.suse.de ([195.135.220.15]:54654)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <cfontana@suse.de>) id 1juEw3-0000qo-OE
+ for qemu-devel@nongnu.org; Sat, 11 Jul 2020 08:48:57 -0400
+X-Virus-Scanned: by amavisd-new at test-mx.suse.de
+Received: from relay2.suse.de (unknown [195.135.221.27])
+ by mx2.suse.de (Postfix) with ESMTP id EBE9CAD12;
+ Sat, 11 Jul 2020 12:48:53 +0000 (UTC)
+Subject: Re: [PATCH 3/3] cpu-timers, icount: new modules
+To: Paolo Bonzini <pbonzini@redhat.com>, Thomas Huth <thuth@redhat.com>,
+ Laurent Vivier <lvivier@redhat.com>, =?UTF-8?Q?Alex_Benn=c3=a9e?=
+ <alex.bennee@linaro.org>, Peter Maydell <peter.maydell@linaro.org>,
+ =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>,
+ Roman Bolshakov <r.bolshakov@yadro.com>,
+ Markus Armbruster <armbru@redhat.com>
+References: <20200629093504.3228-1-cfontana@suse.de>
+ <20200629093504.3228-4-cfontana@suse.de>
+ <aa45a793-35b1-d3bd-18a8-4c52ad888029@redhat.com>
+ <f89f249d-dbc4-779b-5b53-fc408461f072@suse.de>
+ <ecf5f26b-ce86-3e13-5c5c-567919433acb@redhat.com>
+ <e9dca3d1-f52d-13ce-2d7d-66958bc15765@suse.de>
+ <996dc455-548e-5964-9c87-f4abe5b63907@redhat.com>
+ <146b0cf2-509b-6a48-e82b-b93740e4c60d@redhat.com>
+ <e3cc11a4-8ba7-917a-844b-4f6ec69d140a@suse.de>
+ <76aac4ac-40f5-4870-ed2b-bab8b68b0a64@redhat.com>
+ <9630c685-0a37-a1e7-4614-9d692988a799@suse.de>
+ <22228280-f3b4-3f64-d2ba-30cfc47c8b0d@redhat.com>
+From: Claudio Fontana <cfontana@suse.de>
+Message-ID: <9d11375f-6893-76f1-0110-ee48ab657d4d@suse.de>
+Date: Sat, 11 Jul 2020 14:48:51 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.4.1
 MIME-Version: 1.0
-Message-ID: <42a0ee9.78e1.1733dd8c113.Coremail.19210240159@fudan.edu.cn>
-X-Coremail-Locale: zh_CN
-X-CM-TRANSID: XQUFCgD3XwNSsAlfoXGRAQ--.25835W
-X-CM-SenderInfo: irzsiiysuqikmz6i3vldqovvfxof0/1tbiAQ8OB1Kp4eF-ngAAsd
-X-Coremail-Antispam: 1Ur529EdanIXcx71UUUUU7IcSsGvfJ3iIAIbVAYjsxI4VWUJw
- CS07vEb4IE77IF4wCS07vE1I0E4x80FVAKz4kxMIAIbVAFxVCaYxvI4VCIwcAKzIAtYxBI
- daVFxhVjvjDU=
-Received-SPF: pass client-ip=202.120.224.73;
- envelope-from=19210240159@fudan.edu.cn; helo=fudan.edu.cn
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/07/11 08:28:03
-X-ACL-Warn: Detected OS   = Linux 3.1-3.10 [fuzzy]
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- FROM_LOCAL_DIGITS=0.001, FROM_LOCAL_HEX=0.006, HTML_MESSAGE=0.001,
- SPF_HELO_PASS=-0.001, SPF_PASS=-0.001,
- URIBL_BLOCKED=0.001 autolearn=no autolearn_force=no
+In-Reply-To: <22228280-f3b4-3f64-d2ba-30cfc47c8b0d@redhat.com>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=195.135.220.15; envelope-from=cfontana@suse.de;
+ helo=mx2.suse.de
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/07/10 23:52:14
+X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x (no timestamps) [generic]
+X-Spam_score_int: -41
+X-Spam_score: -4.2
+X-Spam_bar: ----
+X-Spam_report: (-4.2 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_MED=-2.3,
+ RCVD_IN_MSPIKE_H3=-0.01, RCVD_IN_MSPIKE_WL=-0.01, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
-X-Mailman-Approved-At: Sat, 11 Jul 2020 09:07:52 -0400
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -73,27 +72,91 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Cc: Eduardo Habkost <ehabkost@redhat.com>,
+ Marcelo Tosatti <mtosatti@redhat.com>, qemu-devel@nongnu.org,
+ haxm-team@intel.com, Wenchao Wang <wenchao.wang@intel.com>,
+ Sunil Muthuswamy <sunilmut@microsoft.com>, Richard Henderson <rth@twiddle.net>,
+ Colin Xu <colin.xu@intel.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-------=_Part_105418_199813722.1594470482194
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: base64
+On 7/11/20 2:19 PM, Paolo Bonzini wrote:
+> On 11/07/20 13:49, Claudio Fontana wrote:
+>>> Apart from the name, icount is more like deterministic execution than
+>>
+>> Maybe we should start choosing names more carefully in a way to express what we mean?
+> 
+> I don't disagree.  For icount in particular however we're about 12 years
+> too late.
+> 
+>>>  qtests need to be deterministic and
+>>> describe which qtest instructions run before a given timer fires and
+>>> which run after.
+>>>
+>>> And in both cases, determinism is achieved by controlling the
+>>> advancement of QEMU_CLOCK_VIRTUAL.  It's only this central component of
+>>> icount that is shared by qtest and TCG, and I think the problem is that
+>>> this patch conflates all of them together:
+>>
+>> I think that the existing code in master conflates them together actually.
+>> Qtest can have its own counter, it does not need to be the icount
+>> instruction counter.
+> 
+> If you want you can add to your accelerator ops series one for
+> qemu_get_clock_ns(QEMU_CLOCK_VIRTUAL), cpu_get_ticks() and
+> qemu_start_warp_timer(), that would certainly work for me; those three
+> are the only non-TCG-specific functions that read use_icount, as far as
+> I can see.  qemu_start_warp_timer() does have an "if (qtest_enabled())"
+> even, so it's clearly fishy.
+> 
+> It may even be a good idea for TCG to have three sets of accelerator ops
+> for respectively multi-threaded, round-robin and icount.
+> 
+> My point is that this patch is not the right way to start the
+> refactoring because *for now* it's wrong to treat icount as a TCG-only
+> concept.  Having more separation between accelerators, as well as a
+> clear interface between core and accelerators is certainly a laudable
+> goal though.
+> 
+>>> - the basic "is QEMU_CLOCK_VIRTUAL software-driven" part is embedded in
+>>> qemu-timer and should not be carved out into a separate module.  This
+>>> includes the use_icount variable, which should be kept in core QEMU code.
+>>
+>> I don't see how this follows, how is using a global use_icount variable better than having this checked using icount_enabled()?
+> 
+> If you can get rid of use_icount using a new accelerator ops member, it
+> would be even better. :)
+> 
+>> I will come back to this later on, this patch seems to have uncovered an underlying issue, which shows on s390.
+>>
+>> I'd rather now continue investigating that, choosing to try to
+>> actually understand the issue, rather than hiding it under the
+>> carpet.
+> 
+> Thanks.  But I don't think it's sweeping anything under the carpet; it's
+> great if we find a currently latent s390 bug, but it is orthogonal to
+> the design of that core<->accelerator interface.
 
-SGVsbG8KICAgSSBhbSBhIHN0dWRlbnQgZnJvbSBGdWRhbiBVbml2ZXJzaXR5IGluIENoaW5hLiBJ
-IGFtIGRvaW5nIHJlc2VhcmNoIG9uIENWRSBwYXRjaCByZWNlbnRseS4gQnV0IGkgY2FuIG5vdCBm
-aW5kIHRoZSBQQVRDSCBDT01NSVQgb2YgQ1ZFLTIwMTktMTIyNDcgY3ZlLTIwMTktMTIxNTUgY3Zl
-LTIwMTktNjc3OC5DYW4geW91IGdpdmUgbWUgdGhlIGNvbW1pdCBmaXggdGhpcyBjdmU/DQoNCg0K
-DQoNCg==
-------=_Part_105418_199813722.1594470482194
-Content-Type: text/html; charset=UTF-8
-Content-Transfer-Encoding: base64
+Yes, absolutely this is what I wanted to express.
 
-SGVsbG88ZGl2PiZuYnNwOyAmbmJzcDtJIGFtIGEgc3R1ZGVudCBmcm9tIEZ1ZGFuIFVuaXZlcnNp
-dHkgaW4gQ2hpbmEuIEkgYW0gZG9pbmcgcmVzZWFyY2ggb24gQ1ZFIHBhdGNoIHJlY2VudGx5LiBC
-dXQgaSBjYW4gbm90IGZpbmQgdGhlIFBBVENIIENPTU1JVCBvZiBDVkUtMjAxOS0xMjI0NyBjdmUt
-MjAxOS0xMjE1NSBjdmUtMjAxOS02Nzc4LkNhbiB5b3UgZ2l2ZSBtZSB0aGUgY29tbWl0IGZpeCB0
-aGlzIGN2ZT88L2Rpdj48YnI+PGJyPg0KDQoNCg==
-------=_Part_105418_199813722.1594470482194--
+I would like to find out what the problem is that appears in s390,
+I am not sure though that it is actually an s390-specific problem, it could even be a migration qemu-file issue,
+as apparently just flushing with qemu_fflush(f) "fixes" it.
 
+My patch made the stream a bit smaller, and changed the layout of the s390-skeys, which have an interesting field length (32768),
+I wonder if I got just the right alignment to trigger a bug where the qemu-file buffer is not properly flushed.
+
+> 
+> (And by the way, my suggested patch to icount_enabled() was completely
+> wrong!).
+> 
+> Paolo
+> 
+> 
+
+We will come back to this later, thanks a lot for the exchange!
+
+Ciao,
+
+Claudio
 
