@@ -2,68 +2,78 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id EDC7921C563
-	for <lists+qemu-devel@lfdr.de>; Sat, 11 Jul 2020 19:05:13 +0200 (CEST)
-Received: from localhost ([::1]:39324 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id CFA8521C568
+	for <lists+qemu-devel@lfdr.de>; Sat, 11 Jul 2020 19:08:48 +0200 (CEST)
+Received: from localhost ([::1]:44254 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1juIw4-0002ji-CN
-	for lists+qemu-devel@lfdr.de; Sat, 11 Jul 2020 13:05:12 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:60948)
+	id 1juIzX-0004xG-Lb
+	for lists+qemu-devel@lfdr.de; Sat, 11 Jul 2020 13:08:47 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:33186)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1)
- (envelope-from <bounce+2dc402.947b4-qemu-devel=nongnu.org@mg.gitlab.com>)
- id 1juIvE-0002Ki-Aq
- for qemu-devel@nongnu.org; Sat, 11 Jul 2020 13:04:20 -0400
-Received: from do158-143.mg.gitlab.com ([192.237.158.143]:34293)
+ (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
+ id 1juIyQ-0003N8-Rr
+ for qemu-devel@nongnu.org; Sat, 11 Jul 2020 13:07:38 -0400
+Received: from mail-wm1-x331.google.com ([2a00:1450:4864:20::331]:38600)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1)
- (envelope-from <bounce+2dc402.947b4-qemu-devel=nongnu.org@mg.gitlab.com>)
- id 1juIvA-0005zZ-IH
- for qemu-devel@nongnu.org; Sat, 11 Jul 2020 13:04:20 -0400
-DKIM-Signature: a=rsa-sha256; v=1; c=relaxed/relaxed; d=mg.gitlab.com;
- q=dns/txt; 
- s=mailo; t=1594487058; h=List-Id: Content-Transfer-Encoding:
- Content-Type: Mime-Version: Subject: Message-ID: Reply-To: From: Date:
- Sender; bh=QmxiVbyNjqpenmOwj0lBAuopPlGTFmpW04MDcAnZQK0=;
- b=gm61dsaf+0rM7dwgTwo5cnkIOPWtlFuOIC7nNDquhdzszE5mC91hEaEY//8lJZOrYfgb3k9j
- dyRrYSi7i+YwLumYoAUSrM48z1DzzOzoKze1C4q/6c/OvIUTqTbuFr0Wj18SbN33rGVC9tWL
- 6OMwr7YytpqnFP4qDfuTeoejEdU=
-X-Mailgun-Sending-Ip: 192.237.158.143
-X-Mailgun-Sid: WyI3MWYzYSIsICJxZW11LWRldmVsQG5vbmdudS5vcmciLCAiOTQ3YjQiXQ==
-Received: from mg.gitlab.com (68.90.74.34.bc.googleusercontent.com
- [34.74.90.68]) by smtp-out-n12.prod.us-east-1.postgun.com with SMTP id
- 5f09f10be3bee1251001d738 (version=TLS1.3, cipher=TLS_AES_128_GCM_SHA256);
- Sat, 11 Jul 2020 17:04:11 GMT
-Date: Sat, 11 Jul 2020 17:04:11 +0000
-Message-ID: <5f09f10b596f3_792a3fd21c9446d82231b@sidekiq-catchall-03-sv-gprd.mail>
-Subject: QEMU | Pipeline #165544924 has failed for master | d4a6bab1
-Mime-Version: 1.0
-Content-Type: multipart/alternative;
- boundary="--==_mimepart_5f09f10b5223e_792a3fd21c9446d82230f4";
- charset=UTF-8
-Content-Transfer-Encoding: 7bit
-X-GitLab-Project: QEMU
-X-GitLab-Project-Id: 11167699
-X-GitLab-Project-Path: qemu-project/qemu
-X-GitLab-Pipeline-Id: 165544924
-X-GitLab-Pipeline-Ref: master
-X-GitLab-Pipeline-Status: failed
-Auto-Submitted: auto-generated
-X-Auto-Response-Suppress: All
-Received-SPF: pass client-ip=192.237.158.143;
- envelope-from=bounce+2dc402.947b4-qemu-devel=nongnu.org@mg.gitlab.com;
- helo=do158-143.mg.gitlab.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/07/11 03:53:32
-X-ACL-Warn: Detected OS   = Linux 3.11 and newer [fuzzy]
-X-Spam_score_int: -36
-X-Spam_score: -3.7
-X-Spam_bar: ---
-X-Spam_report: (-3.7 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1,
- HTML_FONT_LOW_CONTRAST=0.001, HTML_MESSAGE=0.001, MISSING_HEADERS=1.021,
- RCVD_IN_DNSWL_MED=-2.3, RCVD_IN_MSPIKE_H2=-1, REPLYTO_WITHOUT_TO_CC=1.552,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
+ id 1juIyO-0006h4-FY
+ for qemu-devel@nongnu.org; Sat, 11 Jul 2020 13:07:38 -0400
+Received: by mail-wm1-x331.google.com with SMTP id f18so8938396wml.3
+ for <qemu-devel@nongnu.org>; Sat, 11 Jul 2020 10:07:35 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=+lXl4Szpjg/YT2Ax3s+QJTh2PasxIDSCopx/Q97cD3I=;
+ b=Fr9YMsMR0HeJ1JHXAinhTG73biNDt3Kqxjc+16iDdJnCS4/Nn8+m70j0Kgf/2f4CDr
+ FFydgDDPkhnB24CrT1AuCf0SgFQVzNuiVMlEvjDTGhV7tQdq1Gr2+/aaGmaNjsGH0mTK
+ +vJp/LyUoFRHgrS9qOKPGdkE+Kvi/mtQFhd1yas9EKzhYzWAzLas3ERV2A/MYVmsskTW
+ gHoM0MJrXW2cbv63D2wqN7NHI0Gi+Bu9Rcq4/HPYpXkmty6ShJKTlqSeFYenKZxgopkm
+ Dn5FlJakP63z5UpBD0hnhDzjnsxnSqTaZeRiw7yivNFmNKSo51gkAStDSNlqd69J2uO+
+ rgWQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=+lXl4Szpjg/YT2Ax3s+QJTh2PasxIDSCopx/Q97cD3I=;
+ b=eDVXWKX/2VsZjQFFAri+ZsizjD/GqlDn+bbeyBwZ6vq3KsDMHdZCxVehJ+xxLFPAZH
+ kcNDxJsLjmfxTN36AhZXi89bINjxD6hE5haYoyHdc4LfJYQI8q2CcBGiRt1yi9bgHj70
+ WZMeNGZ+gK0n1j3CcrJUWO73AFrzhofIXcl4lTWyysx92cUcMpFNp7wM6eXJPnfZT4cS
+ lBBS6fyJlKJ3ZPcQUMl0kWMHDcbJHqkKLBZ0klaf0KEtG1M3qpj5uibYtUBVlYKd6O+u
+ bPXr1AtiXsVsdwiuAqY85LcrjBog6nHWi6JiNXzSiZ8Q7aw9TKcFaKLVAHOuP0Kd1FDi
+ znng==
+X-Gm-Message-State: AOAM530H9D67VB+CToWEz8ogkOhzHYyQ7iuAuE3dETMoAaF4V3KSoPki
+ uhFdBIar5R1SgD5/iTKyZmdVDg==
+X-Google-Smtp-Source: ABdhPJxp7TlNu5FhRgKiMAca2b4mFu8uz7wI+cofh35K2Z9oZDbcxIK8mkgyLKAcjedlQuehV4p5mQ==
+X-Received: by 2002:a1c:dfd6:: with SMTP id
+ w205mr11389704wmg.118.1594487254233; 
+ Sat, 11 Jul 2020 10:07:34 -0700 (PDT)
+Received: from zen.linaroharston ([51.148.130.216])
+ by smtp.gmail.com with ESMTPSA id z8sm14903892wmg.39.2020.07.11.10.07.32
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Sat, 11 Jul 2020 10:07:32 -0700 (PDT)
+Received: from zen.lan (localhost [127.0.0.1])
+ by zen.linaroharston (Postfix) with ESMTP id 23DDE1FF7E;
+ Sat, 11 Jul 2020 18:07:32 +0100 (BST)
+From: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
+To: peter.maydell@linaro.org
+Subject: [PULL v2 00/50] testing updates (vm, gitlab, misc build fixes)
+Date: Sat, 11 Jul 2020 18:07:22 +0100
+Message-Id: <20200711170732.26213-1-alex.bennee@linaro.org>
+X-Mailer: git-send-email 2.20.1
+MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=2a00:1450:4864:20::331;
+ envelope-from=alex.bennee@linaro.org; helo=mail-wm1-x331.google.com
+X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
+ That's all we know.
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
  URIBL_BLOCKED=0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -77,495 +87,208 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Cc: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>,
+ qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
-Reply-to: GitLab <noreply@gitlab.com>, GitLab <gitlab@mg.gitlab.com>
-From: GitLab via <qemu-devel@nongnu.org>
 
+Fixed a few, dropped a few, added a few
 
-----==_mimepart_5f09f10b5223e_792a3fd21c9446d82230f4
-Content-Type: text/plain;
- charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
+---
 
+The following changes since commit 827937158b72ce2265841ff528bba3c44a1bfbc8:
 
+  Merge remote-tracking branch 'remotes/aperard/tags/pull-xen-20200710' into staging (2020-07-11 13:56:03 +0100)
 
-Your pipeline has failed.
+are available in the Git repository at:
 
-Project: QEMU ( https://gitlab.com/qemu-project/qemu )
-Branch: master ( https://gitlab.com/qemu-project/qemu/-/commits/master )
+  https://github.com/stsquad/qemu.git tags/pull-testing-and-misc-110720-2
 
-Commit: d4a6bab1 ( https://gitlab.com/qemu-project/qemu/-/commit/d4a6bab1=
-ecf23d86e20e2f08a144e4e48643a6e4 )
-Commit Message: Merge remote-tracking branch 'remotes/gkurz/tag...
-Commit Author: Peter Maydell ( https://gitlab.com/pm215 )
+for you to fetch changes up to 4a40f561d5ebb5050a8c6dcbdcee85621056590a:
 
-Pipeline #165544924 ( https://gitlab.com/qemu-project/qemu/-/pipelines/16=
-5544924 ) triggered by Alex Benn=C3=A9e ( https://gitlab.com/stsquad )
-had 1 failed build.
+  iotests: Set LC_ALL=C for sort (2020-07-11 15:53:29 +0100)
 
-Job #634366824 ( https://gitlab.com/qemu-project/qemu/-/jobs/634366824/ra=
-w )
+----------------------------------------------------------------
+Testing and misc build updates:
 
-Stage: test
-Name: build-disabled
-Trace: Could not access KVM kernel module: No such file or directory
-qemu-system-i386: -accel kvm: failed to initialize kvm: No such file or d=
-irectory
-qemu-system-i386: falling back to tcg
-Could not access KVM kernel module: No such file or directory
-qemu-system-i386: -accel kvm: failed to initialize kvm: No such file or d=
-irectory
-qemu-system-i386: falling back to tcg
-  TEST    check-qtest-i386: tests/qtest/device-introspect-test
-  TEST    check-qtest-i386: tests/qtest/machine-none-test
-  TEST    check-qtest-i386: tests/qtest/qmp-test
-  TEST    check-qtest-i386: tests/qtest/qmp-cmd-test
-  TEST    check-qtest-i386: tests/qtest/qom-test
-  TEST    check-qtest-i386: tests/qtest/test-hmp
-  TEST    check-qtest-i386: tests/qtest/qos-test
-  TEST    check-qtest-mips64: tests/qtest/endianness-test
-  TEST    check-qtest-mips64: tests/qtest/display-vga-test
-  TEST    check-qtest-mips64: tests/qtest/cdrom-test
-  TEST    check-qtest-mips64: tests/qtest/device-introspect-test
-  TEST    check-qtest-mips64: tests/qtest/machine-none-test
-  TEST    check-qtest-mips64: tests/qtest/qmp-test
-  TEST    check-qtest-mips64: tests/qtest/qmp-cmd-test
-  TEST    check-qtest-mips64: tests/qtest/qom-test
-  TEST    check-qtest-mips64: tests/qtest/test-hmp
-  TEST    check-qtest-mips64: tests/qtest/qos-test
-  TEST    check-qtest-ppc64: tests/qtest/machine-none-test
-  TEST    check-qtest-ppc64: tests/qtest/qmp-test
-  TEST    check-qtest-ppc64: tests/qtest/qmp-cmd-test
-  TEST    check-qtest-ppc64: tests/qtest/qom-test
-  TEST    check-qtest-ppc64: tests/qtest/test-hmp
-section_end:1594487050:step_script
-=1B[0K=1B[31;1mERROR: Job failed: execution took longer than 1h0m0s secon=
-ds
-=1B[0;m
+  - tests/vm support for aarch64 VMs
+  - tests/tcg better cross-compiler detection
+  - update docker tooling to support registries
+  - update docker support for xtensa
+  - gitlab build docker images and store in registry
+  - gitlab use docker images for builds
+  - a number of skipIf updates to support move
+  - linux-user MAP_FIXED_NOREPLACE fix
+  - qht-bench compiler tweaks
+  - configure fix for secret keyring
+  - tsan fiber annotation clean-up
+  - doc updates for mttcg/icount/gdbstub
+  - fix cirrus to use brew bash for iotests
+  - revert virtio-gpu breakage
+  - fix LC_ALL to avoid sorting changes in iotests
 
+----------------------------------------------------------------
+Alex Bennée (26):
+      tests/vm: switch from optsparse to argparse
+      tests/vm: allow us to take advantage of MTTCG
+      tests/docker: check for an parameters not empty string
+      tests/docker: change tag naming scheme of our images
+      .gitignore: un-ignore .gitlab-ci.d
+      gitlab: build containers with buildkit and metadata
+      tests/docker: add --registry support to tooling
+      tests/docker: add packages needed for check-acceptance
+      tests/acceptance: skip s390x_ccw_vrtio_tcg on GitLab
+      tests/acceptance: fix dtb path for machine_rx_gdbsim
+      tests/acceptance: skip multicore mips_malta tests on GitLab
+      tests/acceptance: skip LinuxInitrd 2gib with v4.16 on GitLab
+      gitlab: add acceptance testing to system builds
+      tests/tcg: add more default compilers to configure.sh
+      tests/docker: add a linux-user testing focused image
+      linux-user/elfload: use MAP_FIXED_NOREPLACE in pgb_reserved_va
+      gitlab: enable check-tcg for linux-user tests
+      gitlab: add avocado asset caching
+      gitlab: limit re-builds of the containers
+      containers.yml: build with docker.py tooling
+      testing: add check-build target
+      shippable: pull images from registry instead of building
+      docs/devel: convert and update MTTCG design document
+      docs/devel: add some notes on tcg-icount for developers
+      tests/docker: fall back more gracefully when pull fails
+      .cirrus.yml: add bash to the brew packages
 
--- =
+Daniel P. Berrangé (4):
+      gitlab: introduce explicit "container" and "build" stages
+      gitlab: build all container images during CI
+      gitlab: convert jobs to use custom built containers
+      tests: improve performance of device-introspect-test
 
-You're receiving this email because of your account on gitlab.com.
+David Edmondson (1):
+      crypto/linux_keyring: fix 'secret_keyring' configure test
 
+Gerd Hoffmann (2):
+      tests: fix "make check-qtest" for modular builds
+      Revert "vga: build virtio-gpu as module"
 
+Jon Doron (1):
+      docs: Add to gdbstub documentation the PhyMemMode
 
+Max Filippov (1):
+      tests/docker: update toolchain set in debian-xtensa-cross
 
-----==_mimepart_5f09f10b5223e_792a3fd21c9446d82230f4
-Content-Type: text/html;
- charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
+Max Reitz (1):
+      iotests: Set LC_ALL=C for sort
 
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://ww=
-w.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
-<html xmlns=3D"http://www.w3.org/1999/xhtml" lang=3D"en" xml:lang=3D"en">=
+Richard Henderson (2):
+      tests/qht-bench: Adjust testing rate by -1
+      tests/qht-bench: Adjust threshold computation
 
-<head>
-<meta content=3D"text/html; charset=3DUTF-8" http-equiv=3D"Content-Type" =
-/>
-<meta content=3D"width=3Ddevice-width, initial-scale=3D1" name=3D"viewpor=
-t" />
-<meta content=3D"IE=3Dedge" http-equiv=3D"X-UA-Compatible" />
-<title>QEMU | Pipeline #165544924 has failed for master | d4a6bab1</title=
->
-<style data-premailer=3D"ignore" type=3D"text/css">
-body,table,td,a{-webkit-text-size-adjust:100%;-ms-text-size-adjust:100%}t=
-able,td{mso-table-lspace:0pt;mso-table-rspace:0pt}img{-ms-interpolation-m=
-ode:bicubic}.hidden{display:none !important;visibility:hidden !important}=
-a[x-apple-data-detectors]{color:inherit !important;text-decoration:none !=
-important;font-size:inherit !important;font-family:inherit !important;fon=
-t-weight:inherit !important;line-height:inherit !important}div[style*=3D'=
-margin: 16px 0']{margin:0 !important}@media only screen and (max-width: 6=
-39px){body,#body{min-width:320px !important}table.wrapper{width:100% !imp=
-ortant;min-width:320px !important}table.wrapper td.wrapper-cell{border-le=
-ft:0 !important;border-right:0 !important;border-radius:0 !important;padd=
-ing-left:10px !important;padding-right:10px !important}}
+Robert Foley (10):
+      util/coroutine: Cleanup start_switch_fiber_ for TSAN.
+      tests/vm: pass args through to BaseVM's __init__
+      tests/vm: Add configuration to basevm.py
+      tests/vm: Added configuration file support
+      tests/vm: Add common Ubuntu python module
+      tests/vm: Added a new script for ubuntu.aarch64.
+      tests/vm: Added a new script for centos.aarch64.
+      tests/vm: change scripts to use self._config
+      python/qemu: Add ConsoleSocket for optional use in QEMUMachine
+      tests/vm: Add workaround to consume console
 
-</style>
+Thomas Huth (2):
+      gitlab-ci: Fix the change rules after moving the YML files
+      travis.yml: Test also the other targets on s390x
 
-<style>body {
-margin: 0 !important; background-color: #fafafa; padding: 0; text-align: =
-center; min-width: 640px; width: 100%; height: 100%; font-family: "Helvet=
-ica Neue", Helvetica, Arial, sans-serif;
-}
-</style></head>
-<body style=3D"text-align: center; min-width: 640px; width: 100%; height:=
- 100%; font-family: &quot;Helvetica Neue&quot;, Helvetica, Arial, sans-se=
-rif; margin: 0; padding: 0;" bgcolor=3D"#fafafa">
-<table border=3D"0" cellpadding=3D"0" cellspacing=3D"0" id=3D"body" style=
-=3D"text-align: center; min-width: 640px; width: 100%; margin: 0; padding=
-: 0;" bgcolor=3D"#fafafa">
-<tbody>
-<tr class=3D"line">
-<td style=3D"font-family: &quot;Helvetica Neue&quot;, Helvetica, Arial, s=
-ans-serif; height: 4px; font-size: 4px; line-height: 4px;" bgcolor=3D"#6b=
-4fbb"></td>
-</tr>
-<tr class=3D"header">
-<td style=3D"font-family: &quot;Helvetica Neue&quot;, Helvetica, Arial, s=
-ans-serif; font-size: 13px; line-height: 1.6; color: #5c5c5c; padding: 25=
-px 0;">
+ docs/devel/index.rst                               |   2 +
+ .../{multi-thread-tcg.txt => multi-thread-tcg.rst} |  52 ++--
+ docs/devel/tcg-icount.rst                          |  97 ++++++
+ docs/system/gdb.rst                                |  20 ++
+ configure                                          |  31 +-
+ linux-user/elfload.c                               |  10 +-
+ tests/qht-bench.c                                  |  40 ++-
+ tests/qtest/device-introspect-test.c               |  60 ++--
+ util/coroutine-ucontext.c                          |  52 ++--
+ util/module.c                                      |   6 -
+ .cirrus.yml                                        |   4 +-
+ .gitignore                                         |   1 +
+ .gitlab-ci.d/containers.yml                        | 263 ++++++++++++++++
+ .gitlab-ci.d/edk2.yml                              |   5 +-
+ .gitlab-ci.d/opensbi.yml                           |   5 +-
+ .gitlab-ci.yml                                     | 265 ++++++++++------
+ .shippable.yml                                     |   8 +-
+ .travis.yml                                        |  62 ++--
+ hw/display/Makefile.objs                           |  23 +-
+ python/qemu/console_socket.py                      | 110 +++++++
+ python/qemu/machine.py                             |  23 +-
+ tests/Makefile.include                             |  19 +-
+ tests/acceptance/boot_linux.py                     |   2 +
+ tests/acceptance/linux_initrd.py                   |   3 +
+ tests/acceptance/machine_mips_malta.py             |   3 +
+ tests/acceptance/machine_rx_gdbsim.py              |   2 +-
+ tests/acceptance/replay_kernel.py                  |   2 +-
+ tests/docker/Makefile.include                      |  17 +-
+ tests/docker/common.rc                             |   2 +-
+ tests/docker/docker.py                             |  47 ++-
+ .../dockerfiles/debian-all-test-cross.docker       |  53 ++++
+ tests/docker/dockerfiles/debian-alpha-cross.docker |   2 +-
+ tests/docker/dockerfiles/debian-amd64-cross.docker |   2 +-
+ tests/docker/dockerfiles/debian-amd64.docker       |   2 +-
+ tests/docker/dockerfiles/debian-arm64-cross.docker |   2 +-
+ .../dockerfiles/debian-arm64-test-cross.docker     |   2 +-
+ tests/docker/dockerfiles/debian-armel-cross.docker |   2 +-
+ tests/docker/dockerfiles/debian-armhf-cross.docker |   2 +-
+ tests/docker/dockerfiles/debian-hppa-cross.docker  |   2 +-
+ tests/docker/dockerfiles/debian-m68k-cross.docker  |   2 +-
+ tests/docker/dockerfiles/debian-mips-cross.docker  |   2 +-
+ .../docker/dockerfiles/debian-mips64-cross.docker  |   2 +-
+ .../dockerfiles/debian-mips64el-cross.docker       |   2 +-
+ .../docker/dockerfiles/debian-mipsel-cross.docker  |   2 +-
+ .../docker/dockerfiles/debian-powerpc-cross.docker |   2 +-
+ tests/docker/dockerfiles/debian-ppc64-cross.docker |   2 +-
+ .../docker/dockerfiles/debian-ppc64el-cross.docker |   2 +-
+ .../docker/dockerfiles/debian-riscv64-cross.docker |   2 +-
+ tests/docker/dockerfiles/debian-s390x-cross.docker |   2 +-
+ tests/docker/dockerfiles/debian-sh4-cross.docker   |   2 +-
+ .../docker/dockerfiles/debian-sparc64-cross.docker |   2 +-
+ .../docker/dockerfiles/debian-tricore-cross.docker |   2 +-
+ tests/docker/dockerfiles/debian-win32-cross.docker |   2 +-
+ tests/docker/dockerfiles/debian-win64-cross.docker |   2 +-
+ .../docker/dockerfiles/debian-xtensa-cross.docker  |   6 +-
+ tests/docker/dockerfiles/debian9-mxe.docker        |   2 +-
+ tests/docker/dockerfiles/fedora.docker             |   7 +
+ tests/docker/dockerfiles/ubuntu2004.docker         |  10 +-
+ tests/qemu-iotests/common.filter                   |   2 +-
+ tests/qtest/Makefile.include                       |   1 +
+ tests/tcg/Makefile.qemu                            |   4 +-
+ tests/tcg/configure.sh                             |  21 +-
+ tests/vm/Makefile.include                          |  22 ++
+ tests/vm/aarch64vm.py                              | 106 +++++++
+ tests/vm/basevm.py                                 | 344 +++++++++++++++------
+ tests/vm/centos-8-aarch64.ks                       |  51 +++
+ tests/vm/centos.aarch64                            | 227 ++++++++++++++
+ tests/vm/conf_example_aarch64.yml                  |  51 +++
+ tests/vm/conf_example_x86.yml                      |  50 +++
+ tests/vm/fedora                                    |  17 +-
+ tests/vm/freebsd                                   |  16 +-
+ tests/vm/netbsd                                    |  19 +-
+ tests/vm/openbsd                                   |  17 +-
+ tests/vm/ubuntu.aarch64                            |  68 ++++
+ tests/vm/ubuntu.i386                               |  46 +--
+ tests/vm/ubuntuvm.py                               |  60 ++++
+ 76 files changed, 2034 insertions(+), 448 deletions(-)
+ rename docs/devel/{multi-thread-tcg.txt => multi-thread-tcg.rst} (90%)
+ create mode 100644 docs/devel/tcg-icount.rst
+ create mode 100644 .gitlab-ci.d/containers.yml
+ create mode 100644 python/qemu/console_socket.py
+ create mode 100644 tests/docker/dockerfiles/debian-all-test-cross.docker
+ create mode 100644 tests/vm/aarch64vm.py
+ create mode 100644 tests/vm/centos-8-aarch64.ks
+ create mode 100755 tests/vm/centos.aarch64
+ create mode 100644 tests/vm/conf_example_aarch64.yml
+ create mode 100644 tests/vm/conf_example_x86.yml
+ create mode 100755 tests/vm/ubuntu.aarch64
+ create mode 100644 tests/vm/ubuntuvm.py
 
-<img alt=3D"GitLab" src=3D"https://gitlab.com/assets/mailers/gitlab_heade=
-r_logo-153749eaa7ea6fafcb995161abd3247bc4c4500f31498b0c4024f50093983ac0.g=
-if" width=3D"55" height=3D"50" />
-</td>
-</tr>
-<tr>
-<td style=3D"font-family: &quot;Helvetica Neue&quot;, Helvetica, Arial, s=
-ans-serif;">
-<table border=3D"0" cellpadding=3D"0" cellspacing=3D"0" class=3D"wrapper"=
- style=3D"width: 640px; border-collapse: separate; border-spacing: 0; mar=
-gin: 0 auto;">
-<tbody>
-<tr>
-<td class=3D"wrapper-cell" style=3D"font-family: &quot;Helvetica Neue&quo=
-t;, Helvetica, Arial, sans-serif; border-radius: 3px; overflow: hidden; p=
-adding: 18px 25px; border: 1px solid #ededed;" align=3D"left" bgcolor=3D"=
-#fff">
-<table border=3D"0" cellpadding=3D"0" cellspacing=3D"0" class=3D"content"=
- style=3D"width: 100%; border-collapse: separate; border-spacing: 0;">
-<tbody>
-<tr class=3D"alert">
-<td style=3D"font-family: 'Helvetica Neue',Helvetica,Arial,sans-serif; bo=
-rder-radius: 3px; font-size: 14px; line-height: 1.3; overflow: hidden; co=
-lor: #ffffff; padding: 10px;" align=3D"center" bgcolor=3D"#d22f57">
-<table border=3D"0" cellpadding=3D"0" cellspacing=3D"0" class=3D"img" sty=
-le=3D"border-collapse: collapse; margin: 0 auto;">
-<tbody>
-<tr>
-<td style=3D"font-family: 'Helvetica Neue',Helvetica,Arial,sans-serif; co=
-lor: #ffffff; padding-right: 5px; line-height: 1;" align=3D"center" valig=
-n=3D"middle">
-<img alt=3D"&#10006;" height=3D"13" src=3D"https://gitlab.com/assets/mail=
-ers/ci_pipeline_notif_v1/icon-x-red-inverted-06edddd39ba2a7f9a32f6201e420=
-175db85a4b6ac0348203fdc069001b440149.gif" style=3D"display: block;" width=
-=3D"13" />
-</td>
-<td style=3D"font-family: 'Helvetica Neue',Helvetica,Arial,sans-serif; co=
-lor: #ffffff;" align=3D"center" valign=3D"middle">
-Your pipeline has failed.
-</td>
-</tr>
-</tbody>
-</table>
-</td>
-</tr>
-<tr class=3D"spacer">
-<td style=3D"font-family: 'Helvetica Neue',Helvetica,Arial,sans-serif; he=
-ight: 18px; font-size: 18px; line-height: 18px;">
-&#160;
-</td>
-</tr>
-<tr class=3D"section">
-<td style=3D"font-family: 'Helvetica Neue',Helvetica,Arial,sans-serif; bo=
-rder-radius: 3px; overflow: hidden; padding: 0 15px; border: 1px solid #e=
-deded;">
-<table border=3D"0" cellpadding=3D"0" cellspacing=3D"0" class=3D"table-in=
-fo" style=3D"width: 100%;">
-<tbody>
-<tr>
-<td style=3D"font-family: 'Helvetica Neue',Helvetica,Arial,sans-serif; fo=
-nt-size: 15px; line-height: 1.4; color: #8c8c8c; font-weight: 300; margin=
-: 0; padding: 14px 0;">Project</td>
-<td style=3D"font-family: 'Helvetica Neue',Helvetica,Arial,sans-serif; fo=
-nt-size: 15px; line-height: 1.4; font-weight: 500; color: #333333; width:=
- 75%; margin: 0; padding: 14px 0 14px 5px;">
-<a class=3D"muted" href=3D"https://gitlab.com/qemu-project" style=3D"colo=
-r: #333333; text-decoration: none;">
-QEMU
-</a>
-/
-<a class=3D"muted" href=3D"https://gitlab.com/qemu-project/qemu" style=3D=
-"color: #333333; text-decoration: none;">
-QEMU
-</a>
-</td>
-</tr>
-<tr>
-<td style=3D"font-family: 'Helvetica Neue',Helvetica,Arial,sans-serif; fo=
-nt-size: 15px; line-height: 1.4; color: #8c8c8c; font-weight: 300; border=
--top-width: 1px; border-top-color: #ededed; border-top-style: solid; marg=
-in: 0; padding: 14px 0;">Branch</td>
-<td style=3D"font-family: 'Helvetica Neue',Helvetica,Arial,sans-serif; fo=
-nt-size: 15px; line-height: 1.4; font-weight: 500; color: #333333; width:=
- 75%; border-top-width: 1px; border-top-color: #ededed; border-top-style:=
- solid; margin: 0; padding: 14px 0 14px 5px;">
-<table border=3D"0" cellpadding=3D"0" cellspacing=3D"0" class=3D"img" sty=
-le=3D"border-collapse: collapse;">
-<tbody>
-<tr>
-<td style=3D"font-family: 'Helvetica Neue',Helvetica,Arial,sans-serif; fo=
-nt-size: 15px; line-height: 1.4; padding-right: 5px;" valign=3D"middle">
-<img alt=3D"" height=3D"13" src=3D"https://gitlab.com/assets/mailers/ci_p=
-ipeline_notif_v1/icon-branch-gray-53618a7fc19d4d32ccbabac2f6d59bebe67202a=
-9f2f1255e3f72c69756c0dd9c.gif" style=3D"display: block;" width=3D"13" />
-</td>
-<td style=3D"font-family: 'Helvetica Neue',Helvetica,Arial,sans-serif; fo=
-nt-size: 15px; line-height: 1.4;" valign=3D"middle">
-<a class=3D"muted" href=3D"https://gitlab.com/qemu-project/qemu/-/commits=
-/master" style=3D"color: #333333; text-decoration: none;">
-master
-</a>
-</td>
-</tr>
-</tbody>
-</table>
-</td>
-</tr>
-<tr>
-<td style=3D"font-family: 'Helvetica Neue',Helvetica,Arial,sans-serif; fo=
-nt-size: 15px; line-height: 1.4; color: #8c8c8c; font-weight: 300; border=
--top-width: 1px; border-top-color: #ededed; border-top-style: solid; marg=
-in: 0; padding: 14px 0;">Commit</td>
-<td style=3D"font-family: 'Helvetica Neue',Helvetica,Arial,sans-serif; fo=
-nt-size: 15px; line-height: 1.4; font-weight: 400; color: #333333; width:=
- 75%; border-top-width: 1px; border-top-color: #ededed; border-top-style:=
- solid; margin: 0; padding: 14px 0 14px 5px;">
-<table border=3D"0" cellpadding=3D"0" cellspacing=3D"0" class=3D"img" sty=
-le=3D"border-collapse: collapse;">
-<tbody>
-<tr>
-<td style=3D"font-family: 'Helvetica Neue',Helvetica,Arial,sans-serif; fo=
-nt-size: 15px; line-height: 1.4; padding-right: 5px;" valign=3D"middle">
-<img alt=3D"" height=3D"13" src=3D"https://gitlab.com/assets/mailers/ci_p=
-ipeline_notif_v1/icon-commit-gray-c10243ac24cde64b549aec91de35e6b49c8739b=
-506b86472b54614c10d8b4aac.gif" style=3D"display: block;" width=3D"13" />
-</td>
-<td style=3D"font-family: 'Helvetica Neue',Helvetica,Arial,sans-serif; fo=
-nt-size: 15px; line-height: 1.4;" valign=3D"middle">
-<a href=3D"https://gitlab.com/qemu-project/qemu/-/commit/d4a6bab1ecf23d86=
-e20e2f08a144e4e48643a6e4" style=3D"color: #3777b0; text-decoration: none;=
-">
-d4a6bab1
-</a>
-</td>
-</tr>
-</tbody>
-</table>
-<div class=3D"commit" style=3D"color: #5c5c5c; font-weight: 300;">
-Merge remote-tracking branch 'remotes/gkurz/tag...
-</div>
-</td>
-</tr>
-<tr>
-<td style=3D"font-family: 'Helvetica Neue',Helvetica,Arial,sans-serif; fo=
-nt-size: 15px; line-height: 1.4; color: #8c8c8c; font-weight: 300; border=
--top-width: 1px; border-top-color: #ededed; border-top-style: solid; marg=
-in: 0; padding: 14px 0;">Commit Author</td>
-<td style=3D"font-family: 'Helvetica Neue',Helvetica,Arial,sans-serif; fo=
-nt-size: 15px; line-height: 1.4; font-weight: 500; color: #333333; width:=
- 75%; border-top-width: 1px; border-top-color: #ededed; border-top-style:=
- solid; margin: 0; padding: 14px 0 14px 5px;">
-<table border=3D"0" cellpadding=3D"0" cellspacing=3D"0" class=3D"img" sty=
-le=3D"border-collapse: collapse;">
-<tbody>
-<tr>
-<td style=3D"font-family: 'Helvetica Neue',Helvetica,Arial,sans-serif; fo=
-nt-size: 15px; line-height: 1.4; padding-right: 5px;" valign=3D"middle">
-<img alt=3D"" class=3D"avatar" height=3D"24" src=3D"https://secure.gravat=
-ar.com/avatar/98261ce19b4e9da714d577154686723a?s=3D48&amp;d=3Didenticon" =
-style=3D"display: block; border-radius: 12px; margin: -2px 0;" width=3D"2=
-4" />
-</td>
-<td style=3D"font-family: 'Helvetica Neue',Helvetica,Arial,sans-serif; fo=
-nt-size: 15px; line-height: 1.4;" valign=3D"middle">
-<a class=3D"muted" href=3D"https://gitlab.com/pm215" style=3D"color: #333=
-333; text-decoration: none;">
-Peter Maydell
-</a>
-</td>
-</tr>
-</tbody>
-</table>
-</td>
-</tr>
-</tbody>
-</table>
-</td>
-</tr>
-<tr class=3D"spacer">
-<td style=3D"font-family: 'Helvetica Neue',Helvetica,Arial,sans-serif; he=
-ight: 18px; font-size: 18px; line-height: 18px;">
-&#160;
-</td>
-</tr>
-<tr class=3D"pre-section">
-<td style=3D"font-family: 'Helvetica Neue',Helvetica,Arial,sans-serif; co=
-lor: #333333; font-size: 15px; font-weight: 400; line-height: 1.4; paddin=
-g: 15px 5px 0;" align=3D"center">
-<table border=3D"0" cellpadding=3D"0" cellspacing=3D"0" class=3D"img" sty=
-le=3D"border-collapse: collapse; margin: 0 auto;">
-<tbody>
-<tr>
-<td style=3D"font-family: 'Helvetica Neue',Helvetica,Arial,sans-serif; fo=
-nt-size: 15px; font-weight: 500; line-height: 1.4;" valign=3D"baseline">
-Pipeline
-<a href=3D"https://gitlab.com/qemu-project/qemu/-/pipelines/165544924" st=
-yle=3D"color: #3777b0; text-decoration: none;">
-#165544924
-</a>
-triggered by
-</td>
-<td style=3D"font-family: 'Helvetica Neue',Helvetica,Arial,sans-serif; fo=
-nt-size: 15px; line-height: 1.4; padding-right: 5px; padding-left: 5px;" =
-width=3D"24" valign=3D"middle">
-<img alt=3D"" class=3D"avatar" height=3D"24" src=3D"https://secure.gravat=
-ar.com/avatar/a7d7f408c0b3370bbbeb98833d6c50e4?s=3D48&amp;d=3Didenticon" =
-style=3D"display: block; border-radius: 12px; margin: -2px 0;" width=3D"2=
-4" />
-</td>
-<td style=3D"font-family: 'Helvetica Neue',Helvetica,Arial,sans-serif; fo=
-nt-size: 15px; font-weight: 500; line-height: 1.4;" valign=3D"baseline">
-<a class=3D"muted" href=3D"https://gitlab.com/stsquad" style=3D"color: #3=
-33333; text-decoration: none;">
-Alex Benn&#233;e
-</a>
-</td>
-</tr>
-</tbody>
-</table>
-</td>
-</tr>
-<tr>
-<td colspan=3D"2" style=3D"font-family: 'Helvetica Neue',Helvetica,Arial,=
-sans-serif; color: #333333; font-size: 14px; font-weight: 400; line-heigh=
-t: 1.4; padding: 0 8px 16px;" align=3D"center">
-had
-1
-failed
-build.
-</td>
-</tr>
-<tr class=3D"table-warning">
-<td style=3D"font-family: 'Helvetica Neue',Helvetica,Arial,sans-serif; bo=
-rder-radius: 4px 4px 0 0; overflow: hidden; color: #d22852; font-size: 14=
-px; line-height: 1.4; padding: 8px 16px; border-color: #ededed; border-st=
-yle: solid; border-width: 1px 1px 0;" align=3D"center" bgcolor=3D"#fdf4f6=
-">
-Logs may contain sensitive data. Please consider before forwarding this e=
-mail.
-</td>
-</tr>
-<tr class=3D"section">
-<td style=3D"font-family: 'Helvetica Neue',Helvetica,Arial,sans-serif; ov=
-erflow: hidden; border-radius: 0 0 4px 4px; padding: 0 16px; border-color=
-: #ededed; border-style: solid; border-width: 0 1px 1px;">
-<table border=3D"0" cellpadding=3D"0" cellspacing=3D"0" class=3D"builds" =
-style=3D"width: 100%; border-collapse: collapse;">
-<tbody>
-<tr class=3D"build-state">
-<td style=3D"font-family: 'Helvetica Neue',Helvetica,Arial,sans-serif; co=
-lor: #8c8c8c; font-weight: 500; font-size: 14px; padding: 16px 0;">
-<table border=3D"0" cellpadding=3D"0" cellspacing=3D"0" class=3D"img" sty=
-le=3D"border-collapse: collapse;">
-<tbody>
-<tr>
-<td style=3D"font-family: 'Helvetica Neue',Helvetica,Arial,sans-serif; co=
-lor: #d22f57; font-weight: 500; font-size: 16px; padding-right: 8px; line=
--height: 10px;" valign=3D"middle">
-<img alt=3D"&#10006;" height=3D"10" src=3D"https://gitlab.com/assets/mail=
-ers/ci_pipeline_notif_v1/icon-x-red-67056b7b99899e30453df79abfbe16162f6a2=
-6ed789d8236f81afcaea216ffe6.gif" style=3D"display: block;" width=3D"10" /=
->
-</td>
-<td style=3D"font-family: 'Helvetica Neue',Helvetica,Arial,sans-serif; co=
-lor: #8c8c8c; font-weight: 500; font-size: 14px;" valign=3D"middle">
-test
-</td>
-</tr>
-</tbody>
-</table>
-</td>
-<td align=3D"right" style=3D"font-family: 'Helvetica Neue',Helvetica,Aria=
-l,sans-serif; color: #8c8c8c; font-weight: 500; font-size: 14px; padding:=
- 16px 0;">
-<a href=3D"https://gitlab.com/qemu-project/qemu/-/jobs/634366824" style=3D=
-"color: #3777b0; text-decoration: none;">
-build-disabled
-</a>
+-- 
+2.20.1
 
-</td>
-</tr>
-<tr class=3D"build-log">
-<td colspan=3D"2" style=3D"font-family: 'Helvetica Neue',Helvetica,Arial,=
-sans-serif; padding: 0 0 16px;">
-<pre style=3D"font-family: Monaco,'Lucida Console','Courier New',Courier,=
-monospace; background-color: #fafafa; border-radius: 4px; overflow: hidde=
-n; white-space: pre-wrap; word-break: break-all; font-size: 13px; line-he=
-ight: 1.4; color: #333333; margin: 0; padding: 16px 8px;"><span>Could not=
- access KVM kernel module: No such file or directory<br />qemu-system-i38=
-6: -accel kvm: failed to initialize kvm: No such file or directory<br />q=
-emu-system-i386: falling back to tcg<br />Could not access KVM kernel mod=
-ule: No such file or directory<br />qemu-system-i386: -accel kvm: failed =
-to initialize kvm: No such file or directory<br />qemu-system-i386: falli=
-ng back to tcg<br />  TEST    check-qtest-i386: tests/qtest/device-intros=
-pect-test<br />  TEST    check-qtest-i386: tests/qtest/machine-none-test<=
-br />  TEST    check-qtest-i386: tests/qtest/qmp-test<br />  TEST    chec=
-k-qtest-i386: tests/qtest/qmp-cmd-test<br />  TEST    check-qtest-i386: t=
-ests/qtest/qom-test<br />  TEST    check-qtest-i386: tests/qtest/test-hmp=
-<br />  TEST    check-qtest-i386: tests/qtest/qos-test<br />  TEST    che=
-ck-qtest-mips64: tests/qtest/endianness-test<br />  TEST    check-qtest-m=
-ips64: tests/qtest/display-vga-test<br />  TEST    check-qtest-mips64: te=
-sts/qtest/cdrom-test<br />  TEST    check-qtest-mips64: tests/qtest/devic=
-e-introspect-test<br />  TEST    check-qtest-mips64: tests/qtest/machine-=
-none-test<br />  TEST    check-qtest-mips64: tests/qtest/qmp-test<br />  =
-TEST    check-qtest-mips64: tests/qtest/qmp-cmd-test<br />  TEST    check=
--qtest-mips64: tests/qtest/qom-test<br />  TEST    check-qtest-mips64: te=
-sts/qtest/test-hmp<br />  TEST    check-qtest-mips64: tests/qtest/qos-tes=
-t<br />  TEST    check-qtest-ppc64: tests/qtest/machine-none-test<br />  =
-TEST    check-qtest-ppc64: tests/qtest/qmp-test<br />  TEST    check-qtes=
-t-ppc64: tests/qtest/qmp-cmd-test<br />  TEST    check-qtest-ppc64: tests=
-/qtest/qom-test<br />  TEST    check-qtest-ppc64: tests/qtest/test-hmp<br=
- /></span><span class=3D"term-fg-l-red term-bold">ERROR: Job failed: exec=
-ution took longer than 1h0m0s seconds<br /></span></pre>
-</td>
-</tr>
-</tbody>
-</table>
-</td>
-</tr>
-
-
-</tbody>
-</table>
-</td>
-</tr>
-</tbody>
-</table>
-</td>
-</tr>
-
-<tr class=3D"footer">
-<td style=3D"font-family: &quot;Helvetica Neue&quot;, Helvetica, Arial, s=
-ans-serif; font-size: 13px; line-height: 1.6; color: #5c5c5c; padding: 25=
-px 0;">
-<img alt=3D"GitLab" height=3D"33" src=3D"https://gitlab.com/assets/mailer=
-s/gitlab_footer_logo-078860f148cc9596195e6bb3fa7db31c30538355576c5c3b569c=
-414902e3d095.gif" width=3D"90" style=3D"display: block; margin: 0 auto 1e=
-m;" />
-<div>
-You're receiving this email because of your account on gitlab.com. <a cla=
-ss=3D"mng-notif-link" href=3D"https://gitlab.com/profile/notifications" s=
-tyle=3D"color: #3777b0; text-decoration: none;">Manage all notifications<=
-/a> &#183; <a class=3D"help-link" href=3D"https://gitlab.com/help" style=3D=
-"color: #3777b0; text-decoration: none;">Help</a>
-</div>
-</td>
-</tr>
-
-<tr>
-<td class=3D"footer-message" style=3D"font-family: &quot;Helvetica Neue&q=
-uot;, Helvetica, Arial, sans-serif; font-size: 13px; line-height: 1.6; co=
-lor: #5c5c5c; padding: 25px 0;">
-
-</td>
-</tr>
-</tbody>
-</table>
-</body>
-</html>
-
-----==_mimepart_5f09f10b5223e_792a3fd21c9446d82230f4--
 
