@@ -2,66 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 45C6C21C414
-	for <lists+qemu-devel@lfdr.de>; Sat, 11 Jul 2020 13:50:08 +0200 (CEST)
-Received: from localhost ([::1]:34028 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 582C721C41F
+	for <lists+qemu-devel@lfdr.de>; Sat, 11 Jul 2020 14:11:48 +0200 (CEST)
+Received: from localhost ([::1]:42528 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1juE19-0005iU-9M
-	for lists+qemu-devel@lfdr.de; Sat, 11 Jul 2020 07:50:07 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:59104)
+	id 1juEM6-00025y-OI
+	for lists+qemu-devel@lfdr.de; Sat, 11 Jul 2020 08:11:46 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:34870)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <cfontana@suse.de>) id 1juE0N-0005J4-Jq
- for qemu-devel@nongnu.org; Sat, 11 Jul 2020 07:49:19 -0400
-Received: from mx2.suse.de ([195.135.220.15]:43936)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <cfontana@suse.de>) id 1juE0L-0002JA-OG
- for qemu-devel@nongnu.org; Sat, 11 Jul 2020 07:49:19 -0400
-X-Virus-Scanned: by amavisd-new at test-mx.suse.de
-Received: from relay2.suse.de (unknown [195.135.221.27])
- by mx2.suse.de (Postfix) with ESMTP id 62D67AC7F;
- Sat, 11 Jul 2020 11:49:16 +0000 (UTC)
-Subject: Re: [PATCH 3/3] cpu-timers, icount: new modules
-To: Paolo Bonzini <pbonzini@redhat.com>, Thomas Huth <thuth@redhat.com>,
- Laurent Vivier <lvivier@redhat.com>, =?UTF-8?Q?Alex_Benn=c3=a9e?=
- <alex.bennee@linaro.org>, Peter Maydell <peter.maydell@linaro.org>,
- =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>,
- Roman Bolshakov <r.bolshakov@yadro.com>,
- Markus Armbruster <armbru@redhat.com>
-References: <20200629093504.3228-1-cfontana@suse.de>
- <20200629093504.3228-4-cfontana@suse.de>
- <aa45a793-35b1-d3bd-18a8-4c52ad888029@redhat.com>
- <f89f249d-dbc4-779b-5b53-fc408461f072@suse.de>
- <ecf5f26b-ce86-3e13-5c5c-567919433acb@redhat.com>
- <e9dca3d1-f52d-13ce-2d7d-66958bc15765@suse.de>
- <996dc455-548e-5964-9c87-f4abe5b63907@redhat.com>
- <146b0cf2-509b-6a48-e82b-b93740e4c60d@redhat.com>
- <e3cc11a4-8ba7-917a-844b-4f6ec69d140a@suse.de>
- <76aac4ac-40f5-4870-ed2b-bab8b68b0a64@redhat.com>
-From: Claudio Fontana <cfontana@suse.de>
-Message-ID: <9630c685-0a37-a1e7-4614-9d692988a799@suse.de>
-Date: Sat, 11 Jul 2020 13:49:14 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.4.1
+ (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
+ id 1juELL-0001Nj-CX
+ for qemu-devel@nongnu.org; Sat, 11 Jul 2020 08:10:59 -0400
+Received: from indium.canonical.com ([91.189.90.7]:52682)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
+ id 1juELI-0004wW-OV
+ for qemu-devel@nongnu.org; Sat, 11 Jul 2020 08:10:59 -0400
+Received: from loganberry.canonical.com ([91.189.90.37])
+ by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
+ id 1juELG-0004Qs-9R
+ for <qemu-devel@nongnu.org>; Sat, 11 Jul 2020 12:10:54 +0000
+Received: from loganberry.canonical.com (localhost [127.0.0.1])
+ by loganberry.canonical.com (Postfix) with ESMTP id 3F64A2E8024
+ for <qemu-devel@nongnu.org>; Sat, 11 Jul 2020 12:10:54 +0000 (UTC)
 MIME-Version: 1.0
-In-Reply-To: <76aac4ac-40f5-4870-ed2b-bab8b68b0a64@redhat.com>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=195.135.220.15; envelope-from=cfontana@suse.de;
- helo=mx2.suse.de
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/07/10 23:52:14
-X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x (no timestamps) [generic]
-X-Spam_score_int: -41
-X-Spam_score: -4.2
-X-Spam_bar: ----
-X-Spam_report: (-4.2 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_MED=-2.3,
- RCVD_IN_MSPIKE_H3=-0.01, RCVD_IN_MSPIKE_WL=-0.01, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: quoted-printable
+Date: Sat, 11 Jul 2020 12:00:46 -0000
+From: Dmitry <1885332@bugs.launchpad.net>
+To: qemu-devel@nongnu.org
+X-Launchpad-Notification-Type: bug
+X-Launchpad-Bug: product=qemu; status=New; importance=Undecided; assignee=None;
+X-Launchpad-Bug-Information-Type: Public
+X-Launchpad-Bug-Private: no
+X-Launchpad-Bug-Security-Vulnerability: no
+X-Launchpad-Bug-Commenters: langston0 xeioexception
+X-Launchpad-Bug-Reporter: Langston (langston0)
+X-Launchpad-Bug-Modifier: Dmitry (xeioexception)
+References: <159320263008.26082.15752081078008046631.malonedeb@gac.canonical.com>
+Message-Id: <159446884647.13681.6408740332020546953.malone@gac.canonical.com>
+Subject: [Bug 1885332] Re: Error in user-mode calculation of ELF aux vector's
+ AT_PHDR
+X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
+X-Launchpad-Message-For: qemu-devel-ml
+Precedence: bulk
+X-Generated-By: Launchpad (canonical.com);
+ Revision="4809fcb62f445aaa3ae919f7f6c3cc7d156ea57a";
+ Instance="production-secrets-lazr.conf"
+X-Launchpad-Hash: 1fd1eee6a9146b2740b71925dbc295a5ff045393
+Received-SPF: none client-ip=91.189.90.7; envelope-from=bounces@canonical.com;
+ helo=indium.canonical.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/07/11 07:00:48
+X-ACL-Warn: Detected OS   = Linux 3.11 and newer [fuzzy]
+X-Spam_score_int: -58
+X-Spam_score: -5.9
+X-Spam_bar: -----
+X-Spam_report: (-5.9 / 5.0 requ) BAYES_00=-1.9, HEADER_FROM_DIFFERENT_DOMAINS=1,
+ RCVD_IN_DNSWL_HI=-5, RCVD_IN_MSPIKE_H3=-0.01, RCVD_IN_MSPIKE_WL=-0.01,
+ SPF_HELO_NONE=0.001, SPF_NONE=0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
-Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -70,87 +72,253 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Eduardo Habkost <ehabkost@redhat.com>, Colin Xu <colin.xu@intel.com>,
- Marcelo Tosatti <mtosatti@redhat.com>, qemu-devel@nongnu.org,
- haxm-team@intel.com, Wenchao Wang <wenchao.wang@intel.com>,
- Sunil Muthuswamy <sunilmut@microsoft.com>, Richard Henderson <rth@twiddle.net>
+Reply-To: Bug 1885332 <1885332@bugs.launchpad.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 7/11/20 11:39 AM, Paolo Bonzini wrote:
-> On 11/07/20 11:14, Claudio Fontana wrote:
->> On 7/11/20 12:45 AM, Paolo Bonzini wrote:
->>> On 10/07/20 06:36, Thomas Huth wrote:
->>>>
->>>> In short this goes away if I again set icount to enabled for qtest,
->>>> basically ensuring that --enable-tcg is there and then reenabling icount.
->>>>
->>>> qtest was forcing icount and shift=0 by creating qemu options, in order to misuse its counter feature,
->>>> instead of using a separate counter.
->>>
->>> Why would it need a separate counter?  In both cases it's a
->>> manually-updated counter that is used for QEMU_CLOCK_VIRTUAL.  The only
->>> difference is that shift > 0 doesn't make sense for qtest.
->>
->> I think I would reverse the question. Why reuse for qtest a counter that has absolutely nothing to do with it?
->>
->> qtest has nothing to do with instruction counting.
-> 
-> Apart from the name, icount is more like deterministic execution than
+When I switch to armv7 the issue goes away
 
-Maybe we should start choosing names more carefully in a way to express what we mean?
+$ cat Dockerfile.armv7 =
 
-> instruction counting (it's not a coincidence that record/replay is
-> fundamentally based on icount).
+FROM arm32v7/ubuntu
+RUN apt-get update && \
+    apt-get install -y \
+    gcc make libpcre3-dev libreadline-dev git
 
-record/replay is tcg-only.
+RUN cd /home && git clone https://github.com/nginx/njs
 
->  qtests need to be deterministic and
-> describe which qtest instructions run before a given timer fires and
-> which run after.
-> 
-> And in both cases, determinism is achieved by controlling the
-> advancement of QEMU_CLOCK_VIRTUAL.  It's only this central component of
-> icount that is shared by qtest and TCG, and I think the problem is that
-> this patch conflates all of them together:
+RUN cd /home/njs && ./configure --cc-opt=3D'-O0 -static -lm -lrt -pthread
+-Wl,--whole-archive -lpthread -ltinfo -Wl,--no-whole-archive' && make
+njs
 
-I think that the existing code in master conflates them together actually.
-Qtest can have its own counter, it does not need to be the icount instruction counter.
+$ docker run --rm --privileged multiarch/qemu-user-static --reset -p yes
+$ docker build -t njs/armv7 -f Dockerfile.armv7 .
+$ docker run -v `pwd`:/m -ti njs/armv7 cp /home/njs/build/njs /m/njs-armv7
+
+$ readelf -l ./njs-armv7
+
+Elf file type is EXEC (Executable file)
+Entry point 0x12fb9
+There are 7 program headers, starting at offset 52
+
+Program Headers:
+  Type           Offset   VirtAddr   PhysAddr   FileSiz MemSiz  Flg Align
+  EXIDX          0x1be338 0x001ce338 0x001ce338 0x009b8 0x009b8 R   0x4
+  LOAD           0x000000 0x00010000 0x00010000 0x1becf4 0x1becf4 R E 0x100=
+00
+  LOAD           0x1bedfc 0x001dedfc 0x001dedfc 0x17674 0x1c2cc RW  0x10000
+  NOTE           0x000114 0x00010114 0x00010114 0x00044 0x00044 R   0x4
+  TLS            0x1bedfc 0x001dedfc 0x001dedfc 0x00038 0x00060 R   0x4
+  GNU_STACK      0x000000 0x00000000 0x00000000 0x00000 0x00000 RW  0x10
+  GNU_RELRO      0x1bedfc 0x001dedfc 0x001dedfc 0x0e204 0x0e204 R   0x1
+
+ Section to Segment mapping:
+  Segment Sections...
+   00     .ARM.exidx =
+
+   01     .note.ABI-tag .note.gnu.build-id .rel.dyn .init .iplt .text __lib=
+c_freeres_fn __libc_thread_freeres_fn .fini .rodata .stapsdt.base __libc_su=
+bfreeres __libc_IO_vtables __libc_atexit __libc_thread_subfreeres .ARM.exta=
+b .ARM.exidx .eh_frame =
+
+   02     .tdata .init_array .fini_array .data.rel.ro .got .data .bss __lib=
+c_freeres_ptrs =
+
+   03     .note.ABI-tag .note.gnu.build-id =
+
+   04     .tdata .tbss =
+
+   05     =
+
+   06     .tdata .init_array .fini_array .data.rel.ro =
 
 
-> 
-> - the basic "is QEMU_CLOCK_VIRTUAL software-driven" part is embedded in
-> qemu-timer and should not be carved out into a separate module.  This
-> includes the use_icount variable, which should be kept in core QEMU code.
+$ readelf -h ./njs-armv7
+ELF Header:
+  Magic:   7f 45 4c 46 01 01 01 03 00 00 00 00 00 00 00 00 =
 
-I don't see how this follows, how is using a global use_icount variable better than having this checked using icount_enabled()?
+  Class:                             ELF32
+  Data:                              2's complement, little endian
+  Version:                           1 (current)
+  OS/ABI:                            UNIX - GNU
+  ABI Version:                       0
+  Type:                              EXEC (Executable file)
+  Machine:                           ARM
+  Version:                           0x1
+  Entry point address:               0x12fb9
+  Start of program headers:          52 (bytes into file)
+  Start of section headers:          5696248 (bytes into file)
+  Flags:                             0x5000400, Version5 EABI, hard-float A=
+BI
+  Size of this header:               52 (bytes)
+  Size of program headers:           32 (bytes)
+  Number of program headers:         7
+  Size of section headers:           40 (bytes)
+  Number of section headers:         42
+  Section header string table index: 41
 
-> 
-> - the fact qtest uses -icount instead of configuring the variables
-> directly is definitely a hack and can be removed.
-> 
-> - the adaptive frequency adjustment is definitely TCG specific, and so
-> are the particular functions in cpus.c that test icount_enabled() and
-> broke with this patch.  All this code should be included in the TCG
-> module only or, before that, should be made conditional on $(CONFIG_TCG).
-> 
-> So I think this patch should have been the last, not the first. :)  Once
-> you move all the accelerator runtime code from cpus.c to separate files,
-> it will be possible to move the frequency adjustment and deadline
-> management code into accel/tcg.  And then it will be obvious which code
-> is not TCG-specific and can be extracted for convenience into a
-> cpu-timers.c file.
-> 
-> Thanks,
-> 
-> Paolo
-> 
+$ qemu-arm -g 12345 ./njs-armv7 -c 'console.log("HH")'
 
-I will come back to this later on, this patch seems to have uncovered an underlying issue, which shows on s390.
+$ gdb-multiarch ./njs-armv7 -ex 'source showstack.py'
+ARGUMENTS
+---------
+argc =3D 3
+arg 0 =3D ./njs-armv7
+arg 1 =3D -c
+arg 2 =3D console.log("HH")
 
-I'd rather now continue investigating that, choosing to try to actually understand the issue, rather than hiding it under the carpet.
+...
 
-Thanks,
+AUX VECTOR
+----------
+AT_PHDR =3D 10034
+AT_PHENT =3D 20
+AT_PHNUM =3D 7
+AT_PAGESZ =3D 1000
+AT_BASE =3D 0
+AT_FLAGS =3D 0
+AT_ENTRY =3D 12fb9
+AT_UID =3D 3e9
+AT_EUID =3D 3e9
+AT_GID =3D 3e9
+AT_EGID =3D 3e9
+AT_HWCAP =3D 1fb8d7
+AT_CLKTCK =3D 64
+AT_RANDOM =3D -104a0
+AT_HWCAP2 =3D 1f
+AT_NULL =3D 0
 
-Claudio
+$ qemu-arm --version
+qemu-arm version 2.11.1(Debian 1:2.11+dfsg-1ubuntu7.28)
+Copyright (c) 2003-2017 Fabrice Bellard and the QEMU Project developers
+
+-- =
+
+You received this bug notification because you are a member of qemu-
+devel-ml, which is subscribed to QEMU.
+https://bugs.launchpad.net/bugs/1885332
+
+Title:
+  Error in user-mode calculation of ELF aux vector's AT_PHDR
+
+Status in QEMU:
+  New
+
+Bug description:
+  =
+
+  I have an (admittedly strange) statically-linked ELF binary for Linux tha=
+t runs just fine on top of the Linux kernel in QEMU full-system emulation, =
+but crashes before main in user-mode emulation. Specifically, it crashes wh=
+en initializing thread-local storage in glibc's _dl_aux_init, because it re=
+ads out a strange value from the AT_PHDR entry of the ELF aux vector.
+
+  The binary has these program headers:
+
+    Program Headers:
+      Type           Offset   VirtAddr   PhysAddr   FileSiz MemSiz  Flg Ali=
+gn
+      EXIDX          0x065874 0x00075874 0x00075874 0x00570 0x00570 R   0x4
+      PHDR           0x0a3000 0x00900000 0x00900000 0x00160 0x00160 R   0x1=
+000
+      LOAD           0x0a3000 0x00900000 0x00900000 0x00160 0x00160 R   0x1=
+000
+      LOAD           0x000000 0x00010000 0x00010000 0x65de8 0x65de8 R E 0x1=
+0000
+      LOAD           0x066b7c 0x00086b7c 0x00086b7c 0x02384 0x02384 RW  0x1=
+0000
+      NOTE           0x000114 0x00010114 0x00010114 0x00044 0x00044 R   0x4
+      TLS            0x066b7c 0x00086b7c 0x00086b7c 0x00010 0x00030 R   0x4
+      GNU_STACK      0x000000 0x00000000 0x00000000 0x00000 0x00000 RW  0x8
+      GNU_RELRO      0x066b7c 0x00086b7c 0x00086b7c 0x00484 0x00484 R   0x1
+      LOAD           0x07e000 0x00089000 0x00089000 0x03f44 0x03f44 R E 0x1=
+000
+      LOAD           0x098000 0x00030000 0x00030000 0x01000 0x01000 RW  0x1=
+000
+
+  If I build the Linux kernel with the following patch to the very end
+  of create_elf_tables in fs/binfmt_elf.c
+
+    /* Put the elf_info on the stack in the right place.  */
+    elf_addr_t *my_auxv =3D (elf_addr_t *) mm->saved_auxv;
+    int i;
+    for (i =3D 0; i < 15; i++) {
+      printk("0x%x =3D 0x%x", my_auxv[2*i], my_auxv[(2*i)+ 1]);
+    }
+    if (copy_to_user(sp, mm->saved_auxv, ei_index * sizeof(elf_addr_t)))
+        return -EFAULT;
+    return 0;
+
+  and run it like this:
+
+    qemu-system-arm \
+      -M versatilepb \
+      -nographic \
+      -dtb ./dts/versatile-pb.dtb \
+      -kernel zImage \
+      -M versatilepb \
+      -m 128M \
+      -append "earlyprintk=3Dvga,keep" \
+      -initrd initramfs
+
+  after I've built the kernel initramfs like this (where "init" is the
+  binary in question):
+
+    make ARCH=3Darm versatile_defconfig
+    make ARCH=3Darm CROSS_COMPILE=3Darm-linux-gnueabi- all -j10
+    cp "$1" arch/arm/boot/init
+    cd arch/arm/boot
+    echo init | cpio -o --format=3Dnewc > initramfs
+
+  then I get the following output. This is the kernel's view of the aux
+  vector for this binary:
+
+    0x10 =3D 0x1d7
+    0x6 =3D 0x1000
+    0x11 =3D 0x64
+    0x3 =3D 0x900000
+    0x4 =3D 0x20
+    0x5 =3D 0xb
+    0x7 =3D 0x0
+    0x8 =3D 0x0
+    0x9 =3D 0x101b8
+    0xb =3D 0x0
+    0xc =3D 0x0
+    0xd =3D 0x0
+    0xe =3D 0x0
+    0x17 =3D 0x0
+    0x19 =3D 0xbec62fb5
+
+  However, if I run "qemu-arm -g 12345 binary" and use GDB to peek at
+  the aux vector at the beginning of __libc_start_init (for example,
+  using this Python GDB API script: https://gist.github.com/langston-
+  barrett/5573d64ae0c9953e2fa0fe26847a5e1e), then I see the following
+  values:
+
+    AT_PHDR =3D 0xae000
+    AT_PHENT =3D 0x20
+    AT_PHNUM =3D 0xb
+    AT_PAGESZ =3D 0x1000
+    AT_BASE =3D 0x0
+    AT_FLAGS =3D 0x0
+    AT_ENTRY =3D 0x10230
+    AT_UID =3D 0x3e9
+    AT_EUID =3D 0x3e9
+    AT_GID =3D 0x3e9
+    AT_EGID =3D 0x3e9
+    AT_HWCAP =3D 0x1fb8d7
+    AT_CLKTCK =3D 0x64
+    AT_RANDOM =3D -0x103c0
+    AT_HWCAP2 =3D 0x1f
+    AT_NULL =3D 0x0
+
+  The crucial difference is in AT_PHDR (0x3), which is indeed the
+  virtual address of the PHDR segment when the kernel calculates it, but
+  is not when QEMU calculates it.
+
+  qemu-arm --version
+  qemu-arm version 2.11.1(Debian 1:2.11+dfsg-1ubuntu7.26)
+
+To manage notifications about this bug go to:
+https://bugs.launchpad.net/qemu/+bug/1885332/+subscriptions
 
