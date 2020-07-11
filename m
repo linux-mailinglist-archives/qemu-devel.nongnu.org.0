@@ -2,50 +2,110 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 35B0321C52F
-	for <lists+qemu-devel@lfdr.de>; Sat, 11 Jul 2020 18:22:16 +0200 (CEST)
-Received: from localhost ([::1]:38584 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A9F9521C54A
+	for <lists+qemu-devel@lfdr.de>; Sat, 11 Jul 2020 18:35:45 +0200 (CEST)
+Received: from localhost ([::1]:53964 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1juIGV-0004R3-12
-	for lists+qemu-devel@lfdr.de; Sat, 11 Jul 2020 12:22:15 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:54548)
+	id 1juITY-0003D3-AW
+	for lists+qemu-devel@lfdr.de; Sat, 11 Jul 2020 12:35:44 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:57002)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <zhiwei_liu@c-sky.com>)
- id 1juIDI-0007FN-C5; Sat, 11 Jul 2020 12:18:56 -0400
-Received: from smtp2200-217.mail.aliyun.com ([121.197.200.217]:60698)
+ (Exim 4.90_1) (envelope-from <vsementsov@virtuozzo.com>)
+ id 1juISj-0002hf-Gf; Sat, 11 Jul 2020 12:34:53 -0400
+Received: from mail-eopbgr10114.outbound.protection.outlook.com
+ ([40.107.1.114]:51749 helo=EUR02-HE1-obe.outbound.protection.outlook.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <zhiwei_liu@c-sky.com>)
- id 1juIDD-0001M7-Ix; Sat, 11 Jul 2020 12:18:56 -0400
-X-Alimail-AntiSpam: AC=CONTINUE; BC=0.07440338|-1; CH=green;
- DM=|CONTINUE|false|;
- DS=CONTINUE|ham_system_inform|0.325301-0.00391217-0.670787;
- FP=0|0|0|0|0|-1|-1|-1; HT=e02c03268; MF=zhiwei_liu@c-sky.com; NM=1; PH=DS;
- RN=10; RT=10; SR=0; TI=SMTPD_---.I0GMGMe_1594484317; 
-Received: from L-PF1D6DP4-1208.hz.ali.com(mailfrom:zhiwei_liu@c-sky.com
- fp:SMTPD_---.I0GMGMe_1594484317)
- by smtp.aliyun-inc.com(10.147.44.129);
- Sun, 12 Jul 2020 00:18:43 +0800
-From: LIU Zhiwei <zhiwei_liu@c-sky.com>
-To: qemu-devel@nongnu.org,
-	qemu-riscv@nongnu.org
-Subject: [PATCH 11/11] riscv: Add configure script
-Date: Sun, 12 Jul 2020 00:16:55 +0800
-Message-Id: <20200711161655.2856-12-zhiwei_liu@c-sky.com>
-X-Mailer: git-send-email 2.23.0
-In-Reply-To: <20200711161655.2856-1-zhiwei_liu@c-sky.com>
-References: <20200711161655.2856-1-zhiwei_liu@c-sky.com>
+ (Exim 4.90_1) (envelope-from <vsementsov@virtuozzo.com>)
+ id 1juISg-00033r-SV; Sat, 11 Jul 2020 12:34:53 -0400
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=AHNvXyV/6hIWXj0loHRfOHQnpmv/kTLeK+3UANV4oIYnGlhpkiCK7PqBrmgjkcY58KIKunQl7/Dv1/WhLyXeOGCdrdxREQRcYHxew4V4wkfrU5UyVnOBhmAXEz88KRM6dJ0sVgZ7AHrCkwFJGs7sMRbSpwl0Z3AvwkG6f3rATE/2ndp0kDv3BQfkb1Y/g9klebG8dl4HopuQTrIPqlbP50paxsb1f2WK9ljBH8YW2nm82TfyUAngYotQSZoL0URts6HEuSVCpxmIyrci2TF1HBjf+khjnS6QaEsKkmOdy4FgXZQg/tWfAaUtj7e2yZNQ+ZIoha1vqjay0Ab7guIc0A==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=nphI/bOxZX9e614T9ELhuTPHx4/UnZa4u51t+fy/ziM=;
+ b=Ij7aqz3M+4HAXPozHfEiRre97VoEGfjv0vlELPivuwa8rxTdt1vP/ARuPEoyGooWTOIssSIMcXd8yI3pOHf3gIP5YN5cTHs+hGmB8LA6ojYt47zxCaD9fAvRMYQ5Na3hJbnemFnsSGUgKaZ5grEZh/O9Xkh2/L16qUMdQFKEWaByvB0Mj7a3LwQ4CWlFloIoHZzngp4iETiXMahM24OmDG/GrwkO9kIj/EdNPTdSpRTIVGcir1TbaeJ3wScTLo1IA+w1rhJzjvU8P8B+lgSZpXRz+Xh65PI0x4qiwgO73zHKKxWunqqZ4FGdOG43osON0gJtzeCvUq3tPRV6xBeLww==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=virtuozzo.com; dmarc=pass action=none
+ header.from=virtuozzo.com; dkim=pass header.d=virtuozzo.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=virtuozzo.com;
+ s=selector2;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=nphI/bOxZX9e614T9ELhuTPHx4/UnZa4u51t+fy/ziM=;
+ b=RzvrEIdS3XDDUsG3GaNB6+rNHVhrBFHWTveimmkqL+KL96m0g6pnoUzfPZBWnV3GJXRr4/LgC5KlbMBIdQBRvrOxvxnb/DtPO5Nd14oOcgumAtuqIBSq+17UyXLQ0W7JRuCaujpLqIJW4rQjh5AOZYR4jqI7S+L+wYHHoq+rC/0=
+Authentication-Results: openvz.org; dkim=none (message not signed)
+ header.d=none;openvz.org; dmarc=none action=none header.from=virtuozzo.com;
+Received: from AM7PR08MB5494.eurprd08.prod.outlook.com (2603:10a6:20b:dc::15)
+ by AM5PR0801MB1716.eurprd08.prod.outlook.com (2603:10a6:203:39::18)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3174.23; Sat, 11 Jul
+ 2020 16:34:45 +0000
+Received: from AM7PR08MB5494.eurprd08.prod.outlook.com
+ ([fe80::a408:2f0f:bc6c:d312]) by AM7PR08MB5494.eurprd08.prod.outlook.com
+ ([fe80::a408:2f0f:bc6c:d312%3]) with mapi id 15.20.3174.024; Sat, 11 Jul 2020
+ 16:34:45 +0000
+Subject: Re: [PATCH v8 03/10] qcow2_format.py: change Qcow2BitmapExt
+ initialization method
+To: Andrey Shinkevich <andrey.shinkevich@virtuozzo.com>, qemu-block@nongnu.org
+References: <1593782030-521984-1-git-send-email-andrey.shinkevich@virtuozzo.com>
+ <1593782030-521984-4-git-send-email-andrey.shinkevich@virtuozzo.com>
+From: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
+Message-ID: <e10319ea-0a60-3585-8b36-92783dba3862@virtuozzo.com>
+Date: Sat, 11 Jul 2020 19:34:43 +0300
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.10.0
+In-Reply-To: <1593782030-521984-4-git-send-email-andrey.shinkevich@virtuozzo.com>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+X-ClientProxiedBy: AM0PR01CA0119.eurprd01.prod.exchangelabs.com
+ (2603:10a6:208:168::24) To AM7PR08MB5494.eurprd08.prod.outlook.com
+ (2603:10a6:20b:dc::15)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Received-SPF: none client-ip=121.197.200.217;
- envelope-from=zhiwei_liu@c-sky.com; helo=smtp2200-217.mail.aliyun.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/07/11 12:18:40
-X-ACL-Warn: Detected OS   = Linux 3.x [generic] [fuzzy]
-X-Spam_score_int: -18
-X-Spam_score: -1.9
-X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, SPF_HELO_NONE=0.001,
- SPF_NONE=0.001, UNPARSEABLE_RELAY=0.001,
+X-MS-Exchange-MessageSentRepresentingType: 1
+Received: from [192.168.100.2] (185.215.60.157) by
+ AM0PR01CA0119.eurprd01.prod.exchangelabs.com (2603:10a6:208:168::24) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3174.20 via Frontend
+ Transport; Sat, 11 Jul 2020 16:34:45 +0000
+X-Originating-IP: [185.215.60.157]
+X-MS-PublicTrafficType: Email
+X-MS-Office365-Filtering-Correlation-Id: e9200b91-8e03-4dbb-bb42-08d825b85223
+X-MS-TrafficTypeDiagnostic: AM5PR0801MB1716:
+X-MS-Exchange-Transport-Forked: True
+X-Microsoft-Antispam-PRVS: <AM5PR0801MB1716830978CC90F58E53F57FC1620@AM5PR0801MB1716.eurprd08.prod.outlook.com>
+X-MS-Oob-TLC-OOBClassifiers: OLM:6430;
+X-MS-Exchange-SenderADCheck: 1
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: /QlUBH5VDotPBNiK/1zHBv6dICdmACtkNlUs/P731J34Y5EYGk08y0iLd2/1UisTFufxRwcdv5hdZ+4V7+Th9ODPYdkPlV8DDYK74mlAjkzQp6vYhJ28MyLZy1YxdsOoeIyfIK7QKmDj7i+hlTcdCd/I8xwItj3lsUWrG2JKgPCIDrsYTYvYWSFhNYSYGImzWZbHoKI1VdugvPHTz14SpVJ30V9VzwAWqqRpR/vMShXS+wLgRqrVk1Mz9Jm0c4HUHHoWeLYuwg8Nn0c9S+mpt5SwMUVE1SxQ6fDJ4UKfeGbOr47TuFt6sQMggRY4l+oALsPsau4iBfLphRL/ztPrlMwmi+RTZfnMIBQHAB8WFotmmiNKFvc5PYfvgX9pSE1n
+X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:AM7PR08MB5494.eurprd08.prod.outlook.com; PTR:; CAT:NONE;
+ SFTY:;
+ SFS:(4636009)(396003)(376002)(346002)(39840400004)(136003)(366004)(31686004)(478600001)(36756003)(8676002)(66476007)(6486002)(5660300002)(8936002)(2906002)(66946007)(31696002)(316002)(52116002)(16576012)(66556008)(16526019)(186003)(2616005)(86362001)(4326008)(107886003)(26005)(83380400001)(956004)(43740500002);
+ DIR:OUT; SFP:1102; 
+X-MS-Exchange-AntiSpam-MessageData: xnmJZ+rcpYNoHTM/Ib6PZHSqOGVC8C5lL+q1xG7pZZHQ6tkbHgY173tBw1jSghcl4dI4Hb8SvFC9kYIkQlXPc+8mHj6iiYcMptK9Pr0CW7bL1ebg9+eOtf2ZSaiOJRRg+us4ziodbd1S8G/9WosXTpLMvHGH3FG0FS/oS74VYx976Rapn+Twde+iKczT0qoo+QDGDIkTraEbaA1MuFPj+8UqsryruXLPN3ifUizSRiKPgrbteyQpiqZTdPyWRt/+c2ck0epogwVDTny2VWrMlkhFgvEWKPDcNoVLujZxNJPB/XBf6dORb3BpPiAuHKQwyMuZeSgD+7sqJCJlF66V5egZGGtqN+WhsPd0nWTZbLwHxTsmCQKhSl18dBqWizvkqvABLvfytb0I+7J0I2PJOGH/b8TiGrvVEdVpw9vi1vo77VR8YdWpzkt4P6iH0lwRaGRhcM33rqHNorY5WBVMpwlqi8zbijHLuBflGW7TEHm1XE4FGoW2kk29I5h08V6u
+X-OriginatorOrg: virtuozzo.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: e9200b91-8e03-4dbb-bb42-08d825b85223
+X-MS-Exchange-CrossTenant-AuthSource: AM7PR08MB5494.eurprd08.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 11 Jul 2020 16:34:45.7209 (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 0bc7f26d-0264-416e-a6fc-8352af79c58f
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: RncYbcytJf+Hh9Etbde/tNtlpfgCg9uhheX5VWpOfpx3LQqLtN07vObzXtgMRpxXfN+zNJORl9kg3muDLeemySBctQ1f0qXJmbKDgDLsloM=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: AM5PR0801MB1716
+Received-SPF: pass client-ip=40.107.1.114;
+ envelope-from=vsementsov@virtuozzo.com;
+ helo=EUR02-HE1-obe.outbound.protection.outlook.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/07/11 12:34:47
+X-ACL-Warn: Detected OS   = Windows NT kernel [generic] [fuzzy]
+X-Spam_score_int: -37
+X-Spam_score: -3.8
+X-Spam_bar: ---
+X-Spam_report: (-3.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ MSGID_FROM_MTA_HEADER=0.001, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-1,
+ SPF_HELO_PASS=-0.001, SPF_PASS=-0.001,
  URIBL_BLOCKED=0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -59,255 +119,76 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: peter.maydell@linaro.org, richard.henderson@linaro.org,
- wxy194768@alibaba-inc.com, chihmin.chao@sifive.com, wenmeng_zhang@c-sky.com,
- Alistair.Francis@wdc.com, alex.bennee@linaro.org,
- LIU Zhiwei <zhiwei_liu@c-sky.com>
+Cc: kwolf@redhat.com, den@openvz.org, qemu-devel@nongnu.org, mreitz@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-For RV64 risu, make CFLAGS="-march=rv64g"
+03.07.2020 16:13, Andrey Shinkevich wrote:
+> There are two ways to initialize a class derived from Qcow2Struct:
+> 1. Pass a block of binary data to the constructor.
+> 2. Pass the file descriptor to allow reading the file from constructor.
+> Let's change the Qcow2BitmapExt initialization method from 1 to 2 to
+> support a scattered reading in the initialization chain.
+> The implementation comes with the patch that follows.
+> 
+> Suggested-by: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
+> Signed-off-by: Andrey Shinkevich <andrey.shinkevich@virtuozzo.com>
+> ---
+>   tests/qemu-iotests/qcow2_format.py | 14 ++++++++++++--
+>   1 file changed, 12 insertions(+), 2 deletions(-)
+> 
+> diff --git a/tests/qemu-iotests/qcow2_format.py b/tests/qemu-iotests/qcow2_format.py
+> index 2f3681b..1435e34 100644
+> --- a/tests/qemu-iotests/qcow2_format.py
+> +++ b/tests/qemu-iotests/qcow2_format.py
+> @@ -63,7 +63,8 @@ class Qcow2StructMeta(type):
+>   
+>   class Qcow2Struct(metaclass=Qcow2StructMeta):
+>   
+> -    """Qcow2Struct: base class for qcow2 data structures
+> +    """
+> +    Qcow2Struct: base class for qcow2 data structures
 
-Signed-off-by: LIU Zhiwei <zhiwei_liu@c-sky.com>
----
- configure          |   4 +-
- upstream/configure | 204 +++++++++++++++++++++++++++++++++++++++++++++
- 2 files changed, 207 insertions(+), 1 deletion(-)
- create mode 100644 upstream/configure
+Unrelated chunk. And why?
 
-diff --git a/configure b/configure
-index ca2d7db..00624d3 100755
---- a/configure
-+++ b/configure
-@@ -58,6 +58,8 @@ guess_arch() {
-         ARCH="m68k"
-     elif check_define __powerpc64__ ; then
-         ARCH="ppc64"
-+    elif check_define __riscv && check_define _LP64; then
-+        ARCH="riscv64"
-     else
-         echo "This cpu is not supported by risu. Try -h. " >&2
-         exit 1
-@@ -139,7 +141,7 @@ Some influential environment variables:
-                prefixed with the given string.
- 
-   ARCH         force target architecture instead of trying to detect it.
--               Valid values=[arm|aarch64|ppc64|ppc64le|m68k]
-+               Valid values=[arm|aarch64|ppc64|ppc64le|m68k|riscv64]
- 
-   CC           C compiler command
-   CFLAGS       C compiler flags
-diff --git a/upstream/configure b/upstream/configure
-new file mode 100644
-index 0000000..297cd3a
---- /dev/null
-+++ b/upstream/configure
-@@ -0,0 +1,204 @@
-+#!/bin/sh
-+# simple risu configure script
-+#
-+# Copyright (c) 2013 Linaro Limited
-+# All rights reserved. This program and the accompanying materials
-+# are made available under the terms of the Eclipse Public License v1.0
-+# which accompanies this distribution, and is available at
-+# http://www.eclipse.org/legal/epl-v10.html
-+#
-+# Contributors:
-+#      Claudio Fontana (Linaro) - initial implementation
-+
-+# Locate the directory where this configure script is
-+SRCDIR="$(cd "$(dirname "$0")"; pwd)"
-+
-+# Temporary directory used for files created by this script.
-+# Like autoconf (and like QEMU) we put this directory in the
-+# build directory, which means we can just give it a fixed name and
-+# blow it away when configure is run, and we don't need to jump
-+# through complicated hoops to delete it when configure exits
-+# abnormally (it may be useful for debug purposes on an
-+# abnormal exit).
-+tmp_dir="config-temp"
-+rm -rf "$tmp_dir"
-+mkdir -p "$tmp_dir"
-+if [ $? -ne 0 ]; then
-+    echo "ERROR: could not create temporary directory"
-+    exit 1
-+fi
-+
-+compile() {
-+    $CC $CFLAGS -c -o ${1}.o ${1}.c 2>/dev/null
-+}
-+
-+link() {
-+    $LD $LDFLAGS -l${2} -o ${1} ${1}.o 2>/dev/null
-+}
-+
-+check_define() {
-+    c=${tmp_dir}/check_define_${1}
-+    cat > ${c}.c <<EOF
-+#if !defined($1)
-+#error $1 not defined
-+#endif
-+int main(void) { return 0; }
-+EOF
-+    compile $c
-+}
-+
-+guess_arch() {
-+    if check_define __aarch64__ ; then
-+        ARCH="aarch64"
-+    elif check_define __arm__ ; then
-+        ARCH="arm"
-+    elif check_define __i386__ || check_define __x86_64__ ; then
-+        ARCH="i386"
-+    elif check_define __m68k__ ; then
-+        ARCH="m68k"
-+    elif check_define __powerpc64__ ; then
-+        ARCH="ppc64"
-+    elif check_define __riscv ; then
-+        if __riscv_xlen == 64; then
-+            ARCH="riscv64"
-+        elif __riscv_xlen == 32; then
-+            ARCH="riscv32"
-+        else
-+            echo "__riscv_xlen is not supported by risu. " >&2
-+            exit 1
-+        fi
-+    else
-+        echo "This cpu is not supported by risu. Try -h. " >&2
-+        exit 1
-+    fi
-+}
-+
-+check_type() {
-+    c=${tmp_dir}/check_type_${1}
-+    cat > ${c}.c <<EOF
-+#include <inttypes.h>
-+#include <stdint.h>
-+#include <sys/types.h>
-+#include <sys/socket.h>
-+
-+int main(void) { $1 thisone; return 0; }
-+EOF
-+    compile $c
-+}
-+
-+check_lib() {
-+    c=${tmp_dir}/check_lib${1}
-+    cat > ${c}.c <<EOF
-+#include <stdint.h>
-+#include <$2.h>
-+
-+int main(void) { $3; return 0; }
-+EOF
-+    compile $c && link $c $1
-+}
-+
-+generate_config() {
-+    cfg=config.h
-+    echo "generating config.h..."
-+
-+    echo "/* config.h - generated by the 'configure' script */" > $cfg
-+    echo "#ifndef CONFIG_H" >> $cfg
-+    echo "#define CONFIG_H 1" >> $cfg
-+
-+    if check_lib z zlib "zlibVersion()"; then
-+        echo "#define HAVE_ZLIB 1" >> $cfg
-+        LDFLAGS=-lz
-+    fi
-+
-+    echo "#endif /* CONFIG_H */" >> $cfg
-+
-+    echo "...done"
-+}
-+
-+generate_makefilein() {
-+    m=Makefile.in
-+    echo "generating Makefile.in..."
-+
-+    echo "# Makefile.in - generated by the 'configure' script" > $m
-+    echo "ARCH:=${ARCH}" >> $m
-+    echo "CC:=${CC}" >> $m
-+    echo "CPPFLAGS:=${CPPFLAGS}" >> $m
-+    echo "LDFLAGS:=${LDFLAGS}" >> $m
-+    echo "AS:=${AS}" >> $m
-+    echo "OBJCOPY:=${OBJCOPY}" >> $m
-+    echo "OBJDUMP:=${OBJDUMP}" >> $m
-+    echo "STATIC:=${STATIC}" >> $m
-+    echo "SRCDIR:=${SRCDIR}" >> $m
-+    echo "BUILD_INC:=${BUILD_INC}" >> $m
-+
-+    echo "...done"
-+}
-+
-+usage() {
-+    cat <<EOF
-+Usage: [VAR=VALUE]... ./configure [-h|--help] [-s|--static]
-+
-+  -s/--static - force a static build of risu
-+
-+To assign environment variables (e.g., CC, CFLAGS...), specify them as
-+VAR=VALUE.  See below for descriptions of some of the useful variables.
-+
-+Some influential environment variables:
-+  CROSS_PREFIX cross-compiler prefix, defaults to gcc and other tools
-+               prefixed with the given string.
-+
-+  ARCH         force target architecture instead of trying to detect it.
-+               Valid values=[arm|aarch64|ppc64|ppc64le|m68k|riscv64]
-+
-+  CC           C compiler command
-+  CFLAGS       C compiler flags
-+  CPPFLAGS     C preprocessor flags, e.g. -I<include dir>
-+
-+  AS           assembler command
-+  OBJCOPY      object copy utility command
-+  OBJDUMP      object dump utility command
-+
-+EOF
-+}
-+
-+# STARTUP: entry point
-+STATIC=""
-+
-+for opt do
-+  case "$opt" in
-+      --help | -h)
-+          usage;
-+          exit 0;;
-+      --static | -s)
-+          STATIC="-static"
-+          ;;
-+
-+  esac
-+done
-+
-+CC="${CC-${CROSS_PREFIX}gcc}"
-+AS="${AS-${CROSS_PREFIX}as}"
-+LD="${LD-${CROSS_PREFIX}ld}"
-+OBJCOPY="${OBJCOPY-${CROSS_PREFIX}objcopy}"
-+OBJDUMP="${OBJDUMP-${CROSS_PREFIX}objdump}"
-+
-+if test "x${ARCH}" = "x"; then
-+    guess_arch
-+fi
-+
-+# Are we in a separate build tree? If so, link the Makefile
-+# so that 'make' works.
-+if test ! -e Makefile || test -s Makefile; then
-+    echo "linking Makefile..."
-+    BUILD_INC="-I $(pwd)"
-+    ln -sf "${SRCDIR}/Makefile" .
-+fi
-+
-+generate_config
-+generate_makefilein
-+
-+rm -r "$tmp_dir"
-+
-+echo "type 'make' to start the build"
-+exit 0
-+
+>   
+>       Successors should define fields class variable, which is: list of tuples,
+>       each of three elements:
+> @@ -113,6 +114,9 @@ class Qcow2BitmapExt(Qcow2Struct):
+>           ('u64', '{:#x}', 'bitmap_directory_offset')
+>       )
+>   
+> +    def __init__(self, fd):
+> +        super().__init__(fd=fd)
+
+this does nothing. We inherit the __init__ of super class, no need to define it just to call same __init__.
+
+> +
+>   
+>   QCOW2_EXT_MAGIC_BITMAPS = 0x23852875
+>   
+> @@ -173,7 +177,13 @@ class QcowHeaderExtension(Qcow2Struct):
+>           self.data_str = data_str
+>   
+>           if self.magic == QCOW2_EXT_MAGIC_BITMAPS:
+> -            self.obj = Qcow2BitmapExt(data=self.data)
+> +            assert fd is not None
+> +            position = fd.tell()
+> +            # Step back to reread data
+
+This definitely shows that we are doing something wrong
+
+> +            padded = (self.length + 7) & ~7
+> +            fd.seek(-padded, 1)
+> +            self.obj = Qcow2BitmapExt(fd=fd)
+> +            fd.seek(position)
+>           else:
+>               self.obj = None
+>   
+> 
+
+
 -- 
-2.23.0
-
+Best regards,
+Vladimir
 
