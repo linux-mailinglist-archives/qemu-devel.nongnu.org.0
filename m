@@ -2,24 +2,24 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B1AC421C52C
-	for <lists+qemu-devel@lfdr.de>; Sat, 11 Jul 2020 18:21:50 +0200 (CEST)
-Received: from localhost ([::1]:37398 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7962821C52D
+	for <lists+qemu-devel@lfdr.de>; Sat, 11 Jul 2020 18:21:51 +0200 (CEST)
+Received: from localhost ([::1]:37502 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1juIG5-0003y7-I0
-	for lists+qemu-devel@lfdr.de; Sat, 11 Jul 2020 12:21:49 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:54512)
+	id 1juIG6-00040a-B6
+	for lists+qemu-devel@lfdr.de; Sat, 11 Jul 2020 12:21:50 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:54562)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <zhiwei_liu@c-sky.com>)
- id 1juIDH-0007Ep-DM; Sat, 11 Jul 2020 12:18:55 -0400
-Received: from smtp2200-217.mail.aliyun.com ([121.197.200.217]:47937)
+ id 1juIDI-0007FZ-TM; Sat, 11 Jul 2020 12:18:56 -0400
+Received: from smtp2200-217.mail.aliyun.com ([121.197.200.217]:57681)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <zhiwei_liu@c-sky.com>)
- id 1juIDD-0001Lo-Jo; Sat, 11 Jul 2020 12:18:55 -0400
-X-Alimail-AntiSpam: AC=CONTINUE; BC=0.07436779|-1; CH=green;
- DM=|CONTINUE|false|; DS=CONTINUE|ham_system_inform|0.499597-0.0016009-0.498802;
- FP=0|0|0|0|0|-1|-1|-1; HT=e01a16378; MF=zhiwei_liu@c-sky.com; NM=1; PH=DS;
+ id 1juIDD-0001Lw-Tt; Sat, 11 Jul 2020 12:18:56 -0400
+X-Alimail-AntiSpam: AC=CONTINUE; BC=0.07436282|-1; CH=green;
+ DM=|CONTINUE|false|; DS=CONTINUE|ham_system_inform|0.669281-0.0017065-0.329012;
+ FP=0|0|0|0|0|-1|-1|-1; HT=e02c03301; MF=zhiwei_liu@c-sky.com; NM=1; PH=DS;
  RN=10; RT=10; SR=0; TI=SMTPD_---.I0GMGMe_1594484317; 
 Received: from L-PF1D6DP4-1208.hz.ali.com(mailfrom:zhiwei_liu@c-sky.com
  fp:SMTPD_---.I0GMGMe_1594484317)
@@ -28,9 +28,9 @@ Received: from L-PF1D6DP4-1208.hz.ali.com(mailfrom:zhiwei_liu@c-sky.com
 From: LIU Zhiwei <zhiwei_liu@c-sky.com>
 To: qemu-devel@nongnu.org,
 	qemu-riscv@nongnu.org
-Subject: [PATCH 02/11] riscv: Add RV64M instructions description
-Date: Sun, 12 Jul 2020 00:16:46 +0800
-Message-Id: <20200711161655.2856-3-zhiwei_liu@c-sky.com>
+Subject: [PATCH 03/11] riscv: Add RV64A instructions description
+Date: Sun, 12 Jul 2020 00:16:47 +0800
+Message-Id: <20200711161655.2856-4-zhiwei_liu@c-sky.com>
 X-Mailer: git-send-email 2.23.0
 In-Reply-To: <20200711161655.2856-1-zhiwei_liu@c-sky.com>
 References: <20200711161655.2856-1-zhiwei_liu@c-sky.com>
@@ -64,60 +64,113 @@ Cc: peter.maydell@linaro.org, richard.henderson@linaro.org,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+Ensure $rs2 != $rs1, so that the $rs2 register's value
+will not be covered when setting the $rs1 register's value to get
+a valid address.
+
 Signed-off-by: LIU Zhiwei <zhiwei_liu@c-sky.com>
 ---
- rv64.risu | 41 +++++++++++++++++++++++++++++++++++++++++
- 1 file changed, 41 insertions(+)
+ rv64.risu | 90 +++++++++++++++++++++++++++++++++++++++++++++++++++++++
+ 1 file changed, 90 insertions(+)
 
 diff --git a/rv64.risu b/rv64.risu
-index edf0d1f..2c4154e 100644
+index 2c4154e..ad5dee9 100644
 --- a/rv64.risu
 +++ b/rv64.risu
-@@ -139,3 +139,44 @@ SRLW RISCV 0000000 rs2:5 rs1:5 101 rd:5 0011011 \
+@@ -180,3 +180,93 @@ REMW RISCV 0000001 rs2:5 rs1:5 110 rd:5 0111011 \
  
- SRAW RISCV 0100000 rs2:5 rs1:5 101 rd:5 0011011 \
+ REMUW RISCV 0000001 rs2:5 rs1:5 111 rd:5 0111011 \
  !constraints { greg($rd) && greg($rs1) && greg($rs2); }
 +
-+@RV64M
++@RV64A
 +
-+MUL RISCV 0000001 rs2:5 rs1:5 000 rd:5 0110011 \
-+!constraints { greg($rd) && greg($rs1) && greg($rs2); }
++LR_W RISCV 00010 imm:2 00000 rs1:5 010 rd:5 0101111 \
++!constraints { greg($rd) && gbase($rs1); } \
++!memory { align(4); reg($rs1, $rd); }
 +
-+MULH RISCV 0000001 rs2:5 rs1:5 001 rd:5 0110011 \
-+!constraints { greg($rd) && greg($rs1) && greg($rs2); }
++SC_W RISCV 00011 imm:2 rs2:5 rs1:5 010 rd:5 0101111 \
++!constraints { greg($rd) && greg($rs2) && gbase($rs1) && $rs2 != $rs1; }\
++!memory { align(4); reg($rs1, $rd); }
 +
-+MULHSU RISCV 0000001 rs2:5 rs1:5 010 rd:5 0110011 \
-+!constraints { greg($rd) && greg($rs1) && greg($rs2); }
++AMOSWAP_W  RISCV 00001 imm:2 rs2:5 rs1:5 010 rd:5 0101111 \
++!constraints { greg($rd) && greg($rs2) && gbase($rs1) && $rs2 != $rs1; }\
++!memory { align(4); reg($rs1, $rd); }
 +
-+MULHU RISCV 0000001 rs2:5 rs1:5 011 rd:5 0110011 \
-+!constraints { greg($rd) && greg($rs1) && greg($rs2); }
++AMOADD_W   RISCV 00000 imm:2 rs2:5 rs1:5 010 rd:5 0101111 \
++!constraints { greg($rd) && greg($rs2) && gbase($rs1) && $rs2 != $rs1; }\
++!memory { align(4); reg($rs1, $rd); }
 +
-+DIV RISCV 0000001 rs2:5 rs1:5 100 rd:5 0110011 \
-+!constraints { greg($rd) && greg($rs1) && greg($rs2); }
++AMOXOR_W   RISCV 00100 imm:2 rs2:5 rs1:5 010 rd:5 0101111 \
++!constraints { greg($rd) && greg($rs2) && gbase($rs1) && $rs2 != $rs1; }\
++!memory { align(4); reg($rs1, $rd); }
 +
-+DIVU RISCV 0000001 rs2:5 rs1:5 101 rd:5 0110011 \
-+!constraints { greg($rd) && greg($rs1) && greg($rs2); }
++AMOAND_W   RISCV 01100 imm:2 rs2:5 rs1:5 010 rd:5 0101111 \
++!constraints { greg($rd) && greg($rs2) && gbase($rs1) && $rs2 != $rs1; }\
++!memory { align(4); reg($rs1, $rd); }
 +
-+REM RISCV 0000001 rs2:5 rs1:5 110 rd:5 0110011 \
-+!constraints { greg($rd) && greg($rs1) && greg($rs2); }
++AMOOR_W    RISCV 01000 imm:2 rs2:5 rs1:5 010 rd:5 0101111 \
++!constraints { greg($rd) && greg($rs2) && gbase($rs1) && $rs2 != $rs1; }\
++!memory { align(4); reg($rs1, $rd); }
 +
-+REMU RISCV 0000001 rs2:5 rs1:5 111 rd:5 0110011 \
-+!constraints { greg($rd) && greg($rs1) && greg($rs2); }
++AMOMIN_W   RISCV 10000 imm:2 rs2:5 rs1:5 010 rd:5 0101111 \
++!constraints { greg($rd) && greg($rs2) && gbase($rs1) && $rs2 != $rs1; }\
++!memory { align(4); reg($rs1, $rd); }
 +
-+MULW RISCV 0000001 rs2:5 rs1:5 000 rd:5 0111011 \
-+!constraints { greg($rd) && greg($rs1) && greg($rs2); }
++AMOMAX_W   RISCV 10100 imm:2 rs2:5 rs1:5 010 rd:5 0101111 \
++!constraints { greg($rd) && greg($rs2) && gbase($rs1) && $rs2 != $rs1; }\
++!memory { align(4); reg($rs1, $rd); }
 +
-+DIVW RISCV 0000001 rs2:5 rs1:5 100 rd:5 0111011 \
-+!constraints { greg($rd) && greg($rs1) && greg($rs2); }
++AMOMINU_W  RISCV 11000 imm:2 rs2:5 rs1:5 010 rd:5 0101111 \
++!constraints { greg($rd) && greg($rs2) && gbase($rs1) && $rs2 != $rs1; }\
++!memory { align(4); reg($rs1, $rd); }
 +
-+DIVUW RISCV 0000001 rs2:5 rs1:5 101 rd:5 0111011 \
-+!constraints { greg($rd) && greg($rs1) && greg($rs2); }
++AMOMAXU_W  RISCV 11100 imm:2 rs2:5 rs1:5 010 rd:5 0101111 \
++!constraints { greg($rd) && greg($rs2) && gbase($rs1) && $rs2 != $rs1; }\
++!memory { align(4); reg($rs1, $rd); }
 +
-+REMW RISCV 0000001 rs2:5 rs1:5 110 rd:5 0111011 \
-+!constraints { greg($rd) && greg($rs1) && greg($rs2); }
++LR_D       RISCV 00010 imm:2 00000 rs1:5 011 rd:5 0101111 \
++!constraints { greg($rd) && gbase($rs1); } \
++!memory { align(8); reg($rs1, $rd); }
 +
-+REMUW RISCV 0000001 rs2:5 rs1:5 111 rd:5 0111011 \
-+!constraints { greg($rd) && greg($rs1) && greg($rs2); }
++SC_D       RISCV 00011 imm:2 rs2:5 rs1:5 011 rd:5 0101111 \
++!constraints { greg($rd) && greg($rs2) && gbase($rs1) && $rs2 != $rs1; }\
++!memory { align(8); reg($rs1, $rd); }
++
++AMOSWAP_D  RISCV 00001 imm:2 rs2:5 rs1:5 011 rd:5 0101111 \
++!constraints { greg($rd) && greg($rs2) && gbase($rs1) && $rs2 != $rs1; }\
++!memory { align(8); reg($rs1, $rd); }
++
++AMOADD_D   RISCV 00000 imm:2 rs2:5 rs1:5 011 rd:5 0101111 \
++!constraints { greg($rd) && greg($rs2) && gbase($rs1) && $rs2 != $rs1; }\
++!memory { align(8); reg($rs1, $rd); }
++
++AMOXOR_D   RISCV 00100 imm:2 rs2:5 rs1:5 011 rd:5 0101111 \
++!constraints { greg($rd) && greg($rs2) && gbase($rs1) && $rs2 != $rs1; }\
++!memory { align(8); reg($rs1, $rd); }
++
++AMOAND_D   RISCV 01100 imm:2 rs2:5 rs1:5 011 rd:5 0101111 \
++!constraints { greg($rd) && greg($rs2) && gbase($rs1) && $rs2 != $rs1; }\
++!memory { align(8); reg($rs1, $rd); }
++
++AMOOR_D    RISCV 01000 imm:2 rs2:5 rs1:5 011 rd:5 0101111 \
++!constraints { greg($rd) && greg($rs2) && gbase($rs1) && $rs2 != $rs1; }\
++!memory { align(8); reg($rs1, $rd); }
++
++AMOMIN_D   RISCV 10000 imm:2 rs2:5 rs1:5 011 rd:5 0101111 \
++!constraints { greg($rd) && greg($rs2) && gbase($rs1) && $rs2 != $rs1; }\
++!memory { align(8); reg($rs1, $rd); }
++
++AMOMAX_D   RISCV 10100 imm:2 rs2:5 rs1:5 011 rd:5 0101111 \
++!constraints { greg($rd) && greg($rs2) && gbase($rs1) && $rs2 != $rs1; }\
++!memory { align(8); reg($rs1, $rd); }
++
++AMOMINU_D  RISCV 11000 imm:2 rs2:5 rs1:5 011 rd:5 0101111 \
++!constraints { greg($rd) && greg($rs2) && gbase($rs1) && $rs2 != $rs1; }\
++!memory { align(8); reg($rs1, $rd); }
++
++AMOMAXU_D  RISCV 11100 imm:2 rs2:5 rs1:5 011 rd:5 0101111 \
++!constraints { greg($rd) && greg($rs2) && gbase($rs1) && $rs2 != $rs1; }\
++!memory { align(8); reg($rs1, $rd); }
 -- 
 2.23.0
 
