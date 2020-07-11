@@ -2,70 +2,73 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8EA0521C505
-	for <lists+qemu-devel@lfdr.de>; Sat, 11 Jul 2020 18:05:55 +0200 (CEST)
-Received: from localhost ([::1]:47376 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8A28221C51D
+	for <lists+qemu-devel@lfdr.de>; Sat, 11 Jul 2020 18:16:38 +0200 (CEST)
+Received: from localhost ([::1]:51450 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1juI0g-0003sU-GZ
-	for lists+qemu-devel@lfdr.de; Sat, 11 Jul 2020 12:05:54 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:51466)
+	id 1juIB3-0006R8-3G
+	for lists+qemu-devel@lfdr.de; Sat, 11 Jul 2020 12:16:37 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:53850)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <alistair23@gmail.com>)
- id 1juHza-0002ye-Tm; Sat, 11 Jul 2020 12:04:47 -0400
-Received: from mail-io1-xd42.google.com ([2607:f8b0:4864:20::d42]:36261)
+ (Exim 4.90_1) (envelope-from <robert.foley@linaro.org>)
+ id 1juI9y-00061B-Rz
+ for qemu-devel@nongnu.org; Sat, 11 Jul 2020 12:15:30 -0400
+Received: from mail-lj1-x233.google.com ([2a00:1450:4864:20::233]:36077)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <alistair23@gmail.com>)
- id 1juHzZ-0008Fe-5P; Sat, 11 Jul 2020 12:04:46 -0400
-Received: by mail-io1-xd42.google.com with SMTP id y2so9152468ioy.3;
- Sat, 11 Jul 2020 09:04:43 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ (Exim 4.90_1) (envelope-from <robert.foley@linaro.org>)
+ id 1juI9w-00013K-U1
+ for qemu-devel@nongnu.org; Sat, 11 Jul 2020 12:15:30 -0400
+Received: by mail-lj1-x233.google.com with SMTP id d17so9909151ljl.3
+ for <qemu-devel@nongnu.org>; Sat, 11 Jul 2020 09:15:27 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=qAv4wtGtW3f7U1j9J1L89c5M7AU1zwEe2GupDNrZhZI=;
- b=EBTXTDSXZzUr1ApZPuAdUmOXximMrzeNKlennUKl/GhO2WAjJh9PMcsHz6BtirTixT
- cMhJdyl6gqTM16NfO7qBm8rUfrssBeKYyPVk5dNKE0Ej781+PGcStYpbbINzGF3zeGpP
- 7nNaHXp3zQJxAUbAcDMwGuEYMYt+i1uVhHXeYRwYSqMq1umrUaTKu09eLleG+bS1osgP
- SUHlbOPCE3DDxveuYyeI3MTazQbY0Te8MQXhaM2UWB1K10xlKabxxGuEm7touDfzIMr9
- QhL9f2+krFjk/JJoAxwG/IGEFHHboXCaVNp4swdwIPfwGTkLzBqDavLc11F1kv7fF1DA
- 36qg==
+ :cc:content-transfer-encoding;
+ bh=6rti03L29RLG/mXt0l72p1uDXHfD9d/yrkeOOVJRm2o=;
+ b=iN8wlGx6J5hmYbtsb2xBEfDIgtm28ivQmnzKqw1t3EXANKthiusiASM7AdmnWxSFWj
+ 91Y6iCmekLwG4ifOU0lCxZMPziCheQNvoiB1ah6/4yz6AXe/1qCLezcOMTULqO9O8HCz
+ 5OaZBlIQId24pK6QrlWlmWeq/wF7M86rSvNpRKIDy2lGitd3uHSKnSZzUB95stCuVZlm
+ gL1ghtq8eDi51yeQBel3p/1fN1E0LuoKW7StRstfpbSAobkiW8+HJFolxQqu2AdYegEr
+ HWQyEzArYtdPk+UaFtj0gD7XqyrXODuQomjpc1u+XlH5nDhDrxHmJ4WL0QPac3mLhety
+ HU5Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=qAv4wtGtW3f7U1j9J1L89c5M7AU1zwEe2GupDNrZhZI=;
- b=J/PCeEz/75/MZeQb4gR9lsgWe43b/TFonqjey24zarTc3AoN4CXsgCOg2wRR5u1Rsh
- G6goEtJm2xGTMq9R80rt/u0i1wq5a6pVdTljya1UdTKBGjlJPRgxkN7V12pYBW4laSI4
- wcl1C2TgzOOycUj7WxzUuZxjuR11g3gKGhP1zKXA9n3+mmKgOk9Tg6xeqzfm+ikjks4o
- PWFbAcpFCE2duzrOC/jblJaIyzZyoI6Pmu6visjTMRZhVDaw5o+TZPN3C/2LWyKHnQj6
- mB8VvZETzxDt0yVvTA4BRZ2fn9UGUFYL5XxpNmk8Skq15RIWpSmat/Z3VtcC8YaOG38P
- kN7Q==
-X-Gm-Message-State: AOAM533R7dGOYtGnDQ1+euwpdxeC3HeQxy2oKhJdSvO1JPLgSDA+3Kiv
- OxNooGnpq4jPl1U5MUWvHWAZ3QRcfEA9lveaNo1iVXOU
-X-Google-Smtp-Source: ABdhPJxtL0Vu9eTSKaddo/uuFy3LYZUzm8MZDKi/lkNsmhHebqDy1Mz8QlczPjrqNGQrvKYxYGIBNVaELQLTQC0f8KM=
-X-Received: by 2002:a5d:9ed0:: with SMTP id a16mr52426634ioe.176.1594483482898; 
- Sat, 11 Jul 2020 09:04:42 -0700 (PDT)
+ :message-id:subject:to:cc:content-transfer-encoding;
+ bh=6rti03L29RLG/mXt0l72p1uDXHfD9d/yrkeOOVJRm2o=;
+ b=F+OvgUFiTshmlKjMUQ/ipIrjFh06OAuQ+rQUjbXDAI3/WJNu46GtlXx4QCHIpOq0fy
+ QGMRQ/vmSRMsMjBBqXzYyXdl+BRcPWMKMZ8iHiCc35mvV5ejaG+KQ9e7iD9ktdxuaJxT
+ 2ctNosqJFCukdLqMOy96fDJtqQ0/dhj+hGiIt4PNUAse+lMkvZ3tKnhavWzB/1VkmkXA
+ fiG6gWj8LZuJfQd14H8G4hQReNNP02+PZLYbhj0srREs9VZfLvwFNWIbyGd46+UY5Noy
+ fPO7V6TxUthX39sKR2tOoQGEtqBZ3G6ieLASoxlSl2cBZvF4en/rE1TT5Prdn8kklpxo
+ QibQ==
+X-Gm-Message-State: AOAM533DPT4ToSeLc0ph+O9MgQNEEE9hWBxVE1VG93v011e1Y439kwCh
+ 2/QSPNyEvC9MwMZQJqVd9a1BFX43j0e2Uf1ourA0pQ==
+X-Google-Smtp-Source: ABdhPJzmY85eOizwnLvxEajWY0C967vaEt4RX95A8Vz6NHLyqApCLiwTqDs2huDnhb2VZNiw3hb3mFmozOAdCi+zSEA=
+X-Received: by 2002:a2e:9855:: with SMTP id e21mr40742115ljj.424.1594484126445; 
+ Sat, 11 Jul 2020 09:15:26 -0700 (PDT)
 MIME-Version: 1.0
-References: <CAKmqyKPvn7dALUHhK=na1svr==oZ2rvyFOnw8FvRJZP23uHN7Q@mail.gmail.com>
- <mhng-842d31db-ac34-4bab-a523-808f1f542101@palmerdabbelt-glaptop1>
- <CAEUhbmUPxCmo-4SPm8JwG7emD0YfLeAMSgd7mWaCH2VDZJTtsA@mail.gmail.com>
-In-Reply-To: <CAEUhbmUPxCmo-4SPm8JwG7emD0YfLeAMSgd7mWaCH2VDZJTtsA@mail.gmail.com>
-From: Alistair Francis <alistair23@gmail.com>
-Date: Sat, 11 Jul 2020 08:54:48 -0700
-Message-ID: <CAKmqyKN=HfpTs=d8RzXcaVYZQ-pH_kvO9VV5h4CKAtLSKaVqyQ@mail.gmail.com>
-Subject: Re: [PATCH v2 2/2] hw/riscv: sifive_u: Provide a reliable way for
- bootloader to detect whether it is running in QEMU
-To: Bin Meng <bmeng.cn@gmail.com>
+References: <20200707070858.6622-1-alex.bennee@linaro.org>
+ <20200707070858.6622-11-alex.bennee@linaro.org>
+ <fa8ee177-3a53-cde0-a8f1-8b0e8eba678f@redhat.com>
+In-Reply-To: <fa8ee177-3a53-cde0-a8f1-8b0e8eba678f@redhat.com>
+From: Robert Foley <robert.foley@linaro.org>
+Date: Sat, 11 Jul 2020 12:15:38 -0400
+Message-ID: <CAEyhzFsYb4KvDaeMGwjocSjU0QO957Eg_TQbi0oEr1c=rE5vwQ@mail.gmail.com>
+Subject: Re: [PULL 10/41] python/qemu: Add ConsoleSocket for optional use in
+ QEMUMachine
+To: John Snow <jsnow@redhat.com>
 Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2607:f8b0:4864:20::d42;
- envelope-from=alistair23@gmail.com; helo=mail-io1-xd42.google.com
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=2a00:1450:4864:20::233;
+ envelope-from=robert.foley@linaro.org; helo=mail-lj1-x233.google.com
 X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
  That's all we know.
-X-Spam_score_int: -17
-X-Spam_score: -1.8
-X-Spam_bar: -
-X-Spam_report: (-1.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
  DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- FREEMAIL_ENVFROM_END_DIGIT=0.25, FREEMAIL_FROM=0.001,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
@@ -80,72 +83,105 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Palmer Dabbelt <palmerdabbelt@google.com>,
- "open list:RISC-V" <qemu-riscv@nongnu.org>,
- Sagar Karandikar <sagark@eecs.berkeley.edu>,
- Bastian Koppelmann <kbastian@mail.uni-paderborn.de>,
- Bin Meng <bin.meng@windriver.com>,
- "qemu-devel@nongnu.org Developers" <qemu-devel@nongnu.org>,
- Alistair Francis <Alistair.Francis@wdc.com>
+Cc: Peter Maydell <peter.maydell@linaro.org>,
+ Eduardo Habkost <ehabkost@redhat.com>,
+ =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <philmd@redhat.com>,
+ QEMU Developers <qemu-devel@nongnu.org>, Cleber Rosa <crosa@redhat.com>,
+ Peter Puhov <peter.puhov@linaro.org>,
+ =?UTF-8?B?QWxleCBCZW5uw6ll?= <alex.bennee@linaro.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Thu, Jul 9, 2020 at 5:50 PM Bin Meng <bmeng.cn@gmail.com> wrote:
->
-> Hi Palmer,
->
-> On Fri, Jul 10, 2020 at 8:45 AM Palmer Dabbelt <palmerdabbelt@google.com> wrote:
-> >
-> > On Thu, 09 Jul 2020 15:09:18 PDT (-0700), alistair23@gmail.com wrote:
-> > > On Thu, Jul 9, 2020 at 3:07 AM Bin Meng <bmeng.cn@gmail.com> wrote:
-> > >>
-> > >> From: Bin Meng <bin.meng@windriver.com>
-> > >>
-> > >> The reset vector codes are subject to change, e.g.: with recent
-> > >> fw_dynamic type image support, it breaks oreboot again.
-> > >
-> > > This is a recurring problem, I have another patch for Oreboot to fix
-> > > the latest breakage.
-> > >
-> > >>
-> > >> Add a subregion in the MROM, with the size of machine RAM stored,
-> > >> so that we can provide a reliable way for bootloader to detect
-> > >> whether it is running in QEMU.
-> > >
-> > > I don't really like this though. I would prefer that we don't
-> > > encourage guest software to behave differently on QEMU. I don't think
-> > > other upstream boards do this.
-> >
-> > I agree.  If you want an explicitly virtual board, use the virt board.  Users
-> > of sifive_u are presumably trying to do their best to test against what the
-> > hardware does without actually using the hardware.  Otherwise there should be
-> > no reason to use the sifive_u board, as it's just sticking a layer of
-> > complexity in the middle of everything.
->
-> Understood. Then let's drop this patch.
->
-> >
-> > > Besides Oreboot setting up the clocks are there any other users of this?
-> >
-> > IIRC we have a scheme for handling the clock setup in QEMU where we accept
-> > pretty much any control write and then just return reads that say the PLLs have
-> > locked.  I'd be in favor of improving the scheme to improve compatibility with
-> > the actual hardware, but adding some way for programs to skip the clocks
-> > because they know they're in QEMU seems like the wrong way to go.
-> >
->
-> Yep, that's my question to Oreboot too.
->
-> U-Boot SPL can boot with QEMU and no problem was seen with clock
-> settings in PRCI model in QEMU.
+Hi,
+Thanks for the detailed feedback!  I will look at making these changes.
 
-I don't think it's an unsolvable problem. There is just little work on
-Oreboot to run on QEMU. I can dig into it a bit and see if I can find
-a better fix on the Oreboot side.
+On Fri, 10 Jul 2020 at 15:20, John Snow <jsnow@redhat.com> wrote:
+>
+>
+>
+> On 7/7/20 3:08 AM, Alex Benn=C3=A9e wrote:
+> > From: Robert Foley <robert.foley@linaro.org>
+> >
+>
+<snip>
+> > +    def recv(self, n=3D1, sleep_delay_s=3D0.1):
+> > +        """Return chars from in memory buffer"""
+> > +        start_time =3D time.time()
+> > +        while len(self._buffer) < n:
+> > +            time.sleep(sleep_delay_s)
+> > +            elapsed_sec =3D time.time() - start_time
+> > +            if elapsed_sec > self._recv_timeout_sec:
+> > +                raise socket.timeout
+> > +        chars =3D ''.join([self._buffer.popleft() for i in range(n)])
+> > +        # We choose to use latin1 to remain consistent with
+> > +        # handle_read() and give back the same data as the user would
+> > +        # receive if they were reading directly from the
+> > +        # socket w/o our intervention.
+> > +        return chars.encode("latin1")
+> > +
+>
+> console_socket.py:89:4: W0221: Parameters differ from overridden 'recv'
+> method (arguments-differ)
+>
+> Seems pretty different from the asyncore.dispatcher recv method, is that
+> intentional?
 
-Alistair
+The intention is that the API be the same as asyncore.dispatcher recv.
+The sleep_delay_s can be removed, and n is the same as buffer_size in
+asyncore.dispatcher recv.  Will plan to rename n -> buffer_size.
+
+> https://github.com/python/cpython/blob/master/Lib/asyncore.py
+>
+<snip>
+> >      def __enter__(self):
+> >          return self
+> > @@ -580,7 +591,11 @@ class QEMUMachine:
+> >          Returns a socket connected to the console
+> >          """
+> >          if self._console_socket is None:
+> > -            self._console_socket =3D socket.socket(socket.AF_UNIX,
+> > -                                                 socket.SOCK_STREAM)
+> > -            self._console_socket.connect(self._console_address)
+> > +            if self._drain_console:
+> > +                self._console_socket =3D ConsoleSocket(self._console_a=
+ddress,
+> > +                                                    file=3Dself._conso=
+le_log_path)
+>
+> Needs one more space, but the line is already too long as-is.
+>
+> > +            else:
+> > +                self._console_socket =3D socket.socket(socket.AF_UNIX,
+> > +                                                     socket.SOCK_STREA=
+M)
+> > +                self._console_socket.connect(self._console_address)
+> >          return self._console_socket
+> >
+>
+> This makes the typing for _console_socket really tough ... but
+> technically not a regression as the mypy code isn't merged yet.
+
+From the comment on mypy, I understand that we need to return a
+constant type?
+
+One option to provide a constant type is to simply always return
+ConsoleSocket here.
+
+A few changes would be needed inside of ConsoleSocket,
+but essentially ConsoleSocket would handle the detail
+of draining the console (or not), and thus eliminate this
+if/else above reducing it to something like this:
+
+self._console_socket =3D ConsoleSocket(self._console_address,
+                                     file=3Dself._console_log_path,
+                                     drain=3Dself._drain_console)
+
+How does this sound?
+
+Thanks & Regards,
+-Rob
 
 >
-> Regards,
-> Bin
+> --js
+>
 
