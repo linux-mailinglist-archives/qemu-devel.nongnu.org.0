@@ -2,61 +2,62 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8E84621C5C4
-	for <lists+qemu-devel@lfdr.de>; Sat, 11 Jul 2020 20:29:05 +0200 (CEST)
-Received: from localhost ([::1]:55988 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 993EB21C5CC
+	for <lists+qemu-devel@lfdr.de>; Sat, 11 Jul 2020 20:34:15 +0200 (CEST)
+Received: from localhost ([::1]:59630 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1juKFE-0002ba-4Y
-	for lists+qemu-devel@lfdr.de; Sat, 11 Jul 2020 14:29:04 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:47676)
+	id 1juKKE-0004R4-NN
+	for lists+qemu-devel@lfdr.de; Sat, 11 Jul 2020 14:34:14 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:48714)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1juKEB-0002As-Tz
- for qemu-devel@nongnu.org; Sat, 11 Jul 2020 14:27:59 -0400
-Received: from mail-ot1-x342.google.com ([2607:f8b0:4864:20::342]:33545)
+ id 1juKJT-0003v7-K1
+ for qemu-devel@nongnu.org; Sat, 11 Jul 2020 14:33:27 -0400
+Received: from mail-ot1-x341.google.com ([2607:f8b0:4864:20::341]:36773)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1juKEA-0007Om-4B
- for qemu-devel@nongnu.org; Sat, 11 Jul 2020 14:27:59 -0400
-Received: by mail-ot1-x342.google.com with SMTP id h13so6618193otr.0
- for <qemu-devel@nongnu.org>; Sat, 11 Jul 2020 11:27:57 -0700 (PDT)
+ id 1juKJQ-0008Br-5W
+ for qemu-devel@nongnu.org; Sat, 11 Jul 2020 14:33:26 -0400
+Received: by mail-ot1-x341.google.com with SMTP id 72so6602924otc.3
+ for <qemu-devel@nongnu.org>; Sat, 11 Jul 2020 11:33:23 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=d2956xdMIj1FLLvFQm2cHPwzAIm3wLMeYwQkKp8o40c=;
- b=n0gAtlDkc5fhFJ6cY1skWPiDoXIgEcAkw8rcNz9e/PMmdSmsN6GyPvFnSn5QWo6ogI
- UvxuXld8apetrNciRYuxgDrRzy3yHmjZYfDZxVDKxzk9ueEsir+bUMTY/Un1A8ID6pKt
- P1+cxyVpC6f1ZFdCkZaFI3w9ImJTxT4IaVCF1l+gIjiZLJTYXMKdgZ57HBpoITHLx2aw
- dlz9Hp67X73RcA5dsrA+X//SAmq2gVzl0Nbzv/qQs10q+7xGRwEreqMhrrqyOmnHSsBH
- ysU6eUySLE99U9R/Dt4k7LOoLvQhqzQxt5Fvq9/E3UICP/sQEoBGrD3043ndPMy1h+Bo
- /2Uw==
+ :cc; bh=+aYABooH1OESbaFVdKpN9uc4H4yGymKyz0M2s5rGCSQ=;
+ b=dpRVPyNi2j324OhciYBIvF09TmZgPkdr0anKtdgtCUpx1tmiuKPe4ZXwBnAiF86m3M
+ RXBBENJ2NrLt3wQ5EIJoOuFVCy/Nl0A9OmLI6pDjnl/iLAQ3Eq1xy+5SV4TMEAR2FN6b
+ VCjc1yQ39ZEH870XHMlwGS8aBmQ9p+4PJmXArtBu6hkmOFpa/KXQQTt/LLobtzqvFnug
+ 7UKErtBINJel63cOQ1bWgAWpHqkrn3L92KWEUlRhIAnuURlEmxMUKr9kNWyQDwh4phkw
+ dJsPxGMLW1PhOPW6CjzFeNrtxyO8C7uzE6LKSKOS9AR2tSf0RV5zV+6x6wQATjnSQnfZ
+ auwQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
  :message-id:subject:to:cc;
- bh=d2956xdMIj1FLLvFQm2cHPwzAIm3wLMeYwQkKp8o40c=;
- b=mWsu4yLDtabCIpVgwiD/BopHUddUbYxYJErKxjc5d7Fq6//oHCsEE0r+oKLXlJSsW9
- ZPV0y2FIeY/EKFJddwh22Vuq8bAimeJSs7JSPKMl6QvuKhQL4FcbwbP7+L5nPLsBn03n
- sHZpdwOwU5xavKAYqMcClZJk07RL4hgye2dZs57AWAmff/Xn3nEohpjWM3XAIO0cO1/b
- haOkFc216g3O6b0zZFw8bHbUdtH8IF1LeIVCYRJYh8F1q3km0CV6KIaREZRc1ZsgFFNg
- ZaoB4PvtfqeqrwBQUNoyhTb827qe0q5FnN3u7d9+SOeA3L5c3Gf/190YMQN00JLjR0lP
- pfLA==
-X-Gm-Message-State: AOAM533iYQcDUrzgpzuG0G0oAR5LLgVYLKwwhZGlpoT+i2369X2g8aAZ
- zK66I2D00DNILisPotjbulqSLX+u/cR8U8/8xB44mQ==
-X-Google-Smtp-Source: ABdhPJyiIU4XorbR3gTUVVHbJoFfPPxVfv7jwqiVcDa+v1mjiLTjRu3xabi+Gq4pbqHoKnxqZM+maM2y/nISnXmfzrA=
-X-Received: by 2002:a9d:7303:: with SMTP id e3mr55056010otk.221.1594492076393; 
- Sat, 11 Jul 2020 11:27:56 -0700 (PDT)
+ bh=+aYABooH1OESbaFVdKpN9uc4H4yGymKyz0M2s5rGCSQ=;
+ b=biVgCCRoL+aqucehfvyfQi7Gr3HNUBpBhesC4tZj00Tpmel2qkojRo1a/g0FH7qXyO
+ GxKf0yTn3Eh9m6C7GriyH0ZC1SAU5K7pFwZl4iMSMMfCL5RUI0muUCEEPR2kg9CmodrH
+ hMNVsyFak1TisNZQ+Q8MJWX2kBkiTJ98Q+TMhnN8vnQwCJoAm11jQFWJ8N+knlBo7a1j
+ 5W8GdF0m9HVnjwjsVX4P4ckJ8mmODIomaOwRWgJodQ78f3VFj20SRNHvyjnRnh4f8kKU
+ LoNLna6rR+ApuL8dyZe6YChtsyT21v+o4R/Z4CrzvC+EgD74S8cMLnSdpZjFZTBZMYWK
+ yyIA==
+X-Gm-Message-State: AOAM530WVI4J27QTPZmRLLKEDGqRudBry+1TNr99gB2y47Mg9bQlJsq3
+ EP4Iv0XDHn3oMx3wnlmMjn85lmVAvz/ZIM/zVlnf2A==
+X-Google-Smtp-Source: ABdhPJwkZYPghvqttfzUmMpvQcujg3Xzp4BwWqFj57l1QjKmrVt4antSXsKGi2j+z4KvTuXVZK8weAkRUx9HeX7j50M=
+X-Received: by 2002:a05:6830:10ce:: with SMTP id
+ z14mr56355260oto.135.1594492403004; 
+ Sat, 11 Jul 2020 11:33:23 -0700 (PDT)
 MIME-Version: 1.0
-References: <20200710234909.21682-1-pbonzini@redhat.com>
-In-Reply-To: <20200710234909.21682-1-pbonzini@redhat.com>
+References: <20200628214230.2592-1-peter.maydell@linaro.org>
+In-Reply-To: <20200628214230.2592-1-peter.maydell@linaro.org>
 From: Peter Maydell <peter.maydell@linaro.org>
-Date: Sat, 11 Jul 2020 19:27:45 +0100
-Message-ID: <CAFEAcA_i2b3d-1EpHtvr6WNc62xFt9cgp9O0MsPEFZmcnaCz-A@mail.gmail.com>
-Subject: Re: [PULL v3 00/47] Misc patches for QEMU 5.1 soft freeze
-To: Paolo Bonzini <pbonzini@redhat.com>
+Date: Sat, 11 Jul 2020 19:33:12 +0100
+Message-ID: <CAFEAcA_yJZ7TF=xq-q6kpdX965iOZOS6B9kh16EM9Z0zCkVXdA@mail.gmail.com>
+Subject: Re: [PATCH 0/2] hw/arm/palm.c: Fix Coverity issue CID 1421944
+To: qemu-arm <qemu-arm@nongnu.org>, QEMU Developers <qemu-devel@nongnu.org>
 Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2607:f8b0:4864:20::342;
- envelope-from=peter.maydell@linaro.org; helo=mail-ot1-x342.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::341;
+ envelope-from=peter.maydell@linaro.org; helo=mail-ot1-x341.google.com
 X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
  That's all we know.
 X-Spam_score_int: -20
@@ -78,51 +79,29 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: QEMU Developers <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Sat, 11 Jul 2020 at 00:50, Paolo Bonzini <pbonzini@redhat.com> wrote:
+On Sun, 28 Jun 2020 at 22:42, Peter Maydell <peter.maydell@linaro.org> wrote:
 >
-> The following changes since commit 45db94cc90c286a9965a285ba19450f448760a09:
+> As for spitz and tosa, fix the Coverity issue CID 1421944 which
+> points out that memory returned from qemu_allocate_irqs() is leaked
+> by encapsulating the GPIO handling into a simple device.
+> As with the other series, detabify the file first.
 >
->   Merge remote-tracking branch 'remotes/mcayland/tags/qemu-openbios-20200707' into staging (2020-07-10 16:43:40 +0100)
+> thanks
+> -- PMM
 >
-> are available in the Git repository at:
+> Peter Maydell (2):
+>   hw/arm/palm.c: Detabify
+>   hw/arm/palm.c: Encapsulate misc GPIO handling in a device
 >
->   git://github.com/bonzini/qemu.git tags/for-upstream
->
-> for you to fetch changes up to 56908dc5041aa424fd1495b6c6beb78c539d93e1:
->
->   linux-headers: update again to 5.8 (2020-07-10 19:26:55 -0400)
->
-> ----------------------------------------------------------------
-> * Make checkpatch say 'qemu' instead of 'kernel' (Aleksandar)
-> * Fix PSE guests with emulated NPT (Alexander B. #1)
-> * Fix leak (Alexander B. #2)
-> * HVF fixes (Roman, Cameron)
-> * New Sapphire Rapids CPUID bits (Cathy)
-> * cpus.c and softmmu/ cleanups (Claudio)
-> * TAP driver tweaks (Daniel, Havard)
-> * object-add bugfix and testcases (Eric A.)
-> * Fix Coverity MIN_CONST and MAX_CONST (Eric B.)
-> * "info lapic" improvement (Jan)
-> * SSE fixes (Joseph)
-> * "-msg guest-name" option (Mario)
-> * support for AMD nested live migration (myself)
-> * Small i386 TCG fixes (myself)
-> * improved error reporting for Xen (myself)
-> * fix "-cpu host -overcommit cpu-pm=on" (myself)
-> * Add accel/Kconfig (Philippe)
-> * iscsi sense handling fixes (Yongji)
-> * Misc bugfixes
+>  hw/arm/palm.c | 111 ++++++++++++++++++++++++++++++++++----------------
+>  1 file changed, 77 insertions(+), 34 deletions(-)
 >
 
+ping for code review, anybody?
 
-Applied, thanks.
-
-Please update the changelog at https://wiki.qemu.org/ChangeLog/5.1
-for any user-visible changes.
-
+thanks
 -- PMM
 
