@@ -2,69 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C7EE321C3E5
-	for <lists+qemu-devel@lfdr.de>; Sat, 11 Jul 2020 13:11:47 +0200 (CEST)
-Received: from localhost ([::1]:46262 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D2DED21C3E3
+	for <lists+qemu-devel@lfdr.de>; Sat, 11 Jul 2020 13:11:13 +0200 (CEST)
+Received: from localhost ([::1]:43292 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1juDQ2-0002EV-OD
-	for lists+qemu-devel@lfdr.de; Sat, 11 Jul 2020 07:11:46 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:52684)
+	id 1juDPU-0000xK-Pl
+	for lists+qemu-devel@lfdr.de; Sat, 11 Jul 2020 07:11:12 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:52700)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <jcmvbkbc@gmail.com>)
- id 1juDMK-0004Rw-2u
+ id 1juDMK-0004Tx-Ou
  for qemu-devel@nongnu.org; Sat, 11 Jul 2020 07:07:56 -0400
-Received: from mail-pl1-x643.google.com ([2607:f8b0:4864:20::643]:46785)
+Received: from mail-pj1-x1041.google.com ([2607:f8b0:4864:20::1041]:50254)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <jcmvbkbc@gmail.com>)
- id 1juDMI-0006NO-6u
- for qemu-devel@nongnu.org; Sat, 11 Jul 2020 07:07:55 -0400
-Received: by mail-pl1-x643.google.com with SMTP id k5so3286598plk.13
- for <qemu-devel@nongnu.org>; Sat, 11 Jul 2020 04:07:53 -0700 (PDT)
+ id 1juDMJ-0006NX-55
+ for qemu-devel@nongnu.org; Sat, 11 Jul 2020 07:07:56 -0400
+Received: by mail-pj1-x1041.google.com with SMTP id k71so3699370pje.0
+ for <qemu-devel@nongnu.org>; Sat, 11 Jul 2020 04:07:54 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=Q49uChfas7CYxIJFPA71vIJuUFm6gLeemk+SocOgFZk=;
- b=bd53Y98jnTpYzEIyMR90rzDpSPy40MYIqwL1+2mhUnMrJlwKuoti226D725JpKVmMA
- e3pUdcqNZ4jLGZnBOR6Q+OmtSpitPruMQNOGP0c7Jpntod37o8IAlcSzn5J8K0vMC53A
- WIG5U1YZ6z2s6IXVsZXkzsoOtCHhUALL0nn3g/VPAwA0ydTJJSkJN1dpiTEFw7A6QGZt
- 9G3S+yOINuWAOI7uG9DlaAnzQQOysZig6vcBugLUSrQDjCw7swcRC3BRqZbMre87Wm8r
- 2Fij17ExrMZ9AumKLbZ1DAb0n8JmUv4nOdq58YeHrba9/p0Tijl68ifVx5onp/kUT27h
- X+AQ==
+ bh=q4s8uQ+E02Te+avH0/ZNYFIiJ5640p//BWC6Tu6+uwc=;
+ b=W1SWI8hXo18ZI38I9SXUNcs58ah2Q1LaarvMseSoXphMyZO1OGkUh4uqWAzrScU/lO
+ udcmsdD0fWMlvvqMmI6izvpABduWmUag1cT5GM5Hr5aGzUd50Zhv7kZvsS4wW/p35SX4
+ f3M+FmRH9FR0Fzc0/T7Oc+TDtiojGWexTAcFfPo9/rkT79DIbQQvDeYZJu96nM2fgjHa
+ sWlGjcaTn0BcNluKMhddvWhw7o9U8YDdYiqgNfUOOGdzfrOi6dpUNTkVCZQZISn4Yij9
+ avr3RyO+hCWnjadFSQ1egC4PBXOumAHjdhUcrhmsMp6MAnboj78c2H2J7MlYC2LEBDpf
+ t/sQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=Q49uChfas7CYxIJFPA71vIJuUFm6gLeemk+SocOgFZk=;
- b=nOoOk9sC51FNfE3z7yv9MVnpOC5gu5bNvGE4todVmThf/8u6I3eN2oArI7SyjrSgKM
- RLnji/a824d9a4ywR4oFZ58siUXtIJLroMQRKZll6gDKH3fF0Iau9SxtKxeadbCQDVDL
- vhVTua8EzJ0nCqYqNnLi/49TcAqN8xihw+0olQ8WBMciueWlAkDXOp+PeYGMEN/2XXUK
- /XmTpMG0NtHGbR6B7MeWqem8xjVVCYGnedOtmmi395SkeDLFLHNuHWah4ViwpP6hL4bJ
- g8wafBS6LOr+f+isVPAQpTWN+ZOWA1UJSV7cWjugqFypF4AKqN66a+S9yG+uzF3fN4b2
- ZWxg==
-X-Gm-Message-State: AOAM532UxsEjreeeFZmOSsdGAmOAsVkTgIfAlS433HqNDCogKVunJrcu
- 0f2XC82E+c1y+F/CyaeFdtFIrjri
-X-Google-Smtp-Source: ABdhPJzIrZjW/HaWdrEyG72Bt7ZTJq8VBJMi78jdHrESZ55YHI5FJLiIZev8kqkqio80ZS2L9iOOcg==
-X-Received: by 2002:a17:90b:1103:: with SMTP id
- gi3mr4854115pjb.132.1594465672609; 
- Sat, 11 Jul 2020 04:07:52 -0700 (PDT)
+ bh=q4s8uQ+E02Te+avH0/ZNYFIiJ5640p//BWC6Tu6+uwc=;
+ b=rLSeFuNuxSDpNz3kMlLYiSte6TACeeehA5PiUWymIApimkO/nMX5XhKsaTfrQXaig/
+ TQhEhwwlzcEdz6QEm/Pr4MM/RnUx2BR5VcDktBMzDudqm5S6yKvGm9PmIjDKeh9pHsJ7
+ gJWntSY4AW4MX9o79dCjbZex0Hjrcw/vc9+uAig+ABGbS45o+/74JkuJplk6epRMgiEb
+ 4HheYviF7dgN1RNgMSB6hKz3Z0xEsdL7YGx1YT0lI5Isk3fsNZ+2wryj0CV8cSbKGBrR
+ EITFACvgcKCpuxdH7tyT6zRBO0iNt46QffApp/Xb8+PqV4RwKMtMWiTah7rlh8G0IGsH
+ ZrlQ==
+X-Gm-Message-State: AOAM531nosqOQvi2SDpPyLyq7sQKFPwib1m5T3rlf9JzKtjrHTTErj1h
+ PvI+EH8+n0fe7TkMYinR//NeL7EH
+X-Google-Smtp-Source: ABdhPJy6nUcZKqg7487/goSQny3xy6y1l3c8IdroNtz7Xh8ahTz0prHZSMXwf6IWY2jr2U7sPQ+wCA==
+X-Received: by 2002:a17:902:a70e:: with SMTP id
+ w14mr19866248plq.259.1594465673726; 
+ Sat, 11 Jul 2020 04:07:53 -0700 (PDT)
 Received: from octofox.hsd1.ca.comcast.net
  ([2601:641:400:e00:19b7:f650:7bbe:a7fb])
- by smtp.gmail.com with ESMTPSA id m31sm8925826pjb.52.2020.07.11.04.07.51
+ by smtp.gmail.com with ESMTPSA id m31sm8925826pjb.52.2020.07.11.04.07.52
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
  Sat, 11 Jul 2020 04:07:52 -0700 (PDT)
 From: Max Filippov <jcmvbkbc@gmail.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v4 06/22] target/xtensa: rename FPU2000 translators and helpers
-Date: Sat, 11 Jul 2020 04:06:41 -0700
-Message-Id: <20200711110655.20287-7-jcmvbkbc@gmail.com>
+Subject: [PATCH v4 07/22] target/xtensa: move FSR/FCR register accessors
+Date: Sat, 11 Jul 2020 04:06:42 -0700
+Message-Id: <20200711110655.20287-8-jcmvbkbc@gmail.com>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20200711110655.20287-1-jcmvbkbc@gmail.com>
 References: <20200711110655.20287-1-jcmvbkbc@gmail.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::643;
- envelope-from=jcmvbkbc@gmail.com; helo=mail-pl1-x643.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::1041;
+ envelope-from=jcmvbkbc@gmail.com; helo=mail-pj1-x1041.google.com
 X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
  That's all we know.
 X-Spam_score_int: -5
@@ -92,308 +92,125 @@ Cc: Max Filippov <jcmvbkbc@gmail.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Add _s suffix to all FPU2000 opcode translators and helpers that also
-have double-precision variant to unify naming and allow adding DFPU
-implementations. Add _fpu2k_ to the names of helpers that will have
-different implementation for the DFPU .
+Move FSR/FCR register accessors from core opcodes to FPU2000 opcodes as
+they are FPU2000-specific.
 
 Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
 Signed-off-by: Max Filippov <jcmvbkbc@gmail.com>
 ---
-Changes v3->v4:
-- add _fpu2k_ to single-precision arithmetic helpers that do NaN
-  selection to make space for helpers that will have to call
-  set_use_first_nan
+ target/xtensa/translate.c | 64 +++++++++++++++++++--------------------
+ 1 file changed, 32 insertions(+), 32 deletions(-)
 
- target/xtensa/fpu_helper.c | 22 ++++++------
- target/xtensa/helper.h     | 20 +++++------
- target/xtensa/translate.c  | 70 +++++++++++++++++++-------------------
- 3 files changed, 57 insertions(+), 55 deletions(-)
-
-diff --git a/target/xtensa/fpu_helper.c b/target/xtensa/fpu_helper.c
-index 87487293f9a1..46e231bdaa51 100644
---- a/target/xtensa/fpu_helper.c
-+++ b/target/xtensa/fpu_helper.c
-@@ -33,7 +33,7 @@
- #include "exec/exec-all.h"
- #include "fpu/softfloat.h"
- 
--void HELPER(wur_fcr)(CPUXtensaState *env, uint32_t v)
-+void HELPER(wur_fpu2k_fcr)(CPUXtensaState *env, uint32_t v)
- {
-     static const int rounding_mode[] = {
-         float_round_nearest_even,
-@@ -56,33 +56,35 @@ float32 HELPER(neg_s)(float32 v)
-     return float32_chs(v);
- }
- 
--float32 HELPER(add_s)(CPUXtensaState *env, float32 a, float32 b)
-+float32 HELPER(fpu2k_add_s)(CPUXtensaState *env, float32 a, float32 b)
- {
-     return float32_add(a, b, &env->fp_status);
- }
- 
--float32 HELPER(sub_s)(CPUXtensaState *env, float32 a, float32 b)
-+float32 HELPER(fpu2k_sub_s)(CPUXtensaState *env, float32 a, float32 b)
- {
-     return float32_sub(a, b, &env->fp_status);
- }
- 
--float32 HELPER(mul_s)(CPUXtensaState *env, float32 a, float32 b)
-+float32 HELPER(fpu2k_mul_s)(CPUXtensaState *env, float32 a, float32 b)
- {
-     return float32_mul(a, b, &env->fp_status);
- }
- 
--float32 HELPER(madd_s)(CPUXtensaState *env, float32 a, float32 b, float32 c)
-+float32 HELPER(fpu2k_madd_s)(CPUXtensaState *env,
-+                             float32 a, float32 b, float32 c)
- {
-     return float32_muladd(b, c, a, 0, &env->fp_status);
- }
- 
--float32 HELPER(msub_s)(CPUXtensaState *env, float32 a, float32 b, float32 c)
-+float32 HELPER(fpu2k_msub_s)(CPUXtensaState *env,
-+                             float32 a, float32 b, float32 c)
- {
-     return float32_muladd(b, c, a, float_muladd_negate_product,
-                           &env->fp_status);
- }
- 
--uint32_t HELPER(ftoi)(float32 v, uint32_t rounding_mode, uint32_t scale)
-+uint32_t HELPER(ftoi_s)(float32 v, uint32_t rounding_mode, uint32_t scale)
- {
-     float_status fp_status = {0};
- 
-@@ -90,7 +92,7 @@ uint32_t HELPER(ftoi)(float32 v, uint32_t rounding_mode, uint32_t scale)
-     return float32_to_int32(float32_scalbn(v, scale, &fp_status), &fp_status);
- }
- 
--uint32_t HELPER(ftoui)(float32 v, uint32_t rounding_mode, uint32_t scale)
-+uint32_t HELPER(ftoui_s)(float32 v, uint32_t rounding_mode, uint32_t scale)
- {
-     float_status fp_status = {0};
-     float32 res;
-@@ -106,13 +108,13 @@ uint32_t HELPER(ftoui)(float32 v, uint32_t rounding_mode, uint32_t scale)
-     }
- }
- 
--float32 HELPER(itof)(CPUXtensaState *env, uint32_t v, uint32_t scale)
-+float32 HELPER(itof_s)(CPUXtensaState *env, uint32_t v, uint32_t scale)
- {
-     return float32_scalbn(int32_to_float32(v, &env->fp_status),
-                           (int32_t)scale, &env->fp_status);
- }
- 
--float32 HELPER(uitof)(CPUXtensaState *env, uint32_t v, uint32_t scale)
-+float32 HELPER(uitof_s)(CPUXtensaState *env, uint32_t v, uint32_t scale)
- {
-     return float32_scalbn(uint32_to_float32(v, &env->fp_status),
-                           (int32_t)scale, &env->fp_status);
-diff --git a/target/xtensa/helper.h b/target/xtensa/helper.h
-index 8532de0b35f5..bce31cbd9ff1 100644
---- a/target/xtensa/helper.h
-+++ b/target/xtensa/helper.h
-@@ -46,18 +46,18 @@ DEF_HELPER_3(wsr_dbreaka, void, env, i32, i32)
- DEF_HELPER_3(wsr_dbreakc, void, env, i32, i32)
- #endif
- 
--DEF_HELPER_2(wur_fcr, void, env, i32)
-+DEF_HELPER_2(wur_fpu2k_fcr, void, env, i32)
- DEF_HELPER_FLAGS_1(abs_s, TCG_CALL_NO_RWG_SE, f32, f32)
- DEF_HELPER_FLAGS_1(neg_s, TCG_CALL_NO_RWG_SE, f32, f32)
--DEF_HELPER_3(add_s, f32, env, f32, f32)
--DEF_HELPER_3(sub_s, f32, env, f32, f32)
--DEF_HELPER_3(mul_s, f32, env, f32, f32)
--DEF_HELPER_4(madd_s, f32, env, f32, f32, f32)
--DEF_HELPER_4(msub_s, f32, env, f32, f32, f32)
--DEF_HELPER_FLAGS_3(ftoi, TCG_CALL_NO_RWG_SE, i32, f32, i32, i32)
--DEF_HELPER_FLAGS_3(ftoui, TCG_CALL_NO_RWG_SE, i32, f32, i32, i32)
--DEF_HELPER_3(itof, f32, env, i32, i32)
--DEF_HELPER_3(uitof, f32, env, i32, i32)
-+DEF_HELPER_3(fpu2k_add_s, f32, env, f32, f32)
-+DEF_HELPER_3(fpu2k_sub_s, f32, env, f32, f32)
-+DEF_HELPER_3(fpu2k_mul_s, f32, env, f32, f32)
-+DEF_HELPER_4(fpu2k_madd_s, f32, env, f32, f32, f32)
-+DEF_HELPER_4(fpu2k_msub_s, f32, env, f32, f32, f32)
-+DEF_HELPER_FLAGS_3(ftoi_s, TCG_CALL_NO_RWG_SE, i32, f32, i32, i32)
-+DEF_HELPER_FLAGS_3(ftoui_s, TCG_CALL_NO_RWG_SE, i32, f32, i32, i32)
-+DEF_HELPER_3(itof_s, f32, env, i32, i32)
-+DEF_HELPER_3(uitof_s, f32, env, i32, i32)
- 
- DEF_HELPER_4(un_s, void, env, i32, f32, f32)
- DEF_HELPER_4(oeq_s, void, env, i32, f32, f32)
 diff --git a/target/xtensa/translate.c b/target/xtensa/translate.c
-index bc01a720719d..47951acd1669 100644
+index 47951acd1669..1b643881e6e9 100644
 --- a/target/xtensa/translate.c
 +++ b/target/xtensa/translate.c
-@@ -2813,10 +2813,10 @@ static void translate_wur(DisasContext *dc, const OpcodeArg arg[],
+@@ -2813,18 +2813,6 @@ static void translate_wur(DisasContext *dc, const OpcodeArg arg[],
      tcg_gen_mov_i32(cpu_UR[par[0]], arg[0].in);
  }
  
--static void translate_wur_fcr(DisasContext *dc, const OpcodeArg arg[],
+-static void translate_wur_fpu2k_fcr(DisasContext *dc, const OpcodeArg arg[],
+-                                    const uint32_t par[])
+-{
+-    gen_helper_wur_fpu2k_fcr(cpu_env, arg[0].in);
+-}
+-
+-static void translate_wur_fsr(DisasContext *dc, const OpcodeArg arg[],
 -                              const uint32_t par[])
-+static void translate_wur_fpu2k_fcr(DisasContext *dc, const OpcodeArg arg[],
-+                                    const uint32_t par[])
+-{
+-    tcg_gen_andi_i32(cpu_UR[par[0]], arg[0].in, 0xffffff80);
+-}
+-
+ static void translate_xor(DisasContext *dc, const OpcodeArg arg[],
+                           const uint32_t par[])
  {
--    gen_helper_wur_fcr(cpu_env, arg[0].in);
-+    gen_helper_wur_fpu2k_fcr(cpu_env, arg[0].in);
- }
- 
- static void translate_wur_fsr(DisasContext *dc, const OpcodeArg arg[],
-@@ -5583,7 +5583,7 @@ static const XtensaOpcodeOps core_ops[] = {
+@@ -4665,16 +4653,6 @@ static const XtensaOpcodeOps core_ops[] = {
+         .name = "rur.expstate",
+         .translate = translate_rur,
          .par = (const uint32_t[]){EXPSTATE},
+-    }, {
+-        .name = "rur.fcr",
+-        .translate = translate_rur,
+-        .par = (const uint32_t[]){FCR},
+-        .coprocessor = 0x1,
+-    }, {
+-        .name = "rur.fsr",
+-        .translate = translate_rur,
+-        .par = (const uint32_t[]){FSR},
+-        .coprocessor = 0x1,
      }, {
-         .name = "wur.fcr",
--        .translate = translate_wur_fcr,
-+        .translate = translate_wur_fpu2k_fcr,
-         .par = (const uint32_t[]){FCR},
-         .coprocessor = 0x1,
+         .name = "rur.threadptr",
+         .translate = translate_rur,
+@@ -5581,16 +5559,6 @@ static const XtensaOpcodeOps core_ops[] = {
+         .name = "wur.expstate",
+         .translate = translate_wur,
+         .par = (const uint32_t[]){EXPSTATE},
+-    }, {
+-        .name = "wur.fcr",
+-        .translate = translate_wur_fpu2k_fcr,
+-        .par = (const uint32_t[]){FCR},
+-        .coprocessor = 0x1,
+-    }, {
+-        .name = "wur.fsr",
+-        .translate = translate_wur_fsr,
+-        .par = (const uint32_t[]){FSR},
+-        .coprocessor = 0x1,
      }, {
-@@ -6331,11 +6331,11 @@ static void translate_abs_s(DisasContext *dc, const OpcodeArg arg[],
-     gen_helper_abs_s(arg[0].out, arg[1].in);
- }
- 
--static void translate_add_s(DisasContext *dc, const OpcodeArg arg[],
--                            const uint32_t par[])
-+static void translate_fpu2k_add_s(DisasContext *dc, const OpcodeArg arg[],
-+                                  const uint32_t par[])
- {
--    gen_helper_add_s(arg[0].out, cpu_env,
--                     arg[1].in, arg[2].in);
-+    gen_helper_fpu2k_add_s(arg[0].out, cpu_env,
-+                           arg[1].in, arg[2].in);
- }
- 
- enum {
-@@ -6373,9 +6373,9 @@ static void translate_float_s(DisasContext *dc, const OpcodeArg arg[],
-     TCGv_i32 scale = tcg_const_i32(-arg[2].imm);
- 
-     if (par[0]) {
--        gen_helper_uitof(arg[0].out, cpu_env, arg[1].in, scale);
-+        gen_helper_uitof_s(arg[0].out, cpu_env, arg[1].in, scale);
-     } else {
--        gen_helper_itof(arg[0].out, cpu_env, arg[1].in, scale);
-+        gen_helper_itof_s(arg[0].out, cpu_env, arg[1].in, scale);
-     }
-     tcg_temp_free(scale);
- }
-@@ -6387,11 +6387,11 @@ static void translate_ftoi_s(DisasContext *dc, const OpcodeArg arg[],
-     TCGv_i32 scale = tcg_const_i32(arg[2].imm);
- 
-     if (par[1]) {
--        gen_helper_ftoui(arg[0].out, arg[1].in,
--                         rounding_mode, scale);
-+        gen_helper_ftoui_s(arg[0].out, arg[1].in,
-+                           rounding_mode, scale);
-     } else {
--        gen_helper_ftoi(arg[0].out, arg[1].in,
--                        rounding_mode, scale);
-+        gen_helper_ftoi_s(arg[0].out, arg[1].in,
-+                          rounding_mode, scale);
-     }
-     tcg_temp_free(rounding_mode);
-     tcg_temp_free(scale);
-@@ -6433,11 +6433,11 @@ static void translate_ldstx(DisasContext *dc, const OpcodeArg arg[],
-     tcg_temp_free(addr);
- }
- 
--static void translate_madd_s(DisasContext *dc, const OpcodeArg arg[],
--                             const uint32_t par[])
-+static void translate_fpu2k_madd_s(DisasContext *dc, const OpcodeArg arg[],
-+                                   const uint32_t par[])
- {
--    gen_helper_madd_s(arg[0].out, cpu_env,
--                      arg[0].in, arg[1].in, arg[2].in);
-+    gen_helper_fpu2k_madd_s(arg[0].out, cpu_env,
-+                            arg[0].in, arg[1].in, arg[2].in);
- }
- 
- static void translate_mov_s(DisasContext *dc, const OpcodeArg arg[],
-@@ -6471,18 +6471,18 @@ static void translate_movp_s(DisasContext *dc, const OpcodeArg arg[],
-     tcg_temp_free(zero);
- }
- 
--static void translate_mul_s(DisasContext *dc, const OpcodeArg arg[],
--                            const uint32_t par[])
-+static void translate_fpu2k_mul_s(DisasContext *dc, const OpcodeArg arg[],
-+                                  const uint32_t par[])
- {
--    gen_helper_mul_s(arg[0].out, cpu_env,
--                     arg[1].in, arg[2].in);
-+    gen_helper_fpu2k_mul_s(arg[0].out, cpu_env,
-+                           arg[1].in, arg[2].in);
- }
- 
--static void translate_msub_s(DisasContext *dc, const OpcodeArg arg[],
--                             const uint32_t par[])
-+static void translate_fpu2k_msub_s(DisasContext *dc, const OpcodeArg arg[],
-+                                   const uint32_t par[])
- {
--    gen_helper_msub_s(arg[0].out, cpu_env,
--                      arg[0].in, arg[1].in, arg[2].in);
-+    gen_helper_fpu2k_msub_s(arg[0].out, cpu_env,
-+                            arg[0].in, arg[1].in, arg[2].in);
- }
- 
- static void translate_neg_s(DisasContext *dc, const OpcodeArg arg[],
-@@ -6497,11 +6497,11 @@ static void translate_rfr_s(DisasContext *dc, const OpcodeArg arg[],
+         .name = "wur.threadptr",
+         .translate = translate_wur,
+@@ -6510,6 +6478,18 @@ static void translate_wfr_s(DisasContext *dc, const OpcodeArg arg[],
      tcg_gen_mov_i32(arg[0].out, arg[1].in);
  }
  
--static void translate_sub_s(DisasContext *dc, const OpcodeArg arg[],
--                            const uint32_t par[])
-+static void translate_fpu2k_sub_s(DisasContext *dc, const OpcodeArg arg[],
-+                                  const uint32_t par[])
- {
--    gen_helper_sub_s(arg[0].out, cpu_env,
--                     arg[1].in, arg[2].in);
-+    gen_helper_fpu2k_sub_s(arg[0].out, cpu_env,
-+                           arg[1].in, arg[2].in);
- }
++static void translate_wur_fpu2k_fcr(DisasContext *dc, const OpcodeArg arg[],
++                                    const uint32_t par[])
++{
++    gen_helper_wur_fpu2k_fcr(cpu_env, arg[0].in);
++}
++
++static void translate_wur_fpu2k_fsr(DisasContext *dc, const OpcodeArg arg[],
++                                    const uint32_t par[])
++{
++    tcg_gen_andi_i32(cpu_UR[par[0]], arg[0].in, 0xffffff80);
++}
++
+ static const XtensaOpcodeOps fpu2000_ops[] = {
+     {
+         .name = "abs.s",
+@@ -6632,6 +6612,16 @@ static const XtensaOpcodeOps fpu2000_ops[] = {
+         .translate = translate_ftoi_s,
+         .par = (const uint32_t[]){float_round_nearest_even, false},
+         .coprocessor = 0x1,
++    }, {
++        .name = "rur.fcr",
++        .translate = translate_rur,
++        .par = (const uint32_t[]){FCR},
++        .coprocessor = 0x1,
++    }, {
++        .name = "rur.fsr",
++        .translate = translate_rur,
++        .par = (const uint32_t[]){FSR},
++        .coprocessor = 0x1,
+     }, {
+         .name = "ssi",
+         .translate = translate_ldsti,
+@@ -6699,6 +6689,16 @@ static const XtensaOpcodeOps fpu2000_ops[] = {
+         .name = "wfr",
+         .translate = translate_wfr_s,
+         .coprocessor = 0x1,
++    }, {
++        .name = "wur.fcr",
++        .translate = translate_wur_fpu2k_fcr,
++        .par = (const uint32_t[]){FCR},
++        .coprocessor = 0x1,
++    }, {
++        .name = "wur.fsr",
++        .translate = translate_wur_fpu2k_fsr,
++        .par = (const uint32_t[]){FSR},
++        .coprocessor = 0x1,
+     },
+ };
  
- static void translate_wfr_s(DisasContext *dc, const OpcodeArg arg[],
-@@ -6517,7 +6517,7 @@ static const XtensaOpcodeOps fpu2000_ops[] = {
-         .coprocessor = 0x1,
-     }, {
-         .name = "add.s",
--        .translate = translate_add_s,
-+        .translate = translate_fpu2k_add_s,
-         .coprocessor = 0x1,
-     }, {
-         .name = "ceil.s",
-@@ -6560,7 +6560,7 @@ static const XtensaOpcodeOps fpu2000_ops[] = {
-         .coprocessor = 0x1,
-     }, {
-         .name = "madd.s",
--        .translate = translate_madd_s,
-+        .translate = translate_fpu2k_madd_s,
-         .coprocessor = 0x1,
-     }, {
-         .name = "mov.s",
-@@ -6598,11 +6598,11 @@ static const XtensaOpcodeOps fpu2000_ops[] = {
-         .coprocessor = 0x1,
-     }, {
-         .name = "msub.s",
--        .translate = translate_msub_s,
-+        .translate = translate_fpu2k_msub_s,
-         .coprocessor = 0x1,
-     }, {
-         .name = "mul.s",
--        .translate = translate_mul_s,
-+        .translate = translate_fpu2k_mul_s,
-         .coprocessor = 0x1,
-     }, {
-         .name = "neg.s",
-@@ -6658,7 +6658,7 @@ static const XtensaOpcodeOps fpu2000_ops[] = {
-         .coprocessor = 0x1,
-     }, {
-         .name = "sub.s",
--        .translate = translate_sub_s,
-+        .translate = translate_fpu2k_sub_s,
-         .coprocessor = 0x1,
-     }, {
-         .name = "trunc.s",
 -- 
 2.20.1
 
