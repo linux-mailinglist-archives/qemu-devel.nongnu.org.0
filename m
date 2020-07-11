@@ -2,35 +2,35 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E39B721C6BB
-	for <lists+qemu-devel@lfdr.de>; Sun, 12 Jul 2020 01:31:47 +0200 (CEST)
-Received: from localhost ([::1]:52370 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id BE52A21C6C0
+	for <lists+qemu-devel@lfdr.de>; Sun, 12 Jul 2020 01:46:32 +0200 (CEST)
+Received: from localhost ([::1]:54688 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1juOyA-0003YN-Jn
-	for lists+qemu-devel@lfdr.de; Sat, 11 Jul 2020 19:31:46 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:34178)
+	id 1juPCR-0005QK-I1
+	for lists+qemu-devel@lfdr.de; Sat, 11 Jul 2020 19:46:31 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:36138)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1juOx9-00036Y-P7
- for qemu-devel@nongnu.org; Sat, 11 Jul 2020 19:30:44 -0400
-Received: from indium.canonical.com ([91.189.90.7]:54880)
+ id 1juPBh-00050O-FI
+ for qemu-devel@nongnu.org; Sat, 11 Jul 2020 19:45:45 -0400
+Received: from indium.canonical.com ([91.189.90.7]:55298)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1juOx7-0006Go-Aq
- for qemu-devel@nongnu.org; Sat, 11 Jul 2020 19:30:43 -0400
+ id 1juPBf-0007vY-Hm
+ for qemu-devel@nongnu.org; Sat, 11 Jul 2020 19:45:45 -0400
 Received: from loganberry.canonical.com ([91.189.90.37])
  by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
- id 1juOx5-0000Sv-IY
- for <qemu-devel@nongnu.org>; Sat, 11 Jul 2020 23:30:39 +0000
+ id 1juPBd-0001Nb-UX
+ for <qemu-devel@nongnu.org>; Sat, 11 Jul 2020 23:45:41 +0000
 Received: from loganberry.canonical.com (localhost [127.0.0.1])
- by loganberry.canonical.com (Postfix) with ESMTP id 4F82E2E80F1
- for <qemu-devel@nongnu.org>; Sat, 11 Jul 2020 23:30:39 +0000 (UTC)
+ by loganberry.canonical.com (Postfix) with ESMTP id E39022E80EF
+ for <qemu-devel@nongnu.org>; Sat, 11 Jul 2020 23:45:41 +0000 (UTC)
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: quoted-printable
-Date: Sat, 11 Jul 2020 23:25:17 -0000
-From: Mark Cave-Ayland <1886318@bugs.launchpad.net>
+Date: Sat, 11 Jul 2020 23:36:34 -0000
+From: Simon John <1886318@bugs.launchpad.net>
 To: qemu-devel@nongnu.org
 X-Launchpad-Notification-Type: bug
 X-Launchpad-Bug: product=qemu; status=New; importance=Undecided; assignee=None;
@@ -39,9 +39,9 @@ X-Launchpad-Bug-Private: no
 X-Launchpad-Bug-Security-Vulnerability: no
 X-Launchpad-Bug-Commenters: mark-cave-ayland mjt+launchpad-tls sej7278
 X-Launchpad-Bug-Reporter: Simon John (sej7278)
-X-Launchpad-Bug-Modifier: Mark Cave-Ayland (mark-cave-ayland)
+X-Launchpad-Bug-Modifier: Simon John (sej7278)
 References: <159394898604.17667.6684490731246411850.malonedeb@soybean.canonical.com>
-Message-Id: <159450991780.19763.6080957673588613556.malone@chaenomeles.canonical.com>
+Message-Id: <159451059455.18989.2134735666121418816.malone@chaenomeles.canonical.com>
 Subject: [Bug 1886318] Re: Qemu after v5.0.0 breaks macos guests
 X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
 X-Launchpad-Message-For: qemu-devel-ml
@@ -49,7 +49,7 @@ Precedence: bulk
 X-Generated-By: Launchpad (canonical.com);
  Revision="4809fcb62f445aaa3ae919f7f6c3cc7d156ea57a";
  Instance="production-secrets-lazr.conf"
-X-Launchpad-Hash: f85645423f195486e6568241482de6edb49cdbfe
+X-Launchpad-Hash: 9aad420a8d5fedd97a6f85dab8195413b18faf07
 Received-SPF: none client-ip=91.189.90.7; envelope-from=bounces@canonical.com;
  helo=indium.canonical.com
 X-detected-operating-system: by eggs.gnu.org: First seen = 2020/07/11 17:41:08
@@ -75,54 +75,7 @@ Reply-To: Bug 1886318 <1886318@bugs.launchpad.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Thanks for the bisection, that's really helpful - that particular patch
-fixes the way in which memory region access sizes are treated as valid.
-The obvious device to look at here is isa-apple-smc since I suspect that
-has less CI coverage.
-
-Looking at the access sizes of all 3 MemoryRegions within
-hw/misc/applesmc.c I think these would now reject all non-byte accesses
-- does the following patch help at all?
-
-
-diff --git a/hw/misc/applesmc.c b/hw/misc/applesmc.c
-index 1c4addb201..7ca89e5e86 100644
---- a/hw/misc/applesmc.c
-+++ b/hw/misc/applesmc.c
-@@ -288,7 +288,7 @@ static const MemoryRegionOps applesmc_data_io_ops =3D {
-     .endianness =3D DEVICE_NATIVE_ENDIAN,
-     .impl =3D {
-         .min_access_size =3D 1,
--        .max_access_size =3D 1,
-+        .max_access_size =3D 4,
-     },
- };
- =
-
-@@ -298,7 +298,7 @@ static const MemoryRegionOps applesmc_cmd_io_ops =3D {
-     .endianness =3D DEVICE_NATIVE_ENDIAN,
-     .impl =3D {
-         .min_access_size =3D 1,
--        .max_access_size =3D 1,
-+        .max_access_size =3D 4,
-     },
- };
- =
-
-@@ -308,7 +308,7 @@ static const MemoryRegionOps applesmc_err_io_ops =3D {
-     .endianness =3D DEVICE_NATIVE_ENDIAN,
-     .impl =3D {
-         .min_access_size =3D 1,
--        .max_access_size =3D 1,
-+        .max_access_size =3D 4,
-     },
- };
- =
-
-
-ATB,
-
-Mark.
+Hi Mark, no that doesn't work sorry, same error.
 
 -- =
 
