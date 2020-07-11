@@ -2,70 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id CFA8521C568
-	for <lists+qemu-devel@lfdr.de>; Sat, 11 Jul 2020 19:08:48 +0200 (CEST)
-Received: from localhost ([::1]:44254 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 36E1321C569
+	for <lists+qemu-devel@lfdr.de>; Sat, 11 Jul 2020 19:08:49 +0200 (CEST)
+Received: from localhost ([::1]:44266 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1juIzX-0004xG-Lb
-	for lists+qemu-devel@lfdr.de; Sat, 11 Jul 2020 13:08:47 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:33186)
+	id 1juIzY-0004xV-1n
+	for lists+qemu-devel@lfdr.de; Sat, 11 Jul 2020 13:08:48 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:33198)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1juIyQ-0003N8-Rr
- for qemu-devel@nongnu.org; Sat, 11 Jul 2020 13:07:38 -0400
-Received: from mail-wm1-x331.google.com ([2a00:1450:4864:20::331]:38600)
+ id 1juIyR-0003NF-9V
+ for qemu-devel@nongnu.org; Sat, 11 Jul 2020 13:07:39 -0400
+Received: from mail-wr1-x42a.google.com ([2a00:1450:4864:20::42a]:44530)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1juIyO-0006h4-FY
- for qemu-devel@nongnu.org; Sat, 11 Jul 2020 13:07:38 -0400
-Received: by mail-wm1-x331.google.com with SMTP id f18so8938396wml.3
- for <qemu-devel@nongnu.org>; Sat, 11 Jul 2020 10:07:35 -0700 (PDT)
+ id 1juIyP-0006hA-1k
+ for qemu-devel@nongnu.org; Sat, 11 Jul 2020 13:07:39 -0400
+Received: by mail-wr1-x42a.google.com with SMTP id b6so8968061wrs.11
+ for <qemu-devel@nongnu.org>; Sat, 11 Jul 2020 10:07:36 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=+lXl4Szpjg/YT2Ax3s+QJTh2PasxIDSCopx/Q97cD3I=;
- b=Fr9YMsMR0HeJ1JHXAinhTG73biNDt3Kqxjc+16iDdJnCS4/Nn8+m70j0Kgf/2f4CDr
- FFydgDDPkhnB24CrT1AuCf0SgFQVzNuiVMlEvjDTGhV7tQdq1Gr2+/aaGmaNjsGH0mTK
- +vJp/LyUoFRHgrS9qOKPGdkE+Kvi/mtQFhd1yas9EKzhYzWAzLas3ERV2A/MYVmsskTW
- gHoM0MJrXW2cbv63D2wqN7NHI0Gi+Bu9Rcq4/HPYpXkmty6ShJKTlqSeFYenKZxgopkm
- Dn5FlJakP63z5UpBD0hnhDzjnsxnSqTaZeRiw7yivNFmNKSo51gkAStDSNlqd69J2uO+
- rgWQ==
+ h=from:to:cc:subject:date:message-id:in-reply-to:references
+ :mime-version:content-transfer-encoding;
+ bh=geUpkH2ThEs8zqbxtFpdjObRhrd+cez0VcjEpzmTBhk=;
+ b=WJmgAS3sH3yZuIgGp3tBDoIbCOpxo7v65CqGxrZO0R0XTrQbvE+bx9mTUoMqqUXeYZ
+ epShWfQeSvDp/UyOrD7Ca8vwJovvRdnWvN/v/ddG4501EjeMwu3ZuBL0bndqd0abYGqN
+ DsWKx4vCxmLT8G7BoBIsEWUQ8rQfnH70w0Kn0LXORFy9Qq2AnuLpyudgX2DxykYdv3/K
+ 1rar7SEY+RRu1Eq2gnyuqNxzSF9zvfef5UKkxZ4AbSdL957uGp0OXBTz9kzTraJp1PyO
+ 3BPqAuiMlQf2UnjT4jGX0BTOgi9qZQVLA5Nqsnk+mSCwQw89KUo4/tgDRChzwrF4hslS
+ IkZA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=+lXl4Szpjg/YT2Ax3s+QJTh2PasxIDSCopx/Q97cD3I=;
- b=eDVXWKX/2VsZjQFFAri+ZsizjD/GqlDn+bbeyBwZ6vq3KsDMHdZCxVehJ+xxLFPAZH
- kcNDxJsLjmfxTN36AhZXi89bINjxD6hE5haYoyHdc4LfJYQI8q2CcBGiRt1yi9bgHj70
- WZMeNGZ+gK0n1j3CcrJUWO73AFrzhofIXcl4lTWyysx92cUcMpFNp7wM6eXJPnfZT4cS
- lBBS6fyJlKJ3ZPcQUMl0kWMHDcbJHqkKLBZ0klaf0KEtG1M3qpj5uibYtUBVlYKd6O+u
- bPXr1AtiXsVsdwiuAqY85LcrjBog6nHWi6JiNXzSiZ8Q7aw9TKcFaKLVAHOuP0Kd1FDi
- znng==
-X-Gm-Message-State: AOAM530H9D67VB+CToWEz8ogkOhzHYyQ7iuAuE3dETMoAaF4V3KSoPki
- uhFdBIar5R1SgD5/iTKyZmdVDg==
-X-Google-Smtp-Source: ABdhPJxp7TlNu5FhRgKiMAca2b4mFu8uz7wI+cofh35K2Z9oZDbcxIK8mkgyLKAcjedlQuehV4p5mQ==
-X-Received: by 2002:a1c:dfd6:: with SMTP id
- w205mr11389704wmg.118.1594487254233; 
- Sat, 11 Jul 2020 10:07:34 -0700 (PDT)
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+ :references:mime-version:content-transfer-encoding;
+ bh=geUpkH2ThEs8zqbxtFpdjObRhrd+cez0VcjEpzmTBhk=;
+ b=Mqo+qKGW2qZZsdm6LFXhSb3U3R2z1p1Qt6B8/iHe+TulMTWwcc1I9HS+HOek6LBLcq
+ lGrLESZzRv33Ntnfa8aol1AsBZPXNFUesdeNmiTWGAX+1HNtQY4zQn5wFqXW3FS6Hai7
+ GpsE28d48rIyK7ZHgu9xCJSxfzoLE7RvPG6xFxDIadBnoROekkNJ6NYnVi357ztQxljr
+ qPlFdHV++WJuSj1BT0cOn0/xDWgfFdEwhySsY7WgDCjZ/auIsA4idQL4XDCG5uhSSbBv
+ wKfln+hrUKqwa1JTI6Fwdfv7KvfXQ202ujtaEEShJ5c0z3MjHgbN8z1z2Qe96tLltYjE
+ mRQA==
+X-Gm-Message-State: AOAM5304T3vD/PAW5bjRcjtrlqBIMI63zr5dOYVg030dQyx7nuQ5xOFi
+ kPs0UM4qa2RyeWtgzGjQ6oWN0w==
+X-Google-Smtp-Source: ABdhPJwpJdnWtfQWdXRsTx4rwrM/uBKaH4vAVlGQw5+BpLsRo/SKy4feHJ3qnItktiicFauuc1/Sxg==
+X-Received: by 2002:adf:b312:: with SMTP id j18mr68408528wrd.195.1594487255446; 
+ Sat, 11 Jul 2020 10:07:35 -0700 (PDT)
 Received: from zen.linaroharston ([51.148.130.216])
- by smtp.gmail.com with ESMTPSA id z8sm14903892wmg.39.2020.07.11.10.07.32
+ by smtp.gmail.com with ESMTPSA id h84sm15694997wme.22.2020.07.11.10.07.32
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
  Sat, 11 Jul 2020 10:07:32 -0700 (PDT)
 Received: from zen.lan (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id 23DDE1FF7E;
+ by zen.linaroharston (Postfix) with ESMTP id 3A7FC1FF87;
  Sat, 11 Jul 2020 18:07:32 +0100 (BST)
 From: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
 To: peter.maydell@linaro.org
-Subject: [PULL v2 00/50] testing updates (vm, gitlab, misc build fixes)
-Date: Sat, 11 Jul 2020 18:07:22 +0100
-Message-Id: <20200711170732.26213-1-alex.bennee@linaro.org>
+Subject: [PULL v2 04/50] tests/vm: Add configuration to basevm.py
+Date: Sat, 11 Jul 2020 18:07:23 +0100
+Message-Id: <20200711170732.26213-2-alex.bennee@linaro.org>
 X-Mailer: git-send-email 2.20.1
+In-Reply-To: <20200711170732.26213-1-alex.bennee@linaro.org>
+References: <20200711170732.26213-1-alex.bennee@linaro.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::331;
- envelope-from=alex.bennee@linaro.org; helo=mail-wm1-x331.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::42a;
+ envelope-from=alex.bennee@linaro.org; helo=mail-wr1-x42a.google.com
 X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
  That's all we know.
 X-Spam_score_int: -20
@@ -87,207 +88,301 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>,
- qemu-devel@nongnu.org
+Cc: Fam Zheng <fam@euphon.net>, Robert Foley <robert.foley@linaro.org>,
+ =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>, qemu-devel@nongnu.org,
+ Peter Puhov <peter.puhov@linaro.org>,
+ =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Fixed a few, dropped a few, added a few
+From: Robert Foley <robert.foley@linaro.org>
 
----
+Added use of a configuration to tests/vm/basevm.py.
+The configuration provides parameters used to configure a VM.
+This allows for providing alternate configurations to the VM being
+created/launched. cpu, machine, memory, and NUMA configuration are all
+examples of configuration which we might want to vary on the VM being created
+or launched.
+This will for example allow for creating an aarch64 vm.
 
-The following changes since commit 827937158b72ce2265841ff528bba3c44a1bfbc8:
+Signed-off-by: Robert Foley <robert.foley@linaro.org>
+Reviewed-by: Peter Puhov <peter.puhov@linaro.org>
+Reviewed-by: Alex Bennée <alex.bennee@linaro.org>
+Signed-off-by: Alex Bennée <alex.bennee@linaro.org>
+Message-Id: <20200601211421.1277-3-robert.foley@linaro.org>
+Message-Id: <20200701135652.1366-7-alex.bennee@linaro.org>
 
-  Merge remote-tracking branch 'remotes/aperard/tags/pull-xen-20200710' into staging (2020-07-11 13:56:03 +0100)
-
-are available in the Git repository at:
-
-  https://github.com/stsquad/qemu.git tags/pull-testing-and-misc-110720-2
-
-for you to fetch changes up to 4a40f561d5ebb5050a8c6dcbdcee85621056590a:
-
-  iotests: Set LC_ALL=C for sort (2020-07-11 15:53:29 +0100)
-
-----------------------------------------------------------------
-Testing and misc build updates:
-
-  - tests/vm support for aarch64 VMs
-  - tests/tcg better cross-compiler detection
-  - update docker tooling to support registries
-  - update docker support for xtensa
-  - gitlab build docker images and store in registry
-  - gitlab use docker images for builds
-  - a number of skipIf updates to support move
-  - linux-user MAP_FIXED_NOREPLACE fix
-  - qht-bench compiler tweaks
-  - configure fix for secret keyring
-  - tsan fiber annotation clean-up
-  - doc updates for mttcg/icount/gdbstub
-  - fix cirrus to use brew bash for iotests
-  - revert virtio-gpu breakage
-  - fix LC_ALL to avoid sorting changes in iotests
-
-----------------------------------------------------------------
-Alex Bennée (26):
-      tests/vm: switch from optsparse to argparse
-      tests/vm: allow us to take advantage of MTTCG
-      tests/docker: check for an parameters not empty string
-      tests/docker: change tag naming scheme of our images
-      .gitignore: un-ignore .gitlab-ci.d
-      gitlab: build containers with buildkit and metadata
-      tests/docker: add --registry support to tooling
-      tests/docker: add packages needed for check-acceptance
-      tests/acceptance: skip s390x_ccw_vrtio_tcg on GitLab
-      tests/acceptance: fix dtb path for machine_rx_gdbsim
-      tests/acceptance: skip multicore mips_malta tests on GitLab
-      tests/acceptance: skip LinuxInitrd 2gib with v4.16 on GitLab
-      gitlab: add acceptance testing to system builds
-      tests/tcg: add more default compilers to configure.sh
-      tests/docker: add a linux-user testing focused image
-      linux-user/elfload: use MAP_FIXED_NOREPLACE in pgb_reserved_va
-      gitlab: enable check-tcg for linux-user tests
-      gitlab: add avocado asset caching
-      gitlab: limit re-builds of the containers
-      containers.yml: build with docker.py tooling
-      testing: add check-build target
-      shippable: pull images from registry instead of building
-      docs/devel: convert and update MTTCG design document
-      docs/devel: add some notes on tcg-icount for developers
-      tests/docker: fall back more gracefully when pull fails
-      .cirrus.yml: add bash to the brew packages
-
-Daniel P. Berrangé (4):
-      gitlab: introduce explicit "container" and "build" stages
-      gitlab: build all container images during CI
-      gitlab: convert jobs to use custom built containers
-      tests: improve performance of device-introspect-test
-
-David Edmondson (1):
-      crypto/linux_keyring: fix 'secret_keyring' configure test
-
-Gerd Hoffmann (2):
-      tests: fix "make check-qtest" for modular builds
-      Revert "vga: build virtio-gpu as module"
-
-Jon Doron (1):
-      docs: Add to gdbstub documentation the PhyMemMode
-
-Max Filippov (1):
-      tests/docker: update toolchain set in debian-xtensa-cross
-
-Max Reitz (1):
-      iotests: Set LC_ALL=C for sort
-
-Richard Henderson (2):
-      tests/qht-bench: Adjust testing rate by -1
-      tests/qht-bench: Adjust threshold computation
-
-Robert Foley (10):
-      util/coroutine: Cleanup start_switch_fiber_ for TSAN.
-      tests/vm: pass args through to BaseVM's __init__
-      tests/vm: Add configuration to basevm.py
-      tests/vm: Added configuration file support
-      tests/vm: Add common Ubuntu python module
-      tests/vm: Added a new script for ubuntu.aarch64.
-      tests/vm: Added a new script for centos.aarch64.
-      tests/vm: change scripts to use self._config
-      python/qemu: Add ConsoleSocket for optional use in QEMUMachine
-      tests/vm: Add workaround to consume console
-
-Thomas Huth (2):
-      gitlab-ci: Fix the change rules after moving the YML files
-      travis.yml: Test also the other targets on s390x
-
- docs/devel/index.rst                               |   2 +
- .../{multi-thread-tcg.txt => multi-thread-tcg.rst} |  52 ++--
- docs/devel/tcg-icount.rst                          |  97 ++++++
- docs/system/gdb.rst                                |  20 ++
- configure                                          |  31 +-
- linux-user/elfload.c                               |  10 +-
- tests/qht-bench.c                                  |  40 ++-
- tests/qtest/device-introspect-test.c               |  60 ++--
- util/coroutine-ucontext.c                          |  52 ++--
- util/module.c                                      |   6 -
- .cirrus.yml                                        |   4 +-
- .gitignore                                         |   1 +
- .gitlab-ci.d/containers.yml                        | 263 ++++++++++++++++
- .gitlab-ci.d/edk2.yml                              |   5 +-
- .gitlab-ci.d/opensbi.yml                           |   5 +-
- .gitlab-ci.yml                                     | 265 ++++++++++------
- .shippable.yml                                     |   8 +-
- .travis.yml                                        |  62 ++--
- hw/display/Makefile.objs                           |  23 +-
- python/qemu/console_socket.py                      | 110 +++++++
- python/qemu/machine.py                             |  23 +-
- tests/Makefile.include                             |  19 +-
- tests/acceptance/boot_linux.py                     |   2 +
- tests/acceptance/linux_initrd.py                   |   3 +
- tests/acceptance/machine_mips_malta.py             |   3 +
- tests/acceptance/machine_rx_gdbsim.py              |   2 +-
- tests/acceptance/replay_kernel.py                  |   2 +-
- tests/docker/Makefile.include                      |  17 +-
- tests/docker/common.rc                             |   2 +-
- tests/docker/docker.py                             |  47 ++-
- .../dockerfiles/debian-all-test-cross.docker       |  53 ++++
- tests/docker/dockerfiles/debian-alpha-cross.docker |   2 +-
- tests/docker/dockerfiles/debian-amd64-cross.docker |   2 +-
- tests/docker/dockerfiles/debian-amd64.docker       |   2 +-
- tests/docker/dockerfiles/debian-arm64-cross.docker |   2 +-
- .../dockerfiles/debian-arm64-test-cross.docker     |   2 +-
- tests/docker/dockerfiles/debian-armel-cross.docker |   2 +-
- tests/docker/dockerfiles/debian-armhf-cross.docker |   2 +-
- tests/docker/dockerfiles/debian-hppa-cross.docker  |   2 +-
- tests/docker/dockerfiles/debian-m68k-cross.docker  |   2 +-
- tests/docker/dockerfiles/debian-mips-cross.docker  |   2 +-
- .../docker/dockerfiles/debian-mips64-cross.docker  |   2 +-
- .../dockerfiles/debian-mips64el-cross.docker       |   2 +-
- .../docker/dockerfiles/debian-mipsel-cross.docker  |   2 +-
- .../docker/dockerfiles/debian-powerpc-cross.docker |   2 +-
- tests/docker/dockerfiles/debian-ppc64-cross.docker |   2 +-
- .../docker/dockerfiles/debian-ppc64el-cross.docker |   2 +-
- .../docker/dockerfiles/debian-riscv64-cross.docker |   2 +-
- tests/docker/dockerfiles/debian-s390x-cross.docker |   2 +-
- tests/docker/dockerfiles/debian-sh4-cross.docker   |   2 +-
- .../docker/dockerfiles/debian-sparc64-cross.docker |   2 +-
- .../docker/dockerfiles/debian-tricore-cross.docker |   2 +-
- tests/docker/dockerfiles/debian-win32-cross.docker |   2 +-
- tests/docker/dockerfiles/debian-win64-cross.docker |   2 +-
- .../docker/dockerfiles/debian-xtensa-cross.docker  |   6 +-
- tests/docker/dockerfiles/debian9-mxe.docker        |   2 +-
- tests/docker/dockerfiles/fedora.docker             |   7 +
- tests/docker/dockerfiles/ubuntu2004.docker         |  10 +-
- tests/qemu-iotests/common.filter                   |   2 +-
- tests/qtest/Makefile.include                       |   1 +
- tests/tcg/Makefile.qemu                            |   4 +-
- tests/tcg/configure.sh                             |  21 +-
- tests/vm/Makefile.include                          |  22 ++
- tests/vm/aarch64vm.py                              | 106 +++++++
- tests/vm/basevm.py                                 | 344 +++++++++++++++------
- tests/vm/centos-8-aarch64.ks                       |  51 +++
- tests/vm/centos.aarch64                            | 227 ++++++++++++++
- tests/vm/conf_example_aarch64.yml                  |  51 +++
- tests/vm/conf_example_x86.yml                      |  50 +++
- tests/vm/fedora                                    |  17 +-
- tests/vm/freebsd                                   |  16 +-
- tests/vm/netbsd                                    |  19 +-
- tests/vm/openbsd                                   |  17 +-
- tests/vm/ubuntu.aarch64                            |  68 ++++
- tests/vm/ubuntu.i386                               |  46 +--
- tests/vm/ubuntuvm.py                               |  60 ++++
- 76 files changed, 2034 insertions(+), 448 deletions(-)
- rename docs/devel/{multi-thread-tcg.txt => multi-thread-tcg.rst} (90%)
- create mode 100644 docs/devel/tcg-icount.rst
- create mode 100644 .gitlab-ci.d/containers.yml
- create mode 100644 python/qemu/console_socket.py
- create mode 100644 tests/docker/dockerfiles/debian-all-test-cross.docker
- create mode 100644 tests/vm/aarch64vm.py
- create mode 100644 tests/vm/centos-8-aarch64.ks
- create mode 100755 tests/vm/centos.aarch64
- create mode 100644 tests/vm/conf_example_aarch64.yml
- create mode 100644 tests/vm/conf_example_x86.yml
- create mode 100755 tests/vm/ubuntu.aarch64
- create mode 100644 tests/vm/ubuntuvm.py
-
+diff --git a/tests/vm/basevm.py b/tests/vm/basevm.py
+index 5a58e6c393..5ae39ad113 100644
+--- a/tests/vm/basevm.py
++++ b/tests/vm/basevm.py
+@@ -29,16 +29,41 @@ import tempfile
+ import shutil
+ import multiprocessing
+ import traceback
+-
+-SSH_KEY = open(os.path.join(os.path.dirname(__file__),
+-               "..", "keys", "id_rsa")).read()
+-SSH_PUB_KEY = open(os.path.join(os.path.dirname(__file__),
+-                   "..", "keys", "id_rsa.pub")).read()
+-
++import shlex
++
++SSH_KEY_FILE = os.path.join(os.path.dirname(__file__),
++               "..", "keys", "id_rsa")
++SSH_PUB_KEY_FILE = os.path.join(os.path.dirname(__file__),
++                   "..", "keys", "id_rsa.pub")
++
++# This is the standard configuration.
++# Any or all of these can be overridden by
++# passing in a config argument to the VM constructor.
++DEFAULT_CONFIG = {
++    'cpu'             : "max",
++    'machine'         : 'pc',
++    'guest_user'      : "qemu",
++    'guest_pass'      : "qemupass",
++    'root_pass'       : "qemupass",
++    'ssh_key_file'    : SSH_KEY_FILE,
++    'ssh_pub_key_file': SSH_PUB_KEY_FILE,
++    'memory'          : "4G",
++    'extra_args'      : [],
++    'qemu_args'       : "",
++    'dns'             : "",
++    'ssh_port'        : 0,
++    'install_cmds'    : "",
++    'boot_dev_type'   : "block",
++    'ssh_timeout'     : 1,
++}
++BOOT_DEVICE = {
++    'block' :  "-drive file={},if=none,id=drive0,cache=writeback "\
++               "-device virtio-blk,drive=drive0,bootindex=0",
++    'scsi'  :  "-device virtio-scsi-device,id=scsi "\
++               "-drive file={},format=raw,if=none,id=hd0 "\
++               "-device scsi-hd,drive=hd0,bootindex=0",
++}
+ class BaseVM(object):
+-    GUEST_USER = "qemu"
+-    GUEST_PASS = "qemupass"
+-    ROOT_PASS = "qemupass"
+ 
+     envvars = [
+         "https_proxy",
+@@ -57,25 +82,38 @@ class BaseVM(object):
+     poweroff = "poweroff"
+     # enable IPv6 networking
+     ipv6 = True
++    # This is the timeout on the wait for console bytes.
++    socket_timeout = 120
+     # Scale up some timeouts under TCG.
+     # 4 is arbitrary, but greater than 2,
+     # since we found we need to wait more than twice as long.
+     tcg_ssh_timeout_multiplier = 4
+-    def __init__(self, args):
++    def __init__(self, args, config=None):
+         self._guest = None
+         self._genisoimage = args.genisoimage
+         self._build_path = args.build_path
++        # Allow input config to override defaults.
++        self._config = DEFAULT_CONFIG.copy()
++        if config != None:
++            self._config.update(config)
++        self.validate_ssh_keys()
+         self._tmpdir = os.path.realpath(tempfile.mkdtemp(prefix="vm-test-",
+                                                          suffix=".tmp",
+                                                          dir="."))
+         atexit.register(shutil.rmtree, self._tmpdir)
+-
+-        self._ssh_key_file = os.path.join(self._tmpdir, "id_rsa")
+-        open(self._ssh_key_file, "w").write(SSH_KEY)
+-        subprocess.check_call(["chmod", "600", self._ssh_key_file])
+-
+-        self._ssh_pub_key_file = os.path.join(self._tmpdir, "id_rsa.pub")
+-        open(self._ssh_pub_key_file, "w").write(SSH_PUB_KEY)
++        # Copy the key files to a temporary directory.
++        # Also chmod the key file to agree with ssh requirements.
++        self._config['ssh_key'] = \
++            open(self._config['ssh_key_file']).read().rstrip()
++        self._config['ssh_pub_key'] = \
++            open(self._config['ssh_pub_key_file']).read().rstrip()
++        self._ssh_tmp_key_file = os.path.join(self._tmpdir, "id_rsa")
++        open(self._ssh_tmp_key_file, "w").write(self._config['ssh_key'])
++        subprocess.check_call(["chmod", "600", self._ssh_tmp_key_file])
++
++        self._ssh_tmp_pub_key_file = os.path.join(self._tmpdir, "id_rsa.pub")
++        open(self._ssh_tmp_pub_key_file,
++             "w").write(self._config['ssh_pub_key'])
+ 
+         self.debug = args.debug
+         self._stderr = sys.stderr
+@@ -84,11 +122,14 @@ class BaseVM(object):
+             self._stdout = sys.stdout
+         else:
+             self._stdout = self._devnull
++        netdev = "user,id=vnet,hostfwd=:127.0.0.1:{}-:22"
+         self._args = [ \
+-            "-nodefaults", "-m", "4G",
+-            "-cpu", "max",
+-            "-netdev", "user,id=vnet,hostfwd=:127.0.0.1:0-:22" +
+-                       (",ipv6=no" if not self.ipv6 else ""),
++            "-nodefaults", "-m", self._config['memory'],
++            "-cpu", self._config['cpu'],
++            "-netdev",
++            netdev.format(self._config['ssh_port']) +
++            (",ipv6=no" if not self.ipv6 else "") +
++            (",dns=" + self._config['dns'] if self._config['dns'] else ""),
+             "-device", "virtio-net-pci,netdev=vnet",
+             "-vnc", "127.0.0.1:0,to=20"]
+         if args.jobs and args.jobs > 1:
+@@ -99,6 +140,55 @@ class BaseVM(object):
+             logging.info("KVM not available, not using -enable-kvm")
+         self._data_args = []
+ 
++        if self._config['qemu_args'] != None:
++            qemu_args = self._config['qemu_args']
++            qemu_args = qemu_args.replace('\n',' ').replace('\r','')
++            # shlex groups quoted arguments together
++            # we need this to keep the quoted args together for when
++            # the QEMU command is issued later.
++            args = shlex.split(qemu_args)
++            self._config['extra_args'] = []
++            for arg in args:
++                if arg:
++                    # Preserve quotes around arguments.
++                    # shlex above takes them out, so add them in.
++                    if " " in arg:
++                        arg = '"{}"'.format(arg)
++                    self._config['extra_args'].append(arg)
++
++    def validate_ssh_keys(self):
++        """Check to see if the ssh key files exist."""
++        if 'ssh_key_file' not in self._config or\
++           not os.path.exists(self._config['ssh_key_file']):
++            raise Exception("ssh key file not found.")
++        if 'ssh_pub_key_file' not in self._config or\
++           not os.path.exists(self._config['ssh_pub_key_file']):
++               raise Exception("ssh pub key file not found.")
++
++    def wait_boot(self, wait_string=None):
++        """Wait for the standard string we expect
++           on completion of a normal boot.
++           The user can also choose to override with an
++           alternate string to wait for."""
++        if wait_string is None:
++            if self.login_prompt is None:
++                raise Exception("self.login_prompt not defined")
++            wait_string = self.login_prompt
++        # Intentionally bump up the default timeout under TCG,
++        # since the console wait below takes longer.
++        timeout = self.socket_timeout
++        if not kvm_available(self.arch):
++            timeout *= 8
++        self.console_init(timeout=timeout)
++        self.console_wait(wait_string)
++
++    def __getattr__(self, name):
++        # Support direct access to config by key.
++        # for example, access self._config['cpu'] by self.cpu
++        if name.lower() in self._config.keys():
++            return self._config[name.lower()]
++        return object.__getattribute__(self, name)
++
+     def _download_with_cache(self, url, sha256sum=None, sha512sum=None):
+         def check_sha256sum(fname):
+             if not sha256sum:
+@@ -130,8 +220,9 @@ class BaseVM(object):
+                    "-t",
+                    "-o", "StrictHostKeyChecking=no",
+                    "-o", "UserKnownHostsFile=" + os.devnull,
+-                   "-o", "ConnectTimeout=1",
+-                   "-p", self.ssh_port, "-i", self._ssh_key_file]
++                   "-o",
++                   "ConnectTimeout={}".format(self._config["ssh_timeout"]),
++                   "-p", self.ssh_port, "-i", self._ssh_tmp_key_file]
+         # If not in debug mode, set ssh to quiet mode to
+         # avoid printing the results of commands.
+         if not self.debug:
+@@ -180,14 +271,14 @@ class BaseVM(object):
+                             "virtio-blk,drive=%s,serial=%s,bootindex=1" % (name, name)]
+ 
+     def boot(self, img, extra_args=[]):
+-        args = self._args + [
+-            "-drive", "file=%s,if=none,id=drive0,cache=writeback" % img,
+-            "-device", "virtio-blk,drive=drive0,bootindex=0"]
+-        args += self._data_args + extra_args
++        boot_dev = BOOT_DEVICE[self._config['boot_dev_type']]
++        boot_params = boot_dev.format(img)
++        args = self._args + boot_params.split(' ')
++        args += self._data_args + extra_args + self._config['extra_args']
+         logging.debug("QEMU args: %s", " ".join(args))
+         qemu_path = get_qemu_path(self.arch, self._build_path)
+         guest = QEMUMachine(binary=qemu_path, args=args)
+-        guest.set_machine('pc')
++        guest.set_machine(self._config['machine'])
+         guest.set_console()
+         try:
+             guest.launch()
+@@ -301,7 +392,8 @@ class BaseVM(object):
+         self.console_send(command)
+ 
+     def console_ssh_init(self, prompt, user, pw):
+-        sshkey_cmd = "echo '%s' > .ssh/authorized_keys\n" % SSH_PUB_KEY.rstrip()
++        sshkey_cmd = "echo '%s' > .ssh/authorized_keys\n" \
++                     % self._config['ssh_pub_key'].rstrip()
+         self.console_wait_send("login:",    "%s\n" % user)
+         self.console_wait_send("Password:", "%s\n" % pw)
+         self.console_wait_send(prompt,      "mkdir .ssh\n")
+@@ -360,23 +452,23 @@ class BaseVM(object):
+                           "local-hostname: {}-guest\n".format(name)])
+         mdata.close()
+         udata = open(os.path.join(cidir, "user-data"), "w")
+-        print("guest user:pw {}:{}".format(self.GUEST_USER,
+-                                           self.GUEST_PASS))
++        print("guest user:pw {}:{}".format(self._config['guest_user'],
++                                           self._config['guest_pass']))
+         udata.writelines(["#cloud-config\n",
+                           "chpasswd:\n",
+                           "  list: |\n",
+-                          "    root:%s\n" % self.ROOT_PASS,
+-                          "    %s:%s\n" % (self.GUEST_USER,
+-                                           self.GUEST_PASS),
++                          "    root:%s\n" % self._config['root_pass'],
++                          "    %s:%s\n" % (self._config['guest_user'],
++                                           self._config['guest_pass']),
+                           "  expire: False\n",
+                           "users:\n",
+-                          "  - name: %s\n" % self.GUEST_USER,
++                          "  - name: %s\n" % self._config['guest_user'],
+                           "    sudo: ALL=(ALL) NOPASSWD:ALL\n",
+                           "    ssh-authorized-keys:\n",
+-                          "    - %s\n" % SSH_PUB_KEY,
++                          "    - %s\n" % self._config['ssh_pub_key'],
+                           "  - name: root\n",
+                           "    ssh-authorized-keys:\n",
+-                          "    - %s\n" % SSH_PUB_KEY,
++                          "    - %s\n" % self._config['ssh_pub_key'],
+                           "locale: en_US.UTF-8\n"])
+         proxy = os.environ.get("http_proxy")
+         if not proxy is None:
+@@ -447,15 +539,17 @@ def parse_args(vmcls):
+     parser.disable_interspersed_args()
+     return parser.parse_args()
+ 
+-def main(vmcls):
++def main(vmcls, config=None):
+     try:
++        if config == None:
++            config = DEFAULT_CONFIG
+         args, argv = parse_args(vmcls)
+         if not argv and not args.build_qemu and not args.build_image:
+             print("Nothing to do?")
+             return 1
+         logging.basicConfig(level=(logging.DEBUG if args.debug
+                                    else logging.WARN))
+-        vm = vmcls(args)
++        vm = vmcls(args, config=config)
+         if args.build_image:
+             if os.path.exists(args.image) and not args.force:
+                 sys.stderr.writelines(["Image file exists: %s\n" % args.image,
 -- 
 2.20.1
 
