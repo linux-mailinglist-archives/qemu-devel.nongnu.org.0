@@ -2,46 +2,46 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 69CD521C3F6
-	for <lists+qemu-devel@lfdr.de>; Sat, 11 Jul 2020 13:22:12 +0200 (CEST)
-Received: from localhost ([::1]:54466 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4EE5421C416
+	for <lists+qemu-devel@lfdr.de>; Sat, 11 Jul 2020 13:51:39 +0200 (CEST)
+Received: from localhost ([::1]:36180 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1juDa7-0000SB-Dh
-	for lists+qemu-devel@lfdr.de; Sat, 11 Jul 2020 07:22:11 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:53918)
+	id 1juE2c-0006kx-A9
+	for lists+qemu-devel@lfdr.de; Sat, 11 Jul 2020 07:51:38 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:59220)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1juDTv-0000s8-G9
- for qemu-devel@nongnu.org; Sat, 11 Jul 2020 07:15:47 -0400
-Received: from indium.canonical.com ([91.189.90.7]:48388)
+ id 1juE1o-0006JL-K2
+ for qemu-devel@nongnu.org; Sat, 11 Jul 2020 07:50:48 -0400
+Received: from indium.canonical.com ([91.189.90.7]:49458)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1juDTt-0007BC-Ce
- for qemu-devel@nongnu.org; Sat, 11 Jul 2020 07:15:47 -0400
+ id 1juE1l-0002Sv-PK
+ for qemu-devel@nongnu.org; Sat, 11 Jul 2020 07:50:48 -0400
 Received: from loganberry.canonical.com ([91.189.90.37])
  by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
- id 1juDTr-0000Xd-Fm
- for <qemu-devel@nongnu.org>; Sat, 11 Jul 2020 11:15:43 +0000
+ id 1juE1k-0002OQ-1u
+ for <qemu-devel@nongnu.org>; Sat, 11 Jul 2020 11:50:44 +0000
 Received: from loganberry.canonical.com (localhost [127.0.0.1])
- by loganberry.canonical.com (Postfix) with ESMTP id 6DAD02E80E7
- for <qemu-devel@nongnu.org>; Sat, 11 Jul 2020 11:15:43 +0000 (UTC)
+ by loganberry.canonical.com (Postfix) with ESMTP id 06D222E80EE
+ for <qemu-devel@nongnu.org>; Sat, 11 Jul 2020 11:50:44 +0000 (UTC)
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: quoted-printable
-Date: Sat, 11 Jul 2020 11:07:33 -0000
-From: Simon John <1886318@bugs.launchpad.net>
+Date: Sat, 11 Jul 2020 11:36:14 -0000
+From: Mark Cave-Ayland <1886318@bugs.launchpad.net>
 To: qemu-devel@nongnu.org
 X-Launchpad-Notification-Type: bug
 X-Launchpad-Bug: product=qemu; status=New; importance=Undecided; assignee=None;
 X-Launchpad-Bug-Information-Type: Public
 X-Launchpad-Bug-Private: no
 X-Launchpad-Bug-Security-Vulnerability: no
-X-Launchpad-Bug-Commenters: sej7278
+X-Launchpad-Bug-Commenters: mark-cave-ayland sej7278
 X-Launchpad-Bug-Reporter: Simon John (sej7278)
-X-Launchpad-Bug-Modifier: Simon John (sej7278)
+X-Launchpad-Bug-Modifier: Mark Cave-Ayland (mark-cave-ayland)
 References: <159394898604.17667.6684490731246411850.malonedeb@soybean.canonical.com>
-Message-Id: <159446565315.11965.10290832416109429043.malone@soybean.canonical.com>
+Message-Id: <159446737439.19763.12015750254418830444.malone@chaenomeles.canonical.com>
 Subject: [Bug 1886318] Re: Qemu after v5.0.0 breaks macos guests
 X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
 X-Launchpad-Message-For: qemu-devel-ml
@@ -49,7 +49,7 @@ Precedence: bulk
 X-Generated-By: Launchpad (canonical.com);
  Revision="4809fcb62f445aaa3ae919f7f6c3cc7d156ea57a";
  Instance="production-secrets-lazr.conf"
-X-Launchpad-Hash: 002e4225f163036ba18a5022c502761baf092d03
+X-Launchpad-Hash: 10366118fa08eb597e9085150a5a77824f57bc85
 Received-SPF: none client-ip=91.189.90.7; envelope-from=bounces@canonical.com;
  helo=indium.canonical.com
 X-detected-operating-system: by eggs.gnu.org: First seen = 2020/07/11 07:00:48
@@ -75,11 +75,21 @@ Reply-To: Bug 1886318 <1886318@bugs.launchpad.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-qemu console screenshot, this is as far as it gets after clover:
-https://i.imgur.com/HWY96Kq.png
+Indeed it is, but bear in mind it was QEMU 5.1 release feature freeze
+this week so most developers are busy rebasing and fixing up bugs from
+the resulting merge.
 
-same result with or without usb/pci passthrough, qxl/vnc, git master
-HEAD or debian 5.0-6
+Given that you have already built QEMU from source, what would help
+enormously is if you can do a "git bisect" between the v5.0.0 tag
+(working) and your current master (not working) and provide the output
+of "git bisect log" in this bug report. By identifying the individual
+commit that broke your test case, it is much easier for developers to
+understand the issue and propose a fix.
+
+
+ATB,
+
+Mark.
 
 -- =
 
