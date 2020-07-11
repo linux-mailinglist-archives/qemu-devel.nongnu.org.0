@@ -2,24 +2,25 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0F46121C527
-	for <lists+qemu-devel@lfdr.de>; Sat, 11 Jul 2020 18:20:27 +0200 (CEST)
-Received: from localhost ([::1]:57294 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7863E21C531
+	for <lists+qemu-devel@lfdr.de>; Sat, 11 Jul 2020 18:23:26 +0200 (CEST)
+Received: from localhost ([::1]:45940 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1juIEj-0000XZ-PZ
-	for lists+qemu-devel@lfdr.de; Sat, 11 Jul 2020 12:20:25 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:54570)
+	id 1juIHd-0007PW-DE
+	for lists+qemu-devel@lfdr.de; Sat, 11 Jul 2020 12:23:25 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:54690)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <zhiwei_liu@c-sky.com>)
- id 1juIDJ-0007Fl-3l; Sat, 11 Jul 2020 12:18:57 -0400
-Received: from smtp2200-217.mail.aliyun.com ([121.197.200.217]:47377)
+ id 1juIDY-0007fX-Rf; Sat, 11 Jul 2020 12:19:12 -0400
+Received: from smtp2200-217.mail.aliyun.com ([121.197.200.217]:38873)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <zhiwei_liu@c-sky.com>)
- id 1juIDE-0001Lv-IE; Sat, 11 Jul 2020 12:18:56 -0400
-X-Alimail-AntiSpam: AC=CONTINUE; BC=0.1233035|-1; CH=green; DM=|CONTINUE|false|;
- DS=CONTINUE|ham_system_inform|0.0740104-0.00102722-0.924962;
- FP=0|0|0|0|0|-1|-1|-1; HT=e02c03294; MF=zhiwei_liu@c-sky.com; NM=1; PH=DS;
+ id 1juIDW-0001Ln-9Z; Sat, 11 Jul 2020 12:19:12 -0400
+X-Alimail-AntiSpam: AC=CONTINUE; BC=0.07436282|-1; CH=green;
+ DM=|CONTINUE|false|;
+ DS=CONTINUE|ham_system_inform|0.531228-0.000452356-0.46832;
+ FP=0|0|0|0|0|-1|-1|-1; HT=e01l07447; MF=zhiwei_liu@c-sky.com; NM=1; PH=DS;
  RN=10; RT=10; SR=0; TI=SMTPD_---.I0GMGMe_1594484317; 
 Received: from L-PF1D6DP4-1208.hz.ali.com(mailfrom:zhiwei_liu@c-sky.com
  fp:SMTPD_---.I0GMGMe_1594484317)
@@ -28,10 +29,12 @@ Received: from L-PF1D6DP4-1208.hz.ali.com(mailfrom:zhiwei_liu@c-sky.com
 From: LIU Zhiwei <zhiwei_liu@c-sky.com>
 To: qemu-devel@nongnu.org,
 	qemu-riscv@nongnu.org
-Subject: [PATCH 00/11] RISC-V risu porting
-Date: Sun, 12 Jul 2020 00:16:44 +0800
-Message-Id: <20200711161655.2856-1-zhiwei_liu@c-sky.com>
+Subject: [PATCH 01/11] riscv: Add RV64I instructions description
+Date: Sun, 12 Jul 2020 00:16:45 +0800
+Message-Id: <20200711161655.2856-2-zhiwei_liu@c-sky.com>
 X-Mailer: git-send-email 2.23.0
+In-Reply-To: <20200711161655.2856-1-zhiwei_liu@c-sky.com>
+References: <20200711161655.2856-1-zhiwei_liu@c-sky.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 Received-SPF: none client-ip=121.197.200.217;
@@ -62,53 +65,164 @@ Cc: peter.maydell@linaro.org, richard.henderson@linaro.org,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-In contrast to the RFC, add more instructions description. Now it supports
-RV64IMACFD. Some cross verifications have been done, such as comparison
-between QEMU and TinyEMU, and comparison between QEMU and C906 FPGA.
+Avoid using stack pointer(x2), thread pointer(x3), global pointer(x4),
+as they are not under control of risu.
+Besides, avoid using x0 as base address register, because we can't
+emit a valid random address by setting x0.
 
-Now it has some productive.
-
-Features:
-* support RV64IMACFD.
-* support multi-precision float point.
-* support accurate special values generation.
-
-Todo:
-* support RVV and RVP.
-
-
-LIU Zhiwei (11):
-  riscv: Add RV64I instructions description
-  riscv: Add RV64M instructions description
-  riscv: Add RV64A instructions description
-  riscv: Add RV64F instructions description
-  riscv: Add RV64D instructions description
-  riscv: Add RV64C instructions description
-  riscv: Generate payload scripts
-  riscv: Add standard test case
-  riscv: Define riscv struct reginfo
-  riscv: Implement payload load interfaces
-  riscv: Add configure script
-
- configure              |   4 +-
- risu_reginfo_riscv64.c | 132 +++++++++
- risu_reginfo_riscv64.h |  28 ++
- risu_riscv64.c         |  47 +++
- risugen_riscv.pm       | 643 +++++++++++++++++++++++++++++++++++++++++
- rv64.risu              | 466 +++++++++++++++++++++++++++++
- rv64c.risu             |  97 +++++++
- test_riscv64.s         |  85 ++++++
- upstream/configure     | 204 +++++++++++++
- 9 files changed, 1705 insertions(+), 1 deletion(-)
- create mode 100644 risu_reginfo_riscv64.c
- create mode 100644 risu_reginfo_riscv64.h
- create mode 100644 risu_riscv64.c
- create mode 100644 risugen_riscv.pm
+Signed-off-by: LIU Zhiwei <zhiwei_liu@c-sky.com>
+---
+ rv64.risu | 141 ++++++++++++++++++++++++++++++++++++++++++++++++++++++
+ 1 file changed, 141 insertions(+)
  create mode 100644 rv64.risu
- create mode 100644 rv64c.risu
- create mode 100644 test_riscv64.s
- create mode 100644 upstream/configure
 
+diff --git a/rv64.risu b/rv64.risu
+new file mode 100644
+index 0000000..edf0d1f
+--- /dev/null
++++ b/rv64.risu
+@@ -0,0 +1,141 @@
++# Input file for risugen defining RISC-V instructions
++.mode riscv.rv64
++@RV64I
++
++# x2 stack pointer, x3 global pointer, x4 thread pointer
++# These registers should be reserved for signal handler.
++
++LUI RISCV imm:20 rd:5 0110111 \
++!constraints { greg($rd); }
++
++AUIPC RISCV imm:20 rd:5 0110111 \
++!constraints { greg($rd); }
++
++# Limit to current implementation, the base address register will be overide
++LB RISCV imm:12 rs1:5 000 rd:5 0000011 \
++!constraints { greg($rd) && gbase($rs1); } \
++!memory { align(1); reg_plus_imm($rs1, sextract($imm, 12), $rd); }
++
++LH RISCV imm:12 rs1:5 001 rd:5 0000011 \
++!constraints { greg($rd) && gbase($rs1); } \
++!memory { align(2); reg_plus_imm($rs1, sextract($imm, 12), $rd); }
++
++LW RISCV imm:12 rs1:5 010 rd:5 0000011 \
++!constraints { greg($rd) && gbase($rs1); } \
++!memory { align(4); reg_plus_imm($rs1, sextract($imm, 12), $rd); }
++
++LBU RISCV imm:12 rs1:5 100 rd:5 0000011 \
++!constraints { greg($rd) && gbase($rs1); } \
++!memory { align(1); reg_plus_imm($rs1, sextract($imm, 12), $rd); }
++
++LHU RISCV imm:12 rs1:5 101 rd:5 0000011 \
++!constraints { greg($rd) && gbase($rs1); } \
++!memory { align(2); reg_plus_imm($rs1, sextract($imm, 12), $rd); }
++
++SB RISCV imm5:7 rs2:5 rs1:5 000 imm:5 0100011 \
++!constraints { greg($rs2) && gbase($rs1) && $rs2 != $rs1; } \
++!memory { align(1); reg_plus_imm($rs1, sextract($imm5 << 5 | $imm, 12)); }
++
++SH RISCV imm5:7 rs2:5 rs1:5 001 imm:5 0100011 \
++!constraints { greg($rs2) && gbase($rs1) && $rs2 != $rs1; } \
++!memory { align(2); reg_plus_imm($rs1, sextract($imm5 << 5 | $imm, 12)); }
++
++SW RISCV imm5:7 rs2:5 rs1:5 010 imm:5 0100011 \
++!constraints { greg($rs2) && gbase($rs1) && $rs2 != $rs1; } \
++!memory { align(4); reg_plus_imm($rs1, sextract($imm5 << 5 | $imm, 12)); }
++
++ADDI RISCV imm:12 rs1:5 000 rd:5 0010011 \
++!constraints { greg($rd) && greg($rs1); }
++
++SLTI RISCV imm:12 rs1:5 010 rd:5 0010011 \
++!constraints { greg($rd) && greg($rs1); }
++
++SLTIU RISCV imm:12 rs1:5 011 rd:5 0010011 \
++!constraints { greg($rd) && greg($rs1); }
++
++XORI RISCV imm:12 rs1:5 100 rd:5 0010011 \
++!constraints { greg($rd) && greg($rs1); }
++
++ORI RISCV imm:12 rs1:5 110 rd:5 0010011 \
++!constraints { greg($rd) && greg($rs1); }
++
++ANDI RISCV imm:12 rs1:5 111 rd:5 0010011 \
++!constraints { greg($rd) && greg($rs1); }
++
++ADD RISCV 0000000 rs2:5 rs1:5 000 rd:5 0110011 \
++!constraints { greg($rd) && greg($rs1) && greg($rs2); }
++
++SUB RISCV 0100000 rs2:5 rs1:5 000 rd:5 0110011 \
++!constraints { greg($rd) && greg($rs1) && greg($rs2); }
++
++SLL RISCV 0000000 rs2:5 rs1:5 001 rd:5 0110011 \
++!constraints { greg($rd) && greg($rs1) && greg($rs2); }
++
++SLT RISCV 0000000 rs2:5 rs1:5 010 rd:5 0110011 \
++!constraints { greg($rd) && greg($rs1) && greg($rs2); }
++
++SLTU  RISCV 0000000 rs2:5 rs1:5 011 rd:5 0110011 \
++!constraints { greg($rd) && greg($rs1) && greg($rs2); }
++
++XOR RISCV 0000000 rs2:5 rs1:5 100 rd:5 0110011 \
++!constraints { greg($rd) && greg($rs1) && greg($rs2); }
++
++SRL RISCV 0000000 rs2:5 rs1:5 101 rd:5 0110011 \
++!constraints { greg($rd) && greg($rs1) && greg($rs2); }
++
++SRA RISCV 0100000 rs2:5 rs1:5 101 rd:5 0110011 \
++!constraints { greg($rd) && greg($rs1) && greg($rs2); }
++
++OR RISCV 0000000 rs2:5 rs1:5 110 rd:5 0110011 \
++!constraints { greg($rd) && greg($rs1) && greg($rs2); }
++
++AND RISCV 0000000 rs2:5 rs1:5 111 rd:5 0110011 \
++!constraints { greg($rd) && greg($rs1) && greg($rs2); }
++
++LWU RISCV imm:12 rs1:5 110 rd:5 0000011 \
++!constraints { greg($rd) && gbase($rs1); } \
++!memory { align(4); reg_plus_imm($rs1, sextract($imm, 12), $rd); }
++
++LD RISCV imm:12 rs1:5 011 rd:5 0000011 \
++!constraints { greg($rd) && gbase($rs1); } \
++!memory { align(8); reg_plus_imm($rs1, sextract($imm, 12), $rd); }
++
++SD RISCV imm5:7 rs2:5 rs1:5 011 imm:5 0100011 \
++!constraints { greg($rs2) && gbase($rs1) && $rs2 != $rs1; } \
++!memory { align(8); reg_plus_imm($rs1, sextract($imm5 << 5 | $imm, 12)); }
++
++SLLI RISCV 00000 sham5:7 rs1:5 001 rd:5 0010011 \
++!constraints { greg($rd) && greg($rs1); }
++
++SRLI RISCV 00000 sham5:7 rs1:5 101 rd:5 0010011 \
++!constraints { greg($rd) && greg($rs1); }
++
++SRAI RISCV 01000 sham5:7 rs1:5 101 rd:5 0010011 \
++!constraints { greg($rd) && greg($rs1); }
++
++ADDIW RISCV imm:12 rs1:5 000 rd:5 0011011 \
++!constraints { greg($rd) && greg($rs1); }
++
++SLLIW RISCV 0000000 shamt:5 rs1:5 001 rd:5 0011011 \
++!constraints { greg($rd) && greg($rs1); }
++
++SRLIW RISCV 0000000 shamt:5 rs1:5 101 rd:5 0011011 \
++!constraints { greg($rd) && greg($rs1); }
++
++SRAIW RISCV 0100000 shamt:5 rs1:5 101 rd:5 0011011 \
++!constraints { greg($rd) && greg($rs1); }
++
++ADDW RISCV 0000000 rs2:5 rs1:5 000 rd:5 0011011 \
++!constraints { greg($rd) && greg($rs1) && greg($rs2); }
++
++SUBW RISCV 0100000 rs2:5 rs1:5 000 rd:5 0011011 \
++!constraints { greg($rd) && greg($rs1) && greg($rs2); }
++
++SLLW RISCV 0000000 rs2:5 rs1:5 001 rd:5 0011011 \
++!constraints { greg($rd) && greg($rs1) && greg($rs2); }
++
++SRLW RISCV 0000000 rs2:5 rs1:5 101 rd:5 0011011 \
++!constraints { greg($rd) && greg($rs1) && greg($rs2); }
++
++SRAW RISCV 0100000 rs2:5 rs1:5 101 rd:5 0011011 \
++!constraints { greg($rd) && greg($rs1) && greg($rs2); }
 -- 
 2.23.0
 
