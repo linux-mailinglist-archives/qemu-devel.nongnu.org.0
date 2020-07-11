@@ -2,71 +2,72 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A305D21C572
-	for <lists+qemu-devel@lfdr.de>; Sat, 11 Jul 2020 19:13:36 +0200 (CEST)
-Received: from localhost ([::1]:35198 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 11D9F21C56F
+	for <lists+qemu-devel@lfdr.de>; Sat, 11 Jul 2020 19:11:31 +0200 (CEST)
+Received: from localhost ([::1]:57986 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1juJ4B-0004Lk-IV
-	for lists+qemu-devel@lfdr.de; Sat, 11 Jul 2020 13:13:35 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:33304)
+	id 1juJ29-00027X-VI
+	for lists+qemu-devel@lfdr.de; Sat, 11 Jul 2020 13:11:29 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:33334)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1juIya-0003df-10
- for qemu-devel@nongnu.org; Sat, 11 Jul 2020 13:07:48 -0400
-Received: from mail-wr1-x436.google.com ([2a00:1450:4864:20::436]:42232)
+ id 1juIyc-0003kT-IS
+ for qemu-devel@nongnu.org; Sat, 11 Jul 2020 13:07:50 -0400
+Received: from mail-wr1-x430.google.com ([2a00:1450:4864:20::430]:36136)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1juIyY-0006iJ-FF
- for qemu-devel@nongnu.org; Sat, 11 Jul 2020 13:07:47 -0400
-Received: by mail-wr1-x436.google.com with SMTP id o11so8994954wrv.9
- for <qemu-devel@nongnu.org>; Sat, 11 Jul 2020 10:07:46 -0700 (PDT)
+ id 1juIyZ-0006iS-Kn
+ for qemu-devel@nongnu.org; Sat, 11 Jul 2020 13:07:50 -0400
+Received: by mail-wr1-x430.google.com with SMTP id k6so8996901wrn.3
+ for <qemu-devel@nongnu.org>; Sat, 11 Jul 2020 10:07:47 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=x+AzDxkpTb7rSHxhkwf/D/VC9fOGKV8MMi1S7eP7yLg=;
- b=b0ISBmmwSLHrsPPL8Pgxic/FKa1pjNeLJAiyx9UMIUumR40K1+hRk+mDCTI02YdqUP
- BvwmQAVyLV/hGU5A9vnC/QcdpO+QDPDXgjWXCy6Fesi7BIJzSyL2CPNe/k6PTjYj299U
- PFOuu9fWX7bk7y0cDGVcw/Uy4ksxD9FmpTTpPgPsEsDbABAnxnW3719DUTtpXAPTwout
- oDIXee6bDZQjasYdC11N/XUNhIiF3cqj/lEKsihhWWhFbh2I88zxZ/bAQmeVP2k1sT0f
- uP/FiMeiUB0rHriAYeXz9kVfWDTQRIlj6kqHP20oTBrYHRWE1vWhFrL3oGS94U+tqOKT
- bv0w==
+ bh=N9pWgPRrMQtmlCPNVCa0u01plYw7J8rYdGK8hUoBrLA=;
+ b=SiA8FQ4qychO1UKKOn0LczdZciGJd+vb8zXIdbUHid0Lwat5lccNZkA7/ctx1C0Si4
+ CJIzwLJzpos7TFStuEkgVo52vzH1FI02QzjOWHa/ZHsIZb5B1WVqMjrKsC/SUGkSW+p3
+ EIA85HPmr9Xed3tSY5vuRISEMQB5b/EYGHqbE6KT48nWpd76Rhr1TRXQaIWFJfZXF4Ut
+ e8UC3GSsc8QlUc86vRtAx0plT8R1VpOEoGCSX8KkS+Z0TWw0ChLf5rIZofyGmBHZqC7x
+ C7drqewhgZXF5En5xzrZljPsn7sum53ZCXokdx8aFrrA0wNLnl8TgpYrBn1CqcVzTIlP
+ kNzw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=x+AzDxkpTb7rSHxhkwf/D/VC9fOGKV8MMi1S7eP7yLg=;
- b=SdX2NRNXr8ZhRn6TA/9gjoBNkLpKokib0MTKHqrCv/1+VwBHhzO3ADsOO6C9fxz6vQ
- JfRiTh98J0G52f8ADj7mUhJCRH6SoTTWXvz1lBIl9g+xemPqEibTIhwCpes9gk0UjKmD
- tkvgJyqYZ3U7ed+EmXku9UXIgcUD6xUVvqC6ZpgLqgyKLhkMxxqoI9HHNF+avcO2SlXs
- RLbFqQh+pjl9r8ObwLS1ei7PEkrFrMoTNefW2GUWAnOeG1LjfzrFmmYvkekXpCA/tYPr
- VD72svGBqf0vBXmkfr/HZDOxG9U5XRE3rIKrTV0UokyVYX4/FPAp80py2NwCUMpBgO8z
- 5SGg==
-X-Gm-Message-State: AOAM531wf030wcUNOLTEgGvIABfFa4eHzBQGGr3ldIVwPRlwTMcjw00Z
- Pq9kbZkkU+MRFhsTqUQ9BuBZlg==
-X-Google-Smtp-Source: ABdhPJwcHPSK2wPPhxlxNV7hnLOEWJmLE8eoUE2mEeeTO1TBrvnm/0Qz3sM+9r9m0AmFOR84S/2coA==
-X-Received: by 2002:a5d:60c7:: with SMTP id x7mr68124856wrt.138.1594487265195; 
- Sat, 11 Jul 2020 10:07:45 -0700 (PDT)
+ bh=N9pWgPRrMQtmlCPNVCa0u01plYw7J8rYdGK8hUoBrLA=;
+ b=dXo3lX8qTZgt/jc6rWpD+6B2oTfNkF7s/Vu62xuukLpkcBrRfieXFaHXXr9uW7f37g
+ 8h+EirrCYXc+jONzKB7ukj3br55wPITtZN/BQIksw7Q/QE/waUBRXtABWUgJhPEvn1Li
+ jLFZVY3M729waUGV2a3ImQMhpo/EqnY+R4AjI0xyt8EDFb/U/duOgCT4U5spPLQvf+85
+ Q/ymFuCj2OPWHqtvRXFpSEfEBbgqqg4PwQ10CFNuoyHaFQyWBgGH4EfMODBTKaLd/H8Z
+ IVb5kNBxi8zh8+SbBImE8Hc1SaFmpqb3uyzmCFXeMIac1QAoDpJLOmgJ63ombwW3bLHU
+ H/JA==
+X-Gm-Message-State: AOAM532M7qt0Sqj/wpiLJixfd9vW1elTgIV630EdVALh6hGekzJFzkvk
+ m4YtLPg5PUfugGTRW8dT0BCbDQ==
+X-Google-Smtp-Source: ABdhPJxJWTUDawG/EZrrOFYlNlkabskhACxmg6dt60TlxafRXIPpUVgml5/xBdknxo2VqEguQd8lgA==
+X-Received: by 2002:a05:6000:1cf:: with SMTP id
+ t15mr78356432wrx.180.1594487266306; 
+ Sat, 11 Jul 2020 10:07:46 -0700 (PDT)
 Received: from zen.linaroharston ([51.148.130.216])
- by smtp.gmail.com with ESMTPSA id i6sm3838854wrp.92.2020.07.11.10.07.36
+ by smtp.gmail.com with ESMTPSA id m16sm16930795wro.0.2020.07.11.10.07.36
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
  Sat, 11 Jul 2020 10:07:39 -0700 (PDT)
 Received: from zen.lan (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id EA7AA1FF98;
- Sat, 11 Jul 2020 18:07:32 +0100 (BST)
+ by zen.linaroharston (Postfix) with ESMTP id 0BAB91FF99;
+ Sat, 11 Jul 2020 18:07:33 +0100 (BST)
 From: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
 To: peter.maydell@linaro.org
-Subject: [PULL v2 49/50] Revert "vga: build virtio-gpu as module"
-Date: Sat, 11 Jul 2020 18:07:31 +0100
-Message-Id: <20200711170732.26213-10-alex.bennee@linaro.org>
+Subject: [PULL v2 50/50] iotests: Set LC_ALL=C for sort
+Date: Sat, 11 Jul 2020 18:07:32 +0100
+Message-Id: <20200711170732.26213-11-alex.bennee@linaro.org>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20200711170732.26213-1-alex.bennee@linaro.org>
 References: <20200711170732.26213-1-alex.bennee@linaro.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::436;
- envelope-from=alex.bennee@linaro.org; helo=mail-wr1-x436.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::430;
+ envelope-from=alex.bennee@linaro.org; helo=mail-wr1-x430.google.com
 X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
  That's all we know.
 X-Spam_score_int: -20
@@ -74,8 +75,8 @@ X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
  DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- URIBL_BLOCKED=0.001 autolearn=ham autolearn_force=no
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -88,78 +89,40 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>,
- qemu-devel@nongnu.org, Gerd Hoffmann <kraxel@redhat.com>
+Cc: Kevin Wolf <kwolf@redhat.com>,
+ "open list:Block layer core" <qemu-block@nongnu.org>, qemu-devel@nongnu.org,
+ Max Reitz <mreitz@redhat.com>, John Snow <jsnow@redhat.com>,
+ =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Gerd Hoffmann <kraxel@redhat.com>
+From: Max Reitz <mreitz@redhat.com>
 
-This reverts commit 8d5a24c83dba90b08ef163bbf166d6dfbad9019b.
+Otherwise the result is basically unpredictable.
 
-Compiling all virtio-gpu objects into a single module isn't a good plan
-because the individual objects have different CONFIG_* dependencies.
-Leads to module load failures on s390x due to vga support being
-disabled, which in turn breaks '-device virtio-gpu-device' (flagged by
-travis ci).
+(Note that the precise environment variable to control sorting order is
+LC_COLLATE, but LC_ALL overrides LC_COLLATE, and we do not want the
+sorting order to be messed up if LC_ALL is set in the environment.)
 
-So back to the drawing board for modular virtio-gpu ...
-
-Signed-off-by: Gerd Hoffmann <kraxel@redhat.com>
+Reported-by: John Snow <jsnow@redhat.com>
+Signed-off-by: Max Reitz <mreitz@redhat.com>
+Reviewed-by: Eric Blake <eblake@redhat.com>
 Signed-off-by: Alex Bennée <alex.bennee@linaro.org>
-Message-Id: <20200710203652.9708-3-kraxel@redhat.com>
+Message-Id: <20200710163253.381630-3-mreitz@redhat.com>
 
-diff --git a/util/module.c b/util/module.c
-index 32b0547b82..90e9bd42c6 100644
---- a/util/module.c
-+++ b/util/module.c
-@@ -266,12 +266,6 @@ static struct {
-     { "usb-redir",             "hw-", "usb-redirect"          },
-     { "qxl-vga",               "hw-", "display-qxl"           },
-     { "qxl",                   "hw-", "display-qxl"           },
--    { "virtio-gpu-device",     "hw-", "display-virtio-gpu"    },
--    { "virtio-gpu-pci",        "hw-", "display-virtio-gpu"    },
--    { "virtio-vga",            "hw-", "display-virtio-gpu"    },
--    { "vhost-user-gpu-device", "hw-", "display-virtio-gpu"    },
--    { "vhost-user-gpu-pci",    "hw-", "display-virtio-gpu"    },
--    { "vhost-user-vga",        "hw-", "display-virtio-gpu"    },
-     { "chardev-braille",       "chardev-", "baum"             },
- };
- 
-diff --git a/hw/display/Makefile.objs b/hw/display/Makefile.objs
-index e907f3182b..d619594ad4 100644
---- a/hw/display/Makefile.objs
-+++ b/hw/display/Makefile.objs
-@@ -49,19 +49,16 @@ common-obj-m += qxl.mo
- qxl.mo-objs = qxl.o qxl-logger.o qxl-render.o
- endif
- 
--ifeq ($(CONFIG_VIRTIO_GPU),y)
--common-obj-m += virtio-gpu.mo
--virtio-gpu-obj-$(CONFIG_VIRTIO_GPU) += virtio-gpu-base.o virtio-gpu.o virtio-gpu-3d.o
--virtio-gpu-obj-$(CONFIG_VHOST_USER_GPU) += vhost-user-gpu.o
--virtio-gpu-obj-$(call land,$(CONFIG_VIRTIO_GPU),$(CONFIG_VIRTIO_PCI)) += virtio-gpu-pci.o
--virtio-gpu-obj-$(call land,$(CONFIG_VHOST_USER_GPU),$(CONFIG_VIRTIO_PCI)) += vhost-user-gpu-pci.o
--virtio-gpu-obj-$(CONFIG_VIRTIO_VGA) += virtio-vga.o
--virtio-gpu-obj-$(CONFIG_VHOST_USER_VGA) += vhost-user-vga.o
--virtio-gpu.mo-objs := $(virtio-gpu-obj-y)
--virtio-gpu.mo-cflags := $(VIRGL_CFLAGS)
--virtio-gpu.mo-libs := $(VIRGL_LIBS)
--endif
--
-+common-obj-$(CONFIG_VIRTIO_GPU) += virtio-gpu-base.o virtio-gpu.o virtio-gpu-3d.o
-+common-obj-$(CONFIG_VHOST_USER_GPU) += vhost-user-gpu.o
-+common-obj-$(call land,$(CONFIG_VIRTIO_GPU),$(CONFIG_VIRTIO_PCI)) += virtio-gpu-pci.o
-+common-obj-$(call land,$(CONFIG_VHOST_USER_GPU),$(CONFIG_VIRTIO_PCI)) += vhost-user-gpu-pci.o
-+common-obj-$(CONFIG_VIRTIO_VGA) += virtio-vga.o
-+common-obj-$(CONFIG_VHOST_USER_VGA) += vhost-user-vga.o
-+virtio-gpu.o-cflags := $(VIRGL_CFLAGS)
-+virtio-gpu.o-libs += $(VIRGL_LIBS)
-+virtio-gpu-3d.o-cflags := $(VIRGL_CFLAGS)
-+virtio-gpu-3d.o-libs += $(VIRGL_LIBS)
- common-obj-$(CONFIG_DPCD) += dpcd.o
- common-obj-$(CONFIG_XLNX_ZYNQMP_ARM) += xlnx_dp.o
- 
+diff --git a/tests/qemu-iotests/common.filter b/tests/qemu-iotests/common.filter
+index d967adc59a..c9f978abce 100644
+--- a/tests/qemu-iotests/common.filter
++++ b/tests/qemu-iotests/common.filter
+@@ -186,7 +186,7 @@ _filter_img_create()
+             -e 's/^\(data_file\)/3-\1/' \
+             -e 's/^\(encryption\)/4-\1/' \
+             -e 's/^\(preallocation\)/8-\1/' \
+-        | sort \
++        | LC_ALL=C sort \
+         | $SED -e 's/^[0-9]-//' \
+         | tr '\n\0' ' \n' \
+         | $SED -e 's/^ *$//' -e 's/ *$//'
 -- 
 2.20.1
 
