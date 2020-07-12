@@ -2,34 +2,34 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id BA5D121C89A
-	for <lists+qemu-devel@lfdr.de>; Sun, 12 Jul 2020 12:42:16 +0200 (CEST)
-Received: from localhost ([::1]:36830 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id DD7CA21C89E
+	for <lists+qemu-devel@lfdr.de>; Sun, 12 Jul 2020 12:52:11 +0200 (CEST)
+Received: from localhost ([::1]:40292 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1juZR1-0001Kf-Ao
-	for lists+qemu-devel@lfdr.de; Sun, 12 Jul 2020 06:42:15 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:43090)
+	id 1juZac-0003Xc-V5
+	for lists+qemu-devel@lfdr.de; Sun, 12 Jul 2020 06:52:10 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:44234)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1juZQ3-0000uu-W4
- for qemu-devel@nongnu.org; Sun, 12 Jul 2020 06:41:16 -0400
-Received: from indium.canonical.com ([91.189.90.7]:52472)
+ id 1juZZN-0002is-An
+ for qemu-devel@nongnu.org; Sun, 12 Jul 2020 06:50:53 -0400
+Received: from indium.canonical.com ([91.189.90.7]:53702)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1juZQ1-0000vj-5M
- for qemu-devel@nongnu.org; Sun, 12 Jul 2020 06:41:15 -0400
+ id 1juZZL-0001lF-KJ
+ for qemu-devel@nongnu.org; Sun, 12 Jul 2020 06:50:53 -0400
 Received: from loganberry.canonical.com ([91.189.90.37])
  by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
- id 1juZPz-0007AT-5b
- for <qemu-devel@nongnu.org>; Sun, 12 Jul 2020 10:41:11 +0000
+ id 1juZZK-00004w-AU
+ for <qemu-devel@nongnu.org>; Sun, 12 Jul 2020 10:50:50 +0000
 Received: from loganberry.canonical.com (localhost [127.0.0.1])
- by loganberry.canonical.com (Postfix) with ESMTP id 280162E805B
- for <qemu-devel@nongnu.org>; Sun, 12 Jul 2020 10:41:11 +0000 (UTC)
+ by loganberry.canonical.com (Postfix) with ESMTP id 4D0B22E80ED
+ for <qemu-devel@nongnu.org>; Sun, 12 Jul 2020 10:50:50 +0000 (UTC)
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: quoted-printable
-Date: Sun, 12 Jul 2020 10:32:30 -0000
+Date: Sun, 12 Jul 2020 10:38:12 -0000
 From: Simon John <1886318@bugs.launchpad.net>
 To: qemu-devel@nongnu.org
 X-Launchpad-Notification-Type: bug
@@ -41,7 +41,7 @@ X-Launchpad-Bug-Commenters: mark-cave-ayland mjt+launchpad-tls sej7278
 X-Launchpad-Bug-Reporter: Simon John (sej7278)
 X-Launchpad-Bug-Modifier: Simon John (sej7278)
 References: <159394898604.17667.6684490731246411850.malonedeb@soybean.canonical.com>
-Message-Id: <159454995017.12982.13087204611074398934.malone@gac.canonical.com>
+Message-Id: <159455029207.19199.5478087622685193827.malone@chaenomeles.canonical.com>
 Subject: [Bug 1886318] Re: Qemu after v5.0.0 breaks macos guests
 X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
 X-Launchpad-Message-For: qemu-devel-ml
@@ -49,7 +49,7 @@ Precedence: bulk
 X-Generated-By: Launchpad (canonical.com);
  Revision="4809fcb62f445aaa3ae919f7f6c3cc7d156ea57a";
  Instance="production-secrets-lazr.conf"
-X-Launchpad-Hash: 2eb1c2c3d42c0b6c1025938d4d06cf9017f83542
+X-Launchpad-Hash: a7464b1b986151a231b547f3c5e8b1e3f48c69c3
 Received-SPF: none client-ip=91.189.90.7; envelope-from=bounces@canonical.com;
  helo=indium.canonical.com
 X-detected-operating-system: by eggs.gnu.org: First seen = 2020/07/12 04:40:51
@@ -75,11 +75,23 @@ Reply-To: Bug 1886318 <1886318@bugs.launchpad.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-i get this over and over (and only this):
+on a hunch, i applied this, and now macos boots (as 2 from acpi-tmr fits
+in the 1-4 range):
 
-invalid size: acpi-tmr addr 0 size: 2
-
-which seems to reside in hw/acpi/core.c
+diff --git a/hw/acpi/core.c b/hw/acpi/core.c
+index f6d9ec4f13..05ff29b9d7 100644
+--- a/hw/acpi/core.c
++++ b/hw/acpi/core.c
+@@ -527,7 +527,7 @@ static void acpi_pm_tmr_write(void *opaque, hwaddr addr=
+, uint64_t val,
+ static const MemoryRegionOps acpi_pm_tmr_ops =3D {
+     .read =3D acpi_pm_tmr_read,
+     .write =3D acpi_pm_tmr_write,
+-    .valid.min_access_size =3D 4,
++    .valid.min_access_size =3D 1,
+     .valid.max_access_size =3D 4,
+     .endianness =3D DEVICE_LITTLE_ENDIAN,
+ };
 
 -- =
 
