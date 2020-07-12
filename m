@@ -2,43 +2,141 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E0F6221CADD
-	for <lists+qemu-devel@lfdr.de>; Sun, 12 Jul 2020 19:51:18 +0200 (CEST)
-Received: from localhost ([::1]:49214 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 08D2A21CAE7
+	for <lists+qemu-devel@lfdr.de>; Sun, 12 Jul 2020 20:00:44 +0200 (CEST)
+Received: from localhost ([::1]:57522 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jug8D-0004qs-1A
-	for lists+qemu-devel@lfdr.de; Sun, 12 Jul 2020 13:51:17 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:54416)
+	id 1jugHK-0000PI-SN
+	for lists+qemu-devel@lfdr.de; Sun, 12 Jul 2020 14:00:42 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:55832)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <andrey.shinkevich@virtuozzo.com>)
- id 1jug6P-000398-Nv; Sun, 12 Jul 2020 13:49:25 -0400
-Received: from relay.sw.ru ([185.231.240.75]:60382 helo=relay3.sw.ru)
+ (Exim 4.90_1) (envelope-from <mwoodpatrick@nvidia.com>)
+ id 1jugGH-0008Oo-Ru
+ for qemu-devel@nongnu.org; Sun, 12 Jul 2020 13:59:37 -0400
+Received: from hqnvemgate25.nvidia.com ([216.228.121.64]:15585)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <andrey.shinkevich@virtuozzo.com>)
- id 1jug6N-0001lD-66; Sun, 12 Jul 2020 13:49:24 -0400
-Received: from [172.16.25.136] (helo=localhost.sw.ru)
- by relay3.sw.ru with esmtp (Exim 4.93)
- (envelope-from <andrey.shinkevich@virtuozzo.com>)
- id 1jug6B-0005LT-KT; Sun, 12 Jul 2020 20:49:11 +0300
-From: Andrey Shinkevich <andrey.shinkevich@virtuozzo.com>
-To: qemu-block@nongnu.org
-Subject: [PATCH v4 3/3] scripts/simplebench: add unaligned data case to
- bench_write_req
-Date: Sun, 12 Jul 2020 20:49:18 +0300
-Message-Id: <1594576158-75884-4-git-send-email-andrey.shinkevich@virtuozzo.com>
-X-Mailer: git-send-email 1.8.3.1
-In-Reply-To: <1594576158-75884-1-git-send-email-andrey.shinkevich@virtuozzo.com>
-References: <1594576158-75884-1-git-send-email-andrey.shinkevich@virtuozzo.com>
-Received-SPF: pass client-ip=185.231.240.75;
- envelope-from=andrey.shinkevich@virtuozzo.com; helo=relay3.sw.ru
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/07/12 13:17:17
-X-ACL-Warn: Detected OS   = Linux 3.11 and newer
-X-Spam_score_int: -18
-X-Spam_score: -1.9
-X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ (Exim 4.90_1) (envelope-from <mwoodpatrick@nvidia.com>)
+ id 1jugGF-0002rm-Ip
+ for qemu-devel@nongnu.org; Sun, 12 Jul 2020 13:59:37 -0400
+Received: from hqpgpgate102.nvidia.com (Not Verified[216.228.121.13]) by
+ hqnvemgate25.nvidia.com (using TLS: TLSv1.2, DES-CBC3-SHA)
+ id <B5f0b4e100000>; Sun, 12 Jul 2020 10:53:20 -0700
+Received: from hqmail.nvidia.com ([172.20.161.6])
+ by hqpgpgate102.nvidia.com (PGP Universal service);
+ Sun, 12 Jul 2020 10:54:17 -0700
+X-PGP-Universal: processed;
+ by hqpgpgate102.nvidia.com on Sun, 12 Jul 2020 10:54:17 -0700
+Received: from HQMAIL111.nvidia.com (172.20.187.18) by HQMAIL111.nvidia.com
+ (172.20.187.18) with Microsoft SMTP Server (TLS) id 15.0.1473.3; Sun, 12 Jul
+ 2020 17:54:16 +0000
+Received: from NAM04-CO1-obe.outbound.protection.outlook.com (104.47.45.50) by
+ HQMAIL111.nvidia.com (172.20.187.18) with Microsoft SMTP Server
+ (TLS) id
+ 15.0.1473.3 via Frontend Transport; Sun, 12 Jul 2020 17:54:16 +0000
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=OtjOrqicVNgDiFdfqie2bOT2A+g2NjyWUrNl158IjWl0p2pwXY8eJQ6Dwn9ILahbGugbwEhMUtpcwYdzectKEMOFby71orMiu6ekSe2KzbwoQOXlbQhMW/MMEEdQ5YE77nvbsNoIpy1nwG/DYzv3MTCpisgVKx77EhUUqLFlyQaHMhovjKzLz5l1xnSGW8TZiuPawzZJZLaAOmy6nAe4dMq4lTjfAEecLouvCGokQYGAvnMiPtYcMkMxSjnWNUH7YbF5ehwrty46InYI2I3AHqBIHrJnhHNR684PlzInLwtLFuKFYp1sgEU8VfQxDLCkhBkfr8xsQVjQE6DvgoNIcg==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=3Ei7mayYsfR+wR30feXnf+rtCzcXBsSrPgzA8MQ1NyM=;
+ b=icimZAes7i/Y/cYs1aNP6hnXM3uyGsXG8pr73bG+CPaU/zUQr4IapVCfYCA5h9QoTaMQviDPYYfb26qhBgoGNdww3o43sWDndaxI2SUPRhz76vfF28FOnwxpBIWZdFipf65yiVVpzOdex77W9JTMt20AKZ/gDvUotKXwKUf83X1v5etJ1OwP5JsacsiPS14Jj+8Gk49jstCJ1BJccZeO3w3zYbkE1dzEdbFI2PU3viKDcWJORuCnyu/WoUDtQBCasqlQX2oEBwNXUCvWIBTpgkAmEWsM5kMj6ZllK6A51KQVGsJJSGFSOToNUWLtPNl2g/VuMcmdN41ZF+SEaQGP6g==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=nvidia.com; dmarc=pass action=none header.from=nvidia.com;
+ dkim=pass header.d=nvidia.com; arc=none
+Received: from BY5PR12MB4164.namprd12.prod.outlook.com (2603:10b6:a03:207::13)
+ by BYAPR12MB3127.namprd12.prod.outlook.com (2603:10b6:a03:d8::33)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3174.22; Sun, 12 Jul
+ 2020 17:54:15 +0000
+Received: from BY5PR12MB4164.namprd12.prod.outlook.com
+ ([fe80::ed4e:e409:c7d3:3187]) by BY5PR12MB4164.namprd12.prod.outlook.com
+ ([fe80::ed4e:e409:c7d3:3187%7]) with mapi id 15.20.3174.025; Sun, 12 Jul 2020
+ 17:54:15 +0000
+From: Mark Wood-Patrick <mwoodpatrick@nvidia.com>
+To: "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>
+Subject: RE: Seeing a problem in multi cpu runs where memory mapped pcie
+ device register reads are returning incorrect values
+Thread-Topic: Seeing a problem in multi cpu runs where memory mapped pcie
+ device register reads are returning incorrect values
+Thread-Index: AdZP0xwDhu8cf1EMQLyhyg6esmh9lQIoh/Hw
+Date: Sun, 12 Jul 2020 17:54:15 +0000
+Message-ID: <BY5PR12MB4164C27060E41F83BF8D1B28A0630@BY5PR12MB4164.namprd12.prod.outlook.com>
+References: <MN2PR12MB41758B8F79B8F3BBBAF6C314A06C0@MN2PR12MB4175.namprd12.prod.outlook.com>
+In-Reply-To: <MN2PR12MB41758B8F79B8F3BBBAF6C314A06C0@MN2PR12MB4175.namprd12.prod.outlook.com>
+Accept-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+authentication-results: nongnu.org; dkim=none (message not signed)
+ header.d=none;nongnu.org; dmarc=none action=none header.from=nvidia.com;
+x-originating-ip: [216.228.117.191]
+x-ms-publictraffictype: Email
+x-ms-office365-filtering-correlation-id: 09ac4fae-bdd7-410a-57b3-08d8268c97db
+x-ms-traffictypediagnostic: BYAPR12MB3127:
+x-ms-exchange-transport-forked: True
+x-microsoft-antispam-prvs: <BYAPR12MB31273BEFDC1D4BA3A225BB3AA0630@BYAPR12MB3127.namprd12.prod.outlook.com>
+x-ms-oob-tlc-oobclassifiers: OLM:6430;
+x-ms-exchange-senderadcheck: 1
+x-microsoft-antispam: BCL:0;
+x-microsoft-antispam-message-info: xggeqQ0eAzFJQBsTKV2G8NipjhOqAPOxpnuoCeE3FT+0LPtt5+iS6kfbaUBx4DGagqq2NtRs3OoyfV7Bp5p8nCMNkd8S8nlQZHJznlnbPW9c6B1B4uhDWgPLVveSQOX5tPPECNAJ8V/zRBBglNntQYFnSOxv4UKv3ZfCmaV3W/6R2MW8Ym5N58R7Ylh/+zAmXRiOXPNBPGgh+rmVIOyMzko0FnNjR4AWOSXkftXTmLt7ycpAh854z08pG8hpK8qMktNkTchVliFVFxtDQaNBAw8C3WmudAbJUDWPVnWmDcl98R0khG2uunK5pTXIpFK5XUvq40ltAY4T2jELuyRhwQ==
+x-forefront-antispam-report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:BY5PR12MB4164.namprd12.prod.outlook.com; PTR:; CAT:NONE;
+ SFTY:;
+ SFS:(4636009)(366004)(136003)(396003)(39850400004)(376002)(346002)(186003)(2906002)(26005)(6916009)(8936002)(86362001)(33656002)(66446008)(64756008)(66556008)(66476007)(55016002)(66946007)(9686003)(7696005)(76116006)(52536014)(5660300002)(107886003)(316002)(54906003)(478600001)(71200400001)(4326008)(8676002)(6506007)(53546011);
+ DIR:OUT; SFP:1101; 
+x-ms-exchange-antispam-messagedata: 6d30xL/rLijXmPxkhEXgqVUZrbwiv0c/XcctPFQprVLNE5v+hU0zBSPRSWXaQ13SsR/SsI7oDrW38nIWFx5SMMVN6bgIQjuqylBe8bsEVrCzNcyW8coi+MQpcDORot2rId8S47d3DAQQ5oIpExHeZXIz7YLG2AIOATWW7yv5C1npSikim3bzyI3bz2/2qg1weywGekPvG7x7c8c2IuDDi5IBbeuMK/v5X70mUsUyXF4Y9scR4gS9h3LCHD/UGxCTuViRqt+1X4rh07/c6YQqZGzT6//EkWyoweqDMbXw3NNPp6M5L+53FVoL9H2kD5jgUIFAxSOWf00Bcq4dQM3snamBKqSL7Ryw/iKMtw9oPGTQg0xbMO8DIRrVw6srnV1d28fF8IPEi/rwssqkBCOLatp1zt6C/yxv+OPCRj1RHtQuk9uoSEjUQhfHzZfznUmqz/F0o5BWZoc1OsP5KLFPZ8trNlQoj9DdXuM8rM1MpWbLYWH86doMVNQYG6GQRQTb
+MIME-Version: 1.0
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-AuthSource: BY5PR12MB4164.namprd12.prod.outlook.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 09ac4fae-bdd7-410a-57b3-08d8268c97db
+X-MS-Exchange-CrossTenant-originalarrivaltime: 12 Jul 2020 17:54:15.6194 (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: 43083d15-7273-40c1-b7db-39efd9ccc17a
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: qYLG1tpsmBGvN5mZBTBWs30WYH9s+nfI2RXa5eZu6V1LCVB7XQjRPqowqtQTmk81GQmkG1fBbAw5qx2HLj0dIQ==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: BYAPR12MB3127
+X-OriginatorOrg: Nvidia.com
+Content-Language: en-US
+Content-Type: multipart/alternative;
+ boundary="_000_BY5PR12MB4164C27060E41F83BF8D1B28A0630BY5PR12MB4164namp_"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nvidia.com; s=n1;
+ t=1594576400; bh=3Ei7mayYsfR+wR30feXnf+rtCzcXBsSrPgzA8MQ1NyM=;
+ h=X-PGP-Universal:ARC-Seal:ARC-Message-Signature:
+ ARC-Authentication-Results:From:To:CC:Subject:Thread-Topic:
+ Thread-Index:Date:Message-ID:References:In-Reply-To:
+ Accept-Language:X-MS-Has-Attach:X-MS-TNEF-Correlator:
+ authentication-results:x-originating-ip:x-ms-publictraffictype:
+ x-ms-office365-filtering-correlation-id:x-ms-traffictypediagnostic:
+ x-ms-exchange-transport-forked:x-microsoft-antispam-prvs:
+ x-ms-oob-tlc-oobclassifiers:x-ms-exchange-senderadcheck:
+ x-microsoft-antispam:x-microsoft-antispam-message-info:
+ x-forefront-antispam-report:x-ms-exchange-antispam-messagedata:
+ MIME-Version:X-MS-Exchange-CrossTenant-AuthAs:
+ X-MS-Exchange-CrossTenant-AuthSource:
+ X-MS-Exchange-CrossTenant-Network-Message-Id:
+ X-MS-Exchange-CrossTenant-originalarrivaltime:
+ X-MS-Exchange-CrossTenant-fromentityheader:
+ X-MS-Exchange-CrossTenant-id:X-MS-Exchange-CrossTenant-mailboxtype:
+ X-MS-Exchange-CrossTenant-userprincipalname:
+ X-MS-Exchange-Transport-CrossTenantHeadersStamped:X-OriginatorOrg:
+ Content-Language:Content-Type;
+ b=e0yCkJ4j5HqP4ty4n2g+YTeElRK2C+a8k9YVrHo6yTujleIUmMqfL+p+vXlHRrdMB
+ js7Gg3FJMpxmmMiAskCoWHo3t+rjYxoQtHpp9IUTgBiS+Y86OYYjVvNGiSJhOEDiOA
+ ohjg2FbcwrCO+8rbUatgYV0oO2N5AVVslU/EehYdca7gnySVgdKWAPyQ0jn3PKqwGh
+ yfTPeGbuLpKtttNH+InIlBpCKii3ytuG1UyGnvVg8hfYg2VPT7ooDbL871ZLueSvfI
+ 6jOr5xqgHdR/5CcWZIAupFi0XuR7zUxAU2MUnCA6OdyvUQxpA1tlaZaiNPe9WSSUzM
+ tThPPNCrkNs0w==
+Received-SPF: pass client-ip=216.228.121.64;
+ envelope-from=mwoodpatrick@nvidia.com; helo=hqnvemgate25.nvidia.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/07/12 13:54:17
+X-ACL-Warn: Detected OS   = Windows 7 or 8 [fuzzy]
+X-Spam_score_int: -80
+X-Spam_score: -8.1
+X-Spam_bar: --------
+X-Spam_report: (-8.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ HTML_MESSAGE=0.001, RCVD_IN_DNSWL_HI=-5, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ URIBL_BLOCKED=0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -51,78 +149,168 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: kwolf@redhat.com, vsementsov@virtuozzo.com, qemu-devel@nongnu.org,
- mreitz@redhat.com, andrey.shinkevich@virtuozzo.com, den@openvz.org
+Cc: "stefanha@gmail.com" <stefanha@gmail.com>,
+ Mark Wood-Patrick <mwoodpatrick@nvidia.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Add a test case with writhing data unaligned to the image clusters.
-This case does not involve the COW optimization introduced with the
-patch "qcow2: skip writing zero buffers to empty COW areas"
-(git commit ID: c8bb23cbdbe32f5).
+--_000_BY5PR12MB4164C27060E41F83BF8D1B28A0630BY5PR12MB4164namp_
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: quoted-printable
 
-Signed-off-by: Andrey Shinkevich <andrey.shinkevich@virtuozzo.com>
----
- scripts/simplebench/bench_write_req.py | 24 +++++++++++++++++++++---
- 1 file changed, 21 insertions(+), 3 deletions(-)
 
-diff --git a/scripts/simplebench/bench_write_req.py b/scripts/simplebench/bench_write_req.py
-index f758f90..9f3a520 100755
---- a/scripts/simplebench/bench_write_req.py
-+++ b/scripts/simplebench/bench_write_req.py
-@@ -58,7 +58,7 @@ def bench_write_req(qemu_img, image_name, block_size, block_offset, requests,
-     image_name   -- QCOW2 image name to create
-     block_size   -- size of a block to write to clusters
-     block_offset -- offset of the block in clusters
--    requests     -- number of write requests per cluster
-+    requests     -- number of write requests per cluster, customize if zero
-     empty_image  -- if not True, fills image with random data
- 
-     Returns {'seconds': int} on success and {'error': str} on failure.
-@@ -83,8 +83,17 @@ def bench_write_req(qemu_img, image_name, block_size, block_offset, requests,
-                    f'cluster_size={cluster_size}',
-                    image_name, str(image_size)]
- 
--    count = requests * int(image_size / cluster_size)
--    step = str(cluster_size)
-+    if requests:
-+        count = requests * int(image_size / cluster_size)
-+        step = str(cluster_size)
-+    else:
-+        # Create unaligned write requests
-+        assert block_size
-+        shift = int(block_size * 1.01)
-+        count = int((image_size - block_offset) / shift)
-+        step = str(shift)
-+        depth = ['-d', '2']
-+
-     offset = str(block_offset)
-     cnt = str(count)
-     size = []
-@@ -95,6 +104,8 @@ def bench_write_req(qemu_img, image_name, block_size, block_offset, requests,
-                   '-S', step, '-o', offset, '-f', 'qcow2', image_name]
-     if block_size:
-         args_bench.extend(size)
-+    if not requests:
-+        args_bench.extend(depth)
- 
-     try:
-         qemu_img_pipe(*args_create)
-@@ -165,6 +176,13 @@ if __name__ == '__main__':
-             'requests': 2,
-             'empty_image': True
-         },
-+        {
-+            'id': '<unaligned>',
-+            'block_size': 104857600,
-+            'block_offset': 524288,
-+            'requests': 0,
-+            'empty_image': False
-+        },
-     ]
- 
-     # Test-envs are "columns" in benchmark resulting table, 'id is a caption
--- 
-1.8.3.1
 
+From: Mark Wood-Patrick <mwoodpatrick@nvidia.com>
+Sent: Wednesday, July 1, 2020 11:26 AM
+To: qemu-devel@nongnu.org
+Cc: Mark Wood-Patrick <mwoodpatrick@nvidia.com>
+Subject: Seeing a problem in multi cpu runs where memory mapped pcie device=
+ register reads are returning incorrect values
+
+Background
+I have a test environment which runs QEMU 4.2 with a plugin that runs two c=
+opies of a PCIE device simulator on a CentOS 7.5 host with an Ubuntu 18.04 =
+guest. When running with a single QEMU CPU using:
+
+     -cpu kvm64,+lahf_lm -M q35,kernel-irqchip=3Doff -device intel-iommu,in=
+tremap=3Don
+
+Our tests run fine. But when running with multiple cpu's:
+
+    -cpu kvm64,+lahf_lm -M q35,kernel-irqchip=3Doff -device intel-iommu,int=
+remap=3Don -smp 2,sockets=3D1,cores=3D2
+
+The values retuned are correct  all the way up the call stack and in KVM_EX=
+IT_MMIO in kvm_cpu_exec (qemu-4.2.0/accel/kvm/kvm-all.c:2365)  but the valu=
+e returned to the device driver which initiated the read is 0.
+
+Question
+Is anyone else running QEMU 4.2 in multi cpu mode? Is anyone getting incorr=
+ect reads from memory mapped device registers  when running in this mode? I=
+ would appreciate any pointers on how best to debug the flow from KVM_EXIT_=
+MMIO back to the device driver running on the guest
+
+
+--_000_BY5PR12MB4164C27060E41F83BF8D1B28A0630BY5PR12MB4164namp_
+Content-Type: text/html; charset="us-ascii"
+Content-Transfer-Encoding: quoted-printable
+
+<html xmlns:v=3D"urn:schemas-microsoft-com:vml" xmlns:o=3D"urn:schemas-micr=
+osoft-com:office:office" xmlns:w=3D"urn:schemas-microsoft-com:office:word" =
+xmlns:m=3D"http://schemas.microsoft.com/office/2004/12/omml" xmlns=3D"http:=
+//www.w3.org/TR/REC-html40">
+<head>
+<meta http-equiv=3D"Content-Type" content=3D"text/html; charset=3Dus-ascii"=
+>
+<meta name=3D"Generator" content=3D"Microsoft Word 15 (filtered medium)">
+<style><!--
+/* Font Definitions */
+@font-face
+	{font-family:"Cambria Math";
+	panose-1:2 4 5 3 5 4 6 3 2 4;}
+@font-face
+	{font-family:Calibri;
+	panose-1:2 15 5 2 2 2 4 3 2 4;}
+@font-face
+	{font-family:Verdana;
+	panose-1:2 11 6 4 3 5 4 4 2 4;}
+/* Style Definitions */
+p.MsoNormal, li.MsoNormal, div.MsoNormal
+	{margin:0in;
+	margin-bottom:.0001pt;
+	font-size:11.0pt;
+	font-family:"Calibri",sans-serif;}
+h2
+	{mso-style-priority:9;
+	mso-style-link:"Heading 2 Char";
+	mso-margin-top-alt:auto;
+	margin-right:0in;
+	mso-margin-bottom-alt:auto;
+	margin-left:0in;
+	font-size:18.0pt;
+	font-family:"Calibri",sans-serif;}
+span.Heading2Char
+	{mso-style-name:"Heading 2 Char";
+	mso-style-priority:9;
+	mso-style-link:"Heading 2";
+	font-family:"Calibri",sans-serif;
+	font-weight:bold;}
+.MsoChpDefault
+	{mso-style-type:export-only;
+	font-size:10.0pt;}
+@page WordSection1
+	{size:8.5in 11.0in;
+	margin:1.0in 1.0in 1.0in 1.0in;}
+div.WordSection1
+	{page:WordSection1;}
+--></style><!--[if gte mso 9]><xml>
+<o:shapedefaults v:ext=3D"edit" spidmax=3D"1026" />
+</xml><![endif]--><!--[if gte mso 9]><xml>
+<o:shapelayout v:ext=3D"edit">
+<o:idmap v:ext=3D"edit" data=3D"1" />
+</o:shapelayout></xml><![endif]-->
+</head>
+<body lang=3D"EN-US" link=3D"#0563C1" vlink=3D"#954F72">
+<div class=3D"WordSection1">
+<p class=3D"MsoNormal"><o:p>&nbsp;</o:p></p>
+<p class=3D"MsoNormal"><o:p>&nbsp;</o:p></p>
+<div>
+<div style=3D"border:none;border-top:solid #E1E1E1 1.0pt;padding:3.0pt 0in =
+0in 0in">
+<p class=3D"MsoNormal"><b>From:</b> Mark Wood-Patrick &lt;mwoodpatrick@nvid=
+ia.com&gt; <br>
+<b>Sent:</b> Wednesday, July 1, 2020 11:26 AM<br>
+<b>To:</b> qemu-devel@nongnu.org<br>
+<b>Cc:</b> Mark Wood-Patrick &lt;mwoodpatrick@nvidia.com&gt;<br>
+<b>Subject:</b> Seeing a problem in multi cpu runs where memory mapped pcie=
+ device register reads are returning incorrect values<o:p></o:p></p>
+</div>
+</div>
+<p class=3D"MsoNormal"><o:p>&nbsp;</o:p></p>
+<p class=3D"MsoNormal" style=3D"margin-bottom:12.0pt;background:white;verti=
+cal-align:baseline">
+<span style=3D"font-size:14.5pt;font-family:&quot;Arial&quot;,sans-serif;co=
+lor:#242729">Background<o:p></o:p></span></p>
+<p class=3D"MsoNormal">I have a test environment which runs QEMU 4.2 with a=
+ plugin that runs two copies of a PCIE device simulator on a CentOS 7.5 hos=
+t with an Ubuntu 18.04 guest. When running with a single QEMU CPU using:<o:=
+p></o:p></p>
+<p class=3D"MsoNormal"><o:p>&nbsp;</o:p></p>
+<p class=3D"MsoNormal">&nbsp;&nbsp;&nbsp;&nbsp; -cpu kvm64,&#43;lahf_lm -M =
+q35,kernel-irqchip=3Doff -device intel-iommu,intremap=3Don<o:p></o:p></p>
+<p class=3D"MsoNormal"><o:p>&nbsp;</o:p></p>
+<p class=3D"MsoNormal">Our tests run fine. But when running with multiple c=
+pu&#8217;s:<o:p></o:p></p>
+<p class=3D"MsoNormal"><o:p>&nbsp;</o:p></p>
+<p class=3D"MsoNormal">&nbsp;&nbsp;&nbsp; -cpu kvm64,&#43;lahf_lm -M q35,ke=
+rnel-irqchip=3Doff -device intel-iommu,intremap=3Don
+<b>-smp 2,sockets=3D1,cores=3D2</b><o:p></o:p></p>
+<p class=3D"MsoNormal"><o:p>&nbsp;</o:p></p>
+<p class=3D"MsoNormal">The values retuned are correct <span style=3D"color:=
+black;background:white">
+&nbsp;all the way up the call stack and in </span><span style=3D"font-size:=
+10.0pt;font-family:&quot;Verdana&quot;,sans-serif;color:black;background:wh=
+ite">KVM_EXIT_MMIO in&nbsp;kvm_cpu_exec (qemu-4.2.0/accel/kvm/kvm-all.c:236=
+5)&nbsp;</span> but the value returned to the device driver
+ which initiated the read is 0.<o:p></o:p></p>
+<p class=3D"MsoNormal"><o:p>&nbsp;</o:p></p>
+<h2 style=3D"mso-margin-top-alt:0in;margin-right:0in;margin-bottom:12.0pt;m=
+argin-left:0in;background:white;vertical-align:baseline">
+<span style=3D"font-size:14.5pt;font-family:&quot;Arial&quot;,sans-serif;co=
+lor:#242729;font-weight:normal">Question<o:p></o:p></span></h2>
+<p class=3D"MsoNormal">Is anyone else running QEMU 4.2 in multi cpu mode? I=
+s anyone getting incorrect reads from memory mapped device registers &nbsp;=
+when running in this mode? I would appreciate any pointers on how best to d=
+ebug the flow from
+<span style=3D"font-size:10.0pt;font-family:&quot;Verdana&quot;,sans-serif;=
+color:black;background:white">
+KVM_EXIT_MMIO back to the device driver running on the guest</span><o:p></o=
+:p></p>
+<p class=3D"MsoNormal">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbs=
+p;&nbsp;&nbsp;&nbsp;&nbsp; <o:p></o:p></p>
+</div>
+</body>
+</html>
+
+--_000_BY5PR12MB4164C27060E41F83BF8D1B28A0630BY5PR12MB4164namp_--
 
