@@ -2,94 +2,39 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B4B8E21CA1B
-	for <lists+qemu-devel@lfdr.de>; Sun, 12 Jul 2020 18:12:13 +0200 (CEST)
-Received: from localhost ([::1]:46244 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D026C21CA9C
+	for <lists+qemu-devel@lfdr.de>; Sun, 12 Jul 2020 19:18:25 +0200 (CEST)
+Received: from localhost ([::1]:59986 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jueaK-00029Q-BJ
-	for lists+qemu-devel@lfdr.de; Sun, 12 Jul 2020 12:12:12 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:41880)
+	id 1jufcO-0003mY-UO
+	for lists+qemu-devel@lfdr.de; Sun, 12 Jul 2020 13:18:24 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:50252)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1jueZd-0001kP-5h
- for qemu-devel@nongnu.org; Sun, 12 Jul 2020 12:11:29 -0400
-Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:30921
- helo=us-smtp-1.mimecast.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1jueZa-0005DG-HQ
- for qemu-devel@nongnu.org; Sun, 12 Jul 2020 12:11:28 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1594570284;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=5Sgrc0YmiBh6uLty5SoOaucHWsYj4SRJO89mpGF9Ygo=;
- b=IOLkCG/kuqZeEeTPokRQ8OV3Nufc9yC/5IxUH7rWifWJxR9LHpfcNLWCHGZWnnrhWAKxCv
- oTrIuWgcJ/ms8zsTL4YLaUKxmCKDjGuDWy5pP8kxs7VDjYIAvnvFmKI/CKMxjMOcSJPC9U
- TRdGAh480ZEFka5bMUEWXwkOo+302QU=
-Received: from mail-wr1-f70.google.com (mail-wr1-f70.google.com
- [209.85.221.70]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-97-I6otRQozNeyKfjH1A_YSbw-1; Sun, 12 Jul 2020 12:11:22 -0400
-X-MC-Unique: I6otRQozNeyKfjH1A_YSbw-1
-Received: by mail-wr1-f70.google.com with SMTP id y16so14302725wrr.20
- for <qemu-devel@nongnu.org>; Sun, 12 Jul 2020 09:11:22 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=5Sgrc0YmiBh6uLty5SoOaucHWsYj4SRJO89mpGF9Ygo=;
- b=Ns0iFiLCvBmRA/DVAq4fkOBqam0nP8B8dO0vWYy5BrrZQlkJMZp0GprzOEwoG4DaaU
- TNl3QqptZOF/EP/E6jQCsi00Am1jVyHgV5+EOkssUHRFIWLM0hpJZpG6C6hB9vzZcE7p
- PXgJzYyWq4oMnsvfM23jysnhYMsT1X+T90m1FL+YwRzoOgvyXH4TvhwTg2FQ521pO12y
- Cr5XQBDr2bt81Gd0+9mIagGbIecSCiKHv0O7w/92EMt++MPIl3dyIRBQjDVYmaIwaUPD
- vfCeq8EkFHxgFoFFxq2dY9BPNtTAgEviAVuOD1TJavGGo37JI+/TM/vOqF8SEvHgC8oY
- 85zQ==
-X-Gm-Message-State: AOAM532or5J3mO3reBNzyMTuz8Xxlt0JsOezuTcumVs5WlF7xqT88iZ5
- cQ0q4YaS8GpYwu9obm5sTMI/WopVvnvRfHqieZDE6AtKVtfPU+B/1ctejkJvycs2Xy36gZMRIpX
- LW8pS6hjh9VK18ys=
-X-Received: by 2002:a7b:cb46:: with SMTP id v6mr15715640wmj.73.1594570281601; 
- Sun, 12 Jul 2020 09:11:21 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJwgOZmJi+M5DU81LOvaeyKamgDUDR0RhfiDAv8oBaLSO3LN19FivXr0JlR+a9deFha3bCaa1g==
-X-Received: by 2002:a7b:cb46:: with SMTP id v6mr15715620wmj.73.1594570281365; 
- Sun, 12 Jul 2020 09:11:21 -0700 (PDT)
-Received: from ?IPv6:2001:b07:6468:f312:ef:39d9:1ecb:6054?
- ([2001:b07:6468:f312:ef:39d9:1ecb:6054])
- by smtp.gmail.com with ESMTPSA id r1sm19509652wrw.24.2020.07.12.09.11.19
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Sun, 12 Jul 2020 09:11:20 -0700 (PDT)
-Subject: Re: migration: broken snapshot saves appear on s390 when small fields
- in migration stream removed
-To: Claudio Fontana <cfontana@suse.de>, Juan Quintela <quintela@redhat.com>,
- "Dr. David Alan Gilbert" <dgilbert@redhat.com>
-References: <8bbafdec-836d-b7de-cab8-7a325b6e238d@suse.de>
-From: Paolo Bonzini <pbonzini@redhat.com>
-Message-ID: <55c406cd-b9ca-4e9b-0acd-d33cfe2a70e3@redhat.com>
-Date: Sun, 12 Jul 2020 18:11:19 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.9.0
-MIME-Version: 1.0
-In-Reply-To: <8bbafdec-836d-b7de-cab8-7a325b6e238d@suse.de>
-Content-Language: en-US
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=pbonzini@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=207.211.31.120; envelope-from=pbonzini@redhat.com;
- helo=us-smtp-1.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/07/12 12:11:24
-X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
-X-Spam_score_int: -40
-X-Spam_score: -4.1
-X-Spam_bar: ----
-X-Spam_report: (-4.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-1, SPF_HELO_NONE=0.001,
+ (Exim 4.90_1) (envelope-from <andrey.shinkevich@virtuozzo.com>)
+ id 1jufbP-0002jJ-QW; Sun, 12 Jul 2020 13:17:23 -0400
+Received: from relay.sw.ru ([185.231.240.75]:52512 helo=relay3.sw.ru)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <andrey.shinkevich@virtuozzo.com>)
+ id 1jufbL-00063r-VM; Sun, 12 Jul 2020 13:17:23 -0400
+Received: from [172.16.25.136] (helo=localhost.sw.ru)
+ by relay3.sw.ru with esmtp (Exim 4.93)
+ (envelope-from <andrey.shinkevich@virtuozzo.com>)
+ id 1jufb9-0005DF-T4; Sun, 12 Jul 2020 20:17:07 +0300
+From: Andrey Shinkevich <andrey.shinkevich@virtuozzo.com>
+To: qemu-block@nongnu.org
+Subject: [PATCH v3 0/3] scripts/simplebench: add bench_write_req.py test
+Date: Sun, 12 Jul 2020 20:17:11 +0300
+Message-Id: <1594574234-73535-1-git-send-email-andrey.shinkevich@virtuozzo.com>
+X-Mailer: git-send-email 1.8.3.1
+Received-SPF: pass client-ip=185.231.240.75;
+ envelope-from=andrey.shinkevich@virtuozzo.com; helo=relay3.sw.ru
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/07/12 13:17:17
+X-ACL-Warn: Detected OS   = Linux 3.11 and newer
+X-Spam_score_int: -18
+X-Spam_score: -1.9
+X-Spam_bar: -
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -103,37 +48,36 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: "Jason J. Herne" <jjherne@linux.ibm.com>, Fam Zheng <fam@euphon.net>,
- Thomas Huth <thuth@redhat.com>, Peter Maydell <peter.maydell@linaro.org>,
- Cornelia Huck <cohuck@redhat.com>, qemu-devel <qemu-devel@nongnu.org>,
- Stefan Hajnoczi <stefanha@redhat.com>
+Cc: kwolf@redhat.com, vsementsov@virtuozzo.com, qemu-devel@nongnu.org,
+ mreitz@redhat.com, andrey.shinkevich@virtuozzo.com, den@openvz.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 12/07/20 12:00, Claudio Fontana wrote:
-> Note: only the === -blockdev with a backing file === part of test 267 fails. -blockdev with NBD is ok, like all the rest.
-> 
-> 
-> Interesting facts about s390 in particular: its save/load code includes the transfer of "storage keys",
-> which include a buffer of 32768 bytes of keydata in the stream.
-> 
-> The code (hw/s390x/s390-skeys.c),
-> is modeled similarly to RAM transfer (like in migration/ram.c), with an EOS (end of stream) marker.
-> 
-> Countrary to RAM transfer code though, after qemu_put_be64(f, EOS), the s390 code does not qemu_fflush(f).
+The script 'bench_write_req.py' allows comparing performances of write request for two
+qemu-img binary files. If you made a change in QEMU code and want to check the write
+requests performance, you will want to build two qemu-img binary files with and without
+your change. Then you specify paths to those binary files and put them as parameters to
+the bench_write_req.py script. You may see other supported parameters in the USAGE help.
 
-1) Are there unexpected differences in the migration stream?  That is,
-you could modify qcow2.c to fopen/fwrite/fclose the bytes as they're
-written and read, and see if something does not match.
+v3: Based on the Vladimir's review
+  01: The test results were amended in the patch description.
+  02: The python format string syntax changed to the newer one f''.
+  03: The 'empty_disk' test parameter fixed to True.
+  04: The function bench_write_req() was supplied with commentary.
+  05: The subprocess.call() was replaced with subprocess.run().
+  06: The exception handling was improved.
+  07: The v2 only patch was split into three in the series.
 
-2) If it matches, are there unexpected differences other than the lack
-of icount section when you apply the reproducer patch?
+Andrey Shinkevich (3):
+  scripts/simplebench: compare write request performance
+  scripts/simplebench: allow writing to non-empty image
+  scripts/simplebench: add unaligned data case to bench_write_req
 
-The fflush part makes me put more hope in the first, but both could help
-you debug it.
+ scripts/simplebench/bench_write_req.py | 206 +++++++++++++++++++++++++++++++++
+ 1 file changed, 206 insertions(+)
+ create mode 100755 scripts/simplebench/bench_write_req.py
 
-Thanks,
-
-Paolo
+-- 
+1.8.3.1
 
 
