@@ -2,67 +2,75 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id BE52A21C6C0
-	for <lists+qemu-devel@lfdr.de>; Sun, 12 Jul 2020 01:46:32 +0200 (CEST)
-Received: from localhost ([::1]:54688 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7356421C6D0
+	for <lists+qemu-devel@lfdr.de>; Sun, 12 Jul 2020 02:20:21 +0200 (CEST)
+Received: from localhost ([::1]:58354 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1juPCR-0005QK-I1
-	for lists+qemu-devel@lfdr.de; Sat, 11 Jul 2020 19:46:31 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:36138)
+	id 1juPj9-0000u1-WA
+	for lists+qemu-devel@lfdr.de; Sat, 11 Jul 2020 20:20:20 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:39646)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1juPBh-00050O-FI
- for qemu-devel@nongnu.org; Sat, 11 Jul 2020 19:45:45 -0400
-Received: from indium.canonical.com ([91.189.90.7]:55298)
+ (Exim 4.90_1) (envelope-from <liq3ea@gmail.com>)
+ id 1juPiE-00009E-SE; Sat, 11 Jul 2020 20:19:22 -0400
+Received: from mail-oo1-xc43.google.com ([2607:f8b0:4864:20::c43]:44601)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1juPBf-0007vY-Hm
- for qemu-devel@nongnu.org; Sat, 11 Jul 2020 19:45:45 -0400
-Received: from loganberry.canonical.com ([91.189.90.37])
- by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
- id 1juPBd-0001Nb-UX
- for <qemu-devel@nongnu.org>; Sat, 11 Jul 2020 23:45:41 +0000
-Received: from loganberry.canonical.com (localhost [127.0.0.1])
- by loganberry.canonical.com (Postfix) with ESMTP id E39022E80EF
- for <qemu-devel@nongnu.org>; Sat, 11 Jul 2020 23:45:41 +0000 (UTC)
+ (Exim 4.90_1) (envelope-from <liq3ea@gmail.com>)
+ id 1juPiD-000396-8N; Sat, 11 Jul 2020 20:19:22 -0400
+Received: by mail-oo1-xc43.google.com with SMTP id o36so1688521ooi.11;
+ Sat, 11 Jul 2020 17:19:20 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc:content-transfer-encoding;
+ bh=9cPmQGTSAin+ostGOfnapRULbeSJoIJ3JP1SIdBHZbc=;
+ b=gDqAqq2a60yT5D3G8IZNlrzhoJknRclLX9kFVb02zPFqOSz3M/t/C/D2dasSJyvFFC
+ /KTVizx+cRDUnV+ZBoBmxAFEhExumxkoumFw9Mj2YX1JZJsrceC+ntmSIJp3FvkOXYwa
+ EI6p0tOLTAxqr2STJqlLN9r6eEPHsZEfuN9snidFPeX3osSiwBEDRwG1C/R+ydiMFfpa
+ 2i/74TjGLb9/ynkp9edVFooXkEZmIFertH5j+mZuUUqjeXc5m90CY6GxxT21UUn9iXkO
+ 4yn3lVR1VkAlUkrpE7iHFcxH8v9N123LUdvd68G3sfRx3Qyt/lEDjpgW7plyH6v3S4fU
+ zJDw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc:content-transfer-encoding;
+ bh=9cPmQGTSAin+ostGOfnapRULbeSJoIJ3JP1SIdBHZbc=;
+ b=EayEIMCUQek36YvaHZPqutNesu9od8La0khTPQdpqF8hM5Jz42C3YBNhXIAyvI4F6U
+ 9wrlmychjoMUhX6XhT/Z6Wgck7Z19A7WP9HHCOOOZwB9PKwVlO4AqhaAAZwHpMQo1p00
+ cYLPqE9YLIs/sZ7FkuUF/mJThE3oE9kvdix6Pcndh+l7nDjKga5xnuwob9+/pXlun0FO
+ TKhPDNkOq5wJoeXkVXfXVZLH11ZZnOFo6AYfYrm+7W+XGAcOjDlIvU+BgK14PFtGMVqi
+ +yPOtFTvq6x+VIhE2mdF0Wh2Lvk8o4a+Gto1CS1oaytDXKdLFjjk9LlkicgPghvd+0LH
+ aDow==
+X-Gm-Message-State: AOAM531XrsFu8qBq7VAF7aUZgHjkQDfFQMQIAGRe+6OoeXRtZVmG0oCm
+ XKid6EIFJONOORDxuYWY3PKsUdvnPtEl9v/txL8=
+X-Google-Smtp-Source: ABdhPJwCvOaHVMZQOziIwX3wFE9cnx8hDUithFixgd3tSmNzUl/ZCW2zBVvwiZKR4eg28QUYLRk9/8rg1gw+kTcRVS0=
+X-Received: by 2002:a4a:8257:: with SMTP id t23mr65770171oog.60.1594513159338; 
+ Sat, 11 Jul 2020 17:19:19 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
+References: <20200628214230.2592-1-peter.maydell@linaro.org>
+ <20200628214230.2592-2-peter.maydell@linaro.org>
+In-Reply-To: <20200628214230.2592-2-peter.maydell@linaro.org>
+From: Li Qiang <liq3ea@gmail.com>
+Date: Sun, 12 Jul 2020 08:18:43 +0800
+Message-ID: <CAKXe6SJts9hBWrFCZY8+fa+2iqEoH-5N9rfTeUA8th=sOq46MQ@mail.gmail.com>
+Subject: Re: [PATCH 1/2] hw/arm/palm.c: Detabify
+To: Peter Maydell <peter.maydell@linaro.org>
+Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
-Date: Sat, 11 Jul 2020 23:36:34 -0000
-From: Simon John <1886318@bugs.launchpad.net>
-To: qemu-devel@nongnu.org
-X-Launchpad-Notification-Type: bug
-X-Launchpad-Bug: product=qemu; status=New; importance=Undecided; assignee=None;
-X-Launchpad-Bug-Information-Type: Public
-X-Launchpad-Bug-Private: no
-X-Launchpad-Bug-Security-Vulnerability: no
-X-Launchpad-Bug-Commenters: mark-cave-ayland mjt+launchpad-tls sej7278
-X-Launchpad-Bug-Reporter: Simon John (sej7278)
-X-Launchpad-Bug-Modifier: Simon John (sej7278)
-References: <159394898604.17667.6684490731246411850.malonedeb@soybean.canonical.com>
-Message-Id: <159451059455.18989.2134735666121418816.malone@chaenomeles.canonical.com>
-Subject: [Bug 1886318] Re: Qemu after v5.0.0 breaks macos guests
-X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
-X-Launchpad-Message-For: qemu-devel-ml
-Precedence: bulk
-X-Generated-By: Launchpad (canonical.com);
- Revision="4809fcb62f445aaa3ae919f7f6c3cc7d156ea57a";
- Instance="production-secrets-lazr.conf"
-X-Launchpad-Hash: 9aad420a8d5fedd97a6f85dab8195413b18faf07
-Received-SPF: none client-ip=91.189.90.7; envelope-from=bounces@canonical.com;
- helo=indium.canonical.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/07/11 17:41:08
-X-ACL-Warn: Detected OS   = Linux 3.11 and newer [fuzzy]
-X-Spam_score_int: -58
-X-Spam_score: -5.9
-X-Spam_bar: -----
-X-Spam_report: (-5.9 / 5.0 requ) BAYES_00=-1.9, HEADER_FROM_DIFFERENT_DOMAINS=1,
- RCVD_IN_DNSWL_HI=-5, RCVD_IN_MSPIKE_H3=-0.01, RCVD_IN_MSPIKE_WL=-0.01,
- SPF_HELO_NONE=0.001, SPF_NONE=0.001 autolearn=ham autolearn_force=no
+Received-SPF: pass client-ip=2607:f8b0:4864:20::c43;
+ envelope-from=liq3ea@gmail.com; helo=mail-oo1-xc43.google.com
+X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
+ That's all we know.
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
+Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -71,78 +79,131 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Bug 1886318 <1886318@bugs.launchpad.net>
+Cc: qemu-arm@nongnu.org, Qemu Developers <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Hi Mark, no that doesn't work sorry, same error.
+Peter Maydell <peter.maydell@linaro.org> =E4=BA=8E2020=E5=B9=B46=E6=9C=8829=
+=E6=97=A5=E5=91=A8=E4=B8=80 =E4=B8=8A=E5=8D=885:45=E5=86=99=E9=81=93=EF=BC=
+=9A
+>
+> Remove hard-tabs from palm.c.
+>
+> Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
 
--- =
+Reviewed-by: Li Qiang <liq3ea@gmail.com>
 
-You received this bug notification because you are a member of qemu-
-devel-ml, which is subscribed to QEMU.
-https://bugs.launchpad.net/bugs/1886318
-
-Title:
-  Qemu after v5.0.0 breaks macos guests
-
-Status in QEMU:
-  New
-
-Bug description:
-  The Debian Sid 5.0-6 qemu-kvm package can no longer get further than
-  the Clover bootloader whereas 5.0-6 and earlier worked fine.
-
-  So I built qemu master from github and it has the same problem,
-  whereas git tag v5.0.0 (or 4.2.1) does not, so something between
-  v5.0.0 release and the last few days has caused the problem.
-
-  Here's my qemu script, pretty standard macOS-Simple-KVM setup on a
-  Xeon host:
-
-  qemu-system-x86_64 \
-      -enable-kvm \
-      -m 4G \
-      -machine q35,accel=3Dkvm \
-      -smp 4,sockets=3D1,cores=3D2,threads=3D2 \
-      -cpu =
-
-  Penryn,vendor=3DGenuineIntel,kvm=3Don,+sse3,+sse4.2,+aes,+xsave,+avx,+xsa=
-veopt,+xsavec,+xgetbv1,+avx2,+bmi2,+smep,+bmi1,+fma,+movbe,+invtsc =
-
-  \
-      -device =
-
-  isa-applesmc,osk=3D"ourhardworkbythesewordsguardedpleasedontsteal(c)Apple=
-ComputerInc" =
-
-  \
-      -smbios type=3D2 \
-      -drive if=3Dpflash,format=3Draw,readonly,file=3D"/tmp/OVMF_CODE.fd" \
-      -drive if=3Dpflash,format=3Draw,file=3D"/tmp/macos_catalina_VARS.fd" \
-      -vga qxl \
-      -device ich9-ahci,id=3Dsata \
-      -drive id=3DESP,if=3Dnone,format=3Draw,file=3D/tmp/ESP.img \
-      -device ide-hd,bus=3Dsata.2,drive=3DESP \
-      -drive id=3DInstallMedia,format=3Draw,if=3Dnone,file=3D/tmp/BaseSyste=
-m.img \
-      -device ide-hd,bus=3Dsata.3,drive=3DInstallMedia \
-      -drive id=3DSystemDisk,if=3Dnone,format=3Draw,file=3D/tmp/macos_catal=
-ina.img \
-      -device ide-hd,bus=3Dsata.4,drive=3DSystemDisk \
-      -usb -device usb-kbd -device usb-mouse
-
-  Perhaps something has changed in Penryn support recently, as that's
-  required for macos?
-
-  See also https://bugs.debian.org/cgi-bin/bugreport.cgi?bug=3D964247
-
-  Also on a related note, kernel 5.6/5.7 (on Debian) hard crashes the
-  host when I try GPU passthrough on macos, whereas Ubuntu20/Win10 work
-  fine - as does 5.5 kernel.
-
-  See also https://bugs.debian.org/cgi-bin/bugreport.cgi?bug=3D961676
-
-To manage notifications about this bug go to:
-https://bugs.launchpad.net/qemu/+bug/1886318/+subscriptions
+> ---
+>  hw/arm/palm.c | 64 +++++++++++++++++++++++++--------------------------
+>  1 file changed, 32 insertions(+), 32 deletions(-)
+>
+> diff --git a/hw/arm/palm.c b/hw/arm/palm.c
+> index 97ca105d297..569836178f6 100644
+> --- a/hw/arm/palm.c
+> +++ b/hw/arm/palm.c
+> @@ -61,21 +61,21 @@ static const MemoryRegionOps static_ops =3D {
+>  /* Palm Tunsgten|E support */
+>
+>  /* Shared GPIOs */
+> -#define PALMTE_USBDETECT_GPIO  0
+> -#define PALMTE_USB_OR_DC_GPIO  1
+> -#define PALMTE_TSC_GPIO                4
+> -#define PALMTE_PINTDAV_GPIO    6
+> -#define PALMTE_MMC_WP_GPIO     8
+> -#define PALMTE_MMC_POWER_GPIO  9
+> -#define PALMTE_HDQ_GPIO                11
+> -#define PALMTE_HEADPHONES_GPIO 14
+> -#define PALMTE_SPEAKER_GPIO    15
+> +#define PALMTE_USBDETECT_GPIO   0
+> +#define PALMTE_USB_OR_DC_GPIO   1
+> +#define PALMTE_TSC_GPIO                 4
+> +#define PALMTE_PINTDAV_GPIO     6
+> +#define PALMTE_MMC_WP_GPIO      8
+> +#define PALMTE_MMC_POWER_GPIO   9
+> +#define PALMTE_HDQ_GPIO                 11
+> +#define PALMTE_HEADPHONES_GPIO  14
+> +#define PALMTE_SPEAKER_GPIO     15
+>  /* MPU private GPIOs */
+> -#define PALMTE_DC_GPIO         2
+> -#define PALMTE_MMC_SWITCH_GPIO 4
+> -#define PALMTE_MMC1_GPIO       6
+> -#define PALMTE_MMC2_GPIO       7
+> -#define PALMTE_MMC3_GPIO       11
+> +#define PALMTE_DC_GPIO          2
+> +#define PALMTE_MMC_SWITCH_GPIO  4
+> +#define PALMTE_MMC1_GPIO        6
+> +#define PALMTE_MMC2_GPIO        7
+> +#define PALMTE_MMC3_GPIO        11
+>
+>  static MouseTransformInfo palmte_pointercal =3D {
+>      .x =3D 320,
+> @@ -100,17 +100,17 @@ static struct {
+>      int column;
+>  } palmte_keymap[0x80] =3D {
+>      [0 ... 0x7f] =3D { -1, -1 },
+> -    [0x3b] =3D { 0, 0 }, /* F1   -> Calendar */
+> -    [0x3c] =3D { 1, 0 }, /* F2   -> Contacts */
+> -    [0x3d] =3D { 2, 0 }, /* F3   -> Tasks List */
+> -    [0x3e] =3D { 3, 0 }, /* F4   -> Note Pad */
+> -    [0x01] =3D { 4, 0 }, /* Esc  -> Power */
+> -    [0x4b] =3D { 0, 1 }, /*         Left */
+> -    [0x50] =3D { 1, 1 }, /*         Down */
+> -    [0x48] =3D { 2, 1 }, /*         Up */
+> -    [0x4d] =3D { 3, 1 }, /*         Right */
+> -    [0x4c] =3D { 4, 1 }, /*         Centre */
+> -    [0x39] =3D { 4, 1 }, /* Spc  -> Centre */
+> +    [0x3b] =3D { 0, 0 },  /* F1   -> Calendar */
+> +    [0x3c] =3D { 1, 0 },  /* F2   -> Contacts */
+> +    [0x3d] =3D { 2, 0 },  /* F3   -> Tasks List */
+> +    [0x3e] =3D { 3, 0 },  /* F4   -> Note Pad */
+> +    [0x01] =3D { 4, 0 },  /* Esc  -> Power */
+> +    [0x4b] =3D { 0, 1 },  /*         Left */
+> +    [0x50] =3D { 1, 1 },  /*         Down */
+> +    [0x48] =3D { 2, 1 },  /*         Up */
+> +    [0x4d] =3D { 3, 1 },  /*         Right */
+> +    [0x4c] =3D { 4, 1 },  /*         Centre */
+> +    [0x39] =3D { 4, 1 },  /* Spc  -> Centre */
+>  };
+>
+>  static void palmte_button_event(void *opaque, int keycode)
+> @@ -161,13 +161,13 @@ static void palmte_gpio_setup(struct omap_mpu_state=
+_s *cpu)
+>                              [PALMTE_MMC_SWITCH_GPIO]));
+>
+>      misc_gpio =3D qemu_allocate_irqs(palmte_onoff_gpios, cpu, 7);
+> -    qdev_connect_gpio_out(cpu->gpio, PALMTE_MMC_POWER_GPIO,    misc_gpio=
+[0]);
+> -    qdev_connect_gpio_out(cpu->gpio, PALMTE_SPEAKER_GPIO,      misc_gpio=
+[1]);
+> -    qdev_connect_gpio_out(cpu->gpio, 11,                       misc_gpio=
+[2]);
+> -    qdev_connect_gpio_out(cpu->gpio, 12,                       misc_gpio=
+[3]);
+> -    qdev_connect_gpio_out(cpu->gpio, 13,                       misc_gpio=
+[4]);
+> -    omap_mpuio_out_set(cpu->mpuio, 1,                          misc_gpio=
+[5]);
+> -    omap_mpuio_out_set(cpu->mpuio, 3,                          misc_gpio=
+[6]);
+> +    qdev_connect_gpio_out(cpu->gpio, PALMTE_MMC_POWER_GPIO,     misc_gpi=
+o[0]);
+> +    qdev_connect_gpio_out(cpu->gpio, PALMTE_SPEAKER_GPIO,       misc_gpi=
+o[1]);
+> +    qdev_connect_gpio_out(cpu->gpio, 11,                        misc_gpi=
+o[2]);
+> +    qdev_connect_gpio_out(cpu->gpio, 12,                        misc_gpi=
+o[3]);
+> +    qdev_connect_gpio_out(cpu->gpio, 13,                        misc_gpi=
+o[4]);
+> +    omap_mpuio_out_set(cpu->mpuio, 1,                           misc_gpi=
+o[5]);
+> +    omap_mpuio_out_set(cpu->mpuio, 3,                           misc_gpi=
+o[6]);
+>
+>      /* Reset some inputs to initial state.  */
+>      qemu_irq_lower(qdev_get_gpio_in(cpu->gpio, PALMTE_USBDETECT_GPIO));
+> --
+> 2.20.1
+>
+>
 
