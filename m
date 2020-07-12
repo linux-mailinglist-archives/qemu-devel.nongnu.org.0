@@ -2,35 +2,35 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E3D2321CC3A
-	for <lists+qemu-devel@lfdr.de>; Mon, 13 Jul 2020 01:49:36 +0200 (CEST)
-Received: from localhost ([::1]:38516 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2F09821CC34
+	for <lists+qemu-devel@lfdr.de>; Mon, 13 Jul 2020 01:47:01 +0200 (CEST)
+Received: from localhost ([::1]:52768 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1juliy-0005sf-1J
-	for lists+qemu-devel@lfdr.de; Sun, 12 Jul 2020 19:49:36 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:41886)
+	id 1julgS-0000F0-7Y
+	for lists+qemu-devel@lfdr.de; Sun, 12 Jul 2020 19:47:00 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:41834)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <zhiwei_liu@c-sky.com>)
- id 1julfE-000745-Np
- for qemu-devel@nongnu.org; Sun, 12 Jul 2020 19:45:44 -0400
-Received: from smtp2200-217.mail.aliyun.com ([121.197.200.217]:53046)
+ id 1julfA-00071l-26
+ for qemu-devel@nongnu.org; Sun, 12 Jul 2020 19:45:40 -0400
+Received: from smtp2200-217.mail.aliyun.com ([121.197.200.217]:38583)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <zhiwei_liu@c-sky.com>)
- id 1julf6-0007FV-S8
- for qemu-devel@nongnu.org; Sun, 12 Jul 2020 19:45:44 -0400
-X-Alimail-AntiSpam: AC=CONTINUE; BC=0.326438|-1; CH=green; DM=|CONTINUE|false|;
- DS=CONTINUE|ham_system_inform|0.026057-0.000706032-0.973237;
- FP=0|0|0|0|0|-1|-1|-1; HT=e01a16367; MF=zhiwei_liu@c-sky.com; NM=1; PH=DS;
+ id 1julf6-0007FZ-Hy
+ for qemu-devel@nongnu.org; Sun, 12 Jul 2020 19:45:39 -0400
+X-Alimail-AntiSpam: AC=CONTINUE; BC=0.07437594|-1; CH=green;
+ DM=|CONTINUE|false|; DS=CONTINUE|ham_alarm|0.116285-0.000824736-0.88289;
+ FP=0|0|0|0|0|-1|-1|-1; HT=e01a16384; MF=zhiwei_liu@c-sky.com; NM=1; PH=DS;
  RN=6; RT=6; SR=0; TI=SMTPD_---.I0oni3i_1594597526; 
 Received: from L-PF1D6DP4-1208.hz.ali.com(mailfrom:zhiwei_liu@c-sky.com
  fp:SMTPD_---.I0oni3i_1594597526) by smtp.aliyun-inc.com(10.147.40.7);
  Mon, 13 Jul 2020 07:45:29 +0800
 From: LIU Zhiwei <zhiwei_liu@c-sky.com>
 To: qemu-devel@nongnu.org
-Subject: [RFC PATCH 6/8] fpu/softfloat: define operation for bfloat16
-Date: Mon, 13 Jul 2020 07:45:19 +0800
-Message-Id: <20200712234521.3972-7-zhiwei_liu@c-sky.com>
+Subject: [RFC PATCH 7/8] fpu/softfloat: define covert operation for bfloat16
+Date: Mon, 13 Jul 2020 07:45:20 +0800
+Message-Id: <20200712234521.3972-8-zhiwei_liu@c-sky.com>
 X-Mailer: git-send-email 2.23.0
 In-Reply-To: <20200712234521.3972-1-zhiwei_liu@c-sky.com>
 References: <20200712234521.3972-1-zhiwei_liu@c-sky.com>
@@ -65,306 +65,338 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 Signed-off-by: LIU Zhiwei <zhiwei_liu@c-sky.com>
 ---
- fpu/softfloat.c         | 146 +++++++++++++++++++++++++++++++++++++++-
- include/fpu/softfloat.h |  44 ++++++++++++
- 2 files changed, 189 insertions(+), 1 deletion(-)
+ fpu/softfloat.c         | 223 ++++++++++++++++++++++++++++++++++++++++
+ include/fpu/softfloat.h |  48 +++++++++
+ 2 files changed, 271 insertions(+)
 
 diff --git a/fpu/softfloat.c b/fpu/softfloat.c
-index 54fc889446..9a58107be3 100644
+index 9a58107be3..b6002d6856 100644
 --- a/fpu/softfloat.c
 +++ b/fpu/softfloat.c
-@@ -1182,6 +1182,28 @@ float64_sub(float64 a, float64 b, float_status *s)
-     return float64_addsub(a, b, s, hard_f64_sub, soft_f64_sub);
+@@ -2014,6 +2014,34 @@ float32 float64_to_float32(float64 a, float_status *s)
+     return float32_round_pack_canonical(pr, s);
  }
  
-+/*
-+ * Returns the result of adding or subtracting the brain floating-point
-+ * values `a' and `b'.
-+ */
-+bfloat16 QEMU_FLATTEN bfloat16_add(bfloat16 a, bfloat16 b, float_status *status)
++float32 bfloat16_to_float32(bfloat16 a, float_status *s)
 +{
-+    FloatParts pa = bfloat16_unpack_canonical(a, status);
-+    FloatParts pb = bfloat16_unpack_canonical(b, status);
-+    FloatParts pr = addsub_floats(pa, pb, false, status);
-+
-+    return bfloat16_round_pack_canonical(pr, status);
++    FloatParts p = bfloat16_unpack_canonical(a, s);
++    FloatParts pr = float_to_float(p, &float32_params, s);
++    return float32_round_pack_canonical(pr, s);
 +}
 +
-+bfloat16 QEMU_FLATTEN bfloat16_sub(bfloat16 a, bfloat16 b, float_status *status)
++float64 bfloat16_to_float64(bfloat16 a, float_status *s)
 +{
-+    FloatParts pa = bfloat16_unpack_canonical(a, status);
-+    FloatParts pb = bfloat16_unpack_canonical(b, status);
-+    FloatParts pr = addsub_floats(pa, pb, true, status);
++    FloatParts p = bfloat16_unpack_canonical(a, s);
++    FloatParts pr = float_to_float(p, &float64_params, s);
++    return float64_round_pack_canonical(pr, s);
++}
 +
-+    return bfloat16_round_pack_canonical(pr, status);
++bfloat16 float32_to_bfloat16(float32 a, float_status *s)
++{
++    FloatParts p = float32_unpack_canonical(a, s);
++    FloatParts pr = float_to_float(p, &bfloat16_params, s);
++    return bfloat16_round_pack_canonical(pr, s);
++}
++
++bfloat16 float64_to_bfloat16(float64 a, float_status *s)
++{
++    FloatParts p = float64_unpack_canonical(a, s);
++    FloatParts pr = float_to_float(p, &bfloat16_params, s);
++    return bfloat16_round_pack_canonical(pr, s);
 +}
 +
  /*
-  * Returns the result of multiplying the floating-point values `a' and
-  * `b'. The operation is performed according to the IEC/IEEE Standard
-@@ -1284,6 +1306,20 @@ float64_mul(float64 a, float64 b, float_status *s)
-                         f64_is_zon2, f64_addsubmul_post);
+  * Rounds the floating-point value `a' to an integer, and returns the
+  * result as a floating-point value. The operation is performed
+@@ -2143,6 +2171,18 @@ float64 float64_round_to_int(float64 a, float_status *s)
+     return float64_round_pack_canonical(pr, s);
  }
  
 +/*
-+ * Returns the result of multiplying the brain floating-point
-+ * values `a' and `b'.
++ * Rounds the brain floating-point value `a' to an integer, and returns the
++ * result as a brain floating-point value.
 + */
 +
-+bfloat16 QEMU_FLATTEN bfloat16_mul(bfloat16 a, bfloat16 b, float_status *status)
-+{
-+    FloatParts pa = bfloat16_unpack_canonical(a, status);
-+    FloatParts pb = bfloat16_unpack_canonical(b, status);
-+    FloatParts pr = mul_floats(pa, pb, status);
-+
-+    return bfloat16_round_pack_canonical(pr, status);
-+}
-+
- /*
-  * Returns the result of multiplying the floating-point values `a' and
-  * `b' then adding 'c', with no intermediate rounding step after the
-@@ -1666,6 +1702,23 @@ float64_muladd(float64 xa, float64 xb, float64 xc, int flags, float_status *s)
-     return soft_f64_muladd(ua.s, ub.s, uc.s, flags, s);
- }
- 
-+/*
-+ * Returns the result of multiplying the brain floating-point values `a'
-+ * and `b' then adding 'c', with no intermediate rounding step after the
-+ * multiplication.
-+ */
-+
-+bfloat16 QEMU_FLATTEN bfloat16_muladd(bfloat16 a, bfloat16 b, bfloat16 c,
-+                                      int flags, float_status *status)
-+{
-+    FloatParts pa = bfloat16_unpack_canonical(a, status);
-+    FloatParts pb = bfloat16_unpack_canonical(b, status);
-+    FloatParts pc = bfloat16_unpack_canonical(c, status);
-+    FloatParts pr = muladd_floats(pa, pb, pc, flags, status);
-+
-+    return bfloat16_round_pack_canonical(pr, status);
-+}
-+
- /*
-  * Returns the result of dividing the floating-point value `a' by the
-  * corresponding value `b'. The operation is performed according to
-@@ -1832,6 +1885,20 @@ float64_div(float64 a, float64 b, float_status *s)
-                         f64_div_pre, f64_div_post);
- }
- 
-+/*
-+ * Returns the result of dividing the brain floating-point
-+ * value `a' by the corresponding value `b'.
-+ */
-+
-+bfloat16 bfloat16_div(bfloat16 a, bfloat16 b, float_status *status)
-+{
-+    FloatParts pa = bfloat16_unpack_canonical(a, status);
-+    FloatParts pb = bfloat16_unpack_canonical(b, status);
-+    FloatParts pr = div_floats(pa, pb, status);
-+
-+    return bfloat16_round_pack_canonical(pr, status);
-+}
-+
- /*
-  * Float to Float conversions
-  *
-@@ -2871,6 +2938,25 @@ MINMAX(64, maxnummag, false, true, true)
- 
- #undef MINMAX
- 
-+#define BF16_MINMAX(name, ismin, isiee, ismag)                          \
-+bfloat16 bfloat16_ ## name(bfloat16 a, bfloat16 b, float_status *s)     \
-+{                                                                       \
-+    FloatParts pa = bfloat16_unpack_canonical(a, s);                    \
-+    FloatParts pb = bfloat16_unpack_canonical(b, s);                    \
-+    FloatParts pr = minmax_floats(pa, pb, ismin, isiee, ismag, s);      \
-+                                                                        \
-+    return bfloat16_round_pack_canonical(pr, s);                        \
-+}
-+
-+BF16_MINMAX(min, true, false, false)
-+BF16_MINMAX(minnum, true, true, false)
-+BF16_MINMAX(minnummag, true, true, true)
-+BF16_MINMAX(max, false, false, false)
-+BF16_MINMAX(maxnum, false, true, false)
-+BF16_MINMAX(maxnummag, false, true, true)
-+
-+#undef BF16_MINMAX
-+
- /* Floating point compare */
- static FloatRelation compare_floats(FloatParts a, FloatParts b, bool is_quiet,
-                                     float_status *s)
-@@ -3032,6 +3118,24 @@ FloatRelation float64_compare_quiet(float64 a, float64 b, float_status *s)
-     return f64_compare(a, b, true, s);
- }
- 
-+static int QEMU_FLATTEN
-+soft_bf16_compare(bfloat16 a, bfloat16 b, bool is_quiet, float_status *s)
++bfloat16 bfloat16_round_to_int(bfloat16 a, float_status *s)
 +{
 +    FloatParts pa = bfloat16_unpack_canonical(a, s);
-+    FloatParts pb = bfloat16_unpack_canonical(b, s);
-+    return compare_floats(pa, pb, is_quiet, s);
-+}
-+
-+int bfloat16_compare(bfloat16 a, bfloat16 b, float_status *s)
-+{
-+    return soft_bf16_compare(a, b, false, s);
-+}
-+
-+int bfloat16_compare_quiet(bfloat16 a, bfloat16 b, float_status *s)
-+{
-+    return soft_bf16_compare(a, b, true, s);
-+}
-+
- /* Multiply A by 2 raised to the power N.  */
- static FloatParts scalbn_decomposed(FloatParts a, int n, float_status *s)
- {
-@@ -3039,7 +3143,7 @@ static FloatParts scalbn_decomposed(FloatParts a, int n, float_status *s)
-         return return_nan(a, s);
-     }
-     if (a.cls == float_class_normal) {
--        /* The largest float type (even though not supported by FloatParts)
-+        /* The largest float type (even though nt supported by FloatParts)
-          * is float128, which has a 15 bit exponent.  Bounding N to 16 bits
-          * still allows rounding to infinity, without allowing overflow
-          * within the int32_t that backs FloatParts.exp.
-@@ -3071,6 +3175,13 @@ float64 float64_scalbn(float64 a, int n, float_status *status)
-     return float64_round_pack_canonical(pr, status);
- }
- 
-+bfloat16 bfloat16_scalbn(bfloat16 a, int n, float_status *status)
-+{
-+    FloatParts pa = bfloat16_unpack_canonical(a, status);
-+    FloatParts pr = scalbn_decomposed(pa, n, status);
-+    return bfloat16_round_pack_canonical(pr, status);
++    FloatParts pr = round_to_int(pa, s->float_rounding_mode, 0, s);
++    return bfloat16_round_pack_canonical(pr, s);
 +}
 +
  /*
-  * Square Root
+  * Returns the result of converting the floating-point value `a' to
+  * the two's complement integer format. The conversion is performed
+@@ -2353,6 +2393,62 @@ int64_t float64_to_int64_round_to_zero(float64 a, float_status *s)
+     return float64_to_int64_scalbn(a, float_round_to_zero, 0, s);
+ }
+ 
++/*
++ * Returns the result of converting the floating-point value `a' to
++ * the two's complement integer format.
++ */
++
++int16_t bfloat16_to_int16_scalbn(bfloat16 a, int rmode, int scale,
++                                 float_status *s)
++{
++    return round_to_int_and_pack(bfloat16_unpack_canonical(a, s),
++                                 rmode, scale, INT16_MIN, INT16_MAX, s);
++}
++
++int32_t bfloat16_to_int32_scalbn(bfloat16 a, int rmode, int scale,
++                                 float_status *s)
++{
++    return round_to_int_and_pack(bfloat16_unpack_canonical(a, s),
++                                 rmode, scale, INT32_MIN, INT32_MAX, s);
++}
++
++int64_t bfloat16_to_int64_scalbn(bfloat16 a, int rmode, int scale,
++                                 float_status *s)
++{
++    return round_to_int_and_pack(bfloat16_unpack_canonical(a, s),
++                                 rmode, scale, INT64_MIN, INT64_MAX, s);
++}
++
++int16_t bfloat16_to_int16(bfloat16 a, float_status *s)
++{
++    return bfloat16_to_int16_scalbn(a, s->float_rounding_mode, 0, s);
++}
++
++int32_t bfloat16_to_int32(bfloat16 a, float_status *s)
++{
++    return bfloat16_to_int32_scalbn(a, s->float_rounding_mode, 0, s);
++}
++
++int64_t bfloat16_to_int64(bfloat16 a, float_status *s)
++{
++    return bfloat16_to_int64_scalbn(a, s->float_rounding_mode, 0, s);
++}
++
++int16_t bfloat16_to_int16_round_to_zero(bfloat16 a, float_status *s)
++{
++    return bfloat16_to_int16_scalbn(a, float_round_to_zero, 0, s);
++}
++
++int32_t bfloat16_to_int32_round_to_zero(bfloat16 a, float_status *s)
++{
++    return bfloat16_to_int32_scalbn(a, float_round_to_zero, 0, s);
++}
++
++int64_t bfloat16_to_int64_round_to_zero(bfloat16 a, float_status *s)
++{
++    return bfloat16_to_int64_scalbn(a, float_round_to_zero, 0, s);
++}
++
+ /*
+  *  Returns the result of converting the floating-point value `a' to
+  *  the unsigned integer format. The conversion is performed according
+@@ -2566,6 +2662,62 @@ uint64_t float64_to_uint64_round_to_zero(float64 a, float_status *s)
+     return float64_to_uint64_scalbn(a, float_round_to_zero, 0, s);
+ }
+ 
++/*
++ *  Returns the result of converting the brain floating-point value `a' to
++ *  the unsigned integer format.
++ */
++
++uint16_t bfloat16_to_uint16_scalbn(bfloat16 a, int rmode, int scale,
++                                   float_status *s)
++{
++    return round_to_uint_and_pack(bfloat16_unpack_canonical(a, s),
++                                  rmode, scale, UINT16_MAX, s);
++}
++
++uint32_t bfloat16_to_uint32_scalbn(bfloat16 a, int rmode, int scale,
++                                   float_status *s)
++{
++    return round_to_uint_and_pack(bfloat16_unpack_canonical(a, s),
++                                  rmode, scale, UINT32_MAX, s);
++}
++
++uint64_t bfloat16_to_uint64_scalbn(bfloat16 a, int rmode, int scale,
++                                   float_status *s)
++{
++    return round_to_uint_and_pack(bfloat16_unpack_canonical(a, s),
++                                  rmode, scale, UINT64_MAX, s);
++}
++
++uint16_t bfloat16_to_uint16(bfloat16 a, float_status *s)
++{
++    return bfloat16_to_uint16_scalbn(a, s->float_rounding_mode, 0, s);
++}
++
++uint32_t bfloat16_to_uint32(bfloat16 a, float_status *s)
++{
++    return bfloat16_to_uint32_scalbn(a, s->float_rounding_mode, 0, s);
++}
++
++uint64_t bfloat16_to_uint64(bfloat16 a, float_status *s)
++{
++    return bfloat16_to_uint64_scalbn(a, s->float_rounding_mode, 0, s);
++}
++
++uint16_t bfloat16_to_uint16_round_to_zero(bfloat16 a, float_status *s)
++{
++    return bfloat16_to_uint16_scalbn(a, float_round_to_zero, 0, s);
++}
++
++uint32_t bfloat16_to_uint32_round_to_zero(bfloat16 a, float_status *s)
++{
++    return bfloat16_to_uint32_scalbn(a, float_round_to_zero, 0, s);
++}
++
++uint64_t bfloat16_to_uint64_round_to_zero(bfloat16 a, float_status *s)
++{
++    return bfloat16_to_uint64_scalbn(a, float_round_to_zero, 0, s);
++}
++
+ /*
+  * Integer to float conversions
   *
-@@ -3221,6 +3332,13 @@ float64 QEMU_FLATTEN float64_sqrt(float64 xa, float_status *s)
-     return soft_f64_sqrt(ua.s, s);
+@@ -2692,6 +2844,41 @@ float64 int16_to_float64(int16_t a, float_status *status)
+     return int64_to_float64_scalbn(a, 0, status);
  }
  
-+bfloat16 QEMU_FLATTEN bfloat16_sqrt(bfloat16 a, float_status *status)
++/*
++ * Returns the result of converting the two's complement integer `a'
++ * to the brain floating-point format.
++ */
++
++bfloat16 int64_to_bfloat16_scalbn(int64_t a, int scale, float_status *status)
 +{
-+    FloatParts pa = bfloat16_unpack_canonical(a, status);
-+    FloatParts pr = sqrt_float(pa, status, &bfloat16_params);
-+    return bfloat16_round_pack_canonical(pr, status);
++    FloatParts pa = int_to_float(a, scale, status);
++    return bfloat16_round_pack_canonical(pa, status);
 +}
 +
- /*----------------------------------------------------------------------------
- | The pattern for a default generated NaN.
- *----------------------------------------------------------------------------*/
-@@ -3263,6 +3381,13 @@ float128 float128_default_nan(float_status *status)
-     return r;
- }
- 
-+bfloat16 bfloat16_default_nan(float_status *status)
++bfloat16 int32_to_bfloat16_scalbn(int32_t a, int scale, float_status *status)
 +{
-+    FloatParts p = parts_default_nan(status);
-+    p.frac >>= bfloat16_params.frac_shift;
-+    return bfloat16_pack_raw(p);
++    return int64_to_bfloat16_scalbn(a, scale, status);
 +}
 +
- /*----------------------------------------------------------------------------
- | Returns a quiet NaN from a signalling NaN for the floating point value `a'.
- *----------------------------------------------------------------------------*/
-@@ -3294,6 +3419,14 @@ float64 float64_silence_nan(float64 a, float_status *status)
-     return float64_pack_raw(p);
- }
- 
-+bfloat16 bfloat16_silence_nan(bfloat16 a, float_status *status)
++bfloat16 int16_to_bfloat16_scalbn(int16_t a, int scale, float_status *status)
 +{
-+    FloatParts p = bfloat16_unpack_raw(a);
-+    p.frac <<= bfloat16_params.frac_shift;
-+    p = parts_silence_nan(p, status);
-+    p.frac >>= bfloat16_params.frac_shift;
-+    return bfloat16_pack_raw(p);
-+}
- 
- /*----------------------------------------------------------------------------
- | If `a' is denormal and we are in flush-to-zero mode then set the
-@@ -3343,6 +3476,17 @@ float64 float64_squash_input_denormal(float64 a, float_status *status)
-     return a;
- }
- 
-+bfloat16 bfloat16_squash_input_denormal(bfloat16 a, float_status *status)
-+{
-+    if (status->flush_inputs_to_zero) {
-+        FloatParts p = bfloat16_unpack_raw(a);
-+        if (parts_squash_denormal(p, status)) {
-+            return bfloat16_set_sign(bfloat16_zero, p.sign);
-+        }
-+    }
-+    return a;
++    return int64_to_bfloat16_scalbn(a, scale, status);
 +}
 +
- /*----------------------------------------------------------------------------
- | Takes a 64-bit fixed-point value `absZ' with binary point between bits 6
- | and 7, and returns the properly rounded 32-bit integer corresponding to the
++bfloat16 int64_to_bfloat16(int64_t a, float_status *status)
++{
++    return int64_to_bfloat16_scalbn(a, 0, status);
++}
++
++bfloat16 int32_to_bfloat16(int32_t a, float_status *status)
++{
++    return int64_to_bfloat16_scalbn(a, 0, status);
++}
++
++bfloat16 int16_to_bfloat16(int16_t a, float_status *status)
++{
++    return int64_to_bfloat16_scalbn(a, 0, status);
++}
+ 
+ /*
+  * Unsigned Integer to float conversions
+@@ -2817,6 +3004,42 @@ float64 uint16_to_float64(uint16_t a, float_status *status)
+     return uint64_to_float64_scalbn(a, 0, status);
+ }
+ 
++/*
++ * Returns the result of converting the unsigned integer `a' to the
++ * brain floating-point format.
++ */
++
++bfloat16 uint64_to_bfloat16_scalbn(uint64_t a, int scale, float_status *status)
++{
++    FloatParts pa = uint_to_float(a, scale, status);
++    return bfloat16_round_pack_canonical(pa, status);
++}
++
++bfloat16 uint32_to_bfloat16_scalbn(uint32_t a, int scale, float_status *status)
++{
++    return uint64_to_bfloat16_scalbn(a, scale, status);
++}
++
++bfloat16 uint16_to_bfloat16_scalbn(uint16_t a, int scale, float_status *status)
++{
++    return uint64_to_bfloat16_scalbn(a, scale, status);
++}
++
++bfloat16 uint64_to_bfloat16(uint64_t a, float_status *status)
++{
++    return uint64_to_bfloat16_scalbn(a, 0, status);
++}
++
++bfloat16 uint32_to_bfloat16(uint32_t a, float_status *status)
++{
++    return uint64_to_bfloat16_scalbn(a, 0, status);
++}
++
++bfloat16 uint16_to_bfloat16(uint16_t a, float_status *status)
++{
++    return uint64_to_bfloat16_scalbn(a, 0, status);
++}
++
+ /* Float Min/Max */
+ /* min() and max() functions. These can't be implemented as
+  * 'compare and pick one input' because that would mishandle
 diff --git a/include/fpu/softfloat.h b/include/fpu/softfloat.h
-index ff4e2605b1..07020eafad 100644
+index 07020eafad..6590850253 100644
 --- a/include/fpu/softfloat.h
 +++ b/include/fpu/softfloat.h
-@@ -239,6 +239,37 @@ bool float16_is_quiet_nan(float16, float_status *status);
- bool float16_is_signaling_nan(float16, float_status *status);
- float16 float16_silence_nan(float16, float_status *status);
+@@ -270,6 +270,54 @@ bfloat16 bfloat16_silence_nan(bfloat16, float_status *status);
+ bfloat16 bfloat16_default_nan(float_status *status);
+ bfloat16 bfloat16_squash_input_denormal(bfloat16 a, float_status *status);
  
 +/*----------------------------------------------------------------------------
-+| Software brain floatint-point operations.
++| Software brain floating-point conversion routines.
 +*----------------------------------------------------------------------------*/
 +
-+bfloat16 bfloat16_add(bfloat16, bfloat16, float_status *status);
-+bfloat16 bfloat16_sub(bfloat16, bfloat16, float_status *status);
-+bfloat16 bfloat16_mul(bfloat16, bfloat16, float_status *status);
-+bfloat16 bfloat16_div(bfloat16, bfloat16, float_status *status);
-+bfloat16 bfloat16_muladd(bfloat16, bfloat16, bfloat16, int,
-+                         float_status *status);
-+float16 bfloat16_scalbn(bfloat16, int, float_status *status);
-+bfloat16 bfloat16_min(bfloat16, bfloat16, float_status *status);
-+bfloat16 bfloat16_max(bfloat16, bfloat16, float_status *status);
-+bfloat16 bfloat16_minnum(bfloat16, bfloat16, float_status *status);
-+bfloat16 bfloat16_maxnum(bfloat16, bfloat16, float_status *status);
-+bfloat16 bfloat16_minnummag(bfloat16, bfloat16, float_status *status);
-+bfloat16 bfloat16_maxnummag(bfloat16, bfloat16, float_status *status);
-+bfloat16 bfloat16_sqrt(bfloat16, float_status *status);
-+int bfloat16_compare(bfloat16, bfloat16, float_status *status);
-+int bfloat16_compare_quiet(bfloat16, bfloat16, float_status *status);
-+int bfloat16_unordered_quiet(bfloat16, bfloat16, float_status *status);
-+int bfloat16_le(bfloat16, bfloat16, float_status *status);
-+int bfloat16_lt(bfloat16, bfloat16, float_status *status);
-+int bfloat16_eq_quiet(bfloat16, bfloat16, float_status *status);
++bfloat16 bfloat16_round_to_int(bfloat16, float_status *status);
++bfloat16 float32_to_bfloat16(float32, float_status *status);
++float32 bfloat16_to_float32(bfloat16, float_status *status);
++bfloat16 float64_to_bfloat16(float64 a, float_status *status);
++float64 bfloat16_to_float64(bfloat16 a, float_status *status);
 +
-+int bfloat16_is_quiet_nan(bfloat16, float_status *status);
-+int bfloat16_is_signaling_nan(bfloat16, float_status *status);
-+bfloat16 bfloat16_silence_nan(bfloat16, float_status *status);
-+bfloat16 bfloat16_default_nan(float_status *status);
-+bfloat16 bfloat16_squash_input_denormal(bfloat16 a, float_status *status);
++int16_t bfloat16_to_int16_scalbn(bfloat16, int, int, float_status *status);
++int32_t bfloat16_to_int32_scalbn(bfloat16, int, int, float_status *status);
++int64_t bfloat16_to_int64_scalbn(bfloat16, int, int, float_status *status);
++
++int16_t bfloat16_to_int16(bfloat16, float_status *status);
++int32_t bfloat16_to_int32(bfloat16, float_status *status);
++int64_t bfloat16_to_int64(bfloat16, float_status *status);
++
++int16_t bfloat16_to_int16_round_to_zero(bfloat16, float_status *status);
++int32_t bfloat16_to_int32_round_to_zero(bfloat16, float_status *status);
++int64_t bfloat16_to_int64_round_to_zero(bfloat16, float_status *status);
++
++uint16_t bfloat16_to_uint16_scalbn(bfloat16 a, int, int, float_status *status);
++uint32_t bfloat16_to_uint32_scalbn(bfloat16 a, int, int, float_status *status);
++uint64_t bfloat16_to_uint64_scalbn(bfloat16 a, int, int, float_status *status);
++
++uint16_t bfloat16_to_uint16(bfloat16 a, float_status *status);
++uint32_t bfloat16_to_uint32(bfloat16 a, float_status *status);
++uint64_t bfloat16_to_uint64(bfloat16 a, float_status *status);
++
++uint16_t bfloat16_to_uint16_round_to_zero(bfloat16 a, float_status *status);
++uint32_t bfloat16_to_uint32_round_to_zero(bfloat16 a, float_status *status);
++uint64_t bfloat16_to_uint64_round_to_zero(bfloat16 a, float_status *status);
++
++bfloat16 int16_to_bfloat16_scalbn(int16_t a, int, float_status *status);
++bfloat16 int32_to_bfloat16_scalbn(int32_t a, int, float_status *status);
++bfloat16 int64_to_bfloat16_scalbn(int64_t a, int, float_status *status);
++bfloat16 uint16_to_bfloat16_scalbn(uint16_t a, int, float_status *status);
++bfloat16 uint32_to_bfloat16_scalbn(uint32_t a, int, float_status *status);
++bfloat16 uint64_to_bfloat16_scalbn(uint64_t a, int, float_status *status);
++
++bfloat16 int16_to_bfloat16(int16_t a, float_status *status);
++bfloat16 int32_to_bfloat16(int32_t a, float_status *status);
++bfloat16 int64_to_bfloat16(int64_t a, float_status *status);
++bfloat16 uint16_to_bfloat16(uint16_t a, float_status *status);
++bfloat16 uint32_to_bfloat16(uint32_t a, float_status *status);
++bfloat16 uint64_to_bfloat16(uint64_t a, float_status *status);
 +
  static inline bool float16_is_any_nan(float16 a)
  {
      return ((float16_val(a) & ~0x8000) > 0x7c00);
-@@ -293,6 +324,19 @@ static inline float16 float16_set_sign(float16 a, int sign)
- #define float16_three make_float16(0x4200)
- #define float16_infinity make_float16(0x7c00)
- 
-+static inline bfloat16 bfloat16_set_sign(bfloat16 a, int sign)
-+{
-+    return make_bfloat16((bfloat16_val(a) & 0x7fff) | (sign << 15));
-+}
-+
-+#define bfloat16_zero make_bfloat16(0)
-+#define bfloat16_half make_bfloat16(0x3f00)
-+#define bfloat16_one make_bfloat16(0x3f80)
-+#define bfloat16_one_point_five make_bfloat16(0x3fc0)
-+#define bfloat16_two make_bfloat16(0x4000)
-+#define bfloat16_three make_bfloat16(0x4040)
-+#define bfloat16_infinity make_bfloat16(0x7f80)
-+
- /*----------------------------------------------------------------------------
- | The pattern for a default generated half-precision NaN.
- *----------------------------------------------------------------------------*/
 -- 
 2.23.0
 
