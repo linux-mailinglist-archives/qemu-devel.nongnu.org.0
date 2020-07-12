@@ -2,34 +2,31 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 138AB21CA9B
-	for <lists+qemu-devel@lfdr.de>; Sun, 12 Jul 2020 19:18:21 +0200 (CEST)
-Received: from localhost ([::1]:59588 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 50CAA21CADC
+	for <lists+qemu-devel@lfdr.de>; Sun, 12 Jul 2020 19:51:18 +0200 (CEST)
+Received: from localhost ([::1]:49070 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jufcJ-0003ci-Ky
-	for lists+qemu-devel@lfdr.de; Sun, 12 Jul 2020 13:18:19 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:50216)
+	id 1jug8B-0004mI-8C
+	for lists+qemu-devel@lfdr.de; Sun, 12 Jul 2020 13:51:15 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:54414)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <andrey.shinkevich@virtuozzo.com>)
- id 1jufbO-0002j7-Gy; Sun, 12 Jul 2020 13:17:22 -0400
-Received: from relay.sw.ru ([185.231.240.75]:52518 helo=relay3.sw.ru)
+ id 1jug6P-000396-Hn; Sun, 12 Jul 2020 13:49:25 -0400
+Received: from relay.sw.ru ([185.231.240.75]:60384 helo=relay3.sw.ru)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <andrey.shinkevich@virtuozzo.com>)
- id 1jufbL-00063s-VN; Sun, 12 Jul 2020 13:17:22 -0400
+ id 1jug6N-0001lC-64; Sun, 12 Jul 2020 13:49:24 -0400
 Received: from [172.16.25.136] (helo=localhost.sw.ru)
  by relay3.sw.ru with esmtp (Exim 4.93)
  (envelope-from <andrey.shinkevich@virtuozzo.com>)
- id 1jufbA-0005DF-0X; Sun, 12 Jul 2020 20:17:08 +0300
+ id 1jug6B-0005LT-GL; Sun, 12 Jul 2020 20:49:11 +0300
 From: Andrey Shinkevich <andrey.shinkevich@virtuozzo.com>
 To: qemu-block@nongnu.org
-Subject: [PATCH v3 3/3] scripts/simplebench: add unaligned data case to
- bench_write_req
-Date: Sun, 12 Jul 2020 20:17:14 +0300
-Message-Id: <1594574234-73535-4-git-send-email-andrey.shinkevich@virtuozzo.com>
+Subject: [PATCH v4 0/3] scripts/simplebench: add bench_write_req.py test
+Date: Sun, 12 Jul 2020 20:49:15 +0300
+Message-Id: <1594576158-75884-1-git-send-email-andrey.shinkevich@virtuozzo.com>
 X-Mailer: git-send-email 1.8.3.1
-In-Reply-To: <1594574234-73535-1-git-send-email-andrey.shinkevich@virtuozzo.com>
-References: <1594574234-73535-1-git-send-email-andrey.shinkevich@virtuozzo.com>
 Received-SPF: pass client-ip=185.231.240.75;
  envelope-from=andrey.shinkevich@virtuozzo.com; helo=relay3.sw.ru
 X-detected-operating-system: by eggs.gnu.org: First seen = 2020/07/12 13:17:17
@@ -56,43 +53,33 @@ Cc: kwolf@redhat.com, vsementsov@virtuozzo.com, qemu-devel@nongnu.org,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Add a test case with writhing data unaligned to the image clusters.
-This case does not involve the COW optimization introduced with the
-patch "qcow2: skip writing zero buffers to empty COW areas"
-(git commit ID: c8bb23cbdbe32f5).
+The script 'bench_write_req.py' allows comparing performances of write request for two
+qemu-img binary files. If you made a change in QEMU code and want to check the write
+requests performance, you will want to build two qemu-img binary files with and without
+your change. Then you specify paths to those binary files and put them as parameters to
+the bench_write_req.py script. You may see other supported parameters in the USAGE help.
 
-Signed-off-by: Andrey Shinkevich <andrey.shinkevich@virtuozzo.com>
----
- scripts/simplebench/bench_write_req.py | 9 ++++++++-
- 1 file changed, 8 insertions(+), 1 deletion(-)
+v4:
+  01: 'if/else requests' blocks moved from patch 0001 to 0003.
 
-diff --git a/scripts/simplebench/bench_write_req.py b/scripts/simplebench/bench_write_req.py
-index ceb0ab6..9f3a520 100755
---- a/scripts/simplebench/bench_write_req.py
-+++ b/scripts/simplebench/bench_write_req.py
-@@ -58,7 +58,7 @@ def bench_write_req(qemu_img, image_name, block_size, block_offset, requests,
-     image_name   -- QCOW2 image name to create
-     block_size   -- size of a block to write to clusters
-     block_offset -- offset of the block in clusters
--    requests     -- number of write requests per cluster
-+    requests     -- number of write requests per cluster, customize if zero
-     empty_image  -- if not True, fills image with random data
- 
-     Returns {'seconds': int} on success and {'error': str} on failure.
-@@ -176,6 +176,13 @@ if __name__ == '__main__':
-             'requests': 2,
-             'empty_image': True
-         },
-+        {
-+            'id': '<unaligned>',
-+            'block_size': 104857600,
-+            'block_offset': 524288,
-+            'requests': 0,
-+            'empty_image': False
-+        },
-     ]
- 
-     # Test-envs are "columns" in benchmark resulting table, 'id is a caption
+v3: Based on the Vladimir's review
+  01: The test results were amended in the patch description.
+  02: The python format string syntax changed to the newer one f''.
+  03: The 'empty_disk' test parameter fixed to True.
+  04: The function bench_write_req() was supplied with commentary.
+  05: The subprocess.call() was replaced with subprocess.run().
+  06: The exception handling was improved.
+  07: The v2 only patch was split into three in the series.
+
+Andrey Shinkevich (3):
+  scripts/simplebench: compare write request performance
+  scripts/simplebench: allow writing to non-empty image
+  scripts/simplebench: add unaligned data case to bench_write_req
+
+ scripts/simplebench/bench_write_req.py | 206 +++++++++++++++++++++++++++++++++
+ 1 file changed, 206 insertions(+)
+ create mode 100755 scripts/simplebench/bench_write_req.py
+
 -- 
 1.8.3.1
 
