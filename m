@@ -2,35 +2,35 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id BFD8E21C940
-	for <lists+qemu-devel@lfdr.de>; Sun, 12 Jul 2020 14:12:07 +0200 (CEST)
-Received: from localhost ([::1]:37422 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 20A2721C943
+	for <lists+qemu-devel@lfdr.de>; Sun, 12 Jul 2020 14:26:33 +0200 (CEST)
+Received: from localhost ([::1]:40070 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1juapy-0007UD-Dt
-	for lists+qemu-devel@lfdr.de; Sun, 12 Jul 2020 08:12:06 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:57850)
+	id 1jub3v-00015s-Mr
+	for lists+qemu-devel@lfdr.de; Sun, 12 Jul 2020 08:26:31 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:59680)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1juaoq-00072c-2f
- for qemu-devel@nongnu.org; Sun, 12 Jul 2020 08:10:56 -0400
-Received: from indium.canonical.com ([91.189.90.7]:60022)
+ id 1jub3F-0000fd-Uc
+ for qemu-devel@nongnu.org; Sun, 12 Jul 2020 08:25:49 -0400
+Received: from indium.canonical.com ([91.189.90.7]:33098)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1juaon-0001xV-D6
- for qemu-devel@nongnu.org; Sun, 12 Jul 2020 08:10:55 -0400
+ id 1jub3C-0003UN-Rn
+ for qemu-devel@nongnu.org; Sun, 12 Jul 2020 08:25:49 -0400
 Received: from loganberry.canonical.com ([91.189.90.37])
  by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
- id 1juaol-00068i-Eh
- for <qemu-devel@nongnu.org>; Sun, 12 Jul 2020 12:10:51 +0000
+ id 1jub39-00079s-SA
+ for <qemu-devel@nongnu.org>; Sun, 12 Jul 2020 12:25:43 +0000
 Received: from loganberry.canonical.com (localhost [127.0.0.1])
- by loganberry.canonical.com (Postfix) with ESMTP id 6635B2E804F
- for <qemu-devel@nongnu.org>; Sun, 12 Jul 2020 12:10:51 +0000 (UTC)
+ by loganberry.canonical.com (Postfix) with ESMTP id B6A662E80E7
+ for <qemu-devel@nongnu.org>; Sun, 12 Jul 2020 12:25:43 +0000 (UTC)
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: quoted-printable
-Date: Sun, 12 Jul 2020 12:02:17 -0000
-From: Simon John <1886318@bugs.launchpad.net>
+Date: Sun, 12 Jul 2020 12:17:52 -0000
+From: Michael Tokarev <1886318@bugs.launchpad.net>
 To: qemu-devel@nongnu.org
 X-Launchpad-Notification-Type: bug
 X-Launchpad-Bug: product=qemu; status=New; importance=Undecided; assignee=None;
@@ -39,9 +39,9 @@ X-Launchpad-Bug-Private: no
 X-Launchpad-Bug-Security-Vulnerability: no
 X-Launchpad-Bug-Commenters: mark-cave-ayland mjt+launchpad-tls sej7278
 X-Launchpad-Bug-Reporter: Simon John (sej7278)
-X-Launchpad-Bug-Modifier: Simon John (sej7278)
+X-Launchpad-Bug-Modifier: Michael Tokarev (mjt+launchpad-tls)
 References: <159394898604.17667.6684490731246411850.malonedeb@soybean.canonical.com>
-Message-Id: <159455533798.12017.1575984431189756725.malone@soybean.canonical.com>
+Message-Id: <159455627295.7359.406798975618275772.malone@wampee.canonical.com>
 Subject: [Bug 1886318] Re: Qemu after v5.0.0 breaks macos guests
 X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
 X-Launchpad-Message-For: qemu-devel-ml
@@ -49,7 +49,7 @@ Precedence: bulk
 X-Generated-By: Launchpad (canonical.com);
  Revision="4809fcb62f445aaa3ae919f7f6c3cc7d156ea57a";
  Instance="production-secrets-lazr.conf"
-X-Launchpad-Hash: 541af75a6ea654107cbe2e9ffa60f584754ccb06
+X-Launchpad-Hash: 4fa6ec5b6f182e958453b6e2007c7b23b26cf6ca
 Received-SPF: none client-ip=91.189.90.7; envelope-from=bounces@canonical.com;
  helo=indium.canonical.com
 X-detected-operating-system: by eggs.gnu.org: First seen = 2020/07/12 04:40:51
@@ -75,10 +75,11 @@ Reply-To: Bug 1886318 <1886318@bugs.launchpad.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-urgh, that was complicated, think i got it right!
-
-need to look for "[PATCH] Allow acpi-tmr size=3D2" to show up in qemu-
-devel
+I think we should add debugging patch by Mark to qemu too, =E2=80=94 I susp=
+ect
+there will be more cases like this, since this check were turned off for
+a few years.  Maybe not as printf's but as logging, I dunno, but the
+info it collects is really a must-have.
 
 -- =
 
