@@ -2,35 +2,35 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8DC4F21C82F
-	for <lists+qemu-devel@lfdr.de>; Sun, 12 Jul 2020 11:01:51 +0200 (CEST)
-Received: from localhost ([::1]:42112 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 787F321C85F
+	for <lists+qemu-devel@lfdr.de>; Sun, 12 Jul 2020 11:57:05 +0200 (CEST)
+Received: from localhost ([::1]:53738 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1juXrq-0001rx-1z
-	for lists+qemu-devel@lfdr.de; Sun, 12 Jul 2020 05:01:50 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:59820)
+	id 1juYjI-0001oV-Ib
+	for lists+qemu-devel@lfdr.de; Sun, 12 Jul 2020 05:57:04 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:37994)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1juXr1-0001QR-S0
- for qemu-devel@nongnu.org; Sun, 12 Jul 2020 05:00:59 -0400
-Received: from indium.canonical.com ([91.189.90.7]:37334)
+ id 1juYic-0001Ox-KN
+ for qemu-devel@nongnu.org; Sun, 12 Jul 2020 05:56:22 -0400
+Received: from indium.canonical.com ([91.189.90.7]:48774)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1juXqz-0007rP-Io
- for qemu-devel@nongnu.org; Sun, 12 Jul 2020 05:00:59 -0400
+ id 1juYia-0004bm-Hr
+ for qemu-devel@nongnu.org; Sun, 12 Jul 2020 05:56:22 -0400
 Received: from loganberry.canonical.com ([91.189.90.37])
  by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
- id 1juXqx-0005MT-Bn
- for <qemu-devel@nongnu.org>; Sun, 12 Jul 2020 09:00:55 +0000
+ id 1juYiY-0003s2-SG
+ for <qemu-devel@nongnu.org>; Sun, 12 Jul 2020 09:56:18 +0000
 Received: from loganberry.canonical.com (localhost [127.0.0.1])
- by loganberry.canonical.com (Postfix) with ESMTP id 451972E80F0
- for <qemu-devel@nongnu.org>; Sun, 12 Jul 2020 09:00:55 +0000 (UTC)
+ by loganberry.canonical.com (Postfix) with ESMTP id D4E572E806B
+ for <qemu-devel@nongnu.org>; Sun, 12 Jul 2020 09:56:18 +0000 (UTC)
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: quoted-printable
-Date: Sun, 12 Jul 2020 08:53:55 -0000
-From: Simon John <1886318@bugs.launchpad.net>
+Date: Sun, 12 Jul 2020 09:48:41 -0000
+From: Mark Cave-Ayland <1886318@bugs.launchpad.net>
 To: qemu-devel@nongnu.org
 X-Launchpad-Notification-Type: bug
 X-Launchpad-Bug: product=qemu; status=New; importance=Undecided; assignee=None;
@@ -39,9 +39,9 @@ X-Launchpad-Bug-Private: no
 X-Launchpad-Bug-Security-Vulnerability: no
 X-Launchpad-Bug-Commenters: mark-cave-ayland mjt+launchpad-tls sej7278
 X-Launchpad-Bug-Reporter: Simon John (sej7278)
-X-Launchpad-Bug-Modifier: Simon John (sej7278)
+X-Launchpad-Bug-Modifier: Mark Cave-Ayland (mark-cave-ayland)
 References: <159394898604.17667.6684490731246411850.malonedeb@soybean.canonical.com>
-Message-Id: <159454403511.12547.12359882360694235182.malone@soybean.canonical.com>
+Message-Id: <159454732169.12693.18405877124058992451.malone@soybean.canonical.com>
 Subject: [Bug 1886318] Re: Qemu after v5.0.0 breaks macos guests
 X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
 X-Launchpad-Message-For: qemu-devel-ml
@@ -49,7 +49,7 @@ Precedence: bulk
 X-Generated-By: Launchpad (canonical.com);
  Revision="4809fcb62f445aaa3ae919f7f6c3cc7d156ea57a";
  Instance="production-secrets-lazr.conf"
-X-Launchpad-Hash: a50c43926ed9a0c906f04aefc83a0f8345bca8d7
+X-Launchpad-Hash: 55cfcb0db93c39342867571da9fc6d71a5d0fb77
 Received-SPF: none client-ip=91.189.90.7; envelope-from=bounces@canonical.com;
  helo=indium.canonical.com
 X-detected-operating-system: by eggs.gnu.org: First seen = 2020/07/12 04:40:51
@@ -75,8 +75,48 @@ Reply-To: Bug 1886318 <1886318@bugs.launchpad.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-No that doesn't make any difference either, nor does combining the two
-patches :-(
+In that case please disregard those patches. Can you try this diff below
+which will log any invalid accesses and see if anything appears on
+stderr?
+
+
+diff --git a/memory.c b/memory.c
+index 9200b20130..5d1a6d4477 100644
+--- a/memory.c
++++ b/memory.c
+@@ -1354,10 +1354,12 @@ bool memory_region_access_valid(MemoryRegion *mr,
+ {
+     if (mr->ops->valid.accepts
+         && !mr->ops->valid.accepts(mr->opaque, addr, size, is_write, attrs=
+)) {
++        fprintf(stderr, "invalid accepts: %s  addr %"PRIx64 " size: %d\n",=
+ mr->name, addr, size);
+         return false;
+     }
+ =
+
+     if (!mr->ops->valid.unaligned && (addr & (size - 1))) {
++        fprintf(stderr, "invalid aligned: %s  addr %"PRIx64 " size: %d\n",=
+ mr->name, addr, size);
+         return false;
+     }
+ =
+
+@@ -1368,6 +1370,7 @@ bool memory_region_access_valid(MemoryRegion *mr,
+ =
+
+     if (size > mr->ops->valid.max_access_size
+         || size < mr->ops->valid.min_access_size) {
++        fprintf(stderr, "invalid size: %s  addr %"PRIx64 " size: %d\n", mr=
+->name, addr, size);
+         return false;
+     }
+     return true;
+
+
+ATB,
+
+Mark.
 
 -- =
 
