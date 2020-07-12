@@ -2,73 +2,65 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0088821C6D1
-	for <lists+qemu-devel@lfdr.de>; Sun, 12 Jul 2020 02:23:37 +0200 (CEST)
-Received: from localhost ([::1]:32904 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1B14221C6F6
+	for <lists+qemu-devel@lfdr.de>; Sun, 12 Jul 2020 03:48:29 +0200 (CEST)
+Received: from localhost ([::1]:48924 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1juPmL-0002OK-20
-	for lists+qemu-devel@lfdr.de; Sat, 11 Jul 2020 20:23:37 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:40026)
+	id 1juR6R-0000LJ-IJ
+	for lists+qemu-devel@lfdr.de; Sat, 11 Jul 2020 21:48:27 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:34448)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <liq3ea@gmail.com>)
- id 1juPlX-0001iP-W0; Sat, 11 Jul 2020 20:22:48 -0400
-Received: from mail-oi1-x244.google.com ([2607:f8b0:4864:20::244]:43179)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <liq3ea@gmail.com>)
- id 1juPlW-0003Wp-85; Sat, 11 Jul 2020 20:22:47 -0400
-Received: by mail-oi1-x244.google.com with SMTP id x83so7982494oif.10;
- Sat, 11 Jul 2020 17:22:45 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc:content-transfer-encoding;
- bh=oZ00LcG+6NseoTgPAtEBCbzXEaU2ZdzV1e/l/jb4AMA=;
- b=Zon9W1ElGKBYqP0HaKxRQh/dREXL/+1E99KltdTKfEiraZBjRUviy0LIJ5swp0iRXq
- +ixrsvgNxKfjtFuVR4st9t59dvvyDnYKytJHYXK17ubCnlMb8xWdLYQ4XZeokoEzrbIM
- +9rvumeDN6uvaiAB9z2dOTT2nepgF0bdnskbBXT50cecCHMSAnp2nb3A/tHMGE1F1tVz
- avndKs73h6slC1ya1TzBaHwmbTT6lpkAdiezvOtY3NwEOkIALyUKwPodIBNjdDxM7coo
- dvfBn5CBeOsNKm73yZB6SU19sNSnOFJzsWbmy+feP7ZqTpEV9Wh9S1uxwD63P6YBBsCJ
- 1CWQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc:content-transfer-encoding;
- bh=oZ00LcG+6NseoTgPAtEBCbzXEaU2ZdzV1e/l/jb4AMA=;
- b=dmzI8TZbfUwZ044KLy2sKztr+YcgBFfzoZsb6romFCay3jZAFqBZMF+tx++nTz29oC
- xOYr7e7+Q3nSO3duzx39sMQD3QOLjZlvzvfAjxlG+jX7X8TCjZoRCD3EZBW5vx0vX5Ai
- SQtJTUonVNBAJWnk23oWL7Wi2+0rK1qMz+mbwyhxdAEO3Tong8aG7CbSg8ohZ/Qd8nL+
- 0T1biqdTqXlLLZiXsMgJe15JNGDibPx7KTbwVX65YI2IvKCtmqoZIkaYO5oFeuFlmSy0
- Px64huGp1EiuHiitpHErVe6HxAgTbmNthIxxYAsYg71PGMLF+6F2JJSTarQre2w35f9i
- dEMg==
-X-Gm-Message-State: AOAM532e8NP/mKCZE1NMpplCndi0p9teyissGaaA6b9Vn7lF6ledJntW
- dZ8sbybEhRzRBH1hamjK+HdOoss5vvEiTSAq/o4=
-X-Google-Smtp-Source: ABdhPJxQJ7AZ2jlGRxlDUwnioKmoTSaZrO0jshutrp1VME047IZzpSa+J3zOhOun18QQQ3OecG/ESfAuqhzCbP1H850=
-X-Received: by 2002:a05:6808:486:: with SMTP id
- z6mr9635087oid.56.1594513364731; 
- Sat, 11 Jul 2020 17:22:44 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <chengang@emindsoft.com.cn>)
+ id 1juR5g-0008KR-Ey
+ for qemu-devel@nongnu.org; Sat, 11 Jul 2020 21:47:40 -0400
+Received: from lucky1.263xmail.com ([211.157.147.131]:41054)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <chengang@emindsoft.com.cn>)
+ id 1juR5d-0005j9-SW
+ for qemu-devel@nongnu.org; Sat, 11 Jul 2020 21:47:40 -0400
+Received: from localhost (unknown [192.168.167.209])
+ by lucky1.263xmail.com (Postfix) with ESMTP id 5F9C4AFDAF;
+ Sun, 12 Jul 2020 09:47:26 +0800 (CST)
+X-MAIL-GRAY: 0
+X-MAIL-DELIVERY: 1
+X-ADDR-CHECKED4: 1
+X-ANTISPAM-LEVEL: 2
+X-ABS-CHECKED: 0
+Received: from localhost.localdomain (unknown [223.72.94.78])
+ by smtp.263.net (postfix) whith ESMTP id
+ P9170T139648110163712S1594518440206160_; 
+ Sun, 12 Jul 2020 09:47:26 +0800 (CST)
+X-UNIQUE-TAG: <09f71800d8b843ef05390035df41848d>
+X-RL-SENDER: chengang@emindsoft.com.cn
+X-SENDER: chengang@emindsoft.com.cn
+X-LOGIN-NAME: chengang@emindsoft.com.cn
+X-FST-TO: pbonzini@redhat.com
+X-SENDER-IP: 223.72.94.78
+X-ATTACHMENT-NUM: 0
+X-DNS-TYPE: 0
+X-System-Flag: 0
+From: chengang@emindsoft.com.cn
+To: pbonzini@redhat.com,
+	rth@twiddle.net,
+	ehabkost@redhat.com
+Subject: [PATCH] target: i386: mem_helper: Fix ldaxr instruction 64 bit
+ alignment issue temporarily for stable-4.1
+Date: Sun, 12 Jul 2020 09:47:17 +0800
+Message-Id: <20200712014717.10858-1-chengang@emindsoft.com.cn>
+X-Mailer: git-send-email 2.24.0.308.g228f53135a
 MIME-Version: 1.0
-References: <20200628214230.2592-1-peter.maydell@linaro.org>
- <20200628214230.2592-3-peter.maydell@linaro.org>
-In-Reply-To: <20200628214230.2592-3-peter.maydell@linaro.org>
-From: Li Qiang <liq3ea@gmail.com>
-Date: Sun, 12 Jul 2020 08:22:08 +0800
-Message-ID: <CAKXe6SKv_QAeo4g+2n4uYO2cztDvV06adPShT6KEqzBGRJs9BQ@mail.gmail.com>
-Subject: Re: [PATCH 2/2] hw/arm/palm.c: Encapsulate misc GPIO handling in a
- device
-To: Peter Maydell <peter.maydell@linaro.org>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=2607:f8b0:4864:20::244;
- envelope-from=liq3ea@gmail.com; helo=mail-oi1-x244.google.com
-X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
- That's all we know.
-X-Spam_score_int: -20
-X-Spam_score: -2.1
+Content-Transfer-Encoding: 8bit
+Received-SPF: none client-ip=211.157.147.131;
+ envelope-from=chengang@emindsoft.com.cn; helo=lucky1.263xmail.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/07/11 21:47:29
+X-ACL-Warn: Detected OS   = ???
+X-Spam_score_int: -28
+X-Spam_score: -2.9
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_NONE=-0.0001,
+ RCVD_IN_MSPIKE_H2=-1, SPF_HELO_NONE=0.001,
+ SPF_NONE=0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -81,135 +73,45 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-arm@nongnu.org, Qemu Developers <qemu-devel@nongnu.org>
+Cc: chengang@emindsoft.com.cn, qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Peter Maydell <peter.maydell@linaro.org> =E4=BA=8E2020=E5=B9=B46=E6=9C=8829=
-=E6=97=A5=E5=91=A8=E4=B8=80 =E4=B8=8A=E5=8D=885:43=E5=86=99=E9=81=93=EF=BC=
-=9A
->
-> Replace the free-floating set of IRQs and palmte_onoff_gpios()
-> function with a simple QOM device that encapsulates this
-> behaviour.
->
-> This fixes Coverity issue CID 1421944, which points out that
-> the memory returned by qemu_allocate_irqs() is leaked.
->
-> Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
+From: Chen Gang <chengang@emindsoft.com.cn>
 
-Reviewed-by: Li Qiang <liq3ea@gmail.com>
+This fix does not consider about the lock feature which may cause
+another issues, but excuse me, I don't know how to fix it. At present,
+the fix runs OK for my case in windows oledb32.dll in wine.
 
-> ---
->  hw/arm/palm.c | 61 +++++++++++++++++++++++++++++++++++++++++++--------
->  1 file changed, 52 insertions(+), 9 deletions(-)
->
-> diff --git a/hw/arm/palm.c b/hw/arm/palm.c
-> index 569836178f6..e7bc9ea4c6a 100644
-> --- a/hw/arm/palm.c
-> +++ b/hw/arm/palm.c
-> @@ -124,6 +124,21 @@ static void palmte_button_event(void *opaque, int ke=
-ycode)
->                          !(keycode & 0x80));
->  }
->
-> +/*
-> + * Encapsulation of some GPIO line behaviour for the Palm board
-> + *
-> + * QEMU interface:
-> + *  + unnamed GPIO inputs 0..6: for the various miscellaneous input line=
-s
-> + */
-> +
-> +#define TYPE_PALM_MISC_GPIO "palm-misc-gpio"
-> +#define PALM_MISC_GPIO(obj) \
-> +    OBJECT_CHECK(PalmMiscGPIOState, (obj), TYPE_PALM_MISC_GPIO)
-> +
-> +typedef struct PalmMiscGPIOState {
-> +    SysBusDevice parent_obj;
-> +} PalmMiscGPIOState;
-> +
->  static void palmte_onoff_gpios(void *opaque, int line, int level)
->  {
->      switch (line) {
-> @@ -151,23 +166,44 @@ static void palmte_onoff_gpios(void *opaque, int li=
-ne, int level)
->      }
->  }
->
-> +static void palm_misc_gpio_init(Object *obj)
-> +{
-> +    DeviceState *dev =3D DEVICE(obj);
-> +
-> +    qdev_init_gpio_in(dev, palmte_onoff_gpios, 7);
-> +}
-> +
-> +static const TypeInfo palm_misc_gpio_info =3D {
-> +    .name =3D TYPE_PALM_MISC_GPIO,
-> +    .parent =3D TYPE_SYS_BUS_DEVICE,
-> +    .instance_size =3D sizeof(PalmMiscGPIOState),
-> +    .instance_init =3D palm_misc_gpio_init,
-> +    /*
-> +     * No class init required: device has no internal state so does not
-> +     * need to set up reset or vmstate, and has no realize method.
-> +     */
-> +};
-> +
->  static void palmte_gpio_setup(struct omap_mpu_state_s *cpu)
->  {
-> -    qemu_irq *misc_gpio;
-> +    DeviceState *misc_gpio;
-> +
-> +    misc_gpio =3D sysbus_create_simple(TYPE_PALM_MISC_GPIO, -1, NULL);
->
->      omap_mmc_handlers(cpu->mmc,
->                      qdev_get_gpio_in(cpu->gpio, PALMTE_MMC_WP_GPIO),
->                      qemu_irq_invert(omap_mpuio_in_get(cpu->mpuio)
->                              [PALMTE_MMC_SWITCH_GPIO]));
->
-> -    misc_gpio =3D qemu_allocate_irqs(palmte_onoff_gpios, cpu, 7);
-> -    qdev_connect_gpio_out(cpu->gpio, PALMTE_MMC_POWER_GPIO,     misc_gpi=
-o[0]);
-> -    qdev_connect_gpio_out(cpu->gpio, PALMTE_SPEAKER_GPIO,       misc_gpi=
-o[1]);
-> -    qdev_connect_gpio_out(cpu->gpio, 11,                        misc_gpi=
-o[2]);
-> -    qdev_connect_gpio_out(cpu->gpio, 12,                        misc_gpi=
-o[3]);
-> -    qdev_connect_gpio_out(cpu->gpio, 13,                        misc_gpi=
-o[4]);
-> -    omap_mpuio_out_set(cpu->mpuio, 1,                           misc_gpi=
-o[5]);
-> -    omap_mpuio_out_set(cpu->mpuio, 3,                           misc_gpi=
-o[6]);
-> +    qdev_connect_gpio_out(cpu->gpio, PALMTE_MMC_POWER_GPIO,
-> +                          qdev_get_gpio_in(misc_gpio, 0));
-> +    qdev_connect_gpio_out(cpu->gpio, PALMTE_SPEAKER_GPIO,
-> +                          qdev_get_gpio_in(misc_gpio, 1));
-> +    qdev_connect_gpio_out(cpu->gpio, 11, qdev_get_gpio_in(misc_gpio, 2))=
-;
-> +    qdev_connect_gpio_out(cpu->gpio, 12, qdev_get_gpio_in(misc_gpio, 3))=
-;
-> +    qdev_connect_gpio_out(cpu->gpio, 13, qdev_get_gpio_in(misc_gpio, 4))=
-;
-> +    omap_mpuio_out_set(cpu->mpuio, 1, qdev_get_gpio_in(misc_gpio, 5));
-> +    omap_mpuio_out_set(cpu->mpuio, 3, qdev_get_gpio_in(misc_gpio, 6));
->
->      /* Reset some inputs to initial state.  */
->      qemu_irq_lower(qdev_get_gpio_in(cpu->gpio, PALMTE_USBDETECT_GPIO));
-> @@ -276,3 +312,10 @@ static void palmte_machine_init(MachineClass *mc)
->  }
->
->  DEFINE_MACHINE("cheetah", palmte_machine_init)
-> +
-> +static void palm_register_types(void)
-> +{
-> +    type_register_static(&palm_misc_gpio_info);
-> +}
-> +
-> +type_init(palm_register_types)
-> --
-> 2.20.1
->
->
+Welcome anyone to fix it, thanks.
+
+Signed-off-by: Chen Gang <chengang@emindsoft.com.cn>
+---
+ target/i386/mem_helper.c | 8 +++++++-
+ 1 file changed, 7 insertions(+), 1 deletion(-)
+
+diff --git a/target/i386/mem_helper.c b/target/i386/mem_helper.c
+index d50d4b0c40..8c37b05fae 100644
+--- a/target/i386/mem_helper.c
++++ b/target/i386/mem_helper.c
+@@ -68,7 +68,13 @@ void helper_cmpxchg8b(CPUX86State *env, target_ulong a0)
+         uint64_t *haddr = g2h(a0);
+         cmpv = cpu_to_le64(cmpv);
+         newv = cpu_to_le64(newv);
+-        oldv = atomic_cmpxchg__nocheck(haddr, cmpv, newv);
++        if ((unsigned long)haddr % 8) {
++            volatile uint64_t tmp = *haddr; /* avoid compiler optimization */
++            oldv = atomic_cmpxchg__nocheck(&tmp, cmpv, newv);
++            *haddr = tmp;
++        } else {
++            oldv = atomic_cmpxchg__nocheck(haddr, cmpv, newv);
++        }
+         oldv = le64_to_cpu(oldv);
+     }
+ #else
+-- 
+2.24.0.308.g228f53135a
+
+
+
 
