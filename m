@@ -2,36 +2,39 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B843321CC36
-	for <lists+qemu-devel@lfdr.de>; Mon, 13 Jul 2020 01:48:30 +0200 (CEST)
-Received: from localhost ([::1]:32882 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 14A3621CC33
+	for <lists+qemu-devel@lfdr.de>; Mon, 13 Jul 2020 01:47:01 +0200 (CEST)
+Received: from localhost ([::1]:52782 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1julht-0003a5-Nz
-	for lists+qemu-devel@lfdr.de; Sun, 12 Jul 2020 19:48:29 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:41878)
+	id 1julgR-0000FO-U8
+	for lists+qemu-devel@lfdr.de; Sun, 12 Jul 2020 19:47:00 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:41884)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <zhiwei_liu@c-sky.com>)
- id 1julfC-00072g-Ov
+ id 1julfD-00072m-GR
  for qemu-devel@nongnu.org; Sun, 12 Jul 2020 19:45:44 -0400
-Received: from smtp2200-217.mail.aliyun.com ([121.197.200.217]:40744)
+Received: from smtp2200-217.mail.aliyun.com ([121.197.200.217]:39413)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <zhiwei_liu@c-sky.com>)
- id 1julf6-0007FF-U2
- for qemu-devel@nongnu.org; Sun, 12 Jul 2020 19:45:42 -0400
-X-Alimail-AntiSpam: AC=CONTINUE; BC=0.2661728|-1; CH=green; DM=|CONTINUE|false|;
- DS=CONTINUE|ham_alarm|0.196332-0.00398669-0.799682; FP=0|0|0|0|0|-1|-1|-1;
- HT=e01l07440; MF=zhiwei_liu@c-sky.com; NM=1; PH=DS; RN=6; RT=6; SR=0;
- TI=SMTPD_---.I0oni3i_1594597526; 
+ id 1julf6-0007FG-Td
+ for qemu-devel@nongnu.org; Sun, 12 Jul 2020 19:45:43 -0400
+X-Alimail-AntiSpam: AC=CONTINUE; BC=0.08604655|-1; CH=green;
+ DM=|CONTINUE|false|;
+ DS=CONTINUE|ham_system_inform|0.191123-0.000352562-0.808525;
+ FP=0|0|0|0|0|-1|-1|-1; HT=e02c03306; MF=zhiwei_liu@c-sky.com; NM=1; PH=DS;
+ RN=6; RT=6; SR=0; TI=SMTPD_---.I0oni3i_1594597526; 
 Received: from L-PF1D6DP4-1208.hz.ali.com(mailfrom:zhiwei_liu@c-sky.com
  fp:SMTPD_---.I0oni3i_1594597526) by smtp.aliyun-inc.com(10.147.40.7);
  Mon, 13 Jul 2020 07:45:27 +0800
 From: LIU Zhiwei <zhiwei_liu@c-sky.com>
 To: qemu-devel@nongnu.org
-Subject: [RFC PATCH 0/8] Implement blfoat16 in softfloat
-Date: Mon, 13 Jul 2020 07:45:13 +0800
-Message-Id: <20200712234521.3972-1-zhiwei_liu@c-sky.com>
+Subject: [RFC PATCH 1/8] fpu/softfloat: fix up float16 nan recognition
+Date: Mon, 13 Jul 2020 07:45:14 +0800
+Message-Id: <20200712234521.3972-2-zhiwei_liu@c-sky.com>
 X-Mailer: git-send-email 2.23.0
+In-Reply-To: <20200712234521.3972-1-zhiwei_liu@c-sky.com>
+References: <20200712234521.3972-1-zhiwei_liu@c-sky.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 Received-SPF: none client-ip=121.197.200.217;
@@ -61,31 +64,33 @@ Cc: alex.bennee@linaro.org, wenmeng_zhang@c-sky.com,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-As bfloat16 is more and more popular in many archs, implement bfloat16
-interfaces in softfloat, so that archs can add their bfloat16 insns
-based on the blfoat16 interfaces here.
+Signed-off-by: LIU Zhiwei <zhiwei_liu@c-sky.com>
+---
+ fpu/softfloat-specialize.inc.c | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
-This patch set is more copy of float16 than really define new
-interfaces or implementations.
-
-Any thoughts are welcomed!
-
-LIU Zhiwei (8):
-  fpu/softfloat: fix up float16 nan recognition
-  fpu/softfloat: use the similiar logic to recognize sNaN and qNaN
-  fpu/softfloat: add FloatFmt for bfloat16
-  fpu/softfloat: add pack and unpack interfaces for bfloat16
-  fpu/softfloat: define brain floating-point types
-  fpu/softfloat: define operation for bfloat16
-  fpu/softfloat: define covert operation for bfloat16
-  fpu/softfloat: define misc operation for bfloat16
-
- fpu/softfloat-specialize.inc.c |  50 ++++-
- fpu/softfloat.c                | 393 ++++++++++++++++++++++++++++++++-
- include/fpu/softfloat-types.h  |   8 +
- include/fpu/softfloat.h        | 133 +++++++++++
- 4 files changed, 577 insertions(+), 7 deletions(-)
-
+diff --git a/fpu/softfloat-specialize.inc.c b/fpu/softfloat-specialize.inc.c
+index 44f5b661f8..034d18199c 100644
+--- a/fpu/softfloat-specialize.inc.c
++++ b/fpu/softfloat-specialize.inc.c
+@@ -254,7 +254,7 @@ bool float16_is_quiet_nan(float16 a_, float_status *status)
+     if (snan_bit_is_one(status)) {
+         return (((a >> 9) & 0x3F) == 0x3E) && (a & 0x1FF);
+     } else {
+-        return ((a & ~0x8000) >= 0x7C80);
++        return ((a >> 9) & 0x3F) == 0x3F;
+     }
+ #endif
+ }
+@@ -271,7 +271,7 @@ bool float16_is_signaling_nan(float16 a_, float_status *status)
+ #else
+     uint16_t a = float16_val(a_);
+     if (snan_bit_is_one(status)) {
+-        return ((a & ~0x8000) >= 0x7C80);
++        return ((a >> 9) & 0x3F) == 0x3F;
+     } else {
+         return (((a >> 9) & 0x3F) == 0x3E) && (a & 0x1FF);
+     }
 -- 
 2.23.0
 
