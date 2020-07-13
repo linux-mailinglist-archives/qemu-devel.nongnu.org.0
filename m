@@ -2,69 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9FF2C21D810
-	for <lists+qemu-devel@lfdr.de>; Mon, 13 Jul 2020 16:14:16 +0200 (CEST)
-Received: from localhost ([::1]:58410 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id EC35E21D831
+	for <lists+qemu-devel@lfdr.de>; Mon, 13 Jul 2020 16:19:39 +0200 (CEST)
+Received: from localhost ([::1]:55532 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1juzDj-0001IZ-M0
-	for lists+qemu-devel@lfdr.de; Mon, 13 Jul 2020 10:14:15 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:34964)
+	id 1juzIx-00034m-04
+	for lists+qemu-devel@lfdr.de; Mon, 13 Jul 2020 10:19:39 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:34992)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1juzAl-0004p1-FT
- for qemu-devel@nongnu.org; Mon, 13 Jul 2020 10:11:11 -0400
-Received: from mail-wm1-x32b.google.com ([2a00:1450:4864:20::32b]:51348)
+ id 1juzAm-0004sE-SK
+ for qemu-devel@nongnu.org; Mon, 13 Jul 2020 10:11:12 -0400
+Received: from mail-wr1-x42a.google.com ([2a00:1450:4864:20::42a]:32971)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1juzAj-0006bf-TH
- for qemu-devel@nongnu.org; Mon, 13 Jul 2020 10:11:11 -0400
-Received: by mail-wm1-x32b.google.com with SMTP id 22so13464827wmg.1
- for <qemu-devel@nongnu.org>; Mon, 13 Jul 2020 07:11:09 -0700 (PDT)
+ id 1juzAl-0006br-3B
+ for qemu-devel@nongnu.org; Mon, 13 Jul 2020 10:11:12 -0400
+Received: by mail-wr1-x42a.google.com with SMTP id f18so16751418wrs.0
+ for <qemu-devel@nongnu.org>; Mon, 13 Jul 2020 07:11:10 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:subject:date:message-id:in-reply-to:references:mime-version
  :content-transfer-encoding;
- bh=pLks78n58shGUjzr8qBFjGZdlcgPpzMamGTQB7aIdDA=;
- b=u7pW8AJ1B/B6IQLXN4VlTtF7clsKz3z6EEfBUzxcfzC3jZ5n0pavb4g/Bh6oZMy4ds
- lVi4Ndil7QjEOg81o2jMqfVZf4yLUPcy72ePf1Sad0UAVzDiVbviiXgFi7NP6HeDSK2+
- bErOHofLuIrZLWklRv2f7ZkGvAKhL+rdILkkiuqmSJ6GncjiuehFDkab8mmi77WX+CZF
- 9kPxAylsVqZb1xyyCD/rz4ColoMcaZqRCPLiTvP+DzEzyvddbuqUZBOJr9ZOONxp39IG
- 0Bzsebpdyp/9+k93WvcYydPRYHImPc+4hEAhjCIEnSwj3jQIl+cgp0zb8V/3cFLebTKz
- rC1g==
+ bh=ZzxnSEdSIbjUDo31ld+i28V1pOQM11woAIfNcfAFUY8=;
+ b=llvH6/4sj9EVvlU03YI9aw+j5qKgY6n5fXesFXb1ZEYXNOoF7dg74nxpfLgkjjd/lk
+ 1/awIWdFAg9p0WqvOHRZ4YhO7Z3TRzfAtpuM8GpS3j8NIMx7abpGKhN0LIcDw6X4DBDY
+ tZL5+naU8yC7TDr5mXwRlVFVXqYV/RiEVEZKcOYQBnZKKlqvaRTiHzghWSi5TCkUTXZy
+ B+aoEQi0Aaebiqh5tWoKZqG+dTgBcAjq6PxsYXoRexYB7XUS1CS1wMYAD8Lr680EPD3z
+ I5LN0e7q9/sMiXIiUC9FtI/4sQGaSuG2y95/oMFbkRISedFCoLeTDBdR31MGfD7r7Tnb
+ BHaQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=pLks78n58shGUjzr8qBFjGZdlcgPpzMamGTQB7aIdDA=;
- b=lkwF82EC1fxObAukDOoITWXoDdHLgye6WfgVTtTLAHTgzxd94Mtf4REhawuCxqsY4N
- besrYuL5DHJW/JNb0gh6n8yq7HYdxTBRP/0pjnVLFeIjpllxgcJgK7caPDExH2AzbXOs
- CzlHeDb8SWVx5vVmGiHcydOu3KnXW3GioToLxU3pjlZVD4korYS3O4axnpdTb1SkMIu9
- 6byT599Olii5sUVKB6TOMbIwu+BtcfNfyyK8c59pKzIXywjUC264KZY3LRgwqaMWLxJj
- 0UEh6Ga7Hpq7xjbwFNrlrFoz7ZmBKfgRttMXg6I9vZu8/D9cD4qvVeIqbGHbUsqbjaBr
- OwrA==
-X-Gm-Message-State: AOAM531XKPmKfTdGegrX+qiBUnHR05HCbTdGLSsANnX9H6bFWsB7lsKL
- zDX8Q/D1vN+GiyNi3guBUehGKJOOks1+gQ==
-X-Google-Smtp-Source: ABdhPJwup1qHjh0JyICExvF/CzgW5/yp4rHvlF7BJhYpxD7aA0BG/eNmdfuu1hWb7cxmlUPFLSqKZw==
-X-Received: by 2002:a1c:2349:: with SMTP id j70mr182163wmj.22.1594649468170;
- Mon, 13 Jul 2020 07:11:08 -0700 (PDT)
+ bh=ZzxnSEdSIbjUDo31ld+i28V1pOQM11woAIfNcfAFUY8=;
+ b=rP6AD3lYP7EN/RtlI0skfcBOCR9FQxgyFiZEi+GnHRO7ev0sxCI815sEUI5YdtDkhC
+ EIM9clkxhm6kesUvPwt+29msvPTn2QE/zPYNsj7dFS61gRlJwaGfgpY4lINtGRpCbqmZ
+ D9bMKCC9YzEuzbyo+gHvAuSc6vA8lscNsnMPQxgHudL5KIKEgYPwSAWOzwhX4YAv22wC
+ r10kZy70IlpE1PjjFIs954JgjdR57Fwt/YjrhxnYGQMcf25Y9as/ZkcXJnurSlTkBrYn
+ 6nB6LMQoHBNUQ+p7vxCSsoYt3e2vAclc1n403N1rKu0Prk2snMiKSlH2zJmbOuPK5N1b
+ rTJw==
+X-Gm-Message-State: AOAM533BP1CR23K34bYMCnJjz9g5J6ix8qFur+H/OjgdAD/2y6KL1wzE
+ pl3X/dDsnsD4X59Fj1HqH4l21IgxIIAzzg==
+X-Google-Smtp-Source: ABdhPJwv+Gw76WHezMoWqx3FSZF1B62E3MWo/7Z8g4uwHfHpSFhVxe03WBlbw4Hf+Z7lztsZ706f5A==
+X-Received: by 2002:a5d:6342:: with SMTP id b2mr79163275wrw.262.1594649469191; 
+ Mon, 13 Jul 2020 07:11:09 -0700 (PDT)
 Received: from orth.archaic.org.uk (orth.archaic.org.uk. [81.2.115.148])
- by smtp.gmail.com with ESMTPSA id c136sm24031297wmd.10.2020.07.13.07.11.07
+ by smtp.gmail.com with ESMTPSA id c136sm24031297wmd.10.2020.07.13.07.11.08
  for <qemu-devel@nongnu.org>
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 13 Jul 2020 07:11:07 -0700 (PDT)
+ Mon, 13 Jul 2020 07:11:08 -0700 (PDT)
 From: Peter Maydell <peter.maydell@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PULL 01/25] hw/arm/bcm2836: Remove unused 'cpu_type' field
-Date: Mon, 13 Jul 2020 15:10:40 +0100
-Message-Id: <20200713141104.5139-2-peter.maydell@linaro.org>
+Subject: [PULL 02/25] target/arm: Fix mtedesc for do_mem_zpz
+Date: Mon, 13 Jul 2020 15:10:41 +0100
+Message-Id: <20200713141104.5139-3-peter.maydell@linaro.org>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20200713141104.5139-1-peter.maydell@linaro.org>
 References: <20200713141104.5139-1-peter.maydell@linaro.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::32b;
- envelope-from=peter.maydell@linaro.org; helo=mail-wm1-x32b.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::42a;
+ envelope-from=peter.maydell@linaro.org; helo=mail-wr1-x42a.google.com
 X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
  That's all we know.
 X-Spam_score_int: -20
@@ -89,33 +89,33 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Philippe Mathieu-Daudé <f4bug@amsat.org>
+From: Richard Henderson <richard.henderson@linaro.org>
 
-The 'cpu_type' has been moved from BCM283XState to BCM283XClass
-in commit 210f47840d, but we forgot to remove the old variable.
-Do it now.
+The mtedesc that was constructed was not actually passed in.
+Found by Coverity (CID 1429996).
 
-Fixes: 210f47840d ("hw/arm/bcm2836: Hardcode correct CPU type")
-Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
-Reviewed-by: Alistair Francis <alistair.francis@wdc.com>
-Message-id: 20200703200459.23294-1-f4bug@amsat.org
+Fixes: d28d12f008e
+Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
+Reviewed-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
+Message-id: 20200706202345.193676-1-richard.henderson@linaro.org
 Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
 ---
- include/hw/arm/bcm2836.h | 1 -
- 1 file changed, 1 deletion(-)
+ target/arm/translate-sve.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/include/hw/arm/bcm2836.h b/include/hw/arm/bcm2836.h
-index 024af8aae4f..79dfff9d734 100644
---- a/include/hw/arm/bcm2836.h
-+++ b/include/hw/arm/bcm2836.h
-@@ -33,7 +33,6 @@ typedef struct BCM283XState {
-     DeviceState parent_obj;
-     /*< public >*/
+diff --git a/target/arm/translate-sve.c b/target/arm/translate-sve.c
+index 08f0fd15b28..88a2fb271d1 100644
+--- a/target/arm/translate-sve.c
++++ b/target/arm/translate-sve.c
+@@ -5275,7 +5275,7 @@ static void do_mem_zpz(DisasContext *s, int zt, int pg, int zm,
+         desc = FIELD_DP32(desc, MTEDESC, ESIZE, 1 << msz);
+         desc <<= SVE_MTEDESC_SHIFT;
+     }
+-    desc = simd_desc(vsz, vsz, scale);
++    desc = simd_desc(vsz, vsz, desc | scale);
+     t_desc = tcg_const_i32(desc);
  
--    char *cpu_type;
-     uint32_t enabled_cpus;
- 
-     struct {
+     tcg_gen_addi_ptr(t_pg, cpu_env, pred_full_reg_offset(s, pg));
 -- 
 2.20.1
 
