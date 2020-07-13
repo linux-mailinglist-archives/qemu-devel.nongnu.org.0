@@ -2,70 +2,63 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 07C2821D874
-	for <lists+qemu-devel@lfdr.de>; Mon, 13 Jul 2020 16:28:26 +0200 (CEST)
-Received: from localhost ([::1]:36020 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8254521D883
+	for <lists+qemu-devel@lfdr.de>; Mon, 13 Jul 2020 16:30:10 +0200 (CEST)
+Received: from localhost ([::1]:42444 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1juzRR-0001L8-2X
-	for lists+qemu-devel@lfdr.de; Mon, 13 Jul 2020 10:28:25 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:35504)
+	id 1juzT7-0003u3-JP
+	for lists+qemu-devel@lfdr.de; Mon, 13 Jul 2020 10:30:09 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:36368)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1juzBD-0005kO-F2
- for qemu-devel@nongnu.org; Mon, 13 Jul 2020 10:11:39 -0400
-Received: from mail-wr1-x442.google.com ([2a00:1450:4864:20::442]:41492)
+ id 1juzDy-0002vb-H8
+ for qemu-devel@nongnu.org; Mon, 13 Jul 2020 10:14:30 -0400
+Received: from mail-oi1-x22b.google.com ([2607:f8b0:4864:20::22b]:34131)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1juzB9-0006hB-Ia
- for qemu-devel@nongnu.org; Mon, 13 Jul 2020 10:11:39 -0400
-Received: by mail-wr1-x442.google.com with SMTP id z15so16715214wrl.8
- for <qemu-devel@nongnu.org>; Mon, 13 Jul 2020 07:11:35 -0700 (PDT)
+ id 1juzDw-0006z8-Vr
+ for qemu-devel@nongnu.org; Mon, 13 Jul 2020 10:14:30 -0400
+Received: by mail-oi1-x22b.google.com with SMTP id e4so11110154oib.1
+ for <qemu-devel@nongnu.org>; Mon, 13 Jul 2020 07:14:28 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=from:to:subject:date:message-id:in-reply-to:references:mime-version
- :content-transfer-encoding;
- bh=wkQrJoXM425PWoucOv5GqHn+31dKoPwmmNyiyLTRjMk=;
- b=ab1N51qT6aWxcN+Ljw+HD5GaAfNJhRblBK3SF8vj8rNlyrfQhw357v4NmjpBSlor23
- sWs5dIzM+jNXa7ZVw0YRZXYNRw6eEQebi5AvnCLUUIwjX2vWQTsI/m9RUmS3MFd3uRIs
- mUvGKaBRBJObN4oHEGeEhRMP0ZEFrz9PwHTPbu9zoOvfwx1LhrOv2JWxwPwECCFNN9CD
- 1Y4d3Yk57cF9fgqBkJdos31VYIajBgwFZgGD/khdp9sq5gD73yWvi3T4R/sMVBtAWWFr
- +MfUYYnAcLWCLRcqQcz4tEBeTwfpkdN3ZpzPMyyjEuWs7tYmNa+xP2agDqFcvQ3gDP7D
- /cWA==
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=TkmNh43NVj3WoGJiiu5k0+TZepufATIpLLYtyyvfeCA=;
+ b=bk605mYyvKAA845UqY6TeMb9Hh/sg3og69Pf6mnbfpE6BaeqYgiriMacoxWMF3arFj
+ zjpZvJyB7PNSZ3/yPghNn5khUMoLTquU1P6BolL77UVBLvjFHVN8C4ex3WcbV3oB0ffL
+ 6HJ3pXh0cDTlbcyR3kIE0suyDI/OJHr4Tn9cXAi9nN7Hon8ArP33LnYIXtFReUMvIJGC
+ ojU2n6FEnSrW8keObRKUUcfessKc6dcUgHSyOAqydvXuxTP5xtxMq0eRkCPpOOJKUNTQ
+ eGLCaNAz9LP76UeS3mhk+Ib3oKdCbRutheLCmmUYv2r6q3XW9DE+ZJ3BIhspt3RYZcdB
+ sLog==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
- :references:mime-version:content-transfer-encoding;
- bh=wkQrJoXM425PWoucOv5GqHn+31dKoPwmmNyiyLTRjMk=;
- b=ZY62jPsY467LE/qhT/fc4P4UmDs1tet1CKUM1/c9dF/hPuEhRLK0z894bZ0vbdq/vq
- V/JdIblUIXFjoNOHwU+y9TyykWksOLK3ON1JhXGLT26RNMmoZaD6DfJlPO9yonGn4STQ
- Pjy9/eGYGHl0YjazCF0Za0x8nDOMxOiS/KmDhUUGL0i44vMeD5HZ9s1I7qnRbJE0VR94
- Bzm8Tc158+FOenMY9uUpVA12tdjfZV7LQ+XtkcLffQTzH+/uZioxKO84NJ7NdXwExoFS
- 25ldUB2yFxjCyl8fn9i6exSQxE/MkeYVrH93eLKXs9VPxCCRrWwzGbuA/5XYPwGlo4Js
- XXvw==
-X-Gm-Message-State: AOAM532WLhIxKdqx5nEF61aLMCm9tn8JPeoCLe2j+FRcXkNpHShErpWQ
- a37UwatahxzaldGz8BBE05PP3k7HjIdirg==
-X-Google-Smtp-Source: ABdhPJw+0VHI65LvFGwTJnJo/snoGigZRm07x44aEMZiYpinRl2HuQbrurWhVRwOdttDWVT2mE1XPg==
-X-Received: by 2002:adf:ff8d:: with SMTP id j13mr77733455wrr.11.1594649493921; 
- Mon, 13 Jul 2020 07:11:33 -0700 (PDT)
-Received: from orth.archaic.org.uk (orth.archaic.org.uk. [81.2.115.148])
- by smtp.gmail.com with ESMTPSA id c136sm24031297wmd.10.2020.07.13.07.11.33
- for <qemu-devel@nongnu.org>
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 13 Jul 2020 07:11:33 -0700 (PDT)
-From: Peter Maydell <peter.maydell@linaro.org>
-To: qemu-devel@nongnu.org
-Subject: [PULL 25/25] hw/arm/aspeed: Do not create and attach empty SD cards
- by default
-Date: Mon, 13 Jul 2020 15:11:04 +0100
-Message-Id: <20200713141104.5139-26-peter.maydell@linaro.org>
-X-Mailer: git-send-email 2.20.1
-In-Reply-To: <20200713141104.5139-1-peter.maydell@linaro.org>
-References: <20200713141104.5139-1-peter.maydell@linaro.org>
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=TkmNh43NVj3WoGJiiu5k0+TZepufATIpLLYtyyvfeCA=;
+ b=l/NjfZCjdHP7Yxmzb5hYyT7msxNGU3hsvK8iOf5F4L501poHlACOBK77NbakR+2ser
+ 7HJcYR61CwRGM9OgLqgdfVxh8X7O5g0LfYmsiBcppL0fZKX68AEt26GZJJFHp0f8EJF4
+ 185VzEeo5rDNiX/9s9jSDf4MCnclY7E40T90aWcaLkChAQ9MoXgrviQL97KCbvHhrtsK
+ hhO/mvthkZwu5d0CwkCRV1tAj8LLAnvTOSmVPsSpFN43CAcXhZiaHkQ2M7aHcYiAenht
+ raTASBhDSymAYR2jou/NmotTlqADswDBWvgDygShwZhjm+5SWV1F7Nypcx1qE1Iezqee
+ BrNQ==
+X-Gm-Message-State: AOAM530hLI4UTN1LIXiPxeVx6ay97EpMe/2HOr7q60kWawvuxJficLXn
+ LmUjWVGurPZE3nrQzZUkzLFhyji0/o1aNbz1itWC+g==
+X-Google-Smtp-Source: ABdhPJwVceFp+jDRDqXs1b/MRBaRgaqxBSor6Bmbpl49whTxjh/RPSFkWPmH0OOW/SPy4hF0VvmlJviOqSHXGUTiGl8=
+X-Received: by 2002:aca:2819:: with SMTP id 25mr88788oix.48.1594649667728;
+ Mon, 13 Jul 2020 07:14:27 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::442;
- envelope-from=peter.maydell@linaro.org; helo=mail-wr1-x442.google.com
+References: <20200713141049.2241-1-kraxel@redhat.com>
+ <20200713141049.2241-3-kraxel@redhat.com>
+In-Reply-To: <20200713141049.2241-3-kraxel@redhat.com>
+From: Peter Maydell <peter.maydell@linaro.org>
+Date: Mon, 13 Jul 2020 15:14:16 +0100
+Message-ID: <CAFEAcA_dBoVh+OYThkJvBPqDs+PY1kAXv1EWZs5B7w9F1yW9Yw@mail.gmail.com>
+Subject: Re: [PULL 2/4] docs/qdev-device-use: Clean up the sentences related
+ to -usbdevice
+To: Gerd Hoffmann <kraxel@redhat.com>
+Content-Type: text/plain; charset="UTF-8"
+Received-SPF: pass client-ip=2607:f8b0:4864:20::22b;
+ envelope-from=peter.maydell@linaro.org; helo=mail-oi1-x22b.google.com
 X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
  That's all we know.
 X-Spam_score_int: -20
@@ -87,50 +80,29 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Cc: Paolo Bonzini <pbonzini@redhat.com>, Thomas Huth <thuth@redhat.com>,
+ =?UTF-8?Q?Daniel_P=2E_Berrang=C3=A9?= <berrange@redhat.com>,
+ QEMU Developers <qemu-devel@nongnu.org>, Eduardo Habkost <ehabkost@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Philippe Mathieu-Daudé <f4bug@amsat.org>
+On Mon, 13 Jul 2020 at 15:12, Gerd Hoffmann <kraxel@redhat.com> wrote:
+>
+> From: Thomas Huth <thuth@redhat.com>
+>
+> Most of the -usbdevice paramaters have been removed already. Update
+> the doc accordingly.
+>
+> Signed-off-by: Thomas Huth <thuth@redhat.com>
+> Message-id: 20200710065520.24784-1-thuth@redhat.com
+> Signed-off-by: Gerd Hoffmann <kraxel@redhat.com>
+> ---
+>  docs/qdev-device-use.txt | 28 +++-------------------------
+>  1 file changed, 3 insertions(+), 25 deletions(-)
 
-Since added in commit 2bea128c3d, each SDHCI is wired with a SD
-card, using empty card when no block drive provided. This is not
-the desired behavior. The SDHCI exposes a SD bus to plug cards
-on, if no card available, it is fine to have an unplugged bus.
+Side note: ideally we should roll this info into the
+proper docs/system manual at some point...
 
-Avoid creating unnecessary SD card device when no block drive
-provided.
-
-Fixes: 2bea128c3d ("hw/sd/aspeed_sdhci: New device")
-Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
-Message-id: 20200705173402.15620-1-f4bug@amsat.org
-Reviewed-by: Cédric Le Goater <clg@kaod.org>
-Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
----
- hw/arm/aspeed.c | 9 +++++----
- 1 file changed, 5 insertions(+), 4 deletions(-)
-
-diff --git a/hw/arm/aspeed.c b/hw/arm/aspeed.c
-index 660dcb54144..6a3a345a6f6 100644
---- a/hw/arm/aspeed.c
-+++ b/hw/arm/aspeed.c
-@@ -246,11 +246,12 @@ static void sdhci_attach_drive(SDHCIState *sdhci, DriveInfo *dinfo)
- {
-         DeviceState *card;
- 
--        card = qdev_new(TYPE_SD_CARD);
--        if (dinfo) {
--            qdev_prop_set_drive_err(card, "drive", blk_by_legacy_dinfo(dinfo),
--                                    &error_fatal);
-+        if (!dinfo) {
-+            return;
-         }
-+        card = qdev_new(TYPE_SD_CARD);
-+        qdev_prop_set_drive_err(card, "drive", blk_by_legacy_dinfo(dinfo),
-+                                &error_fatal);
-         qdev_realize_and_unref(card,
-                                qdev_get_child_bus(DEVICE(sdhci), "sd-bus"),
-                                &error_fatal);
--- 
-2.20.1
-
+thanks
+-- PMM
 
