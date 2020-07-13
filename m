@@ -2,52 +2,82 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7856C21E0D9
-	for <lists+qemu-devel@lfdr.de>; Mon, 13 Jul 2020 21:36:21 +0200 (CEST)
-Received: from localhost ([::1]:42872 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8A86B21E0D7
+	for <lists+qemu-devel@lfdr.de>; Mon, 13 Jul 2020 21:35:34 +0200 (CEST)
+Received: from localhost ([::1]:38708 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jv4FQ-00029m-9a
-	for lists+qemu-devel@lfdr.de; Mon, 13 Jul 2020 15:36:20 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:46638)
+	id 1jv4Ef-0000Nw-Jc
+	for lists+qemu-devel@lfdr.de; Mon, 13 Jul 2020 15:35:33 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:46394)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <alxndr@bu.edu>)
- id 1jv4EQ-0000oZ-70; Mon, 13 Jul 2020 15:35:18 -0400
-Received: from relay68.bu.edu ([128.197.228.73]:49261)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <alxndr@bu.edu>)
- id 1jv4EO-0008Se-G4; Mon, 13 Jul 2020 15:35:17 -0400
-X-Envelope-From: alxndr@bu.edu
-X-BU-AUTH: mozz.bu.edu [128.197.127.33]
-Received: from BU-AUTH (localhost.localdomain [127.0.0.1]) (authenticated
- bits=0)
- by relay68.bu.edu (8.14.3/8.14.3) with ESMTP id 06DJYLLj026127
- (version=TLSv1/SSLv3 cipher=AES256-GCM-SHA384 bits=256 verify=NO);
- Mon, 13 Jul 2020 15:34:25 -0400
-Date: Mon, 13 Jul 2020 15:34:21 -0400
-From: Alexander Bulekov <alxndr@bu.edu>
-To: Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
-Subject: Re: [PATCH v2 8/9] hw/sd/sdcard: Update coding style to make
- checkpatch.pl happy
-Message-ID: <20200713193421.sca2svuigmdrc4nu@mozz.bu.edu>
-References: <20200713183209.26308-1-f4bug@amsat.org>
- <20200713183209.26308-9-f4bug@amsat.org>
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1jv4Dj-00087u-TI
+ for qemu-devel@nongnu.org; Mon, 13 Jul 2020 15:34:35 -0400
+Received: from mail-pg1-x544.google.com ([2607:f8b0:4864:20::544]:38188)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1jv4Di-0008Mn-E0
+ for qemu-devel@nongnu.org; Mon, 13 Jul 2020 15:34:35 -0400
+Received: by mail-pg1-x544.google.com with SMTP id e8so6468568pgc.5
+ for <qemu-devel@nongnu.org>; Mon, 13 Jul 2020 12:34:33 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=subject:to:cc:references:from:message-id:date:user-agent
+ :mime-version:in-reply-to:content-language:content-transfer-encoding;
+ bh=EU7l4XgAZGABr37hID2GSkhn7UcHzA1mmhKwKI+4gG0=;
+ b=Xrn+UEq4ZvYdQrh0AjXbpCO+VY2QQ76fUBrP86Lz77GNZ/G0Uqvr9CjcOUQ0yCCIgm
+ pfwOB1wtSzOTWOFfI3ZIq3G9B2xxldm/wgdWslVqQcGP4fm9dFYcCuqqOYH/9PV5X1Cg
+ m4ns15iI4Rd5Wtv6gmLRVBMtYUvTB9S6D782F/LXUhu3LD8W94xrt0XbftG0jAs7OZOZ
+ HLD1WxSKgj29L3Gh2FZjAlMIkoSrVQHATrZ8EASbmj2a7XYDB/nb51wBKdGKkFEG03cM
+ DLjVvKlT4u8Ilo1geSRFaeWGE8TxyDY5A/Uzawfd9kxtbB03w/IjP1HW72men2TiXNPS
+ Jrhw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=EU7l4XgAZGABr37hID2GSkhn7UcHzA1mmhKwKI+4gG0=;
+ b=rx7FMGLaEtOVDiLqWH95CgU2x4oE7lTpLj5hDi9Ks/RBCweG1yep8YZFOwaEkNXuth
+ di17+CagqG/pPwdfTJoUWS0txAt1cE8e8HtzCDPc4kR1xeNFEdX3N/3veJEs9eEqlwOR
+ Q8bjrWvD1LLU6Y/O82y1nC0LJnMSJ5ILECeu0NpUZYQX9S2ukaXCcsfGxEREEMT/xB40
+ ZSbz0XQD6GAzl0OxhIZ/DZMmYGHLRiZjrtDJn961kFscBbM+49GFEY+VBgNMBkEzqali
+ nUxPRRR/7nc1RWa9gCnPTkg11d1+6i2VN0iZNRX5UrPgz9QpBWhZNFb+kMlyu1xsqRXs
+ 8QzQ==
+X-Gm-Message-State: AOAM532DwnMKCxA86kt4ILS7gF7aon9akaroNZJFuM+sj4OMmM+jCxgn
+ 1egRCTB6XjX4W2i4GkQzWeuFWpTAw0I=
+X-Google-Smtp-Source: ABdhPJzyWT6DqMYDhXRyb/pzsSfoSegvJRX+eLuymRRAdPiYFuuXiVsXxllCd407OmpfEqtk1wqrog==
+X-Received: by 2002:a65:60d4:: with SMTP id r20mr577016pgv.436.1594668872936; 
+ Mon, 13 Jul 2020 12:34:32 -0700 (PDT)
+Received: from [192.168.1.11] (174-21-143-238.tukw.qwest.net. [174.21.143.238])
+ by smtp.gmail.com with ESMTPSA id 19sm15348116pfy.193.2020.07.13.12.34.31
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Mon, 13 Jul 2020 12:34:31 -0700 (PDT)
+Subject: Re: [RFC PATCH 7/8] fpu/softfloat: define covert operation for
+ bfloat16
+To: LIU Zhiwei <zhiwei_liu@c-sky.com>, qemu-devel@nongnu.org
+References: <20200712234521.3972-1-zhiwei_liu@c-sky.com>
+ <20200712234521.3972-8-zhiwei_liu@c-sky.com>
+From: Richard Henderson <richard.henderson@linaro.org>
+Message-ID: <467ad569-0b58-7c45-6af3-71f0f86bfcd9@linaro.org>
+Date: Mon, 13 Jul 2020 12:34:29 -0700
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.10.0
 MIME-Version: 1.0
+In-Reply-To: <20200712234521.3972-8-zhiwei_liu@c-sky.com>
 Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <20200713183209.26308-9-f4bug@amsat.org>
-User-Agent: NeoMutt/20180716
-Received-SPF: pass client-ip=128.197.228.73; envelope-from=alxndr@bu.edu;
- helo=relay68.bu.edu
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/07/13 15:35:15
-X-ACL-Warn: Detected OS   = Linux 2.6.x
-X-Spam_score_int: -31
-X-Spam_score: -3.2
-X-Spam_bar: ---
-X-Spam_report: (-3.2 / 5.0 requ) BAYES_00=-1.9, HK_RANDOM_ENVFROM=0.001,
- HK_RANDOM_FROM=1, RCVD_IN_DNSWL_MED=-2.3, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- URIBL_BLOCKED=0.001 autolearn=ham autolearn_force=no
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=2607:f8b0:4864:20::544;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pg1-x544.google.com
+X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
+ That's all we know.
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -60,95 +90,22 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Maydell <peter.maydell@linaro.org>,
- Prasad J Pandit <pjp@fedoraproject.org>, qemu-block@nongnu.org,
- Alistair Francis <alistair@alistair23.me>, qemu-devel@nongnu.org,
- Wainer dos Santos Moschetta <wainersm@redhat.com>,
- Niek Linnenbank <nieklinnenbank@gmail.com>,
- Alistair Francis <alistair.francis@wdc.com>, Cleber Rosa <crosa@redhat.com>,
- Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <philmd@redhat.com>
+Cc: wenmeng_zhang@c-sky.com, alex.bennee@linaro.org, wxy194768@alibaba-inc.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 200713 2032, Philippe Mathieu-Daudé wrote:
-> To make the next commit easier to review, clean this code first.
-> 
-> Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
-> Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
-> Reviewed-by: Alistair Francis <alistair.francis@wdc.com>
-> Message-Id: <20200630133912.9428-3-f4bug@amsat.org>
+On 7/12/20 4:45 PM, LIU Zhiwei wrote:
+> Signed-off-by: LIU Zhiwei <zhiwei_liu@c-sky.com>
 > ---
+>  fpu/softfloat.c         | 223 ++++++++++++++++++++++++++++++++++++++++
+>  include/fpu/softfloat.h |  48 +++++++++
+>  2 files changed, 271 insertions(+)
 
-Reviewed-by: Alexander Bulekov <alxndr@bu.edu>
+Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
 
->  hw/sd/sd.c | 24 ++++++++++++++++--------
->  1 file changed, 16 insertions(+), 8 deletions(-)
-> 
-> diff --git a/hw/sd/sd.c b/hw/sd/sd.c
-> index 5ab945dade..0f048358ab 100644
-> --- a/hw/sd/sd.c
-> +++ b/hw/sd/sd.c
-> @@ -1175,8 +1175,9 @@ static sd_rsp_type_t sd_normal_command(SDState *sd, SDRequest req)
->              sd->data_start = addr;
->              sd->data_offset = 0;
->  
-> -            if (sd->data_start + sd->blk_len > sd->size)
-> +            if (sd->data_start + sd->blk_len > sd->size) {
->                  sd->card_status |= ADDRESS_ERROR;
-> +            }
->              return sd_r1;
->  
->          default:
-> @@ -1191,8 +1192,9 @@ static sd_rsp_type_t sd_normal_command(SDState *sd, SDRequest req)
->              sd->data_start = addr;
->              sd->data_offset = 0;
->  
-> -            if (sd->data_start + sd->blk_len > sd->size)
-> +            if (sd->data_start + sd->blk_len > sd->size) {
->                  sd->card_status |= ADDRESS_ERROR;
-> +            }
->              return sd_r1;
->  
->          default:
-> @@ -1237,12 +1239,15 @@ static sd_rsp_type_t sd_normal_command(SDState *sd, SDRequest req)
->              sd->data_offset = 0;
->              sd->blk_written = 0;
->  
-> -            if (sd->data_start + sd->blk_len > sd->size)
-> +            if (sd->data_start + sd->blk_len > sd->size) {
->                  sd->card_status |= ADDRESS_ERROR;
-> -            if (sd_wp_addr(sd, sd->data_start))
-> +            }
-> +            if (sd_wp_addr(sd, sd->data_start)) {
->                  sd->card_status |= WP_VIOLATION;
-> -            if (sd->csd[14] & 0x30)
-> +            }
-> +            if (sd->csd[14] & 0x30) {
->                  sd->card_status |= WP_VIOLATION;
-> +            }
->              return sd_r1;
->  
->          default:
-> @@ -1261,12 +1266,15 @@ static sd_rsp_type_t sd_normal_command(SDState *sd, SDRequest req)
->              sd->data_offset = 0;
->              sd->blk_written = 0;
->  
-> -            if (sd->data_start + sd->blk_len > sd->size)
-> +            if (sd->data_start + sd->blk_len > sd->size) {
->                  sd->card_status |= ADDRESS_ERROR;
-> -            if (sd_wp_addr(sd, sd->data_start))
-> +            }
-> +            if (sd_wp_addr(sd, sd->data_start)) {
->                  sd->card_status |= WP_VIOLATION;
-> -            if (sd->csd[14] & 0x30)
-> +            }
-> +            if (sd->csd[14] & 0x30) {
->                  sd->card_status |= WP_VIOLATION;
-> +            }
->              return sd_r1;
->  
->          default:
-> -- 
-> 2.21.3
-> 
+Some "brain" references in here too.  In these cases, I think just s/brain
+floating-point/bfloat16/.
+
+
+r~
 
