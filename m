@@ -2,75 +2,72 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 230DA21D303
-	for <lists+qemu-devel@lfdr.de>; Mon, 13 Jul 2020 11:42:44 +0200 (CEST)
-Received: from localhost ([::1]:41592 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 961C021D301
+	for <lists+qemu-devel@lfdr.de>; Mon, 13 Jul 2020 11:41:32 +0200 (CEST)
+Received: from localhost ([::1]:36798 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1juuyx-00030b-6r
-	for lists+qemu-devel@lfdr.de; Mon, 13 Jul 2020 05:42:43 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:33636)
+	id 1juuxn-00015t-Ky
+	for lists+qemu-devel@lfdr.de; Mon, 13 Jul 2020 05:41:31 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:33764)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1juuvH-0006uc-9F
- for qemu-devel@nongnu.org; Mon, 13 Jul 2020 05:38:55 -0400
-Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:26114
- helo=us-smtp-1.mimecast.com)
+ (Exim 4.90_1) (envelope-from <imammedo@redhat.com>)
+ id 1juuvb-0007Bh-L9
+ for qemu-devel@nongnu.org; Mon, 13 Jul 2020 05:39:15 -0400
+Received: from us-smtp-1.mimecast.com ([207.211.31.81]:34435
+ helo=us-smtp-delivery-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1juuvF-0007uB-1n
- for qemu-devel@nongnu.org; Mon, 13 Jul 2020 05:38:54 -0400
+ (Exim 4.90_1) (envelope-from <imammedo@redhat.com>)
+ id 1juuva-0007xP-3H
+ for qemu-devel@nongnu.org; Mon, 13 Jul 2020 05:39:15 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1594633132;
+ s=mimecast20190719; t=1594633153;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references:openpgp:openpgp;
- bh=uYbchLs/u9jviJMaygK1iPJQYIstlsjoxUxH+OhMZ2I=;
- b=YOyfMMipkMjMYAQy7PeGK0v8kBxlZK9ojJ5maDr6FOiog7t3nduatiqQX3MFm/hZqhgozy
- FT7AQHwtUx8lD92ia0MiqG64iFeKDinHPi672aImaV4Db8wfItt3ta11g7ytMGa/5a0o+X
- 7+YvoUq/wey2Q5FCjThaKN6bPOTQwK0=
+ in-reply-to:in-reply-to:references:references;
+ bh=2MWpRXeEQV9OMMSOfwlr83EgFRIcoO+UMP2VIpxgOvI=;
+ b=XT0Ewd2dkiMWIxo/LgB2hgOlpHc23t/EhhfpuRc4ujS3i3XbokhBSByrVd7ADOplkFDDbN
+ Uq2Y6nO4vRQgt3nEmP/FqTEQujGHYfMaVsmNj1tnPxS+RztLII3j2MJ/VIY/oTpQcGxsi5
+ a4A8XA8goVpsPtirSEnzSjvFCW+tyHk=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-106-4QxSJsgnMxWCMDRO9d170w-1; Mon, 13 Jul 2020 05:38:50 -0400
-X-MC-Unique: 4QxSJsgnMxWCMDRO9d170w-1
-Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
- [10.5.11.22])
+ us-mta-239-FyfaOdvdPA-ORBRoLN6DfA-1; Mon, 13 Jul 2020 05:39:11 -0400
+X-MC-Unique: FyfaOdvdPA-ORBRoLN6DfA-1
+Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
+ [10.5.11.14])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 1FE1E19067E1;
- Mon, 13 Jul 2020 09:38:49 +0000 (UTC)
-Received: from thuth.remote.csb (ovpn-112-125.ams2.redhat.com [10.36.112.125])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 573711001B07;
- Mon, 13 Jul 2020 09:38:46 +0000 (UTC)
-Subject: Re: [PATCH 11/12] target/sh4: Remove superfluous breaks
-To: Yi Wang <wang.yi59@zte.com.cn>, qemu-devel@nongnu.org
-References: <1594631142-36745-1-git-send-email-wang.yi59@zte.com.cn>
-From: Thomas Huth <thuth@redhat.com>
-Openpgp: preference=signencrypt
-Message-ID: <038e7f75-8c34-0a26-1451-75120d703c3d@redhat.com>
-Date: Mon, 13 Jul 2020 11:38:45 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
- Thunderbird/60.9.0
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 027B580BCA9;
+ Mon, 13 Jul 2020 09:39:11 +0000 (UTC)
+Received: from localhost (unknown [10.40.208.62])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id B2E8B5D9D7;
+ Mon, 13 Jul 2020 09:39:02 +0000 (UTC)
+Date: Mon, 13 Jul 2020 11:39:01 +0200
+From: Igor Mammedov <imammedo@redhat.com>
+To: Julia Suvorova <jusual@redhat.com>
+Subject: Re: [RFC PATCH 2/5] hw/acpi/ich9: Trace ich9_gpe_readb()/writeb()
+Message-ID: <20200713113901.162a780d@redhat.com>
+In-Reply-To: <20200708224615.114077-3-jusual@redhat.com>
+References: <20200708224615.114077-1-jusual@redhat.com>
+ <20200708224615.114077-3-jusual@redhat.com>
 MIME-Version: 1.0
-In-Reply-To: <1594631142-36745-1-git-send-email-wang.yi59@zte.com.cn>
-Content-Language: en-US
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=thuth@redhat.com
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=205.139.110.120; envelope-from=thuth@redhat.com;
- helo=us-smtp-1.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/07/13 03:20:22
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=207.211.31.81; envelope-from=imammedo@redhat.com;
+ helo=us-smtp-delivery-1.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/07/13 02:19:41
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
-X-Spam_score_int: -40
-X-Spam_score: -4.1
-X-Spam_bar: ----
-X-Spam_report: (-4.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1,
+X-Spam_score_int: -30
+X-Spam_score: -3.1
+X-Spam_bar: ---
+X-Spam_report: (-3.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-1, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H3=-0.01, RCVD_IN_MSPIKE_WL=-0.01,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -83,54 +80,69 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: xue.zhihong@zte.com.cn, QEMU Trivial <qemu-trivial@nongnu.org>,
- wang.liang82@zte.com.cn, Liao Pingfang <liao.pingfang@zte.com.cn>,
- Yoshinori Sato <ysato@users.sourceforge.jp>
+Cc: qemu-devel@nongnu.org, "Michael S. Tsirkin" <mst@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 13/07/2020 11.05, Yi Wang wrote:
-> From: Liao Pingfang <liao.pingfang@zte.com.cn>
-> 
-> Remove superfluous breaks, as there is a "return" before them.
-> 
-> Signed-off-by: Liao Pingfang <liao.pingfang@zte.com.cn>
-> Signed-off-by: Yi Wang <wang.yi59@zte.com.cn>
-> Reviewed-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
-> ---
->  target/sh4/translate.c | 3 ---
->  1 file changed, 3 deletions(-)
-> 
-> diff --git a/target/sh4/translate.c b/target/sh4/translate.c
-> index 6192d83..60c863d 100644
-> --- a/target/sh4/translate.c
-> +++ b/target/sh4/translate.c
-> @@ -1542,7 +1542,6 @@ static void _decode_opc(DisasContext * ctx)
->          tcg_gen_qemu_ld_i32(REG(0), REG(B11_8), ctx->memidx,
->                              MO_TEUL | MO_UNALN);
->          return;
-> -        break;
->      case 0x40e9:                /* movua.l @Rm+,R0 */
->          CHECK_SH4A
->          /* Load non-boundary-aligned data */
-> @@ -1550,7 +1549,6 @@ static void _decode_opc(DisasContext * ctx)
->                              MO_TEUL | MO_UNALN);
->          tcg_gen_addi_i32(REG(B11_8), REG(B11_8), 4);
->          return;
-> -        break;
->      case 0x0029:		/* movt Rn */
->          tcg_gen_mov_i32(REG(B11_8), cpu_sr_t);
->  	return;
-> @@ -1638,7 +1636,6 @@ static void _decode_opc(DisasContext * ctx)
->          CHECK_SH4A
->          tcg_gen_mb(TCG_MO_ALL | TCG_BAR_SC);
->          return;
-> -        break;
->      case 0x4024:		/* rotcl Rn */
->  	{
->  	    TCGv tmp = tcg_temp_new();
-> 
+On Thu,  9 Jul 2020 00:46:12 +0200
+Julia Suvorova <jusual@redhat.com> wrote:
 
-Reviewed-by: Thomas Huth <thuth@redhat.com>
+> Add trace events similar to piix4_gpe_readb() to check gpe status.
+> 
+> Signed-off-by: Julia Suvorova <jusual@redhat.com>
+
+Reviewed-by: Igor Mammedov <imammedo@redhat.com>
+
+> ---
+>  hw/acpi/ich9.c       | 7 ++++++-
+>  hw/acpi/trace-events | 4 ++++
+>  2 files changed, 10 insertions(+), 1 deletion(-)
+> 
+> diff --git a/hw/acpi/ich9.c b/hw/acpi/ich9.c
+> index 2d204babc6..0fdd736da4 100644
+> --- a/hw/acpi/ich9.c
+> +++ b/hw/acpi/ich9.c
+> @@ -36,6 +36,7 @@
+>  #include "hw/acpi/acpi.h"
+>  #include "hw/acpi/tco.h"
+>  #include "exec/address-spaces.h"
+> +#include "trace.h"
+>  
+>  #include "hw/i386/ich9.h"
+>  #include "hw/mem/pc-dimm.h"
+> @@ -59,13 +60,17 @@ static void ich9_pm_update_sci_fn(ACPIREGS *regs)
+>  static uint64_t ich9_gpe_readb(void *opaque, hwaddr addr, unsigned width)
+>  {
+>      ICH9LPCPMRegs *pm = opaque;
+> -    return acpi_gpe_ioport_readb(&pm->acpi_regs, addr);
+> +    uint64_t val = acpi_gpe_ioport_readb(&pm->acpi_regs, addr);
+> +
+> +    trace_ich9_gpe_readb(addr, width, val);
+> +    return val;
+>  }
+>  
+>  static void ich9_gpe_writeb(void *opaque, hwaddr addr, uint64_t val,
+>                              unsigned width)
+>  {
+>      ICH9LPCPMRegs *pm = opaque;
+> +    trace_ich9_gpe_writeb(addr, width, val);
+>      acpi_gpe_ioport_writeb(&pm->acpi_regs, addr, val);
+>      acpi_update_sci(&pm->acpi_regs, pm->irq);
+>  }
+> diff --git a/hw/acpi/trace-events b/hw/acpi/trace-events
+> index afbc77de1c..b9f4827afc 100644
+> --- a/hw/acpi/trace-events
+> +++ b/hw/acpi/trace-events
+> @@ -32,6 +32,10 @@ cpuhp_acpi_ejecting_cpu(uint32_t idx) "0x%"PRIx32
+>  cpuhp_acpi_write_ost_ev(uint32_t slot, uint32_t ev) "idx[0x%"PRIx32"] OST EVENT: 0x%"PRIx32
+>  cpuhp_acpi_write_ost_status(uint32_t slot, uint32_t st) "idx[0x%"PRIx32"] OST STATUS: 0x%"PRIx32
+>  
+> +# ich9.c
+> +ich9_gpe_readb(uint64_t addr, unsigned width, uint64_t val) "addr: 0x%" PRIx64 " width: %d ==> 0x%" PRIx64
+> +ich9_gpe_writeb(uint64_t addr, unsigned width, uint64_t val) "addr: 0x%" PRIx64 " width: %d <== 0x%" PRIx64
+> +
+>  # pcihp.c
+>  acpi_pci_eject_slot(unsigned bsel, unsigned slot) "bsel: %u slot: %u"
+>  acpi_pci_unplug(int bsel, int slot) "bsel: %d slot: %d"
 
 
