@@ -2,72 +2,111 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 81F9E21D8A9
-	for <lists+qemu-devel@lfdr.de>; Mon, 13 Jul 2020 16:36:04 +0200 (CEST)
-Received: from localhost ([::1]:34746 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B8D3321D8A2
+	for <lists+qemu-devel@lfdr.de>; Mon, 13 Jul 2020 16:33:58 +0200 (CEST)
+Received: from localhost ([::1]:55534 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1juzYp-0003yC-Kc
-	for lists+qemu-devel@lfdr.de; Mon, 13 Jul 2020 10:36:03 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:40738)
+	id 1juzWn-0000t1-Qu
+	for lists+qemu-devel@lfdr.de; Mon, 13 Jul 2020 10:33:57 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:41632)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1juzT1-0004dW-1m
- for qemu-devel@nongnu.org; Mon, 13 Jul 2020 10:30:03 -0400
-Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:21736
- helo=us-smtp-1.mimecast.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1juzSz-0000bd-0g
- for qemu-devel@nongnu.org; Mon, 13 Jul 2020 10:30:02 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1594650600;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=KuHx74efvx+8eNrpepbY3i+FWMPE4SOSEswgndMVdNg=;
- b=OACaDYs4cgPgGLFz36cPaXuS4/pr4cgCMMsf8AQ0hPTNw0wpua97GV8L+9czK+KCaOMrY2
- k6ssT1k5hJand12763hVyvTANaLRiPpIS8/BIX1C+G+WR5lqQYRE6rf1omNSt5yed17/sX
- mPJh+LYM7P3QIwt/vPHcg80X6e1daXo=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-157-Era4eKxeOXGTv_pHLdoozQ-1; Mon, 13 Jul 2020 10:29:57 -0400
-X-MC-Unique: Era4eKxeOXGTv_pHLdoozQ-1
-Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
- [10.5.11.22])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 4EACB855A5A;
- Mon, 13 Jul 2020 14:29:52 +0000 (UTC)
-Received: from linux.fritz.box (ovpn-114-91.ams2.redhat.com [10.36.114.91])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 57FC510013C0;
- Mon, 13 Jul 2020 14:29:51 +0000 (UTC)
-Date: Mon, 13 Jul 2020 16:29:49 +0200
-From: Kevin Wolf <kwolf@redhat.com>
-To: Max Reitz <mreitz@redhat.com>
-Subject: Re: [PATCH for-5.1 1/2] block: Require aligned image size to avoid
- assertion failure
-Message-ID: <20200713142949.GD10318@linux.fritz.box>
-References: <20200710142149.40962-1-kwolf@redhat.com>
- <20200710142149.40962-2-kwolf@redhat.com>
- <e608699f-b2c2-d7a0-cb59-703832ae732a@redhat.com>
+ (Exim 4.90_1) (envelope-from <vsementsov@virtuozzo.com>)
+ id 1juzUu-0007SQ-LH; Mon, 13 Jul 2020 10:32:00 -0400
+Received: from mail-eopbgr20100.outbound.protection.outlook.com
+ ([40.107.2.100]:41278 helo=EUR02-VE1-obe.outbound.protection.outlook.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <vsementsov@virtuozzo.com>)
+ id 1juzUr-00012p-Dn; Mon, 13 Jul 2020 10:31:59 -0400
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=dlnTHu9RKErbVxNKMkxTAjP1kx57iEksQqPWkTA9Qwls17sfcE4QUOUWZiyOsaYDayui2oTc/Zz2cEJVf0YPI2D7rAcOEbuor+efTajtshQVbd8M6QOJ+5xeIWUecP5JXoSKfa8OeiMjhj5EJAPxEwebSssIBmD5xHEn3Xri+A7LqCEkGGJR6ziE8MSJewuQTNGtPEBzyM/+WHi/Ln9nT/m89C+kuj8TP5i+rPDGv8AalriSh/gVKBwg0OLlZn7vBmg4NPnyyyrPGAW97O9YdrmHsPXaYrKHTWrfEVsXJjJEqPCeUqAUmvb0+3kHrQrOVVHKquzWzYb4MOF5Tg6Qag==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=H3/C2m/mtt9etnd0D3EP3GkDALANgDSFp8240M50q9I=;
+ b=DE+6rhl/sm52cf/DQ9ANRDA85eVY2NRFcdIwfV3DKP1qmWmHhhpjZXRGuk7Q+lZe3MBdOZyYv854SqgmlkOA3N5gMLQ7+sUr+iA5QazhKIPqKXwlaJYd+lwsm37ShdyEJMoD8UPqQVMtIQ8dUmlUZj3G15XEDmQ+hqpp+/AAdFFolURtugfoOCL5gPGNiW/c6EgYNNJLVO4bfwoNBhOHDIUmGyqJjckeG5cHwesARlp4bikV2JcawSTCVF9uiVyRz1No7nJrrhz9TUKatdlkL2vKk7Xj7AhYuJQXXRdrANb3UHo0RB4UqBjVL9nubog9z3ifS9O2V/8UtK5Ekluumg==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=virtuozzo.com; dmarc=pass action=none
+ header.from=virtuozzo.com; dkim=pass header.d=virtuozzo.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=virtuozzo.com;
+ s=selector2;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=H3/C2m/mtt9etnd0D3EP3GkDALANgDSFp8240M50q9I=;
+ b=E8IWabR6VZ94eROIGSzokLwgXQurBs6ayGvwimRHBk22W84vi0S1QLNrkembTuBM3yH9AmdnLFWDfBg0DDop/qxeX7+4n3e95qjDdMgcR4lXnModpuWhpQv82e7jGbdzWgNP0F1f+EqNZxmc1ASl5yU2Rvzz/fhGXq7WpwS7Fxc=
+Authentication-Results: redhat.com; dkim=none (message not signed)
+ header.d=none;redhat.com; dmarc=none action=none header.from=virtuozzo.com;
+Received: from AM7PR08MB5494.eurprd08.prod.outlook.com (2603:10a6:20b:dc::15)
+ by AM6PR08MB5127.eurprd08.prod.outlook.com (2603:10a6:20b:e1::16)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3174.22; Mon, 13 Jul
+ 2020 14:31:54 +0000
+Received: from AM7PR08MB5494.eurprd08.prod.outlook.com
+ ([fe80::a408:2f0f:bc6c:d312]) by AM7PR08MB5494.eurprd08.prod.outlook.com
+ ([fe80::a408:2f0f:bc6c:d312%3]) with mapi id 15.20.3174.025; Mon, 13 Jul 2020
+ 14:31:54 +0000
+Subject: Re: [PATCH v2 4/5] iotests.py: filter_testfiles(): filter SOCK_DIR too
+To: Eric Blake <eblake@redhat.com>, qemu-block@nongnu.org
+References: <20200701105331.121670-1-vsementsov@virtuozzo.com>
+ <20200701105331.121670-5-vsementsov@virtuozzo.com>
+ <63b3acac-9501-d80b-79e1-97115cbad32b@redhat.com>
+ <7b661aa0-d6b6-f69a-7dd0-73efedb7514e@redhat.com>
+From: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
+Message-ID: <2660f6de-4e7f-7d39-51a4-f2502e110edc@virtuozzo.com>
+Date: Mon, 13 Jul 2020 17:31:52 +0300
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.10.0
+In-Reply-To: <7b661aa0-d6b6-f69a-7dd0-73efedb7514e@redhat.com>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 8bit
+X-ClientProxiedBy: AM3PR04CA0143.eurprd04.prod.outlook.com (2603:10a6:207::27)
+ To AM7PR08MB5494.eurprd08.prod.outlook.com
+ (2603:10a6:20b:dc::15)
 MIME-Version: 1.0
-In-Reply-To: <e608699f-b2c2-d7a0-cb59-703832ae732a@redhat.com>
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature"; boundary="JWEK1jqKZ6MHAcjA"
-Content-Disposition: inline
-Received-SPF: pass client-ip=207.211.31.120; envelope-from=kwolf@redhat.com;
- helo=us-smtp-1.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/07/13 02:19:41
-X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
-X-Spam_score_int: -40
-X-Spam_score: -4.1
-X-Spam_bar: ----
-X-Spam_report: (-4.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-1, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+X-MS-Exchange-MessageSentRepresentingType: 1
+Received: from [192.168.100.2] (185.215.60.167) by
+ AM3PR04CA0143.eurprd04.prod.outlook.com (2603:10a6:207::27) with Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.3174.20 via Frontend Transport; Mon, 13 Jul 2020 14:31:53 +0000
+X-Originating-IP: [185.215.60.167]
+X-MS-PublicTrafficType: Email
+X-MS-Office365-Filtering-Correlation-Id: 83394a01-9076-4752-0a52-08d827397d41
+X-MS-TrafficTypeDiagnostic: AM6PR08MB5127:
+X-MS-Exchange-Transport-Forked: True
+X-Microsoft-Antispam-PRVS: <AM6PR08MB512734F63034578094D9DFCDC1600@AM6PR08MB5127.eurprd08.prod.outlook.com>
+X-MS-Oob-TLC-OOBClassifiers: OLM:65;
+X-MS-Exchange-SenderADCheck: 1
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: IlkH1HV2PeQaE+2HmHajYSfbQ/MIHB9IsrA939FhztJgTodLAE4aPn9fUDwL0VU7+nw5hFw2hspsnGxBUx0ZbhKK9rlOUQ7+yQbjXyCk83Ny1WCrhKKpavmD4ZUIPOgPAy/omc3mIMZUQN3Qc9CmP17+wdP6M7B0yl9oe+NExHnZSoE+XFZioRC+WlRiOBJkB/fQamqpqMu7cFhyNCSdvl0ziZUbZbjltAp9KtEJh9/eYcK/MyjXxuE0kjGDsCT7fFt6h/+nx10IICgzzqN2Gtg06F4W6ik5bLcw+4Mj4fkf5V93xb46KR0IP3uKoqNU95Taie61o/OOrPDYdyZabYuV7uk4X8V79OJlEJ1ibBIklXDX+8bGFaFvKZVCE+CO
+X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:AM7PR08MB5494.eurprd08.prod.outlook.com; PTR:; CAT:NONE;
+ SFTY:;
+ SFS:(4636009)(346002)(136003)(396003)(376002)(39840400004)(366004)(31686004)(4326008)(6486002)(2906002)(66556008)(66476007)(53546011)(66946007)(16526019)(186003)(26005)(478600001)(83380400001)(5660300002)(86362001)(8936002)(36756003)(956004)(8676002)(16576012)(316002)(2616005)(31696002)(52116002)(43740500002);
+ DIR:OUT; SFP:1102; 
+X-MS-Exchange-AntiSpam-MessageData: ZcrIVEh3OxVbzYQUHDOs8Tev8gR9SaolkCbLDcJfJPvVDsrgoMiEstduKAhXiUelM5VosNUG0j6y5HOIEoh0zxDnXc252IUYZU99AcW3Bgb/hnGPAEmx2pf40sKnHjhGD7eHJwoCbeFrlaCKB+aXG2YuaipMgfnlEsSNvBN14f2wLazqMGadxd9LoKZy8COrC0ALt2Qq+oPbGWKCChY3cmYAHwHgiLgazoDi5L2pwihMdAWjNH/4kgoyN8KUqK0jFGnhcqgFLU2kkLXdJQZt9qhvGT5fyt45Lqf//QmaHg+sS59mrSnBe3AAEJovG984bdW357i+3c2M4dLu1nK/LQsbFWzy1tVSmYX0trzb5wlyR4QYgkGpl9C7IGz2/COuwDeA1HJeT6p/2+G/6Ep0OS0hoPK2BqfLxHIvcS8qvT3w7yCe3clznwhGyrSyfyEuWUEQTzGzQhhzs/c4sWGwyL+jQtdUIq1NQg7IDJchN+5At90vV/mcYtNz161Vfgko
+X-OriginatorOrg: virtuozzo.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 83394a01-9076-4752-0a52-08d827397d41
+X-MS-Exchange-CrossTenant-AuthSource: AM7PR08MB5494.eurprd08.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 13 Jul 2020 14:31:54.2243 (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 0bc7f26d-0264-416e-a6fc-8352af79c58f
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: M/WYu1iWdzJpa5nK2YiKiqU/nKmxVi5xuzMmPk7YEs4EYjN2E3ORpboUFEe+FEi6l4H34uGqDFSJZ/cHtJ6sXHHlVor9QgUrRwdDRcFGFw8=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: AM6PR08MB5127
+Received-SPF: pass client-ip=40.107.2.100;
+ envelope-from=vsementsov@virtuozzo.com;
+ helo=EUR02-VE1-obe.outbound.protection.outlook.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/07/13 10:31:54
+X-ACL-Warn: Detected OS   = Windows NT kernel [generic] [fuzzy]
+X-Spam_score_int: -37
+X-Spam_score: -3.8
+X-Spam_bar: ---
+X-Spam_report: (-3.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ MSGID_FROM_MTA_HEADER=0.001, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-1,
+ SPF_HELO_PASS=-0.001, SPF_PASS=-0.001,
+ URIBL_BLOCKED=0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -80,109 +119,50 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: nsoffer@redhat.com, qemu-devel@nongnu.org, qemu-block@nongnu.org
+Cc: kwolf@redhat.com, den@openvz.org, qemu-devel@nongnu.org,
+ stefanha@redhat.com, mreitz@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
---JWEK1jqKZ6MHAcjA
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+13.07.2020 17:00, Eric Blake wrote:
+> On 7/13/20 8:07 AM, Eric Blake wrote:
+>> On 7/1/20 5:53 AM, Vladimir Sementsov-Ogievskiy wrote:
+>>> Signed-off-by: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
+>>> ---
+>>>   tests/qemu-iotests/iotests.py | 5 +++--
+>>>   1 file changed, 3 insertions(+), 2 deletions(-)
+>>>
+>>
+>> Reviewed-by: Eric Blake <eblake@redhat.com>
+> 
+> Queuing 1, 2, and 4 through my NBD tree as trivial iotest improvements, while we await better review on 3.
 
-Am 13.07.2020 um 13:19 hat Max Reitz geschrieben:
-> On 10.07.20 16:21, Kevin Wolf wrote:
-> > Unaligned requests will automatically be aligned to bl.request_alignmen=
-t
-> > and we don't want to extend requests to access space beyond the end of
-> > the image, so it's required that the image size is aligned.
-> >=20
-> > With write requests, this could cause assertion failures like this if
-> > RESIZE permissions weren't requested:
-> >=20
-> > qemu-img: block/io.c:1910: bdrv_co_write_req_prepare: Assertion `end_se=
-ctor <=3D bs->total_sectors || child->perm & BLK_PERM_RESIZE' failed.
-> >=20
-> > This was e.g. triggered by qemu-img converting to a target image with 4=
-k
-> > request alignment when the image was only aligned to 512 bytes, but not
-> > to 4k.
-> >=20
-> > Signed-off-by: Kevin Wolf <kwolf@redhat.com>
-> > ---
-> >  block.c | 10 ++++++++++
-> >  1 file changed, 10 insertions(+)
->=20
-> (I think we had some proposal like this before, but I can=E2=80=99t find =
-it,
-> unfortunately...)
->=20
-> I can=E2=80=99t see how with this patch you could create qcow2 images and=
- then
-> use them with direct I/O, because AFAICS, qemu-img create doesn=E2=80=99t=
- allow
-> specifying caching options, so AFAIU you=E2=80=99re stuck with:
->=20
-> $ ./qemu-img create -f qcow2 /mnt/tmp/foo.qcow2 1M
-> Formatting '/mnt/tmp/foo.qcow2', fmt=3Dqcow2 cluster_size=3D65536
-> compression_type=3Dzlib size=3D1048576 lazy_refcounts=3Doff refcount_bits=
-=3D16
->=20
-> $ sudo ./qemu-io -t none /mnt/tmp/foo.qcow2
-> qemu-io: can't open device /mnt/tmp/foo.qcow2: Image size is not a
-> multiple of request alignment
->=20
-> (/mnt/tmp is a filesystem on a =E2=80=9Closetup -b 4096=E2=80=9D device.)
+we aio_wait :)
 
-Hm, that looks like some regrettable collateral damage...
+Thanks!
 
-Well, you could argue that we should be writing full L1 tables with zero
-padding instead of just the used part. I thought we had fixed this long
-ago. But looks like we haven't.
+> 
+>>
+>>> diff --git a/tests/qemu-iotests/iotests.py b/tests/qemu-iotests/iotests.py
+>>> index ac9d199a1e..31d4b105ca 100644
+>>> --- a/tests/qemu-iotests/iotests.py
+>>> +++ b/tests/qemu-iotests/iotests.py
+>>> @@ -345,8 +345,9 @@ def filter_qmp(qmsg, filter_fn):
+>>>       return qmsg
+>>>   def filter_testfiles(msg):
+>>> -    prefix = os.path.join(test_dir, "%s-" % (os.getpid()))
+>>> -    return msg.replace(prefix, 'TEST_DIR/PID-')
+>>> +    pref1 = os.path.join(test_dir, "%s-" % (os.getpid()))
+>>> +    pref2 = os.path.join(sock_dir, "%s-" % (os.getpid()))
+>>> +    return msg.replace(pref1, 'TEST_DIR/PID-').replace(pref2, 'SOCK_DIR/PID-')
+>>>   def filter_qmp_testfiles(qmsg):
+>>>       def _filter(_key, value):
+>>>
+>>
+> 
 
-But we should still avoid crashing in other cases, so what is the
-difference between both? Is it just that qcow2 has the RESIZE permission
-anyway so it doesn't matter?
 
-If so, maybe attaching to a block node with WRITE, but not RESIZE is
-what needs to fail when the image size is unaligned?
-
-> Or you use blockdev-create, that seems to work (because of course you
-> can set the cache mode on the protocol node when you open it for
-> formatting).  But, well, I think there should be a working qemu-img
-> create case.
->=20
-> Also, I=E2=80=99m afraid of breaking existing use cases with this patch (=
-just
-> qemu-img create + using the image with cache=3Dnone).
-
-I think for raw images, failure on start is better than crashing when
-the VM is running. The qcow2 case needs to be fixed, of course.
-
-Either case, I guess patch 2 can already be merged and would solve at
-least the immediate bug report.
-
-Kevin
-
---JWEK1jqKZ6MHAcjA
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQIzBAEBCAAdFiEE3D3rFZqa+V09dFb+fwmycsiPL9YFAl8Mb90ACgkQfwmycsiP
-L9acAQ//c8YJ4rXVGHr91REeL157dH+mW5C9dy+amEM7q/NwOAJhMWKIdIc1gCYR
-MrAQML+QouZ3CvU1tVgtRYWuVgreHYAt/AYyjGRaetLVUjMAYoUhNmPuQw/NBLpl
-zIGYsGv4cXIoMz4PLQne8Ufcpzf8F7f+ePDdZr5I0CWxz952MtRG4yr62PYlfzPx
-86LE/tR/y8C5qcwkhUtVFUPDtiyq4lDVuoO8idfPGCehK/NxQuwKLJOUGTqFYY5j
-Da9HSRRWGd7VUNOX9H0jRRPbQCcdCVTTutYWZAh72QCHY24vDee45x5RxTWpLSJl
-2PF6p0jh1ECGOma87a0Ae8Zsg9aK7mM+nKuLkfKZpJyqf3opLJvnNnKWUrlRb0BI
-FYOAXLLBQr+Ix+olXi1PerxWu37Ft8qH2UlDQQMLiu4zMuk6MmLPACHG0+1Z9QTu
-TKOpgnpzAFo3hiBWP15S3F5EB2e1o273gE9sq7bHu4dOxKQSnJT2DWTrFw8robpe
-4tJGOdfAzXV/SOP6A4Ya5pwtmsLBO03BGFOpo0U9+TIJ5ELNiMVELkPU0dVDokDV
-fseiAtXv/7k/YES3l9+JpealqRWMDM6zI3AnQ+VMCA1epQcZAdxdfLNOuKG5ggMM
-4B9oNx2FRt/Dj1TlqZd6VT3KeNTFbWwIl38df+sNC2aWuLVCNIo=
-=96NO
------END PGP SIGNATURE-----
-
---JWEK1jqKZ6MHAcjA--
-
+-- 
+Best regards,
+Vladimir
 
