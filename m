@@ -2,84 +2,88 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8C62221DBA3
-	for <lists+qemu-devel@lfdr.de>; Mon, 13 Jul 2020 18:25:46 +0200 (CEST)
-Received: from localhost ([::1]:59006 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 840FE21DBB3
+	for <lists+qemu-devel@lfdr.de>; Mon, 13 Jul 2020 18:27:58 +0200 (CEST)
+Received: from localhost ([::1]:36778 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jv1Gz-0000gS-79
-	for lists+qemu-devel@lfdr.de; Mon, 13 Jul 2020 12:25:45 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:58420)
+	id 1jv1J7-0003FS-KD
+	for lists+qemu-devel@lfdr.de; Mon, 13 Jul 2020 12:27:57 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:58448)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <quintela@redhat.com>)
- id 1jv1Fg-00007l-O1
- for qemu-devel@nongnu.org; Mon, 13 Jul 2020 12:24:24 -0400
-Received: from us-smtp-1.mimecast.com ([207.211.31.81]:34230
- helo=us-smtp-delivery-1.mimecast.com)
+ id 1jv1Fh-00008q-HU
+ for qemu-devel@nongnu.org; Mon, 13 Jul 2020 12:24:25 -0400
+Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:55600
+ helo=us-smtp-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
  (Exim 4.90_1) (envelope-from <quintela@redhat.com>)
- id 1jv1Fe-0003BT-7o
- for qemu-devel@nongnu.org; Mon, 13 Jul 2020 12:24:24 -0400
+ id 1jv1Fe-0003Bg-8V
+ for qemu-devel@nongnu.org; Mon, 13 Jul 2020 12:24:25 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1594657455;
+ s=mimecast20190719; t=1594657456;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding;
- bh=46Aa7HQbelRoFd6K8aVf/RQJENnJDc7oJtWPvk5gBjY=;
- b=i7g+WROQ1ITzTQD1HOSEsIkPkr5MPqxOGmBc83RmSwGzsZnYkaEeyBwQgUOdlwV2AKrOEZ
- 2drQXpRVPXZzcK2x4/RWGrVtmGZmi3z3qw+SWHKvdJEjcrw4DPyzK7RhjYlSbQPGIWSI3R
- 36mKV7LxJh8A4d/d0mmbL/N5ZZCgVUc=
-Received: from mail-wm1-f70.google.com (mail-wm1-f70.google.com
- [209.85.128.70]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-315-3jbfN8oKMpS6sqA-MdZy8g-1; Mon, 13 Jul 2020 12:24:13 -0400
-X-MC-Unique: 3jbfN8oKMpS6sqA-MdZy8g-1
-Received: by mail-wm1-f70.google.com with SMTP id y204so68141wmd.2
- for <qemu-devel@nongnu.org>; Mon, 13 Jul 2020 09:24:13 -0700 (PDT)
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=nB/uzKuZZDiL83rkEbZGDB7cJ1ANtuAgCpQb5NzfACg=;
+ b=LB1xFDOVB5saXDkTzVRYHjjda4JdIfQtB+lH/CUwqwRqjp8gBbKLAcUgjGzFkrucoIXoi1
+ ttL5mA4V8vkGSg/SjRF895aoWIR2/+70eTnwstmK6QgDZIZLsBES44DOK7w/LiVZciamI6
+ wzrYn0DaAQeAwXwGKCp1jEMKKPbkLzM=
+Received: from mail-wr1-f69.google.com (mail-wr1-f69.google.com
+ [209.85.221.69]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-375-T6Les0_mOqmvUaq6gBV1zA-1; Mon, 13 Jul 2020 12:24:15 -0400
+X-MC-Unique: T6Les0_mOqmvUaq6gBV1zA-1
+Received: by mail-wr1-f69.google.com with SMTP id a18so18032696wrm.14
+ for <qemu-devel@nongnu.org>; Mon, 13 Jul 2020 09:24:14 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=VmfMFWru+ksyQxzfSYOq8kbeP1yFqA4FJRlOADc6/cc=;
- b=gaCyYLqD1qra1vgdsT3BOwAqOVzd69JEl/9wNbHF/Fw5TlVRc+V8S7IkKSnyNQ71+T
- P/PY6ZL26/Qzg8B4/TIjUlAPAFniGXd5qLKeFgfWalo/NlcYGXPYMKVyf8lFw/9MSOg4
- oRNE/4UflUUmf6wNT+oOC/n7yTiL863sFbxT8dIzG59BOYJZUP3w06HgvpMuZs/zjehw
- YfxKHpWmcCTHYVuNb06bB+bI08WIFJ7sNU4BC61U0XYFWiqXXVuwnlnRTsbD0MqNgzRk
- zeoJgsrgw1YOK4PAiaqznfDTLbMoPQ1SQpwvwNvy2BXuCILY8CsijiYRQboNd4i9jJjv
- fGtg==
-X-Gm-Message-State: AOAM530/dSPom6t8EanwwrS5+HlnjEtP80URP6aHy8B4fnF4po91Vd9X
- vqU4oQf/GYIeWx53Tr9NtwzbU7ddi9+izOCnxmOMO9vgqy+I+RmTSiIq8CA7XcKZj/4+pSd9o4S
- dWQUxBdqi49IDkK0=
-X-Received: by 2002:a1c:2ec4:: with SMTP id u187mr159110wmu.188.1594657452306; 
- Mon, 13 Jul 2020 09:24:12 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJxuBDIkn39c0idILDD1KhXPUPDgbT1QEgpJrZePDMxdltY7TfMejo5TPEU4L57igNjZsFcCtg==
-X-Received: by 2002:a1c:2ec4:: with SMTP id u187mr159094wmu.188.1594657452085; 
- Mon, 13 Jul 2020 09:24:12 -0700 (PDT)
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+ :references:mime-version:content-transfer-encoding;
+ bh=nB/uzKuZZDiL83rkEbZGDB7cJ1ANtuAgCpQb5NzfACg=;
+ b=tmIw2Tfk3siPtczoG8/M9DISkvDrWfZUI6gE0itikoD3Tf0deOu5ocaFNpvM/dd6oc
+ CIyyyL8BCGabs7WWYTZZK+ZgFquEGsAgXhd+Iu6VxjdFJFC6Oi4WV219GI9/buWezU7r
+ ZqkLf80iZjmyvPra1awvod2cEwGlIgVIXLdY7X5klTgXsq8Fh5C7td0qoho1kAeN1v4T
+ kYezp7A61A0yUip9VePVlkwfiMijLCxUpt+VH3ktlh9NbCTL6SQEELGq3HUHV4pcVOp/
+ y9ADWSdUblikf9htE3X4AtKhBKBV6yl3TkfXunq5yA8aolNlO4btr4lUrSz6XETtXuF3
+ igHw==
+X-Gm-Message-State: AOAM5328I92cB/Vuy+4m6WSM6+EoAbMp6NYDnSmP9HvQu/uqPsJpUN6l
+ h2TjgbpKaBN04Hol0faJyBEHlmQYJcOT532jAEYMkLEaYwGgo9WroXvq9ODBzChUh1ujugaWaz3
+ 6ClKF6hUWXKVgk3U=
+X-Received: by 2002:a7b:c090:: with SMTP id r16mr126529wmh.143.1594657453805; 
+ Mon, 13 Jul 2020 09:24:13 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJzpo3LaFaWXFwhgsrTspy9LvHuoEkREsmxkYt/4YaUhfcBsOh/UvcnyFfvPKgbhO2klyqYNmg==
+X-Received: by 2002:a7b:c090:: with SMTP id r16mr126514wmh.143.1594657453562; 
+ Mon, 13 Jul 2020 09:24:13 -0700 (PDT)
 Received: from localhost (trasno.trasno.org. [83.165.45.250])
- by smtp.gmail.com with ESMTPSA id y77sm138642wmd.36.2020.07.13.09.24.11
+ by smtp.gmail.com with ESMTPSA id x185sm112705wmg.41.2020.07.13.09.24.12
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 13 Jul 2020 09:24:11 -0700 (PDT)
+ Mon, 13 Jul 2020 09:24:13 -0700 (PDT)
 From: Juan Quintela <quintela@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v3 0/3] Migration Pull request
-Date: Mon, 13 Jul 2020 18:24:07 +0200
-Message-Id: <20200713162410.11577-1-quintela@redhat.com>
+Subject: [PATCH v3 1/3] migration: fix memory leak in
+ qmp_migrate_set_parameters
+Date: Mon, 13 Jul 2020 18:24:08 +0200
+Message-Id: <20200713162410.11577-2-quintela@redhat.com>
 X-Mailer: git-send-email 2.25.4
+In-Reply-To: <20200713162410.11577-1-quintela@redhat.com>
+References: <20200713162410.11577-1-quintela@redhat.com>
 MIME-Version: 1.0
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=207.211.31.81; envelope-from=quintela@redhat.com;
- helo=us-smtp-delivery-1.mimecast.com
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=207.211.31.120; envelope-from=quintela@redhat.com;
+ helo=us-smtp-1.mimecast.com
 X-detected-operating-system: by eggs.gnu.org: First seen = 2020/07/13 02:19:41
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
-X-Spam_score_int: -30
-X-Spam_score: -3.1
-X-Spam_bar: ---
-X-Spam_report: (-3.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1,
+X-Spam_score_int: -40
+X-Spam_score: -4.1
+X-Spam_bar: ----
+X-Spam_report: (-4.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H3=-0.01, RCVD_IN_MSPIKE_WL=-0.01,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-1, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -92,39 +96,87 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: quintela@trasno.org, "Dr. David Alan Gilbert" <dgilbert@redhat.com>,
- Juan Quintela <quintela@redhat.com>
+Cc: HaiLiang <zhang.zhanghailiang@huawei.com>,
+ Juan Quintela <quintela@redhat.com>,
+ "Dr. David Alan Gilbert" <dgilbert@redhat.com>,
+ Zheng Chuan <zhengchuan@huawei.com>, quintela@trasno.org,
+ KeQian Zhu <zhukeqian1@huawei.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-It includes several fixes:=0D
-=0D
-- fix qemu_fclose(denis)=0D
-- remove superfluous breaks (liao)=0D
-- fix memory leak (zheng)=0D
-=0D
-Please apply=0D
-=0D
-[v1 & v2]=0D
-=0D
-There was one error on the huawei address of the 1st patch and mail=0D
-was bouncing.  Fixed.=0D
-=0D
-Denis V. Lunev (1):=0D
-  migration/savevm: respect qemu_fclose() error code in save_snapshot()=0D
-=0D
-Liao Pingfang (1):=0D
-  migration/migration.c: Remove superfluous breaks=0D
-=0D
-Zheng Chuan (1):=0D
-  migration: fix memory leak in qmp_migrate_set_parameters=0D
-=0D
- migration/migration.c | 6 ++----=0D
- migration/savevm.c    | 8 ++++++--=0D
- 2 files changed, 8 insertions(+), 6 deletions(-)=0D
-=0D
---=20=0D
-2.25.4=0D
-=0D
+From: Zheng Chuan <zhengchuan@huawei.com>
+
+"tmp.tls_hostname" and "tmp.tls_creds" allocated by migrate_params_test_apply()
+is forgot to free at the end of qmp_migrate_set_parameters(). Fix that.
+
+The leak stack:
+Direct leak of 2 byte(s) in 2 object(s) allocated from:
+   #0 0xffffb597c20b in __interceptor_malloc (/usr/lib64/libasan.so.4+0xd320b)
+   #1 0xffffb52dcb1b in g_malloc (/usr/lib64/libglib-2.0.so.0+0x58b1b)
+   #2 0xffffb52f8143 in g_strdup (/usr/lib64/libglib-2.0.so.0+0x74143)
+   #3 0xaaaac52447fb in migrate_params_test_apply (/usr/src/debug/qemu-4.1.0/migration/migration.c:1377)
+   #4 0xaaaac52fdca7 in qmp_migrate_set_parameters (/usr/src/debug/qemu-4.1.0/qapi/qapi-commands-migration.c:192)
+   #5 0xaaaac551d543 in qmp_dispatch (/usr/src/debug/qemu-4.1.0/qapi/qmp-dispatch.c:165)
+   #6 0xaaaac52a0a8f in qmp_dispatch (/usr/src/debug/qemu-4.1.0/monitor/qmp.c:125)
+   #7 0xaaaac52a1c7f in monitor_qmp_dispatch (/usr/src/debug/qemu-4.1.0/monitor/qmp.c:214)
+   #8 0xaaaac55cb0cf in aio_bh_call (/usr/src/debug/qemu-4.1.0/util/async.c:117)
+   #9 0xaaaac55d4543 in aio_bh_poll (/usr/src/debug/qemu-4.1.0/util/aio-posix.c:459)
+   #10 0xaaaac55cae0f in aio_dispatch (/usr/src/debug/qemu-4.1.0/util/async.c:268)
+   #11 0xffffb52d6a7b in g_main_context_dispatch (/usr/lib64/libglib-2.0.so.0+0x52a7b)
+   #12 0xaaaac55d1e3b(/usr/bin/qemu-kvm-4.1.0+0x1622e3b)
+   #13 0xaaaac4e314bb(/usr/bin/qemu-kvm-4.1.0+0xe824bb)
+   #14 0xaaaac47f45ef(/usr/bin/qemu-kvm-4.1.0+0x8455ef)
+   #15 0xffffb4bfef3f in __libc_start_main (/usr/lib64/libc.so.6+0x23f3f)
+   #16 0xaaaac47ffacb(/usr/bin/qemu-kvm-4.1.0+0x850acb)
+
+Direct leak of 2 byte(s) in 2 object(s) allocated from:
+   #0 0xffffb597c20b in __interceptor_malloc (/usr/lib64/libasan.so.4+0xd320b)
+   #1 0xffffb52dcb1b in g_malloc (/usr/lib64/libglib-2.0.so.0+0x58b1b)
+   #2 0xffffb52f8143 in g_strdup (/usr/lib64/libglib-2.0.so.0+0x74143)
+   #3 0xaaaac5244893 in migrate_params_test_apply (/usr/src/debug/qemu-4.1.0/migration/migration.c:1382)
+   #4 0xaaaac52fdca7 in qmp_migrate_set_parameters (/usr/src/debug/qemu-4.1.0/qapi/qapi-commands-migration.c:192)
+   #5 0xaaaac551d543 in qmp_dispatch (/usr/src/debug/qemu-4.1.0/qapi/qmp-dispatch.c)
+   #6 0xaaaac52a0a8f in qmp_dispatch (/usr/src/debug/qemu-4.1.0/monitor/qmp.c:125)
+   #7 0xaaaac52a1c7f in monitor_qmp_dispatch (/usr/src/debug/qemu-4.1.0/monitor/qmp.c:214)
+   #8 0xaaaac55cb0cf in aio_bh_call (/usr/src/debug/qemu-4.1.0/util/async.c:117)
+   #9 0xaaaac55d4543 in aio_bh_poll (/usr/src/debug/qemu-4.1.0/util/aio-posix.c:459)
+   #10 0xaaaac55cae0f in in aio_dispatch (/usr/src/debug/qemu-4.1.0/util/async.c:268)
+   #11 0xffffb52d6a7b in g_main_context_dispatch (/usr/lib64/libglib-2.0.so.0+0x52a7b)
+   #12 0xaaaac55d1e3b(/usr/bin/qemu-kvm-4.1.0+0x1622e3b)
+   #13 0xaaaac4e314bb(/usr/bin/qemu-kvm-4.1.0+0xe824bb)
+   #14 0xaaaac47f45ef (/usr/bin/qemu-kvm-4.1.0+0x8455ef)
+   #15 0xffffb4bfef3f in __libc_start_main (/usr/lib64/libc.so.6+0x23f3f)
+   #16 0xaaaac47ffacb(/usr/bin/qemu-kvm-4.1.0+0x850acb)
+
+Signed-off-by: Chuan Zheng <zhengchuan@huawei.com>
+Reviewed-by: KeQian Zhu <zhukeqian1@huawei.com>
+Reviewed-by: HaiLiang <zhang.zhanghailiang@huawei.com>
+Reviewed-by: Juan Quintela <quintela@redhat.com>
+Signed-off-by: Juan Quintela <quintela@redhat.com>
+---
+ migration/migration.c | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
+
+diff --git a/migration/migration.c b/migration/migration.c
+index 4e658c397e..08519de56f 100644
+--- a/migration/migration.c
++++ b/migration/migration.c
+@@ -1343,12 +1343,12 @@ static void migrate_params_test_apply(MigrateSetParameters *params,
+ 
+     if (params->has_tls_creds) {
+         assert(params->tls_creds->type == QTYPE_QSTRING);
+-        dest->tls_creds = g_strdup(params->tls_creds->u.s);
++        dest->tls_creds = params->tls_creds->u.s;
+     }
+ 
+     if (params->has_tls_hostname) {
+         assert(params->tls_hostname->type == QTYPE_QSTRING);
+-        dest->tls_hostname = g_strdup(params->tls_hostname->u.s);
++        dest->tls_hostname = params->tls_hostname->u.s;
+     }
+ 
+     if (params->has_max_bandwidth) {
+-- 
+2.25.4
 
 
