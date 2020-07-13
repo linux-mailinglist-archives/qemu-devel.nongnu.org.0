@@ -2,31 +2,31 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2A8B721D06C
-	for <lists+qemu-devel@lfdr.de>; Mon, 13 Jul 2020 09:29:57 +0200 (CEST)
-Received: from localhost ([::1]:54202 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6F06521D079
+	for <lists+qemu-devel@lfdr.de>; Mon, 13 Jul 2020 09:33:07 +0200 (CEST)
+Received: from localhost ([::1]:38528 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jusuS-0001m6-3i
-	for lists+qemu-devel@lfdr.de; Mon, 13 Jul 2020 03:29:56 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:59506)
+	id 1jusxW-0006t5-GJ
+	for lists+qemu-devel@lfdr.de; Mon, 13 Jul 2020 03:33:06 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:59502)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <andrey.shinkevich@virtuozzo.com>)
- id 1jussf-0007fl-Tp; Mon, 13 Jul 2020 03:28:05 -0400
-Received: from relay.sw.ru ([185.231.240.75]:35078 helo=relay3.sw.ru)
+ id 1jussf-0007fi-PG; Mon, 13 Jul 2020 03:28:05 -0400
+Received: from relay.sw.ru ([185.231.240.75]:35080 helo=relay3.sw.ru)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <andrey.shinkevich@virtuozzo.com>)
- id 1jussc-0007TF-EG; Mon, 13 Jul 2020 03:28:05 -0400
+ id 1jussc-0007TJ-FO; Mon, 13 Jul 2020 03:28:05 -0400
 Received: from [172.16.25.136] (helo=localhost.sw.ru)
  by relay3.sw.ru with esmtp (Exim 4.93)
  (envelope-from <andrey.shinkevich@virtuozzo.com>)
- id 1jussP-0001Vx-M2; Mon, 13 Jul 2020 10:27:49 +0300
+ id 1jussP-0001Vx-NN; Mon, 13 Jul 2020 10:27:49 +0300
 From: Andrey Shinkevich <andrey.shinkevich@virtuozzo.com>
 To: qemu-block@nongnu.org
-Subject: [PATCH v9 03/10] qcow2_format.py: change Qcow2BitmapExt
- initialization method
-Date: Mon, 13 Jul 2020 10:27:49 +0300
-Message-Id: <1594625276-134500-4-git-send-email-andrey.shinkevich@virtuozzo.com>
+Subject: [PATCH v9 04/10] qcow2_format.py: dump bitmap flags in human readable
+ way.
+Date: Mon, 13 Jul 2020 10:27:50 +0300
+Message-Id: <1594625276-134500-5-git-send-email-andrey.shinkevich@virtuozzo.com>
 X-Mailer: git-send-email 1.8.3.1
 In-Reply-To: <1594625276-134500-1-git-send-email-andrey.shinkevich@virtuozzo.com>
 References: <1594625276-134500-1-git-send-email-andrey.shinkevich@virtuozzo.com>
@@ -56,49 +56,41 @@ Cc: kwolf@redhat.com, vsementsov@virtuozzo.com, qemu-devel@nongnu.org,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-There are two ways to initialize a class derived from Qcow2Struct:
-1. Pass a block of binary data to the constructor.
-2. Pass the file descriptor to allow reading the file from constructor.
-Let's change the Qcow2BitmapExt initialization method from 1 to 2 to
-support a scattered reading in the initialization chain.
-The implementation comes with the patch that follows.
+Introduce the class BitmapFlags that parses a bitmap flags mask.
 
 Suggested-by: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
 Signed-off-by: Andrey Shinkevich <andrey.shinkevich@virtuozzo.com>
 ---
- tests/qemu-iotests/qcow2_format.py | 12 +++++++++---
- 1 file changed, 9 insertions(+), 3 deletions(-)
+ tests/qemu-iotests/qcow2_format.py | 16 ++++++++++++++++
+ 1 file changed, 16 insertions(+)
 
 diff --git a/tests/qemu-iotests/qcow2_format.py b/tests/qemu-iotests/qcow2_format.py
-index 2f3681b..9eb6b5b 100644
+index 9eb6b5b..934062a 100644
 --- a/tests/qemu-iotests/qcow2_format.py
 +++ b/tests/qemu-iotests/qcow2_format.py
-@@ -62,8 +62,8 @@ class Qcow2StructMeta(type):
+@@ -40,6 +40,22 @@ class Flags64(Qcow2Field):
+         return str(bits)
  
  
- class Qcow2Struct(metaclass=Qcow2StructMeta):
--
--    """Qcow2Struct: base class for qcow2 data structures
-+    """
-+    Qcow2Struct: base class for qcow2 data structures
++class BitmapFlags(Qcow2Field):
++
++    flags = {
++        0x1: 'in-use',
++        0x2: 'auto'
++    }
++
++    def __str__(self):
++        bits = []
++        for bit in range(64):
++            flag = self.value & (1 << bit)
++            if flag:
++                bits.append(self.flags.get(flag, f'bit-{bit}'))
++        return f'{self.value:#x} ({bits})'
++
++
+ class Enum(Qcow2Field):
  
-     Successors should define fields class variable, which is: list of tuples,
-     each of three elements:
-@@ -173,7 +173,13 @@ class QcowHeaderExtension(Qcow2Struct):
-         self.data_str = data_str
- 
-         if self.magic == QCOW2_EXT_MAGIC_BITMAPS:
--            self.obj = Qcow2BitmapExt(data=self.data)
-+            assert fd is not None
-+            position = fd.tell()
-+            # Step back to reread data
-+            padded = (self.length + 7) & ~7
-+            fd.seek(-padded, 1)
-+            self.obj = Qcow2BitmapExt(fd=fd)
-+            fd.seek(position)
-         else:
-             self.obj = None
- 
+     def __str__(self):
 -- 
 1.8.3.1
 
