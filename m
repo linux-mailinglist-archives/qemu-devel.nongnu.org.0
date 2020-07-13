@@ -2,45 +2,48 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5E54621DEF7
-	for <lists+qemu-devel@lfdr.de>; Mon, 13 Jul 2020 19:46:05 +0200 (CEST)
-Received: from localhost ([::1]:40486 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5D87E21DEF8
+	for <lists+qemu-devel@lfdr.de>; Mon, 13 Jul 2020 19:46:09 +0200 (CEST)
+Received: from localhost ([::1]:40688 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jv2Wi-0008Qt-Dw
-	for lists+qemu-devel@lfdr.de; Mon, 13 Jul 2020 13:46:04 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:55358)
+	id 1jv2Wm-0008Vu-Dc
+	for lists+qemu-devel@lfdr.de; Mon, 13 Jul 2020 13:46:08 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:55376)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <xiaoyao.li@intel.com>)
- id 1jv2VZ-0007XF-L7
- for qemu-devel@nongnu.org; Mon, 13 Jul 2020 13:44:53 -0400
+ id 1jv2Vb-0007Xi-6L
+ for qemu-devel@nongnu.org; Mon, 13 Jul 2020 13:44:55 -0400
 Received: from mga12.intel.com ([192.55.52.136]:22540)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <xiaoyao.li@intel.com>)
- id 1jv2VX-0006H5-2v
- for qemu-devel@nongnu.org; Mon, 13 Jul 2020 13:44:53 -0400
-IronPort-SDR: D2Rh77fmTkgE3CkpYQRDvHV3AEamFLKaLIIZslnHj0Nm2MEOcyFZT0tR6aYtSx3UzPOik3KAPz
- 5CHhjX8BqV4Q==
-X-IronPort-AV: E=McAfee;i="6000,8403,9681"; a="128255218"
-X-IronPort-AV: E=Sophos;i="5.75,348,1589266800"; d="scan'208";a="128255218"
+ id 1jv2VZ-0006H5-L6
+ for qemu-devel@nongnu.org; Mon, 13 Jul 2020 13:44:54 -0400
+IronPort-SDR: VdpbSh94qc86LbhMnGPOwSi8LVbLxH+WtF9BXXuM6RAagJwC+Zz6+fiZuzhViVjOc9JkDuDcdc
+ ihCqTboeAwBQ==
+X-IronPort-AV: E=McAfee;i="6000,8403,9681"; a="128255221"
+X-IronPort-AV: E=Sophos;i="5.75,348,1589266800"; d="scan'208";a="128255221"
 X-Amp-Result: SKIPPED(no attachment in message)
 X-Amp-File-Uploaded: False
 Received: from fmsmga002.fm.intel.com ([10.253.24.26])
  by fmsmga106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 13 Jul 2020 10:44:40 -0700
-IronPort-SDR: 1k+00RDSGK8FP0SqRLDqkBHt0+9Dc0Js+riWNsrE1NVjdop5NnqQbFft5hLa7H0u6fiP+s9uA4
- U3ZxVfGFzP2A==
+ 13 Jul 2020 10:44:42 -0700
+IronPort-SDR: Mid/vTm4r0/SC53IQ1ely7ARftn2DMgoMt9gdDmXy0Up1EKiHsMBweBNsb8aKim1iC9jIVH352
+ IBkCPiOhz90A==
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.75,348,1589266800"; d="scan'208";a="317450481"
+X-IronPort-AV: E=Sophos;i="5.75,348,1589266800"; d="scan'208";a="317450488"
 Received: from lxy-dell.sh.intel.com ([10.239.159.21])
- by fmsmga002.fm.intel.com with ESMTP; 13 Jul 2020 10:44:38 -0700
+ by fmsmga002.fm.intel.com with ESMTP; 13 Jul 2020 10:44:40 -0700
 From: Xiaoyao Li <xiaoyao.li@intel.com>
 To: Eduardo Habkost <ehabkost@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>,
  Richard Henderson <rth@twiddle.net>
-Subject: [PATCH 0/2] Fixes for env->user_features
-Date: Tue, 14 Jul 2020 01:44:34 +0800
-Message-Id: <20200713174436.41070-1-xiaoyao.li@intel.com>
+Subject: [PATCH 1/2] i368/cpu: Clear env->user_features after loading
+ versioned CPU model
+Date: Tue, 14 Jul 2020 01:44:35 +0800
+Message-Id: <20200713174436.41070-2-xiaoyao.li@intel.com>
 X-Mailer: git-send-email 2.18.4
+In-Reply-To: <20200713174436.41070-1-xiaoyao.li@intel.com>
+References: <20200713174436.41070-1-xiaoyao.li@intel.com>
 Received-SPF: pass client-ip=192.55.52.136; envelope-from=xiaoyao.li@intel.com;
  helo=mga12.intel.com
 X-detected-operating-system: by eggs.gnu.org: First seen = 2020/07/13 13:44:48
@@ -63,22 +66,43 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Xiaoyao Li <xiaoyao.li@intel.com>, qemu-devel@nongnu.org
+Cc: Xiaoyao Li <xiaoyao.li@intel.com>, qemu-devel@nongnu.org,
+ Chenyi Qiang <chenyi.qiang@intel.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Patch 1 fixes the env->features set by versioned CPU model.
+Features defined in versioned CPU model are recorded in env->user_features
+since they are updated as property. It's unwated because they are not
+user specified.
 
-Patch 2 fixed the env->features set by unavailable_features due to
-feature_dependencies[] checking.
+Simply clear env->user_features as a fix. It won't clear user specified
+features because user specified features are filled to
+env->user_features later in x86_cpu_expand_features().
 
-Xiaoyao Li (2):
-  i368/cpu: Clear env->user_features after loading versioned CPU model
-  i386/cpu: Don't add unavailable_features to env->user_features
+Cc: Chenyi Qiang <chenyi.qiang@intel.com>
+Suggested-by: Eduardo Habkost <ehabkost@redhat.com>
+Signed-off-by: Xiaoyao Li <xiaoyao.li@intel.com>
+---
+ target/i386/cpu.c | 6 ++++++
+ 1 file changed, 6 insertions(+)
 
- target/i386/cpu.c | 7 ++++++-
- 1 file changed, 6 insertions(+), 1 deletion(-)
-
+diff --git a/target/i386/cpu.c b/target/i386/cpu.c
+index 1e5123251d74..9812d5747f35 100644
+--- a/target/i386/cpu.c
++++ b/target/i386/cpu.c
+@@ -5159,6 +5159,12 @@ static void x86_cpu_load_model(X86CPU *cpu, X86CPUModel *model)
+     object_property_set_str(OBJECT(cpu), "vendor", vendor, &error_abort);
+ 
+     x86_cpu_apply_version_props(cpu, model);
++
++    /* Properties in versioned CPU model are not user specified features.
++     * We can simply clear env->user_features here since it will be filled later
++     * in x86_cpu_expand_features() based on plus_features and minus_features.
++     */
++    memset(&env->user_features, 0, sizeof(env->user_features));
+ }
+ 
+ #ifndef CONFIG_USER_ONLY
 -- 
 2.18.4
 
