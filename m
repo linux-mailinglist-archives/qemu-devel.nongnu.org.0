@@ -2,87 +2,114 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 22F5F21E0E4
-	for <lists+qemu-devel@lfdr.de>; Mon, 13 Jul 2020 21:39:13 +0200 (CEST)
-Received: from localhost ([::1]:56886 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 65DF721E0E9
+	for <lists+qemu-devel@lfdr.de>; Mon, 13 Jul 2020 21:42:05 +0200 (CEST)
+Received: from localhost ([::1]:36940 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jv4IC-0007lB-6f
-	for lists+qemu-devel@lfdr.de; Mon, 13 Jul 2020 15:39:12 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:48496)
+	id 1jv4Ky-0002ml-Ge
+	for lists+qemu-devel@lfdr.de; Mon, 13 Jul 2020 15:42:04 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:48978)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <ljp@linux.vnet.ibm.com>)
- id 1jv4Gz-0006AZ-Ty; Mon, 13 Jul 2020 15:37:57 -0400
-Received: from mx0b-001b2d01.pphosted.com ([148.163.158.5]:10462
- helo=mx0a-001b2d01.pphosted.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <ljp@linux.vnet.ibm.com>)
- id 1jv4Gy-00012e-9u; Mon, 13 Jul 2020 15:37:57 -0400
-Received: from pps.filterd (m0098416.ppops.net [127.0.0.1])
- by mx0b-001b2d01.pphosted.com (8.16.0.42/8.16.0.42) with SMTP id
- 06DJWOn8045097; Mon, 13 Jul 2020 15:37:52 -0400
-Received: from ppma03dal.us.ibm.com (b.bd.3ea9.ip4.static.sl-reverse.com
- [169.62.189.11])
- by mx0b-001b2d01.pphosted.com with ESMTP id 32771x9s99-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Mon, 13 Jul 2020 15:37:52 -0400
-Received: from pps.filterd (ppma03dal.us.ibm.com [127.0.0.1])
- by ppma03dal.us.ibm.com (8.16.0.42/8.16.0.42) with SMTP id 06DJZshl002254;
- Mon, 13 Jul 2020 19:37:51 GMT
-Received: from b03cxnp08025.gho.boulder.ibm.com
- (b03cxnp08025.gho.boulder.ibm.com [9.17.130.17])
- by ppma03dal.us.ibm.com with ESMTP id 327528q3t5-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Mon, 13 Jul 2020 19:37:51 +0000
-Received: from b03ledav001.gho.boulder.ibm.com
- (b03ledav001.gho.boulder.ibm.com [9.17.130.232])
- by b03cxnp08025.gho.boulder.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
- 06DJbmbE26542438
- (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Mon, 13 Jul 2020 19:37:48 GMT
-Received: from b03ledav001.gho.boulder.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id 77B7A6E04C;
- Mon, 13 Jul 2020 19:37:50 +0000 (GMT)
-Received: from b03ledav001.gho.boulder.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id ABCE86E053;
- Mon, 13 Jul 2020 19:37:49 +0000 (GMT)
-Received: from [9.65.204.75] (unknown [9.65.204.75])
- by b03ledav001.gho.boulder.ibm.com (Postfix) with ESMTPS;
- Mon, 13 Jul 2020 19:37:49 +0000 (GMT)
-Content-Type: text/plain;
-	charset=us-ascii
-Mime-Version: 1.0 (Mac OS X Mail 13.4 \(3608.80.23.2.2\))
-Subject: Re: [PATCH v4 11/11] target/ppc: add vdiv{su}{wd} vmod{su}{wd}
- instructions
-From: Lijun Pan <ljp@linux.vnet.ibm.com>
-In-Reply-To: <20200701234715.91893-2-ljp@linux.ibm.com>
-Date: Mon, 13 Jul 2020 14:37:49 -0500
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1jv4HV-0006xY-CB
+ for qemu-devel@nongnu.org; Mon, 13 Jul 2020 15:38:29 -0400
+Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:20970
+ helo=us-smtp-1.mimecast.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1jv4HS-0001Hj-Ea
+ for qemu-devel@nongnu.org; Mon, 13 Jul 2020 15:38:28 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1594669104;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
+ bh=1rDsyU6xh3emwMBPYGVZhUoBO4/N2LHStcXqUmWqlus=;
+ b=d2vVqqo66MtPypxGzyGaVEIFXCCxekxu1q0pCzni40HL9MbbDLxPNzrWfssGFfVT6YBdx9
+ zpek57cknAdDPCljsXqiqf52P+3xPj5PT+Idmk8xdfFkAoVIzhguIOaUk3mBouvAT+ZfLD
+ f+qS5CZITKDm1UPhKlMS+D8cEMJD1SU=
+Received: from mail-wm1-f70.google.com (mail-wm1-f70.google.com
+ [209.85.128.70]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-354-gYefE1WkOTCmTCul8G333g-1; Mon, 13 Jul 2020 15:38:20 -0400
+X-MC-Unique: gYefE1WkOTCmTCul8G333g-1
+Received: by mail-wm1-f70.google.com with SMTP id t18so628990wmj.5
+ for <qemu-devel@nongnu.org>; Mon, 13 Jul 2020 12:38:20 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:subject:to:cc:references:from:autocrypt
+ :message-id:date:user-agent:mime-version:in-reply-to
+ :content-language:content-transfer-encoding;
+ bh=1rDsyU6xh3emwMBPYGVZhUoBO4/N2LHStcXqUmWqlus=;
+ b=CvZ69wG73rGRhIbSFw+EYEYD9A5EP12YICtse40kz9vNu7PUjQgOCGTHNIUqtGau4u
+ 6U4QekBH2pDp9cNB7g/Qe+RnzMZtnJzR1VVbHuLVALd8+jwBWcLQmD0gHN361UxFSyBJ
+ yUo4UElw7OyrhP6h0181NYDCXJomb1UDcEhRD6X9ch3jLKcACt5RL5pu1a6mkWN/QfRU
+ TXVR0mwVYDpodpAlrbJW7tXnx6mGfEau0TKG+Jb8+uNtUS9U7lJ3nxGtEmzuDHQVuz5w
+ zrT23XzRVwt960t3pE2THxo9EiQmwujLu7FDfXM8T3bru4cozWa9q1UyQhYWBQvsNvDm
+ GkTw==
+X-Gm-Message-State: AOAM532DRCxGH5X6Dfb/H9KnJznz2GcAq+PQZIJaZ4d/fMHRXUaULH9q
+ J87MFGWy24uQsxKAURHSQH4XKA5IGtJFw5yV4Q3WXKg22vTSscrs1OJnvfY5wYpAvo2hBMUuxOB
+ cFt6k8fLgWJVIckA=
+X-Received: by 2002:adf:e60e:: with SMTP id p14mr1054525wrm.31.1594669099368; 
+ Mon, 13 Jul 2020 12:38:19 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJxRlZUdPVsl9F9RT+YJ6dN2trWlPLP6uiD0Li9lRjFe3upER0hEcgdXjusi8qx8J12NOosEvQ==
+X-Received: by 2002:adf:e60e:: with SMTP id p14mr1054504wrm.31.1594669099179; 
+ Mon, 13 Jul 2020 12:38:19 -0700 (PDT)
+Received: from [192.168.1.37] (138.red-83-57-170.dynamicip.rima-tde.net.
+ [83.57.170.138])
+ by smtp.gmail.com with ESMTPSA id a2sm25625051wrn.68.2020.07.13.12.38.18
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Mon, 13 Jul 2020 12:38:18 -0700 (PDT)
+Subject: Re: [PATCH v3 0/9] memory: assert and define MemoryRegionOps callbacks
+To: P J P <ppandit@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>,
+ David Gibson <david@gibson.dropbear.id.au>
+References: <20200630122710.1119158-1-ppandit@redhat.com>
+ <nycvar.YSQ.7.78.906.2007140023310.6870@xnncv>
+From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
+Autocrypt: addr=philmd@redhat.com; keydata=
+ mQINBDXML8YBEADXCtUkDBKQvNsQA7sDpw6YLE/1tKHwm24A1au9Hfy/OFmkpzo+MD+dYc+7
+ bvnqWAeGweq2SDq8zbzFZ1gJBd6+e5v1a/UrTxvwBk51yEkadrpRbi+r2bDpTJwXc/uEtYAB
+ GvsTZMtiQVA4kRID1KCdgLa3zztPLCj5H1VZhqZsiGvXa/nMIlhvacRXdbgllPPJ72cLUkXf
+ z1Zu4AkEKpccZaJspmLWGSzGu6UTZ7UfVeR2Hcc2KI9oZB1qthmZ1+PZyGZ/Dy+z+zklC0xl
+ XIpQPmnfy9+/1hj1LzJ+pe3HzEodtlVA+rdttSvA6nmHKIt8Ul6b/h1DFTmUT1lN1WbAGxmg
+ CH1O26cz5nTrzdjoqC/b8PpZiT0kO5MKKgiu5S4PRIxW2+RA4H9nq7nztNZ1Y39bDpzwE5Sp
+ bDHzd5owmLxMLZAINtCtQuRbSOcMjZlg4zohA9TQP9krGIk+qTR+H4CV22sWldSkVtsoTaA2
+ qNeSJhfHQY0TyQvFbqRsSNIe2gTDzzEQ8itsmdHHE/yzhcCVvlUzXhAT6pIN0OT+cdsTTfif
+ MIcDboys92auTuJ7U+4jWF1+WUaJ8gDL69ThAsu7mGDBbm80P3vvUZ4fQM14NkxOnuGRrJxO
+ qjWNJ2ZUxgyHAh5TCxMLKWZoL5hpnvx3dF3Ti9HW2dsUUWICSQARAQABtDJQaGlsaXBwZSBN
+ YXRoaWV1LURhdWTDqSAoUGhpbCkgPHBoaWxtZEByZWRoYXQuY29tPokCVQQTAQgAPwIbDwYL
+ CQgHAwIGFQgCCQoLBBYCAwECHgECF4AWIQSJweePYB7obIZ0lcuio/1u3q3A3gUCXsfWwAUJ
+ KtymWgAKCRCio/1u3q3A3ircD/9Vjh3aFNJ3uF3hddeoFg1H038wZr/xi8/rX27M1Vj2j9VH
+ 0B8Olp4KUQw/hyO6kUxqkoojmzRpmzvlpZ0cUiZJo2bQIWnvScyHxFCv33kHe+YEIqoJlaQc
+ JfKYlbCoubz+02E2A6bFD9+BvCY0LBbEj5POwyKGiDMjHKCGuzSuDRbCn0Mz4kCa7nFMF5Jv
+ piC+JemRdiBd6102ThqgIsyGEBXuf1sy0QIVyXgaqr9O2b/0VoXpQId7yY7OJuYYxs7kQoXI
+ 6WzSMpmuXGkmfxOgbc/L6YbzB0JOriX0iRClxu4dEUg8Bs2pNnr6huY2Ft+qb41RzCJvvMyu
+ gS32LfN0bTZ6Qm2A8ayMtUQgnwZDSO23OKgQWZVglGliY3ezHZ6lVwC24Vjkmq/2yBSLakZE
+ 6DZUjZzCW1nvtRK05ebyK6tofRsx8xB8pL/kcBb9nCuh70aLR+5cmE41X4O+MVJbwfP5s/RW
+ 9BFSL3qgXuXso/3XuWTQjJJGgKhB6xXjMmb1J4q/h5IuVV4juv1Fem9sfmyrh+Wi5V1IzKI7
+ RPJ3KVb937eBgSENk53P0gUorwzUcO+ASEo3Z1cBKkJSPigDbeEjVfXQMzNt0oDRzpQqH2vp
+ apo2jHnidWt8BsckuWZpxcZ9+/9obQ55DyVQHGiTN39hkETy3Emdnz1JVHTU0Q==
+Message-ID: <61f82e46-5d86-24e5-0a0b-d9973e51c797@redhat.com>
+Date: Mon, 13 Jul 2020 21:38:17 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.5.0
+MIME-Version: 1.0
+In-Reply-To: <nycvar.YSQ.7.78.906.2007140023310.6870@xnncv>
+Content-Language: en-US
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=utf-8
 Content-Transfer-Encoding: 7bit
-Message-Id: <BFFE9C21-6005-4F51-BCDC-0B1B73EA437C@linux.vnet.ibm.com>
-References: <20200701234715.91893-1-ljp@linux.ibm.com>
- <20200701234715.91893-2-ljp@linux.ibm.com>
-To: Lijun Pan <ljp@linux.ibm.com>
-X-Mailer: Apple Mail (2.3608.80.23.2.2)
-X-TM-AS-GCONF: 00
-X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:6.0.235, 18.0.687
- definitions=2020-07-13_16:2020-07-13,
- 2020-07-13 signatures=0
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- spamscore=0 mlxscore=0
- mlxlogscore=940 impostorscore=0 malwarescore=0 suspectscore=0 adultscore=0
- clxscore=1015 bulkscore=0 phishscore=0 lowpriorityscore=0
- priorityscore=1501 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2006250000 definitions=main-2007130136
-Received-SPF: none client-ip=148.163.158.5;
- envelope-from=ljp@linux.vnet.ibm.com; helo=mx0a-001b2d01.pphosted.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/07/13 15:30:50
-X-ACL-Warn: Detected OS   = Linux 3.x [generic]
-X-Spam_score_int: -35
-X-Spam_score: -3.6
-X-Spam_bar: ---
-X-Spam_report: (-3.6 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_LOW=-0.7,
- RCVD_IN_MSPIKE_H2=-1, SPF_HELO_NONE=0.001,
- SPF_NONE=0.001 autolearn=ham autolearn_force=no
+Received-SPF: pass client-ip=205.139.110.120; envelope-from=philmd@redhat.com;
+ helo=us-smtp-1.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/07/13 14:48:45
+X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
+X-Spam_score_int: -40
+X-Spam_score: -4.1
+X-Spam_bar: ----
+X-Spam_report: (-4.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-1, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -95,37 +122,51 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: richard.henderson@linaro.org, qemu-ppc@nongnu.org, qemu-devel@nongnu.org,
- David Gibson <david@gibson.dropbear.id.au>
+Cc: Peter Maydell <peter.maydell@linaro.org>,
+ Prasad J Pandit <pjp@fedoraproject.org>, Li Qiang <liq3ea@gmail.com>,
+ QEMU Developers <qemu-devel@nongnu.org>, Lei Sun <slei.casper@gmail.com>,
+ Alex Williamson <alex.williamson@redhat.com>,
+ =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-
-
-> On Jul 1, 2020, at 6:47 PM, Lijun Pan <ljp@linux.ibm.com> wrote:
+On 7/13/20 8:58 PM, P J P wrote:
+> +-- On Tue, 30 Jun 2020, P J P wrote --+
+> | * This series asserts that MemoryRegionOps objects define read/write 
+> |   callback methods. Thus avoids potential NULL pointer dereference.
+> |   ex. -> https://git.qemu.org/?p=qemu.git;a=commit;h=bb15013ef34617eb1344f5276292cadd326c21b2
+> | 
+> | * Also adds various undefined MemoryRegionOps read/write functions
+> |   to avoid potential assert failure.
+> | 
+> | Thank you.
+> | --
+> | Prasad J Pandit (9):
+> |   hw/pci-host: add pci-intack write method
+> |   pci-host: add pcie-msi read method
+> |   vfio: add quirk device write method
+> |   prep: add ppc-parity write method
+> |   nvram: add nrf51_soc flash read method
+> |   spapr_pci: add spapr msi read method
+> |   tz-ppc: add dummy read/write methods
+> |   imx7-ccm: add digprog mmio write method
+> |   memory: assert MemoryRegionOps callbacks are defined
+> | 
+> |  hw/misc/imx7_ccm.c       |  7 +++++++
+> |  hw/misc/tz-ppc.c         | 14 ++++++++++++++
+> |  hw/nvram/nrf51_nvm.c     |  5 +++++
+> |  hw/pci-host/designware.c |  9 +++++++++
+> |  hw/pci-host/prep.c       |  8 ++++++++
+> |  hw/ppc/prep_systemio.c   |  8 ++++++++
+> |  hw/ppc/spapr_pci.c       | 13 +++++++++++--
+> |  hw/vfio/pci-quirks.c     |  8 ++++++++
+> |  memory.c                 | 10 +++++++++-
+> |  9 files changed, 79 insertions(+), 3 deletions(-)
 > 
-> vdivsw: Vector Divide Signed Word
-> vdivuw: Vector Divide Unsigned Word
-> vdivsd: Vector Divide Signed Doubleword
-> vdivud: Vector Divide Unsigned Doubleword
-> vmodsw: Vector Modulo Signed Word
-> vmoduw: Vector Modulo Unsigned Word
-> vmodsd: Vector Modulo Signed Doubleword
-> vmodud: Vector Modulo Unsigned Doubleword
 > 
-> Signed-off-by: Lijun Pan <ljp@linux.ibm.com>
-> ---
-> v4: add a comment on undefined result of divide operation.
->    fix if(){} coding style issue, remove blank line.
-> v3: add missing divided-by-zero, divided-by-(-1) handling
-> v2: fix coding style
->    use Power ISA 3.1 flag
-> 
+> @Paolo: all patches in this series are reviewed/ack'd. Need any change/update 
+> from me? (just checking)
 
-
-Any feedback on this one?
-
-Thanks,
-Lijun
+Paolo isn't available, maybe ask each maintainer? ARM/PPC mostly.
 
 
