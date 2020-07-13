@@ -2,69 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E243421D859
-	for <lists+qemu-devel@lfdr.de>; Mon, 13 Jul 2020 16:25:28 +0200 (CEST)
-Received: from localhost ([::1]:53312 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id CE55121D865
+	for <lists+qemu-devel@lfdr.de>; Mon, 13 Jul 2020 16:27:08 +0200 (CEST)
+Received: from localhost ([::1]:59672 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1juzOZ-0005Ez-Uc
-	for lists+qemu-devel@lfdr.de; Mon, 13 Jul 2020 10:25:27 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:35428)
+	id 1juzQB-0007u0-Sb
+	for lists+qemu-devel@lfdr.de; Mon, 13 Jul 2020 10:27:07 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:35482)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1juzB8-0005go-B7
+ id 1juzB9-0005he-R0
  for qemu-devel@nongnu.org; Mon, 13 Jul 2020 10:11:35 -0400
-Received: from mail-wr1-x436.google.com ([2a00:1450:4864:20::436]:45350)
+Received: from mail-wr1-x432.google.com ([2a00:1450:4864:20::432]:37898)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1juzB6-0006fz-0A
- for qemu-devel@nongnu.org; Mon, 13 Jul 2020 10:11:33 -0400
-Received: by mail-wr1-x436.google.com with SMTP id s10so16679988wrw.12
- for <qemu-devel@nongnu.org>; Mon, 13 Jul 2020 07:11:31 -0700 (PDT)
+ id 1juzB6-0006gL-O9
+ for qemu-devel@nongnu.org; Mon, 13 Jul 2020 10:11:35 -0400
+Received: by mail-wr1-x432.google.com with SMTP id z13so16733163wrw.5
+ for <qemu-devel@nongnu.org>; Mon, 13 Jul 2020 07:11:32 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:subject:date:message-id:in-reply-to:references:mime-version
  :content-transfer-encoding;
- bh=3Fd2xhMAOfXLvcg5k7HCDapd9E8X8sbTyGKS6vLv9Bw=;
- b=IE5PYKuXZOr1R7s+7rSyLBd2P3VAMa9o5baN+6im0XleVU7i3ubuXi5hg6qEbeWPdq
- i7sLv4G6A+0n6jbLclS5/CmqQKoPmk+S83qgpEptxPyDzhsbNS7/klg2qA6WPQn445EV
- cwyyj0tZDpj/QgMbcJByvlng4yhKxCIeG44v/Z/OMTKru2mXHrJrpeq8eQnY5dh4w1qH
- LdWWx2SW9z6bLbYz3BNXhpwV2itOX/YNZ6zJTrOwW4T0NpeS1w3LGbtCWTjVdFXfWmXx
- PCb27GGLbQLYSPabfdjSk3YLCB+JSkdxURo8BrVQXqaNIbGfJlwquGIMqZeBfLlcN87F
- Tpzw==
+ bh=WnultCUDMK+c95bXDFQdZPFIzDBVtTwAZ+LdBT4HiI0=;
+ b=Y1ySdcjcIHRNFPny8ZqDZ3VWjwBe8huiOcdMLi0cyYNJvJr1LwCa4dAKIXENPcGt+X
+ Y9ovry5nw4epD1dDsjv+7HLvBKSkcx5KFlr5sXanx9uBNRF9SczfRPsL6dtuvYjX5/Kg
+ +jow2elasu5InD8eJKsgJl5xiAzlTMHVlv//vEMObzIOV1mL5DgPMiGpqp8I/hj/MJ0P
+ EAdMlioF+Xtihd8ZhofFxz+aISmY52QeafuO5vyFjUBju3amuTe5sHhkX1X2AKvFT1eM
+ GKZQ7sGm+oXvFD6SzmcLu4C+W9pC1mPCFV57GxDTzuVPovlxpgiWJIIGNGCR1uctqwVW
+ YtRw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=3Fd2xhMAOfXLvcg5k7HCDapd9E8X8sbTyGKS6vLv9Bw=;
- b=HKXzmrbpkdSPlNNLJbcBlDJzllGq4E3spG9sKphFq78RMakWL32c3Ts6cWWhWdxRkR
- qgiVZxzTit4Ga2m8gYUpgmf8tIOXP/TrE+hTEN522ohi/hwupgMRAIijwPNGfNG4vBE8
- lMRj15UZf7/NGI2TX7P/GdzYsRm3lV34Xz6Vdl/Rh3peIthYn6PSQD3KwYo9lwXvtP8p
- iGqDhvaHxjTvroQH05JJJNotfzi1lJQB+bQ5HOEEUtt5LGM3T34eZgkBz9o3E/bmwPce
- vJdfhvcHmqCVVzW50AyKoP2JQVCJgGAs1ZQN1ERzB/L2HGL4t3dmJpBEGqQb/QfkAH//
- NPQQ==
-X-Gm-Message-State: AOAM530iO07RJM2XnZog6SSut60PvTTYSX0a4mck9g1wi46PABrduTPg
- 4R+pgR/RgOocZo9nFd1W7TU+NaM/JN6ggw==
-X-Google-Smtp-Source: ABdhPJylRo4GebJvIMwg3sffElYd7kgYtO41dHF2aZsknSHT/5VAGbAXQ2s/66gCitFoCXCIlXfBuA==
-X-Received: by 2002:a5d:6ac1:: with SMTP id u1mr78059848wrw.123.1594649489801; 
- Mon, 13 Jul 2020 07:11:29 -0700 (PDT)
+ bh=WnultCUDMK+c95bXDFQdZPFIzDBVtTwAZ+LdBT4HiI0=;
+ b=BrWk5uL1kIuObfnVEP42HhxJlXvy1cBpcogyBg4W3Y4PaAt3KUCy262+T0F1wr7I5m
+ CHqZC3O/qC2MbSTLywSUHh0SNxnIg/XqxUumd3ywPaDaTaWQxgFUnTaR5+s8zu+A+vZu
+ dy5KJ0AnGGYS/SBh5/u9MhZRqYUXxya6U6sg7Lj2ZfC3WPkdAVyxVzhsK7+dmM0tm6xN
+ FBXpWJWibt1qhxSqfZt1fslj3TiizF9aeSUIfxrQEH/VLlQFeflntmqOwpaDcauZbm8w
+ qi4Zf79AL7XacRLYxfQK6bo63LkPezRDk3zsQv2NwLQyjuDR7D3N672/7miOiBbQnsWf
+ CqSg==
+X-Gm-Message-State: AOAM532CNJE2ZHzxVJk+GdJ09fotHZeGSSYxR8PgdHjl5+kOncAR0vBA
+ +zT28hqY/F9bDdLy7MWSa1OtV77RVKkJsQ==
+X-Google-Smtp-Source: ABdhPJzudGXLork20hTyvNHweIF1BOAkbUW7LqmXlpsGibu1AFrL2iZ/sVxBvBip0EihybOVHFxTyA==
+X-Received: by 2002:a5d:6912:: with SMTP id t18mr78696204wru.411.1594649490833; 
+ Mon, 13 Jul 2020 07:11:30 -0700 (PDT)
 Received: from orth.archaic.org.uk (orth.archaic.org.uk. [81.2.115.148])
- by smtp.gmail.com with ESMTPSA id c136sm24031297wmd.10.2020.07.13.07.11.28
+ by smtp.gmail.com with ESMTPSA id c136sm24031297wmd.10.2020.07.13.07.11.29
  for <qemu-devel@nongnu.org>
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 13 Jul 2020 07:11:29 -0700 (PDT)
+ Mon, 13 Jul 2020 07:11:30 -0700 (PDT)
 From: Peter Maydell <peter.maydell@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PULL 21/25] hw/arm/tosa.c: Detabify
-Date: Mon, 13 Jul 2020 15:11:00 +0100
-Message-Id: <20200713141104.5139-22-peter.maydell@linaro.org>
+Subject: [PULL 22/25] hw/arm/tosa: Encapsulate misc GPIO handling in a device
+Date: Mon, 13 Jul 2020 15:11:01 +0100
+Message-Id: <20200713141104.5139-23-peter.maydell@linaro.org>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20200713141104.5139-1-peter.maydell@linaro.org>
 References: <20200713141104.5139-1-peter.maydell@linaro.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::436;
- envelope-from=peter.maydell@linaro.org; helo=mail-wr1-x436.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::432;
+ envelope-from=peter.maydell@linaro.org; helo=mail-wr1-x432.google.com
 X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
  That's all we know.
 X-Spam_score_int: -20
@@ -89,77 +89,162 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Remove the hardcoded tabs from hw/arm/tosa.c. There aren't
-many, but since they're all in constant #defines they're not
-going to go away with our usual "only when we touch a function"
-policy on reformatting.
+Currently we have a free-floating set of IRQs and a function
+tosa_out_switch() which handle the GPIO lines on the tosa board which
+connect to LEDs, and another free-floating IRQ and tosa_reset()
+function to handle the GPIO line that resets the system.  Encapsulate
+this behaviour in a simple QOM device.
+
+This commit fixes Coverity issue CID 1421929 (which pointed out that
+the 'outsignals' in tosa_gpio_setup() were leaked), because it
+removes the use of the qemu_allocate_irqs() API from this code
+entirely.
 
 Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
 Reviewed-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
-Message-id: 20200628203748.14250-2-peter.maydell@linaro.org
+Message-id: 20200628203748.14250-3-peter.maydell@linaro.org
 ---
- hw/arm/tosa.c | 44 ++++++++++++++++++++++----------------------
- 1 file changed, 22 insertions(+), 22 deletions(-)
+ hw/arm/tosa.c | 88 +++++++++++++++++++++++++++++++++++++--------------
+ 1 file changed, 64 insertions(+), 24 deletions(-)
 
 diff --git a/hw/arm/tosa.c b/hw/arm/tosa.c
-index 5dee2d76c61..06ecf1e7824 100644
+index 06ecf1e7824..383b3b22e24 100644
 --- a/hw/arm/tosa.c
 +++ b/hw/arm/tosa.c
-@@ -26,32 +26,32 @@
- #include "hw/sysbus.h"
- #include "exec/address-spaces.h"
+@@ -65,24 +65,39 @@ static void tosa_microdrive_attach(PXA2xxState *cpu)
+     pxa2xx_pcmcia_attach(cpu->pcmcia[0], md);
+ }
  
--#define TOSA_RAM    0x04000000
--#define TOSA_ROM	0x00800000
-+#define TOSA_RAM 0x04000000
-+#define TOSA_ROM 0x00800000
- 
--#define TOSA_GPIO_USB_IN		(5)
--#define TOSA_GPIO_nSD_DETECT	(9)
--#define TOSA_GPIO_ON_RESET		(19)
--#define TOSA_GPIO_CF_IRQ		(21)	/* CF slot0 Ready */
--#define TOSA_GPIO_CF_CD			(13)
--#define TOSA_GPIO_TC6393XB_INT  (15)
--#define TOSA_GPIO_JC_CF_IRQ		(36)	/* CF slot1 Ready */
-+#define TOSA_GPIO_USB_IN                (5)
-+#define TOSA_GPIO_nSD_DETECT            (9)
-+#define TOSA_GPIO_ON_RESET              (19)
-+#define TOSA_GPIO_CF_IRQ                (21)    /* CF slot0 Ready */
-+#define TOSA_GPIO_CF_CD                 (13)
-+#define TOSA_GPIO_TC6393XB_INT          (15)
-+#define TOSA_GPIO_JC_CF_IRQ             (36)    /* CF slot1 Ready */
- 
--#define TOSA_SCOOP_GPIO_BASE	1
--#define TOSA_GPIO_IR_POWERDWN	(TOSA_SCOOP_GPIO_BASE + 2)
--#define TOSA_GPIO_SD_WP			(TOSA_SCOOP_GPIO_BASE + 3)
--#define TOSA_GPIO_PWR_ON		(TOSA_SCOOP_GPIO_BASE + 4)
-+#define TOSA_SCOOP_GPIO_BASE            1
-+#define TOSA_GPIO_IR_POWERDWN           (TOSA_SCOOP_GPIO_BASE + 2)
-+#define TOSA_GPIO_SD_WP                 (TOSA_SCOOP_GPIO_BASE + 3)
-+#define TOSA_GPIO_PWR_ON                (TOSA_SCOOP_GPIO_BASE + 4)
- 
--#define TOSA_SCOOP_JC_GPIO_BASE		1
--#define TOSA_GPIO_BT_LED		(TOSA_SCOOP_JC_GPIO_BASE + 0)
--#define TOSA_GPIO_NOTE_LED		(TOSA_SCOOP_JC_GPIO_BASE + 1)
--#define TOSA_GPIO_CHRG_ERR_LED		(TOSA_SCOOP_JC_GPIO_BASE + 2)
--#define TOSA_GPIO_TC6393XB_L3V_ON	(TOSA_SCOOP_JC_GPIO_BASE + 5)
--#define TOSA_GPIO_WLAN_LED		(TOSA_SCOOP_JC_GPIO_BASE + 7)
-+#define TOSA_SCOOP_JC_GPIO_BASE         1
-+#define TOSA_GPIO_BT_LED                (TOSA_SCOOP_JC_GPIO_BASE + 0)
-+#define TOSA_GPIO_NOTE_LED              (TOSA_SCOOP_JC_GPIO_BASE + 1)
-+#define TOSA_GPIO_CHRG_ERR_LED          (TOSA_SCOOP_JC_GPIO_BASE + 2)
-+#define TOSA_GPIO_TC6393XB_L3V_ON       (TOSA_SCOOP_JC_GPIO_BASE + 5)
-+#define TOSA_GPIO_WLAN_LED              (TOSA_SCOOP_JC_GPIO_BASE + 7)
- 
--#define	DAC_BASE	0x4e
--#define DAC_CH1		0
--#define DAC_CH2		1
-+#define DAC_BASE 0x4e
-+#define DAC_CH1 0
-+#define DAC_CH2 1
- 
- static void tosa_microdrive_attach(PXA2xxState *cpu)
+-static void tosa_out_switch(void *opaque, int line, int level)
++/*
++ * Encapsulation of some GPIO line behaviour for the Tosa board
++ *
++ * QEMU interface:
++ *  + named GPIO inputs "leds[0..3]": assert to light LEDs
++ *  + named GPIO input "reset": when asserted, resets the system
++ */
++
++#define TYPE_TOSA_MISC_GPIO "tosa-misc-gpio"
++#define TOSA_MISC_GPIO(obj) \
++    OBJECT_CHECK(TosaMiscGPIOState, (obj), TYPE_TOSA_MISC_GPIO)
++
++typedef struct TosaMiscGPIOState {
++    SysBusDevice parent_obj;
++} TosaMiscGPIOState;
++
++static void tosa_gpio_leds(void *opaque, int line, int level)
  {
+     switch (line) {
+-        case 0:
+-            fprintf(stderr, "blue LED %s.\n", level ? "on" : "off");
+-            break;
+-        case 1:
+-            fprintf(stderr, "green LED %s.\n", level ? "on" : "off");
+-            break;
+-        case 2:
+-            fprintf(stderr, "amber LED %s.\n", level ? "on" : "off");
+-            break;
+-        case 3:
+-            fprintf(stderr, "wlan LED %s.\n", level ? "on" : "off");
+-            break;
+-        default:
+-            fprintf(stderr, "Uhandled out event: %d = %d\n", line, level);
+-            break;
++    case 0:
++        fprintf(stderr, "blue LED %s.\n", level ? "on" : "off");
++        break;
++    case 1:
++        fprintf(stderr, "green LED %s.\n", level ? "on" : "off");
++        break;
++    case 2:
++        fprintf(stderr, "amber LED %s.\n", level ? "on" : "off");
++        break;
++    case 3:
++        fprintf(stderr, "wlan LED %s.\n", level ? "on" : "off");
++        break;
++    default:
++        g_assert_not_reached();
+     }
+ }
+ 
+@@ -93,13 +108,22 @@ static void tosa_reset(void *opaque, int line, int level)
+     }
+ }
+ 
++static void tosa_misc_gpio_init(Object *obj)
++{
++    DeviceState *dev = DEVICE(obj);
++
++    qdev_init_gpio_in_named(dev, tosa_gpio_leds, "leds", 4);
++    qdev_init_gpio_in_named(dev, tosa_reset, "reset", 1);
++}
++
+ static void tosa_gpio_setup(PXA2xxState *cpu,
+                 DeviceState *scp0,
+                 DeviceState *scp1,
+                 TC6393xbState *tmio)
+ {
+-    qemu_irq *outsignals = qemu_allocate_irqs(tosa_out_switch, cpu, 4);
+-    qemu_irq reset;
++    DeviceState *misc_gpio;
++
++    misc_gpio = sysbus_create_simple(TYPE_TOSA_MISC_GPIO, -1, NULL);
+ 
+     /* MMC/SD host */
+     pxa2xx_mmci_handlers(cpu->mmc,
+@@ -107,8 +131,8 @@ static void tosa_gpio_setup(PXA2xxState *cpu,
+                     qemu_irq_invert(qdev_get_gpio_in(cpu->gpio, TOSA_GPIO_nSD_DETECT)));
+ 
+     /* Handle reset */
+-    reset = qemu_allocate_irq(tosa_reset, cpu, 0);
+-    qdev_connect_gpio_out(cpu->gpio, TOSA_GPIO_ON_RESET, reset);
++    qdev_connect_gpio_out(cpu->gpio, TOSA_GPIO_ON_RESET,
++                          qdev_get_gpio_in_named(misc_gpio, "reset", 0));
+ 
+     /* PCMCIA signals: card's IRQ and Card-Detect */
+     pxa2xx_pcmcia_set_irq_cb(cpu->pcmcia[0],
+@@ -119,10 +143,14 @@ static void tosa_gpio_setup(PXA2xxState *cpu,
+                         qdev_get_gpio_in(cpu->gpio, TOSA_GPIO_JC_CF_IRQ),
+                         NULL);
+ 
+-    qdev_connect_gpio_out(scp1, TOSA_GPIO_BT_LED, outsignals[0]);
+-    qdev_connect_gpio_out(scp1, TOSA_GPIO_NOTE_LED, outsignals[1]);
+-    qdev_connect_gpio_out(scp1, TOSA_GPIO_CHRG_ERR_LED, outsignals[2]);
+-    qdev_connect_gpio_out(scp1, TOSA_GPIO_WLAN_LED, outsignals[3]);
++    qdev_connect_gpio_out(scp1, TOSA_GPIO_BT_LED,
++                          qdev_get_gpio_in_named(misc_gpio, "leds", 0));
++    qdev_connect_gpio_out(scp1, TOSA_GPIO_NOTE_LED,
++                          qdev_get_gpio_in_named(misc_gpio, "leds", 1));
++    qdev_connect_gpio_out(scp1, TOSA_GPIO_CHRG_ERR_LED,
++                          qdev_get_gpio_in_named(misc_gpio, "leds", 2));
++    qdev_connect_gpio_out(scp1, TOSA_GPIO_WLAN_LED,
++                          qdev_get_gpio_in_named(misc_gpio, "leds", 3));
+ 
+     qdev_connect_gpio_out(scp1, TOSA_GPIO_TC6393XB_L3V_ON, tc6393xb_l3v_get(tmio));
+ 
+@@ -287,10 +315,22 @@ static const TypeInfo tosa_ssp_info = {
+     .class_init    = tosa_ssp_class_init,
+ };
+ 
++static const TypeInfo tosa_misc_gpio_info = {
++    .name          = "tosa-misc-gpio",
++    .parent        = TYPE_SYS_BUS_DEVICE,
++    .instance_size = sizeof(TosaMiscGPIOState),
++    .instance_init = tosa_misc_gpio_init,
++    /*
++     * No class init required: device has no internal state so does not
++     * need to set up reset or vmstate, and has no realize method.
++     */
++};
++
+ static void tosa_register_types(void)
+ {
+     type_register_static(&tosa_dac_info);
+     type_register_static(&tosa_ssp_info);
++    type_register_static(&tosa_misc_gpio_info);
+ }
+ 
+ type_init(tosa_register_types)
 -- 
 2.20.1
 
