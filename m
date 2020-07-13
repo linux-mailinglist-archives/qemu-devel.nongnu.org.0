@@ -2,86 +2,78 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 51D7B21D3BF
-	for <lists+qemu-devel@lfdr.de>; Mon, 13 Jul 2020 12:28:44 +0200 (CEST)
-Received: from localhost ([::1]:53756 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B9D6621D3CD
+	for <lists+qemu-devel@lfdr.de>; Mon, 13 Jul 2020 12:32:57 +0200 (CEST)
+Received: from localhost ([::1]:59118 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1juvhT-00085j-Aq
-	for lists+qemu-devel@lfdr.de; Mon, 13 Jul 2020 06:28:43 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:50448)
+	id 1juvlY-000286-N0
+	for lists+qemu-devel@lfdr.de; Mon, 13 Jul 2020 06:32:56 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:51452)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <david@redhat.com>) id 1juvg1-00078c-Dm
- for qemu-devel@nongnu.org; Mon, 13 Jul 2020 06:27:14 -0400
-Received: from us-smtp-1.mimecast.com ([207.211.31.81]:54967
- helo=us-smtp-delivery-1.mimecast.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <david@redhat.com>) id 1juvfy-0007Zd-UF
- for qemu-devel@nongnu.org; Mon, 13 Jul 2020 06:27:13 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1594636029;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=ncPtTJPKX1xmM0tVAUOJc+GII682XePoWciV2TEULjo=;
- b=UHHI0r38x85aWYQhCRFi5yhDEMPq3PslFygjZfFso1ClSSqij/nhqGcUBDhjkARSjr9lXc
- O5B8I0I7iiyL21W8LHjcagI8oULxa2T7dh6Vpoq2z/RtgfqtEQ6pw7qGutMHw35IXyYWP5
- nRh4wInFPxYqk0gRHJNJQt6DhZC90FQ=
-Received: from mail-ed1-f70.google.com (mail-ed1-f70.google.com
- [209.85.208.70]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-373--FcwuHfNO8mhvQZ7lYUMPA-1; Mon, 13 Jul 2020 06:27:05 -0400
-X-MC-Unique: -FcwuHfNO8mhvQZ7lYUMPA-1
-Received: by mail-ed1-f70.google.com with SMTP id dg19so20350596edb.6
- for <qemu-devel@nongnu.org>; Mon, 13 Jul 2020 03:27:05 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1juvk3-0001DK-Cc
+ for qemu-devel@nongnu.org; Mon, 13 Jul 2020 06:31:23 -0400
+Received: from mail-oi1-x243.google.com ([2607:f8b0:4864:20::243]:40935)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1juvjz-00087J-At
+ for qemu-devel@nongnu.org; Mon, 13 Jul 2020 06:31:23 -0400
+Received: by mail-oi1-x243.google.com with SMTP id t198so10543305oie.7
+ for <qemu-devel@nongnu.org>; Mon, 13 Jul 2020 03:31:18 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc:content-transfer-encoding;
+ bh=fMAdc2gUHmQkn9DBQDfJ4Lyn1tF148KAvZKsixkzRhw=;
+ b=lZ6BCLaxGqJyAj/YynX+LL0omIvuMkGfbHfKluuybRkhwe2kXXqDGDKCYaCq9hbI+U
+ N3lDdORzFjISYZaOzMfktD0U8/o6gD+8mNBAy+SrQbJzZ7tX0zXHvyyYEjXg3W2AgMTN
+ cgCVrfVP9Hfc5apDsRmWSupzMY9t+th/nmmOyoi+tgmq6jUPogj0v9C/5a7Fd8b93k+J
+ ytuIJD0LblDChLShj5cIXymkjM6VyB+1jLq8zVl672SPeTN6tdS6RPZQuSUXX4TYKX1g
+ +sFYHmIrJUWXPZCJXZVMkypYgpgaaNK7rdKrsz4RhHsidQfK/QvCgC+Oem1JGI19Czat
+ ADRg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:content-transfer-encoding:from:mime-version
- :subject:date:message-id:references:cc:in-reply-to:to;
- bh=9d7rBoTyE4r5RdzW8QwtqD84Ju8Dacpcjd3wKcSejq8=;
- b=Fpd0VxrfqfZaH/QxAZRmBwH+mcaKRuBPfD95wnA+DpuZWMHBwvkHJ2wQoglDNr+SYP
- 2F3eyKPFBeFfO4ciNU7fnyMSXkwZ2Xhk4PBr0ajjooA1O95dxxUx/uJk1bQscLQvNoE3
- /0jD+fwWxJTkLKj3ykOpRHgKO0E0hGVQAQRZueD204t+SO8QK/6ziauXMgiOlFTK/+CV
- yfVmdiAAb/8aRrmOG4U/MifXTUk5iwXVdJMmiNoG/OEcYUtaMBFxXTVbLHD5GAec4lig
- HjzK/L73xC0y+0CAVtqcuhQgCz2wc2AAFDQqUv6qHdp8EYTYr0ocC0uvSrIsrrtFRqb4
- fuGQ==
-X-Gm-Message-State: AOAM532cIT9Im9fmMUBmHqE7hvvgL0hp2ZIr9fKkBMKA3Obxy+/AXw46
- QIGCoMHJ/gBQ3BTAP+wkt34udUZR9W+25aitLNhqNkv0+dFHG5AHDy7gAhhlts24VZ/75G8R49Y
- tB54lcchi9Jm6iqE=
-X-Received: by 2002:aa7:db4b:: with SMTP id n11mr2230314edt.137.1594636024132; 
- Mon, 13 Jul 2020 03:27:04 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJxnYskRbwMwHdhZWBCN9R+D/aIs+YHht39XZozaEgSU4Yvmg5oQMVdO16owYN7mXj/dH0gPCg==
-X-Received: by 2002:aa7:db4b:: with SMTP id n11mr2230298edt.137.1594636023908; 
- Mon, 13 Jul 2020 03:27:03 -0700 (PDT)
-Received: from ?IPv6:2a01:598:b902:a219:9d3c:1f9c:371:6e61?
- ([2a01:598:b902:a219:9d3c:1f9c:371:6e61])
- by smtp.gmail.com with ESMTPSA id ay27sm11276609edb.81.2020.07.13.03.27.03
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 13 Jul 2020 03:27:03 -0700 (PDT)
-From: David Hildenbrand <david@redhat.com>
-Mime-Version: 1.0 (1.0)
-Subject: Re: [PATCH RFC 2/5] s390x: implement diag260
-Date: Mon, 13 Jul 2020 12:27:01 +0200
-Message-Id: <07E9FD5B-F07F-415B-9C00-A2A882F07CBC@redhat.com>
-References: <20200713091243.GB4359@osiris>
-In-Reply-To: <20200713091243.GB4359@osiris>
-To: Heiko Carstens <hca@linux.ibm.com>
-X-Mailer: iPhone Mail (17F80)
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc:content-transfer-encoding;
+ bh=fMAdc2gUHmQkn9DBQDfJ4Lyn1tF148KAvZKsixkzRhw=;
+ b=Cz2PGUCB2fWwTuq9nIF+Y3wJ8b4QAyzxfOIip0XLEUfYF/XoFsPsr/Q0XTPCK0pcXW
+ JWfXpsEkLi6B0CIWH5zCfRFRE8xW32xtH78ck6Vg7emRqZ3Eby3Ux1xZaNtUxGmSBwUD
+ g6LMJwx5bHHwm3IyuGsFvcMa73o8JkvTqiwAA0N5z9p0RZlNF2XieLnDVxcTvGyt93NR
+ tg/ry7GAtD1FKhk3P/pM2kpMhJKQSJQj4U69YTrkxgiiy6+8KFTdpEkj2RUe+HOnoidB
+ Lgm7gs/1D8q8sosGT1HtELA2KfDtkMOM48sxFj+BLYby+vfDLsF+kuD7wND/zvQfaxLK
+ Mv+g==
+X-Gm-Message-State: AOAM533V3tsLlvfiEVY5Q5ckJJ811GBAJ2OoD8BmIJ52K+wXOun3RYd/
+ KfsmGvvLCcuPY0K3ibDV0+9VcUJDaiMwdKejnyiPIA==
+X-Google-Smtp-Source: ABdhPJxu96OQ0dMewjBDHvzoBBrSaIE+IJlGVor7y116KxDYaTVKOGKN8B2aMbLVg0eX0n/t0Q2a2h+4LEiNsq1gsjE=
+X-Received: by 2002:aca:54c9:: with SMTP id
+ i192mr13433316oib.163.1594636277986; 
+ Mon, 13 Jul 2020 03:31:17 -0700 (PDT)
+MIME-Version: 1.0
+References: <20200628214230.2592-1-peter.maydell@linaro.org>
+ <20200628214230.2592-3-peter.maydell@linaro.org>
+ <4c049b0c-f305-729a-748d-0a7742b496ed@amsat.org>
+ <CAFEAcA_JCSs6BCCw-MYOO8RcyXQ_iNZ63KjuwqEPM7yuvWsdTA@mail.gmail.com>
+ <c9fe0637-9870-b155-3b50-0da3f03d279f@amsat.org>
+In-Reply-To: <c9fe0637-9870-b155-3b50-0da3f03d279f@amsat.org>
+From: Peter Maydell <peter.maydell@linaro.org>
+Date: Mon, 13 Jul 2020 11:31:06 +0100
+Message-ID: <CAFEAcA_wrzBj_YNSehG8fDy-0et9gaE98eMuw6agsmkDJ0MoEA@mail.gmail.com>
+Subject: Re: [PATCH 2/2] hw/arm/palm.c: Encapsulate misc GPIO handling in a
+ device
+To: =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <f4bug@amsat.org>
+Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=207.211.31.81; envelope-from=david@redhat.com;
- helo=us-smtp-delivery-1.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/07/13 02:19:41
-X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
-X-Spam_score_int: -30
-X-Spam_score: -3.1
-X-Spam_bar: ---
-X-Spam_report: (-3.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H3=-0.01, RCVD_IN_MSPIKE_WL=-0.01,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Received-SPF: pass client-ip=2607:f8b0:4864:20::243;
+ envelope-from=peter.maydell@linaro.org; helo=mail-oi1-x243.google.com
+X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
+ That's all we know.
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -94,85 +86,38 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Thomas Huth <thuth@redhat.com>, Janosch Frank <frankja@linux.ibm.com>,
- David Hildenbrand <david@redhat.com>, Cornelia Huck <cohuck@redhat.com>,
- qemu-devel@nongnu.org, Halil Pasic <pasic@linux.ibm.com>,
- Christian Borntraeger <borntraeger@de.ibm.com>, qemu-s390x@nongnu.org,
- "Michael S . Tsirkin" <mst@redhat.com>,
- Claudio Imbrenda <imbrenda@linux.ibm.com>, Richard Henderson <rth@twiddle.net>
+Cc: qemu-arm <qemu-arm@nongnu.org>, QEMU Developers <qemu-devel@nongnu.org>,
+ Eduardo Habkost <ehabkost@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+On Mon, 13 Jul 2020 at 11:21, Philippe Mathieu-Daud=C3=A9 <f4bug@amsat.org>=
+ wrote:
+>
+> On 7/13/20 12:05 PM, Peter Maydell wrote:
+> > On Mon, 13 Jul 2020 at 09:57, Philippe Mathieu-Daud=C3=A9 <f4bug@amsat.=
+org> wrote:
+> >> Why not make it a generic container in the MachineState and create
+> >> the container in hw/core/machine.c::machine_initfn()?
+> >
+> > I don't think we create containers like that for any other
+> > machine, do we?
+>
+> No but maybe we could. Most boards have some GPIO/LED/reset switch
+> button. Do all machines have a NUMA memory device? Do all machines
+> have a dtb? Do all machines use NVDIMM devices? I think we have
+> more machines using GPIOs than machine using NVDIMM. Anyway I don't
+> mind, I was just trying to figure where this container belong on QOM.
 
+I think that if machines were qdev objects with the usual
+reset/gpio/etc capabilities, I might have just implemented
+this as part of the machine object; but they aren't, and
+it didn't really seem like the right approach to create an
+ad-hoc "container that sort of corresponds to the whole
+machine". Also, since these machines are largely orphan
+I tend to favour smaller-scale interventions that push them
+in a better direction rather than more sweeping changes.
 
-> Am 13.07.2020 um 11:12 schrieb Heiko Carstens <hca@linux.ibm.com>:
->=20
-> =EF=BB=BFOn Fri, Jul 10, 2020 at 05:24:07PM +0200, David Hildenbrand wrot=
-e:
->>> On 10.07.20 17:18, Heiko Carstens wrote:
->>> On Fri, Jul 10, 2020 at 02:12:33PM +0200, David Hildenbrand wrote:
->>>>> Note: Reading about diag260 subcode 0xc, we could modify Linux to que=
-ry
->>>>> the maximum possible pfn via diag260 0xc. Then, we maybe could avoid
->>>>> indicating maxram size via SCLP, and keep diag260-unaware OSs keep
->>>>> working as before. Thoughts?
->>>>=20
->>>> Implemented it, seems to work fine.
->>>=20
->>> The returned value would not include standby/reserved memory within
->>> z/VM. So this seems not to work.
->>=20
->> Which value exactly are you referencing? diag 0xc returns two values.
->> One of them seems to do exactly what we need.
->>=20
->> See
->> https://github.com/davidhildenbrand/linux/commit/a235f9fb20df7c04ae89bc0=
-d134332d1a01842c7
->>=20
->> for my current Linux approach.
->>=20
->>> Also: why do you want to change this
->>=20
->> Which change exactly do you mean?
->>=20
->> If we limit the value returned via SCLP to initial memory, we cannot
->> break any guest (e.g., Linux pre 4.2, kvm-unit-tests). diag260 is then
->> purely optional.
->=20
-> Ok, now I see the context. Christian added my just to cc on this
-> specific patch.
-
-I tried to Cc you an all patches but the mail bounced with unknown address =
-(maybe I messed up).
-
-> So if I understand you correctly, then you want to use diag 260 in
-> order to figure out how much memory is _potentially_ available for a
-> guest?
-
-Yes, exactly.
-
->=20
-> This does not fit to the current semantics, since diag 260 returns the
-> address of the highest *currently* accessible address. That is: it
-> does explicitly *not* include standby memory or anything else that
-> might potentially be there.
-
-The confusing part is that it talks about =E2=80=9Eadressible=E2=80=9C and =
-not =E2=80=9Eaccessible=E2=80=9C. Now that I understood the =E2=80=9EDEFINE=
- STORAGE ...=E2=80=9C example, it makes sense that the values change with r=
-eserved/standby memory.
-
-I agree that reusing that interface might not be what we want. I just seeme=
-d too easy to avoid creating something new :)
-
->=20
-> So you would need a different interface to tell the guest about your
-> new hotplug memory interface. If sclp does not work, then maybe a new
-> diagnose(?).
->=20
-
-Yes, I think a new Diagnose makes sense. I=E2=80=98ll have a look next week=
- to figure out which codes/subcodes we could use. @Christian @Conny any ide=
-as/pointers?
-
+thanks
+-- PMM
 
