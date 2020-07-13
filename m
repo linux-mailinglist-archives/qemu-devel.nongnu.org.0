@@ -2,50 +2,50 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C9B5421D84E
-	for <lists+qemu-devel@lfdr.de>; Mon, 13 Jul 2020 16:23:20 +0200 (CEST)
-Received: from localhost ([::1]:42568 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 67B3E21D89E
+	for <lists+qemu-devel@lfdr.de>; Mon, 13 Jul 2020 16:33:17 +0200 (CEST)
+Received: from localhost ([::1]:53202 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1juzMV-0000wF-PH
-	for lists+qemu-devel@lfdr.de; Mon, 13 Jul 2020 10:23:19 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:38142)
+	id 1juzW8-0008KF-Fe
+	for lists+qemu-devel@lfdr.de; Mon, 13 Jul 2020 10:33:16 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:38244)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <eblake@redhat.com>) id 1juzKW-0006Sz-6L
- for qemu-devel@nongnu.org; Mon, 13 Jul 2020 10:21:16 -0400
-Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:57748
+ (Exim 4.90_1) (envelope-from <eblake@redhat.com>) id 1juzKZ-0006bt-Ni
+ for qemu-devel@nongnu.org; Mon, 13 Jul 2020 10:21:19 -0400
+Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:28246
  helo=us-smtp-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <eblake@redhat.com>) id 1juzKU-00084V-45
- for qemu-devel@nongnu.org; Mon, 13 Jul 2020 10:21:15 -0400
+ (Exim 4.90_1) (envelope-from <eblake@redhat.com>) id 1juzKX-00085H-QQ
+ for qemu-devel@nongnu.org; Mon, 13 Jul 2020 10:21:19 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1594650073;
+ s=mimecast20190719; t=1594650077;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=ksW9NEbGcbCFsYzLrywmAnxhLCHKW+VH0kaIFBT1NXc=;
- b=Y8yJUkppFm0doHjFaDOIqkl7kS2o6Qs3kirdk6YEmYiKaQv/nCF8+szPyk6QqykpQk3bLA
- T8xkpw/XEMZGkXLrXAh8b6rc+6Ud785ACMlsMfPgNalJbEQdH2vQqD0vF45DE7xQbpjw3I
- 1lTjyepPK09Kx5iG1yliFTfu0gFhsUY=
+ bh=4cR38izSMX6UNQ6106BAAWY0oYRYZqleeDbvwyj0w04=;
+ b=GvxEqol0kbMN3O1KtbvdkElOYFc1SPDlwA/XIvxaXiv8C8dCgAv5o1YqyalCrKNB0qI1zS
+ /T5cTSsL628xYZq6qih1LcMofPCnb0Ih3pnqjMnDhEl0HfeMRBOCzIj4rRnEtCMxPfZ51m
+ sMRpgwRVWOhlea8J/y1EiSa/F9zY/8Q=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-327-1j4MktGkMAWRmOlPAyZN1A-1; Mon, 13 Jul 2020 10:21:10 -0400
-X-MC-Unique: 1j4MktGkMAWRmOlPAyZN1A-1
+ us-mta-423-EAb9lFE1NxG2lJ9HNyKQWA-1; Mon, 13 Jul 2020 10:21:11 -0400
+X-MC-Unique: EAb9lFE1NxG2lJ9HNyKQWA-1
 Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
  [10.5.11.13])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 65F0E8014D4;
- Mon, 13 Jul 2020 14:21:09 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 0D0AD100960F;
+ Mon, 13 Jul 2020 14:21:10 +0000 (UTC)
 Received: from blue.redhat.com (ovpn-112-134.phx2.redhat.com [10.3.112.134])
- by smtp.corp.redhat.com (Postfix) with ESMTP id CE22376203;
- Mon, 13 Jul 2020 14:21:08 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 8BFF776203;
+ Mon, 13 Jul 2020 14:21:09 +0000 (UTC)
 From: Eric Blake <eblake@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PULL 1/5] nbd: Avoid off-by-one in long export name truncation
-Date: Mon, 13 Jul 2020 09:21:02 -0500
-Message-Id: <20200713142106.261809-2-eblake@redhat.com>
+Subject: [PULL 2/5] hax: Fix setting of FD_CLOEXEC
+Date: Mon, 13 Jul 2020 09:21:03 -0500
+Message-Id: <20200713142106.261809-3-eblake@redhat.com>
 In-Reply-To: <20200713142106.261809-1-eblake@redhat.com>
 References: <20200713142106.261809-1-eblake@redhat.com>
 MIME-Version: 1.0
@@ -77,40 +77,56 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Kevin Wolf <kwolf@redhat.com>,
- Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>,
- "open list:Network Block Dev..." <qemu-block@nongnu.org>,
- Max Reitz <mreitz@redhat.com>
+Cc: Eduardo Habkost <ehabkost@redhat.com>,
+ Wenchao Wang <wenchao.wang@intel.com>,
+ "open list:X86 HAXM CPUs" <haxm-team@intel.com>, Colin Xu <colin.xu@intel.com>,
+ Paolo Bonzini <pbonzini@redhat.com>, Richard Henderson <rth@twiddle.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-When snprintf returns the same value as the buffer size, the final
-byte was truncated to ensure a NUL terminator.  Fortunately, such long
-export names are unusual enough, with no real impact other than what
-is displayed to the user.
+Blindly setting FD_CLOEXEC without a read-modify-write will
+inadvertently clear any other intentionally-set bits, such as a
+proposed new bit for designating a fd that must behave in 32-bit mode.
+Use our wrapper function instead of an incorrect hand-rolled version.
 
-Fixes: 5c86bdf12089
-Reported-by: Max Reitz <mreitz@redhat.com>
 Signed-off-by: Eric Blake <eblake@redhat.com>
-Message-Id: <20200622210355.414941-1-eblake@redhat.com>
-Reviewed-by: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
+Message-Id: <20200420175309.75894-2-eblake@redhat.com>
+Reviewed-by: Colin Xu <colin.xu@intel.com>
 ---
- block/nbd.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ target/i386/hax-posix.c | 6 +++---
+ 1 file changed, 3 insertions(+), 3 deletions(-)
 
-diff --git a/block/nbd.c b/block/nbd.c
-index c297336ffc5f..65a4f56924ec 100644
---- a/block/nbd.c
-+++ b/block/nbd.c
-@@ -2002,7 +2002,7 @@ static void nbd_refresh_filename(BlockDriverState *bs)
-         len = snprintf(bs->exact_filename, sizeof(bs->exact_filename),
-                        "nbd://%s:%s", host, port);
+diff --git a/target/i386/hax-posix.c b/target/i386/hax-posix.c
+index 3bad89f13337..5f9d1b803dec 100644
+--- a/target/i386/hax-posix.c
++++ b/target/i386/hax-posix.c
+@@ -23,7 +23,7 @@ hax_fd hax_mod_open(void)
+         fprintf(stderr, "Failed to open the hax module\n");
      }
--    if (len > sizeof(bs->exact_filename)) {
-+    if (len >= sizeof(bs->exact_filename)) {
-         /* Name is too long to represent exactly, so leave it empty. */
-         bs->exact_filename[0] = '\0';
+
+-    fcntl(fd, F_SETFD, FD_CLOEXEC);
++    qemu_set_cloexec(fd);
+
+     return fd;
+ }
+@@ -147,7 +147,7 @@ hax_fd hax_host_open_vm(struct hax_state *hax, int vm_id)
+     fd = open(vm_name, O_RDWR);
+     g_free(vm_name);
+
+-    fcntl(fd, F_SETFD, FD_CLOEXEC);
++    qemu_set_cloexec(fd);
+
+     return fd;
+ }
+@@ -200,7 +200,7 @@ hax_fd hax_host_open_vcpu(int vmid, int vcpuid)
+     if (fd < 0) {
+         fprintf(stderr, "Failed to open the vcpu devfs\n");
      }
+-    fcntl(fd, F_SETFD, FD_CLOEXEC);
++    qemu_set_cloexec(fd);
+     return fd;
+ }
+
 -- 
 2.27.0
 
