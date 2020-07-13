@@ -2,74 +2,108 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 832B621D323
-	for <lists+qemu-devel@lfdr.de>; Mon, 13 Jul 2020 11:48:10 +0200 (CEST)
-Received: from localhost ([::1]:48662 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3FC4721D388
+	for <lists+qemu-devel@lfdr.de>; Mon, 13 Jul 2020 12:08:20 +0200 (CEST)
+Received: from localhost ([::1]:58086 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1juv4D-00068U-Ju
-	for lists+qemu-devel@lfdr.de; Mon, 13 Jul 2020 05:48:09 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:35882)
+	id 1juvNj-0005T2-Az
+	for lists+qemu-devel@lfdr.de; Mon, 13 Jul 2020 06:08:19 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:44270)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1juv2p-0005Tg-M8
- for qemu-devel@nongnu.org; Mon, 13 Jul 2020 05:46:43 -0400
-Received: from us-smtp-1.mimecast.com ([205.139.110.61]:49847
- helo=us-smtp-delivery-1.mimecast.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1juv2n-0000bo-B7
- for qemu-devel@nongnu.org; Mon, 13 Jul 2020 05:46:43 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1594633600;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=B0Oe5UV2qyeUG9Z0o/6/qc3LlnZaZG6gs7b/Di/jHF4=;
- b=KarJaQIo1zHWIl/CsbwDzNwl5/BAlK256h/dXO5BJK5uz3ztgCUP26nhOQWx2SWA7tLGN5
- jp6kBhjC1SF/gcwfRjFXu2JObjzx/DaiV7H0GWxIylUbBe6SkqYDmu68zxRQQd3Mh6Hy2a
- 6w6xwWwPUPKg4iwzdkxcwBqe46RUkik=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-180-SmNjCEALNaCu-3G69JToMA-1; Mon, 13 Jul 2020 05:46:38 -0400
-X-MC-Unique: SmNjCEALNaCu-3G69JToMA-1
-Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
- [10.5.11.15])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 6DB3E8015F4;
- Mon, 13 Jul 2020 09:46:34 +0000 (UTC)
-Received: from sirius.home.kraxel.org (ovpn-115-89.ams2.redhat.com
- [10.36.115.89])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 303A327DE7C;
- Mon, 13 Jul 2020 09:46:24 +0000 (UTC)
-Received: by sirius.home.kraxel.org (Postfix, from userid 1000)
- id 1CA893EBB1; Mon, 13 Jul 2020 11:46:24 +0200 (CEST)
-Date: Mon, 13 Jul 2020 11:46:24 +0200
-From: Gerd Hoffmann <kraxel@redhat.com>
-To: Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
-Subject: Re: [PATCH 00/26] hw/usb: Give it love, reduce 'hw/usb.h' inclusion
- out of hw/usb/
-Message-ID: <20200713094624.occmvxdb56kvbqy2@sirius.home.kraxel.org>
-References: <20200704144943.18292-1-f4bug@amsat.org>
-MIME-Version: 1.0
-In-Reply-To: <20200704144943.18292-1-f4bug@amsat.org>
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=iso-8859-1
+ (Exim 4.90_1) (envelope-from <Filip.Bozuta@syrmia.com>)
+ id 1juvLs-0003ew-2V
+ for qemu-devel@nongnu.org; Mon, 13 Jul 2020 06:06:24 -0400
+Received: from mail-eopbgr70119.outbound.protection.outlook.com
+ ([40.107.7.119]:32430 helo=EUR04-HE1-obe.outbound.protection.outlook.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <Filip.Bozuta@syrmia.com>)
+ id 1juvLo-0004XV-Do
+ for qemu-devel@nongnu.org; Mon, 13 Jul 2020 06:06:23 -0400
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=bmGeA6VIDDNwEq4Ka5PkCJGXUODnb5Z+pwCIuRB/1xzSRIKRIImV5uL7NKr6pUBndrfme89HBixxIA5sQTZXMVsOX5oCQMSLYSuLD46mAgIaENT88TvfTvOt/3dL+v5ZXhk1MbN6/ORppoW55Ss1evr+iMJhB6QrOBv7oOu/G+eVv3ac4ssjWCgZUQA3EI+TyL+5kHOOEIuVhuICYFxmrbz7I7gArkREN9n1wAAiA26GIlAojIt/g5Wbed9UHneprOKbHP5UvqPEFgn/yVnsVtHTZmfuanMPig8ldYDxQj706QcSqHcsgX+CmYFSrvBfiOHCF1cl6KS6xXeI6MXtSA==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=RXTlyUUfg6W4pfRsL1Bgi5IplC05ZJVUd0fpCuF4g0s=;
+ b=d0Kz1U8K6exbxyKSx9Q7hnuIaIrrfMN+5kVpTLAJTyDonymAflQ5KjY93afYdjYtHS2YTGwWjEdQ+ipHoYCpv19Zl/l+xeT+gC9u2SpuZkDmfkJlpa35lCnAiqVPQMcxPN9oYnGJLcmz0oWppKEhdklILEFWvYVutILeF3OByKfmKn7QZzx4VdKhu8xcfIHDm9lffrWG+ob5k0C7cVbSQ3J+wB0ZwAyp1t5onQzByuQWQK/6HjZLDi6W2l/wHACXcT9CSHcIc/RLHChMk8wEZKFXCq3POaMHmA4BGNlJVGvyIjWzIgz3ZEXhn+lDDj+F/ZH1RQMH8tg4Sl7QYvLlkA==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=syrmia.com; dmarc=pass action=none header.from=syrmia.com;
+ dkim=pass header.d=syrmia.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=syrmia.com;
+ s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=RXTlyUUfg6W4pfRsL1Bgi5IplC05ZJVUd0fpCuF4g0s=;
+ b=N2x70x4E2UqRaOuevkr6J8VlHlcdFPJ8v/e7VExwyPsQQD/GTmpzfeWChgu5L+I4nZ1mATvRwesqgJrs58IhUi47R2L2w5p/h5K/uTt03Dpmyvhntd8neyGdHdEbs1Wwbufq9bgYnHGUkiozyRN7hWyvkb/Rt1l0yZbeadGUqCs=
+Authentication-Results: nongnu.org; dkim=none (message not signed)
+ header.d=none;nongnu.org; dmarc=none action=none header.from=syrmia.com;
+Received: from AM6PR03MB5233.eurprd03.prod.outlook.com (2603:10a6:20b:d1::19)
+ by AM6PR03MB5234.eurprd03.prod.outlook.com (2603:10a6:20b:c3::23)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3174.20; Mon, 13 Jul
+ 2020 09:51:14 +0000
+Received: from AM6PR03MB5233.eurprd03.prod.outlook.com
+ ([fe80::98f0:b948:78a8:f618]) by AM6PR03MB5233.eurprd03.prod.outlook.com
+ ([fe80::98f0:b948:78a8:f618%7]) with mapi id 15.20.3174.025; Mon, 13 Jul 2020
+ 09:51:13 +0000
+From: Filip Bozuta <Filip.Bozuta@syrmia.com>
+To: qemu-devel@nongnu.org
+Subject: [PATCH v2 0/4] Add strace support for printing arguments for a group
+ of selected syscalls
+Date: Mon, 13 Jul 2020 11:50:54 +0200
+Message-Id: <20200713095058.106624-1-Filip.Bozuta@syrmia.com>
+X-Mailer: git-send-email 2.25.1
 Content-Transfer-Encoding: 8bit
-Content-Disposition: inline
-Received-SPF: pass client-ip=205.139.110.61; envelope-from=kraxel@redhat.com;
- helo=us-smtp-delivery-1.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/07/13 01:36:29
-X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
-X-Spam_score_int: -40
-X-Spam_score: -4.1
-X-Spam_bar: ----
-X-Spam_report: (-4.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-1, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+Content-Type: text/plain
+X-ClientProxiedBy: GV0P278CA0050.CHEP278.PROD.OUTLOOK.COM
+ (2603:10a6:710:29::19) To AM6PR03MB5233.eurprd03.prod.outlook.com
+ (2603:10a6:20b:d1::19)
+MIME-Version: 1.0
+X-MS-Exchange-MessageSentRepresentingType: 1
+Received: from localhost.localdomain (147.91.217.238) by
+ GV0P278CA0050.CHEP278.PROD.OUTLOOK.COM (2603:10a6:710:29::19) with Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.3174.22 via Frontend Transport; Mon, 13 Jul 2020 09:51:12 +0000
+X-Mailer: git-send-email 2.25.1
+X-Originating-IP: [147.91.217.238]
+X-MS-PublicTrafficType: Email
+X-MS-Office365-Filtering-Correlation-Id: 14206472-fb00-478f-d747-08d82712475e
+X-MS-TrafficTypeDiagnostic: AM6PR03MB5234:
+X-MS-Exchange-Transport-Forked: True
+X-Microsoft-Antispam-PRVS: <AM6PR03MB5234A4156C1C7162BDBC6803EB600@AM6PR03MB5234.eurprd03.prod.outlook.com>
+X-MS-Oob-TLC-OOBClassifiers: OLM:8273;
+X-MS-Exchange-SenderADCheck: 1
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: LspLEPGDo7y7z41ztCTmBjkRf9UaGJ0l/knfr+FlT8vLX8DHK2cV+xjaPQleGHL2duUjl5k2w1WU/duCwp23nVMdBSbbIExCMcCa1EfaiV4JYmFzF9JUNuvX7vsDA4jmsE9tIKwnirpLM9Q2KxVM25SgpnHODeXN6W6AhbhvNTRKV3BEi9iCefObWIiU3qDmHB6iq5n17AvtWmXlUbDvcHiK5bqB+ffdf2ykuosO789Gfah3FJfSudm2aGOGL54k2WQIQJX5wYX4E5/GOzIaN/KBN+jJrixWEG4Dj31NVjUaK5DeHgILsGHxlNOob+D4jWcnt5+GRTOQiOjegTY32FzG6BmcEqxPcEmE5ipwDbiA3E6D177Jfvxnsfept+EI
+X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:AM6PR03MB5233.eurprd03.prod.outlook.com; PTR:; CAT:NONE;
+ SFTY:;
+ SFS:(376002)(346002)(366004)(136003)(396003)(39830400003)(54906003)(86362001)(6916009)(16526019)(8676002)(69590400007)(6486002)(2616005)(26005)(8936002)(316002)(186003)(956004)(508600001)(83380400001)(4326008)(107886003)(66556008)(66946007)(66476007)(52116002)(6506007)(1076003)(5660300002)(6512007)(6666004)(2906002)(36756003);
+ DIR:OUT; SFP:1102; 
+X-MS-Exchange-AntiSpam-MessageData: MuEZILuDxLnp0XTzlh02xl76svaIhr7xJJQsAQjiKfAMaC5C37wlfF7NW3bPOLpU2n+rr1c4ltWj+xZ3RAR7iG94Z/ZRg5CtnKJdzwL++SrM1m/PuiHmWQbea6CZTA6ae+6zcW/v3C2dzRTWr88ddpG2kGcCZzMPrXaW6EY8MnjHgikNY3/Td6Xp1qhxyscMIkFQYwQWXbFZXuLP3bJsN/aDlSDnYOAXA/jczoDmm+a+MybC7yRbxAM/umAPDuren2ki7hPOFsRJ7p5dH46ZuUUGrVfF/UY7oZ7znTT2TY4fwsWSgXwH4z4lnHe9f60TGCClYbqxVKa8kGuVh+6q2hcDWetfonO3PqnS/4Ssvli0Vu8jMPGIpf0pYH/KVF8Pr2oiqdP2jNadGBnjZiMDo61vw/yWvQ1ueVb5PoPc+8XOVZCL/FJB2myHfAFQj/BSkNercAMbBt/MqQ6pmw/uwyXzAc1DOEjw03DIwBQ+pk8=
+X-OriginatorOrg: syrmia.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 14206472-fb00-478f-d747-08d82712475e
+X-MS-Exchange-CrossTenant-AuthSource: AM6PR03MB5233.eurprd03.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 13 Jul 2020 09:51:13.7685 (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 19214a73-c1ab-4e19-8f59-14bdcb09a66e
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: zyfgYQBPwZ2Q+K5ceyPv9dnrZnBCs1/7pH4lvm47TS1ewqjgrRcKutl5c8zG6BL+OfKd9pc8pNT5i6XSfl4/LA==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: AM6PR03MB5234
+Received-SPF: pass client-ip=40.107.7.119;
+ envelope-from=Filip.Bozuta@syrmia.com;
+ helo=EUR04-HE1-obe.outbound.protection.outlook.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/07/13 06:06:18
+X-ACL-Warn: Detected OS   = Windows NT kernel [generic] [fuzzy]
+X-Spam_score_int: 10
+X-Spam_score: 1.0
+X-Spam_bar: +
+X-Spam_report: (1.0 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1, DKIM_VALID=-0.1,
+ DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, MSGID_FROM_MTA_HEADER=0.001,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-1, RCVD_IN_SBL_CSS=3.335,
+ RCVD_IN_SORBS_WEB=1.5, SPF_HELO_PASS=-0.001, SPF_PASS=-0.001,
+ URIBL_BLOCKED=0.001 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -82,64 +116,83 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Maydell <peter.maydell@linaro.org>,
- "Michael S. Tsirkin" <mst@redhat.com>,
- Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>, qemu-devel@nongnu.org,
- Jiaxun Yang <jiaxun.yang@flygoat.com>,
- "Edgar E. Iglesias" <edgar.iglesias@gmail.com>,
- Huacai Chen <chenhc@lemote.com>, Stefano Stabellini <sstabellini@kernel.org>,
- xen-devel@lists.xenproject.org, Yoshinori Sato <ysato@users.sourceforge.jp>,
- Paul Durrant <paul@xen.org>, Magnus Damm <magnus.damm@gmail.com>,
- Markus Armbruster <armbru@redhat.com>,
- =?utf-8?B?SGVydsOp?= Poussineau <hpoussin@reactos.org>,
- Anthony Perard <anthony.perard@citrix.com>,
- Samuel Thibault <samuel.thibault@ens-lyon.org>,
- Leif Lindholm <leif@nuviainc.com>,
- Aleksandar Rikalo <aleksandar.rikalo@syrmia.com>,
- Eduardo Habkost <ehabkost@redhat.com>,
- Alistair Francis <alistair@alistair23.me>,
- "Dr. David Alan Gilbert" <dgilbert@redhat.com>,
- Beniamino Galvani <b.galvani@gmail.com>,
- Niek Linnenbank <nieklinnenbank@gmail.com>, qemu-arm@nongnu.org,
- =?utf-8?Q?Marc-Andr=C3=A9?= Lureau <marcandre.lureau@redhat.com>,
- Richard Henderson <rth@twiddle.net>,
- Radoslaw Biernacki <radoslaw.biernacki@linaro.org>,
- Igor Mitsyanko <i.mitsyanko@gmail.com>,
- Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
- Paul Zimmerman <pauldzim@gmail.com>, qemu-ppc@nongnu.org,
- David Gibson <david@gibson.dropbear.id.au>,
- Paolo Bonzini <pbonzini@redhat.com>
+Cc: Laurent Vivier <laurent@vivier.eu>, Filip Bozuta <Filip.Bozuta@syrmia.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Sat, Jul 04, 2020 at 04:49:17PM +0200, Philippe Mathieu-Daudé wrote:
-> Hi,
-> 
-> This is the second time I try to replace a magic typename string
-> by a constant, and Zoltan warns me this is counter productive as
-> "hw/usb.h" pulls in an insane amount of code.
-> 
-> Time to give the usb subsystem some love and move forward.
-> 
-> This series can be decomposed as follow:
-> 
->  1-2:    preliminary machine cleanups (arm/ppc)
->  3-13:   usb related headers cleanups
->  14-15:  usb quirks cleanup
->  16-18:  refactor usb_get_dev_path() to add usb_get_port_path()
->  19:     let spapr use usb_get_port_path() to make USBDevice opaque
->  20:     extract the public USB API (for machine/board/soc)
->  21:     make the older "usb.h" internal to hw/usb/
->  22-25:  use TYPENAME definitions
->  26:     cover dwc2 in MAINTAINERS
-> 
-> Please review.
+This series covers strace support for following syscalls:
 
-Looks good overall, I don't fell like squeezing this into 5.1 though.
-Can you repost (with the few comments addressed) once 5.2 is open for
-development in roughly a month?
+   *truncate()     *munlock()          *clock_gettimeofday()
+   *ftruncate()    *munlockall()       *clock_getitimer()
+   *getsid()       *clock_getres()     *clock_setitimer()
+   *mlock()        *clock_gettime()
+   *mlockall()     *clock_settime()
 
-thanks,
-  Gerd
+Testing method:
+
+    Mini test programs were written that run these syscalls for different arguments.
+    Those programs were compiled (sometimes using cross-compilers) for the following
+    architectures:
+
+        * Intel 64-bit (little endian) (gcc)
+        * Power pc 32-bit (big endian) (powerpc-linux-gnu-gcc)
+        * Power pc 64-bit (big endian) (powerpc64-linux-gnu-gcc)
+
+    The corresponding native programs were executed with strace, without using
+    QEMU, on intel (x86_64) host.
+
+    All applicable compiled programs were in turn executed with "-strace"
+    through QEMU and the strace printing results obtained were the same
+    ones gotten for native execution.
+
+v2:
+    * added patch that enables 'cpu_env' to be accessible from "strace.c"
+    * cut and pasted "regpairs_aligned" from 'syscall.c' to 'qemu.h' so
+      that it can be used for "print_truncate64" and "print_ftruncate64"
+    * changed flag names from 'TARGET_MLOCKALL_MCL_*' to 'TARGET_MCL_*'
+    * added target flag value 'TARGET_MCL_ONFAULT' for 'MCL_ONFAULT'
+    * added 'print_syscall_ret_setitimer' for old value of the interval
+      timer
+    * added a function 'print_itimer_type' that prints the interval timer
+      type
+
+Filip Bozuta (4):
+  linux-user: Make cpu_env accessible in strace.c
+  linux-user: Add strace support for printing arguments of
+    truncate()/ftruncate() and getsid()
+  linux-user: Add strace support for printing arguments of syscalls used
+    to lock and unlock memory
+  linux-user: Add strace support for printing arguments of some clock
+    and time functions
+
+ linux-user/aarch64/target_syscall.h    |   5 +-
+ linux-user/alpha/target_syscall.h      |   5 +-
+ linux-user/arm/target_syscall.h        |   6 +-
+ linux-user/cris/target_syscall.h       |   5 +-
+ linux-user/hppa/target_syscall.h       |   5 +-
+ linux-user/i386/target_syscall.h       |   5 +-
+ linux-user/m68k/target_syscall.h       |   6 +-
+ linux-user/microblaze/target_syscall.h |   5 +-
+ linux-user/mips/target_syscall.h       |   5 +-
+ linux-user/mips64/target_syscall.h     |   5 +-
+ linux-user/nios2/target_syscall.h      |   5 +-
+ linux-user/openrisc/target_syscall.h   |   5 +-
+ linux-user/ppc/target_syscall.h        |   5 +-
+ linux-user/qemu.h                      |  39 +-
+ linux-user/riscv/target_syscall.h      |   5 +-
+ linux-user/s390x/target_syscall.h      |   5 +-
+ linux-user/sh4/target_syscall.h        |   5 +-
+ linux-user/sparc/target_syscall.h      |   5 +-
+ linux-user/sparc64/target_syscall.h    |   5 +-
+ linux-user/strace.c                    | 755 +++++++++++++++++--------
+ linux-user/strace.list                 |  35 +-
+ linux-user/syscall.c                   |  47 +-
+ linux-user/tilegx/target_syscall.h     |   5 +-
+ linux-user/x86_64/target_syscall.h     |   5 +-
+ linux-user/xtensa/target_syscall.h     |   5 +-
+ 25 files changed, 648 insertions(+), 335 deletions(-)
+
+-- 
+2.25.1
 
 
