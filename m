@@ -2,69 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 99BCB21D817
-	for <lists+qemu-devel@lfdr.de>; Mon, 13 Jul 2020 16:16:02 +0200 (CEST)
-Received: from localhost ([::1]:38774 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id BFCE021D851
+	for <lists+qemu-devel@lfdr.de>; Mon, 13 Jul 2020 16:23:40 +0200 (CEST)
+Received: from localhost ([::1]:44518 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1juzFR-0004i3-Ie
-	for lists+qemu-devel@lfdr.de; Mon, 13 Jul 2020 10:16:01 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:35332)
+	id 1juzMp-0001hs-Q7
+	for lists+qemu-devel@lfdr.de; Mon, 13 Jul 2020 10:23:39 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:35374)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1juzB4-0005Z8-Sn
- for qemu-devel@nongnu.org; Mon, 13 Jul 2020 10:11:31 -0400
-Received: from mail-wm1-x32d.google.com ([2a00:1450:4864:20::32d]:38396)
+ id 1juzB6-0005d3-Rb
+ for qemu-devel@nongnu.org; Mon, 13 Jul 2020 10:11:32 -0400
+Received: from mail-wm1-x343.google.com ([2a00:1450:4864:20::343]:40778)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1juzB2-0006f4-EK
- for qemu-devel@nongnu.org; Mon, 13 Jul 2020 10:11:30 -0400
-Received: by mail-wm1-x32d.google.com with SMTP id f18so13314488wml.3
- for <qemu-devel@nongnu.org>; Mon, 13 Jul 2020 07:11:27 -0700 (PDT)
+ id 1juzB3-0006fG-6Q
+ for qemu-devel@nongnu.org; Mon, 13 Jul 2020 10:11:32 -0400
+Received: by mail-wm1-x343.google.com with SMTP id f139so13315713wmf.5
+ for <qemu-devel@nongnu.org>; Mon, 13 Jul 2020 07:11:28 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:subject:date:message-id:in-reply-to:references:mime-version
  :content-transfer-encoding;
- bh=XA7EtZ0Jb+HkGsgLo2baaKD+l0umSsxaqLrlSb4bGaw=;
- b=wo6TEw2zsJzv0qwyJjyck04dx/CEfRVOcu6q2WbEUNQaWi36DKpDvad1BicRchd8SB
- 5ewbi7yscmM6cjsj/285AGLORJf0oKtNSA7vrPyOrm/P5SsDqx5yjfKoPtaSub0P0bTb
- y+Dh8SMn0xAYtgBNWiXObh1JuRsBpGpyHjNDsoYfJ+cLfIQCenfZ6j9ecBxHq7wq+CYG
- Z13q7a5F3LFhoxmfTx3UKMb4ZN2jH1VJ9v2JQXF2e59+9Tmjbixnyqr/0sD8Uie46SR3
- SAVQRHT5pzEdCJ6EddiG26yTEN11e8tNZUWsUVbFI2PEu7mHBoIv8TndxGji7XsuRs3B
- 8S4A==
+ bh=7RhrIfAtLKSoFSnxW6rvMNP1lUxxCGQ7DmZjmW38djo=;
+ b=VZgFqRnYD9pvepuDFTsWH7Jhh5Ci2x/CKRlhOwN7Suc80tWKhZY8EtmYj1mMs1L+TO
+ V+jwSC34Opn9U443ml24ORyTcbFbrFGnxK8z1eSqgvn3f3ZthZQuVfjndTXnb+TQTwi4
+ DlbmNkqVfxdPzhDv1kh9FO4LXudh08aaEfRHG/9fYwlaH7i9WVNxIDuWa3HuzR6U/ipa
+ BGlGbipVTLvojLPI76C0vxn3qc9O/CPAMo4nBZCn/oQ4uKiJzUPBg2MIiNUNni6e/yT5
+ agSEJG9O7DVecbh4eYyA74xibn3+Qv4i5o3kxmDo3edHsLMQlbRslzrIuNDQfzhE1cuL
+ FRkg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=XA7EtZ0Jb+HkGsgLo2baaKD+l0umSsxaqLrlSb4bGaw=;
- b=HymhnwIp8h/rjXXzq94n23RzOzX0BBOU8dd52WnCSF5ofTMdXBGbIGfrxm2CiDFAfj
- jC01LjgDc0s6RiDyyJAZgltkfk3nLb0t1wxuKUX0b4uAWKTy+GF7xJRyfoCVvDozLwIv
- KDj+s/R3l/FN2098deGk+QaKYGwGI99lyB/4T7fIWoK7DYMkhun7y7st1uDC453j5UxB
- R7cFc8e6zm4VilTf6iEQ1eozwJILHaVrzWircITNnknewoLbnKb8YR6t22Hb5iin4UdQ
- 04L5yCaBVzCdAou8InRZJY/jOJbXXE8GxHjcaWjbVcQAz+IeRpJchCdMWZx/o8wVk1PN
- qt3w==
-X-Gm-Message-State: AOAM532RLpCTK0texpBc+0JhJry+FVh+V9WqUOfj/toPTSRX2k414tMI
- VRfYG3y1mIA+qReNDhUYYEDsGPilU8H7gA==
-X-Google-Smtp-Source: ABdhPJx0QDldgipL4zxkG7woCoVRxY1qbQLWR15sMhjtlQtLvxELfEzoGYrQL/+Ktow+kcJ+WuRUxg==
-X-Received: by 2002:a1c:6246:: with SMTP id w67mr178584wmb.42.1594649486743;
- Mon, 13 Jul 2020 07:11:26 -0700 (PDT)
+ bh=7RhrIfAtLKSoFSnxW6rvMNP1lUxxCGQ7DmZjmW38djo=;
+ b=kAAaezzfCi2OOmBcAvHYfVNnCk1HH5B/+UY9rvcdQLZu5C+8MloRD0uvsrccuPHyDj
+ kKzdc931bHl1XuDWdA8r9Ew3aNSpPN9IlCTxROyp2aTz/tXXNH8DMm38315VtbyQ7B1u
+ 6O7sfYSYFzUWJz6I77ylZNzH+aRpDOdhG57Rm9/5FKiFBYJWXwrehNx89bOjPX0JJ4Sk
+ tta5VsoBdySMH7lifENS8RO0H24vcu8hcLXC9XRR6C6y+6reF8tnBfT40TndXLKboBf5
+ ettMMjNEGo+xAb1hhI9HsjvCOzD2xxzA+rBOf4WJ2xlMzNYvH3C69orzoCZ3n9eXsEIx
+ cIwA==
+X-Gm-Message-State: AOAM531JGyJKEisURodRuMO3n3seDLlZqiqvLp2PQGG4lP34dO9xOEvr
+ QxVDvzfYJ16iCIkYma8w4ZSdm/ZXToZtQQ==
+X-Google-Smtp-Source: ABdhPJxaWwci1XS0FEYoWEEXM0MBsbY8Du7mcbApL9rlNhwlgIRHhF9p/zqacXLrquBQhqFBzvqzEw==
+X-Received: by 2002:a1c:9a81:: with SMTP id c123mr172245wme.46.1594649487712; 
+ Mon, 13 Jul 2020 07:11:27 -0700 (PDT)
 Received: from orth.archaic.org.uk (orth.archaic.org.uk. [81.2.115.148])
- by smtp.gmail.com with ESMTPSA id c136sm24031297wmd.10.2020.07.13.07.11.25
+ by smtp.gmail.com with ESMTPSA id c136sm24031297wmd.10.2020.07.13.07.11.26
  for <qemu-devel@nongnu.org>
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 13 Jul 2020 07:11:26 -0700 (PDT)
+ Mon, 13 Jul 2020 07:11:27 -0700 (PDT)
 From: Peter Maydell <peter.maydell@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PULL 18/25] target/nios2: in line the semantics of DISAS_UPDATE with
- other targets
-Date: Mon, 13 Jul 2020 15:10:57 +0100
-Message-Id: <20200713141104.5139-19-peter.maydell@linaro.org>
+Subject: [PULL 19/25] target/nios2: Use gen_io_start around wrctl instruction
+Date: Mon, 13 Jul 2020 15:10:58 +0100
+Message-Id: <20200713141104.5139-20-peter.maydell@linaro.org>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20200713141104.5139-1-peter.maydell@linaro.org>
 References: <20200713141104.5139-1-peter.maydell@linaro.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::32d;
- envelope-from=peter.maydell@linaro.org; helo=mail-wm1-x32d.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::343;
+ envelope-from=peter.maydell@linaro.org; helo=mail-wm1-x343.google.com
 X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
  That's all we know.
 X-Spam_score_int: -20
@@ -91,38 +90,44 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Wentong Wu <wentong.wu@intel.com>
 
-In line the semantics of DISAS_UPDATE on nios2 target with other targets
-which is to explicitly write the PC back into the cpu state before doing
-a tcg_gen_exit_tb().
+wrctl instruction on nios2 target will cause checking cpu
+interrupt but tcg_handle_interrupt() will call cpu_abort()
+if the CPU gets an interrupt while it's not in 'can do IO'
+state, so add gen_io_start around wrctl instruction. Also
+at the same time, end the onging TB with DISAS_UPDATE.
 
 Signed-off-by: Wentong Wu <wentong.wu@intel.com>
-Message-id: 20200710233433.19729-2-wentong.wu@intel.com
-Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
+Message-id: 20200710233433.19729-3-wentong.wu@intel.com
+Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
 Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
 ---
- target/nios2/translate.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ target/nios2/translate.c | 5 +++++
+ 1 file changed, 5 insertions(+)
 
 diff --git a/target/nios2/translate.c b/target/nios2/translate.c
-index 00b591cc298..c2a134f932d 100644
+index c2a134f932d..9824544eb37 100644
 --- a/target/nios2/translate.c
 +++ b/target/nios2/translate.c
-@@ -865,6 +865,7 @@ void gen_intermediate_code(CPUState *cs, TranslationBlock *tb, int max_insns)
-     /* Indicate where the next block should start */
-     switch (dc->is_jmp) {
-     case DISAS_NEXT:
-+    case DISAS_UPDATE:
-         /* Save the current PC back into the CPU register */
-         tcg_gen_movi_tl(cpu_R[R_PC], dc->pc);
-         tcg_gen_exit_tb(NULL, 0);
-@@ -872,7 +873,6 @@ void gen_intermediate_code(CPUState *cs, TranslationBlock *tb, int max_insns)
+@@ -32,6 +32,7 @@
+ #include "exec/cpu_ldst.h"
+ #include "exec/translator.h"
+ #include "qemu/qemu-print.h"
++#include "exec/gen-icount.h"
  
-     default:
-     case DISAS_JUMP:
--    case DISAS_UPDATE:
-         /* The jump will already have updated the PC register */
-         tcg_gen_exit_tb(NULL, 0);
-         break;
+ /* is_jmp field values */
+ #define DISAS_JUMP    DISAS_TARGET_0 /* only pc was modified dynamically */
+@@ -518,7 +519,11 @@ static void wrctl(DisasContext *dc, uint32_t code, uint32_t flags)
+     /* If interrupts were enabled using WRCTL, trigger them. */
+ #if !defined(CONFIG_USER_ONLY)
+     if ((instr.imm5 + CR_BASE) == CR_STATUS) {
++        if (tb_cflags(dc->tb) & CF_USE_ICOUNT) {
++            gen_io_start();
++        }
+         gen_helper_check_interrupts(dc->cpu_env);
++        dc->is_jmp = DISAS_UPDATE;
+     }
+ #endif
+ }
 -- 
 2.20.1
 
