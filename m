@@ -2,61 +2,66 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1CA4A21D847
-	for <lists+qemu-devel@lfdr.de>; Mon, 13 Jul 2020 16:21:35 +0200 (CEST)
-Received: from localhost ([::1]:34200 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2547021D8A7
+	for <lists+qemu-devel@lfdr.de>; Mon, 13 Jul 2020 16:34:34 +0200 (CEST)
+Received: from localhost ([::1]:58598 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1juzKo-0005xO-2s
-	for lists+qemu-devel@lfdr.de; Mon, 13 Jul 2020 10:21:34 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:37762)
+	id 1juzXN-00025m-75
+	for lists+qemu-devel@lfdr.de; Mon, 13 Jul 2020 10:34:33 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:38320)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <clg@kaod.org>) id 1juzJE-0004Dh-KF
- for qemu-devel@nongnu.org; Mon, 13 Jul 2020 10:19:56 -0400
-Received: from 1.mo173.mail-out.ovh.net ([178.33.111.180]:52394)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <clg@kaod.org>) id 1juzJC-0007na-Ed
- for qemu-devel@nongnu.org; Mon, 13 Jul 2020 10:19:56 -0400
-Received: from player778.ha.ovh.net (unknown [10.110.115.91])
- by mo173.mail-out.ovh.net (Postfix) with ESMTP id 095D5146E61
- for <qemu-devel@nongnu.org>; Mon, 13 Jul 2020 16:19:50 +0200 (CEST)
-Received: from kaod.org (82-64-250-170.subs.proxad.net [82.64.250.170])
- (Authenticated sender: clg@kaod.org)
- by player778.ha.ovh.net (Postfix) with ESMTPSA id 4C0AF1455718C;
- Mon, 13 Jul 2020 14:19:43 +0000 (UTC)
-Authentication-Results: garm.ovh; auth=pass
- (GARM-97G002f4ce4a81-69c6-402d-9314-f1e4916fb6b6,29C60B8BFD44B6CD822E82BF6A6060F4508BB267)
- smtp.auth=clg@kaod.org
-Subject: Re: [PATCH] hw/net/ftgmac100: Fix integer overflow in
- ftgmac100_do_tx()
-To: Peter Maydell <peter.maydell@linaro.org>,
- Mauro Matteo Cascella <mcascell@redhat.com>
-References: <20200710085417.638904-1-mcascell@redhat.com>
- <CAFEAcA-pRXOz5JVcwHa8=oaeogwaOK0YVXYQiJUpdM_rFZ+QTA@mail.gmail.com>
-From: =?UTF-8?Q?C=c3=a9dric_Le_Goater?= <clg@kaod.org>
-Message-ID: <d7affe2b-0a2c-4e06-a874-daccf16bd136@kaod.org>
-Date: Mon, 13 Jul 2020 16:19:42 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.9.0
+ (Exim 4.90_1) (envelope-from <eblake@redhat.com>) id 1juzKm-00079D-Oe
+ for qemu-devel@nongnu.org; Mon, 13 Jul 2020 10:21:32 -0400
+Received: from us-smtp-1.mimecast.com ([205.139.110.61]:26129
+ helo=us-smtp-delivery-1.mimecast.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <eblake@redhat.com>) id 1juzKl-00086b-1g
+ for qemu-devel@nongnu.org; Mon, 13 Jul 2020 10:21:32 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1594650090;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding;
+ bh=TMe58Q1Gt6tVW7PMBF/pfLOWo2f+zU7CJQAW/uywFPM=;
+ b=CuHZfhAvgf3j1mO3QvFoD1Ifw5kxYgpdL7usJYDjmDx0w6HNA9f9foEnndR6o7AqouzK56
+ 4X1JEKPT1BX0XFM72C7buXAAwcNWGCah1wyyh4QIgbTmQQS6/DPDG8hPaTr5P7SMSFHpBO
+ a9h6ASQXSlAjBDyEuzDPMG4Gq3p2OPQ=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-366-L0G3KfE3NXyfU-7FVGIBaw-1; Mon, 13 Jul 2020 10:21:09 -0400
+X-MC-Unique: L0G3KfE3NXyfU-7FVGIBaw-1
+Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
+ [10.5.11.13])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id A81921086
+ for <qemu-devel@nongnu.org>; Mon, 13 Jul 2020 14:21:08 +0000 (UTC)
+Received: from blue.redhat.com (ovpn-112-134.phx2.redhat.com [10.3.112.134])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 813A07621E
+ for <qemu-devel@nongnu.org>; Mon, 13 Jul 2020 14:21:08 +0000 (UTC)
+From: Eric Blake <eblake@redhat.com>
+To: qemu-devel@nongnu.org
+Subject: [PULL 0/5] NBD patches for 2020-07-13
+Date: Mon, 13 Jul 2020 09:21:01 -0500
+Message-Id: <20200713142106.261809-1-eblake@redhat.com>
 MIME-Version: 1.0
-In-Reply-To: <CAFEAcA-pRXOz5JVcwHa8=oaeogwaOK0YVXYQiJUpdM_rFZ+QTA@mail.gmail.com>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-X-Ovh-Tracer-Id: 7891995398697618332
-X-VR-SPAMSTATE: OK
-X-VR-SPAMSCORE: -100
-X-VR-SPAMCAUSE: gggruggvucftvghtrhhoucdtuddrgeduiedrvdekgdejiecutefuodetggdotefrodftvfcurfhrohhfihhlvgemucfqggfjpdevjffgvefmvefgnecuuegrihhlohhuthemucehtddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenucfjughrpefuvfhfhffkffgfgggjtgfgsehtjeertddtfeejnecuhfhrohhmpeevrogurhhitggpnfgvpgfiohgrthgvrhcuoegtlhhgsehkrghougdrohhrgheqnecuggftrfgrthhtvghrnhephfffgeelfeejudevuedvvdeigeduteetveffhfffudeggfegleeljeeuieefuedvnecukfhppedtrddtrddtrddtpdekvddrieegrddvhedtrddujedtnecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmohguvgepshhmthhpqdhouhhtpdhhvghlohepphhlrgihvghrjeejkedrhhgrrdhovhhhrdhnvghtpdhinhgvtheptddrtddrtddrtddpmhgrihhlfhhrohhmpegtlhhgsehkrghougdrohhrghdprhgtphhtthhopehqvghmuhdquggvvhgvlhesnhhonhhgnhhurdhorhhg
-Received-SPF: pass client-ip=178.33.111.180; envelope-from=clg@kaod.org;
- helo=1.mo173.mail-out.ovh.net
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/07/13 10:19:51
-X-ACL-Warn: Detected OS   = Linux 3.11 and newer
-X-Spam_score_int: -18
-X-Spam_score: -1.9
-X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_NONE=-0.0001,
- RCVD_IN_MSPIKE_H3=-0.01, RCVD_IN_MSPIKE_WL=-0.01, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=205.139.110.61; envelope-from=eblake@redhat.com;
+ helo=us-smtp-delivery-1.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/07/13 01:36:29
+X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
+X-Spam_score_int: -40
+X-Spam_score: -4.1
+X-Spam_bar: ----
+X-Spam_report: (-4.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-1, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001, URIBL_BLOCKED=0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -69,89 +74,47 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Andrew Jeffery <andrew@aj.id.au>, qemu-arm <qemu-arm@nongnu.org>,
- QEMU Developers <qemu-devel@nongnu.org>, ziming zhang <ezrakiez@gmail.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 7/10/20 1:33 PM, Peter Maydell wrote:
-> On Fri, 10 Jul 2020 at 09:56, Mauro Matteo Cascella <mcascell@redhat.com> wrote:
->>
->> An integer overflow issue was reported by Mr. Ziming Zhang, CC'd here. It
->> occurs while inserting the VLAN tag in packets whose length is less than
->> 12 bytes, as (len-12) is passed to memmove() without proper checking.
->> This patch is intended to fix this issue by checking the minimum
->> Ethernet frame size during packet transmission.
->>
->> Reported-by: Ziming Zhang <ezrakiez@gmail.com>
->> Signed-off-by: Mauro Matteo Cascella <mcascell@redhat.com>
->> ---
->>  hw/net/ftgmac100.c | 14 ++++++++++++++
->>  1 file changed, 14 insertions(+)
->>
->> diff --git a/hw/net/ftgmac100.c b/hw/net/ftgmac100.c
->> index 043ba61b86..bcf4d84aea 100644
->> --- a/hw/net/ftgmac100.c
->> +++ b/hw/net/ftgmac100.c
->> @@ -238,6 +238,11 @@ typedef struct {
->>   */
->>  #define FTGMAC100_MAX_FRAME_SIZE    9220
->>
->> +/*
->> + * Min frame size
->> + */
->> +#define FTGMAC100_MIN_FRAME_SIZE    64
->> +
->>  /* Limits depending on the type of the frame
->>   *
->>   *   9216 for Jumbo frames (+ 4 for VLAN)
->> @@ -507,6 +512,15 @@ static void ftgmac100_do_tx(FTGMAC100State *s, uint32_t tx_ring,
->>          }
->>
->>          len = FTGMAC100_TXDES0_TXBUF_SIZE(bd.des0);
->> +
->> +        /* drop small packets */
->> +        if (bd.des0 & FTGMAC100_TXDES0_FTS &&
->> +            len < FTGMAC100_MIN_FRAME_SIZE) {
->> +            qemu_log_mask(LOG_GUEST_ERROR, "%s: frame too small: %d bytes\n",
->> +                          __func__, len);
->> +            break;
->> +        }
->> +
-> 
-> Andrew, Cedric: do you have the datasheet for this devic? Do you
-> know if we should also be flagging the error back to the
-> guest somehow?
+The following changes since commit 00ce6c36b35e0eb8cc5d68a28f288a6335848813:
 
-zero is the only invalid size of a transmit buffer and the specs does
-not have any special information on which bit to raise in that case.
+  Merge remote-tracking branch 'remotes/huth-gitlab/tags/pull-request-2020-07-13' into staging (2020-07-13 13:01:30 +0100)
 
-I think FTGMAC100_INT_NO_NPTXBUF (transmit buffer unavailable) is our 
-best option and we should add an extra 'len == 0' test in front of 
-the dma_memory_read() call to raise it. A zero length is not considered 
-bogus by dma_memory_read() it seems. Is address zero considered bogus ? 
-If not, we need to check that also. 
+are available in the Git repository at:
 
-The code doing the memmove() should be protected by a check on the 
-length, 'sizeof(struct eth_header)' or ETH_HLEN. That will fix the 
-integer overflow. 
+  https://repo.or.cz/qemu/ericb.git tags/pull-nbd-2020-07-13
 
-For clarity, we could replace 12 and 16 by a L2 header size: 
-'sizeof(struct eth_header)' and 
-'sizeof(struct eth_header) + sizeof(struct vlan_header)'. It can be
-done later.
+for you to fetch changes up to df0e032b6196934b2b12180a6a05aa8b7e6553fc:
 
-Thanks,
+  iotests.py: filter_testfiles(): filter SOCK_DIR too (2020-07-13 09:01:01 -0500)
 
-C. 
+Patch 2 is a trivial patch that isn't really NBD-related, but which
+has been overlooked for too long now, so I just included it.
 
+----------------------------------------------------------------
+NBD patches for 2020-07-13
 
-> I think a 'break' here means we'll never update the
-> descriptor flags to hand it back to the guest, which
-> is probably not what the hardware does.
-> 
-> thanks
-> -- PMM
-> 
+- fix off-by-one truncation in corner-case name display
+- use fcntl correctly
+- iotest cleanups that enable testing an upcoming fix for NBD close
+
+----------------------------------------------------------------
+Eric Blake (2):
+      nbd: Avoid off-by-one in long export name truncation
+      hax: Fix setting of FD_CLOEXEC
+
+Vladimir Sementsov-Ogievskiy (3):
+      iotests: QemuIoInteractive: use qemu_io_args_no_fmt
+      iotests.py: QemuIoInteractive: print output on failure
+      iotests.py: filter_testfiles(): filter SOCK_DIR too
+
+ block/nbd.c                   |  2 +-
+ target/i386/hax-posix.c       |  6 +++---
+ tests/qemu-iotests/iotests.py | 15 +++++++++++----
+ 3 files changed, 15 insertions(+), 8 deletions(-)
+
+-- 
+2.27.0
 
 
