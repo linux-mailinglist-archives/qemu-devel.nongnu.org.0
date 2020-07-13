@@ -2,84 +2,73 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4FDFD21E0DB
-	for <lists+qemu-devel@lfdr.de>; Mon, 13 Jul 2020 21:37:09 +0200 (CEST)
-Received: from localhost ([::1]:46922 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 711EE21E0EF
+	for <lists+qemu-devel@lfdr.de>; Mon, 13 Jul 2020 21:45:56 +0200 (CEST)
+Received: from localhost ([::1]:44700 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jv4GC-0003lp-B8
-	for lists+qemu-devel@lfdr.de; Mon, 13 Jul 2020 15:37:08 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:46512)
+	id 1jv4Oh-00062M-FP
+	for lists+qemu-devel@lfdr.de; Mon, 13 Jul 2020 15:45:55 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:50722)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1jv4E3-0008W2-UO
- for qemu-devel@nongnu.org; Mon, 13 Jul 2020 15:34:55 -0400
-Received: from mail-wr1-x442.google.com ([2a00:1450:4864:20::442]:46226)
+ (Exim 4.90_1) (envelope-from <alistair23@gmail.com>)
+ id 1jv4Nl-0005U3-Mv; Mon, 13 Jul 2020 15:44:57 -0400
+Received: from mail-io1-xd42.google.com ([2607:f8b0:4864:20::d42]:33577)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1jv4E2-0008OM-D8
- for qemu-devel@nongnu.org; Mon, 13 Jul 2020 15:34:55 -0400
-Received: by mail-wr1-x442.google.com with SMTP id r12so17959571wrj.13
- for <qemu-devel@nongnu.org>; Mon, 13 Jul 2020 12:34:54 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <alistair23@gmail.com>)
+ id 1jv4Nk-000210-8I; Mon, 13 Jul 2020 15:44:57 -0400
+Received: by mail-io1-xd42.google.com with SMTP id d18so14840778ion.0;
+ Mon, 13 Jul 2020 12:44:55 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=sender:subject:to:cc:references:from:message-id:date:user-agent
- :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=QUwb+CcULRgt01uPt64VbH8CyEQOrMIa4AW37narjiE=;
- b=pNU5Z6Fl5d4ahxswWmANPXs6G2cYqSIcyUw4bSWXvesanwUcRBQ4f2tELfUOsvR+xt
- NZm8V7vziLtkp0C2stBYPmhWqGE6/wp8IeDUsYwSXjYCEB0bAOyv5/cMfUClVdfjXK1V
- Dm0efndLj/q30E3uXliztjsXPTtHpdwCJfslIBfcza6U4qRzY+1Km0ng2+purVltO39R
- zpm5M3flNI0BRXGok7+4ucUc6vPtikAA1D0PFvvds+TTTFGki4LoIQtwyOUiBOScuFET
- RJDz6BeTUWln/Hnn++OiLMn0qB0ybCb0xy2PAdO7mzzovEBwByMzygEkBi5qA1szgGia
- qgxA==
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc:content-transfer-encoding;
+ bh=3erh4qMgLZTK5xvcKDeAtxWG6rsClVq2Bn2xLBtZTq4=;
+ b=AddhXMGfhKBQgo4V3pC2KFjt4VxiCuvzXq7XE6p0cQhrg3IMKZ8GeXbcP2h8IYtQDt
+ Jrvq9DoQ2K2+/knlW0FTQF/sqNaM0qt4Thfpjuqphnhcj/83hDSqap6z4Mj5Sp9pmgag
+ AiP/aDMnHbgS8qsfVI/agXNOrFa/6cb6akzlXC+rioCYJflIwjbWE/WK7ZChWCYebpgI
+ jcls5Pfmo0sFSeucW/PhmyaXOy4Av/H3eFI51Zb8Js4eiCv13z8cn+Ckt4WHULmeAPWC
+ T92dzWwg40KBgE0qru9CU7BmKEVaGe3j6odv58glKO2KcsJu4CUZz9iqDKg3fGllRYvf
+ 1Z1w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:sender:subject:to:cc:references:from:message-id
- :date:user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=QUwb+CcULRgt01uPt64VbH8CyEQOrMIa4AW37narjiE=;
- b=r8FTqeqIyEbgUMrkgNfmhsQ7riuDZxjwKA7c2hDdcTLMkFvReFEsNlLFsEpbOuW1LE
- UEPdqWBaPeeN7N90cGbj1wiRmzX8R38y0qWh66tnerSfC+dMFiwjEdCtBGhVxWJWYkBE
- 89S6lORRQXBJuPEvwHo2pwNPwnSZ7j1RDScx7YJ/oYMBthsFXHK1cpmk9tQkbak6ivH8
- sslai41HPDb+V4nuuKs1uJGR7DU4pwNFAfQ6KMS7V4/tO6BSk8g5ks36qea9JsL160zB
- Vnf2Nq353yln2Zy03Xu+Y/s/SUz2LSsMKddRCWipROz/VIbOOw2MCmxgRohZx+r7G4VC
- t80g==
-X-Gm-Message-State: AOAM532XzTCU0esRt5RSE8OB/CXXDzaRoU5IVkoWHclatdC4zXLLfE0w
- pc22q1roCo8WioU4E1wbw0A=
-X-Google-Smtp-Source: ABdhPJwhWkr/N5sYj6U3rlddi8r5SqA323iVpNaBit7/JW2ALhLDHI3W4YdhbN0xcCjIkoDU9A07Sw==
-X-Received: by 2002:adf:ec42:: with SMTP id w2mr1054684wrn.269.1594668893216; 
- Mon, 13 Jul 2020 12:34:53 -0700 (PDT)
-Received: from [192.168.1.37] (138.red-83-57-170.dynamicip.rima-tde.net.
- [83.57.170.138])
- by smtp.gmail.com with ESMTPSA id h13sm810878wml.42.2020.07.13.12.34.52
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 13 Jul 2020 12:34:52 -0700 (PDT)
-Subject: Re: [RFC PATCH] tests/docker: Remove the libssh workaround from the
- ubuntu 20.04 image
-To: Thomas Huth <thuth@redhat.com>, =?UTF-8?Q?Alex_Benn=c3=a9e?=
- <alex.bennee@linaro.org>, qemu-devel@nongnu.org
-References: <20200713185237.9419-1-thuth@redhat.com>
-From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>
-Message-ID: <4fa8d43c-602b-2112-ebd2-63422ab8451e@amsat.org>
-Date: Mon, 13 Jul 2020 21:34:51 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.5.0
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc:content-transfer-encoding;
+ bh=3erh4qMgLZTK5xvcKDeAtxWG6rsClVq2Bn2xLBtZTq4=;
+ b=qPtnOtVyqvVDCzjRadeJWBjI/JK4zIClvNGUycVDhrotMdaCNjyUtmBIDL0Tq1CZiM
+ VxQ0sbNXq+8NeY1lakK11BWONP9PqtLcdOSWrx905bXYi1WDthbLSdNpuBby2wL+JSTf
+ olufrDu+O4H1gg3jxuWOnncO9KeiZOyerqJqZ0/OfWTguUFGZftBGzqmnS/6o4mW5hY2
+ y31vscahGVm3k/19UPdKzw5WOQPgEitJHoiFlltTHFLH8sKHg5tNSe4HBKYkAEU2pnlz
+ IPkaG69bF/vyvmigPRMZCLvCDjhV3AI+/KjEEGooYewGrzvTKx4YOlM3fmNS0aUOzl80
+ xyZQ==
+X-Gm-Message-State: AOAM530jbsbwmC7UNtXQKIntTIGmGDslLQY63A7llUkqhYkYFKyBYhdR
+ TzBFMGG7R+5/ewm7sWTS0au4xg5MeJplWK9P9ZI=
+X-Google-Smtp-Source: ABdhPJwc8weT/A55twXeNnLTPokqLCp90/VWIZplm6FbEjfhKkfd3qc6SAp5UzQ5YC/31kHO54/TLHd3ZEfIEVAYGZE=
+X-Received: by 2002:a5d:9306:: with SMTP id l6mr1386321ion.105.1594669494780; 
+ Mon, 13 Jul 2020 12:44:54 -0700 (PDT)
 MIME-Version: 1.0
-In-Reply-To: <20200713185237.9419-1-thuth@redhat.com>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::442;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wr1-x442.google.com
+References: <20200706084550.24117-1-amergnat@baylibre.com>
+ <CAKmqyKMhsF+X4L2Eahn3f-f-_F6ZUeTTimKWGibYo2VxVbFSiw@mail.gmail.com>
+ <CAFGrd9qQ=VVdv15tGoTK_MF+3gwp1AKtuMBQCP_XMNOHJdQsnw@mail.gmail.com>
+In-Reply-To: <CAFGrd9qQ=VVdv15tGoTK_MF+3gwp1AKtuMBQCP_XMNOHJdQsnw@mail.gmail.com>
+From: Alistair Francis <alistair23@gmail.com>
+Date: Mon, 13 Jul 2020 12:34:56 -0700
+Message-ID: <CAKmqyKPHZhCx9iTPAu-Zg5hyKqYCuUYG7t3p8rtTkOKHY4uEDA@mail.gmail.com>
+Subject: Re: [PATCH v1] target/riscv: fix pmp implementation
+To: Alexandre Mergnat <amergnat@baylibre.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=2607:f8b0:4864:20::d42;
+ envelope-from=alistair23@gmail.com; helo=mail-io1-xd42.google.com
 X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
  That's all we know.
-X-Spam_score_int: 0
-X-Spam_score: 0.0
-X-Spam_bar: /
-X-Spam_report: (0.0 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1, DKIM_VALID=-0.1,
- DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=1, FREEMAIL_FROM=0.001,
- HEADER_FROM_DIFFERENT_DOMAINS=1, RCVD_IN_DNSWL_NONE=-0.0001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- URIBL_BLOCKED=0.001 autolearn=no autolearn_force=no
+X-Spam_score_int: -17
+X-Spam_score: -1.8
+X-Spam_bar: -
+X-Spam_report: (-1.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ FREEMAIL_ENVFROM_END_DIGIT=0.25, FREEMAIL_FROM=0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -92,34 +81,87 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Fam Zheng <fam@euphon.net>
+Cc: "open list:RISC-V" <qemu-riscv@nongnu.org>,
+ Sagar Karandikar <sagark@eecs.berkeley.edu>, baylibre-upstreaming@groups.io,
+ Bastian Koppelmann <kbastian@mail.uni-paderborn.de>,
+ "qemu-devel@nongnu.org Developers" <qemu-devel@nongnu.org>,
+ Nicolas Royer <nroyer@baylibre.com>,
+ Alistair Francis <Alistair.Francis@wdc.com>,
+ Palmer Dabbelt <palmer@dabbelt.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 7/13/20 8:52 PM, Thomas Huth wrote:
-> The libssh problem only exists in Ubuntu 18.04 - we can enable it
-> in 20.04 again.
-> 
-> Signed-off-by: Thomas Huth <thuth@redhat.com>
-> ---
->  tests/docker/dockerfiles/ubuntu2004.docker | 3 ---
->  1 file changed, 3 deletions(-)
-> 
-> diff --git a/tests/docker/dockerfiles/ubuntu2004.docker b/tests/docker/dockerfiles/ubuntu2004.docker
-> index f7aac840bf..8d10934a2a 100644
-> --- a/tests/docker/dockerfiles/ubuntu2004.docker
-> +++ b/tests/docker/dockerfiles/ubuntu2004.docker
-> @@ -65,9 +65,6 @@ RUN apt-get update && \
->  RUN dpkg -l $PACKAGES | sort > /packages.txt
->  ENV FEATURES clang tsan pyyaml sdl2
->  
-> -# https://bugs.launchpad.net/qemu/+bug/1838763
-> -ENV QEMU_CONFIGURE_OPTS --disable-libssh
-> -
->  # Apply patch https://reviews.llvm.org/D75820
->  # This is required for TSan in clang-10 to compile with QEMU.
->  RUN sed -i 's/^const/static const/g' /usr/lib/llvm-10/lib/clang/10.0.0/include/sanitizer/tsan_interface.h
-> 
+On Mon, Jul 13, 2020 at 3:10 AM Alexandre Mergnat <amergnat@baylibre.com> w=
+rote:
+>
+> Le ven. 10 juil. 2020 =C3=A0 22:35, Alistair Francis <alistair23@gmail.co=
+m> a =C3=A9crit :
+> >
+> > On Mon, Jul 6, 2020 at 2:45 AM Alexandre Mergnat <amergnat@baylibre.com=
+> wrote:
+> > >
+> > > The end address calculation for NA4 mode is wrong because the address
+> > > used isn't shifted.
+> > >
+> > > That imply all NA4 setup are not applied by the PMP.
+> >
+> > I'm not sure what you mean here, can you clarify this?
+>
+> I'm just saying NA4 configuration doesn't work properly on QEMU (It
+> doesn't watch 4byte but a huge range)
+> because the end address calculation is wrong.
 
-Reviewed-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
+Ok, I replaced the original sentence with:
+
+It doesn't watch 4 bytes but a huge range because the end address
+calculation is wrong.
+
+and changed the title to: target/riscv: Fix pmp NA4 implementation
+
+and applied it to the RISC-V tree.
+
+Alistair
+
+>
+> >
+> > >
+> > > The solution is to use the shifted address calculated for start addre=
+ss
+> > > variable.
+> > >
+> > > Modifications are tested on Zephyr OS userspace test suite which work=
+s
+> > > for other RISC-V boards (E31 and E34 core).
+> > >
+> > > Signed-off-by: Alexandre Mergnat <amergnat@baylibre.com>
+> >
+> > Otherwise:
+> >
+> > Reviewed-by: Alistair Francis <alistair.francis@wdc.com>
+> >
+> > Alistair
+> >
+> > > ---
+> > >  target/riscv/pmp.c | 2 +-
+> > >  1 file changed, 1 insertion(+), 1 deletion(-)
+> > >
+> > > diff --git a/target/riscv/pmp.c b/target/riscv/pmp.c
+> > > index 9418660f1b..2a2b9f5363 100644
+> > > --- a/target/riscv/pmp.c
+> > > +++ b/target/riscv/pmp.c
+> > > @@ -171,7 +171,7 @@ static void pmp_update_rule(CPURISCVState *env, u=
+int32_t pmp_index)
+> > >
+> > >      case PMP_AMATCH_NA4:
+> > >          sa =3D this_addr << 2; /* shift up from [xx:0] to [xx+2:2] *=
+/
+> > > -        ea =3D (this_addr + 4u) - 1u;
+> > > +        ea =3D (sa + 4u) - 1u;
+> > >          break;
+> > >
+> > >      case PMP_AMATCH_NAPOT:
+> > > --
+> > > 2.17.1
+> > >
+> > >
 
