@@ -2,71 +2,84 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id AD1C521DC6A
-	for <lists+qemu-devel@lfdr.de>; Mon, 13 Jul 2020 18:32:58 +0200 (CEST)
-Received: from localhost ([::1]:45160 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8C62221DBA3
+	for <lists+qemu-devel@lfdr.de>; Mon, 13 Jul 2020 18:25:46 +0200 (CEST)
+Received: from localhost ([::1]:59006 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jv1Nx-00076t-PQ
-	for lists+qemu-devel@lfdr.de; Mon, 13 Jul 2020 12:32:57 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:60742)
+	id 1jv1Gz-0000gS-79
+	for lists+qemu-devel@lfdr.de; Mon, 13 Jul 2020 12:25:45 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:58420)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <alistair23@gmail.com>)
- id 1jv1Md-0005vK-AG
- for qemu-devel@nongnu.org; Mon, 13 Jul 2020 12:31:35 -0400
-Received: from mail-io1-xd43.google.com ([2607:f8b0:4864:20::d43]:37480)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <alistair23@gmail.com>)
- id 1jv1MZ-0004Cs-LJ
- for qemu-devel@nongnu.org; Mon, 13 Jul 2020 12:31:35 -0400
-Received: by mail-io1-xd43.google.com with SMTP id v6so14153539iob.4
- for <qemu-devel@nongnu.org>; Mon, 13 Jul 2020 09:31:30 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=XeGJ68ALK9v739cvfUbNwsv9r3rIlEAGhnpN7R5veLI=;
- b=a1nCGy60t7HQcvuEj41Pxx8ScXAngKhdoKbr490KgTEpCmLWyu1Jabsa93RqC/AnRy
- alIV2FoKt5mxdvV0rH8M2DQQiZATLigCpINeRiDr4R2zbzzvJBz4JLH0zX2LYe6B95te
- Hi0h/mP82xMv04kPh+aFKdTRzAIk+UfwPwpdJFJltErDpWpMy9f1wB+UnqVn1L+mqOHM
- wBwRxKyYTF+EdZwUNXqH9G6G2OqXl/ZN6ZwRRBXzXma1XXnsngtl6f38AZ/2FTAgmSN4
- zYRb4dx/phluP3pJFU+99vfe0ysEAkhw9PNyATc4j6izmLmh57UE8vXmZOYWEalu48rc
- YFdA==
+ (Exim 4.90_1) (envelope-from <quintela@redhat.com>)
+ id 1jv1Fg-00007l-O1
+ for qemu-devel@nongnu.org; Mon, 13 Jul 2020 12:24:24 -0400
+Received: from us-smtp-1.mimecast.com ([207.211.31.81]:34230
+ helo=us-smtp-delivery-1.mimecast.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <quintela@redhat.com>)
+ id 1jv1Fe-0003BT-7o
+ for qemu-devel@nongnu.org; Mon, 13 Jul 2020 12:24:24 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1594657455;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding;
+ bh=46Aa7HQbelRoFd6K8aVf/RQJENnJDc7oJtWPvk5gBjY=;
+ b=i7g+WROQ1ITzTQD1HOSEsIkPkr5MPqxOGmBc83RmSwGzsZnYkaEeyBwQgUOdlwV2AKrOEZ
+ 2drQXpRVPXZzcK2x4/RWGrVtmGZmi3z3qw+SWHKvdJEjcrw4DPyzK7RhjYlSbQPGIWSI3R
+ 36mKV7LxJh8A4d/d0mmbL/N5ZZCgVUc=
+Received: from mail-wm1-f70.google.com (mail-wm1-f70.google.com
+ [209.85.128.70]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-315-3jbfN8oKMpS6sqA-MdZy8g-1; Mon, 13 Jul 2020 12:24:13 -0400
+X-MC-Unique: 3jbfN8oKMpS6sqA-MdZy8g-1
+Received: by mail-wm1-f70.google.com with SMTP id y204so68141wmd.2
+ for <qemu-devel@nongnu.org>; Mon, 13 Jul 2020 09:24:13 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=XeGJ68ALK9v739cvfUbNwsv9r3rIlEAGhnpN7R5veLI=;
- b=uMXgOFQqzAyb/eP0kUxhqmDNhMuYGWWlH/xQ+GmTlezpJptLGkqlSYn5VZKwrQI47Z
- sT3acm7dMZvevnXCYr/AGF3FubxC/s9IWBC+9DPtM1MCiwqN4HATOn/GYccpYegUu04Q
- LhtxbutLfySVkXkdCbyYBVLLwXiiHl0cKraUHiPzp0L9+401UL66how2+pU4EhA8OAg0
- lNiii6EiljoMCLBP/p1BAokZKoYGlPYvPVPuEGa/24PvsBZMjk+3CPJxsvoWxCLvRIur
- z+b6grFQRa8QOB7SMy4hjxdc4szZU0wXSOieWAC+miiWnPVwxUMFacSqXqMVm4wPf466
- wzGQ==
-X-Gm-Message-State: AOAM531eXVVEu/Wu+Uf6epafe6Czn+MVRubemPX2TJAeX0sP3W7SHqnw
- RF6qhqX+gDhGyQB0aNZpTKJo8jigHzyQFmYa4XE=
-X-Google-Smtp-Source: ABdhPJxKAEJMeXO0Qj/AfrzOBO2SszpK8dJi6OuiewTA1IuoDqg5f8r0Nycz9xX1XeaVrnfYK35GOpA+nZ/1nbC+jpk=
-X-Received: by 2002:a02:878b:: with SMTP id t11mr1008506jai.106.1594657889823; 
- Mon, 13 Jul 2020 09:31:29 -0700 (PDT)
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=VmfMFWru+ksyQxzfSYOq8kbeP1yFqA4FJRlOADc6/cc=;
+ b=gaCyYLqD1qra1vgdsT3BOwAqOVzd69JEl/9wNbHF/Fw5TlVRc+V8S7IkKSnyNQ71+T
+ P/PY6ZL26/Qzg8B4/TIjUlAPAFniGXd5qLKeFgfWalo/NlcYGXPYMKVyf8lFw/9MSOg4
+ oRNE/4UflUUmf6wNT+oOC/n7yTiL863sFbxT8dIzG59BOYJZUP3w06HgvpMuZs/zjehw
+ YfxKHpWmcCTHYVuNb06bB+bI08WIFJ7sNU4BC61U0XYFWiqXXVuwnlnRTsbD0MqNgzRk
+ zeoJgsrgw1YOK4PAiaqznfDTLbMoPQ1SQpwvwNvy2BXuCILY8CsijiYRQboNd4i9jJjv
+ fGtg==
+X-Gm-Message-State: AOAM530/dSPom6t8EanwwrS5+HlnjEtP80URP6aHy8B4fnF4po91Vd9X
+ vqU4oQf/GYIeWx53Tr9NtwzbU7ddi9+izOCnxmOMO9vgqy+I+RmTSiIq8CA7XcKZj/4+pSd9o4S
+ dWQUxBdqi49IDkK0=
+X-Received: by 2002:a1c:2ec4:: with SMTP id u187mr159110wmu.188.1594657452306; 
+ Mon, 13 Jul 2020 09:24:12 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJxuBDIkn39c0idILDD1KhXPUPDgbT1QEgpJrZePDMxdltY7TfMejo5TPEU4L57igNjZsFcCtg==
+X-Received: by 2002:a1c:2ec4:: with SMTP id u187mr159094wmu.188.1594657452085; 
+ Mon, 13 Jul 2020 09:24:12 -0700 (PDT)
+Received: from localhost (trasno.trasno.org. [83.165.45.250])
+ by smtp.gmail.com with ESMTPSA id y77sm138642wmd.36.2020.07.13.09.24.11
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Mon, 13 Jul 2020 09:24:11 -0700 (PDT)
+From: Juan Quintela <quintela@redhat.com>
+To: qemu-devel@nongnu.org
+Subject: [PATCH v3 0/3] Migration Pull request
+Date: Mon, 13 Jul 2020 18:24:07 +0200
+Message-Id: <20200713162410.11577-1-quintela@redhat.com>
+X-Mailer: git-send-email 2.25.4
 MIME-Version: 1.0
-References: <1594600421-22942-1-git-send-email-wang.yi59@zte.com.cn>
-In-Reply-To: <1594600421-22942-1-git-send-email-wang.yi59@zte.com.cn>
-From: Alistair Francis <alistair23@gmail.com>
-Date: Mon, 13 Jul 2020 09:21:32 -0700
-Message-ID: <CAKmqyKOyiEbaW0-cwK3dK=FxguDxABGKWRafnbCt3C0d1xmycQ@mail.gmail.com>
-Subject: Re: [PATCH] tcg/riscv: Remove superfluous breaks
-To: Yi Wang <wang.yi59@zte.com.cn>
-Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2607:f8b0:4864:20::d43;
- envelope-from=alistair23@gmail.com; helo=mail-io1-xd43.google.com
-X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
- That's all we know.
-X-Spam_score_int: -17
-X-Spam_score: -1.8
-X-Spam_bar: -
-X-Spam_report: (-1.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- FREEMAIL_ENVFROM_END_DIGIT=0.25, FREEMAIL_FROM=0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- URIBL_BLOCKED=0.001 autolearn=ham autolearn_force=no
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=207.211.31.81; envelope-from=quintela@redhat.com;
+ helo=us-smtp-delivery-1.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/07/13 02:19:41
+X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
+X-Spam_score_int: -30
+X-Spam_score: -3.1
+X-Spam_bar: ---
+X-Spam_report: (-3.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H3=-0.01, RCVD_IN_MSPIKE_WL=-0.01,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -79,47 +92,39 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: xue.zhihong@zte.com.cn, wang.liang82@zte.com.cn,
- "qemu-devel@nongnu.org Developers" <qemu-devel@nongnu.org>,
- Liao Pingfang <liao.pingfang@zte.com.cn>
+Cc: quintela@trasno.org, "Dr. David Alan Gilbert" <dgilbert@redhat.com>,
+ Juan Quintela <quintela@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Sun, Jul 12, 2020 at 5:30 PM Yi Wang <wang.yi59@zte.com.cn> wrote:
->
-> From: Liao Pingfang <liao.pingfang@zte.com.cn>
->
-> Remove superfluous breaks, as there is a "return" before them.
->
-> Signed-off-by: Liao Pingfang <liao.pingfang@zte.com.cn>
+It includes several fixes:=0D
+=0D
+- fix qemu_fclose(denis)=0D
+- remove superfluous breaks (liao)=0D
+- fix memory leak (zheng)=0D
+=0D
+Please apply=0D
+=0D
+[v1 & v2]=0D
+=0D
+There was one error on the huawei address of the 1st patch and mail=0D
+was bouncing.  Fixed.=0D
+=0D
+Denis V. Lunev (1):=0D
+  migration/savevm: respect qemu_fclose() error code in save_snapshot()=0D
+=0D
+Liao Pingfang (1):=0D
+  migration/migration.c: Remove superfluous breaks=0D
+=0D
+Zheng Chuan (1):=0D
+  migration: fix memory leak in qmp_migrate_set_parameters=0D
+=0D
+ migration/migration.c | 6 ++----=0D
+ migration/savevm.c    | 8 ++++++--=0D
+ 2 files changed, 8 insertions(+), 6 deletions(-)=0D
+=0D
+--=20=0D
+2.25.4=0D
+=0D
 
-Thanks!
-
-Applied to riscv-to-apply.next
-
-Alistair
-
-> ---
->  tcg/riscv/tcg-target.inc.c | 2 --
->  1 file changed, 2 deletions(-)
->
-> diff --git a/tcg/riscv/tcg-target.inc.c b/tcg/riscv/tcg-target.inc.c
-> index 2bc0ba7..3c11ab8 100644
-> --- a/tcg/riscv/tcg-target.inc.c
-> +++ b/tcg/riscv/tcg-target.inc.c
-> @@ -502,10 +502,8 @@ static bool patch_reloc(tcg_insn_unit *code_ptr, int type,
->          break;
->      case R_RISCV_JAL:
->          return reloc_jimm20(code_ptr, (tcg_insn_unit *)value);
-> -        break;
->      case R_RISCV_CALL:
->          return reloc_call(code_ptr, (tcg_insn_unit *)value);
-> -        break;
->      default:
->          tcg_abort();
->      }
-> --
-> 2.9.5
->
->
 
