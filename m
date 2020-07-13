@@ -2,72 +2,72 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8EFBA21E12A
-	for <lists+qemu-devel@lfdr.de>; Mon, 13 Jul 2020 22:08:29 +0200 (CEST)
-Received: from localhost ([::1]:55154 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id EABC921E123
+	for <lists+qemu-devel@lfdr.de>; Mon, 13 Jul 2020 22:07:04 +0200 (CEST)
+Received: from localhost ([::1]:48854 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jv4kW-0006ka-Di
-	for lists+qemu-devel@lfdr.de; Mon, 13 Jul 2020 16:08:28 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:59502)
+	id 1jv4j9-0004Fq-VN
+	for lists+qemu-devel@lfdr.de; Mon, 13 Jul 2020 16:07:03 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:59486)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1jv4ge-000879-Va
- for qemu-devel@nongnu.org; Mon, 13 Jul 2020 16:04:29 -0400
-Received: from mail-wm1-x32a.google.com ([2a00:1450:4864:20::32a]:37542)
+ id 1jv4ge-000856-2L
+ for qemu-devel@nongnu.org; Mon, 13 Jul 2020 16:04:28 -0400
+Received: from mail-wr1-x444.google.com ([2a00:1450:4864:20::444]:44885)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1jv4gd-0006IX-8A
- for qemu-devel@nongnu.org; Mon, 13 Jul 2020 16:04:28 -0400
-Received: by mail-wm1-x32a.google.com with SMTP id o2so1076464wmh.2
- for <qemu-devel@nongnu.org>; Mon, 13 Jul 2020 13:04:26 -0700 (PDT)
+ id 1jv4gc-0006IH-3A
+ for qemu-devel@nongnu.org; Mon, 13 Jul 2020 16:04:27 -0400
+Received: by mail-wr1-x444.google.com with SMTP id b6so18142398wrs.11
+ for <qemu-devel@nongnu.org>; Mon, 13 Jul 2020 13:04:25 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=qFhIz7yTIzhv4ZECtrkYR3FRhbXI50/mJD1JravnOmY=;
- b=cKldk/6OJ9BpdVjh3uNLWqHfBSd6Niir92rdbxswNP6nDmR9QnWrzBg9GDexEHeGbp
- cuwBOZN4l9ZDGb3IVGDYL/DQ/1iLT2/4JF71A4Dlno12IOXOO5E2XiNZWLCSw8f5ba68
- lN1EtjT25fdp1Sahr+Sdwl/Igx+0hYbZ8bxxj7OQhB+zPNdzyjzRMA2nLBVgiJsqfq+b
- SQS2Rfc1kEOyHFQsGhHyhIOWH872mQD8sZnaVhraomgGYlh1AJ6MdHmf960SeLhQVIVF
- 399lbJ41szLAMILnEI+scbxvptUXbp//E35HmT+7TFXymW4vb9uMOD+7Slno7gf5RGhE
- xZFg==
+ bh=kb87PAc0ILcvwPMRDtx1z2EyoH/JKtctRlrd2cWmYmY=;
+ b=R7KFLfXvss6QA1s0lF4F3JbssBLto2qMYIIrmbreQJg1sgVQjo8itdImO5QxDT8A4k
+ nnARnsGWE5+oopWZMkD0YIUkdckB9oFrA2G3o9DDVQe1Q5+kcRN82vYTaFLkQz9UCmDz
+ vXA2eukaqhUEsffy5XUmju1jdRKnSVM1U5r+Db56u75Ws+IFIGdxWDJzf9XYxWGsbN7t
+ PiHWwUpGmI/39h01NM7SaGZwjcLPyRhwOIabQmgfzW3AaqegWEqaWWqVUTGSCChw0qxV
+ k68wV2Qluqy1OhnlEPfUvAKTTlBpquyLcNoriRz5HsbWrPCAiaDmDLua/vqh9KMRUPH+
+ 6g5w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=qFhIz7yTIzhv4ZECtrkYR3FRhbXI50/mJD1JravnOmY=;
- b=RKeOyAmNoTgUvPfTvPcjlsoOlVbZhpmHa8eeY9kGo0WcIK1fMaq8ZSbBx/SAKAVT2p
- 3NdInwXfFA5fFsNsKri4en9yAMtZSH0sxyI2hpc4XceJDd8kSehv+lQcLLBu7JHFgUzt
- Lj1TdKChc/xVOybfXDt6T35sN/v0+CxMCHft1ixlJ8OCXQ+x+QX/jCqKIy0tRTsTuyy9
- uDjj4KEmnc1EQF/cAtCwx3hWeNoGrzp+fbur38he8DCzn62cGV9OcLq9R8dbD7+pgus9
- xfr/nVoIG7sjit/y5QihaC0TCys8LDio9Ldr8/xN59F2IQzVNR1LcLo/YQatcHLUm4BR
- mC0w==
-X-Gm-Message-State: AOAM532s9IcQx5weRzBrqhu3KsTcXudXHmoCcbYJnadHrBREocIcKkw0
- xe4ePEGIxSh6YiqgGChbLWe68w==
-X-Google-Smtp-Source: ABdhPJwxlSKhMU/Vz84Uop3ctb505hTVWJy+k+9QzaLpygNwy/Dh+IOOVEeGCGURh7QmoHOjdYcnIQ==
-X-Received: by 2002:a05:600c:2f88:: with SMTP id
- t8mr1030337wmn.186.1594670665891; 
- Mon, 13 Jul 2020 13:04:25 -0700 (PDT)
+ bh=kb87PAc0ILcvwPMRDtx1z2EyoH/JKtctRlrd2cWmYmY=;
+ b=A+b9V702TiLZUZUh7HEm7FVA9/MccOA58uY1TBPno88ByfmpwvFuYFLzqA1XQ1RHoz
+ ZnIVqPJI3NRg+8qdnE9GsbR9Kmgf4Lp9VThEqpOYNL5cxQ0dI6I8KR6fQgxjb3tTmBx/
+ NSU4BvRaPu/TlZ6AceT3uFSylZ2UDBJcpaO/BLVSUMxitObDPv+EbbW7PI4kOepbDYW5
+ 8ftT+GzjAStoGH5puubIsMNOtLed1XKKMjviFeut+yGRR05pCusa7gjClH53IZQF914y
+ CbH0w2uul8imac+ey+T2wqEbiqYhrpaUJ3zlKipA5Pm0qCzdoCSHf0CBtQ9K3qQYk5KP
+ VT9w==
+X-Gm-Message-State: AOAM5319JFOfoP6Vgs3m917mseimHaScoQrWpzmlRy6lw+VYMWeGFzF/
+ TQODAzB9u747yTlwrjQotAkcSA==
+X-Google-Smtp-Source: ABdhPJwUyLxRrB1B22Q9XU6df9A42VKwqlpGTi3eVSOW0naoJZTIgfVAJDLs8boUFGlZ6P6ycW+ATg==
+X-Received: by 2002:adf:ff90:: with SMTP id j16mr1183783wrr.364.1594670664723; 
+ Mon, 13 Jul 2020 13:04:24 -0700 (PDT)
 Received: from zen.linaroharston ([51.148.130.216])
- by smtp.gmail.com with ESMTPSA id f17sm1010645wme.14.2020.07.13.13.04.19
+ by smtp.gmail.com with ESMTPSA id k131sm874059wmb.36.2020.07.13.13.04.19
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
  Mon, 13 Jul 2020 13:04:22 -0700 (PDT)
 Received: from zen.lan (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id 1254D1FF91;
+ by zen.linaroharston (Postfix) with ESMTP id 2C8A01FF92;
  Mon, 13 Jul 2020 21:04:16 +0100 (BST)
 From: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PATCH  v2 05/11] tests/plugins: don't unconditionally add -Wpsabi
-Date: Mon, 13 Jul 2020 21:04:09 +0100
-Message-Id: <20200713200415.26214-6-alex.bennee@linaro.org>
+Subject: [PATCH v2 06/11] cputlb: ensure we save the IOTLB data in case of
+ reset
+Date: Mon, 13 Jul 2020 21:04:10 +0100
+Message-Id: <20200713200415.26214-7-alex.bennee@linaro.org>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20200713200415.26214-1-alex.bennee@linaro.org>
 References: <20200713200415.26214-1-alex.bennee@linaro.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::32a;
- envelope-from=alex.bennee@linaro.org; helo=mail-wm1-x32a.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::444;
+ envelope-from=alex.bennee@linaro.org; helo=mail-wr1-x444.google.com
 X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
  That's all we know.
 X-Spam_score_int: -20
@@ -90,88 +90,164 @@ List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
 Cc: fam@euphon.net, berrange@redhat.com, robert.foley@linaro.org,
+ Paolo Bonzini <pbonzini@redhat.com>,
  =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>,
  richard.henderson@linaro.org, f4bug@amsat.org, robhenry@microsoft.com,
  aaron@os.amperecomputing.com, cota@braap.org, kuhn.chenqun@huawei.com,
- peter.puhov@linaro.org, aurelien@aurel32.net
+ peter.puhov@linaro.org, Eduardo Habkost <ehabkost@redhat.com>,
+ aurelien@aurel32.net, Richard Henderson <rth@twiddle.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Not all compilers support the -Wpsabi (clang-9 in my case). To handle
-this gracefully we pare back the shared build machinery so the
-Makefile is relatively "standalone". We still take advantage of
-config-host.mak as configure has done a bunch of probing for us but
-that is it.
+Any write to a device might cause a re-arrangement of memory
+triggering a TLB flush and potential re-size of the TLB invalidating
+previous entries. This would cause users of qemu_plugin_get_hwaddr()
+to see the warning:
 
-Fixes: bac8d222a
+  invalid use of qemu_plugin_get_hwaddr
+
+because of the failed tlb_lookup which should always succeed. To
+prevent this we save the IOTLB data in case it is later needed by a
+plugin doing a lookup.
+
 Signed-off-by: Alex Bennée <alex.bennee@linaro.org>
 
 ---
 v2
-  - separate from main build system and check probe
+  - save the entry instead of re-running the tlb_fill.
+v3
+  - don't abuse TLS, use CPUState to store data
+  - just use g_free_rcu() to avoid ugliness
+  - verify addr matches before returning data
+  - ws fix
+v4
+  - don't both with RCU, just store it in CPUState
+  - clean-up #ifdef'ery
+  - checkpatch
 ---
- configure             |  3 +++
- tests/plugin/Makefile | 22 ++++++++++++++++++----
- 2 files changed, 21 insertions(+), 4 deletions(-)
+ include/hw/core/cpu.h   | 16 ++++++++++++++++
+ include/qemu/typedefs.h |  1 +
+ accel/tcg/cputlb.c      | 38 +++++++++++++++++++++++++++++++++++---
+ 3 files changed, 52 insertions(+), 3 deletions(-)
 
-diff --git a/configure b/configure
-index e1de2f5b24..08eaa99d19 100755
---- a/configure
-+++ b/configure
-@@ -7112,6 +7112,9 @@ echo "GIT_UPDATE=$git_update" >> $config_host_mak
+diff --git a/include/hw/core/cpu.h b/include/hw/core/cpu.h
+index 5542577d2b..8f145733ce 100644
+--- a/include/hw/core/cpu.h
++++ b/include/hw/core/cpu.h
+@@ -259,6 +259,18 @@ struct CPUWatchpoint {
+     QTAILQ_ENTRY(CPUWatchpoint) entry;
+ };
  
- echo "ARCH=$ARCH" >> $config_host_mak
- 
-+echo "GLIB_CFLAGS=$glib_cflags" >> $config_host_mak
-+echo "GLIB_LDFLAGS=$glib_ldflags" >> $config_host_mak
++#ifdef CONFIG_PLUGIN
++/*
++ * For plugins we sometime need to save the resolved iotlb data before
++ * the memory regions get moved around  by io_writex.
++ */
++typedef struct SavedIOTLB {
++    hwaddr addr;
++    MemoryRegionSection *section;
++    hwaddr mr_offset;
++} SavedIOTLB;
++#endif
 +
- if test "$default_devices" = "yes" ; then
-   echo "CONFIG_MINIKCONF_MODE=--defconfig" >> $config_host_mak
- else
-diff --git a/tests/plugin/Makefile b/tests/plugin/Makefile
-index 3a50451428..e9348fde4a 100644
---- a/tests/plugin/Makefile
-+++ b/tests/plugin/Makefile
-@@ -1,9 +1,16 @@
-+# -*- Mode: makefile -*-
-+#
-+# This Makefile example is fairly independent from the main makefile
-+# so users can take and adapt it for their build. We only really
-+# include config-host.mak so we don't have to repeat probing for
-+# cflags that the main configure has already done for us.
-+#
+ struct KVMState;
+ struct kvm_run;
+ 
+@@ -417,7 +429,11 @@ struct CPUState {
+ 
+     DECLARE_BITMAP(plugin_mask, QEMU_PLUGIN_EV_MAX);
+ 
++#ifdef CONFIG_PLUGIN
+     GArray *plugin_mem_cbs;
++    /* saved iotlb data from io_writex */
++    SavedIOTLB saved_iotlb;
++#endif
+ 
+     /* TODO Move common fields from CPUArchState here. */
+     int cpu_index;
+diff --git a/include/qemu/typedefs.h b/include/qemu/typedefs.h
+index 15f5047bf1..427027a970 100644
+--- a/include/qemu/typedefs.h
++++ b/include/qemu/typedefs.h
+@@ -116,6 +116,7 @@ typedef struct QObject QObject;
+ typedef struct QString QString;
+ typedef struct RAMBlock RAMBlock;
+ typedef struct Range Range;
++typedef struct SavedIOTLB SavedIOTLB;
+ typedef struct SHPCDevice SHPCDevice;
+ typedef struct SSIBus SSIBus;
+ typedef struct VirtIODevice VirtIODevice;
+diff --git a/accel/tcg/cputlb.c b/accel/tcg/cputlb.c
+index 1e815357c7..d370aedb47 100644
+--- a/accel/tcg/cputlb.c
++++ b/accel/tcg/cputlb.c
+@@ -1073,6 +1073,24 @@ static uint64_t io_readx(CPUArchState *env, CPUIOTLBEntry *iotlbentry,
+     return val;
+ }
+ 
++/*
++ * Save a potentially trashed IOTLB entry for later lookup by plugin.
++ *
++ * We also need to track the thread storage address because the RCU
++ * cleanup that runs when we leave the critical region (the current
++ * execution) is actually in a different thread.
++ */
++static void save_iotlb_data(CPUState *cs, hwaddr addr,
++                            MemoryRegionSection *section, hwaddr mr_offset)
++{
++#ifdef CONFIG_PLUGIN
++    SavedIOTLB *saved = &cs->saved_iotlb;
++    saved->addr = addr;
++    saved->section = section;
++    saved->mr_offset = mr_offset;
++#endif
++}
 +
- BUILD_DIR := $(CURDIR)/../..
+ static void io_writex(CPUArchState *env, CPUIOTLBEntry *iotlbentry,
+                       int mmu_idx, uint64_t val, target_ulong addr,
+                       uintptr_t retaddr, MemOp op)
+@@ -1092,6 +1110,12 @@ static void io_writex(CPUArchState *env, CPUIOTLBEntry *iotlbentry,
+     }
+     cpu->mem_io_pc = retaddr;
  
- include $(BUILD_DIR)/config-host.mak
--include $(SRC_PATH)/rules.mak
- 
--$(call set-vpath, $(SRC_PATH)/tests/plugin)
-+VPATH += $(SRC_PATH)/tests/plugin
- 
- NAMES :=
- NAMES += bb
-@@ -17,11 +24,18 @@ NAMES += lockstep
- 
- SONAMES := $(addsuffix .so,$(addprefix lib,$(NAMES)))
- 
--QEMU_CFLAGS += -fPIC -Wpsabi
--QEMU_CFLAGS += -I$(SRC_PATH)/include/qemu
-+# The main QEMU uses Glib extensively so it's perfectly fine to use it
-+# in plugins (which many example do).
-+CFLAGS = $(GLIB_CFLAGS)
-+CFLAGS += -fPIC
-+CFLAGS += $(if $(findstring no-psabi,$(QEMU_CFLAGS)),-Wpsabi)
-+CFLAGS += -I$(SRC_PATH)/include/qemu
- 
- all: $(SONAMES)
- 
-+%.o: %.c
-+	$(CC) $(CFLAGS) -c -o $@ $<
++    /*
++     * The memory_region_dispatch may trigger a flush/resize
++     * so for plugins we save the iotlb_data just in case.
++     */
++    save_iotlb_data(cpu, iotlbentry->addr, section, mr_offset);
 +
- lib%.so: %.o
- 	$(CC) -shared -Wl,-soname,$@ -o $@ $^ $(LDLIBS)
+     if (mr->global_locking && !qemu_mutex_iothread_locked()) {
+         qemu_mutex_lock_iothread();
+         locked = true;
+@@ -1381,8 +1405,11 @@ void *tlb_vaddr_to_host(CPUArchState *env, abi_ptr addr,
+  * in the softmmu lookup code (or helper). We don't handle re-fills or
+  * checking the victim table. This is purely informational.
+  *
+- * This should never fail as the memory access being instrumented
+- * should have just filled the TLB.
++ * This almost never fails as the memory access being instrumented
++ * should have just filled the TLB. The one corner case is io_writex
++ * which can cause TLB flushes and potential resizing of the TLBs
++ * loosing the information we need. In those cases we need to recover
++ * data from a copy of the io_tlb entry.
+  */
  
+ bool tlb_plugin_lookup(CPUState *cpu, target_ulong addr, int mmu_idx,
+@@ -1406,8 +1433,13 @@ bool tlb_plugin_lookup(CPUState *cpu, target_ulong addr, int mmu_idx,
+             data->v.ram.hostaddr = addr + tlbe->addend;
+         }
+         return true;
++    } else {
++        SavedIOTLB *saved = &cpu->saved_iotlb;
++        data->is_io = true;
++        data->v.io.section = saved->section;
++        data->v.io.offset = saved->mr_offset;
++        return true;
+     }
+-    return false;
+ }
+ 
+ #endif
 -- 
 2.20.1
 
