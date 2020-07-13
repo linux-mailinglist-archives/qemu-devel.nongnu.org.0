@@ -2,69 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A7AEB21D84B
-	for <lists+qemu-devel@lfdr.de>; Mon, 13 Jul 2020 16:22:31 +0200 (CEST)
-Received: from localhost ([::1]:37824 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D84AF21D855
+	for <lists+qemu-devel@lfdr.de>; Mon, 13 Jul 2020 16:25:00 +0200 (CEST)
+Received: from localhost ([::1]:51212 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1juzLi-0007S2-JM
-	for lists+qemu-devel@lfdr.de; Mon, 13 Jul 2020 10:22:30 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:35236)
+	id 1juzO7-0004Q1-SJ
+	for lists+qemu-devel@lfdr.de; Mon, 13 Jul 2020 10:24:59 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:35258)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1juzAz-0005QT-U5
- for qemu-devel@nongnu.org; Mon, 13 Jul 2020 10:11:25 -0400
-Received: from mail-wm1-x343.google.com ([2a00:1450:4864:20::343]:52849)
+ id 1juzB1-0005Te-79
+ for qemu-devel@nongnu.org; Mon, 13 Jul 2020 10:11:27 -0400
+Received: from mail-wm1-x341.google.com ([2a00:1450:4864:20::341]:55186)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1juzAy-0006eF-AP
- for qemu-devel@nongnu.org; Mon, 13 Jul 2020 10:11:25 -0400
-Received: by mail-wm1-x343.google.com with SMTP id q15so13461959wmj.2
- for <qemu-devel@nongnu.org>; Mon, 13 Jul 2020 07:11:23 -0700 (PDT)
+ id 1juzAz-0006eW-Ci
+ for qemu-devel@nongnu.org; Mon, 13 Jul 2020 10:11:26 -0400
+Received: by mail-wm1-x341.google.com with SMTP id o8so13448174wmh.4
+ for <qemu-devel@nongnu.org>; Mon, 13 Jul 2020 07:11:24 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:subject:date:message-id:in-reply-to:references:mime-version
  :content-transfer-encoding;
- bh=74P0QPv7N4CwWIZNwbGdxlAllKsjgzH/XuRXK1wCbsM=;
- b=JDUik88I33XScCsoKOTAyMSzOzlE7JHbDELuA95WO/GYjRhlCixYgSeQkPPnL0O2IF
- FHxTlBU6M9Km4T3Dvzaa4l//LuJCdToG96PDCqsuYEl1oc4HyFnqpBa8LuM+6Kq5jxWE
- apcHfzp+wDeoHViwXs2J/rZy6YN+V9+iT5q2ejmuPnwpKp0nVbVCuROQ+bAOAkpoMDVC
- ukGaXHCp5tycC/YaohPwziBl11V9tNkpXOAhPjXhGOuKpxBi4nMSuqnTSYVk5kalltIR
- h0MGVnJByNeq3n7SVSsc7sjf+vGII6QXO6X+oQBd8EucADve+PyPNQzi+EEYuBNaw/ZE
- +FxQ==
+ bh=K8fsXAlUe8iXr9rVybQcSfsHKZEMrPOLeJ9Iej3RshE=;
+ b=Sh9zk5+NhZUUfu5oWQF3CR0CIDoHfeKDEFhqHTA4Ufqy4UFMwwoiETBHdr086HXj0U
+ +KlkNjvgBY93gS0cZE9iYCwzvXjoI1laMyOI/LZFhQoww9XvDBbec2psd13DrYP6uNCV
+ ZeC9fE1jhOSm9/tofYl4shbRjI8pcjC97213cRR5/SZTVgXEWPlAQJpjDmz4z6RdebEj
+ H/Jx9RU1m2sNnWzeeUK5sWWHYIa5yHLX4maPvwnO96HRd3N6wQwzb+hvEAcfLRnVzU82
+ 5VamQLS+yaoFdPPW8ITzYvIeDyFFnt7j+kmLkftvrRXvudnKXOt5pyn8ZnRHav4VplNV
+ BlUQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=74P0QPv7N4CwWIZNwbGdxlAllKsjgzH/XuRXK1wCbsM=;
- b=pPfKe9E30yFgB1XvX2p5Gc4FI1Bw1cLx9ZyK5LUkHnyxaww5xmSI+RMPiwbgJ4hhF8
- vrFL7R85/lW7DPy1xckAh6qqMyzQmzdiW6H29B0oQAGxppERtXL1KzXkiWC1yZOyEG+/
- aage55hytipv1Y//MJ1ldWAMHBiG+re2prjDwvRGO6AzGdm1gez33gg/X4yHvwFdSJiU
- GYqQPH01DYMaZcLZrSA1TCpcHMlSRmneW523EIYWUf+ZqxDnBgwR38+4LqngUsdP5pCr
- X4OVCdbLJ7WmQg/YgEm4Jqu00vkJf3gsfDP0UGgReKmYoLZ+lwpuyLZBSA8TjM+uGNu7
- W8Zw==
-X-Gm-Message-State: AOAM532ZzQr3M3GCyWu5RgC7T3XLI+PB7cjlA7+EK9UZS0ezI0nvnqvg
- UVUwyw+cWRVyRkoCRt9lygHP5++T4cS3yA==
-X-Google-Smtp-Source: ABdhPJzK74QtYyAmm/nDVLOtdaE21gpw2nLFIVoIfHVnNIaVlMvzNxMAJDjxoIt/0iKTc8py5TamOw==
-X-Received: by 2002:a7b:cc85:: with SMTP id p5mr184351wma.18.1594649482708;
- Mon, 13 Jul 2020 07:11:22 -0700 (PDT)
+ bh=K8fsXAlUe8iXr9rVybQcSfsHKZEMrPOLeJ9Iej3RshE=;
+ b=Dk4ZJwVYZ7q2huankpsU34HmsFOCp3ybieCdcfwq6Puo1NIyVX/geQWbDgOlxqZkqB
+ +1nzEYQUuzS5LzCP43FGt33iQF219az3FBt6Q9gdOFgl4fCEw6liXhM6TSlU44TuQL83
+ fwqlssncRQ6b0FC1hkXnSnGzK9IgdTDVVBAZ0uWLjLQ6VfMpvjVFQ+yHXgs6vucnosC2
+ 6xmMNr9OZAUE5QfbskqTFuCPHV4a8vLPzIcyhcApnNmdRltTIoqP6O+D+7juA3kdtFGe
+ M4ZmEpc7EGy93xRBacaTHNMRVcKHvl4S7VRXWHkYu5B9O9dtrek4kqq44GnYo423oqXK
+ k+gQ==
+X-Gm-Message-State: AOAM5333rZnfgIPKNgmUUoXWrbgTieZrA3BZYbxm443CXeeu6SPKqZFT
+ QhRzKl4+l00EEZPPz9+/OVlvGIHz5p+ogA==
+X-Google-Smtp-Source: ABdhPJwBBG8TwmzwiG1m9OUH7LN4gu+5RU4umE8uxvTRTph98RMcBhmA3EfwReDKKcgrbq8LosK6EA==
+X-Received: by 2002:a1c:bb89:: with SMTP id l131mr119568wmf.125.1594649483762; 
+ Mon, 13 Jul 2020 07:11:23 -0700 (PDT)
 Received: from orth.archaic.org.uk (orth.archaic.org.uk. [81.2.115.148])
- by smtp.gmail.com with ESMTPSA id c136sm24031297wmd.10.2020.07.13.07.11.21
+ by smtp.gmail.com with ESMTPSA id c136sm24031297wmd.10.2020.07.13.07.11.22
  for <qemu-devel@nongnu.org>
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 13 Jul 2020 07:11:22 -0700 (PDT)
+ Mon, 13 Jul 2020 07:11:23 -0700 (PDT)
 From: Peter Maydell <peter.maydell@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PULL 14/25] util/compatfd.c: Only include <sys/syscall.h> if
- CONFIG_SIGNALFD
-Date: Mon, 13 Jul 2020 15:10:53 +0100
-Message-Id: <20200713141104.5139-15-peter.maydell@linaro.org>
+Subject: [PULL 15/25] util/oslib-posix.c: Implement qemu_init_exec_dir() for
+ Haiku
+Date: Mon, 13 Jul 2020 15:10:54 +0100
+Message-Id: <20200713141104.5139-16-peter.maydell@linaro.org>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20200713141104.5139-1-peter.maydell@linaro.org>
 References: <20200713141104.5139-1-peter.maydell@linaro.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::343;
- envelope-from=peter.maydell@linaro.org; helo=mail-wm1-x343.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::341;
+ envelope-from=peter.maydell@linaro.org; helo=mail-wm1-x341.google.com
 X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
  That's all we know.
 X-Spam_score_int: -20
@@ -91,37 +91,57 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: David CARLIER <devnexen@gmail.com>
 
-util/compatfd.c includes <sys/syscall.h> so that the CONFIG_SIGNALFD
-code can use SYS_signalfd. Guard the #include with CONFIG_SIGNALFD
-to avoid portability issues on hosts like Haiku which do not
-provide that header file.
+The qemu_init_exec_dir() function is inherently non-portable;
+provide an implementation for Haiku hosts.
 
 Signed-off-by: David Carlier <devnexen@gmail.com>
 Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
-Reviewed-by: Thomas Huth <thuth@redhat.com>
 Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
-Message-id: 20200703145614.16684-8-peter.maydell@linaro.org
+Message-id: 20200703145614.16684-9-peter.maydell@linaro.org
 [PMM: Expanded commit message]
 Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
 Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
 ---
- util/compatfd.c | 2 ++
- 1 file changed, 2 insertions(+)
+ util/oslib-posix.c | 19 +++++++++++++++++++
+ 1 file changed, 19 insertions(+)
 
-diff --git a/util/compatfd.c b/util/compatfd.c
-index c296f55d148..ee47dd80897 100644
---- a/util/compatfd.c
-+++ b/util/compatfd.c
-@@ -16,7 +16,9 @@
- #include "qemu/osdep.h"
- #include "qemu/thread.h"
+diff --git a/util/oslib-posix.c b/util/oslib-posix.c
+index 7ad9195c445..72907d4d7fe 100644
+--- a/util/oslib-posix.c
++++ b/util/oslib-posix.c
+@@ -60,6 +60,10 @@
+ #include <mach-o/dyld.h>
+ #endif
  
-+#if defined(CONFIG_SIGNALFD)
- #include <sys/syscall.h>
++#ifdef __HAIKU__
++#include <kernel/image.h>
 +#endif
++
+ #include "qemu/mmap-alloc.h"
  
- struct sigfd_compat_info
- {
+ #ifdef CONFIG_DEBUG_STACK_USAGE
+@@ -389,6 +393,21 @@ void qemu_init_exec_dir(const char *argv0)
+             }
+         }
+     }
++#elif defined(__HAIKU__)
++    {
++        image_info ii;
++        int32_t c = 0;
++
++        *buf = '\0';
++        while (get_next_image_info(0, &c, &ii) == B_OK) {
++            if (ii.type == B_APP_IMAGE) {
++                strncpy(buf, ii.name, sizeof(buf));
++                buf[sizeof(buf) - 1] = 0;
++                p = buf;
++                break;
++            }
++        }
++    }
+ #endif
+     /* If we don't have any way of figuring out the actual executable
+        location then try argv[0].  */
 -- 
 2.20.1
 
