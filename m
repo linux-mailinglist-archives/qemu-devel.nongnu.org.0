@@ -2,67 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0B59821DC63
-	for <lists+qemu-devel@lfdr.de>; Mon, 13 Jul 2020 18:32:26 +0200 (CEST)
-Received: from localhost ([::1]:43376 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 98FC221DCC6
+	for <lists+qemu-devel@lfdr.de>; Mon, 13 Jul 2020 18:34:57 +0200 (CEST)
+Received: from localhost ([::1]:48584 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jv1NQ-0006NG-Ru
-	for lists+qemu-devel@lfdr.de; Mon, 13 Jul 2020 12:32:24 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:60502)
+	id 1jv1Ps-0000BB-My
+	for lists+qemu-devel@lfdr.de; Mon, 13 Jul 2020 12:34:56 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:33198)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <nsoffer@redhat.com>)
- id 1jv1M3-0005IQ-Ud
- for qemu-devel@nongnu.org; Mon, 13 Jul 2020 12:30:59 -0400
-Received: from us-smtp-2.mimecast.com ([207.211.31.81]:32962
+ id 1jv1Ou-0007uO-DD
+ for qemu-devel@nongnu.org; Mon, 13 Jul 2020 12:33:56 -0400
+Received: from us-smtp-2.mimecast.com ([207.211.31.81]:53528
  helo=us-smtp-delivery-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
  (Exim 4.90_1) (envelope-from <nsoffer@redhat.com>)
- id 1jv1M1-00048j-Rz
- for qemu-devel@nongnu.org; Mon, 13 Jul 2020 12:30:59 -0400
+ id 1jv1Os-0004Vy-V4
+ for qemu-devel@nongnu.org; Mon, 13 Jul 2020 12:33:56 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1594657856;
+ s=mimecast20190719; t=1594658034;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  in-reply-to:in-reply-to:references:references;
- bh=8bJV6qHtYb2OsRijYM1eKmbn+5H4uHEasSDEIDj0EMQ=;
- b=gFOkYnnPJUpJamLyBgCgxQji6M5EOOLDPR+3b9M7hw5Jx7fZzJT4AT/e+N/eBIHuPfpabG
- Vz4kzVl80v3YzGlst+fnSMQaEZ9hxOSIWnRl0rB5vkb8gZHH0tijsUokD6LdR+OaTeGjvT
- M5Wi8bg+l2W4XN0mZfd/2yRs6XiP5z4=
-Received: from mail-ot1-f72.google.com (mail-ot1-f72.google.com
- [209.85.210.72]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-476-TrPC0pPOOVOafsfDUIQIAg-1; Mon, 13 Jul 2020 12:29:44 -0400
-X-MC-Unique: TrPC0pPOOVOafsfDUIQIAg-1
-Received: by mail-ot1-f72.google.com with SMTP id x12so7637283oto.19
- for <qemu-devel@nongnu.org>; Mon, 13 Jul 2020 09:29:44 -0700 (PDT)
+ bh=jUB5HcDhsDjaZiBMAQY0FtbMcWCQMIfpcdsXDtSf8AU=;
+ b=Xt87FNqzh+p41YhayCw/AlA4XR+JXXg3Vk6YnMw5vlY4HGOvpI9gc1dhVYcDE/K5pNCl+M
+ jnb1VtOwjf7+aiMoD7CWqWZkpYBmXFhV6x0yG7gaBO6SNY/ZxdZqpYFx8ALz5IKZGqKQnj
+ gaiKuesUWZfTA0Jt6n/myQ4bU/dR4Ts=
+Received: from mail-oo1-f72.google.com (mail-oo1-f72.google.com
+ [209.85.161.72]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-217--yAmHFo9PjmUfBAXyqT5cA-1; Mon, 13 Jul 2020 12:33:51 -0400
+X-MC-Unique: -yAmHFo9PjmUfBAXyqT5cA-1
+Received: by mail-oo1-f72.google.com with SMTP id v13so9435723oor.3
+ for <qemu-devel@nongnu.org>; Mon, 13 Jul 2020 09:33:47 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
  :message-id:subject:to:cc;
- bh=8bJV6qHtYb2OsRijYM1eKmbn+5H4uHEasSDEIDj0EMQ=;
- b=aYZJOW7YukmBEGd7UElCiGVOkNSSslsih0hcMx1UmZXZJd2tCiPCxkgOntlkgAJHkA
- YvXuftNOtem/ixMhMhV8F47keTwPaw4ST7af8S6N7HUuD0r85orzBUryo9fyX/qr6RUn
- dtnTMwzi+c87msfQ8lxWS9G+UJQ7SiAiQUr0GgOunrsUTLDKgnd4Rf5Al0TT70uQ+epc
- 5TuuxA5bw9E2V5Rm2Xv2R+E8IP6qO8q9xL0I9DpDGvmEtXKqdKKjV/Cg5Agm5sLp65B7
- Oaz5XxhPWXv2nlhupaYBQuZq4K6+8vY4hZBzRwe7Hk3xE6CZBb/MH36uLLqfs935fGg1
- qQYQ==
-X-Gm-Message-State: AOAM533XV8N/jgJJ/k8PpHH43QXlY3BP7i5rCfOApnOA24YEgu0t2LNu
- Tg210q+a1SZUgqTd1cojwi3TPvvpBYU7c/qmrN3U7VT+A3imw2bBMk9m8UVz9bYBqv2bpiH3j4L
- 9xlkeJyoWfqQzOWlRvFP14G2jy+hvKF0=
-X-Received: by 2002:a05:6808:486:: with SMTP id z6mr219371oid.56.1594657783356; 
- Mon, 13 Jul 2020 09:29:43 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJz03bQnJ9pwmm344o5bvrJG1VzwosbGojMEjj4vx/kqE1yAjZj3xXtxTnXsrwXx56siQ6gWi6nOLJ8gyDxQZ9U=
-X-Received: by 2002:a05:6808:486:: with SMTP id z6mr219334oid.56.1594657783040; 
- Mon, 13 Jul 2020 09:29:43 -0700 (PDT)
+ bh=jUB5HcDhsDjaZiBMAQY0FtbMcWCQMIfpcdsXDtSf8AU=;
+ b=W1dQzlpS3QL1VC5LINX2FBEO4PwEwLrRcu1/M4/61XDnAxVXch/gXHE4UvcStotBKg
+ rb0IL8NPRbuEQx9gzHU10JzMd+4crZsdB1os73hlV0h+Ft4flBRyOcvKX2qAl7R0silx
+ fehmAwC7/R3Dye4UmdNNIFP6aN39XrA30Ei7eYne3KRcNqaUl+wn9ZVaUJXS3iBD3Udk
+ Gth4udfeCzwuw9ietWMRr9LmU5wxDetzupDMybI/Z0luAGoC8T7zPkxMzrGyKI/e8sS3
+ cuy8G//FvdgI8mGKcxTd6xNH4wZ51SGm5Mpg/2ePhCZCd2AN4EQRP64Fhb8+5bOqvpFS
+ 6vpQ==
+X-Gm-Message-State: AOAM53262If0cjZw91yr5INQJZJSD4mpi1UjjOXBnvJE3IdS6dJ7A3LQ
+ 3VDIQiscDuy8NAx/qEE2EC6jPfLCZqzXR3ZOUSNMvt5ii+KzNV/MOAJncCCrHcawcLMmTqXx6lu
+ CCIvRE4fqIqOP392Zx5onXe/Es5uhYyY=
+X-Received: by 2002:a05:6830:1313:: with SMTP id
+ p19mr412499otq.132.1594658026380; 
+ Mon, 13 Jul 2020 09:33:46 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJzNmK28lClj98WNF0gEthuMl8R0uOIFOYet1bWcQUtVWrImKj+HgcBfFcZdyHXtWSSV8/E5aGyeuoyFz5xT44A=
+X-Received: by 2002:a05:6830:1313:: with SMTP id
+ p19mr412479otq.132.1594658026131; 
+ Mon, 13 Jul 2020 09:33:46 -0700 (PDT)
 MIME-Version: 1.0
 References: <20200710142149.40962-1-kwolf@redhat.com>
- <20200710142149.40962-3-kwolf@redhat.com>
-In-Reply-To: <20200710142149.40962-3-kwolf@redhat.com>
+ <20200710142149.40962-2-kwolf@redhat.com>
+In-Reply-To: <20200710142149.40962-2-kwolf@redhat.com>
 From: Nir Soffer <nsoffer@redhat.com>
-Date: Mon, 13 Jul 2020 19:29:26 +0300
-Message-ID: <CAMRbyysF1j7rA_7NqdUSvri9Tck9EcVbTStoDEZU3EFbf5+rVg@mail.gmail.com>
-Subject: Re: [PATCH for-5.1 2/2] file-posix: Allow byte-aligned O_DIRECT with
- NFS
+Date: Mon, 13 Jul 2020 19:33:30 +0300
+Message-ID: <CAMRbyyux0eQo8vmz4JB8pT_1i4PJviQJPKiaJC6ehwjLhc649A@mail.gmail.com>
+Subject: Re: [PATCH for-5.1 1/2] block: Require aligned image size to avoid
+ assertion failure
 To: Kevin Wolf <kwolf@redhat.com>
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
@@ -77,7 +79,7 @@ X-Spam_bar: ---
 X-Spam_report: (-3.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H3=-0.01, RCVD_IN_MSPIKE_WL=-0.01,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -97,106 +99,48 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 On Fri, Jul 10, 2020 at 5:22 PM Kevin Wolf <kwolf@redhat.com> wrote:
 >
-> Since commit a6b257a08e3 ('file-posix: Handle undetectable alignment'),
-> we assume that if we open a file with O_DIRECT and alignment probing
-> returns 1, we just couldn't find out the real alignment requirement
-> because some filesystems make the requirement only for allocated blocks.
-> In this case, a safe default of 4k is used.
+> Unaligned requests will automatically be aligned to bl.request_alignment
+> and we don't want to extend requests to access space beyond the end of
+> the image, so it's required that the image size is aligned.
 >
-> This is too strict NFS, which does actually allow byte-aligned requests
-> even with O_DIRECT. Because we can't distinguish both cases with generic
-> code, let's just look at the file system magic and disable
-> s->needs_alignment for NFS. This way, O_DIRECT can still be used on NFS
-> for images that are not aligned to 4k.
+> With write requests, this could cause assertion failures like this if
+> RESIZE permissions weren't requested:
+>
+> qemu-img: block/io.c:1910: bdrv_co_write_req_prepare: Assertion `end_sector <= bs->total_sectors || child->perm & BLK_PERM_RESIZE' failed.
+>
+> This was e.g. triggered by qemu-img converting to a target image with 4k
+> request alignment when the image was only aligned to 512 bytes, but not
+> to 4k.
+
+Was it on NFS? Shouldn't this be fix by the next patch then?
+
 >
 > Signed-off-by: Kevin Wolf <kwolf@redhat.com>
 > ---
->  block/file-posix.c | 26 +++++++++++++++++++++++++-
->  1 file changed, 25 insertions(+), 1 deletion(-)
+>  block.c | 10 ++++++++++
+>  1 file changed, 10 insertions(+)
 >
-> diff --git a/block/file-posix.c b/block/file-posix.c
-> index 0c4e07c415..4e9dac461b 100644
-> --- a/block/file-posix.c
-> +++ b/block/file-posix.c
-> @@ -62,10 +62,12 @@
->  #include <sys/ioctl.h>
->  #include <sys/param.h>
->  #include <sys/syscall.h>
-> +#include <sys/vfs.h>
->  #include <linux/cdrom.h>
->  #include <linux/fd.h>
->  #include <linux/fs.h>
->  #include <linux/hdreg.h>
-> +#include <linux/magic.h>
->  #include <scsi/sg.h>
->  #ifdef __s390__
->  #include <asm/dasd.h>
-> @@ -300,6 +302,28 @@ static int probe_physical_blocksize(int fd, unsigned int *blk_size)
->  #endif
->  }
->
-> +/*
-> + * Returns true if no alignment restrictions are necessary even for files
-> + * opened with O_DIRECT.
-> + *
-> + * raw_probe_alignment() probes the required alignment and assume that 1 means
-> + * the probing failed, so it falls back to a safe default of 4k. This can be
-> + * avoided if we know that byte alignment is okay for the file.
-> + */
-> +static bool dio_byte_aligned(int fd)
-> +{
-> +#ifdef __linux__
-> +    struct statfs buf;
-> +    int ret;
-> +
-> +    ret = fstatfs(fd, &buf);
-> +    if (ret == 0 && buf.f_type == NFS_SUPER_MAGIC) {
-> +        return true;
-> +    }
-> +#endif
-> +    return false;
-> +}
-> +
->  /* Check if read is allowed with given memory buffer and length.
->   *
->   * This function is used to check O_DIRECT memory buffer and request alignment.
-> @@ -631,7 +655,7 @@ static int raw_open_common(BlockDriverState *bs, QDict *options,
->
->      s->has_discard = true;
->      s->has_write_zeroes = true;
-> -    if ((bs->open_flags & BDRV_O_NOCACHE) != 0) {
-> +    if ((bs->open_flags & BDRV_O_NOCACHE) != 0 && !dio_byte_aligned(s->fd)) {
->          s->needs_alignment = true;
-
-I did not know we have needs_alignment. Isn't this the same as using
-request_alignment = 1?
-
-For example we can check if we are on NFS and avoid the fallback to max_align:
-
-    if (!bs->bl.request_alignment) {
-        int i;
-        size_t align;
-        buf = qemu_memalign(max_align, max_align);
-        for (i = 0; i < ARRAY_SIZE(alignments); i++) {
-            align = alignments[i];
-            if (raw_is_io_aligned(fd, buf, align)) {
-                /* Fallback to safe value. */
-                bs->bl.request_alignment = (align != 1) ? align : max_align;
-                break;
-            }
-        }
-        qemu_vfree(buf);
-    }
-
-After this we will have correct bl.request_alignment and buf_align.
-Hopefully this will not break code expecting request_alignment >= 512.
-
-Assuming that needs_alignment is well tested, this patch may be safer.
-
-Nir
-
+> diff --git a/block.c b/block.c
+> index cc377d7ef3..c635777911 100644
+> --- a/block.c
+> +++ b/block.c
+> @@ -1489,6 +1489,16 @@ static int bdrv_open_driver(BlockDriverState *bs, BlockDriver *drv,
+>          return -EINVAL;
 >      }
 >
+> +    /*
+> +     * Unaligned requests will automatically be aligned to bl.request_alignment
+> +     * and we don't want to extend requests to access space beyond the end of
+> +     * the image, so it's required that the image size is aligned.
+> +     */
+> +    if ((bs->total_sectors * BDRV_SECTOR_SIZE) % bs->bl.request_alignment) {
+> +        error_setg(errp, "Image size is not a multiple of request alignment");
+> +        return -EINVAL;
+> +    }
+> +
+>      assert(bdrv_opt_mem_align(bs) != 0);
+>      assert(bdrv_min_mem_align(bs) != 0);
+>      assert(is_power_of_2(bs->bl.request_alignment));
 > --
 > 2.25.4
 >
