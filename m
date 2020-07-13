@@ -2,72 +2,74 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A7A6521D30B
-	for <lists+qemu-devel@lfdr.de>; Mon, 13 Jul 2020 11:43:50 +0200 (CEST)
-Received: from localhost ([::1]:45830 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8226521D307
+	for <lists+qemu-devel@lfdr.de>; Mon, 13 Jul 2020 11:42:58 +0200 (CEST)
+Received: from localhost ([::1]:42506 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1juv01-0004jl-Or
-	for lists+qemu-devel@lfdr.de; Mon, 13 Jul 2020 05:43:49 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:33926)
+	id 1juuzB-0003OE-Ib
+	for lists+qemu-devel@lfdr.de; Mon, 13 Jul 2020 05:42:57 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:34508)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <r.bolshakov@yadro.com>)
- id 1juuwA-0007o3-Nu
- for qemu-devel@nongnu.org; Mon, 13 Jul 2020 05:39:50 -0400
-Received: from mta-02.yadro.com ([89.207.88.252]:33862 helo=mta-01.yadro.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <r.bolshakov@yadro.com>)
- id 1juuw8-0007zd-Lo
- for qemu-devel@nongnu.org; Mon, 13 Jul 2020 05:39:50 -0400
-Received: from localhost (unknown [127.0.0.1])
- by mta-01.yadro.com (Postfix) with ESMTP id 57FEE4C895;
- Mon, 13 Jul 2020 09:39:45 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=yadro.com; h=
- in-reply-to:content-disposition:content-type:content-type
- :mime-version:references:message-id:subject:subject:from:from
- :date:date:received:received:received; s=mta-01; t=1594633184;
- x=1596447585; bh=A0NE5T2IKT7eWNWzpzPEIe66YY1+D8nFbfC/FpbocNk=; b=
- OXVqy0/fDsgT1MRATcp67HNl3anPNIT1AE4DYWe7VjFXOduXnBcnlkejo+gqS1xS
- npMs5KIAa+ZUrFrfeV/WCzJK2HEHcFzYDeCyincZKN93yoTWCxt6CFluuUH7LfA/
- cDVni/9yIerxDNIsHV3qsv3Py3aLAHlAW9/owddfKKY=
-X-Virus-Scanned: amavisd-new at yadro.com
-Received: from mta-01.yadro.com ([127.0.0.1])
- by localhost (mta-01.yadro.com [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id pjC0m-UsepAf; Mon, 13 Jul 2020 12:39:44 +0300 (MSK)
-Received: from T-EXCH-02.corp.yadro.com (t-exch-02.corp.yadro.com
- [172.17.10.102])
- (using TLSv1.2 with cipher ECDHE-RSA-AES256-SHA384 (256/256 bits))
+ (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1juuyF-0002YE-De
+ for qemu-devel@nongnu.org; Mon, 13 Jul 2020 05:41:59 -0400
+Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:60921
+ helo=us-smtp-1.mimecast.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1juuyE-0008Lq-3T
+ for qemu-devel@nongnu.org; Mon, 13 Jul 2020 05:41:59 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1594633317;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=qIZyrGdpKSrSVwqKwr6Yh9Wr9fG6Zi1hDm7axQUgCTE=;
+ b=eGvN342RXNDU/qJJlX8z/SL6firNloRE2veLKSybzVQ7PayIxGKMsWNsnCVuUHgDLohtMF
+ IRwjjN4IkpCJqxnETYWKnijFfMPTYBSZHMwvHpKHejDW+QLLTlNbe9+6Jy/TkJH+mPDbQ1
+ vapCgG8LbgZr4W1eVN3M5GEdnhrLhnU=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-118-03Je2GZQNuqJkK_OXBJuIw-1; Mon, 13 Jul 2020 05:41:55 -0400
+X-MC-Unique: 03Je2GZQNuqJkK_OXBJuIw-1
+Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
+ [10.5.11.12])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mta-01.yadro.com (Postfix) with ESMTPS id 144424C894;
- Mon, 13 Jul 2020 12:39:44 +0300 (MSK)
-Received: from localhost (172.17.204.212) by T-EXCH-02.corp.yadro.com
- (172.17.10.102) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA384_P384) id 15.1.669.32; Mon, 13
- Jul 2020 12:39:43 +0300
-Date: Mon, 13 Jul 2020 12:39:43 +0300
-From: Roman Bolshakov <r.bolshakov@yadro.com>
-To: Paolo Bonzini <pbonzini@redhat.com>
-Subject: Re: [PATCH v3] i386: hvf: Implement CPU kick
-Message-ID: <20200713093943.GA90799@SPB-NB-133.local>
-References: <20200702105721.75333-1-r.bolshakov@yadro.com>
- <fa29e532-a891-cf61-a8a2-af5e36e7834f@redhat.com>
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id EC939107ACCA;
+ Mon, 13 Jul 2020 09:41:54 +0000 (UTC)
+Received: from sirius.home.kraxel.org (ovpn-115-89.ams2.redhat.com
+ [10.36.115.89])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id B539260C84;
+ Mon, 13 Jul 2020 09:41:54 +0000 (UTC)
+Received: by sirius.home.kraxel.org (Postfix, from userid 1000)
+ id DB5713EBB1; Mon, 13 Jul 2020 11:41:53 +0200 (CEST)
+Date: Mon, 13 Jul 2020 11:41:53 +0200
+From: Gerd Hoffmann <kraxel@redhat.com>
+To: Thomas Huth <thuth@redhat.com>
+Subject: Re: [PATCH] docs/qdev-device-use: Clean up the sentences related to
+ -usbdevice
+Message-ID: <20200713094153.b225xsjdwkxxvm3o@sirius.home.kraxel.org>
+References: <20200710065520.24784-1-thuth@redhat.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="us-ascii"
+In-Reply-To: <20200710065520.24784-1-thuth@redhat.com>
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=kraxel@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <fa29e532-a891-cf61-a8a2-af5e36e7834f@redhat.com>
-X-Originating-IP: [172.17.204.212]
-X-ClientProxiedBy: T-EXCH-01.corp.yadro.com (172.17.10.101) To
- T-EXCH-02.corp.yadro.com (172.17.10.102)
-Received-SPF: pass client-ip=89.207.88.252; envelope-from=r.bolshakov@yadro.com;
- helo=mta-01.yadro.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/07/13 05:39:45
-X-ACL-Warn: Detected OS   = Linux 3.11 and newer
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001, URIBL_BLOCKED=0.001 autolearn=ham autolearn_force=no
+Received-SPF: pass client-ip=205.139.110.120; envelope-from=kraxel@redhat.com;
+ helo=us-smtp-1.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/07/13 03:20:22
+X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
+X-Spam_score_int: -40
+X-Spam_score: -4.1
+X-Spam_bar: ----
+X-Spam_report: (-4.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-1, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -80,81 +82,17 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Eduardo Habkost <ehabkost@redhat.com>, qemu-devel@nongnu.org,
- Cameron Esfahani <dirty@apple.com>, Claudio Fontana <cfontana@suse.de>,
- Richard Henderson <rth@twiddle.net>
+Cc: qemu-trivial@nongnu.org, qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Thu, Jul 02, 2020 at 02:42:45PM +0200, Paolo Bonzini wrote:
-> On 02/07/20 12:57, Roman Bolshakov wrote:
-> > There's still a small chance of kick loss, on user-to-kernel border
-> > between atomic_mb_set's just before the entry to hv_vcpu_run and just
-> > after it.
-> 
-> Good point, but we can fix it.
-> 
-> > -static void dummy_signal(int sig)
-> > +static void hvf_handle_ipi(int sig)
-> >  {
-> > +    CPUState *cpu = pthread_getspecific(hvf_cpu);
-> 
-> You can use current_cpu here.  If it's NULL, just return (it's a
-> per-thread variable).
-> 
-> > +    X86CPU *x86_cpu = X86_CPU(cpu);
-> > +    CPUX86State *env = &x86_cpu->env;
-> > +
-> > +    if (!atomic_xchg(&env->hvf_in_guest, false)) {
-> 
-> Here, thinking more about it, we need not write hvf_in_guest, so:
-> 
-> 	/* Write cpu->exit_request before reading env->hvf_in_guest.  */
-> 	smp_mb();
-> 	if (!atomic_read(&env->hvf_in_guest)) {
-> 		...
-> 	}
-> 
-> > +        wvmcs(cpu->hvf_fd, VMCS_PIN_BASED_CTLS,
-> > +              rvmcs(cpu->hvf_fd, VMCS_PIN_BASED_CTLS)
-> > +                | VMCS_PIN_BASED_CTLS_VMX_PREEMPT_TIMER);
-> > +    }
-> >  }
-> >  
-> >  int hvf_init_vcpu(CPUState *cpu)
-> > @@ -631,7 +650,9 @@ int hvf_vcpu_exec(CPUState *cpu)
-> >              return EXCP_HLT;
-> >          }
-> >  
-> > +        atomic_mb_set(&env->hvf_in_guest, true);
-> >          hv_return_t r  = hv_vcpu_run(cpu->hvf_fd);
-> > +        atomic_mb_set(&env->hvf_in_guest, false);
-> 
-> 
-> And here you can do instead:
-> 
-> 	atomic_set(&env->hvf_in_guest, true);
-> 	/* Read cpu->exit_request after writing env->hvf_in_guest.  */
-> 	smp_mb();
-> 	if (atomic_read(&cpu->exit_request)) {
-> 	    qemu_mutex_lock_iothread();
-> 	    atomic_set(&env->hvf_in_guest, false);
-> 	    return EXCP_INTERRUPT;
-> 	}
-> 	hv_return_t r  = hv_vcpu_run(cpu->hvf_fd);
-> 	atomic_store_release(&env->hvf_in_guest, false);
-> 
-> This matching "write A/smp_mb()/read B" and "write B/smp_mb()/read A" is
-> a very common idiom for lock-free signaling between threads.
-> 
+On Fri, Jul 10, 2020 at 08:55:20AM +0200, Thomas Huth wrote:
+> Most of the -usbdevice paramaters have been removed already. Update
+> the doc accordingly.
 
-Hi Paolo,
+Queued up for 5.1
 
-Thanks for the feedback and the guidelines. I think I've got the idea:
+thanks,
+  Gerd
 
-exit_request is the way to record the fact of kick request even if it
-was sent outside of hv_vcpu_run().
-
-Best regards,
-Roman
 
