@@ -2,77 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2379321D813
-	for <lists+qemu-devel@lfdr.de>; Mon, 13 Jul 2020 16:14:31 +0200 (CEST)
-Received: from localhost ([::1]:59524 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 96C9321D7FD
+	for <lists+qemu-devel@lfdr.de>; Mon, 13 Jul 2020 16:12:30 +0200 (CEST)
+Received: from localhost ([::1]:49758 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1juzDy-0001jM-5G
-	for lists+qemu-devel@lfdr.de; Mon, 13 Jul 2020 10:14:30 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:35090)
+	id 1juzC1-0006Ez-LM
+	for lists+qemu-devel@lfdr.de; Mon, 13 Jul 2020 10:12:29 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:34838)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1juzAt-00057b-2L
- for qemu-devel@nongnu.org; Mon, 13 Jul 2020 10:11:19 -0400
-Received: from mail-wm1-x32b.google.com ([2a00:1450:4864:20::32b]:54279)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1juzAr-0006cz-EY
- for qemu-devel@nongnu.org; Mon, 13 Jul 2020 10:11:18 -0400
-Received: by mail-wm1-x32b.google.com with SMTP id o8so13447686wmh.4
- for <qemu-devel@nongnu.org>; Mon, 13 Jul 2020 07:11:17 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=from:to:subject:date:message-id:in-reply-to:references:mime-version
- :content-transfer-encoding;
- bh=sfF8uQlqTNWoN2CdQI+dtwBm9efGllQvPXBr2wV3kLI=;
- b=US0dj16dEkO0ktvMnbDhVuqDO02RSgEe/Ta3ul4SP1KC5WwifjnEPHaFuE32KG4oZ5
- uaqCNi86EZXW+5gG9zp1XsHVe9NVlbIk1MxjPcGKHMoTNtNIxBz93ARAjMYrgGKYEDXy
- 2Qsn4gOOhjNMBV3JabWNY0ACj6qsisDRJ2uoBf8VtvotuPCmeHtNiULI5JVpR4jnp54T
- BC9bMTiMOquxI8o72yQRP69zDuz5zrQtOMkt44aPQPsr8gGBGUbEzXCY8RWTi53moXMj
- 0iUPcd/2ZtzNAfYG7ghFDs+b4TKj4ebS1EgrgFLxDDf8kEtjuTPtQ7QApCOo79kAlzsG
- c4LQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
- :references:mime-version:content-transfer-encoding;
- bh=sfF8uQlqTNWoN2CdQI+dtwBm9efGllQvPXBr2wV3kLI=;
- b=OfRxx4PpRvHCLxxIY9dX6O/K9VvHtvJMsLQoT5k0B0snh/lPDPPOc8HosDUJ8+PNcf
- p7MXGM3nLmFMFnuxwtMEJSAe9EGQn6jXjtZ8EfOG3vXGQGYsw5UDJkGpvBQ7IpId3Yhq
- QSy24mEmSoYgzEgnis4HBd8ZhXPtusaPOiOKFaFva6+Q9dPWcZz5RMEyNlD0wPQxDFHv
- yBWFiBJ6lX0EXg7yR8iREYxlqiibjiksCeJ1dcTdlo7xBYIQmpGzM9CHH71f214nIVuc
- y3nCE3AF0nOWvj98CMXWgbSEihM9v4IYqiJifCyq4O/A4qZyD4y7ViH+UnRtcQC7ylbx
- +FLw==
-X-Gm-Message-State: AOAM5301zdCMqmZnU1JMS92DaIA34S9y97yaKsj0KFK09Bf9/wSbes6Z
- cDbJy2EirCxsMOOm9cBtN58q78GyP7uf8g==
-X-Google-Smtp-Source: ABdhPJwFsqbxFSYynaCP8JTXsVave4PZgk2aLEyHocgUg4KsebCG3mh/7fJ5C4I4qe2GA8L0pJzAXg==
-X-Received: by 2002:a1c:5453:: with SMTP id p19mr137616wmi.41.1594649475872;
- Mon, 13 Jul 2020 07:11:15 -0700 (PDT)
-Received: from orth.archaic.org.uk (orth.archaic.org.uk. [81.2.115.148])
- by smtp.gmail.com with ESMTPSA id c136sm24031297wmd.10.2020.07.13.07.11.14
- for <qemu-devel@nongnu.org>
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 13 Jul 2020 07:11:15 -0700 (PDT)
-From: Peter Maydell <peter.maydell@linaro.org>
+ (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1juzAZ-0004bf-Dy
+ for qemu-devel@nongnu.org; Mon, 13 Jul 2020 10:10:59 -0400
+Received: from us-smtp-1.mimecast.com ([207.211.31.81]:51606
+ helo=us-smtp-delivery-1.mimecast.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1juzAW-0006ZB-PX
+ for qemu-devel@nongnu.org; Mon, 13 Jul 2020 10:10:59 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1594649455;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:content-type:content-type:in-reply-to:in-reply-to:
+ references:references; bh=YYKkuxz1L82bepkVHwfJi/gR2rbiaG98J1TwbK5Ss2M=;
+ b=F00FZg94YHu5iFWIz1CZhHVvDj1/WFTqdyuekl/vA7X9nyE+qrAWdj0xyHNeKaJ4bGnU45
+ b2WT1d2vhwz1ZlmBeITXM1JkLU2pg+BZc/gxVbtbOFIIiOX29x77roaYNvnWnKvOF8iTiJ
+ hZWdleQspRNVUhGEURMeJv+aiLtVrbw=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-367-oMK5yRvbNiyxKB_8fC-E9A-1; Mon, 13 Jul 2020 10:10:54 -0400
+X-MC-Unique: oMK5yRvbNiyxKB_8fC-E9A-1
+Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
+ [10.5.11.23])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 301E81085
+ for <qemu-devel@nongnu.org>; Mon, 13 Jul 2020 14:10:53 +0000 (UTC)
+Received: from sirius.home.kraxel.org (ovpn-115-89.ams2.redhat.com
+ [10.36.115.89])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 058802B6DD;
+ Mon, 13 Jul 2020 14:10:50 +0000 (UTC)
+Received: by sirius.home.kraxel.org (Postfix, from userid 1000)
+ id 2917F3F119; Mon, 13 Jul 2020 16:10:49 +0200 (CEST)
+From: Gerd Hoffmann <kraxel@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PULL 08/25] build: Enable BSD symbols for Haiku
-Date: Mon, 13 Jul 2020 15:10:47 +0100
-Message-Id: <20200713141104.5139-9-peter.maydell@linaro.org>
-X-Mailer: git-send-email 2.20.1
-In-Reply-To: <20200713141104.5139-1-peter.maydell@linaro.org>
-References: <20200713141104.5139-1-peter.maydell@linaro.org>
-MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::32b;
- envelope-from=peter.maydell@linaro.org; helo=mail-wm1-x32b.google.com
-X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
- That's all we know.
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Subject: [PULL 2/4] docs/qdev-device-use: Clean up the sentences related to
+ -usbdevice
+Date: Mon, 13 Jul 2020 16:10:47 +0200
+Message-Id: <20200713141049.2241-3-kraxel@redhat.com>
+In-Reply-To: <20200713141049.2241-1-kraxel@redhat.com>
+References: <20200713141049.2241-1-kraxel@redhat.com>
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=US-ASCII
+Received-SPF: pass client-ip=207.211.31.81; envelope-from=kraxel@redhat.com;
+ helo=us-smtp-delivery-1.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/07/13 02:19:41
+X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
+X-Spam_score_int: -30
+X-Spam_score: -3.1
+X-Spam_bar: ---
+X-Spam_report: (-3.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H3=-0.01, RCVD_IN_MSPIKE_WL=-0.01,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -85,41 +77,96 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Cc: Paolo Bonzini <pbonzini@redhat.com>, Thomas Huth <thuth@redhat.com>,
+ =?UTF-8?q?Daniel=20P=2E=20Berrang=C3=A9?= <berrange@redhat.com>,
+ Gerd Hoffmann <kraxel@redhat.com>, Eduardo Habkost <ehabkost@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: David CARLIER <devnexen@gmail.com>
+From: Thomas Huth <thuth@redhat.com>
 
-Tell Haiku to provide various BSD functions by setting BSD_SOURCE
-and linking libbsd.
+Most of the -usbdevice paramaters have been removed already. Update
+the doc accordingly.
 
-Signed-off-by: David Carlier <devnexen@gmail.com>
-Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
-Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
-Message-id: 20200703145614.16684-2-peter.maydell@linaro.org
-[PMM: expanded commit message]
-Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
-Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
+Signed-off-by: Thomas Huth <thuth@redhat.com>
+Message-id: 20200710065520.24784-1-thuth@redhat.com
+Signed-off-by: Gerd Hoffmann <kraxel@redhat.com>
 ---
- configure | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+ docs/qdev-device-use.txt | 28 +++-------------------------
+ 1 file changed, 3 insertions(+), 25 deletions(-)
 
-diff --git a/configure b/configure
-index 9b6ab9d3ca3..c70b43d1394 100755
---- a/configure
-+++ b/configure
-@@ -904,8 +904,8 @@ SunOS)
- ;;
- Haiku)
-   haiku="yes"
--  QEMU_CFLAGS="-DB_USE_POSITIVE_POSIX_ERRORS $QEMU_CFLAGS"
--  LIBS="-lposix_error_mapper -lnetwork $LIBS"
-+  QEMU_CFLAGS="-DB_USE_POSITIVE_POSIX_ERRORS -DBSD_SOURCE $QEMU_CFLAGS"
-+  LIBS="-lposix_error_mapper -lnetwork -lbsd $LIBS"
- ;;
- Linux)
-   audio_drv_list="try-pa oss"
+diff --git a/docs/qdev-device-use.txt b/docs/qdev-device-use.txt
+index 4bbbcf561f2f..f8d0d2fe297a 100644
+--- a/docs/qdev-device-use.txt
++++ b/docs/qdev-device-use.txt
+@@ -125,12 +125,7 @@ The -device argument differs in detail for each type of drive:
+ 
+ * if=pflash, if=mtd, if=sd, if=xen are not yet available with -device
+ 
+-For USB devices, the old way is actually different:
+-
+-    -usbdevice disk:format=FMT:FILENAME
+-
+-Provides much less control than -drive's OPTS...  The new way fixes
+-that:
++For USB storage devices, you can use something like:
+ 
+     -device usb-storage,drive=DRIVE-ID,removable=RMB
+ 
+@@ -177,8 +172,6 @@ The appropriate DEVNAME depends on the machine type.  For type "pc":
+ 
+   This lets you control I/O ports and IRQs.
+ 
+-* -usbdevice serial::chardev becomes -device usb-serial,chardev=dev.
+-
+ * -usbdevice braille doesn't support LEGACY-CHARDEV syntax.  It always
+   uses "braille".  With -device, this useful default is gone, so you
+   have to use something like
+@@ -238,10 +231,6 @@ The old way to define the guest part looks like this:
+ 
+     -net nic,netdev=NET-ID,macaddr=MACADDR,model=MODEL,name=ID,addr=STR,vectors=V
+ 
+-Except for USB it looks like this:
+-
+-    -usbdevice net:netdev=NET-ID,macaddr=MACADDR,name=ID
+-
+ The new way is -device:
+ 
+     -device DEVNAME,netdev=NET-ID,mac=MACADDR,DEV-OPTS...
+@@ -336,12 +325,7 @@ The new way is -device DEVNAME,DEV-OPTS...  Details depend on DRIVER:
+ * mouse           -device usb-mouse
+ * tablet          -device usb-tablet
+ * wacom-tablet    -device usb-wacom-tablet
+-* host:...        See "Host Device Assignment"
+-* disk:...        See "Block Devices"
+-* serial:...      See "Character Devices"
+ * braille         See "Character Devices"
+-* net:...         See "Network Devices"
+-* bt:...          not yet available with -device
+ 
+ === Watchdog Devices ===
+ 
+@@ -358,17 +342,11 @@ and host USB devices.  PCI devices can only be assigned with -device:
+ 
+     -device vfio-pci,host=ADDR,id=ID
+ 
+-The old way to assign a host USB device is
+-
+-    -usbdevice host:auto:BUS.ADDR:VID:PRID
+-
+-where any of BUS, ADDR, VID, PRID can be the wildcard *.
+-
+-The new way is
++To assign a host USB device use:
+ 
+     -device usb-host,hostbus=BUS,hostaddr=ADDR,vendorid=VID,productid=PRID
+ 
+-Omitted options match anything, just like the old way's wildcard.
++Omitted options match anything.
+ 
+ === Default Devices ===
+ 
 -- 
-2.20.1
+2.18.4
 
 
