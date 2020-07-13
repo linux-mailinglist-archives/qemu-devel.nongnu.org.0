@@ -2,54 +2,66 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3B01B21DF81
-	for <lists+qemu-devel@lfdr.de>; Mon, 13 Jul 2020 20:23:32 +0200 (CEST)
-Received: from localhost ([::1]:36564 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id EB71221DFA6
+	for <lists+qemu-devel@lfdr.de>; Mon, 13 Jul 2020 20:28:54 +0200 (CEST)
+Received: from localhost ([::1]:40652 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jv36w-0007I2-QP
-	for lists+qemu-devel@lfdr.de; Mon, 13 Jul 2020 14:23:30 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:37386)
+	id 1jv3C9-0000oW-Qr
+	for lists+qemu-devel@lfdr.de; Mon, 13 Jul 2020 14:28:53 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:38736)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1jv36F-0006sn-RT
- for qemu-devel@nongnu.org; Mon, 13 Jul 2020 14:22:48 -0400
-Received: from us-smtp-1.mimecast.com ([207.211.31.81]:51431
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1jv3B9-0000Ns-AG
+ for qemu-devel@nongnu.org; Mon, 13 Jul 2020 14:27:51 -0400
+Received: from us-smtp-1.mimecast.com ([207.211.31.81]:39655
  helo=us-smtp-delivery-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1jv36D-00038b-Ih
- for qemu-devel@nongnu.org; Mon, 13 Jul 2020 14:22:47 -0400
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1jv3B6-0003jB-LV
+ for qemu-devel@nongnu.org; Mon, 13 Jul 2020 14:27:50 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1594664564;
+ s=mimecast20190719; t=1594664867;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:content-type:content-type;
- bh=IH6t3bcQqeJ1GOe6RSGLUB6QI+qmWxa0EADGRGsXDZ0=;
- b=GB/BsAw32l7yvInIXYpQe+4sHEWG4Z0BvmLSSjv/cfcRim9r9QU4j7vqPHjz+yn5WNR2lo
- XRivgV6/kY/SbexxRjFqL1n+Ldpr9g10Ea+FMGWnc0nk5kR4nnWVWk54H9hfBGa3H3Cfgb
- Mt2pfYt9DxdjPRpgOaUtvUUCZJSmsLk=
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references:openpgp:openpgp;
+ bh=hEolbz1LXH+PVXiybKee2xDLexesOqOXWRDUDF7HXrU=;
+ b=A55Wyxeof5uOY+7bUA8k1hCMfFbnunVVB67jQhLLZdHTIrCV2XM25Z+kMCjreMXdm/Hyn4
+ BTia4CXVND6QehQh8zH6trM5pXsjXA0DtPAtvSFD0LZZ6xfklwRcJ5GFpyMoU0wB8QW6B3
+ 88WqljgqjuKFgJnW9gipchL8p4fzIxo=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-461-W5RIN7EkPum-K36bKNZSVA-1; Mon, 13 Jul 2020 14:22:42 -0400
-X-MC-Unique: W5RIN7EkPum-K36bKNZSVA-1
-Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
- [10.5.11.14])
+ us-mta-395-5o9rZi6TO2G31cypo1vs6w-1; Mon, 13 Jul 2020 14:27:43 -0400
+X-MC-Unique: 5o9rZi6TO2G31cypo1vs6w-1
+Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
+ [10.5.11.13])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 291DE10A4;
- Mon, 13 Jul 2020 18:22:41 +0000 (UTC)
-Received: from thuth.com (ovpn-112-92.ams2.redhat.com [10.36.112.92])
- by smtp.corp.redhat.com (Postfix) with ESMTP id C7ADD5D9D7;
- Mon, 13 Jul 2020 18:22:39 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 1BD1C106B258;
+ Mon, 13 Jul 2020 18:27:41 +0000 (UTC)
+Received: from thuth.remote.csb (ovpn-112-92.ams2.redhat.com [10.36.112.92])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id D3BB57621D;
+ Mon, 13 Jul 2020 18:27:37 +0000 (UTC)
+Subject: Re: [PATCH v1 10/13] tests/plugins: add -Wno-unknown-warning-option
+ to handle -Wpsabi
+To: =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>,
+ Richard Henderson <richard.henderson@linaro.org>
+References: <20200709141327.14631-1-alex.bennee@linaro.org>
+ <20200709141327.14631-11-alex.bennee@linaro.org>
+ <9c736c87-34c7-375c-61b8-954aa70deab5@linaro.org> <87wo37z7vv.fsf@linaro.org>
 From: Thomas Huth <thuth@redhat.com>
-To: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>,
- qemu-devel@nongnu.org
-Subject: [PATCH] gitlab-ci/containers: Add missing wildcard where we should
- look for changes
-Date: Mon, 13 Jul 2020 20:22:35 +0200
-Message-Id: <20200713182235.30379-1-thuth@redhat.com>
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
+Openpgp: preference=signencrypt
+Message-ID: <6afbd8ef-9aa5-961d-975f-d26136989e26@redhat.com>
+Date: Mon, 13 Jul 2020 20:27:35 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+ Thunderbird/60.9.0
+MIME-Version: 1.0
+In-Reply-To: <87wo37z7vv.fsf@linaro.org>
+Content-Language: en-US
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=US-ASCII
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: 8bit
 Received-SPF: pass client-ip=207.211.31.81; envelope-from=thuth@redhat.com;
  helo=us-smtp-delivery-1.mimecast.com
 X-detected-operating-system: by eggs.gnu.org: First seen = 2020/07/13 02:19:41
@@ -73,36 +85,46 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: =?UTF-8?q?Daniel=20P=2E=20Berrang=C3=A9?= <berrange@redhat.com>,
- =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>
+Cc: fam@euphon.net, berrange@redhat.com, robert.foley@linaro.org,
+ f4bug@amsat.org, robhenry@microsoft.com, qemu-devel@nongnu.org,
+ aaron@os.amperecomputing.com, cota@braap.org, peter.puhov@linaro.org,
+ kuhn.chenqun@huawei.com, aurelien@aurel32.net
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The tests/docker/* wildcard seems to only match the files that are directly
-in the tests/docker folder - but changes to the files in the directory
-tests/docker/dockerfiles are currently ignored. Seems like we need a
-separate entry to match the files in that folder. With this wildcard added,
-the stages now get re-run successfully when something in the dockerfiles
-has been changed.
+On 13/07/2020 18.39, Alex Bennée wrote:
+> 
+> Richard Henderson <richard.henderson@linaro.org> writes:
+> 
+>> On 7/9/20 7:13 AM, Alex Bennée wrote:
+>>> Not all compilers support the -Wpsabi (clang-9 in my case).
+>>>
+>>> Fixes: bac8d222a
+>>> Signed-off-by: Alex Bennée <alex.bennee@linaro.org>
+>>> ---
+>>>  tests/plugin/Makefile | 2 +-
+>>>  1 file changed, 1 insertion(+), 1 deletion(-)
+>>>
+>>> diff --git a/tests/plugin/Makefile b/tests/plugin/Makefile
+>>> index 0cb8e35ae407..dcfbd99b15b8 100644
+>>> --- a/tests/plugin/Makefile
+>>> +++ b/tests/plugin/Makefile
+>>> @@ -18,7 +18,7 @@ NAMES += hwprofile
+>>>  
+>>>  SONAMES := $(addsuffix .so,$(addprefix lib,$(NAMES)))
+>>>  
+>>> -QEMU_CFLAGS += -fPIC -Wpsabi
+>>> +QEMU_CFLAGS += -fPIC -Wno-unknown-warning-option -Wpsabi
+>>
+>> Surely -Wno-unknown-warning-option is in the same boat?  E.g. I don't see any
+>> version of gcc that supports it.
+> 
+> GCC doesn't seem to complain about it though.
 
-Signed-off-by: Thomas Huth <thuth@redhat.com>
----
- .gitlab-ci.d/containers.yml | 1 +
- 1 file changed, 1 insertion(+)
+Both, GCC and Clang do not complain about unknown -Wno-somthing options
+as long as there are no other warnings. They only complain for options
+that do not have a "no-" after the "-W".
 
-diff --git a/.gitlab-ci.d/containers.yml b/.gitlab-ci.d/containers.yml
-index f3c0ca4d61..8c89efeb6d 100644
---- a/.gitlab-ci.d/containers.yml
-+++ b/.gitlab-ci.d/containers.yml
-@@ -24,6 +24,7 @@
-     - changes:
-       - .gitlab-ci.d/containers.yml
-       - tests/docker/*
-+      - tests/docker/dockerfiles/*
-     - if: '$CI_COMMIT_BRANCH == $CI_DEFAULT_BRANCH'
-     - if: '$CI_COMMIT_REF_NAME == "testing/next"'
- 
--- 
-2.18.1
+ Thomas
 
 
