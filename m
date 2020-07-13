@@ -2,55 +2,54 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0238721D681
-	for <lists+qemu-devel@lfdr.de>; Mon, 13 Jul 2020 15:11:48 +0200 (CEST)
-Received: from localhost ([::1]:46794 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 70CD721D556
+	for <lists+qemu-devel@lfdr.de>; Mon, 13 Jul 2020 13:54:32 +0200 (CEST)
+Received: from localhost ([::1]:56984 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1juyFH-0003Vm-3D
-	for lists+qemu-devel@lfdr.de; Mon, 13 Jul 2020 09:11:47 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:49172)
+	id 1jux2V-0001mp-Hq
+	for lists+qemu-devel@lfdr.de; Mon, 13 Jul 2020 07:54:31 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:51348)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <git@the-jedi.co.uk>)
- id 1juwtk-0006S5-H9
- for qemu-devel@nongnu.org; Mon, 13 Jul 2020 07:45:28 -0400
-Received: from vps.the-jedi.co.uk ([93.93.130.107]:34578)
+ (Exim 4.90_1) (envelope-from <alxndr@bu.edu>) id 1jux1M-0000yb-96
+ for qemu-devel@nongnu.org; Mon, 13 Jul 2020 07:53:20 -0400
+Received: from relay64.bu.edu ([128.197.228.104]:47061)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <git@the-jedi.co.uk>)
- id 1juwti-00031q-7y
- for qemu-devel@nongnu.org; Mon, 13 Jul 2020 07:45:28 -0400
-Received: by vps.the-jedi.co.uk (Postfix, from userid 111)
- id 00D5442D19; Mon, 13 Jul 2020 12:45:23 +0100 (BST)
-Received: from [192.168.0.5] (host86-179-4-163.range86-179.btcentralplus.com
- [86.179.4.163])
- by vps.the-jedi.co.uk (Postfix) with ESMTPSA id 980134242D;
- Mon, 13 Jul 2020 12:45:21 +0100 (BST)
-Subject: Re: [PATCH] Allow acpi-tmr size=2
-To: "Michael S. Tsirkin" <mst@redhat.com>, Michael Tokarev <mjt@tls.msk.ru>
-References: <5f12377f-b640-c4c5-1bcd-858c622c6c31@the-jedi.co.uk>
- <4a5cfe21-d370-8ebf-b905-c37d39b68353@msgid.tls.msk.ru>
- <20200713070946-mutt-send-email-mst@kernel.org>
-From: Simon John <git@the-jedi.co.uk>
-Message-ID: <7662bc2c-d958-731a-0882-62c5ab47c7a4@the-jedi.co.uk>
-Date: Mon, 13 Jul 2020 12:46:00 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.10.0
+ (Exim 4.90_1) (envelope-from <alxndr@bu.edu>) id 1jux1K-00048L-G5
+ for qemu-devel@nongnu.org; Mon, 13 Jul 2020 07:53:19 -0400
+X-Envelope-From: alxndr@bu.edu
+X-BU-AUTH: mozz.bu.edu [128.197.127.33]
+Received: from BU-AUTH (localhost.localdomain [127.0.0.1]) (authenticated
+ bits=0)
+ by relay64.bu.edu (8.14.3/8.14.3) with ESMTP id 06DBqe1d006532
+ (version=TLSv1/SSLv3 cipher=AES256-GCM-SHA384 bits=256 verify=NO);
+ Mon, 13 Jul 2020 07:52:44 -0400
+Date: Mon, 13 Jul 2020 07:52:40 -0400
+From: Alexander Bulekov <alxndr@bu.edu>
+To: Stefan Hajnoczi <stefanha@redhat.com>
+Subject: Re: [RFC PATCH 3/3] fuzz: Add callbacks for dma-access functions
+Message-ID: <20200713115240.dmfxvi42qfw7huhe@mozz.bu.edu>
+References: <20200611055651.13784-1-alxndr@bu.edu>
+ <20200611055651.13784-4-alxndr@bu.edu>
+ <20200623141456.GK36568@stefanha-x1.localdomain>
+ <20200709234855.lpto2yc5fanzgzjs@mozz.bu.edu>
+ <20200713114110.GK28639@stefanha-x1.localdomain>
 MIME-Version: 1.0
-In-Reply-To: <20200713070946-mutt-send-email-mst@kernel.org>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=93.93.130.107; envelope-from=git@the-jedi.co.uk;
- helo=vps.the-jedi.co.uk
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/07/13 07:45:24
-X-ACL-Warn: Detected OS   = Linux 3.11 and newer
-X-Spam_score_int: -18
-X-Spam_score: -1.9
-X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, SPF_HELO_NONE=0.001,
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20200713114110.GK28639@stefanha-x1.localdomain>
+User-Agent: NeoMutt/20180716
+Received-SPF: pass client-ip=128.197.228.104; envelope-from=alxndr@bu.edu;
+ helo=relay64.bu.edu
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/07/13 07:53:17
+X-ACL-Warn: Detected OS   = Linux 2.6.x
+X-Spam_score_int: -31
+X-Spam_score: -3.2
+X-Spam_bar: ---
+X-Spam_report: (-3.2 / 5.0 requ) BAYES_00=-1.9, HK_RANDOM_ENVFROM=0.001,
+ HK_RANDOM_FROM=1, RCVD_IN_DNSWL_MED=-2.3, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
-X-Mailman-Approved-At: Mon, 13 Jul 2020 09:10:50 -0400
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -62,105 +61,67 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: imammedo@redhat.com, qemu-devel@nongnu.org,
- Gerd Hoffmann <kraxel@redhat.com>
+Cc: Stefan Hajnoczi <stefanha@gmail.com>, qemu-devel@nongnu.org,
+ f4bug@amsat.org, darren.kenny@oracle.com, bsd@redhat.com,
+ Paolo Bonzini <pbonzini@redhat.com>, Richard Henderson <rth@twiddle.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-I don't profess to understand most of this, I am just a user who found 
-something didn't work and tracked down the cause with help from the 
-people on the bugtracker.
+On 200713 1241, Stefan Hajnoczi wrote:
+> On Thu, Jul 09, 2020 at 07:48:55PM -0400, Alexander Bulekov wrote:
+> > On 200623 1514, Stefan Hajnoczi wrote:
+> > > On Thu, Jun 11, 2020 at 01:56:51AM -0400, Alexander Bulekov wrote:
+> > > > Signed-off-by: Alexander Bulekov <alxndr@bu.edu>
+> > > > ---
+> > > >  exec.c                                | 17 ++++++++++++++++-
+> > > >  include/exec/memory.h                 |  8 ++++++++
+> > > >  include/exec/memory_ldst_cached.inc.h |  9 +++++++++
+> > > >  include/sysemu/dma.h                  |  5 ++++-
+> > > >  memory_ldst.inc.c                     | 12 ++++++++++++
+> > > >  5 files changed, 49 insertions(+), 2 deletions(-)
+> > > 
+> > > Please rename dma_read_cb() to fuzz_dma_read_cb() so the purpose of the
+> > > function is clear.
+> > > 
+> > > The ifdefs can be avoided by defining an empty function when CONFIG_FUZZ
+> > > is undefined. In a header file:
+> > > 
+> > >   #ifdef CONFIG_FUZZ
+> > >   void fuzz_dma_read_cb(size_t addr, size_t len);
+> > >   #else
+> > >   static inline void fuzz_dma_read_cb(size_t addr, size_t len)
+> > >   {
+> > >       /* Do nothing */
+> > >   }
+> > >   #endif
+> > > 
+> > 
+> > If I understand correctly, this still has the problem that normal
+> > qemu-system builds under --enable-fuzzing are broken. I'm not sure if
+> > there is some nice solution for this. For example, a sort-of ugly
+> > solution could add this to softmmu/main.c (ie something that is linked
+> > for the qemu-system build, but not for qemu-fuzz).
+> > 
+> > #ifdef CONFIG_FUZZ
+> > #include "something.h"
+> > static void fuzz_dma_read_cb(size_t addr, size_t len)
+> > {
+> >     /* Do nothing */
+> > }
+> > #endif
+> 
+> Another ugly solution is using weak symbols in the main code and a
+> strong symbol in the fuzzer target:
+> https://en.wikipedia.org/wiki/Weak_symbol
 
-the min=1 and max=4 was chosen as it seems to be set that way in most 
-other places in the source, and 2 fits in that range.
+Ok - I'll try that out. I think we'll also need a check in the actual
+dma_read_cb function to confirm that we are actually the general-fuzzer.
+We don't want to be hooking accesses while e.g. running the non-general
+virtio-net fuzzer.
 
-so as macos seems to require 2 bytes but spec says 4 (32 bits) would it 
-be better to set min=2 max=4, given that the original revert seems to be 
-a security fix?
+-Alex
 
-this works equally well:
-
-static const MemoryRegionOps acpi_pm_tmr_ops = {
-     .read = acpi_pm_tmr_read,
-     .write = acpi_pm_tmr_write,
-     .valid.min_access_size = 2,
-     .valid.max_access_size = 4,
-     .endianness = DEVICE_LITTLE_ENDIAN,
-};
-
-regards.
-
-
-
-On 13/07/2020 12:14, Michael S. Tsirkin wrote:
-> On Mon, Jul 13, 2020 at 10:20:12AM +0300, Michael Tokarev wrote:
->> 12.07.2020 15:00, Simon John wrote:
->>> macos guests no longer boot after commit 5d971f9e672507210e77d020d89e0e89165c8fc9
->>>
->>> acpi-tmr needs 2 byte memory accesses, so breaks as that commit only allows 4 bytes.
->>>
->>> Fixes: 5d971f9e672507210e7 (memory: Revert "memory: accept mismatching sizes in memory_region_access_valid")
->>> Buglink: https://bugs.launchpad.net/qemu/+bug/1886318
->>
->> Actually this fixes 77d58b1e47c8d1c661f98f12b47ab519d3561488
->> Author: Gerd Hoffmann <kraxel@redhat.com>
->> Date:   Thu Nov 22 12:12:30 2012 +0100
->> Subject: apci: switch timer to memory api
->> Signed-off-by: Gerd Hoffmann <kraxel@redhat.com>
->>
->> because this is the commit which put min_access_size = 4 in there
->> (5d971f9e672507210e7 is just a messenger, actual error were here
->> earlier but it went unnoticed).
->>
->> While min_access_size=4 was most likely an error, I wonder why
->> we use 1 now, while the subject says it needs 2? What real min
->> size is here for ACPI PM timer?
->>
->> /mjt
-> 
-> 
-> Well the ACPI spec 1.0b says
-> 
-> 4.7.3.3 Power Management Timer (PM_TMR)
-> 
-> ...
-> 
-> This register is accessed as 32 bits.
-> 
-> and this text is still there in 6.2.
-> 
-> 
-> So it's probably worth it to cite this in the commit log
-> and explain it's a spec violation.
-> I think it's better to be restrictive and only allow the
-> minimal variation from spec - in this case I guess this means 2 byte
-> reads.
-> 
-> In any case pls do include an explanation for why you picked
-> one over the other.
-> 
->>
->>> Signed-off-by: Simon John <git@the-jedi.co.uk>
->>> ---
->>> Â hw/acpi/core.c | 2 +-
->>> Â 1 file changed, 1 insertion(+), 1 deletion(-)
->>>
->>> diff --git a/hw/acpi/core.c b/hw/acpi/core.c
->>> index f6d9ec4f13..05ff29b9d7 100644
->>> --- a/hw/acpi/core.c
->>> +++ b/hw/acpi/core.c
->>> @@ -527,7 +527,7 @@ static void acpi_pm_tmr_write(void *opaque, hwaddr addr, uint64_t val,
->>> Â static const MemoryRegionOps acpi_pm_tmr_ops = {
->>> Â Â Â Â  .read = acpi_pm_tmr_read,
->>> Â Â Â Â  .write = acpi_pm_tmr_write,
->>> -Â Â Â  .valid.min_access_size = 4,
->>> +Â Â Â  .valid.min_access_size = 1,
->>> Â Â Â Â  .valid.max_access_size = 4,
->>> Â Â Â Â  .endianness = DEVICE_LITTLE_ENDIAN,
->>> Â };
-> 
+> Stefan
 
 
--- 
-Simon John
 
