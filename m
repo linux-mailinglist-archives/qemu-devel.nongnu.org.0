@@ -2,72 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id F002C21E12F
-	for <lists+qemu-devel@lfdr.de>; Mon, 13 Jul 2020 22:09:48 +0200 (CEST)
-Received: from localhost ([::1]:33078 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D481321E124
+	for <lists+qemu-devel@lfdr.de>; Mon, 13 Jul 2020 22:07:06 +0200 (CEST)
+Received: from localhost ([::1]:48980 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jv4lo-0000mA-2U
-	for lists+qemu-devel@lfdr.de; Mon, 13 Jul 2020 16:09:48 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:59570)
+	id 1jv4jB-0004Iy-TO
+	for lists+qemu-devel@lfdr.de; Mon, 13 Jul 2020 16:07:05 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:59514)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1jv4gj-0008Gz-De
- for qemu-devel@nongnu.org; Mon, 13 Jul 2020 16:04:33 -0400
-Received: from mail-wr1-x442.google.com ([2a00:1450:4864:20::442]:44885)
+ id 1jv4gf-00088E-Tf
+ for qemu-devel@nongnu.org; Mon, 13 Jul 2020 16:04:29 -0400
+Received: from mail-wr1-x443.google.com ([2a00:1450:4864:20::443]:44885)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1jv4gh-0006JN-GR
- for qemu-devel@nongnu.org; Mon, 13 Jul 2020 16:04:33 -0400
-Received: by mail-wr1-x442.google.com with SMTP id b6so18142756wrs.11
- for <qemu-devel@nongnu.org>; Mon, 13 Jul 2020 13:04:31 -0700 (PDT)
+ id 1jv4ge-0006Io-AA
+ for qemu-devel@nongnu.org; Mon, 13 Jul 2020 16:04:29 -0400
+Received: by mail-wr1-x443.google.com with SMTP id b6so18142536wrs.11
+ for <qemu-devel@nongnu.org>; Mon, 13 Jul 2020 13:04:27 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=RFloOI9RdqsuY1jzWY/LdnGW0qTS1vaDIDIUNvMdMkw=;
- b=zOKKinMl8Lc4tl+khcrq25otS5ClYMFza+X8Eb8n8PJ7hQDMp7qLKWT7XBzuLwUnTi
- VjmNAJQVQ8lV8KViFJt6Ozwz01fq/4O5j/ugnJOlgWRuWS2rLAvFgb/A1HQBF55RbRcZ
- GQvBF03MeCYdYuHLlSkW1GWLRGzaW/2xHlEzOxRnbI10ygzyNKxJW+TeXWZ60yztPJnx
- PwSYc/3A956kxyXldFVqJWJqmrfib28ef2fVWm+uiDaIOkbqTL/AdGRXizdlqrJpddv4
- 8IBew9zVF+kF5eibGXk6wzK6t67zqOdaQAphN8pyy3GT1vKQ8SeZRAq3HKPkeAvi7x7Q
- 3fsQ==
+ bh=q6cYMqIkyzOX02PZCCZFUIzSlg7qzIM3UYcqhB9l+V0=;
+ b=Dm/LzKWTHcv4R9bX/1f7jVEdJXV6pp0jm5BwwyhZOws8gjhr5pfomQ0gaFV+No/ks5
+ nlJ1Q8vxM7P/HvAgRv1RMGZkD82bAAAJq6qc6kPVnE2paZ584WNIymAoiWSkHKCQwfNy
+ +okgcVwZxMwB89UVZJ01m3inQ1TDHIog4pTOuuQFJRLx+QqfZ+JAgWfMS17V8J0216Hh
+ z6gGF13YhgFw/uDVNknA3UWpT5Vgl+on4LED/1B7qugbmx2vgawTPzoE4HMzUe6cSjFt
+ PPedllNzn3LcSFIyYMmAak6/YF93OwFM6TLW5JurFx80Snac9lxZ07IfIi2zt85UkMPB
+ +maQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=RFloOI9RdqsuY1jzWY/LdnGW0qTS1vaDIDIUNvMdMkw=;
- b=HG6Ikq8ZHO+Vs/UYJ+j5HrrgIrKtr5bcVaHYHL5opYNB0HC+Vl3/y687JOH4QL8qlJ
- aV8kCd713EdH8aey2O1ugM5ZUZcBXiGkTwdZEP+tL6fcpT5+ZRg1FBkmbrujJ0p9Gv2c
- ay/dgyfdFldNDke89p23gXvB5Q+bbOGPSRqHy8ChzMiUuEg3y2LGSpTNYyxAd61ilBL9
- ji/X7rTz4W2m8QeviiRJDr7zx5czlIS4tPnmrH1FWgRLSaZduxcx0i5IvVIE0qbsXLyn
- S4IICrwi/W/uPCDnFYr2lvEbkLOIMIKUtznB1LRrCh9kHpnQc/7xLOCCLBSDElPFNsdx
- e0pg==
-X-Gm-Message-State: AOAM530B8xazTi8iIvKMPlNruyh3RmR5jbCY1gx3KpP794VWJj5b3gOc
- SR4wTHNED6L0wMV77Rkm+CAuwg==
-X-Google-Smtp-Source: ABdhPJz0U1RwaSiDkrjwHwQDpu95CLWAZdSD8f+3Y7G8PVkw0FQyxceowkoWTeeyIBCnsVHLzEK73A==
-X-Received: by 2002:a5d:6107:: with SMTP id v7mr1188315wrt.174.1594670670106; 
- Mon, 13 Jul 2020 13:04:30 -0700 (PDT)
+ bh=q6cYMqIkyzOX02PZCCZFUIzSlg7qzIM3UYcqhB9l+V0=;
+ b=rSle5sisCTU7XKlvm0Qxzi3v2Bzl4CRKcEv6GKhhNBeaQzsajvDJhYhaKYbkJS3Oq3
+ VdNeX4o9FZwhwRNBlK2JUIIfjl/2FeiNa/xYoXa6CBK2VgrsuwUg7hW/SkLeWXTia9ks
+ FQ5l8LxE26KC8XjoaG6CMrSBxgVic+zsc/8Dmst80W6lOEhpDHfNjjhyY0LDi9jEBtFd
+ n6VLkU5s3RU5Afst64bxicXM6nlvgkw27HSvz48absftptKcs/cr9jJwLNw1qB7zMv/v
+ w1GKk8S/cUCtZvU6rJzsIP97DUHbaTMEgRLNNqPkEvl0fNg5czKjzKlMJKXZU3JrN9ev
+ p8lg==
+X-Gm-Message-State: AOAM530m6ztQx42qUrf1e6+25aYGHQGrcUM+GrZMtl0U+TH7qig2BNji
+ 0NKP9FNRe6tK6BMRIBFPjbNXeg==
+X-Google-Smtp-Source: ABdhPJwNWY3SgMXfjVwiYGdGYbA0lFpxY7vc3rvcdRQJAaD6W9w5gd+jwh61WKVoGWKcs6MW/BhWHA==
+X-Received: by 2002:adf:cf0a:: with SMTP id o10mr1212492wrj.14.1594670666857; 
+ Mon, 13 Jul 2020 13:04:26 -0700 (PDT)
 Received: from zen.linaroharston ([51.148.130.216])
- by smtp.gmail.com with ESMTPSA id 190sm939618wmb.15.2020.07.13.13.04.19
+ by smtp.gmail.com with ESMTPSA id s8sm24970176wru.38.2020.07.13.13.04.19
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
  Mon, 13 Jul 2020 13:04:23 -0700 (PDT)
 Received: from zen.lan (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id 43CCF1FF93;
+ by zen.linaroharston (Postfix) with ESMTP id 59E921FF96;
  Mon, 13 Jul 2020 21:04:16 +0100 (BST)
 From: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v2 07/11] plugins: expand the bb plugin to be thread safe and
- track per-cpu
-Date: Mon, 13 Jul 2020 21:04:11 +0100
-Message-Id: <20200713200415.26214-8-alex.bennee@linaro.org>
+Subject: [PATCH  v2 08/11] docs/devel: fix grammar in multi-thread-tcg
+Date: Mon, 13 Jul 2020 21:04:12 +0100
+Message-Id: <20200713200415.26214-9-alex.bennee@linaro.org>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20200713200415.26214-1-alex.bennee@linaro.org>
 References: <20200713200415.26214-1-alex.bennee@linaro.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::442;
- envelope-from=alex.bennee@linaro.org; helo=mail-wr1-x442.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::443;
+ envelope-from=alex.bennee@linaro.org; helo=mail-wr1-x443.google.com
 X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
  That's all we know.
 X-Spam_score_int: -20
@@ -92,162 +91,31 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Cc: fam@euphon.net, berrange@redhat.com, robert.foley@linaro.org,
  =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>,
  richard.henderson@linaro.org, f4bug@amsat.org, robhenry@microsoft.com,
- aaron@os.amperecomputing.com, cota@braap.org, Dave Bort <dbort@dbort.com>,
- kuhn.chenqun@huawei.com, peter.puhov@linaro.org, aurelien@aurel32.net
+ aaron@os.amperecomputing.com, cota@braap.org, kuhn.chenqun@huawei.com,
+ peter.puhov@linaro.org, aurelien@aurel32.net
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-While there isn't any easy way to make the inline counts thread safe
-we can ensure the callback based ones are. While we are at it we can
-reduce introduce a new option ("idle") to dump a report of the current
-bb and insn count each time a vCPU enters the idle state.
+Review comment came just too late ;-)
 
 Signed-off-by: Alex Bennée <alex.bennee@linaro.org>
-Reviewed-by: Robert Foley <robert.foley@linaro.org>
-Cc: Dave Bort <dbort@dbort.com>
-
 ---
-v2
-  - fixup for non-inline linux-user case
-  - minor cleanup and re-factor
-v3
-  - checkpatch
----
- tests/plugin/bb.c | 97 ++++++++++++++++++++++++++++++++++++++++-------
- 1 file changed, 84 insertions(+), 13 deletions(-)
+ docs/devel/multi-thread-tcg.rst | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/tests/plugin/bb.c b/tests/plugin/bb.c
-index df19fd359d..e4cc7fdd6e 100644
---- a/tests/plugin/bb.c
-+++ b/tests/plugin/bb.c
-@@ -16,24 +16,67 @@
+diff --git a/docs/devel/multi-thread-tcg.rst b/docs/devel/multi-thread-tcg.rst
+index 42158b77c7..21483870db 100644
+--- a/docs/devel/multi-thread-tcg.rst
++++ b/docs/devel/multi-thread-tcg.rst
+@@ -107,7 +107,7 @@ including:
  
- QEMU_PLUGIN_EXPORT int qemu_plugin_version = QEMU_PLUGIN_VERSION;
+   - debugging operations (breakpoint insertion/removal)
+   - some CPU helper functions
+-  - linux-user spawning it's first thread
++  - linux-user spawning its first thread
  
--static uint64_t bb_count;
--static uint64_t insn_count;
-+typedef struct {
-+    GMutex lock;
-+    int index;
-+    uint64_t bb_count;
-+    uint64_t insn_count;
-+} CPUCount;
-+
-+/* Used by the inline & linux-user counts */
- static bool do_inline;
-+static CPUCount inline_count;
-+
-+/* Dump running CPU total on idle? */
-+static bool idle_report;
-+static GPtrArray *counts;
-+static int max_cpus;
-+
-+static void gen_one_cpu_report(CPUCount *count, GString *report)
-+{
-+    if (count->bb_count) {
-+        g_string_append_printf(report, "CPU%d: "
-+                               "bb's: %" PRIu64", insns: %" PRIu64 "\n",
-+                               count->index,
-+                               count->bb_count, count->insn_count);
-+    }
-+}
- 
- static void plugin_exit(qemu_plugin_id_t id, void *p)
- {
--    g_autofree gchar *out = g_strdup_printf(
--        "bb's: %" PRIu64", insns: %" PRIu64 "\n",
--        bb_count, insn_count);
--    qemu_plugin_outs(out);
-+    g_autoptr(GString) report = g_string_new("");
-+
-+    if (do_inline || !max_cpus) {
-+        g_string_printf(report, "bb's: %" PRIu64", insns: %" PRIu64 "\n",
-+                        inline_count.bb_count, inline_count.insn_count);
-+    } else {
-+        g_ptr_array_foreach(counts, (GFunc) gen_one_cpu_report, report);
-+    }
-+    qemu_plugin_outs(report->str);
-+}
-+
-+static void vcpu_idle(qemu_plugin_id_t id, unsigned int cpu_index)
-+{
-+    CPUCount *count = g_ptr_array_index(counts, cpu_index);
-+    g_autoptr(GString) report = g_string_new("");
-+    gen_one_cpu_report(count, report);
-+
-+    if (report->len > 0) {
-+        g_string_prepend(report, "Idling ");
-+        qemu_plugin_outs(report->str);
-+    }
- }
- 
- static void vcpu_tb_exec(unsigned int cpu_index, void *udata)
- {
--    unsigned long n_insns = (unsigned long)udata;
-+    CPUCount *count = max_cpus ?
-+        g_ptr_array_index(counts, cpu_index) : &inline_count;
- 
--    insn_count += n_insns;
--    bb_count++;
-+    unsigned long n_insns = (unsigned long)udata;
-+    g_mutex_lock(&count->lock);
-+    count->insn_count += n_insns;
-+    count->bb_count++;
-+    g_mutex_unlock(&count->lock);
- }
- 
- static void vcpu_tb_trans(qemu_plugin_id_t id, struct qemu_plugin_tb *tb)
-@@ -42,9 +85,10 @@ static void vcpu_tb_trans(qemu_plugin_id_t id, struct qemu_plugin_tb *tb)
- 
-     if (do_inline) {
-         qemu_plugin_register_vcpu_tb_exec_inline(tb, QEMU_PLUGIN_INLINE_ADD_U64,
--                                                 &bb_count, 1);
-+                                                 &inline_count.bb_count, 1);
-         qemu_plugin_register_vcpu_tb_exec_inline(tb, QEMU_PLUGIN_INLINE_ADD_U64,
--                                                 &insn_count, n_insns);
-+                                                 &inline_count.insn_count,
-+                                                 n_insns);
-     } else {
-         qemu_plugin_register_vcpu_tb_exec_cb(tb, vcpu_tb_exec,
-                                              QEMU_PLUGIN_CB_NO_REGS,
-@@ -56,8 +100,35 @@ QEMU_PLUGIN_EXPORT int qemu_plugin_install(qemu_plugin_id_t id,
-                                            const qemu_info_t *info,
-                                            int argc, char **argv)
- {
--    if (argc && strcmp(argv[0], "inline") == 0) {
--        do_inline = true;
-+    int i;
-+
-+    for (i = 0; i < argc; i++) {
-+        char *opt = argv[i];
-+        if (g_strcmp0(opt, "inline") == 0) {
-+            do_inline = true;
-+        } else if (g_strcmp0(opt, "idle") == 0) {
-+            idle_report = true;
-+        } else {
-+            fprintf(stderr, "option parsing failed: %s\n", opt);
-+            return -1;
-+        }
-+    }
-+
-+    if (info->system_emulation && !do_inline) {
-+        max_cpus = info->system.max_vcpus;
-+        counts = g_ptr_array_new();
-+        for (i = 0; i < max_cpus; i++) {
-+            CPUCount *count = g_new0(CPUCount, 1);
-+            g_mutex_init(&count->lock);
-+            count->index = i;
-+            g_ptr_array_add(counts, count);
-+        }
-+    } else if (!do_inline) {
-+        g_mutex_init(&inline_count.lock);
-+    }
-+
-+    if (idle_report) {
-+        qemu_plugin_register_vcpu_idle_cb(id, vcpu_idle);
-     }
- 
-     qemu_plugin_register_vcpu_tb_trans_cb(id, vcpu_tb_trans);
+ This is done with the async_safe_run_on_cpu() mechanism to ensure all
+ vCPUs are quiescent when changes are being made to shared global
 -- 
 2.20.1
 
