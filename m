@@ -2,64 +2,62 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9009A21D417
-	for <lists+qemu-devel@lfdr.de>; Mon, 13 Jul 2020 12:57:18 +0200 (CEST)
-Received: from localhost ([::1]:38960 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 72D0121D42A
+	for <lists+qemu-devel@lfdr.de>; Mon, 13 Jul 2020 13:00:40 +0200 (CEST)
+Received: from localhost ([::1]:51256 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1juw97-0001ib-JK
-	for lists+qemu-devel@lfdr.de; Mon, 13 Jul 2020 06:57:17 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:60900)
+	id 1juwCL-0006dd-Gw
+	for lists+qemu-devel@lfdr.de; Mon, 13 Jul 2020 07:00:37 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:60932)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1juw7d-0008S1-SB
- for qemu-devel@nongnu.org; Mon, 13 Jul 2020 06:55:45 -0400
-Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:32304
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1juw7h-00006d-F9
+ for qemu-devel@nongnu.org; Mon, 13 Jul 2020 06:55:49 -0400
+Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:56167
  helo=us-smtp-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1juw7c-0003w9-91
- for qemu-devel@nongnu.org; Mon, 13 Jul 2020 06:55:45 -0400
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1juw7f-0003ww-S0
+ for qemu-devel@nongnu.org; Mon, 13 Jul 2020 06:55:49 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1594637743;
+ s=mimecast20190719; t=1594637747;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=1+JSHYb737LZqhaYjYC2+OkHdZ5z7XT1MwUYgTFntwI=;
- b=X5jZiLBoZyIJt+eHhkTdGYHn5A4C9xdlSegejSyT8OQKHUjkh6fd/HWzqV9a2T0vvqhrRC
- Ahk/LueKSL4VIf/iHhFViSVDr9KgkpwF+ypp5kVsONr7Ma+cI2o2J1HE6L1LXqRE4sUbm3
- cAWGCbd8m0uchNfzkZ/f/ba9WBx6+dY=
+ bh=R5gA0vB2/CqJHy1CxkeMBfDmCvBmDy/ymYGtAqoM3sM=;
+ b=Yx85q3djTsVrSSSykb3mHxXTfPjxx57FFuiqoK02ibOWrcqaBIj6R4AaXmK70ovRWMpR3x
+ kjTW3X6YHv/waQR6nBfFrkyd0pzSQj2Bk9Q6AsHRhaTTvtCDeA3MzgWztpDvCshhzZdzSs
+ h0h/8w3AOE28glMZ7B0iSAz/uEbc9xA=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-70-ddaxHFoBMsKkkFfYcDHHNQ-1; Mon, 13 Jul 2020 06:55:41 -0400
-X-MC-Unique: ddaxHFoBMsKkkFfYcDHHNQ-1
+ us-mta-291-RUVq48RdPNavcloJvwt3rQ-1; Mon, 13 Jul 2020 06:55:42 -0400
+X-MC-Unique: RUVq48RdPNavcloJvwt3rQ-1
 Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
  [10.5.11.23])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 49B291902EA0;
- Mon, 13 Jul 2020 10:55:40 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id EF3D6107ACCA;
+ Mon, 13 Jul 2020 10:55:41 +0000 (UTC)
 Received: from thuth.com (ovpn-112-125.ams2.redhat.com [10.36.112.125])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 47CCE27CCC;
- Mon, 13 Jul 2020 10:55:39 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id B1D8B27CCC;
+ Mon, 13 Jul 2020 10:55:40 +0000 (UTC)
 From: Thomas Huth <thuth@redhat.com>
 To: peter.maydell@linaro.org,
 	qemu-devel@nongnu.org
-Subject: [PULL 2/9] configure: do not clobber CFLAGS with --enable-fuzzing
-Date: Mon, 13 Jul 2020 12:55:27 +0200
-Message-Id: <20200713105534.10872-3-thuth@redhat.com>
+Subject: [PULL 3/9] fuzz: add missing header for rcu_enable_atfork
+Date: Mon, 13 Jul 2020 12:55:28 +0200
+Message-Id: <20200713105534.10872-4-thuth@redhat.com>
 In-Reply-To: <20200713105534.10872-1-thuth@redhat.com>
 References: <20200713105534.10872-1-thuth@redhat.com>
 MIME-Version: 1.0
 X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=thuth@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=205.139.110.120; envelope-from=thuth@redhat.com;
+Received-SPF: pass client-ip=207.211.31.120; envelope-from=thuth@redhat.com;
  helo=us-smtp-1.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/07/13 03:20:22
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/07/13 02:19:41
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
 X-Spam_score_int: -40
 X-Spam_score: -4.1
@@ -86,35 +84,33 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Alexander Bulekov <alxndr@bu.edu>
 
-When configuring with --enable-fuzzing, we overwrote the CFLAGS
-added by all the preceding checks. Instead of overwriting CFLAGS, append
-the ones we need.
+In 45222b9a90, I fixed a broken check for rcu_enable_atfork introduced
+in d6919e4cb6. I added a call to rcu_enable_atfork after the
+call to qemu_init in fuzz.c, but forgot to include the corresponding
+header, breaking --enable-fuzzing --enable-werror builds.
 
-Fixes: adc28027ff ("fuzz: add configure flag --enable-fuzzing")
-Reported-by: Li Qiang <liq3ea@163.com>
+Fixes: 45222b9a90 ("fuzz: fix broken qtest check at rcu_disable_atfork")
 Signed-off-by: Alexander Bulekov <alxndr@bu.edu>
-Message-Id: <20200708200104.21978-2-alxndr@bu.edu>
-Tested-by: Li Qiang <liq3ea@gmail.com>
-Reviewed-by: Li Qiang <liq3ea@gmail.com>
+Message-Id: <20200708200104.21978-3-alxndr@bu.edu>
 Reviewed-by: Philippe Mathieu-Daudé <philmd@redhat.com>
+Reviewed-by: Thomas Huth <thuth@redhat.com>
 Signed-off-by: Thomas Huth <thuth@redhat.com>
 ---
- configure | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ tests/qtest/fuzz/fuzz.c | 1 +
+ 1 file changed, 1 insertion(+)
 
-diff --git a/configure b/configure
-index f59418f6de..69a89113f7 100755
---- a/configure
-+++ b/configure
-@@ -7926,7 +7926,7 @@ if test "$fuzzing" = "yes" ; then
-   if test "$have_fuzzer" = "yes"; then
-     FUZZ_LDFLAGS=" -fsanitize=address,fuzzer"
-     FUZZ_CFLAGS=" -fsanitize=address,fuzzer"
--    CFLAGS=" -fsanitize=address,fuzzer-no-link"
-+    CFLAGS="$CFLAGS -fsanitize=address,fuzzer-no-link"
-   else
-     error_exit "Your compiler doesn't support -fsanitize=address,fuzzer"
-     exit 1
+diff --git a/tests/qtest/fuzz/fuzz.c b/tests/qtest/fuzz/fuzz.c
+index a36d9038e0..0b66e43409 100644
+--- a/tests/qtest/fuzz/fuzz.c
++++ b/tests/qtest/fuzz/fuzz.c
+@@ -19,6 +19,7 @@
+ #include "sysemu/runstate.h"
+ #include "sysemu/sysemu.h"
+ #include "qemu/main-loop.h"
++#include "qemu/rcu.h"
+ #include "tests/qtest/libqtest.h"
+ #include "tests/qtest/libqos/qgraph.h"
+ #include "fuzz.h"
 -- 
 2.18.1
 
