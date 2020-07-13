@@ -2,79 +2,76 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 326ED21D767
-	for <lists+qemu-devel@lfdr.de>; Mon, 13 Jul 2020 15:40:52 +0200 (CEST)
-Received: from localhost ([::1]:38760 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 07B9C21D76B
+	for <lists+qemu-devel@lfdr.de>; Mon, 13 Jul 2020 15:43:16 +0200 (CEST)
+Received: from localhost ([::1]:42102 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1juyhP-0005NX-9E
-	for lists+qemu-devel@lfdr.de; Mon, 13 Jul 2020 09:40:51 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:54176)
+	id 1juyjj-0006mk-2l
+	for lists+qemu-devel@lfdr.de; Mon, 13 Jul 2020 09:43:15 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:54828)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <vgoyal@redhat.com>) id 1juygQ-0004rK-4L
- for qemu-devel@nongnu.org; Mon, 13 Jul 2020 09:39:50 -0400
-Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:51124
- helo=us-smtp-1.mimecast.com)
+ (Exim 4.90_1) (envelope-from <eblake@redhat.com>) id 1juyio-00069n-2c
+ for qemu-devel@nongnu.org; Mon, 13 Jul 2020 09:42:18 -0400
+Received: from us-smtp-1.mimecast.com ([207.211.31.81]:38340
+ helo=us-smtp-delivery-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <vgoyal@redhat.com>) id 1juygN-00026g-5s
- for qemu-devel@nongnu.org; Mon, 13 Jul 2020 09:39:49 -0400
+ (Exim 4.90_1) (envelope-from <eblake@redhat.com>) id 1juyik-0002TV-NH
+ for qemu-devel@nongnu.org; Mon, 13 Jul 2020 09:42:17 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1594647585;
+ s=mimecast20190719; t=1594647733;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=UTelTcxKTCViGLWmhCCJ+7moMIiAkxlIQONoV4b8C0g=;
- b=fwBZHp+yDK6OgF1nRMMYrbRLXJqJUaTMsZdb8ZK2bYrKfQNJ81qx+J2FRyJ2d8NUpas7ES
- 55p7B4wO7ROsiS5ubTZv29nm8E21k0Z4qXugecV7p8hjmX4//FSeoLkXsWhQ6EdFu07VYF
- 6aL/5gFC0lDQKwNgqKd0N3TRDSu1l2o=
+ bh=4fz4XLSMYHab7YkI9XdcPqrXwKOcAMBs8OscbehF4I8=;
+ b=eV+2SWR/ySvQpCOiAK+k8MwD2+gSJWuY6P6/XOibK2XsmWHDos9glq6Kg9l4NQSJ1HD5kJ
+ 5GqP462ZU2PwUsqrs7H4nnJuTDFgHtWCv6w1y+iFaa8KMGBY6lHk7UWenNxE+NOI/Vl+VB
+ v85ZDKKuBD4iO19qt+TiT/L/R91mTAg=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-2-O0yvZTnVNquzVYkiVaYFiQ-1; Mon, 13 Jul 2020 09:39:41 -0400
-X-MC-Unique: O0yvZTnVNquzVYkiVaYFiQ-1
-Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
- [10.5.11.12])
+ us-mta-357-AC_57N6kPUyTLWM9qJKoCw-1; Mon, 13 Jul 2020 09:42:08 -0400
+X-MC-Unique: AC_57N6kPUyTLWM9qJKoCw-1
+Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
+ [10.5.11.16])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id B0736801E6A;
- Mon, 13 Jul 2020 13:39:39 +0000 (UTC)
-Received: from horse.redhat.com (ovpn-116-117.rdu2.redhat.com [10.10.116.117])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 1092F60BEC;
- Mon, 13 Jul 2020 13:39:36 +0000 (UTC)
-Received: by horse.redhat.com (Postfix, from userid 10451)
- id 9767A2237D7; Mon, 13 Jul 2020 09:39:35 -0400 (EDT)
-Date: Mon, 13 Jul 2020 09:39:35 -0400
-From: Vivek Goyal <vgoyal@redhat.com>
-To: Chirantan Ekbote <chirantan@chromium.org>
-Subject: Re: [Virtio-fs] [PATCH 0/2] virtiofsd: drop Linux capabilities(7)
-Message-ID: <20200713133935.GA271133@redhat.com>
-References: <20200416164907.244868-1-stefanha@redhat.com>
- <20200618190816.GD3814@redhat.com> <20200618191655.GI2769@work-vm>
- <20200618192717.GE3814@redhat.com>
- <CAJFHJrrJzPLatNvw2xC3WYLbzCW0+DB+4UczQHGPBF9p+WGYQA@mail.gmail.com>
- <20200619191540.GI3154@redhat.com>
- <CAJFHJroGNbfO-tXqrod_snCHcnN4NKjX8t9LTeroyiNEwjtVcQ@mail.gmail.com>
- <20200625125508.GB149340@redhat.com>
- <CAJFHJrpwvEMa_OkxRg3XHXp+=Wuzwwc8shhCZd3xDsmVVJG7aw@mail.gmail.com>
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 9179D100AA3F;
+ Mon, 13 Jul 2020 13:42:07 +0000 (UTC)
+Received: from [10.3.112.134] (ovpn-112-134.phx2.redhat.com [10.3.112.134])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 604046147C;
+ Mon, 13 Jul 2020 13:41:58 +0000 (UTC)
+Subject: Re: [PATCH v2 5/5] iotests: test shutdown when bitmap is exported
+ through NBD
+To: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>,
+ qemu-block@nongnu.org
+References: <20200701105331.121670-1-vsementsov@virtuozzo.com>
+ <20200701105331.121670-6-vsementsov@virtuozzo.com>
+From: Eric Blake <eblake@redhat.com>
+Organization: Red Hat, Inc.
+Message-ID: <5c3f97b0-3bf5-3d83-1a70-17ced4a8be91@redhat.com>
+Date: Mon, 13 Jul 2020 08:41:57 -0500
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.10.0
 MIME-Version: 1.0
-In-Reply-To: <CAJFHJrpwvEMa_OkxRg3XHXp+=Wuzwwc8shhCZd3xDsmVVJG7aw@mail.gmail.com>
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=vgoyal@redhat.com
+In-Reply-To: <20200701105331.121670-6-vsementsov@virtuozzo.com>
+Content-Language: en-US
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Received-SPF: pass client-ip=205.139.110.120; envelope-from=vgoyal@redhat.com;
- helo=us-smtp-1.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/07/13 03:20:22
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=207.211.31.81; envelope-from=eblake@redhat.com;
+ helo=us-smtp-delivery-1.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/07/13 02:19:41
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
-X-Spam_score_int: -40
-X-Spam_score: -4.1
-X-Spam_bar: ----
-X-Spam_report: (-4.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1,
+X-Spam_score_int: -30
+X-Spam_score: -3.1
+X-Spam_bar: ---
+X-Spam_report: (-3.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-1, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H3=-0.01, RCVD_IN_MSPIKE_WL=-0.01,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -87,63 +84,36 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: virtio-fs-list <virtio-fs@redhat.com>, Miklos Szeredi <miklos@szeredi.hu>,
- "Dr. David Alan Gilbert" <dgilbert@redhat.com>, qemu-devel@nongnu.org
+Cc: kwolf@redhat.com, den@openvz.org, qemu-devel@nongnu.org,
+ stefanha@redhat.com, mreitz@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Mon, Jul 13, 2020 at 05:54:19PM +0900, Chirantan Ekbote wrote:
-> On Thu, Jun 25, 2020 at 9:55 PM Vivek Goyal <vgoyal@redhat.com> wrote:
-> >
-> > On Thu, Jun 25, 2020 at 12:19:39PM +0900, Chirantan Ekbote wrote:
-> > [..]
-> > > > Chirantan,
-> > > >
-> > > > So you ended up renaming all "trusted", "security" and "system" xattrs?
-> > > > Only "user" xattrs are complete passthrough?
-> > > >
-> > >
-> > > No, we only rename "security" xattrs (except for selinux).
-> > >
-> > > >
-> > > > IOW, security.selinux will be renamed to user.virtiofs.security.selinux
-> > > > on host?
-> > > >
-> > >
-> > > We don't relabel security.selinux because it only requires CAP_FOWNER
-> > > in the process's user namespace and it also does its own MAC-based
-> > > checks.  Also we have some tools that label files beforehand so it
-> > > seemed easier to leave them unchanged.
-> >
-> > If we rename selinux xattr also, then we can support selinux both in
-> > guest and host and they both can have their own independent policies.
-> >
+On 7/1/20 5:53 AM, Vladimir Sementsov-Ogievskiy wrote:
+> Test shutdown when bitmap is exported through NBD and active client
+> exists. The previous patch fixes a crash, provoked by this scenario.
 > 
-> This works as long as you don't need to support setfscreatecon, which
-> exists to guarantee that an inode is atomically created with the
-> correct selinux context.  It's kind of possible for files with
-> O_TMPFILE + fsetxattr + linkat but there is no equivalent for
-> directories.  You're basically forced to create the directory and then
-> set the xattr and while it's possible to prevent other threads in the
-> server from seeing the unfinished directories with a rwlock or similar
-> there is no protection against power loss.  If the machine loses power
-> after the directory is created but before the selinux xattr is set
-> then that directory will have the wrong selinux context and the guest
-> would need to run restorecon at boot to assign the correct label.
+> Signed-off-by: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
+> ---
+>   tests/qemu-iotests/299     | 65 ++++++++++++++++++++++++++++++++++++++
+>   tests/qemu-iotests/299.out | 10 ++++++
+>   tests/qemu-iotests/group   |  1 +
+>   3 files changed, 76 insertions(+)
+>   create mode 100644 tests/qemu-iotests/299
+>   create mode 100644 tests/qemu-iotests/299.out
 
-Overlayfs has this notion of work directory where they create directory
-(and file if O_TMPFILE is not supported), and then rename it to correct
-place. I am wondering if we could do something similar. If server is
-given a work directory where.
+I confirmed that by temporarily applying this out of order (well, 
+sinking 3/5 last) does indeed provoke the failure, so:
 
-A. Create new directory
-B. set selinux lables
-C. rename directory
+Tested-by: Eric Blake <eblake@redhat.com>
 
-That way if machine crashes after step A or step B, that directory
-never becomes visible to guest and no relabeling is required.
+and the test is simple enough:
 
-Thanks
-Vivek
+Reviewed-by: Eric Blake <eblake@redhat.com>
+
+-- 
+Eric Blake, Principal Software Engineer
+Red Hat, Inc.           +1-919-301-3226
+Virtualization:  qemu.org | libvirt.org
 
 
