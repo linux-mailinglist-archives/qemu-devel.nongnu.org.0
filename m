@@ -2,71 +2,74 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6527621E1B1
-	for <lists+qemu-devel@lfdr.de>; Mon, 13 Jul 2020 22:54:42 +0200 (CEST)
-Received: from localhost ([::1]:60592 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A003721E243
+	for <lists+qemu-devel@lfdr.de>; Mon, 13 Jul 2020 23:34:42 +0200 (CEST)
+Received: from localhost ([::1]:49138 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jv5TE-0007o9-Un
-	for lists+qemu-devel@lfdr.de; Mon, 13 Jul 2020 16:54:40 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:54250)
+	id 1jv65x-0000J0-9w
+	for lists+qemu-devel@lfdr.de; Mon, 13 Jul 2020 17:34:41 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:39354)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <alex.williamson@redhat.com>)
- id 1jv5SR-0007CJ-De
- for qemu-devel@nongnu.org; Mon, 13 Jul 2020 16:53:51 -0400
-Received: from us-smtp-1.mimecast.com ([205.139.110.61]:59184
- helo=us-smtp-delivery-1.mimecast.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <alex.williamson@redhat.com>)
- id 1jv5SO-0006TD-Us
- for qemu-devel@nongnu.org; Mon, 13 Jul 2020 16:53:50 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1594673626;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=v9sSQBsMylQlw6uYqoH4gAamVXWlGupiUhylxryIbps=;
- b=a4TrF2M9nt5hsSAuJ8uuEJnX+CSXKPlQJF5xtH6fclvY4P/JrjJWARHXoydCsA3lhd4U/V
- kTkVNivUbcUF2cR/veVG07uo/qa+8pjAtgU3h84xmCzjmvgxVspi35+kwUTfl21x+AQkJ6
- WYsxJpWQ21ysGAroXfG7fxa4+dtqfAk=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-486-GBAld-d1OKKh44buPY6mkQ-1; Mon, 13 Jul 2020 16:53:44 -0400
-X-MC-Unique: GBAld-d1OKKh44buPY6mkQ-1
-Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
- [10.5.11.14])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 10C6A800597
- for <qemu-devel@nongnu.org>; Mon, 13 Jul 2020 20:53:44 +0000 (UTC)
-Received: from x1.home (ovpn-112-71.phx2.redhat.com [10.3.112.71])
- by smtp.corp.redhat.com (Postfix) with ESMTP id BA5845D9DC;
- Mon, 13 Jul 2020 20:53:40 +0000 (UTC)
-Date: Mon, 13 Jul 2020 14:53:40 -0600
-From: Alex Williamson <alex.williamson@redhat.com>
-To: Gerd Hoffmann <kraxel@redhat.com>
-Subject: Re: [PATCH] vfio: fix use-after-free in display
-Message-ID: <20200713145340.4886d664@x1.home>
-In-Reply-To: <20200713124520.23266-1-kraxel@redhat.com>
-References: <20200713124520.23266-1-kraxel@redhat.com>
-Organization: Red Hat
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1jv655-0007yM-QV
+ for qemu-devel@nongnu.org; Mon, 13 Jul 2020 17:33:47 -0400
+Received: from mail-pf1-x444.google.com ([2607:f8b0:4864:20::444]:41803)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1jv654-0004WX-97
+ for qemu-devel@nongnu.org; Mon, 13 Jul 2020 17:33:47 -0400
+Received: by mail-pf1-x444.google.com with SMTP id q17so6610383pfu.8
+ for <qemu-devel@nongnu.org>; Mon, 13 Jul 2020 14:33:45 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=8WL7mHqVeto3seRdphAbDKBPOvWdqFs/rTUbtyz8qVc=;
+ b=jbyDvhoxGatE/yIvVxseno334gAwMrDkufLcDtUlhMZYxUWkGyJem8sHcntV1JoNZz
+ 0EsZUCsOmP9LQFQvjbZUIpLsNF9NP42iT+xfbR9cyZyMCmGdp1H2qcKmwbi+dTOhJuwH
+ 8zVytfC1XFsHhrInzuj3PXd1GT6bznFcUg//iqBtrlnOzolLL4IZytvWYPRkNlq7WGy2
+ RDCPLShThzmY3dvNzcFcjTc4kM2K5HZ7aXdOgEASkW8pttivmznn/qcq8cisKp47Trb/
+ Zbo70l3fl+QNAbKvgdKSbfv2t1Nd+TM7clfWL80uoqolyQXyX1jPcbn71REax5ZcNPrM
+ qSZA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=8WL7mHqVeto3seRdphAbDKBPOvWdqFs/rTUbtyz8qVc=;
+ b=P6NI67LH7Gd67d4LesKm2MJMDBUiN2EVD6UUDS2i976BaUZHr5xZ/UyVGL4K0wgYvJ
+ myv6xOWfGGQneAOMG/9R3xT0sxey/XRRJWYbIYjbXCOk/HKW2TFRYBnYfxQPq68t3Y9M
+ rH7GGaX7rNEN0DfKRieo61Yku/zcCI59LcAwrawR57/rfDegdYhba43Zw7NAmJa7Eo3s
+ CwxmEMySpjnhG2fvTZGnTCNXSgLwy4UrkobON+HdbpM5eku2k6a5pAzT6Oai7qSVe1ck
+ f2HptXWhTPdREdYSVtsMH37WFk+qxwskgckRYEzAB22Z89hO3yOo6XaJ5fWvQowWBoCr
+ Rz5Q==
+X-Gm-Message-State: AOAM533x5WWRpqru+Okt8kk4w5B08hhTlooBTWDbLSGNk791ZH6fa59T
+ jGe2mJxXqsEVnePsVRtcf4xLVK0+UdQ=
+X-Google-Smtp-Source: ABdhPJy838hkxVdNDAX2NhYaBW60Bkxj8oQ4XYrLy9npfFqnIBAbiRDPaRjmFptn/qeUYM/ApOa2jA==
+X-Received: by 2002:a62:86cc:: with SMTP id x195mr1575843pfd.39.1594676024311; 
+ Mon, 13 Jul 2020 14:33:44 -0700 (PDT)
+Received: from localhost.localdomain (174-21-143-238.tukw.qwest.net.
+ [174.21.143.238])
+ by smtp.gmail.com with ESMTPSA id l207sm3591565pfd.79.2020.07.13.14.33.42
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Mon, 13 Jul 2020 14:33:43 -0700 (PDT)
+From: Richard Henderson <richard.henderson@linaro.org>
+To: qemu-devel@nongnu.org
+Subject: [PATCH for-5.1 0/3] target/arm: MTE improvements
+Date: Mon, 13 Jul 2020 14:33:38 -0700
+Message-Id: <20200713213341.590275-1-richard.henderson@linaro.org>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=205.139.110.61;
- envelope-from=alex.williamson@redhat.com; helo=us-smtp-delivery-1.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/07/13 01:36:29
-X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
-X-Spam_score_int: -40
-X-Spam_score: -4.1
-X-Spam_bar: ----
-X-Spam_report: (-4.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-1, SPF_HELO_NONE=0.001,
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=2607:f8b0:4864:20::444;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pf1-x444.google.com
+X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
+ That's all we know.
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -80,54 +83,35 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-devel@nongnu.org
+Cc: peter.maydell@linaro.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Mon, 13 Jul 2020 14:45:20 +0200
-Gerd Hoffmann <kraxel@redhat.com> wrote:
+Since MTE is new, and guest support for MTE is still under
+development, let's disable it by default.
 
-> Calling ramfb_display_update() might replace the DisplaySurface with the
-> boot display, which in turn will free the currently active
-> DisplaySurface.
-> 
-> So clear our DisplaySurface pinter (dpy->region.surface pointer) to (a)
-                               ^o
+Peter mentioned memory hotplug on IRC as something that
+would break MTE's assumptions.  By putting the enable flag
+on the machine it's much easier to control.
 
-> avoid use-after-free and (b) force replacing the boot display with the
-> real display when switching back.
-> 
-> Signed-off-by: Gerd Hoffmann <kraxel@redhat.com>
-> ---
->  hw/vfio/display.c | 1 +
->  1 file changed, 1 insertion(+)
-> 
-> diff --git a/hw/vfio/display.c b/hw/vfio/display.c
-> index a57a22674d62..342054193b3c 100644
-> --- a/hw/vfio/display.c
-> +++ b/hw/vfio/display.c
-> @@ -405,6 +405,7 @@ static void vfio_display_region_update(void *opaque)
->      if (!plane.drm_format || !plane.size) {
->          if (dpy->ramfb) {
->              ramfb_display_update(dpy->con, dpy->ramfb);
-> +            dpy->region.surface = NULL;
->          }
->          return;
->      }
+For 5.1, we won't have kvm support, so error for that combo.
 
-Tricky, but I think I follow that dpy->region.surface is only ever
-allocated to replace dpy->con->surface, so when ramfb_display_update()
-then replaces and frees dpy->con->surface with dpy->ramfb->ds, that's
-where the object point to by dpy->region.surface was freed.  Right?
 
-If so, looks ok to me.  If you're constructing a pull request, I'll
-give you an:
+r~
 
-Acked-by: Alex Williamson <alex.williamson@redhat.com>
-Reviewed-by: Alex Williamson <alex.williamson@redhat.com>
 
-If you need me to send a pull, let me know.  Thanks,
+Richard Henderson (3):
+  hw/arm/virt: Enable MTE via a machine property
+  hw/arm/virt: Error for MTE enabled with KVM
+  hw/arm/virt: Disable memory hotplug when MTE is enabled
 
-Alex
+ include/hw/arm/virt.h |  1 +
+ hw/arm/virt.c         | 50 ++++++++++++++++++++++++++++++++++++++-----
+ target/arm/cpu.c      | 19 +++++++++-------
+ target/arm/cpu64.c    |  5 +++--
+ 4 files changed, 60 insertions(+), 15 deletions(-)
+
+-- 
+2.25.1
 
 
