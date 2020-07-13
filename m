@@ -2,71 +2,72 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B739721E129
-	for <lists+qemu-devel@lfdr.de>; Mon, 13 Jul 2020 22:08:26 +0200 (CEST)
-Received: from localhost ([::1]:54938 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0741821E11F
+	for <lists+qemu-devel@lfdr.de>; Mon, 13 Jul 2020 22:05:49 +0200 (CEST)
+Received: from localhost ([::1]:41050 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jv4kT-0006fW-Kh
-	for lists+qemu-devel@lfdr.de; Mon, 13 Jul 2020 16:08:25 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:59448)
+	id 1jv4hv-00014i-Vh
+	for lists+qemu-devel@lfdr.de; Mon, 13 Jul 2020 16:05:47 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:59380)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1jv4gb-0007zx-Qe
- for qemu-devel@nongnu.org; Mon, 13 Jul 2020 16:04:25 -0400
-Received: from mail-wm1-x344.google.com ([2a00:1450:4864:20::344]:50452)
+ id 1jv4gY-0007uP-Cw
+ for qemu-devel@nongnu.org; Mon, 13 Jul 2020 16:04:22 -0400
+Received: from mail-wr1-x444.google.com ([2a00:1450:4864:20::444]:40987)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1jv4ga-0006Gg-6W
- for qemu-devel@nongnu.org; Mon, 13 Jul 2020 16:04:25 -0400
-Received: by mail-wm1-x344.google.com with SMTP id l17so1153429wmj.0
- for <qemu-devel@nongnu.org>; Mon, 13 Jul 2020 13:04:23 -0700 (PDT)
+ id 1jv4gW-0006G5-MA
+ for qemu-devel@nongnu.org; Mon, 13 Jul 2020 16:04:22 -0400
+Received: by mail-wr1-x444.google.com with SMTP id z15so18130872wrl.8
+ for <qemu-devel@nongnu.org>; Mon, 13 Jul 2020 13:04:20 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=zYmy6YbAdYCCn5X7N7JnznTD44q8kk8nDaLydetiUF4=;
- b=iRoIvctJRweIWyuMWsjAtE8+JehMQIOHYYgkXVVIUgeOajqBilO/1mv4VT3kLduKqH
- Rdg5OhIxUXu7LbK67T5qfGAPbc2BUbtDrNnS0g5Axfio4PVe3bsdDRes7jHLLZzXXm/z
- iIwMbORvDonXZlZqGuI3boDjSOFy/TfKyTFhpeEjqXOBFm3V4aoU4EvfHqGD2/4uCnNu
- i53jSVpmZRtkTVQEqACbZGjXNMoO0NUCDuV2sfHuMjOcGd6UK+WfBAudmxK6PM1CzSE5
- RMC3OgP6rcORKhr3QL0sia9O8g+pg9ih25NnHtU4zlCEir5cR3mcs2+k+6c+OgHOqhE+
- sDHA==
+ bh=iJReQOIYVR+hDlxB+L3VcS6ZiNXB7LvJkcVb9PUtdRA=;
+ b=egGZei3pgMwO3u2LoCla+Sc+Qr4psViwJ6QQ5M+pGiBhZjK5OmcgmK4l+Gdzxikwm1
+ r5hdDPXotD9BVIXVtclv/ukGs4K/78CISsJBh6FU93L+T0MMoECrmHqAuzwb/3lCBwyv
+ 14Hy0xk1GfAD6PVjK3OYr8FpsBvVxwRUTeUCmsrLR38rgaCZCI9iR1VcJFM6d7F/O5Uh
+ r4HS06oTJHTnbVaZq6RsMrpNzxz7ZSA8d7KPCCodTGqqaJaSy75qTnSGILeKHcRhf895
+ tTGPUGymuEC1kP7ZTfx2VIHN7HT/ceBzccSau531exREEN/ktk0mnQh07Fbn8JbCkj6F
+ CCSQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=zYmy6YbAdYCCn5X7N7JnznTD44q8kk8nDaLydetiUF4=;
- b=HNqmLK5dHVdgpgJtIVE1zXsqWdj3j/UAtVUqro/3EibFBXt8iH1Gjv1i41JCGd0/cc
- 0JQvlTLt2W6FnXvpzW+2gPcC7FeRqL9W4cgTUo6bndBOzUo4xQr2DyK2FrM+Oaa6bs0i
- KAzgN+npg6dzn6DCU+A2i0HfblM4ZpZdpspGjkMRyM6xVRhDYgsUn+r3sDY7InccoOzH
- heCOPWA5aOKi7JYrCvPTlXt9/swTj9sL4O3a9SXzlHuM7miC3vVuOeFGs1rrzRE9WtII
- gFnV+0Ro8eOrwR562iczceVelI5foC3mcZqItTFTqz/rDIoSXFqvjxIrczNluOULO4rs
- akTA==
-X-Gm-Message-State: AOAM5334BpKciG5PG37g1NI5H919uEpnFBDadrtn0j3xmfijB8IWH+PM
- oBD8ZcOX21rQf0Q8b+/44/ZBQw==
-X-Google-Smtp-Source: ABdhPJzSrbKIXuJ8ILQ/QnaQ/CNa5R0OBK58LYhieUHmOMwKHju6XbS+JqIXxVUYBU5CWTYEzuZVKg==
-X-Received: by 2002:a1c:a557:: with SMTP id o84mr1071156wme.42.1594670662723; 
- Mon, 13 Jul 2020 13:04:22 -0700 (PDT)
+ bh=iJReQOIYVR+hDlxB+L3VcS6ZiNXB7LvJkcVb9PUtdRA=;
+ b=KzcK4OE2JC9g4RpbiMWGtB21930eiM/qmBULXnhBL5RgRPKi+03ElRMUTwevo2L4ZB
+ e0u/mtbsPI0BnUtNltpUZXl1e7HYK4HjeVy/Akb+7PBHvBjVo2MCZyFdN2Fomj+m+IF7
+ Oz6Ge++pvMk/8MZitai4fb7O4TdkZwfXrXzc0Xelwd+x1/5+dBC7MhvRKSyeyH0JoV3i
+ 0fKF3cHTIfKW0ucW7d8fIT4fQXz9slUMeZ2GXSsDNcDWLJltZo/AToxugH0Vdpkzctmy
+ tlm2I4t6b6JJXXaY7RnKhXlQJvBzcXVA8B2vB8DWutV9ve2UCAbzTOC/AY0feNYvGekH
+ izwQ==
+X-Gm-Message-State: AOAM531aY5E7eHOnNcuJuIF/Q/lCRcgscuSxCxKbQrp7fKOPtKMydI31
+ D593YpUD6kOswzOB7u+3yb02gg==
+X-Google-Smtp-Source: ABdhPJyDYVPuV1GhmLeVfHDE8UkJmFkRvjFxBtEC77YNrA4tb+dtN8fi74cfYvRCcCJ1neddlXGR4w==
+X-Received: by 2002:a05:6000:11cc:: with SMTP id
+ i12mr1193551wrx.224.1594670659382; 
+ Mon, 13 Jul 2020 13:04:19 -0700 (PDT)
 Received: from zen.linaroharston ([51.148.130.216])
- by smtp.gmail.com with ESMTPSA id w16sm30261370wrg.95.2020.07.13.13.04.16
+ by smtp.gmail.com with ESMTPSA id g13sm26056579wro.84.2020.07.13.13.04.16
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
  Mon, 13 Jul 2020 13:04:16 -0700 (PDT)
 Received: from zen.lan (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id D86141FF8F;
+ by zen.linaroharston (Postfix) with ESMTP id EEDC81FF90;
  Mon, 13 Jul 2020 21:04:15 +0100 (BST)
 From: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PATCH  v2 03/11] docker.py: fix fetching of FROM layers
-Date: Mon, 13 Jul 2020 21:04:07 +0100
-Message-Id: <20200713200415.26214-4-alex.bennee@linaro.org>
+Subject: [PATCH  v2 04/11] fpu/softfloat: fix up float16 nan recognition
+Date: Mon, 13 Jul 2020 21:04:08 +0100
+Message-Id: <20200713200415.26214-5-alex.bennee@linaro.org>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20200713200415.26214-1-alex.bennee@linaro.org>
 References: <20200713200415.26214-1-alex.bennee@linaro.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::344;
- envelope-from=alex.bennee@linaro.org; helo=mail-wm1-x344.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::444;
+ envelope-from=alex.bennee@linaro.org; helo=mail-wr1-x444.google.com
 X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
  That's all we know.
 X-Spam_score_int: -20
@@ -74,8 +75,8 @@ X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
  DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- URIBL_BLOCKED=0.001 autolearn=ham autolearn_force=no
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -88,68 +89,48 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: fam@euphon.net, berrange@redhat.com, robert.foley@linaro.org,
+Cc: fam@euphon.net, Peter Maydell <peter.maydell@linaro.org>,
+ berrange@redhat.com, robert.foley@linaro.org,
  =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>,
  richard.henderson@linaro.org, f4bug@amsat.org, robhenry@microsoft.com,
- =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
  aaron@os.amperecomputing.com, cota@braap.org, kuhn.chenqun@huawei.com,
- peter.puhov@linaro.org, aurelien@aurel32.net
+ peter.puhov@linaro.org, LIU Zhiwei <zhiwei_liu@c-sky.com>,
+ aurelien@aurel32.net
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-This worked on a system that was already bootstrapped because the
-stage 2 images already existed even if they wouldn't be used. What we
-should have pulled down was the FROM line containers first because
-building on gitlab doesn't have the advantage of using our build
-system to build the pre-requisite bits.
+From: LIU Zhiwei <zhiwei_liu@c-sky.com>
 
-We still pull the image we want to build just in case we can use the
-cached data.
-
+Signed-off-by: LIU Zhiwei <zhiwei_liu@c-sky.com>
 Signed-off-by: Alex Bennée <alex.bennee@linaro.org>
-Reviewed-by: Daniel P. Berrangé <berrange@redhat.com>
-Tested-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
+Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
+Message-Id: <20200712234521.3972-2-zhiwei_liu@c-sky.com>
 ---
- tests/docker/docker.py | 16 +++++++++++-----
- 1 file changed, 11 insertions(+), 5 deletions(-)
+ fpu/softfloat-specialize.inc.c | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
-diff --git a/tests/docker/docker.py b/tests/docker/docker.py
-index 2d67bbd15a..c9f20d8d09 100755
---- a/tests/docker/docker.py
-+++ b/tests/docker/docker.py
-@@ -306,14 +306,18 @@ class Docker(object):
-         checksum = _text_checksum(_dockerfile_preprocess(dockerfile))
- 
-         if registry is not None:
--            # see if we can fetch a cache copy, may fail...
--            pull_args = ["pull", "%s/%s" % (registry, tag)]
--            if self._do(pull_args, quiet=quiet) == 0:
-+            sources = re.findall("FROM qemu\/(.*)", dockerfile)
-+            # Fetch any cache layers we can, may fail
-+            for s in sources:
-+                pull_args = ["pull", "%s/qemu/%s" % (registry, s)]
-+                if self._do(pull_args, quiet=quiet) != 0:
-+                    registry = None
-+                    break
-+            # Make substitutions
-+            if registry is not None:
-                 dockerfile = dockerfile.replace("FROM qemu/",
-                                                 "FROM %s/qemu/" %
-                                                 (registry))
--            else:
--                registry = None
- 
-         tmp_df = tempfile.NamedTemporaryFile(mode="w+t",
-                                              encoding='utf-8',
-@@ -339,6 +343,8 @@ class Docker(object):
-             build_args += ["--build-arg", "BUILDKIT_INLINE_CACHE=1"]
- 
-         if registry is not None:
-+            pull_args = ["pull", "%s/%s" % (registry, tag)]
-+            self._do(pull_args, quiet=quiet)
-             cache = "%s/%s" % (registry, tag)
-             build_args += ["--cache-from", cache]
-         build_args += argv
+diff --git a/fpu/softfloat-specialize.inc.c b/fpu/softfloat-specialize.inc.c
+index 44f5b661f8..034d18199c 100644
+--- a/fpu/softfloat-specialize.inc.c
++++ b/fpu/softfloat-specialize.inc.c
+@@ -254,7 +254,7 @@ bool float16_is_quiet_nan(float16 a_, float_status *status)
+     if (snan_bit_is_one(status)) {
+         return (((a >> 9) & 0x3F) == 0x3E) && (a & 0x1FF);
+     } else {
+-        return ((a & ~0x8000) >= 0x7C80);
++        return ((a >> 9) & 0x3F) == 0x3F;
+     }
+ #endif
+ }
+@@ -271,7 +271,7 @@ bool float16_is_signaling_nan(float16 a_, float_status *status)
+ #else
+     uint16_t a = float16_val(a_);
+     if (snan_bit_is_one(status)) {
+-        return ((a & ~0x8000) >= 0x7C80);
++        return ((a >> 9) & 0x3F) == 0x3F;
+     } else {
+         return (((a >> 9) & 0x3F) == 0x3E) && (a & 0x1FF);
+     }
 -- 
 2.20.1
 
