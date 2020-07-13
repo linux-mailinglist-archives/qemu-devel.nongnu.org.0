@@ -2,61 +2,65 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B936521DF5C
-	for <lists+qemu-devel@lfdr.de>; Mon, 13 Jul 2020 20:09:17 +0200 (CEST)
-Received: from localhost ([::1]:56396 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3B01B21DF81
+	for <lists+qemu-devel@lfdr.de>; Mon, 13 Jul 2020 20:23:32 +0200 (CEST)
+Received: from localhost ([::1]:36564 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jv2tA-0002bq-QZ
-	for lists+qemu-devel@lfdr.de; Mon, 13 Jul 2020 14:09:16 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:33632)
+	id 1jv36w-0007I2-QP
+	for lists+qemu-devel@lfdr.de; Mon, 13 Jul 2020 14:23:30 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:37386)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <no-reply@patchew.org>)
- id 1jv2sU-0002CL-CT
- for qemu-devel@nongnu.org; Mon, 13 Jul 2020 14:08:34 -0400
-Resent-Date: Mon, 13 Jul 2020 14:08:34 -0400
-Resent-Message-Id: <E1jv2sU-0002CL-CT@lists.gnu.org>
-Received: from sender4-of-o53.zoho.com ([136.143.188.53]:21341)
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1jv36F-0006sn-RT
+ for qemu-devel@nongnu.org; Mon, 13 Jul 2020 14:22:48 -0400
+Received: from us-smtp-1.mimecast.com ([207.211.31.81]:51431
+ helo=us-smtp-delivery-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <no-reply@patchew.org>)
- id 1jv2sR-0001Cz-1K
- for qemu-devel@nongnu.org; Mon, 13 Jul 2020 14:08:34 -0400
-ARC-Seal: i=1; a=rsa-sha256; t=1594663698; cv=none; 
- d=zohomail.com; s=zohoarc; 
- b=cVHHwVlgBrl6Deig3U90Mu2+xeMmSueUV56rGY8NunKr/OOJUvb+PS2vTOo3CVMQQ+O2UDj1DvCk4kHibXKnyRXp2rFNc5+jODg50CJmT3VqVIEOJ0C6IscrcMAqiRJb1Tk4iM1jGgyFNpp4vG9zyxqWBDoTeJE1wvMCDlI2O1s=
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.com;
- s=zohoarc; t=1594663698;
- h=Content-Type:Content-Transfer-Encoding:Cc:Date:From:In-Reply-To:MIME-Version:Message-ID:Reply-To:Subject:To;
- bh=UiryxuvV9uzHFOojk73JdixtKayadSgYpQPwxxhOBIM=; 
- b=fv+ptOl/uGMf1s6NTHpuw6v83tcizJ9/C9DkdzQnHzfBzPGF26/eNnTNpczfPCzAN1m1eOn75qD1ZPRhJcSUXlyRMYfandGgO2o/6DjrgrrzfQT+qZRJXpgrXQlAYGw9HAPznslicEWSNkxDvA7L9uWjuTAOPxodBzH6eIXHVxY=
-ARC-Authentication-Results: i=1; mx.zohomail.com;
- spf=pass  smtp.mailfrom=no-reply@patchew.org;
- dmarc=pass header.from=<no-reply@patchew.org>
- header.from=<no-reply@patchew.org>
-Received: from [172.17.0.3] (23.253.156.214 [23.253.156.214]) by
- mx.zohomail.com with SMTPS id 1594663696571681.4052958362051;
- Mon, 13 Jul 2020 11:08:16 -0700 (PDT)
-Subject: Re: [PATCH 0/2] Fixes for env->user_features
-Message-ID: <159466369526.2008.5436732946619374670@07a7f0d89f7d>
-In-Reply-To: <20200713174436.41070-1-xiaoyao.li@intel.com>
-MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
-Resent-From: 
-From: no-reply@patchew.org
-To: xiaoyao.li@intel.com
-Date: Mon, 13 Jul 2020 11:08:16 -0700 (PDT)
-X-ZohoMailClient: External
-Received-SPF: pass client-ip=136.143.188.53; envelope-from=no-reply@patchew.org;
- helo=sender4-of-o53.zoho.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/07/13 14:08:28
-X-ACL-Warn: Detected OS   = Linux 3.11 and newer [fuzzy]
-X-Spam_score_int: -18
-X-Spam_score: -1.9
-X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_NONE=-0.0001,
- RCVD_IN_MSPIKE_H4=-0.01, RCVD_IN_MSPIKE_WL=-0.01, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001, URIBL_BLOCKED=0.001 autolearn=ham autolearn_force=no
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1jv36D-00038b-Ih
+ for qemu-devel@nongnu.org; Mon, 13 Jul 2020 14:22:47 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1594664564;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:content-type:content-type;
+ bh=IH6t3bcQqeJ1GOe6RSGLUB6QI+qmWxa0EADGRGsXDZ0=;
+ b=GB/BsAw32l7yvInIXYpQe+4sHEWG4Z0BvmLSSjv/cfcRim9r9QU4j7vqPHjz+yn5WNR2lo
+ XRivgV6/kY/SbexxRjFqL1n+Ldpr9g10Ea+FMGWnc0nk5kR4nnWVWk54H9hfBGa3H3Cfgb
+ Mt2pfYt9DxdjPRpgOaUtvUUCZJSmsLk=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-461-W5RIN7EkPum-K36bKNZSVA-1; Mon, 13 Jul 2020 14:22:42 -0400
+X-MC-Unique: W5RIN7EkPum-K36bKNZSVA-1
+Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
+ [10.5.11.14])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 291DE10A4;
+ Mon, 13 Jul 2020 18:22:41 +0000 (UTC)
+Received: from thuth.com (ovpn-112-92.ams2.redhat.com [10.36.112.92])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id C7ADD5D9D7;
+ Mon, 13 Jul 2020 18:22:39 +0000 (UTC)
+From: Thomas Huth <thuth@redhat.com>
+To: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>,
+ qemu-devel@nongnu.org
+Subject: [PATCH] gitlab-ci/containers: Add missing wildcard where we should
+ look for changes
+Date: Mon, 13 Jul 2020 20:22:35 +0200
+Message-Id: <20200713182235.30379-1-thuth@redhat.com>
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=US-ASCII
+Received-SPF: pass client-ip=207.211.31.81; envelope-from=thuth@redhat.com;
+ helo=us-smtp-delivery-1.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/07/13 02:19:41
+X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
+X-Spam_score_int: -30
+X-Spam_score: -3.1
+X-Spam_bar: ---
+X-Spam_report: (-3.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H3=-0.01, RCVD_IN_MSPIKE_WL=-0.01,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -69,46 +73,36 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: qemu-devel@nongnu.org
-Cc: qemu-devel@nongnu.org, pbonzini@redhat.com, xiaoyao.li@intel.com,
- ehabkost@redhat.com, rth@twiddle.net
+Cc: =?UTF-8?q?Daniel=20P=2E=20Berrang=C3=A9?= <berrange@redhat.com>,
+ =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-UGF0Y2hldyBVUkw6IGh0dHBzOi8vcGF0Y2hldy5vcmcvUUVNVS8yMDIwMDcxMzE3NDQzNi40MTA3
-MC0xLXhpYW95YW8ubGlAaW50ZWwuY29tLwoKCgpIaSwKClRoaXMgc2VyaWVzIGZhaWxlZCB0aGUg
-ZG9ja2VyLXF1aWNrQGNlbnRvczcgYnVpbGQgdGVzdC4gUGxlYXNlIGZpbmQgdGhlIHRlc3Rpbmcg
-Y29tbWFuZHMgYW5kCnRoZWlyIG91dHB1dCBiZWxvdy4gSWYgeW91IGhhdmUgRG9ja2VyIGluc3Rh
-bGxlZCwgeW91IGNhbiBwcm9iYWJseSByZXByb2R1Y2UgaXQKbG9jYWxseS4KCj09PSBURVNUIFND
-UklQVCBCRUdJTiA9PT0KIyEvYmluL2Jhc2gKbWFrZSBkb2NrZXItaW1hZ2UtY2VudG9zNyBWPTEg
-TkVUV09SSz0xCnRpbWUgbWFrZSBkb2NrZXItdGVzdC1xdWlja0BjZW50b3M3IFNIT1dfRU5WPTEg
-Sj0xNCBORVRXT1JLPTEKPT09IFRFU1QgU0NSSVBUIEVORCA9PT0KCiAgVEVTVCAgICBpb3Rlc3Qt
-cWNvdzI6IDAyMgogIFRFU1QgICAgY2hlY2stdW5pdDogdGVzdHMvdGVzdC1jaGFyCioqCkVSUk9S
-Oi90bXAvcWVtdS10ZXN0L3NyYy90ZXN0cy90ZXN0LWNoYXIuYzoxMjA0OmNoYXJfc2VyaWFsX3Rl
-c3Q6ICdjaHInIHNob3VsZCBub3QgYmUgTlVMTApFUlJPUiB0ZXN0LWNoYXIgLSBCYWlsIG91dCEg
-RVJST1I6L3RtcC9xZW11LXRlc3Qvc3JjL3Rlc3RzL3Rlc3QtY2hhci5jOjEyMDQ6Y2hhcl9zZXJp
-YWxfdGVzdDogJ2Nocicgc2hvdWxkIG5vdCBiZSBOVUxMCm1ha2U6ICoqKiBbY2hlY2stdW5pdF0g
-RXJyb3IgMQptYWtlOiAqKiogV2FpdGluZyBmb3IgdW5maW5pc2hlZCBqb2JzLi4uLgogIFRFU1Qg
-ICAgaW90ZXN0LXFjb3cyOiAwMjQKICBURVNUICAgIGlvdGVzdC1xY293MjogMDI1Ci0tLQogICAg
-cmFpc2UgQ2FsbGVkUHJvY2Vzc0Vycm9yKHJldGNvZGUsIGNtZCkKc3VicHJvY2Vzcy5DYWxsZWRQ
-cm9jZXNzRXJyb3I6IENvbW1hbmQgJ1snc3VkbycsICctbicsICdkb2NrZXInLCAncnVuJywgJy0t
-bGFiZWwnLCAnY29tLnFlbXUuaW5zdGFuY2UudXVpZD00OTM5ZGVhZDRkMGY0MDNlYTQxYWRiNGM1
-MTRhZjgyZScsICctdScsICcxMDAxJywgJy0tc2VjdXJpdHktb3B0JywgJ3NlY2NvbXA9dW5jb25m
-aW5lZCcsICctLXJtJywgJy1lJywgJ1RBUkdFVF9MSVNUPScsICctZScsICdFWFRSQV9DT05GSUdV
-UkVfT1BUUz0nLCAnLWUnLCAnVj0nLCAnLWUnLCAnSj0xNCcsICctZScsICdERUJVRz0nLCAnLWUn
-LCAnU0hPV19FTlY9MScsICctZScsICdDQ0FDSEVfRElSPS92YXIvdG1wL2NjYWNoZScsICctdics
-ICcvaG9tZS9wYXRjaGV3Ly5jYWNoZS9xZW11LWRvY2tlci1jY2FjaGU6L3Zhci90bXAvY2NhY2hl
-OnonLCAnLXYnLCAnL3Zhci90bXAvcGF0Y2hldy10ZXN0ZXItdG1wLXpxamk1bGF3L3NyYy9kb2Nr
-ZXItc3JjLjIwMjAtMDctMTMtMTMuNTMuMTYuMjQ1MTI6L3Zhci90bXAvcWVtdTp6LHJvJywgJ3Fl
-bXUvY2VudG9zNycsICcvdmFyL3RtcC9xZW11L3J1bicsICd0ZXN0LXF1aWNrJ10nIHJldHVybmVk
-IG5vbi16ZXJvIGV4aXQgc3RhdHVzIDIuCmZpbHRlcj0tLWZpbHRlcj1sYWJlbD1jb20ucWVtdS5p
-bnN0YW5jZS51dWlkPTQ5MzlkZWFkNGQwZjQwM2VhNDFhZGI0YzUxNGFmODJlCm1ha2VbMV06ICoq
-KiBbZG9ja2VyLXJ1bl0gRXJyb3IgMQptYWtlWzFdOiBMZWF2aW5nIGRpcmVjdG9yeSBgL3Zhci90
-bXAvcGF0Y2hldy10ZXN0ZXItdG1wLXpxamk1bGF3L3NyYycKbWFrZTogKioqIFtkb2NrZXItcnVu
-LXRlc3QtcXVpY2tAY2VudG9zN10gRXJyb3IgMgoKcmVhbCAgICAxNG01OS44NTFzCnVzZXIgICAg
-MG05LjA0NHMKCgpUaGUgZnVsbCBsb2cgaXMgYXZhaWxhYmxlIGF0Cmh0dHA6Ly9wYXRjaGV3Lm9y
-Zy9sb2dzLzIwMjAwNzEzMTc0NDM2LjQxMDcwLTEteGlhb3lhby5saUBpbnRlbC5jb20vdGVzdGlu
-Zy5kb2NrZXItcXVpY2tAY2VudG9zNy8/dHlwZT1tZXNzYWdlLgotLS0KRW1haWwgZ2VuZXJhdGVk
-IGF1dG9tYXRpY2FsbHkgYnkgUGF0Y2hldyBbaHR0cHM6Ly9wYXRjaGV3Lm9yZy9dLgpQbGVhc2Ug
-c2VuZCB5b3VyIGZlZWRiYWNrIHRvIHBhdGNoZXctZGV2ZWxAcmVkaGF0LmNvbQ==
+The tests/docker/* wildcard seems to only match the files that are directly
+in the tests/docker folder - but changes to the files in the directory
+tests/docker/dockerfiles are currently ignored. Seems like we need a
+separate entry to match the files in that folder. With this wildcard added,
+the stages now get re-run successfully when something in the dockerfiles
+has been changed.
+
+Signed-off-by: Thomas Huth <thuth@redhat.com>
+---
+ .gitlab-ci.d/containers.yml | 1 +
+ 1 file changed, 1 insertion(+)
+
+diff --git a/.gitlab-ci.d/containers.yml b/.gitlab-ci.d/containers.yml
+index f3c0ca4d61..8c89efeb6d 100644
+--- a/.gitlab-ci.d/containers.yml
++++ b/.gitlab-ci.d/containers.yml
+@@ -24,6 +24,7 @@
+     - changes:
+       - .gitlab-ci.d/containers.yml
+       - tests/docker/*
++      - tests/docker/dockerfiles/*
+     - if: '$CI_COMMIT_BRANCH == $CI_DEFAULT_BRANCH'
+     - if: '$CI_COMMIT_REF_NAME == "testing/next"'
+ 
+-- 
+2.18.1
+
 
