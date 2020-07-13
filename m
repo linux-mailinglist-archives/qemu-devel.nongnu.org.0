@@ -2,73 +2,72 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 480B821E096
-	for <lists+qemu-devel@lfdr.de>; Mon, 13 Jul 2020 21:18:41 +0200 (CEST)
-Received: from localhost ([::1]:58238 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 071C321E097
+	for <lists+qemu-devel@lfdr.de>; Mon, 13 Jul 2020 21:19:56 +0200 (CEST)
+Received: from localhost ([::1]:60538 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jv3yK-0001OI-C4
-	for lists+qemu-devel@lfdr.de; Mon, 13 Jul 2020 15:18:40 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:41366)
+	id 1jv3zX-0002UB-4D
+	for lists+qemu-devel@lfdr.de; Mon, 13 Jul 2020 15:19:55 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:42018)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1jv3xU-0000yO-2f
- for qemu-devel@nongnu.org; Mon, 13 Jul 2020 15:17:48 -0400
-Received: from mail-pf1-x444.google.com ([2607:f8b0:4864:20::444]:36778)
+ id 1jv3yj-0001wS-5R
+ for qemu-devel@nongnu.org; Mon, 13 Jul 2020 15:19:05 -0400
+Received: from mail-pf1-x442.google.com ([2607:f8b0:4864:20::442]:42879)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1jv3xS-0005pT-GT
- for qemu-devel@nongnu.org; Mon, 13 Jul 2020 15:17:47 -0400
-Received: by mail-pf1-x444.google.com with SMTP id 207so6446985pfu.3
- for <qemu-devel@nongnu.org>; Mon, 13 Jul 2020 12:17:45 -0700 (PDT)
+ id 1jv3yh-00065M-MY
+ for qemu-devel@nongnu.org; Mon, 13 Jul 2020 15:19:04 -0400
+Received: by mail-pf1-x442.google.com with SMTP id 1so6428191pfn.9
+ for <qemu-devel@nongnu.org>; Mon, 13 Jul 2020 12:19:03 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=subject:to:cc:references:from:message-id:date:user-agent
  :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=ie+WsQlsMhuybBRTeB883QisVS/fIKad5PGQNZ6h6tM=;
- b=bXZG7KMbHkWORD4fjgHgm9QNM4fLgX5kHEozZRu+T/fzEwquBBFE5cqWDkHWm859IP
- ozV2SZ4aubwsESxei/iMm5f4Q/SnbCpzQgDvNSk5b7MUKmVJQyM0Rfly3hPpHhJsNCfN
- H2lJukhyaL0P5TXlvGrpTlmHiZ3fYE4e3lMEyK2A0JxA3ZBZeys5Y6kZBSZ8Kkjj8js6
- k6WxwR43n27W7HzqFrRuUkYei1DJvaA65Ix/81KXOJxm2ry6fquQqvlOllpYOlLcO4qh
- V87l4ev1wfatgQFeH35100lcjyYcdfjFTEjzUwDh9Nfv5trDxmEefMQT46yPOYq3KKee
- 1HLg==
+ bh=Cz9UW3BFGXzAicalZC8X4be/s5r70xCB4y1DOAG0154=;
+ b=AaICnYEn67RB0QU8U7nR7Q8yEPPKlPR2jF5kLBJZgUtLzlchvnoIiuiZDvOQ+LjRhd
+ NYYTls+qiaYucwISu5z8i5cayMsWDqD9tkGJuZkYGR8OhBIzjiLLIwRdHGAa84eBkFeU
+ WFUVvOlbWVzlRHFglisPSQq0ud7gQ9TMd6CYBWblxw82fd5KzV7K8fCUA2JuLw0wEGRU
+ cnxpZ1YnQN+aIs5X9Xosb4sp1YqEAGLYrG9wuJe0n3a26/oSA6GclGSFt9GUh+FNXdW0
+ K20CLrw+VJWUZv/0G0z0vcYnP8QJGC2ZGcbMupapzvjbCFnMiD/z/Cj75WKcpHufq0H2
+ 7n+w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:subject:to:cc:references:from:message-id:date
  :user-agent:mime-version:in-reply-to:content-language
  :content-transfer-encoding;
- bh=ie+WsQlsMhuybBRTeB883QisVS/fIKad5PGQNZ6h6tM=;
- b=seUrhi80AAQJnXKqkuPFpWT4ufN+8HqgTZ7CJYUP6FdJPyStXdq0lNZ9UCd1tLT01P
- gpL39HpJ7ef5OutBigsqeuTG6Pm02caZ1G7yqPdoPTIXP5qgaTAXoRb1mgzQrrviJWPh
- Z2FUIyk+uXhaeiwlAzsZ+FgnNbyfzscmndx6SyVfc+iNlkZ6PNf12OcDxkaGyFVj7s8T
- BnAAy6Ztsg459EHFAKel4tio0nWfNpaPKA72hnZaT/ZgtPLnfQtfUEZs/uQnspXoba9t
- jj+cswzlgZhhxhfCBOr1K+ACZ9wRAu8RPCJmhpetm/B320BGuLBeBK5bEwmzzj1A7nQX
- HDtw==
-X-Gm-Message-State: AOAM530+zoHazYLCfvGJULTEVpowg8qsynHM4GzuN5KDJ9i1/dF9NqQ7
- nSwe/jD0Qmc44FpmNapgHJzsnA==
-X-Google-Smtp-Source: ABdhPJxXw6MIL85H03mG50hmctA3xoVm2qN1DlV0x8FLnrcMRJ9pO8QntG67A+VXUeWIcPnziXbIQg==
-X-Received: by 2002:aa7:984d:: with SMTP id n13mr1240654pfq.276.1594667864874; 
- Mon, 13 Jul 2020 12:17:44 -0700 (PDT)
+ bh=Cz9UW3BFGXzAicalZC8X4be/s5r70xCB4y1DOAG0154=;
+ b=ZJogr8+ZiwH0vOsE2Oz99JxQ417+E/i8ojfsIBl+iOipOVs9uowCAiTE4hX5VYIEjr
+ U0wGgXLFhJfJIxamYKPHpPxG+9NRNpdTxL3ZLs+Ld7sVH0kAF7NHAGlfx8Wh1A/z8p53
+ 8nFI7S5QP+uUVfEtlAalyKkBTLQrDcvriiOOXNvX4TsKgmcwsNQKhNtK7JdekJMHon/S
+ w/hPJ0E8uFbac+NQQhBq48rWl2Yw8i4iFMDYaHMEg3xHIsouR+BBpHRRdDHOoV3AOXV4
+ P9vQnlkc/gicslQTaJLEupc0s3ZhiOqxWHst7KVcICd5tt1H+Z494i4MsPFVunphkd47
+ 1NrA==
+X-Gm-Message-State: AOAM531vjHAcCBIwqsC9jz8NWXTa82FnuGDzky5EnKu1Kxx7FqkrIFZk
+ mDjZhbPxBr6eYIHFy8xLNkhn3A==
+X-Google-Smtp-Source: ABdhPJwXddZh5GBRUuRFsVjriOTF09lZMRisjpJbSYB6tWMllNFZw3hC+F1x6uvMrYe41fs2bTNacA==
+X-Received: by 2002:a63:571b:: with SMTP id l27mr526167pgb.417.1594667942283; 
+ Mon, 13 Jul 2020 12:19:02 -0700 (PDT)
 Received: from [192.168.1.11] (174-21-143-238.tukw.qwest.net. [174.21.143.238])
- by smtp.gmail.com with ESMTPSA id 200sm15506776pfy.57.2020.07.13.12.17.43
+ by smtp.gmail.com with ESMTPSA id 127sm13646668pgf.5.2020.07.13.12.19.01
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 13 Jul 2020 12:17:43 -0700 (PDT)
-Subject: Re: [RFC PATCH 2/8] fpu/softfloat: use the similiar logic to
- recognize sNaN and qNaN
+ Mon, 13 Jul 2020 12:19:01 -0700 (PDT)
+Subject: Re: [RFC PATCH 3/8] fpu/softfloat: add FloatFmt for bfloat16
 To: LIU Zhiwei <zhiwei_liu@c-sky.com>, qemu-devel@nongnu.org
 References: <20200712234521.3972-1-zhiwei_liu@c-sky.com>
- <20200712234521.3972-3-zhiwei_liu@c-sky.com>
+ <20200712234521.3972-4-zhiwei_liu@c-sky.com>
 From: Richard Henderson <richard.henderson@linaro.org>
-Message-ID: <9a213775-58f4-a4d3-a61e-469d0f33913d@linaro.org>
-Date: Mon, 13 Jul 2020 12:17:42 -0700
+Message-ID: <c8fa12f7-6200-4eea-b965-c5e4b2915800@linaro.org>
+Date: Mon, 13 Jul 2020 12:18:59 -0700
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
  Thunderbird/68.10.0
 MIME-Version: 1.0
-In-Reply-To: <20200712234521.3972-3-zhiwei_liu@c-sky.com>
+In-Reply-To: <20200712234521.3972-4-zhiwei_liu@c-sky.com>
 Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
 Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::444;
- envelope-from=richard.henderson@linaro.org; helo=mail-pf1-x444.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::442;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pf1-x442.google.com
 X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
  That's all we know.
 X-Spam_score_int: -20
@@ -97,25 +96,10 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 On 7/12/20 4:45 PM, LIU Zhiwei wrote:
 > Signed-off-by: LIU Zhiwei <zhiwei_liu@c-sky.com>
 > ---
->  fpu/softfloat-specialize.inc.c | 8 ++++----
->  1 file changed, 4 insertions(+), 4 deletions(-)
-> 
-> diff --git a/fpu/softfloat-specialize.inc.c b/fpu/softfloat-specialize.inc.c
-> index 034d18199c..6b778a7830 100644
-> --- a/fpu/softfloat-specialize.inc.c
-> +++ b/fpu/softfloat-specialize.inc.c
-> @@ -292,7 +292,7 @@ bool float32_is_quiet_nan(float32 a_, float_status *status)
->      if (snan_bit_is_one(status)) {
->          return (((a >> 22) & 0x1FF) == 0x1FE) && (a & 0x003FFFFF);
->      } else {
-> -        return ((uint32_t)(a << 1) >= 0xFF800000);
-> +        return ((a >> 22) & 0x1FF) == 0x1FF;
->      }
->  #endif
->  }
+>  fpu/softfloat.c | 4 ++++
+>  1 file changed, 4 insertions(+)
 
-I don't see a reason for this.  The previous was a bug, but this isn't.
-
+Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
 
 r~
 
