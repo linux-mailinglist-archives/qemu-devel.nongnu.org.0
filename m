@@ -2,30 +2,31 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 805B421D06A
-	for <lists+qemu-devel@lfdr.de>; Mon, 13 Jul 2020 09:29:28 +0200 (CEST)
-Received: from localhost ([::1]:52102 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0748821D071
+	for <lists+qemu-devel@lfdr.de>; Mon, 13 Jul 2020 09:31:13 +0200 (CEST)
+Received: from localhost ([::1]:59886 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1justz-0000xX-HJ
-	for lists+qemu-devel@lfdr.de; Mon, 13 Jul 2020 03:29:27 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:59486)
+	id 1jusvg-000432-1l
+	for lists+qemu-devel@lfdr.de; Mon, 13 Jul 2020 03:31:12 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:59522)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <andrey.shinkevich@virtuozzo.com>)
- id 1jussf-0007fY-4j; Mon, 13 Jul 2020 03:28:05 -0400
-Received: from relay.sw.ru ([185.231.240.75]:35088 helo=relay3.sw.ru)
+ id 1jussg-0007g8-Ah; Mon, 13 Jul 2020 03:28:06 -0400
+Received: from relay.sw.ru ([185.231.240.75]:35090 helo=relay3.sw.ru)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <andrey.shinkevich@virtuozzo.com>)
- id 1jussc-0007TM-B9; Mon, 13 Jul 2020 03:28:04 -0400
+ id 1jussc-0007TN-Fs; Mon, 13 Jul 2020 03:28:06 -0400
 Received: from [172.16.25.136] (helo=localhost.sw.ru)
  by relay3.sw.ru with esmtp (Exim 4.93)
  (envelope-from <andrey.shinkevich@virtuozzo.com>)
- id 1jussP-0001Vx-S9; Mon, 13 Jul 2020 10:27:49 +0300
+ id 1jussP-0001Vx-TO; Mon, 13 Jul 2020 10:27:49 +0300
 From: Andrey Shinkevich <andrey.shinkevich@virtuozzo.com>
 To: qemu-block@nongnu.org
-Subject: [PATCH v9 08/10] qcow2.py: Introduce '-j' key to dump in JSON format
-Date: Mon, 13 Jul 2020 10:27:54 +0300
-Message-Id: <1594625276-134500-9-git-send-email-andrey.shinkevich@virtuozzo.com>
+Subject: [PATCH v9 09/10] qcow2_format.py: collect fields to dump in JSON
+ format
+Date: Mon, 13 Jul 2020 10:27:55 +0300
+Message-Id: <1594625276-134500-10-git-send-email-andrey.shinkevich@virtuozzo.com>
 X-Mailer: git-send-email 1.8.3.1
 In-Reply-To: <1594625276-134500-1-git-send-email-andrey.shinkevich@virtuozzo.com>
 References: <1594625276-134500-1-git-send-email-andrey.shinkevich@virtuozzo.com>
@@ -55,131 +56,44 @@ Cc: kwolf@redhat.com, vsementsov@virtuozzo.com, qemu-devel@nongnu.org,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Add the command key to the qcow2.py arguments list to dump QCOW2
-metadata in JSON format. Here is the suggested way to do that. The
-implementation of the dump in JSON format is in the patch that follows.
+As __dict__ is being extended with class members we do not want to
+print, make a light copy of the initial __dict__ and extend the copy
+by adding lists we have to print in the JSON output.
 
 Signed-off-by: Andrey Shinkevich <andrey.shinkevich@virtuozzo.com>
 ---
- tests/qemu-iotests/qcow2.py        | 19 +++++++++++++++----
- tests/qemu-iotests/qcow2_format.py | 16 ++++++++--------
- 2 files changed, 23 insertions(+), 12 deletions(-)
+ tests/qemu-iotests/qcow2_format.py | 4 ++++
+ 1 file changed, 4 insertions(+)
 
-diff --git a/tests/qemu-iotests/qcow2.py b/tests/qemu-iotests/qcow2.py
-index 0910e6a..7402279 100755
---- a/tests/qemu-iotests/qcow2.py
-+++ b/tests/qemu-iotests/qcow2.py
-@@ -26,16 +26,19 @@ from qcow2_format import (
- )
- 
- 
-+dump_json = False
-+
-+
- def cmd_dump_header(fd):
-     h = QcowHeader(fd)
--    h.dump()
-+    h.dump(dump_json)
-     print()
--    h.dump_extensions()
-+    h.dump_extensions(dump_json)
- 
- 
- def cmd_dump_header_exts(fd):
-     h = QcowHeader(fd)
--    h.dump_extensions()
-+    h.dump_extensions(dump_json)
- 
- 
- def cmd_set_header(fd, name, value):
-@@ -134,6 +137,11 @@ cmds = [
- 
- 
- def main(filename, cmd, args):
-+    global dump_json
-+    dump_json = '-j' in sys.argv
-+    if dump_json:
-+        sys.argv.remove('-j')
-+        args.remove('-j')
-     fd = open(filename, "r+b")
-     try:
-         for name, handler, num_args, desc in cmds:
-@@ -151,11 +159,14 @@ def main(filename, cmd, args):
- 
- 
- def usage():
--    print("Usage: %s <file> <cmd> [<arg>, ...]" % sys.argv[0])
-+    print("Usage: %s <file> <cmd> [<arg>, ...] [<key>, ...]" % sys.argv[0])
-     print("")
-     print("Supported commands:")
-     for name, handler, num_args, desc in cmds:
-         print("    %-20s - %s" % (name, desc))
-+    print("")
-+    print("Supported keys:")
-+    print("    %-20s - %s" % ('-j', 'Dump in JSON format'))
- 
- 
- if __name__ == '__main__':
 diff --git a/tests/qemu-iotests/qcow2_format.py b/tests/qemu-iotests/qcow2_format.py
-index 22be3ee..a9bd5a8 100644
+index a9bd5a8..4ce6d95 100644
 --- a/tests/qemu-iotests/qcow2_format.py
 +++ b/tests/qemu-iotests/qcow2_format.py
-@@ -109,7 +109,7 @@ class Qcow2Struct(metaclass=Qcow2StructMeta):
+@@ -109,6 +109,8 @@ class Qcow2Struct(metaclass=Qcow2StructMeta):
          self.__dict__ = dict((field[2], values[i])
                               for i, field in enumerate(self.fields))
  
--    def dump(self):
-+    def dump(self, dump_json=None):
++        self.fields_dict = self.__dict__.copy()
++
+     def dump(self, dump_json=None):
          for f in self.fields:
              value = self.__dict__[f[2]]
-             if isinstance(f[1], str):
-@@ -140,8 +140,8 @@ class Qcow2BitmapExt(Qcow2Struct):
+@@ -139,6 +141,7 @@ class Qcow2BitmapExt(Qcow2Struct):
+         self.bitmap_directory = \
              [Qcow2BitmapDirEntry(fd, cluster_size=self.cluster_size)
               for _ in range(self.nb_bitmaps)]
++        self.fields_dict.update(bitmap_directory=self.bitmap_directory)
  
--    def dump(self):
--        super().dump()
-+    def dump(self, dump_json=None):
-+        super().dump(dump_json)
-         for entry in self.bitmap_directory:
-             print()
-             entry.dump()
-@@ -185,7 +185,7 @@ class Qcow2BitmapDirEntry(Qcow2Struct):
+     def dump(self, dump_json=None):
+         super().dump(dump_json)
+@@ -184,6 +187,7 @@ class Qcow2BitmapDirEntry(Qcow2Struct):
+         table = [e[0] for e in struct.iter_unpack('>Q', fd.read(table_size))]
          self.bitmap_table = Qcow2BitmapTable(raw_table=table,
                                               cluster_size=self.cluster_size)
++        self.fields_dict.update(bitmap_table=self.bitmap_table)
  
--    def dump(self):
-+    def dump(self, dump_json=None):
+     def dump(self, dump_json=None):
          print(f'{"Bitmap name":<25} {self.name}')
-         super(Qcow2BitmapDirEntry, self).dump()
-         self.bitmap_table.dump()
-@@ -293,13 +293,13 @@ class QcowHeaderExtension(Qcow2Struct):
-         else:
-             self.obj = None
- 
--    def dump(self):
-+    def dump(self, dump_json=None):
-         super().dump()
- 
-         if self.obj is None:
-             print(f'{"data":<25} {self.data_str}')
-         else:
--            self.obj.dump()
-+            self.obj.dump(dump_json)
- 
-     @classmethod
-     def create(cls, magic, data):
-@@ -398,8 +398,8 @@ class QcowHeader(Qcow2Struct):
-         buf = buf[0:header_bytes-1]
-         fd.write(buf)
- 
--    def dump_extensions(self):
-+    def dump_extensions(self, dump_json=None):
-         for ex in self.extensions:
-             print('Header extension:')
--            ex.dump()
-+            ex.dump(dump_json)
-             print()
 -- 
 1.8.3.1
 
