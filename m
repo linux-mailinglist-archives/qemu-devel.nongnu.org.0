@@ -2,69 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id EB88B21D850
-	for <lists+qemu-devel@lfdr.de>; Mon, 13 Jul 2020 16:23:30 +0200 (CEST)
-Received: from localhost ([::1]:43454 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A7AEB21D84B
+	for <lists+qemu-devel@lfdr.de>; Mon, 13 Jul 2020 16:22:31 +0200 (CEST)
+Received: from localhost ([::1]:37824 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1juzMf-0001I9-TQ
-	for lists+qemu-devel@lfdr.de; Mon, 13 Jul 2020 10:23:29 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:35252)
+	id 1juzLi-0007S2-JM
+	for lists+qemu-devel@lfdr.de; Mon, 13 Jul 2020 10:22:30 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:35236)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1juzB0-0005T7-V7
- for qemu-devel@nongnu.org; Mon, 13 Jul 2020 10:11:27 -0400
-Received: from mail-wr1-x443.google.com ([2a00:1450:4864:20::443]:41490)
+ id 1juzAz-0005QT-U5
+ for qemu-devel@nongnu.org; Mon, 13 Jul 2020 10:11:25 -0400
+Received: from mail-wm1-x343.google.com ([2a00:1450:4864:20::343]:52849)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1juzAx-0006e2-Db
- for qemu-devel@nongnu.org; Mon, 13 Jul 2020 10:11:26 -0400
-Received: by mail-wr1-x443.google.com with SMTP id z15so16714408wrl.8
+ id 1juzAy-0006eF-AP
+ for qemu-devel@nongnu.org; Mon, 13 Jul 2020 10:11:25 -0400
+Received: by mail-wm1-x343.google.com with SMTP id q15so13461959wmj.2
  for <qemu-devel@nongnu.org>; Mon, 13 Jul 2020 07:11:23 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:subject:date:message-id:in-reply-to:references:mime-version
  :content-transfer-encoding;
- bh=2mJpCpL7EiAJWz9OGCJeMqrPYbEJZKGb3cEkeqQTV+A=;
- b=kFLbk5F3qKSufwcfNsh6oW+aSyB8MWoREaYH0gkX/hDIf/l9iBA7F+jrGVjMgYqDJO
- DmtY4eycpXOeJAg0Gvy4iXZFjhoWzxl63DoS6ydA4DzDJ3wU2slVodRbvzztSj9i77aM
- TfHpNxeNTq7iIcKG7Ix5nIB2zVeQEB4ZY0Y+us5zqmJZmNjF4LIkclayRZg/2cDirrkH
- Gw3Ll7O3urwnVvUSxLHQFWeG3GGB0Obb5oF7RaGF6yVf6Yi7uzPMU6Pz2tPw44rCHySx
- n3Bh5ALvrqh5T5fdfBggnvWW4ocfPLtu9aymPNSh7QO9dTALd9G9P6ouSnq/mhCfB8mP
- mF4g==
+ bh=74P0QPv7N4CwWIZNwbGdxlAllKsjgzH/XuRXK1wCbsM=;
+ b=JDUik88I33XScCsoKOTAyMSzOzlE7JHbDELuA95WO/GYjRhlCixYgSeQkPPnL0O2IF
+ FHxTlBU6M9Km4T3Dvzaa4l//LuJCdToG96PDCqsuYEl1oc4HyFnqpBa8LuM+6Kq5jxWE
+ apcHfzp+wDeoHViwXs2J/rZy6YN+V9+iT5q2ejmuPnwpKp0nVbVCuROQ+bAOAkpoMDVC
+ ukGaXHCp5tycC/YaohPwziBl11V9tNkpXOAhPjXhGOuKpxBi4nMSuqnTSYVk5kalltIR
+ h0MGVnJByNeq3n7SVSsc7sjf+vGII6QXO6X+oQBd8EucADve+PyPNQzi+EEYuBNaw/ZE
+ +FxQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=2mJpCpL7EiAJWz9OGCJeMqrPYbEJZKGb3cEkeqQTV+A=;
- b=oARn/1hQpBl2TY3QPo2rYcVlt08l0/rUI4wK14H3LjxGXveSSNXxuJ7PGeWKuo/Njt
- Y+8flOsD9nO3uvJ10gW5nrwpZgSDxJXnjNig2gq/yEV6g3kUfCgwIVqgqxQA6ChXZ7h8
- IVH7BKLP8QlREMjsD2+P6oU8/km0o7B3KaFkhpPsmxnTcCV2Hp4mnMI2zfutloBfck/g
- tw3ovvK5UEnPI4L/OxTCDJuwm2IvMKVB2IonR30vO8lmYiWcusocsqQilEXgUFY0PGKE
- Zi7g3PyBoLvQB/kLdSC/om1/rAVofr/kxvJXZg4rg5oHXpi8UP9vzVK3N8MIQDRwdYKx
- RFdA==
-X-Gm-Message-State: AOAM531XY9VcFziqgRIVZw2g4knXNCBsltbQfXeBVh+7ESqYbRCSAaEC
- /TUjvkNTu6sfkeXzfP2g5AZCEUsshWMClg==
-X-Google-Smtp-Source: ABdhPJzcX8332YDxDyFCP3TZF3SY68vF2JgrcMM6+hCpnFet54W0+RE+qBgjGP1RIML/yzQUuGvzHQ==
-X-Received: by 2002:adf:f14c:: with SMTP id y12mr78535882wro.30.1594649481724; 
- Mon, 13 Jul 2020 07:11:21 -0700 (PDT)
+ bh=74P0QPv7N4CwWIZNwbGdxlAllKsjgzH/XuRXK1wCbsM=;
+ b=pPfKe9E30yFgB1XvX2p5Gc4FI1Bw1cLx9ZyK5LUkHnyxaww5xmSI+RMPiwbgJ4hhF8
+ vrFL7R85/lW7DPy1xckAh6qqMyzQmzdiW6H29B0oQAGxppERtXL1KzXkiWC1yZOyEG+/
+ aage55hytipv1Y//MJ1ldWAMHBiG+re2prjDwvRGO6AzGdm1gez33gg/X4yHvwFdSJiU
+ GYqQPH01DYMaZcLZrSA1TCpcHMlSRmneW523EIYWUf+ZqxDnBgwR38+4LqngUsdP5pCr
+ X4OVCdbLJ7WmQg/YgEm4Jqu00vkJf3gsfDP0UGgReKmYoLZ+lwpuyLZBSA8TjM+uGNu7
+ W8Zw==
+X-Gm-Message-State: AOAM532ZzQr3M3GCyWu5RgC7T3XLI+PB7cjlA7+EK9UZS0ezI0nvnqvg
+ UVUwyw+cWRVyRkoCRt9lygHP5++T4cS3yA==
+X-Google-Smtp-Source: ABdhPJzK74QtYyAmm/nDVLOtdaE21gpw2nLFIVoIfHVnNIaVlMvzNxMAJDjxoIt/0iKTc8py5TamOw==
+X-Received: by 2002:a7b:cc85:: with SMTP id p5mr184351wma.18.1594649482708;
+ Mon, 13 Jul 2020 07:11:22 -0700 (PDT)
 Received: from orth.archaic.org.uk (orth.archaic.org.uk. [81.2.115.148])
- by smtp.gmail.com with ESMTPSA id c136sm24031297wmd.10.2020.07.13.07.11.20
+ by smtp.gmail.com with ESMTPSA id c136sm24031297wmd.10.2020.07.13.07.11.21
  for <qemu-devel@nongnu.org>
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 13 Jul 2020 07:11:20 -0700 (PDT)
+ Mon, 13 Jul 2020 07:11:22 -0700 (PDT)
 From: Peter Maydell <peter.maydell@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PULL 13/25] bswap.h: Include <endian.h> on Haiku for bswap operations
-Date: Mon, 13 Jul 2020 15:10:52 +0100
-Message-Id: <20200713141104.5139-14-peter.maydell@linaro.org>
+Subject: [PULL 14/25] util/compatfd.c: Only include <sys/syscall.h> if
+ CONFIG_SIGNALFD
+Date: Mon, 13 Jul 2020 15:10:53 +0100
+Message-Id: <20200713141104.5139-15-peter.maydell@linaro.org>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20200713141104.5139-1-peter.maydell@linaro.org>
 References: <20200713141104.5139-1-peter.maydell@linaro.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::443;
- envelope-from=peter.maydell@linaro.org; helo=mail-wr1-x443.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::343;
+ envelope-from=peter.maydell@linaro.org; helo=mail-wm1-x343.google.com
 X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
  That's all we know.
 X-Spam_score_int: -20
@@ -91,35 +91,37 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: David CARLIER <devnexen@gmail.com>
 
-Haiku puts the bswap* functions in <endian.h>; pull in that
-include file on that platform.
+util/compatfd.c includes <sys/syscall.h> so that the CONFIG_SIGNALFD
+code can use SYS_signalfd. Guard the #include with CONFIG_SIGNALFD
+to avoid portability issues on hosts like Haiku which do not
+provide that header file.
 
 Signed-off-by: David Carlier <devnexen@gmail.com>
 Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
 Reviewed-by: Thomas Huth <thuth@redhat.com>
-Reviewed-by: Philippe Mathieu-Daudé <philmd@redhat.com>
 Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
-Message-id: 20200703145614.16684-7-peter.maydell@linaro.org
+Message-id: 20200703145614.16684-8-peter.maydell@linaro.org
 [PMM: Expanded commit message]
 Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
 Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
 ---
- include/qemu/bswap.h | 2 ++
+ util/compatfd.c | 2 ++
  1 file changed, 2 insertions(+)
 
-diff --git a/include/qemu/bswap.h b/include/qemu/bswap.h
-index 2a9f3fe783e..1d3e4c24e41 100644
---- a/include/qemu/bswap.h
-+++ b/include/qemu/bswap.h
-@@ -8,6 +8,8 @@
- # include <machine/bswap.h>
- #elif defined(__FreeBSD__)
- # include <sys/endian.h>
-+#elif defined(__HAIKU__)
-+# include <endian.h>
- #elif defined(CONFIG_BYTESWAP_H)
- # include <byteswap.h>
+diff --git a/util/compatfd.c b/util/compatfd.c
+index c296f55d148..ee47dd80897 100644
+--- a/util/compatfd.c
++++ b/util/compatfd.c
+@@ -16,7 +16,9 @@
+ #include "qemu/osdep.h"
+ #include "qemu/thread.h"
  
++#if defined(CONFIG_SIGNALFD)
+ #include <sys/syscall.h>
++#endif
+ 
+ struct sigfd_compat_info
+ {
 -- 
 2.20.1
 
