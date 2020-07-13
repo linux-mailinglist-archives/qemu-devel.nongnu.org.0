@@ -2,63 +2,64 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id F2C0C21DA2D
-	for <lists+qemu-devel@lfdr.de>; Mon, 13 Jul 2020 17:35:22 +0200 (CEST)
-Received: from localhost ([::1]:41362 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D519B21DAD1
+	for <lists+qemu-devel@lfdr.de>; Mon, 13 Jul 2020 17:52:32 +0200 (CEST)
+Received: from localhost ([::1]:45338 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jv0UE-0002cJ-20
-	for lists+qemu-devel@lfdr.de; Mon, 13 Jul 2020 11:35:22 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:45640)
+	id 1jv0kp-00072m-CR
+	for lists+qemu-devel@lfdr.de; Mon, 13 Jul 2020 11:52:31 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:50200)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <crosa@redhat.com>) id 1jv0TN-0002Cq-1V
- for qemu-devel@nongnu.org; Mon, 13 Jul 2020 11:34:29 -0400
-Received: from us-smtp-1.mimecast.com ([207.211.31.81]:47325
+ (Exim 4.90_1) (envelope-from <imammedo@redhat.com>)
+ id 1jv0jW-0006ZQ-RK
+ for qemu-devel@nongnu.org; Mon, 13 Jul 2020 11:51:10 -0400
+Received: from us-smtp-2.mimecast.com ([207.211.31.81]:52129
  helo=us-smtp-delivery-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <crosa@redhat.com>) id 1jv0TK-0005Jh-OL
- for qemu-devel@nongnu.org; Mon, 13 Jul 2020 11:34:28 -0400
+ (Exim 4.90_1) (envelope-from <imammedo@redhat.com>)
+ id 1jv0jP-0007fY-VS
+ for qemu-devel@nongnu.org; Mon, 13 Jul 2020 11:51:10 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1594654464;
+ s=mimecast20190719; t=1594655462;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=w2jE5SVQftwtbM+W2tE0TknBaecty+ZwfEvkT9wkVMQ=;
- b=TnNmuEovHOkTLuovbkfyBlPNNhwooyIz+NS/EIn8ecB/Kb1/r4SvWpQ+3STYXHxT0j8dUP
- hRBhPeBtzuFI1SnCaOaQxZkdx9HoQp6GVrn0UZ7m8rLx/1IoSLzdC+kjykVa3DNSoSpWsF
- U/j1E3td6I2/TPgj4IqMPhpXhQIQS9A=
+ bh=3vsqsfFCZTVQG0neIpQgF1lkBj+N8YXUMrTxcNBKEjs=;
+ b=cfKDeWtRzpyrDB+e+BZPMvOPNsk+tWehHpYJMcNGXxXF1+CxOfwdJMsLvKZIZ3R2yns7uT
+ wIZPXJdx3/nV/XFxTfgG7E32aU484MiRbEtb/xDXsdpm2602PlauzThRaWxqL2qGP1e2LS
+ VW1Y0ajeTfB6fwfAkzIU5LqfBWoi+SI=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-109-czHXqsZhP4KZsjIj-9MJcg-1; Mon, 13 Jul 2020 11:34:22 -0400
-X-MC-Unique: czHXqsZhP4KZsjIj-9MJcg-1
-Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
- [10.5.11.23])
+ us-mta-457-_ifLNb1_MTWkPP1gshK5NA-1; Mon, 13 Jul 2020 11:51:00 -0400
+X-MC-Unique: _ifLNb1_MTWkPP1gshK5NA-1
+Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
+ [10.5.11.11])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id A00C7800FED;
- Mon, 13 Jul 2020 15:34:21 +0000 (UTC)
-Received: from localhost.localdomain (ovpn-112-247.rdu2.redhat.com
- [10.10.112.247])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id F13411A888;
- Mon, 13 Jul 2020 15:34:17 +0000 (UTC)
-Date: Mon, 13 Jul 2020 11:34:16 -0400
-From: Cleber Rosa <crosa@redhat.com>
-To: John Snow <jsnow@redhat.com>
-Subject: Re: [PATCH v5 02/12] python/machine.py: Close QMP socket in cleanup
-Message-ID: <20200713153416.GB2717117@localhost.localdomain>
-References: <20200710050649.32434-1-jsnow@redhat.com>
- <20200710050649.32434-3-jsnow@redhat.com>
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id C8CF9800597;
+ Mon, 13 Jul 2020 15:50:59 +0000 (UTC)
+Received: from localhost (unknown [10.40.208.62])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 376DA6FEDF;
+ Mon, 13 Jul 2020 15:50:58 +0000 (UTC)
+Date: Mon, 13 Jul 2020 17:50:53 +0200
+From: Igor Mammedov <imammedo@redhat.com>
+To: Markus Armbruster <armbru@redhat.com>
+Subject: Re: [PATCH v2 20/25] x86: Fix x86_cpu_new() error API violations
+Message-ID: <20200713175053.2dd20026@redhat.com>
+In-Reply-To: <875zbeugvl.fsf@dusky.pond.sub.org>
+References: <20200624083737.3086768-1-armbru@redhat.com>
+ <20200624083737.3086768-21-armbru@redhat.com>
+ <20200624161703.153c7905@redhat.com>
+ <875zbeugvl.fsf@dusky.pond.sub.org>
 MIME-Version: 1.0
-In-Reply-To: <20200710050649.32434-3-jsnow@redhat.com>
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=crosa@redhat.com
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature"; boundary="LpQ9ahxlCli8rRTG"
-Content-Disposition: inline
-Received-SPF: pass client-ip=207.211.31.81; envelope-from=crosa@redhat.com;
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=207.211.31.81; envelope-from=imammedo@redhat.com;
  helo=us-smtp-delivery-1.mimecast.com
 X-detected-operating-system: by eggs.gnu.org: First seen = 2020/07/13 02:19:41
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
@@ -68,8 +69,7 @@ X-Spam_bar: ---
 X-Spam_report: (-3.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H3=-0.01, RCVD_IN_MSPIKE_WL=-0.01,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- URIBL_BLOCKED=0.001 autolearn=ham autolearn_force=no
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -82,88 +82,113 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: kwolf@redhat.com, Aleksandar Rikalo <aleksandar.rikalo@syrmia.com>,
- Eduardo Habkost <ehabkost@redhat.com>, qemu-devel@nongnu.org,
- Wainer dos Santos Moschetta <wainersm@redhat.com>,
- Aleksandar Markovic <aleksandar.qemu.devel@gmail.com>,
- Philippe =?iso-8859-1?Q?Mathieu-Daud=E9?= <philmd@redhat.com>,
- Aurelien Jarno <aurelien@aurel32.net>
+Cc: Paolo Bonzini <pbonzini@redhat.com>, Richard Henderson <rth@twiddle.net>,
+ qemu-devel@nongnu.org, Eduardo Habkost <ehabkost@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
---LpQ9ahxlCli8rRTG
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+On Fri, 26 Jun 2020 14:54:38 +0200
+Markus Armbruster <armbru@redhat.com> wrote:
 
-On Fri, Jul 10, 2020 at 01:06:39AM -0400, John Snow wrote:
-> It's not important to do this before waiting for the process to exit, so
-> it can be done during generic post-shutdown cleanup.
->=20
-> Signed-off-by: John Snow <jsnow@redhat.com>
-> ---
->  python/qemu/machine.py | 7 ++++---
->  1 file changed, 4 insertions(+), 3 deletions(-)
->=20
-> diff --git a/python/qemu/machine.py b/python/qemu/machine.py
-> index f7e68191c2..938c891b1d 100644
-> --- a/python/qemu/machine.py
-> +++ b/python/qemu/machine.py
-> @@ -283,6 +283,10 @@ def _post_launch(self):
->              self._qmp.accept()
-> =20
->      def _post_shutdown(self):
-> +        if self._qmp:
-> +            self._qmp.close()
-> +            self._qmp =3D None
-> +
->          self._load_io_log()
-> =20
->          if self._qemu_log_file is not None:
-> @@ -355,8 +359,6 @@ def wait(self):
->          Wait for the VM to power off
->          """
->          self._popen.wait()
-> -        if self._qmp:
-> -            self._qmp.close()
->          self._post_shutdown()
-> =20
->      def shutdown(self, has_quit=3DFalse, hard=3DFalse):
-> @@ -377,7 +379,6 @@ def shutdown(self, has_quit=3DFalse, hard=3DFalse):
->                  try:
->                      if not has_quit:
->                          self._qmp.cmd('quit')
-> -                    self._qmp.close()
->                      self._popen.wait(timeout=3D3)
->                  except:
->                      self._popen.kill()
-> --=20
-> 2.21.3
->=20
+> Igor Mammedov <imammedo@redhat.com> writes:
+> 
+> > On Wed, 24 Jun 2020 10:37:32 +0200
+> > Markus Armbruster <armbru@redhat.com> wrote:
+> >  
+> >> The Error ** argument must be NULL, &error_abort, &error_fatal, or a
+> >> pointer to a variable containing NULL.  Passing an argument of the
+> >> latter kind twice without clearing it in between is wrong: if the
+> >> first call sets an error, it no longer points to NULL for the second
+> >> call.
+> >> 
+> >> x86_cpu_new() is wrong that way: it passes &local_err to
+> >> object_property_set_uint() without checking it, and then to
+> >> qdev_realize().  Harmless, because the former can't actually fail
+> >> here.
+> >> 
+> >> Fix by checking for failure right away.  While there, replace
+> >> qdev_realize(); object_unref() by qdev_realize_and_unref().
+> >> 
+> >> Cc: Paolo Bonzini <pbonzini@redhat.com>
+> >> Cc: Richard Henderson <rth@twiddle.net>
+> >> Cc: Eduardo Habkost <ehabkost@redhat.com>
+> >> Signed-off-by: Markus Armbruster <armbru@redhat.com>
+> >> ---
+> >>  hw/i386/x86.c | 12 +++---------
+> >>  1 file changed, 3 insertions(+), 9 deletions(-)
+> >> 
+> >> diff --git a/hw/i386/x86.c b/hw/i386/x86.c
+> >> index 34229b45c7..3a7029e6db 100644
+> >> --- a/hw/i386/x86.c
+> >> +++ b/hw/i386/x86.c
+> >> @@ -118,16 +118,10 @@ uint32_t x86_cpu_apic_id_from_index(X86MachineState *x86ms,
+> >>  
+> >>  void x86_cpu_new(X86MachineState *x86ms, int64_t apic_id, Error **errp)
+> >>  {
+> >> -    Object *cpu = NULL;
+> >> -    Error *local_err = NULL;
+> >> +    Object *cpu = object_new(MACHINE(x86ms)->cpu_type);
+> >>  
+> >> -    cpu = object_new(MACHINE(x86ms)->cpu_type);
+> >> -
+> >> -    object_property_set_uint(cpu, apic_id, "apic-id", &local_err);
+> >> -    qdev_realize(DEVICE(cpu), NULL, &local_err);
+> >> -
+> >> -    object_unref(cpu);
+> >> -    error_propagate(errp, local_err);
+> >> +    object_property_set_uint(cpu, apic_id, "apic-id", &error_abort);  
+> > it may fail here if user specified wrong cpu flags, but there is nothing we can do to fix it.  
+> 
+> Really?
+> 
+> object_property_set_uint() fails when property "apic-id" doesn't exist,
+> has no ->set() method, or its ->set() fails.
+> 
+> Property "apic-id" is defined in x86_cpu_properties[] as
+> 
+>     DEFINE_PROP_UINT32("apic-id", X86CPU, apic_id, UNASSIGNED_APIC_ID),
+> 
+> This means "apic-id" exists, and its ->set() is set_uint32().  That
+> leaves only set_uint32() as possible source of failure.
+> 
+> It fails when
+> 
+> * the device is already realized: programming error
+> 
+> * the value to be stored is not an integer: object_property_set_uint()
+>   makes it one, can't fail
+> 
+> * the value is not representable as uint32_t: @api_id is declared as
+>   int64_t, but:
+> 
+>   - pc_hot_add_cpu() passes x86_cpu_apic_id_from_index(), which is
+>     uint32_t, converted to int64_t.  Can't fail.
+> 
+>   - x86_cpus_init() passes possible_cpus->cpus[i].arch_id, which is
+>     uint64_t.  Is this the "if user specified wrong cpu flags" case?
 
-Reviewed-by: Cleber Rosa <crosa@redhat.com>
-Tested-by: Cleber Rosa <crosa@redhat.com>
+looking more on it, object_property_set_uint() can't really fail
 
---LpQ9ahxlCli8rRTG
-Content-Type: application/pgp-signature; name="signature.asc"
+>   Aside: should the integer types be cleaned up?
 
------BEGIN PGP SIGNATURE-----
+apic_id is x86 specific subset of .arch_id.
+The later is used by other targets which may need larger than 32bit integer
+(if I recall correctly virt-arm uses 64bit id). 
 
-iQIzBAEBCAAdFiEEeruW64tGuU1eD+m7ZX6NM6XyCfMFAl8MfvMACgkQZX6NM6Xy
-CfP7DBAAjF/X2NjP5MZQetwXtgciG0AJTap+fo0qlozbxsHubd4DcdXnvqzExxTC
-D4Jyz0t8hVB+Gdi0OtPoRMnO7mmPbZ1PX5DLT5NJ4vQnTIKgUD7uaXTPJqlo0Jh4
-iS4Hjzqm9NnDCvAEIaCwgsEm6b1n1KsmoF9oCqYOTqsDnOtarZKbgfMOjt9DTCig
-VhUZGdX9PQ/4fmz/LE6Bu507x1CMs1Dce0P70vB7RHUgGemQA5WLKlejaRbqta0B
-0pzCqTdvXFpmLl8hZ9HUGq/ahcLr7+wuBnuxVuMrTQk9bP/vLIcfGeu4lm4THMIO
-GxoWzuRyfchArHK+PV1M0KMBGMdQsohhAQnSFFCJ9xFjFNGhm4yv2QSuoq+RGg+s
-DB9hkz67RqbsBkwPHXHcjSWCaFpDJ2+1RLNvt4QIlDE2m1l9K+ByJ+wdBexPhDnG
-BFYEh3KmPQbdX3sb1JA4hf/dSefIv98y4Ly6/4qKNPV8XCi8l67KBV3LuiI4qcxu
-EOtxJeaL7qxAErW95F5DAQ48Y3iilNbW5P19dDhjy9iJpzwg6pgdxghsYb/Zv/N4
-82I0gue2ZPbP0bnXl2xDZkL41s3DnXeK0ETi16g3rEczGN+mSD/vWh86DNHYFJ5c
-scyzmzZwbgh49IB2U4hxUGz8eYkkRqITV5A2Ww/yCNbrAdCxxrY=
-=cxi4
------END PGP SIGNATURE-----
 
---LpQ9ahxlCli8rRTG--
+> To assess the bug's impact, we need to know when the other call in this
+> error pileup fails.  If we can make both fail, we have a crash bug.
+> Else, we have a harmless API violation.
+> 
+> Any ideas on how to make the qdev_realize() fail?
+qemu CLI case
+  QEMU -cpu qemu64,enforce,topoext
+
+legacy hotplug case:
+  QEMU -smp 1,maxcpus=2
+  (monitor) cpu-add 1
+  (monitor) cpu-add 1  <= fail
+ 
+
 
 
