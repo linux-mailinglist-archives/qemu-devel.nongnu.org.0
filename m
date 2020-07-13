@@ -2,96 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0019721D29E
-	for <lists+qemu-devel@lfdr.de>; Mon, 13 Jul 2020 11:13:45 +0200 (CEST)
-Received: from localhost ([::1]:34188 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9E00821D2A5
+	for <lists+qemu-devel@lfdr.de>; Mon, 13 Jul 2020 11:16:55 +0200 (CEST)
+Received: from localhost ([::1]:37418 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1juuWv-0001Yv-2t
-	for lists+qemu-devel@lfdr.de; Mon, 13 Jul 2020 05:13:45 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:54916)
+	id 1juuZy-00030j-LB
+	for lists+qemu-devel@lfdr.de; Mon, 13 Jul 2020 05:16:54 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:55402)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <hca@linux.ibm.com>)
- id 1juuW7-00012o-Eg; Mon, 13 Jul 2020 05:12:55 -0400
-Received: from mx0b-001b2d01.pphosted.com ([148.163.158.5]:54200
- helo=mx0a-001b2d01.pphosted.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <hca@linux.ibm.com>)
- id 1juuW5-0004U1-GC; Mon, 13 Jul 2020 05:12:55 -0400
-Received: from pps.filterd (m0098414.ppops.net [127.0.0.1])
- by mx0b-001b2d01.pphosted.com (8.16.0.42/8.16.0.42) with SMTP id
- 06D92YU8011410; Mon, 13 Jul 2020 05:12:51 -0400
-Received: from pps.reinject (localhost [127.0.0.1])
- by mx0b-001b2d01.pphosted.com with ESMTP id 327tn93vmc-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Mon, 13 Jul 2020 05:12:50 -0400
-Received: from m0098414.ppops.net (m0098414.ppops.net [127.0.0.1])
- by pps.reinject (8.16.0.36/8.16.0.36) with SMTP id 06D965Rl022758;
- Mon, 13 Jul 2020 05:12:50 -0400
-Received: from ppma04ams.nl.ibm.com (63.31.33a9.ip4.static.sl-reverse.com
- [169.51.49.99])
- by mx0b-001b2d01.pphosted.com with ESMTP id 327tn93vkn-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Mon, 13 Jul 2020 05:12:50 -0400
-Received: from pps.filterd (ppma04ams.nl.ibm.com [127.0.0.1])
- by ppma04ams.nl.ibm.com (8.16.0.42/8.16.0.42) with SMTP id 06D95dSE031229;
- Mon, 13 Jul 2020 09:12:48 GMT
-Received: from b06cxnps4076.portsmouth.uk.ibm.com
- (d06relay13.portsmouth.uk.ibm.com [9.149.109.198])
- by ppma04ams.nl.ibm.com with ESMTP id 32752820yn-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Mon, 13 Jul 2020 09:12:48 +0000
-Received: from d06av22.portsmouth.uk.ibm.com (d06av22.portsmouth.uk.ibm.com
- [9.149.105.58])
- by b06cxnps4076.portsmouth.uk.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
- 06D9CjrT57933840
- (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Mon, 13 Jul 2020 09:12:45 GMT
-Received: from d06av22.portsmouth.uk.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id C9C4B4C044;
- Mon, 13 Jul 2020 09:12:45 +0000 (GMT)
-Received: from d06av22.portsmouth.uk.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id 528574C050;
- Mon, 13 Jul 2020 09:12:45 +0000 (GMT)
-Received: from osiris (unknown [9.171.14.89])
- by d06av22.portsmouth.uk.ibm.com (Postfix) with ESMTPS;
- Mon, 13 Jul 2020 09:12:45 +0000 (GMT)
-Date: Mon, 13 Jul 2020 11:12:43 +0200
-From: Heiko Carstens <hca@linux.ibm.com>
-To: David Hildenbrand <david@redhat.com>
-Subject: Re: [PATCH RFC 2/5] s390x: implement diag260
-Message-ID: <20200713091243.GB4359@osiris>
-References: <20200708185135.46694-1-david@redhat.com>
- <20200708185135.46694-3-david@redhat.com>
- <efe7e845-2e0f-96ba-7e29-c6ac74db9e2f@de.ibm.com>
- <c86e5b12-883a-8522-a15c-9af3804e003c@redhat.com>
- <a337aa94-cd0a-de6f-70df-35428b3e3a3a@redhat.com>
- <0e04ce47-b761-27c3-bc80-ba8338d4253e@redhat.com>
- <20200710151816.GC14845@osiris>
- <10bdd986-c474-278d-ed6a-193d9a45fe33@redhat.com>
+ (Exim 4.90_1) (envelope-from <imammedo@redhat.com>)
+ id 1juuYo-0002NK-W9
+ for qemu-devel@nongnu.org; Mon, 13 Jul 2020 05:15:43 -0400
+Received: from us-smtp-2.mimecast.com ([205.139.110.61]:41467
+ helo=us-smtp-delivery-1.mimecast.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <imammedo@redhat.com>)
+ id 1juuYm-0004qD-DK
+ for qemu-devel@nongnu.org; Mon, 13 Jul 2020 05:15:42 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1594631738;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=qKulg9JdPFtvxY3hiws1/TIAPAGWfgw3WyUevmTnd9o=;
+ b=WC2sBAokYtGpFEy8fna1O6uI3v2zldWfDM2AjNnOHLdu5aZoFPMxL2LNrvBGbHtTkh5O/9
+ s3MpsTysEFUh3XW67X3xsE7BqrhbdANPRmR/+fXLQYeN+EZmsTOKJriIViSwqFfZMjcoyS
+ FC7KuVhD0Mdr0oQrxUxwPA/KEEKh3as=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-268-Y-CP-HH2M1Wwc4CEQIqbaQ-1; Mon, 13 Jul 2020 05:15:35 -0400
+X-MC-Unique: Y-CP-HH2M1Wwc4CEQIqbaQ-1
+Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
+ [10.5.11.12])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 2C6308027E1;
+ Mon, 13 Jul 2020 09:15:34 +0000 (UTC)
+Received: from localhost (unknown [10.40.208.62])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 05EB660BF3;
+ Mon, 13 Jul 2020 09:15:29 +0000 (UTC)
+Date: Mon, 13 Jul 2020 11:15:27 +0200
+From: Igor Mammedov <imammedo@redhat.com>
+To: Babu Moger <babu.moger@amd.com>
+Subject: Re: [PATCH v2 2/3] hw/i386: Build apic_id from CpuInstanceProperties
+Message-ID: <20200713111527.23bf98a8@redhat.com>
+In-Reply-To: <159362466828.36204.14044362989991188460.stgit@naples-babu.amd.com>
+References: <159362436285.36204.986406297373871949.stgit@naples-babu.amd.com>
+ <159362466828.36204.14044362989991188460.stgit@naples-babu.amd.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <10bdd986-c474-278d-ed6a-193d9a45fe33@redhat.com>
-X-TM-AS-GCONF: 00
-X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:6.0.235, 18.0.687
- definitions=2020-07-13_04:2020-07-10,
- 2020-07-13 signatures=0
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- malwarescore=0
- priorityscore=1501 adultscore=0 bulkscore=0 spamscore=0 phishscore=0
- impostorscore=0 suspectscore=0 lowpriorityscore=0 clxscore=1015 mlxscore=0
- mlxlogscore=889 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2006250000 definitions=main-2007130066
-Received-SPF: pass client-ip=148.163.158.5; envelope-from=hca@linux.ibm.com;
- helo=mx0a-001b2d01.pphosted.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/07/13 04:43:47
-X-ACL-Warn: Detected OS   = Linux 3.x [generic]
-X-Spam_score_int: -35
-X-Spam_score: -3.6
-X-Spam_bar: ---
-X-Spam_report: (-3.6 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_LOW=-0.7,
- RCVD_IN_MSPIKE_H2=-1, SPF_HELO_NONE=0.001,
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=205.139.110.61; envelope-from=imammedo@redhat.com;
+ helo=us-smtp-delivery-1.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/07/13 01:36:29
+X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
+X-Spam_score_int: -40
+X-Spam_score: -4.1
+X-Spam_bar: ----
+X-Spam_report: (-4.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-1, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -105,55 +80,256 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Thomas Huth <thuth@redhat.com>, Janosch Frank <frankja@linux.ibm.com>,
- "Michael S . Tsirkin" <mst@redhat.com>, Cornelia Huck <cohuck@redhat.com>,
- qemu-devel@nongnu.org, Halil Pasic <pasic@linux.ibm.com>,
- Christian Borntraeger <borntraeger@de.ibm.com>, qemu-s390x@nongnu.org,
- Claudio Imbrenda <imbrenda@linux.ibm.com>, Richard Henderson <rth@twiddle.net>
+Cc: qemu-devel@nongnu.org, pbonzini@redhat.com, ehabkost@redhat.com,
+ rth@twiddle.net
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Fri, Jul 10, 2020 at 05:24:07PM +0200, David Hildenbrand wrote:
-> On 10.07.20 17:18, Heiko Carstens wrote:
-> > On Fri, Jul 10, 2020 at 02:12:33PM +0200, David Hildenbrand wrote:
-> >>> Note: Reading about diag260 subcode 0xc, we could modify Linux to query
-> >>> the maximum possible pfn via diag260 0xc. Then, we maybe could avoid
-> >>> indicating maxram size via SCLP, and keep diag260-unaware OSs keep
-> >>> working as before. Thoughts?
-> >>
-> >> Implemented it, seems to work fine.
-> > 
-> > The returned value would not include standby/reserved memory within
-> > z/VM. So this seems not to work.
-> 
-> Which value exactly are you referencing? diag 0xc returns two values.
-> One of them seems to do exactly what we need.
-> 
-> See
-> https://github.com/davidhildenbrand/linux/commit/a235f9fb20df7c04ae89bc0d134332d1a01842c7
-> 
-> for my current Linux approach.
-> 
-> > Also: why do you want to change this
-> 
-> Which change exactly do you mean?
-> 
-> If we limit the value returned via SCLP to initial memory, we cannot
-> break any guest (e.g., Linux pre 4.2, kvm-unit-tests). diag260 is then
-> purely optional.
+On Wed, 01 Jul 2020 12:31:08 -0500
+Babu Moger <babu.moger@amd.com> wrote:
 
-Ok, now I see the context. Christian added my just to cc on this
-specific patch.
-So if I understand you correctly, then you want to use diag 260 in
-order to figure out how much memory is _potentially_ available for a
-guest?
+> Build apic_id from CpuInstanceProperties if numa configured.
+> Use the node_id from user provided numa information. This
+> will avoid conflicts between numa information and apic_id
+> generated.
+> 
+> Re-arranged the code little bit to make sure CpuInstanceProperties
+> is initialized before calling.
+> 
+> Signed-off-by: Babu Moger <babu.moger@amd.com>
+> ---
+>  hw/i386/pc.c               |    6 +++++-
+>  hw/i386/x86.c              |   19 +++++++++++++------
+>  include/hw/i386/topology.h |   14 +++++++++++---
+>  include/hw/i386/x86.h      |    6 ++++--
+>  tests/test-x86-cpuid.c     |   39 ++++++++++++++++++++-------------------
+>  5 files changed, 53 insertions(+), 31 deletions(-)
+> 
+> diff --git a/hw/i386/pc.c b/hw/i386/pc.c
+> index d103b8c0ab..e613b2299f 100644
+> --- a/hw/i386/pc.c
+> +++ b/hw/i386/pc.c
+> @@ -800,13 +800,17 @@ void pc_smp_parse(MachineState *ms, QemuOpts *opts)
+>  void pc_hot_add_cpu(MachineState *ms, const int64_t id, Error **errp)
+>  {
+>      X86MachineState *x86ms = X86_MACHINE(ms);
+> -    int64_t apic_id = x86_cpu_apic_id_from_index(x86ms, id);
+> +    CpuInstanceProperties props;
+> +    int64_t apic_id;
+>      Error *local_err = NULL;
+>  
+>      if (id < 0) {
+>          error_setg(errp, "Invalid CPU id: %" PRIi64, id);
+>          return;
+>      }
+> +    props = ms->possible_cpus->cpus[id].props;
+> +
+> +    apic_id = x86_cpu_apic_id_from_index(x86ms, id, props);
+>  
+>      if (apic_id >= ACPI_CPU_HOTPLUG_ID_LIMIT) {
+>          error_setg(errp, "Unable to add CPU: %" PRIi64
+> diff --git a/hw/i386/x86.c b/hw/i386/x86.c
+> index 34229b45c7..7554416ae0 100644
+> --- a/hw/i386/x86.c
+> +++ b/hw/i386/x86.c
+> @@ -93,7 +93,8 @@ static void x86_set_epyc_topo_handlers(MachineState *machine)
+>   * all CPUs up to max_cpus.
+>   */
+>  uint32_t x86_cpu_apic_id_from_index(X86MachineState *x86ms,
+> -                                    unsigned int cpu_index)
+> +                                    unsigned int cpu_index,
+> +                                    CpuInstanceProperties props)
+>  {
+>      X86MachineClass *x86mc = X86_MACHINE_GET_CLASS(x86ms);
+>      X86CPUTopoInfo topo_info;
+> @@ -102,7 +103,7 @@ uint32_t x86_cpu_apic_id_from_index(X86MachineState *x86ms,
+>  
+>      init_topo_info(&topo_info, x86ms);
+>  
+> -    correct_id = x86ms->apicid_from_cpu_idx(&topo_info, cpu_index);
+> +    correct_id = x86ms->apicid_from_cpu_idx(&topo_info, cpu_index, props);
+>      if (x86mc->compat_apic_id_mode) {
+>          if (cpu_index != correct_id && !warned && !qtest_enabled()) {
+>              error_report("APIC IDs set in compatibility mode, "
+> @@ -136,6 +137,8 @@ void x86_cpus_init(X86MachineState *x86ms, int default_cpu_version)
+>      const CPUArchIdList *possible_cpus;
+>      MachineState *ms = MACHINE(x86ms);
+>      MachineClass *mc = MACHINE_GET_CLASS(x86ms);
+> +    CpuInstanceProperties props;
+> +
+>  
+>      /* Check for apicid encoding */
+>      if (cpu_x86_use_epyc_apic_id_encoding(ms->cpu_type)) {
+> @@ -144,6 +147,8 @@ void x86_cpus_init(X86MachineState *x86ms, int default_cpu_version)
+>  
+>      x86_cpu_set_default_version(default_cpu_version);
+>  
+> +    possible_cpus = mc->possible_cpu_arch_ids(ms);
+> +
+>      /*
+>       * Calculates the limit to CPU APIC ID values
+>       *
+> @@ -152,13 +157,15 @@ void x86_cpus_init(X86MachineState *x86ms, int default_cpu_version)
+>       *
+>       * This is used for FW_CFG_MAX_CPUS. See comments on fw_cfg_arch_create().
+>       */
+> -    x86ms->apic_id_limit = x86_cpu_apic_id_from_index(x86ms,
+> -                                                      ms->smp.max_cpus - 1) + 1;
+> -    possible_cpus = mc->possible_cpu_arch_ids(ms);
+> +    props = ms->possible_cpus->cpus[ms->smp.max_cpus - 1].props;
+>  
+> +    x86ms->apic_id_limit = x86_cpu_apic_id_from_index(x86ms,
+> +                                                      ms->smp.max_cpus - 1,
+> +                                                      props) + 1;
+>      for (i = 0; i < ms->possible_cpus->len; i++) {
+> +        props = ms->possible_cpus->cpus[i].props;
+>          ms->possible_cpus->cpus[i].arch_id =
+> -            x86_cpu_apic_id_from_index(x86ms, i);
+> +            x86_cpu_apic_id_from_index(x86ms, i, props);
+>      }
+>  
+>      for (i = 0; i < ms->smp.cpus; i++) {
+> diff --git a/include/hw/i386/topology.h b/include/hw/i386/topology.h
+> index 7cb21e9c82..a800fc905f 100644
+> --- a/include/hw/i386/topology.h
+> +++ b/include/hw/i386/topology.h
+> @@ -221,10 +221,17 @@ static inline void x86_init_topo_ids(X86CPUTopoInfo *topo_info,
+>   * 'cpu_index' is a sequential, contiguous ID for the CPU.
+>   */
+>  static inline apic_id_t x86_apicid_from_cpu_idx_epyc(X86CPUTopoInfo *topo_info,
+> -                                                     unsigned cpu_index)
+> +                                                     unsigned cpu_index,
+> +                                                     CpuInstanceProperties props)
+>  {
+>      X86CPUTopoIDs topo_ids;
+> -    x86_topo_ids_from_idx_epyc(topo_info, cpu_index, &topo_ids);
+> +
+> +    if (props.has_node_id) {
+> +        x86_init_topo_ids(topo_info, props, &topo_ids);
+> +    } else {
+> +        x86_topo_ids_from_idx_epyc(topo_info, cpu_index, &topo_ids);
+why this branch is needed?
 
-This does not fit to the current semantics, since diag 260 returns the
-address of the highest *currently* accessible address. That is: it
-does explicitly *not* include standby memory or anything else that
-might potentially be there.
+> +    }
+> +
+>      return x86_apicid_from_topo_ids_epyc(topo_info, &topo_ids);
+>  }
+>  /* Make APIC ID for the CPU based on Pkg_ID, Core_ID, SMT_ID
+> @@ -280,7 +287,8 @@ static inline void x86_topo_ids_from_apicid(apic_id_t apicid,
+>   * 'cpu_index' is a sequential, contiguous ID for the CPU.
+>   */
+>  static inline apic_id_t x86_apicid_from_cpu_idx(X86CPUTopoInfo *topo_info,
+> -                                                unsigned cpu_index)
+> +                                                unsigned cpu_index,
+> +                                                CpuInstanceProperties props)
+>  {
+>      X86CPUTopoIDs topo_ids;
+>      x86_topo_ids_from_idx(topo_info, cpu_index, &topo_ids);
+> diff --git a/include/hw/i386/x86.h b/include/hw/i386/x86.h
+> index b79f24e285..3109f39554 100644
+> --- a/include/hw/i386/x86.h
+> +++ b/include/hw/i386/x86.h
+> @@ -65,7 +65,8 @@ typedef struct {
+>  
+>      /* Apic id specific handlers */
+>      uint32_t (*apicid_from_cpu_idx)(X86CPUTopoInfo *topo_info,
+> -                                    unsigned cpu_index);
+> +                                    unsigned cpu_index,
+> +                                    CpuInstanceProperties props);
+>      void (*topo_ids_from_apicid)(apic_id_t apicid, X86CPUTopoInfo *topo_info,
+>                                   X86CPUTopoIDs *topo_ids);
+>      apic_id_t (*apicid_from_topo_ids)(X86CPUTopoInfo *topo_info,
+> @@ -93,7 +94,8 @@ typedef struct {
+>  void init_topo_info(X86CPUTopoInfo *topo_info, const X86MachineState *x86ms);
+>  
+>  uint32_t x86_cpu_apic_id_from_index(X86MachineState *pcms,
+> -                                    unsigned int cpu_index);
+> +                                    unsigned int cpu_index,
+> +                                    CpuInstanceProperties props);
+>  
+>  void x86_cpu_new(X86MachineState *pcms, int64_t apic_id, Error **errp);
+>  void x86_cpus_init(X86MachineState *pcms, int default_cpu_version);
+> diff --git a/tests/test-x86-cpuid.c b/tests/test-x86-cpuid.c
+> index 049030a50e..a1308e214b 100644
+> --- a/tests/test-x86-cpuid.c
+> +++ b/tests/test-x86-cpuid.c
+> @@ -29,6 +29,7 @@
+>  static void test_topo_bits(void)
+>  {
+>      X86CPUTopoInfo topo_info = {0};
+> +    CpuInstanceProperties props = {0};
+>  
+>      /* simple tests for 1 thread per core, 1 core per die, 1 die per package */
+>      topo_info = (X86CPUTopoInfo) {0, 1, 1, 1};
+> @@ -37,10 +38,10 @@ static void test_topo_bits(void)
+>      g_assert_cmpuint(apicid_die_width(&topo_info), ==, 0);
+>  
+>      topo_info = (X86CPUTopoInfo) {0, 1, 1, 1};
+> -    g_assert_cmpuint(x86_apicid_from_cpu_idx(&topo_info, 0), ==, 0);
+> -    g_assert_cmpuint(x86_apicid_from_cpu_idx(&topo_info, 1), ==, 1);
+> -    g_assert_cmpuint(x86_apicid_from_cpu_idx(&topo_info, 2), ==, 2);
+> -    g_assert_cmpuint(x86_apicid_from_cpu_idx(&topo_info, 3), ==, 3);
+> +    g_assert_cmpuint(x86_apicid_from_cpu_idx(&topo_info, 0, props), ==, 0);
+> +    g_assert_cmpuint(x86_apicid_from_cpu_idx(&topo_info, 1, props), ==, 1);
+> +    g_assert_cmpuint(x86_apicid_from_cpu_idx(&topo_info, 2, props), ==, 2);
+> +    g_assert_cmpuint(x86_apicid_from_cpu_idx(&topo_info, 3, props), ==, 3);
+>  
+>  
+>      /* Test field width calculation for multiple values
+> @@ -92,38 +93,38 @@ static void test_topo_bits(void)
+>      g_assert_cmpuint(apicid_pkg_offset(&topo_info), ==, 5);
+>  
+>      topo_info = (X86CPUTopoInfo) {0, 1, 6, 3};
+> -    g_assert_cmpuint(x86_apicid_from_cpu_idx(&topo_info, 0), ==, 0);
+> -    g_assert_cmpuint(x86_apicid_from_cpu_idx(&topo_info, 1), ==, 1);
+> -    g_assert_cmpuint(x86_apicid_from_cpu_idx(&topo_info, 2), ==, 2);
+> +    g_assert_cmpuint(x86_apicid_from_cpu_idx(&topo_info, 0, props), ==, 0);
+> +    g_assert_cmpuint(x86_apicid_from_cpu_idx(&topo_info, 1, props), ==, 1);
+> +    g_assert_cmpuint(x86_apicid_from_cpu_idx(&topo_info, 2, props), ==, 2);
+>  
+>      topo_info = (X86CPUTopoInfo) {0, 1, 6, 3};
+> -    g_assert_cmpuint(x86_apicid_from_cpu_idx(&topo_info, 1 * 3 + 0), ==,
+> +    g_assert_cmpuint(x86_apicid_from_cpu_idx(&topo_info, 1 * 3 + 0, props), ==,
+>                       (1 << 2) | 0);
+> -    g_assert_cmpuint(x86_apicid_from_cpu_idx(&topo_info, 1 * 3 + 1), ==,
+> +    g_assert_cmpuint(x86_apicid_from_cpu_idx(&topo_info, 1 * 3 + 1, props), ==,
+>                       (1 << 2) | 1);
+> -    g_assert_cmpuint(x86_apicid_from_cpu_idx(&topo_info, 1 * 3 + 2), ==,
+> +    g_assert_cmpuint(x86_apicid_from_cpu_idx(&topo_info, 1 * 3 + 2, props), ==,
+>                       (1 << 2) | 2);
+>  
+> -    g_assert_cmpuint(x86_apicid_from_cpu_idx(&topo_info, 2 * 3 + 0), ==,
+> +    g_assert_cmpuint(x86_apicid_from_cpu_idx(&topo_info, 2 * 3 + 0, props), ==,
+>                       (2 << 2) | 0);
+> -    g_assert_cmpuint(x86_apicid_from_cpu_idx(&topo_info, 2 * 3 + 1), ==,
+> +    g_assert_cmpuint(x86_apicid_from_cpu_idx(&topo_info, 2 * 3 + 1, props), ==,
+>                       (2 << 2) | 1);
+> -    g_assert_cmpuint(x86_apicid_from_cpu_idx(&topo_info, 2 * 3 + 2), ==,
+> +    g_assert_cmpuint(x86_apicid_from_cpu_idx(&topo_info, 2 * 3 + 2, props), ==,
+>                       (2 << 2) | 2);
+>  
+> -    g_assert_cmpuint(x86_apicid_from_cpu_idx(&topo_info, 5 * 3 + 0), ==,
+> +    g_assert_cmpuint(x86_apicid_from_cpu_idx(&topo_info, 5 * 3 + 0, props), ==,
+>                       (5 << 2) | 0);
+> -    g_assert_cmpuint(x86_apicid_from_cpu_idx(&topo_info, 5 * 3 + 1), ==,
+> +    g_assert_cmpuint(x86_apicid_from_cpu_idx(&topo_info, 5 * 3 + 1, props), ==,
+>                       (5 << 2) | 1);
+> -    g_assert_cmpuint(x86_apicid_from_cpu_idx(&topo_info, 5 * 3 + 2), ==,
+> +    g_assert_cmpuint(x86_apicid_from_cpu_idx(&topo_info, 5 * 3 + 2, props), ==,
+>                       (5 << 2) | 2);
+>  
+>      g_assert_cmpuint(x86_apicid_from_cpu_idx(&topo_info,
+> -                     1 * 6 * 3 + 0 * 3 + 0), ==, (1 << 5));
+> +                     1 * 6 * 3 + 0 * 3 + 0, props), ==, (1 << 5));
+>      g_assert_cmpuint(x86_apicid_from_cpu_idx(&topo_info,
+> -                     1 * 6 * 3 + 1 * 3 + 1), ==, (1 << 5) | (1 << 2) | 1);
+> +                     1 * 6 * 3 + 1 * 3 + 1, props), ==, (1 << 5) | (1 << 2) | 1);
+>      g_assert_cmpuint(x86_apicid_from_cpu_idx(&topo_info,
+> -                     3 * 6 * 3 + 5 * 3 + 2), ==, (3 << 5) | (5 << 2) | 2);
+> +                     3 * 6 * 3 + 5 * 3 + 2, props), ==, (3 << 5) | (5 << 2) | 2);
+>  }
+>  
+>  int main(int argc, char **argv)
+> 
 
-So you would need a different interface to tell the guest about your
-new hotplug memory interface. If sclp does not work, then maybe a new
-diagnose(?).
 
