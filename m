@@ -2,80 +2,66 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5400F21D475
-	for <lists+qemu-devel@lfdr.de>; Mon, 13 Jul 2020 13:05:04 +0200 (CEST)
-Received: from localhost ([::1]:35200 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 00D3421D47E
+	for <lists+qemu-devel@lfdr.de>; Mon, 13 Jul 2020 13:05:55 +0200 (CEST)
+Received: from localhost ([::1]:37952 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1juwGd-0003IP-Cg
-	for lists+qemu-devel@lfdr.de; Mon, 13 Jul 2020 07:05:03 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:34650)
+	id 1juwHS-0004QW-0z
+	for lists+qemu-devel@lfdr.de; Mon, 13 Jul 2020 07:05:54 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:35246)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1juwDt-0000jA-SH
- for qemu-devel@nongnu.org; Mon, 13 Jul 2020 07:02:13 -0400
-Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:53988
+ (Exim 4.90_1) (envelope-from <dgilbert@redhat.com>)
+ id 1juwFO-0002T5-Ih
+ for qemu-devel@nongnu.org; Mon, 13 Jul 2020 07:03:46 -0400
+Received: from us-smtp-2.mimecast.com ([205.139.110.61]:47719
  helo=us-smtp-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1juwDr-00053l-R9
- for qemu-devel@nongnu.org; Mon, 13 Jul 2020 07:02:13 -0400
+ (Exim 4.90_1) (envelope-from <dgilbert@redhat.com>)
+ id 1juwFM-0005OB-Ew
+ for qemu-devel@nongnu.org; Mon, 13 Jul 2020 07:03:46 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1594638130;
+ s=mimecast20190719; t=1594638223;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=fRF8uZm4rnD0AkZpdkMnnDf26Vaep2LDxP4/uTxLlRw=;
- b=dUDe+XPuN6oLbijKlZPHzokVu6uuorYx6LGXDTaGipSBdzIRhPK50loeyxVbDIZvUVlauf
- a6nm1qJ0UPWMg6w0j5eSR+8tJ5LE3SvayXo8S7a6XyBtPBvcxr3XvBITrgCFRTviV6Bc8S
- FNyaYMcXYWb6pgaq+GHtvGD3hYdVL24=
-Received: from mail-wm1-f70.google.com (mail-wm1-f70.google.com
- [209.85.128.70]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-241-tZpQ-BzjPKCpXpilbHkSjw-1; Mon, 13 Jul 2020 07:02:02 -0400
-X-MC-Unique: tZpQ-BzjPKCpXpilbHkSjw-1
-Received: by mail-wm1-f70.google.com with SMTP id 65so18311087wmd.8
- for <qemu-devel@nongnu.org>; Mon, 13 Jul 2020 04:02:02 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:content-transfer-encoding
- :in-reply-to;
- bh=fRF8uZm4rnD0AkZpdkMnnDf26Vaep2LDxP4/uTxLlRw=;
- b=P+YhOAYZk7WhxdyBB04Rf0VLqbHT8E+8jgkHaAg+VB2A0jejlaOfuSZv4zCfn4N+oE
- MOtAAax121tkF7HRiNEowQtIo2+WZnT0KEh3qdFbf+prf9KhhPNzTPTf9zgMoepRJIth
- knHtwiAJapcyrxBSuxHusj8Q4RrFMtUhPuUcU0513Y8UEdp7NCUHzhZAtkCBiqXPifeh
- 2kNnrnFxQ6cCD7ypDN4ya60E7YWhMVq+U1wleogUBBwBU96kui5Grm39BZ/5GZUTTKtc
- aWWHVO3lw7TfvQIN7Z1P5uMH7/cVRRj34wzR/IaqGoyCoof0Cb5kHWUxXR6KGdlfif+B
- 4QsQ==
-X-Gm-Message-State: AOAM533bgUKKheiiXY2JWDBFnxwoas2qRoHzhvi6w6VMGs0VHYvkUlWr
- yMEx0cTiNv+jgVasr0ylwCwPDdz2nTncOEk1WgEFgwJ/Plepl7JOaljkY93zR7YHjn/kf3rFV7p
- NirN9lP5emDxmbWc=
-X-Received: by 2002:adf:b1ca:: with SMTP id r10mr52972666wra.150.1594638121626; 
- Mon, 13 Jul 2020 04:02:01 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJx7gbXXJkTRPARQXe+EchFs+oZM71HNgqGxcQiO0uYXIA3eHn3bl4ZSSlkSUbO8ZckwIRGqHQ==
-X-Received: by 2002:adf:b1ca:: with SMTP id r10mr52972645wra.150.1594638121416; 
- Mon, 13 Jul 2020 04:02:01 -0700 (PDT)
-Received: from redhat.com (bzq-79-180-10-140.red.bezeqint.net. [79.180.10.140])
- by smtp.gmail.com with ESMTPSA id 78sm15826868wma.31.2020.07.13.04.01.57
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 13 Jul 2020 04:02:00 -0700 (PDT)
-Date: Mon, 13 Jul 2020 07:01:51 -0400
-From: "Michael S. Tsirkin" <mst@redhat.com>
-To: Michael Tokarev <mjt@tls.msk.ru>
-Subject: Re: [PATCH] Allow acpi-tmr size=2
-Message-ID: <20200713070038-mutt-send-email-mst@kernel.org>
-References: <5f12377f-b640-c4c5-1bcd-858c622c6c31@the-jedi.co.uk>
- <4a5cfe21-d370-8ebf-b905-c37d39b68353@msgid.tls.msk.ru>
- <33bd2c28-8671-a552-61b2-08f5cd1c082d@msgid.tls.msk.ru>
+ bh=sP0gJ3Vit25VjSbYfUQXfjecxcXFUrgtVIgGRi2J3SU=;
+ b=IUt/4Hke6tHS4J0ODNzN0XvFSwk0PpB6Pk3HJ5kFXr1t9E8KQx1D0U+m0dnalbCXW/ezi3
+ g/GxnT8p3SAO9NaG1+nV6+czZRasogEmk6Vq98tQFnVuJ7oHCIm3ttJVXcHrPaUAtGnx9V
+ ot5gQOeM3CSkKtCCQ/ZMOqrXdwS21Fk=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-20-f-VNB5AfN3yKgdc5y-Lg9A-1; Mon, 13 Jul 2020 07:03:41 -0400
+X-MC-Unique: f-VNB5AfN3yKgdc5y-Lg9A-1
+Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
+ [10.5.11.16])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id A2A7719200C1;
+ Mon, 13 Jul 2020 11:03:40 +0000 (UTC)
+Received: from work-vm (ovpn-113-140.ams2.redhat.com [10.36.113.140])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id EF9A15C66E;
+ Mon, 13 Jul 2020 11:03:35 +0000 (UTC)
+Date: Mon, 13 Jul 2020 12:03:33 +0100
+From: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
+To: Claudio Fontana <cfontana@suse.de>
+Subject: Re: migration: broken snapshot saves appear on s390 when small
+ fields in migration stream removed
+Message-ID: <20200713110333.GE3122@work-vm>
+References: <8bbafdec-836d-b7de-cab8-7a325b6e238d@suse.de>
 MIME-Version: 1.0
-In-Reply-To: <33bd2c28-8671-a552-61b2-08f5cd1c082d@msgid.tls.msk.ru>
+In-Reply-To: <8bbafdec-836d-b7de-cab8-7a325b6e238d@suse.de>
+User-Agent: Mutt/1.14.5 (2020-06-23)
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=dgilbert@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Received-SPF: pass client-ip=207.211.31.120; envelope-from=mst@redhat.com;
+Received-SPF: pass client-ip=205.139.110.61; envelope-from=dgilbert@redhat.com;
  helo=us-smtp-1.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/07/13 02:19:41
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/07/13 01:36:29
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
 X-Spam_score_int: -40
 X-Spam_score: -4.1
@@ -83,7 +69,7 @@ X-Spam_bar: ----
 X-Spam_report: (-4.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-1, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ SPF_PASS=-0.001, URIBL_BLOCKED=0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -96,57 +82,177 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: imammedo@redhat.com, Simon John <github@the-jedi.co.uk>,
- qemu-devel@nongnu.org, Gerd Hoffmann <kraxel@redhat.com>
+Cc: "Jason J. Herne" <jjherne@linux.ibm.com>, Fam Zheng <fam@euphon.net>,
+ Thomas Huth <thuth@redhat.com>, Juan Quintela <quintela@redhat.com>,
+ Peter Maydell <peter.maydell@linaro.org>, Cornelia Huck <cohuck@redhat.com>,
+ qemu-devel <qemu-devel@nongnu.org>, Stefan Hajnoczi <stefanha@redhat.com>,
+ Paolo Bonzini <pbonzini@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Mon, Jul 13, 2020 at 10:43:19AM +0300, Michael Tokarev wrote:
-> 13.07.2020 10:20, Michael Tokarev пишет:
-> > 12.07.2020 15:00, Simon John wrote:
-> >> macos guests no longer boot after commit 5d971f9e672507210e77d020d89e0e89165c8fc9
-> >>
-> >> acpi-tmr needs 2 byte memory accesses, so breaks as that commit only allows 4 bytes.
-> >>
-> >> Fixes: 5d971f9e672507210e7 (memory: Revert "memory: accept mismatching sizes in memory_region_access_valid")
-> >> Buglink: https://bugs.launchpad.net/qemu/+bug/1886318
-> > 
-> > Actually this fixes 77d58b1e47c8d1c661f98f12b47ab519d3561488
-> > Author: Gerd Hoffmann <kraxel@redhat.com>
-> > Date:   Thu Nov 22 12:12:30 2012 +0100
-> > Subject: apci: switch timer to memory api
-> > Signed-off-by: Gerd Hoffmann <kraxel@redhat.com>
-> > 
-> > because this is the commit which put min_access_size = 4 in there
-> > (5d971f9e672507210e7 is just a messenger, actual error were here
-> > earlier but it went unnoticed).
-> > 
-> > While min_access_size=4 was most likely an error, I wonder why
-> > we use 1 now, while the subject says it needs 2? What real min
-> > size is here for ACPI PM timer?
+* Claudio Fontana (cfontana@suse.de) wrote:
+> Hello all,
 > 
-> Actually it is more twisted than that. We can't just change the size,
-> we must update the corresponding code too.
+> during unrelated work for splitting QTest from the TCG instruction counting module,
+> 
+> I encountered what seems to be a migration stream issue, which is apparent only on s390, and only shows in block test 267.
+> 
+> ./check -qcow2 267
+> 
+> when it comes to snapshot save and load using backing file.
+> 
+> Here is a minimal reproducer patch that causes the issue on s390 only.
+> 
+> --------------------------------------------cut-------------------------------------------
+> diff --git a/cpus.c b/cpus.c
+> index 41d1c5099f..443b88697a 100644
+> --- a/cpus.c
+> +++ b/cpus.c
+> @@ -643,7 +643,7 @@ static void qemu_account_warp_timer(void)
+>  
+>  static bool icount_state_needed(void *opaque)
+>  {
+> -    return use_icount;
+> +    return 0;
+>  }
+
+That's weird; I mean that's just turning a subsection on and off;
+so you'd hope if this is a test that generates it's own snapshot and
+then uses it then it should be consistent.
+
+>  static bool warp_timer_state_needed(void *opaque)
+> --------------------------------------------cut-------------------------------------------
+> 
+> config.status configure line:
+> exec '/home/cfontana/qemu-build/../qemu/configure' '--enable-tcg' '--disable-kvm' '--disable-hax' '--target-list=s390x-softmmu' '--enable-debug'
+> 
+> $ make check-block
+> 
+> TEST    iotest-qcow2: 267 [fail]
+> QEMU          -- "/home/cfontana/qemu-build/tests/qemu-iotests/../../s390x-softmmu/qemu-system-s390x" -nodefaults -display none -accel qtest
+> QEMU_IMG      -- "/home/cfontana/qemu-build/tests/qemu-iotests/../../qemu-img" 
+> QEMU_IO       -- "/home/cfontana/qemu-build/tests/qemu-iotests/../../qemu-io"  --cache writeback --aio threads -f qcow2
+> QEMU_NBD      -- "/home/cfontana/qemu-build/tests/qemu-iotests/../../qemu-nbd" 
+> IMGFMT        -- qcow2 (compat=1.1)
+> IMGPROTO      -- file
+> PLATFORM      -- Linux/s390x s390zp13 5.3.18-21-default
+> TEST_DIR      -- /home/cfontana/qemu-build/tests/qemu-iotests/scratch
+> SOCK_DIR      -- /tmp/tmp.bLJcJVtzk5
+> SOCKET_SCM_HELPER -- /home/cfontana/qemu-build/tests/qemu-iotests/socket_scm_helper
+> 
+> --- /home/cfontana/qemu/tests/qemu-iotests/267.out	2020-07-12 05:10:07.948262675 -0400
+> +++ /home/cfontana/qemu-build/tests/qemu-iotests/267.out.bad	2020-07-12 05:27:03.358362781 -0400
+> @@ -137,6 +137,9 @@
+>  ID        TAG                 VM SIZE                DATE       VM CLOCK
+>  --        snap0                  SIZE yyyy-mm-dd hh:mm:ss   00:00:00.000
+>  (qemu) loadvm snap0
+> +Unexpected storage key flag data: 0
+> +error while loading state for instance 0x0 of device 's390-skeys'
+> +Error: Error -22 while loading VM state
+>  (qemu) quit
+>  
+>  
+> -----------
 > 
 > 
-> static uint64_t acpi_pm_tmr_read(void *opaque, hwaddr addr, unsigned width)
-> {
->     return acpi_pm_tmr_get(opaque);
-> }
+> Not run: 172 186 192 259 287
+> Failures: 267
+> Failed 1 of 115 iotests
+> make: *** [/home/cfontana/qemu/tests/Makefile.include:880: check-tests/check-block.sh] Error 1
 > 
-> note the actual read function does not even know neither the requested
-> address nor the requested width, it assumes the min/max constraints
-> are enforced and the read goes to all 4 bytes. If this pm timer can
-> be read byte-by-byte, we should return the right byte of the value,
-> not always the whole value.
+> -----------
 > 
-> /mjt
+> Note: only the === -blockdev with a backing file === part of test 267 fails. -blockdev with NBD is ok, like all the rest.
+> 
+> 
+> Interesting facts about s390 in particular: its save/load code includes the transfer of "storage keys",
+> which include a buffer of 32768 bytes of keydata in the stream.
+> 
+> The code (hw/s390x/s390-skeys.c),
+> is modeled similarly to RAM transfer (like in migration/ram.c), with an EOS (end of stream) marker.
+> 
+> Countrary to RAM transfer code though, after qemu_put_be64(f, EOS), the s390 code does not qemu_fflush(f).
+> 
+> ----------
+> Observation: the migration/qemu-file.c shows an IO_BUF_SIZE of 32768.
+> 
+> --
+> 
+> The following workarounds hide the problem (make the test pass):
+> 
+> 1) always including the icount field in the (unrelated) timers field that are sent before in the migration stream (ie not applying the reproducer patch).
+> 
+> 2) increasing the IO_BUF_SIZE also hides the problem:
+> 
+> ----------------------cut--------------------------
+> diff --git a/migration/qemu-file.c b/migration/qemu-file.c
+> index be21518c57..f81d1272eb 100644
+> --- a/migration/qemu-file.c
+> +++ b/migration/qemu-file.c
+> @@ -30,7 +30,7 @@
+>  #include "trace.h"
+>  #include "qapi/error.h"
+>  
+> -#define IO_BUF_SIZE 32768
+> +#define IO_BUF_SIZE 65536
+>  #define MAX_IOV_SIZE MIN_CONST(IOV_MAX, 64)
+>  
+>  struct QEMUFile {
+> ----------------------cut--------------------------
+> 
+> 3) adding a qemu_fflush in hw/s390x/s390-skeys.c after EOS also "fixes" the problem:
+> 
+> ----------------------cut--------------------------
+> diff --git a/hw/s390x/s390-skeys.c b/hw/s390x/s390-skeys.c
+> index 1e036cc602..47c9a015af 100644
+> --- a/hw/s390x/s390-skeys.c
+> +++ b/hw/s390x/s390-skeys.c
+> @@ -252,6 +252,8 @@ static const TypeInfo qemu_s390_skeys_info = {
+>      .class_size    = sizeof(S390SKeysClass),
+>  };
+>  
+> +extern void qemu_fflush(QEMUFile *f);
+> +
+>  static void s390_storage_keys_save(QEMUFile *f, void *opaque)
+>  {
+>      S390SKeysState *ss = S390_SKEYS(opaque);
+> @@ -302,6 +304,7 @@ static void s390_storage_keys_save(QEMUFile *f, void *opaque)
+>      g_free(buf);
+>  end_stream:
+>      qemu_put_be64(f, eos);
+> +    qemu_fflush(f);
+>  }
+>  
+>  static int s390_storage_keys_load(QEMUFile *f, void *opaque, int version_id)
+> ----------------------cut--------------------------
+> 
+> Do any of you with better understanding of migration/, block and s390 have a suggestion on what could be the issue here,
+> and what could be the next step in the investigation?
+> 
+> Is the fact that migration/ram.c always does fflush after writing the EOS have any relevance here? why does it do it,
+> and should s390 code also follow the same pattern?
+
+I didn't think it was required.
+And qemu_put_buffer loops if needed and calls qemu_fflush internally.
+It's possible here that the storage key code is just the canary - the
+first thing that detects that the stream is invalid after it all goes
+wrong.
+
+Dave
 
 
-I think that specifying .impl.min_access_size is a way to do that easily
-without major code changes.
-
--- 
-MST
+> Thanks,
+> 
+> Claudio
+> 
+> 
+> -- 
+> Claudio Fontana
+> Engineering Manager Virtualization, SUSE Labs Core
+> 
+> SUSE Software Solutions Italy Srl
+> 
+--
+Dr. David Alan Gilbert / dgilbert@redhat.com / Manchester, UK
 
 
