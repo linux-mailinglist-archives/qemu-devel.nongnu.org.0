@@ -2,71 +2,77 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1844121D815
-	for <lists+qemu-devel@lfdr.de>; Mon, 13 Jul 2020 16:16:01 +0200 (CEST)
-Received: from localhost ([::1]:38508 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9B59721D832
+	for <lists+qemu-devel@lfdr.de>; Mon, 13 Jul 2020 16:19:40 +0200 (CEST)
+Received: from localhost ([::1]:55560 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1juzFQ-0004bS-41
-	for lists+qemu-devel@lfdr.de; Mon, 13 Jul 2020 10:16:00 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:34892)
+	id 1juzIx-00035V-Lu
+	for lists+qemu-devel@lfdr.de; Mon, 13 Jul 2020 10:19:39 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:35076)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1juzAe-0004fo-3Z
- for qemu-devel@nongnu.org; Mon, 13 Jul 2020 10:11:04 -0400
-Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:41671
- helo=us-smtp-1.mimecast.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1juzAb-0006a2-H7
- for qemu-devel@nongnu.org; Mon, 13 Jul 2020 10:11:03 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1594649460;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=/sDGej+C5cxprRRXVaQrWzRIcyZUE7Yr6mfIQ+XUx9Q=;
- b=OR/3nQpCrtHREKfqdEJ+DhBx+Kr19c/bW0SPv4IxpqxkfJVk/vlWkl7rrlT+Hfg+9mZy3C
- +rPQLeWxWuh6QYzek0w5tnGnFz71sdtQNvrSMNZ9GopbVNneTZTpdeq1bkDc+cMUMa1KKp
- HMbgT+J+LGYQJPw2f/zCTZcIdiWo3yM=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-506-u3uV7qeSNNOWatLgm9hhUQ-1; Mon, 13 Jul 2020 10:10:54 -0400
-X-MC-Unique: u3uV7qeSNNOWatLgm9hhUQ-1
-Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
- [10.5.11.15])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 71D3D8027E2;
- Mon, 13 Jul 2020 14:10:53 +0000 (UTC)
-Received: from sirius.home.kraxel.org (ovpn-115-89.ams2.redhat.com
- [10.36.115.89])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 0264C73029;
- Mon, 13 Jul 2020 14:10:50 +0000 (UTC)
-Received: by sirius.home.kraxel.org (Postfix, from userid 1000)
- id 1FD6E3EBB8; Mon, 13 Jul 2020 16:10:49 +0200 (CEST)
-From: Gerd Hoffmann <kraxel@redhat.com>
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1juzAs-00055d-9P
+ for qemu-devel@nongnu.org; Mon, 13 Jul 2020 10:11:18 -0400
+Received: from mail-wm1-x330.google.com ([2a00:1450:4864:20::330]:38397)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1juzAq-0006co-Gu
+ for qemu-devel@nongnu.org; Mon, 13 Jul 2020 10:11:17 -0400
+Received: by mail-wm1-x330.google.com with SMTP id f18so13313836wml.3
+ for <qemu-devel@nongnu.org>; Mon, 13 Jul 2020 07:11:16 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=from:to:subject:date:message-id:in-reply-to:references:mime-version
+ :content-transfer-encoding;
+ bh=aypUxU7C2gYLlTPZ8asdzkNfN+z6lUCzbwNisQbIlr4=;
+ b=g6CBjEWZi3idyWARMDdSRQbdouAMNIEAOGeNx8OJ27gxIdaO6ezZxtyoZ5W/GzwKH5
+ E3tFXlEFGPOjx9X9YhorEkYTpCGWKb+ecT4jhc5wQquqUG1L2VlMyIH+7BPe4s2uHvYp
+ XBwKTFFM4BWG+ncBJoli1RFWNDSWiesETIxeqlUTZt3WexW8PCGUsjxl1vOLpebSc22x
+ bOtDi6oZhk3/O02tdrUkfh2T9dtAtYrbLAo3hf4xSgq6FYtGbYgQii3Y7kx/eFyRR3IZ
+ NS6AzrtzIMUilItYMHfbT53czYcBWHGlFDyO/8y8LjQjy0LWBwYCqDaUiZv3qlRgC4/k
+ gWJQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
+ :references:mime-version:content-transfer-encoding;
+ bh=aypUxU7C2gYLlTPZ8asdzkNfN+z6lUCzbwNisQbIlr4=;
+ b=LVt50HUDAJU/1sIKvvNHhcALSAIFsYaEldVKGMCElltvgHAqQCru6tEVAfooYchaka
+ TWx2ROaHtN6Tjz2YXa2rWmVkTpNFBdkg1q35wXXxml+w1FUpFE508yfzJk5x1X0HYvgy
+ DUDKL6r8tSI8JtYAIAO5tQhmdWijvP0WQttNeNthYanYpN7jMA/eseaH6z8r0VvEQLXy
+ vqdN6lisEeDk0FpMafc8ock4BP9skBUnhVTHiE7WmDFJZhcjOq4mtj3tSvYZw2oKme7x
+ COfwOj0yV4nD43OI3RXvCKV6pCzikGFimtVVvwiozD8L9+HElIrJAbHFVN4aD43j9DMy
+ 0SIg==
+X-Gm-Message-State: AOAM533OSw1srHFZzCui/zmCctdhgHFJsKx536GjBnEs1StG72FYWj9D
+ VdtCWCHXI+ToV0CKXxrvIjZZ20jKy3yzDw==
+X-Google-Smtp-Source: ABdhPJzq3bvoJBGgjamjjDQjzXQxsqDr/Q2k1TVMMftrra/4zKKot1orO/O5q1HQFC5GjxvRgMU0sA==
+X-Received: by 2002:a1c:ba08:: with SMTP id k8mr182121wmf.28.1594649474583;
+ Mon, 13 Jul 2020 07:11:14 -0700 (PDT)
+Received: from orth.archaic.org.uk (orth.archaic.org.uk. [81.2.115.148])
+ by smtp.gmail.com with ESMTPSA id c136sm24031297wmd.10.2020.07.13.07.11.13
+ for <qemu-devel@nongnu.org>
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Mon, 13 Jul 2020 07:11:13 -0700 (PDT)
+From: Peter Maydell <peter.maydell@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PULL 1/4] ossaudio: fix out of bounds write
-Date: Mon, 13 Jul 2020 16:10:46 +0200
-Message-Id: <20200713141049.2241-2-kraxel@redhat.com>
-In-Reply-To: <20200713141049.2241-1-kraxel@redhat.com>
-References: <20200713141049.2241-1-kraxel@redhat.com>
+Subject: [PULL 07/25] virtio-iommu: Fix coverity issue in
+ virtio_iommu_handle_command()
+Date: Mon, 13 Jul 2020 15:10:46 +0100
+Message-Id: <20200713141104.5139-8-peter.maydell@linaro.org>
+X-Mailer: git-send-email 2.20.1
+In-Reply-To: <20200713141104.5139-1-peter.maydell@linaro.org>
+References: <20200713141104.5139-1-peter.maydell@linaro.org>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=205.139.110.120; envelope-from=kraxel@redhat.com;
- helo=us-smtp-1.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/07/13 03:20:22
-X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
-X-Spam_score_int: -40
-X-Spam_score: -4.1
-X-Spam_bar: ----
-X-Spam_report: (-4.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-1, SPF_HELO_NONE=0.001,
+Received-SPF: pass client-ip=2a00:1450:4864:20::330;
+ envelope-from=peter.maydell@linaro.org; helo=mail-wm1-x330.google.com
+X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
+ That's all we know.
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -80,47 +86,38 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Paolo Bonzini <pbonzini@redhat.com>,
- =?UTF-8?q?Volker=20R=C3=BCmelin?= <vr_qemu@t-online.de>,
- =?UTF-8?q?Daniel=20P=2E=20Berrang=C3=A9?= <berrange@redhat.com>,
- Gerd Hoffmann <kraxel@redhat.com>, Eduardo Habkost <ehabkost@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Volker Rümelin <vr_qemu@t-online.de>
+From: Eric Auger <eric.auger@redhat.com>
 
-In function oss_read() a read error currently does not exit the
-read loop. With no data to read the variable pos will quickly
-underflow and a subsequent successful read overwrites memory
-outside the buffer. This patch adds the missing break statement
-to the error path of the function.
+Coverity points out (CID 1430180) that the new case is missing
+break or a /* fallthrough */ comment. Break is the right thing to
+do as in that case, tail is not used.
 
-To reproduce start qemu with -audiodev oss,id=audio0 and in the
-guest start audio recording. After some time this will trigger
-an exception.
-
-Fixes: 3ba4066d08 "ossaudio: port to the new audio backend api"
-
-Signed-off-by: Volker Rümelin <vr_qemu@t-online.de>
-Message-id: 20200707180836.5435-1-vr_qemu@t-online.de
-Signed-off-by: Gerd Hoffmann <kraxel@redhat.com>
+Fixes 1733eebb9e ("virtio-iommu: Implement RESV_MEM probe request")
+Signed-off-by: Eric Auger <eric.auger@redhat.com>
+Reported-by: Peter Maydell <peter.maydell@linaro.org>
+Message-id: 20200708160147.18426-1-eric.auger@redhat.com
+Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
+Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
 ---
- audio/ossaudio.c | 1 +
+ hw/virtio/virtio-iommu.c | 1 +
  1 file changed, 1 insertion(+)
 
-diff --git a/audio/ossaudio.c b/audio/ossaudio.c
-index f88d076ec236..a7dcaa31adeb 100644
---- a/audio/ossaudio.c
-+++ b/audio/ossaudio.c
-@@ -691,6 +691,7 @@ static size_t oss_read(HWVoiceIn *hw, void *buf, size_t len)
-                            len, dst);
-                 break;
-             }
+diff --git a/hw/virtio/virtio-iommu.c b/hw/virtio/virtio-iommu.c
+index b39e836181e..5d56865e569 100644
+--- a/hw/virtio/virtio-iommu.c
++++ b/hw/virtio/virtio-iommu.c
+@@ -534,6 +534,7 @@ static void virtio_iommu_handle_command(VirtIODevice *vdev, VirtQueue *vq)
+             ptail = (struct virtio_iommu_req_tail *)
+                         (buf + s->config.probe_size);
+             ptail->status = virtio_iommu_handle_probe(s, iov, iov_cnt, buf);
 +            break;
          }
- 
-         pos += nread;
+         default:
+             tail.status = VIRTIO_IOMMU_S_UNSUPP;
 -- 
-2.18.4
+2.20.1
 
 
