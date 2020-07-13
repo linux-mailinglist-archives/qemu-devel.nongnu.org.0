@@ -2,113 +2,72 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B679121D1CC
-	for <lists+qemu-devel@lfdr.de>; Mon, 13 Jul 2020 10:34:49 +0200 (CEST)
-Received: from localhost ([::1]:55262 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id CDD5621D1D5
+	for <lists+qemu-devel@lfdr.de>; Mon, 13 Jul 2020 10:35:24 +0200 (CEST)
+Received: from localhost ([::1]:57924 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jutvE-0005UD-Pn
-	for lists+qemu-devel@lfdr.de; Mon, 13 Jul 2020 04:34:48 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:44940)
+	id 1jutvm-0006Ym-Ig
+	for lists+qemu-devel@lfdr.de; Mon, 13 Jul 2020 04:35:23 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:45110)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <vsementsov@virtuozzo.com>)
- id 1juttn-0004Lc-JT; Mon, 13 Jul 2020 04:33:19 -0400
-Received: from mail-eopbgr140101.outbound.protection.outlook.com
- ([40.107.14.101]:62436 helo=EUR01-VE1-obe.outbound.protection.outlook.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <vsementsov@virtuozzo.com>)
- id 1juttl-0007eL-04; Mon, 13 Jul 2020 04:33:19 -0400
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=B1Gv5tWbOMxEK6dfblestwAXvk0fMkrudLDYcvnRJisd/ktWG/JCMnNUtOcfX2GidNC9I8AiBDRAjVYs/IUx4gFFGcRu1l1Jvuk9Z1kFkB20LUbVlrO9hnJ4Bo7sEQaV2l8h3TEFURvidmcE6nva+6FtVeRVYb/wrUGT4ICInIRZK1Wp+WYQMw5YzdP6SZoUzxvXTmtqRxPnQM/flkZRHDwSw4gCIIbKmUDjMUIdG2wekwsy78S5I2ykNveX8RUU6qoq8YPzkiNh+/yMn5zyFXr2trPmLOQR0TH29ifr3pcuHYUoruxAtnRtcVCHt4ngyFwfzv1sy/6NN42DF3TW4w==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=Zc1wHlf6I5e/FKZYOfU4o4ah7tspW0maC+3M6zORcxI=;
- b=Yuoukr90QoqWwv0rbmuR3r4n8knJL8hBfZ2zKD+2CrQv+g901b5p4b5s1aBeh6otjo84S+NFaBoSPpdfh3/LeOOw5I1MnrRvRmE9IMCwFYebkficdL0Rbr1EHoJrmEzosamNdNiaRonP2h3qmuSlkovNquFa2M6yKdn2Gmp/AqtoUsCfYDPQjXNyc+EEsg8/7Cuq4+bNeX0/l/TPpGSEKbRXgMfbWbOdunb1Yina4gpY5UlaokT9/nLrR426lio0Ki4cefs8rsRjsGvGiDRJ32NVWlzZiYaYDRd6tT91LRGvlm7covjNdqD1RqUo/jXhl+IKiPDz8Tg7GqSBtEjwkw==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=virtuozzo.com; dmarc=pass action=none
- header.from=virtuozzo.com; dkim=pass header.d=virtuozzo.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=virtuozzo.com;
- s=selector2;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=Zc1wHlf6I5e/FKZYOfU4o4ah7tspW0maC+3M6zORcxI=;
- b=SCK8HjvMviRyktp/dnWgbFjUUXONlt9PCXe+lGQPKzIMr5ia01zhMvYAXSTy0GjAzB/yZX7cRzoZXRX5SYmnWn1aGpVdiazeBpCXEYw+20IUSoDHsuu1pDHvM+/0tdFrHzzEMdWePvdV9vkfk3AKvCxcJGUCodHOSqkC0YSmlwY=
-Authentication-Results: openvz.org; dkim=none (message not signed)
- header.d=none;openvz.org; dmarc=none action=none header.from=virtuozzo.com;
-Received: from AM7PR08MB5494.eurprd08.prod.outlook.com (2603:10a6:20b:dc::15)
- by AM6PR08MB4850.eurprd08.prod.outlook.com (2603:10a6:20b:d2::12)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3174.20; Mon, 13 Jul
- 2020 08:33:14 +0000
-Received: from AM7PR08MB5494.eurprd08.prod.outlook.com
- ([fe80::a408:2f0f:bc6c:d312]) by AM7PR08MB5494.eurprd08.prod.outlook.com
- ([fe80::a408:2f0f:bc6c:d312%3]) with mapi id 15.20.3174.025; Mon, 13 Jul 2020
- 08:33:14 +0000
-Subject: Re: [PATCH v8 03/10] qcow2_format.py: change Qcow2BitmapExt
- initialization method
-To: Andrey Shinkevich <andrey.shinkevich@virtuozzo.com>, qemu-block@nongnu.org
-References: <1593782030-521984-1-git-send-email-andrey.shinkevich@virtuozzo.com>
- <1593782030-521984-4-git-send-email-andrey.shinkevich@virtuozzo.com>
- <e10319ea-0a60-3585-8b36-92783dba3862@virtuozzo.com>
- <8f214a44-f8af-b79a-4a62-e5803ccc81bd@virtuozzo.com>
-From: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
-Message-ID: <8dcd8e6b-0452-20a9-db08-847747cb9fcf@virtuozzo.com>
-Date: Mon, 13 Jul 2020 11:33:12 +0300
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.10.0
-In-Reply-To: <8f214a44-f8af-b79a-4a62-e5803ccc81bd@virtuozzo.com>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 8bit
-X-ClientProxiedBy: AM0PR05CA0089.eurprd05.prod.outlook.com
- (2603:10a6:208:136::29) To AM7PR08MB5494.eurprd08.prod.outlook.com
- (2603:10a6:20b:dc::15)
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1jutum-0005f5-OP
+ for qemu-devel@nongnu.org; Mon, 13 Jul 2020 04:34:20 -0400
+Received: from mail-oi1-x244.google.com ([2607:f8b0:4864:20::244]:41613)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1jutuj-0007ie-Vk
+ for qemu-devel@nongnu.org; Mon, 13 Jul 2020 04:34:20 -0400
+Received: by mail-oi1-x244.google.com with SMTP id y22so10310751oie.8
+ for <qemu-devel@nongnu.org>; Mon, 13 Jul 2020 01:34:17 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc:content-transfer-encoding;
+ bh=viAZnrTBZeQWPn+TbviRi84L+AvSdDdkqR1AOfFBRr8=;
+ b=CTY+VXgFU2RoCr1TDsk9mxOtIpDunUEhjOOJVd0Am0CUR0MIdtCKl8eTkoJP2OZzkW
+ m6f13M8Q8jfsgEtWflwVuKzruSkuovYHkbVHWwqB1tQrv00qCNOh0sAHDZp7dflGyRUl
+ qqSbTr7TmljN7utl+yr8cGUE39eUPfAdZnp86MsFqQZcLidbxLFxoYfd9td9HVi/Gzmt
+ IYyNBYK2H+B8i5uF+VSWjAKf6haRquQHk70XdQhhhnJEeNSwyxjEQG16pnbBIS2w8Xqc
+ RDO31oXQ62Py+BqatuUPhGmWTeT20Z49KMybMO9GLvK5zAXYqqgD27j2XDxEKJ+9Z0S9
+ RifA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc:content-transfer-encoding;
+ bh=viAZnrTBZeQWPn+TbviRi84L+AvSdDdkqR1AOfFBRr8=;
+ b=HFikIKdfRgxH21zsZRvTDCW224Q96CKaSCLNK9j3K4UK6/By9NX1/o9kGv8nbkkxQN
+ 7TIn5CRtiH+hOF5LQ8o1PPQUA2S3tJKA9Kybw8Ns9lvxsYY+k5hJTXagvSRbgWcylFv/
+ SWqD/rnPm3UObAkhjG4fun/PmMJioJUaWABUY1XbffDyTN8c5pyS28IaJQjsLymNjmyS
+ XhH0NaCzZXTvO5j7xtVdNmUAGDpLvg/zvy7b0PGBcpQSpqTSMKSg+MSiai3DutIl5pjC
+ lEyKTiBUw36uzZXeuEpebs0ku04DoF/m0H4fTHHf/p5ydFv02VhYsniNEXh/11y0v8GA
+ 6g9A==
+X-Gm-Message-State: AOAM530dVBBG+5Wil+Ys9/qRZQSjHm0wfeOzNm6kbts6H1evAHavDUZ9
+ FjOT2uo212tuRhzvAd6pnlSpNAPrpi15I/KJHbeUxg==
+X-Google-Smtp-Source: ABdhPJxrhR+0RwM4pUgi8B+4TqaWBB3T09BxfnHF4XYwDinssOziNfzPBkVUb8RrK9BjNERBNCr7PZqdBb0tTPDD50s=
+X-Received: by 2002:aca:1706:: with SMTP id j6mr12500319oii.146.1594629256516; 
+ Mon, 13 Jul 2020 01:34:16 -0700 (PDT)
 MIME-Version: 1.0
-X-MS-Exchange-MessageSentRepresentingType: 1
-Received: from [192.168.100.2] (185.215.60.167) by
- AM0PR05CA0089.eurprd05.prod.outlook.com (2603:10a6:208:136::29) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3174.21 via Frontend
- Transport; Mon, 13 Jul 2020 08:33:13 +0000
-X-Originating-IP: [185.215.60.167]
-X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: 7cd6c2b4-7dec-4170-f1ef-08d827076222
-X-MS-TrafficTypeDiagnostic: AM6PR08MB4850:
-X-MS-Exchange-Transport-Forked: True
-X-Microsoft-Antispam-PRVS: <AM6PR08MB4850F1353C5D2D7B40D87F9FC1600@AM6PR08MB4850.eurprd08.prod.outlook.com>
-X-MS-Oob-TLC-OOBClassifiers: OLM:9508;
-X-MS-Exchange-SenderADCheck: 1
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: xJLN9w4M5Lxgmd/VmFsHoim7iuG/Ra+7iYciuDsJS91TTFCCxrb4z5C6+DChL8HNwlEGEtbza55BUqMLx7P34vBrqheNIvq6O2gHairX2f+8PfTIPo1FKQOsZC6FiyCd/w2Wwg19z400W2b6zSFG/F3l8iETgEgRv6mLdUOiLY4oIVuAaQh8Hl4iXa5aUGZYoUpn4q4PIMCjXqV4cYaPh6Fi8MdIUltvUkao5C23ydb5/8lKkqO1l6JydQUsimxJDNagLRVAIA/QiFyODFOIIF53LKUbSxWR/8Szwk4tD4zrQSoLcwmAJz3FHZL85Zb+Z70E8kUoSNtSYK17ZLXBiX/xHJfT2tnw5+T98p/xEg3WE4Q77QAyL+N7bd79N8fZUSk3xChTZqqQ1Kjw+9UqyJ7Nj/pyCaSQbdRXCSvV4cCa5/CwlQ3Di8bH3aVmDCpsRlFYpV6NpmmSnBj6mmoU8w==
-X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:AM7PR08MB5494.eurprd08.prod.outlook.com; PTR:; CAT:NONE;
- SFTY:;
- SFS:(4636009)(396003)(39830400003)(346002)(376002)(366004)(136003)(83380400001)(26005)(5660300002)(107886003)(52116002)(8676002)(31696002)(66556008)(316002)(16576012)(53546011)(8936002)(86362001)(66946007)(66476007)(6486002)(478600001)(2906002)(2616005)(31686004)(956004)(36756003)(4326008)(16526019)(966005)(186003)(43740500002);
- DIR:OUT; SFP:1102; 
-X-MS-Exchange-AntiSpam-MessageData: 4HrKGqWukpMUSajz9TgK3srF8wftPVaYtI5fwY41m6ZBREE/xAGhPdeds7Qse76ylcN5s6HUo0zZNsEJUBlKjNzCWDZTsLtrs/2yP7EsVqRYQU+56o+xg8fXsFo/iRWEKZh3Ayk+XVz67KywB8PFViMcuu6h1CGg8L4U4Ik8DbLxhpU11RmsuNiwZsdhx9es21Q7VlG/zI4RKCeneJk5CjIhCJL2I9l3bOmhcfzg635/CXl1XA4FoUwVkdrSFvqpfC6gHqR/+rHv7Gxg7keBQ+2wzssDCrSRvJ363lwakd7opqyqcUs4/n1T63MNFkwTXds9lnzU9uDcWaNHFsVyBFnO1kQl2XgZ42m2WpTGOYIJmqBaCy+0kd84Tf9SizXDzlN05WTaziEdbO8nxr00Imv7bpiFiysZW/84rtHavonb6U2IjKE02x312ce6GiMGtNzJTLnBhRjgewAON96vkxf6KH3Jv+VOat69t5IKmIRkRe7dNPxAY6Tl2U9ulzhj
-X-OriginatorOrg: virtuozzo.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 7cd6c2b4-7dec-4170-f1ef-08d827076222
-X-MS-Exchange-CrossTenant-AuthSource: AM7PR08MB5494.eurprd08.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 13 Jul 2020 08:33:13.9538 (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 0bc7f26d-0264-416e-a6fc-8352af79c58f
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: QRYicsoxVrBRM/m3zQjcE7EC2e5iLWgASwwd5HH2JseSq5E4Uaf7QNpKKGecpIWa3DTGxuuvGeV9RKZW66i1zkQS7bwDKGeW8HZds5DzdCY=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: AM6PR08MB4850
-Received-SPF: pass client-ip=40.107.14.101;
- envelope-from=vsementsov@virtuozzo.com;
- helo=EUR01-VE1-obe.outbound.protection.outlook.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/07/13 04:33:14
-X-ACL-Warn: Detected OS   = Windows NT kernel [generic] [fuzzy]
-X-Spam_score_int: -37
-X-Spam_score: -3.8
-X-Spam_bar: ---
-X-Spam_report: (-3.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+References: <20200711170732.26213-1-alex.bennee@linaro.org>
+In-Reply-To: <20200711170732.26213-1-alex.bennee@linaro.org>
+From: Peter Maydell <peter.maydell@linaro.org>
+Date: Mon, 13 Jul 2020 09:34:05 +0100
+Message-ID: <CAFEAcA_m5dyUWt1ZF_YbrF_8SeCg_OtNY9rZR0dxSeKCg-FYjA@mail.gmail.com>
+Subject: Re: [PULL v2 00/50] testing updates (vm, gitlab, misc build fixes)
+To: =?UTF-8?B?QWxleCBCZW5uw6ll?= <alex.bennee@linaro.org>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=2607:f8b0:4864:20::244;
+ envelope-from=peter.maydell@linaro.org; helo=mail-oi1-x244.google.com
+X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
+ That's all we know.
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
  DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- MSGID_FROM_MTA_HEADER=0.001, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-1,
- SPF_HELO_PASS=-0.001, SPF_PASS=-0.001,
- URIBL_BLOCKED=0.001 autolearn=ham autolearn_force=no
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -121,99 +80,55 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: kwolf@redhat.com, den@openvz.org, qemu-devel@nongnu.org, mreitz@redhat.com
+Cc: QEMU Developers <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-13.07.2020 07:49, Andrey Shinkevich wrote:
-> On 11.07.2020 19:34, Vladimir Sementsov-Ogievskiy wrote:
->> 03.07.2020 16:13, Andrey Shinkevich wrote:
->>> There are two ways to initialize a class derived from Qcow2Struct:
->>> 1. Pass a block of binary data to the constructor.
->>> 2. Pass the file descriptor to allow reading the file from constructor.
->>> Let's change the Qcow2BitmapExt initialization method from 1 to 2 to
->>> support a scattered reading in the initialization chain.
->>> The implementation comes with the patch that follows.
->>>
->>> Suggested-by: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
->>> Signed-off-by: Andrey Shinkevich <andrey.shinkevich@virtuozzo.com>
->>> ---
->>>   tests/qemu-iotests/qcow2_format.py | 14 ++++++++++++--
->>>   1 file changed, 12 insertions(+), 2 deletions(-)
->>>
->>> diff --git a/tests/qemu-iotests/qcow2_format.py b/tests/qemu-iotests/qcow2_format.py
->>> index 2f3681b..1435e34 100644
->>> --- a/tests/qemu-iotests/qcow2_format.py
->>> +++ b/tests/qemu-iotests/qcow2_format.py
->>> @@ -63,7 +63,8 @@ class Qcow2StructMeta(type):
->>>     class Qcow2Struct(metaclass=Qcow2StructMeta):
->>>   -    """Qcow2Struct: base class for qcow2 data structures
->>> +    """
->>> +    Qcow2Struct: base class for qcow2 data structures
->>
->> Unrelated chunk. And why?
-> 
-> 
-> To conform to the common style for comments in the file as it is at
-> 
-> class QcowHeaderExtension::__init__()
-
-It's OK to additionally fix/change style in the chunk where you change some logic anyway. But changing style in another places - I think it doesn't worth it. Remember that it may make patch porting more complicated for nothing.
-
-And this is not only my position, https://wiki.qemu.org/Contribute/SubmitAPatch directly statates it in "Don't include irrelevant changes" paragraph:
-
-     In particular, don't include formatting, coding style or whitespace changes to bits of code that would otherwise not be touched by the patch.
-
-> 
-> 
->>
->>>         Successors should define fields class variable, which is: list of tuples,
->>>       each of three elements:
->>> @@ -113,6 +114,9 @@ class Qcow2BitmapExt(Qcow2Struct):
->>>           ('u64', '{:#x}', 'bitmap_directory_offset')
->>>       )
->>>   +    def __init__(self, fd):
->>> +        super().__init__(fd=fd)
->>
->> this does nothing. We inherit the __init__ of super class, no need to define it just to call same __init__.
->>
->>> +
->>>     QCOW2_EXT_MAGIC_BITMAPS = 0x23852875
->>>   @@ -173,7 +177,13 @@ class QcowHeaderExtension(Qcow2Struct):
->>>           self.data_str = data_str
->>>             if self.magic == QCOW2_EXT_MAGIC_BITMAPS:
->>> -            self.obj = Qcow2BitmapExt(data=self.data)
->>> +            assert fd is not None
->>> +            position = fd.tell()
->>> +            # Step back to reread data
->>
->> This definitely shows that we are doing something wrong
-> 
-> 
-> For Qcow2BitmapExt, we need both fd and data and they are mutualy exclusive
-> 
-> in the constructor of the class Qcow2Struct. Rereading the bitmap extension
-> 
-> is a solution without changing the Qcow2Struct. Any other suggestion?
-> 
-
-I think, we want to modify QcowHeaderExtension so that it creates/reads its children appropriately. Probably, for bitmaps extension exclusively we pass fd to Qcow2BitmapExt, not reading data by ourselves, and for other extensions keep current semantics of just reading data by hand (or you may add a simple class Qcow2Ext.
-
-> 
-> 
->>
->>> +            padded = (self.length + 7) & ~7
->>> +            fd.seek(-padded, 1)
->>> +            self.obj = Qcow2BitmapExt(fd=fd)
->>> +            fd.seek(position)
->>>           else:
->>>               self.obj = None
->>>
->>
->>
+On Sat, 11 Jul 2020 at 18:07, Alex Benn=C3=A9e <alex.bennee@linaro.org> wro=
+te:
+>
+> Fixed a few, dropped a few, added a few
+>
+> ---
+>
+> The following changes since commit 827937158b72ce2265841ff528bba3c44a1bfb=
+c8:
+>
+>   Merge remote-tracking branch 'remotes/aperard/tags/pull-xen-20200710' i=
+nto staging (2020-07-11 13:56:03 +0100)
+>
+> are available in the Git repository at:
+>
+>   https://github.com/stsquad/qemu.git tags/pull-testing-and-misc-110720-2
+>
+> for you to fetch changes up to 4a40f561d5ebb5050a8c6dcbdcee85621056590a:
+>
+>   iotests: Set LC_ALL=3DC for sort (2020-07-11 15:53:29 +0100)
+>
+> ----------------------------------------------------------------
+> Testing and misc build updates:
+>
+>   - tests/vm support for aarch64 VMs
+>   - tests/tcg better cross-compiler detection
+>   - update docker tooling to support registries
+>   - update docker support for xtensa
+>   - gitlab build docker images and store in registry
+>   - gitlab use docker images for builds
+>   - a number of skipIf updates to support move
+>   - linux-user MAP_FIXED_NOREPLACE fix
+>   - qht-bench compiler tweaks
+>   - configure fix for secret keyring
+>   - tsan fiber annotation clean-up
+>   - doc updates for mttcg/icount/gdbstub
+>   - fix cirrus to use brew bash for iotests
+>   - revert virtio-gpu breakage
+>   - fix LC_ALL to avoid sorting changes in iotests
 
 
--- 
-Best regards,
-Vladimir
+Applied, thanks.
+
+Please update the changelog at https://wiki.qemu.org/ChangeLog/5.1
+for any user-visible changes.
+
+-- PMM
 
