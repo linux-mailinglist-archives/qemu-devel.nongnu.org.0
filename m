@@ -2,77 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 70D7521D828
-	for <lists+qemu-devel@lfdr.de>; Mon, 13 Jul 2020 16:18:20 +0200 (CEST)
-Received: from localhost ([::1]:47166 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8F6C521D7FF
+	for <lists+qemu-devel@lfdr.de>; Mon, 13 Jul 2020 16:12:32 +0200 (CEST)
+Received: from localhost ([::1]:50030 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1juzHf-0008Ba-GR
-	for lists+qemu-devel@lfdr.de; Mon, 13 Jul 2020 10:18:19 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:35054)
+	id 1juzC3-0006Lc-HG
+	for lists+qemu-devel@lfdr.de; Mon, 13 Jul 2020 10:12:31 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:34878)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1juzAq-00052F-Vo
- for qemu-devel@nongnu.org; Mon, 13 Jul 2020 10:11:16 -0400
-Received: from mail-wm1-x342.google.com ([2a00:1450:4864:20::342]:33828)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1juzAp-0006ce-7H
- for qemu-devel@nongnu.org; Mon, 13 Jul 2020 10:11:16 -0400
-Received: by mail-wm1-x342.google.com with SMTP id g10so106962wmc.1
- for <qemu-devel@nongnu.org>; Mon, 13 Jul 2020 07:11:14 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=from:to:subject:date:message-id:in-reply-to:references:mime-version
- :content-transfer-encoding;
- bh=ICNTYUZ+6iVasEsw6L8KUA+znBCjot8guAjkE9Kicjw=;
- b=GoWNCFivx2NFrt54e2DPNo9TtDxMDOjUPHahT2l7uNnCdWxO5wROXPXfoiyUuVvVnj
- gaqkr3pK5U7S7KeULm01wTrkBWTzmYLkvu/O+wWXg/cWP3BxCCurNdmvDo8fDRRfIiG0
- 7p0Ns8cUhhyQlUewqk7fM7EQmaWRPFXAgXPFpA/UHU9qrYNeRptJ4w7eKS7ARy2jDhDo
- NhB0ZTitstc4ANUvyj5LDsvCHgdEI6vSvs28YKktjgpkN/le2ojTZl3HEP5hbqOribNm
- vIiTQkJkNMc7vwmORGsojBdxmlf7jTeJpdONLpoMfEM05UjlfZFZPb346Ag1efjtehDp
- QqxQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
- :references:mime-version:content-transfer-encoding;
- bh=ICNTYUZ+6iVasEsw6L8KUA+znBCjot8guAjkE9Kicjw=;
- b=mZKHXp/vRVuBQK9jJ8Q3YA6hP0RpT+umjnMyIVnSmLCMEu/obotpVkK+s+eBxrINE0
- LJe/TCw169/hmZx5pTFODIj1/IBi3s7RcrulAdLghSvqJ0qVxGNcO0B6Cg1cSK0Z/yq8
- fa+K+3vbqFbcSFLn/6Rgb73H6zNbyca0ugZexvbzjHZT8wft6mMhWiuPClIy/HWEp7WT
- yaxyHHexNta9FOg8RILK8HgxBCMmOowieL4sLIQzSxL3t+A1uyxdtT0+nNLl/uB57IOg
- XgZVFI4C7oYg5J5fk0gSMgUp7qEj5SCiyJ/Jz6FncmZDldOaW+J+X26nlHleU4jqZlE2
- ufHA==
-X-Gm-Message-State: AOAM532v8F+EHnt62XIJHswzU+BrWNSd1rLf9o8B/SDQhLTR4TnG7pD6
- WJMK32OwHd9E6MpVh8Q2fohQPRPrUm5p4g==
-X-Google-Smtp-Source: ABdhPJyosjo0/LB0jv60SnliLdt8ERRhhHVm3sfdbcJTqVYOTtb9VuE1vJFGTM9yttLJZ4HloB922Q==
-X-Received: by 2002:a1c:5f41:: with SMTP id t62mr137567wmb.53.1594649473455;
- Mon, 13 Jul 2020 07:11:13 -0700 (PDT)
-Received: from orth.archaic.org.uk (orth.archaic.org.uk. [81.2.115.148])
- by smtp.gmail.com with ESMTPSA id c136sm24031297wmd.10.2020.07.13.07.11.12
- for <qemu-devel@nongnu.org>
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 13 Jul 2020 07:11:12 -0700 (PDT)
-From: Peter Maydell <peter.maydell@linaro.org>
+ (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1juzAb-0004cp-NY
+ for qemu-devel@nongnu.org; Mon, 13 Jul 2020 10:11:01 -0400
+Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:51218
+ helo=us-smtp-1.mimecast.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1juzAZ-0006ZY-4A
+ for qemu-devel@nongnu.org; Mon, 13 Jul 2020 10:11:01 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1594649458;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding;
+ bh=MlMQLXyJASzOziS/y1F/U9ge/EM05rWDfVAQW6+yScM=;
+ b=eIQhrA+t9N31WIM7IxQHy+ykaLCR+1OzbFYGLxbvL8am+Z32YbQ2NtO31/+5nOORYmHCkO
+ GupXzlv9+ps1hqj/7oaCFRTXVmo0vRaellpsX/cDr/gQXSHSdbUmnLq25DfBl5kW3UGiAd
+ HB+stQ/DuwQTunUxhbdCTWR6IbwUx5g=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-245-0G6CaGd8NX6G9chfeOddBw-1; Mon, 13 Jul 2020 10:10:54 -0400
+X-MC-Unique: 0G6CaGd8NX6G9chfeOddBw-1
+Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
+ [10.5.11.12])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 4561418FF669
+ for <qemu-devel@nongnu.org>; Mon, 13 Jul 2020 14:10:53 +0000 (UTC)
+Received: from sirius.home.kraxel.org (ovpn-115-89.ams2.redhat.com
+ [10.36.115.89])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 0C70560BEC;
+ Mon, 13 Jul 2020 14:10:50 +0000 (UTC)
+Received: by sirius.home.kraxel.org (Postfix, from userid 1000)
+ id 179FE3EBB7; Mon, 13 Jul 2020 16:10:49 +0200 (CEST)
+From: Gerd Hoffmann <kraxel@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PULL 06/25] target/arm: Don't do raw writes for PMINTENCLR
-Date: Mon, 13 Jul 2020 15:10:45 +0100
-Message-Id: <20200713141104.5139-7-peter.maydell@linaro.org>
-X-Mailer: git-send-email 2.20.1
-In-Reply-To: <20200713141104.5139-1-peter.maydell@linaro.org>
-References: <20200713141104.5139-1-peter.maydell@linaro.org>
+Subject: [PULL 0/4] Fixes 20200713 patches
+Date: Mon, 13 Jul 2020 16:10:45 +0200
+Message-Id: <20200713141049.2241-1-kraxel@redhat.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::342;
- envelope-from=peter.maydell@linaro.org; helo=mail-wm1-x342.google.com
-X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
- That's all we know.
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=207.211.31.120; envelope-from=kraxel@redhat.com;
+ helo=us-smtp-1.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/07/13 02:19:41
+X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
+X-Spam_score_int: -40
+X-Spam_score: -4.1
+X-Spam_bar: ----
+X-Spam_report: (-4.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-1, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001, URIBL_BLOCKED=0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -85,45 +77,48 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Cc: Paolo Bonzini <pbonzini@redhat.com>,
+ =?UTF-8?q?Daniel=20P=2E=20Berrang=C3=A9?= <berrange@redhat.com>,
+ Gerd Hoffmann <kraxel@redhat.com>, Eduardo Habkost <ehabkost@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Aaron Lindsay <aaron@os.amperecomputing.com>
+The following changes since commit 9f526fce49c6ac48114ed04914b5a76e4db75785=
+:
 
-Raw writes to this register when in KVM mode can cause interrupts to be
-raised (even when the PMU is disabled). Because the underlying state is
-already aliased to PMINTENSET (which already provides raw write
-functions), we can safely disable raw accesses to PMINTENCLR entirely.
+  Merge remote-tracking branch 'remotes/stsquad/tags/pull-testing-and-misc-=
+110720-2' into staging (2020-07-12 15:32:05 +0100)
 
-Signed-off-by: Aaron Lindsay <aaron@os.amperecomputing.com>
-Message-id: 20200707152616.1917154-1-aaron@os.amperecomputing.com
-Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
-Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
----
- target/arm/helper.c | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+are available in the Git repository at:
 
-diff --git a/target/arm/helper.c b/target/arm/helper.c
-index dc9c29f998f..c69a2baf1d3 100644
---- a/target/arm/helper.c
-+++ b/target/arm/helper.c
-@@ -2269,13 +2269,13 @@ static const ARMCPRegInfo v7_cp_reginfo[] = {
-       .resetvalue = 0x0 },
-     { .name = "PMINTENCLR", .cp = 15, .crn = 9, .crm = 14, .opc1 = 0, .opc2 = 2,
-       .access = PL1_RW, .accessfn = access_tpm,
--      .type = ARM_CP_ALIAS | ARM_CP_IO,
-+      .type = ARM_CP_ALIAS | ARM_CP_IO | ARM_CP_NO_RAW,
-       .fieldoffset = offsetof(CPUARMState, cp15.c9_pminten),
-       .writefn = pmintenclr_write, },
-     { .name = "PMINTENCLR_EL1", .state = ARM_CP_STATE_AA64,
-       .opc0 = 3, .opc1 = 0, .crn = 9, .crm = 14, .opc2 = 2,
-       .access = PL1_RW, .accessfn = access_tpm,
--      .type = ARM_CP_ALIAS | ARM_CP_IO,
-+      .type = ARM_CP_ALIAS | ARM_CP_IO | ARM_CP_NO_RAW,
-       .fieldoffset = offsetof(CPUARMState, cp15.c9_pminten),
-       .writefn = pmintenclr_write },
-     { .name = "CCSIDR", .state = ARM_CP_STATE_BOTH,
--- 
-2.20.1
+  git://git.kraxel.org/qemu tags/fixes-20200713-pull-request
+
+for you to fetch changes up to 631009e775a91018a62e2670b4473e99916f858f:
+
+  usb: fix usb-host build on windows. (2020-07-13 11:46:51 +0200)
+
+----------------------------------------------------------------
+bugfixes for audio, usb, ui and docs.
+
+----------------------------------------------------------------
+
+Gerd Hoffmann (2):
+  ui: fix vc_chr_write call in text_console_do_init
+  usb: fix usb-host build on windows.
+
+Thomas Huth (1):
+  docs/qdev-device-use: Clean up the sentences related to -usbdevice
+
+Volker R=C3=BCmelin (1):
+  ossaudio: fix out of bounds write
+
+ docs/qdev-device-use.txt | 28 +++-------------------------
+ audio/ossaudio.c         |  1 +
+ hw/usb/host-libusb.c     |  4 ++--
+ ui/console.c             |  8 ++++----
+ 4 files changed, 10 insertions(+), 31 deletions(-)
+
+--=20
+2.18.4
 
 
