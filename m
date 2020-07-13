@@ -2,69 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id EDD6521D800
-	for <lists+qemu-devel@lfdr.de>; Mon, 13 Jul 2020 16:12:42 +0200 (CEST)
-Received: from localhost ([::1]:51006 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 89FF521D848
+	for <lists+qemu-devel@lfdr.de>; Mon, 13 Jul 2020 16:21:41 +0200 (CEST)
+Received: from localhost ([::1]:34836 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1juzCD-0006k1-UZ
-	for lists+qemu-devel@lfdr.de; Mon, 13 Jul 2020 10:12:41 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:35018)
+	id 1juzKu-0006Cq-I7
+	for lists+qemu-devel@lfdr.de; Mon, 13 Jul 2020 10:21:40 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:35028)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1juzAo-0004vC-19
+ id 1juzAo-0004xD-Qa
  for qemu-devel@nongnu.org; Mon, 13 Jul 2020 10:11:14 -0400
-Received: from mail-wm1-x331.google.com ([2a00:1450:4864:20::331]:51354)
+Received: from mail-wm1-x329.google.com ([2a00:1450:4864:20::329]:36028)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1juzAm-0006c3-9L
- for qemu-devel@nongnu.org; Mon, 13 Jul 2020 10:11:13 -0400
-Received: by mail-wm1-x331.google.com with SMTP id 22so13464976wmg.1
- for <qemu-devel@nongnu.org>; Mon, 13 Jul 2020 07:11:11 -0700 (PDT)
+ id 1juzAn-0006cH-5W
+ for qemu-devel@nongnu.org; Mon, 13 Jul 2020 10:11:14 -0400
+Received: by mail-wm1-x329.google.com with SMTP id 17so13300898wmo.1
+ for <qemu-devel@nongnu.org>; Mon, 13 Jul 2020 07:11:12 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:subject:date:message-id:in-reply-to:references:mime-version
  :content-transfer-encoding;
- bh=ThbookUz1zgsdvCKld312FzMkynGTVCEmFDPRgdidJc=;
- b=WO6+T7xVUb+gHhYwaQj8LyFgWWriMtvap0ZmQ/asqALD0XK0TWPBod5ylUg1bAwU3N
- pf5aYrzrgvOBPHnaAJjAv4X+jyT6yyOh+3GR5zW7UY6l29QKo/ZC1+crC/lSSDL7aKeT
- OuDAKEVAvsjDLQs+7+o7XiGEi2gkQ4Adj91aM+VOkpQsTBGypHMxiat97Jd2ABO3rrmR
- FG4rORazyVDwbwQuQV6Flv+PCf9SyWwtmdNb6va1naJ0tbNoV9P/vFtYzQ5ldkbnO6oo
- 4V47zzgtfqbHMTKckdg7oWtbV7ebugeKyJ2/KpcEVRanEhtqVhFAd9CTzUWo7hLiAzOz
- 1VDg==
+ bh=YOh9GxnhU6vhYDRmyns4fut70z8Xj0qJIqLDkwhxP5o=;
+ b=R6hKd2cQL8ycNYwlWaFRQSRFn/2dSE5OaT+BkP/yKQ4FhmXFJl4GU8/WskNDXbIddG
+ 0WZCSdD1B2bAcMLC+1AcaC88957vuBT2X4QNGCjYvUu+RkqO+J7y49FsTlb9txoxKAkx
+ ie5m4RcZLuK0QlTI2pqcmRGKVHt+DFUmX5t1A/JPkfWOwsEDqi4yMhszn9esMnDrLzZ1
+ RpVdp6NS6m7FR4dTPBgl38NBkubNsVWnoknfVXiwf5bq05E9Y3wFfazVNDcvHsgv14y9
+ KPsKWhM8uKjrS+3s5NRhtTvpB2AHIYYxZEBCnx1e2RfMAUaOBEE2Ujd3LHjlhKy5EA1z
+ vA+w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=ThbookUz1zgsdvCKld312FzMkynGTVCEmFDPRgdidJc=;
- b=uZK8BzTryJlH3F6zMgF0TIA2FuCVZvXZo3RNWpX2kCrYhziDWKrwN8FOB44D1K1GDV
- pHb2YSTFokAdbCL9WbqACbOkcPx/FVsFalpe6nbGZlZGMpRNZ/yjm1oGLKVs96huKjPZ
- TeFsdcCBHRb15JKy1diDr64gXnOGLcu8vOYR+YiqAy6U5JRXI8B+MNjWjNTxbBKzETu0
- WNLvp2/G8qfrCM8x+FJTZCX4kYM73WNK6msP9cVygZss+rK+5uN488r2f9s9hn16SnKX
- 6HqwoAPp2NrHTZUIpo1o7bhlIMmtWljCib5g4+985mchSbpk75Moj5ZERV8eiNAbEQ1Q
- bi6A==
-X-Gm-Message-State: AOAM533zdWIWmvtV9CRaMqo8XNKKIVtdXQuQQXRvODyu3MMOXKCkJPDu
- rPw7q8uZqNimoCboBqQOqjQ/YBFI/gaRGQ==
-X-Google-Smtp-Source: ABdhPJwV4fvk4EvqSETggtljkJDYK5w9xJnfKq72BH29gJIvAMR6lE0RbDfcHjp8tkRNcqmz20fR+g==
-X-Received: by 2002:a1c:5459:: with SMTP id p25mr159718wmi.148.1594649470383; 
- Mon, 13 Jul 2020 07:11:10 -0700 (PDT)
+ bh=YOh9GxnhU6vhYDRmyns4fut70z8Xj0qJIqLDkwhxP5o=;
+ b=UnJeBbAvr58VTzNHTQBY7jjmnvJvKdD7udhyvZK8n5uuH65HtORW04miMeoL3dUe4r
+ RuJFg6eg4fnwQ9RLIz2X2kpfv3/sETehdfPwgUyM5ymA8aQqnI/Q0tnkugVm8ES14h+V
+ E6cTBUS7NjPPR1tPHtzXPfo+Geald/0REzubEBbtV14ZMXlfZD+erDIjHIkLuWB2U/wy
+ 5yqGHoG7dne12HbI97deG6FaHnCbH1ivp/qFGsQLHbQuSfu7enqvVnu2Hg2SkvB6grA9
+ bPozCYip1Itrnc36R8a1/fbRT94YJpie2rFDVW722vGr5RjmVIEuutOJcDoCBwYnZGFf
+ Caqg==
+X-Gm-Message-State: AOAM532ugV464cJdcmlgzut653GFu9/XP7NNo/9NLvHGgeZgjKVleP5P
+ /Er4snTpX5eEobKm/9x0xUkynt0k3mXsTw==
+X-Google-Smtp-Source: ABdhPJy9EpTnc1uqzi5FBvg8S6xdM5ppNmYi3gV9+7pA30VOHcnMpMLCUR1KPyaHNxgfPg9pSYfbyA==
+X-Received: by 2002:a1c:408b:: with SMTP id n133mr173078wma.88.1594649471473; 
+ Mon, 13 Jul 2020 07:11:11 -0700 (PDT)
 Received: from orth.archaic.org.uk (orth.archaic.org.uk. [81.2.115.148])
- by smtp.gmail.com with ESMTPSA id c136sm24031297wmd.10.2020.07.13.07.11.09
+ by smtp.gmail.com with ESMTPSA id c136sm24031297wmd.10.2020.07.13.07.11.10
  for <qemu-devel@nongnu.org>
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 13 Jul 2020 07:11:09 -0700 (PDT)
+ Mon, 13 Jul 2020 07:11:10 -0700 (PDT)
 From: Peter Maydell <peter.maydell@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PULL 03/25] Add the ability to change the FEC PHY MDIO device number
- on i.MX25 processor
-Date: Mon, 13 Jul 2020 15:10:42 +0100
-Message-Id: <20200713141104.5139-4-peter.maydell@linaro.org>
+Subject: [PULL 04/25] Add the ability to change the FEC PHY MDIO device number
+ on i.MX6 processor
+Date: Mon, 13 Jul 2020 15:10:43 +0100
+Message-Id: <20200713141104.5139-5-peter.maydell@linaro.org>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20200713141104.5139-1-peter.maydell@linaro.org>
 References: <20200713141104.5139-1-peter.maydell@linaro.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::331;
- envelope-from=peter.maydell@linaro.org; helo=mail-wm1-x331.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::329;
+ envelope-from=peter.maydell@linaro.org; helo=mail-wm1-x329.google.com
 X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
  That's all we know.
 X-Spam_score_int: -20
@@ -92,56 +92,56 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 From: Jean-Christophe Dubois <jcd@tribudubois.net>
 
 Signed-off-by: Jean-Christophe Dubois <jcd@tribudubois.net>
-Message-id: 9f8923ecd974160ae8f634c275b1100c2cbe66d7.1593806826.git.jcd@tribudubois.net
+Message-id: 05a64e83eb1c0c865ac077b22c599425c024c02c.1593806826.git.jcd@tribudubois.net
 Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
 [PMM: updated for object_property_set_uint() argument reordering]
 Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
 ---
- include/hw/arm/fsl-imx25.h | 1 +
- hw/arm/fsl-imx25.c         | 7 +++++++
+ include/hw/arm/fsl-imx6.h | 1 +
+ hw/arm/fsl-imx6.c         | 7 +++++++
  2 files changed, 8 insertions(+)
 
-diff --git a/include/hw/arm/fsl-imx25.h b/include/hw/arm/fsl-imx25.h
-index 9e228daceae..54ee1bfd780 100644
---- a/include/hw/arm/fsl-imx25.h
-+++ b/include/hw/arm/fsl-imx25.h
-@@ -65,6 +65,7 @@ typedef struct FslIMX25State {
-     MemoryRegion   rom[2];
-     MemoryRegion   iram;
-     MemoryRegion   iram_alias;
+diff --git a/include/hw/arm/fsl-imx6.h b/include/hw/arm/fsl-imx6.h
+index 1ebd7513246..162fe99375d 100644
+--- a/include/hw/arm/fsl-imx6.h
++++ b/include/hw/arm/fsl-imx6.h
+@@ -73,6 +73,7 @@ typedef struct FslIMX6State {
+     MemoryRegion   caam;
+     MemoryRegion   ocram;
+     MemoryRegion   ocram_alias;
 +    uint32_t       phy_num;
- } FslIMX25State;
+ } FslIMX6State;
  
- /**
-diff --git a/hw/arm/fsl-imx25.c b/hw/arm/fsl-imx25.c
-index b4ddceae45a..08a98f828fc 100644
---- a/hw/arm/fsl-imx25.c
-+++ b/hw/arm/fsl-imx25.c
-@@ -171,6 +171,7 @@ static void fsl_imx25_realize(DeviceState *dev, Error **errp)
-                                             epit_table[i].irq));
+ 
+diff --git a/hw/arm/fsl-imx6.c b/hw/arm/fsl-imx6.c
+index 0bc9f0b60d1..00dafe3f62d 100644
+--- a/hw/arm/fsl-imx6.c
++++ b/hw/arm/fsl-imx6.c
+@@ -377,6 +377,7 @@ static void fsl_imx6_realize(DeviceState *dev, Error **errp)
+                                             spi_table[i].irq));
      }
  
-+    object_property_set_uint(OBJECT(&s->fec), "phy-num", s->phy_num, &err);
-     qdev_set_nic_properties(DEVICE(&s->fec), &nd_table[0]);
- 
-     if (!sysbus_realize(SYS_BUS_DEVICE(&s->fec), errp)) {
-@@ -315,10 +316,16 @@ static void fsl_imx25_realize(DeviceState *dev, Error **errp)
-                                 &s->iram_alias);
++    object_property_set_uint(OBJECT(&s->eth), "phy-num", s->phy_num, &err);
+     qdev_set_nic_properties(DEVICE(&s->eth), &nd_table[0]);
+     if (!sysbus_realize(SYS_BUS_DEVICE(&s->eth), errp)) {
+         return;
+@@ -449,10 +450,16 @@ static void fsl_imx6_realize(DeviceState *dev, Error **errp)
+                                 &s->ocram_alias);
  }
  
-+static Property fsl_imx25_properties[] = {
-+    DEFINE_PROP_UINT32("fec-phy-num", FslIMX25State, phy_num, 0),
++static Property fsl_imx6_properties[] = {
++    DEFINE_PROP_UINT32("fec-phy-num", FslIMX6State, phy_num, 0),
 +    DEFINE_PROP_END_OF_LIST(),
 +};
 +
- static void fsl_imx25_class_init(ObjectClass *oc, void *data)
+ static void fsl_imx6_class_init(ObjectClass *oc, void *data)
  {
      DeviceClass *dc = DEVICE_CLASS(oc);
  
-+    device_class_set_props(dc, fsl_imx25_properties);
-     dc->realize = fsl_imx25_realize;
-     dc->desc = "i.MX25 SOC";
-     /*
++    device_class_set_props(dc, fsl_imx6_properties);
+     dc->realize = fsl_imx6_realize;
+     dc->desc = "i.MX6 SOC";
+     /* Reason: Uses serial_hd() in the realize() function */
 -- 
 2.20.1
 
