@@ -2,68 +2,79 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E8E9321D685
-	for <lists+qemu-devel@lfdr.de>; Mon, 13 Jul 2020 15:12:41 +0200 (CEST)
-Received: from localhost ([::1]:48906 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4EE5021D676
+	for <lists+qemu-devel@lfdr.de>; Mon, 13 Jul 2020 15:04:20 +0200 (CEST)
+Received: from localhost ([::1]:35444 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1juyG9-0004MI-17
-	for lists+qemu-devel@lfdr.de; Mon, 13 Jul 2020 09:12:41 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:45780)
+	id 1juy82-0006s9-Sg
+	for lists+qemu-devel@lfdr.de; Mon, 13 Jul 2020 09:04:18 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:42902)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1juyEr-0003ON-EU
- for qemu-devel@nongnu.org; Mon, 13 Jul 2020 09:11:21 -0400
-Received: from indium.canonical.com ([91.189.90.7]:51338)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1juyEp-0006MW-5U
- for qemu-devel@nongnu.org; Mon, 13 Jul 2020 09:11:21 -0400
-Received: from loganberry.canonical.com ([91.189.90.37])
- by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
- id 1juyEm-0002Yu-7i
- for <qemu-devel@nongnu.org>; Mon, 13 Jul 2020 13:11:16 +0000
-Received: from loganberry.canonical.com (localhost [127.0.0.1])
- by loganberry.canonical.com (Postfix) with ESMTP id 37E6A2E805B
- for <qemu-devel@nongnu.org>; Mon, 13 Jul 2020 13:11:16 +0000 (UTC)
+ (Exim 4.90_1) (envelope-from <eblake@redhat.com>) id 1juy70-0006KC-Hy
+ for qemu-devel@nongnu.org; Mon, 13 Jul 2020 09:03:15 -0400
+Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:37262
+ helo=us-smtp-1.mimecast.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <eblake@redhat.com>) id 1juy6x-00053n-HE
+ for qemu-devel@nongnu.org; Mon, 13 Jul 2020 09:03:13 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1594645390;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=U81DiCaQOMBQ1xzUJTM2jeKmqPxiHUMgiPmk6uluT+0=;
+ b=jCHpCk1PGOjXsLHZJIPYw5g/rfLWDWN942cbKKP+mhyLFSRt6dgQJh6gw3cQWfiIfOl6mn
+ zmUmazZLwD9wKxearWTMpZqiCO33pZC/eNgL2Ks0N573x2PanmvuvvrsG2YXW4h6X0PYtY
+ dJMtq3uD2LdODdEZ1Fmte7v5rj0WFoo=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-284-TCUntIIMO6yurhD-mDlXOA-1; Mon, 13 Jul 2020 09:03:08 -0400
+X-MC-Unique: TCUntIIMO6yurhD-mDlXOA-1
+Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
+ [10.5.11.15])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 0E7268027F2;
+ Mon, 13 Jul 2020 13:03:07 +0000 (UTC)
+Received: from [10.3.112.134] (ovpn-112-134.phx2.redhat.com [10.3.112.134])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 987965BAD5;
+ Mon, 13 Jul 2020 13:03:02 +0000 (UTC)
+Subject: Re: [PATCH v2 3/5] nbd: make nbd_export_close_all() synchronous
+To: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>,
+ qemu-block@nongnu.org
+References: <20200701105331.121670-1-vsementsov@virtuozzo.com>
+ <20200701105331.121670-4-vsementsov@virtuozzo.com>
+From: Eric Blake <eblake@redhat.com>
+Organization: Red Hat, Inc.
+Message-ID: <b6866659-ed60-9743-b103-8325aa69fa3e@redhat.com>
+Date: Mon, 13 Jul 2020 08:03:02 -0500
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.10.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: quoted-printable
-Date: Mon, 13 Jul 2020 13:02:47 -0000
-From: Dmitry <1885332@bugs.launchpad.net>
-To: qemu-devel@nongnu.org
-X-Launchpad-Notification-Type: bug
-X-Launchpad-Bug: product=qemu; status=New; importance=Undecided; assignee=None;
-X-Launchpad-Bug-Information-Type: Public
-X-Launchpad-Bug-Private: no
-X-Launchpad-Bug-Security-Vulnerability: no
-X-Launchpad-Bug-Commenters: langston0 xeioexception
-X-Launchpad-Bug-Reporter: Langston (langston0)
-X-Launchpad-Bug-Modifier: Dmitry (xeioexception)
-References: <159320263008.26082.15752081078008046631.malonedeb@gac.canonical.com>
-Message-Id: <159464536715.7979.9217817106878133299.malone@wampee.canonical.com>
-Subject: [Bug 1885332] Re: Error in user-mode calculation of ELF aux vector's
- AT_PHDR
-X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
-X-Launchpad-Message-For: qemu-devel-ml
-Precedence: bulk
-X-Generated-By: Launchpad (canonical.com);
- Revision="4809fcb62f445aaa3ae919f7f6c3cc7d156ea57a";
- Instance="production-secrets-lazr.conf"
-X-Launchpad-Hash: d20cff92e6193d3e13e2e99f4b1cbe7542dd9439
-Received-SPF: none client-ip=91.189.90.7; envelope-from=bounces@canonical.com;
- helo=indium.canonical.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/07/13 09:11:16
-X-ACL-Warn: Detected OS   = Linux 3.11 and newer [fuzzy]
-X-Spam_score_int: -58
-X-Spam_score: -5.9
-X-Spam_bar: -----
-X-Spam_report: (-5.9 / 5.0 requ) BAYES_00=-1.9, HEADER_FROM_DIFFERENT_DOMAINS=1,
- RCVD_IN_DNSWL_HI=-5, RCVD_IN_MSPIKE_H3=-0.01, RCVD_IN_MSPIKE_WL=-0.01,
- SPF_HELO_NONE=0.001, SPF_NONE=0.001 autolearn=ham autolearn_force=no
+In-Reply-To: <20200701105331.121670-4-vsementsov@virtuozzo.com>
+Content-Language: en-US
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=205.139.110.120; envelope-from=eblake@redhat.com;
+ helo=us-smtp-1.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/07/13 03:20:22
+X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
+X-Spam_score_int: -40
+X-Spam_score: -4.1
+X-Spam_bar: ----
+X-Spam_report: (-4.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-1, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
+Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -72,150 +83,103 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Bug 1885332 <1885332@bugs.launchpad.net>
+Cc: kwolf@redhat.com, den@openvz.org, qemu-devel@nongnu.org,
+ stefanha@redhat.com, mreitz@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Built the latest QEMU, the issue goes away
+On 7/1/20 5:53 AM, Vladimir Sementsov-Ogievskiy wrote:
+> Consider nbd_export_close_all(). The call-stack looks like this:
+>   nbd_export_close_all() -> nbd_export_close -> call client_close() for
+> each client.
+> 
+> client_close() doesn't guarantee that client is closed: nbd_trip()
+> keeps reference to it. So, nbd_export_close_all() just reduce
+> reference counter on export and removes it from the list, but doesn't
+> guarantee that nbd_trip() finished neither export actually removed.
+> 
+> Let's wait for all exports actually removed.
+> 
+> Without this fix, the following crash is possible:
+> 
+> - export bitmap through internal Qemu NBD server
+> - connect a client
+> - shutdown Qemu
+> 
+> On shutdown nbd_export_close_all is called, but it actually don't wait
+> for nbd_trip() to finish and to release its references. So, export is
+> not release, and exported bitmap remains busy, and on try to remove the
+> bitmap (which is part of bdrv_close()) the assertion fails:
+> 
+> bdrv_release_dirty_bitmap_locked: Assertion `!bdrv_dirty_bitmap_busy(bitmap)' failed
+> 
+> Signed-off-by: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
+> ---
+> 
+> v2: rewritten, try to wait exports directly.
+> 
+> Note: I'm not sure in my understanding of AIO_WAIT_WHILE and related things
+> and really hope for review.
 
+I'm also a bit weak on whether the AIO_WAIT_WHILE is being used 
+correctly.  But the idea behind the patch makes sense to me, and since 
+it is a bug fix, it will be okay to apply this for -rc1 or even -rc2 if 
+needed (I'm not including it in my pull request today, however).
 
-$ bin/debug/native/s390x-linux-user/qemu-s390x --version
-qemu-s390x version 5.0.50 (v5.0.0-2358-g6c87d9f311-dirty)
-Copyright (c) 2003-2020 Fabrice Bellard and the QEMU Project developers
+> 
+> 
+>   nbd/server.c | 8 ++++++++
+>   1 file changed, 8 insertions(+)
+> 
+> diff --git a/nbd/server.c b/nbd/server.c
+> index 20754e9ebc..9d64b00f4b 100644
+> --- a/nbd/server.c
+> +++ b/nbd/server.c
+> @@ -102,6 +102,8 @@ struct NBDExport {
+>   };
+>   
+>   static QTAILQ_HEAD(, NBDExport) exports = QTAILQ_HEAD_INITIALIZER(exports);
+> +static QTAILQ_HEAD(, NBDExport) closed_exports =
+> +        QTAILQ_HEAD_INITIALIZER(closed_exports);
+>   
+>   /* NBDExportMetaContexts represents a list of contexts to be exported,
+>    * as selected by NBD_OPT_SET_META_CONTEXT. Also used for
+> @@ -1655,6 +1657,7 @@ void nbd_export_close(NBDExport *exp)
+>           g_free(exp->name);
+>           exp->name = NULL;
+>           QTAILQ_REMOVE(&exports, exp, next);
+> +        QTAILQ_INSERT_TAIL(&closed_exports, exp, next);
+>       }
+>       g_free(exp->description);
+>       exp->description = NULL;
+> @@ -1717,7 +1720,9 @@ void nbd_export_put(NBDExport *exp)
+>               g_free(exp->export_bitmap_context);
+>           }
+>   
+> +        QTAILQ_REMOVE(&closed_exports, exp, next);
+>           g_free(exp);
+> +        aio_wait_kick();
+>       }
+>   }
+>   
+> @@ -1737,6 +1742,9 @@ void nbd_export_close_all(void)
+>           nbd_export_close(exp);
+>           aio_context_release(aio_context);
+>       }
+> +
+> +    AIO_WAIT_WHILE(NULL, !(QTAILQ_EMPTY(&exports) &&
+> +                           QTAILQ_EMPTY(&closed_exports)));
+>   }
+>   
+>   static int coroutine_fn nbd_co_send_iov(NBDClient *client, struct iovec *iov,
+> 
 
-$ bin/debug/native/s390x-linux-user/qemu-s390x ../njs/njs-s390 -c 'console.=
-log("HI")'
-HI
+weak:
+Reviewed-by: Eric Blake <eblake@redhat.com>
 
-So my issue seems unrelated, sorry for bothering.
+-- 
+Eric Blake, Principal Software Engineer
+Red Hat, Inc.           +1-919-301-3226
+Virtualization:  qemu.org | libvirt.org
 
--- =
-
-You received this bug notification because you are a member of qemu-
-devel-ml, which is subscribed to QEMU.
-https://bugs.launchpad.net/bugs/1885332
-
-Title:
-  Error in user-mode calculation of ELF aux vector's AT_PHDR
-
-Status in QEMU:
-  New
-
-Bug description:
-  =
-
-  I have an (admittedly strange) statically-linked ELF binary for Linux tha=
-t runs just fine on top of the Linux kernel in QEMU full-system emulation, =
-but crashes before main in user-mode emulation. Specifically, it crashes wh=
-en initializing thread-local storage in glibc's _dl_aux_init, because it re=
-ads out a strange value from the AT_PHDR entry of the ELF aux vector.
-
-  The binary has these program headers:
-
-    Program Headers:
-      Type           Offset   VirtAddr   PhysAddr   FileSiz MemSiz  Flg Ali=
-gn
-      EXIDX          0x065874 0x00075874 0x00075874 0x00570 0x00570 R   0x4
-      PHDR           0x0a3000 0x00900000 0x00900000 0x00160 0x00160 R   0x1=
-000
-      LOAD           0x0a3000 0x00900000 0x00900000 0x00160 0x00160 R   0x1=
-000
-      LOAD           0x000000 0x00010000 0x00010000 0x65de8 0x65de8 R E 0x1=
-0000
-      LOAD           0x066b7c 0x00086b7c 0x00086b7c 0x02384 0x02384 RW  0x1=
-0000
-      NOTE           0x000114 0x00010114 0x00010114 0x00044 0x00044 R   0x4
-      TLS            0x066b7c 0x00086b7c 0x00086b7c 0x00010 0x00030 R   0x4
-      GNU_STACK      0x000000 0x00000000 0x00000000 0x00000 0x00000 RW  0x8
-      GNU_RELRO      0x066b7c 0x00086b7c 0x00086b7c 0x00484 0x00484 R   0x1
-      LOAD           0x07e000 0x00089000 0x00089000 0x03f44 0x03f44 R E 0x1=
-000
-      LOAD           0x098000 0x00030000 0x00030000 0x01000 0x01000 RW  0x1=
-000
-
-  If I build the Linux kernel with the following patch to the very end
-  of create_elf_tables in fs/binfmt_elf.c
-
-    /* Put the elf_info on the stack in the right place.  */
-    elf_addr_t *my_auxv =3D (elf_addr_t *) mm->saved_auxv;
-    int i;
-    for (i =3D 0; i < 15; i++) {
-      printk("0x%x =3D 0x%x", my_auxv[2*i], my_auxv[(2*i)+ 1]);
-    }
-    if (copy_to_user(sp, mm->saved_auxv, ei_index * sizeof(elf_addr_t)))
-        return -EFAULT;
-    return 0;
-
-  and run it like this:
-
-    qemu-system-arm \
-      -M versatilepb \
-      -nographic \
-      -dtb ./dts/versatile-pb.dtb \
-      -kernel zImage \
-      -M versatilepb \
-      -m 128M \
-      -append "earlyprintk=3Dvga,keep" \
-      -initrd initramfs
-
-  after I've built the kernel initramfs like this (where "init" is the
-  binary in question):
-
-    make ARCH=3Darm versatile_defconfig
-    make ARCH=3Darm CROSS_COMPILE=3Darm-linux-gnueabi- all -j10
-    cp "$1" arch/arm/boot/init
-    cd arch/arm/boot
-    echo init | cpio -o --format=3Dnewc > initramfs
-
-  then I get the following output. This is the kernel's view of the aux
-  vector for this binary:
-
-    0x10 =3D 0x1d7
-    0x6 =3D 0x1000
-    0x11 =3D 0x64
-    0x3 =3D 0x900000
-    0x4 =3D 0x20
-    0x5 =3D 0xb
-    0x7 =3D 0x0
-    0x8 =3D 0x0
-    0x9 =3D 0x101b8
-    0xb =3D 0x0
-    0xc =3D 0x0
-    0xd =3D 0x0
-    0xe =3D 0x0
-    0x17 =3D 0x0
-    0x19 =3D 0xbec62fb5
-
-  However, if I run "qemu-arm -g 12345 binary" and use GDB to peek at
-  the aux vector at the beginning of __libc_start_init (for example,
-  using this Python GDB API script: https://gist.github.com/langston-
-  barrett/5573d64ae0c9953e2fa0fe26847a5e1e), then I see the following
-  values:
-
-    AT_PHDR =3D 0xae000
-    AT_PHENT =3D 0x20
-    AT_PHNUM =3D 0xb
-    AT_PAGESZ =3D 0x1000
-    AT_BASE =3D 0x0
-    AT_FLAGS =3D 0x0
-    AT_ENTRY =3D 0x10230
-    AT_UID =3D 0x3e9
-    AT_EUID =3D 0x3e9
-    AT_GID =3D 0x3e9
-    AT_EGID =3D 0x3e9
-    AT_HWCAP =3D 0x1fb8d7
-    AT_CLKTCK =3D 0x64
-    AT_RANDOM =3D -0x103c0
-    AT_HWCAP2 =3D 0x1f
-    AT_NULL =3D 0x0
-
-  The crucial difference is in AT_PHDR (0x3), which is indeed the
-  virtual address of the PHDR segment when the kernel calculates it, but
-  is not when QEMU calculates it.
-
-  qemu-arm --version
-  qemu-arm version 2.11.1(Debian 1:2.11+dfsg-1ubuntu7.26)
-
-To manage notifications about this bug go to:
-https://bugs.launchpad.net/qemu/+bug/1885332/+subscriptions
 
