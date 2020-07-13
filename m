@@ -2,65 +2,72 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5B61421D68C
-	for <lists+qemu-devel@lfdr.de>; Mon, 13 Jul 2020 15:15:04 +0200 (CEST)
-Received: from localhost ([::1]:53360 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4BC0021D74F
+	for <lists+qemu-devel@lfdr.de>; Mon, 13 Jul 2020 15:36:15 +0200 (CEST)
+Received: from localhost ([::1]:34170 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1juyIR-0006Ez-Dn
-	for lists+qemu-devel@lfdr.de; Mon, 13 Jul 2020 09:15:03 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:46732)
+	id 1juycv-0003Iu-Q7
+	for lists+qemu-devel@lfdr.de; Mon, 13 Jul 2020 09:36:13 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:52944)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1juyHU-0005gB-Rf
- for qemu-devel@nongnu.org; Mon, 13 Jul 2020 09:14:05 -0400
-Received: from mail-ot1-x332.google.com ([2607:f8b0:4864:20::332]:46572)
+ (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
+ id 1juyc0-0002pc-LA
+ for qemu-devel@nongnu.org; Mon, 13 Jul 2020 09:35:16 -0400
+Received: from mail-wr1-x444.google.com ([2a00:1450:4864:20::444]:40163)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1juyHQ-0006b7-Vi
- for qemu-devel@nongnu.org; Mon, 13 Jul 2020 09:14:04 -0400
-Received: by mail-ot1-x332.google.com with SMTP id n24so9427747otr.13
- for <qemu-devel@nongnu.org>; Mon, 13 Jul 2020 06:14:00 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
+ id 1juyby-0001SP-F6
+ for qemu-devel@nongnu.org; Mon, 13 Jul 2020 09:35:16 -0400
+Received: by mail-wr1-x444.google.com with SMTP id f2so16526390wrp.7
+ for <qemu-devel@nongnu.org>; Mon, 13 Jul 2020 06:35:13 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc:content-transfer-encoding;
- bh=wi2y8B/kxUO6uxbWhWcAoCCVK8MlS9K3d4lBVA5Npkk=;
- b=I/mqKLzGWBf8gqO/bg6FoA6j50r8ZiF3aO5Ds9D2otCWEOE916aC5MFNHpsL4ZWk98
- WQXmuGgzjre1tFgFgicjeUgnxDanvwhk9GMxnro4Cgr0AlCfUlIobuHxiB5KRy/XLQOJ
- Lyw5FfU83gw3sads2nx2NHd4pLHecMd6ZzzP2nvUKY7O34AapaN5Z8pItXRQKiGn2Djo
- 1L2Ry4r/dZWCBTUhS60QFm08PCyw8n4UcF2W+wZ6KRMDk8JiSNWbwvk2AWoWCKxNQ7jz
- GsoCZhpmPhsakg1B8lDyM1YF7J+eMadjfw65l+2EsJQ3315pGAipyR+ccN0LsdhLprQo
- /QbQ==
+ h=references:user-agent:from:to:cc:subject:in-reply-to:date
+ :message-id:mime-version:content-transfer-encoding;
+ bh=yc/HtDSq8ibqFtMJDK4A0sVIfrMuxBCmAEjFWbmDoYg=;
+ b=frt1VY5Yopk+/vwYEpFvHm958CSpZeLAzT+veA91Q9csIKKIZ4inzcmTJxHlChzBlL
+ HXECA4xdhaDevUnldHEMnK3HqqkNQViX7IrTjH4K5yfnGRQ0iLBu9DJU/wmSeyRyi2TH
+ mmCok6BPuRxuUGfjYdOzgyd7lRLNWVCtYtddFmCUpbyC9VMp3nj+hYn+Vk20zkRj4QTL
+ Nlso8h/01+6OJ/uyQeZBxejzPOmQPW7txdwdPt2HEM+t2aHEUqW6c6igUCmIgakps7Rg
+ X3KIbMUtEomavNxvM363/My/MVQFDBTIqHsmVRl42dCs0NVqxNeFWXBtzwZC/txjdYDR
+ ryuA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc:content-transfer-encoding;
- bh=wi2y8B/kxUO6uxbWhWcAoCCVK8MlS9K3d4lBVA5Npkk=;
- b=Z6VZbkdJJ5nzr6Gh1HsGQH1Ss7OSH0hjVTUTw4AVVG84J/nOUQDbJWirFJtscvYbTO
- SYhsodRm17V14m5tx8CfmKqUHYg3hEYd3BZkvCazWvfOEh3lLV0Tg8yGi9l3APwgABfV
- P1vWLivhO7UZN9kiRprqIodIEfEenhJ2DxpsoRufn2vgM9FAIeHtG0LEngmWQGMzN0px
- zfswmMCd6GYupeq1teOMcZzAqxne84aiIX7no4Cqda6SYSOPh3baY5mBEhWstWL5xOvZ
- o0xyprWInoUaAgJzpM3u6GS/GEEllcxiYETISwsnFzrbJiqjqxEoLVruHFkY4ZgFI/TO
- VV3Q==
-X-Gm-Message-State: AOAM533ALdRYA+aBia5RCk2cuMSYgYF6dIeIMGFt4rQG35LL4Q55UWmH
- /mPuhp4EGGTyZDSt1HV1oEIQXeReoFK/9pCy+mqSRQ==
-X-Google-Smtp-Source: ABdhPJxtMRR2lO3NcgnCnrqQUEq9dD1/0RAzHP40F5d8/Az557MLtmDwZpNzj7yQhlp9iaV/H4sGTcqKFAQYdCu1qMA=
-X-Received: by 2002:a05:6830:10ce:: with SMTP id
- z14mr62980868oto.135.1594646039882; 
- Mon, 13 Jul 2020 06:13:59 -0700 (PDT)
+ h=x-gm-message-state:references:user-agent:from:to:cc:subject
+ :in-reply-to:date:message-id:mime-version:content-transfer-encoding;
+ bh=yc/HtDSq8ibqFtMJDK4A0sVIfrMuxBCmAEjFWbmDoYg=;
+ b=g8iG6vYq7UCKKS6L02Ti4iqVdzGKBRw2wlFqfS0jcVJ9LIgfvvF8LsCgPAuoVv8z9x
+ p1izIKBEYTUIg0YAP7tT3Lcgr5qV1u37uuFZOe6nu4c+YsYjyjSwTtgCd5DWrqMEkyVC
+ XUZDlP9Ud5eoSIMHqvz4MJ6M+m7B4GlC7IjOTcxm7Ju+2ipZ+j5Vzyaxhhikh2f7NHjA
+ foK+ADq1QCFUpKfIUIb2viNKTnweTqg8aTMjw8/iK+jWUNap70oezqi7p8wwEmZY0e8N
+ nH8GYi7nI2yc6nyDCSShn4YTVl54ANT1KlCY4QyMdDDC2LnnXUVsa03of/Vl4SUSOFlI
+ 41nA==
+X-Gm-Message-State: AOAM531pWQ4oONdTO95fZGCa/pLF4abYFfhjHbdlVlL8eSST7WWISula
+ 4m32kTv7DmnaxQ8DufLLqr8CGA==
+X-Google-Smtp-Source: ABdhPJzVQBUvKpb4ovC8WVjG+S+ScyaMpqcg3lN40Uo4zeMQQOIWCQIn675F+7GihUoK/ULBnvq/3w==
+X-Received: by 2002:adf:edc8:: with SMTP id v8mr78047526wro.125.1594647312668; 
+ Mon, 13 Jul 2020 06:35:12 -0700 (PDT)
+Received: from zen.linaroharston ([51.148.130.216])
+ by smtp.gmail.com with ESMTPSA id a2sm24321742wrn.68.2020.07.13.06.35.11
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Mon, 13 Jul 2020 06:35:11 -0700 (PDT)
+Received: from zen (localhost [127.0.0.1])
+ by zen.linaroharston (Postfix) with ESMTP id 8B4D01FF7E;
+ Mon, 13 Jul 2020 14:35:10 +0100 (BST)
+References: <20200710215718.13034-1-jsnow@redhat.com>
+ <20200710215718.13034-2-jsnow@redhat.com>
+User-agent: mu4e 1.5.4; emacs 28.0.50
+From: Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
+To: John Snow <jsnow@redhat.com>
+Subject: Re: [PATCH 1/1] MAINTAINERS: Add Python library stanza
+In-reply-to: <20200710215718.13034-2-jsnow@redhat.com>
+Date: Mon, 13 Jul 2020 14:35:10 +0100
+Message-ID: <87365v1qsx.fsf@linaro.org>
 MIME-Version: 1.0
-References: <20200704163927.28188-1-philmd@redhat.com>
- <20200704163927.28188-4-philmd@redhat.com>
-In-Reply-To: <20200704163927.28188-4-philmd@redhat.com>
-From: Peter Maydell <peter.maydell@linaro.org>
-Date: Mon, 13 Jul 2020 14:13:49 +0100
-Message-ID: <CAFEAcA8v2rEC0T_=D1Bat9DQJ=YS57fRUDDQyFdxJsEB=OEPMw@mail.gmail.com>
-Subject: Re: [PULL 3/5] softmmu/vl: Let -fw_cfg option take a 'gen_id' argument
-To: =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <philmd@redhat.com>
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=utf-8
 Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=2607:f8b0:4864:20::332;
- envelope-from=peter.maydell@linaro.org; helo=mail-ot1-x332.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::444;
+ envelope-from=alex.bennee@linaro.org; helo=mail-wr1-x444.google.com
 X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
  That's all we know.
 X-Spam_score_int: -20
@@ -82,56 +89,59 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: =?UTF-8?Q?Daniel_P=2E_Berrang=C3=A9?= <berrange@redhat.com>,
- Paolo Bonzini <pbonzini@redhat.com>, Laszlo Ersek <lersek@redhat.com>,
- QEMU Developers <qemu-devel@nongnu.org>, Gerd Hoffmann <kraxel@redhat.com>
+Cc: peter.maydell@linaro.org, crosa@redhat.com, qemu-devel@nongnu.org,
+ ehabkost@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Sat, 4 Jul 2020 at 17:41, Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com=
-> wrote:
+
+John Snow <jsnow@redhat.com> writes:
+
+> I'm proposing that I split the actual Python library off from the other
+> miscellaneous python scripts we have and declare it maintained. Add
+> myself as a maintainer of this folder, along with Cleber.
 >
-> The 'gen_id' argument refers to a QOM object able to produce
-> data consumable by the fw_cfg device. The producer object must
-> implement the FW_CFG_DATA_GENERATOR interface.
+> Signed-off-by: John Snow <jsnow@redhat.com>
+> ---
+>  MAINTAINERS | 9 ++++++++-
+>  1 file changed, 8 insertions(+), 1 deletion(-)
 >
-> Reviewed-by: Laszlo Ersek <lersek@redhat.com>
-> Signed-off-by: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
-> Reviewed-by: Daniel P. Berrang=C3=A9 <berrange@redhat.com>
-> Message-Id: <20200623172726.21040-4-philmd@redhat.com>
+> diff --git a/MAINTAINERS b/MAINTAINERS
+> index 6aa54f7f8f..fe1dcd5a76 100644
+> --- a/MAINTAINERS
+> +++ b/MAINTAINERS
+> @@ -2280,11 +2280,18 @@ S: Maintained
+>  F: include/sysemu/cryptodev*.h
+>  F: backends/cryptodev*.c
+>=20=20
+> +Python library
+> +M: John Snow <jsnow@redhat.com>
+> +M: Cleber Rosa <crosa@redhat.com>
+> +R: Eduardo Habkost <ehabkost@redhat.com>
+> +S: Maintained
+> +F: python/*
 
-Coverity points out (CID 1430396) an issue with the error handling
-in this patch:
+I don't think that's equivalent to what you drop bellow:
 
+    F:	drivers/net/	all files in and below drivers/net
+    F:	drivers/net/*	all files in drivers/net, but not below
 
-> @@ -2052,6 +2056,15 @@ static int parse_fw_cfg(void *opaque, QemuOpts *op=
-ts, Error **errp)
->      if (nonempty_str(str)) {
->          size =3D strlen(str); /* NUL terminator NOT included in fw_cfg b=
-lob */
->          buf =3D g_memdup(str, size);
-> +    } else if (nonempty_str(gen_id)) {
-> +        Error *local_err =3D NULL;
+So I think you should drop the *
 
-We set local_err to NULL here...
-
+> +T: git https://gitlab.com/jsnow/qemu.git python
 > +
-> +        fw_cfg_add_from_generator(fw_cfg, name, gen_id, errp);
+>  Python scripts
+>  M: Eduardo Habkost <ehabkost@redhat.com>
+>  M: Cleber Rosa <crosa@redhat.com>
+>  S: Odd fixes
+> -F: python/qemu/*py
+>  F: scripts/*.py
+>  F: tests/*.py
 
-...but we don't pass it to the function here...
+Otherwise:
 
-> +        if (local_err) {
+Reviewed-by: Alex Benn=C3=A9e <alex.bennee@linaro.org>
 
-...so this condition is always false and the body of the if is dead code.
-
-> +            error_propagate(errp, local_err);
-> +            return -1;
-> +        }
-> +        return 0;
->      } else {
->          GError *err =3D NULL;
->          if (!g_file_get_contents(file, &buf, &size, &err)) {
-
-thanks
--- PMM
+--=20
+Alex Benn=C3=A9e
 
