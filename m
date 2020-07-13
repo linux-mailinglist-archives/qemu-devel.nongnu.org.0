@@ -2,48 +2,49 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A6EB421D460
-	for <lists+qemu-devel@lfdr.de>; Mon, 13 Jul 2020 13:03:04 +0200 (CEST)
-Received: from localhost ([::1]:57478 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7133121D471
+	for <lists+qemu-devel@lfdr.de>; Mon, 13 Jul 2020 13:04:22 +0200 (CEST)
+Received: from localhost ([::1]:33512 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1juwEh-0000qu-NX
-	for lists+qemu-devel@lfdr.de; Mon, 13 Jul 2020 07:03:03 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:32850)
+	id 1juwFx-0002bF-H7
+	for lists+qemu-devel@lfdr.de; Mon, 13 Jul 2020 07:04:21 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:32880)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1juw7o-0000Ln-JZ
- for qemu-devel@nongnu.org; Mon, 13 Jul 2020 06:55:56 -0400
-Received: from us-smtp-1.mimecast.com ([207.211.31.81]:44302)
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1juw7t-0000Xo-Mj
+ for qemu-devel@nongnu.org; Mon, 13 Jul 2020 06:56:01 -0400
+Received: from us-smtp-1.mimecast.com ([207.211.31.81]:39724
+ helo=us-smtp-delivery-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1juw7m-0003yR-El
- for qemu-devel@nongnu.org; Mon, 13 Jul 2020 06:55:56 -0400
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1juw7r-0003yy-Rb
+ for qemu-devel@nongnu.org; Mon, 13 Jul 2020 06:56:01 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1594637753;
+ s=mimecast20190719; t=1594637759;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:content-type:content-type:in-reply-to:in-reply-to:
- references:references; bh=RJwLpVq9Q1i8NQ8dg4KaI2orhagBONGJEIZj2Ad66Yo=;
- b=P7tDexqkyUDs9xoRZLzsn73M92jVTUSaQ34h45gP4emeQ/oFRKDLqBKIlj3j5ooyVFC4EN
- p3/IR9qGEylod9OmTvIjb6D/L98bebT8uvw6uTmFmUtA7jLcsDMD8Vj05DCprtxlD5YCUs
- Ojq03VO5UKM/4SL3nbGmEXSUTTi23p0=
+ to:to:cc:content-type:content-type:in-reply-to:in-reply-to:
+ references:references; bh=mtAKyKj4rxqoT8KX0v2Jvrpk9qyXMNvt3ihC3ynTpM8=;
+ b=WLTSPX9pBdUFVIpmKC1meDweChcBj9PQkTHBqO4RdSPbakOHyWcdy0OWgAEWay5ELH8qQC
+ pCK8hHre0TchEeR+2Smxnm2Vvwwse74xO9yuFF4tZjmNo/kI+VuDlW56llnBxdOah76qZt
+ /mMFnSSUXiiMuyw/8T1atEOZqwLqyUw=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-11-fDr091LWPZmZ8xiwi1O-bw-1; Mon, 13 Jul 2020 06:55:49 -0400
-X-MC-Unique: fDr091LWPZmZ8xiwi1O-bw-1
+ us-mta-49-YD5R1vjUPduW04if1fS4UA-1; Mon, 13 Jul 2020 06:55:52 -0400
+X-MC-Unique: YD5R1vjUPduW04if1fS4UA-1
 Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
  [10.5.11.23])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 501061902EA1;
- Mon, 13 Jul 2020 10:55:48 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 875B41083E80;
+ Mon, 13 Jul 2020 10:55:49 +0000 (UTC)
 Received: from thuth.com (ovpn-112-125.ams2.redhat.com [10.36.112.125])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 32A5E27CCC;
- Mon, 13 Jul 2020 10:55:46 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id AEA8827CCC;
+ Mon, 13 Jul 2020 10:55:48 +0000 (UTC)
 From: Thomas Huth <thuth@redhat.com>
 To: peter.maydell@linaro.org,
 	qemu-devel@nongnu.org
-Subject: [PULL 8/9] GitLab Gating CI: introduce pipeline-status contrib script
-Date: Mon, 13 Jul 2020 12:55:33 +0200
-Message-Id: <20200713105534.10872-9-thuth@redhat.com>
+Subject: [PULL 9/9] docs/system/s390x: Improve the 3270 documentation
+Date: Mon, 13 Jul 2020 12:55:34 +0200
+Message-Id: <20200713105534.10872-10-thuth@redhat.com>
 In-Reply-To: <20200713105534.10872-1-thuth@redhat.com>
 References: <20200713105534.10872-1-thuth@redhat.com>
 X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
@@ -53,7 +54,7 @@ X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=US-ASCII
 Received-SPF: pass client-ip=207.211.31.81; envelope-from=thuth@redhat.com;
- helo=us-smtp-1.mimecast.com
+ helo=us-smtp-delivery-1.mimecast.com
 X-detected-operating-system: by eggs.gnu.org: First seen = 2020/07/13 02:19:41
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
 X-Spam_score_int: -30
@@ -75,194 +76,91 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Cleber Rosa <crosa@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Cleber Rosa <crosa@redhat.com>
+There is some additional information about the 3270 support in our Wiki
+at https://wiki.qemu.org/Features/3270 - so let's include this information
+into the main documentation now to have one single source of information
+(the Wiki page could later be removed).
 
-This script is intended to be used right after a push to a branch.
+While at it, I also shortened the lines of the first example a little bit.
+Otherwise they showed up with a horizontal scrollbar in my Firefox browser.
 
-By default, it will look for the pipeline associated with the commit
-that is the HEAD of the *local* staging branch.  It can be used as a
-one time check, or with the `--wait` option to wait until the pipeline
-completes.
-
-If the pipeline is successful, then a merge of the staging branch into
-the master branch should be the next step.
-
-Signed-off-by: Cleber Rosa <crosa@redhat.com>
-Message-Id: <20200709024657.2500558-2-crosa@redhat.com>
-[thuth: Added the changes suggested by Erik Skultety]
+Message-Id: <20200713075112.442-1-thuth@redhat.com>
+Reviewed-by: Cornelia Huck <cohuck@redhat.com>
 Signed-off-by: Thomas Huth <thuth@redhat.com>
 ---
- scripts/ci/gitlab-pipeline-status | 157 ++++++++++++++++++++++++++++++
- 1 file changed, 157 insertions(+)
- create mode 100755 scripts/ci/gitlab-pipeline-status
+ docs/system/s390x/3270.rst | 43 ++++++++++++++++++++++++++++++++------
+ 1 file changed, 37 insertions(+), 6 deletions(-)
 
-diff --git a/scripts/ci/gitlab-pipeline-status b/scripts/ci/gitlab-pipeline-status
-new file mode 100755
-index 0000000000..348a49b6a4
---- /dev/null
-+++ b/scripts/ci/gitlab-pipeline-status
-@@ -0,0 +1,157 @@
-+#!/usr/bin/env python3
-+#
-+# Copyright (c) 2019-2020 Red Hat, Inc.
-+#
-+# Author:
-+#  Cleber Rosa <crosa@redhat.com>
-+#
-+# This work is licensed under the terms of the GNU GPL, version 2 or
-+# later.  See the COPYING file in the top-level directory.
+diff --git a/docs/system/s390x/3270.rst b/docs/system/s390x/3270.rst
+index 1774cdcadf..0554a70a9f 100644
+--- a/docs/system/s390x/3270.rst
++++ b/docs/system/s390x/3270.rst
+@@ -1,9 +1,15 @@
+ 3270 devices
+ ============
+ 
+-QEMU supports connecting an external 3270 terminal emulator (such as
+-``x3270``) to make a single 3270 device available to a guest. Note that this
+-supports basic features only.
++The 3270 is the classic 'green-screen' console of the mainframes (see the
++`IBM 3270 Wikipedia article <https://en.wikipedia.org/wiki/IBM_3270>`__).
 +
-+"""
-+Checks the GitLab pipeline status for a given commit ID
-+"""
++The 3270 data stream is not implemented within QEMU; the device only provides
++TN3270 (a telnet extension; see `RFC 854 <https://tools.ietf.org/html/rfc854>`__
++and `RFC 1576 <https://tools.ietf.org/html/rfc1576>`__) and leaves the heavy
++lifting to an external 3270 terminal emulator (such as ``x3270``) to make a
++single 3270 device available to a guest. Note that this supports basic
++features only.
+ 
+ To provide a 3270 device to a guest, create a ``x-terminal3270`` linked to
+ a ``tn3270`` chardev. The guest will see a 3270 channel device. In order
+@@ -12,10 +18,14 @@ to actually be able to use it, attach the ``x3270`` emulator to the chardev.
+ Example configuration
+ ---------------------
+ 
++* Make sure that 3270 support is enabled in the guest's Linux kernel. You need
++  ``CONFIG_TN3270`` and at least one of ``CONFIG_TN3270_TTY`` (for additional
++  ttys) or ``CONFIG_TN3270_CONSOLE`` (for a 3270 console).
 +
-+# pylint: disable=C0103
+ * Add a ``tn3270`` chardev and a ``x-terminal3270`` to the QEMU command line::
+ 
+-    -chardev socket,id=char_0,host=0.0.0.0,port=2300,nowait,server,tn3270
+-    -device x-terminal3270,chardev=char_0,devno=fe.0.000a,id=terminal_0
++   -chardev socket,id=ch0,host=0.0.0.0,port=2300,nowait,server,tn3270
++   -device x-terminal3270,chardev=ch0,devno=fe.0.000a,id=terminal0
+ 
+ * Start the guest. In the guest, use ``chccwdev -e 0.0.000a`` to enable
+   the device.
+@@ -29,4 +39,25 @@ Example configuration
+ 
+     systemctl start serial-getty@3270-tty1.service
+ 
+-This should get you an addtional tty for logging into the guest.
++  This should get you an additional tty for logging into the guest.
 +
-+import argparse
-+import http.client
-+import json
-+import os
-+import subprocess
-+import time
-+import sys
++* If you want to use the 3270 device as the Linux kernel console instead of
++  an additional tty, you can also append ``conmode=3270 condev=000a`` to
++  the guest's kernel command line. The kernel then should use the 3270 as
++  console after the next boot.
 +
++Restrictions
++------------
 +
-+def get_local_staging_branch_commit():
-+    """
-+    Returns the commit sha1 for the *local* branch named "staging"
-+    """
-+    result = subprocess.run(['git', 'rev-parse', 'staging'],
-+                            stdin=subprocess.DEVNULL,
-+                            stdout=subprocess.PIPE,
-+                            stderr=subprocess.DEVNULL,
-+                            cwd=os.path.dirname(__file__),
-+                            universal_newlines=True).stdout.strip()
-+    if result == 'staging':
-+        raise ValueError("There's no local branch named 'staging'")
-+    if len(result) != 40:
-+        raise ValueError("Branch staging HEAD doesn't look like a sha1")
-+    return result
++3270 support is very basic. In particular:
 +
++* Only one 3270 device is supported.
 +
-+def get_pipeline_status(project_id, commit_sha1):
-+    """
-+    Returns the JSON content of the pipeline status API response
-+    """
-+    url = '/api/v4/projects/{}/pipelines?sha={}'.format(project_id,
-+                                                        commit_sha1)
-+    connection = http.client.HTTPSConnection('gitlab.com')
-+    connection.request('GET', url=url)
-+    response = connection.getresponse()
-+    if response.code != http.HTTPStatus.OK:
-+        raise ValueError("Failed to receive a successful response")
-+    json_response = json.loads(response.read())
++* It has only been tested with Linux guests and the x3270 emulator.
 +
-+    # As far as I can tell, there should be only one pipeline for the same
-+    # project + commit. If this assumption is false, we can add further
-+    # filters to the url, such as username, and order_by.
-+    if not json_response:
-+        raise ValueError("No pipeline found")
-+    return json_response[0]
++* TLS/SSL is not supported.
 +
++* Resizing on reattach is not supported.
 +
-+def wait_on_pipeline_success(timeout, interval,
-+                             project_id, commit_sha):
-+    """
-+    Waits for the pipeline to finish within the given timeout
-+    """
-+    start = time.time()
-+    while True:
-+        if time.time() >= (start + timeout):
-+            print("Waiting on the pipeline timed out")
-+            return False
-+
-+        status = get_pipeline_status(project_id, commit_sha)
-+        if status['status'] == 'running':
-+            time.sleep(interval)
-+            print('running...')
-+            continue
-+
-+        if status['status'] == 'success':
-+            return True
-+
-+        msg = "Pipeline failed, check: %s" % status['web_url']
-+        print(msg)
-+        return False
-+
-+
-+def main():
-+    """
-+    Script entry point
-+    """
-+    parser = argparse.ArgumentParser(
-+        prog='pipeline-status',
-+        description='check or wait on a pipeline status')
-+
-+    parser.add_argument('-t', '--timeout', type=int, default=7200,
-+                        help=('Amount of time (in seconds) to wait for the '
-+                              'pipeline to complete.  Defaults to '
-+                              '%(default)s'))
-+    parser.add_argument('-i', '--interval', type=int, default=60,
-+                        help=('Amount of time (in seconds) to wait between '
-+                              'checks of the pipeline status.  Defaults '
-+                              'to %(default)s'))
-+    parser.add_argument('-w', '--wait', action='store_true', default=False,
-+                        help=('Wether to wait, instead of checking only once '
-+                              'the status of a pipeline'))
-+    parser.add_argument('-p', '--project-id', type=int, default=11167699,
-+                        help=('The GitLab project ID. Defaults to the project '
-+                              'for https://gitlab.com/qemu-project/qemu, that '
-+                              'is, "%(default)s"'))
-+    try:
-+        default_commit = get_local_staging_branch_commit()
-+        commit_required = False
-+    except ValueError:
-+        default_commit = ''
-+        commit_required = True
-+    parser.add_argument('-c', '--commit', required=commit_required,
-+                        default=default_commit,
-+                        help=('Look for a pipeline associated with the given '
-+                              'commit.  If one is not explicitly given, the '
-+                              'commit associated with the local branch named '
-+                              '"staging" is used.  Default: %(default)s'))
-+    parser.add_argument('--verbose', action='store_true', default=False,
-+                        help=('A minimal verbosity level that prints the '
-+                              'overall result of the check/wait'))
-+
-+    args = parser.parse_args()
-+
-+    try:
-+        if args.wait:
-+            success = wait_on_pipeline_success(
-+                args.timeout,
-+                args.interval,
-+                args.project_id,
-+                args.commit)
-+        else:
-+            status = get_pipeline_status(args.project_id,
-+                                         args.commit)
-+            success = status['status'] == 'success'
-+    except Exception as error:      # pylint: disable=W0703
-+        success = False
-+        if args.verbose:
-+            print("ERROR: %s" % error.args[0])
-+
-+    if success:
-+        if args.verbose:
-+            print('success')
-+        sys.exit(0)
-+    else:
-+        if args.verbose:
-+            print('failure')
-+        sys.exit(1)
-+
-+
-+if __name__ == '__main__':
-+    main()
++* Multiple commands in one inbound buffer (for example, when the reset key
++  is pressed while the network is slow) are not supported.
 -- 
 2.18.1
 
