@@ -2,141 +2,109 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id CDA0C21D9E6
-	for <lists+qemu-devel@lfdr.de>; Mon, 13 Jul 2020 17:13:46 +0200 (CEST)
-Received: from localhost ([::1]:51670 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 02E3721D9F2
+	for <lists+qemu-devel@lfdr.de>; Mon, 13 Jul 2020 17:18:12 +0200 (CEST)
+Received: from localhost ([::1]:57406 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jv09J-0001iK-TW
-	for lists+qemu-devel@lfdr.de; Mon, 13 Jul 2020 11:13:45 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:37734)
+	id 1jv0Db-0004Id-2p
+	for lists+qemu-devel@lfdr.de; Mon, 13 Jul 2020 11:18:11 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:38868)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1jv088-0000sB-A8
- for qemu-devel@nongnu.org; Mon, 13 Jul 2020 11:12:32 -0400
-Received: from us-smtp-1.mimecast.com ([205.139.110.61]:51464
- helo=us-smtp-delivery-1.mimecast.com)
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1jv0BP-00033X-SQ
+ for qemu-devel@nongnu.org; Mon, 13 Jul 2020 11:15:55 -0400
+Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:50022
+ helo=us-smtp-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1jv086-0001mQ-MA
- for qemu-devel@nongnu.org; Mon, 13 Jul 2020 11:12:32 -0400
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1jv0BO-0002Hz-4N
+ for qemu-devel@nongnu.org; Mon, 13 Jul 2020 11:15:55 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1594653149;
+ s=mimecast20190719; t=1594653353;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
- bh=ULBx+pphuO6tBbkN/XmJ9rg32DbiNzOZ3j+QLibST5g=;
- b=HslWZ81yUxVwr3wm4/3Ocsk22gc7U2op2pD8aPGXi/OMG2Jfa+Yiibsbk0GDbFKv9T7Fu+
- M681TjV/MuMQuNNXFmageBzDsuAtV1VpUWF96CVXdKbV5IF5lwTHujSFhngQc3NjE8VDlp
- NAxzdUzxmKyXmBIl039PQ3CUAmPChfE=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-406-FkSetmbaN3CG9P7YyMrtDg-1; Mon, 13 Jul 2020 11:12:27 -0400
-X-MC-Unique: FkSetmbaN3CG9P7YyMrtDg-1
-Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
- [10.5.11.11])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id DFBA918C63FD;
- Mon, 13 Jul 2020 15:12:08 +0000 (UTC)
-Received: from [10.10.113.141] (ovpn-113-141.rdu2.redhat.com [10.10.113.141])
- by smtp.corp.redhat.com (Postfix) with ESMTP id B90F6766E3;
- Mon, 13 Jul 2020 15:12:03 +0000 (UTC)
+ bh=RKrAe9SQtGWO3O6Nm+DVldMQ5AK9g7SHJK4aRyeAzrY=;
+ b=I/Vv8OTPiHsAnuleTYdyuXAKyD6x59Qjxrz0pW6MhILufOBqKtsVKG6rCp+8jNWWmvRekr
+ x1JHwGGKgvYxhSDDiI9w/J/WOw9RKI4FZMVGeOszd3ic67+hykkUjKJw3CDDNcB1guYi9m
+ mMw2le2OEV8R8qdI0XcEt65w2zJu48I=
+Received: from mail-ej1-f72.google.com (mail-ej1-f72.google.com
+ [209.85.218.72]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-146-hpUlAmkMNjeiPy576LUAKA-1; Mon, 13 Jul 2020 11:15:48 -0400
+X-MC-Unique: hpUlAmkMNjeiPy576LUAKA-1
+Received: by mail-ej1-f72.google.com with SMTP id c16so19471259ejb.22
+ for <qemu-devel@nongnu.org>; Mon, 13 Jul 2020 08:15:48 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:subject:to:cc:references:from:autocrypt
+ :message-id:date:user-agent:mime-version:in-reply-to
+ :content-language:content-transfer-encoding;
+ bh=RKrAe9SQtGWO3O6Nm+DVldMQ5AK9g7SHJK4aRyeAzrY=;
+ b=DX2hEktN2JNlFKdMx2m72vV4+EnSU2kqEaSHr3jfPXMl5eqC28P5LKXUFbeHYG6Gx0
+ cV8iHqQcmGJnxfNshBJ902uYNn95w+ocJjkdnHm2b7BJa8h31ZVeU1134jAkTtq7V3ue
+ J+18hMUDKK9CZ4jnBkfnt84oL8de+3GraoJ4qkvHjyFVRpIqwnImvFUzxk/tOHzhWFOs
+ jXaR0H10HCcfRRPqPlAUa/HJiQEQzY8WXRQcxqz7+HUPr6/c/al1t6MMrcLnvoRB+xM1
+ F4ndlNnoimgc58i63+0g9sztY6jfqJAEwN5LxBZW1tuuM5Rk1U2OWO9Cy8WbYriMHP0D
+ KRPQ==
+X-Gm-Message-State: AOAM531o61W/L4RqgmFkYQ6oZdmOtvTP1ijMWwndzWjRTGhJX55fe7Dk
+ gSXvkKcEFhsfzCye5yq4gT9OPGUXJCgsK3BDcOrzYE/jKY2eWoGVh73rvmiynFlkAnsYEieN38P
+ jt7Xdm+H7kDGPR6U=
+X-Received: by 2002:a17:906:940f:: with SMTP id
+ q15mr255705ejx.470.1594653347071; 
+ Mon, 13 Jul 2020 08:15:47 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJwVKY/g7tvqpOovXOqWlO62Cgv416FieDuAtN32Udrg+zfrvq7B+dOh5F1MsU+TinBrDpa6IA==
+X-Received: by 2002:a17:906:940f:: with SMTP id
+ q15mr255680ejx.470.1594653346828; 
+ Mon, 13 Jul 2020 08:15:46 -0700 (PDT)
+Received: from [192.168.1.37] (138.red-83-57-170.dynamicip.rima-tde.net.
+ [83.57.170.138])
+ by smtp.gmail.com with ESMTPSA id e4sm10055550ejx.76.2020.07.13.08.15.45
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Mon, 13 Jul 2020 08:15:45 -0700 (PDT)
 Subject: Re: [PATCH v5 09/12] tests/acceptance: Don't test reboot on cubieboard
-To: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>,
- qemu-devel@nongnu.org
+To: John Snow <jsnow@redhat.com>, qemu-devel@nongnu.org
 References: <20200710050649.32434-1-jsnow@redhat.com>
  <20200710050649.32434-10-jsnow@redhat.com>
  <3df55357-12c0-61da-976e-651ae8c97f1a@redhat.com>
-From: John Snow <jsnow@redhat.com>
-Autocrypt: addr=jsnow@redhat.com; prefer-encrypt=mutual; keydata=
- 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
-Message-ID: <98ac50bb-005f-5e3b-be10-f70353b14c39@redhat.com>
-Date: Mon, 13 Jul 2020 11:12:03 -0400
+ <98ac50bb-005f-5e3b-be10-f70353b14c39@redhat.com>
+From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
+Autocrypt: addr=philmd@redhat.com; keydata=
+ mQINBDXML8YBEADXCtUkDBKQvNsQA7sDpw6YLE/1tKHwm24A1au9Hfy/OFmkpzo+MD+dYc+7
+ bvnqWAeGweq2SDq8zbzFZ1gJBd6+e5v1a/UrTxvwBk51yEkadrpRbi+r2bDpTJwXc/uEtYAB
+ GvsTZMtiQVA4kRID1KCdgLa3zztPLCj5H1VZhqZsiGvXa/nMIlhvacRXdbgllPPJ72cLUkXf
+ z1Zu4AkEKpccZaJspmLWGSzGu6UTZ7UfVeR2Hcc2KI9oZB1qthmZ1+PZyGZ/Dy+z+zklC0xl
+ XIpQPmnfy9+/1hj1LzJ+pe3HzEodtlVA+rdttSvA6nmHKIt8Ul6b/h1DFTmUT1lN1WbAGxmg
+ CH1O26cz5nTrzdjoqC/b8PpZiT0kO5MKKgiu5S4PRIxW2+RA4H9nq7nztNZ1Y39bDpzwE5Sp
+ bDHzd5owmLxMLZAINtCtQuRbSOcMjZlg4zohA9TQP9krGIk+qTR+H4CV22sWldSkVtsoTaA2
+ qNeSJhfHQY0TyQvFbqRsSNIe2gTDzzEQ8itsmdHHE/yzhcCVvlUzXhAT6pIN0OT+cdsTTfif
+ MIcDboys92auTuJ7U+4jWF1+WUaJ8gDL69ThAsu7mGDBbm80P3vvUZ4fQM14NkxOnuGRrJxO
+ qjWNJ2ZUxgyHAh5TCxMLKWZoL5hpnvx3dF3Ti9HW2dsUUWICSQARAQABtDJQaGlsaXBwZSBN
+ YXRoaWV1LURhdWTDqSAoUGhpbCkgPHBoaWxtZEByZWRoYXQuY29tPokCVQQTAQgAPwIbDwYL
+ CQgHAwIGFQgCCQoLBBYCAwECHgECF4AWIQSJweePYB7obIZ0lcuio/1u3q3A3gUCXsfWwAUJ
+ KtymWgAKCRCio/1u3q3A3ircD/9Vjh3aFNJ3uF3hddeoFg1H038wZr/xi8/rX27M1Vj2j9VH
+ 0B8Olp4KUQw/hyO6kUxqkoojmzRpmzvlpZ0cUiZJo2bQIWnvScyHxFCv33kHe+YEIqoJlaQc
+ JfKYlbCoubz+02E2A6bFD9+BvCY0LBbEj5POwyKGiDMjHKCGuzSuDRbCn0Mz4kCa7nFMF5Jv
+ piC+JemRdiBd6102ThqgIsyGEBXuf1sy0QIVyXgaqr9O2b/0VoXpQId7yY7OJuYYxs7kQoXI
+ 6WzSMpmuXGkmfxOgbc/L6YbzB0JOriX0iRClxu4dEUg8Bs2pNnr6huY2Ft+qb41RzCJvvMyu
+ gS32LfN0bTZ6Qm2A8ayMtUQgnwZDSO23OKgQWZVglGliY3ezHZ6lVwC24Vjkmq/2yBSLakZE
+ 6DZUjZzCW1nvtRK05ebyK6tofRsx8xB8pL/kcBb9nCuh70aLR+5cmE41X4O+MVJbwfP5s/RW
+ 9BFSL3qgXuXso/3XuWTQjJJGgKhB6xXjMmb1J4q/h5IuVV4juv1Fem9sfmyrh+Wi5V1IzKI7
+ RPJ3KVb937eBgSENk53P0gUorwzUcO+ASEo3Z1cBKkJSPigDbeEjVfXQMzNt0oDRzpQqH2vp
+ apo2jHnidWt8BsckuWZpxcZ9+/9obQ55DyVQHGiTN39hkETy3Emdnz1JVHTU0Q==
+Message-ID: <7821dad6-9a09-661a-8c58-f284627f6e53@redhat.com>
+Date: Mon, 13 Jul 2020 17:15:44 +0200
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
  Thunderbird/68.5.0
 MIME-Version: 1.0
-In-Reply-To: <3df55357-12c0-61da-976e-651ae8c97f1a@redhat.com>
+In-Reply-To: <98ac50bb-005f-5e3b-be10-f70353b14c39@redhat.com>
 Content-Language: en-US
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=utf-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=205.139.110.61; envelope-from=jsnow@redhat.com;
- helo=us-smtp-delivery-1.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/07/13 01:36:29
+Received-SPF: pass client-ip=205.139.110.120; envelope-from=philmd@redhat.com;
+ helo=us-smtp-1.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/07/13 03:20:22
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
 X-Spam_score_int: -40
 X-Spam_score: -4.1
@@ -165,75 +133,78 @@ Cc: kwolf@redhat.com, Aleksandar Rikalo <aleksandar.rikalo@syrmia.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-
-
-On 7/13/20 5:56 AM, Philippe Mathieu-Daudé wrote:
-> On 7/10/20 7:06 AM, John Snow wrote:
->> cubieboard does not have a functioning reboot, it halts and QEMU does
->> not exit.
+On 7/13/20 5:12 PM, John Snow wrote:
+> 
+> 
+> On 7/13/20 5:56 AM, Philippe Mathieu-Daudé wrote:
+>> On 7/10/20 7:06 AM, John Snow wrote:
+>>> cubieboard does not have a functioning reboot, it halts and QEMU does
+>>> not exit.
+>>>
+>>> vm.shutdown() is modified in a forthcoming patch that makes it less tolerant
+>>> of race conditions on shutdown; tests should consciously decide to WAIT
+>>> or to SHUTDOWN qemu.
+>>>
+>>> So long as this test is attempting to reboot, the correct choice would
+>>> be to WAIT for the VM to exit. However, since that's broken, we should
+>>> SHUTDOWN instead.
+>>>
+>>> SHUTDOWN is indeed what already happens when the test performs teardown,
+>>> however, if anyone fixes cubieboard reboot in the future, this test will
+>>> develop a new race condition that might be hard to debug.
+>>>
+>>> Therefore: remove the reboot test and make it obvious that the VM is
+>>> still running when the test concludes, where the test teardown will do
+>>> the right thing.
+>>>
+>>> Signed-off-by: John Snow <jsnow@redhat.com>
+>>> ---
+>>>  tests/acceptance/boot_linux_console.py | 8 ++------
+>>>  1 file changed, 2 insertions(+), 6 deletions(-)
+>>>
+>>> diff --git a/tests/acceptance/boot_linux_console.py b/tests/acceptance/boot_linux_console.py
+>>> index 5867ef760c..8b8b828bc5 100644
+>>> --- a/tests/acceptance/boot_linux_console.py
+>>> +++ b/tests/acceptance/boot_linux_console.py
+>>> @@ -508,9 +508,7 @@ def test_arm_cubieboard_initrd(self):
+>>>                                                  'Allwinner sun4i/sun5i')
+>>>          exec_command_and_wait_for_pattern(self, 'cat /proc/iomem',
+>>>                                                  'system-control@1c00000')
+>>> -        exec_command_and_wait_for_pattern(self, 'reboot',
+>>> -                                                'reboot: Restarting system')
+>>> -        # NB: Do not issue vm.wait() here, cubieboard's reboot does not exit!
+>>> +        # cubieboard's reboot is not functioning; omit reboot test.
+>>>  
+>>>      def test_arm_cubieboard_sata(self):
+>>>          """
+>>> @@ -553,9 +551,7 @@ def test_arm_cubieboard_sata(self):
+>>>                                                  'Allwinner sun4i/sun5i')
+>>>          exec_command_and_wait_for_pattern(self, 'cat /proc/partitions',
+>>>                                                  'sda')
+>>> -        exec_command_and_wait_for_pattern(self, 'reboot',
+>>> -                                                'reboot: Restarting system')
+>>> -        # NB: Do not issue vm.wait() here, cubieboard's reboot does not exit!
+>>> +        # cubieboard's reboot is not functioning; omit reboot test.
+>>>  
+>>>      def test_arm_orangepi(self):
+>>>          """
+>>>
 >>
->> vm.shutdown() is modified in a forthcoming patch that makes it less tolerant
->> of race conditions on shutdown; tests should consciously decide to WAIT
->> or to SHUTDOWN qemu.
+>> Reviewed-by: Philippe Mathieu-Daudé <philmd@redhat.com>
 >>
->> So long as this test is attempting to reboot, the correct choice would
->> be to WAIT for the VM to exit. However, since that's broken, we should
->> SHUTDOWN instead.
->>
->> SHUTDOWN is indeed what already happens when the test performs teardown,
->> however, if anyone fixes cubieboard reboot in the future, this test will
->> develop a new race condition that might be hard to debug.
->>
->> Therefore: remove the reboot test and make it obvious that the VM is
->> still running when the test concludes, where the test teardown will do
->> the right thing.
->>
->> Signed-off-by: John Snow <jsnow@redhat.com>
->> ---
->>  tests/acceptance/boot_linux_console.py | 8 ++------
->>  1 file changed, 2 insertions(+), 6 deletions(-)
->>
->> diff --git a/tests/acceptance/boot_linux_console.py b/tests/acceptance/boot_linux_console.py
->> index 5867ef760c..8b8b828bc5 100644
->> --- a/tests/acceptance/boot_linux_console.py
->> +++ b/tests/acceptance/boot_linux_console.py
->> @@ -508,9 +508,7 @@ def test_arm_cubieboard_initrd(self):
->>                                                  'Allwinner sun4i/sun5i')
->>          exec_command_and_wait_for_pattern(self, 'cat /proc/iomem',
->>                                                  'system-control@1c00000')
->> -        exec_command_and_wait_for_pattern(self, 'reboot',
->> -                                                'reboot: Restarting system')
->> -        # NB: Do not issue vm.wait() here, cubieboard's reboot does not exit!
->> +        # cubieboard's reboot is not functioning; omit reboot test.
->>  
->>      def test_arm_cubieboard_sata(self):
->>          """
->> @@ -553,9 +551,7 @@ def test_arm_cubieboard_sata(self):
->>                                                  'Allwinner sun4i/sun5i')
->>          exec_command_and_wait_for_pattern(self, 'cat /proc/partitions',
->>                                                  'sda')
->> -        exec_command_and_wait_for_pattern(self, 'reboot',
->> -                                                'reboot: Restarting system')
->> -        # NB: Do not issue vm.wait() here, cubieboard's reboot does not exit!
->> +        # cubieboard's reboot is not functioning; omit reboot test.
->>  
->>      def test_arm_orangepi(self):
->>          """
+>> Note, if I do the pull request, I might reorder this one before the
+>> previous one "tests/acceptance: wait() instead of shutdown() where
+>> appropriate".
 >>
 > 
-> Reviewed-by: Philippe Mathieu-Daudé <philmd@redhat.com>
+> you could -- in practice it didn't seem to matter. I tested both with
+> and without this patch.
 > 
-> Note, if I do the pull request, I might reorder this one before the
-> previous one "tests/acceptance: wait() instead of shutdown() where
-> appropriate".
-> 
+> I was just trying to isolate each intentional semantic change as its own
+> commit so it could be observed/understood/debated.
 
-you could -- in practice it didn't seem to matter. I tested both with
-and without this patch.
-
-I was just trying to isolate each intentional semantic change as its own
-commit so it could be observed/understood/debated.
-
---js
+As both patches are correct, there is no need to debate IMO :)
+I'm fine either way. The simpler the easier, and here the simpler
+is to take your series as it.
 
 
