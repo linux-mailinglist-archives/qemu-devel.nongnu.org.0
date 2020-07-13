@@ -2,57 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 28B7121CEC0
-	for <lists+qemu-devel@lfdr.de>; Mon, 13 Jul 2020 07:17:12 +0200 (CEST)
-Received: from localhost ([::1]:45882 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 92E9121CEDE
+	for <lists+qemu-devel@lfdr.de>; Mon, 13 Jul 2020 07:36:47 +0200 (CEST)
+Received: from localhost ([::1]:54706 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1juqpy-0000qh-O9
-	for lists+qemu-devel@lfdr.de; Mon, 13 Jul 2020 01:17:10 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:34544)
+	id 1jur8w-00062U-Lf
+	for lists+qemu-devel@lfdr.de; Mon, 13 Jul 2020 01:36:46 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:37578)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <dgibson@ozlabs.org>)
- id 1juqnz-0007u7-0S; Mon, 13 Jul 2020 01:15:07 -0400
-Received: from ozlabs.org ([2401:3900:2:1::2]:34013)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <dgibson@ozlabs.org>)
- id 1juqnw-0008R3-DJ; Mon, 13 Jul 2020 01:15:06 -0400
-Received: by ozlabs.org (Postfix, from userid 1007)
- id 4B4sK84sZyz9sDX; Mon, 13 Jul 2020 15:14:52 +1000 (AEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=gibson.dropbear.id.au; s=201602; t=1594617292;
- bh=an3pZDkzsoje/U3I9hRAVbqqaAQpLW2w9TQVSofFI0U=;
- h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=Tc3+91PiOCDAWacrXT4EDaH6umhzJk91IyE7i4b/xg47ohG1bFWGlaPpKv2M7gUdj
- Yip9biHUrDYRlsZqKZg34dQwxQE6kJPGNPnSYAVZuPvLwJGAT0X0bq7AtBtRpq12PZ
- SN0gL5NUaFLtvwhD7KH1OOY67SpeqzqqF4dB505k=
-Date: Mon, 13 Jul 2020 15:14:00 +1000
-From: David Gibson <david@gibson.dropbear.id.au>
-To: Lijun Pan <ljp@linux.ibm.com>
-Subject: Re: [PATCH v4 06/11] Update PowerPC AT_HWCAP2 definition
-Message-ID: <20200713051400.GA93134@umbus.fritz.box>
-References: <20200701234344.91843-1-ljp@linux.ibm.com>
- <20200701234344.91843-7-ljp@linux.ibm.com>
+ (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
+ id 1jur7j-00058k-Gv
+ for qemu-devel@nongnu.org; Mon, 13 Jul 2020 01:35:31 -0400
+Received: from indium.canonical.com ([91.189.90.7]:59660)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
+ id 1jur7h-0002bR-Mv
+ for qemu-devel@nongnu.org; Mon, 13 Jul 2020 01:35:31 -0400
+Received: from loganberry.canonical.com ([91.189.90.37])
+ by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
+ id 1jur7g-0001WR-5Y
+ for <qemu-devel@nongnu.org>; Mon, 13 Jul 2020 05:35:28 +0000
+Received: from loganberry.canonical.com (localhost [127.0.0.1])
+ by loganberry.canonical.com (Postfix) with ESMTP id 1D8BA2E80ED
+ for <qemu-devel@nongnu.org>; Mon, 13 Jul 2020 05:35:28 +0000 (UTC)
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature"; boundary="dDRMvlgZJXvWKvBx"
-Content-Disposition: inline
-In-Reply-To: <20200701234344.91843-7-ljp@linux.ibm.com>
-Received-SPF: pass client-ip=2401:3900:2:1::2; envelope-from=dgibson@ozlabs.org;
- helo=ozlabs.org
-X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
- That's all we know.
-X-Spam_score_int: -9
-X-Spam_score: -1.0
-X-Spam_bar: -
-X-Spam_report: (-1.0 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, HEADER_FROM_DIFFERENT_DOMAINS=1,
- SPF_HELO_PASS=-0.001, SPF_PASS=-0.001,
- URIBL_BLOCKED=0.001 autolearn=no autolearn_force=no
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: quoted-printable
+Date: Mon, 13 Jul 2020 05:29:22 -0000
+From: Thomas Huth <1887318@bugs.launchpad.net>
+To: qemu-devel@nongnu.org
+X-Launchpad-Notification-Type: bug
+X-Launchpad-Bug: product=qemu; status=Won't Fix; importance=Undecided;
+ assignee=None; 
+X-Launchpad-Bug-Information-Type: Public
+X-Launchpad-Bug-Private: no
+X-Launchpad-Bug-Security-Vulnerability: no
+X-Launchpad-Bug-Commenters: audioprof2002 th-huth
+X-Launchpad-Bug-Reporter: JuanPabloCuervo (audioprof2002)
+X-Launchpad-Bug-Modifier: Thomas Huth (th-huth)
+References: <159459945016.20204.12821765315233915598.malonedeb@chaenomeles.canonical.com>
+Message-Id: <159461816247.8428.8244777099596752570.malone@wampee.canonical.com>
+Subject: [Bug 1887318] Re: impossible to install in OSX Yosemite 10.10.5
+X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
+X-Launchpad-Message-For: qemu-devel-ml
+Precedence: bulk
+X-Generated-By: Launchpad (canonical.com);
+ Revision="4809fcb62f445aaa3ae919f7f6c3cc7d156ea57a";
+ Instance="production-secrets-lazr.conf"
+X-Launchpad-Hash: c0110e324a0a1cf29b552a0910859b9a7649039d
+Received-SPF: none client-ip=91.189.90.7; envelope-from=bounces@canonical.com;
+ helo=indium.canonical.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/07/13 00:11:00
+X-ACL-Warn: Detected OS   = Linux 3.11 and newer [fuzzy]
+X-Spam_score_int: -58
+X-Spam_score: -5.9
+X-Spam_bar: -----
+X-Spam_report: (-5.9 / 5.0 requ) BAYES_00=-1.9, HEADER_FROM_DIFFERENT_DOMAINS=1,
+ RCVD_IN_DNSWL_HI=-5, RCVD_IN_MSPIKE_H3=-0.01, RCVD_IN_MSPIKE_WL=-0.01,
+ SPF_HELO_NONE=0.001, SPF_NONE=0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
-Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -61,71 +72,37 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: richard.henderson@linaro.org, qemu-ppc@nongnu.org, qemu-devel@nongnu.org
+Reply-To: Bug 1887318 <1887318@bugs.launchpad.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+QEMU only supports the two most recent versions of macOS (see
+https://www.qemu.org/docs/master/system/build-platforms.html). Support
+for older versions has been removed (see
+https://git.qemu.org/?p=3Dqemu.git;a=3Dcommitdiff;h=3D483644c25b93236001), =
+so
+if you still want to use QEMU on such an old system, you better use an
+older version of QEMU instead.
 
---dDRMvlgZJXvWKvBx
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+** Changed in: qemu
+       Status: New =3D> Won't Fix
 
-On Wed, Jul 01, 2020 at 06:43:41PM -0500, Lijun Pan wrote:
-> Add PPC2_FEATURE2_ARCH_3_10 to the PowerPC AT_HWCAP2 definitions.
->=20
-> Signed-off-by: Lijun Pan <ljp@linux.ibm.com>
-> ---
-> v4: add missing changes, and split to 5/11, 6/11, 7/11
-> v3: use tcg_gen_gvec_mul()
-> v2: fix coding style
->     use Power ISA 3.1 flag
->=20
->  include/elf.h | 1 +
->  1 file changed, 1 insertion(+)
->=20
-> diff --git a/include/elf.h b/include/elf.h
-> index 8fbfe60e09..1858b95acf 100644
-> --- a/include/elf.h
-> +++ b/include/elf.h
-> @@ -554,6 +554,7 @@ typedef struct {
->  #define PPC_FEATURE2_HTM_NOSC           0x01000000
->  #define PPC_FEATURE2_ARCH_3_00          0x00800000
->  #define PPC_FEATURE2_HAS_IEEE128        0x00400000
-> +#define PPC_FEATURE2_ARCH_3_10          0x00200000
-> =20
->  /* Bits present in AT_HWCAP for Sparc.  */
+-- =
 
+You received this bug notification because you are a member of qemu-
+devel-ml, which is subscribed to QEMU.
+https://bugs.launchpad.net/bugs/1887318
 
-Um.. in the corresponding #defines in the kernel 0x00200000 is given
-to PPC_FEATURE2_DARN, and several more bits are allocated past that
-point.
+Title:
+  impossible to install in OSX Yosemite 10.10.5
 
---=20
-David Gibson			| I'll have my music baroque, and my code
-david AT gibson.dropbear.id.au	| minimalist, thank you.  NOT _the_ _other_
-				| _way_ _around_!
-http://www.ozlabs.org/~dgibson
+Status in QEMU:
+  Won't Fix
 
---dDRMvlgZJXvWKvBx
-Content-Type: application/pgp-signature; name="signature.asc"
+Bug description:
+  the Brew method has glib problems, glib is impossible to install.
+  the MacPorts method has a very long .log file.
 
------BEGIN PGP SIGNATURE-----
-
-iQIzBAEBCAAdFiEEdfRlhq5hpmzETofcbDjKyiDZs5IFAl8L7ZgACgkQbDjKyiDZ
-s5LJqg//Ympr+XTrwDnz4ISbva4Z08u/RO+FYZn0BcX67WLD0sWC8eMr+FGTkgKb
-QGe40AXZ6RSPS1AE6mgx8RHpGeKNZddjEQ1RfQOC+xAWFkOsUFTz/OuYIY46WFJT
-XBP8FubVBWKLodjlL0STpLlE0HpMca7DaIu1nYNsZNovEAOYA8fSz9LIscoSGVed
-FbSrexIJ3sSY968dVSw48YDPvZj44uES1O0UL898oe/guGbo9I9HU4KYOLlwRsJs
-uvWiIeEODyF/W4EwUUwtL008z+Ve00BTa4Aa7boIv0fmgEyz37n3FvQEVv7ZWoP6
-jELqc+9JtWVQK/N5ObPeS8fjpjIfyZnZUaDKMsWW+VCKu1rSktf/XBRO8Em4+RpZ
-Hg4mqNeKjIwGuAM+WMUZ5GbgQQaBrNudaDxSba1A5DNtMn1EOCNR2VpMr1GL2e+V
-s6dJlruF7dVakYJAGU11y6hrMD9HIwnMl0yYi3XfWU57FohRTqhOMTaQVosZoqN3
-u0Ay3GSNNMDtirFCLwUNbFNrxGnh/4bYE4pchQ6fQ+PLbNbFHHG/YX5s98XdWAMi
-0JRubfO9Gytbz5zG1UVhFz48EREHujKRLLLCYoJkBxCKfCt14jR6jglUIoJXkPvy
-ApynogHhusUg9pmHLkcwdj76+nOLxVOcW4IEEH5WG18umJbPx4M=
-=xM1k
------END PGP SIGNATURE-----
-
---dDRMvlgZJXvWKvBx--
+To manage notifications about this bug go to:
+https://bugs.launchpad.net/qemu/+bug/1887318/+subscriptions
 
