@@ -2,81 +2,73 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 16B5421D282
-	for <lists+qemu-devel@lfdr.de>; Mon, 13 Jul 2020 11:09:20 +0200 (CEST)
-Received: from localhost ([::1]:48578 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C7C8321D28A
+	for <lists+qemu-devel@lfdr.de>; Mon, 13 Jul 2020 11:10:47 +0200 (CEST)
+Received: from localhost ([::1]:52648 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1juuSd-0004Ik-42
-	for lists+qemu-devel@lfdr.de; Mon, 13 Jul 2020 05:09:19 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:53914)
+	id 1juuU2-0005wO-Rp
+	for lists+qemu-devel@lfdr.de; Mon, 13 Jul 2020 05:10:46 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:53970)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1juuRm-0003Yl-Cy
- for qemu-devel@nongnu.org; Mon, 13 Jul 2020 05:08:26 -0400
-Received: from mail-wr1-x444.google.com ([2a00:1450:4864:20::444]:35560)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1juuRk-0003wZ-Qg
- for qemu-devel@nongnu.org; Mon, 13 Jul 2020 05:08:26 -0400
-Received: by mail-wr1-x444.google.com with SMTP id z2so15191108wrp.2
- for <qemu-devel@nongnu.org>; Mon, 13 Jul 2020 02:08:24 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=sender:subject:to:cc:references:from:message-id:date:user-agent
- :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=Lx+ilzxa45X1M9ISx7QGCxwG+gFynzXKt0VbUiDnuT0=;
- b=BPbfZcI+QNqOarjxwBGnMtvrCiDDwbSL/f0yPyGYT/DMsPz6+IKi9c9i7858Q3XPrh
- dbFuz5CpMnOAoHJf7ki7et68e6kPmG9wNudTXq7y15y8C99U17E9CUlTZrbjpNnzu/6/
- TObovqfCV+UHPyiUC/87s/jb93PkzbizxJWZiHj4Bpagicc64tLml8Asd25gL5LlofVA
- B4ahfmu9McdAP94uzLSWq+niog/5qWWtownVKZR0RdQyYPqaom1nf+u+Cze0krqRX14a
- p66/LJBbCws4b7dAfqpePH34IMWFU7l+Xvg6BBwGB6EIT7+76hpBzZt5nsJpsJRPALZA
- WlVg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:sender:subject:to:cc:references:from:message-id
- :date:user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=Lx+ilzxa45X1M9ISx7QGCxwG+gFynzXKt0VbUiDnuT0=;
- b=C45M77UV93nYeCPjFRte5U/K+o0Xh9YzSCCauReE/zHS4jsekBTqbhsbfhz06xJg15
- XJQQDoY2Ums3PS1vSP0ERkt7NajXa5RI+JL/dzdfphFRE8nu9yxVk6uDaZYhmk4Zs3MA
- WD2lBNnxYgRTAPqnlSkVI/mfIYG7GEKOUipC9dtuyreOY/cYK/MOjLdTU0Gy7UTak0GE
- u2+ziOVEmRrvu89nLEMz8uSRAhnfEmevu9xx/ooq4H+VCHYKHo6eU1PIzt/CaEz4YYfD
- ZnISac+PxiUQ4rvEwUBGI6ARhe6efLrGFdKwww29WbGx5eCFYBr/QHP5QWphuvcBdAnO
- qqWQ==
-X-Gm-Message-State: AOAM530HNkBUhkyjQZxGeEgr/TeMpeW/lBqa0UQmA6tSfzYnbmxYKJnt
- rdl0+uDfOleCjkBwm3/8IwM=
-X-Google-Smtp-Source: ABdhPJyza+rUWQyjv9D36J9m/5WRyAE4TTA/bQwcL8pivfshGm0WQmM7m7L1JCPI2guyi97aPZnwKg==
-X-Received: by 2002:adf:f14c:: with SMTP id y12mr77440531wro.30.1594631303212; 
- Mon, 13 Jul 2020 02:08:23 -0700 (PDT)
-Received: from [192.168.1.37] (138.red-83-57-170.dynamicip.rima-tde.net.
- [83.57.170.138])
- by smtp.gmail.com with ESMTPSA id x1sm22119034wrp.10.2020.07.13.02.08.22
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 13 Jul 2020 02:08:22 -0700 (PDT)
-Subject: Re: [PATCH 05/12] virtfs-proxy-helper: Remove the superfluous break
-To: Yi Wang <wang.yi59@zte.com.cn>, qemu-devel@nongnu.org
-References: <1594631070-36397-1-git-send-email-wang.yi59@zte.com.cn>
-From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>
-Message-ID: <9fbd45d9-08fc-bdee-9726-ef09c46eec10@amsat.org>
+ (Exim 4.90_1) (envelope-from <imammedo@redhat.com>)
+ id 1juuRu-0003i2-Vn
+ for qemu-devel@nongnu.org; Mon, 13 Jul 2020 05:08:34 -0400
+Received: from us-smtp-1.mimecast.com ([207.211.31.81]:27310
+ helo=us-smtp-delivery-1.mimecast.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <imammedo@redhat.com>)
+ id 1juuRs-0003x8-TF
+ for qemu-devel@nongnu.org; Mon, 13 Jul 2020 05:08:34 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1594631311;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=QYd7gkyBlftQQfSNJ0DvfIiKGdSPpyUk/tUFNcbBo1A=;
+ b=VGXRasXw95P2W/A9WOJt2b22jQBSYB4yCFrv8xRABQutfd1ZXUx/OH2ponFDyeUNpUK109
+ mz785H1wimLPBkVHPaG6FNedfKuRakKkmwk5HIf6bf2OU2RoMDc8n8KidiRwnPQFVn3/Zi
+ U3dATk2cr+FSjnWIWrnvDHfnfh6lnqs=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-205-yLCahpPxOfG4MA2--APg7Q-1; Mon, 13 Jul 2020 05:08:28 -0400
+X-MC-Unique: yLCahpPxOfG4MA2--APg7Q-1
+Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
+ [10.5.11.13])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id F2121107ACCA;
+ Mon, 13 Jul 2020 09:08:27 +0000 (UTC)
+Received: from localhost (unknown [10.40.208.62])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 82BCD74F75;
+ Mon, 13 Jul 2020 09:08:26 +0000 (UTC)
 Date: Mon, 13 Jul 2020 11:08:22 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.5.0
+From: Igor Mammedov <imammedo@redhat.com>
+To: Babu Moger <babu.moger@amd.com>
+Subject: Re: [PATCH v2 1/3] hw/i386: Initialize topo_ids from
+ CpuInstanceProperties
+Message-ID: <20200713110822.5495e1c6@redhat.com>
+In-Reply-To: <159362466108.36204.3751851750959980962.stgit@naples-babu.amd.com>
+References: <159362436285.36204.986406297373871949.stgit@naples-babu.amd.com>
+ <159362466108.36204.3751851750959980962.stgit@naples-babu.amd.com>
 MIME-Version: 1.0
-In-Reply-To: <1594631070-36397-1-git-send-email-wang.yi59@zte.com.cn>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::444;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wr1-x444.google.com
-X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
- That's all we know.
-X-Spam_score_int: 0
-X-Spam_score: 0.0
-X-Spam_bar: /
-X-Spam_report: (0.0 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1, DKIM_VALID=-0.1,
- DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=1, FREEMAIL_FROM=0.001,
- HEADER_FROM_DIFFERENT_DOMAINS=1, RCVD_IN_DNSWL_NONE=-0.0001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=no autolearn_force=no
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=207.211.31.81; envelope-from=imammedo@redhat.com;
+ helo=us-smtp-delivery-1.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/07/13 02:19:41
+X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
+X-Spam_score_int: -30
+X-Spam_score: -3.1
+X-Spam_bar: ---
+X-Spam_report: (-3.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H3=-0.01, RCVD_IN_MSPIKE_WL=-0.01,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -89,43 +81,64 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: xue.zhihong@zte.com.cn, wang.liang82@zte.com.cn,
- Liao Pingfang <liao.pingfang@zte.com.cn>
+Cc: qemu-devel@nongnu.org, pbonzini@redhat.com, ehabkost@redhat.com,
+ rth@twiddle.net
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 7/13/20 11:04 AM, Yi Wang wrote:
-> From: Liao Pingfang <liao.pingfang@zte.com.cn>
+On Wed, 01 Jul 2020 12:31:01 -0500
+Babu Moger <babu.moger@amd.com> wrote:
+
+> This is in preparation to build the apic_id from user
+> provided topology information.
 > 
-> Remove the superfluous break, as there is a "return" before it.
-> 
-> Signed-off-by: Liao Pingfang <liao.pingfang@zte.com.cn>
-> Signed-off-by: Yi Wang <wang.yi59@zte.com.cn>
-> Reviewed-by: Philippe Mathieu-Daudé <f4bug@amsat.org> 
-
-Hmm I never reviewed this patch, only the openrisc one:
-https://lists.gnu.org/archive/html/qemu-devel/2020-07/msg04078.html
-
-Something is wrong in your workflow, you are posting each patch as
-a new thread. You might be missing the --cc-cover option, see:
-https://wiki.qemu.org/Contribute/SubmitAPatch#Use_git_format-patch
-
+> Signed-off-by: Babu Moger <babu.moger@amd.com>
 > ---
->  fsdev/virtfs-proxy-helper.c | 1 -
->  1 file changed, 1 deletion(-)
+>  include/hw/i386/topology.h |   19 +++++++++++++++++++
+>  1 file changed, 19 insertions(+)
 > 
-> diff --git a/fsdev/virtfs-proxy-helper.c b/fsdev/virtfs-proxy-helper.c
-> index de061a8..e68acc1 100644
-> --- a/fsdev/virtfs-proxy-helper.c
-> +++ b/fsdev/virtfs-proxy-helper.c
-> @@ -825,7 +825,6 @@ static int process_reply(int sock, int type,
->          break;
->      default:
->          return -1;
-> -        break;
->      }
->      return 0;
+> diff --git a/include/hw/i386/topology.h b/include/hw/i386/topology.h
+> index 07239f95f4..7cb21e9c82 100644
+> --- a/include/hw/i386/topology.h
+> +++ b/include/hw/i386/topology.h
+> @@ -40,6 +40,7 @@
+>  
+>  
+>  #include "qemu/bitops.h"
+> +#include "qapi/qapi-types-machine.h"
+>  
+>  /* APIC IDs can be 32-bit, but beware: APIC IDs > 255 require x2APIC support
+>   */
+> @@ -196,6 +197,24 @@ static inline void x86_topo_ids_from_apicid_epyc(apic_id_t apicid,
+>      topo_ids->pkg_id = apicid >> apicid_pkg_offset_epyc(topo_info);
 >  }
+>  
+> +
+> +/*
+> + * Initialize topo_ids from CpuInstanceProperties
+> + * node_id in CpuInstanceProperties(or in CPU device) is a sequential
+> + * number, but while building the topology 
+
+>we need to separate it for
+> + * each socket(mod nodes_per_pkg).
+could you clarify a bit more on why this is necessary?
+
+
+> + */
+> +static inline void x86_init_topo_ids(X86CPUTopoInfo *topo_info,
+> +                                     CpuInstanceProperties props,
+> +                                     X86CPUTopoIDs *topo_ids)
+> +{
+> +    topo_ids->smt_id = props.has_thread_id ? props.thread_id : 0;
+> +    topo_ids->core_id = props.has_core_id ? props.core_id : 0;
+> +    topo_ids->die_id = props.has_die_id ? props.die_id : 0;
+> +    topo_ids->node_id = props.has_node_id ?
+> +                        props.node_id % MAX(topo_info->nodes_per_pkg, 1) : 0;
+> +    topo_ids->pkg_id = props.has_socket_id ? props.socket_id : 0;
+> +}
+>  /*
+>   * Make APIC ID for the CPU 'cpu_index'
+>   *
 > 
 
 
