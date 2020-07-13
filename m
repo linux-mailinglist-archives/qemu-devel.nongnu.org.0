@@ -2,67 +2,87 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4A0AA21DF24
-	for <lists+qemu-devel@lfdr.de>; Mon, 13 Jul 2020 19:48:22 +0200 (CEST)
-Received: from localhost ([::1]:47232 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8C28221DEE7
+	for <lists+qemu-devel@lfdr.de>; Mon, 13 Jul 2020 19:41:05 +0200 (CEST)
+Received: from localhost ([::1]:36178 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jv2Yv-0002ni-CX
-	for lists+qemu-devel@lfdr.de; Mon, 13 Jul 2020 13:48:21 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:55550)
+	id 1jv2Rs-0006MX-Kt
+	for lists+qemu-devel@lfdr.de; Mon, 13 Jul 2020 13:41:04 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:53458)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1jv2WP-0000M0-72
- for qemu-devel@nongnu.org; Mon, 13 Jul 2020 13:45:45 -0400
-Received: from indium.canonical.com ([91.189.90.7]:40902)
+ (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
+ id 1jv2Pt-0004eR-S7; Mon, 13 Jul 2020 13:39:01 -0400
+Received: from mail-ed1-x544.google.com ([2a00:1450:4864:20::544]:46471)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1jv2WM-0006Sv-PN
- for qemu-devel@nongnu.org; Mon, 13 Jul 2020 13:45:44 -0400
-Received: from loganberry.canonical.com ([91.189.90.37])
- by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
- id 1jv2WK-0006aR-IR
- for <qemu-devel@nongnu.org>; Mon, 13 Jul 2020 17:45:40 +0000
-Received: from loganberry.canonical.com (localhost [127.0.0.1])
- by loganberry.canonical.com (Postfix) with ESMTP id 8915D2E8078
- for <qemu-devel@nongnu.org>; Mon, 13 Jul 2020 17:45:40 +0000 (UTC)
+ (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
+ id 1jv2Pr-0005YZ-Sf; Mon, 13 Jul 2020 13:39:01 -0400
+Received: by mail-ed1-x544.google.com with SMTP id dm19so14395804edb.13;
+ Mon, 13 Jul 2020 10:38:59 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=sender:subject:to:cc:references:from:message-id:date:user-agent
+ :mime-version:in-reply-to:content-language:content-transfer-encoding;
+ bh=z36ZAYvnwq9ksAZhdXa7DPRkY3nJXnTgeSqi9jZpawQ=;
+ b=Gmi18Wwx0scK30mGetHfACqOY4tP5I15ETro+0zwtGvLBmW03w3k3HOgACZn2eozCi
+ ZsCWH9mDLvbeBeuhlGpKVRVixWiGn26fV8apRY2FTa2WyX06+MDO9IQbkhw2rTKC5GTH
+ cYm5/35pU47gNcJ7qjnsbon0/VkIHTwsKPh/HbLFgapFoLFTVhfCcxFGiofRZ6GLGxN4
+ OWV0pLI+VXS5+HZ7o1OPVTcFTLwpXuNYXUh52Xy3BOWg0/f1ozbz5TaDjP1dcSOMSkWn
+ VzAQcsvYG4oLqtkju3RfPLuOjOLGUhtH46kz0lDKK2t6gU4BqP1eQEQn5BaOhM4b8reU
+ gXxA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:sender:subject:to:cc:references:from:message-id
+ :date:user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=z36ZAYvnwq9ksAZhdXa7DPRkY3nJXnTgeSqi9jZpawQ=;
+ b=bGMxey3WW5+Er8xlOgKDdbRTfEOco6MGE1c+UVLADVXchb2qwa3T8DyIIV2ac1JjXf
+ AIdhiC8pAHuSu1YeAOaTM+r6F+FeE1M4rL6gyoRmtvG1J3jcu57hCdiu8zFz/D/GhDUS
+ DPH0NqK8bneSq64W68rsGaumP1sahsS6lILhXl/QlDc99aqK2YUSXUmoZ3XlXUB1jWe1
+ QAOqZGVyu8IyUGh3rAeITP6jiBAUz1mgVtJi6hReVO3RsWKf1TTPQ7d3djw9Vme8NizQ
+ 7Ib55G8BV7XcF/AeFSTMPKSN+ZMgU0F8v+myv11EOWjU4rhSu7fSuW4oUliklXMSQyxS
+ lfIA==
+X-Gm-Message-State: AOAM533PeBfngT1+DL7qgnjLXlB3nvvN3QvRWbBV5DNkoXlSb42b+92N
+ 5MQY7QeDccp+SVU1CV0TCzaQWk/oUjA=
+X-Google-Smtp-Source: ABdhPJyq0rzPqcSoTo3FxCLbwy/8G84ofxrcK+b1qjTxIGGeNJeivZUbqdi3MiFXfTi9zfxevaM2Fg==
+X-Received: by 2002:a05:6402:1d35:: with SMTP id
+ dh21mr536815edb.186.1594661938106; 
+ Mon, 13 Jul 2020 10:38:58 -0700 (PDT)
+Received: from [192.168.1.37] (138.red-83-57-170.dynamicip.rima-tde.net.
+ [83.57.170.138])
+ by smtp.gmail.com with ESMTPSA id i10sm11917540edx.42.2020.07.13.10.38.56
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Mon, 13 Jul 2020 10:38:57 -0700 (PDT)
+Subject: Re: [PATCH v5 09/11] hw/ssi: NPCM7xx Flash Interface Unit device model
+To: Havard Skinnemoen <hskinnemoen@google.com>
+References: <20200709003608.3834629-1-hskinnemoen@google.com>
+ <20200709003608.3834629-10-hskinnemoen@google.com>
+ <189922e4-b53f-da64-5663-23b599294248@amsat.org>
+ <CAFQmdRbY8DHYOOHPREHg63hgLVTVvyMbuMrdauctaBTzaB1=AA@mail.gmail.com>
+From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>
+Message-ID: <739105bb-5915-bf11-10cc-485ce5e94e73@amsat.org>
+Date: Mon, 13 Jul 2020 19:38:56 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.5.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: quoted-printable
-Date: Mon, 13 Jul 2020 17:38:44 -0000
-From: Martin Grigorov <1884719@bugs.launchpad.net>
-To: qemu-devel@nongnu.org
-X-Launchpad-Notification-Type: bug
-X-Launchpad-Bug: product=qemu; status=New; importance=Undecided; assignee=None;
-X-Launchpad-Bug-Information-Type: Public
-X-Launchpad-Bug-Private: no
-X-Launchpad-Bug-Security-Vulnerability: no
-X-Launchpad-Bug-Commenters: laurent-vivier martingrigorov stefanha
-X-Launchpad-Bug-Reporter: Martin Grigorov (martingrigorov)
-X-Launchpad-Bug-Modifier: Martin Grigorov (martingrigorov)
-References: <159289799812.6175.17000319886186623286.malonedeb@soybean.canonical.com>
-Message-Id: <159466192490.7261.12672193268533521480.malone@wampee.canonical.com>
-Subject: [Bug 1884719] Re: Function not implemented when using libaio
-X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
-X-Launchpad-Message-For: qemu-devel-ml
-Precedence: bulk
-X-Generated-By: Launchpad (canonical.com);
- Revision="4809fcb62f445aaa3ae919f7f6c3cc7d156ea57a";
- Instance="production-secrets-lazr.conf"
-X-Launchpad-Hash: e3beaf7537c5754633ff966abb66f4c1cc555512
-Received-SPF: none client-ip=91.189.90.7; envelope-from=bounces@canonical.com;
- helo=indium.canonical.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/07/13 13:45:41
-X-ACL-Warn: Detected OS   = Linux 3.11 and newer [fuzzy]
-X-Spam_score_int: -58
-X-Spam_score: -5.9
-X-Spam_bar: -----
-X-Spam_report: (-5.9 / 5.0 requ) BAYES_00=-1.9, HEADER_FROM_DIFFERENT_DOMAINS=1,
- RCVD_IN_DNSWL_HI=-5, RCVD_IN_MSPIKE_H3=-0.01, RCVD_IN_MSPIKE_WL=-0.01,
- SPF_HELO_NONE=0.001, SPF_NONE=0.001 autolearn=ham autolearn_force=no
+In-Reply-To: <CAFQmdRbY8DHYOOHPREHg63hgLVTVvyMbuMrdauctaBTzaB1=AA@mail.gmail.com>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=2a00:1450:4864:20::544;
+ envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-ed1-x544.google.com
+X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
+ That's all we know.
+X-Spam_score_int: 0
+X-Spam_score: 0.0
+X-Spam_bar: /
+X-Spam_report: (0.0 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1, DKIM_VALID=-0.1,
+ DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=1, FREEMAIL_FROM=0.001,
+ HEADER_FROM_DIFFERENT_DOMAINS=1, RCVD_IN_DNSWL_NONE=-0.0001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
+Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -71,178 +91,164 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Bug 1884719 <1884719@bugs.launchpad.net>
+Cc: Peter Maydell <peter.maydell@linaro.org>,
+ QEMU Developers <qemu-devel@nongnu.org>, CS20 KFTing <kfting@nuvoton.com>,
+ qemu-arm <qemu-arm@nongnu.org>,
+ =?UTF-8?Q?C=c3=a9dric_Le_Goater?= <clg@kaod.org>,
+ IS20 Avi Fishman <Avi.Fishman@nuvoton.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Could I help somehow to resolve this issue ?
+On 7/12/20 7:42 AM, Havard Skinnemoen wrote:
+> On Thu, Jul 9, 2020 at 10:00 AM Philippe Mathieu-Daudé <f4bug@amsat.org> wrote:
+>> On 7/9/20 2:36 AM, Havard Skinnemoen wrote:
+>>> This implements a device model for the NPCM7xx SPI flash controller.
+>>>
+>>> Direct reads and writes, and user-mode transactions have been tested in
+>>> various modes. Protection features are not implemented yet.
+>>>
+>>> All the FIU instances are available in the SoC's address space,
+>>> regardless of whether or not they're connected to actual flash chips.
+>>>
+>>> Reviewed-by: Tyrone Ting <kfting@nuvoton.com>
+>>> Reviewed-by: Cédric Le Goater <clg@kaod.org>
+>>> Signed-off-by: Havard Skinnemoen <hskinnemoen@google.com>
+>>> ---
+>>>  include/hw/arm/npcm7xx.h     |   2 +
+>>>  include/hw/ssi/npcm7xx_fiu.h | 100 +++++++
+>>>  hw/arm/npcm7xx.c             |  53 ++++
+>>>  hw/ssi/npcm7xx_fiu.c         | 510 +++++++++++++++++++++++++++++++++++
+>>>  hw/arm/Kconfig               |   1 +
+>>>  hw/ssi/Makefile.objs         |   1 +
+>>>  hw/ssi/trace-events          |   9 +
+>>>  7 files changed, 676 insertions(+)
+>>>  create mode 100644 include/hw/ssi/npcm7xx_fiu.h
+>>>  create mode 100644 hw/ssi/npcm7xx_fiu.c
+[...]
 
--- =
+>>> diff --git a/hw/arm/npcm7xx.c b/hw/arm/npcm7xx.c
+>>> index 4d227bb74b..c9ff3dab25 100644
+>>> --- a/hw/arm/npcm7xx.c
+>>> +++ b/hw/arm/npcm7xx.c
+>>> @@ -98,6 +98,37 @@ static const hwaddr npcm7xx_uart_addr[] = {
+>>>      0xf0004000,
+>>>  };
+>>>
+>>> +static const hwaddr npcm7xx_fiu0_flash_addr[] = {
+>>
+>> So per
+>> https://github.com/Nuvoton-Israel/bootblock/blob/master/SWC_HAL/Chips/npcm750/npcm750.h
+>> this is SPI0 on AHB18,
+>>
+>>> +    0x80000000,
+>>> +    0x88000000,
+>>
+>> CS0 & CS1,
+>>
+>> also listed:
+>>
+>> 0x90000000, // CS2
+>> 0x98000000, // CS3
+> 
+> Confirmed with Nuvoton off-list that these do not exist. SPI0 only
+> supports two chip-selects for direct access.
 
-You received this bug notification because you are a member of qemu-
-devel-ml, which is subscribed to QEMU.
-https://bugs.launchpad.net/bugs/1884719
+I suppose Novoton confirmed for the particular npcm750, but you aim
+to model the npcm7xx family. I doubt 2 similar IP blocks are that
+different ;) Anyway with a comment this is good.
 
-Title:
-  Function not implemented when using libaio
+> 
+> I'll add comments.
+> 
+>>> +};
+>>> +
+>>> +static const hwaddr npcm7xx_fiu3_flash_addr[] = {
+>>
+>> Ditto SPI3 on AHB3, and CS0 to CS3.
+>>
+>>> +    0xa0000000,
+>>> +    0xa8000000,
+>>> +    0xb0000000,
+>>> +    0xb8000000,
+>>> +};
+>>> +
+>>> +static const struct {
+>>> +    const char *name;
+>>> +    hwaddr regs_addr;
+>>> +    int cs_count;
+>>> +    const hwaddr *flash_addr;
+>>> +} npcm7xx_fiu[] = {
+>>> +    {
+>>> +        .name = "fiu0",
+>>> +        .regs_addr = 0xfb000000,
+>>> +        .cs_count = ARRAY_SIZE(npcm7xx_fiu0_flash_addr),
+>>
+>> Hmm without the datasheet, can't tell, but I'd expect 4 CS
+>> regardless.
+> 
+> FIU0/SPI0 only has 2 chip selects.
+> 
+>>> +        .flash_addr = npcm7xx_fiu0_flash_addr,
+>>> +    }, {
+>>> +        .name = "fiu3",
+>>> +        .regs_addr = 0xc0000000,
+>>> +        .cs_count = ARRAY_SIZE(npcm7xx_fiu3_flash_addr),
+>>> +        .flash_addr = npcm7xx_fiu3_flash_addr,
+>>> +    },
+>>> +};
+[...]
 
-Status in QEMU:
-  New
+>>> +
+>>> +    /* Flash chip model expects one transfer per dummy bit, not byte */
+>>> +    dummy_cycles =
+>>> +        (FIU_DRD_CFG_DBW(drd_cfg) * 8) >> FIU_DRD_CFG_ACCTYPE(drd_cfg);
+>>> +    for (i = 0; i < dummy_cycles; i++) {
+>>> +        ssi_transfer(fiu->spi, 0);
+>>
+>> Note to self, might worth a ssi_shift_dummy(count) generic method.
+> 
+> I'm not a huge fan of this interface to be honest. It requires the
+> flash controller to have intimate knowledge of the flash chip, and if
+> it doesn't predict the dummy phase correctly, or the guest programs
+> the wrong number of dummy cycles, the end result is very different
+> from what you'll see on a real system. I'd love to see something like
+> a number-of-bits parameter to ssi_transfer instead.
 
-Bug description:
-  Hello
+Do you mean like these?
 
-  I experience "Function not implemented" errors when trying to use
-  Linux libaio library in foreign architecture, e.g. aarch64.
+- ssi_transfer_bit(bool value);
+- ssi_shift_dummy_bits(size_t bits);
 
-  I've faced this problem while using https://github.com/multiarch/qemu-use=
-r-static, i.e. Docker+QEMU. =
+Some interfaces allow bit shifting. SPI doesn't simply because
+nobody had the use :)
 
-  I understand that I do not use plain QEMU and you may count this report a=
-s a "distribution of QEMU"! Just let me know what are the steps to test it =
-with plain QEMU and I will test and update this ticket!
+> 
+>>> +    }
+>>> +
+>>> +    for (i = 0; i < size; i++) {
+>>> +        value |= ssi_transfer(fiu->spi, 0) << (8 * i);
+>>> +    }
+>>> +
+[...]
 
-  =
+>>> +static const MemoryRegionOps npcm7xx_fiu_flash_ops = {
+>>> +    .read = npcm7xx_fiu_flash_read,
+>>> +    .write = npcm7xx_fiu_flash_write,
+>>> +    .endianness = DEVICE_LITTLE_ENDIAN,
+>>> +    .valid = {
+>>> +        .min_access_size = 1,
+>>> +        .max_access_size = 8,
+>>
+>> Are you sure? Maybe, I can' tell.
+> 
+> Real hardware supports 16 bytes, but there's no way to do more than 8
+> in emulation, I think?
 
-  Here are the steps to reproduce the issue:
+That would mean you can plug this device on a 128-bit wide bus,
+and you can transfer 128-bit in a single CPU operation.
 
-  1) On x86_64 machine register QEMU:
-
-      `docker run -it --rm --privileged multiarch/qemu-user-static
-  --reset --credential yes --persistent yes`
-
-  2) Start a Docker image with foreign CPU architecture, e.g. aarch64
-
-      `docker run -it arm64v8/centos:8 bash`
-
-  3) Inside the Docker container install GCC and libaio
-
-      `yum install gcc libaio libaio-devel`
-
-  4) Compile the following C program
-
-  ```
-  #include <stdio.h>
-  #include <errno.h>
-  #include <libaio.h>
-  #include <stdlib.h>
-
-  struct io_control {
-      io_context_t ioContext;
-  };
-
-  int main() {
-      int queueSize =3D 10;
-
-      struct io_control * theControl =3D (struct io_control *) malloc(sizeo=
-f(struct io_control));
-      if (theControl =3D=3D NULL) {
-          printf("theControl is NULL");
-          return 123;
-      }
-
-      int res =3D io_queue_init(queueSize, &theControl->ioContext);
-      io_queue_release(theControl->ioContext);
-      free(theControl);
-      printf("res is: %d", res);
-  }
-  ```
-
-      ```
-      cat > test.c
-          [PASTE THE CODE ABOVE HERE]
-      ^D
-      ```
-
-      `gcc test.c -o out -laio && ./out`
-
-  =
-
-  When executed directly on aarch64 machine (i.e. without emulation) or on =
-x86_64 Docker image (e.g. centos:8) it prints `res is: 0`, i.e. it successf=
-ully initialized a LibAIO queue.
-
-  But when executed on Docker image with foreign/emulated CPU
-  architecture it prints `res is: -38` (ENOSYS). `man io_queue_init`
-  says that error ENOSYS is returned when "Not implemented."
-
-  Environment:
-
-  QEMU version: 5.0.0.2  (https://github.com/multiarch/qemu-user-static/blo=
-b/master/.travis.yml#L24-L28)
-  Container application: Docker
-  Output of `docker --version`:
-
-  ```
-  Client:
-   Version:           19.03.8
-   API version:       1.40
-   Go version:        go1.13.8
-   Git commit:        afacb8b7f0
-   Built:             Wed Mar 11 23:42:35 2020
-   OS/Arch:           linux/amd64
-   Experimental:      false
-
-  Server:
-   Engine:
-    Version:          19.03.8
-    API version:      1.40 (minimum version 1.12)
-    Go version:       go1.13.8
-    Git commit:       afacb8b7f0
-    Built:            Wed Mar 11 22:48:33 2020
-    OS/Arch:          linux/amd64
-    Experimental:     false
-   containerd:
-    Version:          1.3.3-0ubuntu2
-    GitCommit:        =
-
-   runc:
-    Version:          spec: 1.0.1-dev
-    GitCommit:        =
-
-   docker-init:
-    Version:          0.18.0
-    GitCommit:        =
-
-  ```
-
-  Same happens with Ubuntu (arm64v8/ubuntu:focal).
-
-  I've tried to `strace` it but :
-
-  ```
-  /usr/bin/strace: ptrace(PTRACE_TRACEME, ...): Function not implemented
-  /usr/bin/strace: PTRACE_SETOPTIONS: Function not implemented
-  /usr/bin/strace: detach: waitpid(112): No child processes
-  /usr/bin/strace: Process 112 detached
-  ```
-
-  Here are the steps to reproduce the problem with strace:
-
-       ```
-       docker run --rm -it --security-opt seccomp:unconfined --security-opt=
- apparmor:unconfined --privileged --cap-add ALL arm64v8/centos:8 bash
-
-       yum install -y strace`
-
-       strace echo Test
-       ```
-
-  Note: I used --privileged, disabled seccomp and apparmor, and added
-  all capabilities
-
-  Disabling security solves the "Permission denied" problem but then
-  comes the "Not implemented" one.
-
-  =
-
-  Any idea what could be the problem and how to work it around ?
-  I've googled a lot but I wasn't able to find any problems related to liba=
-io on QEMU.
-
-  Thank you!
-  Martin
-
-To manage notifications about this bug go to:
-https://bugs.launchpad.net/qemu/+bug/1884719/+subscriptions
+>>> +        .unaligned = true,
+>>> +    },
+>>> +};
+>>> +
 
