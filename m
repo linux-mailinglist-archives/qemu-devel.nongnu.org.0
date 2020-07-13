@@ -2,69 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 89FF521D848
-	for <lists+qemu-devel@lfdr.de>; Mon, 13 Jul 2020 16:21:41 +0200 (CEST)
-Received: from localhost ([::1]:34836 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 85F4121D816
+	for <lists+qemu-devel@lfdr.de>; Mon, 13 Jul 2020 16:16:02 +0200 (CEST)
+Received: from localhost ([::1]:38672 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1juzKu-0006Cq-I7
-	for lists+qemu-devel@lfdr.de; Mon, 13 Jul 2020 10:21:40 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:35028)
+	id 1juzFR-0004fP-Hq
+	for lists+qemu-devel@lfdr.de; Mon, 13 Jul 2020 10:16:01 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:35046)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1juzAo-0004xD-Qa
- for qemu-devel@nongnu.org; Mon, 13 Jul 2020 10:11:14 -0400
-Received: from mail-wm1-x329.google.com ([2a00:1450:4864:20::329]:36028)
+ id 1juzAp-0004zW-VD
+ for qemu-devel@nongnu.org; Mon, 13 Jul 2020 10:11:16 -0400
+Received: from mail-wr1-x435.google.com ([2a00:1450:4864:20::435]:36158)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1juzAn-0006cH-5W
- for qemu-devel@nongnu.org; Mon, 13 Jul 2020 10:11:14 -0400
-Received: by mail-wm1-x329.google.com with SMTP id 17so13300898wmo.1
- for <qemu-devel@nongnu.org>; Mon, 13 Jul 2020 07:11:12 -0700 (PDT)
+ id 1juzAo-0006cR-3B
+ for qemu-devel@nongnu.org; Mon, 13 Jul 2020 10:11:15 -0400
+Received: by mail-wr1-x435.google.com with SMTP id k6so16723469wrn.3
+ for <qemu-devel@nongnu.org>; Mon, 13 Jul 2020 07:11:13 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:subject:date:message-id:in-reply-to:references:mime-version
  :content-transfer-encoding;
- bh=YOh9GxnhU6vhYDRmyns4fut70z8Xj0qJIqLDkwhxP5o=;
- b=R6hKd2cQL8ycNYwlWaFRQSRFn/2dSE5OaT+BkP/yKQ4FhmXFJl4GU8/WskNDXbIddG
- 0WZCSdD1B2bAcMLC+1AcaC88957vuBT2X4QNGCjYvUu+RkqO+J7y49FsTlb9txoxKAkx
- ie5m4RcZLuK0QlTI2pqcmRGKVHt+DFUmX5t1A/JPkfWOwsEDqi4yMhszn9esMnDrLzZ1
- RpVdp6NS6m7FR4dTPBgl38NBkubNsVWnoknfVXiwf5bq05E9Y3wFfazVNDcvHsgv14y9
- KPsKWhM8uKjrS+3s5NRhtTvpB2AHIYYxZEBCnx1e2RfMAUaOBEE2Ujd3LHjlhKy5EA1z
- vA+w==
+ bh=RzzTi1vl63SYp8xuPkUqRyWvZtfbVvsWqfUHoMVTTxM=;
+ b=PShCYGXDP+htZ1DaXV95r2hSl8PsUl9Z3XZME/N/Y00WZ4ILzXmhM4/dpJG+fg5bwq
+ vsdUC/By+75Fw7EXeFcxdskK0Yi7WLabsl3eLbiYIILvSHxz4an2lx+r0+Cuj3M004Z0
+ pl+WK3MprVTsXGcVkAIzVAKJAmRG9v6Q1bS/5pScxLgaZXTJ+QFBFZR1b06lp/dZQoNp
+ RjhXr74ydXTrK/4/PccmUy8YqoEPHuP3SVUrnJ9q5nn6zIbaKuZVQhf/wzjw01+XGyuO
+ XgAYuXrV4KQUaMaw4Ksz9eYvmQAT3wDfPQCRhp89OajdfGKLUtdU3g433lNoGQ8mofgv
+ cGmg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=YOh9GxnhU6vhYDRmyns4fut70z8Xj0qJIqLDkwhxP5o=;
- b=UnJeBbAvr58VTzNHTQBY7jjmnvJvKdD7udhyvZK8n5uuH65HtORW04miMeoL3dUe4r
- RuJFg6eg4fnwQ9RLIz2X2kpfv3/sETehdfPwgUyM5ymA8aQqnI/Q0tnkugVm8ES14h+V
- E6cTBUS7NjPPR1tPHtzXPfo+Geald/0REzubEBbtV14ZMXlfZD+erDIjHIkLuWB2U/wy
- 5yqGHoG7dne12HbI97deG6FaHnCbH1ivp/qFGsQLHbQuSfu7enqvVnu2Hg2SkvB6grA9
- bPozCYip1Itrnc36R8a1/fbRT94YJpie2rFDVW722vGr5RjmVIEuutOJcDoCBwYnZGFf
- Caqg==
-X-Gm-Message-State: AOAM532ugV464cJdcmlgzut653GFu9/XP7NNo/9NLvHGgeZgjKVleP5P
- /Er4snTpX5eEobKm/9x0xUkynt0k3mXsTw==
-X-Google-Smtp-Source: ABdhPJy9EpTnc1uqzi5FBvg8S6xdM5ppNmYi3gV9+7pA30VOHcnMpMLCUR1KPyaHNxgfPg9pSYfbyA==
-X-Received: by 2002:a1c:408b:: with SMTP id n133mr173078wma.88.1594649471473; 
- Mon, 13 Jul 2020 07:11:11 -0700 (PDT)
+ bh=RzzTi1vl63SYp8xuPkUqRyWvZtfbVvsWqfUHoMVTTxM=;
+ b=CbuykkwBjmlkP9SysU7kwT0+vIQnJ7QdQQEoqURZaFlhZTJIZe3hx+skhWc7+llcUc
+ RCQXKjx6Q4RE3ED9hsQv7qlar2n2hK+Rx5omWdPm77dXZNw7yX1uqJyeVGwbEVIsB1cz
+ 7XAX8pe9UPMHRUB5p6wFEy069cpY/pTzyHgXbN31tmjJwgcCriZJ+VKI1GwF27XeuQFj
+ evsNjcz29gnVzMQ/DiCvtnD3RqH3vWYjo3WISF/LTGSADMEorkE54/OTMTKldSmHZyRa
+ GhnXhe4cjxIsZMJLlAWbLvwPcB3Q+mSA/4Q0AU9gosYWlLdh6SVHddmEGqnBYjhMcXFc
+ ICpw==
+X-Gm-Message-State: AOAM5306gGtn8PdCFQAqrYXycXluiRdcLc5qNnbGmetfCCTHCDLeZtVq
+ Slp7aUUnxh/6M/P+lv4JUjN/scHjXwJ40g==
+X-Google-Smtp-Source: ABdhPJyVKqcciNLpmU4wurTYDhEhbn18yXpSxJfZyhVpAXYI4IFgTfTPGz0+qmhlvDrjRQ4wObuG8A==
+X-Received: by 2002:adf:82e1:: with SMTP id 88mr58318650wrc.376.1594649472502; 
+ Mon, 13 Jul 2020 07:11:12 -0700 (PDT)
 Received: from orth.archaic.org.uk (orth.archaic.org.uk. [81.2.115.148])
- by smtp.gmail.com with ESMTPSA id c136sm24031297wmd.10.2020.07.13.07.11.10
+ by smtp.gmail.com with ESMTPSA id c136sm24031297wmd.10.2020.07.13.07.11.11
  for <qemu-devel@nongnu.org>
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 13 Jul 2020 07:11:10 -0700 (PDT)
+ Mon, 13 Jul 2020 07:11:11 -0700 (PDT)
 From: Peter Maydell <peter.maydell@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PULL 04/25] Add the ability to change the FEC PHY MDIO device number
- on i.MX6 processor
-Date: Mon, 13 Jul 2020 15:10:43 +0100
-Message-Id: <20200713141104.5139-5-peter.maydell@linaro.org>
+Subject: [PULL 05/25] Add the ability to change the FEC PHY MDIO devices
+ numbers on i.MX7 processor
+Date: Mon, 13 Jul 2020 15:10:44 +0100
+Message-Id: <20200713141104.5139-6-peter.maydell@linaro.org>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20200713141104.5139-1-peter.maydell@linaro.org>
 References: <20200713141104.5139-1-peter.maydell@linaro.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::329;
- envelope-from=peter.maydell@linaro.org; helo=mail-wm1-x329.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::435;
+ envelope-from=peter.maydell@linaro.org; helo=mail-wr1-x435.google.com
 X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
  That's all we know.
 X-Spam_score_int: -20
@@ -92,56 +92,58 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 From: Jean-Christophe Dubois <jcd@tribudubois.net>
 
 Signed-off-by: Jean-Christophe Dubois <jcd@tribudubois.net>
-Message-id: 05a64e83eb1c0c865ac077b22c599425c024c02c.1593806826.git.jcd@tribudubois.net
+Message-id: c850187322be9930e47c8b234c385a7d0da245cb.1593806826.git.jcd@tribudubois.net
 Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
 [PMM: updated for object_property_set_uint() argument reordering]
 Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
 ---
- include/hw/arm/fsl-imx6.h | 1 +
- hw/arm/fsl-imx6.c         | 7 +++++++
- 2 files changed, 8 insertions(+)
+ include/hw/arm/fsl-imx7.h | 1 +
+ hw/arm/fsl-imx7.c         | 9 +++++++++
+ 2 files changed, 10 insertions(+)
 
-diff --git a/include/hw/arm/fsl-imx6.h b/include/hw/arm/fsl-imx6.h
-index 1ebd7513246..162fe99375d 100644
---- a/include/hw/arm/fsl-imx6.h
-+++ b/include/hw/arm/fsl-imx6.h
-@@ -73,6 +73,7 @@ typedef struct FslIMX6State {
-     MemoryRegion   caam;
-     MemoryRegion   ocram;
-     MemoryRegion   ocram_alias;
-+    uint32_t       phy_num;
- } FslIMX6State;
+diff --git a/include/hw/arm/fsl-imx7.h b/include/hw/arm/fsl-imx7.h
+index da977f9ffb4..ad889237077 100644
+--- a/include/hw/arm/fsl-imx7.h
++++ b/include/hw/arm/fsl-imx7.h
+@@ -81,6 +81,7 @@ typedef struct FslIMX7State {
+     IMX7GPRState       gpr;
+     ChipideaState      usb[FSL_IMX7_NUM_USBS];
+     DesignwarePCIEHost pcie;
++    uint32_t           phy_num[FSL_IMX7_NUM_ETHS];
+ } FslIMX7State;
  
+ enum FslIMX7MemoryMap {
+diff --git a/hw/arm/fsl-imx7.c b/hw/arm/fsl-imx7.c
+index fad637d3288..2ff2cab9246 100644
+--- a/hw/arm/fsl-imx7.c
++++ b/hw/arm/fsl-imx7.c
+@@ -363,6 +363,8 @@ static void fsl_imx7_realize(DeviceState *dev, Error **errp)
+             FSL_IMX7_ENET2_ADDR,
+         };
  
-diff --git a/hw/arm/fsl-imx6.c b/hw/arm/fsl-imx6.c
-index 0bc9f0b60d1..00dafe3f62d 100644
---- a/hw/arm/fsl-imx6.c
-+++ b/hw/arm/fsl-imx6.c
-@@ -377,6 +377,7 @@ static void fsl_imx6_realize(DeviceState *dev, Error **errp)
-                                             spi_table[i].irq));
-     }
- 
-+    object_property_set_uint(OBJECT(&s->eth), "phy-num", s->phy_num, &err);
-     qdev_set_nic_properties(DEVICE(&s->eth), &nd_table[0]);
-     if (!sysbus_realize(SYS_BUS_DEVICE(&s->eth), errp)) {
-         return;
-@@ -449,10 +450,16 @@ static void fsl_imx6_realize(DeviceState *dev, Error **errp)
-                                 &s->ocram_alias);
++        object_property_set_uint(OBJECT(&s->eth[i]), "phy-num",
++                                 s->phy_num[i], &error_abort);
+         object_property_set_uint(OBJECT(&s->eth[i]), "tx-ring-num",
+                                  FSL_IMX7_ETH_NUM_TX_RINGS, &error_abort);
+         qdev_set_nic_properties(DEVICE(&s->eth[i]), &nd_table[i]);
+@@ -550,10 +552,17 @@ static void fsl_imx7_realize(DeviceState *dev, Error **errp)
+                                 FSL_IMX7_PCIE_PHY_SIZE);
  }
  
-+static Property fsl_imx6_properties[] = {
-+    DEFINE_PROP_UINT32("fec-phy-num", FslIMX6State, phy_num, 0),
++static Property fsl_imx7_properties[] = {
++    DEFINE_PROP_UINT32("fec1-phy-num", FslIMX7State, phy_num[0], 0),
++    DEFINE_PROP_UINT32("fec2-phy-num", FslIMX7State, phy_num[1], 1),
 +    DEFINE_PROP_END_OF_LIST(),
 +};
 +
- static void fsl_imx6_class_init(ObjectClass *oc, void *data)
+ static void fsl_imx7_class_init(ObjectClass *oc, void *data)
  {
      DeviceClass *dc = DEVICE_CLASS(oc);
  
-+    device_class_set_props(dc, fsl_imx6_properties);
-     dc->realize = fsl_imx6_realize;
-     dc->desc = "i.MX6 SOC";
-     /* Reason: Uses serial_hd() in the realize() function */
++    device_class_set_props(dc, fsl_imx7_properties);
+     dc->realize = fsl_imx7_realize;
+ 
+     /* Reason: Uses serial_hds and nd_table in realize() directly */
 -- 
 2.20.1
 
