@@ -2,135 +2,86 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8A19221D48F
-	for <lists+qemu-devel@lfdr.de>; Mon, 13 Jul 2020 13:09:21 +0200 (CEST)
-Received: from localhost ([::1]:40680 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id BDD7F21D4A1
+	for <lists+qemu-devel@lfdr.de>; Mon, 13 Jul 2020 13:15:29 +0200 (CEST)
+Received: from localhost ([::1]:45168 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1juwKm-0005ip-Ky
-	for lists+qemu-devel@lfdr.de; Mon, 13 Jul 2020 07:09:20 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:37124)
+	id 1juwQi-0007sn-LG
+	for lists+qemu-devel@lfdr.de; Mon, 13 Jul 2020 07:15:28 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:39376)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <borntraeger@de.ibm.com>)
- id 1juwK0-0005Hj-Ps; Mon, 13 Jul 2020 07:08:32 -0400
-Received: from mx0a-001b2d01.pphosted.com ([148.163.156.1]:62984)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <borntraeger@de.ibm.com>)
- id 1juwJy-0006Ct-LM; Mon, 13 Jul 2020 07:08:32 -0400
-Received: from pps.filterd (m0098396.ppops.net [127.0.0.1])
- by mx0a-001b2d01.pphosted.com (8.16.0.42/8.16.0.42) with SMTP id
- 06DB5YCM153692; Mon, 13 Jul 2020 07:08:26 -0400
-Received: from pps.reinject (localhost [127.0.0.1])
- by mx0a-001b2d01.pphosted.com with ESMTP id 3277rcsma5-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Mon, 13 Jul 2020 07:08:26 -0400
-Received: from m0098396.ppops.net (m0098396.ppops.net [127.0.0.1])
- by pps.reinject (8.16.0.36/8.16.0.36) with SMTP id 06DB5Vea153566;
- Mon, 13 Jul 2020 07:08:26 -0400
-Received: from ppma05fra.de.ibm.com (6c.4a.5195.ip4.static.sl-reverse.com
- [149.81.74.108])
- by mx0a-001b2d01.pphosted.com with ESMTP id 3277rcsm94-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Mon, 13 Jul 2020 07:08:26 -0400
-Received: from pps.filterd (ppma05fra.de.ibm.com [127.0.0.1])
- by ppma05fra.de.ibm.com (8.16.0.42/8.16.0.42) with SMTP id 06DB4rnj027964;
- Mon, 13 Jul 2020 11:08:23 GMT
-Received: from b06cxnps3074.portsmouth.uk.ibm.com
- (d06relay09.portsmouth.uk.ibm.com [9.149.109.194])
- by ppma05fra.de.ibm.com with ESMTP id 327q2y0pun-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Mon, 13 Jul 2020 11:08:23 +0000
-Received: from d06av24.portsmouth.uk.ibm.com (d06av24.portsmouth.uk.ibm.com
- [9.149.105.60])
- by b06cxnps3074.portsmouth.uk.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
- 06DB8Kri7668212
- (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Mon, 13 Jul 2020 11:08:20 GMT
-Received: from d06av24.portsmouth.uk.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id DB7C042047;
- Mon, 13 Jul 2020 11:08:20 +0000 (GMT)
-Received: from d06av24.portsmouth.uk.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id 49E2842042;
- Mon, 13 Jul 2020 11:08:20 +0000 (GMT)
-Received: from oc7455500831.ibm.com (unknown [9.145.50.7])
- by d06av24.portsmouth.uk.ibm.com (Postfix) with ESMTP;
- Mon, 13 Jul 2020 11:08:20 +0000 (GMT)
-Subject: Re: [PATCH RFC 2/5] s390x: implement diag260
-To: David Hildenbrand <david@redhat.com>, Heiko Carstens <hca@linux.ibm.com>
-References: <20200713091243.GB4359@osiris>
- <07E9FD5B-F07F-415B-9C00-A2A882F07CBC@redhat.com>
-From: Christian Borntraeger <borntraeger@de.ibm.com>
-Autocrypt: addr=borntraeger@de.ibm.com; prefer-encrypt=mutual; keydata=
- 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
- nS4h0HDFPrrp1C2EMVYIQrMokWvlFZbCpsdYbBI=
-Message-ID: <92b1a2a6-2348-d4ff-6d20-35f3bfef710a@de.ibm.com>
-Date: Mon, 13 Jul 2020 13:08:19 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.9.0
+ (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1juwPj-0007Sx-VW
+ for qemu-devel@nongnu.org; Mon, 13 Jul 2020 07:14:28 -0400
+Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:24775
+ helo=us-smtp-1.mimecast.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1juwPh-00070t-7h
+ for qemu-devel@nongnu.org; Mon, 13 Jul 2020 07:14:27 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1594638863;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=9yJxjN2eK2C/RtbAhcih8fYRhZsxSSIJoRDR+ygJPZ0=;
+ b=NSWc3FlGhOCZWOP+VRgBD7CnaAO7913+r6qXgLfoaq+0GveRGDeF0TzfDLOvI9IJmCKj7h
+ f3j4ihXPW1UrQlr92kXI4urFxtWzLLLNfZeY3Vb/p/xCFLfaKjZlN6OQ2qDK3a0Zm65c16
+ c4HN5A3zLAhVkiWICZomaCvJvjqe7kw=
+Received: from mail-wr1-f72.google.com (mail-wr1-f72.google.com
+ [209.85.221.72]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-227-3Y341XyLNpGUJwd3ZcNP8w-1; Mon, 13 Jul 2020 07:14:19 -0400
+X-MC-Unique: 3Y341XyLNpGUJwd3ZcNP8w-1
+Received: by mail-wr1-f72.google.com with SMTP id s16so17393131wrv.1
+ for <qemu-devel@nongnu.org>; Mon, 13 Jul 2020 04:14:19 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+ :mime-version:content-disposition:content-transfer-encoding
+ :in-reply-to;
+ bh=NpTWVJsF5mPjoZtLMQOdwBipVAebIZ+sY13ywG6j7qo=;
+ b=MzP5oQczP3OcjqVbSTv1ridQTV1Yf/uZjNB1AA18bokS4JMR7zPYQWrxwWsyUtMMZZ
+ sMLjQZDaXe9T+bEUucUlJDW7udY6U5xbvrM8DG2NO7QW/r/pdh9apIecvC5Mc+C1kJm9
+ V8AQIs5ROegEj3EIYo2G6S+rCrdmQpwciR2VTpXpUNRScpnC0fVqdBpIE7eVjW9TmoWV
+ AXkbU11kBoTh/+MZ75Ce2aSVQqkyj/YCH14XXq0l/Oqbz6CaVL59Z3KDg2nt4AfxMP2Y
+ XJoeMpb9xogNNIVUrxQvkxg4zW8MKqdGrANFK/TFYnXO8edpa1ZNhr5rOZyUO2jpIELN
+ CUMg==
+X-Gm-Message-State: AOAM5334TFrlPqJrJY9jHu+Tn943gIqbMXVm94hSAzEf++WnWAkv4arQ
+ jBvf62zBnHMahhYd18ZdOwa5m/mpM3OYzI4gO7yizAwj7pIIzq0QbBkt9J9QnvcT6AHe4Y/GLi/
+ PPx+99PqVGJIawRw=
+X-Received: by 2002:a5d:42c8:: with SMTP id t8mr75810962wrr.23.1594638858096; 
+ Mon, 13 Jul 2020 04:14:18 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJziHGKYA1ttybZawIhwKv+312YiNjlLRoLmelUapdedOMMaSKiSnCJcZruRvIVUi63dj4EFuw==
+X-Received: by 2002:a5d:42c8:: with SMTP id t8mr75810946wrr.23.1594638857829; 
+ Mon, 13 Jul 2020 04:14:17 -0700 (PDT)
+Received: from redhat.com (bzq-79-180-10-140.red.bezeqint.net. [79.180.10.140])
+ by smtp.gmail.com with ESMTPSA id d201sm21441221wmd.34.2020.07.13.04.14.15
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Mon, 13 Jul 2020 04:14:17 -0700 (PDT)
+Date: Mon, 13 Jul 2020 07:14:01 -0400
+From: "Michael S. Tsirkin" <mst@redhat.com>
+To: Michael Tokarev <mjt@tls.msk.ru>
+Subject: Re: [PATCH] Allow acpi-tmr size=2
+Message-ID: <20200713070946-mutt-send-email-mst@kernel.org>
+References: <5f12377f-b640-c4c5-1bcd-858c622c6c31@the-jedi.co.uk>
+ <4a5cfe21-d370-8ebf-b905-c37d39b68353@msgid.tls.msk.ru>
 MIME-Version: 1.0
-In-Reply-To: <07E9FD5B-F07F-415B-9C00-A2A882F07CBC@redhat.com>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
+In-Reply-To: <4a5cfe21-d370-8ebf-b905-c37d39b68353@msgid.tls.msk.ru>
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=iso-8859-1
 Content-Transfer-Encoding: 8bit
-X-TM-AS-GCONF: 00
-X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:6.0.235, 18.0.687
- definitions=2020-07-13_07:2020-07-13,
- 2020-07-13 signatures=0
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- suspectscore=0
- priorityscore=1501 clxscore=1015 phishscore=0 mlxscore=0 spamscore=0
- bulkscore=0 impostorscore=0 mlxlogscore=999 lowpriorityscore=0
- malwarescore=0 adultscore=0 classifier=spam adjust=0 reason=mlx
- scancount=1 engine=8.12.0-2006250000 definitions=main-2007130080
-Received-SPF: pass client-ip=148.163.156.1;
- envelope-from=borntraeger@de.ibm.com; helo=mx0a-001b2d01.pphosted.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/07/13 07:08:27
-X-ACL-Warn: Detected OS   = Linux 3.x [generic] [fuzzy]
-X-Spam_score_int: -35
-X-Spam_score: -3.6
-X-Spam_bar: ---
-X-Spam_report: (-3.6 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_LOW=-0.7,
- RCVD_IN_MSPIKE_H2=-1, SPF_HELO_NONE=0.001,
+Content-Disposition: inline
+Received-SPF: pass client-ip=207.211.31.120; envelope-from=mst@redhat.com;
+ helo=us-smtp-1.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/07/13 02:19:41
+X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
+X-Spam_score_int: -40
+X-Spam_score: -4.1
+X-Spam_bar: ----
+X-Spam_report: (-4.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-1, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -144,78 +95,75 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Thomas Huth <thuth@redhat.com>, Janosch Frank <frankja@linux.ibm.com>,
- "Michael S . Tsirkin" <mst@redhat.com>, Cornelia Huck <cohuck@redhat.com>,
- qemu-devel@nongnu.org, Halil Pasic <pasic@linux.ibm.com>,
- qemu-s390x@nongnu.org, Claudio Imbrenda <imbrenda@linux.ibm.com>,
- Richard Henderson <rth@twiddle.net>
+Cc: imammedo@redhat.com, Simon John <github@the-jedi.co.uk>,
+ qemu-devel@nongnu.org, Gerd Hoffmann <kraxel@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 13.07.20 12:27, David Hildenbrand wrote:
+On Mon, Jul 13, 2020 at 10:20:12AM +0300, Michael Tokarev wrote:
+> 12.07.2020 15:00, Simon John wrote:
+> > macos guests no longer boot after commit 5d971f9e672507210e77d020d89e0e89165c8fc9
+> > 
+> > acpi-tmr needs 2 byte memory accesses, so breaks as that commit only allows 4 bytes.
+> > 
+> > Fixes: 5d971f9e672507210e7 (memory: Revert "memory: accept mismatching sizes in memory_region_access_valid")
+> > Buglink: https://bugs.launchpad.net/qemu/+bug/1886318
 > 
+> Actually this fixes 77d58b1e47c8d1c661f98f12b47ab519d3561488
+> Author: Gerd Hoffmann <kraxel@redhat.com>
+> Date:   Thu Nov 22 12:12:30 2012 +0100
+> Subject: apci: switch timer to memory api
+> Signed-off-by: Gerd Hoffmann <kraxel@redhat.com>
 > 
->> Am 13.07.2020 um 11:12 schrieb Heiko Carstens <hca@linux.ibm.com>:
->>
->> ﻿On Fri, Jul 10, 2020 at 05:24:07PM +0200, David Hildenbrand wrote:
->>>> On 10.07.20 17:18, Heiko Carstens wrote:
->>>> On Fri, Jul 10, 2020 at 02:12:33PM +0200, David Hildenbrand wrote:
->>>>>> Note: Reading about diag260 subcode 0xc, we could modify Linux to query
->>>>>> the maximum possible pfn via diag260 0xc. Then, we maybe could avoid
->>>>>> indicating maxram size via SCLP, and keep diag260-unaware OSs keep
->>>>>> working as before. Thoughts?
->>>>>
->>>>> Implemented it, seems to work fine.
->>>>
->>>> The returned value would not include standby/reserved memory within
->>>> z/VM. So this seems not to work.
->>>
->>> Which value exactly are you referencing? diag 0xc returns two values.
->>> One of them seems to do exactly what we need.
->>>
->>> See
->>> https://github.com/davidhildenbrand/linux/commit/a235f9fb20df7c04ae89bc0d134332d1a01842c7
->>>
->>> for my current Linux approach.
->>>
->>>> Also: why do you want to change this
->>>
->>> Which change exactly do you mean?
->>>
->>> If we limit the value returned via SCLP to initial memory, we cannot
->>> break any guest (e.g., Linux pre 4.2, kvm-unit-tests). diag260 is then
->>> purely optional.
->>
->> Ok, now I see the context. Christian added my just to cc on this
->> specific patch.
+> because this is the commit which put min_access_size = 4 in there
+> (5d971f9e672507210e7 is just a messenger, actual error were here
+> earlier but it went unnoticed).
 > 
-> I tried to Cc you an all patches but the mail bounced with unknown address (maybe I messed up).
+> While min_access_size=4 was most likely an error, I wonder why
+> we use 1 now, while the subject says it needs 2? What real min
+> size is here for ACPI PM timer?
 > 
->> So if I understand you correctly, then you want to use diag 260 in
->> order to figure out how much memory is _potentially_ available for a
->> guest?
-> 
-> Yes, exactly.
-> 
->>
->> This does not fit to the current semantics, since diag 260 returns the
->> address of the highest *currently* accessible address. That is: it
->> does explicitly *not* include standby memory or anything else that
->> might potentially be there.
-> 
-> The confusing part is that it talks about „adressible“ and not „accessible“. Now that I understood the „DEFINE STORAGE ...“ example, it makes sense that the values change with reserved/standby memory.
-> 
-> I agree that reusing that interface might not be what we want. I just seemed too easy to avoid creating something new :)
-> 
->>
->> So you would need a different interface to tell the guest about your
->> new hotplug memory interface. If sclp does not work, then maybe a new
->> diagnose(?).
->>
-> 
-> Yes, I think a new Diagnose makes sense. I‘ll have a look next week to figure out which codes/subcodes we could use. @Christian @Conny any ideas/pointers?> 
+> /mjt
 
-Wouldnt sclp be the right thing to provide the max increment number? (and thus the max memory address)
-And then (when I got the discussion right) use diag 260 to get the _current_ value.
+
+Well the ACPI spec 1.0b says
+
+4.7.3.3 Power Management Timer (PM_TMR)
+
+...
+
+This register is accessed as 32 bits.
+
+and this text is still there in 6.2.
+
+
+So it's probably worth it to cite this in the commit log
+and explain it's a spec violation.
+I think it's better to be restrictive and only allow the
+minimal variation from spec - in this case I guess this means 2 byte
+reads.
+
+In any case pls do include an explanation for why you picked
+one over the other.
+
+> 
+> > Signed-off-by: Simon John <git@the-jedi.co.uk>
+> > ---
+> >  hw/acpi/core.c | 2 +-
+> >  1 file changed, 1 insertion(+), 1 deletion(-)
+> > 
+> > diff --git a/hw/acpi/core.c b/hw/acpi/core.c
+> > index f6d9ec4f13..05ff29b9d7 100644
+> > --- a/hw/acpi/core.c
+> > +++ b/hw/acpi/core.c
+> > @@ -527,7 +527,7 @@ static void acpi_pm_tmr_write(void *opaque, hwaddr addr, uint64_t val,
+> >  static const MemoryRegionOps acpi_pm_tmr_ops = {
+> >      .read = acpi_pm_tmr_read,
+> >      .write = acpi_pm_tmr_write,
+> > -    .valid.min_access_size = 4,
+> > +    .valid.min_access_size = 1,
+> >      .valid.max_access_size = 4,
+> >      .endianness = DEVICE_LITTLE_ENDIAN,
+> >  };
 
 
