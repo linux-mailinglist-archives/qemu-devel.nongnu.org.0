@@ -2,66 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 20DDE21DF3A
-	for <lists+qemu-devel@lfdr.de>; Mon, 13 Jul 2020 19:59:32 +0200 (CEST)
-Received: from localhost ([::1]:38884 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3357621DF3C
+	for <lists+qemu-devel@lfdr.de>; Mon, 13 Jul 2020 19:59:42 +0200 (CEST)
+Received: from localhost ([::1]:39820 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jv2jj-0003PK-5C
-	for lists+qemu-devel@lfdr.de; Mon, 13 Jul 2020 13:59:31 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:58712)
+	id 1jv2jt-0003lu-9J
+	for lists+qemu-devel@lfdr.de; Mon, 13 Jul 2020 13:59:41 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:58766)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1jv2i8-00026Q-Ah
- for qemu-devel@nongnu.org; Mon, 13 Jul 2020 13:57:52 -0400
-Received: from mail-wm1-x343.google.com ([2a00:1450:4864:20::343]:54175)
+ id 1jv2i9-000274-O3
+ for qemu-devel@nongnu.org; Mon, 13 Jul 2020 13:57:53 -0400
+Received: from mail-wr1-x42d.google.com ([2a00:1450:4864:20::42d]:39855)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1jv2i6-00084Q-Ox
- for qemu-devel@nongnu.org; Mon, 13 Jul 2020 13:57:52 -0400
-Received: by mail-wm1-x343.google.com with SMTP id j18so513432wmi.3
- for <qemu-devel@nongnu.org>; Mon, 13 Jul 2020 10:57:50 -0700 (PDT)
+ id 1jv2i8-00084m-1J
+ for qemu-devel@nongnu.org; Mon, 13 Jul 2020 13:57:53 -0400
+Received: by mail-wr1-x42d.google.com with SMTP id q5so17564898wru.6
+ for <qemu-devel@nongnu.org>; Mon, 13 Jul 2020 10:57:51 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=from:to:subject:date:message-id:mime-version
+ h=from:to:subject:date:message-id:in-reply-to:references:mime-version
  :content-transfer-encoding;
- bh=Vbg5izYI34iu471XO9N3fvyaBGXDvlDeLjxYI4mvRCM=;
- b=u+0FuobU1Y3BTd3hEBc1kkmy2svengzkeVkGXZ8NMqG8lD+muXu76tpV/Ct9VQxUjr
- Q+snIzeXADa44BKIqam3k1gUzFcYgjtXANiruLPgpI2X03ZDUe13f9LKUlbIUnCsaf5M
- jmwnbriQudARFzocY4uGQapNgcbXllouJiMUIrKev0DTOQszf4CyQEp+35lF/gMYHIdu
- ewNpf9NXguuTH50gj4Uxt/EqF5o3J4XW0ikyn+cgGfEbEgDmgYXdLTZbC5JF1yvs9zVw
- M1nIIx6IXn2EMUL3sIXxwmyKplR1lnU7YI8/hsjbO899b2m+oqmP54zCO8XrSPRC13JO
- helA==
+ bh=AkELVoYEVE6BfnfMYte+uiKJiz/kf50c60t3vfodgLM=;
+ b=eHSAPKljbrx+AVNzlmor6md8M1C+d02d8wJzmj021KZuSRM2WNbtTLJ17UsVKHkDXM
+ AaYeNXTQynLd/w3V0VfVOWw2IZcdwRvGuKDCel6KRXxjS2KAsgVwtSsX5EvQQCzTT8pz
+ nlmpcWo3+z4krRkyBokqEmW4sob/E+ukGZ/vsSApbQGGySiP8p6qox0uwaBCuBiVf69t
+ 6wLfH9hqAsIwrZ77BB4e1JMXzxp5WenZFKaf2h9+2Z8f5+nxv9Gtk8BMGw+/kT44rrCr
+ rnfb7rj8yBYE0RtSGaIkmcfjN6FJ+GsojUcT768O10NGEgHDecfo9pTYr2Nq9bh0Hvz4
+ 79eg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=Vbg5izYI34iu471XO9N3fvyaBGXDvlDeLjxYI4mvRCM=;
- b=h6iJjXxOQu9mAtl74gc7C401kV3Ctwz/tAKjyX7a3MHww/FvQRudacJmHhZiLAEAPy
- 2oqZKjgk5jrPPvEG8fOnz77d96drTZ7mzeSR6PrH/SLivKl7VfcuXeap2ACczV/shAWo
- 7fX+khNRYgNp02kC2zHn+0pGiLc2CSKjhSOsEKH5vUvssEtc45Gdn9PcyTCViMkG47yK
- Zar4HtW8D6jUcrA6Je4e6gS3leFTqOa5eSC5bBFSTpQr0+hQPW2ZnDhMtnd4KcROiFB5
- IGkqIhcgSQSiXyCyf6HBrgPWWK0xFyHD4QK1Bbgg86Tv/av7Y0dFnk2lWZD7IF3381Q0
- 64+g==
-X-Gm-Message-State: AOAM531FQJWOURf8DMBtYSJVqAN9C+Lk6xeovl8pgpKxzmJ9yuSJlZAT
- 0GAe2jHDwB0digJiVq0Exy/o0x6J+H+1AQ==
-X-Google-Smtp-Source: ABdhPJxagE2NiaWUMK8FKOY0It+glK4voBtoa9gsIvkqXQH5a9n4K8zKgkA6cuSKeIZYotc4kyaXxA==
-X-Received: by 2002:a1c:1fc2:: with SMTP id f185mr606953wmf.0.1594663068575;
- Mon, 13 Jul 2020 10:57:48 -0700 (PDT)
+ h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
+ :references:mime-version:content-transfer-encoding;
+ bh=AkELVoYEVE6BfnfMYte+uiKJiz/kf50c60t3vfodgLM=;
+ b=Sb/A5XySX2ugzp3nb4Cyoh9d4mInvjoy66Iwozs39hyjykwkkaaupyBBcVml5o2z+2
+ j+xDSdeTU7g9leHq5zzoGKqQeqP6BG9Pat49k8i1Nf5a8EyGGYf82AjCL+5IdjwKBMFY
+ ObCwlXOoEOkWVI13Vow/KoqonP28ThHJnyF+d/7OCdRdwn+QZ1kFP7snvA//i2esUcc+
+ ZkspWg+Wjin9SV19zVHIAyoUcdOoQw0l9c12I9aiYUgJcZ9LiE+zcpI4OyUFrAKhm/Zp
+ ajK7+ZNyVVa+J+3pFwqkqc9gszjXNjckEt4HKEXlUPWSEhK0sOqDea1SFsGYMkcGV5G1
+ HqQQ==
+X-Gm-Message-State: AOAM533ZUwfI26riLzKQdekThTmNw8U6Uq8IwCIaSsuceoFsZCEwZCmE
+ XUd7bWT8s8dVR75AQ5ivnKOeBg==
+X-Google-Smtp-Source: ABdhPJzyUJ8Jlsyt8KQd6qTBWCVOcP4iIYwa5vcLYjYnfc7cb8objUXCykFZIQdJP+lGg5e5jpevnQ==
+X-Received: by 2002:a5d:4591:: with SMTP id p17mr581117wrq.343.1594663070726; 
+ Mon, 13 Jul 2020 10:57:50 -0700 (PDT)
 Received: from orth.archaic.org.uk (orth.archaic.org.uk. [81.2.115.148])
- by smtp.gmail.com with ESMTPSA id j4sm25723721wrp.51.2020.07.13.10.57.47
+ by smtp.gmail.com with ESMTPSA id j4sm25723721wrp.51.2020.07.13.10.57.49
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 13 Jul 2020 10:57:47 -0700 (PDT)
+ Mon, 13 Jul 2020 10:57:50 -0700 (PDT)
 From: Peter Maydell <peter.maydell@linaro.org>
 To: qemu-arm@nongnu.org,
 	qemu-devel@nongnu.org
-Subject: [PATCH for-5.1 0/4] Document virt and a few other Arm boards
-Date: Mon, 13 Jul 2020 18:57:42 +0100
-Message-Id: <20200713175746.5936-1-peter.maydell@linaro.org>
+Subject: [PATCH for-5.1 2/4] docs/system: Briefly document collie board
+Date: Mon, 13 Jul 2020 18:57:44 +0100
+Message-Id: <20200713175746.5936-3-peter.maydell@linaro.org>
 X-Mailer: git-send-email 2.20.1
+In-Reply-To: <20200713175746.5936-1-peter.maydell@linaro.org>
+References: <20200713175746.5936-1-peter.maydell@linaro.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::343;
- envelope-from=peter.maydell@linaro.org; helo=mail-wm1-x343.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::42d;
+ envelope-from=peter.maydell@linaro.org; helo=mail-wr1-x42d.google.com
 X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
  That's all we know.
 X-Spam_score_int: -20
@@ -70,7 +72,7 @@ X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
  DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -86,47 +88,62 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-This series adds some documentation to the system manual for
-previously undocumented Arm board types.
+Add skeletal documentation of the collie board.
 
-The first 3 patches are very minimalist documentation of the
-canon-a1000, collie and gumstix board families.  The info was
-obtained by looking at source code comments, a brief scan of what
-kinds of devices the code was creating, and sometimes the cover
-letter for the patch series that added the board. The level
-of documentation here doesn't seem fantastically useful but
-on the other hand it's no worse than that we have for some
-existing boards (eg cheetah) and it would be nice to eventually
-get to complete coverage of all the arm board types. But
-I figured some feedback on whether this level of documentation
-was worth doing was worthwhile before I tried to add it for
-any of the other board types.
-
-Finally, patch 4 is more meaty: it documents the "virt" board
-(which was a pretty embarrassing omission from the docs given
-that it is the standard board type that we recommend for
-Arm guests these days). I have attempted to fold in the info
-on the board from https://wiki.qemu.org/Documentation/Platforms/ARM
-where appropriate.
-
-Peter Maydell (4):
-  docs/system: Briefly document canon-a1100 board
-  docs/system: Briefly document collie board
-  docs/system: Briefly document gumstix boards
-  docs/system: Document the arm virt board
-
- docs/system/arm/collie.rst  |  16 ++++
- docs/system/arm/digic.rst   |  11 +++
- docs/system/arm/gumstix.rst |  21 +++++
- docs/system/arm/virt.rst    | 157 ++++++++++++++++++++++++++++++++++++
- docs/system/target-arm.rst  |   4 +
- MAINTAINERS                 |   4 +
- 6 files changed, 213 insertions(+)
+Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
+---
+ docs/system/arm/collie.rst | 16 ++++++++++++++++
+ docs/system/target-arm.rst |  1 +
+ MAINTAINERS                |  1 +
+ 3 files changed, 18 insertions(+)
  create mode 100644 docs/system/arm/collie.rst
- create mode 100644 docs/system/arm/digic.rst
- create mode 100644 docs/system/arm/gumstix.rst
- create mode 100644 docs/system/arm/virt.rst
 
+diff --git a/docs/system/arm/collie.rst b/docs/system/arm/collie.rst
+new file mode 100644
+index 00000000000..9f8dbcad25d
+--- /dev/null
++++ b/docs/system/arm/collie.rst
+@@ -0,0 +1,16 @@
++Sharp Zaurus SL-5500 (``collie``)
++=================================
++
++This machine is a model of the Sharp Zaurus SL-5500, which is
++based on the StrongARM SA1110.
++
++Implemented devices:
++
++ * Flash
++ * Interrupt controller
++ * Timer
++ * RTC
++ * GPIO
++ * Peripheral Pin Controller (PPC)
++ * UARTs
++ * Synchronous Serial Ports (SSP)
+diff --git a/docs/system/target-arm.rst b/docs/system/target-arm.rst
+index 8fa51a22817..376c18f0b17 100644
+--- a/docs/system/target-arm.rst
++++ b/docs/system/target-arm.rst
+@@ -88,6 +88,7 @@ undocumented; you can get a complete list by running
+    arm/orangepi
+    arm/palm
+    arm/xscale
++   arm/collie
+    arm/sx1
+    arm/stellaris
+ 
+diff --git a/MAINTAINERS b/MAINTAINERS
+index 0f578040b99..048b2d41729 100644
+--- a/MAINTAINERS
++++ b/MAINTAINERS
+@@ -845,6 +845,7 @@ L: qemu-arm@nongnu.org
+ S: Odd Fixes
+ F: hw/arm/collie.c
+ F: hw/arm/strongarm*
++F: docs/system/arm/collie.rst
+ 
+ Stellaris
+ M: Peter Maydell <peter.maydell@linaro.org>
 -- 
 2.20.1
 
