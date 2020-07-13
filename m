@@ -2,69 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id DD69721DEAA
-	for <lists+qemu-devel@lfdr.de>; Mon, 13 Jul 2020 19:25:17 +0200 (CEST)
-Received: from localhost ([::1]:51324 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5085F21DEAD
+	for <lists+qemu-devel@lfdr.de>; Mon, 13 Jul 2020 19:25:55 +0200 (CEST)
+Received: from localhost ([::1]:53612 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jv2Ca-00081P-VM
-	for lists+qemu-devel@lfdr.de; Mon, 13 Jul 2020 13:25:16 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:48108)
+	id 1jv2DC-0000YD-D7
+	for lists+qemu-devel@lfdr.de; Mon, 13 Jul 2020 13:25:54 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:48298)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1jv2BC-0006lK-Oz
- for qemu-devel@nongnu.org; Mon, 13 Jul 2020 13:23:50 -0400
-Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:29132
- helo=us-smtp-1.mimecast.com)
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1jv2Bj-0007Kg-4Q
+ for qemu-devel@nongnu.org; Mon, 13 Jul 2020 13:24:23 -0400
+Received: from us-smtp-1.mimecast.com ([205.139.110.61]:52560
+ helo=us-smtp-delivery-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1jv2BB-0003Dq-4G
- for qemu-devel@nongnu.org; Mon, 13 Jul 2020 13:23:50 -0400
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1jv2Bh-0003GJ-81
+ for qemu-devel@nongnu.org; Mon, 13 Jul 2020 13:24:22 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1594661028;
+ s=mimecast20190719; t=1594661059;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
- bh=k2GLKSyTCwtDLj5iq80Osbc6JNpDe/U2KM2YnWz/XY8=;
- b=D2oUO9Ge+MiGw9Aa7h+axRSs4gEXd05Fr/u7VTN4RhxseY2/fBFdqwCPrGeU0bYW9Cnnfr
- PSwpnsoT/RNlbq+kkTvi9oHbfx08cxttrrgDps9iX8o6si0uHlt1nPMJgV+HJbAtX1vwNg
- aE4aoa1tebc3J5bFrrROdJZHJMm04mQ=
-Received: from mail-ej1-f70.google.com (mail-ej1-f70.google.com
- [209.85.218.70]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-409-lJP2r0Q3NgyPSeEq5TSbmQ-1; Mon, 13 Jul 2020 13:23:44 -0400
-X-MC-Unique: lJP2r0Q3NgyPSeEq5TSbmQ-1
-Received: by mail-ej1-f70.google.com with SMTP id yw17so19880036ejb.12
- for <qemu-devel@nongnu.org>; Mon, 13 Jul 2020 10:23:44 -0700 (PDT)
+ bh=uAL4GMVQX3CrDxiL39eURC15mtUI6aqpnhJdXVNv2Bw=;
+ b=HQNC2DnNdrdeNcl2NJLt/mibQ8Mf+CMRe0VBeBwnUUgRSEAZ2FLNitdz6aHkCXZobiVrb7
+ nQxhvreb4ocEc/QiozFlfuoFo210KWv9L8KQHDwyHonQyz5y1ARAEGLGj9VqzxsIu2kibQ
+ dww3fdATqxWuVc1DHQis6K7/xp8O1JU=
+Received: from mail-ej1-f71.google.com (mail-ej1-f71.google.com
+ [209.85.218.71]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-204-zNiCdOb7PVW7q2OU-rkUkw-1; Mon, 13 Jul 2020 13:24:16 -0400
+X-MC-Unique: zNiCdOb7PVW7q2OU-rkUkw-1
+Received: by mail-ej1-f71.google.com with SMTP id q11so19944702eja.3
+ for <qemu-devel@nongnu.org>; Mon, 13 Jul 2020 10:24:15 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:subject:to:cc:references:from:autocrypt
  :message-id:date:user-agent:mime-version:in-reply-to
  :content-language:content-transfer-encoding;
- bh=k2GLKSyTCwtDLj5iq80Osbc6JNpDe/U2KM2YnWz/XY8=;
- b=nsXsD8+JuL4tr12eKyZN1dYF44RxR8x2DPNjGCrCkqzEbK81n82oJhC3Adma9RJ9Ym
- sQ2ngKDQRbMv0lt2qP8vvUP9Nz8vFQlc/s/NJLzG2/Nr709pIrI7ULwQ3Wr4XsE3f/uX
- 4lX63NcNqeKIKzOg3Oor/C6XrN4Jr4rdTRsiohlcQlLUA+lTwKhPkMnJZ+PHtOXxne0J
- LcOOCyoHD8G0d6yxj0Pmo/M8iRxwQ748M+gAZXpEjI4Di926EQpKyd3xOrjVJPd1uYXd
- lmfdH2Rz01ebvpGZ1Yv4/K56EhCxs/rQWTokTT9oI5bVPS0wH2S1lheXmdb1/YBaN/o3
- GBCA==
-X-Gm-Message-State: AOAM531Lpg2cnQgV0WZMTVfunzm9LMWFWi7cDrEgwGYWALc9x+h638pb
- hRKbxsiuF+ncCCaAk/iNuhYVYo0vKEkBSCPpKM8/ugHXrlT8ai5vpZDPnkCrSyW4TviBjIbr0HR
- ep8xPwnvRmJUBe/Q=
-X-Received: by 2002:a05:6402:1c96:: with SMTP id
- cy22mr424871edb.79.1594661022895; 
- Mon, 13 Jul 2020 10:23:42 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJz3KqSHG8DPEQjpek3DiyV0q8rGLJ6BbnGgN9ja9vnRhC+scVaKJ2R9tfRQOVzbZvhpO2dQxg==
-X-Received: by 2002:a05:6402:1c96:: with SMTP id
- cy22mr424853edb.79.1594661022686; 
- Mon, 13 Jul 2020 10:23:42 -0700 (PDT)
+ bh=uAL4GMVQX3CrDxiL39eURC15mtUI6aqpnhJdXVNv2Bw=;
+ b=UdYh8E3r2VithAzJ2HwP1p+BuUSuI0MhTC7CzUnq4+JbREMraiGyQjjeG8V1r7zi3J
+ vyF76t83iJjA17P2l+FdzTSZNEPR+54zid6H7za5Da455uhFKbiBgqFewYi/6uJUGdZE
+ vcURvh7DV3v6oTfQtMc4oB+ROiTu70t/d9znZqOfs+UIaakB1tQ2va/31+UK/CemykNN
+ 8m7eoLYUh+MTJDrkaEDCK37AOYkuubGUB14yiR8j9sb3h6VGq6bhHyvGy9qCyNtMKRw1
+ PCh41Sn8XmIKzGrtEQ/ubYKiqrrXzgio5IVJFKS+zBxn1e/XG1zqgiDhEwj3/eSN27C5
+ iwdA==
+X-Gm-Message-State: AOAM5334a9hg/rQrUqt/YmmyBOKZ/JZZNtZZLPn+7ssIH0SuLpYVmXKs
+ G3RGRuhh6l6XVSMjZgJJam69G5eFW9YbmOsaTpOd+KXShjdBe9SaxNCirGpER6YwAosfRJUIJGj
+ zbtEY1A2nvp6BKI8=
+X-Received: by 2002:a17:906:404e:: with SMTP id
+ y14mr754960ejj.260.1594661054897; 
+ Mon, 13 Jul 2020 10:24:14 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJwqHM9o0Gg070XS/Q6MiM5vKM0SmIrQjvK85Y58vVa7/p4mq5ni3beFsVwIEvDtfWv2bLsBWg==
+X-Received: by 2002:a17:906:404e:: with SMTP id
+ y14mr754947ejj.260.1594661054693; 
+ Mon, 13 Jul 2020 10:24:14 -0700 (PDT)
 Received: from [192.168.1.37] (138.red-83-57-170.dynamicip.rima-tde.net.
  [83.57.170.138])
- by smtp.gmail.com with ESMTPSA id m6sm2205114eja.87.2020.07.13.10.23.41
+ by smtp.gmail.com with ESMTPSA id p4sm10393802eji.123.2020.07.13.10.24.13
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 13 Jul 2020 10:23:42 -0700 (PDT)
-Subject: Re: [PATCH v5 01/12] python/machine.py: consolidate _post_shutdown()
+ Mon, 13 Jul 2020 10:24:14 -0700 (PDT)
+Subject: Re: [PATCH v5 04/12] python/machine.py: Perform early cleanup for
+ wait() calls, too
 To: John Snow <jsnow@redhat.com>, qemu-devel@nongnu.org
 References: <20200710050649.32434-1-jsnow@redhat.com>
- <20200710050649.32434-2-jsnow@redhat.com>
+ <20200710050649.32434-5-jsnow@redhat.com>
 From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
 Autocrypt: addr=philmd@redhat.com; keydata=
  mQINBDXML8YBEADXCtUkDBKQvNsQA7sDpw6YLE/1tKHwm24A1au9Hfy/OFmkpzo+MD+dYc+7
@@ -89,20 +90,20 @@ Autocrypt: addr=philmd@redhat.com; keydata=
  9BFSL3qgXuXso/3XuWTQjJJGgKhB6xXjMmb1J4q/h5IuVV4juv1Fem9sfmyrh+Wi5V1IzKI7
  RPJ3KVb937eBgSENk53P0gUorwzUcO+ASEo3Z1cBKkJSPigDbeEjVfXQMzNt0oDRzpQqH2vp
  apo2jHnidWt8BsckuWZpxcZ9+/9obQ55DyVQHGiTN39hkETy3Emdnz1JVHTU0Q==
-Message-ID: <dc1e0c14-4934-6d18-e021-68fbab8ef1d1@redhat.com>
-Date: Mon, 13 Jul 2020 19:23:40 +0200
+Message-ID: <5fe094c3-d0d3-67fe-adbb-71a225dce498@redhat.com>
+Date: Mon, 13 Jul 2020 19:24:12 +0200
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
  Thunderbird/68.5.0
 MIME-Version: 1.0
-In-Reply-To: <20200710050649.32434-2-jsnow@redhat.com>
+In-Reply-To: <20200710050649.32434-5-jsnow@redhat.com>
 Content-Language: en-US
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=utf-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=207.211.31.120; envelope-from=philmd@redhat.com;
- helo=us-smtp-1.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/07/13 02:19:41
+Received-SPF: pass client-ip=205.139.110.61; envelope-from=philmd@redhat.com;
+ helo=us-smtp-delivery-1.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/07/13 01:36:29
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
 X-Spam_score_int: -40
 X-Spam_score: -4.1
@@ -132,16 +133,28 @@ Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 On 7/10/20 7:06 AM, John Snow wrote:
-> Move more cleanup actions into _post_shutdown. As a change, if QEMU
-> should so happen to be terminated during a call to wait(), that event
-> will now be logged.
-> 
-> This is not likely to occur during normative use.
+> This is primarily for consistency, and is a step towards wait() and
+> shutdown() sharing the same implementation so that the two cleanup paths
+> cannot diverge.
 > 
 > Signed-off-by: John Snow <jsnow@redhat.com>
 > ---
->  python/qemu/machine.py | 27 +++++++++++++--------------
->  1 file changed, 13 insertions(+), 14 deletions(-)
+>  python/qemu/machine.py | 1 +
+>  1 file changed, 1 insertion(+)
+> 
+> diff --git a/python/qemu/machine.py b/python/qemu/machine.py
+> index 4280aab380..cac466fbe6 100644
+> --- a/python/qemu/machine.py
+> +++ b/python/qemu/machine.py
+> @@ -369,6 +369,7 @@ def wait(self):
+>          """
+>          Wait for the VM to power off
+>          """
+> +        self._early_cleanup()
+>          self._popen.wait()
+>          self._post_shutdown()
+>  
+> 
 
 Reviewed-by: Philippe Mathieu-Daudé <philmd@redhat.com>
 
