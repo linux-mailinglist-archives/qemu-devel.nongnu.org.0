@@ -2,31 +2,31 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2E07621D069
-	for <lists+qemu-devel@lfdr.de>; Mon, 13 Jul 2020 09:29:28 +0200 (CEST)
-Received: from localhost ([::1]:52100 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2A8B721D06C
+	for <lists+qemu-devel@lfdr.de>; Mon, 13 Jul 2020 09:29:57 +0200 (CEST)
+Received: from localhost ([::1]:54202 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1justz-0000xR-6W
-	for lists+qemu-devel@lfdr.de; Mon, 13 Jul 2020 03:29:27 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:59456)
+	id 1jusuS-0001m6-3i
+	for lists+qemu-devel@lfdr.de; Mon, 13 Jul 2020 03:29:56 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:59506)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <andrey.shinkevich@virtuozzo.com>)
- id 1jusse-0007fO-FT; Mon, 13 Jul 2020 03:28:04 -0400
-Received: from relay.sw.ru ([185.231.240.75]:35086 helo=relay3.sw.ru)
+ id 1jussf-0007fl-Tp; Mon, 13 Jul 2020 03:28:05 -0400
+Received: from relay.sw.ru ([185.231.240.75]:35078 helo=relay3.sw.ru)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <andrey.shinkevich@virtuozzo.com>)
- id 1jussc-0007TH-BX; Mon, 13 Jul 2020 03:28:04 -0400
+ id 1jussc-0007TF-EG; Mon, 13 Jul 2020 03:28:05 -0400
 Received: from [172.16.25.136] (helo=localhost.sw.ru)
  by relay3.sw.ru with esmtp (Exim 4.93)
  (envelope-from <andrey.shinkevich@virtuozzo.com>)
- id 1jussP-0001Vx-Ko; Mon, 13 Jul 2020 10:27:49 +0300
+ id 1jussP-0001Vx-M2; Mon, 13 Jul 2020 10:27:49 +0300
 From: Andrey Shinkevich <andrey.shinkevich@virtuozzo.com>
 To: qemu-block@nongnu.org
-Subject: [PATCH v9 02/10] qcow2_format.py: make printable data an extension
- class member
-Date: Mon, 13 Jul 2020 10:27:48 +0300
-Message-Id: <1594625276-134500-3-git-send-email-andrey.shinkevich@virtuozzo.com>
+Subject: [PATCH v9 03/10] qcow2_format.py: change Qcow2BitmapExt
+ initialization method
+Date: Mon, 13 Jul 2020 10:27:49 +0300
+Message-Id: <1594625276-134500-4-git-send-email-andrey.shinkevich@virtuozzo.com>
 X-Mailer: git-send-email 1.8.3.1
 In-Reply-To: <1594625276-134500-1-git-send-email-andrey.shinkevich@virtuozzo.com>
 References: <1594625276-134500-1-git-send-email-andrey.shinkevich@virtuozzo.com>
@@ -38,7 +38,7 @@ X-Spam_score_int: -18
 X-Spam_score: -1.9
 X-Spam_bar: -
 X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001, URIBL_BLOCKED=0.001 autolearn=ham autolearn_force=no
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -56,47 +56,48 @@ Cc: kwolf@redhat.com, vsementsov@virtuozzo.com, qemu-devel@nongnu.org,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Let us differ binary data type from string one for the extension data
-variable and keep the string as the QcowHeaderExtension class member.
+There are two ways to initialize a class derived from Qcow2Struct:
+1. Pass a block of binary data to the constructor.
+2. Pass the file descriptor to allow reading the file from constructor.
+Let's change the Qcow2BitmapExt initialization method from 1 to 2 to
+support a scattered reading in the initialization chain.
+The implementation comes with the patch that follows.
 
+Suggested-by: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
 Signed-off-by: Andrey Shinkevich <andrey.shinkevich@virtuozzo.com>
-Reviewed-by: Eric Blake <eblake@redhat.com>
-Reviewed-by: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
 ---
- tests/qemu-iotests/qcow2_format.py | 14 ++++++++------
- 1 file changed, 8 insertions(+), 6 deletions(-)
+ tests/qemu-iotests/qcow2_format.py | 12 +++++++++---
+ 1 file changed, 9 insertions(+), 3 deletions(-)
 
 diff --git a/tests/qemu-iotests/qcow2_format.py b/tests/qemu-iotests/qcow2_format.py
-index cc432e7..2f3681b 100644
+index 2f3681b..9eb6b5b 100644
 --- a/tests/qemu-iotests/qcow2_format.py
 +++ b/tests/qemu-iotests/qcow2_format.py
-@@ -165,6 +165,13 @@ class QcowHeaderExtension(Qcow2Struct):
-             self.data = fd.read(padded)
-             assert self.data is not None
+@@ -62,8 +62,8 @@ class Qcow2StructMeta(type):
  
-+        data_str = self.data[:self.length]
-+        if all(c in string.printable.encode('ascii') for c in data_str):
-+            data_str = f"'{ data_str.decode('ascii') }'"
-+        else:
-+            data_str = '<binary>'
-+        self.data_str = data_str
-+
+ 
+ class Qcow2Struct(metaclass=Qcow2StructMeta):
+-
+-    """Qcow2Struct: base class for qcow2 data structures
++    """
++    Qcow2Struct: base class for qcow2 data structures
+ 
+     Successors should define fields class variable, which is: list of tuples,
+     each of three elements:
+@@ -173,7 +173,13 @@ class QcowHeaderExtension(Qcow2Struct):
+         self.data_str = data_str
+ 
          if self.magic == QCOW2_EXT_MAGIC_BITMAPS:
-             self.obj = Qcow2BitmapExt(data=self.data)
+-            self.obj = Qcow2BitmapExt(data=self.data)
++            assert fd is not None
++            position = fd.tell()
++            # Step back to reread data
++            padded = (self.length + 7) & ~7
++            fd.seek(-padded, 1)
++            self.obj = Qcow2BitmapExt(fd=fd)
++            fd.seek(position)
          else:
-@@ -174,12 +181,7 @@ class QcowHeaderExtension(Qcow2Struct):
-         super().dump()
- 
-         if self.obj is None:
--            data = self.data[:self.length]
--            if all(c in string.printable.encode('ascii') for c in data):
--                data = f"'{ data.decode('ascii') }'"
--            else:
--                data = '<binary>'
--            print(f'{"data":<25} {data}')
-+            print(f'{"data":<25} {self.data_str}')
-         else:
-             self.obj.dump()
+             self.obj = None
  
 -- 
 1.8.3.1
