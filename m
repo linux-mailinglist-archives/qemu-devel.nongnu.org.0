@@ -2,31 +2,30 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 48E7621E29D
-	for <lists+qemu-devel@lfdr.de>; Mon, 13 Jul 2020 23:42:47 +0200 (CEST)
-Received: from localhost ([::1]:49856 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3C4B321E294
+	for <lists+qemu-devel@lfdr.de>; Mon, 13 Jul 2020 23:39:52 +0200 (CEST)
+Received: from localhost ([::1]:36800 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jv6Dm-0003jr-9J
-	for lists+qemu-devel@lfdr.de; Mon, 13 Jul 2020 17:42:46 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:40494)
+	id 1jv6Ax-0006q7-B1
+	for lists+qemu-devel@lfdr.de; Mon, 13 Jul 2020 17:39:51 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:40442)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <andrey.shinkevich@virtuozzo.com>)
- id 1jv684-0002y3-Ta; Mon, 13 Jul 2020 17:36:52 -0400
-Received: from relay.sw.ru ([185.231.240.75]:52824 helo=relay3.sw.ru)
+ id 1jv682-0002uP-NL; Mon, 13 Jul 2020 17:36:50 -0400
+Received: from relay.sw.ru ([185.231.240.75]:52842 helo=relay3.sw.ru)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <andrey.shinkevich@virtuozzo.com>)
- id 1jv680-000527-1d; Mon, 13 Jul 2020 17:36:52 -0400
+ id 1jv67z-00052F-US; Mon, 13 Jul 2020 17:36:50 -0400
 Received: from [172.16.25.136] (helo=localhost.sw.ru)
  by relay3.sw.ru with esmtp (Exim 4.93)
  (envelope-from <andrey.shinkevich@virtuozzo.com>)
- id 1jv67m-0000E2-Nj; Tue, 14 Jul 2020 00:36:34 +0300
+ id 1jv67m-0000E2-Pc; Tue, 14 Jul 2020 00:36:34 +0300
 From: Andrey Shinkevich <andrey.shinkevich@virtuozzo.com>
 To: qemu-block@nongnu.org
-Subject: [PATCH v10 07/10] qcow2_format.py: Dump bitmap table serialized
- entries
-Date: Tue, 14 Jul 2020 00:36:40 +0300
-Message-Id: <1594676203-436999-8-git-send-email-andrey.shinkevich@virtuozzo.com>
+Subject: [PATCH v10 08/10] qcow2.py: Introduce '-j' key to dump in JSON format
+Date: Tue, 14 Jul 2020 00:36:41 +0300
+Message-Id: <1594676203-436999-9-git-send-email-andrey.shinkevich@virtuozzo.com>
 X-Mailer: git-send-email 1.8.3.1
 In-Reply-To: <1594676203-436999-1-git-send-email-andrey.shinkevich@virtuozzo.com>
 References: <1594676203-436999-1-git-send-email-andrey.shinkevich@virtuozzo.com>
@@ -56,86 +55,131 @@ Cc: kwolf@redhat.com, vsementsov@virtuozzo.com, qemu-devel@nongnu.org,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Add bitmap table information to the QCOW2 metadata dump.
-
-Bitmap name               bitmap-1
-...
-Bitmap table   type            offset                   size
-0              serialized      4718592                  65536
-1              serialized      4294967296               65536
-2              serialized      5348033147437056         65536
-3              serialized      13792273858822144        65536
-4              serialized      4718592                  65536
-5              serialized      4294967296               65536
-6              serialized      4503608217305088         65536
-7              serialized      14073748835532800        65536
+Add the command key to the qcow2.py arguments list to dump QCOW2
+metadata in JSON format. Here is the suggested way to do that. The
+implementation of the dump in JSON format is in the patch that follows.
 
 Signed-off-by: Andrey Shinkevich <andrey.shinkevich@virtuozzo.com>
 ---
- tests/qemu-iotests/qcow2_format.py | 42 ++++++++++++++++++++++++++++++++++++++
- 1 file changed, 42 insertions(+)
+ tests/qemu-iotests/qcow2.py        | 19 +++++++++++++++----
+ tests/qemu-iotests/qcow2_format.py | 16 ++++++++--------
+ 2 files changed, 23 insertions(+), 12 deletions(-)
 
+diff --git a/tests/qemu-iotests/qcow2.py b/tests/qemu-iotests/qcow2.py
+index 0910e6a..7402279 100755
+--- a/tests/qemu-iotests/qcow2.py
++++ b/tests/qemu-iotests/qcow2.py
+@@ -26,16 +26,19 @@ from qcow2_format import (
+ )
+ 
+ 
++dump_json = False
++
++
+ def cmd_dump_header(fd):
+     h = QcowHeader(fd)
+-    h.dump()
++    h.dump(dump_json)
+     print()
+-    h.dump_extensions()
++    h.dump_extensions(dump_json)
+ 
+ 
+ def cmd_dump_header_exts(fd):
+     h = QcowHeader(fd)
+-    h.dump_extensions()
++    h.dump_extensions(dump_json)
+ 
+ 
+ def cmd_set_header(fd, name, value):
+@@ -134,6 +137,11 @@ cmds = [
+ 
+ 
+ def main(filename, cmd, args):
++    global dump_json
++    dump_json = '-j' in sys.argv
++    if dump_json:
++        sys.argv.remove('-j')
++        args.remove('-j')
+     fd = open(filename, "r+b")
+     try:
+         for name, handler, num_args, desc in cmds:
+@@ -151,11 +159,14 @@ def main(filename, cmd, args):
+ 
+ 
+ def usage():
+-    print("Usage: %s <file> <cmd> [<arg>, ...]" % sys.argv[0])
++    print("Usage: %s <file> <cmd> [<arg>, ...] [<key>, ...]" % sys.argv[0])
+     print("")
+     print("Supported commands:")
+     for name, handler, num_args, desc in cmds:
+         print("    %-20s - %s" % (name, desc))
++    print("")
++    print("Supported keys:")
++    print("    %-20s - %s" % ('-j', 'Dump in JSON format'))
+ 
+ 
+ if __name__ == '__main__':
 diff --git a/tests/qemu-iotests/qcow2_format.py b/tests/qemu-iotests/qcow2_format.py
-index d9c8513..2c78d46 100644
+index 2c78d46..e0e14b5 100644
 --- a/tests/qemu-iotests/qcow2_format.py
 +++ b/tests/qemu-iotests/qcow2_format.py
-@@ -175,14 +175,56 @@ class Qcow2BitmapDirEntry(Qcow2Struct):
-         entry_raw_size = self.bitmap_dir_entry_raw_size()
-         padding = ((entry_raw_size + 7) & ~7) - entry_raw_size
-         fd.seek(padding, 1)
-+        position = fd.tell()
-+        self.read_bitmap_table(fd)
-+        fd.seek(position)
+@@ -109,7 +109,7 @@ class Qcow2Struct(metaclass=Qcow2StructMeta):
+         self.__dict__ = dict((field[2], values[i])
+                              for i, field in enumerate(self.fields))
  
-     def bitmap_dir_entry_raw_size(self):
-         return struct.calcsize(self.fmt) + self.name_size + \
-             self.extra_data_size
+-    def dump(self):
++    def dump(self, dump_json=None):
+         for f in self.fields:
+             value = self.__dict__[f[2]]
+             if isinstance(f[1], str):
+@@ -145,8 +145,8 @@ class Qcow2BitmapExt(Qcow2Struct):
+             [Qcow2BitmapDirEntry(fd, cluster_size=self.cluster_size)
+              for _ in range(self.nb_bitmaps)]
  
-+    def read_bitmap_table(self, fd):
-+        fd.seek(self.bitmap_table_offset)
-+        table_size = self.bitmap_table_size * 8 * 8
-+        table = [e[0] for e in struct.iter_unpack('>Q', fd.read(table_size))]
-+        self.bitmap_table = Qcow2BitmapTable(raw_table=table,
-+                                             cluster_size=self.cluster_size)
-+
-     def dump(self):
+-    def dump(self):
+-        super().dump()
++    def dump(self, dump_json=None):
++        super().dump(dump_json)
+         for entry in self.bitmap_directory:
+             print()
+             entry.dump()
+@@ -190,7 +190,7 @@ class Qcow2BitmapDirEntry(Qcow2Struct):
+         self.bitmap_table = Qcow2BitmapTable(raw_table=table,
+                                              cluster_size=self.cluster_size)
+ 
+-    def dump(self):
++    def dump(self, dump_json=None):
          print(f'{"Bitmap name":<25} {self.name}')
          super(Qcow2BitmapDirEntry, self).dump()
-+        self.bitmap_table.dump()
-+
-+
-+class Qcow2BitmapTableEntry:
-+
-+    BME_TABLE_ENTRY_OFFSET_MASK = 0x00fffffffffffe00
-+    BME_TABLE_ENTRY_FLAG_ALL_ONES = 1
-+
-+    def __init__(self, entry):
-+        self.offset = entry & self.BME_TABLE_ENTRY_OFFSET_MASK
-+        if self.offset:
-+            self.type = 'serialized'
-+        elif entry & self.BME_TABLE_ENTRY_FLAG_ALL_ONES:
-+            self.type = 'all-ones'
-+        else:
-+            self.type = 'all-zeroes'
-+
-+
-+class Qcow2BitmapTable:
-+
-+    def __init__(self, raw_table, cluster_size):
-+        self.entries = []
-+        self.cluster_size = cluster_size
-+        for entry in raw_table:
-+            self.entries.append(Qcow2BitmapTableEntry(entry))
-+
-+    def dump(self):
-+        size = self.cluster_size
-+        bitmap_table = enumerate(self.entries)
-+        print(f'{"Bitmap table":<14} {"type":<15} {"offset":<24} {"size"}')
-+        for i, entry in bitmap_table:
-+            print(f'{i:<14} {entry.type:<15} {entry.offset:<24} {size}')
+         self.bitmap_table.dump()
+@@ -291,13 +291,13 @@ class QcowHeaderExtension(Qcow2Struct):
+                     data_str = '<binary>'
+                 self.data_str = data_str
  
+-    def dump(self):
++    def dump(self, dump_json=None):
+         super().dump()
  
- QCOW2_EXT_MAGIC_BITMAPS = 0x23852875
+         if self.obj is None:
+             print(f'{"data":<25} {self.data_str}')
+         else:
+-            self.obj.dump()
++            self.obj.dump(dump_json)
+ 
+     @classmethod
+     def create(cls, magic, data):
+@@ -396,8 +396,8 @@ class QcowHeader(Qcow2Struct):
+         buf = buf[0:header_bytes-1]
+         fd.write(buf)
+ 
+-    def dump_extensions(self):
++    def dump_extensions(self, dump_json=None):
+         for ex in self.extensions:
+             print('Header extension:')
+-            ex.dump()
++            ex.dump(dump_json)
+             print()
 -- 
 1.8.3.1
 
