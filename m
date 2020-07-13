@@ -2,57 +2,56 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 68C9E21D1B5
-	for <lists+qemu-devel@lfdr.de>; Mon, 13 Jul 2020 10:28:44 +0200 (CEST)
-Received: from localhost ([::1]:43070 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0FBE221D1B2
+	for <lists+qemu-devel@lfdr.de>; Mon, 13 Jul 2020 10:28:37 +0200 (CEST)
+Received: from localhost ([::1]:42868 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jutpL-0000QV-1z
-	for lists+qemu-devel@lfdr.de; Mon, 13 Jul 2020 04:28:43 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:43250)
+	id 1jutpE-0000LG-4L
+	for lists+qemu-devel@lfdr.de; Mon, 13 Jul 2020 04:28:36 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:43360)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <marcandre.lureau@redhat.com>)
- id 1jutmG-0003cS-QM
- for qemu-devel@nongnu.org; Mon, 13 Jul 2020 04:25:32 -0400
-Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:36339
+ id 1jutmf-0004c5-8B
+ for qemu-devel@nongnu.org; Mon, 13 Jul 2020 04:25:57 -0400
+Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:22793
  helo=us-smtp-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
  (Exim 4.90_1) (envelope-from <marcandre.lureau@redhat.com>)
- id 1jutmF-0006lY-0V
- for qemu-devel@nongnu.org; Mon, 13 Jul 2020 04:25:32 -0400
+ id 1jutmd-0006sX-BQ
+ for qemu-devel@nongnu.org; Mon, 13 Jul 2020 04:25:56 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1594628730;
+ s=mimecast20190719; t=1594628754;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=p0oJ9UgpysMUgLti/JnzJeqywWH1bplR+eDieJj4a5Y=;
- b=LbSMcfur+JCymWk0ipJzzWlV8axhZPPgCzIBddjjBB7skB1BEsZmt2ME0TG4fZS5DLK6Jz
- w29k/eBvnJdwS5qmpRuqjnp4zBZb8BishQeroC8T3sbBhf8FyyOYDzBFJ84XXqMqNuhiMh
- HqcdgHhSXhZxBBUwyvn0M5R6g9tDkh4=
+ bh=tBsau8jOfwRZQzzDPU2wnY6HOyNPZwnSDlheVxVne2k=;
+ b=OHy1lIcnKmBWlCl5ikbeQu/PPpvD22kzE2IolNebm3fq9b/nc9K2zJmjU+VzZUblPXpzr1
+ 60BgVvknWL7aW+2JwfuzrJPzJ+Ko0qAdonO5MxXqfHSCicscH4r5DXKvLeOBeyldjg7KJh
+ T7Q44QwDVC8wfIvFOomxgV8FssAaHAg=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-352-C9Fpep6UMISy04PP070oLw-1; Mon, 13 Jul 2020 04:25:28 -0400
-X-MC-Unique: C9Fpep6UMISy04PP070oLw-1
-Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
- [10.5.11.16])
+ us-mta-424-_LB_Mp3aO-2fmQU-_5DLYg-1; Mon, 13 Jul 2020 04:25:37 -0400
+X-MC-Unique: _LB_Mp3aO-2fmQU-_5DLYg-1
+Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
+ [10.5.11.12])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 9BAE9E91A
- for <qemu-devel@nongnu.org>; Mon, 13 Jul 2020 08:25:27 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 853A5E91A
+ for <qemu-devel@nongnu.org>; Mon, 13 Jul 2020 08:25:36 +0000 (UTC)
 Received: from localhost (unknown [10.36.110.45])
- by smtp.corp.redhat.com (Postfix) with ESMTP id DF18459;
- Mon, 13 Jul 2020 08:25:23 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 8125E60BF3;
+ Mon, 13 Jul 2020 08:25:32 +0000 (UTC)
 From: =?UTF-8?q?Marc-Andr=C3=A9=20Lureau?= <marcandre.lureau@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PULL 7/8] chardev: Reduce "char-mux.h" scope,
- rename it "chardev-internal.h"
-Date: Mon, 13 Jul 2020 12:24:23 +0400
-Message-Id: <20200713082424.2947383-8-marcandre.lureau@redhat.com>
+Subject: [PULL 8/8] chardev: Extract system emulation specific code
+Date: Mon, 13 Jul 2020 12:24:24 +0400
+Message-Id: <20200713082424.2947383-9-marcandre.lureau@redhat.com>
 In-Reply-To: <20200713082424.2947383-1-marcandre.lureau@redhat.com>
 References: <20200713082424.2947383-1-marcandre.lureau@redhat.com>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=UTF-8
@@ -89,93 +88,185 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Philippe Mathieu-Daudé <philmd@redhat.com>
 
-No file out of chardev/ requires access to this header,
-restrict its scope.
+Split out code only used during system emulation,
+to reduce code pulled in user emulation and tools.
 
 Signed-off-by: Philippe Mathieu-Daudé <philmd@redhat.com>
-Message-Id: <20200423202112.644-5-philmd@redhat.com>
+Message-Id: <20200423202112.644-6-philmd@redhat.com>
 Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
 Signed-off-by: Marc-André Lureau <marcandre.lureau@redhat.com>
 ---
- include/chardev/char-mux.h => chardev/chardev-internal.h | 7 ++++---
- chardev/char-fe.c                                        | 2 +-
- chardev/char-mux.c                                       | 2 +-
- chardev/char.c                                           | 2 +-
- 4 files changed, 7 insertions(+), 6 deletions(-)
- rename include/chardev/char-mux.h => chardev/chardev-internal.h (96%)
+ chardev/chardev-internal.h |  3 ++
+ chardev/char.c             | 35 +------------------
+ chardev/chardev-sysemu.c   | 69 ++++++++++++++++++++++++++++++++++++++
+ chardev/Makefile.objs      |  1 +
+ 4 files changed, 74 insertions(+), 34 deletions(-)
+ create mode 100644 chardev/chardev-sysemu.c
 
-diff --git a/include/chardev/char-mux.h b/chardev/chardev-internal.h
-similarity index 96%
-rename from include/chardev/char-mux.h
-rename to chardev/chardev-internal.h
-index 417fe32eedf..e0264ac3498 100644
---- a/include/chardev/char-mux.h
+diff --git a/chardev/chardev-internal.h b/chardev/chardev-internal.h
+index e0264ac3498..f4d0429763b 100644
+--- a/chardev/chardev-internal.h
 +++ b/chardev/chardev-internal.h
-@@ -1,5 +1,5 @@
- /*
-- * QEMU System Emulator
-+ * QEMU Character device internals
-  *
-  * Copyright (c) 2003-2008 Fabrice Bellard
-  *
-@@ -21,8 +21,8 @@
-  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
-  * THE SOFTWARE.
-  */
--#ifndef CHAR_MUX_H
--#define CHAR_MUX_H
-+#ifndef CHARDEV_INTERNAL_H
-+#define CHARDEV_INTERNAL_H
+@@ -26,6 +26,7 @@
  
  #include "chardev/char.h"
  #include "chardev/char-fe.h"
-@@ -30,6 +30,7 @@
++#include "qom/object.h"
+ 
  #define MAX_MUX 4
  #define MUX_BUFFER_SIZE 32 /* Must be a power of 2.  */
- #define MUX_BUFFER_MASK (MUX_BUFFER_SIZE - 1)
+@@ -59,4 +60,6 @@ typedef struct MuxChardev {
+ void mux_set_focus(Chardev *chr, int focus);
+ void mux_chr_send_all_event(Chardev *chr, QEMUChrEvent event);
+ 
++Object *get_chardevs_root(void);
 +
- typedef struct MuxChardev {
-     Chardev parent;
-     CharBackend *backends[MAX_MUX];
-diff --git a/chardev/char-fe.c b/chardev/char-fe.c
-index f3530a90e63..474715c5a92 100644
---- a/chardev/char-fe.c
-+++ b/chardev/char-fe.c
-@@ -29,7 +29,7 @@
- 
- #include "chardev/char-fe.h"
- #include "chardev/char-io.h"
--#include "chardev/char-mux.h"
-+#include "chardev-internal.h"
- 
- int qemu_chr_fe_write(CharBackend *be, const uint8_t *buf, int len)
- {
-diff --git a/chardev/char-mux.c b/chardev/char-mux.c
-index 46c44af67c4..6f980bb8364 100644
---- a/chardev/char-mux.c
-+++ b/chardev/char-mux.c
-@@ -29,7 +29,7 @@
- #include "chardev/char.h"
- #include "sysemu/block-backend.h"
- #include "sysemu/sysemu.h"
--#include "chardev/char-mux.h"
-+#include "chardev-internal.h"
- 
- /* MUX driver for serial I/O splitting */
- 
+ #endif /* CHAR_MUX_H */
 diff --git a/chardev/char.c b/chardev/char.c
-index a0626d04d50..807be52300e 100644
+index 807be52300e..77e7ec814f2 100644
 --- a/chardev/char.c
 +++ b/chardev/char.c
-@@ -40,7 +40,7 @@
- #include "qemu/id.h"
- #include "qemu/coroutine.h"
- 
--#include "chardev/char-mux.h"
-+#include "chardev-internal.h"
- 
+@@ -45,7 +45,7 @@
  /***********************************************************/
  /* character device */
+ 
+-static Object *get_chardevs_root(void)
++Object *get_chardevs_root(void)
+ {
+     return container_get(object_get_root(), "/chardevs");
+ }
+@@ -305,33 +305,6 @@ static const TypeInfo char_type_info = {
+     .class_init = char_class_init,
+ };
+ 
+-static int chardev_machine_done_notify_one(Object *child, void *opaque)
+-{
+-    Chardev *chr = (Chardev *)child;
+-    ChardevClass *class = CHARDEV_GET_CLASS(chr);
+-
+-    if (class->chr_machine_done) {
+-        return class->chr_machine_done(chr);
+-    }
+-
+-    return 0;
+-}
+-
+-static void chardev_machine_done_hook(Notifier *notifier, void *unused)
+-{
+-    int ret = object_child_foreach(get_chardevs_root(),
+-                                   chardev_machine_done_notify_one, NULL);
+-
+-    if (ret) {
+-        error_report("Failed to call chardev machine_done hooks");
+-        exit(1);
+-    }
+-}
+-
+-static Notifier chardev_machine_done_notify = {
+-    .notify = chardev_machine_done_hook,
+-};
+-
+ static bool qemu_chr_is_busy(Chardev *s)
+ {
+     if (CHARDEV_IS_MUX(s)) {
+@@ -1198,12 +1171,6 @@ void qemu_chr_cleanup(void)
+ static void register_types(void)
+ {
+     type_register_static(&char_type_info);
+-
+-    /* this must be done after machine init, since we register FEs with muxes
+-     * as part of realize functions like serial_isa_realizefn when -nographic
+-     * is specified
+-     */
+-    qemu_add_machine_init_done_notifier(&chardev_machine_done_notify);
+ }
+ 
+ type_init(register_types);
+diff --git a/chardev/chardev-sysemu.c b/chardev/chardev-sysemu.c
+new file mode 100644
+index 00000000000..eecdc615ee1
+--- /dev/null
++++ b/chardev/chardev-sysemu.c
+@@ -0,0 +1,69 @@
++/*
++ * QEMU System Emulator
++ *
++ * Copyright (c) 2003-2008 Fabrice Bellard
++ *
++ * Permission is hereby granted, free of charge, to any person obtaining a copy
++ * of this software and associated documentation files (the "Software"), to deal
++ * in the Software without restriction, including without limitation the rights
++ * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
++ * copies of the Software, and to permit persons to whom the Software is
++ * furnished to do so, subject to the following conditions:
++ *
++ * The above copyright notice and this permission notice shall be included in
++ * all copies or substantial portions of the Software.
++ *
++ * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
++ * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
++ * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL
++ * THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
++ * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
++ * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
++ * THE SOFTWARE.
++ */
++
++#include "qemu/osdep.h"
++#include "sysemu/sysemu.h"
++#include "chardev/char.h"
++#include "qemu/error-report.h"
++#include "chardev-internal.h"
++
++static int chardev_machine_done_notify_one(Object *child, void *opaque)
++{
++    Chardev *chr = (Chardev *)child;
++    ChardevClass *class = CHARDEV_GET_CLASS(chr);
++
++    if (class->chr_machine_done) {
++        return class->chr_machine_done(chr);
++    }
++
++    return 0;
++}
++
++static void chardev_machine_done_hook(Notifier *notifier, void *unused)
++{
++    int ret = object_child_foreach(get_chardevs_root(),
++                                   chardev_machine_done_notify_one, NULL);
++
++    if (ret) {
++        error_report("Failed to call chardev machine_done hooks");
++        exit(1);
++    }
++}
++
++
++static Notifier chardev_machine_done_notify = {
++    .notify = chardev_machine_done_hook,
++};
++
++static void register_types(void)
++{
++    /*
++     * This must be done after machine init, since we register FEs with muxes
++     * as part of realize functions like serial_isa_realizefn when -nographic
++     * is specified.
++     */
++    qemu_add_machine_init_done_notifier(&chardev_machine_done_notify);
++}
++
++type_init(register_types);
+diff --git a/chardev/Makefile.objs b/chardev/Makefile.objs
+index 62ec0a33235..3783dadc4c7 100644
+--- a/chardev/Makefile.objs
++++ b/chardev/Makefile.objs
+@@ -1,4 +1,5 @@
+ chardev-obj-y += char.o
++chardev-obj-$(CONFIG_SOFTMMU) += chardev-sysemu.o
+ chardev-obj-$(CONFIG_WIN32) += char-console.o
+ chardev-obj-$(CONFIG_POSIX) += char-fd.o
+ chardev-obj-y += char-fe.o
 -- 
 2.27.0.221.ga08a83db2b
 
