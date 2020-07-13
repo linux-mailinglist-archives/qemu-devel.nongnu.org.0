@@ -2,72 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D591421E10B
-	for <lists+qemu-devel@lfdr.de>; Mon, 13 Jul 2020 21:56:34 +0200 (CEST)
-Received: from localhost ([::1]:60348 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9ADF221E11E
+	for <lists+qemu-devel@lfdr.de>; Mon, 13 Jul 2020 22:05:47 +0200 (CEST)
+Received: from localhost ([::1]:40920 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jv4Yz-00057H-Vx
-	for lists+qemu-devel@lfdr.de; Mon, 13 Jul 2020 15:56:34 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:54912)
+	id 1jv4hu-00011X-6f
+	for lists+qemu-devel@lfdr.de; Mon, 13 Jul 2020 16:05:46 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:59374)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1jv4YG-0004fp-LF
- for qemu-devel@nongnu.org; Mon, 13 Jul 2020 15:55:48 -0400
-Received: from mail-wm1-x342.google.com ([2a00:1450:4864:20::342]:35547)
+ id 1jv4gX-0007uG-SM
+ for qemu-devel@nongnu.org; Mon, 13 Jul 2020 16:04:22 -0400
+Received: from mail-wr1-x434.google.com ([2a00:1450:4864:20::434]:34501)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1jv4YF-00048z-2j
- for qemu-devel@nongnu.org; Mon, 13 Jul 2020 15:55:48 -0400
-Received: by mail-wm1-x342.google.com with SMTP id l2so1045956wmf.0
- for <qemu-devel@nongnu.org>; Mon, 13 Jul 2020 12:55:46 -0700 (PDT)
+ id 1jv4gV-0006Fz-Rx
+ for qemu-devel@nongnu.org; Mon, 13 Jul 2020 16:04:21 -0400
+Received: by mail-wr1-x434.google.com with SMTP id f7so18154578wrw.1
+ for <qemu-devel@nongnu.org>; Mon, 13 Jul 2020 13:04:19 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=references:user-agent:from:to:cc:subject:in-reply-to:date
- :message-id:mime-version:content-transfer-encoding;
- bh=zT33J2AhlS9w0kHxPDSK+pgNjz6M1D3sbG82BCKbPEs=;
- b=NlMlf0GFPUEqRNJ1uHODU67Y/8LM3K1PX0woqiTPJNV85pPy9pyYnl6A8ebSxMxVTS
- 0IzM2hzpHLvNUaLCuj28easCY/KgOa2cSPYQIUf7d3UvGm8M6B2I1wRHSdY/P6PA4Uan
- jNoEQ+nNk0R12T3cpiKjrP504cN3DyJkXYD97umjSR1Qs2KB8BgMWOrrAPZ9HoWIvr6E
- zOTUCaFCIavsMUzERuUpPAu7kzYRRZnh8eMqKntfoGfqN/rgQPr/Fo0yAuAPfRDTpYZH
- gwhPxaCcKSkvw5ncDSQAK+2rc7EcQwOabohKplml3YftoCb7bsJv/k6oOT75HoD/Xvpv
- 6JVw==
+ h=from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=bgIm0ZKsheAhSoe+ZwgMoK/8D+7oAiV57M87gUrDop4=;
+ b=PKkXwEG1du4WDisI2sFj+DyEN1441motwlMsgncKMT9foFnQjzZMtQp+GU05BUCWiC
+ Hjynz26dsuggfi4mWiqaIk6ZbDVNn0dHf+nw1Fk4eWNuSodBSkN88wvy8tIE27TaYATt
+ Uj1+3U7VzL5WlaPED5AYaISTQvnBx8n+ddm1vssGiXApmWHI5JqbGcXM6WILF8QfbuLF
+ 4o3trWfZ+k+Vyt74WjaUfMmcLmxzT7y43jb/RvLUhGAufKJrZ/tf6FdDuFoWMr+TKyZ4
+ g8dS2H+yZpON2eEDbff5OO1GPUQOvkbFF5Mm0M0+fItg4Q+qNvGbZM0iSdGjhYZt+HMF
+ ZLWA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:references:user-agent:from:to:cc:subject
- :in-reply-to:date:message-id:mime-version:content-transfer-encoding;
- bh=zT33J2AhlS9w0kHxPDSK+pgNjz6M1D3sbG82BCKbPEs=;
- b=cNWzyX/9yxL7UVH/sjcL780nOzzFz74Bg6SBtfMyZCtF6StD2f27gbPQ0IpfPjbbRo
- kS1DYqAL/6xsvRIZ8g2YpJmCCxTtOP2CckkTOy13OhW6YLjGPz++Lqt0aTi0Nw8ks97g
- tzEIhek4b8rkpqUDLDiAmoi8Vnyi8BzhdVYWF7PrTqXpfH3dvczKwsnhdFhb+Rv4MwzK
- BIxz6nCsi/GQuyD6OQfQHqBd7EOeI89nC4suhjDm14z9DOHIqKHJOjb8mVO6NRRAK+1L
- IWZsf4JuHc5t2zKWPB/nmMHeUkRGpgBwGwohsMENMdiwajCOICvaar55iNFtFBaVWpfW
- 9J7Q==
-X-Gm-Message-State: AOAM531IdVh6RWQarJKCFpjuG4zR8cAA4KSOk5WJ4sgz6P/18JGd7EUl
- eigTG/4qUSAWlDQ4mskqizdxug==
-X-Google-Smtp-Source: ABdhPJxw1stBkrcAOmIiVufNzglLakpbCIRRgMN1R4kUzb6EIYhq/xmBXcUGtfvJJ+vGqs2J/u4P/g==
-X-Received: by 2002:a1c:a986:: with SMTP id s128mr1037582wme.121.1594670145644; 
- Mon, 13 Jul 2020 12:55:45 -0700 (PDT)
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=bgIm0ZKsheAhSoe+ZwgMoK/8D+7oAiV57M87gUrDop4=;
+ b=C0z/B9O66GT4RiTCrWoESoeVHhqGI+lbQifBWS2xzMGCy4kTyigjUy/x43BuOho545
+ UIEPbWs+FC9dDoKnbRaaTSnKFzQy1rK/E8aMJ325ZT6o4cyZhFStcQShysg+rzu3JnOq
+ zQajp+2tY/I6nyHCJSx4MMcXFylMp6X5lV2rBQDI3C2/Drj1LnacCjD4Plv4nvlnKeSa
+ abCIS6JRl1REAuYIsE08Enql0Wnpkyy2bZwBHBEBb3w8oJK+4q7H8pgPheSG3mhhZTQF
+ QRPzPBPXSQeGjcN4tSSoIaO8NutauAI9GEoBw+YnSB7ybOFpAkUskjyPo+l8cuzO/E6J
+ weFg==
+X-Gm-Message-State: AOAM533OK6wHh0BoPHKt0ePu+9zfygmYKy97ya5whHGHYuR6wV35IOuR
+ hUTXHgKHEkI877FMnjOFPPyGKA==
+X-Google-Smtp-Source: ABdhPJzvpiy3Xn6Z5orZs6lEYWO1avMUN7i+TVxE3Af4sDRirrCu4wKJb5AuksVxqxPo9BAqnCdeqQ==
+X-Received: by 2002:adf:edd0:: with SMTP id v16mr1181836wro.214.1594670658231; 
+ Mon, 13 Jul 2020 13:04:18 -0700 (PDT)
 Received: from zen.linaroharston ([51.148.130.216])
- by smtp.gmail.com with ESMTPSA id x11sm762874wmc.26.2020.07.13.12.55.44
+ by smtp.gmail.com with ESMTPSA id x11sm786906wmc.26.2020.07.13.13.04.16
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 13 Jul 2020 12:55:44 -0700 (PDT)
-Received: from zen (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id 143631FF7E;
- Mon, 13 Jul 2020 20:55:43 +0100 (BST)
-References: <20200712234521.3972-1-zhiwei_liu@c-sky.com>
- <20200712234521.3972-2-zhiwei_liu@c-sky.com>
-User-agent: mu4e 1.5.4; emacs 28.0.50
-From: Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
-To: LIU Zhiwei <zhiwei_liu@c-sky.com>
-Subject: Re: [RFC PATCH 1/8] fpu/softfloat: fix up float16 nan recognition
-In-reply-to: <20200712234521.3972-2-zhiwei_liu@c-sky.com>
-Date: Mon, 13 Jul 2020 20:55:43 +0100
-Message-ID: <87lfjnyytc.fsf@linaro.org>
+ Mon, 13 Jul 2020 13:04:16 -0700 (PDT)
+Received: from zen.lan (localhost [127.0.0.1])
+ by zen.linaroharston (Postfix) with ESMTP id 96FC21FF7E;
+ Mon, 13 Jul 2020 21:04:15 +0100 (BST)
+From: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
+To: qemu-devel@nongnu.org
+Subject: [PATCH  v2 00/11] misc fixes for rc0 (docker, plugins, softfloat)
+Date: Mon, 13 Jul 2020 21:04:04 +0100
+Message-Id: <20200713200415.26214-1-alex.bennee@linaro.org>
+X-Mailer: git-send-email 2.20.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=2a00:1450:4864:20::342;
- envelope-from=alex.bennee@linaro.org; helo=mail-wm1-x342.google.com
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=2a00:1450:4864:20::434;
+ envelope-from=alex.bennee@linaro.org; helo=mail-wr1-x434.google.com
 X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
  That's all we know.
 X-Spam_score_int: -20
@@ -75,8 +72,8 @@ X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
  DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ URIBL_BLOCKED=0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -89,18 +86,63 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: wenmeng_zhang@c-sky.com, richard.henderson@linaro.org,
- qemu-devel@nongnu.org, wxy194768@alibaba-inc.com
+Cc: fam@euphon.net, berrange@redhat.com, robert.foley@linaro.org,
+ =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>,
+ richard.henderson@linaro.org, f4bug@amsat.org, robhenry@microsoft.com,
+ aaron@os.amperecomputing.com, cota@braap.org, kuhn.chenqun@huawei.com,
+ peter.puhov@linaro.org, aurelien@aurel32.net
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+Hi,
 
-LIU Zhiwei <zhiwei_liu@c-sky.com> writes:
+These are some candidate patches for rc0 along with a few plugin
+patches that haven't yet gotten review. The new functionality won't
+get added to the PR but I'd like to get the cputlb fix in. I've also
+had another run at fixing the -Wpsabi problem.
 
-> Signed-off-by: LIU Zhiwei <zhiwei_liu@c-sky.com>
+The following still need review:
 
-Queued to misc/for-5.1-rc0, thanks.
+ - docs/devel: fix grammar in multi-thread-tcg
+ - tests/plugins: don't unconditionally add -Wpsabi
+ - cputlb: ensure we save the IOTLB data in case of reset
 
---=20
-Alex Benn=C3=A9e
+Alex Bennée (9):
+  configure: remove all dependencies on a (re)configure
+  docker.py: fix fetching of FROM layers
+  tests/plugins: don't unconditionally add -Wpsabi
+  cputlb: ensure we save the IOTLB data in case of reset
+  plugins: expand the bb plugin to be thread safe and track per-cpu
+  docs/devel: fix grammar in multi-thread-tcg
+  hw/virtio/pci: include vdev name in registered PCI sections
+  plugins: add API to return a name for a IO device
+  plugins: new hwprofile plugin
+
+LIU Zhiwei (1):
+  fpu/softfloat: fix up float16 nan recognition
+
+Thomas Huth (1):
+  tests/docker: Remove the libssh workaround from the ubuntu 20.04 image
+
+ docs/devel/multi-thread-tcg.rst            |   2 +-
+ configure                                  |  18 +-
+ include/hw/core/cpu.h                      |  16 ++
+ include/qemu/qemu-plugin.h                 |   6 +
+ include/qemu/typedefs.h                    |   1 +
+ accel/tcg/cputlb.c                         |  38 ++-
+ fpu/softfloat-specialize.inc.c             |   4 +-
+ hw/virtio/virtio-pci.c                     |  22 +-
+ plugins/api.c                              |  20 ++
+ tests/plugin/bb.c                          |  97 ++++++-
+ tests/plugin/hwprofile.c                   | 305 +++++++++++++++++++++
+ tests/docker/docker.py                     |  16 +-
+ tests/docker/dockerfiles/ubuntu2004.docker |   3 -
+ tests/plugin/Makefile                      |  23 +-
+ tests/tcg/Makefile.target                  |  12 +-
+ 15 files changed, 533 insertions(+), 50 deletions(-)
+ create mode 100644 tests/plugin/hwprofile.c
+
+-- 
+2.20.1
+
 
