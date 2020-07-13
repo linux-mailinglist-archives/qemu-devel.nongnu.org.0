@@ -2,75 +2,73 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id CA8CE21D92C
-	for <lists+qemu-devel@lfdr.de>; Mon, 13 Jul 2020 16:51:16 +0200 (CEST)
-Received: from localhost ([::1]:54022 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A1C9621D941
+	for <lists+qemu-devel@lfdr.de>; Mon, 13 Jul 2020 16:56:27 +0200 (CEST)
+Received: from localhost ([::1]:57094 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1juznX-0005QX-TP
-	for lists+qemu-devel@lfdr.de; Mon, 13 Jul 2020 10:51:15 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:57416)
+	id 1juzsY-0007SL-O3
+	for lists+qemu-devel@lfdr.de; Mon, 13 Jul 2020 10:56:26 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:60232)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <lersek@redhat.com>) id 1juzmc-0004oR-Np
- for qemu-devel@nongnu.org; Mon, 13 Jul 2020 10:50:18 -0400
-Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:59485
- helo=us-smtp-1.mimecast.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <lersek@redhat.com>) id 1juzmY-0005Xa-PC
- for qemu-devel@nongnu.org; Mon, 13 Jul 2020 10:50:18 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1594651813;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=zp9LsfYPQAMv+9SlA3KJ1wQWKbi5KT3lbHhMH8UYjyU=;
- b=WCsSfHdrAiiJAnQ9XmWB417X2DYs+0PjEaLyAu++AzCCElY4fQxZQm0MIyVYufH5UGGutD
- 7IuGgA5O3NrFJ7xT2Ls2coCfIUk4Kvjp4/hzpZs5reLStRbqXAe9+O+TCiCJCt2sN5wmR7
- JwJfxuoISRvO1YBsEG8gIE5ZHzUccrY=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-150-vsL8vPgeOw-axPdgYd-5Pw-1; Mon, 13 Jul 2020 10:50:09 -0400
-X-MC-Unique: vsL8vPgeOw-axPdgYd-5Pw-1
-Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
- [10.5.11.13])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 56236107BEF7;
- Mon, 13 Jul 2020 14:50:08 +0000 (UTC)
-Received: from lacos-laptop-7.usersys.redhat.com (ovpn-114-183.ams2.redhat.com
- [10.36.114.183])
- by smtp.corp.redhat.com (Postfix) with ESMTP id A5F2879231;
- Mon, 13 Jul 2020 14:50:01 +0000 (UTC)
-Subject: Re: [PULL 3/5] softmmu/vl: Let -fw_cfg option take a 'gen_id' argument
-To: Peter Maydell <peter.maydell@linaro.org>,
- =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1juzrn-0006w1-DA
+ for qemu-devel@nongnu.org; Mon, 13 Jul 2020 10:55:39 -0400
+Received: from mail-ot1-x32b.google.com ([2607:f8b0:4864:20::32b]:46212)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1juzrl-0006jl-I1
+ for qemu-devel@nongnu.org; Mon, 13 Jul 2020 10:55:39 -0400
+Received: by mail-ot1-x32b.google.com with SMTP id n24so9696646otr.13
+ for <qemu-devel@nongnu.org>; Mon, 13 Jul 2020 07:55:36 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=K5DvJoOrRLyu5LahzgFXop71HKHgfXuE/+mfhqn1DX8=;
+ b=s0carylUeLcDFIYBm3XD1LhpsbA9rrDZQPm7PlXLFFnaW1BrHnKRClm3pf7iSKJtbK
+ npKGqOMW6lYyYlKKXZYE8xChDU8eSLjWtim42IsOKAtgTcJ10Y4rKxjlxsfG/42Ar6X2
+ sQIrLqU0J10Ji6KVJhQrDh/1AIlO/CAnhP/cxY14cG0JzQuj6E1KUWuMjwc9SpngL08K
+ sN0364GNBFf9zNfqg576VZc13tbH3hegcFHoHZlDD3Qn6dfPBKdPTKpQhW7nlgX/TzEW
+ 1Oz19sxOUD3uiAVQjgcTkmm/EBnaCc/3vPWQGehjW+n+L/qXALVZIGZt5y8gKQ961JRH
+ sdxw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=K5DvJoOrRLyu5LahzgFXop71HKHgfXuE/+mfhqn1DX8=;
+ b=KQ0hEx/MRfwavbg3nFgTJqQqbiMBq/0VOVnK8alYTvs7UjSdhKBV7PgIBBPxzTrkWY
+ TFXogg7dAiltQJzA5pC9WrEnikgdgaWogXWSoxHdqQt5t2RbNR1BN1REpA/Z4GzxIW1w
+ 9ZfRZfgvBoZbKhsmNXxfJ89+cIc8DKvLZOdA6HW4dD0RjkEnQIgkl7t9KqaI1ZuZnQoF
+ v81qb0S/jukzifr2QCYT87Ojbzg8e5Q48vd0hTamLxjdtb6O/FgXm76l1QoB5o2V7RKc
+ XzAaZimzXgku07P+jiWqHc4thz+uwMZKVu6uxKQNtaII7NOXaW5YxPUlaj9PY654PBq3
+ hmJQ==
+X-Gm-Message-State: AOAM533PXgFlkO+LQbabHgr8rT3c2RUSgJOfD3h5ZYNdYmg96lVg9w3d
+ fVxmv8xpe+2ZQGXwlhIut3Tz1mXx9na1YejXNx7jjg==
+X-Google-Smtp-Source: ABdhPJwHMlPmg767bcz81BZGfjh6WeqXbEO/j595vlXPbxBwDd2ltf0gLx3KnBq/5Rv/MPDCKHH6Q4WNEDPQTZclTks=
+X-Received: by 2002:a05:6830:1bd3:: with SMTP id
+ v19mr67304005ota.91.1594652135962; 
+ Mon, 13 Jul 2020 07:55:35 -0700 (PDT)
+MIME-Version: 1.0
 References: <20200704163927.28188-1-philmd@redhat.com>
  <20200704163927.28188-4-philmd@redhat.com>
  <CAFEAcA8v2rEC0T_=D1Bat9DQJ=YS57fRUDDQyFdxJsEB=OEPMw@mail.gmail.com>
-From: Laszlo Ersek <lersek@redhat.com>
-Message-ID: <17fd7aea-cc7e-c17a-5748-88dd0d106317@redhat.com>
-Date: Mon, 13 Jul 2020 16:50:00 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:52.0) Gecko/20100101
- Firefox/52.0 Thunderbird/52.9.1
-MIME-Version: 1.0
-In-Reply-To: <CAFEAcA8v2rEC0T_=D1Bat9DQJ=YS57fRUDDQyFdxJsEB=OEPMw@mail.gmail.com>
-Content-Language: en-US
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=205.139.110.120; envelope-from=lersek@redhat.com;
- helo=us-smtp-1.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/07/13 03:20:22
-X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
-X-Spam_score_int: -40
-X-Spam_score: -4.1
-X-Spam_bar: ----
-X-Spam_report: (-4.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-1, SPF_HELO_NONE=0.001,
+ <17fd7aea-cc7e-c17a-5748-88dd0d106317@redhat.com>
+In-Reply-To: <17fd7aea-cc7e-c17a-5748-88dd0d106317@redhat.com>
+From: Peter Maydell <peter.maydell@linaro.org>
+Date: Mon, 13 Jul 2020 15:55:24 +0100
+Message-ID: <CAFEAcA8=zLbv6yVxuED_kNgrWGVtmoE++ORHp6SGOdo6Mo2yMg@mail.gmail.com>
+Subject: Re: [PULL 3/5] softmmu/vl: Let -fw_cfg option take a 'gen_id' argument
+To: Laszlo Ersek <lersek@redhat.com>
+Content-Type: text/plain; charset="UTF-8"
+Received-SPF: pass client-ip=2607:f8b0:4864:20::32b;
+ envelope-from=peter.maydell@linaro.org; helo=mail-ot1-x32b.google.com
+X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
+ That's all we know.
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -84,61 +82,18 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Paolo Bonzini <pbonzini@redhat.com>,
- "=?UTF-8?Q?Daniel_P._Berrang=c3=a9?=" <berrange@redhat.com>,
+Cc: =?UTF-8?Q?Daniel_P=2E_Berrang=C3=A9?= <berrange@redhat.com>,
+ Paolo Bonzini <pbonzini@redhat.com>,
+ =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <philmd@redhat.com>,
  QEMU Developers <qemu-devel@nongnu.org>, Gerd Hoffmann <kraxel@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 07/13/20 15:13, Peter Maydell wrote:
-> On Sat, 4 Jul 2020 at 17:41, Philippe Mathieu-Daudé <philmd@redhat.com> wrote:
->>
->> The 'gen_id' argument refers to a QOM object able to produce
->> data consumable by the fw_cfg device. The producer object must
->> implement the FW_CFG_DATA_GENERATOR interface.
->>
->> Reviewed-by: Laszlo Ersek <lersek@redhat.com>
->> Signed-off-by: Philippe Mathieu-Daudé <philmd@redhat.com>
->> Reviewed-by: Daniel P. Berrangé <berrange@redhat.com>
->> Message-Id: <20200623172726.21040-4-philmd@redhat.com>
-> 
-> Coverity points out (CID 1430396) an issue with the error handling
-> in this patch:
-> 
-> 
->> @@ -2052,6 +2056,15 @@ static int parse_fw_cfg(void *opaque, QemuOpts *opts, Error **errp)
->>      if (nonempty_str(str)) {
->>          size = strlen(str); /* NUL terminator NOT included in fw_cfg blob */
->>          buf = g_memdup(str, size);
->> +    } else if (nonempty_str(gen_id)) {
->> +        Error *local_err = NULL;
-> 
-> We set local_err to NULL here...
-> 
->> +
->> +        fw_cfg_add_from_generator(fw_cfg, name, gen_id, errp);
-> 
-> ...but we don't pass it to the function here...
+On Mon, 13 Jul 2020 at 15:50, Laszlo Ersek <lersek@redhat.com> wrote:
+> Ugh, I should have noticed that in review. I'm sorry.
 
-Ugh, I should have noticed that in review. I'm sorry.
+No worries, catching this kind of thing is what static
+analysers are for :-)
 
-Laszlo
-
-> 
->> +        if (local_err) {
-> 
-> ...so this condition is always false and the body of the if is dead code.
-> 
->> +            error_propagate(errp, local_err);
->> +            return -1;
->> +        }
->> +        return 0;
->>      } else {
->>          GError *err = NULL;
->>          if (!g_file_get_contents(file, &buf, &size, &err)) {
-> 
-> thanks
-> -- PMM
-> 
-
+-- PMM
 
