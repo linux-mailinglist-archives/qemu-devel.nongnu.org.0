@@ -2,85 +2,81 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 85A6321E0EA
-	for <lists+qemu-devel@lfdr.de>; Mon, 13 Jul 2020 21:43:16 +0200 (CEST)
-Received: from localhost ([::1]:41306 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9B1B721E101
+	for <lists+qemu-devel@lfdr.de>; Mon, 13 Jul 2020 21:54:04 +0200 (CEST)
+Received: from localhost ([::1]:55482 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jv4M7-0004Xf-Kw
-	for lists+qemu-devel@lfdr.de; Mon, 13 Jul 2020 15:43:15 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:49598)
+	id 1jv4WZ-0002wn-Ef
+	for lists+qemu-devel@lfdr.de; Mon, 13 Jul 2020 15:54:03 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:53924)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <ljp@linux.vnet.ibm.com>)
- id 1jv4Ji-0001ZV-VI; Mon, 13 Jul 2020 15:40:46 -0400
-Received: from mx0b-001b2d01.pphosted.com ([148.163.158.5]:42032)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <ljp@linux.vnet.ibm.com>)
- id 1jv4Jf-0001dw-GQ; Mon, 13 Jul 2020 15:40:46 -0400
-Received: from pps.filterd (m0098417.ppops.net [127.0.0.1])
- by mx0a-001b2d01.pphosted.com (8.16.0.42/8.16.0.42) with SMTP id
- 06DJPB4I183250; Mon, 13 Jul 2020 15:40:39 -0400
-Received: from ppma03dal.us.ibm.com (b.bd.3ea9.ip4.static.sl-reverse.com
- [169.62.189.11])
- by mx0a-001b2d01.pphosted.com with ESMTP id 3279aafeak-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Mon, 13 Jul 2020 15:40:39 -0400
-Received: from pps.filterd (ppma03dal.us.ibm.com [127.0.0.1])
- by ppma03dal.us.ibm.com (8.16.0.42/8.16.0.42) with SMTP id 06DJdqHn007751;
- Mon, 13 Jul 2020 19:40:38 GMT
-Received: from b03cxnp07028.gho.boulder.ibm.com
- (b03cxnp07028.gho.boulder.ibm.com [9.17.130.15])
- by ppma03dal.us.ibm.com with ESMTP id 327528q4hy-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Mon, 13 Jul 2020 19:40:38 +0000
-Received: from b03ledav001.gho.boulder.ibm.com
- (b03ledav001.gho.boulder.ibm.com [9.17.130.232])
- by b03cxnp07028.gho.boulder.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
- 06DJebbm47972626
- (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Mon, 13 Jul 2020 19:40:37 GMT
-Received: from b03ledav001.gho.boulder.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id 11DD86E050;
- Mon, 13 Jul 2020 19:40:37 +0000 (GMT)
-Received: from b03ledav001.gho.boulder.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id 53A086E056;
- Mon, 13 Jul 2020 19:40:36 +0000 (GMT)
-Received: from [9.65.204.75] (unknown [9.65.204.75])
- by b03ledav001.gho.boulder.ibm.com (Postfix) with ESMTPS;
- Mon, 13 Jul 2020 19:40:36 +0000 (GMT)
-Content-Type: text/plain;
-	charset=us-ascii
-Mime-Version: 1.0 (Mac OS X Mail 13.4 \(3608.80.23.2.2\))
-Subject: Re: [PATCH v4 07/11] target/ppc: add vmulld to INDEX_op_mul_vec case
-From: Lijun Pan <ljp@linux.vnet.ibm.com>
-In-Reply-To: <20200701234344.91843-8-ljp@linux.ibm.com>
-Date: Mon, 13 Jul 2020 14:40:35 -0500
+ (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
+ id 1jv4Vm-0002WR-Pg
+ for qemu-devel@nongnu.org; Mon, 13 Jul 2020 15:53:14 -0400
+Received: from mail-wr1-x441.google.com ([2a00:1450:4864:20::441]:46404)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
+ id 1jv4Vl-0003ba-32
+ for qemu-devel@nongnu.org; Mon, 13 Jul 2020 15:53:14 -0400
+Received: by mail-wr1-x441.google.com with SMTP id r12so18043496wrj.13
+ for <qemu-devel@nongnu.org>; Mon, 13 Jul 2020 12:53:12 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=references:user-agent:from:to:cc:subject:in-reply-to:date
+ :message-id:mime-version:content-transfer-encoding;
+ bh=Ims/TK/lXcRIAVJ8of+RxnPu26UUAXLieGdfLRAROTA=;
+ b=i+cSHBQ3EpHK4SX3W3DQCoxoGh7sO34QKfVTRhvl0Adp8EUtAOhSmno+dE9/Bnc7YM
+ PSgaixZI/s9xUB+zr7KS7krt4AD3Dc4Qzi1K9PJ+43AN5tCNXNV80XABYrd8iC9IHabn
+ HiPayfqcbZsN0l7ycZ2m8ONAChQGko4akO/kKoXVO89Us51O0PnnxmUDf6xMHblB/g1s
+ Vwp4NQVXfVxX82KmoIO68GYeAqSCqcVTb4IQQ3KlDyz1YzY7qe//cTYpQrSt/DCRkFiI
+ FpPMR8oHoIyeGH9lDRKmnH/J+JMiAKUSpQ/yeo//K5BGuIlntUgzHUlC/UDkfQWlPakH
+ VuYw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:references:user-agent:from:to:cc:subject
+ :in-reply-to:date:message-id:mime-version:content-transfer-encoding;
+ bh=Ims/TK/lXcRIAVJ8of+RxnPu26UUAXLieGdfLRAROTA=;
+ b=eOx30gHpb5klwI0p8H+crC+m1vEPKhjsAvRF8d8IZr2PuW9yHhWrG5N4CBIMv3p6Yc
+ JyCbjVoya9QsrAHcL6o7YjoWzOp0F6F0X8KUTg1MheqyZK5WGLrBaH4pMELlIJJSUSVR
+ 25vIDxfJXzBPyV+0amNRfBkx6CJ7sjvKOlFkmLJqv0FaeTEfkWVhjkGH271JBiDMQdEN
+ JWg/zQ5nWjghftqTVX6vRw4KsSyL/11yU+HVxgMFF/e3000M0vxKmwki/Ei853naGFXa
+ rCMMRpoDD7Oeg3jicyss2IH/RxTcDCu/dEm2RDTg+9W9omeMIML6IZ9wiN6wlnhG1MXM
+ XpqA==
+X-Gm-Message-State: AOAM532E5R72LqRwU4LomP4U5jBJfFx70xkXfMfxHFM4QGt/Lk8lsZwu
+ r/98KRqcvxi/QtOa6PY9X+cJyw==
+X-Google-Smtp-Source: ABdhPJyeiftft73zn7+9CyojUn7WkPrrM93SY5N/YGzhHCCnJtpTgf7FOGQ4FucWGB/VgsoaSPenjw==
+X-Received: by 2002:adf:c404:: with SMTP id v4mr1093104wrf.85.1594669991494;
+ Mon, 13 Jul 2020 12:53:11 -0700 (PDT)
+Received: from zen.linaroharston ([51.148.130.216])
+ by smtp.gmail.com with ESMTPSA id j75sm15014910wrj.22.2020.07.13.12.53.10
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Mon, 13 Jul 2020 12:53:10 -0700 (PDT)
+Received: from zen (localhost [127.0.0.1])
+ by zen.linaroharston (Postfix) with ESMTP id 81C561FF7E;
+ Mon, 13 Jul 2020 20:53:09 +0100 (BST)
+References: <20200713185237.9419-1-thuth@redhat.com>
+User-agent: mu4e 1.5.4; emacs 28.0.50
+From: Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
+To: Thomas Huth <thuth@redhat.com>
+Subject: Re: [RFC PATCH] tests/docker: Remove the libssh workaround from the
+ ubuntu 20.04 image
+In-reply-to: <20200713185237.9419-1-thuth@redhat.com>
+Date: Mon, 13 Jul 2020 20:53:09 +0100
+Message-ID: <87o8ojyyxm.fsf@linaro.org>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=utf-8
 Content-Transfer-Encoding: quoted-printable
-Message-Id: <A08A6E75-BEE1-4002-8270-6EE75D930F2F@linux.vnet.ibm.com>
-References: <20200701234344.91843-1-ljp@linux.ibm.com>
- <20200701234344.91843-8-ljp@linux.ibm.com>
-To: Lijun Pan <ljp@linux.ibm.com>
-X-Mailer: Apple Mail (2.3608.80.23.2.2)
-X-TM-AS-GCONF: 00
-X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:6.0.235, 18.0.687
- definitions=2020-07-13_16:2020-07-13,
- 2020-07-13 signatures=0
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- lowpriorityscore=0
- adultscore=0 impostorscore=0 priorityscore=1501 suspectscore=0
- clxscore=1015 spamscore=0 malwarescore=0 phishscore=0 mlxlogscore=999
- mlxscore=0 bulkscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2006250000 definitions=main-2007130136
-Received-SPF: none client-ip=148.163.158.5;
- envelope-from=ljp@linux.vnet.ibm.com; helo=mx0b-001b2d01.pphosted.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/07/13 15:30:50
-X-ACL-Warn: Detected OS   = Linux 3.x [generic]
-X-Spam_score_int: -35
-X-Spam_score: -3.6
-X-Spam_bar: ---
-X-Spam_report: (-3.6 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_LOW=-0.7,
- RCVD_IN_MSPIKE_H2=-1, SPF_HELO_NONE=0.001,
- SPF_NONE=0.001 autolearn=ham autolearn_force=no
+Received-SPF: pass client-ip=2a00:1450:4864:20::441;
+ envelope-from=alex.bennee@linaro.org; helo=mail-wr1-x441.google.com
+X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
+ That's all we know.
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ URIBL_BLOCKED=0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -93,114 +89,44 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: richard.henderson@linaro.org, qemu-ppc@nongnu.org, qemu-devel@nongnu.org,
- david@gibson.dropbear.id.au
+Cc: Fam Zheng <fam@euphon.net>,
+ Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
+ qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 
+Thomas Huth <thuth@redhat.com> writes:
 
-> On Jul 1, 2020, at 6:43 PM, Lijun Pan <ljp@linux.ibm.com> wrote:
->=20
-> Group vmuluwm and vmulld. Make vmulld-specific
-> changes since it belongs to new ISA 3.1.
->=20
-> Signed-off-by: Lijun Pan <ljp@linux.ibm.com>
+> The libssh problem only exists in Ubuntu 18.04 - we can enable it
+> in 20.04 again.
+
+Queued to misc/for-5.1-rc0, thanks.
+
+>
+> Signed-off-by: Thomas Huth <thuth@redhat.com>
 > ---
-> v4: add missing changes, and split to 5/11, 6/11, 7/11
-> v3: use tcg_gen_gvec_mul()
-> v2: fix coding style
->    use Power ISA 3.1 flag
->=20
+>  tests/docker/dockerfiles/ubuntu2004.docker | 3 ---
+>  1 file changed, 3 deletions(-)
+>
+> diff --git a/tests/docker/dockerfiles/ubuntu2004.docker b/tests/docker/do=
+ckerfiles/ubuntu2004.docker
+> index f7aac840bf..8d10934a2a 100644
+> --- a/tests/docker/dockerfiles/ubuntu2004.docker
+> +++ b/tests/docker/dockerfiles/ubuntu2004.docker
+> @@ -65,9 +65,6 @@ RUN apt-get update && \
+>  RUN dpkg -l $PACKAGES | sort > /packages.txt
+>  ENV FEATURES clang tsan pyyaml sdl2
+>=20=20
+> -# https://bugs.launchpad.net/qemu/+bug/1838763
+> -ENV QEMU_CONFIGURE_OPTS --disable-libssh
+> -
+>  # Apply patch https://reviews.llvm.org/D75820
+>  # This is required for TSan in clang-10 to compile with QEMU.
+>  RUN sed -i 's/^const/static const/g' /usr/lib/llvm-10/lib/clang/10.0.0/i=
+nclude/sanitizer/tsan_interface.h
 
-Richard,
-Do you have any opinion on this one?
-Thanks,
-Lijun
 
-
-> tcg/ppc/tcg-target.h     |  2 ++
-> tcg/ppc/tcg-target.inc.c | 12 ++++++++++--
-> 2 files changed, 12 insertions(+), 2 deletions(-)
->=20
-> diff --git a/tcg/ppc/tcg-target.h b/tcg/ppc/tcg-target.h
-> index 4fa21f0e71..ff1249ef8e 100644
-> --- a/tcg/ppc/tcg-target.h
-> +++ b/tcg/ppc/tcg-target.h
-> @@ -63,6 +63,7 @@ typedef enum {
->     tcg_isa_2_06,
->     tcg_isa_2_07,
->     tcg_isa_3_00,
-> +    tcg_isa_3_10,
-> } TCGPowerISA;
->=20
-> extern TCGPowerISA have_isa;
-> @@ -72,6 +73,7 @@ extern bool have_vsx;
-> #define have_isa_2_06  (have_isa >=3D tcg_isa_2_06)
-> #define have_isa_2_07  (have_isa >=3D tcg_isa_2_07)
-> #define have_isa_3_00  (have_isa >=3D tcg_isa_3_00)
-> +#define have_isa_3_10  (have_isa >=3D tcg_isa_3_10)
->=20
-> /* optional instructions automatically implemented */
-> #define TCG_TARGET_HAS_ext8u_i32        0 /* andi */
-> diff --git a/tcg/ppc/tcg-target.inc.c b/tcg/ppc/tcg-target.inc.c
-> index ee1f9227c1..caa8985b46 100644
-> --- a/tcg/ppc/tcg-target.inc.c
-> +++ b/tcg/ppc/tcg-target.inc.c
-> @@ -564,6 +564,7 @@ static int tcg_target_const_match(tcg_target_long =
-val, TCGType type,
-> #define VMULOUH    VX4(72)
-> #define VMULOUW    VX4(136)       /* v2.07 */
-> #define VMULUWM    VX4(137)       /* v2.07 */
-> +#define VMULLD     VX4(457)       /* v3.10 */
-> #define VMSUMUHM   VX4(38)
->=20
-> #define VMRGHB     VX4(12)
-> @@ -3015,6 +3016,8 @@ int tcg_can_emit_vec_op(TCGOpcode opc, TCGType =
-type, unsigned vece)
->             return -1;
->         case MO_32:
->             return have_isa_2_07 ? 1 : -1;
-> +        case MO_64:
-> +            return have_isa_3_10;
->         }
->         return 0;
->     case INDEX_op_bitsel_vec:
-> @@ -3149,6 +3152,7 @@ static void tcg_out_vec_op(TCGContext *s, =
-TCGOpcode opc,
->     static const uint32_t
->         add_op[4] =3D { VADDUBM, VADDUHM, VADDUWM, VADDUDM },
->         sub_op[4] =3D { VSUBUBM, VSUBUHM, VSUBUWM, VSUBUDM },
-> +        mul_op[4] =3D { 0, 0, VMULUWM, VMULLD },
->         neg_op[4] =3D { 0, 0, VNEGW, VNEGD },
->         eq_op[4]  =3D { VCMPEQUB, VCMPEQUH, VCMPEQUW, VCMPEQUD },
->         ne_op[4]  =3D { VCMPNEB, VCMPNEH, VCMPNEW, 0 },
-> @@ -3199,8 +3203,7 @@ static void tcg_out_vec_op(TCGContext *s, =
-TCGOpcode opc,
->         a1 =3D 0;
->         break;
->     case INDEX_op_mul_vec:
-> -        tcg_debug_assert(vece =3D=3D MO_32 && have_isa_2_07);
-> -        insn =3D VMULUWM;
-> +        insn =3D mul_op[vece];
->         break;
->     case INDEX_op_ssadd_vec:
->         insn =3D ssadd_op[vece];
-> @@ -3709,6 +3712,11 @@ static void tcg_target_init(TCGContext *s)
->         have_isa =3D tcg_isa_3_00;
->     }
-> #endif
-> +#ifdef PPC_FEATURE2_ARCH_3_10
-> +    if (hwcap2 & PPC_FEATURE2_ARCH_3_10) {
-> +        have_isa =3D tcg_isa_3_10;
-> +    }
-> +#endif
->=20
-> #ifdef PPC_FEATURE2_HAS_ISEL
->     /* Prefer explicit instruction from the kernel. */
-> --=20
-> 2.23.0
->=20
->=20
-
+--=20
+Alex Benn=C3=A9e
 
