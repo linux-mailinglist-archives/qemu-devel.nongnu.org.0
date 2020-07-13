@@ -2,60 +2,102 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8F89421D64F
-	for <lists+qemu-devel@lfdr.de>; Mon, 13 Jul 2020 14:51:02 +0200 (CEST)
-Received: from localhost ([::1]:52000 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8E60321D652
+	for <lists+qemu-devel@lfdr.de>; Mon, 13 Jul 2020 14:52:10 +0200 (CEST)
+Received: from localhost ([::1]:54358 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1juxvB-0001OU-Mj
-	for lists+qemu-devel@lfdr.de; Mon, 13 Jul 2020 08:51:01 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:39120)
+	id 1juxwH-0002Ou-Lu
+	for lists+qemu-devel@lfdr.de; Mon, 13 Jul 2020 08:52:09 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:39536)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1juxuQ-0000om-Lc
- for qemu-devel@nongnu.org; Mon, 13 Jul 2020 08:50:14 -0400
-Received: from us-smtp-1.mimecast.com ([207.211.31.81]:54815
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1juxvM-0001wx-NO
+ for qemu-devel@nongnu.org; Mon, 13 Jul 2020 08:51:12 -0400
+Received: from us-smtp-1.mimecast.com ([207.211.31.81]:33325
  helo=us-smtp-delivery-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1juxuP-0003HA-9v
- for qemu-devel@nongnu.org; Mon, 13 Jul 2020 08:50:14 -0400
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1juxvL-0003YK-3r
+ for qemu-devel@nongnu.org; Mon, 13 Jul 2020 08:51:12 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1594644612;
+ s=mimecast20190719; t=1594644670;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=zqXH1ORjcDYtWDuUstpRMDPSFKuiAEl7C96w2+INf8U=;
- b=J9z+nQAlqsetGS0a0La70Zdgl9xeCFkKYZMdgmhxca6yGw9uLoTp/5C8h6E0A58WSw849h
- b8ympPAlUzfcXzLOFglRiKXC0IFF7Wz5qKDGhHzkg6pLXBjp8fSMqumumnS2q+0SBP/sHT
- iDPMABdHbqVnLV/6pckaqdi4mbtDqZ8=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-415-j-GVEVH-N6-EcvRcQz3MNQ-1; Mon, 13 Jul 2020 08:50:10 -0400
-X-MC-Unique: j-GVEVH-N6-EcvRcQz3MNQ-1
-Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
- [10.5.11.15])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 1A23419200C3;
- Mon, 13 Jul 2020 12:50:08 +0000 (UTC)
-Received: from linux.fritz.box (ovpn-114-91.ams2.redhat.com [10.36.114.91])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id E1CAD5BAD5;
- Mon, 13 Jul 2020 12:50:06 +0000 (UTC)
-Date: Mon, 13 Jul 2020 14:50:05 +0200
-From: Kevin 'Max' Wolf <kwolf@redhat.com>
-To: Eric Blake <eblake@redhat.com>
-Subject: Re: [PATCH] fixup! iotests: Specify explicit backing format where
- sensible
-Message-ID: <20200713125005.GA10318@linux.fritz.box>
-References: <20200709121713.283092-1-kwolf@redhat.com>
- <20200713114031.137846-1-eblake@redhat.com>
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
+ bh=bplBZcXWkAsFuh7cwMMrTFfVw2JqA0Q0dpABGMhzwM0=;
+ b=AuWzdNjncxOsnlKK4g1/canW2dOdQO+AwypVCiL3R83q2l25mvOvSbFBcppTl1H0iAHGht
+ g5PSFcPO71Ss0P7DPekj5NNEY9DzZw+DaoYB7cbosNbBGrP9vTbiQwVk+LV1WM0RiTaB2u
+ JbFZYVQRotCy7692HrOecLzbS0UVEtU=
+Received: from mail-ed1-f71.google.com (mail-ed1-f71.google.com
+ [209.85.208.71]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-363-sLA8laM5OECt_wy3nNwiuw-1; Mon, 13 Jul 2020 08:51:08 -0400
+X-MC-Unique: sLA8laM5OECt_wy3nNwiuw-1
+Received: by mail-ed1-f71.google.com with SMTP id a4so20892294edr.18
+ for <qemu-devel@nongnu.org>; Mon, 13 Jul 2020 05:51:08 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:subject:to:cc:references:from:autocrypt
+ :message-id:date:user-agent:mime-version:in-reply-to
+ :content-language:content-transfer-encoding;
+ bh=bplBZcXWkAsFuh7cwMMrTFfVw2JqA0Q0dpABGMhzwM0=;
+ b=U+pCh4LBClZSzHeX5d8UYVErpfxX0GjzCbjrLnru1UbCdHTwH5ItL5zMGlAK2Xh2cY
+ 5w3/Uox98sgjC3BufbjJhRhf5UCa9kcBcrFPr8CYT9lVvUtEYmgcLcfNCS5jcaXUEw8c
+ DnSNl/r1eqGXnwl5IuFGP5ftkPgvXgBpoaIyzd3PHN+JrwsqFAN9WBthtMOAUpZR2UfD
+ yX34hdyC8Sud4aszAyDcQeHt6xyI1QmF371HAweszjeU9sTQUVjhDN9UtU6LluPzz4fP
+ V44WBKQ2bzRUYrROgcytBNQLhXNMMGaU01DTWALRaycNyu2SpAxbXnwvadHMtxg423SV
+ 2v5w==
+X-Gm-Message-State: AOAM530W7GeGOs5qZRz3BOYbs0iV6YS1rbQVUX24d53MMX7hEmp2EZ5X
+ AEJcKxxBfJS6HxwKmIxTbxwC0DHAOg6rptIyJaoDi0ZAOVGfoefqvmqzgHTLyhTus1zL2SoQv3z
+ Q98lR3t1QzA+d7p4=
+X-Received: by 2002:aa7:c54f:: with SMTP id s15mr94228161edr.175.1594644667474; 
+ Mon, 13 Jul 2020 05:51:07 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJwOzzGxdpN6lI7QCq1syoB1DsOazV0ud8HOon6UyM9yrnApoOkP86CV+Rap2nl/dgMIa/Z9GA==
+X-Received: by 2002:aa7:c54f:: with SMTP id s15mr94228151edr.175.1594644667301; 
+ Mon, 13 Jul 2020 05:51:07 -0700 (PDT)
+Received: from [192.168.1.37] (138.red-83-57-170.dynamicip.rima-tde.net.
+ [83.57.170.138])
+ by smtp.gmail.com with ESMTPSA id g21sm11443428edr.45.2020.07.13.05.51.06
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Mon, 13 Jul 2020 05:51:06 -0700 (PDT)
+Subject: Re: [PATCH] vfio: fix use-after-free in display
+To: Gerd Hoffmann <kraxel@redhat.com>, qemu-devel@nongnu.org
+References: <20200713124520.23266-1-kraxel@redhat.com>
+From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
+Autocrypt: addr=philmd@redhat.com; keydata=
+ mQINBDXML8YBEADXCtUkDBKQvNsQA7sDpw6YLE/1tKHwm24A1au9Hfy/OFmkpzo+MD+dYc+7
+ bvnqWAeGweq2SDq8zbzFZ1gJBd6+e5v1a/UrTxvwBk51yEkadrpRbi+r2bDpTJwXc/uEtYAB
+ GvsTZMtiQVA4kRID1KCdgLa3zztPLCj5H1VZhqZsiGvXa/nMIlhvacRXdbgllPPJ72cLUkXf
+ z1Zu4AkEKpccZaJspmLWGSzGu6UTZ7UfVeR2Hcc2KI9oZB1qthmZ1+PZyGZ/Dy+z+zklC0xl
+ XIpQPmnfy9+/1hj1LzJ+pe3HzEodtlVA+rdttSvA6nmHKIt8Ul6b/h1DFTmUT1lN1WbAGxmg
+ CH1O26cz5nTrzdjoqC/b8PpZiT0kO5MKKgiu5S4PRIxW2+RA4H9nq7nztNZ1Y39bDpzwE5Sp
+ bDHzd5owmLxMLZAINtCtQuRbSOcMjZlg4zohA9TQP9krGIk+qTR+H4CV22sWldSkVtsoTaA2
+ qNeSJhfHQY0TyQvFbqRsSNIe2gTDzzEQ8itsmdHHE/yzhcCVvlUzXhAT6pIN0OT+cdsTTfif
+ MIcDboys92auTuJ7U+4jWF1+WUaJ8gDL69ThAsu7mGDBbm80P3vvUZ4fQM14NkxOnuGRrJxO
+ qjWNJ2ZUxgyHAh5TCxMLKWZoL5hpnvx3dF3Ti9HW2dsUUWICSQARAQABtDJQaGlsaXBwZSBN
+ YXRoaWV1LURhdWTDqSAoUGhpbCkgPHBoaWxtZEByZWRoYXQuY29tPokCVQQTAQgAPwIbDwYL
+ CQgHAwIGFQgCCQoLBBYCAwECHgECF4AWIQSJweePYB7obIZ0lcuio/1u3q3A3gUCXsfWwAUJ
+ KtymWgAKCRCio/1u3q3A3ircD/9Vjh3aFNJ3uF3hddeoFg1H038wZr/xi8/rX27M1Vj2j9VH
+ 0B8Olp4KUQw/hyO6kUxqkoojmzRpmzvlpZ0cUiZJo2bQIWnvScyHxFCv33kHe+YEIqoJlaQc
+ JfKYlbCoubz+02E2A6bFD9+BvCY0LBbEj5POwyKGiDMjHKCGuzSuDRbCn0Mz4kCa7nFMF5Jv
+ piC+JemRdiBd6102ThqgIsyGEBXuf1sy0QIVyXgaqr9O2b/0VoXpQId7yY7OJuYYxs7kQoXI
+ 6WzSMpmuXGkmfxOgbc/L6YbzB0JOriX0iRClxu4dEUg8Bs2pNnr6huY2Ft+qb41RzCJvvMyu
+ gS32LfN0bTZ6Qm2A8ayMtUQgnwZDSO23OKgQWZVglGliY3ezHZ6lVwC24Vjkmq/2yBSLakZE
+ 6DZUjZzCW1nvtRK05ebyK6tofRsx8xB8pL/kcBb9nCuh70aLR+5cmE41X4O+MVJbwfP5s/RW
+ 9BFSL3qgXuXso/3XuWTQjJJGgKhB6xXjMmb1J4q/h5IuVV4juv1Fem9sfmyrh+Wi5V1IzKI7
+ RPJ3KVb937eBgSENk53P0gUorwzUcO+ASEo3Z1cBKkJSPigDbeEjVfXQMzNt0oDRzpQqH2vp
+ apo2jHnidWt8BsckuWZpxcZ9+/9obQ55DyVQHGiTN39hkETy3Emdnz1JVHTU0Q==
+Message-ID: <efedf130-518d-fd3a-04b6-b501bf06cc8c@redhat.com>
+Date: Mon, 13 Jul 2020 14:51:05 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.5.0
 MIME-Version: 1.0
-In-Reply-To: <20200713114031.137846-1-eblake@redhat.com>
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
+In-Reply-To: <20200713124520.23266-1-kraxel@redhat.com>
+Content-Language: en-US
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Received-SPF: pass client-ip=207.211.31.81; envelope-from=kwolf@redhat.com;
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=207.211.31.81; envelope-from=philmd@redhat.com;
  helo=us-smtp-delivery-1.mimecast.com
 X-detected-operating-system: by eggs.gnu.org: First seen = 2020/07/13 02:19:41
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
@@ -78,18 +120,64 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: peter.maydell@linaro.org, qemu-devel@nongnu.org,
- "open list:Block layer core" <qemu-block@nongnu.org>, mreitz@redhat.com
+Cc: Alex Williamson <alex.williamson@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Am 13.07.2020 um 13:40 hat Eric Blake geschrieben:
-> Max spotted that I didn't test -qed...
+On 7/13/20 2:45 PM, Gerd Hoffmann wrote:
+> Calling ramfb_display_update() might replace the DisplaySurface with the
+> boot display, which in turn will free the currently active
+> DisplaySurface.
 > 
-> Signed-off-by: Eric Blake <eblake@redhat.com>
+> So clear our DisplaySurface pinter (dpy->region.surface pointer) to (a)
+> avoid use-after-free and (b) force replacing the boot display with the
+> real display when switching back.
+> 
+> Signed-off-by: Gerd Hoffmann <kraxel@redhat.com>
+> ---
+>  hw/vfio/display.c | 1 +
+>  1 file changed, 1 insertion(+)
+> 
+> diff --git a/hw/vfio/display.c b/hw/vfio/display.c
+> index a57a22674d62..342054193b3c 100644
+> --- a/hw/vfio/display.c
+> +++ b/hw/vfio/display.c
+> @@ -405,6 +405,7 @@ static void vfio_display_region_update(void *opaque)
+>      if (!plane.drm_format || !plane.size) {
+>          if (dpy->ramfb) {
+>              ramfb_display_update(dpy->con, dpy->ramfb);
+> +            dpy->region.surface = NULL;
+>          }
+>          return;
+>      }
+> 
 
-I guess I have a new name now... :-)
+More generic fix:
 
-Kevin^WMax
+-- >8 --
+--- a/ui/console.c
++++ b/ui/console.c
+@@ -1580,10 +1580,10 @@ void dpy_gfx_replace_surface(QemuConsole *con,
+                              DisplaySurface *surface)
+ {
+     DisplayState *s = con->ds;
+-    DisplaySurface *old_surface = con->surface;
++    QemuConsole *old_con = con;
+     DisplayChangeListener *dcl;
+
+-    assert(old_surface != surface || surface == NULL);
++    assert(con->surface != surface || surface == NULL);
+
+     con->surface = surface;
+     QLIST_FOREACH(dcl, &s->listeners, next) {
+@@ -1594,7 +1594,8 @@ void dpy_gfx_replace_surface(QemuConsole *con,
+             dcl->ops->dpy_gfx_switch(dcl, surface);
+         }
+     }
+-    qemu_free_displaysurface(old_surface);
++    qemu_free_displaysurface(old_con->surface);
++    old_con->surface = NULL;
+ }
+---
 
 
