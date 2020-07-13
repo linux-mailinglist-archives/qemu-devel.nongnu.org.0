@@ -2,67 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9A35121D827
-	for <lists+qemu-devel@lfdr.de>; Mon, 13 Jul 2020 16:18:19 +0200 (CEST)
-Received: from localhost ([::1]:47036 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9FF2C21D810
+	for <lists+qemu-devel@lfdr.de>; Mon, 13 Jul 2020 16:14:16 +0200 (CEST)
+Received: from localhost ([::1]:58410 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1juzHe-00088Q-Km
-	for lists+qemu-devel@lfdr.de; Mon, 13 Jul 2020 10:18:18 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:34988)
+	id 1juzDj-0001IZ-M0
+	for lists+qemu-devel@lfdr.de; Mon, 13 Jul 2020 10:14:15 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:34964)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1juzAm-0004rk-Jb
- for qemu-devel@nongnu.org; Mon, 13 Jul 2020 10:11:12 -0400
-Received: from mail-wm1-x336.google.com ([2a00:1450:4864:20::336]:51358)
+ id 1juzAl-0004p1-FT
+ for qemu-devel@nongnu.org; Mon, 13 Jul 2020 10:11:11 -0400
+Received: from mail-wm1-x32b.google.com ([2a00:1450:4864:20::32b]:51348)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1juzAj-0006bZ-G1
- for qemu-devel@nongnu.org; Mon, 13 Jul 2020 10:11:12 -0400
-Received: by mail-wm1-x336.google.com with SMTP id 22so13464788wmg.1
+ id 1juzAj-0006bf-TH
+ for qemu-devel@nongnu.org; Mon, 13 Jul 2020 10:11:11 -0400
+Received: by mail-wm1-x32b.google.com with SMTP id 22so13464827wmg.1
  for <qemu-devel@nongnu.org>; Mon, 13 Jul 2020 07:11:09 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=from:to:subject:date:message-id:mime-version
+ h=from:to:subject:date:message-id:in-reply-to:references:mime-version
  :content-transfer-encoding;
- bh=HdNJ20eMAOaPbQ6G50C4oWU8DxNiUlxGWU4qkJAbt7M=;
- b=Pa87KSmqoZ8CIvJHzE4x9k/grgosYSd89sd7flN5vAo4/A/Dczidg7HDI3vA3E0fmc
- EIDHFG5V8geP8VehXPbu5442XVpnQUL/OBv8A3s7AXR8B86viLtKM6dd2U2se1zwRebe
- zpiJw/wf7xvqGtl6d7rWfgyDXiPEL9PPjZoJT5oIz+HnIKbM2xCd7lLGMaACANN1qjoG
- i+Hl4I1Bet9Y1rbZzpHyaCnhbXWHdx0XhjTMB1wn5LElq0bLskgN2ucdP54ZXdWgDTGX
- 9T8BLh2uyusPiM4yd7vEjNGv+DSrDYezaTEaE9P0s3fqh/KiyqE3Hkq9Vz0jteoqYMTA
- 2Ukg==
+ bh=pLks78n58shGUjzr8qBFjGZdlcgPpzMamGTQB7aIdDA=;
+ b=u7pW8AJ1B/B6IQLXN4VlTtF7clsKz3z6EEfBUzxcfzC3jZ5n0pavb4g/Bh6oZMy4ds
+ lVi4Ndil7QjEOg81o2jMqfVZf4yLUPcy72ePf1Sad0UAVzDiVbviiXgFi7NP6HeDSK2+
+ bErOHofLuIrZLWklRv2f7ZkGvAKhL+rdILkkiuqmSJ6GncjiuehFDkab8mmi77WX+CZF
+ 9kPxAylsVqZb1xyyCD/rz4ColoMcaZqRCPLiTvP+DzEzyvddbuqUZBOJr9ZOONxp39IG
+ 0Bzsebpdyp/9+k93WvcYydPRYHImPc+4hEAhjCIEnSwj3jQIl+cgp0zb8V/3cFLebTKz
+ rC1g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=HdNJ20eMAOaPbQ6G50C4oWU8DxNiUlxGWU4qkJAbt7M=;
- b=dfSMR/uM/6Fhx00R7QuE0iaqtD5MZbGdPteNwDQ2gR+hbo6u2kDLoL8tv7RUYITygU
- 0Xyr+mXcQQSpAJ+ucfFTMp8nQl+lD4jVigAU2UgtDzfbHZs6pRBAb/G43h/YsrtLkr8k
- Wj/KS+OLYb43FLYMNIH58SuF1RBhMJZSQ2dpF+PKazASPv/UGm/6VC+gGwira0cIxcj9
- IVEmckAevaydpJdtEZqz/aL9Sp4PdAPD4MH5HUC3aC5suw4Kog8qfo/3+ONoA9W/EWcd
- 4h5/LpjlSmJJEkjFQ5pSbzmrZv2+bY2WkIL03RoSrVjy/WpUiKjHJ6B/sW+TtQYtVqNX
- tMFg==
-X-Gm-Message-State: AOAM532P1zfcY5xQHmE6RWdKSSzE0x9ICezmqlJtwI7bP4NdyFBLJ0AN
- Fts8uQtaOklbHXV6v0+rEUR/zUTQ7VSvJQ==
-X-Google-Smtp-Source: ABdhPJzZwJFP5I85T7S9uLj6BSfpNT7hWHa6lFnf/7z0Sk4BT36cNMYt6Tt83CjPzvcN2MOp/bGkFg==
-X-Received: by 2002:a1c:6246:: with SMTP id w67mr177258wmb.42.1594649467242;
- Mon, 13 Jul 2020 07:11:07 -0700 (PDT)
+ h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
+ :references:mime-version:content-transfer-encoding;
+ bh=pLks78n58shGUjzr8qBFjGZdlcgPpzMamGTQB7aIdDA=;
+ b=lkwF82EC1fxObAukDOoITWXoDdHLgye6WfgVTtTLAHTgzxd94Mtf4REhawuCxqsY4N
+ besrYuL5DHJW/JNb0gh6n8yq7HYdxTBRP/0pjnVLFeIjpllxgcJgK7caPDExH2AzbXOs
+ CzlHeDb8SWVx5vVmGiHcydOu3KnXW3GioToLxU3pjlZVD4korYS3O4axnpdTb1SkMIu9
+ 6byT599Olii5sUVKB6TOMbIwu+BtcfNfyyK8c59pKzIXywjUC264KZY3LRgwqaMWLxJj
+ 0UEh6Ga7Hpq7xjbwFNrlrFoz7ZmBKfgRttMXg6I9vZu8/D9cD4qvVeIqbGHbUsqbjaBr
+ OwrA==
+X-Gm-Message-State: AOAM531XKPmKfTdGegrX+qiBUnHR05HCbTdGLSsANnX9H6bFWsB7lsKL
+ zDX8Q/D1vN+GiyNi3guBUehGKJOOks1+gQ==
+X-Google-Smtp-Source: ABdhPJwup1qHjh0JyICExvF/CzgW5/yp4rHvlF7BJhYpxD7aA0BG/eNmdfuu1hWb7cxmlUPFLSqKZw==
+X-Received: by 2002:a1c:2349:: with SMTP id j70mr182163wmj.22.1594649468170;
+ Mon, 13 Jul 2020 07:11:08 -0700 (PDT)
 Received: from orth.archaic.org.uk (orth.archaic.org.uk. [81.2.115.148])
- by smtp.gmail.com with ESMTPSA id c136sm24031297wmd.10.2020.07.13.07.11.06
+ by smtp.gmail.com with ESMTPSA id c136sm24031297wmd.10.2020.07.13.07.11.07
  for <qemu-devel@nongnu.org>
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 13 Jul 2020 07:11:06 -0700 (PDT)
+ Mon, 13 Jul 2020 07:11:07 -0700 (PDT)
 From: Peter Maydell <peter.maydell@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PULL 00/25] target-arm queue
-Date: Mon, 13 Jul 2020 15:10:39 +0100
-Message-Id: <20200713141104.5139-1-peter.maydell@linaro.org>
+Subject: [PULL 01/25] hw/arm/bcm2836: Remove unused 'cpu_type' field
+Date: Mon, 13 Jul 2020 15:10:40 +0100
+Message-Id: <20200713141104.5139-2-peter.maydell@linaro.org>
 X-Mailer: git-send-email 2.20.1
+In-Reply-To: <20200713141104.5139-1-peter.maydell@linaro.org>
+References: <20200713141104.5139-1-peter.maydell@linaro.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::336;
- envelope-from=peter.maydell@linaro.org; helo=mail-wm1-x336.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::32b;
+ envelope-from=peter.maydell@linaro.org; helo=mail-wm1-x32b.google.com
 X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
  That's all we know.
 X-Spam_score_int: -20
@@ -87,103 +89,34 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Last lot of target-arm changes to squeeze in before rc1:
- * various minor Arm bug fixes
- * David Carlier's Haiku build portability fixes
- * Wentong Wu's fixes for icount handling in the nios2 target
+From: Philippe Mathieu-Daudé <f4bug@amsat.org>
 
-The following changes since commit 00ce6c36b35e0eb8cc5d68a28f288a6335848813:
+The 'cpu_type' has been moved from BCM283XState to BCM283XClass
+in commit 210f47840d, but we forgot to remove the old variable.
+Do it now.
 
-  Merge remote-tracking branch 'remotes/huth-gitlab/tags/pull-request-2020-07-13' into staging (2020-07-13 13:01:30 +0100)
+Fixes: 210f47840d ("hw/arm/bcm2836: Hardcode correct CPU type")
+Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
+Reviewed-by: Alistair Francis <alistair.francis@wdc.com>
+Message-id: 20200703200459.23294-1-f4bug@amsat.org
+Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
+---
+ include/hw/arm/bcm2836.h | 1 -
+ 1 file changed, 1 deletion(-)
 
-are available in the Git repository at:
+diff --git a/include/hw/arm/bcm2836.h b/include/hw/arm/bcm2836.h
+index 024af8aae4f..79dfff9d734 100644
+--- a/include/hw/arm/bcm2836.h
++++ b/include/hw/arm/bcm2836.h
+@@ -33,7 +33,6 @@ typedef struct BCM283XState {
+     DeviceState parent_obj;
+     /*< public >*/
+ 
+-    char *cpu_type;
+     uint32_t enabled_cpus;
+ 
+     struct {
+-- 
+2.20.1
 
-  https://git.linaro.org/people/pmaydell/qemu-arm.git tags/pull-target-arm-20200713
-
-for you to fetch changes up to 756f739b1682bf131994ec96dad7fbdf8b54493a:
-
-  hw/arm/aspeed: Do not create and attach empty SD cards by default (2020-07-13 14:36:12 +0100)
-
-----------------------------------------------------------------
-target-arm queue:
- * hw/arm/bcm2836: Remove unused 'cpu_type' field
- * target/arm: Fix mtedesc for do_mem_zpz
- * Add the ability to change the FEC PHY MDIO device number on i.MX25/i.MX6/i.MX7
- * target/arm: Don't do raw writes for PMINTENCLR
- * virtio-iommu: Fix coverity issue in virtio_iommu_handle_command()
- * build: Fix various issues with building on Haiku
- * target/nios2: fix wrctl behaviour when using icount
- * hw/arm/tosa: Encapsulate misc GPIO handling in a device
- * hw/arm/palm.c: Encapsulate misc GPIO handling in a device
- * hw/arm/aspeed: Do not create and attach empty SD cards by default
-
-----------------------------------------------------------------
-Aaron Lindsay (1):
-      target/arm: Don't do raw writes for PMINTENCLR
-
-David CARLIER (8):
-      build: Enable BSD symbols for Haiku
-      util/qemu-openpty.c: Don't assume pty.h is glibc-only
-      build: Check that mlockall() exists
-      osdep.h: Always include <sys/signal.h> if it exists
-      osdep.h: For Haiku, define SIGIO as equivalent to SIGPOLL
-      bswap.h: Include <endian.h> on Haiku for bswap operations
-      util/compatfd.c: Only include <sys/syscall.h> if CONFIG_SIGNALFD
-      util/oslib-posix.c: Implement qemu_init_exec_dir() for Haiku
-
-Eric Auger (1):
-      virtio-iommu: Fix coverity issue in virtio_iommu_handle_command()
-
-Gerd Hoffmann (1):
-      util/drm: make portable by avoiding struct dirent d_type
-
-Jean-Christophe Dubois (3):
-      Add the ability to change the FEC PHY MDIO device number on i.MX25 processor
-      Add the ability to change the FEC PHY MDIO device number on i.MX6 processor
-      Add the ability to change the FEC PHY MDIO devices numbers on i.MX7 processor
-
-Peter Maydell (4):
-      hw/arm/tosa.c: Detabify
-      hw/arm/tosa: Encapsulate misc GPIO handling in a device
-      hw/arm/palm.c: Detabify
-      hw/arm/palm.c: Encapsulate misc GPIO handling in a device
-
-Philippe Mathieu-Daudé (2):
-      hw/arm/bcm2836: Remove unused 'cpu_type' field
-      hw/arm/aspeed: Do not create and attach empty SD cards by default
-
-Richard Henderson (1):
-      target/arm: Fix mtedesc for do_mem_zpz
-
-Wentong Wu (4):
-      target/nios2: add DISAS_NORETURN case for nothing more to generate
-      target/nios2: in line the semantics of DISAS_UPDATE with other targets
-      target/nios2: Use gen_io_start around wrctl instruction
-      hw/nios2: exit to main CPU loop only when unmasking interrupts
-
- configure                   |  38 ++++++++++++-
- include/hw/arm/bcm2836.h    |   1 -
- include/hw/arm/fsl-imx25.h  |   1 +
- include/hw/arm/fsl-imx6.h   |   1 +
- include/hw/arm/fsl-imx7.h   |   1 +
- include/qemu/bswap.h        |   2 +
- include/qemu/osdep.h        |   6 +-
- hw/arm/aspeed.c             |   9 +--
- hw/arm/fsl-imx25.c          |   7 +++
- hw/arm/fsl-imx6.c           |   7 +++
- hw/arm/fsl-imx7.c           |   9 +++
- hw/arm/palm.c               | 111 +++++++++++++++++++++++++------------
- hw/arm/tosa.c               | 132 +++++++++++++++++++++++++++++---------------
- hw/nios2/cpu_pic.c          |   3 +-
- hw/virtio/virtio-iommu.c    |   1 +
- hw/xen/xen-legacy-backend.c |   1 -
- os-posix.c                  |   4 ++
- target/arm/helper.c         |   4 +-
- target/arm/translate-sve.c  |   2 +-
- target/nios2/translate.c    |  12 +++-
- util/compatfd.c             |   2 +
- util/drm.c                  |  19 +++++--
- util/oslib-posix.c          |  20 ++++++-
- util/qemu-openpty.c         |   2 +-
- 24 files changed, 292 insertions(+), 103 deletions(-)
 
