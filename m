@@ -2,139 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 12E7C21D7B4
-	for <lists+qemu-devel@lfdr.de>; Mon, 13 Jul 2020 16:01:15 +0200 (CEST)
-Received: from localhost ([::1]:59688 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4563A21D7BF
+	for <lists+qemu-devel@lfdr.de>; Mon, 13 Jul 2020 16:03:34 +0200 (CEST)
+Received: from localhost ([::1]:38756 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1juz18-0006cM-2x
-	for lists+qemu-devel@lfdr.de; Mon, 13 Jul 2020 10:01:14 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:59450)
+	id 1juz3N-0001Fy-AT
+	for lists+qemu-devel@lfdr.de; Mon, 13 Jul 2020 10:03:33 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:59674)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1juyzr-0006AX-FC
- for qemu-devel@nongnu.org; Mon, 13 Jul 2020 09:59:55 -0400
-Received: from us-smtp-1.mimecast.com ([205.139.110.61]:55901
- helo=us-smtp-delivery-1.mimecast.com)
+ (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1juz0Y-0006mi-DK
+ for qemu-devel@nongnu.org; Mon, 13 Jul 2020 10:00:39 -0400
+Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:50437
+ helo=us-smtp-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1juyzp-0004kb-OP
- for qemu-devel@nongnu.org; Mon, 13 Jul 2020 09:59:55 -0400
+ (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1juz0W-00051T-NM
+ for qemu-devel@nongnu.org; Mon, 13 Jul 2020 10:00:38 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1594648793;
+ s=mimecast20190719; t=1594648836;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
- bh=MVtHaAUB7nwJwCTIFof4ODXeZXmk+o6LTYvaNCD2vUg=;
- b=aIz+Uhtop6AGBU4pea4wSeG2jOWLrGQRs/q8PyROmrn2xcwEWjUKA+t4c1koQs6D5MLXT3
- KAF6nzwbRR9yce4d790G/PtPvKANzb1zD7FcDiVYHoLkkODso/OyzbKDP3AJkek//Vv0As
- 7XnRkOJGrEsFCHXKmg8O21vovI8iJsI=
+ in-reply-to:in-reply-to:references:references;
+ bh=WKiQWgy2ZAnYFVzwp2dDQBrmY5d0MO9o9eVteXV7EAc=;
+ b=ZhoQTN5acmhnJRCKVWXUdCTygxGkeI/oOhNdgAP3BYDb1bsJzaG5nVLp0SFk0nX7nO75LD
+ xyWlagGpdSwes+zdZRiYStCH8kcHFPSuancHlESsvcCxu/9qPAbm0n2H2IA0rXqgr45BXF
+ p0mv6EyoJnvRSuq2u4x6cLgFgbw83yA=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-172-0exnnpcLOpW8TuYBUIwouQ-1; Mon, 13 Jul 2020 09:59:51 -0400
-X-MC-Unique: 0exnnpcLOpW8TuYBUIwouQ-1
-Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
- [10.5.11.15])
+ us-mta-25-Dmrb31YfOPGAVWzUV35Oyg-1; Mon, 13 Jul 2020 10:00:33 -0400
+X-MC-Unique: Dmrb31YfOPGAVWzUV35Oyg-1
+Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
+ [10.5.11.11])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 73F6180572E;
- Mon, 13 Jul 2020 13:59:50 +0000 (UTC)
-Received: from [10.10.113.141] (ovpn-113-141.rdu2.redhat.com [10.10.113.141])
- by smtp.corp.redhat.com (Postfix) with ESMTP id B3A275BAE4;
- Mon, 13 Jul 2020 13:59:49 +0000 (UTC)
-Subject: Re: [PATCH 1/1] MAINTAINERS: Add Python library stanza
-To: =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>
-References: <20200710215718.13034-1-jsnow@redhat.com>
- <20200710215718.13034-2-jsnow@redhat.com> <87365v1qsx.fsf@linaro.org>
-From: John Snow <jsnow@redhat.com>
-Autocrypt: addr=jsnow@redhat.com; prefer-encrypt=mutual; keydata=
- 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
-Message-ID: <e07c2650-7582-753c-ed66-dad43389e552@redhat.com>
-Date: Mon, 13 Jul 2020 09:59:49 -0400
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.5.0
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 6BEE8100A8E8
+ for <qemu-devel@nongnu.org>; Mon, 13 Jul 2020 14:00:32 +0000 (UTC)
+Received: from sirius.home.kraxel.org (ovpn-115-89.ams2.redhat.com
+ [10.36.115.89])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id EFB6A72E46;
+ Mon, 13 Jul 2020 14:00:28 +0000 (UTC)
+Received: by sirius.home.kraxel.org (Postfix, from userid 1000)
+ id 21C263EBB7; Mon, 13 Jul 2020 16:00:28 +0200 (CEST)
+Date: Mon, 13 Jul 2020 16:00:28 +0200
+From: Gerd Hoffmann <kraxel@redhat.com>
+To: Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <philmd@redhat.com>
+Subject: Re: [PATCH] vfio: fix use-after-free in display
+Message-ID: <20200713140028.yoxn77csag7cbbfh@sirius.home.kraxel.org>
+References: <20200713124520.23266-1-kraxel@redhat.com>
+ <efedf130-518d-fd3a-04b6-b501bf06cc8c@redhat.com>
 MIME-Version: 1.0
-In-Reply-To: <87365v1qsx.fsf@linaro.org>
-Content-Language: en-US
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
+In-Reply-To: <efedf130-518d-fd3a-04b6-b501bf06cc8c@redhat.com>
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=kraxel@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset=iso-8859-1
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=205.139.110.61; envelope-from=jsnow@redhat.com;
- helo=us-smtp-delivery-1.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/07/13 01:36:29
+Content-Disposition: inline
+Received-SPF: pass client-ip=207.211.31.120; envelope-from=kraxel@redhat.com;
+ helo=us-smtp-1.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/07/13 02:19:41
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
 X-Spam_score_int: -40
 X-Spam_score: -4.1
@@ -155,67 +84,76 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: peter.maydell@linaro.org, crosa@redhat.com, qemu-devel@nongnu.org,
- ehabkost@redhat.com
+Cc: Alex Williamson <alex.williamson@redhat.com>, qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+On Mon, Jul 13, 2020 at 02:51:05PM +0200, Philippe Mathieu-Daudé wrote:
+> On 7/13/20 2:45 PM, Gerd Hoffmann wrote:
+> > Calling ramfb_display_update() might replace the DisplaySurface with the
+> > boot display, which in turn will free the currently active
+> > DisplaySurface.
+> > 
+> > So clear our DisplaySurface pinter (dpy->region.surface pointer) to (a)
+> > avoid use-after-free and (b) force replacing the boot display with the
+> > real display when switching back.
+> > 
+> > Signed-off-by: Gerd Hoffmann <kraxel@redhat.com>
+> > ---
+> >  hw/vfio/display.c | 1 +
+> >  1 file changed, 1 insertion(+)
+> > 
+> > diff --git a/hw/vfio/display.c b/hw/vfio/display.c
+> > index a57a22674d62..342054193b3c 100644
+> > --- a/hw/vfio/display.c
+> > +++ b/hw/vfio/display.c
+> > @@ -405,6 +405,7 @@ static void vfio_display_region_update(void *opaque)
+> >      if (!plane.drm_format || !plane.size) {
+> >          if (dpy->ramfb) {
+> >              ramfb_display_update(dpy->con, dpy->ramfb);
+> > +            dpy->region.surface = NULL;
+> >          }
+> >          return;
+> >      }
+> > 
+> 
+> More generic fix:
+> 
+> -- >8 --
+> --- a/ui/console.c
+> +++ b/ui/console.c
+> @@ -1580,10 +1580,10 @@ void dpy_gfx_replace_surface(QemuConsole *con,
+>                               DisplaySurface *surface)
+>  {
+>      DisplayState *s = con->ds;
+> -    DisplaySurface *old_surface = con->surface;
+> +    QemuConsole *old_con = con;
+>      DisplayChangeListener *dcl;
+> 
+> -    assert(old_surface != surface || surface == NULL);
+> +    assert(con->surface != surface || surface == NULL);
+> 
+>      con->surface = surface;
+>      QLIST_FOREACH(dcl, &s->listeners, next) {
+> @@ -1594,7 +1594,8 @@ void dpy_gfx_replace_surface(QemuConsole *con,
+>              dcl->ops->dpy_gfx_switch(dcl, surface);
+>          }
+>      }
+> -    qemu_free_displaysurface(old_surface);
+> +    qemu_free_displaysurface(old_con->surface);
+> +    old_con->surface = NULL;
 
+No.
 
-On 7/13/20 9:35 AM, Alex Bennée wrote:
-> 
-> John Snow <jsnow@redhat.com> writes:
-> 
->> I'm proposing that I split the actual Python library off from the other
->> miscellaneous python scripts we have and declare it maintained. Add
->> myself as a maintainer of this folder, along with Cleber.
->>
->> Signed-off-by: John Snow <jsnow@redhat.com>
->> ---
->>  MAINTAINERS | 9 ++++++++-
->>  1 file changed, 8 insertions(+), 1 deletion(-)
->>
->> diff --git a/MAINTAINERS b/MAINTAINERS
->> index 6aa54f7f8f..fe1dcd5a76 100644
->> --- a/MAINTAINERS
->> +++ b/MAINTAINERS
->> @@ -2280,11 +2280,18 @@ S: Maintained
->>  F: include/sysemu/cryptodev*.h
->>  F: backends/cryptodev*.c
->>  
->> +Python library
->> +M: John Snow <jsnow@redhat.com>
->> +M: Cleber Rosa <crosa@redhat.com>
->> +R: Eduardo Habkost <ehabkost@redhat.com>
->> +S: Maintained
->> +F: python/*
-> 
-> I don't think that's equivalent to what you drop bellow:
-> 
->     F:	drivers/net/	all files in and below drivers/net
->     F:	drivers/net/*	all files in drivers/net, but not below
-> 
-> So I think you should drop the *
-> 
+That doesn't clear VFIODisplay->region.surface, but it sets
+QemuConsole->surface to NULL no matter what got passed to
+dpy_gfx_replace_surface().
 
-I didn't realize that, thanks for correcting it.
+Guesswork based just on the patch chunk doesn't always work,
+sometimes you have to consult the source code to see what the
+patch actually does ;)
 
->> +T: git https://gitlab.com/jsnow/qemu.git python
->> +
->>  Python scripts
->>  M: Eduardo Habkost <ehabkost@redhat.com>
->>  M: Cleber Rosa <crosa@redhat.com>
->>  S: Odd fixes
->> -F: python/qemu/*py
->>  F: scripts/*.py
->>  F: tests/*.py
-> 
-> Otherwise:
-> 
-> Reviewed-by: Alex Bennée <alex.bennee@linaro.org>
-> 
-
-I swear I talked to Cleber and Eduardo before sending this, we'll wait
-for them to say hi :)
+take care,
+  Gerd
 
 
