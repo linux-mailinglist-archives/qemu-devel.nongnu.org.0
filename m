@@ -2,67 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 64D1E21DFBB
-	for <lists+qemu-devel@lfdr.de>; Mon, 13 Jul 2020 20:33:43 +0200 (CEST)
-Received: from localhost ([::1]:46648 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 42DF621DFBC
+	for <lists+qemu-devel@lfdr.de>; Mon, 13 Jul 2020 20:33:44 +0200 (CEST)
+Received: from localhost ([::1]:46726 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jv3Go-0003d0-3E
-	for lists+qemu-devel@lfdr.de; Mon, 13 Jul 2020 14:33:42 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:40188)
+	id 1jv3Gp-0003ey-89
+	for lists+qemu-devel@lfdr.de; Mon, 13 Jul 2020 14:33:43 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:40196)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1jv3FQ-0001wG-5d; Mon, 13 Jul 2020 14:32:16 -0400
-Received: from mail-ej1-x62b.google.com ([2a00:1450:4864:20::62b]:38678)
+ id 1jv3FQ-0001wQ-MX; Mon, 13 Jul 2020 14:32:16 -0400
+Received: from mail-ed1-x543.google.com ([2a00:1450:4864:20::543]:42266)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1jv3FO-0004Ey-3d; Mon, 13 Jul 2020 14:32:15 -0400
-Received: by mail-ej1-x62b.google.com with SMTP id br7so4610364ejb.5;
- Mon, 13 Jul 2020 11:32:13 -0700 (PDT)
+ id 1jv3FP-0004FB-5f; Mon, 13 Jul 2020 14:32:16 -0400
+Received: by mail-ed1-x543.google.com with SMTP id z17so14578049edr.9;
+ Mon, 13 Jul 2020 11:32:14 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=sender:from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=hy1Mw1X0UV8T5pA88kdwrvpVTDUrgbn0jd8z4NyjRrA=;
- b=qpvQ/CgI+I464ZwZ+5HNbyXXtt5zUYqEZ6mR587d/zNdB0gVeJxB6ZPH2UXQK5rg0G
- PlCp28uDnxorHGlNz/LzQ9J66bwYUEf7if8YU65O4xjmdCxETs5w9NUD9/+moinCdbXt
- t4O46vJyaiviPCyUxzRqfbBJO5nBN8jtt1MtA0Fojh1nz9hcB69k5gAKR+M4xDe3Scci
- PnSyWjSDj4mE90sxh2J32Vu0PGB+dzkyUS36rG5hvCsuROt/FWUstr6y8onM4dFq6mDZ
- aB+C9l6XimO6JhVdr7o4CTydtHnFYIltWTpD31li56OIp/pnMZoyMpq1hz8nyL2Gwli8
- z41g==
+ h=sender:from:to:cc:subject:date:message-id:in-reply-to:references
+ :mime-version:content-transfer-encoding;
+ bh=CfEDbVfF7kj/yGhqKmfevoqL1P6U47hn56zU8XjW1QI=;
+ b=dXM10/4nPGnWiypzrPjXOAc3vegBlO2sa76aTCpJnpxtMQvbMLOcqkuI7x27jrvg+A
+ yGdXfib+one6Ipu/i47ziQg9iEhKSvGYeKfh1A0IE3B5zTFOksh6htFf+1qWTXhCGemU
+ B4uo5diiwVUEJtEybKCyIhh9dYZe+n5FLaZ+vPIThjHJ+Qxjah2mCQ31woDOtQrOCGnT
+ NCu0/Whlu+Y2BzmbRflF41tkZg4ubWO1qDDjj40L55BICXefcMXsQWUpVlhJ0pzqodsN
+ E4JVXDhSx2qA2eeAL7kp/wRlvCYmzkhiq3GmuU/e0XxYRABfXwq6v3W1PFzO+tkZPVEO
+ lfQw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
- :mime-version:content-transfer-encoding;
- bh=hy1Mw1X0UV8T5pA88kdwrvpVTDUrgbn0jd8z4NyjRrA=;
- b=YGURTxcFFo95qHgQJPeWaw9SCM5QlG/fJSaM4NKBFyZ94x5JR+S1MRyyXUZgUpjjzR
- a43qeN7V3l7emLGgzP24p5mCC37MNxnucT5pGlNnuN2wLwcl3ZCXWlyZNUyOUhDOW2K1
- Rdv3G44QnVsGegKjtJiDjd16ShOpLTycoxMPNd1ngSNQt0u6z+KgL3BNQFaJ/huuIHA/
- Ff9urfBE4/HPqIA+bnjvLGODKajTeJUvQHtEZfVww/PbbAvPBjQKSSloXa1jQt9EZs08
- JIAp634TNQaGXVyY8CxLyOnWne+Cyf/V+4pbR5kv3caMzyMSwE859b2L4N12BO8MoTl9
- aT/g==
-X-Gm-Message-State: AOAM5337CKJqIWhjHblQk45kk0ix+BmJaIe0A2XEY/m9Zqcwnw6qWQwr
- pyTv3n6jKpWfb4+DC4CbRe8ZGGlDxjE=
-X-Google-Smtp-Source: ABdhPJyWTRM3Rn7Na5kIzDKJIRwZko6FnS7aRQWWLqZrMnDpdcgrAtLdThFfemqH1pQix3NSw8ebQg==
-X-Received: by 2002:a17:906:c187:: with SMTP id
- g7mr1090461ejz.108.1594665131539; 
- Mon, 13 Jul 2020 11:32:11 -0700 (PDT)
+ :in-reply-to:references:mime-version:content-transfer-encoding;
+ bh=CfEDbVfF7kj/yGhqKmfevoqL1P6U47hn56zU8XjW1QI=;
+ b=V4loOVhtqQ+NOXcI9lW0VRuhOXlPw8pTzyRga7bht5DKMydtD/sOH7Ny8SE5PxfPGI
+ RBHUOrgYAT4TAUr7yqtuAo744eFeCo5lurBYggUs/CyFkRc+OohnHnGt2BhJS+a51UwB
+ MZcjJEmhrcvckAED++OzqUKjtcC5Xcr5Zn8XFk79pXTaC4YXbCzTvkCOquac2KbvO5Pm
+ SfVWQH2gThMYfTgUqIoxAcM4YjnLtJspfGZac2LGCoyM7NVZhWL5LoEGvWmMvZ/qhm8/
+ 6Fg5k82Xy+5qJmJLzM5+VWPUTwOCpA/uHZw0Ueiu9vOYBD4hPJBvW7bg8iuLwRw736Pm
+ dBdg==
+X-Gm-Message-State: AOAM531wjLxFBg3D7Sp8UUPcY2HDgaXIDUNavu3t/srn8Lpb4scnzFVA
+ ekJshplek4oPZa9l+jClwxP/D7Qctts=
+X-Google-Smtp-Source: ABdhPJwSfMDH2o9uAjFduzeSbJ6NmFtBBP7BNEucfDswEp4P/0ad0zv5VDuhFVMp2QWCQ+ajEBUdRQ==
+X-Received: by 2002:a05:6402:947:: with SMTP id
+ h7mr692719edz.213.1594665132944; 
+ Mon, 13 Jul 2020 11:32:12 -0700 (PDT)
 Received: from x1w.redhat.com (138.red-83-57-170.dynamicip.rima-tde.net.
  [83.57.170.138])
- by smtp.gmail.com with ESMTPSA id ce12sm4353148edb.4.2020.07.13.11.32.09
+ by smtp.gmail.com with ESMTPSA id ce12sm4353148edb.4.2020.07.13.11.32.11
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 13 Jul 2020 11:32:10 -0700 (PDT)
+ Mon, 13 Jul 2020 11:32:12 -0700 (PDT)
 From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v2 0/9] hw/sd/sdcard: Fix CVE-2020-13253
-Date: Mon, 13 Jul 2020 20:32:00 +0200
-Message-Id: <20200713183209.26308-1-f4bug@amsat.org>
+Subject: [PATCH v2 1/9] MAINTAINERS: Cc qemu-block mailing list
+Date: Mon, 13 Jul 2020 20:32:01 +0200
+Message-Id: <20200713183209.26308-2-f4bug@amsat.org>
 X-Mailer: git-send-email 2.21.3
+In-Reply-To: <20200713183209.26308-1-f4bug@amsat.org>
+References: <20200713183209.26308-1-f4bug@amsat.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::62b;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-ej1-x62b.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::543;
+ envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-ed1-x543.google.com
 X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
  That's all we know.
 X-Spam_score_int: 0
@@ -71,8 +73,7 @@ X-Spam_bar: /
 X-Spam_report: (0.0 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1, DKIM_VALID=-0.1,
  DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=1, FREEMAIL_FROM=0.001,
  HEADER_FROM_DIFFERENT_DOMAINS=1, RCVD_IN_DNSWL_NONE=-0.0001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- URIBL_BLOCKED=0.001 autolearn=no autolearn_force=no
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -88,49 +89,38 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Cc: Peter Maydell <peter.maydell@linaro.org>,
  Prasad J Pandit <pjp@fedoraproject.org>, qemu-block@nongnu.org,
  Alistair Francis <alistair@alistair23.me>,
- =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>,
  Wainer dos Santos Moschetta <wainersm@redhat.com>,
  Alexander Bulekov <alxndr@bu.edu>, Niek Linnenbank <nieklinnenbank@gmail.com>,
- Cleber Rosa <crosa@redhat.com>,
+ Cleber Rosa <crosa@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>,
  =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-This series fixes CVE-2020-13253 by only allowing SD card image
-sizes power of 2, and not switching to SEND_DATA state when the
-address is invalid (out of range).
+From: Philippe Mathieu-Daudé <philmd@redhat.com>
 
-Patches missing review:
- 3: boot_linux: Tag tests using a SD card with 'device:sd'
- 4: boot_linux: Expand SD card image to power of 2
- 7: hw/sd/sdcard: Do not allow invalid SD card sizes
+We forgot to include the qemu-block mailing list while adding
+this section in commit 076a0fc32a7. Fix this.
 
-Since v1:
-Fixes issue due to image not power of 2:
-https://www.mail-archive.com/qemu-devel@nongnu.org/msg720737.html
+Suggested-by: Paolo Bonzini <pbonzini@redhat.com>
+Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
+Signed-off-by: Philippe Mathieu-Daudé <philmd@redhat.com>
+Message-Id: <20200630133912.9428-2-f4bug@amsat.org>
+---
+ MAINTAINERS | 1 +
+ 1 file changed, 1 insertion(+)
 
-Supersedes: <20200707132116.26207-1-f4bug@amsat.org>
-
-Niek Linnenbank (1):
-  docs/orangepi: Add instructions for resizing SD image to power of two
-
-Philippe Mathieu-Daudé (8):
-  MAINTAINERS: Cc qemu-block mailing list
-  tests/acceptance/boot_linux: Tag tests using a SD card with
-    'device:sd'
-  tests/acceptance/boot_linux: Expand SD card image to power of 2
-  hw/sd/sdcard: Restrict Class 6 commands to SCSD cards
-  hw/sd/sdcard: Simplify realize() a bit
-  hw/sd/sdcard: Do not allow invalid SD card sizes
-  hw/sd/sdcard: Update coding style to make checkpatch.pl happy
-  hw/sd/sdcard: Do not switch to ReceivingData if address is invalid
-
- docs/system/arm/orangepi.rst           | 16 ++++-
- hw/sd/sd.c                             | 86 ++++++++++++++++++++------
- MAINTAINERS                            |  1 +
- tests/acceptance/boot_linux_console.py | 30 ++++++---
- 4 files changed, 102 insertions(+), 31 deletions(-)
-
+diff --git a/MAINTAINERS b/MAINTAINERS
+index fe8139f367..d9c71d0bb3 100644
+--- a/MAINTAINERS
++++ b/MAINTAINERS
+@@ -1674,6 +1674,7 @@ F: hw/ssi/xilinx_*
+ 
+ SD (Secure Card)
+ M: Philippe Mathieu-Daudé <f4bug@amsat.org>
++L: qemu-block@nongnu.org
+ S: Odd Fixes
+ F: include/hw/sd/sd*
+ F: hw/sd/core.c
 -- 
 2.21.3
 
