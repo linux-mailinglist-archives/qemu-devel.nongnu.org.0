@@ -2,56 +2,54 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B3D3A21D88E
-	for <lists+qemu-devel@lfdr.de>; Mon, 13 Jul 2020 16:32:35 +0200 (CEST)
-Received: from localhost ([::1]:50904 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C079C21D87B
+	for <lists+qemu-devel@lfdr.de>; Mon, 13 Jul 2020 16:29:38 +0200 (CEST)
+Received: from localhost ([::1]:39982 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1juzVS-0007OF-Nh
-	for lists+qemu-devel@lfdr.de; Mon, 13 Jul 2020 10:32:34 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:38216)
+	id 1juzSb-0002tW-SA
+	for lists+qemu-devel@lfdr.de; Mon, 13 Jul 2020 10:29:37 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:38262)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <eblake@redhat.com>) id 1juzKY-0006ZA-L8
- for qemu-devel@nongnu.org; Mon, 13 Jul 2020 10:21:18 -0400
-Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:50799
+ (Exim 4.90_1) (envelope-from <eblake@redhat.com>) id 1juzKa-0006cr-0m
+ for qemu-devel@nongnu.org; Mon, 13 Jul 2020 10:21:20 -0400
+Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:36014
  helo=us-smtp-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <eblake@redhat.com>) id 1juzKX-00084y-2S
- for qemu-devel@nongnu.org; Mon, 13 Jul 2020 10:21:18 -0400
+ (Exim 4.90_1) (envelope-from <eblake@redhat.com>) id 1juzKX-00085L-V8
+ for qemu-devel@nongnu.org; Mon, 13 Jul 2020 10:21:19 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1594650076;
+ s=mimecast20190719; t=1594650077;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=hWWuD4boxQXJwlwTY8mVmfhGjCyOZu1FRPEWaNnidt4=;
- b=WZUoKeroyPxezfXESoDHfEuxwxMl0yAD9rOPpByb1iDteZW7EULSVrW1Li0T5t9y6fCbpi
- J9xX2NUOqz+Sp0uLI7DobslSBegWPDSgkj/GJ8PnA2u6WARa13I1hEPddI6/qv9yZUA9zB
- +w3N02tY+fl/7SrIWPO7WdBi7Yv8VNI=
+ bh=XBNUYpnT1IMMAVkq6p8YgAKSruJUdmRCdPkNhXDUC88=;
+ b=UdlJ+V453IjjI9DrJIqaT411xFtmoGDQeeQ47FHdE4pr56D48pKZaBYRlFmZ9zEJCgGY4l
+ FnqNL1TpisiWv+dUatIj6e//2AR//3l+hIjW/freljQCK1ePC4eSOzWVxtUZKoMKkdIiIh
+ R48LpqgPNQJTeqmhNU4HbbMoqcp0XLk=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-45-A-vrNUhePKuz-WYv0eNwBw-1; Mon, 13 Jul 2020 10:21:11 -0400
-X-MC-Unique: A-vrNUhePKuz-WYv0eNwBw-1
+ us-mta-291-LftWosHtPXe3JQkMTYutpQ-1; Mon, 13 Jul 2020 10:21:12 -0400
+X-MC-Unique: LftWosHtPXe3JQkMTYutpQ-1
 Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
  [10.5.11.13])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 8947A102C7ED;
- Mon, 13 Jul 2020 14:21:10 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 101EE102C7F3;
+ Mon, 13 Jul 2020 14:21:11 +0000 (UTC)
 Received: from blue.redhat.com (ovpn-112-134.phx2.redhat.com [10.3.112.134])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 32A507922C;
+ by smtp.corp.redhat.com (Postfix) with ESMTP id AF85B79231;
  Mon, 13 Jul 2020 14:21:10 +0000 (UTC)
 From: Eric Blake <eblake@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PULL 3/5] iotests: QemuIoInteractive: use qemu_io_args_no_fmt
-Date: Mon, 13 Jul 2020 09:21:04 -0500
-Message-Id: <20200713142106.261809-4-eblake@redhat.com>
+Subject: [PULL 4/5] iotests.py: QemuIoInteractive: print output on failure
+Date: Mon, 13 Jul 2020 09:21:05 -0500
+Message-Id: <20200713142106.261809-5-eblake@redhat.com>
 In-Reply-To: <20200713142106.261809-1-eblake@redhat.com>
 References: <20200713142106.261809-1-eblake@redhat.com>
 MIME-Version: 1.0
 X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=eblake@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=US-ASCII
@@ -88,32 +86,36 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
 
-The only user (iotest 205) of QemuIoInteractive provides -f argument,
-so it's a bit inefficient to use qemu_io_args, which contains -f too.
-And we are going to add one more test, which wants to specify -f by
-hand. Let's use qemu_io_args_no_fmt.
+Make it simpler to debug when qemu-io fails due to wrong arguments or
+environment.
 
 Signed-off-by: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
 Reviewed-by: Eric Blake <eblake@redhat.com>
-Message-Id: <20200701105331.121670-2-vsementsov@virtuozzo.com>
+Message-Id: <20200701105331.121670-3-vsementsov@virtuozzo.com>
 Signed-off-by: Eric Blake <eblake@redhat.com>
 ---
- tests/qemu-iotests/iotests.py | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ tests/qemu-iotests/iotests.py | 8 +++++++-
+ 1 file changed, 7 insertions(+), 1 deletion(-)
 
 diff --git a/tests/qemu-iotests/iotests.py b/tests/qemu-iotests/iotests.py
-index f1e0733dda05..109fb3884a26 100644
+index 109fb3884a26..2a08fea3c9ec 100644
 --- a/tests/qemu-iotests/iotests.py
 +++ b/tests/qemu-iotests/iotests.py
-@@ -212,7 +212,7 @@ def get_virtio_scsi_device():
-
- class QemuIoInteractive:
-     def __init__(self, *args):
--        self.args = qemu_io_args + list(args)
-+        self.args = qemu_io_args_no_fmt + list(args)
-         self._p = subprocess.Popen(self.args, stdin=subprocess.PIPE,
+@@ -217,7 +217,13 @@ class QemuIoInteractive:
                                     stdout=subprocess.PIPE,
                                     stderr=subprocess.STDOUT,
+                                    universal_newlines=True)
+-        assert self._p.stdout.read(9) == 'qemu-io> '
++        out = self._p.stdout.read(9)
++        if out != 'qemu-io> ':
++            # Most probably qemu-io just failed to start.
++            # Let's collect the whole output and exit.
++            out += self._p.stdout.read()
++            self._p.wait(timeout=1)
++            raise ValueError(out)
+
+     def close(self):
+         self._p.communicate('q\n')
 -- 
 2.27.0
 
