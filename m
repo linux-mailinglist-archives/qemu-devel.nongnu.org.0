@@ -2,68 +2,77 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3749521D7FE
-	for <lists+qemu-devel@lfdr.de>; Mon, 13 Jul 2020 16:12:31 +0200 (CEST)
-Received: from localhost ([::1]:49890 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8ACA021D811
+	for <lists+qemu-devel@lfdr.de>; Mon, 13 Jul 2020 16:14:17 +0200 (CEST)
+Received: from localhost ([::1]:58462 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1juzC2-0006IC-8R
-	for lists+qemu-devel@lfdr.de; Mon, 13 Jul 2020 10:12:30 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:34866)
+	id 1juzDk-0001Jj-IN
+	for lists+qemu-devel@lfdr.de; Mon, 13 Jul 2020 10:14:16 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:35154)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1juzAa-0004bm-GO
- for qemu-devel@nongnu.org; Mon, 13 Jul 2020 10:11:00 -0400
-Received: from us-smtp-2.mimecast.com ([207.211.31.81]:59000
- helo=us-smtp-delivery-1.mimecast.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1juzAW-0006ZD-Gn
- for qemu-devel@nongnu.org; Mon, 13 Jul 2020 10:11:00 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1594649455;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:content-type:content-type:in-reply-to:in-reply-to:
- references:references; bh=ma574VSKhZuu56MlEF6B4gIcqKvOYKPIygT95t5Oglc=;
- b=LoJf5t/vYQCtZwy5Xnd2UCkgUDl5Cd54TC2ToQ5HZehNqnxzQWAA2VLJo1Jcj1W06S29Hp
- fF2FQfm0o7Ur057r6kv6FtSbqBZDhQGNsUxYb6sxQcbhw5dhFLPTIaXlLhAHgHfCe4pd49
- i1BjSixWIjFh+v+6S6lpVg5JjqdoHoI=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-193-h-rT5Px4N8yL0HJcdBrtPw-1; Mon, 13 Jul 2020 10:10:54 -0400
-X-MC-Unique: h-rT5Px4N8yL0HJcdBrtPw-1
-Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
- [10.5.11.16])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 58CA018FF66C
- for <qemu-devel@nongnu.org>; Mon, 13 Jul 2020 14:10:53 +0000 (UTC)
-Received: from sirius.home.kraxel.org (ovpn-115-89.ams2.redhat.com
- [10.36.115.89])
- by smtp.corp.redhat.com (Postfix) with ESMTP id F1EB85C3E7;
- Mon, 13 Jul 2020 14:10:49 +0000 (UTC)
-Received: by sirius.home.kraxel.org (Postfix, from userid 1000)
- id 31F563F126; Mon, 13 Jul 2020 16:10:49 +0200 (CEST)
-From: Gerd Hoffmann <kraxel@redhat.com>
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1juzAw-0005IT-Mz
+ for qemu-devel@nongnu.org; Mon, 13 Jul 2020 10:11:22 -0400
+Received: from mail-wm1-x341.google.com ([2a00:1450:4864:20::341]:39556)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1juzAt-0006dN-Ng
+ for qemu-devel@nongnu.org; Mon, 13 Jul 2020 10:11:22 -0400
+Received: by mail-wm1-x341.google.com with SMTP id w3so13308120wmi.4
+ for <qemu-devel@nongnu.org>; Mon, 13 Jul 2020 07:11:19 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=from:to:subject:date:message-id:in-reply-to:references:mime-version
+ :content-transfer-encoding;
+ bh=sFunfT5Kh2K53TfOYy7GzkQp2kpbcgHJUtW52Jf/d80=;
+ b=VizsTQEli1zuwZ573ecUiTZURo/ruIpNIlnN9aj6hDn3D9I765nk5tcZGZjgq/wBRW
+ y4xe6pULMEKyjaSv0egAQ++cyXZNBxRqJ8+bFNvS/mhdvjQJ5l0N+Yi7awYW719sd18U
+ aH9piBokp6Rb4XmNi6pk3EzwaTRpLdH82KHD5JLqub1CdCj/UdDrNwHc+IwapS7vRFBv
+ rYlIiVGa8bmp88zOeZy9ZH6qmC7X1qOxtiFxFUSbmYUCv8xYkLufcLna/rGdhmM2Yczz
+ lEVpQFTLtq0mWF/4ZHR5NVnbiARqeh6OzqWWymdkrNHqhveg17UOENiY0iewYx7wxlHJ
+ WQlA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
+ :references:mime-version:content-transfer-encoding;
+ bh=sFunfT5Kh2K53TfOYy7GzkQp2kpbcgHJUtW52Jf/d80=;
+ b=SIfygOBEHc7y6vObXSh94Y9aFDPPJqMV1Y3/PqFNjnJmW5HafeHPP7NhmHTb+PJ1AZ
+ eqqvnvTEVitkuH5KddSyrPpqiC1un20yfYRee0V+iwm5JjN7MGtWe3Iz0xPO1AAUZjFk
+ ieYHGEh874UpuGnnRiCvR01DXY+iwIvG/uNU658yhS7cI7/2e3YclxHbJncFM+mD/1lw
+ CIg/KWyJDqpUoFzFjYVVoa2TIvegKorf5KKxZiPAy0lexhqWcx70xVxKaY0Ex8abkt21
+ lwyk2/bCqpktSb9IONdrJTt74VMGGChJrrrmf4ku3g855r8+RxgOP2LyqKwTwyvoFX7q
+ hufg==
+X-Gm-Message-State: AOAM532k1gGXN73d97aHQJpXVFhCUVPJ7dJu0lTKgNRaPIhENT4o+TIY
+ wCqyx2sDeQ44PK8eNnwsqRmvwfVS7jm15Q==
+X-Google-Smtp-Source: ABdhPJysyS+TLH0bjm66fwmVHtr0fArUAnFZxH5LPehhDF8gNeWYVzIpY6f8tvR2tVgC2i2truEulQ==
+X-Received: by 2002:a1c:2349:: with SMTP id j70mr182824wmj.22.1594649478138;
+ Mon, 13 Jul 2020 07:11:18 -0700 (PDT)
+Received: from orth.archaic.org.uk (orth.archaic.org.uk. [81.2.115.148])
+ by smtp.gmail.com with ESMTPSA id c136sm24031297wmd.10.2020.07.13.07.11.17
+ for <qemu-devel@nongnu.org>
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Mon, 13 Jul 2020 07:11:17 -0700 (PDT)
+From: Peter Maydell <peter.maydell@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PULL 3/4] ui: fix vc_chr_write call in text_console_do_init
-Date: Mon, 13 Jul 2020 16:10:48 +0200
-Message-Id: <20200713141049.2241-4-kraxel@redhat.com>
-In-Reply-To: <20200713141049.2241-1-kraxel@redhat.com>
-References: <20200713141049.2241-1-kraxel@redhat.com>
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=US-ASCII
-Received-SPF: pass client-ip=207.211.31.81; envelope-from=kraxel@redhat.com;
- helo=us-smtp-delivery-1.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/07/13 02:19:41
-X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
-X-Spam_score_int: -30
-X-Spam_score: -3.1
-X-Spam_bar: ---
-X-Spam_report: (-3.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H3=-0.01, RCVD_IN_MSPIKE_WL=-0.01,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Subject: [PULL 10/25] build: Check that mlockall() exists
+Date: Mon, 13 Jul 2020 15:10:49 +0100
+Message-Id: <20200713141104.5139-11-peter.maydell@linaro.org>
+X-Mailer: git-send-email 2.20.1
+In-Reply-To: <20200713141104.5139-1-peter.maydell@linaro.org>
+References: <20200713141104.5139-1-peter.maydell@linaro.org>
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=2a00:1450:4864:20::341;
+ envelope-from=peter.maydell@linaro.org; helo=mail-wm1-x341.google.com
+X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
+ That's all we know.
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -76,45 +85,83 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Paolo Bonzini <pbonzini@redhat.com>,
- =?UTF-8?q?Daniel=20P=2E=20Berrang=C3=A9?= <berrange@redhat.com>,
- Gerd Hoffmann <kraxel@redhat.com>, Eduardo Habkost <ehabkost@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-In case the string doesn't fit into the buffer snprintf returns the size
-it would need, so len can be larger than the buffer.  Fix this by simply
-using g_strdup_printf() instead of a static buffer.
+From: David CARLIER <devnexen@gmail.com>
 
-Reported-by: Wenxiang Qian <leonwxqian@gmail.com>
-Signed-off-by: Gerd Hoffmann <kraxel@redhat.com>
-Message-id: 20200701181801.27935-1-kraxel@redhat.com
+Instead of assuming that all POSIX platforms provide mlockall(),
+test for it in configure. If the host doesn't provide this platform
+then os_mlock() will fail -ENOSYS, as it does already on Windows.
+
+This is necessary for Haiku, which does not have mlockall().
+
+Signed-off-by: David Carlier <devnexen@gmail.com>
+Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
+Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
+Message-id: 20200703145614.16684-4-peter.maydell@linaro.org
+[PMM: Expanded commit message; rename to HAVE_MLOCKALL]
+Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
+Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
 ---
- ui/console.c | 8 ++++----
- 1 file changed, 4 insertions(+), 4 deletions(-)
+ configure  | 15 +++++++++++++++
+ os-posix.c |  4 ++++
+ 2 files changed, 19 insertions(+)
 
-diff --git a/ui/console.c b/ui/console.c
-index 08f75c9bf624..0579be792f33 100644
---- a/ui/console.c
-+++ b/ui/console.c
-@@ -2184,12 +2184,12 @@ static void text_console_do_init(Chardev *chr, DisplayState *ds)
-     text_console_resize(s);
+diff --git a/configure b/configure
+index 978505611b1..429c938708e 100755
+--- a/configure
++++ b/configure
+@@ -2408,6 +2408,18 @@ else
+   pty_h=no
+ fi
  
-     if (chr->label) {
--        char msg[128];
--        int len;
-+        char *msg;
++cat > $TMPC <<EOF
++#include <sys/mman.h>
++int main(int argc, char *argv[]) {
++    return mlockall(MCL_FUTURE);
++}
++EOF
++if compile_prog "" "" ; then
++  have_mlockall=yes
++else
++  have_mlockall=no
++fi
++
+ #########################################
+ # vhost interdependencies and host support
  
-         s->t_attrib.bgcol = QEMU_COLOR_BLUE;
--        len = snprintf(msg, sizeof(msg), "%s console\r\n", chr->label);
--        vc_chr_write(chr, (uint8_t *)msg, len);
-+        msg = g_strdup_printf("%s console\r\n", chr->label);
-+        vc_chr_write(chr, (uint8_t *)msg, strlen(msg));
-+        g_free(msg);
-         s->t_attrib = s->t_attrib_default;
+@@ -7902,6 +7914,9 @@ fi
+ if test "$pty_h" = "yes" ; then
+   echo "HAVE_PTY_H=y" >> $config_host_mak
+ fi
++if test "$have_mlockall" = "yes" ; then
++  echo "HAVE_MLOCKALL=y" >> $config_host_mak
++fi
+ if test "$fuzzing" = "yes" ; then
+   if test "$have_fuzzer" = "yes"; then
+     FUZZ_LDFLAGS=" -fsanitize=address,fuzzer"
+diff --git a/os-posix.c b/os-posix.c
+index 3cd52e1e700..b674b20b1b1 100644
+--- a/os-posix.c
++++ b/os-posix.c
+@@ -337,6 +337,7 @@ bool is_daemonized(void)
+ 
+ int os_mlock(void)
+ {
++#ifdef HAVE_MLOCKALL
+     int ret = 0;
+ 
+     ret = mlockall(MCL_CURRENT | MCL_FUTURE);
+@@ -345,4 +346,7 @@ int os_mlock(void)
      }
  
+     return ret;
++#else
++    return -ENOSYS;
++#endif
+ }
 -- 
-2.18.4
+2.20.1
 
 
