@@ -2,48 +2,89 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D112421D357
-	for <lists+qemu-devel@lfdr.de>; Mon, 13 Jul 2020 12:02:36 +0200 (CEST)
-Received: from localhost ([::1]:47528 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3062E21D35F
+	for <lists+qemu-devel@lfdr.de>; Mon, 13 Jul 2020 12:03:57 +0200 (CEST)
+Received: from localhost ([::1]:49780 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1juvIB-0000wR-UE
-	for lists+qemu-devel@lfdr.de; Mon, 13 Jul 2020 06:02:35 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:42176)
+	id 1juvJU-0001tk-7f
+	for lists+qemu-devel@lfdr.de; Mon, 13 Jul 2020 06:03:56 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:42718)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <schwab@suse.de>) id 1juvH2-0000Vs-5h
- for qemu-devel@nongnu.org; Mon, 13 Jul 2020 06:01:24 -0400
-Received: from mx2.suse.de ([195.135.220.15]:49510)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <schwab@suse.de>) id 1juvGv-0003M1-UW
- for qemu-devel@nongnu.org; Mon, 13 Jul 2020 06:01:23 -0400
-X-Virus-Scanned: by amavisd-new at test-mx.suse.de
-Received: from relay2.suse.de (unknown [195.135.221.27])
- by mx2.suse.de (Postfix) with ESMTP id A153CAE39;
- Mon, 13 Jul 2020 10:01:16 +0000 (UTC)
-From: Andreas Schwab <schwab@suse.de>
-To: Laurent Vivier <laurent@vivier.eu>
-Subject: Re: [PATCH 1/2] softfloat: m68k: infinity is a valid encoding
-References: <1588094279-17913-1-git-send-email-frederic.konrad@adacore.com>
- <1588094279-17913-2-git-send-email-frederic.konrad@adacore.com>
- <55a6feb0-38ba-432f-82cb-06c5694c325a@vivier.eu>
-X-Yow: ..  My vaseline is RUNNING...
-Date: Mon, 13 Jul 2020 12:01:14 +0200
-In-Reply-To: <55a6feb0-38ba-432f-82cb-06c5694c325a@vivier.eu> (Laurent
- Vivier's message of "Wed, 29 Apr 2020 10:42:20 +0200")
-Message-ID: <mvm365v91jp.fsf@suse.de>
-User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/27.0.91 (gnu/linux)
+ (Exim 4.90_1) (envelope-from <quintela@redhat.com>)
+ id 1juvIW-0001T1-HS
+ for qemu-devel@nongnu.org; Mon, 13 Jul 2020 06:02:56 -0400
+Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:21753
+ helo=us-smtp-1.mimecast.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <quintela@redhat.com>)
+ id 1juvIS-0003Wc-Lx
+ for qemu-devel@nongnu.org; Mon, 13 Jul 2020 06:02:55 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1594634571;
+ h=from:from:reply-to:reply-to:subject:subject:date:date:
+ message-id:message-id:to:to:cc:cc:mime-version:mime-version:
+ content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=/JrJpyJ98cIDfNhcKWqTGGiR+INFTnJ0FGAs2hCGH8Y=;
+ b=PUk7I1sg325YwNA9KmAR8GPKrLgW/M5eNRDRtN44ZfJ7SAYxrzvGcwdoEiVhVA7LOhm6XU
+ SXsurR59ozUUSbtrHzCO+d/TBaptQT3qQ+k58mSClpBE5raHcAdNHrtSNlCqkLSKwAFP/U
+ uzI14i24KPbvu3sLF3VZwRrWQD0UySY=
+Received: from mail-wm1-f69.google.com (mail-wm1-f69.google.com
+ [209.85.128.69]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-471-mn5zVLcMMZm6VGbtqPxkIA-1; Mon, 13 Jul 2020 06:02:49 -0400
+X-MC-Unique: mn5zVLcMMZm6VGbtqPxkIA-1
+Received: by mail-wm1-f69.google.com with SMTP id y204so18056376wmd.2
+ for <qemu-devel@nongnu.org>; Mon, 13 Jul 2020 03:02:49 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:from:to:cc:subject:in-reply-to:references
+ :user-agent:reply-to:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=/JrJpyJ98cIDfNhcKWqTGGiR+INFTnJ0FGAs2hCGH8Y=;
+ b=pzake3T7zfyxXGqdgF+TRJfBLoyhS0FxGmTBkH6DS3q2VcHXMqVWdFywIqXG3jtSyu
+ fPWlhZ7tU0hBDlu3Bccrabj+FSt50ktES1AUGktODO8JuIj4xLiB/w2Oe46MEKK+swld
+ 43YuXHSUN95PYEMS5P4iPWJ82ptgX5oIn6Q27wokRzT45G/EKhyyTNn1LPVQd2eWsVlu
+ i87yZ8sKUjMjEj9NXFl5cZANN4kzQWtKI0nJtqilNcOpO+I68oJUGoESOr+2SWjln7E6
+ 9m/c+TIzSouN6nYsEeBBqNmoBkPPPQHS4bYHfyDDsJ726N9aaY4nFjxMV46EhTgGmEL1
+ 9F6Q==
+X-Gm-Message-State: AOAM531SPVostA6kFu79hIczum+uupdsZOD9uGr5PeT8hAX4y/9XjmAF
+ CWdDuhP+3dwLfS3Uk+6aYwm54Y/aoGUSsDbgt4dw7lEW5cYgqrBsIp4WpjWHlnP/4fsyNZtoh4I
+ oxV6pIjYtLTVu+Hc=
+X-Received: by 2002:adf:e944:: with SMTP id m4mr80825769wrn.252.1594634568819; 
+ Mon, 13 Jul 2020 03:02:48 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJwYNJ7pk3TVzzMw4PhWd4jYw/D4vHeP0kIUSvE7hGi8A6dWocNmFjN3m8ms9SAM8Xgo3TDgaA==
+X-Received: by 2002:adf:e944:: with SMTP id m4mr80825750wrn.252.1594634568602; 
+ Mon, 13 Jul 2020 03:02:48 -0700 (PDT)
+Received: from localhost (trasno.trasno.org. [83.165.45.250])
+ by smtp.gmail.com with ESMTPSA id 133sm23279767wme.5.2020.07.13.03.02.47
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Mon, 13 Jul 2020 03:02:47 -0700 (PDT)
+From: Juan Quintela <quintela@redhat.com>
+To: Yi Wang <wang.yi59@zte.com.cn>
+Subject: Re: [PATCH 07/12] vnc: Remove the superfluous break
+In-Reply-To: <1594631086-36509-1-git-send-email-wang.yi59@zte.com.cn> (Yi
+ Wang's message of "Mon, 13 Jul 2020 17:04:46 +0800")
+References: <1594631086-36509-1-git-send-email-wang.yi59@zte.com.cn>
+User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/26.3 (gnu/linux)
+Date: Mon, 13 Jul 2020 12:02:46 +0200
+Message-ID: <87imer20mx.fsf@secure.mitica>
 MIME-Version: 1.0
-Content-Type: text/plain
-Received-SPF: pass client-ip=195.135.220.15; envelope-from=schwab@suse.de;
- helo=mx2.suse.de
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/07/13 00:02:19
-X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x (no timestamps) [generic]
-X-Spam_score_int: -41
-X-Spam_score: -4.2
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=207.211.31.120; envelope-from=quintela@redhat.com;
+ helo=us-smtp-1.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/07/13 02:19:41
+X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
+X-Spam_score_int: -40
+X-Spam_score: -4.1
 X-Spam_bar: ----
-X-Spam_report: (-4.2 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_MED=-2.3,
- RCVD_IN_MSPIKE_H3=-0.01, RCVD_IN_MSPIKE_WL=-0.01, SPF_HELO_NONE=0.001,
+X-Spam_report: (-4.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-1, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -57,30 +98,21 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Maydell <peter.maydell@linaro.org>, philmd@redhat.com,
- qemu-devel@nongnu.org, KONRAD Frederic <frederic.konrad@adacore.com>,
- Pierre Muller <pierre@freepascal.org>, alex.bennee@linaro.org,
- Aurelien Jarno <aurelien@aurel32.net>
+Reply-To: quintela@redhat.com
+Cc: xue.zhihong@zte.com.cn, wang.liang82@zte.com.cn, qemu-devel@nongnu.org,
+ Liao Pingfang <liao.pingfang@zte.com.cn>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Apr 29 2020, Laurent Vivier wrote:
+Yi Wang <wang.yi59@zte.com.cn> wrote:
+> From: Liao Pingfang <liao.pingfang@zte.com.cn>
+>
+> Remove the superfluous break, as there is a "return" before.
+>
+> Signed-off-by: Liao Pingfang <liao.pingfang@zte.com.cn>a
+> Signed-off-by: Yi Wang <wang.yi59@zte.com.cn>
+> Reviewed-by: Philippe Mathieu-Daud=C3=A9 <f4bug@amsat.org>
 
-> "Since the extended-precision data format has an explicit integer bit, a
-> number can be formatted with a nonzero exponent, less than the maximum
-> value, and a zero integer bit. The IEEE 754 standard does not define a
-> zero integer bit. Such a number is an unnormalized number. Hardware does
-> not directly support denormalized and unnormalized numbers, but
-> implicitly supports them by trapping them as unimplemented data types,
-> allowing efficient conversion in software."
+Reviewed-by: Juan Quintela <quintela@redhat.com>
 
-This is supposed to be handled transparently by fpsp040, to be
-compatible with the 68881.
-
-Andreas.
-
--- 
-Andreas Schwab, SUSE Labs, schwab@suse.de
-GPG Key fingerprint = 0196 BAD8 1CE9 1970 F4BE  1748 E4D4 88E3 0EEA B9D7
-"And now for something completely different."
 
