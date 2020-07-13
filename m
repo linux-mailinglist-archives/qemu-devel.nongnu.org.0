@@ -2,69 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6CC7E21D854
-	for <lists+qemu-devel@lfdr.de>; Mon, 13 Jul 2020 16:24:08 +0200 (CEST)
-Received: from localhost ([::1]:46290 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E243421D859
+	for <lists+qemu-devel@lfdr.de>; Mon, 13 Jul 2020 16:25:28 +0200 (CEST)
+Received: from localhost ([::1]:53312 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1juzNH-0002Q0-E0
-	for lists+qemu-devel@lfdr.de; Mon, 13 Jul 2020 10:24:07 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:35416)
+	id 1juzOZ-0005Ez-Uc
+	for lists+qemu-devel@lfdr.de; Mon, 13 Jul 2020 10:25:27 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:35428)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1juzB7-0005fi-Qe
- for qemu-devel@nongnu.org; Mon, 13 Jul 2020 10:11:33 -0400
-Received: from mail-wm1-x32e.google.com ([2a00:1450:4864:20::32e]:38397)
+ id 1juzB8-0005go-B7
+ for qemu-devel@nongnu.org; Mon, 13 Jul 2020 10:11:35 -0400
+Received: from mail-wr1-x436.google.com ([2a00:1450:4864:20::436]:45350)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1juzB4-0006fX-JX
+ id 1juzB6-0006fz-0A
  for qemu-devel@nongnu.org; Mon, 13 Jul 2020 10:11:33 -0400
-Received: by mail-wm1-x32e.google.com with SMTP id f18so13314615wml.3
- for <qemu-devel@nongnu.org>; Mon, 13 Jul 2020 07:11:29 -0700 (PDT)
+Received: by mail-wr1-x436.google.com with SMTP id s10so16679988wrw.12
+ for <qemu-devel@nongnu.org>; Mon, 13 Jul 2020 07:11:31 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:subject:date:message-id:in-reply-to:references:mime-version
  :content-transfer-encoding;
- bh=Cdhqjn6DC+tyL4mM8vOGKC1yiyZ8aG8bFSKcjvY6BCA=;
- b=ddd+bg16ye3YpIR55s7DTgTJ3Q/eYBt/i5KRdpawkacrwJioidzHPROl3wWTN5GWsK
- 15AsLXheXop8FlPL0R9ZpmzrNtqObyynutOGyVCjM7lNTGNz79fk/FS2q3mBykR1GmVH
- U50VU6GlJMlSjoWlahodHq17zm2890bxNRkAW581tAF49zwM8onoFRbNd1bZAkPH9KJJ
- ry9F6yopoE2mhrjxJl29/cZf6UTtNOGyXaTWTRZ+PNj27u+ebuPzhackdqRnK8tcr94N
- ZnJc8a0ZVwDpWnsQIPgYhXJiTV78NsSxL/E262xNYyxAOXtmafERPqq1SyzkQysTDueO
- NfOA==
+ bh=3Fd2xhMAOfXLvcg5k7HCDapd9E8X8sbTyGKS6vLv9Bw=;
+ b=IE5PYKuXZOr1R7s+7rSyLBd2P3VAMa9o5baN+6im0XleVU7i3ubuXi5hg6qEbeWPdq
+ i7sLv4G6A+0n6jbLclS5/CmqQKoPmk+S83qgpEptxPyDzhsbNS7/klg2qA6WPQn445EV
+ cwyyj0tZDpj/QgMbcJByvlng4yhKxCIeG44v/Z/OMTKru2mXHrJrpeq8eQnY5dh4w1qH
+ LdWWx2SW9z6bLbYz3BNXhpwV2itOX/YNZ6zJTrOwW4T0NpeS1w3LGbtCWTjVdFXfWmXx
+ PCb27GGLbQLYSPabfdjSk3YLCB+JSkdxURo8BrVQXqaNIbGfJlwquGIMqZeBfLlcN87F
+ Tpzw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=Cdhqjn6DC+tyL4mM8vOGKC1yiyZ8aG8bFSKcjvY6BCA=;
- b=VG8gM0JEzIdL6WkC1FbrM4/q+n9cbfha+G8N8r0dL/CnLueWlGeCGC1ev9QDiFNd+9
- v0K7mavK9ZznWgvDecGjgS15d0WpfV17b2n71YinwyWg5Mzp668p/iSlnWLz6PnZveF9
- vmrkIpxht0p+sRLI9U9HxQv3laJsluuyw+bbWbb5qve/DuXSOfRckFpDDvdw2dCWXuiQ
- 1BakOpj5XpZcbiCavOvwN6Xd/6zX1u/JIUjt5yX0Kz8j6bULdY3BaGnI8OlqzLJXsRJ/
- 9AEIctl9YMDuXJRExmz2x9Q8d/iZNR0J9djQVrCLfAmRp4f+Xs0BZrbpIdA7eDKbwLLH
- 0WSQ==
-X-Gm-Message-State: AOAM532kA56+w8a7R2qyar61t420bIjseKBdNdkW2wZptP4WwkQ98Y0X
- C/QYbZQQ31wim8tG4hgbq9/zxbse3fiSvg==
-X-Google-Smtp-Source: ABdhPJzWLscBjqxNvWfXtsAUt0ViBqfZqUsKYBiKVV+nj4B1tjQTBXjgvG1qDdikUbD5tw8m5YfKWg==
-X-Received: by 2002:a1c:7313:: with SMTP id d19mr123377wmb.147.1594649488783; 
- Mon, 13 Jul 2020 07:11:28 -0700 (PDT)
+ bh=3Fd2xhMAOfXLvcg5k7HCDapd9E8X8sbTyGKS6vLv9Bw=;
+ b=HKXzmrbpkdSPlNNLJbcBlDJzllGq4E3spG9sKphFq78RMakWL32c3Ts6cWWhWdxRkR
+ qgiVZxzTit4Ga2m8gYUpgmf8tIOXP/TrE+hTEN522ohi/hwupgMRAIijwPNGfNG4vBE8
+ lMRj15UZf7/NGI2TX7P/GdzYsRm3lV34Xz6Vdl/Rh3peIthYn6PSQD3KwYo9lwXvtP8p
+ iGqDhvaHxjTvroQH05JJJNotfzi1lJQB+bQ5HOEEUtt5LGM3T34eZgkBz9o3E/bmwPce
+ vJdfhvcHmqCVVzW50AyKoP2JQVCJgGAs1ZQN1ERzB/L2HGL4t3dmJpBEGqQb/QfkAH//
+ NPQQ==
+X-Gm-Message-State: AOAM530iO07RJM2XnZog6SSut60PvTTYSX0a4mck9g1wi46PABrduTPg
+ 4R+pgR/RgOocZo9nFd1W7TU+NaM/JN6ggw==
+X-Google-Smtp-Source: ABdhPJylRo4GebJvIMwg3sffElYd7kgYtO41dHF2aZsknSHT/5VAGbAXQ2s/66gCitFoCXCIlXfBuA==
+X-Received: by 2002:a5d:6ac1:: with SMTP id u1mr78059848wrw.123.1594649489801; 
+ Mon, 13 Jul 2020 07:11:29 -0700 (PDT)
 Received: from orth.archaic.org.uk (orth.archaic.org.uk. [81.2.115.148])
- by smtp.gmail.com with ESMTPSA id c136sm24031297wmd.10.2020.07.13.07.11.27
+ by smtp.gmail.com with ESMTPSA id c136sm24031297wmd.10.2020.07.13.07.11.28
  for <qemu-devel@nongnu.org>
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 13 Jul 2020 07:11:28 -0700 (PDT)
+ Mon, 13 Jul 2020 07:11:29 -0700 (PDT)
 From: Peter Maydell <peter.maydell@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PULL 20/25] hw/nios2: exit to main CPU loop only when unmasking
- interrupts
-Date: Mon, 13 Jul 2020 15:10:59 +0100
-Message-Id: <20200713141104.5139-21-peter.maydell@linaro.org>
+Subject: [PULL 21/25] hw/arm/tosa.c: Detabify
+Date: Mon, 13 Jul 2020 15:11:00 +0100
+Message-Id: <20200713141104.5139-22-peter.maydell@linaro.org>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20200713141104.5139-1-peter.maydell@linaro.org>
 References: <20200713141104.5139-1-peter.maydell@linaro.org>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::32e;
- envelope-from=peter.maydell@linaro.org; helo=mail-wm1-x32e.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::436;
+ envelope-from=peter.maydell@linaro.org; helo=mail-wr1-x436.google.com
 X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
  That's all we know.
 X-Spam_score_int: -20
@@ -89,34 +89,77 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Wentong Wu <wentong.wu@intel.com>
+Remove the hardcoded tabs from hw/arm/tosa.c. There aren't
+many, but since they're all in constant #defines they're not
+going to go away with our usual "only when we touch a function"
+policy on reformatting.
 
-Only when guest code is unmasking interrupts, terminate the excution
-of translated code and exit to the main CPU loop to handle previous
-pended interrupts because of the interrupts mask by guest code.
-
-Signed-off-by: Wentong Wu <wentong.wu@intel.com>
-Message-id: 20200710233433.19729-4-wentong.wu@intel.com
-Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
 Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
+Reviewed-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
+Message-id: 20200628203748.14250-2-peter.maydell@linaro.org
 ---
- hw/nios2/cpu_pic.c | 3 ++-
- 1 file changed, 2 insertions(+), 1 deletion(-)
+ hw/arm/tosa.c | 44 ++++++++++++++++++++++----------------------
+ 1 file changed, 22 insertions(+), 22 deletions(-)
 
-diff --git a/hw/nios2/cpu_pic.c b/hw/nios2/cpu_pic.c
-index 1c1989d56a0..5ea7e52ab83 100644
---- a/hw/nios2/cpu_pic.c
-+++ b/hw/nios2/cpu_pic.c
-@@ -54,7 +54,8 @@ static void nios2_pic_cpu_handler(void *opaque, int irq, int level)
+diff --git a/hw/arm/tosa.c b/hw/arm/tosa.c
+index 5dee2d76c61..06ecf1e7824 100644
+--- a/hw/arm/tosa.c
++++ b/hw/arm/tosa.c
+@@ -26,32 +26,32 @@
+ #include "hw/sysbus.h"
+ #include "exec/address-spaces.h"
  
- void nios2_check_interrupts(CPUNios2State *env)
+-#define TOSA_RAM    0x04000000
+-#define TOSA_ROM	0x00800000
++#define TOSA_RAM 0x04000000
++#define TOSA_ROM 0x00800000
+ 
+-#define TOSA_GPIO_USB_IN		(5)
+-#define TOSA_GPIO_nSD_DETECT	(9)
+-#define TOSA_GPIO_ON_RESET		(19)
+-#define TOSA_GPIO_CF_IRQ		(21)	/* CF slot0 Ready */
+-#define TOSA_GPIO_CF_CD			(13)
+-#define TOSA_GPIO_TC6393XB_INT  (15)
+-#define TOSA_GPIO_JC_CF_IRQ		(36)	/* CF slot1 Ready */
++#define TOSA_GPIO_USB_IN                (5)
++#define TOSA_GPIO_nSD_DETECT            (9)
++#define TOSA_GPIO_ON_RESET              (19)
++#define TOSA_GPIO_CF_IRQ                (21)    /* CF slot0 Ready */
++#define TOSA_GPIO_CF_CD                 (13)
++#define TOSA_GPIO_TC6393XB_INT          (15)
++#define TOSA_GPIO_JC_CF_IRQ             (36)    /* CF slot1 Ready */
+ 
+-#define TOSA_SCOOP_GPIO_BASE	1
+-#define TOSA_GPIO_IR_POWERDWN	(TOSA_SCOOP_GPIO_BASE + 2)
+-#define TOSA_GPIO_SD_WP			(TOSA_SCOOP_GPIO_BASE + 3)
+-#define TOSA_GPIO_PWR_ON		(TOSA_SCOOP_GPIO_BASE + 4)
++#define TOSA_SCOOP_GPIO_BASE            1
++#define TOSA_GPIO_IR_POWERDWN           (TOSA_SCOOP_GPIO_BASE + 2)
++#define TOSA_GPIO_SD_WP                 (TOSA_SCOOP_GPIO_BASE + 3)
++#define TOSA_GPIO_PWR_ON                (TOSA_SCOOP_GPIO_BASE + 4)
+ 
+-#define TOSA_SCOOP_JC_GPIO_BASE		1
+-#define TOSA_GPIO_BT_LED		(TOSA_SCOOP_JC_GPIO_BASE + 0)
+-#define TOSA_GPIO_NOTE_LED		(TOSA_SCOOP_JC_GPIO_BASE + 1)
+-#define TOSA_GPIO_CHRG_ERR_LED		(TOSA_SCOOP_JC_GPIO_BASE + 2)
+-#define TOSA_GPIO_TC6393XB_L3V_ON	(TOSA_SCOOP_JC_GPIO_BASE + 5)
+-#define TOSA_GPIO_WLAN_LED		(TOSA_SCOOP_JC_GPIO_BASE + 7)
++#define TOSA_SCOOP_JC_GPIO_BASE         1
++#define TOSA_GPIO_BT_LED                (TOSA_SCOOP_JC_GPIO_BASE + 0)
++#define TOSA_GPIO_NOTE_LED              (TOSA_SCOOP_JC_GPIO_BASE + 1)
++#define TOSA_GPIO_CHRG_ERR_LED          (TOSA_SCOOP_JC_GPIO_BASE + 2)
++#define TOSA_GPIO_TC6393XB_L3V_ON       (TOSA_SCOOP_JC_GPIO_BASE + 5)
++#define TOSA_GPIO_WLAN_LED              (TOSA_SCOOP_JC_GPIO_BASE + 7)
+ 
+-#define	DAC_BASE	0x4e
+-#define DAC_CH1		0
+-#define DAC_CH2		1
++#define DAC_BASE 0x4e
++#define DAC_CH1 0
++#define DAC_CH2 1
+ 
+ static void tosa_microdrive_attach(PXA2xxState *cpu)
  {
--    if (env->irq_pending) {
-+    if (env->irq_pending &&
-+        (env->regs[CR_STATUS] & CR_STATUS_PIE)) {
-         env->irq_pending = 0;
-         cpu_interrupt(env_cpu(env), CPU_INTERRUPT_HARD);
-     }
 -- 
 2.20.1
 
