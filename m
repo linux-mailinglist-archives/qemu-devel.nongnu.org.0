@@ -2,69 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 35ABB21D861
-	for <lists+qemu-devel@lfdr.de>; Mon, 13 Jul 2020 16:26:38 +0200 (CEST)
-Received: from localhost ([::1]:57498 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 31C8F21D84A
+	for <lists+qemu-devel@lfdr.de>; Mon, 13 Jul 2020 16:22:04 +0200 (CEST)
+Received: from localhost ([::1]:36010 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1juzPh-0006zm-8I
-	for lists+qemu-devel@lfdr.de; Mon, 13 Jul 2020 10:26:37 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:35276)
+	id 1juzLH-0006iz-7x
+	for lists+qemu-devel@lfdr.de; Mon, 13 Jul 2020 10:22:03 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:35286)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1juzB2-0005WQ-8K
- for qemu-devel@nongnu.org; Mon, 13 Jul 2020 10:11:28 -0400
-Received: from mail-wm1-x333.google.com ([2a00:1450:4864:20::333]:53219)
+ id 1juzB3-0005Y0-0c
+ for qemu-devel@nongnu.org; Mon, 13 Jul 2020 10:11:30 -0400
+Received: from mail-wm1-x342.google.com ([2a00:1450:4864:20::342]:37103)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1juzB0-0006ef-G8
- for qemu-devel@nongnu.org; Mon, 13 Jul 2020 10:11:27 -0400
-Received: by mail-wm1-x333.google.com with SMTP id q15so13462070wmj.2
+ id 1juzB1-0006er-AA
+ for qemu-devel@nongnu.org; Mon, 13 Jul 2020 10:11:28 -0400
+Received: by mail-wm1-x342.google.com with SMTP id o2so13317813wmh.2
  for <qemu-devel@nongnu.org>; Mon, 13 Jul 2020 07:11:26 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:subject:date:message-id:in-reply-to:references:mime-version
  :content-transfer-encoding;
- bh=OhiRntG58GDC0YrDMGX+/f9xZGwt8SVRtnGNjupJDac=;
- b=qiimElh+YcKrUf7jd3hE09/IvdvkMZDia3108rcbqcg7A3sAW00m1sBlAruyAe9FEa
- pf96JwnrO0CZZ3R2nX7WswX/UScZd89Y+pvwdKdo7YuGiXZTZ89dS5+xLzl5TKiW6fJX
- Dpcs72bAyxyevwyinbdi5GqlkgdD1vI5TZa/i2FqU6UasfbhWudKUlcKpmKQ/2Q3Sk7X
- BsMJn3DK09/aRZtic12GI9J0B5UIgzcd0gcnN2fmrZu/617UZWTZbDoCL88CvLmoF87N
- ZOlMypit4XMTjE28VvpJTJyN0a1a6DX4h+a4YSh3ztHAhFNjbrs8lxCmpV70moU+kA4R
- 2xzg==
+ bh=MtbNrkAMGJhFhtpNvSaktDyVzUetinwB6fus5j2wvXs=;
+ b=sRAp3ov4SdXgLtDoEEDcJ9fWs1Rvra4etIXSnJnXgFxHsGTkpg9JsmmZjklrits0n/
+ +bTAdjGg+SMPc2oglmkcNdxuuPOaCessPCot7cYshRSJIWt4KsJ+vqq6bjtoB1MlYF21
+ Kr6wMejEjX3501If5627+kYnKpZbp7xvW9b4is0VQPk42dv6Z/yhasAV+O8bW/eZS1Ay
+ R9grv1I5leQO5zYrRdNVEx2whoFz+1LNRvdgPewhUPuJRXp7FmUFGajKxhY+viDbp5id
+ Ez0nTaXZaxA6HQEj+dtOq3Ltljr150qtj/aRclmzzgJrwc+HsTdlt2zGJyLs9MIivrnz
+ nqDg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=OhiRntG58GDC0YrDMGX+/f9xZGwt8SVRtnGNjupJDac=;
- b=m+s5jVa22YVr6q/ltQxMGki2d8m3CCpYsuwESugF7PW+oTda8SyRMuaX8Oe6/yYJGm
- jnQMpqhvGlOPftrhiwK80wxKtOU5i1Q8Qmm6eiA9v8oIli48HCFC1amGk0MQLA5aGxkM
- qX+wVPy4uTJtjyWUxYkNAPAbwu5A62TPav6GMg4NcbR14prf8Dew6lxJi4qXi3WGb0T+
- mqvKBtTWE+7PTHOl8IR1+crUPuvGL7/aKExnIa7Q5CVZTiElEO6x6I/Sj+/Wu2mHgCqg
- EhJREHvMKpbwHduuK7TRy7tYaFjjUfrZNwJyvTj41Cumqfe6SiZ/Bjx9emI+I9cdeYCG
- Hvrw==
-X-Gm-Message-State: AOAM531K+EFuU8IFzx0f0psVAVJ4ZwGu9dFedl8Dvbd6WQL+4pn36ldK
- tYc6ZTnzTF4pgf0tSipxVT2B5cgX98yYLw==
-X-Google-Smtp-Source: ABdhPJzZqAS0Fic/ezG1ZSOHXff7DVvm/gtBsHlJgwZtXAg+7SkX98J81e00hwRsKTgPavkR024lMA==
-X-Received: by 2002:a1c:dd09:: with SMTP id u9mr175003wmg.70.1594649484792;
- Mon, 13 Jul 2020 07:11:24 -0700 (PDT)
+ bh=MtbNrkAMGJhFhtpNvSaktDyVzUetinwB6fus5j2wvXs=;
+ b=sZYS/ekeaDNjOt8JWgHP3rS4F8NXOIcG2WCHAJQMQNQ7TmzldOy/FAZNRS5D5vSbm7
+ a4avicnUJouDrYG8yzQE3iDi0rC+UjpQ7BP/aIgL+A9rrSLi3juY8eru1DvUif6Us27M
+ axpupRqS7a9ayvnW/4iLj2vVidn960nEFnf0TeJO4vTaIC/AbJfGCWgi4O3TrwD+tU+U
+ GvnA3YTdXtnEpAOTYeAj0X76XIYH0CM46IacdeRea77JPV5bcdDYfzb2+SSfhoDDjODR
+ X8/eY2fwMXQOWSWq/Za5WY4tisFInwztNLSIb0mDexiiIAB+56MXUGXGywk5yFn4cgDZ
+ 080w==
+X-Gm-Message-State: AOAM532ILrvNee8+Ig5JfjJhewmwhJUvPpBXT4GtTmLlw1q6HbPux8Dn
+ q7/Il0QhbTTtz0ggo5wYIxY57sh/4U259g==
+X-Google-Smtp-Source: ABdhPJxofn1lsA/C4ph0noIBzJCWgj5gGY5ttE5GNH1Hkoq2BCiU6qawGlhQs68Owl+tKQ+COqaVSg==
+X-Received: by 2002:a1c:ab84:: with SMTP id u126mr143817wme.43.1594649485699; 
+ Mon, 13 Jul 2020 07:11:25 -0700 (PDT)
 Received: from orth.archaic.org.uk (orth.archaic.org.uk. [81.2.115.148])
- by smtp.gmail.com with ESMTPSA id c136sm24031297wmd.10.2020.07.13.07.11.23
+ by smtp.gmail.com with ESMTPSA id c136sm24031297wmd.10.2020.07.13.07.11.24
  for <qemu-devel@nongnu.org>
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 13 Jul 2020 07:11:24 -0700 (PDT)
+ Mon, 13 Jul 2020 07:11:25 -0700 (PDT)
 From: Peter Maydell <peter.maydell@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PULL 16/25] util/drm: make portable by avoiding struct dirent d_type
-Date: Mon, 13 Jul 2020 15:10:55 +0100
-Message-Id: <20200713141104.5139-17-peter.maydell@linaro.org>
+Subject: [PULL 17/25] target/nios2: add DISAS_NORETURN case for nothing more
+ to generate
+Date: Mon, 13 Jul 2020 15:10:56 +0100
+Message-Id: <20200713141104.5139-18-peter.maydell@linaro.org>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20200713141104.5139-1-peter.maydell@linaro.org>
 References: <20200713141104.5139-1-peter.maydell@linaro.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::333;
- envelope-from=peter.maydell@linaro.org; helo=mail-wm1-x333.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::342;
+ envelope-from=peter.maydell@linaro.org; helo=mail-wm1-x342.google.com
 X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
  That's all we know.
 X-Spam_score_int: -20
@@ -89,68 +89,50 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Gerd Hoffmann <kraxel@redhat.com>
+From: Wentong Wu <wentong.wu@intel.com>
 
-Given this isn't perforance critical at all lets avoid the non-portable
-d_type and use fstat instead to check whenever the file is a chardev.
+Add DISAS_NORETURN case for nothing more to generate because at runtime
+execution will never return from some helper call. And at the same time
+replace DISAS_UPDATE in t_gen_helper_raise_exception and gen_exception
+with the newly added DISAS_NORETURN.
 
-Signed-off-by: Gerd Hoffmann <kraxel@redhat.com>
-Reported-by: David Carlier <devnexen@gmail.com>
-Reviewed-by: Philippe Mathieu-Daudé <philmd@redhat.com>
-Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
-Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
-Message-id: 20200703145614.16684-10-peter.maydell@linaro.org
-Message-id: 20200701180302.14821-1-kraxel@redhat.com
-[PMM: fixed comment style; tweaked subject line]
-Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
+Signed-off-by: Wentong Wu <wentong.wu@intel.com>
+Message-id: 20200710233433.19729-1-wentong.wu@intel.com
+Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
 Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
 ---
- util/drm.c | 19 ++++++++++++++-----
- 1 file changed, 14 insertions(+), 5 deletions(-)
+ target/nios2/translate.c | 5 +++--
+ 1 file changed, 3 insertions(+), 2 deletions(-)
 
-diff --git a/util/drm.c b/util/drm.c
-index a23ff245382..dae8ffebc81 100644
---- a/util/drm.c
-+++ b/util/drm.c
-@@ -24,7 +24,8 @@ int qemu_drm_rendernode_open(const char *rendernode)
- {
-     DIR *dir;
-     struct dirent *e;
--    int r, fd;
-+    struct stat st;
-+    int r, fd, ret;
-     char *p;
+diff --git a/target/nios2/translate.c b/target/nios2/translate.c
+index 6c34cd31937..00b591cc298 100644
+--- a/target/nios2/translate.c
++++ b/target/nios2/translate.c
+@@ -149,7 +149,7 @@ static void t_gen_helper_raise_exception(DisasContext *dc,
+     tcg_gen_movi_tl(dc->cpu_R[R_PC], dc->pc);
+     gen_helper_raise_exception(dc->cpu_env, tmp);
+     tcg_temp_free_i32(tmp);
+-    dc->is_jmp = DISAS_UPDATE;
++    dc->is_jmp = DISAS_NORETURN;
+ }
  
-     if (rendernode) {
-@@ -38,10 +39,6 @@ int qemu_drm_rendernode_open(const char *rendernode)
+ static bool use_goto_tb(DisasContext *dc, uint32_t dest)
+@@ -802,7 +802,7 @@ static void gen_exception(DisasContext *dc, uint32_t excp)
+     tcg_gen_movi_tl(cpu_R[R_PC], dc->pc);
+     gen_helper_raise_exception(cpu_env, tmp);
+     tcg_temp_free_i32(tmp);
+-    dc->is_jmp = DISAS_UPDATE;
++    dc->is_jmp = DISAS_NORETURN;
+ }
  
-     fd = -1;
-     while ((e = readdir(dir))) {
--        if (e->d_type != DT_CHR) {
--            continue;
--        }
--
-         if (strncmp(e->d_name, "renderD", 7)) {
-             continue;
-         }
-@@ -53,6 +50,18 @@ int qemu_drm_rendernode_open(const char *rendernode)
-             g_free(p);
-             continue;
-         }
-+
-+        /*
-+         * prefer fstat() over checking e->d_type == DT_CHR for
-+         * portability reasons
-+         */
-+        ret = fstat(r, &st);
-+        if (ret < 0 || (st.st_mode & S_IFMT) != S_IFCHR) {
-+            close(r);
-+            g_free(p);
-+            continue;
-+        }
-+
-         fd = r;
-         g_free(p);
+ /* generate intermediate code for basic block 'tb'.  */
+@@ -877,6 +877,7 @@ void gen_intermediate_code(CPUState *cs, TranslationBlock *tb, int max_insns)
+         tcg_gen_exit_tb(NULL, 0);
+         break;
+ 
++    case DISAS_NORETURN:
+     case DISAS_TB_JUMP:
+         /* nothing more to generate */
          break;
 -- 
 2.20.1
