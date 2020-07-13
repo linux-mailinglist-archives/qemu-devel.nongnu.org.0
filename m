@@ -2,72 +2,115 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 502A221D1E7
-	for <lists+qemu-devel@lfdr.de>; Mon, 13 Jul 2020 10:39:13 +0200 (CEST)
-Received: from localhost ([::1]:34232 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D2A1821D1EA
+	for <lists+qemu-devel@lfdr.de>; Mon, 13 Jul 2020 10:40:05 +0200 (CEST)
+Received: from localhost ([::1]:36360 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jutzU-0008WP-Dy
-	for lists+qemu-devel@lfdr.de; Mon, 13 Jul 2020 04:39:12 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:46462)
+	id 1juu0K-0000xX-UX
+	for lists+qemu-devel@lfdr.de; Mon, 13 Jul 2020 04:40:04 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:46740)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <imammedo@redhat.com>)
- id 1jutyh-0007ot-EB
- for qemu-devel@nongnu.org; Mon, 13 Jul 2020 04:38:23 -0400
-Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:30122
- helo=us-smtp-1.mimecast.com)
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1jutzb-0000V9-0F
+ for qemu-devel@nongnu.org; Mon, 13 Jul 2020 04:39:19 -0400
+Received: from us-smtp-2.mimecast.com ([207.211.31.81]:46147
+ helo=us-smtp-delivery-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <imammedo@redhat.com>)
- id 1jutyf-0008UF-Sw
- for qemu-devel@nongnu.org; Mon, 13 Jul 2020 04:38:23 -0400
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1jutzZ-00007e-B5
+ for qemu-devel@nongnu.org; Mon, 13 Jul 2020 04:39:18 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1594629500;
+ s=mimecast20190719; t=1594629556;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=a9hankbEvoDgUtF4ycOc5a6GOWS9oVV25slQNXk1KS8=;
- b=OIuag64HT4/QK54hc00d0iQoSdi4kha1oG6c0krNcnR9FQcBFd6al7YkF/IOpPEb2Btrl2
- haw6vONRYy9zG0RrSev0BkJw2Ejy++MX1DVIcyCeQu3OkoRXTklAnFJgKqMriq9AeuxvZE
- voEl6noGHzZQTBlmX0q8EtH9eWUBahs=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-161-_psldmvVNWe-sEyS396-pg-1; Mon, 13 Jul 2020 04:38:19 -0400
-X-MC-Unique: _psldmvVNWe-sEyS396-pg-1
-Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
- [10.5.11.11])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 5AB8918FF679;
- Mon, 13 Jul 2020 08:38:17 +0000 (UTC)
-Received: from localhost (unknown [10.40.208.62])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 579FA6FEDF;
- Mon, 13 Jul 2020 08:38:13 +0000 (UTC)
-Date: Mon, 13 Jul 2020 10:38:09 +0200
-From: Igor Mammedov <imammedo@redhat.com>
-To: Jon Doron <arilou@gmail.com>
-Subject: Re: [PATCH v4 2/2] acpi: i386: Move VMBus DSDT entry to SB
-Message-ID: <20200713103809.66e94131@redhat.com>
-In-Reply-To: <20200625045011.1075314-3-arilou@gmail.com>
-References: <20200625045011.1075314-1-arilou@gmail.com>
- <20200625045011.1075314-3-arilou@gmail.com>
+ in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
+ bh=bstM2lWib7+HcJAqlKCT9ldB1wl4EUc74N6pkZPkaM0=;
+ b=VJrAc0VB/SPZDlfPXQAGJ9CBOocMYFm1Ia/c+RDAR6FW/Z0BJqFFG02504HhcaZF0DRQTo
+ CdZjV77nYOV4Hx8/AGj5b7mfpyBgghMJW/dWG3iRmc591gf4H3PVxoisHNI5NrqKRTldjn
+ CkCHpHnaI690u8SDNeZ32OMTw4qTpyg=
+Received: from mail-wr1-f72.google.com (mail-wr1-f72.google.com
+ [209.85.221.72]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-269-RIfBvfM7NEWTVx_P6pUpeQ-1; Mon, 13 Jul 2020 04:39:13 -0400
+X-MC-Unique: RIfBvfM7NEWTVx_P6pUpeQ-1
+Received: by mail-wr1-f72.google.com with SMTP id c6so16945552wru.7
+ for <qemu-devel@nongnu.org>; Mon, 13 Jul 2020 01:39:12 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:subject:from:to:cc:references:autocrypt
+ :message-id:date:user-agent:mime-version:in-reply-to
+ :content-language:content-transfer-encoding;
+ bh=bstM2lWib7+HcJAqlKCT9ldB1wl4EUc74N6pkZPkaM0=;
+ b=WbsdPKBBUA9r48lCzL4vEteN6T1Xn/FFturUrfEbcFvmdMaikYLAE3SKUn4JEDxYK7
+ sLJEqPAoJ+JZBDgMx9Zteuh7Qgi+c+k5y18cOx3Nnaiz5YhWw9/i2hKwT3wQXosB6kma
+ iSYAjw6tmtSBu7cjPVnWSbYT2/ulJOtq6fNCeK93kY76p+iEw9MufFTJAC4zFngdVq6E
+ QwfT+B4DZwl/af2W0DNxA3Z0RVAGgD78/Q+fdckhquqZmo1mriH8uXPMGHwReJu1ZmWM
+ 7gEacMerpefbtw7NbtzPltyfaRmM9cM17JI0MzucaoLzrShy0Ze8x9VvgvA72V626Hdy
+ sGvA==
+X-Gm-Message-State: AOAM532UcF039GVsiHSBu7qXGuTwWmAa9xu++EtMkhUFDwv8iB24vRXF
+ 1Z57stJ2tGeit5Hu7OZKhk5OZSnrEkM4nKaQ+2rVsryYP8PwR2PikW21stE6iyc8m+KUIAtEhvs
+ 3jW/QmbbTfPj+hu8=
+X-Received: by 2002:a1c:6788:: with SMTP id
+ b130mr18574694wmc.100.1594629551983; 
+ Mon, 13 Jul 2020 01:39:11 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJwrGPQZ+W1yg9veTKsrI/LwnhrCAn4Y9cKMXQjmFSpXcAnwU+C2qb4OlWSccGDySDjXZS+QkQ==
+X-Received: by 2002:a1c:6788:: with SMTP id
+ b130mr18574665wmc.100.1594629551710; 
+ Mon, 13 Jul 2020 01:39:11 -0700 (PDT)
+Received: from [192.168.1.37] (138.red-83-57-170.dynamicip.rima-tde.net.
+ [83.57.170.138])
+ by smtp.gmail.com with ESMTPSA id q7sm23938253wra.56.2020.07.13.01.39.10
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Mon, 13 Jul 2020 01:39:11 -0700 (PDT)
+Subject: Re: Migrating custom qemu.org infrastructure to GitLab
+From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
+To: Stefan Hajnoczi <stefanha@gmail.com>, qemu-devel <qemu-devel@nongnu.org>
+References: <CAJSP0QV3uB4QY6mzw2JFDedr0PJhGkU5FdmLF5PbjMPyxiYSuw@mail.gmail.com>
+ <5bf99e61-8aa2-53f0-0157-52becec1df26@redhat.com>
+Autocrypt: addr=philmd@redhat.com; keydata=
+ mQINBDXML8YBEADXCtUkDBKQvNsQA7sDpw6YLE/1tKHwm24A1au9Hfy/OFmkpzo+MD+dYc+7
+ bvnqWAeGweq2SDq8zbzFZ1gJBd6+e5v1a/UrTxvwBk51yEkadrpRbi+r2bDpTJwXc/uEtYAB
+ GvsTZMtiQVA4kRID1KCdgLa3zztPLCj5H1VZhqZsiGvXa/nMIlhvacRXdbgllPPJ72cLUkXf
+ z1Zu4AkEKpccZaJspmLWGSzGu6UTZ7UfVeR2Hcc2KI9oZB1qthmZ1+PZyGZ/Dy+z+zklC0xl
+ XIpQPmnfy9+/1hj1LzJ+pe3HzEodtlVA+rdttSvA6nmHKIt8Ul6b/h1DFTmUT1lN1WbAGxmg
+ CH1O26cz5nTrzdjoqC/b8PpZiT0kO5MKKgiu5S4PRIxW2+RA4H9nq7nztNZ1Y39bDpzwE5Sp
+ bDHzd5owmLxMLZAINtCtQuRbSOcMjZlg4zohA9TQP9krGIk+qTR+H4CV22sWldSkVtsoTaA2
+ qNeSJhfHQY0TyQvFbqRsSNIe2gTDzzEQ8itsmdHHE/yzhcCVvlUzXhAT6pIN0OT+cdsTTfif
+ MIcDboys92auTuJ7U+4jWF1+WUaJ8gDL69ThAsu7mGDBbm80P3vvUZ4fQM14NkxOnuGRrJxO
+ qjWNJ2ZUxgyHAh5TCxMLKWZoL5hpnvx3dF3Ti9HW2dsUUWICSQARAQABtDJQaGlsaXBwZSBN
+ YXRoaWV1LURhdWTDqSAoUGhpbCkgPHBoaWxtZEByZWRoYXQuY29tPokCVQQTAQgAPwIbDwYL
+ CQgHAwIGFQgCCQoLBBYCAwECHgECF4AWIQSJweePYB7obIZ0lcuio/1u3q3A3gUCXsfWwAUJ
+ KtymWgAKCRCio/1u3q3A3ircD/9Vjh3aFNJ3uF3hddeoFg1H038wZr/xi8/rX27M1Vj2j9VH
+ 0B8Olp4KUQw/hyO6kUxqkoojmzRpmzvlpZ0cUiZJo2bQIWnvScyHxFCv33kHe+YEIqoJlaQc
+ JfKYlbCoubz+02E2A6bFD9+BvCY0LBbEj5POwyKGiDMjHKCGuzSuDRbCn0Mz4kCa7nFMF5Jv
+ piC+JemRdiBd6102ThqgIsyGEBXuf1sy0QIVyXgaqr9O2b/0VoXpQId7yY7OJuYYxs7kQoXI
+ 6WzSMpmuXGkmfxOgbc/L6YbzB0JOriX0iRClxu4dEUg8Bs2pNnr6huY2Ft+qb41RzCJvvMyu
+ gS32LfN0bTZ6Qm2A8ayMtUQgnwZDSO23OKgQWZVglGliY3ezHZ6lVwC24Vjkmq/2yBSLakZE
+ 6DZUjZzCW1nvtRK05ebyK6tofRsx8xB8pL/kcBb9nCuh70aLR+5cmE41X4O+MVJbwfP5s/RW
+ 9BFSL3qgXuXso/3XuWTQjJJGgKhB6xXjMmb1J4q/h5IuVV4juv1Fem9sfmyrh+Wi5V1IzKI7
+ RPJ3KVb937eBgSENk53P0gUorwzUcO+ASEo3Z1cBKkJSPigDbeEjVfXQMzNt0oDRzpQqH2vp
+ apo2jHnidWt8BsckuWZpxcZ9+/9obQ55DyVQHGiTN39hkETy3Emdnz1JVHTU0Q==
+Message-ID: <019332f6-c925-fc3f-6e0e-5d02513b28dd@redhat.com>
+Date: Mon, 13 Jul 2020 10:39:10 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.5.0
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
+In-Reply-To: <5bf99e61-8aa2-53f0-0157-52becec1df26@redhat.com>
+Content-Language: en-US
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=207.211.31.120; envelope-from=imammedo@redhat.com;
- helo=us-smtp-1.mimecast.com
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=207.211.31.81; envelope-from=philmd@redhat.com;
+ helo=us-smtp-delivery-1.mimecast.com
 X-detected-operating-system: by eggs.gnu.org: First seen = 2020/07/13 02:19:41
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
-X-Spam_score_int: -40
-X-Spam_score: -4.1
-X-Spam_bar: ----
-X-Spam_report: (-4.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1,
+X-Spam_score_int: -30
+X-Spam_score: -3.1
+X-Spam_bar: ---
+X-Spam_report: (-3.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-1, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H3=-0.01, RCVD_IN_MSPIKE_WL=-0.01,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -80,65 +123,55 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: rvkagan@yandex-team.ru, pbonzini@redhat.com, vkuznets@redhat.com,
- mail@maciej.szmigiero.name, qemu-devel@nongnu.org
+Cc: Peter Maydell <peter.maydell@linaro.org>, Thomas Huth <thuth@redhat.com>,
+ "Daniel P. Berrange" <berrange@redhat.com>, Cleber Rosa <cleber@redhat.com>,
+ Jeff Cody <codyprime@gmail.com>, Michael Roth <mdroth@linux.vnet.ibm.com>,
+ Paolo Bonzini <pbonzini@redhat.com>,
+ =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Thu, 25 Jun 2020 07:50:11 +0300
-Jon Doron <arilou@gmail.com> wrote:
-
-> Signed-off-by: Jon Doron <arilou@gmail.com>
-
-Reviewed-by: Igor Mammedov <imammedo@redhat.com>
-
-> ---
->  hw/i386/acpi-build.c | 12 +++++++-----
->  1 file changed, 7 insertions(+), 5 deletions(-)
+On 7/10/20 4:04 PM, Philippe Mathieu-Daudé wrote:
+> On 7/8/20 11:52 AM, Stefan Hajnoczi wrote:
+>>
+>> There is a snowball effect where the experience is improved the more
+>> GitLab features we use, so I hope that most of these migrations will
+>> be possible.
 > 
-> diff --git a/hw/i386/acpi-build.c b/hw/i386/acpi-build.c
-> index 91af0d2d0d..1f938a53b2 100644
-> --- a/hw/i386/acpi-build.c
-> +++ b/hw/i386/acpi-build.c
-> @@ -1091,7 +1091,6 @@ static Aml *build_vmbus_device_aml(VMBusBridge *vmbus_bridge)
->  static void build_isa_devices_aml(Aml *table)
->  {
->      ISADevice *fdc = pc_find_fdc0();
-> -    VMBusBridge *vmbus_bridge = vmbus_bridge_find();
->      bool ambiguous;
->  
->      Aml *scope = aml_scope("_SB.PCI0.ISA");
-> @@ -1112,10 +1111,6 @@ static void build_isa_devices_aml(Aml *table)
->          isa_build_aml(ISA_BUS(obj), scope);
->      }
->  
-> -    if (vmbus_bridge) {
-> -        aml_append(scope, build_vmbus_device_aml(vmbus_bridge));
-> -    }
-> -
->      aml_append(table, scope);
->  }
->  
-> @@ -1660,6 +1655,7 @@ build_dsdt(GArray *table_data, BIOSLinker *linker,
->      PCIBus *bus = NULL;
->      TPMIf *tpm = tpm_find();
->      int i;
-> +    VMBusBridge *vmbus_bridge = vmbus_bridge_find();
->  
->      dsdt = init_aml_allocator();
->  
-> @@ -1702,6 +1698,12 @@ build_dsdt(GArray *table_data, BIOSLinker *linker,
->          }
->      }
->  
-> +    if (vmbus_bridge) {
-> +        sb_scope = aml_scope("_SB");
-> +        aml_append(sb_scope, build_vmbus_device_aml(vmbus_bridge));
-> +        aml_append(dsdt, sb_scope);
-> +    }
-> +
->      if (pcmc->legacy_cpu_hotplug) {
->          build_legacy_cpu_hotplug_aml(dsdt, machine, pm->cpu_hp_io_base);
->      } else {
+> I've been looking at other features we might be interested in.
+[...]
+
+> 7/ License Compliance
+> 
+> https://docs.gitlab.com/ee/user/compliance/license_compliance/
+
+WRT IRC feedback QEMU licensing is a lost cause, I can not tell,
+but I think if GitLab has scripts to take care of it, it is an
+improvement over what we have now:
+
+  a) Users will have a clearer idea of the permitted licenses
+
+  b) New contributions will be checked for correct license by
+     a machine, so reviewer can focus on other topics.
+
+> 8/ Connecting with other bug tracking services:
+> 
+> In case we want to link BZ:
+> https://docs.gitlab.com/ee/user/project/integrations/bugzilla.html
+> 
+> Or eventually launchpad:
+> https://docs.gitlab.com/ee/user/project/integrations/custom_issue_tracker.html
+> 
+> 
+> From these points I'm interested in investigating
+> 
+> - CI testing metrics
+> - d3js graphs
+> - License Compliance
+> 
+> Regards,
+> 
+> Phil.
+> 
 
 
