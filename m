@@ -2,34 +2,34 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2848021CC8D
-	for <lists+qemu-devel@lfdr.de>; Mon, 13 Jul 2020 02:37:01 +0200 (CEST)
-Received: from localhost ([::1]:45156 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 740EF21CC96
+	for <lists+qemu-devel@lfdr.de>; Mon, 13 Jul 2020 02:38:41 +0200 (CEST)
+Received: from localhost ([::1]:50000 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jumSq-00077D-8s
-	for lists+qemu-devel@lfdr.de; Sun, 12 Jul 2020 20:37:00 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:49394)
+	id 1jumUS-0000gf-JX
+	for lists+qemu-devel@lfdr.de; Sun, 12 Jul 2020 20:38:40 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:49450)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1jumNJ-0006Ih-FX
- for qemu-devel@nongnu.org; Sun, 12 Jul 2020 20:31:17 -0400
-Received: from indium.canonical.com ([91.189.90.7]:43692)
+ id 1jumNM-0006QZ-Q8
+ for qemu-devel@nongnu.org; Sun, 12 Jul 2020 20:31:20 -0400
+Received: from indium.canonical.com ([91.189.90.7]:43726)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1jumNG-0004gX-Vz
- for qemu-devel@nongnu.org; Sun, 12 Jul 2020 20:31:17 -0400
+ id 1jumNK-0004hC-Dw
+ for qemu-devel@nongnu.org; Sun, 12 Jul 2020 20:31:20 -0400
 Received: from loganberry.canonical.com ([91.189.90.37])
  by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
- id 1jumNF-00052p-25
- for <qemu-devel@nongnu.org>; Mon, 13 Jul 2020 00:31:13 +0000
+ id 1jumNI-00054y-WD
+ for <qemu-devel@nongnu.org>; Mon, 13 Jul 2020 00:31:16 +0000
 Received: from loganberry.canonical.com (localhost [127.0.0.1])
- by loganberry.canonical.com (Postfix) with ESMTP id CAA032E804F
- for <qemu-devel@nongnu.org>; Mon, 13 Jul 2020 00:31:12 +0000 (UTC)
+ by loganberry.canonical.com (Postfix) with ESMTP id BBB252E804F
+ for <qemu-devel@nongnu.org>; Mon, 13 Jul 2020 00:31:16 +0000 (UTC)
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: quoted-printable
-Date: Mon, 13 Jul 2020 00:17:30 -0000
+Date: Mon, 13 Jul 2020 00:18:53 -0000
 From: JuanPabloCuervo <1887318@bugs.launchpad.net>
 To: qemu-devel@nongnu.org
 X-Launchpad-Notification-Type: bug
@@ -40,15 +40,16 @@ X-Launchpad-Bug-Security-Vulnerability: no
 X-Launchpad-Bug-Commenters: audioprof2002
 X-Launchpad-Bug-Reporter: JuanPabloCuervo (audioprof2002)
 X-Launchpad-Bug-Modifier: JuanPabloCuervo (audioprof2002)
-Message-Id: <159459945016.20204.12821765315233915598.malonedeb@chaenomeles.canonical.com>
-Subject: [Bug 1887318] [NEW] impossible to install in OSX Yosemite 10.10.5
+References: <159459945016.20204.12821765315233915598.malonedeb@chaenomeles.canonical.com>
+Message-Id: <159459953317.13140.14275403065092799685.malone@gac.canonical.com>
+Subject: [Bug 1887318] Re: impossible to install in OSX Yosemite 10.10.5
 X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
 X-Launchpad-Message-For: qemu-devel-ml
 Precedence: bulk
 X-Generated-By: Launchpad (canonical.com);
  Revision="4809fcb62f445aaa3ae919f7f6c3cc7d156ea57a";
  Instance="production-secrets-lazr.conf"
-X-Launchpad-Hash: 7e0b8257a2993f713e6aa03ae6501412b7e213d8
+X-Launchpad-Hash: 5696f3337fe573ca4847f6c95acf632c4efafa0b
 Received-SPF: none client-ip=91.189.90.7; envelope-from=bounces@canonical.com;
  helo=indium.canonical.com
 X-detected-operating-system: by eggs.gnu.org: First seen = 2020/07/12 20:31:13
@@ -74,18 +75,16 @@ Reply-To: Bug 1887318 <1887318@bugs.launchpad.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Public bug reported:
+console log
 
-the Brew method has glib problems, glib is impossible to install.
-the MacPorts method has a very long .log file.
+i installed Xcode 6.3 as recommended by MacPorts
+"better than 6.1"
+for Yosemite
 
-** Affects: qemu
-     Importance: Undecided
-         Status: New
 
-** Attachment added: "main.log"
-   https://bugs.launchpad.net/bugs/1887318/+attachment/5392136/+files/main.=
-log
+** Attachment added: "console.txt"
+   https://bugs.launchpad.net/qemu/+bug/1887318/+attachment/5392137/+files/=
+console.txt
 
 -- =
 
