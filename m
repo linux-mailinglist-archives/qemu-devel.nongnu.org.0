@@ -2,68 +2,67 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id BA8A021D2CA
-	for <lists+qemu-devel@lfdr.de>; Mon, 13 Jul 2020 11:30:04 +0200 (CEST)
-Received: from localhost ([::1]:53036 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3777D21D2D0
+	for <lists+qemu-devel@lfdr.de>; Mon, 13 Jul 2020 11:31:12 +0200 (CEST)
+Received: from localhost ([::1]:55324 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1juumh-0001Qc-QW
-	for lists+qemu-devel@lfdr.de; Mon, 13 Jul 2020 05:30:03 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:58014)
+	id 1juunn-0002OV-6o
+	for lists+qemu-devel@lfdr.de; Mon, 13 Jul 2020 05:31:11 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:58180)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1juulK-0000nR-Gm
- for qemu-devel@nongnu.org; Mon, 13 Jul 2020 05:28:38 -0400
-Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:31470
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1juum2-0001RG-P3
+ for qemu-devel@nongnu.org; Mon, 13 Jul 2020 05:29:22 -0400
+Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:25251
  helo=us-smtp-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1juulJ-0006Gw-0b
- for qemu-devel@nongnu.org; Mon, 13 Jul 2020 05:28:38 -0400
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1juum1-0006Kn-8s
+ for qemu-devel@nongnu.org; Mon, 13 Jul 2020 05:29:22 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1594632516;
+ s=mimecast20190719; t=1594632560;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
- bh=nmmZpkBmrboOatJv1QLjpRm4AjYM30EAMhRvjVPKMdU=;
- b=MKpKmADnuVqGy1cKPOL09k9DZQi5PSHln8jCpqJoIbAx2/6CWxRq5LQaOUCLU6MqhXx0cR
- R8XkraHSk6X3Q12PApwNxwbJEi5q28KbruG98T8m9JCHgKQmicioDmRJ5Xihq/ec9nyCUn
- f0nm+O59HORHJ38Kyji2+ZziWGXfGB4=
+ bh=In7gYEUaewbLK0ZDVBh8agfv7VOOG2PP3DsTZ3TTxmE=;
+ b=dpONIFrv1G8wmDZBj6vOrlMwD/DIofkgmcrdvPujH+Dp4wfqRReA5hqKmiBLUsyg4PeYOR
+ epzn3T52IZ5+E67wjwFQj53/SCLPw6fPqMl8FbudKAUQI8dITStgH9zk/8FADz3XQ31ukp
+ aCRQ9cgnsHddJqYKBJ3JfELZp9BA6cM=
 Received: from mail-wm1-f70.google.com (mail-wm1-f70.google.com
  [209.85.128.70]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-173-FIAw1NVsPPG-Z2iEn44ovA-1; Mon, 13 Jul 2020 05:28:34 -0400
-X-MC-Unique: FIAw1NVsPPG-Z2iEn44ovA-1
-Received: by mail-wm1-f70.google.com with SMTP id v11so18000801wmb.1
- for <qemu-devel@nongnu.org>; Mon, 13 Jul 2020 02:28:34 -0700 (PDT)
+ us-mta-408-Q57yoVASOQy6Z2BCMXD0rA-1; Mon, 13 Jul 2020 05:29:18 -0400
+X-MC-Unique: Q57yoVASOQy6Z2BCMXD0rA-1
+Received: by mail-wm1-f70.google.com with SMTP id g6so17966525wmk.4
+ for <qemu-devel@nongnu.org>; Mon, 13 Jul 2020 02:29:18 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:subject:to:cc:references:from:autocrypt
  :message-id:date:user-agent:mime-version:in-reply-to
  :content-language:content-transfer-encoding;
- bh=nmmZpkBmrboOatJv1QLjpRm4AjYM30EAMhRvjVPKMdU=;
- b=oN1qQQQdMCuXNGtuCf97mC+1t7MRea7Gp7AAflrGVTZSxhPBGyyGuL0G9mma2A4gJE
- JWs+g8+xgqfmkoBFaDnSCL7aOog+EYIGASQj4CZme5S/6MSi/nu0oc8MoiZqoEriFaYk
- m2oKT/C67OopHuoldwbcqs+eTdCe13FjvIaTUqKNdZW2Zm/IIe1tckaPzBHQaphu+YK7
- yWex9AaeLYOa9lpKavZ6qjKKQbgxKL/drYvx15uN/Rj0odki0v0lokwPoqbxkWnR9HzV
- Cvs9cMU63R6vYFPA3qdadHoLdLoSgQ6XY0NiJLyLJLfWzI70ylg0LTM5s1O1kKKk5yI+
- IfIQ==
-X-Gm-Message-State: AOAM533uKVRY6h8nQaFWOCNNHyyAs3Uew6+pzkl7G/vul38ugRwCQ6HP
- xAmGuYeQf1Sfvy3pew2ZhmnrlmnJzpe3tT4LN8el3lp/yfMu5DiJjYZnIvToTPgIu1RnKmUkBaQ
- P2qTCYIxuz7jNZzE=
-X-Received: by 2002:a5d:688d:: with SMTP id h13mr43116822wru.303.1594632513630; 
- Mon, 13 Jul 2020 02:28:33 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJxZf89pm23lAX9ALXOga1YCSOW+IFSqwy3VS6DkiyIuawZpijRH9O/EqBhXVnS6fAkBvwwgww==
-X-Received: by 2002:a5d:688d:: with SMTP id h13mr43116806wru.303.1594632513480; 
- Mon, 13 Jul 2020 02:28:33 -0700 (PDT)
+ bh=In7gYEUaewbLK0ZDVBh8agfv7VOOG2PP3DsTZ3TTxmE=;
+ b=cA3Dvx7WBlt+sV8TS7r7K6Fh7N6Kw/CgPLHtmUDsMgXv0db8da7E66uhVWaFmcRe/E
+ LYgZtHYmoToOoEQiPoNdKH3V7CltGWL3rx8IHyGWFLCfJ30Md2JrcNVN6HY99cvAwHfP
+ mNk64jSHcFfOIlg18mWBPVfsY6GZZ8A1ksGM2JZZnIIg25OzsnI3g47ycY01B/LItebK
+ cxWbPLn5PkBkaQCRfNPusiKXvwkr6GTnqp0wR74NzEawwKqjJ1ingXPzxGkRk9uz2/8e
+ C8TqXoXpKqmsh37DMQHxSpOjHVWQkGZqwZJfHFgVE5saOYxh5m+i+zRG+98wwoRIutLH
+ VkBw==
+X-Gm-Message-State: AOAM532bqlqfxmib0li7M5uD7F6xB6gOuKzGo0QtiUdn6PLXHEk+zYMT
+ 5VNRl7j+3NqMBm4RVoeyi7N7VhbAKf96aBazffzQg2onmsfiIb0xNHB1jLVnOLtk5q2TbmWyUxj
+ ENRqwcUc7TkhuRB4=
+X-Received: by 2002:a1c:9a81:: with SMTP id c123mr17381189wme.46.1594632557783; 
+ Mon, 13 Jul 2020 02:29:17 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJxspg73ggRrM9qJ7MmoXoOKzWLjHA0a0yYnu4sVfqhYL7w1rF84XPfXtTNswKMvjoVUA6c5FQ==
+X-Received: by 2002:a1c:9a81:: with SMTP id c123mr17381173wme.46.1594632557625; 
+ Mon, 13 Jul 2020 02:29:17 -0700 (PDT)
 Received: from [192.168.1.37] (138.red-83-57-170.dynamicip.rima-tde.net.
  [83.57.170.138])
- by smtp.gmail.com with ESMTPSA id f15sm21803800wrx.91.2020.07.13.02.28.32
+ by smtp.gmail.com with ESMTPSA id v6sm23047359wrr.85.2020.07.13.02.29.16
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 13 Jul 2020 02:28:32 -0700 (PDT)
-Subject: Re: [PATCH v5 06/12] python/machine.py: Add a configurable timeout to
- shutdown()
+ Mon, 13 Jul 2020 02:29:17 -0700 (PDT)
+Subject: Re: [PATCH v5 07/12] python/machine.py: Make wait() call shutdown()
 To: John Snow <jsnow@redhat.com>, qemu-devel@nongnu.org
 References: <20200710050649.32434-1-jsnow@redhat.com>
- <20200710050649.32434-7-jsnow@redhat.com>
+ <20200710050649.32434-8-jsnow@redhat.com>
 From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
 Autocrypt: addr=philmd@redhat.com; keydata=
  mQINBDXML8YBEADXCtUkDBKQvNsQA7sDpw6YLE/1tKHwm24A1au9Hfy/OFmkpzo+MD+dYc+7
@@ -88,20 +87,20 @@ Autocrypt: addr=philmd@redhat.com; keydata=
  9BFSL3qgXuXso/3XuWTQjJJGgKhB6xXjMmb1J4q/h5IuVV4juv1Fem9sfmyrh+Wi5V1IzKI7
  RPJ3KVb937eBgSENk53P0gUorwzUcO+ASEo3Z1cBKkJSPigDbeEjVfXQMzNt0oDRzpQqH2vp
  apo2jHnidWt8BsckuWZpxcZ9+/9obQ55DyVQHGiTN39hkETy3Emdnz1JVHTU0Q==
-Message-ID: <abc679c4-9307-b4c0-e89a-181bb933f1ee@redhat.com>
-Date: Mon, 13 Jul 2020 11:28:32 +0200
+Message-ID: <f8562a8a-6109-69b0-21d9-9ef1e95573f9@redhat.com>
+Date: Mon, 13 Jul 2020 11:29:16 +0200
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
  Thunderbird/68.5.0
 MIME-Version: 1.0
-In-Reply-To: <20200710050649.32434-7-jsnow@redhat.com>
+In-Reply-To: <20200710050649.32434-8-jsnow@redhat.com>
 Content-Language: en-US
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=utf-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=207.211.31.120; envelope-from=philmd@redhat.com;
+Received-SPF: pass client-ip=205.139.110.120; envelope-from=philmd@redhat.com;
  helo=us-smtp-1.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/07/13 02:19:41
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/07/13 03:20:22
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
 X-Spam_score_int: -40
 X-Spam_score: -4.1
@@ -131,13 +130,16 @@ Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 On 7/10/20 7:06 AM, John Snow wrote:
-> Three seconds is hardcoded. Use it as a default parameter instead, and use that
-> value for both waits that may occur in the function.
+> At this point, shutdown(has_quit=True) and wait() do essentially the
+> same thing; they perform cleanup without actually instructing QEMU to
+> quit.
+> 
+> Define one in terms of the other.
 > 
 > Signed-off-by: John Snow <jsnow@redhat.com>
 > ---
->  python/qemu/machine.py | 8 +++++---
->  1 file changed, 5 insertions(+), 3 deletions(-)
+>  python/qemu/machine.py | 17 +++++++++--------
+>  1 file changed, 9 insertions(+), 8 deletions(-)
 > 
 
 Reviewed-by: Philippe Mathieu-Daudé <philmd@redhat.com>
