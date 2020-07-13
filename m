@@ -2,60 +2,64 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id BC83E21D423
-	for <lists+qemu-devel@lfdr.de>; Mon, 13 Jul 2020 12:58:42 +0200 (CEST)
-Received: from localhost ([::1]:44916 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9009A21D417
+	for <lists+qemu-devel@lfdr.de>; Mon, 13 Jul 2020 12:57:18 +0200 (CEST)
+Received: from localhost ([::1]:38960 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1juwAT-00045K-Qv
-	for lists+qemu-devel@lfdr.de; Mon, 13 Jul 2020 06:58:41 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:60882)
+	id 1juw97-0001ib-JK
+	for lists+qemu-devel@lfdr.de; Mon, 13 Jul 2020 06:57:17 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:60900)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1juw7c-0008PW-0O
- for qemu-devel@nongnu.org; Mon, 13 Jul 2020 06:55:44 -0400
-Received: from us-smtp-2.mimecast.com ([205.139.110.61]:39355
- helo=us-smtp-delivery-1.mimecast.com)
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1juw7d-0008S1-SB
+ for qemu-devel@nongnu.org; Mon, 13 Jul 2020 06:55:45 -0400
+Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:32304
+ helo=us-smtp-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1juw7a-0003vm-Gq
- for qemu-devel@nongnu.org; Mon, 13 Jul 2020 06:55:43 -0400
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1juw7c-0003w9-91
+ for qemu-devel@nongnu.org; Mon, 13 Jul 2020 06:55:45 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1594637741;
+ s=mimecast20190719; t=1594637743;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:content-type:content-type:in-reply-to:in-reply-to:
- references:references; bh=TuzOOuKs/wgmMAwGTMV3YrJZo7iGlMVOHunmKB/tpwY=;
- b=R51DX6p7kob7UOxykjZH02G9uRS9JY0yze5V5RNP8AAGcNKti9v4OoYjocyxkN5vZxbWIP
- sq+7bzhYmW1iTD5G9dydkmImUCz1od0C0xVsdRUU6IvgRnezIN6qJDhktQUsK9yLpuOL7Q
- kq1fwbb1/31wBlI76DKSlJxdCp9hxC4=
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=1+JSHYb737LZqhaYjYC2+OkHdZ5z7XT1MwUYgTFntwI=;
+ b=X5jZiLBoZyIJt+eHhkTdGYHn5A4C9xdlSegejSyT8OQKHUjkh6fd/HWzqV9a2T0vvqhrRC
+ Ahk/LueKSL4VIf/iHhFViSVDr9KgkpwF+ypp5kVsONr7Ma+cI2o2J1HE6L1LXqRE4sUbm3
+ cAWGCbd8m0uchNfzkZ/f/ba9WBx6+dY=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-36-2Suht8DgMjy8HM6lV3PcVA-1; Mon, 13 Jul 2020 06:55:39 -0400
-X-MC-Unique: 2Suht8DgMjy8HM6lV3PcVA-1
+ us-mta-70-ddaxHFoBMsKkkFfYcDHHNQ-1; Mon, 13 Jul 2020 06:55:41 -0400
+X-MC-Unique: ddaxHFoBMsKkkFfYcDHHNQ-1
 Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
  [10.5.11.23])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id DD25D1080;
- Mon, 13 Jul 2020 10:55:38 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 49B291902EA0;
+ Mon, 13 Jul 2020 10:55:40 +0000 (UTC)
 Received: from thuth.com (ovpn-112-125.ams2.redhat.com [10.36.112.125])
- by smtp.corp.redhat.com (Postfix) with ESMTP id A04F327CCC;
- Mon, 13 Jul 2020 10:55:37 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 47CCE27CCC;
+ Mon, 13 Jul 2020 10:55:39 +0000 (UTC)
 From: Thomas Huth <thuth@redhat.com>
 To: peter.maydell@linaro.org,
 	qemu-devel@nongnu.org
-Subject: [PULL 1/9] configure: fix malloc check
-Date: Mon, 13 Jul 2020 12:55:26 +0200
-Message-Id: <20200713105534.10872-2-thuth@redhat.com>
+Subject: [PULL 2/9] configure: do not clobber CFLAGS with --enable-fuzzing
+Date: Mon, 13 Jul 2020 12:55:27 +0200
+Message-Id: <20200713105534.10872-3-thuth@redhat.com>
 In-Reply-To: <20200713105534.10872-1-thuth@redhat.com>
 References: <20200713105534.10872-1-thuth@redhat.com>
+MIME-Version: 1.0
 X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=thuth@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=US-ASCII
-Received-SPF: pass client-ip=205.139.110.61; envelope-from=thuth@redhat.com;
- helo=us-smtp-delivery-1.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/07/13 01:36:29
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=205.139.110.120; envelope-from=thuth@redhat.com;
+ helo=us-smtp-1.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/07/13 03:20:22
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
 X-Spam_score_int: -40
 X-Spam_score: -4.1
@@ -76,36 +80,41 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Olaf Hering <olaf@aepfle.de>
+Cc: Alexander Bulekov <alxndr@bu.edu>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Olaf Hering <olaf@aepfle.de>
+From: Alexander Bulekov <alxndr@bu.edu>
 
-Avoid random return value.
+When configuring with --enable-fuzzing, we overwrote the CFLAGS
+added by all the preceding checks. Instead of overwriting CFLAGS, append
+the ones we need.
 
-Fixes commit f2dfe54c74f768a5bf78c9e5918918727f9d9459
-
-Signed-off-by: Olaf Hering <olaf@aepfle.de>
-Message-Id: <20200707171326.16422-1-olaf@aepfle.de>
-Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
+Fixes: adc28027ff ("fuzz: add configure flag --enable-fuzzing")
+Reported-by: Li Qiang <liq3ea@163.com>
+Signed-off-by: Alexander Bulekov <alxndr@bu.edu>
+Message-Id: <20200708200104.21978-2-alxndr@bu.edu>
+Tested-by: Li Qiang <liq3ea@gmail.com>
+Reviewed-by: Li Qiang <liq3ea@gmail.com>
+Reviewed-by: Philippe Mathieu-Daudé <philmd@redhat.com>
 Signed-off-by: Thomas Huth <thuth@redhat.com>
 ---
- configure | 1 +
- 1 file changed, 1 insertion(+)
+ configure | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
 diff --git a/configure b/configure
-index 814ed81279..f59418f6de 100755
+index f59418f6de..69a89113f7 100755
 --- a/configure
 +++ b/configure
-@@ -6343,6 +6343,7 @@ int main(void) {
-     if (tmp != NULL) {
-         return *(int *)(tmp + 2);
-     }
-+    return 1;
- }
- EOF
-   if compile_prog "$CPU_CFLAGS -Werror -fsanitize=undefined" ""; then
+@@ -7926,7 +7926,7 @@ if test "$fuzzing" = "yes" ; then
+   if test "$have_fuzzer" = "yes"; then
+     FUZZ_LDFLAGS=" -fsanitize=address,fuzzer"
+     FUZZ_CFLAGS=" -fsanitize=address,fuzzer"
+-    CFLAGS=" -fsanitize=address,fuzzer-no-link"
++    CFLAGS="$CFLAGS -fsanitize=address,fuzzer-no-link"
+   else
+     error_exit "Your compiler doesn't support -fsanitize=address,fuzzer"
+     exit 1
 -- 
 2.18.1
 
