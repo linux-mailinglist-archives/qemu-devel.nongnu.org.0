@@ -2,107 +2,78 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E2BAC21D42C
-	for <lists+qemu-devel@lfdr.de>; Mon, 13 Jul 2020 13:01:38 +0200 (CEST)
-Received: from localhost ([::1]:53292 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5400F21D475
+	for <lists+qemu-devel@lfdr.de>; Mon, 13 Jul 2020 13:05:04 +0200 (CEST)
+Received: from localhost ([::1]:35200 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1juwDJ-0007ZG-Sn
-	for lists+qemu-devel@lfdr.de; Mon, 13 Jul 2020 07:01:37 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:33140)
+	id 1juwGd-0003IP-Cg
+	for lists+qemu-devel@lfdr.de; Mon, 13 Jul 2020 07:05:03 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:34650)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1juw9d-0003hH-7g
- for qemu-devel@nongnu.org; Mon, 13 Jul 2020 06:57:49 -0400
-Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:40419
+ (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1juwDt-0000jA-SH
+ for qemu-devel@nongnu.org; Mon, 13 Jul 2020 07:02:13 -0400
+Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:53988
  helo=us-smtp-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1juw9a-000462-UR
- for qemu-devel@nongnu.org; Mon, 13 Jul 2020 06:57:48 -0400
+ (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1juwDr-00053l-R9
+ for qemu-devel@nongnu.org; Mon, 13 Jul 2020 07:02:13 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1594637866;
+ s=mimecast20190719; t=1594638130;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
- bh=0dsAqSi99yvjTgIpRCl/Cp/jQqXrxdBjYOxeXf287po=;
- b=BZf3o8KMZP8kiWrYR+tkVRLllj0/toKeDCvEGmconDSjyV0G5b5Dd2KaeQNuyLvVKCTByo
- HRRtyFOlCDBOulFCjvxceChzDL1sjRa6cVFwELGmZjELCOY/mQyn5HN9sfcUIBwc6qN7Io
- cw72tCl7rtgmn7ngdlfgXFzEKThzpoU=
-Received: from mail-ed1-f70.google.com (mail-ed1-f70.google.com
- [209.85.208.70]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-121-rA2zzX1NNDWtlCApyZS59w-1; Mon, 13 Jul 2020 06:57:42 -0400
-X-MC-Unique: rA2zzX1NNDWtlCApyZS59w-1
-Received: by mail-ed1-f70.google.com with SMTP id b11so20472434edx.10
- for <qemu-devel@nongnu.org>; Mon, 13 Jul 2020 03:57:40 -0700 (PDT)
+ in-reply-to:in-reply-to:references:references;
+ bh=fRF8uZm4rnD0AkZpdkMnnDf26Vaep2LDxP4/uTxLlRw=;
+ b=dUDe+XPuN6oLbijKlZPHzokVu6uuorYx6LGXDTaGipSBdzIRhPK50loeyxVbDIZvUVlauf
+ a6nm1qJ0UPWMg6w0j5eSR+8tJ5LE3SvayXo8S7a6XyBtPBvcxr3XvBITrgCFRTviV6Bc8S
+ FNyaYMcXYWb6pgaq+GHtvGD3hYdVL24=
+Received: from mail-wm1-f70.google.com (mail-wm1-f70.google.com
+ [209.85.128.70]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-241-tZpQ-BzjPKCpXpilbHkSjw-1; Mon, 13 Jul 2020 07:02:02 -0400
+X-MC-Unique: tZpQ-BzjPKCpXpilbHkSjw-1
+Received: by mail-wm1-f70.google.com with SMTP id 65so18311087wmd.8
+ for <qemu-devel@nongnu.org>; Mon, 13 Jul 2020 04:02:02 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:autocrypt
- :message-id:date:user-agent:mime-version:in-reply-to
- :content-language:content-transfer-encoding;
- bh=0dsAqSi99yvjTgIpRCl/Cp/jQqXrxdBjYOxeXf287po=;
- b=GFceUGYIRrPZVlOCKQ+i/vTPpHmbF1xLwoWumtpsr6WSaNG0NIpamfKTDgQ8jZ6cqi
- 60rzDZp8smI/GiGz3DUT8JfnG8ORB3lFKc5C5eMvHMgUKR4LSbM0hDlNQ9dPinqab0RF
- 3qQLsIin1/JbGtknEGaOrshQUeC/0WKteU7h9Rz7k1PPpEcujEnAfXNQs+ih0wUhX8qi
- Bo4qAngMC2Cutsu/UvZ7o0a9bdoAnyQu9v4FAvj037veT1VLhSf/uc+KffiZkYNuDkH3
- Kt2kXLbs09e3gUG0DfqdI2AXqY9+GaOlxVfSWZe7OmdBVSXAl8E7ki0WgCkuLeuItKIF
- upvw==
-X-Gm-Message-State: AOAM533nXeEN9DB4S9CGVptXa8y/lARq39im44yL3GBaLrigLDyxwqGb
- TemxkGkBJNTXeDvazpUean5CwDuKMOuVCUf0z88a3kP6pkvR0qGGRr0xJqu+3raIVhHAvs8qESP
- qYt2Y9yzWhGGZ3b0=
-X-Received: by 2002:a05:6402:1c86:: with SMTP id
- cy6mr75816743edb.30.1594637860140; 
- Mon, 13 Jul 2020 03:57:40 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJz3XnDg+LnSdB4MszxXBmMYuL4Zuy5v1fnn2m140CssL9RuP6+Elag+0wEFPORXOK+phf9axw==
-X-Received: by 2002:a05:6402:1c86:: with SMTP id
- cy6mr75816731edb.30.1594637859976; 
- Mon, 13 Jul 2020 03:57:39 -0700 (PDT)
-Received: from [192.168.1.37] (138.red-83-57-170.dynamicip.rima-tde.net.
- [83.57.170.138])
- by smtp.gmail.com with ESMTPSA id dm1sm9592601ejc.99.2020.07.13.03.57.38
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 13 Jul 2020 03:57:39 -0700 (PDT)
-Subject: Re: [PATCH v3 0/2] qga: Ditch g_get_host_name()
-To: Michael Roth <mdroth@linux.vnet.ibm.com>
-References: <cover.1592849834.git.mprivozn@redhat.com>
- <d4a48322-a2f2-5125-15a2-6f9f9845ad0b@redhat.com>
-From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
-Autocrypt: addr=philmd@redhat.com; keydata=
- mQINBDXML8YBEADXCtUkDBKQvNsQA7sDpw6YLE/1tKHwm24A1au9Hfy/OFmkpzo+MD+dYc+7
- bvnqWAeGweq2SDq8zbzFZ1gJBd6+e5v1a/UrTxvwBk51yEkadrpRbi+r2bDpTJwXc/uEtYAB
- GvsTZMtiQVA4kRID1KCdgLa3zztPLCj5H1VZhqZsiGvXa/nMIlhvacRXdbgllPPJ72cLUkXf
- z1Zu4AkEKpccZaJspmLWGSzGu6UTZ7UfVeR2Hcc2KI9oZB1qthmZ1+PZyGZ/Dy+z+zklC0xl
- XIpQPmnfy9+/1hj1LzJ+pe3HzEodtlVA+rdttSvA6nmHKIt8Ul6b/h1DFTmUT1lN1WbAGxmg
- CH1O26cz5nTrzdjoqC/b8PpZiT0kO5MKKgiu5S4PRIxW2+RA4H9nq7nztNZ1Y39bDpzwE5Sp
- bDHzd5owmLxMLZAINtCtQuRbSOcMjZlg4zohA9TQP9krGIk+qTR+H4CV22sWldSkVtsoTaA2
- qNeSJhfHQY0TyQvFbqRsSNIe2gTDzzEQ8itsmdHHE/yzhcCVvlUzXhAT6pIN0OT+cdsTTfif
- MIcDboys92auTuJ7U+4jWF1+WUaJ8gDL69ThAsu7mGDBbm80P3vvUZ4fQM14NkxOnuGRrJxO
- qjWNJ2ZUxgyHAh5TCxMLKWZoL5hpnvx3dF3Ti9HW2dsUUWICSQARAQABtDJQaGlsaXBwZSBN
- YXRoaWV1LURhdWTDqSAoUGhpbCkgPHBoaWxtZEByZWRoYXQuY29tPokCVQQTAQgAPwIbDwYL
- CQgHAwIGFQgCCQoLBBYCAwECHgECF4AWIQSJweePYB7obIZ0lcuio/1u3q3A3gUCXsfWwAUJ
- KtymWgAKCRCio/1u3q3A3ircD/9Vjh3aFNJ3uF3hddeoFg1H038wZr/xi8/rX27M1Vj2j9VH
- 0B8Olp4KUQw/hyO6kUxqkoojmzRpmzvlpZ0cUiZJo2bQIWnvScyHxFCv33kHe+YEIqoJlaQc
- JfKYlbCoubz+02E2A6bFD9+BvCY0LBbEj5POwyKGiDMjHKCGuzSuDRbCn0Mz4kCa7nFMF5Jv
- piC+JemRdiBd6102ThqgIsyGEBXuf1sy0QIVyXgaqr9O2b/0VoXpQId7yY7OJuYYxs7kQoXI
- 6WzSMpmuXGkmfxOgbc/L6YbzB0JOriX0iRClxu4dEUg8Bs2pNnr6huY2Ft+qb41RzCJvvMyu
- gS32LfN0bTZ6Qm2A8ayMtUQgnwZDSO23OKgQWZVglGliY3ezHZ6lVwC24Vjkmq/2yBSLakZE
- 6DZUjZzCW1nvtRK05ebyK6tofRsx8xB8pL/kcBb9nCuh70aLR+5cmE41X4O+MVJbwfP5s/RW
- 9BFSL3qgXuXso/3XuWTQjJJGgKhB6xXjMmb1J4q/h5IuVV4juv1Fem9sfmyrh+Wi5V1IzKI7
- RPJ3KVb937eBgSENk53P0gUorwzUcO+ASEo3Z1cBKkJSPigDbeEjVfXQMzNt0oDRzpQqH2vp
- apo2jHnidWt8BsckuWZpxcZ9+/9obQ55DyVQHGiTN39hkETy3Emdnz1JVHTU0Q==
-Message-ID: <35cafba8-4b11-91cc-6d4a-57c852569c75@redhat.com>
-Date: Mon, 13 Jul 2020 12:57:38 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.5.0
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+ :mime-version:content-disposition:content-transfer-encoding
+ :in-reply-to;
+ bh=fRF8uZm4rnD0AkZpdkMnnDf26Vaep2LDxP4/uTxLlRw=;
+ b=P+YhOAYZk7WhxdyBB04Rf0VLqbHT8E+8jgkHaAg+VB2A0jejlaOfuSZv4zCfn4N+oE
+ MOtAAax121tkF7HRiNEowQtIo2+WZnT0KEh3qdFbf+prf9KhhPNzTPTf9zgMoepRJIth
+ knHtwiAJapcyrxBSuxHusj8Q4RrFMtUhPuUcU0513Y8UEdp7NCUHzhZAtkCBiqXPifeh
+ 2kNnrnFxQ6cCD7ypDN4ya60E7YWhMVq+U1wleogUBBwBU96kui5Grm39BZ/5GZUTTKtc
+ aWWHVO3lw7TfvQIN7Z1P5uMH7/cVRRj34wzR/IaqGoyCoof0Cb5kHWUxXR6KGdlfif+B
+ 4QsQ==
+X-Gm-Message-State: AOAM533bgUKKheiiXY2JWDBFnxwoas2qRoHzhvi6w6VMGs0VHYvkUlWr
+ yMEx0cTiNv+jgVasr0ylwCwPDdz2nTncOEk1WgEFgwJ/Plepl7JOaljkY93zR7YHjn/kf3rFV7p
+ NirN9lP5emDxmbWc=
+X-Received: by 2002:adf:b1ca:: with SMTP id r10mr52972666wra.150.1594638121626; 
+ Mon, 13 Jul 2020 04:02:01 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJx7gbXXJkTRPARQXe+EchFs+oZM71HNgqGxcQiO0uYXIA3eHn3bl4ZSSlkSUbO8ZckwIRGqHQ==
+X-Received: by 2002:adf:b1ca:: with SMTP id r10mr52972645wra.150.1594638121416; 
+ Mon, 13 Jul 2020 04:02:01 -0700 (PDT)
+Received: from redhat.com (bzq-79-180-10-140.red.bezeqint.net. [79.180.10.140])
+ by smtp.gmail.com with ESMTPSA id 78sm15826868wma.31.2020.07.13.04.01.57
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Mon, 13 Jul 2020 04:02:00 -0700 (PDT)
+Date: Mon, 13 Jul 2020 07:01:51 -0400
+From: "Michael S. Tsirkin" <mst@redhat.com>
+To: Michael Tokarev <mjt@tls.msk.ru>
+Subject: Re: [PATCH] Allow acpi-tmr size=2
+Message-ID: <20200713070038-mutt-send-email-mst@kernel.org>
+References: <5f12377f-b640-c4c5-1bcd-858c622c6c31@the-jedi.co.uk>
+ <4a5cfe21-d370-8ebf-b905-c37d39b68353@msgid.tls.msk.ru>
+ <33bd2c28-8671-a552-61b2-08f5cd1c082d@msgid.tls.msk.ru>
 MIME-Version: 1.0
-In-Reply-To: <d4a48322-a2f2-5125-15a2-6f9f9845ad0b@redhat.com>
-Content-Language: en-US
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=philmd@redhat.com
+In-Reply-To: <33bd2c28-8671-a552-61b2-08f5cd1c082d@msgid.tls.msk.ru>
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=utf-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=207.211.31.120; envelope-from=philmd@redhat.com;
+Content-Disposition: inline
+Received-SPF: pass client-ip=207.211.31.120; envelope-from=mst@redhat.com;
  helo=us-smtp-1.mimecast.com
 X-detected-operating-system: by eggs.gnu.org: First seen = 2020/07/13 02:19:41
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
@@ -125,40 +96,57 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Michal Privoznik <mprivozn@redhat.com>, qemu-devel@nongnu.org,
- vfeenstr@redhat.com, marcandre.lureau@gmail.com, sw@weilnetz.de,
- pbonzini@redhat.com
+Cc: imammedo@redhat.com, Simon John <github@the-jedi.co.uk>,
+ qemu-devel@nongnu.org, Gerd Hoffmann <kraxel@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Ping^2?
+On Mon, Jul 13, 2020 at 10:43:19AM +0300, Michael Tokarev wrote:
+> 13.07.2020 10:20, Michael Tokarev пишет:
+> > 12.07.2020 15:00, Simon John wrote:
+> >> macos guests no longer boot after commit 5d971f9e672507210e77d020d89e0e89165c8fc9
+> >>
+> >> acpi-tmr needs 2 byte memory accesses, so breaks as that commit only allows 4 bytes.
+> >>
+> >> Fixes: 5d971f9e672507210e7 (memory: Revert "memory: accept mismatching sizes in memory_region_access_valid")
+> >> Buglink: https://bugs.launchpad.net/qemu/+bug/1886318
+> > 
+> > Actually this fixes 77d58b1e47c8d1c661f98f12b47ab519d3561488
+> > Author: Gerd Hoffmann <kraxel@redhat.com>
+> > Date:   Thu Nov 22 12:12:30 2012 +0100
+> > Subject: apci: switch timer to memory api
+> > Signed-off-by: Gerd Hoffmann <kraxel@redhat.com>
+> > 
+> > because this is the commit which put min_access_size = 4 in there
+> > (5d971f9e672507210e7 is just a messenger, actual error were here
+> > earlier but it went unnoticed).
+> > 
+> > While min_access_size=4 was most likely an error, I wonder why
+> > we use 1 now, while the subject says it needs 2? What real min
+> > size is here for ACPI PM timer?
+> 
+> Actually it is more twisted than that. We can't just change the size,
+> we must update the corresponding code too.
+> 
+> 
+> static uint64_t acpi_pm_tmr_read(void *opaque, hwaddr addr, unsigned width)
+> {
+>     return acpi_pm_tmr_get(opaque);
+> }
+> 
+> note the actual read function does not even know neither the requested
+> address nor the requested width, it assumes the min/max constraints
+> are enforced and the read goes to all 4 bytes. If this pm timer can
+> be read byte-by-byte, we should return the right byte of the value,
+> not always the whole value.
+> 
+> /mjt
 
-On 7/10/20 11:43 AM, Michal Privoznik wrote:
-> On 6/22/20 8:19 PM, Michal Privoznik wrote:
->> v3 of:
->>
->> https://lists.nongnu.org/archive/html/qemu-devel/2020-06/msg06913.html
->>
->> diff to v2:
->> - don't leak @hostname in util/oslib-posix.c:qemu_get_host_name()
->> - document why we are allocating one byte more than needed
->> - switch to g_new0() from g_malloc0().
->>
->> Michal Privoznik (2):
->>    util: Introduce qemu_get_host_name()
->>    qga: Use qemu_get_host_name() instead of g_get_host_name()
->>
->>   include/qemu/osdep.h | 10 ++++++++++
->>   qga/commands.c       | 17 +++++++++++++----
->>   util/oslib-posix.c   | 35 +++++++++++++++++++++++++++++++++++
->>   util/oslib-win32.c   | 13 +++++++++++++
->>   4 files changed, 71 insertions(+), 4 deletions(-)
->>
-> 
-> Ping? How can I get these merged please?
-> 
-> Michal
-> 
-> 
+
+I think that specifying .impl.min_access_size is a way to do that easily
+without major code changes.
+
+-- 
+MST
 
 
