@@ -2,69 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9B59721D832
-	for <lists+qemu-devel@lfdr.de>; Mon, 13 Jul 2020 16:19:40 +0200 (CEST)
-Received: from localhost ([::1]:55560 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2379321D813
+	for <lists+qemu-devel@lfdr.de>; Mon, 13 Jul 2020 16:14:31 +0200 (CEST)
+Received: from localhost ([::1]:59524 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1juzIx-00035V-Lu
-	for lists+qemu-devel@lfdr.de; Mon, 13 Jul 2020 10:19:39 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:35076)
+	id 1juzDy-0001jM-5G
+	for lists+qemu-devel@lfdr.de; Mon, 13 Jul 2020 10:14:30 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:35090)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1juzAs-00055d-9P
- for qemu-devel@nongnu.org; Mon, 13 Jul 2020 10:11:18 -0400
-Received: from mail-wm1-x330.google.com ([2a00:1450:4864:20::330]:38397)
+ id 1juzAt-00057b-2L
+ for qemu-devel@nongnu.org; Mon, 13 Jul 2020 10:11:19 -0400
+Received: from mail-wm1-x32b.google.com ([2a00:1450:4864:20::32b]:54279)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1juzAq-0006co-Gu
- for qemu-devel@nongnu.org; Mon, 13 Jul 2020 10:11:17 -0400
-Received: by mail-wm1-x330.google.com with SMTP id f18so13313836wml.3
- for <qemu-devel@nongnu.org>; Mon, 13 Jul 2020 07:11:16 -0700 (PDT)
+ id 1juzAr-0006cz-EY
+ for qemu-devel@nongnu.org; Mon, 13 Jul 2020 10:11:18 -0400
+Received: by mail-wm1-x32b.google.com with SMTP id o8so13447686wmh.4
+ for <qemu-devel@nongnu.org>; Mon, 13 Jul 2020 07:11:17 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:subject:date:message-id:in-reply-to:references:mime-version
  :content-transfer-encoding;
- bh=aypUxU7C2gYLlTPZ8asdzkNfN+z6lUCzbwNisQbIlr4=;
- b=g6CBjEWZi3idyWARMDdSRQbdouAMNIEAOGeNx8OJ27gxIdaO6ezZxtyoZ5W/GzwKH5
- E3tFXlEFGPOjx9X9YhorEkYTpCGWKb+ecT4jhc5wQquqUG1L2VlMyIH+7BPe4s2uHvYp
- XBwKTFFM4BWG+ncBJoli1RFWNDSWiesETIxeqlUTZt3WexW8PCGUsjxl1vOLpebSc22x
- bOtDi6oZhk3/O02tdrUkfh2T9dtAtYrbLAo3hf4xSgq6FYtGbYgQii3Y7kx/eFyRR3IZ
- NS6AzrtzIMUilItYMHfbT53czYcBWHGlFDyO/8y8LjQjy0LWBwYCqDaUiZv3qlRgC4/k
- gWJQ==
+ bh=sfF8uQlqTNWoN2CdQI+dtwBm9efGllQvPXBr2wV3kLI=;
+ b=US0dj16dEkO0ktvMnbDhVuqDO02RSgEe/Ta3ul4SP1KC5WwifjnEPHaFuE32KG4oZ5
+ uaqCNi86EZXW+5gG9zp1XsHVe9NVlbIk1MxjPcGKHMoTNtNIxBz93ARAjMYrgGKYEDXy
+ 2Qsn4gOOhjNMBV3JabWNY0ACj6qsisDRJ2uoBf8VtvotuPCmeHtNiULI5JVpR4jnp54T
+ BC9bMTiMOquxI8o72yQRP69zDuz5zrQtOMkt44aPQPsr8gGBGUbEzXCY8RWTi53moXMj
+ 0iUPcd/2ZtzNAfYG7ghFDs+b4TKj4ebS1EgrgFLxDDf8kEtjuTPtQ7QApCOo79kAlzsG
+ c4LQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=aypUxU7C2gYLlTPZ8asdzkNfN+z6lUCzbwNisQbIlr4=;
- b=LVt50HUDAJU/1sIKvvNHhcALSAIFsYaEldVKGMCElltvgHAqQCru6tEVAfooYchaka
- TWx2ROaHtN6Tjz2YXa2rWmVkTpNFBdkg1q35wXXxml+w1FUpFE508yfzJk5x1X0HYvgy
- DUDKL6r8tSI8JtYAIAO5tQhmdWijvP0WQttNeNthYanYpN7jMA/eseaH6z8r0VvEQLXy
- vqdN6lisEeDk0FpMafc8ock4BP9skBUnhVTHiE7WmDFJZhcjOq4mtj3tSvYZw2oKme7x
- COfwOj0yV4nD43OI3RXvCKV6pCzikGFimtVVvwiozD8L9+HElIrJAbHFVN4aD43j9DMy
- 0SIg==
-X-Gm-Message-State: AOAM533OSw1srHFZzCui/zmCctdhgHFJsKx536GjBnEs1StG72FYWj9D
- VdtCWCHXI+ToV0CKXxrvIjZZ20jKy3yzDw==
-X-Google-Smtp-Source: ABdhPJzq3bvoJBGgjamjjDQjzXQxsqDr/Q2k1TVMMftrra/4zKKot1orO/O5q1HQFC5GjxvRgMU0sA==
-X-Received: by 2002:a1c:ba08:: with SMTP id k8mr182121wmf.28.1594649474583;
- Mon, 13 Jul 2020 07:11:14 -0700 (PDT)
+ bh=sfF8uQlqTNWoN2CdQI+dtwBm9efGllQvPXBr2wV3kLI=;
+ b=OfRxx4PpRvHCLxxIY9dX6O/K9VvHtvJMsLQoT5k0B0snh/lPDPPOc8HosDUJ8+PNcf
+ p7MXGM3nLmFMFnuxwtMEJSAe9EGQn6jXjtZ8EfOG3vXGQGYsw5UDJkGpvBQ7IpId3Yhq
+ QSy24mEmSoYgzEgnis4HBd8ZhXPtusaPOiOKFaFva6+Q9dPWcZz5RMEyNlD0wPQxDFHv
+ yBWFiBJ6lX0EXg7yR8iREYxlqiibjiksCeJ1dcTdlo7xBYIQmpGzM9CHH71f214nIVuc
+ y3nCE3AF0nOWvj98CMXWgbSEihM9v4IYqiJifCyq4O/A4qZyD4y7ViH+UnRtcQC7ylbx
+ +FLw==
+X-Gm-Message-State: AOAM5301zdCMqmZnU1JMS92DaIA34S9y97yaKsj0KFK09Bf9/wSbes6Z
+ cDbJy2EirCxsMOOm9cBtN58q78GyP7uf8g==
+X-Google-Smtp-Source: ABdhPJwFsqbxFSYynaCP8JTXsVave4PZgk2aLEyHocgUg4KsebCG3mh/7fJ5C4I4qe2GA8L0pJzAXg==
+X-Received: by 2002:a1c:5453:: with SMTP id p19mr137616wmi.41.1594649475872;
+ Mon, 13 Jul 2020 07:11:15 -0700 (PDT)
 Received: from orth.archaic.org.uk (orth.archaic.org.uk. [81.2.115.148])
- by smtp.gmail.com with ESMTPSA id c136sm24031297wmd.10.2020.07.13.07.11.13
+ by smtp.gmail.com with ESMTPSA id c136sm24031297wmd.10.2020.07.13.07.11.14
  for <qemu-devel@nongnu.org>
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 13 Jul 2020 07:11:13 -0700 (PDT)
+ Mon, 13 Jul 2020 07:11:15 -0700 (PDT)
 From: Peter Maydell <peter.maydell@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PULL 07/25] virtio-iommu: Fix coverity issue in
- virtio_iommu_handle_command()
-Date: Mon, 13 Jul 2020 15:10:46 +0100
-Message-Id: <20200713141104.5139-8-peter.maydell@linaro.org>
+Subject: [PULL 08/25] build: Enable BSD symbols for Haiku
+Date: Mon, 13 Jul 2020 15:10:47 +0100
+Message-Id: <20200713141104.5139-9-peter.maydell@linaro.org>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20200713141104.5139-1-peter.maydell@linaro.org>
 References: <20200713141104.5139-1-peter.maydell@linaro.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::330;
- envelope-from=peter.maydell@linaro.org; helo=mail-wm1-x330.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::32b;
+ envelope-from=peter.maydell@linaro.org; helo=mail-wm1-x32b.google.com
 X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
  That's all we know.
 X-Spam_score_int: -20
@@ -89,34 +88,37 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Eric Auger <eric.auger@redhat.com>
+From: David CARLIER <devnexen@gmail.com>
 
-Coverity points out (CID 1430180) that the new case is missing
-break or a /* fallthrough */ comment. Break is the right thing to
-do as in that case, tail is not used.
+Tell Haiku to provide various BSD functions by setting BSD_SOURCE
+and linking libbsd.
 
-Fixes 1733eebb9e ("virtio-iommu: Implement RESV_MEM probe request")
-Signed-off-by: Eric Auger <eric.auger@redhat.com>
-Reported-by: Peter Maydell <peter.maydell@linaro.org>
-Message-id: 20200708160147.18426-1-eric.auger@redhat.com
+Signed-off-by: David Carlier <devnexen@gmail.com>
+Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
+Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
+Message-id: 20200703145614.16684-2-peter.maydell@linaro.org
+[PMM: expanded commit message]
 Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
 Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
 ---
- hw/virtio/virtio-iommu.c | 1 +
- 1 file changed, 1 insertion(+)
+ configure | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
-diff --git a/hw/virtio/virtio-iommu.c b/hw/virtio/virtio-iommu.c
-index b39e836181e..5d56865e569 100644
---- a/hw/virtio/virtio-iommu.c
-+++ b/hw/virtio/virtio-iommu.c
-@@ -534,6 +534,7 @@ static void virtio_iommu_handle_command(VirtIODevice *vdev, VirtQueue *vq)
-             ptail = (struct virtio_iommu_req_tail *)
-                         (buf + s->config.probe_size);
-             ptail->status = virtio_iommu_handle_probe(s, iov, iov_cnt, buf);
-+            break;
-         }
-         default:
-             tail.status = VIRTIO_IOMMU_S_UNSUPP;
+diff --git a/configure b/configure
+index 9b6ab9d3ca3..c70b43d1394 100755
+--- a/configure
++++ b/configure
+@@ -904,8 +904,8 @@ SunOS)
+ ;;
+ Haiku)
+   haiku="yes"
+-  QEMU_CFLAGS="-DB_USE_POSITIVE_POSIX_ERRORS $QEMU_CFLAGS"
+-  LIBS="-lposix_error_mapper -lnetwork $LIBS"
++  QEMU_CFLAGS="-DB_USE_POSITIVE_POSIX_ERRORS -DBSD_SOURCE $QEMU_CFLAGS"
++  LIBS="-lposix_error_mapper -lnetwork -lbsd $LIBS"
+ ;;
+ Linux)
+   audio_drv_list="try-pa oss"
 -- 
 2.20.1
 
