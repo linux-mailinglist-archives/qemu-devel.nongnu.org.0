@@ -2,60 +2,61 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9C89521DFBF
-	for <lists+qemu-devel@lfdr.de>; Mon, 13 Jul 2020 20:34:47 +0200 (CEST)
-Received: from localhost ([::1]:51612 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id EC18D21DFD4
+	for <lists+qemu-devel@lfdr.de>; Mon, 13 Jul 2020 20:37:23 +0200 (CEST)
+Received: from localhost ([::1]:35176 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jv3Hq-0005dA-IE
-	for lists+qemu-devel@lfdr.de; Mon, 13 Jul 2020 14:34:46 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:40370)
+	id 1jv3KN-0002Cz-1S
+	for lists+qemu-devel@lfdr.de; Mon, 13 Jul 2020 14:37:23 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:40396)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1jv3FZ-0002Fx-GA; Mon, 13 Jul 2020 14:32:25 -0400
-Received: from mail-ej1-x629.google.com ([2a00:1450:4864:20::629]:41885)
+ id 1jv3Fa-0002J9-TC; Mon, 13 Jul 2020 14:32:26 -0400
+Received: from mail-ej1-x643.google.com ([2a00:1450:4864:20::643]:37502)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1jv3FX-0004IV-P0; Mon, 13 Jul 2020 14:32:25 -0400
-Received: by mail-ej1-x629.google.com with SMTP id dp18so18410911ejc.8;
- Mon, 13 Jul 2020 11:32:22 -0700 (PDT)
+ id 1jv3FY-0004J2-Vg; Mon, 13 Jul 2020 14:32:26 -0400
+Received: by mail-ej1-x643.google.com with SMTP id lx13so18439483ejb.4;
+ Mon, 13 Jul 2020 11:32:24 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=sender:from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=A45CZTNPoBUm1W95oEJT02xG5DfWi0IK+venM/Qt9bs=;
- b=RrTzR7+0l7YaevPSpaniWmb86Wlj4IrrZlKRLeAhQ6KZAG3sski4737esWwL5su6Pp
- Ce3l1UH/qBNR+ynPijOSaUcCEK+Lk0GI/gPp1slF2LjS79HcHNnWwPDBBJqZuH94tYt4
- CikzDbl0L1RZJ2prXPK06kqm5YjCHy8oFoJqBUgGLGgIEY0JXumZeY+vxssK4u3/SjUF
- XRGYnPAmgqjuaLt9Qa9mUmnqX2yjDv6iNRYN1ueAjde0GFW+Az5Ykxalo0DN8Rh8kWwQ
- gZ9xflMSO6vAArf4ulsQ1qf4P6/opS1i2PuXT/0ALg3pL3L0HbZ6gDbnD0ipiLHA/wI0
- 3IVw==
+ bh=RNEJrJvPidmgDJjxfdasYseF7s4TQEUs2Z1zglor56c=;
+ b=YVLko8msUdGheg7RY9oXfOeLZgc7uL4Uz4Wrru6Xd0d87dW5ujmQelVlJAcdniXxhf
+ 9ihHnz1VLUgxZPfV52URIWBQWeTzd53PfBnhdpCc9omiimfLwVFbkhoLUwom0dqMrF6D
+ uBQNQFFIwdnLGo6lYJWFdPcwgA4gd6U3iWSeWSYbwfpQT9VVEthOK99ctaE04giDVBj5
+ gk+OsyXZf7er8R+yw+wbZs/vgJF9JnnI7CMZNh7+HNAsmBenIkP5C+cglZwwAvMJpM2y
+ a4q9/ybpZslVGRmmnCxNuF/j9ZA3tuGa9xWtXXNF8MvYWz6ZVmKEat5QJOWkUQ45HuZe
+ sa/w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
  :in-reply-to:references:mime-version:content-transfer-encoding;
- bh=A45CZTNPoBUm1W95oEJT02xG5DfWi0IK+venM/Qt9bs=;
- b=giWewntv2U9q831HP0bffGFOs42DWtygnoIrXe4EV+kdKPgV/JSGi8I3hg5HK/9U3H
- ci5V51O3vOppTG0piKWYczgu1uC80biYu40sR5SaR9SbE3LPXHssWq3Us7yOO3RYRaWM
- f7ijlL9Qg00ZNg/cT+ZiQ27x5zQqUWdEh2LgdRd8JMX4TLypos8ZEVte5b9aNh7fbZuV
- pSyRdTO8zThgj/f3P5A0BJoykIqObRBrgMzBGYfZmgpedZ3chIZjfz0o2M6Sx26yZaoO
- YuTK/ZYMe6nQAY4LLWYtO69QwXNtqgAxieSO8/nc1mFetsKxjNZeBARZjRX55LCfUAkN
- CzLA==
-X-Gm-Message-State: AOAM5326NujSmeDX1UBDuJX4oYj6phAw2X1pwjGk0KGT1yBCspFHVLBI
- ke2A0ZyUb38jwbrMHfAEUaZtTmJ0iqA=
-X-Google-Smtp-Source: ABdhPJz0Qw8SlxeFe9OpDRbyHyGFrAh21kTo5G35ARfVjmG9nKS4QXR+N8grcx7i+gAD69uapIJ+iQ==
-X-Received: by 2002:a17:907:20d1:: with SMTP id
- qq17mr1032942ejb.214.1594665141592; 
- Mon, 13 Jul 2020 11:32:21 -0700 (PDT)
+ bh=RNEJrJvPidmgDJjxfdasYseF7s4TQEUs2Z1zglor56c=;
+ b=t+aOdlDrX2z62oAWNyoKcsSYYsKQ8Kd9JxG01guqrPaJI0lBXG1ZERdocB+hFIDqRi
+ NZ3wtCW2iSm8aM0BuVx5wJhd2F8Busnr3EQe2CsWPDyXUPfOjlB7yxsCT9ZPNnX2SCfO
+ U7puWCKpUKoyEaySz9mn15AWaByNT49sA+ezdLKictTf85iiaXgJ9QXGjANT5G5A8b/f
+ vR/vKFc4OsBOlRo4MXut/rL+R9XapI/M3Aod4RK0QVNoLa0xRBABVfnA1TwRVPx5CX4Y
+ OjVkQNDqX3fL2KcfcSy9VWPnCYZ1YF16mE521uXONkJde+qQBFNZ7nYh6DTX52BUa+kt
+ Y3cw==
+X-Gm-Message-State: AOAM530ZBY7mWLnWPjVKPmZJhw+SU3LQ19NikZ2zeBHIX0aNenU8HH4z
+ BA8n1AQy8O1NktolfgrelUGgRA2YBk0=
+X-Google-Smtp-Source: ABdhPJz5ArDouIhMLjCuRWJ7RRoTXJRQan6O/iH4wQTPEcagdzq9yaIV5qU2camZqZnOgtxKffXNDg==
+X-Received: by 2002:a17:906:2bc7:: with SMTP id
+ n7mr1070705ejg.96.1594665143021; 
+ Mon, 13 Jul 2020 11:32:23 -0700 (PDT)
 Received: from x1w.redhat.com (138.red-83-57-170.dynamicip.rima-tde.net.
  [83.57.170.138])
- by smtp.gmail.com with ESMTPSA id ce12sm4353148edb.4.2020.07.13.11.32.20
+ by smtp.gmail.com with ESMTPSA id ce12sm4353148edb.4.2020.07.13.11.32.21
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 13 Jul 2020 11:32:21 -0700 (PDT)
+ Mon, 13 Jul 2020 11:32:22 -0700 (PDT)
 From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v2 7/9] hw/sd/sdcard: Do not allow invalid SD card sizes
-Date: Mon, 13 Jul 2020 20:32:07 +0200
-Message-Id: <20200713183209.26308-8-f4bug@amsat.org>
+Subject: [PATCH v2 8/9] hw/sd/sdcard: Update coding style to make
+ checkpatch.pl happy
+Date: Mon, 13 Jul 2020 20:32:08 +0200
+Message-Id: <20200713183209.26308-9-f4bug@amsat.org>
 X-Mailer: git-send-email 2.21.3
 In-Reply-To: <20200713183209.26308-1-f4bug@amsat.org>
 References: <20200713183209.26308-1-f4bug@amsat.org>
@@ -63,8 +64,8 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::629;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-ej1-x629.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::643;
+ envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-ej1-x643.google.com
 X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
  That's all we know.
 X-Spam_score_int: 0
@@ -73,7 +74,8 @@ X-Spam_bar: /
 X-Spam_report: (0.0 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1, DKIM_VALID=-0.1,
  DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=1, FREEMAIL_FROM=0.001,
  HEADER_FROM_DIFFERENT_DOMAINS=1, RCVD_IN_DNSWL_NONE=-0.0001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=no autolearn_force=no
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ URIBL_BLOCKED=0.001 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -92,104 +94,85 @@ Cc: Peter Maydell <peter.maydell@linaro.org>,
  =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>,
  Wainer dos Santos Moschetta <wainersm@redhat.com>,
  Alexander Bulekov <alxndr@bu.edu>, Niek Linnenbank <nieklinnenbank@gmail.com>,
- Cleber Rosa <crosa@redhat.com>,
+ Alistair Francis <alistair.francis@wdc.com>, Cleber Rosa <crosa@redhat.com>,
  =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-QEMU allows to create SD card with unrealistic sizes. This could
-work, but some guests (at least Linux) consider sizes that are not
-a power of 2 as a firmware bug and fix the card size to the next
-power of 2.
+To make the next commit easier to review, clean this code first.
 
-While the possibility to use small SD card images has been seen as
-a feature, it became a bug with CVE-2020-13253, where the guest is
-able to do OOB read/write accesses past the image size end.
-
-In a pair of commits we will fix CVE-2020-13253 as:
-
-    Read command is rejected if BLOCK_LEN_ERROR or ADDRESS_ERROR
-    occurred and no data transfer is performed.
-
-    Write command is rejected if BLOCK_LEN_ERROR or ADDRESS_ERROR
-    occurred and no data transfer is performed.
-
-    WP_VIOLATION errors are not modified: the error bit is set, we
-    stay in receive-data state, wait for a stop command. All further
-    data transfer is ignored. See the check on sd->card_status at the
-    beginning of sd_read_data() and sd_write_data().
-
-While this is the correct behavior, in case QEMU create smaller SD
-cards, guests still try to access past the image size end, and QEMU
-considers this is an invalid address, thus "all further data transfer
-is ignored". This is wrong and make the guest looping until
-eventually timeouts.
-
-Fix by not allowing invalid SD card sizes (suggesting the expected
-size as a hint):
-
-  $ qemu-system-arm -M orangepi-pc -drive file=rootfs.ext2,if=sd,format=raw
-  qemu-system-arm: Invalid SD card size: 60 MiB
-  SD card size has to be a power of 2, e.g. 64 MiB.
-  You can resize disk images with 'qemu-img resize <imagefile> <new-size>'
-  (note that this will lose data if you make the image smaller than it currently is).
-
+Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
 Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
+Reviewed-by: Alistair Francis <alistair.francis@wdc.com>
+Message-Id: <20200630133912.9428-3-f4bug@amsat.org>
 ---
-Since v1:
-  Addressed Alistair & Peter comments (error_append_hint message)
----
- hw/sd/sd.c | 25 +++++++++++++++++++++++++
- 1 file changed, 25 insertions(+)
+ hw/sd/sd.c | 24 ++++++++++++++++--------
+ 1 file changed, 16 insertions(+), 8 deletions(-)
 
 diff --git a/hw/sd/sd.c b/hw/sd/sd.c
-index edd60a09c0..5ab945dade 100644
+index 5ab945dade..0f048358ab 100644
 --- a/hw/sd/sd.c
 +++ b/hw/sd/sd.c
-@@ -32,6 +32,7 @@
+@@ -1175,8 +1175,9 @@ static sd_rsp_type_t sd_normal_command(SDState *sd, SDRequest req)
+             sd->data_start = addr;
+             sd->data_offset = 0;
  
- #include "qemu/osdep.h"
- #include "qemu/units.h"
-+#include "qemu/cutils.h"
- #include "hw/irq.h"
- #include "hw/registerfields.h"
- #include "sysemu/block-backend.h"
-@@ -2106,11 +2107,35 @@ static void sd_realize(DeviceState *dev, Error **errp)
-     }
+-            if (sd->data_start + sd->blk_len > sd->size)
++            if (sd->data_start + sd->blk_len > sd->size) {
+                 sd->card_status |= ADDRESS_ERROR;
++            }
+             return sd_r1;
  
-     if (sd->blk) {
-+        int64_t blk_size;
-+
-         if (blk_is_read_only(sd->blk)) {
-             error_setg(errp, "Cannot use read-only drive as SD card");
-             return;
-         }
+         default:
+@@ -1191,8 +1192,9 @@ static sd_rsp_type_t sd_normal_command(SDState *sd, SDRequest req)
+             sd->data_start = addr;
+             sd->data_offset = 0;
  
-+        blk_size = blk_getlength(sd->blk);
-+        if (blk_size > 0 && !is_power_of_2(blk_size)) {
-+            int64_t blk_size_aligned = pow2ceil(blk_size);
-+            char *blk_size_str;
-+
-+            blk_size_str = size_to_str(blk_size);
-+            error_setg(errp, "Invalid SD card size: %s", blk_size_str);
-+            g_free(blk_size_str);
-+
-+            blk_size_str = size_to_str(blk_size_aligned);
-+            error_append_hint(errp,
-+                              "SD card size has to be a power of 2, e.g. %s.\n"
-+                              "You can resize disk images with "
-+                              "'qemu-img resize <imagefile> <new-size>'\n"
-+                              "(note that this will lose data if you make the "
-+                              "image smaller than it currently is).\n",
-+                              blk_size_str);
-+            g_free(blk_size_str);
-+
-+            return;
-+        }
-+
-         ret = blk_set_perm(sd->blk, BLK_PERM_CONSISTENT_READ | BLK_PERM_WRITE,
-                            BLK_PERM_ALL, errp);
-         if (ret < 0) {
+-            if (sd->data_start + sd->blk_len > sd->size)
++            if (sd->data_start + sd->blk_len > sd->size) {
+                 sd->card_status |= ADDRESS_ERROR;
++            }
+             return sd_r1;
+ 
+         default:
+@@ -1237,12 +1239,15 @@ static sd_rsp_type_t sd_normal_command(SDState *sd, SDRequest req)
+             sd->data_offset = 0;
+             sd->blk_written = 0;
+ 
+-            if (sd->data_start + sd->blk_len > sd->size)
++            if (sd->data_start + sd->blk_len > sd->size) {
+                 sd->card_status |= ADDRESS_ERROR;
+-            if (sd_wp_addr(sd, sd->data_start))
++            }
++            if (sd_wp_addr(sd, sd->data_start)) {
+                 sd->card_status |= WP_VIOLATION;
+-            if (sd->csd[14] & 0x30)
++            }
++            if (sd->csd[14] & 0x30) {
+                 sd->card_status |= WP_VIOLATION;
++            }
+             return sd_r1;
+ 
+         default:
+@@ -1261,12 +1266,15 @@ static sd_rsp_type_t sd_normal_command(SDState *sd, SDRequest req)
+             sd->data_offset = 0;
+             sd->blk_written = 0;
+ 
+-            if (sd->data_start + sd->blk_len > sd->size)
++            if (sd->data_start + sd->blk_len > sd->size) {
+                 sd->card_status |= ADDRESS_ERROR;
+-            if (sd_wp_addr(sd, sd->data_start))
++            }
++            if (sd_wp_addr(sd, sd->data_start)) {
+                 sd->card_status |= WP_VIOLATION;
+-            if (sd->csd[14] & 0x30)
++            }
++            if (sd->csd[14] & 0x30) {
+                 sd->card_status |= WP_VIOLATION;
++            }
+             return sd_r1;
+ 
+         default:
 -- 
 2.21.3
 
