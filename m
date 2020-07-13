@@ -2,30 +2,30 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D6CBE21D073
-	for <lists+qemu-devel@lfdr.de>; Mon, 13 Jul 2020 09:31:41 +0200 (CEST)
-Received: from localhost ([::1]:33722 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 691CF21D078
+	for <lists+qemu-devel@lfdr.de>; Mon, 13 Jul 2020 09:33:00 +0200 (CEST)
+Received: from localhost ([::1]:37952 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jusw8-0004wS-TR
-	for lists+qemu-devel@lfdr.de; Mon, 13 Jul 2020 03:31:40 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:59554)
+	id 1jusxP-0006fK-Ev
+	for lists+qemu-devel@lfdr.de; Mon, 13 Jul 2020 03:32:59 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:59534)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <andrey.shinkevich@virtuozzo.com>)
- id 1jussj-0007pM-Mn; Mon, 13 Jul 2020 03:28:09 -0400
-Received: from relay.sw.ru ([185.231.240.75]:35084 helo=relay3.sw.ru)
+ id 1jussh-0007i3-6X; Mon, 13 Jul 2020 03:28:07 -0400
+Received: from relay.sw.ru ([185.231.240.75]:35082 helo=relay3.sw.ru)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <andrey.shinkevich@virtuozzo.com>)
- id 1jussc-0007TG-H1; Mon, 13 Jul 2020 03:28:09 -0400
+ id 1jussc-0007TL-Hm; Mon, 13 Jul 2020 03:28:06 -0400
 Received: from [172.16.25.136] (helo=localhost.sw.ru)
  by relay3.sw.ru with esmtp (Exim 4.93)
  (envelope-from <andrey.shinkevich@virtuozzo.com>)
- id 1jussP-0001Vx-OZ; Mon, 13 Jul 2020 10:27:49 +0300
+ id 1jussP-0001Vx-Pj; Mon, 13 Jul 2020 10:27:49 +0300
 From: Andrey Shinkevich <andrey.shinkevich@virtuozzo.com>
 To: qemu-block@nongnu.org
-Subject: [PATCH v9 05/10] qcow2_format.py: Dump bitmap directory information
-Date: Mon, 13 Jul 2020 10:27:51 +0300
-Message-Id: <1594625276-134500-6-git-send-email-andrey.shinkevich@virtuozzo.com>
+Subject: [PATCH v9 06/10] qcow2_format.py: pass cluster size to substructures
+Date: Mon, 13 Jul 2020 10:27:52 +0300
+Message-Id: <1594625276-134500-7-git-send-email-andrey.shinkevich@virtuozzo.com>
 X-Mailer: git-send-email 1.8.3.1
 In-Reply-To: <1594625276-134500-1-git-send-email-andrey.shinkevich@virtuozzo.com>
 References: <1594625276-134500-1-git-send-email-andrey.shinkevich@virtuozzo.com>
@@ -37,7 +37,7 @@ X-Spam_score_int: -18
 X-Spam_score: -1.9
 X-Spam_bar: -
 X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001, URIBL_BLOCKED=0.001 autolearn=ham autolearn_force=no
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -55,150 +55,82 @@ Cc: kwolf@redhat.com, vsementsov@virtuozzo.com, qemu-devel@nongnu.org,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Read and dump entries from the bitmap directory of QCOW2 image.
-It extends the output in the test case #291.
+The cluster size of an image is the QcowHeader class member and may be
+obtained by dependent extension structures such as Qcow2BitmapExt for
+further bitmap table details print.
 
-Header extension:
-magic                     0x23852875 (Bitmaps)
-...
-
-Bitmap name               bitmap-1
-bitmap_table_offset       0xf0000
-bitmap_table_size         1
-flags                     0x2 (['auto'])
-type                      1
-granularity_bits          16
-name_size                 8
-extra_data_size           0
-
-Suggested-by: Kevin Wolf <kwolf@redhat.com>
 Signed-off-by: Andrey Shinkevich <andrey.shinkevich@virtuozzo.com>
 ---
- tests/qemu-iotests/291.out         | 45 ++++++++++++++++++++++++++++++++++++
- tests/qemu-iotests/qcow2_format.py | 47 ++++++++++++++++++++++++++++++++++++++
- 2 files changed, 92 insertions(+)
+ tests/qemu-iotests/qcow2_format.py | 17 +++++++++++------
+ 1 file changed, 11 insertions(+), 6 deletions(-)
 
-diff --git a/tests/qemu-iotests/291.out b/tests/qemu-iotests/291.out
-index 08bfaaa..53a8eeb 100644
---- a/tests/qemu-iotests/291.out
-+++ b/tests/qemu-iotests/291.out
-@@ -33,6 +33,24 @@ reserved32                0
- bitmap_directory_size     0x40
- bitmap_directory_offset   0x510000
- 
-+Bitmap name               b1
-+bitmap_table_offset       0x4e0000
-+bitmap_table_size         1
-+flags                     0x0 ([])
-+type                      1
-+granularity_bits          19
-+name_size                 2
-+extra_data_size           0
-+
-+Bitmap name               b2
-+bitmap_table_offset       0x500000
-+bitmap_table_size         1
-+flags                     0x2 (['auto'])
-+type                      1
-+granularity_bits          16
-+name_size                 2
-+extra_data_size           0
-+
- 
- === Bitmap preservation not possible to non-qcow2 ===
- 
-@@ -98,6 +116,33 @@ reserved32                0
- bitmap_directory_size     0x60
- bitmap_directory_offset   0x520000
- 
-+Bitmap name               b1
-+bitmap_table_offset       0x470000
-+bitmap_table_size         1
-+flags                     0x0 ([])
-+type                      1
-+granularity_bits          19
-+name_size                 2
-+extra_data_size           0
-+
-+Bitmap name               b2
-+bitmap_table_offset       0x490000
-+bitmap_table_size         1
-+flags                     0x2 (['auto'])
-+type                      1
-+granularity_bits          16
-+name_size                 2
-+extra_data_size           0
-+
-+Bitmap name               b0
-+bitmap_table_offset       0x510000
-+bitmap_table_size         1
-+flags                     0x0 ([])
-+type                      1
-+granularity_bits          16
-+name_size                 2
-+extra_data_size           0
-+
- 
- === Check bitmap contents ===
- 
 diff --git a/tests/qemu-iotests/qcow2_format.py b/tests/qemu-iotests/qcow2_format.py
-index 934062a..1438792 100644
+index 1438792..d7198a9 100644
 --- a/tests/qemu-iotests/qcow2_format.py
 +++ b/tests/qemu-iotests/qcow2_format.py
-@@ -129,6 +129,53 @@ class Qcow2BitmapExt(Qcow2Struct):
+@@ -129,14 +129,16 @@ class Qcow2BitmapExt(Qcow2Struct):
          ('u64', '{:#x}', 'bitmap_directory_offset')
      )
  
-+    def __init__(self, fd):
-+        super().__init__(fd=fd)
-+        self.read_bitmap_directory(fd)
-+
-+    def read_bitmap_directory(self, fd):
-+        fd.seek(self.bitmap_directory_offset)
-+        self.bitmap_directory = \
-+            [Qcow2BitmapDirEntry(fd) for _ in range(self.nb_bitmaps)]
-+
-+    def dump(self):
-+        super().dump()
-+        for entry in self.bitmap_directory:
-+            print()
-+            entry.dump()
-+
-+
-+class Qcow2BitmapDirEntry(Qcow2Struct):
-+
-+    fields = (
-+        ('u64', '{:#x}', 'bitmap_table_offset'),
-+        ('u32', '{}', 'bitmap_table_size'),
-+        ('u32', BitmapFlags, 'flags'),
-+        ('u8',  '{}', 'type'),
-+        ('u8',  '{}', 'granularity_bits'),
-+        ('u16', '{}', 'name_size'),
-+        ('u32', '{}', 'extra_data_size')
-+    )
-+
-+    def __init__(self, fd):
-+        super().__init__(fd=fd)
-+        # Seek relative to the current position in the file
-+        fd.seek(self.extra_data_size, 1)
-+        bitmap_name = fd.read(self.name_size)
-+        self.name = bitmap_name.decode('ascii')
-+        # Move position to the end of the entry in the directory
-+        entry_raw_size = self.bitmap_dir_entry_raw_size()
-+        padding = ((entry_raw_size + 7) & ~7) - entry_raw_size
-+        fd.seek(padding, 1)
-+
-+    def bitmap_dir_entry_raw_size(self):
-+        return struct.calcsize(self.fmt) + self.name_size + \
-+            self.extra_data_size
-+
-+    def dump(self):
-+        print(f'{"Bitmap name":<25} {self.name}')
-+        super(Qcow2BitmapDirEntry, self).dump()
-+
+-    def __init__(self, fd):
++    def __init__(self, fd, cluster_size):
+         super().__init__(fd=fd)
++        self.cluster_size = cluster_size
+         self.read_bitmap_directory(fd)
  
- QCOW2_EXT_MAGIC_BITMAPS = 0x23852875
+     def read_bitmap_directory(self, fd):
+         fd.seek(self.bitmap_directory_offset)
+         self.bitmap_directory = \
+-            [Qcow2BitmapDirEntry(fd) for _ in range(self.nb_bitmaps)]
++            [Qcow2BitmapDirEntry(fd, cluster_size=self.cluster_size)
++             for _ in range(self.nb_bitmaps)]
  
+     def dump(self):
+         super().dump()
+@@ -157,8 +159,9 @@ class Qcow2BitmapDirEntry(Qcow2Struct):
+         ('u32', '{}', 'extra_data_size')
+     )
+ 
+-    def __init__(self, fd):
++    def __init__(self, fd, cluster_size):
+         super().__init__(fd=fd)
++        self.cluster_size = cluster_size
+         # Seek relative to the current position in the file
+         fd.seek(self.extra_data_size, 1)
+         bitmap_name = fd.read(self.name_size)
+@@ -198,11 +201,13 @@ class QcowHeaderExtension(Qcow2Struct):
+         # then padding to next multiply of 8
+     )
+ 
+-    def __init__(self, magic=None, length=None, data=None, fd=None):
++    def __init__(self, magic=None, length=None, data=None, fd=None,
++                 cluster_size=None):
+         """
+         Support both loading from fd and creation from user data.
+         For fd-based creation current position in a file will be used to read
+         the data.
++        The cluster_size value may be obtained by dependent structures.
+ 
+         This should be somehow refactored and functionality should be moved to
+         superclass (to allow creation of any qcow2 struct), but then, fields
+@@ -241,7 +246,7 @@ class QcowHeaderExtension(Qcow2Struct):
+             # Step back to reread data
+             padded = (self.length + 7) & ~7
+             fd.seek(-padded, 1)
+-            self.obj = Qcow2BitmapExt(fd=fd)
++            self.obj = Qcow2BitmapExt(fd=fd, cluster_size=cluster_size)
+             fd.seek(position)
+         else:
+             self.obj = None
+@@ -317,7 +322,7 @@ class QcowHeader(Qcow2Struct):
+             end = self.cluster_size
+ 
+         while fd.tell() < end:
+-            ext = QcowHeaderExtension(fd=fd)
++            ext = QcowHeaderExtension(fd=fd, cluster_size=self.cluster_size)
+             if ext.magic == 0:
+                 break
+             else:
 -- 
 1.8.3.1
 
