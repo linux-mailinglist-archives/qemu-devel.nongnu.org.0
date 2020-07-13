@@ -2,72 +2,72 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id EABC921E123
-	for <lists+qemu-devel@lfdr.de>; Mon, 13 Jul 2020 22:07:04 +0200 (CEST)
-Received: from localhost ([::1]:48854 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id F002C21E12F
+	for <lists+qemu-devel@lfdr.de>; Mon, 13 Jul 2020 22:09:48 +0200 (CEST)
+Received: from localhost ([::1]:33078 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jv4j9-0004Fq-VN
-	for lists+qemu-devel@lfdr.de; Mon, 13 Jul 2020 16:07:03 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:59486)
+	id 1jv4lo-0000mA-2U
+	for lists+qemu-devel@lfdr.de; Mon, 13 Jul 2020 16:09:48 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:59570)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1jv4ge-000856-2L
- for qemu-devel@nongnu.org; Mon, 13 Jul 2020 16:04:28 -0400
-Received: from mail-wr1-x444.google.com ([2a00:1450:4864:20::444]:44885)
+ id 1jv4gj-0008Gz-De
+ for qemu-devel@nongnu.org; Mon, 13 Jul 2020 16:04:33 -0400
+Received: from mail-wr1-x442.google.com ([2a00:1450:4864:20::442]:44885)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1jv4gc-0006IH-3A
- for qemu-devel@nongnu.org; Mon, 13 Jul 2020 16:04:27 -0400
-Received: by mail-wr1-x444.google.com with SMTP id b6so18142398wrs.11
- for <qemu-devel@nongnu.org>; Mon, 13 Jul 2020 13:04:25 -0700 (PDT)
+ id 1jv4gh-0006JN-GR
+ for qemu-devel@nongnu.org; Mon, 13 Jul 2020 16:04:33 -0400
+Received: by mail-wr1-x442.google.com with SMTP id b6so18142756wrs.11
+ for <qemu-devel@nongnu.org>; Mon, 13 Jul 2020 13:04:31 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=kb87PAc0ILcvwPMRDtx1z2EyoH/JKtctRlrd2cWmYmY=;
- b=R7KFLfXvss6QA1s0lF4F3JbssBLto2qMYIIrmbreQJg1sgVQjo8itdImO5QxDT8A4k
- nnARnsGWE5+oopWZMkD0YIUkdckB9oFrA2G3o9DDVQe1Q5+kcRN82vYTaFLkQz9UCmDz
- vXA2eukaqhUEsffy5XUmju1jdRKnSVM1U5r+Db56u75Ws+IFIGdxWDJzf9XYxWGsbN7t
- PiHWwUpGmI/39h01NM7SaGZwjcLPyRhwOIabQmgfzW3AaqegWEqaWWqVUTGSCChw0qxV
- k68wV2Qluqy1OhnlEPfUvAKTTlBpquyLcNoriRz5HsbWrPCAiaDmDLua/vqh9KMRUPH+
- 6g5w==
+ bh=RFloOI9RdqsuY1jzWY/LdnGW0qTS1vaDIDIUNvMdMkw=;
+ b=zOKKinMl8Lc4tl+khcrq25otS5ClYMFza+X8Eb8n8PJ7hQDMp7qLKWT7XBzuLwUnTi
+ VjmNAJQVQ8lV8KViFJt6Ozwz01fq/4O5j/ugnJOlgWRuWS2rLAvFgb/A1HQBF55RbRcZ
+ GQvBF03MeCYdYuHLlSkW1GWLRGzaW/2xHlEzOxRnbI10ygzyNKxJW+TeXWZ60yztPJnx
+ PwSYc/3A956kxyXldFVqJWJqmrfib28ef2fVWm+uiDaIOkbqTL/AdGRXizdlqrJpddv4
+ 8IBew9zVF+kF5eibGXk6wzK6t67zqOdaQAphN8pyy3GT1vKQ8SeZRAq3HKPkeAvi7x7Q
+ 3fsQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=kb87PAc0ILcvwPMRDtx1z2EyoH/JKtctRlrd2cWmYmY=;
- b=A+b9V702TiLZUZUh7HEm7FVA9/MccOA58uY1TBPno88ByfmpwvFuYFLzqA1XQ1RHoz
- ZnIVqPJI3NRg+8qdnE9GsbR9Kmgf4Lp9VThEqpOYNL5cxQ0dI6I8KR6fQgxjb3tTmBx/
- NSU4BvRaPu/TlZ6AceT3uFSylZ2UDBJcpaO/BLVSUMxitObDPv+EbbW7PI4kOepbDYW5
- 8ftT+GzjAStoGH5puubIsMNOtLed1XKKMjviFeut+yGRR05pCusa7gjClH53IZQF914y
- CbH0w2uul8imac+ey+T2wqEbiqYhrpaUJ3zlKipA5Pm0qCzdoCSHf0CBtQ9K3qQYk5KP
- VT9w==
-X-Gm-Message-State: AOAM5319JFOfoP6Vgs3m917mseimHaScoQrWpzmlRy6lw+VYMWeGFzF/
- TQODAzB9u747yTlwrjQotAkcSA==
-X-Google-Smtp-Source: ABdhPJwUyLxRrB1B22Q9XU6df9A42VKwqlpGTi3eVSOW0naoJZTIgfVAJDLs8boUFGlZ6P6ycW+ATg==
-X-Received: by 2002:adf:ff90:: with SMTP id j16mr1183783wrr.364.1594670664723; 
- Mon, 13 Jul 2020 13:04:24 -0700 (PDT)
+ bh=RFloOI9RdqsuY1jzWY/LdnGW0qTS1vaDIDIUNvMdMkw=;
+ b=HG6Ikq8ZHO+Vs/UYJ+j5HrrgIrKtr5bcVaHYHL5opYNB0HC+Vl3/y687JOH4QL8qlJ
+ aV8kCd713EdH8aey2O1ugM5ZUZcBXiGkTwdZEP+tL6fcpT5+ZRg1FBkmbrujJ0p9Gv2c
+ ay/dgyfdFldNDke89p23gXvB5Q+bbOGPSRqHy8ChzMiUuEg3y2LGSpTNYyxAd61ilBL9
+ ji/X7rTz4W2m8QeviiRJDr7zx5czlIS4tPnmrH1FWgRLSaZduxcx0i5IvVIE0qbsXLyn
+ S4IICrwi/W/uPCDnFYr2lvEbkLOIMIKUtznB1LRrCh9kHpnQc/7xLOCCLBSDElPFNsdx
+ e0pg==
+X-Gm-Message-State: AOAM530B8xazTi8iIvKMPlNruyh3RmR5jbCY1gx3KpP794VWJj5b3gOc
+ SR4wTHNED6L0wMV77Rkm+CAuwg==
+X-Google-Smtp-Source: ABdhPJz0U1RwaSiDkrjwHwQDpu95CLWAZdSD8f+3Y7G8PVkw0FQyxceowkoWTeeyIBCnsVHLzEK73A==
+X-Received: by 2002:a5d:6107:: with SMTP id v7mr1188315wrt.174.1594670670106; 
+ Mon, 13 Jul 2020 13:04:30 -0700 (PDT)
 Received: from zen.linaroharston ([51.148.130.216])
- by smtp.gmail.com with ESMTPSA id k131sm874059wmb.36.2020.07.13.13.04.19
+ by smtp.gmail.com with ESMTPSA id 190sm939618wmb.15.2020.07.13.13.04.19
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 13 Jul 2020 13:04:22 -0700 (PDT)
+ Mon, 13 Jul 2020 13:04:23 -0700 (PDT)
 Received: from zen.lan (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id 2C8A01FF92;
+ by zen.linaroharston (Postfix) with ESMTP id 43CCF1FF93;
  Mon, 13 Jul 2020 21:04:16 +0100 (BST)
 From: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v2 06/11] cputlb: ensure we save the IOTLB data in case of
- reset
-Date: Mon, 13 Jul 2020 21:04:10 +0100
-Message-Id: <20200713200415.26214-7-alex.bennee@linaro.org>
+Subject: [PATCH v2 07/11] plugins: expand the bb plugin to be thread safe and
+ track per-cpu
+Date: Mon, 13 Jul 2020 21:04:11 +0100
+Message-Id: <20200713200415.26214-8-alex.bennee@linaro.org>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20200713200415.26214-1-alex.bennee@linaro.org>
 References: <20200713200415.26214-1-alex.bennee@linaro.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::444;
- envelope-from=alex.bennee@linaro.org; helo=mail-wr1-x444.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::442;
+ envelope-from=alex.bennee@linaro.org; helo=mail-wr1-x442.google.com
 X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
  That's all we know.
 X-Spam_score_int: -20
@@ -90,164 +90,164 @@ List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
 Cc: fam@euphon.net, berrange@redhat.com, robert.foley@linaro.org,
- Paolo Bonzini <pbonzini@redhat.com>,
  =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>,
  richard.henderson@linaro.org, f4bug@amsat.org, robhenry@microsoft.com,
- aaron@os.amperecomputing.com, cota@braap.org, kuhn.chenqun@huawei.com,
- peter.puhov@linaro.org, Eduardo Habkost <ehabkost@redhat.com>,
- aurelien@aurel32.net, Richard Henderson <rth@twiddle.net>
+ aaron@os.amperecomputing.com, cota@braap.org, Dave Bort <dbort@dbort.com>,
+ kuhn.chenqun@huawei.com, peter.puhov@linaro.org, aurelien@aurel32.net
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Any write to a device might cause a re-arrangement of memory
-triggering a TLB flush and potential re-size of the TLB invalidating
-previous entries. This would cause users of qemu_plugin_get_hwaddr()
-to see the warning:
-
-  invalid use of qemu_plugin_get_hwaddr
-
-because of the failed tlb_lookup which should always succeed. To
-prevent this we save the IOTLB data in case it is later needed by a
-plugin doing a lookup.
+While there isn't any easy way to make the inline counts thread safe
+we can ensure the callback based ones are. While we are at it we can
+reduce introduce a new option ("idle") to dump a report of the current
+bb and insn count each time a vCPU enters the idle state.
 
 Signed-off-by: Alex Bennée <alex.bennee@linaro.org>
+Reviewed-by: Robert Foley <robert.foley@linaro.org>
+Cc: Dave Bort <dbort@dbort.com>
 
 ---
 v2
-  - save the entry instead of re-running the tlb_fill.
+  - fixup for non-inline linux-user case
+  - minor cleanup and re-factor
 v3
-  - don't abuse TLS, use CPUState to store data
-  - just use g_free_rcu() to avoid ugliness
-  - verify addr matches before returning data
-  - ws fix
-v4
-  - don't both with RCU, just store it in CPUState
-  - clean-up #ifdef'ery
   - checkpatch
 ---
- include/hw/core/cpu.h   | 16 ++++++++++++++++
- include/qemu/typedefs.h |  1 +
- accel/tcg/cputlb.c      | 38 +++++++++++++++++++++++++++++++++++---
- 3 files changed, 52 insertions(+), 3 deletions(-)
+ tests/plugin/bb.c | 97 ++++++++++++++++++++++++++++++++++++++++-------
+ 1 file changed, 84 insertions(+), 13 deletions(-)
 
-diff --git a/include/hw/core/cpu.h b/include/hw/core/cpu.h
-index 5542577d2b..8f145733ce 100644
---- a/include/hw/core/cpu.h
-+++ b/include/hw/core/cpu.h
-@@ -259,6 +259,18 @@ struct CPUWatchpoint {
-     QTAILQ_ENTRY(CPUWatchpoint) entry;
- };
+diff --git a/tests/plugin/bb.c b/tests/plugin/bb.c
+index df19fd359d..e4cc7fdd6e 100644
+--- a/tests/plugin/bb.c
++++ b/tests/plugin/bb.c
+@@ -16,24 +16,67 @@
  
-+#ifdef CONFIG_PLUGIN
-+/*
-+ * For plugins we sometime need to save the resolved iotlb data before
-+ * the memory regions get moved around  by io_writex.
-+ */
-+typedef struct SavedIOTLB {
-+    hwaddr addr;
-+    MemoryRegionSection *section;
-+    hwaddr mr_offset;
-+} SavedIOTLB;
-+#endif
+ QEMU_PLUGIN_EXPORT int qemu_plugin_version = QEMU_PLUGIN_VERSION;
+ 
+-static uint64_t bb_count;
+-static uint64_t insn_count;
++typedef struct {
++    GMutex lock;
++    int index;
++    uint64_t bb_count;
++    uint64_t insn_count;
++} CPUCount;
 +
- struct KVMState;
- struct kvm_run;
- 
-@@ -417,7 +429,11 @@ struct CPUState {
- 
-     DECLARE_BITMAP(plugin_mask, QEMU_PLUGIN_EV_MAX);
- 
-+#ifdef CONFIG_PLUGIN
-     GArray *plugin_mem_cbs;
-+    /* saved iotlb data from io_writex */
-+    SavedIOTLB saved_iotlb;
-+#endif
- 
-     /* TODO Move common fields from CPUArchState here. */
-     int cpu_index;
-diff --git a/include/qemu/typedefs.h b/include/qemu/typedefs.h
-index 15f5047bf1..427027a970 100644
---- a/include/qemu/typedefs.h
-+++ b/include/qemu/typedefs.h
-@@ -116,6 +116,7 @@ typedef struct QObject QObject;
- typedef struct QString QString;
- typedef struct RAMBlock RAMBlock;
- typedef struct Range Range;
-+typedef struct SavedIOTLB SavedIOTLB;
- typedef struct SHPCDevice SHPCDevice;
- typedef struct SSIBus SSIBus;
- typedef struct VirtIODevice VirtIODevice;
-diff --git a/accel/tcg/cputlb.c b/accel/tcg/cputlb.c
-index 1e815357c7..d370aedb47 100644
---- a/accel/tcg/cputlb.c
-+++ b/accel/tcg/cputlb.c
-@@ -1073,6 +1073,24 @@ static uint64_t io_readx(CPUArchState *env, CPUIOTLBEntry *iotlbentry,
-     return val;
- }
- 
-+/*
-+ * Save a potentially trashed IOTLB entry for later lookup by plugin.
-+ *
-+ * We also need to track the thread storage address because the RCU
-+ * cleanup that runs when we leave the critical region (the current
-+ * execution) is actually in a different thread.
-+ */
-+static void save_iotlb_data(CPUState *cs, hwaddr addr,
-+                            MemoryRegionSection *section, hwaddr mr_offset)
++/* Used by the inline & linux-user counts */
+ static bool do_inline;
++static CPUCount inline_count;
++
++/* Dump running CPU total on idle? */
++static bool idle_report;
++static GPtrArray *counts;
++static int max_cpus;
++
++static void gen_one_cpu_report(CPUCount *count, GString *report)
 +{
-+#ifdef CONFIG_PLUGIN
-+    SavedIOTLB *saved = &cs->saved_iotlb;
-+    saved->addr = addr;
-+    saved->section = section;
-+    saved->mr_offset = mr_offset;
-+#endif
++    if (count->bb_count) {
++        g_string_append_printf(report, "CPU%d: "
++                               "bb's: %" PRIu64", insns: %" PRIu64 "\n",
++                               count->index,
++                               count->bb_count, count->insn_count);
++    }
++}
+ 
+ static void plugin_exit(qemu_plugin_id_t id, void *p)
+ {
+-    g_autofree gchar *out = g_strdup_printf(
+-        "bb's: %" PRIu64", insns: %" PRIu64 "\n",
+-        bb_count, insn_count);
+-    qemu_plugin_outs(out);
++    g_autoptr(GString) report = g_string_new("");
++
++    if (do_inline || !max_cpus) {
++        g_string_printf(report, "bb's: %" PRIu64", insns: %" PRIu64 "\n",
++                        inline_count.bb_count, inline_count.insn_count);
++    } else {
++        g_ptr_array_foreach(counts, (GFunc) gen_one_cpu_report, report);
++    }
++    qemu_plugin_outs(report->str);
 +}
 +
- static void io_writex(CPUArchState *env, CPUIOTLBEntry *iotlbentry,
-                       int mmu_idx, uint64_t val, target_ulong addr,
-                       uintptr_t retaddr, MemOp op)
-@@ -1092,6 +1110,12 @@ static void io_writex(CPUArchState *env, CPUIOTLBEntry *iotlbentry,
-     }
-     cpu->mem_io_pc = retaddr;
- 
-+    /*
-+     * The memory_region_dispatch may trigger a flush/resize
-+     * so for plugins we save the iotlb_data just in case.
-+     */
-+    save_iotlb_data(cpu, iotlbentry->addr, section, mr_offset);
++static void vcpu_idle(qemu_plugin_id_t id, unsigned int cpu_index)
++{
++    CPUCount *count = g_ptr_array_index(counts, cpu_index);
++    g_autoptr(GString) report = g_string_new("");
++    gen_one_cpu_report(count, report);
 +
-     if (mr->global_locking && !qemu_mutex_iothread_locked()) {
-         qemu_mutex_lock_iothread();
-         locked = true;
-@@ -1381,8 +1405,11 @@ void *tlb_vaddr_to_host(CPUArchState *env, abi_ptr addr,
-  * in the softmmu lookup code (or helper). We don't handle re-fills or
-  * checking the victim table. This is purely informational.
-  *
-- * This should never fail as the memory access being instrumented
-- * should have just filled the TLB.
-+ * This almost never fails as the memory access being instrumented
-+ * should have just filled the TLB. The one corner case is io_writex
-+ * which can cause TLB flushes and potential resizing of the TLBs
-+ * loosing the information we need. In those cases we need to recover
-+ * data from a copy of the io_tlb entry.
-  */
- 
- bool tlb_plugin_lookup(CPUState *cpu, target_ulong addr, int mmu_idx,
-@@ -1406,8 +1433,13 @@ bool tlb_plugin_lookup(CPUState *cpu, target_ulong addr, int mmu_idx,
-             data->v.ram.hostaddr = addr + tlbe->addend;
-         }
-         return true;
-+    } else {
-+        SavedIOTLB *saved = &cpu->saved_iotlb;
-+        data->is_io = true;
-+        data->v.io.section = saved->section;
-+        data->v.io.offset = saved->mr_offset;
-+        return true;
-     }
--    return false;
++    if (report->len > 0) {
++        g_string_prepend(report, "Idling ");
++        qemu_plugin_outs(report->str);
++    }
  }
  
- #endif
+ static void vcpu_tb_exec(unsigned int cpu_index, void *udata)
+ {
+-    unsigned long n_insns = (unsigned long)udata;
++    CPUCount *count = max_cpus ?
++        g_ptr_array_index(counts, cpu_index) : &inline_count;
+ 
+-    insn_count += n_insns;
+-    bb_count++;
++    unsigned long n_insns = (unsigned long)udata;
++    g_mutex_lock(&count->lock);
++    count->insn_count += n_insns;
++    count->bb_count++;
++    g_mutex_unlock(&count->lock);
+ }
+ 
+ static void vcpu_tb_trans(qemu_plugin_id_t id, struct qemu_plugin_tb *tb)
+@@ -42,9 +85,10 @@ static void vcpu_tb_trans(qemu_plugin_id_t id, struct qemu_plugin_tb *tb)
+ 
+     if (do_inline) {
+         qemu_plugin_register_vcpu_tb_exec_inline(tb, QEMU_PLUGIN_INLINE_ADD_U64,
+-                                                 &bb_count, 1);
++                                                 &inline_count.bb_count, 1);
+         qemu_plugin_register_vcpu_tb_exec_inline(tb, QEMU_PLUGIN_INLINE_ADD_U64,
+-                                                 &insn_count, n_insns);
++                                                 &inline_count.insn_count,
++                                                 n_insns);
+     } else {
+         qemu_plugin_register_vcpu_tb_exec_cb(tb, vcpu_tb_exec,
+                                              QEMU_PLUGIN_CB_NO_REGS,
+@@ -56,8 +100,35 @@ QEMU_PLUGIN_EXPORT int qemu_plugin_install(qemu_plugin_id_t id,
+                                            const qemu_info_t *info,
+                                            int argc, char **argv)
+ {
+-    if (argc && strcmp(argv[0], "inline") == 0) {
+-        do_inline = true;
++    int i;
++
++    for (i = 0; i < argc; i++) {
++        char *opt = argv[i];
++        if (g_strcmp0(opt, "inline") == 0) {
++            do_inline = true;
++        } else if (g_strcmp0(opt, "idle") == 0) {
++            idle_report = true;
++        } else {
++            fprintf(stderr, "option parsing failed: %s\n", opt);
++            return -1;
++        }
++    }
++
++    if (info->system_emulation && !do_inline) {
++        max_cpus = info->system.max_vcpus;
++        counts = g_ptr_array_new();
++        for (i = 0; i < max_cpus; i++) {
++            CPUCount *count = g_new0(CPUCount, 1);
++            g_mutex_init(&count->lock);
++            count->index = i;
++            g_ptr_array_add(counts, count);
++        }
++    } else if (!do_inline) {
++        g_mutex_init(&inline_count.lock);
++    }
++
++    if (idle_report) {
++        qemu_plugin_register_vcpu_idle_cb(id, vcpu_idle);
+     }
+ 
+     qemu_plugin_register_vcpu_tb_trans_cb(id, vcpu_tb_trans);
 -- 
 2.20.1
 
