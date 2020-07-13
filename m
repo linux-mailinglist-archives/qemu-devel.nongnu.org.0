@@ -2,63 +2,62 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E3F9A21E0DF
-	for <lists+qemu-devel@lfdr.de>; Mon, 13 Jul 2020 21:38:22 +0200 (CEST)
-Received: from localhost ([::1]:51762 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7B78921E0E5
+	for <lists+qemu-devel@lfdr.de>; Mon, 13 Jul 2020 21:39:21 +0200 (CEST)
+Received: from localhost ([::1]:57720 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jv4HN-0005hi-Qc
-	for lists+qemu-devel@lfdr.de; Mon, 13 Jul 2020 15:38:21 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:46900)
+	id 1jv4IK-00085M-G4
+	for lists+qemu-devel@lfdr.de; Mon, 13 Jul 2020 15:39:20 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:47738)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <ljp@linux.vnet.ibm.com>)
- id 1jv4FH-0002jW-4w; Mon, 13 Jul 2020 15:36:11 -0400
-Received: from mx0b-001b2d01.pphosted.com ([148.163.158.5]:33628)
+ id 1jv4GB-0004fS-Ff; Mon, 13 Jul 2020 15:37:07 -0400
+Received: from mx0a-001b2d01.pphosted.com ([148.163.156.1]:9688)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <ljp@linux.vnet.ibm.com>)
- id 1jv4FF-0000GV-Cp; Mon, 13 Jul 2020 15:36:10 -0400
-Received: from pps.filterd (m0127361.ppops.net [127.0.0.1])
+ id 1jv4G9-0000dQ-LS; Mon, 13 Jul 2020 15:37:07 -0400
+Received: from pps.filterd (m0098410.ppops.net [127.0.0.1])
  by mx0a-001b2d01.pphosted.com (8.16.0.42/8.16.0.42) with SMTP id
- 06DJOGMj040990; Mon, 13 Jul 2020 15:36:03 -0400
-Received: from ppma01dal.us.ibm.com (83.d6.3fa9.ip4.static.sl-reverse.com
- [169.63.214.131])
- by mx0a-001b2d01.pphosted.com with ESMTP id 327u1gtfbt-1
+ 06DJWuRm085720; Mon, 13 Jul 2020 15:37:00 -0400
+Received: from ppma04dal.us.ibm.com (7a.29.35a9.ip4.static.sl-reverse.com
+ [169.53.41.122])
+ by mx0a-001b2d01.pphosted.com with ESMTP id 3279y5em2p-1
  (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Mon, 13 Jul 2020 15:36:03 -0400
-Received: from pps.filterd (ppma01dal.us.ibm.com [127.0.0.1])
- by ppma01dal.us.ibm.com (8.16.0.42/8.16.0.42) with SMTP id 06DJYPA5004443;
- Mon, 13 Jul 2020 19:36:02 GMT
-Received: from b03cxnp07029.gho.boulder.ibm.com
- (b03cxnp07029.gho.boulder.ibm.com [9.17.130.16])
- by ppma01dal.us.ibm.com with ESMTP id 328ux6s1jq-1
+ Mon, 13 Jul 2020 15:37:00 -0400
+Received: from pps.filterd (ppma04dal.us.ibm.com [127.0.0.1])
+ by ppma04dal.us.ibm.com (8.16.0.42/8.16.0.42) with SMTP id 06DJZLIC015082;
+ Mon, 13 Jul 2020 19:36:59 GMT
+Received: from b03cxnp08027.gho.boulder.ibm.com
+ (b03cxnp08027.gho.boulder.ibm.com [9.17.130.19])
+ by ppma04dal.us.ibm.com with ESMTP id 327528y4q0-1
  (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Mon, 13 Jul 2020 19:36:01 +0000
+ Mon, 13 Jul 2020 19:36:59 +0000
 Received: from b03ledav001.gho.boulder.ibm.com
  (b03ledav001.gho.boulder.ibm.com [9.17.130.232])
- by b03cxnp07029.gho.boulder.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
- 06DJa0EM39780686
+ by b03cxnp08027.gho.boulder.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
+ 06DJauGT5178028
  (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Mon, 13 Jul 2020 19:36:00 GMT
+ Mon, 13 Jul 2020 19:36:56 GMT
 Received: from b03ledav001.gho.boulder.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id 9D7EA6E04E;
- Mon, 13 Jul 2020 19:36:00 +0000 (GMT)
+ by IMSVA (Postfix) with ESMTP id 146B86E054;
+ Mon, 13 Jul 2020 19:36:58 +0000 (GMT)
 Received: from b03ledav001.gho.boulder.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id D29536E04C;
- Mon, 13 Jul 2020 19:35:59 +0000 (GMT)
+ by IMSVA (Postfix) with ESMTP id 483EA6E04C;
+ Mon, 13 Jul 2020 19:36:57 +0000 (GMT)
 Received: from [9.65.204.75] (unknown [9.65.204.75])
  by b03ledav001.gho.boulder.ibm.com (Postfix) with ESMTPS;
- Mon, 13 Jul 2020 19:35:59 +0000 (GMT)
+ Mon, 13 Jul 2020 19:36:57 +0000 (GMT)
 Content-Type: text/plain;
 	charset=us-ascii
 Mime-Version: 1.0 (Mac OS X Mail 13.4 \(3608.80.23.2.2\))
-Subject: Re: [PATCH v4 08/11] target/ppc: add vmulh{su}w instructions
+Subject: Re: [PATCH v4 10/11] target/ppc: add vmulh{su}d instructions
 From: Lijun Pan <ljp@linux.vnet.ibm.com>
-In-Reply-To: <20200701234344.91843-9-ljp@linux.ibm.com>
-Date: Mon, 13 Jul 2020 14:35:58 -0500
+In-Reply-To: <20200701234715.91893-1-ljp@linux.ibm.com>
+Date: Mon, 13 Jul 2020 14:36:56 -0500
 Content-Transfer-Encoding: 7bit
-Message-Id: <628373DB-E530-4D09-B678-FFBE80D42C3D@linux.vnet.ibm.com>
-References: <20200701234344.91843-1-ljp@linux.ibm.com>
- <20200701234344.91843-9-ljp@linux.ibm.com>
+Message-Id: <B641981D-338B-4749-B27F-3ADBD5FEF405@linux.vnet.ibm.com>
+References: <20200701234715.91893-1-ljp@linux.ibm.com>
 To: Lijun Pan <ljp@linux.ibm.com>
 X-Mailer: Apple Mail (2.3608.80.23.2.2)
 X-TM-AS-GCONF: 00
@@ -66,15 +65,15 @@ X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:6.0.235, 18.0.687
  definitions=2020-07-13_16:2020-07-13,
  2020-07-13 signatures=0
 X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- adultscore=0 malwarescore=0
- spamscore=0 priorityscore=1501 clxscore=1015 mlxlogscore=999
- suspectscore=0 phishscore=0 bulkscore=0 impostorscore=0 mlxscore=0
+ impostorscore=0
+ priorityscore=1501 malwarescore=0 bulkscore=0 adultscore=0 mlxscore=0
+ mlxlogscore=970 suspectscore=0 phishscore=0 clxscore=1015 spamscore=0
  lowpriorityscore=0 classifier=spam adjust=0 reason=mlx scancount=1
  engine=8.12.0-2006250000 definitions=main-2007130136
-Received-SPF: none client-ip=148.163.158.5;
- envelope-from=ljp@linux.vnet.ibm.com; helo=mx0b-001b2d01.pphosted.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/07/13 15:30:50
-X-ACL-Warn: Detected OS   = Linux 3.1-3.10
+Received-SPF: none client-ip=148.163.156.1;
+ envelope-from=ljp@linux.vnet.ibm.com; helo=mx0a-001b2d01.pphosted.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/07/13 15:20:32
+X-ACL-Warn: Detected OS   = Linux 3.x [generic] [fuzzy]
 X-Spam_score_int: -35
 X-Spam_score: -3.6
 X-Spam_bar: ---
@@ -100,19 +99,20 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 
 
-> On Jul 1, 2020, at 6:43 PM, Lijun Pan <ljp@linux.ibm.com> wrote:
+> On Jul 1, 2020, at 6:47 PM, Lijun Pan <ljp@linux.ibm.com> wrote:
 > 
-> vmulhsw: Vector Multiply High Signed Word
-> vmulhuw: Vector Multiply High Unsigned Word
+> vmulhsd: Vector Multiply High Signed Doubleword
+> vmulhud: Vector Multiply High Unsigned Doubleword
 > 
 > Signed-off-by: Lijun Pan <ljp@linux.ibm.com>
 > ---
 > Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
-> v3: inline the helper_vmulh{su}w multiply directly instead of using macro
+> v3: simplify helper_vmulh{su}d 
 > v2: fix coding style
 >    use Power ISA 3.1 flag
 > 
 
 any feedback on this one?
+
 
 
