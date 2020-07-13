@@ -2,61 +2,72 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id AF02E21D4F6
-	for <lists+qemu-devel@lfdr.de>; Mon, 13 Jul 2020 13:29:26 +0200 (CEST)
-Received: from localhost ([::1]:37888 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C057F21D521
+	for <lists+qemu-devel@lfdr.de>; Mon, 13 Jul 2020 13:42:03 +0200 (CEST)
+Received: from localhost ([::1]:43964 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1juweD-0000Fa-Q8
-	for lists+qemu-devel@lfdr.de; Mon, 13 Jul 2020 07:29:25 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:43946)
+	id 1juwqQ-0003ra-Nv
+	for lists+qemu-devel@lfdr.de; Mon, 13 Jul 2020 07:42:02 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:47758)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <no-reply@patchew.org>)
- id 1juwck-0007Mk-1W
- for qemu-devel@nongnu.org; Mon, 13 Jul 2020 07:27:54 -0400
-Resent-Date: Mon, 13 Jul 2020 07:27:54 -0400
-Resent-Message-Id: <E1juwck-0007Mk-1W@lists.gnu.org>
-Received: from sender4-of-o53.zoho.com ([136.143.188.53]:21301)
+ (Exim 4.90_1) (envelope-from <cohuck@redhat.com>) id 1juwon-0002ga-Dq
+ for qemu-devel@nongnu.org; Mon, 13 Jul 2020 07:40:21 -0400
+Received: from us-smtp-2.mimecast.com ([207.211.31.81]:32161
+ helo=us-smtp-delivery-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <no-reply@patchew.org>)
- id 1juwch-0000ZH-Mm
- for qemu-devel@nongnu.org; Mon, 13 Jul 2020 07:27:53 -0400
-ARC-Seal: i=1; a=rsa-sha256; t=1594639661; cv=none; 
- d=zohomail.com; s=zohoarc; 
- b=M8K8Rn6z4DFlPZmcm1xsnISl784iJejsYoU1gTXclj324jCtSavVHyJBDNDvn9eEMWCrEBzXW7cbz0vWPbPUdKeb+AcOq1uVXwYXKEIJ6erUeVQj8DWTYUeZM6rg0pBHOc04mPV6K1Wuef7CpOlHEBZs8M9AxC5ciGXQ1DdOgc4=
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.com;
- s=zohoarc; t=1594639661;
- h=Content-Type:Content-Transfer-Encoding:Cc:Date:From:In-Reply-To:MIME-Version:Message-ID:Reply-To:Subject:To;
- bh=EmFXUtC0mHezvxTVWJn+dVVTO9CubfIh/RUpLFjYuXQ=; 
- b=MCaLBg+w73k5B0U4An515FP6kMs4FsU5jwEDAfH7+Vg0cjOdz9+bZEAyMrp523E8rtcw8Gs+NwXWrWkuWx62LXFxNcezb5mjm11hziV+yo1F7xgJVhOD9qjm1bGivW90yG2nUvz5TC3K2qa1OKTAUVzd9ZszEpiIfPS0PQq03Zg=
-ARC-Authentication-Results: i=1; mx.zohomail.com;
- spf=pass  smtp.mailfrom=no-reply@patchew.org;
- dmarc=pass header.from=<no-reply@patchew.org>
- header.from=<no-reply@patchew.org>
-Received: from [172.17.0.3] (23.253.156.214 [23.253.156.214]) by
- mx.zohomail.com with SMTPS id 1594639658337271.5964227213176;
- Mon, 13 Jul 2020 04:27:38 -0700 (PDT)
-Subject: Re: [PULL 0/9] Fuzzer, configure, gitlab and misc patches
-Message-ID: <159463965735.2008.15626436001027310858@07a7f0d89f7d>
-In-Reply-To: <20200713105534.10872-1-thuth@redhat.com>
+ (Exim 4.90_1) (envelope-from <cohuck@redhat.com>) id 1juwoe-0002KI-P9
+ for qemu-devel@nongnu.org; Mon, 13 Jul 2020 07:40:20 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1594640410;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=5btOSnoodjFBjezWJA6lx/RJBkRf2VDFeTOIWsvz5aI=;
+ b=KTxO1gVOx+K/GMrRkWWSCEiB5n0CNurRNgcIeT8IfbfwENsWYIImCkwxBXn6gCNkzI56PU
+ daronzzySGrorsCAzvyY5Ib3ZkbrFzdoSwNoSoAkw0zszyF0adYdxZlca4Wn+9QJF/v8dP
+ wATaSJUo8rLeMuiOfwnbgtOCGv/BL08=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-373-A7iTE2jeM7mezrak1KW_yQ-1; Mon, 13 Jul 2020 07:40:09 -0400
+X-MC-Unique: A7iTE2jeM7mezrak1KW_yQ-1
+Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
+ [10.5.11.16])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 909A380040A;
+ Mon, 13 Jul 2020 11:40:07 +0000 (UTC)
+Received: from gondolin (ovpn-113-13.ams2.redhat.com [10.36.113.13])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id E39F45C1D0;
+ Mon, 13 Jul 2020 11:39:59 +0000 (UTC)
+Date: Mon, 13 Jul 2020 13:39:57 +0200
+From: Cornelia Huck <cohuck@redhat.com>
+To: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
+Subject: Re: migration: broken snapshot saves appear on s390 when small
+ fields in migration stream removed
+Message-ID: <20200713133957.148716a7.cohuck@redhat.com>
+In-Reply-To: <20200713110333.GE3122@work-vm>
+References: <8bbafdec-836d-b7de-cab8-7a325b6e238d@suse.de>
+ <20200713110333.GE3122@work-vm>
+Organization: Red Hat GmbH
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
-Resent-From: 
-From: no-reply@patchew.org
-To: thuth@redhat.com
-Date: Mon, 13 Jul 2020 04:27:38 -0700 (PDT)
-X-ZohoMailClient: External
-Received-SPF: pass client-ip=136.143.188.53; envelope-from=no-reply@patchew.org;
- helo=sender4-of-o53.zoho.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/07/13 06:42:20
-X-ACL-Warn: Detected OS   = Linux 3.11 and newer [fuzzy]
-X-Spam_score_int: -18
-X-Spam_score: -1.9
-X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_NONE=-0.0001,
- RCVD_IN_MSPIKE_H4=-0.01, RCVD_IN_MSPIKE_WL=-0.01, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001, URIBL_BLOCKED=0.001 autolearn=ham autolearn_force=no
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=207.211.31.81; envelope-from=cohuck@redhat.com;
+ helo=us-smtp-delivery-1.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/07/13 02:19:41
+X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
+X-Spam_score_int: -30
+X-Spam_score: -3.1
+X-Spam_bar: ---
+X-Spam_report: (-3.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H3=-0.01, RCVD_IN_MSPIKE_WL=-0.01,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -69,68 +80,82 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: qemu-devel@nongnu.org
-Cc: peter.maydell@linaro.org, qemu-devel@nongnu.org
+Cc: "Jason J. Herne" <jjherne@linux.ibm.com>, Fam Zheng <fam@euphon.net>,
+ Thomas Huth <thuth@redhat.com>, Juan Quintela <quintela@redhat.com>,
+ Peter Maydell <peter.maydell@linaro.org>, qemu-devel <qemu-devel@nongnu.org>,
+ Claudio Fontana <cfontana@suse.de>, Stefan Hajnoczi <stefanha@redhat.com>,
+ Paolo Bonzini <pbonzini@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-UGF0Y2hldyBVUkw6IGh0dHBzOi8vcGF0Y2hldy5vcmcvUUVNVS8yMDIwMDcxMzEwNTUzNC4xMDg3
-Mi0xLXRodXRoQHJlZGhhdC5jb20vCgoKCkhpLAoKVGhpcyBzZXJpZXMgc2VlbXMgdG8gaGF2ZSBz
-b21lIGNvZGluZyBzdHlsZSBwcm9ibGVtcy4gU2VlIG91dHB1dCBiZWxvdyBmb3IKbW9yZSBpbmZv
-cm1hdGlvbjoKClR5cGU6IHNlcmllcwpNZXNzYWdlLWlkOiAyMDIwMDcxMzEwNTUzNC4xMDg3Mi0x
-LXRodXRoQHJlZGhhdC5jb20KU3ViamVjdDogW1BVTEwgMC85XSBGdXp6ZXIsIGNvbmZpZ3VyZSwg
-Z2l0bGFiIGFuZCBtaXNjIHBhdGNoZXMKCj09PSBURVNUIFNDUklQVCBCRUdJTiA9PT0KIyEvYmlu
-L2Jhc2gKZ2l0IHJldi1wYXJzZSBiYXNlID4gL2Rldi9udWxsIHx8IGV4aXQgMApnaXQgY29uZmln
-IC0tbG9jYWwgZGlmZi5yZW5hbWVsaW1pdCAwCmdpdCBjb25maWcgLS1sb2NhbCBkaWZmLnJlbmFt
-ZXMgVHJ1ZQpnaXQgY29uZmlnIC0tbG9jYWwgZGlmZi5hbGdvcml0aG0gaGlzdG9ncmFtCi4vc2Ny
-aXB0cy9jaGVja3BhdGNoLnBsIC0tbWFpbGJhY2sgYmFzZS4uCj09PSBURVNUIFNDUklQVCBFTkQg
-PT09CgpTd2l0Y2hlZCB0byBhIG5ldyBicmFuY2ggJ3Rlc3QnCjI1NjBkMDggZG9jcy9zeXN0ZW0v
-czM5MHg6IEltcHJvdmUgdGhlIDMyNzAgZG9jdW1lbnRhdGlvbgpiZWU4MmU5IEdpdExhYiBHYXRp
-bmcgQ0k6IGludHJvZHVjZSBwaXBlbGluZS1zdGF0dXMgY29udHJpYiBzY3JpcHQKMTQxOTg1ZSBk
-aXNhcy9zaDQ6IEFkZCBtaXNzaW5nIGZhbGx0aHJvdWdoIGFubm90YXRpb25zCmY5ZDIzODggUmVt
-b3ZlIHRoZSBDT05GSUdfUFJBR01BX0RJQUdOT1NUSUNfQVZBSUxBQkxFIHN3aXRjaAowNmFkNjll
-IGRvY3MvZGV2ZWwvZnV6emluZzogRml4IGJ1Z3MgaW4gZG9jdW1lbnRhdGlvbgo3MGMzNGNmIHRl
-c3RzL3F0ZXN0L2Z1eno6IEFkZCBtaXNzaW5nIHNwYWNlcyBpbiBkZXNjcmlwdGlvbgowMTQ2Mjkx
-IGZ1eno6IGFkZCBtaXNzaW5nIGhlYWRlciBmb3IgcmN1X2VuYWJsZV9hdGZvcmsKYTYwNTM1MSBj
-b25maWd1cmU6IGRvIG5vdCBjbG9iYmVyIENGTEFHUyB3aXRoIC0tZW5hYmxlLWZ1enppbmcKMmYy
-YmEyMiBjb25maWd1cmU6IGZpeCBtYWxsb2MgY2hlY2sKCj09PSBPVVRQVVQgQkVHSU4gPT09CjEv
-OSBDaGVja2luZyBjb21taXQgMmYyYmEyMjFkMDIwIChjb25maWd1cmU6IGZpeCBtYWxsb2MgY2hl
-Y2spCjIvOSBDaGVja2luZyBjb21taXQgYTYwNTM1MTVjY2NlIChjb25maWd1cmU6IGRvIG5vdCBj
-bG9iYmVyIENGTEFHUyB3aXRoIC0tZW5hYmxlLWZ1enppbmcpCjMvOSBDaGVja2luZyBjb21taXQg
-MDE0NjI5MWQyMmE3IChmdXp6OiBhZGQgbWlzc2luZyBoZWFkZXIgZm9yIHJjdV9lbmFibGVfYXRm
-b3JrKQo0LzkgQ2hlY2tpbmcgY29tbWl0IDcwYzM0Y2ZhMGU5OSAodGVzdHMvcXRlc3QvZnV6ejog
-QWRkIG1pc3Npbmcgc3BhY2VzIGluIGRlc2NyaXB0aW9uKQo1LzkgQ2hlY2tpbmcgY29tbWl0IDA2
-YWQ2OWU5OTk4ZiAoZG9jcy9kZXZlbC9mdXp6aW5nOiBGaXggYnVncyBpbiBkb2N1bWVudGF0aW9u
-KQo2LzkgQ2hlY2tpbmcgY29tbWl0IGY5ZDIzODg4MTIxNyAoUmVtb3ZlIHRoZSBDT05GSUdfUFJB
-R01BX0RJQUdOT1NUSUNfQVZBSUxBQkxFIHN3aXRjaCkKV0FSTklORzogYXJjaGl0ZWN0dXJlIHNw
-ZWNpZmljIGRlZmluZXMgc2hvdWxkIGJlIGF2b2lkZWQKIzE2NTogRklMRTogdXRpbC9jb3JvdXRp
-bmUtdWNvbnRleHQuYzoyNTU6CisjaWYgIWRlZmluZWQoX19jbGFuZ19fKQoKV0FSTklORzogYXJj
-aGl0ZWN0dXJlIHNwZWNpZmljIGRlZmluZXMgc2hvdWxkIGJlIGF2b2lkZWQKIzE3NDogRklMRTog
-dXRpbC9jb3JvdXRpbmUtdWNvbnRleHQuYzoyNjM6CisjaWYgIWRlZmluZWQoX19jbGFuZ19fKQoK
-dG90YWw6IDAgZXJyb3JzLCAyIHdhcm5pbmdzLCAxMjYgbGluZXMgY2hlY2tlZAoKUGF0Y2ggNi85
-IGhhcyBzdHlsZSBwcm9ibGVtcywgcGxlYXNlIHJldmlldy4gIElmIGFueSBvZiB0aGVzZSBlcnJv
-cnMKYXJlIGZhbHNlIHBvc2l0aXZlcyByZXBvcnQgdGhlbSB0byB0aGUgbWFpbnRhaW5lciwgc2Vl
-CkNIRUNLUEFUQ0ggaW4gTUFJTlRBSU5FUlMuCjcvOSBDaGVja2luZyBjb21taXQgMTQxOTg1ZWY5
-OGMwIChkaXNhcy9zaDQ6IEFkZCBtaXNzaW5nIGZhbGx0aHJvdWdoIGFubm90YXRpb25zKQpFUlJP
-UjogY29kZSBpbmRlbnQgc2hvdWxkIG5ldmVyIHVzZSB0YWJzCiMyNTogRklMRTogZGlzYXMvc2g0
-LmM6MTk2NjoKK15JICAgICAgLyogZmFsbHRocm91Z2ggKi8kCgpFUlJPUjogY29kZSBpbmRlbnQg
-c2hvdWxkIG5ldmVyIHVzZSB0YWJzCiMzMzogRklMRTogZGlzYXMvc2g0LmM6MTk3NjoKK15JICAg
-ICAgLyogZmFsbHRocm91Z2ggKi8kCgp0b3RhbDogMiBlcnJvcnMsIDAgd2FybmluZ3MsIDE0IGxp
-bmVzIGNoZWNrZWQKClBhdGNoIDcvOSBoYXMgc3R5bGUgcHJvYmxlbXMsIHBsZWFzZSByZXZpZXcu
-ICBJZiBhbnkgb2YgdGhlc2UgZXJyb3JzCmFyZSBmYWxzZSBwb3NpdGl2ZXMgcmVwb3J0IHRoZW0g
-dG8gdGhlIG1haW50YWluZXIsIHNlZQpDSEVDS1BBVENIIGluIE1BSU5UQUlORVJTLgoKOC85IENo
-ZWNraW5nIGNvbW1pdCBiZWU4MmU5MmYyZWUgKEdpdExhYiBHYXRpbmcgQ0k6IGludHJvZHVjZSBw
-aXBlbGluZS1zdGF0dXMgY29udHJpYiBzY3JpcHQpCldBUk5JTkc6IGFkZGVkLCBtb3ZlZCBvciBk
-ZWxldGVkIGZpbGUocyksIGRvZXMgTUFJTlRBSU5FUlMgbmVlZCB1cGRhdGluZz8KIzI0OiAKbmV3
-IGZpbGUgbW9kZSAxMDA3NTUKCnRvdGFsOiAwIGVycm9ycywgMSB3YXJuaW5ncywgMTU3IGxpbmVz
-IGNoZWNrZWQKClBhdGNoIDgvOSBoYXMgc3R5bGUgcHJvYmxlbXMsIHBsZWFzZSByZXZpZXcuICBJ
-ZiBhbnkgb2YgdGhlc2UgZXJyb3JzCmFyZSBmYWxzZSBwb3NpdGl2ZXMgcmVwb3J0IHRoZW0gdG8g
-dGhlIG1haW50YWluZXIsIHNlZQpDSEVDS1BBVENIIGluIE1BSU5UQUlORVJTLgo5LzkgQ2hlY2tp
-bmcgY29tbWl0IDI1NjBkMDgzMTU5NyAoZG9jcy9zeXN0ZW0vczM5MHg6IEltcHJvdmUgdGhlIDMy
-NzAgZG9jdW1lbnRhdGlvbikKPT09IE9VVFBVVCBFTkQgPT09CgpUZXN0IGNvbW1hbmQgZXhpdGVk
-IHdpdGggY29kZTogMQoKClRoZSBmdWxsIGxvZyBpcyBhdmFpbGFibGUgYXQKaHR0cDovL3BhdGNo
-ZXcub3JnL2xvZ3MvMjAyMDA3MTMxMDU1MzQuMTA4NzItMS10aHV0aEByZWRoYXQuY29tL3Rlc3Rp
-bmcuY2hlY2twYXRjaC8/dHlwZT1tZXNzYWdlLgotLS0KRW1haWwgZ2VuZXJhdGVkIGF1dG9tYXRp
-Y2FsbHkgYnkgUGF0Y2hldyBbaHR0cHM6Ly9wYXRjaGV3Lm9yZy9dLgpQbGVhc2Ugc2VuZCB5b3Vy
-IGZlZWRiYWNrIHRvIHBhdGNoZXctZGV2ZWxAcmVkaGF0LmNvbQ==
+On Mon, 13 Jul 2020 12:03:33 +0100
+"Dr. David Alan Gilbert" <dgilbert@redhat.com> wrote:
+
+> * Claudio Fontana (cfontana@suse.de) wrote:
+
+> > The following workarounds hide the problem (make the test pass):
+> > 
+> > 1) always including the icount field in the (unrelated) timers field that are sent before in the migration stream (ie not applying the reproducer patch).
+> > 
+> > 2) increasing the IO_BUF_SIZE also hides the problem:
+> > 
+> > ----------------------cut--------------------------
+> > diff --git a/migration/qemu-file.c b/migration/qemu-file.c
+> > index be21518c57..f81d1272eb 100644
+> > --- a/migration/qemu-file.c
+> > +++ b/migration/qemu-file.c
+> > @@ -30,7 +30,7 @@
+> >  #include "trace.h"
+> >  #include "qapi/error.h"
+> >  
+> > -#define IO_BUF_SIZE 32768
+> > +#define IO_BUF_SIZE 65536
+> >  #define MAX_IOV_SIZE MIN_CONST(IOV_MAX, 64)
+> >  
+> >  struct QEMUFile {
+> > ----------------------cut--------------------------
+> > 
+> > 3) adding a qemu_fflush in hw/s390x/s390-skeys.c after EOS also "fixes" the problem:
+> > 
+> > ----------------------cut--------------------------
+> > diff --git a/hw/s390x/s390-skeys.c b/hw/s390x/s390-skeys.c
+> > index 1e036cc602..47c9a015af 100644
+> > --- a/hw/s390x/s390-skeys.c
+> > +++ b/hw/s390x/s390-skeys.c
+> > @@ -252,6 +252,8 @@ static const TypeInfo qemu_s390_skeys_info = {
+> >      .class_size    = sizeof(S390SKeysClass),
+> >  };
+> >  
+> > +extern void qemu_fflush(QEMUFile *f);
+> > +
+> >  static void s390_storage_keys_save(QEMUFile *f, void *opaque)
+> >  {
+> >      S390SKeysState *ss = S390_SKEYS(opaque);
+> > @@ -302,6 +304,7 @@ static void s390_storage_keys_save(QEMUFile *f, void *opaque)
+> >      g_free(buf);
+> >  end_stream:
+> >      qemu_put_be64(f, eos);
+> > +    qemu_fflush(f);
+> >  }
+> >  
+> >  static int s390_storage_keys_load(QEMUFile *f, void *opaque, int version_id)
+> > ----------------------cut--------------------------
+> > 
+> > Do any of you with better understanding of migration/, block and s390 have a suggestion on what could be the issue here,
+> > and what could be the next step in the investigation?
+> > 
+> > Is the fact that migration/ram.c always does fflush after writing the EOS have any relevance here? why does it do it,
+> > and should s390 code also follow the same pattern?  
+> 
+> I didn't think it was required.
+> And qemu_put_buffer loops if needed and calls qemu_fflush internally.
+> It's possible here that the storage key code is just the canary - the
+> first thing that detects that the stream is invalid after it all goes
+> wrong.
+
+Yes, that seems possible. Especially as we end up with all zeroes after
+the skeys section in the bad case -- it seems like weird problem to
+have to be cured by an individual device. No good idea *what* actually
+goes wrong, though.
+
 
