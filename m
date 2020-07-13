@@ -2,45 +2,45 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4BB0F21CC8A
-	for <lists+qemu-devel@lfdr.de>; Mon, 13 Jul 2020 02:35:18 +0200 (CEST)
-Received: from localhost ([::1]:39242 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A1A3621CC82
+	for <lists+qemu-devel@lfdr.de>; Mon, 13 Jul 2020 02:32:49 +0200 (CEST)
+Received: from localhost ([::1]:54228 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jumRB-0004dR-Ck
-	for lists+qemu-devel@lfdr.de; Sun, 12 Jul 2020 20:35:17 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:49290)
+	id 1jumOm-0007m6-L9
+	for lists+qemu-devel@lfdr.de; Sun, 12 Jul 2020 20:32:48 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:49312)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <wang.yi59@zte.com.cn>)
- id 1jumN6-0005rK-Tt
- for qemu-devel@nongnu.org; Sun, 12 Jul 2020 20:31:04 -0400
-Received: from mx7.zte.com.cn ([202.103.147.169]:44432 helo=mxct.zte.com.cn)
+ id 1jumNB-00060T-Bu
+ for qemu-devel@nongnu.org; Sun, 12 Jul 2020 20:31:09 -0400
+Received: from mx7.zte.com.cn ([202.103.147.169]:44468 helo=mxct.zte.com.cn)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <wang.yi59@zte.com.cn>)
- id 1jumN4-0004fh-Vc
- for qemu-devel@nongnu.org; Sun, 12 Jul 2020 20:31:04 -0400
+ id 1jumN9-0004g1-IF
+ for qemu-devel@nongnu.org; Sun, 12 Jul 2020 20:31:09 -0400
 Received: from mse-fl2.zte.com.cn (unknown [10.30.14.239])
- by Forcepoint Email with ESMTPS id C8890D3ECA2C58578948
- for <qemu-devel@nongnu.org>; Mon, 13 Jul 2020 08:31:00 +0800 (CST)
-Received: from notes_smtp.zte.com.cn (notes_smtp.zte.com.cn [10.30.1.239])
- by mse-fl2.zte.com.cn with ESMTP id 06D0Uxau001612
- for <qemu-devel@nongnu.org>; Mon, 13 Jul 2020 08:30:59 +0800 (GMT-8)
+ by Forcepoint Email with ESMTPS id 652699F837E8566AA980
+ for <qemu-devel@nongnu.org>; Mon, 13 Jul 2020 08:31:05 +0800 (CST)
+Received: from notes_smtp.zte.com.cn (notessmtp.zte.com.cn [10.30.1.239])
+ by mse-fl2.zte.com.cn with ESMTP id 06D0V394001723
+ for <qemu-devel@nongnu.org>; Mon, 13 Jul 2020 08:31:03 +0800 (GMT-8)
  (envelope-from wang.yi59@zte.com.cn)
 Received: from fox-host8.localdomain ([10.74.120.8])
  by szsmtp06.zte.com.cn (Lotus Domino Release 8.5.3FP6)
- with ESMTP id 2020071308310175-4262431 ;
- Mon, 13 Jul 2020 08:31:01 +0800 
+ with ESMTP id 2020071308310534-4262433 ;
+ Mon, 13 Jul 2020 08:31:05 +0800 
 From: Yi Wang <wang.yi59@zte.com.cn>
 To: qemu-devel@nongnu.org
-Subject: [PATCH] target/sh4: Remove superfluous breaks
-Date: Mon, 13 Jul 2020 08:34:12 +0800
-Message-Id: <1594600452-23383-1-git-send-email-wang.yi59@zte.com.cn>
+Subject: [PATCH] target/cris: Remove superfluous breaks
+Date: Mon, 13 Jul 2020 08:34:15 +0800
+Message-Id: <1594600455-23439-1-git-send-email-wang.yi59@zte.com.cn>
 X-Mailer: git-send-email 1.8.3.1
 X-MIMETrack: Itemize by SMTP Server on SZSMTP06/server/zte_ltd(Release
- 8.5.3FP6|November 21, 2013) at 2020-07-13 08:31:01,
+ 8.5.3FP6|November 21, 2013) at 2020-07-13 08:31:05,
  Serialize by Router on notes_smtp/zte_ltd(Release 9.0.1FP7|August  17, 2016) at
- 2020-07-13 08:31:00, Serialize complete at 2020-07-13 08:31:00
-X-MAIL: mse-fl2.zte.com.cn 06D0Uxau001612
+ 2020-07-13 08:31:04, Serialize complete at 2020-07-13 08:31:04
+X-MAIL: mse-fl2.zte.com.cn 06D0V394001723
 Received-SPF: pass client-ip=202.103.147.169;
  envelope-from=wang.yi59@zte.com.cn; helo=mxct.zte.com.cn
 X-detected-operating-system: by eggs.gnu.org: First seen = 2020/07/12 20:30:31
@@ -74,37 +74,45 @@ Remove superfluous breaks, as there is a "return" before them.
 
 Signed-off-by: Liao Pingfang <liao.pingfang@zte.com.cn>
 ---
- target/sh4/translate.c | 3 ---
- 1 file changed, 3 deletions(-)
+ target/cris/translate.c         | 7 +++----
+ target/cris/translate_v10.inc.c | 2 --
+ 2 files changed, 3 insertions(+), 6 deletions(-)
 
-diff --git a/target/sh4/translate.c b/target/sh4/translate.c
-index 6192d83..60c863d 100644
---- a/target/sh4/translate.c
-+++ b/target/sh4/translate.c
-@@ -1542,7 +1542,6 @@ static void _decode_opc(DisasContext * ctx)
-         tcg_gen_qemu_ld_i32(REG(0), REG(B11_8), ctx->memidx,
-                             MO_TEUL | MO_UNALN);
-         return;
+diff --git a/target/cris/translate.c b/target/cris/translate.c
+index aaa46b5..64a478b 100644
+--- a/target/cris/translate.c
++++ b/target/cris/translate.c
+@@ -1178,12 +1178,11 @@ static inline void t_gen_zext(TCGv d, TCGv s, int size)
+ static char memsize_char(int size)
+ {
+     switch (size) {
+-    case 1: return 'b';  break;
+-    case 2: return 'w';  break;
+-    case 4: return 'd';  break;
++    case 1: return 'b';
++    case 2: return 'w';
++    case 4: return 'd';
+     default:
+         return 'x';
 -        break;
-     case 0x40e9:                /* movua.l @Rm+,R0 */
-         CHECK_SH4A
-         /* Load non-boundary-aligned data */
-@@ -1550,7 +1549,6 @@ static void _decode_opc(DisasContext * ctx)
-                             MO_TEUL | MO_UNALN);
-         tcg_gen_addi_i32(REG(B11_8), REG(B11_8), 4);
-         return;
--        break;
-     case 0x0029:		/* movt Rn */
-         tcg_gen_mov_i32(REG(B11_8), cpu_sr_t);
- 	return;
-@@ -1638,7 +1636,6 @@ static void _decode_opc(DisasContext * ctx)
-         CHECK_SH4A
-         tcg_gen_mb(TCG_MO_ALL | TCG_BAR_SC);
-         return;
--        break;
-     case 0x4024:		/* rotcl Rn */
- 	{
- 	    TCGv tmp = tcg_temp_new();
+     }
+ }
+ #endif
+diff --git a/target/cris/translate_v10.inc.c b/target/cris/translate_v10.inc.c
+index ae34a0d..7f38fd2 100644
+--- a/target/cris/translate_v10.inc.c
++++ b/target/cris/translate_v10.inc.c
+@@ -1026,10 +1026,8 @@ static unsigned int dec10_ind(CPUCRISState *env, DisasContext *dc)
+         switch (dc->opcode) {
+             case CRISV10_IND_MOVE_M_R:
+                 return dec10_ind_move_m_r(env, dc, size);
+-                break;
+             case CRISV10_IND_MOVE_R_M:
+                 return dec10_ind_move_r_m(dc, size);
+-                break;
+             case CRISV10_IND_CMP:
+                 LOG_DIS("cmp size=%d op=%d %d\n",  size, dc->src, dc->dst);
+                 cris_cc_mask(dc, CC_MASK_NZVC);
 -- 
 2.9.5
 
