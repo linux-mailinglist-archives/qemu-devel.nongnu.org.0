@@ -2,76 +2,76 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 07B9C21D76B
-	for <lists+qemu-devel@lfdr.de>; Mon, 13 Jul 2020 15:43:16 +0200 (CEST)
-Received: from localhost ([::1]:42102 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3E44021D774
+	for <lists+qemu-devel@lfdr.de>; Mon, 13 Jul 2020 15:45:41 +0200 (CEST)
+Received: from localhost ([::1]:44442 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1juyjj-0006mk-2l
-	for lists+qemu-devel@lfdr.de; Mon, 13 Jul 2020 09:43:15 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:54828)
+	id 1juym4-0007mN-Ai
+	for lists+qemu-devel@lfdr.de; Mon, 13 Jul 2020 09:45:40 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:55686)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <eblake@redhat.com>) id 1juyio-00069n-2c
- for qemu-devel@nongnu.org; Mon, 13 Jul 2020 09:42:18 -0400
-Received: from us-smtp-1.mimecast.com ([207.211.31.81]:38340
+ (Exim 4.90_1) (envelope-from <eblake@redhat.com>) id 1juyl6-0007Ij-AM
+ for qemu-devel@nongnu.org; Mon, 13 Jul 2020 09:44:40 -0400
+Received: from us-smtp-2.mimecast.com ([205.139.110.61]:34480
  helo=us-smtp-delivery-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <eblake@redhat.com>) id 1juyik-0002TV-NH
- for qemu-devel@nongnu.org; Mon, 13 Jul 2020 09:42:17 -0400
+ (Exim 4.90_1) (envelope-from <eblake@redhat.com>) id 1juyl4-0002jp-SP
+ for qemu-devel@nongnu.org; Mon, 13 Jul 2020 09:44:40 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1594647733;
+ s=mimecast20190719; t=1594647878;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=4fz4XLSMYHab7YkI9XdcPqrXwKOcAMBs8OscbehF4I8=;
- b=eV+2SWR/ySvQpCOiAK+k8MwD2+gSJWuY6P6/XOibK2XsmWHDos9glq6Kg9l4NQSJ1HD5kJ
- 5GqP462ZU2PwUsqrs7H4nnJuTDFgHtWCv6w1y+iFaa8KMGBY6lHk7UWenNxE+NOI/Vl+VB
- v85ZDKKuBD4iO19qt+TiT/L/R91mTAg=
+ bh=bO/lGHyOu6oaKHrDSEpHPaoywQ6/TtlcFoz3btR9r6U=;
+ b=EpJPojcRoWfLlWHiROPCUIUqkW2WWi9ndkAftp4f1w+btUXFrqix9L9viXcN65lzBlN/xn
+ LnG2THBMA/DdcRSjlOR2Gvb4+rA4jD6WuK5ggpKr/OhZBJ1lMAuRM//LuiqONkVHWsPwIC
+ uuQauGpWY3brlavCy4x39IMENHBR654=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-357-AC_57N6kPUyTLWM9qJKoCw-1; Mon, 13 Jul 2020 09:42:08 -0400
-X-MC-Unique: AC_57N6kPUyTLWM9qJKoCw-1
-Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
- [10.5.11.16])
+ us-mta-460-K48AttzlNCeLO20pMeMN8w-1; Mon, 13 Jul 2020 09:44:34 -0400
+X-MC-Unique: K48AttzlNCeLO20pMeMN8w-1
+Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
+ [10.5.11.12])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 9179D100AA3F;
- Mon, 13 Jul 2020 13:42:07 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 5BC2C801E6A;
+ Mon, 13 Jul 2020 13:44:33 +0000 (UTC)
 Received: from [10.3.112.134] (ovpn-112-134.phx2.redhat.com [10.3.112.134])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 604046147C;
- Mon, 13 Jul 2020 13:41:58 +0000 (UTC)
-Subject: Re: [PATCH v2 5/5] iotests: test shutdown when bitmap is exported
- through NBD
-To: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>,
- qemu-block@nongnu.org
-References: <20200701105331.121670-1-vsementsov@virtuozzo.com>
- <20200701105331.121670-6-vsementsov@virtuozzo.com>
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 1114160BF3;
+ Mon, 13 Jul 2020 13:44:33 +0000 (UTC)
+Subject: Re: [PATCH] fixup! iotests: Specify explicit backing format where
+ sensible
+To: Kevin 'Max' Wolf <kwolf@redhat.com>
+References: <20200709121713.283092-1-kwolf@redhat.com>
+ <20200713114031.137846-1-eblake@redhat.com>
+ <20200713125005.GA10318@linux.fritz.box>
 From: Eric Blake <eblake@redhat.com>
 Organization: Red Hat, Inc.
-Message-ID: <5c3f97b0-3bf5-3d83-1a70-17ced4a8be91@redhat.com>
-Date: Mon, 13 Jul 2020 08:41:57 -0500
+Message-ID: <b1fd8bca-efcf-9546-d3d9-50bf3f508415@redhat.com>
+Date: Mon, 13 Jul 2020 08:44:32 -0500
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
  Thunderbird/68.10.0
 MIME-Version: 1.0
-In-Reply-To: <20200701105331.121670-6-vsementsov@virtuozzo.com>
+In-Reply-To: <20200713125005.GA10318@linux.fritz.box>
 Content-Language: en-US
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=utf-8; format=flowed
 Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=207.211.31.81; envelope-from=eblake@redhat.com;
+Received-SPF: pass client-ip=205.139.110.61; envelope-from=eblake@redhat.com;
  helo=us-smtp-delivery-1.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/07/13 02:19:41
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/07/13 01:36:29
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
-X-Spam_score_int: -30
-X-Spam_score: -3.1
-X-Spam_bar: ---
-X-Spam_report: (-3.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1,
+X-Spam_score_int: -40
+X-Spam_score: -4.1
+X-Spam_bar: ----
+X-Spam_report: (-4.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H3=-0.01, RCVD_IN_MSPIKE_WL=-0.01,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-1, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -84,32 +84,26 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: kwolf@redhat.com, den@openvz.org, qemu-devel@nongnu.org,
- stefanha@redhat.com, mreitz@redhat.com
+Cc: peter.maydell@linaro.org, qemu-devel@nongnu.org,
+ "open list:Block layer core" <qemu-block@nongnu.org>, mreitz@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 7/1/20 5:53 AM, Vladimir Sementsov-Ogievskiy wrote:
-> Test shutdown when bitmap is exported through NBD and active client
-> exists. The previous patch fixes a crash, provoked by this scenario.
+On 7/13/20 7:50 AM, Kevin 'Max' Wolf wrote:
+> Am 13.07.2020 um 13:40 hat Eric Blake geschrieben:
+>> Max spotted that I didn't test -qed...
+>>
+>> Signed-off-by: Eric Blake <eblake@redhat.com>
 > 
-> Signed-off-by: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
-> ---
->   tests/qemu-iotests/299     | 65 ++++++++++++++++++++++++++++++++++++++
->   tests/qemu-iotests/299.out | 10 ++++++
->   tests/qemu-iotests/group   |  1 +
->   3 files changed, 76 insertions(+)
->   create mode 100644 tests/qemu-iotests/299
->   create mode 100644 tests/qemu-iotests/299.out
+> I guess I have a new name now... :-)
 
-I confirmed that by temporarily applying this out of order (well, 
-sinking 3/5 last) does indeed provoke the failure, so:
+Sorry, too many replies on the thread, and I messed up on which one I 
+was reading!
 
-Tested-by: Eric Blake <eblake@redhat.com>
+> 
+> Kevin^WMax
 
-and the test is simple enough:
-
-Reviewed-by: Eric Blake <eblake@redhat.com>
+Brown Paper Bag^W^W^WEric
 
 -- 
 Eric Blake, Principal Software Engineer
