@@ -2,48 +2,48 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D0A0E21CC7F
-	for <lists+qemu-devel@lfdr.de>; Mon, 13 Jul 2020 02:32:26 +0200 (CEST)
-Received: from localhost ([::1]:51610 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 88E4121CC86
+	for <lists+qemu-devel@lfdr.de>; Mon, 13 Jul 2020 02:34:07 +0200 (CEST)
+Received: from localhost ([::1]:34412 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jumOP-0006gb-Cg
-	for lists+qemu-devel@lfdr.de; Sun, 12 Jul 2020 20:32:25 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:49196)
+	id 1jumQ2-0002hB-Ko
+	for lists+qemu-devel@lfdr.de; Sun, 12 Jul 2020 20:34:06 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:49362)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <wang.yi59@zte.com.cn>)
- id 1jumMn-0005Ml-M3
- for qemu-devel@nongnu.org; Sun, 12 Jul 2020 20:30:45 -0400
-Received: from mx7.zte.com.cn ([202.103.147.169]:44292 helo=mxct.zte.com.cn)
+ id 1jumNH-0006DP-L9
+ for qemu-devel@nongnu.org; Sun, 12 Jul 2020 20:31:15 -0400
+Received: from out1.zte.com.cn ([202.103.147.172]:59062 helo=mxct.zte.com.cn)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <wang.yi59@zte.com.cn>)
- id 1jumMk-0004WE-WB
- for qemu-devel@nongnu.org; Sun, 12 Jul 2020 20:30:45 -0400
-Received: from mse-fl2.zte.com.cn (unknown [10.30.14.239])
- by Forcepoint Email with ESMTPS id 814E732A1556E7F5F191
- for <qemu-devel@nongnu.org>; Mon, 13 Jul 2020 08:30:30 +0800 (CST)
-Received: from notes_smtp.zte.com.cn (notessmtp.zte.com.cn [10.30.1.239])
- by mse-fl2.zte.com.cn with ESMTP id 06D0UTcT001508
- for <qemu-devel@nongnu.org>; Mon, 13 Jul 2020 08:30:29 +0800 (GMT-8)
+ id 1jumNF-0004gG-J1
+ for qemu-devel@nongnu.org; Sun, 12 Jul 2020 20:31:15 -0400
+Received: from mse-fl1.zte.com.cn (unknown [10.30.14.238])
+ by Forcepoint Email with ESMTPS id 6591C528A2030C613114
+ for <qemu-devel@nongnu.org>; Mon, 13 Jul 2020 08:31:11 +0800 (CST)
+Received: from notes_smtp.zte.com.cn (notes_smtp.zte.com.cn [10.30.1.239])
+ by mse-fl1.zte.com.cn with ESMTP id 06D0UXa4001483
+ for <qemu-devel@nongnu.org>; Mon, 13 Jul 2020 08:30:33 +0800 (GMT-8)
  (envelope-from wang.yi59@zte.com.cn)
 Received: from fox-host8.localdomain ([10.74.120.8])
  by szsmtp06.zte.com.cn (Lotus Domino Release 8.5.3FP6)
- with ESMTP id 2020071308303139-4262422 ;
- Mon, 13 Jul 2020 08:30:31 +0800 
+ with ESMTP id 2020071308303549-4262423 ;
+ Mon, 13 Jul 2020 08:30:35 +0800 
 From: Yi Wang <wang.yi59@zte.com.cn>
 To: qemu-devel@nongnu.org
-Subject: [PATCH] tcg/riscv: Remove superfluous breaks
-Date: Mon, 13 Jul 2020 08:33:41 +0800
-Message-Id: <1594600421-22942-1-git-send-email-wang.yi59@zte.com.cn>
+Subject: [PATCH] scsi: Remove superfluous breaks
+Date: Mon, 13 Jul 2020 08:33:45 +0800
+Message-Id: <1594600425-22997-1-git-send-email-wang.yi59@zte.com.cn>
 X-Mailer: git-send-email 1.8.3.1
 X-MIMETrack: Itemize by SMTP Server on SZSMTP06/server/zte_ltd(Release
- 8.5.3FP6|November 21, 2013) at 2020-07-13 08:30:31,
+ 8.5.3FP6|November 21, 2013) at 2020-07-13 08:30:35,
  Serialize by Router on notes_smtp/zte_ltd(Release 9.0.1FP7|August  17, 2016) at
- 2020-07-13 08:30:30, Serialize complete at 2020-07-13 08:30:30
-X-MAIL: mse-fl2.zte.com.cn 06D0UTcT001508
-Received-SPF: pass client-ip=202.103.147.169;
+ 2020-07-13 08:30:34, Serialize complete at 2020-07-13 08:30:34
+X-MAIL: mse-fl1.zte.com.cn 06D0UXa4001483
+Received-SPF: pass client-ip=202.103.147.172;
  envelope-from=wang.yi59@zte.com.cn; helo=mxct.zte.com.cn
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/07/12 20:30:31
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/07/12 20:30:43
 X-ACL-Warn: Detected OS   = Linux 3.11 and newer [fuzzy]
 X-Spam_score_int: -41
 X-Spam_score: -4.2
@@ -74,23 +74,30 @@ Remove superfluous breaks, as there is a "return" before them.
 
 Signed-off-by: Liao Pingfang <liao.pingfang@zte.com.cn>
 ---
- tcg/riscv/tcg-target.inc.c | 2 --
- 1 file changed, 2 deletions(-)
+ scsi/utils.c | 4 ----
+ 1 file changed, 4 deletions(-)
 
-diff --git a/tcg/riscv/tcg-target.inc.c b/tcg/riscv/tcg-target.inc.c
-index 2bc0ba7..3c11ab8 100644
---- a/tcg/riscv/tcg-target.inc.c
-+++ b/tcg/riscv/tcg-target.inc.c
-@@ -502,10 +502,8 @@ static bool patch_reloc(tcg_insn_unit *code_ptr, int type,
-         break;
-     case R_RISCV_JAL:
-         return reloc_jimm20(code_ptr, (tcg_insn_unit *)value);
+diff --git a/scsi/utils.c b/scsi/utils.c
+index c50e81f..b37c283 100644
+--- a/scsi/utils.c
++++ b/scsi/utils.c
+@@ -32,17 +32,13 @@ uint32_t scsi_cdb_xfer(uint8_t *buf)
+     switch (buf[0] >> 5) {
+     case 0:
+         return buf[4];
 -        break;
-     case R_RISCV_CALL:
-         return reloc_call(code_ptr, (tcg_insn_unit *)value);
+     case 1:
+     case 2:
+         return lduw_be_p(&buf[7]);
+-        break;
+     case 4:
+         return ldl_be_p(&buf[10]) & 0xffffffffULL;
+-        break;
+     case 5:
+         return ldl_be_p(&buf[6]) & 0xffffffffULL;
 -        break;
      default:
-         tcg_abort();
+         return -1;
      }
 -- 
 2.9.5
