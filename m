@@ -2,81 +2,67 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9B7DF21F2ED
-	for <lists+qemu-devel@lfdr.de>; Tue, 14 Jul 2020 15:46:02 +0200 (CEST)
-Received: from localhost ([::1]:46592 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A05D021F309
+	for <lists+qemu-devel@lfdr.de>; Tue, 14 Jul 2020 15:51:55 +0200 (CEST)
+Received: from localhost ([::1]:56848 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jvLFx-0000qC-Mg
-	for lists+qemu-devel@lfdr.de; Tue, 14 Jul 2020 09:46:01 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:59670)
+	id 1jvLLe-0005aT-Lf
+	for lists+qemu-devel@lfdr.de; Tue, 14 Jul 2020 09:51:54 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:32886)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1jvLDH-0007D8-2z
- for qemu-devel@nongnu.org; Tue, 14 Jul 2020 09:43:15 -0400
-Received: from mail-pl1-x644.google.com ([2607:f8b0:4864:20::644]:41797)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1jvLDF-0001Ol-8t
- for qemu-devel@nongnu.org; Tue, 14 Jul 2020 09:43:14 -0400
-Received: by mail-pl1-x644.google.com with SMTP id d1so1792792plr.8
- for <qemu-devel@nongnu.org>; Tue, 14 Jul 2020 06:43:12 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=subject:to:cc:references:from:message-id:date:user-agent
- :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=LaymbafiOWcJLlHvWfftD4ZEH6QqzyKcrvc/ye3Z+KQ=;
- b=Tx5dgfcect/pT34P1zIypaUOEMx+XAjBcEfdKW2iqTasy7Wgz/0keJIWsf5mH5dIGl
- 9MPVoL/h3Vu4bnEJ6BYNIMC5wy3ggeqzPfbFtjEM+VAAx+foeS7VCZ0aSeUorfPt7Ad1
- YpOX+01/FZpTL7pHWz3WWc7jGJbuuL1C1+BOj0zQQKnAqo800C2sd0dW+bYg4nIQpoew
- zmJw6SWIEFJd7M0xbjZJsGUjfJTAMT8MXBrgo2qk7kMPL76q0r7t8Gg9I6ioSSUW5PeM
- aS6YuIvHxPYrLg8BW0KWk7hgILaExY7TYoAps4IcBO3r2dvt/Y2QeZkXmxMGmJCcaGae
- Fmfg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=LaymbafiOWcJLlHvWfftD4ZEH6QqzyKcrvc/ye3Z+KQ=;
- b=YxK7Dm1GGqc/48z6WGUDLCPuh2yEHEHVDLT+vlpi976wDqQ5hki8YngGgFAR/DxR0L
- +1672rROABucw56M6+3xDhyrmF2ubQqfuzWK9V3+ZjwHtAA3N8pmYyk4HmXQ9ErkiqDv
- 3fTOjOXKNaHCI0ds8Zq9pBgjxWXK5gM6PfHElcGYXpHrkyl4/nu76vTwt14qpRREnJ1D
- R4Bc+R7S5N7qs7VCuy5A3SLm9XcpZLdYUw73z4NHCK2iiSkSk+AMA5O/S7JZkefFckzN
- WT8LjtQgfTjTPHWtERsy3X9YyJAxqL4o97EAl3CXoCp9L0l0+AnsbjrXUS4gJKdxLaPG
- PaUA==
-X-Gm-Message-State: AOAM530+IQMQLYiKlxcMeJ3CADXW+1DBpvmfiofumQTjnSq9Zmu41oRI
- jCjGcYJtXqmFEtovumVe9rCazA==
-X-Google-Smtp-Source: ABdhPJzCmYAyZfC3PmAvaZKgQo0Ul8eOncNAv7YoufI9VIkUNbk3fBepFWVJfqp5CfQQ7TV3F2E3ow==
-X-Received: by 2002:a17:902:bc44:: with SMTP id
- t4mr3989063plz.290.1594734191995; 
- Tue, 14 Jul 2020 06:43:11 -0700 (PDT)
-Received: from [192.168.1.11] (174-21-143-238.tukw.qwest.net. [174.21.143.238])
- by smtp.gmail.com with ESMTPSA id nk22sm2760067pjb.51.2020.07.14.06.43.10
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 14 Jul 2020 06:43:11 -0700 (PDT)
-Subject: Re: [PATCH] virtfs-proxy-helper: Remove the superfluous break
-To: Yi Wang <wang.yi59@zte.com.cn>, qemu-devel@nongnu.org
-References: <1594600429-23052-1-git-send-email-wang.yi59@zte.com.cn>
-From: Richard Henderson <richard.henderson@linaro.org>
-Message-ID: <aa1bcca2-5413-c847-01a2-27d5b8965149@linaro.org>
-Date: Tue, 14 Jul 2020 06:43:09 -0700
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.10.0
+ (Exim 4.90_1) (envelope-from <pisa@cmp.felk.cvut.cz>)
+ id 1jvLJD-00037i-NM
+ for qemu-devel@nongnu.org; Tue, 14 Jul 2020 09:49:23 -0400
+Received: from relay.felk.cvut.cz ([2001:718:2:1611:0:1:0:70]:10839)
+ by eggs.gnu.org with esmtp (Exim 4.90_1)
+ (envelope-from <pisa@cmp.felk.cvut.cz>) id 1jvLJA-0002K2-Fq
+ for qemu-devel@nongnu.org; Tue, 14 Jul 2020 09:49:23 -0400
+Received: from cmp.felk.cvut.cz (haar.felk.cvut.cz [147.32.84.19])
+ by relay.felk.cvut.cz (8.15.2/8.15.2) with ESMTP id 06EDjtoJ074611;
+ Tue, 14 Jul 2020 15:45:55 +0200 (CEST)
+ (envelope-from pisa@cmp.felk.cvut.cz)
+Received: from haar.felk.cvut.cz (localhost [127.0.0.1])
+ by cmp.felk.cvut.cz (8.14.0/8.12.3/SuSE Linux 0.6) with ESMTP id
+ 06EDjtCV011096; Tue, 14 Jul 2020 15:45:55 +0200
+Received: (from pisa@localhost)
+ by haar.felk.cvut.cz (8.14.0/8.13.7/Submit) id 06EDjtif011095;
+ Tue, 14 Jul 2020 15:45:55 +0200
+X-Authentication-Warning: haar.felk.cvut.cz: pisa set sender to
+ pisa@cmp.felk.cvut.cz using -f
+From: Pavel Pisa <pisa@cmp.felk.cvut.cz>
+To: qemu-devel@nongnu.org
+Subject: Re: [PATCH v1 0/6] CTU CAN FD core support - patchew report
+Date: Tue, 14 Jul 2020 15:45:54 +0200
+User-Agent: KMail/1.9.10
+References: <159473087133.2008.6283012861257625888@07a7f0d89f7d>
+In-Reply-To: <159473087133.2008.6283012861257625888@07a7f0d89f7d>
+X-KMail-QuotePrefix: > 
 MIME-Version: 1.0
-In-Reply-To: <1594600429-23052-1-git-send-email-wang.yi59@zte.com.cn>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
+Content-Type: Text/Plain;
+  charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::644;
- envelope-from=richard.henderson@linaro.org; helo=mail-pl1-x644.google.com
-X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
- That's all we know.
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Content-Disposition: inline
+Message-Id: <202007141545.54577.pisa@cmp.felk.cvut.cz>
+X-FELK-MailScanner-Information: 
+X-MailScanner-ID: 06EDjtoJ074611
+X-FELK-MailScanner: Found to be clean
+X-FELK-MailScanner-SpamCheck: not spam, SpamAssassin (not cached,
+ score=-0.414, required 6, autolearn=not spam, BAYES_00 -0.50,
+ KHOP_HELO_FCRDNS 0.09, NICE_REPLY_A -0.00, SPF_HELO_NONE 0.00,
+ SPF_NONE 0.00)
+X-FELK-MailScanner-From: pisa@cmp.felk.cvut.cz
+X-FELK-MailScanner-Watermark: 1595339160.41143@vR8/Edg2yylM96culGlDIw
+Received-SPF: none client-ip=2001:718:2:1611:0:1:0:70;
+ envelope-from=pisa@cmp.felk.cvut.cz; helo=relay.felk.cvut.cz
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/07/14 09:49:16
+X-ACL-Warn: Detected OS   = ???
+X-Spam_score_int: -18
+X-Spam_score: -1.9
+X-Spam_bar: -
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_NONE=-0.0001,
+ SPF_HELO_NONE=0.001, SPF_NONE=0.001,
+ URIBL_BLOCKED=0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -89,24 +75,123 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: xue.zhihong@zte.com.cn, qemu-trivial <qemu-trivial@nongnu.org>,
- wang.liang82@zte.com.cn, Liao Pingfang <liao.pingfang@zte.com.cn>
+Cc: marex@denx.de, jnovak@fel.cvut.cz, stefanha@gmail.com,
+ deniz.eren@icloud.com, armbru@redhat.com, o.rempel@pengutronix.de,
+ frederic.konrad@adacore.com, jan.kiszka@siemens.com, charvj10@fel.cvut.cz,
+ socketcan@hartkopp.net, pbonzini@redhat.com, ondrej.ille@gmail.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 7/12/20 5:33 PM, Yi Wang wrote:
-> From: Liao Pingfang <liao.pingfang@zte.com.cn>
-> 
-> Remove the superfluous break, as there is a "return" before it.
-> 
-> Signed-off-by: Liao Pingfang <liao.pingfang@zte.com.cn>
-> ---
->  fsdev/virtfs-proxy-helper.c | 1 -
->  1 file changed, 1 deletion(-)
+Hello everybody,
 
-Cc: qemu-trivial
-Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
+On Tuesday 14 of July 2020 14:47:53 no-reply@patchew.org wrote:
+> /tmp/qemu-test/src/hw/net/can/ctucan_pci.c: In function
+> 'ctucan_pci_id_cra_io_read':
+> /tmp/qemu-test/src/hw/net/can/ctucan_pci.c:105:20: error: format '%lx'
+> expects argument of type 'long unsigned int', but argument 2 has type
+> 'hwaddr' {aka 'long long unsigned int'} [-Werror=format=] 105 |    
+> printf("addr=%lx,size=%x,tmp=%lx\n", addr, size, tmp);
+
+excuse me, I have overlooked this printf used during debugging.
+We fix that.
+
+As for the following reported problem with formating, I am not sure
+what to do. The hardware registers layout header files files are generated 
+from CACTUS/IP-XACT XML fromat sources same as VHDL implementation
+of registers accesses and fields.
+
+The top level tool (pyXact_generator) is under our control (Ondrej Ille
+is an author). Problem is, that tool output has been tuned to match
+Linux kernel requirements, but QEMU has incompatible requirements
+for indentation. Manual style correction in files is not a right
+way to go. Adding switch for QEMU style to pyXact_generator
+is possible but then header files intended for the Linux kernel
+cannot be compared with corresponding QEMU ones and generally,
+configurable setup and multiple options to generate files
+would lead to mess. We take directly header files from main
+CTU CAN FD IP core repository where match between sources and generated
+files is checked as continuous integration step.
 
 
-r~
+On Tuesday 14 of July 2020 14:48:50 no-reply@patchew.org wrote:
+> Patchew URL:
+> https://patchew.org/QEMU/cover.1594725647.git.pisa@cmp.felk.cvut.cz/
+...
+> === OUTPUT BEGIN ===
+> 1/6 Checking commit 28bfb20d4aa8 (net/can: Initial host SocketCan support
+> for CAN FD.) 2/6 Checking commit d9207e106794 (hw/net/can: sja1000 ignore
+> CAN FD frames) 3/6 Checking commit 733ab67ddcc2 (net/can: Add can_dlc2len
+> and can_len2dlc for CAN FD.) 4/6 Checking commit dc95d778bb88
+> (hw/net/can/ctucafd: Add CTU CAN FD core register definitions.) WARNING:
+> added, moved or deleted file(s), does MAINTAINERS need updating? #30:
+> new file mode 100644
+>
+> WARNING: Block comments use a leading /* on a separate line
+> #36: FILE: hw/net/can/ctu_can_fd_frame.h:2:
+> +/*************************************************************************
+>******
+>
+> WARNING: architecture specific defines should be avoided
+> #67: FILE: hw/net/can/ctu_can_fd_frame.h:33:
+> +#ifndef __CTU_CAN_FD_CAN_FD_FRAME_FORMAT__
+>
+> ERROR: code indent should never use tabs
+> #72: FILE: hw/net/can/ctu_can_fd_frame.h:38:
+> +^ICTU_CAN_FD_FRAME_FORM_W        = 0x0,$
+>
+> ERROR: code indent should never use tabs
+> #73: FILE: hw/net/can/ctu_can_fd_frame.h:39:
+> +^ICTU_CAN_FD_IDENTIFIER_W        = 0x4,$
+
+> ERROR: code indent should never use tabs
+> #221: FILE: hw/net/can/ctu_can_fd_frame.h:187:
+> +^I} s;$
+>
+> WARNING: Block comments use a leading /* on a separate line
+> #232: FILE: hw/net/can/ctu_can_fd_regs.h:2:
+> +/*************************************************************************
+>******
+>
+> WARNING: architecture specific defines should be avoided
+> #263: FILE: hw/net/can/ctu_can_fd_regs.h:33:
+> +#ifndef __CTU_CAN_FD_CAN_FD_REGISTER_MAP__
+>
+> ERROR: code indent should never use tabs
+> #268: FILE: hw/net/can/ctu_can_fd_regs.h:38:
+> +^ICTU_CAN_FD_DEVICE_ID             = 0x0,$
+>
+> ERROR: code indent should never use tabs
+> #269: FILE: hw/net/can/ctu_can_fd_regs.h:39:
+> +^ICTU_CAN_FD_VERSION               = 0x2,$
+>
+> ERROR: code indent should never use tabs
+> #270: FILE: hw/net/can/ctu_can_fd_regs.h:40:
+> +^ICTU_CAN_FD_MODE                  = 0x4,$
+
+As for the functionality, the solution has been tested only for little-endian
+guests and host systems for now. I am not fully sure how things map on 
+different variants of big-endian systems and how well they would match
+reality. Generally, the Linux driver is written such way that it detects
+switched byte order and should adapt for it automatically.
+
+I can try some MIPS based system, if the check result is important.
+But it would worth to have even real HW to compare real programmed
+PCIe card behavior and I do not pose Linux capable big endian systems.
+I have some safety based Cortex-R big endian ARMS there, but they do not
+have PCIe and QEMU support.
+
+Thanks for review and suggestions in advance,
+
+                Pavel
+-- 
+                Pavel Pisa
+    phone:      +420 603531357
+    e-mail:     pisa@cmp.felk.cvut.cz
+    Department of Control Engineering FEE CVUT
+    Karlovo namesti 13, 121 35, Prague 2
+    university: http://dce.fel.cvut.cz/
+    personal:   http://cmp.felk.cvut.cz/~pisa
+    projects:   https://www.openhub.net/accounts/ppisa
+    CAN related:http://canbus.pages.fel.cvut.cz/
+
 
