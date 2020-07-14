@@ -2,108 +2,53 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0FB5D21F398
-	for <lists+qemu-devel@lfdr.de>; Tue, 14 Jul 2020 16:13:08 +0200 (CEST)
-Received: from localhost ([::1]:57192 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id CB7BA21F418
+	for <lists+qemu-devel@lfdr.de>; Tue, 14 Jul 2020 16:30:22 +0200 (CEST)
+Received: from localhost ([::1]:36136 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jvLgB-0004cr-2w
-	for lists+qemu-devel@lfdr.de; Tue, 14 Jul 2020 10:13:07 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:38398)
+	id 1jvLwr-0000lk-BI
+	for lists+qemu-devel@lfdr.de; Tue, 14 Jul 2020 10:30:21 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:43506)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <vsementsov@virtuozzo.com>)
- id 1jvLfE-00043K-MR; Tue, 14 Jul 2020 10:12:09 -0400
-Received: from mail-eopbgr150112.outbound.protection.outlook.com
- ([40.107.15.112]:46081 helo=EUR01-DB5-obe.outbound.protection.outlook.com)
+ (Exim 4.90_1) (envelope-from <cfontana@suse.de>) id 1jvLw1-0000Gi-UQ
+ for qemu-devel@nongnu.org; Tue, 14 Jul 2020 10:29:29 -0400
+Received: from mx2.suse.de ([195.135.220.15]:55648)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <vsementsov@virtuozzo.com>)
- id 1jvLfA-0005PB-TT; Tue, 14 Jul 2020 10:12:07 -0400
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=YYykAoKR5ZeGe9Z3Icy0f1/EVXHPKRWqEl0bcSWZ7J0QykKMD3geY1YH224TLQv1e221ZaGqxtiIyGFMYwSIlGLJG4F3Ilbpo83V/BDLamYinJtso4U/MJWwVvYdsLZzMSObqeAWgaoke7STO9M/KHKvWw9T5A95sXs1jAlU6n0wIvcIPFzLKEoJ3O38qxrOPpWP4JliSrXVRTUNBxjegQEiMiX6M+MsYYQ34pG+PaLILqDBCpzKvC3dm3MLdV1ttgZpnWkuzo9cAzfH6ksPBEQj7VfbNxxwBBN5lt176jXfNoocBII7RmsriBeOfbrFwrwKM+/gIy2HHqls1b+0xQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=UCdn77TA8/LryV7TQWINYE+HFRrid6u8pwZSbnWkEOQ=;
- b=epVpYxJGBKc5dltJCNwy/S4OYMJusxHlsaWLvBDD3O1XCGgqUM1ZrSGRGaXAngbLo67NacyyqwWqOuBfDcseQmQGxrm7w5LusBv65MNcpLSLykFmRaO2j5WLYjC9PbtiYW7/+gzvIb1Gt9+lIbbTQIhwKTmUPM2Gt0W9Orx5bHurVgO6FSJTSzqoZr46Zb9pcOkDfMPg7HDRRgVrqb0GWWbT896e6PK9dVGBJmXDvIv0TJGQ6MDdlcOM/Cp9EF6yNBM6C6dMH6a9TJIeUdIeVC9yi1JsGovY4FY5v5LvKHDrk/bA0y+DNJMg7FjdbFkWqRLJ03O6dFZ+VcRY23vR9Q==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=virtuozzo.com; dmarc=pass action=none
- header.from=virtuozzo.com; dkim=pass header.d=virtuozzo.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=virtuozzo.com;
- s=selector2;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=UCdn77TA8/LryV7TQWINYE+HFRrid6u8pwZSbnWkEOQ=;
- b=sSfMcy8KLLAcdSXTgcp+TFz6ApOIN5bW7APBIkK/7it8jEy6izEZF3FTuNs122B8JmaLQStRuf2UC6VINEsNf3J+f5VXOnl7SJnSTsaHjMX5oNworzR8mxK7emwJIzXUTuCrk0TPaQHxNGvzpb4AHazy56F8+q8JTFTJLz9gYt0=
-Authentication-Results: openvz.org; dkim=none (message not signed)
- header.d=none;openvz.org; dmarc=none action=none header.from=virtuozzo.com;
-Received: from AM7PR08MB5494.eurprd08.prod.outlook.com (2603:10a6:20b:dc::15)
- by AM6PR08MB3448.eurprd08.prod.outlook.com (2603:10a6:20b:50::11)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3174.21; Tue, 14 Jul
- 2020 14:12:01 +0000
-Received: from AM7PR08MB5494.eurprd08.prod.outlook.com
- ([fe80::a408:2f0f:bc6c:d312]) by AM7PR08MB5494.eurprd08.prod.outlook.com
- ([fe80::a408:2f0f:bc6c:d312%3]) with mapi id 15.20.3174.025; Tue, 14 Jul 2020
- 14:12:01 +0000
-Subject: Re: [PATCH v5] scripts/simplebench: compare write request performance
-To: Andrey Shinkevich <andrey.shinkevich@virtuozzo.com>, qemu-block@nongnu.org
-References: <1594660965-159653-1-git-send-email-andrey.shinkevich@virtuozzo.com>
-From: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
-Message-ID: <55eb0343-0750-719e-11be-46a609f014a5@virtuozzo.com>
-Date: Tue, 14 Jul 2020 17:11:58 +0300
+ (Exim 4.90_1) (envelope-from <cfontana@suse.de>) id 1jvLvz-0007Ml-BP
+ for qemu-devel@nongnu.org; Tue, 14 Jul 2020 10:29:29 -0400
+X-Virus-Scanned: by amavisd-new at test-mx.suse.de
+Received: from relay2.suse.de (unknown [195.135.221.27])
+ by mx2.suse.de (Postfix) with ESMTP id 49BA8AC85;
+ Tue, 14 Jul 2020 14:29:27 +0000 (UTC)
+Subject: Re: migration: broken snapshot saves appear on s390 when small fields
+ in migration stream removed
+From: Claudio Fontana <cfontana@suse.de>
+To: Paolo Bonzini <pbonzini@redhat.com>, Juan Quintela <quintela@redhat.com>, 
+ "Dr. David Alan Gilbert" <dgilbert@redhat.com>, Kevin Wolf
+ <kwolf@redhat.com>, Max Reitz <mreitz@redhat.com>
+References: <8bbafdec-836d-b7de-cab8-7a325b6e238d@suse.de>
+ <55c406cd-b9ca-4e9b-0acd-d33cfe2a70e3@redhat.com>
+ <bf074240-8cc3-96ff-e95e-bd301822b756@suse.de>
+Message-ID: <ea3b617f-c2ea-534c-06ba-f5f9f43828a7@suse.de>
+Date: Tue, 14 Jul 2020 16:29:22 +0200
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.10.0
-In-Reply-To: <1594660965-159653-1-git-send-email-andrey.shinkevich@virtuozzo.com>
-Content-Type: text/plain; charset=utf-8; format=flowed
+ Thunderbird/68.4.1
+MIME-Version: 1.0
+In-Reply-To: <bf074240-8cc3-96ff-e95e-bd301822b756@suse.de>
+Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
 Content-Transfer-Encoding: 7bit
-X-ClientProxiedBy: AM0PR06CA0126.eurprd06.prod.outlook.com
- (2603:10a6:208:ab::31) To AM7PR08MB5494.eurprd08.prod.outlook.com
- (2603:10a6:20b:dc::15)
-MIME-Version: 1.0
-X-MS-Exchange-MessageSentRepresentingType: 1
-Received: from [192.168.100.2] (185.215.60.164) by
- AM0PR06CA0126.eurprd06.prod.outlook.com (2603:10a6:208:ab::31) with Microsoft
- SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.3195.17 via Frontend Transport; Tue, 14 Jul 2020 14:11:59 +0000
-X-Originating-IP: [185.215.60.164]
-X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: 64202188-dfed-4027-48b3-08d827ffe004
-X-MS-TrafficTypeDiagnostic: AM6PR08MB3448:
-X-MS-Exchange-Transport-Forked: True
-X-Microsoft-Antispam-PRVS: <AM6PR08MB3448D98B73A9CF7FF88D3393C1610@AM6PR08MB3448.eurprd08.prod.outlook.com>
-X-MS-Oob-TLC-OOBClassifiers: OLM:4502;
-X-MS-Exchange-SenderADCheck: 1
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: yPj/oSKS7pPCSprM5/tOJ4+xEgOaYwRxhrQINVKIapef/0XShyEd5+kOty3OCARwSLAcegJDXAk9ZF4xO3HpEL26b+ksPW/E4GkUm+cGGNQDu6adjxEOp479OBLB0RYAIbSTVh1Bli37j8AJNat4xiOBZ57Jznci75psNjbt9UE76mGofX42h9WbPqtJYumwNAvIXe3yQPTvtPKATJx8VoMfzgOYQ8sQux//ldhlYBB2y+Mp9+buYlfiVHl+btaaSr2P5P3SWWCULA4TBkBcYkTH6jBfNYH0BKoDjC+FfkjOakuqLzFT/p5LXS4OGSRWbKgYFk+VtTHHsGs+YIj8TUhGz/yn70huIQTyXNdwjcBJ9UDqjnfzcxy8Haeyl6+FjagVMMUaQDjAA1Weg9HOXz5GQOvr/+k6dnfLyrRYvPgZOPcGXWLuZQvejZr1xxoYUWbX3hISNytlRjqojYVoGRObbXE2XXKf6XUj5zaPbnc=
-X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:AM7PR08MB5494.eurprd08.prod.outlook.com; PTR:; CAT:NONE;
- SFTY:;
- SFS:(4636009)(366004)(39840400004)(346002)(376002)(396003)(136003)(450100002)(86362001)(66946007)(8676002)(66476007)(66556008)(4326008)(316002)(31696002)(16576012)(52116002)(26005)(16526019)(31686004)(36756003)(186003)(478600001)(8936002)(2906002)(6486002)(83380400001)(107886003)(2616005)(956004)(5660300002)(2004002)(43740500002);
- DIR:OUT; SFP:1102; 
-X-MS-Exchange-AntiSpam-MessageData: rHe85bJix2tyI+8LtPTvWOftqHa1R8wu715UmxnOKKTMPVQ76AorLq9fjzVqfWQLEgzE/ZqlBLFY3U/F5edToKpoPXwhkXzVrc8qCAAhDlVvV3g6iIPkknkro0eTq4KDb3MSVH+HPoLSIb72J56OAPcAf+r6aSCVOAptfVyIJb9ldatAxhiKJVvmcuGrVQNFuJ4zu3VbALKnkqVjsikNmzLa7eH7H5uF+dC7woTAJt30Cc7w/0KJwZyQFqrud/62P+L9QZ3st60YmQg97+isAfYXJjvooWuc4lE4+b+a1OP5k80DnLzgjGC0bq8VmLcWdF2BtLDIyy3DZUCq36WF5CqEHAyrb/OauTDueOlKvLXdCv+03N4Mmtm/9fN7EopVmoYcMkiD8tX3ppljZMmtGz1pMAHnaT75eyO6F7om62NgPTVzMAZkjYBYtLBUWBaPI3VQra7doiVH5qcXXwm9OIxTGrejjErujHE1F7nZZoHKfJmtUpuGyPwPd+u9XgTm
-X-OriginatorOrg: virtuozzo.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 64202188-dfed-4027-48b3-08d827ffe004
-X-MS-Exchange-CrossTenant-AuthSource: AM7PR08MB5494.eurprd08.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 14 Jul 2020 14:12:01.1113 (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 0bc7f26d-0264-416e-a6fc-8352af79c58f
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: yE/6LBRqdmPPOsG0hgm+TY9owZlY/Qp/HwDlSmfOQVjFM4pnp9FnAosLSeRJS9GTDaqH2LOn/KERLQ0tRwvuXIcxC8HvQ3Aq4CLg7v2cLt0=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: AM6PR08MB3448
-Received-SPF: pass client-ip=40.107.15.112;
- envelope-from=vsementsov@virtuozzo.com;
- helo=EUR01-DB5-obe.outbound.protection.outlook.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/07/14 10:12:02
-X-ACL-Warn: Detected OS   = Windows NT kernel [generic] [fuzzy]
-X-Spam_score_int: -37
-X-Spam_score: -3.8
-X-Spam_bar: ---
-X-Spam_report: (-3.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- MSGID_FROM_MTA_HEADER=0.001, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-1,
- SPF_HELO_PASS=-0.001, SPF_PASS=-0.001,
- URIBL_BLOCKED=0.001 autolearn=ham autolearn_force=no
+Received-SPF: pass client-ip=195.135.220.15; envelope-from=cfontana@suse.de;
+ helo=mx2.suse.de
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/07/13 21:34:19
+X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x (no timestamps) [generic]
+X-Spam_score_int: -41
+X-Spam_score: -4.2
+X-Spam_bar: ----
+X-Spam_report: (-4.2 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_MED=-2.3,
+ RCVD_IN_MSPIKE_H3=-0.01, RCVD_IN_MSPIKE_WL=-0.01, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -116,141 +61,269 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: den@openvz.org, qemu-devel@nongnu.org
+Cc: "Jason J. Herne" <jjherne@linux.ibm.com>, Fam Zheng <fam@euphon.net>,
+ Thomas Huth <thuth@redhat.com>, Liang Yan <lyan@suse.com>,
+ Peter Maydell <peter.maydell@linaro.org>, Cornelia Huck <cohuck@redhat.com>,
+ qemu-devel <qemu-devel@nongnu.org>, Stefan Hajnoczi <stefanha@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-13.07.2020 20:22, Andrey Shinkevich wrote:
-> The script 'bench_write_req.py' allows comparing performances of write
-> request for two qemu-img binary files.
-> An example with (qemu-img binary 1) and without (qemu-img binary 2) the
-> applied patch "qcow2: skip writing zero buffers to empty COW areas"
-> (git commit ID: c8bb23cbdbe32f5) has the following results:
+Hello,
+
+I have some tiny progress in narrowing down this issue, possibly a qcow2 issue, still unclear,
+but involving Kevin Wolf and Max Reitz.
+
+
+The reproducer again:
+
+> --------------------------------------------cut-------------------------------------------
+> diff --git a/cpus.c b/cpus.c
+> index 41d1c5099f..443b88697a 100644
+> --- a/cpus.c
+> +++ b/cpus.c
+> @@ -643,7 +643,7 @@ static void qemu_account_warp_timer(void)
+>  
+>  static bool icount_state_needed(void *opaque)
+>  {
+> -    return use_icount;
+> +    return 0;
+>  }
+>  
+>  static bool warp_timer_state_needed(void *opaque)
+> --------------------------------------------cut-------------------------------------------
+
+
+
+This issue for now appears on s390 only:
+
+On s390 hardware, test 267 fails (both kvm and tcg) in the qcow2 backing file part, with broken migration stream data in the s390-skeys vmsave (old style).
+
+What is new?
+It is possible to work around the problem by adding back to the stream simply by extending, for example, the existing UNUSED field in the timers vmstate.
+
+So this "fixes it", applied on top of the reproducer:
+
+--------------------------------------------cut-------------------------------------------
+@@ -728,7 +728,7 @@ static const VMStateDescription vmstate_timers = {
+     .minimum_version_id = 1,
+     .fields = (VMStateField[]) {
+         VMSTATE_INT64(cpu_ticks_offset, TimersState),
+-        VMSTATE_UNUSED(8),
++        VMSTATE_UNUSED(119),
+         VMSTATE_INT64_V(cpu_clock_offset, TimersState, 2),
+         VMSTATE_END_OF_LIST()
+     },
+--------------------------------------------cut-------------------------------------------
+
+
+NB: Exactly 111 bytes need to be added, not one byte less.
+
+Using VMSTATE_UNUSED(118) again breaks.
+Using VMSTATE_UNUSED(120) or more is _fine_. Seems that a certain threshold needs to be reached in the stream, before the transfer of old style vmsave fields in s390-skeys is successful.
+
+So here is the output, with some logging, of the VMSTATE_UNUSED(118) run (FAILURE, marked by error "-22"), followed by the VMSTATE_UNUSED(119) run (SUCCESS).
+qemu_fflush logs when called, as well as s390 save key code, just before and just after writing the skey fields.
+
+VMSTATE_UNUSED(118):
+
+QA output created by 267
+
+=== -blockdev with a backing file ===
+
+Formatting 'TEST_DIR/t.IMGFMT.base', fmt=IMGFMT size=134217728
+Formatting 'TEST_DIR/t.IMGFMT', fmt=IMGFMT size=134217728 backing_file=TEST_DIR/t.IMGFMT.base
+Testing: -blockdev driver=file,filename=TEST_DIR/t.IMGFMT.base,node-name=backing-file -blockdev driver=file,filename=TEST_DIR/t.IMGFMT,node-name=file -blockdev driver=IMGFMT,file=file,backing=backing-file,node-name=fmt
+QEMU X.Y.Z monitor - type 'help' for more information
+(qemu) savevm snap0
+qemu_fflush: written: 82, expected: 82 - done.
+qemu_fflush: written: 78, expected: 78 - done.
+qemu_fflush: - done.
+qemu_fflush: written: 32768, expected: 32768 - done.
+qemu_fflush: written: 32768, expected: 32768 - done.
+qemu_fflush: written: 32768, expected: 32768 - done.
+qemu_fflush: written: 32768, expected: 32768 - done.
+qemu_fflush: written: 32768, expected: 32768 - done.
+qemu_fflush: written: 32768, expected: 32768 - done.
+qemu_fflush: written: 32768, expected: 32768 - done.
+qemu_fflush: written: 32768, expected: 32768 - done.
+qemu_fflush: written: 81907, expected: 81907 - done.
+qemu_fflush: written: 36, expected: 36 - done.
+saving keys to stream...
+bytes_xfer=344418 xfer_limit=0 pos=344247 buf_index=331 buf_size=0
+iov cnt=1
+[0] base=0x2aa38733778 len=331 [~]
+
+qemu_fflush: written: 32768, expected: 32768 - done.
+saved keys to stream.
+bytes_xfer=377210 xfer_limit=0 pos=377015 buf_index=355 buf_size=0
+iov cnt=1
+[0] base=0x2aa38733778 len=355 []
+
+qemu_fflush: written: 16201, expected: 16201 - done.
+qemu_fflush: - done.
+qemu_fflush: - done.
+(qemu) info snapshots
+List of snapshots present on all disks:
+ID        TAG                     VM SIZE                DATE       VM CLOCK
+--        snap0                      SIZE yyyy-mm-dd hh:mm:ss   00:00:00.000
+(qemu) loadvm snap0
+Unexpected storage key flag data: 0
+error while loading state for instance 0x0 of device 's390-skeys'
+qemu_fflush: not writable!
+Error: Error -22 while loading VM state
+(qemu) quit
+
+*** done
+
+
+
+===================================================================================================================================
+
+
+
+VMSTATE_UNUSED(119):
+
+
+QA output created by 267
+
+=== -blockdev with a backing file ===
+
+Formatting 'TEST_DIR/t.IMGFMT.base', fmt=IMGFMT size=134217728
+Formatting 'TEST_DIR/t.IMGFMT', fmt=IMGFMT size=134217728 backing_file=TEST_DIR/t.IMGFMT.base
+Testing: -blockdev driver=file,filename=TEST_DIR/t.IMGFMT.base,node-name=backing-file -blockdev driver=file,filename=TEST_DIR/t.IMGFMT,node-name=file -blockdev driver=IMGFMT,file=file,backing=backing-file,node-name=fmt
+QEMU X.Y.Z monitor - type 'help' for more information
+(qemu) savevm snap0
+qemu_fflush: written: 82, expected: 82 - done.
+qemu_fflush: written: 78, expected: 78 - done.
+qemu_fflush: - done.
+qemu_fflush: written: 32768, expected: 32768 - done.
+qemu_fflush: written: 32768, expected: 32768 - done.
+qemu_fflush: written: 32768, expected: 32768 - done.
+qemu_fflush: written: 32768, expected: 32768 - done.
+qemu_fflush: written: 32768, expected: 32768 - done.
+qemu_fflush: written: 32768, expected: 32768 - done.
+qemu_fflush: written: 32768, expected: 32768 - done.
+qemu_fflush: written: 32768, expected: 32768 - done.
+qemu_fflush: written: 81907, expected: 81907 - done.
+qemu_fflush: written: 36, expected: 36 - done.
+saving keys to stream...
+bytes_xfer=344419 xfer_limit=0 pos=344247 buf_index=332 buf_size=0
+iov cnt=1
+[0] base=0x2aa1bc41778 len=332 [~]
+
+qemu_fflush: written: 32768, expected: 32768 - done.
+saved keys to stream.
+bytes_xfer=377211 xfer_limit=0 pos=377015 buf_index=356 buf_size=0
+iov cnt=1
+[0] base=0x2aa1bc41778 len=356 []
+
+qemu_fflush: written: 16202, expected: 16202 - done.
+qemu_fflush: - done.
+qemu_fflush: - done.
+(qemu) info snapshots
+List of snapshots present on all disks:
+
+
+=================================================
+
+Here is the diff between failed and successful runs:
+
+--- bad_extra_118.txt   2020-07-14 09:52:48.054023509 -0400
++++ good_extra_119.txt  2020-07-14 09:48:30.823977732 -0400
+@@ -21,17 +21,17 @@
+ qemu_fflush: written: 81907, expected: 81907 - done.
+ qemu_fflush: written: 36, expected: 36 - done.
+ saving keys to stream...
+-bytes_xfer=344418 xfer_limit=0 pos=344247 buf_index=331 buf_size=0
++bytes_xfer=344419 xfer_limit=0 pos=344247 buf_index=332 buf_size=0
+ iov cnt=1
+-[0] base=0x2aa38733778 len=331 [~]
++[0] base=0x2aa1bc41778 len=332 [~]
+ 
+ qemu_fflush: written: 32768, expected: 32768 - done.
+ saved keys to stream.
+-bytes_xfer=377210 xfer_limit=0 pos=377015 buf_index=355 buf_size=0
++bytes_xfer=377211 xfer_limit=0 pos=377015 buf_index=356 buf_size=0
+ iov cnt=1
+-[0] base=0x2aa38733778 len=355 []
++[0] base=0x2aa1bc41778 len=356 []
+ 
+-qemu_fflush: written: 16201, expected: 16201 - done.
++qemu_fflush: written: 16202, expected: 16202 - done.
+ qemu_fflush: - done.
+ qemu_fflush: - done.
+ (qemu) info snapshots
+@@ -39,10 +39,7 @@
+ ID        TAG                     VM SIZE                DATE       VM CLOCK
+ --        snap0                      SIZE yyyy-mm-dd hh:mm:ss   00:00:00.000
+ (qemu) loadvm snap0
+-Unexpected storage key flag data: 0
+-error while loading state for instance 0x0 of device 's390-skeys'
+ qemu_fflush: not writable!
+-Error: Error -22 while loading VM state
+ (qemu) quit
+ 
+ *** done
+
+=================================================
+
+
+If someone has a good idea let me know - first attempts to reproduce on x86 failed, but maybe more work could lead to it.
+
+Thanks,
+
+Claudio
+
+
+
+On 7/13/20 11:11 AM, Claudio Fontana wrote:
+> Hi Paolo,
 > 
-> SSD:
-> ----------------  -------------------  -------------------
->                    <qemu-img binary 1>  <qemu-img binary 2>
-> <cluster front>   0.10 +- 0.00         8.16 +- 0.65
-> <cluster middle>  0.10 +- 0.00         7.37 +- 1.10
-> <cross cluster>   7.40 +- 1.08         21.97 +- 4.19
-> <cluster 64K>     2.14 +- 0.94         8.48 +- 1.66
-> ----------------  -------------------  -------------------
-> HDD:
-> ----------------  -------------------  -------------------
->                    <qemu-img binary 1>  <qemu-img binary 2>
-> <cluster front>   2.30 +- 0.01         6.19 +- 0.06
-> <cluster middle>  2.20 +- 0.09         6.20 +- 0.06
-> <cross cluster>   8.32 +- 0.16         8.26 +- 0.14
-> <cluster 64K>     8.20 +- 0.05         6.26 +- 0.10
-> ----------------  -------------------  -------------------
+> On 7/12/20 6:11 PM, Paolo Bonzini wrote:
+>> On 12/07/20 12:00, Claudio Fontana wrote:
+>>> Note: only the === -blockdev with a backing file === part of test 267 fails. -blockdev with NBD is ok, like all the rest.
+>>>
+>>>
+>>> Interesting facts about s390 in particular: its save/load code includes the transfer of "storage keys",
+>>> which include a buffer of 32768 bytes of keydata in the stream.
+>>>
+>>> The code (hw/s390x/s390-skeys.c),
+>>> is modeled similarly to RAM transfer (like in migration/ram.c), with an EOS (end of stream) marker.
+>>>
+>>> Countrary to RAM transfer code though, after qemu_put_be64(f, EOS), the s390 code does not qemu_fflush(f).
+>>
+>> 1) Are there unexpected differences in the migration stream?  That is,
+>> you could modify qcow2.c to fopen/fwrite/fclose the bytes as they're
+>> written and read, and see if something does not match.
 > 
-> Suggested-by: Denis V. Lunev <den@openvz.org>
-> Suggested-by: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
-> Signed-off-by: Andrey Shinkevich <andrey.shinkevich@virtuozzo.com>
-> ---
-> v5:
->    01: 'cluster_size' made variable.
->    02: <simple case> deleted as duplicated.
->    03: A case with cluster size 64K was added.
->    04: The comments amended as Vladimir suggested.
->    05: Superfluous variables removed.
->    06: 'finally' block removed from function bench_write_req()
->    07: The names of test cases changed.
->    08: The 'block_size' of <cross cluster> set to the cluster size.
+> I hooked qcow2_co_pwritev_task and qcow2_co_preadv_task to also write to an external file using your suggestion.
 > 
->   scripts/simplebench/bench_write_req.py | 170 +++++++++++++++++++++++++++++++++
->   1 file changed, 170 insertions(+)
->   create mode 100755 scripts/simplebench/bench_write_req.py
+> I am seeing very interesting differences with and without the reproducer patch (ie, forcing icount_state_needed to 0 or not):
 > 
-> diff --git a/scripts/simplebench/bench_write_req.py b/scripts/simplebench/bench_write_req.py
-> new file mode 100755
-> index 0000000..7665c4b
-> --- /dev/null
-> +++ b/scripts/simplebench/bench_write_req.py
-> @@ -0,0 +1,170 @@
-> +#!/usr/bin/env python3
-> +#
-> +# Test to compare performance of write requests for two qemu-img binary files.
-> +#
-> +# The idea of the test comes from intention to check the benefit of c8bb23cbdbe
-> +# "qcow2: skip writing zero buffers to empty COW areas".
-> +#
-> +# Copyright (c) 2020 Virtuozzo International GmbH.
-> +#
-> +# This program is free software; you can redistribute it and/or modify
-> +# it under the terms of the GNU General Public License as published by
-> +# the Free Software Foundation; either version 2 of the License, or
-> +# (at your option) any later version.
-> +#
-> +# This program is distributed in the hope that it will be useful,
-> +# but WITHOUT ANY WARRANTY; without even the implied warranty of
-> +# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-> +# GNU General Public License for more details.
-> +#
-> +# You should have received a copy of the GNU General Public License
-> +# along with this program.  If not, see <http://www.gnu.org/licenses/>.
-> +#
-> +
-> +
-
-[..]
-
-> +    # Test-cases are "rows" in benchmark resulting table, 'id' is a caption
-> +    # for the row, other fields are handled by bench_func.
-> +    test_cases = [
-> +        {
-> +            'id': '<cluster front>',
-> +            'block_size': 4096,
-> +            'block_offset': 0,
-> +            'cluster_size': 1048576
-> +        },
-> +        {
-> +            'id': '<cluster middle>',
-> +            'block_size': 4096,
-> +            'block_offset': 524288,
-> +            'cluster_size': 1048576
-> +        },
-> +        {
-> +            'id': '<cross cluster>',
-> +            'block_size': 1048576,
-> +            'block_offset': 4096,
-> +            'cluster_size': 1048576
-> +        },
-> +        {
-> +            'id': '<cluster 64K>',
-> +            'block_size': 4096,
-> +            'block_offset': 0,
-> +            'cluster_size': 65536
-> +        },
-> +   ]
-
-wrong indent (s/   /    /). with it fixed:
-Reviewed-by: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
-
-> +
-> +    # Test-envs are "columns" in benchmark resulting table, 'id is a caption
-> +    # for the column, other fields are handled by bench_func.
-> +    # Set the paths below to desired values
-> +    test_envs = [
-> +        {
-> +            'id': '<qemu-img binary 1>',
-> +            'qemu_img': f'{sys.argv[1]}',
-> +            'image_name': f'{sys.argv[3]}'
-> +        },
-> +        {
-> +            'id': '<qemu-img binary 2>',
-> +            'qemu_img': f'{sys.argv[2]}',
-> +            'image_name': f'{sys.argv[3]}'
-> +        },
-> +    ]
-> +
-> +    result = simplebench.bench(bench_func, test_envs, test_cases, count=3,
-> +                               initial_run=False)
-> +    print(simplebench.ascii(result))
+> * without the reproducer patch, everything past the s390-skeys data field is in order: there is the EOS, and then the next idstr follows ("cpu_common").
+> 
+> * with the reproducer patch, every single byte past the s390-skeys data field is ZERO. There is no EOS, there is no next idstr "cpu_common", there is absolutely nothing else than zeroes until the end of the file.
+> 
+> 
+>>
+>> 2) If it matches, are there unexpected differences other than the lack
+>> of icount section when you apply the reproducer patch?
+> 
+> they do not match at all.
+> 
+> 
+>>
+>> The fflush part makes me put more hope in the first, but both could help
+>> you debug it.
+>>
+>> Thanks,
+>>
+>> Paolo
+>>
+> 
+> Thanks,
+> 
+> Claudio
 > 
 
-
--- 
-Best regards,
-Vladimir
 
