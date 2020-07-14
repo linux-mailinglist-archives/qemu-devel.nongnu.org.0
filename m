@@ -2,86 +2,74 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C93AB21F802
-	for <lists+qemu-devel@lfdr.de>; Tue, 14 Jul 2020 19:17:54 +0200 (CEST)
-Received: from localhost ([::1]:46448 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7659A21F812
+	for <lists+qemu-devel@lfdr.de>; Tue, 14 Jul 2020 19:21:50 +0200 (CEST)
+Received: from localhost ([::1]:49568 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jvOYz-0002E5-Sz
-	for lists+qemu-devel@lfdr.de; Tue, 14 Jul 2020 13:17:53 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:59516)
+	id 1jvOcn-0003s2-G1
+	for lists+qemu-devel@lfdr.de; Tue, 14 Jul 2020 13:21:49 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:60612)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1jvOXp-0001OU-Ud; Tue, 14 Jul 2020 13:16:42 -0400
-Received: from mail-wm1-x343.google.com ([2a00:1450:4864:20::343]:55897)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1jvOXo-00047V-5Q; Tue, 14 Jul 2020 13:16:41 -0400
-Received: by mail-wm1-x343.google.com with SMTP id g75so7185424wme.5;
- Tue, 14 Jul 2020 10:16:38 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=sender:subject:to:cc:references:from:message-id:date:user-agent
- :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=G06bz0G+0zTOMITxITjIWonCFrTFaS1DYVQC/CsPT3g=;
- b=A75fANeIgiij9mKlNG56ZzZnxnFQggXZ5wUopP/5cVMCyC5pUEpqbhxguNXWtxNBr2
- nPHs6X0D4ImX/u862g/07bvbCK8HbUMPJiPQzdaLnCaUKJVJO1Uvm2s4f61huSTd0G3J
- f3q4Hkw2LFqyoc3hnNLhUPyN+vpOUK6UbuDDLf/Isq5PZTqhiDM3C7pr3h7W0/asII1e
- c0bt0jX5vAYxpH3lMYahE2lXQmxwBAvttvRCMDFtQp2+aB/S7BdhA29yCBYUZTLl9HbT
- wGZphBvmXqVr5r7PfjgBq6PqnPTCY69aD1JEEZckPxhx2k0PyTicBtmIeGAjIwycOdQO
- nFhA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:sender:subject:to:cc:references:from:message-id
- :date:user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=G06bz0G+0zTOMITxITjIWonCFrTFaS1DYVQC/CsPT3g=;
- b=XP4+YPvc6oePl3u5G3Z4pRXbYn9bFtOwKBgcj0h/jID7dMtrPiNQ0bmUCQZRQRx47d
- qNqK/Qf/LgXxbAw5KNIcRAhPqhfO900NwIW5M6oZH8/nDqrqr2k62VTvsiAiFzqWY6Wx
- tq1MT9L8DvjMmRru8tZJkPi9zdo086jS1RAO36P6nvnMSSSLoCMWwrM0dYLXsd3Y8iKO
- BfQN9IvHtE8HbcoF31SBQo2kEcMkCiaUrnlbukkifnU37h5JX6+2s+ggNpS9tB0nuakp
- MH/VbUp6/Ihdl7zqhL5mBc+Y4lo+S/95pFDHErIsjZwV18aOg6gl5/xagSNmKnnhHTuw
- k0rQ==
-X-Gm-Message-State: AOAM530ckh4wx2vSREstMj93UosG/rH0jMhy/TveIxJevk6j98oSC0IY
- oZ1ZDhL605ULxu/MHNnzSfw=
-X-Google-Smtp-Source: ABdhPJzBvHNNxhmigsJbRhzG59qJA7qZVd1CDDQGyj03j6PwmL5d2H0Kw8E4K9+5xGlC3oLRWLELOQ==
-X-Received: by 2002:a1c:81d3:: with SMTP id c202mr4893178wmd.54.1594746996796; 
- Tue, 14 Jul 2020 10:16:36 -0700 (PDT)
-Received: from [192.168.1.37] (138.red-83-57-170.dynamicip.rima-tde.net.
- [83.57.170.138])
- by smtp.gmail.com with ESMTPSA id 1sm5212439wmf.21.2020.07.14.10.16.35
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 14 Jul 2020 10:16:36 -0700 (PDT)
-Subject: Re: [PATCH v5 10/11] hw/arm: Wire up BMC boot flash for npcm750-evb
- and quanta-gsj
-To: Markus Armbruster <armbru@redhat.com>
-References: <20200709003608.3834629-1-hskinnemoen@google.com>
- <20200709003608.3834629-11-hskinnemoen@google.com>
- <109d52ed-65bf-0fcc-98f1-47b7a6671d0b@kaod.org>
- <CAFQmdRZcygskP3iwss01-Jz67yjAP_JENXjWM2Bp8U=DRzxR0Q@mail.gmail.com>
- <875zaq78xq.fsf@dusky.pond.sub.org>
- <19733456-a672-595d-e721-e0ef26d7f665@amsat.org>
- <87v9iq2hkv.fsf@dusky.pond.sub.org>
-From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>
-Message-ID: <e87663cf-7cb2-ca6c-a751-e5c1cebc5440@amsat.org>
-Date: Tue, 14 Jul 2020 19:16:35 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.5.0
+ (Exim 4.90_1) (envelope-from <dgilbert@redhat.com>)
+ id 1jvObI-000341-LY
+ for qemu-devel@nongnu.org; Tue, 14 Jul 2020 13:20:16 -0400
+Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:32851
+ helo=us-smtp-1.mimecast.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <dgilbert@redhat.com>)
+ id 1jvObC-0004ba-9H
+ for qemu-devel@nongnu.org; Tue, 14 Jul 2020 13:20:14 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1594747207;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=77qORKYNn8vDde5yFouLQNRCTrE7aOFGmLYngxMTT6w=;
+ b=LmFG6Eueup2tMh/C9tuEvb9rGy4jwrWeflqe1YKgTcPjAMzdV4DVHQjKyySlJovzJ+S0J+
+ oXdGxBJn0FTKOkGP1rJinKPYEL2HUFFXwMRpF4oEokH31B0qVFqMXOrt7qckihrv7jkWeJ
+ lzfGL5HH6X5fdwo53e0YpXqjojPxx74=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-53-58lRDI6JN5iRjydGl4DMSg-1; Tue, 14 Jul 2020 13:20:05 -0400
+X-MC-Unique: 58lRDI6JN5iRjydGl4DMSg-1
+Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
+ [10.5.11.11])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 7B6B98027E3;
+ Tue, 14 Jul 2020 17:20:02 +0000 (UTC)
+Received: from work-vm (ovpn-113-100.ams2.redhat.com [10.36.113.100])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id A75AA72E68;
+ Tue, 14 Jul 2020 17:19:48 +0000 (UTC)
+Date: Tue, 14 Jul 2020 18:19:46 +0100
+From: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
+To: Alex Williamson <alex.williamson@redhat.com>
+Subject: Re: device compatibility interface for live migration with assigned
+ devices
+Message-ID: <20200714171946.GL2728@work-vm>
+References: <20200713232957.GD5955@joy-OptiPlex-7040>
+ <20200714102129.GD25187@redhat.com>
+ <20200714101616.5d3a9e75@x1.home>
 MIME-Version: 1.0
-In-Reply-To: <87v9iq2hkv.fsf@dusky.pond.sub.org>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::343;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wm1-x343.google.com
-X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
- That's all we know.
-X-Spam_score_int: 0
-X-Spam_score: 0.0
-X-Spam_bar: /
-X-Spam_report: (0.0 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1, DKIM_VALID=-0.1,
- DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=1, FREEMAIL_FROM=0.001,
- HEADER_FROM_DIFFERENT_DOMAINS=1, RCVD_IN_DNSWL_NONE=-0.0001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=no autolearn_force=no
+In-Reply-To: <20200714101616.5d3a9e75@x1.home>
+User-Agent: Mutt/1.14.5 (2020-06-23)
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
+Received-SPF: pass client-ip=207.211.31.120; envelope-from=dgilbert@redhat.com;
+ helo=us-smtp-1.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/07/13 21:44:01
+X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
+X-Spam_score_int: -40
+X-Spam_score: -4.1
+X-Spam_bar: ----
+X-Spam_report: (-4.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-1, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -94,100 +82,202 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Kevin Wolf <kwolf@redhat.com>, Peter Maydell <peter.maydell@linaro.org>,
- Qemu-block <qemu-block@nongnu.org>, Havard Skinnemoen <hskinnemoen@google.com>,
- QEMU Developers <qemu-devel@nongnu.org>, CS20 KFTing <kfting@nuvoton.com>,
- qemu-arm <qemu-arm@nongnu.org>,
- =?UTF-8?Q?C=c3=a9dric_Le_Goater?= <clg@kaod.org>,
- IS20 Avi Fishman <Avi.Fishman@nuvoton.com>
+Cc: kvm@vger.kernel.org, libvir-list@redhat.com, qemu-devel@nongnu.org,
+ kwankhede@nvidia.com, eauger@redhat.com, xin-ran.wang@intel.com,
+ corbet@lwn.net, openstack-discuss@lists.openstack.org, shaohe.feng@intel.com,
+ kevin.tian@intel.com, Yan Zhao <yan.y.zhao@intel.com>, eskultet@redhat.com,
+ jian-feng.ding@intel.com, zhenyuw@linux.intel.com, hejie.xu@intel.com,
+ bao.yumeng@zte.com.cn, smooney@redhat.com, intel-gvt-dev@lists.freedesktop.org,
+ Daniel =?iso-8859-1?Q?P=2E_Berrang=E9?= <berrange@redhat.com>,
+ cohuck@redhat.com, dinechin@redhat.com, devel@ovirt.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 7/14/20 6:21 PM, Markus Armbruster wrote:
-> Philippe Mathieu-Daudé <f4bug@amsat.org> writes:
+* Alex Williamson (alex.williamson@redhat.com) wrote:
+> On Tue, 14 Jul 2020 11:21:29 +0100
+> Daniel P. Berrang� <berrange@redhat.com> wrote:
 > 
->> + qemu-block experts.
->>
->> On 7/14/20 11:16 AM, Markus Armbruster wrote:
->>> Havard Skinnemoen <hskinnemoen@google.com> writes:
->>>
->>>> On Mon, Jul 13, 2020 at 7:57 AM Cédric Le Goater <clg@kaod.org> wrote:
->>>>>
->>>>> On 7/9/20 2:36 AM, Havard Skinnemoen wrote:
->>>>>> This allows these NPCM7xx-based boards to boot from a flash image, e.g.
->>>>>> one built with OpenBMC. For example like this:
->>>>>>
->>>>>> IMAGE=${OPENBMC}/build/tmp/deploy/images/gsj/image-bmc
->>>>>> qemu-system-arm -machine quanta-gsj -nographic \
->>>>>>       -bios ~/qemu/bootrom/npcm7xx_bootrom.bin \
->>>>>>       -drive file=${IMAGE},if=mtd,bus=0,unit=0,format=raw,snapshot=on
->>>>>>
->>>>>> Reviewed-by: Tyrone Ting <kfting@nuvoton.com>
->>>>>> Signed-off-by: Havard Skinnemoen <hskinnemoen@google.com>
->>>>>
->>>>> May be we don't need to create the flash object if dinfo is NULL.
->>>>
->>>> It's soldered on the board, so you can't really boot the board without
->>>> it. But if you think it's better to remove it altogether if we don't
->>>> have an image to load into it, I can do that.
->>>
->>> If a device is a fixed part of the physical board, it should be a fixed
->>> part of the virtual board, too.
->>
->> We agree so far but ... how to do it?
->>
->> I never used this API, does that makes sense?
->>
->>     if (!dinfo) {
->>         QemuOpts *opts;
->>
->>         opts = qemu_opts_create(NULL, "spi-flash", 1, &error_abort);
->>         qdict_put_str(opts, "format", "null-co");
->>         qdict_put_int(opts, BLOCK_OPT_SIZE, 64 * MiB);
->>         qdict_put_bool(opts, NULL_OPT_ZEROES, false); // XXX
->>
->>         dinfo = drive_new(opts, IF_MTD, &error_abort);
->>         qemu_opts_del(opts);
->>     }
+> > On Tue, Jul 14, 2020 at 07:29:57AM +0800, Yan Zhao wrote:
+> > > hi folks,
+> > > we are defining a device migration compatibility interface that helps upper
+> > > layer stack like openstack/ovirt/libvirt to check if two devices are
+> > > live migration compatible.
+> > > The "devices" here could be MDEVs, physical devices, or hybrid of the two.
+> > > e.g. we could use it to check whether
+> > > - a src MDEV can migrate to a target MDEV,
+> > > - a src VF in SRIOV can migrate to a target VF in SRIOV,
+> > > - a src MDEV can migration to a target VF in SRIOV.
+> > >   (e.g. SIOV/SRIOV backward compatibility case)
+> > > 
+> > > The upper layer stack could use this interface as the last step to check
+> > > if one device is able to migrate to another device before triggering a real
+> > > live migration procedure.
+> > > we are not sure if this interface is of value or help to you. please don't
+> > > hesitate to drop your valuable comments.
+> > > 
+> > > 
+> > > (1) interface definition
+> > > The interface is defined in below way:
+> > > 
+> > >              __    userspace
+> > >               /\              \
+> > >              /                 \write
+> > >             / read              \
+> > >    ________/__________       ___\|/_____________
+> > >   | migration_version |     | migration_version |-->check migration
+> > >   ---------------------     ---------------------   compatibility
+> > >      device A                    device B
+> > > 
+> > > 
+> > > a device attribute named migration_version is defined under each device's
+> > > sysfs node. e.g. (/sys/bus/pci/devices/0000\:00\:02.0/$mdev_UUID/migration_version).
+> > > userspace tools read the migration_version as a string from the source device,
+> > > and write it to the migration_version sysfs attribute in the target device.
+> > > 
+> > > The userspace should treat ANY of below conditions as two devices not compatible:
+> > > - any one of the two devices does not have a migration_version attribute
+> > > - error when reading from migration_version attribute of one device
+> > > - error when writing migration_version string of one device to
+> > >   migration_version attribute of the other device
+> > > 
+> > > The string read from migration_version attribute is defined by device vendor
+> > > driver and is completely opaque to the userspace.
+> > > for a Intel vGPU, string format can be defined like
+> > > "parent device PCI ID" + "version of gvt driver" + "mdev type" + "aggregator count".
+> > > 
+> > > for an NVMe VF connecting to a remote storage. it could be
+> > > "PCI ID" + "driver version" + "configured remote storage URL"
+> > > 
+> > > for a QAT VF, it may be
+> > > "PCI ID" + "driver version" + "supported encryption set".
+> > > 
+> > > (to avoid namespace confliction from each vendor, we may prefix a driver name to
+> > > each migration_version string. e.g. i915-v1-8086-591d-i915-GVTg_V5_8-1)
 > 
-> I believe existing code special-cases "no backend" instead of making one
-> up.
-> 
-> Example: pflash_cfi0?.c
-> 
-> If ->blk is non-null, we read its contents into the memory buffer and
-> write updates back, else we leave it blank and don't write updates back.
-> 
-> Making one up could be more elegant.  To find out, you have to try.
+> It's very strange to define it as opaque and then proceed to describe
+> the contents of that opaque string.  The point is that its contents
+> are defined by the vendor driver to describe the device, driver version,
+> and possibly metadata about the configuration of the device.  One
+> instance of a device might generate a different string from another.
+> The string that a device produces is not necessarily the only string
+> the vendor driver will accept, for example the driver might support
+> backwards compatible migrations.
 
-I'd rather avoid ad-hoc code in each device. I2C EEPROM do that too,
-it is a source of head aches.
+(As I've said in the previous discussion, off one of the patch series)
 
-From the emulation PoV I'd prefer to always use a block backend,
-regardless the user provide a drive.
+My view is it makes sense to have a half-way house on the opaqueness of
+this string; I'd expect to have an ID and version that are human
+readable, maybe a device ID/name that's human interpretable and then a
+bunch of other cruft that maybe device/vendor/version specific.
 
-> 
-> We make up a few default drives (i.e. drives the user doesn't specify):
-> floppy, CD-ROM and SD card.  Ancient part of the user interface, uses
-> DriveInfo.  I doubt we should create more of them.
-> 
-> I believe block backends we make up for internal use should stay away
-> from DriveInfo.  Kevin, what do you think?  How would you make up a
-> null-co block backend for a device's internal use?
+I'm thinking that we want to be able to report problems and include the
+string and the user to be able to easily identify the device that was
+complaining and notice a difference in versions, and perhaps also use
+it in compatibility patterns to find compatible hosts; but that does
+get tricky when it's a 'ask the device if it's compatible'.
 
-I read 'DriveInfo' is the legacy interface, but all the code base use it
-so it is confusing, I don't understand what is the correct interface to
-use.
+Dave
 
+> > > (2) backgrounds
+> > > 
+> > > The reason we hope the migration_version string is opaque to the userspace
+> > > is that it is hard to generalize standard comparing fields and comparing
+> > > methods for different devices from different vendors.
+> > > Though userspace now could still do a simple string compare to check if
+> > > two devices are compatible, and result should also be right, it's still
+> > > too limited as it excludes the possible candidate whose migration_version
+> > > string fails to be equal.
+> > > e.g. an MDEV with mdev_type_1, aggregator count 3 is probably compatible
+> > > with another MDEV with mdev_type_3, aggregator count 1, even their
+> > > migration_version strings are not equal.
+> > > (assumed mdev_type_3 is of 3 times equal resources of mdev_type_1).
+> > > 
+> > > besides that, driver version + configured resources are all elements demanding
+> > > to take into account.
+> > > 
+> > > So, we hope leaving the freedom to vendor driver and let it make the final decision
+> > > in a simple reading from source side and writing for test in the target side way.
+> > > 
+> > > 
+> > > we then think the device compatibility issues for live migration with assigned
+> > > devices can be divided into two steps:
+> > > a. management tools filter out possible migration target devices.
+> > >    Tags could be created according to info from product specification.
+> > >    we think openstack/ovirt may have vendor proprietary components to create
+> > >    those customized tags for each product from each vendor.  
+> > 
+> > >    for Intel vGPU, with a vGPU(a MDEV device) in source side, the tags to
+> > >    search target vGPU are like:
+> > >    a tag for compatible parent PCI IDs,
+> > >    a tag for a range of gvt driver versions,
+> > >    a tag for a range of mdev type + aggregator count
+> > > 
+> > >    for NVMe VF, the tags to search target VF may be like:
+> > >    a tag for compatible PCI IDs,
+> > >    a tag for a range of driver versions,
+> > >    a tag for URL of configured remote storage.  
 > 
->> We should probably add a public helper for that.
+> I interpret this as hand waving, ie. the first step is for management
+> tools to make a good guess :-\  We don't seem to be willing to say that
+> a given mdev type can only migrate to a device with that same type.
+> There's this aggregation discussion happening separately where a base
+> mdev type might be created or later configured to be equivalent to a
+> different type.  The vfio migration API we've defined is also not
+> limited to mdev devices, for example we could create vendor specific
+> quirks or hooks to provide migration support for a physical PF/VF
+> device.  Within the realm of possibility then is that we could migrate
+> between a physical device and an mdev device, which are simply
+> different degrees of creating a virtualization layer in front of the
+> device.
+>  
+> > Requiring management application developers to figure out this possible
+> > compatibility based on prod specs is really unrealistic. Product specs
+> > are typically as clear as mud, and with the suggestion we consider
+> > different rules for different types of devices, add up to a huge amount
+> > of complexity. This isn't something app developers should have to spend
+> > their time figuring out.
 > 
-> If we decide we want to make up backends, then yes, we should do that in
-> a helper, not in each device.
+> Agreed.
 > 
->> 'XXX' because NOR flashes erase content is when hardware bit
->> is set, so it would be more useful to return -1/0xff... rather
->> than zeroes.
+> > The suggestion that we make use of vendor proprietary helper components
+> > is totally unacceptable. We need to be able to build a solution that
+> > works with exclusively an open source software stack.
 > 
+> I'm surprised to see this as well, but I'm not sure if Yan was really
+> suggesting proprietary software so much as just vendor specific
+> knowledge.
 > 
+> > IMHO there needs to be a mechanism for the kernel to report via sysfs
+> > what versions are supported on a given device. This puts the job of
+> > reporting compatible versions directly under the responsibility of the
+> > vendor who writes the kernel driver for it. They are the ones with the
+> > best knowledge of the hardware they've built and the rules around its
+> > compatibility.
+> 
+> The version string discussed previously is the version string that
+> represents a given device, possibly including driver information,
+> configuration, etc.  I think what you're asking for here is an
+> enumeration of every possible version string that a given device could
+> accept as an incoming migration stream.  If we consider the string as
+> opaque, that means the vendor driver needs to generate a separate
+> string for every possible version it could accept, for every possible
+> configuration option.  That potentially becomes an excessive amount of
+> data to either generate or manage.
+> 
+> Am I overestimating how vendors intend to use the version string?
+> 
+> We'd also need to consider devices that we could create, for instance
+> providing the same interface enumeration prior to creating an mdev
+> device to have a confidence level that the new device would be a valid
+> target.
+> 
+> We defined the string as opaque to allow vendor flexibility and because
+> defining a common format is hard.  Do we need to revisit this part of
+> the discussion to define the version string as non-opaque with parsing
+> rules, probably with separate incoming vs outgoing interfaces?  Thanks,
+> 
+> Alex
+--
+Dr. David Alan Gilbert / dgilbert@redhat.com / Manchester, UK
+
 
