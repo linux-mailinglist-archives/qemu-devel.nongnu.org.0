@@ -2,81 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D23FD21FE75
-	for <lists+qemu-devel@lfdr.de>; Tue, 14 Jul 2020 22:22:08 +0200 (CEST)
-Received: from localhost ([::1]:41478 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D94EF21FE84
+	for <lists+qemu-devel@lfdr.de>; Tue, 14 Jul 2020 22:25:24 +0200 (CEST)
+Received: from localhost ([::1]:50130 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jvRRH-0004Zg-UY
-	for lists+qemu-devel@lfdr.de; Tue, 14 Jul 2020 16:22:07 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:33880)
+	id 1jvRUR-0007Ur-WC
+	for lists+qemu-devel@lfdr.de; Tue, 14 Jul 2020 16:25:24 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:34058)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1jvRQC-0003FL-7o
- for qemu-devel@nongnu.org; Tue, 14 Jul 2020 16:21:00 -0400
-Received: from mail-wm1-x343.google.com ([2a00:1450:4864:20::343]:54623)
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1jvRQw-0004mD-QB
+ for qemu-devel@nongnu.org; Tue, 14 Jul 2020 16:21:46 -0400
+Received: from mail-oi1-x22c.google.com ([2607:f8b0:4864:20::22c]:36557)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1jvRQA-0006UN-K5
- for qemu-devel@nongnu.org; Tue, 14 Jul 2020 16:20:59 -0400
-Received: by mail-wm1-x343.google.com with SMTP id o8so204621wmh.4
- for <qemu-devel@nongnu.org>; Tue, 14 Jul 2020 13:20:58 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=sender:from:to:cc:subject:date:message-id:in-reply-to:references
- :mime-version:content-transfer-encoding;
- bh=B2Ny7O+ykV1iblyI9PC1sIxllEhp7uUHrlhklKUSIgQ=;
- b=jCKGizuA6vLAPe5MUMTnEsAK+nIxH7LxIQTAROpmfwYbDaOwzkRC/ngXtkYzoyZZVA
- EGkrH35dKi0iRjvozNiK9T2GFi1efuqu2ixOuDH+dZSVbkWejTEhhUjGEFROijU75dKb
- LC+CRf2llVQKDjZGV7Wmxho0X62MEDzMmGIm9393TBDFbdQ/xKtDl2F8/N6u0JlFRae1
- SPXVO14u1bYi/u9Wka8iEs5SEmqP68EpGURp0reQaO7tGs9myCHCBK8q3jFmAqIXHxTk
- QGI0z+T8JAsghfYlFBbgbyvaJ2hB6sXZ4w/WX50p+AsQG0jxRzsRFw8vt9MQner4YwOl
- Y8hA==
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1jvRQu-0006Xa-S1
+ for qemu-devel@nongnu.org; Tue, 14 Jul 2020 16:21:46 -0400
+Received: by mail-oi1-x22c.google.com with SMTP id h17so6118oie.3
+ for <qemu-devel@nongnu.org>; Tue, 14 Jul 2020 13:21:44 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=v/JxJn/f5c+VU0jMhChoGMEE3awzEh5qpKUL03d6ABc=;
+ b=JHKsFvlSOD+Q0wiqFXTbEzWijlXvN5Hwj8AxIk3pvQj16QJTA8YSZAlh8HZDvGED5G
+ dtTWQpzb9NBJl6x5+rZO7QVeBU341Ohxp/zVUHx0xxHheBvoP+1muDDfBc2l25fVErru
+ HQYTmeTS3UhihRrhOlN5wQFRKIlImdcnvTZePTAMQp/wpe+UTvJ2H2Bzj+K/xZ0eZSWa
+ OTPh30hFwfOl76CvnWZn479DeGg1jznFHerhmYLNWButWPYqbZylgak3iru4je3vdtrD
+ rc73Kgwj2IR5sOzRN+yQiIQ8UNr7d20qpuHs/1nwRvkjZ4+9dcBJ/TDPpLtYYA6Qq90P
+ Qxwg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
- :in-reply-to:references:mime-version:content-transfer-encoding;
- bh=B2Ny7O+ykV1iblyI9PC1sIxllEhp7uUHrlhklKUSIgQ=;
- b=Anoy4b78mJ+KNs2yAiMlNKdX9Ef15go58x0j11p61sFAjC6le6h4biinBhwvqil+yK
- 4+siGdxu4uad3JDrxmbHpNL+Biu1mJhN2ZErkE6cQEDeoWLE8rDSaHhHME7FHSAzoD9J
- 5RPGUITaPGFU7xecHmwCIn7G4tW+C3Cvk+Tsm7SfyojzyuZWupiRZdNDfM1/GcLQTYXh
- FSvRwRNge48s94ItbKu5e8KCY9Hh5luy6CwI9YEdisK0rhEaW8zExVVJoHHBI1edXI75
- 8GyMjw3IvpW1K+Y51b3UnkuQJWQEjrfgPc+wkTGFpNEAuONAmI31xwRP5AjIxf+mJKv1
- zkWQ==
-X-Gm-Message-State: AOAM5301aVkSclUrWfNtRDPQ+/V5fQDj8zc872YewqtlfumKF+NaTTs7
- HsL36WWJdkkDxJg+g49Ue7u03/22KAo=
-X-Google-Smtp-Source: ABdhPJwyZj3pvl+6GPmi7jNFDUa/PkLHrnca+Gz5FhuJHBs0yWmi/5luPf8z3rhN8iEgEjGH3Cy2DQ==
-X-Received: by 2002:a1c:1d46:: with SMTP id d67mr5801409wmd.152.1594758056930; 
- Tue, 14 Jul 2020 13:20:56 -0700 (PDT)
-Received: from localhost.localdomain
- (138.red-83-57-170.dynamicip.rima-tde.net. [83.57.170.138])
- by smtp.gmail.com with ESMTPSA id 138sm7245217wmb.1.2020.07.14.13.20.55
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 14 Jul 2020 13:20:56 -0700 (PDT)
-From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
-To: qemu-devel@nongnu.org
-Subject: [PULL 3/3] MAINTAINERS: Adjust MIPS maintainership (add Huacai Chen &
- Jiaxun Yang)
-Date: Tue, 14 Jul 2020 22:20:51 +0200
-Message-Id: <20200714202051.13549-4-f4bug@amsat.org>
-X-Mailer: git-send-email 2.21.3
-In-Reply-To: <20200714202051.13549-1-f4bug@amsat.org>
-References: <20200714202051.13549-1-f4bug@amsat.org>
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=v/JxJn/f5c+VU0jMhChoGMEE3awzEh5qpKUL03d6ABc=;
+ b=BFhExdwfUleS+dCEI/NmV4BhfeTQ7AYbrOkARpw7QlQQZEwpMno/baYgmpOsZUcaeT
+ Syb+FZMxxk0HCRxEwAtAOHmBojP7SZX9JJQVhQOFaMKxjPrxw5i/5LhWYEVC6Z9PpREc
+ Fictv8tPqbLc3BdYQ7jRx+l4JIk43RGdfRORhOf5yrsXyn56OUw7RQrxiMpcMQi+imvA
+ dZaYbhQSknWGTOaPNGXfCdUEVP764bPf7vPnJJAkoy+6KxVX15NNmC0VkLkOCv0SABeI
+ /ZTrzezaIYMtEMajiFChBcaiQh27IBj2mr7uj1fSEHe+rayPJKBIWdYNdkqh/LkJnh/T
+ +Z3g==
+X-Gm-Message-State: AOAM533TVkxG+5+GODp6QHJHZwD/Z9usYdhFFwQ6bTh/EFHSZgXm4RxJ
+ TnHYe9qccwdKXOKN3TUGNupQHQ9zHlziG+RjimSc6LrG
+X-Google-Smtp-Source: ABdhPJzSQq4WbHtTaWkTAsYz0+vpF1PqHfbLHCU8bmaNe6J4YzwuCn8Kmlnubip3s4mYyhh0yu34nM+HW0xjkRh8U+o=
+X-Received: by 2002:aca:2819:: with SMTP id 25mr4854447oix.48.1594758103289;
+ Tue, 14 Jul 2020 13:21:43 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::343;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wm1-x343.google.com
+References: <20200714073259.1464675-1-laurent@vivier.eu>
+In-Reply-To: <20200714073259.1464675-1-laurent@vivier.eu>
+From: Peter Maydell <peter.maydell@linaro.org>
+Date: Tue, 14 Jul 2020 21:21:32 +0100
+Message-ID: <CAFEAcA_73OwotpmtEOeqwf2_B9CGvjeJoroBbxiZvb6Aker4tA@mail.gmail.com>
+Subject: Re: [PULL 0/7] Linux user for 5.1 patches
+To: Laurent Vivier <laurent@vivier.eu>
+Content-Type: text/plain; charset="UTF-8"
+Received-SPF: pass client-ip=2607:f8b0:4864:20::22c;
+ envelope-from=peter.maydell@linaro.org; helo=mail-oi1-x22c.google.com
 X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
  That's all we know.
-X-Spam_score_int: 0
-X-Spam_score: 0.0
-X-Spam_bar: /
-X-Spam_report: (0.0 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1, DKIM_VALID=-0.1,
- DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=1, FREEMAIL_FROM=0.001,
- HEADER_FROM_DIFFERENT_DOMAINS=1, RCVD_IN_DNSWL_NONE=-0.0001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- URIBL_BLOCKED=0.001 autolearn=no autolearn_force=no
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -89,71 +78,38 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Aleksandar Rikalo <aleksandar.rikalo@syrmia.com>,
- =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>,
- Jiaxun Yang <jiaxun.yang@flygoat.com>,
- Aleksandar Markovic <aleksandar.qemu.devel@gmail.com>,
- Huacai Chen <chenhc@lemote.com>, Aurelien Jarno <aurelien@aurel32.net>
+Cc: QEMU Developers <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Aleksandar Markovic <aleksandar.qemu.devel@gmail.com>
+On Tue, 14 Jul 2020 at 08:34, Laurent Vivier <laurent@vivier.eu> wrote:
+>
+> The following changes since commit 5c65b1f135ff09d24827fa3a17e56a4f8a032cd5:
+>
+>   Merge remote-tracking branch 'remotes/pmaydell/tags/pull-target-arm-20200713' into staging (2020-07-13 15:14:48 +0100)
+>
+> are available in the Git repository at:
+>
+>   git://github.com/vivier/qemu.git tags/linux-user-for-5.1-pull-request
+>
+> for you to fetch changes up to 42b16184d016d48d167229a1ddb89b3671c77440:
+>
+>   linux-user: fix print_syscall_err() when syscall returned value is negative (2020-07-14 09:29:14 +0200)
+>
+> ----------------------------------------------------------------
+> linux-user branch 20200714
+>
+> Fix strace errno management
+> Fix Coverity erros in ioctl straces
+> Fix some netlinks errors
+> Fix semtimedop
+>
 
-Huacai Chen and Jiaxun Yang step in as new energy [1].
 
-Aurelien Jarno comment [2]:
+Applied, thanks.
 
-  It happens that I known Huacai Chen from the time he was
-  upstreaming the Loongson 3 support to the kernel, I have been
-  testing and reviewing his patches. I also know Jiaxun Yang from
-  the #debian-mips IRC channel. I know that they are both very
-  competent and have a good knowledge of the open source world.
-  I therefore agree that they are good additions to maintain and/or
-  review the MIPS part of QEMU.
+Please update the changelog at https://wiki.qemu.org/ChangeLog/5.1
+for any user-visible changes.
 
-[1] https://www.mail-archive.com/qemu-devel@nongnu.org/msg718434.html
-[2] https://www.mail-archive.com/qemu-devel@nongnu.org/msg718738.html
-
-Signed-off-by: Aleksandar Markovic <aleksandar.qemu.devel@gmail.com>
-Message-Id: <20200701182559.28841-3-aleksandar.qemu.devel@gmail.com>
-PMD: [Split patch, added Aurelien's comment]
-Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
-Acked-by: Jiaxun Yang <jiaxun.yang@flygoat.com>
-Acked-by: Huacai Chen <chenhc@lemote.com>
----
- MAINTAINERS | 4 ++++
- 1 file changed, 4 insertions(+)
-
-diff --git a/MAINTAINERS b/MAINTAINERS
-index fe8139f367..cdb5c6f171 100644
---- a/MAINTAINERS
-+++ b/MAINTAINERS
-@@ -222,6 +222,7 @@ F: disas/microblaze.c
- MIPS TCG CPUs
- M: Aleksandar Markovic <aleksandar.qemu.devel@gmail.com>
- R: Aurelien Jarno <aurelien@aurel32.net>
-+R: Jiaxun Yang <jiaxun.yang@flygoat.com>
- R: Aleksandar Rikalo <aleksandar.rikalo@syrmia.com>
- S: Maintained
- F: target/mips/
-@@ -384,6 +385,7 @@ S: Maintained
- F: target/arm/kvm.c
- 
- MIPS KVM CPUs
-+M: Huacai Chen <chenhc@lemote.com>
- M: Aleksandar Markovic <aleksandar.qemu.devel@gmail.com>
- S: Odd Fixes
- F: target/mips/kvm.c
-@@ -2743,6 +2745,8 @@ F: disas/i386.c
- MIPS TCG target
- M: Aleksandar Markovic <aleksandar.qemu.devel@gmail.com>
- R: Aurelien Jarno <aurelien@aurel32.net>
-+R: Huacai Chen <chenhc@lemote.com>
-+R: Jiaxun Yang <jiaxun.yang@flygoat.com>
- R: Aleksandar Rikalo <aleksandar.rikalo@syrmia.com>
- S: Maintained
- F: tcg/mips/
--- 
-2.21.3
-
+-- PMM
 
