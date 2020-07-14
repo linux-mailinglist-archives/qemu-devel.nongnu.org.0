@@ -2,83 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5A71121EAB4
-	for <lists+qemu-devel@lfdr.de>; Tue, 14 Jul 2020 09:56:41 +0200 (CEST)
-Received: from localhost ([::1]:35990 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4A24C21EABC
+	for <lists+qemu-devel@lfdr.de>; Tue, 14 Jul 2020 09:58:26 +0200 (CEST)
+Received: from localhost ([::1]:39672 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jvFnr-0003oS-Ta
-	for lists+qemu-devel@lfdr.de; Tue, 14 Jul 2020 03:56:39 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:56902)
+	id 1jvFpZ-0005Nx-Ci
+	for lists+qemu-devel@lfdr.de; Tue, 14 Jul 2020 03:58:25 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:57306)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1jvFmm-000380-0w
- for qemu-devel@nongnu.org; Tue, 14 Jul 2020 03:55:32 -0400
-Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:39655
- helo=us-smtp-1.mimecast.com)
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1jvFom-0004yd-Vr
+ for qemu-devel@nongnu.org; Tue, 14 Jul 2020 03:57:38 -0400
+Received: from us-smtp-1.mimecast.com ([205.139.110.61]:49136
+ helo=us-smtp-delivery-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1jvFmj-0005BD-G3
- for qemu-devel@nongnu.org; Tue, 14 Jul 2020 03:55:31 -0400
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1jvFok-0005U4-3C
+ for qemu-devel@nongnu.org; Tue, 14 Jul 2020 03:57:36 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1594713328;
+ s=mimecast20190719; t=1594713452;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=mzH2VvrhXRsNG8azCI3t0Sju5lO1d/8A9XERbQDKyw0=;
- b=J8SeSsLeLAJyo4YaMgMvTgJ4+61QyHnxQGIncoHIRCvhdOp6iYYdAGkeyCmC89Wb2640k5
- rwNaX2ih7uuadEmu8OJo/7Wc7b+2Pd+SVtkqiHSfCjYlO4BzaX49eaf8aibLTcV/hZzuYN
- HGaDordDsl1HXK8IdNes2RBl2CKTpXc=
-Received: from mail-wm1-f72.google.com (mail-wm1-f72.google.com
- [209.85.128.72]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-174-bsh3qauYO7W9t9fXGCAvlw-1; Tue, 14 Jul 2020 03:55:26 -0400
-X-MC-Unique: bsh3qauYO7W9t9fXGCAvlw-1
-Received: by mail-wm1-f72.google.com with SMTP id z11so2779512wmg.5
- for <qemu-devel@nongnu.org>; Tue, 14 Jul 2020 00:55:26 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:content-transfer-encoding
- :in-reply-to;
- bh=mzH2VvrhXRsNG8azCI3t0Sju5lO1d/8A9XERbQDKyw0=;
- b=aaYWnUG+PA+a8eQ/tY4TG75E7I0tnDlPQ90zRahtOHZG1RCfE7eI/t6SJ2hwC4j6qX
- hnNTrBMT/ROWyWAlxIuDvkWv+J+ct609xlPgepQNDx/fzBEAO0zDkDYxkeCe5quLbpo/
- WsTznABe/4GA7rVvapP/qAy7SyobtYjpsL362IvQ6AnFIs4MsLUuIvSrVoZAK7CbjvcQ
- 6keHSCxQt9nyS7EHuLTSETWHawzG4YfmcMOR5LKMeLviKUI84UQcdrbOxNj6gBqAvbjT
- tjjpknL0uY5+SZ5XmBoNrFnZj4P5BoUdUaigzch23JuD2rxeHLmgw8DTauRpACSNnt89
- Mp5Q==
-X-Gm-Message-State: AOAM532XW0q9ZGd+MLHaq9Kl965E2UjKt98f50LIFh/EJzGemXr3H085
- pqtBi+pAVdM311HpgNI4R9Z8ZI1YiSrwaVKHslL63JCFZz2sXw2Fz2o6L+2ZSPld5hWfPKskmca
- VglUt54jmWZgB5fU=
-X-Received: by 2002:a1c:5ac3:: with SMTP id o186mr2993602wmb.39.1594713325000; 
- Tue, 14 Jul 2020 00:55:25 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJyvpgAD2uRB9NxCoiAxYIcHANwIo5dkA/mGxcevqj87IrRjjB7fSdFe7YLolxQTJIPYdC+2Xg==
-X-Received: by 2002:a1c:5ac3:: with SMTP id o186mr2993581wmb.39.1594713324737; 
- Tue, 14 Jul 2020 00:55:24 -0700 (PDT)
-Received: from redhat.com (bzq-79-180-10-140.red.bezeqint.net. [79.180.10.140])
- by smtp.gmail.com with ESMTPSA id a22sm2948485wmb.4.2020.07.14.00.55.21
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 14 Jul 2020 00:55:23 -0700 (PDT)
-Date: Tue, 14 Jul 2020 03:55:19 -0400
-From: "Michael S. Tsirkin" <mst@redhat.com>
-To: Michael Tokarev <mjt@tls.msk.ru>
-Subject: Re: [PATCH] Allow acpi-tmr size=2
-Message-ID: <20200714035300-mutt-send-email-mst@kernel.org>
-References: <5f12377f-b640-c4c5-1bcd-858c622c6c31@the-jedi.co.uk>
- <4a5cfe21-d370-8ebf-b905-c37d39b68353@msgid.tls.msk.ru>
- <20200713070946-mutt-send-email-mst@kernel.org>
- <7662bc2c-d958-731a-0882-62c5ab47c7a4@the-jedi.co.uk>
- <20200713081627-mutt-send-email-mst@kernel.org>
- <34d24b3a-75ec-ad94-c61b-2ebe4a0f277a@msgid.tls.msk.ru>
+ bh=AJuzeen2J9oH/kM1HYcS+neMEfRiIn7Nm//XepiXBok=;
+ b=eDbtbg29zkHzLfDmQBnZUMWUBbS5FwhquzlwdPjCjeEQV9X3TjBmzEIUtW486q+9raXhyA
+ e4I+JU8D94GVN2lFGj4D943vcLYpqrE4B989qIsAu1LTNAfJlaY139D0M7W3p4UZQMKuYO
+ iCfWrVA5Dyp+hHl1nfFx/rSDTfSGDoU=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-450-wHJTVjilOAG5K0JLFC16dQ-1; Tue, 14 Jul 2020 03:57:31 -0400
+X-MC-Unique: wHJTVjilOAG5K0JLFC16dQ-1
+Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
+ [10.5.11.16])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 89D4D800400
+ for <qemu-devel@nongnu.org>; Tue, 14 Jul 2020 07:57:30 +0000 (UTC)
+Received: from blackfin.pond.sub.org (ovpn-112-143.ams2.redhat.com
+ [10.36.112.143])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 54F835C1B2;
+ Tue, 14 Jul 2020 07:57:30 +0000 (UTC)
+Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
+ id D8394105A45D; Tue, 14 Jul 2020 09:57:28 +0200 (CEST)
+From: Markus Armbruster <armbru@redhat.com>
+To: Daniel P. =?utf-8?Q?Berrang=C3=A9?= <berrange@redhat.com>
+Subject: Re: [PATCH] tests: improve performance of device-introspect-test
+References: <20200709112857.3760116-1-berrange@redhat.com>
+ <87mu47gms3.fsf@dusky.pond.sub.org>
+ <20200713084759.GA4044570@redhat.com>
+Date: Tue, 14 Jul 2020 09:57:28 +0200
+In-Reply-To: <20200713084759.GA4044570@redhat.com> ("Daniel P. =?utf-8?Q?B?=
+ =?utf-8?Q?errang=C3=A9=22's?=
+ message of "Mon, 13 Jul 2020 09:47:59 +0100")
+Message-ID: <87h7ua8r6f.fsf@dusky.pond.sub.org>
+User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/26.3 (gnu/linux)
 MIME-Version: 1.0
-In-Reply-To: <34d24b3a-75ec-ad94-c61b-2ebe4a0f277a@msgid.tls.msk.ru>
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: 8bit
-Content-Disposition: inline
-Received-SPF: pass client-ip=205.139.110.120; envelope-from=mst@redhat.com;
- helo=us-smtp-1.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/07/14 01:42:04
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=205.139.110.61; envelope-from=armbru@redhat.com;
+ helo=us-smtp-delivery-1.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/07/14 03:57:32
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
 X-Spam_score_int: -40
 X-Spam_score: -4.1
@@ -99,63 +85,80 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Simon John <git@the-jedi.co.uk>, imammedo@redhat.com, qemu-devel@nongnu.org,
- Gerd Hoffmann <kraxel@redhat.com>
+Cc: Laurent Vivier <lvivier@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>,
+ Thomas Huth <thuth@redhat.com>,
+ Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
+ qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Mon, Jul 13, 2020 at 05:16:56PM +0300, Michael Tokarev wrote:
-> 13.07.2020 15:17, Michael S. Tsirkin пишет:
-> > On Mon, Jul 13, 2020 at 12:46:00PM +0100, Simon John wrote:
-> >> I don't profess to understand most of this, I am just a user who found
-> >> something didn't work and tracked down the cause with help from the people
-> >> on the bugtracker.
-> >>
-> >> the min=1 and max=4 was chosen as it seems to be set that way in most other
-> >> places in the source, and 2 fits in that range.
-> >>
-> >> so as macos seems to require 2 bytes but spec says 4 (32 bits) would it be
-> >> better to set min=2 max=4, given that the original revert seems to be a
-> >> security fix?
-> 
-> It's not about the security fix, it's about the piece in qemu code which
-> behaved wrongly for several years, which finally started to actually work.
-> 
-> >> this works equally well:
-> >>
-> >> static const MemoryRegionOps acpi_pm_tmr_ops = {
-> >>     .read = acpi_pm_tmr_read,
-> >>     .write = acpi_pm_tmr_write,
-> >>     .valid.min_access_size = 2,
-> >>     .valid.max_access_size = 4,
-> >>     .endianness = DEVICE_LITTLE_ENDIAN,
-> >> };
-> >>
-> >> regards.
-> >>
-> > 
-> > Sounds good. And how about also adding:
-> 
-> What this call will receive on a real HW? returning the same 4 bytes
-> even when asked for 2 smells wrong, no?
-> 
-> >       .impl.min_access_size = 4,
-> 
-> What does it mean? :)
-> 
-> /mjt
+Daniel P. Berrang=C3=A9 <berrange@redhat.com> writes:
 
-This will allow you to return a 4 byte value and will shift it
-accordingly.
+> On Fri, Jul 10, 2020 at 10:03:56PM +0200, Markus Armbruster wrote:
+>> Daniel P. Berrang=C3=A9 <berrange@redhat.com> writes:
+>>=20
+>> > Total execution time with "-m slow" and x86_64 QEMU, drops from 3
+>> > minutes 15 seconds, down to 54 seconds.
+>> >
+>> > Individual tests drop from 17-20 seconds, down to 3-4 seconds.
+>>=20
+>> Nice!
+>>=20
+>> A few observations on this test (impatient readers may skip to
+>> "Conclusions"):
+>
+> snip
+>
+>> * The number of known device types varies between targets from 33
+>>   (tricore) to several hundreds (x86_64+i386: 421, ppc 593, arm 667,
+>>   aarch64 680, ppc64 689).  Median is 215, sum is 7485.
+>
+> snip
+>
+>> * The test matrix is *expensive*.  Testing even a simple QMP query is
+>>   when you do it a quarter million times.  ARM is the greediest pig by
+>>   far (170k introspections, almost two thirds of the total!), followed
+>>   by ppc (36k), x86 (12k) and mips (11k).  Ideas on trimming excess are
+>>   welcome.  I'm not even sure anymore this should be a qtest.
+>
+> We have 70 arm machines, 667 devices. IIUC we are roughly testing every
+> device against everything machine. 46,690 tests.
+>
+> Most of the time devices are going to behave identically regardless of
+> which machine type is used. The trouble is some machines are different
+> enough that they can genuinely trigger different behaviour. It isn't
+> possible to slim the (machine, device) expansion down programatically
+> while still exercising the interesting combinations unless we get alot
+> more advanced.
+>
+> eg if a have a PCI device, we only need test it in one PCI based machine,
+> and only need test it on one non-PCI based machine.
 
-See: docs/devel/memory.rst :
-- .impl.min_access_size, .impl.max_access_size define the access sizes
-  (in bytes) supported by the *implementation*; other access sizes will be
-  emulated using the ones available.  For example a 4-byte write will be
-  emulated using four 1-byte writes, if .impl.max_access_size = 1.
+The trouble is .instance_init() can do anything, and can therefore
+interact badly with anything.
 
+Example: m2sxxx_soc_initfn() of device type "msf2-soc" messes with
+nd_table[0].  That's wrong.  The test doesn't catch it with machine type
+"none", where nd_table[0] is blank.  It does catch it with machine type
+"ast2600-evb", because aspeed_machine_init() puts something incompatible
+into nd_table[0], which makes m2sxxx_soc_initfn() crash.
 
--- 
-MST
+"msf2-soc" is not a PCI device, but if it was, then the two machines
+(with and without PCI) picked for testing PCI devices may well both
+leave nd_table[0] blank, and therefore not catch the bug.
+
+Some instances of "device code does stuff it should not" could be
+prevented by making interfaces inaccessible there.  We'd have to
+identify device code first.  The hw/BASE-ARCH/ contain both boards and
+devices.  Possibly even in the same .c.
+
+> I would be interesting to actually get some CPU profiling data for
+> this test to see if it points out anything interesting about where the
+> time is being spent. Even if we don't reduce the complexity, reducing
+> a time factor will potentially greatly help.=20
+
+Hunch: when we want to test device instantiation and finalization for a
+million (give or take) combinations of board x device, testing them one
+by one with QMP might be a bad idea.
 
 
