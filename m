@@ -2,63 +2,62 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4943521F79E
-	for <lists+qemu-devel@lfdr.de>; Tue, 14 Jul 2020 18:47:38 +0200 (CEST)
-Received: from localhost ([::1]:32780 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 83BC321F793
+	for <lists+qemu-devel@lfdr.de>; Tue, 14 Jul 2020 18:44:20 +0200 (CEST)
+Received: from localhost ([::1]:50820 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jvO5h-000783-9Q
-	for lists+qemu-devel@lfdr.de; Tue, 14 Jul 2020 12:47:37 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:44116)
+	id 1jvO2V-0002ih-Hr
+	for lists+qemu-devel@lfdr.de; Tue, 14 Jul 2020 12:44:19 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:44138)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1jvO1H-000118-7f
- for qemu-devel@nongnu.org; Tue, 14 Jul 2020 12:43:03 -0400
-Received: from mail-wm1-x343.google.com ([2a00:1450:4864:20::343]:36769)
+ id 1jvO1I-00013G-Bs
+ for qemu-devel@nongnu.org; Tue, 14 Jul 2020 12:43:04 -0400
+Received: from mail-wr1-x431.google.com ([2a00:1450:4864:20::431]:45995)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1jvO1F-0006o8-Sw
- for qemu-devel@nongnu.org; Tue, 14 Jul 2020 12:43:02 -0400
-Received: by mail-wm1-x343.google.com with SMTP id 17so7248118wmo.1
- for <qemu-devel@nongnu.org>; Tue, 14 Jul 2020 09:43:01 -0700 (PDT)
+ id 1jvO1G-0006oG-US
+ for qemu-devel@nongnu.org; Tue, 14 Jul 2020 12:43:04 -0400
+Received: by mail-wr1-x431.google.com with SMTP id s10so22944256wrw.12
+ for <qemu-devel@nongnu.org>; Tue, 14 Jul 2020 09:43:02 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=sender:from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=USDD8NOVLweac+qCIHNujkkaOORfMs3XF+U9+ULZXQQ=;
- b=GTeQmvNMice48YiDfyZ5I6vSw7EuqVKGFG46Zw4wr4/3XIc20ISFaDy8vjTsj0wgax
- vdZVhNl7GH+Rj6oe87kH++F9WvnK63adKOD1Ws40256sUAyswyXsDoxnn+e6Jqaf/SuU
- 5Vm/mxFbE8EC9EIg5UBP+25s9J6mwkqvCPnjkpfDV7Hi8lrpFA5URGfY2ewx92doaPjj
- C/yDeT+tcAxQNwLUbrgnFKNKam++epLCVdo4rI+ptkeCOHGSIV2B8F05FmUCFkNGFdLn
- G3Td2G1ueR5ENYMIXX7uEsk6stIfi5WA1t02QK6oRP5y3UPqgPc2f3PIwbJeHWKXnA+0
- 3vgg==
+ bh=2kQViIC5+9PvqKmlhSyw3D2e/Rk9cWBtF+16LewFggU=;
+ b=jxd6gKs3gyaONVuseSojodyvFe3qXsF6x/Bgof5N2Wj5mE1QbICMH+enbg2fo97IS5
+ jtgFAUSWc2ag1dEharm7+nkB3dGofy4fhlaLUEr6ACHWuRDhIarece3UB5LCxgGuhff+
+ FTNS04qEnYLLvt7tde2vKrP0PMHcpSjJdPg+GOKgE2O6ZReQVpmRVT/4TGIcQkf9y237
+ P/BxwYTZ9Tx/1nt/3J+kZGIumE6Fjw1lU/nhCzQKwFREW0vfQh10SHKxymKjihmPXb+Z
+ VO2b739GAZzT7Rat62zelLNHawrlTF+Oma7Jam4KNK6NhIdZdeLBPwkOlldMqaU5P905
+ 6o3A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
  :in-reply-to:references:mime-version:content-transfer-encoding;
- bh=USDD8NOVLweac+qCIHNujkkaOORfMs3XF+U9+ULZXQQ=;
- b=IIS9BMdVPH+7hoV5Busd8dBO4GjJs4wA9v+xT2qXy+jLu6v6swj9qlDyvWq6AVIsla
- BDdkajJ33TOsP68dgOgRE942RPZCAzBDof3rl9sUqEWYCS589bJNnH3ZdWPN+QdvRA7z
- dKb73X418A0p0eiQG29gehz73F3Tud5OnazW0kb0xFZKU+WWOfVXZwCchkcIV4oTIJMI
- L0mZfLPfvd11dwTiugvAKWctPutor6gCn9lKSvozmdvuNmWEhHpcm5kyQRUR9/Sm3Yy8
- 5oD2jJqaIpcNfJUqa5ZNub+Ku1k+ghQNO7KmCrTBNvcbcpV4zKNJqmjhezJhwNhKpGtk
- wSvg==
-X-Gm-Message-State: AOAM533oJevdT3debbJ4QxWMhcG54j2TQcQTb0LV5DfSFRnNG8xk3BAn
- STbXoDCmDQyq8hdbF2uK4BHA3cxGrZg=
-X-Google-Smtp-Source: ABdhPJzQb10S5gPbzhQ0qqKIiyliGgYiJTbsDBSp8cDmzho8mRbmypuNhkXpwbBeBu13AECJ/oKFGA==
-X-Received: by 2002:a05:600c:2202:: with SMTP id
- z2mr4997864wml.13.1594744980334; 
- Tue, 14 Jul 2020 09:43:00 -0700 (PDT)
+ bh=2kQViIC5+9PvqKmlhSyw3D2e/Rk9cWBtF+16LewFggU=;
+ b=rhP0xLUDKXLE5tB9jTY0QWsj5oSKXAXk65o3wjD3ewCDYg2gOEm3iyTCp9/yVSOrlt
+ MP5cChl7cKK7u8RvzkzQfe0m7WYywfSYxQSqOwaaPKbDCWslsfk9J02SaBRntvzsO82h
+ bNjW1UcvxBJWrXRGPT4XJwQJoA90lOtlZ4DwuD2dRZXyy6qJYe0Opuhtj1dIUpZQQm/D
+ pMz2CVpVNUNcfKTKAjLOgOjG1EtM+IDB7mjuCC89ctf3UAYA04B+62+j/D4nWBX4u3RB
+ 66ZVkJzsmqp0u1lgFKRq01fUOpbcO9UuHjEPISy6BbQ8jyvsbaiFIvYCiRdVuIS+uZ+H
+ e0OQ==
+X-Gm-Message-State: AOAM530DffcoYNO9L5k5RPtuh6cyLnGruprsgtkF+HhH0Yyjyd4VdtUM
+ kdQLqJUod5mh828AGxv1Eg6RqFeWI94=
+X-Google-Smtp-Source: ABdhPJxG5WDG/1t+TPzHsMAP46ZGMRgVFNGq/hijDSmnIFmA6vazWPo//rW6lEM43mborFGV0Uf5+w==
+X-Received: by 2002:adf:ec4e:: with SMTP id w14mr7190451wrn.280.1594744981448; 
+ Tue, 14 Jul 2020 09:43:01 -0700 (PDT)
 Received: from localhost.localdomain
  (138.red-83-57-170.dynamicip.rima-tde.net. [83.57.170.138])
- by smtp.gmail.com with ESMTPSA id 138sm6474380wmb.1.2020.07.14.09.42.59
+ by smtp.gmail.com with ESMTPSA id 138sm6474380wmb.1.2020.07.14.09.43.00
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 14 Jul 2020 09:42:59 -0700 (PDT)
+ Tue, 14 Jul 2020 09:43:00 -0700 (PDT)
 From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
 To: qemu-devel@nongnu.org
-Subject: [PATCH-for-5.1 1/4] qemu/osdep: Document os_find_datadir() return
- value
-Date: Tue, 14 Jul 2020 18:42:54 +0200
-Message-Id: <20200714164257.23330-2-f4bug@amsat.org>
+Subject: [PATCH-for-5.1 2/4] qemu/osdep: Reword qemu_get_exec_dir()
+ documentation
+Date: Tue, 14 Jul 2020 18:42:55 +0200
+Message-Id: <20200714164257.23330-3-f4bug@amsat.org>
 X-Mailer: git-send-email 2.21.3
 In-Reply-To: <20200714164257.23330-1-f4bug@amsat.org>
 References: <20200714164257.23330-1-f4bug@amsat.org>
@@ -66,8 +65,8 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::343;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wm1-x343.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::431;
+ envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wr1-x431.google.com
 X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
  That's all we know.
 X-Spam_score_int: 0
@@ -96,46 +95,29 @@ Cc: Peter Maydell <peter.maydell@linaro.org>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Document os_find_datadir() returned data must be freed.
+This comment is confuse, reword it a bit.
 
 Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
 ---
- os-posix.c | 3 +++
- os-win32.c | 7 ++++++-
- 2 files changed, 9 insertions(+), 1 deletion(-)
+ include/qemu/osdep.h | 5 ++++-
+ 1 file changed, 4 insertions(+), 1 deletion(-)
 
-diff --git a/os-posix.c b/os-posix.c
-index b674b20b1b..3572db3f44 100644
---- a/os-posix.c
-+++ b/os-posix.c
-@@ -84,6 +84,9 @@ void os_setup_signal_handling(void)
-  * Find a likely location for support files using the location of the binary.
-  * When running from the build tree this will be "$bindir/../pc-bios".
-  * Otherwise, this is CONFIG_QEMU_DATADIR.
-+ *
-+ * The caller must use g_free() to free the returned data when it is
-+ * no longer required.
-  */
- char *os_find_datadir(void)
- {
-diff --git a/os-win32.c b/os-win32.c
-index 6b86e022f0..c9c3afe648 100644
---- a/os-win32.c
-+++ b/os-win32.c
-@@ -57,7 +57,12 @@ void os_setup_early_signal_handling(void)
-     atexit(os_undo_timer_resolution);
- }
+diff --git a/include/qemu/osdep.h b/include/qemu/osdep.h
+index 979a403984..a96849dd90 100644
+--- a/include/qemu/osdep.h
++++ b/include/qemu/osdep.h
+@@ -588,7 +588,10 @@ char *qemu_get_local_state_pathname(const char *relative_pathname);
+ void qemu_init_exec_dir(const char *argv0);
  
--/* Look for support files in the same directory as the executable.  */
-+/*
-+ * Look for support files in the same directory as the executable.
+ /* Get the saved exec dir.
+- * Caller needs to release the returned string by g_free() */
 + *
-+ * The caller must use g_free() to free the returned data when it is
-+ * no longer required.
++ * The caller is responsible for releasing the value returned with g_free()
++ * after use.
 + */
- char *os_find_datadir(void)
- {
-     return qemu_get_exec_dir();
+ char *qemu_get_exec_dir(void);
+ 
+ /**
 -- 
 2.21.3
 
