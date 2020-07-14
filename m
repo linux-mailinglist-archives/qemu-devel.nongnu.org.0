@@ -2,86 +2,67 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id AB8D621EFDF
-	for <lists+qemu-devel@lfdr.de>; Tue, 14 Jul 2020 13:56:58 +0200 (CEST)
-Received: from localhost ([::1]:53372 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0B4F321F127
+	for <lists+qemu-devel@lfdr.de>; Tue, 14 Jul 2020 14:26:47 +0200 (CEST)
+Received: from localhost ([::1]:32904 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jvJYP-0008JB-Pp
-	for lists+qemu-devel@lfdr.de; Tue, 14 Jul 2020 07:56:57 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:59844)
+	id 1jvK1G-0005jk-4o
+	for lists+qemu-devel@lfdr.de; Tue, 14 Jul 2020 08:26:46 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:38586)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1jvJXT-0007lE-In; Tue, 14 Jul 2020 07:56:02 -0400
-Received: from mail-wr1-x442.google.com ([2a00:1450:4864:20::442]:35204)
+ (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
+ id 1jvK0G-0004wj-Em
+ for qemu-devel@nongnu.org; Tue, 14 Jul 2020 08:25:44 -0400
+Received: from indium.canonical.com ([91.189.90.7]:46766)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1jvJXS-0003i9-2o; Tue, 14 Jul 2020 07:55:59 -0400
-Received: by mail-wr1-x442.google.com with SMTP id z2so21100780wrp.2;
- Tue, 14 Jul 2020 04:55:57 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=sender:subject:to:cc:references:from:message-id:date:user-agent
- :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=p4m2ZOzIyPSL2/rHaH7le3Am/4eMEoYZvIFijH3lXiE=;
- b=jYLz7vjrH/sHuDQpLem48wz+1BxKsCLjiDvpJKm4KkNFvpWg/hvjDxWYfYThf/FIjY
- XzIdEyruy48Z+4xcS9s1HONKfSzKLqdWu4D5P2C2Pzbe49wCyeC2oMda6iYF1JDYmp6i
- AVylQjQUsUJugS+W/xNIDB6aZC32BDpokvANk7cNtkHq1lC4MU7mT8AIMtbagcrPVu6P
- bZk5BkyypNIVi8OlRwco+kOnvEybkB7xEtGaaYZBaVJ+kzgT3HWeWQlNfZ8BZFF6Es/s
- nRVXM3za6LjCcYruOdGDUAKat94TxDhTqv76Et+55E3KkKRFfm0QvUzj3GIyiXWzSd9e
- vP8w==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:sender:subject:to:cc:references:from:message-id
- :date:user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=p4m2ZOzIyPSL2/rHaH7le3Am/4eMEoYZvIFijH3lXiE=;
- b=ZvUC51IDFu4rBbgcGgIgFdHbDCyHPZwuGK/VfhwXHcqWArG1h4GTidFcsHJSIAQzgX
- l5WHcNS15io0FD/AAJ6HqjrTFyHyXmUOlSmNHQYh70VIQg4Zy71Vg5TwW76U3qI8IxTb
- +Rhkqlyjc/UN/bi3E20/9+3b9a0zdBFG8o3tF1+DPEOpkVSgmrxPdKkcNRlHXHanUHBA
- 6yQNgAiYVpu4f0EpiphR/IdSpsZFLcCf+RwRrABjzsXW3ccLGlmDkUV7wKKxHme8B43o
- h0sTAA6eTguVA87x+c4bKMBChxgMnkY0eFqKNpgKrz48I5ULK/JFEY70H2D75snd7N4l
- INVQ==
-X-Gm-Message-State: AOAM530c213JpE00snz71waF4RDzW95up9XmcXkghBKf/vbmP+EhUR5Z
- 1kQaGTtBctunjHdZVbbloNE=
-X-Google-Smtp-Source: ABdhPJzR6wjMEzGI4uUm4MsqGJHgwj1ancTW38mlmkdU0/89pIvHqtOkzs59TIJmNAKoRaaw7PzLbA==
-X-Received: by 2002:a5d:6a07:: with SMTP id m7mr4979340wru.324.1594727756212; 
- Tue, 14 Jul 2020 04:55:56 -0700 (PDT)
-Received: from [192.168.1.43] (138.red-83-57-170.dynamicip.rima-tde.net.
- [83.57.170.138])
- by smtp.gmail.com with ESMTPSA id 14sm3906004wmk.19.2020.07.14.04.55.55
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 14 Jul 2020 04:55:55 -0700 (PDT)
-Subject: Re: [PATCH v2 4/9] tests/acceptance/boot_linux: Expand SD card image
- to power of 2
-To: Cleber Rosa <crosa@redhat.com>
-References: <20200713183209.26308-1-f4bug@amsat.org>
- <20200713183209.26308-5-f4bug@amsat.org>
- <20200714032226.GE2983508@localhost.localdomain>
-From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>
-Message-ID: <2ad539ee-f23f-f3d5-4c2a-3962d6f0977f@amsat.org>
-Date: Tue, 14 Jul 2020 13:55:54 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.5.0
+ (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
+ id 1jvK0D-0007YS-Rt
+ for qemu-devel@nongnu.org; Tue, 14 Jul 2020 08:25:44 -0400
+Received: from loganberry.canonical.com ([91.189.90.37])
+ by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
+ id 1jvK0B-0006JA-Mf
+ for <qemu-devel@nongnu.org>; Tue, 14 Jul 2020 12:25:39 +0000
+Received: from loganberry.canonical.com (localhost [127.0.0.1])
+ by loganberry.canonical.com (Postfix) with ESMTP id 80B382E80F0
+ for <qemu-devel@nongnu.org>; Tue, 14 Jul 2020 12:25:39 +0000 (UTC)
 MIME-Version: 1.0
-In-Reply-To: <20200714032226.GE2983508@localhost.localdomain>
-Content-Type: text/plain; charset=windows-1252
-Content-Language: en-US
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::442;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wr1-x442.google.com
-X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
- That's all we know.
-X-Spam_score_int: 0
-X-Spam_score: 0.0
-X-Spam_bar: /
-X-Spam_report: (0.0 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1, DKIM_VALID=-0.1,
- DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=1, FREEMAIL_FROM=0.001,
- HEADER_FROM_DIFFERENT_DOMAINS=1, RCVD_IN_DNSWL_NONE=-0.0001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=no autolearn_force=no
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: quoted-printable
+Date: Tue, 14 Jul 2020 12:16:06 -0000
+From: Mark Cave-Ayland <1886318@bugs.launchpad.net>
+To: qemu-devel@nongnu.org
+X-Launchpad-Notification-Type: bug
+X-Launchpad-Bug: product=qemu; status=New; importance=Undecided; assignee=None;
+X-Launchpad-Bug-Information-Type: Public
+X-Launchpad-Bug-Private: no
+X-Launchpad-Bug-Security-Vulnerability: no
+X-Launchpad-Bug-Commenters: mark-cave-ayland mjt+launchpad-tls sej7278
+X-Launchpad-Bug-Reporter: Simon John (sej7278)
+X-Launchpad-Bug-Modifier: Mark Cave-Ayland (mark-cave-ayland)
+References: <159394898604.17667.6684490731246411850.malonedeb@soybean.canonical.com>
+Message-Id: <159472896628.12480.5426286906144702797.malone@gac.canonical.com>
+Subject: [Bug 1886318] Re: Qemu after v5.0.0 breaks macos guests
+X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
+X-Launchpad-Message-For: qemu-devel-ml
+Precedence: bulk
+X-Generated-By: Launchpad (canonical.com);
+ Revision="4809fcb62f445aaa3ae919f7f6c3cc7d156ea57a";
+ Instance="production-secrets-lazr.conf"
+X-Launchpad-Hash: 3a55aa763170a0299820a607821af367a1b57978
+Received-SPF: none client-ip=91.189.90.7; envelope-from=bounces@canonical.com;
+ helo=indium.canonical.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/07/14 08:25:40
+X-ACL-Warn: Detected OS   = Linux 3.11 and newer [fuzzy]
+X-Spam_score_int: -58
+X-Spam_score: -5.9
+X-Spam_bar: -----
+X-Spam_report: (-5.9 / 5.0 requ) BAYES_00=-1.9, HEADER_FROM_DIFFERENT_DOMAINS=1,
+ RCVD_IN_DNSWL_HI=-5, RCVD_IN_MSPIKE_H3=-0.01, RCVD_IN_MSPIKE_WL=-0.01,
+ SPF_HELO_NONE=0.001, SPF_NONE=0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
-Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -90,67 +71,91 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Maydell <peter.maydell@linaro.org>,
- Prasad J Pandit <pjp@fedoraproject.org>, qemu-block@nongnu.org,
- Alistair Francis <alistair@alistair23.me>, qemu-devel@nongnu.org,
- Wainer dos Santos Moschetta <wainersm@redhat.com>,
- Alexander Bulekov <alxndr@bu.edu>, Niek Linnenbank <nieklinnenbank@gmail.com>,
- =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
+Reply-To: Bug 1886318 <1886318@bugs.launchpad.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 7/14/20 5:22 AM, Cleber Rosa wrote:
-> On Mon, Jul 13, 2020 at 08:32:04PM +0200, Philippe Mathieu-Daudé wrote:
->> In few commits we won't allow SD card images with invalid size
->> (not aligned to a power of 2). Prepare the tests: add the
->> pow2ceil() and image_pow2ceil_expand() methods and resize the
->> images (expanding) of the tests using SD cards.
->>
->> Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
->> ---
->> Since v1: Addressed review comments
->> - truncate -> expand reword (Alistair Francis)
->> - expand after uncompress (Niek Linnenbank)
->> ---
->>  tests/acceptance/boot_linux_console.py | 27 +++++++++++++++++---------
->>  1 file changed, 18 insertions(+), 9 deletions(-)
->>
->> diff --git a/tests/acceptance/boot_linux_console.py b/tests/acceptance/boot_linux_console.py
->> index b7e8858c2d..8f2a6aa8a4 100644
->> --- a/tests/acceptance/boot_linux_console.py
->> +++ b/tests/acceptance/boot_linux_console.py
->> @@ -28,6 +28,18 @@
->>  except CmdNotFoundError:
->>      P7ZIP_AVAILABLE = False
->>  
->> +# round up to next power of 2
->> +def pow2ceil(x):
->> +    return 1 if x == 0 else 2**(x - 1).bit_length()
->> +
-> 
-> Nitpick: turn the comment into a docstring.
+Hi Simon,
 
-OK will do.
+Just in case you're not getting emails to the git@ email address on the
+patch, there has been more follow up and discussion on the qemu-devel@
+list:
 
-> Then, I was going to have a second nitpick about the method name, but
-> realized it was following qemu-common.h's implementation.
-> 
->> +# expand file size to next power of 2
->> +def image_pow2ceil_expand(path):
->> +        size = os.path.getsize(path)
->> +        size_aligned = pow2ceil(size)
->> +        if size != size_aligned:
->> +            with open(path, 'ab+') as fd:
->> +                fd.truncate(size_aligned)
->> +
-> 
-> Same nitpick comment about comment -> docstring here.
-> 
-> Either way,
-> 
-> Reviewed-by: Cleber Rosa <crosa@redhat.com>
+https://lists.gnu.org/archive/html/qemu-devel/2020-07/msg04006.html
+https://lists.gnu.org/archive/html/qemu-devel/2020-07/msg04621.html
+https://lists.gnu.org/archive/html/qemu-devel/2020-07/msg04637.html
 
-Thanks!
 
-Phil.
+ATB,
+
+Mark.
+
+-- =
+
+You received this bug notification because you are a member of qemu-
+devel-ml, which is subscribed to QEMU.
+https://bugs.launchpad.net/bugs/1886318
+
+Title:
+  Qemu after v5.0.0 breaks macos guests
+
+Status in QEMU:
+  New
+
+Bug description:
+  The Debian Sid 5.0-6 qemu-kvm package can no longer get further than
+  the Clover bootloader whereas 5.0-6 and earlier worked fine.
+
+  So I built qemu master from github and it has the same problem,
+  whereas git tag v5.0.0 (or 4.2.1) does not, so something between
+  v5.0.0 release and the last few days has caused the problem.
+
+  Here's my qemu script, pretty standard macOS-Simple-KVM setup on a
+  Xeon host:
+
+  qemu-system-x86_64 \
+      -enable-kvm \
+      -m 4G \
+      -machine q35,accel=3Dkvm \
+      -smp 4,sockets=3D1,cores=3D2,threads=3D2 \
+      -cpu =
+
+  Penryn,vendor=3DGenuineIntel,kvm=3Don,+sse3,+sse4.2,+aes,+xsave,+avx,+xsa=
+veopt,+xsavec,+xgetbv1,+avx2,+bmi2,+smep,+bmi1,+fma,+movbe,+invtsc =
+
+  \
+      -device =
+
+  isa-applesmc,osk=3D"ourhardworkbythesewordsguardedpleasedontsteal(c)Apple=
+ComputerInc" =
+
+  \
+      -smbios type=3D2 \
+      -drive if=3Dpflash,format=3Draw,readonly,file=3D"/tmp/OVMF_CODE.fd" \
+      -drive if=3Dpflash,format=3Draw,file=3D"/tmp/macos_catalina_VARS.fd" \
+      -vga qxl \
+      -device ich9-ahci,id=3Dsata \
+      -drive id=3DESP,if=3Dnone,format=3Draw,file=3D/tmp/ESP.img \
+      -device ide-hd,bus=3Dsata.2,drive=3DESP \
+      -drive id=3DInstallMedia,format=3Draw,if=3Dnone,file=3D/tmp/BaseSyste=
+m.img \
+      -device ide-hd,bus=3Dsata.3,drive=3DInstallMedia \
+      -drive id=3DSystemDisk,if=3Dnone,format=3Draw,file=3D/tmp/macos_catal=
+ina.img \
+      -device ide-hd,bus=3Dsata.4,drive=3DSystemDisk \
+      -usb -device usb-kbd -device usb-mouse
+
+  Perhaps something has changed in Penryn support recently, as that's
+  required for macos?
+
+  See also https://bugs.debian.org/cgi-bin/bugreport.cgi?bug=3D964247
+
+  Also on a related note, kernel 5.6/5.7 (on Debian) hard crashes the
+  host when I try GPU passthrough on macos, whereas Ubuntu20/Win10 work
+  fine - as does 5.5 kernel.
+
+  See also https://bugs.debian.org/cgi-bin/bugreport.cgi?bug=3D961676
+
+To manage notifications about this bug go to:
+https://bugs.launchpad.net/qemu/+bug/1886318/+subscriptions
 
