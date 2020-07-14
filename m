@@ -2,67 +2,67 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 537CC2200B5
-	for <lists+qemu-devel@lfdr.de>; Wed, 15 Jul 2020 00:33:08 +0200 (CEST)
-Received: from localhost ([::1]:35494 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1648E2200A2
+	for <lists+qemu-devel@lfdr.de>; Wed, 15 Jul 2020 00:31:08 +0200 (CEST)
+Received: from localhost ([::1]:58008 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jvTU3-0000ii-EP
-	for lists+qemu-devel@lfdr.de; Tue, 14 Jul 2020 18:33:07 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:50544)
+	id 1jvTS6-0006cx-WB
+	for lists+qemu-devel@lfdr.de; Tue, 14 Jul 2020 18:31:07 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:50552)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1jvTKD-0001oR-E6
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1jvTKD-0001pr-Us
  for qemu-devel@nongnu.org; Tue, 14 Jul 2020 18:22:57 -0400
-Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:49304
- helo=us-smtp-1.mimecast.com)
+Received: from us-smtp-2.mimecast.com ([207.211.31.81]:33186
+ helo=us-smtp-delivery-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1jvTK7-0004w7-N5
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1jvTKC-0004wP-2Z
  for qemu-devel@nongnu.org; Tue, 14 Jul 2020 18:22:57 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1594765371;
+ s=mimecast20190719; t=1594765373;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=rq8+AkQ2f65ZI8kNrmi3lYHC8ESMu5ga2yLy+oSnBcw=;
- b=QxDOnFwMUuzrxwRLSGizeAxDPFnDgbpMM95M6Tj2uR/viYQG25+KlQv62E9nUPmpi8JOP6
- s20w44LSrxjky0cKYrHUYPPYSAGGLU+yhuc/7S3DXoUpeVlMZQtfRD/Uvwa+g/4ZtA9Nex
- ENOiD/h9IU7e0R1ydX3eHe+8h8JBP0Q=
-Received: from mail-wm1-f72.google.com (mail-wm1-f72.google.com
- [209.85.128.72]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-175-LVXPlCMdNomaVdBRg7awvg-1; Tue, 14 Jul 2020 18:22:47 -0400
-X-MC-Unique: LVXPlCMdNomaVdBRg7awvg-1
-Received: by mail-wm1-f72.google.com with SMTP id b13so88718wme.9
- for <qemu-devel@nongnu.org>; Tue, 14 Jul 2020 15:22:47 -0700 (PDT)
+ bh=re7gKjIDIxjZ168y2pnh2vU3k4lXjSx5/GbYDUTFUY0=;
+ b=EiElOsVK0YFoZXcpx7rZiFAfqMnKbuirxMOnHe10CFf4OlYadJlaeOqLUmPGpoLiC81FrG
+ WAY/Z1UTcmHZH6m0IIxfFMuzXulJ3l3qIP4VsMkS0d9UB3ojHV+9hHvwqJU0WNRP4Azh+z
+ ETWFpufeLKcAJOJ8gfbBgE4r+n7ed00=
+Received: from mail-wr1-f71.google.com (mail-wr1-f71.google.com
+ [209.85.221.71]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-345-lJDu1lPVMyyinQWGs2yLDw-1; Tue, 14 Jul 2020 18:22:52 -0400
+X-MC-Unique: lJDu1lPVMyyinQWGs2yLDw-1
+Received: by mail-wr1-f71.google.com with SMTP id b8so18420wro.19
+ for <qemu-devel@nongnu.org>; Tue, 14 Jul 2020 15:22:52 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=rq8+AkQ2f65ZI8kNrmi3lYHC8ESMu5ga2yLy+oSnBcw=;
- b=JEEcp0gkLO5+RxgDZpU2hJ229gGULvHJX0HE7QlHL0Xf/Pn7U8dpJq7UyCO6mwpj8R
- LwnGaw6PHvngkOlb5pKqAiZLSLRqcpj1fWYE0GAOYPuAm+wxOrzNPR1lC2svEL9RZaNy
- fyxxeJviU/M+QzloNW6jcs+A7trLJQxgkAD8qzrpSoJvyCRBdnjqM6LbHwZac1y3zchz
- 4G05zdcu9rgzMgZ6zrZ8XLYCnIWSHNYveIO4jmeQOCX+mhp7tfMznSsOeV4x/nVGA3yS
- ypL7gYiszZNAO4TlGUPL09SwxPNckMVfr4diQ53KJu5LtI8YALV1iFKN54qApCbV5wqd
- +bTg==
-X-Gm-Message-State: AOAM5332j2qComIeLxAA/YKioxvI2SgvtLGRgQn/vwpTtBnlC/pV/FI4
- taPxhXyYTnH8y3xjO0wNYotL8X5DG6ylemYxuGYpmDYviJGmmQ8qVpMzNYT7XDAYJo3dLZKFiol
- X+yQ/Xjw4c7oIcY4=
-X-Received: by 2002:a1c:dcd5:: with SMTP id t204mr5630259wmg.17.1594765366150; 
- Tue, 14 Jul 2020 15:22:46 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJyZ0W1+mYV+xIoQKOnPVpPvIcjDUeg6KBenJbmH5A4pOKNAkP29TAvjcxBiE/kLmrFQ3GPijQ==
-X-Received: by 2002:a1c:dcd5:: with SMTP id t204mr5630246wmg.17.1594765365977; 
- Tue, 14 Jul 2020 15:22:45 -0700 (PDT)
+ bh=re7gKjIDIxjZ168y2pnh2vU3k4lXjSx5/GbYDUTFUY0=;
+ b=idLcoaqJoohO3r4AxODE7CP8+exwyt030AfDunqcr7Lh7w/5JhDbj4+khFV4OOeVL3
+ P6fuOuurExlvbJ/YxwGz/1xR7T1vCoYN4eDJARAj+2ajV+hO7h83JRswSa5zT41f+dUZ
+ S6KcxXVqS8j/AhRJ4ufVTWQGcMsIKPR9HaU5XQ7lTryAY8wMZrex/EUOTNZEPomSTvvI
+ 4+QxT+0Gh5nW0C6W/04K8XaPsC86MEc5By+Q1vpeOv0PzYJXoGneQroUF+0yzS0lLgvV
+ L61NBRJ77jhVAf5dmjntdmfpGNGvn/iFFUOmxaQnLygTZ4ak0AH0Hv2FcCAnwZ5Lxfii
+ Hcmg==
+X-Gm-Message-State: AOAM532MU7uE5hR+ekawdFkophDJldBqyC1wrknoaztt1Q7d3Y/cJse3
+ y7ud8rZljPjIyc01/9qcO0ymJyy/q0ruAEZTvRoclNgdTcwlsopsonZmewt2kXKzx0jbGQGBsDO
+ zCDGBj8063AV+6UI=
+X-Received: by 2002:adf:f350:: with SMTP id e16mr7854963wrp.43.1594765370841; 
+ Tue, 14 Jul 2020 15:22:50 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJzXiNIgqK8oqPlJZrnbHoy0394nTkrzba7SHXIDy15Y4LpispKvRSNUA1ToUonH0lG38oBdSA==
+X-Received: by 2002:adf:f350:: with SMTP id e16mr7854944wrp.43.1594765370596; 
+ Tue, 14 Jul 2020 15:22:50 -0700 (PDT)
 Received: from localhost.localdomain
  (138.red-83-57-170.dynamicip.rima-tde.net. [83.57.170.138])
- by smtp.gmail.com with ESMTPSA id 68sm285232wmz.40.2020.07.14.15.22.44
+ by smtp.gmail.com with ESMTPSA id y189sm386094wmd.27.2020.07.14.15.22.49
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 14 Jul 2020 15:22:45 -0700 (PDT)
+ Tue, 14 Jul 2020 15:22:50 -0700 (PDT)
 From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PULL 15/19] iotests.py: use qemu.qmp type aliases
-Date: Wed, 15 Jul 2020 00:21:28 +0200
-Message-Id: <20200714222132.10815-16-philmd@redhat.com>
+Subject: [PULL 16/19] python/qmp.py: re-absorb MonitorResponseError
+Date: Wed, 15 Jul 2020 00:21:29 +0200
+Message-Id: <20200714222132.10815-17-philmd@redhat.com>
 X-Mailer: git-send-email 2.21.3
 In-Reply-To: <20200714222132.10815-1-philmd@redhat.com>
 References: <20200714222132.10815-1-philmd@redhat.com>
@@ -72,17 +72,18 @@ X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=UTF-8;
 	text/plain; charset="utf-8"
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=207.211.31.120; envelope-from=philmd@redhat.com;
- helo=us-smtp-1.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/07/14 18:21:58
+Received-SPF: pass client-ip=207.211.31.81; envelope-from=philmd@redhat.com;
+ helo=us-smtp-delivery-1.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/07/14 12:02:09
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
-X-Spam_score_int: -40
-X-Spam_score: -4.1
-X-Spam_bar: ----
-X-Spam_report: (-4.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1,
+X-Spam_score_int: -30
+X-Spam_score: -3.1
+X-Spam_bar: ---
+X-Spam_report: (-3.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-1, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001, URIBL_BLOCKED=0.001 autolearn=unavailable autolearn_force=no
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H3=-0.01, RCVD_IN_MSPIKE_WL=-0.01,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ URIBL_BLOCKED=0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -96,62 +97,123 @@ List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
 Cc: Kevin Wolf <kwolf@redhat.com>, Eduardo Habkost <ehabkost@redhat.com>,
- "open list:Block layer core" <qemu-block@nongnu.org>,
- John Snow <jsnow@redhat.com>, Max Reitz <mreitz@redhat.com>,
- Ahmed Karaman <ahmedkhaledkaraman@gmail.com>, Cleber Rosa <crosa@redhat.com>,
+ John Snow <jsnow@redhat.com>, Ahmed Karaman <ahmedkhaledkaraman@gmail.com>,
+ Cleber Rosa <crosa@redhat.com>,
  =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: John Snow <jsnow@redhat.com>
 
-iotests.py should use the type definitions from qmp.py instead of its
-own.
+When I initially split this out, I considered this more of a machine
+error than a QMP protocol error, but I think that's misguided.
+
+Move this back to qmp.py and name it QMPResponseError. Convert
+qmp.command() to use this exception type.
 
 Signed-off-by: John Snow <jsnow@redhat.com>
+Reviewed-by: Philippe Mathieu-Daudé <philmd@redhat.com>
 Reviewed-by: Kevin Wolf <kwolf@redhat.com>
-Message-Id: <20200710052220.3306-3-jsnow@redhat.com>
+Message-Id: <20200710052220.3306-4-jsnow@redhat.com>
 Signed-off-by: Philippe Mathieu-Daudé <philmd@redhat.com>
 ---
- tests/qemu-iotests/iotests.py | 9 +++------
- 1 file changed, 3 insertions(+), 6 deletions(-)
+ python/qemu/machine.py        | 15 +--------------
+ python/qemu/qmp.py            | 17 +++++++++++++++--
+ scripts/render_block_graph.py |  7 +++++--
+ 3 files changed, 21 insertions(+), 18 deletions(-)
 
-diff --git a/tests/qemu-iotests/iotests.py b/tests/qemu-iotests/iotests.py
-index 8b760405ee..3590ed78a0 100644
---- a/tests/qemu-iotests/iotests.py
-+++ b/tests/qemu-iotests/iotests.py
-@@ -35,13 +35,10 @@
- # pylint: disable=import-error, wrong-import-position
- sys.path.append(os.path.join(os.path.dirname(__file__), '..', '..', 'python'))
- from qemu import qtest
-+from qemu.qmp import QMPMessage
+diff --git a/python/qemu/machine.py b/python/qemu/machine.py
+index 69055189bd..80c4d4a8b6 100644
+--- a/python/qemu/machine.py
++++ b/python/qemu/machine.py
+@@ -56,19 +56,6 @@ class AbnormalShutdown(QEMUMachineError):
+     """
  
- assert sys.version_info >= (3, 6)
  
--# Type Aliases
--QMPResponse = Dict[str, Any]
+-class MonitorResponseError(qmp.QMPError):
+-    """
+-    Represents erroneous QMP monitor reply
+-    """
+-    def __init__(self, reply):
+-        try:
+-            desc = reply["error"]["desc"]
+-        except KeyError:
+-            desc = reply
+-        super().__init__(desc)
+-        self.reply = reply
 -
 -
- # Use this logger for logging messages directly from the iotests module
- logger = logging.getLogger('qemu.iotests')
- logger.addHandler(logging.NullHandler())
-@@ -561,7 +558,7 @@ def add_incoming(self, addr):
-         self._args.append(addr)
-         return self
+ class QEMUMachine:
+     """
+     A QEMU VM
+@@ -533,7 +520,7 @@ def command(self, cmd, conv_keys=True, **args):
+         if reply is None:
+             raise qmp.QMPError("Monitor is closed")
+         if "error" in reply:
+-            raise MonitorResponseError(reply)
++            raise qmp.QMPResponseError(reply)
+         return reply["return"]
  
--    def hmp(self, command_line: str, use_log: bool = False) -> QMPResponse:
-+    def hmp(self, command_line: str, use_log: bool = False) -> QMPMessage:
-         cmd = 'human-monitor-command'
-         kwargs = {'command-line': command_line}
-         if use_log:
-@@ -582,7 +579,7 @@ def resume_drive(self, drive: str) -> None:
-         self.hmp(f'qemu-io {drive} "remove_break bp_{drive}"')
+     def get_qmp_event(self, wait=False):
+diff --git a/python/qemu/qmp.py b/python/qemu/qmp.py
+index 8388c7b603..aa8a666b8a 100644
+--- a/python/qemu/qmp.py
++++ b/python/qemu/qmp.py
+@@ -61,6 +61,19 @@ class QMPTimeoutError(QMPError):
+     """
  
-     def hmp_qemu_io(self, drive: str, cmd: str,
--                    use_log: bool = False) -> QMPResponse:
-+                    use_log: bool = False) -> QMPMessage:
-         """Write to a given drive using an HMP command"""
-         return self.hmp(f'qemu-io {drive} "{cmd}"', use_log=use_log)
+ 
++class QMPResponseError(QMPError):
++    """
++    Represents erroneous QMP monitor reply
++    """
++    def __init__(self, reply: QMPMessage):
++        try:
++            desc = reply['error']['desc']
++        except KeyError:
++            desc = reply
++        super().__init__(desc)
++        self.reply = reply
++
++
+ class QEMUMonitorProtocol:
+     """
+     Provide an API to connect to QEMU via QEMU Monitor Protocol (QMP) and then
+@@ -251,8 +264,8 @@ def command(self, cmd, **kwds):
+         Build and send a QMP command to the monitor, report errors if any
+         """
+         ret = self.cmd(cmd, kwds)
+-        if "error" in ret:
+-            raise Exception(ret['error']['desc'])
++        if 'error' in ret:
++            raise QMPResponseError(ret)
+         return ret['return']
+ 
+     def pull_event(self, wait=False):
+diff --git a/scripts/render_block_graph.py b/scripts/render_block_graph.py
+index 409b4321f2..da6acf050d 100755
+--- a/scripts/render_block_graph.py
++++ b/scripts/render_block_graph.py
+@@ -25,7 +25,10 @@
+ from graphviz import Digraph
+ 
+ sys.path.append(os.path.join(os.path.dirname(__file__), '..', 'python'))
+-from qemu.machine import MonitorResponseError
++from qemu.qmp import (
++    QEMUMonitorProtocol,
++    QMPResponseError,
++)
+ 
+ 
+ def perm(arr):
+@@ -102,7 +105,7 @@ def command(self, cmd):
+         reply = json.loads(subprocess.check_output(ar))
+ 
+         if 'error' in reply:
+-            raise MonitorResponseError(reply)
++            raise QMPResponseError(reply)
+ 
+         return reply['return']
  
 -- 
 2.21.3
