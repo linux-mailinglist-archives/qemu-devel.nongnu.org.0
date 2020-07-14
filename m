@@ -2,61 +2,64 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 34BA421F99D
-	for <lists+qemu-devel@lfdr.de>; Tue, 14 Jul 2020 20:40:31 +0200 (CEST)
-Received: from localhost ([::1]:54884 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 012D521F9AC
+	for <lists+qemu-devel@lfdr.de>; Tue, 14 Jul 2020 20:43:09 +0200 (CEST)
+Received: from localhost ([::1]:57238 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jvPqw-0002VF-8x
-	for lists+qemu-devel@lfdr.de; Tue, 14 Jul 2020 14:40:30 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:60448)
+	id 1jvPtU-0003ct-3n
+	for lists+qemu-devel@lfdr.de; Tue, 14 Jul 2020 14:43:08 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:32914)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1jvPps-000223-OM
- for qemu-devel@nongnu.org; Tue, 14 Jul 2020 14:39:25 -0400
-Received: from mail-oi1-x232.google.com ([2607:f8b0:4864:20::232]:43251)
+ id 1jvPrw-00038q-Eb
+ for qemu-devel@nongnu.org; Tue, 14 Jul 2020 14:41:32 -0400
+Received: from mail-oo1-xc42.google.com ([2607:f8b0:4864:20::c42]:34625)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1jvPpq-00089C-4x
- for qemu-devel@nongnu.org; Tue, 14 Jul 2020 14:39:24 -0400
-Received: by mail-oi1-x232.google.com with SMTP id x83so14704361oif.10
- for <qemu-devel@nongnu.org>; Tue, 14 Jul 2020 11:39:21 -0700 (PDT)
+ id 1jvPru-0000CF-Ge
+ for qemu-devel@nongnu.org; Tue, 14 Jul 2020 14:41:32 -0400
+Received: by mail-oo1-xc42.google.com with SMTP id v26so1956158ood.1
+ for <qemu-devel@nongnu.org>; Tue, 14 Jul 2020 11:41:30 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=3gDZkOV8v0R2+B84H5Bt7ia4jXAXioXHxG9MV/gdKYo=;
- b=ydRCscm9b6oDG6Sn+uO+gLbr201zUjihXRE5Wob2u9/ipDVwZV6v0TyLyGXXxey31U
- SPHcdj6KaWMrlA6kSHczygOh+4+yMZ5TXNb59+2tyGFqE1N6h5wPd4XMu0F+5xlILEEo
- 5MLDkQdyXn76cMr+Vnqs8u8S+aiUdhkr1GFtlQcaBrLoHvZIm4eLSMD+myTSb0VjMUrV
- 2SDIakPdZLl+PvhIVrmCLcYXFWAfvZ7Wq8RS0Jw6tfr+X0bJ+rf7U10cYC1/7Hs+9K9B
- oLEgj4o32+NxBkgo+mGojdLi+I6WWYnoBc1SI4XI6UfUDGkXY3arTYvUG0mbKfiACvwk
- 4QQw==
+ :cc:content-transfer-encoding;
+ bh=1Ixh3zEGtJqRpOatyPr7j3zH/RqYUdFpRFMtj9RMD5I=;
+ b=yuYkYj7g5epdWf+DEgOWavdzVfzjRjn02pDF8wcsrfEuwPXGY//xDjI19ftXo/R/2+
+ kuASrdnRlQWhqEAMR15gfAyJ2L3eKy6lHZDVtKXfqbk6VfMyBDBoHs/BlfCgrJ7g4Y/k
+ ysy89nRFSpTjTLmN0S00XnI5Jj+h4HV9nLhT0RTretjXOTDDlJrNEd93uxUyfL72ixG9
+ KMaFBs/YYPVd6aJjydNDHBTLrvbWMzU55aHUnpyfbRBW0MlAMczZu+1bAGSdtdvdiaGk
+ 9wQ9C5LwrAnRt0/yl1vGOeiwGfzBrzPdDUv5NQ6rhK5xFihMSJS6Vzs1i5mWCIrvPyOw
+ PMAQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=3gDZkOV8v0R2+B84H5Bt7ia4jXAXioXHxG9MV/gdKYo=;
- b=av0Vps/VDgo7lbHXVdjcQ02sQgdug0xxA6DpscJ/qSI8yVND8MrTEAPjj4CQvK8TOA
- US82AqLFHccCrBnbhsQ4NuqdO6l6dMIOaJ8NmVHv3tATK2KZNFWvZucqt/yxUEfyi77B
- 5fNHAS4GQjZNhaqfstIO1n5ORAK3lOCCra51pJkK9H6dbvS8wcHOvIc9Ckim99h0qWoY
- YMijwRnOsLqsmtC8pZYJhQvoOd1JqlQqxHBdSSd+yf19IrT9z1Xq8KWZVuAIsZFRqIrG
- kK8Sprm5JCcoVLp+6/PHHnW53Umuf/veyRK/WXx8g/HyPa29ci1SXSPnow7eeZPN2eTf
- 1xAA==
-X-Gm-Message-State: AOAM531l6oxBPZoZuV+iIVVpN/SKc2I6IC2MCxJfgmdszLH0e7fZaDru
- T/pXJrVGfXqVxJPkIPpHxzUYUa0o2txwXlugAw8DfQ==
-X-Google-Smtp-Source: ABdhPJxyVXm6Wd6uglJuhe/P9bTMFma9z3AV6T/eu1rgRUbhwIcImsWcCgGP5WeqYnYhVW7WbTQHQyyc/JwnYzAPuCw=
-X-Received: by 2002:aca:1706:: with SMTP id j6mr4639163oii.146.1594751960724; 
- Tue, 14 Jul 2020 11:39:20 -0700 (PDT)
+ :message-id:subject:to:cc:content-transfer-encoding;
+ bh=1Ixh3zEGtJqRpOatyPr7j3zH/RqYUdFpRFMtj9RMD5I=;
+ b=UWt+8NhGB1UCssj/OWNWPA0xZD7TbAatr4zw77HVsIjFlSUn7QgOJPQymeFQ0ObqWT
+ zAiIF1Qusf+SGhqKLE5ctbOwic3tFiJgbVh1V+xigtA7VWpA3YWUyLeEXcxfN182NlfM
+ LNE43KQq+Sc562bxUgjkxJyn/XGgA/eQ4e2cSfZDHWH6YCHIEtHtBA+QPYvFlwruiEbz
+ svaoYIZ9VHCSR5GUuwhpGq4uUhmbllyiEl2Izl8H77mHVSBJr/XPTzFU4aKzPu2/qP1J
+ 5AG8YPzAuShHmxk7TziBiKI2ijqX7KuNNUjML9otO7E1CEsY6B/yC2bBgIIZuQj3lLOr
+ xhFQ==
+X-Gm-Message-State: AOAM531X4pdsoAL+6cIQRMg9Ct86LO7Hl6d3S0Pof9AmYIKHb+sSC2SH
+ JH7P9cKc88XX0/ghyUUFQ013cTPSV5+U+Pgf8UerrA==
+X-Google-Smtp-Source: ABdhPJxLNcf9tFUPj7JYVMKjk5I1PN9UiQ6p0EXNrQGnrk70WLL4Xkl/WhAWUV7kD1bVJJn/kmbTDNfhMvTUQ/LGK5U=
+X-Received: by 2002:a4a:9653:: with SMTP id r19mr5802395ooi.85.1594752089220; 
+ Tue, 14 Jul 2020 11:41:29 -0700 (PDT)
 MIME-Version: 1.0
-References: <20200714003254.4044149-1-alistair.francis@wdc.com>
-In-Reply-To: <20200714003254.4044149-1-alistair.francis@wdc.com>
+References: <20200714164257.23330-1-f4bug@amsat.org>
+ <20200714164257.23330-4-f4bug@amsat.org>
+In-Reply-To: <20200714164257.23330-4-f4bug@amsat.org>
 From: Peter Maydell <peter.maydell@linaro.org>
-Date: Tue, 14 Jul 2020 19:39:09 +0100
-Message-ID: <CAFEAcA9g8OyH8z-s2Ct+ad7DcriWCZ6SDPJUfzNrBdrRQJgSWA@mail.gmail.com>
-Subject: Re: [PULL 00/15] riscv-to-apply queue
-To: Alistair Francis <alistair.francis@wdc.com>
+Date: Tue, 14 Jul 2020 19:41:18 +0100
+Message-ID: <CAFEAcA__3FEbNwJ-JS6YMEjqPPoer8ADShN9SkbWBCaRSpYPVg@mail.gmail.com>
+Subject: Re: [PATCH-for-5.1 3/4] qemu-common: Document qemu_find_file()
+To: =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <f4bug@amsat.org>
 Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2607:f8b0:4864:20::232;
- envelope-from=peter.maydell@linaro.org; helo=mail-oi1-x232.google.com
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=2607:f8b0:4864:20::c42;
+ envelope-from=peter.maydell@linaro.org; helo=mail-oo1-xc42.google.com
 X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
  That's all we know.
 X-Spam_score_int: -20
@@ -78,38 +81,49 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: QEMU Developers <qemu-devel@nongnu.org>
+Cc: Paolo Bonzini <pbonzini@redhat.com>, Sarah Harris <S.E.Harris@kent.ac.uk>,
+ Michael Rolnik <mrolnik@gmail.com>, QEMU Developers <qemu-devel@nongnu.org>,
+ Stefan Weil <sw@weilnetz.de>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Tue, 14 Jul 2020 at 01:44, Alistair Francis <alistair.francis@wdc.com> wrote:
+On Tue, 14 Jul 2020 at 17:43, Philippe Mathieu-Daud=C3=A9 <f4bug@amsat.org>=
+ wrote:
 >
-> The following changes since commit 20c1df5476e1e9b5d3f5b94f9f3ce01d21f14c46:
+> Document qemu_find_file(), in particular the returned
+> value which must be freed.
 >
->   Merge remote-tracking branch 'remotes/kraxel/tags/fixes-20200713-pull-request' into staging (2020-07-13 16:58:44 +0100)
+> Signed-off-by: Philippe Mathieu-Daud=C3=A9 <f4bug@amsat.org>
+> ---
+>  include/qemu-common.h | 14 ++++++++++++++
+>  1 file changed, 14 insertions(+)
 >
-> are available in the Git repository at:
+> diff --git a/include/qemu-common.h b/include/qemu-common.h
+> index d0142f29ac..d6a08259d3 100644
+> --- a/include/qemu-common.h
+> +++ b/include/qemu-common.h
+> @@ -110,6 +110,20 @@ const char *qemu_get_vm_name(void);
 >
->   git@github.com:alistair23/qemu.git tags/pull-riscv-to-apply-20200713
->
-> for you to fetch changes up to cfad709bceb629a4ebeb5d8a3acd1871b9a6436b:
->
->   target/riscv: Fix pmp NA4 implementation (2020-07-13 17:25:37 -0700)
->
-> ----------------------------------------------------------------
-> This is a colection of bug fixes and small imrprovements for RISC-V.
->
-> This includes some vector extensions fixes, a PMP bug fix, OpenTitan
-> UART bug fix and support for OpenSBI dynamic firmware.
->
-> ----------------------------------------------------------------
+>  #define QEMU_FILE_TYPE_BIOS   0
+>  #define QEMU_FILE_TYPE_KEYMAP 1
+> +/**
+> + * qemu_find_file:
+> + * @type: QEMU_FILE_TYPE_BIOS (for BIOS, VGA BIOS)
+> + *        or QEMU_FILE_TYPE_KEYMAP (for keymaps).
+> + * @name: File name
+> + *
+> + * Search for @name file in the data directories, either configured at
+> + * build time (DATADIR) or registered with the -L command line option.
+> + *
+> + * The caller must use g_free() to free the returned data when it is
+> + * no longer required.
+> + *
+> + * Returns: absolute path to the file or NULL on error.
+> + */
+>  char *qemu_find_file(int type, const char *name);
 
+Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
 
-
-Applied, thanks.
-
-Please update the changelog at https://wiki.qemu.org/ChangeLog/5.1
-for any user-visible changes.
-
+thanks
 -- PMM
 
