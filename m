@@ -2,69 +2,82 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id AF35821E51A
-	for <lists+qemu-devel@lfdr.de>; Tue, 14 Jul 2020 03:31:45 +0200 (CEST)
-Received: from localhost ([::1]:56788 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C394321E5D3
+	for <lists+qemu-devel@lfdr.de>; Tue, 14 Jul 2020 04:40:46 +0200 (CEST)
+Received: from localhost ([::1]:44262 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jv9nM-0002zE-75
-	for lists+qemu-devel@lfdr.de; Mon, 13 Jul 2020 21:31:44 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:34680)
+	id 1jvAs9-0007io-Cg
+	for lists+qemu-devel@lfdr.de; Mon, 13 Jul 2020 22:40:45 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:36628)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1jv9mF-0002RC-DF
- for qemu-devel@nongnu.org; Mon, 13 Jul 2020 21:30:35 -0400
-Received: from us-smtp-1.mimecast.com ([207.211.31.81]:60912
- helo=us-smtp-delivery-1.mimecast.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1jv9mC-0006H8-OY
- for qemu-devel@nongnu.org; Mon, 13 Jul 2020 21:30:34 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1594690231;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=AeZEj7pOZK0XfAZlpMDAfiD29OlCH+1kh5lioCC71k8=;
- b=enmqlDiKC/gAV4pA3IEfrZvfuP1p8pcVvoOh+aMHFy/dmB6yiNpQdRba1zk5X9ox0J5H87
- sXMDPEDUW6sug+KZaMggoe17kjBpppIhuccX5euKWdGYk3XS7x6PEERLOVAC25U5gWOZRx
- VhO501YUBBfPA60PJ9Zh0W/Cur24EPg=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-491-fmXGX7miNqaVei91z-Ivlg-1; Mon, 13 Jul 2020 21:30:29 -0400
-X-MC-Unique: fmXGX7miNqaVei91z-Ivlg-1
-Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
- [10.5.11.23])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id A7CE78015F3
- for <qemu-devel@nongnu.org>; Tue, 14 Jul 2020 01:30:28 +0000 (UTC)
-Received: from probe.redhat.com (ovpn-113-141.rdu2.redhat.com [10.10.113.141])
- by smtp.corp.redhat.com (Postfix) with ESMTP id E30EF1A912;
- Tue, 14 Jul 2020 01:30:27 +0000 (UTC)
-From: John Snow <jsnow@redhat.com>
-To: qemu-devel@nongnu.org
-Subject: [PATCH 1/1] python: add check-python target
-Date: Mon, 13 Jul 2020 21:30:26 -0400
-Message-Id: <20200714013026.9019-2-jsnow@redhat.com>
-In-Reply-To: <20200714013026.9019-1-jsnow@redhat.com>
-References: <20200714013026.9019-1-jsnow@redhat.com>
+ (Exim 4.90_1) (envelope-from <hskinnemoen@google.com>)
+ id 1jvAr1-00079G-CH
+ for qemu-devel@nongnu.org; Mon, 13 Jul 2020 22:39:35 -0400
+Received: from mail-vs1-xe43.google.com ([2607:f8b0:4864:20::e43]:33325)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <hskinnemoen@google.com>)
+ id 1jvAqw-0003Zc-A7
+ for qemu-devel@nongnu.org; Mon, 13 Jul 2020 22:39:34 -0400
+Received: by mail-vs1-xe43.google.com with SMTP id o184so31504vsc.0
+ for <qemu-devel@nongnu.org>; Mon, 13 Jul 2020 19:39:29 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=20161025;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc:content-transfer-encoding;
+ bh=AHcLMLU0I7VCkHSQgHmqEPXmUwRsuWc9aTFdINvEPI0=;
+ b=WVfl+MkvOuOc2oHfip9IPBw3n3REx1qmitJvDLf0lQFyP0LhfAfQCqmtfkFXfKF+Hf
+ 0CA9UML3yjXtbLCHZd5aEQt9fFwOawyb5t0pdXCVFJoGxBemldMtnKe5HIOnJ051SJyb
+ JydKpcYdHIq4Fh3VDwhECg/sz2TbnmQl6mmstZ2AMvNzgSrVrOT7YpCtES8oJJR3u0xL
+ /bI+LMqFv3+Xcj9HhfzdyecmvkqG6AIpK/Cg9TeXLNLFj3OQADAZXfe4RlhIB1wCF2j9
+ M1BOg0jFSRl0TTH0pYnXp6C8AgU+YUgBqTUVD9dxgVYZ/Nag2b/NGBWs8ScZSxLPub2w
+ 5dKg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc:content-transfer-encoding;
+ bh=AHcLMLU0I7VCkHSQgHmqEPXmUwRsuWc9aTFdINvEPI0=;
+ b=PRSB6tnFB8fJfKx1kXhTR5O98AfE1wjTMf0ytwQJXRBWvjOugH2nwCnAd9zC2WUvV0
+ MR9V47Zq+Xj/U/3xTkp++xVLIHgbV56WstovyVxLSKk2AQZSvUzRgUhmUeGUFuGBA3Tk
+ b7C3zelmI2sJLQa44US22b2sqfl05AHsvG5RgQUmky7qL6caZw85st/yDUvjjGuThXYU
+ 0fwGwvx0+UywJHNRAzM87RwjmfCdFXYVKiE/HZw2LsCqrNJZ2kTLdZkU1wh/ZALMmCCG
+ ubJkZdAUEFWq4nSInbRgsFD/Zn2B4M3ev+1qQwI3fDMLzonsCqeH6iO313PxXJ/H1R+r
+ HVBw==
+X-Gm-Message-State: AOAM530RGEAX3DSf/WAB6eErLbISjwvG2zLyNl4c89toJu9mQb0L5C4U
+ HQwPp0Y8CCJYpV5eNSPXT/MOaADO9JZydg9AKZNaLw==
+X-Google-Smtp-Source: ABdhPJy2e+HyMWrP2SMvpSLrxuDDomd1Kf1L8uYalX3echlqdpo58W5e3ez4tdtjJZ9sytiarm2d0epS5frNPSLAVyQ=
+X-Received: by 2002:a67:7f8e:: with SMTP id a136mr1722204vsd.232.1594694368846; 
+ Mon, 13 Jul 2020 19:39:28 -0700 (PDT)
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=207.211.31.81; envelope-from=jsnow@redhat.com;
- helo=us-smtp-delivery-1.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/07/13 21:30:31
-X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
-X-Spam_score_int: -30
-X-Spam_score: -3.1
-X-Spam_bar: ---
-X-Spam_report: (-3.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1,
+References: <20200709003608.3834629-1-hskinnemoen@google.com>
+ <20200709003608.3834629-10-hskinnemoen@google.com>
+ <189922e4-b53f-da64-5663-23b599294248@amsat.org>
+ <CAFQmdRbY8DHYOOHPREHg63hgLVTVvyMbuMrdauctaBTzaB1=AA@mail.gmail.com>
+ <739105bb-5915-bf11-10cc-485ce5e94e73@amsat.org>
+In-Reply-To: <739105bb-5915-bf11-10cc-485ce5e94e73@amsat.org>
+From: Havard Skinnemoen <hskinnemoen@google.com>
+Date: Mon, 13 Jul 2020 19:39:16 -0700
+Message-ID: <CAFQmdRbFB-U4rzNP-wzskQFUa3ZYFvCMyf=wxwnPOHVFej8npA@mail.gmail.com>
+Subject: Re: [PATCH v5 09/11] hw/ssi: NPCM7xx Flash Interface Unit device model
+To: =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <f4bug@amsat.org>
+Cc: Peter Maydell <peter.maydell@linaro.org>, qemu-arm <qemu-arm@nongnu.org>, 
+ QEMU Developers <qemu-devel@nongnu.org>,
+ IS20 Avi Fishman <Avi.Fishman@nuvoton.com>, 
+ CS20 KFTing <kfting@nuvoton.com>,
+ =?UTF-8?Q?C=C3=A9dric_Le_Goater?= <clg@kaod.org>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=2607:f8b0:4864:20::e43;
+ envelope-from=hskinnemoen@google.com; helo=mail-vs1-xe43.google.com
+X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
+ That's all we know.
+X-Spam_score_int: -185
+X-Spam_score: -18.6
+X-Spam_bar: ------------------
+X-Spam_report: (-18.6 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_MED=-1,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H3=-0.01, RCVD_IN_MSPIKE_WL=-0.01,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ ENV_AND_HDR_SPF_MATCH=-0.5, RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001, URIBL_BLOCKED=0.001, USER_IN_DEF_DKIM_WL=-7.5,
+ USER_IN_DEF_SPF_WL=-7.5 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -77,110 +90,217 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: kwolf@redhat.com, John Snow <jsnow@redhat.com>, berrange@redhat.com,
- ehabkost@redhat.com, crosa@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Move pylintrc and flake8 up to the root of the python folder where
-they're the most useful. Add a requirements.cqa.txt file to house
-the requirements necessary to build a venv sufficient for running
-code quality analysis on the python folder. Add a makefile that
-will build the venv and run the tests.
+On Mon, Jul 13, 2020 at 10:39 AM Philippe Mathieu-Daud=C3=A9 <f4bug@amsat.o=
+rg> wrote:
+>
+> On 7/12/20 7:42 AM, Havard Skinnemoen wrote:
+> > On Thu, Jul 9, 2020 at 10:00 AM Philippe Mathieu-Daud=C3=A9 <f4bug@amsa=
+t.org> wrote:
+> >> On 7/9/20 2:36 AM, Havard Skinnemoen wrote:
+> >>> This implements a device model for the NPCM7xx SPI flash controller.
+> >>>
+> >>> Direct reads and writes, and user-mode transactions have been tested =
+in
+> >>> various modes. Protection features are not implemented yet.
+> >>>
+> >>> All the FIU instances are available in the SoC's address space,
+> >>> regardless of whether or not they're connected to actual flash chips.
+> >>>
+> >>> Reviewed-by: Tyrone Ting <kfting@nuvoton.com>
+> >>> Reviewed-by: C=C3=A9dric Le Goater <clg@kaod.org>
+> >>> Signed-off-by: Havard Skinnemoen <hskinnemoen@google.com>
+> >>> ---
+> >>>  include/hw/arm/npcm7xx.h     |   2 +
+> >>>  include/hw/ssi/npcm7xx_fiu.h | 100 +++++++
+> >>>  hw/arm/npcm7xx.c             |  53 ++++
+> >>>  hw/ssi/npcm7xx_fiu.c         | 510 +++++++++++++++++++++++++++++++++=
+++
+> >>>  hw/arm/Kconfig               |   1 +
+> >>>  hw/ssi/Makefile.objs         |   1 +
+> >>>  hw/ssi/trace-events          |   9 +
+> >>>  7 files changed, 676 insertions(+)
+> >>>  create mode 100644 include/hw/ssi/npcm7xx_fiu.h
+> >>>  create mode 100644 hw/ssi/npcm7xx_fiu.c
+> [...]
+>
+> >>> diff --git a/hw/arm/npcm7xx.c b/hw/arm/npcm7xx.c
+> >>> index 4d227bb74b..c9ff3dab25 100644
+> >>> --- a/hw/arm/npcm7xx.c
+> >>> +++ b/hw/arm/npcm7xx.c
+> >>> @@ -98,6 +98,37 @@ static const hwaddr npcm7xx_uart_addr[] =3D {
+> >>>      0xf0004000,
+> >>>  };
+> >>>
+> >>> +static const hwaddr npcm7xx_fiu0_flash_addr[] =3D {
+> >>
+> >> So per
+> >> https://github.com/Nuvoton-Israel/bootblock/blob/master/SWC_HAL/Chips/=
+npcm750/npcm750.h
+> >> this is SPI0 on AHB18,
+> >>
+> >>> +    0x80000000,
+> >>> +    0x88000000,
+> >>
+> >> CS0 & CS1,
+> >>
+> >> also listed:
+> >>
+> >> 0x90000000, // CS2
+> >> 0x98000000, // CS3
+> >
+> > Confirmed with Nuvoton off-list that these do not exist. SPI0 only
+> > supports two chip-selects for direct access.
+>
+> I suppose Novoton confirmed for the particular npcm750, but you aim
+> to model the npcm7xx family. I doubt 2 similar IP blocks are that
+> different ;) Anyway with a comment this is good.
 
-Signed-off-by: John Snow <jsnow@redhat.com>
----
- Makefile                    |  1 +
- python/{qemu => }/.flake8   |  0
- python/Makefile.include     | 33 +++++++++++++++++++++++++++++++++
- python/{qemu => }/pylintrc  |  1 +
- python/requirements.cqa.txt |  3 +++
- 5 files changed, 38 insertions(+)
- rename python/{qemu => }/.flake8 (100%)
- create mode 100644 python/Makefile.include
- rename python/{qemu => }/pylintrc (99%)
- create mode 100644 python/requirements.cqa.txt
+OK. I'm mostly concerned about modeling the chips I know about for
+now. If a chip with four AXI endpoints and four chipselects on SPI0
+appears, it will be a fairly small change to move these arrays into
+the SoC class struct, but I'd rather not do that without evidence that
+such a chip exist.
 
-diff --git a/Makefile b/Makefile
-index b1b8a5a6d0..41808be392 100644
---- a/Makefile
-+++ b/Makefile
-@@ -478,6 +478,7 @@ dummy := $(call unnest-vars,, \
-                 trace-obj-y)
- 
- include $(SRC_PATH)/tests/Makefile.include
-+include $(SRC_PATH)/python/Makefile.include
- 
- all: $(DOCS) $(if $(BUILD_DOCS),sphinxdocs) $(TOOLS) $(HELPERS-y) recurse-all modules $(vhost-user-json-y)
- 
-diff --git a/python/qemu/.flake8 b/python/.flake8
-similarity index 100%
-rename from python/qemu/.flake8
-rename to python/.flake8
-diff --git a/python/Makefile.include b/python/Makefile.include
-new file mode 100644
-index 0000000000..917808e2f1
---- /dev/null
-+++ b/python/Makefile.include
-@@ -0,0 +1,33 @@
-+# -*- Mode: makefile -*-
-+
-+PYLIB_VENV_DIR=$(BUILD_DIR)/venv/cqa
-+PYLIB_VENV_REQ=$(SRC_PATH)/python/requirements.cqa.txt
-+
-+$(PYLIB_VENV_DIR): $(PYLIB_VENV_REQ)
-+	$(call quiet-command, \
-+	    $(PYTHON) -m venv $@, \
-+	    VENV, $@)
-+	$(call quiet-command, \
-+	    $(PYLIB_VENV_DIR)/bin/python3 -m pip -q install -r $(PYLIB_VENV_REQ), \
-+	    PIP, $(PYLIB_VENV_REQ))
-+	$(call quiet-command, touch $@)
-+
-+pylib-venv: $(PYLIB_VENV_DIR)
-+
-+check-python: pylib-venv
-+	$(call quiet-command, cd $(SRC_PATH)/python && \
-+	    $(PYLIB_VENV_DIR)/bin/python3 -m flake8 qemu, \
-+	    FLAKE8, \
-+	    $(SRC_PATH)/python/qemu \
-+	)
-+	$(call quiet-command, cd $(SRC_PATH)/python && \
-+	    $(PYLIB_VENV_DIR)/bin/python3 -m pylint qemu, \
-+	    PYLINT, \
-+	    $(SRC_PATH)/python/qemu \
-+	)
-+	$(call quiet-command, cd $(SRC_PATH)/python && \
-+	    $(PYLIB_VENV_DIR)/bin/python3 -m mypy \
-+	        --strict --no-error-summary qemu, \
-+	    MYPY, \
-+	    "--strict $(SRC_PATH)/python/qemu" \
-+	)
-diff --git a/python/qemu/pylintrc b/python/pylintrc
-similarity index 99%
-rename from python/qemu/pylintrc
-rename to python/pylintrc
-index 5d6ae7367d..65b4545a6b 100644
---- a/python/qemu/pylintrc
-+++ b/python/pylintrc
-@@ -16,6 +16,7 @@ disable=too-many-arguments,
-         too-many-public-methods,
- 
- [REPORTS]
-+score=no
- 
- [REFACTORING]
- 
-diff --git a/python/requirements.cqa.txt b/python/requirements.cqa.txt
-new file mode 100644
-index 0000000000..dbf45984bc
---- /dev/null
-+++ b/python/requirements.cqa.txt
-@@ -0,0 +1,3 @@
-+pylint==2.5.3
-+mypy==0.782
-+flake8==3.8.3
--- 
-2.21.3
+The IP blocks may be identical for all I know, but they are not wired
+up identically, and that's really what matters here in the SoC-level
+model.
 
+> >
+> > I'll add comments.
+> >
+> >>> +};
+> >>> +
+> >>> +static const hwaddr npcm7xx_fiu3_flash_addr[] =3D {
+> >>
+> >> Ditto SPI3 on AHB3, and CS0 to CS3.
+> >>
+> >>> +    0xa0000000,
+> >>> +    0xa8000000,
+> >>> +    0xb0000000,
+> >>> +    0xb8000000,
+> >>> +};
+> >>> +
+> >>> +static const struct {
+> >>> +    const char *name;
+> >>> +    hwaddr regs_addr;
+> >>> +    int cs_count;
+> >>> +    const hwaddr *flash_addr;
+> >>> +} npcm7xx_fiu[] =3D {
+> >>> +    {
+> >>> +        .name =3D "fiu0",
+> >>> +        .regs_addr =3D 0xfb000000,
+> >>> +        .cs_count =3D ARRAY_SIZE(npcm7xx_fiu0_flash_addr),
+> >>
+> >> Hmm without the datasheet, can't tell, but I'd expect 4 CS
+> >> regardless.
+> >
+> > FIU0/SPI0 only has 2 chip selects.
+> >
+> >>> +        .flash_addr =3D npcm7xx_fiu0_flash_addr,
+> >>> +    }, {
+> >>> +        .name =3D "fiu3",
+> >>> +        .regs_addr =3D 0xc0000000,
+> >>> +        .cs_count =3D ARRAY_SIZE(npcm7xx_fiu3_flash_addr),
+> >>> +        .flash_addr =3D npcm7xx_fiu3_flash_addr,
+> >>> +    },
+> >>> +};
+> [...]
+>
+> >>> +
+> >>> +    /* Flash chip model expects one transfer per dummy bit, not byte=
+ */
+> >>> +    dummy_cycles =3D
+> >>> +        (FIU_DRD_CFG_DBW(drd_cfg) * 8) >> FIU_DRD_CFG_ACCTYPE(drd_cf=
+g);
+> >>> +    for (i =3D 0; i < dummy_cycles; i++) {
+> >>> +        ssi_transfer(fiu->spi, 0);
+> >>
+> >> Note to self, might worth a ssi_shift_dummy(count) generic method.
+> >
+> > I'm not a huge fan of this interface to be honest. It requires the
+> > flash controller to have intimate knowledge of the flash chip, and if
+> > it doesn't predict the dummy phase correctly, or the guest programs
+> > the wrong number of dummy cycles, the end result is very different
+> > from what you'll see on a real system. I'd love to see something like
+> > a number-of-bits parameter to ssi_transfer instead.
+>
+> Do you mean like these?
+>
+> - ssi_transfer_bit(bool value);
+> - ssi_shift_dummy_bits(size_t bits);
+>
+> Some interfaces allow bit shifting. SPI doesn't simply because
+> nobody had the use :)
+
+I mean I don't like how the semantics of ssi_transfer changes
+implicitly in the middle of the transfer. One call shifts a whole
+byte, the next 8 shift individual bits, then it's back to bytes again.
+If a mistake is made, the flash controller might end up thinking it's
+shifting 16 bits, but if the flash device only expects 8 dummy bits,
+it will see 8 bits + 8 bytes for a total of 9 bytes of dummies. This
+differs a lot from what would happen on a real device.
+
+For example, I wrote up a test for the aspeed flash controller against
+a Winbond flash chip in Dual I/O mode. The data ended up getting
+shifted by 15 bytes because of, I think, bugs in the dummy logic on
+both sides. I took a lot of head scratching to figure out what's going
+on.
+
+Here's where aspeed_smc figures it needs to send 2 dummy bytes (aka 16
+dummy bits) for a DIO read:
+
+https://elixir.bootlin.com/qemu/latest/source/hw/ssi/aspeed_smc.c#L803
+
+And here's where the Winbond model decides to expect one dummy _bit_:
+
+https://elixir.bootlin.com/qemu/latest/source/hw/block/m25p80.c#L862
+
+The difference is 15 ssi_transfers, which is what I see in the test.
+
+IMO they're both wrong -- they should both expect one dummy byte, or
+four dummy cycles in x2 mode. But the real problem, also IMO, is that
+they can't even agree on whether one ssi_transfer means one bit or one
+byte.
+
+While ssi_shift_dummy_bits is strictly nicer than open-coded loops of
+ssi_transfer, it doesn't fix the underlying problem that the dummy
+cycles need to be treated specially by both the flash controller model
+and the device model, and if they're not 100% synchronized (which is
+particularly interesting when you have flash chips with configurable
+dummy cycles), the result is like nothing you'd ever see on a real
+system.
+
+> >
+> >>> +    }
+> >>> +
+> >>> +    for (i =3D 0; i < size; i++) {
+> >>> +        value |=3D ssi_transfer(fiu->spi, 0) << (8 * i);
+> >>> +    }
+> >>> +
+> [...]
+>
+> >>> +static const MemoryRegionOps npcm7xx_fiu_flash_ops =3D {
+> >>> +    .read =3D npcm7xx_fiu_flash_read,
+> >>> +    .write =3D npcm7xx_fiu_flash_write,
+> >>> +    .endianness =3D DEVICE_LITTLE_ENDIAN,
+> >>> +    .valid =3D {
+> >>> +        .min_access_size =3D 1,
+> >>> +        .max_access_size =3D 8,
+> >>
+> >> Are you sure? Maybe, I can' tell.
+> >
+> > Real hardware supports 16 bytes, but there's no way to do more than 8
+> > in emulation, I think?
+>
+> That would mean you can plug this device on a 128-bit wide bus,
+> and you can transfer 128-bit in a single CPU operation.
+
+Hmm, I see what you mean. It can do 16-byte bursts. I'm not sure if
+that looks more like a single 16-byte access or four 4-byte accesses
+on the SPI bus. I was assuming it's the former, but I could be wrong.
+
+Havard
 
