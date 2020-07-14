@@ -2,67 +2,67 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0AF2322009D
-	for <lists+qemu-devel@lfdr.de>; Wed, 15 Jul 2020 00:29:07 +0200 (CEST)
-Received: from localhost ([::1]:50996 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 76FED22008C
+	for <lists+qemu-devel@lfdr.de>; Wed, 15 Jul 2020 00:23:53 +0200 (CEST)
+Received: from localhost ([::1]:54534 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jvTQA-0003kP-1P
-	for lists+qemu-devel@lfdr.de; Tue, 14 Jul 2020 18:29:06 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:49420)
+	id 1jvTL6-0001wO-GX
+	for lists+qemu-devel@lfdr.de; Tue, 14 Jul 2020 18:23:52 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:49474)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1jvTJE-0000F1-J4
- for qemu-devel@nongnu.org; Tue, 14 Jul 2020 18:21:56 -0400
-Received: from us-smtp-2.mimecast.com ([205.139.110.61]:47098
- helo=us-smtp-delivery-1.mimecast.com)
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1jvTJI-0000Ic-Mg
+ for qemu-devel@nongnu.org; Tue, 14 Jul 2020 18:22:00 -0400
+Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:37396
+ helo=us-smtp-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1jvTJA-0004W1-NJ
- for qemu-devel@nongnu.org; Tue, 14 Jul 2020 18:21:56 -0400
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1jvTJH-0004Wn-7G
+ for qemu-devel@nongnu.org; Tue, 14 Jul 2020 18:22:00 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1594765311;
+ s=mimecast20190719; t=1594765318;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=f4PIu0HMQQfwQmcqNhOsRKcF3CqOiR6vgF4LSRdEoL8=;
- b=I4oPX68cWplyaskyWsF8q1BOyKyOatqEFQuarlHi1KuBQ+rVS9T+2qOMXwBl2+WlZX2DbW
- FWd6gkxC/a9W5bbTsuoxSAwzkviRsEUSk2UFGZYQl9R2GlyzdhZFrIhAoUUMMvVnA4biVS
- z+aeYFWLe4LKcFV13uvYl+/U1/frJ3k=
-Received: from mail-wr1-f72.google.com (mail-wr1-f72.google.com
- [209.85.221.72]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-226-qxrP7g1zO42P-jKnvr-Rvw-1; Tue, 14 Jul 2020 18:21:50 -0400
-X-MC-Unique: qxrP7g1zO42P-jKnvr-Rvw-1
-Received: by mail-wr1-f72.google.com with SMTP id o25so17927wro.16
- for <qemu-devel@nongnu.org>; Tue, 14 Jul 2020 15:21:50 -0700 (PDT)
+ bh=Ieea/9qJdXQlkW1JakEFibi3dTSnv+m6I0AuJj8UjYg=;
+ b=SsRDyt9tGqJ86hTatVRIlYRbUPiJFeSjKcLXpqnh/8NRFW6V6/pcrjAyvpfpum2jitCoLg
+ LTNZegyzDBlogrEX4qTGIvqysF1j8GCOQ9A0DX0d8T/rQlqODsaFP85E7crzGiV8E6PY9k
+ aI7hNfE26atJSMBUnbizeNbBvcCi+4Q=
+Received: from mail-wr1-f69.google.com (mail-wr1-f69.google.com
+ [209.85.221.69]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-245-1Eq9Bf-vM86VZ1garop8iQ-1; Tue, 14 Jul 2020 18:21:54 -0400
+X-MC-Unique: 1Eq9Bf-vM86VZ1garop8iQ-1
+Received: by mail-wr1-f69.google.com with SMTP id c6so21754wru.7
+ for <qemu-devel@nongnu.org>; Tue, 14 Jul 2020 15:21:54 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=f4PIu0HMQQfwQmcqNhOsRKcF3CqOiR6vgF4LSRdEoL8=;
- b=jASlVRxaHYrxxZHForxYuacahVLR2hQa2RcZdTkJpKrImfb8IhZgNAqa3WetnDNaSo
- sfTWCcyHGuh4F1Ox1OOYkBlL9K4ksF+S5SVjxjVWtUhqrS8fAwRSU9x5vR0LqQZd5ify
- g/mcTeXobd/U8yMJzwTD3FXzZGnYJhnHa9ii+bX/UMYDKiu0HJ5itkB3NZz/MPFC/2Q4
- QqcXDIbtZ3hm4XGJSBSwRqfzLTZk9btr468OcModEbaLKg9FmDHPm22s3ntb37Vauw3A
- NdXkEsgYzuZKzf0kzzgnLVZB5oC2ChDV0COJAiOAJWNB8nrzPmrG7zjLAQ0kD3P80eCC
- bcew==
-X-Gm-Message-State: AOAM531UAY87lNIP+8ovZasRU97PJdNgGuUnuXfK9bMU1DgPJyWG64mJ
- rjx7tUBplYJjlXwUjP8xRcO3Mk+KqWo6vWu+aNrwQeLJ+sZ/rzHdbNM43ZUgaNYsoEUw6Ow+9oi
- VSnbRpuItjDnXbQM=
-X-Received: by 2002:a1c:3bc1:: with SMTP id i184mr5729269wma.119.1594765308880; 
- Tue, 14 Jul 2020 15:21:48 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJyKDnGybAjeG5dJqWW0wSiVBJBdnKyUwvcrZOYtDNIFnAYbHL6Th6v+//SXR1HN3sCe/buyCQ==
-X-Received: by 2002:a1c:3bc1:: with SMTP id i184mr5729252wma.119.1594765308665; 
- Tue, 14 Jul 2020 15:21:48 -0700 (PDT)
+ bh=Ieea/9qJdXQlkW1JakEFibi3dTSnv+m6I0AuJj8UjYg=;
+ b=fj47+WhnQ2/5oLoWFgvyggIw3VKI6uQyDu2z+nZtZh7bwj+J553JyBIE6aZab6rNrM
+ Uf71T7xT3JI1ICrBoshcyfgn8zQDYG6TpUb30G3ua7VTorAKk7Vxe/SWKP4+yXa82qSk
+ 5fBChwbXh0ZO5rugTDNPJ0pl0y/mCWV0ZRL6dTqfXLgYxvhjxH3hgxO8QlxnvNH1WBXk
+ EoGkxV+Q51ZNZfHaqWbWtVOo7542gy/PUTF4aIUsItp3Zxxj3HVEBAOgsLM5VRUn6bN0
+ spwoGN3XNsFRksgSInGIKeSl/bGPi6SEFhJRLuyvLXT4Kbizbms+xJ8QvBQltwWXSijS
+ m1LA==
+X-Gm-Message-State: AOAM533r0ka1bopatUODwyODV1irLKSSZG8Ca/WV84eWUM2up5S221C1
+ VpI6rfH/SeZO4rfXl6YlJeDMxa+M7pRKBO6iohYBQuABHOgVN8JsxcFpe2Dc/IItThI0ycPyrvv
+ IJgymXvP6meLJSR0=
+X-Received: by 2002:adf:ed02:: with SMTP id a2mr8044793wro.110.1594765313494; 
+ Tue, 14 Jul 2020 15:21:53 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJzvCAgT5kcc/CujbqK+Zpvl+tmQT6xu1hLeTJx9kHTc/umP+5RKIB6eSZUJIChYoiEzyDWxEQ==
+X-Received: by 2002:adf:ed02:: with SMTP id a2mr8044778wro.110.1594765313300; 
+ Tue, 14 Jul 2020 15:21:53 -0700 (PDT)
 Received: from localhost.localdomain
  (138.red-83-57-170.dynamicip.rima-tde.net. [83.57.170.138])
- by smtp.gmail.com with ESMTPSA id j6sm181798wro.25.2020.07.14.15.21.47
+ by smtp.gmail.com with ESMTPSA id d13sm134916wrq.89.2020.07.14.15.21.52
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 14 Jul 2020 15:21:48 -0700 (PDT)
+ Tue, 14 Jul 2020 15:21:52 -0700 (PDT)
 From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PULL 03/19] python/machine.py: Close QMP socket in cleanup
-Date: Wed, 15 Jul 2020 00:21:16 +0200
-Message-Id: <20200714222132.10815-4-philmd@redhat.com>
+Subject: [PULL 04/19] python/machine.py: Add _early_cleanup hook
+Date: Wed, 15 Jul 2020 00:21:17 +0200
+Message-Id: <20200714222132.10815-5-philmd@redhat.com>
 X-Mailer: git-send-email 2.21.3
 In-Reply-To: <20200714222132.10815-1-philmd@redhat.com>
 References: <20200714222132.10815-1-philmd@redhat.com>
@@ -72,9 +72,9 @@ X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=UTF-8;
 	text/plain; charset="utf-8"
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=205.139.110.61; envelope-from=philmd@redhat.com;
- helo=us-smtp-delivery-1.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/07/14 03:57:32
+Received-SPF: pass client-ip=207.211.31.120; envelope-from=philmd@redhat.com;
+ helo=us-smtp-1.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/07/14 18:21:58
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
 X-Spam_score_int: -40
 X-Spam_score: -4.1
@@ -104,51 +104,55 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: John Snow <jsnow@redhat.com>
 
-It's not important to do this before waiting for the process to exit, so
-it can be done during generic post-shutdown cleanup.
+Some parts of cleanup need to occur prior to shutdown, otherwise
+shutdown might break. Move this into a suitably named method/callback.
 
 Signed-off-by: John Snow <jsnow@redhat.com>
 Reviewed-by: Philippe Mathieu-Daudé <philmd@redhat.com>
 Reviewed-by: Cleber Rosa <crosa@redhat.com>
 Tested-by: Cleber Rosa <crosa@redhat.com>
-Message-Id: <20200710050649.32434-3-jsnow@redhat.com>
+Message-Id: <20200710050649.32434-4-jsnow@redhat.com>
 Signed-off-by: Philippe Mathieu-Daudé <philmd@redhat.com>
 ---
- python/qemu/machine.py | 7 ++++---
- 1 file changed, 4 insertions(+), 3 deletions(-)
+ python/qemu/machine.py | 18 ++++++++++++------
+ 1 file changed, 12 insertions(+), 6 deletions(-)
 
 diff --git a/python/qemu/machine.py b/python/qemu/machine.py
-index ca1f2114e6..d3faa9a84c 100644
+index d3faa9a84c..127926b276 100644
 --- a/python/qemu/machine.py
 +++ b/python/qemu/machine.py
-@@ -294,6 +294,10 @@ def _post_launch(self):
-             self._qmp.accept()
+@@ -365,6 +365,17 @@ def _launch(self):
+                                        close_fds=False)
+         self._post_launch()
  
-     def _post_shutdown(self):
-+        if self._qmp:
-+            self._qmp.close()
-+            self._qmp = None
++    def _early_cleanup(self) -> None:
++        """
++        Perform any cleanup that needs to happen before the VM exits.
++        """
++        # If we keep the console socket open, we may deadlock waiting
++        # for QEMU to exit, while QEMU is waiting for the socket to
++        # become writeable.
++        if self._console_socket is not None:
++            self._console_socket.close()
++            self._console_socket = None
 +
-         self._load_io_log()
- 
-         if self._qemu_log_file is not None:
-@@ -366,8 +370,6 @@ def wait(self):
-         Wait for the VM to power off
+     def wait(self):
          """
-         self._popen.wait()
--        if self._qmp:
--            self._qmp.close()
-         self._post_shutdown()
+         Wait for the VM to power off
+@@ -376,12 +387,7 @@ def shutdown(self, has_quit=False, hard=False):
+         """
+         Terminate the VM and clean up
+         """
+-        # If we keep the console socket open, we may deadlock waiting
+-        # for QEMU to exit, while QEMU is waiting for the socket to
+-        # become writeable.
+-        if self._console_socket is not None:
+-            self._console_socket.close()
+-            self._console_socket = None
++        self._early_cleanup()
  
-     def shutdown(self, has_quit=False, hard=False):
-@@ -388,7 +390,6 @@ def shutdown(self, has_quit=False, hard=False):
-                 try:
-                     if not has_quit:
-                         self._qmp.cmd('quit')
--                    self._qmp.close()
-                     self._popen.wait(timeout=3)
-                 except:
-                     self._popen.kill()
+         if self.is_running():
+             if hard:
 -- 
 2.21.3
 
