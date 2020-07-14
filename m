@@ -2,68 +2,67 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B5B3122009E
-	for <lists+qemu-devel@lfdr.de>; Wed, 15 Jul 2020 00:29:13 +0200 (CEST)
-Received: from localhost ([::1]:51666 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id AA93622009A
+	for <lists+qemu-devel@lfdr.de>; Wed, 15 Jul 2020 00:27:54 +0200 (CEST)
+Received: from localhost ([::1]:44632 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jvTQG-00042t-QM
-	for lists+qemu-devel@lfdr.de; Tue, 14 Jul 2020 18:29:12 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:50330)
+	id 1jvTOz-0001A1-Dc
+	for lists+qemu-devel@lfdr.de; Tue, 14 Jul 2020 18:27:53 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:50426)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1jvTJy-0001Nm-Bg
- for qemu-devel@nongnu.org; Tue, 14 Jul 2020 18:22:42 -0400
-Received: from us-smtp-2.mimecast.com ([205.139.110.61]:56859
- helo=us-smtp-delivery-1.mimecast.com)
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1jvTK2-0001XV-LI
+ for qemu-devel@nongnu.org; Tue, 14 Jul 2020 18:22:46 -0400
+Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:35904
+ helo=us-smtp-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1jvTJw-0004qh-IA
- for qemu-devel@nongnu.org; Tue, 14 Jul 2020 18:22:41 -0400
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1jvTK0-0004sh-Qv
+ for qemu-devel@nongnu.org; Tue, 14 Jul 2020 18:22:46 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1594765359;
+ s=mimecast20190719; t=1594765364;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=j02F5ic5GFszUU2+6LTrgWj0JvABR23KJP15O63NAeA=;
- b=f5BivysUbIOP4tayQCTcroxZmBjTwINYdpCkH3yAla2FgYBjj1xJbtmGWhrEVd4zQ+8TtI
- xfDcS2xjqzA9ciDOcek91h3ZRXMU6YA1ZyhrStmEP7U8tugGBvMo4w7Z+/7pK4HrtVwAZh
- +47c9H90Cfw/2Jg76lsvtmUN3CVexrw=
-Received: from mail-wr1-f69.google.com (mail-wr1-f69.google.com
- [209.85.221.69]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-366-qKW3wQuIMQ6w2foK1v45mg-1; Tue, 14 Jul 2020 18:22:37 -0400
-X-MC-Unique: qKW3wQuIMQ6w2foK1v45mg-1
-Received: by mail-wr1-f69.google.com with SMTP id i14so18551wru.17
- for <qemu-devel@nongnu.org>; Tue, 14 Jul 2020 15:22:37 -0700 (PDT)
+ bh=uqbjq2eSEV+Z/U6UkFGjrSQIABqGIU5R3iUFws37JAY=;
+ b=QmJ20a2/sD161kWgLArsrYXvWGkZ80krPlIXHMy/aeTA++8tyQFDdFU1T5nVn/OTUMaVDq
+ o5yIQYKGQ8xrgO40XQK4+Xvn4048U+nqk0+qgTZ3k2wWycdOL/A3+Lumcy1VMVsI603DtE
+ YZ9EkFLSU/TMGjWZ9Rqexpm9IBb8ZQA=
+Received: from mail-wr1-f72.google.com (mail-wr1-f72.google.com
+ [209.85.221.72]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-208-1yOtK8oUOZKQ54ZyAxLYWQ-1; Tue, 14 Jul 2020 18:22:42 -0400
+X-MC-Unique: 1yOtK8oUOZKQ54ZyAxLYWQ-1
+Received: by mail-wr1-f72.google.com with SMTP id b8so18304wro.19
+ for <qemu-devel@nongnu.org>; Tue, 14 Jul 2020 15:22:42 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=j02F5ic5GFszUU2+6LTrgWj0JvABR23KJP15O63NAeA=;
- b=s8vBT42gVYQ+7gopXCPXfXBZV4owFE2mogvdxMxv2Mr/yld0CtfhhNGphFyUsZrul7
- c6Ab8AcN8zl+lLkOJ7LDoVvFrKNIteqvqKpkLDTTsZpMYIrhkOgkXgzP8M//IzaAgSdC
- A8wUIQ6HZsPsO2vd5/sUYGvNTXHTseuim6GPr6KPQnDVvxRTZbVaUwksOYoql2a7vSPs
- WxCADXmtvEUhybJiHmbIIKZYUjSLFLUH0waY0jJoHsONmuWnnx5VXU1rlAWgXgdKlLpA
- pRqsifsAPdXZbsAXVMkpcz2mD2G9aIJVuXWf793rIpYDVCoZEV/BTgvcen2Acgiv2I+X
- h28A==
-X-Gm-Message-State: AOAM533w48axILcqMPWCsvGUvGFILhMnQITLiwMeaX7AEhojFHPlWPcM
- U0RWKXZXasz56DGAEeWcizJDPnCTVrPZOe6x92Fzg2mt+bqZ5mh/XSy/UsaYQJtDZkjPmteeB9C
- 8LU+u+b7D+DD+b4c=
-X-Received: by 2002:a1c:7f82:: with SMTP id a124mr5465654wmd.132.1594765356326; 
- Tue, 14 Jul 2020 15:22:36 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJzvC7OqoVsBQA0sERYprgjXmkhrNV6Tou5Y09ZSqk6LiCFWVwLqhTg6huEvyc6bFAdtz29q1w==
-X-Received: by 2002:a1c:7f82:: with SMTP id a124mr5465640wmd.132.1594765356084; 
- Tue, 14 Jul 2020 15:22:36 -0700 (PDT)
+ bh=uqbjq2eSEV+Z/U6UkFGjrSQIABqGIU5R3iUFws37JAY=;
+ b=GOzypodTAha2SGUxjA++hXKpww4EUSDtQ734q+Y7OxocXsyUdk/jHJxf3YWXaOwxQs
+ 87S4V26IhDE0fuoRWpIsIhBKJdqK5QcMBFWSpLIjQK/A/3V+Q2skLj2BlzqLE6UN7kAs
+ 5s7SPUj2Lve11WefBvEi+O+4KaPdCMPnILm514W7sMCyQFZDIP0xeFb+8eUCCeFbZkff
+ nkHQZ4U2hqGgVNQ08C7tn0GNYIsZXLOc4AVR5ImN2/UVlfGVHHgjs9nx6EJ4M4mVelpO
+ /sGM3a3r9w4kM9coAxOpmBlXFl/BCzHCBTrccWNs8RdFv0qNAi8kCdzkuNBMpDR/79h8
+ L7XA==
+X-Gm-Message-State: AOAM531gFCdT76C8ukWNcbGqc/fzr0HwjvBhtBYqDdM94PyyBXlLZTUZ
+ o9G6m3W/MMi59jYfEQvCqzPkhD1FCmvqRYGTo+UkeWe3R2egGfKxOJcKzDp0MWzffXGNjIhmvos
+ wldt2YK4gvognx4o=
+X-Received: by 2002:adf:fa8f:: with SMTP id h15mr8046335wrr.211.1594765361131; 
+ Tue, 14 Jul 2020 15:22:41 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJzgw8+a9oaIkhkITRQEjINbjIs+0+n0DnAHgVxNPI4gCYRDO4i3daoVIKpHcyUjPf0DaYki/w==
+X-Received: by 2002:adf:fa8f:: with SMTP id h15mr8046313wrr.211.1594765360916; 
+ Tue, 14 Jul 2020 15:22:40 -0700 (PDT)
 Received: from localhost.localdomain
  (138.red-83-57-170.dynamicip.rima-tde.net. [83.57.170.138])
- by smtp.gmail.com with ESMTPSA id y16sm164008wro.71.2020.07.14.15.22.35
+ by smtp.gmail.com with ESMTPSA id q5sm173563wrp.60.2020.07.14.15.22.39
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 14 Jul 2020 15:22:35 -0700 (PDT)
+ Tue, 14 Jul 2020 15:22:40 -0700 (PDT)
 From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PULL 13/19] python/machine.py: change default wait timeout to 3
- seconds
-Date: Wed, 15 Jul 2020 00:21:26 +0200
-Message-Id: <20200714222132.10815-14-philmd@redhat.com>
+Subject: [PULL 14/19] python/qmp.py: Define common types
+Date: Wed, 15 Jul 2020 00:21:27 +0200
+Message-Id: <20200714222132.10815-15-philmd@redhat.com>
 X-Mailer: git-send-email 2.21.3
 In-Reply-To: <20200714222132.10815-1-philmd@redhat.com>
 References: <20200714222132.10815-1-philmd@redhat.com>
@@ -73,9 +72,9 @@ X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=UTF-8;
 	text/plain; charset="utf-8"
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=205.139.110.61; envelope-from=philmd@redhat.com;
- helo=us-smtp-delivery-1.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/07/14 03:57:32
+Received-SPF: pass client-ip=205.139.110.120; envelope-from=philmd@redhat.com;
+ helo=us-smtp-1.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/07/14 01:42:04
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
 X-Spam_score_int: -40
 X-Spam_score: -4.1
@@ -96,49 +95,62 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Ahmed Karaman <ahmedkhaledkaraman@gmail.com>,
- =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
- John Snow <jsnow@redhat.com>, Eduardo Habkost <ehabkost@redhat.com>,
- Cleber Rosa <crosa@redhat.com>
+Cc: Kevin Wolf <kwolf@redhat.com>, Eduardo Habkost <ehabkost@redhat.com>,
+ John Snow <jsnow@redhat.com>, Ahmed Karaman <ahmedkhaledkaraman@gmail.com>,
+ Cleber Rosa <crosa@redhat.com>,
+ =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: John Snow <jsnow@redhat.com>
 
-Machine.wait() does not appear to be used except in the acceptance tests,
-and an infinite timeout by default in a test suite is not the most helpful.
-
-Change it to 3 seconds, like the default shutdown timeout.
+Define some common types that we'll need to annotate a lot of other
+functions going forward.
 
 Signed-off-by: John Snow <jsnow@redhat.com>
-Reviewed-by: Philippe Mathieu-Daudé <philmd@redhat.com>
-Reviewed-by: Cleber Rosa <crosa@redhat.com>
-Tested-by: Cleber Rosa <crosa@redhat.com>
-Message-Id: <20200710050649.32434-13-jsnow@redhat.com>
+Reviewed-by: Kevin Wolf <kwolf@redhat.com>
+Message-Id: <20200710052220.3306-2-jsnow@redhat.com>
 Signed-off-by: Philippe Mathieu-Daudé <philmd@redhat.com>
 ---
- python/qemu/machine.py | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+ python/qemu/qmp.py | 18 ++++++++++++++++++
+ 1 file changed, 18 insertions(+)
 
-diff --git a/python/qemu/machine.py b/python/qemu/machine.py
-index 736a3c906f..69055189bd 100644
---- a/python/qemu/machine.py
-+++ b/python/qemu/machine.py
-@@ -486,12 +486,12 @@ def kill(self):
-         """
-         self.shutdown(hard=True)
+diff --git a/python/qemu/qmp.py b/python/qemu/qmp.py
+index e64b6b5faa..8388c7b603 100644
+--- a/python/qemu/qmp.py
++++ b/python/qemu/qmp.py
+@@ -12,13 +12,31 @@
+ import socket
+ import logging
+ from typing import (
++    Any,
++    Dict,
+     Optional,
+     TextIO,
+     Type,
++    Tuple,
++    Union,
+ )
+ from types import TracebackType
  
--    def wait(self, timeout: Optional[int] = None) -> None:
-+    def wait(self, timeout: Optional[int] = 3) -> None:
-         """
-         Wait for the VM to power off and perform post-shutdown cleanup.
  
-         :param timeout: Optional timeout in seconds.
--                        Default None, an infinite wait.
-+                        Default 3 seconds, A value of None is an infinite wait.
-         """
-         self.shutdown(has_quit=True, timeout=timeout)
- 
++# QMPMessage is a QMP Message of any kind.
++# e.g. {'yee': 'haw'}
++#
++# QMPReturnValue is the inner value of return values only.
++# {'return': {}} is the QMPMessage,
++# {} is the QMPReturnValue.
++QMPMessage = Dict[str, Any]
++QMPReturnValue = Dict[str, Any]
++
++InternetAddrT = Tuple[str, str]
++UnixAddrT = str
++SocketAddrT = Union[InternetAddrT, UnixAddrT]
++
++
+ class QMPError(Exception):
+     """
+     QMP base exception
 -- 
 2.21.3
 
