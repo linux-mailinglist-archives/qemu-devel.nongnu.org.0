@@ -2,60 +2,59 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5094821E6C8
-	for <lists+qemu-devel@lfdr.de>; Tue, 14 Jul 2020 06:21:10 +0200 (CEST)
-Received: from localhost ([::1]:52234 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E37F021E700
+	for <lists+qemu-devel@lfdr.de>; Tue, 14 Jul 2020 06:31:04 +0200 (CEST)
+Received: from localhost ([::1]:57046 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jvCRJ-0005Oc-5u
-	for lists+qemu-devel@lfdr.de; Tue, 14 Jul 2020 00:21:09 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:35410)
+	id 1jvCat-00088F-UQ
+	for lists+qemu-devel@lfdr.de; Tue, 14 Jul 2020 00:31:03 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:37854)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <crosa@redhat.com>) id 1jvCQP-0004SI-L4
- for qemu-devel@nongnu.org; Tue, 14 Jul 2020 00:20:13 -0400
-Received: from us-smtp-2.mimecast.com ([207.211.31.81]:49721
+ (Exim 4.90_1) (envelope-from <crosa@redhat.com>) id 1jvCa5-0007cm-LF
+ for qemu-devel@nongnu.org; Tue, 14 Jul 2020 00:30:13 -0400
+Received: from us-smtp-1.mimecast.com ([207.211.31.81]:38990
  helo=us-smtp-delivery-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <crosa@redhat.com>) id 1jvCQO-0007dq-2B
- for qemu-devel@nongnu.org; Tue, 14 Jul 2020 00:20:13 -0400
+ (Exim 4.90_1) (envelope-from <crosa@redhat.com>) id 1jvCa3-0000Xw-0F
+ for qemu-devel@nongnu.org; Tue, 14 Jul 2020 00:30:12 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1594700410;
+ s=mimecast20190719; t=1594701009;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  in-reply-to:in-reply-to:references:references;
- bh=p6i250nFGdu2A20Ms2PLEnT1nrV7PGv9PirpChT/iL8=;
- b=TxfZsBzeVfQ4H1Q/DIIhZVc4D/j5ju4iJZJN4bQ1hR3BZo7WDhHYGS0wN27lKEAlCVQUQX
- 8O9dFsvypzvqMWpyNe504JdqrvBfMq+zZ8LOqjW9Hno1IA5q3vRv82Lky7hbqAtwyh0luN
- 34HQ7PlHH/Nrq26h6N/Isx6Ryz2a1Fc=
+ bh=LOxxxGcLpv50wQyT3VzCnFOlQQyLavJjICuoMhSqgec=;
+ b=N2nHdeiFMLND3a9qGHM9ECQYOWx8Eg7EUCyguUC7tF4JG/8irSDUiEPY2wqlJRyFhhRXIz
+ 1vbgldZKPPpFubJRibCoC0twO2SR6itZkTAw4IOINJGe9qs67YEwi+ecm7UWcu3usjkmnS
+ tkKczEuVieXBuB/hUTi6CJp7vTLRzro=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-409-saOGRP5dNW-KdElSI82hEA-1; Tue, 14 Jul 2020 00:20:08 -0400
-X-MC-Unique: saOGRP5dNW-KdElSI82hEA-1
-Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
- [10.5.11.16])
+ us-mta-177-HY8K750BPoGkzJCInrZnrw-1; Tue, 14 Jul 2020 00:30:07 -0400
+X-MC-Unique: HY8K750BPoGkzJCInrZnrw-1
+Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
+ [10.5.11.13])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 188631080;
- Tue, 14 Jul 2020 04:20:07 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 7E7E71009441
+ for <qemu-devel@nongnu.org>; Tue, 14 Jul 2020 04:30:06 +0000 (UTC)
 Received: from localhost.localdomain (ovpn-112-247.rdu2.redhat.com
  [10.10.112.247])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id F41215C6DD;
- Tue, 14 Jul 2020 04:20:01 +0000 (UTC)
-Date: Tue, 14 Jul 2020 00:20:00 -0400
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id BF2E476206;
+ Tue, 14 Jul 2020 04:30:05 +0000 (UTC)
+Date: Tue, 14 Jul 2020 00:30:03 -0400
 From: Cleber Rosa <crosa@redhat.com>
 To: John Snow <jsnow@redhat.com>
-Subject: Re: [PATCH v5 12/12] python/machine.py: change default wait timeout
- to 3 seconds
-Message-ID: <20200714042000.GJ2983508@localhost.localdomain>
-References: <20200710050649.32434-1-jsnow@redhat.com>
- <20200710050649.32434-13-jsnow@redhat.com>
+Subject: Re: [PATCH 1/1] python: add check-python target
+Message-ID: <20200714043003.GA3012808@localhost.localdomain>
+References: <20200714013026.9019-1-jsnow@redhat.com>
+ <20200714013026.9019-2-jsnow@redhat.com>
 MIME-Version: 1.0
-In-Reply-To: <20200710050649.32434-13-jsnow@redhat.com>
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
+In-Reply-To: <20200714013026.9019-2-jsnow@redhat.com>
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature"; boundary="UlxN1C6awaFNesUv"
+ protocol="application/pgp-signature"; boundary="6c2NcOVqGQ03X4Wi"
 Content-Disposition: inline
 Received-SPF: pass client-ip=207.211.31.81; envelope-from=crosa@redhat.com;
  helo=us-smtp-delivery-1.mimecast.com
@@ -67,8 +66,7 @@ X-Spam_bar: ---
 X-Spam_report: (-3.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H3=-0.01, RCVD_IN_MSPIKE_WL=-0.01,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- URIBL_BLOCKED=0.001 autolearn=ham autolearn_force=no
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -81,59 +79,117 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: kwolf@redhat.com, Aleksandar Rikalo <aleksandar.rikalo@syrmia.com>,
- Eduardo Habkost <ehabkost@redhat.com>, qemu-devel@nongnu.org,
- Wainer dos Santos Moschetta <wainersm@redhat.com>,
- Aleksandar Markovic <aleksandar.qemu.devel@gmail.com>,
- Philippe =?iso-8859-1?Q?Mathieu-Daud=E9?= <philmd@redhat.com>,
- Aurelien Jarno <aurelien@aurel32.net>
+Cc: kwolf@redhat.com, berrange@redhat.com, qemu-devel@nongnu.org,
+ ehabkost@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
---UlxN1C6awaFNesUv
+--6c2NcOVqGQ03X4Wi
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 Content-Transfer-Encoding: quoted-printable
 
-On Fri, Jul 10, 2020 at 01:06:49AM -0400, John Snow wrote:
-> Machine.wait() does not appear to be used except in the acceptance tests,
-> and an infinite timeout by default in a test suite is not the most helpfu=
-l.
->=20
-> Change it to 3 seconds, like the default shutdown timeout.
->=20
+On Mon, Jul 13, 2020 at 09:30:26PM -0400, John Snow wrote:
+> Move pylintrc and flake8 up to the root of the python folder where
+> they're the most useful. Add a requirements.cqa.txt file to house
+> the requirements necessary to build a venv sufficient for running
+> code quality analysis on the python folder. Add a makefile that
+> will build the venv and run the tests.
+>
 > Signed-off-by: John Snow <jsnow@redhat.com>
 > ---
->  python/qemu/machine.py | 4 ++--
->  1 file changed, 2 insertions(+), 2 deletions(-)
+>  Makefile                    |  1 +
+>  python/{qemu =3D> }/.flake8   |  0
+>  python/Makefile.include     | 33 +++++++++++++++++++++++++++++++++
+>  python/{qemu =3D> }/pylintrc  |  1 +
+>  python/requirements.cqa.txt |  3 +++
+>  5 files changed, 38 insertions(+)
+>  rename python/{qemu =3D> }/.flake8 (100%)
+>  create mode 100644 python/Makefile.include
+>  rename python/{qemu =3D> }/pylintrc (99%)
+>  create mode 100644 python/requirements.cqa.txt
 >=20
+> diff --git a/Makefile b/Makefile
+> index b1b8a5a6d0..41808be392 100644
+> --- a/Makefile
+> +++ b/Makefile
+> @@ -478,6 +478,7 @@ dummy :=3D $(call unnest-vars,, \
+>                  trace-obj-y)
+> =20
+>  include $(SRC_PATH)/tests/Makefile.include
+> +include $(SRC_PATH)/python/Makefile.include
+> =20
+>  all: $(DOCS) $(if $(BUILD_DOCS),sphinxdocs) $(TOOLS) $(HELPERS-y) recurs=
+e-all modules $(vhost-user-json-y)
+> =20
+> diff --git a/python/qemu/.flake8 b/python/.flake8
+> similarity index 100%
+> rename from python/qemu/.flake8
+> rename to python/.flake8
+> diff --git a/python/Makefile.include b/python/Makefile.include
+> new file mode 100644
+> index 0000000000..917808e2f1
+> --- /dev/null
+> +++ b/python/Makefile.include
+> @@ -0,0 +1,33 @@
+> +# -*- Mode: makefile -*-
+> +
+> +PYLIB_VENV_DIR=3D$(BUILD_DIR)/venv/cqa
+> +PYLIB_VENV_REQ=3D$(SRC_PATH)/python/requirements.cqa.txt
+> +
+> +$(PYLIB_VENV_DIR): $(PYLIB_VENV_REQ)
+> +=09$(call quiet-command, \
+> +=09    $(PYTHON) -m venv $@, \
+> +=09    VENV, $@)
+> +=09$(call quiet-command, \
+> +=09    $(PYLIB_VENV_DIR)/bin/python3 -m pip -q install -r $(PYLIB_VENV_R=
+EQ), \
+> +=09    PIP, $(PYLIB_VENV_REQ))
+> +=09$(call quiet-command, touch $@)
+> +
 
-Well, for the acceptance tests, there's usually a test wide timeout,
-but this is indeed a good idea!
+Maybe we should try to create a generic rule that takes a directory
+name and a requirements file and creates the venv accordingly, instead
+of duplicating the other similar rules under tests/Makefile.include?
 
-Reviewed-by: Cleber Rosa <crosa@redhat.com>
-Tested-by: Cleber Rosa <crosa@redhat.com>
+> +pylib-venv: $(PYLIB_VENV_DIR)
+> +
+> +check-python: pylib-venv
+> +=09$(call quiet-command, cd $(SRC_PATH)/python && \
+> +=09    $(PYLIB_VENV_DIR)/bin/python3 -m flake8 qemu, \
+> +=09    FLAKE8, \
+> +=09    $(SRC_PATH)/python/qemu \
 
---UlxN1C6awaFNesUv
+I can see how this venv would be very useful to run the same checks on
+other Python code (for instance, the acceptance tests themselves), so
+we'd also need another "check-python"-like rule, or include those on
+the same call.
+
+Ideas? :)
+
+Thanks!
+- Cleber.
+
+--6c2NcOVqGQ03X4Wi
 Content-Type: application/pgp-signature; name="signature.asc"
 
 -----BEGIN PGP SIGNATURE-----
 
-iQIzBAEBCAAdFiEEeruW64tGuU1eD+m7ZX6NM6XyCfMFAl8NMm0ACgkQZX6NM6Xy
-CfP3Hg/8CU/AUQkvmH3xV7saG/csyI6Kxnw954y2z0HmcqM4reN1xCzLyR5XlBaK
-SSs6A3KXzrzUqU3ZXbbDJQqF6FrphuO1X1XhiHbn7XSVf3UAeq8b+ttCcS5JzOt3
-U165dbZrGFzmgs0h2skNalP0LpMTLvoRkb+r/lZ5XMUW1suvG2xzVcWX6ta0Lbcq
-8CzV5v9KpA1bWzg0yuEVSspX2KviC7/EiRsOOwZz5mlxutmh2gqZJGgUme4pUbYE
-JKHCjZg4IJNrEbTAhJb4bAqsE8JuQa8Glht2J9GlnBB2KV2ke7aYL6iX6U9Uq/9A
-EdlUElYRbpXJDJG5SRiyZ5WEmNXeRYdwfzw3Tq7fvC8hWB9zr2ha4H8TB+3Qx5+B
-gGQtNUYbrL8sUIlkknmKscepRjAdLhqntv0cuqCCMDfIf3CpQPCj+7bQJigO4/wz
-OQrCMWjDjhGj40h28vyBH4TPcy8EsQNcx9f85rRBl0fIdkLjpoEoH0atfOntVTrU
-NoBNpCDzAWrRPEW58QKq9YbmAiJCEmreTeytcVbMIiIO9Knaa4ePI2fHxV1R5b4x
-lbbU+if1jxIHHawN5C4BHkIBPKz1oTv0BeU2jwN5nrP0yneDFKFbn+W13XlFj9gs
-vK2VvKZnKYfCcnN1eDStVryWZZTbD0VXZv1dglU9p4zTEZe6Cxo=
-=ROhS
+iQIzBAEBCAAdFiEEeruW64tGuU1eD+m7ZX6NM6XyCfMFAl8NNMkACgkQZX6NM6Xy
+CfPCzxAAkDPvWZ034bXhULrS6bPHLfVF/0Qo3+GiOn4+kqkwNIFNltWhBwNJJHJf
+DpHShGky/AK9PJTfk6Kuk4s0it2OTYdibVpV+jHp2LUMRHs8vtZ24CT6P5nZn4AE
+fR4ZVCl8HPkjT0oO2HtkXCtjjK6TdhSPXQ659PGKDQ8G+pMLFLwgQwYVytUdmTUy
+Xdm0vYifDUeb0DMDio2a3aiVgtkF7h4lzsCmxB97ITsHZJuIN6Wjz4OI4k0ibXhK
+mmxxpPk8bbf99YdCobRS/ScCh+cc1ym1y6L4+iHQCXX0CuJaojCcKkJ338vjxDu8
+pSpAI+IpfATuM+V91yi/WFkkfHTE1rsAjR9dyOUnWGeIQzhFva9/eVeJ6xw8cMsY
+z4SuY1EVohv8sg68QWz7N9ikDrpIo/NavGNOgYoxt/z5kCmkRCnpUTRXBNCmtKKr
+HEjt83Vzh5O1IVosew6O9sfW221g3sDXNtuu8QAi/R0iFcHBuMU93cTogpKMvHcc
+nJsdbE/s9xeOHxr/Bjnx8N8hifOldB706aJh8TwCIIZMMfRw6n+VN/35m7FWFEVG
+Rd9rbAFkotSBTBsH8dRwg8qkknvkivil9h8ViuxP3Mwm3Beyu9wM6w3Al/gAE7nj
+oOacUjGdhAGp+EyO1lnj7VWROLhB9h1Gf6TkwGROJqq2qDjfmYs=
+=RnCE
 -----END PGP SIGNATURE-----
 
---UlxN1C6awaFNesUv--
+--6c2NcOVqGQ03X4Wi--
 
 
