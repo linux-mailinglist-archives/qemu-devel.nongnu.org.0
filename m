@@ -2,66 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 164C321E4B8
-	for <lists+qemu-devel@lfdr.de>; Tue, 14 Jul 2020 02:45:59 +0200 (CEST)
-Received: from localhost ([::1]:48294 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 701E821E4CD
+	for <lists+qemu-devel@lfdr.de>; Tue, 14 Jul 2020 02:51:28 +0200 (CEST)
+Received: from localhost ([::1]:44460 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jv954-0002SM-09
-	for lists+qemu-devel@lfdr.de; Mon, 13 Jul 2020 20:45:58 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:52126)
+	id 1jv9AN-00043x-Gp
+	for lists+qemu-devel@lfdr.de; Mon, 13 Jul 2020 20:51:27 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:52136)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1)
  (envelope-from <prvs=457b4eeb6=alistair.francis@wdc.com>)
- id 1jv924-0006R9-UV
- for qemu-devel@nongnu.org; Mon, 13 Jul 2020 20:42:52 -0400
-Received: from esa5.hgst.iphmx.com ([216.71.153.144]:30779)
+ id 1jv925-0006TP-S4
+ for qemu-devel@nongnu.org; Mon, 13 Jul 2020 20:42:53 -0400
+Received: from esa5.hgst.iphmx.com ([216.71.153.144]:30777)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1)
  (envelope-from <prvs=457b4eeb6=alistair.francis@wdc.com>)
- id 1jv923-0008Or-4W
- for qemu-devel@nongnu.org; Mon, 13 Jul 2020 20:42:52 -0400
+ id 1jv923-0008Oh-S2
+ for qemu-devel@nongnu.org; Mon, 13 Jul 2020 20:42:53 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple;
  d=wdc.com; i=@wdc.com; q=dns/txt; s=dkim.wdc.com;
- t=1594687371; x=1626223371;
+ t=1594687372; x=1626223372;
  h=from:to:cc:subject:date:message-id:in-reply-to:
  references:mime-version:content-transfer-encoding;
- bh=rdbMHS8cLmbeV245Oiuz0IvXSLNQhNgXrF8MRQYylVw=;
- b=b7GJIDhcs8YMw67GaiyLUz952eSSX+uhoriMk+chaNOnLKlWrSYwpFWd
- iED48KOJaAKrrGKdR2Hp0bb/pBKC2Vvz6sXpwqDRNq/WKa+ccwfapyyun
- gcy31YVZqIGtOTdzjo5tA/FONOEgxbpnyB1kd/Ap8pJvzQBTJ3jDWcpCl
- llmlzid8d10P2HBUsxqVfX+v9MSO2VtWCMXDfCNkZwyu/8rdbqI2pR+5v
- +/jGqu9srpxOMSLhvCPQ5OBHwE8aSELDy1zlzlZYdMSA1BKlZhOXoQ9XN
- 4jXQ4HaMkWB6cB6Wpffo4iFMYfD5zniHL9dGGO0wZ+CVvF8X49dgfezk1 Q==;
-IronPort-SDR: CtOLiZ4OAWEEGb8MVTHFRIYPpM88HUR2C6DAjDuuQgsqjRd6eC6mkn0Bj8FfsbjsAS5R5zsjZF
- M0VUrbLa8izd7pwgjZoeeP+PCNf/madytUuqKjvFqiMrcwr2FVFz4msgD+kSabamjsQtAuEifD
- 6sfYLHicsrb/TWgIdLNvQ/oWssBdrm1Bf6D9RvIfW9qJRtWmJnLF1mo4dppKCQJXzEWws4Pf2p
- sNH1HXUmp8+LBSXp19IxYlAo4PTAYiWeiswAgRV3ufS1EibKaniMa/fWaGdFM7PBhVklA3aZxg
- 8dI=
-X-IronPort-AV: E=Sophos;i="5.75,349,1589212800"; d="scan'208";a="142511932"
+ bh=eJuI/xgJPInWsjTF4jNx4z44v3zWVAvX+59uzEw7dd0=;
+ b=qp67todIUPPlwgUh4DCZNSEDrr0sGbHtBG3BDKEtvIjVGBV9DisQkLEL
+ zVpnSuFOsjyP8vAU1fusPqoOW2GFYqlRkg/gle617WLu3XKqgN8DBJ3yy
+ kmtB1NYF6EFfxtgsR9KFV1eL7CuviUi1breoVOk4C77aCHBavMxpxGO6y
+ JOb6QixN8QpvbymJDVVP+oEP+QErroOYI1re2ILaQV/czHQGVEHdebjbh
+ VTVsbKcTUy+rmLECcEQzhDPtL7hc+SQI1Vb+BI6HBlvIKgsmka/k/RSBZ
+ Jb4ErSTY4ILiuj6KFsS0uq793hqpbpJn+vtsk1CIQM7RQ7JpscgjNI27w w==;
+IronPort-SDR: iZqZXMwfYQTC5BG2VhEjDxC9QVx6uif+r5dv/QH+L9CVkcWLimj7k2+u/qlDWANPOxvW4rUgP/
+ 1ZQPHjFQhiSbnIuRaV7jiJDDkl38oST+e7BauZhpiFyI+wKA6SvU76A6rcEfUP2pd19If0ZFvz
+ 3ydGLLDDDfMxW4FPs6B9N/x2427gRIkOeddePo76L4kKgqE71XZZgUkviRXVhzE7/BkxuZodcf
+ Rpi0Nbnh/9cRL9ipVnl85SZP5mtgZYrD3dvthjv9euNpL2pjQsFvpspcTONgMNXRX7yM/fWvOM
+ RqU=
+X-IronPort-AV: E=Sophos;i="5.75,349,1589212800"; d="scan'208";a="142511934"
 Received: from uls-op-cesaip01.wdc.com (HELO uls-op-cesaep01.wdc.com)
  ([199.255.45.14])
  by ob1.hgst.iphmx.com with ESMTP; 14 Jul 2020 08:42:30 +0800
-IronPort-SDR: ptFCQ5ia9oyuyNBIZrq5Ptz63+bblwHPsJMqoLNW3O5a5RVkwXzMln9KxAiumlntw18sHDkzZX
- pq0o0F+sCuDgybM42IXLEk8uHRyNTvPp8=
+IronPort-SDR: 6pkjxlKrrh4YZ6g9/H/O8U01+saRxHzmSS1a6hlF45CXADDbVMzaYf24uxbjlsKzSeHYULNDt4
+ qHbw6aLPBVlf1O0/HM3yg8IXYRWg5CB5Q=
 Received: from uls-op-cesaip02.wdc.com ([10.248.3.37])
  by uls-op-cesaep01.wdc.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
  13 Jul 2020 17:30:58 -0700
-IronPort-SDR: U3IecjPL5N9SdkrU4Ftc73ZsCSkmqOcJdP75dU6djwTE8yvoD8/O20UJ501qxuz1uO+nCx+GLc
- MXrJgwdjon5g==
+IronPort-SDR: yCsm/9T0NwhCbcBgohvfYMRGk4jhyYZ6kk+nfFeU8lFZL+hrWdK6NfoAUAVJYRidePzbzCD+zi
+ 7AHi/AdYgoRA==
 WDCIronportException: Internal
 Received: from usa002626.ad.shared (HELO risc6-mainframe.hgst.com)
  ([10.86.57.178])
  by uls-op-cesaip02.wdc.com with ESMTP; 13 Jul 2020 17:42:30 -0700
 From: Alistair Francis <alistair.francis@wdc.com>
 To: qemu-devel@nongnu.org
-Subject: [PULL 11/15] target/riscv: fix vill bit index in vtype register
-Date: Mon, 13 Jul 2020 17:32:50 -0700
-Message-Id: <20200714003254.4044149-12-alistair.francis@wdc.com>
+Subject: [PULL 12/15] hw/char: Convert the Ibex UART to use the qdev Clock
+ model
+Date: Mon, 13 Jul 2020 17:32:51 -0700
+Message-Id: <20200714003254.4044149-13-alistair.francis@wdc.com>
 X-Mailer: git-send-email 2.27.0
 In-Reply-To: <20200714003254.4044149-1-alistair.francis@wdc.com>
 References: <20200714003254.4044149-1-alistair.francis@wdc.com>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 Received-SPF: pass client-ip=216.71.153.144;
  envelope-from=prvs=457b4eeb6=alistair.francis@wdc.com;
@@ -87,37 +89,112 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Frank Chang <frank.chang@sifive.com>,
- Alistair Francis <alistair.francis@wdc.com>,
- Richard Henderson <richard.henderson@linaro.org>
+Cc: Alistair Francis <alistair.francis@wdc.com>,
+ =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Frank Chang <frank.chang@sifive.com>
+Conver the Ibex UART to use the recently added qdev-clock functions.
 
-vill bit is at vtype[XLEN-1].
-
-Signed-off-by: Frank Chang <frank.chang@sifive.com>
-Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
-Message-Id: <20200710104920.13550-5-frank.chang@sifive.com>
 Signed-off-by: Alistair Francis <alistair.francis@wdc.com>
+Reviewed-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
+Message-id: b0136fad870a29049959ec161c1217b967d7e19d.1594332223.git.alistair.francis@wdc.com
+Message-Id: <b0136fad870a29049959ec161c1217b967d7e19d.1594332223.git.alistair.francis@wdc.com>
 ---
- target/riscv/cpu.h | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ include/hw/char/ibex_uart.h |  3 +++
+ hw/char/ibex_uart.c         | 30 +++++++++++++++++++++++++++---
+ 2 files changed, 30 insertions(+), 3 deletions(-)
 
-diff --git a/target/riscv/cpu.h b/target/riscv/cpu.h
-index eef20ca6e5..a804a5d0ba 100644
---- a/target/riscv/cpu.h
-+++ b/target/riscv/cpu.h
-@@ -98,7 +98,7 @@ FIELD(VTYPE, VLMUL, 0, 2)
- FIELD(VTYPE, VSEW, 2, 3)
- FIELD(VTYPE, VEDIV, 5, 2)
- FIELD(VTYPE, RESERVED, 7, sizeof(target_ulong) * 8 - 9)
--FIELD(VTYPE, VILL, sizeof(target_ulong) * 8 - 2, 1)
-+FIELD(VTYPE, VILL, sizeof(target_ulong) * 8 - 1, 1)
+diff --git a/include/hw/char/ibex_uart.h b/include/hw/char/ibex_uart.h
+index 2bec772615..6d81051161 100644
+--- a/include/hw/char/ibex_uart.h
++++ b/include/hw/char/ibex_uart.h
+@@ -72,6 +72,7 @@
+ #define IBEX_UART_TIMEOUT_CTRL 0x2c
  
- struct CPURISCVState {
-     target_ulong gpr[32];
+ #define IBEX_UART_TX_FIFO_SIZE 16
++#define IBEX_UART_CLOCK 50000000 /* 50MHz clock */
+ 
+ #define TYPE_IBEX_UART "ibex-uart"
+ #define IBEX_UART(obj) \
+@@ -101,6 +102,8 @@ typedef struct {
+     uint32_t uart_val;
+     uint32_t uart_timeout_ctrl;
+ 
++    Clock *f_clk;
++
+     CharBackend chr;
+     qemu_irq tx_watermark;
+     qemu_irq rx_watermark;
+diff --git a/hw/char/ibex_uart.c b/hw/char/ibex_uart.c
+index 45cd724998..ab6247de89 100644
+--- a/hw/char/ibex_uart.c
++++ b/hw/char/ibex_uart.c
+@@ -28,6 +28,7 @@
+ #include "qemu/osdep.h"
+ #include "hw/char/ibex_uart.h"
+ #include "hw/irq.h"
++#include "hw/qdev-clock.h"
+ #include "hw/qdev-properties.h"
+ #include "migration/vmstate.h"
+ #include "qemu/log.h"
+@@ -203,6 +204,17 @@ static void ibex_uart_reset(DeviceState *dev)
+     ibex_uart_update_irqs(s);
+ }
+ 
++static uint64_t ibex_uart_get_baud(IbexUartState *s)
++{
++    uint64_t baud;
++
++    baud = ((s->uart_ctrl & UART_CTRL_NCO) >> 16);
++    baud *= clock_get_hz(s->f_clk);
++    baud >>= 20;
++
++    return baud;
++}
++
+ static uint64_t ibex_uart_read(void *opaque, hwaddr addr,
+                                        unsigned int size)
+ {
+@@ -329,9 +341,7 @@ static void ibex_uart_write(void *opaque, hwaddr addr,
+                           "%s: UART_CTRL_RXBLVL is not supported\n", __func__);
+         }
+         if (value & UART_CTRL_NCO) {
+-            uint64_t baud = ((value & UART_CTRL_NCO) >> 16);
+-            baud *= 1000;
+-            baud >>= 20;
++            uint64_t baud = ibex_uart_get_baud(s);
+ 
+             s->char_tx_time = (NANOSECONDS_PER_SECOND / baud) * 10;
+         }
+@@ -385,6 +395,16 @@ static void ibex_uart_write(void *opaque, hwaddr addr,
+     }
+ }
+ 
++static void ibex_uart_clk_update(void *opaque)
++{
++    IbexUartState *s = opaque;
++
++    /* recompute uart's speed on clock change */
++    uint64_t baud = ibex_uart_get_baud(s);
++
++    s->char_tx_time = (NANOSECONDS_PER_SECOND / baud) * 10;
++}
++
+ static void fifo_trigger_update(void *opaque)
+ {
+     IbexUartState *s = opaque;
+@@ -444,6 +464,10 @@ static void ibex_uart_init(Object *obj)
+ {
+     IbexUartState *s = IBEX_UART(obj);
+ 
++    s->f_clk = qdev_init_clock_in(DEVICE(obj), "f_clock",
++                                  ibex_uart_clk_update, s);
++    clock_set_hz(s->f_clk, IBEX_UART_CLOCK);
++
+     sysbus_init_irq(SYS_BUS_DEVICE(obj), &s->tx_watermark);
+     sysbus_init_irq(SYS_BUS_DEVICE(obj), &s->rx_watermark);
+     sysbus_init_irq(SYS_BUS_DEVICE(obj), &s->tx_empty);
 -- 
 2.27.0
 
