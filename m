@@ -2,106 +2,82 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A5A0321F3A5
-	for <lists+qemu-devel@lfdr.de>; Tue, 14 Jul 2020 16:15:19 +0200 (CEST)
-Received: from localhost ([::1]:59606 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 59B5C21F37B
+	for <lists+qemu-devel@lfdr.de>; Tue, 14 Jul 2020 16:06:13 +0200 (CEST)
+Received: from localhost ([::1]:42962 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jvLiI-0005kp-Nd
-	for lists+qemu-devel@lfdr.de; Tue, 14 Jul 2020 10:15:18 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:39306)
+	id 1jvLZU-0006p2-3C
+	for lists+qemu-devel@lfdr.de; Tue, 14 Jul 2020 10:06:12 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:36274)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <saipava@xilinx.com>)
- id 1jvLhN-0005HP-O8
- for qemu-devel@nongnu.org; Tue, 14 Jul 2020 10:14:21 -0400
-Received: from mail-bn7nam10on2049.outbound.protection.outlook.com
- ([40.107.92.49]:6140 helo=NAM10-BN7-obe.outbound.protection.outlook.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <saipava@xilinx.com>)
- id 1jvLhK-0005aD-HB
- for qemu-devel@nongnu.org; Tue, 14 Jul 2020 10:14:20 -0400
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=h+Z5XSfZjM5w+MrPQn9NW8ZeqoCdKPT/qNDjBGCEJHIH3N/lcmNVchznH+cbUm67oZ3WhundCoaFfLZmwHxAVsmN8cEtN/NQ0c5J4HZc5Fa/5CRUxINrBijAwLBL7O5U0hZWSoY8Q2y5SUuYm8vpVgW2WkZWYJ4Tu1UK+O6uxsF6ALYDJq5qsFnjGiWENUx+9dQTyRxxFmh2Xax1Y714kRL5oKeHETDblsZWb+DohOAuzdGGcgCkz6q4rvuvCgFKy8ftxjBKUS1dHEhk+vZx/VMETdnlq4db2uSm/JtQOPlFRPJKmUXGd3UJKCvydxXA4uqj3WF85fr2Ol6qUU7hDg==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=5GzzZJVA/qrTz+x/Re6Oml0i4d2Dhtg5ztND6N+j/eI=;
- b=hwcIprL8MR5V/+vki4SILTD1eIChEpUFhk/KlHb/notow+0+2m5TyjdZxTEQOmgrFAyOLK6BqyuQuUASSkWSbOWP4VnmuUQBS6HYOExXBkrVMNLfStkJW5xKkS4mFT3DiECu4gJ/I0HNeYd0y/RjC1RSL34+0stFRig0pKz/pNdUU5hXCaTRDVY7cxx09VvAgBUVRANhMhZwSDoudkcR0z3Hd0hQw2UbfkhHglPDWXLUiEnmcmylHRNYTvkzujq84hiRWvapciBbEEt6qTExWnRhnhps2oA5D2uRjKYAheUb1PUPa3ZFBkUh7Gag8SOFdYTN/PO6mM4pzjK3bXXWAg==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=xilinx.com; dmarc=pass action=none header.from=xilinx.com;
- dkim=pass header.d=xilinx.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=xilinx.onmicrosoft.com; s=selector2-xilinx-onmicrosoft-com;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=5GzzZJVA/qrTz+x/Re6Oml0i4d2Dhtg5ztND6N+j/eI=;
- b=MdGycVQ+XEIXvEUdAJU31UBmcxkdvVY2PUcvkflQAF86oa+9DudYY/NMP+XeT2BJW2mbgUO8uQK6OLcCSsbanhcvwib7IE5/jg5ESlvkyWdHGIMqCJPjevLAtvj4aIR08mtERv2ZSQsYckYcLJABM6F4+8Qs+b1y8QK/42KgLkY=
-Received: from BY5PR02MB6772.namprd02.prod.outlook.com (2603:10b6:a03:206::11)
- by BYAPR02MB4056.namprd02.prod.outlook.com (2603:10b6:a02:fa::20)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3174.22; Tue, 14 Jul
- 2020 13:59:12 +0000
-Received: from BY5PR02MB6772.namprd02.prod.outlook.com
- ([fe80::4477:7134:37a6:c828]) by BY5PR02MB6772.namprd02.prod.outlook.com
- ([fe80::4477:7134:37a6:c828%3]) with mapi id 15.20.3174.025; Tue, 14 Jul 2020
- 13:59:12 +0000
-From: Sai Pavan Boddu <saipava@xilinx.com>
-To: Sai Pavan Boddu <saipava@xilinx.com>, Gerd Hoffmann <kraxel@redhat.com>,
- Peter Maydell <peter.maydell@linaro.org>, Markus Armbruster
- <armbru@redhat.com>
-Subject: RE: [PATCH v3 0/3] Make hcd-xhci independent of pci hooks
-Thread-Topic: [PATCH v3 0/3] Make hcd-xhci independent of pci hooks
-Thread-Index: AQHWVH9z5HwbdGG7uECzkfpq3kp5uKkHJK6A
-Date: Tue, 14 Jul 2020 13:59:12 +0000
-Message-ID: <BY5PR02MB6772B76423A07CFA4B4E5FA9CA610@BY5PR02MB6772.namprd02.prod.outlook.com>
-References: <1594140271-16462-1-git-send-email-sai.pavan.boddu@xilinx.com>
-In-Reply-To: <1594140271-16462-1-git-send-email-sai.pavan.boddu@xilinx.com>
-Accept-Language: en-US
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-Auto-Response-Suppress: DR, RN, NRN, OOF, AutoReply
-X-MS-TNEF-Correlator: 
-authentication-results: xilinx.com; dkim=none (message not signed)
- header.d=none;xilinx.com; dmarc=none action=none header.from=xilinx.com;
-x-originating-ip: [183.83.78.46]
-x-ms-publictraffictype: Email
-x-ms-office365-filtering-ht: Tenant
-x-ms-office365-filtering-correlation-id: 50e89763-2e62-45e5-e0f2-08d827fe16b1
-x-ms-traffictypediagnostic: BYAPR02MB4056:
-x-ms-exchange-transport-forked: True
-x-microsoft-antispam-prvs: <BYAPR02MB4056761FB4E1FB3A7AC3B87FCA610@BYAPR02MB4056.namprd02.prod.outlook.com>
-x-ms-oob-tlc-oobclassifiers: OLM:4303;
-x-ms-exchange-senderadcheck: 1
-x-microsoft-antispam: BCL:0;
-x-microsoft-antispam-message-info: EYaI6HY6Ca6OgneuhkC5chfOxWbCtulgSkOHY/W+tAvlIIB2dvofMleUzk+wf+TY5vhzub9amAfEYx+T6G8tLyMGsWUNVkkBwju5CEm8dbLXI6Eiidg6t6WGLYYNEOOHzcujXeDUhSjv3pAxrA6k9v44i259L3lu62rzp4hJPCLzpU3D8+7GL6VI8M9MKvVKOGeE/cyd5jx9NhBVsWEqzN85F9yD0edYXQxWsccjFfdkKqNkgnf1pLX/dGb1fKry2/Sx6v790nDWJt7i3ZjQszKtZeTBBznapHZrwbqSv9SkXqV5n0cEnzQxrhccTojVbj3jm6KLK2MLiXrqOFzaiA==
-x-forefront-antispam-report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:BY5PR02MB6772.namprd02.prod.outlook.com; PTR:; CAT:NONE;
- SFTY:;
- SFS:(39860400002)(366004)(376002)(396003)(136003)(346002)(71200400001)(8676002)(478600001)(33656002)(26005)(66946007)(110136005)(5660300002)(54906003)(55016002)(76116006)(4326008)(8936002)(9686003)(86362001)(186003)(52536014)(316002)(7416002)(6506007)(64756008)(83380400001)(66556008)(66476007)(66446008)(53546011)(2906002)(7696005);
- DIR:OUT; SFP:1101; 
-x-ms-exchange-antispam-messagedata: 3gnyUlBTbb55n0NJymf60mKq88EH4I7xWJQiAZQZHP1bYLPczUKZQkg0pYbO9rlublRw0AGO7BPS/kY5/yJdj0QZApjkkLXz7lq18SUmKv0RoJM7UJI7bt8qBRQbEsEIhT9wHWjtJprSQA5kvW+fJzzVrbm2rcQdo8FLmDyIccMXBE8fgQLG1LLb3EBnZrnfO9/+UyoRKSDuj6Nz5rXN7c8rOYQyQZCLYpqp6bN/1DkUCUkk05i+DJ3buQhOsdhjKIP2ibYCjuRqUopSsX5OhB0+P++VG3FF9dpondzuHMJOanKXI+3JGdy8k0B9yaVZlDPZknw0iZqbj9N6eway96/pjvq7bQ1B3CR46mDpujXbC3q4X2TbgcOrq+Yr3SDQEWHEB2klwGOVHTW1dEE8zqSTnSaPTFkFsZZBn/Gt7O7L2c55YkxvfyD9J4aRbbKJRz7kMyqLc2V+jQExgDK/qcJ+4+7injqO+9nnnI2S0wo=
-Content-Type: text/plain; charset="iso-8859-1"
-Content-Transfer-Encoding: quoted-printable
+ (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
+ id 1jvLWj-0003Oy-Pt
+ for qemu-devel@nongnu.org; Tue, 14 Jul 2020 10:03:25 -0400
+Received: from us-smtp-2.mimecast.com ([205.139.110.61]:51674
+ helo=us-smtp-delivery-1.mimecast.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
+ id 1jvLWg-0004B3-4q
+ for qemu-devel@nongnu.org; Tue, 14 Jul 2020 10:03:21 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1594735396;
+ h=from:from:reply-to:reply-to:subject:subject:date:date:
+ message-id:message-id:to:to:cc:cc:mime-version:mime-version:
+ content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=VmG9Vpofizzdvasuk5QOuimP8a3UiPQQuHne73g6PIg=;
+ b=iskyRm6nm84Eu/fpQacU3UYJTAzPoPMflkUKCJUuJQgqhogcfic3E96Mt14HWNf2Y+jA6Q
+ Dp3fiFDAEIe95v8rXoB8ZpGTl2mFcSab454olMaaxV6jsQz2SPhCh1Q3Kf+7WO74r1bfUU
+ a0zCKCguv21vPrM17z/tzoPB0BSnKuM=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-392-dtaamCYkO6yss7DuL98-RQ-1; Tue, 14 Jul 2020 10:02:57 -0400
+X-MC-Unique: dtaamCYkO6yss7DuL98-RQ-1
+Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
+ [10.5.11.16])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 33C791085;
+ Tue, 14 Jul 2020 14:02:51 +0000 (UTC)
+Received: from redhat.com (unknown [10.36.110.42])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 0B7FB61477;
+ Tue, 14 Jul 2020 14:02:42 +0000 (UTC)
+Date: Tue, 14 Jul 2020 15:02:39 +0100
+From: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
+To: Kevin Wolf <kwolf@redhat.com>
+Subject: Re: [PATCH 1/1] MAINTAINERS: introduce cve or security quotient field
+Message-ID: <20200714140157.GG25187@redhat.com>
+References: <20200714083631.888605-1-ppandit@redhat.com>
+ <20200714083631.888605-2-ppandit@redhat.com>
+ <CAFEAcA9QWLmi1fGuPW93GXFKV2KCwNs6Xp3U9MU2r4wtendzhg@mail.gmail.com>
+ <20200714095233.GC25187@redhat.com>
+ <20200714060916-mutt-send-email-mst@kernel.org>
+ <CAFEAcA_ca4JN655GW=eGyjrjDmiv0EktaZZ7RMghO5rBwm9tGQ@mail.gmail.com>
+ <20200714064921-mutt-send-email-mst@kernel.org>
+ <20200714133021.GF25187@redhat.com>
+ <20200714134856.GC5120@linux.fritz.box>
 MIME-Version: 1.0
-X-OriginatorOrg: xilinx.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: BY5PR02MB6772.namprd02.prod.outlook.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 50e89763-2e62-45e5-e0f2-08d827fe16b1
-X-MS-Exchange-CrossTenant-originalarrivaltime: 14 Jul 2020 13:59:12.7921 (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: 657af505-d5df-48d0-8300-c31994686c5c
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: 9jv35nGYa9WLsXdsTK2qnDyK1hNV2jN8ff1zOdnQdqfJyOhzlow9BswquCJJwO5kT5QJ1QyGGLZzTPvfAFh2Vw==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: BYAPR02MB4056
-Received-SPF: pass client-ip=40.107.92.49; envelope-from=saipava@xilinx.com;
- helo=NAM10-BN7-obe.outbound.protection.outlook.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/07/14 10:14:17
-X-ACL-Warn: Detected OS   = Windows NT kernel [generic] [fuzzy]
-X-Spam_score_int: -28
-X-Spam_score: -2.9
-X-Spam_bar: --
-X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-1,
- SPF_HELO_PASS=-0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+In-Reply-To: <20200714134856.GC5120@linux.fritz.box>
+User-Agent: Mutt/1.14.5 (2020-06-23)
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: 8bit
+Content-Disposition: inline
+Received-SPF: pass client-ip=205.139.110.61; envelope-from=berrange@redhat.com;
+ helo=us-smtp-delivery-1.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/07/14 03:57:32
+X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
+X-Spam_score_int: -40
+X-Spam_score: -4.1
+X-Spam_bar: ----
+X-Spam_report: (-4.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-1, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001, URIBL_BLOCKED=0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -114,71 +90,87 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Thomas Huth <thuth@redhat.com>, Eduardo Habkost <ehabkost@redhat.com>,
- Vikram Garhwal <fnuv@xilinx.com>,
- "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>,
- Paul Zimmerman <pauldzim@gmail.com>,
- Alistair Francis <alistair.francis@wdc.com>,
- Paolo Bonzini <pbonzini@redhat.com>, Ying Fang <fangying1@huawei.com>,
- =?iso-8859-1?Q?=27Marc-Andr=E9_Lureau=27?= <marcandre.lureau@redhat.com>,
- =?iso-8859-1?Q?=27Philippe_Mathieu-Daud=E9=27?= <philmd@redhat.com>
+Reply-To: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
+Cc: Peter Maydell <peter.maydell@linaro.org>,
+ Stefano Stabellini <sstabellini@kernel.org>,
+ Prasad J Pandit <pjp@fedoraproject.org>, "Michael S. Tsirkin" <mst@redhat.com>,
+ Christian Schoenebeck <qemu_oss@crudebyte.com>,
+ QEMU Developers <qemu-devel@nongnu.org>,
+ Michael Roth <mdroth@linux.vnet.ibm.com>, Greg Kurz <groug@kaod.org>,
+ Stefan Hajnoczi <stefanha@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>,
+ P J P <ppandit@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Hi Gerd,
+On Tue, Jul 14, 2020 at 03:48:56PM +0200, Kevin Wolf wrote:
+> Am 14.07.2020 um 15:30 hat Daniel P. BerrangÃÂ© geschrieben:
+> > On Tue, Jul 14, 2020 at 07:02:59AM -0400, Michael S. Tsirkin wrote:
+> > > On Tue, Jul 14, 2020 at 11:22:28AM +0100, Peter Maydell wrote:
+> > > > On Tue, 14 Jul 2020 at 11:12, Michael S. Tsirkin <mst@redhat.com> wrote:
+> > > > > And for people who want to build QEMU with lots of functionality (like
+> > > > > Fedora does), I think a -security flag would be a useful addition.
+> > > > > We can then tell security researchers "only a high security issue
+> > > > > if it reproduces with -security=high, only a security issue
+> > > > > if it reproduces with -security=low".
+> > > > 
+> > > > I think a -security option would also be useful to users -- it
+> > > > makes it easier for them to check "is this configuration using
+> > > > something that I didn't realize was not intended to be secure".
+> > > > For me, something useful for our users is much more compelling
+> > > > than "this might make security researchers' lives a bit easier".
+> > > > 
+> > > > thanks
+> > > > -- PMM
+> > > 
+> > > True. And I guess downstreams can also force the option to high or set the
+> > > default to high rather easily if they want to.
+> > > 
+> > > So the option would be:
+> > > 
+> > > -security level
+> > > 	Set minimal required security level of QEMU.
+> > > 
+> > > 	high: block use of QEMU functionality which is intended to be secure against
+> > > 		malicious guests.
+> > > 	low: allow use of all QEMU functionality, best effort security
+> > > 		against malicious guests.
+> > > 
+> > > Default would be -security low.
+> > > 
+> > > Does this look reasonable?
+> > 
+> > The challenge I see is that wiring up a runtime flag into every relevant
+> > part of the QEMU codebase is an pretty large amount of work. Every device,
+> > every machine type, every backend type, every generic subsystem will all
+> > need checks for this flag. It is possible, but it isn't going to be quick
+> > or easy, especially with poor error reporting support in many areas.
+> 
+> Would it make more sense as a configure flag that decides whether or not
+> to compile in potentially problematic devices/backends?
 
-Any review on V3. So that I can work on.
+In the perfect world I think we need both because they satisfy different
+scenarios.
+
+There are people who are so paranoid they don't want the insecure code
+compiled at all. They want a binary guaranteed to only have the trustworthy
+code.
+
+Then there are the people who just want protection against making silly
+mistakes in their configuration, but want to be able choose between the
+features at runtime.
+
+For security researchers reporting issues, I think we already do enough
+by documenting what we consider in / out of scope.  In most cases we
+can quickly identify whether the reported flaw is in or out of scope.
+So I wouldn't think too much about what to do for security researchers.
+
+It is more productive to focus on what our real users needs.
 
 Regards,
-Sai Pavan
-
-> -----Original Message-----
-> From: Sai Pavan Boddu <sai.pavan.boddu@xilinx.com>
-> Sent: Tuesday, July 7, 2020 10:14 PM
-> To: Gerd Hoffmann <kraxel@redhat.com>; Peter Maydell
-> <peter.maydell@linaro.org>; Markus Armbruster <armbru@redhat.com>
-> Cc: Thomas Huth <thuth@redhat.com>; Eduardo Habkost
-> <ehabkost@redhat.com>; qemu-devel@nongnu.org; Alistair Francis
-> <alistair.francis@wdc.com>; 'Marc-Andr=E9 Lureau'
-> <marcandre.lureau@redhat.com>; Ying Fang <fangying1@huawei.com>;
-> Paolo Bonzini <pbonzini@redhat.com>; 'Philippe Mathieu-Daud=E9'
-> <philmd@redhat.com>; Vikram Garhwal <fnuv@xilinx.com>; Paul
-> Zimmerman <pauldzim@gmail.com>; Sai Pavan Boddu <saipava@xilinx.com>
-> Subject: [PATCH v3 0/3] Make hcd-xhci independent of pci hooks
->=20
-> Hi
->=20
-> This patch series attempts to make 'hcd-xhci' an independent model so it =
-can
-> be used by both pci and system-bus interface.
->=20
-> Changes for V2:
->     Make XHCIState non-qom
->     Use container_of functions for retriving pci device instance
->     Initialize the AddressSpace pointer in PATCH 1/3 itself Changes for V=
-3:
->     Convert XHCIState to TYPE_DEVICE and register as a child of XHCIPciSt=
-ate.
->=20
->=20
-> Sai Pavan Boddu (3):
->   usb/hcd-xhci: Make dma read/writes hooks pci free
->   usb/hcd-xhci: Move qemu-xhci device to hcd-xhci-pci.c
->   usb/hcd-xhci: Split pci wrapper for xhci base model
->=20
->  hw/usb/Kconfig        |   6 ++
->  hw/usb/Makefile.objs  |   1 +
->  hw/usb/hcd-xhci-nec.c |  18 ++--
->  hw/usb/hcd-xhci-pci.c | 242
-> ++++++++++++++++++++++++++++++++++++++++++++++
->  hw/usb/hcd-xhci-pci.h |  45 +++++++++
->  hw/usb/hcd-xhci.c     | 259 ++++++++++----------------------------------=
-------
->  hw/usb/hcd-xhci.h     |  20 ++--
->  7 files changed, 367 insertions(+), 224 deletions(-)  create mode 100644
-> hw/usb/hcd-xhci-pci.c  create mode 100644 hw/usb/hcd-xhci-pci.h
->=20
-> --
-> 2.7.4
+Daniel
+-- 
+|: https://berrange.com      -o-    https://www.flickr.com/photos/dberrange :|
+|: https://libvirt.org         -o-            https://fstop138.berrange.com :|
+|: https://entangle-photo.org    -o-    https://www.instagram.com/dberrange :|
 
 
