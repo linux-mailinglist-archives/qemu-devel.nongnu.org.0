@@ -2,79 +2,75 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 36D6A21F794
-	for <lists+qemu-devel@lfdr.de>; Tue, 14 Jul 2020 18:44:23 +0200 (CEST)
-Received: from localhost ([::1]:50982 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3446221F798
+	for <lists+qemu-devel@lfdr.de>; Tue, 14 Jul 2020 18:46:04 +0200 (CEST)
+Received: from localhost ([::1]:56714 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jvO2Y-0002mp-8b
-	for lists+qemu-devel@lfdr.de; Tue, 14 Jul 2020 12:44:22 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:43920)
+	id 1jvO4B-0005Hv-91
+	for lists+qemu-devel@lfdr.de; Tue, 14 Jul 2020 12:46:03 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:44082)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <imammedo@redhat.com>)
- id 1jvO0m-00009L-Jr
- for qemu-devel@nongnu.org; Tue, 14 Jul 2020 12:42:32 -0400
-Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:41590
- helo=us-smtp-1.mimecast.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <imammedo@redhat.com>)
- id 1jvO0j-0006k4-5Q
- for qemu-devel@nongnu.org; Tue, 14 Jul 2020 12:42:31 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1594744947;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=sO+8WdmToa8t2I8v+GC/Sl28zxW9u2qcKf7jAenN19Y=;
- b=MGkXtAEPQRn4eR4JpSvKejoK+ja5FAMxKPwTrxACsWMXgnN1zMZL/zJcRlmT44wNiK2n7Z
- REv6QKD9nzQFgD16cOM2TxRIcsyKOHMOGa2EmyC9KGg71WYziUZARgNh7MIVvmrQot6QEz
- DJaBRvzEEdXgsf+n0E/wz4BbW3y68UI=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-408-qTil2E3fMAu6tFOKDoyGhg-1; Tue, 14 Jul 2020 12:41:59 -0400
-X-MC-Unique: qTil2E3fMAu6tFOKDoyGhg-1
-Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
- [10.5.11.13])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 662CB800685;
- Tue, 14 Jul 2020 16:41:58 +0000 (UTC)
-Received: from localhost (unknown [10.40.208.62])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 932976FDD1;
- Tue, 14 Jul 2020 16:41:56 +0000 (UTC)
-Date: Tue, 14 Jul 2020 18:41:54 +0200
-From: Igor Mammedov <imammedo@redhat.com>
-To: Babu Moger <babu.moger@amd.com>
-Subject: Re: [PATCH v2 1/3] hw/i386: Initialize topo_ids from
- CpuInstanceProperties
-Message-ID: <20200714184154.12c686bf@redhat.com>
-In-Reply-To: <4003b476-afdb-74a1-4f9f-1387aae6c4e8@amd.com>
-References: <159362436285.36204.986406297373871949.stgit@naples-babu.amd.com>
- <159362466108.36204.3751851750959980962.stgit@naples-babu.amd.com>
- <20200713110822.5495e1c6@redhat.com>
- <78809d9f-a491-8c99-3f35-7f012c7d75bf@amd.com>
- <20200713181740.16a357a6@redhat.com>
- <47dc6238-bb71-d679-f58a-f574eb36d572@amd.com>
- <20200713193221.27674630@redhat.com>
- <4003b476-afdb-74a1-4f9f-1387aae6c4e8@amd.com>
-MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=205.139.110.120; envelope-from=imammedo@redhat.com;
- helo=us-smtp-1.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/07/14 01:42:04
-X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
-X-Spam_score_int: -40
-X-Spam_score: -4.1
-X-Spam_bar: ----
-X-Spam_report: (-4.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-1, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001, URIBL_BLOCKED=0.001 autolearn=ham autolearn_force=no
+ (Exim 4.90_1) (envelope-from <ahmedkhaledkaraman@gmail.com>)
+ id 1jvO1D-0000vf-Qy
+ for qemu-devel@nongnu.org; Tue, 14 Jul 2020 12:42:59 -0400
+Received: from mail-wr1-x441.google.com ([2a00:1450:4864:20::441]:45627)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <ahmedkhaledkaraman@gmail.com>)
+ id 1jvO1B-0006nN-Og
+ for qemu-devel@nongnu.org; Tue, 14 Jul 2020 12:42:59 -0400
+Received: by mail-wr1-x441.google.com with SMTP id s10so22943775wrw.12
+ for <qemu-devel@nongnu.org>; Tue, 14 Jul 2020 09:42:57 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=from:to:cc:subject:date:message-id:in-reply-to:references;
+ bh=lKksvSCiqLKHcqzqty/UoqhoSvwtg2ek2FI9kzKQiBs=;
+ b=mx3UfNHNZQCALD+Q+bHNzksi6GaptMlMStkat7j3Js4FEAhGIRCiEzJbAB0+7BMwPT
+ 4XiOcoASZEggyV3O7b4aZr6bsVzvzFWbFwHoFh8VY9lrby0CR9rud9YgXifDcYk/uoup
+ 2BXS/Zmntb0L3LmJYwXWQBJ8+UUeLeXs360c9m5LgDakuzBEgeVUzRRO0btrmJMHXgfn
+ Xv4WnLo7g2DsiaAcXbA8P2uJongqU9TNu1oAMy/98bNsAI2V894KcbgU82NZ6x63FJ08
+ pznVx9jhEK76tMF67y5aDwju971Z/4Fo7JiLKvKxQV9rHD/i4hs19SgIFht2iiEqqU6b
+ f3OA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+ :references;
+ bh=lKksvSCiqLKHcqzqty/UoqhoSvwtg2ek2FI9kzKQiBs=;
+ b=T8BwMFOJE9RS/hf11lhBhyX6FOinTXg1s+vbu2yEitjAei5sKgIxKi+WaZ3AHGuw5W
+ sRmzlRaXHmFVKHVvv3hVp06Gp1nn2ArCy0sUo8nrf7nv1hbCkPI6v5K7wasbBzz6IyNr
+ UzO6uMNqAHOHKk8UpdQNhHANXOLKwbrUL57JhYgafaP0LYNSsiuK7t5QhA86Q38MGN74
+ dYrbtrGzJJ1vmIU915yoHOZtqPcpV89ldCP+HZMyidwJ36O3SoZLFvQwcxdfWFR6txum
+ XEpWjYxJfXaZZuRewpJH8+CAwAz12aGpOEXlSHECJ9W0JVEqY4BGZChTQM3nqdgrOpCc
+ 14wg==
+X-Gm-Message-State: AOAM531G0kUVjKIRf1psx3zAdC9w/SaNlkyDp2yK9DG0BakVQfUf1TNB
+ JxO8cenDpHx9FwyGA6uapVQ7JtUe
+X-Google-Smtp-Source: ABdhPJyAbplOI2gFGZyNcKGlFFghEeCDLuhgGmNQ5OEN8oltKWT7O2FJ+XZN3z8YzEOdua8/oIIktg==
+X-Received: by 2002:a5d:4bc4:: with SMTP id l4mr6494531wrt.97.1594744975583;
+ Tue, 14 Jul 2020 09:42:55 -0700 (PDT)
+Received: from AK-L.domain.name ([41.40.245.220])
+ by smtp.gmail.com with ESMTPSA id l1sm30779380wrb.12.2020.07.14.09.42.28
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Tue, 14 Jul 2020 09:42:55 -0700 (PDT)
+From: Ahmed Karaman <ahmedkhaledkaraman@gmail.com>
+To: qemu-devel@nongnu.org, aleksandar.qemu.devel@gmail.com, philmd@redhat.com,
+ alex.bennee@linaro.org, eblake@redhat.com, ldoktor@redhat.com,
+ rth@twiddle.net, ehabkost@redhat.com, crosa@redhat.com
+Subject: [PATCH 1/2] scripts/performance: Add list_fn_callees.py script
+Date: Tue, 14 Jul 2020 18:41:55 +0200
+Message-Id: <20200714164156.9353-2-ahmedkhaledkaraman@gmail.com>
+X-Mailer: git-send-email 2.17.1
+In-Reply-To: <20200714164156.9353-1-ahmedkhaledkaraman@gmail.com>
+References: <20200714164156.9353-1-ahmedkhaledkaraman@gmail.com>
+Received-SPF: pass client-ip=2a00:1450:4864:20::441;
+ envelope-from=ahmedkhaledkaraman@gmail.com; helo=mail-wr1-x441.google.com
+X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
+ That's all we know.
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ URIBL_BLOCKED=0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -87,351 +83,281 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: "pbonzini@redhat.com" <pbonzini@redhat.com>,
- "rth@twiddle.net" <rth@twiddle.net>,
- "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>,
- "ehabkost@redhat.com" <ehabkost@redhat.com>
+Cc: Ahmed Karaman <ahmedkhaledkaraman@gmail.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Mon, 13 Jul 2020 14:30:29 -0500
-Babu Moger <babu.moger@amd.com> wrote:
+Python script that prints the callees of a given list of QEMU
+functions.
 
-> > -----Original Message-----
-> > From: Igor Mammedov <imammedo@redhat.com>
-> > Sent: Monday, July 13, 2020 12:32 PM
-> > To: Moger, Babu <Babu.Moger@amd.com>
-> > Cc: pbonzini@redhat.com; rth@twiddle.net; ehabkost@redhat.com; qemu-
-> > devel@nongnu.org
-> > Subject: Re: [PATCH v2 1/3] hw/i386: Initialize topo_ids from
-> > CpuInstanceProperties
-> > 
-> > On Mon, 13 Jul 2020 11:43:33 -0500
-> > Babu Moger <babu.moger@amd.com> wrote:
-> >   
-> > > On 7/13/20 11:17 AM, Igor Mammedov wrote:  
-> > > > On Mon, 13 Jul 2020 10:02:22 -0500
-> > > > Babu Moger <babu.moger@amd.com> wrote:
-> > > >  
-> > > >>> -----Original Message-----
-> > > >>> From: Igor Mammedov <imammedo@redhat.com>
-> > > >>> Sent: Monday, July 13, 2020 4:08 AM
-> > > >>> To: Moger, Babu <Babu.Moger@amd.com>
-> > > >>> Cc: pbonzini@redhat.com; rth@twiddle.net; ehabkost@redhat.com;
-> > > >>> qemu- devel@nongnu.org
-> > > >>> Subject: Re: [PATCH v2 1/3] hw/i386: Initialize topo_ids from
-> > > >>> CpuInstanceProperties  
-> > > > [...]  
-> > > >>>> +
-> > > >>>> +/*
-> > > >>>> + * Initialize topo_ids from CpuInstanceProperties
-> > > >>>> + * node_id in CpuInstanceProperties(or in CPU device) is a sequential
-> > > >>>> + * number, but while building the topology  
-> > > >>>  
-> > > >>>> we need to separate it for
-> > > >>>> + * each socket(mod nodes_per_pkg).  
-> > > >>> could you clarify a bit more on why this is necessary?  
-> > > >>
-> > > >> If you have two sockets and 4 numa nodes, node_id in
-> > > >> CpuInstanceProperties will be number sequentially as 0, 1, 2, 3.
-> > > >> But in EPYC topology, it will be  0, 1, 0, 1( Basically mod % number of nodes  
-> > per socket).  
-> > > >
-> > > > I'm confused, let's suppose we have 2 EPYC sockets with 2 nodes per
-> > > > socket so APIC id woulbe be composed like:
-> > > >
-> > > >  1st socket
-> > > >    pkg_id(0) | node_id(0)
-> > > >    pkg_id(0) | node_id(1)
-> > > >
-> > > >  2nd socket
-> > > >    pkg_id(1) | node_id(0)
-> > > >    pkg_id(1) | node_id(1)
-> > > >
-> > > > if that's the case, then EPYC's node_id here doesn't look like a
-> > > > NUMA node in the sense it's usually used (above config would have 4
-> > > > different memory controllers => 4 conventional NUMA nodes).  
-> > >
-> > > EPIC model uses combination of socket id and node id to identify the
-> > > numa nodes. So, it internally uses all the information.  
-> > 
-> > well with above values, EPYC's node_id doesn't look like it's specifying a
-> > machine numa node, but rather a node index within single socket. In which case,
-> > it doesn't make much sense calling it NUMA node_id, it's rather some index
-> > within a socket. (it starts looking like terminology is all mixed up)
-> > 
-> > If you have access to a milti-socket EPYC machine, can you dump and post here
-> > its apic ids, pls?  
-> 
-> Here is the output from my EPYC machine with 2 sockets and totally 8
-> nodes(SMT disabled). The cpus 0-31 are in socket 0 and  cpus 32-63 in
-> socket 1.
-> 
-> # lscpu
-> Architecture:        x86_64
-> CPU op-mode(s):      32-bit, 64-bit
-> Byte Order:          Little Endian
-> CPU(s):              64
-> On-line CPU(s) list: 0-63
-> Thread(s) per core:  1
-> Core(s) per socket:  32
-> Socket(s):           2
-> NUMA node(s):        8
-> Vendor ID:           AuthenticAMD
-> CPU family:          23
-> Model:               1
-> Model name:          AMD Eng Sample: 1S1901A4VIHF5_30/19_N
-> Stepping:            2
-> CPU MHz:             2379.233
-> CPU max MHz:         1900.0000
-> CPU min MHz:         1200.0000
-> BogoMIPS:            3792.81
-> Virtualization:      AMD-V
-> L1d cache:           32K
-> L1i cache:           64K
-> L2 cache:            512K
-> L3 cache:            8192K
-> NUMA node0 CPU(s):   0-7
-> NUMA node1 CPU(s):   8-15
-> NUMA node2 CPU(s):   16-23
-> NUMA node3 CPU(s):   24-31
-> NUMA node4 CPU(s):   32-39
-> NUMA node5 CPU(s):   40-47
-> NUMA node6 CPU(s):   48-55
-> NUMA node7 CPU(s):   56-63
-> 
-> Here is the output of #cpuid  -l 0x8000001e  -r
-> 
-> You may want to refer
-> https://www.amd.com/system/files/TechDocs/54945_3.03_ppr_ZP_B2_pub.zip
-> (section 2.1.12.2.1.3 ApicId Enumeration Requirements).
-> Note that this is a general guideline. We tried to generalize in qemu as
-> much as possible. It is bit complex.
-Thanks, I'll look into it.
-Can you also dump SRAT table from that machine, please?
-I'd like to see CPUs relation to NUMA nodes described in SRAT.
+Syntax:
+list_fn_callees.py [-h] -f FUNCTION [FUNCTION ...] -- \
+               <qemu executable> [<qemu executable options>] \
+               <target executable> [<target executable options>]
 
-> 
-> CPU 0:
->    0x8000001e 0x00: eax=0x00000000 ebx=0x00000100 ecx=0x00000300
-> edx=0x00000000
-> CPU 1:
->    0x8000001e 0x00: eax=0x00000002 ebx=0x00000101 ecx=0x00000300
-> edx=0x00000000
-> CPU 2:
->    0x8000001e 0x00: eax=0x00000004 ebx=0x00000102 ecx=0x00000300
-> edx=0x00000000
-> CPU 3:
->    0x8000001e 0x00: eax=0x00000006 ebx=0x00000103 ecx=0x00000300
-> edx=0x00000000
-> CPU 4:
->    0x8000001e 0x00: eax=0x00000008 ebx=0x00000104 ecx=0x00000300
-> edx=0x00000000
-> CPU 5:
->    0x8000001e 0x00: eax=0x0000000a ebx=0x00000105 ecx=0x00000300
-> edx=0x00000000
-> CPU 6:
->    0x8000001e 0x00: eax=0x0000000c ebx=0x00000106 ecx=0x00000300
-> edx=0x00000000
-> CPU 7:
->    0x8000001e 0x00: eax=0x0000000e ebx=0x00000107 ecx=0x00000300
-> edx=0x00000000
-> CPU 8:
->    0x8000001e 0x00: eax=0x00000010 ebx=0x00000108 ecx=0x00000301
-> edx=0x00000000
-> CPU 9:
->    0x8000001e 0x00: eax=0x00000012 ebx=0x00000109 ecx=0x00000301
-> edx=0x00000000
-> CPU 10:
->    0x8000001e 0x00: eax=0x00000014 ebx=0x0000010a ecx=0x00000301
-> edx=0x00000000
-> CPU 11:
->    0x8000001e 0x00: eax=0x00000016 ebx=0x0000010b ecx=0x00000301
-> edx=0x00000000
-> CPU 12:
->    0x8000001e 0x00: eax=0x00000018 ebx=0x0000010c ecx=0x00000301
-> edx=0x00000000
-> CPU 13:
->    0x8000001e 0x00: eax=0x0000001a ebx=0x0000010d ecx=0x00000301
-> edx=0x00000000
-> CPU 14:
->    0x8000001e 0x00: eax=0x0000001c ebx=0x0000010e ecx=0x00000301
-> edx=0x00000000
-> CPU 15:
->    0x8000001e 0x00: eax=0x0000001e ebx=0x0000010f ecx=0x00000301
-> edx=0x00000000
-> CPU 16:
->    0x8000001e 0x00: eax=0x00000020 ebx=0x00000110 ecx=0x00000302
-> edx=0x00000000
-> CPU 17:
->    0x8000001e 0x00: eax=0x00000022 ebx=0x00000111 ecx=0x00000302
-> edx=0x00000000
-> CPU 18:
->    0x8000001e 0x00: eax=0x00000024 ebx=0x00000112 ecx=0x00000302
-> edx=0x00000000
-> CPU 19:
->    0x8000001e 0x00: eax=0x00000026 ebx=0x00000113 ecx=0x00000302
-> edx=0x00000000
-> CPU 20:
->    0x8000001e 0x00: eax=0x00000028 ebx=0x00000114 ecx=0x00000302
-> edx=0x00000000
-> CPU 21:
->    0x8000001e 0x00: eax=0x0000002a ebx=0x00000115 ecx=0x00000302
-> edx=0x00000000
-> CPU 22:
->    0x8000001e 0x00: eax=0x0000002c ebx=0x00000116 ecx=0x00000302
-> edx=0x00000000
-> CPU 23:
->    0x8000001e 0x00: eax=0x0000002e ebx=0x00000117 ecx=0x00000302
-> edx=0x00000000
-> CPU 24:
->    0x8000001e 0x00: eax=0x00000030 ebx=0x00000118 ecx=0x00000303
-> edx=0x00000000
-> CPU 25:
->    0x8000001e 0x00: eax=0x00000032 ebx=0x00000119 ecx=0x00000303
-> edx=0x00000000
-> CPU 26:
->    0x8000001e 0x00: eax=0x00000034 ebx=0x0000011a ecx=0x00000303
-> edx=0x00000000
-> CPU 27:
->    0x8000001e 0x00: eax=0x00000036 ebx=0x0000011b ecx=0x00000303
-> edx=0x00000000
-> CPU 28:
->    0x8000001e 0x00: eax=0x00000038 ebx=0x0000011c ecx=0x00000303
-> edx=0x00000000
-> CPU 29:
->    0x8000001e 0x00: eax=0x0000003a ebx=0x0000011d ecx=0x00000303
-> edx=0x00000000
-> CPU 30:
->    0x8000001e 0x00: eax=0x0000003c ebx=0x0000011e ecx=0x00000303
-> edx=0x00000000
-> CPU 31:
->    0x8000001e 0x00: eax=0x0000003e ebx=0x0000011f ecx=0x00000303
-> edx=0x00000000
-> CPU 32:
->    0x8000001e 0x00: eax=0x00000040 ebx=0x00000100 ecx=0x00000304
-> edx=0x00000000
-> CPU 33:
->    0x8000001e 0x00: eax=0x00000042 ebx=0x00000101 ecx=0x00000304
-> edx=0x00000000
-> CPU 34:
->    0x8000001e 0x00: eax=0x00000044 ebx=0x00000102 ecx=0x00000304
-> edx=0x00000000
-> CPU 35:
->    0x8000001e 0x00: eax=0x00000046 ebx=0x00000103 ecx=0x00000304
-> edx=0x00000000
-> CPU 36:
->    0x8000001e 0x00: eax=0x00000048 ebx=0x00000104 ecx=0x00000304
-> edx=0x00000000
-> CPU 37:
->    0x8000001e 0x00: eax=0x0000004a ebx=0x00000105 ecx=0x00000304
-> edx=0x00000000
-> CPU 38:
->    0x8000001e 0x00: eax=0x0000004c ebx=0x00000106 ecx=0x00000304
-> edx=0x00000000
-> CPU 39:
->    0x8000001e 0x00: eax=0x0000004e ebx=0x00000107 ecx=0x00000304
-> edx=0x00000000
-> CPU 40:
->    0x8000001e 0x00: eax=0x00000050 ebx=0x00000108 ecx=0x00000305
-> edx=0x00000000
-> CPU 41:
->    0x8000001e 0x00: eax=0x00000052 ebx=0x00000109 ecx=0x00000305
-> edx=0x00000000
-> CPU 42:
->    0x8000001e 0x00: eax=0x00000054 ebx=0x0000010a ecx=0x00000305
-> edx=0x00000000
-> CPU 43:
->    0x8000001e 0x00: eax=0x00000056 ebx=0x0000010b ecx=0x00000305
-> edx=0x00000000
-> CPU 44:
->    0x8000001e 0x00: eax=0x00000058 ebx=0x0000010c ecx=0x00000305
-> edx=0x00000000
-> CPU 45:
->    0x8000001e 0x00: eax=0x0000005a ebx=0x0000010d ecx=0x00000305
-> edx=0x00000000
-> CPU 46:
->    0x8000001e 0x00: eax=0x0000005c ebx=0x0000010e ecx=0x00000305
-> edx=0x00000000
-> CPU 47:
->    0x8000001e 0x00: eax=0x0000005e ebx=0x0000010f ecx=0x00000305
-> edx=0x00000000
-> CPU 48:
->    0x8000001e 0x00: eax=0x00000060 ebx=0x00000110 ecx=0x00000306
-> edx=0x00000000
-> 
-> CPU 49:
->    0x8000001e 0x00: eax=0x00000062 ebx=0x00000111 ecx=0x00000306
-> edx=0x00000000
-> CPU 50:
->    0x8000001e 0x00: eax=0x00000064 ebx=0x00000112 ecx=0x00000306
-> edx=0x00000000
-> CPU 51:
->    0x8000001e 0x00: eax=0x00000066 ebx=0x00000113 ecx=0x00000306
-> edx=0x00000000
-> CPU 52:
->    0x8000001e 0x00: eax=0x00000068 ebx=0x00000114 ecx=0x00000306
-> edx=0x00000000
-> CPU 53:
->    0x8000001e 0x00: eax=0x0000006a ebx=0x00000115 ecx=0x00000306
-> edx=0x00000000
-> CPU 54:
->    0x8000001e 0x00: eax=0x0000006c ebx=0x00000116 ecx=0x00000306
-> edx=0x00000000
-> CPU 55:
->    0x8000001e 0x00: eax=0x0000006e ebx=0x00000117 ecx=0x00000306
-> edx=0x00000000
-> CPU 56:
->    0x8000001e 0x00: eax=0x00000070 ebx=0x00000118 ecx=0x00000307
-> edx=0x00000000
-> CPU 57:
->    0x8000001e 0x00: eax=0x00000072 ebx=0x00000119 ecx=0x00000307
-> edx=0x00000000
-> CPU 58:
->    0x8000001e 0x00: eax=0x00000074 ebx=0x0000011a ecx=0x00000307
-> edx=0x00000000
-> CPU 59:
->    0x8000001e 0x00: eax=0x00000076 ebx=0x0000011b ecx=0x00000307
-> edx=0x00000000
-> CPU 60:
->    0x8000001e 0x00: eax=0x00000078 ebx=0x0000011c ecx=0x00000307
-> edx=0x00000000
-> CPU 61:
->    0x8000001e 0x00: eax=0x0000007a ebx=0x0000011d ecx=0x00000307
-> edx=0x00000000
-> CPU 62:
->    0x8000001e 0x00: eax=0x0000007c ebx=0x0000011e ecx=0x00000307
-> edx=0x00000000
-> CPU 63:
->    0x8000001e 0x00: eax=0x0000007e ebx=0x0000011f ecx=0x00000307
-> edx=0x00000000
-> 
-> >   
-> > >  
-> > > >
-> > > > I wonder if linux guest actually uses node_id encoded in apic id for
-> > > > configuring/checking numa structures, or it just uses whatever ACPI
-> > > > SRAT table provided.
-> > > >  
-> > > >>>> + */
-> > > >>>> +static inline void x86_init_topo_ids(X86CPUTopoInfo *topo_info,
-> > > >>>> +                                     CpuInstanceProperties props,
-> > > >>>> +                                     X86CPUTopoIDs *topo_ids) {
-> > > >>>> +    topo_ids->smt_id = props.has_thread_id ? props.thread_id : 0;
-> > > >>>> +    topo_ids->core_id = props.has_core_id ? props.core_id : 0;
-> > > >>>> +    topo_ids->die_id = props.has_die_id ? props.die_id : 0;
-> > > >>>> +    topo_ids->node_id = props.has_node_id ?
-> > > >>>> +                        props.node_id % MAX(topo_info->nodes_per_pkg, 1) : 0;
-> > > >>>> +    topo_ids->pkg_id = props.has_socket_id ? props.socket_id :
-> > > >>>> +0; }
-> > > >>>>  /*
-> > > >>>>   * Make APIC ID for the CPU 'cpu_index'
-> > > >>>>   *
-> > > >>>>  
-> > > >>  
-> > > >  
-> > >  
-> 
-> 
+[-h] - Print the script arguments help message.
+-f FUNCTION [FUNCTION ...] - List of function names
+
+Example of usage:
+list_fn_callees.py -f helper_float_sub_d helper_float_mul_d -- \
+                      qemu-mips coulomb_double-mips -n10
+
+Example output:
+Total number of instructions: 108,952,851
+
+Callees of helper_float_sub_d:
+
+No. Instructions Percentage  Calls Ins/Call Function Name Source File
+--- ------------ ---------- ------ -------- ------------- ---------------
+  1      153,160     0.141%  1,305     117  float64_sub   <qemu>/fpu/softfloat.c
+
+Callees of helper_float_mul_d:
+
+No. Instructions Percentage  Calls Ins/Call Function Name Source File
+--- ------------ ---------- ------ -------- ------------- ---------------
+  1      131,137     0.120%  1,014      129 float64_mul   <qemu>/fpu/softfloat.c
+
+Signed-off-by: Ahmed Karaman <ahmedkhaledkaraman@gmail.com>
+---
+ scripts/performance/list_fn_callees.py | 228 +++++++++++++++++++++++++
+ 1 file changed, 228 insertions(+)
+ create mode 100755 scripts/performance/list_fn_callees.py
+
+diff --git a/scripts/performance/list_fn_callees.py b/scripts/performance/list_fn_callees.py
+new file mode 100755
+index 0000000000..f0ec5c8e81
+--- /dev/null
++++ b/scripts/performance/list_fn_callees.py
+@@ -0,0 +1,228 @@
++#!/usr/bin/env python3
++
++#  Print the callees of a given list of QEMU functions.
++#
++#  Syntax:
++#  list_fn_callees.py [-h] -f FUNCTION [FUNCTION ...] -- \
++#                 <qemu executable> [<qemu executable options>] \
++#                 <target executable> [<target executable options>]
++#
++#  [-h] - Print the script arguments help message.
++#  -f FUNCTION [FUNCTION ...] - List of function names
++#
++#  Example of usage:
++#  list_fn_callees.py -f helper_float_sub_d helper_float_mul_d -- \
++#                        qemu-mips coulomb_double-mips
++#
++#  This file is a part of the project "TCG Continuous Benchmarking".
++#
++#  Copyright (C) 2020  Ahmed Karaman <ahmedkhaledkaraman@gmail.com>
++#  Copyright (C) 2020  Aleksandar Markovic <aleksandar.qemu.devel@gmail.com>
++#
++#  This program is free software: you can redistribute it and/or modify
++#  it under the terms of the GNU General Public License as published by
++#  the Free Software Foundation, either version 2 of the License, or
++#  (at your option) any later version.
++#
++#  This program is distributed in the hope that it will be useful,
++#  but WITHOUT ANY WARRANTY; without even the implied warranty of
++#  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
++#  GNU General Public License for more details.
++#
++#  You should have received a copy of the GNU General Public License
++#  along with this program. If not, see <https://www.gnu.org/licenses/>.
++
++import argparse
++import os
++import subprocess
++import sys
++import tempfile
++
++
++def find_function_lines(function_name, callgrind_data):
++    """
++    Search for the line with the function name in the
++    callgrind_annotate output when ran using --tre=calling.
++    All the function callees should be listed after that line.
++
++    Parameters:
++    function_name (string): The desired function name to print its callees
++    callgrind_data (list): callgrind_annotate output
++
++    Returns:
++    (list): List of function line numbers
++    """
++    lines = []
++    for i in range(len(callgrind_data)):
++        split_line = callgrind_data[i].split()
++        if len(split_line) > 2 and \
++                split_line[1] == "*" and \
++                split_line[2].split(":")[-1] == function_name:
++            # Function might be in the callgrind_annotate output more than
++            # once, so don't break after finding an instance
++            if callgrind_data[i + 1] != "\n":
++                # Only append the line number if the found instance has
++                # callees
++                lines.append(i)
++    return lines
++
++
++def get_function_calles(function_lines, callgrind_data):
++    """
++    Get all callees data for a function given its list of line numbers in
++    callgrind_annotate output.
++
++    Parameters:
++    function_lines (list): Line numbers of the function to get its callees
++    callgrind_data (list): callgrind_annotate output
++
++    Returns:
++    (list):[[number_of_instructions(int), callee_name(str),
++             number_of_calls(int), source_file(str)]]
++    """
++    callees = []
++    for function_line in function_lines:
++        next_callee = function_line + 1
++        while (callgrind_data[next_callee] != "\n"):
++            split_line = callgrind_data[next_callee].split()
++            number_of_instructions = int(split_line[0].replace(",", ""))
++            source_file = split_line[2].split(":")[0]
++            callee_name = split_line[2].split(":")[1]
++            number_of_calls = int(split_line[3][1:-2])
++            callees.append([number_of_instructions, callee_name,
++                            number_of_calls, source_file])
++            next_callee += 1
++    return sorted(callees, reverse=True)
++
++
++def main():
++    # Parse the command line arguments
++    parser = argparse.ArgumentParser(
++        usage="list_fn_callees.py [-h] -f FUNCTION [FUNCTION ...] -- "
++        "<qemu executable> [<qemu executable options>] "
++        "<target executable> [<target executable options>]")
++
++    parser.add_argument("-f", dest="function", type=str,
++                        nargs="+", required=True,
++                        help="list of function names to print their callees")
++
++    parser.add_argument("command", type=str, nargs="+", help=argparse.SUPPRESS)
++
++    args = parser.parse_args()
++
++    # Extract the needed variables from the args
++    command = args.command
++    function_names = args.function
++
++    # Insure that valgrind is installed
++    check_valgrind = subprocess.run(
++        ["which", "valgrind"], stdout=subprocess.DEVNULL)
++    if check_valgrind.returncode:
++        sys.exit("Please install valgrind before running the script.")
++
++    # Save all intermediate files in a temporary directory
++    with tempfile.TemporaryDirectory() as tmpdirname:
++        # callgrind output file path
++        data_path = os.path.join(tmpdirname, "callgrind.data")
++        # callgrind_annotate output file path
++        annotate_out_path = os.path.join(tmpdirname, "callgrind_annotate.out")
++
++        # Run callgrind
++        callgrind = subprocess.run((["valgrind",
++                                     "--tool=callgrind",
++                                     "--callgrind-out-file=" + data_path]
++                                    + command),
++                                   stdout=subprocess.DEVNULL,
++                                   stderr=subprocess.PIPE)
++        if callgrind.returncode:
++            sys.exit(callgrind.stderr.decode("utf-8"))
++
++        # Save callgrind_annotate output
++        with open(annotate_out_path, "w") as output:
++            callgrind_annotate = subprocess.run(
++                ["callgrind_annotate", data_path,
++                    "--threshold=100", "--tree=calling"],
++                stdout=output,
++                stderr=subprocess.PIPE)
++            if callgrind_annotate.returncode:
++                sys.exit(callgrind_annotate.stderr.decode("utf-8"))
++
++        # Read the callgrind_annotate output to callgrind_data[]
++        callgrind_data = []
++        with open(annotate_out_path, "r") as data:
++            callgrind_data = data.readlines()
++
++        # Line number with the total number of instructions
++        total_instructions_line_number = 20
++        # Get the total number of instructions
++        total_instructions_line_data = \
++            callgrind_data[total_instructions_line_number]
++        total_instructions = total_instructions_line_data.split()[0]
++
++        print("Total number of instructions: {}\n".format(total_instructions))
++
++        # Remove commas and convert to int
++        total_instructions = int(total_instructions.replace(",", ""))
++
++        for function_name in function_names:
++            # Line numbers with the desired function
++            function_lines = find_function_lines(function_name, callgrind_data)
++
++            if len(function_lines) == 0:
++                print("Couldn't locate function: {}.\n".format(
++                    function_name))
++                continue
++
++            # Get function callees
++            function_callees = get_function_calles(
++                function_lines, callgrind_data)
++
++            print("Callees of {}:\n".format(function_name))
++
++            # Print table header
++            print("{:>4}  {:>15}  {:>10}  {:>15}  {:>10}  {:<25}  {}".
++                  format(
++                      "No.",
++                      "Instructions",
++                      "Percentage",
++                      "Calls",
++                      "Ins/Call",
++                      "Function Name",
++                      "Source File")
++                  )
++
++            print("{:>4}  {:>15}  {:>10}  {:>15}  {:>10}  {:<25}  {}".
++                  format(
++                      "-" * 4,
++                      "-" * 15,
++                      "-" * 10,
++                      "-" * 15,
++                      "-" * 10,
++                      "-" * 25,
++                      "-" * 30)
++                  )
++
++            for (index, callee) in enumerate(function_callees, start=1):
++                instructions = callee[0]
++                percentage = (callee[0] / total_instructions) * 100
++                calls = callee[2]
++                instruction_per_call = int(callee[0] / callee[2])
++                function_name = callee[1]
++                source_file = callee[3]
++                # Print extracted data
++                print("{:>4}  {:>15}  {:>9.3f}%  {:>15}  {:>10}  {:<25}  {}".
++                      format(
++                          index,
++                          format(instructions, ","),
++                          round(percentage, 3),
++                          format(calls, ","),
++                          format(instruction_per_call, ","),
++                          function_name,
++                          source_file)
++                      )
++
++            print("\n")
++
++
++if __name__ == "__main__":
++    main()
+-- 
+2.17.1
 
 
