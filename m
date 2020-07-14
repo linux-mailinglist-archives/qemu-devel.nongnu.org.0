@@ -2,60 +2,58 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 31B4421F6AE
-	for <lists+qemu-devel@lfdr.de>; Tue, 14 Jul 2020 18:08:18 +0200 (CEST)
-Received: from localhost ([::1]:48456 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8DB7B21F6A0
+	for <lists+qemu-devel@lfdr.de>; Tue, 14 Jul 2020 18:04:08 +0200 (CEST)
+Received: from localhost ([::1]:33636 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jvNTc-0008Kz-Vu
-	for lists+qemu-devel@lfdr.de; Tue, 14 Jul 2020 12:08:17 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:54212)
+	id 1jvNPb-0001zh-0o
+	for lists+qemu-devel@lfdr.de; Tue, 14 Jul 2020 12:04:07 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:54248)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1jvNNk-0000KT-ND
- for qemu-devel@nongnu.org; Tue, 14 Jul 2020 12:02:14 -0400
-Received: from us-smtp-2.mimecast.com ([205.139.110.61]:31224
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1jvNNn-0000MU-J5
+ for qemu-devel@nongnu.org; Tue, 14 Jul 2020 12:02:15 -0400
+Received: from us-smtp-2.mimecast.com ([205.139.110.61]:59667
  helo=us-smtp-delivery-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1jvNNh-00080i-02
- for qemu-devel@nongnu.org; Tue, 14 Jul 2020 12:02:12 -0400
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1jvNNi-000819-0P
+ for qemu-devel@nongnu.org; Tue, 14 Jul 2020 12:02:15 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1594742527;
+ s=mimecast20190719; t=1594742528;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=rPjUnyc8EaEsTj7zhe25TRTnVCrTgwFFmTpiNFmR+iQ=;
- b=drslve8yFvgfpvbdg8C3DeomreZ3dhJ8hfux6NLM/zar7iP+szQGZslIytvDFbhwuT/xAu
- Qz7I0C+vIxzJ/qot2HumMYvjDzF8CxSG/bAnrOmTkrSaQ+6yUpAW1IacOqjPHbGG105wZQ
- IajqHgtZWXet3bZaoylOuRM3M1+8350=
+ bh=N1nzvUk7EEpzgnDqyA9M50UToID+wiZZOE4P6zSuRUQ=;
+ b=SiD3JajM8cxewGqr3oah6VcspI85sJRBhkdxXlXBHAfXDR9B10Qqy9GdgMAbeM6TlbPWZy
+ 9sc2/59ceJTUYQ90KKvug81UvwiZ5QeL4jiC3P7l6l9dsadx1jF4shfApvl1m4B6zQMFyP
+ Y0YUfpmWfDv6/Ku3TUsETKYzsbMKOz4=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-36-xid3NIrhMbKEcK4AUy6uPQ-1; Tue, 14 Jul 2020 12:02:04 -0400
-X-MC-Unique: xid3NIrhMbKEcK4AUy6uPQ-1
-Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
- [10.5.11.12])
+ us-mta-228-enUGeZAkObiSeP7o9vKmqQ-1; Tue, 14 Jul 2020 12:02:06 -0400
+X-MC-Unique: enUGeZAkObiSeP7o9vKmqQ-1
+Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
+ [10.5.11.14])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 0972018C63C1;
- Tue, 14 Jul 2020 16:02:04 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 63CD718C63C9;
+ Tue, 14 Jul 2020 16:02:05 +0000 (UTC)
 Received: from blackfin.pond.sub.org (ovpn-112-143.ams2.redhat.com
  [10.36.112.143])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id A8B2360E1C;
- Tue, 14 Jul 2020 16:02:03 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 30EA978A4B;
+ Tue, 14 Jul 2020 16:02:05 +0000 (UTC)
 Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
- id 3779217741CC; Tue, 14 Jul 2020 18:02:02 +0200 (CEST)
+ id 3C09117741CD; Tue, 14 Jul 2020 18:02:02 +0200 (CEST)
 From: Markus Armbruster <armbru@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH for-5.1 4/5] qom: Document object_get_canonical_path() returns
- malloced string
-Date: Tue, 14 Jul 2020 18:02:01 +0200
-Message-Id: <20200714160202.3121879-5-armbru@redhat.com>
+Subject: [PATCH for-5.1 5/5] qom: Make info qom-tree sort children more
+ efficiently
+Date: Tue, 14 Jul 2020 18:02:02 +0200
+Message-Id: <20200714160202.3121879-6-armbru@redhat.com>
 In-Reply-To: <20200714160202.3121879-1-armbru@redhat.com>
 References: <20200714160202.3121879-1-armbru@redhat.com>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=armbru@redhat.com
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=US-ASCII
@@ -88,27 +86,79 @@ Cc: lvivier@redhat.com, thuth@redhat.com, berrange@redhat.com,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+Commit e8c9e65816 "qom: Make "info qom-tree" show children sorted"
+sorts children the simple, stupid, quadratic way.  I thought the
+number of children would be small enough for this not to matter.  I
+was wrong: there are outliers with several hundred children, e.g ARM
+machines nuri and smdkc210 each have a node with 513 children.
+
+While n^2 sorting isn't noticeable in normal, human usage even for
+n=513, it can be quite noticeable in certain automated tests.  In
+particular, the sort made device-introspect-test even slower.  Commit
+3e7b80f84d "tests: improve performance of device-introspect-test" just
+fixed that by cutting back its excessive use of "info qom-tree".
+Sorting more efficiently makes sense regardless, so do it.
+
 Signed-off-by: Markus Armbruster <armbru@redhat.com>
 ---
- include/qom/object.h | 5 +++--
- 1 file changed, 3 insertions(+), 2 deletions(-)
+ qom/qom-hmp-cmds.c | 25 +++++++++++++------------
+ 1 file changed, 13 insertions(+), 12 deletions(-)
 
-diff --git a/include/qom/object.h b/include/qom/object.h
-index 55d925d2c8..0f3a60617c 100644
---- a/include/qom/object.h
-+++ b/include/qom/object.h
-@@ -1467,8 +1467,9 @@ const char *object_get_canonical_path_component(const Object *obj);
- /**
-  * object_get_canonical_path:
-  *
-- * Returns: The canonical path for a object.  This is the path within the
-- * composition tree starting from the root.
-+ * Returns: The canonical path for a object, newly allocated.  This is
-+ * the path within the composition tree starting from the root.  Use
-+ * g_free() to free it.
-  */
- char *object_get_canonical_path(const Object *obj);
+diff --git a/qom/qom-hmp-cmds.c b/qom/qom-hmp-cmds.c
+index 4032c96089..8861a109d5 100644
+--- a/qom/qom-hmp-cmds.c
++++ b/qom/qom-hmp-cmds.c
+@@ -94,25 +94,23 @@ typedef struct QOMCompositionState {
  
+ static void print_qom_composition(Monitor *mon, Object *obj, int indent);
+ 
+-static int qom_composition_compare(const void *a, const void *b, void *ignore)
++static int qom_composition_compare(const void *a, const void *b)
+ {
+-    return g_strcmp0(object_get_canonical_path_component(a),
+-                     object_get_canonical_path_component(b));
++    return g_strcmp0(object_get_canonical_path_component(*(Object **)a),
++                     object_get_canonical_path_component(*(Object **)b));
+ }
+ 
+ static int insert_qom_composition_child(Object *obj, void *opaque)
+ {
+-    GQueue *children = opaque;
+-
+-    g_queue_insert_sorted(children, obj, qom_composition_compare, NULL);
++    g_array_append_val(opaque, obj);
+     return 0;
+ }
+ 
+ static void print_qom_composition(Monitor *mon, Object *obj, int indent)
+ {
++    GArray *children = g_array_new(false, false, sizeof(Object *));
+     const char *name;
+-    GQueue children;
+-    Object *child;
++    int i;
+ 
+     if (obj == object_get_root()) {
+         name = "";
+@@ -122,11 +120,14 @@ static void print_qom_composition(Monitor *mon, Object *obj, int indent)
+     monitor_printf(mon, "%*s/%s (%s)\n", indent, "", name,
+                    object_get_typename(obj));
+ 
+-    g_queue_init(&children);
+-    object_child_foreach(obj, insert_qom_composition_child, &children);
+-    while ((child = g_queue_pop_head(&children))) {
+-        print_qom_composition(mon, child, indent + 2);
++    object_child_foreach(obj, insert_qom_composition_child, children);
++    g_array_sort(children, qom_composition_compare);
++
++    for (i = 0; i < children->len; i++) {
++        print_qom_composition(mon, g_array_index(children, Object *, i),
++                              indent + 2);
+     }
++    g_array_free(children, TRUE);
+ }
+ 
+ void hmp_info_qom_tree(Monitor *mon, const QDict *dict)
 -- 
 2.26.2
 
