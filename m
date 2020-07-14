@@ -2,54 +2,55 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C339721EA20
-	for <lists+qemu-devel@lfdr.de>; Tue, 14 Jul 2020 09:34:26 +0200 (CEST)
-Received: from localhost ([::1]:47152 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id DDD2E21EA33
+	for <lists+qemu-devel@lfdr.de>; Tue, 14 Jul 2020 09:37:20 +0200 (CEST)
+Received: from localhost ([::1]:59646 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jvFSL-0003FJ-Q5
-	for lists+qemu-devel@lfdr.de; Tue, 14 Jul 2020 03:34:25 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:52868)
+	id 1jvFV9-0008MV-W9
+	for lists+qemu-devel@lfdr.de; Tue, 14 Jul 2020 03:37:20 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:52892)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1jvFR9-0001YR-Ld
- for qemu-devel@nongnu.org; Tue, 14 Jul 2020 03:33:11 -0400
-Received: from mout.kundenserver.de ([217.72.192.75]:42057)
+ (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1jvFRC-0001fG-JF
+ for qemu-devel@nongnu.org; Tue, 14 Jul 2020 03:33:14 -0400
+Received: from mout.kundenserver.de ([217.72.192.74]:43633)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1jvFR6-00024T-68
- for qemu-devel@nongnu.org; Tue, 14 Jul 2020 03:33:11 -0400
+ (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1jvFRA-00025A-MA
+ for qemu-devel@nongnu.org; Tue, 14 Jul 2020 03:33:14 -0400
 Received: from localhost.localdomain ([78.238.229.36]) by
  mrelayeu.kundenserver.de (mreue107 [212.227.15.183]) with ESMTPSA (Nemesis)
- id 1MMnru-1kBfrK2xgy-00IhZz; Tue, 14 Jul 2020 09:33:06 +0200
+ id 1MAxLT-1k1b5O3U3F-00BONa; Tue, 14 Jul 2020 09:33:08 +0200
 From: Laurent Vivier <laurent@vivier.eu>
 To: qemu-devel@nongnu.org
-Subject: [PULL 5/7] linux-user: add netlink RTM_SETLINK command
-Date: Tue, 14 Jul 2020 09:32:57 +0200
-Message-Id: <20200714073259.1464675-6-laurent@vivier.eu>
+Subject: [PULL 6/7] linux-user: fix the errno value in print_syscall_err()
+Date: Tue, 14 Jul 2020 09:32:58 +0200
+Message-Id: <20200714073259.1464675-7-laurent@vivier.eu>
 X-Mailer: git-send-email 2.26.2
 In-Reply-To: <20200714073259.1464675-1-laurent@vivier.eu>
 References: <20200714073259.1464675-1-laurent@vivier.eu>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-X-Provags-ID: V03:K1:YTr5QFQR2Wca624ayED3bdxReXiTeZe/3JxL/lhehSe2StzQ/T5
- jZkSwbVvsiD2UL5UPdLvSDNcYKEGfv9ozDlRv9Dup45WebNunsfP+JmX+we8qBj20z02aSy
- 6xp0gQ9P2OOPgeS1uxeIfqL1br3xkyn0uKSPV937c5NfK12ZCpnydgnXFQs68pZAc669Ln/
- WlAGByhblPgOxTLV+lvCQ==
-X-UI-Out-Filterresults: notjunk:1;V03:K0:py25baA/w8o=:6nfN6g+EWhM2fUy8em6n4P
- +kSsPl7wvqJV32LS9tCwFJUFKPXaM+pnZCC5jM9+PgzDlC/Z7rpWZmBSvv593Aq1NEEwsLyN9
- 9TCoYxCe2lh0LlplvvbrdzH1E4l7lLiIJlMliMAB/ith19lffgjYQkXAbFcg9xohTsDbDoJaU
- FklNIGtChfHciSQ+pFOIs2eAW/hJEocLES3mP6I36GT6NjVq3UB9l3mBZXtNuUXk/uQw+zFwQ
- SElZ0kILEeBDMNdPAzOlCxTZFWL18bnSMWTxa6vmEjDNH+T8Kozdhqu2B6GKsuyewHUqg6uYr
- FlNMPtqENSSnuafp0rHCXB+5oRbJ5ju+F19tpNitTMdrH+F6JcGZf+XgWzTYWghTmQInS4z+j
- FAlbnAbFM8KkwHEL8ymgZia+UkuxqH3BNuWdXCmtAdWtkFgR94P/aE3ihb7TcvDXzOejGC/b7
- Jubl4RB+KKmob3ORmKoxqXNb8dxwopgDo5EDAfDRRRQacGuZ9GxMTiwZSwj+lSKB9deKEtLFX
- HJcQxv0K7U8xk4/HcQm6gz6XJ2rjSHaVnJGldwjmQ/Gt1wkCSY7LMZ7IJ2jezDzb3Cvckxys1
- ap07eDdyHblduxp4uM8RmlSk3GLdUh5A1ARQ93zrhTKZsVbk5m7SQFoZ4aLEyAlsnJDy5hEkl
- wAOOpG8k04Qz5kHXPqDFRcYmMk7FJsayI40IcopG1y5RSCmeBWrV6BgzJSQbTG9sEYHz+wufC
- 0HHUGZ8k6bgsOKLS1jNx13EWuQ4XGLb9beEQHCHCWC8P+Rd4ZbLelb6kKgUTU29cwVNVhi3QX
- 9hbyVNtGEBixnDdghKymPUXmly72dS9pZZZVfMrAczeDNSV50tPCWX9tOMZCu0/QfP6D0Gh
-Received-SPF: none client-ip=217.72.192.75; envelope-from=laurent@vivier.eu;
+X-Provags-ID: V03:K1:oCUu1ehJPhU3cSnwuBUwhoU/Os00IvSHSwc4weBqHvZLuio0IDa
+ l+4ioJa6FCbqrWssA/ojEMMcDog1Rd5FtwucybHQc38ASUdAHNqg+nNwj0wRsdIb7CZPbkW
+ guzn7LqIfmz7+SK3IsbuyGvuM7QSZcLIetSE1V3qyKPT0YDCo10XJPh80YVRhieg3f/so2M
+ HVcrysSNgsV6Dtg6xMveA==
+X-UI-Out-Filterresults: notjunk:1;V03:K0:7dpG+BiOCmQ=:0gJOjl1qhHCMD+SiUvKFiF
+ BW9BHtNfO8rIlWJ1pHGIjJskFbFTmAe/xCLDEcFSgbOZCQIiHkFMy+T4KpO2tFcGfDECx3zIT
+ OY+9XXwkV4kZQjT+MMTQI1lKKiB1TUdxo1jZeVtgj02P3sIfrMmolY9kKM0BL9wpAIrzIxGEp
+ Ui+Bxbpd2OmjRBznViNsmj+RrRYnHEzLAfQtJPCTSlkobdFA5bphSTDyrU6v/oq0261LQsUsu
+ jgDNWgvaWA60/91mPH+Q7g6RsZQ5CrQnIgxj4wCMjDq7E4VfonOUMUjz6tKQbR9N8xBwJWoLn
+ MYHaGLiNkHJuSLjwXXtBbp2NDQETBIo7yN8+hWF6JaOHEXchPli91PbooK7ppc7Vy49nQlWeC
+ uwVIqDIPB7/iavoXKJ88srjI8fCm1F3KJ8PocLKd/J/7hMK/TBkLPluyGoZ3/hqbi1ebV+0lT
+ XRBH1q5cslJFQqvksgkSOHX2RgH69VPMOcYiLABy68wp5o5thZAgBEubxE5ZJi4/SkHn+rUFf
+ RyXWGQS4IvV6LjnuAWUMZqUyXaMZVV7v2ndkHv0JN9F2qVJFPtSMfvoKbwJoZTBY75rFKfcf5
+ bUZdEW1FctJIVwD7BfYUUbPgIrABAeR5vEL6xDYCOlcdS3xe2dDtExliLoo6mZD6tKDXoImIY
+ jbs5+r+lLriVaYvsTStKMni/pMCO2o0FvMC2nv0h8QQ+Go6g7zJYHdeIczyPrnD8eN0hH9mES
+ gGNRxUPBSbsm3kSOAjP3/mXyFLAI/y8oSEWdW+AT+BSGR3/4i5nXYaBMlSym/4dOdnM8jwVRa
+ FDtfhTUSDIfTKuhUSyOnYkdTtZ3oPGYwBS6I9Lc462CQaW8ctudZEpxa/hC7JnzJUwcbwnA
+Received-SPF: none client-ip=217.72.192.74; envelope-from=laurent@vivier.eu;
  helo=mout.kundenserver.de
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/07/14 03:33:06
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/07/14 03:28:46
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic]
 X-Spam_score_int: -28
 X-Spam_score: -2.9
@@ -69,45 +70,43 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Laurent Vivier <laurent@vivier.eu>
+Cc: Richard Henderson <richard.henderson@linaro.org>,
+ Laurent Vivier <laurent@vivier.eu>, Filip.Bozuta@syrmia.com,
+ =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-This command is needed to be able to boot systemd in a container.
+errno of the target is returned as a negative value by the syscall,
+not in the host errno variable.
 
-  $ sudo systemd-nspawn -D /chroot/armhf/sid/ -b
-  Spawning container sid on /chroot/armhf/sid.
-  Press ^] three times within 1s to kill container.
-  systemd 245.6-2 running in system mode.
-  Detected virtualization systemd-nspawn.
-  Detected architecture arm.
+The emulation of the target syscall can return an error while the
+host doesn't set an errno value. Target errnos and host errnos can
+also differ in some cases.
 
-  Welcome to Debian GNU/Linux bullseye/sid!
-
-  Set hostname to <virt-arm>.
-  Failed to enqueue loopback interface start request: Operation not supported
-  Caught <SEGV>, dumped core as pid 3.
-  Exiting PID 1...
-  Container sid failed with error code 255.
-
+Fixes: c84be71f6854 ("linux-user: Extend strace support to enable argument printing after syscall execution")
+Cc: Filip.Bozuta@syrmia.com
 Signed-off-by: Laurent Vivier <laurent@vivier.eu>
-Message-Id: <20200709072332.890440-2-laurent@vivier.eu>
+Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
+Reviewed-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
+Reviewed-by: Filip Bozuta <Filip.Bozuta@syrmia.com>
+Message-Id: <20200708152435.706070-2-laurent@vivier.eu>
 ---
- linux-user/fd-trans.c | 1 +
- 1 file changed, 1 insertion(+)
+ linux-user/strace.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/linux-user/fd-trans.c b/linux-user/fd-trans.c
-index 5d49a53552b2..1486c81aaa27 100644
---- a/linux-user/fd-trans.c
-+++ b/linux-user/fd-trans.c
-@@ -1204,6 +1204,7 @@ static abi_long target_to_host_data_route(struct nlmsghdr *nlh)
-         break;
-     case RTM_NEWLINK:
-     case RTM_DELLINK:
-+    case RTM_SETLINK:
-         if (nlh->nlmsg_len >= NLMSG_LENGTH(sizeof(*ifi))) {
-             ifi = NLMSG_DATA(nlh);
-             ifi->ifi_type = tswap16(ifi->ifi_type);
+diff --git a/linux-user/strace.c b/linux-user/strace.c
+index 39554d903911..7769f53bd5ed 100644
+--- a/linux-user/strace.c
++++ b/linux-user/strace.c
+@@ -731,7 +731,7 @@ print_syscall_err(abi_long ret)
+ 
+     qemu_log(" = ");
+     if (ret < 0) {
+-        qemu_log("-1 errno=%d", errno);
++        qemu_log("-1 errno=%d", (int)-ret);
+         errstr = target_strerror(-ret);
+         if (errstr) {
+             qemu_log(" (%s)", errstr);
 -- 
 2.26.2
 
