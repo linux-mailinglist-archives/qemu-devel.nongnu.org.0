@@ -2,110 +2,96 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1C2E121F1F0
-	for <lists+qemu-devel@lfdr.de>; Tue, 14 Jul 2020 14:53:52 +0200 (CEST)
-Received: from localhost ([::1]:46994 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id F1C0E21F1FF
+	for <lists+qemu-devel@lfdr.de>; Tue, 14 Jul 2020 14:58:11 +0200 (CEST)
+Received: from localhost ([::1]:50318 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jvKRT-00081l-5m
-	for lists+qemu-devel@lfdr.de; Tue, 14 Jul 2020 08:53:51 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:46552)
+	id 1jvKVf-0001Kg-1o
+	for lists+qemu-devel@lfdr.de; Tue, 14 Jul 2020 08:58:11 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:47906)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <andrey.shinkevich@virtuozzo.com>)
- id 1jvKQ8-0006Lf-OE; Tue, 14 Jul 2020 08:52:28 -0400
-Received: from mail-eopbgr60090.outbound.protection.outlook.com
- ([40.107.6.90]:55011 helo=EUR04-DB3-obe.outbound.protection.outlook.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <andrey.shinkevich@virtuozzo.com>)
- id 1jvKQ4-0002sB-Gm; Tue, 14 Jul 2020 08:52:27 -0400
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=iVG7ECgTXS8JTS3PS9UiZFzB+GudxgI7SQ/HPbLjfHOO8o4yz7t452YnxOFKBYukb3WApLiaX0LPGZzWmWjiZt4vReji4eLfZL+lz9uE+AWQxfd1o+e7SZsUAl+eYHEKsmmHxzDiTX/3tb9jl+fJgv7gVIxfa4lILY6R4wI/BSMxcJqQvV6d9M1M1Pb7ENPW+1P2+YEuSmtgMGsX1XgMK+7A8x++zyOtugiHXckd0q5hRK5uIp1gs2fEyMDQB3lgqlOLMY8F3J1uUbtnUHxbZdiwtami/3FH96Nx8LUxliHFlTbLQC55XpCC7xOURQ8WsyC1duFKCJuLU5BWF8zCOA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=BFIZRhr5FX1EWGKjM4EWRk3snoixupNzS2nwBVZ380g=;
- b=Z4SAPb/B7I0Wnu1cn/hEnPuvRblUskg52Svw37z2I9ouwG45W6SOnpxg65UB7taw0p4IIfm1MEPpR8n8O9JzjGdhFsFs+VtcICkgm9NbIcHQXVGly+Doj6g62v3V8XOHrCXfEsltod1kVT54prwn3i8DAtVwMmj82gtvQf3N6W3/7exazT6TZ0QVlBilUkxnpe0JJIGIi5pivA3/cvCeI/alN+p16CDIm6s3TMlOCAdRBwrB5yRkQjMg5yAyMA3OX6iKJfnDa686HGvhSX4egwShROR0FjfK4SMcjI+1wWD9/hW7wP70lMoUavUygTOGTEbkwckSvS7GaXuRBuIzIQ==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=virtuozzo.com; dmarc=pass action=none
- header.from=virtuozzo.com; dkim=pass header.d=virtuozzo.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=virtuozzo.com;
- s=selector2;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=BFIZRhr5FX1EWGKjM4EWRk3snoixupNzS2nwBVZ380g=;
- b=I7AxUsPmYL0K0zPd0eafk4y5idluLT8rqXRM3VuUaotGc+djMjGOMlidqc/NEEZoa3OtvCYYMR5GdOWMUhi2VfgMvmnsJhafcn116kWkr8lJRG/TK3GvcfnQejLKVi1YlIb68egZzR8vYSXbc717iRJq1T0mq71FPIpXp56FI0o=
-Authentication-Results: nongnu.org; dkim=none (message not signed)
- header.d=none;nongnu.org; dmarc=none action=none header.from=virtuozzo.com;
-Received: from AM6PR08MB4070.eurprd08.prod.outlook.com (2603:10a6:20b:a3::25)
- by AM6PR08MB4279.eurprd08.prod.outlook.com (2603:10a6:20b:bb::11)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3174.22; Tue, 14 Jul
- 2020 12:52:21 +0000
-Received: from AM6PR08MB4070.eurprd08.prod.outlook.com
- ([fe80::78ec:8cb6:41f7:b2a0]) by AM6PR08MB4070.eurprd08.prod.outlook.com
- ([fe80::78ec:8cb6:41f7:b2a0%5]) with mapi id 15.20.3174.025; Tue, 14 Jul 2020
- 12:52:21 +0000
-Subject: Re: [PATCH v7 18/47] block: Flush all children in generic code
-To: Max Reitz <mreitz@redhat.com>, qemu-block@nongnu.org
-References: <20200625152215.941773-1-mreitz@redhat.com>
- <20200625152215.941773-19-mreitz@redhat.com>
-From: Andrey Shinkevich <andrey.shinkevich@virtuozzo.com>
-Message-ID: <ba61506d-35a4-01f5-da09-b5055acdc460@virtuozzo.com>
-Date: Tue, 14 Jul 2020 15:52:18 +0300
-User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:68.0)
- Gecko/20100101 Thunderbird/68.9.0
-In-Reply-To: <20200625152215.941773-19-mreitz@redhat.com>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Transfer-Encoding: 7bit
-Content-Language: en-GB
-X-ClientProxiedBy: AM0PR01CA0127.eurprd01.prod.exchangelabs.com
- (2603:10a6:208:168::32) To AM6PR08MB4070.eurprd08.prod.outlook.com
- (2603:10a6:20b:a3::25)
+ (Exim 4.90_1) (envelope-from <mreitz@redhat.com>) id 1jvKUj-0000pB-EW
+ for qemu-devel@nongnu.org; Tue, 14 Jul 2020 08:57:13 -0400
+Received: from us-smtp-2.mimecast.com ([205.139.110.61]:29936
+ helo=us-smtp-delivery-1.mimecast.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <mreitz@redhat.com>) id 1jvKUh-0003dK-I6
+ for qemu-devel@nongnu.org; Tue, 14 Jul 2020 08:57:13 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1594731430;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
+ bh=hM4SskHi4B+9ZBfR/onSBH+8Gs8ITTY9Uzu0XBQ0Kko=;
+ b=ift1fHL5Je33OpH0vnv60zZruu4NGdMhe9Kx/poY86sItuf7FpFpQ9uTF80+d4yQTyEd/3
+ 1UOSSCsEPcwj6HNF+i6yWwoVi7u0JyVfhd77/KX9s1hrq21JXXBxwZEzfaHT6yfLO/zXcT
+ ReAKMIHZIuSbgdet0kyy28+wsSL4434=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-488-AzeRurNRN6eWop_GKaR47A-1; Tue, 14 Jul 2020 08:57:01 -0400
+X-MC-Unique: AzeRurNRN6eWop_GKaR47A-1
+Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
+ [10.5.11.12])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id C79DD107ACCA;
+ Tue, 14 Jul 2020 12:57:00 +0000 (UTC)
+Received: from dresden.str.redhat.com (ovpn-113-179.ams2.redhat.com
+ [10.36.113.179])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 2C54760BEC;
+ Tue, 14 Jul 2020 12:56:58 +0000 (UTC)
+Subject: Re: [PATCH v11 00/34] Add subcluster allocation to qcow2
+To: Alberto Garcia <berto@igalia.com>, qemu-devel@nongnu.org
+References: <cover.1594396418.git.berto@igalia.com>
+From: Max Reitz <mreitz@redhat.com>
+Autocrypt: addr=mreitz@redhat.com; prefer-encrypt=mutual; keydata=
+ mQENBFXOJlcBCADEyyhOTsoa/2ujoTRAJj4MKA21dkxxELVj3cuILpLTmtachWj7QW+TVG8U
+ /PsMCFbpwsQR7oEy8eHHZwuGQsNpEtNC2G/L8Yka0BIBzv7dEgrPzIu+W3anZXQW4702+uES
+ U29G8TP/NGfXRRHGlbBIH9KNUnOSUD2vRtpOLXkWsV5CN6vQFYgQfFvmp5ZpPeUe6xNplu8V
+ mcTw8OSEDW/ZnxJc8TekCKZSpdzYoxfzjm7xGmZqB18VFwgJZlIibt1HE0EB4w5GsD7x5ekh
+ awIe3RwoZgZDLQMdOitJ1tUc8aqaxvgA4tz6J6st8D8pS//m1gAoYJWGwwIVj1DjTYLtABEB
+ AAG0HU1heCBSZWl0eiA8bXJlaXR6QHJlZGhhdC5jb20+iQFTBBMBCAA9AhsDBQkSzAMABQsJ
+ CAcCBhUICQoLAgQWAgMBAh4BAheABQJVzie5FRhoa3A6Ly9rZXlzLmdudXBnLm5ldAAKCRD0
+ B9sAYdXPQDcIB/9uNkbYEex1rHKz3mr12uxYMwLOOFY9fstP5aoVJQ1nWQVB6m2cfKGdcRe1
+ 2/nFaHSNAzT0NnKz2MjhZVmcrpyd2Gp2QyISCfb1FbT82GMtXFj1wiHmPb3CixYmWGQUUh+I
+ AvUqsevLA+WihgBUyaJq/vuDVM1/K9Un+w+Tz5vpeMidlIsTYhcsMhn0L9wlCjoucljvbDy/
+ 8C9L2DUdgi3XTa0ORKeflUhdL4gucWoAMrKX2nmPjBMKLgU7WLBc8AtV+84b9OWFML6NEyo4
+ 4cP7cM/07VlJK53pqNg5cHtnWwjHcbpGkQvx6RUx6F1My3y52vM24rNUA3+ligVEgPYBuQEN
+ BFXOJlcBCADAmcVUNTWT6yLWQHvxZ0o47KCP8OcLqD+67T0RCe6d0LP8GsWtrJdeDIQk+T+F
+ xO7DolQPS6iQ6Ak2/lJaPX8L0BkEAiMuLCKFU6Bn3lFOkrQeKp3u05wCSV1iKnhg0UPji9V2
+ W5eNfy8F4ZQHpeGUGy+liGXlxqkeRVhLyevUqfU0WgNqAJpfhHSGpBgihUupmyUg7lfUPeRM
+ DzAN1pIqoFuxnN+BRHdAecpsLcbR8sQddXmDg9BpSKozO/JyBmaS1RlquI8HERQoe6EynJhd
+ 64aICHDfj61rp+/0jTIcevxIIAzW70IadoS/y3DVIkuhncgDBvGbF3aBtjrJVP+5ABEBAAGJ
+ ASUEGAEIAA8FAlXOJlcCGwwFCRLMAwAACgkQ9AfbAGHVz0CbFwf9F/PXxQR9i4N0iipISYjU
+ sxVdjJOM2TMut+ZZcQ6NSMvhZ0ogQxJ+iEQ5OjnIputKvPVd5U7WRh+4lF1lB/NQGrGZQ1ic
+ alkj6ocscQyFwfib+xIe9w8TG1CVGkII7+TbS5pXHRxZH1niaRpoi/hYtgzkuOPp35jJyqT/
+ /ELbqQTDAWcqtJhzxKLE/ugcOMK520dJDeb6x2xVES+S5LXby0D4juZlvUj+1fwZu+7Io5+B
+ bkhSVPb/QdOVTpnz7zWNyNw+OONo1aBUKkhq2UIByYXgORPFnbfMY7QWHcjpBVw9MgC4tGeF
+ R4bv+1nAMMxKmb5VvQCExr0eFhJUAHAhVg==
+Message-ID: <e428a843-f27a-4e8e-8be2-bf6566c76a2f@redhat.com>
+Date: Tue, 14 Jul 2020 14:56:57 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.10.0
 MIME-Version: 1.0
-X-MS-Exchange-MessageSentRepresentingType: 1
-Received: from Admins-MacBook-Pro.local (109.252.114.191) by
- AM0PR01CA0127.eurprd01.prod.exchangelabs.com (2603:10a6:208:168::32) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3174.21 via Frontend
- Transport; Tue, 14 Jul 2020 12:52:20 +0000
-X-Originating-IP: [109.252.114.191]
-X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: 308fa048-4d70-4fca-46d5-08d827f4bf46
-X-MS-TrafficTypeDiagnostic: AM6PR08MB4279:
-X-MS-Exchange-Transport-Forked: True
-X-Microsoft-Antispam-PRVS: <AM6PR08MB42796E01F21C8767E2E451BAF4610@AM6PR08MB4279.eurprd08.prod.outlook.com>
-X-MS-Oob-TLC-OOBClassifiers: OLM:10000;
-X-MS-Exchange-SenderADCheck: 1
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: 8725/DPQTIdorwHKhUfw41yp4qsWiFrs46ta+S58cM+EXovizjiurhSN5QnMiOQaHfrCaOXwymPWabS8z4BdlKeV4XEIXKp05ThlRj8vaTezq9RP/0xp6P9eNG8ncAQ4DAClnLnagPrXYZZzKToyGdAH0wi0zB0eCrGNlYVxqAnZxu0b2U0JLx7/foJs14JHvYV2Zyflzyg4W62/7i40K6DDOBTjk+vY9dlzuaUbaUA1IPaDA0GdV7Usa3/idKHF023GW5VfVOjqLzbDB97WWs2gxZ3Wkckqk0qsdrxFD0FWBH0VuEZnhR2DottqgqEgzCvGux/dMUBU3zXeYsUZqFGziAubA6mbXx4K7iCUs1AElRF+YZUDO1Wc1tKN4DluhH+l9KDR8B7JxpF55XO66w==
-X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:AM6PR08MB4070.eurprd08.prod.outlook.com; PTR:; CAT:NONE;
- SFTY:;
- SFS:(4636009)(39840400004)(136003)(366004)(346002)(376002)(396003)(8676002)(8936002)(6512007)(83380400001)(66556008)(16526019)(26005)(186003)(5660300002)(31686004)(2616005)(53546011)(6506007)(6486002)(316002)(956004)(44832011)(54906003)(36756003)(31696002)(86362001)(2906002)(66476007)(478600001)(4326008)(52116002)(66946007)(41533002)(43740500002);
- DIR:OUT; SFP:1102; 
-X-MS-Exchange-AntiSpam-MessageData: bTayYNQ2mQ83vQDu6Lp7DBI/fN1T1o8+uLWAcTWKP2KPkA9vWvXi0UKxl2aD7r1HAh9QFCFrqiqoYspFH8yB5sovA8zunvlysWGqGevRz2LddRRzPxsXXJpZrsvTsweiVkZoqMmyfuenlk6roxs+J8wE+EmYIwQb3Z59IRk0xo66/ZYYhJ+GsQEaEK7sT0xnprdRYNuDBeegGC8MH2/z0uFulMfZClK1NCj6Nwx5oQpko5q0epZr0cYx3ebkLco7mq5h/RusyNk6QnRgT7G2kBi9ny9zs0dQvIt+c5EnhXATiETPscbN1bLNyFvFmzFlhHzZ6YO/R97oIF0XSAvEamce0rfY+/G4IgJGnfcBwGtmbqT0OC6GwZtYZInqurAStfaXhaJngZ1aCvzQT6zSxUzZZSa66gJO866VuhQ+GmPp4ccvIL0902sx8wwp2W1K4DX1pOE+Gkvn65eS24XVZDL1mDSg6KvLPQNcEP9Bk1yOCRRhfJJjGWnI6ISlpg/A
-X-OriginatorOrg: virtuozzo.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 308fa048-4d70-4fca-46d5-08d827f4bf46
-X-MS-Exchange-CrossTenant-AuthSource: AM6PR08MB4070.eurprd08.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 14 Jul 2020 12:52:21.0720 (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 0bc7f26d-0264-416e-a6fc-8352af79c58f
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: 7A+XTYHe6N2Ecidh39Ql/ccUT1vrE5M9pTg0MIwqxVr1xucOxbYMXqLNAu/RIlqdoyhAA8SRlYxP26ts2iYqvMNa0SKiHYntA5Sog3p8TiU=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: AM6PR08MB4279
-Received-SPF: pass client-ip=40.107.6.90;
- envelope-from=andrey.shinkevich@virtuozzo.com;
- helo=EUR04-DB3-obe.outbound.protection.outlook.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/07/14 08:52:21
-X-ACL-Warn: Detected OS   = Windows NT kernel [generic] [fuzzy]
-X-Spam_score_int: -37
-X-Spam_score: -3.8
-X-Spam_bar: ---
-X-Spam_report: (-3.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- MSGID_FROM_MTA_HEADER=0.001, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-1,
- SPF_HELO_PASS=-0.001, SPF_PASS=-0.001,
- URIBL_BLOCKED=0.001 autolearn=ham autolearn_force=no
+In-Reply-To: <cover.1594396418.git.berto@igalia.com>
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature";
+ boundary="P9tCDLgHt17PtVLGknt88pz94Zfctg54s"
+Received-SPF: pass client-ip=205.139.110.61; envelope-from=mreitz@redhat.com;
+ helo=us-smtp-delivery-1.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/07/14 03:57:32
+X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
+X-Spam_score_int: -40
+X-Spam_score: -4.1
+X-Spam_bar: ----
+X-Spam_report: (-4.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-1, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001, URIBL_BLOCKED=0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -118,54 +104,66 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Kevin Wolf <kwolf@redhat.com>,
- Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>, qemu-devel@nongnu.org
+Cc: Kevin Wolf <kwolf@redhat.com>, Derek Su <dereksu@qnap.com>,
+ Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>, qemu-block@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 25.06.2020 18:21, Max Reitz wrote:
-> If the driver does not support .bdrv_co_flush() so bdrv_co_flush()
-> itself has to flush the children of the given node, it should not flush
-> just bs->file->bs, but in fact all children that might have been written
-> to (judging from the permissions taken on them).
->
-> This is a bug fix for qcow2 images with an external data file, as they
-> so far did not flush that data_file node.
->
-> In any case, the BLKDBG_EVENT() should be emitted on the primary child,
-> because that is where a blkdebug node would be if there is any.
->
-> Suggested-by: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
-> Signed-off-by: Max Reitz <mreitz@redhat.com>
-> ---
->   block/io.c | 23 +++++++++++++++++------
->   1 file changed, 17 insertions(+), 6 deletions(-)
-...
-> @@ int coroutine_fn bdrv_co_flush(BlockDriverState *bs)
->       /* Now flush the underlying protocol.  It will also have BDRV_O_NO_FLUSH
->        * in the case of cache=unsafe, so there are no useless flushes.
->        */
-> -flush_parent:
-> -    ret = bs->file ? bdrv_co_flush(bs->file->bs) : 0;
-> +flush_children:
-> +    ret = 0;
-> +    QLIST_FOREACH(child, &bs->children, next) {
-> +        if (child->perm & (BLK_PERM_WRITE | BLK_PERM_WRITE_UNCHANGED)) {
-> +            int this_child_ret = bdrv_co_flush(child->bs);
-> +            if (!ret) {
-> +                ret = this_child_ret;
-> +            }
-> +        }
-> +    }
-> +
->   out:
->       /* Notify any pending flushes that we have completed */
->       if (ret == 0) {
+This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
+--P9tCDLgHt17PtVLGknt88pz94Zfctg54s
+Content-Type: multipart/mixed; boundary="zztbmGMezMaXebg6DpmffZT5s5IebGLS3"
+
+--zztbmGMezMaXebg6DpmffZT5s5IebGLS3
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: quoted-printable
+
+On 10.07.20 18:12, Alberto Garcia wrote:
+> Hi,
+>=20
+> here's the new version of the patches to add subcluster allocation
+> support to qcow2.
+>=20
+> Please refer to the cover letter of the first version for a full
+> description of the patches:
+>=20
+>    https://lists.gnu.org/archive/html/qemu-block/2019-10/msg00983.html
+>=20
+> This version is rebased on top of the latest master (f2a1cf9180),
+> fixes the relevant conflicts (particularly after df373fb0a3) and
+> updates the test expectations.
+>=20
+> Berto
+
+Thanks, fixed up patch 21 (by initializing expected_type to just
+anything, I chose QCOW2_SUBCLUSTER_NORMAL, which I preferred over just
+using 0), resolved some iotest conflicts (I=E2=80=99m sure, more are to com=
+e
+before the release, but we=E2=80=99ll see), and applied the series to my
+block-next branch:
+
+https://git.xanclic.moe/XanClic/qemu/commits/branch/block-next
 
 
-I have not tested if the running application do reaches the flush_parent 
-point to flush the data_file but with the code it looks OK.
+--zztbmGMezMaXebg6DpmffZT5s5IebGLS3--
 
-Reviewed-by: Andrey Shinkevich <andrey.shinkevich@virtuozzo.com>
+--P9tCDLgHt17PtVLGknt88pz94Zfctg54s
+Content-Type: application/pgp-signature; name="signature.asc"
+Content-Description: OpenPGP digital signature
+Content-Disposition: attachment; filename="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAEBCAAdFiEEkb62CjDbPohX0Rgp9AfbAGHVz0AFAl8Nq5kACgkQ9AfbAGHV
+z0Cz4AgArJ4e5y0IGSnnGGVMYEngNqsXVWs4ta6c6YVFUNRvMgHdmPSbeVb//dKi
+wlaihe8bJes3Upcm15ZrJf4hzVBjp1VQsoVYBiQfam7WIj+/IvBFKnFVc3KL0Lv7
+6MHx4no/DYZJXQp1pVFoOZa/5Vszn7k4l+y2/TEc6Rb7J5DIv4ZlOc6hG6/dybHW
+0xtKTl3x1nJ0iBhegvXlaeGw5/47UUa0wpV1ZLN5HK1RGEcme4a2j5HBbjU3hzn7
+ZjgmuJ5+m5vcNSwduKeFI7NiAk0vWTmm7xvLiIAiweQjvPITdYFs/YwYLuFxydHM
+4FqB3t9MwVsMvteeU7hrR42pui/Nag==
+=uR4f
+-----END PGP SIGNATURE-----
+
+--P9tCDLgHt17PtVLGknt88pz94Zfctg54s--
 
 
