@@ -2,67 +2,66 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E14FC21E4CF
-	for <lists+qemu-devel@lfdr.de>; Tue, 14 Jul 2020 02:52:39 +0200 (CEST)
-Received: from localhost ([::1]:46586 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7A3ED21E4C1
+	for <lists+qemu-devel@lfdr.de>; Tue, 14 Jul 2020 02:47:33 +0200 (CEST)
+Received: from localhost ([::1]:56618 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jv9BW-0004yD-20
-	for lists+qemu-devel@lfdr.de; Mon, 13 Jul 2020 20:52:38 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:52180)
+	id 1jv96a-0005lC-Fm
+	for lists+qemu-devel@lfdr.de; Mon, 13 Jul 2020 20:47:32 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:52194)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1)
  (envelope-from <prvs=457b4eeb6=alistair.francis@wdc.com>)
- id 1jv92J-0006av-FT
- for qemu-devel@nongnu.org; Mon, 13 Jul 2020 20:43:08 -0400
-Received: from esa5.hgst.iphmx.com ([216.71.153.144]:30779)
+ id 1jv92M-0006eq-2v
+ for qemu-devel@nongnu.org; Mon, 13 Jul 2020 20:43:10 -0400
+Received: from esa5.hgst.iphmx.com ([216.71.153.144]:30777)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1)
  (envelope-from <prvs=457b4eeb6=alistair.francis@wdc.com>)
- id 1jv92F-0008Or-5b
- for qemu-devel@nongnu.org; Mon, 13 Jul 2020 20:43:06 -0400
+ id 1jv92I-0008Oh-Qm
+ for qemu-devel@nongnu.org; Mon, 13 Jul 2020 20:43:09 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple;
  d=wdc.com; i=@wdc.com; q=dns/txt; s=dkim.wdc.com;
- t=1594687383; x=1626223383;
+ t=1594687387; x=1626223387;
  h=from:to:cc:subject:date:message-id:in-reply-to:
  references:mime-version:content-transfer-encoding;
- bh=+HHTqCSzV+QdHA83xPiOiV+25g9KE7N81V2b9knAj7Y=;
- b=HrYlEJ7vkbkShjUHH5l1TBV2G6TMMSq4uh8O/dtr58aOp/I0w1Gyvp/P
- lJMtUrtXjKmjb8AOZ2SoqQBpdzjYoSb/HYlO8lK1QngEze7rcUGoYYUa/
- nuE4XrWUX+74h3ulGb8YhRhCKqWF4+jI++mSDpAiRqDYxecu0RLqruVpv
- eS9D3KcjtSRhAiBDI06bJrkH4JEcGb/betSchF7AnGeelapYEO8DKvSNn
- j/detWuxaqP8zqgBbKpUBdsNBAYKURoPzYDq2ixhHKUd9EWSwf8mkmB3a
- 9nD+vlpIsS+SoDEvINKtNxhFGjTJJQ8KbWTVrXY3gwkcvShopapGDskjY A==;
-IronPort-SDR: n7jEOb8ICmbp4IBvzhFwpK1UlN/rZdopqpnP468xteLYHlY7K9jptdb3yDixAlaFgTpRriiUHU
- 0EfDTlBKsV0AQyJeHTeZw4bSZhPxnNadrBktWDOx47hniptrq5axjTFMRyCYzhKXB6BTeItp/2
- GfbAiSVBsFVSAbPuZzuvfZc44V+q8cNEuOusKN17C6rWfEEh3pdpYzu5y6rXCqAq02LHvNkvG6
- bwn4Bf+DMdm3OQZ2JD7C3vAp8BYf+yQaxaGu+RcY0LsxLZhXpv3yUwmDLdr9djZDRrhCnq+kJq
- boE=
-X-IronPort-AV: E=Sophos;i="5.75,349,1589212800"; d="scan'208";a="142511936"
+ bh=mIUuzb9nUqMl+WKgL29i4RxVd202cqc1kEZ8UvNT/Is=;
+ b=gcV2CeAN6nWJxnR/NyA2NWZccRhQLO4jD9J3gUF3BhGP3UfBqvH8cDTK
+ WK6JEjP5dSihHDfRyE6XMS08cqNivZuF+3/Qy6Z6A7sdC7SZI06zKTzKo
+ LTS0J3FkmRgYoeRllfdSmHsTLpx/5SiRUuFLfbhz9+VI8QR/nC/we7q4h
+ Yqs7g/4+6Px8DMQmtS8NxSVBK0ebHamkjIwFtpCktXVFoVkBd6kltEYlM
+ 9O7lml5HhKzcF1xeZ5KKtq/9iuMxZFjzIZwBQVP8/Dtl/8ao7hsWU3KGg
+ YbAhPVkPeOu6SIhGl1oWCo4Ofa6OmgoZm+8oFXF2cwM14lEECNpeCNZco Q==;
+IronPort-SDR: bz1nBgZtUV3BXSUd6F+gQbTm9UK0yZ8xn2OoARdervwcAmv+0XWY/RI6Ez7l7lWVLvd4q5lQrd
+ wiAbJedw/bcLy180JtMeH5Q9eOeBxdjfX5LNa6XToWf8sVV02prUYpiiiY29LbIAxkG7ZwiPu1
+ PHdeFkFegn1u+3bb2PjFjQPfRP7Uwi4STlU+RNFVaXZwNEg75kOJWDYsAqC2aQDRHNM/GXc4v5
+ zel1giKO8vT9HtjXd6/lLYGSTk7m1tyOBrTi3tMJy042A2p8nabkrVdsXQbwUZnl6q2uvZjHXG
+ tVk=
+X-IronPort-AV: E=Sophos;i="5.75,349,1589212800"; d="scan'208";a="142511937"
 Received: from uls-op-cesaip01.wdc.com (HELO uls-op-cesaep01.wdc.com)
  ([199.255.45.14])
  by ob1.hgst.iphmx.com with ESMTP; 14 Jul 2020 08:42:31 +0800
-IronPort-SDR: S9/VvU3OwolrZi7oFkKdWfbLXYVGmt6sAksIqoX/700vvKRFRQrS43HXu2BJsPPRT8q/LpyQRU
- If2ud5EDU3jEcwDrtonLg3bvBYXKeruZI=
+IronPort-SDR: 7gjOg1RyGNSVqHlweb7o3qEojz/Dlml+xFyNtlQfIEKFUyF/FdAHCjcSncc4exp79ZUt7DfNOY
+ qVjjHHApOiuwv1cv/kM/fwYM8aQKzRYv4=
 Received: from uls-op-cesaip02.wdc.com ([10.248.3.37])
  by uls-op-cesaep01.wdc.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
  13 Jul 2020 17:30:59 -0700
-IronPort-SDR: dEmQ/PVMvXzZfi/AP0gW6qdUFdjpiyiFBmOMvsHpaodpZueg1NdKwBREAjXaADIGEwFmdQGxHV
- JynfLao+6FbQ==
+IronPort-SDR: OCOTQCM23AF5VsabEGLKEAWrZ6Mg8KIMxb6R5pxgBG2IrRzjA/Z2+nw+K9EGheSbVroCmzu0O4
+ TrQUWQqVGPrw==
 WDCIronportException: Internal
 Received: from usa002626.ad.shared (HELO risc6-mainframe.hgst.com)
  ([10.86.57.178])
  by uls-op-cesaip02.wdc.com with ESMTP; 13 Jul 2020 17:42:31 -0700
 From: Alistair Francis <alistair.francis@wdc.com>
 To: qemu-devel@nongnu.org
-Subject: [PULL 14/15] tcg/riscv: Remove superfluous breaks
-Date: Mon, 13 Jul 2020 17:32:53 -0700
-Message-Id: <20200714003254.4044149-15-alistair.francis@wdc.com>
+Subject: [PULL 15/15] target/riscv: Fix pmp NA4 implementation
+Date: Mon, 13 Jul 2020 17:32:54 -0700
+Message-Id: <20200714003254.4044149-16-alistair.francis@wdc.com>
 X-Mailer: git-send-email 2.27.0
 In-Reply-To: <20200714003254.4044149-1-alistair.francis@wdc.com>
 References: <20200714003254.4044149-1-alistair.francis@wdc.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 Received-SPF: pass client-ip=216.71.153.144;
  envelope-from=prvs=457b4eeb6=alistair.francis@wdc.com;
@@ -88,43 +87,50 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Yi Wang <wang.yi59@zte.com.cn>, Thomas Huth <thuth@redhat.com>,
- Alistair Francis <alistair.francis@wdc.com>,
- =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>,
- Liao Pingfang <liao.pingfang@zte.com.cn>
+Cc: Alistair Francis <alistair.francis@wdc.com>,
+ Alexandre Mergnat <amergnat@baylibre.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Liao Pingfang <liao.pingfang@zte.com.cn>
+From: Alexandre Mergnat <amergnat@baylibre.com>
 
-Remove superfluous breaks, as there is a "return" before them.
+The end address calculation for NA4 mode is wrong because the address
+used isn't shifted.
 
-Signed-off-by: Liao Pingfang <liao.pingfang@zte.com.cn>
-Signed-off-by: Yi Wang <wang.yi59@zte.com.cn>
-Reviewed-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
-Reviewed-by: Thomas Huth <thuth@redhat.com>
+It doesn't watch 4 bytes but a huge range because the end address
+calculation is wrong.
+
+The solution is to use the shifted address calculated for start address
+variable.
+
+Modifications are tested on Zephyr OS userspace test suite which works
+for other RISC-V boards (E31 and E34 core).
+
+Signed-off-by: Alexandre Mergnat <amergnat@baylibre.com>
 Reviewed-by: Alistair Francis <alistair.francis@wdc.com>
-Message-Id: <1594600421-22942-1-git-send-email-wang.yi59@zte.com.cn>
+Message-id: 20200706084550.24117-1-amergnat@baylibre.com
+Message-Id: <20200706084550.24117-1-amergnat@baylibre.com>
+[ Changes by AF:
+ - Improve the commit title and message
+]
 Signed-off-by: Alistair Francis <alistair.francis@wdc.com>
 ---
- tcg/riscv/tcg-target.inc.c | 2 --
- 1 file changed, 2 deletions(-)
+ target/riscv/pmp.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/tcg/riscv/tcg-target.inc.c b/tcg/riscv/tcg-target.inc.c
-index 2bc0ba71f2..3c11ab8b7a 100644
---- a/tcg/riscv/tcg-target.inc.c
-+++ b/tcg/riscv/tcg-target.inc.c
-@@ -502,10 +502,8 @@ static bool patch_reloc(tcg_insn_unit *code_ptr, int type,
+diff --git a/target/riscv/pmp.c b/target/riscv/pmp.c
+index 9418660f1b..2a2b9f5363 100644
+--- a/target/riscv/pmp.c
++++ b/target/riscv/pmp.c
+@@ -171,7 +171,7 @@ static void pmp_update_rule(CPURISCVState *env, uint32_t pmp_index)
+ 
+     case PMP_AMATCH_NA4:
+         sa = this_addr << 2; /* shift up from [xx:0] to [xx+2:2] */
+-        ea = (this_addr + 4u) - 1u;
++        ea = (sa + 4u) - 1u;
          break;
-     case R_RISCV_JAL:
-         return reloc_jimm20(code_ptr, (tcg_insn_unit *)value);
--        break;
-     case R_RISCV_CALL:
-         return reloc_call(code_ptr, (tcg_insn_unit *)value);
--        break;
-     default:
-         tcg_abort();
-     }
+ 
+     case PMP_AMATCH_NAPOT:
 -- 
 2.27.0
 
