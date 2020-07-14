@@ -2,50 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1300E21F1E6
-	for <lists+qemu-devel@lfdr.de>; Tue, 14 Jul 2020 14:52:28 +0200 (CEST)
-Received: from localhost ([::1]:40854 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 195A221F1EE
+	for <lists+qemu-devel@lfdr.de>; Tue, 14 Jul 2020 14:53:29 +0200 (CEST)
+Received: from localhost ([::1]:44764 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jvKQ7-0005Sx-3m
-	for lists+qemu-devel@lfdr.de; Tue, 14 Jul 2020 08:52:27 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:46200)
+	id 1jvKR6-00077H-6M
+	for lists+qemu-devel@lfdr.de; Tue, 14 Jul 2020 08:53:28 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:46438)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <git@the-jedi.co.uk>)
- id 1jvKOy-0004Gf-6i
- for qemu-devel@nongnu.org; Tue, 14 Jul 2020 08:51:16 -0400
-Received: from vps.the-jedi.co.uk ([93.93.130.107]:36126)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <git@the-jedi.co.uk>)
- id 1jvKOv-0002kw-Py
- for qemu-devel@nongnu.org; Tue, 14 Jul 2020 08:51:15 -0400
-Received: by vps.the-jedi.co.uk (Postfix, from userid 111)
- id 3BC6342D28; Tue, 14 Jul 2020 13:51:11 +0100 (BST)
-Received: from [192.168.0.5] (host86-179-4-163.range86-179.btcentralplus.com
- [86.179.4.163])
- by vps.the-jedi.co.uk (Postfix) with ESMTPSA id 2B3FF42B57;
- Tue, 14 Jul 2020 13:51:10 +0100 (BST)
-To: qemu-devel@nongnu.org
-References: 
-Subject: Re: [PATCH v2 for-5.1] acpi-pm-tmr: allow any small-size reads
-From: Simon John <git@the-jedi.co.uk>
-Message-ID: <36e5f632-8b08-d6bc-0092-e53f42f69ed3@the-jedi.co.uk>
-Date: Tue, 14 Jul 2020 13:51:45 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.10.0
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1jvKPr-0005hm-RI
+ for qemu-devel@nongnu.org; Tue, 14 Jul 2020 08:52:11 -0400
+Received: from mail-ot1-x336.google.com ([2607:f8b0:4864:20::336]:47077)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1jvKPp-0002rE-QF
+ for qemu-devel@nongnu.org; Tue, 14 Jul 2020 08:52:11 -0400
+Received: by mail-ot1-x336.google.com with SMTP id n24so12900801otr.13
+ for <qemu-devel@nongnu.org>; Tue, 14 Jul 2020 05:52:09 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=Y+IXLran2n5JRXTBl5jxItH0XAnVJdyNDfRZvC0s+CI=;
+ b=FcUAjYZFcUKxBFekCpPM0hNdHJqvhzf+uWVJe4d7BsFVgJeQa0iLZxxUMztu5vf8WN
+ AN0huTscXgV0ayVkymdeXbK1st9yJeTQf4kjqXsr76QNiuokS1cTleE3qt/uXfVC+CGE
+ LpYZjmkL/sC4uZhutnXJATz4fS8oNHnuzK5zpn+g9q0D/jNPDR+igRJDjH1PRjc9laGj
+ WGZjL9mgoUMByzaY8qC+lfxBmS5D8OoGX+fhdT9J4WAE5HCuDE2CHw1KNsjTqavZMWjY
+ yYgq2tSLYiwtiMwlJON3ORnMYXrxOpbDaea3sNFfp9ceTIydzCYVeAcaC4MMeFpwBO+q
+ 2AnQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=Y+IXLran2n5JRXTBl5jxItH0XAnVJdyNDfRZvC0s+CI=;
+ b=OtTXtEGHAqP6ThXDQqrjYHEpO5n0Z4n0dZeAgTD2vmqFxaMBqY9uK/rE7JeXBMAeRb
+ ZEEL3X+3AE/fv33Whp3yCgvEPcdRExF0b1gXzgCvd1ueh5E11J3Ix66GUJr2G8Z5lkbT
+ EY/LuIhGm+6Ub7whsge/2VprxqiqWrHjtaRkBdiA+P0I0CBw+50m1HfOx9nr3MRIRLH2
+ MESmb8STZuA2bKJDqvIu2sM/TfGVxrZXcaDfGke157Re8F9ZVuufC8isnZ3e3V9bykM8
+ I2cLkwpGORLTZoMmcuBAZwu4WHhBXK/qDLZZTvhqiv7fPwT/gJUe5wfB+lwm0FNwhARy
+ 9MTQ==
+X-Gm-Message-State: AOAM532lk94DN0BzQJ9VMWPcI+3pyfokRI7vi/0rmzegKbOm3y7wX0Ca
+ oCLt/vGeDcfBbc8KdNk8aSAY7ZhKEOHO0J51Vgn8/A==
+X-Google-Smtp-Source: ABdhPJzOqJRjFgdqXj4wPy1lbdfaGTu1e9HGTlRw3khciUkJhqXw66cknOgeR/crTCWiUxIzEpJkQlNYKFxhartH/5E=
+X-Received: by 2002:a05:6830:10ce:: with SMTP id
+ z14mr4027504oto.135.1594731128485; 
+ Tue, 14 Jul 2020 05:52:08 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=93.93.130.107; envelope-from=git@the-jedi.co.uk;
- helo=vps.the-jedi.co.uk
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/07/14 08:51:11
-X-ACL-Warn: Detected OS   = Linux 3.11 and newer
-X-Spam_score_int: -18
-X-Spam_score: -1.9
-X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+References: <20200713143306.311143-1-kwolf@redhat.com>
+In-Reply-To: <20200713143306.311143-1-kwolf@redhat.com>
+From: Peter Maydell <peter.maydell@linaro.org>
+Date: Tue, 14 Jul 2020 13:51:57 +0100
+Message-ID: <CAFEAcA8wHhVdw4-0amwHbn8STddUsK7C+oiFzSRW-0dWJ4dFhg@mail.gmail.com>
+Subject: Re: [PULL v3] Block layer patches
+To: Kevin Wolf <kwolf@redhat.com>
+Content-Type: text/plain; charset="UTF-8"
+Received-SPF: pass client-ip=2607:f8b0:4864:20::336;
+ envelope-from=peter.maydell@linaro.org; helo=mail-ot1-x336.google.com
+X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
+ That's all we know.
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ URIBL_BLOCKED=0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -58,45 +79,84 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: mst@redhat.com
+Cc: QEMU Developers <qemu-devel@nongnu.org>, Qemu-block <qemu-block@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Tue, 14 Jul 2020 07:10:14 -0400, Michael S. Tsirkin wrote:
-> On Tue, Jul 14, 2020 at 01:51:13PM +0300, Michael Tokarev wrote:
->> As found in LP#1886318, MacOS Catalina performs 2-byte reads
->> on the acpi timer address space while the spec says it should
->> be 4-byte. Allow any small reads.
->> 
->> Reported-By: Simon John <git@the-jedi.co.uk>
->> Signed-off-by: Michael Tokarev <mjt@tls.msk.ru>
-> 
-> Simon's explanation about the history is good to have here,
-> and I guess Fixes tags (both what you found and what Simon found)
-> can't hurt either. I would CC stable too.
-> 
-> Simon do you have the time to iterate on this patch or would
-> you rather have Michael do it?
+On Mon, 13 Jul 2020 at 15:33, Kevin Wolf <kwolf@redhat.com> wrote:
+>
+> The following changes since commit 6c87d9f311dba0641bdc2df556056938a8bf2a12:
+>
+>   Merge remote-tracking branch 'remotes/elmarco/tags/chardev-pull-request' into staging (2020-07-13 09:34:24 +0100)
+>
+> are available in the Git repository at:
+>
+>   git://repo.or.cz/qemu/kevin.git tags/for-upstream
+>
+> for you to fetch changes up to 7637b225a8d59a3b9b0e31bbc4eb8a0788792ac5:
+>
+>   block: Avoid stale pointer dereference in blk_get_aio_context() (2020-07-13 15:57:13 +0200)
+>
+> ----------------------------------------------------------------
+> Block layer patches:
+>
+> - file-posix: Mitigate file fragmentation with extent size hints
+> - Tighten qemu-img rules on missing backing format
+> - qemu-img map: Don't limit block status request size
+> - Fix crash with virtio-scsi and iothreads
+>
+> ----------------------------------------------------------------
 
-Sorry, I seem to not be getting all of these emails but trying to watch 
-the list archive.
+Fails on OpenBSD:
 
-I just tested Michael's v2 patch and it works fine:
+  TEST    iotest-qcow2: 114 [fail]
+QEMU          --
+"/home/qemu/qemu-test.yVOWVF/build/tests/qemu-iotests/../../aarch64-softmmu/qemu-system-aarch64"
+-nodefaults -display none -machine virt -accel qtest
+QEMU_IMG      --
+"/home/qemu/qemu-test.yVOWVF/build/tests/qemu-iotests/../../qemu-img"
+QEMU_IO       --
+"/home/qemu/qemu-test.yVOWVF/build/tests/qemu-iotests/../../qemu-io"
+--cache writeback --aio threads -f qcow2
+QEMU_NBD      --
+"/home/qemu/qemu-test.yVOWVF/build/tests/qemu-iotests/../../qemu-nbd"
+IMGFMT        -- qcow2 (compat=1.1)
+IMGPROTO      -- file
+PLATFORM      -- OpenBSD/amd64 openbsd 6.6
+TEST_DIR      -- /home/qemu/qemu-test.yVOWVF/build/tests/qemu-iotests/scratch
+SOCK_DIR      -- /tmp/tmp.fiTIG5IIBg
+SOCKET_SCM_HELPER --
 
-static const MemoryRegionOps acpi_pm_tmr_ops = {
-     .read = acpi_pm_tmr_read,
-     .write = acpi_pm_tmr_write,
-     .impl.min_access_size = 4,
-     .valid.min_access_size = 1,
-     .valid.max_access_size = 4,
-     .endianness = DEVICE_LITTLE_ENDIAN,
-};
+--- /home/qemu/qemu-test.yVOWVF/src/tests/qemu-iotests/114.out  Mon
+Jul 13 17:59:07 2020
++++ /home/qemu/qemu-test.yVOWVF/build/tests/qemu-iotests/114.out.bad
+ Tue Jul 14 12:39:01 2020
+@@ -1,8 +1,9 @@
+ QA output created by 114
+-qemu-img: warning: Deprecated use of backing file without explicit
+backing format (detected format of raw)
+-Formatting 'TEST_DIR/t.IMGFMT', fmt=IMGFMT size=67108864
+backing_file=TEST_DIR/t.IMGFMT.orig
++./114: line 48: truncate: command not found
++qemu-img: TEST_DIR/t.IMGFMT: Could not open 'TEST_DIR/t.IMGFMT.orig':
+No such file or directory
++Could not open backing image.
+ Formatting 'TEST_DIR/t.IMGFMT.base', fmt=IMGFMT size=67108864
+-qemu-img: warning: Deprecated use of backing file without explicit
+backing format
++qemu-img: Could not open
+'/home/qemu/qemu-test.yVOWVF/build/tests/qemu-iotests/scratch/t.qcow2.orig':
+Could not open '/home/qemu/qemu-test.yVOWVF/build/tests/qemu-iotests/scratch/t.qcow2.orig':
+No such file or directory
+ qemu-img: warning: Deprecated use of backing file without explicit
+backing format (detected format of IMGFMT)
+ Formatting 'TEST_DIR/t.IMGFMT', fmt=IMGFMT size=67108864
+backing_file=TEST_DIR/t.IMGFMT.base backing_fmt=IMGFMT
+ qemu-img: warning: Deprecated use of unopened backing file without
+explicit backing format, use of this image requires potentially unsafe
+format probing
+  TEST    iotest-qcow2: 117
 
-I'm happy for Michael to proceed with the patch, he's mentioned me and 
-linked to the launchpad bug where the history is.
-
-Regards.
-
--- 
-Simon John
+thanks
+-- PMM
 
