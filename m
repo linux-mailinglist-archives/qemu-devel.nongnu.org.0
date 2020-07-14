@@ -2,43 +2,77 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id EE65F21F2C5
-	for <lists+qemu-devel@lfdr.de>; Tue, 14 Jul 2020 15:37:14 +0200 (CEST)
-Received: from localhost ([::1]:56286 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id F3C0B21F294
+	for <lists+qemu-devel@lfdr.de>; Tue, 14 Jul 2020 15:32:38 +0200 (CEST)
+Received: from localhost ([::1]:52176 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jvL7S-0001NR-26
-	for lists+qemu-devel@lfdr.de; Tue, 14 Jul 2020 09:37:14 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:58254)
+	id 1jvL30-0007h3-1a
+	for lists+qemu-devel@lfdr.de; Tue, 14 Jul 2020 09:32:38 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:56640)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mjt@tls.msk.ru>) id 1jvL6h-0000wu-Tq
- for qemu-devel@nongnu.org; Tue, 14 Jul 2020 09:36:27 -0400
-Received: from isrv.corpit.ru ([86.62.121.231]:38143)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mjt@tls.msk.ru>) id 1jvL6f-0000eg-Lm
- for qemu-devel@nongnu.org; Tue, 14 Jul 2020 09:36:27 -0400
-Received: from tsrv.corpit.ru (tsrv.tls.msk.ru [192.168.177.2])
- by isrv.corpit.ru (Postfix) with ESMTP id D6CA0404A8;
- Tue, 14 Jul 2020 16:36:22 +0300 (MSK)
-Received: from tls.msk.ru (mjt.vpn.tls.msk.ru [192.168.177.99])
- by tsrv.corpit.ru (Postfix) with SMTP id 05537B8;
- Tue, 14 Jul 2020 16:36:22 +0300 (MSK)
-Received: (nullmailer pid 2143 invoked by uid 1000);
- Tue, 14 Jul 2020 13:36:22 -0000
-From: Michael Tokarev <mjt@tls.msk.ru>
-To: qemu-devel@nongnu.org
-Subject: [PATCH v3 for-5.1] acpi-pm-tmr: allow small-size reads
-Date: Tue, 14 Jul 2020 16:27:26 +0300
-Message-Id: <1594733782.723411.2142.nullmailer@msgid.tls.msk.ru>
-Received-SPF: none client-ip=86.62.121.231; envelope-from=mjt@tls.msk.ru;
- helo=isrv.corpit.ru
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/07/14 09:36:23
-X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic]
-X-Spam_score_int: -68
-X-Spam_score: -6.9
-X-Spam_bar: ------
-X-Spam_report: (-6.9 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_HI=-5,
- SPF_HELO_NONE=0.001, SPF_NONE=0.001 autolearn=ham autolearn_force=no
+ (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
+ id 1jvL1L-0006OM-PY
+ for qemu-devel@nongnu.org; Tue, 14 Jul 2020 09:30:55 -0400
+Received: from us-smtp-2.mimecast.com ([205.139.110.61]:33378
+ helo=us-smtp-delivery-1.mimecast.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
+ id 1jvL1I-0008GH-TK
+ for qemu-devel@nongnu.org; Tue, 14 Jul 2020 09:30:55 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1594733451;
+ h=from:from:reply-to:reply-to:subject:subject:date:date:
+ message-id:message-id:to:to:cc:cc:mime-version:mime-version:
+ content-type:content-type:in-reply-to:in-reply-to:  references:references;
+ bh=tialLkh8pgx8clCmqzYXrMqwYmrrkhzfrNyZzgw9jjs=;
+ b=irP91iMc+kDxf1TS846Dkk4aaRY/QOHheArWwtr/a5mWd6NkvuEeLoWtZJAGrX/vUwUeoJ
+ qkSkNim7STJz00sxqQ8lOvZcLYAODevjcUfGzlkxkS83RZLdDs+7B087IkmkjKyhJmrLzs
+ bhP6ABY+tVcy307JHn+yQv2NYC20uSg=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-150-B1hVY583PXyzKiahcLFkfQ-1; Tue, 14 Jul 2020 09:30:40 -0400
+X-MC-Unique: B1hVY583PXyzKiahcLFkfQ-1
+Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
+ [10.5.11.16])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 57CC980BCBD;
+ Tue, 14 Jul 2020 13:30:38 +0000 (UTC)
+Received: from redhat.com (unknown [10.36.110.42])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id ADA545FC31;
+ Tue, 14 Jul 2020 13:30:23 +0000 (UTC)
+Date: Tue, 14 Jul 2020 14:30:21 +0100
+From: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
+To: "Michael S. Tsirkin" <mst@redhat.com>
+Subject: Re: [PATCH 1/1] MAINTAINERS: introduce cve or security quotient field
+Message-ID: <20200714133021.GF25187@redhat.com>
+References: <20200714083631.888605-1-ppandit@redhat.com>
+ <20200714083631.888605-2-ppandit@redhat.com>
+ <CAFEAcA9QWLmi1fGuPW93GXFKV2KCwNs6Xp3U9MU2r4wtendzhg@mail.gmail.com>
+ <20200714095233.GC25187@redhat.com>
+ <20200714060916-mutt-send-email-mst@kernel.org>
+ <CAFEAcA_ca4JN655GW=eGyjrjDmiv0EktaZZ7RMghO5rBwm9tGQ@mail.gmail.com>
+ <20200714064921-mutt-send-email-mst@kernel.org>
+MIME-Version: 1.0
+In-Reply-To: <20200714064921-mutt-send-email-mst@kernel.org>
+User-Agent: Mutt/1.14.5 (2020-06-23)
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Received-SPF: pass client-ip=205.139.110.61; envelope-from=berrange@redhat.com;
+ helo=us-smtp-delivery-1.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/07/14 03:57:32
+X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
+X-Spam_score_int: -40
+X-Spam_score: -4.1
+X-Spam_bar: ----
+X-Spam_report: (-4.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-1, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001, URIBL_BLOCKED=0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -51,48 +85,64 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Simon John <git@the-jedi.co.uk>, Michael Tokarev <mjt@tls.msk.ru>,
- "Michael S. Tsirkin" <mst@redhat.com>
+Reply-To: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
+Cc: Kevin Wolf <kwolf@redhat.com>, Peter Maydell <peter.maydell@linaro.org>,
+ Stefano Stabellini <sstabellini@kernel.org>,
+ Prasad J Pandit <pjp@fedoraproject.org>,
+ QEMU Developers <qemu-devel@nongnu.org>,
+ Christian Schoenebeck <qemu_oss@crudebyte.com>,
+ Michael Roth <mdroth@linux.vnet.ibm.com>, P J P <ppandit@redhat.com>,
+ Greg Kurz <groug@kaod.org>, Stefan Hajnoczi <stefanha@redhat.com>,
+ Paolo Bonzini <pbonzini@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-As found in LP#1886318, MacOS Catalina performs 2-byte reads
-on the acpi timer address space while the spec says it should
-be 4-byte. Allow any small reads.
+On Tue, Jul 14, 2020 at 07:02:59AM -0400, Michael S. Tsirkin wrote:
+> On Tue, Jul 14, 2020 at 11:22:28AM +0100, Peter Maydell wrote:
+> > On Tue, 14 Jul 2020 at 11:12, Michael S. Tsirkin <mst@redhat.com> wrote:
+> > > And for people who want to build QEMU with lots of functionality (like
+> > > Fedora does), I think a -security flag would be a useful addition.
+> > > We can then tell security researchers "only a high security issue
+> > > if it reproduces with -security=high, only a security issue
+> > > if it reproduces with -security=low".
+> > 
+> > I think a -security option would also be useful to users -- it
+> > makes it easier for them to check "is this configuration using
+> > something that I didn't realize was not intended to be secure".
+> > For me, something useful for our users is much more compelling
+> > than "this might make security researchers' lives a bit easier".
+> > 
+> > thanks
+> > -- PMM
+> 
+> True. And I guess downstreams can also force the option to high or set the
+> default to high rather easily if they want to.
+> 
+> So the option would be:
+> 
+> -security level
+> 	Set minimal required security level of QEMU.
+> 
+> 	high: block use of QEMU functionality which is intended to be secure against
+> 		malicious guests.
+> 	low: allow use of all QEMU functionality, best effort security
+> 		against malicious guests.
+> 
+> Default would be -security low.
+> 
+> Does this look reasonable?
 
-Reported-By: Simon John <git@the-jedi.co.uk>
-Signed-off-by: Michael Tokarev <mjt@tls.msk.ru>
-BugLink: https://bugs.debian.org/cgi-bin/bugreport.cgi?bug=964247
-BugLink: https://bugs.launchpad.net/bugs/1886318
-Fixes: 77d58b1e47c8d1c661f98f12b47ab519d3561488 (apci: switch timer to memory api)
-Fixes: 5d971f9e672507210e7 (memory: Revert "memory: accept mismatching sizes in memory_region_access_valid")
----
- hw/acpi/core.c | 4 +++-
- 1 file changed, 3 insertions(+), 1 deletion(-)
+The challenge I see is that wiring up a runtime flag into every relevant
+part of the QEMU codebase is an pretty large amount of work. Every device,
+every machine type, every backend type, every generic subsystem will all
+need checks for this flag. It is possible, but it isn't going to be quick
+or easy, especially with poor error reporting support in many areas.
 
-v2: fixed bug#, use the right form of S-o-b, and allow up to 1 byte reads.
-v3: added BugLink & Fixes references, updated comment
-
-I'm applying this to debian qemu package, need the fix
-faster in order to release security updates for other
-branches.
-
-diff --git a/hw/acpi/core.c b/hw/acpi/core.c
---- a/hw/acpi/core.c
-+++ b/hw/acpi/core.c
-@@ -530,7 +530,10 @@ static void acpi_pm_tmr_write(void *opaque, hwaddr addr, uint64_t val,
- static const MemoryRegionOps acpi_pm_tmr_ops = {
-     .read = acpi_pm_tmr_read,
-     .write = acpi_pm_tmr_write,
--    .valid.min_access_size = 4,
-+    .impl.min_access_size = 4,
-+     /* at least MacOS Catalina reads 2 bytes and fails if it doesn't work */
-+     /* allow 1-byte reads too, memory API will do all the conversion needed */
-+    .valid.min_access_size = 1,
-     .valid.max_access_size = 4,
-     .endianness = DEVICE_LITTLE_ENDIAN,
- };
+Regards,
+Daniel
 -- 
-2.20.1
+|: https://berrange.com      -o-    https://www.flickr.com/photos/dberrange :|
+|: https://libvirt.org         -o-            https://fstop138.berrange.com :|
+|: https://entangle-photo.org    -o-    https://www.instagram.com/dberrange :|
 
 
