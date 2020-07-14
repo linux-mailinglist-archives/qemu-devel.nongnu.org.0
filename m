@@ -2,66 +2,67 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7050721EA2D
-	for <lists+qemu-devel@lfdr.de>; Tue, 14 Jul 2020 09:36:05 +0200 (CEST)
-Received: from localhost ([::1]:54860 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 341DE21EAB6
+	for <lists+qemu-devel@lfdr.de>; Tue, 14 Jul 2020 09:56:51 +0200 (CEST)
+Received: from localhost ([::1]:36772 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jvFTw-0006Kb-Ff
-	for lists+qemu-devel@lfdr.de; Tue, 14 Jul 2020 03:36:04 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:52882)
+	id 1jvFo2-00048F-9x
+	for lists+qemu-devel@lfdr.de; Tue, 14 Jul 2020 03:56:50 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:56954)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1jvFRA-0001bR-WC
- for qemu-devel@nongnu.org; Tue, 14 Jul 2020 03:33:13 -0400
-Received: from mout.kundenserver.de ([212.227.17.10]:58391)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1jvFR9-00024u-7d
- for qemu-devel@nongnu.org; Tue, 14 Jul 2020 03:33:12 -0400
-Received: from localhost.localdomain ([78.238.229.36]) by
- mrelayeu.kundenserver.de (mreue107 [212.227.15.183]) with ESMTPSA (Nemesis)
- id 1MyKYE-1knBOq1m4i-00yf6J; Tue, 14 Jul 2020 09:33:08 +0200
-From: Laurent Vivier <laurent@vivier.eu>
-To: qemu-devel@nongnu.org
-Subject: [PULL 7/7] linux-user: fix print_syscall_err() when syscall returned
- value is negative
-Date: Tue, 14 Jul 2020 09:32:59 +0200
-Message-Id: <20200714073259.1464675-8-laurent@vivier.eu>
-X-Mailer: git-send-email 2.26.2
-In-Reply-To: <20200714073259.1464675-1-laurent@vivier.eu>
-References: <20200714073259.1464675-1-laurent@vivier.eu>
+ (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
+ id 1jvFmy-0003JA-Fb
+ for qemu-devel@nongnu.org; Tue, 14 Jul 2020 03:55:44 -0400
+Received: from indium.canonical.com ([91.189.90.7]:36612)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
+ id 1jvFmw-0005Fr-B2
+ for qemu-devel@nongnu.org; Tue, 14 Jul 2020 03:55:44 -0400
+Received: from loganberry.canonical.com ([91.189.90.37])
+ by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
+ id 1jvFmu-0004nu-By
+ for <qemu-devel@nongnu.org>; Tue, 14 Jul 2020 07:55:40 +0000
+Received: from loganberry.canonical.com (localhost [127.0.0.1])
+ by loganberry.canonical.com (Postfix) with ESMTP id 58BDA2E804E
+ for <qemu-devel@nongnu.org>; Tue, 14 Jul 2020 07:55:40 +0000 (UTC)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Provags-ID: V03:K1:i7X6BYcI8VIr4p155mf8zFTNYZOhu3NW3k/vGE+dXaC7rxI4vpp
- mAjLw4lW74ZcE5WlGKJVcbtvSvQfOqyh8K93ZB9vFA0dChXUgHo0AHYAeqXuzdFYGC6/voT
- UcOFrShgQ9XZseA+MFgy6LX6gPd+t3ugnqM3GPa9uUU2g10mDPKvNk29wn7QFrsWnXifOLa
- SGYwErTd8q4WhLZcHInaQ==
-X-UI-Out-Filterresults: notjunk:1;V03:K0:V4vScfLCSFk=:gFsqR0wAN2YCrssNas5Ok3
- /DGSbQhszeIYThncBLBbdm4RMVA3tECFDrufdyzsF2M0sesczx/WIGn4ozwG0bmeIlbcL2q0u
- M8+xk34A+1BdgJq08GTK/4GnhZZrcnVVFOh0DGQDzA7Hc4LPBRHbxPdNyHt5KunSwxBy8sqEH
- LXIoENAduY5Cl8itzDBm1PZA1HwMIKKFnEftBMhMIw2XPGdoPbJNyWtCU8wtlw97trSxleF75
- 254GnRzCiWsJUCpOjdJxpqph+fmaG4U1VQGJfVdYBWK1VJzf0wWyddpNConfXmAZalEw/CgWT
- dx7xDjdQDdu/y5clmZpHd7RTan5Jg2iljWfwgE342hJcPhdXCJM21LeJf6idB/C5w4eIBZEdl
- UqweA7WLTeSMci9Odab/t9m8KMm8IhZw8haQakOgxauxaqrzjxkqPlsXwIwlpeQ3w2SWn6UTK
- PZo0mG20VmPd1fdAU47YvVIXXs+wn06WUbo4PmUsIojPwpBnJTFO+erHaGpR0Z09yZyDNHoQU
- QgRHoYN2sD30e160C2HJ2y8rdtx1bwkX38HGeud0VZSdX/Vv16DnQebEpDHOEY93ni9DzmtNa
- s0VtRsF7SbjnCyzjZlOHIFzPCcooVr+dpaTP/bj3u5NraawdEXJG7lqfDf7nD+ymhnR35jvG2
- IPN0cZjauKwzBb/hFDsDd3i+7N4RqP3ZQP3gqWNjmSEQPXOCZhq5g7wn18UFnb49pmT/bF+ic
- 8iEkvxcCSTBPldJ3iXl312mUye1qfyfIdyGjZpuO0SdvASqWxjVH1CM6ixDGrhE/tRm1tWIf1
- O5MS4edFfobiIa/3HGLpYOcLm8UKyzpSp32WUr+7zo4vTIffOoKoVYUieRpHGE5DwnHGMvz
-Received-SPF: none client-ip=212.227.17.10; envelope-from=laurent@vivier.eu;
- helo=mout.kundenserver.de
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/07/14 03:33:10
-X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic]
-X-Spam_score_int: -28
-X-Spam_score: -2.9
-X-Spam_bar: --
-X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_NONE=-0.0001,
- RCVD_IN_MSPIKE_H2=-1, SPF_HELO_NONE=0.001,
- SPF_NONE=0.001 autolearn=ham autolearn_force=no
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: quoted-printable
+Date: Tue, 14 Jul 2020 07:48:52 -0000
+From: Martin Grigorov <1884719@bugs.launchpad.net>
+To: qemu-devel@nongnu.org
+X-Launchpad-Notification-Type: bug
+X-Launchpad-Bug: product=qemu; status=New; importance=Undecided; assignee=None;
+X-Launchpad-Bug-Information-Type: Public
+X-Launchpad-Bug-Private: no
+X-Launchpad-Bug-Security-Vulnerability: no
+X-Launchpad-Bug-Commenters: laurent-vivier martingrigorov stefanha
+X-Launchpad-Bug-Reporter: Martin Grigorov (martingrigorov)
+X-Launchpad-Bug-Modifier: Martin Grigorov (martingrigorov)
+References: <159289799812.6175.17000319886186623286.malonedeb@soybean.canonical.com>
+Message-Id: <159471293258.13569.12288666476368228026.malone@gac.canonical.com>
+Subject: [Bug 1884719] Re: Function not implemented when using libaio
+X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
+X-Launchpad-Message-For: qemu-devel-ml
+Precedence: bulk
+X-Generated-By: Launchpad (canonical.com);
+ Revision="4809fcb62f445aaa3ae919f7f6c3cc7d156ea57a";
+ Instance="production-secrets-lazr.conf"
+X-Launchpad-Hash: 612b38f2192dd75b5e7481b7468bacbc9eed5e46
+Received-SPF: none client-ip=91.189.90.7; envelope-from=bounces@canonical.com;
+ helo=indium.canonical.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/07/14 03:55:40
+X-ACL-Warn: Detected OS   = Linux 3.11 and newer [fuzzy]
+X-Spam_score_int: -58
+X-Spam_score: -5.9
+X-Spam_bar: -----
+X-Spam_report: (-5.9 / 5.0 requ) BAYES_00=-1.9, HEADER_FROM_DIFFERENT_DOMAINS=1,
+ RCVD_IN_DNSWL_HI=-5, RCVD_IN_MSPIKE_H3=-0.01, RCVD_IN_MSPIKE_WL=-0.01,
+ SPF_HELO_NONE=0.001, SPF_NONE=0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
-Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -70,138 +71,183 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Laurent Vivier <laurent@vivier.eu>, Filip.Bozuta@syrmia.com
+Reply-To: Bug 1884719 <1884719@bugs.launchpad.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-print_syscall_err() relies on the sign of the returned value to know
-if it is an errno value or not.
+Laurent,
 
-But in some cases the returned value can have the most signicant bit
-set without being an errno.
+I am not familiar with the internals of QEMU but if you point me to the
+source code of similar functionality I could try!
 
-This patch restores previous behaviour that was also checking if
-we can decode the errno to validate it.
+Thanks!
 
-This patch fixes this kind of problem (qemu-m68k):
+-- =
 
-  root@sid:/# QEMU_STRACE= ls
-  3 brk(NULL) = -1 errno=21473607683 uname(0x407fff8a) = 0
+You received this bug notification because you are a member of qemu-
+devel-ml, which is subscribed to QEMU.
+https://bugs.launchpad.net/bugs/1884719
 
-to become:
+Title:
+  Function not implemented when using libaio
 
-  root@sid:/# QEMU_STRACE= ls
-  3 brk(NULL) = 0x8001e000
-  3 uname(0xffffdf8a) = 0
+Status in QEMU:
+  New
 
-Fixes: c84be71f6854 ("linux-user: Extend strace support to enable argument printing after syscall execution")
-Cc: Filip.Bozuta@syrmia.com
-Signed-off-by: Laurent Vivier <laurent@vivier.eu>
-Message-Id: <20200708152435.706070-3-laurent@vivier.eu>
----
- linux-user/strace.c | 36 +++++++++++++-----------------------
- 1 file changed, 13 insertions(+), 23 deletions(-)
+Bug description:
+  Hello
 
-diff --git a/linux-user/strace.c b/linux-user/strace.c
-index 7769f53bd5ed..13981341b327 100644
---- a/linux-user/strace.c
-+++ b/linux-user/strace.c
-@@ -724,19 +724,20 @@ print_ipc(const struct syscallname *name,
-  * Variants for the return value output function
-  */
- 
--static void
-+static bool
- print_syscall_err(abi_long ret)
- {
--    const char *errstr = NULL;
-+    const char *errstr;
- 
-     qemu_log(" = ");
-     if (ret < 0) {
--        qemu_log("-1 errno=%d", (int)-ret);
-         errstr = target_strerror(-ret);
-         if (errstr) {
--            qemu_log(" (%s)", errstr);
-+            qemu_log("-1 errno=%d (%s)", (int)-ret, errstr);
-+            return true;
-         }
-     }
-+    return false;
- }
- 
- static void
-@@ -744,11 +745,10 @@ print_syscall_ret_addr(const struct syscallname *name, abi_long ret,
-                        abi_long arg0, abi_long arg1, abi_long arg2,
-                        abi_long arg3, abi_long arg4, abi_long arg5)
- {
--    print_syscall_err(ret);
--
--    if (ret >= 0) {
--        qemu_log("0x" TARGET_ABI_FMT_lx "\n", ret);
-+    if (!print_syscall_err(ret)) {
-+        qemu_log("0x" TARGET_ABI_FMT_lx, ret);
-     }
-+    qemu_log("\n");
- }
- 
- #if 0 /* currently unused */
-@@ -765,9 +765,7 @@ print_syscall_ret_newselect(const struct syscallname *name, abi_long ret,
-                             abi_long arg0, abi_long arg1, abi_long arg2,
-                             abi_long arg3, abi_long arg4, abi_long arg5)
- {
--    print_syscall_err(ret);
--
--    if (ret >= 0) {
-+    if (!print_syscall_err(ret)) {
-         qemu_log(" = 0x" TARGET_ABI_FMT_lx " (", ret);
-         print_fdset(arg0, arg1);
-         qemu_log(",");
-@@ -796,9 +794,7 @@ print_syscall_ret_adjtimex(const struct syscallname *name, abi_long ret,
-                            abi_long arg0, abi_long arg1, abi_long arg2,
-                            abi_long arg3, abi_long arg4, abi_long arg5)
- {
--    print_syscall_err(ret);
--
--    if (ret >= 0) {
-+    if (!print_syscall_err(ret)) {
-         qemu_log(TARGET_ABI_FMT_ld, ret);
-         switch (ret) {
-         case TARGET_TIME_OK:
-@@ -833,9 +829,7 @@ print_syscall_ret_listxattr(const struct syscallname *name, abi_long ret,
-                             abi_long arg0, abi_long arg1, abi_long arg2,
-                             abi_long arg3, abi_long arg4, abi_long arg5)
- {
--    print_syscall_err(ret);
--
--    if (ret >= 0) {
-+    if (!print_syscall_err(ret)) {
-         qemu_log(TARGET_ABI_FMT_ld, ret);
-         qemu_log(" (list = ");
-         if (arg1 != 0) {
-@@ -866,9 +860,7 @@ print_syscall_ret_ioctl(const struct syscallname *name, abi_long ret,
-                         abi_long arg0, abi_long arg1, abi_long arg2,
-                         abi_long arg3, abi_long arg4, abi_long arg5)
- {
--    print_syscall_err(ret);
--
--    if (ret >= 0) {
-+    if (!print_syscall_err(ret)) {
-         qemu_log(TARGET_ABI_FMT_ld, ret);
- 
-         const IOCTLEntry *ie;
-@@ -3197,9 +3189,7 @@ print_syscall_ret(int num, abi_long ret,
-                                   arg1, arg2, arg3,
-                                   arg4, arg5, arg6);
-             } else {
--                print_syscall_err(ret);
--
--                if (ret >= 0) {
-+                if (!print_syscall_err(ret)) {
-                     qemu_log(TARGET_ABI_FMT_ld, ret);
-                 }
-                 qemu_log("\n");
--- 
-2.26.2
+  I experience "Function not implemented" errors when trying to use
+  Linux libaio library in foreign architecture, e.g. aarch64.
 
+  I've faced this problem while using https://github.com/multiarch/qemu-use=
+r-static, i.e. Docker+QEMU. =
+
+  I understand that I do not use plain QEMU and you may count this report a=
+s a "distribution of QEMU"! Just let me know what are the steps to test it =
+with plain QEMU and I will test and update this ticket!
+
+  =
+
+  Here are the steps to reproduce the issue:
+
+  1) On x86_64 machine register QEMU:
+
+      `docker run -it --rm --privileged multiarch/qemu-user-static
+  --reset --credential yes --persistent yes`
+
+  2) Start a Docker image with foreign CPU architecture, e.g. aarch64
+
+      `docker run -it arm64v8/centos:8 bash`
+
+  3) Inside the Docker container install GCC and libaio
+
+      `yum install gcc libaio libaio-devel`
+
+  4) Compile the following C program
+
+  ```
+  #include <stdio.h>
+  #include <errno.h>
+  #include <libaio.h>
+  #include <stdlib.h>
+
+  struct io_control {
+      io_context_t ioContext;
+  };
+
+  int main() {
+      int queueSize =3D 10;
+
+      struct io_control * theControl =3D (struct io_control *) malloc(sizeo=
+f(struct io_control));
+      if (theControl =3D=3D NULL) {
+          printf("theControl is NULL");
+          return 123;
+      }
+
+      int res =3D io_queue_init(queueSize, &theControl->ioContext);
+      io_queue_release(theControl->ioContext);
+      free(theControl);
+      printf("res is: %d", res);
+  }
+  ```
+
+      ```
+      cat > test.c
+          [PASTE THE CODE ABOVE HERE]
+      ^D
+      ```
+
+      `gcc test.c -o out -laio && ./out`
+
+  =
+
+  When executed directly on aarch64 machine (i.e. without emulation) or on =
+x86_64 Docker image (e.g. centos:8) it prints `res is: 0`, i.e. it successf=
+ully initialized a LibAIO queue.
+
+  But when executed on Docker image with foreign/emulated CPU
+  architecture it prints `res is: -38` (ENOSYS). `man io_queue_init`
+  says that error ENOSYS is returned when "Not implemented."
+
+  Environment:
+
+  QEMU version: 5.0.0.2  (https://github.com/multiarch/qemu-user-static/blo=
+b/master/.travis.yml#L24-L28)
+  Container application: Docker
+  Output of `docker --version`:
+
+  ```
+  Client:
+   Version:           19.03.8
+   API version:       1.40
+   Go version:        go1.13.8
+   Git commit:        afacb8b7f0
+   Built:             Wed Mar 11 23:42:35 2020
+   OS/Arch:           linux/amd64
+   Experimental:      false
+
+  Server:
+   Engine:
+    Version:          19.03.8
+    API version:      1.40 (minimum version 1.12)
+    Go version:       go1.13.8
+    Git commit:       afacb8b7f0
+    Built:            Wed Mar 11 22:48:33 2020
+    OS/Arch:          linux/amd64
+    Experimental:     false
+   containerd:
+    Version:          1.3.3-0ubuntu2
+    GitCommit:        =
+
+   runc:
+    Version:          spec: 1.0.1-dev
+    GitCommit:        =
+
+   docker-init:
+    Version:          0.18.0
+    GitCommit:        =
+
+  ```
+
+  Same happens with Ubuntu (arm64v8/ubuntu:focal).
+
+  I've tried to `strace` it but :
+
+  ```
+  /usr/bin/strace: ptrace(PTRACE_TRACEME, ...): Function not implemented
+  /usr/bin/strace: PTRACE_SETOPTIONS: Function not implemented
+  /usr/bin/strace: detach: waitpid(112): No child processes
+  /usr/bin/strace: Process 112 detached
+  ```
+
+  Here are the steps to reproduce the problem with strace:
+
+       ```
+       docker run --rm -it --security-opt seccomp:unconfined --security-opt=
+ apparmor:unconfined --privileged --cap-add ALL arm64v8/centos:8 bash
+
+       yum install -y strace`
+
+       strace echo Test
+       ```
+
+  Note: I used --privileged, disabled seccomp and apparmor, and added
+  all capabilities
+
+  Disabling security solves the "Permission denied" problem but then
+  comes the "Not implemented" one.
+
+  =
+
+  Any idea what could be the problem and how to work it around ?
+  I've googled a lot but I wasn't able to find any problems related to liba=
+io on QEMU.
+
+  Thank you!
+  Martin
+
+To manage notifications about this bug go to:
+https://bugs.launchpad.net/qemu/+bug/1884719/+subscriptions
 
