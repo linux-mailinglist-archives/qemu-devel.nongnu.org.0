@@ -2,61 +2,60 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6064E21F35A
-	for <lists+qemu-devel@lfdr.de>; Tue, 14 Jul 2020 16:00:12 +0200 (CEST)
-Received: from localhost ([::1]:48758 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E2BE621F35B
+	for <lists+qemu-devel@lfdr.de>; Tue, 14 Jul 2020 16:00:20 +0200 (CEST)
+Received: from localhost ([::1]:49362 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jvLTf-0005x4-Cu
-	for lists+qemu-devel@lfdr.de; Tue, 14 Jul 2020 10:00:11 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:34968)
+	id 1jvLTn-0006Bn-Tu
+	for lists+qemu-devel@lfdr.de; Tue, 14 Jul 2020 10:00:19 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:34990)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1jvLRw-00046H-AE; Tue, 14 Jul 2020 09:58:24 -0400
-Received: from mail-wr1-x42b.google.com ([2a00:1450:4864:20::42b]:35096)
+ id 1jvLRx-00049P-Pt; Tue, 14 Jul 2020 09:58:25 -0400
+Received: from mail-wr1-x42c.google.com ([2a00:1450:4864:20::42c]:45838)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1jvLRu-0003Qz-Md; Tue, 14 Jul 2020 09:58:23 -0400
-Received: by mail-wr1-x42b.google.com with SMTP id z2so21787801wrp.2;
- Tue, 14 Jul 2020 06:58:22 -0700 (PDT)
+ id 1jvLRv-0003RD-WB; Tue, 14 Jul 2020 09:58:25 -0400
+Received: by mail-wr1-x42c.google.com with SMTP id s10so21729482wrw.12;
+ Tue, 14 Jul 2020 06:58:23 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=sender:from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=zbGjOBBNZ64R8mcYS6G/b7wiXRpDe2wnK8/pnLl1Lj4=;
- b=s15XrGau8cQoLhTWt3iHLyMzKaxZrTSFy+tB0FqvXRFzVL1eGo3lZEcCO+T19EbROt
- Ak/bUApNPoKLUV2x80+BZWnFXlXOqqnrdS9JQmP07ivzFihbh88OjZOKH5CDeetsJrGs
- QpC9Pvs0knP/iv+jhfrJLqMcoMaIRPR9+E1+S4DcD6XFM6xCkr1wHFGMtZwWnQxHcrQh
- Dlf5QY0juBkCfoJOpnsbv7NBZBD0oGo7iW9tPbW2djGzEiPxAI/zu0LdV1Pl+iO+irIk
- tSNkGP0DNZpSDZVj3EFgnwtA1d4Y7Xb+s+pE91bfUmRx6KHQZyiaYfb3U1AGM6dil/D2
- dsYg==
+ bh=5I6k15BzbxNW4yNX/t4jNCAcu35UtS7fJs1XxZN10R0=;
+ b=YHHnRI+P0gG4nIRZRwsYF24p36aNG8+O+pJufhLsg9q8J1uIi+1qKVMwv/y458Hb6p
+ QM/I/MJKoaBjuurGba2EboQGmvdsuqnBUXWv8IX2gYviBCS2gplU3+eEu2iUdDsYoPpK
+ ++xMIW4eLuRPBLRtvKCEWVC93ysSGzIT4NqEpXRNqa2kubX5jgQhZq5RoWUd6HmIkn3r
+ TfgIspd8IdW+kJk+arvrrSSb3IGA0d7FLlVItVQqsijjEHqzXquuS/+OAZz8+VvYQTLR
+ /V5qSRKC2oWrdtWEwTXcH4JvA5Fl9fAJXxpxrzQBOahdM4EDdXqrXw+krKXcldJiQTNG
+ Zf5w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
  :in-reply-to:references:mime-version:content-transfer-encoding;
- bh=zbGjOBBNZ64R8mcYS6G/b7wiXRpDe2wnK8/pnLl1Lj4=;
- b=SVikdSRUR9IzpG1oEdtEQj3zlJ7+VMUYIPc4cj0RSl2WtbrEt96HJbU1M5VDbh7L6F
- /W0MWw6QnfFBdGOOWEXVBod/jPyIvg9dlNNtrrNd5kCWCbfdL2puULdnFuJ9nCdilqjX
- rKuQ6HvfXkzbzOJDQ2a2AzEfAeDY2MJInVHBBZSWBLn3XheWSH6s4vhd4j+9hmLP+DIf
- SLOMQPWqKBikiArb9zw1E89amljFk7yv05ZTJOOvCHwsPrPYIjqnsmoQ/ZxkPOSuJ1U/
- yrwvl5SvXS7bhPpOUGxkhedWgDwRZGSE39Pyfnzlu6JbFjWkvmXlpLkjUPA390LFT5zX
- +UtA==
-X-Gm-Message-State: AOAM531eVA1RwLvZsvj9jDk6vKjZfK8ZUv4b3Qi58Vbm8W7ncgYj/h/G
- abGb85jaBaIJPt7PKRvyfIh+f48L9S8=
-X-Google-Smtp-Source: ABdhPJwaRvv35z3tE6iygWQhuq5DDdwlyfUZAr97uCGq0D+MLv9VfWiOnrwJkHbVTM4gPEe/OY+tEw==
-X-Received: by 2002:a05:6000:ca:: with SMTP id
- q10mr5772834wrx.135.1594735100777; 
- Tue, 14 Jul 2020 06:58:20 -0700 (PDT)
+ bh=5I6k15BzbxNW4yNX/t4jNCAcu35UtS7fJs1XxZN10R0=;
+ b=JbI6o+xy38AIUcnzvgnqwZoIT/Uzk/FNxhKPDjPPybm4e03SquPDGOyOIx0b1oAGc/
+ cLx/LPTNwwAoS7pZfN1itwhiWhHZEUf/Gvdyjj66dEpAT+0aX1W3ZLe+HvW8RdZK8ud/
+ WUidyIzz1UGXpv12XXvNtUUep5NH/69r4wJhsvB3eqiwgMU8rGkdzZKCp0o6qej4BY2L
+ zeMD7WNcV87+qi3g/Q6LpER2sJRMV//yHV75hKuOBh9xTLGUSzJqS7tzO/NNlWc1sx6H
+ hfRUKhAxLHPUiV9IBWOfy4qkLH57xsdOJsRV4fbG5ekD5fO48EzK8kLEdX9hZYxfBkWy
+ 69ng==
+X-Gm-Message-State: AOAM530AN3wRRIot/lsjvZtsUfTQByhMbrgkr7s+nkD41V4funW0Ehu5
+ 2X6xOffW3ZL+SpcV5kpYoD10+R2AIk0=
+X-Google-Smtp-Source: ABdhPJz5bROAe8qtRtC4SXchBBTLcoHaGNu4uhXmxoaPlu/ZATMOPalWf2Y4KweluI+pIBEaF36gWA==
+X-Received: by 2002:adf:81c7:: with SMTP id 65mr5441231wra.47.1594735101989;
+ Tue, 14 Jul 2020 06:58:21 -0700 (PDT)
 Received: from localhost.localdomain
  (138.red-83-57-170.dynamicip.rima-tde.net. [83.57.170.138])
- by smtp.gmail.com with ESMTPSA id k14sm29145343wrn.76.2020.07.14.06.58.19
+ by smtp.gmail.com with ESMTPSA id k14sm29145343wrn.76.2020.07.14.06.58.20
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 14 Jul 2020 06:58:19 -0700 (PDT)
+ Tue, 14 Jul 2020 06:58:21 -0700 (PDT)
 From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
 To: qemu-devel@nongnu.org
-Subject: [PULL 3/9] tests/acceptance/boot_linux: Tag tests using a SD card
- with 'device:sd'
-Date: Tue, 14 Jul 2020 15:58:08 +0200
-Message-Id: <20200714135814.19910-4-f4bug@amsat.org>
+Subject: [PULL 4/9] tests/acceptance/boot_linux: Expand SD card image to power
+ of 2
+Date: Tue, 14 Jul 2020 15:58:09 +0200
+Message-Id: <20200714135814.19910-5-f4bug@amsat.org>
 X-Mailer: git-send-email 2.21.3
 In-Reply-To: <20200714135814.19910-1-f4bug@amsat.org>
 References: <20200714135814.19910-1-f4bug@amsat.org>
@@ -64,8 +63,8 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::42b;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wr1-x42b.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::42c;
+ envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wr1-x42c.google.com
 X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
  That's all we know.
 X-Spam_score_int: 0
@@ -97,61 +96,104 @@ Cc: qemu-block@nongnu.org,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Avocado tags are handy to automatically select tests matching
-the tags. Since these tests use a SD card, tag them.
-
-We can run all the tests using a SD card at once with:
-
-  $ avocado --show=app run -t u-boot tests/acceptance/
-  $ AVOCADO_ALLOW_LARGE_STORAGE=ok \
-    avocado --show=app \
-      run -t device:sd tests/acceptance/
-  Fetching asset from tests/acceptance/boot_linux_console.py:BootLinuxConsole.test_arm_orangepi_sd
-  Fetching asset from tests/acceptance/boot_linux_console.py:BootLinuxConsole.test_arm_orangepi_bionic
-  Fetching asset from tests/acceptance/boot_linux_console.py:BootLinuxConsole.test_arm_orangepi_uboot_netbsd9
-   (1/3) tests/acceptance/boot_linux_console.py:BootLinuxConsole.test_arm_orangepi_sd: PASS (19.56 s)
-   (2/3) tests/acceptance/boot_linux_console.py:BootLinuxConsole.test_arm_orangepi_bionic: PASS (49.97 s)
-   (3/3) tests/acceptance/boot_linux_console.py:BootLinuxConsole.test_arm_orangepi_uboot_netbsd9: PASS (20.06 s)
-  RESULTS    : PASS 3 | ERROR 0 | FAIL 0 | SKIP 0 | WARN 0 | INTERRUPT 0 | CANCEL 0
-  JOB TIME   : 90.02 s
+In few commits we won't allow SD card images with invalid size
+(not aligned to a power of 2). Prepare the tests: add the
+pow2ceil() and image_pow2ceil_expand() methods and resize the
+images (expanding) of the tests using SD cards.
 
 Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
 Reviewed-by: Alistair Francis <alistair.francis@wdc.com>
 Reviewed-by: Cleber Rosa <crosa@redhat.com>
-Tested-by: Cleber Rosa <crosa@redhat.com>
-Message-Id: <20200713183209.26308-4-f4bug@amsat.org>
+Message-Id: <20200713183209.26308-5-f4bug@amsat.org>
 ---
- tests/acceptance/boot_linux_console.py | 3 +++
- 1 file changed, 3 insertions(+)
+ tests/acceptance/boot_linux_console.py | 31 ++++++++++++++++++--------
+ 1 file changed, 22 insertions(+), 9 deletions(-)
 
 diff --git a/tests/acceptance/boot_linux_console.py b/tests/acceptance/boot_linux_console.py
-index 3d02519660..b7e8858c2d 100644
+index b7e8858c2d..67c3b2f3d1 100644
 --- a/tests/acceptance/boot_linux_console.py
 +++ b/tests/acceptance/boot_linux_console.py
-@@ -620,6 +620,7 @@ def test_arm_orangepi_sd(self):
-         """
-         :avocado: tags=arch:arm
-         :avocado: tags=machine:orangepi-pc
-+        :avocado: tags=device:sd
-         """
-         deb_url = ('https://apt.armbian.com/pool/main/l/'
-                    'linux-4.20.7-sunxi/linux-image-dev-sunxi_5.75_armhf.deb')
-@@ -669,6 +670,7 @@ def test_arm_orangepi_bionic(self):
-         """
-         :avocado: tags=arch:arm
-         :avocado: tags=machine:orangepi-pc
-+        :avocado: tags=device:sd
+@@ -28,6 +28,22 @@
+ except CmdNotFoundError:
+     P7ZIP_AVAILABLE = False
+ 
++"""
++Round up to next power of 2
++"""
++def pow2ceil(x):
++    return 1 if x == 0 else 2**(x - 1).bit_length()
++
++"""
++Expand file size to next power of 2
++"""
++def image_pow2ceil_expand(path):
++        size = os.path.getsize(path)
++        size_aligned = pow2ceil(size)
++        if size != size_aligned:
++            with open(path, 'ab+') as fd:
++                fd.truncate(size_aligned)
++
+ class LinuxKernelTest(Test):
+     KERNEL_COMMON_COMMAND_LINE = 'printk.time=0 '
+ 
+@@ -636,6 +652,7 @@ def test_arm_orangepi_sd(self):
+         rootfs_path_xz = self.fetch_asset(rootfs_url, asset_hash=rootfs_hash)
+         rootfs_path = os.path.join(self.workdir, 'rootfs.cpio')
+         archive.lzma_uncompress(rootfs_path_xz, rootfs_path)
++        image_pow2ceil_expand(rootfs_path)
+ 
+         self.vm.set_console()
+         kernel_command_line = (self.KERNEL_COMMON_COMMAND_LINE +
+@@ -673,7 +690,7 @@ def test_arm_orangepi_bionic(self):
+         :avocado: tags=device:sd
          """
  
-         # This test download a 196MB compressed image and expand it to 932MB...
-@@ -710,6 +712,7 @@ def test_arm_orangepi_uboot_netbsd9(self):
-         """
-         :avocado: tags=arch:arm
+-        # This test download a 196MB compressed image and expand it to 932MB...
++        # This test download a 196MB compressed image and expand it to 1GB
+         image_url = ('https://dl.armbian.com/orangepipc/archive/'
+                      'Armbian_19.11.3_Orangepipc_bionic_current_5.3.9.7z')
+         image_hash = '196a8ffb72b0123d92cea4a070894813d305c71e'
+@@ -681,6 +698,7 @@ def test_arm_orangepi_bionic(self):
+         image_name = 'Armbian_19.11.3_Orangepipc_bionic_current_5.3.9.img'
+         image_path = os.path.join(self.workdir, image_name)
+         process.run("7z e -o%s %s" % (self.workdir, image_path_7z))
++        image_pow2ceil_expand(image_path)
+ 
+         self.vm.set_console()
+         self.vm.add_args('-drive', 'file=' + image_path + ',if=sd,format=raw',
+@@ -714,7 +732,7 @@ def test_arm_orangepi_uboot_netbsd9(self):
          :avocado: tags=machine:orangepi-pc
-+        :avocado: tags=device:sd
+         :avocado: tags=device:sd
          """
-         # This test download a 304MB compressed image and expand it to 1.3GB...
+-        # This test download a 304MB compressed image and expand it to 1.3GB...
++        # This test download a 304MB compressed image and expand it to 2GB
          deb_url = ('http://snapshot.debian.org/archive/debian/'
+                    '20200108T145233Z/pool/main/u/u-boot/'
+                    'u-boot-sunxi_2020.01%2Bdfsg-1_armhf.deb')
+@@ -731,8 +749,9 @@ def test_arm_orangepi_uboot_netbsd9(self):
+         image_hash = '2babb29d36d8360adcb39c09e31060945259917a'
+         image_path_gz = self.fetch_asset(image_url, asset_hash=image_hash)
+         image_path = os.path.join(self.workdir, 'armv7.img')
+-        image_drive_args = 'if=sd,format=raw,snapshot=on,file=' + image_path
+         archive.gzip_uncompress(image_path_gz, image_path)
++        image_pow2ceil_expand(image_path)
++        image_drive_args = 'if=sd,format=raw,snapshot=on,file=' + image_path
+ 
+         # dd if=u-boot-sunxi-with-spl.bin of=armv7.img bs=1K seek=8 conv=notrunc
+         with open(uboot_path, 'rb') as f_in:
+@@ -740,12 +759,6 @@ def test_arm_orangepi_uboot_netbsd9(self):
+                 f_out.seek(8 * 1024)
+                 shutil.copyfileobj(f_in, f_out)
+ 
+-                # Extend image, to avoid that NetBSD thinks the partition
+-                # inside the image is larger than device size itself
+-                f_out.seek(0, 2)
+-                f_out.seek(64 * 1024 * 1024, 1)
+-                f_out.write(bytearray([0x00]))
+-
+         self.vm.set_console()
+         self.vm.add_args('-nic', 'user',
+                          '-drive', image_drive_args,
 -- 
 2.21.3
 
