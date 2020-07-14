@@ -2,76 +2,61 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B1CEB21F1B5
-	for <lists+qemu-devel@lfdr.de>; Tue, 14 Jul 2020 14:42:42 +0200 (CEST)
-Received: from localhost ([::1]:56934 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id DA6E621F1DF
+	for <lists+qemu-devel@lfdr.de>; Tue, 14 Jul 2020 14:49:31 +0200 (CEST)
+Received: from localhost ([::1]:33334 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jvKGf-000869-PN
-	for lists+qemu-devel@lfdr.de; Tue, 14 Jul 2020 08:42:41 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:43920)
+	id 1jvKNG-0001wN-Me
+	for lists+qemu-devel@lfdr.de; Tue, 14 Jul 2020 08:49:30 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:45640)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <lersek@redhat.com>) id 1jvKFj-0007g4-R9
- for qemu-devel@nongnu.org; Tue, 14 Jul 2020 08:41:43 -0400
-Received: from us-smtp-1.mimecast.com ([207.211.31.81]:34625
- helo=us-smtp-delivery-1.mimecast.com)
+ (Exim 4.90_1) (envelope-from <no-reply@patchew.org>)
+ id 1jvKMS-0001X1-DA
+ for qemu-devel@nongnu.org; Tue, 14 Jul 2020 08:48:40 -0400
+Resent-Date: Tue, 14 Jul 2020 08:48:40 -0400
+Resent-Message-Id: <E1jvKMS-0001X1-DA@lists.gnu.org>
+Received: from sender4-of-o57.zoho.com ([136.143.188.57]:21768)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <lersek@redhat.com>) id 1jvKFi-0001lR-4T
- for qemu-devel@nongnu.org; Tue, 14 Jul 2020 08:41:43 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1594730501;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=x1b5ik12p1ZMB1X/XLRf7mLZRuVu31unkxpCPuSSAWo=;
- b=S0RIIerzofJ44Fn3atxgUpVxOOVPGKCL7IUulcaKw5jmskSaYmFhKzpKB8iuCxCARcqxx+
- 42Ei4OYvTB97j7DeSnki8jwNT/aDvRTdn623La1tc9E5cYoTRIqe/wZ3fl40mUrixKmI0Q
- kSgC0cEA4kA19cjTLHUrYVTNAq4X9z0=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-191-p69yoXpANmiiHJuoEAKyqQ-1; Tue, 14 Jul 2020 08:41:37 -0400
-X-MC-Unique: p69yoXpANmiiHJuoEAKyqQ-1
-Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
- [10.5.11.22])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 3F89E800FED;
- Tue, 14 Jul 2020 12:41:36 +0000 (UTC)
-Received: from lacos-laptop-7.usersys.redhat.com (ovpn-114-110.ams2.redhat.com
- [10.36.114.110])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 7F59E1053B25;
- Tue, 14 Jul 2020 12:41:29 +0000 (UTC)
-Subject: Re: [RFC 3/3] x68: acpi: trigger SMI before scanning for hotplugged
- CPUs
-From: Laszlo Ersek <lersek@redhat.com>
-To: Igor Mammedov <imammedo@redhat.com>, qemu-devel@nongnu.org
-References: <20200710161704.309824-1-imammedo@redhat.com>
- <20200710161704.309824-4-imammedo@redhat.com>
- <515cc231-858a-a626-31a9-d74e1f6b4e38@redhat.com>
-Message-ID: <b31defc1-a147-3dd3-b1de-b5f7651018b7@redhat.com>
-Date: Tue, 14 Jul 2020 14:41:28 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:52.0) Gecko/20100101
- Firefox/52.0 Thunderbird/52.9.1
+ (Exim 4.90_1) (envelope-from <no-reply@patchew.org>)
+ id 1jvKMP-0002QJ-Uz
+ for qemu-devel@nongnu.org; Tue, 14 Jul 2020 08:48:40 -0400
+ARC-Seal: i=1; a=rsa-sha256; t=1594730876; cv=none; 
+ d=zohomail.com; s=zohoarc; 
+ b=E/g5r03H7sLEVwXk7PnWWK56WucOh18soIHhoA5CI3IaLQp7GXQQw35V4lfrMWLF2xCR2+ax/4Fszitetq33qzD5zE1fNlRurvmxaIXnu05Us3PPqqONU7PIHvoEupdQskex7Kag+LpHHErW+yBR4m+f5zCp2UFDZ1MIQ+UFfcs=
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.com;
+ s=zohoarc; t=1594730876;
+ h=Content-Type:Content-Transfer-Encoding:Cc:Date:From:In-Reply-To:MIME-Version:Message-ID:Reply-To:Subject:To;
+ bh=qBU0xoURdnBk0i/U866AOl8tqtqrMIlA7Abv51yisyc=; 
+ b=fjZXlO+K2TbtOfwI6/PhB8KyUu2ZrGsk7K36nbm2E9c9oFTDgrYwWaC+AiDfFXHHAczNXrgDopQFQTyRMh1LVaxLiA3iRohqTh9ypvkoSOuYEWlVjTxn5x6z4GcXeUNXGl/KDOvafIL/m41Gb/fPdMlswKvHh0xetYpPaA6F1Ug=
+ARC-Authentication-Results: i=1; mx.zohomail.com;
+ spf=pass  smtp.mailfrom=no-reply@patchew.org;
+ dmarc=pass header.from=<no-reply@patchew.org>
+ header.from=<no-reply@patchew.org>
+Received: from [172.17.0.3] (23.253.156.214 [23.253.156.214]) by
+ mx.zohomail.com with SMTPS id 1594730873495641.381467304823;
+ Tue, 14 Jul 2020 05:47:53 -0700 (PDT)
+Subject: Re: [PATCH v1 0/6] CTU CAN FD core support
+Message-ID: <159473087133.2008.6283012861257625888@07a7f0d89f7d>
+In-Reply-To: <cover.1594725647.git.pisa@cmp.felk.cvut.cz>
 MIME-Version: 1.0
-In-Reply-To: <515cc231-858a-a626-31a9-d74e1f6b4e38@redhat.com>
-Content-Language: en-US
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=207.211.31.81; envelope-from=lersek@redhat.com;
- helo=us-smtp-delivery-1.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/07/14 03:06:09
-X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
-X-Spam_score_int: -30
-X-Spam_score: -3.1
-X-Spam_bar: ---
-X-Spam_report: (-3.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H3=-0.01, RCVD_IN_MSPIKE_WL=-0.01,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
+Resent-From: 
+From: no-reply@patchew.org
+To: pisa@cmp.felk.cvut.cz
+Date: Tue, 14 Jul 2020 05:47:53 -0700 (PDT)
+X-ZohoMailClient: External
+Received-SPF: pass client-ip=136.143.188.57; envelope-from=no-reply@patchew.org;
+ helo=sender4-of-o57.zoho.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/07/14 08:48:34
+X-ACL-Warn: Detected OS   = Linux 3.11 and newer [fuzzy]
+X-Spam_score_int: -18
+X-Spam_score: -1.9
+X-Spam_bar: -
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_NONE=-0.0001,
+ RCVD_IN_MSPIKE_H3=-0.01, RCVD_IN_MSPIKE_WL=-0.01, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001, URIBL_BLOCKED=0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -84,100 +69,66 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: boris.ostrovsky@oracle.com, Peter Krempa <pkrempa@redhat.com>,
- liran.alon@oracle.com
+Reply-To: qemu-devel@nongnu.org
+Cc: marex@denx.de, jnovak@fel.cvut.cz, stefanha@gmail.com,
+ deniz.eren@icloud.com, qemu-devel@nongnu.org, armbru@redhat.com,
+ o.rempel@pengutronix.de, frederic.konrad@adacore.com, jan.kiszka@siemens.com,
+ charvj10@fel.cvut.cz, socketcan@hartkopp.net, pbonzini@redhat.com,
+ ondrej.ille@gmail.com, pisa@cmp.felk.cvut.cz
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 07/14/20 14:28, Laszlo Ersek wrote:
-> (CC'ing Peter Krempa due to virsh setvcpu (singular) / setvcpus (plural)
-> references)
-> 
-> On 07/10/20 18:17, Igor Mammedov wrote:
->> In case firmware has negotiated CPU hotplug SMI feature, generate
->> AML to describe SMI IO port region and send SMI to firmware
->> on each CPU hotplug SCI.
->>
->> It might be not really usable, but should serve as a starting point to
->> discuss how better to deal with split hotplug sequence during hot-add
->> (
->> ex scenario where it will break is:
->>    hot-add
->>       -> (QEMU) add CPU in hotplug regs
->>       -> (QEMU) SCI
->>            -1-> (OS) scan
->>                -1-> (OS) SMI
->>                -1-> (FW) pull in CPU1 ***
->>                -1-> (OS) start iterating hotplug regs
->>    hot-add
->>       -> (QEMU) add CPU in hotplug regs
->>       -> (QEMU) SCI
->>             -2-> (OS) scan (blocked on mutex till previous scan is finished)
->>                -1-> (OS) 1st added CPU1 send device check event -> INIT/SIPI
->>                -1-> (OS) 1st added CPU2 send device check event -> INIT/SIPI
->>                        that's where it explodes, since FW didn't see CPU2
->>                        when SMI was called
->> )
->>
->> hot remove will throw in yet another set of problems, so lets discuss
->> both here and see if we can  really share hotplug registers block between
->> FW and AML or we should do something else with it.
-> 
-> This issue is generally triggered by management applications such as
-> libvirt that issue device_add commands in quick succession. For libvirt,
-> the command is "virsh setvcpus" (plural) with multiple CPUs specified
-> for plugging. The singular "virsh setvcpu" command, which is more
-> friendly towards guest NUMA, does not run into the symptom.
-> 
-> The scope of the scan method lock is not large enough, with SMI in the
-> picture.
-> 
-> I suggest that we not uproot the existing AML code or the hotplug
-> register block. Instead, I suggest that we add serialization at a higher
-> level, with sufficient scope.
-> 
-> QEMU:
-> 
-> - introduce a new flag standing for "CPU plug operation in progress"
-> 
-> - if ICH9_LPC_SMI_F_BROADCAST_BIT has been negotiated:
-> 
->   - "device_add" and "device_del" should enforce
->     ICH9_LPC_SMI_F_CPU_HOTPLUG_BIT and
->     ICH9_LPC_SMI_F_CPU_HOT_UNPLUG_BIT, respectively
-> 
->   - both device_add and device_del (for VCPUs) should set check the
->     "in progress" flag.
-> 
->     - If set, reject the request synchronously
-> 
->     - Otherwise, set the flag, and commence the operation
-> 
->   - in cpu_hotplug_wr(), where we emit the ACPI_DEVICE_OST event with
->     qapi_event_send_acpi_device_ost(), clear the "in-progress" flag.
-> 
-> - If QEMU executes the QMP command processing and the cpu_hotplug_wr()
-> function on different (host OS) threads, then perhaps we should use an
-> atomic type for the flag. (Not sure about locking between QEMU threads,
-> sorry.) I don't really expect race conditions, but in case we ever get
-> stuck with the flag, we should make sure that the stuck state is "in
-> progress", and not "not in progress". (The former state can prevent
-> further plug operations, but cannot cause the guest to lose state.)
-
-Furthermore, the "CPU plug operation in progress" flag should be:
-- either migrated,
-- or a migration blocker.
-
-Because on the destination host, device_add should be possible if and
-only if the plug operation completed (either still on the source host,
-or on the destination host).
-
-I guess that the "migration blocker" option is easier.
-
-Anyway I assume this is already handled with memory hotplug somehow
-(i.e., migration attempt between device_add and ACPI_DEVICE_OST).
-
-Thanks,
-Laszlo
-
+UGF0Y2hldyBVUkw6IGh0dHBzOi8vcGF0Y2hldy5vcmcvUUVNVS9jb3Zlci4xNTk0NzI1NjQ3Lmdp
+dC5waXNhQGNtcC5mZWxrLmN2dXQuY3ovCgoKCkhpLAoKVGhpcyBzZXJpZXMgZmFpbGVkIHRoZSBk
+b2NrZXItbWluZ3dAZmVkb3JhIGJ1aWxkIHRlc3QuIFBsZWFzZSBmaW5kIHRoZSB0ZXN0aW5nIGNv
+bW1hbmRzIGFuZAp0aGVpciBvdXRwdXQgYmVsb3cuIElmIHlvdSBoYXZlIERvY2tlciBpbnN0YWxs
+ZWQsIHlvdSBjYW4gcHJvYmFibHkgcmVwcm9kdWNlIGl0CmxvY2FsbHkuCgo9PT0gVEVTVCBTQ1JJ
+UFQgQkVHSU4gPT09CiMhIC9iaW4vYmFzaApleHBvcnQgQVJDSD14ODZfNjQKbWFrZSBkb2NrZXIt
+aW1hZ2UtZmVkb3JhIFY9MSBORVRXT1JLPTEKdGltZSBtYWtlIGRvY2tlci10ZXN0LW1pbmd3QGZl
+ZG9yYSBKPTE0IE5FVFdPUks9MQo9PT0gVEVTVCBTQ1JJUFQgRU5EID09PQoKICBDQyAgICAgIGh3
+L3Njc2kvbXB0ZW5kaWFuLm8KICBDQyAgICAgIGh3L3Njc2kvbWVnYXNhcy5vCi90bXAvcWVtdS10
+ZXN0L3NyYy9ody9uZXQvY2FuL2N0dWNhbl9wY2kuYzogSW4gZnVuY3Rpb24gJ2N0dWNhbl9wY2lf
+aWRfY3JhX2lvX3JlYWQnOgovdG1wL3FlbXUtdGVzdC9zcmMvaHcvbmV0L2Nhbi9jdHVjYW5fcGNp
+LmM6MTA1OjIwOiBlcnJvcjogZm9ybWF0ICclbHgnIGV4cGVjdHMgYXJndW1lbnQgb2YgdHlwZSAn
+bG9uZyB1bnNpZ25lZCBpbnQnLCBidXQgYXJndW1lbnQgMiBoYXMgdHlwZSAnaHdhZGRyJyB7YWth
+ICdsb25nIGxvbmcgdW5zaWduZWQgaW50J30gWy1XZXJyb3I9Zm9ybWF0PV0KICAxMDUgfCAgICAg
+cHJpbnRmKCJhZGRyPSVseCxzaXplPSV4LHRtcD0lbHhcbiIsIGFkZHIsIHNpemUsIHRtcCk7CiAg
+ICAgIHwgICAgICAgICAgICAgICAgICB+fl4gICAgICAgICAgICAgICAgICAgICB+fn5+CiAgICAg
+IHwgICAgICAgICAgICAgICAgICAgIHwgICAgICAgICAgICAgICAgICAgICB8CiAgICAgIHwgICAg
+ICAgICAgICAgICAgICAgIGxvbmcgdW5zaWduZWQgaW50ICAgICBod2FkZHIge2FrYSBsb25nIGxv
+bmcgdW5zaWduZWQgaW50fQogICAgICB8ICAgICAgICAgICAgICAgICAgJWxseAovdG1wL3FlbXUt
+dGVzdC9zcmMvaHcvbmV0L2Nhbi9jdHVjYW5fcGNpLmM6MTA1OjM2OiBlcnJvcjogZm9ybWF0ICcl
+bHgnIGV4cGVjdHMgYXJndW1lbnQgb2YgdHlwZSAnbG9uZyB1bnNpZ25lZCBpbnQnLCBidXQgYXJn
+dW1lbnQgNCBoYXMgdHlwZSAndWludDY0X3QnIHtha2EgJ2xvbmcgbG9uZyB1bnNpZ25lZCBpbnQn
+fSBbLVdlcnJvcj1mb3JtYXQ9XQogIDEwNSB8ICAgICBwcmludGYoImFkZHI9JWx4LHNpemU9JXgs
+dG1wPSVseFxuIiwgYWRkciwgc2l6ZSwgdG1wKTsKICAgICAgfCAgICAgICAgICAgICAgICAgICAg
+ICAgICAgICAgICAgICB+fl4gICAgICAgICAgICAgICAgIH5+fgogICAgICB8ICAgICAgICAgICAg
+ICAgICAgICAgICAgICAgICAgICAgICAgfCAgICAgICAgICAgICAgICAgfAotLS0KICAgICAgfCAg
+ICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAlbGx4CmNjMTogYWxsIHdhcm5pbmdzIGJl
+aW5nIHRyZWF0ZWQgYXMgZXJyb3JzCiAgQ0MgICAgICBody9zY3NpL3Ztd19wdnNjc2kubwptYWtl
+OiAqKiogWy90bXAvcWVtdS10ZXN0L3NyYy9ydWxlcy5tYWs6Njk6IGh3L25ldC9jYW4vY3R1Y2Fu
+X3BjaS5vXSBFcnJvciAxCm1ha2U6ICoqKiBXYWl0aW5nIGZvciB1bmZpbmlzaGVkIGpvYnMuLi4u
+ClRyYWNlYmFjayAobW9zdCByZWNlbnQgY2FsbCBsYXN0KToKICBGaWxlICIuL3Rlc3RzL2RvY2tl
+ci9kb2NrZXIucHkiLCBsaW5lIDcwMiwgaW4gPG1vZHVsZT4KLS0tCiAgICByYWlzZSBDYWxsZWRQ
+cm9jZXNzRXJyb3IocmV0Y29kZSwgY21kKQpzdWJwcm9jZXNzLkNhbGxlZFByb2Nlc3NFcnJvcjog
+Q29tbWFuZCAnWydzdWRvJywgJy1uJywgJ2RvY2tlcicsICdydW4nLCAnLS1sYWJlbCcsICdjb20u
+cWVtdS5pbnN0YW5jZS51dWlkPWY1Nzc0NDkxMjU1YzQzNDM5ZGY2NzZmYTYwZTc4OTQyJywgJy11
+JywgJzEwMDMnLCAnLS1zZWN1cml0eS1vcHQnLCAnc2VjY29tcD11bmNvbmZpbmVkJywgJy0tcm0n
+LCAnLWUnLCAnVEFSR0VUX0xJU1Q9JywgJy1lJywgJ0VYVFJBX0NPTkZJR1VSRV9PUFRTPScsICct
+ZScsICdWPScsICctZScsICdKPTE0JywgJy1lJywgJ0RFQlVHPScsICctZScsICdTSE9XX0VOVj0n
+LCAnLWUnLCAnQ0NBQ0hFX0RJUj0vdmFyL3RtcC9jY2FjaGUnLCAnLXYnLCAnL2hvbWUvcGF0Y2hl
+dzIvLmNhY2hlL3FlbXUtZG9ja2VyLWNjYWNoZTovdmFyL3RtcC9jY2FjaGU6eicsICctdicsICcv
+dmFyL3RtcC9wYXRjaGV3LXRlc3Rlci10bXAtOGs4dGh4dmQvc3JjL2RvY2tlci1zcmMuMjAyMC0w
+Ny0xNC0wOC40My40MS40OTc2Oi92YXIvdG1wL3FlbXU6eixybycsICdxZW11L2ZlZG9yYScsICcv
+dmFyL3RtcC9xZW11L3J1bicsICd0ZXN0LW1pbmd3J10nIHJldHVybmVkIG5vbi16ZXJvIGV4aXQg
+c3RhdHVzIDIuCmZpbHRlcj0tLWZpbHRlcj1sYWJlbD1jb20ucWVtdS5pbnN0YW5jZS51dWlkPWY1
+Nzc0NDkxMjU1YzQzNDM5ZGY2NzZmYTYwZTc4OTQyCm1ha2VbMV06ICoqKiBbZG9ja2VyLXJ1bl0g
+RXJyb3IgMQptYWtlWzFdOiBMZWF2aW5nIGRpcmVjdG9yeSBgL3Zhci90bXAvcGF0Y2hldy10ZXN0
+ZXItdG1wLThrOHRoeHZkL3NyYycKbWFrZTogKioqIFtkb2NrZXItcnVuLXRlc3QtbWluZ3dAZmVk
+b3JhXSBFcnJvciAyCgpyZWFsICAgIDRtMTAuMTIwcwp1c2VyICAgIDBtOC4xMjZzCgoKVGhlIGZ1
+bGwgbG9nIGlzIGF2YWlsYWJsZSBhdApodHRwOi8vcGF0Y2hldy5vcmcvbG9ncy9jb3Zlci4xNTk0
+NzI1NjQ3LmdpdC5waXNhQGNtcC5mZWxrLmN2dXQuY3ovdGVzdGluZy5kb2NrZXItbWluZ3dAZmVk
+b3JhLz90eXBlPW1lc3NhZ2UuCi0tLQpFbWFpbCBnZW5lcmF0ZWQgYXV0b21hdGljYWxseSBieSBQ
+YXRjaGV3IFtodHRwczovL3BhdGNoZXcub3JnL10uClBsZWFzZSBzZW5kIHlvdXIgZmVlZGJhY2sg
+dG8gcGF0Y2hldy1kZXZlbEByZWRoYXQuY29t
 
