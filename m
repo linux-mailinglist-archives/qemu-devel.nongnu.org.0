@@ -2,72 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id F3D3521ED53
-	for <lists+qemu-devel@lfdr.de>; Tue, 14 Jul 2020 11:54:30 +0200 (CEST)
-Received: from localhost ([::1]:56416 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5594C21ED6F
+	for <lists+qemu-devel@lfdr.de>; Tue, 14 Jul 2020 11:57:52 +0200 (CEST)
+Received: from localhost ([::1]:43696 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jvHdu-0005An-0U
-	for lists+qemu-devel@lfdr.de; Tue, 14 Jul 2020 05:54:30 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:58448)
+	id 1jvHh9-0003GA-CT
+	for lists+qemu-devel@lfdr.de; Tue, 14 Jul 2020 05:57:51 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:58422)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1jvHcS-0003WU-Jp
- for qemu-devel@nongnu.org; Tue, 14 Jul 2020 05:53:00 -0400
-Received: from mail-wm1-x32a.google.com ([2a00:1450:4864:20::32a]:36957)
+ id 1jvHcR-0003Sp-2S
+ for qemu-devel@nongnu.org; Tue, 14 Jul 2020 05:52:59 -0400
+Received: from mail-wm1-x333.google.com ([2a00:1450:4864:20::333]:36573)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1jvHcQ-0003xM-J0
- for qemu-devel@nongnu.org; Tue, 14 Jul 2020 05:53:00 -0400
-Received: by mail-wm1-x32a.google.com with SMTP id o2so4415749wmh.2
- for <qemu-devel@nongnu.org>; Tue, 14 Jul 2020 02:52:58 -0700 (PDT)
+ id 1jvHcP-0003xF-D6
+ for qemu-devel@nongnu.org; Tue, 14 Jul 2020 05:52:58 -0400
+Received: by mail-wm1-x333.google.com with SMTP id 17so4414286wmo.1
+ for <qemu-devel@nongnu.org>; Tue, 14 Jul 2020 02:52:56 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=5OziHlIm1D2m/j1XzyWy/gSoDZmDvA7wpzFEAFDGd5g=;
- b=jCcUTPPvgZOnaybzBkeGXp0lTT2PADB66MxUFM/Qxr1O08zRSlqvXpN2b4y4hLqKgW
- IMGps7a/fEdrpwtFUyZGSkHyU6bpXnzLufJ9M0RTAvgR7OHGLrTIo10TyGCp4nQ90IXT
- 8knugF88O6deJbUGtR7Mg6fZC9/mpu0vRfFt/XQtqg0WvaZ27xipf8KnWenkVd4n1TuQ
- j9Knsre6czKQF9H9C6ml/YPKxFmw+Py+thxWjglTM7q7rAca7HClMcxLAvbD1QZgnf8V
- GpMiPrLABJeEuXHADMNCO+RwG9jP2N5+ZMv7Yvi2puVOWQ91cckrn4Hl7eSi7CSKnGiO
- k8KA==
+ bh=xbQaeg14fVG/x3mzQ+QmQQFcjpCesKxKE93ltxY94OQ=;
+ b=zbfJKwAZy7C/AyGBtKFAgR7zFjWhZuw1Ifpa79cqZ5Yh1BfgYtmIZRLzz5U5GJcDKg
+ 1X2IWywH1TAenMff2berAcvsTIhWrCqfU0o8NHe062xa2nBXwE+nZRmEn/a9W0xfdbcO
+ uhjsJLBcSpZGcJy8g2cQN0CYqhKsxTdYpto4penjQbXvhWa0GlOcgkBvPfaF4ZeV9DTf
+ a5VDn4oXK4Wrcw+rUHjHh7+l8aBiOBfisNboGQJNUl2sNsqo3xhwVgoOB8Ut+wSPGT3p
+ 3ca/oyZ1cdO4yyt926LtYaHy37k+84PN9BGGX1mqtXDN+wOI4vHoAQQqw4nb50cYsFpo
+ RzCA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=5OziHlIm1D2m/j1XzyWy/gSoDZmDvA7wpzFEAFDGd5g=;
- b=kMvlnA5mYSYe8t5WGaWffoAYktjwkuKHQ66G2zjCUA3yoyQudLNdrkmaaLJ7VUxWlT
- 54wpzKW17hhiBo17s6CES1KIYlLgo96iH9QAhz9V35+HQ2yye+w7c8TdYc2IexJ9usdt
- cgwK/qPQJEfoH7zeygb8dvzYU3jm4laHfVNiwCzvBZhdk5eZszmmu97TYcQ+C3Nyadhh
- Hgmezc9J9/P0DiyJPnuOMOpX0tYq41Le8UUYdPxfu7rTiFNHAZ9rSMRKuCzpYaz2w49E
- glftUkgUc19E6uA+SdHEpXORL4Fnezs63R2GSpM2inz04pD509hytp5tNcFEWtRJhXcO
- DKcw==
-X-Gm-Message-State: AOAM530b/s16Vd5xhfVO8RMysOltc0EUvmwIdaG4Nmh07dBjXqutJvEy
- ZnXUnkM3x1bIi8boTrYHlFCY9Q==
-X-Google-Smtp-Source: ABdhPJx6RBf1g9XV/uTblFVLJPwNbrnyDkhl+PtvG34iTNklCsgQ2wkSLPv0kOmbGe7bYGxoAaGkHQ==
-X-Received: by 2002:a7b:c197:: with SMTP id y23mr3626146wmi.114.1594720377183; 
- Tue, 14 Jul 2020 02:52:57 -0700 (PDT)
+ bh=xbQaeg14fVG/x3mzQ+QmQQFcjpCesKxKE93ltxY94OQ=;
+ b=L/ufIY/ZQDUnubu/BVbQXGSLvgTl2/Ovknz8VfEHPhcsY+icnQv/wwfAl0Ddp7gSy8
+ xYfrCzF3v45nNPRUOztCjOAmkG/jpVCO7BxdZuHt0mDVkXKsxOe2GeYeshGQG+zHtEwG
+ sf0j+CRhknoFwlamTeEs6kcBsSN9SrwQRu4s1p+VE34vJxGHsZyJrY02WnkLwVhYDNso
+ sGP5jYEQTevbFQbuMHM8sPMnJzzCZfvqINcdAkX49BDBgZ+zFQEVl4uluu7NRxPtC+QA
+ TgSwCY5Eb3v22qjIFyo954bIlTVTF0tCjsSekW5KtZ7UhKDvOw45kdsRPQUxHx+yJzQv
+ 3ITA==
+X-Gm-Message-State: AOAM532Pjb+ocsFWsCsqS4s1HWHKzUyUJkpLV2oC+uRBj5B2beKRVLBb
+ gGyNXGs+kYIwXefkhIXZoP5hUA==
+X-Google-Smtp-Source: ABdhPJygdqVFvNXJK+x8/M43P07loI6yFtA6G2jq5Cd6n0jc/4AdjPfiqVd8zJjAsFjrE9wFZMWbvw==
+X-Received: by 2002:a1c:9a81:: with SMTP id c123mr3341710wme.46.1594720376035; 
+ Tue, 14 Jul 2020 02:52:56 -0700 (PDT)
 Received: from zen.linaroharston ([51.148.130.216])
- by smtp.gmail.com with ESMTPSA id u10sm3484318wml.29.2020.07.14.02.52.49
+ by smtp.gmail.com with ESMTPSA id t2sm3561587wma.43.2020.07.14.02.52.49
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
  Tue, 14 Jul 2020 02:52:53 -0700 (PDT)
 Received: from zen.lan (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id BBD991FF91;
+ by zen.linaroharston (Postfix) with ESMTP id D137B1FF92;
  Tue, 14 Jul 2020 10:52:47 +0100 (BST)
 From: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
 To: peter.maydell@linaro.org
-Subject: [PULL 5/9] gitlab-ci/containers: Add missing wildcard where we should
- look for changes
-Date: Tue, 14 Jul 2020 10:52:43 +0100
-Message-Id: <20200714095247.19573-6-alex.bennee@linaro.org>
+Subject: [PULL 6/9] fpu/softfloat: fix up float16 nan recognition
+Date: Tue, 14 Jul 2020 10:52:44 +0100
+Message-Id: <20200714095247.19573-7-alex.bennee@linaro.org>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20200714095247.19573-1-alex.bennee@linaro.org>
 References: <20200714095247.19573-1-alex.bennee@linaro.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::32a;
- envelope-from=alex.bennee@linaro.org; helo=mail-wm1-x32a.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::333;
+ envelope-from=alex.bennee@linaro.org; helo=mail-wm1-x333.google.com
 X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
  That's all we know.
 X-Spam_score_int: -20
@@ -89,38 +88,42 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Thomas Huth <thuth@redhat.com>,
+Cc: Richard Henderson <richard.henderson@linaro.org>,
  =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>, qemu-devel@nongnu.org,
- =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
+ Aurelien Jarno <aurelien@aurel32.net>, LIU Zhiwei <zhiwei_liu@c-sky.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Thomas Huth <thuth@redhat.com>
+From: LIU Zhiwei <zhiwei_liu@c-sky.com>
 
-The tests/docker/* wildcard seems to only match the files that are directly
-in the tests/docker folder - but changes to the files in the directory
-tests/docker/dockerfiles are currently ignored. Seems like we need a
-separate entry to match the files in that folder. With this wildcard added,
-the stages now get re-run successfully when something in the dockerfiles
-has been changed.
-
-Signed-off-by: Thomas Huth <thuth@redhat.com>
-Reviewed-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
+Signed-off-by: LIU Zhiwei <zhiwei_liu@c-sky.com>
 Signed-off-by: Alex Bennée <alex.bennee@linaro.org>
-Message-Id: <20200713182235.30379-1-thuth@redhat.com>
+Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
+Message-Id: <20200712234521.3972-2-zhiwei_liu@c-sky.com>
+Message-Id: <20200713200415.26214-5-alex.bennee@linaro.org>
 
-diff --git a/.gitlab-ci.d/containers.yml b/.gitlab-ci.d/containers.yml
-index f3c0ca4d61..8c89efeb6d 100644
---- a/.gitlab-ci.d/containers.yml
-+++ b/.gitlab-ci.d/containers.yml
-@@ -24,6 +24,7 @@
-     - changes:
-       - .gitlab-ci.d/containers.yml
-       - tests/docker/*
-+      - tests/docker/dockerfiles/*
-     - if: '$CI_COMMIT_BRANCH == $CI_DEFAULT_BRANCH'
-     - if: '$CI_COMMIT_REF_NAME == "testing/next"'
- 
+diff --git a/fpu/softfloat-specialize.inc.c b/fpu/softfloat-specialize.inc.c
+index 44f5b661f8..034d18199c 100644
+--- a/fpu/softfloat-specialize.inc.c
++++ b/fpu/softfloat-specialize.inc.c
+@@ -254,7 +254,7 @@ bool float16_is_quiet_nan(float16 a_, float_status *status)
+     if (snan_bit_is_one(status)) {
+         return (((a >> 9) & 0x3F) == 0x3E) && (a & 0x1FF);
+     } else {
+-        return ((a & ~0x8000) >= 0x7C80);
++        return ((a >> 9) & 0x3F) == 0x3F;
+     }
+ #endif
+ }
+@@ -271,7 +271,7 @@ bool float16_is_signaling_nan(float16 a_, float_status *status)
+ #else
+     uint16_t a = float16_val(a_);
+     if (snan_bit_is_one(status)) {
+-        return ((a & ~0x8000) >= 0x7C80);
++        return ((a >> 9) & 0x3F) == 0x3F;
+     } else {
+         return (((a >> 9) & 0x3F) == 0x3E) && (a & 0x1FF);
+     }
 -- 
 2.20.1
 
