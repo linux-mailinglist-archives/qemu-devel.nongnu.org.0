@@ -2,68 +2,67 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 01E2322008D
-	for <lists+qemu-devel@lfdr.de>; Wed, 15 Jul 2020 00:23:57 +0200 (CEST)
-Received: from localhost ([::1]:54906 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 59791220092
+	for <lists+qemu-devel@lfdr.de>; Wed, 15 Jul 2020 00:26:30 +0200 (CEST)
+Received: from localhost ([::1]:38410 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jvTL9-00025s-U3
-	for lists+qemu-devel@lfdr.de; Tue, 14 Jul 2020 18:23:55 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:49550)
+	id 1jvTNd-00073y-BN
+	for lists+qemu-devel@lfdr.de; Tue, 14 Jul 2020 18:26:29 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:49606)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1jvTJQ-0000QC-VQ
- for qemu-devel@nongnu.org; Tue, 14 Jul 2020 18:22:08 -0400
-Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:36500
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1jvTJS-0000S9-Ds
+ for qemu-devel@nongnu.org; Tue, 14 Jul 2020 18:22:10 -0400
+Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:35561
  helo=us-smtp-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1jvTJL-0004YW-Uo
- for qemu-devel@nongnu.org; Tue, 14 Jul 2020 18:22:08 -0400
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1jvTJQ-0004ZP-EA
+ for qemu-devel@nongnu.org; Tue, 14 Jul 2020 18:22:10 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1594765323;
+ s=mimecast20190719; t=1594765326;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=5KOJiRNNgCKXxXF3PAojUBMhMfHmXxvQ94Tix5b7+Js=;
- b=R/A3ea93+FwISTxZVqFOq65GnTZ4Kl5jo0Y0wAmvVLTcXkoRjcKRRFo1d6aVWvokrb5UYU
- gE8BnCiax6+gwh4NdMCDp6LN2H4TpZbnUnOH1vgvAy9VHBRbWTxg3eCRppZNRvKGb2ZyDh
- cQTGIran13IqKF3JRz31NCh1wqduwWw=
-Received: from mail-wm1-f70.google.com (mail-wm1-f70.google.com
- [209.85.128.70]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-318-REd_f3inPm6Lk3IcPssU6A-1; Tue, 14 Jul 2020 18:21:59 -0400
-X-MC-Unique: REd_f3inPm6Lk3IcPssU6A-1
-Received: by mail-wm1-f70.google.com with SMTP id c124so105702wme.0
- for <qemu-devel@nongnu.org>; Tue, 14 Jul 2020 15:21:59 -0700 (PDT)
+ bh=BU6nod1vM4pdn4SPezq8/eYZ42x6gm5zwkT0DnjVtk8=;
+ b=JxpO4jtioAOcSprGNqN9dBRVFdvpDWx9durKxeXBZAICWfld9qMJgoSDp17v4ElAEXhFx2
+ U+onLolH8bVIRrGcBGlAULCGHIKxQYKXZXZstrTgMXIJrhPb5kWvjlsuGqaTIjN0kCphft
+ Nfrgk1v4cF7I1lUkNEw/U9spaWOfnu4=
+Received: from mail-wm1-f72.google.com (mail-wm1-f72.google.com
+ [209.85.128.72]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-474-OoMyNabxON60kxlWWYieQA-1; Tue, 14 Jul 2020 18:22:04 -0400
+X-MC-Unique: OoMyNabxON60kxlWWYieQA-1
+Received: by mail-wm1-f72.google.com with SMTP id z11so93311wmg.5
+ for <qemu-devel@nongnu.org>; Tue, 14 Jul 2020 15:22:04 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=5KOJiRNNgCKXxXF3PAojUBMhMfHmXxvQ94Tix5b7+Js=;
- b=UCZvluu8BM/ha9Vh1JwEbsBHjez1AeuloBWnQ4eJvMECWpcSz6LqVie+eiliG4lrYQ
- VspNmtnDiKK4XmrAOTXFxYwqUWh3LB/5GptAV7ZpCWqDpNvpffg0pJ7ikNJl4AHPHnEB
- IAhYDxNl9NMlYDrRgR7sgrcxDXvOVJRS8zRcPIi/AQyfZ+l+lxaDGbHBZRgcupoIrsRA
- uVIXpO5NoT5WeVYfllw01txYHmnZuU4RM3/Yjwny5mrS/PpEy5cgagH7elnc8BVq5Qkl
- Y0mLKBrUzNhbXgiSA+9S+wUqwYhGDgYZCGEgothorE0xF9ggU6IHQCg9YEN7VUWEnhRX
- yZ5Q==
-X-Gm-Message-State: AOAM5301O3xzJJHTEENZbF/aqQ+f3/v7LkyiTNdMpnB8MkGjMAHBNVhP
- CKj2OFIJ4PF9P+mi0SbHotdizbb3Y5ZErn0rHzF22g2vaPGmXh+07JJKmhGyVFCOF2ARquiJiGW
- Q6SsoZh1N3KJJe4w=
-X-Received: by 2002:a5d:554d:: with SMTP id g13mr7730002wrw.98.1594765318138; 
- Tue, 14 Jul 2020 15:21:58 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJxIl8VT+T+TJSXcjMJX3LIWDdwurgfpY6HH5UdPHk5kiuwk0HdcZ1OVeT6zU3JEJIr4Aa5Vnw==
-X-Received: by 2002:a5d:554d:: with SMTP id g13mr7729983wrw.98.1594765317930; 
- Tue, 14 Jul 2020 15:21:57 -0700 (PDT)
+ bh=BU6nod1vM4pdn4SPezq8/eYZ42x6gm5zwkT0DnjVtk8=;
+ b=BvSLivyuS2D9SdeazwTnbt9FEMMWK19n/u0sZ3mzpH/+IVbECDR+oX4PJ8M2R4s/7l
+ I1weB52WEsZxlo8rqLdievgQKikCp5jmm8NN4GxNsOWcM7nrKhyC7g3Vl4Ln2ZdKU9z4
+ xksANsoZFqceM/o2qUa+cJx8Ge8wv+gMeiSGTAJniu7KB0If4s9rhyET01vRntuYSl8M
+ yTYHd4gIAyYMG+iNCZ9BiXR++MH4u8x6v99mWa2PMi3SizJFbPtaC3hRAXXA08nTLGyf
+ U1SAwTzbmV6CO6rLJtStcq5ETPcG6PamZeU8wFyna7Nz3LqIfICPGN29hAjo6/oCQQhv
+ 4jSA==
+X-Gm-Message-State: AOAM53362Oe3RujRks64mXw39PrDEit2p50t7xaC6vSjDBm+DsYaUYiK
+ ryEh5Ekl9lTe3ccFEt02vki9itpNhiuKYkq7Eo4bN91JDFtafxc1XTXevME0XdnYG8YFhg3xZ8B
+ KY5BA6SfQin7uzQw=
+X-Received: by 2002:a1c:2805:: with SMTP id o5mr5869292wmo.25.1594765322791;
+ Tue, 14 Jul 2020 15:22:02 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJwO+o9WWeKqimo9LUqmtJnuajZ1bjM96ascLKDdWwmNVtnXDAetXuaTx2RX6+lxxOrv9TG7LA==
+X-Received: by 2002:a1c:2805:: with SMTP id o5mr5869275wmo.25.1594765322529;
+ Tue, 14 Jul 2020 15:22:02 -0700 (PDT)
 Received: from localhost.localdomain
  (138.red-83-57-170.dynamicip.rima-tde.net. [83.57.170.138])
- by smtp.gmail.com with ESMTPSA id f12sm177045wrw.53.2020.07.14.15.21.57
+ by smtp.gmail.com with ESMTPSA id v11sm8783316wmb.3.2020.07.14.15.22.01
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 14 Jul 2020 15:21:57 -0700 (PDT)
+ Tue, 14 Jul 2020 15:22:02 -0700 (PDT)
 From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PULL 05/19] python/machine.py: Perform early cleanup for wait()
- calls, too
-Date: Wed, 15 Jul 2020 00:21:18 +0200
-Message-Id: <20200714222132.10815-6-philmd@redhat.com>
+Subject: [PULL 06/19] python/machine.py: Prohibit multiple shutdown() calls
+Date: Wed, 15 Jul 2020 00:21:19 +0200
+Message-Id: <20200714222132.10815-7-philmd@redhat.com>
 X-Mailer: git-send-email 2.21.3
 In-Reply-To: <20200714222132.10815-1-philmd@redhat.com>
 References: <20200714222132.10815-1-philmd@redhat.com>
@@ -105,32 +104,68 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: John Snow <jsnow@redhat.com>
 
-This is primarily for consistency, and is a step towards wait() and
-shutdown() sharing the same implementation so that the two cleanup paths
-cannot diverge.
+If the VM is not launched, don't try to shut it down. As a change,
+_post_shutdown now unconditionally also calls _early_cleanup in order to
+offer comprehensive object cleanup in failure cases.
+
+As a courtesy, treat it as a NOP instead of rejecting it as an
+error. This is slightly nicer for acceptance tests where vm.shutdown()
+is issued unconditionally in tearDown callbacks.
 
 Signed-off-by: John Snow <jsnow@redhat.com>
 Reviewed-by: Philippe Mathieu-Daudé <philmd@redhat.com>
-Reviewed-by: Cleber Rosa <crosa@redhat.com>
-Tested-by: Cleber Rosa <crosa@redhat.com>
-Message-Id: <20200710050649.32434-5-jsnow@redhat.com>
+Message-Id: <20200710050649.32434-6-jsnow@redhat.com>
 Signed-off-by: Philippe Mathieu-Daudé <philmd@redhat.com>
 ---
- python/qemu/machine.py | 1 +
- 1 file changed, 1 insertion(+)
+ python/qemu/machine.py | 14 +++++++++++++-
+ 1 file changed, 13 insertions(+), 1 deletion(-)
 
 diff --git a/python/qemu/machine.py b/python/qemu/machine.py
-index 127926b276..63e40879e2 100644
+index 63e40879e2..c28957ee82 100644
 --- a/python/qemu/machine.py
 +++ b/python/qemu/machine.py
-@@ -380,6 +380,7 @@ def wait(self):
-         """
-         Wait for the VM to power off
-         """
-+        self._early_cleanup()
-         self._popen.wait()
-         self._post_shutdown()
+@@ -294,6 +294,13 @@ def _post_launch(self):
+             self._qmp.accept()
  
+     def _post_shutdown(self):
++        """
++        Called to cleanup the VM instance after the process has exited.
++        May also be called after a failed launch.
++        """
++        # Comprehensive reset for the failed launch case:
++        self._early_cleanup()
++
+         if self._qmp:
+             self._qmp.close()
+             self._qmp = None
+@@ -339,7 +346,7 @@ def launch(self):
+             self._launch()
+             self._launched = True
+         except:
+-            self.shutdown()
++            self._post_shutdown()
+ 
+             LOG.debug('Error launching VM')
+             if self._qemu_full_args:
+@@ -368,6 +375,8 @@ def _launch(self):
+     def _early_cleanup(self) -> None:
+         """
+         Perform any cleanup that needs to happen before the VM exits.
++
++        Called additionally by _post_shutdown for comprehensive cleanup.
+         """
+         # If we keep the console socket open, we may deadlock waiting
+         # for QEMU to exit, while QEMU is waiting for the socket to
+@@ -388,6 +397,9 @@ def shutdown(self, has_quit=False, hard=False):
+         """
+         Terminate the VM and clean up
+         """
++        if not self._launched:
++            return
++
+         self._early_cleanup()
+ 
+         if self.is_running():
 -- 
 2.21.3
 
