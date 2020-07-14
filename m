@@ -2,83 +2,55 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id AA0F421F5DC
-	for <lists+qemu-devel@lfdr.de>; Tue, 14 Jul 2020 17:10:06 +0200 (CEST)
-Received: from localhost ([::1]:58356 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A24C221F5E8
+	for <lists+qemu-devel@lfdr.de>; Tue, 14 Jul 2020 17:13:08 +0200 (CEST)
+Received: from localhost ([::1]:60626 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jvMZJ-0008TP-DH
-	for lists+qemu-devel@lfdr.de; Tue, 14 Jul 2020 11:10:05 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:37244)
+	id 1jvMcF-0001PF-Og
+	for lists+qemu-devel@lfdr.de; Tue, 14 Jul 2020 11:13:07 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:38266)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1jvMYP-0007vx-P2
- for qemu-devel@nongnu.org; Tue, 14 Jul 2020 11:09:09 -0400
-Received: from mail-wr1-x441.google.com ([2a00:1450:4864:20::441]:37476)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1jvMYO-0007yf-Ar
- for qemu-devel@nongnu.org; Tue, 14 Jul 2020 11:09:09 -0400
-Received: by mail-wr1-x441.google.com with SMTP id a6so22304616wrm.4
- for <qemu-devel@nongnu.org>; Tue, 14 Jul 2020 08:09:07 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=sender:subject:to:cc:references:from:message-id:date:user-agent
- :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=yspaqFLqjx+oHSHyQpjJ/X/MhJXPPWCOIyWnxFW+Od4=;
- b=b5d1c5mIKA5/Krr9L8Ifpj9Oph1mSajc9Km1yRSrVgICTH+H5OQww3Nevma5gEIx85
- jC1rgqiEVKNRwx3ABLmDeWmM4cURhACSKY9KVp68LTXTVeEEbl0RxfsB6JkaaUptTp3y
- WWnQHtoLJFj5VjBVP5S76ci8vMLHS3BuQUHlUqBgzcCKYe1xaW/LnWoVQD5+bGAUjwev
- Zur6tOF5IAQzWlEghxOreVfmCTp7s6qpjx47iTC0TTa7wqOXCX1x20e8mEieZyfg8cwO
- RJEW+qNm2+BJhorZC1PWpjgj/WJBP3hbrskgGJj6/UpCKU0YDggHDm+TUnDuS8eaKf77
- ZOaQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:sender:subject:to:cc:references:from:message-id
- :date:user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=yspaqFLqjx+oHSHyQpjJ/X/MhJXPPWCOIyWnxFW+Od4=;
- b=T/WdEKu1juCArxMhosEvNcDVZfZvwbwEujQEpXdEtC0ss/+ABGQeCpoLmkejR3Sn63
- WFYA4V9AsvMLb87xRAsKwKG19xA8GrxCrZOrnj2aQn1jM+wXHzH/49XRRU1VnIsbirMe
- GaXMA3xwnACBp0cJ+OpOXyz5ICqpULAHo3Df/UT4cpdziQrDk0NPK/QOVxWr2XMokXE+
- fbz0kDF+kNakyb5qFnIfJfzdZcXFysPmjiowy76W32qVX2DTR8dmPOPwO9vceDiixzAm
- eqAUbVl0wTi3RpcbWcFT5siooL98Xq20vE3Y1bRt9ClTyulfpJiWG20ZEaQjs2PYzOkL
- ZePg==
-X-Gm-Message-State: AOAM5332PjVqX2gETjgL+g3vlfsvmjK4zTzCkoyac0Tlezr37Bpg2DLf
- jKoE14bAbDzZExmFmDkKyy0=
-X-Google-Smtp-Source: ABdhPJx2jU+SseCk5udxm2vdP4a2N2pIasqbjt5cI67HtfNSurx9sUEFTIplwtc3Ob2CQ9l8ZJOt4g==
-X-Received: by 2002:adf:9307:: with SMTP id 7mr6196544wro.414.1594739346713;
- Tue, 14 Jul 2020 08:09:06 -0700 (PDT)
-Received: from [192.168.1.37] (138.red-83-57-170.dynamicip.rima-tde.net.
- [83.57.170.138])
- by smtp.gmail.com with ESMTPSA id e23sm4726665wme.35.2020.07.14.08.09.05
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 14 Jul 2020 08:09:05 -0700 (PDT)
-Subject: Re: [PULL 24/32] hw/avr: Add support for loading ELF/raw binaries
-To: Peter Maydell <peter.maydell@linaro.org>
-References: <20200707181710.30950-1-f4bug@amsat.org>
- <20200707181710.30950-25-f4bug@amsat.org>
- <CAFEAcA9Wx_gqSfuJkrf4GxEy4N5m5TQmNOe65vZzx5LjUmrWUQ@mail.gmail.com>
-From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>
-Message-ID: <87e9229a-91e1-45ad-e0ef-983aeb4da500@amsat.org>
-Date: Tue, 14 Jul 2020 17:09:04 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.5.0
-MIME-Version: 1.0
-In-Reply-To: <CAFEAcA9Wx_gqSfuJkrf4GxEy4N5m5TQmNOe65vZzx5LjUmrWUQ@mail.gmail.com>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::441;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wr1-x441.google.com
-X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
- That's all we know.
-X-Spam_score_int: 0
-X-Spam_score: 0.0
-X-Spam_bar: /
-X-Spam_report: (0.0 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1, DKIM_VALID=-0.1,
- DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=1, FREEMAIL_FROM=0.001,
- HEADER_FROM_DIFFERENT_DOMAINS=1, RCVD_IN_DNSWL_NONE=-0.0001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=no autolearn_force=no
+ (Exim 4.90_1) (envelope-from <liq3ea@163.com>) id 1jvMbW-0000xc-Qf
+ for qemu-devel@nongnu.org; Tue, 14 Jul 2020 11:12:22 -0400
+Received: from mail-m971.mail.163.com ([123.126.97.1]:43776)
+ by eggs.gnu.org with esmtp (Exim 4.90_1)
+ (envelope-from <liq3ea@163.com>) id 1jvMbQ-00009T-3u
+ for qemu-devel@nongnu.org; Tue, 14 Jul 2020 11:12:21 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=163.com;
+ s=s110527; h=From:Subject:Date:Message-Id; bh=jBpZ8VNk9K7vcuvwnQ
+ VFDcHvBEEGcPq+v0dDDXvYq00=; b=djVRby0+PpN81rUqxE1116NQQRL5v++M2f
+ DbmwXoSUp6biL4hE9UfjtRuv0wakGBna7OVDsCM/HDxDtlkfyRee03Ie9PqSNtqm
+ 13jwBibdraNfVdaUoqZ8PiASCMDHMK7+x7SIfFYbmrzmImnLAItIWvdzWDCqAFtW
+ 1o3WL3uOQ=
+Received: from localhost.localdomain (unknown [183.159.72.144])
+ by smtp1 (Coremail) with SMTP id GdxpCgBn_po8yw1fATzIBQ--.7224S4;
+ Tue, 14 Jul 2020 23:11:57 +0800 (CST)
+From: Li Qiang <liq3ea@163.com>
+To: pbonzini@redhat.com, berrange@redhat.com, ehabkost@redhat.com,
+ armbru@redhat.com
+Subject: [PATCH] hmp: fix memory leak in qom_composition_compare()
+Date: Tue, 14 Jul 2020 08:11:52 -0700
+Message-Id: <20200714151152.54760-1-liq3ea@163.com>
+X-Mailer: git-send-email 2.17.1
+X-CM-TRANSID: GdxpCgBn_po8yw1fATzIBQ--.7224S4
+X-Coremail-Antispam: 1Uf129KBjvJXoW7CrWfWF1fAw1DKw4DGFWktFb_yoW8Zr1UpF
+ nxXryIy34xt3y3ZFWkZ3WkuF1UXwsayay3Xasavw1jyrnIva47Wrn2kF15ZF1DW3yrZr9I
+ 934Utr1DWayUAwUanT9S1TB71UUUUUUqnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
+ 9KBjDUYxBIdaVFxhVjvjDU0xZFpf9x07UbeOXUUUUU=
+X-Originating-IP: [183.159.72.144]
+X-CM-SenderInfo: 5oltjvrd6rljoofrz/1tbiTx1hbVsGVIUD0AAAsB
+Received-SPF: pass client-ip=123.126.97.1; envelope-from=liq3ea@163.com;
+ helo=mail-m971.mail.163.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/07/14 11:12:01
+X-ACL-Warn: Detected OS   = Linux 3.1-3.10
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H4=-0.01, RCVD_IN_MSPIKE_WL=-0.01,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -91,58 +63,54 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Laurent Vivier <lvivier@redhat.com>, Sarah Harris <S.E.Harris@kent.ac.uk>,
- Eduardo Habkost <ehabkost@redhat.com>, Thomas Huth <huth@tuxfamily.org>,
- =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>,
- QEMU Developers <qemu-devel@nongnu.org>,
- Wainer dos Santos Moschetta <wainersm@redhat.com>,
- Markus Armbruster <armbru@redhat.com>,
- =?UTF-8?Q?Marc-Andr=c3=a9_Lureau?= <marcandre.lureau@redhat.com>,
- Michael Rolnik <mrolnik@gmail.com>, Pavel Dovgalyuk <pavel.dovgaluk@ispras.ru>,
- Cleber Rosa <crosa@redhat.com>, Thomas Huth <thuth@redhat.com>,
- Paolo Bonzini <pbonzini@redhat.com>,
- =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>,
- Aleksandar Markovic <aleksandar.m.mail@gmail.com>,
- Richard Henderson <rth@twiddle.net>
+Cc: Li Qiang <liq3ea@163.com>, liq3ea@gmail.com, qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 7/13/20 2:40 PM, Peter Maydell wrote:
-> On Tue, 7 Jul 2020 at 19:31, Philippe Mathieu-Daudé <f4bug@amsat.org> wrote:
->>
->> Add avr_load_firmware() function to load firmware in ELF or
->> raw binary format.
-> 
-> Hi; Coverity points out a memory leak (CID 1430449) in this function:
-> 
->> +bool avr_load_firmware(AVRCPU *cpu, MachineState *ms,
->> +                       MemoryRegion *program_mr, const char *firmware)
->> +{
->> +    const char *filename;
->> +    int bytes_loaded;
->> +    uint64_t entry;
->> +    uint32_t e_flags;
->> +
->> +    filename = qemu_find_file(QEMU_FILE_TYPE_BIOS, firmware);
-> 
-> qemu_find_file() allocates and returns memory, but we don't
-> pass this to any function that takes ownership of it,
-> and none of the exit paths from the function (either error-exit
-> or success-exit cases) call g_free() on it.
+While 'make chekc', I got following error:
 
-Ah I didn't know it was allocated, I looked at the declaration
-in the header then quickly if there was a comment in the source,
-but didn't read the implementation (now I see the obvious g_strdup()
-call... Neither have I looked at the other callers.
+root@ubuntu:~/qemu# ./tests/qtest/device-introspect-test
+/x86_64/device/introspect/list: OK
+/x86_64/device/introspect/list-fields: OK
+/x86_64/device/introspect/none:
+=================================================================
+==53741==ERROR: LeakSanitizer: detected memory leaks
 
-I'll send a patch.
+Direct leak of 212 byte(s) in 20 object(s) allocated from:
+    #0 0x7f3b6319cb40 in __interceptor_malloc (/usr/lib/x86_64-linux-gnu/libasan.so.4+0xdeb40)
+    #1 0x7f3b62805ab8 in g_malloc (/usr/lib/x86_64-linux-gnu/libglib-2.0.so.0+0x51ab8)
 
-Thanks for following the Coverity reports,
+SUMMARY: AddressSanitizer: 212 byte(s) leaked in 20 allocation(s).
+tests/qtest/libqtest.c:166: kill_qemu() tried to terminate QEMU process but encountered exit status 1 (expected 0)
+Aborted (core dumped)
 
-Phil.
+This is because the 'info qom-tree' path has a memory leak and qemu
+exit 1. The leak is in 'qom_composition_compare'. This patch fixes this.
 
-> 
-> thanks
-> -- PMM
-> 
+Fixes: e8c9e65816f("qom: Make "info qom-tree" show children sorted")
+Signed-off-by: Li Qiang <liq3ea@163.com>
+---
+ qom/qom-hmp-cmds.c | 6 ++++--
+ 1 file changed, 4 insertions(+), 2 deletions(-)
+
+diff --git a/qom/qom-hmp-cmds.c b/qom/qom-hmp-cmds.c
+index 9ed8bb1c9f..3547d5ba4e 100644
+--- a/qom/qom-hmp-cmds.c
++++ b/qom/qom-hmp-cmds.c
+@@ -96,8 +96,10 @@ static void print_qom_composition(Monitor *mon, Object *obj, int indent);
+ 
+ static int qom_composition_compare(const void *a, const void *b, void *ignore)
+ {
+-    return g_strcmp0(a ? object_get_canonical_path_component(a) : NULL,
+-                     b ? object_get_canonical_path_component(b) : NULL);
++    g_autofree char *t1 = a ? object_get_canonical_path_component(a) : NULL;
++    g_autofree char *t2 = b ? object_get_canonical_path_component(b) : NULL;
++
++    return g_strcmp0(t1, t2);
+ }
+ 
+ static int insert_qom_composition_child(Object *obj, void *opaque)
+-- 
+2.17.1
+
 
