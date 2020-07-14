@@ -2,44 +2,46 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E4EE921F11D
-	for <lists+qemu-devel@lfdr.de>; Tue, 14 Jul 2020 14:23:24 +0200 (CEST)
-Received: from localhost ([::1]:57334 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B5A7C21F131
+	for <lists+qemu-devel@lfdr.de>; Tue, 14 Jul 2020 14:29:29 +0200 (CEST)
+Received: from localhost ([::1]:38482 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jvJxz-0003pd-Fu
-	for lists+qemu-devel@lfdr.de; Tue, 14 Jul 2020 08:23:23 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:37222)
+	id 1jvK3s-0008Es-OI
+	for lists+qemu-devel@lfdr.de; Tue, 14 Jul 2020 08:29:28 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:39036)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <autobot.majer@seznam.cz>)
- id 1jvJvN-0003KE-GY
- for qemu-devel@nongnu.org; Tue, 14 Jul 2020 08:20:41 -0400
-Received: from mxa2.seznam.cz ([2a02:598:2::90]:38563)
+ id 1jvK1T-0006Sr-4p
+ for qemu-devel@nongnu.org; Tue, 14 Jul 2020 08:26:59 -0400
+Received: from mxa2.seznam.cz ([2a02:598:2::90]:51625)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <autobot.majer@seznam.cz>)
- id 1jvJvK-0006xK-4q
- for qemu-devel@nongnu.org; Tue, 14 Jul 2020 08:20:41 -0400
+ id 1jvK1Q-0007pP-Ax
+ for qemu-devel@nongnu.org; Tue, 14 Jul 2020 08:26:58 -0400
 Received: from email.seznam.cz
- by email-smtpc10a.ng.seznam.cz (email-smtpc10a.ng.seznam.cz [10.23.11.45])
- id 0506ce8fc7b9d1ce00742abb; Tue, 14 Jul 2020 14:20:30 +0200 (CEST)
+ by email-smtpc14b.ng.seznam.cz (email-smtpc14b.ng.seznam.cz [10.23.14.165])
+ id 118e4763d331582214fca357; Tue, 14 Jul 2020 14:26:53 +0200 (CEST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=seznam.cz; s=beta;
- t=1594729230; bh=wXc3KGvg1StmYaAqv0SevzSTd/zaaCRUQvMKAo/8hbw=;
- h=Received:From:To:Cc:Subject:Date:Message-Id:X-Mailer:MIME-Version:
- Content-Transfer-Encoding;
- b=VFOfUSUHnFX39zezERVfMls9HVXBQfjOZo8Q/R/2ICMnMjQpQP3gF/rVJgCoCwJmW
- ThrWff9rRPjvMruxzf6Zgw5NdVvgMxlqvLP94fTqJfFxT/AekSzl1zwD2qS48PM3Ci
- Rk4CS1TcvGWiL8huoVE6LF7oN6qk43O6ehdSOQCw=
+ t=1594729613; bh=FnYWBsooya8skn5xNMdV7GB12h3azv9t0jZCapGnCO4=;
+ h=Received:From:To:Cc:Subject:Date:Message-Id:X-Mailer:In-Reply-To:
+ References:MIME-Version:Content-Transfer-Encoding;
+ b=A7BqwA4TV6ru/4c2p6Upn5WnMIDpWlWYJzASAIS54kLF8weWnEa36ys6BcWHcJH8y
+ a4KQK3kcFbleatZJcRDEpyi8DALvFteeMVf6g1MjUzlXMcpoLPXBgnJJlLobTL8ol8
+ 7eFw1jxzjqyZzAwpMCdTYhKBOgMuf3TqC04xm5V0=
 Received: from hathi.duckdns.org (2001:718:2:1654:e269:95ff:fec3:1c81
  [2001:718:2:1654:e269:95ff:fec3:1c81])
- by email-relay2.ng.seznam.cz (Seznam SMTPD 1.3.119) with ESMTP;
- Tue, 14 Jul 2020 14:20:27 +0200 (CEST)  
+ by email-relay20.ng.seznam.cz (Seznam SMTPD 1.3.119) with ESMTP;
+ Tue, 14 Jul 2020 14:26:51 +0200 (CEST)  
 From: pisa@cmp.felk.cvut.cz
 To: qemu-devel@nongnu.org,
 	Paolo Bonzini <pbonzini@redhat.com>
-Subject: [PATCH v1 0/6] CTU CAN FD core support
-Date: Tue, 14 Jul 2020 14:20:13 +0200
-Message-Id: <cover.1594725647.git.pisa@cmp.felk.cvut.cz>
+Subject: [PATCH v1 1/6] net/can: Initial host SocketCan support for CAN FD.
+Date: Tue, 14 Jul 2020 14:20:14 +0200
+Message-Id: <b401e976ac9c73cf1582bca95442a255676ce940.1594725647.git.pisa@cmp.felk.cvut.cz>
 X-Mailer: git-send-email 2.20.1
+In-Reply-To: <cover.1594725647.git.pisa@cmp.felk.cvut.cz>
+References: <cover.1594725647.git.pisa@cmp.felk.cvut.cz>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 Received-SPF: pass client-ip=2a02:598:2::90;
@@ -76,60 +78,166 @@ Cc: Marek Vasut <marex@denx.de>, Oliver Hartkopp <socketcan@hartkopp.net>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Pavel Pisa <pisa@cmp.felk.cvut.cz>
+From: Jan Charvat <charvj10@fel.cvut.cz>
 
-CTU CAN FD is an open source soft core written in VHDL.
-It originated in 2015 as Ondrej Ille's project at the
-Department of Measurement of FEE at CTU.
+Signed-off-by: Jan Charvat <charvj10@fel.cvut.cz>
+Signed-off-by: Pavel Pisa <pisa@cmp.felk.cvut.cz>
+---
+ hw/net/can/can_sja1000.c |  2 ++
+ include/net/can_emu.h    |  8 ++++++-
+ net/can/can_socketcan.c  | 47 +++++++++++++++++++++++++++++++++++++---
+ 3 files changed, 53 insertions(+), 4 deletions(-)
 
-Integration for Xilinx Zynq and Intel based SoCs is available
-as well as support for PCIe integration of the core.
-
-The core sources
-
-  https://gitlab.fel.cvut.cz/canbus/ctucanfd_ip_core
-
-The controller model and QEMU CAN subsystem extension to CAN FD
-has been implemented in frame of bachelor theses of Jan Charvat.
-The development branch ctu-canfd in CTU local project repository
-
-  https://gitlab.fel.cvut.cz/canbus/qemu-canbus
-
-More CAN bus related project from Czech Technical University
-in Prague, Faculty of Electrical Engineering at
-
-  http://canbus.pages.fel.cvut.cz/
-
-Jan Charvat (5):
-  net/can: Initial host SocketCan support for CAN FD.
-  hw/net/can: sja1000 ignore CAN FD frames
-  net/can: Add can_dlc2len and can_len2dlc for CAN FD.
-  hw/net/can/ctucafd: Add CTU CAN FD core register definitions.
-  hw/net/can: CTU CAN FD IP open hardware core emulation.
-
-Pavel Pisa (1):
-  hw/net/can: Documentation for CTU CAN FD IP open hardware core
-    emulation.
-
- MAINTAINERS                   |   8 +
- docs/can.txt                  | 113 +++-
- hw/net/can/Makefile.objs      |   3 +
- hw/net/can/can_sja1000.c      |  31 +-
- hw/net/can/ctu_can_fd_frame.h | 190 +++++++
- hw/net/can/ctu_can_fd_regs.h  | 972 ++++++++++++++++++++++++++++++++++
- hw/net/can/ctucan_core.c      | 691 ++++++++++++++++++++++++
- hw/net/can/ctucan_core.h      | 127 +++++
- hw/net/can/ctucan_pci.c       | 281 ++++++++++
- include/net/can_emu.h         |  12 +-
- net/can/can_core.c            |  36 ++
- net/can/can_socketcan.c       |  47 +-
- 12 files changed, 2490 insertions(+), 21 deletions(-)
- create mode 100644 hw/net/can/ctu_can_fd_frame.h
- create mode 100644 hw/net/can/ctu_can_fd_regs.h
- create mode 100644 hw/net/can/ctucan_core.c
- create mode 100644 hw/net/can/ctucan_core.h
- create mode 100644 hw/net/can/ctucan_pci.c
-
+diff --git a/hw/net/can/can_sja1000.c b/hw/net/can/can_sja1000.c
+index ea915a023a..d83c550edc 100644
+--- a/hw/net/can/can_sja1000.c
++++ b/hw/net/can/can_sja1000.c
+@@ -268,6 +268,7 @@ static void buff2frame_pel(const uint8_t *buff, qemu_can_frame *frame)
+ {
+     uint8_t i;
+ 
++    frame->flags = 0;
+     frame->can_id = 0;
+     if (buff[0] & 0x40) { /* RTR */
+         frame->can_id = QEMU_CAN_RTR_FLAG;
+@@ -303,6 +304,7 @@ static void buff2frame_bas(const uint8_t *buff, qemu_can_frame *frame)
+ {
+     uint8_t i;
+ 
++    frame->flags = 0;
+     frame->can_id = ((buff[0] << 3) & (0xff << 3)) + ((buff[1] >> 5) & 0x07);
+     if (buff[1] & 0x10) { /* RTR */
+         frame->can_id = QEMU_CAN_RTR_FLAG;
+diff --git a/include/net/can_emu.h b/include/net/can_emu.h
+index fce9770928..c6164dcfb4 100644
+--- a/include/net/can_emu.h
++++ b/include/net/can_emu.h
+@@ -46,7 +46,8 @@ typedef uint32_t qemu_canid_t;
+ typedef struct qemu_can_frame {
+     qemu_canid_t    can_id;  /* 32 bit CAN_ID + EFF/RTR/ERR flags */
+     uint8_t         can_dlc; /* data length code: 0 .. 8 */
+-    uint8_t         data[8] QEMU_ALIGNED(8);
++    uint8_t         flags;
++    uint8_t         data[64] QEMU_ALIGNED(8);
+ } qemu_can_frame;
+ 
+ /* Keep defines for QEMU separate from Linux ones for now */
+@@ -58,6 +59,10 @@ typedef struct qemu_can_frame {
+ #define QEMU_CAN_SFF_MASK 0x000007FFU /* standard frame format (SFF) */
+ #define QEMU_CAN_EFF_MASK 0x1FFFFFFFU /* extended frame format (EFF) */
+ 
++#define QEMU_CAN_FRMF_BRS     0x01 /* bit rate switch (2nd bitrate for data) */
++#define QEMU_CAN_FRMF_ESI     0x02 /* error state ind. of transmitting node */
++#define QEMU_CAN_FRMF_TYPE_FD 0x10 /* internal bit ind. of CAN FD frame */
++
+ /**
+  * struct qemu_can_filter - CAN ID based filter in can_register().
+  * @can_id:   relevant bits of CAN ID which are not masked out.
+@@ -97,6 +102,7 @@ struct CanBusClientState {
+     char *model;
+     char *name;
+     void (*destructor)(CanBusClientState *);
++    bool fd_mode;
+ };
+ 
+ #define TYPE_CAN_BUS "can-bus"
+diff --git a/net/can/can_socketcan.c b/net/can/can_socketcan.c
+index b7ef63ec0e..fbc0b62ea4 100644
+--- a/net/can/can_socketcan.c
++++ b/net/can/can_socketcan.c
+@@ -103,6 +103,14 @@ static void can_host_socketcan_read(void *opaque)
+         return;
+     }
+ 
++    if (!ch->bus_client.fd_mode) {
++        c->buf[0].flags = 0;
++    } else {
++        if (c->bufcnt > CAN_MTU) {
++            c->buf[0].flags |= QEMU_CAN_FRMF_TYPE_FD;
++        }
++    }
++
+     can_bus_client_send(&ch->bus_client, c->buf, 1);
+ 
+     if (DEBUG_CAN) {
+@@ -121,12 +129,21 @@ static ssize_t can_host_socketcan_receive(CanBusClientState *client,
+     CanHostState *ch = container_of(client, CanHostState, bus_client);
+     CanHostSocketCAN *c = CAN_HOST_SOCKETCAN(ch);
+ 
+-    size_t len = sizeof(qemu_can_frame);
++    size_t len;
+     int res;
+ 
+     if (c->fd < 0) {
+         return -1;
+     }
++    if (frames->flags & QEMU_CAN_FRMF_TYPE_FD) {
++        if (!ch->bus_client.fd_mode) {
++            return 0;
++        }
++        len = CANFD_MTU;
++    } else {
++        len = CAN_MTU;
++
++    }
+ 
+     res = write(c->fd, frames, len);
+ 
+@@ -172,6 +189,8 @@ static void can_host_socketcan_connect(CanHostState *ch, Error **errp)
+ {
+     CanHostSocketCAN *c = CAN_HOST_SOCKETCAN(ch);
+     int s; /* can raw socket */
++    int mtu;
++    int enable_canfd = 1;
+     struct sockaddr_can addr;
+     struct ifreq ifr;
+ 
+@@ -185,13 +204,34 @@ static void can_host_socketcan_connect(CanHostState *ch, Error **errp)
+     addr.can_family = AF_CAN;
+     memset(&ifr.ifr_name, 0, sizeof(ifr.ifr_name));
+     strcpy(ifr.ifr_name, c->ifname);
++    /* check if the frame fits into the CAN netdevice */
+     if (ioctl(s, SIOCGIFINDEX, &ifr) < 0) {
+         error_setg_errno(errp, errno,
+-                         "SocketCAN host interface %s not available", c->ifname);
++                         "SocketCAN host interface %s not available",
++                         c->ifname);
+         goto fail;
+     }
+     addr.can_ifindex = ifr.ifr_ifindex;
+ 
++    if (ioctl(s, SIOCGIFMTU, &ifr) < 0) {
++        error_setg_errno(errp, errno,
++                         "SocketCAN host interface %s SIOCGIFMTU failed",
++                         c->ifname);
++        goto fail;
++    }
++    mtu = ifr.ifr_mtu;
++
++    if (mtu >= CANFD_MTU) {
++        /* interface is ok - try to switch the socket into CAN FD mode */
++        if (setsockopt(s, SOL_CAN_RAW, CAN_RAW_FD_FRAMES,
++                        &enable_canfd, sizeof(enable_canfd))) {
++            warn_report("SocketCAN host interface %s enabling CAN FD failed",
++                        c->ifname);
++        } else {
++            c->parent.bus_client.fd_mode = true;
++        }
++    }
++
+     c->err_mask = 0xffffffff; /* Receive error frame. */
+     setsockopt(s, SOL_CAN_RAW, CAN_RAW_ERR_FILTER,
+                    &c->err_mask, sizeof(c->err_mask));
+@@ -232,7 +272,8 @@ static char *can_host_socketcan_get_if(Object *obj, Error **errp)
+     return g_strdup(c->ifname);
+ }
+ 
+-static void can_host_socketcan_set_if(Object *obj, const char *value, Error **errp)
++static void can_host_socketcan_set_if(Object *obj, const char *value,
++                                      Error **errp)
+ {
+     CanHostSocketCAN *c = CAN_HOST_SOCKETCAN(obj);
+     struct ifreq ifr;
 -- 
 2.20.1
 
