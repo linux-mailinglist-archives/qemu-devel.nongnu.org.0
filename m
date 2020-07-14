@@ -2,68 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id AB684220091
-	for <lists+qemu-devel@lfdr.de>; Wed, 15 Jul 2020 00:26:08 +0200 (CEST)
-Received: from localhost ([::1]:36318 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B5B3122009E
+	for <lists+qemu-devel@lfdr.de>; Wed, 15 Jul 2020 00:29:13 +0200 (CEST)
+Received: from localhost ([::1]:51666 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jvTNH-0006Ah-Ls
-	for lists+qemu-devel@lfdr.de; Tue, 14 Jul 2020 18:26:07 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:50128)
+	id 1jvTQG-00042t-QM
+	for lists+qemu-devel@lfdr.de; Tue, 14 Jul 2020 18:29:12 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:50330)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1jvTJr-00018N-IM
- for qemu-devel@nongnu.org; Tue, 14 Jul 2020 18:22:35 -0400
-Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:49781
- helo=us-smtp-1.mimecast.com)
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1jvTJy-0001Nm-Bg
+ for qemu-devel@nongnu.org; Tue, 14 Jul 2020 18:22:42 -0400
+Received: from us-smtp-2.mimecast.com ([205.139.110.61]:56859
+ helo=us-smtp-delivery-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1jvTJm-0004kS-Vb
- for qemu-devel@nongnu.org; Tue, 14 Jul 2020 18:22:35 -0400
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1jvTJw-0004qh-IA
+ for qemu-devel@nongnu.org; Tue, 14 Jul 2020 18:22:41 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1594765349;
+ s=mimecast20190719; t=1594765359;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=fxpPD25l94H6jH9waRJgbDvpErEb7UHCQOGbx0fD5YA=;
- b=NzH+JV/OeyOmDwfCMRFP6in31PtVI7IkeWspg1rMY5Htsujd/xDhixjIvWAoBLLFKRBldM
- 5LJrQi/TE3KG7ve6ad9R9FZomwk/Qbg5GTIZwyj0GpArs/wmYMlRnAmeTBcgeXY8lp1wv+
- h4Q+FsrKHvEYhrwb5hQaqmPjWy1OtkM=
+ bh=j02F5ic5GFszUU2+6LTrgWj0JvABR23KJP15O63NAeA=;
+ b=f5BivysUbIOP4tayQCTcroxZmBjTwINYdpCkH3yAla2FgYBjj1xJbtmGWhrEVd4zQ+8TtI
+ xfDcS2xjqzA9ciDOcek91h3ZRXMU6YA1ZyhrStmEP7U8tugGBvMo4w7Z+/7pK4HrtVwAZh
+ +47c9H90Cfw/2Jg76lsvtmUN3CVexrw=
 Received: from mail-wr1-f69.google.com (mail-wr1-f69.google.com
  [209.85.221.69]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-279-KkgddlGiPQC-_tDG0pLbDw-1; Tue, 14 Jul 2020 18:22:28 -0400
-X-MC-Unique: KkgddlGiPQC-_tDG0pLbDw-1
-Received: by mail-wr1-f69.google.com with SMTP id o25so18488wro.16
- for <qemu-devel@nongnu.org>; Tue, 14 Jul 2020 15:22:28 -0700 (PDT)
+ us-mta-366-qKW3wQuIMQ6w2foK1v45mg-1; Tue, 14 Jul 2020 18:22:37 -0400
+X-MC-Unique: qKW3wQuIMQ6w2foK1v45mg-1
+Received: by mail-wr1-f69.google.com with SMTP id i14so18551wru.17
+ for <qemu-devel@nongnu.org>; Tue, 14 Jul 2020 15:22:37 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=fxpPD25l94H6jH9waRJgbDvpErEb7UHCQOGbx0fD5YA=;
- b=f1nu1Cz/NMljK7PDhGXAUOQclcthHm4aLlUezAW6U8RncBWBbJNxhiKTH9IusqMJFT
- M/+KVPhbhQeP+TszYEALExbU/VEddkpRFX5znkmyo+ImuJQY7PAnA9Gq4XQrezWuwJgD
- qhd9WNmsedkf2A5+KGMo9bVZCBEhJqhCmwFWON6XTGyDjAi1SAGOsSB/BWD2wWkCWSa5
- Vdz9Z5xmcxo4Y+xKTMpJjlyNNHbwRmpZKENyXHbSoXymqFKlrCyoFRyvqrCvqGAK/wq0
- 6DUjk5bIQQovoVyDuzOuANWhWhfiSPCnFqQIAkyXqT7nvDI8cKcU7oUgxd2VF1E1wqWU
- g+Ng==
-X-Gm-Message-State: AOAM530sd8ooIsb1NM5iZtHUNFE/84bLs4byfs/A5bsHJP6L3JSUGo84
- S8ezS+i+q30oF/dwtJ1vcALESRMgyVlontl+wBws3pK/TBX2zdwZ5dcvq5GAWQms2iZecaoaU50
- m8rjOjvZNwsFj8kY=
-X-Received: by 2002:a5d:40cb:: with SMTP id b11mr8264546wrq.263.1594765346765; 
- Tue, 14 Jul 2020 15:22:26 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJzwanRA/LIdrlHXnRYIrv61pWu7j68fnofevncVhh1VvW3D1TOPE3ae+3SWppY5GjxrIbmNkQ==
-X-Received: by 2002:a5d:40cb:: with SMTP id b11mr8264521wrq.263.1594765346477; 
- Tue, 14 Jul 2020 15:22:26 -0700 (PDT)
+ bh=j02F5ic5GFszUU2+6LTrgWj0JvABR23KJP15O63NAeA=;
+ b=s8vBT42gVYQ+7gopXCPXfXBZV4owFE2mogvdxMxv2Mr/yld0CtfhhNGphFyUsZrul7
+ c6Ab8AcN8zl+lLkOJ7LDoVvFrKNIteqvqKpkLDTTsZpMYIrhkOgkXgzP8M//IzaAgSdC
+ A8wUIQ6HZsPsO2vd5/sUYGvNTXHTseuim6GPr6KPQnDVvxRTZbVaUwksOYoql2a7vSPs
+ WxCADXmtvEUhybJiHmbIIKZYUjSLFLUH0waY0jJoHsONmuWnnx5VXU1rlAWgXgdKlLpA
+ pRqsifsAPdXZbsAXVMkpcz2mD2G9aIJVuXWf793rIpYDVCoZEV/BTgvcen2Acgiv2I+X
+ h28A==
+X-Gm-Message-State: AOAM533w48axILcqMPWCsvGUvGFILhMnQITLiwMeaX7AEhojFHPlWPcM
+ U0RWKXZXasz56DGAEeWcizJDPnCTVrPZOe6x92Fzg2mt+bqZ5mh/XSy/UsaYQJtDZkjPmteeB9C
+ 8LU+u+b7D+DD+b4c=
+X-Received: by 2002:a1c:7f82:: with SMTP id a124mr5465654wmd.132.1594765356326; 
+ Tue, 14 Jul 2020 15:22:36 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJzvC7OqoVsBQA0sERYprgjXmkhrNV6Tou5Y09ZSqk6LiCFWVwLqhTg6huEvyc6bFAdtz29q1w==
+X-Received: by 2002:a1c:7f82:: with SMTP id a124mr5465640wmd.132.1594765356084; 
+ Tue, 14 Jul 2020 15:22:36 -0700 (PDT)
 Received: from localhost.localdomain
  (138.red-83-57-170.dynamicip.rima-tde.net. [83.57.170.138])
- by smtp.gmail.com with ESMTPSA id u10sm289156wml.29.2020.07.14.15.22.25
+ by smtp.gmail.com with ESMTPSA id y16sm164008wro.71.2020.07.14.15.22.35
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 14 Jul 2020 15:22:25 -0700 (PDT)
+ Tue, 14 Jul 2020 15:22:35 -0700 (PDT)
 From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PULL 11/19] python/machine.py: split shutdown into hard and soft
- flavors
-Date: Wed, 15 Jul 2020 00:21:24 +0200
-Message-Id: <20200714222132.10815-12-philmd@redhat.com>
+Subject: [PULL 13/19] python/machine.py: change default wait timeout to 3
+ seconds
+Date: Wed, 15 Jul 2020 00:21:26 +0200
+Message-Id: <20200714222132.10815-14-philmd@redhat.com>
 X-Mailer: git-send-email 2.21.3
 In-Reply-To: <20200714222132.10815-1-philmd@redhat.com>
 References: <20200714222132.10815-1-philmd@redhat.com>
@@ -73,9 +73,9 @@ X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=UTF-8;
 	text/plain; charset="utf-8"
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=207.211.31.120; envelope-from=philmd@redhat.com;
- helo=us-smtp-1.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/07/14 18:21:58
+Received-SPF: pass client-ip=205.139.110.61; envelope-from=philmd@redhat.com;
+ helo=us-smtp-delivery-1.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/07/14 03:57:32
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
 X-Spam_score_int: -40
 X-Spam_score: -4.1
@@ -105,178 +105,40 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: John Snow <jsnow@redhat.com>
 
-This is done primarily to avoid the 'bare except' pattern, which
-suppresses all exceptions during shutdown and can obscure errors.
+Machine.wait() does not appear to be used except in the acceptance tests,
+and an infinite timeout by default in a test suite is not the most helpful.
 
-Replace this with a pattern that isolates the different kind of shutdown
-paradigms (_hard_shutdown and _soft_shutdown), and a new fallback shutdown
-handler (_do_shutdown) that gracefully attempts one before the other.
-
-This split now also ensures that no matter what happens,
-_post_shutdown() is always invoked.
-
-shutdown() changes in behavior such that if it attempts to do a graceful
-shutdown and is unable to, it will now always raise an exception to
-indicate this. This can be avoided by the test writer in three ways:
-
-1. If the VM is expected to have already exited or is in the process of
-exiting, wait() can be used instead of shutdown() to clean up resources
-instead. This helps avoid race conditions in shutdown.
-
-2. If a test writer is expecting graceful shutdown to fail, shutdown
-should be called in a try...except block.
-
-3. If the test writer has no interest in performing a graceful shutdown
-at all, kill() can be used instead.
-
-Handling shutdown in this way makes it much more explicit which type of
-shutdown we want and allows the library to report problems with this
-process.
+Change it to 3 seconds, like the default shutdown timeout.
 
 Signed-off-by: John Snow <jsnow@redhat.com>
 Reviewed-by: Philippe Mathieu-Daudé <philmd@redhat.com>
 Reviewed-by: Cleber Rosa <crosa@redhat.com>
 Tested-by: Cleber Rosa <crosa@redhat.com>
-Message-Id: <20200710050649.32434-11-jsnow@redhat.com>
+Message-Id: <20200710050649.32434-13-jsnow@redhat.com>
 Signed-off-by: Philippe Mathieu-Daudé <philmd@redhat.com>
 ---
- python/qemu/machine.py | 98 +++++++++++++++++++++++++++++++++++-------
- 1 file changed, 83 insertions(+), 15 deletions(-)
+ python/qemu/machine.py | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
 diff --git a/python/qemu/machine.py b/python/qemu/machine.py
-index 3f0b873f58..a955e3f221 100644
+index 736a3c906f..69055189bd 100644
 --- a/python/qemu/machine.py
 +++ b/python/qemu/machine.py
-@@ -49,6 +49,12 @@ class QEMUMachineAddDeviceError(QEMUMachineError):
-     """
- 
- 
-+class AbnormalShutdown(QEMUMachineError):
-+    """
-+    Exception raised when a graceful shutdown was requested, but not performed.
-+    """
-+
-+
- class MonitorResponseError(qmp.QMPError):
-     """
-     Represents erroneous QMP monitor reply
-@@ -376,6 +382,7 @@ def _early_cleanup(self) -> None:
+@@ -486,12 +486,12 @@ def kill(self):
          """
-         Perform any cleanup that needs to happen before the VM exits.
- 
-+        May be invoked by both soft and hard shutdown in failover scenarios.
-         Called additionally by _post_shutdown for comprehensive cleanup.
-         """
-         # If we keep the console socket open, we may deadlock waiting
-@@ -385,32 +392,93 @@ def _early_cleanup(self) -> None:
-             self._console_socket.close()
-             self._console_socket = None
- 
-+    def _hard_shutdown(self) -> None:
-+        """
-+        Perform early cleanup, kill the VM, and wait for it to terminate.
-+
-+        :raise subprocess.Timeout: When timeout is exceeds 60 seconds
-+            waiting for the QEMU process to terminate.
-+        """
-+        self._early_cleanup()
-+        self._popen.kill()
-+        self._popen.wait(timeout=60)
-+
-+    def _soft_shutdown(self, has_quit: bool = False,
-+                       timeout: Optional[int] = 3) -> None:
-+        """
-+        Perform early cleanup, attempt to gracefully shut down the VM, and wait
-+        for it to terminate.
-+
-+        :param has_quit: When True, don't attempt to issue 'quit' QMP command
-+        :param timeout: Optional timeout in seconds for graceful shutdown.
-+                        Default 3 seconds, A value of None is an infinite wait.
-+
-+        :raise ConnectionReset: On QMP communication errors
-+        :raise subprocess.TimeoutExpired: When timeout is exceeded waiting for
-+            the QEMU process to terminate.
-+        """
-+        self._early_cleanup()
-+
-+        if self._qmp is not None:
-+            if not has_quit:
-+                # Might raise ConnectionReset
-+                self._qmp.cmd('quit')
-+
-+        # May raise subprocess.TimeoutExpired
-+        self._popen.wait(timeout=timeout)
-+
-+    def _do_shutdown(self, has_quit: bool = False,
-+                     timeout: Optional[int] = 3) -> None:
-+        """
-+        Attempt to shutdown the VM gracefully; fallback to a hard shutdown.
-+
-+        :param has_quit: When True, don't attempt to issue 'quit' QMP command
-+        :param timeout: Optional timeout in seconds for graceful shutdown.
-+                        Default 3 seconds, A value of None is an infinite wait.
-+
-+        :raise AbnormalShutdown: When the VM could not be shut down gracefully.
-+            The inner exception will likely be ConnectionReset or
-+            subprocess.TimeoutExpired. In rare cases, non-graceful termination
-+            may result in its own exceptions, likely subprocess.TimeoutExpired.
-+        """
-+        try:
-+            self._soft_shutdown(has_quit, timeout)
-+        except Exception as exc:
-+            self._hard_shutdown()
-+            raise AbnormalShutdown("Could not perform graceful shutdown") \
-+                from exc
-+
-     def shutdown(self, has_quit: bool = False,
-                  hard: bool = False,
-                  timeout: Optional[int] = 3) -> None:
-         """
--        Terminate the VM and clean up
-+        Terminate the VM (gracefully if possible) and perform cleanup.
-+        Cleanup will always be performed.
-+
-+        If the VM has not yet been launched, or shutdown(), wait(), or kill()
-+        have already been called, this method does nothing.
-+
-+        :param has_quit: When true, do not attempt to issue 'quit' QMP command.
-+        :param hard: When true, do not attempt graceful shutdown, and
-+                     suppress the SIGKILL warning log message.
-+        :param timeout: Optional timeout in seconds for graceful shutdown.
-+                        Default 3 seconds, A value of None is an infinite wait.
-         """
-         if not self._launched:
-             return
- 
--        self._early_cleanup()
--
--        if self.is_running():
-+        try:
-             if hard:
--                self._popen.kill()
--            elif self._qmp:
--                try:
--                    if not has_quit:
--                        self._qmp.cmd('quit')
--                    self._popen.wait(timeout=timeout)
--                except:
--                    self._popen.kill()
--            self._popen.wait(timeout=timeout)
--
--        self._post_shutdown()
-+                self._hard_shutdown()
-+            else:
-+                self._do_shutdown(has_quit, timeout=timeout)
-+        finally:
-+            self._post_shutdown()
- 
-     def kill(self):
-+        """
-+        Terminate the VM forcefully, wait for it to exit, and perform cleanup.
-+        """
          self.shutdown(hard=True)
  
-     def wait(self, timeout: Optional[int] = None) -> None:
+-    def wait(self, timeout: Optional[int] = None) -> None:
++    def wait(self, timeout: Optional[int] = 3) -> None:
+         """
+         Wait for the VM to power off and perform post-shutdown cleanup.
+ 
+         :param timeout: Optional timeout in seconds.
+-                        Default None, an infinite wait.
++                        Default 3 seconds, A value of None is an infinite wait.
+         """
+         self.shutdown(has_quit=True, timeout=timeout)
+ 
 -- 
 2.21.3
 
