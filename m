@@ -2,67 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2AE1122008E
-	for <lists+qemu-devel@lfdr.de>; Wed, 15 Jul 2020 00:24:13 +0200 (CEST)
-Received: from localhost ([::1]:55978 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5DCA522009B
+	for <lists+qemu-devel@lfdr.de>; Wed, 15 Jul 2020 00:28:18 +0200 (CEST)
+Received: from localhost ([::1]:46920 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jvTLQ-0002Y7-94
-	for lists+qemu-devel@lfdr.de; Tue, 14 Jul 2020 18:24:12 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:49804)
+	id 1jvTPN-00024m-AR
+	for lists+qemu-devel@lfdr.de; Tue, 14 Jul 2020 18:28:17 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:50012)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1jvTJa-0000jh-RT
- for qemu-devel@nongnu.org; Tue, 14 Jul 2020 18:22:18 -0400
-Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:33163
- helo=us-smtp-1.mimecast.com)
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1jvTJn-0000yr-4H
+ for qemu-devel@nongnu.org; Tue, 14 Jul 2020 18:22:31 -0400
+Received: from us-smtp-2.mimecast.com ([205.139.110.61]:21519
+ helo=us-smtp-delivery-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1jvTJX-0004dP-QU
- for qemu-devel@nongnu.org; Tue, 14 Jul 2020 18:22:18 -0400
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1jvTJd-0004gn-Hn
+ for qemu-devel@nongnu.org; Tue, 14 Jul 2020 18:22:30 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1594765335;
+ s=mimecast20190719; t=1594765340;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=mKUySCAcl1J3a1/0hxVxVX3VFabMkB3Xo8GnjHPY21Y=;
- b=EACixxg1dXb7lBqpxHFPhxt9Ddwy3I9OXGiHKvBGiqB+y4SNYhUNn1NaVwT+VhPxfYeepz
- gRZOhWiPzRduAYuSQkQBrQ/VewaWORFkimE+jEs2SYMZXDs9avH4fk4l5DDw6AvFjOR/tD
- lxktpk/5Gt1m0OjFaiYVJ08MG/FaYdI=
-Received: from mail-wm1-f70.google.com (mail-wm1-f70.google.com
- [209.85.128.70]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-340-sAQGjZmUORCucyulk8DwHA-1; Tue, 14 Jul 2020 18:22:13 -0400
-X-MC-Unique: sAQGjZmUORCucyulk8DwHA-1
-Received: by mail-wm1-f70.google.com with SMTP id l5so90519wml.7
- for <qemu-devel@nongnu.org>; Tue, 14 Jul 2020 15:22:13 -0700 (PDT)
+ bh=VtAHwUMbT3DZQFjgf7HP2io0KT4bOSabkBp+DZ3uFOE=;
+ b=HDQYy7reADmK0ef34/J+g41oSU1TB+PBxD36/TRzPHu2gnQKfVIyrRU9VwbXyXkHdveyUc
+ 0MQhFcsUGaYAIFDZovjaRRlTc0GYkB9jO5juXd7EtXP0z61hHsj5Bg35lgJm9C+w1H50mS
+ W6nQlIcuwptCQA2bbNlJdFbM2wSlQuw=
+Received: from mail-wr1-f70.google.com (mail-wr1-f70.google.com
+ [209.85.221.70]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-182-MkhiJw3RPMmAZEFeurOK5g-1; Tue, 14 Jul 2020 18:22:19 -0400
+X-MC-Unique: MkhiJw3RPMmAZEFeurOK5g-1
+Received: by mail-wr1-f70.google.com with SMTP id s16so25255wrv.1
+ for <qemu-devel@nongnu.org>; Tue, 14 Jul 2020 15:22:19 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=mKUySCAcl1J3a1/0hxVxVX3VFabMkB3Xo8GnjHPY21Y=;
- b=T/xOPObsdI26r3yWXxzuxBDQl8byiWvN0kG32d06t0hucoC0PXBc+N6V9ywcZjhEfS
- 4gLKBtZ3Ih9ThZyO1K+JNNBxrKxhTNNCDX8M9n3aM1BlzQVfi7KOYBb7G5b9/LHoShEk
- dhmtC/9uyhSEL6d5oGDZrL16w8Gr38VRuy56KimlDZJscm5SlNcHNe49634h1saR9FU5
- QoVw4TpxgMw8AFSDAyY+SrSzTMCSie0vYJcdVTxp/HpLQAlmL1p2gXoXOvnhBnURNBWL
- 2EbM2WJlrMn2J7erZqdTg55ElhPKwNHzMSjdwZbQDtgHng5K4pcvqUXvhBJ5NhBnbHgO
- /P1w==
-X-Gm-Message-State: AOAM5306Odag63nOHFvNtEu3U97yZvHgz65feZ0Sp5JJT8ZlRmPykxfG
- QCValDRh8taggdS+NvokNvHqK7TKE+kveV/cCFSB2tC45cdNht0Dm/rUkNPah4aQf8Eyf/v4Qte
- t0C01ql84QUYOtDo=
-X-Received: by 2002:a5d:408c:: with SMTP id o12mr8088770wrp.412.1594765332170; 
- Tue, 14 Jul 2020 15:22:12 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJxXwwxysFJ5iRQmTLqaL20VRf1rWyYdiTmWhT9ROP3DgVZ3r+9Zewj8UNG56cgKfC15v/KHog==
-X-Received: by 2002:a5d:408c:: with SMTP id o12mr8088756wrp.412.1594765331998; 
- Tue, 14 Jul 2020 15:22:11 -0700 (PDT)
+ bh=VtAHwUMbT3DZQFjgf7HP2io0KT4bOSabkBp+DZ3uFOE=;
+ b=UqdPpGzBtpVhtAmN+mrka1vriXWSesUAqDaENT/sAaSDKssSWdbzNyeMD0KQqGM+hZ
+ WLRaFxkQnv6Ql2BidTIQmnZXWRLQZHJ+YBrO5v4oCVt8xKO7lFqanudN3yIm+sYZ7oF9
+ ovVLbzGq5pjZa6WLhfdMd0UIXeqYcmvlbGzQpy3QBwQdqVU+/0/WtQ3AWgJ32BeEp1jS
+ Q6kAJl9jo3/GxHVCn46fQAEqjUAffZqd0kSlHm9g5xhovU+++wsYyAMJnJdLJA0YUWPl
+ SG41qQdT6WTdIW9ZFL3XNcY2k0hh+/o8mM93mZqz8s0Ryb4qgCxsq22LwL4mbGETx1NP
+ 4qOA==
+X-Gm-Message-State: AOAM531EDz6gh+TW6g5vO+QteOQGLMpmXMsr7Y9OnSqzBf1hkAoW9UOy
+ 2fPJ1eL3pRdMWL5E/xO5TnEgWWbm9gTzB71lVlUGELpAuPQ8DIhkD5Cs7iN2aH8dFu4PiIQzt/c
+ Pi5WjnPKcqhCWD18=
+X-Received: by 2002:adf:db42:: with SMTP id f2mr8018684wrj.298.1594765337201; 
+ Tue, 14 Jul 2020 15:22:17 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJwYlZoqndMmXVvUNG7YjLVhDx9CeTYBym6U33tY9gsnqfWWKCkgtUnfCoQdUpcE8uh4ePWUAA==
+X-Received: by 2002:adf:db42:: with SMTP id f2mr8018663wrj.298.1594765337015; 
+ Tue, 14 Jul 2020 15:22:17 -0700 (PDT)
 Received: from localhost.localdomain
  (138.red-83-57-170.dynamicip.rima-tde.net. [83.57.170.138])
- by smtp.gmail.com with ESMTPSA id z1sm195816wru.30.2020.07.14.15.22.11
+ by smtp.gmail.com with ESMTPSA id l18sm176389wrm.52.2020.07.14.15.22.15
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 14 Jul 2020 15:22:11 -0700 (PDT)
+ Tue, 14 Jul 2020 15:22:16 -0700 (PDT)
 From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PULL 08/19] python/machine.py: Make wait() call shutdown()
-Date: Wed, 15 Jul 2020 00:21:21 +0200
-Message-Id: <20200714222132.10815-9-philmd@redhat.com>
+Subject: [PULL 09/19] tests/acceptance: wait() instead of shutdown() where
+ appropriate
+Date: Wed, 15 Jul 2020 00:21:22 +0200
+Message-Id: <20200714222132.10815-10-philmd@redhat.com>
 X-Mailer: git-send-email 2.21.3
 In-Reply-To: <20200714222132.10815-1-philmd@redhat.com>
 References: <20200714222132.10815-1-philmd@redhat.com>
@@ -72,9 +73,9 @@ X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=UTF-8;
 	text/plain; charset="utf-8"
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=205.139.110.120; envelope-from=philmd@redhat.com;
- helo=us-smtp-1.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/07/14 01:42:04
+Received-SPF: pass client-ip=205.139.110.61; envelope-from=philmd@redhat.com;
+ helo=us-smtp-delivery-1.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/07/14 03:57:32
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
 X-Spam_score_int: -40
 X-Spam_score: -4.1
@@ -82,7 +83,7 @@ X-Spam_bar: ----
 X-Spam_report: (-4.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-1, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001, URIBL_BLOCKED=0.001 autolearn=ham autolearn_force=no
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -95,66 +96,106 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Ahmed Karaman <ahmedkhaledkaraman@gmail.com>,
+Cc: Aleksandar Rikalo <aleksandar.rikalo@syrmia.com>,
+ Eduardo Habkost <ehabkost@redhat.com>, John Snow <jsnow@redhat.com>,
+ Wainer dos Santos Moschetta <wainersm@redhat.com>,
+ Ahmed Karaman <ahmedkhaledkaraman@gmail.com>,
+ Aleksandar Markovic <aleksandar.qemu.devel@gmail.com>,
+ Cleber Rosa <crosa@redhat.com>,
  =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
- John Snow <jsnow@redhat.com>, Eduardo Habkost <ehabkost@redhat.com>,
- Cleber Rosa <crosa@redhat.com>
+ Aurelien Jarno <aurelien@aurel32.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: John Snow <jsnow@redhat.com>
 
-At this point, shutdown(has_quit=True) and wait() do essentially the
-same thing; they perform cleanup without actually instructing QEMU to
-quit.
+When issuing 'reboot' to a VM with the no-reboot option, that VM will
+exit. When then issuing a shutdown command, the cleanup may race.
 
-Define one in terms of the other.
+Add calls to vm.wait() which will gracefully mark the VM as having
+exited. Subsequent vm.shutdown() calls in generic tearDown code will not
+race when called after completion of the call.
 
 Signed-off-by: John Snow <jsnow@redhat.com>
 Reviewed-by: Philippe Mathieu-Daudé <philmd@redhat.com>
 Reviewed-by: Cleber Rosa <crosa@redhat.com>
 Tested-by: Cleber Rosa <crosa@redhat.com>
-Message-Id: <20200710050649.32434-8-jsnow@redhat.com>
+Message-Id: <20200710050649.32434-9-jsnow@redhat.com>
 Signed-off-by: Philippe Mathieu-Daudé <philmd@redhat.com>
 ---
- python/qemu/machine.py | 17 +++++++++--------
- 1 file changed, 9 insertions(+), 8 deletions(-)
+ tests/acceptance/boot_linux_console.py   | 10 ++++++++++
+ tests/acceptance/linux_ssh_mips_malta.py |  2 ++
+ 2 files changed, 12 insertions(+)
 
-diff --git a/python/qemu/machine.py b/python/qemu/machine.py
-index e825f0bdc6..3f0b873f58 100644
---- a/python/qemu/machine.py
-+++ b/python/qemu/machine.py
-@@ -385,14 +385,6 @@ def _early_cleanup(self) -> None:
-             self._console_socket.close()
-             self._console_socket = None
+diff --git a/tests/acceptance/boot_linux_console.py b/tests/acceptance/boot_linux_console.py
+index 3d02519660..5867ef760c 100644
+--- a/tests/acceptance/boot_linux_console.py
++++ b/tests/acceptance/boot_linux_console.py
+@@ -191,6 +191,8 @@ def test_mips_malta_cpio(self):
+                                                 'Debian')
+         exec_command_and_wait_for_pattern(self, 'reboot',
+                                                 'reboot: Restarting system')
++        # Wait for VM to shut down gracefully
++        self.vm.wait()
  
--    def wait(self):
--        """
--        Wait for the VM to power off
--        """
--        self._early_cleanup()
--        self._popen.wait()
--        self._post_shutdown()
--
-     def shutdown(self, has_quit: bool = False,
-                  hard: bool = False,
-                  timeout: Optional[int] = 3) -> None:
-@@ -421,6 +413,15 @@ def shutdown(self, has_quit: bool = False,
-     def kill(self):
-         self.shutdown(hard=True)
+     @skipUnless(os.getenv('AVOCADO_ALLOW_UNTRUSTED_CODE'), 'untrusted code')
+     def test_mips64el_malta_5KEc_cpio(self):
+@@ -231,6 +233,8 @@ def test_mips64el_malta_5KEc_cpio(self):
+                                                 '3.19.3.mtoman.20150408')
+         exec_command_and_wait_for_pattern(self, 'reboot',
+                                                 'reboot: Restarting system')
++        # Wait for VM to shut down gracefully
++        self.vm.wait()
  
-+    def wait(self, timeout: Optional[int] = None) -> None:
-+        """
-+        Wait for the VM to power off and perform post-shutdown cleanup.
-+
-+        :param timeout: Optional timeout in seconds.
-+                        Default None, an infinite wait.
-+        """
-+        self.shutdown(has_quit=True, timeout=timeout)
-+
-     def set_qmp_monitor(self, enabled=True):
+     def do_test_mips_malta32el_nanomips(self, kernel_url, kernel_hash):
+         kernel_path_xz = self.fetch_asset(kernel_url, asset_hash=kernel_hash)
+@@ -506,6 +510,7 @@ def test_arm_cubieboard_initrd(self):
+                                                 'system-control@1c00000')
+         exec_command_and_wait_for_pattern(self, 'reboot',
+                                                 'reboot: Restarting system')
++        # NB: Do not issue vm.wait() here, cubieboard's reboot does not exit!
+ 
+     def test_arm_cubieboard_sata(self):
          """
-         Set the QMP monitor.
+@@ -550,6 +555,7 @@ def test_arm_cubieboard_sata(self):
+                                                 'sda')
+         exec_command_and_wait_for_pattern(self, 'reboot',
+                                                 'reboot: Restarting system')
++        # NB: Do not issue vm.wait() here, cubieboard's reboot does not exit!
+ 
+     def test_arm_orangepi(self):
+         """
+@@ -615,6 +621,8 @@ def test_arm_orangepi_initrd(self):
+                                                 'system-control@1c00000')
+         exec_command_and_wait_for_pattern(self, 'reboot',
+                                                 'reboot: Restarting system')
++        # Wait for VM to shut down gracefully
++        self.vm.wait()
+ 
+     def test_arm_orangepi_sd(self):
+         """
+@@ -662,6 +670,8 @@ def test_arm_orangepi_sd(self):
+             '3 packets transmitted, 3 packets received, 0% packet loss')
+         exec_command_and_wait_for_pattern(self, 'reboot',
+                                                 'reboot: Restarting system')
++        # Wait for VM to shut down gracefully
++        self.vm.wait()
+ 
+     @skipUnless(os.getenv('AVOCADO_ALLOW_LARGE_STORAGE'), 'storage limited')
+     @skipUnless(P7ZIP_AVAILABLE, '7z not installed')
+diff --git a/tests/acceptance/linux_ssh_mips_malta.py b/tests/acceptance/linux_ssh_mips_malta.py
+index 90d7f2f167..25c5c5f741 100644
+--- a/tests/acceptance/linux_ssh_mips_malta.py
++++ b/tests/acceptance/linux_ssh_mips_malta.py
+@@ -212,6 +212,8 @@ def check_mips_malta(self, uname_m, endianess):
+ 
+         self.run_common_commands(wordsize)
+         self.shutdown_via_ssh()
++        # Wait for VM to shut down gracefully
++        self.vm.wait()
+ 
+     def test_mips_malta32eb_kernel3_2_0(self):
+         """
 -- 
 2.21.3
 
