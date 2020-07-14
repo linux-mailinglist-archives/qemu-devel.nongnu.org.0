@@ -2,74 +2,84 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B800A21F2D8
-	for <lists+qemu-devel@lfdr.de>; Tue, 14 Jul 2020 15:42:42 +0200 (CEST)
-Received: from localhost ([::1]:38838 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2BF2021F2C8
+	for <lists+qemu-devel@lfdr.de>; Tue, 14 Jul 2020 15:38:21 +0200 (CEST)
+Received: from localhost ([::1]:58588 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jvLCj-0005zL-PC
-	for lists+qemu-devel@lfdr.de; Tue, 14 Jul 2020 09:42:41 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:59394)
+	id 1jvL8W-0002L1-79
+	for lists+qemu-devel@lfdr.de; Tue, 14 Jul 2020 09:38:20 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:58498)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1jvLBT-0005Wq-VL
- for qemu-devel@nongnu.org; Tue, 14 Jul 2020 09:41:23 -0400
-Received: from indium.canonical.com ([91.189.90.7]:33448)
+ (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
+ id 1jvL7j-0001pN-Sx; Tue, 14 Jul 2020 09:37:31 -0400
+Received: from mail-wr1-x444.google.com ([2a00:1450:4864:20::444]:33824)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1jvLBS-0001HV-2t
- for qemu-devel@nongnu.org; Tue, 14 Jul 2020 09:41:23 -0400
-Received: from loganberry.canonical.com ([91.189.90.37])
- by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
- id 1jvLBO-0007HC-NW
- for <qemu-devel@nongnu.org>; Tue, 14 Jul 2020 13:41:18 +0000
-Received: from loganberry.canonical.com (localhost [127.0.0.1])
- by loganberry.canonical.com (Postfix) with ESMTP id AE42B2E80EC
- for <qemu-devel@nongnu.org>; Tue, 14 Jul 2020 13:41:18 +0000 (UTC)
-MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: quoted-printable
-Date: Tue, 14 Jul 2020 13:32:42 -0000
-From: Ryutaroh Matsumoto <1886811@bugs.launchpad.net>
+ (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
+ id 1jvL7i-0000ja-8H; Tue, 14 Jul 2020 09:37:31 -0400
+Received: by mail-wr1-x444.google.com with SMTP id f7so21664183wrw.1;
+ Tue, 14 Jul 2020 06:37:29 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=sender:subject:to:cc:references:from:message-id:date:user-agent
+ :mime-version:in-reply-to:content-language:content-transfer-encoding;
+ bh=JihWOU6Xg61nh/bJmLLfRTzI1GgkHW1vHeJkEqqtmXw=;
+ b=DK2aHHJ1w9mR9SZp8DydhqiHGAc9nd7PLe/zT22aZ7E/bhmaylS8l2t4NaNhjazUtG
+ gmiYC297xxccRByMd3QW0dlnHji2KyKoPTRz3W4/6StCn68TPaU0coAH0uO6tkoDIk+y
+ 0UBYLg6XfOy8x5PazBPcABt+4yxPbxyJACaikrMXL6waT0N2jE8BaYOSTZaPvXOzrwYY
+ tB7qbA7MisLHIGsFJSDmY7VCApuRX8JkzXTmRfxx+ksYjJ7LIcHiv+DIxJvmgxWNSPQ8
+ ugne21rSNmrzJrXfgJALmQb2l5ItHhRurZXtRWYUF8RwrDswXMGkgtaLn6qFqgLD4xug
+ 4cjg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:sender:subject:to:cc:references:from:message-id
+ :date:user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=JihWOU6Xg61nh/bJmLLfRTzI1GgkHW1vHeJkEqqtmXw=;
+ b=Mjv5vaPZTHGZggyZovgVflcMBJGDHltLRhpWm56jPgKCESU5OskZI2Q8L88JEn3MQJ
+ lDOu5sothb7Ih1oaYxzZwjRvdF0vh5MLnEHzNE9bab5Ik19kbS6ZfokWYminQ1jWMbmb
+ Qu7s5JrsLkWV7ERzP/iarauaEs71NTPCnk6sSO6ya5avbaM4Z6rhUgh+cWErcxF3cGEm
+ cRUW92CBSUNwcH4hfOBr1DejtMwMmoOYfTqGIu7Ea9C9Lwyi8nOhG07N/LKee4Ij1rh2
+ FdFd3aBEO8O/UNNAIHVHaPcdWnOIR9ypcz6uPHmlNYQLAlaujAz47UOvkcc5MsAJfFD7
+ UsEg==
+X-Gm-Message-State: AOAM533IQtdGE0JoZ32YKx941iLGsGlJjUkkIX1aQFS/F77UJyPofT3N
+ BrF7bO1xG7U3znIMbdvfugo=
+X-Google-Smtp-Source: ABdhPJzTjjGqPEIuUcEJlZKrRP4ww1/bN+W0/lUWdrJuZUMKeZg6pGbXMI5t+RUiZKBcoHW3zQjs5Q==
+X-Received: by 2002:a5d:4751:: with SMTP id o17mr5703159wrs.345.1594733848081; 
+ Tue, 14 Jul 2020 06:37:28 -0700 (PDT)
+Received: from [192.168.1.37] (138.red-83-57-170.dynamicip.rima-tde.net.
+ [83.57.170.138])
+ by smtp.gmail.com with ESMTPSA id h5sm31407502wrc.97.2020.07.14.06.37.26
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Tue, 14 Jul 2020 06:37:27 -0700 (PDT)
+Subject: Re: [PATCH v2 0/9] hw/sd/sdcard: Fix CVE-2020-13253
 To: qemu-devel@nongnu.org
-X-Launchpad-Notification-Type: bug
-X-Launchpad-Bug: product=qemu; status=In Progress; importance=Undecided;
- assignee=Laurent@vivier.eu; 
-X-Launchpad-Bug: distribution=ubuntu; sourcepackage=qemu; component=main;
- status=New; importance=Undecided; assignee=None; 
-X-Launchpad-Bug: distribution=debian; sourcepackage=qemu; component=main;
- status=Confirmed; importance=Unknown; assignee=None; 
-X-Launchpad-Bug-Tags: linux-user
-X-Launchpad-Bug-Information-Type: Public
-X-Launchpad-Bug-Private: no
-X-Launchpad-Bug-Security-Vulnerability: no
-X-Launchpad-Bug-Commenters: emojifreak laurent-vivier
-X-Launchpad-Bug-Reporter: Ryutaroh Matsumoto (emojifreak)
-X-Launchpad-Bug-Modifier: Ryutaroh Matsumoto (emojifreak)
-References: <159420830935.32230.13858618076699173558.malonedeb@gac.canonical.com>
-Message-Id: <159473356225.8597.4159015567230407874.launchpad@wampee.canonical.com>
-Subject: [Bug 1886811] Re: systemd complains Failed to enqueue loopback
- interface start request: Operation not supported
-X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
-X-Launchpad-Message-For: qemu-devel-ml
-Precedence: bulk
-X-Generated-By: Launchpad (canonical.com);
- Revision="4809fcb62f445aaa3ae919f7f6c3cc7d156ea57a";
- Instance="production-secrets-lazr.conf"
-X-Launchpad-Hash: ac939364e2e7e2f99961ac6855c4615b32af92ff
-Received-SPF: none client-ip=91.189.90.7; envelope-from=bounces@canonical.com;
- helo=indium.canonical.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/07/14 08:25:40
-X-ACL-Warn: Detected OS   = Linux 3.11 and newer [fuzzy]
-X-Spam_score_int: -58
-X-Spam_score: -5.9
-X-Spam_bar: -----
-X-Spam_report: (-5.9 / 5.0 requ) BAYES_00=-1.9, HEADER_FROM_DIFFERENT_DOMAINS=1,
- RCVD_IN_DNSWL_HI=-5, RCVD_IN_MSPIKE_H3=-0.01, RCVD_IN_MSPIKE_WL=-0.01,
- SPF_HELO_NONE=0.001, SPF_NONE=0.001 autolearn=ham autolearn_force=no
+References: <20200713183209.26308-1-f4bug@amsat.org>
+From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>
+Message-ID: <f31820f7-06bf-4f9f-3ea3-7e690642c62d@amsat.org>
+Date: Tue, 14 Jul 2020 15:37:26 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.5.0
+MIME-Version: 1.0
+In-Reply-To: <20200713183209.26308-1-f4bug@amsat.org>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=2a00:1450:4864:20::444;
+ envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wr1-x444.google.com
+X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
+ That's all we know.
+X-Spam_score_int: 0
+X-Spam_score: 0.0
+X-Spam_bar: /
+X-Spam_report: (0.0 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1, DKIM_VALID=-0.1,
+ DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=1, FREEMAIL_FROM=0.001,
+ HEADER_FROM_DIFFERENT_DOMAINS=1, RCVD_IN_DNSWL_NONE=-0.0001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ URIBL_BLOCKED=0.001 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
+Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -78,63 +88,54 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Bug 1886811 <1886811@bugs.launchpad.net>
+Cc: Peter Maydell <peter.maydell@linaro.org>,
+ Prasad J Pandit <pjp@fedoraproject.org>, qemu-block@nongnu.org,
+ Alistair Francis <alistair@alistair23.me>,
+ Wainer dos Santos Moschetta <wainersm@redhat.com>,
+ Alexander Bulekov <alxndr@bu.edu>, Niek Linnenbank <nieklinnenbank@gmail.com>,
+ Cleber Rosa <crosa@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-** Also affects: qemu (Ubuntu)
-   Importance: Undecided
-       Status: New
+On 7/13/20 8:32 PM, Philippe Mathieu-Daudé wrote:
+> This series fixes CVE-2020-13253 by only allowing SD card image
+> sizes power of 2, and not switching to SEND_DATA state when the
+> address is invalid (out of range).
+> 
+> Patches missing review:
+>  3: boot_linux: Tag tests using a SD card with 'device:sd'
+>  4: boot_linux: Expand SD card image to power of 2
+>  7: hw/sd/sdcard: Do not allow invalid SD card sizes
+> 
+> Since v1:
+> Fixes issue due to image not power of 2:
+> https://www.mail-archive.com/qemu-devel@nongnu.org/msg720737.html
+> 
+> Supersedes: <20200707132116.26207-1-f4bug@amsat.org>
+> 
+> Niek Linnenbank (1):
+>   docs/orangepi: Add instructions for resizing SD image to power of two
+> 
+> Philippe Mathieu-Daudé (8):
+>   MAINTAINERS: Cc qemu-block mailing list
+>   tests/acceptance/boot_linux: Tag tests using a SD card with
+>     'device:sd'
+>   tests/acceptance/boot_linux: Expand SD card image to power of 2
+>   hw/sd/sdcard: Restrict Class 6 commands to SCSD cards
+>   hw/sd/sdcard: Simplify realize() a bit
+>   hw/sd/sdcard: Do not allow invalid SD card sizes
+>   hw/sd/sdcard: Update coding style to make checkpatch.pl happy
+>   hw/sd/sdcard: Do not switch to ReceivingData if address is invalid
+> 
+>  docs/system/arm/orangepi.rst           | 16 ++++-
+>  hw/sd/sd.c                             | 86 ++++++++++++++++++++------
+>  MAINTAINERS                            |  1 +
+>  tests/acceptance/boot_linux_console.py | 30 ++++++---
+>  4 files changed, 102 insertions(+), 31 deletions(-)
 
--- =
+Thanks for the reviews.
 
-You received this bug notification because you are a member of qemu-
-devel-ml, which is subscribed to QEMU.
-https://bugs.launchpad.net/bugs/1886811
+I addressed Cleber minor comment and will send a pull request shortly.
 
-Title:
-  systemd complains Failed to enqueue loopback interface start request:
-  Operation not supported
-
-Status in QEMU:
-  In Progress
-Status in qemu package in Ubuntu:
-  New
-Status in qemu package in Debian:
-  Confirmed
-
-Bug description:
-  This symptom seems similar to
-  https://bugs.launchpad.net/qemu/+bug/1823790
-
-  Host Linux: Debian 11 Bullseye (testing) on x84-64 architecture
-  qemu version: latest git of git commit hash eb2c66b10efd2b914b56b20ae9065=
-5914310c925
-  compiled with "./configure --static --disable-system" =
-
-
-  Down stream bug report at https://bugs.debian.org/cgi-bin/bugreport.cgi?b=
-ug=3D964289
-  Bug report (closed) to systemd: https://github.com/systemd/systemd/issues=
-/16359
-
-  systemd in armhf and armel (both little endian 32-bit) containers fail to=
- start with
-  Failed to enqueue loopback interface start request: Operation not support=
-ed
-
-  How to reproduce on Debian (and probably Ubuntu):
-  mmdebstrap --components=3D"main contrib non-free" --architectures=3Darmhf=
- --variant=3Dimportant bullseye /var/lib/machines/armhf-bullseye
-  systemd-nspawn -D /var/lib/machines/armhf-bullseye -b
-
-  When "armhf" architecture is replaced with "mips" (32-bit big endian) or =
-"ppc64"
-  (64-bit big endian), the container starts up fine.
-
-  The same symptom is also observed with "powerpc" (32-bit big endian)
-  architecture.
-
-To manage notifications about this bug go to:
-https://bugs.launchpad.net/qemu/+bug/1886811/+subscriptions
+Phil.
 
