@@ -2,88 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B454D21EC3C
-	for <lists+qemu-devel@lfdr.de>; Tue, 14 Jul 2020 11:08:23 +0200 (CEST)
-Received: from localhost ([::1]:60234 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id AFC1921EC52
+	for <lists+qemu-devel@lfdr.de>; Tue, 14 Jul 2020 11:10:47 +0200 (CEST)
+Received: from localhost ([::1]:37490 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jvGvG-0005ok-RD
-	for lists+qemu-devel@lfdr.de; Tue, 14 Jul 2020 05:08:22 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:44614)
+	id 1jvGxa-000863-P6
+	for lists+qemu-devel@lfdr.de; Tue, 14 Jul 2020 05:10:46 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:45096)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1jvGuZ-0005Pz-NJ
- for qemu-devel@nongnu.org; Tue, 14 Jul 2020 05:07:39 -0400
-Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:50981
- helo=us-smtp-1.mimecast.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1jvGuY-0006Hr-1R
- for qemu-devel@nongnu.org; Tue, 14 Jul 2020 05:07:39 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1594717657;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=OMZnJ/T18yLqtrICA4x8z58IdyGwmA6jKPb6UgRue9Q=;
- b=HuuGf5hXW6qMR5heojXrDh1Q+RzIPEWWVaZBSyDCEi+N1BVGcrvSub0cskSKQU2W4IXtqQ
- WjzojXDdJDUT0NZtEMO4ymlvctvdni/6DiWZPPRhyVmLBlTTXmzzEDfRS/IYHGvHzXlsvj
- mjHtc7ZobCP0pSzv3QNzhb6JckhLQf0=
-Received: from mail-wr1-f70.google.com (mail-wr1-f70.google.com
- [209.85.221.70]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-276-ZET9qqR8OTqjJCCBL3JMZw-1; Tue, 14 Jul 2020 05:07:32 -0400
-X-MC-Unique: ZET9qqR8OTqjJCCBL3JMZw-1
-Received: by mail-wr1-f70.google.com with SMTP id e11so20866938wrs.2
- for <qemu-devel@nongnu.org>; Tue, 14 Jul 2020 02:07:32 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:content-transfer-encoding
- :in-reply-to;
- bh=e9UlVTOE00kYLA1iRp4LSZEgso6GSwT0n8Uc1DZmpwk=;
- b=oNQHSOeLEbZD7qIicjqPTcDymlaPLMG185/FTVTpwl4xojU/AWbaMuUdKrekOP5e9y
- q1/6Q9YxQLkLOAvoQ23E0QOitnmVWJtH/URXYgKgkmsRoxUFxmYZfMqhAAIyWWgBE985
- FZ9S4rWxfD4Exww1FhZyV+vc2K0QtLCF2oGVFJRZCD+8Jh5Jv2gPneiPd9s7ckINiDLg
- 6FMZ+U3JvykS85aHzGaMFP/l2/yEw6TkrMUbiq3z2y2C9NkUc63BL8Wx7F9SASdY0OsO
- 4DMhV5RnEJXhOnm2viyKcpnugZw1e1+K/3IZI1WrfHd45xs+vPrwRRtoOa5/Ay5ByYSW
- Dyfg==
-X-Gm-Message-State: AOAM530Nwiz7RyRiJ8USgrQ6iQCrLfcxvArPs4qz8MXK7b+BKi9/h0OH
- RF4i6kpNV2HE+skNPWPZUmAt8fEiZwmPtCul2+CMBplb+JiWu+z5YkScwbVPN4SYHFfydMoOMQR
- NqmKS7KZ+PBdwA30=
-X-Received: by 2002:a5d:44d1:: with SMTP id z17mr3918793wrr.259.1594717651272; 
- Tue, 14 Jul 2020 02:07:31 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJydPyonVomeIWJRz8XiNovUcbOIqVwa2ArAQOBz6m2EIV9ucULb7CM9zl0fPoghTfAqMMiuag==
-X-Received: by 2002:a5d:44d1:: with SMTP id z17mr3918764wrr.259.1594717651062; 
- Tue, 14 Jul 2020 02:07:31 -0700 (PDT)
-Received: from redhat.com (bzq-79-180-10-140.red.bezeqint.net. [79.180.10.140])
- by smtp.gmail.com with ESMTPSA id y77sm3773348wmd.36.2020.07.14.02.07.28
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 14 Jul 2020 02:07:30 -0700 (PDT)
-Date: Tue, 14 Jul 2020 05:07:26 -0400
-From: "Michael S. Tsirkin" <mst@redhat.com>
-To: Alex =?iso-8859-1?Q?Benn=E9e?= <alex.bennee@linaro.org>
-Subject: Re: [PATCH v2 09/11] hw/virtio/pci: include vdev name in registered
- PCI sections
-Message-ID: <20200714050630-mutt-send-email-mst@kernel.org>
-References: <20200713200415.26214-1-alex.bennee@linaro.org>
- <20200713200415.26214-10-alex.bennee@linaro.org>
+ (Exim 4.90_1) (envelope-from <r.bolshakov@yadro.com>)
+ id 1jvGwa-0007Dk-6b
+ for qemu-devel@nongnu.org; Tue, 14 Jul 2020 05:09:44 -0400
+Received: from mta-02.yadro.com ([89.207.88.252]:38546 helo=mta-01.yadro.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <r.bolshakov@yadro.com>)
+ id 1jvGwY-0006SG-FH
+ for qemu-devel@nongnu.org; Tue, 14 Jul 2020 05:09:43 -0400
+Received: from localhost (unknown [127.0.0.1])
+ by mta-01.yadro.com (Postfix) with ESMTP id 632C24C8E1;
+ Tue, 14 Jul 2020 09:09:40 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=yadro.com; h=
+ content-type:content-type:content-transfer-encoding:mime-version
+ :x-mailer:message-id:date:date:subject:subject:from:from
+ :received:received:received; s=mta-01; t=1594717779; x=
+ 1596532180; bh=Ajkc2ZiGK7UW+31B9ZUnDpsxNlUnmKIxllVlbyT9+tw=; b=L
+ nWz3pPXR4fozMgmJtPxyK+id1MJvMj1Np4EqHWdOW0a9uwXc+zfXTSZg3qmCtmGM
+ hVEgQHtWisTB1BAnnsGCymd9WeCoT/noD3++dMBWidLX6ZIcCa72zq/BnEQZ0XXc
+ H6cYShUKZyB5miiBl8EWqC75jOWcxahP9edABdTQ2E=
+X-Virus-Scanned: amavisd-new at yadro.com
+Received: from mta-01.yadro.com ([127.0.0.1])
+ by localhost (mta-01.yadro.com [127.0.0.1]) (amavisd-new, port 10024)
+ with ESMTP id 5x0q7NX26uHG; Tue, 14 Jul 2020 12:09:39 +0300 (MSK)
+Received: from T-EXCH-02.corp.yadro.com (t-exch-02.corp.yadro.com
+ [172.17.10.102])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES256-SHA384 (256/256 bits))
+ (No client certificate requested)
+ by mta-01.yadro.com (Postfix) with ESMTPS id 2AEE54C891;
+ Tue, 14 Jul 2020 12:09:37 +0300 (MSK)
+Received: from localhost (172.17.204.212) by T-EXCH-02.corp.yadro.com
+ (172.17.10.102) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA384_P384) id 15.1.669.32; Tue, 14
+ Jul 2020 12:09:37 +0300
+From: Roman Bolshakov <r.bolshakov@yadro.com>
+To: <qemu-devel@nongnu.org>
+Subject: [PATCH for-5.1] i386: hvf: Explicitly set CR4 guest/host mask
+Date: Tue, 14 Jul 2020 12:07:27 +0300
+Message-ID: <20200714090726.41082-1-r.bolshakov@yadro.com>
+X-Mailer: git-send-email 2.26.1
 MIME-Version: 1.0
-In-Reply-To: <20200713200415.26214-10-alex.bennee@linaro.org>
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=iso-8859-1
 Content-Transfer-Encoding: 8bit
-Content-Disposition: inline
-Received-SPF: pass client-ip=205.139.110.120; envelope-from=mst@redhat.com;
- helo=us-smtp-1.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/07/14 01:42:04
-X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
-X-Spam_score_int: -40
-X-Spam_score: -4.1
-X-Spam_bar: ----
-X-Spam_report: (-4.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-1, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Content-Type: text/plain
+X-Originating-IP: [172.17.204.212]
+X-ClientProxiedBy: T-EXCH-01.corp.yadro.com (172.17.10.101) To
+ T-EXCH-02.corp.yadro.com (172.17.10.102)
+Received-SPF: pass client-ip=89.207.88.252; envelope-from=r.bolshakov@yadro.com;
+ helo=mta-01.yadro.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/07/14 05:09:40
+X-ACL-Warn: Detected OS   = Linux 3.11 and newer
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001, URIBL_BLOCKED=0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -96,105 +78,34 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: fam@euphon.net, berrange@redhat.com, robert.foley@linaro.org,
- Philippe =?iso-8859-1?Q?Mathieu-Daud=E9?= <philmd@redhat.com>,
- richard.henderson@linaro.org, qemu-devel@nongnu.org, robhenry@microsoft.com,
- f4bug@amsat.org, aaron@os.amperecomputing.com, cota@braap.org,
- kuhn.chenqun@huawei.com, peter.puhov@linaro.org, aurelien@aurel32.net
+Cc: Paolo Bonzini <pbonzini@redhat.com>,
+ Roman Bolshakov <r.bolshakov@yadro.com>, Eduardo Habkost <ehabkost@redhat.com>,
+ Cameron Esfahani <dirty@apple.com>, Richard Henderson <rth@twiddle.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Mon, Jul 13, 2020 at 09:04:13PM +0100, Alex Bennée wrote:
-> When viewing/debugging memory regions it is sometimes hard to figure
-> out which PCI device something belongs to. Make the names unique by
-> including the vdev name in the name string.
-> 
-> Signed-off-by: Alex Bennée <alex.bennee@linaro.org>
-> Reviewed-by: Philippe Mathieu-Daudé <philmd@redhat.com>
-> Reviewed-by: Michael S. Tsirkin <mst@redhat.com>
+Removal of register reset omitted initialization of CR4 guest/host mask.
+x86_64 guests aren't booting without it.
 
-I wonder here: why don't we see the owner name when debugging? Maybe that's a better
-way to address that.
+Fixes: 5009ef22c6bb2 ("i386: hvf: Don't duplicate register reset")
+Signed-off-by: Roman Bolshakov <r.bolshakov@yadro.com>
+---
+ target/i386/hvf/vmx.h | 1 +
+ 1 file changed, 1 insertion(+)
 
-> ---
-> v2
->   - swap ()'s for an extra -
-> ---
->  hw/virtio/virtio-pci.c | 22 ++++++++++++++--------
->  1 file changed, 14 insertions(+), 8 deletions(-)
-> 
-> diff --git a/hw/virtio/virtio-pci.c b/hw/virtio/virtio-pci.c
-> index 8554cf2a03..215e680c71 100644
-> --- a/hw/virtio/virtio-pci.c
-> +++ b/hw/virtio/virtio-pci.c
-> @@ -1406,7 +1406,8 @@ static void virtio_pci_device_write(void *opaque, hwaddr addr,
->      }
->  }
->  
-> -static void virtio_pci_modern_regions_init(VirtIOPCIProxy *proxy)
-> +static void virtio_pci_modern_regions_init(VirtIOPCIProxy *proxy,
-> +                                           const char *vdev_name)
->  {
->      static const MemoryRegionOps common_ops = {
->          .read = virtio_pci_common_read,
-> @@ -1453,36 +1454,41 @@ static void virtio_pci_modern_regions_init(VirtIOPCIProxy *proxy)
->          },
->          .endianness = DEVICE_LITTLE_ENDIAN,
->      };
-> +    g_autoptr(GString) name = g_string_new(NULL);
->  
-> -
-> +    g_string_printf(name, "virtio-pci-common-%s", vdev_name);
->      memory_region_init_io(&proxy->common.mr, OBJECT(proxy),
->                            &common_ops,
->                            proxy,
-> -                          "virtio-pci-common",
-> +                          name->str,
->                            proxy->common.size);
->  
-> +    g_string_printf(name, "virtio-pci-isr-%s", vdev_name);
->      memory_region_init_io(&proxy->isr.mr, OBJECT(proxy),
->                            &isr_ops,
->                            proxy,
-> -                          "virtio-pci-isr",
-> +                          name->str,
->                            proxy->isr.size);
->  
-> +    g_string_printf(name, "virtio-pci-device-%s", vdev_name);
->      memory_region_init_io(&proxy->device.mr, OBJECT(proxy),
->                            &device_ops,
->                            virtio_bus_get_device(&proxy->bus),
-> -                          "virtio-pci-device",
-> +                          name->str,
->                            proxy->device.size);
->  
-> +    g_string_printf(name, "virtio-pci-notify-%s", vdev_name);
->      memory_region_init_io(&proxy->notify.mr, OBJECT(proxy),
->                            &notify_ops,
->                            virtio_bus_get_device(&proxy->bus),
-> -                          "virtio-pci-notify",
-> +                          name->str,
->                            proxy->notify.size);
->  
-> +    g_string_printf(name, "virtio-pci-notify-pio-%s", vdev_name);
->      memory_region_init_io(&proxy->notify_pio.mr, OBJECT(proxy),
->                            &notify_pio_ops,
->                            virtio_bus_get_device(&proxy->bus),
-> -                          "virtio-pci-notify-pio",
-> +                          name->str,
->                            proxy->notify_pio.size);
->  }
->  
-> @@ -1623,7 +1629,7 @@ static void virtio_pci_device_plugged(DeviceState *d, Error **errp)
->  
->          struct virtio_pci_cfg_cap *cfg_mask;
->  
-> -        virtio_pci_modern_regions_init(proxy);
-> +        virtio_pci_modern_regions_init(proxy, vdev->name);
->  
->          virtio_pci_modern_mem_region_map(proxy, &proxy->common, &cap);
->          virtio_pci_modern_mem_region_map(proxy, &proxy->isr, &cap);
-> -- 
-> 2.20.1
+diff --git a/target/i386/hvf/vmx.h b/target/i386/hvf/vmx.h
+index 75ba1e2a5f..587b1b8375 100644
+--- a/target/i386/hvf/vmx.h
++++ b/target/i386/hvf/vmx.h
+@@ -166,6 +166,7 @@ static inline void macvm_set_cr4(hv_vcpuid_t vcpu, uint64_t cr4)
+ 
+     wvmcs(vcpu, VMCS_GUEST_CR4, guest_cr4);
+     wvmcs(vcpu, VMCS_CR4_SHADOW, cr4);
++    wvmcs(vcpu, VMCS_CR4_MASK, CR4_VMXE);
+ 
+     hv_vcpu_invalidate_tlb(vcpu);
+     hv_vcpu_flush(vcpu);
+-- 
+2.26.1
 
 
