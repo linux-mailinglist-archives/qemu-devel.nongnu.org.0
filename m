@@ -2,87 +2,90 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id AA93622009A
-	for <lists+qemu-devel@lfdr.de>; Wed, 15 Jul 2020 00:27:54 +0200 (CEST)
-Received: from localhost ([::1]:44632 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7418C22009F
+	for <lists+qemu-devel@lfdr.de>; Wed, 15 Jul 2020 00:29:26 +0200 (CEST)
+Received: from localhost ([::1]:52592 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jvTOz-0001A1-Dc
-	for lists+qemu-devel@lfdr.de; Tue, 14 Jul 2020 18:27:53 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:50426)
+	id 1jvTQT-0004Pq-EG
+	for lists+qemu-devel@lfdr.de; Tue, 14 Jul 2020 18:29:25 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:50580)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1jvTK2-0001XV-LI
- for qemu-devel@nongnu.org; Tue, 14 Jul 2020 18:22:46 -0400
-Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:35904
- helo=us-smtp-1.mimecast.com)
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1jvTKJ-00023P-9n
+ for qemu-devel@nongnu.org; Tue, 14 Jul 2020 18:23:03 -0400
+Received: from us-smtp-2.mimecast.com ([207.211.31.81]:55618
+ helo=us-smtp-delivery-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1jvTK0-0004sh-Qv
- for qemu-devel@nongnu.org; Tue, 14 Jul 2020 18:22:46 -0400
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1jvTKH-0004wy-Eb
+ for qemu-devel@nongnu.org; Tue, 14 Jul 2020 18:23:02 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1594765364;
+ s=mimecast20190719; t=1594765380;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=uqbjq2eSEV+Z/U6UkFGjrSQIABqGIU5R3iUFws37JAY=;
- b=QmJ20a2/sD161kWgLArsrYXvWGkZ80krPlIXHMy/aeTA++8tyQFDdFU1T5nVn/OTUMaVDq
- o5yIQYKGQ8xrgO40XQK4+Xvn4048U+nqk0+qgTZ3k2wWycdOL/A3+Lumcy1VMVsI603DtE
- YZ9EkFLSU/TMGjWZ9Rqexpm9IBb8ZQA=
-Received: from mail-wr1-f72.google.com (mail-wr1-f72.google.com
- [209.85.221.72]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-208-1yOtK8oUOZKQ54ZyAxLYWQ-1; Tue, 14 Jul 2020 18:22:42 -0400
-X-MC-Unique: 1yOtK8oUOZKQ54ZyAxLYWQ-1
-Received: by mail-wr1-f72.google.com with SMTP id b8so18304wro.19
- for <qemu-devel@nongnu.org>; Tue, 14 Jul 2020 15:22:42 -0700 (PDT)
+ bh=34BOciJNToD087b3DmEPBjP+atCQ4f8lF8uOK0B/VQo=;
+ b=DuTNakhX71xD8GeB9sLqIaANETRwQUsTiY18bZKFdSbqhCnh5EiamS1VYSAmzg6GcpA53r
+ tKE04hvDDM1xAXENrJ1TNN6uQgAXjD9BznRdviLd9wflB5acGxyPI8B1OJM5N/a3V4Gssh
+ 9LBhH2UW3rIE6gMi7OI6Qs7A21DsJWQ=
+Received: from mail-wm1-f71.google.com (mail-wm1-f71.google.com
+ [209.85.128.71]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-79--Crii8NfNNOcjMzSqN41iQ-1; Tue, 14 Jul 2020 18:22:57 -0400
+X-MC-Unique: -Crii8NfNNOcjMzSqN41iQ-1
+Received: by mail-wm1-f71.google.com with SMTP id w25so3502521wmc.0
+ for <qemu-devel@nongnu.org>; Tue, 14 Jul 2020 15:22:57 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=uqbjq2eSEV+Z/U6UkFGjrSQIABqGIU5R3iUFws37JAY=;
- b=GOzypodTAha2SGUxjA++hXKpww4EUSDtQ734q+Y7OxocXsyUdk/jHJxf3YWXaOwxQs
- 87S4V26IhDE0fuoRWpIsIhBKJdqK5QcMBFWSpLIjQK/A/3V+Q2skLj2BlzqLE6UN7kAs
- 5s7SPUj2Lve11WefBvEi+O+4KaPdCMPnILm514W7sMCyQFZDIP0xeFb+8eUCCeFbZkff
- nkHQZ4U2hqGgVNQ08C7tn0GNYIsZXLOc4AVR5ImN2/UVlfGVHHgjs9nx6EJ4M4mVelpO
- /sGM3a3r9w4kM9coAxOpmBlXFl/BCzHCBTrccWNs8RdFv0qNAi8kCdzkuNBMpDR/79h8
- L7XA==
-X-Gm-Message-State: AOAM531gFCdT76C8ukWNcbGqc/fzr0HwjvBhtBYqDdM94PyyBXlLZTUZ
- o9G6m3W/MMi59jYfEQvCqzPkhD1FCmvqRYGTo+UkeWe3R2egGfKxOJcKzDp0MWzffXGNjIhmvos
- wldt2YK4gvognx4o=
-X-Received: by 2002:adf:fa8f:: with SMTP id h15mr8046335wrr.211.1594765361131; 
- Tue, 14 Jul 2020 15:22:41 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJzgw8+a9oaIkhkITRQEjINbjIs+0+n0DnAHgVxNPI4gCYRDO4i3daoVIKpHcyUjPf0DaYki/w==
-X-Received: by 2002:adf:fa8f:: with SMTP id h15mr8046313wrr.211.1594765360916; 
- Tue, 14 Jul 2020 15:22:40 -0700 (PDT)
+ bh=34BOciJNToD087b3DmEPBjP+atCQ4f8lF8uOK0B/VQo=;
+ b=GiJamUMrS+XyxFcomsCHKM2z1o1Wb/j68Wws1HE5VGzcAqXk2n1OeGuNuRxMGfqEWx
+ 76AQkRlbcfSnl+t6o+Y+qdsU6V72gFi6up+YM3afKh46iEIqGvu2n0wlu4vKEIi/sP+8
+ i0B6RU6G1yKBoVxrp49RU7M0ALG4oZ81eyrHfOF64BQ52EtRButtdneLAmSkJ7fZG5iK
+ hfq44PFqj9hlfKc3fPJS+vqHN5zGMGLYzBpgyTClFqnRBbRt0nXr7cRCkJrlSkr7aqVX
+ YX+sprsp5AomVban5MJMR3syuaTRG9dwBAA1XMTog2g0Tv5NqevZZ1BoIpdEu64kL2EV
+ 1tOA==
+X-Gm-Message-State: AOAM532ejtBAioPntoL4tMobxCvgupUflit4Vz/xNkuzWVRiHOX7dBL6
+ EylC03wkefh/BkUOwzbR38eHJD32JK8HRl5B6SQ+zW7VAFlJklgNEwBOY+yDPlBYcl/xcVQVHjl
+ /imLL8FEeYS+CJVg=
+X-Received: by 2002:adf:e80d:: with SMTP id o13mr7963494wrm.112.1594765375651; 
+ Tue, 14 Jul 2020 15:22:55 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJwwNHB5UaUZCpE+Fa7BIw0lDObJzVZX+kL0W1LO6KAsXyqyguMPGZdBEvEHX7rhy4WGiyA3dg==
+X-Received: by 2002:adf:e80d:: with SMTP id o13mr7963479wrm.112.1594765375473; 
+ Tue, 14 Jul 2020 15:22:55 -0700 (PDT)
 Received: from localhost.localdomain
  (138.red-83-57-170.dynamicip.rima-tde.net. [83.57.170.138])
- by smtp.gmail.com with ESMTPSA id q5sm173563wrp.60.2020.07.14.15.22.39
+ by smtp.gmail.com with ESMTPSA id a2sm160275wrn.68.2020.07.14.15.22.54
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 14 Jul 2020 15:22:40 -0700 (PDT)
+ Tue, 14 Jul 2020 15:22:54 -0700 (PDT)
 From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PULL 14/19] python/qmp.py: Define common types
-Date: Wed, 15 Jul 2020 00:21:27 +0200
-Message-Id: <20200714222132.10815-15-philmd@redhat.com>
+Subject: [PULL 17/19] python/qmp.py: Do not return None from cmd_obj
+Date: Wed, 15 Jul 2020 00:21:30 +0200
+Message-Id: <20200714222132.10815-18-philmd@redhat.com>
 X-Mailer: git-send-email 2.21.3
 In-Reply-To: <20200714222132.10815-1-philmd@redhat.com>
 References: <20200714222132.10815-1-philmd@redhat.com>
 MIME-Version: 1.0
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=philmd@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=UTF-8;
 	text/plain; charset="utf-8"
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=205.139.110.120; envelope-from=philmd@redhat.com;
- helo=us-smtp-1.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/07/14 01:42:04
+Received-SPF: pass client-ip=207.211.31.81; envelope-from=philmd@redhat.com;
+ helo=us-smtp-delivery-1.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/07/14 12:02:09
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
-X-Spam_score_int: -40
-X-Spam_score: -4.1
-X-Spam_bar: ----
-X-Spam_report: (-4.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1,
+X-Spam_score_int: -30
+X-Spam_score: -3.1
+X-Spam_bar: ---
+X-Spam_report: (-3.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-1, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001, URIBL_BLOCKED=0.001 autolearn=ham autolearn_force=no
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H3=-0.01, RCVD_IN_MSPIKE_WL=-0.01,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ URIBL_BLOCKED=0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -104,53 +107,54 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: John Snow <jsnow@redhat.com>
 
-Define some common types that we'll need to annotate a lot of other
-functions going forward.
+This makes typing the qmp library difficult, as it necessitates wrapping
+Optional[] around the type for every return type up the stack. At some
+point, it becomes difficult to discern or remember why it's None instead
+of the expected object.
+
+Use the python exception system to tell us exactly why we didn't get an
+object. Remove this special-cased return.
 
 Signed-off-by: John Snow <jsnow@redhat.com>
 Reviewed-by: Kevin Wolf <kwolf@redhat.com>
-Message-Id: <20200710052220.3306-2-jsnow@redhat.com>
+Message-Id: <20200710052220.3306-5-jsnow@redhat.com>
 Signed-off-by: Philippe Mathieu-Daudé <philmd@redhat.com>
 ---
- python/qemu/qmp.py | 18 ++++++++++++++++++
- 1 file changed, 18 insertions(+)
+ python/qemu/qmp.py | 14 +++++---------
+ 1 file changed, 5 insertions(+), 9 deletions(-)
 
 diff --git a/python/qemu/qmp.py b/python/qemu/qmp.py
-index e64b6b5faa..8388c7b603 100644
+index aa8a666b8a..ef3c919b76 100644
 --- a/python/qemu/qmp.py
 +++ b/python/qemu/qmp.py
-@@ -12,13 +12,31 @@
- import socket
- import logging
- from typing import (
-+    Any,
-+    Dict,
-     Optional,
-     TextIO,
-     Type,
-+    Tuple,
-+    Union,
- )
- from types import TracebackType
+@@ -225,22 +225,18 @@ def accept(self, timeout=15.0):
+         self.__sockfile = self.__sock.makefile(mode='r')
+         return self.__negotiate_capabilities()
  
+-    def cmd_obj(self, qmp_cmd):
++    def cmd_obj(self, qmp_cmd: QMPMessage) -> QMPMessage:
+         """
+         Send a QMP command to the QMP Monitor.
  
-+# QMPMessage is a QMP Message of any kind.
-+# e.g. {'yee': 'haw'}
-+#
-+# QMPReturnValue is the inner value of return values only.
-+# {'return': {}} is the QMPMessage,
-+# {} is the QMPReturnValue.
-+QMPMessage = Dict[str, Any]
-+QMPReturnValue = Dict[str, Any]
-+
-+InternetAddrT = Tuple[str, str]
-+UnixAddrT = str
-+SocketAddrT = Union[InternetAddrT, UnixAddrT]
-+
-+
- class QMPError(Exception):
-     """
-     QMP base exception
+         @param qmp_cmd: QMP command to be sent as a Python dict
+-        @return QMP response as a Python dict or None if the connection has
+-                been closed
++        @return QMP response as a Python dict
+         """
+         self.logger.debug(">>> %s", qmp_cmd)
+-        try:
+-            self.__sock.sendall(json.dumps(qmp_cmd).encode('utf-8'))
+-        except OSError as err:
+-            if err.errno == errno.EPIPE:
+-                return None
+-            raise err
++        self.__sock.sendall(json.dumps(qmp_cmd).encode('utf-8'))
+         resp = self.__json_read()
++        if resp is None:
++            raise QMPConnectError("Unexpected empty reply from server")
+         self.logger.debug("<<< %s", resp)
+         return resp
+ 
 -- 
 2.21.3
 
