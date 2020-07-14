@@ -2,48 +2,79 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 63AC321F2CC
-	for <lists+qemu-devel@lfdr.de>; Tue, 14 Jul 2020 15:40:18 +0200 (CEST)
-Received: from localhost ([::1]:35034 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 28C6821F2D9
+	for <lists+qemu-devel@lfdr.de>; Tue, 14 Jul 2020 15:43:34 +0200 (CEST)
+Received: from localhost ([::1]:41276 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jvLAP-0004I5-4z
-	for lists+qemu-devel@lfdr.de; Tue, 14 Jul 2020 09:40:17 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:58878)
+	id 1jvLDZ-00071Z-6q
+	for lists+qemu-devel@lfdr.de; Tue, 14 Jul 2020 09:43:33 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:59510)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <lma@suse.de>) id 1jvL9C-00036j-T4
- for qemu-devel@nongnu.org; Tue, 14 Jul 2020 09:39:02 -0400
-Received: from mx2.suse.de ([195.135.220.15]:50264)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <lma@suse.de>) id 1jvL9A-0000x0-Eo
- for qemu-devel@nongnu.org; Tue, 14 Jul 2020 09:39:02 -0400
-X-Virus-Scanned: by amavisd-new at test-mx.suse.de
-Received: from relay2.suse.de (unknown [195.135.221.27])
- by mx2.suse.de (Postfix) with ESMTP id 7FAF7B13B;
- Tue, 14 Jul 2020 13:39:01 +0000 (UTC)
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1jvLCG-00060C-Ah
+ for qemu-devel@nongnu.org; Tue, 14 Jul 2020 09:42:12 -0400
+Received: from mail-pj1-x1041.google.com ([2607:f8b0:4864:20::1041]:53917)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1jvLCE-0001L1-Mb
+ for qemu-devel@nongnu.org; Tue, 14 Jul 2020 09:42:12 -0400
+Received: by mail-pj1-x1041.google.com with SMTP id cm21so1604329pjb.3
+ for <qemu-devel@nongnu.org>; Tue, 14 Jul 2020 06:42:10 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=subject:to:cc:references:from:message-id:date:user-agent
+ :mime-version:in-reply-to:content-language:content-transfer-encoding;
+ bh=65qUOt+pMEbQFzLQ25l1SuoFfwVW3zku4qERNetHfmA=;
+ b=Sb5Ue6zhl0KxTJgpnuJUTXaEkWrdy9hLP5T6r22JhG86CPQi37IFRa48CFj4/RVUeN
+ 6LIQ3hGjjfL6NjhJjyV+fVTDrz29z/NKfxAL37XAnqeUEVgBBoO+4wzKAQn6eql9nBKV
+ idmCuCxy60fQvjz8stdGD5NT9Zqn/mywPlqW75wWDcTDOSF5YCl+E3k9ZfpBxLE3msmY
+ H7mKlZ5SJ7WZkH2A8N/IndjOrbK7EyLDhvvhB1JStxt9O0Xk2yZEyUUljifalFZJIbOd
+ og/4cTQ4B71TuccdbMqNGgQ6Dqum4/w+gbUsjrX0C+zffIHrWqviwVmX1/lIgXLmWQOf
+ Y6qQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=65qUOt+pMEbQFzLQ25l1SuoFfwVW3zku4qERNetHfmA=;
+ b=MnDL8s4A1w3QSLgH/Wu+/6rfmPBhG++BMGun4gyvwoVJThT4yDVW4zxkjXj9rie2M9
+ VZ2bF4G0tN7AqRe6wPvhEdg4rvDcIiaJo3qOTtzlMMhO1OEAjE9zPjmrP/+vwxIm7Kgw
+ lD8LIeTbM9Io6nLB7+A3vVyKrArvSBnG/ALaoOoUBYOqpWr71Ic59mNAr466ccwhsahV
+ XSk+NnQIc7i6zI/WnMv9yvFsbYAOC/624Qmr7L+QENHk3zKFlv1kIpwGqPT12XgoIXdc
+ FYN8MJEAtadnqHjWJT5rZ8/OVBc5YS0CvPWNT/U3Apxs/a1hks2cwIpFHIZcLaKvOPut
+ 09YQ==
+X-Gm-Message-State: AOAM533gsxuYvqrU6HI21FVxb6fBQtC2IPkO46ym6bVAkz2eBOm6L5j7
+ yWcPh1nCHxg4aK6XinQpaqteQw==
+X-Google-Smtp-Source: ABdhPJx5B8sBTH1jUAR3gOhYKgrvpSs7hT4W7Oun6VjbQ/MB2tdh/hZo6phV+GyBAluBm2q8hmqFuw==
+X-Received: by 2002:a17:902:7688:: with SMTP id m8mr115836pll.12.1594734120997; 
+ Tue, 14 Jul 2020 06:42:00 -0700 (PDT)
+Received: from [192.168.1.11] (174-21-143-238.tukw.qwest.net. [174.21.143.238])
+ by smtp.gmail.com with ESMTPSA id e6sm17190359pfh.176.2020.07.14.06.41.59
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Tue, 14 Jul 2020 06:41:59 -0700 (PDT)
+Subject: Re: [PATCH] target/ppc: Remove superfluous breaks
+To: Yi Wang <wang.yi59@zte.com.cn>, qemu-devel@nongnu.org
+References: <1594600412-22887-1-git-send-email-wang.yi59@zte.com.cn>
+From: Richard Henderson <richard.henderson@linaro.org>
+Message-ID: <7d0d9d34-eef4-4ec0-8be5-83a6b2651325@linaro.org>
+Date: Tue, 14 Jul 2020 06:41:57 -0700
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.10.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII;
- format=flowed
+In-Reply-To: <1594600412-22887-1-git-send-email-wang.yi59@zte.com.cn>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
 Content-Transfer-Encoding: 7bit
-Date: Tue, 14 Jul 2020 13:38:58 +0000
-From: Lin Ma <lma@suse.de>
-To: qemu-devel@nongnu.org
-Subject: Re: The issue about adding multipath device's targets into
- qemu-pr-helper's namespace
-In-Reply-To: <a5a06a77fea035344943bdc930a344cd@suse.de>
-References: <a5a06a77fea035344943bdc930a344cd@suse.de>
-User-Agent: Roundcube Webmail
-Message-ID: <c63b4427ee9058e47eb2f0445677f5ff@suse.de>
-X-Sender: lma@suse.de
-Received-SPF: pass client-ip=195.135.220.15; envelope-from=lma@suse.de;
- helo=mx2.suse.de
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/07/13 21:34:19
-X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x (no timestamps) [generic]
-X-Spam_score_int: -41
-X-Spam_score: -4.2
-X-Spam_bar: ----
-X-Spam_report: (-4.2 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_MED=-2.3,
- RCVD_IN_MSPIKE_H3=-0.01, RCVD_IN_MSPIKE_WL=-0.01, SPF_HELO_NONE=0.001,
+Received-SPF: pass client-ip=2607:f8b0:4864:20::1041;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pj1-x1041.google.com
+X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
+ That's all we know.
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -57,221 +88,24 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: mprivozn@redhat.com
+Cc: xue.zhihong@zte.com.cn, qemu-trivial <qemu-trivial@nongnu.org>,
+ wang.liang82@zte.com.cn, Liao Pingfang <liao.pingfang@zte.com.cn>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 2020-07-14 13:30, Lin Ma wrote:
-> Hi all,
+On 7/12/20 5:33 PM, Yi Wang wrote:
+> From: Liao Pingfang <liao.pingfang@zte.com.cn>
 > 
-> I have a namespace question about passthrough disk(multipath device).
-> In case of enabling namespace and cgroups in qemu.conf, The target(s) 
-> of the
-> multipath device won't be added into qemu-pr-helper's namespace under 
-> certain
-> situation, It causes the PERSISTENT RESERVE command failure in guest.
+> Remove superfluous breaks, as there is a "return" before them.
 > 
-> While user starts a vm,
-> To build namespace, The qemuDomainSetupDisk() will be invoked via 
-> threadA(this
-> thread id will be the qemu's pid),
-> To build cgroup, The qemuSetupImagePathCgroup() will be invoked via 
-> threadB.
-> 
-> Both of the functions invoke the virDevMapperGetTargets() trying to 
-> parse a
-> multipath device to target paths string, Then fill the targetPaths[].
-> 
-> The issue I experienced is:
-> After libvirtd started, Everything works well for the first booted vm 
-> which has
-> the passthrough multipath device.
-> But If I shut it down & start it again, OR keep it running & start 
-> another vm
-> which has other passthrough multipath device, Then the target(s) of the 
-> fresh
-> started vm won't be added into the related qemu-pr-helper's namespace 
-> and it
-> causes PERSISTENT RESERVE command failure in the corresponding guest.
-> I digged into code, In this situation, The targetPaths[] in
-> qemuDomainSetupDisk()
-> won't be filled, it keeps NULL after virDevMapperGetTargets() returns.
-> The virDevMapperGetTargets doesn't fill targetPaths[] because the 
-> dm_task_run()
-> of libdevmapper returns 0 with errno 9(Bad file descriptor).
-> So far, I don't understand why the dm_task_run() return 0 in this 
-> situation.
-> BTW, The virDevMapperGetTargets() can always successfully fill the 
-> targetPaths[]
-> in qemuSetupImagePathCgroup().
-> 
-> Please refer to the following 2 tests:
-> The multipath configuration on host:
-> host:~ # multipath -l
-> vm1-data (3600140582d9024bc13f4b8db5ff12de0) dm-11 FreeNAS,lv68
-> size=6.0G features='0' hwhandler='1 alua' wp=rw
-> `-+- policy='service-time 0' prio=0 status=active
->   `- 2:0:0:2 sdd 8:48 active undef running
-> vm2-data (36001405fc5f29ace3ec4fb8acd32aae5) dm-8 FreeNAS,lv46
-> size=4.0G features='0' hwhandler='1 alua' wp=rw
-> `-+- policy='service-time 0' prio=0 status=active
->   `- 2:0:0:1 sde 8:64 active undef running
-> 
-> ===================================================================
-> Test A:
-> host:~ # systemctl restart libvirtd
-> host:~ # virsh list
->  Id   Name   State
-> --------------------
-> 
-> host:~ #
-> host:~ # virsh domblklist vm1
->  Target   Source
-> ------------------------------------------
->  vda      /opt/vms/vm1/disk0.qcow2
->  sda      /dev/mapper/vm1-data
-> 
-> host:~ #
-> host:~ # virsh start vm1
-> Domain vm1 started
-> 
-> host:~ # virsh list
->  Id   Name        State
-> ---------------------------
->  1    vm1        running
-> 
-> host:~ # nsenter -t $(pidof qemu-pr-helper) -a bash
-> host:~ # ls -l /dev/sd*
-> brw-rw---- 1 root disk 8, 48 Jul 14 16:30 /dev/sdd
-> host:~ # exit
-> exit
-> host:~ #
-> 
-> vm1:~ # lsscsi
-> [0:0:0:0]    disk    FreeNAS  lv68             0123   /dev/sda
-> vm1:~ #
-> vm1:~ # sg_persist --in -k /dev/sda
->   FreeNAS   lv68              0123
->   Peripheral device type: disk
->   PR generation=0x0, there are NO registered reservation keys
-> vm1:~ #
-> 
-> host:~ # virsh shutdown vm1
-> Domain vm1 is being shutdown
-> 
-> host:~ # virsh list
->  Id   Name   State
-> --------------------
-> 
-> host:~ #
-> host:~ # virsh start vm1
-> Domain vm1 started
-> 
-> host:~ # virsh list
->  Id   Name        State
-> ---------------------------
->  2    vm1        running
-> 
-> host:~ # nsenter -t $(pidof qemu-pr-helper) -a bash
-> host:~ # ls -l /dev/sd*
-> ls: cannot access '/dev/sd*': No such file or directory
-> host:~ # exit
-> exit
-> host:~ #
-> 
-> vm1:~ # sg_persist --in -k /dev/sda
->   FreeNAS   lv68              0123
->   Peripheral device type: disk
-> PR in (Read keys): Aborted command
-> Aborted command
-> vm1:~ #
-> ===================================================================
-> Test B:
-> host:~ # systemctl restart libvirtd
-> host:~ # virsh list
->  Id   Name   State
-> --------------------
-> 
-> host:~ #
-> host:~ # virsh domblklist vm1
->  Target   Source
-> ------------------------------------------
->  vda      /opt/vms/vm1/disk0.qcow2
->  sda      /dev/mapper/vm1-data
-> 
-> host:~ #
-> host:~ # virsh start vm1
-> Domain vm1 started
-> 
-> host:~ # virsh list
->  Id   Name        State
-> ---------------------------
->  1    vm1        running
-> 
-> host:~ # nsenter -t $(pidof qemu-pr-helper) -a bash
-> host:~ # ls -l /dev/sd*
-> brw-rw---- 1 root disk 8, 48 Jul 14 17:28 /dev/sdd
-> host:~ # exit
-> exit
-> host:~ #
-> 
-> vm1:~ # lsscsi
-> [2:0:0:0]    disk    FreeNAS  lv68             0123   /dev/sda
-> vm1:~ #
-> vm1:~ # sg_persist --in -k /dev/sda
->   FreeNAS   lv68              0123
->   Peripheral device type: disk
->   PR generation=0x0, there are NO registered reservation keys
-> vm1:~ #
-> 
-> host:~ # virsh list
->  Id   Name        State
-> ---------------------------
->  1    vm1        running
-> 
-> host:~ #
-> host:~ # virsh domblklist vm2
->  Target   Source
-> ------------------------------------------
->  vda      /opt/vms/vm2/disk0.qcow2
->  sda      /dev/mapper/vm2-data
-> 
-> host:~ #
-> host:~ # virsh start vm2
-> Domain vm2 started
-> 
-> host:~ # virsh list
->  Id   Name        State
-> ---------------------------
->  1    vm1        running
->  2    vm2        running
-> 
-> host:~ # nsenter -t $(qemu-pr-helper pid of vm2) -a bash
-> host:~ # ls -l /dev/sd*
-> ls: cannot access '/dev/sd*': No such file or directory
-> host:~ # exit
-> exit
-> host:~ #
-> 
-> vm2:~ # lsscsi
-> [0:0:0:0]    disk    FreeNAS  lv46             0123   /dev/sda
-> vm2:~ #
-> vm2:~ # sg_persist --in -k /dev/sda
->   FreeNAS   lv46              0123
->   Peripheral device type: disk
-> PR in (Read keys): Aborted command
-> Aborted command
-> vm2:~ #
-> ===================================================================
-> 
-> Any comments will be much appreciated.
-> 
-> Thanks in advance,
-> Lin
+> Signed-off-by: Liao Pingfang <liao.pingfang@zte.com.cn>
+> ---
+>  target/ppc/misc_helper.c | 5 -----
+>  1 file changed, 5 deletions(-)
 
-Oops, It shouldn't be sent to qemu ml, It should be sent to libvirt ml, 
-Sorry about it.
+Cc: qemu-trivial
+Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
 
-Lin
 
+r~
 
