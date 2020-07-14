@@ -2,51 +2,74 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2AC6721F292
-	for <lists+qemu-devel@lfdr.de>; Tue, 14 Jul 2020 15:31:59 +0200 (CEST)
-Received: from localhost ([::1]:50788 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B800A21F2D8
+	for <lists+qemu-devel@lfdr.de>; Tue, 14 Jul 2020 15:42:42 +0200 (CEST)
+Received: from localhost ([::1]:38838 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jvL2L-00077H-Ip
-	for lists+qemu-devel@lfdr.de; Tue, 14 Jul 2020 09:31:57 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:56444)
+	id 1jvLCj-0005zL-PC
+	for lists+qemu-devel@lfdr.de; Tue, 14 Jul 2020 09:42:41 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:59394)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <lma@suse.de>) id 1jvL16-0006Cg-H5
- for qemu-devel@nongnu.org; Tue, 14 Jul 2020 09:30:40 -0400
-Received: from mx2.suse.de ([195.135.220.15]:45754)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <lma@suse.de>) id 1jvL14-0008E4-9v
- for qemu-devel@nongnu.org; Tue, 14 Jul 2020 09:30:40 -0400
-X-Virus-Scanned: by amavisd-new at test-mx.suse.de
-Received: from relay2.suse.de (unknown [195.135.221.27])
- by mx2.suse.de (Postfix) with ESMTP id 1EE1EAE61;
- Tue, 14 Jul 2020 13:30:37 +0000 (UTC)
+ (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
+ id 1jvLBT-0005Wq-VL
+ for qemu-devel@nongnu.org; Tue, 14 Jul 2020 09:41:23 -0400
+Received: from indium.canonical.com ([91.189.90.7]:33448)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
+ id 1jvLBS-0001HV-2t
+ for qemu-devel@nongnu.org; Tue, 14 Jul 2020 09:41:23 -0400
+Received: from loganberry.canonical.com ([91.189.90.37])
+ by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
+ id 1jvLBO-0007HC-NW
+ for <qemu-devel@nongnu.org>; Tue, 14 Jul 2020 13:41:18 +0000
+Received: from loganberry.canonical.com (localhost [127.0.0.1])
+ by loganberry.canonical.com (Postfix) with ESMTP id AE42B2E80EC
+ for <qemu-devel@nongnu.org>; Tue, 14 Jul 2020 13:41:18 +0000 (UTC)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII;
- format=flowed
-Content-Transfer-Encoding: 7bit
-Date: Tue, 14 Jul 2020 13:30:34 +0000
-From: Lin Ma <lma@suse.de>
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: quoted-printable
+Date: Tue, 14 Jul 2020 13:32:42 -0000
+From: Ryutaroh Matsumoto <1886811@bugs.launchpad.net>
 To: qemu-devel@nongnu.org
-Subject: The issue about adding multipath device's targets into
- qemu-pr-helper's namespace
-User-Agent: Roundcube Webmail
-Message-ID: <a5a06a77fea035344943bdc930a344cd@suse.de>
-X-Sender: lma@suse.de
-Received-SPF: pass client-ip=195.135.220.15; envelope-from=lma@suse.de;
- helo=mx2.suse.de
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/07/13 21:34:19
-X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x (no timestamps) [generic]
-X-Spam_score_int: -41
-X-Spam_score: -4.2
-X-Spam_bar: ----
-X-Spam_report: (-4.2 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_MED=-2.3,
- RCVD_IN_MSPIKE_H3=-0.01, RCVD_IN_MSPIKE_WL=-0.01, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Launchpad-Notification-Type: bug
+X-Launchpad-Bug: product=qemu; status=In Progress; importance=Undecided;
+ assignee=Laurent@vivier.eu; 
+X-Launchpad-Bug: distribution=ubuntu; sourcepackage=qemu; component=main;
+ status=New; importance=Undecided; assignee=None; 
+X-Launchpad-Bug: distribution=debian; sourcepackage=qemu; component=main;
+ status=Confirmed; importance=Unknown; assignee=None; 
+X-Launchpad-Bug-Tags: linux-user
+X-Launchpad-Bug-Information-Type: Public
+X-Launchpad-Bug-Private: no
+X-Launchpad-Bug-Security-Vulnerability: no
+X-Launchpad-Bug-Commenters: emojifreak laurent-vivier
+X-Launchpad-Bug-Reporter: Ryutaroh Matsumoto (emojifreak)
+X-Launchpad-Bug-Modifier: Ryutaroh Matsumoto (emojifreak)
+References: <159420830935.32230.13858618076699173558.malonedeb@gac.canonical.com>
+Message-Id: <159473356225.8597.4159015567230407874.launchpad@wampee.canonical.com>
+Subject: [Bug 1886811] Re: systemd complains Failed to enqueue loopback
+ interface start request: Operation not supported
+X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
+X-Launchpad-Message-For: qemu-devel-ml
+Precedence: bulk
+X-Generated-By: Launchpad (canonical.com);
+ Revision="4809fcb62f445aaa3ae919f7f6c3cc7d156ea57a";
+ Instance="production-secrets-lazr.conf"
+X-Launchpad-Hash: ac939364e2e7e2f99961ac6855c4615b32af92ff
+Received-SPF: none client-ip=91.189.90.7; envelope-from=bounces@canonical.com;
+ helo=indium.canonical.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/07/14 08:25:40
+X-ACL-Warn: Detected OS   = Linux 3.11 and newer [fuzzy]
+X-Spam_score_int: -58
+X-Spam_score: -5.9
+X-Spam_bar: -----
+X-Spam_report: (-5.9 / 5.0 requ) BAYES_00=-1.9, HEADER_FROM_DIFFERENT_DOMAINS=1,
+ RCVD_IN_DNSWL_HI=-5, RCVD_IN_MSPIKE_H3=-0.01, RCVD_IN_MSPIKE_WL=-0.01,
+ SPF_HELO_NONE=0.001, SPF_NONE=0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
-Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -55,214 +78,63 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: mprivozn@redhat.com
+Reply-To: Bug 1886811 <1886811@bugs.launchpad.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Hi all,
+** Also affects: qemu (Ubuntu)
+   Importance: Undecided
+       Status: New
 
-I have a namespace question about passthrough disk(multipath device).
-In case of enabling namespace and cgroups in qemu.conf, The target(s) of 
-the
-multipath device won't be added into qemu-pr-helper's namespace under 
-certain
-situation, It causes the PERSISTENT RESERVE command failure in guest.
+-- =
 
-While user starts a vm,
-To build namespace, The qemuDomainSetupDisk() will be invoked via 
-threadA(this
-thread id will be the qemu's pid),
-To build cgroup, The qemuSetupImagePathCgroup() will be invoked via 
-threadB.
+You received this bug notification because you are a member of qemu-
+devel-ml, which is subscribed to QEMU.
+https://bugs.launchpad.net/bugs/1886811
 
-Both of the functions invoke the virDevMapperGetTargets() trying to 
-parse a
-multipath device to target paths string, Then fill the targetPaths[].
+Title:
+  systemd complains Failed to enqueue loopback interface start request:
+  Operation not supported
 
-The issue I experienced is:
-After libvirtd started, Everything works well for the first booted vm 
-which has
-the passthrough multipath device.
-But If I shut it down & start it again, OR keep it running & start 
-another vm
-which has other passthrough multipath device, Then the target(s) of the 
-fresh
-started vm won't be added into the related qemu-pr-helper's namespace 
-and it
-causes PERSISTENT RESERVE command failure in the corresponding guest.
-I digged into code, In this situation, The targetPaths[] in 
-qemuDomainSetupDisk()
-won't be filled, it keeps NULL after virDevMapperGetTargets() returns.
-The virDevMapperGetTargets doesn't fill targetPaths[] because the 
-dm_task_run()
-of libdevmapper returns 0 with errno 9(Bad file descriptor).
-So far, I don't understand why the dm_task_run() return 0 in this 
-situation.
-BTW, The virDevMapperGetTargets() can always successfully fill the 
-targetPaths[]
-in qemuSetupImagePathCgroup().
+Status in QEMU:
+  In Progress
+Status in qemu package in Ubuntu:
+  New
+Status in qemu package in Debian:
+  Confirmed
 
-Please refer to the following 2 tests:
-The multipath configuration on host:
-host:~ # multipath -l
-vm1-data (3600140582d9024bc13f4b8db5ff12de0) dm-11 FreeNAS,lv68
-size=6.0G features='0' hwhandler='1 alua' wp=rw
-`-+- policy='service-time 0' prio=0 status=active
-   `- 2:0:0:2 sdd 8:48 active undef running
-vm2-data (36001405fc5f29ace3ec4fb8acd32aae5) dm-8 FreeNAS,lv46
-size=4.0G features='0' hwhandler='1 alua' wp=rw
-`-+- policy='service-time 0' prio=0 status=active
-   `- 2:0:0:1 sde 8:64 active undef running
+Bug description:
+  This symptom seems similar to
+  https://bugs.launchpad.net/qemu/+bug/1823790
 
-===================================================================
-Test A:
-host:~ # systemctl restart libvirtd
-host:~ # virsh list
-  Id   Name   State
---------------------
+  Host Linux: Debian 11 Bullseye (testing) on x84-64 architecture
+  qemu version: latest git of git commit hash eb2c66b10efd2b914b56b20ae9065=
+5914310c925
+  compiled with "./configure --static --disable-system" =
 
-host:~ #
-host:~ # virsh domblklist vm1
-  Target   Source
-------------------------------------------
-  vda      /opt/vms/vm1/disk0.qcow2
-  sda      /dev/mapper/vm1-data
 
-host:~ #
-host:~ # virsh start vm1
-Domain vm1 started
+  Down stream bug report at https://bugs.debian.org/cgi-bin/bugreport.cgi?b=
+ug=3D964289
+  Bug report (closed) to systemd: https://github.com/systemd/systemd/issues=
+/16359
 
-host:~ # virsh list
-  Id   Name        State
----------------------------
-  1    vm1        running
+  systemd in armhf and armel (both little endian 32-bit) containers fail to=
+ start with
+  Failed to enqueue loopback interface start request: Operation not support=
+ed
 
-host:~ # nsenter -t $(pidof qemu-pr-helper) -a bash
-host:~ # ls -l /dev/sd*
-brw-rw---- 1 root disk 8, 48 Jul 14 16:30 /dev/sdd
-host:~ # exit
-exit
-host:~ #
+  How to reproduce on Debian (and probably Ubuntu):
+  mmdebstrap --components=3D"main contrib non-free" --architectures=3Darmhf=
+ --variant=3Dimportant bullseye /var/lib/machines/armhf-bullseye
+  systemd-nspawn -D /var/lib/machines/armhf-bullseye -b
 
-vm1:~ # lsscsi
-[0:0:0:0]    disk    FreeNAS  lv68             0123   /dev/sda
-vm1:~ #
-vm1:~ # sg_persist --in -k /dev/sda
-   FreeNAS   lv68              0123
-   Peripheral device type: disk
-   PR generation=0x0, there are NO registered reservation keys
-vm1:~ #
+  When "armhf" architecture is replaced with "mips" (32-bit big endian) or =
+"ppc64"
+  (64-bit big endian), the container starts up fine.
 
-host:~ # virsh shutdown vm1
-Domain vm1 is being shutdown
+  The same symptom is also observed with "powerpc" (32-bit big endian)
+  architecture.
 
-host:~ # virsh list
-  Id   Name   State
---------------------
-
-host:~ #
-host:~ # virsh start vm1
-Domain vm1 started
-
-host:~ # virsh list
-  Id   Name        State
----------------------------
-  2    vm1        running
-
-host:~ # nsenter -t $(pidof qemu-pr-helper) -a bash
-host:~ # ls -l /dev/sd*
-ls: cannot access '/dev/sd*': No such file or directory
-host:~ # exit
-exit
-host:~ #
-
-vm1:~ # sg_persist --in -k /dev/sda
-   FreeNAS   lv68              0123
-   Peripheral device type: disk
-PR in (Read keys): Aborted command
-Aborted command
-vm1:~ #
-===================================================================
-Test B:
-host:~ # systemctl restart libvirtd
-host:~ # virsh list
-  Id   Name   State
---------------------
-
-host:~ #
-host:~ # virsh domblklist vm1
-  Target   Source
-------------------------------------------
-  vda      /opt/vms/vm1/disk0.qcow2
-  sda      /dev/mapper/vm1-data
-
-host:~ #
-host:~ # virsh start vm1
-Domain vm1 started
-
-host:~ # virsh list
-  Id   Name        State
----------------------------
-  1    vm1        running
-
-host:~ # nsenter -t $(pidof qemu-pr-helper) -a bash
-host:~ # ls -l /dev/sd*
-brw-rw---- 1 root disk 8, 48 Jul 14 17:28 /dev/sdd
-host:~ # exit
-exit
-host:~ #
-
-vm1:~ # lsscsi
-[2:0:0:0]    disk    FreeNAS  lv68             0123   /dev/sda
-vm1:~ #
-vm1:~ # sg_persist --in -k /dev/sda
-   FreeNAS   lv68              0123
-   Peripheral device type: disk
-   PR generation=0x0, there are NO registered reservation keys
-vm1:~ #
-
-host:~ # virsh list
-  Id   Name        State
----------------------------
-  1    vm1        running
-
-host:~ #
-host:~ # virsh domblklist vm2
-  Target   Source
-------------------------------------------
-  vda      /opt/vms/vm2/disk0.qcow2
-  sda      /dev/mapper/vm2-data
-
-host:~ #
-host:~ # virsh start vm2
-Domain vm2 started
-
-host:~ # virsh list
-  Id   Name        State
----------------------------
-  1    vm1        running
-  2    vm2        running
-
-host:~ # nsenter -t $(qemu-pr-helper pid of vm2) -a bash
-host:~ # ls -l /dev/sd*
-ls: cannot access '/dev/sd*': No such file or directory
-host:~ # exit
-exit
-host:~ #
-
-vm2:~ # lsscsi
-[0:0:0:0]    disk    FreeNAS  lv46             0123   /dev/sda
-vm2:~ #
-vm2:~ # sg_persist --in -k /dev/sda
-   FreeNAS   lv46              0123
-   Peripheral device type: disk
-PR in (Read keys): Aborted command
-Aborted command
-vm2:~ #
-===================================================================
-
-Any comments will be much appreciated.
-
-Thanks in advance,
-Lin
+To manage notifications about this bug go to:
+https://bugs.launchpad.net/qemu/+bug/1886811/+subscriptions
 
