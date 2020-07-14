@@ -2,78 +2,104 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B849C21F8A1
-	for <lists+qemu-devel@lfdr.de>; Tue, 14 Jul 2020 19:56:25 +0200 (CEST)
-Received: from localhost ([::1]:47948 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9414321F8BA
+	for <lists+qemu-devel@lfdr.de>; Tue, 14 Jul 2020 20:03:27 +0200 (CEST)
+Received: from localhost ([::1]:54728 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jvPAG-0001Kb-7b
-	for lists+qemu-devel@lfdr.de; Tue, 14 Jul 2020 13:56:24 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:43686)
+	id 1jvPH4-0004lx-LX
+	for lists+qemu-devel@lfdr.de; Tue, 14 Jul 2020 14:03:26 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:45984)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1jvP9M-0000tn-Es
- for qemu-devel@nongnu.org; Tue, 14 Jul 2020 13:55:28 -0400
-Received: from mail-wm1-x344.google.com ([2a00:1450:4864:20::344]:36895)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1jvP9K-0001Ml-NO
- for qemu-devel@nongnu.org; Tue, 14 Jul 2020 13:55:28 -0400
-Received: by mail-wm1-x344.google.com with SMTP id o2so7951520wmh.2
- for <qemu-devel@nongnu.org>; Tue, 14 Jul 2020 10:55:26 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=te1Lipa6RAlKihwVxFQMxJOFkEWkdgE8ydfZcX6Ytlo=;
- b=mXVRAz4+5aNHllwYiljrg1VX9rt2esWD0298i0FmSjz7izS9wndZoC6Z+BgQ3gHG+T
- rfSQGpmLSQv1Xh9f1cosJLFwSsGVT1TOrjgJZrjhfxKLjjAgzcdO89S2sW17EaCExfKK
- 6dsasCuGs5Qck9p6qXaShSM1a6IJ5Yym0HRN9F7QY/h0kmCLBDZb/mwJFpKfn9dayFQ2
- g2NiOvIsvFSaDK+LfNGzhJZ+ElUTOPRquVD7oxWprCXS+k4vWz7h0iA1UZeoJugGzQgx
- 5ip1iBHFM+1hOAOEwyrdwZlB48NR4rkSlYz0XgkYquCOa46GKhqCaSvOFWVtRLRTUzPf
- Pidw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=te1Lipa6RAlKihwVxFQMxJOFkEWkdgE8ydfZcX6Ytlo=;
- b=GHdB4eU7Z3HRTL+6s8jqPYCduWO7fEB8GDxVx6AGbr4sYZvivfd8ilxFO8LTIOkOCX
- lwQ9gihZqhBeD7AJUeLc1RyfyDJq8LgEIkbQH6ryOrRtnnpbmL8qWezJJan4G+tQg5a/
- lQGOiPIjFZY58/GPFm9RplvNrpTx73y+yoA1BjTaa8CbKm4sz5GShzAFX6Ros6uJLBM5
- W5OsXw/emC9F3tmh9aOTlmJefUFX+cU6zrV+7qUETYzN00X0iZf+As37hB3y5Xg7FTi6
- aCz+ZWb60ml9Q5Ylvjk2XfAPeE8rG1De3cPzUjejhy3AxaULLkiD4p1FcfLIfqtFuUst
- pMYA==
-X-Gm-Message-State: AOAM5300MHWGpLZTChKnef0FX5LrVNjLj7gxpIZeUVU3PCP4qs063uBh
- pFsVnx2UG9dZvRFVASynOMh7Ag==
-X-Google-Smtp-Source: ABdhPJw+c+y9FBB6+ZgJ9HlQZ5rfawK4mwbXr3gbX+FFj7FSxt5z2Pwwtiwcq0WNb5EUocyjyROdbw==
-X-Received: by 2002:a7b:c099:: with SMTP id r25mr5296558wmh.159.1594749324732; 
- Tue, 14 Jul 2020 10:55:24 -0700 (PDT)
-Received: from zen.linaroharston ([51.148.130.216])
- by smtp.gmail.com with ESMTPSA id o21sm5386465wmh.18.2020.07.14.10.55.23
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 14 Jul 2020 10:55:23 -0700 (PDT)
-Received: from zen.lan (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id E51141FF7E;
- Tue, 14 Jul 2020 18:55:22 +0100 (BST)
-From: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
+ (Exim 4.90_1) (envelope-from <alxndr@bu.edu>) id 1jvPFJ-0003Ud-Dk
+ for qemu-devel@nongnu.org; Tue, 14 Jul 2020 14:01:37 -0400
+Received: from mail-dm6nam11on2127.outbound.protection.outlook.com
+ ([40.107.223.127]:38464 helo=NAM11-DM6-obe.outbound.protection.outlook.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <alxndr@bu.edu>) id 1jvPFG-0002Ug-TD
+ for qemu-devel@nongnu.org; Tue, 14 Jul 2020 14:01:36 -0400
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=Hg9La0hE84Cpb8LThMa+dfju4Dv0dsNNEv6mwHeXiv0Z5mLENwe74EqZ0f5ID1Me7bj2sja/LVGFbi3HuX/sFz3EmpXo1b/Wc+6mU9p12nBfqMGwwHmPDkv+qvjJLQb7OrR0oroO3+Kuot1i9OSePSS8a2H9jmZ/M/Hl2k3Pv+zUZ7W+NMkxfgPIY8RMqbOpdZNibhqIqk+xaDPtyCnYm2ZFUTcTjpSHSFl6+i8ECCvhHRLjRbZHR4MqNVZ6QMqawaKy98lnjmSCNNyBtGlTsDci24v7YycpT6zzSUX+k3tka8A5TaceABTZ/DX6Zt1f72HFBlm6KcHk0QAww0VLfg==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=IOMZ+KBh/iv1hIWbkFZGwsRYQOgAyLdqSmafG2TEZTE=;
+ b=U+pgNLEKy+tw/RyQuLXVKg9RoYhlaKIPg/WJWNr3ngfzI70k8eoRJJH/RYQQCxvVzfbwxh2TARckz3923lY1ObpdlhFnFcc/cMSf/IKMyIAQNSfh1t/S2atzwtHC1jYyVENPcYKTqu527bxU32V73PpNZn0Adj7R82XHtC/8a/Ix/WHFJwl6UACkOv/Mjqt4c/JJrwelne1xGQyCw4pYhRhV9jlzHNcez91b6VJnprnSTutVq6ur3PMiFf1i8WchorodjZstOUbcmKtW9NAnnOGUfq/gNkuxpk9icbgokVaNzujw/vtyDn3wd4yuQgxYxCm8QdZztkJxRPpBn7DA1g==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=bu.edu; dmarc=pass action=none header.from=bu.edu; dkim=pass
+ header.d=bu.edu; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=bushare.onmicrosoft.com; s=selector2-bushare-onmicrosoft-com;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=IOMZ+KBh/iv1hIWbkFZGwsRYQOgAyLdqSmafG2TEZTE=;
+ b=7y3Zkx1rvyStgwjp+tk2zF3KmV8FxEuLBqKN71ZIXVFoWAvED0+aMOJCFAUbm3+IOw7tu7BjC5N7l+vD33uQ1O0p8u/S0io4+UdJmuVDW/bhPBQtC65tR3n3teiYrQ0b3g9j3EUcODtpKPogSPKbqPZd/abNWgWca4dHXbEFkKo=
+Authentication-Results: nongnu.org; dkim=none (message not signed)
+ header.d=none;nongnu.org; dmarc=none action=none header.from=bu.edu;
+Received: from SN6PR03MB3871.namprd03.prod.outlook.com (2603:10b6:805:6d::32)
+ by SN2PR03MB2382.namprd03.prod.outlook.com (2603:10b6:804:e::21) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3174.21; Tue, 14 Jul
+ 2020 17:46:31 +0000
+Received: from SN6PR03MB3871.namprd03.prod.outlook.com
+ ([fe80::8ce:29a6:77be:c35b]) by SN6PR03MB3871.namprd03.prod.outlook.com
+ ([fe80::8ce:29a6:77be:c35b%7]) with mapi id 15.20.3195.017; Tue, 14 Jul 2020
+ 17:46:31 +0000
+From: Alexander Bulekov <alxndr@bu.edu>
 To: qemu-devel@nongnu.org
-Subject: [PATCH] .travis.yml: skip ppc64abi32-linux-user with plugins
-Date: Tue, 14 Jul 2020 18:55:16 +0100
-Message-Id: <20200714175516.5475-1-alex.bennee@linaro.org>
-X-Mailer: git-send-email 2.20.1
-MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
+Subject: [PATCH] fuzz: Expect the cmdline in a freeable GString
+Date: Tue, 14 Jul 2020 13:46:16 -0400
+Message-Id: <20200714174616.20709-1-alxndr@bu.edu>
+X-Mailer: git-send-email 2.26.2
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::344;
- envelope-from=alex.bennee@linaro.org; helo=mail-wm1-x344.google.com
-X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
- That's all we know.
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- URIBL_BLOCKED=0.001 autolearn=ham autolearn_force=no
+Content-Type: text/plain
+X-ClientProxiedBy: MN2PR20CA0065.namprd20.prod.outlook.com
+ (2603:10b6:208:235::34) To SN6PR03MB3871.namprd03.prod.outlook.com
+ (2603:10b6:805:6d::32)
+MIME-Version: 1.0
+X-MS-Exchange-MessageSentRepresentingType: 1
+Received: from mozz.bu.edu (128.197.127.33) by
+ MN2PR20CA0065.namprd20.prod.outlook.com (2603:10b6:208:235::34) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3174.21 via Frontend
+ Transport; Tue, 14 Jul 2020 17:46:30 +0000
+X-Mailer: git-send-email 2.26.2
+X-Originating-IP: [128.197.127.33]
+X-MS-PublicTrafficType: Email
+X-MS-Office365-Filtering-Correlation-Id: 3e71de46-3ce0-4513-46ef-08d8281dd78e
+X-MS-TrafficTypeDiagnostic: SN2PR03MB2382:
+X-MS-Exchange-Transport-Forked: True
+X-Microsoft-Antispam-PRVS: <SN2PR03MB2382A59D132A094749E9D9F4BA610@SN2PR03MB2382.namprd03.prod.outlook.com>
+X-MS-Oob-TLC-OOBClassifiers: OLM:1923;
+X-MS-Exchange-SenderADCheck: 1
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: 5ZhmEVv0ByZdVrHC4NWKs5tm300n6T+aX6oSKzVR1eDbnx6x9aB7xpEu7wQK8TEFKjgrlvczI2c3m2JPebmnr32uQmFw16+Mzex8+ZPH4CLAP2VaH3qRGxKspXQFiXh/Z4u+2aBND+a500EL2hIZbz7njYfbXlJEEo/an/pvE8JWlaQN3SwnK2AFvigDqyRAcnHf3PolVFb2dol5ckiRAmbAc3BOjXVTw45/oDeIw8lyY/XhkATLCiBQ3UUuZB/s0/fg8NX4u6ZUdPS8842vRBqdXKqsk7WhX5F0+GanSRTJuqjEVCDaTtqt1syjC7n2
+X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:SN6PR03MB3871.namprd03.prod.outlook.com; PTR:; CAT:NONE;
+ SFTY:;
+ SFS:(4636009)(39860400002)(366004)(376002)(136003)(396003)(346002)(4326008)(66556008)(66476007)(8936002)(6486002)(86362001)(2906002)(75432002)(83380400001)(478600001)(66946007)(16526019)(54906003)(956004)(36756003)(2616005)(186003)(786003)(26005)(5660300002)(6666004)(8676002)(52116002)(316002)(1076003)(7696005)(6916009);
+ DIR:OUT; SFP:1102; 
+X-MS-Exchange-AntiSpam-MessageData: 95+GgeVpxtaqO4qBlH1haajHzNH1JOOuHeJAPziEWdk+aG1yIrdYppNcBulDWLMeHhT5triZQOHJm45ql5EhnWftA/b7EZ8CkZ5DaIRAtHDeOqE7M27d6fyVk+DDQpgZ66SeDu47cjsq3+lO5bt/XfxNl8w1ZHDB/dU4bU5d49wBJw8o5qijBgtej9Cyvi5ETiv3kK9V7M+r+hnuxcrYKNKbT0KDknYeJblwPtv/W0uTC8N4pzkW4cxZHbb1hATyq3w0oQ4Q0VUlaj0q672Rk4UQBFGT1LGh4rR5LFs0WlSDXbJ5eqxpfs+sxprHINJJOCl02jemxIH3EpFf67NfNNhTskeX1XNwfm1Py4xp1shj/RAvDEpg0SNdJGKT8EZzA+ottEF0CgUPaTDf2gNkjTvzDBgMzE/c/IyALUyDRIEmM9BfpX8mZS58Cuxe9VW1QN5TgPKXCTh3JIis8RvtnL9l46bXcfCxlNvpc1y3rjY=
+X-OriginatorOrg: bu.edu
+X-MS-Exchange-CrossTenant-Network-Message-Id: 3e71de46-3ce0-4513-46ef-08d8281dd78e
+X-MS-Exchange-CrossTenant-AuthSource: SN6PR03MB3871.namprd03.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 14 Jul 2020 17:46:31.1132 (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: d57d32cc-c121-488f-b07b-dfe705680c71
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: bFb/e4f7DXp2n8aQmU4q4pk3Up13BviCso5BFZB1QNNFeSMTDB01qiAEHA6oXibl
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: SN2PR03MB2382
+Received-SPF: pass client-ip=40.107.223.127; envelope-from=alxndr@bu.edu;
+ helo=NAM11-DM6-obe.outbound.protection.outlook.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/07/14 14:01:33
+X-ACL-Warn: Detected OS   = Windows NT kernel [generic] [fuzzy]
+X-Spam_score_int: -18
+X-Spam_score: -1.9
+X-Spam_bar: -
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, HK_RANDOM_ENVFROM=0.001, HK_RANDOM_FROM=1,
+ MSGID_FROM_MTA_HEADER=0.001, RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-1,
+ SPF_HELO_PASS=-0.001, SPF_PASS=-0.001 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -86,64 +112,123 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Fam Zheng <fam@euphon.net>,
- =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
- =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>,
- David Gibson <david@gibson.dropbear.id.au>
+Cc: Laurent Vivier <lvivier@redhat.com>, Thomas Huth <thuth@redhat.com>,
+ Alexander Bulekov <alxndr@bu.edu>, f4bug@amsat.org, darren.kenny@oracle.com,
+ Bandan Das <bsd@redhat.com>, Stefan Hajnoczi <stefanha@redhat.com>,
+ Paolo Bonzini <pbonzini@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-We actually see failures on threadcount running without plugins:
+In the initial FuzzTarget, get_init_cmdline returned a char *. With this
+API, we had no guarantee about where the string came from. For example,
+i440fx-qtest-reboot-fuzz simply returned a pointer to a string literal,
+while the QOS-based targets build the arguments out in a GString an
+return the gchar *str pointer. Since we did not try to free the cmdline,
+we have a leak for any targets that do not simply return string
+literals. Clean up this mess by forcing fuzz-targets to return
+a GString, that we can free.
 
-  retry.py -n 1000 -c -- \
-    ./ppc64abi32-linux-user/qemu-ppc64abi32 \
-    ./tests/tcg/ppc64abi32-linux-user/threadcount
-
-which reports:
-
-  0: 978 times (97.80%), avg time 0.270 (0.01 varience/0.08 deviation)
-  -6: 21 times (2.10%), avg time 0.336 (0.01 varience/0.12 deviation)
-  -11: 1 times (0.10%), avg time 0.502 (0.00 varience/0.00 deviation)
-  Ran command 1000 times, 978 passes
-
-But when running with plugins we hit the failure a lot more often:
-
-  0: 91 times (91.00%), avg time 0.302 (0.04 varience/0.19 deviation)
-  -11: 9 times (9.00%), avg time 0.558 (0.01 varience/0.11 deviation)
-  Ran command 100 times, 91 passes
-
-The crash occurs in guest code which is the same in both pass and fail
-cases. However we see various messages reported on the console about
-corrupted memory lists which seems to imply the guest memory allocation
-is corrupted. This lines up with the seg fault being in the guest
-__libc_free function. So we think this is a guest bug which is
-exacerbated by various modes of translation. If anyone has access to
-real hardware to soak test the test case we could prove this properly.
-
-Signed-off-by: Alex Bennée <alex.bennee@linaro.org>
-Cc: David Gibson <david@gibson.dropbear.id.au>
-Cc: Philippe Mathieu-Daudé <philmd@redhat.com>
+Signed-off-by: Alexander Bulekov <alxndr@bu.edu>
 ---
- .travis.yml | 3 ++-
- 1 file changed, 2 insertions(+), 1 deletion(-)
+ tests/qtest/fuzz/fuzz.c        | 13 ++++++-------
+ tests/qtest/fuzz/fuzz.h        |  6 +++---
+ tests/qtest/fuzz/i440fx_fuzz.c |  4 ++--
+ tests/qtest/fuzz/qos_fuzz.c    |  6 +++---
+ 4 files changed, 14 insertions(+), 15 deletions(-)
 
-diff --git a/.travis.yml b/.travis.yml
-index ab429500fc..6695c0620f 100644
---- a/.travis.yml
-+++ b/.travis.yml
-@@ -350,9 +350,10 @@ jobs:
-     # Run check-tcg against linux-user (with plugins)
-     # we skip sparc64-linux-user until it has been fixed somewhat
-     # we skip cris-linux-user as it doesn't use the common run loop
-+    # we skip ppc64abi32-linux-user as it seems to have a broken libc
-     - name: "GCC plugins check-tcg (user)"
-       env:
--        - CONFIG="--disable-system --enable-plugins --enable-debug-tcg --target-list-exclude=sparc64-linux-user,cris-linux-user"
-+        - CONFIG="--disable-system --enable-plugins --enable-debug-tcg --target-list-exclude=sparc64-linux-user,cris-linux-user,ppc64abi32-linux-user"
-         - TEST_BUILD_CMD="make build-tcg"
-         - TEST_CMD="make check-tcg"
-         - CACHE_NAME="${TRAVIS_BRANCH}-linux-gcc-debug-tcg"
+diff --git a/tests/qtest/fuzz/fuzz.c b/tests/qtest/fuzz/fuzz.c
+index 0b66e43409..6bc17ef313 100644
+--- a/tests/qtest/fuzz/fuzz.c
++++ b/tests/qtest/fuzz/fuzz.c
+@@ -199,16 +199,15 @@ int LLVMFuzzerInitialize(int *argc, char ***argv, char ***envp)
+     }
+ 
+     /* Run QEMU's softmmu main with the fuzz-target dependent arguments */
+-    const char *init_cmdline = fuzz_target->get_init_cmdline(fuzz_target);
+-    init_cmdline = g_strdup_printf("%s -qtest /dev/null -qtest-log %s",
+-                                   init_cmdline,
+-                                   getenv("QTEST_LOG") ? "/dev/fd/2"
+-                                                       : "/dev/null");
+-
++    GString *cmd_line = fuzz_target->get_init_cmdline(fuzz_target);
++    g_string_append_printf(cmd_line,
++                           " -qtest /dev/null -qtest-log %s",
++                           getenv("QTEST_LOG") ? "/dev/fd/2" : "/dev/null");
+ 
+     /* Split the runcmd into an argv and argc */
+     wordexp_t result;
+-    wordexp(init_cmdline, &result, 0);
++    wordexp(cmd_line->str, &result, 0);
++    g_string_free(cmd_line, true);
+ 
+     qemu_init(result.we_wordc, result.we_wordv, NULL);
+ 
+diff --git a/tests/qtest/fuzz/fuzz.h b/tests/qtest/fuzz/fuzz.h
+index 72d5710f6c..9ca3d107c5 100644
+--- a/tests/qtest/fuzz/fuzz.h
++++ b/tests/qtest/fuzz/fuzz.h
+@@ -50,10 +50,10 @@ typedef struct FuzzTarget {
+ 
+ 
+     /*
+-     * returns the arg-list that is passed to qemu/softmmu init()
+-     * Cannot be NULL
++     * Returns the arguments that are passed to qemu/softmmu init(). Freed by
++     * the caller.
+      */
+-    const char* (*get_init_cmdline)(struct FuzzTarget *);
++    GString *(*get_init_cmdline)(struct FuzzTarget *);
+ 
+     /*
+      * will run once, prior to running qemu/softmmu init.
+diff --git a/tests/qtest/fuzz/i440fx_fuzz.c b/tests/qtest/fuzz/i440fx_fuzz.c
+index e2f31e56f9..bf966d478b 100644
+--- a/tests/qtest/fuzz/i440fx_fuzz.c
++++ b/tests/qtest/fuzz/i440fx_fuzz.c
+@@ -158,9 +158,9 @@ static void i440fx_fuzz_qos_fork(QTestState *s,
+ 
+ static const char *i440fx_qtest_argv = TARGET_NAME " -machine accel=qtest"
+                                        " -m 0 -display none";
+-static const char *i440fx_argv(FuzzTarget *t)
++static GString *i440fx_argv(FuzzTarget *t)
+ {
+-    return i440fx_qtest_argv;
++    return g_string_new(i440fx_qtest_argv);
+ }
+ 
+ static void fork_init(void)
+diff --git a/tests/qtest/fuzz/qos_fuzz.c b/tests/qtest/fuzz/qos_fuzz.c
+index 0c68f5361f..d52f3ebd83 100644
+--- a/tests/qtest/fuzz/qos_fuzz.c
++++ b/tests/qtest/fuzz/qos_fuzz.c
+@@ -66,7 +66,7 @@ void *qos_allocate_objects(QTestState *qts, QGuestAllocator **p_alloc)
+     return allocate_objects(qts, current_path + 1, p_alloc);
+ }
+ 
+-static const char *qos_build_main_args(void)
++static GString *qos_build_main_args(void)
+ {
+     char **path = fuzz_path_vec;
+     QOSGraphNode *test_node;
+@@ -88,7 +88,7 @@ static const char *qos_build_main_args(void)
+     /* Prepend the arguments that we need */
+     g_string_prepend(cmd_line,
+             TARGET_NAME " -display none -machine accel=qtest -m 64 ");
+-    return cmd_line->str;
++    return cmd_line;
+ }
+ 
+ /*
+@@ -189,7 +189,7 @@ static void walk_path(QOSGraphNode *orig_path, int len)
+     g_free(path_str);
+ }
+ 
+-static const char *qos_get_cmdline(FuzzTarget *t)
++static GString *qos_get_cmdline(FuzzTarget *t)
+ {
+     /*
+      * Set a global variable that we use to identify the qos_path for our
 -- 
-2.20.1
+2.26.2
 
 
