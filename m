@@ -2,89 +2,88 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8F5E822008F
-	for <lists+qemu-devel@lfdr.de>; Wed, 15 Jul 2020 00:25:29 +0200 (CEST)
-Received: from localhost ([::1]:34080 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 15B81220095
+	for <lists+qemu-devel@lfdr.de>; Wed, 15 Jul 2020 00:27:18 +0200 (CEST)
+Received: from localhost ([::1]:42568 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jvTMe-0005Cv-KM
-	for lists+qemu-devel@lfdr.de; Tue, 14 Jul 2020 18:25:28 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:49346)
+	id 1jvTOP-0000Jk-0n
+	for lists+qemu-devel@lfdr.de; Tue, 14 Jul 2020 18:27:17 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:49394)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1jvTJ5-0000Bk-5p
- for qemu-devel@nongnu.org; Tue, 14 Jul 2020 18:21:47 -0400
-Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:27838
- helo=us-smtp-1.mimecast.com)
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1jvTJA-0000EQ-Ka
+ for qemu-devel@nongnu.org; Tue, 14 Jul 2020 18:21:56 -0400
+Received: from us-smtp-2.mimecast.com ([207.211.31.81]:55051
+ helo=us-smtp-delivery-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1jvTJ3-0004VG-41
- for qemu-devel@nongnu.org; Tue, 14 Jul 2020 18:21:46 -0400
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1jvTJ7-0004VZ-5a
+ for qemu-devel@nongnu.org; Tue, 14 Jul 2020 18:21:52 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1594765304;
+ s=mimecast20190719; t=1594765307;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=lFvJAvABHJhn9aUbqkhpwxA2JbVZYnPkXyaT9KSO/8A=;
- b=OUsSq+Id9uj1AfGr+Cz2wqjD3DhH/91gRDpLm4AxMndgGMVwmdZq085QZ0v9BJ31Eu1TNe
- kUHa1RVNSXeqbaT2cIgqjG4p97TMJgivcT5F/zJMw8QYpdPteAofpnCEOkOk21PcdHJsAh
- Zb2J190AyZ2vXDllW7sNsbrvuXla9lw=
-Received: from mail-wm1-f70.google.com (mail-wm1-f70.google.com
- [209.85.128.70]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-120-q_MIO3efN6mOND-FbL76Mw-1; Tue, 14 Jul 2020 18:21:41 -0400
-X-MC-Unique: q_MIO3efN6mOND-FbL76Mw-1
-Received: by mail-wm1-f70.google.com with SMTP id l5so90068wml.7
- for <qemu-devel@nongnu.org>; Tue, 14 Jul 2020 15:21:40 -0700 (PDT)
+ bh=8FhXd9jo3ZykzUIegSI6TSb8wRrSAAOgjzX+n7PAM3E=;
+ b=YXKTSTLdNTip89ad/saQckhVTe7tUqq6Xt0YNSYR3QeUkLH+KTsOxQwb5I0Kyo71fFQypn
+ okxGdwsBgcK1PJMUI/vevpaPzmyXIc4eEvT47I1E95pN8YZ+QcYznOeg/PrO+Yo9WnS51y
+ KAkDpX8wyVIqaqG2kJrUoDB0AVNvaqE=
+Received: from mail-wr1-f71.google.com (mail-wr1-f71.google.com
+ [209.85.221.71]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-213-RryxhGZ0PHyIl952Tn3-gQ-1; Tue, 14 Jul 2020 18:21:45 -0400
+X-MC-Unique: RryxhGZ0PHyIl952Tn3-gQ-1
+Received: by mail-wr1-f71.google.com with SMTP id v3so19812wrq.10
+ for <qemu-devel@nongnu.org>; Tue, 14 Jul 2020 15:21:45 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=lFvJAvABHJhn9aUbqkhpwxA2JbVZYnPkXyaT9KSO/8A=;
- b=aEfrwfyfMaMQUPauGZ5h8ZxtS5xifMXwkSyRC/VZNLSxgARDVa073C1juLImmKTJDo
- fbFHey9i5q36/pQufQz2g+1O+JR4QbFGtgq9QsyQOc3u98q2QgLvJKZcUtmaEoT3ZVFg
- OaTmrnTEluw5Lg/P5nrljOh0Bu31ybV1JMLe7777U849EjN1b1FnfhXOZMtLdrcwScu4
- pwiKxxYDelJwoBulNkB7cRaVzIVzMoz8gepbfEw5L3kcccAsm5oXGevv/ZujjdIgevcE
- a6vAght/cxIHjFfUw+Y2Rumo07NCBqzUL7QFmu5hQpkpI5xo1o5IMFpHj/hTfjS6a/J5
- F7nA==
-X-Gm-Message-State: AOAM5312L/96iZtiiO6bRT1yk1R3V4aCD5Hd5ATABILNlEoUY9cEc/GT
- YOvdh1C1jfVC37i/Qlmr4aIJY137bcL/E0Ul2Z7MijgcY2SAAWNyM45Ot20XZxo9uXML/L6wo4V
- pfm12VRHH5BEBbTQ=
-X-Received: by 2002:a5d:43d2:: with SMTP id v18mr8036550wrr.196.1594765299326; 
- Tue, 14 Jul 2020 15:21:39 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJyf5GQIef7IlQoICvopUEpJloqBEI51Q+7z/cOPUBnJBo96Jsm9gt1x42ZLYOv1EnHqyav7bg==
-X-Received: by 2002:a5d:43d2:: with SMTP id v18mr8036527wrr.196.1594765298999; 
- Tue, 14 Jul 2020 15:21:38 -0700 (PDT)
+ bh=8FhXd9jo3ZykzUIegSI6TSb8wRrSAAOgjzX+n7PAM3E=;
+ b=IPHoVHYi+E6SWhYkYpDQampYrawK+APcck3/Frg+DVvTW2Z7EOw425oyWbKgvppW0o
+ 3PguIkXMhMIN7Y1ePY1SBu5V76z9NgZlfMpTeQX8aTCshS/R1wsquE9ApEJl/ehrmIZB
+ u4k80aUQeM69RL81tl3eyswcEKfBS048dZmiC1EftljnafdrwRDBDQc5PsGiGEDyxOIU
+ 42T7SCijjINCeEEmnmy5P2FUquAEU2MP5WjOLejqBCwG4tKWF9eN6Ze+tKJ8X0K1r7A+
+ ntLOXL8XKvO7S+vwL90UvCGGGc9Ne+N+xEcwxnXtOLsm12sX857m4ziJpDTVz4FFrrHM
+ ryuw==
+X-Gm-Message-State: AOAM5315lHBst/6txZFzgqxUfUEL7pW/QRhnzFQOlrljjX2G561BHxCg
+ qbv1K9drVjRpLDJMlY3l9hDeGXyyX4YSoktKxWPeR0z7ntM+cqV+ZTTy2eb2eJzHt4oJH+TWdPD
+ PqhFWQ0acdcjHwD0=
+X-Received: by 2002:a5d:628b:: with SMTP id k11mr8159969wru.107.1594765304163; 
+ Tue, 14 Jul 2020 15:21:44 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJyzzUFgb07Cm3+x5Qosv7eEcZqNJKwtfLwh3QJmI2BohpotIatfLAm2GmCtHEnR79ejMueHeQ==
+X-Received: by 2002:a5d:628b:: with SMTP id k11mr8159951wru.107.1594765303957; 
+ Tue, 14 Jul 2020 15:21:43 -0700 (PDT)
 Received: from localhost.localdomain
  (138.red-83-57-170.dynamicip.rima-tde.net. [83.57.170.138])
- by smtp.gmail.com with ESMTPSA id z6sm277928wmf.33.2020.07.14.15.21.37
+ by smtp.gmail.com with ESMTPSA id j145sm351404wmj.7.2020.07.14.15.21.42
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 14 Jul 2020 15:21:38 -0700 (PDT)
+ Tue, 14 Jul 2020 15:21:43 -0700 (PDT)
 From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PULL 01/19] scripts/performance: Add dissect.py script
-Date: Wed, 15 Jul 2020 00:21:14 +0200
-Message-Id: <20200714222132.10815-2-philmd@redhat.com>
+Subject: [PULL 02/19] python/machine.py: consolidate _post_shutdown()
+Date: Wed, 15 Jul 2020 00:21:15 +0200
+Message-Id: <20200714222132.10815-3-philmd@redhat.com>
 X-Mailer: git-send-email 2.21.3
 In-Reply-To: <20200714222132.10815-1-philmd@redhat.com>
 References: <20200714222132.10815-1-philmd@redhat.com>
 MIME-Version: 1.0
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=philmd@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=UTF-8;
 	text/plain; charset="utf-8"
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=205.139.110.120; envelope-from=philmd@redhat.com;
- helo=us-smtp-1.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/07/14 01:42:04
+Received-SPF: pass client-ip=207.211.31.81; envelope-from=philmd@redhat.com;
+ helo=us-smtp-delivery-1.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/07/14 12:02:09
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
-X-Spam_score_int: -40
-X-Spam_score: -4.1
-X-Spam_bar: ----
-X-Spam_report: (-4.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1,
+X-Spam_score_int: -30
+X-Spam_score: -3.1
+X-Spam_bar: ---
+X-Spam_report: (-3.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-1, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001, URIBL_BLOCKED=0.001 autolearn=ham autolearn_force=no
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H3=-0.01, RCVD_IN_MSPIKE_WL=-0.01,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ URIBL_BLOCKED=0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -97,217 +96,92 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Eduardo Habkost <ehabkost@redhat.com>, John Snow <jsnow@redhat.com>,
- Ahmed Karaman <ahmedkhaledkaraman@gmail.com>,
- Aleksandar Markovic <aleksandar.qemu.devel@gmail.com>,
- Cleber Rosa <crosa@redhat.com>,
- =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>
+Cc: Ahmed Karaman <ahmedkhaledkaraman@gmail.com>,
+ =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
+ John Snow <jsnow@redhat.com>, Eduardo Habkost <ehabkost@redhat.com>,
+ Cleber Rosa <crosa@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Ahmed Karaman <ahmedkhaledkaraman@gmail.com>
+From: John Snow <jsnow@redhat.com>
 
-Python script that dissects QEMU execution into three main phases:
-code generation, JIT execution and helpers execution.
+Move more cleanup actions into _post_shutdown. As a change, if QEMU
+should so happen to be terminated during a call to wait(), that event
+will now be logged.
 
-Syntax:
-dissect.py [-h] -- <qemu executable> [<qemu executable options>] \
-                 <target executable> [<target executable options>]
+This is not likely to occur during normative use.
 
-[-h] - Print the script arguments help message.
-
-Example of usage:
-dissect.py -- qemu-arm coulomb_double-arm
-
-Example output:
-Total Instructions:        4,702,865,362
-
-Code Generation:             115,819,309	 2.463%
-JIT Execution:             1,081,980,528	23.007%
-Helpers:                   3,505,065,525	74.530%
-
-Signed-off-by: Ahmed Karaman <ahmedkhaledkaraman@gmail.com>
-Reviewed-by: Aleksandar Markovic <aleksandar.qemu.devel@gmail.com>
+Signed-off-by: John Snow <jsnow@redhat.com>
+Reviewed-by: Cleber Rosa <crosa@redhat.com>
+Tested-by: Cleber Rosa <crosa@redhat.com>
 Reviewed-by: Philippe Mathieu-Daudé <philmd@redhat.com>
-Message-Id: <20200709052055.2650-2-ahmedkhaledkaraman@gmail.com>
+Message-Id: <20200710050649.32434-2-jsnow@redhat.com>
 Signed-off-by: Philippe Mathieu-Daudé <philmd@redhat.com>
 ---
- scripts/performance/dissect.py | 166 +++++++++++++++++++++++++++++++++
- 1 file changed, 166 insertions(+)
- create mode 100755 scripts/performance/dissect.py
+ python/qemu/machine.py | 27 +++++++++++++--------------
+ 1 file changed, 13 insertions(+), 14 deletions(-)
 
-diff --git a/scripts/performance/dissect.py b/scripts/performance/dissect.py
-new file mode 100755
-index 0000000000..bf24f50922
---- /dev/null
-+++ b/scripts/performance/dissect.py
-@@ -0,0 +1,166 @@
-+#!/usr/bin/env python3
+diff --git a/python/qemu/machine.py b/python/qemu/machine.py
+index c25f0b42cf..ca1f2114e6 100644
+--- a/python/qemu/machine.py
++++ b/python/qemu/machine.py
+@@ -294,6 +294,8 @@ def _post_launch(self):
+             self._qmp.accept()
+ 
+     def _post_shutdown(self):
++        self._load_io_log()
 +
-+#  Print the percentage of instructions spent in each phase of QEMU
-+#  execution.
-+#
-+#  Syntax:
-+#  dissect.py [-h] -- <qemu executable> [<qemu executable options>] \
-+#                   <target executable> [<target executable options>]
-+#
-+#  [-h] - Print the script arguments help message.
-+#
-+#  Example of usage:
-+#  dissect.py -- qemu-arm coulomb_double-arm
-+#
-+#  This file is a part of the project "TCG Continuous Benchmarking".
-+#
-+#  Copyright (C) 2020  Ahmed Karaman <ahmedkhaledkaraman@gmail.com>
-+#  Copyright (C) 2020  Aleksandar Markovic <aleksandar.qemu.devel@gmail.com>
-+#
-+#  This program is free software: you can redistribute it and/or modify
-+#  it under the terms of the GNU General Public License as published by
-+#  the Free Software Foundation, either version 2 of the License, or
-+#  (at your option) any later version.
-+#
-+#  This program is distributed in the hope that it will be useful,
-+#  but WITHOUT ANY WARRANTY; without even the implied warranty of
-+#  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
-+#  GNU General Public License for more details.
-+#
-+#  You should have received a copy of the GNU General Public License
-+#  along with this program. If not, see <https://www.gnu.org/licenses/>.
+         if self._qemu_log_file is not None:
+             self._qemu_log_file.close()
+             self._qemu_log_file = None
+@@ -307,6 +309,17 @@ def _post_shutdown(self):
+         while len(self._remove_files) > 0:
+             self._remove_if_exists(self._remove_files.pop())
+ 
++        exitcode = self.exitcode()
++        if exitcode is not None and exitcode < 0:
++            msg = 'qemu received signal %i; command: "%s"'
++            if self._qemu_full_args:
++                command = ' '.join(self._qemu_full_args)
++            else:
++                command = ''
++            LOG.warning(msg, -int(exitcode), command)
 +
-+import argparse
-+import os
-+import subprocess
-+import sys
-+import tempfile
++        self._launched = False
 +
-+
-+def get_JIT_line(callgrind_data):
-+    """
-+    Search for the first instance of the JIT call in
-+    the callgrind_annotate output when ran using --tree=caller
-+    This is equivalent to the self number of instructions of JIT.
-+
-+    Parameters:
-+    callgrind_data (list): callgrind_annotate output
-+
-+    Returns:
-+    (int): Line number
-+    """
-+    line = -1
-+    for i in range(len(callgrind_data)):
-+        if callgrind_data[i].strip('\n') and \
-+                callgrind_data[i].split()[-1] == "[???]":
-+            line = i
-+            break
-+    if line == -1:
-+        sys.exit("Couldn't locate the JIT call ... Exiting.")
-+    return line
-+
-+
-+def main():
-+    # Parse the command line arguments
-+    parser = argparse.ArgumentParser(
-+        usage='dissect.py [-h] -- '
-+        '<qemu executable> [<qemu executable options>] '
-+        '<target executable> [<target executable options>]')
-+
-+    parser.add_argument('command', type=str, nargs='+', help=argparse.SUPPRESS)
-+
-+    args = parser.parse_args()
-+
-+    # Extract the needed variables from the args
-+    command = args.command
-+
-+    # Insure that valgrind is installed
-+    check_valgrind = subprocess.run(
-+        ["which", "valgrind"], stdout=subprocess.DEVNULL)
-+    if check_valgrind.returncode:
-+        sys.exit("Please install valgrind before running the script.")
-+
-+    # Save all intermediate files in a temporary directory
-+    with tempfile.TemporaryDirectory() as tmpdirname:
-+        # callgrind output file path
-+        data_path = os.path.join(tmpdirname, "callgrind.data")
-+        # callgrind_annotate output file path
-+        annotate_out_path = os.path.join(tmpdirname, "callgrind_annotate.out")
-+
-+        # Run callgrind
-+        callgrind = subprocess.run((["valgrind",
-+                                     "--tool=callgrind",
-+                                     "--callgrind-out-file=" + data_path]
-+                                    + command),
-+                                   stdout=subprocess.DEVNULL,
-+                                   stderr=subprocess.PIPE)
-+        if callgrind.returncode:
-+            sys.exit(callgrind.stderr.decode("utf-8"))
-+
-+        # Save callgrind_annotate output
-+        with open(annotate_out_path, "w") as output:
-+            callgrind_annotate = subprocess.run(
-+                ["callgrind_annotate", data_path, "--tree=caller"],
-+                stdout=output,
-+                stderr=subprocess.PIPE)
-+            if callgrind_annotate.returncode:
-+                sys.exit(callgrind_annotate.stderr.decode("utf-8"))
-+
-+        # Read the callgrind_annotate output to callgrind_data[]
-+        callgrind_data = []
-+        with open(annotate_out_path, 'r') as data:
-+            callgrind_data = data.readlines()
-+
-+        # Line number with the total number of instructions
-+        total_instructions_line_number = 20
-+        # Get the total number of instructions
-+        total_instructions_line_data = \
-+            callgrind_data[total_instructions_line_number]
-+        total_instructions = total_instructions_line_data.split()[0]
-+        total_instructions = int(total_instructions.replace(',', ''))
-+
-+        # Line number with the JIT self number of instructions
-+        JIT_self_instructions_line_number = get_JIT_line(callgrind_data)
-+        # Get the JIT self number of instructions
-+        JIT_self_instructions_line_data = \
-+            callgrind_data[JIT_self_instructions_line_number]
-+        JIT_self_instructions = JIT_self_instructions_line_data.split()[0]
-+        JIT_self_instructions = int(JIT_self_instructions.replace(',', ''))
-+
-+        # Line number with the JIT self + inclusive number of instructions
-+        # It's the line above the first JIT call when running with --tree=caller
-+        JIT_total_instructions_line_number = JIT_self_instructions_line_number-1
-+        # Get the JIT self + inclusive number of instructions
-+        JIT_total_instructions_line_data = \
-+            callgrind_data[JIT_total_instructions_line_number]
-+        JIT_total_instructions = JIT_total_instructions_line_data.split()[0]
-+        JIT_total_instructions = int(JIT_total_instructions.replace(',', ''))
-+
-+        # Calculate number of instructions in helpers and code generation
-+        helpers_instructions = JIT_total_instructions-JIT_self_instructions
-+        code_generation_instructions = total_instructions-JIT_total_instructions
-+
-+        # Print results (Insert commas in large numbers)
-+        # Print total number of instructions
-+        print('{:<20}{:>20}\n'.
-+              format("Total Instructions:",
-+                     format(total_instructions, ',')))
-+        # Print code generation instructions and percentage
-+        print('{:<20}{:>20}\t{:>6.3f}%'.
-+              format("Code Generation:",
-+                     format(code_generation_instructions, ","),
-+                     (code_generation_instructions / total_instructions) * 100))
-+        # Print JIT instructions and percentage
-+        print('{:<20}{:>20}\t{:>6.3f}%'.
-+              format("JIT Execution:",
-+                     format(JIT_self_instructions, ","),
-+                     (JIT_self_instructions / total_instructions) * 100))
-+        # Print helpers instructions and percentage
-+        print('{:<20}{:>20}\t{:>6.3f}%'.
-+              format("Helpers:",
-+                     format(helpers_instructions, ","),
-+                     (helpers_instructions/total_instructions)*100))
-+
-+
-+if __name__ == "__main__":
-+    main()
+     def launch(self):
+         """
+         Launch the VM and make sure we cleanup and expose the
+@@ -355,7 +368,6 @@ def wait(self):
+         self._popen.wait()
+         if self._qmp:
+             self._qmp.close()
+-        self._load_io_log()
+         self._post_shutdown()
+ 
+     def shutdown(self, has_quit=False, hard=False):
+@@ -382,21 +394,8 @@ def shutdown(self, has_quit=False, hard=False):
+                     self._popen.kill()
+             self._popen.wait()
+ 
+-        self._load_io_log()
+         self._post_shutdown()
+ 
+-        exitcode = self.exitcode()
+-        if exitcode is not None and exitcode < 0 and \
+-                not (exitcode == -9 and hard):
+-            msg = 'qemu received signal %i: %s'
+-            if self._qemu_full_args:
+-                command = ' '.join(self._qemu_full_args)
+-            else:
+-                command = ''
+-            LOG.warning(msg, -int(exitcode), command)
+-
+-        self._launched = False
+-
+     def kill(self):
+         self.shutdown(hard=True)
+ 
 -- 
 2.21.3
 
