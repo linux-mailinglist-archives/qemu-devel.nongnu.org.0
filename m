@@ -2,114 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id ED4B421F744
-	for <lists+qemu-devel@lfdr.de>; Tue, 14 Jul 2020 18:26:06 +0200 (CEST)
-Received: from localhost ([::1]:51462 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 700EE21F74D
+	for <lists+qemu-devel@lfdr.de>; Tue, 14 Jul 2020 18:28:23 +0200 (CEST)
+Received: from localhost ([::1]:58454 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jvNkr-0005nk-Vu
-	for lists+qemu-devel@lfdr.de; Tue, 14 Jul 2020 12:26:06 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:60358)
+	id 1jvNn4-0000aw-HL
+	for lists+qemu-devel@lfdr.de; Tue, 14 Jul 2020 12:28:22 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:37202)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1jvNih-0001rV-6c
- for qemu-devel@nongnu.org; Tue, 14 Jul 2020 12:23:51 -0400
-Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:32444
- helo=us-smtp-1.mimecast.com)
+ (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
+ id 1jvNlt-0008GW-QP
+ for qemu-devel@nongnu.org; Tue, 14 Jul 2020 12:27:09 -0400
+Received: from us-smtp-2.mimecast.com ([207.211.31.81]:21045
+ helo=us-smtp-delivery-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1jvNif-0002dk-IO
- for qemu-devel@nongnu.org; Tue, 14 Jul 2020 12:23:50 -0400
+ (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
+ id 1jvNlr-0003oU-Sl
+ for qemu-devel@nongnu.org; Tue, 14 Jul 2020 12:27:09 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1594743828;
+ s=mimecast20190719; t=1594744027;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
- bh=k5F/8Qp0O/rBEdrMGc9Q7dj9pBKOK3lqQIRexTAkmn8=;
- b=iILhLyQYtd0NVbkm4T0hDamQKwYP7ZSg7cItLQdjppqAHTHRrw7ivCIfRcKs1W6ZeWYLZJ
- s2WdKGjo53u1IMG+AGpWHR2kpEBsxECmMCMC+xnMTCp5lQxf+Si/383Hcat3NNw5C8sBx3
- cFCiq3pHEtxfj0R5AlrsdvuA7qw/dms=
-Received: from mail-wm1-f72.google.com (mail-wm1-f72.google.com
- [209.85.128.72]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-501-zpJkezsPP9uGL-1wnqQigA-1; Tue, 14 Jul 2020 12:23:46 -0400
-X-MC-Unique: zpJkezsPP9uGL-1wnqQigA-1
-Received: by mail-wm1-f72.google.com with SMTP id g187so4687200wme.0
- for <qemu-devel@nongnu.org>; Tue, 14 Jul 2020 09:23:46 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:autocrypt
- :message-id:date:user-agent:mime-version:in-reply-to
- :content-language:content-transfer-encoding;
- bh=k5F/8Qp0O/rBEdrMGc9Q7dj9pBKOK3lqQIRexTAkmn8=;
- b=smG4g5H/OWnPwQQN6qMVlnNqwfpLWohvJdkfGkhnSiE5qOfjA9C04deF2IkiwdfgbS
- rdaEzZBIvHymMRvLJ1RAz22DCVveOPDjEVVTzbbAgWkBexI0G56KxexrjGRiBht7Zk2o
- +bvwT9QNSkqoE7V/ZA8MuYaPkEtQdPYAorRV8NMQCaacYjwoC0Pckanj9hL/MqfAPznQ
- YjPNxFJVmphdQAJxwzBKlgOSURC4o/cREjClCu4pVnSApbiSbxaFBFGXhvpvPaZy1j4I
- uE4wqntRBC8uilbwht+I3Jc69EW6ml9/ELKDM5UYL+z+HC+95uyiRYht4ExcTtLyeFqv
- V9xg==
-X-Gm-Message-State: AOAM531Qdlh5knC+UNSGB90APe0rtSyE+9XpuPNI/PWIODgBMRD6a/vV
- d8uNNyx/LCsRTEla5tZx6JqTWZ3yRxDtpdzea5FfsHBXRokRfuvkZjsCWRm489t8nilv6MzOR94
- gi41QkehdYGxAhKA=
-X-Received: by 2002:a5d:6a90:: with SMTP id s16mr6708227wru.8.1594743825569;
- Tue, 14 Jul 2020 09:23:45 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJzAYS7V4ohQ5sXyKMDHDtKSS0nH5jsj7xKA8ikHOma+cL8yb6FUH+vZpoktZsvxyClqr4i+Vw==
-X-Received: by 2002:a5d:6a90:: with SMTP id s16mr6708210wru.8.1594743825404;
- Tue, 14 Jul 2020 09:23:45 -0700 (PDT)
-Received: from [192.168.1.37] (138.red-83-57-170.dynamicip.rima-tde.net.
- [83.57.170.138])
- by smtp.gmail.com with ESMTPSA id a84sm5004513wmh.47.2020.07.14.09.23.44
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 14 Jul 2020 09:23:44 -0700 (PDT)
-Subject: Re: [PATCH for-5.1 4/5] qom: Document object_get_canonical_path()
- returns malloced string
-To: Markus Armbruster <armbru@redhat.com>, qemu-devel@nongnu.org
-References: <20200714160202.3121879-1-armbru@redhat.com>
- <20200714160202.3121879-5-armbru@redhat.com>
-From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
-Autocrypt: addr=philmd@redhat.com; keydata=
- mQINBDXML8YBEADXCtUkDBKQvNsQA7sDpw6YLE/1tKHwm24A1au9Hfy/OFmkpzo+MD+dYc+7
- bvnqWAeGweq2SDq8zbzFZ1gJBd6+e5v1a/UrTxvwBk51yEkadrpRbi+r2bDpTJwXc/uEtYAB
- GvsTZMtiQVA4kRID1KCdgLa3zztPLCj5H1VZhqZsiGvXa/nMIlhvacRXdbgllPPJ72cLUkXf
- z1Zu4AkEKpccZaJspmLWGSzGu6UTZ7UfVeR2Hcc2KI9oZB1qthmZ1+PZyGZ/Dy+z+zklC0xl
- XIpQPmnfy9+/1hj1LzJ+pe3HzEodtlVA+rdttSvA6nmHKIt8Ul6b/h1DFTmUT1lN1WbAGxmg
- CH1O26cz5nTrzdjoqC/b8PpZiT0kO5MKKgiu5S4PRIxW2+RA4H9nq7nztNZ1Y39bDpzwE5Sp
- bDHzd5owmLxMLZAINtCtQuRbSOcMjZlg4zohA9TQP9krGIk+qTR+H4CV22sWldSkVtsoTaA2
- qNeSJhfHQY0TyQvFbqRsSNIe2gTDzzEQ8itsmdHHE/yzhcCVvlUzXhAT6pIN0OT+cdsTTfif
- MIcDboys92auTuJ7U+4jWF1+WUaJ8gDL69ThAsu7mGDBbm80P3vvUZ4fQM14NkxOnuGRrJxO
- qjWNJ2ZUxgyHAh5TCxMLKWZoL5hpnvx3dF3Ti9HW2dsUUWICSQARAQABtDJQaGlsaXBwZSBN
- YXRoaWV1LURhdWTDqSAoUGhpbCkgPHBoaWxtZEByZWRoYXQuY29tPokCVQQTAQgAPwIbDwYL
- CQgHAwIGFQgCCQoLBBYCAwECHgECF4AWIQSJweePYB7obIZ0lcuio/1u3q3A3gUCXsfWwAUJ
- KtymWgAKCRCio/1u3q3A3ircD/9Vjh3aFNJ3uF3hddeoFg1H038wZr/xi8/rX27M1Vj2j9VH
- 0B8Olp4KUQw/hyO6kUxqkoojmzRpmzvlpZ0cUiZJo2bQIWnvScyHxFCv33kHe+YEIqoJlaQc
- JfKYlbCoubz+02E2A6bFD9+BvCY0LBbEj5POwyKGiDMjHKCGuzSuDRbCn0Mz4kCa7nFMF5Jv
- piC+JemRdiBd6102ThqgIsyGEBXuf1sy0QIVyXgaqr9O2b/0VoXpQId7yY7OJuYYxs7kQoXI
- 6WzSMpmuXGkmfxOgbc/L6YbzB0JOriX0iRClxu4dEUg8Bs2pNnr6huY2Ft+qb41RzCJvvMyu
- gS32LfN0bTZ6Qm2A8ayMtUQgnwZDSO23OKgQWZVglGliY3ezHZ6lVwC24Vjkmq/2yBSLakZE
- 6DZUjZzCW1nvtRK05ebyK6tofRsx8xB8pL/kcBb9nCuh70aLR+5cmE41X4O+MVJbwfP5s/RW
- 9BFSL3qgXuXso/3XuWTQjJJGgKhB6xXjMmb1J4q/h5IuVV4juv1Fem9sfmyrh+Wi5V1IzKI7
- RPJ3KVb937eBgSENk53P0gUorwzUcO+ASEo3Z1cBKkJSPigDbeEjVfXQMzNt0oDRzpQqH2vp
- apo2jHnidWt8BsckuWZpxcZ9+/9obQ55DyVQHGiTN39hkETy3Emdnz1JVHTU0Q==
-Message-ID: <eedb53db-d5b4-852f-5aee-215d282e06c8@redhat.com>
-Date: Tue, 14 Jul 2020 18:23:43 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.5.0
+ content-transfer-encoding:content-transfer-encoding;
+ bh=D01p+tWmBT4PZHPuHyTyUvbeoiIa/o+Z403q1mmhPSQ=;
+ b=Z2QuocY2w9TMTwLn78SAELvHk3u07j1up8hrt9Tux2SKsUuplZaXC3E1XIEIjNL49I+46w
+ 8K0MIDrEfk0IjM94E5MtNp+a+Xr/ChsiGgJ+Vc9vUsQPM01+vsvhYlxXZpeh+SGuRdtLri
+ F/9TYIcL6AgasfvKjfSOpcURx7yveZk=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-287-LhEWiLGsNMWxWzJ78BA6vA-1; Tue, 14 Jul 2020 12:27:05 -0400
+X-MC-Unique: LhEWiLGsNMWxWzJ78BA6vA-1
+Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
+ [10.5.11.12])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 1671380040A;
+ Tue, 14 Jul 2020 16:27:04 +0000 (UTC)
+Received: from domokun.gsslab.fab.redhat.com (unknown [10.33.8.110])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 5474660BEC;
+ Tue, 14 Jul 2020 16:27:00 +0000 (UTC)
+From: =?UTF-8?q?Daniel=20P=2E=20Berrang=C3=A9?= <berrange@redhat.com>
+To: qemu-devel@nongnu.org
+Subject: [PATCH for 5.1] docs: fix trace docs build with sphinx 3.1.1
+Date: Tue, 14 Jul 2020 17:26:59 +0100
+Message-Id: <20200714162659.1017432-1-berrange@redhat.com>
 MIME-Version: 1.0
-In-Reply-To: <20200714160202.3121879-5-armbru@redhat.com>
-Content-Language: en-US
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=207.211.31.120; envelope-from=philmd@redhat.com;
- helo=us-smtp-1.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/07/13 21:44:01
+Received-SPF: pass client-ip=207.211.31.81; envelope-from=berrange@redhat.com;
+ helo=us-smtp-delivery-1.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/07/14 12:02:09
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
-X-Spam_score_int: -40
-X-Spam_score: -4.1
-X-Spam_bar: ----
-X-Spam_report: (-4.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1,
+X-Spam_score_int: -30
+X-Spam_score: -3.1
+X-Spam_bar: ---
+X-Spam_report: (-3.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-1, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H3=-0.01, RCVD_IN_MSPIKE_WL=-0.01,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ URIBL_BLOCKED=0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -122,34 +77,64 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: lvivier@redhat.com, thuth@redhat.com, berrange@redhat.com,
- ehabkost@redhat.com, pbonzini@redhat.com, alex.bennee@linaro.org
+Cc: Peter Maydell <peter.maydell@linaro.org>,
+ =?UTF-8?q?Daniel=20P=2E=20Berrang=C3=A9?= <berrange@redhat.com>,
+ Stefan Hajnoczi <stefanha@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 7/14/20 6:02 PM, Markus Armbruster wrote:
-> Signed-off-by: Markus Armbruster <armbru@redhat.com>
-> ---
->  include/qom/object.h | 5 +++--
->  1 file changed, 3 insertions(+), 2 deletions(-)
-> 
-> diff --git a/include/qom/object.h b/include/qom/object.h
-> index 55d925d2c8..0f3a60617c 100644
-> --- a/include/qom/object.h
-> +++ b/include/qom/object.h
-> @@ -1467,8 +1467,9 @@ const char *object_get_canonical_path_component(const Object *obj);
->  /**
->   * object_get_canonical_path:
->   *
-> - * Returns: The canonical path for a object.  This is the path within the
-> - * composition tree starting from the root.
-> + * Returns: The canonical path for a object, newly allocated.  This is
-> + * the path within the composition tree starting from the root.  Use
-> + * g_free() to free it.
->   */
->  char *object_get_canonical_path(const Object *obj);
->  
+In Fedora 33 rawhide, we now have sphinx 3.1.1, as opposed
+to previous 2.2.2. This new version generates a warning on
+the source:
 
-Reviewed-by: Philippe Mathieu-Daudé <philmd@redhat.com>
+docs/qemu-option-trace.rst.inc:4:Malformed option description
+  '[enable=]PATTERN', should look like "opt", "-opt args",
+  "--opt args", "/opt args" or "+opt args"
+
+This turns into an error when QEMU passes -W to sphinx-build
+
+Strangely the previous 2.2.2 code has the exact same logic
+for checking the syntax, but it is not being triggered. While
+it is only complaining about the first option, I changed all
+the options to give consistency.
+
+Signed-off-by: Daniel P. Berrangé <berrange@redhat.com>
+---
+ docs/qemu-option-trace.rst.inc | 6 +++---
+ 1 file changed, 3 insertions(+), 3 deletions(-)
+
+diff --git a/docs/qemu-option-trace.rst.inc b/docs/qemu-option-trace.rst.inc
+index 7e09773a9c..e79b0b43fc 100644
+--- a/docs/qemu-option-trace.rst.inc
++++ b/docs/qemu-option-trace.rst.inc
+@@ -1,7 +1,7 @@
+ 
+ Specify tracing options.
+ 
+-.. option:: [enable=]PATTERN
++.. option:: -trace [enable=]PATTERN
+ 
+   Immediately enable events matching *PATTERN*
+   (either event name or a globbing pattern).  This option is only
+@@ -11,7 +11,7 @@ Specify tracing options.
+ 
+   Use :option:`-trace help` to print a list of names of trace points.
+ 
+-.. option:: events=FILE
++.. option:: -trace events=FILE
+ 
+   Immediately enable events listed in *FILE*.
+   The file must contain one event name (as listed in the ``trace-events-all``
+@@ -19,7 +19,7 @@ Specify tracing options.
+   available if QEMU has been compiled with the ``simple``, ``log`` or
+   ``ftrace`` tracing backend.
+ 
+-.. option:: file=FILE
++.. option:: -trace file=FILE
+ 
+   Log output traces to *FILE*.
+   This option is only available if QEMU has been compiled with
+-- 
+2.24.1
 
 
