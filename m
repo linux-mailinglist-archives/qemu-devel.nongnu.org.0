@@ -2,71 +2,61 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0085B21F813
-	for <lists+qemu-devel@lfdr.de>; Tue, 14 Jul 2020 19:22:06 +0200 (CEST)
-Received: from localhost ([::1]:50458 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8055021F82B
+	for <lists+qemu-devel@lfdr.de>; Tue, 14 Jul 2020 19:28:35 +0200 (CEST)
+Received: from localhost ([::1]:58730 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jvOd3-0004Em-12
-	for lists+qemu-devel@lfdr.de; Tue, 14 Jul 2020 13:22:05 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:60734)
+	id 1jvOjK-0008G4-Jn
+	for lists+qemu-devel@lfdr.de; Tue, 14 Jul 2020 13:28:34 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:36998)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <liq3ea@gmail.com>) id 1jvObj-0003Mc-PP
- for qemu-devel@nongnu.org; Tue, 14 Jul 2020 13:20:43 -0400
-Received: from mail-ot1-x341.google.com ([2607:f8b0:4864:20::341]:46810)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <liq3ea@gmail.com>) id 1jvObh-0004pU-UB
- for qemu-devel@nongnu.org; Tue, 14 Jul 2020 13:20:43 -0400
-Received: by mail-ot1-x341.google.com with SMTP id n24so13571838otr.13
- for <qemu-devel@nongnu.org>; Tue, 14 Jul 2020 10:20:41 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc:content-transfer-encoding;
- bh=SdZ7o21xnC4TWgHCFMI6ThoHqDivVyL0MG3Det3EjY4=;
- b=VmFT4Nxy1ISmxIi557Pv3hdjiSy6UMcnP5YbkR29xO/slxmiwbM+hitbsDeNaqZnmq
- hZCibJJeGPF54xWVlXjUeEHixLzSEqwhBRWBxE0lmjQOmqVPi0oyiXGoS/sN0ZrLfdk1
- tFrzY7Y+V7FMHKrvUtD4TR+Sucmn+Ttn6NS+0FwUK/ypnfkdv0vLvo+iiMhmkVvBwSQt
- ERTSISoYMwEBUAZPoLPINshhpXHpWQ8kzyV+irpgXSKagrmlx7wknW5Hydlws29EXAEe
- M13nZxryfgk0s+gi4ulkJgxLihZw24FLnO8ba4uro+DJE1zd1ppxQ5bmXgMzv/5xYHDs
- 7gKw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc:content-transfer-encoding;
- bh=SdZ7o21xnC4TWgHCFMI6ThoHqDivVyL0MG3Det3EjY4=;
- b=AbLmT6V7aP5ZvipLfyqJNhXaWXgJ+OGV+9kFZx40y8+qfkLPQ0S+67CWBrOugFpC0+
- PxDlLU6LRUEjjm+euINAFtNzY3j+0YAxlA6H2xaFSHaAXSd3h6vGBMz2fvLtyqezSx77
- xdwC5O8TwDJi+1TYYpHG/sch5eX7U3Uf+oOnQx2YASXov9AnHBbx6nZEYuRzv2zHbicX
- V5gxXV4ccU5q9seJdfhXpMOuGelm2YevjtvsB9S5zYc1gyZz1IcAAcbRk3XPJ9BAb11f
- MBTXOg8Vlr7HH21q6Q/nyygM1qjMsGJLmzipYIQMAgg987fPxQfL5qhbwPTEBb6Lc1G9
- g0KA==
-X-Gm-Message-State: AOAM531B6aLY9OoTu9CbVzIVMBJ1bm4ReoMCDTHVYEaio6GFidSZUtMD
- qZBHW61BQ2Z0MRg5qwX/SC8KkRtK2G0xupy5eBs=
-X-Google-Smtp-Source: ABdhPJwoyIdMd5t13QX6+RUIZ4pspl8xV2dyABK922jOuEEXERFGv7Ji1CvkhY3kH/c865o4wmlD9DpLGtp32Wsln+I=
-X-Received: by 2002:a9d:787:: with SMTP id 7mr4934216oto.333.1594747240550;
- Tue, 14 Jul 2020 10:20:40 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <no-reply@patchew.org>)
+ id 1jvOhO-0006pW-Jl
+ for qemu-devel@nongnu.org; Tue, 14 Jul 2020 13:26:34 -0400
+Resent-Date: Tue, 14 Jul 2020 13:26:34 -0400
+Resent-Message-Id: <E1jvOhO-0006pW-Jl@lists.gnu.org>
+Received: from sender4-of-o57.zoho.com ([136.143.188.57]:21753)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <no-reply@patchew.org>)
+ id 1jvOhM-0006LE-3k
+ for qemu-devel@nongnu.org; Tue, 14 Jul 2020 13:26:34 -0400
+ARC-Seal: i=1; a=rsa-sha256; t=1594747522; cv=none; 
+ d=zohomail.com; s=zohoarc; 
+ b=AQyyjcuE6I1HJ2Jg7yYV53V/0qp1JPJzMl2Z2UU2YmcvjaB/UFmp1WiuD+DO3sif9qT+9ZRIpIIP5GvtSaKucgAXJyQ0YqHmusrzeRZKMGgkjViy42i8/QA5JcZ6UFuT8ubATubp0+JmpzQB2K8qoV1Z3ZMWcSLCDR6muvYvlYs=
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.com;
+ s=zohoarc; t=1594747522;
+ h=Content-Type:Content-Transfer-Encoding:Cc:Date:From:In-Reply-To:MIME-Version:Message-ID:Reply-To:Subject:To;
+ bh=LoZ+0dQBcIBXtbVbQNx9IrZKYdMrcg/HxMG+mlpMGrA=; 
+ b=ZSTw63724Xn+1ww7JpdGQFWaHm0uFO0unCWmjdgCTh5KfaOYmXEdIPULBDJbPXEYW9skt8JERIy2dduTLvpECcrFgJnU7bp6CIsJxWYvtJ2EcntH3X1TV/6b515Dzy5/D8eRB6jqq9fndm4K3tJ8+uyPhwShcObcjrjYHyZZGVw=
+ARC-Authentication-Results: i=1; mx.zohomail.com;
+ spf=pass  smtp.mailfrom=no-reply@patchew.org;
+ dmarc=pass header.from=<no-reply@patchew.org>
+ header.from=<no-reply@patchew.org>
+Received: from [172.17.0.3] (23.253.156.214 [23.253.156.214]) by
+ mx.zohomail.com with SMTPS id 1594747520014195.42650242856485;
+ Tue, 14 Jul 2020 10:25:20 -0700 (PDT)
+Subject: Re: [PATCH 0/2] Add list_fn_callees.py and list_helpers.py scripts
+Message-ID: <159474751838.11884.932010559811209900@07a7f0d89f7d>
+In-Reply-To: <20200714164156.9353-1-ahmedkhaledkaraman@gmail.com>
 MIME-Version: 1.0
-References: <20200714151152.54760-1-liq3ea@163.com>
- <39e02324-eaa1-1aea-96d2-fba48483b6c0@redhat.com>
-In-Reply-To: <39e02324-eaa1-1aea-96d2-fba48483b6c0@redhat.com>
-From: Li Qiang <liq3ea@gmail.com>
-Date: Wed, 15 Jul 2020 01:20:04 +0800
-Message-ID: <CAKXe6S+6L72ZfEQg55Uaj+h_-e90s060=USEsyos5m+8g9eRZA@mail.gmail.com>
-Subject: Re: [PATCH] hmp: fix memory leak in qom_composition_compare()
-To: =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <philmd@redhat.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=2607:f8b0:4864:20::341;
- envelope-from=liq3ea@gmail.com; helo=mail-ot1-x341.google.com
-X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
- That's all we know.
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
+Resent-From: 
+From: no-reply@patchew.org
+To: ahmedkhaledkaraman@gmail.com
+Date: Tue, 14 Jul 2020 10:25:20 -0700 (PDT)
+X-ZohoMailClient: External
+Received-SPF: pass client-ip=136.143.188.57; envelope-from=no-reply@patchew.org;
+ helo=sender4-of-o57.zoho.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/07/14 12:50:01
+X-ACL-Warn: Detected OS   = Linux 3.11 and newer [fuzzy]
+X-Spam_score_int: -18
+X-Spam_score: -1.9
+X-Spam_bar: -
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_NONE=-0.0001,
+ RCVD_IN_MSPIKE_H3=-0.01, RCVD_IN_MSPIKE_WL=-0.01, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001, URIBL_BLOCKED=0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -79,83 +69,44 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: "Daniel P. Berrange" <berrange@redhat.com>,
- Eduardo Habkost <ehabkost@redhat.com>, Li Qiang <liq3ea@163.com>,
- Qemu Developers <qemu-devel@nongnu.org>, Markus Armbruster <armbru@redhat.com>,
- Paolo Bonzini <pbonzini@redhat.com>
+Reply-To: qemu-devel@nongnu.org
+Cc: ldoktor@redhat.com, ehabkost@redhat.com, philmd@redhat.com,
+ qemu-devel@nongnu.org, ahmedkhaledkaraman@gmail.com,
+ aleksandar.qemu.devel@gmail.com, crosa@redhat.com, alex.bennee@linaro.org,
+ rth@twiddle.net
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com> =E4=BA=8E2020=E5=B9=B47=E6=
-=9C=8815=E6=97=A5=E5=91=A8=E4=B8=89 =E4=B8=8A=E5=8D=8812:47=E5=86=99=E9=81=
-=93=EF=BC=9A
->
-> On 7/14/20 5:11 PM, Li Qiang wrote:
-> > While 'make chekc', I got following error:
-> >
-> > root@ubuntu:~/qemu# ./tests/qtest/device-introspect-test
-> > /x86_64/device/introspect/list: OK
-> > /x86_64/device/introspect/list-fields: OK
-> > /x86_64/device/introspect/none:
-> > =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
-> > =3D=3D53741=3D=3DERROR: LeakSanitizer: detected memory leaks
-> >
-> > Direct leak of 212 byte(s) in 20 object(s) allocated from:
-> >     #0 0x7f3b6319cb40 in __interceptor_malloc (/usr/lib/x86_64-linux-gn=
-u/libasan.so.4+0xdeb40)
-> >     #1 0x7f3b62805ab8 in g_malloc (/usr/lib/x86_64-linux-gnu/libglib-2.=
-0.so.0+0x51ab8)
-> >
-> > SUMMARY: AddressSanitizer: 212 byte(s) leaked in 20 allocation(s).
-> > tests/qtest/libqtest.c:166: kill_qemu() tried to terminate QEMU process=
- but encountered exit status 1 (expected 0)
-> > Aborted (core dumped)
-> >
-> > This is because the 'info qom-tree' path has a memory leak and qemu
-> > exit 1. The leak is in 'qom_composition_compare'. This patch fixes this=
-.
-> >
-> > Fixes: e8c9e65816f("qom: Make "info qom-tree" show children sorted")
-> > Signed-off-by: Li Qiang <liq3ea@163.com>
-> > ---
-> >  qom/qom-hmp-cmds.c | 6 ++++--
-> >  1 file changed, 4 insertions(+), 2 deletions(-)
-> >
-> > diff --git a/qom/qom-hmp-cmds.c b/qom/qom-hmp-cmds.c
-> > index 9ed8bb1c9f..3547d5ba4e 100644
-> > --- a/qom/qom-hmp-cmds.c
-> > +++ b/qom/qom-hmp-cmds.c
-> > @@ -96,8 +96,10 @@ static void print_qom_composition(Monitor *mon, Obje=
-ct *obj, int indent);
-> >
-> >  static int qom_composition_compare(const void *a, const void *b, void =
-*ignore)
-> >  {
-> > -    return g_strcmp0(a ? object_get_canonical_path_component(a) : NULL=
-,
-> > -                     b ? object_get_canonical_path_component(b) : NULL=
-);
-> > +    g_autofree char *t1 =3D a ? object_get_canonical_path_component(a)=
- : NULL;
-> > +    g_autofree char *t2 =3D b ? object_get_canonical_path_component(b)=
- : NULL;
-> > +
-> > +    return g_strcmp0(t1, t2);
-> >  }
-> >
-> >  static int insert_qom_composition_child(Object *obj, void *opaque)
-> >
->
-> Ah you won the race with Markus:
-> https://lists.gnu.org/archive/html/qemu-devel/2020-07/msg04740.html
->
-
-Oh interesting, I just want to  begin to write the e1000e tx bh
-discussed with Jason.
-But found there are some memleak issue.
-
-> Reviewed-by: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
->
+UGF0Y2hldyBVUkw6IGh0dHBzOi8vcGF0Y2hldy5vcmcvUUVNVS8yMDIwMDcxNDE2NDE1Ni45MzUz
+LTEtYWhtZWRraGFsZWRrYXJhbWFuQGdtYWlsLmNvbS8KCgoKSGksCgpUaGlzIHNlcmllcyBzZWVt
+cyB0byBoYXZlIHNvbWUgY29kaW5nIHN0eWxlIHByb2JsZW1zLiBTZWUgb3V0cHV0IGJlbG93IGZv
+cgptb3JlIGluZm9ybWF0aW9uOgoKVHlwZTogc2VyaWVzCk1lc3NhZ2UtaWQ6IDIwMjAwNzE0MTY0
+MTU2LjkzNTMtMS1haG1lZGtoYWxlZGthcmFtYW5AZ21haWwuY29tClN1YmplY3Q6IFtQQVRDSCAw
+LzJdIEFkZCBsaXN0X2ZuX2NhbGxlZXMucHkgYW5kIGxpc3RfaGVscGVycy5weSBzY3JpcHRzCgo9
+PT0gVEVTVCBTQ1JJUFQgQkVHSU4gPT09CiMhL2Jpbi9iYXNoCmdpdCByZXYtcGFyc2UgYmFzZSA+
+IC9kZXYvbnVsbCB8fCBleGl0IDAKZ2l0IGNvbmZpZyAtLWxvY2FsIGRpZmYucmVuYW1lbGltaXQg
+MApnaXQgY29uZmlnIC0tbG9jYWwgZGlmZi5yZW5hbWVzIFRydWUKZ2l0IGNvbmZpZyAtLWxvY2Fs
+IGRpZmYuYWxnb3JpdGhtIGhpc3RvZ3JhbQouL3NjcmlwdHMvY2hlY2twYXRjaC5wbCAtLW1haWxi
+YWNrIGJhc2UuLgo9PT0gVEVTVCBTQ1JJUFQgRU5EID09PQoKRnJvbSBodHRwczovL2dpdGh1Yi5j
+b20vcGF0Y2hldy1wcm9qZWN0L3FlbXUKICAgMWE1M2RmZS4uYmVmZjQ3YSAgbWFzdGVyICAgICAt
+PiBtYXN0ZXIKU3dpdGNoZWQgdG8gYSBuZXcgYnJhbmNoICd0ZXN0JwpmOTY0NGU4IHNjcmlwdHMv
+cGVyZm9ybWFuY2U6IEFkZCBsaXN0X2hlbHBlcnMucHkgc2NyaXB0CmFhNjZlYjAgc2NyaXB0cy9w
+ZXJmb3JtYW5jZTogQWRkIGxpc3RfZm5fY2FsbGVlcy5weSBzY3JpcHQKCj09PSBPVVRQVVQgQkVH
+SU4gPT09CjEvMiBDaGVja2luZyBjb21taXQgYWE2NmViMDVkYmZiIChzY3JpcHRzL3BlcmZvcm1h
+bmNlOiBBZGQgbGlzdF9mbl9jYWxsZWVzLnB5IHNjcmlwdCkKRVJST1I6IE1pc3NpbmcgU2lnbmVk
+LW9mZi1ieTogbGluZShzKQoKdG90YWw6IDEgZXJyb3JzLCAwIHdhcm5pbmdzLCAyMjggbGluZXMg
+Y2hlY2tlZAoKUGF0Y2ggMS8yIGhhcyBzdHlsZSBwcm9ibGVtcywgcGxlYXNlIHJldmlldy4gIElm
+IGFueSBvZiB0aGVzZSBlcnJvcnMKYXJlIGZhbHNlIHBvc2l0aXZlcyByZXBvcnQgdGhlbSB0byB0
+aGUgbWFpbnRhaW5lciwgc2VlCkNIRUNLUEFUQ0ggaW4gTUFJTlRBSU5FUlMuCgoyLzIgQ2hlY2tp
+bmcgY29tbWl0IGY5NjQ0ZTgzNjU4ZiAoc2NyaXB0cy9wZXJmb3JtYW5jZTogQWRkIGxpc3RfaGVs
+cGVycy5weSBzY3JpcHQpCkVSUk9SOiBNaXNzaW5nIFNpZ25lZC1vZmYtYnk6IGxpbmUocykKCnRv
+dGFsOiAxIGVycm9ycywgMCB3YXJuaW5ncywgMjA3IGxpbmVzIGNoZWNrZWQKClBhdGNoIDIvMiBo
+YXMgc3R5bGUgcHJvYmxlbXMsIHBsZWFzZSByZXZpZXcuICBJZiBhbnkgb2YgdGhlc2UgZXJyb3Jz
+CmFyZSBmYWxzZSBwb3NpdGl2ZXMgcmVwb3J0IHRoZW0gdG8gdGhlIG1haW50YWluZXIsIHNlZQpD
+SEVDS1BBVENIIGluIE1BSU5UQUlORVJTLgoKPT09IE9VVFBVVCBFTkQgPT09CgpUZXN0IGNvbW1h
+bmQgZXhpdGVkIHdpdGggY29kZTogMQoKClRoZSBmdWxsIGxvZyBpcyBhdmFpbGFibGUgYXQKaHR0
+cDovL3BhdGNoZXcub3JnL2xvZ3MvMjAyMDA3MTQxNjQxNTYuOTM1My0xLWFobWVka2hhbGVka2Fy
+YW1hbkBnbWFpbC5jb20vdGVzdGluZy5jaGVja3BhdGNoLz90eXBlPW1lc3NhZ2UuCi0tLQpFbWFp
+bCBnZW5lcmF0ZWQgYXV0b21hdGljYWxseSBieSBQYXRjaGV3IFtodHRwczovL3BhdGNoZXcub3Jn
+L10uClBsZWFzZSBzZW5kIHlvdXIgZmVlZGJhY2sgdG8gcGF0Y2hldy1kZXZlbEByZWRoYXQuY29t
 
