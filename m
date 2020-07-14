@@ -2,71 +2,72 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 77F3C21F30A
-	for <lists+qemu-devel@lfdr.de>; Tue, 14 Jul 2020 15:53:09 +0200 (CEST)
-Received: from localhost ([::1]:32962 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1AC9821F30C
+	for <lists+qemu-devel@lfdr.de>; Tue, 14 Jul 2020 15:54:24 +0200 (CEST)
+Received: from localhost ([::1]:36662 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jvLMq-0007WY-7q
-	for lists+qemu-devel@lfdr.de; Tue, 14 Jul 2020 09:53:08 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:33570)
+	id 1jvLO3-0000aP-6u
+	for lists+qemu-devel@lfdr.de; Tue, 14 Jul 2020 09:54:23 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:33674)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1jvLLw-0006pF-Pa
- for qemu-devel@nongnu.org; Tue, 14 Jul 2020 09:52:12 -0400
-Received: from mail-pf1-x444.google.com ([2607:f8b0:4864:20::444]:37131)
+ id 1jvLMK-0007GP-Ba
+ for qemu-devel@nongnu.org; Tue, 14 Jul 2020 09:52:36 -0400
+Received: from mail-pj1-x1044.google.com ([2607:f8b0:4864:20::1044]:50469)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1jvLLv-0002oo-AS
- for qemu-devel@nongnu.org; Tue, 14 Jul 2020 09:52:12 -0400
-Received: by mail-pf1-x444.google.com with SMTP id s26so7614414pfm.4
- for <qemu-devel@nongnu.org>; Tue, 14 Jul 2020 06:52:10 -0700 (PDT)
+ id 1jvLMI-0002qm-R4
+ for qemu-devel@nongnu.org; Tue, 14 Jul 2020 09:52:36 -0400
+Received: by mail-pj1-x1044.google.com with SMTP id k71so1625305pje.0
+ for <qemu-devel@nongnu.org>; Tue, 14 Jul 2020 06:52:34 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=subject:to:cc:references:from:message-id:date:user-agent
  :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=Dup6cGDRjnMJ1zxD6x6v7WGZ32JA0lrSdl91CJyE0KY=;
- b=ehxEtIlcCCLxl7TevgbK10ofLL5/ObUEXZgFS5N0v3r8DGh+xIc1sbA2vgFW/oPQQo
- fMTkmItIAhw6dcb6mGCXW8sCKeJQoEiCV2x7afnhWC8HDlLl6fmHn1Y+l+VtEwu8xqCF
- TnuNJS7q11Dr6ct8mwkulE9bXjoZlDlET8A0qjgd/7jYRwNjpgTUIatBdrIgMXx/6uaz
- +i8iIp8b5Ak5Kmh019n1Pffv7Ngi4B536bBNKvuSxGoqWGIa7izGlNGyNB2VbPsVV9KR
- qPHxIiq7k06yvHHIyi+UnKorNq1nqf1VXL+hSxy5X4K9lXebYEtMvG9KTAOS/UYRAUm4
- tYXA==
+ bh=uzqNYC8yCkHcda0vOTzyDPkKP1e9rdP24oC6OtiqKzY=;
+ b=JHVbyzFmz8y8B1odjR1lKwZkFzmrXI5fOKdBvOn7F6OIEgS24zlpZeUHVctTr/nF+M
+ JU2fVtTc67jId45aqHcv+3J83jk9b7yxA28cPxEpJ3qHWnUZ/aSeM4ii335khmydexGq
+ X9tpDQ1z+ZgsEC2m9QHPNMhgxSrvdTgecMcO/AaCfNVUIQCK8Dm2p6p+1L4S7KjkLHUt
+ OwmYLllpjZzI/Y59p5Eewx27gmqZbf9PBZfuRFYhsmiN+eNUNlBYAA0DhC56AOPMphgt
+ pU4abe6F36iT8A0QN18yCLt4VKRfF0IFcIlEXvf+k1b6G1OdEyueuSdDBcebNy1YReBb
+ VBXg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:subject:to:cc:references:from:message-id:date
  :user-agent:mime-version:in-reply-to:content-language
  :content-transfer-encoding;
- bh=Dup6cGDRjnMJ1zxD6x6v7WGZ32JA0lrSdl91CJyE0KY=;
- b=jFsiJUoxE3NuDUg4fnoOPDHtTlTZZQyObHD3GjrnwaMk9hZQ1wEOvubXfrtKlD3I66
- CzT3mx3asCDp+66ipAwPOejl0bQcq4+I+D4o8LuWlw0Rvj97UHVIJ5fUcVqOP3C8Kt5J
- HSG8aye2xO+z7a+ygEcUqG2H4BuyDeu2nctH8OLFkvb3sc/vigJFu6vb7AU/mEZaTGk4
- uF+gcDNatGl4n645WUkVMkonDozlu1xjX+tzJsjT9m7J/6ne9D5S5JRnuqFXVoNaLED2
- VwrGg6FXeTxLkjyFW6nfj0wxtgkLULh6LtTGEqaBw19dFe9GSBdnserz18sLSR/7CMoK
- tKvw==
-X-Gm-Message-State: AOAM533S1BCTDhSF1tA3impVcKo3lsRQM0hbR4Axv671+sVitOve34+p
- Cg/VgxFQxPDW+kNuGeO5n6KwKjTfT3I=
-X-Google-Smtp-Source: ABdhPJyWjbq11fBwsO1YVSJftH8LIbAzbwInZl7D2IjhY+Y8AEYkAmiFhULtlBbCGZESzW9Afix/vA==
-X-Received: by 2002:a63:7313:: with SMTP id o19mr3570265pgc.307.1594734729836; 
- Tue, 14 Jul 2020 06:52:09 -0700 (PDT)
+ bh=uzqNYC8yCkHcda0vOTzyDPkKP1e9rdP24oC6OtiqKzY=;
+ b=diqlLrwv+f4zed+sdjxqmCrFTJq6tyh2V3iLrnMG7Ogq+Qp5axUPsSzBAvPsQgJx9c
+ vTvsPheg8OiPlh5N8Z7aYmePCKY6NsZM9NMxY/MFEGxeBWXj9wEIquDK8KhTkVqUZjTt
+ 72UNXjT4v8sGrbc5vUVi819+Xba6qI5eAf6uJ3Jeypu6qqK8e3/pV6uCdWeuQmVf/E1x
+ Vrrv1RwkJes/tSVssugQuQpoY2FIi1Xq9seVWJnwzFuMyzdcMoFK3FTdytiPSS/YAfBG
+ MpWQHs3xQ1h7hLbkeBnOgTN8g9Zg0hdPCcnH0g9miOxYyyqMVCal3J2d9vtNcKGutlha
+ 7gKQ==
+X-Gm-Message-State: AOAM530MlFjZrNCOgyxVIXR8gpU/XwhMOdu8xNAAjc5C13XT+4uLi/iv
+ ZDIdxI6LY/HnJqeEY+sbgzjLgA==
+X-Google-Smtp-Source: ABdhPJy7B2MR8wMvT+7P/8kezXbajLaZeSDTcqi8Uw8VeN8T3hoZxQ8zgu1zuyFOuNWp/G1XGfsWGg==
+X-Received: by 2002:a17:90a:c915:: with SMTP id
+ v21mr4792889pjt.48.1594734753627; 
+ Tue, 14 Jul 2020 06:52:33 -0700 (PDT)
 Received: from [192.168.1.11] (174-21-143-238.tukw.qwest.net. [174.21.143.238])
- by smtp.gmail.com with ESMTPSA id e20sm17698596pfl.212.2020.07.14.06.52.08
+ by smtp.gmail.com with ESMTPSA id m17sm18156236pfo.182.2020.07.14.06.52.32
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 14 Jul 2020 06:52:09 -0700 (PDT)
-Subject: Re: [PATCH] hw: Remove superfluous breaks
+ Tue, 14 Jul 2020 06:52:32 -0700 (PDT)
+Subject: Re: [PATCH] target/sh4: Remove superfluous breaks
 To: Yi Wang <wang.yi59@zte.com.cn>, qemu-devel@nongnu.org
-References: <1594600444-23272-1-git-send-email-wang.yi59@zte.com.cn>
+References: <1594600452-23383-1-git-send-email-wang.yi59@zte.com.cn>
 From: Richard Henderson <richard.henderson@linaro.org>
-Message-ID: <275c6780-78a3-3bc0-3be1-6dc2f1305088@linaro.org>
-Date: Tue, 14 Jul 2020 06:52:07 -0700
+Message-ID: <3718ca42-47aa-3383-d34a-490195dc003c@linaro.org>
+Date: Tue, 14 Jul 2020 06:52:30 -0700
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
  Thunderbird/68.10.0
 MIME-Version: 1.0
-In-Reply-To: <1594600444-23272-1-git-send-email-wang.yi59@zte.com.cn>
+In-Reply-To: <1594600452-23383-1-git-send-email-wang.yi59@zte.com.cn>
 Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
 Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::444;
- envelope-from=richard.henderson@linaro.org; helo=mail-pf1-x444.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::1044;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pj1-x1044.google.com
 X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
  That's all we know.
 X-Spam_score_int: -20
@@ -100,16 +101,8 @@ On 7/12/20 5:34 PM, Yi Wang wrote:
 > 
 > Signed-off-by: Liao Pingfang <liao.pingfang@zte.com.cn>
 > ---
->  hw/block/pflash_cfi01.c     |  1 -
->  hw/display/cirrus_vga.c     |  1 -
->  hw/display/qxl-logger.c     |  2 --
->  hw/gpio/max7310.c           |  3 ---
->  hw/i386/intel_iommu.c       |  1 -
->  hw/input/pxa2xx_keypad.c    | 10 ----------
->  hw/intc/armv7m_nvic.c       |  1 -
->  hw/net/lan9118.c            |  2 --
->  hw/usb/ccid-card-emulated.c |  1 -
->  9 files changed, 22 deletions(-)
+>  target/sh4/translate.c | 3 ---
+>  1 file changed, 3 deletions(-)
 
 Cc: qemu-trivial
 Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
