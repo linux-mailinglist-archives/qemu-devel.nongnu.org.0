@@ -2,72 +2,84 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E975521ED17
-	for <lists+qemu-devel@lfdr.de>; Tue, 14 Jul 2020 11:43:56 +0200 (CEST)
-Received: from localhost ([::1]:39186 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7A9C221ED24
+	for <lists+qemu-devel@lfdr.de>; Tue, 14 Jul 2020 11:47:07 +0200 (CEST)
+Received: from localhost ([::1]:41836 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jvHTg-00061k-1X
-	for lists+qemu-devel@lfdr.de; Tue, 14 Jul 2020 05:43:56 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:55448)
+	id 1jvHWk-0007KQ-Jk
+	for lists+qemu-devel@lfdr.de; Tue, 14 Jul 2020 05:47:06 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:56302)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1jvHSw-0005aa-Ha
- for qemu-devel@nongnu.org; Tue, 14 Jul 2020 05:43:10 -0400
-Received: from mail-oi1-x243.google.com ([2607:f8b0:4864:20::243]:33362)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1jvHSu-0002dm-7I
- for qemu-devel@nongnu.org; Tue, 14 Jul 2020 05:43:10 -0400
-Received: by mail-oi1-x243.google.com with SMTP id k22so13481194oib.0
- for <qemu-devel@nongnu.org>; Tue, 14 Jul 2020 02:43:07 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc:content-transfer-encoding;
- bh=MPP3Twfnjxjg1wcbUz4GcIYPL+iJLz2plDE3PHe+6rE=;
- b=VzFzE+b3OAY/izHmVve7RJrjqnxD+kLzit+cPf2QPwxuToKgquMV2PDMGg08IRTgjp
- c07+xoWwKPqPUw7ElwW4q6rxYRNK77XU84mrxouLl8EIpU0vSng3MKDxj+9bdEpq+UKr
- 7gUvigWSqHug77/e3EI9YMlPLi42PWJSGNZeda84nITqHI6vUDuA+pfxHYUtmd7p9YDr
- ZT5JpjRD1UYt37XIomDzBEmg951QBX2m7wJ8tKPmtFykKgRtm+iX2i98Y5z0JVpCl2bY
- w71DHgvQ9/gicL31FqlcHFKinYHyYSCBTIT5X8cSQ3FJnAQD0O+PawijE0k3F+bABVUC
- ml4w==
+ (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1jvHVz-0006rT-NR
+ for qemu-devel@nongnu.org; Tue, 14 Jul 2020 05:46:19 -0400
+Received: from us-smtp-1.mimecast.com ([205.139.110.61]:58171
+ helo=us-smtp-delivery-1.mimecast.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1jvHVx-00032r-LY
+ for qemu-devel@nongnu.org; Tue, 14 Jul 2020 05:46:19 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1594719976;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=x3uMT+vyI58q59fGQgAWJwSZazD5TzwgzDG1KUvJg+c=;
+ b=iueBlpO8/8E/72F9fO57h9CPi0asM7pkHBGK8NG2cxy4/GvWT7KOHGSoZjCk8gsog08SaO
+ uoK/h3cNvshOR4AzdrnPEUWWELYHYJX9DcNxk2U24HpjKRWGgOYLsAG+MyIHcXr6TPKFPv
+ BD+1B1xPXqeqQfflnAsAIUxb+ZCmOtk=
+Received: from mail-wr1-f69.google.com (mail-wr1-f69.google.com
+ [209.85.221.69]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-36-hizY7nnYNi61W36VdmJauQ-1; Tue, 14 Jul 2020 05:46:12 -0400
+X-MC-Unique: hizY7nnYNi61W36VdmJauQ-1
+Received: by mail-wr1-f69.google.com with SMTP id y16so20897748wrr.20
+ for <qemu-devel@nongnu.org>; Tue, 14 Jul 2020 02:46:12 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc:content-transfer-encoding;
- bh=MPP3Twfnjxjg1wcbUz4GcIYPL+iJLz2plDE3PHe+6rE=;
- b=YITcv4pfbRCdu1OQC/DqjaYfGPjCt2GlN4Fu6nKUzb1TQPK1t16V6poen4GUeV9ic2
- kN2dIWHWpm+tA9P/UsWA9B6X1zs15/1PfyHoIRn3PEPHbnZ8T7hJagzTgzj/F6ssRtdH
- twU75zLpYhva5aLO/xc0i2wS382LjuwvHPHskhcN0DzuqOUkO0MrbmQwc0BK0++u7nvG
- /2T5f92/xweSw4HP6/xvWcbgwYGtghpyYiL4XIPSdj/uSdxji1cWQk2Hi2zoNLfDMQVb
- 8Miun6777mUSvQmVqMEAA4kbEB8E6GyEe+UKWrf0DzWUGy/iFxAa2iFXrh9NKNeTtBiJ
- TjDw==
-X-Gm-Message-State: AOAM532kjTPqWxNZ3GQx9mAGGYndOKZ+VwnuCJtTLw/QndJ8viEqFUE6
- otnkNgmvniKqQyzr/05jU28s0GOEey8grIWcn5s7Uw==
-X-Google-Smtp-Source: ABdhPJz2tv9K/qHDnO3Cs+SCtvUZga8SnTi1L9xAwdwkBSQZI1HIvrdsjSQF4D2bLix3p+D4heHCYg/Rn6LbHTeDA0k=
-X-Received: by 2002:aca:54c9:: with SMTP id i192mr2906492oib.163.1594719786823; 
- Tue, 14 Jul 2020 02:43:06 -0700 (PDT)
-MIME-Version: 1.0
-References: <20200714083631.888605-1-ppandit@redhat.com>
- <20200714083631.888605-2-ppandit@redhat.com>
-In-Reply-To: <20200714083631.888605-2-ppandit@redhat.com>
-From: Peter Maydell <peter.maydell@linaro.org>
-Date: Tue, 14 Jul 2020 10:42:55 +0100
-Message-ID: <CAFEAcA9QWLmi1fGuPW93GXFKV2KCwNs6Xp3U9MU2r4wtendzhg@mail.gmail.com>
-Subject: Re: [PATCH 1/1] MAINTAINERS: introduce cve or security quotient field
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+ :mime-version:content-disposition:in-reply-to;
+ bh=x3uMT+vyI58q59fGQgAWJwSZazD5TzwgzDG1KUvJg+c=;
+ b=TQXaFwFBx2YqN/FWbmqFS6YZqp7fgxsJOSWHN/4qmJ1yQ6sNQx9cNNLSn6Shnw2cLz
+ q/7nJvVL/XylxnVZJcMdECZz/IdKhM04vqHfmDNp15k8RjDAiQT5o4XFt3uJgVstaNjR
+ hcqbpDOgmNDCQnGqpBV48cUNNTRoNmzZ44Gv8HrglaQgqHkpkNo9GeL36owo0GTbWqMY
+ +rMdIvmj0QOekOUFmIcKlRPu28r9GqLUmZ3DKP6fMsOlIkM/11m7aqMbCHamGLEAx4qW
+ ntq2h9C0fqAH+5y/fX2w3FtzhNrz+waBtzL+1+QmmBA3au/pziUZmJYy3RZ98S5yd3D6
+ 7qsQ==
+X-Gm-Message-State: AOAM530NnonJhQgArvTf4NCnvOf4jv/0k4fYK5hgFfbE4bzJSwVIrZBn
+ ahNxcFDhIS/zULYTMhNdLyLPo3hHbiPyTb7SJGpTcL1VP4e0UYuIqO4bUwXHeRMOKJSSnRoXYNn
+ mscb+YmF/txIQuSs=
+X-Received: by 2002:a1c:7416:: with SMTP id p22mr3436204wmc.32.1594719971404; 
+ Tue, 14 Jul 2020 02:46:11 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJx1FTz1TGp6WeemjGdpyAy/UMengeRO/qbBGk/z1HQrtdvwNCHLhUDTK62tMz4uwjQAcPzS2Q==
+X-Received: by 2002:a1c:7416:: with SMTP id p22mr3436170wmc.32.1594719971117; 
+ Tue, 14 Jul 2020 02:46:11 -0700 (PDT)
+Received: from redhat.com (bzq-79-180-10-140.red.bezeqint.net. [79.180.10.140])
+ by smtp.gmail.com with ESMTPSA id b10sm3355872wmj.30.2020.07.14.02.46.08
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Tue, 14 Jul 2020 02:46:10 -0700 (PDT)
+Date: Tue, 14 Jul 2020 05:46:06 -0400
+From: "Michael S. Tsirkin" <mst@redhat.com>
 To: P J P <ppandit@redhat.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=2607:f8b0:4864:20::243;
- envelope-from=peter.maydell@linaro.org; helo=mail-oi1-x243.google.com
-X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
- That's all we know.
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+Subject: Re: [PATCH 0/1] MAINTAINERS: add security quotient field
+Message-ID: <20200714053258-mutt-send-email-mst@kernel.org>
+References: <20200714083631.888605-1-ppandit@redhat.com>
+MIME-Version: 1.0
+In-Reply-To: <20200714083631.888605-1-ppandit@redhat.com>
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=mst@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Received-SPF: pass client-ip=205.139.110.61; envelope-from=mst@redhat.com;
+ helo=us-smtp-delivery-1.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/07/14 03:57:32
+X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
+X-Spam_score_int: -40
+X-Spam_score: -4.1
+X-Spam_bar: ----
+X-Spam_report: (-4.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-1, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -81,91 +93,85 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Kevin Wolf <kwolf@redhat.com>, Stefano Stabellini <sstabellini@kernel.org>,
+Cc: Kevin Wolf <kwolf@redhat.com>, Peter Maydell <peter.maydell@linaro.org>,
+ Stefano Stabellini <sstabellini@kernel.org>,
  "Daniel P . Berrange" <berrange@redhat.com>,
  Prasad J Pandit <pjp@fedoraproject.org>,
- "Michael S . Tsirkin" <mst@redhat.com>,
  Christian Schoenebeck <qemu_oss@crudebyte.com>,
- Michael Roth <mdroth@linux.vnet.ibm.com>,
- QEMU Developers <qemu-devel@nongnu.org>, Greg Kurz <groug@kaod.org>,
+ QEMU Developers <qemu-devel@nongnu.org>,
+ Michael Roth <mdroth@linux.vnet.ibm.com>, Greg Kurz <groug@kaod.org>,
  Stefan Hajnoczi <stefanha@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Tue, 14 Jul 2020 at 09:40, P J P <ppandit@redhat.com> wrote:
->
+On Tue, Jul 14, 2020 at 02:06:30PM +0530, P J P wrote:
 > From: Prasad J Pandit <pjp@fedoraproject.org>
->
+> 
+> Hello,
+> 
 > QEMU supports numerous virtualisation and emulation use cases.
-> It also offers many features to support guest's function(s).
->
+> It offers many features to support guest's function(s).
+> 
 > All of these use cases and features are not always security relevant.
 > Because some maybe used in trusted environments only. Some may still
 > be in experimental stage. While other could be very old and not
 > used or maintained actively.
->
+> 
+> Recently we received multiple security issue reports against VVFAT
+> and VirtFS host directory sharing system. After discussing with the
+> respective maintainers, it turned out that
+> 
+> * VVFAT -> https://bugs.launchpad.net/qemu/+bug/1883083
+>   VVFAT is quite old and is available for testing purposes only.
+>   Ie. It is not suitable for production environments.
+> 
+> * VirtFS/9pfs -> https://wiki.qemu.org/Documentation/9psetup
+>   VirtFS implementation though better, it is most commonly used for
+>   automated testing under sand-boxed server environments, ie. no
+>   malicious party there. It is also not mature enough for cloud services.
+>   It is supported on 'Odd Fixes' basis atm.
+> 
+> So these turned out to be issues which can be fixed as regular bugs.
+> 
 > For security bug analysis we generally consider use cases wherein
 > QEMU is used in conjunction with the KVM hypervisor, which enables
 > guest to use hardware processor's virtualisation features.
->
-> The CVE (or Security or Trust) Quotient field tries to capture this
-> sensitivity pertaining to a feature or section of the code.
->
+> 
+> This patch introduces the CVE (or Security or Trust) Quotient field
+> in the MAINTAINERS file. It tries to capture the security sensitivity
+> pertaining to a feature or section of the QEMU's code base.
+> 
 > It indicates whether a potential issue should be treated as a security
 > one OR it could be fixed as a regular non-security bug.
+> 
+>     If Quotient == High, triage issues as potential security ones.
+>     if Quotient == Low,  triage issues as regular non-security bugs.
+> 
+> I have tagged each section in the MAINTAINERS file as High or Low on best
+> guess basis. I request respective maintainers to kindly review it please.
+> 
+> If you have any inputs/suggestions, I'd really appreciate them.
+> 
+> Thank you.
 
-How does this interact with the way we already document our
-level of security support in docs/system/security.rst ?
+So this attempts to specify a security aspect of specific files.
+Which works for some use-cases (e.g. devices) but not others
+(common utility functions).
 
-> +       C: CVE/Security/Trust Quotient
-> +          H:High - Feature (or code) is meant to be safe and used by unt=
-rusted
-> +                   guests. So any potential security issue must be proce=
-ssed with
-> +                   due care and be considered as a CVE issue.
-> +          L:Low  - Feature (or code) is not meant to be safe OR is exper=
-imental
-> +                   OR is used in trusted environments only OR is not wel=
-l
-> +                   maintained. So any potential security issue can be pr=
-ocessed
-> +                   and fixed as regular non-security bug. No need for a =
-CVE.
+I'd like to propose add a flag that limits QEMU to a secured subset
+of functionality at runtime instead.
+Then we can just tell security researchers "reproduce this with
+-security=high or it's not a security issue".
 
-The difficulty with this is that MAINTAINERS is not set up
-with a split between "security issues" and "non-security
-issues". For instance this stanza:
 
-> @@ -149,6 +161,7 @@ ARM TCG CPUs
->  M: Peter Maydell <peter.maydell@linaro.org>
->  L: qemu-arm@nongnu.org
->  S: Maintained
-> +C: Low
->  F: target/arm/
->  F: tests/tcg/arm/
->  F: tests/tcg/aarch64/
+> --
+> Prasad J Pandit (1):
+>   MAINTAINERS: introduce cve or security quotient field
+> 
+>  MAINTAINERS | 324 ++++++++++++++++++++++++++++++++++++++++++++++++++++
+>  1 file changed, 324 insertions(+)
+> 
+> --
+> 2.26.2
 
-you have marked "Low", but the files it covers include
-both ones used by TCG (not security-critical) and ones
-used by KVM (security-critical).
-
-Also, MAINTAINERS is not user-facing. If we want to say
-that vvfat or 9pfs are not suitable for use on a security
-boundary and that we do not consider bugs in them to
-be security issues, we should do that in the user-facing
-documentation.
-
-Broadly speaking, it feels like you're trying to come up
-with an automatic way to say "does this patch touch a
-security-relevant part of the code", and I'm not sure
-that that's possible.
-
->  GIT Data Mining Config
->  M: Alex Benn=C3=83=C2=A9e <alex.bennee@linaro.org>
-
-Something in your patch workflow is mangling UTF-8 characters,
-incidentally.
-
-thanks
--- PMM
 
