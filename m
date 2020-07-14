@@ -2,66 +2,67 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4869C21E4AF
-	for <lists+qemu-devel@lfdr.de>; Tue, 14 Jul 2020 02:44:19 +0200 (CEST)
-Received: from localhost ([::1]:40122 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 910C221E4C4
+	for <lists+qemu-devel@lfdr.de>; Tue, 14 Jul 2020 02:48:05 +0200 (CEST)
+Received: from localhost ([::1]:60016 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jv93S-0007ZI-9t
-	for lists+qemu-devel@lfdr.de; Mon, 13 Jul 2020 20:44:18 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:51976)
+	id 1jv976-00077K-KF
+	for lists+qemu-devel@lfdr.de; Mon, 13 Jul 2020 20:48:04 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:52000)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1)
  (envelope-from <prvs=457b4eeb6=alistair.francis@wdc.com>)
- id 1jv91r-0005rb-AK
- for qemu-devel@nongnu.org; Mon, 13 Jul 2020 20:42:39 -0400
-Received: from esa5.hgst.iphmx.com ([216.71.153.144]:30777)
+ id 1jv91s-0005u8-Cu
+ for qemu-devel@nongnu.org; Mon, 13 Jul 2020 20:42:40 -0400
+Received: from esa5.hgst.iphmx.com ([216.71.153.144]:30774)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1)
  (envelope-from <prvs=457b4eeb6=alistair.francis@wdc.com>)
- id 1jv91p-0008Oh-HC
- for qemu-devel@nongnu.org; Mon, 13 Jul 2020 20:42:39 -0400
+ id 1jv91q-0008OU-Ft
+ for qemu-devel@nongnu.org; Mon, 13 Jul 2020 20:42:40 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple;
  d=wdc.com; i=@wdc.com; q=dns/txt; s=dkim.wdc.com;
- t=1594687357; x=1626223357;
+ t=1594687358; x=1626223358;
  h=from:to:cc:subject:date:message-id:in-reply-to:
  references:mime-version:content-transfer-encoding;
- bh=9ZxznTewde8ZUXzQUlIEhOiky01rG5EcL9nfdxqoQTE=;
- b=pM6oHAfkoMzefxvsF4Uulwnd7JnbI0fh7/QJQui6gfzHNsYUSBu2n7nZ
- KGaLfDw+9G9co0FxN4X1NJs7Rphau/s0hoOWSdppWdE3JiDiUKtXlw6WS
- E9+UGDonJIY4RiYWMn2a1SUSJ8YTe8yOZBKvfhZD6AFTxaoG4DAcLsev/
- nj/uKyJZ7G2z6HNmMvsVFGINlvqLaDNW68ED4p9gtzOnPNJJRyUDvvy0i
- bYm86/PS3BSOgSL/HdO+nCMk3qrZQy3ev6NFyKXpo2C/V1BkokOppwZV7
- CN7zx1z/xmS6ihKxSkB5fxH1DYUva3gmnXmKmzOjAYafg3bLNBLSBa094 w==;
-IronPort-SDR: AV1ylQDHH+teoxDPQCt7pAN83XxPAKER7seOKbWJ3VFeTl7yaKeyoH65Frqo1wQCwUoJCg+0/Y
- MLxWVNprYPpxdVIoWLrvgIP5DSthpg2kU3fg0sYIMGzLqzZCotwL2yWWaZEwSb1MaRugYC+HSZ
- qwTzA0gWZ+74C2XssGvN0YpYMpNpGlcNSZsfmRQ8cPhMgqdMe5vb+Ci4HDLLGL6/kPdzHRis7y
- +9HBeNGiaFEFo9+37sbqGzhvMA7x0GlIa2gDCDkFLuiYVYlekizGOzuNzKwgwaygo3iKkLk0dm
- 5tU=
-X-IronPort-AV: E=Sophos;i="5.75,349,1589212800"; d="scan'208";a="142511923"
+ bh=97ZqdomTpIrBJ3DOxVUUUeZfsCeX2/C5sT4cAbz7mdQ=;
+ b=owTSk5m83qgYRFmlLYcevA/WRBodnHfKmJ/X1CqJcUzGWYWEN+bve6Ms
+ /5HkgKkdmpdlnJTtmfmmBTiZEircVdS8JzKlOHsHtopOd3YooH0UMBHWz
+ rD3NyCkSbTYMowkIkvKQfUjSDjdxMn7oOm5Vtlr8JXDviqTJk/NcHrfQ+
+ SFIPm8vqyvYmuQz8+KkSOuxmm/M3Q0M///bm+gIaakadpzaFQ0W+SMVAt
+ KxAOtO5bpRLBnFbK2pz47AyrZlmeENWMtLsJ2j/hf7sDBWnsSMvoAQSP3
+ QNdVQeGCh7oysRrBxINC/zKbZhOVE+eqBS8OltGZQ9ULC+MUccFjs8+t6 A==;
+IronPort-SDR: FUEDUYQAXT1u01y3jZ6YORHiqpuWFzqX4tQ1NyfL184qNL767D4ZDcKg1BX3xdvEEDPS1EiPSb
+ 0bXaZQBo4J5dgGK0HAd+bvL+Sh7vsrsUBPb0+PUMndnwP0LLJsqeVDaXZO7tZKG1CJ4PiqQZ8T
+ kHxTJnLx1TsJQiFiz165NN89smq1uiOyuWTxFc9YLUThutWNoA5SCNWRLCM5LDckLzzZ5ceWo0
+ Jah9O05pkUm0F+FDDeB98oRA2BTuI0WvozEjJGEDv75Ft2LqpMQjdykDxYgHFOFb63o52bO5GW
+ qrM=
+X-IronPort-AV: E=Sophos;i="5.75,349,1589212800"; d="scan'208";a="142511924"
 Received: from uls-op-cesaip01.wdc.com (HELO uls-op-cesaep01.wdc.com)
  ([199.255.45.14])
  by ob1.hgst.iphmx.com with ESMTP; 14 Jul 2020 08:42:29 +0800
-IronPort-SDR: jsK3TOpkKmnKzuYPTYymx9b6WjnwJxfJ7nr57+IlHhDJpx2m1X9ctk3QBvBQ9X7M4Fmd7w5UBO
- aiIQffsVE4ayVz4cqiV1XhTsa/eD2RHtE=
+IronPort-SDR: ysNhwJ9T4BJsIkNHgHlp7pZQmqe12+nZQGp/DkowRIVhKsfSMhkAf99JY7xgm9VO11NRGX6dAW
+ z3G4Fs+21bYnzZOf1tgqstnw1GBn6uz1A=
 Received: from uls-op-cesaip02.wdc.com ([10.248.3.37])
  by uls-op-cesaep01.wdc.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
  13 Jul 2020 17:30:57 -0700
-IronPort-SDR: YyVQ373fxL50qkqMYrr8Erf/jCfVxskWIOzoT9IEf1ipvztNlGMN51YG9k701iXJoxGIJO+oz6
- pQqjeD1EkFxw==
+IronPort-SDR: tRebR0dNJn9+FLVLmQI6ZIqGxr+eKnaBf7JJqZqJ3EIC/xDvDYf9VXfqj7pqM7X76bmNJnp1bn
+ mjdcv+m/e04g==
 WDCIronportException: Internal
 Received: from usa002626.ad.shared (HELO risc6-mainframe.hgst.com)
  ([10.86.57.178])
  by uls-op-cesaip02.wdc.com with ESMTP; 13 Jul 2020 17:42:29 -0700
 From: Alistair Francis <alistair.francis@wdc.com>
 To: qemu-devel@nongnu.org
-Subject: [PULL 06/15] RISC-V: Support 64 bit start address
-Date: Mon, 13 Jul 2020 17:32:45 -0700
-Message-Id: <20200714003254.4044149-7-alistair.francis@wdc.com>
+Subject: [PULL 07/15] hw/riscv: Modify MROM size to end at 0x10000
+Date: Mon, 13 Jul 2020 17:32:46 -0700
+Message-Id: <20200714003254.4044149-8-alistair.francis@wdc.com>
 X-Mailer: git-send-email 2.27.0
 In-Reply-To: <20200714003254.4044149-1-alistair.francis@wdc.com>
 References: <20200714003254.4044149-1-alistair.francis@wdc.com>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 Received-SPF: pass client-ip=216.71.153.144;
  envelope-from=prvs=457b4eeb6=alistair.francis@wdc.com;
@@ -87,84 +88,67 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Atish Patra <atish.patra@wdc.com>, Bin Meng <bin.meng@windriver.com>,
- Alistair Francis <alistair.francis@wdc.com>
+Cc: Bin Meng <bin.meng@windriver.com>,
+ Alistair Francis <alistair.francis@wdc.com>,
+ =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Atish Patra <atish.patra@wdc.com>
+From: Bin Meng <bin.meng@windriver.com>
 
-Even though the start address in ROM code is declared as a 64 bit address
-for RV64, it can't be used as upper bits are set to zero in ROM code.
+At present the size of Mask ROM for sifive_u / spike / virt machines
+is set to 0x11000, which ends at an unusual address. This changes the
+size to 0xf000 so that it ends at 0x10000.
 
-Update the ROM code correctly to reflect the 64bit value.
-
-Signed-off-by: Atish Patra <atish.patra@wdc.com>
-Reviewed-by: Bin Meng <bin.meng@windriver.com>
-Tested-by: Bin Meng <bin.meng@windriver.com>
-Message-Id: <20200701183949.398134-5-atish.patra@wdc.com>
+Signed-off-by: Bin Meng <bin.meng@windriver.com>
+Reviewed-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
+Message-Id: <1594289144-24723-1-git-send-email-bmeng.cn@gmail.com>
 Signed-off-by: Alistair Francis <alistair.francis@wdc.com>
 ---
- hw/riscv/boot.c     | 6 +++++-
- hw/riscv/sifive_u.c | 6 +++++-
- 2 files changed, 10 insertions(+), 2 deletions(-)
+ hw/riscv/sifive_u.c | 2 +-
+ hw/riscv/spike.c    | 2 +-
+ hw/riscv/virt.c     | 2 +-
+ 3 files changed, 3 insertions(+), 3 deletions(-)
 
-diff --git a/hw/riscv/boot.c b/hw/riscv/boot.c
-index feff6e3f4e..4c6c101ff1 100644
---- a/hw/riscv/boot.c
-+++ b/hw/riscv/boot.c
-@@ -226,7 +226,11 @@ void riscv_setup_rom_reset_vec(hwaddr start_addr, hwaddr rom_base,
-                                uint32_t fdt_load_addr, void *fdt)
- {
-     int i;
-+    uint32_t start_addr_hi32 = 0x00000000;
- 
-+    #if defined(TARGET_RISCV64)
-+    start_addr_hi32 = start_addr >> 32;
-+    #endif
-     /* reset vector */
-     uint32_t reset_vec[10] = {
-         0x00000297,                  /* 1:  auipc  t0, %pcrel_hi(fw_dyn) */
-@@ -241,7 +245,7 @@ void riscv_setup_rom_reset_vec(hwaddr start_addr, hwaddr rom_base,
- #endif
-         0x00028067,                  /*     jr     t0 */
-         start_addr,                  /* start: .dword */
--        0x00000000,
-+        start_addr_hi32,
-         fdt_load_addr,               /* fdt_laddr: .dword */
-         0x00000000,
-                                      /* fw_dyn: */
 diff --git a/hw/riscv/sifive_u.c b/hw/riscv/sifive_u.c
-index 46e6ed90ca..6595ab3f87 100644
+index 6595ab3f87..19a976c9a6 100644
 --- a/hw/riscv/sifive_u.c
 +++ b/hw/riscv/sifive_u.c
-@@ -378,6 +378,7 @@ static void sifive_u_machine_init(MachineState *machine)
-     MemoryRegion *main_mem = g_new(MemoryRegion, 1);
-     MemoryRegion *flash0 = g_new(MemoryRegion, 1);
-     target_ulong start_addr = memmap[SIFIVE_U_DRAM].base;
-+    uint32_t start_addr_hi32 = 0x00000000;
-     int i;
-     uint32_t fdt_load_addr;
-     uint64_t kernel_entry;
-@@ -460,6 +461,9 @@ static void sifive_u_machine_init(MachineState *machine)
-     /* Compute the fdt load address in dram */
-     fdt_load_addr = riscv_load_fdt(memmap[SIFIVE_U_DRAM].base,
-                                    machine->ram_size, s->fdt);
-+    #if defined(TARGET_RISCV64)
-+    start_addr_hi32 = start_addr >> 32;
-+    #endif
- 
-     /* reset vector */
-     uint32_t reset_vec[11] = {
-@@ -476,7 +480,7 @@ static void sifive_u_machine_init(MachineState *machine)
- #endif
-         0x00028067,                    /*     jr     t0 */
-         start_addr,                    /* start: .dword */
--        0x00000000,
-+        start_addr_hi32,
-         fdt_load_addr,                 /* fdt_laddr: .dword */
-         0x00000000,
-                                        /* fw_dyn: */
+@@ -70,7 +70,7 @@ static const struct MemmapEntry {
+     hwaddr size;
+ } sifive_u_memmap[] = {
+     [SIFIVE_U_DEBUG] =    {        0x0,      0x100 },
+-    [SIFIVE_U_MROM] =     {     0x1000,    0x11000 },
++    [SIFIVE_U_MROM] =     {     0x1000,     0xf000 },
+     [SIFIVE_U_CLINT] =    {  0x2000000,    0x10000 },
+     [SIFIVE_U_L2LIM] =    {  0x8000000,  0x2000000 },
+     [SIFIVE_U_PLIC] =     {  0xc000000,  0x4000000 },
+diff --git a/hw/riscv/spike.c b/hw/riscv/spike.c
+index b17d96aec7..7b23a297fc 100644
+--- a/hw/riscv/spike.c
++++ b/hw/riscv/spike.c
+@@ -52,7 +52,7 @@ static const struct MemmapEntry {
+     hwaddr base;
+     hwaddr size;
+ } spike_memmap[] = {
+-    [SPIKE_MROM] =     {     0x1000,    0x11000 },
++    [SPIKE_MROM] =     {     0x1000,     0xf000 },
+     [SPIKE_CLINT] =    {  0x2000000,    0x10000 },
+     [SPIKE_DRAM] =     { 0x80000000,        0x0 },
+ };
+diff --git a/hw/riscv/virt.c b/hw/riscv/virt.c
+index bc25ec69f7..55a907bb35 100644
+--- a/hw/riscv/virt.c
++++ b/hw/riscv/virt.c
+@@ -53,7 +53,7 @@ static const struct MemmapEntry {
+     hwaddr size;
+ } virt_memmap[] = {
+     [VIRT_DEBUG] =       {        0x0,         0x100 },
+-    [VIRT_MROM] =        {     0x1000,       0x11000 },
++    [VIRT_MROM] =        {     0x1000,        0xf000 },
+     [VIRT_TEST] =        {   0x100000,        0x1000 },
+     [VIRT_RTC] =         {   0x101000,        0x1000 },
+     [VIRT_CLINT] =       {  0x2000000,       0x10000 },
 -- 
 2.27.0
 
