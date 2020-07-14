@@ -2,93 +2,116 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 526C421EDE4
-	for <lists+qemu-devel@lfdr.de>; Tue, 14 Jul 2020 12:24:53 +0200 (CEST)
-Received: from localhost ([::1]:51578 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D5F0D21EDC4
+	for <lists+qemu-devel@lfdr.de>; Tue, 14 Jul 2020 12:20:16 +0200 (CEST)
+Received: from localhost ([::1]:38804 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jvI7I-0002bK-EO
-	for lists+qemu-devel@lfdr.de; Tue, 14 Jul 2020 06:24:52 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:38670)
+	id 1jvI2p-0005i8-U5
+	for lists+qemu-devel@lfdr.de; Tue, 14 Jul 2020 06:20:15 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:37778)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <imbrenda@linux.ibm.com>)
- id 1jvI5o-0001FZ-9N; Tue, 14 Jul 2020 06:23:20 -0400
-Received: from mx0b-001b2d01.pphosted.com ([148.163.158.5]:1232
- helo=mx0a-001b2d01.pphosted.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <imbrenda@linux.ibm.com>)
- id 1jvI5l-0008JO-K4; Tue, 14 Jul 2020 06:23:19 -0400
-Received: from pps.filterd (m0098414.ppops.net [127.0.0.1])
- by mx0b-001b2d01.pphosted.com (8.16.0.42/8.16.0.42) with SMTP id
- 06EA2OJd040837; Tue, 14 Jul 2020 06:23:15 -0400
-Received: from pps.reinject (localhost [127.0.0.1])
- by mx0b-001b2d01.pphosted.com with ESMTP id 327tna5ta6-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Tue, 14 Jul 2020 06:23:14 -0400
-Received: from m0098414.ppops.net (m0098414.ppops.net [127.0.0.1])
- by pps.reinject (8.16.0.36/8.16.0.36) with SMTP id 06EA2c9c042462;
- Tue, 14 Jul 2020 06:23:14 -0400
-Received: from ppma06ams.nl.ibm.com (66.31.33a9.ip4.static.sl-reverse.com
- [169.51.49.102])
- by mx0b-001b2d01.pphosted.com with ESMTP id 327tna5t87-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Tue, 14 Jul 2020 06:23:14 -0400
-Received: from pps.filterd (ppma06ams.nl.ibm.com [127.0.0.1])
- by ppma06ams.nl.ibm.com (8.16.0.42/8.16.0.42) with SMTP id 06EABHkT004267;
- Tue, 14 Jul 2020 10:17:24 GMT
-Received: from b06cxnps3074.portsmouth.uk.ibm.com
- (d06relay09.portsmouth.uk.ibm.com [9.149.109.194])
- by ppma06ams.nl.ibm.com with ESMTP id 3274pgu4r1-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Tue, 14 Jul 2020 10:17:23 +0000
-Received: from d06av26.portsmouth.uk.ibm.com (d06av26.portsmouth.uk.ibm.com
- [9.149.105.62])
- by b06cxnps3074.portsmouth.uk.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
- 06EAHLUg3997994
- (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Tue, 14 Jul 2020 10:17:21 GMT
-Received: from d06av26.portsmouth.uk.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id 2ADCCAE04D;
- Tue, 14 Jul 2020 10:17:21 +0000 (GMT)
-Received: from d06av26.portsmouth.uk.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id 76DEEAE055;
- Tue, 14 Jul 2020 10:17:20 +0000 (GMT)
-Received: from ibm-vm (unknown [9.145.7.230])
- by d06av26.portsmouth.uk.ibm.com (Postfix) with ESMTP;
- Tue, 14 Jul 2020 10:17:20 +0000 (GMT)
-Date: Tue, 14 Jul 2020 12:17:18 +0200
-From: Claudio Imbrenda <imbrenda@linux.ibm.com>
-To: David Hildenbrand <david@redhat.com>
-Subject: Re: [PATCH RFCv2 3/6] s390x/diag: implement diag260
-Message-ID: <20200714121718.45f9f3ed@ibm-vm>
-In-Reply-To: <20200710151239.39370-4-david@redhat.com>
-References: <20200710151239.39370-1-david@redhat.com>
- <20200710151239.39370-4-david@redhat.com>
-Organization: IBM
-X-Mailer: Claws Mail 3.17.5 (GTK+ 2.24.32; x86_64-redhat-linux-gnu)
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1jvI1m-0004s7-3w
+ for qemu-devel@nongnu.org; Tue, 14 Jul 2020 06:19:10 -0400
+Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:60228
+ helo=us-smtp-1.mimecast.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1jvI1j-0007Vu-Jh
+ for qemu-devel@nongnu.org; Tue, 14 Jul 2020 06:19:09 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1594721946;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
+ bh=fQj098M9Q9Ug7cVC43OrGrwumLip2+Q+GCT4sGB58Ic=;
+ b=LM0Wc16uLEIIUiU0cGCfHpCqTscR+0xkTzMf8YTAEcc+Sq24hyPEt+YOIOC9NMXAT+skpJ
+ xl2iPILkvwyPL4iPzxKtLqg1NHc2uPcXE4CtCKZ+Z8RH/QGcbulXoYDlGS7YaVTxEq3dzo
+ YoAHrObonHbRu+SvgrDEyVg53Ug9Y3I=
+Received: from mail-wm1-f72.google.com (mail-wm1-f72.google.com
+ [209.85.128.72]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-2-KhkSeE8HPs-KTCZd0hYO7g-1; Tue, 14 Jul 2020 06:19:01 -0400
+X-MC-Unique: KhkSeE8HPs-KTCZd0hYO7g-1
+Received: by mail-wm1-f72.google.com with SMTP id t18so3214989wmj.5
+ for <qemu-devel@nongnu.org>; Tue, 14 Jul 2020 03:19:00 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:subject:to:cc:references:from:autocrypt
+ :message-id:date:user-agent:mime-version:in-reply-to
+ :content-language:content-transfer-encoding;
+ bh=fQj098M9Q9Ug7cVC43OrGrwumLip2+Q+GCT4sGB58Ic=;
+ b=qx/sh84dJCQW6PK7ZSg+7CHtcCTSdNq0EndAeGmRHlTGRMmZasOGdK+W4huiKZDCri
+ NVDgd0TIAVEFGF2gK7FHSEswMXODoAS7i1A8CpmesCQo5/jUxa7asnNytVXPB0VGIC1Y
+ 2vSGg3ISKxyWbzirW1qcYJQU7DJbro4U7A2AJjEySE9XFxOYe5H3RmjaTwmY3DqOTiI7
+ NGzEiyopB3qtrIl6L8rD00jMXfrMEKkftRJidl4nqTvL9f7NbAlT0ZGYLlmxKyNLl1Dt
+ c6tFdfMwwT9BOVNrs2aeflXtVM9okswcqyrhs67x9uvZy4heyxGaI3gP0NBxbwmEBQcA
+ BqRQ==
+X-Gm-Message-State: AOAM533ad12D2O79G4W1eRkFXfhRoCz5nAqY7e4I9LSrD9+XdIpXmMuL
+ PKHG6c5SzVf2Z6hwp890HPU+J3gETbdjIx+jIxocKqa65qbaWtpbfzBa2C129yUDw/4nj6LYyM4
+ Lach2CTzMNLwXCqA=
+X-Received: by 2002:a7b:c013:: with SMTP id c19mr3456166wmb.158.1594721939460; 
+ Tue, 14 Jul 2020 03:18:59 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJw0KUN7LYt8b6xhaKfPy3B9sDipGiodbwGdKmafAJb96mjSiD5NqeQW6gt4MCdFZ0nGFSn6Mg==
+X-Received: by 2002:a7b:c013:: with SMTP id c19mr3456118wmb.158.1594721938890; 
+ Tue, 14 Jul 2020 03:18:58 -0700 (PDT)
+Received: from [192.168.1.43] (138.red-83-57-170.dynamicip.rima-tde.net.
+ [83.57.170.138])
+ by smtp.gmail.com with ESMTPSA id x1sm27445304wrp.10.2020.07.14.03.18.57
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Tue, 14 Jul 2020 03:18:58 -0700 (PDT)
+Subject: Re: [PATCH 1/1] MAINTAINERS: introduce cve or security quotient field
+To: P J P <ppandit@redhat.com>, "Michael S . Tsirkin" <mst@redhat.com>,
+ "Daniel P . Berrange" <berrange@redhat.com>
+References: <20200714083631.888605-1-ppandit@redhat.com>
+ <20200714083631.888605-2-ppandit@redhat.com>
+From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
+Autocrypt: addr=philmd@redhat.com; keydata=
+ mQINBDXML8YBEADXCtUkDBKQvNsQA7sDpw6YLE/1tKHwm24A1au9Hfy/OFmkpzo+MD+dYc+7
+ bvnqWAeGweq2SDq8zbzFZ1gJBd6+e5v1a/UrTxvwBk51yEkadrpRbi+r2bDpTJwXc/uEtYAB
+ GvsTZMtiQVA4kRID1KCdgLa3zztPLCj5H1VZhqZsiGvXa/nMIlhvacRXdbgllPPJ72cLUkXf
+ z1Zu4AkEKpccZaJspmLWGSzGu6UTZ7UfVeR2Hcc2KI9oZB1qthmZ1+PZyGZ/Dy+z+zklC0xl
+ XIpQPmnfy9+/1hj1LzJ+pe3HzEodtlVA+rdttSvA6nmHKIt8Ul6b/h1DFTmUT1lN1WbAGxmg
+ CH1O26cz5nTrzdjoqC/b8PpZiT0kO5MKKgiu5S4PRIxW2+RA4H9nq7nztNZ1Y39bDpzwE5Sp
+ bDHzd5owmLxMLZAINtCtQuRbSOcMjZlg4zohA9TQP9krGIk+qTR+H4CV22sWldSkVtsoTaA2
+ qNeSJhfHQY0TyQvFbqRsSNIe2gTDzzEQ8itsmdHHE/yzhcCVvlUzXhAT6pIN0OT+cdsTTfif
+ MIcDboys92auTuJ7U+4jWF1+WUaJ8gDL69ThAsu7mGDBbm80P3vvUZ4fQM14NkxOnuGRrJxO
+ qjWNJ2ZUxgyHAh5TCxMLKWZoL5hpnvx3dF3Ti9HW2dsUUWICSQARAQABtDJQaGlsaXBwZSBN
+ YXRoaWV1LURhdWTDqSAoUGhpbCkgPHBoaWxtZEByZWRoYXQuY29tPokCVQQTAQgAPwIbDwYL
+ CQgHAwIGFQgCCQoLBBYCAwECHgECF4AWIQSJweePYB7obIZ0lcuio/1u3q3A3gUCXsfWwAUJ
+ KtymWgAKCRCio/1u3q3A3ircD/9Vjh3aFNJ3uF3hddeoFg1H038wZr/xi8/rX27M1Vj2j9VH
+ 0B8Olp4KUQw/hyO6kUxqkoojmzRpmzvlpZ0cUiZJo2bQIWnvScyHxFCv33kHe+YEIqoJlaQc
+ JfKYlbCoubz+02E2A6bFD9+BvCY0LBbEj5POwyKGiDMjHKCGuzSuDRbCn0Mz4kCa7nFMF5Jv
+ piC+JemRdiBd6102ThqgIsyGEBXuf1sy0QIVyXgaqr9O2b/0VoXpQId7yY7OJuYYxs7kQoXI
+ 6WzSMpmuXGkmfxOgbc/L6YbzB0JOriX0iRClxu4dEUg8Bs2pNnr6huY2Ft+qb41RzCJvvMyu
+ gS32LfN0bTZ6Qm2A8ayMtUQgnwZDSO23OKgQWZVglGliY3ezHZ6lVwC24Vjkmq/2yBSLakZE
+ 6DZUjZzCW1nvtRK05ebyK6tofRsx8xB8pL/kcBb9nCuh70aLR+5cmE41X4O+MVJbwfP5s/RW
+ 9BFSL3qgXuXso/3XuWTQjJJGgKhB6xXjMmb1J4q/h5IuVV4juv1Fem9sfmyrh+Wi5V1IzKI7
+ RPJ3KVb937eBgSENk53P0gUorwzUcO+ASEo3Z1cBKkJSPigDbeEjVfXQMzNt0oDRzpQqH2vp
+ apo2jHnidWt8BsckuWZpxcZ9+/9obQ55DyVQHGiTN39hkETy3Emdnz1JVHTU0Q==
+Message-ID: <ee963076-4201-222b-65de-3c1fbe714175@redhat.com>
+Date: Tue, 14 Jul 2020 12:18:57 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.5.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
-X-TM-AS-GCONF: 00
-X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:6.0.235, 18.0.687
- definitions=2020-07-14_02:2020-07-13,
- 2020-07-14 signatures=0
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- malwarescore=0
- priorityscore=1501 adultscore=0 bulkscore=0 spamscore=0 phishscore=0
- impostorscore=0 suspectscore=2 lowpriorityscore=0 clxscore=1011 mlxscore=0
- mlxlogscore=999 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2006250000 definitions=main-2007140072
-Received-SPF: pass client-ip=148.163.158.5;
- envelope-from=imbrenda@linux.ibm.com; helo=mx0a-001b2d01.pphosted.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/07/14 06:23:15
-X-ACL-Warn: Detected OS   = Linux 3.x [generic]
-X-Spam_score_int: -35
-X-Spam_score: -3.6
-X-Spam_bar: ---
-X-Spam_report: (-3.6 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_LOW=-0.7,
- RCVD_IN_MSPIKE_H2=-1, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+In-Reply-To: <20200714083631.888605-2-ppandit@redhat.com>
+Content-Language: en-US
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=philmd@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=205.139.110.120; envelope-from=philmd@redhat.com;
+ helo=us-smtp-1.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/07/14 01:42:04
+X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
+X-Spam_score_int: -40
+X-Spam_score: -4.1
+X-Spam_bar: ----
+X-Spam_report: (-4.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-1, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001, URIBL_BLOCKED=0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -101,199 +124,423 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Thomas Huth <thuth@redhat.com>, Janosch Frank <frankja@linux.ibm.com>,
- "Michael S . Tsirkin" <mst@redhat.com>, Heiko Carstens <hca@linux.ibm.com>,
- Cornelia Huck <cohuck@redhat.com>, qemu-devel@nongnu.org,
- Halil Pasic <pasic@linux.ibm.com>,
- Christian Borntraeger <borntraeger@de.ibm.com>, qemu-s390x@nongnu.org,
- Richard Henderson <rth@twiddle.net>
+Cc: Kevin Wolf <kwolf@redhat.com>, Peter Maydell <peter.maydell@linaro.org>,
+ Stefano Stabellini <sstabellini@kernel.org>,
+ Prasad J Pandit <pjp@fedoraproject.org>,
+ Christian Schoenebeck <qemu_oss@crudebyte.com>,
+ Michael Roth <mdroth@linux.vnet.ibm.com>,
+ QEMU Developers <qemu-devel@nongnu.org>, Greg Kurz <groug@kaod.org>,
+ Stefan Hajnoczi <stefanha@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Fri, 10 Jul 2020 17:12:36 +0200
-David Hildenbrand <david@redhat.com> wrote:
+Hi Prasad,
 
-> Let's implement diag260 - "Access Certain Virtual Machine
-> Information", used under z/VM to expose the storage configuration
-> (especially, layout of storage extends and thereby holes). For now,
-> the returned information is completely redundant to the information
-> exposed via SCLP.
+On 7/14/20 10:36 AM, P J P wrote:
+> From: Prasad J Pandit <pjp@fedoraproject.org>
 > 
-> We want to reuse diag260 in QEMU to implement memory devices - to
-> have a mechanism to indicate to the guest OS that the initial ram
-> size and the maximum possible physical address differ.
+> QEMU supports numerous virtualisation and emulation use cases.
+> It also offers many features to support guest's function(s).
 > 
-> The Linux kernel supports diag260 (0x10) to query the available memory
-> since v4.20. Ancient Linux versions used diag 260 (0xc), but stopped
-> doing so a while ago.
+> All of these use cases and features are not always security relevant.
+> Because some maybe used in trusted environments only. Some may still
+> be in experimental stage. While other could be very old and not
+> used or maintained actively.
 > 
-> Let's unconditionally implement the new diag, without any migration
-> checks (e.g., compatibility machine, CPU model). Although a guest OS
-> could observe this when migrating between QEMU evrsions, it's somewhat
-> unlikely to ever trigger due to the way diag260 is used within a guest
-> OS - called only once or twice during boot.
+> For security bug analysis we generally consider use cases wherein
+> QEMU is used in conjunction with the KVM hypervisor, which enables
+> guest to use hardware processor's virtualisation features.
 > 
-> Signed-off-by: David Hildenbrand <david@redhat.com>
+> The CVE (or Security or Trust) Quotient field tries to capture this
+> sensitivity pertaining to a feature or section of the code.
+> 
+> It indicates whether a potential issue should be treated as a security
+> one OR it could be fixed as a regular non-security bug.
+> 
+> Suggested-by: Daniel P. Berrange <berrange@redhat.com>
+> Signed-off-by: Prasad J Pandit <pjp@fedoraproject.org>
 > ---
->  target/s390x/diag.c        | 51
-> ++++++++++++++++++++++++++++++++++++++ target/s390x/internal.h    |
-> 2 ++ target/s390x/kvm.c         | 11 ++++++++
->  target/s390x/misc_helper.c |  6 +++++
->  target/s390x/translate.c   |  7 ++++++
->  5 files changed, 77 insertions(+)
+>  MAINTAINERS | 324 ++++++++++++++++++++++++++++++++++++++++++++++++++++
+>  1 file changed, 324 insertions(+)
 > 
-> diff --git a/target/s390x/diag.c b/target/s390x/diag.c
-> index be70aecd72..5378fcf582 100644
-> --- a/target/s390x/diag.c
-> +++ b/target/s390x/diag.c
-> @@ -23,6 +23,57 @@
->  #include "hw/s390x/pv.h"
->  #include "kvm_s390x.h"
->  
-> +void handle_diag_260(CPUS390XState *env, uint64_t r1, uint64_t r3,
-> uintptr_t ra) +{
-> +    MachineState *ms = MACHINE(qdev_get_machine());
-> +    const ram_addr_t initial_ram_size = ms->ram_size;
-> +    const uint64_t subcode = env->regs[r3];
-> +
-> +    switch (subcode) {
-> +    case 0xc:
-> +        /* The first storage extent maps to our initial ram. */
-> +        env->regs[r1] = initial_ram_size - 1;
-> +        /* The highest addressable byte maps to the initial ram size
-> for now. */
-> +        env->regs[r3] = initial_ram_size - 1;
-> +        break;
-> +    case 0x10: {
-> +        ram_addr_t addr, length;
-> +        uint64_t tmp;
-> +
-> +        if (r1 & 1) {
-> +            s390_program_interrupt(env, PGM_SPECIFICATION, ra);
-> +            return;
-> +        }
-> +
-> +        addr = env->regs[r1];
-> +        length = env->regs[r1 + 1];
-> +        if (!QEMU_IS_ALIGNED(addr, 16) || !QEMU_IS_ALIGNED(length,
-> 16) ||
-> +            !length) {
-> +            s390_program_interrupt(env, PGM_SPECIFICATION, ra);
-> +            return;
-> +        }
-> +        if (!address_space_access_valid(&address_space_memory, addr,
-> length,
-> +                                        true,
-> MEMTXATTRS_UNSPECIFIED)) {
-> +            s390_program_interrupt(env, PGM_ADDRESSING, ra);
-> +            return;
-> +        }
-> +
-> +        /* Indicate our initial memory ([0 .. ram_size - 1]) */
-> +        tmp = cpu_to_be64(0);
-> +        cpu_physical_memory_write(addr, &tmp, sizeof(tmp));
-> +        tmp = cpu_to_be64(initial_ram_size - 1);
-> +        cpu_physical_memory_write(addr + sizeof(tmp), &tmp,
-> sizeof(tmp)); +
-> +        /* Exactly one entry was stored, it always fits into the
-> area. */
+> diff --git a/MAINTAINERS b/MAINTAINERS
+> index fe8139f367..badf1dab6e 100644
+> --- a/MAINTAINERS
+> +++ b/MAINTAINERS
+> @@ -33,6 +33,14 @@ Descriptions of section entries:
+>  	   Obsolete:	Old code. Something tagged obsolete generally means
+>  			it has been replaced by a better system and you
+>  			should be using that.
+> +	C: CVE/Security/Trust Quotient
+> +	   H:High - Feature (or code) is meant to be safe and used by untrusted
+> +	            guests. So any potential security issue must be processed with
+> +	            due care and be considered as a CVE issue.
+> +	   L:Low  - Feature (or code) is not meant to be safe OR is experimental
+> +	            OR is used in trusted environments only OR is not well
+> +	            maintained. So any potential security issue can be processed
+> +	            and fixed as regular non-security bug. No need for a CVE.
 
-maybe I missed something, but I have the impression that your
-implementation of DIAG 260 always only returns the first extent?
+I'm not sure we need this separation of good/bad citizen.
 
-shouldn't it return all the hotplugged areas once hotplugging is
-enabled?
+We already have the 'S' flag:
 
-> +        env->regs[r3] = 1;
-> +        setcc(env_archcpu(env), 0);
-> +        break;
-> +    }
-> +    default:
-> +        s390_program_interrupt(env, PGM_SPECIFICATION, ra);
-> +    }
-> +}
-> +
->  int handle_diag_288(CPUS390XState *env, uint64_t r1, uint64_t r3)
->  {
->      uint64_t func = env->regs[r1];
-> diff --git a/target/s390x/internal.h b/target/s390x/internal.h
-> index b1e0ebf67f..a7a3df9a3b 100644
-> --- a/target/s390x/internal.h
-> +++ b/target/s390x/internal.h
-> @@ -372,6 +372,8 @@ int mmu_translate_real(CPUS390XState *env,
-> target_ulong raddr, int rw, 
+        S: Status, one of the following:
+           Supported:   Someone is actually paid to look after this.
+           Maintained:  Someone actually looks after it.
+           Odd Fixes:   It has a maintainer but they don't have time to
+                        do much other than throw the odd patch in. See
+                        below.
+           Orphan:      No current maintainer [but maybe you could take
+                        the role as you write your new code].
+           Obsolete:    Old code. Something tagged obsolete generally
+                        means it has been replaced by a better system
+                        and you should be using that.
+
+I think the 'Supported' status already describes a feature that
+important enough to a company to have an employee looking at it.
+
+If a section is not 'Supported', it is unlikely the maintainer
+have time to deal with security issues.
+
+I disagree with the High/Low tag, but I still reviewed the rest.
+
+>  	F: Files and directories with wildcard patterns.
+>  	   A trailing slash includes all files and subdirectory files.
+>  	   F:	drivers/net/	all files in and below drivers/net
+> @@ -87,6 +95,7 @@ S390 general architecture support
+>  M: Cornelia Huck <cohuck@redhat.com>
+>  M: Thomas Huth <thuth@redhat.com>
+>  S: Supported
+> +C: High
+>  F: default-configs/s390x-softmmu.mak
+>  F: gdb-xml/s390*.xml
+>  F: hw/char/sclp*.[hc]
+
+> @@ -149,6 +161,7 @@ ARM TCG CPUs
+>  M: Peter Maydell <peter.maydell@linaro.org>
+>  L: qemu-arm@nongnu.org
+>  S: Maintained
+> +C: Low
+>  F: target/arm/
+
+There is KVM code there.
+
+>  F: tests/tcg/arm/
+>  F: tests/tcg/aarch64/
+> @@ -164,6 +177,7 @@ ARM SMMU
+>  M: Eric Auger <eric.auger@redhat.com>
+>  L: qemu-arm@nongnu.org
+>  S: Maintained
+> +C: High
+>  F: hw/arm/smmu*
+>  F: include/hw/arm/smmu*
 >  
->  /* misc_helper.c */
-> +void handle_diag_260(CPUS390XState *env, uint64_t r1, uint64_t r3,
-> +                     uintptr_t ra);
->  int handle_diag_288(CPUS390XState *env, uint64_t r1, uint64_t r3);
->  void handle_diag_308(CPUS390XState *env, uint64_t r1, uint64_t r3,
->                       uintptr_t ra);
-> diff --git a/target/s390x/kvm.c b/target/s390x/kvm.c
-> index f2f75d2a57..d6de3ad86c 100644
-> --- a/target/s390x/kvm.c
-> +++ b/target/s390x/kvm.c
-> @@ -1565,6 +1565,14 @@ static int handle_hypercall(S390CPU *cpu,
-> struct kvm_run *run) return ret;
->  }
+...
+
+> @@ -270,6 +294,7 @@ PowerPC TCG CPUs
+>  M: David Gibson <david@gibson.dropbear.id.au>
+>  L: qemu-ppc@nongnu.org
+>  S: Maintained
+> +C: High
+
+You might want to split this section in 2 to keep various
+areas in Low.
+
+>  F: target/ppc/
+>  F: hw/ppc/
+>  F: include/hw/ppc/
+...
+
+> @@ -440,6 +482,7 @@ M: Cameron Esfahani <dirty@apple.com>
+>  M: Roman Bolshakov <r.bolshakov@yadro.com>
+>  W: https://wiki.qemu.org/Features/HVF
+>  S: Maintained
+> +C: Low
+>  F: accel/stubs/hvf-stub.c
+>  F: target/i386/hvf/
+>  F: include/sysemu/hvf.h
+> @@ -447,6 +490,7 @@ F: include/sysemu/hvf.h
+>  WHPX CPUs
+>  M: Sunil Muthuswamy <sunilmut@microsoft.com>
+>  S: Supported
+> +C: Low
+
+I think this is High.
+
+>  F: target/i386/whpx-all.c
+>  F: target/i386/whp-dispatch.h
+>  F: accel/stubs/whpx-stub.c
+> @@ -460,6 +504,7 @@ M: Anthony Perard <anthony.perard@citrix.com>
+>  M: Paul Durrant <paul@xen.org>
+>  L: xen-devel@lists.xenproject.org
+>  S: Supported
+> +C: High
+>  F: */xen*
+>  F: accel/xen/*
+>  F: hw/9pfs/xen-9p*
+> @@ -486,6 +531,7 @@ M: Colin Xu <colin.xu@intel.com>
+>  L: haxm-team@intel.com
+>  W: https://github.com/intel/haxm/issues
+>  S: Maintained
+> +C: Low
+
+Ditto.
+
+>  F: accel/stubs/hax-stub.c
+>  F: include/sysemu/hax.h
+>  F: target/i386/hax-*
+> @@ -497,12 +543,14 @@ M: Michael S. Tsirkin <mst@redhat.com>
+>  M: Cornelia Huck <cohuck@redhat.com>
+>  M: Paolo Bonzini <pbonzini@redhat.com>
+>  S: Maintained
+> +C: High
+>  F: linux-headers/
+>  F: scripts/update-linux-headers.sh
+...
+> @@ -1631,11 +1782,13 @@ Character devices
+>  M: Marc-AndrÃƒÆ’Ã‚Â© Lureau <marcandre.lureau@redhat.com>
+>  R: Paolo Bonzini <pbonzini@redhat.com>
+>  S: Odd Fixes
+> +C: High
+>  F: hw/char/
 >  
-> +static void kvm_handle_diag_260(S390CPU *cpu, struct kvm_run *run)
-> +{
-> +    const uint64_t r1 = (run->s390_sieic.ipa & 0x00f0) >> 4;
-> +    const uint64_t r3 = run->s390_sieic.ipa & 0x000f;
-> +
-> +    handle_diag_260(&cpu->env, r1, r3, 0);
-> +}
-> +
->  static void kvm_handle_diag_288(S390CPU *cpu, struct kvm_run *run)
->  {
->      uint64_t r1, r3;
-> @@ -1614,6 +1622,9 @@ static int handle_diag(S390CPU *cpu, struct
-> kvm_run *run, uint32_t ipb) */
->      func_code = decode_basedisp_rs(&cpu->env, ipb, NULL) &
-> DIAG_KVM_CODE_MASK; switch (func_code) {
-> +    case 0x260:
-> +        kvm_handle_diag_260(cpu, run);
-> +        break;
->      case DIAG_TIMEREVENT:
->          kvm_handle_diag_288(cpu, run);
->          break;
-> diff --git a/target/s390x/misc_helper.c b/target/s390x/misc_helper.c
-> index 58dbc023eb..d7274eb320 100644
-> --- a/target/s390x/misc_helper.c
-> +++ b/target/s390x/misc_helper.c
-> @@ -116,6 +116,12 @@ void HELPER(diag)(CPUS390XState *env, uint32_t
-> r1, uint32_t r3, uint32_t num) uint64_t r;
+>  Network devices
+>  M: Jason Wang <jasowang@redhat.com>
+>  S: Odd Fixes
+> +C: High
+>  F: hw/net/
+>  F: include/hw/net/
+>  F: tests/qtest/virtio-net-test.c
+
+These two don't make sense to me. You can not be low class citizen
+only maintained for 'Odd Fixes' and aim for security. Choose one.
+
+>  SD (Secure Card)
+>  M: Philippe Mathieu-DaudÃƒÆ’Ã‚Â© <f4bug@amsat.org>
+>  S: Odd Fixes
+> +C: Low
+>  F: include/hw/sd/sd*
+>  F: hw/sd/core.c
+>  F: hw/sd/sd*
+> @@ -1684,6 +1842,7 @@ F: tests/qtest/sd*
+>  USB
+>  M: Gerd Hoffmann <kraxel@redhat.com>
+>  S: Maintained
+> +C: High
+>  F: hw/usb/*
+
+Similarly to PPC, you might want to split this one to reduce
+coverage.
+
+>  F: tests/qtest/usb-*-test.c
+>  F: docs/usb2.txt
+> @@ -1696,11 +1855,13 @@ USB (serial adapter)
+>  M: Gerd Hoffmann <kraxel@redhat.com>
+>  M: Samuel Thibault <samuel.thibault@ens-lyon.org>
+>  S: Maintained
+> +C: High
+>  F: hw/usb/dev-serial.c
+...
+
+>  tulip
+>  M: Sven Schnelle <svens@stackframe.org>
+>  S: Maintained
+> +C: High
+
+Low.
+
+>  F: hw/net/tulip.c
+>  F: hw/net/tulip.h
 >  
->      switch (num) {
-> +    case 0x260:
-> +        qemu_mutex_lock_iothread();
-> +        handle_diag_260(env, r1, r3, GETPC());
-> +        qemu_mutex_unlock_iothread();
-> +        r = 0;
-> +        break;
->      case 0x500:
->          /* KVM hypercall */
->          qemu_mutex_lock_iothread();
-> diff --git a/target/s390x/translate.c b/target/s390x/translate.c
-> index 4f6f1e31cd..e3358395f0 100644
-> --- a/target/s390x/translate.c
-> +++ b/target/s390x/translate.c
-> @@ -2397,6 +2397,13 @@ static DisasJumpType op_diag(DisasContext *s,
-> DisasOps *o) TCGv_i32 r3 = tcg_const_i32(get_field(s, r3));
->      TCGv_i32 func_code = tcg_const_i32(get_field(s, i2));
+>  Generic Loader
+>  M: Alistair Francis <alistair@alistair23.me>
+>  S: Maintained
+> +C: High
+>  F: hw/core/generic-loader.c
+>  F: include/hw/core/generic-loader.h
+>  F: docs/generic-loader.txt
+
+I'm not sure about this one.
+
+> @@ -1921,12 +2108,14 @@ F: docs/generic-loader.txt
+>  Intel Hexadecimal Object File Loader
+>  M: Su Hang <suhang16@mails.ucas.ac.cn>
+>  S: Maintained
+> +C: Low
+>  F: tests/qtest/hexloader-test.c
+>  F: tests/data/hex-loader/test.hex
+...
+
+>  EDID Generator
+>  M: Gerd Hoffmann <kraxel@redhat.com>
+>  S: Maintained
+> +C: Low
+>  F: hw/display/edid*
+>  F: include/hw/display/edid.h
+>  F: qemu-edid.c
+
+I'm not sure, but maybe.
+
+> @@ -2012,6 +2211,7 @@ PIIX4 South Bridge (i82371AB)
+>  M: HervÃƒÆ’Ã‚Â© Poussineau <hpoussin@reactos.org>
+>  M: Philippe Mathieu-DaudÃƒÆ’Ã‚Â© <f4bug@amsat.org>
+>  S: Maintained
+> +C: High
+
+No, this one is low (which is why it has is own section,
+to not bother MST).
+
+>  F: hw/isa/piix4.c
+>  F: include/hw/southbridge/piix.h
+...
+
+>  Device Tree
+>  M: Alistair Francis <alistair.francis@wdc.com>
+>  R: David Gibson <david@gibson.dropbear.id.au>
+>  S: Maintained
+> +C: Low
+>  F: device_tree.c
+>  F: include/sysemu/device_tree.h
+
+This one is consumed by the Virt machine, maybe High?
+
 >  
-> +    /*
-> +     * Diag 0x260 updates the CC - only for some subcodes. Calculate
-> the
-> +     * current cc, such that the helper can simply overwrite it
-> conditionally.
-> +     */
-> +    if (get_field(s, i2) == 0x260) {
-> +        gen_op_calc_cc(s);
-> +    }
->      gen_helper_diag(cpu_env, r1, r3, func_code);
+>  Dump
+>  S: Supported
+> +C: Low
+>  M: Marc-AndrÃƒÆ’Ã‚Â© Lureau <marcandre.lureau@redhat.com>
+>  F: dump/
+>  F: hw/misc/vmcoreinfo.c
+...
+
+>  QObject
+>  M: Markus Armbruster <armbru@redhat.com>
+>  S: Supported
+> +C: Low
+>  F: qobject/
+>  F: include/qapi/qmp/
+>  X: include/qapi/qmp/dispatch.h
+
+Low? Odd.
+
+> @@ -2385,6 +2620,7 @@ T: git https://repo.or.cz/qemu/armbru.git qapi-next
+>  QEMU Guest Agent
+>  M: Michael Roth <mdroth@linux.vnet.ibm.com>
+>  S: Maintained
+> +C: Low
+
+Odd too.
+
+>  F: qga/
+>  F: docs/interop/qemu-ga.rst
+>  F: scripts/qemu-guest-agent/
+> @@ -2397,6 +2633,7 @@ M: Paolo Bonzini <pbonzini@redhat.com>
+>  R: Daniel P. Berrange <berrange@redhat.com>
+>  R: Eduardo Habkost <ehabkost@redhat.com>
+>  S: Supported
+> +C: High
+>  F: docs/qdev-device-use.txt
+>  F: hw/core/qdev*
+>  F: hw/core/bus.c
+...
+
+>  Register API
+>  M: Alistair Francis <alistair@alistair23.me>
+>  S: Maintained
+> +C: High
+
+No, Low.
+
+>  F: hw/core/register.c
+>  F: include/hw/register.h
+>  F: include/hw/registerfields.h
+> @@ -2456,6 +2697,7 @@ F: include/hw/registerfields.h
+...
+
+>  Tracing
+>  M: Stefan Hajnoczi <stefanha@redhat.com>
+>  S: Maintained
+> +C: Low
+
+Some backends are High.
+
+>  F: trace/
+>  F: trace-events
+>  F: docs/qemu-option-trace.rst.inc
+> @@ -2488,6 +2733,7 @@ T: git https://github.com/stefanha/qemu.git tracing
+>  TPM
+>  M: Stefan Berger <stefanb@linux.ibm.com>
+>  S: Maintained
+> +C: Low
+
+High!!!
+
+>  F: tpm.c
+>  F: stubs/tpm.c
+>  F: hw/tpm/*
+> @@ -2500,12 +2746,14 @@ T: git https://github.com/stefanberger/qemu-tpm.git tpm-next
+...
+
+> @@ -2601,6 +2859,7 @@ L: qemu-block@nongnu.org
+>  UUID
+>  M: Fam Zheng <fam@euphon.net>
+>  S: Supported
+> +C: Low
+
+High?
+
+>  F: util/uuid.c
+>  F: include/qemu/uuid.h
+>  F: tests/test-uuid.c
+> @@ -2608,6 +2867,7 @@ F: tests/test-uuid.c
+...
+
+>  Null Block Driver
+>  M: Fam Zheng <fam@euphon.net>
+>  L: qemu-block@nongnu.org
+>  S: Supported
+> +C: Low
+
+High?
+
+>  F: block/null.c
 >  
->      tcg_temp_free_i32(func_code);
+>  NVMe Block Driver
+>  M: Fam Zheng <fam@euphon.net>
+>  L: qemu-block@nongnu.org
+>  S: Supported
+> +C: Low
+
+Certainly High.
+
+>  F: block/nvme*
+>  
+>  Bootdevice
+>  M: Gonglei <arei.gonglei@huawei.com>
+>  S: Maintained
+> +C: Low
+>  F: bootdevice.c
+...
+
+>  Replication
+>  M: Wen Congyang <wencongyang2@huawei.com>
+>  M: Xie Changlong <xiechanglong.d@gmail.com>
+>  S: Supported
+> +C: Low
+
+High?
+
+>  F: replication*
+>  F: block/replication.c
+>  F: tests/test-replication.c
+> @@ -2997,6 +3309,7 @@ PVRDMA
+>  M: Yuval Shaia <yuval.shaia.ml@gmail.com>
+>  M: Marcel Apfelbaum <marcel.apfelbaum@gmail.com>
+>  S: Maintained
+> +C: High
+>  F: hw/rdma/*
+>  F: hw/rdma/vmw/*
+>  F: docs/pvrdma.txt
+...
 
 
