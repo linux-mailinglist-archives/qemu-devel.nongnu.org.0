@@ -2,61 +2,65 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A7D0D21E4C6
-	for <lists+qemu-devel@lfdr.de>; Tue, 14 Jul 2020 02:49:09 +0200 (CEST)
-Received: from localhost ([::1]:36698 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id CDD5021E4D5
+	for <lists+qemu-devel@lfdr.de>; Tue, 14 Jul 2020 02:53:52 +0200 (CEST)
+Received: from localhost ([::1]:49342 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jv988-0000dG-Lr
-	for lists+qemu-devel@lfdr.de; Mon, 13 Jul 2020 20:49:08 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:52758)
+	id 1jv9Ch-0006ED-UT
+	for lists+qemu-devel@lfdr.de; Mon, 13 Jul 2020 20:53:51 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:53874)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <alistair23@gmail.com>)
- id 1jv96A-0005ql-9D
- for qemu-devel@nongnu.org; Mon, 13 Jul 2020 20:47:06 -0400
-Received: from mail-il1-x144.google.com ([2607:f8b0:4864:20::144]:45298)
+ id 1jv9Bt-0005jC-4s; Mon, 13 Jul 2020 20:53:01 -0400
+Received: from mail-il1-x143.google.com ([2607:f8b0:4864:20::143]:36459)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <alistair23@gmail.com>)
- id 1jv968-0000TP-FR
- for qemu-devel@nongnu.org; Mon, 13 Jul 2020 20:47:05 -0400
-Received: by mail-il1-x144.google.com with SMTP id o3so12820925ilo.12
- for <qemu-devel@nongnu.org>; Mon, 13 Jul 2020 17:47:04 -0700 (PDT)
+ id 1jv9Br-0001Ip-DM; Mon, 13 Jul 2020 20:53:00 -0400
+Received: by mail-il1-x143.google.com with SMTP id x9so12865928ila.3;
+ Mon, 13 Jul 2020 17:52:57 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=H+hudOttfDclAnxM2JLa3xf5XAEG1u+Ej4AzrhEiGxc=;
- b=gzJZkbscQ0thti5SuRZsOGl6rsKx0bwCiVzkBnyec5G9QFxCjkfNtE6+fhxV4USwBS
- BWENthY/LAfi5ZWlZlfP4+Wt2zC7JeEMFPkMWghIF1Nkvp3IzsoCd+88+s1PSBdh8h6l
- fIAxdVF03gjFNYKzrg3WygzSd/C3+4MXC95KcnQq8K89PpXqXKZBYu/9yOroXXOpw4NR
- iSGsttVBCMUWp77N/liJmDFwR+IGXLMVfg9MhpcPLK1VTXJ0Yd3FdAxEozTZEaX1epCC
- rJOjr/SeDWf3APJqhg0U9iq4VDHeBFndmYLjWeqJm/tl5Oq0P6j1cWNoGZuWPJDQDKN1
- b09g==
+ :cc; bh=MJhjNCWzJNXn+QVSmgxXQqbWXChXTBrCHICHemYz9O8=;
+ b=cPMU9M8dk8glKmoSkwQcFMab5vJ1swbIqBgHivDFby2zVEkn2AEKD3Ira+vw5XLGwy
+ gyrvfo6leIhXNAhaB33JrVoKkrVqqqNYxg2bKwkfOIJa6AXuSaBlRNDyPayWLiwHKywF
+ XBitFobaPNl6S9KVpv3jTfIysp75zjkXUG7RLNkAqNQQ7SFnY6ZC+iYTegjdnbWbLqgQ
+ OXnUjgRdEjO67FFKxPANLim82S5u9c6MR5M9zPplaujNDVT01ms3Ng+acUimaoe2soIV
+ SO4YPwINNp4lPfq08hsYxxLmAbYgTGaC6oMlAEDAyhXIeMMEBrmfu0nwMhTxubtMz8Pg
+ W6lg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
  :message-id:subject:to:cc;
- bh=H+hudOttfDclAnxM2JLa3xf5XAEG1u+Ej4AzrhEiGxc=;
- b=LukjA23xs+0Q46XwJdSt/L7TwNM20yVelKZHVMBYPhSaTFDLt8d8VsdjlYXMzz5I5H
- Hx6IrGPaZ2+HJHHmP0jgHr4C72M0ru8Oj3J/4kFveW8rmNfE/g270Iqx6k9/jcRewvBf
- KUgnu0dN4I4WWxAsB6zzn5UH1MohVYgPYVtiC211iR6y82QU4fqviQ6TnbmsrsW1l8Bv
- zBwRKUnyTt0AWUQCU6wb3/Cv83eZ09kChbgf6nLk/6FrPiubXsv7J9Zka8QL3VtdmgnO
- AzfcQW9Hje2mSFnmxAqp7ssI7Zpb16jB0lvOI4VOs5NuaGNl4D6yDLfEfbZFXySgafWr
- 4Z4w==
-X-Gm-Message-State: AOAM533BqkBENovb+XLW916eswzbrJsP2uOSYkZAqnw+WK6m8dqYW98G
- zYJH7Z2BpgsOd9xCIhanPlcjnBgieZoSbMDSTCMh38Op
-X-Google-Smtp-Source: ABdhPJwcnMc3s2JUw7Altr4V0MRl2TkuEJzcumfVaSvrGHTAQgJXBMQl4Vh35ZRYXWYwydhKiKBlAhNesr1tSXGqlFg=
-X-Received: by 2002:a92:c213:: with SMTP id j19mr2570473ilo.40.1594687623217; 
- Mon, 13 Jul 2020 17:47:03 -0700 (PDT)
+ bh=MJhjNCWzJNXn+QVSmgxXQqbWXChXTBrCHICHemYz9O8=;
+ b=Da7OiErpA6Q6YxPYa6GPcvRNN6x80yoT8EhvylAKNpXU6lwo2kT7X4NbzkuRR57rmD
+ 4riSPdEpdninN/jRocQPeXNhjNjUhBje6VwOFNcyhR+7662GnhoWle8IAnOgGxXc/Oe7
+ zh6l5h0ptiOy1NV853+ZkNevmiHl94CBe0dz2PYgqBjaVQSNfnv9lhTRl+k27I3JEtf1
+ 4oCn6U0C17oC2UBuu0cijxRsejJd2KwpIHNpivFqQTxJaR6EFMVd92YGGSraAR3kx9Js
+ 9I9Hn/g4fKDAjKLBdIA6UylOS+5jsQv+U0GTIsV2I4ALRx6sODdTkcS8O29cvPxlduBU
+ 3CVQ==
+X-Gm-Message-State: AOAM5312BjJzLITXf6YPPVSE9s1tnEgtxj5Hju8P1wtK9RRagwrEPKZu
+ jlZYrDSKideI0B1ti+2TvYXsQPov4CYvY9e7IpQ=
+X-Google-Smtp-Source: ABdhPJwQfWF7YjySqnAzCtsPzKHiszqowNPxxT+2seUjVEfn9DYLP3G9mA8dLOO8w2UCMfyqyjdvZ+nP2ks/atYMAp8=
+X-Received: by 2002:a05:6e02:d51:: with SMTP id
+ h17mr2526565ilj.131.1594687976823; 
+ Mon, 13 Jul 2020 17:52:56 -0700 (PDT)
 MIME-Version: 1.0
-References: <20200714003254.4044149-1-alistair.francis@wdc.com>
-In-Reply-To: <20200714003254.4044149-1-alistair.francis@wdc.com>
+References: <CAKmqyKPvn7dALUHhK=na1svr==oZ2rvyFOnw8FvRJZP23uHN7Q@mail.gmail.com>
+ <mhng-842d31db-ac34-4bab-a523-808f1f542101@palmerdabbelt-glaptop1>
+ <CAEUhbmUPxCmo-4SPm8JwG7emD0YfLeAMSgd7mWaCH2VDZJTtsA@mail.gmail.com>
+ <CAKmqyKN=HfpTs=d8RzXcaVYZQ-pH_kvO9VV5h4CKAtLSKaVqyQ@mail.gmail.com>
+ <CAEUhbmXUa-bSMXcHZyV=FybP9gxYsHFhbUPm15tw70+hNQfNEA@mail.gmail.com>
+In-Reply-To: <CAEUhbmXUa-bSMXcHZyV=FybP9gxYsHFhbUPm15tw70+hNQfNEA@mail.gmail.com>
 From: Alistair Francis <alistair23@gmail.com>
-Date: Mon, 13 Jul 2020 17:37:04 -0700
-Message-ID: <CAKmqyKP+bRqky7YB6Gv-1uybvZfGnH2sRh0g_9mLoh=1+03GcA@mail.gmail.com>
-Subject: Re: [PULL 00/15] riscv-to-apply queue
-To: Alistair Francis <alistair.francis@wdc.com>
+Date: Mon, 13 Jul 2020 17:42:58 -0700
+Message-ID: <CAKmqyKMos-ujKL8X3AZY0_UX0ht6UUJuDEs1yu6NCi=-75LabA@mail.gmail.com>
+Subject: Re: [PATCH v2 2/2] hw/riscv: sifive_u: Provide a reliable way for
+ bootloader to detect whether it is running in QEMU
+To: Bin Meng <bmeng.cn@gmail.com>
 Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2607:f8b0:4864:20::144;
- envelope-from=alistair23@gmail.com; helo=mail-il1-x144.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::143;
+ envelope-from=alistair23@gmail.com; helo=mail-il1-x143.google.com
 X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
  That's all we know.
 X-Spam_score_int: -17
@@ -79,79 +83,85 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: "qemu-devel@nongnu.org Developers" <qemu-devel@nongnu.org>
+Cc: Palmer Dabbelt <palmerdabbelt@google.com>,
+ "open list:RISC-V" <qemu-riscv@nongnu.org>,
+ Sagar Karandikar <sagark@eecs.berkeley.edu>,
+ Bastian Koppelmann <kbastian@mail.uni-paderborn.de>,
+ Bin Meng <bin.meng@windriver.com>,
+ "qemu-devel@nongnu.org Developers" <qemu-devel@nongnu.org>,
+ Alistair Francis <Alistair.Francis@wdc.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Mon, Jul 13, 2020 at 5:43 PM Alistair Francis
-<alistair.francis@wdc.com> wrote:
+On Sun, Jul 12, 2020 at 6:16 PM Bin Meng <bmeng.cn@gmail.com> wrote:
 >
-> The following changes since commit 20c1df5476e1e9b5d3f5b94f9f3ce01d21f14c46:
+> Hi Alistair,
 >
->   Merge remote-tracking branch 'remotes/kraxel/tags/fixes-20200713-pull-request' into staging (2020-07-13 16:58:44 +0100)
+> On Sun, Jul 12, 2020 at 12:04 AM Alistair Francis <alistair23@gmail.com> wrote:
+> >
+> > On Thu, Jul 9, 2020 at 5:50 PM Bin Meng <bmeng.cn@gmail.com> wrote:
+> > >
+> > > Hi Palmer,
+> > >
+> > > On Fri, Jul 10, 2020 at 8:45 AM Palmer Dabbelt <palmerdabbelt@google.com> wrote:
+> > > >
+> > > > On Thu, 09 Jul 2020 15:09:18 PDT (-0700), alistair23@gmail.com wrote:
+> > > > > On Thu, Jul 9, 2020 at 3:07 AM Bin Meng <bmeng.cn@gmail.com> wrote:
+> > > > >>
+> > > > >> From: Bin Meng <bin.meng@windriver.com>
+> > > > >>
+> > > > >> The reset vector codes are subject to change, e.g.: with recent
+> > > > >> fw_dynamic type image support, it breaks oreboot again.
+> > > > >
+> > > > > This is a recurring problem, I have another patch for Oreboot to fix
+> > > > > the latest breakage.
+> > > > >
+> > > > >>
+> > > > >> Add a subregion in the MROM, with the size of machine RAM stored,
+> > > > >> so that we can provide a reliable way for bootloader to detect
+> > > > >> whether it is running in QEMU.
+> > > > >
+> > > > > I don't really like this though. I would prefer that we don't
+> > > > > encourage guest software to behave differently on QEMU. I don't think
+> > > > > other upstream boards do this.
+> > > >
+> > > > I agree.  If you want an explicitly virtual board, use the virt board.  Users
+> > > > of sifive_u are presumably trying to do their best to test against what the
+> > > > hardware does without actually using the hardware.  Otherwise there should be
+> > > > no reason to use the sifive_u board, as it's just sticking a layer of
+> > > > complexity in the middle of everything.
+> > >
+> > > Understood. Then let's drop this patch.
+> > >
+> > > >
+> > > > > Besides Oreboot setting up the clocks are there any other users of this?
+> > > >
+> > > > IIRC we have a scheme for handling the clock setup in QEMU where we accept
+> > > > pretty much any control write and then just return reads that say the PLLs have
+> > > > locked.  I'd be in favor of improving the scheme to improve compatibility with
+> > > > the actual hardware, but adding some way for programs to skip the clocks
+> > > > because they know they're in QEMU seems like the wrong way to go.
+> > > >
+> > >
+> > > Yep, that's my question to Oreboot too.
+> > >
+> > > U-Boot SPL can boot with QEMU and no problem was seen with clock
+> > > settings in PRCI model in QEMU.
+> >
+> > I don't think it's an unsolvable problem. There is just little work on
+> > Oreboot to run on QEMU. I can dig into it a bit and see if I can find
+> > a better fix on the Oreboot side.
+> >
 >
-> are available in the Git repository at:
->
->   git@github.com:alistair23/qemu.git tags/pull-riscv-to-apply-20200713
->
-> for you to fetch changes up to cfad709bceb629a4ebeb5d8a3acd1871b9a6436b:
->
->   target/riscv: Fix pmp NA4 implementation (2020-07-13 17:25:37 -0700)
+> Can we remove the QEMU detect logic completely in Oreboot? Except the
+> QSPI controller QEMU should be able to run Oreboot since it runs
+> U-Boot SPL.
 
-Sorry these are a little late, I was hoping to send them out last week
-but I was chasing down some bugs and waiting on a few patches.
+That is the eventual goal.
 
 Alistair
 
 >
-> ----------------------------------------------------------------
-> This is a colection of bug fixes and small imrprovements for RISC-V.
->
-> This includes some vector extensions fixes, a PMP bug fix, OpenTitan
-> UART bug fix and support for OpenSBI dynamic firmware.
->
-> ----------------------------------------------------------------
-> Alexandre Mergnat (1):
->       target/riscv: Fix pmp NA4 implementation
->
-> Alistair Francis (2):
->       hw/char: Convert the Ibex UART to use the qdev Clock model
->       hw/char: Convert the Ibex UART to use the registerfields API
->
-> Atish Patra (4):
->       riscv: Unify Qemu's reset vector code path
->       RISC-V: Copy the fdt in dram instead of ROM
->       riscv: Add opensbi firmware dynamic support
->       RISC-V: Support 64 bit start address
->
-> Bin Meng (3):
->       MAINTAINERS: Add an entry for OpenSBI firmware
->       hw/riscv: virt: Sort the SoC memmap table entries
->       hw/riscv: Modify MROM size to end at 0x10000
->
-> Frank Chang (4):
->       target/riscv: fix rsub gvec tcg_assert_listed_vecop assertion
->       target/riscv: correct the gvec IR called in gen_vec_rsub16_i64()
->       target/riscv: fix return value of do_opivx_widen()
->       target/riscv: fix vill bit index in vtype register
->
-> Liao Pingfang (1):
->       tcg/riscv: Remove superfluous breaks
->
->  include/hw/char/ibex_uart.h             |  79 ++++++++--------
->  include/hw/riscv/boot.h                 |   7 ++
->  include/hw/riscv/boot_opensbi.h         |  58 ++++++++++++
->  target/riscv/cpu.h                      |   2 +-
->  hw/char/ibex_uart.c                     | 158 ++++++++++++++++++--------------
->  hw/riscv/boot.c                         | 107 +++++++++++++++++++++
->  hw/riscv/sifive_u.c                     |  53 ++++++-----
->  hw/riscv/spike.c                        |  59 ++++--------
->  hw/riscv/virt.c                         |  63 ++++---------
->  target/riscv/insn_trans/trans_rvv.inc.c |   9 +-
->  target/riscv/pmp.c                      |   2 +-
->  tcg/riscv/tcg-target.inc.c              |   2 -
->  MAINTAINERS                             |   7 ++
->  13 files changed, 387 insertions(+), 219 deletions(-)
->  create mode 100644 include/hw/riscv/boot_opensbi.h
->
+> Regards,
+> Bin
 
