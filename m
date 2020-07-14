@@ -2,104 +2,90 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9414321F8BA
-	for <lists+qemu-devel@lfdr.de>; Tue, 14 Jul 2020 20:03:27 +0200 (CEST)
-Received: from localhost ([::1]:54728 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C481321F8AE
+	for <lists+qemu-devel@lfdr.de>; Tue, 14 Jul 2020 20:01:39 +0200 (CEST)
+Received: from localhost ([::1]:50392 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jvPH4-0004lx-LX
-	for lists+qemu-devel@lfdr.de; Tue, 14 Jul 2020 14:03:26 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:45984)
+	id 1jvPFK-0002wN-HV
+	for lists+qemu-devel@lfdr.de; Tue, 14 Jul 2020 14:01:38 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:45374)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <alxndr@bu.edu>) id 1jvPFJ-0003Ud-Dk
- for qemu-devel@nongnu.org; Tue, 14 Jul 2020 14:01:37 -0400
-Received: from mail-dm6nam11on2127.outbound.protection.outlook.com
- ([40.107.223.127]:38464 helo=NAM11-DM6-obe.outbound.protection.outlook.com)
+ (Exim 4.90_1) (envelope-from <darren.kenny@oracle.com>)
+ id 1jvPE9-0002Ob-LM
+ for qemu-devel@nongnu.org; Tue, 14 Jul 2020 14:00:25 -0400
+Received: from userp2130.oracle.com ([156.151.31.86]:33680)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <alxndr@bu.edu>) id 1jvPFG-0002Ug-TD
- for qemu-devel@nongnu.org; Tue, 14 Jul 2020 14:01:36 -0400
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=Hg9La0hE84Cpb8LThMa+dfju4Dv0dsNNEv6mwHeXiv0Z5mLENwe74EqZ0f5ID1Me7bj2sja/LVGFbi3HuX/sFz3EmpXo1b/Wc+6mU9p12nBfqMGwwHmPDkv+qvjJLQb7OrR0oroO3+Kuot1i9OSePSS8a2H9jmZ/M/Hl2k3Pv+zUZ7W+NMkxfgPIY8RMqbOpdZNibhqIqk+xaDPtyCnYm2ZFUTcTjpSHSFl6+i8ECCvhHRLjRbZHR4MqNVZ6QMqawaKy98lnjmSCNNyBtGlTsDci24v7YycpT6zzSUX+k3tka8A5TaceABTZ/DX6Zt1f72HFBlm6KcHk0QAww0VLfg==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=IOMZ+KBh/iv1hIWbkFZGwsRYQOgAyLdqSmafG2TEZTE=;
- b=U+pgNLEKy+tw/RyQuLXVKg9RoYhlaKIPg/WJWNr3ngfzI70k8eoRJJH/RYQQCxvVzfbwxh2TARckz3923lY1ObpdlhFnFcc/cMSf/IKMyIAQNSfh1t/S2atzwtHC1jYyVENPcYKTqu527bxU32V73PpNZn0Adj7R82XHtC/8a/Ix/WHFJwl6UACkOv/Mjqt4c/JJrwelne1xGQyCw4pYhRhV9jlzHNcez91b6VJnprnSTutVq6ur3PMiFf1i8WchorodjZstOUbcmKtW9NAnnOGUfq/gNkuxpk9icbgokVaNzujw/vtyDn3wd4yuQgxYxCm8QdZztkJxRPpBn7DA1g==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=bu.edu; dmarc=pass action=none header.from=bu.edu; dkim=pass
- header.d=bu.edu; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=bushare.onmicrosoft.com; s=selector2-bushare-onmicrosoft-com;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=IOMZ+KBh/iv1hIWbkFZGwsRYQOgAyLdqSmafG2TEZTE=;
- b=7y3Zkx1rvyStgwjp+tk2zF3KmV8FxEuLBqKN71ZIXVFoWAvED0+aMOJCFAUbm3+IOw7tu7BjC5N7l+vD33uQ1O0p8u/S0io4+UdJmuVDW/bhPBQtC65tR3n3teiYrQ0b3g9j3EUcODtpKPogSPKbqPZd/abNWgWca4dHXbEFkKo=
-Authentication-Results: nongnu.org; dkim=none (message not signed)
- header.d=none;nongnu.org; dmarc=none action=none header.from=bu.edu;
-Received: from SN6PR03MB3871.namprd03.prod.outlook.com (2603:10b6:805:6d::32)
- by SN2PR03MB2382.namprd03.prod.outlook.com (2603:10b6:804:e::21) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3174.21; Tue, 14 Jul
- 2020 17:46:31 +0000
-Received: from SN6PR03MB3871.namprd03.prod.outlook.com
- ([fe80::8ce:29a6:77be:c35b]) by SN6PR03MB3871.namprd03.prod.outlook.com
- ([fe80::8ce:29a6:77be:c35b%7]) with mapi id 15.20.3195.017; Tue, 14 Jul 2020
- 17:46:31 +0000
-From: Alexander Bulekov <alxndr@bu.edu>
-To: qemu-devel@nongnu.org
-Subject: [PATCH] fuzz: Expect the cmdline in a freeable GString
-Date: Tue, 14 Jul 2020 13:46:16 -0400
-Message-Id: <20200714174616.20709-1-alxndr@bu.edu>
-X-Mailer: git-send-email 2.26.2
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-ClientProxiedBy: MN2PR20CA0065.namprd20.prod.outlook.com
- (2603:10b6:208:235::34) To SN6PR03MB3871.namprd03.prod.outlook.com
- (2603:10b6:805:6d::32)
+ (Exim 4.90_1) (envelope-from <darren.kenny@oracle.com>)
+ id 1jvPE7-000268-Hu
+ for qemu-devel@nongnu.org; Tue, 14 Jul 2020 14:00:25 -0400
+Received: from pps.filterd (userp2130.oracle.com [127.0.0.1])
+ by userp2130.oracle.com (8.16.0.42/8.16.0.42) with SMTP id 06EHq5r1034562;
+ Tue, 14 Jul 2020 18:00:16 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com;
+ h=from : to : cc :
+ subject : in-reply-to : references : date : message-id : mime-version :
+ content-type; s=corp-2020-01-29;
+ bh=M5VvhOhaY11jqQnuKJwMbdI860Sao92ka9qy2jGvZZo=;
+ b=qpoLFambMZ7wPURNw5AGG1cphngMmaxGR9g3hAW6o1fvHjkOnHwVCuzvsUDYMtqfWtdp
+ 0i6IM1b8nnxakSX0hShQLbwCVE+TLDVuDjOdqwS0wz4MBlndl+7JWux5y9Yo1FzYw12r
+ 2zYxwhdS4t3r3XekuDXFnWZNzYidoThxdcCQWj7yoH/J5ZuFqatQmxp2cztLUpGzZetO
+ fg88KbKNjeA1oHP+JvNXyo4I8gNeJA38WPhCRF5e9M3Cchxrx7usZqAiuZBfypV+Uw6B
+ /xyQUKJeE1NgherqAUM4kLY/gj2uYU1wN3M0i6pImnKSN8+k206Lr5lklPZyUj8rN6Yb 9Q== 
+Received: from userp3030.oracle.com (userp3030.oracle.com [156.151.31.80])
+ by userp2130.oracle.com with ESMTP id 3274ur70ds-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=FAIL);
+ Tue, 14 Jul 2020 18:00:16 +0000
+Received: from pps.filterd (userp3030.oracle.com [127.0.0.1])
+ by userp3030.oracle.com (8.16.0.42/8.16.0.42) with SMTP id 06EHqdqB024132;
+ Tue, 14 Jul 2020 17:58:15 GMT
+Received: from userv0121.oracle.com (userv0121.oracle.com [156.151.31.72])
+ by userp3030.oracle.com with ESMTP id 327qby5fyq-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+ Tue, 14 Jul 2020 17:58:15 +0000
+Received: from abhmp0005.oracle.com (abhmp0005.oracle.com [141.146.116.11])
+ by userv0121.oracle.com (8.14.4/8.13.8) with ESMTP id 06EHwExq009653;
+ Tue, 14 Jul 2020 17:58:14 GMT
+Received: from starbug-mbp.localdomain (/79.97.215.145)
+ by default (Oracle Beehive Gateway v4.0)
+ with ESMTP ; Tue, 14 Jul 2020 10:58:14 -0700
+Received: by starbug-mbp.localdomain (Postfix, from userid 501)
+ id 6DC5CB94F18; Tue, 14 Jul 2020 18:58:06 +0100 (IST)
+From: Darren Kenny <darren.kenny@oracle.com>
+To: Alexander Bulekov <alxndr@bu.edu>, qemu-devel@nongnu.org
+Subject: Re: [PATCH] fuzz: Expect the cmdline in a freeable GString
+In-Reply-To: <20200714174616.20709-1-alxndr@bu.edu>
+References: <20200714174616.20709-1-alxndr@bu.edu>
+Date: Tue, 14 Jul 2020 18:58:06 +0100
+Message-ID: <m2eepekmhd.fsf@oracle.com>
 MIME-Version: 1.0
-X-MS-Exchange-MessageSentRepresentingType: 1
-Received: from mozz.bu.edu (128.197.127.33) by
- MN2PR20CA0065.namprd20.prod.outlook.com (2603:10b6:208:235::34) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3174.21 via Frontend
- Transport; Tue, 14 Jul 2020 17:46:30 +0000
-X-Mailer: git-send-email 2.26.2
-X-Originating-IP: [128.197.127.33]
-X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: 3e71de46-3ce0-4513-46ef-08d8281dd78e
-X-MS-TrafficTypeDiagnostic: SN2PR03MB2382:
-X-MS-Exchange-Transport-Forked: True
-X-Microsoft-Antispam-PRVS: <SN2PR03MB2382A59D132A094749E9D9F4BA610@SN2PR03MB2382.namprd03.prod.outlook.com>
-X-MS-Oob-TLC-OOBClassifiers: OLM:1923;
-X-MS-Exchange-SenderADCheck: 1
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: 5ZhmEVv0ByZdVrHC4NWKs5tm300n6T+aX6oSKzVR1eDbnx6x9aB7xpEu7wQK8TEFKjgrlvczI2c3m2JPebmnr32uQmFw16+Mzex8+ZPH4CLAP2VaH3qRGxKspXQFiXh/Z4u+2aBND+a500EL2hIZbz7njYfbXlJEEo/an/pvE8JWlaQN3SwnK2AFvigDqyRAcnHf3PolVFb2dol5ckiRAmbAc3BOjXVTw45/oDeIw8lyY/XhkATLCiBQ3UUuZB/s0/fg8NX4u6ZUdPS8842vRBqdXKqsk7WhX5F0+GanSRTJuqjEVCDaTtqt1syjC7n2
-X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:SN6PR03MB3871.namprd03.prod.outlook.com; PTR:; CAT:NONE;
- SFTY:;
- SFS:(4636009)(39860400002)(366004)(376002)(136003)(396003)(346002)(4326008)(66556008)(66476007)(8936002)(6486002)(86362001)(2906002)(75432002)(83380400001)(478600001)(66946007)(16526019)(54906003)(956004)(36756003)(2616005)(186003)(786003)(26005)(5660300002)(6666004)(8676002)(52116002)(316002)(1076003)(7696005)(6916009);
- DIR:OUT; SFP:1102; 
-X-MS-Exchange-AntiSpam-MessageData: 95+GgeVpxtaqO4qBlH1haajHzNH1JOOuHeJAPziEWdk+aG1yIrdYppNcBulDWLMeHhT5triZQOHJm45ql5EhnWftA/b7EZ8CkZ5DaIRAtHDeOqE7M27d6fyVk+DDQpgZ66SeDu47cjsq3+lO5bt/XfxNl8w1ZHDB/dU4bU5d49wBJw8o5qijBgtej9Cyvi5ETiv3kK9V7M+r+hnuxcrYKNKbT0KDknYeJblwPtv/W0uTC8N4pzkW4cxZHbb1hATyq3w0oQ4Q0VUlaj0q672Rk4UQBFGT1LGh4rR5LFs0WlSDXbJ5eqxpfs+sxprHINJJOCl02jemxIH3EpFf67NfNNhTskeX1XNwfm1Py4xp1shj/RAvDEpg0SNdJGKT8EZzA+ottEF0CgUPaTDf2gNkjTvzDBgMzE/c/IyALUyDRIEmM9BfpX8mZS58Cuxe9VW1QN5TgPKXCTh3JIis8RvtnL9l46bXcfCxlNvpc1y3rjY=
-X-OriginatorOrg: bu.edu
-X-MS-Exchange-CrossTenant-Network-Message-Id: 3e71de46-3ce0-4513-46ef-08d8281dd78e
-X-MS-Exchange-CrossTenant-AuthSource: SN6PR03MB3871.namprd03.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 14 Jul 2020 17:46:31.1132 (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: d57d32cc-c121-488f-b07b-dfe705680c71
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: bFb/e4f7DXp2n8aQmU4q4pk3Up13BviCso5BFZB1QNNFeSMTDB01qiAEHA6oXibl
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: SN2PR03MB2382
-Received-SPF: pass client-ip=40.107.223.127; envelope-from=alxndr@bu.edu;
- helo=NAM11-DM6-obe.outbound.protection.outlook.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/07/14 14:01:33
-X-ACL-Warn: Detected OS   = Windows NT kernel [generic] [fuzzy]
-X-Spam_score_int: -18
-X-Spam_score: -1.9
-X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, HK_RANDOM_ENVFROM=0.001, HK_RANDOM_FROM=1,
- MSGID_FROM_MTA_HEADER=0.001, RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-1,
- SPF_HELO_PASS=-0.001, SPF_PASS=-0.001 autolearn=no autolearn_force=no
+Content-Type: text/plain
+X-Proofpoint-Virus-Version: vendor=nai engine=6000 definitions=9682
+ signatures=668680
+X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 suspectscore=5
+ spamscore=0
+ mlxlogscore=999 bulkscore=0 malwarescore=0 mlxscore=0 phishscore=0
+ adultscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2006250000 definitions=main-2007140130
+X-Proofpoint-Virus-Version: vendor=nai engine=6000 definitions=9682
+ signatures=668680
+X-Proofpoint-Spam-Details: rule=notspam policy=default score=0
+ lowpriorityscore=0 impostorscore=0
+ suspectscore=5 phishscore=0 spamscore=0 mlxlogscore=999 malwarescore=0
+ mlxscore=0 priorityscore=1501 adultscore=0 bulkscore=0 clxscore=1015
+ classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2006250000
+ definitions=main-2007140130
+Received-SPF: pass client-ip=156.151.31.86;
+ envelope-from=darren.kenny@oracle.com; helo=userp2130.oracle.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/07/14 14:00:19
+X-ACL-Warn: Detected OS   = Linux 3.1-3.10 [fuzzy]
+X-Spam_score_int: -63
+X-Spam_score: -6.4
+X-Spam_bar: ------
+X-Spam_report: (-6.4 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_MED=-2.3, RCVD_IN_MSPIKE_H2=-1, SPF_HELO_PASS=-0.001,
+ SPF_PASS=-0.001, UNPARSEABLE_RELAY=0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -113,122 +99,125 @@ List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
 Cc: Laurent Vivier <lvivier@redhat.com>, Thomas Huth <thuth@redhat.com>,
- Alexander Bulekov <alxndr@bu.edu>, f4bug@amsat.org, darren.kenny@oracle.com,
+ f4bug@amsat.org, Alexander Bulekov <alxndr@bu.edu>,
  Bandan Das <bsd@redhat.com>, Stefan Hajnoczi <stefanha@redhat.com>,
  Paolo Bonzini <pbonzini@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-In the initial FuzzTarget, get_init_cmdline returned a char *. With this
-API, we had no guarantee about where the string came from. For example,
-i440fx-qtest-reboot-fuzz simply returned a pointer to a string literal,
-while the QOS-based targets build the arguments out in a GString an
-return the gchar *str pointer. Since we did not try to free the cmdline,
-we have a leak for any targets that do not simply return string
-literals. Clean up this mess by forcing fuzz-targets to return
-a GString, that we can free.
+On Tuesday, 2020-07-14 at 13:46:16 -04, Alexander Bulekov wrote:
+> In the initial FuzzTarget, get_init_cmdline returned a char *. With this
+> API, we had no guarantee about where the string came from. For example,
+> i440fx-qtest-reboot-fuzz simply returned a pointer to a string literal,
+> while the QOS-based targets build the arguments out in a GString an
+> return the gchar *str pointer. Since we did not try to free the cmdline,
+> we have a leak for any targets that do not simply return string
+> literals. Clean up this mess by forcing fuzz-targets to return
+> a GString, that we can free.
+>
+> Signed-off-by: Alexander Bulekov <alxndr@bu.edu>
 
-Signed-off-by: Alexander Bulekov <alxndr@bu.edu>
----
- tests/qtest/fuzz/fuzz.c        | 13 ++++++-------
- tests/qtest/fuzz/fuzz.h        |  6 +++---
- tests/qtest/fuzz/i440fx_fuzz.c |  4 ++--
- tests/qtest/fuzz/qos_fuzz.c    |  6 +++---
- 4 files changed, 14 insertions(+), 15 deletions(-)
+Reviewed-by: Darren Kenny <darren.kenny@oracle.com>
 
-diff --git a/tests/qtest/fuzz/fuzz.c b/tests/qtest/fuzz/fuzz.c
-index 0b66e43409..6bc17ef313 100644
---- a/tests/qtest/fuzz/fuzz.c
-+++ b/tests/qtest/fuzz/fuzz.c
-@@ -199,16 +199,15 @@ int LLVMFuzzerInitialize(int *argc, char ***argv, char ***envp)
-     }
- 
-     /* Run QEMU's softmmu main with the fuzz-target dependent arguments */
--    const char *init_cmdline = fuzz_target->get_init_cmdline(fuzz_target);
--    init_cmdline = g_strdup_printf("%s -qtest /dev/null -qtest-log %s",
--                                   init_cmdline,
--                                   getenv("QTEST_LOG") ? "/dev/fd/2"
--                                                       : "/dev/null");
--
-+    GString *cmd_line = fuzz_target->get_init_cmdline(fuzz_target);
-+    g_string_append_printf(cmd_line,
-+                           " -qtest /dev/null -qtest-log %s",
-+                           getenv("QTEST_LOG") ? "/dev/fd/2" : "/dev/null");
- 
-     /* Split the runcmd into an argv and argc */
-     wordexp_t result;
--    wordexp(init_cmdline, &result, 0);
-+    wordexp(cmd_line->str, &result, 0);
-+    g_string_free(cmd_line, true);
- 
-     qemu_init(result.we_wordc, result.we_wordv, NULL);
- 
-diff --git a/tests/qtest/fuzz/fuzz.h b/tests/qtest/fuzz/fuzz.h
-index 72d5710f6c..9ca3d107c5 100644
---- a/tests/qtest/fuzz/fuzz.h
-+++ b/tests/qtest/fuzz/fuzz.h
-@@ -50,10 +50,10 @@ typedef struct FuzzTarget {
- 
- 
-     /*
--     * returns the arg-list that is passed to qemu/softmmu init()
--     * Cannot be NULL
-+     * Returns the arguments that are passed to qemu/softmmu init(). Freed by
-+     * the caller.
-      */
--    const char* (*get_init_cmdline)(struct FuzzTarget *);
-+    GString *(*get_init_cmdline)(struct FuzzTarget *);
- 
-     /*
-      * will run once, prior to running qemu/softmmu init.
-diff --git a/tests/qtest/fuzz/i440fx_fuzz.c b/tests/qtest/fuzz/i440fx_fuzz.c
-index e2f31e56f9..bf966d478b 100644
---- a/tests/qtest/fuzz/i440fx_fuzz.c
-+++ b/tests/qtest/fuzz/i440fx_fuzz.c
-@@ -158,9 +158,9 @@ static void i440fx_fuzz_qos_fork(QTestState *s,
- 
- static const char *i440fx_qtest_argv = TARGET_NAME " -machine accel=qtest"
-                                        " -m 0 -display none";
--static const char *i440fx_argv(FuzzTarget *t)
-+static GString *i440fx_argv(FuzzTarget *t)
- {
--    return i440fx_qtest_argv;
-+    return g_string_new(i440fx_qtest_argv);
- }
- 
- static void fork_init(void)
-diff --git a/tests/qtest/fuzz/qos_fuzz.c b/tests/qtest/fuzz/qos_fuzz.c
-index 0c68f5361f..d52f3ebd83 100644
---- a/tests/qtest/fuzz/qos_fuzz.c
-+++ b/tests/qtest/fuzz/qos_fuzz.c
-@@ -66,7 +66,7 @@ void *qos_allocate_objects(QTestState *qts, QGuestAllocator **p_alloc)
-     return allocate_objects(qts, current_path + 1, p_alloc);
- }
- 
--static const char *qos_build_main_args(void)
-+static GString *qos_build_main_args(void)
- {
-     char **path = fuzz_path_vec;
-     QOSGraphNode *test_node;
-@@ -88,7 +88,7 @@ static const char *qos_build_main_args(void)
-     /* Prepend the arguments that we need */
-     g_string_prepend(cmd_line,
-             TARGET_NAME " -display none -machine accel=qtest -m 64 ");
--    return cmd_line->str;
-+    return cmd_line;
- }
- 
- /*
-@@ -189,7 +189,7 @@ static void walk_path(QOSGraphNode *orig_path, int len)
-     g_free(path_str);
- }
- 
--static const char *qos_get_cmdline(FuzzTarget *t)
-+static GString *qos_get_cmdline(FuzzTarget *t)
- {
-     /*
-      * Set a global variable that we use to identify the qos_path for our
--- 
-2.26.2
-
+> ---
+>  tests/qtest/fuzz/fuzz.c        | 13 ++++++-------
+>  tests/qtest/fuzz/fuzz.h        |  6 +++---
+>  tests/qtest/fuzz/i440fx_fuzz.c |  4 ++--
+>  tests/qtest/fuzz/qos_fuzz.c    |  6 +++---
+>  4 files changed, 14 insertions(+), 15 deletions(-)
+>
+> diff --git a/tests/qtest/fuzz/fuzz.c b/tests/qtest/fuzz/fuzz.c
+> index 0b66e43409..6bc17ef313 100644
+> --- a/tests/qtest/fuzz/fuzz.c
+> +++ b/tests/qtest/fuzz/fuzz.c
+> @@ -199,16 +199,15 @@ int LLVMFuzzerInitialize(int *argc, char ***argv, char ***envp)
+>      }
+>  
+>      /* Run QEMU's softmmu main with the fuzz-target dependent arguments */
+> -    const char *init_cmdline = fuzz_target->get_init_cmdline(fuzz_target);
+> -    init_cmdline = g_strdup_printf("%s -qtest /dev/null -qtest-log %s",
+> -                                   init_cmdline,
+> -                                   getenv("QTEST_LOG") ? "/dev/fd/2"
+> -                                                       : "/dev/null");
+> -
+> +    GString *cmd_line = fuzz_target->get_init_cmdline(fuzz_target);
+> +    g_string_append_printf(cmd_line,
+> +                           " -qtest /dev/null -qtest-log %s",
+> +                           getenv("QTEST_LOG") ? "/dev/fd/2" : "/dev/null");
+>  
+>      /* Split the runcmd into an argv and argc */
+>      wordexp_t result;
+> -    wordexp(init_cmdline, &result, 0);
+> +    wordexp(cmd_line->str, &result, 0);
+> +    g_string_free(cmd_line, true);
+>  
+>      qemu_init(result.we_wordc, result.we_wordv, NULL);
+>  
+> diff --git a/tests/qtest/fuzz/fuzz.h b/tests/qtest/fuzz/fuzz.h
+> index 72d5710f6c..9ca3d107c5 100644
+> --- a/tests/qtest/fuzz/fuzz.h
+> +++ b/tests/qtest/fuzz/fuzz.h
+> @@ -50,10 +50,10 @@ typedef struct FuzzTarget {
+>  
+>  
+>      /*
+> -     * returns the arg-list that is passed to qemu/softmmu init()
+> -     * Cannot be NULL
+> +     * Returns the arguments that are passed to qemu/softmmu init(). Freed by
+> +     * the caller.
+>       */
+> -    const char* (*get_init_cmdline)(struct FuzzTarget *);
+> +    GString *(*get_init_cmdline)(struct FuzzTarget *);
+>  
+>      /*
+>       * will run once, prior to running qemu/softmmu init.
+> diff --git a/tests/qtest/fuzz/i440fx_fuzz.c b/tests/qtest/fuzz/i440fx_fuzz.c
+> index e2f31e56f9..bf966d478b 100644
+> --- a/tests/qtest/fuzz/i440fx_fuzz.c
+> +++ b/tests/qtest/fuzz/i440fx_fuzz.c
+> @@ -158,9 +158,9 @@ static void i440fx_fuzz_qos_fork(QTestState *s,
+>  
+>  static const char *i440fx_qtest_argv = TARGET_NAME " -machine accel=qtest"
+>                                         " -m 0 -display none";
+> -static const char *i440fx_argv(FuzzTarget *t)
+> +static GString *i440fx_argv(FuzzTarget *t)
+>  {
+> -    return i440fx_qtest_argv;
+> +    return g_string_new(i440fx_qtest_argv);
+>  }
+>  
+>  static void fork_init(void)
+> diff --git a/tests/qtest/fuzz/qos_fuzz.c b/tests/qtest/fuzz/qos_fuzz.c
+> index 0c68f5361f..d52f3ebd83 100644
+> --- a/tests/qtest/fuzz/qos_fuzz.c
+> +++ b/tests/qtest/fuzz/qos_fuzz.c
+> @@ -66,7 +66,7 @@ void *qos_allocate_objects(QTestState *qts, QGuestAllocator **p_alloc)
+>      return allocate_objects(qts, current_path + 1, p_alloc);
+>  }
+>  
+> -static const char *qos_build_main_args(void)
+> +static GString *qos_build_main_args(void)
+>  {
+>      char **path = fuzz_path_vec;
+>      QOSGraphNode *test_node;
+> @@ -88,7 +88,7 @@ static const char *qos_build_main_args(void)
+>      /* Prepend the arguments that we need */
+>      g_string_prepend(cmd_line,
+>              TARGET_NAME " -display none -machine accel=qtest -m 64 ");
+> -    return cmd_line->str;
+> +    return cmd_line;
+>  }
+>  
+>  /*
+> @@ -189,7 +189,7 @@ static void walk_path(QOSGraphNode *orig_path, int len)
+>      g_free(path_str);
+>  }
+>  
+> -static const char *qos_get_cmdline(FuzzTarget *t)
+> +static GString *qos_get_cmdline(FuzzTarget *t)
+>  {
+>      /*
+>       * Set a global variable that we use to identify the qos_path for our
+> -- 
+> 2.26.2
 
