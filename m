@@ -2,63 +2,63 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 00A5421E4C7
-	for <lists+qemu-devel@lfdr.de>; Tue, 14 Jul 2020 02:49:10 +0200 (CEST)
-Received: from localhost ([::1]:36726 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 92E7921E4C8
+	for <lists+qemu-devel@lfdr.de>; Tue, 14 Jul 2020 02:49:38 +0200 (CEST)
+Received: from localhost ([::1]:39412 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jv989-0000dy-1w
-	for lists+qemu-devel@lfdr.de; Mon, 13 Jul 2020 20:49:09 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:52012)
+	id 1jv98b-0001hU-C5
+	for lists+qemu-devel@lfdr.de; Mon, 13 Jul 2020 20:49:37 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:52018)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1)
  (envelope-from <prvs=457b4eeb6=alistair.francis@wdc.com>)
- id 1jv91s-0005vJ-Rf
- for qemu-devel@nongnu.org; Mon, 13 Jul 2020 20:42:40 -0400
-Received: from esa5.hgst.iphmx.com ([216.71.153.144]:30779)
+ id 1jv91t-0005xO-KS
+ for qemu-devel@nongnu.org; Mon, 13 Jul 2020 20:42:41 -0400
+Received: from esa5.hgst.iphmx.com ([216.71.153.144]:30777)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1)
  (envelope-from <prvs=457b4eeb6=alistair.francis@wdc.com>)
- id 1jv91q-0008Or-Rm
- for qemu-devel@nongnu.org; Mon, 13 Jul 2020 20:42:40 -0400
+ id 1jv91r-0008Oh-Je
+ for qemu-devel@nongnu.org; Mon, 13 Jul 2020 20:42:41 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple;
  d=wdc.com; i=@wdc.com; q=dns/txt; s=dkim.wdc.com;
  t=1594687359; x=1626223359;
  h=from:to:cc:subject:date:message-id:in-reply-to:
  references:mime-version:content-transfer-encoding;
- bh=KXSZcRXg15OipwdCW8WzVkF8p3aOIw9mUtt4EreI9JE=;
- b=bl1RLLlg8AiI6ZYTgyjRIk8JaPSrXpsk8twS7064eezZQzUgCYazqpqf
- inbFYsk1nIjVxKUVJwhd/mFsmX6AMTJJfG98F+YvyBcoF95Zz+kBjezYg
- qEw+zz5AdUexDSicfGX+qWgmdD+BJnfxEjlhGFvvFpoyuHLJlqPEZuol9
- 9YvjPC28CLwjht+zdb98/kKz6QWYObOmVWv8lqZJa+X2YiHRpre/gJacO
- gAXX/qzFVLyraTzwhDhyAcOuK1CeiHnqgGRy2tumPc8yOicBIWSKbLWiN
- Z13y0NOc9E4srlwMc+Y/79hGu5yWYQpTdFrQIFifcjrREW9qrigTRojRh Q==;
-IronPort-SDR: LefF5gXf2PZXjm3fo/lZwOe50krRFsDUggKTFZZtyKwtjDlwXC3sR3qZBmQOVrKuQQlKn5gloK
- bzJ1IAHvgCLBTVrZSwR0BSQAXpYVB2cY8BQguQx3k/7xCUB1d+nSvk237bSESLjOSwX1QD4b0S
- Er43U4e0UddfkcV/+APxCWHFmFUYPuP1xzQ18rQWwT4sgTbOFgeJfn13RgZaNpLT8Uo57c1HZk
- WrH4w6RJr0/eKEcNTK1T4JKCU9eh/INvTRMx7QE/t/lgytXyC4WfF9GtioInDwWM9Otj+lN008
- kUM=
-X-IronPort-AV: E=Sophos;i="5.75,349,1589212800"; d="scan'208";a="142511926"
+ bh=RbtKPfPz33BnhoAafUzygBFbZBU/Z3EInIUbb3BvNO4=;
+ b=I15T6urRtExIFJMpRUypMbR6Uod1C8jJGYReD1KgrAjKg+n/udwrCf/D
+ j/HpJO8VsoDfLj+3rtuqBzieZLAiRGwpw8yrvDldOq9ezswlB8sYOm+lo
+ UFSV6axB/TZWyrK9waTPshwkju2/kqOh3Hau4uRXMTKMcIWvzxuQ853x8
+ 08IfO5tVTjpZCyXApS6sDvTzVmPisdizoHhqlAtMszskLXdAEfnjyapEW
+ lqHfWa773WJO516sBbvDm3vqOwgAUbHfDcrq6o+yYmusUDa+TK95WzDdE
+ 2U4+fBvYAPbqiqrXZ/AcJPRVZL/vxHrXPszv8vlfxJcEp3lzobkgSaPiB Q==;
+IronPort-SDR: KOS8ZmMMTsdmgWWKIJ3CrrtCl3sS6/i9DIPVv01qqOli/GcFcSC1FkctvMf5e3MbiadYKtm61o
+ vy5lFnGL+5eTGScinxUhRpNF8/XunQ4ZQ/DGDJBf83SBXjYJjdvk2YxZGbJGg3++wfyfznGU8H
+ HAl42VaJeNquLUooMnmaQXl3ERqLa7CornAChAANGhpHxZbJ5F/zqyZB9dAsUSzlmanpzkw6gV
+ AevvitKiXuUBkfwqJRkLATTArn79m042eCElU4oZEiGVA50APxAHxYIy2Ai2d/gnq5jup96Hmv
+ YtU=
+X-IronPort-AV: E=Sophos;i="5.75,349,1589212800"; d="scan'208";a="142511929"
 Received: from uls-op-cesaip01.wdc.com (HELO uls-op-cesaep01.wdc.com)
  ([199.255.45.14])
  by ob1.hgst.iphmx.com with ESMTP; 14 Jul 2020 08:42:29 +0800
-IronPort-SDR: NBEs80AlU08iXQ3qVfROSj/vrhSaIzfp4oYDV9IoIsYple1og0hdMOaX3sF5cXMwSEH0qxMyvI
- VAu8mE48Y4IVr7rrotNyYMS9UM0ABCRwA=
+IronPort-SDR: 7p5pyhW7njbYB0+VZ0AxTwou/zeLUnrrc60eHtu5c1Y6tu69Y1LEhOZvea4rj87wFKOzIpJD1L
+ IQ1ilGcTOEqdQyNhRT+66f1ZLCmyY2Fog=
 Received: from uls-op-cesaip02.wdc.com ([10.248.3.37])
  by uls-op-cesaep01.wdc.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 13 Jul 2020 17:30:57 -0700
-IronPort-SDR: HFJU4Ca9Mx66YoU6neAAKqfa0IIOmx5QGI540uwtxyxaQofDwArAJeP9+x8fzHAp+3oBjqAZJd
- JGoVtIPE8GnQ==
+ 13 Jul 2020 17:30:58 -0700
+IronPort-SDR: LEi87EMqB3Jl30g1sdSe+FAaMkpGIGn1xKbet98rpokX2vR+ioKoJWqhKDaM2r3eIb/SzkXIJa
+ VKXlrPCyHAiA==
 WDCIronportException: Internal
 Received: from usa002626.ad.shared (HELO risc6-mainframe.hgst.com)
  ([10.86.57.178])
  by uls-op-cesaip02.wdc.com with ESMTP; 13 Jul 2020 17:42:29 -0700
 From: Alistair Francis <alistair.francis@wdc.com>
 To: qemu-devel@nongnu.org
-Subject: [PULL 08/15] target/riscv: fix rsub gvec tcg_assert_listed_vecop
- assertion
-Date: Mon, 13 Jul 2020 17:32:47 -0700
-Message-Id: <20200714003254.4044149-9-alistair.francis@wdc.com>
+Subject: [PULL 09/15] target/riscv: correct the gvec IR called in
+ gen_vec_rsub16_i64()
+Date: Mon, 13 Jul 2020 17:32:48 -0700
+Message-Id: <20200714003254.4044149-10-alistair.francis@wdc.com>
 X-Mailer: git-send-email 2.27.0
 In-Reply-To: <20200714003254.4044149-1-alistair.francis@wdc.com>
 References: <20200714003254.4044149-1-alistair.francis@wdc.com>
@@ -96,49 +96,27 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Frank Chang <frank.chang@sifive.com>
 
-gvec should provide vecop_list to avoid:
-"tcg_tcg_assert_listed_vecop: code should not be reached bug" assertion.
-
 Signed-off-by: Frank Chang <frank.chang@sifive.com>
 Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
-Message-Id: <20200710104920.13550-2-frank.chang@sifive.com>
+Message-Id: <20200710104920.13550-3-frank.chang@sifive.com>
 Signed-off-by: Alistair Francis <alistair.francis@wdc.com>
 ---
- target/riscv/insn_trans/trans_rvv.inc.c | 5 +++++
- 1 file changed, 5 insertions(+)
+ target/riscv/insn_trans/trans_rvv.inc.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
 diff --git a/target/riscv/insn_trans/trans_rvv.inc.c b/target/riscv/insn_trans/trans_rvv.inc.c
-index dc333e6a91..433cdacbe1 100644
+index 433cdacbe1..7cd08f0868 100644
 --- a/target/riscv/insn_trans/trans_rvv.inc.c
 +++ b/target/riscv/insn_trans/trans_rvv.inc.c
-@@ -958,22 +958,27 @@ static void gen_rsub_vec(unsigned vece, TCGv_vec r, TCGv_vec a, TCGv_vec b)
- static void tcg_gen_gvec_rsubs(unsigned vece, uint32_t dofs, uint32_t aofs,
-                                TCGv_i64 c, uint32_t oprsz, uint32_t maxsz)
+@@ -937,7 +937,7 @@ static void gen_vec_rsub8_i64(TCGv_i64 d, TCGv_i64 a, TCGv_i64 b)
+ 
+ static void gen_vec_rsub16_i64(TCGv_i64 d, TCGv_i64 a, TCGv_i64 b)
  {
-+    static const TCGOpcode vecop_list[] = { INDEX_op_sub_vec, 0 };
-     static const GVecGen2s rsub_op[4] = {
-         { .fni8 = gen_vec_rsub8_i64,
-           .fniv = gen_rsub_vec,
-           .fno = gen_helper_vec_rsubs8,
-+          .opt_opc = vecop_list,
-           .vece = MO_8 },
-         { .fni8 = gen_vec_rsub16_i64,
-           .fniv = gen_rsub_vec,
-           .fno = gen_helper_vec_rsubs16,
-+          .opt_opc = vecop_list,
-           .vece = MO_16 },
-         { .fni4 = gen_rsub_i32,
-           .fniv = gen_rsub_vec,
-           .fno = gen_helper_vec_rsubs32,
-+          .opt_opc = vecop_list,
-           .vece = MO_32 },
-         { .fni8 = gen_rsub_i64,
-           .fniv = gen_rsub_vec,
-           .fno = gen_helper_vec_rsubs64,
-+          .opt_opc = vecop_list,
-           .prefer_i64 = TCG_TARGET_REG_BITS == 64,
-           .vece = MO_64 },
-     };
+-    tcg_gen_vec_sub8_i64(d, b, a);
++    tcg_gen_vec_sub16_i64(d, b, a);
+ }
+ 
+ static void gen_rsub_i32(TCGv_i32 ret, TCGv_i32 arg1, TCGv_i32 arg2)
 -- 
 2.27.0
 
