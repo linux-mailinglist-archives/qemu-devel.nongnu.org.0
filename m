@@ -2,71 +2,72 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0BDF421ED60
-	for <lists+qemu-devel@lfdr.de>; Tue, 14 Jul 2020 11:56:00 +0200 (CEST)
-Received: from localhost ([::1]:35358 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id F3D3521ED53
+	for <lists+qemu-devel@lfdr.de>; Tue, 14 Jul 2020 11:54:30 +0200 (CEST)
+Received: from localhost ([::1]:56416 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jvHfL-000882-1Q
-	for lists+qemu-devel@lfdr.de; Tue, 14 Jul 2020 05:55:59 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:58412)
+	id 1jvHdu-0005An-0U
+	for lists+qemu-devel@lfdr.de; Tue, 14 Jul 2020 05:54:30 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:58448)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1jvHcP-0003QK-W6
- for qemu-devel@nongnu.org; Tue, 14 Jul 2020 05:52:58 -0400
-Received: from mail-wm1-x32d.google.com ([2a00:1450:4864:20::32d]:39891)
+ id 1jvHcS-0003WU-Jp
+ for qemu-devel@nongnu.org; Tue, 14 Jul 2020 05:53:00 -0400
+Received: from mail-wm1-x32a.google.com ([2a00:1450:4864:20::32a]:36957)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1jvHcO-0003x7-CW
- for qemu-devel@nongnu.org; Tue, 14 Jul 2020 05:52:57 -0400
-Received: by mail-wm1-x32d.google.com with SMTP id w3so4417325wmi.4
- for <qemu-devel@nongnu.org>; Tue, 14 Jul 2020 02:52:55 -0700 (PDT)
+ id 1jvHcQ-0003xM-J0
+ for qemu-devel@nongnu.org; Tue, 14 Jul 2020 05:53:00 -0400
+Received: by mail-wm1-x32a.google.com with SMTP id o2so4415749wmh.2
+ for <qemu-devel@nongnu.org>; Tue, 14 Jul 2020 02:52:58 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=nLGL97rROnaKpdqPQWyvMY+ljMO7k5wyI/22+OUtb64=;
- b=GNX5au0Tkuw84VNUoSuRuStPXMs6wyxI01mUHNUAFw8dw8o+FM0pEx4ZYhjw6jktjW
- ICcnLfubwn0kIHZY90ONDs2v2smKsUMmZgv+bNKLaIjNESmIHNNNN++qQwLPTtFvAeBl
- 8jNhuuPkjOhNfxpSjwqZe7apRVSvQ47bVEQ8xccttKsG10hVL7RKmCDLZQw64V6gNhZK
- q8ghLehNHyUMK1UqYVGSeQ9WihpK65Fd8jVtPwdq87PO6Qwbkm3XsyfWchwmEaDccegR
- Eki28Bwi77GNWKHSnvGR7lydb9INM5LxiqzTJ4fLhtx+3eEzGgysoU+X81iSagVF9tI6
- l5Rw==
+ bh=5OziHlIm1D2m/j1XzyWy/gSoDZmDvA7wpzFEAFDGd5g=;
+ b=jCcUTPPvgZOnaybzBkeGXp0lTT2PADB66MxUFM/Qxr1O08zRSlqvXpN2b4y4hLqKgW
+ IMGps7a/fEdrpwtFUyZGSkHyU6bpXnzLufJ9M0RTAvgR7OHGLrTIo10TyGCp4nQ90IXT
+ 8knugF88O6deJbUGtR7Mg6fZC9/mpu0vRfFt/XQtqg0WvaZ27xipf8KnWenkVd4n1TuQ
+ j9Knsre6czKQF9H9C6ml/YPKxFmw+Py+thxWjglTM7q7rAca7HClMcxLAvbD1QZgnf8V
+ GpMiPrLABJeEuXHADMNCO+RwG9jP2N5+ZMv7Yvi2puVOWQ91cckrn4Hl7eSi7CSKnGiO
+ k8KA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=nLGL97rROnaKpdqPQWyvMY+ljMO7k5wyI/22+OUtb64=;
- b=dzz25PwkVSFhsYc+YR/n/8zl+k0cEb3RmDufCayuGtKVCnMIcIVWrwBxAbyuk6/zzv
- LFlANbUz9XyBLaheWz6a+wXAyAiILPRpm13XdNDrVj2bqFD5LUVtNJ5PJ2vkdA+WMjTm
- wwxbAHiM7LvgJ6LTHGKT85bIatVesT2WzdFWMVSc9U3RaR+BxtesvSliA/FVyWg3wORX
- xEquKQTy4YwILCn37rY9PyfiWtxYSouGGSs5hcbUqnaddTNq9K5ZBAVO7Qhmxmy0A6xl
- roBTeUIGkgT9sw9cbkuraEaQkCvw4PQBcVgnVnLj1wX2bidZCEEwUVgDdkQUm9RQyBzD
- cGgw==
-X-Gm-Message-State: AOAM531i8eM0t3kbIzAvso4+4tSeyLsmam/H7NvTTZMud6Mg4c0iYNhK
- YXi6wEDw5wpQ5Q14CxAuTcscVw==
-X-Google-Smtp-Source: ABdhPJzT3V7NUmn+oehMjcjLtHpjhp0xvAeS3DjoiwzP+p8SEbLjbjOFylXhn7fAUD0tdLl8sHlbjA==
-X-Received: by 2002:a7b:c09a:: with SMTP id r26mr3391769wmh.176.1594720374959; 
- Tue, 14 Jul 2020 02:52:54 -0700 (PDT)
+ bh=5OziHlIm1D2m/j1XzyWy/gSoDZmDvA7wpzFEAFDGd5g=;
+ b=kMvlnA5mYSYe8t5WGaWffoAYktjwkuKHQ66G2zjCUA3yoyQudLNdrkmaaLJ7VUxWlT
+ 54wpzKW17hhiBo17s6CES1KIYlLgo96iH9QAhz9V35+HQ2yye+w7c8TdYc2IexJ9usdt
+ cgwK/qPQJEfoH7zeygb8dvzYU3jm4laHfVNiwCzvBZhdk5eZszmmu97TYcQ+C3Nyadhh
+ Hgmezc9J9/P0DiyJPnuOMOpX0tYq41Le8UUYdPxfu7rTiFNHAZ9rSMRKuCzpYaz2w49E
+ glftUkgUc19E6uA+SdHEpXORL4Fnezs63R2GSpM2inz04pD509hytp5tNcFEWtRJhXcO
+ DKcw==
+X-Gm-Message-State: AOAM530b/s16Vd5xhfVO8RMysOltc0EUvmwIdaG4Nmh07dBjXqutJvEy
+ ZnXUnkM3x1bIi8boTrYHlFCY9Q==
+X-Google-Smtp-Source: ABdhPJx6RBf1g9XV/uTblFVLJPwNbrnyDkhl+PtvG34iTNklCsgQ2wkSLPv0kOmbGe7bYGxoAaGkHQ==
+X-Received: by 2002:a7b:c197:: with SMTP id y23mr3626146wmi.114.1594720377183; 
+ Tue, 14 Jul 2020 02:52:57 -0700 (PDT)
 Received: from zen.linaroharston ([51.148.130.216])
- by smtp.gmail.com with ESMTPSA id x1sm27330282wrp.10.2020.07.14.02.52.48
+ by smtp.gmail.com with ESMTPSA id u10sm3484318wml.29.2020.07.14.02.52.49
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 14 Jul 2020 02:52:52 -0700 (PDT)
+ Tue, 14 Jul 2020 02:52:53 -0700 (PDT)
 Received: from zen.lan (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id A53A41FF90;
+ by zen.linaroharston (Postfix) with ESMTP id BBD991FF91;
  Tue, 14 Jul 2020 10:52:47 +0100 (BST)
 From: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
 To: peter.maydell@linaro.org
-Subject: [PULL 4/9] docker.py: fix fetching of FROM layers
-Date: Tue, 14 Jul 2020 10:52:42 +0100
-Message-Id: <20200714095247.19573-5-alex.bennee@linaro.org>
+Subject: [PULL 5/9] gitlab-ci/containers: Add missing wildcard where we should
+ look for changes
+Date: Tue, 14 Jul 2020 10:52:43 +0100
+Message-Id: <20200714095247.19573-6-alex.bennee@linaro.org>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20200714095247.19573-1-alex.bennee@linaro.org>
 References: <20200714095247.19573-1-alex.bennee@linaro.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::32d;
- envelope-from=alex.bennee@linaro.org; helo=mail-wm1-x32d.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::32a;
+ envelope-from=alex.bennee@linaro.org; helo=mail-wm1-x32a.google.com
 X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
  That's all we know.
 X-Spam_score_int: -20
@@ -74,8 +75,8 @@ X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
  DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- URIBL_BLOCKED=0.001 autolearn=ham autolearn_force=no
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -88,65 +89,38 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Fam Zheng <fam@euphon.net>,
- =?UTF-8?q?Daniel=20P=20=2E=20Berrang=C3=A9?= <berrange@redhat.com>,
+Cc: Thomas Huth <thuth@redhat.com>,
  =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>, qemu-devel@nongnu.org,
- =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>,
- =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>
+ =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-This worked on a system that was already bootstrapped because the
-stage 2 images already existed even if they wouldn't be used. What we
-should have pulled down was the FROM line containers first because
-building on gitlab doesn't have the advantage of using our build
-system to build the pre-requisite bits.
+From: Thomas Huth <thuth@redhat.com>
 
-We still pull the image we want to build just in case we can use the
-cached data.
+The tests/docker/* wildcard seems to only match the files that are directly
+in the tests/docker folder - but changes to the files in the directory
+tests/docker/dockerfiles are currently ignored. Seems like we need a
+separate entry to match the files in that folder. With this wildcard added,
+the stages now get re-run successfully when something in the dockerfiles
+has been changed.
 
+Signed-off-by: Thomas Huth <thuth@redhat.com>
+Reviewed-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
 Signed-off-by: Alex Bennée <alex.bennee@linaro.org>
-Reviewed-by: Daniel P. Berrangé <berrange@redhat.com>
-Tested-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
-Message-Id: <20200713200415.26214-4-alex.bennee@linaro.org>
+Message-Id: <20200713182235.30379-1-thuth@redhat.com>
 
-diff --git a/tests/docker/docker.py b/tests/docker/docker.py
-index 2d67bbd15a..c9f20d8d09 100755
---- a/tests/docker/docker.py
-+++ b/tests/docker/docker.py
-@@ -306,14 +306,18 @@ class Docker(object):
-         checksum = _text_checksum(_dockerfile_preprocess(dockerfile))
+diff --git a/.gitlab-ci.d/containers.yml b/.gitlab-ci.d/containers.yml
+index f3c0ca4d61..8c89efeb6d 100644
+--- a/.gitlab-ci.d/containers.yml
++++ b/.gitlab-ci.d/containers.yml
+@@ -24,6 +24,7 @@
+     - changes:
+       - .gitlab-ci.d/containers.yml
+       - tests/docker/*
++      - tests/docker/dockerfiles/*
+     - if: '$CI_COMMIT_BRANCH == $CI_DEFAULT_BRANCH'
+     - if: '$CI_COMMIT_REF_NAME == "testing/next"'
  
-         if registry is not None:
--            # see if we can fetch a cache copy, may fail...
--            pull_args = ["pull", "%s/%s" % (registry, tag)]
--            if self._do(pull_args, quiet=quiet) == 0:
-+            sources = re.findall("FROM qemu\/(.*)", dockerfile)
-+            # Fetch any cache layers we can, may fail
-+            for s in sources:
-+                pull_args = ["pull", "%s/qemu/%s" % (registry, s)]
-+                if self._do(pull_args, quiet=quiet) != 0:
-+                    registry = None
-+                    break
-+            # Make substitutions
-+            if registry is not None:
-                 dockerfile = dockerfile.replace("FROM qemu/",
-                                                 "FROM %s/qemu/" %
-                                                 (registry))
--            else:
--                registry = None
- 
-         tmp_df = tempfile.NamedTemporaryFile(mode="w+t",
-                                              encoding='utf-8',
-@@ -339,6 +343,8 @@ class Docker(object):
-             build_args += ["--build-arg", "BUILDKIT_INLINE_CACHE=1"]
- 
-         if registry is not None:
-+            pull_args = ["pull", "%s/%s" % (registry, tag)]
-+            self._do(pull_args, quiet=quiet)
-             cache = "%s/%s" % (registry, tag)
-             build_args += ["--cache-from", cache]
-         build_args += argv
 -- 
 2.20.1
 
