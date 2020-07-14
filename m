@@ -2,67 +2,66 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 91FB121E4B7
-	for <lists+qemu-devel@lfdr.de>; Tue, 14 Jul 2020 02:45:57 +0200 (CEST)
-Received: from localhost ([::1]:48136 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0C81121E4AD
+	for <lists+qemu-devel@lfdr.de>; Tue, 14 Jul 2020 02:44:15 +0200 (CEST)
+Received: from localhost ([::1]:39836 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jv952-0002MS-JY
-	for lists+qemu-devel@lfdr.de; Mon, 13 Jul 2020 20:45:56 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:51836)
+	id 1jv93O-0007SV-0i
+	for lists+qemu-devel@lfdr.de; Mon, 13 Jul 2020 20:44:14 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:51882)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1)
  (envelope-from <prvs=457b4eeb6=alistair.francis@wdc.com>)
- id 1jv91m-0005nk-R4
+ id 1jv91n-0005ny-QF
  for qemu-devel@nongnu.org; Mon, 13 Jul 2020 20:42:35 -0400
-Received: from esa5.hgst.iphmx.com ([216.71.153.144]:30777)
+Received: from esa5.hgst.iphmx.com ([216.71.153.144]:30779)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1)
  (envelope-from <prvs=457b4eeb6=alistair.francis@wdc.com>)
- id 1jv91j-0008Oh-ST
- for qemu-devel@nongnu.org; Mon, 13 Jul 2020 20:42:34 -0400
+ id 1jv91k-0008Or-JF
+ for qemu-devel@nongnu.org; Mon, 13 Jul 2020 20:42:35 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple;
  d=wdc.com; i=@wdc.com; q=dns/txt; s=dkim.wdc.com;
  t=1594687352; x=1626223352;
  h=from:to:cc:subject:date:message-id:in-reply-to:
  references:mime-version:content-transfer-encoding;
- bh=xcHlkEUB8K3W8z+63v2B/EdOVM81fq1DzUz4AiTWNF0=;
- b=Qml3mxo+hJ7OZrMMhSG7GUEMgqLwsvSpZvyhf9WC/jCpN9LH/146Pkkc
- lgL5iR+2k5uWQqMzrVLgwVdZzFTOXAEkwScSV5fsupjQGUZXnrBmxbUXM
- ALHfv+/v3SnYV8FlsfALlW4olf3pL9OYG38Def+l3qt43bDmnI7ls0OlH
- UcfKq0lrVTaUWWpcIYrZOg+Lzt1GL3TPIhnqGZ3nTBC2IQJMxDjRg6ORO
- lMSdJjuh02dJdGmQrY9LzsxosyW/PeiqO7uDSMkjjGJhKpmfTv/6x2B2h
- lj4peQPGj01N0APEZMnIxoyesW/Acohj+/FrJqy/rGKOzqfQ78hDktj1g w==;
-IronPort-SDR: rd2390R43e6xH3UuVK3h79UJrp9HPMdAokYr5u26a0t0cvmglrBPv72caT3lPA7LMkDibWDTDY
- 5slmv0/dfVC3c4qMCl4gD5ydociC3yxVNWvQnFIyWYrHFpA/wHtaRH0JeA1kHKF4W3LZD3au14
- Y/nzd/scED2UGSHS+uyo+RL9qBe0lWOC2zFgupNj9kRnSXziLtOV6/dEM+xLcWXVY5z/JV/OFR
- zFz/yWcmEE3t3Y/kfuyw61jSyqfxJtSmKiydFRgUZ6uj1CWW7gklKVG/TSbOH7auS2UX19EKfS
- YmI=
-X-IronPort-AV: E=Sophos;i="5.75,349,1589212800"; d="scan'208";a="142511917"
+ bh=BYgVXpEEC4jyYR1H14v9WltV/KdC/Zt0Ya68bfM3r3I=;
+ b=E+WZFszyY+9lz3KXnk3mQIgkMfCkVBpfnTXryjwv61xC+MxTU61+0swD
+ +jfG0ZPX3SM3ShfL41bDAyfZs1G8uYef3t2C9CpAw0GQSDrgvzOkP9uXJ
+ 3HLTWN9z1oLm8rADeVer7/64oj7TOPfE2QfIMmL+bvMBFhUtK7VkOSbp0
+ QA4we8yWGt1lMzyfsWSj3hmLNCQnGB4kYlQjTHQjw2ZQ4fez+/nJJcqLw
+ aSF0LR5tMoTal1BKiv+1STokMU5Ac9Xwq0XPsOyQSz3DHYxCPEcAqVg8T
+ bsiIiBUiGRoOIPJ0ZVcagnRKcs2IGLc7VdYgPbqhPvEIn1bo6vTzzjBrK w==;
+IronPort-SDR: 8q3fSIjcCngq9sq8HTIQ5WrMJa1nJ69JZu//M6q73GVyyyjZiwd9gcITDqfr1vKpoaWMbl2o7o
+ 0PPeW6mYImE8diw535z5+m2124RmL5IA39efJAWpbTegqIUajp9GQkdCyW1TWazdULiymm+MtR
+ 53TP4t51WunwrE3ReEgQ9v/Z1gkqXck5ToELLCtVJ0Io5K2jMoh7aPK0v7RKDf7h4FPxrtvy3J
+ HO8VUb56xT962zUQEDaQ3E2n7ehMzLE1M+a8aBqDrWGisJXrM42rDHSTnBKPOMtF52x/G+chNw
+ LUE=
+X-IronPort-AV: E=Sophos;i="5.75,349,1589212800"; d="scan'208";a="142511919"
 Received: from uls-op-cesaip01.wdc.com (HELO uls-op-cesaep01.wdc.com)
  ([199.255.45.14])
  by ob1.hgst.iphmx.com with ESMTP; 14 Jul 2020 08:42:28 +0800
-IronPort-SDR: SDCxjQLbb7y50eO3M7HMkH2QfWyWNxLKK2llL5jNThMimd6T5eOgpkydqqU/PbKrHAHF+FamjX
- HxZ/mMoHlCyj4wooJoSeqGL+OzhvjrbiM=
+IronPort-SDR: Yj/VehjmCG4WwWRJjMriDk2anc6AFJHdUZ35yNNyWmObqXa7wWJuzBVTS9QsY+nxDqMTIKeRsQ
+ 79I4r3fI9A1ALsvJzrRfhsLEs5Pt0I9qw=
 Received: from uls-op-cesaip02.wdc.com ([10.248.3.37])
  by uls-op-cesaep01.wdc.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
  13 Jul 2020 17:30:56 -0700
-IronPort-SDR: gPeYaMEnwY2bt33LpY9f2WfaAt9f46Uole8pRi1W2jfjcelVc9ZaBYhsexPDd3cgkooQCQlrCx
- /xH8p9MSM5Fg==
+IronPort-SDR: e2nvsRlCjbAoR554V+1XQ+rfXu/VtY0L3SUWbfL2eZua3cxn7TlT9zeK8Qlm+aC2gWVy/9wsr1
+ y6xHLzvU5+7A==
 WDCIronportException: Internal
 Received: from usa002626.ad.shared (HELO risc6-mainframe.hgst.com)
  ([10.86.57.178])
  by uls-op-cesaip02.wdc.com with ESMTP; 13 Jul 2020 17:42:28 -0700
 From: Alistair Francis <alistair.francis@wdc.com>
 To: qemu-devel@nongnu.org
-Subject: [PULL 01/15] MAINTAINERS: Add an entry for OpenSBI firmware
-Date: Mon, 13 Jul 2020 17:32:40 -0700
-Message-Id: <20200714003254.4044149-2-alistair.francis@wdc.com>
+Subject: [PULL 02/15] hw/riscv: virt: Sort the SoC memmap table entries
+Date: Mon, 13 Jul 2020 17:32:41 -0700
+Message-Id: <20200714003254.4044149-3-alistair.francis@wdc.com>
 X-Mailer: git-send-email 2.27.0
 In-Reply-To: <20200714003254.4044149-1-alistair.francis@wdc.com>
 References: <20200714003254.4044149-1-alistair.francis@wdc.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 Received-SPF: pass client-ip=216.71.153.144;
  envelope-from=prvs=457b4eeb6=alistair.francis@wdc.com;
@@ -88,41 +87,45 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Alistair Francis <alistair.francis@wdc.com>, Bin Meng <bmeng.cn@gmail.com>,
- =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>
+Cc: Bin Meng <bin.meng@windriver.com>,
+ Alistair Francis <alistair.francis@wdc.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Bin Meng <bmeng.cn@gmail.com>
+From: Bin Meng <bin.meng@windriver.com>
 
-List me as the maintainer for OpenSBI firmware related files.
+Adjust the PCIe memory maps to follow the order.
 
-Signed-off-by: Bin Meng <bmeng.cn@gmail.com>
-Reviewed-by: Philippe Mathieu-Daudé <philmd@redhat.com>
-Message-Id: <1593177220-28143-1-git-send-email-bmeng.cn@gmail.com>
+Signed-off-by: Bin Meng <bin.meng@windriver.com>
+Reviewed-by: Alistair Francis <alistair.francis@wdc.com>
+Message-Id: <1593746511-19517-1-git-send-email-bmeng.cn@gmail.com>
 Signed-off-by: Alistair Francis <alistair.francis@wdc.com>
 ---
- MAINTAINERS | 7 +++++++
- 1 file changed, 7 insertions(+)
+ hw/riscv/virt.c | 6 +++---
+ 1 file changed, 3 insertions(+), 3 deletions(-)
 
-diff --git a/MAINTAINERS b/MAINTAINERS
-index fe8139f367..80fa8837e9 100644
---- a/MAINTAINERS
-+++ b/MAINTAINERS
-@@ -2681,6 +2681,13 @@ F: hw/i386/intel_iommu.c
- F: hw/i386/intel_iommu_internal.h
- F: include/hw/i386/intel_iommu.h
+diff --git a/hw/riscv/virt.c b/hw/riscv/virt.c
+index f7630c8a89..18283e262e 100644
+--- a/hw/riscv/virt.c
++++ b/hw/riscv/virt.c
+@@ -60,14 +60,14 @@ static const struct MemmapEntry {
+     [VIRT_TEST] =        {   0x100000,        0x1000 },
+     [VIRT_RTC] =         {   0x101000,        0x1000 },
+     [VIRT_CLINT] =       {  0x2000000,       0x10000 },
++    [VIRT_PCIE_PIO] =    {  0x3000000,       0x10000 },
+     [VIRT_PLIC] =        {  0xc000000,     0x4000000 },
+     [VIRT_UART0] =       { 0x10000000,         0x100 },
+     [VIRT_VIRTIO] =      { 0x10001000,        0x1000 },
+     [VIRT_FLASH] =       { 0x20000000,     0x4000000 },
+-    [VIRT_DRAM] =        { 0x80000000,           0x0 },
+-    [VIRT_PCIE_MMIO] =   { 0x40000000,    0x40000000 },
+-    [VIRT_PCIE_PIO] =    { 0x03000000,    0x00010000 },
+     [VIRT_PCIE_ECAM] =   { 0x30000000,    0x10000000 },
++    [VIRT_PCIE_MMIO] =   { 0x40000000,    0x40000000 },
++    [VIRT_DRAM] =        { 0x80000000,           0x0 },
+ };
  
-+OpenSBI Firmware
-+M: Bin Meng <bmeng.cn@gmail.com>
-+S: Supported
-+F: pc-bios/opensbi-*
-+F: .gitlab-ci.d/opensbi.yml
-+F: .gitlab-ci.d/opensbi/
-+
- Usermode Emulation
- ------------------
- Overall usermode emulation
+ #define VIRT_FLASH_SECTOR_SIZE (256 * KiB)
 -- 
 2.27.0
 
