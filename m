@@ -2,70 +2,67 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 700EE21F74D
-	for <lists+qemu-devel@lfdr.de>; Tue, 14 Jul 2020 18:28:23 +0200 (CEST)
-Received: from localhost ([::1]:58454 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6D4F221F766
+	for <lists+qemu-devel@lfdr.de>; Tue, 14 Jul 2020 18:35:14 +0200 (CEST)
+Received: from localhost ([::1]:38774 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jvNn4-0000aw-HL
-	for lists+qemu-devel@lfdr.de; Tue, 14 Jul 2020 12:28:22 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:37202)
+	id 1jvNth-0005Ic-0x
+	for lists+qemu-devel@lfdr.de; Tue, 14 Jul 2020 12:35:13 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:56246)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1jvNlt-0008GW-QP
- for qemu-devel@nongnu.org; Tue, 14 Jul 2020 12:27:09 -0400
-Received: from us-smtp-2.mimecast.com ([207.211.31.81]:21045
- helo=us-smtp-delivery-1.mimecast.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1jvNlr-0003oU-Sl
- for qemu-devel@nongnu.org; Tue, 14 Jul 2020 12:27:09 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1594744027;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding;
- bh=D01p+tWmBT4PZHPuHyTyUvbeoiIa/o+Z403q1mmhPSQ=;
- b=Z2QuocY2w9TMTwLn78SAELvHk3u07j1up8hrt9Tux2SKsUuplZaXC3E1XIEIjNL49I+46w
- 8K0MIDrEfk0IjM94E5MtNp+a+Xr/ChsiGgJ+Vc9vUsQPM01+vsvhYlxXZpeh+SGuRdtLri
- F/9TYIcL6AgasfvKjfSOpcURx7yveZk=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-287-LhEWiLGsNMWxWzJ78BA6vA-1; Tue, 14 Jul 2020 12:27:05 -0400
-X-MC-Unique: LhEWiLGsNMWxWzJ78BA6vA-1
-Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
- [10.5.11.12])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 1671380040A;
- Tue, 14 Jul 2020 16:27:04 +0000 (UTC)
-Received: from domokun.gsslab.fab.redhat.com (unknown [10.33.8.110])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 5474660BEC;
- Tue, 14 Jul 2020 16:27:00 +0000 (UTC)
-From: =?UTF-8?q?Daniel=20P=2E=20Berrang=C3=A9?= <berrange@redhat.com>
-To: qemu-devel@nongnu.org
-Subject: [PATCH for 5.1] docs: fix trace docs build with sphinx 3.1.1
-Date: Tue, 14 Jul 2020 17:26:59 +0100
-Message-Id: <20200714162659.1017432-1-berrange@redhat.com>
+ (Exim 4.90_1) (envelope-from <pratikp@vayavyalabs.com>)
+ id 1jvNUZ-0001GA-Sm
+ for qemu-devel@nongnu.org; Tue, 14 Jul 2020 12:09:15 -0400
+Received: from mail-wr1-x435.google.com ([2a00:1450:4864:20::435]:43122)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <pratikp@vayavyalabs.com>)
+ id 1jvNUY-0000go-AN
+ for qemu-devel@nongnu.org; Tue, 14 Jul 2020 12:09:15 -0400
+Received: by mail-wr1-x435.google.com with SMTP id j4so22790073wrp.10
+ for <qemu-devel@nongnu.org>; Tue, 14 Jul 2020 09:09:13 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=vayavyalabs.com; s=vayavyalabs;
+ h=mime-version:from:date:message-id:subject:to;
+ bh=mcO1S7w/FCmFH8do+7KTBT1q0YR2g10b+3ffL2m8G3s=;
+ b=REYNLuEaisldZqVg5tDV/4/CUWuO5DRaKarkqTTfmkRXUkHD4D+le2VaUOsqV72KTT
+ sf/engmmMo6zaRy5/8KSxGWoZXfQUu2Ru41ontwCO3c0Hq5yhs246H2KlgiPyL848Tp8
+ 6v1xc47fkBiebLTinyXtm6POY0WbUAyNsoS80=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:from:date:message-id:subject:to;
+ bh=mcO1S7w/FCmFH8do+7KTBT1q0YR2g10b+3ffL2m8G3s=;
+ b=IeY0juw+YkrEJZwy5fExT7Vb0ygnW+M3R8qReDYvJxMhgP/CKmfKs61Nj7hjQSgK9A
+ nyd3oNkkZbEgZQJloEVkhsTv4vLvlP3FirryKOuNdZY2+iDHyQ0TqMXoAMqU/2WCaRbV
+ HhZ2+3i13PQ9a69YluJnQtFHyhJyP4yf3cvZyM0i/PrduF9WDMIo7TxUzRFPZ8wJnmiC
+ 1qj52IjiyTnyzk925qSOuMIEPyM66r0LXCAEn7mv+MPy6bVvydWRra6Ex1riCtOYv4gA
+ IS9TmG3Aa0rZDmlN9lS9bVDMc8bQLc8vGaKwBpwXGuDHXz0GSMlNbq70Nx9bYVMTleW8
+ 4czQ==
+X-Gm-Message-State: AOAM532/KpoUmO92tJG12NwCRFEKvoG4gpClubuY2Hlm6Ar5QpTR47wj
+ noGALTeVkn82xHJAaPA3kgV0+l/xTsrtjNj8o5fiGIYD6f8=
+X-Google-Smtp-Source: ABdhPJwFODYDjGseStALAn8xSglRbIiwjnoiEY0JJGwLAjMf+F6IFtqNA6gCrw8z1TpCE9DdRTiNmnDBLm5+GHVH09o=
+X-Received: by 2002:a5d:51ce:: with SMTP id n14mr6730528wrv.155.1594742951118; 
+ Tue, 14 Jul 2020 09:09:11 -0700 (PDT)
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=207.211.31.81; envelope-from=berrange@redhat.com;
- helo=us-smtp-delivery-1.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/07/14 12:02:09
-X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
-X-Spam_score_int: -30
-X-Spam_score: -3.1
-X-Spam_bar: ---
-X-Spam_report: (-3.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H3=-0.01, RCVD_IN_MSPIKE_WL=-0.01,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+From: Pratik Parvati <pratikp@vayavyalabs.com>
+Date: Tue, 14 Jul 2020 21:39:00 +0530
+Message-ID: <CA+aXn+EkkyiXmKpNhbggy0pjKVpiHxa+TUqEnZLB4v_D=T+7tA@mail.gmail.com>
+Subject: sysbus_create_simple Vs qdev_create
+To: qemu-devel@nongnu.org
+Content-Type: multipart/alternative; boundary="0000000000001c235105aa69074d"
+Received-SPF: pass client-ip=2a00:1450:4864:20::435;
+ envelope-from=pratikp@vayavyalabs.com; helo=mail-wr1-x435.google.com
+X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
+ That's all we know.
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, HTML_MESSAGE=0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
  URIBL_BLOCKED=0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
+X-Mailman-Approved-At: Tue, 14 Jul 2020 12:34:12 -0400
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -77,64 +74,35 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Maydell <peter.maydell@linaro.org>,
- =?UTF-8?q?Daniel=20P=2E=20Berrang=C3=A9?= <berrange@redhat.com>,
- Stefan Hajnoczi <stefanha@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-In Fedora 33 rawhide, we now have sphinx 3.1.1, as opposed
-to previous 2.2.2. This new version generates a warning on
-the source:
+--0000000000001c235105aa69074d
+Content-Type: text/plain; charset="UTF-8"
 
-docs/qemu-option-trace.rst.inc:4:Malformed option description
-  '[enable=]PATTERN', should look like "opt", "-opt args",
-  "--opt args", "/opt args" or "+opt args"
+Hi Support team,
 
-This turns into an error when QEMU passes -W to sphinx-build
+Can someone please guide me to understand the difference between
+*sysbus_create_simple
+*and *qdev_create*?.
 
-Strangely the previous 2.2.2 code has the exact same logic
-for checking the syntax, but it is not being triggered. While
-it is only complaining about the first option, I changed all
-the options to give consistency.
+I understand that these two methods are used to create a new device. But,
+when to use these functions is not clear to me.
 
-Signed-off-by: Daniel P. Berrangé <berrange@redhat.com>
----
- docs/qemu-option-trace.rst.inc | 6 +++---
- 1 file changed, 3 insertions(+), 3 deletions(-)
+Regards,
+Pratik
 
-diff --git a/docs/qemu-option-trace.rst.inc b/docs/qemu-option-trace.rst.inc
-index 7e09773a9c..e79b0b43fc 100644
---- a/docs/qemu-option-trace.rst.inc
-+++ b/docs/qemu-option-trace.rst.inc
-@@ -1,7 +1,7 @@
- 
- Specify tracing options.
- 
--.. option:: [enable=]PATTERN
-+.. option:: -trace [enable=]PATTERN
- 
-   Immediately enable events matching *PATTERN*
-   (either event name or a globbing pattern).  This option is only
-@@ -11,7 +11,7 @@ Specify tracing options.
- 
-   Use :option:`-trace help` to print a list of names of trace points.
- 
--.. option:: events=FILE
-+.. option:: -trace events=FILE
- 
-   Immediately enable events listed in *FILE*.
-   The file must contain one event name (as listed in the ``trace-events-all``
-@@ -19,7 +19,7 @@ Specify tracing options.
-   available if QEMU has been compiled with the ``simple``, ``log`` or
-   ``ftrace`` tracing backend.
- 
--.. option:: file=FILE
-+.. option:: -trace file=FILE
- 
-   Log output traces to *FILE*.
-   This option is only available if QEMU has been compiled with
--- 
-2.24.1
+--0000000000001c235105aa69074d
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
+<div dir=3D"ltr">Hi Support team,<div><br></div><div>Can someone please gui=
+de me to understand the difference between <b>sysbus_create_simple </b>and =
+<b>qdev_create</b>?.</div><div><br></div><div>I understand that these two m=
+ethods are used to create=C2=A0a new device. But, when to use these functio=
+ns is not clear to me.</div><div><br></div><div><div><div dir=3D"ltr" class=
+=3D"gmail_signature" data-smartmail=3D"gmail_signature"><div dir=3D"ltr">Re=
+gards,<div>Pratik</div></div></div></div></div></div>
+
+--0000000000001c235105aa69074d--
 
