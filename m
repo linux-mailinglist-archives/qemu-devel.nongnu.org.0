@@ -2,75 +2,78 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4E11221ED4B
-	for <lists+qemu-devel@lfdr.de>; Tue, 14 Jul 2020 11:54:22 +0200 (CEST)
-Received: from localhost ([::1]:55404 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0A47B21ED4F
+	for <lists+qemu-devel@lfdr.de>; Tue, 14 Jul 2020 11:54:28 +0200 (CEST)
+Received: from localhost ([::1]:56096 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jvHdl-0004mA-B1
-	for lists+qemu-devel@lfdr.de; Tue, 14 Jul 2020 05:54:21 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:58334)
+	id 1jvHdq-00052r-V7
+	for lists+qemu-devel@lfdr.de; Tue, 14 Jul 2020 05:54:26 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:58382)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1jvHcK-0003JA-9s
- for qemu-devel@nongnu.org; Tue, 14 Jul 2020 05:52:52 -0400
-Received: from us-smtp-1.mimecast.com ([205.139.110.61]:21572
- helo=us-smtp-delivery-1.mimecast.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1jvHcI-0003wH-BC
- for qemu-devel@nongnu.org; Tue, 14 Jul 2020 05:52:52 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1594720369;
- h=from:from:reply-to:reply-to:subject:subject:date:date:
- message-id:message-id:to:to:cc:cc:mime-version:mime-version:
- content-type:content-type:in-reply-to:in-reply-to:  references:references;
- bh=4ahIVRdzroTWucRtnmtZSf+bit5vhDlHW2uFf3XtDWs=;
- b=Bi/xE3ubO0vMpPDPm9aWV+6m6AtyX057wthT+4ZHRLjhdUKBuZ5uf/MaeMePsS2NqRr600
- ofFua2I28JpEOmH51QV0BAkBIDSG8htFkBundKfm/rPebIOgvXenBuvUmX6FrMh1ZcdCd/
- SYOBINqoGI/s3QO4loprtN+Wof6iruc=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-58-U1TwQ5vQMpS001brehneNg-1; Tue, 14 Jul 2020 05:52:47 -0400
-X-MC-Unique: U1TwQ5vQMpS001brehneNg-1
-Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
- [10.5.11.22])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id EF2098015F3;
- Tue, 14 Jul 2020 09:52:45 +0000 (UTC)
-Received: from redhat.com (unknown [10.36.110.42])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id D799210013C1;
- Tue, 14 Jul 2020 09:52:36 +0000 (UTC)
-Date: Tue, 14 Jul 2020 10:52:33 +0100
-From: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
-To: Peter Maydell <peter.maydell@linaro.org>
-Subject: Re: [PATCH 1/1] MAINTAINERS: introduce cve or security quotient field
-Message-ID: <20200714095233.GC25187@redhat.com>
-References: <20200714083631.888605-1-ppandit@redhat.com>
- <20200714083631.888605-2-ppandit@redhat.com>
- <CAFEAcA9QWLmi1fGuPW93GXFKV2KCwNs6Xp3U9MU2r4wtendzhg@mail.gmail.com>
+ (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
+ id 1jvHcN-0003LW-39
+ for qemu-devel@nongnu.org; Tue, 14 Jul 2020 05:52:55 -0400
+Received: from mail-wm1-x32b.google.com ([2a00:1450:4864:20::32b]:37902)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
+ id 1jvHcJ-0003wL-B4
+ for qemu-devel@nongnu.org; Tue, 14 Jul 2020 05:52:54 -0400
+Received: by mail-wm1-x32b.google.com with SMTP id f18so4419721wml.3
+ for <qemu-devel@nongnu.org>; Tue, 14 Jul 2020 02:52:50 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=L2383ygox23OkXNGUUP7eYuUraK/rzJVGt7aIDSFsLs=;
+ b=F12q7TL7D2oHKEZ2QfH0fK3+sQ4UIqcvKLfIqcaZBMM1R6Z5VV1RRYBRLIwpEobGuq
+ yHoGXvziLQbwCKt7xQYTIchWlIQ7Mu7j39nWBOx+57V+dFlSGOZrFoS1go/mfJ29g2o0
+ n6QbahsfUL+vVaFkFkSqjQqhN8ensXOalcLAU8CNMYMQsOvttXXc10kAaFw+1yIz+ASx
+ uR/p5UnjlBoEX2yh3SC4ggdSXOhvqdypinbO65hRAoemyMhC/RPRUyFD3OX3liWiUZF2
+ HB3tMKGFzLTsdGNnkQbi8YPQQQ/hqT9bWoY8vV5kCmIp80KatcHmoSMtYjUk7YO+JcTQ
+ Q7+g==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=L2383ygox23OkXNGUUP7eYuUraK/rzJVGt7aIDSFsLs=;
+ b=b3NFi8lIfQIUy466Fua3b/7Ru2K8Ptdg0QnTZYsCQONaiPnzSX2gWdfg7npjDc6MJ+
+ 8igXobCGtk5n747EZCY2eUxbdeFhOpo/cgm19GcHloPrg0Vz/GfVAy8uQ0p/FsmaXjjS
+ wIN8XRE/rAs+YJCKRa78NOo+LySt9390ndxT/hUBktgYOgmufWdqgvLyjRkU/det67t4
+ Zyc7zpL8oWSgAoQkdXGtzjlTd+0G7eYsy1QmUiYW8E80JLYOc4xS1eUM1uym4kGrmLCf
+ ZCY/03akwl3tzoCbnqnptN5nli6njVhGLNu1/zKJdPfenqUWb2/uLEKsAaAZHkmknDxH
+ 8kKQ==
+X-Gm-Message-State: AOAM532wh7b4pcDsw+sJ4Yx0Tp7Z/hgB1s//i2npAoyX/aJ8SqpWiomN
+ kRFQ0z71kx30BR4AEju/MG8h6Q==
+X-Google-Smtp-Source: ABdhPJwVsJHaEBSZl8u7jlD5tpR9/MC4rXc2HNyQmDmz/9cRkk002c0dM/d2UgfvdmBl7BusZUUB6g==
+X-Received: by 2002:a1c:28a:: with SMTP id 132mr3372432wmc.109.1594720369516; 
+ Tue, 14 Jul 2020 02:52:49 -0700 (PDT)
+Received: from zen.linaroharston ([51.148.130.216])
+ by smtp.gmail.com with ESMTPSA id k11sm30852815wrd.23.2020.07.14.02.52.47
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Tue, 14 Jul 2020 02:52:48 -0700 (PDT)
+Received: from zen.lan (localhost [127.0.0.1])
+ by zen.linaroharston (Postfix) with ESMTP id 4D1161FF7E;
+ Tue, 14 Jul 2020 10:52:47 +0100 (BST)
+From: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
+To: peter.maydell@linaro.org
+Subject: [PULL 0/9] final misc fixes for 5.1-rc0
+Date: Tue, 14 Jul 2020 10:52:38 +0100
+Message-Id: <20200714095247.19573-1-alex.bennee@linaro.org>
+X-Mailer: git-send-email 2.20.1
 MIME-Version: 1.0
-In-Reply-To: <CAFEAcA9QWLmi1fGuPW93GXFKV2KCwNs6Xp3U9MU2r4wtendzhg@mail.gmail.com>
-User-Agent: Mutt/1.14.5 (2020-06-23)
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=berrange@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Received-SPF: pass client-ip=205.139.110.61; envelope-from=berrange@redhat.com;
- helo=us-smtp-delivery-1.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/07/14 03:57:32
-X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
-X-Spam_score_int: -40
-X-Spam_score: -4.1
-X-Spam_bar: ----
-X-Spam_report: (-4.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-1, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001, URIBL_BLOCKED=0.001 autolearn=ham autolearn_force=no
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=2a00:1450:4864:20::32b;
+ envelope-from=alex.bennee@linaro.org; helo=mail-wm1-x32b.google.com
+X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
+ That's all we know.
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ URIBL_BLOCKED=0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -83,113 +86,65 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
-Cc: Kevin Wolf <kwolf@redhat.com>, Stefano Stabellini <sstabellini@kernel.org>,
- Prasad J Pandit <pjp@fedoraproject.org>,
- "Michael S . Tsirkin" <mst@redhat.com>,
- QEMU Developers <qemu-devel@nongnu.org>,
- Christian Schoenebeck <qemu_oss@crudebyte.com>,
- Michael Roth <mdroth@linux.vnet.ibm.com>, P J P <ppandit@redhat.com>,
- Greg Kurz <groug@kaod.org>, Stefan Hajnoczi <stefanha@redhat.com>,
- Paolo Bonzini <pbonzini@redhat.com>
+Cc: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>,
+ qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Tue, Jul 14, 2020 at 10:42:55AM +0100, Peter Maydell wrote:
-> On Tue, 14 Jul 2020 at 09:40, P J P <ppandit@redhat.com> wrote:
-> >
-> > From: Prasad J Pandit <pjp@fedoraproject.org>
-> >
-> > QEMU supports numerous virtualisation and emulation use cases.
-> > It also offers many features to support guest's function(s).
-> >
-> > All of these use cases and features are not always security relevant.
-> > Because some maybe used in trusted environments only. Some may still
-> > be in experimental stage. While other could be very old and not
-> > used or maintained actively.
-> >
-> > For security bug analysis we generally consider use cases wherein
-> > QEMU is used in conjunction with the KVM hypervisor, which enables
-> > guest to use hardware processor's virtualisation features.
-> >
-> > The CVE (or Security or Trust) Quotient field tries to capture this
-> > sensitivity pertaining to a feature or section of the code.
-> >
-> > It indicates whether a potential issue should be treated as a security
-> > one OR it could be fixed as a regular non-security bug.
-> 
-> How does this interact with the way we already document our
-> level of security support in docs/system/security.rst ?
-> 
-> > +       C: CVE/Security/Trust Quotient
-> > +          H:High - Feature (or code) is meant to be safe and used by untrusted
-> > +                   guests. So any potential security issue must be processed with
-> > +                   due care and be considered as a CVE issue.
-> > +          L:Low  - Feature (or code) is not meant to be safe OR is experimental
-> > +                   OR is used in trusted environments only OR is not well
-> > +                   maintained. So any potential security issue can be processed
-> > +                   and fixed as regular non-security bug. No need for a CVE.
-> 
-> The difficulty with this is that MAINTAINERS is not set up
-> with a split between "security issues" and "non-security
-> issues". For instance this stanza:
-> 
-> > @@ -149,6 +161,7 @@ ARM TCG CPUs
-> >  M: Peter Maydell <peter.maydell@linaro.org>
-> >  L: qemu-arm@nongnu.org
-> >  S: Maintained
-> > +C: Low
-> >  F: target/arm/
-> >  F: tests/tcg/arm/
-> >  F: tests/tcg/aarch64/
-> 
-> you have marked "Low", but the files it covers include
-> both ones used by TCG (not security-critical) and ones
-> used by KVM (security-critical).
-> 
-> Also, MAINTAINERS is not user-facing. If we want to say
-> that vvfat or 9pfs are not suitable for use on a security
-> boundary and that we do not consider bugs in them to
-> be security issues, we should do that in the user-facing
-> documentation.
-> 
-> Broadly speaking, it feels like you're trying to come up
-> with an automatic way to say "does this patch touch a
-> security-relevant part of the code", and I'm not sure
-> that that's possible.
+The following changes since commit 20c1df5476e1e9b5d3f5b94f9f3ce01d21f14c46:
 
-I agree that it isn't possible in the MAINTAINERS file, as the level
-of granularity is a very poor match for what we want to express.
+  Merge remote-tracking branch 'remotes/kraxel/tags/fixes-20200713-pull-request' into staging (2020-07-13 16:58:44 +0100)
 
-My high level thought would be that we should ultimately be able to
-have a build flag to request only security-critical code is built
-into the binaries.
+are available in the Git repository at:
 
-This is probably a bit too much of a stretch goal right now, but it
-at least points towards maintaining the information on a per-file
-level of granularity. There might be some individual files which
-currently contain a mix security-critical/not-security critical
-code. Either they can be split eventually, or we can simply declare
-that the entire file is none the less security critical.
+  https://github.com/stsquad/qemu.git tags/pull-misc-for-rc0-140720-1
 
-We could perhaps have a magic comment at the top of each file that
-is security critical. eg
+for you to fetch changes up to 4e6400c97024c2660b6db8aab1f0677744449f36:
 
- /* @security: maintained */
+  plugins: expand the bb plugin to be thread safe and track per-cpu (2020-07-14 09:08:25 +0100)
 
-we don't need any comment in files we consider non-maintained from
-a security POV.  Eventually we could do some (insert hand waving)
-magic in meson to pull out this list of comments and use it to
-exclude build of files that are not security critical. Maybe we
-find out that using a magic comment isn't the best option, but
-at least if we start now by keeping a per-file comment, we can
-probably do an automated transformation to any other data storage
-later.
+----------------------------------------------------------------
+Final fixes for 5.1-rc0
 
-Daniel
+  - minor documentation nit
+  - clean all deps on re(configure)
+  - docker.py bootstrap fixes
+  - tweak containers.yml wildcards
+  - fix float16 nan detection
+  - conditional use of -Wpsabi
+  - fix missing iotlb data for plugins
+  - proper locking for helper based bb count
+
+----------------------------------------------------------------
+Alex Bennée (6):
+      docs/devel: fix grammar in multi-thread-tcg
+      configure: remove all dependencies on a (re)configure
+      docker.py: fix fetching of FROM layers
+      tests/plugins: don't unconditionally add -Wpsabi
+      cputlb: ensure we save the IOTLB data in case of reset
+      plugins: expand the bb plugin to be thread safe and track per-cpu
+
+LIU Zhiwei (1):
+      fpu/softfloat: fix up float16 nan recognition
+
+Thomas Huth (2):
+      tests/docker: Remove the libssh workaround from the ubuntu 20.04 image
+      gitlab-ci/containers: Add missing wildcard where we should look for changes
+
+ docs/devel/multi-thread-tcg.rst            |  2 +-
+ configure                                  | 18 +++---
+ include/hw/core/cpu.h                      | 16 +++++
+ include/qemu/typedefs.h                    |  1 +
+ accel/tcg/cputlb.c                         | 38 +++++++++++-
+ fpu/softfloat-specialize.inc.c             |  4 +-
+ tests/plugin/bb.c                          | 97 ++++++++++++++++++++++++++----
+ .gitlab-ci.d/containers.yml                |  1 +
+ tests/docker/docker.py                     | 16 +++--
+ tests/docker/dockerfiles/ubuntu2004.docker |  3 -
+ tests/plugin/Makefile                      | 22 +++++--
+ 11 files changed, 178 insertions(+), 40 deletions(-)
+
 -- 
-|: https://berrange.com      -o-    https://www.flickr.com/photos/dberrange :|
-|: https://libvirt.org         -o-            https://fstop138.berrange.com :|
-|: https://entangle-photo.org    -o-    https://www.instagram.com/dberrange :|
+2.20.1
 
 
