@@ -2,68 +2,67 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5DCA522009B
-	for <lists+qemu-devel@lfdr.de>; Wed, 15 Jul 2020 00:28:18 +0200 (CEST)
-Received: from localhost ([::1]:46920 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id AC99F220097
+	for <lists+qemu-devel@lfdr.de>; Wed, 15 Jul 2020 00:27:25 +0200 (CEST)
+Received: from localhost ([::1]:43372 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jvTPN-00024m-AR
-	for lists+qemu-devel@lfdr.de; Tue, 14 Jul 2020 18:28:17 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:50012)
+	id 1jvTOW-0000ed-LR
+	for lists+qemu-devel@lfdr.de; Tue, 14 Jul 2020 18:27:24 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:50160)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1jvTJn-0000yr-4H
- for qemu-devel@nongnu.org; Tue, 14 Jul 2020 18:22:31 -0400
-Received: from us-smtp-2.mimecast.com ([205.139.110.61]:21519
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1jvTJs-0001Ae-MO
+ for qemu-devel@nongnu.org; Tue, 14 Jul 2020 18:22:36 -0400
+Received: from us-smtp-2.mimecast.com ([205.139.110.61]:48214
  helo=us-smtp-delivery-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1jvTJd-0004gn-Hn
- for qemu-devel@nongnu.org; Tue, 14 Jul 2020 18:22:30 -0400
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1jvTJh-0004j9-Ro
+ for qemu-devel@nongnu.org; Tue, 14 Jul 2020 18:22:36 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1594765340;
+ s=mimecast20190719; t=1594765344;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=VtAHwUMbT3DZQFjgf7HP2io0KT4bOSabkBp+DZ3uFOE=;
- b=HDQYy7reADmK0ef34/J+g41oSU1TB+PBxD36/TRzPHu2gnQKfVIyrRU9VwbXyXkHdveyUc
- 0MQhFcsUGaYAIFDZovjaRRlTc0GYkB9jO5juXd7EtXP0z61hHsj5Bg35lgJm9C+w1H50mS
- W6nQlIcuwptCQA2bbNlJdFbM2wSlQuw=
-Received: from mail-wr1-f70.google.com (mail-wr1-f70.google.com
- [209.85.221.70]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-182-MkhiJw3RPMmAZEFeurOK5g-1; Tue, 14 Jul 2020 18:22:19 -0400
-X-MC-Unique: MkhiJw3RPMmAZEFeurOK5g-1
-Received: by mail-wr1-f70.google.com with SMTP id s16so25255wrv.1
- for <qemu-devel@nongnu.org>; Tue, 14 Jul 2020 15:22:19 -0700 (PDT)
+ bh=yI/gwTOC/ILtlhkZf0FnguyCxPWQjiV56qaIviljiXg=;
+ b=cJ5sk1ls3gkj15Zy30hgCk6IQc2XfL1howXf40k0hXnE/hNUZkGXnMOOuQdM6RejPHiqlU
+ Z7brF453PuoUdOj3SSQC2hjfxmGO0ZqrojnwacJeDRyQovQYqpKjd/c6l1I3hprqbx4gKK
+ hM8SjbxW0GAtYju9HAEFZS5+mdjyL2I=
+Received: from mail-wr1-f72.google.com (mail-wr1-f72.google.com
+ [209.85.221.72]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-378-5miYbdudO9CRUfyIytE0fA-1; Tue, 14 Jul 2020 18:22:23 -0400
+X-MC-Unique: 5miYbdudO9CRUfyIytE0fA-1
+Received: by mail-wr1-f72.google.com with SMTP id i12so20685wrx.11
+ for <qemu-devel@nongnu.org>; Tue, 14 Jul 2020 15:22:23 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=VtAHwUMbT3DZQFjgf7HP2io0KT4bOSabkBp+DZ3uFOE=;
- b=UqdPpGzBtpVhtAmN+mrka1vriXWSesUAqDaENT/sAaSDKssSWdbzNyeMD0KQqGM+hZ
- WLRaFxkQnv6Ql2BidTIQmnZXWRLQZHJ+YBrO5v4oCVt8xKO7lFqanudN3yIm+sYZ7oF9
- ovVLbzGq5pjZa6WLhfdMd0UIXeqYcmvlbGzQpy3QBwQdqVU+/0/WtQ3AWgJ32BeEp1jS
- Q6kAJl9jo3/GxHVCn46fQAEqjUAffZqd0kSlHm9g5xhovU+++wsYyAMJnJdLJA0YUWPl
- SG41qQdT6WTdIW9ZFL3XNcY2k0hh+/o8mM93mZqz8s0Ryb4qgCxsq22LwL4mbGETx1NP
- 4qOA==
-X-Gm-Message-State: AOAM531EDz6gh+TW6g5vO+QteOQGLMpmXMsr7Y9OnSqzBf1hkAoW9UOy
- 2fPJ1eL3pRdMWL5E/xO5TnEgWWbm9gTzB71lVlUGELpAuPQ8DIhkD5Cs7iN2aH8dFu4PiIQzt/c
- Pi5WjnPKcqhCWD18=
-X-Received: by 2002:adf:db42:: with SMTP id f2mr8018684wrj.298.1594765337201; 
- Tue, 14 Jul 2020 15:22:17 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJwYlZoqndMmXVvUNG7YjLVhDx9CeTYBym6U33tY9gsnqfWWKCkgtUnfCoQdUpcE8uh4ePWUAA==
-X-Received: by 2002:adf:db42:: with SMTP id f2mr8018663wrj.298.1594765337015; 
- Tue, 14 Jul 2020 15:22:17 -0700 (PDT)
+ bh=yI/gwTOC/ILtlhkZf0FnguyCxPWQjiV56qaIviljiXg=;
+ b=L70WkW7lD7rR8Y8Q+WtWfuc9nDVIbry/XWwXD36lK1iv2z88tRz16qyjH7vduWswoL
+ R0+5p4ZJtYnnAJll8GHaXJNZ9MpmmAjbl4SI7idb4NCcGSgCj2iP1gQZGLOxAW2lRLhu
+ 07ff9kP/Ez9OKQJVY8PgCDH5sgW9hoGoSE1KlbfZ1wtihWM7Gt+Wn3x+Vqm4t/bgxYPK
+ BxDxBCGB/eLjP8l4h6L/lws23o7JbDJDQ3Vm4pgg96GlWLRqyWt/41KqFw4KsFPQWnHm
+ iE03gR5PkaKceW2QJM+cqFJYrAY/0woOuVmbSsNB8b12+mfQuvDwlTW805dU1U5ZKDh/
+ cc9g==
+X-Gm-Message-State: AOAM5322zeoiH3eF8kYxEnh75c15Z45zuNVgzVB21MiLPCT+nT97itlp
+ 8swucyYwHvw4mie4G1WFftTnm6RfsxZTA3sAgqV5ZpnyDSssYyZB/o4kxFNSmZnXHvKsr49urNd
+ xc+JxaFbWaVCeCDo=
+X-Received: by 2002:a1c:e209:: with SMTP id z9mr5861731wmg.153.1594765341877; 
+ Tue, 14 Jul 2020 15:22:21 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJzjmKxmbIJW0/cPl2BPl6yPDtNyf1lHyHgquft37qp4ZS8FqBv/eUDsxQxvcesIaxdOKwQPrA==
+X-Received: by 2002:a1c:e209:: with SMTP id z9mr5861718wmg.153.1594765341691; 
+ Tue, 14 Jul 2020 15:22:21 -0700 (PDT)
 Received: from localhost.localdomain
  (138.red-83-57-170.dynamicip.rima-tde.net. [83.57.170.138])
- by smtp.gmail.com with ESMTPSA id l18sm176389wrm.52.2020.07.14.15.22.15
+ by smtp.gmail.com with ESMTPSA id k18sm186277wrx.34.2020.07.14.15.22.20
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 14 Jul 2020 15:22:16 -0700 (PDT)
+ Tue, 14 Jul 2020 15:22:21 -0700 (PDT)
 From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PULL 09/19] tests/acceptance: wait() instead of shutdown() where
- appropriate
-Date: Wed, 15 Jul 2020 00:21:22 +0200
-Message-Id: <20200714222132.10815-10-philmd@redhat.com>
+Subject: [PULL 10/19] tests/acceptance: Don't test reboot on cubieboard
+Date: Wed, 15 Jul 2020 00:21:23 +0200
+Message-Id: <20200714222132.10815-11-philmd@redhat.com>
 X-Mailer: git-send-email 2.21.3
 In-Reply-To: <20200714222132.10815-1-philmd@redhat.com>
 References: <20200714222132.10815-1-philmd@redhat.com>
@@ -96,105 +95,69 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Aleksandar Rikalo <aleksandar.rikalo@syrmia.com>,
- Eduardo Habkost <ehabkost@redhat.com>, John Snow <jsnow@redhat.com>,
+Cc: Eduardo Habkost <ehabkost@redhat.com>, John Snow <jsnow@redhat.com>,
  Wainer dos Santos Moschetta <wainersm@redhat.com>,
- Ahmed Karaman <ahmedkhaledkaraman@gmail.com>,
- Aleksandar Markovic <aleksandar.qemu.devel@gmail.com>,
- Cleber Rosa <crosa@redhat.com>,
- =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
- Aurelien Jarno <aurelien@aurel32.net>
+ Ahmed Karaman <ahmedkhaledkaraman@gmail.com>, Cleber Rosa <crosa@redhat.com>,
+ =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: John Snow <jsnow@redhat.com>
 
-When issuing 'reboot' to a VM with the no-reboot option, that VM will
-exit. When then issuing a shutdown command, the cleanup may race.
+cubieboard does not have a functioning reboot, it halts and QEMU does
+not exit.
 
-Add calls to vm.wait() which will gracefully mark the VM as having
-exited. Subsequent vm.shutdown() calls in generic tearDown code will not
-race when called after completion of the call.
+vm.shutdown() is modified in a forthcoming patch that makes it less tolerant
+of race conditions on shutdown; tests should consciously decide to WAIT
+or to SHUTDOWN qemu.
+
+So long as this test is attempting to reboot, the correct choice would
+be to WAIT for the VM to exit. However, since that's broken, we should
+SHUTDOWN instead.
+
+SHUTDOWN is indeed what already happens when the test performs teardown,
+however, if anyone fixes cubieboard reboot in the future, this test will
+develop a new race condition that might be hard to debug.
+
+Therefore: remove the reboot test and make it obvious that the VM is
+still running when the test concludes, where the test teardown will do
+the right thing.
 
 Signed-off-by: John Snow <jsnow@redhat.com>
 Reviewed-by: Philippe Mathieu-Daudé <philmd@redhat.com>
 Reviewed-by: Cleber Rosa <crosa@redhat.com>
 Tested-by: Cleber Rosa <crosa@redhat.com>
-Message-Id: <20200710050649.32434-9-jsnow@redhat.com>
+Message-Id: <20200710050649.32434-10-jsnow@redhat.com>
 Signed-off-by: Philippe Mathieu-Daudé <philmd@redhat.com>
 ---
- tests/acceptance/boot_linux_console.py   | 10 ++++++++++
- tests/acceptance/linux_ssh_mips_malta.py |  2 ++
- 2 files changed, 12 insertions(+)
+ tests/acceptance/boot_linux_console.py | 8 ++------
+ 1 file changed, 2 insertions(+), 6 deletions(-)
 
 diff --git a/tests/acceptance/boot_linux_console.py b/tests/acceptance/boot_linux_console.py
-index 3d02519660..5867ef760c 100644
+index 5867ef760c..8b8b828bc5 100644
 --- a/tests/acceptance/boot_linux_console.py
 +++ b/tests/acceptance/boot_linux_console.py
-@@ -191,6 +191,8 @@ def test_mips_malta_cpio(self):
-                                                 'Debian')
-         exec_command_and_wait_for_pattern(self, 'reboot',
-                                                 'reboot: Restarting system')
-+        # Wait for VM to shut down gracefully
-+        self.vm.wait()
- 
-     @skipUnless(os.getenv('AVOCADO_ALLOW_UNTRUSTED_CODE'), 'untrusted code')
-     def test_mips64el_malta_5KEc_cpio(self):
-@@ -231,6 +233,8 @@ def test_mips64el_malta_5KEc_cpio(self):
-                                                 '3.19.3.mtoman.20150408')
-         exec_command_and_wait_for_pattern(self, 'reboot',
-                                                 'reboot: Restarting system')
-+        # Wait for VM to shut down gracefully
-+        self.vm.wait()
- 
-     def do_test_mips_malta32el_nanomips(self, kernel_url, kernel_hash):
-         kernel_path_xz = self.fetch_asset(kernel_url, asset_hash=kernel_hash)
-@@ -506,6 +510,7 @@ def test_arm_cubieboard_initrd(self):
+@@ -508,9 +508,7 @@ def test_arm_cubieboard_initrd(self):
+                                                 'Allwinner sun4i/sun5i')
+         exec_command_and_wait_for_pattern(self, 'cat /proc/iomem',
                                                  'system-control@1c00000')
-         exec_command_and_wait_for_pattern(self, 'reboot',
-                                                 'reboot: Restarting system')
-+        # NB: Do not issue vm.wait() here, cubieboard's reboot does not exit!
+-        exec_command_and_wait_for_pattern(self, 'reboot',
+-                                                'reboot: Restarting system')
+-        # NB: Do not issue vm.wait() here, cubieboard's reboot does not exit!
++        # cubieboard's reboot is not functioning; omit reboot test.
  
      def test_arm_cubieboard_sata(self):
          """
-@@ -550,6 +555,7 @@ def test_arm_cubieboard_sata(self):
+@@ -553,9 +551,7 @@ def test_arm_cubieboard_sata(self):
+                                                 'Allwinner sun4i/sun5i')
+         exec_command_and_wait_for_pattern(self, 'cat /proc/partitions',
                                                  'sda')
-         exec_command_and_wait_for_pattern(self, 'reboot',
-                                                 'reboot: Restarting system')
-+        # NB: Do not issue vm.wait() here, cubieboard's reboot does not exit!
+-        exec_command_and_wait_for_pattern(self, 'reboot',
+-                                                'reboot: Restarting system')
+-        # NB: Do not issue vm.wait() here, cubieboard's reboot does not exit!
++        # cubieboard's reboot is not functioning; omit reboot test.
  
      def test_arm_orangepi(self):
-         """
-@@ -615,6 +621,8 @@ def test_arm_orangepi_initrd(self):
-                                                 'system-control@1c00000')
-         exec_command_and_wait_for_pattern(self, 'reboot',
-                                                 'reboot: Restarting system')
-+        # Wait for VM to shut down gracefully
-+        self.vm.wait()
- 
-     def test_arm_orangepi_sd(self):
-         """
-@@ -662,6 +670,8 @@ def test_arm_orangepi_sd(self):
-             '3 packets transmitted, 3 packets received, 0% packet loss')
-         exec_command_and_wait_for_pattern(self, 'reboot',
-                                                 'reboot: Restarting system')
-+        # Wait for VM to shut down gracefully
-+        self.vm.wait()
- 
-     @skipUnless(os.getenv('AVOCADO_ALLOW_LARGE_STORAGE'), 'storage limited')
-     @skipUnless(P7ZIP_AVAILABLE, '7z not installed')
-diff --git a/tests/acceptance/linux_ssh_mips_malta.py b/tests/acceptance/linux_ssh_mips_malta.py
-index 90d7f2f167..25c5c5f741 100644
---- a/tests/acceptance/linux_ssh_mips_malta.py
-+++ b/tests/acceptance/linux_ssh_mips_malta.py
-@@ -212,6 +212,8 @@ def check_mips_malta(self, uname_m, endianess):
- 
-         self.run_common_commands(wordsize)
-         self.shutdown_via_ssh()
-+        # Wait for VM to shut down gracefully
-+        self.vm.wait()
- 
-     def test_mips_malta32eb_kernel3_2_0(self):
          """
 -- 
 2.21.3
