@@ -2,52 +2,52 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1D1F621EA2A
-	for <lists+qemu-devel@lfdr.de>; Tue, 14 Jul 2020 09:35:48 +0200 (CEST)
-Received: from localhost ([::1]:54266 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C339721EA20
+	for <lists+qemu-devel@lfdr.de>; Tue, 14 Jul 2020 09:34:26 +0200 (CEST)
+Received: from localhost ([::1]:47152 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jvFTf-00066J-6f
-	for lists+qemu-devel@lfdr.de; Tue, 14 Jul 2020 03:35:47 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:52874)
+	id 1jvFSL-0003FJ-Q5
+	for lists+qemu-devel@lfdr.de; Tue, 14 Jul 2020 03:34:25 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:52868)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1jvFRA-0001ZR-33
- for qemu-devel@nongnu.org; Tue, 14 Jul 2020 03:33:12 -0400
-Received: from mout.kundenserver.de ([212.227.17.24]:43819)
+ (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1jvFR9-0001YR-Ld
+ for qemu-devel@nongnu.org; Tue, 14 Jul 2020 03:33:11 -0400
+Received: from mout.kundenserver.de ([217.72.192.75]:42057)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1jvFR5-00024P-Vx
+ (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1jvFR6-00024T-68
  for qemu-devel@nongnu.org; Tue, 14 Jul 2020 03:33:11 -0400
 Received: from localhost.localdomain ([78.238.229.36]) by
  mrelayeu.kundenserver.de (mreue107 [212.227.15.183]) with ESMTPSA (Nemesis)
- id 1M734j-1jwac91SqV-008cPY; Tue, 14 Jul 2020 09:33:06 +0200
+ id 1MMnru-1kBfrK2xgy-00IhZz; Tue, 14 Jul 2020 09:33:06 +0200
 From: Laurent Vivier <laurent@vivier.eu>
 To: qemu-devel@nongnu.org
-Subject: [PULL 4/7] linux-user: add new netlink types
-Date: Tue, 14 Jul 2020 09:32:56 +0200
-Message-Id: <20200714073259.1464675-5-laurent@vivier.eu>
+Subject: [PULL 5/7] linux-user: add netlink RTM_SETLINK command
+Date: Tue, 14 Jul 2020 09:32:57 +0200
+Message-Id: <20200714073259.1464675-6-laurent@vivier.eu>
 X-Mailer: git-send-email 2.26.2
 In-Reply-To: <20200714073259.1464675-1-laurent@vivier.eu>
 References: <20200714073259.1464675-1-laurent@vivier.eu>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-Provags-ID: V03:K1:AbIAij+Z3f0St+yHezyXFOZxIBusGhUoJNPuAphHcS4/dzNbV8O
- 3lTx+skyChLXYcYMZmjv340Q+zxVlq0WJsfcg49qR6etqsPZfPoBhvsQfkmEkcaGXyqlesj
- mV66BIuWP8T3SqXAXyqqoExkcssxSx4Y2OkR7i3H35t0fAjo4ypJVre63+9xjvQpBX/74zz
- oPf0iH7AY6Y9s7TkoqWAw==
-X-UI-Out-Filterresults: notjunk:1;V03:K0:VXI+FDNetjk=:8dKehAlsZa1jYs3FQn1wYF
- IBhVW9CVqSf0rUHJCNcd3t2SBO6PEfakIZJ1Mtt2rH25LQgmcaUIbdMceCalFiLWtV5TWVp9V
- gNJp+ccZdrHePJtkojZDsfK//Z56CC5caWDfHyMp3zZewAbAo9FwCWqbWWOqwK0QUmWkQVoJl
- +0tv1Q0eJlZU4yQcO+ny5hJV+cxYAfDoGDME8WR3nXphEj2C+bCvWGlcrmt8fLg4nfqwZ3UWB
- By+oB6/QpHNxEgz5O1nwWZr0wlW6jnXq9Fy1h0+snGlFPEo0HP768zrGGpehDjeswuwRBfTPP
- 9p39dJANNmG/SVxt9VfqzR0qWThOknGXfHAwMHO6zPn0WqOWIpAKJJOm0WDGugcmlJsWDWvq7
- 3JcUie5IHKhlBH5XuW+1gEPiHE4clQFje40uCrRAjzTwmxV8DZtHymnkofO3Fq/JAICcNMn3p
- 6T7MMq2w2r/0YUbcXqRBrECcl8KYZ6c1P9tuSIwhvSfq+6myNFbnyX54AT7oNAE1mtoVSIQHE
- KRYOm30nWaVP1ZBstA2ckWejscz9Wgu2eZiRsu5s916k5dIBuhvm05dLYzgkKT99w9PUTfFXz
- S1QuEeaynHD/5GWOv2OnKG6g34tQ9ILehxL8m8QmGMkJoEWm4oUkv3rnE27Y8XsNUNGDrA8M3
- qz4Xu5HFXtv+9HnU5x1qXlsvlIzFT/tBYA9ymasg+TQGJ7ZqRsByKXPR+gQuJ/2o2IfXu8f9L
- ajRIkI0wTA36QcYX3M/iTD6rSqGFby4dxxhQ4IDj8TVMDY7Yn3aSBjXoUcp8SBLSYxmsMPYp5
- r87wGpnV41GdlpaVcNmTUXNtsNIok0YkjLPSUlL1fByUkr/K/5xCr8JnrmMMYyHbu8wCNZs
-Received-SPF: none client-ip=212.227.17.24; envelope-from=laurent@vivier.eu;
+X-Provags-ID: V03:K1:YTr5QFQR2Wca624ayED3bdxReXiTeZe/3JxL/lhehSe2StzQ/T5
+ jZkSwbVvsiD2UL5UPdLvSDNcYKEGfv9ozDlRv9Dup45WebNunsfP+JmX+we8qBj20z02aSy
+ 6xp0gQ9P2OOPgeS1uxeIfqL1br3xkyn0uKSPV937c5NfK12ZCpnydgnXFQs68pZAc669Ln/
+ WlAGByhblPgOxTLV+lvCQ==
+X-UI-Out-Filterresults: notjunk:1;V03:K0:py25baA/w8o=:6nfN6g+EWhM2fUy8em6n4P
+ +kSsPl7wvqJV32LS9tCwFJUFKPXaM+pnZCC5jM9+PgzDlC/Z7rpWZmBSvv593Aq1NEEwsLyN9
+ 9TCoYxCe2lh0LlplvvbrdzH1E4l7lLiIJlMliMAB/ith19lffgjYQkXAbFcg9xohTsDbDoJaU
+ FklNIGtChfHciSQ+pFOIs2eAW/hJEocLES3mP6I36GT6NjVq3UB9l3mBZXtNuUXk/uQw+zFwQ
+ SElZ0kILEeBDMNdPAzOlCxTZFWL18bnSMWTxa6vmEjDNH+T8Kozdhqu2B6GKsuyewHUqg6uYr
+ FlNMPtqENSSnuafp0rHCXB+5oRbJ5ju+F19tpNitTMdrH+F6JcGZf+XgWzTYWghTmQInS4z+j
+ FAlbnAbFM8KkwHEL8ymgZia+UkuxqH3BNuWdXCmtAdWtkFgR94P/aE3ihb7TcvDXzOejGC/b7
+ Jubl4RB+KKmob3ORmKoxqXNb8dxwopgDo5EDAfDRRRQacGuZ9GxMTiwZSwj+lSKB9deKEtLFX
+ HJcQxv0K7U8xk4/HcQm6gz6XJ2rjSHaVnJGldwjmQ/Gt1wkCSY7LMZ7IJ2jezDzb3Cvckxys1
+ ap07eDdyHblduxp4uM8RmlSk3GLdUh5A1ARQ93zrhTKZsVbk5m7SQFoZ4aLEyAlsnJDy5hEkl
+ wAOOpG8k04Qz5kHXPqDFRcYmMk7FJsayI40IcopG1y5RSCmeBWrV6BgzJSQbTG9sEYHz+wufC
+ 0HHUGZ8k6bgsOKLS1jNx13EWuQ4XGLb9beEQHCHCWC8P+Rd4ZbLelb6kKgUTU29cwVNVhi3QX
+ 9hbyVNtGEBixnDdghKymPUXmly72dS9pZZZVfMrAczeDNSV50tPCWX9tOMZCu0/QfP6D0Gh
+Received-SPF: none client-ip=217.72.192.75; envelope-from=laurent@vivier.eu;
  helo=mout.kundenserver.de
 X-detected-operating-system: by eggs.gnu.org: First seen = 2020/07/14 03:33:06
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic]
@@ -73,42 +73,41 @@ Cc: Laurent Vivier <laurent@vivier.eu>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Only implement IFLA_PERM_ADDRESS to fix the following error:
+This command is needed to be able to boot systemd in a container.
 
-  Unknown host QEMU_IFLA type: 54
+  $ sudo systemd-nspawn -D /chroot/armhf/sid/ -b
+  Spawning container sid on /chroot/armhf/sid.
+  Press ^] three times within 1s to kill container.
+  systemd 245.6-2 running in system mode.
+  Detected virtualization systemd-nspawn.
+  Detected architecture arm.
 
-The couple of other ones, IFLA_PROP_LIST and IFLA_ALT_IFNAME, have
-been introduced to be used with RTM_NEWLINKPROP, RTM_DELLINKPROP and
-RTM_GETLINKPROP that are not implemented by QEMU.
+  Welcome to Debian GNU/Linux bullseye/sid!
+
+  Set hostname to <virt-arm>.
+  Failed to enqueue loopback interface start request: Operation not supported
+  Caught <SEGV>, dumped core as pid 3.
+  Exiting PID 1...
+  Container sid failed with error code 255.
 
 Signed-off-by: Laurent Vivier <laurent@vivier.eu>
-Message-Id: <20200709072332.890440-1-laurent@vivier.eu>
+Message-Id: <20200709072332.890440-2-laurent@vivier.eu>
 ---
- linux-user/fd-trans.c | 4 ++++
- 1 file changed, 4 insertions(+)
+ linux-user/fd-trans.c | 1 +
+ 1 file changed, 1 insertion(+)
 
 diff --git a/linux-user/fd-trans.c b/linux-user/fd-trans.c
-index c0687c52e62b..5d49a53552b2 100644
+index 5d49a53552b2..1486c81aaa27 100644
 --- a/linux-user/fd-trans.c
 +++ b/linux-user/fd-trans.c
-@@ -133,6 +133,9 @@ enum {
-     QEMU_IFLA_NEW_IFINDEX,
-     QEMU_IFLA_MIN_MTU,
-     QEMU_IFLA_MAX_MTU,
-+    QEMU_IFLA_PROP_LIST,
-+    QEMU_IFLA_ALT_IFNAME,
-+    QEMU_IFLA_PERM_ADDRESS,
-     QEMU___IFLA_MAX
- };
- 
-@@ -807,6 +810,7 @@ static abi_long host_to_target_data_link_rtattr(struct rtattr *rtattr)
-     /* binary stream */
-     case QEMU_IFLA_ADDRESS:
-     case QEMU_IFLA_BROADCAST:
-+    case QEMU_IFLA_PERM_ADDRESS:
-     /* string */
-     case QEMU_IFLA_IFNAME:
-     case QEMU_IFLA_QDISC:
+@@ -1204,6 +1204,7 @@ static abi_long target_to_host_data_route(struct nlmsghdr *nlh)
+         break;
+     case RTM_NEWLINK:
+     case RTM_DELLINK:
++    case RTM_SETLINK:
+         if (nlh->nlmsg_len >= NLMSG_LENGTH(sizeof(*ifi))) {
+             ifi = NLMSG_DATA(nlh);
+             ifi->ifi_type = tswap16(ifi->ifi_type);
 -- 
 2.26.2
 
