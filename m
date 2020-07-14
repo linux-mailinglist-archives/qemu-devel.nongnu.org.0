@@ -2,45 +2,45 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7FFBB21EBA9
-	for <lists+qemu-devel@lfdr.de>; Tue, 14 Jul 2020 10:42:55 +0200 (CEST)
-Received: from localhost ([::1]:38914 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5DAD921EBA7
+	for <lists+qemu-devel@lfdr.de>; Tue, 14 Jul 2020 10:42:10 +0200 (CEST)
+Received: from localhost ([::1]:35640 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jvGWc-0003Uf-K5
-	for lists+qemu-devel@lfdr.de; Tue, 14 Jul 2020 04:42:54 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:38244)
+	id 1jvGVt-0002BT-ED
+	for lists+qemu-devel@lfdr.de; Tue, 14 Jul 2020 04:42:09 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:38250)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <chenyi.qiang@intel.com>)
- id 1jvGU3-0007mT-FC
+ id 1jvGU3-0007nH-T5
  for qemu-devel@nongnu.org; Tue, 14 Jul 2020 04:40:15 -0400
-Received: from mga12.intel.com ([192.55.52.136]:43779)
+Received: from mga12.intel.com ([192.55.52.136]:43778)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <chenyi.qiang@intel.com>)
- id 1jvGTz-0002ZL-DJ
+ id 1jvGU1-0002ZH-K5
  for qemu-devel@nongnu.org; Tue, 14 Jul 2020 04:40:15 -0400
-IronPort-SDR: PFPqKxIJbo8+Nt7Y9j5pD4sHmx7ImIbhcGCFqoVqAwVSYiPRW7C5YA2g5W1OrZooMlRew1I8VR
- sWwdJHSsV5xQ==
-X-IronPort-AV: E=McAfee;i="6000,8403,9681"; a="128407139"
-X-IronPort-AV: E=Sophos;i="5.75,350,1589266800"; d="scan'208";a="128407139"
+IronPort-SDR: TEURLu353O9g1NW+qIcOag0knlVN7n5aaj4Vm1Lsc/97toHS64BgD2DT9cBpyRzqYLsPulp6Qz
+ Xig5lUJQrMeA==
+X-IronPort-AV: E=McAfee;i="6000,8403,9681"; a="128407142"
+X-IronPort-AV: E=Sophos;i="5.75,350,1589266800"; d="scan'208";a="128407142"
 X-Amp-Result: SKIPPED(no attachment in message)
 X-Amp-File-Uploaded: False
 Received: from orsmga002.jf.intel.com ([10.7.209.21])
  by fmsmga106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 14 Jul 2020 01:40:10 -0700
-IronPort-SDR: tbMOYftRXr70ITZnjJYrGMCyEzeLo5t2VnsnAQnGoljP5Pty/072IK88UEEaoLYU8MbRWwKCUh
- DSUL2TDnSgIw==
+ 14 Jul 2020 01:40:12 -0700
+IronPort-SDR: CGFfTRrSRttfzqVi1U/srNkBdpgz/52MYZbGUIUWAwK4O+XZxqRrpn6GIJsX7seRyh/GXHMrtR
+ 7kn9I3yIwOjg==
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.75,350,1589266800"; d="scan'208";a="299464851"
+X-IronPort-AV: E=Sophos;i="5.75,350,1589266800"; d="scan'208";a="299464867"
 Received: from chenyi-pc.sh.intel.com ([10.239.159.72])
- by orsmga002.jf.intel.com with ESMTP; 14 Jul 2020 01:40:08 -0700
+ by orsmga002.jf.intel.com with ESMTP; 14 Jul 2020 01:40:10 -0700
 From: Chenyi Qiang <chenyi.qiang@intel.com>
 To: Paolo Bonzini <pbonzini@redhat.com>, Richard Henderson <rth@twiddle.net>,
  Eduardo Habkost <ehabkost@redhat.com>
-Subject: [PATCH v6 2/3] target/i386: fix model number and add missing features
- for Icelake-Server CPU model
-Date: Tue, 14 Jul 2020 16:41:47 +0800
-Message-Id: <20200714084148.26690-3-chenyi.qiang@intel.com>
+Subject: [PATCH v6 3/3] target/i386: add the missing vmx features for
+ Skylake-Server and Cascadelake-Server CPU models
+Date: Tue, 14 Jul 2020 16:41:48 +0800
+Message-Id: <20200714084148.26690-4-chenyi.qiang@intel.com>
 X-Mailer: git-send-email 2.17.1
 In-Reply-To: <20200714084148.26690-1-chenyi.qiang@intel.com>
 References: <20200714084148.26690-1-chenyi.qiang@intel.com>
@@ -70,9 +70,8 @@ Cc: Xiaoyao Li <xiaoyao.li@intel.com>, qemu-devel@nongnu.org,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Add the missing features(sha_ni, avx512ifma, rdpid, fsrm,
-vmx-rdseed-exit, vmx-pml, vmx-eptp-switching) and change the model
-number to 106 in the Icelake-Server-v4 CPU model.
+Add the missing vmx features in Skylake-Server and Cascadelake-Server
+CPU models based on the output of Paolo's script.
 
 Signed-off-by: Chenyi Qiang <chenyi.qiang@intel.com>
 ---
@@ -80,26 +79,33 @@ Signed-off-by: Chenyi Qiang <chenyi.qiang@intel.com>
  1 file changed, 14 insertions(+)
 
 diff --git a/target/i386/cpu.c b/target/i386/cpu.c
-index 55e063babe..6afc59d8ff 100644
+index 6afc59d8ff..1dca1713bd 100644
 --- a/target/i386/cpu.c
 +++ b/target/i386/cpu.c
-@@ -3512,6 +3512,20 @@ static X86CPUDefinition builtin_x86_defs[] = {
+@@ -3034,6 +3034,13 @@ static X86CPUDefinition builtin_x86_defs[] = {
                      { /* end of list */ }
-                 },
+                 }
              },
 +            {
 +                .version = 4,
 +                .props = (PropValue[]) {
-+                    { "sha-ni", "on" },
-+                    { "avx512ifma", "on" },
-+                    { "rdpid", "on" },
-+                    { "fsrm", "on" },
-+                    { "vmx-rdseed-exit", "on" },
-+                    { "vmx-pml", "on" },
 +                    { "vmx-eptp-switching", "on" },
-+                    { "model", "106" },
 +                    { /* end of list */ }
-+                },
++                }
++            },
+             { /* end of list */ }
+         }
+     },
+@@ -3158,6 +3165,13 @@ static X86CPUDefinition builtin_x86_defs[] = {
+                   { /* end of list */ }
+               },
+             },
++            { .version = 4,
++              .note = "ARCH_CAPABILITIES, no TSX",
++              .props = (PropValue[]) {
++                  { "vmx-eptp-switching", "on" },
++                  { /* end of list */ }
++              },
 +            },
              { /* end of list */ }
          }
