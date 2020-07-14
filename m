@@ -2,71 +2,72 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id AB4DA21ED4C
-	for <lists+qemu-devel@lfdr.de>; Tue, 14 Jul 2020 11:54:25 +0200 (CEST)
-Received: from localhost ([::1]:55780 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C3C6321ED5F
+	for <lists+qemu-devel@lfdr.de>; Tue, 14 Jul 2020 11:55:58 +0200 (CEST)
+Received: from localhost ([::1]:35218 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jvHdo-0004vA-LP
-	for lists+qemu-devel@lfdr.de; Tue, 14 Jul 2020 05:54:24 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:58364)
+	id 1jvHfJ-00083L-On
+	for lists+qemu-devel@lfdr.de; Tue, 14 Jul 2020 05:55:57 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:58386)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1jvHcL-0003Jq-Pu
- for qemu-devel@nongnu.org; Tue, 14 Jul 2020 05:52:53 -0400
-Received: from mail-wm1-x32a.google.com ([2a00:1450:4864:20::32a]:36564)
+ id 1jvHcN-0003Lk-8S
+ for qemu-devel@nongnu.org; Tue, 14 Jul 2020 05:52:55 -0400
+Received: from mail-wm1-x344.google.com ([2a00:1450:4864:20::344]:54158)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1jvHcK-0003wT-1N
- for qemu-devel@nongnu.org; Tue, 14 Jul 2020 05:52:53 -0400
-Received: by mail-wm1-x32a.google.com with SMTP id 17so4413881wmo.1
- for <qemu-devel@nongnu.org>; Tue, 14 Jul 2020 02:52:51 -0700 (PDT)
+ id 1jvHcL-0003wi-GL
+ for qemu-devel@nongnu.org; Tue, 14 Jul 2020 05:52:54 -0400
+Received: by mail-wm1-x344.google.com with SMTP id j18so4145143wmi.3
+ for <qemu-devel@nongnu.org>; Tue, 14 Jul 2020 02:52:53 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=rpooH7rvGB3Q2o270AjlbKN5BMcUh/GjMl+HqsE1wCk=;
- b=V924s+NoRN+c6b6k3H1j7a91OPnoYYlgfOX4F1J7J6c+6rXCpcpBRBJXK/zuHJaWPu
- mdLEU7ePqDaPCvtdureyJSeX3KLP7zt5hB8Qic7VH/EIVPlIDr8kjBUD5zQAOJRxZFDq
- Ct4RzoaISAxsJBWmmP4KdqvpofILakBIrWJJaeDail+ogVnLZoW5MP2T5sjuNnNhTWmK
- nd5AM3+2aphsTQVStBCOBRad5MEfZImmXltPhJJgGy1iC0W0jLqkmuO7IAYgKopa/ann
- DBFi+cA5AitBlGXcQHn9iZxpZmQ+gR5P+iDjIEQw2a0h96JG73yCdoadQTCYbVg+oKM2
- Eo5g==
+ bh=i/rZS2K2Az8C+lisjWwqZtaVxOPrNRDFcL8rDoPQEgQ=;
+ b=dXINzGG3ag6LKDbkW4BjtgVmcpQ9NraO57pT0C9QAZziDLD7emdkHuf6Q2abfhtT5x
+ yEj33N7okEGgOpXvmTmq+HkmVrQPFolV3RI/2k3nSV6KPXRAXO1z5k48LX1FeTTjGzyA
+ vtpfG18DcyO90lrbMMAGTtoCKJXhcnFGditbhycA1oJzkm9eJx+enxRK0n7Lz+4+blDf
+ Sfx0ZCiO1MJx9dXLqHxGc0bVER5k33M/MbXDMVIvv8kmWb0gs6sAJ+5QLwoWB/6R3twU
+ dN5m+kkhaY6l9rokKo5JeaK0p6d0tFvrKRCDyMDvQRzaV2AxcRryr1cpjZm/nZk10tpk
+ DtiA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=rpooH7rvGB3Q2o270AjlbKN5BMcUh/GjMl+HqsE1wCk=;
- b=iJWAKIXB3+wp+66TqXg0vAZFDGixZk+zvh4DbU40TyOOQ4r0gpMACNqICTr9Q2CsEm
- xdvgHyRNVe3AswWXUsSfSovKwd+Vaw/falxCoOdTLizzoON8GKvLqJIMw3PSn6EYc4Gg
- Tn6TDIfFiP1ZH8XdoCTGwBkKknkPiN1Qg563JyUb9RIPef5gVm9oNW4vJm4+v9trbM6H
- g8MVOZDAB/2lOx5WOYwKCgGoty6ch2aUFrLsi+nPH0AY7t4ypEPeKvL8XbkfO9RFf8zD
- HvG5e45ZW9+/nAjbWXYXR8p/9cZn1tEvnXeIvS0c0fNTPkXGr0IAIlDWNVY8UmEG+mXT
- 7nhw==
-X-Gm-Message-State: AOAM5332TLW3+NNUe2pX2SRblo6SeC10Zr4IacadmONy4D8LzRg9BeaZ
- wp4v8AIHPotOZILi3h7W6SKPaA==
-X-Google-Smtp-Source: ABdhPJz6zQv/dKeCqIEu3Md9klfn7C2kiyPfVok9t0Wfd3L0+lNDjPIwfobvwkA5atocSXsRAttg9Q==
-X-Received: by 2002:a1c:48c5:: with SMTP id v188mr3384740wma.58.1594720370652; 
- Tue, 14 Jul 2020 02:52:50 -0700 (PDT)
+ bh=i/rZS2K2Az8C+lisjWwqZtaVxOPrNRDFcL8rDoPQEgQ=;
+ b=W16Q3MHGq6YqARQkKyH66HAyRHNqqzhLhOgbW09+6wIWnkqvnawppWD9xCizbQXlV/
+ Sb3NllX80yNktr/egV+RObejYTMJ8qyZlKADIdBhDb/rklNad030Bz+b7iMeobk1ytJ2
+ Cb0eiGdcQdVq7gpobVreLrDRrZXz7cOXEAmXhS281M8pt6KOr7zrA+sqNC0nz+KEcvsy
+ A3/gWEpnlJbnmsYyBWGoJe3Dm/eEoYl+NPIM1F9iPg1iUPMRiDQP12x48z08yjSu0QN7
+ OxxCmQzkNhFOjHCY2WYYLLXIJXtZF9k39SQaPGxwCJLhARknKjBh+G+s+FZc4gMhC72t
+ i6+w==
+X-Gm-Message-State: AOAM530IKbVzG7gecn54iuLRGHNvybIaUDP3XKER7j8i57ed8wFNUAAC
+ 2+zI/LSYuIIcvXL8K9uj55zoZA==
+X-Google-Smtp-Source: ABdhPJznHBmb+IdXhZHq1ca5YJCx+0epWppijMPExaFNmEYQGzFzVu5AAhkWa0NR3YqmFuZTTnaR0A==
+X-Received: by 2002:a05:600c:2116:: with SMTP id
+ u22mr3406458wml.82.1594720371966; 
+ Tue, 14 Jul 2020 02:52:51 -0700 (PDT)
 Received: from zen.linaroharston ([51.148.130.216])
- by smtp.gmail.com with ESMTPSA id a22sm3546965wmj.9.2020.07.14.02.52.47
+ by smtp.gmail.com with ESMTPSA id u8sm28169159wrt.28.2020.07.14.02.52.47
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
  Tue, 14 Jul 2020 02:52:48 -0700 (PDT)
 Received: from zen.lan (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id 6259C1FF87;
+ by zen.linaroharston (Postfix) with ESMTP id 7890E1FF8C;
  Tue, 14 Jul 2020 10:52:47 +0100 (BST)
 From: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
 To: peter.maydell@linaro.org
-Subject: [PULL 1/9] docs/devel: fix grammar in multi-thread-tcg
-Date: Tue, 14 Jul 2020 10:52:39 +0100
-Message-Id: <20200714095247.19573-2-alex.bennee@linaro.org>
+Subject: [PULL 2/9] configure: remove all dependencies on a (re)configure
+Date: Tue, 14 Jul 2020 10:52:40 +0100
+Message-Id: <20200714095247.19573-3-alex.bennee@linaro.org>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20200714095247.19573-1-alex.bennee@linaro.org>
 References: <20200714095247.19573-1-alex.bennee@linaro.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::32a;
- envelope-from=alex.bennee@linaro.org; helo=mail-wm1-x32a.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::344;
+ envelope-from=alex.bennee@linaro.org; helo=mail-wm1-x344.google.com
 X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
  That's all we know.
 X-Spam_score_int: -20
@@ -89,31 +90,72 @@ List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
 Cc: Richard Henderson <richard.henderson@linaro.org>,
- Thomas Huth <thuth@redhat.com>,
- =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>, qemu-devel@nongnu.org
+ =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>, qemu-devel@nongnu.org,
+ =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Review comment came just too late ;-)
+The previous code was brittle and missed cases such as the mipn32
+variants which for some reason has the 64 bit syscalls. This leads to
+a number of binary targets having deps lines like:
 
+  all.clang-sanitizer/mipsn32el-linux-user/linux-user/signal.d
+  140:  /home/alex/lsrc/qemu.git/linux-user/mips64/syscall_nr.h \
+  455:/home/alex/lsrc/qemu.git/linux-user/mips64/syscall_nr.h:
+
+  all.clang-sanitizer/mipsn32el-linux-user/linux-user/syscall.d
+  146:  /home/alex/lsrc/qemu.git/linux-user/mips64/syscall_nr.h \
+  485:/home/alex/lsrc/qemu.git/linux-user/mips64/syscall_nr.h:
+
+which in turn would trigger the re-generation of syscall_nr.h in the
+source tree (thanks to generic %/syscall_nr.h rules). The previous
+code attempts to clean it out but misses edge cases but fails.
+
+After spending a day trying to understand how this was happening I'm
+unconvinced that there are not other such breakages possible with this
+"caching". As we add more auto-generated code to the build it is likely
+to trip up again. Apply a hammer to the problem.
+
+Fixes: 91e5998f18 (which fixes 5f29856b852d and 4d6a835dea47)
 Signed-off-by: Alex Bennée <alex.bennee@linaro.org>
 Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
-Reviewed-by: Thomas Huth <thuth@redhat.com>
-Message-Id: <20200713200415.26214-9-alex.bennee@linaro.org>
+Reviewed-by: Philippe Mathieu-Daudé <philmd@redhat.com>
+Message-Id: <20200713200415.26214-2-alex.bennee@linaro.org>
 
-diff --git a/docs/devel/multi-thread-tcg.rst b/docs/devel/multi-thread-tcg.rst
-index 42158b77c7..21483870db 100644
---- a/docs/devel/multi-thread-tcg.rst
-+++ b/docs/devel/multi-thread-tcg.rst
-@@ -107,7 +107,7 @@ including:
+diff --git a/configure b/configure
+index bc3b9ad931..e1de2f5b24 100755
+--- a/configure
++++ b/configure
+@@ -1955,23 +1955,20 @@ EOF
+ exit 0
+ fi
  
-   - debugging operations (breakpoint insertion/removal)
-   - some CPU helper functions
--  - linux-user spawning it's first thread
-+  - linux-user spawning its first thread
+-# Remove old dependency files to make sure that they get properly regenerated
+-rm -f */config-devices.mak.d
+-
+ # Remove syscall_nr.h to be sure they will be regenerated in the build
+ # directory, not in the source directory
+ for arch in alpha hppa m68k xtensa sh4 microblaze arm ppc s390x sparc sparc64 \
+     i386 x86_64 mips mips64 ; do
+     # remove the file if it has been generated in the source directory
+     rm -f "${source_path}/linux-user/${arch}/syscall_nr.h"
+-    # remove the dependency files
+-    for target in ${arch}*-linux-user ; do
+-        test -d "${target}" && find "${target}" -type f -name "*.d" \
+-             -exec grep -q "${source_path}/linux-user/${arch}/syscall_nr.h" {} \; \
+-             -print | while read file ; do rm "${file}" "${file%.d}.o" ; done
+-    done
+ done
  
- This is done with the async_safe_run_on_cpu() mechanism to ensure all
- vCPUs are quiescent when changes are being made to shared global
++# Clean out all old dependency files. As more files are generated we
++# run the risk of old dependencies triggering generation in the wrong
++# places. Previous brittle attempts to be surgical tend to miss edge
++# cases leading to wasted time and much confusion.
++find -type f -name "*.d" -exec rm -f {} \;
++
+ if test -z "$python"
+ then
+     error_exit "Python not found. Use --python=/path/to/python"
 -- 
 2.20.1
 
