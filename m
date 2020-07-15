@@ -2,88 +2,50 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B1C8F2200B4
-	for <lists+qemu-devel@lfdr.de>; Wed, 15 Jul 2020 00:33:05 +0200 (CEST)
-Received: from localhost ([::1]:35328 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 90C3922017A
+	for <lists+qemu-devel@lfdr.de>; Wed, 15 Jul 2020 02:43:53 +0200 (CEST)
+Received: from localhost ([::1]:45964 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jvTU0-0000dF-PT
-	for lists+qemu-devel@lfdr.de; Tue, 14 Jul 2020 18:33:04 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:50648)
+	id 1jvVWa-0001sf-6N
+	for lists+qemu-devel@lfdr.de; Tue, 14 Jul 2020 20:43:52 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:54488)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1jvTKV-0002OW-AG
- for qemu-devel@nongnu.org; Tue, 14 Jul 2020 18:23:15 -0400
-Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:50702
- helo=us-smtp-1.mimecast.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1jvTKQ-0004xx-Cm
- for qemu-devel@nongnu.org; Tue, 14 Jul 2020 18:23:15 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1594765389;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=Akupi2/psErTNl648GD773WL1cQbHEfDPZG4YPkFXLs=;
- b=bppqArzsDqcBwpInWR6vq2doUZNlZagkRfUaIi45Qko7XQn0566YvKoL++iFhtM7mUKkhp
- QRWRZexkZeyvT2NaXex9XUSjo3yToK66xuB59ClXopQvHFEqR24lGIRFZVFXrbSP5bxdNG
- eAQ88EER4ZbBEOEKmUmYo73Z0tMs8zs=
-Received: from mail-wm1-f71.google.com (mail-wm1-f71.google.com
- [209.85.128.71]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-462-yyqF41_9PEWTeYW7Tzf-kQ-1; Tue, 14 Jul 2020 18:23:08 -0400
-X-MC-Unique: yyqF41_9PEWTeYW7Tzf-kQ-1
-Received: by mail-wm1-f71.google.com with SMTP id s134so94655wme.6
- for <qemu-devel@nongnu.org>; Tue, 14 Jul 2020 15:23:08 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
- :references:mime-version:content-transfer-encoding;
- bh=Akupi2/psErTNl648GD773WL1cQbHEfDPZG4YPkFXLs=;
- b=F9F9OuyOThagS1Ga6X/yOwNDqX6XOOQi9J0gSORy1Xys4wDdMNE9INd5eWl992AZUL
- GrPfEFYvHltZG24T7bRRiILEJNhRbmMYl9gBkIJ1fjb2yKpLOSUjRZSferNvnOuh3R4D
- GtGxM7UmTmOSgFBMfAC6iCY5NWSw+fHkSCvLYNj4bWsmzwm58re6Xew4xFg452gNHkVR
- 7+qUr7T1MXa36pRRVxmGVW7wUQRIl0B94b3gLtDWaneASr+EeL9FrpiGIdujD2VGvgbb
- ad8wZ6xfT0KfyUt89N17KJ65Trj2Uy99glg5a4NHiiP+HZS02HrsPJFnJq7dOqOG3lwO
- wYSA==
-X-Gm-Message-State: AOAM531n1v94I6kCvcYlm05Cmc+sHC+Jq3516ng+ZKqSJtPubO/Jtqrp
- by5XbTvAfYymiWmrXgbQsBuFut9SMHcT/cZlUeD7CTg6DLr+8OswYu3dOIl+dB7BcplXsLMgn8m
- p0TFF88r0xgVTo7U=
-X-Received: by 2002:a05:600c:313:: with SMTP id
- q19mr5112983wmd.9.1594765385249; 
- Tue, 14 Jul 2020 15:23:05 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJzl1qd4y1/guXy5rG6B2MQmlkEIjFWiigjiGR1tZNete2GxbwUixFCefgmCOIC3Bxi6hpAqSA==
-X-Received: by 2002:a05:600c:313:: with SMTP id
- q19mr5112971wmd.9.1594765385077; 
- Tue, 14 Jul 2020 15:23:05 -0700 (PDT)
-Received: from localhost.localdomain
- (138.red-83-57-170.dynamicip.rima-tde.net. [83.57.170.138])
- by smtp.gmail.com with ESMTPSA id w17sm200963wra.42.2020.07.14.15.23.03
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 14 Jul 2020 15:23:04 -0700 (PDT)
-From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>
-To: qemu-devel@nongnu.org
-Subject: [PULL 19/19] python/qmp.py: add QMPProtocolError
-Date: Wed, 15 Jul 2020 00:21:32 +0200
-Message-Id: <20200714222132.10815-20-philmd@redhat.com>
-X-Mailer: git-send-email 2.21.3
-In-Reply-To: <20200714222132.10815-1-philmd@redhat.com>
-References: <20200714222132.10815-1-philmd@redhat.com>
+ (Exim 4.90_1) (envelope-from <anton@ozlabs.org>)
+ id 1jvVVY-0001NI-1a; Tue, 14 Jul 2020 20:42:48 -0400
+Received: from bilbo.ozlabs.org ([203.11.71.1]:53129 helo=ozlabs.org)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <anton@ozlabs.org>)
+ id 1jvVVV-0000rq-Ne; Tue, 14 Jul 2020 20:42:47 -0400
+Received: by ozlabs.org (Postfix, from userid 1010)
+ id 4B5zB25fnXz9sSJ; Wed, 15 Jul 2020 10:42:34 +1000 (AEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ozlabs.org; s=201707;
+ t=1594773754; bh=/TyJzMbOJQa9CTD0cHsHyVEACrfeVc4/HM858imVirU=;
+ h=From:To:Cc:Subject:Date:From;
+ b=AlkYxLnZ0mDwWTVrPwdGCiThbGFOaVaSsIzxCox/5sdlN6FexE33E5s8IDdryyKWm
+ 36YA2GlgA/gYqg/hPY7wZpozE+XKxgVzfbuYjrcyhMn+Gf9P8064Gb4FSs6z9rPqPi
+ M5vVtSfwNL57rzcn8lNHsvFNVz3p0YXfVQsphsm+QXNlFWyxnIhl8H/IPPGluUP4cU
+ pPui8XSworvJ9Y3Sy/vx/+dmqboJd/kjr6tAAvTLD+75HxJ9lf5fS/fQWopwtFUuRS
+ x91wBXISFkhAdc5Za3sTzslrrArfxz2vkfGcNprHgXOz6M9PH03ZYr+/RvrkEP27Ee
+ mYXfDdHfdl+eQ==
+From: Anton Blanchard <anton@ozlabs.org>
+To: david@gibson.dropbear.id.au, groug@kaod.org, aik@ozlabs.ru,
+ nathanl@linux.ibm.com
+Subject: [PATCH] ppc/spapr: Fix 32 bit logical memory block size assumptions
+Date: Wed, 15 Jul 2020 10:42:28 +1000
+Message-Id: <20200715004228.1262681-1-anton@ozlabs.org>
+X-Mailer: git-send-email 2.26.2
 MIME-Version: 1.0
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=UTF-8;
-	text/plain; charset="utf-8"
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=205.139.110.120; envelope-from=philmd@redhat.com;
- helo=us-smtp-1.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/07/14 01:42:04
-X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
-X-Spam_score_int: -40
-X-Spam_score: -4.1
-X-Spam_bar: ----
-X-Spam_report: (-4.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-1, SPF_HELO_NONE=0.001,
+Received-SPF: pass client-ip=203.11.71.1; envelope-from=anton@ozlabs.org;
+ helo=ozlabs.org
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/07/14 20:42:36
+X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic]
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, SPF_HELO_PASS=-0.001,
  SPF_PASS=-0.001, URIBL_BLOCKED=0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -97,56 +59,43 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Kevin Wolf <kwolf@redhat.com>, Eduardo Habkost <ehabkost@redhat.com>,
- John Snow <jsnow@redhat.com>, Ahmed Karaman <ahmedkhaledkaraman@gmail.com>,
- Cleber Rosa <crosa@redhat.com>,
- =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>
+Cc: qemu-ppc@nongnu.org, qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: John Snow <jsnow@redhat.com>
+When testing large LMB sizes (eg 4GB), I found a couple of places
+that assume they are 32bit in size.
 
-In the case that we receive a reply but are unable to understand it,
-use this exception name to indicate that case.
-
-Signed-off-by: John Snow <jsnow@redhat.com>
-Reviewed-by: Philippe Mathieu-Daudé <philmd@redhat.com>
-Reviewed-by: Kevin Wolf <kwolf@redhat.com>
-Message-Id: <20200710052220.3306-7-jsnow@redhat.com>
-Signed-off-by: Philippe Mathieu-Daudé <philmd@redhat.com>
+Signed-off-by: Anton Blanchard <anton@ozlabs.org>
 ---
- python/qemu/qmp.py | 10 ++++++++++
- 1 file changed, 10 insertions(+)
+ hw/ppc/spapr.c | 6 ++++--
+ 1 file changed, 4 insertions(+), 2 deletions(-)
 
-diff --git a/python/qemu/qmp.py b/python/qemu/qmp.py
-index 1ae36050a4..7935dababb 100644
---- a/python/qemu/qmp.py
-+++ b/python/qemu/qmp.py
-@@ -62,6 +62,12 @@ class QMPTimeoutError(QMPError):
-     """
- 
- 
-+class QMPProtocolError(QMPError):
-+    """
-+    QMP protocol error; unexpected response
-+    """
-+
-+
- class QMPResponseError(QMPError):
-     """
-     Represents erroneous QMP monitor reply
-@@ -266,6 +272,10 @@ def command(self, cmd, **kwds):
-         ret = self.cmd(cmd, kwds)
-         if 'error' in ret:
-             raise QMPResponseError(ret)
-+        if 'return' not in ret:
-+            raise QMPProtocolError(
-+                "'return' key not found in QMP response '{}'".format(str(ret))
-+            )
-         return cast(QMPReturnValue, ret['return'])
- 
-     def pull_event(self, wait=False):
+diff --git a/hw/ppc/spapr.c b/hw/ppc/spapr.c
+index a1b06defe6..0ba2526215 100644
+--- a/hw/ppc/spapr.c
++++ b/hw/ppc/spapr.c
+@@ -558,7 +558,8 @@ static int spapr_dt_dynamic_reconfiguration_memory(SpaprMachineState *spapr,
+     int nb_numa_nodes = machine->numa_state->num_nodes;
+     int ret, i, offset;
+     uint64_t lmb_size = SPAPR_MEMORY_BLOCK_SIZE;
+-    uint32_t prop_lmb_size[] = {0, cpu_to_be32(lmb_size)};
++    uint32_t prop_lmb_size[] = {cpu_to_be32(lmb_size >> 32),
++                                cpu_to_be32(lmb_size & 0xffffffff)};
+     uint32_t *int_buf, *cur_index, buf_len;
+     int nr_nodes = nb_numa_nodes ? nb_numa_nodes : 1;
+     MemoryDeviceInfoList *dimms = NULL;
+@@ -899,7 +900,8 @@ static void spapr_dt_rtas(SpaprMachineState *spapr, void *fdt)
+     uint32_t lrdr_capacity[] = {
+         cpu_to_be32(max_device_addr >> 32),
+         cpu_to_be32(max_device_addr & 0xffffffff),
+-        0, cpu_to_be32(SPAPR_MEMORY_BLOCK_SIZE),
++        cpu_to_be32(SPAPR_MEMORY_BLOCK_SIZE >> 32),
++        cpu_to_be32(SPAPR_MEMORY_BLOCK_SIZE & 0xffffffff),
+         cpu_to_be32(ms->smp.max_cpus / ms->smp.threads),
+     };
+     uint32_t maxdomain = cpu_to_be32(spapr->gpu_numa_id > 1 ? 1 : 0);
 -- 
-2.21.3
+2.26.2
 
 
