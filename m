@@ -2,62 +2,65 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3930E220E87
-	for <lists+qemu-devel@lfdr.de>; Wed, 15 Jul 2020 15:55:24 +0200 (CEST)
-Received: from localhost ([::1]:60954 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 20732220E95
+	for <lists+qemu-devel@lfdr.de>; Wed, 15 Jul 2020 15:59:35 +0200 (CEST)
+Received: from localhost ([::1]:47318 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jvhsZ-0005Lm-34
-	for lists+qemu-devel@lfdr.de; Wed, 15 Jul 2020 09:55:23 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:40712)
+	id 1jvhwc-0003G1-70
+	for lists+qemu-devel@lfdr.de; Wed, 15 Jul 2020 09:59:34 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:41668)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jasowang@redhat.com>)
- id 1jvhrH-0003dz-6O
- for qemu-devel@nongnu.org; Wed, 15 Jul 2020 09:54:03 -0400
-Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:48844
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1jvhvh-0002Ox-Ka
+ for qemu-devel@nongnu.org; Wed, 15 Jul 2020 09:58:37 -0400
+Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:40587
  helo=us-smtp-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <jasowang@redhat.com>)
- id 1jvhrF-0005NQ-K2
- for qemu-devel@nongnu.org; Wed, 15 Jul 2020 09:54:02 -0400
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1jvhvf-00068x-0Q
+ for qemu-devel@nongnu.org; Wed, 15 Jul 2020 09:58:37 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1594821241;
+ s=mimecast20190719; t=1594821514;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=UCpLC9mLtv8FHVzch1Ud6HoahLCd2y07h991imOgfAU=;
- b=cKUVbERdPyEl093jXbvLQcaxnSSpYoix8G+2LADLk2ifWCuKg7kTbqhvHK+Z1Jcr2IYaH8
- HVlXingtQRnSVmP25Nnl83WNsbeh5i6cDZVfsMBXa4ywAsNLqOz/T9hkG2ih2ElGjrIfOE
- PCnVJ0fmGQSkosOs8599BAb1umjF1pM=
+ in-reply-to:in-reply-to:references:references:openpgp:openpgp;
+ bh=M+4XC1SlqIGAn0kUFK1R6xgWcnRLOtW1v2+ZJft6AKE=;
+ b=Q640Z+xXk9mDhxuJa4NFYrh4YyOMzlQVEbMfq7Zoo3jLOoEySnBlv8jeYcPtPatPivnfHv
+ jByXJO3JkvIDrlID2UDwsP4k7XYoWCLUAHO3Go6ANaKQdDasxMpO5tUPzd2nP4qBLXvjIG
+ O0lBybG4eUltNx7Or51jHhB+CYkl2VE=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-322-5ts1U-zsPSq00_XbkwADkg-1; Wed, 15 Jul 2020 09:53:56 -0400
-X-MC-Unique: 5ts1U-zsPSq00_XbkwADkg-1
-Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
- [10.5.11.16])
+ us-mta-4-JTxxyMO3OaelNsAy6I2VQw-1; Wed, 15 Jul 2020 09:58:30 -0400
+X-MC-Unique: JTxxyMO3OaelNsAy6I2VQw-1
+Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
+ [10.5.11.13])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id B97528015F4;
- Wed, 15 Jul 2020 13:53:55 +0000 (UTC)
-Received: from jason-ThinkPad-T430s.redhat.com (ovpn-12-28.pek2.redhat.com
- [10.72.12.28])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 0FB315C57D;
- Wed, 15 Jul 2020 13:53:53 +0000 (UTC)
-From: Jason Wang <jasowang@redhat.com>
-To: peter.maydell@linaro.org
-Subject: [PULL 7/7] ftgmac100: fix dblac write test
-Date: Wed, 15 Jul 2020 21:53:21 +0800
-Message-Id: <1594821201-3708-8-git-send-email-jasowang@redhat.com>
-In-Reply-To: <1594821201-3708-1-git-send-email-jasowang@redhat.com>
-References: <1594821201-3708-1-git-send-email-jasowang@redhat.com>
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 36991800C64;
+ Wed, 15 Jul 2020 13:58:29 +0000 (UTC)
+Received: from thuth.remote.csb (ovpn-112-26.ams2.redhat.com [10.36.112.26])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 02AC079CE4;
+ Wed, 15 Jul 2020 13:58:20 +0000 (UTC)
+Subject: Re: [PATCH] fuzz: Expect the cmdline in a freeable GString
+To: Alexander Bulekov <alxndr@bu.edu>, qemu-devel@nongnu.org
+References: <20200714174616.20709-1-alxndr@bu.edu>
+From: Thomas Huth <thuth@redhat.com>
+Openpgp: preference=signencrypt
+Message-ID: <7d253e0f-a6ce-b0da-b83b-8afefaf000c1@redhat.com>
+Date: Wed, 15 Jul 2020 15:58:18 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+ Thunderbird/60.9.0
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
+In-Reply-To: <20200714174616.20709-1-alxndr@bu.edu>
+Content-Language: en-US
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=thuth@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=205.139.110.120; envelope-from=jasowang@redhat.com;
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=205.139.110.120; envelope-from=thuth@redhat.com;
  helo=us-smtp-1.mimecast.com
 X-detected-operating-system: by eggs.gnu.org: First seen = 2020/07/15 02:37:05
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
@@ -80,54 +83,53 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Jason Wang <jasowang@redhat.com>, erik-smit <erik.lucas.smit@gmail.com>,
- qemu-devel@nongnu.org
+Cc: Laurent Vivier <lvivier@redhat.com>, f4bug@amsat.org,
+ darren.kenny@oracle.com, Bandan Das <bsd@redhat.com>,
+ Stefan Hajnoczi <stefanha@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: erik-smit <erik.lucas.smit@gmail.com>
+On 14/07/2020 19.46, Alexander Bulekov wrote:
+> In the initial FuzzTarget, get_init_cmdline returned a char *. With this
+> API, we had no guarantee about where the string came from. For example,
+> i440fx-qtest-reboot-fuzz simply returned a pointer to a string literal,
+> while the QOS-based targets build the arguments out in a GString an
+> return the gchar *str pointer. Since we did not try to free the cmdline,
+> we have a leak for any targets that do not simply return string
+> literals. Clean up this mess by forcing fuzz-targets to return
+> a GString, that we can free.
+> 
+> Signed-off-by: Alexander Bulekov <alxndr@bu.edu>
+> ---
+>  tests/qtest/fuzz/fuzz.c        | 13 ++++++-------
+>  tests/qtest/fuzz/fuzz.h        |  6 +++---
+>  tests/qtest/fuzz/i440fx_fuzz.c |  4 ++--
+>  tests/qtest/fuzz/qos_fuzz.c    |  6 +++---
+>  4 files changed, 14 insertions(+), 15 deletions(-)
+      /* Prepend the arguments that we need */
+>      g_string_prepend(cmd_line,
+>              TARGET_NAME " -display none -machine accel=qtest -m 64 ");
+> -    return cmd_line->str;
+> +    return cmd_line;
+>  }
+>  
+>  /*
+> @@ -189,7 +189,7 @@ static void walk_path(QOSGraphNode *orig_path, int len)
+>      g_free(path_str);
+>  }
+>  
+> -static const char *qos_get_cmdline(FuzzTarget *t)
+> +static GString *qos_get_cmdline(FuzzTarget *t)
+>  {
+>      /*
+>       * Set a global variable that we use to identify the qos_path for our
+> 
 
-The test of the write of the dblac register was testing the old value
-instead of the new value. This would accept the write of an invalid value
-but subsequently refuse any following valid writes.
+Reviewed-by: Thomas Huth <thuth@redhat.com>
 
-Signed-off-by: erik-smit <erik.lucas.smit@gmail.com>
-Reviewed-by: Cédric Le Goater <clg@kaod.org>
-Signed-off-by: Jason Wang <jasowang@redhat.com>
----
- hw/net/ftgmac100.c | 14 ++++++++------
- 1 file changed, 8 insertions(+), 6 deletions(-)
+... and queued to my "qtest-next" branch.
 
-diff --git a/hw/net/ftgmac100.c b/hw/net/ftgmac100.c
-index 043ba61..5f4b26f 100644
---- a/hw/net/ftgmac100.c
-+++ b/hw/net/ftgmac100.c
-@@ -810,16 +810,18 @@ static void ftgmac100_write(void *opaque, hwaddr addr,
-         s->phydata = value & 0xffff;
-         break;
-     case FTGMAC100_DBLAC: /* DMA Burst Length and Arbitration Control */
--        if (FTGMAC100_DBLAC_TXDES_SIZE(s->dblac) < sizeof(FTGMAC100Desc)) {
-+        if (FTGMAC100_DBLAC_TXDES_SIZE(value) < sizeof(FTGMAC100Desc)) {
-             qemu_log_mask(LOG_GUEST_ERROR,
--                          "%s: transmit descriptor too small : %d bytes\n",
--                          __func__, FTGMAC100_DBLAC_TXDES_SIZE(s->dblac));
-+                          "%s: transmit descriptor too small: %" PRIx64
-+                          " bytes\n", __func__,
-+                          FTGMAC100_DBLAC_TXDES_SIZE(value));
-             break;
-         }
--        if (FTGMAC100_DBLAC_RXDES_SIZE(s->dblac) < sizeof(FTGMAC100Desc)) {
-+        if (FTGMAC100_DBLAC_RXDES_SIZE(value) < sizeof(FTGMAC100Desc)) {
-             qemu_log_mask(LOG_GUEST_ERROR,
--                          "%s: receive descriptor too small : %d bytes\n",
--                          __func__, FTGMAC100_DBLAC_RXDES_SIZE(s->dblac));
-+                          "%s: receive descriptor too small : %" PRIx64
-+                          " bytes\n", __func__,
-+                          FTGMAC100_DBLAC_RXDES_SIZE(value));
-             break;
-         }
-         s->dblac = value;
--- 
-2.5.0
+ Thanks,
+  Thomas
 
 
