@@ -2,61 +2,56 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E7C4D221031
-	for <lists+qemu-devel@lfdr.de>; Wed, 15 Jul 2020 17:07:25 +0200 (CEST)
-Received: from localhost ([::1]:48686 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A4C8B221099
+	for <lists+qemu-devel@lfdr.de>; Wed, 15 Jul 2020 17:13:35 +0200 (CEST)
+Received: from localhost ([::1]:58800 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jvj0G-0002jP-TX
-	for lists+qemu-devel@lfdr.de; Wed, 15 Jul 2020 11:07:24 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:35464)
+	id 1jvj6E-0007U0-Af
+	for lists+qemu-devel@lfdr.de; Wed, 15 Jul 2020 11:13:34 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:37936)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <no-reply@patchew.org>)
- id 1jviwE-0006E8-SB
- for qemu-devel@nongnu.org; Wed, 15 Jul 2020 11:03:14 -0400
-Resent-Date: Wed, 15 Jul 2020 11:03:14 -0400
-Resent-Message-Id: <E1jviwE-0006E8-SB@lists.gnu.org>
-Received: from sender4-of-o57.zoho.com ([136.143.188.57]:21787)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <no-reply@patchew.org>)
- id 1jviw8-0004u3-QE
- for qemu-devel@nongnu.org; Wed, 15 Jul 2020 11:03:14 -0400
-ARC-Seal: i=1; a=rsa-sha256; t=1594825369; cv=none; 
- d=zohomail.com; s=zohoarc; 
- b=RZ1z9gqwkkEiY4Dqzw2ks5q3oLirjXM7RGts6bHGPIvlx6nAF+K8kUISKine97uxF+ZJJ0IuVGy30qRcmKHcYkggD18hKi2Q3Z4jKFq2QwuPm3h6cFd+F8wY/5ajM/hQtqnbJDHAU0gWG5cc86tAhMu9MKYeTMnf6jaKHlZ7Jas=
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.com;
- s=zohoarc; t=1594825369;
- h=Content-Type:Content-Transfer-Encoding:Cc:Date:From:In-Reply-To:MIME-Version:Message-ID:Reply-To:Subject:To;
- bh=fNsVO9i1dqGY1DRs6VtV2Yj+ra9Gs0iCnJ8P7oA9YVE=; 
- b=gEjdiXCvxh/Zhyic7ywCaP+T7IEBAbeq5XHbG8SFkgr9mQtjS5GVUzM17YKftoExyVlpiML9u6bFtGerz/l9WfqCN4euQnqeKjaBwA1s9ZNruyL/5XHkGxzN9oSo5XCxG1WNk7sAOnoXU85q3JlLKjDi0sgBzGUpF7/nFGK+Pv4=
-ARC-Authentication-Results: i=1; mx.zohomail.com;
- spf=pass  smtp.mailfrom=no-reply@patchew.org;
- dmarc=pass header.from=<no-reply@patchew.org>
- header.from=<no-reply@patchew.org>
-Received: from [172.17.0.3] (23.253.156.214 [23.253.156.214]) by
- mx.zohomail.com with SMTPS id 1594825366697664.5545153843855;
- Wed, 15 Jul 2020 08:02:46 -0700 (PDT)
-Subject: Re: [PATCH-for-5.1] net/colo: Remove unused trace event
-Message-ID: <159482536518.11884.17465374596976832068@07a7f0d89f7d>
-In-Reply-To: <20200715143130.11164-1-philmd@redhat.com>
-MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
-Resent-From: 
-From: no-reply@patchew.org
-To: philmd@redhat.com
-Date: Wed, 15 Jul 2020 08:02:46 -0700 (PDT)
-X-ZohoMailClient: External
-Received-SPF: pass client-ip=136.143.188.57; envelope-from=no-reply@patchew.org;
- helo=sender4-of-o57.zoho.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/07/15 10:31:06
-X-ACL-Warn: Detected OS   = Linux 3.11 and newer [fuzzy]
-X-Spam_score_int: -18
-X-Spam_score: -1.9
-X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_NONE=-0.0001,
- RCVD_IN_MSPIKE_H3=-0.01, RCVD_IN_MSPIKE_WL=-0.01, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001, URIBL_BLOCKED=0.001 autolearn=ham autolearn_force=no
+ (Exim 4.90_1) (envelope-from <liq3ea@163.com>) id 1jvj5B-00071Y-Ql
+ for qemu-devel@nongnu.org; Wed, 15 Jul 2020 11:12:30 -0400
+Received: from mail-m971.mail.163.com ([123.126.97.1]:41992)
+ by eggs.gnu.org with esmtp (Exim 4.90_1)
+ (envelope-from <liq3ea@163.com>) id 1jvj55-0007zt-Bw
+ for qemu-devel@nongnu.org; Wed, 15 Jul 2020 11:12:28 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=163.com;
+ s=s110527; h=From:Subject:Date:Message-Id; bh=Jt3NNPR5zOSZ30FiRv
+ 6kYMnF5H9aP3X0ia43q6OL6jk=; b=W9V8Xng3LTlM+yCiXHl6iWLVce+YzfWyz4
+ 1/EpM7UpRTPDNftg7uLLWNUeQ9sZ+xr1Kb/YZ0962pvk8BSBLccsmF9z0rk0rz8z
+ rIqI8x3zIw8OHqnpJfNW0Jx7eYnM6cwu+NkTdeuGrNnG8HWTx8+7OI3lZrQNAd1p
+ B21TUF6jU=
+Received: from localhost.localdomain (unknown [183.159.72.144])
+ by smtp1 (Coremail) with SMTP id GdxpCgC3xXG_HA9fikzLAA--.5882S4;
+ Wed, 15 Jul 2020 23:12:00 +0800 (CST)
+From: Li Qiang <liq3ea@163.com>
+To: armbru@redhat.com,
+	mdroth@linux.vnet.ibm.com,
+	pbonzini@redhat.com
+Subject: [PATCH] qapi: record the last element in order to avoid memory leak
+Date: Wed, 15 Jul 2020 08:11:53 -0700
+Message-Id: <20200715151153.15054-1-liq3ea@163.com>
+X-Mailer: git-send-email 2.17.1
+X-CM-TRANSID: GdxpCgC3xXG_HA9fikzLAA--.5882S4
+X-Coremail-Antispam: 1Uf129KBjvJXoWxZFyDGFyDAFyrtFWxtw48Xrb_yoW5CF47pF
+ Z3Jr97KrZ5JFWfGr1DGr18Kr13tw4xJryUu3yrWw10yF15urWktF4kK3yjv3W8CrW8AF45
+ XFWktrZxuFWxAaUanT9S1TB71UUUUUUqnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
+ 9KBjDUYxBIdaVFxhVjvjDU0xZFpf9x07Ub18PUUUUU=
+X-Originating-IP: [183.159.72.144]
+X-CM-SenderInfo: 5oltjvrd6rljoofrz/1tbiFAFibVaD6kJswgAAsJ
+Received-SPF: pass client-ip=123.126.97.1; envelope-from=liq3ea@163.com;
+ helo=mail-m971.mail.163.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/07/15 11:12:07
+X-ACL-Warn: Detected OS   = Linux 3.1-3.10
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H4=-0.01, RCVD_IN_MSPIKE_WL=-0.01,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -69,121 +64,96 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: qemu-devel@nongnu.org
-Cc: zhangchen.fnst@cn.fujitsu.com, lizhijian@cn.fujitsu.com,
- jasowang@redhat.com, qemu-devel@nongnu.org, chen.zhang@intel.com,
- r.bolshakov@yadro.com, stefanha@redhat.com, philmd@redhat.com
+Cc: Li Qiang <liq3ea@163.com>, liq3ea@gmail.com, qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-UGF0Y2hldyBVUkw6IGh0dHBzOi8vcGF0Y2hldy5vcmcvUUVNVS8yMDIwMDcxNTE0MzEzMC4xMTE2
-NC0xLXBoaWxtZEByZWRoYXQuY29tLwoKCgpIaSwKClRoaXMgc2VyaWVzIGZhaWxlZCB0aGUgZG9j
-a2VyLW1pbmd3QGZlZG9yYSBidWlsZCB0ZXN0LiBQbGVhc2UgZmluZCB0aGUgdGVzdGluZyBjb21t
-YW5kcyBhbmQKdGhlaXIgb3V0cHV0IGJlbG93LiBJZiB5b3UgaGF2ZSBEb2NrZXIgaW5zdGFsbGVk
-LCB5b3UgY2FuIHByb2JhYmx5IHJlcHJvZHVjZSBpdApsb2NhbGx5LgoKPT09IFRFU1QgU0NSSVBU
-IEJFR0lOID09PQojISAvYmluL2Jhc2gKZXhwb3J0IEFSQ0g9eDg2XzY0Cm1ha2UgZG9ja2VyLWlt
-YWdlLWZlZG9yYSBWPTEgTkVUV09SSz0xCnRpbWUgbWFrZSBkb2NrZXItdGVzdC1taW5nd0BmZWRv
-cmEgSj0xNCBORVRXT1JLPTEKPT09IFRFU1QgU0NSSVBUIEVORCA9PT0KCkluIGZpbGUgaW5jbHVk
-ZWQgZnJvbSAvdG1wL3FlbXUtdGVzdC9idWlsZC9uZXQvdHJhY2UuaDo2LAogICAgICAgICAgICAg
-ICAgIGZyb20gL3RtcC9xZW11LXRlc3Qvc3JjL25ldC9jb2xvLWNvbXBhcmUuYzoxODoKL3RtcC9x
-ZW11LXRlc3Qvc3JjL25ldC9jb2xvLWNvbXBhcmUuYzogSW4gZnVuY3Rpb24gJ2NvbG9fY29tcGFy
-ZV9wYWNrZXRfcGF5bG9hZCc6Ci90bXAvcWVtdS10ZXN0L3NyYy9uZXQvY29sby1jb21wYXJlLmM6
-MzMwOjQwOiBlcnJvcjogJ1RSQUNFX0NPTE9fQ09NUEFSRV9NSVNDT01QQVJFX0VOQUJMRUQnIHVu
-ZGVjbGFyZWQgKGZpcnN0IHVzZSBpbiB0aGlzIGZ1bmN0aW9uKTsgZGlkIHlvdSBtZWFuICdUUkFD
-RV9DT0xPX0NPTVBBUkVfVURQX01JU0NPTVBBUkVfRU5BQkxFRCc/CiAgMzMwIHwgICAgIGlmICh0
-cmFjZV9ldmVudF9nZXRfc3RhdGVfYmFja2VuZHMoVFJBQ0VfQ09MT19DT01QQVJFX01JU0NPTVBB
-UkUpKSB7CiAgICAgIHwgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgXn5+
-fn5+fn5+fn5+fn5+fn5+fn5+fn5+fn5+fn4KL3RtcC9xZW11LXRlc3Qvc3JjL3RyYWNlL2NvbnRy
-b2wuaDoxMjA6Nzogbm90ZTogaW4gZGVmaW5pdGlvbiBvZiBtYWNybyAndHJhY2VfZXZlbnRfZ2V0
-X3N0YXRlX2JhY2tlbmRzJwotLS0KL3RtcC9xZW11LXRlc3Qvc3JjL3RyYWNlL2NvbnRyb2wuaDox
-MjA6Nzogbm90ZTogaW4gZGVmaW5pdGlvbiBvZiBtYWNybyAndHJhY2VfZXZlbnRfZ2V0X3N0YXRl
-X2JhY2tlbmRzJwogIDEyMCB8ICAgICAoKGlkICMjX0VOQUJMRUQpICYmIGlkICMjX0JBQ0tFTkRf
-RFNUQVRFKCkpCiAgICAgIHwgICAgICAgXn4KL3RtcC9xZW11LXRlc3Qvc3JjL25ldC9jb2xvLWNv
-bXBhcmUuYzozMzA6NDA6IGVycm9yOiBpbXBsaWNpdCBkZWNsYXJhdGlvbiBvZiBmdW5jdGlvbiAn
-VFJBQ0VfQ09MT19DT01QQVJFX01JU0NPTVBBUkVfQkFDS0VORF9EU1RBVEUnOyBkaWQgeW91IG1l
-YW4gJ1RSQUNFX0NPTE9fQ09NUEFSRV9VRFBfTUlTQ09NUEFSRV9CQUNLRU5EX0RTVEFURSc/IFst
-V2Vycm9yPWltcGxpY2l0LWZ1bmN0aW9uLWRlY2xhcmF0aW9uXQogIDMzMCB8ICAgICBpZiAodHJh
-Y2VfZXZlbnRfZ2V0X3N0YXRlX2JhY2tlbmRzKFRSQUNFX0NPTE9fQ09NUEFSRV9NSVNDT01QQVJF
-KSkgewogICAgICB8ICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgIF5+fn5+
-fn5+fn5+fn5+fn5+fn5+fn5+fn5+fn5+Ci90bXAvcWVtdS10ZXN0L3NyYy90cmFjZS9jb250cm9s
-Lmg6MTIwOjI1OiBub3RlOiBpbiBkZWZpbml0aW9uIG9mIG1hY3JvICd0cmFjZV9ldmVudF9nZXRf
-c3RhdGVfYmFja2VuZHMnCiAgMTIwIHwgICAgICgoaWQgIyNfRU5BQkxFRCkgJiYgaWQgIyNfQkFD
-S0VORF9EU1RBVEUoKSkKICAgICAgfCAgICAgICAgICAgICAgICAgICAgICAgICBefgovdG1wL3Fl
-bXUtdGVzdC9zcmMvbmV0L2NvbG8tY29tcGFyZS5jOjMzMDo0MDogZXJyb3I6IG5lc3RlZCBleHRl
-cm4gZGVjbGFyYXRpb24gb2YgJ1RSQUNFX0NPTE9fQ09NUEFSRV9NSVNDT01QQVJFX0JBQ0tFTkRf
-RFNUQVRFJyBbLVdlcnJvcj1uZXN0ZWQtZXh0ZXJuc10KICAzMzAgfCAgICAgaWYgKHRyYWNlX2V2
-ZW50X2dldF9zdGF0ZV9iYWNrZW5kcyhUUkFDRV9DT0xPX0NPTVBBUkVfTUlTQ09NUEFSRSkpIHsK
-ICAgICAgfCAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICBefn5+fn5+fn5+
-fn5+fn5+fn5+fn5+fn5+fn5+fgovdG1wL3FlbXUtdGVzdC9zcmMvdHJhY2UvY29udHJvbC5oOjEy
-MDoyNTogbm90ZTogaW4gZGVmaW5pdGlvbiBvZiBtYWNybyAndHJhY2VfZXZlbnRfZ2V0X3N0YXRl
-X2JhY2tlbmRzJwogIDEyMCB8ICAgICAoKGlkICMjX0VOQUJMRUQpICYmIGlkICMjX0JBQ0tFTkRf
-RFNUQVRFKCkpCiAgICAgIHwgICAgICAgICAgICAgICAgICAgICAgICAgXn4KL3RtcC9xZW11LXRl
-c3Qvc3JjL25ldC9jb2xvLWNvbXBhcmUuYzogSW4gZnVuY3Rpb24gJ2NvbG9fY29tcGFyZV90Y3An
-OgovdG1wL3FlbXUtdGVzdC9zcmMvbmV0L2NvbG8tY29tcGFyZS5jOjQ5NTo0NDogZXJyb3I6ICdU
-UkFDRV9DT0xPX0NPTVBBUkVfTUlTQ09NUEFSRV9FTkFCTEVEJyB1bmRlY2xhcmVkIChmaXJzdCB1
-c2UgaW4gdGhpcyBmdW5jdGlvbik7IGRpZCB5b3UgbWVhbiAnVFJBQ0VfQ09MT19DT01QQVJFX1VE
-UF9NSVNDT01QQVJFX0VOQUJMRUQnPwogIDQ5NSB8ICAgICAgICAgaWYgKHRyYWNlX2V2ZW50X2dl
-dF9zdGF0ZV9iYWNrZW5kcyhUUkFDRV9DT0xPX0NPTVBBUkVfTUlTQ09NUEFSRSkpIHsKICAgICAg
-fCAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgXn5+fn5+fn5+fn5+
-fn5+fn5+fn5+fn5+fn5+fn4KL3RtcC9xZW11LXRlc3Qvc3JjL3RyYWNlL2NvbnRyb2wuaDoxMjA6
-Nzogbm90ZTogaW4gZGVmaW5pdGlvbiBvZiBtYWNybyAndHJhY2VfZXZlbnRfZ2V0X3N0YXRlX2Jh
-Y2tlbmRzJwogIDEyMCB8ICAgICAoKGlkICMjX0VOQUJMRUQpICYmIGlkICMjX0JBQ0tFTkRfRFNU
-QVRFKCkpCiAgICAgIHwgICAgICAgXn4KL3RtcC9xZW11LXRlc3Qvc3JjL25ldC9jb2xvLWNvbXBh
-cmUuYzogSW4gZnVuY3Rpb24gJ2NvbG9fcGFja2V0X2NvbXBhcmVfdWRwJzoKL3RtcC9xZW11LXRl
-c3Qvc3JjL25ldC9jb2xvLWNvbXBhcmUuYzo1MzY6NDQ6IGVycm9yOiAnVFJBQ0VfQ09MT19DT01Q
-QVJFX01JU0NPTVBBUkVfRU5BQkxFRCcgdW5kZWNsYXJlZCAoZmlyc3QgdXNlIGluIHRoaXMgZnVu
-Y3Rpb24pOyBkaWQgeW91IG1lYW4gJ1RSQUNFX0NPTE9fQ09NUEFSRV9VRFBfTUlTQ09NUEFSRV9F
-TkFCTEVEJz8KICA1MzYgfCAgICAgICAgIGlmICh0cmFjZV9ldmVudF9nZXRfc3RhdGVfYmFja2Vu
-ZHMoVFJBQ0VfQ09MT19DT01QQVJFX01JU0NPTVBBUkUpKSB7CiAgICAgIHwgICAgICAgICAgICAg
-ICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgIF5+fn5+fn5+fn5+fn5+fn5+fn5+fn5+fn5+
-fn5+Ci90bXAvcWVtdS10ZXN0L3NyYy90cmFjZS9jb250cm9sLmg6MTIwOjc6IG5vdGU6IGluIGRl
-ZmluaXRpb24gb2YgbWFjcm8gJ3RyYWNlX2V2ZW50X2dldF9zdGF0ZV9iYWNrZW5kcycKICAxMjAg
-fCAgICAgKChpZCAjI19FTkFCTEVEKSAmJiBpZCAjI19CQUNLRU5EX0RTVEFURSgpKQogICAgICB8
-ICAgICAgIF5+Ci90bXAvcWVtdS10ZXN0L3NyYy9uZXQvY29sby1jb21wYXJlLmM6IEluIGZ1bmN0
-aW9uICdjb2xvX3BhY2tldF9jb21wYXJlX2ljbXAnOgovdG1wL3FlbXUtdGVzdC9zcmMvbmV0L2Nv
-bG8tY29tcGFyZS5jOjU3OTo0NDogZXJyb3I6ICdUUkFDRV9DT0xPX0NPTVBBUkVfTUlTQ09NUEFS
-RV9FTkFCTEVEJyB1bmRlY2xhcmVkIChmaXJzdCB1c2UgaW4gdGhpcyBmdW5jdGlvbik7IGRpZCB5
-b3UgbWVhbiAnVFJBQ0VfQ09MT19DT01QQVJFX1VEUF9NSVNDT01QQVJFX0VOQUJMRUQnPwogIDU3
-OSB8ICAgICAgICAgaWYgKHRyYWNlX2V2ZW50X2dldF9zdGF0ZV9iYWNrZW5kcyhUUkFDRV9DT0xP
-X0NPTVBBUkVfTUlTQ09NUEFSRSkpIHsKICAgICAgfCAgICAgICAgICAgICAgICAgICAgICAgICAg
-ICAgICAgICAgICAgICAgICAgXn5+fn5+fn5+fn5+fn5+fn5+fn5+fn5+fn5+fn4KL3RtcC9xZW11
-LXRlc3Qvc3JjL3RyYWNlL2NvbnRyb2wuaDoxMjA6Nzogbm90ZTogaW4gZGVmaW5pdGlvbiBvZiBt
-YWNybyAndHJhY2VfZXZlbnRfZ2V0X3N0YXRlX2JhY2tlbmRzJwogIDEyMCB8ICAgICAoKGlkICMj
-X0VOQUJMRUQpICYmIGlkICMjX0JBQ0tFTkRfRFNUQVRFKCkpCiAgICAgIHwgICAgICAgXn4KL3Rt
-cC9xZW11LXRlc3Qvc3JjL25ldC9jb2xvLWNvbXBhcmUuYzogSW4gZnVuY3Rpb24gJ2NvbG9fcGFj
-a2V0X2NvbXBhcmVfb3RoZXInOgovdG1wL3FlbXUtdGVzdC9zcmMvbmV0L2NvbG8tY29tcGFyZS5j
-OjYwMDo0MDogZXJyb3I6ICdUUkFDRV9DT0xPX0NPTVBBUkVfTUlTQ09NUEFSRV9FTkFCTEVEJyB1
-bmRlY2xhcmVkIChmaXJzdCB1c2UgaW4gdGhpcyBmdW5jdGlvbik7IGRpZCB5b3UgbWVhbiAnVFJB
-Q0VfQ09MT19DT01QQVJFX1VEUF9NSVNDT01QQVJFX0VOQUJMRUQnPwogIDYwMCB8ICAgICBpZiAo
-dHJhY2VfZXZlbnRfZ2V0X3N0YXRlX2JhY2tlbmRzKFRSQUNFX0NPTE9fQ09NUEFSRV9NSVNDT01Q
-QVJFKSkgewogICAgICB8ICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgIF5+
-fn5+fn5+fn5+fn5+fn5+fn5+fn5+fn5+fn5+Ci90bXAvcWVtdS10ZXN0L3NyYy90cmFjZS9jb250
-cm9sLmg6MTIwOjc6IG5vdGU6IGluIGRlZmluaXRpb24gb2YgbWFjcm8gJ3RyYWNlX2V2ZW50X2dl
-dF9zdGF0ZV9iYWNrZW5kcycKLS0tCiAgU0lHTiAgICBwYy1iaW9zL29wdGlvbnJvbS9rdm12YXBp
-Yy5iaW4KICBDQyAgICAgIHFnYS9xYXBpLWdlbmVyYXRlZC9xZ2EtcWFwaS10eXBlcy5vCiAgQ0Mg
-ICAgICBxZ2EvcWFwaS1nZW5lcmF0ZWQvcWdhLXFhcGktdmlzaXQubwptYWtlOiAqKiogWy90bXAv
-cWVtdS10ZXN0L3NyYy9ydWxlcy5tYWs6Njk6IG5ldC9jb2xvLWNvbXBhcmUub10gRXJyb3IgMQpt
-YWtlOiAqKiogV2FpdGluZyBmb3IgdW5maW5pc2hlZCBqb2JzLi4uLgogIFNJR04gICAgcGMtYmlv
-cy9vcHRpb25yb20vbXVsdGlib290LmJpbgogIFNJR04gICAgcGMtYmlvcy9vcHRpb25yb20vbGlu
-dXhib290LmJpbgotLS0KICAgIHJhaXNlIENhbGxlZFByb2Nlc3NFcnJvcihyZXRjb2RlLCBjbWQp
-CnN1YnByb2Nlc3MuQ2FsbGVkUHJvY2Vzc0Vycm9yOiBDb21tYW5kICdbJ3N1ZG8nLCAnLW4nLCAn
-ZG9ja2VyJywgJ3J1bicsICctLWxhYmVsJywgJ2NvbS5xZW11Lmluc3RhbmNlLnV1aWQ9ZDI1M2Nk
-MjU1NzI1NGI4Njg2NzI4Y2E4MjVkYmE1MmInLCAnLXUnLCAnMTAwMScsICctLXNlY3VyaXR5LW9w
-dCcsICdzZWNjb21wPXVuY29uZmluZWQnLCAnLS1ybScsICctZScsICdUQVJHRVRfTElTVD0nLCAn
-LWUnLCAnRVhUUkFfQ09ORklHVVJFX09QVFM9JywgJy1lJywgJ1Y9JywgJy1lJywgJ0o9MTQnLCAn
-LWUnLCAnREVCVUc9JywgJy1lJywgJ1NIT1dfRU5WPScsICctZScsICdDQ0FDSEVfRElSPS92YXIv
-dG1wL2NjYWNoZScsICctdicsICcvaG9tZS9wYXRjaGV3Ly5jYWNoZS9xZW11LWRvY2tlci1jY2Fj
-aGU6L3Zhci90bXAvY2NhY2hlOnonLCAnLXYnLCAnL3Zhci90bXAvcGF0Y2hldy10ZXN0ZXItdG1w
-LXpmbWZ6YjhrL3NyYy9kb2NrZXItc3JjLjIwMjAtMDctMTUtMTAuNTkuMzQuMTM1NTU6L3Zhci90
-bXAvcWVtdTp6LHJvJywgJ3FlbXUvZmVkb3JhJywgJy92YXIvdG1wL3FlbXUvcnVuJywgJ3Rlc3Qt
-bWluZ3cnXScgcmV0dXJuZWQgbm9uLXplcm8gZXhpdCBzdGF0dXMgMi4KZmlsdGVyPS0tZmlsdGVy
-PWxhYmVsPWNvbS5xZW11Lmluc3RhbmNlLnV1aWQ9ZDI1M2NkMjU1NzI1NGI4Njg2NzI4Y2E4MjVk
-YmE1MmIKbWFrZVsxXTogKioqIFtkb2NrZXItcnVuXSBFcnJvciAxCm1ha2VbMV06IExlYXZpbmcg
-ZGlyZWN0b3J5IGAvdmFyL3RtcC9wYXRjaGV3LXRlc3Rlci10bXAtemZtZnpiOGsvc3JjJwptYWtl
-OiAqKiogW2RvY2tlci1ydW4tdGVzdC1taW5nd0BmZWRvcmFdIEVycm9yIDIKCnJlYWwgICAgM20x
-Mi42NTNzCnVzZXIgICAgMG05LjEyMnMKCgpUaGUgZnVsbCBsb2cgaXMgYXZhaWxhYmxlIGF0Cmh0
-dHA6Ly9wYXRjaGV3Lm9yZy9sb2dzLzIwMjAwNzE1MTQzMTMwLjExMTY0LTEtcGhpbG1kQHJlZGhh
-dC5jb20vdGVzdGluZy5kb2NrZXItbWluZ3dAZmVkb3JhLz90eXBlPW1lc3NhZ2UuCi0tLQpFbWFp
-bCBnZW5lcmF0ZWQgYXV0b21hdGljYWxseSBieSBQYXRjaGV3IFtodHRwczovL3BhdGNoZXcub3Jn
-L10uClBsZWFzZSBzZW5kIHlvdXIgZmVlZGJhY2sgdG8gcGF0Y2hldy1kZXZlbEByZWRoYXQuY29t
+While executing 'tests/test-qobject-input-visitor'. I got
+following error:
+
+/visitor/input/fail/alternate: OK
+/visitor/input/fail/union-list: OK
+
+=================================================================
+==4353==ERROR: LeakSanitizer: detected memory leaks
+
+Direct leak of 16 byte(s) in 1 object(s) allocated from:
+    #0 0x7f192d0c5d28 in __interceptor_calloc (/usr/lib/x86_64-linux-gnu/libasan.so.4+0xded28)
+    #1 0x7f192cd21b10 in g_malloc0 (/usr/lib/x86_64-linux-gnu/libglib-2.0.so.0+0x51b10)
+    #2 0x556725f6bbee in visit_next_list qapi/qapi-visit-core.c:86
+    #3 0x556725f49e15 in visit_type_UserDefOneList tests/test-qapi-visit.c:474
+    #4 0x556725f4489b in test_visitor_in_fail_struct_in_list tests/test-qobject-input-visitor.c:1086
+    #5 0x7f192cd42f29  (/usr/lib/x86_64-linux-gnu/libglib-2.0.so.0+0x72f29)
+
+SUMMARY: AddressSanitizer: 16 byte(s) leaked in 1 allocation(s).
+
+This is because in 'visit_type_UserDefOneList' function when
+'visit_type_UserDefOne' failed and we go to out_obj. And have
+no chance to process the last element. The path is:
+visit_type_UserDefOneList
+    ->visit_type_UserDefOne(error occured)
+        ->qapi_free_UserDefOneList
+            -->visit_type_UserDefOneList(again)
+
+In the last 'visit_type_UserDefOneList' we will free the elements
+allocated in the first 'visit_type_UserDefOneList'. However we delete
+the element in 'qapi_dealloc_next_list'. If then 'visit_type_UserDefOne'
+return false we will skip the element that still in the 'obj' linked
+list. This is why the ASAN complains this memory leak.
+This patch store the recent processing elements in 'QapiDeallocVisitor'.
+In 'qapi_dealloc_end_list' if it is not NULL, we free it.
+
+Signed-off-by: Li Qiang <liq3ea@163.com>
+---
+ qapi/qapi-dealloc-visitor.c | 12 ++++++++++++
+ 1 file changed, 12 insertions(+)
+
+diff --git a/qapi/qapi-dealloc-visitor.c b/qapi/qapi-dealloc-visitor.c
+index ef283f2966..6335cadd9c 100644
+--- a/qapi/qapi-dealloc-visitor.c
++++ b/qapi/qapi-dealloc-visitor.c
+@@ -20,8 +20,14 @@
+ struct QapiDeallocVisitor
+ {
+     Visitor visitor;
++    void *last;
+ };
+ 
++static QapiDeallocVisitor *to_qdv(Visitor *v)
++{
++    return container_of(v, QapiDeallocVisitor, visitor);
++}
++
+ static bool qapi_dealloc_start_struct(Visitor *v, const char *name, void **obj,
+                                       size_t unused, Error **errp)
+ {
+@@ -46,19 +52,25 @@ static bool qapi_dealloc_start_list(Visitor *v, const char *name,
+                                     GenericList **list, size_t size,
+                                     Error **errp)
+ {
++    QapiDeallocVisitor *qdv = to_qdv(v);
++    qdv->last = *list;
+     return true;
+ }
+ 
+ static GenericList *qapi_dealloc_next_list(Visitor *v, GenericList *tail,
+                                            size_t size)
+ {
++    QapiDeallocVisitor *qdv = to_qdv(v);
+     GenericList *next = tail->next;
++    qdv->last = next;
+     g_free(tail);
+     return next;
+ }
+ 
+ static void qapi_dealloc_end_list(Visitor *v, void **obj)
+ {
++    QapiDeallocVisitor *qdv = to_qdv(v);
++    g_free(qdv->last);
+ }
+ 
+ static bool qapi_dealloc_type_str(Visitor *v, const char *name, char **obj,
+-- 
+2.17.1
+
 
