@@ -2,58 +2,74 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 67EDC2204B6
-	for <lists+qemu-devel@lfdr.de>; Wed, 15 Jul 2020 08:02:43 +0200 (CEST)
-Received: from localhost ([::1]:56838 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3EE51220574
+	for <lists+qemu-devel@lfdr.de>; Wed, 15 Jul 2020 08:51:53 +0200 (CEST)
+Received: from localhost ([::1]:42282 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jvaV7-0003fa-WD
-	for lists+qemu-devel@lfdr.de; Wed, 15 Jul 2020 02:02:42 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:53588)
+	id 1jvbGh-0004aV-SZ
+	for lists+qemu-devel@lfdr.de; Wed, 15 Jul 2020 02:51:51 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:45684)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <dgibson@ozlabs.org>)
- id 1jvaUI-0003Ea-1b
- for qemu-devel@nongnu.org; Wed, 15 Jul 2020 02:01:50 -0400
-Received: from ozlabs.org ([203.11.71.1]:47485)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <dgibson@ozlabs.org>)
- id 1jvaUD-0007zo-J0
- for qemu-devel@nongnu.org; Wed, 15 Jul 2020 02:01:49 -0400
-Received: by ozlabs.org (Postfix, from userid 1007)
- id 4B66G943FHz9sRf; Wed, 15 Jul 2020 16:01:37 +1000 (AEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=gibson.dropbear.id.au; s=201602; t=1594792897;
- bh=mEgpZswK5gcHEurKGj/o5j3Ydh8yvimmPjGrQIAJ6hw=;
- h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=YWtLwB8IoI12A9H02cdxAwizUsNpD/ru3YL2TwdEfaaM8YRKxkKf6QzifHpwYpJ/S
- lVXhdgHfoxK8x6CjnN0AmBkHQBrJMAU5qyxTkPFsXinoAkq1yDRRcVrjzTmK+YNUn4
- zrD+DlSuVunBZEWBPIwA0drAPXXhi7dL+cthDSr0=
-Date: Wed, 15 Jul 2020 14:06:19 +1000
-From: David Gibson <david@gibson.dropbear.id.au>
-To: Alex =?iso-8859-1?Q?Benn=E9e?= <alex.bennee@linaro.org>
-Subject: Re: [PATCH] .travis.yml: skip ppc64abi32-linux-user with plugins
-Message-ID: <20200715040619.GG93134@umbus.fritz.box>
-References: <20200714175516.5475-1-alex.bennee@linaro.org>
+ (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
+ id 1jvbFt-0004BW-ET
+ for qemu-devel@nongnu.org; Wed, 15 Jul 2020 02:51:01 -0400
+Received: from indium.canonical.com ([91.189.90.7]:47238)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
+ id 1jvbFr-0003Se-CP
+ for qemu-devel@nongnu.org; Wed, 15 Jul 2020 02:51:01 -0400
+Received: from loganberry.canonical.com ([91.189.90.37])
+ by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
+ id 1jvbFl-0001PR-6p
+ for <qemu-devel@nongnu.org>; Wed, 15 Jul 2020 06:50:53 +0000
+Received: from loganberry.canonical.com (localhost [127.0.0.1])
+ by loganberry.canonical.com (Postfix) with ESMTP id 42F482E812E
+ for <qemu-devel@nongnu.org>; Wed, 15 Jul 2020 06:50:52 +0000 (UTC)
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature"; boundary="+QwZB9vYiNIzNXIj"
-Content-Disposition: inline
-In-Reply-To: <20200714175516.5475-1-alex.bennee@linaro.org>
-Received-SPF: pass client-ip=203.11.71.1; envelope-from=dgibson@ozlabs.org;
- helo=ozlabs.org
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/07/15 02:01:38
-X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic]
-X-Spam_score_int: -9
-X-Spam_score: -1.0
-X-Spam_bar: -
-X-Spam_report: (-1.0 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, HEADER_FROM_DIFFERENT_DOMAINS=1,
- SPF_HELO_PASS=-0.001, SPF_PASS=-0.001,
- URIBL_BLOCKED=0.001 autolearn=no autolearn_force=no
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: quoted-printable
+Date: Wed, 15 Jul 2020 06:36:22 -0000
+From: Laurent Vivier <1886811@bugs.launchpad.net>
+To: qemu-devel@nongnu.org
+X-Launchpad-Notification-Type: bug
+X-Launchpad-Bug: product=qemu; status=Fix Committed; importance=Undecided;
+ assignee=Laurent@vivier.eu; 
+X-Launchpad-Bug: distribution=ubuntu; sourcepackage=qemu; component=main;
+ status=New; importance=Undecided; assignee=None; 
+X-Launchpad-Bug: distribution=debian; sourcepackage=qemu; component=main;
+ status=Confirmed; importance=Unknown; assignee=None; 
+X-Launchpad-Bug-Tags: linux-user
+X-Launchpad-Bug-Information-Type: Public
+X-Launchpad-Bug-Private: no
+X-Launchpad-Bug-Security-Vulnerability: no
+X-Launchpad-Bug-Commenters: emojifreak laurent-vivier
+X-Launchpad-Bug-Reporter: Ryutaroh Matsumoto (emojifreak)
+X-Launchpad-Bug-Modifier: Laurent Vivier (laurent-vivier)
+References: <159420830935.32230.13858618076699173558.malonedeb@gac.canonical.com>
+Message-Id: <159479498312.12873.6504596310802927399.malone@gac.canonical.com>
+Subject: [Bug 1886811] Re: systemd complains Failed to enqueue loopback
+ interface start request: Operation not supported
+X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
+X-Launchpad-Message-For: qemu-devel-ml
+Precedence: bulk
+X-Generated-By: Launchpad (canonical.com);
+ Revision="4809fcb62f445aaa3ae919f7f6c3cc7d156ea57a";
+ Instance="production-secrets-lazr.conf"
+X-Launchpad-Hash: d2b2a02e6681624f2b31a7eb5642edafb2be750e
+Received-SPF: none client-ip=91.189.90.7; envelope-from=bounces@canonical.com;
+ helo=indium.canonical.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/07/15 02:50:56
+X-ACL-Warn: Detected OS   = Linux 3.11 and newer [fuzzy]
+X-Spam_score_int: -58
+X-Spam_score: -5.9
+X-Spam_bar: -----
+X-Spam_report: (-5.9 / 5.0 requ) BAYES_00=-1.9, HEADER_FROM_DIFFERENT_DOMAINS=1,
+ RCVD_IN_DNSWL_HI=-5, RCVD_IN_MSPIKE_H3=-0.01, RCVD_IN_MSPIKE_WL=-0.01,
+ SPF_HELO_NONE=0.001, SPF_NONE=0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
-Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -62,106 +78,68 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Fam Zheng <fam@euphon.net>,
- Philippe =?iso-8859-1?Q?Mathieu-Daud=E9?= <philmd@redhat.com>,
- qemu-devel@nongnu.org
+Reply-To: Bug 1886811 <1886811@bugs.launchpad.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+Fixed here:
 
---+QwZB9vYiNIzNXIj
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+65b261a63a48 linux-user: add netlink RTM_SETLINK command
+https://git.qemu.org/?p=3Dqemu.git;a=3Dcommit;h=3D65b261a63a48fbb3b11193361=
+d4ea0c38a3c3dfd
 
-On Tue, Jul 14, 2020 at 06:55:16PM +0100, Alex Benn=E9e wrote:
-> We actually see failures on threadcount running without plugins:
->=20
->   retry.py -n 1000 -c -- \
->     ./ppc64abi32-linux-user/qemu-ppc64abi32 \
->     ./tests/tcg/ppc64abi32-linux-user/threadcount
->=20
-> which reports:
->=20
->   0: 978 times (97.80%), avg time 0.270 (0.01 varience/0.08 deviation)
->   -6: 21 times (2.10%), avg time 0.336 (0.01 varience/0.12 deviation)
->   -11: 1 times (0.10%), avg time 0.502 (0.00 varience/0.00 deviation)
->   Ran command 1000 times, 978 passes
->=20
-> But when running with plugins we hit the failure a lot more often:
->=20
->   0: 91 times (91.00%), avg time 0.302 (0.04 varience/0.19 deviation)
->   -11: 9 times (9.00%), avg time 0.558 (0.01 varience/0.11 deviation)
->   Ran command 100 times, 91 passes
->=20
-> The crash occurs in guest code which is the same in both pass and fail
-> cases. However we see various messages reported on the console about
-> corrupted memory lists which seems to imply the guest memory allocation
-> is corrupted. This lines up with the seg fault being in the guest
-> __libc_free function. So we think this is a guest bug which is
-> exacerbated by various modes of translation. If anyone has access to
-> real hardware to soak test the test case we could prove this properly.
->=20
-> Signed-off-by: Alex Benn=E9e <alex.bennee@linaro.org>
-> Cc: David Gibson <david@gibson.dropbear.id.au>
-> Cc: Philippe Mathieu-Daud=E9 <philmd@redhat.com>
+** Changed in: qemu
+       Status: In Progress =3D> Fix Committed
 
-Acked-by: David Gibson <david@gibson.dropbear.id.au>
+-- =
 
-Honestly, AFAICT the ppc64abi32-linux-user target is pretty much
-entirely broken anyway.  Many things about it appear to make no
-sense, it's difficult to work out what it's even supposed to be, and I
-strongly suspect no-one's actually used it in like a decade.
+You received this bug notification because you are a member of qemu-
+devel-ml, which is subscribed to QEMU.
+https://bugs.launchpad.net/bugs/1886811
 
-> ---
->  .travis.yml | 3 ++-
->  1 file changed, 2 insertions(+), 1 deletion(-)
->=20
-> diff --git a/.travis.yml b/.travis.yml
-> index ab429500fc..6695c0620f 100644
-> --- a/.travis.yml
-> +++ b/.travis.yml
-> @@ -350,9 +350,10 @@ jobs:
->      # Run check-tcg against linux-user (with plugins)
->      # we skip sparc64-linux-user until it has been fixed somewhat
->      # we skip cris-linux-user as it doesn't use the common run loop
-> +    # we skip ppc64abi32-linux-user as it seems to have a broken libc
->      - name: "GCC plugins check-tcg (user)"
->        env:
-> -        - CONFIG=3D"--disable-system --enable-plugins --enable-debug-tcg=
- --target-list-exclude=3Dsparc64-linux-user,cris-linux-user"
-> +        - CONFIG=3D"--disable-system --enable-plugins --enable-debug-tcg=
- --target-list-exclude=3Dsparc64-linux-user,cris-linux-user,ppc64abi32-linu=
-x-user"
->          - TEST_BUILD_CMD=3D"make build-tcg"
->          - TEST_CMD=3D"make check-tcg"
->          - CACHE_NAME=3D"${TRAVIS_BRANCH}-linux-gcc-debug-tcg"
+Title:
+  systemd complains Failed to enqueue loopback interface start request:
+  Operation not supported
 
---=20
-David Gibson			| I'll have my music baroque, and my code
-david AT gibson.dropbear.id.au	| minimalist, thank you.  NOT _the_ _other_
-				| _way_ _around_!
-http://www.ozlabs.org/~dgibson
+Status in QEMU:
+  Fix Committed
+Status in qemu package in Ubuntu:
+  New
+Status in qemu package in Debian:
+  Confirmed
 
---+QwZB9vYiNIzNXIj
-Content-Type: application/pgp-signature; name="signature.asc"
+Bug description:
+  This symptom seems similar to
+  https://bugs.launchpad.net/qemu/+bug/1823790
 
------BEGIN PGP SIGNATURE-----
+  Host Linux: Debian 11 Bullseye (testing) on x84-64 architecture
+  qemu version: latest git of git commit hash eb2c66b10efd2b914b56b20ae9065=
+5914310c925
+  compiled with "./configure --static --disable-system" =
 
-iQIzBAEBCAAdFiEEdfRlhq5hpmzETofcbDjKyiDZs5IFAl8OgLkACgkQbDjKyiDZ
-s5JcBA/+LBQk1r+bwxe9VN3e0takVMZwnx3f6oA3MMumd3lH/74BSHZoKOI7SR6s
-FVJdmpnGH5FZ8lvQ+LeFzaLKGq6+vAsMBZNz/2qhj4ES39slzaYxVwvGNqAhvy7Y
-Eh08qUJhxi1i84ynNbsrVqUqv7LDbh1LR6+OdVTOTXrkxzu243dN6GmiPkRh16o1
-VMa4Dhvf9Y/aKlfRS6gRIEqms5bn1tGZvZCZQh4G4ao/Y1H2jR7KNk+sM5BVWWSQ
-4gaoz+sgXAPsbpy6QYlQXCzV6gc+XKdBDVNxDCmk5ToQQzGRYifBYLsIvKVW+3+0
-t6D7ERfdzwBVY13LfuyVDsQohzOdeu8x6MoCTeOYH0zm91KaDVJRDWS+kaW58xkI
-DDHQQnPNCgAcSeUQV6hRstVHq4uV+H3PXnHhPph6h1JKdqyxjXftS/zC/VxIfA/8
-MUHRupVGp7/zvO0rpfj7ZTfepN+zk0TjdGZMhf/9cdVKpio8kghp6jGPRvwQNaq+
-WRtJI7czTmQ0AkBkzY2z0At6P12yXSbCrvdz002xSkO/E7ApScvDADXFW1yXjEzM
-JGI1Seyr5Egf2LyL5dKkhrKwuSvydRiajRnEBcurUnvYhUnmyHee7agtaEy4aN/A
-WTE/omxRnulv6LArpHX/JDZc09J/PSRJacJ6GhZRJvUMwfxk0tk=
-=gTlo
------END PGP SIGNATURE-----
 
---+QwZB9vYiNIzNXIj--
+  Down stream bug report at https://bugs.debian.org/cgi-bin/bugreport.cgi?b=
+ug=3D964289
+  Bug report (closed) to systemd: https://github.com/systemd/systemd/issues=
+/16359
+
+  systemd in armhf and armel (both little endian 32-bit) containers fail to=
+ start with
+  Failed to enqueue loopback interface start request: Operation not support=
+ed
+
+  How to reproduce on Debian (and probably Ubuntu):
+  mmdebstrap --components=3D"main contrib non-free" --architectures=3Darmhf=
+ --variant=3Dimportant bullseye /var/lib/machines/armhf-bullseye
+  systemd-nspawn -D /var/lib/machines/armhf-bullseye -b
+
+  When "armhf" architecture is replaced with "mips" (32-bit big endian) or =
+"ppc64"
+  (64-bit big endian), the container starts up fine.
+
+  The same symptom is also observed with "powerpc" (32-bit big endian)
+  architecture.
+
+To manage notifications about this bug go to:
+https://bugs.launchpad.net/qemu/+bug/1886811/+subscriptions
 
