@@ -2,52 +2,53 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 24C07221030
-	for <lists+qemu-devel@lfdr.de>; Wed, 15 Jul 2020 17:07:14 +0200 (CEST)
-Received: from localhost ([::1]:47448 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E7AE922103D
+	for <lists+qemu-devel@lfdr.de>; Wed, 15 Jul 2020 17:08:14 +0200 (CEST)
+Received: from localhost ([::1]:52902 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jvj05-0002DM-4V
-	for lists+qemu-devel@lfdr.de; Wed, 15 Jul 2020 11:07:13 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:35166)
+	id 1jvj14-0004UB-0d
+	for lists+qemu-devel@lfdr.de; Wed, 15 Jul 2020 11:08:14 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:35182)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <mlevitsk@redhat.com>)
- id 1jvivQ-00051R-9S
- for qemu-devel@nongnu.org; Wed, 15 Jul 2020 11:02:24 -0400
-Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:22941
- helo=us-smtp-1.mimecast.com)
+ id 1jvivT-00057R-Hu
+ for qemu-devel@nongnu.org; Wed, 15 Jul 2020 11:02:27 -0400
+Received: from us-smtp-2.mimecast.com ([205.139.110.61]:50855
+ helo=us-smtp-delivery-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
  (Exim 4.90_1) (envelope-from <mlevitsk@redhat.com>)
- id 1jvivO-0004db-H7
- for qemu-devel@nongnu.org; Wed, 15 Jul 2020 11:02:24 -0400
+ id 1jvivR-0004eD-S5
+ for qemu-devel@nongnu.org; Wed, 15 Jul 2020 11:02:27 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1594825341;
+ s=mimecast20190719; t=1594825345;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=7Lc3GPEP4WXv0QcCSmMLHeZu/ejwA37Ij+YnrXr6y/0=;
- b=IPaWSGuEwJmeBxs5jfonlVd00fvYurWj1OTvNLVq9yU7jSE8bml27CXSnT7MNYQBEi6qQE
- Lqqw426AxjxYIuzGJOUKjpfJx44OOy0NQaRcYhJs+Vjyao7KkXezAjs674gBzUrBzTwOBn
- zrodo/Ez5S0DSv0D+mXomXeXuRDeiNE=
+ bh=+utk7vdtsJuSzO2tlgUo6VEKGiMN7Q7PQ8wDq9ljiog=;
+ b=dhYt0dKKiL1+7+tHnIGh3Q+pclJ26xYpXhMlljgEKIL3+pRG2uDqIM2pQc5nyambmG28Yn
+ QuTzO+d+FxxJXBYDepiO0vYLQ8JT4qf5KfL6R7CTOIrm2tAQkfWjw/XtNwz+er/x1hLqhg
+ +M4/h1O5+lXTp25GB52GlKGfGG4lag8=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-53-IlsBy40PN6CyXgG4Sza-_Q-1; Wed, 15 Jul 2020 11:02:19 -0400
-X-MC-Unique: IlsBy40PN6CyXgG4Sza-_Q-1
+ us-mta-126-_DaDs8z-NkaQUDmSs3IxlQ-1; Wed, 15 Jul 2020 11:02:23 -0400
+X-MC-Unique: _DaDs8z-NkaQUDmSs3IxlQ-1
 Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
  [10.5.11.15])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id D2FBE18C63C0;
- Wed, 15 Jul 2020 15:02:18 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 661FF1005273;
+ Wed, 15 Jul 2020 15:02:21 +0000 (UTC)
 Received: from starship.redhat.com (unknown [10.35.206.178])
- by smtp.corp.redhat.com (Postfix) with ESMTP id E2F0D710C8;
- Wed, 15 Jul 2020 15:02:16 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 40DA4710C8;
+ Wed, 15 Jul 2020 15:02:19 +0000 (UTC)
 From: Maxim Levitsky <mlevitsk@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v3 4/7] device-core: use atomic_set on .realized property
-Date: Wed, 15 Jul 2020 18:01:56 +0300
-Message-Id: <20200715150159.95050-5-mlevitsk@redhat.com>
+Subject: [PATCH v3 5/7] virtio-scsi: don't touch scsi devices that are not yet
+ realized or about to be un-realized
+Date: Wed, 15 Jul 2020 18:01:57 +0300
+Message-Id: <20200715150159.95050-6-mlevitsk@redhat.com>
 In-Reply-To: <20200715150159.95050-1-mlevitsk@redhat.com>
 References: <20200715150159.95050-1-mlevitsk@redhat.com>
 MIME-Version: 1.0
@@ -58,9 +59,9 @@ X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=207.211.31.120; envelope-from=mlevitsk@redhat.com;
- helo=us-smtp-1.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/07/15 05:07:28
+Received-SPF: pass client-ip=205.139.110.61; envelope-from=mlevitsk@redhat.com;
+ helo=us-smtp-delivery-1.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/07/15 02:37:03
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
 X-Spam_score_int: -40
 X-Spam_score: -4.1
@@ -84,80 +85,56 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Cc: Fam Zheng <fam@euphon.net>,
  =?UTF-8?q?Daniel=20P=2E=20Berrang=C3=A9?= <berrange@redhat.com>,
  Eduardo Habkost <ehabkost@redhat.com>, "Michael S. Tsirkin" <mst@redhat.com>,
- Maxim Levitsky <mlevitsk@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>
+ Maxim Levitsky <mlevitsk@redhat.com>, Stefan Hajnoczi <stefanha@redhat.com>,
+ Paolo Bonzini <pbonzini@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Some code might race with placement of new devices on a bus.
-We currently first place a (unrealized) device on the bus
-and then realize it.
+Bugzilla: https://bugzilla.redhat.com/show_bug.cgi?id=1812399
 
-As a workaround, users that scan the child device list, can
-check the realized property to see if it is safe to access such a device.
-Use an atomic write here too to aid with this.
-
-A separate discussion is what to do with devices that are unrealized:
-It looks like for this case we only call the hotplug handler's unplug
-callback and its up to it to unrealize the device.
-An atomic operation doesn't cause harm for this code path though.
-
+Suggested-by: Paolo Bonzini <pbonzini@redhat.com>
 Signed-off-by: Maxim Levitsky <mlevitsk@redhat.com>
+Reviewed-by: Stefan Hajnoczi <stefanha@redhat.com>
 ---
- hw/core/qdev.c         | 19 ++++++++++++++++++-
- include/hw/qdev-core.h |  2 ++
- 2 files changed, 20 insertions(+), 1 deletion(-)
+ hw/scsi/virtio-scsi.c | 19 ++++++++++++++++++-
+ 1 file changed, 18 insertions(+), 1 deletion(-)
 
-diff --git a/hw/core/qdev.c b/hw/core/qdev.c
-index ee69b11d11..2ec4971aec 100644
---- a/hw/core/qdev.c
-+++ b/hw/core/qdev.c
-@@ -966,7 +966,25 @@ static void device_set_realized(Object *obj, bool value, Error **errp)
-             }
-        }
+diff --git a/hw/scsi/virtio-scsi.c b/hw/scsi/virtio-scsi.c
+index d3cfc8dfb6..18952e0f1c 100644
+--- a/hw/scsi/virtio-scsi.c
++++ b/hw/scsi/virtio-scsi.c
+@@ -35,13 +35,30 @@ static inline int virtio_scsi_get_lun(uint8_t *lun)
  
-+       atomic_store_release(&dev->realized, value);
+ static inline SCSIDevice *virtio_scsi_device_find(VirtIOSCSI *s, uint8_t *lun)
+ {
++    SCSIDevice *device = NULL;
 +
-     } else if (!value && dev->realized) {
-+
-+        /*
-+         * Change the value so that any concurrent users are aware
-+         * that the device is going to be unrealized
-+         *
-+         * TODO: change .realized property to enum that states
-+         * each phase of the device realization/unrealization
-+         */
-+
-+        atomic_set(&dev->realized, value);
-+        /*
-+         * execute full memory barrier to ensure that concurrent users
-+         * see this update prior to any other changes to the device
-+         */
-+        smp_mb();
-+
-         QLIST_FOREACH(bus, &dev->child_bus, sibling) {
-             qbus_unrealize(bus);
-         }
-@@ -981,7 +999,6 @@ static void device_set_realized(Object *obj, bool value, Error **errp)
+     if (lun[0] != 1) {
+         return NULL;
      }
+     if (lun[2] != 0 && !(lun[2] >= 0x40 && lun[2] < 0x80)) {
+         return NULL;
+     }
+-    return scsi_device_find(&s->bus, 0, lun[1], virtio_scsi_get_lun(lun));
++
++    device = scsi_device_find(&s->bus, 0, lun[1], virtio_scsi_get_lun(lun));
++
++    /*
++     * This function might run on the IO thread and we might race against
++     * main thread hot-plugging the device.
++     *
++     * We assume that as soon as .realized is set to true we can let
++     * the user access the device.
++     */
++
++    if (!device || !atomic_load_acquire(&device->qdev.realized)) {
++        return NULL;
++    }
++
++    return device;
+ }
  
-     assert(local_err == NULL);
--    dev->realized = value;
-     return;
- 
- child_realize_fail:
-diff --git a/include/hw/qdev-core.h b/include/hw/qdev-core.h
-index e252640c1a..5faa715449 100644
---- a/include/hw/qdev-core.h
-+++ b/include/hw/qdev-core.h
-@@ -165,6 +165,8 @@ struct NamedClockList {
- /**
-  * DeviceState:
-  * @realized: Indicates whether the device has been fully constructed.
-+ *            When accessed outsize big qemu lock, must be accessed with
-+ *            atomic_load_acquire()
-  * @reset: ResettableState for the device; handled by Resettable interface.
-  *
-  * This structure should not be accessed directly.  We declare it here
+ void virtio_scsi_init_req(VirtIOSCSI *s, VirtQueue *vq, VirtIOSCSIReq *req)
 -- 
 2.26.2
 
