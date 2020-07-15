@@ -2,52 +2,52 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 668E522102E
-	for <lists+qemu-devel@lfdr.de>; Wed, 15 Jul 2020 17:07:01 +0200 (CEST)
-Received: from localhost ([::1]:46422 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1F187221027
+	for <lists+qemu-devel@lfdr.de>; Wed, 15 Jul 2020 17:04:43 +0200 (CEST)
+Received: from localhost ([::1]:39024 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jvizr-0001nM-AN
-	for lists+qemu-devel@lfdr.de; Wed, 15 Jul 2020 11:06:59 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:35170)
+	id 1jvixe-0006h7-3J
+	for lists+qemu-devel@lfdr.de; Wed, 15 Jul 2020 11:04:42 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:35164)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <mlevitsk@redhat.com>)
- id 1jvivQ-00052E-QX
+ id 1jvivQ-00050y-2J
  for qemu-devel@nongnu.org; Wed, 15 Jul 2020 11:02:24 -0400
-Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:24164
- helo=us-smtp-1.mimecast.com)
+Received: from us-smtp-2.mimecast.com ([207.211.31.81]:44711
+ helo=us-smtp-delivery-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
  (Exim 4.90_1) (envelope-from <mlevitsk@redhat.com>)
- id 1jvivN-0004cu-Qi
- for qemu-devel@nongnu.org; Wed, 15 Jul 2020 11:02:24 -0400
+ id 1jvivM-0004cM-Ae
+ for qemu-devel@nongnu.org; Wed, 15 Jul 2020 11:02:23 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1594825340;
+ s=mimecast20190719; t=1594825339;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=cqQo+2OZgxKCQyPaEbj3n8KYCTJOI/nyva2eHyIbwgQ=;
- b=U1DBIj86skd4ICgOLYtnVP1ClukvYxSoIY0QG8k6hcKF2vH3c12xWvlBzJswzNXbKWyDCL
- ahMF2Ppo/6mqRQIghOKP7VsrbLh6EMUcQlehbqH/QGRWmpQvghARlKFTy3f/OKUek/cFJ6
- 0MQAI2SlBDoVwnBJoV3pYA4+EkjkvlQ=
+ bh=gNm+/Sgz5NsXc0H2tZ47ZSPgt3Aq1uKThGxmPJ79Lew=;
+ b=U1ip33lh6vcuqMnPbu9ZFJOyaFRd7L276hPeL/jrKRn+hiTbwKxootSM/NoPMxat4x1UOH
+ X7SaZ+zL0p4EuC2oM92sMj77ynoZYL42uJnxUCUu67xUGx8T4VKsqrXUTthSJQLNBXIsKU
+ d+rRo4PohA3XCYjR9cI9BRbRjRq7AS8=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-288-BaY9oVgxMhS4-GaBXvkPHA-1; Wed, 15 Jul 2020 11:02:15 -0400
-X-MC-Unique: BaY9oVgxMhS4-GaBXvkPHA-1
+ us-mta-181-oyhSkjwcMqGb1UmydI915Q-1; Wed, 15 Jul 2020 11:02:17 -0400
+X-MC-Unique: oyhSkjwcMqGb1UmydI915Q-1
 Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
  [10.5.11.15])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 308C3EED22;
- Wed, 15 Jul 2020 15:02:14 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 7F9A480BCBD;
+ Wed, 15 Jul 2020 15:02:16 +0000 (UTC)
 Received: from starship.redhat.com (unknown [10.35.206.178])
- by smtp.corp.redhat.com (Postfix) with ESMTP id CC97F6E9F3;
- Wed, 15 Jul 2020 15:02:11 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 93DC96E9F3;
+ Wed, 15 Jul 2020 15:02:14 +0000 (UTC)
 From: Maxim Levitsky <mlevitsk@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v3 2/7] Implement drain_call_rcu and use it in hmp_device_del
-Date: Wed, 15 Jul 2020 18:01:54 +0300
-Message-Id: <20200715150159.95050-3-mlevitsk@redhat.com>
+Subject: [PATCH v3 3/7] device-core: use RCU for list of childs of a bus
+Date: Wed, 15 Jul 2020 18:01:55 +0300
+Message-Id: <20200715150159.95050-4-mlevitsk@redhat.com>
 In-Reply-To: <20200715150159.95050-1-mlevitsk@redhat.com>
 References: <20200715150159.95050-1-mlevitsk@redhat.com>
 MIME-Version: 1.0
@@ -56,17 +56,17 @@ X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=205.139.110.120; envelope-from=mlevitsk@redhat.com;
- helo=us-smtp-1.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/07/15 02:37:05
+Received-SPF: pass client-ip=207.211.31.81; envelope-from=mlevitsk@redhat.com;
+ helo=us-smtp-delivery-1.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/07/15 02:01:40
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
-X-Spam_score_int: -40
-X-Spam_score: -4.1
-X-Spam_bar: ----
-X-Spam_report: (-4.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1,
+X-Spam_score_int: -30
+X-Spam_score: -3.1
+X-Spam_bar: ---
+X-Spam_report: (-3.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-1, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H3=-0.01, RCVD_IN_MSPIKE_WL=-0.01,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -82,142 +82,277 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Cc: Fam Zheng <fam@euphon.net>,
  =?UTF-8?q?Daniel=20P=2E=20Berrang=C3=A9?= <berrange@redhat.com>,
  Eduardo Habkost <ehabkost@redhat.com>, "Michael S. Tsirkin" <mst@redhat.com>,
- Stefan Hajnoczi <stefanha@gmail.com>, Maxim Levitsky <mlevitsk@redhat.com>,
- Stefan Hajnoczi <stefanha@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>
+ Maxim Levitsky <mlevitsk@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-This allows to preserve the semantics of hmp_device_del,
-that the device is deleted immediatly which was changed by previos
-patch that delayed this to RCU callback
+This fixes the race between device emulation code that tries to find
+a child device to dispatch the request to (e.g a scsi disk),
+and hotplug of a new device to that bus.
 
+Note that this doesn't convert all the readers of the list
+but only these that might go over that list without BQL held.
+
+This is a very small first step to make this code thread safe.
+
+Suggested-by: Paolo Bonzini <pbonzini@redhat.com>
 Signed-off-by: Maxim Levitsky <mlevitsk@redhat.com>
-Suggested-by: Stefan Hajnoczi <stefanha@gmail.com>
-Reviewed-by: Stefan Hajnoczi <stefanha@redhat.com>
 ---
- include/qemu/rcu.h |  1 +
- qdev-monitor.c     | 22 +++++++++++++++++++
- util/rcu.c         | 55 ++++++++++++++++++++++++++++++++++++++++++++++
- 3 files changed, 78 insertions(+)
+ hw/core/bus.c          | 28 ++++++++++++++++++----------
+ hw/core/qdev.c         | 37 +++++++++++++++++++++++--------------
+ hw/scsi/scsi-bus.c     | 17 ++++++++++++++---
+ hw/scsi/virtio-scsi.c  |  6 +++++-
+ include/hw/qdev-core.h |  9 +++++++++
+ 5 files changed, 69 insertions(+), 28 deletions(-)
 
-diff --git a/include/qemu/rcu.h b/include/qemu/rcu.h
-index 570aa603eb..0e375ebe13 100644
---- a/include/qemu/rcu.h
-+++ b/include/qemu/rcu.h
-@@ -133,6 +133,7 @@ struct rcu_head {
+diff --git a/hw/core/bus.c b/hw/core/bus.c
+index 6b987b6946..385eb3ad5a 100644
+--- a/hw/core/bus.c
++++ b/hw/core/bus.c
+@@ -49,12 +49,14 @@ int qbus_walk_children(BusState *bus,
+         }
+     }
+ 
+-    QTAILQ_FOREACH(kid, &bus->children, sibling) {
+-        err = qdev_walk_children(kid->child,
+-                                 pre_devfn, pre_busfn,
+-                                 post_devfn, post_busfn, opaque);
+-        if (err < 0) {
+-            return err;
++    WITH_RCU_READ_LOCK_GUARD() {
++        QTAILQ_FOREACH_RCU(kid, &bus->children, sibling) {
++            err = qdev_walk_children(kid->child,
++                                     pre_devfn, pre_busfn,
++                                     post_devfn, post_busfn, opaque);
++            if (err < 0) {
++                return err;
++            }
+         }
+     }
+ 
+@@ -90,9 +92,13 @@ static void bus_reset_child_foreach(Object *obj, ResettableChildCallback cb,
+     BusState *bus = BUS(obj);
+     BusChild *kid;
+ 
+-    QTAILQ_FOREACH(kid, &bus->children, sibling) {
++    rcu_read_lock();
++
++    QTAILQ_FOREACH_RCU(kid, &bus->children, sibling) {
+         cb(OBJECT(kid->child), opaque, type);
+     }
++
++    rcu_read_unlock();
+ }
+ 
+ static void qbus_init(BusState *bus, DeviceState *parent, const char *name)
+@@ -194,9 +200,11 @@ static void bus_set_realized(Object *obj, bool value, Error **errp)
+ 
+         /* TODO: recursive realization */
+     } else if (!value && bus->realized) {
+-        QTAILQ_FOREACH(kid, &bus->children, sibling) {
+-            DeviceState *dev = kid->child;
+-            qdev_unrealize(dev);
++        WITH_RCU_READ_LOCK_GUARD() {
++            QTAILQ_FOREACH_RCU(kid, &bus->children, sibling) {
++                DeviceState *dev = kid->child;
++                qdev_unrealize(dev);
++            }
+         }
+         if (bc->unrealize) {
+             bc->unrealize(bus);
+diff --git a/hw/core/qdev.c b/hw/core/qdev.c
+index 01796823b4..ee69b11d11 100644
+--- a/hw/core/qdev.c
++++ b/hw/core/qdev.c
+@@ -51,6 +51,12 @@ const VMStateDescription *qdev_get_vmsd(DeviceState *dev)
+     return dc->vmsd;
+ }
+ 
++static void bus_free_bus_child(BusChild *kid)
++{
++    object_unref(OBJECT(kid->child));
++    g_free(kid);
++}
++
+ static void bus_remove_child(BusState *bus, DeviceState *child)
+ {
+     BusChild *kid;
+@@ -60,15 +66,16 @@ static void bus_remove_child(BusState *bus, DeviceState *child)
+             char name[32];
+ 
+             snprintf(name, sizeof(name), "child[%d]", kid->index);
+-            QTAILQ_REMOVE(&bus->children, kid, sibling);
++            QTAILQ_REMOVE_RCU(&bus->children, kid, sibling);
+ 
+             bus->num_children--;
+ 
+             /* This gives back ownership of kid->child back to us.  */
+             object_property_del(OBJECT(bus), name);
+-            object_unref(OBJECT(kid->child));
+-            g_free(kid);
+-            return;
++
++            /* free the bus kid, when it is safe to do so*/
++            call_rcu(kid, bus_free_bus_child, rcu);
++            break;
+         }
+     }
+ }
+@@ -83,7 +90,7 @@ static void bus_add_child(BusState *bus, DeviceState *child)
+     kid->child = child;
+     object_ref(OBJECT(kid->child));
+ 
+-    QTAILQ_INSERT_HEAD(&bus->children, kid, sibling);
++    QTAILQ_INSERT_HEAD_RCU(&bus->children, kid, sibling);
+ 
+     /* This transfers ownership of kid->child to the property.  */
+     snprintf(name, sizeof(name), "child[%d]", kid->index);
+@@ -689,17 +696,19 @@ DeviceState *qdev_find_recursive(BusState *bus, const char *id)
+     DeviceState *ret;
+     BusState *child;
+ 
+-    QTAILQ_FOREACH(kid, &bus->children, sibling) {
+-        DeviceState *dev = kid->child;
++    WITH_RCU_READ_LOCK_GUARD() {
++        QTAILQ_FOREACH_RCU(kid, &bus->children, sibling) {
++            DeviceState *dev = kid->child;
+ 
+-        if (dev->id && strcmp(dev->id, id) == 0) {
+-            return dev;
+-        }
++            if (dev->id && strcmp(dev->id, id) == 0) {
++                return dev;
++            }
+ 
+-        QLIST_FOREACH(child, &dev->child_bus, sibling) {
+-            ret = qdev_find_recursive(child, id);
+-            if (ret) {
+-                return ret;
++            QLIST_FOREACH(child, &dev->child_bus, sibling) {
++                ret = qdev_find_recursive(child, id);
++                if (ret) {
++                    return ret;
++                }
+             }
+         }
+     }
+diff --git a/hw/scsi/scsi-bus.c b/hw/scsi/scsi-bus.c
+index f8adfbc2a5..92d412b65c 100644
+--- a/hw/scsi/scsi-bus.c
++++ b/hw/scsi/scsi-bus.c
+@@ -400,7 +400,10 @@ static bool scsi_target_emulate_report_luns(SCSITargetReq *r)
+     id = r->req.dev->id;
+     found_lun0 = false;
+     n = 0;
+-    QTAILQ_FOREACH(kid, &r->req.bus->qbus.children, sibling) {
++
++    rcu_read_lock();
++
++    QTAILQ_FOREACH_RCU(kid, &r->req.bus->qbus.children, sibling) {
+         DeviceState *qdev = kid->child;
+         SCSIDevice *dev = SCSI_DEVICE(qdev);
+ 
+@@ -421,7 +424,7 @@ static bool scsi_target_emulate_report_luns(SCSITargetReq *r)
+     memset(r->buf, 0, len);
+     stl_be_p(&r->buf[0], n);
+     i = found_lun0 ? 8 : 16;
+-    QTAILQ_FOREACH(kid, &r->req.bus->qbus.children, sibling) {
++    QTAILQ_FOREACH_RCU(kid, &r->req.bus->qbus.children, sibling) {
+         DeviceState *qdev = kid->child;
+         SCSIDevice *dev = SCSI_DEVICE(qdev);
+ 
+@@ -430,6 +433,9 @@ static bool scsi_target_emulate_report_luns(SCSITargetReq *r)
+             i += 8;
+         }
+     }
++
++    rcu_read_unlock();
++
+     assert(i == n + 8);
+     r->len = len;
+     return true;
+@@ -1572,12 +1578,15 @@ SCSIDevice *scsi_device_find(SCSIBus *bus, int channel, int id, int lun)
+     BusChild *kid;
+     SCSIDevice *target_dev = NULL;
+ 
+-    QTAILQ_FOREACH(kid, &bus->qbus.children, sibling) {
++    rcu_read_lock();
++
++    QTAILQ_FOREACH_RCU(kid, &bus->qbus.children, sibling) {
+         DeviceState *qdev = kid->child;
+         SCSIDevice *dev = SCSI_DEVICE(qdev);
+ 
+         if (dev->channel == channel && dev->id == id) {
+             if (dev->lun == lun) {
++                rcu_read_unlock();
+                 return dev;
+             }
+ 
+@@ -1591,6 +1600,8 @@ SCSIDevice *scsi_device_find(SCSIBus *bus, int channel, int id, int lun)
+             }
+         }
+     }
++
++    rcu_read_unlock();
+     return target_dev;
+ }
+ 
+diff --git a/hw/scsi/virtio-scsi.c b/hw/scsi/virtio-scsi.c
+index b49775269e..d3cfc8dfb6 100644
+--- a/hw/scsi/virtio-scsi.c
++++ b/hw/scsi/virtio-scsi.c
+@@ -367,12 +367,16 @@ static int virtio_scsi_do_tmf(VirtIOSCSI *s, VirtIOSCSIReq *req)
+     case VIRTIO_SCSI_T_TMF_I_T_NEXUS_RESET:
+         target = req->req.tmf.lun[1];
+         s->resetting++;
+-        QTAILQ_FOREACH(kid, &s->bus.qbus.children, sibling) {
++
++        rcu_read_lock();
++        QTAILQ_FOREACH_RCU(kid, &s->bus.qbus.children, sibling) {
+              d = SCSI_DEVICE(kid->child);
+              if (d->channel == 0 && d->id == target) {
+                 qdev_reset_all(&d->qdev);
+              }
+         }
++        rcu_read_unlock();
++
+         s->resetting--;
+         break;
+ 
+diff --git a/include/hw/qdev-core.h b/include/hw/qdev-core.h
+index fe78073c70..e252640c1a 100644
+--- a/include/hw/qdev-core.h
++++ b/include/hw/qdev-core.h
+@@ -3,6 +3,8 @@
+ 
+ #include "qemu/queue.h"
+ #include "qemu/bitmap.h"
++#include "qemu/rcu.h"
++#include "qemu/rcu_queue.h"
+ #include "qom/object.h"
+ #include "hw/hotplug.h"
+ #include "hw/resettable.h"
+@@ -230,6 +232,7 @@ struct BusClass {
  };
  
- extern void call_rcu1(struct rcu_head *head, RCUCBFunc *func);
-+extern void drain_call_rcu(void);
- 
- /* The operands of the minus operator must have the same type,
-  * which must be the one that we specify in the cast.
-diff --git a/qdev-monitor.c b/qdev-monitor.c
-index 71ebce19df..a889fbc509 100644
---- a/qdev-monitor.c
-+++ b/qdev-monitor.c
-@@ -803,6 +803,18 @@ void qmp_device_add(QDict *qdict, QObject **ret_data, Error **errp)
-         return;
-     }
-     dev = qdev_device_add(opts, errp);
-+
-+    /*
-+     * Drain all pending RCU callbacks. This is done because
-+     * some bus related operations can delay a device removal
-+     * (in this case this can happen if device is added and then
-+     * removed due to a configuration error)
-+     * to a RCU callback, but user might expect that this interface
-+     * will finish its job completely once qmp command returns result
-+     * to the user
-+     */
-+    drain_call_rcu();
-+
-     if (!dev) {
-         qemu_opts_del(opts);
-         return;
-@@ -894,6 +906,16 @@ void qmp_device_del(const char *id, Error **errp)
-         }
- 
-         qdev_unplug(dev, errp);
-+
-+        /*
-+         * Drain all pending RCU callbacks. This is done because
-+         * some bus related operations can delay a device removal
-+         * to a RCU callback, but user might expect that this interface
-+         * will finish its job completely once qmp command returns result
-+         * to the user
-+         */
-+
-+        drain_call_rcu();
-     }
- }
- 
-diff --git a/util/rcu.c b/util/rcu.c
-index 60a37f72c3..c4fefa9333 100644
---- a/util/rcu.c
-+++ b/util/rcu.c
-@@ -293,6 +293,61 @@ void call_rcu1(struct rcu_head *node, void (*func)(struct rcu_head *node))
-     qemu_event_set(&rcu_call_ready_event);
- }
- 
-+
-+struct rcu_drain {
+ typedef struct BusChild {
 +    struct rcu_head rcu;
-+    QemuEvent drain_complete_event;
-+};
-+
-+static void drain_rcu_callback(struct rcu_head *node)
-+{
-+    struct rcu_drain *event = (struct rcu_drain *)node;
-+    qemu_event_set(&event->drain_complete_event);
-+}
-+
-+/*
-+ * This function ensures that all pending RCU callbacks
-+ * on the current thread are done executing
-+
-+ * drops big qemu lock during the wait to allow RCU thread
-+ * to process the callbacks
-+ *
-+ */
-+
-+void drain_call_rcu(void)
-+{
-+    struct rcu_drain rcu_drain;
-+    bool locked = qemu_mutex_iothread_locked();
-+
-+    memset(&rcu_drain, 0, sizeof(struct rcu_drain));
-+    qemu_event_init(&rcu_drain.drain_complete_event, false);
-+
-+    if (locked) {
-+        qemu_mutex_unlock_iothread();
-+    }
-+
+     DeviceState *child;
+     int index;
+     QTAILQ_ENTRY(BusChild) sibling;
+@@ -250,6 +253,12 @@ struct BusState {
+     int max_index;
+     bool realized;
+     int num_children;
 +
 +    /*
-+     * RCU callbacks are invoked in the same order as in which they
-+     * are registered, thus we can be sure that when 'drain_rcu_callback'
-+     * is called, all RCU callbacks that were registered on this thread
-+     * prior to calling this function are completed.
-+     *
-+     * Note that since we have only one global queue of the RCU callbacks,
-+     * we also end up waiting for most of RCU callbacks that were registered
-+     * on the other threads, but this is a side effect that shoudn't be
-+     * assumed.
++     * children is a RCU QTAILQ, thus readers must use RCU to access it,
++     * and writers must hold the big qemu lock
 +     */
 +
-+    call_rcu1(&rcu_drain.rcu, drain_rcu_callback);
-+    qemu_event_wait(&rcu_drain.drain_complete_event);
-+
-+    if (locked) {
-+        qemu_mutex_lock_iothread();
-+    }
-+
-+}
-+
- void rcu_register_thread(void)
- {
-     assert(rcu_reader.ctr == 0);
+     QTAILQ_HEAD(, BusChild) children;
+     QLIST_ENTRY(BusState) sibling;
+     ResettableState reset;
 -- 
 2.26.2
 
