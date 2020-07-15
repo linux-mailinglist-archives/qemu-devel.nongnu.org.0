@@ -2,62 +2,61 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3F2A8220E8B
-	for <lists+qemu-devel@lfdr.de>; Wed, 15 Jul 2020 15:56:23 +0200 (CEST)
-Received: from localhost ([::1]:37982 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 590DD220E80
+	for <lists+qemu-devel@lfdr.de>; Wed, 15 Jul 2020 15:55:03 +0200 (CEST)
+Received: from localhost ([::1]:58786 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jvhtW-0007Z0-74
-	for lists+qemu-devel@lfdr.de; Wed, 15 Jul 2020 09:56:22 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:40584)
+	id 1jvhsE-0004SV-CQ
+	for lists+qemu-devel@lfdr.de; Wed, 15 Jul 2020 09:55:02 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:40606)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <jasowang@redhat.com>)
- id 1jvhqt-0002pV-AJ
- for qemu-devel@nongnu.org; Wed, 15 Jul 2020 09:53:39 -0400
-Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:46500
+ id 1jvhqx-0002wt-Ew
+ for qemu-devel@nongnu.org; Wed, 15 Jul 2020 09:53:43 -0400
+Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:48705
  helo=us-smtp-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
  (Exim 4.90_1) (envelope-from <jasowang@redhat.com>)
- id 1jvhqr-0005KF-Ni
- for qemu-devel@nongnu.org; Wed, 15 Jul 2020 09:53:39 -0400
+ id 1jvhqv-0005LB-Io
+ for qemu-devel@nongnu.org; Wed, 15 Jul 2020 09:53:43 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1594821217;
+ s=mimecast20190719; t=1594821221;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:content-type:content-type:in-reply-to:in-reply-to:
- references:references; bh=RNCgE96fDYOzx5n6sI6hbRMfVSc2P45tRV6eEOJvkhE=;
- b=dR+7hIngeDyJ6Ob8K9+i269ZdFeOejO7GWuYmpWy9AmJrNfsVoPE2B9MKbayyAE178j4Lc
- sB93jkmrto78zKssHGBbWz5oe/IwurLifmB9qTKejQ5u2IdLIsSS70SmmA5TFq+x1IyFc9
- /zLfl8vmUCy7/jUqjy/mYRwRq+k5SfQ=
+ references:references; bh=pycJaOGH+mrtlDuxINiTiyF5nVH/YR0uKzGwEx3SrCg=;
+ b=CaelTgtk56ZCoJRZXKcLzG6qxUOXmgEE1CSa6ygv264If2jnsH/vBmSGSwH67IJqj8oQ3v
+ RQWH6IG79cG73IFvGpI/5vKNPnVbCdncA3iNl1r1XsRGQF6NE6bP794Tid+mE7fEn2qlDk
+ Kn/bFNFW3LiPUIk3YC7k1IW+2LlVPjE=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-128-sKqTKsxuPiKcrNTIxeA6tw-1; Wed, 15 Jul 2020 09:53:34 -0400
-X-MC-Unique: sKqTKsxuPiKcrNTIxeA6tw-1
+ us-mta-309-tGlrKLi_OzeBdZUfSO2KwA-1; Wed, 15 Jul 2020 09:53:38 -0400
+X-MC-Unique: tGlrKLi_OzeBdZUfSO2KwA-1
 Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
  [10.5.11.16])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id C8A4518C63D2;
- Wed, 15 Jul 2020 13:53:33 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id D828518C63C0;
+ Wed, 15 Jul 2020 13:53:37 +0000 (UTC)
 Received: from jason-ThinkPad-T430s.redhat.com (ovpn-12-28.pek2.redhat.com
  [10.72.12.28])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 0FE855C57D;
- Wed, 15 Jul 2020 13:53:31 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 558B35C57D;
+ Wed, 15 Jul 2020 13:53:34 +0000 (UTC)
 From: Jason Wang <jasowang@redhat.com>
 To: peter.maydell@linaro.org
-Subject: [PULL 2/7] hw/net: Added CSO for IPv6
-Date: Wed, 15 Jul 2020 21:53:16 +0800
-Message-Id: <1594821201-3708-3-git-send-email-jasowang@redhat.com>
+Subject: [PULL 3/7] net/colo-compare.c: Expose compare "max_queue_size" to
+ users
+Date: Wed, 15 Jul 2020 21:53:17 +0800
+Message-Id: <1594821201-3708-4-git-send-email-jasowang@redhat.com>
 In-Reply-To: <1594821201-3708-1-git-send-email-jasowang@redhat.com>
 References: <1594821201-3708-1-git-send-email-jasowang@redhat.com>
 X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=jasowang@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=US-ASCII
-Received-SPF: pass client-ip=205.139.110.120; envelope-from=jasowang@redhat.com;
+Received-SPF: pass client-ip=207.211.31.120; envelope-from=jasowang@redhat.com;
  helo=us-smtp-1.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/07/15 02:37:05
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/07/15 05:07:28
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
 X-Spam_score_int: -40
 X-Spam_score: -4.1
@@ -78,58 +77,128 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Jason Wang <jasowang@redhat.com>, Andrew <andrew@daynix.com>,
+Cc: Zhang Chen <chen.zhang@intel.com>, Jason Wang <jasowang@redhat.com>,
  qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Andrew <andrew@daynix.com>
+From: Zhang Chen <chen.zhang@intel.com>
 
-Added fix for checksum offload for IPv6 if a backend doesn't
-have a virtual header.
-This patch is a part of IPv6 fragmentation.
+This patch allow users to set the "max_queue_size" according
+to their environment.
 
-Signed-off-by: Andrew Melnychenko <andrew@daynix.com>
+Signed-off-by: Zhang Chen <chen.zhang@intel.com>
 Signed-off-by: Jason Wang <jasowang@redhat.com>
 ---
- hw/net/net_tx_pkt.c | 15 ++++++++++++---
- 1 file changed, 12 insertions(+), 3 deletions(-)
+ net/colo-compare.c | 43 ++++++++++++++++++++++++++++++++++++++++++-
+ qemu-options.hx    |  5 +++--
+ 2 files changed, 45 insertions(+), 3 deletions(-)
 
-diff --git a/hw/net/net_tx_pkt.c b/hw/net/net_tx_pkt.c
-index 162f802..331c73c 100644
---- a/hw/net/net_tx_pkt.c
-+++ b/hw/net/net_tx_pkt.c
-@@ -468,8 +468,8 @@ static void net_tx_pkt_do_sw_csum(struct NetTxPkt *pkt)
-     /* num of iovec without vhdr */
-     uint32_t iov_len = pkt->payload_frags + NET_TX_PKT_PL_START_FRAG - 1;
-     uint16_t csl;
--    struct ip_header *iphdr;
-     size_t csum_offset = pkt->virt_hdr.csum_start + pkt->virt_hdr.csum_offset;
-+    uint16_t l3_proto = eth_get_l3_proto(iov, 1, iov->iov_len);
+diff --git a/net/colo-compare.c b/net/colo-compare.c
+index 398b754..cc15f23 100644
+--- a/net/colo-compare.c
++++ b/net/colo-compare.c
+@@ -59,6 +59,7 @@ static bool colo_compare_active;
+ static QemuMutex event_mtx;
+ static QemuCond event_complete_cond;
+ static int event_unhandled_count;
++static uint32_t max_queue_size;
  
-     /* Put zero to checksum field */
-     iov_from_buf(iov, iov_len, csum_offset, &csum, sizeof csum);
-@@ -477,9 +477,18 @@ static void net_tx_pkt_do_sw_csum(struct NetTxPkt *pkt)
-     /* Calculate L4 TCP/UDP checksum */
-     csl = pkt->payload_len;
+ /*
+  *  + CompareState ++
+@@ -222,7 +223,7 @@ static void fill_pkt_tcp_info(void *data, uint32_t *max_ack)
+  */
+ static int colo_insert_packet(GQueue *queue, Packet *pkt, uint32_t *max_ack)
+ {
+-    if (g_queue_get_length(queue) <= MAX_QUEUE_SIZE) {
++    if (g_queue_get_length(queue) <= max_queue_size) {
+         if (pkt->ip->ip_p == IPPROTO_TCP) {
+             fill_pkt_tcp_info(pkt, max_ack);
+             g_queue_insert_sorted(queue,
+@@ -1134,6 +1135,37 @@ static void compare_set_expired_scan_cycle(Object *obj, Visitor *v,
+     s->expired_scan_cycle = value;
+ }
  
-+    csum_cntr = 0;
-+    cso = 0;
-     /* add pseudo header to csum */
--    iphdr = pkt->vec[NET_TX_PKT_L3HDR_FRAG].iov_base;
--    csum_cntr = eth_calc_ip4_pseudo_hdr_csum(iphdr, csl, &cso);
-+    if (l3_proto == ETH_P_IP) {
-+        csum_cntr = eth_calc_ip4_pseudo_hdr_csum(
-+                pkt->vec[NET_TX_PKT_L3HDR_FRAG].iov_base,
-+                csl, &cso);
-+    } else if (l3_proto == ETH_P_IPV6) {
-+        csum_cntr = eth_calc_ip6_pseudo_hdr_csum(
-+                pkt->vec[NET_TX_PKT_L3HDR_FRAG].iov_base,
-+                csl, pkt->l4proto, &cso);
++static void get_max_queue_size(Object *obj, Visitor *v,
++                               const char *name, void *opaque,
++                               Error **errp)
++{
++    uint32_t value = max_queue_size;
++
++    visit_type_uint32(v, name, &value, errp);
++}
++
++static void set_max_queue_size(Object *obj, Visitor *v,
++                               const char *name, void *opaque,
++                               Error **errp)
++{
++    Error *local_err = NULL;
++    uint32_t value;
++
++    visit_type_uint32(v, name, &value, &local_err);
++    if (local_err) {
++        goto out;
 +    }
++    if (!value) {
++        error_setg(&local_err, "Property '%s.%s' requires a positive value",
++                   object_get_typename(obj), name);
++        goto out;
++    }
++    max_queue_size = value;
++
++out:
++    error_propagate(errp, local_err);
++}
++
+ static void compare_pri_rs_finalize(SocketReadState *pri_rs)
+ {
+     CompareState *s = container_of(pri_rs, CompareState, pri_rs);
+@@ -1251,6 +1283,11 @@ static void colo_compare_complete(UserCreatable *uc, Error **errp)
+         s->expired_scan_cycle = REGULAR_PACKET_CHECK_MS;
+     }
  
-     /* data checksum */
-     csum_cntr +=
++    if (!max_queue_size) {
++        /* Set default queue size to 1024 */
++        max_queue_size = MAX_QUEUE_SIZE;
++    }
++
+     if (find_and_check_chardev(&chr, s->pri_indev, errp) ||
+         !qemu_chr_fe_init(&s->chr_pri_in, chr, errp)) {
+         return;
+@@ -1370,6 +1407,10 @@ static void colo_compare_init(Object *obj)
+                         compare_get_expired_scan_cycle,
+                         compare_set_expired_scan_cycle, NULL, NULL);
+ 
++    object_property_add(obj, "max_queue_size", "uint32",
++                        get_max_queue_size,
++                        set_max_queue_size, NULL, NULL);
++
+     s->vnet_hdr = false;
+     object_property_add_bool(obj, "vnet_hdr_support", compare_get_vnet_hdr,
+                              compare_set_vnet_hdr);
+diff --git a/qemu-options.hx b/qemu-options.hx
+index d2c1e95..310885c 100644
+--- a/qemu-options.hx
++++ b/qemu-options.hx
+@@ -4695,7 +4695,7 @@ SRST
+         stored. The file format is libpcap, so it can be analyzed with
+         tools such as tcpdump or Wireshark.
+ 
+-    ``-object colo-compare,id=id,primary_in=chardevid,secondary_in=chardevid,outdev=chardevid,iothread=id[,vnet_hdr_support][,notify_dev=id][,compare_timeout=@var{ms}][,expired_scan_cycle=@var{ms}``
++    ``-object colo-compare,id=id,primary_in=chardevid,secondary_in=chardevid,outdev=chardevid,iothread=id[,vnet_hdr_support][,notify_dev=id][,compare_timeout=@var{ms}][,expired_scan_cycle=@var{ms}][,max_queue_size=@var{size}]``
+         Colo-compare gets packet from primary\_inchardevid and
+         secondary\_inchardevid, than compare primary packet with
+         secondary packet. If the packets are same, we will output
+@@ -4707,7 +4707,8 @@ SRST
+         vnet\_hdr\_len. Then compare\_timeout=@var{ms} determines the
+         maximum delay colo-compare wait for the packet.
+         The expired\_scan\_cycle=@var{ms} to set the period of scanning
+-        expired primary node network packets.
++        expired primary node network packets. The max\_queue\_size=@var{size}
++        is to set the max compare queue size depend on user environment.
+         If you want to use Xen COLO, will need the notify\_dev to
+         notify Xen colo-frame to do checkpoint.
+ 
 -- 
 2.5.0
 
