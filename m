@@ -2,71 +2,64 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 64ED6220BA0
-	for <lists+qemu-devel@lfdr.de>; Wed, 15 Jul 2020 13:17:08 +0200 (CEST)
-Received: from localhost ([::1]:57438 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 87C2F220BB3
+	for <lists+qemu-devel@lfdr.de>; Wed, 15 Jul 2020 13:22:07 +0200 (CEST)
+Received: from localhost ([::1]:34008 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jvfPP-0006xH-EQ
-	for lists+qemu-devel@lfdr.de; Wed, 15 Jul 2020 07:17:07 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:36794)
+	id 1jvfUE-0001Ic-Cb
+	for lists+qemu-devel@lfdr.de; Wed, 15 Jul 2020 07:22:06 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:38166)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1jvfNz-00063i-GB
- for qemu-devel@nongnu.org; Wed, 15 Jul 2020 07:15:39 -0400
-Received: from mail-wm1-x333.google.com ([2a00:1450:4864:20::333]:35846)
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1jvfT4-0000V7-Mz
+ for qemu-devel@nongnu.org; Wed, 15 Jul 2020 07:20:54 -0400
+Received: from mail-ot1-x32e.google.com ([2607:f8b0:4864:20::32e]:43504)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1jvfNx-0003Tt-Qz
- for qemu-devel@nongnu.org; Wed, 15 Jul 2020 07:15:39 -0400
-Received: by mail-wm1-x333.google.com with SMTP id 17so5376801wmo.1
- for <qemu-devel@nongnu.org>; Wed, 15 Jul 2020 04:15:37 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1jvfT2-0004Xd-Dj
+ for qemu-devel@nongnu.org; Wed, 15 Jul 2020 07:20:54 -0400
+Received: by mail-ot1-x32e.google.com with SMTP id 95so1149344otw.10
+ for <qemu-devel@nongnu.org>; Wed, 15 Jul 2020 04:20:51 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=references:user-agent:from:to:cc:subject:in-reply-to:date
- :message-id:mime-version:content-transfer-encoding;
- bh=YL18sbQaPsXZZ77+m9PEXztauEuRKeQmOj6/CVJU0lo=;
- b=ghCO0HQp3Jg/azWOc0GdPHLpv96SeZfFOia67GPfHZxJY+FEznaV0iYOfxoJvsY08Z
- bXn+XOaKtQ+FCpGoT3xMdly5oCePMbxyYYyUi6gCjscp+xQ1PROtJx87M2ZLur5uOTth
- x7stls69CudvQlCOnq4ZZ6x4v68B3jstDIW66gvjGggusQVJn+UEmK1NohMh0iAlxYjE
- 1Vktl6IjEvuLZQn1rrllsCzKnD8ZHcKsM1IDa4dw326tz/uI27g87Lt+E6MG65j9kI9e
- UMtn6LCZc8hbgjWJFCRjj0xrfnxDjqhR1LRTe9lTqTnyAqjdCB0pp4cJnk6072ZKfKbX
- mJXA==
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc:content-transfer-encoding;
+ bh=AL57zQwPk0AGXFdm0v8YHvJgT1iptcCjYi4287VCBUc=;
+ b=WQs26W1sR67R0xEtVDTGsDCq7wINhwLgUjFxsmvyi1WlLoToksu6t9fqq42XkB6A64
+ XqSSOtML6ULJevYjfFA9WJEGeGJb8nB2Wwd1SBGNCE1gSAvuss5JZp8Zlopfnl7a6NDP
+ 57vZH5a6BXWzF9CWEcQDuMq89kIrUHO1j6n7LizN47I2r9gqZJ8Wy9pqRW23UpS1ulce
+ BjV2zz4xIvAijR5MDKBxSyYpWgJyzDwz3VOCw8vN/iw4fz7Y6ixkbZl6Om84BlAeJiPg
+ A5/NrzJGxdpa+7y6XHJ6WXNpNktDQv++Tn+jj/mNN2SskArmH23/rcMJW5MY7cA9KV/c
+ S3qw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:references:user-agent:from:to:cc:subject
- :in-reply-to:date:message-id:mime-version:content-transfer-encoding;
- bh=YL18sbQaPsXZZ77+m9PEXztauEuRKeQmOj6/CVJU0lo=;
- b=VCNYZCWI5EQuAbfEdyroV5cPT9sfHwHchDLx1axZttyVRz5hvZv2a6LhPgmBqdsBXv
- TS/M5ttimJYsBEERbqn4Le1424kPn8iaM2S4SZ6q+eCXZP+sIwAvABJg/qyBn69R4wiz
- tV6dH0gnPSfmfro0F7u1lH1n5mB8QEc0CIQjt4kP/m4ezn7PuPQEkWF/fQNjSqdvOkx8
- lu3YwqK/E4RqkoA0kE5ryv7M64AE7qY/obEWGfAA44vHVu00ZmCpWd/sFTuGJlG3lD/p
- ECAFOfAubtBNKr98XiHgZZkSTULX6jaASDS7xDSMuvVrYIsZBY8v2C4KEeKPEUO6C5Fn
- tzww==
-X-Gm-Message-State: AOAM532MYfM+6lxWWwmXYkSQ+3/1Y/1tOoxiGCg7cczfOSCpax7TONcJ
- 7GloY6fxVuXKAli81uGLQTEjekr4xjE=
-X-Google-Smtp-Source: ABdhPJyFTs6N8QDss37AlokvxXWsZV9n6PrebpY6pQC2OVtdZCZzW0Uffs0CMRMaiTEQo1Go1MiqDQ==
-X-Received: by 2002:a7b:c3d0:: with SMTP id t16mr8726285wmj.117.1594811735838; 
- Wed, 15 Jul 2020 04:15:35 -0700 (PDT)
-Received: from zen.linaroharston ([51.148.130.216])
- by smtp.gmail.com with ESMTPSA id w16sm3656165wrg.95.2020.07.15.04.15.34
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 15 Jul 2020 04:15:34 -0700 (PDT)
-Received: from zen (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id DAA701FF7E;
- Wed, 15 Jul 2020 12:15:32 +0100 (BST)
-References: <20200715105542.14428-1-alex.bennee@linaro.org>
-User-agent: mu4e 1.5.4; emacs 28.0.50
-From: Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
-To: peter.maydell@linaro.org
-Subject: Re: [PULL v2 0/8] final misc fixes for 5.1-rc0
-In-reply-to: <20200715105542.14428-1-alex.bennee@linaro.org>
-Date: Wed, 15 Jul 2020 12:15:32 +0100
-Message-ID: <87imepxc4r.fsf@linaro.org>
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc:content-transfer-encoding;
+ bh=AL57zQwPk0AGXFdm0v8YHvJgT1iptcCjYi4287VCBUc=;
+ b=b2pp5PN4bYNNp9m9uAiqNbnk/Wz9/a4L23c0a8Xc3Uiowo0EuSnny08224+7/8qVCs
+ Kq1gY6vGQKiMC7BJNJ2CGhCyCPviHJYD5s2bmmLdzfQdKPzjejVt6Dk0gSpgyE7v0692
+ kRKDLj30u3iU86GtnqOrnJMzR6e48jFxeigqMmAOjj4W2BZfLP6oEvrJZ4ZqdIDsFAYy
+ 8DrZwG4tLht0Rx8qwumQQ1wKflv0cZzdh9DiXWAausbWC/sM4IEurp4zU+LAgEz5AxEC
+ hL/VMBp378lEUO429VVN+uItgecM0Um7JMrVV7Sy312GpZdIvo5LnVVqjsuCYfgiR2NO
+ ktyw==
+X-Gm-Message-State: AOAM5323Sd+MYKO9kK8QWpmyTkfdbhrtFepm3W9U2r0W+UWfNp+VmLHC
+ 9PzPDazyeI6mhDQ3prBAwxQMMws5rnSp7bi0WQ3dBg==
+X-Google-Smtp-Source: ABdhPJzUcCzaW1F/klNhrJkFEpasRnAiuMlXgkMJijPG1PTCfAbwYB52kICgTbAMYPImaIEJL9FFsq8+z+bwm/sJ3To=
+X-Received: by 2002:a05:6830:10ce:: with SMTP id
+ z14mr8610429oto.135.1594812050626; 
+ Wed, 15 Jul 2020 04:20:50 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+References: <20200714135814.19910-1-f4bug@amsat.org>
+In-Reply-To: <20200714135814.19910-1-f4bug@amsat.org>
+From: Peter Maydell <peter.maydell@linaro.org>
+Date: Wed, 15 Jul 2020 12:20:39 +0100
+Message-ID: <CAFEAcA8zr7_a8OvOptB0sUS9kKVUM3k__qDy2Z+Q9j=gBXEfNQ@mail.gmail.com>
+Subject: Re: [PULL 0/9] sdcard: Fix CVE-2020-13253
+To: =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <f4bug@amsat.org>
+Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=2a00:1450:4864:20::333;
- envelope-from=alex.bennee@linaro.org; helo=mail-wm1-x333.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::32e;
+ envelope-from=peter.maydell@linaro.org; helo=mail-ot1-x32e.google.com
 X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
  That's all we know.
 X-Spam_score_int: -20
@@ -74,8 +67,8 @@ X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
  DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ URIBL_BLOCKED=0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -88,30 +81,58 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>,
- qemu-devel@nongnu.org
+Cc: Alexander Bulekov <alxndr@bu.edu>, QEMU Developers <qemu-devel@nongnu.org>,
+ Qemu-block <qemu-block@nongnu.org>, Prasad J Pandit <ppandit@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-
-Alex Benn=C3=A9e <alex.bennee@linaro.org> writes:
-
-> Dropped configure patch
+On Tue, 14 Jul 2020 at 15:00, Philippe Mathieu-Daud=C3=A9 <f4bug@amsat.org>=
+ wrote:
 >
-> ---
-> The following changes since commit c920fdba39480989cb5f1af3cc63acccef021b=
-54:
+> The following changes since commit 20c1df5476e1e9b5d3f5b94f9f3ce01d21f14c=
+46:
 >
->   Merge remote-tracking branch 'remotes/mdroth/tags/qga-pull-2020-07-13-t=
-ag' into staging (2020-07-14 21:21:58 +0100)
+>   Merge remote-tracking branch 'remotes/kraxel/tags/fixes-20200713-pull-r=
+eque=3D
+> st' into staging (2020-07-13 16:58:44 +0100)
 >
 > are available in the Git repository at:
 >
->   https://github.com/stsquad/qemu.git tags/pull-misc-for-rc0-150720-2
+>   https://gitlab.com/philmd/qemu.git tags/sdcard-CVE-2020-13253-pull-requ=
+est
+>
+> for you to fetch changes up to 790762e5487114341cccc5bffcec4cb3c022c3cd:
+>
+>   hw/sd/sdcard: Do not switch to ReceivingData if address is invalid (202=
+0-07=3D
+> -14 15:46:14 +0200)
+>
+> ----------------------------------------------------------------
+> Fix CVE-2020-13253
+>
+> By using invalidated address, guest can do out-of-bounds accesses.
+> These patches fix the issue by only allowing SD card image sizes
+> power of 2, and not switching to SEND_DATA state when the address
+> is invalid (out of range).
+>
+> This issue was found using QEMU fuzzing mode (using --enable-fuzzing,
+> see docs/devel/fuzzing.txt) and reported by Alexander Bulekov.
+>
+> Reproducer:
+>   https://bugs.launchpad.net/qemu/+bug/1880822/comments/1
+>
+> CI jobs results:
+> . https://cirrus-ci.com/build/5157142548185088
+> . https://gitlab.com/philmd/qemu/-/pipelines/166381731
+> . https://travis-ci.org/github/philmd/qemu/builds/707956535
+> ----------------------------------------------------------------
 
-Just sent v3 to add the Travis patch we tested yesterday. Sorry for the noi=
-se.
 
---=20
-Alex Benn=C3=A9e
+
+Applied, thanks.
+
+Please update the changelog at https://wiki.qemu.org/ChangeLog/5.1
+for any user-visible changes.
+
+-- PMM
 
