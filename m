@@ -2,76 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7188D220FA6
-	for <lists+qemu-devel@lfdr.de>; Wed, 15 Jul 2020 16:38:40 +0200 (CEST)
-Received: from localhost ([::1]:47210 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 678A2220FD8
+	for <lists+qemu-devel@lfdr.de>; Wed, 15 Jul 2020 16:50:38 +0200 (CEST)
+Received: from localhost ([::1]:55314 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jviYR-0004zZ-96
-	for lists+qemu-devel@lfdr.de; Wed, 15 Jul 2020 10:38:39 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:54526)
+	id 1jvik0-0000Xr-4X
+	for lists+qemu-devel@lfdr.de; Wed, 15 Jul 2020 10:50:36 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:58384)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1jviXP-0004YR-LB
- for qemu-devel@nongnu.org; Wed, 15 Jul 2020 10:37:35 -0400
-Received: from us-smtp-1.mimecast.com ([207.211.31.81]:52857
- helo=us-smtp-delivery-1.mimecast.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1jviXN-0005fl-Oc
- for qemu-devel@nongnu.org; Wed, 15 Jul 2020 10:37:35 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1594823852;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=xzMN/nz2MzB/U0PZCalICT7o3gXKSTQ2LLc8gwVmpOk=;
- b=VUgpfsw/h5gW/v3g0y+azLXajNTEPbd5FAdTsy0p2qsdmWsy5NwVqgizUnSaAxLHbgBBfu
- msLI85S5Yv6yeKHFpKfuvKXLUqAJFPpe2bFadK641zEBQv36zjHqiH8eSUq4YZWsisrR8H
- 6bj5VEPMF5uFZSR03EBi/wUuBoIEo2Y=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-145-87vCqAviPvmKG_mR9KYd1A-1; Wed, 15 Jul 2020 10:37:30 -0400
-X-MC-Unique: 87vCqAviPvmKG_mR9KYd1A-1
-Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
- [10.5.11.22])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id E64A81030C53;
- Wed, 15 Jul 2020 14:37:28 +0000 (UTC)
-Received: from blackfin.pond.sub.org (ovpn-112-143.ams2.redhat.com
- [10.36.112.143])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 901911053B14;
- Wed, 15 Jul 2020 14:37:20 +0000 (UTC)
-Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
- id 066D111386A6; Wed, 15 Jul 2020 16:37:19 +0200 (CEST)
-From: Markus Armbruster <armbru@redhat.com>
-To: Pratik Parvati <pratikp@vayavyalabs.com>
-Subject: Re: sysbus_create_simple Vs qdev_create
-References: <CA+aXn+EkkyiXmKpNhbggy0pjKVpiHxa+TUqEnZLB4v_D=T+7tA@mail.gmail.com>
- <CA+aXn+HHXAmT6Ljj2tpovGAYSurHKSdtUL3y-89t31B0e7jpsA@mail.gmail.com>
- <adb25c78-2edc-115a-5264-ca9f97864ec7@redhat.com>
- <87365t18mp.fsf@dusky.pond.sub.org>
- <CA+aXn+Guvt34PDD=N3FsD5w1C-aDXZ7gS8H_AZN-JEM8j8wBiQ@mail.gmail.com>
-Date: Wed, 15 Jul 2020 16:37:18 +0200
-In-Reply-To: <CA+aXn+Guvt34PDD=N3FsD5w1C-aDXZ7gS8H_AZN-JEM8j8wBiQ@mail.gmail.com>
- (Pratik Parvati's message of "Wed, 15 Jul 2020 19:28:24 +0530")
-Message-ID: <87lfjkvo81.fsf@dusky.pond.sub.org>
-User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/26.3 (gnu/linux)
+ (Exim 4.90_1) (envelope-from <alistair23@gmail.com>)
+ id 1jviiZ-0008OW-R8; Wed, 15 Jul 2020 10:49:07 -0400
+Received: from mail-il1-x143.google.com ([2607:f8b0:4864:20::143]:41691)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <alistair23@gmail.com>)
+ id 1jviiX-0000k0-B1; Wed, 15 Jul 2020 10:49:07 -0400
+Received: by mail-il1-x143.google.com with SMTP id q3so2184711ilt.8;
+ Wed, 15 Jul 2020 07:49:03 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=ZjNwVPAoqSbfouoFM+Try6jwW4/cFWew31JYb8/WKR0=;
+ b=FDR6bboN68+tXVd+1BpZ9GSq9BJN8w3M4ufLbiv7nRIklRh+G9xX+WURccuGe7swY6
+ C/SuGdjLzAtYQz8j2qj+N1R/IYtz0pEjWU8BeJFa3l3E3IAkqMM63Rhu9hnSwmHxHHLP
+ 42fzT6cFZpBTUUyeIpXRa8fLB9wt+LM9dA6pdqnAjLL66iYFmRce8MufftEy/E0Q3DX9
+ mgLUSzJ5hIRZzCuzg4AiwrTre7u3mypuKauZWheOvxwDxFQ6q0g0ok/v4b6Ord8pe9lL
+ S6SwQF94pd9auGyn7zZFJkTVgkgwTaXAaUbMRxrTddVgKMs2R15fZGA+ynCaD/dy/ipL
+ JT0A==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=ZjNwVPAoqSbfouoFM+Try6jwW4/cFWew31JYb8/WKR0=;
+ b=O3OxwBOIx816lm0IWdPtuEA+CpRkrBcCBO7a5dl3UVhrOoxtaIWlyBjYdEsWKFpYON
+ IcimWaWT3DDZfM6Nprsgx6tMxnH0hx5gGfvB8FR824G/zaAAZcif8/AIMuNc4RF6mWe6
+ +70Hv+8LckoEDFbWaqSoKvnCNVY/d3bRDh+dL+b+3xqMfhBIw6h/3kxczztE3Xs6BkB+
+ fjXaFlINFm8zMcX19Nd4wUlAXDmDhZRyfL8it3yx68U6WqG9UJX31WWvtXDK1dypW5qL
+ LIIR9Dp3XBwhkDmwmWm4rvkLgCPoAh9bDU9coYsEwnF45PkK8uDaFq/tjTdOaVVoi4Sm
+ cl6g==
+X-Gm-Message-State: AOAM531DWRyRlsdB9T9B5LAgfLL5GswA/izBTeZ4tAMpjEIEGRWZOS8x
+ 0Mj+Hc03LLxeec1w6ESWpvjVfMM2uBdlOL77x0k=
+X-Google-Smtp-Source: ABdhPJyGrJcQfu5S+ly7GD7abMhfqh/xrBcq/NQG4luJSp9TuLg7LexHuC/w1se43wMyuAeX4g9SO4hsDQ8S7IXXTKA=
+X-Received: by 2002:a92:c213:: with SMTP id j19mr10474891ilo.40.1594824542820; 
+ Wed, 15 Jul 2020 07:49:02 -0700 (PDT)
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain
-Received-SPF: pass client-ip=207.211.31.81; envelope-from=armbru@redhat.com;
- helo=us-smtp-delivery-1.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/07/15 02:01:40
-X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
-X-Spam_score_int: -30
-X-Spam_score: -3.1
-X-Spam_bar: ---
-X-Spam_report: (-3.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H3=-0.01, RCVD_IN_MSPIKE_WL=-0.01,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+References: <20200715140440.3540942-1-armbru@redhat.com>
+ <20200715140440.3540942-2-armbru@redhat.com>
+In-Reply-To: <20200715140440.3540942-2-armbru@redhat.com>
+From: Alistair Francis <alistair23@gmail.com>
+Date: Wed, 15 Jul 2020 07:39:01 -0700
+Message-ID: <CAKmqyKO5KoK9rJ6JkcnJaHeXTVK1e8iMMS0UzBfygkUw30kudQ@mail.gmail.com>
+Subject: Re: [PATCH for-5.1 1/2] msf2: Unbreak device-list-properties for
+ "msf-soc"
+To: Markus Armbruster <armbru@redhat.com>
+Content-Type: text/plain; charset="UTF-8"
+Received-SPF: pass client-ip=2607:f8b0:4864:20::143;
+ envelope-from=alistair23@gmail.com; helo=mail-il1-x143.google.com
+X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
+ That's all we know.
+X-Spam_score_int: -17
+X-Spam_score: -1.8
+X-Spam_bar: -
+X-Spam_report: (-1.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ FREEMAIL_ENVFROM_END_DIGIT=0.25, FREEMAIL_FROM=0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -84,94 +79,83 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Paolo Bonzini <pbonzini@redhat.com>,
- =?utf-8?Q?Daniel_P=2E_Berrang=C3=A9?= <berrange@redhat.com>,
- Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
- qemu-devel@nongnu.org, Eduardo Habkost <ehabkost@redhat.com>
+Cc: Peter Maydell <peter.maydell@linaro.org>, Thomas Huth <thuth@redhat.com>,
+ "open list:RISC-V" <qemu-riscv@nongnu.org>,
+ Sagar Karandikar <sagark@eecs.berkeley.edu>,
+ Bastian Koppelmann <kbastian@mail.uni-paderborn.de>,
+ Alistair Francis <alistair@alistair23.me>,
+ Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>,
+ "qemu-devel@nongnu.org Developers" <qemu-devel@nongnu.org>,
+ Subbaraya Sundeep <sundeep.lkml@gmail.com>,
+ Beniamino Galvani <b.galvani@gmail.com>,
+ Niek Linnenbank <nieklinnenbank@gmail.com>, qemu-arm <qemu-arm@nongnu.org>,
+ Palmer Dabbelt <palmer@dabbelt.com>, Edgar Iglesias <edgar.iglesias@gmail.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Pratik Parvati <pratikp@vayavyalabs.com> writes:
-
-> Hi Markus and Philippe,
+On Wed, Jul 15, 2020 at 7:08 AM Markus Armbruster <armbru@redhat.com> wrote:
 >
-> Thanks for your reply. Now I am pretty clear about Qdev and sysbus helper
-> function.
+> Watch this:
 >
-> Can you please explain to me in brief on buses and device hierarchies (i.e.
-> BusState and DeviceState) and how they are related to each other? As I can
-> see, the DeviceState class inherits the BusState
+>     $ qemu-system-aarch64 -M ast2600-evb -S -display none -qmp stdio
+>     {"QMP": {"version": {"qemu": {"micro": 50, "minor": 0, "major": 5}, "package": "v5.0.0-2464-g3a9163af4e"}, "capabilities": ["oob"]}}
+>     {"execute": "qmp_capabilities"}
+>     {"return": {}}
+>     {"execute": "device-list-properties", "arguments": {"typename": "msf2-soc"}}
+>     Unsupported NIC model: ftgmac100
+>     armbru@dusky:~/work/images$ echo $?
+>     1
 >
-> struct DeviceState {
->     /*< private >*/
->     Object parent_obj;
->     /*< public >*/
+> This is what breaks "make check SPEED=slow".
 >
->     const char *id;
->     char *canonical_path;
->     bool realized;
->     bool pending_deleted_event;
->     QemuOpts *opts;
->     int hotplugged;
->     bool allow_unplug_during_migration;
->     BusState *parent_bus; \\ BusState is inherited here
->     QLIST_HEAD(, NamedGPIOList) gpios;
->     QLIST_HEAD(, BusState) child_bus;
->     int num_child_bus;
->     int instance_id_alias;
->     int alias_required_for_version;
->     ResettableState reset;
-> };
+> Root cause is m2sxxx_soc_initfn()'s messing with nd_table[] via
+> qemu_check_nic_model().  That's wrong.
 >
-> and BusState, in turn, inherits the DeviceState as
+> We fixed the exact same bug for device "allwinner-a10" in commit
+> 8aabc5437b "hw/arm/allwinner-a10: Do not use nd_table in instance_init
+> function".  Fix this instance the same way: move the offending code to
+> m2sxxx_soc_realize(), where it's less wrong, and add a FIXME comment.
 >
-> /**
->  * BusState:
->  * @hotplug_handler: link to a hotplug handler associated with bus.
->  * @reset: ResettableState for the bus; handled by Resettable interface.
->  */struct BusState {
->     Object obj;
->     DeviceState *parent; \\ DeviceState is inherited here
->     char *name;
->     HotplugHandler *hotplug_handler;
->     int max_index;
->     bool realized;
->     int num_children;
->     QTAILQ_HEAD(, BusChild) children;
->     QLIST_ENTRY(BusState) sibling;
->     ResettableState reset;
-> };
+> Fixes: 05b7374a58cd18aa3516e33513808896d0ac9b7b
+> Signed-off-by: Markus Armbruster <armbru@redhat.com>
+
+Reviewed-by: Alistair Francis <alistair.francis@wdc.com>
+
+Alistair
+
+> ---
+>  hw/arm/msf2-soc.c | 9 +++++----
+>  1 file changed, 5 insertions(+), 4 deletions(-)
 >
-> I am a bit confused. Can you brief me this relation!
-
-We sorely lack introductory documentation on both qdev and QOM.  I
-believe most developers are more or less confused about them most of the
-time.  I've done a bit of work on both, so I'm probably less confused
-than average.  I'm cc'ing maintainers in the hope of reducing average
-confusion among participants in this thread.
-
-DeviceState does not inherit from BusState, and BusState does not
-inherit from DeviceState.  The relation you marked in the code is
-actually "has a".
-
-A DeviceState may have a BusState, namely the bus the device is plugged
-into.  "May", because some devices are bus-less (their
-DEVICE_GET_CLASS(dev)->bus_type is null), and the others get plugged
-into their bus only at realize time.
-
-Example: PCI device "pci-serial" plugs into a PCI bus.
-
-Example: device "serial" does not plug into a bus (its used as component
-device of "pci-serial" and other devices).
-
-Example: device "pc-dimm" does not plug into a bus.
-
-A bus has a DeviceState, namely the device providing this bus.
-
-Example: device "i440FX-pcihost" provides PCI bus "pci.0".
-
-Both DeviceState and BusState are QOM subtypes of Object.  I prefer to
-avoid use of "inherit" for that, because it can mean different things to
-different people.
-
+> diff --git a/hw/arm/msf2-soc.c b/hw/arm/msf2-soc.c
+> index 16bb7c9916..33ea7df342 100644
+> --- a/hw/arm/msf2-soc.c
+> +++ b/hw/arm/msf2-soc.c
+> @@ -82,10 +82,6 @@ static void m2sxxx_soc_initfn(Object *obj)
+>      }
+>
+>      object_initialize_child(obj, "emac", &s->emac, TYPE_MSS_EMAC);
+> -    if (nd_table[0].used) {
+> -        qemu_check_nic_model(&nd_table[0], TYPE_MSS_EMAC);
+> -        qdev_set_nic_properties(DEVICE(&s->emac), &nd_table[0]);
+> -    }
+>  }
+>
+>  static void m2sxxx_soc_realize(DeviceState *dev_soc, Error **errp)
+> @@ -187,6 +183,11 @@ static void m2sxxx_soc_realize(DeviceState *dev_soc, Error **errp)
+>          g_free(bus_name);
+>      }
+>
+> +    /* FIXME use qdev NIC properties instead of nd_table[] */
+> +    if (nd_table[0].used) {
+> +        qemu_check_nic_model(&nd_table[0], TYPE_MSS_EMAC);
+> +        qdev_set_nic_properties(DEVICE(&s->emac), &nd_table[0]);
+> +    }
+>      dev = DEVICE(&s->emac);
+>      object_property_set_link(OBJECT(&s->emac), "ahb-bus",
+>                               OBJECT(get_system_memory()), &error_abort);
+> --
+> 2.26.2
+>
+>
 
