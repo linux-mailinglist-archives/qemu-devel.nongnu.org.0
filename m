@@ -2,68 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B6AE7220902
-	for <lists+qemu-devel@lfdr.de>; Wed, 15 Jul 2020 11:43:26 +0200 (CEST)
-Received: from localhost ([::1]:37332 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2B67522090D
+	for <lists+qemu-devel@lfdr.de>; Wed, 15 Jul 2020 11:44:48 +0200 (CEST)
+Received: from localhost ([::1]:43498 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jvdwj-0001f2-On
-	for lists+qemu-devel@lfdr.de; Wed, 15 Jul 2020 05:43:25 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:58850)
+	id 1jvdy3-0004F7-8j
+	for lists+qemu-devel@lfdr.de; Wed, 15 Jul 2020 05:44:47 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:58892)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <frankja@linux.ibm.com>)
- id 1jvdup-0008JL-DG
- for qemu-devel@nongnu.org; Wed, 15 Jul 2020 05:41:27 -0400
-Received: from mx0b-001b2d01.pphosted.com ([148.163.158.5]:45256
+ id 1jvduq-0008Lg-Nq
+ for qemu-devel@nongnu.org; Wed, 15 Jul 2020 05:41:28 -0400
+Received: from mx0b-001b2d01.pphosted.com ([148.163.158.5]:37950
  helo=mx0a-001b2d01.pphosted.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <frankja@linux.ibm.com>)
- id 1jvdun-0006Gc-L5
- for qemu-devel@nongnu.org; Wed, 15 Jul 2020 05:41:27 -0400
-Received: from pps.filterd (m0098420.ppops.net [127.0.0.1])
+ id 1jvduo-0006H5-Jq
+ for qemu-devel@nongnu.org; Wed, 15 Jul 2020 05:41:28 -0400
+Received: from pps.filterd (m0098419.ppops.net [127.0.0.1])
  by mx0b-001b2d01.pphosted.com (8.16.0.42/8.16.0.42) with SMTP id
- 06F9Y6B2007619
- for <qemu-devel@nongnu.org>; Wed, 15 Jul 2020 05:41:24 -0400
+ 06F9XsBN155645
+ for <qemu-devel@nongnu.org>; Wed, 15 Jul 2020 05:41:25 -0400
 Received: from pps.reinject (localhost [127.0.0.1])
- by mx0b-001b2d01.pphosted.com with ESMTP id 329dhwx0kv-1
+ by mx0b-001b2d01.pphosted.com with ESMTP id 329r1hma5m-1
  (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT)
- for <qemu-devel@nongnu.org>; Wed, 15 Jul 2020 05:41:24 -0400
-Received: from m0098420.ppops.net (m0098420.ppops.net [127.0.0.1])
- by pps.reinject (8.16.0.36/8.16.0.36) with SMTP id 06F9YJdB008709
- for <qemu-devel@nongnu.org>; Wed, 15 Jul 2020 05:41:24 -0400
-Received: from ppma03ams.nl.ibm.com (62.31.33a9.ip4.static.sl-reverse.com
- [169.51.49.98])
- by mx0b-001b2d01.pphosted.com with ESMTP id 329dhwx0jx-1
+ for <qemu-devel@nongnu.org>; Wed, 15 Jul 2020 05:41:25 -0400
+Received: from m0098419.ppops.net (m0098419.ppops.net [127.0.0.1])
+ by pps.reinject (8.16.0.36/8.16.0.36) with SMTP id 06F9fP2E192048
+ for <qemu-devel@nongnu.org>; Wed, 15 Jul 2020 05:41:25 -0400
+Received: from ppma04ams.nl.ibm.com (63.31.33a9.ip4.static.sl-reverse.com
+ [169.51.49.99])
+ by mx0b-001b2d01.pphosted.com with ESMTP id 329r1hma4v-1
  (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
  Wed, 15 Jul 2020 05:41:24 -0400
-Received: from pps.filterd (ppma03ams.nl.ibm.com [127.0.0.1])
- by ppma03ams.nl.ibm.com (8.16.0.42/8.16.0.42) with SMTP id 06F9Yieo028454;
- Wed, 15 Jul 2020 09:41:22 GMT
+Received: from pps.filterd (ppma04ams.nl.ibm.com [127.0.0.1])
+ by ppma04ams.nl.ibm.com (8.16.0.42/8.16.0.42) with SMTP id 06F9ZokG023486;
+ Wed, 15 Jul 2020 09:41:23 GMT
 Received: from b06cxnps3074.portsmouth.uk.ibm.com
  (d06relay09.portsmouth.uk.ibm.com [9.149.109.194])
- by ppma03ams.nl.ibm.com with ESMTP id 327527v93b-1
+ by ppma04ams.nl.ibm.com with ESMTP id 329nmygfq8-1
  (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Wed, 15 Jul 2020 09:41:22 +0000
+ Wed, 15 Jul 2020 09:41:23 +0000
 Received: from d06av22.portsmouth.uk.ibm.com (d06av22.portsmouth.uk.ibm.com
  [9.149.105.58])
  by b06cxnps3074.portsmouth.uk.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
- 06F9fKJf30212562
+ 06F9fL0S21889490
  (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Wed, 15 Jul 2020 09:41:20 GMT
+ Wed, 15 Jul 2020 09:41:21 GMT
 Received: from d06av22.portsmouth.uk.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id 22E764C04E;
+ by IMSVA (Postfix) with ESMTP id DD9BD4C05A;
  Wed, 15 Jul 2020 09:41:20 +0000 (GMT)
 Received: from d06av22.portsmouth.uk.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id 8398B4C040;
- Wed, 15 Jul 2020 09:41:19 +0000 (GMT)
+ by IMSVA (Postfix) with ESMTP id 474074C040;
+ Wed, 15 Jul 2020 09:41:20 +0000 (GMT)
 Received: from linux01.pok.stglabs.ibm.com (unknown [9.114.17.81])
  by d06av22.portsmouth.uk.ibm.com (Postfix) with ESMTP;
- Wed, 15 Jul 2020 09:41:19 +0000 (GMT)
+ Wed, 15 Jul 2020 09:41:20 +0000 (GMT)
 From: Janosch Frank <frankja@linux.ibm.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH 6/7] pc-bios: s390x: Use PSW constants in start.S
-Date: Wed, 15 Jul 2020 05:40:44 -0400
-Message-Id: <20200715094045.381984-7-frankja@linux.ibm.com>
+Subject: [PATCH 7/7] pc-bios: s390x: Setup io and ext new psws only once
+Date: Wed, 15 Jul 2020 05:40:45 -0400
+Message-Id: <20200715094045.381984-8-frankja@linux.ibm.com>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20200715094045.381984-1-frankja@linux.ibm.com>
 References: <20200715094045.381984-1-frankja@linux.ibm.com>
@@ -74,10 +74,10 @@ X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:6.0.235, 18.0.687
  definitions=2020-07-15_07:2020-07-15,
  2020-07-15 signatures=0
 X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- bulkscore=0 phishscore=0
- malwarescore=0 mlxscore=0 suspectscore=1 impostorscore=0 spamscore=0
- lowpriorityscore=0 mlxlogscore=803 clxscore=1015 adultscore=0
- priorityscore=1501 classifier=spam adjust=0 reason=mlx scancount=1
+ clxscore=1015 malwarescore=0
+ priorityscore=1501 spamscore=0 mlxlogscore=731 lowpriorityscore=0
+ impostorscore=0 adultscore=0 mlxscore=0 bulkscore=0 phishscore=0
+ suspectscore=1 classifier=spam adjust=0 reason=mlx scancount=1
  engine=8.12.0-2006250000 definitions=main-2007150077
 Received-SPF: pass client-ip=148.163.158.5; envelope-from=frankja@linux.ibm.com;
  helo=mx0a-001b2d01.pphosted.com
@@ -106,90 +106,73 @@ Cc: borntraeger@de.ibm.com, thuth@redhat.com, cohuck@redhat.com,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Let's decrease the number of magic numbers.
+Absolutely no need to set them up every time before we enable our
+interrupt masks.
 
 Signed-off-by: Janosch Frank <frankja@linux.ibm.com>
-Reviewed-by: Pierre Morel <pmorel@linux.ibm.com>
 ---
- pc-bios/s390-ccw/s390-arch.h | 25 +++++++++++++++----------
- pc-bios/s390-ccw/start.S     |  9 +++++----
- 2 files changed, 20 insertions(+), 14 deletions(-)
+ pc-bios/s390-ccw/start.S | 30 +++++++++++++-----------------
+ 1 file changed, 13 insertions(+), 17 deletions(-)
 
-diff --git a/pc-bios/s390-ccw/s390-arch.h b/pc-bios/s390-ccw/s390-arch.h
-index 6da44d4436..d450c096d0 100644
---- a/pc-bios/s390-ccw/s390-arch.h
-+++ b/pc-bios/s390-ccw/s390-arch.h
-@@ -11,6 +11,20 @@
- #ifndef S390_ARCH_H
- #define S390_ARCH_H
- 
-+/* s390 psw bit masks */
-+#define PSW_MASK_EXT        0x0100000000000000UL
-+#define PSW_MASK_IOINT      0x0200000000000000ULL
-+#define PSW_MASK_SHORTPSW   0x0008000000000000ULL
-+#define PSW_MASK_WAIT       0x0002000000000000ULL
-+#define PSW_MASK_EAMODE     0x0000000100000000ULL
-+#define PSW_MASK_BAMODE     0x0000000080000000ULL
-+#define PSW_MASK_SHORT_ADDR 0x000000007fffffffULL
-+#define PSW_MASK_64         (PSW_MASK_EAMODE | PSW_MASK_BAMODE)
-+#define PSW_MASK_DWAIT      (PSW_MASK_64 | PSW_MASK_WAIT)
-+#define PSW_MASK_EWAIT      (PSW_MASK_DWAIT | PSW_MASK_IOINT | PSW_MASK_EXT)
-+
-+#ifndef __ASSEMBLER__
-+
- typedef struct PSW {
-     uint64_t mask;
-     uint64_t addr;
-@@ -24,15 +38,6 @@ typedef struct PSWLegacy {
- } __attribute__ ((aligned(8))) PSWLegacy;
- _Static_assert(sizeof(struct PSWLegacy) == 8, "PSWLegacy size incorrect");
- 
--/* s390 psw bit masks */
--#define PSW_MASK_IOINT      0x0200000000000000ULL
--#define PSW_MASK_SHORTPSW   0x0008000000000000ULL
--#define PSW_MASK_WAIT       0x0002000000000000ULL
--#define PSW_MASK_EAMODE     0x0000000100000000ULL
--#define PSW_MASK_BAMODE     0x0000000080000000ULL
--#define PSW_MASK_SHORT_ADDR 0x000000007fffffffULL
--#define PSW_MASK_64         (PSW_MASK_EAMODE | PSW_MASK_BAMODE)
--
- /* Low core mapping */
- typedef struct LowCore {
-     /* prefix area: defined by architecture */
-@@ -107,5 +112,5 @@ static inline uint32_t store_prefix(void)
-     asm volatile("stpx %0" : "=m" (address));
-     return address;
- }
--
-+#endif /* !__ASSEMBLER__ */
- #endif
 diff --git a/pc-bios/s390-ccw/start.S b/pc-bios/s390-ccw/start.S
-index ce519300a1..01c4c21b26 100644
+index 01c4c21b26..0059a15d21 100644
 --- a/pc-bios/s390-ccw/start.S
 +++ b/pc-bios/s390-ccw/start.S
-@@ -9,6 +9,7 @@
-  * your option) any later version. See the COPYING file in the top-level
-  * directory.
-  */
-+#include "s390-arch.h"
+@@ -34,6 +34,12 @@ loop:
+ remainder:
+ 	larl	%r2,memsetxc
+ 	ex	%r3,0(%r2)
++        /* Store io new PSW */
++        larl	%r1,io_new_psw
++        mvc	0x1f0(16),0(%r1)
++	/* Store ext new PSW */
++        larl	%r1,external_new_psw
++        mvc	0x1b0(16),0(%r1)
+ done:
+ 	j      main		/* And call C */
  
-         .globl _start
- _start:
-@@ -108,10 +109,10 @@ io_new_code:
- 
-         .align  8
- disabled_wait_psw:
--        .quad   0x0002000180000000,0x0000000000000000
-+        .quad   PSW_MASK_DWAIT, 0x0000000000000000
+@@ -64,11 +70,6 @@ consume_sclp_int:
+         stctg   %c0,%c0,0(%r15)
+         oi      6(%r15),0x2
+         lctlg   %c0,%c0,0(%r15)
+-        /* prepare external call handler */
+-        larl %r1, external_new_code
+-        stg %r1, 0x1b8
+-        larl %r1, external_new_mask
+-        mvc 0x1b0(8),0(%r1)
+         /* load enabled wait PSW */
+         larl %r1, enabled_wait_psw
+         lpswe 0(%r1)
+@@ -81,14 +82,9 @@ consume_sclp_int:
+         .globl consume_io_int
+ consume_io_int:
+         /* enable I/O interrupts in cr6 */
+-        stctg %c6,%c6,0(%r15)
+-        oi    4(%r15), 0xff
+-        lctlg %c6,%c6,0(%r15)
+-        /* prepare i/o call handler */
+-        larl  %r1, io_new_code
+-        stg   %r1, 0x1f8
+-        larl  %r1, io_new_mask
+-        mvc   0x1f0(8),0(%r1)
++        stctg	%c6, %c6, 0(%r15)
++        oi	4(%r15), 0xff
++        lctlg	%c6, %c6, 0(%r15)
+         /* load enabled wait PSW */
+         larl  %r1, enabled_wait_psw
+         lpswe 0(%r1)
+@@ -112,7 +108,7 @@ disabled_wait_psw:
+         .quad   PSW_MASK_DWAIT, 0x0000000000000000
  enabled_wait_psw:
--        .quad   0x0302000180000000,0x0000000000000000
-+        .quad   PSW_MASK_EWAIT, 0x0000000000000000
- external_new_mask:
--        .quad   0x0000000180000000
-+        .quad   PSW_MASK_64
- io_new_mask:
--        .quad   0x0000000180000000
-+        .quad   PSW_MASK_64
+         .quad   PSW_MASK_EWAIT, 0x0000000000000000
+-external_new_mask:
+-        .quad   PSW_MASK_64
+-io_new_mask:
+-        .quad   PSW_MASK_64
++external_new_psw:
++        .quad   PSW_MASK_64, external_new_code
++io_new_psw:
++        .quad   PSW_MASK_64, io_new_code
 -- 
 2.25.1
 
