@@ -2,118 +2,76 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id DCFAA220887
-	for <lists+qemu-devel@lfdr.de>; Wed, 15 Jul 2020 11:20:06 +0200 (CEST)
-Received: from localhost ([::1]:42378 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D778C22088C
+	for <lists+qemu-devel@lfdr.de>; Wed, 15 Jul 2020 11:21:45 +0200 (CEST)
+Received: from localhost ([::1]:46460 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jvda9-00071p-Vr
-	for lists+qemu-devel@lfdr.de; Wed, 15 Jul 2020 05:20:06 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:50086)
+	id 1jvdbk-0000Qb-Kf
+	for lists+qemu-devel@lfdr.de; Wed, 15 Jul 2020 05:21:44 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:50706)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <david@redhat.com>) id 1jvdZL-0006YU-Td
- for qemu-devel@nongnu.org; Wed, 15 Jul 2020 05:19:15 -0400
-Received: from us-smtp-1.mimecast.com ([207.211.31.81]:32242
- helo=us-smtp-delivery-1.mimecast.com)
+ (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1jvdac-0007cn-V2
+ for qemu-devel@nongnu.org; Wed, 15 Jul 2020 05:20:34 -0400
+Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:48432
+ helo=us-smtp-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <david@redhat.com>) id 1jvdZK-0006kM-5U
- for qemu-devel@nongnu.org; Wed, 15 Jul 2020 05:19:15 -0400
+ (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1jvdab-0007Z2-6h
+ for qemu-devel@nongnu.org; Wed, 15 Jul 2020 05:20:34 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1594804753;
+ s=mimecast20190719; t=1594804832;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
- bh=OL5Gvbbqd2+SXQoCwR5+SUC04vNCts6iErDBnsNXxhU=;
- b=W3QRbmdeXlUZsVXPsdlmyvXt5FkJtAB98D3kxocmLoqnjpu/SjBtQX2AIEfkz8ATxjeVjs
- 825Z/qUrLC66Ee9MJHj9ELYOqZ+smvusqIPIRYpKk4aiS2tpDuJvg2USi7UaDeshEc9G8x
- O/4C7XGEyQ1pR2RoWp8aPW71dxMaiU4=
+ in-reply-to:in-reply-to:references:references;
+ bh=NmrVjH3XzfnDrOinakxg55/YmVhcihL0FdrmBGUC/Ys=;
+ b=Hx8gazBTxDJco6cQk6PYVhG+ea0WqhqsYvo1XWU5fi+MqjSt04T2nwdpb3vtbuZ2h33ZSG
+ +XyWibpWMuB4ahmIYSTKzWkms5bOddTGNp0WI6vVsm9t3z/ciogKi7FGDXQLK+XFnkUnP0
+ 9A6B+T0cYU/9Y0GKvwlBFsvwuvNOoI8=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-187-RkoVEQOwO6yzIEOMVowXtQ-1; Wed, 15 Jul 2020 05:19:11 -0400
-X-MC-Unique: RkoVEQOwO6yzIEOMVowXtQ-1
-Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
- [10.5.11.14])
+ us-mta-307-plghDg5INny9OkiXWowsWQ-1; Wed, 15 Jul 2020 05:20:30 -0400
+X-MC-Unique: plghDg5INny9OkiXWowsWQ-1
+Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
+ [10.5.11.22])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id E1D3F8015FB;
- Wed, 15 Jul 2020 09:19:09 +0000 (UTC)
-Received: from [10.36.115.47] (ovpn-115-47.ams2.redhat.com [10.36.115.47])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 301BF5D9C5;
- Wed, 15 Jul 2020 09:19:04 +0000 (UTC)
-Subject: Re: [PATCH RFCv2 3/6] s390x/diag: implement diag260
-To: Claudio Imbrenda <imbrenda@linux.ibm.com>
-References: <20200710151239.39370-1-david@redhat.com>
- <20200710151239.39370-4-david@redhat.com> <20200714121718.45f9f3ed@ibm-vm>
-From: David Hildenbrand <david@redhat.com>
-Autocrypt: addr=david@redhat.com; prefer-encrypt=mutual; keydata=
- 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
- WNyWQQ==
-Organization: Red Hat GmbH
-Message-ID: <ab4b68ac-b143-c9cb-9e02-af5ba89c23d7@redhat.com>
-Date: Wed, 15 Jul 2020 11:19:03 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.9.0
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 6483618C63C0;
+ Wed, 15 Jul 2020 09:20:29 +0000 (UTC)
+Received: from linux.fritz.box (ovpn-114-240.ams2.redhat.com [10.36.114.240])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 7092910013D0;
+ Wed, 15 Jul 2020 09:20:28 +0000 (UTC)
+Date: Wed, 15 Jul 2020 11:20:26 +0200
+From: Kevin Wolf <kwolf@redhat.com>
+To: Max Reitz <mreitz@redhat.com>
+Subject: Re: [PATCH for-5.1 1/2] block: Require aligned image size to avoid
+ assertion failure
+Message-ID: <20200715092026.GA8833@linux.fritz.box>
+References: <20200710142149.40962-1-kwolf@redhat.com>
+ <20200710142149.40962-2-kwolf@redhat.com>
+ <e608699f-b2c2-d7a0-cb59-703832ae732a@redhat.com>
+ <20200713142949.GD10318@linux.fritz.box>
+ <b91329db-303f-41ab-5638-3ec7543b55ac@redhat.com>
+ <20200714110837.GB5120@linux.fritz.box>
+ <af19cad2-f718-c17b-5856-ed0c8cbd3db3@redhat.com>
 MIME-Version: 1.0
-In-Reply-To: <20200714121718.45f9f3ed@ibm-vm>
-Content-Language: en-US
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
+In-Reply-To: <af19cad2-f718-c17b-5856-ed0c8cbd3db3@redhat.com>
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=207.211.31.81; envelope-from=david@redhat.com;
- helo=us-smtp-delivery-1.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/07/15 02:01:40
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature"; boundary="C7zPtVaVf+AK4Oqc"
+Content-Disposition: inline
+Received-SPF: pass client-ip=207.211.31.120; envelope-from=kwolf@redhat.com;
+ helo=us-smtp-1.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/07/15 05:07:28
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
-X-Spam_score_int: -30
-X-Spam_score: -3.1
-X-Spam_bar: ---
-X-Spam_report: (-3.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1,
+X-Spam_score_int: -40
+X-Spam_score: -4.1
+X-Spam_bar: ----
+X-Spam_report: (-4.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H3=-0.01, RCVD_IN_MSPIKE_WL=-0.01,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-1, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -126,126 +84,162 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Thomas Huth <thuth@redhat.com>, Janosch Frank <frankja@linux.ibm.com>,
- "Michael S . Tsirkin" <mst@redhat.com>, Heiko Carstens <hca@linux.ibm.com>,
- Cornelia Huck <cohuck@redhat.com>, qemu-devel@nongnu.org,
- Halil Pasic <pasic@linux.ibm.com>,
- Christian Borntraeger <borntraeger@de.ibm.com>, qemu-s390x@nongnu.org,
- Richard Henderson <rth@twiddle.net>
+Cc: nsoffer@redhat.com, qemu-devel@nongnu.org, qemu-block@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 14.07.20 12:17, Claudio Imbrenda wrote:
-> On Fri, 10 Jul 2020 17:12:36 +0200
-> David Hildenbrand <david@redhat.com> wrote:
-> 
->> Let's implement diag260 - "Access Certain Virtual Machine
->> Information", used under z/VM to expose the storage configuration
->> (especially, layout of storage extends and thereby holes). For now,
->> the returned information is completely redundant to the information
->> exposed via SCLP.
->>
->> We want to reuse diag260 in QEMU to implement memory devices - to
->> have a mechanism to indicate to the guest OS that the initial ram
->> size and the maximum possible physical address differ.
->>
->> The Linux kernel supports diag260 (0x10) to query the available memory
->> since v4.20. Ancient Linux versions used diag 260 (0xc), but stopped
->> doing so a while ago.
->>
->> Let's unconditionally implement the new diag, without any migration
->> checks (e.g., compatibility machine, CPU model). Although a guest OS
->> could observe this when migrating between QEMU evrsions, it's somewhat
->> unlikely to ever trigger due to the way diag260 is used within a guest
->> OS - called only once or twice during boot.
->>
->> Signed-off-by: David Hildenbrand <david@redhat.com>
->> ---
->>  target/s390x/diag.c        | 51
->> ++++++++++++++++++++++++++++++++++++++ target/s390x/internal.h    |
->> 2 ++ target/s390x/kvm.c         | 11 ++++++++
->>  target/s390x/misc_helper.c |  6 +++++
->>  target/s390x/translate.c   |  7 ++++++
->>  5 files changed, 77 insertions(+)
->>
->> diff --git a/target/s390x/diag.c b/target/s390x/diag.c
->> index be70aecd72..5378fcf582 100644
->> --- a/target/s390x/diag.c
->> +++ b/target/s390x/diag.c
->> @@ -23,6 +23,57 @@
->>  #include "hw/s390x/pv.h"
->>  #include "kvm_s390x.h"
->>  
->> +void handle_diag_260(CPUS390XState *env, uint64_t r1, uint64_t r3,
->> uintptr_t ra) +{
->> +    MachineState *ms = MACHINE(qdev_get_machine());
->> +    const ram_addr_t initial_ram_size = ms->ram_size;
->> +    const uint64_t subcode = env->regs[r3];
->> +
->> +    switch (subcode) {
->> +    case 0xc:
->> +        /* The first storage extent maps to our initial ram. */
->> +        env->regs[r1] = initial_ram_size - 1;
->> +        /* The highest addressable byte maps to the initial ram size
->> for now. */
->> +        env->regs[r3] = initial_ram_size - 1;
->> +        break;
->> +    case 0x10: {
->> +        ram_addr_t addr, length;
->> +        uint64_t tmp;
->> +
->> +        if (r1 & 1) {
->> +            s390_program_interrupt(env, PGM_SPECIFICATION, ra);
->> +            return;
->> +        }
->> +
->> +        addr = env->regs[r1];
->> +        length = env->regs[r1 + 1];
->> +        if (!QEMU_IS_ALIGNED(addr, 16) || !QEMU_IS_ALIGNED(length,
->> 16) ||
->> +            !length) {
->> +            s390_program_interrupt(env, PGM_SPECIFICATION, ra);
->> +            return;
->> +        }
->> +        if (!address_space_access_valid(&address_space_memory, addr,
->> length,
->> +                                        true,
->> MEMTXATTRS_UNSPECIFIED)) {
->> +            s390_program_interrupt(env, PGM_ADDRESSING, ra);
->> +            return;
->> +        }
->> +
->> +        /* Indicate our initial memory ([0 .. ram_size - 1]) */
->> +        tmp = cpu_to_be64(0);
->> +        cpu_physical_memory_write(addr, &tmp, sizeof(tmp));
->> +        tmp = cpu_to_be64(initial_ram_size - 1);
->> +        cpu_physical_memory_write(addr + sizeof(tmp), &tmp,
->> sizeof(tmp)); +
->> +        /* Exactly one entry was stored, it always fits into the
->> area. */
-> 
-> maybe I missed something, but I have the impression that your
-> implementation of DIAG 260 always only returns the first extent?
+--C7zPtVaVf+AK4Oqc
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-We only indicate boot memory (e.g., -m 2G), never any memory part of the
-device memory address space, because such memory has different semantics.
+Am 14.07.2020 um 18:22 hat Max Reitz geschrieben:
+> On 14.07.20 13:08, Kevin Wolf wrote:
+> > Am 14.07.2020 um 11:56 hat Max Reitz geschrieben:
+> >> On 13.07.20 16:29, Kevin Wolf wrote:
+> >>> Am 13.07.2020 um 13:19 hat Max Reitz geschrieben:
+> >>>> On 10.07.20 16:21, Kevin Wolf wrote:
+> >>>>> Unaligned requests will automatically be aligned to bl.request_alig=
+nment
+> >>>>> and we don't want to extend requests to access space beyond the end=
+ of
+> >>>>> the image, so it's required that the image size is aligned.
+> >>>>>
+> >>>>> With write requests, this could cause assertion failures like this =
+if
+> >>>>> RESIZE permissions weren't requested:
+> >>>>>
+> >>>>> qemu-img: block/io.c:1910: bdrv_co_write_req_prepare: Assertion `en=
+d_sector <=3D bs->total_sectors || child->perm & BLK_PERM_RESIZE' failed.
+> >>>>>
+> >>>>> This was e.g. triggered by qemu-img converting to a target image wi=
+th 4k
+> >>>>> request alignment when the image was only aligned to 512 bytes, but=
+ not
+> >>>>> to 4k.
+> >>>>>
+> >>>>> Signed-off-by: Kevin Wolf <kwolf@redhat.com>
+> >>>>> ---
+> >>>>>  block.c | 10 ++++++++++
+> >>>>>  1 file changed, 10 insertions(+)
+> >>>>
+> >>>> (I think we had some proposal like this before, but I can=E2=80=99t =
+find it,
+> >>>> unfortunately...)
+> >>>>
+> >>>> I can=E2=80=99t see how with this patch you could create qcow2 image=
+s and then
+> >>>> use them with direct I/O, because AFAICS, qemu-img create doesn=E2=
+=80=99t allow
+> >>>> specifying caching options, so AFAIU you=E2=80=99re stuck with:
+> >>>>
+> >>>> $ ./qemu-img create -f qcow2 /mnt/tmp/foo.qcow2 1M
+> >>>> Formatting '/mnt/tmp/foo.qcow2', fmt=3Dqcow2 cluster_size=3D65536
+> >>>> compression_type=3Dzlib size=3D1048576 lazy_refcounts=3Doff refcount=
+_bits=3D16
+> >>>>
+> >>>> $ sudo ./qemu-io -t none /mnt/tmp/foo.qcow2
+> >>>> qemu-io: can't open device /mnt/tmp/foo.qcow2: Image size is not a
+> >>>> multiple of request alignment
+> >>>>
+> >>>> (/mnt/tmp is a filesystem on a =E2=80=9Closetup -b 4096=E2=80=9D dev=
+ice.)
+> >>>
+> >>> Hm, that looks like some regrettable collateral damage...
+> >>>
+> >>> Well, you could argue that we should be writing full L1 tables with z=
+ero
+> >>> padding instead of just the used part. I thought we had fixed this lo=
+ng
+> >>> ago. But looks like we haven't.
+> >>
+> >> That would help for the standard case.  It wouldn=E2=80=99t when the c=
+luster
+> >> size is smaller than the request alignment, which, while maybe not
+> >> important, would still be a shame.
+> >=20
+> > I don't think it would be unreasonable to require a cluster size that i=
+s
+> > a multiple of the logical block size of your host storage if you want t=
+o
+> > use O_DIRECT.
+>=20
+> True.
+>=20
+> > But we have unaligned images in practice, so this is pure theory anyway=
+.
+>=20
+> Hm.  Maybe it would help to just adjust the error message to instruct
+> the user to resize the image to fit the request alignment?  (e.g. =E2=80=
+=9Cis
+> not a multiple of the request alignment %u (try resizing the image to
+> %llu bytes)=E2=80=9D)
 
-> 
-> shouldn't it return all the hotplugged areas once hotplugging is
-> enabled?
+This would require management tools to automatically do this or we would
+break any users that don't manually invoke QEMU. I don't think this is a
+realistic option, especially since "management tools" must probably
+include all those one-off shell scripts that people use.
 
-No, that would be dangerous and wrong. Memory ranges part of memory
-devices never must be indicated as part of hw/firmware interfaces to
-indicate valid boot memory. Memory provided via memory devices
-(virtio-mem, virtio-pmem, ...) has different semantics than ordinary
-hotplugged memory, and unmodified OSs (esp., older Linux versions)
-should not silently try to make use of any such memory. It's not just
-some hotplugged memory a guest OS should detect+use during boot as
-system ram. Thanks!
+> >>> But we should still avoid crashing in other cases, so what is the
+> >>> difference between both? Is it just that qcow2 has the RESIZE permiss=
+ion
+> >>> anyway so it doesn't matter?
+> >>
+> >> I assume so.
+> >>
+> >>> If so, maybe attaching to a block node with WRITE, but not RESIZE is
+> >>> what needs to fail when the image size is unaligned?
+> >>
+> >> That sounds reasonable.
+> >>
+> >> The obvious question is what happens when the RESIZE capability is
+> >> removed.  Dropping capabilities may never fail =E2=80=93 I suppose we =
+could
+> >> force-keep the RESIZE capability for such nodes?
+> >=20
+> > It's not nice, but I think we already have this kind of behaviour for
+> > unlocking failures. So yes, that sounds like an option.
+> >=20
+> >> Or we could immediately align such files to the block size once they
+> >> are opened (with the RESIZE capability).
+> >=20
+> > Automatically resizing the image file is obviously harmless for qcow2
+> > images, but it would be a guest-visible change for raw images. It might
+> > be better to avoid this.
+>=20
+> Well, it seems to be what already happens if the guest device has taken
+> the RESIZE capability (i.e., whenever there=E2=80=99s no failing assertio=
+n).
+> The only difference that appears to me is just that it happens only when
+> writing to the end of the image instead of unconditionally when opening i=
+t.
 
--- 
-Thanks,
+I would have considered this as part of the bug rather than a desirable
+future behaviour. blk_check_byte_request() tries to catch any request
+going past EOF, it just doesn't know anything about request_alignment.
 
-David / dhildenb
+Kevin
+
+--C7zPtVaVf+AK4Oqc
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQIzBAEBCAAdFiEE3D3rFZqa+V09dFb+fwmycsiPL9YFAl8OyloACgkQfwmycsiP
+L9bXxxAArK11JQv8MHHDGQXbG1ebsWwAYA07G/Me9Bf2GD4vANQuRDxFmtzq8Jyp
+Y8yLnVSQCgo7fpNYQ00eCBO9kq/ykBngbQUZVL6rrCWs+8DwSK29Z5GWAj41DUKo
+pqvcMB9xF9cBch1tj6kx9QVasgj7OXJDGVCrChVPORvLBmLe6bxQaWFrHLyN/o/o
+hJbMWtaN4YwAGxs+emuhLgf/LjaC2p889olnKlNsV3KnAlWf2Mf0mcjsS1goPVyW
+kIENRU1JOh7UUcHaRk2/6NuaiPWWpsI96AArWnvvAuX401Aj9jY9yr9FGEWGtp+T
+pdQE7v+hyz0eLh6yFlSxqXPvujG+rXCFJjG20p3NEkosPBvAvjTt6LHCk83dXeE8
+UTLlxVF5GIkn+1kdPx3T6/IfWRlFLi948cVOyg1vWyPks93cIU/lOvqROb5sl/tC
+go1++ExihVk8NGuJjzBDTPKNXqRALZMYgLCd6vvdk3GiDRvs7Jw5E+63VGnd0E7M
+5Zyqd+iLpWZDBq4lnBpfLMnIam7CHwn6IgCL6uGXajXGVF7LC6gJreImtNh+San1
+KWj3rS1FJdVDft0Jdi4o9/qXMK1RpVUxlOMHXr15cAECN8WVh9XtiCYTm1UcNGV5
+fD48bUSrfeY8bt/hLA+jibZGSLjLQutVu8CxNeqHujD1YAgA5V8=
+=krmH
+-----END PGP SIGNATURE-----
+
+--C7zPtVaVf+AK4Oqc--
 
 
