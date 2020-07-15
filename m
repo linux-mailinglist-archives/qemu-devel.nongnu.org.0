@@ -2,77 +2,89 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id EE6AA2208F5
-	for <lists+qemu-devel@lfdr.de>; Wed, 15 Jul 2020 11:39:05 +0200 (CEST)
-Received: from localhost ([::1]:60026 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A83A722090C
+	for <lists+qemu-devel@lfdr.de>; Wed, 15 Jul 2020 11:43:54 +0200 (CEST)
+Received: from localhost ([::1]:40000 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jvdsW-0007WO-PG
-	for lists+qemu-devel@lfdr.de; Wed, 15 Jul 2020 05:39:04 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:57224)
+	id 1jvdxB-0002mI-OG
+	for lists+qemu-devel@lfdr.de; Wed, 15 Jul 2020 05:43:53 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:58810)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <drjones@redhat.com>)
- id 1jvdrh-0006xM-6m
- for qemu-devel@nongnu.org; Wed, 15 Jul 2020 05:38:13 -0400
-Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:26136
- helo=us-smtp-1.mimecast.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <drjones@redhat.com>)
- id 1jvdre-0005SF-Eu
- for qemu-devel@nongnu.org; Wed, 15 Jul 2020 05:38:12 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1594805889;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=/6BbWMPTOUOHAr4XvA1A1gk/qjW4H8USIgYOndpwLeg=;
- b=eX32PXrLdtfBY5ujKL4Jc66nLv1tiPlWWxIpdHOuR1/r+f0EpUBiIn6W20fYbELMg7otdB
- FpOpwE6QqeaNKpFx+iRso9nFqQw7o9yKuZNxwrVLwcPXjpozBbid2yxyBN5RXKnG2K7UYT
- 0OgaEAeHtwF0b04HjyhhqDAvqEHtUZI=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-313-38_CCw9hNh6yJD1CxT31ZA-1; Wed, 15 Jul 2020 05:38:07 -0400
-X-MC-Unique: 38_CCw9hNh6yJD1CxT31ZA-1
-Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
- [10.5.11.13])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 0C35119067E0;
- Wed, 15 Jul 2020 09:38:06 +0000 (UTC)
-Received: from kamzik.brq.redhat.com (unknown [10.40.192.230])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 824646FDD1;
- Wed, 15 Jul 2020 09:37:57 +0000 (UTC)
-Date: Wed, 15 Jul 2020 11:37:54 +0200
-From: Andrew Jones <drjones@redhat.com>
-To: Igor Mammedov <imammedo@redhat.com>
-Subject: Re: [PATCH 3/4] hw/arm/virt-acpi-build: Only expose flash on older
- machine types
-Message-ID: <20200715093754.v376uobabdis7ykg@kamzik.brq.redhat.com>
-References: <20200629140938.17566-1-drjones@redhat.com>
- <20200629140938.17566-4-drjones@redhat.com>
- <20200713104907.335bf762@redhat.com>
- <20200714055109.owrlob6m53notzh3@kamzik.brq.redhat.com>
- <20200714045537-mutt-send-email-mst@kernel.org>
- <20200714092325.5klaeqelu46mhg76@kamzik.brq.redhat.com>
- <20200714164141.1ce6b122@redhat.com>
- <20200715063648.rigcdnaxveened6u@kamzik.brq.redhat.com>
+ (Exim 4.90_1) (envelope-from <frankja@linux.ibm.com>)
+ id 1jvdun-0008FK-3b
+ for qemu-devel@nongnu.org; Wed, 15 Jul 2020 05:41:25 -0400
+Received: from mx0b-001b2d01.pphosted.com ([148.163.158.5]:22432)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <frankja@linux.ibm.com>)
+ id 1jvduj-0006FK-5o
+ for qemu-devel@nongnu.org; Wed, 15 Jul 2020 05:41:24 -0400
+Received: from pps.filterd (m0098417.ppops.net [127.0.0.1])
+ by mx0a-001b2d01.pphosted.com (8.16.0.42/8.16.0.42) with SMTP id
+ 06F9ZAad117556
+ for <qemu-devel@nongnu.org>; Wed, 15 Jul 2020 05:41:20 -0400
+Received: from pps.reinject (localhost [127.0.0.1])
+ by mx0a-001b2d01.pphosted.com with ESMTP id 3298wvfwdh-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT)
+ for <qemu-devel@nongnu.org>; Wed, 15 Jul 2020 05:41:19 -0400
+Received: from m0098417.ppops.net (m0098417.ppops.net [127.0.0.1])
+ by pps.reinject (8.16.0.36/8.16.0.36) with SMTP id 06F9ZBQY117640
+ for <qemu-devel@nongnu.org>; Wed, 15 Jul 2020 05:41:19 -0400
+Received: from ppma06fra.de.ibm.com (48.49.7a9f.ip4.static.sl-reverse.com
+ [159.122.73.72])
+ by mx0a-001b2d01.pphosted.com with ESMTP id 3298wvfwcu-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Wed, 15 Jul 2020 05:41:19 -0400
+Received: from pps.filterd (ppma06fra.de.ibm.com [127.0.0.1])
+ by ppma06fra.de.ibm.com (8.16.0.42/8.16.0.42) with SMTP id 06F9c15P023594;
+ Wed, 15 Jul 2020 09:41:17 GMT
+Received: from b06cxnps4076.portsmouth.uk.ibm.com
+ (d06relay13.portsmouth.uk.ibm.com [9.149.109.198])
+ by ppma06fra.de.ibm.com with ESMTP id 328rbqryew-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Wed, 15 Jul 2020 09:41:17 +0000
+Received: from d06av22.portsmouth.uk.ibm.com (d06av22.portsmouth.uk.ibm.com
+ [9.149.105.58])
+ by b06cxnps4076.portsmouth.uk.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
+ 06F9fF5s56295658
+ (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+ Wed, 15 Jul 2020 09:41:15 GMT
+Received: from d06av22.portsmouth.uk.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id 61B474C059;
+ Wed, 15 Jul 2020 09:41:15 +0000 (GMT)
+Received: from d06av22.portsmouth.uk.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id B1EEB4C040;
+ Wed, 15 Jul 2020 09:41:14 +0000 (GMT)
+Received: from linux01.pok.stglabs.ibm.com (unknown [9.114.17.81])
+ by d06av22.portsmouth.uk.ibm.com (Postfix) with ESMTP;
+ Wed, 15 Jul 2020 09:41:14 +0000 (GMT)
+From: Janosch Frank <frankja@linux.ibm.com>
+To: qemu-devel@nongnu.org
+Subject: [PATCH 0/7] pc-bios: s390x: Cleanup part 2
+Date: Wed, 15 Jul 2020 05:40:38 -0400
+Message-Id: <20200715094045.381984-1-frankja@linux.ibm.com>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-In-Reply-To: <20200715063648.rigcdnaxveened6u@kamzik.brq.redhat.com>
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Received-SPF: pass client-ip=207.211.31.120; envelope-from=drjones@redhat.com;
- helo=us-smtp-1.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/07/15 05:07:28
-X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
-X-Spam_score_int: -40
-X-Spam_score: -4.1
-X-Spam_bar: ----
-X-Spam_report: (-4.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-1, SPF_HELO_NONE=0.001,
+Content-Transfer-Encoding: 8bit
+X-TM-AS-GCONF: 00
+X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:6.0.235, 18.0.687
+ definitions=2020-07-15_07:2020-07-15,
+ 2020-07-15 signatures=0
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ bulkscore=0
+ priorityscore=1501 lowpriorityscore=0 suspectscore=0 adultscore=0
+ impostorscore=0 spamscore=0 phishscore=0 malwarescore=0 mlxscore=0
+ mlxlogscore=991 clxscore=1015 classifier=spam adjust=0 reason=mlx
+ scancount=1 engine=8.12.0-2006250000 definitions=main-2007150080
+Received-SPF: pass client-ip=148.163.158.5; envelope-from=frankja@linux.ibm.com;
+ helo=mx0b-001b2d01.pphosted.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/07/15 05:27:14
+X-ACL-Warn: Detected OS   = Linux 3.x [generic]
+X-Spam_score_int: -35
+X-Spam_score: -3.6
+X-Spam_bar: ---
+X-Spam_report: (-3.6 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_LOW=-0.7,
+ RCVD_IN_MSPIKE_H2=-1, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -86,39 +98,35 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: peter.maydell@linaro.org, "Michael S. Tsirkin" <mst@redhat.com>,
- lersek@redhat.com, qemu-devel@nongnu.org, shannon.zhaosl@gmail.com,
- qemu-arm@nongnu.org, ard.biesheuvel@arm.com, philmd@redhat.com,
- eric.auger@redhat.com
+Cc: borntraeger@de.ibm.com, thuth@redhat.com, cohuck@redhat.com,
+ david@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Wed, Jul 15, 2020 at 08:36:48AM +0200, Andrew Jones wrote:
-> On Tue, Jul 14, 2020 at 04:41:41PM +0200, Igor Mammedov wrote:
-> > 
-> > In this particular case I'd drop versioning.
-> >
-> 
-> So it sounds to me like we have some flexibility in our versioned machine
-> maintenance. We can choose to forgo the usual compat code when the risk is
-> deemed low enough. And, if somebody screams, we can always fix it later.
-> I can live with that. I'll go ahead and respin without the versioning.
->
+So, here are a few more cleanup patches mostly cleaning up ipl code
+and some of the assembly.
 
-Actually this patch was already merged
+The patches are available here:
+https://github.com/frankjaa/qemu/pull/new/cleanup_bios2
 
-  2c1fb4d5c011 hw/arm/virt-acpi-build: Only expose flash on older machine types
+Janosch Frank (7):
+  pc-bios: s390x: Fix bootmap.c zipl component entry data handling
+  pc-bios: s390x: Cleanup jump to ipl code
+  pc-bios: s390x: Remove unneeded dasd-ipl.c reset psw mask changes
+  pc-bios: s390x: Rework data initialization
+  pc-bios: s390x: Replace lowcore offsets with pointers in dasd-ipl.c
+  pc-bios: s390x: Use PSW constants in start.S
+  pc-bios: s390x: Setup io and ext new psws only once
 
-and I don't see much value in posting a patch to remove the compat code.
+ pc-bios/s390-ccw/bootmap.c   |  5 +++--
+ pc-bios/s390-ccw/bootmap.h   |  7 ++++++-
+ pc-bios/s390-ccw/dasd-ipl.c  | 20 +++++++-------------
+ pc-bios/s390-ccw/jump2ipl.c  | 27 +++++++++++----------------
+ pc-bios/s390-ccw/s390-arch.h | 25 +++++++++++++++----------
+ pc-bios/s390-ccw/start.S     | 35 ++++++++++++++++-------------------
+ 6 files changed, 58 insertions(+), 61 deletions(-)
 
-Regarding the result of this discussion, my take is that unless the
-policy is to always or to never use versioning, then I think we should
-have guidelines documented which we can follow. Would one of the ACPI
-maintainers like to submit a document with the reasoning for when and
-when not to use versioning? And also for what's expected of the
-commit message justification when versioning is necessary?
-
-Thanks,
-drew
+-- 
+2.25.1
 
 
