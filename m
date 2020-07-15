@@ -2,53 +2,52 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E7AE922103D
-	for <lists+qemu-devel@lfdr.de>; Wed, 15 Jul 2020 17:08:14 +0200 (CEST)
-Received: from localhost ([::1]:52902 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4B3DC22102F
+	for <lists+qemu-devel@lfdr.de>; Wed, 15 Jul 2020 17:07:11 +0200 (CEST)
+Received: from localhost ([::1]:47110 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jvj14-0004UB-0d
-	for lists+qemu-devel@lfdr.de; Wed, 15 Jul 2020 11:08:14 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:35182)
+	id 1jvj02-00024b-9B
+	for lists+qemu-devel@lfdr.de; Wed, 15 Jul 2020 11:07:10 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:35236)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <mlevitsk@redhat.com>)
- id 1jvivT-00057R-Hu
- for qemu-devel@nongnu.org; Wed, 15 Jul 2020 11:02:27 -0400
-Received: from us-smtp-2.mimecast.com ([205.139.110.61]:50855
+ id 1jvivh-0005Vr-CR
+ for qemu-devel@nongnu.org; Wed, 15 Jul 2020 11:02:41 -0400
+Received: from us-smtp-2.mimecast.com ([205.139.110.61]:35473
  helo=us-smtp-delivery-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
  (Exim 4.90_1) (envelope-from <mlevitsk@redhat.com>)
- id 1jvivR-0004eD-S5
- for qemu-devel@nongnu.org; Wed, 15 Jul 2020 11:02:27 -0400
+ id 1jvivf-0004jn-Of
+ for qemu-devel@nongnu.org; Wed, 15 Jul 2020 11:02:41 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1594825345;
+ s=mimecast20190719; t=1594825358;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=+utk7vdtsJuSzO2tlgUo6VEKGiMN7Q7PQ8wDq9ljiog=;
- b=dhYt0dKKiL1+7+tHnIGh3Q+pclJ26xYpXhMlljgEKIL3+pRG2uDqIM2pQc5nyambmG28Yn
- QuTzO+d+FxxJXBYDepiO0vYLQ8JT4qf5KfL6R7CTOIrm2tAQkfWjw/XtNwz+er/x1hLqhg
- +M4/h1O5+lXTp25GB52GlKGfGG4lag8=
+ bh=hDEwTu1kqrxJiOyfbadfn4Dmf5+f76KNImVXoqi+IiA=;
+ b=a+zvoTyBNGoaYowDmcZnpCvcfMLRFasSsHpguRGrywdBFQxskWyZLt4InZMR1pHvjAcLyc
+ x+tpSBJaKa3e+5xqV+lrlI0jhuf1CJRTbawHmWmvlRMiIony6guoQ4bUobGwQ0sMJ6tIlB
+ JWcKhKrXzr5qN8hV7WDnbbl/bG0+SQg=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-126-_DaDs8z-NkaQUDmSs3IxlQ-1; Wed, 15 Jul 2020 11:02:23 -0400
-X-MC-Unique: _DaDs8z-NkaQUDmSs3IxlQ-1
+ us-mta-24-i3-bQz63Mk2yRu6CXMLa5Q-1; Wed, 15 Jul 2020 11:02:28 -0400
+X-MC-Unique: i3-bQz63Mk2yRu6CXMLa5Q-1
 Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
  [10.5.11.15])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 661FF1005273;
- Wed, 15 Jul 2020 15:02:21 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id EF536100CCC3;
+ Wed, 15 Jul 2020 15:02:26 +0000 (UTC)
 Received: from starship.redhat.com (unknown [10.35.206.178])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 40DA4710C8;
- Wed, 15 Jul 2020 15:02:19 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id C86766E9F3;
+ Wed, 15 Jul 2020 15:02:21 +0000 (UTC)
 From: Maxim Levitsky <mlevitsk@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v3 5/7] virtio-scsi: don't touch scsi devices that are not yet
- realized or about to be un-realized
-Date: Wed, 15 Jul 2020 18:01:57 +0300
-Message-Id: <20200715150159.95050-6-mlevitsk@redhat.com>
+Subject: [PATCH v3 6/7] scsi: Add scsi_device_get
+Date: Wed, 15 Jul 2020 18:01:58 +0300
+Message-Id: <20200715150159.95050-7-mlevitsk@redhat.com>
 In-Reply-To: <20200715150159.95050-1-mlevitsk@redhat.com>
 References: <20200715150159.95050-1-mlevitsk@redhat.com>
 MIME-Version: 1.0
@@ -85,56 +84,98 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Cc: Fam Zheng <fam@euphon.net>,
  =?UTF-8?q?Daniel=20P=2E=20Berrang=C3=A9?= <berrange@redhat.com>,
  Eduardo Habkost <ehabkost@redhat.com>, "Michael S. Tsirkin" <mst@redhat.com>,
- Maxim Levitsky <mlevitsk@redhat.com>, Stefan Hajnoczi <stefanha@redhat.com>,
+ Stefan Hajnoczi <stefanha@gmail.com>, Maxim Levitsky <mlevitsk@redhat.com>,
  Paolo Bonzini <pbonzini@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Bugzilla: https://bugzilla.redhat.com/show_bug.cgi?id=1812399
+Add scsi_device_get which finds the scsi device
+and takes a reference to it.
 
-Suggested-by: Paolo Bonzini <pbonzini@redhat.com>
+Suggested-by: Stefan Hajnoczi <stefanha@gmail.com>
 Signed-off-by: Maxim Levitsky <mlevitsk@redhat.com>
-Reviewed-by: Stefan Hajnoczi <stefanha@redhat.com>
 ---
- hw/scsi/virtio-scsi.c | 19 ++++++++++++++++++-
- 1 file changed, 18 insertions(+), 1 deletion(-)
+ hw/scsi/scsi-bus.c     | 31 ++++++++++++++++++++++++-------
+ include/hw/scsi/scsi.h |  2 ++
+ 2 files changed, 26 insertions(+), 7 deletions(-)
 
-diff --git a/hw/scsi/virtio-scsi.c b/hw/scsi/virtio-scsi.c
-index d3cfc8dfb6..18952e0f1c 100644
---- a/hw/scsi/virtio-scsi.c
-+++ b/hw/scsi/virtio-scsi.c
-@@ -35,13 +35,30 @@ static inline int virtio_scsi_get_lun(uint8_t *lun)
- 
- static inline SCSIDevice *virtio_scsi_device_find(VirtIOSCSI *s, uint8_t *lun)
+diff --git a/hw/scsi/scsi-bus.c b/hw/scsi/scsi-bus.c
+index 92d412b65c..677074eaa6 100644
+--- a/hw/scsi/scsi-bus.c
++++ b/hw/scsi/scsi-bus.c
+@@ -1572,8 +1572,13 @@ static char *scsibus_get_fw_dev_path(DeviceState *dev)
+     return g_strdup_printf("channel@%x/%s@%x,%x", d->channel,
+                            qdev_fw_name(dev), d->id, d->lun);
+ }
+-
+-SCSIDevice *scsi_device_find(SCSIBus *bus, int channel, int id, int lun)
++/*
++ * Finds a matching channel/id/lun device on scsi bus, and
++ * takes a reference to it and returns it.
++ * If we don't find exact match (channel/bus/lun),
++ * we will return the first device which matches channel/bus
++ */
++SCSIDevice *scsi_device_get(SCSIBus *bus, int channel, int id, int lun)
  {
-+    SCSIDevice *device = NULL;
-+
-     if (lun[0] != 1) {
-         return NULL;
+     BusChild *kid;
+     SCSIDevice *target_dev = NULL;
+@@ -1586,25 +1591,37 @@ SCSIDevice *scsi_device_find(SCSIBus *bus, int channel, int id, int lun)
+ 
+         if (dev->channel == channel && dev->id == id) {
+             if (dev->lun == lun) {
++                object_ref(OBJECT(dev));
+                 rcu_read_unlock();
+                 return dev;
+             }
+ 
+-            /*
+-             * If we don't find exact match (channel/bus/lun),
+-             * we will return the first device which matches channel/bus
+-             */
+-
+             if (!target_dev) {
+                 target_dev = dev;
+             }
+         }
      }
-     if (lun[2] != 0 && !(lun[2] >= 0x40 && lun[2] < 0x80)) {
-         return NULL;
-     }
--    return scsi_device_find(&s->bus, 0, lun[1], virtio_scsi_get_lun(lun));
-+
-+    device = scsi_device_find(&s->bus, 0, lun[1], virtio_scsi_get_lun(lun));
-+
-+    /*
-+     * This function might run on the IO thread and we might race against
-+     * main thread hot-plugging the device.
-+     *
-+     * We assume that as soon as .realized is set to true we can let
-+     * the user access the device.
-+     */
-+
-+    if (!device || !atomic_load_acquire(&device->qdev.realized)) {
-+        return NULL;
-+    }
-+
-+    return device;
+ 
++    object_ref(OBJECT(target_dev));
+     rcu_read_unlock();
+     return target_dev;
  }
  
- void virtio_scsi_init_req(VirtIOSCSI *s, VirtQueue *vq, VirtIOSCSIReq *req)
++/*
++ * This function works like scsi_device_get but doesn't take a reference
++ * to the returned object.
++ * Devices that run under the QEMU global mutex can use this function.
++ * Devices that run outside the QEMU global mutex must use
++ * scsi_device_get() instead.
++ */
++SCSIDevice *scsi_device_find(SCSIBus *bus, int channel, int id, int lun)
++{
++    SCSIDevice *dev = scsi_device_get(bus, channel, id, lun);
++
++    object_unref(OBJECT(dev));
++    return dev;
++}
++
+ /* SCSI request list.  For simplicity, pv points to the whole device */
+ 
+ static int put_scsi_requests(QEMUFile *f, void *pv, size_t size,
+diff --git a/include/hw/scsi/scsi.h b/include/hw/scsi/scsi.h
+index 2fc23e44ba..6e11ece641 100644
+--- a/include/hw/scsi/scsi.h
++++ b/include/hw/scsi/scsi.h
+@@ -193,7 +193,9 @@ void scsi_generic_read_device_inquiry(SCSIDevice *dev);
+ int scsi_device_get_sense(SCSIDevice *dev, uint8_t *buf, int len, bool fixed);
+ int scsi_SG_IO_FROM_DEV(BlockBackend *blk, uint8_t *cmd, uint8_t cmd_size,
+                         uint8_t *buf, uint8_t buf_size);
++
+ SCSIDevice *scsi_device_find(SCSIBus *bus, int channel, int target, int lun);
++SCSIDevice *scsi_device_get(SCSIBus *bus, int channel, int target, int lun);
+ 
+ /* scsi-generic.c. */
+ extern const SCSIReqOps scsi_generic_req_ops;
 -- 
 2.26.2
 
