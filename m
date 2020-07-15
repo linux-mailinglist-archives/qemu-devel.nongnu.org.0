@@ -2,34 +2,34 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0F3D322088D
-	for <lists+qemu-devel@lfdr.de>; Wed, 15 Jul 2020 11:21:51 +0200 (CEST)
-Received: from localhost ([::1]:47074 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9E30322089A
+	for <lists+qemu-devel@lfdr.de>; Wed, 15 Jul 2020 11:23:03 +0200 (CEST)
+Received: from localhost ([::1]:52088 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jvdbq-0000fw-3z
-	for lists+qemu-devel@lfdr.de; Wed, 15 Jul 2020 05:21:50 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:50792)
+	id 1jvdd0-0002ji-Nt
+	for lists+qemu-devel@lfdr.de; Wed, 15 Jul 2020 05:23:02 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:50794)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1jvdam-0007sr-6d
+ id 1jvdam-0007tp-Oe
  for qemu-devel@nongnu.org; Wed, 15 Jul 2020 05:20:44 -0400
-Received: from indium.canonical.com ([91.189.90.7]:44504)
+Received: from indium.canonical.com ([91.189.90.7]:44522)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1jvdak-0007er-3M
- for qemu-devel@nongnu.org; Wed, 15 Jul 2020 05:20:43 -0400
+ id 1jvdaj-0007fy-T4
+ for qemu-devel@nongnu.org; Wed, 15 Jul 2020 05:20:44 -0400
 Received: from loganberry.canonical.com ([91.189.90.37])
  by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
- id 1jvdah-0008U3-LU
- for <qemu-devel@nongnu.org>; Wed, 15 Jul 2020 09:20:39 +0000
+ id 1jvdai-0008To-9L
+ for <qemu-devel@nongnu.org>; Wed, 15 Jul 2020 09:20:40 +0000
 Received: from loganberry.canonical.com (localhost [127.0.0.1])
- by loganberry.canonical.com (Postfix) with ESMTP id 6C8692E810C
- for <qemu-devel@nongnu.org>; Wed, 15 Jul 2020 09:20:39 +0000 (UTC)
+ by loganberry.canonical.com (Postfix) with ESMTP id 438D32E80EC
+ for <qemu-devel@nongnu.org>; Wed, 15 Jul 2020 09:20:40 +0000 (UTC)
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: quoted-printable
-Date: Wed, 15 Jul 2020 09:04:53 -0000
+Date: Wed, 15 Jul 2020 09:07:18 -0000
 From: InfoLibre <1887641@bugs.launchpad.net>
 To: qemu-devel@nongnu.org
 X-Launchpad-Notification-Type: bug
@@ -40,15 +40,16 @@ X-Launchpad-Bug-Security-Vulnerability: no
 X-Launchpad-Bug-Commenters: david-vantyghem
 X-Launchpad-Bug-Reporter: InfoLibre (david-vantyghem)
 X-Launchpad-Bug-Modifier: InfoLibre (david-vantyghem)
-Message-Id: <159480389351.19763.4894026633511253778.malonedeb@chaenomeles.canonical.com>
-Subject: [Bug 1887641] [NEW] PCI bus not available for hda
+References: <159480389351.19763.4894026633511253778.malonedeb@chaenomeles.canonical.com>
+Message-Id: <159480403834.12489.8325452485248798420.malone@soybean.canonical.com>
+Subject: [Bug 1887641] Re: PCI bus not available for hda
 X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
 X-Launchpad-Message-For: qemu-devel-ml
 Precedence: bulk
 X-Generated-By: Launchpad (canonical.com);
  Revision="4809fcb62f445aaa3ae919f7f6c3cc7d156ea57a";
  Instance="production-secrets-lazr.conf"
-X-Launchpad-Hash: 6879ea98db6445c83480232182a1bb87279ead1e
+X-Launchpad-Hash: 91bf4bffeedbb8c382618c22179ec138537093d2
 Received-SPF: none client-ip=91.189.90.7; envelope-from=bounces@canonical.com;
  helo=indium.canonical.com
 X-detected-operating-system: by eggs.gnu.org: First seen = 2020/07/15 02:50:56
@@ -58,7 +59,8 @@ X-Spam_score: -5.9
 X-Spam_bar: -----
 X-Spam_report: (-5.9 / 5.0 requ) BAYES_00=-1.9, HEADER_FROM_DIFFERENT_DOMAINS=1,
  RCVD_IN_DNSWL_HI=-5, RCVD_IN_MSPIKE_H3=-0.01, RCVD_IN_MSPIKE_WL=-0.01,
- SPF_HELO_NONE=0.001, SPF_NONE=0.001 autolearn=ham autolearn_force=no
+ SPF_HELO_NONE=0.001, SPF_NONE=0.001,
+ URIBL_BLOCKED=0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -74,26 +76,8 @@ Reply-To: Bug 1887641 <1887641@bugs.launchpad.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Public bug reported:
-
-I'm trying to boot Mac OS 9.2.2 image in order to install it on a qcow
-disk image. I'm using Linux Mint MATE 20 and QEMU emulator version 4.2.0
-(Debian 1:4.2-3ubuntu6.3). When I boot, I've got this error message and
-boot fails :
-
-$ /usr/bin/qemu-system-ppc -monitor stdio -soundhw hda -k fr -machine accel=
-=3Dtcg -m 512 -cdrom /home/david/Bureau/debian-10.0.0-powerpc-NETINST-1.iso=
- -drive file=3D"/home/david/.aqemu/iMacG3_hard_disk_HDA.img",if=3Dide,index=
-=3D0 -virtfs local,id=3Dshared_folder_dev_0,path=3D/home/david/Bureau,secur=
-ity_model=3Dnone,mount_tag=3Dshared0 -boot order=3Ddc,menu=3Don -net nic,ma=
-caddr=3D00:a2:6d:80:10:8f,model=3Drtl8139 -net user -net user,smb=3D/home/d=
-avid/Bureau -rtc base=3Dlocaltime -name "Debian + LXDE sur iMac G3" -M mac99
-QEMU 4.2.0 monitor - type 'help' for more information
-(qemu) qemu-system-ppc: PCI bus not available for hda
-
-** Affects: qemu
-     Importance: Undecided
-         Status: New
+MLas OS 9.2.2 ISO is here if you need to test :
+https://infolib.re/tests/OS9General.iso
 
 -- =
 
