@@ -2,77 +2,114 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7960F220535
-	for <lists+qemu-devel@lfdr.de>; Wed, 15 Jul 2020 08:38:06 +0200 (CEST)
-Received: from localhost ([::1]:38880 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 02E3D220596
+	for <lists+qemu-devel@lfdr.de>; Wed, 15 Jul 2020 08:56:37 +0200 (CEST)
+Received: from localhost ([::1]:44660 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jvb3N-00023V-2G
-	for lists+qemu-devel@lfdr.de; Wed, 15 Jul 2020 02:38:05 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:40748)
+	id 1jvbLH-0005xX-Jp
+	for lists+qemu-devel@lfdr.de; Wed, 15 Jul 2020 02:56:35 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:47224)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <drjones@redhat.com>)
- id 1jvb2S-0001S7-Sg
- for qemu-devel@nongnu.org; Wed, 15 Jul 2020 02:37:09 -0400
-Received: from us-smtp-1.mimecast.com ([205.139.110.61]:38773
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1jvbKA-0005QH-Hv
+ for qemu-devel@nongnu.org; Wed, 15 Jul 2020 02:55:27 -0400
+Received: from us-smtp-1.mimecast.com ([207.211.31.81]:34640
  helo=us-smtp-delivery-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <drjones@redhat.com>)
- id 1jvb2P-0008Oi-MA
- for qemu-devel@nongnu.org; Wed, 15 Jul 2020 02:37:08 -0400
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1jvbK7-0004cx-Jy
+ for qemu-devel@nongnu.org; Wed, 15 Jul 2020 02:55:26 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1594795023;
+ s=mimecast20190719; t=1594796122;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=PYTokhiT9n9H6Li9mzwXBcrCV4W80I55p8ZYfetwt+A=;
- b=FzXm4zewC6hrQtZXpLRyZcjSFv3GlnglKT+jsrY0raKBhjbgYjty6iOOBIYL/OfGUsZqTA
- zjhh93a8IWwyKqHxzIJpll9V1GNDWPuRsD3xOU5r9xPTCwC3k+KtgfWKjC/MIv6gOetgia
- cW+Fd4WO9AJxZ466cBO5uNDEvxF1u0Y=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-318-3cstiJYnNMeybxmgaJX2ZA-1; Wed, 15 Jul 2020 02:37:01 -0400
-X-MC-Unique: 3cstiJYnNMeybxmgaJX2ZA-1
-Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
- [10.5.11.22])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 81BBE100AA38;
- Wed, 15 Jul 2020 06:37:00 +0000 (UTC)
-Received: from kamzik.brq.redhat.com (unknown [10.40.192.230])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id C4E3E1002394;
- Wed, 15 Jul 2020 06:36:51 +0000 (UTC)
-Date: Wed, 15 Jul 2020 08:36:48 +0200
-From: Andrew Jones <drjones@redhat.com>
-To: Igor Mammedov <imammedo@redhat.com>
-Subject: Re: [PATCH 3/4] hw/arm/virt-acpi-build: Only expose flash on older
- machine types
-Message-ID: <20200715063648.rigcdnaxveened6u@kamzik.brq.redhat.com>
-References: <20200629140938.17566-1-drjones@redhat.com>
- <20200629140938.17566-4-drjones@redhat.com>
- <20200713104907.335bf762@redhat.com>
- <20200714055109.owrlob6m53notzh3@kamzik.brq.redhat.com>
- <20200714045537-mutt-send-email-mst@kernel.org>
- <20200714092325.5klaeqelu46mhg76@kamzik.brq.redhat.com>
- <20200714164141.1ce6b122@redhat.com>
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
+ bh=zhvNyBK7YavCNuG4CekFqC4TX4vYoquq7vpojd5EjCc=;
+ b=HOxyWCXVewD0KmAn4+rihz5oNYVoIaUjSObx1Ol8QknZG8WmqiDngzrueqY9Cyjp+7p21x
+ Z86B8gBEiEqlA3JlyxBW2gwSA3ahuJu5OpBrxfuqeVGdbc6doHTV/RC/YxAzlOddgiqp0V
+ xtg5unOv/v7/lZpQ75/v2UYX4rIzthE=
+Received: from mail-wm1-f71.google.com (mail-wm1-f71.google.com
+ [209.85.128.71]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-361-hhQ5bbtKPnCl7BymHy1z_Q-1; Wed, 15 Jul 2020 02:55:20 -0400
+X-MC-Unique: hhQ5bbtKPnCl7BymHy1z_Q-1
+Received: by mail-wm1-f71.google.com with SMTP id 65so252408wmd.8
+ for <qemu-devel@nongnu.org>; Tue, 14 Jul 2020 23:55:20 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:subject:to:cc:references:from:autocrypt
+ :message-id:date:user-agent:mime-version:in-reply-to
+ :content-language:content-transfer-encoding;
+ bh=zhvNyBK7YavCNuG4CekFqC4TX4vYoquq7vpojd5EjCc=;
+ b=nrPWIMfGaObKLVAKHtKnJBg9Zw4mlJpe9HljrfAhjZg0cVeM6Rcuz0I2uI76P7CUZe
+ DUIKee/++Z+n1dMthORQ96rwbcjzetfief5IHZZIeLGs2YAwi5RnNuwI6BoBF7qWoUCV
+ 60IMY2Fy6Eet70vjr301qALBeHqp2c/m2uACrkCkWN2oEIehQfJZlwpuejIcUgWrilJo
+ NKYg7fh3265qXNx+aJ8JYLqhG0+d7qisDGexKBMGyLJItPQFm+EzfYgIvNj5/LC0XIbI
+ cDVGGU40wi5xvNzNf+afzTAQe9Ck34WkXUgyoSfr+10keI/+xAlo1B9AEwCZS6bDmEZr
+ ULeA==
+X-Gm-Message-State: AOAM530mVPPENSHMZiZO+pWCtgpMfCkkQE+LDbSWMudBqI3AEGewKqqt
+ SDIrAvojV2yJYeXs774kbeziAbtJmunQyC9tbvDPvpwofdyuKwFPn2XpEaRCG4i50la80XnaQEX
+ uHS+XoFthjYpfVsU=
+X-Received: by 2002:a5d:634e:: with SMTP id b14mr10123363wrw.423.1594796119053; 
+ Tue, 14 Jul 2020 23:55:19 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJy/aAg6+/WrQ08ze+n5daRKOYT2JCLjaCnFamZRmlwAI4fRTCWqzupZ9kRd/3Ha876Tp6CrUA==
+X-Received: by 2002:a5d:634e:: with SMTP id b14mr10123344wrw.423.1594796118848; 
+ Tue, 14 Jul 2020 23:55:18 -0700 (PDT)
+Received: from [192.168.1.37] (138.red-83-57-170.dynamicip.rima-tde.net.
+ [83.57.170.138])
+ by smtp.gmail.com with ESMTPSA id d81sm10802470wmc.0.2020.07.14.23.55.17
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Tue, 14 Jul 2020 23:55:18 -0700 (PDT)
+Subject: Re: [PATCH] ppc/spapr: Fix 32 bit logical memory block size
+ assumptions
+To: Anton Blanchard <anton@ozlabs.org>, david@gibson.dropbear.id.au,
+ groug@kaod.org, aik@ozlabs.ru, nathanl@linux.ibm.com
+References: <20200715004228.1262681-1-anton@ozlabs.org>
+From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
+Autocrypt: addr=philmd@redhat.com; keydata=
+ mQINBDXML8YBEADXCtUkDBKQvNsQA7sDpw6YLE/1tKHwm24A1au9Hfy/OFmkpzo+MD+dYc+7
+ bvnqWAeGweq2SDq8zbzFZ1gJBd6+e5v1a/UrTxvwBk51yEkadrpRbi+r2bDpTJwXc/uEtYAB
+ GvsTZMtiQVA4kRID1KCdgLa3zztPLCj5H1VZhqZsiGvXa/nMIlhvacRXdbgllPPJ72cLUkXf
+ z1Zu4AkEKpccZaJspmLWGSzGu6UTZ7UfVeR2Hcc2KI9oZB1qthmZ1+PZyGZ/Dy+z+zklC0xl
+ XIpQPmnfy9+/1hj1LzJ+pe3HzEodtlVA+rdttSvA6nmHKIt8Ul6b/h1DFTmUT1lN1WbAGxmg
+ CH1O26cz5nTrzdjoqC/b8PpZiT0kO5MKKgiu5S4PRIxW2+RA4H9nq7nztNZ1Y39bDpzwE5Sp
+ bDHzd5owmLxMLZAINtCtQuRbSOcMjZlg4zohA9TQP9krGIk+qTR+H4CV22sWldSkVtsoTaA2
+ qNeSJhfHQY0TyQvFbqRsSNIe2gTDzzEQ8itsmdHHE/yzhcCVvlUzXhAT6pIN0OT+cdsTTfif
+ MIcDboys92auTuJ7U+4jWF1+WUaJ8gDL69ThAsu7mGDBbm80P3vvUZ4fQM14NkxOnuGRrJxO
+ qjWNJ2ZUxgyHAh5TCxMLKWZoL5hpnvx3dF3Ti9HW2dsUUWICSQARAQABtDJQaGlsaXBwZSBN
+ YXRoaWV1LURhdWTDqSAoUGhpbCkgPHBoaWxtZEByZWRoYXQuY29tPokCVQQTAQgAPwIbDwYL
+ CQgHAwIGFQgCCQoLBBYCAwECHgECF4AWIQSJweePYB7obIZ0lcuio/1u3q3A3gUCXsfWwAUJ
+ KtymWgAKCRCio/1u3q3A3ircD/9Vjh3aFNJ3uF3hddeoFg1H038wZr/xi8/rX27M1Vj2j9VH
+ 0B8Olp4KUQw/hyO6kUxqkoojmzRpmzvlpZ0cUiZJo2bQIWnvScyHxFCv33kHe+YEIqoJlaQc
+ JfKYlbCoubz+02E2A6bFD9+BvCY0LBbEj5POwyKGiDMjHKCGuzSuDRbCn0Mz4kCa7nFMF5Jv
+ piC+JemRdiBd6102ThqgIsyGEBXuf1sy0QIVyXgaqr9O2b/0VoXpQId7yY7OJuYYxs7kQoXI
+ 6WzSMpmuXGkmfxOgbc/L6YbzB0JOriX0iRClxu4dEUg8Bs2pNnr6huY2Ft+qb41RzCJvvMyu
+ gS32LfN0bTZ6Qm2A8ayMtUQgnwZDSO23OKgQWZVglGliY3ezHZ6lVwC24Vjkmq/2yBSLakZE
+ 6DZUjZzCW1nvtRK05ebyK6tofRsx8xB8pL/kcBb9nCuh70aLR+5cmE41X4O+MVJbwfP5s/RW
+ 9BFSL3qgXuXso/3XuWTQjJJGgKhB6xXjMmb1J4q/h5IuVV4juv1Fem9sfmyrh+Wi5V1IzKI7
+ RPJ3KVb937eBgSENk53P0gUorwzUcO+ASEo3Z1cBKkJSPigDbeEjVfXQMzNt0oDRzpQqH2vp
+ apo2jHnidWt8BsckuWZpxcZ9+/9obQ55DyVQHGiTN39hkETy3Emdnz1JVHTU0Q==
+Message-ID: <2ff9d50c-21cd-4b89-adee-7f681fe590fd@redhat.com>
+Date: Wed, 15 Jul 2020 08:55:17 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.5.0
 MIME-Version: 1.0
-In-Reply-To: <20200714164141.1ce6b122@redhat.com>
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
+In-Reply-To: <20200715004228.1262681-1-anton@ozlabs.org>
+Content-Language: en-US
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Received-SPF: pass client-ip=205.139.110.61; envelope-from=drjones@redhat.com;
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=207.211.31.81; envelope-from=philmd@redhat.com;
  helo=us-smtp-delivery-1.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/07/15 02:37:03
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/07/15 02:01:40
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
-X-Spam_score_int: -40
-X-Spam_score: -4.1
-X-Spam_bar: ----
-X-Spam_report: (-4.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1,
+X-Spam_score_int: -30
+X-Spam_score: -3.1
+X-Spam_bar: ---
+X-Spam_report: (-3.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-1, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H3=-0.01, RCVD_IN_MSPIKE_WL=-0.01,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -85,147 +122,76 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: peter.maydell@linaro.org, ard.biesheuvel@arm.com,
- "Michael S. Tsirkin" <mst@redhat.com>, philmd@redhat.com,
- qemu-devel@nongnu.org, shannon.zhaosl@gmail.com, qemu-arm@nongnu.org,
- eric.auger@redhat.com, lersek@redhat.com
+Cc: qemu-ppc@nongnu.org, qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Tue, Jul 14, 2020 at 04:41:41PM +0200, Igor Mammedov wrote:
-> On Tue, 14 Jul 2020 11:23:25 +0200
-> Andrew Jones <drjones@redhat.com> wrote:
+Hi Anton,
+
+On 7/15/20 2:42 AM, Anton Blanchard wrote:
+> When testing large LMB sizes (eg 4GB), I found a couple of places
+> that assume they are 32bit in size.
 > 
-> > On Tue, Jul 14, 2020 at 04:57:50AM -0400, Michael S. Tsirkin wrote:
-> > > On Tue, Jul 14, 2020 at 07:51:09AM +0200, Andrew Jones wrote:  
-> > > > On Mon, Jul 13, 2020 at 10:49:07AM +0200, Igor Mammedov wrote:  
-> > > > > On Mon, 29 Jun 2020 16:09:37 +0200
-> > > > > Andrew Jones <drjones@redhat.com> wrote:
-> > > > >   
-> > > > > > The flash device is exclusively for the host-controlled firmware, so
-> > > > > > we should not expose it to the OS. Exposing it risks the OS messing
-> > > > > > with it, which could break firmware runtime services and surprise the
-> > > > > > OS when all its changes disappear after reboot.
-> > > > > > 
-> > > > > > As firmware needs the device and uses DT, we leave the device exposed
-> > > > > > there. It's up to firmware to remove the nodes from DT before sending
-> > > > > > it on to the OS. However, there's no need to force firmware to remove
-> > > > > > tables from ACPI (which it doesn't know how to do anyway), so we
-> > > > > > simply don't add the tables in the first place. But, as we've been
-> > > > > > adding the tables for quite some time and don't want to change the
-> > > > > > default hardware exposed to versioned machines, then we only stop
-> > > > > > exposing the flash device tables for 5.1 and later machine types.
-> > > > > > 
-> > > > > > Suggested-by: Ard Biesheuvel <ard.biesheuvel@arm.com>
-> > > > > > Suggested-by: Laszlo Ersek <lersek@redhat.com>
-> > > > > > Signed-off-by: Andrew Jones <drjones@redhat.com>
-> > > > > > ---
-> > > > > >  hw/arm/virt-acpi-build.c | 5 ++++-
-> > > > > >  hw/arm/virt.c            | 3 +++
-> > > > > >  include/hw/arm/virt.h    | 1 +
-> > > > > >  3 files changed, 8 insertions(+), 1 deletion(-)
-> > > > > > 
-> > > > > > diff --git a/hw/arm/virt-acpi-build.c b/hw/arm/virt-acpi-build.c
-> > > > > > index 1384a2cf2ab4..91f0df7b13a3 100644
-> > > > > > --- a/hw/arm/virt-acpi-build.c
-> > > > > > +++ b/hw/arm/virt-acpi-build.c
-> > > > > > @@ -749,6 +749,7 @@ static void build_fadt_rev5(GArray *table_data, BIOSLinker *linker,
-> > > > > >  static void
-> > > > > >  build_dsdt(GArray *table_data, BIOSLinker *linker, VirtMachineState *vms)
-> > > > > >  {
-> > > > > > +    VirtMachineClass *vmc = VIRT_MACHINE_GET_CLASS(vms);
-> > > > > >      Aml *scope, *dsdt;
-> > > > > >      MachineState *ms = MACHINE(vms);
-> > > > > >      const MemMapEntry *memmap = vms->memmap;
-> > > > > > @@ -767,7 +768,9 @@ build_dsdt(GArray *table_data, BIOSLinker *linker, VirtMachineState *vms)
-> > > > > >      acpi_dsdt_add_cpus(scope, vms->smp_cpus);
-> > > > > >      acpi_dsdt_add_uart(scope, &memmap[VIRT_UART],
-> > > > > >                         (irqmap[VIRT_UART] + ARM_SPI_BASE));
-> > > > > > -    acpi_dsdt_add_flash(scope, &memmap[VIRT_FLASH]);
-> > > > > > +    if (vmc->acpi_expose_flash) {
-> > > > > > +        acpi_dsdt_add_flash(scope, &memmap[VIRT_FLASH]);
-> > > > > > +    }
-> > > > > >      acpi_dsdt_add_fw_cfg(scope, &memmap[VIRT_FW_CFG]);
-> > > > > >      acpi_dsdt_add_virtio(scope, &memmap[VIRT_MMIO],
-> > > > > >                      (irqmap[VIRT_MMIO] + ARM_SPI_BASE), NUM_VIRTIO_TRANSPORTS);
-> > > > > > diff --git a/hw/arm/virt.c b/hw/arm/virt.c
-> > > > > > index cd0834ce7faf..5adc9ff799ef 100644
-> > > > > > --- a/hw/arm/virt.c
-> > > > > > +++ b/hw/arm/virt.c
-> > > > > > @@ -2482,9 +2482,12 @@ DEFINE_VIRT_MACHINE_AS_LATEST(5, 1)
-> > > > > >  
-> > > > > >  static void virt_machine_5_0_options(MachineClass *mc)
-> > > > > >  {
-> > > > > > +    VirtMachineClass *vmc = VIRT_MACHINE_CLASS(OBJECT_CLASS(mc));
-> > > > > > +
-> > > > > >      virt_machine_5_1_options(mc);
-> > > > > >      compat_props_add(mc->compat_props, hw_compat_5_0, hw_compat_5_0_len);
-> > > > > >      mc->numa_mem_supported = true;
-> > > > > > +    vmc->acpi_expose_flash = true;  
-> > > > > 
-> > > > > we usually do not version ACPI tables changes
-> > > > > (unless we have a good reason to do so)  
-> > > > 
-> > > > Even when the change is to remove the exposure of hardware from the guest?
-> > > > Before this change, if a guest looked, it had a flash, after this change,
-> > > > if a guest looks, it doesn't.  
-> > > 
-> > > It's up to the relevant maintainers who know what the semantics are.
-> > > FYI ACPI tables only change across a reset though.
-> > > So it's a question of whether guests get confused even if this
-> > > changes after a reboot.  
-> > 
-> > Yup, but it's still the same "machine", so a user may wonder why it
-> > changed.
+> Signed-off-by: Anton Blanchard <anton@ozlabs.org>
+> ---
+>  hw/ppc/spapr.c | 6 ++++--
+>  1 file changed, 4 insertions(+), 2 deletions(-)
 > 
-> you can have a different firmware with the same machine type either
-> and it might look differently to guest OS but don't bother versioning
-> FW. APCI tables are also part of FW (but generated by QEMU), so the same
-> usually rule applies.
+> diff --git a/hw/ppc/spapr.c b/hw/ppc/spapr.c
+> index a1b06defe6..0ba2526215 100644
+> --- a/hw/ppc/spapr.c
+> +++ b/hw/ppc/spapr.c
+> @@ -558,7 +558,8 @@ static int spapr_dt_dynamic_reconfiguration_memory(SpaprMachineState *spapr,
+>      int nb_numa_nodes = machine->numa_state->num_nodes;
+>      int ret, i, offset;
+>      uint64_t lmb_size = SPAPR_MEMORY_BLOCK_SIZE;
+> -    uint32_t prop_lmb_size[] = {0, cpu_to_be32(lmb_size)};
+> +    uint32_t prop_lmb_size[] = {cpu_to_be32(lmb_size >> 32),
+> +                                cpu_to_be32(lmb_size & 0xffffffff)};
 
-That makes sense. However, while users of real machines agree to update
-their firmware after determining what will change, or at least expect
-there could be a change that they'll need to adapt to, users of virtual
-machines simply reboot, getting new firmware and ACPI tables, and then
-possibly new surprises. Indeed, they may have opted to use a virtual
-machine precisely so they could keep the environment stable across
-updates of the real machine. IOW, since we can maintain a versioned
-machine, then maybe we should?
+This looks simpler:
 
->  
-> > > Versioning is generally safer, but it's a good idea to document
-> > > the motivation for it.
-> > >  
-> > 
-> > Well, in this case, we could probably push this change to old machine
-> > types and nobody would notice. If a guest is using ACPI, then it must
-> > be using firmware, and if they're using firmware, then they can't be
-> > using the flash. So the user shouldn't care if it's there or not. The
-> > only justification for the versioning is because "it's safer". If
-> > people feel strongly about avoiding versioning when it's not obviously
-> > necessary, then I can respin without it.
+-- >8 --
+--- a/hw/ppc/spapr.c
++++ b/hw/ppc/spapr.c
+@@ -557,8 +557,7 @@ static int
+spapr_dt_dynamic_reconfiguration_memory(SpaprMachineState *spapr,
+     MachineState *machine = MACHINE(spapr);
+     int nb_numa_nodes = machine->numa_state->num_nodes;
+     int ret, i, offset;
+-    uint64_t lmb_size = SPAPR_MEMORY_BLOCK_SIZE;
+-    uint32_t prop_lmb_size[] = {0, cpu_to_be32(lmb_size)};
++    uint64_t lmb_size = cpu_to_be64(SPAPR_MEMORY_BLOCK_SIZE);
+     uint32_t *int_buf, *cur_index, buf_len;
+     int nr_nodes = nb_numa_nodes ? nb_numa_nodes : 1;
+     MemoryDeviceInfoList *dimms = NULL;
+@@ -572,8 +571,7 @@ static int
+spapr_dt_dynamic_reconfiguration_memory(SpaprMachineState *spapr,
+
+     offset = fdt_add_subnode(fdt, 0, "ibm,dynamic-reconfiguration-memory");
+
+-    ret = fdt_setprop(fdt, offset, "ibm,lmb-size", prop_lmb_size,
+-                    sizeof(prop_lmb_size));
++    ret = fdt_setprop(fdt, offset, "ibm,lmb-size", lmb_size,
+sizeof(lmb_size));
+     if (ret < 0) {
+         return ret;
+     }
+---
+
+>      uint32_t *int_buf, *cur_index, buf_len;
+>      int nr_nodes = nb_numa_nodes ? nb_numa_nodes : 1;
+>      MemoryDeviceInfoList *dimms = NULL;
+> @@ -899,7 +900,8 @@ static void spapr_dt_rtas(SpaprMachineState *spapr, void *fdt)
+>      uint32_t lrdr_capacity[] = {
+>          cpu_to_be32(max_device_addr >> 32),
+>          cpu_to_be32(max_device_addr & 0xffffffff),
+> -        0, cpu_to_be32(SPAPR_MEMORY_BLOCK_SIZE),
+> +        cpu_to_be32(SPAPR_MEMORY_BLOCK_SIZE >> 32),
+> +        cpu_to_be32(SPAPR_MEMORY_BLOCK_SIZE & 0xffffffff),
+>          cpu_to_be32(ms->smp.max_cpus / ms->smp.threads),
+>      };
+>      uint32_t maxdomain = cpu_to_be32(spapr->gpu_numa_id > 1 ? 1 : 0);
 > 
-> From my pov if it doesn't break anything don't version it,
-
-I don't see how we can be sure that we won't break anything. Although,
-in this case, we *probably* won't.
-
-> since versioning
-> adds complexity which cost time during review, so it would be nicer to reviewers
-> and to future yourself if you can help to keep it as simple as possible.
-
-I agree with all of that.
-
-> 
-> In this particular case I'd drop versioning.
->
-
-So it sounds to me like we have some flexibility in our versioned machine
-maintenance. We can choose to forgo the usual compat code when the risk is
-deemed low enough. And, if somebody screams, we can always fix it later.
-I can live with that. I'll go ahead and respin without the versioning.
-
-Thanks,
-drew
 
 
