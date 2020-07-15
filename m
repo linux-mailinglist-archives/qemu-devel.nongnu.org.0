@@ -2,75 +2,136 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D778C22088C
-	for <lists+qemu-devel@lfdr.de>; Wed, 15 Jul 2020 11:21:45 +0200 (CEST)
-Received: from localhost ([::1]:46460 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9E7472208B7
+	for <lists+qemu-devel@lfdr.de>; Wed, 15 Jul 2020 11:28:09 +0200 (CEST)
+Received: from localhost ([::1]:54354 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jvdbk-0000Qb-Kf
-	for lists+qemu-devel@lfdr.de; Wed, 15 Jul 2020 05:21:44 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:50706)
+	id 1jvdhw-00045z-5U
+	for lists+qemu-devel@lfdr.de; Wed, 15 Jul 2020 05:28:08 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:52790)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1jvdac-0007cn-V2
- for qemu-devel@nongnu.org; Wed, 15 Jul 2020 05:20:34 -0400
-Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:48432
- helo=us-smtp-1.mimecast.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1jvdab-0007Z2-6h
- for qemu-devel@nongnu.org; Wed, 15 Jul 2020 05:20:34 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1594804832;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=NmrVjH3XzfnDrOinakxg55/YmVhcihL0FdrmBGUC/Ys=;
- b=Hx8gazBTxDJco6cQk6PYVhG+ea0WqhqsYvo1XWU5fi+MqjSt04T2nwdpb3vtbuZ2h33ZSG
- +XyWibpWMuB4ahmIYSTKzWkms5bOddTGNp0WI6vVsm9t3z/ciogKi7FGDXQLK+XFnkUnP0
- 9A6B+T0cYU/9Y0GKvwlBFsvwuvNOoI8=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-307-plghDg5INny9OkiXWowsWQ-1; Wed, 15 Jul 2020 05:20:30 -0400
-X-MC-Unique: plghDg5INny9OkiXWowsWQ-1
-Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
- [10.5.11.22])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 6483618C63C0;
- Wed, 15 Jul 2020 09:20:29 +0000 (UTC)
-Received: from linux.fritz.box (ovpn-114-240.ams2.redhat.com [10.36.114.240])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 7092910013D0;
- Wed, 15 Jul 2020 09:20:28 +0000 (UTC)
-Date: Wed, 15 Jul 2020 11:20:26 +0200
-From: Kevin Wolf <kwolf@redhat.com>
-To: Max Reitz <mreitz@redhat.com>
-Subject: Re: [PATCH for-5.1 1/2] block: Require aligned image size to avoid
- assertion failure
-Message-ID: <20200715092026.GA8833@linux.fritz.box>
-References: <20200710142149.40962-1-kwolf@redhat.com>
- <20200710142149.40962-2-kwolf@redhat.com>
- <e608699f-b2c2-d7a0-cb59-703832ae732a@redhat.com>
- <20200713142949.GD10318@linux.fritz.box>
- <b91329db-303f-41ab-5638-3ec7543b55ac@redhat.com>
- <20200714110837.GB5120@linux.fritz.box>
- <af19cad2-f718-c17b-5856-ed0c8cbd3db3@redhat.com>
+ (Exim 4.90_1) (envelope-from <frankja@linux.ibm.com>)
+ id 1jvdh9-0003Z5-Uk; Wed, 15 Jul 2020 05:27:19 -0400
+Received: from mx0b-001b2d01.pphosted.com ([148.163.158.5]:9718
+ helo=mx0a-001b2d01.pphosted.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <frankja@linux.ibm.com>)
+ id 1jvdh8-0001o6-8G; Wed, 15 Jul 2020 05:27:19 -0400
+Received: from pps.filterd (m0098419.ppops.net [127.0.0.1])
+ by mx0b-001b2d01.pphosted.com (8.16.0.42/8.16.0.42) with SMTP id
+ 06F92jBJ011681; Wed, 15 Jul 2020 05:27:14 -0400
+Received: from pps.reinject (localhost [127.0.0.1])
+ by mx0b-001b2d01.pphosted.com with ESMTP id 329r1hkvpu-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Wed, 15 Jul 2020 05:27:14 -0400
+Received: from m0098419.ppops.net (m0098419.ppops.net [127.0.0.1])
+ by pps.reinject (8.16.0.36/8.16.0.36) with SMTP id 06F9NSgO105985;
+ Wed, 15 Jul 2020 05:27:13 -0400
+Received: from ppma03ams.nl.ibm.com (62.31.33a9.ip4.static.sl-reverse.com
+ [169.51.49.98])
+ by mx0b-001b2d01.pphosted.com with ESMTP id 329r1hkvnp-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Wed, 15 Jul 2020 05:27:13 -0400
+Received: from pps.filterd (ppma03ams.nl.ibm.com [127.0.0.1])
+ by ppma03ams.nl.ibm.com (8.16.0.42/8.16.0.42) with SMTP id 06F9PAJQ022811;
+ Wed, 15 Jul 2020 09:27:11 GMT
+Received: from b06cxnps4076.portsmouth.uk.ibm.com
+ (d06relay13.portsmouth.uk.ibm.com [9.149.109.198])
+ by ppma03ams.nl.ibm.com with ESMTP id 327527v8pt-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Wed, 15 Jul 2020 09:27:11 +0000
+Received: from d06av24.portsmouth.uk.ibm.com (d06av24.portsmouth.uk.ibm.com
+ [9.149.105.60])
+ by b06cxnps4076.portsmouth.uk.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
+ 06F9R8JK57409550
+ (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+ Wed, 15 Jul 2020 09:27:08 GMT
+Received: from d06av24.portsmouth.uk.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id A304442045;
+ Wed, 15 Jul 2020 09:27:08 +0000 (GMT)
+Received: from d06av24.portsmouth.uk.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id 162FD4203F;
+ Wed, 15 Jul 2020 09:27:08 +0000 (GMT)
+Received: from localhost.localdomain (unknown [9.145.18.50])
+ by d06av24.portsmouth.uk.ibm.com (Postfix) with ESMTP;
+ Wed, 15 Jul 2020 09:27:08 +0000 (GMT)
+Subject: Re: [PATCH RFCv2 2/6] s390x/diag: no need to check for PGM_PRIVILEGED
+ in diag308
+To: David Hildenbrand <david@redhat.com>, qemu-devel@nongnu.org
+References: <20200710151239.39370-1-david@redhat.com>
+ <20200710151239.39370-3-david@redhat.com>
+From: Janosch Frank <frankja@linux.ibm.com>
+Autocrypt: addr=frankja@linux.ibm.com; prefer-encrypt=mutual; keydata=
+ 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
+Message-ID: <3ff6acea-d2ed-86a7-602c-39b2f4b43e99@linux.ibm.com>
+Date: Wed, 15 Jul 2020 11:27:07 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.8.0
 MIME-Version: 1.0
-In-Reply-To: <af19cad2-f718-c17b-5856-ed0c8cbd3db3@redhat.com>
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
+In-Reply-To: <20200710151239.39370-3-david@redhat.com>
 Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature"; boundary="C7zPtVaVf+AK4Oqc"
-Content-Disposition: inline
-Received-SPF: pass client-ip=207.211.31.120; envelope-from=kwolf@redhat.com;
- helo=us-smtp-1.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/07/15 05:07:28
-X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
-X-Spam_score_int: -40
-X-Spam_score: -4.1
-X-Spam_bar: ----
-X-Spam_report: (-4.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-1, SPF_HELO_NONE=0.001,
+ protocol="application/pgp-signature";
+ boundary="EzJJcJRrL6Fefqvkn6xnnMUOqO1PabMh0"
+X-TM-AS-GCONF: 00
+X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:6.0.235, 18.0.687
+ definitions=2020-07-15_06:2020-07-15,
+ 2020-07-15 signatures=0
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ clxscore=1015 malwarescore=0
+ priorityscore=1501 spamscore=0 mlxlogscore=999 lowpriorityscore=0
+ impostorscore=0 adultscore=0 mlxscore=0 bulkscore=0 phishscore=0
+ suspectscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2006250000 definitions=main-2007150072
+Received-SPF: pass client-ip=148.163.158.5; envelope-from=frankja@linux.ibm.com;
+ helo=mx0a-001b2d01.pphosted.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/07/15 05:27:14
+X-ACL-Warn: Detected OS   = Linux 3.x [generic]
+X-Spam_score_int: -35
+X-Spam_score: -3.6
+X-Spam_bar: ---
+X-Spam_report: (-3.6 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_LOW=-0.7,
+ RCVD_IN_MSPIKE_H2=-1, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -84,162 +145,86 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: nsoffer@redhat.com, qemu-devel@nongnu.org, qemu-block@nongnu.org
+Cc: Thomas Huth <thuth@redhat.com>, "Michael S . Tsirkin" <mst@redhat.com>,
+ Heiko Carstens <hca@linux.ibm.com>, Cornelia Huck <cohuck@redhat.com>,
+ Halil Pasic <pasic@linux.ibm.com>,
+ Christian Borntraeger <borntraeger@de.ibm.com>, qemu-s390x@nongnu.org,
+ Claudio Imbrenda <imbrenda@linux.ibm.com>, Richard Henderson <rth@twiddle.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
---C7zPtVaVf+AK4Oqc
+This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
+--EzJJcJRrL6Fefqvkn6xnnMUOqO1PabMh0
+Content-Type: multipart/mixed; boundary="T1dmbneoa7dk8vBkeP64GvuujMWhRMM6k"
+
+--T1dmbneoa7dk8vBkeP64GvuujMWhRMM6k
 Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
+Content-Language: en-US
 Content-Transfer-Encoding: quoted-printable
 
-Am 14.07.2020 um 18:22 hat Max Reitz geschrieben:
-> On 14.07.20 13:08, Kevin Wolf wrote:
-> > Am 14.07.2020 um 11:56 hat Max Reitz geschrieben:
-> >> On 13.07.20 16:29, Kevin Wolf wrote:
-> >>> Am 13.07.2020 um 13:19 hat Max Reitz geschrieben:
-> >>>> On 10.07.20 16:21, Kevin Wolf wrote:
-> >>>>> Unaligned requests will automatically be aligned to bl.request_alig=
-nment
-> >>>>> and we don't want to extend requests to access space beyond the end=
- of
-> >>>>> the image, so it's required that the image size is aligned.
-> >>>>>
-> >>>>> With write requests, this could cause assertion failures like this =
-if
-> >>>>> RESIZE permissions weren't requested:
-> >>>>>
-> >>>>> qemu-img: block/io.c:1910: bdrv_co_write_req_prepare: Assertion `en=
-d_sector <=3D bs->total_sectors || child->perm & BLK_PERM_RESIZE' failed.
-> >>>>>
-> >>>>> This was e.g. triggered by qemu-img converting to a target image wi=
-th 4k
-> >>>>> request alignment when the image was only aligned to 512 bytes, but=
- not
-> >>>>> to 4k.
-> >>>>>
-> >>>>> Signed-off-by: Kevin Wolf <kwolf@redhat.com>
-> >>>>> ---
-> >>>>>  block.c | 10 ++++++++++
-> >>>>>  1 file changed, 10 insertions(+)
-> >>>>
-> >>>> (I think we had some proposal like this before, but I can=E2=80=99t =
-find it,
-> >>>> unfortunately...)
-> >>>>
-> >>>> I can=E2=80=99t see how with this patch you could create qcow2 image=
-s and then
-> >>>> use them with direct I/O, because AFAICS, qemu-img create doesn=E2=
-=80=99t allow
-> >>>> specifying caching options, so AFAIU you=E2=80=99re stuck with:
-> >>>>
-> >>>> $ ./qemu-img create -f qcow2 /mnt/tmp/foo.qcow2 1M
-> >>>> Formatting '/mnt/tmp/foo.qcow2', fmt=3Dqcow2 cluster_size=3D65536
-> >>>> compression_type=3Dzlib size=3D1048576 lazy_refcounts=3Doff refcount=
-_bits=3D16
-> >>>>
-> >>>> $ sudo ./qemu-io -t none /mnt/tmp/foo.qcow2
-> >>>> qemu-io: can't open device /mnt/tmp/foo.qcow2: Image size is not a
-> >>>> multiple of request alignment
-> >>>>
-> >>>> (/mnt/tmp is a filesystem on a =E2=80=9Closetup -b 4096=E2=80=9D dev=
-ice.)
-> >>>
-> >>> Hm, that looks like some regrettable collateral damage...
-> >>>
-> >>> Well, you could argue that we should be writing full L1 tables with z=
-ero
-> >>> padding instead of just the used part. I thought we had fixed this lo=
-ng
-> >>> ago. But looks like we haven't.
-> >>
-> >> That would help for the standard case.  It wouldn=E2=80=99t when the c=
-luster
-> >> size is smaller than the request alignment, which, while maybe not
-> >> important, would still be a shame.
-> >=20
-> > I don't think it would be unreasonable to require a cluster size that i=
-s
-> > a multiple of the logical block size of your host storage if you want t=
-o
-> > use O_DIRECT.
+On 7/10/20 5:12 PM, David Hildenbrand wrote:
+> Whenever we reach this point via KVM or TCG, we already verified that w=
+e
+> are running in the supervisor state.
 >=20
-> True.
+> TCG checks this via IF_PRIV, KVM checks this directly in the diag
+> instruction handler, before exiting to userspace.
 >=20
-> > But we have unaligned images in practice, so this is pure theory anyway=
-.
+> Signed-off-by: David Hildenbrand <david@redhat.com>
+
+I'm trusting you on the tcg part.
+
+Acked-by: Janosch Frank <frankja@linux.ibm.com>
+
+> ---
+>  target/s390x/diag.c | 5 -----
+>  1 file changed, 5 deletions(-)
 >=20
-> Hm.  Maybe it would help to just adjust the error message to instruct
-> the user to resize the image to fit the request alignment?  (e.g. =E2=80=
-=9Cis
-> not a multiple of the request alignment %u (try resizing the image to
-> %llu bytes)=E2=80=9D)
-
-This would require management tools to automatically do this or we would
-break any users that don't manually invoke QEMU. I don't think this is a
-realistic option, especially since "management tools" must probably
-include all those one-off shell scripts that people use.
-
-> >>> But we should still avoid crashing in other cases, so what is the
-> >>> difference between both? Is it just that qcow2 has the RESIZE permiss=
-ion
-> >>> anyway so it doesn't matter?
-> >>
-> >> I assume so.
-> >>
-> >>> If so, maybe attaching to a block node with WRITE, but not RESIZE is
-> >>> what needs to fail when the image size is unaligned?
-> >>
-> >> That sounds reasonable.
-> >>
-> >> The obvious question is what happens when the RESIZE capability is
-> >> removed.  Dropping capabilities may never fail =E2=80=93 I suppose we =
-could
-> >> force-keep the RESIZE capability for such nodes?
-> >=20
-> > It's not nice, but I think we already have this kind of behaviour for
-> > unlocking failures. So yes, that sounds like an option.
-> >=20
-> >> Or we could immediately align such files to the block size once they
-> >> are opened (with the RESIZE capability).
-> >=20
-> > Automatically resizing the image file is obviously harmless for qcow2
-> > images, but it would be a guest-visible change for raw images. It might
-> > be better to avoid this.
+> diff --git a/target/s390x/diag.c b/target/s390x/diag.c
+> index 1a48429564..be70aecd72 100644
+> --- a/target/s390x/diag.c
+> +++ b/target/s390x/diag.c
+> @@ -80,11 +80,6 @@ void handle_diag_308(CPUS390XState *env, uint64_t r1=
+, uint64_t r3, uintptr_t ra)
+>      uint64_t subcode =3D env->regs[r3];
+>      IplParameterBlock *iplb;
+> =20
+> -    if (env->psw.mask & PSW_MASK_PSTATE) {
+> -        s390_program_interrupt(env, PGM_PRIVILEGED, ra);
+> -        return;
+> -    }
+> -
+>      if (subcode & ~0x0ffffULL) {
+>          s390_program_interrupt(env, PGM_SPECIFICATION, ra);
+>          return;
 >=20
-> Well, it seems to be what already happens if the guest device has taken
-> the RESIZE capability (i.e., whenever there=E2=80=99s no failing assertio=
-n).
-> The only difference that appears to me is just that it happens only when
-> writing to the end of the image instead of unconditionally when opening i=
-t.
 
-I would have considered this as part of the bug rather than a desirable
-future behaviour. blk_check_byte_request() tries to catch any request
-going past EOF, it just doesn't know anything about request_alignment.
 
-Kevin
 
---C7zPtVaVf+AK4Oqc
+--T1dmbneoa7dk8vBkeP64GvuujMWhRMM6k--
+
+--EzJJcJRrL6Fefqvkn6xnnMUOqO1PabMh0
 Content-Type: application/pgp-signature; name="signature.asc"
+Content-Description: OpenPGP digital signature
+Content-Disposition: attachment; filename="signature.asc"
 
 -----BEGIN PGP SIGNATURE-----
 
-iQIzBAEBCAAdFiEE3D3rFZqa+V09dFb+fwmycsiPL9YFAl8OyloACgkQfwmycsiP
-L9bXxxAArK11JQv8MHHDGQXbG1ebsWwAYA07G/Me9Bf2GD4vANQuRDxFmtzq8Jyp
-Y8yLnVSQCgo7fpNYQ00eCBO9kq/ykBngbQUZVL6rrCWs+8DwSK29Z5GWAj41DUKo
-pqvcMB9xF9cBch1tj6kx9QVasgj7OXJDGVCrChVPORvLBmLe6bxQaWFrHLyN/o/o
-hJbMWtaN4YwAGxs+emuhLgf/LjaC2p889olnKlNsV3KnAlWf2Mf0mcjsS1goPVyW
-kIENRU1JOh7UUcHaRk2/6NuaiPWWpsI96AArWnvvAuX401Aj9jY9yr9FGEWGtp+T
-pdQE7v+hyz0eLh6yFlSxqXPvujG+rXCFJjG20p3NEkosPBvAvjTt6LHCk83dXeE8
-UTLlxVF5GIkn+1kdPx3T6/IfWRlFLi948cVOyg1vWyPks93cIU/lOvqROb5sl/tC
-go1++ExihVk8NGuJjzBDTPKNXqRALZMYgLCd6vvdk3GiDRvs7Jw5E+63VGnd0E7M
-5Zyqd+iLpWZDBq4lnBpfLMnIam7CHwn6IgCL6uGXajXGVF7LC6gJreImtNh+San1
-KWj3rS1FJdVDft0Jdi4o9/qXMK1RpVUxlOMHXr15cAECN8WVh9XtiCYTm1UcNGV5
-fD48bUSrfeY8bt/hLA+jibZGSLjLQutVu8CxNeqHujD1YAgA5V8=
-=krmH
+iQIzBAEBCAAdFiEEwGNS88vfc9+v45Yq41TmuOI4ufgFAl8Oy+sACgkQ41TmuOI4
+ufhrsA/+M+jCYBpvARD4le69iB/If2zIOoSDYj7Cq+2XtSCrKx/HRNN85l9eNBAe
+tRKB712VahwkyTxiATv7b1GjqbsIcji5eMijeXlFU/2WQG+EXopMS6wJSPW0kfaA
+OUVLY6nP7UNgmcdZGmcHVm9D/LbTaoFnYhzKSAsp1Ejpp0LJiuM22s5+ZISitXay
+Ul39oNSolQpcdSmkVycp6PzZ75BSlg/CIyZg7JjuG/V067eZn/HeDyIkrO7ELcMt
+bXsvIlxgRr+lrbTjIPG4U5K3x+vr6ethJO0g5A0bRZlfaM4g7XD6GB+Sz9TQHXnF
+X08isQfq5IXc3UbplItoENLORx3SOMNrsBnHnzKdrXKXKY6o+x8IqH27cDHznaPo
+kZnTBp02D6ZpClDEpSxm9QroAChGE89VrePXDUExbOSzkkExC9H8SD/esT53wIaq
+WUr/RQyQFm+aa0Gbkr4jJEczLAe4B7hq5K1dht9EWexdSbHlS3oqgf6PBmjw7OpC
+vSzhZF39ArqMaGcDq/E9wEBqu6FJERbv9w71mBD3P+Db/TQeHi3uDeAKwcQq67V8
+u9+RsOuj8WNJmwICuv2lpAA3ihwevFrIqWuW+VdfXTyvWoX2Qv5tKDNl9GwhT+Ki
+lL2t31rYiEAzWAepnomjVJ7CEF60M0+KcF8HlUZ4eXdAjBLBPjw=
+=9Myu
 -----END PGP SIGNATURE-----
 
---C7zPtVaVf+AK4Oqc--
+--EzJJcJRrL6Fefqvkn6xnnMUOqO1PabMh0--
 
 
