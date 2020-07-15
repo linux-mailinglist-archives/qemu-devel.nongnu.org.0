@@ -2,71 +2,81 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1ED9A220BBC
-	for <lists+qemu-devel@lfdr.de>; Wed, 15 Jul 2020 13:24:51 +0200 (CEST)
-Received: from localhost ([::1]:39782 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 65859220BE9
+	for <lists+qemu-devel@lfdr.de>; Wed, 15 Jul 2020 13:28:52 +0200 (CEST)
+Received: from localhost ([::1]:44262 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jvfWs-0003xv-7H
-	for lists+qemu-devel@lfdr.de; Wed, 15 Jul 2020 07:24:50 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:39028)
+	id 1jvfal-00061e-Fa
+	for lists+qemu-devel@lfdr.de; Wed, 15 Jul 2020 07:28:51 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:40052)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <stefanha@redhat.com>)
- id 1jvfW8-0003XY-06
- for qemu-devel@nongnu.org; Wed, 15 Jul 2020 07:24:04 -0400
-Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:47284
- helo=us-smtp-1.mimecast.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <stefanha@redhat.com>)
- id 1jvfW6-00058a-3s
- for qemu-devel@nongnu.org; Wed, 15 Jul 2020 07:24:03 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1594812241;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=oWZTkzAA9DPHcbpakWqj0PIztNWmUWrWx7WehE0uGxY=;
- b=UT358/Sf5dqpzqy0uCBUCjdqyTl60xemNLq5nRa3L5bS5MKKKj7LTOdGY2Rf0FIuODFT5I
- ubeTI0VBXnfQ79bKiYy3kvwISvD8EYlFAnsgZSkWJEjCDwtFrnTpaIOKR+przt70BggvW3
- BbAIMuN/QrwVSqcCoa6L/KBCHmNmYkU=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-262-g5yh5mM0NC2f_gxsTnHCZQ-1; Wed, 15 Jul 2020 07:23:51 -0400
-X-MC-Unique: g5yh5mM0NC2f_gxsTnHCZQ-1
-Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
- [10.5.11.16])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 38DE5801E6A;
- Wed, 15 Jul 2020 11:23:50 +0000 (UTC)
-Received: from localhost (ovpn-115-22.ams2.redhat.com [10.36.115.22])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 883A661463;
- Wed, 15 Jul 2020 11:23:43 +0000 (UTC)
-Date: Wed, 15 Jul 2020 12:23:42 +0100
-From: Stefan Hajnoczi <stefanha@redhat.com>
-To: Nikos Dragazis <ndragazis@arrikto.com>, Jan Kiszka <jan.kiszka@siemens.com>
-Subject: Inter-VM device emulation (call on Mon 20th July 2020)
-Message-ID: <20200715112342.GD18817@stefanha-x1.localdomain>
-References: <86d42090-f042-06a1-efba-d46d449df280@arrikto.com>
+ (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
+ id 1jvfZh-0005by-Rp
+ for qemu-devel@nongnu.org; Wed, 15 Jul 2020 07:27:45 -0400
+Received: from mail-wm1-x343.google.com ([2a00:1450:4864:20::343]:39357)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
+ id 1jvfZg-0005qI-1p
+ for qemu-devel@nongnu.org; Wed, 15 Jul 2020 07:27:45 -0400
+Received: by mail-wm1-x343.google.com with SMTP id w3so5426777wmi.4
+ for <qemu-devel@nongnu.org>; Wed, 15 Jul 2020 04:27:43 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=references:user-agent:from:to:cc:subject:in-reply-to:date
+ :message-id:mime-version:content-transfer-encoding;
+ bh=3EFATFoxO7iSVk7VOQOqbW43HUjqtediW/rmduiEUgc=;
+ b=oZm1KHNOgh7N5sf6mfsMc1X2GCBOZlYeq4e61SA4inmYIef+HG2QIR2JuRsYJSwl9e
+ qZxpIYLa7kPmUsiiUNRoV3X20t4oT1ziZ7sD3dbYIE8W7ownu4yCU6qdjEe5dp3SGFTE
+ y2uKJBkI6DFL0RIthHNk9yHPdSO6sq776Mg06m28Ynrqz7Gs1Yfnd1uHra4kg9OEL6Gj
+ SOL1z6UtJ9LqUZ0fs6Ybzh2BPC+OUnoVkhqOPx0QHv5MEyII36Xd6VrgNByaE+TV2vwq
+ BOOhquseT0zq3GTgJ60FDJVoU1rlQRQ5hzup5fNkWUfj1/RLz8XUPL6hNctLz17yZ2i/
+ zuSw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:references:user-agent:from:to:cc:subject
+ :in-reply-to:date:message-id:mime-version:content-transfer-encoding;
+ bh=3EFATFoxO7iSVk7VOQOqbW43HUjqtediW/rmduiEUgc=;
+ b=cb/3Bk/GTJ40TcmWr6mN2eFhTy5SyNB055Nc2r0mP36JwcpJ+NkCy0Hh4rQztQUFFb
+ Fhf9pHKhaRZnrl7Bcka2KwWasDo2qdl0AEJSYh3iOinj4lgKYe34KzyI5oJMI7tlO3Vq
+ x5/tiQimD8PqXxXDoyE9nCa86dLbpTOzpgHP29EhbePHIFYEEwI+/Uo8rBPSN8ThYlA4
+ A4NryUDv+rPlacwcTBxV6Tsxmbh98nGDIU6FLfK6PC4vgYGxqk+jjZMblPt8D9DDiExA
+ 2UIo++ulnrwW2j7Tm1Xrk2ywRex3xlDY8u9+gA+tUpSXEKg5LjwTwgpIWtZqocmsQJoC
+ KAAg==
+X-Gm-Message-State: AOAM531ClSVkQpJbI3Om++YWMrkjW+nyRBemA21+vBQT/8CSAQON23On
+ q6ziCUCuJ4evUqIZxNJt3YYHSQ==
+X-Google-Smtp-Source: ABdhPJwjLGq+Jm11Dxu8S/SRTY+IoVzVEPeTMVEWml3eob8DUGCaUtF1TRgD3llPurJGGUBivyQnXg==
+X-Received: by 2002:a1c:28c4:: with SMTP id o187mr7974404wmo.62.1594812462370; 
+ Wed, 15 Jul 2020 04:27:42 -0700 (PDT)
+Received: from zen.linaroharston ([51.148.130.216])
+ by smtp.gmail.com with ESMTPSA id a12sm3179738wrv.41.2020.07.15.04.27.40
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Wed, 15 Jul 2020 04:27:41 -0700 (PDT)
+Received: from zen (localhost [127.0.0.1])
+ by zen.linaroharston (Postfix) with ESMTP id 60B6F1FF7E;
+ Wed, 15 Jul 2020 12:27:40 +0100 (BST)
+References: <159316678008.10508.6615172353109944370.stgit@pasha-ThinkPad-X280>
+ <159316683702.10508.7973844299019522260.stgit@pasha-ThinkPad-X280>
+User-agent: mu4e 1.5.4; emacs 28.0.50
+From: Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
+To: Pavel Dovgalyuk <pavel.dovgalyuk@ispras.ru>
+Subject: Re: [PATCH 10/13] gdbstub: add reverse step support in replay mode
+In-reply-to: <159316683702.10508.7973844299019522260.stgit@pasha-ThinkPad-X280>
+Date: Wed, 15 Jul 2020 12:27:40 +0100
+Message-ID: <87d04xxbkj.fsf@linaro.org>
 MIME-Version: 1.0
-In-Reply-To: <86d42090-f042-06a1-efba-d46d449df280@arrikto.com>
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature"; boundary="9dgjiU4MmWPVapMU"
-Content-Disposition: inline
-Received-SPF: pass client-ip=205.139.110.120; envelope-from=stefanha@redhat.com;
- helo=us-smtp-1.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/07/15 02:37:05
-X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
-X-Spam_score_int: -40
-X-Spam_score: -4.1
-X-Spam_bar: ----
-X-Spam_report: (-4.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-1, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001, URIBL_BLOCKED=0.001 autolearn=ham autolearn_force=no
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=2a00:1450:4864:20::343;
+ envelope-from=alex.bennee@linaro.org; helo=mail-wm1-x343.google.com
+X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
+ That's all we know.
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -79,86 +89,70 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: "John G. Johnson" <john.g.johnson@oracle.com>,
- Andra-Irina Paraschiv <andraprs@amazon.com>, kvm@vger.kernel.org,
- "Michael S. Tsirkin" <mst@redhat.com>, qemu-devel@nongnu.org,
- Maxime Coquelin <maxime.coquelin@redhat.com>, Alexander Graf <graf@amazon.com>,
- Thanos Makatos <thanos.makatos@nutanix.com>,
- Alex =?iso-8859-1?Q?Benn=E9e?= <alex.bennee@linaro.org>
+Cc: kwolf@redhat.com, wrampazz@redhat.com, ehabkost@redhat.com,
+ mtosatti@redhat.com, qemu-devel@nongnu.org, armbru@redhat.com,
+ stefanha@redhat.com, crosa@redhat.com, pbonzini@redhat.com, mreitz@redhat.com,
+ philmd@redhat.com, zhiwei_liu@c-sky.com, rth@twiddle.net
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
---9dgjiU4MmWPVapMU
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
 
-Hi,
-Several projects are underway to create an inter-VM device emulation
-interface:
+Pavel Dovgalyuk <pavel.dovgalyuk@ispras.ru> writes:
 
- * ivshmem v2
-   https://www.mail-archive.com/qemu-devel@nongnu.org/msg706465.html
+> From: Pavel Dovgalyuk <Pavel.Dovgaluk@ispras.ru>
+>
+> GDB remote protocol supports two reverse debugging commands:
+> reverse step and reverse continue.
+> This patch adds support of the first one to the gdbstub.
+> Reverse step is intended to step one instruction in the backwards
+> direction. This is not possible in regular execution.
+> But replayed execution is deterministic, therefore we can load one of
+> the prior snapshots and proceed to the desired step. It is equivalent
+> to stepping one instruction back.
+> There should be at least one snapshot preceding the debugged part of
+> the replay log.
+>
+> Signed-off-by: Pavel Dovgalyuk <Pavel.Dovgalyuk@ispras.ru>
+> ---
+>  0 files changed
+>
+> diff --git a/accel/tcg/translator.c b/accel/tcg/translator.c
+> index 603d17ff83..fb1e19c585 100644
+> --- a/accel/tcg/translator.c
+> +++ b/accel/tcg/translator.c
+> @@ -17,6 +17,7 @@
+>  #include "exec/log.h"
+>  #include "exec/translator.h"
+>  #include "exec/plugin-gen.h"
+> +#include "sysemu/replay.h"
+>=20=20
+>  /* Pairs with tcg_clear_temp_count.
+>     To be called by #TranslatorOps.{translate_insn,tb_stop} if
+> diff --git a/cpus.c b/cpus.c
+> index 41d1c5099f..35381ea941 100644
+> --- a/cpus.c
+> +++ b/cpus.c
+> @@ -1100,9 +1100,17 @@ static bool cpu_can_run(CPUState *cpu)
+>=20=20
+>  static void cpu_handle_guest_debug(CPUState *cpu)
+>  {
+> -    gdb_set_stop_cpu(cpu);
+> -    qemu_system_debug_request();
+> -    cpu->stopped =3D true;
+> +    if (!replay_running_debug()) {
+> +        gdb_set_stop_cpu(cpu);
+> +        qemu_system_debug_request();
+> +        cpu->stopped =3D true;
+> +    } else {
+> +        if (!cpu->singlestep_enabled) {
+> +            cpu_single_step(cpu, SSTEP_ENABLE);
+> +        } else {
+> +            cpu_single_step(cpu, 0);
+> +        }
+> +    }
 
-   A PCI device that provides shared-memory communication between VMs.
-   This device already exists but is limited in its current form. The
-   "v2" project updates IVSHMEM's capabilities and makes it suitable as
-   a VIRTIO transport.
+This no longer applies cleanly.
 
-   Jan Kiszka is working on this and has posted specs for review.
-
- * virtio-vhost-user
-   https://www.mail-archive.com/virtio-dev@lists.oasis-open.org/msg06429.html
-
-   A VIRTIO device that transports the vhost-user protocol. Allows
-   vhost-user device emulation to be implemented by another VM.
-
-   Nikos Dragazis is working on this with QEMU, DPDK, and VIRTIO patches
-   posted.
-
- * VFIO-over-socket
-   https://github.com/tmakatos/qemu/blob/master/docs/devel/vfio-over-socket.rst
-
-   Similar to the vhost-user protocol in spirit but for any PCI device.
-   Uses the Linux VFIO ioctl API as the protocol instead of vhost.
-
-   It doesn't have a virtio-vhost-user equivalent yet, but the same
-   approach could be applied to VFIO-over-socket too.
-
-   Thanos Makatos and John G. Johnson are working on this. The draft
-   spec is available.
-
-Let's have a call to figure out:
-
-1. What is unique about these approaches and how do they overlap?
-2. Can we focus development and code review efforts to get something
-   merged sooner?
-
-Jan and Nikos: do you have time to join on Monday, 20th of July at 15:00
-UTC?
-https://www.timeanddate.com/worldclock/fixedtime.html?iso=20200720T1500
-
-Video call URL: https://bluejeans.com/240406010
-
-It would be nice if Thanos and/or JJ could join the call too. Others
-welcome too (feel free to forward this email)!
-
-Stefan
-
---9dgjiU4MmWPVapMU
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQEzBAEBCAAdFiEEhpWov9P5fNqsNXdanKSrs4Grc8gFAl8O5z0ACgkQnKSrs4Gr
-c8hjeAf/cWBoN6BvfVBV9auavDcf7KWOyIGyAQ1Km9eixV3EALOXNevMK7Nx7pWM
-JVHpTDwQu9fafM2tryPtQFmOSYB6xddYMbXXKzuXiZyE95OAVOSUMS76Fr5X3Z9r
-pPn4TjK00P2WG/ztfjLO3HyxCpVkinWaaEAFcaFK6sIZ0U+GbbL758QfAvc9Z0Xp
-uwhk3ldruGEvNeq0iMYp1LzNurX/1vI9m+P2gkNcFxwe/xI0NtgJ0cmlZh5efCkA
-4in3ac+qs1lfM8W6MI1/XHSUv5qKvCe9scWiN4eXNuzxqmTht2ti+RyoN8cJ4wwT
-REBQPTd6KNnBTgu8URZjHU1cjKBi6w==
-=ATKX
------END PGP SIGNATURE-----
-
---9dgjiU4MmWPVapMU--
-
+--=20
+Alex Benn=C3=A9e
 
