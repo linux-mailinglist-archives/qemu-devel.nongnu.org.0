@@ -2,61 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0E682221004
-	for <lists+qemu-devel@lfdr.de>; Wed, 15 Jul 2020 16:58:15 +0200 (CEST)
-Received: from localhost ([::1]:33492 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8866D221021
+	for <lists+qemu-devel@lfdr.de>; Wed, 15 Jul 2020 17:04:07 +0200 (CEST)
+Received: from localhost ([::1]:37938 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jvirN-0003iZ-N2
-	for lists+qemu-devel@lfdr.de; Wed, 15 Jul 2020 10:58:13 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:33154)
+	id 1jvix4-0006Eg-0U
+	for lists+qemu-devel@lfdr.de; Wed, 15 Jul 2020 11:04:06 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:35056)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <no-reply@patchew.org>)
- id 1jviqG-0003Fo-Tc
- for qemu-devel@nongnu.org; Wed, 15 Jul 2020 10:57:04 -0400
-Resent-Date: Wed, 15 Jul 2020 10:57:04 -0400
-Resent-Message-Id: <E1jviqG-0003Fo-Tc@lists.gnu.org>
-Received: from sender4-of-o57.zoho.com ([136.143.188.57]:21727)
+ (Exim 4.90_1) (envelope-from <mlevitsk@redhat.com>)
+ id 1jvivG-0004qv-3G
+ for qemu-devel@nongnu.org; Wed, 15 Jul 2020 11:02:14 -0400
+Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:34877
+ helo=us-smtp-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <no-reply@patchew.org>)
- id 1jviqC-00031H-6u
- for qemu-devel@nongnu.org; Wed, 15 Jul 2020 10:57:04 -0400
-ARC-Seal: i=1; a=rsa-sha256; t=1594824995; cv=none; 
- d=zohomail.com; s=zohoarc; 
- b=MOl0W2eDXoRpuuerY56bjS8LD+5v2196g/YKQewuh5WHQyRZ4iUSSCD/ZATP3VXafRdPk0l37UE+G/FLoGLJNiYZ1gbbridh5/v10D21c992OVB87oKP/nCGr5BeGFq5tS2glYfosCTNLAyiXKM74xozK3fEOuOAbfzqJmTkBnM=
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.com;
- s=zohoarc; t=1594824995;
- h=Content-Type:Content-Transfer-Encoding:Cc:Date:From:In-Reply-To:MIME-Version:Message-ID:Reply-To:Subject:To;
- bh=aVOdD/Qk7lU+C5c0hHDinVRA0WADLneWcXMAEDCX7FU=; 
- b=RIfXPmkwAP9w3N5fV5ww3YK4wA+uYHWrh9FdISNeVlo1/7cP+NYWI23/wdbrwLfwvJnqffGs8cDUEipKjNToyYiyZ/j8rac6nGJre+481Y7mnn5BYHU5C5XdAL+9Fk+1ltUn7HHG5NHyrw0F/FWTZ/nFNybm8X1zsacCbXp5um8=
-ARC-Authentication-Results: i=1; mx.zohomail.com;
- spf=pass  smtp.mailfrom=no-reply@patchew.org;
- dmarc=pass header.from=<no-reply@patchew.org>
- header.from=<no-reply@patchew.org>
-Received: from [172.17.0.3] (23.253.156.214 [23.253.156.214]) by
- mx.zohomail.com with SMTPS id 1594824992378784.1708087183192;
- Wed, 15 Jul 2020 07:56:32 -0700 (PDT)
-Subject: Re: [PATCH-for-5.1] net/colo: Remove unused trace event
-Message-ID: <159482499077.11884.3340115804865619987@07a7f0d89f7d>
-In-Reply-To: <20200715143130.11164-1-philmd@redhat.com>
+ (Exim 4.90_1) (envelope-from <mlevitsk@redhat.com>)
+ id 1jvivD-0004YG-6z
+ for qemu-devel@nongnu.org; Wed, 15 Jul 2020 11:02:13 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1594825329;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding;
+ bh=Uj+wU0mt1sV/8iDUjmjhd8DVIOts9z0ermRz2cyLVM4=;
+ b=fE+/HjE4q3TbW6N5/TsgFZcaT7iyWWm+myJ2UTYdhOXIU78V1r2Kq/gZ+Bq5osAKM+V8PJ
+ jmWVPEKGvX9r2XpLaNBPWGymM4rVjwtItsYZ5bIa10d+XAQB7UmiiVM5nPLmCEepxMpxP1
+ vDCdpNoevYtYAd0Hpa9qB52zWo33w08=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-124-ymEWgwn-Otigy6_o9e8icw-1; Wed, 15 Jul 2020 11:02:06 -0400
+X-MC-Unique: ymEWgwn-Otigy6_o9e8icw-1
+Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
+ [10.5.11.15])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id F264F8027FB;
+ Wed, 15 Jul 2020 15:02:05 +0000 (UTC)
+Received: from starship.redhat.com (unknown [10.35.206.178])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id E7FDF710D6;
+ Wed, 15 Jul 2020 15:02:00 +0000 (UTC)
+From: Maxim Levitsky <mlevitsk@redhat.com>
+To: qemu-devel@nongnu.org
+Subject: [PATCH v3 0/7] Fix scsi devices plug/unplug races w.r.t virtio-scsi
+ iothread
+Date: Wed, 15 Jul 2020 18:01:52 +0300
+Message-Id: <20200715150159.95050-1-mlevitsk@redhat.com>
 MIME-Version: 1.0
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=mlevitsk@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
-Resent-From: 
-From: no-reply@patchew.org
-To: philmd@redhat.com
-Date: Wed, 15 Jul 2020 07:56:32 -0700 (PDT)
-X-ZohoMailClient: External
-Received-SPF: pass client-ip=136.143.188.57; envelope-from=no-reply@patchew.org;
- helo=sender4-of-o57.zoho.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/07/15 10:31:06
-X-ACL-Warn: Detected OS   = Linux 3.11 and newer [fuzzy]
-X-Spam_score_int: -18
-X-Spam_score: -1.9
-X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_NONE=-0.0001,
- RCVD_IN_MSPIKE_H3=-0.01, RCVD_IN_MSPIKE_WL=-0.01, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001, URIBL_BLOCKED=0.001 autolearn=ham autolearn_force=no
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=205.139.110.120; envelope-from=mlevitsk@redhat.com;
+ helo=us-smtp-1.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/07/15 02:37:05
+X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
+X-Spam_score_int: -40
+X-Spam_score: -4.1
+X-Spam_bar: ----
+X-Spam_report: (-4.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-1, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -69,100 +79,110 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: qemu-devel@nongnu.org
-Cc: zhangchen.fnst@cn.fujitsu.com, lizhijian@cn.fujitsu.com,
- jasowang@redhat.com, qemu-devel@nongnu.org, chen.zhang@intel.com,
- r.bolshakov@yadro.com, stefanha@redhat.com, philmd@redhat.com
+Cc: Fam Zheng <fam@euphon.net>,
+ =?UTF-8?q?Daniel=20P=2E=20Berrang=C3=A9?= <berrange@redhat.com>,
+ Eduardo Habkost <ehabkost@redhat.com>, "Michael S. Tsirkin" <mst@redhat.com>,
+ Maxim Levitsky <mlevitsk@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-UGF0Y2hldyBVUkw6IGh0dHBzOi8vcGF0Y2hldy5vcmcvUUVNVS8yMDIwMDcxNTE0MzEzMC4xMTE2
-NC0xLXBoaWxtZEByZWRoYXQuY29tLwoKCgpIaSwKClRoaXMgc2VyaWVzIGZhaWxlZCB0aGUgZG9j
-a2VyLXF1aWNrQGNlbnRvczcgYnVpbGQgdGVzdC4gUGxlYXNlIGZpbmQgdGhlIHRlc3RpbmcgY29t
-bWFuZHMgYW5kCnRoZWlyIG91dHB1dCBiZWxvdy4gSWYgeW91IGhhdmUgRG9ja2VyIGluc3RhbGxl
-ZCwgeW91IGNhbiBwcm9iYWJseSByZXByb2R1Y2UgaXQKbG9jYWxseS4KCj09PSBURVNUIFNDUklQ
-VCBCRUdJTiA9PT0KIyEvYmluL2Jhc2gKbWFrZSBkb2NrZXItaW1hZ2UtY2VudG9zNyBWPTEgTkVU
-V09SSz0xCnRpbWUgbWFrZSBkb2NrZXItdGVzdC1xdWlja0BjZW50b3M3IFNIT1dfRU5WPTEgSj0x
-NCBORVRXT1JLPTEKPT09IFRFU1QgU0NSSVBUIEVORCA9PT0KCkluIGZpbGUgaW5jbHVkZWQgZnJv
-bSAvdG1wL3FlbXUtdGVzdC9idWlsZC9uZXQvdHJhY2UuaDo2OjAsCiAgICAgICAgICAgICAgICAg
-ZnJvbSAvdG1wL3FlbXUtdGVzdC9zcmMvbmV0L2NvbG8tY29tcGFyZS5jOjE4OgovdG1wL3FlbXUt
-dGVzdC9zcmMvbmV0L2NvbG8tY29tcGFyZS5jOiBJbiBmdW5jdGlvbiAnY29sb19jb21wYXJlX3Bh
-Y2tldF9wYXlsb2FkJzoKL3RtcC9xZW11LXRlc3Qvc3JjL25ldC9jb2xvLWNvbXBhcmUuYzozMzA6
-NDA6IGVycm9yOiAnVFJBQ0VfQ09MT19DT01QQVJFX01JU0NPTVBBUkVfRU5BQkxFRCcgdW5kZWNs
-YXJlZCAoZmlyc3QgdXNlIGluIHRoaXMgZnVuY3Rpb24pCiAgICAgaWYgKHRyYWNlX2V2ZW50X2dl
-dF9zdGF0ZV9iYWNrZW5kcyhUUkFDRV9DT0xPX0NPTVBBUkVfTUlTQ09NUEFSRSkpIHsKICAgICAg
-ICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgIF4KL3RtcC9xZW11LXRlc3Qvc3JjL3Ry
-YWNlL2NvbnRyb2wuaDoxMjA6Nzogbm90ZTogaW4gZGVmaW5pdGlvbiBvZiBtYWNybyAndHJhY2Vf
-ZXZlbnRfZ2V0X3N0YXRlX2JhY2tlbmRzJwotLS0KL3RtcC9xZW11LXRlc3Qvc3JjL3RyYWNlL2Nv
-bnRyb2wuaDoxMjA6Nzogbm90ZTogaW4gZGVmaW5pdGlvbiBvZiBtYWNybyAndHJhY2VfZXZlbnRf
-Z2V0X3N0YXRlX2JhY2tlbmRzJwogICAgICgoaWQgIyNfRU5BQkxFRCkgJiYgaWQgIyNfQkFDS0VO
-RF9EU1RBVEUoKSkKICAgICAgIF4KL3RtcC9xZW11LXRlc3Qvc3JjL25ldC9jb2xvLWNvbXBhcmUu
-YzozMzA6NTogZXJyb3I6IGltcGxpY2l0IGRlY2xhcmF0aW9uIG9mIGZ1bmN0aW9uICdUUkFDRV9D
-T0xPX0NPTVBBUkVfTUlTQ09NUEFSRV9CQUNLRU5EX0RTVEFURScgWy1XZXJyb3I9aW1wbGljaXQt
-ZnVuY3Rpb24tZGVjbGFyYXRpb25dCiAgICAgaWYgKHRyYWNlX2V2ZW50X2dldF9zdGF0ZV9iYWNr
-ZW5kcyhUUkFDRV9DT0xPX0NPTVBBUkVfTUlTQ09NUEFSRSkpIHsKICAgICBeCi90bXAvcWVtdS10
-ZXN0L3NyYy9uZXQvY29sby1jb21wYXJlLmM6MzMwOjU6IGVycm9yOiBuZXN0ZWQgZXh0ZXJuIGRl
-Y2xhcmF0aW9uIG9mICdUUkFDRV9DT0xPX0NPTVBBUkVfTUlTQ09NUEFSRV9CQUNLRU5EX0RTVEFU
-RScgWy1XZXJyb3I9bmVzdGVkLWV4dGVybnNdCkluIGZpbGUgaW5jbHVkZWQgZnJvbSAvdG1wL3Fl
-bXUtdGVzdC9idWlsZC9uZXQvdHJhY2UuaDo2OjAsCiAgICAgICAgICAgICAgICAgZnJvbSAvdG1w
-L3FlbXUtdGVzdC9zcmMvbmV0L2NvbG8tY29tcGFyZS5jOjE4OgovdG1wL3FlbXUtdGVzdC9zcmMv
-bmV0L2NvbG8tY29tcGFyZS5jOiBJbiBmdW5jdGlvbiAnY29sb19jb21wYXJlX3RjcCc6Ci90bXAv
-cWVtdS10ZXN0L3NyYy9uZXQvY29sby1jb21wYXJlLmM6NDk1OjQ0OiBlcnJvcjogJ1RSQUNFX0NP
-TE9fQ09NUEFSRV9NSVNDT01QQVJFX0VOQUJMRUQnIHVuZGVjbGFyZWQgKGZpcnN0IHVzZSBpbiB0
-aGlzIGZ1bmN0aW9uKQogICAgICAgICBpZiAodHJhY2VfZXZlbnRfZ2V0X3N0YXRlX2JhY2tlbmRz
-KFRSQUNFX0NPTE9fQ09NUEFSRV9NSVNDT01QQVJFKSkgewogICAgICAgICAgICAgICAgICAgICAg
-ICAgICAgICAgICAgICAgICAgICAgIF4KL3RtcC9xZW11LXRlc3Qvc3JjL3RyYWNlL2NvbnRyb2wu
-aDoxMjA6Nzogbm90ZTogaW4gZGVmaW5pdGlvbiBvZiBtYWNybyAndHJhY2VfZXZlbnRfZ2V0X3N0
-YXRlX2JhY2tlbmRzJwogICAgICgoaWQgIyNfRU5BQkxFRCkgJiYgaWQgIyNfQkFDS0VORF9EU1RB
-VEUoKSkKICAgICAgIF4KL3RtcC9xZW11LXRlc3Qvc3JjL25ldC9jb2xvLWNvbXBhcmUuYzogSW4g
-ZnVuY3Rpb24gJ2NvbG9fcGFja2V0X2NvbXBhcmVfdWRwJzoKL3RtcC9xZW11LXRlc3Qvc3JjL25l
-dC9jb2xvLWNvbXBhcmUuYzo1MzY6NDQ6IGVycm9yOiAnVFJBQ0VfQ09MT19DT01QQVJFX01JU0NP
-TVBBUkVfRU5BQkxFRCcgdW5kZWNsYXJlZCAoZmlyc3QgdXNlIGluIHRoaXMgZnVuY3Rpb24pCiAg
-ICAgICAgIGlmICh0cmFjZV9ldmVudF9nZXRfc3RhdGVfYmFja2VuZHMoVFJBQ0VfQ09MT19DT01Q
-QVJFX01JU0NPTVBBUkUpKSB7CiAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAg
-ICAgICAgXgovdG1wL3FlbXUtdGVzdC9zcmMvdHJhY2UvY29udHJvbC5oOjEyMDo3OiBub3RlOiBp
-biBkZWZpbml0aW9uIG9mIG1hY3JvICd0cmFjZV9ldmVudF9nZXRfc3RhdGVfYmFja2VuZHMnCiAg
-ICAgKChpZCAjI19FTkFCTEVEKSAmJiBpZCAjI19CQUNLRU5EX0RTVEFURSgpKQogICAgICAgXgov
-dG1wL3FlbXUtdGVzdC9zcmMvbmV0L2NvbG8tY29tcGFyZS5jOiBJbiBmdW5jdGlvbiAnY29sb19w
-YWNrZXRfY29tcGFyZV9pY21wJzoKL3RtcC9xZW11LXRlc3Qvc3JjL25ldC9jb2xvLWNvbXBhcmUu
-Yzo1Nzk6NDQ6IGVycm9yOiAnVFJBQ0VfQ09MT19DT01QQVJFX01JU0NPTVBBUkVfRU5BQkxFRCcg
-dW5kZWNsYXJlZCAoZmlyc3QgdXNlIGluIHRoaXMgZnVuY3Rpb24pCiAgICAgICAgIGlmICh0cmFj
-ZV9ldmVudF9nZXRfc3RhdGVfYmFja2VuZHMoVFJBQ0VfQ09MT19DT01QQVJFX01JU0NPTVBBUkUp
-KSB7CiAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgXgovdG1wL3Fl
-bXUtdGVzdC9zcmMvdHJhY2UvY29udHJvbC5oOjEyMDo3OiBub3RlOiBpbiBkZWZpbml0aW9uIG9m
-IG1hY3JvICd0cmFjZV9ldmVudF9nZXRfc3RhdGVfYmFja2VuZHMnCiAgICAgKChpZCAjI19FTkFC
-TEVEKSAmJiBpZCAjI19CQUNLRU5EX0RTVEFURSgpKQogICAgICAgXgovdG1wL3FlbXUtdGVzdC9z
-cmMvbmV0L2NvbG8tY29tcGFyZS5jOiBJbiBmdW5jdGlvbiAnY29sb19wYWNrZXRfY29tcGFyZV9v
-dGhlcic6Ci90bXAvcWVtdS10ZXN0L3NyYy9uZXQvY29sby1jb21wYXJlLmM6NjAwOjQwOiBlcnJv
-cjogJ1RSQUNFX0NPTE9fQ09NUEFSRV9NSVNDT01QQVJFX0VOQUJMRUQnIHVuZGVjbGFyZWQgKGZp
-cnN0IHVzZSBpbiB0aGlzIGZ1bmN0aW9uKQogICAgIGlmICh0cmFjZV9ldmVudF9nZXRfc3RhdGVf
-YmFja2VuZHMoVFJBQ0VfQ09MT19DT01QQVJFX01JU0NPTVBBUkUpKSB7CiAgICAgICAgICAgICAg
-ICAgICAgICAgICAgICAgICAgICAgICAgICBeCi90bXAvcWVtdS10ZXN0L3NyYy90cmFjZS9jb250
-cm9sLmg6MTIwOjc6IG5vdGU6IGluIGRlZmluaXRpb24gb2YgbWFjcm8gJ3RyYWNlX2V2ZW50X2dl
-dF9zdGF0ZV9iYWNrZW5kcycKICAgICAoKGlkICMjX0VOQUJMRUQpICYmIGlkICMjX0JBQ0tFTkRf
-RFNUQVRFKCkpCiAgICAgICBeCmNjMTogYWxsIHdhcm5pbmdzIGJlaW5nIHRyZWF0ZWQgYXMgZXJy
-b3JzCm1ha2U6ICoqKiBbbmV0L2NvbG8tY29tcGFyZS5vXSBFcnJvciAxCm1ha2U6ICoqKiBXYWl0
-aW5nIGZvciB1bmZpbmlzaGVkIGpvYnMuLi4uClRyYWNlYmFjayAobW9zdCByZWNlbnQgY2FsbCBs
-YXN0KToKICBGaWxlICIuL3Rlc3RzL2RvY2tlci9kb2NrZXIucHkiLCBsaW5lIDcwMiwgaW4gPG1v
-ZHVsZT4KLS0tCiAgICByYWlzZSBDYWxsZWRQcm9jZXNzRXJyb3IocmV0Y29kZSwgY21kKQpzdWJw
-cm9jZXNzLkNhbGxlZFByb2Nlc3NFcnJvcjogQ29tbWFuZCAnWydzdWRvJywgJy1uJywgJ2RvY2tl
-cicsICdydW4nLCAnLS1sYWJlbCcsICdjb20ucWVtdS5pbnN0YW5jZS51dWlkPWIzNjNjNTY2YzIx
-MjQ2M2Q4OWZjNmJjNDdlZjYwY2Y5JywgJy11JywgJzEwMDEnLCAnLS1zZWN1cml0eS1vcHQnLCAn
-c2VjY29tcD11bmNvbmZpbmVkJywgJy0tcm0nLCAnLWUnLCAnVEFSR0VUX0xJU1Q9JywgJy1lJywg
-J0VYVFJBX0NPTkZJR1VSRV9PUFRTPScsICctZScsICdWPScsICctZScsICdKPTE0JywgJy1lJywg
-J0RFQlVHPScsICctZScsICdTSE9XX0VOVj0xJywgJy1lJywgJ0NDQUNIRV9ESVI9L3Zhci90bXAv
-Y2NhY2hlJywgJy12JywgJy9ob21lL3BhdGNoZXcvLmNhY2hlL3FlbXUtZG9ja2VyLWNjYWNoZTov
-dmFyL3RtcC9jY2FjaGU6eicsICctdicsICcvdmFyL3RtcC9wYXRjaGV3LXRlc3Rlci10bXAtNXB5
-ZmwwX3cvc3JjL2RvY2tlci1zcmMuMjAyMC0wNy0xNS0xMC41My4zMi4xMDc2MTovdmFyL3RtcC9x
-ZW11Onoscm8nLCAncWVtdS9jZW50b3M3JywgJy92YXIvdG1wL3FlbXUvcnVuJywgJ3Rlc3QtcXVp
-Y2snXScgcmV0dXJuZWQgbm9uLXplcm8gZXhpdCBzdGF0dXMgMi4KZmlsdGVyPS0tZmlsdGVyPWxh
-YmVsPWNvbS5xZW11Lmluc3RhbmNlLnV1aWQ9YjM2M2M1NjZjMjEyNDYzZDg5ZmM2YmM0N2VmNjBj
-ZjkKbWFrZVsxXTogKioqIFtkb2NrZXItcnVuXSBFcnJvciAxCm1ha2VbMV06IExlYXZpbmcgZGly
-ZWN0b3J5IGAvdmFyL3RtcC9wYXRjaGV3LXRlc3Rlci10bXAtNXB5ZmwwX3cvc3JjJwptYWtlOiAq
-KiogW2RvY2tlci1ydW4tdGVzdC1xdWlja0BjZW50b3M3XSBFcnJvciAyCgpyZWFsICAgIDJtNTku
-Njkycwp1c2VyICAgIDBtNy44ODlzCgoKVGhlIGZ1bGwgbG9nIGlzIGF2YWlsYWJsZSBhdApodHRw
-Oi8vcGF0Y2hldy5vcmcvbG9ncy8yMDIwMDcxNTE0MzEzMC4xMTE2NC0xLXBoaWxtZEByZWRoYXQu
-Y29tL3Rlc3RpbmcuZG9ja2VyLXF1aWNrQGNlbnRvczcvP3R5cGU9bWVzc2FnZS4KLS0tCkVtYWls
-IGdlbmVyYXRlZCBhdXRvbWF0aWNhbGx5IGJ5IFBhdGNoZXcgW2h0dHBzOi8vcGF0Y2hldy5vcmcv
-XS4KUGxlYXNlIHNlbmQgeW91ciBmZWVkYmFjayB0byBwYXRjaGV3LWRldmVsQHJlZGhhdC5jb20=
+Hi!=0D
+=0D
+This is a patch series that is a result of my discussion with Paulo on=0D
+how to correctly fix the root cause of the BZ #1812399.=0D
+=0D
+The root cause of this bug is the fact that IO thread is running mostly=0D
+unlocked versus main thread on which device hotplug is done.=0D
+=0D
+qdev_device_add first creates the device object, then places it on the bus,=
+=0D
+and only then realizes it.=0D
+=0D
+However some drivers and currently only virtio-scsi enumerate its child bus=
+=0D
+devices on each request that is received from the guest and that can happen=
+ on the IO=0D
+thread.=0D
+=0D
+Thus we have a window when new device is on the bus but not realized and ca=
+n be accessed=0D
+by the virtio-scsi driver in that state.=0D
+=0D
+Fix that by doing two things:=0D
+=0D
+1. Add partial RCU protection to the list of a bus's child devices.=0D
+This allows the scsi IO thread to safely enumerate the child devices=0D
+while it races with the hotplug placing the device on the bus.=0D
+=0D
+2. Make the virtio-scsi driver check .realized property of the scsi device=
+=0D
+and avoid touching the device if it isn't=0D
+=0D
+Note that in the particular bug report the issue wasn't a race but rather d=
+ue=0D
+to combination of things, the .realize code in the middle managed to trigge=
+r IO on the virtqueue=0D
+which caused the virtio-scsi driver to access the half realized device. How=
+ever=0D
+since this can happen as well with real IO thread, this patch series was do=
+ne,=0D
+which fixes this as well.=0D
+=0D
+Changes from V1:=0D
+  * Patch 2 is new, as suggested by Stefan, added drain_call_rcu() to fix t=
+he failing unit test,=0D
+    make check pass now=0D
+=0D
+  * Patches 6,7 are new as well: I added scsi_device_get as suggested by St=
+efan as well, although=0D
+    this is more a refactoring that anything else as it doesn't solve=0D
+    an existing race.=0D
+=0D
+  * Addressed most of the review feedback from V1=0D
+    - still need to decide if we need QTAILQ_FOREACH_WITH_RCU_READ_LOCK=0D
+=0D
+Changes from V2:=0D
+=0D
+  * No longer RFC=0D
+  * Addressed most of the feedback from Stefan=0D
+  * Fixed reference count leak in patch 7 when device is about to be unreal=
+ized=0D
+  * Better testing=0D
+=0D
+This series was tested by adding a virtio-scsi drive with iothread,=0D
+then running fio stress job in the guest in a loop, and then adding/removin=
+g=0D
+the scsi drive on the host in the loop.=0D
+This test was failing usually on 1st iteration withouth this patch series,=
+=0D
+and now it seems to work smoothly.=0D
+=0D
+Best regards,=0D
+=09Maxim Levitsky=0D
+=0D
+Maxim Levitsky (7):=0D
+  scsi/scsi_bus: switch search direction in scsi_device_find=0D
+  Implement drain_call_rcu and use it in hmp_device_del=0D
+  device-core: use RCU for list of childs of a bus=0D
+  device-core: use atomic_set on .realized property=0D
+  virtio-scsi: don't touch scsi devices that are not yet realized or=0D
+    about to be un-realized=0D
+  scsi: Add scsi_device_get=0D
+  virtio-scsi: use scsi_device_get=0D
+=0D
+ hw/core/bus.c          | 28 +++++++++++++--------=0D
+ hw/core/qdev.c         | 56 +++++++++++++++++++++++++++++++-----------=0D
+ hw/scsi/scsi-bus.c     | 48 +++++++++++++++++++++++++++++++-----=0D
+ hw/scsi/virtio-scsi.c  | 47 ++++++++++++++++++++++++++++-------=0D
+ include/hw/qdev-core.h | 11 +++++++++=0D
+ include/hw/scsi/scsi.h |  2 ++=0D
+ include/qemu/rcu.h     |  1 +=0D
+ qdev-monitor.c         | 22 +++++++++++++++++=0D
+ util/rcu.c             | 55 +++++++++++++++++++++++++++++++++++++++++=0D
+ 9 files changed, 230 insertions(+), 40 deletions(-)=0D
+=0D
+--=20=0D
+2.26.2=0D
+=0D
+
 
