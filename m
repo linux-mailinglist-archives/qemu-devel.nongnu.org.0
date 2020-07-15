@@ -2,60 +2,62 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 53837220E7F
-	for <lists+qemu-devel@lfdr.de>; Wed, 15 Jul 2020 15:54:55 +0200 (CEST)
-Received: from localhost ([::1]:58138 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3F2A8220E8B
+	for <lists+qemu-devel@lfdr.de>; Wed, 15 Jul 2020 15:56:23 +0200 (CEST)
+Received: from localhost ([::1]:37982 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jvhs6-0004CY-Ba
-	for lists+qemu-devel@lfdr.de; Wed, 15 Jul 2020 09:54:54 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:40562)
+	id 1jvhtW-0007Z0-74
+	for lists+qemu-devel@lfdr.de; Wed, 15 Jul 2020 09:56:22 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:40584)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <jasowang@redhat.com>)
- id 1jvhqr-0002nx-T1
- for qemu-devel@nongnu.org; Wed, 15 Jul 2020 09:53:37 -0400
-Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:45682
+ id 1jvhqt-0002pV-AJ
+ for qemu-devel@nongnu.org; Wed, 15 Jul 2020 09:53:39 -0400
+Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:46500
  helo=us-smtp-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
  (Exim 4.90_1) (envelope-from <jasowang@redhat.com>)
- id 1jvhqp-0005Ju-IF
- for qemu-devel@nongnu.org; Wed, 15 Jul 2020 09:53:37 -0400
+ id 1jvhqr-0005KF-Ni
+ for qemu-devel@nongnu.org; Wed, 15 Jul 2020 09:53:39 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1594821214;
+ s=mimecast20190719; t=1594821217;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:content-type:content-type:in-reply-to:in-reply-to:
- references:references; bh=w85ALhbZJIWqBZs4TodH+Ktr0CFpkx0wPRvmrKgX/54=;
- b=Av7d6JyTL7B+SSBqGftDVotZ9Rs6RPzvuoPX1zio8V1LbrCG+EtvpCX/g/lMmsVE4ss8eH
- oQkDTVDnsK41MtZadgUxeNjie7JJ6q3pTKdAWQ8qLuZNaCQXyc0wOoDjS3hpffpN+t6Z+H
- dlNMJmWrW+ktundD3Ew3z6lRpr911oU=
+ references:references; bh=RNCgE96fDYOzx5n6sI6hbRMfVSc2P45tRV6eEOJvkhE=;
+ b=dR+7hIngeDyJ6Ob8K9+i269ZdFeOejO7GWuYmpWy9AmJrNfsVoPE2B9MKbayyAE178j4Lc
+ sB93jkmrto78zKssHGBbWz5oe/IwurLifmB9qTKejQ5u2IdLIsSS70SmmA5TFq+x1IyFc9
+ /zLfl8vmUCy7/jUqjy/mYRwRq+k5SfQ=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-507-mN0sqVA3PWavkmrTMDebzA-1; Wed, 15 Jul 2020 09:53:32 -0400
-X-MC-Unique: mN0sqVA3PWavkmrTMDebzA-1
+ us-mta-128-sKqTKsxuPiKcrNTIxeA6tw-1; Wed, 15 Jul 2020 09:53:34 -0400
+X-MC-Unique: sKqTKsxuPiKcrNTIxeA6tw-1
 Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
  [10.5.11.16])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 81650E91C;
- Wed, 15 Jul 2020 13:53:31 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id C8A4518C63D2;
+ Wed, 15 Jul 2020 13:53:33 +0000 (UTC)
 Received: from jason-ThinkPad-T430s.redhat.com (ovpn-12-28.pek2.redhat.com
  [10.72.12.28])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 8B1FB5C57D;
- Wed, 15 Jul 2020 13:53:25 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 0FE855C57D;
+ Wed, 15 Jul 2020 13:53:31 +0000 (UTC)
 From: Jason Wang <jasowang@redhat.com>
 To: peter.maydell@linaro.org
-Subject: [PULL 1/7] virtio-net: fix removal of failover device
-Date: Wed, 15 Jul 2020 21:53:15 +0800
-Message-Id: <1594821201-3708-2-git-send-email-jasowang@redhat.com>
+Subject: [PULL 2/7] hw/net: Added CSO for IPv6
+Date: Wed, 15 Jul 2020 21:53:16 +0800
+Message-Id: <1594821201-3708-3-git-send-email-jasowang@redhat.com>
 In-Reply-To: <1594821201-3708-1-git-send-email-jasowang@redhat.com>
 References: <1594821201-3708-1-git-send-email-jasowang@redhat.com>
 X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=jasowang@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=US-ASCII
-Received-SPF: pass client-ip=207.211.31.120; envelope-from=jasowang@redhat.com;
+Received-SPF: pass client-ip=205.139.110.120; envelope-from=jasowang@redhat.com;
  helo=us-smtp-1.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/07/15 05:07:28
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/07/15 02:37:05
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
 X-Spam_score_int: -40
 X-Spam_score: -4.1
@@ -76,49 +78,58 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Jason Wang <jasowang@redhat.com>, "Michael S. Tsirkin" <mst@redhat.com>,
- qemu-devel@nongnu.org, Juan Quintela <quintela@redhat.com>
+Cc: Jason Wang <jasowang@redhat.com>, Andrew <andrew@daynix.com>,
+ qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Juan Quintela <quintela@redhat.com>
+From: Andrew <andrew@daynix.com>
 
-If you have a networking device and its virtio failover device, and
-you remove them in this order:
-- virtio device
-- the real device
+Added fix for checksum offload for IPv6 if a backend doesn't
+have a virtual header.
+This patch is a part of IPv6 fragmentation.
 
-You get qemu crash.
-See bugzilla: https://bugzilla.redhat.com/show_bug.cgi?id=1820120
-
-Bug exist on qemu 4.2 and 5.0.
-But in 5.0 don't shows because commit
-77b06bba62034a87cc61a9c8de1309ae3e527d97
-
-somehow papers over it.
-
-CC: Jason Wang <jasowang@redhat.com>
-CC: Michael S. Tsirkin <mst@redhat.com>
-Reviewed-by: Michael S. Tsirkin <mst@redhat.com>
-Acked-by: Laurent Vivier <lvivier@redhat.com>
-Signed-off-by: Juan Quintela <quintela@redhat.com>
+Signed-off-by: Andrew Melnychenko <andrew@daynix.com>
 Signed-off-by: Jason Wang <jasowang@redhat.com>
 ---
- hw/net/virtio-net.c | 1 +
- 1 file changed, 1 insertion(+)
+ hw/net/net_tx_pkt.c | 15 ++++++++++++---
+ 1 file changed, 12 insertions(+), 3 deletions(-)
 
-diff --git a/hw/net/virtio-net.c b/hw/net/virtio-net.c
-index 10cc958..4895af1 100644
---- a/hw/net/virtio-net.c
-+++ b/hw/net/virtio-net.c
-@@ -3416,6 +3416,7 @@ static void virtio_net_device_unrealize(DeviceState *dev)
-     g_free(n->vlans);
+diff --git a/hw/net/net_tx_pkt.c b/hw/net/net_tx_pkt.c
+index 162f802..331c73c 100644
+--- a/hw/net/net_tx_pkt.c
++++ b/hw/net/net_tx_pkt.c
+@@ -468,8 +468,8 @@ static void net_tx_pkt_do_sw_csum(struct NetTxPkt *pkt)
+     /* num of iovec without vhdr */
+     uint32_t iov_len = pkt->payload_frags + NET_TX_PKT_PL_START_FRAG - 1;
+     uint16_t csl;
+-    struct ip_header *iphdr;
+     size_t csum_offset = pkt->virt_hdr.csum_start + pkt->virt_hdr.csum_offset;
++    uint16_t l3_proto = eth_get_l3_proto(iov, 1, iov->iov_len);
  
-     if (n->failover) {
-+        device_listener_unregister(&n->primary_listener);
-         g_free(n->primary_device_id);
-         g_free(n->standby_id);
-         qobject_unref(n->primary_device_dict);
+     /* Put zero to checksum field */
+     iov_from_buf(iov, iov_len, csum_offset, &csum, sizeof csum);
+@@ -477,9 +477,18 @@ static void net_tx_pkt_do_sw_csum(struct NetTxPkt *pkt)
+     /* Calculate L4 TCP/UDP checksum */
+     csl = pkt->payload_len;
+ 
++    csum_cntr = 0;
++    cso = 0;
+     /* add pseudo header to csum */
+-    iphdr = pkt->vec[NET_TX_PKT_L3HDR_FRAG].iov_base;
+-    csum_cntr = eth_calc_ip4_pseudo_hdr_csum(iphdr, csl, &cso);
++    if (l3_proto == ETH_P_IP) {
++        csum_cntr = eth_calc_ip4_pseudo_hdr_csum(
++                pkt->vec[NET_TX_PKT_L3HDR_FRAG].iov_base,
++                csl, &cso);
++    } else if (l3_proto == ETH_P_IPV6) {
++        csum_cntr = eth_calc_ip6_pseudo_hdr_csum(
++                pkt->vec[NET_TX_PKT_L3HDR_FRAG].iov_base,
++                csl, pkt->l4proto, &cso);
++    }
+ 
+     /* data checksum */
+     csum_cntr +=
 -- 
 2.5.0
 
