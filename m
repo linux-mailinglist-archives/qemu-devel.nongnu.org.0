@@ -2,53 +2,52 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B55BA221026
-	for <lists+qemu-devel@lfdr.de>; Wed, 15 Jul 2020 17:04:23 +0200 (CEST)
-Received: from localhost ([::1]:38598 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 668E522102E
+	for <lists+qemu-devel@lfdr.de>; Wed, 15 Jul 2020 17:07:01 +0200 (CEST)
+Received: from localhost ([::1]:46422 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jvixK-0006W1-Mq
-	for lists+qemu-devel@lfdr.de; Wed, 15 Jul 2020 11:04:22 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:35104)
+	id 1jvizr-0001nM-AN
+	for lists+qemu-devel@lfdr.de; Wed, 15 Jul 2020 11:06:59 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:35170)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <mlevitsk@redhat.com>)
- id 1jvivL-0004v2-L9
- for qemu-devel@nongnu.org; Wed, 15 Jul 2020 11:02:19 -0400
-Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:51702
+ id 1jvivQ-00052E-QX
+ for qemu-devel@nongnu.org; Wed, 15 Jul 2020 11:02:24 -0400
+Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:24164
  helo=us-smtp-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
  (Exim 4.90_1) (envelope-from <mlevitsk@redhat.com>)
- id 1jvivJ-0004a8-5D
- for qemu-devel@nongnu.org; Wed, 15 Jul 2020 11:02:19 -0400
+ id 1jvivN-0004cu-Qi
+ for qemu-devel@nongnu.org; Wed, 15 Jul 2020 11:02:24 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1594825334;
+ s=mimecast20190719; t=1594825340;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=Z2PpamRG0wqHHnFH6TPqPqum/uJ9JpSRTxMEU5HEr7w=;
- b=VUH6D0cJSk/IWjKkqafN1S7+4K8C4WmI/VvBPnnUDTZXyVpTicyoGsirSNNTX0yJiFxxye
- BFaqZa/8ZAAuVZn/uV/DTmHwpoktfFZBsyytAv1lYexji1Sdj7nDTs1sTynGH4v9WQSjki
- 8hcZ4iyt+SHaxC6MsxKH9WL6YAtuc4g=
+ bh=cqQo+2OZgxKCQyPaEbj3n8KYCTJOI/nyva2eHyIbwgQ=;
+ b=U1DBIj86skd4ICgOLYtnVP1ClukvYxSoIY0QG8k6hcKF2vH3c12xWvlBzJswzNXbKWyDCL
+ ahMF2Ppo/6mqRQIghOKP7VsrbLh6EMUcQlehbqH/QGRWmpQvghARlKFTy3f/OKUek/cFJ6
+ 0MQAI2SlBDoVwnBJoV3pYA4+EkjkvlQ=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-437-k6ksDQtTPEqYdGpiDnSf3A-1; Wed, 15 Jul 2020 11:02:12 -0400
-X-MC-Unique: k6ksDQtTPEqYdGpiDnSf3A-1
+ us-mta-288-BaY9oVgxMhS4-GaBXvkPHA-1; Wed, 15 Jul 2020 11:02:15 -0400
+X-MC-Unique: BaY9oVgxMhS4-GaBXvkPHA-1
 Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
  [10.5.11.15])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 6AC1F1005262;
- Wed, 15 Jul 2020 15:02:11 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 308C3EED22;
+ Wed, 15 Jul 2020 15:02:14 +0000 (UTC)
 Received: from starship.redhat.com (unknown [10.35.206.178])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 5EB58710BE;
- Wed, 15 Jul 2020 15:02:06 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id CC97F6E9F3;
+ Wed, 15 Jul 2020 15:02:11 +0000 (UTC)
 From: Maxim Levitsky <mlevitsk@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v3 1/7] scsi/scsi_bus: switch search direction in
- scsi_device_find
-Date: Wed, 15 Jul 2020 18:01:53 +0300
-Message-Id: <20200715150159.95050-2-mlevitsk@redhat.com>
+Subject: [PATCH v3 2/7] Implement drain_call_rcu and use it in hmp_device_del
+Date: Wed, 15 Jul 2020 18:01:54 +0300
+Message-Id: <20200715150159.95050-3-mlevitsk@redhat.com>
 In-Reply-To: <20200715150159.95050-1-mlevitsk@redhat.com>
 References: <20200715150159.95050-1-mlevitsk@redhat.com>
 MIME-Version: 1.0
@@ -57,9 +56,9 @@ X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=207.211.31.120; envelope-from=mlevitsk@redhat.com;
+Received-SPF: pass client-ip=205.139.110.120; envelope-from=mlevitsk@redhat.com;
  helo=us-smtp-1.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/07/15 05:07:28
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/07/15 02:37:05
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
 X-Spam_score_int: -40
 X-Spam_score: -4.1
@@ -83,50 +82,142 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Cc: Fam Zheng <fam@euphon.net>,
  =?UTF-8?q?Daniel=20P=2E=20Berrang=C3=A9?= <berrange@redhat.com>,
  Eduardo Habkost <ehabkost@redhat.com>, "Michael S. Tsirkin" <mst@redhat.com>,
- Maxim Levitsky <mlevitsk@redhat.com>, Stefan Hajnoczi <stefanha@redhat.com>,
- Paolo Bonzini <pbonzini@redhat.com>
+ Stefan Hajnoczi <stefanha@gmail.com>, Maxim Levitsky <mlevitsk@redhat.com>,
+ Stefan Hajnoczi <stefanha@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-This change will allow us to convert the bus children list to RCU,
-while not changing the logic of this function
+This allows to preserve the semantics of hmp_device_del,
+that the device is deleted immediatly which was changed by previos
+patch that delayed this to RCU callback
 
 Signed-off-by: Maxim Levitsky <mlevitsk@redhat.com>
+Suggested-by: Stefan Hajnoczi <stefanha@gmail.com>
 Reviewed-by: Stefan Hajnoczi <stefanha@redhat.com>
 ---
- hw/scsi/scsi-bus.c | 12 ++++++++++--
- 1 file changed, 10 insertions(+), 2 deletions(-)
+ include/qemu/rcu.h |  1 +
+ qdev-monitor.c     | 22 +++++++++++++++++++
+ util/rcu.c         | 55 ++++++++++++++++++++++++++++++++++++++++++++++
+ 3 files changed, 78 insertions(+)
 
-diff --git a/hw/scsi/scsi-bus.c b/hw/scsi/scsi-bus.c
-index df65cc2223..f8adfbc2a5 100644
---- a/hw/scsi/scsi-bus.c
-+++ b/hw/scsi/scsi-bus.c
-@@ -1572,7 +1572,7 @@ SCSIDevice *scsi_device_find(SCSIBus *bus, int channel, int id, int lun)
-     BusChild *kid;
-     SCSIDevice *target_dev = NULL;
+diff --git a/include/qemu/rcu.h b/include/qemu/rcu.h
+index 570aa603eb..0e375ebe13 100644
+--- a/include/qemu/rcu.h
++++ b/include/qemu/rcu.h
+@@ -133,6 +133,7 @@ struct rcu_head {
+ };
  
--    QTAILQ_FOREACH_REVERSE(kid, &bus->qbus.children, sibling) {
-+    QTAILQ_FOREACH(kid, &bus->qbus.children, sibling) {
-         DeviceState *qdev = kid->child;
-         SCSIDevice *dev = SCSI_DEVICE(qdev);
+ extern void call_rcu1(struct rcu_head *head, RCUCBFunc *func);
++extern void drain_call_rcu(void);
  
-@@ -1580,7 +1580,15 @@ SCSIDevice *scsi_device_find(SCSIBus *bus, int channel, int id, int lun)
-             if (dev->lun == lun) {
-                 return dev;
-             }
--            target_dev = dev;
-+
-+            /*
-+             * If we don't find exact match (channel/bus/lun),
-+             * we will return the first device which matches channel/bus
-+             */
-+
-+            if (!target_dev) {
-+                target_dev = dev;
-+            }
-         }
+ /* The operands of the minus operator must have the same type,
+  * which must be the one that we specify in the cast.
+diff --git a/qdev-monitor.c b/qdev-monitor.c
+index 71ebce19df..a889fbc509 100644
+--- a/qdev-monitor.c
++++ b/qdev-monitor.c
+@@ -803,6 +803,18 @@ void qmp_device_add(QDict *qdict, QObject **ret_data, Error **errp)
+         return;
      }
-     return target_dev;
+     dev = qdev_device_add(opts, errp);
++
++    /*
++     * Drain all pending RCU callbacks. This is done because
++     * some bus related operations can delay a device removal
++     * (in this case this can happen if device is added and then
++     * removed due to a configuration error)
++     * to a RCU callback, but user might expect that this interface
++     * will finish its job completely once qmp command returns result
++     * to the user
++     */
++    drain_call_rcu();
++
+     if (!dev) {
+         qemu_opts_del(opts);
+         return;
+@@ -894,6 +906,16 @@ void qmp_device_del(const char *id, Error **errp)
+         }
+ 
+         qdev_unplug(dev, errp);
++
++        /*
++         * Drain all pending RCU callbacks. This is done because
++         * some bus related operations can delay a device removal
++         * to a RCU callback, but user might expect that this interface
++         * will finish its job completely once qmp command returns result
++         * to the user
++         */
++
++        drain_call_rcu();
+     }
+ }
+ 
+diff --git a/util/rcu.c b/util/rcu.c
+index 60a37f72c3..c4fefa9333 100644
+--- a/util/rcu.c
++++ b/util/rcu.c
+@@ -293,6 +293,61 @@ void call_rcu1(struct rcu_head *node, void (*func)(struct rcu_head *node))
+     qemu_event_set(&rcu_call_ready_event);
+ }
+ 
++
++struct rcu_drain {
++    struct rcu_head rcu;
++    QemuEvent drain_complete_event;
++};
++
++static void drain_rcu_callback(struct rcu_head *node)
++{
++    struct rcu_drain *event = (struct rcu_drain *)node;
++    qemu_event_set(&event->drain_complete_event);
++}
++
++/*
++ * This function ensures that all pending RCU callbacks
++ * on the current thread are done executing
++
++ * drops big qemu lock during the wait to allow RCU thread
++ * to process the callbacks
++ *
++ */
++
++void drain_call_rcu(void)
++{
++    struct rcu_drain rcu_drain;
++    bool locked = qemu_mutex_iothread_locked();
++
++    memset(&rcu_drain, 0, sizeof(struct rcu_drain));
++    qemu_event_init(&rcu_drain.drain_complete_event, false);
++
++    if (locked) {
++        qemu_mutex_unlock_iothread();
++    }
++
++
++    /*
++     * RCU callbacks are invoked in the same order as in which they
++     * are registered, thus we can be sure that when 'drain_rcu_callback'
++     * is called, all RCU callbacks that were registered on this thread
++     * prior to calling this function are completed.
++     *
++     * Note that since we have only one global queue of the RCU callbacks,
++     * we also end up waiting for most of RCU callbacks that were registered
++     * on the other threads, but this is a side effect that shoudn't be
++     * assumed.
++     */
++
++    call_rcu1(&rcu_drain.rcu, drain_rcu_callback);
++    qemu_event_wait(&rcu_drain.drain_complete_event);
++
++    if (locked) {
++        qemu_mutex_lock_iothread();
++    }
++
++}
++
+ void rcu_register_thread(void)
+ {
+     assert(rcu_reader.ctr == 0);
 -- 
 2.26.2
 
