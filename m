@@ -2,53 +2,54 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A9989220ED7
-	for <lists+qemu-devel@lfdr.de>; Wed, 15 Jul 2020 16:08:24 +0200 (CEST)
-Received: from localhost ([::1]:37352 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id DCA31220EBB
+	for <lists+qemu-devel@lfdr.de>; Wed, 15 Jul 2020 16:06:40 +0200 (CEST)
+Received: from localhost ([::1]:60300 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jvi59-0003Kd-Nf
-	for lists+qemu-devel@lfdr.de; Wed, 15 Jul 2020 10:08:23 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:43908)
+	id 1jvi3T-00014U-UY
+	for lists+qemu-devel@lfdr.de; Wed, 15 Jul 2020 10:06:39 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:43950)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1jvi1i-0007Mx-Ud
- for qemu-devel@nongnu.org; Wed, 15 Jul 2020 10:04:50 -0400
-Received: from us-smtp-2.mimecast.com ([207.211.31.81]:22526
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1jvi1k-0007Oz-1K
+ for qemu-devel@nongnu.org; Wed, 15 Jul 2020 10:04:52 -0400
+Received: from us-smtp-1.mimecast.com ([207.211.31.81]:53416
  helo=us-smtp-delivery-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1jvi1g-0007Ir-St
- for qemu-devel@nongnu.org; Wed, 15 Jul 2020 10:04:50 -0400
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1jvi1h-0007JF-NX
+ for qemu-devel@nongnu.org; Wed, 15 Jul 2020 10:04:51 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
  s=mimecast20190719; t=1594821888;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=1Hg+tUVj5NWbsWGvRXcV+9lO/YZJmwxp44+OhFTOeUw=;
- b=HVEOKilIp+GrQWH/mbC/n7aQ14Ayr3q7JuP97rCueZ5N6Dce6hg2Ftql3VF8H9JmIA9my8
- YB4cas+Fq9Bgyw3YieQ93EKJlh5CchYJMS9qqSZEGZMGG8Vt5sy7LU6shvTXx//wcOq3+h
- jw61dLf/hgFR7YLnxVBtvwg/FUeyxFM=
+ bh=AkBlyp40DiIM7TNyjoB2z5dsCGgUHKGkbokmCXgV6lk=;
+ b=fPaN07xLwRJtlwtZI2esQOj7uwYM0SPXDfC/uXiMTPpZ1xoCklfl6ZP/RErfk4dEqyda+S
+ cghH6lyUTLuHdvBsnjNMNiUt8DlFLLIlLMBzLECTmUq5yJfFsJKU4L6sQQ5OYv3sw7xI9h
+ hKb964MOdVPArAfMkC0z8sIrmwD24tU=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-397-Sn6r-kSvPbiaIPJQ2QnwIQ-1; Wed, 15 Jul 2020 10:04:46 -0400
-X-MC-Unique: Sn6r-kSvPbiaIPJQ2QnwIQ-1
+ us-mta-447-M1RE-x-FPd2E0MSC6IETBw-1; Wed, 15 Jul 2020 10:04:44 -0400
+X-MC-Unique: M1RE-x-FPd2E0MSC6IETBw-1
 Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
  [10.5.11.13])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id DD944102C7EE;
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id DD5EB18C63C6;
  Wed, 15 Jul 2020 14:04:42 +0000 (UTC)
 Received: from blackfin.pond.sub.org (ovpn-112-143.ams2.redhat.com
  [10.36.112.143])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 2E7C079CE4;
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 3E3E479D00;
  Wed, 15 Jul 2020 14:04:42 +0000 (UTC)
 Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
- id A66D511385E0; Wed, 15 Jul 2020 16:04:40 +0200 (CEST)
+ id ABBD4113860C; Wed, 15 Jul 2020 16:04:40 +0200 (CEST)
 From: Markus Armbruster <armbru@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH for-5.1 1/2] msf2: Unbreak device-list-properties for "msf-soc"
-Date: Wed, 15 Jul 2020 16:04:39 +0200
-Message-Id: <20200715140440.3540942-2-armbru@redhat.com>
+Subject: [PATCH for-5.1 2/2] hw: Mark nd_table[] misuse in realize methods
+ FIXME
+Date: Wed, 15 Jul 2020 16:04:40 +0200
+Message-Id: <20200715140440.3540942-3-armbru@redhat.com>
 In-Reply-To: <20200715140440.3540942-1-armbru@redhat.com>
 References: <20200715140440.3540942-1-armbru@redhat.com>
 MIME-Version: 1.0
@@ -88,60 +89,81 @@ Cc: peter.maydell@linaro.org, thuth@redhat.com, qemu-riscv@nongnu.org,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Watch this:
+nd_table[] contains NIC configuration for boards to pick up.  Device
+code has no business looking there.  Several devices do it anyway.
+Two of them already have a suitable FIXME comment: "allwinner-a10" and
+"msf2-soc".  Copy it to the others: "allwinner-h3", "xlnx-versal",
+"xlnx,zynqmp", "sparc32-ledma", "riscv.sifive.u.soc".
 
-    $ qemu-system-aarch64 -M ast2600-evb -S -display none -qmp stdio
-    {"QMP": {"version": {"qemu": {"micro": 50, "minor": 0, "major": 5}, "package": "v5.0.0-2464-g3a9163af4e"}, "capabilities": ["oob"]}}
-    {"execute": "qmp_capabilities"}
-    {"return": {}}
-    {"execute": "device-list-properties", "arguments": {"typename": "msf2-soc"}}
-    Unsupported NIC model: ftgmac100
-    armbru@dusky:~/work/images$ echo $?
-    1
-
-This is what breaks "make check SPEED=slow".
-
-Root cause is m2sxxx_soc_initfn()'s messing with nd_table[] via
-qemu_check_nic_model().  That's wrong.
-
-We fixed the exact same bug for device "allwinner-a10" in commit
-8aabc5437b "hw/arm/allwinner-a10: Do not use nd_table in instance_init
-function".  Fix this instance the same way: move the offending code to
-m2sxxx_soc_realize(), where it's less wrong, and add a FIXME comment.
-
-Fixes: 05b7374a58cd18aa3516e33513808896d0ac9b7b
 Signed-off-by: Markus Armbruster <armbru@redhat.com>
 ---
- hw/arm/msf2-soc.c | 9 +++++----
- 1 file changed, 5 insertions(+), 4 deletions(-)
+ hw/arm/allwinner-h3.c | 1 +
+ hw/arm/xlnx-versal.c  | 1 +
+ hw/arm/xlnx-zynqmp.c  | 1 +
+ hw/dma/sparc32_dma.c  | 1 +
+ hw/riscv/sifive_u.c   | 1 +
+ 5 files changed, 5 insertions(+)
 
-diff --git a/hw/arm/msf2-soc.c b/hw/arm/msf2-soc.c
-index 16bb7c9916..33ea7df342 100644
---- a/hw/arm/msf2-soc.c
-+++ b/hw/arm/msf2-soc.c
-@@ -82,10 +82,6 @@ static void m2sxxx_soc_initfn(Object *obj)
-     }
+diff --git a/hw/arm/allwinner-h3.c b/hw/arm/allwinner-h3.c
+index 8e09468e86..ff92ded82c 100644
+--- a/hw/arm/allwinner-h3.c
++++ b/hw/arm/allwinner-h3.c
+@@ -358,6 +358,7 @@ static void allwinner_h3_realize(DeviceState *dev, Error **errp)
+                               "sd-bus");
  
-     object_initialize_child(obj, "emac", &s->emac, TYPE_MSS_EMAC);
--    if (nd_table[0].used) {
--        qemu_check_nic_model(&nd_table[0], TYPE_MSS_EMAC);
--        qdev_set_nic_properties(DEVICE(&s->emac), &nd_table[0]);
--    }
- }
+     /* EMAC */
++    /* FIXME use qdev NIC properties instead of nd_table[] */
+     if (nd_table[0].used) {
+         qemu_check_nic_model(&nd_table[0], TYPE_AW_SUN8I_EMAC);
+         qdev_set_nic_properties(DEVICE(&s->emac), &nd_table[0]);
+diff --git a/hw/arm/xlnx-versal.c b/hw/arm/xlnx-versal.c
+index ead038b971..e3aa4bd1e5 100644
+--- a/hw/arm/xlnx-versal.c
++++ b/hw/arm/xlnx-versal.c
+@@ -160,6 +160,7 @@ static void versal_create_gems(Versal *s, qemu_irq *pic)
+         object_initialize_child(OBJECT(s), name, &s->lpd.iou.gem[i],
+                                 TYPE_CADENCE_GEM);
+         dev = DEVICE(&s->lpd.iou.gem[i]);
++        /* FIXME use qdev NIC properties instead of nd_table[] */
+         if (nd->used) {
+             qemu_check_nic_model(nd, "cadence_gem");
+             qdev_set_nic_properties(dev, nd);
+diff --git a/hw/arm/xlnx-zynqmp.c b/hw/arm/xlnx-zynqmp.c
+index 772cfa3771..5855e5d5bf 100644
+--- a/hw/arm/xlnx-zynqmp.c
++++ b/hw/arm/xlnx-zynqmp.c
+@@ -455,6 +455,7 @@ static void xlnx_zynqmp_realize(DeviceState *dev, Error **errp)
+     for (i = 0; i < XLNX_ZYNQMP_NUM_GEMS; i++) {
+         NICInfo *nd = &nd_table[i];
  
- static void m2sxxx_soc_realize(DeviceState *dev_soc, Error **errp)
-@@ -187,6 +183,11 @@ static void m2sxxx_soc_realize(DeviceState *dev_soc, Error **errp)
-         g_free(bus_name);
-     }
++        /* FIXME use qdev NIC properties instead of nd_table[] */
+         if (nd->used) {
+             qemu_check_nic_model(nd, TYPE_CADENCE_GEM);
+             qdev_set_nic_properties(DEVICE(&s->gem[i]), nd);
+diff --git a/hw/dma/sparc32_dma.c b/hw/dma/sparc32_dma.c
+index 9459178866..bcd1626fbd 100644
+--- a/hw/dma/sparc32_dma.c
++++ b/hw/dma/sparc32_dma.c
+@@ -341,6 +341,7 @@ static void sparc32_ledma_device_realize(DeviceState *dev, Error **errp)
+     DeviceState *d;
+     NICInfo *nd = &nd_table[0];
  
 +    /* FIXME use qdev NIC properties instead of nd_table[] */
-+    if (nd_table[0].used) {
-+        qemu_check_nic_model(&nd_table[0], TYPE_MSS_EMAC);
-+        qdev_set_nic_properties(DEVICE(&s->emac), &nd_table[0]);
-+    }
-     dev = DEVICE(&s->emac);
-     object_property_set_link(OBJECT(&s->emac), "ahb-bus",
-                              OBJECT(get_system_memory()), &error_abort);
+     qemu_check_nic_model(nd, TYPE_LANCE);
+ 
+     d = qdev_new(TYPE_LANCE);
+diff --git a/hw/riscv/sifive_u.c b/hw/riscv/sifive_u.c
+index 19a976c9a6..e5682c38a9 100644
+--- a/hw/riscv/sifive_u.c
++++ b/hw/riscv/sifive_u.c
+@@ -714,6 +714,7 @@ static void sifive_u_soc_realize(DeviceState *dev, Error **errp)
+     }
+     sysbus_mmio_map(SYS_BUS_DEVICE(&s->otp), 0, memmap[SIFIVE_U_OTP].base);
+ 
++    /* FIXME use qdev NIC properties instead of nd_table[] */
+     if (nd->used) {
+         qemu_check_nic_model(nd, TYPE_CADENCE_GEM);
+         qdev_set_nic_properties(DEVICE(&s->gem), nd);
 -- 
 2.26.2
 
