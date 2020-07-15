@@ -2,46 +2,56 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C9EA12209C7
-	for <lists+qemu-devel@lfdr.de>; Wed, 15 Jul 2020 12:20:40 +0200 (CEST)
-Received: from localhost ([::1]:39226 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8926F220A06
+	for <lists+qemu-devel@lfdr.de>; Wed, 15 Jul 2020 12:31:36 +0200 (CEST)
+Received: from localhost ([::1]:44064 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jveWl-0000rQ-Qz
-	for lists+qemu-devel@lfdr.de; Wed, 15 Jul 2020 06:20:39 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:45380)
+	id 1jvehL-000454-49
+	for lists+qemu-devel@lfdr.de; Wed, 15 Jul 2020 06:31:35 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:49932)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <pavel.dovgalyuk@ispras.ru>)
- id 1jveVV-0007jX-8t
- for qemu-devel@nongnu.org; Wed, 15 Jul 2020 06:19:21 -0400
-Received: from mail.ispras.ru ([83.149.199.84]:49916)
- by eggs.gnu.org with esmtps (TLS1.2:DHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <pavel.dovgalyuk@ispras.ru>)
- id 1jveVT-0007Mu-HM
- for qemu-devel@nongnu.org; Wed, 15 Jul 2020 06:19:21 -0400
-Received: from [127.0.1.1] (unknown [62.118.151.149])
- by mail.ispras.ru (Postfix) with ESMTPSA id ADE0E4089EFB;
- Wed, 15 Jul 2020 10:19:17 +0000 (UTC)
-Subject: [PATCH 2/2] hw/arm: remove exit(1) in case of missing ROM
-From: Pavel Dovgalyuk <pavel.dovgalyuk@ispras.ru>
-To: qemu-devel@nongnu.org
-Date: Wed, 15 Jul 2020 13:19:17 +0300
-Message-ID: <159480835744.15819.10383908697966018668.stgit@pasha-ThinkPad-X280>
-In-Reply-To: <159480834629.15819.10175861928294983612.stgit@pasha-ThinkPad-X280>
-References: <159480834629.15819.10175861928294983612.stgit@pasha-ThinkPad-X280>
-User-Agent: StGit/0.17.1-dirty
+ (Exim 4.90_1) (envelope-from <dgibson@ozlabs.org>)
+ id 1jvegH-0003YU-QZ
+ for qemu-devel@nongnu.org; Wed, 15 Jul 2020 06:30:30 -0400
+Received: from ozlabs.org ([2401:3900:2:1::2]:51285)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <dgibson@ozlabs.org>)
+ id 1jvegE-0001v6-Sh
+ for qemu-devel@nongnu.org; Wed, 15 Jul 2020 06:30:29 -0400
+Received: by ozlabs.org (Postfix, from userid 1007)
+ id 4B6DDD4qzKz9sTQ; Wed, 15 Jul 2020 20:30:20 +1000 (AEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=gibson.dropbear.id.au; s=201602; t=1594809020;
+ bh=GjtEAxVXWmpKPy2K5f+eqECvHruOCY542r72yIiOv34=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=WA2NmZOb84/fbIJz/1WKI0z84Hu+Fb8Gb8njEvXu8B+tH/grPyJEAN4LTcdvLTjSc
+ tE1q6VxRb6AZTGHqzCIE2Kq36bw0UlhvJ/JAXONNGhbaOeZrpRWtgpt8K5G9gfgyjs
+ XgtmrebIiQfGtiMPmC8gRyAupMjysaJyidu1ewKY=
+Date: Wed, 15 Jul 2020 18:56:12 +1000
+From: David Gibson <david@gibson.dropbear.id.au>
+To: Alex =?iso-8859-1?Q?Benn=E9e?= <alex.bennee@linaro.org>
+Subject: Re: [PATCH] .travis.yml: skip ppc64abi32-linux-user with plugins
+Message-ID: <20200715085612.GH93134@umbus.fritz.box>
+References: <20200714175516.5475-1-alex.bennee@linaro.org>
+ <20200715040619.GG93134@umbus.fritz.box>
+ <87o8ohxl36.fsf@linaro.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=83.149.199.84;
- envelope-from=pavel.dovgalyuk@ispras.ru; helo=mail.ispras.ru
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/07/15 06:19:07
-X-ACL-Warn: Detected OS   = Linux 3.11 and newer
-X-Spam_score_int: -18
-X-Spam_score: -1.9
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature"; boundary="poJSiGMzRSvrLGLs"
+Content-Disposition: inline
+In-Reply-To: <87o8ohxl36.fsf@linaro.org>
+Received-SPF: pass client-ip=2401:3900:2:1::2; envelope-from=dgibson@ozlabs.org;
+ helo=ozlabs.org
+X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
+ That's all we know.
+X-Spam_score_int: -9
+X-Spam_score: -1.0
 X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Spam_report: (-1.0 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, HEADER_FROM_DIFFERENT_DOMAINS=1,
+ SPF_HELO_PASS=-0.001, SPF_PASS=-0.001,
+ URIBL_BLOCKED=0.001 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -54,109 +64,91 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: peter.maydell@linaro.org, pavel.dovgalyuk@ispras.ru, f4bug@amsat.org,
- jiaxun.yang@flygoat.com, aleksandar.qemu.devel@gmail.com,
- antonynpavlov@gmail.com, chenhc@lemote.com, aurelien@aurel32.net
+Cc: Fam Zheng <fam@euphon.net>,
+ Philippe =?iso-8859-1?Q?Mathieu-Daud=E9?= <philmd@redhat.com>,
+ qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-This patch updates ARM-based machines to allow starting them without ROM.
-In this case CPU starts to execute instructions from the empty memory,
-but QEMU allows introspecting the machine configuration.
 
-Signed-off-by: Pavel Dovgalyuk <Pavel.Dovgalyuk@ispras.ru>
----
- 0 files changed
+--poJSiGMzRSvrLGLs
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-diff --git a/hw/arm/digic_boards.c b/hw/arm/digic_boards.c
-index b6452d918c..dbad63ffa2 100644
---- a/hw/arm/digic_boards.c
-+++ b/hw/arm/digic_boards.c
-@@ -102,8 +102,12 @@ static void digic_load_rom(DigicState *s, hwaddr addr,
-         char *fn = qemu_find_file(QEMU_FILE_TYPE_BIOS, filename);
- 
-         if (!fn) {
--            error_report("Couldn't find rom image '%s'.", filename);
--            exit(1);
-+            if (bios_name) {
-+                error_report("Couldn't find rom image '%s'.", filename);
-+                exit(1);
-+            } else {
-+                return;
-+            }
-         }
- 
-         rom_size = load_image_targphys(fn, addr, max_size);
-diff --git a/hw/arm/gumstix.c b/hw/arm/gumstix.c
-index 3a4bc332c4..a74bb5e27c 100644
---- a/hw/arm/gumstix.c
-+++ b/hw/arm/gumstix.c
-@@ -60,9 +60,8 @@ static void connex_init(MachineState *machine)
- 
-     dinfo = drive_get(IF_PFLASH, 0, 0);
-     if (!dinfo && !qtest_enabled()) {
--        error_report("A flash image must be given with the "
--                     "'pflash' parameter");
--        exit(1);
-+        warn_report("A flash image must be given with the "
-+                    "'pflash' parameter");
-     }
- 
-     if (!pflash_cfi01_register(0x00000000, "connext.rom", connex_rom,
-@@ -90,9 +89,8 @@ static void verdex_init(MachineState *machine)
- 
-     dinfo = drive_get(IF_PFLASH, 0, 0);
-     if (!dinfo && !qtest_enabled()) {
--        error_report("A flash image must be given with the "
--                     "'pflash' parameter");
--        exit(1);
-+        warn_report("A flash image must be given with the "
-+                    "'pflash' parameter");
-     }
- 
-     if (!pflash_cfi01_register(0x00000000, "verdex.rom", verdex_rom,
-diff --git a/hw/arm/omap_sx1.c b/hw/arm/omap_sx1.c
-index 57829b3744..c0ed3d93e9 100644
---- a/hw/arm/omap_sx1.c
-+++ b/hw/arm/omap_sx1.c
-@@ -191,13 +191,12 @@ static void sx1_init(MachineState *machine, const int version)
-     }
- 
-     if (!machine->kernel_filename && !fl_idx && !qtest_enabled()) {
--        error_report("Kernel or Flash image must be specified");
--        exit(1);
-+        warn_report("Kernel or Flash image must be specified");
-+    } else {
-+        /* Load the kernel.  */
-+        arm_load_kernel(mpu->cpu, machine, &sx1_binfo);
-     }
- 
--    /* Load the kernel.  */
--    arm_load_kernel(mpu->cpu, machine, &sx1_binfo);
--
-     /* TODO: fix next line */
-     //~ qemu_console_resize(ds, 640, 480);
- }
-diff --git a/hw/arm/palm.c b/hw/arm/palm.c
-index 97ca105d29..d4f4a8d07a 100644
---- a/hw/arm/palm.c
-+++ b/hw/arm/palm.c
-@@ -257,12 +257,11 @@ static void palmte_init(MachineState *machine)
-     }
- 
-     if (!rom_loaded && !machine->kernel_filename && !qtest_enabled()) {
--        fprintf(stderr, "Kernel or ROM image must be specified\n");
--        exit(1);
-+        warn_report("Kernel or ROM image must be specified");
-+    } else {
-+        /* Load the kernel.  */
-+        arm_load_kernel(mpu->cpu, machine, &palmte_binfo);
-     }
--
--    /* Load the kernel.  */
--    arm_load_kernel(mpu->cpu, machine, &palmte_binfo);
- }
- 
- static void palmte_machine_init(MachineClass *mc)
+On Wed, Jul 15, 2020 at 09:02:05AM +0100, Alex Benn=E9e wrote:
+>=20
+> David Gibson <david@gibson.dropbear.id.au> writes:
+>=20
+> > On Tue, Jul 14, 2020 at 06:55:16PM +0100, Alex Benn=E9e wrote:
+> >> We actually see failures on threadcount running without plugins:
+> >>=20
+> >>   retry.py -n 1000 -c -- \
+> >>     ./ppc64abi32-linux-user/qemu-ppc64abi32 \
+> >>     ./tests/tcg/ppc64abi32-linux-user/threadcount
+> >>=20
+> >> which reports:
+> >>=20
+> >>   0: 978 times (97.80%), avg time 0.270 (0.01 varience/0.08 deviation)
+> >>   -6: 21 times (2.10%), avg time 0.336 (0.01 varience/0.12 deviation)
+> >>   -11: 1 times (0.10%), avg time 0.502 (0.00 varience/0.00 deviation)
+> >>   Ran command 1000 times, 978 passes
+> >>=20
+> >> But when running with plugins we hit the failure a lot more often:
+> >>=20
+> >>   0: 91 times (91.00%), avg time 0.302 (0.04 varience/0.19 deviation)
+> >>   -11: 9 times (9.00%), avg time 0.558 (0.01 varience/0.11 deviation)
+> >>   Ran command 100 times, 91 passes
+> >>=20
+> >> The crash occurs in guest code which is the same in both pass and fail
+> >> cases. However we see various messages reported on the console about
+> >> corrupted memory lists which seems to imply the guest memory allocation
+> >> is corrupted. This lines up with the seg fault being in the guest
+> >> __libc_free function. So we think this is a guest bug which is
+> >> exacerbated by various modes of translation. If anyone has access to
+> >> real hardware to soak test the test case we could prove this properly.
+> >>=20
+> >> Signed-off-by: Alex Benn=E9e <alex.bennee@linaro.org>
+> >> Cc: David Gibson <david@gibson.dropbear.id.au>
+> >> Cc: Philippe Mathieu-Daud=E9 <philmd@redhat.com>
+> >
+> > Acked-by: David Gibson <david@gibson.dropbear.id.au>
+> >
+> > Honestly, AFAICT the ppc64abi32-linux-user target is pretty much
+> > entirely broken anyway.  Many things about it appear to make no
+> > sense, it's difficult to work out what it's even supposed to be, and I
+> > strongly suspect no-one's actually used it in like a decade.
+>=20
+> Should we think about marking it deprecated for 5.2?
 
+Yes, probably.  I just haven't gotten around to it.
+
+
+--=20
+David Gibson			| I'll have my music baroque, and my code
+david AT gibson.dropbear.id.au	| minimalist, thank you.  NOT _the_ _other_
+				| _way_ _around_!
+http://www.ozlabs.org/~dgibson
+
+--poJSiGMzRSvrLGLs
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQIzBAEBCAAdFiEEdfRlhq5hpmzETofcbDjKyiDZs5IFAl8OxKoACgkQbDjKyiDZ
+s5Lnyg/+KBoLp5qM3iFufJNcWBpJWQ1wnKm72TJYwfbO+YcszDn5ilEp+LHWlnpp
+/vZukorX3Bf7qdlwewdfvOI6HC3NL/tGShez1kgmKljrJ1LuQOvqhxuPJofQBmBj
+Ol/ME1eyaxfdEr0gaCQFAo09iMbbnP0HXARhyAmNrpfdfL08EzDxO5XpJD3IOrLd
+rCNmTpRlPPEG1CXCMT6MqxWT+UHLspBFBbsP2+l0cPTLGyDmcBvE99oI+c/Rrx4r
+1FNPjQ7Qmd7I3fNU6e6YmqTDfE3qzmW1h2X2PuzMsE0M4FRyAP59LaeCBQ6S7MNj
+IvzmdmtP7j9a701Wf2tpeUvbr30V9eX1FIbNah9SERzD6HXplR0Mj2B2uzyuDuaE
+RAn9jO093IoiVWlbAnCwfWZXZ2w2nk16ZhPTvHPeT6MUY/gUQBM/4YM+QN08AYcZ
+5aBnQRKistq5x4XFy1zkoHDkMVqJbSC8XNrQ1s0eiL1rZoUr8Hn+SVKbA0095KOI
+xH47dqDapvkAY3qGE4qwPXic2GBnocLbCwK6kRETg9L225/Y/MANreJsh93d9HB4
+8puad6rq0qgR/yl4sNLjvK7mS/XRg9HOg6WDqbc3TcId4mD7dpwzpjLWygyEdgta
+3AxcZbdjDTc2MHASLiCdtg1ouZer6QLceY/dTnBDPFujqNwWcqI=
+=hYJv
+-----END PGP SIGNATURE-----
+
+--poJSiGMzRSvrLGLs--
 
