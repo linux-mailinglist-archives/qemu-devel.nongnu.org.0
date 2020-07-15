@@ -2,76 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2BA1E221216
-	for <lists+qemu-devel@lfdr.de>; Wed, 15 Jul 2020 18:17:20 +0200 (CEST)
-Received: from localhost ([::1]:42124 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id CB4EA221247
+	for <lists+qemu-devel@lfdr.de>; Wed, 15 Jul 2020 18:27:01 +0200 (CEST)
+Received: from localhost ([::1]:49554 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jvk5u-0000R5-R0
-	for lists+qemu-devel@lfdr.de; Wed, 15 Jul 2020 12:17:18 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:54970)
+	id 1jvkFI-0004j4-Di
+	for lists+qemu-devel@lfdr.de; Wed, 15 Jul 2020 12:27:00 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:57420)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1jvk4U-0007zn-2H
- for qemu-devel@nongnu.org; Wed, 15 Jul 2020 12:15:50 -0400
-Received: from mail-oo1-xc29.google.com ([2607:f8b0:4864:20::c29]:41851)
+ (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
+ id 1jvkE9-000497-QC
+ for qemu-devel@nongnu.org; Wed, 15 Jul 2020 12:25:49 -0400
+Received: from indium.canonical.com ([91.189.90.7]:52140)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1jvk4R-0007nB-A9
- for qemu-devel@nongnu.org; Wed, 15 Jul 2020 12:15:49 -0400
-Received: by mail-oo1-xc29.google.com with SMTP id z23so571646ood.8
- for <qemu-devel@nongnu.org>; Wed, 15 Jul 2020 09:15:46 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc:content-transfer-encoding;
- bh=wSAZiq3ioCi9YiLwv0ALmUMm3EvdBO2Nj87Q1j/QK/s=;
- b=viSNvO9WDx0pPMALFsdCdKmnTK00pHD/hKXClIT+Ysk+t49qHhYVRyHF4C900ZBq5G
- 0fOlYs6xmYlpMoxLTSzR4LfqOXGO2GUcGyA2cOzFOMlFn3PkHQ3e2bl5bby5vO8mxDzq
- 3Ey+wRLDx6uBS7Mwt3nxLWuWCMVnJGvR5q4X3DmQYk79CEx2p4XNJPLWgjIMRNvItUEu
- qGQxkUo7rDBeF2HjGRDMjQrQ3FVb4sgs1kupXyg4Q4RCLAK4H/L2SWu1weI30r+grcKy
- j2WQozvwC+pyVS+33jpl0E3tvqapehiSldwFj2/bI09Pi3Ex2PHqscytc97iaXaXqy3G
- 2Bvw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc:content-transfer-encoding;
- bh=wSAZiq3ioCi9YiLwv0ALmUMm3EvdBO2Nj87Q1j/QK/s=;
- b=d9M97clwqSZL4C4yqJFqsy9ThLdbgWbIrWhlfFlBNiSt01MxwPPcwYTBppCu96LZQP
- bcHDoNlaiqLWoyX5KvTSVaBKh/Vho5rfoMYOXcDaGEH79NcT0R8mJM5mhhzGTgS5Q2fp
- RAUgPt8/rc6flFlrm8igyYsarkNgRvNphPco72of5IsWyGzxkRpPfg8/1YgH3FC8jgBc
- 8ruZZ1bnF3TsBxEldLG1/IFab241k2s6pne14BWMjDaH369kiU+BRPwcOdpyBIByJfzW
- szrjHYeehSD1DdqQnvJG10USWUjcki+GCX7D3em+ADQ/pC/qiOLYL5q6mOohABnuxT3k
- DMtw==
-X-Gm-Message-State: AOAM530ZPYo8oiS0ym3HtZXG7CVQOdklpin0qs2sCHy0V4JqyQ/E4h7T
- ztgP3qkM2V3NdKCfFRF04xOMJ606SyyUXQeYwCMiiw==
-X-Google-Smtp-Source: ABdhPJwjur5+sMyUghwFiCTt+x3iC8kWGr4S3nTy7qFh90vGUs6/pHVvgtc76ii0mCrtWbhn2FnWdx+t2CSt1p/j0c4=
-X-Received: by 2002:a4a:9653:: with SMTP id r19mr10133572ooi.85.1594829745540; 
- Wed, 15 Jul 2020 09:15:45 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
+ id 1jvkE4-0001G9-5N
+ for qemu-devel@nongnu.org; Wed, 15 Jul 2020 12:25:49 -0400
+Received: from loganberry.canonical.com ([91.189.90.37])
+ by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
+ id 1jvkE1-0006YP-Ld
+ for <qemu-devel@nongnu.org>; Wed, 15 Jul 2020 16:25:41 +0000
+Received: from loganberry.canonical.com (localhost [127.0.0.1])
+ by loganberry.canonical.com (Postfix) with ESMTP id A0F032E80BA
+ for <qemu-devel@nongnu.org>; Wed, 15 Jul 2020 16:25:41 +0000 (UTC)
 MIME-Version: 1.0
-References: <20200714202051.13549-1-f4bug@amsat.org>
-In-Reply-To: <20200714202051.13549-1-f4bug@amsat.org>
-From: Peter Maydell <peter.maydell@linaro.org>
-Date: Wed, 15 Jul 2020 17:15:34 +0100
-Message-ID: <CAFEAcA_AZr+tGyZ1Kj_hL=etCDhDAn4n-4Qx+Ay3YdmkQQOcuw@mail.gmail.com>
-Subject: Re: [PULL 0/3] MIPS patches for 5.1
-To: =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <f4bug@amsat.org>
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=2607:f8b0:4864:20::c29;
- envelope-from=peter.maydell@linaro.org; helo=mail-oo1-xc29.google.com
-X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
- That's all we know.
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- URIBL_BLOCKED=0.001 autolearn=ham autolearn_force=no
+Date: Wed, 15 Jul 2020 16:16:13 -0000
+From: Diego Viola <1882851@bugs.launchpad.net>
+To: qemu-devel@nongnu.org
+X-Launchpad-Notification-Type: bug
+X-Launchpad-Bug: product=qemu; status=New; importance=Undecided; assignee=None;
+X-Launchpad-Bug-Information-Type: Public
+X-Launchpad-Bug-Private: no
+X-Launchpad-Bug-Security-Vulnerability: no
+X-Launchpad-Bug-Commenters: diego-viola kraxel-redhat
+X-Launchpad-Bug-Reporter: Diego Viola (diego-viola)
+X-Launchpad-Bug-Modifier: Diego Viola (diego-viola)
+References: <159174217343.32241.17743917589333297614.malonedeb@gac.canonical.com>
+Message-Id: <159482977377.19710.10480378597167975890.malone@chaenomeles.canonical.com>
+Subject: [Bug 1882851] Re: QEMU video freezes with "Guest disabled display"
+ (virtio driver)
+X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
+X-Launchpad-Message-For: qemu-devel-ml
+Precedence: bulk
+X-Generated-By: Launchpad (canonical.com);
+ Revision="4809fcb62f445aaa3ae919f7f6c3cc7d156ea57a";
+ Instance="production-secrets-lazr.conf"
+X-Launchpad-Hash: 81b9e7dfe7e527ec0853b4e607d2c62e82418031
+Received-SPF: none client-ip=91.189.90.7; envelope-from=bounces@canonical.com;
+ helo=indium.canonical.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/07/15 11:41:15
+X-ACL-Warn: Detected OS   = Linux 3.11 and newer [fuzzy]
+X-Spam_score_int: -58
+X-Spam_score: -5.9
+X-Spam_bar: -----
+X-Spam_report: (-5.9 / 5.0 requ) BAYES_00=-1.9, HEADER_FROM_DIFFERENT_DOMAINS=1,
+ RCVD_IN_DNSWL_HI=-5, RCVD_IN_MSPIKE_H3=-0.01, RCVD_IN_MSPIKE_WL=-0.01,
+ SPF_HELO_NONE=0.001, SPF_NONE=0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
-Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -80,50 +72,49 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Aleksandar Rikalo <aleksandar.rikalo@syrmia.com>,
- QEMU Developers <qemu-devel@nongnu.org>, Jiaxun Yang <jiaxun.yang@flygoat.com>,
- Aleksandar Markovic <aleksandar.qemu.devel@gmail.com>,
- Huacai Chen <chenhc@lemote.com>, Aurelien Jarno <aurelien@aurel32.net>
+Reply-To: Bug 1882851 <1882851@bugs.launchpad.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Tue, 14 Jul 2020 at 21:22, Philippe Mathieu-Daud=C3=A9 <f4bug@amsat.org>=
- wrote:
->
-> The following changes since commit 1a53dfee92284d3016a579ef31d53367e84d9d=
-d8:
->
->   Merge remote-tracking branch 'remotes/ericb/tags/pull-nbd-2020-07-13' i=
-nto staging (2020-07-14 13:52:10 +0100)
->
-> are available in the Git repository at:
->
->   https://gitlab.com/philmd/qemu.git tags/mips-next-20200714
->
-> for you to fetch changes up to 15d983dee95edff1dc4c0bed71ce02fff877e766:
->
->   MAINTAINERS: Adjust MIPS maintainership (add Huacai Chen & Jiaxun Yang)=
- (2020-07-14 21:49:33 +0200)
->
-> ----------------------------------------------------------------
-> MIPS patches for 5.1
->
-> - A pair of fixes,
-> - Add Huacai Chen as MIPS KVM maintainer,
-> - Add Jiaxun Yang as designated MIPS TCG reviewer.
->
-> CI jobs results:
-> . https://travis-ci.org/github/philmd/qemu/builds/708079271
-> . https://gitlab.com/philmd/qemu/-/pipelines/166528104
-> . https://cirrus-ci.com/build/6483996878045184
->
-> ----------------------------------------------------------------
+Will the patch make it for 5.8?
 
+-- =
 
-Applied, thanks.
+You received this bug notification because you are a member of qemu-
+devel-ml, which is subscribed to QEMU.
+https://bugs.launchpad.net/bugs/1882851
 
-Please update the changelog at https://wiki.qemu.org/ChangeLog/5.1
-for any user-visible changes.
+Title:
+  QEMU video freezes with "Guest disabled display" (virtio driver)
 
--- PMM
+Status in QEMU:
+  New
+
+Bug description:
+  I am using Arch Linux as my Guest and Host OS, after starting qemu
+  with the following command:
+
+    $ qemu-system-x86_64 -enable-kvm -hda arch-zoom.qcow2 -m 4G -vga
+  virtio
+
+  and waiting for a screen blank, I get this message:
+
+    Guest disabled display
+
+  And nothing happens after that, I can move the mouse or hit any key,
+  and the message is still there.
+
+  I can still reboot the VM but that's not optimal.
+
+  I can reproduce this with the latest QEMU release (5.0.0) or git master, =
+
+  I also tried this with older releases (4.0.0, 3.0.0) and the issue is sti=
+ll there.
+
+  I can't reproduce this with other video drivers (std, qxl).
+
+  With std/qxl the screen will blank a bit and then continue as normal.
+
+To manage notifications about this bug go to:
+https://bugs.launchpad.net/qemu/+bug/1882851/+subscriptions
 
