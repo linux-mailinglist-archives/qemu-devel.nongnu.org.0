@@ -2,73 +2,93 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id DCA31220EBB
-	for <lists+qemu-devel@lfdr.de>; Wed, 15 Jul 2020 16:06:40 +0200 (CEST)
-Received: from localhost ([::1]:60300 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7E1A7220EDF
+	for <lists+qemu-devel@lfdr.de>; Wed, 15 Jul 2020 16:09:23 +0200 (CEST)
+Received: from localhost ([::1]:40318 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jvi3T-00014U-UY
-	for lists+qemu-devel@lfdr.de; Wed, 15 Jul 2020 10:06:39 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:43950)
+	id 1jvi66-0004cO-Ju
+	for lists+qemu-devel@lfdr.de; Wed, 15 Jul 2020 10:09:22 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:45070)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1jvi1k-0007Oz-1K
- for qemu-devel@nongnu.org; Wed, 15 Jul 2020 10:04:52 -0400
-Received: from us-smtp-1.mimecast.com ([207.211.31.81]:53416
- helo=us-smtp-delivery-1.mimecast.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1jvi1h-0007JF-NX
- for qemu-devel@nongnu.org; Wed, 15 Jul 2020 10:04:51 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1594821888;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=AkBlyp40DiIM7TNyjoB2z5dsCGgUHKGkbokmCXgV6lk=;
- b=fPaN07xLwRJtlwtZI2esQOj7uwYM0SPXDfC/uXiMTPpZ1xoCklfl6ZP/RErfk4dEqyda+S
- cghH6lyUTLuHdvBsnjNMNiUt8DlFLLIlLMBzLECTmUq5yJfFsJKU4L6sQQ5OYv3sw7xI9h
- hKb964MOdVPArAfMkC0z8sIrmwD24tU=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-447-M1RE-x-FPd2E0MSC6IETBw-1; Wed, 15 Jul 2020 10:04:44 -0400
-X-MC-Unique: M1RE-x-FPd2E0MSC6IETBw-1
-Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
- [10.5.11.13])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id DD5EB18C63C6;
- Wed, 15 Jul 2020 14:04:42 +0000 (UTC)
-Received: from blackfin.pond.sub.org (ovpn-112-143.ams2.redhat.com
- [10.36.112.143])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 3E3E479D00;
- Wed, 15 Jul 2020 14:04:42 +0000 (UTC)
-Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
- id ABBD4113860C; Wed, 15 Jul 2020 16:04:40 +0200 (CEST)
-From: Markus Armbruster <armbru@redhat.com>
+ (Exim 4.90_1) (envelope-from <frankja@linux.ibm.com>)
+ id 1jvi5I-0003qs-Sh
+ for qemu-devel@nongnu.org; Wed, 15 Jul 2020 10:08:32 -0400
+Received: from mx0b-001b2d01.pphosted.com ([148.163.158.5]:31974
+ helo=mx0a-001b2d01.pphosted.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <frankja@linux.ibm.com>)
+ id 1jvi5H-0007rW-8e
+ for qemu-devel@nongnu.org; Wed, 15 Jul 2020 10:08:32 -0400
+Received: from pps.filterd (m0098416.ppops.net [127.0.0.1])
+ by mx0b-001b2d01.pphosted.com (8.16.0.42/8.16.0.42) with SMTP id
+ 06FE2SiE105451
+ for <qemu-devel@nongnu.org>; Wed, 15 Jul 2020 10:08:30 -0400
+Received: from pps.reinject (localhost [127.0.0.1])
+ by mx0b-001b2d01.pphosted.com with ESMTP id 329apxmwpk-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT)
+ for <qemu-devel@nongnu.org>; Wed, 15 Jul 2020 10:08:29 -0400
+Received: from m0098416.ppops.net (m0098416.ppops.net [127.0.0.1])
+ by pps.reinject (8.16.0.36/8.16.0.36) with SMTP id 06FE3Ckl108728
+ for <qemu-devel@nongnu.org>; Wed, 15 Jul 2020 10:08:29 -0400
+Received: from ppma04ams.nl.ibm.com (63.31.33a9.ip4.static.sl-reverse.com
+ [169.51.49.99])
+ by mx0b-001b2d01.pphosted.com with ESMTP id 329apxmwnt-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Wed, 15 Jul 2020 10:08:29 -0400
+Received: from pps.filterd (ppma04ams.nl.ibm.com [127.0.0.1])
+ by ppma04ams.nl.ibm.com (8.16.0.42/8.16.0.42) with SMTP id 06FE67af032500;
+ Wed, 15 Jul 2020 14:08:27 GMT
+Received: from b06cxnps4076.portsmouth.uk.ibm.com
+ (d06relay13.portsmouth.uk.ibm.com [9.149.109.198])
+ by ppma04ams.nl.ibm.com with ESMTP id 329nmygqf4-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Wed, 15 Jul 2020 14:08:27 +0000
+Received: from d06av24.portsmouth.uk.ibm.com (mk.ibm.com [9.149.105.60])
+ by b06cxnps4076.portsmouth.uk.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
+ 06FE8Pjk50135108
+ (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+ Wed, 15 Jul 2020 14:08:25 GMT
+Received: from d06av24.portsmouth.uk.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id 67EC942049;
+ Wed, 15 Jul 2020 14:08:25 +0000 (GMT)
+Received: from d06av24.portsmouth.uk.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id C045642045;
+ Wed, 15 Jul 2020 14:08:24 +0000 (GMT)
+Received: from linux01.pok.stglabs.ibm.com (unknown [9.114.17.81])
+ by d06av24.portsmouth.uk.ibm.com (Postfix) with ESMTP;
+ Wed, 15 Jul 2020 14:08:24 +0000 (GMT)
+From: Janosch Frank <frankja@linux.ibm.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH for-5.1 2/2] hw: Mark nd_table[] misuse in realize methods
- FIXME
-Date: Wed, 15 Jul 2020 16:04:40 +0200
-Message-Id: <20200715140440.3540942-3-armbru@redhat.com>
-In-Reply-To: <20200715140440.3540942-1-armbru@redhat.com>
-References: <20200715140440.3540942-1-armbru@redhat.com>
+Subject: [PATCH] pc-bios: s390x: Add a comment to the io and external new PSW
+ setup
+Date: Wed, 15 Jul 2020 10:08:20 -0400
+Message-Id: <20200715140820.3401-1-frankja@linux.ibm.com>
+X-Mailer: git-send-email 2.25.1
+In-Reply-To: <033b0db7-7b7d-6eb0-9018-bcc342f13509@de.ibm.com>
+References: <033b0db7-7b7d-6eb0-9018-bcc342f13509@de.ibm.com>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=207.211.31.81; envelope-from=armbru@redhat.com;
- helo=us-smtp-delivery-1.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/07/15 02:01:40
-X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
-X-Spam_score_int: -30
-X-Spam_score: -3.1
+X-TM-AS-GCONF: 00
+X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:6.0.235, 18.0.687
+ definitions=2020-07-15_11:2020-07-15,
+ 2020-07-15 signatures=0
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ bulkscore=0 mlxlogscore=944
+ malwarescore=0 spamscore=0 impostorscore=0 adultscore=0 lowpriorityscore=0
+ phishscore=0 suspectscore=1 mlxscore=0 priorityscore=1501 clxscore=1015
+ classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2006250000
+ definitions=main-2007150111
+Received-SPF: pass client-ip=148.163.158.5; envelope-from=frankja@linux.ibm.com;
+ helo=mx0a-001b2d01.pphosted.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/07/15 09:18:04
+X-ACL-Warn: Detected OS   = Linux 3.x [generic]
+X-Spam_score_int: -35
+X-Spam_score: -3.6
 X-Spam_bar: ---
-X-Spam_report: (-3.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H3=-0.01, RCVD_IN_MSPIKE_WL=-0.01,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+X-Spam_report: (-3.6 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_LOW=-0.7,
+ RCVD_IN_MSPIKE_H2=-1, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -81,90 +101,50 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: peter.maydell@linaro.org, thuth@redhat.com, qemu-riscv@nongnu.org,
- sagark@eecs.berkeley.edu, kbastian@mail.uni-paderborn.de,
- alistair@alistair23.me, mark.cave-ayland@ilande.co.uk, sundeep.lkml@gmail.com,
- b.galvani@gmail.com, nieklinnenbank@gmail.com, qemu-arm@nongnu.org,
- palmer@dabbelt.com, edgar.iglesias@gmail.com
+Cc: borntraeger@de.ibm.com, thuth@redhat.com, cohuck@redhat.com,
+ david@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-nd_table[] contains NIC configuration for boards to pick up.  Device
-code has no business looking there.  Several devices do it anyway.
-Two of them already have a suitable FIXME comment: "allwinner-a10" and
-"msf2-soc".  Copy it to the others: "allwinner-h3", "xlnx-versal",
-"xlnx,zynqmp", "sparc32-ledma", "riscv.sifive.u.soc".
+Normally they don't need to be set up before waiting for an interrupt
+but are set up on boot. The BIOS however might overwrite the lowcore
+(and hence the PSWs) when loading a blob into memory and therefore
+needs to set up those PSWs more often.
 
-Signed-off-by: Markus Armbruster <armbru@redhat.com>
+Signed-off-by: Janosch Frank <frankja@linux.ibm.com>
 ---
- hw/arm/allwinner-h3.c | 1 +
- hw/arm/xlnx-versal.c  | 1 +
- hw/arm/xlnx-zynqmp.c  | 1 +
- hw/dma/sparc32_dma.c  | 1 +
- hw/riscv/sifive_u.c   | 1 +
- 5 files changed, 5 insertions(+)
+ pc-bios/s390-ccw/start.S | 10 ++++++++--
+ 1 file changed, 8 insertions(+), 2 deletions(-)
 
-diff --git a/hw/arm/allwinner-h3.c b/hw/arm/allwinner-h3.c
-index 8e09468e86..ff92ded82c 100644
---- a/hw/arm/allwinner-h3.c
-+++ b/hw/arm/allwinner-h3.c
-@@ -358,6 +358,7 @@ static void allwinner_h3_realize(DeviceState *dev, Error **errp)
-                               "sd-bus");
- 
-     /* EMAC */
-+    /* FIXME use qdev NIC properties instead of nd_table[] */
-     if (nd_table[0].used) {
-         qemu_check_nic_model(&nd_table[0], TYPE_AW_SUN8I_EMAC);
-         qdev_set_nic_properties(DEVICE(&s->emac), &nd_table[0]);
-diff --git a/hw/arm/xlnx-versal.c b/hw/arm/xlnx-versal.c
-index ead038b971..e3aa4bd1e5 100644
---- a/hw/arm/xlnx-versal.c
-+++ b/hw/arm/xlnx-versal.c
-@@ -160,6 +160,7 @@ static void versal_create_gems(Versal *s, qemu_irq *pic)
-         object_initialize_child(OBJECT(s), name, &s->lpd.iou.gem[i],
-                                 TYPE_CADENCE_GEM);
-         dev = DEVICE(&s->lpd.iou.gem[i]);
-+        /* FIXME use qdev NIC properties instead of nd_table[] */
-         if (nd->used) {
-             qemu_check_nic_model(nd, "cadence_gem");
-             qdev_set_nic_properties(dev, nd);
-diff --git a/hw/arm/xlnx-zynqmp.c b/hw/arm/xlnx-zynqmp.c
-index 772cfa3771..5855e5d5bf 100644
---- a/hw/arm/xlnx-zynqmp.c
-+++ b/hw/arm/xlnx-zynqmp.c
-@@ -455,6 +455,7 @@ static void xlnx_zynqmp_realize(DeviceState *dev, Error **errp)
-     for (i = 0; i < XLNX_ZYNQMP_NUM_GEMS; i++) {
-         NICInfo *nd = &nd_table[i];
- 
-+        /* FIXME use qdev NIC properties instead of nd_table[] */
-         if (nd->used) {
-             qemu_check_nic_model(nd, TYPE_CADENCE_GEM);
-             qdev_set_nic_properties(DEVICE(&s->gem[i]), nd);
-diff --git a/hw/dma/sparc32_dma.c b/hw/dma/sparc32_dma.c
-index 9459178866..bcd1626fbd 100644
---- a/hw/dma/sparc32_dma.c
-+++ b/hw/dma/sparc32_dma.c
-@@ -341,6 +341,7 @@ static void sparc32_ledma_device_realize(DeviceState *dev, Error **errp)
-     DeviceState *d;
-     NICInfo *nd = &nd_table[0];
- 
-+    /* FIXME use qdev NIC properties instead of nd_table[] */
-     qemu_check_nic_model(nd, TYPE_LANCE);
- 
-     d = qdev_new(TYPE_LANCE);
-diff --git a/hw/riscv/sifive_u.c b/hw/riscv/sifive_u.c
-index 19a976c9a6..e5682c38a9 100644
---- a/hw/riscv/sifive_u.c
-+++ b/hw/riscv/sifive_u.c
-@@ -714,6 +714,7 @@ static void sifive_u_soc_realize(DeviceState *dev, Error **errp)
-     }
-     sysbus_mmio_map(SYS_BUS_DEVICE(&s->otp), 0, memmap[SIFIVE_U_OTP].base);
- 
-+    /* FIXME use qdev NIC properties instead of nd_table[] */
-     if (nd->used) {
-         qemu_check_nic_model(nd, TYPE_CADENCE_GEM);
-         qdev_set_nic_properties(DEVICE(&s->gem), nd);
+diff --git a/pc-bios/s390-ccw/start.S b/pc-bios/s390-ccw/start.S
+index 01c4c21b26..b0fcb918cc 100644
+--- a/pc-bios/s390-ccw/start.S
++++ b/pc-bios/s390-ccw/start.S
+@@ -64,7 +64,10 @@ consume_sclp_int:
+         stctg   %c0,%c0,0(%r15)
+         oi      6(%r15),0x2
+         lctlg   %c0,%c0,0(%r15)
+-        /* prepare external call handler */
++        /*
++         * Prepare external new PSW as it might have been overwritten
++         * by a loaded blob
++         */
+         larl %r1, external_new_code
+         stg %r1, 0x1b8
+         larl %r1, external_new_mask
+@@ -84,7 +87,10 @@ consume_io_int:
+         stctg %c6,%c6,0(%r15)
+         oi    4(%r15), 0xff
+         lctlg %c6,%c6,0(%r15)
+-        /* prepare i/o call handler */
++        /*
++         * Prepare i/o new PSW as it might have been overwritten
++         * by a loaded blob
++         */
+         larl  %r1, io_new_code
+         stg   %r1, 0x1f8
+         larl  %r1, io_new_mask
 -- 
-2.26.2
+2.25.1
 
 
