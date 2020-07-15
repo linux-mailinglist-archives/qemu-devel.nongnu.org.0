@@ -2,62 +2,81 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B9B8B22066B
-	for <lists+qemu-devel@lfdr.de>; Wed, 15 Jul 2020 09:43:54 +0200 (CEST)
-Received: from localhost ([::1]:46148 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6F37C2206AD
+	for <lists+qemu-devel@lfdr.de>; Wed, 15 Jul 2020 10:03:00 +0200 (CEST)
+Received: from localhost ([::1]:49102 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jvc53-0005MZ-RC
-	for lists+qemu-devel@lfdr.de; Wed, 15 Jul 2020 03:43:53 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:40840)
+	id 1jvcNX-0008Bx-0q
+	for lists+qemu-devel@lfdr.de; Wed, 15 Jul 2020 04:02:59 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:46728)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <clg@kaod.org>) id 1jvc40-0004r9-Ds
- for qemu-devel@nongnu.org; Wed, 15 Jul 2020 03:42:48 -0400
-Received: from 9.mo6.mail-out.ovh.net ([87.98.171.146]:55393)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <clg@kaod.org>) id 1jvc3y-0001WH-CL
- for qemu-devel@nongnu.org; Wed, 15 Jul 2020 03:42:48 -0400
-Received: from player759.ha.ovh.net (unknown [10.110.103.199])
- by mo6.mail-out.ovh.net (Postfix) with ESMTP id 2BDAF21D43E
- for <qemu-devel@nongnu.org>; Wed, 15 Jul 2020 09:42:41 +0200 (CEST)
-Received: from kaod.org (lfbn-tou-1-1163-216.w90-76.abo.wanadoo.fr
- [90.76.222.216]) (Authenticated sender: clg@kaod.org)
- by player759.ha.ovh.net (Postfix) with ESMTPSA id B8476145F7BDC;
- Wed, 15 Jul 2020 07:42:30 +0000 (UTC)
-Authentication-Results: garm.ovh; auth=pass
- (GARM-98R0024ac65c9e-140e-488a-86be-e40f045741a8,D1878713575E7557A8ED5F979EF3ECB62B482302)
- smtp.auth=clg@kaod.org
-Subject: Re: [PATCH v5 10/11] hw/arm: Wire up BMC boot flash for npcm750-evb
- and quanta-gsj
-To: Havard Skinnemoen <hskinnemoen@google.com>
-References: <20200709003608.3834629-1-hskinnemoen@google.com>
- <20200709003608.3834629-11-hskinnemoen@google.com>
- <109d52ed-65bf-0fcc-98f1-47b7a6671d0b@kaod.org>
- <CAFQmdRZcygskP3iwss01-Jz67yjAP_JENXjWM2Bp8U=DRzxR0Q@mail.gmail.com>
-From: =?UTF-8?Q?C=c3=a9dric_Le_Goater?= <clg@kaod.org>
-Message-ID: <9a1567f0-f13c-326d-460f-6ad167bcf523@kaod.org>
-Date: Wed, 15 Jul 2020 09:42:27 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.9.0
+ (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
+ id 1jvcMl-0007l1-Fz
+ for qemu-devel@nongnu.org; Wed, 15 Jul 2020 04:02:11 -0400
+Received: from mail-wr1-x429.google.com ([2a00:1450:4864:20::429]:34972)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
+ id 1jvcMj-0007ch-PK
+ for qemu-devel@nongnu.org; Wed, 15 Jul 2020 04:02:11 -0400
+Received: by mail-wr1-x429.google.com with SMTP id z2so1430185wrp.2
+ for <qemu-devel@nongnu.org>; Wed, 15 Jul 2020 01:02:09 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=references:user-agent:from:to:cc:subject:in-reply-to:date
+ :message-id:mime-version:content-transfer-encoding;
+ bh=vatdIEatc+WTbDanMs/9GqtyLIAZhq5TNOKBqow0ad8=;
+ b=khI5PL4Me5Kyc7v5EvcW1kuGOHqt6/IbNqAl5uTso57Z9stUIUfHuN2852aghzsh15
+ M/HMu5FVq/0oXipL31+VXjFwuHjJRtwtWYG6+omP5hpgOCleDPI50WWwJA6oXui6N1qT
+ RiPvMM1nE07TD0L0yrXXQvL2yLKcXa5gV34/UnqWfJocnuGXG8oKcVc9PX45Lz228teX
+ B1b6qOMjCGHmPqAERKpsc3cGZcW8n8NcJajyeXaC11RI+4qOLI9gHoTdK8ZpvmHDdaeo
+ Ayka5r61IguiKVbkGPCDPjid4JVCzPKBskTPT+p+XJnTj0W2DZm25dDwhU43OQRaTpaK
+ mFtg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:references:user-agent:from:to:cc:subject
+ :in-reply-to:date:message-id:mime-version:content-transfer-encoding;
+ bh=vatdIEatc+WTbDanMs/9GqtyLIAZhq5TNOKBqow0ad8=;
+ b=NE8WsSHkOtdmJ1ns++vqeZghOlCJ9dSNVP4NpwUidtpx2DhS+mPjQVfJFq2IKYWlHK
+ zM5HJ7hB5zUmT0vG0OSTEJfRaTsrLWqtkJuSlPOZoNhdeOK879DOw5l9yNSakfHrYyn9
+ B+dzFtFVxNZ6NMuSMHmOv8fIdGBAZ2FcQTB3MXLfSQLapv2zXGi4ziwrLebBLn7OcEen
+ pZF5A/fLz7/aT02swexqY6eLhXw9ft9UXkOaEhfRwVsWnPD1VKaEGo8IH/5DqT2JlXP8
+ OqzZgPGaOtna9OmmoiaBWGejQPLtih3wgzm37ef+pk35UYGp7OZVToG/zXRwdOcBNBsu
+ 7dLQ==
+X-Gm-Message-State: AOAM530qWplQTrYmSmt9so6uAZ49dH+3SNDTxe/TYp9nlDCOLBbtUN3b
+ FsL39RxNQg1Y6haIkYE2gYU2Kg==
+X-Google-Smtp-Source: ABdhPJxQcnqT2qyavdlDHPf8F12dJkecjGryNCiDJenVSTO92fNx4W+0y1qrsUZtI2Q+bLu7jJNPvQ==
+X-Received: by 2002:a5d:4707:: with SMTP id y7mr9725435wrq.261.1594800127736; 
+ Wed, 15 Jul 2020 01:02:07 -0700 (PDT)
+Received: from zen.linaroharston ([51.148.130.216])
+ by smtp.gmail.com with ESMTPSA id g195sm2217627wme.38.2020.07.15.01.02.06
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Wed, 15 Jul 2020 01:02:06 -0700 (PDT)
+Received: from zen (localhost [127.0.0.1])
+ by zen.linaroharston (Postfix) with ESMTP id BEFA71FF7E;
+ Wed, 15 Jul 2020 09:02:05 +0100 (BST)
+References: <20200714175516.5475-1-alex.bennee@linaro.org>
+ <20200715040619.GG93134@umbus.fritz.box>
+User-agent: mu4e 1.5.4; emacs 28.0.50
+From: Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
+To: David Gibson <david@gibson.dropbear.id.au>
+Subject: Re: [PATCH] .travis.yml: skip ppc64abi32-linux-user with plugins
+In-reply-to: <20200715040619.GG93134@umbus.fritz.box>
+Date: Wed, 15 Jul 2020 09:02:05 +0100
+Message-ID: <87o8ohxl36.fsf@linaro.org>
 MIME-Version: 1.0
-In-Reply-To: <CAFQmdRZcygskP3iwss01-Jz67yjAP_JENXjWM2Bp8U=DRzxR0Q@mail.gmail.com>
 Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 8bit
-X-Ovh-Tracer-Id: 12930116007037930451
-X-VR-SPAMSTATE: OK
-X-VR-SPAMSCORE: -100
-X-VR-SPAMCAUSE: gggruggvucftvghtrhhoucdtuddrgeduiedrfedugdduvdefucetufdoteggodetrfdotffvucfrrhhofhhilhgvmecuqfggjfdpvefjgfevmfevgfenuceurghilhhouhhtmecuhedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmnecujfgurhepuffvfhfhkffffgggjggtgfesthekredttdefjeenucfhrhhomhepveorughrihgtpgfnvggpifhorghtvghruceotghlgheskhgrohgurdhorhhgqeenucggtffrrghtthgvrhhnpeekhfetudefffevvdeljeeggeehvdegueeiueefjeeuledtudegudehvdevlefgheenucffohhmrghinhepghhithhhuhgsrdgtohhmnecukfhppedtrddtrddtrddtpdeltddrjeeirddvvddvrddvudeinecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmohguvgepshhmthhpqdhouhhtpdhhvghlohepphhlrgihvghrjeehledrhhgrrdhovhhhrdhnvghtpdhinhgvtheptddrtddrtddrtddpmhgrihhlfhhrohhmpegtlhhgsehkrghougdrohhrghdprhgtphhtthhopehqvghmuhdquggvvhgvlhesnhhonhhgnhhurdhorhhg
-Received-SPF: pass client-ip=87.98.171.146; envelope-from=clg@kaod.org;
- helo=9.mo6.mail-out.ovh.net
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/07/15 03:42:42
-X-ACL-Warn: Detected OS   = Linux 3.11 and newer
-X-Spam_score_int: -18
-X-Spam_score: -1.9
-X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_NONE=-0.0001,
- RCVD_IN_MSPIKE_H3=-0.01, RCVD_IN_MSPIKE_WL=-0.01, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=2a00:1450:4864:20::429;
+ envelope-from=alex.bennee@linaro.org; helo=mail-wr1-x429.google.com
+X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
+ That's all we know.
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ URIBL_BLOCKED=0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -70,78 +89,56 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Maydell <peter.maydell@linaro.org>,
- =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>,
- QEMU Developers <qemu-devel@nongnu.org>, CS20 KFTing <kfting@nuvoton.com>,
- qemu-arm <qemu-arm@nongnu.org>, IS20 Avi Fishman <Avi.Fishman@nuvoton.com>,
- Joel Stanley <joel@jms.id.au>
+Cc: Fam Zheng <fam@euphon.net>,
+ Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
+ qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 7/14/20 4:56 AM, Havard Skinnemoen wrote:
-> On Mon, Jul 13, 2020 at 7:57 AM Cédric Le Goater <clg@kaod.org> wrote:
->>
->> On 7/9/20 2:36 AM, Havard Skinnemoen wrote:
->>> This allows these NPCM7xx-based boards to boot from a flash image, e.g.
->>> one built with OpenBMC. For example like this:
->>>
->>> IMAGE=${OPENBMC}/build/tmp/deploy/images/gsj/image-bmc
->>> qemu-system-arm -machine quanta-gsj -nographic \
->>>       -bios ~/qemu/bootrom/npcm7xx_bootrom.bin \
->>>       -drive file=${IMAGE},if=mtd,bus=0,unit=0,format=raw,snapshot=on
->>>
->>> Reviewed-by: Tyrone Ting <kfting@nuvoton.com>
->>> Signed-off-by: Havard Skinnemoen <hskinnemoen@google.com>
->>
->> May be we don't need to create the flash object if dinfo is NULL.
-> 
-> It's soldered on the board, so you can't really boot the board without
-> it. But if you think it's better to remove it altogether if we don't
-> have an image to load into it, I can do that.
-> 
->>
->> Reviewed-by: Cédric Le Goater <clg@kaod.org>
->> Tested-by: Cédric Le Goater <clg@kaod.org>
->>
->> Nice !
->>
->> We need a SPI controller model and a network device model now.
-> 
-> Yeah, and i2c, PWM, GPIO, etc., but if you're referring to the kernel
-> crash, see below.
 
-We don't need all device models but fixing the crash would be better. 
+David Gibson <david@gibson.dropbear.id.au> writes:
 
->> npcm7xx_bootrom.bin is a bit of a pain. Could we include it in
->> the QEMU roms ?
-> 
-> Yeah, I was planning to include this in v6.
+> On Tue, Jul 14, 2020 at 06:55:16PM +0100, Alex Benn=C3=A9e wrote:
+>> We actually see failures on threadcount running without plugins:
+>>=20
+>>   retry.py -n 1000 -c -- \
+>>     ./ppc64abi32-linux-user/qemu-ppc64abi32 \
+>>     ./tests/tcg/ppc64abi32-linux-user/threadcount
+>>=20
+>> which reports:
+>>=20
+>>   0: 978 times (97.80%), avg time 0.270 (0.01 varience/0.08 deviation)
+>>   -6: 21 times (2.10%), avg time 0.336 (0.01 varience/0.12 deviation)
+>>   -11: 1 times (0.10%), avg time 0.502 (0.00 varience/0.00 deviation)
+>>   Ran command 1000 times, 978 passes
+>>=20
+>> But when running with plugins we hit the failure a lot more often:
+>>=20
+>>   0: 91 times (91.00%), avg time 0.302 (0.04 varience/0.19 deviation)
+>>   -11: 9 times (9.00%), avg time 0.558 (0.01 varience/0.11 deviation)
+>>   Ran command 100 times, 91 passes
+>>=20
+>> The crash occurs in guest code which is the same in both pass and fail
+>> cases. However we see various messages reported on the console about
+>> corrupted memory lists which seems to imply the guest memory allocation
+>> is corrupted. This lines up with the seg fault being in the guest
+>> __libc_free function. So we think this is a guest bug which is
+>> exacerbated by various modes of translation. If anyone has access to
+>> real hardware to soak test the test case we could prove this properly.
+>>=20
+>> Signed-off-by: Alex Benn=C3=A9e <alex.bennee@linaro.org>
+>> Cc: David Gibson <david@gibson.dropbear.id.au>
+>> Cc: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
+>
+> Acked-by: David Gibson <david@gibson.dropbear.id.au>
+>
+> Honestly, AFAICT the ppc64abi32-linux-user target is pretty much
+> entirely broken anyway.  Many things about it appear to make no
+> sense, it's difficult to work out what it's even supposed to be, and I
+> strongly suspect no-one's actually used it in like a decade.
 
-Good. It will ease CI.
+Should we think about marking it deprecated for 5.2?
 
->> spi_master spi0: /ahb/fiu@fb000000/spi-nor@0 has no valid 'spi-max-frequency' property (-22)
->> spi_master spi0: Failed to create SPI device for /ahb/fiu@fb000000/spi-nor@0
-> 
-> This is a device tree bug:
-> 
-> https://github.com/hskinnemoen/openbmc/commit/99b172f88002f4fac939f85debe1187b9c569871
-> 
->> libphy: Fixed MDIO Bus: probed
->> 8<--- cut here ---
->> Unable to handle kernel paging request at virtual address fffffffe
-> 
-> I believe this is a kernel bug:
-> 
-> https://github.com/hskinnemoen/openbmc/commit/77e9f58ba157eabc976f15fa49892128fe2b2382
-> 
-> I needed two additional patches to get all the way to the login prompt:
-> 
-> https://github.com/hskinnemoen/openbmc/commits/20200711-gsj-qemu-0
- 
-
-Great. So are these for mainline or Joel's openbmc branch ? 
-
-Thanks,
-
-C.
+--=20
+Alex Benn=C3=A9e
 
