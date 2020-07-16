@@ -2,67 +2,78 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D7F15221C54
-	for <lists+qemu-devel@lfdr.de>; Thu, 16 Jul 2020 08:06:47 +0200 (CEST)
-Received: from localhost ([::1]:52906 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id ED3E3221C4A
+	for <lists+qemu-devel@lfdr.de>; Thu, 16 Jul 2020 08:04:30 +0200 (CEST)
+Received: from localhost ([::1]:47596 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jvx2c-0008Di-UZ
-	for lists+qemu-devel@lfdr.de; Thu, 16 Jul 2020 02:06:46 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:49298)
+	id 1jvx0Q-0005zL-1M
+	for lists+qemu-devel@lfdr.de; Thu, 16 Jul 2020 02:04:30 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:47296)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1jvx1k-0007T8-AE
- for qemu-devel@nongnu.org; Thu, 16 Jul 2020 02:05:52 -0400
-Received: from indium.canonical.com ([91.189.90.7]:60534)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1jvx1h-0001xx-UF
- for qemu-devel@nongnu.org; Thu, 16 Jul 2020 02:05:52 -0400
-Received: from loganberry.canonical.com ([91.189.90.37])
- by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
- id 1jvx1g-0003cc-0L
- for <qemu-devel@nongnu.org>; Thu, 16 Jul 2020 06:05:48 +0000
-Received: from loganberry.canonical.com (localhost [127.0.0.1])
- by loganberry.canonical.com (Postfix) with ESMTP id EF62E2E80F0
- for <qemu-devel@nongnu.org>; Thu, 16 Jul 2020 06:05:47 +0000 (UTC)
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1jvwvL-0001sX-4G
+ for qemu-devel@nongnu.org; Thu, 16 Jul 2020 01:59:15 -0400
+Received: from us-smtp-2.mimecast.com ([205.139.110.61]:55144
+ helo=us-smtp-delivery-1.mimecast.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1jvwvI-0000gF-Kn
+ for qemu-devel@nongnu.org; Thu, 16 Jul 2020 01:59:14 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1594879151;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=E950rwzW/0jMvyXkAODfH0a7u89O6d6OTvsnWBnIyns=;
+ b=Jom5K0O4IzsOnSLoQzgkCWFXzaVHImJrh9xtDwTbUx7lZabcE/FYJ5XV5rKcCFoMhzH1kH
+ l2cycxjj8oEimCBOjY6iBm6oixVBe9hSBwB+UtPf4D4DuLpKvmeRQh78fI1HDedc9xIM3N
+ vkaxPL4pI4BQ8UtYqNcFNB8Edbc2R4o=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-40-fEHs33a5OvecDxLx45MSIA-1; Thu, 16 Jul 2020 01:59:10 -0400
+X-MC-Unique: fEHs33a5OvecDxLx45MSIA-1
+Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
+ [10.5.11.14])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 07C8F106B244;
+ Thu, 16 Jul 2020 05:59:09 +0000 (UTC)
+Received: from blackfin.pond.sub.org (ovpn-112-143.ams2.redhat.com
+ [10.36.112.143])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id F088017DFE;
+ Thu, 16 Jul 2020 05:59:05 +0000 (UTC)
+Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
+ id 7F3EC11385E0; Thu, 16 Jul 2020 07:59:04 +0200 (CEST)
+From: Markus Armbruster <armbru@redhat.com>
+To: Li Qiang <liq3ea@163.com>
+Subject: Re: [PATCH v2] tests: qmp-cmd-test: fix memory leak
+References: <20200715154117.15456-1-liq3ea@163.com>
+Date: Thu, 16 Jul 2020 07:59:04 +0200
+In-Reply-To: <20200715154117.15456-1-liq3ea@163.com> (Li Qiang's message of
+ "Wed, 15 Jul 2020 08:41:17 -0700")
+Message-ID: <874kq8roev.fsf@dusky.pond.sub.org>
+User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/26.3 (gnu/linux)
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: quoted-printable
-Date: Thu, 16 Jul 2020 05:58:06 -0000
-From: Martin Grigorov <1884719@bugs.launchpad.net>
-To: qemu-devel@nongnu.org
-X-Launchpad-Notification-Type: bug
-X-Launchpad-Bug: product=qemu; status=New; importance=Undecided; assignee=None;
-X-Launchpad-Bug-Information-Type: Public
-X-Launchpad-Bug-Private: no
-X-Launchpad-Bug-Security-Vulnerability: no
-X-Launchpad-Bug-Commenters: laurent-vivier martingrigorov stefanha
-X-Launchpad-Bug-Reporter: Martin Grigorov (martingrigorov)
-X-Launchpad-Bug-Modifier: Martin Grigorov (martingrigorov)
-References: <159289799812.6175.17000319886186623286.malonedeb@soybean.canonical.com>
-Message-Id: <159487908703.12069.13359392151427655167.malone@soybean.canonical.com>
-Subject: [Bug 1884719] Re: Function not implemented when using libaio
-X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
-X-Launchpad-Message-For: qemu-devel-ml
-Precedence: bulk
-X-Generated-By: Launchpad (canonical.com);
- Revision="4809fcb62f445aaa3ae919f7f6c3cc7d156ea57a";
- Instance="production-secrets-lazr.conf"
-X-Launchpad-Hash: d46dd726a7a1182bb939057df1dd23f2e886b3e3
-Received-SPF: none client-ip=91.189.90.7; envelope-from=bounces@canonical.com;
- helo=indium.canonical.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/07/16 01:10:46
-X-ACL-Warn: Detected OS   = Linux 3.11 and newer [fuzzy]
-X-Spam_score_int: -58
-X-Spam_score: -5.9
-X-Spam_bar: -----
-X-Spam_report: (-5.9 / 5.0 requ) BAYES_00=-1.9, HEADER_FROM_DIFFERENT_DOMAINS=1,
- RCVD_IN_DNSWL_HI=-5, RCVD_IN_MSPIKE_H3=-0.01, RCVD_IN_MSPIKE_WL=-0.01,
- SPF_HELO_NONE=0.001, SPF_NONE=0.001 autolearn=ham autolearn_force=no
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=armbru@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain
+Received-SPF: pass client-ip=205.139.110.61; envelope-from=armbru@redhat.com;
+ helo=us-smtp-delivery-1.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/07/16 01:59:11
+X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
+X-Spam_score_int: -40
+X-Spam_score: -4.1
+X-Spam_bar: ----
+X-Spam_report: (-4.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-1, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
+Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -71,179 +82,183 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Bug 1884719 <1884719@bugs.launchpad.net>
+Cc: lvivier@redhat.com, thuth@redhat.com, liq3ea@gmail.com,
+ qemu-devel@nongnu.org, eric.auger@redhat.com, pbonzini@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Thank you for working on this, Laurent!
-Just let me know and I will test your changes!
+Li Qiang <liq3ea@163.com> writes:
 
--- =
+> Properly free each test response to avoid memory leak and separate
+> qtest_qmp() calls with spare lines, in a consistent manner.
+>
+> Fixes: 5b88849e7b9("tests/qmp-cmd-test: Add
+> qmp/object-add-failure-modes"
 
-You received this bug notification because you are a member of qemu-
-devel-ml, which is subscribed to QEMU.
-https://bugs.launchpad.net/bugs/1884719
+The patch also fixes leaks introduced in 442b09b83d and 9fc719b869,
+actually.  At least it should, but the patch appears to be incomplete.
 
-Title:
-  Function not implemented when using libaio
+>
+> Reviewed-by: Eric Auger <eric.auger@redhat.com>
+> Signed-off-by: Li Qiang <liq3ea@163.com>
+> ---
+> Change sincve v1: add detailed commit message
+>  
+> tests/qtest/qmp-cmd-test.c | 13 +++++++++++++
+>  1 file changed, 13 insertions(+)
+>
+> diff --git a/tests/qtest/qmp-cmd-test.c b/tests/qtest/qmp-cmd-test.c
+> index c68f99f659..f7b1aa7fdc 100644
+> --- a/tests/qtest/qmp-cmd-test.c
+> +++ b/tests/qtest/qmp-cmd-test.c
+> @@ -230,6 +230,8 @@ static void test_object_add_failure_modes(void)
+   static void test_object_add_failure_modes(void)
+   {
+       QTestState *qts;
+       QDict *resp;
 
-Status in QEMU:
-  New
+       /* attempt to create an object without props */
+       qts = qtest_init(common_args);
+       resp = qtest_qmp(qts, "{'execute': 'object-add', 'arguments':"
+                        " {'qom-type': 'memory-backend-ram', 'id': 'ram1' } }");
+       g_assert_nonnull(resp);
+       qmp_assert_error_class(resp, "GenericError");
 
-Bug description:
-  Hello
+Doesn't @resp leak here, too?
 
-  I experience "Function not implemented" errors when trying to use
-  Linux libaio library in foreign architecture, e.g. aarch64.
+       /* attempt to create an object without qom-type */
+       resp = qtest_qmp(qts, "{'execute': 'object-add', 'arguments':"
+                        " {'id': 'ram1' } }");
+       g_assert_nonnull(resp);
+       qmp_assert_error_class(resp, "GenericError");
 
-  I've faced this problem while using https://github.com/multiarch/qemu-use=
-r-static, i.e. Docker+QEMU. =
+Likewise.
 
-  I understand that I do not use plain QEMU and you may count this report a=
-s a "distribution of QEMU"! Just let me know what are the steps to test it =
-with plain QEMU and I will test and update this ticket!
+       /* attempt to delete an object that does not exist */
+       resp = qtest_qmp(qts, "{'execute': 'object-del', 'arguments':"
+                        " {'id': 'ram1' } }");
+       g_assert_nonnull(resp);
+       qmp_assert_error_class(resp, "GenericError");
 
-  =
+Likewise.
 
-  Here are the steps to reproduce the issue:
+       /* attempt to create 2 objects with duplicate id */
+       resp = qtest_qmp(qts, "{'execute': 'object-add', 'arguments':"
+                        " {'qom-type': 'memory-backend-ram', 'id': 'ram1',"
+>                       " 'props': {'size': 1048576 } } }");
+>      g_assert_nonnull(resp);
+>      g_assert(qdict_haskey(resp, "return"));
+> +    qobject_unref(resp);
+> +
+>      resp = qtest_qmp(qts, "{'execute': 'object-add', 'arguments':"
+>                       " {'qom-type': 'memory-backend-ram', 'id': 'ram1',"
+>                       " 'props': {'size': 1048576 } } }");
+       g_assert_nonnull(resp);
+       qmp_assert_error_class(resp, "GenericError");
 
-  1) On x86_64 machine register QEMU:
+Likewise.
 
-      `docker run -it --rm --privileged multiarch/qemu-user-static
-  --reset --credential yes --persistent yes`
+       /* delete ram1 object */
+       resp = qtest_qmp(qts, "{'execute': 'object-del', 'arguments':"
+> @@ -241,6 +243,7 @@ static void test_object_add_failure_modes(void)
+>                       " {'id': 'ram1' } }");
+>      g_assert_nonnull(resp);
+>      g_assert(qdict_haskey(resp, "return"));
+> +    qobject_unref(resp);
+>  
+>      /* attempt to create an object with a property of a wrong type */
+>      resp = qtest_qmp(qts, "{'execute': 'object-add', 'arguments':"
+                        " {'qom-type': 'memory-backend-ram', 'id': 'ram1',"
+                        " 'props': {'size': '1048576' } } }");
+> @@ -249,17 +252,20 @@ static void test_object_add_failure_modes(void)
+>      g_assert_nonnull(resp);
+>      /* now do it right */
+>      qmp_assert_error_class(resp, "GenericError");
 
-  2) Start a Docker image with foreign CPU architecture, e.g. aarch64
+Likewise.
 
-      `docker run -it arm64v8/centos:8 bash`
+> +
+>      resp = qtest_qmp(qts, "{'execute': 'object-add', 'arguments':"
+>                       " {'qom-type': 'memory-backend-ram', 'id': 'ram1',"
+>                       " 'props': {'size': 1048576 } } }");
+>      g_assert_nonnull(resp);
+>      g_assert(qdict_haskey(resp, "return"));
+> +    qobject_unref(resp);
+>  
+>      /* delete ram1 object */
+>      resp = qtest_qmp(qts, "{'execute': 'object-del', 'arguments':"
+>                       " {'id': 'ram1' } }");
+>      g_assert_nonnull(resp);
+>      g_assert(qdict_haskey(resp, "return"));
+> +    qobject_unref(resp);
+>  
+>      /* attempt to create an object without the id */
+>      resp = qtest_qmp(qts, "{'execute': 'object-add', 'arguments':"
+                        " {'qom-type': 'memory-backend-ram',"
+> @@ -267,18 +273,21 @@ static void test_object_add_failure_modes(void)
+>                       " 'props': {'size': 1048576 } } }");
+>      g_assert_nonnull(resp);
+>      qmp_assert_error_class(resp, "GenericError");
 
-  3) Inside the Docker container install GCC and libaio
+Likewise.
 
-      `yum install gcc libaio libaio-devel`
+> +
+>      /* now do it right */
+>      resp = qtest_qmp(qts, "{'execute': 'object-add', 'arguments':"
+>                       " {'qom-type': 'memory-backend-ram', 'id': 'ram1',"
+>                       " 'props': {'size': 1048576 } } }");
+>      g_assert_nonnull(resp);
+>      g_assert(qdict_haskey(resp, "return"));
+> +    qobject_unref(resp);
+>  
+>      /* delete ram1 object */
+>      resp = qtest_qmp(qts, "{'execute': 'object-del', 'arguments':"
+>                       " {'id': 'ram1' } }");
+>      g_assert_nonnull(resp);
+>      g_assert(qdict_haskey(resp, "return"));
+> +    qobject_unref(resp);
+>  
+>      /* attempt to set a non existing property */
+>      resp = qtest_qmp(qts, "{'execute': 'object-add', 'arguments':"
+                        " {'qom-type': 'memory-backend-ram', 'id': 'ram1',"
+> @@ -286,23 +295,27 @@ static void test_object_add_failure_modes(void)
+>                       " 'props': {'sized': 1048576 } } }");
+>      g_assert_nonnull(resp);
+>      qmp_assert_error_class(resp, "GenericError");
 
-  4) Compile the following C program
+Likewise.
 
-  ```
-  #include <stdio.h>
-  #include <errno.h>
-  #include <libaio.h>
-  #include <stdlib.h>
+> +
+>      /* now do it right */
+>      resp = qtest_qmp(qts, "{'execute': 'object-add', 'arguments':"
+>                       " {'qom-type': 'memory-backend-ram', 'id': 'ram1',"
+>                       " 'props': {'size': 1048576 } } }");
+>      g_assert_nonnull(resp);
+>      g_assert(qdict_haskey(resp, "return"));
+> +    qobject_unref(resp);
+>  
+>      /* delete ram1 object without id */
+>      resp = qtest_qmp(qts, "{'execute': 'object-del', 'arguments':"
+>                       " {'ida': 'ram1' } }");
+>      g_assert_nonnull(resp);
+> +    qobject_unref(resp);
+>  
+>      /* delete ram1 object */
+>      resp = qtest_qmp(qts, "{'execute': 'object-del', 'arguments':"
+>                       " {'id': 'ram1' } }");
+>      g_assert_nonnull(resp);
+>      g_assert(qdict_haskey(resp, "return"));
+> +    qobject_unref(resp);
+>  
+>      /* delete ram1 object that does not exist anymore*/
+>      resp = qtest_qmp(qts, "{'execute': 'object-del', 'arguments':"
+                        " {'id': 'ram1' } }");
+       g_assert_nonnull(resp);
+       qmp_assert_error_class(resp, "GenericError");
 
-  struct io_control {
-      io_context_t ioContext;
-  };
+Likewise.
 
-  int main() {
-      int queueSize =3D 10;
+       qtest_quit(qts);
+   }
 
-      struct io_control * theControl =3D (struct io_control *) malloc(sizeo=
-f(struct io_control));
-      if (theControl =3D=3D NULL) {
-          printf("theControl is NULL");
-          return 123;
-      }
-
-      int res =3D io_queue_init(queueSize, &theControl->ioContext);
-      io_queue_release(theControl->ioContext);
-      free(theControl);
-      printf("res is: %d", res);
-  }
-  ```
-
-      ```
-      cat > test.c
-          [PASTE THE CODE ABOVE HERE]
-      ^D
-      ```
-
-      `gcc test.c -o out -laio && ./out`
-
-  =
-
-  When executed directly on aarch64 machine (i.e. without emulation) or on =
-x86_64 Docker image (e.g. centos:8) it prints `res is: 0`, i.e. it successf=
-ully initialized a LibAIO queue.
-
-  But when executed on Docker image with foreign/emulated CPU
-  architecture it prints `res is: -38` (ENOSYS). `man io_queue_init`
-  says that error ENOSYS is returned when "Not implemented."
-
-  Environment:
-
-  QEMU version: 5.0.0.2  (https://github.com/multiarch/qemu-user-static/blo=
-b/master/.travis.yml#L24-L28)
-  Container application: Docker
-  Output of `docker --version`:
-
-  ```
-  Client:
-   Version:           19.03.8
-   API version:       1.40
-   Go version:        go1.13.8
-   Git commit:        afacb8b7f0
-   Built:             Wed Mar 11 23:42:35 2020
-   OS/Arch:           linux/amd64
-   Experimental:      false
-
-  Server:
-   Engine:
-    Version:          19.03.8
-    API version:      1.40 (minimum version 1.12)
-    Go version:       go1.13.8
-    Git commit:       afacb8b7f0
-    Built:            Wed Mar 11 22:48:33 2020
-    OS/Arch:          linux/amd64
-    Experimental:     false
-   containerd:
-    Version:          1.3.3-0ubuntu2
-    GitCommit:        =
-
-   runc:
-    Version:          spec: 1.0.1-dev
-    GitCommit:        =
-
-   docker-init:
-    Version:          0.18.0
-    GitCommit:        =
-
-  ```
-
-  Same happens with Ubuntu (arm64v8/ubuntu:focal).
-
-  I've tried to `strace` it but :
-
-  ```
-  /usr/bin/strace: ptrace(PTRACE_TRACEME, ...): Function not implemented
-  /usr/bin/strace: PTRACE_SETOPTIONS: Function not implemented
-  /usr/bin/strace: detach: waitpid(112): No child processes
-  /usr/bin/strace: Process 112 detached
-  ```
-
-  Here are the steps to reproduce the problem with strace:
-
-       ```
-       docker run --rm -it --security-opt seccomp:unconfined --security-opt=
- apparmor:unconfined --privileged --cap-add ALL arm64v8/centos:8 bash
-
-       yum install -y strace`
-
-       strace echo Test
-       ```
-
-  Note: I used --privileged, disabled seccomp and apparmor, and added
-  all capabilities
-
-  Disabling security solves the "Permission denied" problem but then
-  comes the "Not implemented" one.
-
-  =
-
-  Any idea what could be the problem and how to work it around ?
-  I've googled a lot but I wasn't able to find any problems related to liba=
-io on QEMU.
-
-  Thank you!
-  Martin
-
-To manage notifications about this bug go to:
-https://bugs.launchpad.net/qemu/+bug/1884719/+subscriptions
 
