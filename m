@@ -2,54 +2,72 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id EFA71221A42
-	for <lists+qemu-devel@lfdr.de>; Thu, 16 Jul 2020 04:45:27 +0200 (CEST)
-Received: from localhost ([::1]:48368 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 29BC5221A53
+	for <lists+qemu-devel@lfdr.de>; Thu, 16 Jul 2020 04:51:54 +0200 (CEST)
+Received: from localhost ([::1]:52554 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jvttn-0001Lp-1A
-	for lists+qemu-devel@lfdr.de; Wed, 15 Jul 2020 22:45:27 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:37120)
+	id 1jvu01-0003Oa-0M
+	for lists+qemu-devel@lfdr.de; Wed, 15 Jul 2020 22:51:53 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:38956)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <teawaterz@linux.alibaba.com>)
- id 1jvtrE-0005cH-HI
- for qemu-devel@nongnu.org; Wed, 15 Jul 2020 22:42:48 -0400
-Received: from out4436.biz.mail.alibaba.com ([47.88.44.36]:26625)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <teawaterz@linux.alibaba.com>)
- id 1jvtrC-00043n-PW
- for qemu-devel@nongnu.org; Wed, 15 Jul 2020 22:42:48 -0400
-X-Alimail-AntiSpam: AC=PASS; BC=-1|-1; BR=01201311R151e4; CH=green; DM=||false|;
- DS=||; FP=0|-1|-1|-1|0|-1|-1|-1; HT=e01f04427; MF=teawaterz@linux.alibaba.com;
- NM=1; PH=DS; RN=11; SR=0; TI=SMTPD_---0U2rVPuE_1594867357; 
-Received: from localhost(mailfrom:teawaterz@linux.alibaba.com
- fp:SMTPD_---0U2rVPuE_1594867357) by smtp.aliyun-inc.com(127.0.0.1);
- Thu, 16 Jul 2020 10:42:39 +0800
-From: Hui Zhu <teawater@gmail.com>
-To: mst@redhat.com, david@redhat.com, jasowang@redhat.com,
- akpm@linux-foundation.org, virtualization@lists.linux-foundation.org,
- linux-kernel@vger.kernel.org, linux-mm@kvack.org, qemu-devel@nongnu.org,
- virtio-dev@lists.oasis-open.org
-Subject: [RFC for qemu v4 2/2] virtio_balloon: Add dcvq to deflate continuous
- pages
-Date: Thu, 16 Jul 2020 10:41:55 +0800
-Message-Id: <1594867315-8626-6-git-send-email-teawater@gmail.com>
-X-Mailer: git-send-email 2.7.4
-In-Reply-To: <1594867315-8626-1-git-send-email-teawater@gmail.com>
-References: <1594867315-8626-1-git-send-email-teawater@gmail.com>
-Received-SPF: pass client-ip=47.88.44.36;
- envelope-from=teawaterz@linux.alibaba.com; helo=out4436.biz.mail.alibaba.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/07/15 22:42:26
-X-ACL-Warn: Detected OS   = Linux 3.1-3.10
-X-Spam_score_int: -71
-X-Spam_score: -7.2
-X-Spam_bar: -------
-X-Spam_report: (-7.2 / 5.0 requ) BAYES_00=-1.9, DKIM_ADSP_CUSTOM_MED=0.001,
- FORGED_GMAIL_RCVD=1, FREEMAIL_FORGED_FROMDOMAIN=1, FREEMAIL_FROM=0.001,
- HEADER_FROM_DIFFERENT_DOMAINS=1, NML_ADSP_CUSTOM_MED=0.9,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-1, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001, UNPARSEABLE_RELAY=0.001,
- USER_IN_DEF_SPF_WL=-7.5 autolearn=no autolearn_force=no
+ (Exim 4.90_1) (envelope-from <sundeep.lkml@gmail.com>)
+ id 1jvtyv-0002oZ-AX; Wed, 15 Jul 2020 22:50:45 -0400
+Received: from mail-io1-xd29.google.com ([2607:f8b0:4864:20::d29]:45831)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <sundeep.lkml@gmail.com>)
+ id 1jvtyt-0007p3-K2; Wed, 15 Jul 2020 22:50:45 -0400
+Received: by mail-io1-xd29.google.com with SMTP id e64so4466219iof.12;
+ Wed, 15 Jul 2020 19:50:42 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc:content-transfer-encoding;
+ bh=Gpyqdj0qZNNM20TScXYZlSyxF6Er9xUAYkIBSIg/Tw0=;
+ b=FZF4j6UaAT95alh7gcJrfQrrYffVD8rv+njuvqtaPA4PsXsIiJXQx1m0J9SjUWqFZ1
+ QhO/iCqQS1hT30BJjsD+SoW8ZiXbOzZ+yKwpl4pMP7jTGZGU1ixU7le0Zp06lybm4ww0
+ VqCbZCJyPW7lQZPKGNfPsEZbZaiieAP2Hz8PMcc6Db+D2RLvOmfNUi+CXw2OU/YOpItq
+ 6KPNQ8pTHSQK3fHyEzm69sm1JD6C//AMlA+URIfgh4fnVIKwEGOQP5T64RIWKDdhdgej
+ e7mYatjej3KnpHW6MUNABVN5kkr1Z/dT8tJjSYO5GeUN3PvT2pDaBkVQbZatOa7ee8dk
+ V6GA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc:content-transfer-encoding;
+ bh=Gpyqdj0qZNNM20TScXYZlSyxF6Er9xUAYkIBSIg/Tw0=;
+ b=GoDPpxjmB03Z1Txtyh9Q/w7XxETgVuZejJpjRXIeeJhMahPdWk6874IU2t+4jLaJJr
+ rWx/IlGuKmsOQK7Hmfzt3vmBGhfY2WOhL07LgikOlrd51pCXFEBWetalo9Slw9/4zU8X
+ zd8/yyfduDnt2R5B4A4tJqCckuzH/IRxkZf530Xo4gt60yx2IK0IUpnvGdnY4vA0D/qi
+ +r0QLWb53/ffOMwjOWMGq/hUIwzyaYn8cbUhtVqTkh/lRl9ZO2n0LiLhuEcdaKNjaMCE
+ FCBa6VTtv70dnExveKjhKexnhBZxdD1UZ8dBNsztO3hk+B6yOqJQdta3O1GIDg0DLEkH
+ zPvQ==
+X-Gm-Message-State: AOAM53307teSDjKpxmPsWcd12YHOVlJaZFECzQFySVneI3F98D34itC6
+ 6oA0Zm01gcd1nPoI1q/JXP2STZNKvUK33Rd0tDM=
+X-Google-Smtp-Source: ABdhPJyxr85bC/iEiSE+DG95y5DGP/+cQruX0h1sxYlxJAL/4SQlcCSRlwxZJ8ZEFzsNYZ7gIUQoTrWFD/kMKShibak=
+X-Received: by 2002:a5e:c311:: with SMTP id a17mr2429768iok.12.1594867841718; 
+ Wed, 15 Jul 2020 19:50:41 -0700 (PDT)
+MIME-Version: 1.0
+References: <e010da48-cfbe-9616-d750-a922cb463a94@redhat.com>
+ <f457f5d9-2405-4456-4a26-b3a9784e2cd9@redhat.com>
+ <efc16370-869b-15b9-36db-19ea28398e0c@amsat.org>
+In-Reply-To: <efc16370-869b-15b9-36db-19ea28398e0c@amsat.org>
+From: sundeep subbaraya <sundeep.lkml@gmail.com>
+Date: Thu, 16 Jul 2020 08:20:31 +0530
+Message-ID: <CALHRZureR-QU7OUgMdxx0cOGpR4R+7i-bLvZfOKzYws5hWhJqA@mail.gmail.com>
+Subject: Re: Test failure with Smartfusion2 emac block (msf2-emac)
+To: =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <f4bug@amsat.org>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=2607:f8b0:4864:20::d29;
+ envelope-from=sundeep.lkml@gmail.com; helo=mail-io1-xd29.google.com
+X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
+ That's all we know.
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -62,90 +80,62 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Hui Zhu <teawaterz@linux.alibaba.com>, Hui Zhu <teawater@gmail.com>
+Cc: Thomas Huth <thuth@redhat.com>, qemu-arm <qemu-arm@nongnu.org>,
+ QEMU Developers <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-This commit adds a vq dcvq to deflate continuous pages.
-When VIRTIO_BALLOON_F_CONT_PAGES is set, try to get continuous pages
-from icvq and use madvise MADV_WILLNEED with the pages.
+Hi Thomas,
 
-Signed-off-by: Hui Zhu <teawaterz@linux.alibaba.com>
----
- hw/virtio/virtio-balloon.c         | 14 +++++++++-----
- include/hw/virtio/virtio-balloon.h |  2 +-
- 2 files changed, 10 insertions(+), 6 deletions(-)
+I will check and get back to you in a week.
+Hope that's okay.
 
-diff --git a/hw/virtio/virtio-balloon.c b/hw/virtio/virtio-balloon.c
-index d36a5c8..165adf7 100644
---- a/hw/virtio/virtio-balloon.c
-+++ b/hw/virtio/virtio-balloon.c
-@@ -138,7 +138,8 @@ static void balloon_inflate_page(VirtIOBalloon *balloon,
- }
- 
- static void balloon_deflate_page(VirtIOBalloon *balloon,
--                                 MemoryRegion *mr, hwaddr mr_offset)
-+                                 MemoryRegion *mr, hwaddr mr_offset,
-+                                 size_t size)
- {
-     void *addr = memory_region_get_ram_ptr(mr) + mr_offset;
-     ram_addr_t rb_offset;
-@@ -153,10 +154,11 @@ static void balloon_deflate_page(VirtIOBalloon *balloon,
-     rb_page_size = qemu_ram_pagesize(rb);
- 
-     host_addr = (void *)((uintptr_t)addr & ~(rb_page_size - 1));
-+    size &= ~(rb_page_size - 1);
- 
-     /* When a page is deflated, we hint the whole host page it lives
-      * on, since we can't do anything smaller */
--    ret = qemu_madvise(host_addr, rb_page_size, QEMU_MADV_WILLNEED);
-+    ret = qemu_madvise(host_addr, size, QEMU_MADV_WILLNEED);
-     if (ret != 0) {
-         warn_report("Couldn't MADV_WILLNEED on balloon deflate: %s",
-                     strerror(errno));
-@@ -354,7 +356,7 @@ static void virtio_balloon_handle_output(VirtIODevice *vdev, VirtQueue *vq)
-             pa = (hwaddr) p << VIRTIO_BALLOON_PFN_SHIFT;
-             offset += 4;
- 
--            if (vq == s->icvq) {
-+            if (vq == s->icvq || vq == s->dcvq) {
-                 uint32_t psize_ptr;
-                 if (iov_to_buf(elem->out_sg, elem->out_num, offset, &psize_ptr, 4) != 4) {
-                     break;
-@@ -383,8 +385,9 @@ static void virtio_balloon_handle_output(VirtIODevice *vdev, VirtQueue *vq)
-                     balloon_inflate_page(s, section.mr,
-                                          section.offset_within_region,
-                                          psize, &pbp);
--                } else if (vq == s->dvq) {
--                    balloon_deflate_page(s, section.mr, section.offset_within_region);
-+                } else if (vq == s->dvq || vq == s->dcvq) {
-+                    balloon_deflate_page(s, section.mr, section.offset_within_region,
-+                                         psize);
-                 } else {
-                     g_assert_not_reached();
-                 }
-@@ -838,6 +841,7 @@ static void virtio_balloon_device_realize(DeviceState *dev, Error **errp)
- 
-     if (virtio_has_feature(s->host_features, VIRTIO_BALLOON_F_CONT_PAGES)) {
-         s->icvq = virtio_add_queue(vdev, 128, virtio_balloon_handle_output);
-+        s->dcvq = virtio_add_queue(vdev, 128, virtio_balloon_handle_output);
-     }
- 
-     reset_stats(s);
-diff --git a/include/hw/virtio/virtio-balloon.h b/include/hw/virtio/virtio-balloon.h
-index 6a2514d..848a7fb 100644
---- a/include/hw/virtio/virtio-balloon.h
-+++ b/include/hw/virtio/virtio-balloon.h
-@@ -42,7 +42,7 @@ enum virtio_balloon_free_page_report_status {
- 
- typedef struct VirtIOBalloon {
-     VirtIODevice parent_obj;
--    VirtQueue *ivq, *dvq, *svq, *free_page_vq, *icvq;
-+    VirtQueue *ivq, *dvq, *svq, *free_page_vq, *icvq, *dcvq;
-     uint32_t free_page_report_status;
-     uint32_t num_pages;
-     uint32_t actual;
--- 
-2.7.4
+Thanks,
+Sundeep
 
+On Tue, Jul 14, 2020 at 8:12 PM Philippe Mathieu-Daud=C3=A9 <f4bug@amsat.or=
+g> wrote:
+>
+> Ping?
+>
+> On 7/7/20 7:32 AM, Thomas Huth wrote:
+> > On 07/07/2020 07.18, Thomas Huth wrote:
+> >>
+> >>  Hi Subbaraya,
+> >>
+> >> today, I noticed that there is a test failure with msf2-emac when
+> >> running the device-introspect-test in slow mode. Either run:
+> >>
+> >>  make check-qtest-aarch64 SPEED=3Dslow
+> >>
+> >> or as a shortcut:
+> >>
+> >>  make tests/qtest/device-introspect-test
+> >>  QTEST_QEMU_BINARY=3D"aarch64-softmmu/qemu-system-aarch64" \
+> >>   ./tests/qtest/device-introspect-test -m slow
+> >>
+> >> Then the test fails with:
+> >>
+> >> Unexpected error in error_set_from_qdev_prop_error() at
+> >> hw/core/qdev-properties.c:1251:
+> >> Property 'msf2-emac.netdev' can't take value 'hub0port0', it's in use
+> >>
+> >> Could you please have a look?
+> >
+> > The problem might be related to m2sxxx_soc_initfn() in msf2-soc.c. Look=
+s
+> > like you are using nd_table in an instance_init function. This is almos=
+t
+> > always wrong, and should be done by the machine code instead (e.g. in
+> > msf2-som.c).
+> >
+> >  Thomas
+> >
+> >
+> > PS: Maybe also have a look at this article, it might help to understand
+> > the idea behind instance_init a little bit:
+> > http://people.redhat.com/~thuth/blog/qemu/2018/09/10/instance-init-real=
+ize.html
+> >
+> >
 
