@@ -2,71 +2,101 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A8CBF2227F9
-	for <lists+qemu-devel@lfdr.de>; Thu, 16 Jul 2020 18:04:18 +0200 (CEST)
-Received: from localhost ([::1]:41032 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 150A82227FF
+	for <lists+qemu-devel@lfdr.de>; Thu, 16 Jul 2020 18:07:06 +0200 (CEST)
+Received: from localhost ([::1]:47920 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jw6Mr-0003HU-9Y
-	for lists+qemu-devel@lfdr.de; Thu, 16 Jul 2020 12:04:17 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:43418)
+	id 1jw6PZ-0006Oh-5i
+	for lists+qemu-devel@lfdr.de; Thu, 16 Jul 2020 12:07:05 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:43112)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1jw6K6-0000X5-Mv
- for qemu-devel@nongnu.org; Thu, 16 Jul 2020 12:01:26 -0400
-Received: from indium.canonical.com ([91.189.90.7]:52262)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1jw6K1-00058P-5g
- for qemu-devel@nongnu.org; Thu, 16 Jul 2020 12:01:26 -0400
-Received: from loganberry.canonical.com ([91.189.90.37])
- by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
- id 1jw6Jy-0002qk-8N
- for <qemu-devel@nongnu.org>; Thu, 16 Jul 2020 16:01:18 +0000
-Received: from loganberry.canonical.com (localhost [127.0.0.1])
- by loganberry.canonical.com (Postfix) with ESMTP id 2643B2E80F1
- for <qemu-devel@nongnu.org>; Thu, 16 Jul 2020 16:01:18 +0000 (UTC)
+ (Exim 4.90_1) (envelope-from <arbab@linux.ibm.com>)
+ id 1jw6JS-00006n-KS; Thu, 16 Jul 2020 12:00:49 -0400
+Received: from mx0a-001b2d01.pphosted.com ([148.163.156.1]:9890)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <arbab@linux.ibm.com>)
+ id 1jw6JI-0004ns-Rf; Thu, 16 Jul 2020 12:00:40 -0400
+Received: from pps.filterd (m0098393.ppops.net [127.0.0.1])
+ by mx0a-001b2d01.pphosted.com (8.16.0.42/8.16.0.42) with SMTP id
+ 06GFZERa044308; Thu, 16 Jul 2020 12:00:26 -0400
+Received: from pps.reinject (localhost [127.0.0.1])
+ by mx0a-001b2d01.pphosted.com with ESMTP id 329uejqswn-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Thu, 16 Jul 2020 12:00:23 -0400
+Received: from m0098393.ppops.net (m0098393.ppops.net [127.0.0.1])
+ by pps.reinject (8.16.0.36/8.16.0.36) with SMTP id 06GFu5wL117807;
+ Thu, 16 Jul 2020 12:00:23 -0400
+Received: from ppma04dal.us.ibm.com (7a.29.35a9.ip4.static.sl-reverse.com
+ [169.53.41.122])
+ by mx0a-001b2d01.pphosted.com with ESMTP id 329uejqsvt-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Thu, 16 Jul 2020 12:00:23 -0400
+Received: from pps.filterd (ppma04dal.us.ibm.com [127.0.0.1])
+ by ppma04dal.us.ibm.com (8.16.0.42/8.16.0.42) with SMTP id 06GFxf63000679;
+ Thu, 16 Jul 2020 16:00:22 GMT
+Received: from b03cxnp08028.gho.boulder.ibm.com
+ (b03cxnp08028.gho.boulder.ibm.com [9.17.130.20])
+ by ppma04dal.us.ibm.com with ESMTP id 327529vcuu-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Thu, 16 Jul 2020 16:00:22 +0000
+Received: from b03ledav006.gho.boulder.ibm.com
+ (b03ledav006.gho.boulder.ibm.com [9.17.130.237])
+ by b03cxnp08028.gho.boulder.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
+ 06GG0L5x60490150
+ (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+ Thu, 16 Jul 2020 16:00:21 GMT
+Received: from b03ledav006.gho.boulder.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id E6100C6057;
+ Thu, 16 Jul 2020 16:00:20 +0000 (GMT)
+Received: from b03ledav006.gho.boulder.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id 4D7BDC605B;
+ Thu, 16 Jul 2020 16:00:20 +0000 (GMT)
+Received: from arbab-vm.localdomain (unknown [9.160.119.4])
+ by b03ledav006.gho.boulder.ibm.com (Postfix) with SMTP;
+ Thu, 16 Jul 2020 16:00:20 +0000 (GMT)
+Received: from arbab-vm (localhost [IPv6:::1])
+ by arbab-vm.localdomain (Postfix) with ESMTP id ADFFA1003A0;
+ Thu, 16 Jul 2020 11:00:17 -0500 (CDT)
+Date: Thu, 16 Jul 2020 11:00:17 -0500
+From: Reza Arbab <arbab@linux.ibm.com>
+To: Daniel Henrique Barboza <danielhb413@gmail.com>
+Subject: Re: [PATCH v3] spapr: Add a new level of NUMA for GPUs
+Message-ID: <20200716160017.jw27huiqs2ghk4c4@arbab-vm>
+Organization: IBM Linux Technology Center
+References: <1590177213-4513-1-git-send-email-arbab@linux.ibm.com>
+ <20200525050550.GA23110@umbus.fritz.box>
+ <20200525174927.aky64nw7p7xztqzh@arbab-vm>
+ <20200716050459.GM93134@umbus.fritz.box>
+ <cdbdf33f-f63b-ea5b-befc-0b94904b42ca@gmail.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: quoted-printable
-Date: Thu, 16 Jul 2020 15:53:56 -0000
-From: =?utf-8?q?Philippe_Mathieu-Daud=C3=A9?= <1880822@bugs.launchpad.net>
-To: qemu-devel@nongnu.org
-X-Launchpad-Notification-Type: bug
-X-Launchpad-Bug: product=qemu; status=Fix Committed; importance=Undecided;
- assignee=philmd@redhat.com; 
-X-Launchpad-Bug-Tags: cve qemu security
-X-Launchpad-Bug-Information-Type: Public Security
-X-Launchpad-Bug-Private: no
-X-Launchpad-Bug-Security-Vulnerability: yes
-X-Launchpad-Bug-Commenters: philmd pjps
-X-Launchpad-Bug-Reporter: P J P (pjps)
-X-Launchpad-Bug-Modifier: =?utf-8?q?Philippe_Mathieu-Daud=C3=A9_=28philmd?=
- =?utf-8?q?=29?=
-References: <159056340380.1780.3709038768569765525.malonedeb@chaenomeles.canonical.com>
-Message-Id: <159491483667.20204.10108904899900725829.malone@chaenomeles.canonical.com>
-Subject: [Bug 1880822] Re: CVE-2020-13253 QEMU: sd: OOB access could crash the
- guest resulting in DoS
-X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
-X-Launchpad-Message-For: qemu-devel-ml
-Precedence: bulk
-X-Generated-By: Launchpad (canonical.com);
- Revision="4809fcb62f445aaa3ae919f7f6c3cc7d156ea57a";
- Instance="production-secrets-lazr.conf"
-X-Launchpad-Hash: 2816c1cb19c770878fd1c2ba0de754bd9de05fe8
-Received-SPF: none client-ip=91.189.90.7; envelope-from=bounces@canonical.com;
- helo=indium.canonical.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/07/16 11:20:41
-X-ACL-Warn: Detected OS   = Linux 3.11 and newer [fuzzy]
-X-Spam_score_int: -58
-X-Spam_score: -5.9
-X-Spam_bar: -----
-X-Spam_report: (-5.9 / 5.0 requ) BAYES_00=-1.9, HEADER_FROM_DIFFERENT_DOMAINS=1,
- RCVD_IN_DNSWL_HI=-5, RCVD_IN_MSPIKE_H3=-0.01, RCVD_IN_MSPIKE_WL=-0.01,
- SPF_HELO_NONE=0.001, SPF_NONE=0.001 autolearn=ham autolearn_force=no
+Content-Type: text/plain; charset=us-ascii; format=flowed
+Content-Disposition: inline
+In-Reply-To: <cdbdf33f-f63b-ea5b-befc-0b94904b42ca@gmail.com>
+X-TM-AS-GCONF: 00
+X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:6.0.235, 18.0.687
+ definitions=2020-07-16_07:2020-07-16,
+ 2020-07-16 signatures=0
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ mlxscore=0 bulkscore=0
+ malwarescore=0 priorityscore=1501 spamscore=0 phishscore=0 adultscore=0
+ suspectscore=1 mlxlogscore=740 clxscore=1011 lowpriorityscore=0
+ impostorscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2006250000 definitions=main-2007160114
+Received-SPF: pass client-ip=148.163.156.1; envelope-from=arbab@linux.ibm.com;
+ helo=mx0a-001b2d01.pphosted.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/07/16 12:00:31
+X-ACL-Warn: Detected OS   = Linux 3.x [generic] [fuzzy]
+X-Spam_score_int: -35
+X-Spam_score: -3.6
+X-Spam_bar: ---
+X-Spam_report: (-3.6 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_LOW=-0.7,
+ RCVD_IN_MSPIKE_H2=-1, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
+Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -75,35 +105,28 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Bug 1880822 <1880822@bugs.launchpad.net>
+Cc: Daniel Henrique Barboza <danielhb@linux.ibm.com>,
+ Leonardo Augusto Guimaraes Garcia <lagarcia@linux.ibm.com>,
+ Greg Kurz <groug@kaod.org>, qemu-devel@nongnu.org, qemu-ppc@nongnu.org,
+ David Gibson <david@gibson.dropbear.id.au>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Fixed in commit 790762e5487114341cccc5bffcec4cb3c022c3cd.
+On Thu, Jul 16, 2020 at 06:42:11AM -0300, Daniel Henrique Barboza wrote:
+>Which would translate here to:
+>
+>        uint32_t associativity[] = {
+>            cpu_to_be32(0x4),
+>            cpu_to_be32(nvslot->numa_id),
+>            cpu_to_be32(nvslot->numa_id),
+>            cpu_to_be32(nvslot->numa_id),
+>            cpu_to_be32(nvslot->numa_id),
+>        };
 
-** Changed in: qemu
-       Status: In Progress =3D> Fix Committed
+Sure, that's how it originally was in v1 of the patch.
 
--- =
+I'll send a v4 today. It's been a while so I need to rebase anyway.
 
-You received this bug notification because you are a member of qemu-
-devel-ml, which is subscribed to QEMU.
-https://bugs.launchpad.net/bugs/1880822
-
-Title:
-  CVE-2020-13253 QEMU: sd: OOB access could crash the guest resulting in
-  DoS
-
-Status in QEMU:
-  Fix Committed
-
-Bug description:
-  An out-of-bounds read access issue was found in the SD Memory Card
-  emulator of the QEMU. It occurs while performing block write commands
-  via sdhci_write(), if a guest user has sent 'address' which is OOB of
-  's->wp_groups'. A guest user/process may use this flaw to crash the
-  QEMU process resulting in DoS.
-
-To manage notifications about this bug go to:
-https://bugs.launchpad.net/qemu/+bug/1880822/+subscriptions
+-- 
+Reza Arbab
 
