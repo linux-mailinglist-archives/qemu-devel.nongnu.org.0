@@ -2,80 +2,55 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id AC0FF221CE0
-	for <lists+qemu-devel@lfdr.de>; Thu, 16 Jul 2020 08:57:25 +0200 (CEST)
-Received: from localhost ([::1]:52586 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 25D0D221CF2
+	for <lists+qemu-devel@lfdr.de>; Thu, 16 Jul 2020 09:02:44 +0200 (CEST)
+Received: from localhost ([::1]:55438 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jvxpc-0005G8-Oy
-	for lists+qemu-devel@lfdr.de; Thu, 16 Jul 2020 02:57:24 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:33070)
+	id 1jvxul-0006iI-7s
+	for lists+qemu-devel@lfdr.de; Thu, 16 Jul 2020 03:02:43 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:33974)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1jvxoV-00049r-I1; Thu, 16 Jul 2020 02:56:15 -0400
-Received: from mail-wm1-x344.google.com ([2a00:1450:4864:20::344]:54910)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1jvxoT-0002BJ-Of; Thu, 16 Jul 2020 02:56:15 -0400
-Received: by mail-wm1-x344.google.com with SMTP id o8so8889525wmh.4;
- Wed, 15 Jul 2020 23:56:13 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=sender:subject:to:cc:references:from:message-id:date:user-agent
- :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=1nhHol+OeuolxLn8zd2+EjxiDEScjQpLpAy15xU6n64=;
- b=IW/TmqZkZ3rxIaSTnLs4ALfjQiu9tvpFXgTydRBWIOhSwtwb8ngq06PCxbeu3Pk6Yq
- bocvnyi1WM1OpTqXoJHhPy08ER+V2N+d7+CCRd6JANqj06bNknvbQ5p49vncjcLktI65
- 3FmkRmPd3RrafCvsREeAZxrVrNJMW/Adf3O0TEkIqPK3kJe3DkV41/r6PjsFqV4bPvlO
- KFMe2EAMX77NNvdhV6Gzw9/Q5jsApHileqVL8ZJ1TYLcLlyLU2CrkBPN4ktYBBkRiJc9
- gjbqOhla7jypJKIT+zN6OtyA23aQ9nHPSKTHsIC8yg50rp8XPn8owwRS+GeCaAjphTi2
- ZDdQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:sender:subject:to:cc:references:from:message-id
- :date:user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=1nhHol+OeuolxLn8zd2+EjxiDEScjQpLpAy15xU6n64=;
- b=pfJYzRS0+B1D/E2ucRwItwSQvs+zHx6I604TxtyRzyLmuijadC9JHfzWIKOQY69bRR
- D7/m6MKeaZVQ79iS5q4GlXD9o19kwFAFX3kC9FPYfljYKe7ZiUTfVwjsewY9lhxOeTii
- /e6wu8EwwClTyHp/xe6aGYDhmIi4VPfHxbWxPRnFky9WJaNtetjo07/SpHe1OGzIHGkb
- CjMHeyfg2NRNt3lKiSqXVgqoVV7NnEmcoOhhKYQabB644JYozlQCzitbbbpO+xZaYLWW
- krplR1879OcgAe00xRWma9938Z/GQnEaDa8GzG1FJAfzdhdbYOs3JIabghzkLDMt4+FB
- wNgA==
-X-Gm-Message-State: AOAM532pA0Xo27xVKDAg+kbWDMHG3yS20T8lbkv2vF7iB1LS+dPiUCo1
- rX/8obkwK574spAGYmrDeG0=
-X-Google-Smtp-Source: ABdhPJxnTCBQlRJsz9QH0vjxbnxvOjqFmzMxXiOg1U2Kxi7opSujRAgod4JjlUv3COUg8I2NFB2Ohg==
-X-Received: by 2002:a1c:a7c4:: with SMTP id q187mr2931537wme.0.1594882571868; 
- Wed, 15 Jul 2020 23:56:11 -0700 (PDT)
-Received: from [192.168.1.37] (138.red-83-57-170.dynamicip.rima-tde.net.
- [83.57.170.138])
- by smtp.gmail.com with ESMTPSA id g13sm7623107wro.84.2020.07.15.23.56.10
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Wed, 15 Jul 2020 23:56:11 -0700 (PDT)
-Subject: Re: [PATCH v2] .mailmap: Update Paul Burton email address
-To: qemu-devel@nongnu.org
-References: <20200707022544.24925-1-f4bug@amsat.org>
-From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>
-Message-ID: <19b2c623-7c8e-fd93-290f-86498b85caf5@amsat.org>
-Date: Thu, 16 Jul 2020 08:56:09 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.5.0
-MIME-Version: 1.0
-In-Reply-To: <20200707022544.24925-1-f4bug@amsat.org>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::344;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wm1-x344.google.com
-X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
- That's all we know.
-X-Spam_score_int: 0
-X-Spam_score: 0.0
-X-Spam_bar: /
-X-Spam_report: (0.0 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1, DKIM_VALID=-0.1,
- DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=1, FREEMAIL_FROM=0.001,
- HEADER_FROM_DIFFERENT_DOMAINS=1, RCVD_IN_DNSWL_NONE=-0.0001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- URIBL_BLOCKED=0.001 autolearn=no autolearn_force=no
+ (Exim 4.90_1) (envelope-from <teawaterz@linux.alibaba.com>)
+ id 1jvxts-0006Gy-AW
+ for qemu-devel@nongnu.org; Thu, 16 Jul 2020 03:01:48 -0400
+Received: from out30-45.freemail.mail.aliyun.com ([115.124.30.45]:49719)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <teawaterz@linux.alibaba.com>)
+ id 1jvxth-0003Ge-Vf
+ for qemu-devel@nongnu.org; Thu, 16 Jul 2020 03:01:42 -0400
+X-Alimail-AntiSpam: AC=PASS; BC=-1|-1; BR=01201311R171e4; CH=green; DM=||false|;
+ DS=||; FP=0|-1|-1|-1|0|-1|-1|-1; HT=e01e04394; MF=teawaterz@linux.alibaba.com;
+ NM=1; PH=DS; RN=11; SR=0; TI=SMTPD_---0U2sgXws_1594882879; 
+Received: from 127.0.0.1(mailfrom:teawaterz@linux.alibaba.com
+ fp:SMTPD_---0U2sgXws_1594882879) by smtp.aliyun-inc.com(127.0.0.1);
+ Thu, 16 Jul 2020 15:01:26 +0800
+Content-Type: text/plain;
+	charset=utf-8
+Mime-Version: 1.0 (Mac OS X Mail 13.4 \(3608.80.23.2.2\))
+Subject: Re: [virtio-dev] [RFC for Linux v4 0/2] virtio_balloon: Add
+ VIRTIO_BALLOON_F_CONT_PAGES to report continuous pages
+From: teawater <teawaterz@linux.alibaba.com>
+In-Reply-To: <20200716021929-mutt-send-email-mst@kernel.org>
+Date: Thu, 16 Jul 2020 15:01:18 +0800
+Content-Transfer-Encoding: quoted-printable
+Message-Id: <744230FA-78D8-4568-8188-683087065E84@linux.alibaba.com>
+References: <1594867315-8626-1-git-send-email-teawater@gmail.com>
+ <20200716021929-mutt-send-email-mst@kernel.org>
+To: "Michael S. Tsirkin" <mst@redhat.com>
+X-Mailer: Apple Mail (2.3608.80.23.2.2)
+Received-SPF: pass client-ip=115.124.30.45;
+ envelope-from=teawaterz@linux.alibaba.com;
+ helo=out30-45.freemail.mail.aliyun.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/07/16 03:01:30
+X-ACL-Warn: Detected OS   = Linux 3.x [generic] [fuzzy]
+X-Spam_score_int: -98
+X-Spam_score: -9.9
+X-Spam_bar: ---------
+X-Spam_report: (-9.9 / 5.0 requ) BAYES_00=-1.9, ENV_AND_HDR_SPF_MATCH=-0.5,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ UNPARSEABLE_RELAY=0.001, URIBL_BLOCKED=0.001,
+ USER_IN_DEF_SPF_WL=-7.5 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -88,57 +63,197 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-trivial@nongnu.org, Paolo Bonzini <pbonzini@redhat.com>,
- Paul Burton <paulburton@kernel.org>
+Cc: Andrea Arcangeli <aarcange@redhat.com>, virtio-dev@lists.oasis-open.org,
+ david@redhat.com, qemu-devel@nongnu.org, jasowang@redhat.com,
+ linux-kernel@vger.kernel.org, virtualization@lists.linux-foundation.org,
+ linux-mm@kvack.org, akpm@linux-foundation.org, Hui Zhu <teawater@gmail.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Hi Paul,
 
-Do you mind Acking this patch? QEMU's get_maintainer.pl
-still selects pburton@wavecomp.com for various of your
-contributions and wavesemi.com (where wavecomp.com seems
-redirected) keeps sending "The recipient email address is
-incorrect or does not exist in this domain."
 
-In case you don't want to receive any more emails from the
-QEMU mailing list, you can Nack this patch, so I'll have a
-good reason to insist with the alternative to have a
-'ignore .mailmap', suggested here:
-https://www.mail-archive.com/qemu-devel@nongnu.org/msg717757.html
+> 2020=E5=B9=B47=E6=9C=8816=E6=97=A5 14:38=EF=BC=8CMichael S. Tsirkin =
+<mst@redhat.com> =E5=86=99=E9=81=93=EF=BC=9A
+>=20
+> On Thu, Jul 16, 2020 at 10:41:50AM +0800, Hui Zhu wrote:
+>> The first, second and third version are in [1], [2] and [3].
+>> Code of current version for Linux and qemu is available in [4] and =
+[5].
+>> Update of this version:
+>> 1. Report continuous pages will increase the speed.  So added deflate
+>>   continuous pages.
+>> 2. According to the comments from David in [6], added 2 new vqs =
+inflate_cont_vq
+>>   and deflate_cont_vq to report continuous pages with format 32 bits =
+pfn and 32
+>>   bits size.
+>> Following is the introduction of the function.
+>> These patches add VIRTIO_BALLOON_F_CONT_PAGES to virtio_balloon. With =
+this
+>> flag, balloon tries to use continuous pages to inflate and deflate.
+>> Opening this flag can bring two benefits:
+>> 1. Report continuous pages will increase memory report size of each =
+time
+>>   call tell_host.  Then it will increase the speed of balloon inflate =
+and
+>>   deflate.
+>> 2. Host THPs will be splitted when qemu release the page of balloon =
+inflate.
+>>   Inflate balloon with continuous pages will let QEMU release the =
+pages
+>>   of same THPs.  That will help decrease the splitted THPs number in
+>>   the host.
+>>   Following is an example in a VM with 1G memory 1CPU.  This test =
+setups an
+>>   environment that has a lot of fragmentation pages.  Then inflate =
+balloon will
+>>   split the THPs.
 
-On 7/7/20 4:25 AM, Philippe Mathieu-Daudé wrote:
-> Following the Linux kernel equivalent patch posted on
-> linux-mips@vger.kernel.org [*], update Paul Burton email
-> address to avoid emails bouncing.
-> 
-> [*] 'MAINTAINERS: Use @kernel.org address for Paul Burton'
-> https://lore.kernel.org/patchwork/patch/1140341/
-> 
-> Cc: Paul Burton <paulburton@kernel.org>
-> Suggested-by: Paolo Bonzini <pbonzini@redhat.com>
-> Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
-> ---
->  .mailmap | 7 ++++---
->  1 file changed, 4 insertions(+), 3 deletions(-)
-> 
-> diff --git a/.mailmap b/.mailmap
-> index 926cac6bb8..fe4c561338 100644
-> --- a/.mailmap
-> +++ b/.mailmap
-> @@ -49,9 +49,10 @@ Filip Bozuta <filip.bozuta@syrmia.com> <filip.bozuta@rt-rk.com.com>
->  Frederic Konrad <konrad@adacore.com> <fred.konrad@greensocs.com>
->  James Hogan <jhogan@kernel.org> <james.hogan@imgtec.com>
->  Leif Lindholm <leif@nuviainc.com> <leif.lindholm@linaro.org>
-> -Paul Burton <pburton@wavecomp.com> <paul.burton@mips.com>
-> -Paul Burton <pburton@wavecomp.com> <paul.burton@imgtec.com>
-> -Paul Burton <pburton@wavecomp.com> <paul@archlinuxmips.org>
-> +Paul Burton <paulburton@kernel.org> <paul.burton@mips.com>
-> +Paul Burton <paulburton@kernel.org> <paul.burton@imgtec.com>
-> +Paul Burton <paulburton@kernel.org> <paul@archlinuxmips.org>
-> +Paul Burton <paulburton@kernel.org> <pburton@wavecomp.com>
->  Philippe Mathieu-Daudé <philmd@redhat.com> <f4bug@amsat.org>
->  Stefan Brankovic <stefan.brankovic@syrmia.com> <stefan.brankovic@rt-rk.com.com>
->  Yongbok Kim <yongbok.kim@mips.com> <yongbok.kim@imgtec.com>
-> 
+
+>> // This is the THP number before VM execution in the host.
+>> // None use THP.
+>> cat /proc/meminfo | grep AnonHugePages:
+>> AnonHugePages:         0 kB
+These lines are from host.
+
+>> // After VM start, use usemem
+>> // =
+(https://git.kernel.org/pub/scm/linux/kernel/git/wfg/vm-scalability.git)
+>> // punch-holes function generates 400m fragmentation pages in the =
+guest
+>> // kernel.
+>> usemem --punch-holes -s -1 800m &
+These lines are from guest.  They setups the environment that has a lot =
+of fragmentation pages.
+
+>> // This is the THP number after this command in the host.
+>> // Some THP is used by VM because usemem will access 800M memory
+>> // in the guest.
+>> cat /proc/meminfo | grep AnonHugePages:
+>> AnonHugePages:    911360 kB
+These lines are from host.
+
+>> // Connect to the QEMU monitor, setup balloon, and set it size to =
+600M.
+>> (qemu) device_add virtio-balloon-pci,id=3Dballoon1
+>> (qemu) info balloon
+>> balloon: actual=3D1024
+>> (qemu) balloon 600
+>> (qemu) info balloon
+>> balloon: actual=3D600
+These lines are from host.
+
+>> // This is the THP number after inflate the balloon in the host.
+>> cat /proc/meminfo | grep AnonHugePages:
+>> AnonHugePages:     88064 kB
+These lines are from host.
+
+>> // Set the size back to 1024M in the QEMU monitor.
+>> (qemu) balloon 1024
+>> (qemu) info balloon
+>> balloon: actual=3D1024
+These lines are from host.
+
+>> // Use usemem to increase the memory usage of QEMU.
+>> killall usemem
+>> usemem 800m
+These lines are from guest.
+
+>> // This is the THP number after this operation.
+>> cat /proc/meminfo | grep AnonHugePages:
+>> AnonHugePages:     65536 kB
+These lines are from host.
+
+
+
+>>=20
+>> Following example change to use continuous pages balloon.  The number =
+of
+>> splitted THPs is decreased.
+>> // This is the THP number before VM execution in the host.
+>> // None use THP.
+>> cat /proc/meminfo | grep AnonHugePages:
+>> AnonHugePages:         0 kB
+These lines are from host.
+
+>> // After VM start, use usemem punch-holes function generates 400M
+>> // fragmentation pages in the guest kernel.
+>> usemem --punch-holes -s -1 800m &
+These lines are from guest.  They setups the environment that has a lot =
+of fragmentation pages.
+
+>> // This is the THP number after this command in the host.
+>> // Some THP is used by VM because usemem will access 800M memory
+>> // in the guest.
+>> cat /proc/meminfo | grep AnonHugePages:
+>> AnonHugePages:    911360 kB
+These lines are from host.
+
+>> // Connect to the QEMU monitor, setup balloon, and set it size to =
+600M.
+>> (qemu) device_add virtio-balloon-pci,id=3Dballoon1,cont-pages=3Don
+>> (qemu) info balloon
+>> balloon: actual=3D1024
+>> (qemu) balloon 600
+>> (qemu) info balloon
+>> balloon: actual=3D600
+These lines are from host.
+
+>> // This is the THP number after inflate the balloon in the host.
+>> cat /proc/meminfo | grep AnonHugePages:
+>> AnonHugePages:    616448 kB
+>> // Set the size back to 1024M in the QEMU monitor.
+>> (qemu) balloon 1024
+>> (qemu) info balloon
+>> balloon: actual=3D1024
+These lines are from host.
+
+>> // Use usemem to increase the memory usage of QEMU.
+>> killall usemem
+>> usemem 800m
+These lines are from guest.
+
+>> // This is the THP number after this operation.
+>> cat /proc/meminfo | grep AnonHugePages:
+>> AnonHugePages:    907264 kB
+These lines are from host.
+
+>=20
+> I'm a bit confused about which of the above run within guest,
+> and which run within host. Could you explain pls?
+>=20
+>=20
+
+I added some introduction to show where these lines is get from.
+
+Best,
+Hui
+
+
+>=20
+>> [1] https://lkml.org/lkml/2020/3/12/144
+>> [2] =
+https://lore.kernel.org/linux-mm/1584893097-12317-1-git-send-email-teawate=
+r@gmail.com/
+>> [3] https://lkml.org/lkml/2020/5/12/324
+>> [4] https://github.com/teawater/linux/tree/balloon_conts
+>> [5] https://github.com/teawater/qemu/tree/balloon_conts
+>> [6] https://lkml.org/lkml/2020/5/13/1211
+>>=20
+>> Hui Zhu (2):
+>>  virtio_balloon: Add VIRTIO_BALLOON_F_CONT_PAGES and inflate_cont_vq
+>>  virtio_balloon: Add deflate_cont_vq to deflate continuous pages
+>>=20
+>> drivers/virtio/virtio_balloon.c     |  180 =
++++++++++++++++++++++++++++++++-----
+>> include/linux/balloon_compaction.h  |   12 ++
+>> include/uapi/linux/virtio_balloon.h |    1
+>> mm/balloon_compaction.c             |  117 +++++++++++++++++++++--
+>> 4 files changed, 280 insertions(+), 30 deletions(-)
+>=20
+>=20
+> ---------------------------------------------------------------------
+> To unsubscribe, e-mail: virtio-dev-unsubscribe@lists.oasis-open.org
+> For additional commands, e-mail: virtio-dev-help@lists.oasis-open.org
+
 
