@@ -2,81 +2,105 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A567922284F
-	for <lists+qemu-devel@lfdr.de>; Thu, 16 Jul 2020 18:33:00 +0200 (CEST)
-Received: from localhost ([::1]:41526 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8D83722288A
+	for <lists+qemu-devel@lfdr.de>; Thu, 16 Jul 2020 18:50:10 +0200 (CEST)
+Received: from localhost ([::1]:59282 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jw6od-0000Ob-OS
-	for lists+qemu-devel@lfdr.de; Thu, 16 Jul 2020 12:32:59 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:52136)
+	id 1jw75F-0000hD-Ag
+	for lists+qemu-devel@lfdr.de; Thu, 16 Jul 2020 12:50:09 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:56476)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1jw6nb-0008OG-GM
- for qemu-devel@nongnu.org; Thu, 16 Jul 2020 12:31:55 -0400
-Received: from mail-wm1-x343.google.com ([2a00:1450:4864:20::343]:38142)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1jw6nY-0005kM-IZ
- for qemu-devel@nongnu.org; Thu, 16 Jul 2020 12:31:55 -0400
-Received: by mail-wm1-x343.google.com with SMTP id f18so12184188wml.3
- for <qemu-devel@nongnu.org>; Thu, 16 Jul 2020 09:31:52 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=references:user-agent:from:to:cc:subject:in-reply-to:date
- :message-id:mime-version:content-transfer-encoding;
- bh=QCxHdlceMsRmaIXuYkbsUmcXvz3JhpIAUxn4Wbgz34c=;
- b=bnubk/lMs0Oj87Z/DD2sazn9VkzC+HMjgRdY3rgkhHa1aY/9vm8njM+Mvd1CqcsoXM
- 10jeLOO5UdtmzQ55DIXVeCRhoMfXDXf/6BR2f2pXslqk/CreiSaynW1uqGZem7ocIU0X
- Z8T988nu25g+40bGdv2niSXnOkTFDV374vL0vV22nEHlnZRDF0WNNlVtRHin/OaNiQXY
- wWEsHe9sf2pEiLzBLoGoJ9idWcepmc78iASeDUKhlMwRjcTVAURyd+anKLPBim+X67XI
- 1UQmOEmzOmSYF89LQmMOFVbWC9qHS+WmaGcXdVIuaVrc5HE3sWURBjXuN3fA3xyMmMEt
- wdHQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:references:user-agent:from:to:cc:subject
- :in-reply-to:date:message-id:mime-version:content-transfer-encoding;
- bh=QCxHdlceMsRmaIXuYkbsUmcXvz3JhpIAUxn4Wbgz34c=;
- b=Ne9WmUpqeAY68GZITIgprSYf1+HNlT0TU+ztkA5DRS5lXq/a6gvDVu38z3f6MbCUHM
- vgmj3qgwNQc2LBEA0QHritL7OHI51/AVhLsfxa8J1DNN+OyiznjIDsymZV+heHzDUzJV
- z6cgIh5F4VZpzMs314j/Ty+VSPXFGm2ps8dBGurXG/3eVOk18WkgrosOliEtqgCR8GHz
- /nEVC/LJq/TwiW1/TK8AsKac4FwbEAQ+c3oaey3ugEKu1Pzc2aig23aHHP0z9rghNQ8S
- v5wiAfB1cTPv4wEqyNpVT7qK92WFtwrZH9DDc16Z75zBXX3/LCZx+EQnNp4a/BljcVgI
- EoBw==
-X-Gm-Message-State: AOAM531IL45sxfrYA7svmD2korzV/uvydYaiGFHI+kL/ovOGuizFyM55
- +GQsEUsStogCcKqwHpBk3S2MgQ==
-X-Google-Smtp-Source: ABdhPJzVyE5IEV7/AA3I6NtPyoc21RQoCR1N6krcJFlnkTSqtBCO9CEWi7eNdUQIeVi70fBysKLYCg==
-X-Received: by 2002:a1c:ac81:: with SMTP id v123mr4873243wme.159.1594917110641; 
- Thu, 16 Jul 2020 09:31:50 -0700 (PDT)
-Received: from zen.linaroharston ([51.148.130.216])
- by smtp.gmail.com with ESMTPSA id c15sm9257889wme.23.2020.07.16.09.31.48
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 16 Jul 2020 09:31:48 -0700 (PDT)
-Received: from zen (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id CE88D1FF7E;
- Thu, 16 Jul 2020 17:31:47 +0100 (BST)
-References: <20200716144251.23004-1-lersek@redhat.com>
-User-agent: mu4e 1.5.4; emacs 28.0.50
-From: Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
-To: Laszlo Ersek <lersek@redhat.com>
-Subject: Re: [PATCH] target/i386: floatx80: avoid compound literals in
- static initializers
-In-reply-to: <20200716144251.23004-1-lersek@redhat.com>
-Date: Thu, 16 Jul 2020 17:31:47 +0100
-Message-ID: <87y2njv2to.fsf@linaro.org>
+ (Exim 4.90_1) (envelope-from <alxndr@bu.edu>) id 1jw748-00087T-DG
+ for qemu-devel@nongnu.org; Thu, 16 Jul 2020 12:49:00 -0400
+Received: from mail-bn8nam11on2123.outbound.protection.outlook.com
+ ([40.107.236.123]:10337 helo=NAM11-BN8-obe.outbound.protection.outlook.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <alxndr@bu.edu>) id 1jw746-0002Vf-1m
+ for qemu-devel@nongnu.org; Thu, 16 Jul 2020 12:48:59 -0400
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=IX+FH6EdKYJ4AaM1vEkktZ0Hf2Y+JokBiErLxpjx7C96bkbpiHHXd9AKUO3DClYumxt/whdXKsEcwiYvmLW8J5C0MAsDzfrQfNkt8r4eEqsxxKpvvtslX+VR453gIEPgexl+/0d4O1zQz54tccAeYoP1w3u/+RslqxHAQ4yHLKNyZw0YTNg3TV456IkfKJEsu9uH2jupndgOHmt91ugxgy6ZEtm2C4bXQMJCWdXEegbzKRMSZGhusMjuHk5rw8e+mtQA3j74v1R7sF+ejDueXhr1fgPGoM3XDHHdSkQuaRlpiNbtyniwdi6sLBQ8r4EXo8pw8niOyv+B+Kqj+R4mPQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=/JgZKmvmNEff+wbwhwknP6IKH69FSqDXhfaDkjgLG7Q=;
+ b=mVzt2O9eqAL61W5m/SaFqlQG6wGcxqZ+IfNxFBFbgyxfV43sECz/Dchu6PIsVYh5JZcRfifXwQ9+zVnmLPmvnaY5phrn77xkWz/KHgHp4pbC3aw3mWmUnj+wgbsBIUCJxhnPttsqXoJ2nt/wH6RD1NrR0dj0b34vkTZHo8GY10Plies9dqD6cKSY2tZ/GyrHNmSFt2szTDzf+76e8tuN0owl+E9oq7cxj3jCtKXTdb+vCR5o/z9YZ79CIZD246EB/vWwhxCCBr9EB/4QmhXQcc2XkuTb72kIIyvDKkGIeeNsVvs4eMco7oRshjJno3bSuJbbIaqDvsWnJxnSuhuSbw==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=bu.edu; dmarc=pass action=none header.from=bu.edu; dkim=pass
+ header.d=bu.edu; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=bushare.onmicrosoft.com; s=selector2-bushare-onmicrosoft-com;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=/JgZKmvmNEff+wbwhwknP6IKH69FSqDXhfaDkjgLG7Q=;
+ b=ZE/ooTqcWymxwGcBeR/iEF0U3MvBPAzSMkLqE3M/o5PBzxpK8YLcKpxUZM8DpbZmVuwK8j9TtFX9Elt9lGbPKgicwelWlB99WiH/VqDeVk78Yc6UmBDFKQ1r3IYcUBqatJTe5syVbVJz1iLYWyVdlCxuyVA1t9qszaZT+BkroEk=
+Authentication-Results: nongnu.org; dkim=none (message not signed)
+ header.d=none;nongnu.org; dmarc=none action=none header.from=bu.edu;
+Received: from SN6PR03MB3871.namprd03.prod.outlook.com (2603:10b6:805:6d::32)
+ by SN2PR03MB2207.namprd03.prod.outlook.com (2603:10b6:804:e::8) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3195.18; Thu, 16 Jul
+ 2020 16:33:52 +0000
+Received: from SN6PR03MB3871.namprd03.prod.outlook.com
+ ([fe80::8ce:29a6:77be:c35b]) by SN6PR03MB3871.namprd03.prod.outlook.com
+ ([fe80::8ce:29a6:77be:c35b%7]) with mapi id 15.20.3195.018; Thu, 16 Jul 2020
+ 16:33:52 +0000
+From: Alexander Bulekov <alxndr@bu.edu>
+To: qemu-devel@nongnu.org
+Subject: [PATCH] gitlab-ci.yml: Add oss-fuzz build tests
+Date: Thu, 16 Jul 2020 12:33:30 -0400
+Message-Id: <20200716163330.29141-1-alxndr@bu.edu>
+X-Mailer: git-send-email 2.26.2
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-ClientProxiedBy: MN2PR16CA0028.namprd16.prod.outlook.com
+ (2603:10b6:208:134::41) To SN6PR03MB3871.namprd03.prod.outlook.com
+ (2603:10b6:805:6d::32)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=2a00:1450:4864:20::343;
- envelope-from=alex.bennee@linaro.org; helo=mail-wm1-x343.google.com
-X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
- That's all we know.
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-MS-Exchange-MessageSentRepresentingType: 1
+Received: from mozz.bu.edu (128.197.127.33) by
+ MN2PR16CA0028.namprd16.prod.outlook.com (2603:10b6:208:134::41) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3195.18 via Frontend
+ Transport; Thu, 16 Jul 2020 16:33:51 +0000
+X-Mailer: git-send-email 2.26.2
+X-Originating-IP: [128.197.127.33]
+X-MS-PublicTrafficType: Email
+X-MS-Office365-Filtering-Correlation-Id: d13df35c-0684-4c5a-cc23-08d829a60674
+X-MS-TrafficTypeDiagnostic: SN2PR03MB2207:
+X-MS-Exchange-Transport-Forked: True
+X-Microsoft-Antispam-PRVS: <SN2PR03MB22074C30684E9E39AB1D7781BA7F0@SN2PR03MB2207.namprd03.prod.outlook.com>
+X-MS-Oob-TLC-OOBClassifiers: OLM:8882;
+X-MS-Exchange-SenderADCheck: 1
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: /7hQnLvFVUGgtFjpG6mO9ctumASyhK4gezEcTuUsgY7UK05Wzkk3QA8uzuHnoO6beV57+aYS+OiuILafJABlM8/42z901es5lL1ovzNspO6s71gOlZEQhrsJi5kuOJGYFY95QAd6A+IB8h8zMBGR1Lt25lc2++tvs7EJv6oe2bNbnnNPqUllzhp0yy5jZv4LnASwhP2B1asLSBpxkEK1UE2O8W7sncLXMX7mNOrQosjyordWHvqYY27KgiiX3IT8ycnz2A6+iFJIioSsNTcNYEOOyHGwIsetB5T7u1XA+3pRo5hfXfo2BGm/mdRL0JTsm7BOnT325L8v6tZnUZ0LRB7KKFS6PItas1S+lmmpY0d1CQDWuM87wmedAo5IxB9HtiLNkyNWdJQit4Xx3AQeEw==
+X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:SN6PR03MB3871.namprd03.prod.outlook.com; PTR:; CAT:NONE;
+ SFTY:;
+ SFS:(4636009)(39860400002)(136003)(376002)(366004)(346002)(396003)(6666004)(83380400001)(26005)(36756003)(8936002)(52116002)(6486002)(75432002)(7696005)(86362001)(8676002)(5660300002)(2616005)(6916009)(1076003)(16526019)(956004)(4326008)(2906002)(786003)(186003)(478600001)(316002)(54906003)(66476007)(966005)(66556008)(66946007);
+ DIR:OUT; SFP:1102; 
+X-MS-Exchange-AntiSpam-MessageData: y1NI00K5PUX8QXjFSmT1AmO79v8zkgw4g8zZbjSFhKiiQ6zdwg6oO78mlGlflgtGMM4TQeJLghLWp/MCKwMqAeDtYpkww5GUjoht54Yz1wSqOZqhosQwURPhov7N97gd6qyFoMZfuNrl1vTsxvKSkRquaUkGQXvfijdLNVXXPrQHym+RpbeZfbZcDpu5JHXfTY8l/SEdsF9NijUlZrCUtC5NmpbWYMeyjdHNPtlC97t34N9Vjet9mnq7XQdPzIG0KKHFpG5H1JhJgi0G4BEJV/3caKI1xghUsm4SKbUTKFcm90V4CBzi3TQB4tuVoGOkurraWdI0L70M14DcD6WydG56HyVVRB2qplsHavLiINSJvwcib4j9Mqvfli1j7UGXmlsN63+/0z9Es0FnwHcKULXJSAocxdQOHc5fp7XbGb3irK6OG9jF6hNzvkhp2AfcVs681u0Nx7UErb5LvfU10d+ZwmEBkO63+sc4AqNwm3Y=
+X-OriginatorOrg: bu.edu
+X-MS-Exchange-CrossTenant-Network-Message-Id: d13df35c-0684-4c5a-cc23-08d829a60674
+X-MS-Exchange-CrossTenant-AuthSource: SN6PR03MB3871.namprd03.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 16 Jul 2020 16:33:52.4781 (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: d57d32cc-c121-488f-b07b-dfe705680c71
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: LhaIEDKS0tTBbg05ee7rHP970ZyjjhjwlrlBXZoTmIszG6U4VULAbjcZfZ3e2PJ6
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: SN2PR03MB2207
+Received-SPF: pass client-ip=40.107.236.123; envelope-from=alxndr@bu.edu;
+ helo=NAM11-BN8-obe.outbound.protection.outlook.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/07/16 12:48:56
+X-ACL-Warn: Detected OS   = Windows NT kernel [generic] [fuzzy]
+X-Spam_score_int: -18
+X-Spam_score: -1.9
+X-Spam_bar: -
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, HK_RANDOM_ENVFROM=0.001, HK_RANDOM_FROM=1,
+ MSGID_FROM_MTA_HEADER=0.001, RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-1,
+ SPF_HELO_PASS=-0.001, SPF_PASS=-0.001,
+ URIBL_BLOCKED=0.001 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -89,539 +113,100 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Maydell <peter.maydell@linaro.org>,
- Eduardo Habkost <ehabkost@redhat.com>, qemu-devel@nongnu.org,
- Aurelien Jarno <aurelien@aurel32.net>, Paolo Bonzini <pbonzini@redhat.com>,
- Joseph Myers <joseph@codesourcery.com>, Richard Henderson <rth@twiddle.net>
+Cc: Thomas Huth <thuth@redhat.com>, darren.kenny@oracle.com,
+ =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>,
+ Wainer dos Santos Moschetta <wainersm@redhat.com>,
+ Alexander Bulekov <alxndr@bu.edu>, bsd@redhat.com, stefanha@redhat.com,
+ pbonzini@redhat.com, philmd@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+This tries to build and run the fuzzers with the same build-script used
+by oss-fuzz. This doesn't guarantee that the builds on oss-fuzz will
+also succeed, since oss-fuzz provides its own compiler and fuzzer vars,
+but it can catch changes that are not compatible with the the
+./scripts/oss-fuzz/build.sh script.
+The strange way of finding fuzzer binaries stems from the method used by
+oss-fuzz:
+https://github.com/google/oss-fuzz/blob/master/infra/base-images/base-runner/targets_list
 
-Laszlo Ersek <lersek@redhat.com> writes:
+Signed-off-by: Alexander Bulekov <alxndr@bu.edu>
+---
 
-> Quoting ISO C99 6.7.8p4, "All the expressions in an initializer for an
-> object that has static storage duration shall be constant expressions or
-> string literals".
->
-> The compound literal produced by the make_floatx80() macro is not such a
-> constant expression, per 6.6p7-9. (An implementation may accept it,
-> according to 6.6p10, but is not required to.)
->
-> Therefore using "floatx80_zero" and make_floatx80() for initializing
-> "f2xm1_table" and "fpatan_table" is not portable. And gcc-4.8 in RHEL-7.6
-> actually chokes on them:
->
->> target/i386/fpu_helper.c:871:5: error: initializer element is not consta=
-nt
->>      { make_floatx80(0xbfff, 0x8000000000000000ULL),
->>      ^
->
-> We've had the make_floatx80_init() macro for this purpose since commit
-> 3bf7e40ab914 ("softfloat: fix for C99", 2012-03-17), so let's use that
-> macro again.
->
-> Fixes: eca30647fc07
-> Fixes: ff57bb7b6326
-> Link: https://lists.gnu.org/archive/html/qemu-devel/2017-08/msg06566.html
-> Link: https://lists.gnu.org/archive/html/qemu-devel/2020-07/msg04714.html
-> Cc: Alex Benn=C3=A9e <alex.bennee@linaro.org>
-> Cc: Aurelien Jarno <aurelien@aurel32.net>
-> Cc: Eduardo Habkost <ehabkost@redhat.com>
-> Cc: Joseph Myers <joseph@codesourcery.com>
-> Cc: Paolo Bonzini <pbonzini@redhat.com>
-> Cc: Peter Maydell <peter.maydell@linaro.org>
-> Cc: Richard Henderson <rth@twiddle.net>
-> Signed-off-by: Laszlo Ersek <lersek@redhat.com>
-> ---
->
-> Notes:
->     I can see that there are test cases under "tests/tcg/i386", but I don=
-'t
->     know how to run them.
+Similar to Thomas' patch:
 
-You can run the TCG tests with:
+> Note: This patch needs two other patches merged first to work correctly:
 
-  make check-tcg
+> - 'fuzz: Expect the cmdline in a freeable GString' from Alexander
 
-or more specifically:
+> - 'qom: Plug memory leak in "info qom-tree"' from Markus
 
-  make run-tcg-tests-i386-linux-user
+Otherwise the test will fail due to detected memory leaks.
 
-there is also a:
+Fair warning: I haven't been able to trigger this new job yet. I tried
+to run the pipeline with these changes on my forked repo on gitlab, but
+did not reach the build-oss-fuzz. I think this is due to some failures
+in the Containers-layer-2 stage:
 
-  make check-softfloat
+...
+Error response from daemon: manifest for
+registry.gitlab.com/a1xndr/qemu/qemu/debian-all-test-cross:latest not
+found: manifest unknown: manifest unknown
+#2 [internal] load .dockerignore
+#2 transferring context:
+#2 transferring context: 2B 0.1s done
+#2 DONE 0.1s
+#1 [internal] load build definition from tmpg8j4xoop.docker
+#1 transferring dockerfile: 2.21kB 0.1s done
+#1 DONE 0.2s
+#3 [internal] load metadata for docker.io/qemu/debian10:latest
+#3 ERROR: pull access denied, repository does not exist or may require
+authorization: server message: insufficient_scope: authorization failed
+#4 [1/3] FROM docker.io/qemu/debian10:latest
+#4 resolve docker.io/qemu/debian10:latest 0.1s done
+#4 ERROR: pull access denied, repository does not exist or may require
+authorization: server message: insufficient_scope: authorization failed
+------
+ > [internal] load metadata for docker.io/qemu/debian10:latest:
+------
+------
+ > [1/3] FROM docker.io/qemu/debian10:latest:
+------
+failed to solve with frontend dockerfile.v0: failed to build LLB: failed
+to load cache key: pull access denied, repository does not exist or may
+require authorization: server message: insufficient_scope: authorization
+failed
+...
 
-although in this case nothing is affected.
+ .gitlab-ci.yml | 14 ++++++++++++++
+ 1 file changed, 14 insertions(+)
 
-softfloat bits:
+diff --git a/.gitlab-ci.yml b/.gitlab-ci.yml
+index e96f8794b9..a50df420c9 100644
+--- a/.gitlab-ci.yml
++++ b/.gitlab-ci.yml
+@@ -182,6 +182,20 @@ build-fuzzer:
+             || exit 1 ;
+       done
+ 
++build-oss-fuzz:
++  <<: *native_build_job_definition
++  variables:
++    IMAGE: fedora
++  script:
++    - OUT_DIR="./build" CC=clang-9 CXX=clang++-9 CFLAGS="-fsanitize=address"
++      LIB_FUZZING_ENGINE="-fsanitize=fuzzer" CFL
++      ./scripts/oss-fuzz/build.sh
++    - for fuzzer in $(find ./build-oss-fuzz/DEST_DIR/ -executable -type f); do
++        grep "LLVMFuzzerTestOneInput" ${fuzzer} > /dev/null 2>&1 || continue ;
++        echo Testing ${fuzzer} ... ;
++        "${fuzzer}" -runs=1000 || exit 1 ;
++      done
++
+ build-tci:
+   <<: *native_build_job_definition
+   variables:
+-- 
+2.26.2
 
-Acked-by: Alex Benn=C3=A9e <alex.bennee@linaro.org>
-
->
->  include/fpu/softfloat.h  |   1 +
->  target/i386/fpu_helper.c | 426 +++++++++++++++++++--------------------
->  2 files changed, 214 insertions(+), 213 deletions(-)
->
-> diff --git a/include/fpu/softfloat.h b/include/fpu/softfloat.h
-> index f1a19df066b7..659218b5c787 100644
-> --- a/include/fpu/softfloat.h
-> +++ b/include/fpu/softfloat.h
-> @@ -822,6 +822,7 @@ static inline bool floatx80_invalid_encoding(floatx80=
- a)
->  }
->=20=20
->  #define floatx80_zero make_floatx80(0x0000, 0x0000000000000000LL)
-> +#define floatx80_zero_init make_floatx80_init(0x0000, 0x0000000000000000=
-LL)
->  #define floatx80_one make_floatx80(0x3fff, 0x8000000000000000LL)
->  #define floatx80_ln2 make_floatx80(0x3ffe, 0xb17217f7d1cf79acLL)
->  #define floatx80_pi make_floatx80(0x4000, 0xc90fdaa22168c235LL)
-> diff --git a/target/i386/fpu_helper.c b/target/i386/fpu_helper.c
-> index f5e6c4b88d4e..4ea73874d836 100644
-> --- a/target/i386/fpu_helper.c
-> +++ b/target/i386/fpu_helper.c
-> @@ -868,201 +868,201 @@ struct f2xm1_data {
->  };
->=20=20
->  static const struct f2xm1_data f2xm1_table[65] =3D {
-> -    { make_floatx80(0xbfff, 0x8000000000000000ULL),
-> -      make_floatx80(0x3ffe, 0x8000000000000000ULL),
-> -      make_floatx80(0xbffe, 0x8000000000000000ULL) },
-> -    { make_floatx80(0xbffe, 0xf800000000002e7eULL),
-> -      make_floatx80(0x3ffe, 0x82cd8698ac2b9160ULL),
-> -      make_floatx80(0xbffd, 0xfa64f2cea7a8dd40ULL) },
-> -    { make_floatx80(0xbffe, 0xefffffffffffe960ULL),
-> -      make_floatx80(0x3ffe, 0x85aac367cc488345ULL),
-> -      make_floatx80(0xbffd, 0xf4aa7930676ef976ULL) },
-> -    { make_floatx80(0xbffe, 0xe800000000006f10ULL),
-> -      make_floatx80(0x3ffe, 0x88980e8092da5c14ULL),
-> -      make_floatx80(0xbffd, 0xeecfe2feda4b47d8ULL) },
-> -    { make_floatx80(0xbffe, 0xe000000000008a45ULL),
-> -      make_floatx80(0x3ffe, 0x8b95c1e3ea8ba2a5ULL),
-> -      make_floatx80(0xbffd, 0xe8d47c382ae8bab6ULL) },
-> -    { make_floatx80(0xbffe, 0xd7ffffffffff8a9eULL),
-> -      make_floatx80(0x3ffe, 0x8ea4398b45cd8116ULL),
-> -      make_floatx80(0xbffd, 0xe2b78ce97464fdd4ULL) },
-> -    { make_floatx80(0xbffe, 0xd0000000000019a0ULL),
-> -      make_floatx80(0x3ffe, 0x91c3d373ab11b919ULL),
-> -      make_floatx80(0xbffd, 0xdc785918a9dc8dceULL) },
-> -    { make_floatx80(0xbffe, 0xc7ffffffffff14dfULL),
-> -      make_floatx80(0x3ffe, 0x94f4efa8fef76836ULL),
-> -      make_floatx80(0xbffd, 0xd61620ae02112f94ULL) },
-> -    { make_floatx80(0xbffe, 0xc000000000006530ULL),
-> -      make_floatx80(0x3ffe, 0x9837f0518db87fbbULL),
-> -      make_floatx80(0xbffd, 0xcf901f5ce48f008aULL) },
-> -    { make_floatx80(0xbffe, 0xb7ffffffffff1723ULL),
-> -      make_floatx80(0x3ffe, 0x9b8d39b9d54eb74cULL),
-> -      make_floatx80(0xbffd, 0xc8e58c8c55629168ULL) },
-> -    { make_floatx80(0xbffe, 0xb00000000000b5e1ULL),
-> -      make_floatx80(0x3ffe, 0x9ef5326091a0c366ULL),
-> -      make_floatx80(0xbffd, 0xc2159b3edcbe7934ULL) },
-> -    { make_floatx80(0xbffe, 0xa800000000006f8aULL),
-> -      make_floatx80(0x3ffe, 0xa27043030c49370aULL),
-> -      make_floatx80(0xbffd, 0xbb1f79f9e76d91ecULL) },
-> -    { make_floatx80(0xbffe, 0x9fffffffffff816aULL),
-> -      make_floatx80(0x3ffe, 0xa5fed6a9b15171cfULL),
-> -      make_floatx80(0xbffd, 0xb40252ac9d5d1c62ULL) },
-> -    { make_floatx80(0xbffe, 0x97ffffffffffb621ULL),
-> -      make_floatx80(0x3ffe, 0xa9a15ab4ea7c30e6ULL),
-> -      make_floatx80(0xbffd, 0xacbd4a962b079e34ULL) },
-> -    { make_floatx80(0xbffe, 0x8fffffffffff162bULL),
-> -      make_floatx80(0x3ffe, 0xad583eea42a1b886ULL),
-> -      make_floatx80(0xbffd, 0xa54f822b7abc8ef4ULL) },
-> -    { make_floatx80(0xbffe, 0x87ffffffffff4d34ULL),
-> -      make_floatx80(0x3ffe, 0xb123f581d2ac7b51ULL),
-> -      make_floatx80(0xbffd, 0x9db814fc5aa7095eULL) },
-> -    { make_floatx80(0xbffe, 0x800000000000227dULL),
-> -      make_floatx80(0x3ffe, 0xb504f333f9de539dULL),
-> -      make_floatx80(0xbffd, 0x95f619980c4358c6ULL) },
-> -    { make_floatx80(0xbffd, 0xefffffffffff3978ULL),
-> -      make_floatx80(0x3ffe, 0xb8fbaf4762fbd0a1ULL),
-> -      make_floatx80(0xbffd, 0x8e08a1713a085ebeULL) },
-> -    { make_floatx80(0xbffd, 0xe00000000000df81ULL),
-> -      make_floatx80(0x3ffe, 0xbd08a39f580bfd8cULL),
-> -      make_floatx80(0xbffd, 0x85eeb8c14fe804e8ULL) },
-> -    { make_floatx80(0xbffd, 0xd00000000000bccfULL),
-> -      make_floatx80(0x3ffe, 0xc12c4cca667062f6ULL),
-> -      make_floatx80(0xbffc, 0xfb4eccd6663e7428ULL) },
-> -    { make_floatx80(0xbffd, 0xc00000000000eff0ULL),
-> -      make_floatx80(0x3ffe, 0xc5672a1155069abeULL),
-> -      make_floatx80(0xbffc, 0xea6357baabe59508ULL) },
-> -    { make_floatx80(0xbffd, 0xb000000000000fe6ULL),
-> -      make_floatx80(0x3ffe, 0xc9b9bd866e2f234bULL),
-> -      make_floatx80(0xbffc, 0xd91909e6474372d4ULL) },
-> -    { make_floatx80(0xbffd, 0x9fffffffffff2172ULL),
-> -      make_floatx80(0x3ffe, 0xce248c151f84bf00ULL),
-> -      make_floatx80(0xbffc, 0xc76dcfab81ed0400ULL) },
-> -    { make_floatx80(0xbffd, 0x8fffffffffffafffULL),
-> -      make_floatx80(0x3ffe, 0xd2a81d91f12afb2bULL),
-> -      make_floatx80(0xbffc, 0xb55f89b83b541354ULL) },
-> -    { make_floatx80(0xbffc, 0xffffffffffff81a3ULL),
-> -      make_floatx80(0x3ffe, 0xd744fccad69d7d5eULL),
-> -      make_floatx80(0xbffc, 0xa2ec0cd4a58a0a88ULL) },
-> -    { make_floatx80(0xbffc, 0xdfffffffffff1568ULL),
-> -      make_floatx80(0x3ffe, 0xdbfbb797daf25a44ULL),
-> -      make_floatx80(0xbffc, 0x901121a0943696f0ULL) },
-> -    { make_floatx80(0xbffc, 0xbfffffffffff68daULL),
-> -      make_floatx80(0x3ffe, 0xe0ccdeec2a94f811ULL),
-> -      make_floatx80(0xbffb, 0xf999089eab583f78ULL) },
-> -    { make_floatx80(0xbffc, 0x9fffffffffff4690ULL),
-> -      make_floatx80(0x3ffe, 0xe5b906e77c83657eULL),
-> -      make_floatx80(0xbffb, 0xd237c8c41be4d410ULL) },
-> -    { make_floatx80(0xbffb, 0xffffffffffff8aeeULL),
-> -      make_floatx80(0x3ffe, 0xeac0c6e7dd24427cULL),
-> -      make_floatx80(0xbffb, 0xa9f9c8c116ddec20ULL) },
-> -    { make_floatx80(0xbffb, 0xbfffffffffff2d18ULL),
-> -      make_floatx80(0x3ffe, 0xefe4b99bdcdb06ebULL),
-> -      make_floatx80(0xbffb, 0x80da33211927c8a8ULL) },
-> -    { make_floatx80(0xbffa, 0xffffffffffff8ccbULL),
-> -      make_floatx80(0x3ffe, 0xf5257d152486d0f4ULL),
-> -      make_floatx80(0xbffa, 0xada82eadb792f0c0ULL) },
-> -    { make_floatx80(0xbff9, 0xffffffffffff11feULL),
-> -      make_floatx80(0x3ffe, 0xfa83b2db722a0846ULL),
-> -      make_floatx80(0xbff9, 0xaf89a491babef740ULL) },
-> -    { floatx80_zero,
-> -      make_floatx80(0x3fff, 0x8000000000000000ULL),
-> -      floatx80_zero },
-> -    { make_floatx80(0x3ff9, 0xffffffffffff2680ULL),
-> -      make_floatx80(0x3fff, 0x82cd8698ac2b9f6fULL),
-> -      make_floatx80(0x3ff9, 0xb361a62b0ae7dbc0ULL) },
-> -    { make_floatx80(0x3ffb, 0x800000000000b500ULL),
-> -      make_floatx80(0x3fff, 0x85aac367cc488345ULL),
-> -      make_floatx80(0x3ffa, 0xb5586cf9891068a0ULL) },
-> -    { make_floatx80(0x3ffb, 0xbfffffffffff4b67ULL),
-> -      make_floatx80(0x3fff, 0x88980e8092da7cceULL),
-> -      make_floatx80(0x3ffb, 0x8980e8092da7cce0ULL) },
-> -    { make_floatx80(0x3ffb, 0xffffffffffffff57ULL),
-> -      make_floatx80(0x3fff, 0x8b95c1e3ea8bd6dfULL),
-> -      make_floatx80(0x3ffb, 0xb95c1e3ea8bd6df0ULL) },
-> -    { make_floatx80(0x3ffc, 0x9fffffffffff811fULL),
-> -      make_floatx80(0x3fff, 0x8ea4398b45cd4780ULL),
-> -      make_floatx80(0x3ffb, 0xea4398b45cd47800ULL) },
-> -    { make_floatx80(0x3ffc, 0xbfffffffffff9980ULL),
-> -      make_floatx80(0x3fff, 0x91c3d373ab11b919ULL),
-> -      make_floatx80(0x3ffc, 0x8e1e9b9d588dc8c8ULL) },
-> -    { make_floatx80(0x3ffc, 0xdffffffffffff631ULL),
-> -      make_floatx80(0x3fff, 0x94f4efa8fef70864ULL),
-> -      make_floatx80(0x3ffc, 0xa7a77d47f7b84320ULL) },
-> -    { make_floatx80(0x3ffc, 0xffffffffffff2499ULL),
-> -      make_floatx80(0x3fff, 0x9837f0518db892d4ULL),
-> -      make_floatx80(0x3ffc, 0xc1bf828c6dc496a0ULL) },
-> -    { make_floatx80(0x3ffd, 0x8fffffffffff80fbULL),
-> -      make_floatx80(0x3fff, 0x9b8d39b9d54e3a79ULL),
-> -      make_floatx80(0x3ffc, 0xdc69cdceaa71d3c8ULL) },
-> -    { make_floatx80(0x3ffd, 0x9fffffffffffbc23ULL),
-> -      make_floatx80(0x3fff, 0x9ef5326091a10313ULL),
-> -      make_floatx80(0x3ffc, 0xf7a993048d081898ULL) },
-> -    { make_floatx80(0x3ffd, 0xafffffffffff20ecULL),
-> -      make_floatx80(0x3fff, 0xa27043030c49370aULL),
-> -      make_floatx80(0x3ffd, 0x89c10c0c3124dc28ULL) },
-> -    { make_floatx80(0x3ffd, 0xc00000000000fd2cULL),
-> -      make_floatx80(0x3fff, 0xa5fed6a9b15171cfULL),
-> -      make_floatx80(0x3ffd, 0x97fb5aa6c545c73cULL) },
-> -    { make_floatx80(0x3ffd, 0xd0000000000093beULL),
-> -      make_floatx80(0x3fff, 0xa9a15ab4ea7c30e6ULL),
-> -      make_floatx80(0x3ffd, 0xa6856ad3a9f0c398ULL) },
-> -    { make_floatx80(0x3ffd, 0xe00000000000c2aeULL),
-> -      make_floatx80(0x3fff, 0xad583eea42a17876ULL),
-> -      make_floatx80(0x3ffd, 0xb560fba90a85e1d8ULL) },
-> -    { make_floatx80(0x3ffd, 0xefffffffffff1e3fULL),
-> -      make_floatx80(0x3fff, 0xb123f581d2abef6cULL),
-> -      make_floatx80(0x3ffd, 0xc48fd6074aafbdb0ULL) },
-> -    { make_floatx80(0x3ffd, 0xffffffffffff1c23ULL),
-> -      make_floatx80(0x3fff, 0xb504f333f9de2cadULL),
-> -      make_floatx80(0x3ffd, 0xd413cccfe778b2b4ULL) },
-> -    { make_floatx80(0x3ffe, 0x8800000000006344ULL),
-> -      make_floatx80(0x3fff, 0xb8fbaf4762fbd0a1ULL),
-> -      make_floatx80(0x3ffd, 0xe3eebd1d8bef4284ULL) },
-> -    { make_floatx80(0x3ffe, 0x9000000000005d67ULL),
-> -      make_floatx80(0x3fff, 0xbd08a39f580c668dULL),
-> -      make_floatx80(0x3ffd, 0xf4228e7d60319a34ULL) },
-> -    { make_floatx80(0x3ffe, 0x9800000000009127ULL),
-> -      make_floatx80(0x3fff, 0xc12c4cca6670e042ULL),
-> -      make_floatx80(0x3ffe, 0x82589994cce1c084ULL) },
-> -    { make_floatx80(0x3ffe, 0x9fffffffffff06f9ULL),
-> -      make_floatx80(0x3fff, 0xc5672a11550655c3ULL),
-> -      make_floatx80(0x3ffe, 0x8ace5422aa0cab86ULL) },
-> -    { make_floatx80(0x3ffe, 0xa7fffffffffff80dULL),
-> -      make_floatx80(0x3fff, 0xc9b9bd866e2f234bULL),
-> -      make_floatx80(0x3ffe, 0x93737b0cdc5e4696ULL) },
-> -    { make_floatx80(0x3ffe, 0xafffffffffff1470ULL),
-> -      make_floatx80(0x3fff, 0xce248c151f83fd69ULL),
-> -      make_floatx80(0x3ffe, 0x9c49182a3f07fad2ULL) },
-> -    { make_floatx80(0x3ffe, 0xb800000000000e0aULL),
-> -      make_floatx80(0x3fff, 0xd2a81d91f12aec5cULL),
-> -      make_floatx80(0x3ffe, 0xa5503b23e255d8b8ULL) },
-> -    { make_floatx80(0x3ffe, 0xc00000000000b7faULL),
-> -      make_floatx80(0x3fff, 0xd744fccad69dd630ULL),
-> -      make_floatx80(0x3ffe, 0xae89f995ad3bac60ULL) },
-> -    { make_floatx80(0x3ffe, 0xc800000000003aa6ULL),
-> -      make_floatx80(0x3fff, 0xdbfbb797daf25a44ULL),
-> -      make_floatx80(0x3ffe, 0xb7f76f2fb5e4b488ULL) },
-> -    { make_floatx80(0x3ffe, 0xd00000000000a6aeULL),
-> -      make_floatx80(0x3fff, 0xe0ccdeec2a954685ULL),
-> -      make_floatx80(0x3ffe, 0xc199bdd8552a8d0aULL) },
-> -    { make_floatx80(0x3ffe, 0xd800000000004165ULL),
-> -      make_floatx80(0x3fff, 0xe5b906e77c837155ULL),
-> -      make_floatx80(0x3ffe, 0xcb720dcef906e2aaULL) },
-> -    { make_floatx80(0x3ffe, 0xe00000000000582cULL),
-> -      make_floatx80(0x3fff, 0xeac0c6e7dd24713aULL),
-> -      make_floatx80(0x3ffe, 0xd5818dcfba48e274ULL) },
-> -    { make_floatx80(0x3ffe, 0xe800000000001a5dULL),
-> -      make_floatx80(0x3fff, 0xefe4b99bdcdb06ebULL),
-> -      make_floatx80(0x3ffe, 0xdfc97337b9b60dd6ULL) },
-> -    { make_floatx80(0x3ffe, 0xefffffffffffc1efULL),
-> -      make_floatx80(0x3fff, 0xf5257d152486a2faULL),
-> -      make_floatx80(0x3ffe, 0xea4afa2a490d45f4ULL) },
-> -    { make_floatx80(0x3ffe, 0xf800000000001069ULL),
-> -      make_floatx80(0x3fff, 0xfa83b2db722a0e5cULL),
-> -      make_floatx80(0x3ffe, 0xf50765b6e4541cb8ULL) },
-> -    { make_floatx80(0x3fff, 0x8000000000000000ULL),
-> -      make_floatx80(0x4000, 0x8000000000000000ULL),
-> -      make_floatx80(0x3fff, 0x8000000000000000ULL) },
-> +    { make_floatx80_init(0xbfff, 0x8000000000000000ULL),
-> +      make_floatx80_init(0x3ffe, 0x8000000000000000ULL),
-> +      make_floatx80_init(0xbffe, 0x8000000000000000ULL) },
-> +    { make_floatx80_init(0xbffe, 0xf800000000002e7eULL),
-> +      make_floatx80_init(0x3ffe, 0x82cd8698ac2b9160ULL),
-> +      make_floatx80_init(0xbffd, 0xfa64f2cea7a8dd40ULL) },
-> +    { make_floatx80_init(0xbffe, 0xefffffffffffe960ULL),
-> +      make_floatx80_init(0x3ffe, 0x85aac367cc488345ULL),
-> +      make_floatx80_init(0xbffd, 0xf4aa7930676ef976ULL) },
-> +    { make_floatx80_init(0xbffe, 0xe800000000006f10ULL),
-> +      make_floatx80_init(0x3ffe, 0x88980e8092da5c14ULL),
-> +      make_floatx80_init(0xbffd, 0xeecfe2feda4b47d8ULL) },
-> +    { make_floatx80_init(0xbffe, 0xe000000000008a45ULL),
-> +      make_floatx80_init(0x3ffe, 0x8b95c1e3ea8ba2a5ULL),
-> +      make_floatx80_init(0xbffd, 0xe8d47c382ae8bab6ULL) },
-> +    { make_floatx80_init(0xbffe, 0xd7ffffffffff8a9eULL),
-> +      make_floatx80_init(0x3ffe, 0x8ea4398b45cd8116ULL),
-> +      make_floatx80_init(0xbffd, 0xe2b78ce97464fdd4ULL) },
-> +    { make_floatx80_init(0xbffe, 0xd0000000000019a0ULL),
-> +      make_floatx80_init(0x3ffe, 0x91c3d373ab11b919ULL),
-> +      make_floatx80_init(0xbffd, 0xdc785918a9dc8dceULL) },
-> +    { make_floatx80_init(0xbffe, 0xc7ffffffffff14dfULL),
-> +      make_floatx80_init(0x3ffe, 0x94f4efa8fef76836ULL),
-> +      make_floatx80_init(0xbffd, 0xd61620ae02112f94ULL) },
-> +    { make_floatx80_init(0xbffe, 0xc000000000006530ULL),
-> +      make_floatx80_init(0x3ffe, 0x9837f0518db87fbbULL),
-> +      make_floatx80_init(0xbffd, 0xcf901f5ce48f008aULL) },
-> +    { make_floatx80_init(0xbffe, 0xb7ffffffffff1723ULL),
-> +      make_floatx80_init(0x3ffe, 0x9b8d39b9d54eb74cULL),
-> +      make_floatx80_init(0xbffd, 0xc8e58c8c55629168ULL) },
-> +    { make_floatx80_init(0xbffe, 0xb00000000000b5e1ULL),
-> +      make_floatx80_init(0x3ffe, 0x9ef5326091a0c366ULL),
-> +      make_floatx80_init(0xbffd, 0xc2159b3edcbe7934ULL) },
-> +    { make_floatx80_init(0xbffe, 0xa800000000006f8aULL),
-> +      make_floatx80_init(0x3ffe, 0xa27043030c49370aULL),
-> +      make_floatx80_init(0xbffd, 0xbb1f79f9e76d91ecULL) },
-> +    { make_floatx80_init(0xbffe, 0x9fffffffffff816aULL),
-> +      make_floatx80_init(0x3ffe, 0xa5fed6a9b15171cfULL),
-> +      make_floatx80_init(0xbffd, 0xb40252ac9d5d1c62ULL) },
-> +    { make_floatx80_init(0xbffe, 0x97ffffffffffb621ULL),
-> +      make_floatx80_init(0x3ffe, 0xa9a15ab4ea7c30e6ULL),
-> +      make_floatx80_init(0xbffd, 0xacbd4a962b079e34ULL) },
-> +    { make_floatx80_init(0xbffe, 0x8fffffffffff162bULL),
-> +      make_floatx80_init(0x3ffe, 0xad583eea42a1b886ULL),
-> +      make_floatx80_init(0xbffd, 0xa54f822b7abc8ef4ULL) },
-> +    { make_floatx80_init(0xbffe, 0x87ffffffffff4d34ULL),
-> +      make_floatx80_init(0x3ffe, 0xb123f581d2ac7b51ULL),
-> +      make_floatx80_init(0xbffd, 0x9db814fc5aa7095eULL) },
-> +    { make_floatx80_init(0xbffe, 0x800000000000227dULL),
-> +      make_floatx80_init(0x3ffe, 0xb504f333f9de539dULL),
-> +      make_floatx80_init(0xbffd, 0x95f619980c4358c6ULL) },
-> +    { make_floatx80_init(0xbffd, 0xefffffffffff3978ULL),
-> +      make_floatx80_init(0x3ffe, 0xb8fbaf4762fbd0a1ULL),
-> +      make_floatx80_init(0xbffd, 0x8e08a1713a085ebeULL) },
-> +    { make_floatx80_init(0xbffd, 0xe00000000000df81ULL),
-> +      make_floatx80_init(0x3ffe, 0xbd08a39f580bfd8cULL),
-> +      make_floatx80_init(0xbffd, 0x85eeb8c14fe804e8ULL) },
-> +    { make_floatx80_init(0xbffd, 0xd00000000000bccfULL),
-> +      make_floatx80_init(0x3ffe, 0xc12c4cca667062f6ULL),
-> +      make_floatx80_init(0xbffc, 0xfb4eccd6663e7428ULL) },
-> +    { make_floatx80_init(0xbffd, 0xc00000000000eff0ULL),
-> +      make_floatx80_init(0x3ffe, 0xc5672a1155069abeULL),
-> +      make_floatx80_init(0xbffc, 0xea6357baabe59508ULL) },
-> +    { make_floatx80_init(0xbffd, 0xb000000000000fe6ULL),
-> +      make_floatx80_init(0x3ffe, 0xc9b9bd866e2f234bULL),
-> +      make_floatx80_init(0xbffc, 0xd91909e6474372d4ULL) },
-> +    { make_floatx80_init(0xbffd, 0x9fffffffffff2172ULL),
-> +      make_floatx80_init(0x3ffe, 0xce248c151f84bf00ULL),
-> +      make_floatx80_init(0xbffc, 0xc76dcfab81ed0400ULL) },
-> +    { make_floatx80_init(0xbffd, 0x8fffffffffffafffULL),
-> +      make_floatx80_init(0x3ffe, 0xd2a81d91f12afb2bULL),
-> +      make_floatx80_init(0xbffc, 0xb55f89b83b541354ULL) },
-> +    { make_floatx80_init(0xbffc, 0xffffffffffff81a3ULL),
-> +      make_floatx80_init(0x3ffe, 0xd744fccad69d7d5eULL),
-> +      make_floatx80_init(0xbffc, 0xa2ec0cd4a58a0a88ULL) },
-> +    { make_floatx80_init(0xbffc, 0xdfffffffffff1568ULL),
-> +      make_floatx80_init(0x3ffe, 0xdbfbb797daf25a44ULL),
-> +      make_floatx80_init(0xbffc, 0x901121a0943696f0ULL) },
-> +    { make_floatx80_init(0xbffc, 0xbfffffffffff68daULL),
-> +      make_floatx80_init(0x3ffe, 0xe0ccdeec2a94f811ULL),
-> +      make_floatx80_init(0xbffb, 0xf999089eab583f78ULL) },
-> +    { make_floatx80_init(0xbffc, 0x9fffffffffff4690ULL),
-> +      make_floatx80_init(0x3ffe, 0xe5b906e77c83657eULL),
-> +      make_floatx80_init(0xbffb, 0xd237c8c41be4d410ULL) },
-> +    { make_floatx80_init(0xbffb, 0xffffffffffff8aeeULL),
-> +      make_floatx80_init(0x3ffe, 0xeac0c6e7dd24427cULL),
-> +      make_floatx80_init(0xbffb, 0xa9f9c8c116ddec20ULL) },
-> +    { make_floatx80_init(0xbffb, 0xbfffffffffff2d18ULL),
-> +      make_floatx80_init(0x3ffe, 0xefe4b99bdcdb06ebULL),
-> +      make_floatx80_init(0xbffb, 0x80da33211927c8a8ULL) },
-> +    { make_floatx80_init(0xbffa, 0xffffffffffff8ccbULL),
-> +      make_floatx80_init(0x3ffe, 0xf5257d152486d0f4ULL),
-> +      make_floatx80_init(0xbffa, 0xada82eadb792f0c0ULL) },
-> +    { make_floatx80_init(0xbff9, 0xffffffffffff11feULL),
-> +      make_floatx80_init(0x3ffe, 0xfa83b2db722a0846ULL),
-> +      make_floatx80_init(0xbff9, 0xaf89a491babef740ULL) },
-> +    { floatx80_zero_init,
-> +      make_floatx80_init(0x3fff, 0x8000000000000000ULL),
-> +      floatx80_zero_init },
-> +    { make_floatx80_init(0x3ff9, 0xffffffffffff2680ULL),
-> +      make_floatx80_init(0x3fff, 0x82cd8698ac2b9f6fULL),
-> +      make_floatx80_init(0x3ff9, 0xb361a62b0ae7dbc0ULL) },
-> +    { make_floatx80_init(0x3ffb, 0x800000000000b500ULL),
-> +      make_floatx80_init(0x3fff, 0x85aac367cc488345ULL),
-> +      make_floatx80_init(0x3ffa, 0xb5586cf9891068a0ULL) },
-> +    { make_floatx80_init(0x3ffb, 0xbfffffffffff4b67ULL),
-> +      make_floatx80_init(0x3fff, 0x88980e8092da7cceULL),
-> +      make_floatx80_init(0x3ffb, 0x8980e8092da7cce0ULL) },
-> +    { make_floatx80_init(0x3ffb, 0xffffffffffffff57ULL),
-> +      make_floatx80_init(0x3fff, 0x8b95c1e3ea8bd6dfULL),
-> +      make_floatx80_init(0x3ffb, 0xb95c1e3ea8bd6df0ULL) },
-> +    { make_floatx80_init(0x3ffc, 0x9fffffffffff811fULL),
-> +      make_floatx80_init(0x3fff, 0x8ea4398b45cd4780ULL),
-> +      make_floatx80_init(0x3ffb, 0xea4398b45cd47800ULL) },
-> +    { make_floatx80_init(0x3ffc, 0xbfffffffffff9980ULL),
-> +      make_floatx80_init(0x3fff, 0x91c3d373ab11b919ULL),
-> +      make_floatx80_init(0x3ffc, 0x8e1e9b9d588dc8c8ULL) },
-> +    { make_floatx80_init(0x3ffc, 0xdffffffffffff631ULL),
-> +      make_floatx80_init(0x3fff, 0x94f4efa8fef70864ULL),
-> +      make_floatx80_init(0x3ffc, 0xa7a77d47f7b84320ULL) },
-> +    { make_floatx80_init(0x3ffc, 0xffffffffffff2499ULL),
-> +      make_floatx80_init(0x3fff, 0x9837f0518db892d4ULL),
-> +      make_floatx80_init(0x3ffc, 0xc1bf828c6dc496a0ULL) },
-> +    { make_floatx80_init(0x3ffd, 0x8fffffffffff80fbULL),
-> +      make_floatx80_init(0x3fff, 0x9b8d39b9d54e3a79ULL),
-> +      make_floatx80_init(0x3ffc, 0xdc69cdceaa71d3c8ULL) },
-> +    { make_floatx80_init(0x3ffd, 0x9fffffffffffbc23ULL),
-> +      make_floatx80_init(0x3fff, 0x9ef5326091a10313ULL),
-> +      make_floatx80_init(0x3ffc, 0xf7a993048d081898ULL) },
-> +    { make_floatx80_init(0x3ffd, 0xafffffffffff20ecULL),
-> +      make_floatx80_init(0x3fff, 0xa27043030c49370aULL),
-> +      make_floatx80_init(0x3ffd, 0x89c10c0c3124dc28ULL) },
-> +    { make_floatx80_init(0x3ffd, 0xc00000000000fd2cULL),
-> +      make_floatx80_init(0x3fff, 0xa5fed6a9b15171cfULL),
-> +      make_floatx80_init(0x3ffd, 0x97fb5aa6c545c73cULL) },
-> +    { make_floatx80_init(0x3ffd, 0xd0000000000093beULL),
-> +      make_floatx80_init(0x3fff, 0xa9a15ab4ea7c30e6ULL),
-> +      make_floatx80_init(0x3ffd, 0xa6856ad3a9f0c398ULL) },
-> +    { make_floatx80_init(0x3ffd, 0xe00000000000c2aeULL),
-> +      make_floatx80_init(0x3fff, 0xad583eea42a17876ULL),
-> +      make_floatx80_init(0x3ffd, 0xb560fba90a85e1d8ULL) },
-> +    { make_floatx80_init(0x3ffd, 0xefffffffffff1e3fULL),
-> +      make_floatx80_init(0x3fff, 0xb123f581d2abef6cULL),
-> +      make_floatx80_init(0x3ffd, 0xc48fd6074aafbdb0ULL) },
-> +    { make_floatx80_init(0x3ffd, 0xffffffffffff1c23ULL),
-> +      make_floatx80_init(0x3fff, 0xb504f333f9de2cadULL),
-> +      make_floatx80_init(0x3ffd, 0xd413cccfe778b2b4ULL) },
-> +    { make_floatx80_init(0x3ffe, 0x8800000000006344ULL),
-> +      make_floatx80_init(0x3fff, 0xb8fbaf4762fbd0a1ULL),
-> +      make_floatx80_init(0x3ffd, 0xe3eebd1d8bef4284ULL) },
-> +    { make_floatx80_init(0x3ffe, 0x9000000000005d67ULL),
-> +      make_floatx80_init(0x3fff, 0xbd08a39f580c668dULL),
-> +      make_floatx80_init(0x3ffd, 0xf4228e7d60319a34ULL) },
-> +    { make_floatx80_init(0x3ffe, 0x9800000000009127ULL),
-> +      make_floatx80_init(0x3fff, 0xc12c4cca6670e042ULL),
-> +      make_floatx80_init(0x3ffe, 0x82589994cce1c084ULL) },
-> +    { make_floatx80_init(0x3ffe, 0x9fffffffffff06f9ULL),
-> +      make_floatx80_init(0x3fff, 0xc5672a11550655c3ULL),
-> +      make_floatx80_init(0x3ffe, 0x8ace5422aa0cab86ULL) },
-> +    { make_floatx80_init(0x3ffe, 0xa7fffffffffff80dULL),
-> +      make_floatx80_init(0x3fff, 0xc9b9bd866e2f234bULL),
-> +      make_floatx80_init(0x3ffe, 0x93737b0cdc5e4696ULL) },
-> +    { make_floatx80_init(0x3ffe, 0xafffffffffff1470ULL),
-> +      make_floatx80_init(0x3fff, 0xce248c151f83fd69ULL),
-> +      make_floatx80_init(0x3ffe, 0x9c49182a3f07fad2ULL) },
-> +    { make_floatx80_init(0x3ffe, 0xb800000000000e0aULL),
-> +      make_floatx80_init(0x3fff, 0xd2a81d91f12aec5cULL),
-> +      make_floatx80_init(0x3ffe, 0xa5503b23e255d8b8ULL) },
-> +    { make_floatx80_init(0x3ffe, 0xc00000000000b7faULL),
-> +      make_floatx80_init(0x3fff, 0xd744fccad69dd630ULL),
-> +      make_floatx80_init(0x3ffe, 0xae89f995ad3bac60ULL) },
-> +    { make_floatx80_init(0x3ffe, 0xc800000000003aa6ULL),
-> +      make_floatx80_init(0x3fff, 0xdbfbb797daf25a44ULL),
-> +      make_floatx80_init(0x3ffe, 0xb7f76f2fb5e4b488ULL) },
-> +    { make_floatx80_init(0x3ffe, 0xd00000000000a6aeULL),
-> +      make_floatx80_init(0x3fff, 0xe0ccdeec2a954685ULL),
-> +      make_floatx80_init(0x3ffe, 0xc199bdd8552a8d0aULL) },
-> +    { make_floatx80_init(0x3ffe, 0xd800000000004165ULL),
-> +      make_floatx80_init(0x3fff, 0xe5b906e77c837155ULL),
-> +      make_floatx80_init(0x3ffe, 0xcb720dcef906e2aaULL) },
-> +    { make_floatx80_init(0x3ffe, 0xe00000000000582cULL),
-> +      make_floatx80_init(0x3fff, 0xeac0c6e7dd24713aULL),
-> +      make_floatx80_init(0x3ffe, 0xd5818dcfba48e274ULL) },
-> +    { make_floatx80_init(0x3ffe, 0xe800000000001a5dULL),
-> +      make_floatx80_init(0x3fff, 0xefe4b99bdcdb06ebULL),
-> +      make_floatx80_init(0x3ffe, 0xdfc97337b9b60dd6ULL) },
-> +    { make_floatx80_init(0x3ffe, 0xefffffffffffc1efULL),
-> +      make_floatx80_init(0x3fff, 0xf5257d152486a2faULL),
-> +      make_floatx80_init(0x3ffe, 0xea4afa2a490d45f4ULL) },
-> +    { make_floatx80_init(0x3ffe, 0xf800000000001069ULL),
-> +      make_floatx80_init(0x3fff, 0xfa83b2db722a0e5cULL),
-> +      make_floatx80_init(0x3ffe, 0xf50765b6e4541cb8ULL) },
-> +    { make_floatx80_init(0x3fff, 0x8000000000000000ULL),
-> +      make_floatx80_init(0x4000, 0x8000000000000000ULL),
-> +      make_floatx80_init(0x3fff, 0x8000000000000000ULL) },
->  };
->=20=20
->  void helper_f2xm1(CPUX86State *env)
-> @@ -1275,24 +1275,24 @@ struct fpatan_data {
->  };
->=20=20
->  static const struct fpatan_data fpatan_table[9] =3D {
-> -    { floatx80_zero,
-> -      floatx80_zero },
-> -    { make_floatx80(0x3ffb, 0xfeadd4d5617b6e33ULL),
-> -      make_floatx80(0xbfb9, 0xdda19d8305ddc420ULL) },
-> -    { make_floatx80(0x3ffc, 0xfadbafc96406eb15ULL),
-> -      make_floatx80(0x3fbb, 0xdb8f3debef442fccULL) },
-> -    { make_floatx80(0x3ffd, 0xb7b0ca0f26f78474ULL),
-> -      make_floatx80(0xbfbc, 0xeab9bdba460376faULL) },
-> -    { make_floatx80(0x3ffd, 0xed63382b0dda7b45ULL),
-> -      make_floatx80(0x3fbc, 0xdfc88bd978751a06ULL) },
-> -    { make_floatx80(0x3ffe, 0x8f005d5ef7f59f9bULL),
-> -      make_floatx80(0x3fbd, 0xb906bc2ccb886e90ULL) },
-> -    { make_floatx80(0x3ffe, 0xa4bc7d1934f70924ULL),
-> -      make_floatx80(0x3fbb, 0xcd43f9522bed64f8ULL) },
-> -    { make_floatx80(0x3ffe, 0xb8053e2bc2319e74ULL),
-> -      make_floatx80(0xbfbc, 0xd3496ab7bd6eef0cULL) },
-> -    { make_floatx80(0x3ffe, 0xc90fdaa22168c235ULL),
-> -      make_floatx80(0xbfbc, 0xece675d1fc8f8cbcULL) },
-> +    { floatx80_zero_init,
-> +      floatx80_zero_init },
-> +    { make_floatx80_init(0x3ffb, 0xfeadd4d5617b6e33ULL),
-> +      make_floatx80_init(0xbfb9, 0xdda19d8305ddc420ULL) },
-> +    { make_floatx80_init(0x3ffc, 0xfadbafc96406eb15ULL),
-> +      make_floatx80_init(0x3fbb, 0xdb8f3debef442fccULL) },
-> +    { make_floatx80_init(0x3ffd, 0xb7b0ca0f26f78474ULL),
-> +      make_floatx80_init(0xbfbc, 0xeab9bdba460376faULL) },
-> +    { make_floatx80_init(0x3ffd, 0xed63382b0dda7b45ULL),
-> +      make_floatx80_init(0x3fbc, 0xdfc88bd978751a06ULL) },
-> +    { make_floatx80_init(0x3ffe, 0x8f005d5ef7f59f9bULL),
-> +      make_floatx80_init(0x3fbd, 0xb906bc2ccb886e90ULL) },
-> +    { make_floatx80_init(0x3ffe, 0xa4bc7d1934f70924ULL),
-> +      make_floatx80_init(0x3fbb, 0xcd43f9522bed64f8ULL) },
-> +    { make_floatx80_init(0x3ffe, 0xb8053e2bc2319e74ULL),
-> +      make_floatx80_init(0xbfbc, 0xd3496ab7bd6eef0cULL) },
-> +    { make_floatx80_init(0x3ffe, 0xc90fdaa22168c235ULL),
-> +      make_floatx80_init(0xbfbc, 0xece675d1fc8f8cbcULL) },
->  };
->=20=20
->  void helper_fpatan(CPUX86State *env)
-
-
---=20
-Alex Benn=C3=A9e
 
