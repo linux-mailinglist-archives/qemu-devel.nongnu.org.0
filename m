@@ -2,63 +2,62 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 64BAC222A07
-	for <lists+qemu-devel@lfdr.de>; Thu, 16 Jul 2020 19:36:08 +0200 (CEST)
-Received: from localhost ([::1]:43256 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2A3AC222A5A
+	for <lists+qemu-devel@lfdr.de>; Thu, 16 Jul 2020 19:47:48 +0200 (CEST)
+Received: from localhost ([::1]:48448 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jw7nj-0002mg-8O
-	for lists+qemu-devel@lfdr.de; Thu, 16 Jul 2020 13:36:07 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:40734)
+	id 1jw7z0-0005Ul-AO
+	for lists+qemu-devel@lfdr.de; Thu, 16 Jul 2020 13:47:46 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:44368)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1jw7mh-0001vB-6o
- for qemu-devel@nongnu.org; Thu, 16 Jul 2020 13:35:03 -0400
-Received: from mail-ot1-x343.google.com ([2607:f8b0:4864:20::343]:42268)
+ id 1jw7y4-00055n-JY
+ for qemu-devel@nongnu.org; Thu, 16 Jul 2020 13:46:48 -0400
+Received: from mail-oi1-x244.google.com ([2607:f8b0:4864:20::244]:41493)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1jw7mf-0003SV-BQ
- for qemu-devel@nongnu.org; Thu, 16 Jul 2020 13:35:02 -0400
-Received: by mail-ot1-x343.google.com with SMTP id g37so4836570otb.9
- for <qemu-devel@nongnu.org>; Thu, 16 Jul 2020 10:35:00 -0700 (PDT)
+ id 1jw7y2-0005zv-Cb
+ for qemu-devel@nongnu.org; Thu, 16 Jul 2020 13:46:48 -0400
+Received: by mail-oi1-x244.google.com with SMTP id y22so5742339oie.8
+ for <qemu-devel@nongnu.org>; Thu, 16 Jul 2020 10:46:45 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=h1XCTv0f7ele07kRG79X+j9UrVzrxwceve41vj9nc6I=;
- b=e2WwoYWRz0xr/f4jpZNVXg+UJgYwQY5oo3I8Ntj0bswElod8sZAF42zZ10ygnLXfO6
- 4Ds9X1cmuFb8hlQJpmINlwcPjSzdPtbBrjvtO/i/JuuheJnYU0n5/ySzJNQM4bv2brkI
- /h+VNdP5UlnlR2FSeUVPMWnMsmV/DgLdtM4Fnd5JbwvgQphOnjZ9q2/2Os9wBDQopDNt
- y2w3SSFnVyk1d519FxyukkSKx/XXv3Ae4efQb6w3bxTL0Ud+oblJy7JDcog044VOZ6LJ
- KRQ+pUH5WoZnB8K9/1rX2soGmBzRf9R4Mobn/HIFrdl7bOUGivsAia05XVJ3HLP4yIT6
- V3hw==
+ :cc; bh=Rly3aI04MVBE5TV2umQ+61TZNa7+QwUKiAU0d4Y4/5E=;
+ b=nZHFk55n1v+Y28wFAYgDakVloGsQcrJyT1OqiLMwedJKxL4zz1LsYny6ToJDjpL1fh
+ vulKwHyVmixuZ2h7lHCF5lWM+sY/Fk6BLSbFKsu6ex72StULPTbfUpmrXfxNOynODKyf
+ q7z8FIhpE4kWXLIMkMOSZWIBM1qKToMLF756P+fgsbersQi+ZufnL6MEI78FM60PmbNM
+ pivLqkKuzQP93ej3dvkk2a2S8UBdz6tFSct6dtShKk52ZFliIiLwqtd1jwswlxwhAoSd
+ VasTKbK74LSuEhLdzm91urmgtvFcMfWsXUnxs5arckhVhG63K+y3Pzg28iTQyia2NF8P
+ 636A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
  :message-id:subject:to:cc;
- bh=h1XCTv0f7ele07kRG79X+j9UrVzrxwceve41vj9nc6I=;
- b=tv1M4gCo7OLdAhEzUPL/6V1F/phNK1BKRlCST51huuwzOLeLMo21sue/+LJ58q5eIH
- lXgzmeAjJlSlt0sVsqmNmOfwEzeOkYOy+8UO6m0Xa1+t6G9QvWW7QeavRhpiC6KaHGwV
- +C9XHm4nZPpTTD75/VyuE6taSRAa+9vQQFwdiX9FhtePeh1HOWHY+UHJ233yOUpVRtqC
- XGGn12FyEkkyx6UUlvVgMTBWgvMyl2pzkp76Mt/W6kCUquiwNczOKRutLIx71xs1PmtY
- IVGtx1L2vj8OyWA953zOy6CY3cUFZGL0qMk7hx5GduNj2Zia/R/U89oeToZldMON2WKh
- /Maw==
-X-Gm-Message-State: AOAM532NEd0oMjvRsKjzdx8lHCTDf3GCp6Dr2dNxP8NCuBHsKMKTEO9p
- t1b0N/FYiLPNNh1RmzkJPfuOZZ7EbHvHoNAZnfo9IA==
-X-Google-Smtp-Source: ABdhPJxEWKLM6ExUYGqthPY2yRM7TY0ekjYNxLm8308WgeQ+PAhSPIX6uJQpmeB1TLuHPW2H2OnmGNhe1rzSYSxkQA8=
-X-Received: by 2002:a05:6830:1bd3:: with SMTP id
- v19mr5446006ota.91.1594920899402; 
- Thu, 16 Jul 2020 10:34:59 -0700 (PDT)
+ bh=Rly3aI04MVBE5TV2umQ+61TZNa7+QwUKiAU0d4Y4/5E=;
+ b=cUM+vKlzjzQt8Rc2zo4sWnzno9M5Tayt+k5tyXQMck/xeTkZ30IeWo9xQNRaLoBsYK
+ CnGgVrLAOVNPFzpeMZI17E059WtjlLFI+JfNpsgGFKFHy7IIVJCi9sZ54Zj9+iTWeX2T
+ PPeErlfy+jTJIluiRP9S4rfqyLlGYof8oYyLmZ4kphEooOFjkHApsLuBaOtWRAsSwHdZ
+ EHOEkehRlgAQU/xYHi0Z/xVEluxjGk4um8d/uzxM9OJIVmm1SpsOkvTkII/hq6jiSQH4
+ HbhQykuQi4/3CTFXVnWwPoZKgXXmSe5gG/HPuWja6rx7ODL0bC6VfaUw2/KP/CGDG/Rf
+ gAzQ==
+X-Gm-Message-State: AOAM5306Ph1ogN6hIZluhwrmJHQR9zmEpaDLs4OwX+tJsWcemzaSN/hN
+ Tm3xlGGn549hY5PW2ZOTp7aa0xvTL4L9f4DvEikLxA==
+X-Google-Smtp-Source: ABdhPJwzfsyJ9TbuMynSjo/HUi1blMrZAeY8rCruWfyS8Tt1EAHXBLiUKoG93JodG4YugwCdTXknS60YJbjXjlw1MOQ=
+X-Received: by 2002:aca:54c9:: with SMTP id i192mr4698341oib.163.1594921604368; 
+ Thu, 16 Jul 2020 10:46:44 -0700 (PDT)
 MIME-Version: 1.0
 References: <20200630122710.1119158-1-ppandit@redhat.com>
- <20200630122710.1119158-2-ppandit@redhat.com>
-In-Reply-To: <20200630122710.1119158-2-ppandit@redhat.com>
+ <20200630122710.1119158-4-ppandit@redhat.com>
+In-Reply-To: <20200630122710.1119158-4-ppandit@redhat.com>
 From: Peter Maydell <peter.maydell@linaro.org>
-Date: Thu, 16 Jul 2020 18:34:48 +0100
-Message-ID: <CAFEAcA-2un0v51XxkMsYdMNJAYXrAKZNXL6QNO8jyLLM7COrEw@mail.gmail.com>
-Subject: Re: [PATCH v3 1/9] hw/pci-host: add pci-intack write method
+Date: Thu, 16 Jul 2020 18:46:33 +0100
+Message-ID: <CAFEAcA-1EhD=0vU1r=48HhFPpovns2M5DBgTu7g2074kueaEuw@mail.gmail.com>
+Subject: Re: [PATCH v3 3/9] vfio: add quirk device write method
 To: P J P <ppandit@redhat.com>
 Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2607:f8b0:4864:20::343;
- envelope-from=peter.maydell@linaro.org; helo=mail-ot1-x343.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::244;
+ envelope-from=peter.maydell@linaro.org; helo=mail-oi1-x244.google.com
 X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
  That's all we know.
 X-Spam_score_int: -20
@@ -90,57 +89,57 @@ Cc: Prasad J Pandit <pjp@fedoraproject.org>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Tue, 30 Jun 2020 at 13:29, P J P <ppandit@redhat.com> wrote:
+On Tue, 30 Jun 2020 at 13:30, P J P <ppandit@redhat.com> wrote:
 >
 > From: Prasad J Pandit <pjp@fedoraproject.org>
 >
-> Add pci-intack mmio write method to avoid NULL pointer dereference
-> issue.
+> Add vfio quirk device mmio write method to avoid NULL pointer
+> dereference issue.
 >
 > Reported-by: Lei Sun <slei.casper@gmail.com>
 > Reviewed-by: Li Qiang <liq3ea@gmail.com>
 > Signed-off-by: Prasad J Pandit <pjp@fedoraproject.org>
 > ---
->  hw/pci-host/prep.c | 8 ++++++++
+>  hw/vfio/pci-quirks.c | 8 ++++++++
 >  1 file changed, 8 insertions(+)
 >
 > Update v3: Add Reviewed-by: ...
->   -> https://lists.gnu.org/archive/html/qemu-devel/2020-06/msg09395.html
+>   -> https://lists.gnu.org/archive/html/qemu-devel/2020-06/msg09406.html
 >
-> diff --git a/hw/pci-host/prep.c b/hw/pci-host/prep.c
-> index 367e408b91..3c8ff6af03 100644
-> --- a/hw/pci-host/prep.c
-> +++ b/hw/pci-host/prep.c
-> @@ -26,6 +26,7 @@
->  #include "qemu/osdep.h"
->  #include "qemu-common.h"
+> diff --git a/hw/vfio/pci-quirks.c b/hw/vfio/pci-quirks.c
+> index d304c81148..cc6d5dbc23 100644
+> --- a/hw/vfio/pci-quirks.c
+> +++ b/hw/vfio/pci-quirks.c
+> @@ -14,6 +14,7 @@
+>  #include "config-devices.h"
+>  #include "exec/memop.h"
 >  #include "qemu/units.h"
 > +#include "qemu/log.h"
->  #include "qapi/error.h"
->  #include "hw/pci/pci.h"
->  #include "hw/pci/pci_bus.h"
-> @@ -119,8 +120,15 @@ static uint64_t raven_intack_read(void *opaque, hwaddr addr,
->      return pic_read_irq(isa_pic);
+>  #include "qemu/error-report.h"
+>  #include "qemu/main-loop.h"
+>  #include "qemu/module.h"
+> @@ -264,8 +265,15 @@ static uint64_t vfio_ati_3c3_quirk_read(void *opaque,
+>      return data;
 >  }
 >
-> +static void raven_intack_write(void *opaque, hwaddr addr,
+> +static void vfio_ati_3c3_quirk_write(void *opaque, hwaddr addr,
 > +                                        uint64_t data, unsigned size)
 > +{
-> +    qemu_log_mask(LOG_UNIMP, "%s not implemented\n", __func__);
+> +    qemu_log_mask(LOG_GUEST_ERROR, "%s not implemented\n", __func__);
 > +}
 > +
->  static const MemoryRegionOps raven_intack_ops = {
->      .read = raven_intack_read,
-> +    .write = raven_intack_write,
->      .valid = {
->          .max_access_size = 1,
->      },
+>  static const MemoryRegionOps vfio_ati_3c3_quirk = {
+>      .read = vfio_ati_3c3_quirk_read,
+> +    .write = vfio_ati_3c3_quirk_write,
+>      .endianness = DEVICE_LITTLE_ENDIAN,
+>  };
 
-I suspect this may be a read-only register (and so a guest error
-rather than unimp) but I'm not sure I've found the correct
-Raven PCI controller datasheet, and if I have then there's a
-lot of unimplemented functionality in our model. So UNIMP
-is fine. This controller is only used by the ppc '40p' machine.
+
+Alex (Williamson) -- as the vfio maintainer, do you have a view
+on whether we should be logging write accesses to port 0x3c3
+here as guest-errors or unimplemented-QEMU-functionality?
+
+Guest-error seems plausible to me, anyway.
 
 Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
 
