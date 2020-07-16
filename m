@@ -2,86 +2,56 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3F021222E7E
-	for <lists+qemu-devel@lfdr.de>; Fri, 17 Jul 2020 00:27:10 +0200 (CEST)
-Received: from localhost ([::1]:41050 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6DB83222E89
+	for <lists+qemu-devel@lfdr.de>; Fri, 17 Jul 2020 00:59:26 +0200 (CEST)
+Received: from localhost ([::1]:59342 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jwCLM-0004MD-Ep
-	for lists+qemu-devel@lfdr.de; Thu, 16 Jul 2020 18:27:08 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:60476)
+	id 1jwCqb-0005kY-G2
+	for lists+qemu-devel@lfdr.de; Thu, 16 Jul 2020 18:59:25 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:41028)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <tcminyard@gmail.com>)
- id 1jwCKO-0003vg-Ng
- for qemu-devel@nongnu.org; Thu, 16 Jul 2020 18:26:08 -0400
-Received: from mail-ot1-x342.google.com ([2607:f8b0:4864:20::342]:41448)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <tcminyard@gmail.com>)
- id 1jwCKN-0000CL-0M
- for qemu-devel@nongnu.org; Thu, 16 Jul 2020 18:26:08 -0400
-Received: by mail-ot1-x342.google.com with SMTP id a21so5469927otq.8
- for <qemu-devel@nongnu.org>; Thu, 16 Jul 2020 15:26:06 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=sender:date:from:to:cc:subject:message-id:reply-to:references
- :mime-version:content-disposition:content-transfer-encoding
- :in-reply-to:user-agent;
- bh=snzjKBedmc/TZNMCZNMBmclQuV08O5eQSornc+dVz/E=;
- b=Hnj2SYvkj0aM5557tGcUJ0j6+yPHtkE3obNj5Zo4AoKQOaxfqeg8SuhBTdhjDUxbrv
- c4RGIMGeW58kPxvOtrrQFhHgqR9CcPuVCIHWspKol14Qvt2vZFqqc4ggTV4/HD4pwlSg
- 0L4sadcVs6BCvlj35ZDVF5DYcLgnvjA0PfnI+UjqoA1PClci2CuSlY76RtVLgo7xRRKn
- UrkaS/S6OXsQnMoCpAOfPKTQmcF/trZ/TxWL3slnveFcut2XhRxlZqqzX8IzjMNnUOaP
- CqGJdNVQvsJlUS+3nMmIJ8Glk8cEPJ0sw6UpOG4Dh3Dm1uh18lYYyf32z4KNy81iS/bg
- 00ow==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:sender:date:from:to:cc:subject:message-id
- :reply-to:references:mime-version:content-disposition
- :content-transfer-encoding:in-reply-to:user-agent;
- bh=snzjKBedmc/TZNMCZNMBmclQuV08O5eQSornc+dVz/E=;
- b=QvlPlqBtF7ceAYEO9JdKCd7Cu30YSZNjTDvNLtRgp11v4aayboTX6ENW2Uf0O90vnz
- D+u94LvlbQmzgtVz156CyUNXZSwaaLuRT5peZUgWvXM6uLfDqqIeG0094eNXkMxZODIK
- p3PWEXi203PCOPPIZgq9AJywJ9PYIWZq+yBJZdupE6vDYUgTW5H1IiAdCcqTLBBYtRqw
- 1zhRKS3ztJ+OXAGlJOtF1o1XFAY9Ahqvm0tmS3f5Gii15s8SwnRQMHZdHugOsVDm8Rcb
- HqiSKnTJiqD5+PS8jeRdYhsnRpNP+lwQZOkV0YWbV9FGf9o6njHXmVRJ1T2yvbQvBOy2
- x7nQ==
-X-Gm-Message-State: AOAM531ECLUl+o2btReWUvLCwLTICDOyVDj8jFLeEVP4tuDuSEzChcex
- zaCjaSyoZRxmqHx+5OCU8g==
-X-Google-Smtp-Source: ABdhPJyv3DOXSbUP5PoXX0929A8hGYIGwzW2dekidkyeAxGc9AyMOJRGwzhVG7kDQUC5AMNh7KDzDg==
-X-Received: by 2002:a05:6830:1e55:: with SMTP id
- e21mr6741695otj.318.1594938365509; 
- Thu, 16 Jul 2020 15:26:05 -0700 (PDT)
-Received: from serve.minyard.net (serve.minyard.net. [2001:470:b8f6:1b::1])
- by smtp.gmail.com with ESMTPSA id o23sm1470297otl.0.2020.07.16.15.26.03
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 16 Jul 2020 15:26:04 -0700 (PDT)
-Received: from minyard.net (unknown
- [IPv6:2001:470:b8f6:1b:ac62:d225:13b5:8855])
- by serve.minyard.net (Postfix) with ESMTPSA id F18D21800CC;
- Thu, 16 Jul 2020 22:26:02 +0000 (UTC)
-Date: Thu, 16 Jul 2020 17:26:01 -0500
-From: Corey Minyard <minyard@acm.org>
-To: Peter Maydell <peter.maydell@linaro.org>
-Subject: Re: [GIT PULL] I2C updates
-Message-ID: <20200716222601.GM3235@minyard.net>
-References: <20200716174900.GL3235@minyard.net>
- <CAFEAcA-UWJBpM_-G2RAe9B-WcPzBaKGZTas1njehQ7gcjsMpew@mail.gmail.com>
+ (Exim 4.90_1) (envelope-from <dgibson@ozlabs.org>)
+ id 1jwCpo-0005Ct-J2; Thu, 16 Jul 2020 18:58:37 -0400
+Received: from ozlabs.org ([2401:3900:2:1::2]:39555)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <dgibson@ozlabs.org>)
+ id 1jwCpl-0008Tx-Jc; Thu, 16 Jul 2020 18:58:36 -0400
+Received: by ozlabs.org (Postfix, from userid 1007)
+ id 4B78mz3KM4z9sRf; Fri, 17 Jul 2020 08:58:27 +1000 (AEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=gibson.dropbear.id.au; s=201602; t=1594940307;
+ bh=LEt7S4JBoJob5ug/fBE47j/nEKgIvHPx1tLh0sV0WcM=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=gZqIE3DBosKO0RtDrycItFw6HNymk7zwMDa2OSvVVfJa2Qfl1FXR+2vas3OYmDP9+
+ v8joY4QseMZycbNN+O/3LihAIb5baDdOiR/Z8Vc0BjqgUGKqwhqz+Rp5Q7eDrcYum9
+ +pvOEPbACUzYW+rQVL8lQdLsVXydmp/OX6xJBUUs=
+Date: Thu, 16 Jul 2020 23:22:49 +1000
+From: David Gibson <david@gibson.dropbear.id.au>
+To: Alexey Kardashevskiy <aik@ozlabs.ru>
+Subject: Re: [PATCH qemu v9] spapr: Implement Open Firmware client interface
+Message-ID: <20200716132249.GB5607@umbus.fritz.box>
+References: <20200513035826.14205-1-aik@ozlabs.ru>
+ <e5ddf04a-0d68-3cb8-2b84-47a43e234a59@ozlabs.ru>
+ <f7e9ff41-de7a-c0d5-f004-51a2046ce0a0@ozlabs.ru>
+ <434cdf49-5b80-5620-2635-079ee4b4ebad@ozlabs.ru>
+ <86e79b6a-0032-56da-a066-9f02df361298@ozlabs.ru>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature"; boundary="0eh6TmSyL6TZE2Uz"
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <CAFEAcA-UWJBpM_-G2RAe9B-WcPzBaKGZTas1njehQ7gcjsMpew@mail.gmail.com>
-User-Agent: Mutt/1.9.4 (2018-02-28)
-Received-SPF: pass client-ip=2607:f8b0:4864:20::342;
- envelope-from=tcminyard@gmail.com; helo=mail-ot1-x342.google.com
+In-Reply-To: <86e79b6a-0032-56da-a066-9f02df361298@ozlabs.ru>
+Received-SPF: pass client-ip=2401:3900:2:1::2; envelope-from=dgibson@ozlabs.org;
+ helo=ozlabs.org
 X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
  That's all we know.
-X-Spam_score_int: 0
-X-Spam_score: 0.0
+X-Spam_score_int: 5
+X-Spam_score: 0.5
 X-Spam_bar: /
-X-Spam_report: (0.0 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1, DKIM_VALID=-0.1,
- DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=1, FREEMAIL_FROM=0.001,
- HEADER_FROM_DIFFERENT_DOMAINS=1, RCVD_IN_DNSWL_NONE=-0.0001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=no autolearn_force=no
+X-Spam_report: (0.5 / 5.0 requ) BAYES_00=-1.9, DATE_IN_PAST_06_12=1.543,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1,
+ HEADER_FROM_DIFFERENT_DOMAINS=1, SPF_HELO_PASS=-0.001, SPF_PASS=-0.001,
+ URIBL_BLOCKED=0.001 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -94,87 +64,130 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: minyard@acm.org
-Cc: QEMU Developers <qemu-devel@nongnu.org>
+Cc: qemu-ppc@nongnu.org, qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Thu, Jul 16, 2020 at 09:45:41PM +0100, Peter Maydell wrote:
-> On Thu, 16 Jul 2020 at 18:49, Corey Minyard <minyard@acm.org> wrote:
-> >
-> > The following changes since commit 45db94cc90c286a9965a285ba19450f448760a09:
-> >
-> >   Merge remote-tracking branch 'remotes/mcayland/tags/qemu-openbios-20200707' into staging (2020-07-10 16:43:40 +0100)
-> >
-> > are available in the Git repository at:
-> >
-> >   https://github.com/cminyard/qemu.git tags/for-qemu-i2c-5
-> >
-> > for you to fetch changes up to 73d5f22ecbb76dfc785876779d47787084ff0f42:
-> >
-> >   hw/i2c: Document the I2C qdev helpers (2020-07-16 12:30:54 -0500)
-> >
-> > ----------------------------------------------------------------
-> > Minor changes to:
-> >
-> > Add an SMBus config entry
-> >
-> > Cleanup/simplify/document some I2C interfaces
-> >
-> > ----------------------------------------------------------------
-> > Philippe Mathieu-Daudé (6):
-> >       hw/i2c/Kconfig: Add an entry for the SMBus
-> >       hw/i2c/aspeed_i2c: Simplify aspeed_i2c_get_bus()
-> >       hw/i2c: Rename i2c_try_create_slave() as i2c_slave_new()
-> >       hw/i2c: Rename i2c_realize_and_unref() as i2c_slave_realize_and_unref()
-> >       hw/i2c: Rename i2c_create_slave() as i2c_slave_create_simple()
-> >       hw/i2c: Document the I2C qdev helpers
-> 
-> Hi; this failed to build on x86-64 Linux (incremental build):
 
-Hmm, I did test this, and I just rebuilt, then rebased on the end of
-master and rebuilt, without issue.
+--0eh6TmSyL6TZE2Uz
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-It looks like the smbus code is not being included, but I don't see how
-that can be.
+On Thu, Jul 16, 2020 at 07:04:56PM +1000, Alexey Kardashevskiy wrote:
+> Ping? I kinda realize it is not going to replace SLOF any time soon but
+> still...
 
--corey
+Yeah, I know.   I just haven't had time to consider it.  Priority
+starvation.
 
-> 
->   LINK    i386-softmmu/qemu-system-i386
-> ../hw/i2c/smbus_eeprom.o: In function `smbus_eeprom_vmstate_needed':
-> /home/petmay01/linaro/qemu-for-merges/hw/i2c/smbus_eeprom.c:94:
-> undefined reference to `smbus_vmstate_needed'
-> ../hw/i2c/smbus_eeprom.o:(.data.rel+0x50): undefined reference to
-> `vmstate_smbus_device'
-> ../hw/i2c/pm_smbus.o: In function `smb_transaction':
-> /home/petmay01/linaro/qemu-for-merges/hw/i2c/pm_smbus.c:93: undefined
-> reference to `smbus_quick_command'
-> /home/petmay01/linaro/qemu-for-merges/hw/i2c/pm_smbus.c:97: undefined
-> reference to `smbus_receive_byte'
-> /home/petmay01/linaro/qemu-for-merges/hw/i2c/pm_smbus.c:100: undefined
-> reference to `smbus_send_byte'
-> /home/petmay01/linaro/qemu-for-merges/hw/i2c/pm_smbus.c:105: undefined
-> reference to `smbus_read_byte'
-> /home/petmay01/linaro/qemu-for-merges/hw/i2c/pm_smbus.c:108: undefined
-> reference to `smbus_write_byte'
-> /home/petmay01/linaro/qemu-for-merges/hw/i2c/pm_smbus.c:114: undefined
-> reference to `smbus_read_word'
-> /home/petmay01/linaro/qemu-for-merges/hw/i2c/pm_smbus.c:117: undefined
-> reference to `smbus_write_word'
-> /home/petmay01/linaro/qemu-for-merges/hw/i2c/pm_smbus.c:149: undefined
-> reference to `smbus_read_block'
-> /home/petmay01/linaro/qemu-for-merges/hw/i2c/pm_smbus.c:174: undefined
-> reference to `smbus_write_block'
-> ../hw/i2c/pm_smbus.o: In function `smb_ioport_writeb':
-> /home/petmay01/linaro/qemu-for-merges/hw/i2c/pm_smbus.c:290: undefined
-> reference to `smbus_write_block'
-> ../hw/ipmi/smbus_ipmi.o:(.data.rel+0x50): undefined reference to
-> `vmstate_smbus_device'
-> collect2: error: ld returned 1 exit status
-> 
-> (similarly for other qemu-system-* binary links)
-> 
-> thanks
-> -- PMM
+> On 07/07/2020 10:34, Alexey Kardashevskiy wrote:
+> > Ping?
+> >=20
+> >=20
+> > On 24/06/2020 10:28, Alexey Kardashevskiy wrote:
+> >> Ping?
+> >>
+> >> On 02/06/2020 21:40, Alexey Kardashevskiy wrote:
+> >>> Ping?
+> >>>
+> >>> On 13/05/2020 13:58, Alexey Kardashevskiy wrote:
+> >>>> The PAPR platform which describes an OS environment that's presented=
+ by
+> >>>> a combination of a hypervisor and firmware. The features it specifies
+> >>>> require collaboration between the firmware and the hypervisor.
+> >>>>
+> >>>> Since the beginning, the runtime component of the firmware (RTAS) has
+> >>>> been implemented as a 20 byte shim which simply forwards it to
+> >>>> a hypercall implemented in qemu. The boot time firmware component is
+> >>>> SLOF - but a build that's specific to qemu, and has always needed to=
+ be
+> >>>> updated in sync with it. Even though we've managed to limit the amou=
+nt
+> >>>> of runtime communication we need between qemu and SLOF, there's some,
+> >>>> and it has become increasingly awkward to handle as we've implemented
+> >>>> new features.
+> >>>>
+> >>>> This implements a boot time OF client interface (CI) which is
+> >>>> enabled by a new "x-vof" pseries machine option (stands for "Virtual=
+ Open
+> >>>> Firmware). When enabled, QEMU implements the custom H_OF_CLIENT hcall
+> >>>> which implements Open Firmware Client Interface (OF CI). This allows
+> >>>> using a smaller stateless firmware which does not have to manage
+> >>>> the device tree.
+> >>>>
+> >>>> The new "vof.bin" firmware image is included with source code under
+> >>>> pc-bios/. It also includes RTAS blob.
+> >>>>
+> >>>> This implements a handful of CI methods just to get -kernel/-initrd
+> >>>> working. In particular, this implements the device tree fetching and
+> >>>> simple memory allocator - "claim" (an OF CI memory allocator) and up=
+dates
+> >>>> "/memory@0/available" to report the client about available memory.
+> >>>>
+> >>>> This implements changing some device tree properties which we know h=
+ow
+> >>>> to deal with, the rest is ignored. To allow changes, this skips
+> >>>> fdt_pack() when x-vof=3Don as not packing the blob leaves some room =
+for
+> >>>> appending.
+> >>>>
+> >>>> In absence of SLOF, this assigns phandles to device tree nodes to ma=
+ke
+> >>>> device tree traversing work.
+> >>>>
+> >>>> When x-vof=3Don, this adds "/chosen" every time QEMU (re)builds a tr=
+ee.
+> >>>>
+> >>>> This adds basic instances support which are managed by a hash map
+> >>>> ihandle -> [phandle].
+> >>>>
+> >>>> Before the guest started, the used memory is:
+> >>>> 0..4000 - the initial firmware
+> >>>> 10000..180000 - stack
+> >>>>
+> >>>> This OF CI does not implement "interpret".
+> >>>>
+> >>>> With this basic support, this can only boot into kernel directly.
+> >>>> However this is just enough for the petitboot kernel and initradmdis=
+k to
+> >>>> boot from any possible source. Note this requires reasonably recent =
+guest
+> >>>> kernel with:
+> >>>> https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/c=
+ommit/?id=3Ddf5be5be8735
+> >>>>
+> >>>> Signed-off-by: Alexey Kardashevskiy <aik@ozlabs.ru>
+> >>>> ---
+> >>>>
+>=20
+>=20
+
+--=20
+David Gibson			| I'll have my music baroque, and my code
+david AT gibson.dropbear.id.au	| minimalist, thank you.  NOT _the_ _other_
+				| _way_ _around_!
+http://www.ozlabs.org/~dgibson
+
+--0eh6TmSyL6TZE2Uz
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQIzBAEBCAAdFiEEdfRlhq5hpmzETofcbDjKyiDZs5IFAl8QVKcACgkQbDjKyiDZ
+s5K0ohAAlF7mKVb0FlVKf6SbB5Szp8tYGK4TAE3rmWzm0gGRxWwQpscKLmV79YjF
+8aosF35w/Xzv6xwukukI/jmSNWgr5JMowqkbNIS/Tj8Sai0wnibjRkZvMAaA6Pxf
+iMd8PfjrGd16HWC4GP/gkpgaVmJ5qBigsaGAkBMDCEO/fA/KTNXxcK9ex0fRCcyM
+jqeIJqKE8X/9C1OeSxxCI5VI+jhl+scIo8bkQb3GQS9nI7s60JZ0EI4qcXris+sq
+3XhoU9OvmGRoBfW0i8Lmpm1wQBGxGHDHYdkwtCO27/uC/YKdVEmVjWAWllIzipvz
+elFbL8nPuE0tUdqGwinIJTzuNw5wwQkLMUTOvQ93w6EwDYRmdmcOzlGO427FWZAR
+AOX+geP8Z5su6DmuknWlkaeC4XfELqBQkoo4IvfqwxDDMytKsJZP9q6tEMUTTg2p
+LcrRk354f5bCURMsAwNej2wbg5b3Pkutxr6lBEeJ28bGMF40/Ubnwvd7T2GTsfWk
+plGyD/HMWjgTwTjQ85B0HrUPqhJc7T0rXsqvNu7/qNORXPzKcj1/Az3QKmfy8Idp
+2ffFuu2XNH76qxciMPH+o8XGMIrWrXy91P/Hf5lfdfTrAeq9N8SyzB7Wrnjwm5r3
+pnoJPMy0nav+mzV7Ojpq7ZStgaVlTfRKf+woARbO+igMXoqLoh0=
+=9tqQ
+-----END PGP SIGNATURE-----
+
+--0eh6TmSyL6TZE2Uz--
 
