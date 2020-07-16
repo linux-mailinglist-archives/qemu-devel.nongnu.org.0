@@ -2,62 +2,115 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0E9EF2227FB
-	for <lists+qemu-devel@lfdr.de>; Thu, 16 Jul 2020 18:06:15 +0200 (CEST)
-Received: from localhost ([::1]:45736 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A028D222805
+	for <lists+qemu-devel@lfdr.de>; Thu, 16 Jul 2020 18:09:50 +0200 (CEST)
+Received: from localhost ([::1]:50682 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jw6Oj-0005Uo-R0
-	for lists+qemu-devel@lfdr.de; Thu, 16 Jul 2020 12:06:13 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:44368)
+	id 1jw6SD-0007eB-6d
+	for lists+qemu-devel@lfdr.de; Thu, 16 Jul 2020 12:09:49 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:45336)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <no-reply@patchew.org>)
- id 1jw6NG-0004T5-BI
- for qemu-devel@nongnu.org; Thu, 16 Jul 2020 12:04:42 -0400
-Resent-Date: Thu, 16 Jul 2020 12:04:42 -0400
-Resent-Message-Id: <E1jw6NG-0004T5-BI@lists.gnu.org>
-Received: from sender4-of-o53.zoho.com ([136.143.188.53]:21327)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <no-reply@patchew.org>)
- id 1jw6NC-0005tr-AT
- for qemu-devel@nongnu.org; Thu, 16 Jul 2020 12:04:42 -0400
-ARC-Seal: i=1; a=rsa-sha256; t=1594915458; cv=none; 
- d=zohomail.com; s=zohoarc; 
- b=Qi0z6OoyylUrzYAG/TgtCniBwUEq213FW7RcFsy9sCZy9CRi6j2zLDDzhZzMYDLqRzWaZWCj/4ufWLH05TbYG6TqZf6MTZXB6DGwbhZJvQ1voOFXKwgXhrENDBHgZUalU8GTBvYGfltyVK1LLUMEW3zhS6D7ifk0cvnuJKzLqhE=
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.com;
- s=zohoarc; t=1594915458;
- h=Content-Type:Content-Transfer-Encoding:Cc:Date:From:In-Reply-To:MIME-Version:Message-ID:Reply-To:Subject:To;
- bh=lqzG+MQmEaGokRhMK6xwPbv8jQeqPg5AafZzr4xebhc=; 
- b=OMM+fS35KTZbbtLlpcWXgJzI+TYomcyZapo9lXLKfFL1X4C8T3f8KVcI9KAbo+qnXx42vRitUabslDzxF1W3ofyu0SpHyaHz+QJQFxPZEH13Yn8LBofcyntseIIgUwAfHyWS8IyiNEvXWPNxkOpNCshOvmzcOTNbTSZ7Dwy0LC0=
-ARC-Authentication-Results: i=1; mx.zohomail.com;
- spf=pass  smtp.mailfrom=no-reply@patchew.org;
- dmarc=pass header.from=<no-reply@patchew.org>
- header.from=<no-reply@patchew.org>
-Received: from [172.17.0.3] (23.253.156.214 [23.253.156.214]) by
- mx.zohomail.com with SMTPS id 1594915453139671.7365003828321;
- Thu, 16 Jul 2020 09:04:13 -0700 (PDT)
-Subject: Re: [PATCH for-5.1] qapi: Fix visit_type_STRUCT() not to fail for
- null object
-Message-ID: <159491545177.9423.9951219163349017776@07a7f0d89f7d>
-In-Reply-To: <20200716150617.4027356-1-armbru@redhat.com>
+ (Exim 4.90_1) (envelope-from <vsementsov@virtuozzo.com>)
+ id 1jw6R7-00070T-F1; Thu, 16 Jul 2020 12:08:41 -0400
+Received: from mail-am6eur05on2121.outbound.protection.outlook.com
+ ([40.107.22.121]:32992 helo=EUR05-AM6-obe.outbound.protection.outlook.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <vsementsov@virtuozzo.com>)
+ id 1jw6R2-0006cx-Je; Thu, 16 Jul 2020 12:08:40 -0400
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=QTi64/m2xNPNNRV1qPwOVS72KaKuCtg99kI+6Um/sN8TNmnKbAmE+x90hP1Gcm0Dvi9jXTTyNMr/yyBrmOeoa8k6AJCxb0EzHo1+qOOAVk2iw2L2pXLLSlnDsr7xltTJQ9RfBix56hhuJM9vfYfPRtcZ8mG+Tr2iojVSef4GLk5WmK/8CVJ6/NZG+ezPEKKEBkEeOieNwUd+wBQGTioLObIatMBsWe0l3Xm6WbOrnWNoxFsOcq47HpkyokRTKWRneAE86dc29nLlPH/ttRldxRgZmd+1DWnV+qatDARjHz1I0Xm0eNCKXiIXYOBb+LU4Ep04I5eSVmDaczDQuRmGaQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=4DMMwwE8tE993B2nb6AR25/Qu+6SNYV83QPTYvc3Ud0=;
+ b=LyOyI1PusDMTPHn7MNTe85pyBR7rYUeCxKiqTY8veyQWmMKbS6nVtDGQ+8UWn9XVfRszl8eBuIo758E13/mRJor4idxTizxuw4ZWk0fLbXf4XX9hW2KTm7WWC2ls8Lc6RSRvIaBvyqSoTTVQZmXo7lMZLZs2RfBD+Oi9DtuUaB1BxYJGvY4pqMkjqGGmgz8dvK7WIMYLGUDWd6JoyIX2WKCsJPLF5IaxYkOi7LF0GsUxthEYG4q6DMnqv3381a8L7eqQn8/7sp345wqs2lES5zcqpgdwYsBNurhxGOPFfaK91AkD1IYHwtuO7LxdVdfE9pr9m0eEuHrqwUVjVtRK7g==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=virtuozzo.com; dmarc=pass action=none
+ header.from=virtuozzo.com; dkim=pass header.d=virtuozzo.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=virtuozzo.com;
+ s=selector2;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=4DMMwwE8tE993B2nb6AR25/Qu+6SNYV83QPTYvc3Ud0=;
+ b=DQ1sTDKWxu6Wmn7zc1vXo6L0UY+MiszQQo3FuLwinTAxXOMhDiB2Lae0235q8mG6er/2z0eWD2zksOsrXQ7IVHrSETh3IeDB/mw/Wq7XlMN/obsJz1qkE96VAsDeD0LhPj3vMpuUrKYmgDiWqW9apxu0ACx2V7Z7OGLXuzTpcZs=
+Authentication-Results: openvz.org; dkim=none (message not signed)
+ header.d=none;openvz.org; dmarc=none action=none header.from=virtuozzo.com;
+Received: from AM7PR08MB5494.eurprd08.prod.outlook.com (2603:10a6:20b:dc::15)
+ by AM6PR08MB5032.eurprd08.prod.outlook.com (2603:10a6:20b:ea::20)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3174.22; Thu, 16 Jul
+ 2020 16:08:33 +0000
+Received: from AM7PR08MB5494.eurprd08.prod.outlook.com
+ ([fe80::a408:2f0f:bc6c:d312]) by AM7PR08MB5494.eurprd08.prod.outlook.com
+ ([fe80::a408:2f0f:bc6c:d312%3]) with mapi id 15.20.3195.018; Thu, 16 Jul 2020
+ 16:08:33 +0000
+Subject: Re: [PATCH v10 09/10] qcow2_format.py: collect fields to dump in JSON
+ format
+To: Andrey Shinkevich <andrey.shinkevich@virtuozzo.com>, qemu-block@nongnu.org
+References: <1594676203-436999-1-git-send-email-andrey.shinkevich@virtuozzo.com>
+ <1594676203-436999-10-git-send-email-andrey.shinkevich@virtuozzo.com>
+ <7397fb42-13a3-b86b-83fd-3df62114f4f6@virtuozzo.com>
+ <3e22fb08-2fd1-c0bc-8b83-2ded1a090720@virtuozzo.com>
+ <77d809ff-d42d-55ee-b65d-c5fa69dcc394@virtuozzo.com>
+ <225afe71-36a5-803a-97f9-4f2eb3f355b9@virtuozzo.com>
+From: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
+Message-ID: <50904a8c-8116-fb28-6115-2f1762677820@virtuozzo.com>
+Date: Thu, 16 Jul 2020 19:08:31 +0300
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.10.0
+In-Reply-To: <225afe71-36a5-803a-97f9-4f2eb3f355b9@virtuozzo.com>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 8bit
+X-ClientProxiedBy: AM0PR01CA0093.eurprd01.prod.exchangelabs.com
+ (2603:10a6:208:10e::34) To AM7PR08MB5494.eurprd08.prod.outlook.com
+ (2603:10a6:20b:dc::15)
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
-Resent-From: 
-From: no-reply@patchew.org
-To: armbru@redhat.com
-Date: Thu, 16 Jul 2020 09:04:13 -0700 (PDT)
-X-ZohoMailClient: External
-Received-SPF: pass client-ip=136.143.188.53; envelope-from=no-reply@patchew.org;
- helo=sender4-of-o53.zoho.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/07/16 09:36:25
-X-ACL-Warn: Detected OS   = Linux 3.11 and newer [fuzzy]
-X-Spam_score_int: -18
-X-Spam_score: -1.9
-X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_NONE=-0.0001,
- RCVD_IN_MSPIKE_H4=-0.01, RCVD_IN_MSPIKE_WL=-0.01, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001, URIBL_BLOCKED=0.001 autolearn=ham autolearn_force=no
+X-MS-Exchange-MessageSentRepresentingType: 1
+Received: from [192.168.100.2] (185.215.60.164) by
+ AM0PR01CA0093.eurprd01.prod.exchangelabs.com (2603:10a6:208:10e::34) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3195.18 via Frontend
+ Transport; Thu, 16 Jul 2020 16:08:32 +0000
+X-Originating-IP: [185.215.60.164]
+X-MS-PublicTrafficType: Email
+X-MS-Office365-Filtering-Correlation-Id: 6cd8cdb8-f4ea-4710-e274-08d829a27cd9
+X-MS-TrafficTypeDiagnostic: AM6PR08MB5032:
+X-MS-Exchange-Transport-Forked: True
+X-Microsoft-Antispam-PRVS: <AM6PR08MB50328F7AB35E1284D85A6FA5C17F0@AM6PR08MB5032.eurprd08.prod.outlook.com>
+X-MS-Oob-TLC-OOBClassifiers: OLM:7219;
+X-MS-Exchange-SenderADCheck: 1
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: Hx/5dNltFKPdfdJzGMgbwi7Qmxg/jDSx4UjCzql3yXND+jpE19EapecbPGaUJLJfY+rQqhMYN+z++PFboa9iREJRutNg0p+UDXr9Ol4xU17/+xRnP0AlYDtcBD+jgFeroWMS31F+/UCe8PRquzcMnhKfzmF2a+8pIE1cCjHyMwq0DBupMu8mHfZT28z+4X8XvCynD2GRZDLPbfjumbNEV7P9S2Z43atfWnDKWVkc9W/MCUBizoOEBklTRDyP9tvvRSIWKn4MYS/G7FJAIDfQi43E0KRVwy1kmP7j2w9p3gslL25MPX6qmVXNfJNWYWiaB86CpVKHp4vylOxicNCFHRCx1DTdGRZRih+jqRemLrK3LwvWvXqU+7rtrwgQnHdL
+X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:AM7PR08MB5494.eurprd08.prod.outlook.com; PTR:; CAT:NONE;
+ SFTY:;
+ SFS:(4636009)(136003)(39840400004)(396003)(366004)(376002)(346002)(316002)(16576012)(53546011)(5660300002)(66476007)(66556008)(52116002)(186003)(8936002)(66946007)(2906002)(8676002)(16526019)(26005)(31696002)(86362001)(36756003)(956004)(107886003)(478600001)(83380400001)(6486002)(2616005)(31686004)(4326008)(43740500002);
+ DIR:OUT; SFP:1102; 
+X-MS-Exchange-AntiSpam-MessageData: EcqIWJoPsATRfiLqOTlaslTesyBjYDZwONiLvQ0x8ES1gDXrg0xMPwtah87pN9eTosZRcF6ihT/E8Cr7R0eThjw56wFWK2eOVdioyrP6/FtoQ7KFRANmwpuDV4GyICDp6pwcntjw/oZzfEHOnY8fscPTl7/O6JhuC9/KbZMBqYRofF6QYAHpqrzD3HCMS9JCycn7LO1llf30vpcbepiIDhJ/p1KysznVprSyAsaELxieM2cPDpepZPXFU6NXxZpDcBkxDauNDzdWpGvphy+AXWeDB5BEUWTxdIrDbEbZfa6wLz/M1Il0fLXdZfmPsScBg8ioLABHV9Q36azSgRWLVujca4Gsy7HkN70+2tvfcYdCGEBrYF1lMsJ244uV2ZUsCDz8pToX3lyZomIs9SrtLHM/uMyqlsKZIpbQFP3rm77mxGDx/tc1oPUksgRyIzqnYbAFbtiaisje49q1dILHRiJgu0coRnPx/dEqb31Lf8l9zDbu34VRF5yY9ipmye7q
+X-OriginatorOrg: virtuozzo.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 6cd8cdb8-f4ea-4710-e274-08d829a27cd9
+X-MS-Exchange-CrossTenant-AuthSource: AM7PR08MB5494.eurprd08.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 16 Jul 2020 16:08:32.9985 (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 0bc7f26d-0264-416e-a6fc-8352af79c58f
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: B6ZFaevaSEzMmdtsPFiZiQGto6+tc8RgH0pHsWrRcC4UsV5hzWLJUdVh58A0cqzuxluZG1utIh7kjC5t+OwEBATwCrYTVCpIAGVfKm5oHVs=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: AM6PR08MB5032
+Received-SPF: pass client-ip=40.107.22.121;
+ envelope-from=vsementsov@virtuozzo.com;
+ helo=EUR05-AM6-obe.outbound.protection.outlook.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/07/16 12:08:34
+X-ACL-Warn: Detected OS   = Windows NT kernel [generic] [fuzzy]
+X-Spam_score_int: -37
+X-Spam_score: -3.8
+X-Spam_bar: ---
+X-Spam_report: (-3.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ MSGID_FROM_MTA_HEADER=0.001, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-1,
+ SPF_HELO_PASS=-0.001, SPF_PASS=-0.001,
+ URIBL_BLOCKED=0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -70,46 +123,76 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: qemu-devel@nongnu.org
-Cc: liq3ea@163.com, qemu-devel@nongnu.org
+Cc: kwolf@redhat.com, den@openvz.org, qemu-devel@nongnu.org, mreitz@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-UGF0Y2hldyBVUkw6IGh0dHBzOi8vcGF0Y2hldy5vcmcvUUVNVS8yMDIwMDcxNjE1MDYxNy40MDI3
-MzU2LTEtYXJtYnJ1QHJlZGhhdC5jb20vCgoKCkhpLAoKVGhpcyBzZXJpZXMgZmFpbGVkIHRoZSBk
-b2NrZXItcXVpY2tAY2VudG9zNyBidWlsZCB0ZXN0LiBQbGVhc2UgZmluZCB0aGUgdGVzdGluZyBj
-b21tYW5kcyBhbmQKdGhlaXIgb3V0cHV0IGJlbG93LiBJZiB5b3UgaGF2ZSBEb2NrZXIgaW5zdGFs
-bGVkLCB5b3UgY2FuIHByb2JhYmx5IHJlcHJvZHVjZSBpdApsb2NhbGx5LgoKPT09IFRFU1QgU0NS
-SVBUIEJFR0lOID09PQojIS9iaW4vYmFzaAptYWtlIGRvY2tlci1pbWFnZS1jZW50b3M3IFY9MSBO
-RVRXT1JLPTEKdGltZSBtYWtlIGRvY2tlci10ZXN0LXF1aWNrQGNlbnRvczcgU0hPV19FTlY9MSBK
-PTE0IE5FVFdPUks9MQo9PT0gVEVTVCBTQ1JJUFQgRU5EID09PQoKICBURVNUICAgIGlvdGVzdC1x
-Y293MjogMDIwCiAgVEVTVCAgICBjaGVjay11bml0OiB0ZXN0cy90ZXN0LWNoYXIKKioKRVJST1I6
-L3RtcC9xZW11LXRlc3Qvc3JjL3Rlc3RzL3Rlc3QtY2hhci5jOjEyMDQ6Y2hhcl9zZXJpYWxfdGVz
-dDogJ2Nocicgc2hvdWxkIG5vdCBiZSBOVUxMCkVSUk9SIHRlc3QtY2hhciAtIEJhaWwgb3V0ISBF
-UlJPUjovdG1wL3FlbXUtdGVzdC9zcmMvdGVzdHMvdGVzdC1jaGFyLmM6MTIwNDpjaGFyX3Nlcmlh
-bF90ZXN0OiAnY2hyJyBzaG91bGQgbm90IGJlIE5VTEwKICBURVNUICAgIGlvdGVzdC1xY293Mjog
-MDIxCm1ha2U6ICoqKiBbY2hlY2stdW5pdF0gRXJyb3IgMQptYWtlOiAqKiogV2FpdGluZyBmb3Ig
-dW5maW5pc2hlZCBqb2JzLi4uLgogIFRFU1QgICAgaW90ZXN0LXFjb3cyOiAwMjIKICBURVNUICAg
-IGlvdGVzdC1xY293MjogMDI0Ci0tLQogICAgcmFpc2UgQ2FsbGVkUHJvY2Vzc0Vycm9yKHJldGNv
-ZGUsIGNtZCkKc3VicHJvY2Vzcy5DYWxsZWRQcm9jZXNzRXJyb3I6IENvbW1hbmQgJ1snc3Vkbycs
-ICctbicsICdkb2NrZXInLCAncnVuJywgJy0tbGFiZWwnLCAnY29tLnFlbXUuaW5zdGFuY2UudXVp
-ZD1kZjVhZDc0ZDc2N2I0ZmI3OTUwMzAxOWI2ZjBhNDAwNycsICctdScsICcxMDAxJywgJy0tc2Vj
-dXJpdHktb3B0JywgJ3NlY2NvbXA9dW5jb25maW5lZCcsICctLXJtJywgJy1lJywgJ1RBUkdFVF9M
-SVNUPScsICctZScsICdFWFRSQV9DT05GSUdVUkVfT1BUUz0nLCAnLWUnLCAnVj0nLCAnLWUnLCAn
-Sj0xNCcsICctZScsICdERUJVRz0nLCAnLWUnLCAnU0hPV19FTlY9MScsICctZScsICdDQ0FDSEVf
-RElSPS92YXIvdG1wL2NjYWNoZScsICctdicsICcvaG9tZS9wYXRjaGV3Ly5jYWNoZS9xZW11LWRv
-Y2tlci1jY2FjaGU6L3Zhci90bXAvY2NhY2hlOnonLCAnLXYnLCAnL3Zhci90bXAvcGF0Y2hldy10
-ZXN0ZXItdG1wLXgyb29tMHYyL3NyYy9kb2NrZXItc3JjLjIwMjAtMDctMTYtMTEuNDcuNTEuMjc4
-MDk6L3Zhci90bXAvcWVtdTp6LHJvJywgJ3FlbXUvY2VudG9zNycsICcvdmFyL3RtcC9xZW11L3J1
-bicsICd0ZXN0LXF1aWNrJ10nIHJldHVybmVkIG5vbi16ZXJvIGV4aXQgc3RhdHVzIDIuCmZpbHRl
-cj0tLWZpbHRlcj1sYWJlbD1jb20ucWVtdS5pbnN0YW5jZS51dWlkPWRmNWFkNzRkNzY3YjRmYjc5
-NTAzMDE5YjZmMGE0MDA3Cm1ha2VbMV06ICoqKiBbZG9ja2VyLXJ1bl0gRXJyb3IgMQptYWtlWzFd
-OiBMZWF2aW5nIGRpcmVjdG9yeSBgL3Zhci90bXAvcGF0Y2hldy10ZXN0ZXItdG1wLXgyb29tMHYy
-L3NyYycKbWFrZTogKioqIFtkb2NrZXItcnVuLXRlc3QtcXVpY2tAY2VudG9zN10gRXJyb3IgMgoK
-cmVhbCAgICAxNm0yMS45MjdzCnVzZXIgICAgMG05Ljc4MHMKCgpUaGUgZnVsbCBsb2cgaXMgYXZh
-aWxhYmxlIGF0Cmh0dHA6Ly9wYXRjaGV3Lm9yZy9sb2dzLzIwMjAwNzE2MTUwNjE3LjQwMjczNTYt
-MS1hcm1icnVAcmVkaGF0LmNvbS90ZXN0aW5nLmRvY2tlci1xdWlja0BjZW50b3M3Lz90eXBlPW1l
-c3NhZ2UuCi0tLQpFbWFpbCBnZW5lcmF0ZWQgYXV0b21hdGljYWxseSBieSBQYXRjaGV3IFtodHRw
-czovL3BhdGNoZXcub3JnL10uClBsZWFzZSBzZW5kIHlvdXIgZmVlZGJhY2sgdG8gcGF0Y2hldy1k
-ZXZlbEByZWRoYXQuY29t
+16.07.2020 18:52, Andrey Shinkevich wrote:
+> On 16.07.2020 18:40, Vladimir Sementsov-Ogievskiy wrote:
+>> 16.07.2020 18:34, Andrey Shinkevich wrote:
+>>> On 16.07.2020 13:24, Vladimir Sementsov-Ogievskiy wrote:
+>>>> 14.07.2020 00:36, Andrey Shinkevich wrote:
+>>>>> As __dict__ is being extended with class members we do not want to
+>>>>> print, make a light copy of the initial __dict__ and extend the copy
+>>>>> by adding lists we have to print in the JSON output.
+>>>>>
+>>>>> Signed-off-by: Andrey Shinkevich <andrey.shinkevich@virtuozzo.com>
+>>>>> ---
+>>>>>   tests/qemu-iotests/qcow2_format.py | 4 ++++
+>>>>>   1 file changed, 4 insertions(+)
+>>>>>
+>>>>> diff --git a/tests/qemu-iotests/qcow2_format.py b/tests/qemu-iotests/qcow2_format.py
+>>>>> index e0e14b5..83c3482 100644
+>>>>> --- a/tests/qemu-iotests/qcow2_format.py
+>>>>> +++ b/tests/qemu-iotests/qcow2_format.py
+>>>>> @@ -109,6 +109,8 @@ class Qcow2Struct(metaclass=Qcow2StructMeta):
+>>>>>           self.__dict__ = dict((field[2], values[i])
+>>>>>                                for i, field in enumerate(self.fields))
+>>>>>   +        self.fields_dict = self.__dict__.copy()
+>>>>
+>>>> No, I don't like that. Keeping two copies of all the data is bad idea. If you want to select some fields, add a method (dump_json() ?) Which will collect the fields you want in a dict and return that new dict. But don't store object attributes twice.
+> 
+> 
+> That is what I did in the versions before but it looks clumsy to me. Every single class lists almost all the items of the __dict__ again in the additional method.
+> 
+
+Most of them should be listed automatically by base class method, which will iterate through .fields
+
+> 
+>>>>
+>>>
+>>> Not really. It makes a light copy that stores only references to the desired fields.
+>>>
+>>
+>> I'm not about memory consumption, I'm about the design. Keeping two representations of same thing is always painful to maintain.
+>>
+>>>
+>>>>> +
+>>>>>       def dump(self, dump_json=None):
+>>>>>           for f in self.fields:
+>>>>>               value = self.__dict__[f[2]]
+>>>>> @@ -144,6 +146,7 @@ class Qcow2BitmapExt(Qcow2Struct):
+>>>>>           self.bitmap_directory = \
+>>>>>               [Qcow2BitmapDirEntry(fd, cluster_size=self.cluster_size)
+>>>>>                for _ in range(self.nb_bitmaps)]
+>>>>> + self.fields_dict.update(bitmap_directory=self.bitmap_directory)
+>>>>>         def dump(self, dump_json=None):
+>>>>>           super().dump(dump_json)
+>>>>> @@ -189,6 +192,7 @@ class Qcow2BitmapDirEntry(Qcow2Struct):
+>>>>>           table = [e[0] for e in struct.iter_unpack('>Q', fd.read(table_size))]
+>>>>>           self.bitmap_table = Qcow2BitmapTable(raw_table=table,
+>>>>> cluster_size=self.cluster_size)
+>>>>> + self.fields_dict.update(bitmap_table=self.bitmap_table)
+>>>>>         def dump(self, dump_json=None):
+>>>>>           print(f'{"Bitmap name":<25} {self.name}')
+>>>>>
+>>>>
+>>>>
+>>
+>>
+
+
+-- 
+Best regards,
+Vladimir
 
