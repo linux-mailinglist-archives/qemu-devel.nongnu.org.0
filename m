@@ -2,70 +2,83 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3173B221CC3
-	for <lists+qemu-devel@lfdr.de>; Thu, 16 Jul 2020 08:46:27 +0200 (CEST)
-Received: from localhost ([::1]:44262 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D46AC221CD8
+	for <lists+qemu-devel@lfdr.de>; Thu, 16 Jul 2020 08:54:04 +0200 (CEST)
+Received: from localhost ([::1]:48462 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jvxf0-0001KF-9H
-	for lists+qemu-devel@lfdr.de; Thu, 16 Jul 2020 02:46:26 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:58432)
+	id 1jvxmN-0003PD-DK
+	for lists+qemu-devel@lfdr.de; Thu, 16 Jul 2020 02:54:03 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:60292)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <liq3ea@gmail.com>) id 1jvxcp-00083V-AF
- for qemu-devel@nongnu.org; Thu, 16 Jul 2020 02:44:11 -0400
-Received: from mail-ot1-x343.google.com ([2607:f8b0:4864:20::343]:44013)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <liq3ea@gmail.com>) id 1jvxcn-00085i-Fg
- for qemu-devel@nongnu.org; Thu, 16 Jul 2020 02:44:11 -0400
-Received: by mail-ot1-x343.google.com with SMTP id 95so3390412otw.10
- for <qemu-devel@nongnu.org>; Wed, 15 Jul 2020 23:44:09 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc:content-transfer-encoding;
- bh=gOuZKQXOIDviakryJwdKxW0yLjwEJWL/CqkfBpJdPSU=;
- b=l2FnTVNuONeJEX4jYIz+K/TiFLf6kpJDCNudh7P25/MOQvsWXszkpS3iUWP43aQAUR
- WdavSy/RujUZzOBhTbkf0HrDppfW4QmrefZxwlibVs6sToQGGT60OkUSVnMpeIEIVQWM
- MmlnWK+C7xqV7LtOq80qTjg4eCgDnDgIOefMCNyDS1VyuJL+Z0o4+EIkmZUXczmxrK/s
- zzlqqzIZKO6L4GywZf/Zzji/NU1N2+c7n1Mm+Xa/84G6+OBlm5psjIQkbY+/PjN4wb3F
- Ccg5ppyu5DhACyiSd5K6mPsoWn+9i0ss42tEWYf14+Osd4tZ4D1EZ7DBLvTSLl5HFOfC
- Fxfg==
+ (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1jvxle-0002rx-Ge
+ for qemu-devel@nongnu.org; Thu, 16 Jul 2020 02:53:18 -0400
+Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:39871
+ helo=us-smtp-1.mimecast.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1jvxlc-0001QO-0C
+ for qemu-devel@nongnu.org; Thu, 16 Jul 2020 02:53:17 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1594882394;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=iOSW9FU+hR+QTQwnBMpD1V1aqjHzvWgQvl6NB6VHdZA=;
+ b=VJX8ZhJxqwRRal9t4lVxYn4YSIeDVxpLYMySUmEtv/8LQwnpEfvA0SLbiYkqNPVH2h6tnJ
+ kp/JlPEELo06j1NzMjsyvEfUuF+7576A0p4WpAL1YM7NHjJyeA5FcMvreyWhKmfBk2bamV
+ hYulhbbq68SOyac7zFiFSdKuo4FKL78=
+Received: from mail-wr1-f72.google.com (mail-wr1-f72.google.com
+ [209.85.221.72]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-350-hiHly5iOO9C5G8lG3Quc9g-1; Thu, 16 Jul 2020 02:53:12 -0400
+X-MC-Unique: hiHly5iOO9C5G8lG3Quc9g-1
+Received: by mail-wr1-f72.google.com with SMTP id o25so4761702wro.16
+ for <qemu-devel@nongnu.org>; Wed, 15 Jul 2020 23:53:12 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc:content-transfer-encoding;
- bh=gOuZKQXOIDviakryJwdKxW0yLjwEJWL/CqkfBpJdPSU=;
- b=Jt+z2nVqq72aOwKH7wCPcPrycwb1aXyI492pjyiPJq9T5bNIIsT/niNiEbmAoh6j0g
- mUjKlL7Edp00KtqH7s2C/OHzN7nxNQkUzRnGPhMa88nBI6TBhGT1FNGFoP908lWIZNfh
- WMxz4OjSwYyqvxXaQo5ykL5W1HGJKS64J28+jc4xwrN34wCX+qnev0xBFeKLvI0brYrT
- nSYpye+gySuRMDO7ZHMG2CBCevqfYXfxKQPbC/eHlx64T9D/b4KH8g4UuJfObQrVMabd
- oaWcatPjW3aFWAjlQMaEbOkw2OhZqD4PlxwAypp4xo3+/jXJ3oHsm1uHcWvko4B5Do4q
- IrcA==
-X-Gm-Message-State: AOAM530CXh8d+h7QK6mlqZMpAr+ExArqzClbM1lkZllwxCPPMkSlmfs0
- x0mxufXR0J4OPPefF+rbmswovH3yylDt7Kw379I=
-X-Google-Smtp-Source: ABdhPJzkvmMx2Bx29AUfphTYhfldLMakheynnIKSR39V1sNG/uTeMAn5npaUC2OwQbTez2fpTHwX95tIVYV9AWBFVVk=
-X-Received: by 2002:a9d:787:: with SMTP id 7mr3044151oto.333.1594881848131;
- Wed, 15 Jul 2020 23:44:08 -0700 (PDT)
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+ :mime-version:content-disposition:in-reply-to;
+ bh=iOSW9FU+hR+QTQwnBMpD1V1aqjHzvWgQvl6NB6VHdZA=;
+ b=t02emPZnshsPQT/p9pis3tkRxoVq8RPWqRNxqjUJLRnuII1k+tbs63rbQ/H0On+T40
+ 4WpevCH2gUjvjEbAcAYvU0s7x4rzkFxerZzNFzUQqIP7zgrOQ+CEahq5zouT+kmKNjqQ
+ pS+iRn+/OYY6tyJesVPIKaEbjdB4ourVskNSu5GW2kYNLm5Q8mie5c/WNT3/5GuQltFv
+ sx1ooiZwaaDUxYuCmKKTTNoHs3a1gqrM/GhSUA38pVf3C47Dzg0tFZPh1pxVOi9UxqM5
+ 0MVabeiE23BHOh+QDIn+FVCV4wUNvMtSbUD910neMgqabGvhDW40uQisVGkni5kixs/F
+ IS6Q==
+X-Gm-Message-State: AOAM532a8sUEIDNbGtTnZh5M1Df8JYD2OxXumAT3YU79baGKybnCjxTH
+ 9X5LTBDZaVcVA7WzthyugQKzbDNmSwoG0hlrZk7vKS1RbpH494ZsdGm7V4DC2PNObRnt4x1T0zD
+ 5dWnNRFiYXvbEhU0=
+X-Received: by 2002:adf:e9c4:: with SMTP id l4mr3631266wrn.9.1594882390970;
+ Wed, 15 Jul 2020 23:53:10 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJyaQJvbZaAsIb9DSohIgN+bH0sBoT1t0F9SDV4aDt5dPDA4FJRQ3+VMlulU9wPd3EiZdocshw==
+X-Received: by 2002:adf:e9c4:: with SMTP id l4mr3631244wrn.9.1594882390665;
+ Wed, 15 Jul 2020 23:53:10 -0700 (PDT)
+Received: from redhat.com (bzq-79-182-31-92.red.bezeqint.net. [79.182.31.92])
+ by smtp.gmail.com with ESMTPSA id
+ h5sm7569101wrc.97.2020.07.15.23.53.08
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Wed, 15 Jul 2020 23:53:09 -0700 (PDT)
+Date: Thu, 16 Jul 2020 02:53:07 -0400
+From: "Michael S. Tsirkin" <mst@redhat.com>
+To: Greg Kurz <groug@kaod.org>
+Subject: Re: [PATCH] spapr_pci: Robustify support of PCI bridges
+Message-ID: <20200716025009-mutt-send-email-mst@kernel.org>
+References: <159431476748.407044.16711294833569014964.stgit@bahia.lan>
 MIME-Version: 1.0
-References: <20200715154117.15456-1-liq3ea@163.com>
- <874kq8roev.fsf@dusky.pond.sub.org>
-In-Reply-To: <874kq8roev.fsf@dusky.pond.sub.org>
-From: Li Qiang <liq3ea@gmail.com>
-Date: Thu, 16 Jul 2020 14:43:31 +0800
-Message-ID: <CAKXe6S+CvQ1rmnWXi2_=kiCF4yG-2T3iPut=51G25qwL+oO2Pw@mail.gmail.com>
-Subject: Re: [PATCH v2] tests: qmp-cmd-test: fix memory leak
-To: Markus Armbruster <armbru@redhat.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=2607:f8b0:4864:20::343;
- envelope-from=liq3ea@gmail.com; helo=mail-ot1-x343.google.com
-X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
- That's all we know.
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+In-Reply-To: <159431476748.407044.16711294833569014964.stgit@bahia.lan>
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Received-SPF: pass client-ip=205.139.110.120; envelope-from=mst@redhat.com;
+ helo=us-smtp-1.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/07/15 19:36:06
+X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
+X-Spam_score_int: -40
+X-Spam_score: -4.1
+X-Spam_bar: ----
+X-Spam_report: (-4.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-1, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -79,209 +92,151 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Laurent Vivier <lvivier@redhat.com>, Thomas Huth <thuth@redhat.com>,
- Li Qiang <liq3ea@163.com>, Qemu Developers <qemu-devel@nongnu.org>,
- Auger Eric <eric.auger@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>
+Cc: Markus Armbruster <armbru@redhat.com>, Thomas Huth <thuth@redhat.com>,
+ qemu-ppc@nongnu.org, qemu-devel@nongnu.org,
+ David Gibson <david@gibson.dropbear.id.au>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Markus Armbruster <armbru@redhat.com> =E4=BA=8E2020=E5=B9=B47=E6=9C=8816=E6=
-=97=A5=E5=91=A8=E5=9B=9B =E4=B8=8B=E5=8D=881:59=E5=86=99=E9=81=93=EF=BC=9A
->
-> Li Qiang <liq3ea@163.com> writes:
->
-> > Properly free each test response to avoid memory leak and separate
-> > qtest_qmp() calls with spare lines, in a consistent manner.
-> >
-> > Fixes: 5b88849e7b9("tests/qmp-cmd-test: Add
-> > qmp/object-add-failure-modes"
->
-> The patch also fixes leaks introduced in 442b09b83d and 9fc719b869,
-> actually.  At least it should, but the patch appears to be incomplete.
->
-> >
-> > Reviewed-by: Eric Auger <eric.auger@redhat.com>
-> > Signed-off-by: Li Qiang <liq3ea@163.com>
-> > ---
-> > Change sincve v1: add detailed commit message
-> >
-> > tests/qtest/qmp-cmd-test.c | 13 +++++++++++++
-> >  1 file changed, 13 insertions(+)
-> >
-> > diff --git a/tests/qtest/qmp-cmd-test.c b/tests/qtest/qmp-cmd-test.c
-> > index c68f99f659..f7b1aa7fdc 100644
-> > --- a/tests/qtest/qmp-cmd-test.c
-> > +++ b/tests/qtest/qmp-cmd-test.c
-> > @@ -230,6 +230,8 @@ static void test_object_add_failure_modes(void)
->    static void test_object_add_failure_modes(void)
->    {
->        QTestState *qts;
->        QDict *resp;
->
->        /* attempt to create an object without props */
->        qts =3D qtest_init(common_args);
->        resp =3D qtest_qmp(qts, "{'execute': 'object-add', 'arguments':"
->                         " {'qom-type': 'memory-backend-ram', 'id': 'ram1'=
- } }");
->        g_assert_nonnull(resp);
->        qmp_assert_error_class(resp, "GenericError");
->
-> Doesn't @resp leak here, too?
-
-No, qmp_assert_error_class will call qobject_unref(rsp) will so will not le=
-ak.
-In fact, I think this is a inconsistent for 'qtest_qmp'.
-I think we can apply this patch first and then change the
-'qmp_assert_error_class' or/and others
-to free resp. And just let the caller of 'qtest_qmp' frees unref the rsp.
-
-What's your idea?
-
-Thanks,
-Li Qiang
+On Thu, Jul 09, 2020 at 07:12:47PM +0200, Greg Kurz wrote:
+> Some recent error handling cleanups unveiled issues with our support of
+> PCI bridges:
+> 
+> 1) QEMU aborts when using non-standard PCI bridge types,
+>    unveiled by commit 7ef1553dac "spapr_pci: Drop some dead error handling"
+> 
+> $ qemu-system-ppc64 -M pseries -device pcie-pci-bridge
+> Unexpected error in object_property_find() at qom/object.c:1240:
+> qemu-system-ppc64: -device pcie-pci-bridge: Property '.chassis_nr' not found
+> Aborted (core dumped)
+> 
+> This happens because we assume all PCI bridge types to have a "chassis_nr"
+> property. This property only exists with the standard PCI bridge type
+> "pci-bridge" actually. We could possibly revert 7ef1553dac but it seems
+> much simpler to check the presence of "chassis_nr" earlier.
+> 
+> 2) QEMU abort if same "chassis_nr" value is used several times,
+>    unveiled by commit d2623129a7de "qom: Drop parameter @errp of
+>    object_property_add() & friends"
+> 
+> $ qemu-system-ppc64 -M pseries -device pci-bridge,chassis_nr=1 \
+>                         -device pci-bridge,chassis_nr=1
+> Unexpected error in object_property_try_add() at qom/object.c:1167:
+> qemu-system-ppc64: -device pci-bridge,chassis_nr=1: attempt to add duplicate property '40000100' to object (type 'container')
+> Aborted (core dumped)
+> 
+> This happens because we assume that "chassis_nr" values are unique, but
+> nobody enforces that and we end up generating duplicate DRC ids. The PCI
+> code doesn't really care for duplicate "chassis_nr" properties since it
+> is only used to initialize the "Chassis Number Register" of the bridge,
+> with no functional impact on QEMU. So, even if passing the same value
+> several times might look weird, it never broke anything before, so
+> I guess we don't necessarily want to enforce strict checking in the PCI
+> code now.
+> 
+> Workaround both issues in the PAPR code: check that the bridge has a
+> unique and non null "chassis_nr" when plugging it into its parent bus.
+> 
+> Fixes: 05929a6c5dfe ("spapr: Don't use bus number for building DRC ids")
+> Reported-by: Thomas Huth <thuth@redhat.com>
+> Signed-off-by: Greg Kurz <groug@kaod.org>
 
 
+
+> ---
+>  hw/ppc/spapr_pci.c |   57 ++++++++++++++++++++++++++++++++++++++++++++++++++++
+>  1 file changed, 57 insertions(+)
+> 
+> diff --git a/hw/ppc/spapr_pci.c b/hw/ppc/spapr_pci.c
+> index 329002ac040e..09d52ef7954d 100644
+> --- a/hw/ppc/spapr_pci.c
+> +++ b/hw/ppc/spapr_pci.c
+> @@ -1480,6 +1480,57 @@ static void spapr_pci_bridge_plug(SpaprPhbState *phb,
+>      add_drcs(phb, bus);
+>  }
+>  
+> +/* Returns non-zero if the value of "chassis_nr" is already in use */
+> +static int check_chassis_nr(Object *obj, void *opaque)
+> +{
+> +    int new_chassis_nr =
+> +        object_property_get_uint(opaque, "chassis_nr", &error_abort);
+> +    int chassis_nr =
+> +        object_property_get_uint(obj, "chassis_nr", NULL);
+> +
+> +    if (!object_dynamic_cast(obj, TYPE_PCI_BRIDGE)) {
+> +        return 0;
+> +    }
+> +
+> +    /* Skip unsupported bridge types */
+> +    if (!chassis_nr) {
+> +        return 0;
+> +    }
+> +
+> +    /* Skip self */
+> +    if (obj == opaque) {
+> +        return 0;
+> +    }
+> +
+> +    return chassis_nr == new_chassis_nr;
+> +}
+> +
+> +static bool bridge_has_valid_chassis_nr(Object *bridge, Error **errp)
+
+I would rename this "bridge_has_unique_chassis_nr".
+
+> +{
+> +    int chassis_nr =
+> +        object_property_get_uint(bridge, "chassis_nr", NULL);
+> +
+> +    /*
+> +     * slotid_cap_init() already ensures that "chassis_nr" isn't null for
+> +     * standard PCI bridges, so this really tells if "chassis_nr" is present
+> +     * or not.
+> +     */
+> +    if (!chassis_nr) {
+> +        error_setg(errp, "PCI Bridge lacks a \"chassis_nr\" property");
+> +        error_append_hint(errp, "Try -device pci-bridge instead.\n");
+> +        return false;
+> +    }
+> +
+> +    /* We want unique values for "chassis_nr" */
+> +    if (object_child_foreach_recursive(object_get_root(), check_chassis_nr,
+> +                                       bridge)) {
+> +        error_setg(errp, "Bridge chassis %d already in use", chassis_nr);
+> +        return false;
+> +    }
+> +
+> +    return true;
+> +}
+> +
+>  static void spapr_pci_plug(HotplugHandler *plug_handler,
+>                             DeviceState *plugged_dev, Error **errp)
+>  {
+> @@ -1491,6 +1542,12 @@ static void spapr_pci_plug(HotplugHandler *plug_handler,
+>      PCIBus *bus = PCI_BUS(qdev_get_parent_bus(DEVICE(pdev)));
+>      uint32_t slotnr = PCI_SLOT(pdev->devfn);
+>  
+> +    if (pc->is_bridge) {
+> +        if (!bridge_has_valid_chassis_nr(OBJECT(plugged_dev), errp)) {
+> +            return;
+> +        }
+> +    }
+> +
+
+
+Add a comment here explaning DRC ids are generated from chassis_nr and
+these need to be unique?
+
+
+>      /* if DR is disabled we don't need to do anything in the case of
+>       * hotplug or coldplug callbacks
+>       */
 >
->        /* attempt to create an object without qom-type */
->        resp =3D qtest_qmp(qts, "{'execute': 'object-add', 'arguments':"
->                         " {'id': 'ram1' } }");
->        g_assert_nonnull(resp);
->        qmp_assert_error_class(resp, "GenericError");
->
-> Likewise.
->
->        /* attempt to delete an object that does not exist */
->        resp =3D qtest_qmp(qts, "{'execute': 'object-del', 'arguments':"
->                         " {'id': 'ram1' } }");
->        g_assert_nonnull(resp);
->        qmp_assert_error_class(resp, "GenericError");
->
-> Likewise.
->
->        /* attempt to create 2 objects with duplicate id */
->        resp =3D qtest_qmp(qts, "{'execute': 'object-add', 'arguments':"
->                         " {'qom-type': 'memory-backend-ram', 'id': 'ram1'=
-,"
-> >                       " 'props': {'size': 1048576 } } }");
-> >      g_assert_nonnull(resp);
-> >      g_assert(qdict_haskey(resp, "return"));
-> > +    qobject_unref(resp);
-> > +
-> >      resp =3D qtest_qmp(qts, "{'execute': 'object-add', 'arguments':"
-> >                       " {'qom-type': 'memory-backend-ram', 'id': 'ram1'=
-,"
-> >                       " 'props': {'size': 1048576 } } }");
->        g_assert_nonnull(resp);
->        qmp_assert_error_class(resp, "GenericError");
->
-> Likewise.
->
->        /* delete ram1 object */
->        resp =3D qtest_qmp(qts, "{'execute': 'object-del', 'arguments':"
-> > @@ -241,6 +243,7 @@ static void test_object_add_failure_modes(void)
-> >                       " {'id': 'ram1' } }");
-> >      g_assert_nonnull(resp);
-> >      g_assert(qdict_haskey(resp, "return"));
-> > +    qobject_unref(resp);
-> >
-> >      /* attempt to create an object with a property of a wrong type */
-> >      resp =3D qtest_qmp(qts, "{'execute': 'object-add', 'arguments':"
->                         " {'qom-type': 'memory-backend-ram', 'id': 'ram1'=
-,"
->                         " 'props': {'size': '1048576' } } }");
-> > @@ -249,17 +252,20 @@ static void test_object_add_failure_modes(void)
-> >      g_assert_nonnull(resp);
-> >      /* now do it right */
-> >      qmp_assert_error_class(resp, "GenericError");
->
-> Likewise.
->
-> > +
-> >      resp =3D qtest_qmp(qts, "{'execute': 'object-add', 'arguments':"
-> >                       " {'qom-type': 'memory-backend-ram', 'id': 'ram1'=
-,"
-> >                       " 'props': {'size': 1048576 } } }");
-> >      g_assert_nonnull(resp);
-> >      g_assert(qdict_haskey(resp, "return"));
-> > +    qobject_unref(resp);
-> >
-> >      /* delete ram1 object */
-> >      resp =3D qtest_qmp(qts, "{'execute': 'object-del', 'arguments':"
-> >                       " {'id': 'ram1' } }");
-> >      g_assert_nonnull(resp);
-> >      g_assert(qdict_haskey(resp, "return"));
-> > +    qobject_unref(resp);
-> >
-> >      /* attempt to create an object without the id */
-> >      resp =3D qtest_qmp(qts, "{'execute': 'object-add', 'arguments':"
->                         " {'qom-type': 'memory-backend-ram',"
-> > @@ -267,18 +273,21 @@ static void test_object_add_failure_modes(void)
-> >                       " 'props': {'size': 1048576 } } }");
-> >      g_assert_nonnull(resp);
-> >      qmp_assert_error_class(resp, "GenericError");
->
-> Likewise.
->
-> > +
-> >      /* now do it right */
-> >      resp =3D qtest_qmp(qts, "{'execute': 'object-add', 'arguments':"
-> >                       " {'qom-type': 'memory-backend-ram', 'id': 'ram1'=
-,"
-> >                       " 'props': {'size': 1048576 } } }");
-> >      g_assert_nonnull(resp);
-> >      g_assert(qdict_haskey(resp, "return"));
-> > +    qobject_unref(resp);
-> >
-> >      /* delete ram1 object */
-> >      resp =3D qtest_qmp(qts, "{'execute': 'object-del', 'arguments':"
-> >                       " {'id': 'ram1' } }");
-> >      g_assert_nonnull(resp);
-> >      g_assert(qdict_haskey(resp, "return"));
-> > +    qobject_unref(resp);
-> >
-> >      /* attempt to set a non existing property */
-> >      resp =3D qtest_qmp(qts, "{'execute': 'object-add', 'arguments':"
->                         " {'qom-type': 'memory-backend-ram', 'id': 'ram1'=
-,"
-> > @@ -286,23 +295,27 @@ static void test_object_add_failure_modes(void)
-> >                       " 'props': {'sized': 1048576 } } }");
-> >      g_assert_nonnull(resp);
-> >      qmp_assert_error_class(resp, "GenericError");
->
-> Likewise.
->
-> > +
-> >      /* now do it right */
-> >      resp =3D qtest_qmp(qts, "{'execute': 'object-add', 'arguments':"
-> >                       " {'qom-type': 'memory-backend-ram', 'id': 'ram1'=
-,"
-> >                       " 'props': {'size': 1048576 } } }");
-> >      g_assert_nonnull(resp);
-> >      g_assert(qdict_haskey(resp, "return"));
-> > +    qobject_unref(resp);
-> >
-> >      /* delete ram1 object without id */
-> >      resp =3D qtest_qmp(qts, "{'execute': 'object-del', 'arguments':"
-> >                       " {'ida': 'ram1' } }");
-> >      g_assert_nonnull(resp);
-> > +    qobject_unref(resp);
-> >
-> >      /* delete ram1 object */
-> >      resp =3D qtest_qmp(qts, "{'execute': 'object-del', 'arguments':"
-> >                       " {'id': 'ram1' } }");
-> >      g_assert_nonnull(resp);
-> >      g_assert(qdict_haskey(resp, "return"));
-> > +    qobject_unref(resp);
-> >
-> >      /* delete ram1 object that does not exist anymore*/
-> >      resp =3D qtest_qmp(qts, "{'execute': 'object-del', 'arguments':"
->                         " {'id': 'ram1' } }");
->        g_assert_nonnull(resp);
->        qmp_assert_error_class(resp, "GenericError");
->
-> Likewise.
->
->        qtest_quit(qts);
->    }
->
+
+With above fixed:
+
+Acked-by: Michael S. Tsirkin <mst@redhat.com>
+ 
+Feel free to merge.
+
 
