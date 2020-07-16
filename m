@@ -2,74 +2,73 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id BEFD82222A8
-	for <lists+qemu-devel@lfdr.de>; Thu, 16 Jul 2020 14:41:30 +0200 (CEST)
-Received: from localhost ([::1]:59512 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A3AAF2222B9
+	for <lists+qemu-devel@lfdr.de>; Thu, 16 Jul 2020 14:44:33 +0200 (CEST)
+Received: from localhost ([::1]:36984 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jw3Cb-0004NZ-RF
-	for lists+qemu-devel@lfdr.de; Thu, 16 Jul 2020 08:41:29 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:40144)
+	id 1jw3FY-0006kk-Oq
+	for lists+qemu-devel@lfdr.de; Thu, 16 Jul 2020 08:44:32 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:40704)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1jw3BY-0003mp-CN
- for qemu-devel@nongnu.org; Thu, 16 Jul 2020 08:40:24 -0400
-Received: from mail-oi1-x233.google.com ([2607:f8b0:4864:20::233]:36906)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1jw3BW-0003Ph-PK
- for qemu-devel@nongnu.org; Thu, 16 Jul 2020 08:40:23 -0400
-Received: by mail-oi1-x233.google.com with SMTP id 12so4954458oir.4
- for <qemu-devel@nongnu.org>; Thu, 16 Jul 2020 05:40:22 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=HDWN7BABhgsGPs59bQzNLZtWrHqSvkm51YqlkFTe7GI=;
- b=y9/69pEKLPAbx3lcQHcrnwQ+KW/mU9B/eI5Juk0nOa2QbL8rU3UJfDGrygEDA/xL3X
- XN2GzrbV/ejOI8hMsF0rorvt+4V9CbZxaEeLFQSvonWPryJN2FAkmB9d65bhXAR/jnv6
- t4DlyMcyCZ/ycT4ncpZoQ/mc67ivVga/7m6j/+Rgy0IcaJe3GNFiOrBYrzrFtA7Ux12l
- Cuta6DRFDu9V1Fu8uUgNwvwVGcRlLv7RDVARBVR35UFspNE/NESZR0SbkSuzU58f9Poy
- c9LjmD153ySSNY+lxYk0x5XZXzeW6F4hf4bWtTv80YjGavjnOA4n8ifDf9pHOqmCMlb8
- tD2Q==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=HDWN7BABhgsGPs59bQzNLZtWrHqSvkm51YqlkFTe7GI=;
- b=EA9rHSbe9V1qeFxNiE92Zz0QSS5JePZnXKMbFvisyYuqieH0/wD3Co8UjlnEvU8iqH
- z/JcrTtKjLP+kYY0+gMaaPUCXNECmsvewMDPuZfxe5FDQ9m4QjmnNZTgw6ajJAh51ltK
- PerkHbQEWcLHd2MhQVpo+Aj7SmhVr9UpXTx+Qr4Emk/sX0RoPca4qE3pGaYRQSPBE6O8
- yPDHxVpxAGu0Wp72Yu7gJOEUaAeMMN6jJ6QCwn/FJC7zAglhgczKlMAOXai5fJOyo6wf
- oIHGum0/8MNqLaDqaVoMmIGX1+LwFnq8oUjeoGWgPPpSA5s2rqE7kmmC9gkRYk4x/a0r
- gf1w==
-X-Gm-Message-State: AOAM532Y/Xzc1tu3P2WqgQkCrXmhWhqxqYh6j48UFpKzuCJA0mFAWVrA
- R+P31oDhlRPlGijNMu+yzjCCOgVnd9E8FMJZpmR2Yw==
-X-Google-Smtp-Source: ABdhPJyrLVLgBnxpT8gzU6IVJ2qAggHTMz7/Qytksi97Fj+ufU2FpqpWXl6Q9YQjFd9ui4zu1eFHAkIn3Wzh59i6OMk=
-X-Received: by 2002:aca:1706:: with SMTP id j6mr3485984oii.146.1594903221149; 
- Thu, 16 Jul 2020 05:40:21 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1jw3DV-0005J4-4g
+ for qemu-devel@nongnu.org; Thu, 16 Jul 2020 08:42:25 -0400
+Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:29284
+ helo=us-smtp-1.mimecast.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1jw3DS-0003kv-LC
+ for qemu-devel@nongnu.org; Thu, 16 Jul 2020 08:42:24 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1594903341;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=y8zfmQsx9puYHraSYSqEVNExJkd6wk6PAp6jkXbjYdM=;
+ b=SWAhGQDMq+UmQYLdLEwSZkZ+k4hlyaagTNd1WKUK6tC5YOrMe5QcA3GLRfTk5UyuDLasmf
+ 8s9xY5AtOZzoVBGrquUhMJBgktr2JROZkYxSmP6XJxh2BeAZqa5vdhLImDPDqrQEbQaYd/
+ XF8jDVi3HDUkGYYOPPEIbB4PHrUhfGY=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-384-dtn9_aGTM1CbDdfHjLUlCw-1; Thu, 16 Jul 2020 08:42:19 -0400
+X-MC-Unique: dtn9_aGTM1CbDdfHjLUlCw-1
+Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
+ [10.5.11.11])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 8ECED1083E83;
+ Thu, 16 Jul 2020 12:42:18 +0000 (UTC)
+Received: from blackfin.pond.sub.org (ovpn-112-143.ams2.redhat.com
+ [10.36.112.143])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id DC14878471;
+ Thu, 16 Jul 2020 12:42:17 +0000 (UTC)
+Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
+ id 6916B11385E0; Thu, 16 Jul 2020 14:42:16 +0200 (CEST)
+From: Markus Armbruster <armbru@redhat.com>
+To: Li Qiang <liq3ea@163.com>
+Subject: Re: [PATCH] qapi: record the last element in order to avoid memory
+ leak
+References: <20200715151153.15054-1-liq3ea@163.com>
+Date: Thu, 16 Jul 2020 14:42:16 +0200
+In-Reply-To: <20200715151153.15054-1-liq3ea@163.com> (Li Qiang's message of
+ "Wed, 15 Jul 2020 08:11:53 -0700")
+Message-ID: <87mu3zoclz.fsf@dusky.pond.sub.org>
+User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/26.3 (gnu/linux)
 MIME-Version: 1.0
-References: <20200624100210.59975-1-stefanha@redhat.com>
- <CAFEAcA_K7MtnEjRMZCbmYrJCm6qD4N7ZMHvGuAzXL9gD2zQNuA@mail.gmail.com>
- <20200626102506.GD281902@stefanha-x1.localdomain>
- <cab22670-6804-9ddc-c3ee-b6dcf3a74ac4@redhat.com>
- <20200707220514.GY7276@habkost.net> <20200709150206.GC4096@linux.fritz.box>
-In-Reply-To: <20200709150206.GC4096@linux.fritz.box>
-From: Peter Maydell <peter.maydell@linaro.org>
-Date: Thu, 16 Jul 2020 13:40:10 +0100
-Message-ID: <CAFEAcA9r2_O8wZQUAbEb46uwm-HkmnDD8Cv7b0fA2q-Vm7_Mag@mail.gmail.com>
-Subject: Re: [PULL 00/12] Block patches
-To: Kevin Wolf <kwolf@redhat.com>
-Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2607:f8b0:4864:20::233;
- envelope-from=peter.maydell@linaro.org; helo=mail-oi1-x233.google.com
-X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
- That's all we know.
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain
+Received-SPF: pass client-ip=205.139.110.120; envelope-from=armbru@redhat.com;
+ helo=us-smtp-1.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/07/15 19:36:06
+X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
+X-Spam_score_int: -40
+X-Spam_score: -4.1
+X-Spam_bar: ----
+X-Spam_report: (-4.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-1, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001, URIBL_BLOCKED=0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -82,41 +81,123 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Fam Zheng <fam@euphon.net>, Eduardo Habkost <ehabkost@redhat.com>,
- Qemu-block <qemu-block@nongnu.org>, QEMU Developers <qemu-devel@nongnu.org>,
- Max Reitz <mreitz@redhat.com>, Stefan Hajnoczi <stefanha@redhat.com>,
- Cleber Rosa <crosa@redhat.com>,
- =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <philmd@redhat.com>
+Cc: qemu-devel@nongnu.org, pbonzini@redhat.com, liq3ea@gmail.com,
+ armbru@redhat.com, mdroth@linux.vnet.ibm.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Thu, 9 Jul 2020 at 16:02, Kevin Wolf <kwolf@redhat.com> wrote:
->
-> We can "fix" it for probably all realistic cases by lowering the speed
-> of the block job significantly. It's still not fully fixed for all
-> theoretical cases, but the pattern of starting a block job that is
-> throttled to a low speed so it will keep running for the next part of
-> the test is very common.
->
-> Kevin
->
-> diff --git a/tests/qemu-iotests/030 b/tests/qemu-iotests/030
-> index 256b2bfbc6..31c028306b 100755
-> --- a/tests/qemu-iotests/030
-> +++ b/tests/qemu-iotests/030
-> @@ -243,7 +243,7 @@ class TestParallelOps(iotests.QMPTestCase):
->              node_name = 'node%d' % i
->              job_id = 'stream-%s' % node_name
->              pending_jobs.append(job_id)
-> -            result = self.vm.qmp('block-stream', device=node_name, job_id=job_id, base=self.imgs[i-2], speed=512*1024)
-> +            result = self.vm.qmp('block-stream', device=node_name, job_id=job_id, base=self.imgs[i-2], speed=1024)
->              self.assert_qmp(result, 'return', {})
->
->          for job in pending_jobs:
+Li Qiang <liq3ea@163.com> writes:
 
-Any chance we could get this fix into the tree? I've just
-had an unrelated mergebuild test run hit this iotest 030
-failure again...
+> While executing 'tests/test-qobject-input-visitor'. I got
+> following error:
+>
+> /visitor/input/fail/alternate: OK
+> /visitor/input/fail/union-list: OK
+>
+> =================================================================
+> ==4353==ERROR: LeakSanitizer: detected memory leaks
+>
+> Direct leak of 16 byte(s) in 1 object(s) allocated from:
+>     #0 0x7f192d0c5d28 in __interceptor_calloc (/usr/lib/x86_64-linux-gnu/libasan.so.4+0xded28)
+>     #1 0x7f192cd21b10 in g_malloc0 (/usr/lib/x86_64-linux-gnu/libglib-2.0.so.0+0x51b10)
+>     #2 0x556725f6bbee in visit_next_list qapi/qapi-visit-core.c:86
+>     #3 0x556725f49e15 in visit_type_UserDefOneList tests/test-qapi-visit.c:474
+>     #4 0x556725f4489b in test_visitor_in_fail_struct_in_list tests/test-qobject-input-visitor.c:1086
+>     #5 0x7f192cd42f29  (/usr/lib/x86_64-linux-gnu/libglib-2.0.so.0+0x72f29)
+>
+> SUMMARY: AddressSanitizer: 16 byte(s) leaked in 1 allocation(s).
 
--- PMM
+Good catch!
+
+Regressed in commit cdd2b228b9 "qapi: Smooth visitor error checking in
+generated code".
+
+> This is because in 'visit_type_UserDefOneList' function when
+> 'visit_type_UserDefOne' failed and we go to out_obj. And have
+> no chance to process the last element. The path is:
+> visit_type_UserDefOneList
+>     ->visit_type_UserDefOne(error occured)
+>         ->qapi_free_UserDefOneList
+>             -->visit_type_UserDefOneList(again)
+>
+> In the last 'visit_type_UserDefOneList' we will free the elements
+> allocated in the first 'visit_type_UserDefOneList'. However we delete
+> the element in 'qapi_dealloc_next_list'. If then 'visit_type_UserDefOne'
+> return false we will skip the element that still in the 'obj' linked
+> list. This is why the ASAN complains this memory leak.
+> This patch store the recent processing elements in 'QapiDeallocVisitor'.
+> In 'qapi_dealloc_end_list' if it is not NULL, we free it.
+>
+> Signed-off-by: Li Qiang <liq3ea@163.com>
+
+Before commit cdd2b228b9, visit_type_UserDefOne() succeeded for the last
+element with the dealloc visitor.  Since then, it fails.  That's wrong.
+
+> ---
+>  qapi/qapi-dealloc-visitor.c | 12 ++++++++++++
+>  1 file changed, 12 insertions(+)
+>
+> diff --git a/qapi/qapi-dealloc-visitor.c b/qapi/qapi-dealloc-visitor.c
+> index ef283f2966..6335cadd9c 100644
+> --- a/qapi/qapi-dealloc-visitor.c
+> +++ b/qapi/qapi-dealloc-visitor.c
+> @@ -20,8 +20,14 @@
+>  struct QapiDeallocVisitor
+>  {
+>      Visitor visitor;
+> +    void *last;
+>  };
+>  
+> +static QapiDeallocVisitor *to_qdv(Visitor *v)
+> +{
+> +    return container_of(v, QapiDeallocVisitor, visitor);
+> +}
+> +
+>  static bool qapi_dealloc_start_struct(Visitor *v, const char *name, void **obj,
+>                                        size_t unused, Error **errp)
+>  {
+> @@ -46,19 +52,25 @@ static bool qapi_dealloc_start_list(Visitor *v, const char *name,
+>                                      GenericList **list, size_t size,
+>                                      Error **errp)
+>  {
+> +    QapiDeallocVisitor *qdv = to_qdv(v);
+> +    qdv->last = *list;
+>      return true;
+>  }
+>  
+>  static GenericList *qapi_dealloc_next_list(Visitor *v, GenericList *tail,
+>                                             size_t size)
+>  {
+> +    QapiDeallocVisitor *qdv = to_qdv(v);
+>      GenericList *next = tail->next;
+> +    qdv->last = next;
+>      g_free(tail);
+>      return next;
+>  }
+>  
+>  static void qapi_dealloc_end_list(Visitor *v, void **obj)
+>  {
+> +    QapiDeallocVisitor *qdv = to_qdv(v);
+> +    g_free(qdv->last);
+>  }
+>  
+>  static bool qapi_dealloc_type_str(Visitor *v, const char *name, char **obj,
+
+I'm sure your patch plugs the leak.  But we should really make
+visit_type_UserDefOne() behave as it did before I broke it.  This should
+do:
+
+diff --git a/scripts/qapi/visit.py b/scripts/qapi/visit.py
+index 3fb2f30510..cdabc5fa28 100644
+--- a/scripts/qapi/visit.py
++++ b/scripts/qapi/visit.py
+@@ -249,6 +249,7 @@ bool visit_type_%(c_name)s(Visitor *v, const char *name, %(c_name)s **obj, Error
+     if (!*obj) {
+         /* incomplete */
+         assert(visit_is_dealloc(v));
++        ok = true;
+         goto out_obj;
+     }
+     if (!visit_type_%(c_name)s_members(v, *obj, errp)) {
+
 
