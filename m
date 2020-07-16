@@ -2,56 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 16D4B22250C
-	for <lists+qemu-devel@lfdr.de>; Thu, 16 Jul 2020 16:16:52 +0200 (CEST)
-Received: from localhost ([::1]:39924 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2FF4B222530
+	for <lists+qemu-devel@lfdr.de>; Thu, 16 Jul 2020 16:21:01 +0200 (CEST)
+Received: from localhost ([::1]:44366 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jw4gt-0005Y1-3S
-	for lists+qemu-devel@lfdr.de; Thu, 16 Jul 2020 10:16:51 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:40582)
+	id 1jw4kr-0007a0-T6
+	for lists+qemu-devel@lfdr.de; Thu, 16 Jul 2020 10:20:57 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:41836)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <qemu_oss@crudebyte.com>)
- id 1jw4fn-0004iN-JA
- for qemu-devel@nongnu.org; Thu, 16 Jul 2020 10:15:43 -0400
-Received: from lizzy.crudebyte.com ([91.194.90.13]:33221)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <qemu_oss@crudebyte.com>)
- id 1jw4fl-0003j8-MW
- for qemu-devel@nongnu.org; Thu, 16 Jul 2020 10:15:43 -0400
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
- d=crudebyte.com; s=lizzy; h=Content-Type:Content-Transfer-Encoding:
- MIME-Version:References:In-Reply-To:Message-ID:Date:Subject:Cc:To:From:
- Content-ID:Content-Description;
- bh=7/yF/94CKyobaC57Qp08e69c7hjkDHO60dDCDUK0PM0=; b=HtcNoalzWKGlhJkyJsfVc0vY4m
- wJXbVn5pENv8t/XfY3YNJnFxJAZZ0ukA2bwn5R+h/Hw82+tJlQLOgkkr1znvPpW2A411HY1mE73rl
- FcIywB/Z8fKClqn9hSRl0z0qRv3MJ0clqtTaN7woYBqEkVkRLXZsrZwIa48/Ynb6g5dbSwqXOGOXQ
- oNWHzbt5fu/dV8ai8hu2HY3aR8lrxDDKBWgqAMmEEVYRmERmcfDzZbDquk80GbOSeBWX81EhZH4GS
- UKAH7t5qDvNMpK1rb/Rg38EuvYBxBJCEjC8Xgvu4gDYifOQD4/UlPjy91eQRzAidDyLd1pq2L9rar
- 3J9QValA==;
-From: Christian Schoenebeck <qemu_oss@crudebyte.com>
-To: qemu-devel@nongnu.org
-Cc: Thomas Huth <thuth@redhat.com>, peter.maydell@linaro.org,
- Paolo Bonzini <pbonzini@redhat.com>, Richard Henderson <rth@twiddle.net>
-Subject: Re: [RFC PATCH] configure: Fix atomic64 test for --enable-werror on
- macOS
-Date: Thu, 16 Jul 2020 16:15:36 +0200
-Message-ID: <2922420.RJvhEBMbDd@silver>
-In-Reply-To: <20200716131101.18462-1-thuth@redhat.com>
-References: <20200716131101.18462-1-thuth@redhat.com>
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1jw4jz-000784-RZ
+ for qemu-devel@nongnu.org; Thu, 16 Jul 2020 10:20:03 -0400
+Received: from mail-oi1-x242.google.com ([2607:f8b0:4864:20::242]:40333)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1jw4jx-0004Jh-1B
+ for qemu-devel@nongnu.org; Thu, 16 Jul 2020 10:20:03 -0400
+Received: by mail-oi1-x242.google.com with SMTP id t198so5194521oie.7
+ for <qemu-devel@nongnu.org>; Thu, 16 Jul 2020 07:20:00 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=uASRpqHPiXfiRa6C+pweZx7I5OV8LvEDShTlFbn4CpY=;
+ b=RranYTo7menvidtLK7PNdChPcF5H4ZD0pIoMFVjBXktVJgjUYqGhyZXULe01Epx0op
+ Wy82Tqo5yVKVZocFsEKN42QZFCPQzq2HOgsYN/KY06GbvLu9NqQWU1OcGjQFQ0ctbiMn
+ xsUS/A7NHMd25uqR13Xl9EaSzJ/98GejH8kNQB9ffPy08xHUZN7S8AUsy5Vesmf1iK4U
+ 71ghzbCEcgByVBs9MaBK9LIBLoR9jgCY1t6w1r6y4rORayZRskUIpuhCrF392QyCdc+L
+ qAGrR84NVaEQpElpumezwAIWmcTmJ0zZq4vO3LeoH+CaOYboU4OUn471viRdX4IGMj5d
+ kg/g==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=uASRpqHPiXfiRa6C+pweZx7I5OV8LvEDShTlFbn4CpY=;
+ b=HgY6FMxbf+6SLmOpNe94TxFEgW5SyeJzIEAxFHdsEreCzEyRSnaSaaLWv0sbw3HSbd
+ 8eP1FsGsrWZbeNqUX0ORTTMNQNkdGk0Hr6pBMJhIkELT6qww9oLKV3GNJNZxdunmrcLN
+ nD0DaBgq9F6HVAVo4bP0cLshErI5FAyjHf4XIaWxpTx3sfAs8epPDdegT2IjEu71daOk
+ SAC1g8uK5HfS1g7fSFNbWTQs+L0kAjjv3m4n17hDU/EsOyYaf1WeAZ4rJ14UToxRL7Y7
+ 14nyF1xJ/F2KDSv2QhwN511TwAfcnM3hHpF0P7dL1/YBITMUUGnxvVaRlT/08otV1+H/
+ 7cjg==
+X-Gm-Message-State: AOAM532peeJ6PTjtkXNwMVcZcC889x9hr2flmufnuN7cseqda0jtU3wx
+ 2WxP2pjQcwF6z99AIqNrpMYCNqrgNkLiG57uP2Id7A==
+X-Google-Smtp-Source: ABdhPJz9GRxWyD1TfzCnbtiC7SNOTI0N6zpWy1dyTh9UYc1hHmAH9yeYuVdqttfTfnv7BqvWD47pAiuhHEvBo1M3YDo=
+X-Received: by 2002:aca:2819:: with SMTP id 25mr3727900oix.48.1594909199636;
+ Thu, 16 Jul 2020 07:19:59 -0700 (PDT)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 7Bit
-Content-Type: text/plain; charset="us-ascii"
-Received-SPF: pass client-ip=91.194.90.13; envelope-from=qemu_oss@crudebyte.com;
- helo=lizzy.crudebyte.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/07/16 08:22:19
-X-ACL-Warn: Detected OS   = Linux 3.11 and newer
+References: <20200713213341.590275-1-richard.henderson@linaro.org>
+In-Reply-To: <20200713213341.590275-1-richard.henderson@linaro.org>
+From: Peter Maydell <peter.maydell@linaro.org>
+Date: Thu, 16 Jul 2020 15:19:48 +0100
+Message-ID: <CAFEAcA-VGqwpZTWZ054h+Sy3_db65Rdv5TfbsJEmpB2dzpnLCA@mail.gmail.com>
+Subject: Re: [PATCH for-5.1 0/3] target/arm: MTE improvements
+To: Richard Henderson <richard.henderson@linaro.org>
+Content-Type: text/plain; charset="UTF-8"
+Received-SPF: pass client-ip=2607:f8b0:4864:20::242;
+ envelope-from=peter.maydell@linaro.org; helo=mail-oi1-x242.google.com
+X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
+ That's all we know.
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001, URIBL_BLOCKED=0.001 autolearn=ham autolearn_force=no
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ URIBL_BLOCKED=0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -64,41 +78,23 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Cc: QEMU Developers <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Donnerstag, 16. Juli 2020 15:11:01 CEST Thomas Huth wrote:
-> When using --enable-werror for the macOS builders in the Cirrus-CI,
-> the atomic64 test is currently failing, and config.log shows a bunch
-> of error messages like this:
-> 
->  config-temp/qemu-conf.c:6:7: error: implicit declaration of function
->  '__atomic_load_8' is invalid in C99
-> [-Werror,-Wimplicit-function-declaration] y = __atomic_load_8(&x, 0);
->       ^
->  config-temp/qemu-conf.c:6:7: error: this function declaration is not a
->  prototype [-Werror,-Wstrict-prototypes]
+On Mon, 13 Jul 2020 at 22:33, Richard Henderson
+<richard.henderson@linaro.org> wrote:
+>
+> Since MTE is new, and guest support for MTE is still under
+> development, let's disable it by default.
+>
+> Peter mentioned memory hotplug on IRC as something that
+> would break MTE's assumptions.  By putting the enable flag
+> on the machine it's much easier to control.
+>
+> For 5.1, we won't have kvm support, so error for that combo.
 
-Well, __atomic_*_8() functions do exist on macOS, but it does not look like 
-they are supposed to be 'officially' used.
+Applied to target-arm.next for 5.1, thanks.
 
-You can compile sources with these functions, and yes they are linking fine 
-despite the warning, but IMO not a good idea to use them, as AFAICS they are 
-not defined by any public header file.
-
-> Suppress the warnings to make it pass.
-> 
-> Signed-off-by: Thomas Huth <thuth@redhat.com>
-> ---
->  Not sure whether this is the best way to fix this issue ... thus marked
->  as RFC.
-
-Probably it is better to switch to their official C11 counterpart functions 
-for this test, like e.g. __atomic_load() instead of __atomic_load_8(), etc.
-That's what the actual qemu code base is using actually anyway.
-
-Best regards,
-Christian Schoenebeck
-
-
+-- PMM
 
