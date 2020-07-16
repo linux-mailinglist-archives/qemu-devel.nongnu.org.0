@@ -2,59 +2,58 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3B0E3222ACB
-	for <lists+qemu-devel@lfdr.de>; Thu, 16 Jul 2020 20:20:54 +0200 (CEST)
-Received: from localhost ([::1]:50956 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7CA8A222AF5
+	for <lists+qemu-devel@lfdr.de>; Thu, 16 Jul 2020 20:22:17 +0200 (CEST)
+Received: from localhost ([::1]:58334 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jw8V3-00031s-5s
-	for lists+qemu-devel@lfdr.de; Thu, 16 Jul 2020 14:20:53 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:54124)
+	id 1jw8WO-00069M-DC
+	for lists+qemu-devel@lfdr.de; Thu, 16 Jul 2020 14:22:16 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:54142)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <ehabkost@redhat.com>)
- id 1jw8TU-0001Am-4f
+ id 1jw8TU-0001Bh-Qs
  for qemu-devel@nongnu.org; Thu, 16 Jul 2020 14:19:16 -0400
-Received: from us-smtp-2.mimecast.com ([205.139.110.61]:36044
+Received: from us-smtp-2.mimecast.com ([205.139.110.61]:34085
  helo=us-smtp-delivery-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
  (Exim 4.90_1) (envelope-from <ehabkost@redhat.com>)
- id 1jw8TS-0004nD-7X
- for qemu-devel@nongnu.org; Thu, 16 Jul 2020 14:19:15 -0400
+ id 1jw8TS-0004nR-V9
+ for qemu-devel@nongnu.org; Thu, 16 Jul 2020 14:19:16 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1594923552;
+ s=mimecast20190719; t=1594923553;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=kdRrCS/EOpYc0yz0MlofbHMLP/As6OMGvEI5/UqjKjc=;
- b=OIO5u0KXF4Z4C16J+6cm2qvj7JEhq6yypJB4A2rmzjxxVpmuuoxoa4WDycSoKaFqfpzst/
- cXM+8lqmVGkblMncKNtvOzIbtxFswk1UtOYmNnZGb4UF4BJ/w+Fzu21eXdpBr44rRvELW8
- 2XLC4xkoRM48aGuxhOL2quxlrrd3eUg=
+ bh=Niysg7WTlNSx02t7lJR8c0jLBz+5tSaBfOmOvj5U1Fw=;
+ b=WlZTD6oYFJz2QbGQb/8vhvob7xvDOe0LngM7uZ7DpFPAU1YLu8zfn8xrzV55Zv7LFv8ZDL
+ 4dGgQt4UNFiWMZNl7uSkfNb6btxEbS/HUBlocwhg0ZCv7cnG27cUnmbcBpl/WlF1PZD2QB
+ W2iCutuulDIDxKbCfpK0yP7yDGErpuA=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-32-r1YGhJcXP2yuIixymdpfCQ-1; Thu, 16 Jul 2020 14:19:09 -0400
-X-MC-Unique: r1YGhJcXP2yuIixymdpfCQ-1
+ us-mta-260-ADM0nizMP4eEEM8ZAdaD9Q-1; Thu, 16 Jul 2020 14:19:10 -0400
+X-MC-Unique: ADM0nizMP4eEEM8ZAdaD9Q-1
 Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
  [10.5.11.12])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 8F7571009441;
- Thu, 16 Jul 2020 18:19:08 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 892B08014D4;
+ Thu, 16 Jul 2020 18:19:09 +0000 (UTC)
 Received: from localhost (ovpn-119-232.rdu2.redhat.com [10.10.119.232])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 5105260C47;
- Thu, 16 Jul 2020 18:19:08 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 5069560C47;
+ Thu, 16 Jul 2020 18:19:09 +0000 (UTC)
 From: Eduardo Habkost <ehabkost@redhat.com>
 To: Peter Maydell <peter.maydell@linaro.org>,
 	qemu-devel@nongnu.org
-Subject: [PULL 3/6] target/i386: add fast short REP MOV support
-Date: Thu, 16 Jul 2020 14:19:00 -0400
-Message-Id: <20200716181903.1895314-4-ehabkost@redhat.com>
+Subject: [PULL 4/6] target/i386: fix model number and add missing features for
+ Icelake-Server CPU model
+Date: Thu, 16 Jul 2020 14:19:01 -0400
+Message-Id: <20200716181903.1895314-5-ehabkost@redhat.com>
 In-Reply-To: <20200716181903.1895314-1-ehabkost@redhat.com>
 References: <20200716181903.1895314-1-ehabkost@redhat.com>
 MIME-Version: 1.0
 X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=ehabkost@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=US-ASCII
@@ -91,44 +90,42 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Chenyi Qiang <chenyi.qiang@intel.com>
 
-For CPUs support fast short REP MOV[CPUID.(EAX=7,ECX=0):EDX(bit4)], e.g
-Icelake and Tigerlake, expose it to the guest VM.
+Add the missing features(sha_ni, avx512ifma, rdpid, fsrm,
+vmx-rdseed-exit, vmx-pml, vmx-eptp-switching) and change the model
+number to 106 in the Icelake-Server-v4 CPU model.
 
-Reviewed-by: Eduardo Habkost <ehabkost@redhat.com>
 Signed-off-by: Chenyi Qiang <chenyi.qiang@intel.com>
-Message-Id: <20200714084148.26690-2-chenyi.qiang@intel.com>
+Message-Id: <20200714084148.26690-3-chenyi.qiang@intel.com>
 Signed-off-by: Eduardo Habkost <ehabkost@redhat.com>
 ---
- target/i386/cpu.h | 2 ++
- target/i386/cpu.c | 2 +-
- 2 files changed, 3 insertions(+), 1 deletion(-)
+ target/i386/cpu.c | 14 ++++++++++++++
+ 1 file changed, 14 insertions(+)
 
-diff --git a/target/i386/cpu.h b/target/i386/cpu.h
-index 37fffa5cac..e1a5c174dc 100644
---- a/target/i386/cpu.h
-+++ b/target/i386/cpu.h
-@@ -775,6 +775,8 @@ typedef uint64_t FeatureWordArray[FEATURE_WORDS];
- #define CPUID_7_0_EDX_AVX512_4VNNIW     (1U << 2)
- /* AVX512 Multiply Accumulation Single Precision */
- #define CPUID_7_0_EDX_AVX512_4FMAPS     (1U << 3)
-+/* Fast Short Rep Mov */
-+#define CPUID_7_0_EDX_FSRM              (1U << 4)
- /* AVX512 Vector Pair Intersection to a Pair of Mask Registers */
- #define CPUID_7_0_EDX_AVX512_VP2INTERSECT (1U << 8)
- /* SERIALIZE instruction */
 diff --git a/target/i386/cpu.c b/target/i386/cpu.c
-index 93b62b2eca..3885826bc4 100644
+index 3885826bc4..132ef90421 100644
 --- a/target/i386/cpu.c
 +++ b/target/i386/cpu.c
-@@ -984,7 +984,7 @@ static FeatureWordInfo feature_word_info[FEATURE_WORDS] = {
-         .type = CPUID_FEATURE_WORD,
-         .feat_names = {
-             NULL, NULL, "avx512-4vnniw", "avx512-4fmaps",
--            NULL, NULL, NULL, NULL,
-+            "fsrm", NULL, NULL, NULL,
-             "avx512-vp2intersect", NULL, "md-clear", NULL,
-             NULL, NULL, "serialize", NULL,
-             "tsx-ldtrk", NULL, NULL /* pconfig */, NULL,
+@@ -3512,6 +3512,20 @@ static X86CPUDefinition builtin_x86_defs[] = {
+                     { /* end of list */ }
+                 },
+             },
++            {
++                .version = 4,
++                .props = (PropValue[]) {
++                    { "sha-ni", "on" },
++                    { "avx512ifma", "on" },
++                    { "rdpid", "on" },
++                    { "fsrm", "on" },
++                    { "vmx-rdseed-exit", "on" },
++                    { "vmx-pml", "on" },
++                    { "vmx-eptp-switching", "on" },
++                    { "model", "106" },
++                    { /* end of list */ }
++                },
++            },
+             { /* end of list */ }
+         }
+     },
 -- 
 2.26.2
 
