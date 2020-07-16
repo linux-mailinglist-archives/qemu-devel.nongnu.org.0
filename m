@@ -2,57 +2,106 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4BD07222336
-	for <lists+qemu-devel@lfdr.de>; Thu, 16 Jul 2020 14:59:46 +0200 (CEST)
-Received: from localhost ([::1]:44540 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 48D252223A2
+	for <lists+qemu-devel@lfdr.de>; Thu, 16 Jul 2020 15:14:17 +0200 (CEST)
+Received: from localhost ([::1]:60990 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jw3UH-0002PE-7A
-	for lists+qemu-devel@lfdr.de; Thu, 16 Jul 2020 08:59:45 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:44892)
+	id 1jw3iK-0001eh-CX
+	for lists+qemu-devel@lfdr.de; Thu, 16 Jul 2020 09:14:16 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:49276)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <cfontana@suse.de>) id 1jw3TZ-0001zn-3H
- for qemu-devel@nongnu.org; Thu, 16 Jul 2020 08:59:01 -0400
-Received: from mx2.suse.de ([195.135.220.15]:59210)
+ (Exim 4.90_1) (envelope-from <saipava@xilinx.com>)
+ id 1jw3h2-0000nF-6r
+ for qemu-devel@nongnu.org; Thu, 16 Jul 2020 09:12:57 -0400
+Received: from mail-co1nam11on2085.outbound.protection.outlook.com
+ ([40.107.220.85]:46337 helo=NAM11-CO1-obe.outbound.protection.outlook.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <cfontana@suse.de>) id 1jw3TX-0006Ry-5R
- for qemu-devel@nongnu.org; Thu, 16 Jul 2020 08:59:00 -0400
-X-Virus-Scanned: by amavisd-new at test-mx.suse.de
-Received: from relay2.suse.de (unknown [195.135.221.27])
- by mx2.suse.de (Postfix) with ESMTP id C40DFAF8E;
- Thu, 16 Jul 2020 12:58:59 +0000 (UTC)
-From: Claudio Fontana <cfontana@suse.de>
-Subject: Re: migration: broken snapshot saves appear on s390 when small fields
- in migration stream removed
-To: Thomas Huth <thuth@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>,
- Juan Quintela <quintela@redhat.com>,
- "Dr. David Alan Gilbert" <dgilbert@redhat.com>, Kevin Wolf
- <kwolf@redhat.com>, Max Reitz <mreitz@redhat.com>
-References: <8bbafdec-836d-b7de-cab8-7a325b6e238d@suse.de>
- <55c406cd-b9ca-4e9b-0acd-d33cfe2a70e3@redhat.com>
- <bf074240-8cc3-96ff-e95e-bd301822b756@suse.de>
- <ea3b617f-c2ea-534c-06ba-f5f9f43828a7@suse.de>
- <8125b1ff-373a-aadc-eccf-27c567007a27@redhat.com>
- <8ff7eeab-bef1-0957-a95c-72819680c431@suse.de>
-Message-ID: <1db6d502-73d1-5e3d-10d1-796d80ab8f07@suse.de>
-Date: Thu, 16 Jul 2020 14:58:54 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.4.1
-MIME-Version: 1.0
-In-Reply-To: <8ff7eeab-bef1-0957-a95c-72819680c431@suse.de>
-Content-Type: text/plain; charset=utf-8
+ (Exim 4.90_1) (envelope-from <saipava@xilinx.com>)
+ id 1jw3gx-0000Vs-Sx
+ for qemu-devel@nongnu.org; Thu, 16 Jul 2020 09:12:55 -0400
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=C3VhnfpM6PqM9OKW4U2fiWdJRiIkIq8xbanzz+bnVu8BZUe6rbxW4eiZFzUsHojXB+TSD/qvUUQ3TM0cWhCW74itQQ/cNOZeI/RgsOpOEJhG64+tQeiLohTnfsFXi4KquJcz0Q169D6HYzHAY7iqsVImkVI6gOuIoOio4ae31YbJhX9aTFjAZszkRB7SO1s3ArtjNYv02RW2RhM7QW5FnGCZAY1Mezg9pUWU9PjwONN29Qd9N1AN4hzGdv1ZCDNBXflq7HGsOLpdT0X6Dnc7hx4vUZeVeliNZ9XBTC3FUDZw+rCYp40pu94AWs3C/vLXlrrvNsSO90BDJXQmuJ8Z3Q==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=Z19xqZfmfBfSXKcvZnOjq2kiXs2Qz/Fmsb1Z03t+XzA=;
+ b=lROvgDPCU3qL3KWv/3O5yYP0uEKsZvXARoGbmpo/1KyjrkqOWvDqMXQROD3uflBoO10wGICvRk6haAC45ARTv9D3bfyPUg2IAu33Gkp+w5bMXpwg7FlmOB+0KdR+Wf3cTcRIOjACXkImNTORSUGyRvyZPUONM7natcjg3p9bluq4vJ7gKiAjeGYNa5LoOfe1rrCaK2s/gDGCztHHyvKzkFte0wtfYTLTYtfqdHErQPEZM3izFg4lhpvwET/4ffUfzqVNdkJ1XFDWd+cIJiBIKijU/V88wHqc6gznunyt0bfvAXFSXH2BS/0N+PjkxIePQ2QPCW1rA8/lKkOR6KDC0A==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=xilinx.com; dmarc=pass action=none header.from=xilinx.com;
+ dkim=pass header.d=xilinx.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=xilinx.onmicrosoft.com; s=selector2-xilinx-onmicrosoft-com;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=Z19xqZfmfBfSXKcvZnOjq2kiXs2Qz/Fmsb1Z03t+XzA=;
+ b=j/N0z2VpdRf1g7h5FZbMdwPaOdn37flA8WRqP5l9qtM4zCOYjMVaT5WO27iVl1bRMbqqz7YNoJLJa3CFaTaEBoWyCK0bdqNwWwH4THcH5LxKZfxFQ+tb4zP9gEMjFRUbBRHXb+z6yC7/kHMIDzw+EqY+f0gSv9hWcdacpDONnhc=
+Received: from BY5PR02MB6772.namprd02.prod.outlook.com (2603:10b6:a03:206::11)
+ by BYAPR02MB6437.namprd02.prod.outlook.com (2603:10b6:a03:120::32)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3174.20; Thu, 16 Jul
+ 2020 12:57:45 +0000
+Received: from BY5PR02MB6772.namprd02.prod.outlook.com
+ ([fe80::4477:7134:37a6:c828]) by BY5PR02MB6772.namprd02.prod.outlook.com
+ ([fe80::4477:7134:37a6:c828%3]) with mapi id 15.20.3174.026; Thu, 16 Jul 2020
+ 12:57:44 +0000
+From: Sai Pavan Boddu <saipava@xilinx.com>
+To: Gerd Hoffmann <kraxel@redhat.com>
+Subject: RE: [PATCH v3 0/3] Make hcd-xhci independent of pci hooks
+Thread-Topic: [PATCH v3 0/3] Make hcd-xhci independent of pci hooks
+Thread-Index: AQHWVH9z5HwbdGG7uECzkfpq3kp5uKkHJK6AgAFeDwCAAbVsMA==
+Date: Thu, 16 Jul 2020 12:57:44 +0000
+Message-ID: <BY5PR02MB67727B3D3EE0AC2572CBB74DCA7F0@BY5PR02MB6772.namprd02.prod.outlook.com>
+References: <1594140271-16462-1-git-send-email-sai.pavan.boddu@xilinx.com>
+ <BY5PR02MB6772B76423A07CFA4B4E5FA9CA610@BY5PR02MB6772.namprd02.prod.outlook.com>
+ <20200715105118.kslptf22i5t7icdy@sirius.home.kraxel.org>
+In-Reply-To: <20200715105118.kslptf22i5t7icdy@sirius.home.kraxel.org>
+Accept-Language: en-US
 Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=195.135.220.15; envelope-from=cfontana@suse.de;
- helo=mx2.suse.de
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/07/15 23:15:05
-X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x (no timestamps) [generic]
-X-Spam_score_int: -41
-X-Spam_score: -4.2
-X-Spam_bar: ----
-X-Spam_report: (-4.2 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_MED=-2.3,
- RCVD_IN_MSPIKE_H3=-0.01, RCVD_IN_MSPIKE_WL=-0.01, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-MS-Has-Attach: 
+X-Auto-Response-Suppress: DR, RN, NRN, OOF, AutoReply
+X-MS-TNEF-Correlator: 
+authentication-results: redhat.com; dkim=none (message not signed)
+ header.d=none;redhat.com; dmarc=none action=none header.from=xilinx.com;
+x-originating-ip: [149.199.50.128]
+x-ms-publictraffictype: Email
+x-ms-office365-filtering-ht: Tenant
+x-ms-office365-filtering-correlation-id: 9428c8f6-c39d-47d0-2401-08d82987d55e
+x-ms-traffictypediagnostic: BYAPR02MB6437:
+x-ms-exchange-transport-forked: True
+x-microsoft-antispam-prvs: <BYAPR02MB6437D8AA05DE1BABAA18D93BCA7F0@BYAPR02MB6437.namprd02.prod.outlook.com>
+x-ms-oob-tlc-oobclassifiers: OLM:8882;
+x-ms-exchange-senderadcheck: 1
+x-microsoft-antispam: BCL:0;
+x-microsoft-antispam-message-info: 3WeR8QLvb71Jqw0Rq3Zt0x86lQhdpymbQU2Sk+gWXtk8Or/1xj/ejUVLc1+k1DHfpgK4e7vJefgQ4z5HfnOzY6CNwnZ7/kBOX3FmBjCNLl7Of7758iInFU9k62/XsJo5KG3TAVIE5Tp45FeKQhIBA4DSPfCGRMCtsLPoO8n0eG7Rv+ZiUHd3om/PEjtHkW6167jochWtObhBmudm1KW8Zh6e3jmknOi/gQxzzZE7hXmGpSQMRhGOBHhooFzUMAN4ii2uvhGobjXDLhHfev666PgNHgoCfZMNieaqlrYMsY1Jn7/nw420xeDq/0DIKvoZpqVBsThKJ3GwlbUiq8CcVg==
+x-forefront-antispam-report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:BY5PR02MB6772.namprd02.prod.outlook.com; PTR:; CAT:NONE;
+ SFTY:;
+ SFS:(136003)(396003)(366004)(39860400002)(346002)(376002)(5660300002)(86362001)(2906002)(9686003)(66556008)(7696005)(66476007)(4744005)(64756008)(66446008)(66946007)(53546011)(71200400001)(6506007)(8676002)(26005)(76116006)(54906003)(52536014)(6916009)(8936002)(186003)(316002)(55016002)(33656002)(478600001)(7416002)(83380400001)(4326008);
+ DIR:OUT; SFP:1101; 
+x-ms-exchange-antispam-messagedata: MlnkElmVsPYIiMeVUbvUvmIUMG4isxU1uIcyOzQnjZlz4ek9ekuRLV6xycep4G/kQt+T0A7NC0W94GxaOsRDh6SzC7Au3CU17Enjd0t0yHaKmRY+nu1l2fMppRykJGSBZMZTahzxtuzzBzkkQpZCEyoAotDgAqz8I891+b221AdMnZtPsMliSk2d6VhrvSKsSkaqOW8YtnnWOP3XWYtM1TArQfDBZvcZgPVcKln2fdGRV+fHctIKIMg+wZ4eQs2YqJoPysKWoHMrbdEEKnWcRK5I3fU10sDBP/44xPOYVDwWHQQ+sug9z9RK5wN/Gk96mXrIfGFBBie461h0deoNejUPnP3MLEd+dSYh2VzQA08C9SZwI/BZYwq3u2IlIbH+a2TGsMNqh1K9sz49LjxwUuhQUmS2SUayuo9zXPh8pVFgolw4EYWFnIauuQWmSq1T+onU9N9aV5+4DaR8BT4s9/CoARgxUNIo4nRmaLO1H9DIjLdu9zy/eyf1zvQnaMeL
+Content-Type: text/plain; charset="iso-8859-1"
+Content-Transfer-Encoding: quoted-printable
+MIME-Version: 1.0
+X-OriginatorOrg: xilinx.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-AuthSource: BY5PR02MB6772.namprd02.prod.outlook.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 9428c8f6-c39d-47d0-2401-08d82987d55e
+X-MS-Exchange-CrossTenant-originalarrivaltime: 16 Jul 2020 12:57:44.8362 (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: 657af505-d5df-48d0-8300-c31994686c5c
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: WB5Z7bPYxrMTGQFdvR9bDDxFlCaWXKXvi4fFMBDCDm5q+JQ3ty5gV6tja8193YF5wOsAdduQmrWLnLgQ6i7YyQ==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: BYAPR02MB6437
+Received-SPF: pass client-ip=40.107.220.85; envelope-from=saipava@xilinx.com;
+ helo=NAM11-CO1-obe.outbound.protection.outlook.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/07/16 09:12:48
+X-ACL-Warn: Detected OS   = Windows NT kernel [generic] [fuzzy]
+X-Spam_score_int: -28
+X-Spam_score: -2.9
+X-Spam_bar: --
+X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-1,
+ SPF_HELO_PASS=-0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -65,161 +114,51 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: "Jason J. Herne" <jjherne@linux.ibm.com>, Fam Zheng <fam@euphon.net>,
- Liang Yan <lyan@suse.com>, Peter Maydell <peter.maydell@linaro.org>,
- Cornelia Huck <cohuck@redhat.com>, qemu-devel <qemu-devel@nongnu.org>,
- Stefan Hajnoczi <stefanha@redhat.com>
+Cc: Peter Maydell <peter.maydell@linaro.org>, Thomas Huth <thuth@redhat.com>,
+ Eduardo Habkost <ehabkost@redhat.com>, Vikram Garhwal <fnuv@xilinx.com>,
+ "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>,
+ Markus Armbruster <armbru@redhat.com>,
+ Alistair Francis <alistair.francis@wdc.com>,
+ Paolo Bonzini <pbonzini@redhat.com>, Ying Fang <fangying1@huawei.com>,
+ =?iso-8859-1?Q?=27Marc-Andr=E9_Lureau=27?= <marcandre.lureau@redhat.com>,
+ Paul Zimmerman <pauldzim@gmail.com>,
+ =?iso-8859-1?Q?=27Philippe_Mathieu-Daud=E9=27?= <philmd@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Small update on this,
+Hi Gred,
 
-On 7/15/20 1:10 PM, Claudio Fontana wrote:
-> Hi Thomas,
-> 
-> On 7/14/20 4:35 PM, Thomas Huth wrote:
->> On 14/07/2020 16.29, Claudio Fontana wrote:
->>> Hello,
->>>
->>> I have some tiny progress in narrowing down this issue, possibly a qcow2 issue, still unclear,
->>> but involving Kevin Wolf and Max Reitz.
->>>
->>>
->>> The reproducer again:
->>>
->>>> --------------------------------------------cut-------------------------------------------
->>>> diff --git a/cpus.c b/cpus.c
->>>> index 41d1c5099f..443b88697a 100644
->>>> --- a/cpus.c
->>>> +++ b/cpus.c
->>>> @@ -643,7 +643,7 @@ static void qemu_account_warp_timer(void)
->>>>  
->>>>  static bool icount_state_needed(void *opaque)
->>>>  {
->>>> -    return use_icount;
->>>> +    return 0;
->>>>  }
->>>>  
->>>>  static bool warp_timer_state_needed(void *opaque)
->>>> --------------------------------------------cut-------------------------------------------
->>>
->>> This issue for now appears on s390 only:
->>>
->>> On s390 hardware, test 267 fails (both kvm and tcg) in the qcow2 backing file part, with broken migration stream data in the s390-skeys vmsave (old style).
->> [...]
->>> If someone has a good idea let me know - first attempts to reproduce on x86 failed, but maybe more work could lead to it.
->>
-> 
-> small update: in the GOOD case (enough padding added) a qcow_merge() is triggered for the last write of 16202 bytes.
-> In the BAD case (not enough padding added) a qcow_merge() is not triggered for the last write of 16201 bytes.
-> 
-> Note: manually flushing with qemu_fflush in s390-skeys vmsave also works (maybe got lost in the noise).
-> 
-> 
->> Two questions:
->>
->> 1) Can you also reproduce the issue manually, without running iotest
->> 267? ... I tried, but so far I failed.
-> 
-> Thanks for the suggestion, will try.
-
-Currently trying to reproduce manually an environment similar to that of the test,
-at the moment I am not able to reproduce the issue manually.
-
-Not very familiar with s390,
-I've been running with 
-
-export QEMU=/home/cfontana/qemu-build/s390x-softmmu/qemu-system-s390x
-
-$QEMU -nographic -monitor stdio -nodefaults -no-shutdown FILENAME
-
-where FILENAME is the qcow2 produced by the test.
-
-let me know if you have a suggestion on how to setup up something simple properly.
-
-
-> 
->>
->> 2) Since all the information so far sounds like the problem could be
->> elsewhere in the code, and the skeys just catch it by accident ... have
->> you tried running with valgrind? Maybe it catches something useful?
-> 
-> Nothing yet, but will fiddle with the options a bit more.
-
-Only thing I have seen so far:
-
-
-+==33321== 
-+==33321== Warning: client switching stacks?  SP change: 0x1ffeffe5e8 --> 0x5d9cf60
-+==33321==          to suppress, use: --max-stackframe=137324009096 or greater
-+==33321== Warning: client switching stacks?  SP change: 0x5d9cd18 --> 0x1ffeffe5e8
-+==33321==          to suppress, use: --max-stackframe=137324009680 or greater
-+==33321== Warning: client switching stacks?  SP change: 0x1ffeffe8b8 --> 0x5d9ce58
-+==33321==          to suppress, use: --max-stackframe=137324010080 or greater
-+==33321==          further instances of this message will not be shown.
-+==33321== Thread 4:
-+==33321== Conditional jump or move depends on uninitialised value(s)
-+==33321==    at 0x3AEC70: process_queued_cpu_work (cpus-common.c:331)
-+==33321==    by 0x2753E1: qemu_wait_io_event_common (cpus.c:1213)
-+==33321==    by 0x2755CD: qemu_wait_io_event (cpus.c:1253)
-+==33321==    by 0x27596D: qemu_dummy_cpu_thread_fn (cpus.c:1337)
-+==33321==    by 0x725C87: qemu_thread_start (qemu-thread-posix.c:521)
-+==33321==    by 0x4D504E9: start_thread (in /lib64/libpthread-2.26.so)
-+==33321==    by 0x4E72BBD: ??? (in /lib64/libc-2.26.so)
-+==33321== 
-+==33321== Conditional jump or move depends on uninitialised value(s)
-+==33321==    at 0x3AEC74: process_queued_cpu_work (cpus-common.c:331)
-+==33321==    by 0x2753E1: qemu_wait_io_event_common (cpus.c:1213)
-+==33321==    by 0x2755CD: qemu_wait_io_event (cpus.c:1253)
-+==33321==    by 0x27596D: qemu_dummy_cpu_thread_fn (cpus.c:1337)
-+==33321==    by 0x725C87: qemu_thread_start (qemu-thread-posix.c:521)
-+==33321==    by 0x4D504E9: start_thread (in /lib64/libpthread-2.26.so)
-+==33321==    by 0x4E72BBD: ??? (in /lib64/libc-2.26.so)
-+==33321== 
-+==33321== 
-+==33321== HEAP SUMMARY:
-+==33321==     in use at exit: 2,138,442 bytes in 13,935 blocks
-+==33321==   total heap usage: 19,089 allocs, 5,154 frees, 5,187,670 bytes allocated
-+==33321== 
-+==33321== LEAK SUMMARY:
-+==33321==    definitely lost: 0 bytes in 0 blocks
-+==33321==    indirectly lost: 0 bytes in 0 blocks
-+==33321==      possibly lost: 7,150 bytes in 111 blocks
-+==33321==    still reachable: 2,131,292 bytes in 13,824 blocks
-+==33321==         suppressed: 0 bytes in 0 blocks
-+==33321== Rerun with --leak-check=full to see details of leaked memory
-
-
-> 
->>
->>  Thomas
->>
-> 
-> Ciao,
-> 
-> Claudio
-> 
-> 
-
-A more interesting update is what follows I think.
-
-I was able to "fix" the problem shown by the reproducer:
-
-@@ -643,7 +643,7 @@ static void qemu_account_warp_tim@@ -643,7 +643,7 @@ static void qemu_account_warp_timer(void)
- 
- static bool icount_state_needed(void *opaque)
- {
--    return use_icount;
-+    return 0;
- }
- 
-by just slowing down qcow2_co_pwritev_task_entry with some tight loops,
-without changing any fields between runs (other than the reproducer icount field removal).
-
-I tried to insert the same slowdown just in savevm.c at the end of save_snapshot, but that does not work, needs to be in the coroutine.
+> -----Original Message-----
+> From: Gerd Hoffmann <kraxel@redhat.com>
+> Sent: Wednesday, July 15, 2020 4:21 PM
+> To: Sai Pavan Boddu <saipava@xilinx.com>
+> Cc: Peter Maydell <peter.maydell@linaro.org>; Markus Armbruster
+> <armbru@redhat.com>; Thomas Huth <thuth@redhat.com>; Eduardo
+> Habkost <ehabkost@redhat.com>; qemu-devel@nongnu.org; Alistair Francis
+> <alistair.francis@wdc.com>; 'Marc-Andr=E9 Lureau'
+> <marcandre.lureau@redhat.com>; Ying Fang <fangying1@huawei.com>;
+> Paolo Bonzini <pbonzini@redhat.com>; 'Philippe Mathieu-Daud=E9'
+> <philmd@redhat.com>; Vikram Garhwal <fnuv@xilinx.com>; Paul
+> Zimmerman <pauldzim@gmail.com>
+> Subject: Re: [PATCH v3 0/3] Make hcd-xhci independent of pci hooks
+>=20
+> On Tue, Jul 14, 2020 at 01:59:12PM +0000, Sai Pavan Boddu wrote:
+> > Hi Gerd,
+> >
+> > Any review on V3. So that I can work on.
+>=20
+> Busy due to freeze, sorry for the delay.
+> Looks good to me overall.  Not tested yet.
+>=20
+> Wasn't the plan to include the sysbus bits too, so it's easier to see how=
+ code
+> code separation works out on both pci and sysbus?
+[Sai Pavan Boddu] Ok, I will include that in V4.
 
 Thanks,
-
-Claudio
+Sai Pavan
+>=20
+> take care,
+>   Gerd
 
 
