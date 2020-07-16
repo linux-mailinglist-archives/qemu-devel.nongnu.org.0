@@ -2,61 +2,74 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id DCF0422289B
-	for <lists+qemu-devel@lfdr.de>; Thu, 16 Jul 2020 18:56:51 +0200 (CEST)
-Received: from localhost ([::1]:39958 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 33AE422289E
+	for <lists+qemu-devel@lfdr.de>; Thu, 16 Jul 2020 18:57:36 +0200 (CEST)
+Received: from localhost ([::1]:42312 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jw7Bi-0004d3-TU
-	for lists+qemu-devel@lfdr.de; Thu, 16 Jul 2020 12:56:50 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:58068)
+	id 1jw7CR-0005b7-2f
+	for lists+qemu-devel@lfdr.de; Thu, 16 Jul 2020 12:57:35 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:58176)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <no-reply@patchew.org>)
- id 1jw7AS-0003Nr-7y
- for qemu-devel@nongnu.org; Thu, 16 Jul 2020 12:55:32 -0400
-Resent-Date: Thu, 16 Jul 2020 12:55:32 -0400
-Resent-Message-Id: <E1jw7AS-0003Nr-7y@lists.gnu.org>
-Received: from sender4-of-o57.zoho.com ([136.143.188.57]:21761)
+ (Exim 4.90_1) (envelope-from <ppandit@redhat.com>)
+ id 1jw7Aq-0004Af-7V
+ for qemu-devel@nongnu.org; Thu, 16 Jul 2020 12:55:56 -0400
+Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:30410
+ helo=us-smtp-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <no-reply@patchew.org>)
- id 1jw7AP-0003wb-MN
- for qemu-devel@nongnu.org; Thu, 16 Jul 2020 12:55:31 -0400
-ARC-Seal: i=1; a=rsa-sha256; t=1594918506; cv=none; 
- d=zohomail.com; s=zohoarc; 
- b=FEy+hydaowoyMr2Kvl79TJZokijwKtJYpsT40oATM9GiEQFJHeJmtBY7HpdNV86SxQDesKaRs5PQAuTPqllRnVYYzHqFthkWAFN0R8qFAwtzRLH1mjKzZKA0VBmqYiUN6eAJb2qgOh9pA8BQPsPk0cTsDqLCA2XyVx1N4/7AscI=
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.com;
- s=zohoarc; t=1594918506;
- h=Content-Type:Content-Transfer-Encoding:Cc:Date:From:In-Reply-To:MIME-Version:Message-ID:Reply-To:Subject:To;
- bh=oguoznBU5jYt0K1LGoHKmkW0K+27RiGjwJrIkcVhLeo=; 
- b=JGiHj2tmrFP2ZTmIqB7Wew64InpxXYk4h18uvcnf8i2Ci0aZixIqzmfGs/KE3ly0RKUBFPFToO7gui6cyBbqYYc+xEBbHzugJddjiWKgDkYt08oWFISY1BOuerkKww5vP/2Iz1xgSYKpIl+bzEYGdtLyB5aLhb+MjGnBeP6xRhk=
-ARC-Authentication-Results: i=1; mx.zohomail.com;
- spf=pass  smtp.mailfrom=no-reply@patchew.org;
- dmarc=pass header.from=<no-reply@patchew.org>
- header.from=<no-reply@patchew.org>
-Received: from [172.17.0.3] (23.253.156.214 [23.253.156.214]) by
- mx.zohomail.com with SMTPS id 1594918501055356.1654493265838;
- Thu, 16 Jul 2020 09:55:01 -0700 (PDT)
-Subject: Re: [PATCH] introduce VFIO-over-socket protocol specificaion
-Message-ID: <159491849925.9423.8070197069187026249@07a7f0d89f7d>
-In-Reply-To: <1594913503-52271-1-git-send-email-thanos.makatos@nutanix.com>
+ (Exim 4.90_1) (envelope-from <ppandit@redhat.com>)
+ id 1jw7An-00045c-I3
+ for qemu-devel@nongnu.org; Thu, 16 Jul 2020 12:55:55 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1594918552;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=pQSzv+L9p/tPTT6GgApGa3XaD3YaVzw488JYyQUO+Sw=;
+ b=eBu7BiotdlyRXliha9AMWQEqcrkk5+GHo879CIdYINzV4HlGnRfEy6F1Y08+nAW6PIToWN
+ fV5SL3kvFmqYSmgutjtBDQ8uVgIcmcbgLrMr5dNtJq5Xap2hnT3Nt10Z5UbJXRNvA2bKUx
+ 3ObrPRmFuKSjdkdA/YYTMdR4rvXZkC0=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-104-CAfyDSscMQ-hjS2Zw8LXcg-1; Thu, 16 Jul 2020 12:55:48 -0400
+X-MC-Unique: CAfyDSscMQ-hjS2Zw8LXcg-1
+Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
+ [10.5.11.12])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 3CEDC1083CCC;
+ Thu, 16 Jul 2020 16:55:46 +0000 (UTC)
+Received: from kaapi (unknown [10.40.192.47])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 1C85B6FEF7;
+ Thu, 16 Jul 2020 16:55:32 +0000 (UTC)
+Date: Thu, 16 Jul 2020 22:25:29 +0530 (IST)
+From: P J P <ppandit@redhat.com>
+X-X-Sender: pjp@kaapi
+To: Peter Maydell <peter.maydell@linaro.org>
+Subject: Re: [PATCH v3 8/9] imx7-ccm: add digprog mmio write method
+In-Reply-To: <CAFEAcA83oGZMFS40m2rcFF+b-k_B1=e5QORwPAN68e1zjhqDHQ@mail.gmail.com>
+Message-ID: <nycvar.YSQ.7.78.906.2007162217590.950384@xnncv>
+References: <20200630122710.1119158-1-ppandit@redhat.com>
+ <20200630122710.1119158-9-ppandit@redhat.com>
+ <CAFEAcA83oGZMFS40m2rcFF+b-k_B1=e5QORwPAN68e1zjhqDHQ@mail.gmail.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
-Resent-From: 
-From: no-reply@patchew.org
-To: thanos.makatos@nutanix.com
-Date: Thu, 16 Jul 2020 09:55:01 -0700 (PDT)
-X-ZohoMailClient: External
-Received-SPF: pass client-ip=136.143.188.57; envelope-from=no-reply@patchew.org;
- helo=sender4-of-o57.zoho.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/07/16 12:55:26
-X-ACL-Warn: Detected OS   = Linux 3.11 and newer [fuzzy]
-X-Spam_score_int: -18
-X-Spam_score: -1.9
-X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_NONE=-0.0001,
- RCVD_IN_MSPIKE_H3=-0.01, RCVD_IN_MSPIKE_WL=-0.01, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001, URIBL_BLOCKED=0.001 autolearn=ham autolearn_force=no
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=ppandit@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=US-ASCII
+Received-SPF: pass client-ip=205.139.110.120; envelope-from=ppandit@redhat.com;
+ helo=us-smtp-1.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/07/15 19:36:06
+X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
+X-Spam_score_int: -40
+X-Spam_score: -4.1
+X-Spam_bar: ----
+X-Spam_report: (-4.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-1, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -69,54 +82,33 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: qemu-devel@nongnu.org
-Cc: benjamin.walker@intel.com, elena.ufimtseva@oracle.com, felipe@nutanix.com,
- jag.raman@oracle.com, james.r.harris@intel.com, swapnil.ingle@nutanix.com,
- john.g.johnson@oracle.com, yuvalkashtan@gmail.com, konrad.wilk@oracle.com,
- tina.zhang@intel.com, qemu-devel@nongnu.org, dgilbert@redhat.com,
- marcandre.lureau@redhat.com, ismael@linux.com, alex.williamson@redhat.com,
- stefanha@redhat.com, thanos.makatos@nutanix.com, tomassetti.andrea@gmail.com,
- changpeng.liu@intel.com, raphael.norwitz@nutanix.com,
- Kanth.Ghatraju@oracle.com
+Cc: =?ISO-8859-15?Q?Philippe_Mathieu-Daud=E9?= <philmd@redhat.com>,
+ Li Qiang <liq3ea@gmail.com>, QEMU Developers <qemu-devel@nongnu.org>,
+ Lei Sun <slei.casper@gmail.com>, Alex Williamson <alex.williamson@redhat.com>,
+ Paolo Bonzini <pbonzini@redhat.com>,
+ =?ISO-8859-15?Q?Alex_Benn=E9e?= <alex.bennee@linaro.org>,
+ David Gibson <david@gibson.dropbear.id.au>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-UGF0Y2hldyBVUkw6IGh0dHBzOi8vcGF0Y2hldy5vcmcvUUVNVS8xNTk0OTEzNTAzLTUyMjcxLTEt
-Z2l0LXNlbmQtZW1haWwtdGhhbm9zLm1ha2F0b3NAbnV0YW5peC5jb20vCgoKCkhpLAoKVGhpcyBz
-ZXJpZXMgZmFpbGVkIHRoZSBkb2NrZXItbWluZ3dAZmVkb3JhIGJ1aWxkIHRlc3QuIFBsZWFzZSBm
-aW5kIHRoZSB0ZXN0aW5nIGNvbW1hbmRzIGFuZAp0aGVpciBvdXRwdXQgYmVsb3cuIElmIHlvdSBo
-YXZlIERvY2tlciBpbnN0YWxsZWQsIHlvdSBjYW4gcHJvYmFibHkgcmVwcm9kdWNlIGl0CmxvY2Fs
-bHkuCgo9PT0gVEVTVCBTQ1JJUFQgQkVHSU4gPT09CiMhIC9iaW4vYmFzaApleHBvcnQgQVJDSD14
-ODZfNjQKbWFrZSBkb2NrZXItaW1hZ2UtZmVkb3JhIFY9MSBORVRXT1JLPTEKdGltZSBtYWtlIGRv
-Y2tlci10ZXN0LW1pbmd3QGZlZG9yYSBKPTE0IE5FVFdPUks9MQo9PT0gVEVTVCBTQ1JJUFQgRU5E
-ID09PQoKICBDQyAgICAgIGJsb2NrL3FhcGkubwogIENDICAgICAgYmxvY2svZmlsZS13aW4zMi5v
-CgpXYXJuaW5nLCB0cmVhdGVkIGFzIGVycm9yOgovdG1wL3FlbXUtdGVzdC9zcmMvZG9jcy9kZXZl
-bC92ZmlvLW92ZXItc29ja2V0LnJzdDoyODE6TWFsZm9ybWVkIHRhYmxlLgoKKy0tLS0tLS0tLS0t
-LS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0rLS0tLS0tLS0tKy0tLS0tLS0tLS0tLS0tLS0tLS0rCi0t
-LQogIENDICAgICAgY3J5cHRvL2htYWMubwogIENDICAgICAgY3J5cHRvL2htYWMtbmV0dGxlLm8K
-ICBDQyAgICAgIGNyeXB0by9kZXNyZmIubwptYWtlOiAqKiogW01ha2VmaWxlOjEwOTA6IGRvY3Mv
-ZGV2ZWwvaW5kZXguaHRtbF0gRXJyb3IgMgptYWtlOiAqKiogV2FpdGluZyBmb3IgdW5maW5pc2hl
-ZCBqb2JzLi4uLgpUcmFjZWJhY2sgKG1vc3QgcmVjZW50IGNhbGwgbGFzdCk6CiAgRmlsZSAiLi90
-ZXN0cy9kb2NrZXIvZG9ja2VyLnB5IiwgbGluZSA3MDgsIGluIDxtb2R1bGU+Ci0tLQogICAgcmFp
-c2UgQ2FsbGVkUHJvY2Vzc0Vycm9yKHJldGNvZGUsIGNtZCkKc3VicHJvY2Vzcy5DYWxsZWRQcm9j
-ZXNzRXJyb3I6IENvbW1hbmQgJ1snc3VkbycsICctbicsICdkb2NrZXInLCAncnVuJywgJy0tbGFi
-ZWwnLCAnY29tLnFlbXUuaW5zdGFuY2UudXVpZD03MzlhODBmODVlOTE0NmQ1OWUzODI2ZjBkNjNk
-YWE2YycsICctdScsICcxMDAxJywgJy0tc2VjdXJpdHktb3B0JywgJ3NlY2NvbXA9dW5jb25maW5l
-ZCcsICctLXJtJywgJy1lJywgJ1RBUkdFVF9MSVNUPScsICctZScsICdFWFRSQV9DT05GSUdVUkVf
-T1BUUz0nLCAnLWUnLCAnVj0nLCAnLWUnLCAnSj0xNCcsICctZScsICdERUJVRz0nLCAnLWUnLCAn
-U0hPV19FTlY9JywgJy1lJywgJ0NDQUNIRV9ESVI9L3Zhci90bXAvY2NhY2hlJywgJy12JywgJy9o
-b21lL3BhdGNoZXcvLmNhY2hlL3FlbXUtZG9ja2VyLWNjYWNoZTovdmFyL3RtcC9jY2FjaGU6eics
-ICctdicsICcvdmFyL3RtcC9wYXRjaGV3LXRlc3Rlci10bXAtZ3d0cW0zbHkvc3JjL2RvY2tlci1z
-cmMuMjAyMC0wNy0xNi0xMi41MS41NS44MjYzOi92YXIvdG1wL3FlbXU6eixybycsICdxZW11L2Zl
-ZG9yYScsICcvdmFyL3RtcC9xZW11L3J1bicsICd0ZXN0LW1pbmd3J10nIHJldHVybmVkIG5vbi16
-ZXJvIGV4aXQgc3RhdHVzIDIuCmZpbHRlcj0tLWZpbHRlcj1sYWJlbD1jb20ucWVtdS5pbnN0YW5j
-ZS51dWlkPTczOWE4MGY4NWU5MTQ2ZDU5ZTM4MjZmMGQ2M2RhYTZjCm1ha2VbMV06ICoqKiBbZG9j
-a2VyLXJ1bl0gRXJyb3IgMQptYWtlWzFdOiBMZWF2aW5nIGRpcmVjdG9yeSBgL3Zhci90bXAvcGF0
-Y2hldy10ZXN0ZXItdG1wLWd3dHFtM2x5L3NyYycKbWFrZTogKioqIFtkb2NrZXItcnVuLXRlc3Qt
-bWluZ3dAZmVkb3JhXSBFcnJvciAyCgpyZWFsICAgIDNtNC45MzlzCnVzZXIgICAgMG04LjcxNnMK
-CgpUaGUgZnVsbCBsb2cgaXMgYXZhaWxhYmxlIGF0Cmh0dHA6Ly9wYXRjaGV3Lm9yZy9sb2dzLzE1
-OTQ5MTM1MDMtNTIyNzEtMS1naXQtc2VuZC1lbWFpbC10aGFub3MubWFrYXRvc0BudXRhbml4LmNv
-bS90ZXN0aW5nLmRvY2tlci1taW5nd0BmZWRvcmEvP3R5cGU9bWVzc2FnZS4KLS0tCkVtYWlsIGdl
-bmVyYXRlZCBhdXRvbWF0aWNhbGx5IGJ5IFBhdGNoZXcgW2h0dHBzOi8vcGF0Y2hldy5vcmcvXS4K
-UGxlYXNlIHNlbmQgeW91ciBmZWVkYmFjayB0byBwYXRjaGV3LWRldmVsQHJlZGhhdC5jb20=
++-- On Thu, 16 Jul 2020, Peter Maydell wrote --+
+| > +static void imx7_digprog_write(void *opaque, hwaddr addr,
+| > +                                        uint64_t data, unsigned size)
+| > +{
+| > +    qemu_log_mask(LOG_UNIMP, "%s not implemented\n", __func__);
+| > +}
+| 
+| This covers a single register (DIGPROG) which is read-only (it returns a 
+| silicon revision number). So this is not a LOG_UNIMP, but a LOG_GUEST_ERROR:
+| 
+|      qemu_log_mask(LOG_GUEST_ERROR, "Guest write to read-only
+| ANALOG_DIGPROG register\n");
+
+Should this be g_assert_not_reached() in that case?
+
+Thank you.
+--
+Prasad J Pandit / Red Hat Product Security Team
+8685 545E B54C 486B C6EB 271E E285 8B5A F050 DE8D
+
 
