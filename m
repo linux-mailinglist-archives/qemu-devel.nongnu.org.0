@@ -2,74 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E4F31221FB8
-	for <lists+qemu-devel@lfdr.de>; Thu, 16 Jul 2020 11:32:38 +0200 (CEST)
-Received: from localhost ([::1]:39026 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id ECE7D221FBE
+	for <lists+qemu-devel@lfdr.de>; Thu, 16 Jul 2020 11:34:06 +0200 (CEST)
+Received: from localhost ([::1]:44930 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jw0Fp-00072Z-O5
-	for lists+qemu-devel@lfdr.de; Thu, 16 Jul 2020 05:32:37 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:42872)
+	id 1jw0HG-000100-18
+	for lists+qemu-devel@lfdr.de; Thu, 16 Jul 2020 05:34:06 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:43086)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <bmeng.cn@gmail.com>)
- id 1jw0EM-0006Cq-DP; Thu, 16 Jul 2020 05:31:06 -0400
-Received: from mail-pl1-x643.google.com ([2607:f8b0:4864:20::643]:40437)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <bmeng.cn@gmail.com>)
- id 1jw0EJ-0002E6-GL; Thu, 16 Jul 2020 05:31:06 -0400
-Received: by mail-pl1-x643.google.com with SMTP id l6so3607847plt.7;
- Thu, 16 Jul 2020 02:31:02 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=from:to:subject:date:message-id;
- bh=azQTDxp2AGf8ggOnGFH5tfIaZzBBmvEsmTO3HYeMlyw=;
- b=FH0xqORbIFeDxJquDOwAJ4cFlqN+xbPqN0xKj9MwpEUmuTsxPdnJEiDRZsTlG/4qXL
- Hx7DwqRn16WAwnKxAnfJ2iuou6Va2mHhBXKth/oozzJjcMRvzBVofcW3zVmS98WyRt9f
- UGkt5niea+o6WXCkLD5OvEXJxe/sYM3KqCw1J8RR3JACZ1CisVNvea8Phagh7cyEjs9U
- ci+woNoNGeWzwJ/80sdH9BOHmHASPZLMUPn01ppOE3hLpGZvrQkBZgNma4PwR3g9rxHh
- aUfywXB/UQzWYnj/i9tILwWGZg62S7YZ297gkvQicPcFhP5PMc+AIVdExkBEh1cKDixV
- tv3A==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:subject:date:message-id;
- bh=azQTDxp2AGf8ggOnGFH5tfIaZzBBmvEsmTO3HYeMlyw=;
- b=W/hxp8zsgIAS1Uyq8POfh4zT7uFJGr25sp7i1UohZlTMf+73xAS1FDVsqLhmGm5w/U
- JPQXA5m1tcRTsd6oyaITzOk5fh8IZuYR0cWF+La9MUWdKI1b+PXpo3VoiJR4TM0JqzsM
- u2jUUSWvqe8+6SV+OkJ2j042B8vm+5TVe6bGFOvL+FQNRecdM5v/Uhl3llmeSSSPcJNt
- oCz3e/KS+jJ+b5rjdRfOcAlEPHibaeDYaRYpV2jy0+/24Q7Miw/uVI/B790FMOuVCg31
- GPeR7l5z0F5L67Ce7K26lKDqt80aOvbI8as/tyAY8t44geRXcd7pQFWpDqcr3Kmdxogf
- GCEw==
-X-Gm-Message-State: AOAM531XzTIQ1wq0oE0vvxfXgVL1KQaVSlFjJ5oq1X8K02nxKxwO95Jk
- v7Kv9Yoaq5TfEOdhIgnDG4E=
-X-Google-Smtp-Source: ABdhPJwN5Cp6Ync9czEfj+JUsdJ+BvtBwamhKivh8zR5OXKqmVYzuzmdytukyRbVyBWOFISHijVzQg==
-X-Received: by 2002:a17:90b:30d0:: with SMTP id
- hi16mr4079961pjb.65.1594891861524; 
- Thu, 16 Jul 2020 02:31:01 -0700 (PDT)
-Received: from localhost.localdomain (unknown-224-80.windriver.com.
- [147.11.224.80])
- by smtp.gmail.com with ESMTPSA id o11sm4120459pfp.88.2020.07.16.02.31.00
- (version=TLS1 cipher=AES128-SHA bits=128/128);
- Thu, 16 Jul 2020 02:31:01 -0700 (PDT)
-From: Bin Meng <bmeng.cn@gmail.com>
-To: Alistair Francis <Alistair.Francis@wdc.com>,
- Bastian Koppelmann <kbastian@mail.uni-paderborn.de>,
- Palmer Dabbelt <palmerdabbelt@google.com>,
- Sagar Karandikar <sagark@eecs.berkeley.edu>, qemu-devel@nongnu.org,
- qemu-riscv@nongnu.org
-Subject: [PATCH] hw/riscv: sifive_e: Correct debug block size
-Date: Thu, 16 Jul 2020 02:30:56 -0700
-Message-Id: <1594891856-15474-1-git-send-email-bmeng.cn@gmail.com>
-X-Mailer: git-send-email 1.7.1
-Received-SPF: pass client-ip=2607:f8b0:4864:20::643;
- envelope-from=bmeng.cn@gmail.com; helo=mail-pl1-x643.google.com
-X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
- That's all we know.
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1jw0Eo-0006V7-1s
+ for qemu-devel@nongnu.org; Thu, 16 Jul 2020 05:31:34 -0400
+Received: from us-smtp-1.mimecast.com ([205.139.110.61]:28363
+ helo=us-smtp-delivery-1.mimecast.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1jw0El-0002Oi-2L
+ for qemu-devel@nongnu.org; Thu, 16 Jul 2020 05:31:33 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1594891890;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding;
+ bh=OBbTIfZN25PRaPD9WzUTdPYzJ0SFNpcoRovwxynboNk=;
+ b=PFbFPKZEoV2fGZ856cuqfohtSCrLd2dTHKFYfnKHnbPRE1KrtYnoDmwEXp/RlpOBqnuBp9
+ bIA7ZyGlmk2WvNKk7tL4Qe5gJJOsK5Y0pNc2G31GNQE/R+J2gdBZM0u0Lu2dCRjlGFLsQM
+ on7NqN/4wmLbc8xdR7hnw0il5P7vvP8=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-226-bIYYJLdZPF2Q5o1RBLwHjw-1; Thu, 16 Jul 2020 05:31:28 -0400
+X-MC-Unique: bIYYJLdZPF2Q5o1RBLwHjw-1
+Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
+ [10.5.11.15])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 54A4A1009442
+ for <qemu-devel@nongnu.org>; Thu, 16 Jul 2020 09:31:27 +0000 (UTC)
+Received: from sirius.home.kraxel.org (ovpn-115-89.ams2.redhat.com
+ [10.36.115.89])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id BC74F710D7;
+ Thu, 16 Jul 2020 09:31:20 +0000 (UTC)
+Received: by sirius.home.kraxel.org (Postfix, from userid 1000)
+ id A5A6917444; Thu, 16 Jul 2020 11:31:19 +0200 (CEST)
+From: Gerd Hoffmann <kraxel@redhat.com>
+To: qemu-devel@nongnu.org
+Subject: [PULL 0/2] Fixes 20200716 patches
+Date: Thu, 16 Jul 2020 11:31:17 +0200
+Message-Id: <20200716093119.10740-1-kraxel@redhat.com>
+MIME-Version: 1.0
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=205.139.110.61; envelope-from=kraxel@redhat.com;
+ helo=us-smtp-delivery-1.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/07/16 01:59:11
+X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
+X-Spam_score_int: -40
+X-Spam_score: -4.1
+X-Spam_bar: ----
+X-Spam_report: (-4.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-1, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001, URIBL_BLOCKED=0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -82,37 +77,37 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Cc: Alex Williamson <alex.williamson@redhat.com>,
+ Gerd Hoffmann <kraxel@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Currently the debug region size is set to 0x100, but according to
-FE310-G000 and FE310-G002 manuals:
+The following changes since commit 8746309137ba470d1b2e8f5ce86ac228625db940:
 
-  FE310-G000: 0x100 - 0xFFF
-  FE310-G002: 0x0   - 0xFFF
+  Update version for v5.1.0-rc0 release (2020-07-15 19:08:07 +0100)
 
-Change the size to 0x1000 that applies to both.
+are available in the Git repository at:
 
-Signed-off-by: Bin Meng <bmeng.cn@gmail.com>
----
+  git://git.kraxel.org/qemu tags/fixes-20200716-pull-request
 
- hw/riscv/sifive_e.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+for you to fetch changes up to 4084e35068772cf4f81bbae5174019f277c61084:
 
-diff --git a/hw/riscv/sifive_e.c b/hw/riscv/sifive_e.c
-index 7bb97b4..c8b0604 100644
---- a/hw/riscv/sifive_e.c
-+++ b/hw/riscv/sifive_e.c
-@@ -54,7 +54,7 @@ static const struct MemmapEntry {
-     hwaddr base;
-     hwaddr size;
- } sifive_e_memmap[] = {
--    [SIFIVE_E_DEBUG] =    {        0x0,      0x100 },
-+    [SIFIVE_E_DEBUG] =    {        0x0,     0x1000 },
-     [SIFIVE_E_MROM] =     {     0x1000,     0x2000 },
-     [SIFIVE_E_OTP] =      {    0x20000,     0x2000 },
-     [SIFIVE_E_CLINT] =    {  0x2000000,    0x10000 },
+  usb: fix storage regression (2020-07-16 10:20:27 +0200)
+
+----------------------------------------------------------------
+fixes: usb storage regression, vfio display ramfb bug
+
+----------------------------------------------------------------
+
+Gerd Hoffmann (2):
+  vfio: fix use-after-free in display
+  usb: fix storage regression
+
+ hw/usb/dev-storage.c | 3 +--
+ hw/vfio/display.c    | 1 +
+ 2 files changed, 2 insertions(+), 2 deletions(-)
+
 -- 
-2.7.4
+2.18.4
 
 
