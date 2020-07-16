@@ -2,54 +2,83 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3D59A2223A1
-	for <lists+qemu-devel@lfdr.de>; Thu, 16 Jul 2020 15:13:49 +0200 (CEST)
-Received: from localhost ([::1]:59110 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 855912223AE
+	for <lists+qemu-devel@lfdr.de>; Thu, 16 Jul 2020 15:15:36 +0200 (CEST)
+Received: from localhost ([::1]:35098 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jw3hs-0000so-9B
-	for lists+qemu-devel@lfdr.de; Thu, 16 Jul 2020 09:13:48 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:48786)
+	id 1jw3jb-0002c4-Kb
+	for lists+qemu-devel@lfdr.de; Thu, 16 Jul 2020 09:15:35 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:49528)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <dgibson@ozlabs.org>)
- id 1jw3fj-00081i-Pu; Thu, 16 Jul 2020 09:11:35 -0400
-Received: from bilbo.ozlabs.org ([203.11.71.1]:59489 helo=ozlabs.org)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <dgibson@ozlabs.org>)
- id 1jw3fg-0000D7-Dm; Thu, 16 Jul 2020 09:11:35 -0400
-Received: by ozlabs.org (Postfix, from userid 1007)
- id 4B6vlV4Cp7z9sTF; Thu, 16 Jul 2020 23:11:18 +1000 (AEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=gibson.dropbear.id.au; s=201602; t=1594905078;
- bh=UOM825bzkhbd2ynG/1QwxZsOPolwIeQqE+rqK9vLoTY=;
- h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=CHCpKllzGa/422nfxwVO2Ct1K2ar7XanqM9uJtcTpYZ+zx7/Xpbhk1SrXpB5zqRDv
- KrKVf2I0r8aH3Vub6XTd4wHaxjMlhu1Bq9Skeh6MWfWVnnqH8wEu5dfK/9+SErPA+B
- xXuJrxBXTKwQji8RTrKHpdYdue7kJ5nZ+R30Iyws=
-Date: Thu, 16 Jul 2020 23:11:09 +1000
-From: David Gibson <david@gibson.dropbear.id.au>
-To: Greg Kurz <groug@kaod.org>
-Subject: Re: [PATCH] spapr_pci: Robustify support of PCI bridges
-Message-ID: <20200716131109.GA5607@umbus.fritz.box>
-References: <159431476748.407044.16711294833569014964.stgit@bahia.lan>
- <20200716044540.GL93134@umbus.fritz.box>
- <20200716123244.1f854c63@bahia.lan>
+ (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
+ id 1jw3hc-0001Gm-G5
+ for qemu-devel@nongnu.org; Thu, 16 Jul 2020 09:13:32 -0400
+Received: from mail-wr1-x444.google.com ([2a00:1450:4864:20::444]:40234)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
+ id 1jw3ha-0000eN-Bp
+ for qemu-devel@nongnu.org; Thu, 16 Jul 2020 09:13:32 -0400
+Received: by mail-wr1-x444.google.com with SMTP id f2so7004259wrp.7
+ for <qemu-devel@nongnu.org>; Thu, 16 Jul 2020 06:13:29 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=references:user-agent:from:to:cc:subject:in-reply-to:date
+ :message-id:mime-version:content-transfer-encoding;
+ bh=l2e5OUD/brUS981RMND7W405qdx6JfEdXjj3Brn/t9s=;
+ b=F/irYla6//3j8wSU6+xA57WNcs1TCpJPC8C0M97LKFEsK3TK3L6YXwExrkme5Sep+x
+ dCt+2Djg4oBejNz8dmQuCAklRb43ix3AXzI7DbeIjnYnBqKilgGMH8IidBTfZIvjd14+
+ MCmjwi9PBldYk6O6+fakHsUJS10XpA3yZ03kLizXLq1pi0EmL48tOROsLYDMd8fojW0x
+ sYsVRSom1gqX+Yf/NvK7yXwfWDreKROloR65XZI2gK8T2RN1eKMAW0tSSZCVj12g19JF
+ iwsk9ivoBXMT0PGOjtVHYCKkhV2C4ms/xDCdmo+v/5xtGjUuICyFUpLGR6eFg0crJ4hv
+ viDw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:references:user-agent:from:to:cc:subject
+ :in-reply-to:date:message-id:mime-version:content-transfer-encoding;
+ bh=l2e5OUD/brUS981RMND7W405qdx6JfEdXjj3Brn/t9s=;
+ b=pJ0rVy8o1WrQ6Y/HGNxRYV4BShZnEsdkVpVKEYY5AglVyNlFCFjxsjtVD44UwmM43Z
+ zxFtVBoxkQeh0xPvSxAPmfcA/yWq657hMU6/tbD6OKCZft273EcjtNcHgpqfDKOlcCrP
+ jDsLcoyCe8+Cie0230em2Yns1eaB0Rs/HLpGXUYMkxo488osTncuWCz5i+xeHql0pOtA
+ p8VkSGd+/q3IMdCw8v6ATSPpPxMqP+Ev6huOuliC2j36fYKbSHhqfwRVTZsSztPJpM/P
+ wrIpULnGbfqzYF6f9NW9R0Rsn41QzfxVWqJ1RE1r5gK86faX/QMYS9DQAqIHLRX0PsrP
+ QHbg==
+X-Gm-Message-State: AOAM531IhFvvBm4ZX6eiA3aiYGnWJROhtq68FljXJg3ZUe5gSiRSX5oa
+ 1pE113pQVLAkQkWSILMgHD6ojg==
+X-Google-Smtp-Source: ABdhPJyWUbDsmiTuJnm7ozrcdl7aGdvtVDg0WXd9KYXNxiFo86Eb0+6+nYoXwB1tv5xE+bigGcf3UQ==
+X-Received: by 2002:a5d:664e:: with SMTP id f14mr5096291wrw.6.1594905208587;
+ Thu, 16 Jul 2020 06:13:28 -0700 (PDT)
+Received: from zen.linaroharston ([51.148.130.216])
+ by smtp.gmail.com with ESMTPSA id k11sm9771892wrd.23.2020.07.16.06.13.26
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Thu, 16 Jul 2020 06:13:27 -0700 (PDT)
+Received: from zen (localhost [127.0.0.1])
+ by zen.linaroharston (Postfix) with ESMTP id 190E11FF7E;
+ Thu, 16 Jul 2020 14:13:26 +0100 (BST)
+References: <20200715204814.2630-1-robert.foley@linaro.org>
+ <20200715204814.2630-2-robert.foley@linaro.org>
+ <87blkfwwe4.fsf@linaro.org>
+ <CAEyhzFsu9P4y15uSEZj=VgWE+mZKfsUyb2ov3WxG2NzXkuRqfA@mail.gmail.com>
+User-agent: mu4e 1.5.4; emacs 28.0.50
+From: Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
+To: Robert Foley <robert.foley@linaro.org>
+Subject: Re: [PATCH 1/2] python/qemu: Cleanup changes to ConsoleSocket
+In-reply-to: <CAEyhzFsu9P4y15uSEZj=VgWE+mZKfsUyb2ov3WxG2NzXkuRqfA@mail.gmail.com>
+Date: Thu, 16 Jul 2020 14:13:26 +0100
+Message-ID: <878sfjwqkp.fsf@linaro.org>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature"; boundary="fdj2RfSjLxBAspz7"
-Content-Disposition: inline
-In-Reply-To: <20200716123244.1f854c63@bahia.lan>
-Received-SPF: pass client-ip=203.11.71.1; envelope-from=dgibson@ozlabs.org;
- helo=ozlabs.org
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/07/16 09:11:19
-X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic]
-X-Spam_score_int: -9
-X-Spam_score: -1.0
-X-Spam_bar: -
-X-Spam_report: (-1.0 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, HEADER_FROM_DIFFERENT_DOMAINS=1,
- SPF_HELO_PASS=-0.001, SPF_PASS=-0.001,
- URIBL_BLOCKED=0.001 autolearn=no autolearn_force=no
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=2a00:1450:4864:20::444;
+ envelope-from=alex.bennee@linaro.org; helo=mail-wr1-x444.google.com
+X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
+ That's all we know.
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ URIBL_BLOCKED=0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -62,179 +91,72 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Markus Armbruster <armbru@redhat.com>, Thomas Huth <thuth@redhat.com>,
- qemu-ppc@nongnu.org, qemu-devel@nongnu.org,
- "Michael S. Tsirkin" <mst@redhat.com>
+Cc: Peter Puhov <peter.puhov@linaro.org>, Cleber Rosa <crosa@redhat.com>,
+ John Snow <jsnow@redhat.com>, QEMU Developers <qemu-devel@nongnu.org>,
+ Eduardo Habkost <ehabkost@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 
---fdj2RfSjLxBAspz7
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+Robert Foley <robert.foley@linaro.org> writes:
 
-On Thu, Jul 16, 2020 at 12:32:44PM +0200, Greg Kurz wrote:
-> On Thu, 16 Jul 2020 14:45:40 +1000
-> David Gibson <david@gibson.dropbear.id.au> wrote:
->=20
-> > On Thu, Jul 09, 2020 at 07:12:47PM +0200, Greg Kurz wrote:
-> > > Some recent error handling cleanups unveiled issues with our support =
-of
-> > > PCI bridges:
-> > >=20
-> > > 1) QEMU aborts when using non-standard PCI bridge types,
-> > >    unveiled by commit 7ef1553dac "spapr_pci: Drop some dead error han=
-dling"
-> > >=20
-> > > $ qemu-system-ppc64 -M pseries -device pcie-pci-bridge
-> > > Unexpected error in object_property_find() at qom/object.c:1240:
-> > > qemu-system-ppc64: -device pcie-pci-bridge: Property '.chassis_nr' no=
-t found
-> > > Aborted (core dumped)
-> >=20
-> > Oops, I thought we had a check that we actually had a "pci-bridge"
-> > device before continuing with the hotplug, but I guess not.
->=20
-> Ah... are you suggesting we should explicitly check the actual type
-> of the bridge rather than looking for the "chassis_nr" property ?
+> On Thu, 16 Jul 2020 at 07:07, Alex Benn=C3=A9e <alex.bennee@linaro.org> w=
+rote:
+>>
+>>
+>> Robert Foley <robert.foley@linaro.org> writes:
+>>
+>> > The changes to console_socket.py and machine.py are to
+>> > cleanup for pylint and flake8.
+>> >
+>> > Signed-off-by: Robert Foley <robert.foley@linaro.org>
+>> > ---
+>> >  python/qemu/console_socket.py | 58 +++++++++++++++++------------------
+>> >  python/qemu/machine.py        |  7 +++--
+>> >  python/qemu/pylintrc          |  2 +-
+>> >  3 files changed, 34 insertions(+), 33 deletions(-)
+>> >
+>> > diff --git a/python/qemu/console_socket.py b/python/qemu/console_socke=
+t.py
+>> > index 830cb7c628..6a746c1dbf 100644
+>> > --- a/python/qemu/console_socket.py
+>> > +++ b/python/qemu/console_socket.py
+>> > @@ -1,12 +1,9 @@
+>> <snip>
+>> > @@ -103,7 +104,6 @@ class ConsoleSocket(asyncore.dispatcher):
+>> >
+>> >      def set_blocking(self):
+>> >          """Maintain compatibility with socket API"""
+>> > -        pass
+>>
+>> Hmm shouldn't this be with the change in 2/2 because I thought you
+>> needed a "pass" for an empty function in python?
+>
+> Thanks for the review !
+>
+> Sure, I can move this change to 2/2.  Probably makes more sense there
+> since we're changing this function there too.
+>
+> This change was one of the suggestions from John Snow.
+> He pointed out that the pass is not needed here since the docstring takes
+> the role of the function body.
 
-Uh.. I thought about it, but I don't think it matters much which way
-we do it.
+Ahh I did not know you could do that... I'll defer to John's superior
+python knowledge.
 
-> > > This happens because we assume all PCI bridge types to have a "chassi=
-s_nr"
-> > > property. This property only exists with the standard PCI bridge type
-> > > "pci-bridge" actually. We could possibly revert 7ef1553dac but it see=
-ms
-> > > much simpler to check the presence of "chassis_nr" earlier.
-> >=20
-> > Hrm, right, 7ef1553dac was not really correct since add_drcs() really
-> > can fail.
->=20
-> Yes.
->=20
-> > > 2) QEMU abort if same "chassis_nr" value is used several times,
-> > >    unveiled by commit d2623129a7de "qom: Drop parameter @errp of
-> > >    object_property_add() & friends"
-> > >=20
-> > > $ qemu-system-ppc64 -M pseries -device pci-bridge,chassis_nr=3D1 \
-> > >                         -device pci-bridge,chassis_nr=3D1
-> > > Unexpected error in object_property_try_add() at qom/object.c:1167:
-> > > qemu-system-ppc64: -device pci-bridge,chassis_nr=3D1: attempt to add =
-duplicate property '40000100' to object (type 'container')
-> > > Aborted (core dumped)
-> > >=20
-> > > This happens because we assume that "chassis_nr" values are unique, b=
-ut
-> > > nobody enforces that and we end up generating duplicate DRC ids. The =
-PCI
-> > > code doesn't really care for duplicate "chassis_nr" properties since =
-it
-> > > is only used to initialize the "Chassis Number Register" of the bridg=
-e,
-> > > with no functional impact on QEMU. So, even if passing the same value
-> > > several times might look weird, it never broke anything before, so
-> > > I guess we don't necessarily want to enforce strict checking in the P=
-CI
-> > > code now.
-> >=20
-> > Yeah, I guess.  I'm pretty sure that the chassis number of bridges is
-> > supposed to be system-unique (well, unique within the PCI domain at
-> > least, I guess) as part of the hardware spec.  So specifying multiple
-> > chassis ids the same is a user error, but we need a better failure
-> > mode.
->=20
-> According to section 3.2.6.4 of "PCI-to-PCI Bridge Architecture
-> Specification", the chassis number is exposed to the OS as a=20
-> non-volatile r/w register.
+>
+> Thanks & Regards,
+> -Rob
+>
+>>
+>> Otherwise:
+>>
+>> Reviewed-by: Alex Benn=C3=A9e <alex.bennee@linaro.org>
+>>
+>> --
+>> Alex Benn=C3=A9e
 
-Argh.  Dammit.  I could have sworn I checked that chassis numbers were
-supposed to be unique (and not guest alterable).  That's the whole
-reason I chose it.
-
-> It seems to be expected that chassis
-> numbers might collide, in which case the system software can
-> overwrite the register with a new number. So I'm not sure that
-> specifying the same number multiple times is an actual user error.
->=20
-> > > Workaround both issues in the PAPR code: check that the bridge has a
-> > > unique and non null "chassis_nr" when plugging it into its parent bus.
-> > >
-> > > Fixes: 05929a6c5dfe ("spapr: Don't use bus number for building DRC id=
-s")
-> >=20
-> > Arguably, it's really fixing 7ef1553dac.
->=20
-> True for issue 1 but not for issue 2, which is the result of
-> 05929a6c5dfe (switch to "chassis_nr" introduces a condition
-> to end up with duplicate DRC ids)
-
-Well, technically.  But the method we had before was *way* more broken
-than chassis numbers.  It was using bus number which is not stable
-across the VM's lifetime, which is a non-starter.  Plus, the bus
-number too won't be unique, until the guest has enumerated the bus,
-which is too late for DRC creation.
-
-The only reason we got away with it, was that it was basically dead
-code - at that stage we didn't support hotplug under bridges, so we
-never actually created DRCs except for the root bus.
-
-> and d2623129a7de (assert
-> when trying to add a duplicated DRC).
-
-Well, again, only on a technicality.  It might not have immediatley
-assert()ed, but adding a duplicated DRC was still completely broken
-before that.
-
-> I'm starting to think I should maybe split this in
-> two patches. One for each issue.
-
-At this stage, I'd kind of prefer to merge this fix now, with the
-intention of doing a pull request tomorrow.  AFAICT none of the
-suggested improvements can't be done as followups.
-
-> > > Reported-by: Thomas Huth <thuth@redhat.com>
-> > > Signed-off-by: Greg Kurz <groug@kaod.org>
-> >=20
-> > I had a few misgivings about the details of this, but I think I've
-> > convinced myself they're fine.  There's a couple of things I'd like to
-> > polish, but I'll do that as a follow up.
->=20
-> Some fixes for d2623129a7de just got merged. Let me have a look
-> again.
-
-In fact the main part of the polish I was thinking of didn't really
-work out.  The only change I made was a tiny move to the check (it's
-not really relevant until *after* we've checked if hotplug is enabled
-at all).  So I just folded that in and put it into the ppc-for-5.1
-tree.
 
 --=20
-David Gibson			| I'll have my music baroque, and my code
-david AT gibson.dropbear.id.au	| minimalist, thank you.  NOT _the_ _other_
-				| _way_ _around_!
-http://www.ozlabs.org/~dgibson
-
---fdj2RfSjLxBAspz7
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQIzBAEBCAAdFiEEdfRlhq5hpmzETofcbDjKyiDZs5IFAl8QUesACgkQbDjKyiDZ
-s5LNHg//bKavU8Yk0NGgq/dAcx3ub2F9vlxdm9gk0zNoS1Blo4rFCb3cxrRUFA71
-0qSHzB4fLKXfrvlPfDRaeWRiukklAsMR4UqRX4kygyXXfgQBG76qcgAKvUbrEDzC
-IQA0JLBrTv8FNmFgi8gzcovwWPILCAg3VKKkCQhlsdKL1QTPkFr9+4iANvSTDZbC
-f6yys1visqx3o7cnLAHwcwCOERRTUkuiBc2ha3kw7giUw3ZB1at89P1eGHVdVF9n
-D7fsmZEnZ8pAXnyxx4L4yYyq5VwubiljlncSAtb6sUqX+DlWxWLhaqJ2/TmWQFtF
-JROnPwb9Y0VWPn3A6AoI4SNEaMvllX4srodB/bdhisBOWkkLfYXp/a7YCtpcUzE3
-qo7L0kl79g/sDbmVHfcDuJLOivSV+kBNhnR2S6oKTL6MFNRVE1ke1PBxAuoRMWnJ
-oFYbAfbvOukED9lzNHxAXvOWGzFNJQVQJgazEL52C8irsTgqjICyFAo3exTmodBY
-Z0QWpt4WP9DgrK/BK9AtFuQi3pMB/doF0oF9Dm3SuHu/ZNdMpRv08irift+dAmGf
-hLIhKT4JKZDhTpDI7Jq4bgxPkCbqUssgAERQsmv2YGq5OFM72RxBwyw4Uf5ffr1h
-Sl1QY3KFno82XSLX1PQvteMiaDEAGP167ccsQp+hU3fFs943c8g=
-=CxVA
------END PGP SIGNATURE-----
-
---fdj2RfSjLxBAspz7--
+Alex Benn=C3=A9e
 
