@@ -2,78 +2,54 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8EE4F222097
-	for <lists+qemu-devel@lfdr.de>; Thu, 16 Jul 2020 12:26:43 +0200 (CEST)
-Received: from localhost ([::1]:39096 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C06C022204A
+	for <lists+qemu-devel@lfdr.de>; Thu, 16 Jul 2020 12:08:13 +0200 (CEST)
+Received: from localhost ([::1]:49096 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jw16A-0006vt-Ku
-	for lists+qemu-devel@lfdr.de; Thu, 16 Jul 2020 06:26:42 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:58184)
+	id 1jw0oG-000791-9i
+	for lists+qemu-devel@lfdr.de; Thu, 16 Jul 2020 06:08:12 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:51740)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1jw15K-0006MN-7i
- for qemu-devel@nongnu.org; Thu, 16 Jul 2020 06:25:50 -0400
-Received: from us-smtp-1.mimecast.com ([207.211.31.81]:42241
- helo=us-smtp-delivery-1.mimecast.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1jw15H-0007tM-KT
- for qemu-devel@nongnu.org; Thu, 16 Jul 2020 06:25:49 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1594895145;
- h=from:from:reply-to:reply-to:subject:subject:date:date:
- message-id:message-id:to:to:cc:cc:mime-version:mime-version:
- content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=i816klkVehlrHLDcStk8Dm4prbSi9rGJHFd4h1QSPC8=;
- b=Lk+TwFPLrZnjlc9ilWjQ5qidJBVHhyppDBBorcG7n04zF8EjMRWFfSiRImxnWCrjqYnKOW
- dGMWbTlr9EWuryNr467BCyz1EjhJV7owDJhGCH0HdrQoLBw8DzuUaN7ala67f9e4gMf3HN
- N9Jk0cyZltcW1mJZ67d9xuEZF0hm1iA=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-278-a46M31iyOPWQIBUA7zDBkQ-1; Thu, 16 Jul 2020 06:02:24 -0400
-X-MC-Unique: a46M31iyOPWQIBUA7zDBkQ-1
-Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
- [10.5.11.22])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id CB59E1013994;
- Thu, 16 Jul 2020 10:02:02 +0000 (UTC)
-Received: from redhat.com (unknown [10.36.110.42])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 11BCD10098A1;
- Thu, 16 Jul 2020 10:01:59 +0000 (UTC)
-Date: Thu, 16 Jul 2020 11:01:57 +0100
-From: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
-To: Christian Schoenebeck <qemu_oss@crudebyte.com>
-Subject: Re: [PATCH 1/1] MAINTAINERS: introduce cve or security quotient field
-Message-ID: <20200716100157.GK227735@redhat.com>
-References: <20200714083631.888605-1-ppandit@redhat.com>
- <20200716083654.GA227735@redhat.com>
- <nycvar.YSQ.7.78.906.2007161428570.950384@xnncv>
- <3491260.5YPxQhmjAg@silver>
+ (Exim 4.90_1) (envelope-from <luc.michel@greensocs.com>)
+ id 1jw0lF-0006ae-Id
+ for qemu-devel@nongnu.org; Thu, 16 Jul 2020 06:05:05 -0400
+Received: from beetle.greensocs.com ([5.135.226.135]:41484)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <luc.michel@greensocs.com>)
+ id 1jw0lD-0001U5-Cn
+ for qemu-devel@nongnu.org; Thu, 16 Jul 2020 06:05:05 -0400
+Received: from michell-laptop.bar.greensocs.com (unknown [172.17.10.6])
+ by beetle.greensocs.com (Postfix) with ESMTPS id CBFE32000A;
+ Thu, 16 Jul 2020 10:04:57 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=greensocs.com;
+ s=mail; t=1594893898;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:
+ content-transfer-encoding:content-transfer-encoding;
+ bh=gqETki5+C+eGFJSerGN3UnQDjssD8Cp5qBVCIW3JLrE=;
+ b=DNc99yFCNjNvic/9tAUXl3unCPFJtLgnX1QsRijAm9TyDYRH/QvjDPvUV1RvXjJ1nWwW9B
+ HIoai+0GRnT/oY9FMd0C1BRxqDjMoA5gW+0hFPTG/S9HPd4FrKLDTN14CAt6cIMMJd2mUo
+ +Z2n8MW7d6+HKCMWiZ1zgLdTA6z3xQE=
+From: Luc Michel <luc.michel@greensocs.com>
+To: qemu-devel@nongnu.org, Paolo Bonzini <pbonzini@redhat.com>,
+ Richard Henderson <rth@twiddle.net>
+Subject: [RFC PATCH] tcg/cpu-exec: precise single-stepping after an exception
+Date: Thu, 16 Jul 2020 12:04:45 +0200
+Message-Id: <20200716100445.3748740-1-luc.michel@greensocs.com>
+X-Mailer: git-send-email 2.27.0
 MIME-Version: 1.0
-In-Reply-To: <3491260.5YPxQhmjAg@silver>
-User-Agent: Mutt/1.14.5 (2020-06-23)
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8
 Content-Transfer-Encoding: 8bit
-Content-Disposition: inline
-Received-SPF: pass client-ip=207.211.31.81; envelope-from=berrange@redhat.com;
- helo=us-smtp-delivery-1.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/07/16 04:55:15
-X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
-X-Spam_score_int: -30
-X-Spam_score: -3.1
-X-Spam_bar: ---
-X-Spam_report: (-3.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H3=-0.01, RCVD_IN_MSPIKE_WL=-0.01,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- URIBL_BLOCKED=0.001 autolearn=ham autolearn_force=no
+Received-SPF: pass client-ip=5.135.226.135;
+ envelope-from=luc.michel@greensocs.com; helo=beetle.greensocs.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/07/16 06:04:59
+X-ACL-Warn: Detected OS   = Linux 3.11 and newer
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001, URIBL_BLOCKED=0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -86,82 +62,76 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
-Cc: Kevin Wolf <kwolf@redhat.com>, Peter Maydell <peter.maydell@linaro.org>,
- Stefano Stabellini <sstabellini@kernel.org>,
- Michael Roth <mdroth@linux.vnet.ibm.com>,
- "Michael S. Tsirkin" <mst@redhat.com>, Cornelia Huck <cohuck@redhat.com>,
- qemu-devel@nongnu.org, P J P <ppandit@redhat.com>, Greg Kurz <groug@kaod.org>,
- Stefan Hajnoczi <stefanha@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>,
- Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <philmd@redhat.com>
+Cc: Luc Michel <luc.michel@greensocs.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Thu, Jul 16, 2020 at 11:45:50AM +0200, Christian Schoenebeck wrote:
-> On Donnerstag, 16. Juli 2020 11:21:55 CEST P J P wrote:
-> > +-- On Thu, 16 Jul 2020, Daniel P. BerrangÃ© wrote --+
-> > 
-> > | > Failing to start (with a message that explains why) if one of the
-> > | > command
-> > | > line options is not covered by a specified security policy is not
-> > | > unreasonable (after all, we fail to start for other cases of
-> > | > incompatible
-> > | > command line options as well.)
-> > 
-> >   Yes, that's right.
-> > 
-> > | > However, we also need to cover dynamically-added devices. Aborting seems
-> > | > very bad there, just failing to add the device seems like what we'd
-> > | > want.
-> > | 
-> > | Yep, aborting is simply not an option for the inner code. It all has to
-> > | propagate to a proper Error **errp object. The ultimate entry-point at the
-> > | CLI vs QMP then decides whether to turn the error into an abort or feed
-> > | back to the client app.
-> > 
-> >   True, handling dynamic devices is tricky.
-> > 
-> > Though it seems kind of uniform workflow to check for '--security' flag at
-> > options parsing OR while handling dynamic devices at run time; It is a huge
-> > task to cover all options/use-cases for all QEMU emulators across various
-> > architectures.
-> 
-> My concern here is that just distinguishing between either 'low' or 'high' is 
-> a far too rough classification.
-> 
-> In our preceding communication regarding 9pfs, I made clear that a) we do care 
-> about security relevant 9pfs issues, and only b) the avarage use cases (as far 
-> we know) for 9pfs are above a certain trust level.
-> 
-> However b) does not imply 9pfs being 'unsafe', nor that we want users to 
-> refrain using it in a security relevant environment. So 9pfs would actually be 
-> somewhere in between.
+When single-stepping with a debugger attached to QEMU, and when an
+exception is raised, the debugger misses the first instruction after the
+exception:
 
-We shouldn't overthink this and invent many classification levels.
+$ qemu-system-aarch64 -M virt -display none -cpu cortex-a53 -s -S
 
-This is essentially about distinguishing code that is written with the
-intent of protecting from a malicous guest, from code that assumes a
-non-malicious guest. That is a pretty clear demarcation on when it is
-reasonable to use any given feature in QEMU.
+$ aarch64-linux-gnu-gdb
+GNU gdb (GDB) 9.2
+[...]
+(gdb) tar rem :1234
+Remote debugging using :1234
+warning: No executable has been specified and target does not support
+determining executable automatically.  Try using the "file" command.
+0x0000000000000000 in ?? ()
+(gdb) # writing nop insns to 0x200 and 0x204
+(gdb) set *0x200 = 0xd503201f
+(gdb) set *0x204 = 0xd503201f
+(gdb) # 0x0 address contains 0 which is an invalid opcode.
+(gdb) # The CPU should raise an exception and jump to 0x200
+(gdb) si
+0x0000000000000204 in ?? ()
 
-Within the set of code that is assuming a malicious guest, there are
-still going to be varying levels of quality, and that is ok. We don't
-need to express that programatically, the docs are still there to
-describe the fine nuances of any given feature. We're just saying that
-in general, this set of code is acceptable to use in combination with
-a malicious guest, and if you find bugs we'll triage them as security
-flaws.
+With this commit, the same run steps correctly on the first instruction
+of the exception vector:
 
-9p is generally written from the POV of protecting against a malicious
-guest, so it would be considered part of the high security set, and
-flaws will be treated as CVEs. We don't need to be break it down into
-any more detail than that.
+(gdb) si
+0x0000000000000200 in ?? ()
 
-Regards,
-Daniel
+Signed-off-by: Luc Michel <luc.michel@greensocs.com>
+---
+
+RFC because I'm really not sure this is the good place to do that since
+EXCP_DEBUG are usually raised in each target translate.c. It could also
+have implications with record/replay I'm not aware of.
+
+---
+ accel/tcg/cpu-exec.c | 11 +++++++++++
+ 1 file changed, 11 insertions(+)
+
+diff --git a/accel/tcg/cpu-exec.c b/accel/tcg/cpu-exec.c
+index d95c4848a4..e85fab5d40 100644
+--- a/accel/tcg/cpu-exec.c
++++ b/accel/tcg/cpu-exec.c
+@@ -502,10 +502,21 @@ static inline bool cpu_handle_exception(CPUState *cpu, int *ret)
+             CPUClass *cc = CPU_GET_CLASS(cpu);
+             qemu_mutex_lock_iothread();
+             cc->do_interrupt(cpu);
+             qemu_mutex_unlock_iothread();
+             cpu->exception_index = -1;
++
++            if (unlikely(cpu->singlestep_enabled)) {
++                /*
++                 * After processing the exception, ensure an EXCP_DEBUG is
++                 * raised when single-stepping so that GDB doesn't miss the
++                 * next instruction.
++                 */
++                cpu->exception_index = EXCP_DEBUG;
++                return cpu_handle_exception(cpu, ret);
++            }
++
+         } else if (!replay_has_interrupt()) {
+             /* give a chance to iothread in replay mode */
+             *ret = EXCP_INTERRUPT;
+             return true;
+         }
 -- 
-|: https://berrange.com      -o-    https://www.flickr.com/photos/dberrange :|
-|: https://libvirt.org         -o-            https://fstop138.berrange.com :|
-|: https://entangle-photo.org    -o-    https://www.instagram.com/dberrange :|
+2.27.0
 
 
