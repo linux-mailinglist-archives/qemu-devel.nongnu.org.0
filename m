@@ -2,89 +2,67 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6FD92222C4E
-	for <lists+qemu-devel@lfdr.de>; Thu, 16 Jul 2020 21:53:48 +0200 (CEST)
-Received: from localhost ([::1]:34410 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id F13BE222C81
+	for <lists+qemu-devel@lfdr.de>; Thu, 16 Jul 2020 22:11:40 +0200 (CEST)
+Received: from localhost ([::1]:45508 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jw9wx-0000iE-H3
-	for lists+qemu-devel@lfdr.de; Thu, 16 Jul 2020 15:53:47 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:50920)
+	id 1jwAEF-0006OY-MS
+	for lists+qemu-devel@lfdr.de; Thu, 16 Jul 2020 16:11:39 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:54896)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <flukshun@gmail.com>)
- id 1jw9vz-0000FX-JR
- for qemu-devel@nongnu.org; Thu, 16 Jul 2020 15:52:51 -0400
-Received: from mail-ot1-x32d.google.com ([2607:f8b0:4864:20::32d]:34144)
+ (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
+ id 1jwADR-0005ws-9q
+ for qemu-devel@nongnu.org; Thu, 16 Jul 2020 16:10:49 -0400
+Received: from indium.canonical.com ([91.189.90.7]:52310)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <flukshun@gmail.com>)
- id 1jw9vx-0005MA-OA
- for qemu-devel@nongnu.org; Thu, 16 Jul 2020 15:52:47 -0400
-Received: by mail-ot1-x32d.google.com with SMTP id e90so5202834ote.1
- for <qemu-devel@nongnu.org>; Thu, 16 Jul 2020 12:52:45 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=sender:mime-version:content-transfer-encoding:from:user-agent:to
- :references:in-reply-to:message-id:subject:date;
- bh=nWxz5MeZS/iGSu+rt3DsZmvftjtW8jSBb4YISirYNAQ=;
- b=gK/GWY8maJcTdJvqEVIVt6x797TaLpcDnkvFmeFlCD1dQex8KQ1ilpP2QHzQlOzMow
- EVKYa891jh3qeXjBTkobi+qJKct1a09GwEQAJYzMVpFuY1nPpo845T39XEUPyIwBqThU
- ckOtL4cIE8WLz1sOctoL0IcR9dAvNmgd5+rZ48/rTvgQwRnMhKYxTK8TNqi6vGhkpc7V
- 7maBRrWHeOymD3TkMz1AHD3yq4tbFmayfGIaiLwWMmz7ucCftw0eeMaku8UGBtNAruUQ
- 5L2YQHV8V19ldVTXsKobWfLVhLQ8RxA8HUKpctCqBzXJexpAMkovJKueKKIL4YyRv2rz
- lwxA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:sender:mime-version:content-transfer-encoding
- :from:user-agent:to:references:in-reply-to:message-id:subject:date;
- bh=nWxz5MeZS/iGSu+rt3DsZmvftjtW8jSBb4YISirYNAQ=;
- b=TTw2TAEgldJnGJbFlV1Yc+Ppy8+vLvvkyoMsNLApbVo7qNM9ZtW6oycVLkkc0HdFXg
- HoXaLaFwunOUwVUYlT+Dgpy4tuuSRJWZf3htuotrNz+DWgwbQ3pWf3MkbH5lcgllhhTS
- p6qVQSk7fzQlHNaV0XystkowkQvDoqk+m1HtwE9RRNqdaX/3K1q8nh13GJOH5vmhEUWJ
- erqwxDqTe1FUIzxKoxufLFRhNq7mt7IToZSHLeCMOq8c1yX7CkXhtIIfS4Tx8UdeVpch
- nZfs5LAvfmL0HeKtsdIETZx/LZUI/2H40StmYusnhRYrYhE+iQdzzHAjXPbrT0x84AFI
- J0Zw==
-X-Gm-Message-State: AOAM532BRtwhNVs8jPaDaZ5OH7AF4FaJfYtvFGc2ioBBBMMrWmrE6ogI
- W6QRxT0NLh9z8ZdwxMQwwdI=
-X-Google-Smtp-Source: ABdhPJwwUWUZgwHkjJ8oXZC6wmw6fPSzqx2zfhcQhnydTMLN+dO/s1+gm272vW2vxMA8vfGngyPrtA==
-X-Received: by 2002:a05:6830:151:: with SMTP id
- j17mr5797878otp.142.1594929164398; 
- Thu, 16 Jul 2020 12:52:44 -0700 (PDT)
-Received: from localhost (76-251-165-188.lightspeed.austtx.sbcglobal.net.
- [76.251.165.188])
- by smtp.gmail.com with ESMTPSA id w74sm1248350oif.57.2020.07.16.12.52.43
- (version=TLS1_2 cipher=ECDHE-ECDSA-CHACHA20-POLY1305 bits=256/256);
- Thu, 16 Jul 2020 12:52:43 -0700 (PDT)
-Content-Type: text/plain; charset="utf-8"
+ (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
+ id 1jwADP-0000Lf-2B
+ for qemu-devel@nongnu.org; Thu, 16 Jul 2020 16:10:49 -0400
+Received: from loganberry.canonical.com ([91.189.90.37])
+ by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
+ id 1jwADN-000482-1W
+ for <qemu-devel@nongnu.org>; Thu, 16 Jul 2020 20:10:45 +0000
+Received: from loganberry.canonical.com (localhost [127.0.0.1])
+ by loganberry.canonical.com (Postfix) with ESMTP id DFAB82E80EE
+ for <qemu-devel@nongnu.org>; Thu, 16 Jul 2020 20:10:44 +0000 (UTC)
 MIME-Version: 1.0
+Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: quoted-printable
-From: Michael Roth <mdroth@linux.vnet.ibm.com>
-User-Agent: alot/0.7
-To: =?utf-8?q?Philippe_Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
- Peter Maydell <peter.maydell@linaro.org>,
- QEMU Developers <qemu-devel@nongnu.org>
-References: <CAFEAcA-reu8gKpBMgEffStTRA+M02OWj75riXqBYXjgtOh5Z_A@mail.gmail.com>
- <159492211230.15440.2651129078319986183@sif>
- <78b8c6b3-1710-da21-68ac-194bd19437b2@redhat.com>
-In-Reply-To: <78b8c6b3-1710-da21-68ac-194bd19437b2@redhat.com>
-Message-ID: <159492915780.15440.8588802536547059593@sif>
-Subject: Re: qemu test-qga failure on mergebuild after VERSION file change:
- dependency issues??
-Date: Thu, 16 Jul 2020 14:52:37 -0500
-Received-SPF: pass client-ip=2607:f8b0:4864:20::32d;
- envelope-from=flukshun@gmail.com; helo=mail-ot1-x32d.google.com
-X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
- That's all we know.
-X-Spam_score_int: 0
-X-Spam_score: 0.0
-X-Spam_bar: /
-X-Spam_report: (0.0 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1, DKIM_VALID=-0.1,
- DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=1, FREEMAIL_FROM=0.001,
- HEADER_FROM_DIFFERENT_DOMAINS=1, RCVD_IN_DNSWL_NONE=-0.0001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- URIBL_BLOCKED=0.001 autolearn=no autolearn_force=no
+Date: Thu, 16 Jul 2020 19:58:59 -0000
+From: K <1887854@bugs.launchpad.net>
+To: qemu-devel@nongnu.org
+X-Launchpad-Notification-Type: bug
+X-Launchpad-Bug: product=qemu; status=New; importance=Undecided; assignee=None;
+X-Launchpad-Bug-Information-Type: Public
+X-Launchpad-Bug-Private: no
+X-Launchpad-Bug-Security-Vulnerability: no
+X-Launchpad-Bug-Commenters: opticron
+X-Launchpad-Bug-Reporter: K (opticron)
+X-Launchpad-Bug-Modifier: K (opticron)
+References: <159492817809.19148.14056725236873205625.malonedeb@chaenomeles.canonical.com>
+Message-Id: <159492953969.7592.8996186820396827951.launchpad@wampee.canonical.com>
+Subject: [Bug 1887854] Re: Spurious Data Abort on qemu-system-aarch64
+X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
+X-Launchpad-Message-For: qemu-devel-ml
+Precedence: bulk
+X-Generated-By: Launchpad (canonical.com);
+ Revision="4809fcb62f445aaa3ae919f7f6c3cc7d156ea57a";
+ Instance="production-secrets-lazr.conf"
+X-Launchpad-Hash: 87dd69a4cb1da0ceeb2b27b146621a0a134137ed
+Received-SPF: none client-ip=91.189.90.7; envelope-from=bounces@canonical.com;
+ helo=indium.canonical.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/07/16 15:50:36
+X-ACL-Warn: Detected OS   = Linux 3.11 and newer [fuzzy]
+X-Spam_score_int: -58
+X-Spam_score: -5.9
+X-Spam_bar: -----
+X-Spam_report: (-5.9 / 5.0 requ) BAYES_00=-1.9, HEADER_FROM_DIFFERENT_DOMAINS=1,
+ RCVD_IN_DNSWL_HI=-5, RCVD_IN_MSPIKE_H3=-0.01, RCVD_IN_MSPIKE_WL=-0.01,
+ SPF_HELO_NONE=0.001, SPF_NONE=0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
-Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -93,74 +71,107 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Reply-To: Bug 1887854 <1887854@bugs.launchpad.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Quoting Philippe Mathieu-Daud=C3=A9 (2020-07-16 12:59:28)
-> On 7/16/20 7:55 PM, Michael Roth wrote:
-> > Quoting Peter Maydell (2020-07-16 05:53:17)
-> >> The first merge I tried to process after bumping VERSION for rc0
-> >> failed on test-qga like this:
-> >>
-> >> MALLOC_PERTURB_=3D${MALLOC_PERTURB_:-$(( ${RANDOM:-0} % 255 + 1))}
-> >> tests/test-qga -m=3Dquick -k --tap < /dev/null | ./scripts/tap-driv
-> >> er.pl --test-name=3D"test-qga"
-> >> PASS 1 test-qga /qga/sync-delimited
-> >> PASS 2 test-qga /qga/sync
-> >> PASS 3 test-qga /qga/ping
-> >> **
-> >> ERROR:/home/petmay01/linaro/qemu-for-merges/tests/test-qga.c:303:test_=
-qga_info:
-> >> assertion failed (version =3D=3D QEMU_VERSION): ("5.0.9
-> >> 0" =3D=3D "5.0.50")
-> >> ERROR test-qga - Bail out!
-> >> ERROR:/home/petmay01/linaro/qemu-for-merges/tests/test-qga.c:303:test_=
-qga_info:
-> >> assertion failed (versio
-> >> n =3D=3D QEMU_VERSION): ("5.0.90" =3D=3D "5.0.50")
-> >> Aborted (core dumped)
-> >> /home/petmay01/linaro/qemu-for-merges/tests/Makefile.include:659:
-> >> recipe for target 'check-unit' failed
-> >>
-> >> Looking at timestamps on files, tests/test-qga.o never got rebuilt,
-> >> even though config-host.h has been updated (and so has the new
-> >> QEMU_VERSION). Any idea what's gone wrong here?
-> >>
-> >> Also weird: this build tree has no .d files in it.
-> > =
+** Description changed:
 
-> > I've been trying to reproduce with:
-> > =
+  When running RTEMS test psxndbm01.exe built for AArch64-ilp32 (this code =
+is not yet publically available), the test generates a spurious data abort =
+(the MMU and alignment checks should be disabled according to bits 1, 0 of =
+SCTLR_EL1). The abort information is as follows:
+  Taking exception 4 [Data Abort]
+  ...from EL1 to EL1
+  ...with ESR 0x25/0x96000010
+  ...with FAR 0x104010ca28
+  ...with ELR 0x400195d8
+  ...to EL1 PC 0x40018200 PSTATE 0x3c5
+  =
 
-> > make
-> > make check-unit
-> > *bump VERSION
-> > make check-unit
-> > =
+  The ESR indicates that a synchronous external abort has occurred.
+  ESR EC field: 0b100101
+  =
 
-> > but test-qga.o gets rebuilt as expected and the test passed.
-> > =
+  From the ARMv8 technical manual: Data Abort taken without a change in
+  Exception level. Used for MMU faults generated by data accesses,
+  alignment faults other than those caused by Stack Pointer misalignment,
+  and synchronous External aborts, including synchronous parity or ECC
+  errors. Not used for debug related exceptions.
+  =
 
-> > This is with ubuntu 18.04, x86, with out-of-tree build directory. Are y=
-ou aware
-> > of any other factors that might be needed to reproduce this?
-> =
+  ESR ISS field: 0b10000
+  =
 
-> The problem is not for qga, it affects all QEMU objects.
+  From the ARMv8 technical manual: Synchronous External abort, not on
+  translation table walk or hardware update of translation table.
+  =
 
-But is it intermittent, environment-dependent? I'm trying to understand how=
- to
-replicate Peter's result since it seems like it would be straightforward
-reproducer.
+  The following command line is used to invoke qemu:
+  qemu-system-aarch64 -machine virt -cpu cortex-a53 -m 256M -no-reboot -nog=
+raphic -serial mon:stdio -kernel build/aarch64/a53_ilp32_qemu/testsuites/ps=
+xtests/psxndbm01.exe -D qemu.log -d in_asm,int,cpu_reset,unimp,guest_errors
+  =
 
-> =
+  This occurs on Qemu 3.1.0 as distributed via Debian and on Qemu 4.1 as
+  built by the RTEMS source builder (4.1+minor patches).
+  =
 
-> > =
+  Edit: This bug can be worked around by getting and setting SCTLR without
+- changing its value.
++ changing its value before each data abort would occur. This test needs 6
++ of these workarounds to operate successfully.
 
-> >>
-> >> thanks
-> >> -- PMM
-> > =
+-- =
 
->=20
+You received this bug notification because you are a member of qemu-
+devel-ml, which is subscribed to QEMU.
+https://bugs.launchpad.net/bugs/1887854
+
+Title:
+  Spurious Data Abort on qemu-system-aarch64
+
+Status in QEMU:
+  New
+
+Bug description:
+  When running RTEMS test psxndbm01.exe built for AArch64-ilp32 (this code =
+is not yet publically available), the test generates a spurious data abort =
+(the MMU and alignment checks should be disabled according to bits 1, 0 of =
+SCTLR_EL1). The abort information is as follows:
+  Taking exception 4 [Data Abort]
+  ...from EL1 to EL1
+  ...with ESR 0x25/0x96000010
+  ...with FAR 0x104010ca28
+  ...with ELR 0x400195d8
+  ...to EL1 PC 0x40018200 PSTATE 0x3c5
+
+  The ESR indicates that a synchronous external abort has occurred.
+  ESR EC field: 0b100101
+
+  From the ARMv8 technical manual: Data Abort taken without a change in
+  Exception level. Used for MMU faults generated by data accesses,
+  alignment faults other than those caused by Stack Pointer
+  misalignment, and synchronous External aborts, including synchronous
+  parity or ECC errors. Not used for debug related exceptions.
+
+  ESR ISS field: 0b10000
+
+  From the ARMv8 technical manual: Synchronous External abort, not on
+  translation table walk or hardware update of translation table.
+
+  The following command line is used to invoke qemu:
+  qemu-system-aarch64 -machine virt -cpu cortex-a53 -m 256M -no-reboot -nog=
+raphic -serial mon:stdio -kernel build/aarch64/a53_ilp32_qemu/testsuites/ps=
+xtests/psxndbm01.exe -D qemu.log -d in_asm,int,cpu_reset,unimp,guest_errors
+
+  This occurs on Qemu 3.1.0 as distributed via Debian and on Qemu 4.1 as
+  built by the RTEMS source builder (4.1+minor patches).
+
+  Edit: This bug can be worked around by getting and setting SCTLR
+  without changing its value before each data abort would occur. This
+  test needs 6 of these workarounds to operate successfully.
+
+To manage notifications about this bug go to:
+https://bugs.launchpad.net/qemu/+bug/1887854/+subscriptions
 
