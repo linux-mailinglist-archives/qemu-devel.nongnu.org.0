@@ -2,71 +2,82 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2A3AC222A5A
-	for <lists+qemu-devel@lfdr.de>; Thu, 16 Jul 2020 19:47:48 +0200 (CEST)
-Received: from localhost ([::1]:48448 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E1905222A67
+	for <lists+qemu-devel@lfdr.de>; Thu, 16 Jul 2020 19:49:57 +0200 (CEST)
+Received: from localhost ([::1]:50636 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jw7z0-0005Ul-AO
-	for lists+qemu-devel@lfdr.de; Thu, 16 Jul 2020 13:47:46 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:44368)
+	id 1jw816-0006SU-QY
+	for lists+qemu-devel@lfdr.de; Thu, 16 Jul 2020 13:49:56 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:45008)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1jw7y4-00055n-JY
- for qemu-devel@nongnu.org; Thu, 16 Jul 2020 13:46:48 -0400
-Received: from mail-oi1-x244.google.com ([2607:f8b0:4864:20::244]:41493)
+ (Exim 4.90_1) (envelope-from <tcminyard@gmail.com>)
+ id 1jw80K-00061F-7p
+ for qemu-devel@nongnu.org; Thu, 16 Jul 2020 13:49:08 -0400
+Received: from mail-ot1-x335.google.com ([2607:f8b0:4864:20::335]:33743)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1jw7y2-0005zv-Cb
- for qemu-devel@nongnu.org; Thu, 16 Jul 2020 13:46:48 -0400
-Received: by mail-oi1-x244.google.com with SMTP id y22so5742339oie.8
- for <qemu-devel@nongnu.org>; Thu, 16 Jul 2020 10:46:45 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=Rly3aI04MVBE5TV2umQ+61TZNa7+QwUKiAU0d4Y4/5E=;
- b=nZHFk55n1v+Y28wFAYgDakVloGsQcrJyT1OqiLMwedJKxL4zz1LsYny6ToJDjpL1fh
- vulKwHyVmixuZ2h7lHCF5lWM+sY/Fk6BLSbFKsu6ex72StULPTbfUpmrXfxNOynODKyf
- q7z8FIhpE4kWXLIMkMOSZWIBM1qKToMLF756P+fgsbersQi+ZufnL6MEI78FM60PmbNM
- pivLqkKuzQP93ej3dvkk2a2S8UBdz6tFSct6dtShKk52ZFliIiLwqtd1jwswlxwhAoSd
- VasTKbK74LSuEhLdzm91urmgtvFcMfWsXUnxs5arckhVhG63K+y3Pzg28iTQyia2NF8P
- 636A==
+ (Exim 4.90_1) (envelope-from <tcminyard@gmail.com>)
+ id 1jw80I-0006T3-Cq
+ for qemu-devel@nongnu.org; Thu, 16 Jul 2020 13:49:07 -0400
+Received: by mail-ot1-x335.google.com with SMTP id h13so4904155otr.0
+ for <qemu-devel@nongnu.org>; Thu, 16 Jul 2020 10:49:05 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=sender:date:from:to:cc:subject:message-id:reply-to:mime-version
+ :content-disposition:content-transfer-encoding:user-agent;
+ bh=DdUAmDYwe9Zfp9IM9hS+C8JuweoQCS5VTR+Tj4Mma4g=;
+ b=qApM+BKENJNRA+FP4Ccf9gbPkazMRgJV6ivVOVrF/nCrN/wA43ERQEq2GPfdHeTT+0
+ LgM/kMUbdw5/9IxpvDs9jx7p+spRpFO6ObMVwiUf1u2nvZ8ol5NerPwVRhU4AolrOZwQ
+ qDoE4IRIBu6k/r386m1iPrpt13/CEU2GxpZIHMW07sjr2b2aUZRJ1pvapeonrFaOjUKD
+ /RfMU8FFWBnHU6JgvnwG5mqpDSNezSINi1NZQL+4oBZFiQgCA3drRNcjk00IndT+RnEB
+ jwV3Ajv7U0xto/4YnrspGd0cRkmjNM+SVzazebRt5jvNA78GNs7tgFv0ABxgrVq2ZINp
+ 1siw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=Rly3aI04MVBE5TV2umQ+61TZNa7+QwUKiAU0d4Y4/5E=;
- b=cUM+vKlzjzQt8Rc2zo4sWnzno9M5Tayt+k5tyXQMck/xeTkZ30IeWo9xQNRaLoBsYK
- CnGgVrLAOVNPFzpeMZI17E059WtjlLFI+JfNpsgGFKFHy7IIVJCi9sZ54Zj9+iTWeX2T
- PPeErlfy+jTJIluiRP9S4rfqyLlGYof8oYyLmZ4kphEooOFjkHApsLuBaOtWRAsSwHdZ
- EHOEkehRlgAQU/xYHi0Z/xVEluxjGk4um8d/uzxM9OJIVmm1SpsOkvTkII/hq6jiSQH4
- HbhQykuQi4/3CTFXVnWwPoZKgXXmSe5gG/HPuWja6rx7ODL0bC6VfaUw2/KP/CGDG/Rf
- gAzQ==
-X-Gm-Message-State: AOAM5306Ph1ogN6hIZluhwrmJHQR9zmEpaDLs4OwX+tJsWcemzaSN/hN
- Tm3xlGGn549hY5PW2ZOTp7aa0xvTL4L9f4DvEikLxA==
-X-Google-Smtp-Source: ABdhPJwzfsyJ9TbuMynSjo/HUi1blMrZAeY8rCruWfyS8Tt1EAHXBLiUKoG93JodG4YugwCdTXknS60YJbjXjlw1MOQ=
-X-Received: by 2002:aca:54c9:: with SMTP id i192mr4698341oib.163.1594921604368; 
- Thu, 16 Jul 2020 10:46:44 -0700 (PDT)
+ h=x-gm-message-state:sender:date:from:to:cc:subject:message-id
+ :reply-to:mime-version:content-disposition:content-transfer-encoding
+ :user-agent;
+ bh=DdUAmDYwe9Zfp9IM9hS+C8JuweoQCS5VTR+Tj4Mma4g=;
+ b=cmakuJSlwB4vfiwG9LtAM9XPwOqSCaW+tv7Q/OmvLomsameCqT4k0771MD9Yu/3bH4
+ i2pVUsKVBtE5kW2kJtJoobX7OYel+ud1cpD9XNnKhZIU1Gz1nG4x6M6aFXIwO1IkFI+d
+ EW3+SIhcxLkbWr4t4vBkdzA/DzY3z4kfgyC/b3d8uoe23A2xX/YFW/c5JXj1lryhQGCi
+ BZh0YIGbEpUT7T3mAus6gA4zNPMFz8FzYZ/tt8YsqHo25cHhTs3j8mhMYWPv5W9MniAh
+ T4/5MfIblhVftUnhy7G6InJ73XZXtv+71BpMMtUfxNfNr1J3a8iNP9GXPS0rueEIHdKq
+ GdOw==
+X-Gm-Message-State: AOAM530ST4fsNDXdktUZIJNDNsvrA+AHc3GFwNYMeXxjvjbSAypBBOln
+ YWKoFJS5VPTdpTn66d7GGQ==
+X-Google-Smtp-Source: ABdhPJzphk21dy/YCX22bdYV/EH905rUn6N8gXiVvt/Cuqkog6YVo+L/OTaYXvqCKmAFtSwWgyVHbg==
+X-Received: by 2002:a05:6830:3109:: with SMTP id
+ b9mr5346254ots.41.1594921744325; 
+ Thu, 16 Jul 2020 10:49:04 -0700 (PDT)
+Received: from serve.minyard.net ([47.184.146.204])
+ by smtp.gmail.com with ESMTPSA id n17sm1299784ota.37.2020.07.16.10.49.02
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Thu, 16 Jul 2020 10:49:03 -0700 (PDT)
+Received: from minyard.net (unknown
+ [IPv6:2001:470:b8f6:1b:ac62:d225:13b5:8855])
+ by serve.minyard.net (Postfix) with ESMTPSA id DD5CD1800CC;
+ Thu, 16 Jul 2020 17:49:01 +0000 (UTC)
+Date: Thu, 16 Jul 2020 12:49:00 -0500
+From: Corey Minyard <minyard@acm.org>
+To: Peter Maydell <peter.maydell@linaro.org>
+Subject: [GIT PULL] I2C updates
+Message-ID: <20200716174900.GL3235@minyard.net>
 MIME-Version: 1.0
-References: <20200630122710.1119158-1-ppandit@redhat.com>
- <20200630122710.1119158-4-ppandit@redhat.com>
-In-Reply-To: <20200630122710.1119158-4-ppandit@redhat.com>
-From: Peter Maydell <peter.maydell@linaro.org>
-Date: Thu, 16 Jul 2020 18:46:33 +0100
-Message-ID: <CAFEAcA-1EhD=0vU1r=48HhFPpovns2M5DBgTu7g2074kueaEuw@mail.gmail.com>
-Subject: Re: [PATCH v3 3/9] vfio: add quirk device write method
-To: P J P <ppandit@redhat.com>
-Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2607:f8b0:4864:20::244;
- envelope-from=peter.maydell@linaro.org; helo=mail-oi1-x244.google.com
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+User-Agent: Mutt/1.9.4 (2018-02-28)
+Received-SPF: pass client-ip=2607:f8b0:4864:20::335;
+ envelope-from=tcminyard@gmail.com; helo=mail-ot1-x335.google.com
 X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
  That's all we know.
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Spam_score_int: 0
+X-Spam_score: 0.0
+X-Spam_bar: /
+X-Spam_report: (0.0 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1, DKIM_VALID=-0.1,
+ DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=1, FREEMAIL_FROM=0.001,
+ HEADER_FROM_DIFFERENT_DOMAINS=1, RCVD_IN_DNSWL_NONE=-0.0001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -79,70 +90,59 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Prasad J Pandit <pjp@fedoraproject.org>,
- =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <philmd@redhat.com>,
- Li Qiang <liq3ea@gmail.com>, QEMU Developers <qemu-devel@nongnu.org>,
- Lei Sun <slei.casper@gmail.com>, Alex Williamson <alex.williamson@redhat.com>,
- Paolo Bonzini <pbonzini@redhat.com>,
- =?UTF-8?B?QWxleCBCZW5uw6ll?= <alex.bennee@linaro.org>,
- David Gibson <david@gibson.dropbear.id.au>
+Reply-To: minyard@acm.org
+Cc: QEMU Developers <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Tue, 30 Jun 2020 at 13:30, P J P <ppandit@redhat.com> wrote:
->
-> From: Prasad J Pandit <pjp@fedoraproject.org>
->
-> Add vfio quirk device mmio write method to avoid NULL pointer
-> dereference issue.
->
-> Reported-by: Lei Sun <slei.casper@gmail.com>
-> Reviewed-by: Li Qiang <liq3ea@gmail.com>
-> Signed-off-by: Prasad J Pandit <pjp@fedoraproject.org>
-> ---
->  hw/vfio/pci-quirks.c | 8 ++++++++
->  1 file changed, 8 insertions(+)
->
-> Update v3: Add Reviewed-by: ...
->   -> https://lists.gnu.org/archive/html/qemu-devel/2020-06/msg09406.html
->
-> diff --git a/hw/vfio/pci-quirks.c b/hw/vfio/pci-quirks.c
-> index d304c81148..cc6d5dbc23 100644
-> --- a/hw/vfio/pci-quirks.c
-> +++ b/hw/vfio/pci-quirks.c
-> @@ -14,6 +14,7 @@
->  #include "config-devices.h"
->  #include "exec/memop.h"
->  #include "qemu/units.h"
-> +#include "qemu/log.h"
->  #include "qemu/error-report.h"
->  #include "qemu/main-loop.h"
->  #include "qemu/module.h"
-> @@ -264,8 +265,15 @@ static uint64_t vfio_ati_3c3_quirk_read(void *opaque,
->      return data;
->  }
->
-> +static void vfio_ati_3c3_quirk_write(void *opaque, hwaddr addr,
-> +                                        uint64_t data, unsigned size)
-> +{
-> +    qemu_log_mask(LOG_GUEST_ERROR, "%s not implemented\n", __func__);
-> +}
-> +
->  static const MemoryRegionOps vfio_ati_3c3_quirk = {
->      .read = vfio_ati_3c3_quirk_read,
-> +    .write = vfio_ati_3c3_quirk_write,
->      .endianness = DEVICE_LITTLE_ENDIAN,
->  };
+The following changes since commit 45db94cc90c286a9965a285ba19450f448760a09:
 
+  Merge remote-tracking branch 'remotes/mcayland/tags/qemu-openbios-20200707' into staging (2020-07-10 16:43:40 +0100)
 
-Alex (Williamson) -- as the vfio maintainer, do you have a view
-on whether we should be logging write accesses to port 0x3c3
-here as guest-errors or unimplemented-QEMU-functionality?
+are available in the Git repository at:
 
-Guest-error seems plausible to me, anyway.
+  https://github.com/cminyard/qemu.git tags/for-qemu-i2c-5
 
-Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
+for you to fetch changes up to 73d5f22ecbb76dfc785876779d47787084ff0f42:
 
-thanks
--- PMM
+  hw/i2c: Document the I2C qdev helpers (2020-07-16 12:30:54 -0500)
+
+----------------------------------------------------------------
+Minor changes to:
+
+Add an SMBus config entry
+
+Cleanup/simplify/document some I2C interfaces
+
+----------------------------------------------------------------
+Philippe Mathieu-Daudé (6):
+      hw/i2c/Kconfig: Add an entry for the SMBus
+      hw/i2c/aspeed_i2c: Simplify aspeed_i2c_get_bus()
+      hw/i2c: Rename i2c_try_create_slave() as i2c_slave_new()
+      hw/i2c: Rename i2c_realize_and_unref() as i2c_slave_realize_and_unref()
+      hw/i2c: Rename i2c_create_slave() as i2c_slave_create_simple()
+      hw/i2c: Document the I2C qdev helpers
+
+ hw/arm/aspeed.c             | 82 +++++++++++++++++++++++----------------------
+ hw/arm/musicpal.c           |  4 +--
+ hw/arm/nseries.c            |  8 ++---
+ hw/arm/pxa2xx.c             |  5 +--
+ hw/arm/realview.c           |  2 +-
+ hw/arm/spitz.c              |  4 +--
+ hw/arm/stellaris.c          |  2 +-
+ hw/arm/tosa.c               |  2 +-
+ hw/arm/versatilepb.c        |  2 +-
+ hw/arm/vexpress.c           |  2 +-
+ hw/arm/z2.c                 |  4 +--
+ hw/display/sii9022.c        |  2 +-
+ hw/i2c/Kconfig              |  8 +++--
+ hw/i2c/Makefile.objs        |  3 +-
+ hw/i2c/aspeed_i2c.c         |  3 +-
+ hw/i2c/core.c               | 15 ++++-----
+ hw/ppc/e500.c               |  2 +-
+ hw/ppc/sam460ex.c           |  2 +-
+ include/hw/i2c/aspeed_i2c.h |  2 +-
+ include/hw/i2c/i2c.h        | 54 +++++++++++++++++++++++++++--
+ 20 files changed, 131 insertions(+), 77 deletions(-)
+
 
