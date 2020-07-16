@@ -2,65 +2,67 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D17CF222AF3
-	for <lists+qemu-devel@lfdr.de>; Thu, 16 Jul 2020 20:22:09 +0200 (CEST)
-Received: from localhost ([::1]:57712 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id BA944222AC9
+	for <lists+qemu-devel@lfdr.de>; Thu, 16 Jul 2020 20:20:49 +0200 (CEST)
+Received: from localhost ([::1]:50442 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jw8WG-0005tP-RJ
-	for lists+qemu-devel@lfdr.de; Thu, 16 Jul 2020 14:22:08 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:54128)
+	id 1jw8Uy-0002or-J0
+	for lists+qemu-devel@lfdr.de; Thu, 16 Jul 2020 14:20:48 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:54092)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <ehabkost@redhat.com>)
- id 1jw8TU-0001BF-Fm
- for qemu-devel@nongnu.org; Thu, 16 Jul 2020 14:19:16 -0400
-Received: from us-smtp-2.mimecast.com ([205.139.110.61]:42784
- helo=us-smtp-delivery-1.mimecast.com)
+ id 1jw8TS-00019X-Tk
+ for qemu-devel@nongnu.org; Thu, 16 Jul 2020 14:19:14 -0400
+Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:43185
+ helo=us-smtp-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
  (Exim 4.90_1) (envelope-from <ehabkost@redhat.com>)
- id 1jw8TS-0004nC-F4
- for qemu-devel@nongnu.org; Thu, 16 Jul 2020 14:19:16 -0400
+ id 1jw8TQ-0004ma-MT
+ for qemu-devel@nongnu.org; Thu, 16 Jul 2020 14:19:14 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1594923552;
+ s=mimecast20190719; t=1594923551;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=lKxXY1WLpW8mzGCjBSCDIY0axBhexEozJDmheXWNOmQ=;
- b=MUcScb76xj1GV9MtEvfJWHFx/JB8Yq0KPnoQjlrcOt7zQulWseOocQhba+jiFuTT/trZc1
- 2o8A6Tn7/D1prHfsMqdjxSAAdph4kV5sYeokaNDTaSowqZT4t9lR5oWT5pIDCvgO22zerV
- b2HKZUDGvZaYd4ons4lQ4ddXXUsyS/M=
+ bh=gz67eWvULgd0XWJXCmx2u72FxEioeNRL6S8wxfz1tu8=;
+ b=DNYPsGwT1vJEfgQgrzLAwnRTBzgY7x32ilIFj6hfUmlP2UaBe7OZco6Bo1u5pXHc+bGK2U
+ VX3RwYQYA5X8sVu5jPfPN3b8mfKomGnSaPHhOlfdCEKGmK/MzsLEvkc8SwP+wdPiM1ds0U
+ QlZ4npoupx0uNV2puyKCZ4o1qeAaklc=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-238-IBcHGkLyMH-FJ5mVu73_ZA-1; Thu, 16 Jul 2020 14:19:07 -0400
-X-MC-Unique: IBcHGkLyMH-FJ5mVu73_ZA-1
+ us-mta-2-uGj__g66NfeMkQ40WSeMiQ-1; Thu, 16 Jul 2020 14:19:08 -0400
+X-MC-Unique: uGj__g66NfeMkQ40WSeMiQ-1
 Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
  [10.5.11.15])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 345C615C27;
- Thu, 16 Jul 2020 18:19:06 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 6F7D51B18BCC;
+ Thu, 16 Jul 2020 18:19:07 +0000 (UTC)
 Received: from localhost (ovpn-119-232.rdu2.redhat.com [10.10.119.232])
- by smtp.corp.redhat.com (Postfix) with ESMTP id D097372ACF;
- Thu, 16 Jul 2020 18:19:05 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 3A29272AC8;
+ Thu, 16 Jul 2020 18:19:07 +0000 (UTC)
 From: Eduardo Habkost <ehabkost@redhat.com>
 To: Peter Maydell <peter.maydell@linaro.org>,
 	qemu-devel@nongnu.org
-Subject: [PULL 1/6] i368/cpu: Clear env->user_features after loading versioned
- CPU model
-Date: Thu, 16 Jul 2020 14:18:58 -0400
-Message-Id: <20200716181903.1895314-2-ehabkost@redhat.com>
+Subject: [PULL 2/6] i386/cpu: Don't add unavailable_features to
+ env->user_features
+Date: Thu, 16 Jul 2020 14:18:59 -0400
+Message-Id: <20200716181903.1895314-3-ehabkost@redhat.com>
 In-Reply-To: <20200716181903.1895314-1-ehabkost@redhat.com>
 References: <20200716181903.1895314-1-ehabkost@redhat.com>
 MIME-Version: 1.0
 X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=ehabkost@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=205.139.110.61; envelope-from=ehabkost@redhat.com;
- helo=us-smtp-delivery-1.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/07/16 13:59:43
+Received-SPF: pass client-ip=205.139.110.120; envelope-from=ehabkost@redhat.com;
+ helo=us-smtp-1.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/07/15 19:36:06
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
 X-Spam_score_int: -40
 X-Spam_score: -4.1
@@ -82,50 +84,37 @@ List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
 Cc: Eduardo Habkost <ehabkost@redhat.com>, Xiaoyao Li <xiaoyao.li@intel.com>,
- Chenyi Qiang <chenyi.qiang@intel.com>, Cameron Esfahani <dirty@apple.com>,
- Roman Bolshakov <r.bolshakov@yadro.com>, Paolo Bonzini <pbonzini@redhat.com>,
- Richard Henderson <rth@twiddle.net>
+ Cameron Esfahani <dirty@apple.com>, Roman Bolshakov <r.bolshakov@yadro.com>,
+ Paolo Bonzini <pbonzini@redhat.com>, Richard Henderson <rth@twiddle.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Xiaoyao Li <xiaoyao.li@intel.com>
 
-Features defined in versioned CPU model are recorded in env->user_features
-since they are updated as property. It's unwated because they are not
-user specified.
+Features unavailable due to absent of their dependent features should
+not be added to env->user_features. env->user_features only contains the
+feature explicity specified with -feature/+feature by user.
 
-Simply clear env->user_features as a fix. It won't clear user specified
-features because user specified features are filled to
-env->user_features later in x86_cpu_expand_features().
-
-Cc: Chenyi Qiang <chenyi.qiang@intel.com>
-Suggested-by: Eduardo Habkost <ehabkost@redhat.com>
+Fixes: 99e24dbdaa68 ("target/i386: introduce generic feature dependency mechanism")
 Signed-off-by: Xiaoyao Li <xiaoyao.li@intel.com>
-Message-Id: <20200713174436.41070-2-xiaoyao.li@intel.com>
-[ehabkost: fix coding style]
+Message-Id: <20200713174436.41070-3-xiaoyao.li@intel.com>
 Signed-off-by: Eduardo Habkost <ehabkost@redhat.com>
 ---
- target/i386/cpu.c | 7 +++++++
- 1 file changed, 7 insertions(+)
+ target/i386/cpu.c | 1 -
+ 1 file changed, 1 deletion(-)
 
 diff --git a/target/i386/cpu.c b/target/i386/cpu.c
-index 1e5123251d..caf0334f3a 100644
+index caf0334f3a..93b62b2eca 100644
 --- a/target/i386/cpu.c
 +++ b/target/i386/cpu.c
-@@ -5159,6 +5159,13 @@ static void x86_cpu_load_model(X86CPU *cpu, X86CPUModel *model)
-     object_property_set_str(OBJECT(cpu), "vendor", vendor, &error_abort);
+@@ -6371,7 +6371,6 @@ static void x86_cpu_expand_features(X86CPU *cpu, Error **errp)
+                                       unavailable_features & env->user_features[d->to.index],
+                                       "This feature depends on other features that were not requested");
  
-     x86_cpu_apply_version_props(cpu, model);
-+
-+    /*
-+     * Properties in versioned CPU model are not user specified features.
-+     * We can simply clear env->user_features here since it will be filled later
-+     * in x86_cpu_expand_features() based on plus_features and minus_features.
-+     */
-+    memset(&env->user_features, 0, sizeof(env->user_features));
- }
- 
- #ifndef CONFIG_USER_ONLY
+-            env->user_features[d->to.index] |= unavailable_features;
+             env->features[d->to.index] &= ~unavailable_features;
+         }
+     }
 -- 
 2.26.2
 
