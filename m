@@ -2,76 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D46AC221CD8
-	for <lists+qemu-devel@lfdr.de>; Thu, 16 Jul 2020 08:54:04 +0200 (CEST)
-Received: from localhost ([::1]:48462 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0B067221CDF
+	for <lists+qemu-devel@lfdr.de>; Thu, 16 Jul 2020 08:57:10 +0200 (CEST)
+Received: from localhost ([::1]:51724 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jvxmN-0003PD-DK
-	for lists+qemu-devel@lfdr.de; Thu, 16 Jul 2020 02:54:03 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:60292)
+	id 1jvxpN-0004tY-3n
+	for lists+qemu-devel@lfdr.de; Thu, 16 Jul 2020 02:57:09 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:32978)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1jvxle-0002rx-Ge
- for qemu-devel@nongnu.org; Thu, 16 Jul 2020 02:53:18 -0400
-Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:39871
- helo=us-smtp-1.mimecast.com)
+ (Exim 4.90_1) (envelope-from <cohuck@redhat.com>) id 1jvxoJ-00046R-H4
+ for qemu-devel@nongnu.org; Thu, 16 Jul 2020 02:56:03 -0400
+Received: from us-smtp-1.mimecast.com ([205.139.110.61]:20318
+ helo=us-smtp-delivery-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1jvxlc-0001QO-0C
- for qemu-devel@nongnu.org; Thu, 16 Jul 2020 02:53:17 -0400
+ (Exim 4.90_1) (envelope-from <cohuck@redhat.com>) id 1jvxoF-00028x-TG
+ for qemu-devel@nongnu.org; Thu, 16 Jul 2020 02:56:02 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1594882394;
+ s=mimecast20190719; t=1594882558;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=iOSW9FU+hR+QTQwnBMpD1V1aqjHzvWgQvl6NB6VHdZA=;
- b=VJX8ZhJxqwRRal9t4lVxYn4YSIeDVxpLYMySUmEtv/8LQwnpEfvA0SLbiYkqNPVH2h6tnJ
- kp/JlPEELo06j1NzMjsyvEfUuF+7576A0p4WpAL1YM7NHjJyeA5FcMvreyWhKmfBk2bamV
- hYulhbbq68SOyac7zFiFSdKuo4FKL78=
-Received: from mail-wr1-f72.google.com (mail-wr1-f72.google.com
- [209.85.221.72]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-350-hiHly5iOO9C5G8lG3Quc9g-1; Thu, 16 Jul 2020 02:53:12 -0400
-X-MC-Unique: hiHly5iOO9C5G8lG3Quc9g-1
-Received: by mail-wr1-f72.google.com with SMTP id o25so4761702wro.16
- for <qemu-devel@nongnu.org>; Wed, 15 Jul 2020 23:53:12 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:in-reply-to;
- bh=iOSW9FU+hR+QTQwnBMpD1V1aqjHzvWgQvl6NB6VHdZA=;
- b=t02emPZnshsPQT/p9pis3tkRxoVq8RPWqRNxqjUJLRnuII1k+tbs63rbQ/H0On+T40
- 4WpevCH2gUjvjEbAcAYvU0s7x4rzkFxerZzNFzUQqIP7zgrOQ+CEahq5zouT+kmKNjqQ
- pS+iRn+/OYY6tyJesVPIKaEbjdB4ourVskNSu5GW2kYNLm5Q8mie5c/WNT3/5GuQltFv
- sx1ooiZwaaDUxYuCmKKTTNoHs3a1gqrM/GhSUA38pVf3C47Dzg0tFZPh1pxVOi9UxqM5
- 0MVabeiE23BHOh+QDIn+FVCV4wUNvMtSbUD910neMgqabGvhDW40uQisVGkni5kixs/F
- IS6Q==
-X-Gm-Message-State: AOAM532a8sUEIDNbGtTnZh5M1Df8JYD2OxXumAT3YU79baGKybnCjxTH
- 9X5LTBDZaVcVA7WzthyugQKzbDNmSwoG0hlrZk7vKS1RbpH494ZsdGm7V4DC2PNObRnt4x1T0zD
- 5dWnNRFiYXvbEhU0=
-X-Received: by 2002:adf:e9c4:: with SMTP id l4mr3631266wrn.9.1594882390970;
- Wed, 15 Jul 2020 23:53:10 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJyaQJvbZaAsIb9DSohIgN+bH0sBoT1t0F9SDV4aDt5dPDA4FJRQ3+VMlulU9wPd3EiZdocshw==
-X-Received: by 2002:adf:e9c4:: with SMTP id l4mr3631244wrn.9.1594882390665;
- Wed, 15 Jul 2020 23:53:10 -0700 (PDT)
-Received: from redhat.com (bzq-79-182-31-92.red.bezeqint.net. [79.182.31.92])
- by smtp.gmail.com with ESMTPSA id
- h5sm7569101wrc.97.2020.07.15.23.53.08
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 15 Jul 2020 23:53:09 -0700 (PDT)
-Date: Thu, 16 Jul 2020 02:53:07 -0400
-From: "Michael S. Tsirkin" <mst@redhat.com>
-To: Greg Kurz <groug@kaod.org>
-Subject: Re: [PATCH] spapr_pci: Robustify support of PCI bridges
-Message-ID: <20200716025009-mutt-send-email-mst@kernel.org>
-References: <159431476748.407044.16711294833569014964.stgit@bahia.lan>
+ bh=d7E4qbeOMlWNHpAcFq/JBdJPEPzIw87GwflYUJuUQCM=;
+ b=Ld3lDgdldLUFj6zZQfBmm1VR9lWaMBO2VfF43VbELY5jyCFCU6tqusosW9WRUEIOWJavfi
+ N2myV6jb/A7fhYOO8NcVQ+gBFji/QWvPC7zp5QCv88Hk9+6WyYVqo77XsAjuCCFD70rYbh
+ rn2Yi41nfJLGNOZAtep9TGOAjKmubCw=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-404-AdzPX465M2yQm6E3bTJdMQ-1; Thu, 16 Jul 2020 02:55:57 -0400
+X-MC-Unique: AdzPX465M2yQm6E3bTJdMQ-1
+Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
+ [10.5.11.12])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id F3342800597;
+ Thu, 16 Jul 2020 06:55:55 +0000 (UTC)
+Received: from gondolin (ovpn-113-57.ams2.redhat.com [10.36.113.57])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 8CAE660C47;
+ Thu, 16 Jul 2020 06:55:46 +0000 (UTC)
+Date: Thu, 16 Jul 2020 08:55:43 +0200
+From: Cornelia Huck <cohuck@redhat.com>
+To: P J P <ppandit@redhat.com>
+Subject: Re: [PATCH 1/1] MAINTAINERS: introduce cve or security quotient field
+Message-ID: <20200716085543.7082f047.cohuck@redhat.com>
+In-Reply-To: <nycvar.YSQ.7.78.906.2007141723140.6870@xnncv>
+References: <20200714083631.888605-1-ppandit@redhat.com>
+ <20200714083631.888605-2-ppandit@redhat.com>
+ <CAFEAcA9QWLmi1fGuPW93GXFKV2KCwNs6Xp3U9MU2r4wtendzhg@mail.gmail.com>
+ <20200714095233.GC25187@redhat.com>
+ <20200714060916-mutt-send-email-mst@kernel.org>
+ <CAFEAcA_ca4JN655GW=eGyjrjDmiv0EktaZZ7RMghO5rBwm9tGQ@mail.gmail.com>
+ <20200714064921-mutt-send-email-mst@kernel.org>
+ <nycvar.YSQ.7.78.906.2007141723140.6870@xnncv>
+Organization: Red Hat GmbH
 MIME-Version: 1.0
-In-Reply-To: <159431476748.407044.16711294833569014964.stgit@bahia.lan>
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Received-SPF: pass client-ip=205.139.110.120; envelope-from=mst@redhat.com;
- helo=us-smtp-1.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/07/15 19:36:06
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=205.139.110.61; envelope-from=cohuck@redhat.com;
+ helo=us-smtp-delivery-1.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/07/16 01:59:11
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
 X-Spam_score_int: -40
 X-Spam_score: -4.1
@@ -92,151 +85,34 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Markus Armbruster <armbru@redhat.com>, Thomas Huth <thuth@redhat.com>,
- qemu-ppc@nongnu.org, qemu-devel@nongnu.org,
- David Gibson <david@gibson.dropbear.id.au>
+Cc: Kevin Wolf <kwolf@redhat.com>, Peter Maydell <peter.maydell@linaro.org>,
+ Stefano Stabellini <sstabellini@kernel.org>,
+ "Daniel P. =?UTF-8?B?QmVycmFuZ8Op?=" <berrange@redhat.com>,
+ "Michael S. Tsirkin" <mst@redhat.com>,
+ Christian Schoenebeck <qemu_oss@crudebyte.com>,
+ Michael Roth <mdroth@linux.vnet.ibm.com>,
+ QEMU Developers <qemu-devel@nongnu.org>, Greg Kurz <groug@kaod.org>,
+ Stefan Hajnoczi <stefanha@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>,
+ Philippe =?UTF-8?B?TWF0aGlldS1EYXVkw6k=?= <philmd@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Thu, Jul 09, 2020 at 07:12:47PM +0200, Greg Kurz wrote:
-> Some recent error handling cleanups unveiled issues with our support of
-> PCI bridges:
+On Tue, 14 Jul 2020 18:40:11 +0530 (IST)
+P J P <ppandit@redhat.com> wrote:
+
+<just commenting on this one>
+
+>  * QEMU would abort(3), if a user attempts to start QEMU with insecure options 
+>    like say -virtfs OR -fda fat:floopy OR -netdev user OR -device tulip ?  
 > 
-> 1) QEMU aborts when using non-standard PCI bridge types,
->    unveiled by commit 7ef1553dac "spapr_pci: Drop some dead error handling"
-> 
-> $ qemu-system-ppc64 -M pseries -device pcie-pci-bridge
-> Unexpected error in object_property_find() at qom/object.c:1240:
-> qemu-system-ppc64: -device pcie-pci-bridge: Property '.chassis_nr' not found
-> Aborted (core dumped)
-> 
-> This happens because we assume all PCI bridge types to have a "chassis_nr"
-> property. This property only exists with the standard PCI bridge type
-> "pci-bridge" actually. We could possibly revert 7ef1553dac but it seems
-> much simpler to check the presence of "chassis_nr" earlier.
-> 
-> 2) QEMU abort if same "chassis_nr" value is used several times,
->    unveiled by commit d2623129a7de "qom: Drop parameter @errp of
->    object_property_add() & friends"
-> 
-> $ qemu-system-ppc64 -M pseries -device pci-bridge,chassis_nr=1 \
->                         -device pci-bridge,chassis_nr=1
-> Unexpected error in object_property_try_add() at qom/object.c:1167:
-> qemu-system-ppc64: -device pci-bridge,chassis_nr=1: attempt to add duplicate property '40000100' to object (type 'container')
-> Aborted (core dumped)
-> 
-> This happens because we assume that "chassis_nr" values are unique, but
-> nobody enforces that and we end up generating duplicate DRC ids. The PCI
-> code doesn't really care for duplicate "chassis_nr" properties since it
-> is only used to initialize the "Chassis Number Register" of the bridge,
-> with no functional impact on QEMU. So, even if passing the same value
-> several times might look weird, it never broke anything before, so
-> I guess we don't necessarily want to enforce strict checking in the PCI
-> code now.
-> 
-> Workaround both issues in the PAPR code: check that the bridge has a
-> unique and non null "chassis_nr" when plugging it into its parent bus.
-> 
-> Fixes: 05929a6c5dfe ("spapr: Don't use bus number for building DRC ids")
-> Reported-by: Thomas Huth <thuth@redhat.com>
-> Signed-off-by: Greg Kurz <groug@kaod.org>
+>  * One way could be to abort(3) at options parsing stage, if 'security' flag 
+>    is set to high(1) and continue further if it is low(0).
 
-
-
-> ---
->  hw/ppc/spapr_pci.c |   57 ++++++++++++++++++++++++++++++++++++++++++++++++++++
->  1 file changed, 57 insertions(+)
-> 
-> diff --git a/hw/ppc/spapr_pci.c b/hw/ppc/spapr_pci.c
-> index 329002ac040e..09d52ef7954d 100644
-> --- a/hw/ppc/spapr_pci.c
-> +++ b/hw/ppc/spapr_pci.c
-> @@ -1480,6 +1480,57 @@ static void spapr_pci_bridge_plug(SpaprPhbState *phb,
->      add_drcs(phb, bus);
->  }
->  
-> +/* Returns non-zero if the value of "chassis_nr" is already in use */
-> +static int check_chassis_nr(Object *obj, void *opaque)
-> +{
-> +    int new_chassis_nr =
-> +        object_property_get_uint(opaque, "chassis_nr", &error_abort);
-> +    int chassis_nr =
-> +        object_property_get_uint(obj, "chassis_nr", NULL);
-> +
-> +    if (!object_dynamic_cast(obj, TYPE_PCI_BRIDGE)) {
-> +        return 0;
-> +    }
-> +
-> +    /* Skip unsupported bridge types */
-> +    if (!chassis_nr) {
-> +        return 0;
-> +    }
-> +
-> +    /* Skip self */
-> +    if (obj == opaque) {
-> +        return 0;
-> +    }
-> +
-> +    return chassis_nr == new_chassis_nr;
-> +}
-> +
-> +static bool bridge_has_valid_chassis_nr(Object *bridge, Error **errp)
-
-I would rename this "bridge_has_unique_chassis_nr".
-
-> +{
-> +    int chassis_nr =
-> +        object_property_get_uint(bridge, "chassis_nr", NULL);
-> +
-> +    /*
-> +     * slotid_cap_init() already ensures that "chassis_nr" isn't null for
-> +     * standard PCI bridges, so this really tells if "chassis_nr" is present
-> +     * or not.
-> +     */
-> +    if (!chassis_nr) {
-> +        error_setg(errp, "PCI Bridge lacks a \"chassis_nr\" property");
-> +        error_append_hint(errp, "Try -device pci-bridge instead.\n");
-> +        return false;
-> +    }
-> +
-> +    /* We want unique values for "chassis_nr" */
-> +    if (object_child_foreach_recursive(object_get_root(), check_chassis_nr,
-> +                                       bridge)) {
-> +        error_setg(errp, "Bridge chassis %d already in use", chassis_nr);
-> +        return false;
-> +    }
-> +
-> +    return true;
-> +}
-> +
->  static void spapr_pci_plug(HotplugHandler *plug_handler,
->                             DeviceState *plugged_dev, Error **errp)
->  {
-> @@ -1491,6 +1542,12 @@ static void spapr_pci_plug(HotplugHandler *plug_handler,
->      PCIBus *bus = PCI_BUS(qdev_get_parent_bus(DEVICE(pdev)));
->      uint32_t slotnr = PCI_SLOT(pdev->devfn);
->  
-> +    if (pc->is_bridge) {
-> +        if (!bridge_has_valid_chassis_nr(OBJECT(plugged_dev), errp)) {
-> +            return;
-> +        }
-> +    }
-> +
-
-
-Add a comment here explaning DRC ids are generated from chassis_nr and
-these need to be unique?
-
-
->      /* if DR is disabled we don't need to do anything in the case of
->       * hotplug or coldplug callbacks
->       */
->
-
-With above fixed:
-
-Acked-by: Michael S. Tsirkin <mst@redhat.com>
- 
-Feel free to merge.
+Failing to start (with a message that explains why) if one of the
+command line options is not covered by a specified security policy is
+not unreasonable (after all, we fail to start for other cases of
+incompatible command line options as well.) However, we also need to
+cover dynamically-added devices. Aborting seems very bad there, just
+failing to add the device seems like what we'd want.
 
 
