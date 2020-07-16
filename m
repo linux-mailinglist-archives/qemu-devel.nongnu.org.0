@@ -2,63 +2,58 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A75D9222AB9
-	for <lists+qemu-devel@lfdr.de>; Thu, 16 Jul 2020 20:16:15 +0200 (CEST)
-Received: from localhost ([::1]:43548 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 35858222AC8
+	for <lists+qemu-devel@lfdr.de>; Thu, 16 Jul 2020 20:20:47 +0200 (CEST)
+Received: from localhost ([::1]:50154 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jw8QX-0008CK-RW
-	for lists+qemu-devel@lfdr.de; Thu, 16 Jul 2020 14:16:13 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:52838)
+	id 1jw8Uu-0002hc-Qk
+	for lists+qemu-devel@lfdr.de; Thu, 16 Jul 2020 14:20:44 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:54068)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <ehabkost@redhat.com>)
- id 1jw8PW-0007gF-Gs
- for qemu-devel@nongnu.org; Thu, 16 Jul 2020 14:15:10 -0400
-Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:27667
+ id 1jw8TS-00018w-7k
+ for qemu-devel@nongnu.org; Thu, 16 Jul 2020 14:19:14 -0400
+Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:57057
  helo=us-smtp-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
  (Exim 4.90_1) (envelope-from <ehabkost@redhat.com>)
- id 1jw8PS-00042A-VO
- for qemu-devel@nongnu.org; Thu, 16 Jul 2020 14:15:09 -0400
+ id 1jw8TP-0004mG-KQ
+ for qemu-devel@nongnu.org; Thu, 16 Jul 2020 14:19:13 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1594923304;
+ s=mimecast20190719; t=1594923550;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=wFKIbaN9GQbFjy8LcU37XB170KYmsvXf4aCCnNdoX90=;
- b=HT7yobJ847AJb5/Ad2heQ9hj5MG42Pi0NMihy9Rg5GA8zlFsUInxYA6Xoa0SDDQ/TrJiHA
- SbovjO/6NdTLBB7GSaWqrbip7NpAd7aILOVj4aIBBl6bhZq/Ddxxtq/84Sj1JdSBHsQMNn
- avXfS4BCuGjjozJ4aX1E276v8z7DDbA=
+ content-transfer-encoding:content-transfer-encoding;
+ bh=bcaUp7K1qGuSxSBLKg7snT0x3RS30X9CYTyFB+6dlUg=;
+ b=dyWFGqoFT1h55L1pp5PPOICHuYbX5AHa/Vk0RpcrfNa7EkaOIc0lFikBvtnOqyB9h4HHMn
+ /nvSGzBVVEYvy0hvfENCqh1VSMqT5OT7zkAg7JJvZwf9LeKPO42Cy6mDwn6A05PVOsW7V4
+ Tx9SzcHghRd0FujRqIViIwGys9soaV4=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-63-Ad74_MXQNOWZvbSklh9EVw-1; Thu, 16 Jul 2020 14:15:01 -0400
-X-MC-Unique: Ad74_MXQNOWZvbSklh9EVw-1
-Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
- [10.5.11.22])
+ us-mta-355-uaOsYLi3NXiD46Cn1A9jxw-1; Thu, 16 Jul 2020 14:19:06 -0400
+X-MC-Unique: uaOsYLi3NXiD46Cn1A9jxw-1
+Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
+ [10.5.11.14])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id A71E019253C2;
- Thu, 16 Jul 2020 18:14:59 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id CF8C380048E;
+ Thu, 16 Jul 2020 18:19:04 +0000 (UTC)
 Received: from localhost (ovpn-119-232.rdu2.redhat.com [10.10.119.232])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 6AE071001901;
- Thu, 16 Jul 2020 18:14:58 +0000 (UTC)
-Date: Thu, 16 Jul 2020 14:14:57 -0400
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 7719478A50;
+ Thu, 16 Jul 2020 18:19:04 +0000 (UTC)
 From: Eduardo Habkost <ehabkost@redhat.com>
-To: Paolo Bonzini <pbonzini@redhat.com>
-Subject: Re: [PATCH for-5.1] i386: hvf: Explicitly set CR4 guest/host mask
-Message-ID: <20200716181457.GM1274972@habkost.net>
-References: <20200714090726.41082-1-r.bolshakov@yadro.com>
- <20200714103932.GB90799@SPB-NB-133.local>
- <CABgObfYgRVpy6WvjzFG0Zb+2bjQp6HYOuZePbtkbxWjLkxBYjw@mail.gmail.com>
+To: Peter Maydell <peter.maydell@linaro.org>,
+	qemu-devel@nongnu.org
+Subject: [PULL 0/6] x86 fixes for -rc1
+Date: Thu, 16 Jul 2020 14:18:57 -0400
+Message-Id: <20200716181903.1895314-1-ehabkost@redhat.com>
 MIME-Version: 1.0
-In-Reply-To: <CABgObfYgRVpy6WvjzFG0Zb+2bjQp6HYOuZePbtkbxWjLkxBYjw@mail.gmail.com>
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=ehabkost@redhat.com
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: quoted-printable
 Received-SPF: pass client-ip=207.211.31.120; envelope-from=ehabkost@redhat.com;
  helo=us-smtp-1.mimecast.com
 X-detected-operating-system: by eggs.gnu.org: First seen = 2020/07/16 04:25:38
@@ -82,36 +77,60 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: programmingkidx@gmail.com, Roman Bolshakov <r.bolshakov@yadro.com>,
- qemu-devel <qemu-devel@nongnu.org>, Cameron Esfahani <dirty@apple.com>,
- Richard Henderson <rth@twiddle.net>
+Cc: Paolo Bonzini <pbonzini@redhat.com>,
+ Roman Bolshakov <r.bolshakov@yadro.com>, Eduardo Habkost <ehabkost@redhat.com>,
+ Cameron Esfahani <dirty@apple.com>, Richard Henderson <rth@twiddle.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Tue, Jul 14, 2020 at 08:20:04PM +0200, Paolo Bonzini wrote:
-> Hi Roman, please ask Peter to apply it directly because I won't be able to
-> send a pull request in the next couple of weeks.
-> 
-> Paolo
-> 
-> Il mar 14 lug 2020, 12:39 Roman Bolshakov <r.bolshakov@yadro.com> ha
-> scritto:
-> 
-> > On Tue, Jul 14, 2020 at 12:07:27PM +0300, Roman Bolshakov wrote:
-> > > Removal of register reset omitted initialization of CR4 guest/host mask.
-> > > x86_64 guests aren't booting without it.
-> > >
-> > > Fixes: 5009ef22c6bb2 ("i386: hvf: Don't duplicate register reset")
-> > > Signed-off-by: Roman Bolshakov <r.bolshakov@yadro.com>
-> > >
-> >
-> > If one has a chance to test or review it, it'd be very helpful. That'd
-> > allow to include it in RC0.
-> >
-
-I'll queue it for my -rc1 pull request.
-
--- 
-Eduardo
+The following changes since commit ee5128bb00f90dd301991d80d1db5224ce924c84=
+:=0D
+=0D
+  Merge remote-tracking branch 'remotes/jasowang/tags/net-pull-request' int=
+o staging (2020-07-16 13:12:05 +0100)=0D
+=0D
+are available in the Git repository at:=0D
+=0D
+  git://github.com/ehabkost/qemu.git tags/x86-next-pull-request=0D
+=0D
+for you to fetch changes up to 818b9f111d64b40661d08f5e23236ac1ca5df505:=0D
+=0D
+  i386: hvf: Explicitly set CR4 guest/host mask (2020-07-16 14:15:13 -0400)=
+=0D
+=0D
+----------------------------------------------------------------=0D
+x86 fixes for -rc1=0D
+=0D
+Fixes for x86 that missed hard freeze:=0D
+* Don't trigger warnings for features set by=0D
+  CPU model versions (Xiaoyao Li)=0D
+* Missing features in Icelake-Server, Skylake-Server,=0D
+  Cascadelake-Server CPU models (Chenyi Qiang)=0D
+* Fix hvf x86_64 guest boot crash (Roman Bolshakov)=0D
+=0D
+----------------------------------------------------------------=0D
+=0D
+Chenyi Qiang (3):=0D
+  target/i386: add fast short REP MOV support=0D
+  target/i386: fix model number and add missing features for=0D
+    Icelake-Server CPU model=0D
+  target/i386: add the missing vmx features for Skylake-Server and=0D
+    Cascadelake-Server CPU models=0D
+=0D
+Roman Bolshakov (1):=0D
+  i386: hvf: Explicitly set CR4 guest/host mask=0D
+=0D
+Xiaoyao Li (2):=0D
+  i368/cpu: Clear env->user_features after loading versioned CPU model=0D
+  i386/cpu: Don't add unavailable_features to env->user_features=0D
+=0D
+ target/i386/cpu.h     |  2 ++=0D
+ target/i386/hvf/vmx.h |  1 +=0D
+ target/i386/cpu.c     | 38 ++++++++++++++++++++++++++++++++++++--=0D
+ 3 files changed, 39 insertions(+), 2 deletions(-)=0D
+=0D
+--=20=0D
+2.26.2=0D
+=0D
 
 
