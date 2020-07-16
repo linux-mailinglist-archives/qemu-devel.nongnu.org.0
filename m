@@ -2,72 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3E30A22242F
-	for <lists+qemu-devel@lfdr.de>; Thu, 16 Jul 2020 15:44:24 +0200 (CEST)
-Received: from localhost ([::1]:33670 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 04032222437
+	for <lists+qemu-devel@lfdr.de>; Thu, 16 Jul 2020 15:47:30 +0200 (CEST)
+Received: from localhost ([::1]:37840 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jw4BT-0006a0-AW
-	for lists+qemu-devel@lfdr.de; Thu, 16 Jul 2020 09:44:23 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:59666)
+	id 1jw4ES-0008Um-Qz
+	for lists+qemu-devel@lfdr.de; Thu, 16 Jul 2020 09:47:28 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:60870)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <cohuck@redhat.com>) id 1jw4AT-0005aR-IQ
- for qemu-devel@nongnu.org; Thu, 16 Jul 2020 09:43:21 -0400
-Received: from us-smtp-1.mimecast.com ([207.211.31.81]:20983
- helo=us-smtp-delivery-1.mimecast.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <cohuck@redhat.com>) id 1jw4AR-0006K0-6R
- for qemu-devel@nongnu.org; Thu, 16 Jul 2020 09:43:20 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1594906997;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=/ySTIa6cNC6EDm9bKUehXmbkXOL8bUZv0WDuVb4VfAE=;
- b=ZvXAAPGzhMziT//6NfZUbYe3ODRbpl0V1IPfpk+Kd9WQBIT7Ss4uYNyzVzUqZ2cKTWcGGJ
- p5FhF+f1kYOGuoeSi8D2dUTvC86wpjDo7s2oRQAc/P67XWJpO2gqaHNlmskSJe1jUlvqSH
- WtE4HkBymj3uYAITwHloLBA7U1FoBQ0=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-67-nktLm9ViMiKD8LVvtMO1xg-1; Thu, 16 Jul 2020 09:43:15 -0400
-X-MC-Unique: nktLm9ViMiKD8LVvtMO1xg-1
-Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
- [10.5.11.15])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 46A1B193F560;
- Thu, 16 Jul 2020 13:43:09 +0000 (UTC)
-Received: from gondolin (ovpn-113-57.ams2.redhat.com [10.36.113.57])
- by smtp.corp.redhat.com (Postfix) with ESMTP id EABA5710D7;
- Thu, 16 Jul 2020 13:43:07 +0000 (UTC)
-Date: Thu, 16 Jul 2020 15:43:05 +0200
-From: Cornelia Huck <cohuck@redhat.com>
-To: "Michael S. Tsirkin" <mst@redhat.com>, Halil Pasic <pasic@linux.ibm.com>
-Subject: Re: [PATCH 0/2] virtio: non-legacy device handling
-Message-ID: <20200716154305.0fc2d2b4.cohuck@redhat.com>
-In-Reply-To: <20200707105446.677966-1-cohuck@redhat.com>
-References: <20200707105446.677966-1-cohuck@redhat.com>
-Organization: Red Hat GmbH
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1jw4De-00083f-CI
+ for qemu-devel@nongnu.org; Thu, 16 Jul 2020 09:46:38 -0400
+Received: from mail-ot1-x334.google.com ([2607:f8b0:4864:20::334]:45497)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1jw4Dc-00075v-A9
+ for qemu-devel@nongnu.org; Thu, 16 Jul 2020 09:46:38 -0400
+Received: by mail-ot1-x334.google.com with SMTP id h1so4208495otq.12
+ for <qemu-devel@nongnu.org>; Thu, 16 Jul 2020 06:46:35 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=YRmjzRgsY5nHWRvfGWos/yrD8/aWPFlBmoJVJanVGHQ=;
+ b=MhcKW7ljYJACnna8U3op6YNKfjtYu4SNumN/7zgVFFDhjepPqeeo3xymJHxCm+BnBL
+ dmFDZQFyUBJVWobpGSdSlEK5ZaBcS94GbCNoh6ukaolCGxWs/Tx5FgRY+i9Lz39ei2vY
+ VOh6U6pzZWhFFiBL67V8gQJa+KCzzs79csu80ySNRenXxFTTRgaN8+rIJ+XmaaEK9UyW
+ bA+jKVqQ+6TSgg+vatPxCHn8WM0Jx70O9WzQtPA37r4J0zdqWR5jcayOD3EhywBli8eM
+ mUzRUmXox2/Mn7jTPED7SwZ0r7RczMdx/TEJlLoZ5PJELnKw98KhBNWOygqtTj60ALa2
+ bw+Q==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=YRmjzRgsY5nHWRvfGWos/yrD8/aWPFlBmoJVJanVGHQ=;
+ b=VzR6otbcHSQDG8+/8ZKRdXavvUU2zbbBObL9BIezNTNjA6Hmxt/epfo6Qy8Wsrc4C1
+ baBF9nApkfBEjsag+J+uSs7yKOpT8EiAey0dJwg1lluUJ9wdedV9HjwhxwjemsWvIkcU
+ 2kdq/xTNolkCzqvvvWDqa+0GjoujzYCmetW5Rndd36gYcWK/1Ozqx3nJScDVdw7Tyhpz
+ 5XQS/TonLf5pTPFj/dOwOyTeDTLtLVT13q2yX++xDANlhr1Hdcbh0sx5FXdN06NeXhLE
+ 37CjTpxZ5OEwVOz77lp3msmeNvjeJoLSxMSSeOIkLWh6wWEFQRfUZj8z4yD8TOW/OOMd
+ 9ESg==
+X-Gm-Message-State: AOAM530mq2DN3DLC3L5qfOxYTRg8XKSqfrxUWKrobX6AOJOjTQ1vjQ5G
+ LKhwV8ssAVuRTMn14WgkjnfzO4BW7uYomwAxWM6idA==
+X-Google-Smtp-Source: ABdhPJw64Pvj5OhrJQd6s1WzB8d/6cM4CF6MXjSlK1dlngNKHY7JziEpfESzyhXsIzp9a6szt1vmdR7Gy9d4GrB17vU=
+X-Received: by 2002:a05:6830:10ce:: with SMTP id
+ z14mr4626989oto.135.1594907194940; 
+ Thu, 16 Jul 2020 06:46:34 -0700 (PDT)
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=cohuck@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=207.211.31.81; envelope-from=cohuck@redhat.com;
- helo=us-smtp-delivery-1.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/07/16 04:55:15
-X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
-X-Spam_score_int: -30
-X-Spam_score: -3.1
-X-Spam_bar: ---
-X-Spam_report: (-3.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H3=-0.01, RCVD_IN_MSPIKE_WL=-0.01,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+References: <1594821201-3708-1-git-send-email-jasowang@redhat.com>
+In-Reply-To: <1594821201-3708-1-git-send-email-jasowang@redhat.com>
+From: Peter Maydell <peter.maydell@linaro.org>
+Date: Thu, 16 Jul 2020 14:46:23 +0100
+Message-ID: <CAFEAcA8exoP8ouarcytKha36HSm7kLBy36pD2+sMcaAuR0RjLw@mail.gmail.com>
+Subject: Re: [PULL 0/7] Net patches
+To: Jason Wang <jasowang@redhat.com>
+Content-Type: text/plain; charset="UTF-8"
+Received-SPF: pass client-ip=2607:f8b0:4864:20::334;
+ envelope-from=peter.maydell@linaro.org; helo=mail-ot1-x334.google.com
+X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
+ That's all we know.
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -80,45 +79,34 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Eric Auger <eric.auger@redhat.com>, qemu-s390x@nongnu.org,
- qemu-devel@nongnu.org
+Cc: QEMU Developers <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Tue,  7 Jul 2020 12:54:44 +0200
-Cornelia Huck <cohuck@redhat.com> wrote:
+On Wed, 15 Jul 2020 at 14:53, Jason Wang <jasowang@redhat.com> wrote:
+>
+> The following changes since commit 673205379fb499d2b72f2985b47ec7114282f5fe:
+>
+>   Merge remote-tracking branch 'remotes/philmd-gitlab/tags/python-next-20200714' into staging (2020-07-15 13:04:27 +0100)
+>
+> are available in the git repository at:
+>
+>   https://github.com/jasowang/qemu.git tags/net-pull-request
+>
+> for you to fetch changes up to a134321ef676723768973537bb9b49365ae2062e:
+>
+>   ftgmac100: fix dblac write test (2020-07-15 21:00:13 +0800)
+>
+> ----------------------------------------------------------------
+>
+> ----------------------------------------------------------------
 
-> As discussed in "virtio-fs: force virtio 1.x usage", it seems like
-> a good idea to make sure that any new virtio device (which does not
-> support legacy virtio) is indeed a non-transitional device, just to
-> catch accidental misconfigurations. We can easily compile a list
-> of virtio devices with legacy support and have transports verify
-> in their plugged callbacks that legacy support is off for any device
-> not in that list.
-> 
-> Most new virtio devices force non-transitional already, so nothing
-> changes for them. vhost-user-fs-pci even does not allow to configure
-> a non-transitional device, so it is fine as well.
-> 
-> One problematic device, however, is virtio-iommu-pci. It currently
-> offers both the transitional and the non-transitional variety of the
-> device, and does not force anything. I'm unsure whether we should
-> consider transitional virtio-iommu unsupported, or if we should add
-> some compat handling. (The support for legacy or not generally may
-> change based upon the bus, IIUC, so I'm unsure how to come up with
-> something generic.)
-> 
-> Cornelia Huck (2):
->   virtio: list legacy-capable devices
->   virtio: verify that legacy support is not accidentally on
-> 
->  hw/s390x/virtio-ccw.c      |  6 ++++++
->  hw/virtio/virtio-pci.c     |  4 ++++
->  hw/virtio/virtio.c         | 25 +++++++++++++++++++++++++
->  include/hw/virtio/virtio.h |  2 ++
->  4 files changed, 37 insertions(+)
-> 
 
-Friendly ping.
 
+Applied, thanks.
+
+Please update the changelog at https://wiki.qemu.org/ChangeLog/5.1
+for any user-visible changes.
+
+-- PMM
 
