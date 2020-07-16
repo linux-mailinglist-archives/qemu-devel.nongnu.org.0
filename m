@@ -2,106 +2,77 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 48D252223A2
-	for <lists+qemu-devel@lfdr.de>; Thu, 16 Jul 2020 15:14:17 +0200 (CEST)
-Received: from localhost ([::1]:60990 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 181FD222386
+	for <lists+qemu-devel@lfdr.de>; Thu, 16 Jul 2020 15:06:17 +0200 (CEST)
+Received: from localhost ([::1]:48324 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jw3iK-0001eh-CX
-	for lists+qemu-devel@lfdr.de; Thu, 16 Jul 2020 09:14:16 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:49276)
+	id 1jw3aZ-0004WO-Lw
+	for lists+qemu-devel@lfdr.de; Thu, 16 Jul 2020 09:06:15 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:46890)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <saipava@xilinx.com>)
- id 1jw3h2-0000nF-6r
- for qemu-devel@nongnu.org; Thu, 16 Jul 2020 09:12:57 -0400
-Received: from mail-co1nam11on2085.outbound.protection.outlook.com
- ([40.107.220.85]:46337 helo=NAM11-CO1-obe.outbound.protection.outlook.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <saipava@xilinx.com>)
- id 1jw3gx-0000Vs-Sx
- for qemu-devel@nongnu.org; Thu, 16 Jul 2020 09:12:55 -0400
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=C3VhnfpM6PqM9OKW4U2fiWdJRiIkIq8xbanzz+bnVu8BZUe6rbxW4eiZFzUsHojXB+TSD/qvUUQ3TM0cWhCW74itQQ/cNOZeI/RgsOpOEJhG64+tQeiLohTnfsFXi4KquJcz0Q169D6HYzHAY7iqsVImkVI6gOuIoOio4ae31YbJhX9aTFjAZszkRB7SO1s3ArtjNYv02RW2RhM7QW5FnGCZAY1Mezg9pUWU9PjwONN29Qd9N1AN4hzGdv1ZCDNBXflq7HGsOLpdT0X6Dnc7hx4vUZeVeliNZ9XBTC3FUDZw+rCYp40pu94AWs3C/vLXlrrvNsSO90BDJXQmuJ8Z3Q==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=Z19xqZfmfBfSXKcvZnOjq2kiXs2Qz/Fmsb1Z03t+XzA=;
- b=lROvgDPCU3qL3KWv/3O5yYP0uEKsZvXARoGbmpo/1KyjrkqOWvDqMXQROD3uflBoO10wGICvRk6haAC45ARTv9D3bfyPUg2IAu33Gkp+w5bMXpwg7FlmOB+0KdR+Wf3cTcRIOjACXkImNTORSUGyRvyZPUONM7natcjg3p9bluq4vJ7gKiAjeGYNa5LoOfe1rrCaK2s/gDGCztHHyvKzkFte0wtfYTLTYtfqdHErQPEZM3izFg4lhpvwET/4ffUfzqVNdkJ1XFDWd+cIJiBIKijU/V88wHqc6gznunyt0bfvAXFSXH2BS/0N+PjkxIePQ2QPCW1rA8/lKkOR6KDC0A==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=xilinx.com; dmarc=pass action=none header.from=xilinx.com;
- dkim=pass header.d=xilinx.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=xilinx.onmicrosoft.com; s=selector2-xilinx-onmicrosoft-com;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=Z19xqZfmfBfSXKcvZnOjq2kiXs2Qz/Fmsb1Z03t+XzA=;
- b=j/N0z2VpdRf1g7h5FZbMdwPaOdn37flA8WRqP5l9qtM4zCOYjMVaT5WO27iVl1bRMbqqz7YNoJLJa3CFaTaEBoWyCK0bdqNwWwH4THcH5LxKZfxFQ+tb4zP9gEMjFRUbBRHXb+z6yC7/kHMIDzw+EqY+f0gSv9hWcdacpDONnhc=
-Received: from BY5PR02MB6772.namprd02.prod.outlook.com (2603:10b6:a03:206::11)
- by BYAPR02MB6437.namprd02.prod.outlook.com (2603:10b6:a03:120::32)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3174.20; Thu, 16 Jul
- 2020 12:57:45 +0000
-Received: from BY5PR02MB6772.namprd02.prod.outlook.com
- ([fe80::4477:7134:37a6:c828]) by BY5PR02MB6772.namprd02.prod.outlook.com
- ([fe80::4477:7134:37a6:c828%3]) with mapi id 15.20.3174.026; Thu, 16 Jul 2020
- 12:57:44 +0000
-From: Sai Pavan Boddu <saipava@xilinx.com>
-To: Gerd Hoffmann <kraxel@redhat.com>
-Subject: RE: [PATCH v3 0/3] Make hcd-xhci independent of pci hooks
-Thread-Topic: [PATCH v3 0/3] Make hcd-xhci independent of pci hooks
-Thread-Index: AQHWVH9z5HwbdGG7uECzkfpq3kp5uKkHJK6AgAFeDwCAAbVsMA==
-Date: Thu, 16 Jul 2020 12:57:44 +0000
-Message-ID: <BY5PR02MB67727B3D3EE0AC2572CBB74DCA7F0@BY5PR02MB6772.namprd02.prod.outlook.com>
-References: <1594140271-16462-1-git-send-email-sai.pavan.boddu@xilinx.com>
- <BY5PR02MB6772B76423A07CFA4B4E5FA9CA610@BY5PR02MB6772.namprd02.prod.outlook.com>
- <20200715105118.kslptf22i5t7icdy@sirius.home.kraxel.org>
-In-Reply-To: <20200715105118.kslptf22i5t7icdy@sirius.home.kraxel.org>
-Accept-Language: en-US
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-Auto-Response-Suppress: DR, RN, NRN, OOF, AutoReply
-X-MS-TNEF-Correlator: 
-authentication-results: redhat.com; dkim=none (message not signed)
- header.d=none;redhat.com; dmarc=none action=none header.from=xilinx.com;
-x-originating-ip: [149.199.50.128]
-x-ms-publictraffictype: Email
-x-ms-office365-filtering-ht: Tenant
-x-ms-office365-filtering-correlation-id: 9428c8f6-c39d-47d0-2401-08d82987d55e
-x-ms-traffictypediagnostic: BYAPR02MB6437:
-x-ms-exchange-transport-forked: True
-x-microsoft-antispam-prvs: <BYAPR02MB6437D8AA05DE1BABAA18D93BCA7F0@BYAPR02MB6437.namprd02.prod.outlook.com>
-x-ms-oob-tlc-oobclassifiers: OLM:8882;
-x-ms-exchange-senderadcheck: 1
-x-microsoft-antispam: BCL:0;
-x-microsoft-antispam-message-info: 3WeR8QLvb71Jqw0Rq3Zt0x86lQhdpymbQU2Sk+gWXtk8Or/1xj/ejUVLc1+k1DHfpgK4e7vJefgQ4z5HfnOzY6CNwnZ7/kBOX3FmBjCNLl7Of7758iInFU9k62/XsJo5KG3TAVIE5Tp45FeKQhIBA4DSPfCGRMCtsLPoO8n0eG7Rv+ZiUHd3om/PEjtHkW6167jochWtObhBmudm1KW8Zh6e3jmknOi/gQxzzZE7hXmGpSQMRhGOBHhooFzUMAN4ii2uvhGobjXDLhHfev666PgNHgoCfZMNieaqlrYMsY1Jn7/nw420xeDq/0DIKvoZpqVBsThKJ3GwlbUiq8CcVg==
-x-forefront-antispam-report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:BY5PR02MB6772.namprd02.prod.outlook.com; PTR:; CAT:NONE;
- SFTY:;
- SFS:(136003)(396003)(366004)(39860400002)(346002)(376002)(5660300002)(86362001)(2906002)(9686003)(66556008)(7696005)(66476007)(4744005)(64756008)(66446008)(66946007)(53546011)(71200400001)(6506007)(8676002)(26005)(76116006)(54906003)(52536014)(6916009)(8936002)(186003)(316002)(55016002)(33656002)(478600001)(7416002)(83380400001)(4326008);
- DIR:OUT; SFP:1101; 
-x-ms-exchange-antispam-messagedata: MlnkElmVsPYIiMeVUbvUvmIUMG4isxU1uIcyOzQnjZlz4ek9ekuRLV6xycep4G/kQt+T0A7NC0W94GxaOsRDh6SzC7Au3CU17Enjd0t0yHaKmRY+nu1l2fMppRykJGSBZMZTahzxtuzzBzkkQpZCEyoAotDgAqz8I891+b221AdMnZtPsMliSk2d6VhrvSKsSkaqOW8YtnnWOP3XWYtM1TArQfDBZvcZgPVcKln2fdGRV+fHctIKIMg+wZ4eQs2YqJoPysKWoHMrbdEEKnWcRK5I3fU10sDBP/44xPOYVDwWHQQ+sug9z9RK5wN/Gk96mXrIfGFBBie461h0deoNejUPnP3MLEd+dSYh2VzQA08C9SZwI/BZYwq3u2IlIbH+a2TGsMNqh1K9sz49LjxwUuhQUmS2SUayuo9zXPh8pVFgolw4EYWFnIauuQWmSq1T+onU9N9aV5+4DaR8BT4s9/CoARgxUNIo4nRmaLO1H9DIjLdu9zy/eyf1zvQnaMeL
-Content-Type: text/plain; charset="iso-8859-1"
-Content-Transfer-Encoding: quoted-printable
+ (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
+ id 1jw3ZI-0003V1-Q0
+ for qemu-devel@nongnu.org; Thu, 16 Jul 2020 09:04:56 -0400
+Received: from us-smtp-2.mimecast.com ([207.211.31.81]:59188
+ helo=us-smtp-delivery-1.mimecast.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
+ id 1jw3ZG-0007Xy-22
+ for qemu-devel@nongnu.org; Thu, 16 Jul 2020 09:04:55 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1594904691;
+ h=from:from:reply-to:reply-to:subject:subject:date:date:
+ message-id:message-id:to:to:cc:cc:mime-version:mime-version:
+ content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=az+FmhN9pIiPX+LZPos7raST+pyWDt55nirXChkVUsk=;
+ b=ew/Fk17TtWzt+TUFAiQysVQ9KMVuF5BjmFXPQxbs8fOcvuIpWeM/VJBaO16AVpcqQvAvYA
+ T74cLZzaRoGVzueZaYsOaiGk+TvvT2pUoXY5qOVjI3av5tqSWpAGPY4NSFVsEH5ObWut7f
+ p9ynoW0ohYV7CMwPbta0S6F4srFPiPs=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-319-wJh8r9ASND-BW_uZ_7uN3Q-1; Thu, 16 Jul 2020 09:04:49 -0400
+X-MC-Unique: wJh8r9ASND-BW_uZ_7uN3Q-1
+Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
+ [10.5.11.12])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 9AB15107ACCA;
+ Thu, 16 Jul 2020 13:04:47 +0000 (UTC)
+Received: from redhat.com (unknown [10.36.110.42])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 99B3D6FEF4;
+ Thu, 16 Jul 2020 13:04:43 +0000 (UTC)
+Date: Thu, 16 Jul 2020 14:04:40 +0100
+From: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
+To: Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
+Subject: Re: [RFC PATCH-for-5.2 v2 2/2] block/block-backend: Let
+ blk_attach_dev() provide helpful error
+Message-ID: <20200716130440.GT227735@redhat.com>
+References: <20200716123704.6557-1-f4bug@amsat.org>
+ <20200716123704.6557-3-f4bug@amsat.org>
 MIME-Version: 1.0
-X-OriginatorOrg: xilinx.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: BY5PR02MB6772.namprd02.prod.outlook.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 9428c8f6-c39d-47d0-2401-08d82987d55e
-X-MS-Exchange-CrossTenant-originalarrivaltime: 16 Jul 2020 12:57:44.8362 (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: 657af505-d5df-48d0-8300-c31994686c5c
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: WB5Z7bPYxrMTGQFdvR9bDDxFlCaWXKXvi4fFMBDCDm5q+JQ3ty5gV6tja8193YF5wOsAdduQmrWLnLgQ6i7YyQ==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: BYAPR02MB6437
-Received-SPF: pass client-ip=40.107.220.85; envelope-from=saipava@xilinx.com;
- helo=NAM11-CO1-obe.outbound.protection.outlook.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/07/16 09:12:48
-X-ACL-Warn: Detected OS   = Windows NT kernel [generic] [fuzzy]
-X-Spam_score_int: -28
-X-Spam_score: -2.9
-X-Spam_bar: --
-X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-1,
- SPF_HELO_PASS=-0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+In-Reply-To: <20200716123704.6557-3-f4bug@amsat.org>
+User-Agent: Mutt/1.14.5 (2020-06-23)
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: 8bit
+Content-Disposition: inline
+Received-SPF: pass client-ip=207.211.31.81; envelope-from=berrange@redhat.com;
+ helo=us-smtp-delivery-1.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/07/16 04:55:15
+X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
+X-Spam_score_int: -30
+X-Spam_score: -3.1
+X-Spam_bar: ---
+X-Spam_report: (-3.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H3=-0.01, RCVD_IN_MSPIKE_WL=-0.01,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ URIBL_BLOCKED=0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -114,51 +85,89 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Maydell <peter.maydell@linaro.org>, Thomas Huth <thuth@redhat.com>,
- Eduardo Habkost <ehabkost@redhat.com>, Vikram Garhwal <fnuv@xilinx.com>,
- "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>,
- Markus Armbruster <armbru@redhat.com>,
- Alistair Francis <alistair.francis@wdc.com>,
- Paolo Bonzini <pbonzini@redhat.com>, Ying Fang <fangying1@huawei.com>,
- =?iso-8859-1?Q?=27Marc-Andr=E9_Lureau=27?= <marcandre.lureau@redhat.com>,
- Paul Zimmerman <pauldzim@gmail.com>,
- =?iso-8859-1?Q?=27Philippe_Mathieu-Daud=E9=27?= <philmd@redhat.com>
+Reply-To: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
+Cc: Fam Zheng <fam@euphon.net>, Kevin Wolf <kwolf@redhat.com>,
+ Stefano Stabellini <sstabellini@kernel.org>,
+ Eduardo Habkost <ehabkost@redhat.com>, qemu-block@nongnu.org,
+ Paul Durrant <paul@xen.org>, Markus Armbruster <armbru@redhat.com>,
+ qemu-devel@nongnu.org, Paolo Bonzini <pbonzini@redhat.com>,
+ Anthony Perard <anthony.perard@citrix.com>, xen-devel@lists.xenproject.org,
+ Max Reitz <mreitz@redhat.com>, John Snow <jsnow@redhat.com>,
+ Laurent Vivier <laurent@vivier.eu>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Hi Gred,
+On Thu, Jul 16, 2020 at 02:37:04PM +0200, Philippe Mathieu-Daudé wrote:
+> Let blk_attach_dev() take an Error* object to return helpful
+> information. Adapt the callers.
+> 
+>   $ qemu-system-arm -M n800
+>   qemu-system-arm: sd_init failed: cannot attach blk 'sd0' to device 'sd-card'
+>   blk 'sd0' is already attached by device 'omap2-mmc'
+>   Drive 'sd0' is already in use because it has been automatically connected to another device
+>   (do you need 'if=none' in the drive options?)
+> 
+> Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
+> ---
+> v2: Rebased after 668f62ec62 ("error: Eliminate error_propagate()")
+> ---
+>  include/sysemu/block-backend.h   |  2 +-
+>  block/block-backend.c            | 11 ++++++++++-
+>  hw/block/fdc.c                   |  4 +---
+>  hw/block/swim.c                  |  4 +---
+>  hw/block/xen-block.c             |  5 +++--
+>  hw/core/qdev-properties-system.c | 16 +++++++++-------
+>  hw/ide/qdev.c                    |  4 +---
+>  hw/scsi/scsi-disk.c              |  4 +---
+>  8 files changed, 27 insertions(+), 23 deletions(-)
+> 
+> diff --git a/include/sysemu/block-backend.h b/include/sysemu/block-backend.h
+> index 8203d7f6f9..118fbad0b4 100644
+> --- a/include/sysemu/block-backend.h
+> +++ b/include/sysemu/block-backend.h
+> @@ -113,7 +113,7 @@ BlockDeviceIoStatus blk_iostatus(const BlockBackend *blk);
+>  void blk_iostatus_disable(BlockBackend *blk);
+>  void blk_iostatus_reset(BlockBackend *blk);
+>  void blk_iostatus_set_err(BlockBackend *blk, int error);
+> -int blk_attach_dev(BlockBackend *blk, DeviceState *dev);
+> +int blk_attach_dev(BlockBackend *blk, DeviceState *dev, Error **errp);
+>  void blk_detach_dev(BlockBackend *blk, DeviceState *dev);
+>  DeviceState *blk_get_attached_dev(BlockBackend *blk);
+>  char *blk_get_attached_dev_id(BlockBackend *blk);
+> diff --git a/block/block-backend.c b/block/block-backend.c
+> index 63ff940ef9..b7be0a4619 100644
+> --- a/block/block-backend.c
+> +++ b/block/block-backend.c
+> @@ -884,12 +884,21 @@ void blk_get_perm(BlockBackend *blk, uint64_t *perm, uint64_t *shared_perm)
+>  
+>  /*
+>   * Attach device model @dev to @blk.
+> + *
+> + * @blk: Block backend
+> + * @dev: Device to attach the block backend to
+> + * @errp: pointer to NULL initialized error object
+> + *
+>   * Return 0 on success, -EBUSY when a device model is attached already.
+>   */
+> -int blk_attach_dev(BlockBackend *blk, DeviceState *dev)
+> +int blk_attach_dev(BlockBackend *blk, DeviceState *dev, Error **errp)
+>  {
+>      trace_blk_attach_dev(blk_name(blk), object_get_typename(OBJECT(dev)));
+>      if (blk->dev) {
+> +        error_setg(errp, "cannot attach blk '%s' to device '%s'",
+> +                   blk_name(blk), object_get_typename(OBJECT(dev)));
+> +        error_append_hint(errp, "blk '%s' is already attached by device '%s'\n",
+> +                          blk_name(blk), object_get_typename(OBJECT(blk->dev)));
 
-> -----Original Message-----
-> From: Gerd Hoffmann <kraxel@redhat.com>
-> Sent: Wednesday, July 15, 2020 4:21 PM
-> To: Sai Pavan Boddu <saipava@xilinx.com>
-> Cc: Peter Maydell <peter.maydell@linaro.org>; Markus Armbruster
-> <armbru@redhat.com>; Thomas Huth <thuth@redhat.com>; Eduardo
-> Habkost <ehabkost@redhat.com>; qemu-devel@nongnu.org; Alistair Francis
-> <alistair.francis@wdc.com>; 'Marc-Andr=E9 Lureau'
-> <marcandre.lureau@redhat.com>; Ying Fang <fangying1@huawei.com>;
-> Paolo Bonzini <pbonzini@redhat.com>; 'Philippe Mathieu-Daud=E9'
-> <philmd@redhat.com>; Vikram Garhwal <fnuv@xilinx.com>; Paul
-> Zimmerman <pauldzim@gmail.com>
-> Subject: Re: [PATCH v3 0/3] Make hcd-xhci independent of pci hooks
->=20
-> On Tue, Jul 14, 2020 at 01:59:12PM +0000, Sai Pavan Boddu wrote:
-> > Hi Gerd,
-> >
-> > Any review on V3. So that I can work on.
->=20
-> Busy due to freeze, sorry for the delay.
-> Looks good to me overall.  Not tested yet.
->=20
-> Wasn't the plan to include the sysbus bits too, so it's easier to see how=
- code
-> code separation works out on both pci and sysbus?
-[Sai Pavan Boddu] Ok, I will include that in V4.
+I would have a preference for expanding the main error message and not
+using a hint.  Any hint is completely thrown away when using QMP :-(
 
-Thanks,
-Sai Pavan
->=20
-> take care,
->   Gerd
+
+Regards,
+Daniel
+-- 
+|: https://berrange.com      -o-    https://www.flickr.com/photos/dberrange :|
+|: https://libvirt.org         -o-            https://fstop138.berrange.com :|
+|: https://entangle-photo.org    -o-    https://www.instagram.com/dberrange :|
 
 
