@@ -2,72 +2,58 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 22BA0222600
-	for <lists+qemu-devel@lfdr.de>; Thu, 16 Jul 2020 16:41:07 +0200 (CEST)
-Received: from localhost ([::1]:43798 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4748522260C
+	for <lists+qemu-devel@lfdr.de>; Thu, 16 Jul 2020 16:43:27 +0200 (CEST)
+Received: from localhost ([::1]:46606 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jw54M-0002is-5P
-	for lists+qemu-devel@lfdr.de; Thu, 16 Jul 2020 10:41:06 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:46922)
+	id 1jw56c-0003vM-Bt
+	for lists+qemu-devel@lfdr.de; Thu, 16 Jul 2020 10:43:26 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:47810)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1jw536-0001gU-K2
- for qemu-devel@nongnu.org; Thu, 16 Jul 2020 10:39:48 -0400
-Received: from mail-oi1-x241.google.com ([2607:f8b0:4864:20::241]:42959)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1jw534-0007gb-Mq
- for qemu-devel@nongnu.org; Thu, 16 Jul 2020 10:39:48 -0400
-Received: by mail-oi1-x241.google.com with SMTP id t4so5239065oij.9
- for <qemu-devel@nongnu.org>; Thu, 16 Jul 2020 07:39:46 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=y65RhF2V5cNpl6EuruJMdTRMhPky0ICrRpc567TcmTo=;
- b=ua55TD2IDP/z4SjXLwS6mF4938Fh1TpulKKXNeUpa6WLNsJ/hAYlte62ugA/bzK8An
- 0LljFV89kDOph4QtW7Qef5P+nrui9brwua5N8oI1rmLMvgeGwZM3lbBqixSI2UgJMrlk
- RhNSjkYQv/fBJyrsYBD+E2pboPIrruMDnNp9fJ1FwtnIfV4xNnPzfbzsAHZ6kQ6OPYki
- Rphk4CzxgfzUZ/VQJvl/LpqP/EoeJepc3OQtJf+/7ZVBpjBDauxvjVPOk0JAYjDHBOLd
- vVG+1g96NBL691ESkWQhTNjIRV+Oi0dLcEfAGNpj518++DwcttIqMFPR4vZ3zT2VqRT3
- o2vw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=y65RhF2V5cNpl6EuruJMdTRMhPky0ICrRpc567TcmTo=;
- b=fWZWMtlZTJ+uChY8PijSC5TDopvtcz/TzkCLpwsa4vTU9X9ULRMXeJHXkYZtwTyO/l
- o44ypRJ4O7cwjtXqlhLG8nFUlPQ7Qdqp7lczRqKqSlDHQtrBFS+Ol0p39CVOiNA6C3Jf
- JnkVCmfFnYcar5dO3d9lUnuJgqCx1l3V/fAlKOueCYuWfoqQ1x1ub1iaHDlYI3BYf8Rd
- dEdkH9XbC9G7yLEac0ctAY+3Vo1l45ZxWbpjo9eY1XYEADZIu+6/z290e9J4AdnYy40E
- KhyLaYgVgIyriL5If/lztvizJfxbzkM7NOW4+NuAiUYBgTLaEu9ZBKRXbBhV8PcMhwfI
- IG6A==
-X-Gm-Message-State: AOAM533rdeevr8y73L2h1Swf9E6/h7ApT7dset/OS1JHguFDq0hwPeVN
- rPAnZMhzVkW+1TPD41VG4hgQTa8uDYTLplRnZNKFbQ==
-X-Google-Smtp-Source: ABdhPJw1bD4riNUx/a4caVwlp0e8whh6EAJGZ2hemSd60SgKRWBH89PQBqTGAIZNs/Scigo/GCB0xtVz/WXgvguJv+I=
-X-Received: by 2002:aca:54c9:: with SMTP id i192mr4027494oib.163.1594910385218; 
- Thu, 16 Jul 2020 07:39:45 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <groug@kaod.org>) id 1jw55e-0003Pd-T9
+ for qemu-devel@nongnu.org; Thu, 16 Jul 2020 10:42:26 -0400
+Received: from 1.mo6.mail-out.ovh.net ([46.105.56.136]:43809)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <groug@kaod.org>) id 1jw55b-0008H9-6W
+ for qemu-devel@nongnu.org; Thu, 16 Jul 2020 10:42:26 -0400
+Received: from player798.ha.ovh.net (unknown [10.110.171.173])
+ by mo6.mail-out.ovh.net (Postfix) with ESMTP id 7D1EA21FA6C
+ for <qemu-devel@nongnu.org>; Thu, 16 Jul 2020 16:42:12 +0200 (CEST)
+Received: from kaod.org (lns-bzn-46-82-253-208-248.adsl.proxad.net
+ [82.253.208.248]) (Authenticated sender: groug@kaod.org)
+ by player798.ha.ovh.net (Postfix) with ESMTPSA id B83481481743B;
+ Thu, 16 Jul 2020 14:42:01 +0000 (UTC)
+Authentication-Results: garm.ovh; auth=pass
+ (GARM-97G002bf28cd65-9b19-4f5a-91ad-9c4e97feb9ee,82226C5D462F885DC4F8BFF1B5769E1A03475668)
+ smtp.auth=groug@kaod.org
+Date: Thu, 16 Jul 2020 16:42:00 +0200
+From: Greg Kurz <groug@kaod.org>
+To: Markus Armbruster <armbru@redhat.com>
+Subject: Re: [PATCH] spapr_pci: Robustify support of PCI bridges
+Message-ID: <20200716164200.2bea2977@bahia.lan>
+In-Reply-To: <87eepbmudt.fsf@dusky.pond.sub.org>
+References: <159431476748.407044.16711294833569014964.stgit@bahia.lan>
+ <20200716044540.GL93134@umbus.fritz.box>
+ <87eepbmudt.fsf@dusky.pond.sub.org>
+X-Mailer: Claws Mail 3.17.5 (GTK+ 2.24.32; x86_64-redhat-linux-gnu)
 MIME-Version: 1.0
-References: <CA+XhMqxD6gQDBaj8tX0CMEj3si7qYKsM8u1km47e_-U7MC37Pg@mail.gmail.com>
- <631dad16-66cd-3f7b-90bc-969c52d29aa1@redhat.com>
- <51a660f2-2241-d27f-afd5-a02ce5bd0e73@comstyle.com>
-In-Reply-To: <51a660f2-2241-d27f-afd5-a02ce5bd0e73@comstyle.com>
-From: Peter Maydell <peter.maydell@linaro.org>
-Date: Thu, 16 Jul 2020 15:39:34 +0100
-Message-ID: <CAFEAcA-MEEAaAUp9Osn-A0yuEa1KToKQ2OYJRSCgwUyZ-_iAkA@mail.gmail.com>
-Subject: Re: [PATCH] util: qemu_get_thread_id for OpenBSD
-To: Brad Smith <brad@comstyle.com>
-Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2607:f8b0:4864:20::241;
- envelope-from=peter.maydell@linaro.org; helo=mail-oi1-x241.google.com
-X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
- That's all we know.
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- URIBL_BLOCKED=0.001 autolearn=ham autolearn_force=no
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
+X-Ovh-Tracer-Id: 7441072487532697998
+X-VR-SPAMSTATE: OK
+X-VR-SPAMSCORE: -100
+X-VR-SPAMCAUSE: gggruggvucftvghtrhhoucdtuddrgeduiedrfeeggdektdcutefuodetggdotefrodftvfcurfhrohhfihhlvgemucfqggfjpdevjffgvefmvefgnecuuegrihhlohhuthemucehtddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenucfjughrpeffhffvuffkjghfofggtgfgsehtjeertdertddvnecuhfhrohhmpefirhgvghcumfhurhiiuceoghhrohhugheskhgrohgurdhorhhgqeenucggtffrrghtthgvrhhnpeehkefhtdehgeehheejledufeekhfdvleefvdeihefhkefhudffhfeuuedvffdthfenucfkpheptddrtddrtddrtddpkedvrddvheefrddvtdekrddvgeeknecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmohguvgepshhmthhpqdhouhhtpdhhvghlohepphhlrgihvghrjeelkedrhhgrrdhovhhhrdhnvghtpdhinhgvtheptddrtddrtddrtddpmhgrihhlfhhrohhmpehgrhhouhhgsehkrghougdrohhrghdprhgtphhtthhopehqvghmuhdquggvvhgvlhesnhhonhhgnhhurdhorhhg
+Received-SPF: pass client-ip=46.105.56.136; envelope-from=groug@kaod.org;
+ helo=1.mo6.mail-out.ovh.net
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/07/16 10:42:13
+X-ACL-Warn: Detected OS   = Linux 3.11 and newer
+X-Spam_score_int: -18
+X-Spam_score: -1.9
+X-Spam_bar: -
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_NONE=-0.0001,
+ RCVD_IN_MSPIKE_H3=-0.01, RCVD_IN_MSPIKE_WL=-0.01, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -80,64 +66,132 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: QEMU Trivial <qemu-trivial@nongnu.org>, Thomas Huth <thuth@redhat.com>,
- David CARLIER <devnexen@gmail.com>, qemu-devel <qemu-devel@nongnu.org>
+Cc: Thomas Huth <thuth@redhat.com>, "Michael S.
+ Tsirkin" <mst@redhat.com>, qemu-ppc@nongnu.org, qemu-devel@nongnu.org,
+ David Gibson <david@gibson.dropbear.id.au>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Wed, 15 Jul 2020 at 08:41, Brad Smith <brad@comstyle.com> wrote:
->
-> On 7/15/2020 12:54 AM, Thomas Huth wrote:
-> > On 14/07/2020 23.26, David CARLIER wrote:
-> >>  From 9c7f54c67d40fae0174ba795fbaad829cd59c264 Mon Sep 17 00:00:00 2001
-> >> From: David Carlier <devnexen@gmail.com>
-> >> Date: Tue, 14 Jul 2020 23:23:55 +0100
-> >> Subject: [PATCH] util: qemu_get_thread_id implementation for OpenBSD.
-> >>
-> >> ussage of getthrid syscall.
-> >>
-> >> Signed-off-by: David Carlier <devnexen@gmail.com>
-> >> ---
-> >>   util/oslib-posix.c | 2 ++
-> >>   1 file changed, 2 insertions(+)
-> >>
-> >> diff --git a/util/oslib-posix.c b/util/oslib-posix.c
-> >> index 72907d4d7f..b4f7de83c8 100644
-> >> --- a/util/oslib-posix.c
-> >> +++ b/util/oslib-posix.c
-> >> @@ -100,6 +100,8 @@ int qemu_get_thread_id(void)
-> >>       return (int)tid;
-> >>   #elif defined(__NetBSD__)
-> >>       return _lwp_self();
-> >> +#elif defined(__OpenBSD__)
-> >> +    return getthrid();
-> >>   #else
-> >>       return getpid();
-> >>   #endif
-> >>
-> >   Brad,
+On Thu, 16 Jul 2020 16:01:18 +0200
+Markus Armbruster <armbru@redhat.com> wrote:
+
+> David Gibson <david@gibson.dropbear.id.au> writes:
+> 
+> > On Thu, Jul 09, 2020 at 07:12:47PM +0200, Greg Kurz wrote:
+> >> Some recent error handling cleanups unveiled issues with our support of
+> >> PCI bridges:
+> >> 
+> >> 1) QEMU aborts when using non-standard PCI bridge types,
+> >>    unveiled by commit 7ef1553dac "spapr_pci: Drop some dead error handling"
+> >> 
+> >> $ qemu-system-ppc64 -M pseries -device pcie-pci-bridge
+> >> Unexpected error in object_property_find() at qom/object.c:1240:
+> >> qemu-system-ppc64: -device pcie-pci-bridge: Property '.chassis_nr' not found
+> >> Aborted (core dumped)
 > >
-> > since you're listed as OpenBSD maintainer, could you please review above
-> > patch?
->
-> Thank you David and Thomas.
->
-> Reviewed-by: Brad Smith <brad@comstyle.com>
+> > Oops, I thought we had a check that we actually had a "pci-bridge"
+> > device before continuing with the hotplug, but I guess not.
+> >
+> >> This happens because we assume all PCI bridge types to have a "chassis_nr"
+> >> property. This property only exists with the standard PCI bridge type
+> >> "pci-bridge" actually. We could possibly revert 7ef1553dac but it seems
+> >> much simpler to check the presence of "chassis_nr" earlier.
+> >
+> > Hrm, right, 7ef1553dac was not really correct since add_drcs() really
+> > can fail.
+> 
+> Right.  I failed to see that we can run into a bridge without a
+> "chassis_nr" here.
+> 
+> >> 2) QEMU abort if same "chassis_nr" value is used several times,
+> >>    unveiled by commit d2623129a7de "qom: Drop parameter @errp of
+> >>    object_property_add() & friends"
+> >> 
+> >> $ qemu-system-ppc64 -M pseries -device pci-bridge,chassis_nr=1 \
+> >>                         -device pci-bridge,chassis_nr=1
+> >> Unexpected error in object_property_try_add() at qom/object.c:1167:
+> >> qemu-system-ppc64: -device pci-bridge,chassis_nr=1: attempt to add duplicate property '40000100' to object (type 'container')
+> >> Aborted (core dumped)
+> 
+> Before d2623129a7de, the error got *ignored* in
+> spapr_dr_connector_new():
+> 
+>     SpaprDrc *spapr_dr_connector_new(Object *owner, const char *type,
+>                                              uint32_t id)
+>     {
+>         SpaprDrc *drc = SPAPR_DR_CONNECTOR(object_new(type));
+>         char *prop_name;
+> 
+>         drc->id = id;
+>         drc->owner = owner;
+>         prop_name = g_strdup_printf("dr-connector[%"PRIu32"]",
+>                                     spapr_drc_index(drc));
+>         object_property_add_child(owner, prop_name, OBJECT(drc), &error_abort);
+>         object_unref(OBJECT(drc));
+> --->    object_property_set_bool(OBJECT(drc), true, "realized", NULL);
+>         g_free(prop_name);
+> 
+>         return drc;
+>     }
+> 
+> I doubt that's healthy.
+> 
 
-Thanks for the review. Since this is a one-liner I'll take it into
-the tree via target-arm.next just for convenience.
+This isn't. The object_property_set_bool() was later converted to
+qdev_realize() (thanks again for the cleanups!) but the problem
+remains. Realize can fail and I see now reason we don't do proper
+error handling when it comes to the DRCs.
 
-Side note: the only things we use this value for are:
- (1) it appears in the output of the QMP monitor's query-cpus and
-query-iothreads commands, so that a management layer app can
-use whatever the host OS provides for setting host CPU
-affinity to tie a particular guest vCPU thread to a host CPU.
- (2) the log tracing backend uses it in the output just as a
-way to allow tracing from different threads to be distinguished
+I'll look into fixing that.
 
-We should really write a doc comment explaining that. Maybe
-I'll put a patch together.
+> >> This happens because we assume that "chassis_nr" values are unique, but
+> >> nobody enforces that and we end up generating duplicate DRC ids. The PCI
+> >> code doesn't really care for duplicate "chassis_nr" properties since it
+> >> is only used to initialize the "Chassis Number Register" of the bridge,
+> >> with no functional impact on QEMU. So, even if passing the same value
+> >> several times might look weird, it never broke anything before, so
+> >> I guess we don't necessarily want to enforce strict checking in the PCI
+> >> code now.
+> >
+> > Yeah, I guess.  I'm pretty sure that the chassis number of bridges is
+> > supposed to be system-unique (well, unique within the PCI domain at
+> > least, I guess) as part of the hardware spec.  So specifying multiple
+> > chassis ids the same is a user error, but we need a better failure
+> > mode.
+> >
+> >> Workaround both issues in the PAPR code: check that the bridge has a
+> >> unique and non null "chassis_nr" when plugging it into its parent bus.
+> >>
+> >> Fixes: 05929a6c5dfe ("spapr: Don't use bus number for building DRC ids")
+> >
+> > Arguably, it's really fixing 7ef1553dac.
+> 
+> I agree 7ef1553dac broke the "use a bridge that doesn't have property
+> 'chassis_nr' case.
+> 
+> I suspect the "duplicate chassis_nr" case has always been broken, and
+> d2623129a7de merely uncovered it.
+> 
 
-thanks
--- PMM
+Yes.
+
+> If we can trigger the abort with hot-plug, then d2623129a7de made things
+> materially worse (new way to accidentally kill your guest and maybe lose
+> data), and I'd add a Fixes: blaming it.
+> 
+
+Yes it does.
+
+David,
+
+Maybe consider folding a third Fixes: tag into this patch ?
+
+> >> Reported-by: Thomas Huth <thuth@redhat.com>
+> >> Signed-off-by: Greg Kurz <groug@kaod.org>
+> >
+> > I had a few misgivings about the details of this, but I think I've
+> > convinced myself they're fine.  There's a couple of things I'd like to
+> > polish, but I'll do that as a follow up.
+> 
+
 
