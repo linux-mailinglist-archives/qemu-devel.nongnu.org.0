@@ -2,56 +2,81 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id AD76A221D7D
-	for <lists+qemu-devel@lfdr.de>; Thu, 16 Jul 2020 09:34:11 +0200 (CEST)
-Received: from localhost ([::1]:37828 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1B69A221D80
+	for <lists+qemu-devel@lfdr.de>; Thu, 16 Jul 2020 09:36:11 +0200 (CEST)
+Received: from localhost ([::1]:42520 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jvyPC-0004Gc-Pv
-	for lists+qemu-devel@lfdr.de; Thu, 16 Jul 2020 03:34:10 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:40474)
+	id 1jvyR8-0006GA-6j
+	for lists+qemu-devel@lfdr.de; Thu, 16 Jul 2020 03:36:10 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:40646)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <teawaterz@linux.alibaba.com>)
- id 1jvyNx-0003Od-HN
- for qemu-devel@nongnu.org; Thu, 16 Jul 2020 03:32:54 -0400
-Received: from out30-131.freemail.mail.aliyun.com ([115.124.30.131]:46069)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <teawaterz@linux.alibaba.com>)
- id 1jvyNq-0008Er-Fq
- for qemu-devel@nongnu.org; Thu, 16 Jul 2020 03:32:49 -0400
-X-Alimail-AntiSpam: AC=PASS; BC=-1|-1; BR=01201311R131e4; CH=green; DM=||false|;
- DS=||; FP=0|-1|-1|-1|0|-1|-1|-1; HT=e01e01355; MF=teawaterz@linux.alibaba.com;
- NM=1; PH=DS; RN=10; SR=0; TI=SMTPD_---0U2sTlwu_1594884751; 
-Received: from 127.0.0.1(mailfrom:teawaterz@linux.alibaba.com
- fp:SMTPD_---0U2sTlwu_1594884751) by smtp.aliyun-inc.com(127.0.0.1);
- Thu, 16 Jul 2020 15:32:37 +0800
-Content-Type: text/plain;
-	charset=utf-8
-Mime-Version: 1.0 (Mac OS X Mail 13.4 \(3608.80.23.2.2\))
-Subject: Re: [virtio-dev] [RFC for qemu v4 2/2] virtio_balloon: Add dcvq to
- deflate continuous pages
-From: teawater <teawaterz@linux.alibaba.com>
-In-Reply-To: <20200716023910-mutt-send-email-mst@kernel.org>
-Date: Thu, 16 Jul 2020 15:32:30 +0800
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1jvyOT-0003vQ-4R
+ for qemu-devel@nongnu.org; Thu, 16 Jul 2020 03:33:25 -0400
+Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:35748
+ helo=us-smtp-1.mimecast.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1jvyOQ-0008LT-De
+ for qemu-devel@nongnu.org; Thu, 16 Jul 2020 03:33:24 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1594884800;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=hQapggv2ZpDbOuefqhJPUM9GuRgISpJ2vvuWQpgvqfI=;
+ b=ibFiya5Be/nr/uarEbetlBF7l8MweUw5xvCHNgaBa57/OLXXwazhPVj0T2LZcxPCxs8hkY
+ 7+IIx6sFrRSiiNSk0aqhNRQs3OQx+IW/61olLaz2XGFC54PpnjcFjY+QRo60lolB+2XGPa
+ Ky0uddqafZojdbxlxiIxUi4TdFane3w=
+Received: from mail-ot1-f70.google.com (mail-ot1-f70.google.com
+ [209.85.210.70]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-348-pVzpEz9mM1u4yIVdFkcOPw-1; Thu, 16 Jul 2020 03:33:19 -0400
+X-MC-Unique: pVzpEz9mM1u4yIVdFkcOPw-1
+Received: by mail-ot1-f70.google.com with SMTP id e48so2288599ote.9
+ for <qemu-devel@nongnu.org>; Thu, 16 Jul 2020 00:33:18 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc:content-transfer-encoding;
+ bh=hQapggv2ZpDbOuefqhJPUM9GuRgISpJ2vvuWQpgvqfI=;
+ b=j+Y2FtNbz5B+bhbHPtWW4NzDVNtEm/xspxsgFRfb6SndytRhs3zDlvNbAZl8gGtbJh
+ Gw7JesK7b/cxFmErK6YYGaK6kn1namrOs5A62ORtAm28qr0LKr2K0lc5TfWzZzWYeEmA
+ ym+0+MGAXvSNoTa7a/JfYUFcns8qyj1aFSPicVeKxEz9/x65SfvIQcITrWxl3udVyKrb
+ XJgeDMLNPNi8m+JsyjxpK/kh7aYzH6oxLVP7jxBnjWwrvv2PeBP6f3Ri0gvvYyAT485A
+ PS4KW207hKCFEI/JlUhfB2v5vNOCxCwepcjB9GuGygt+PZ5zopAYkhxuc+6YlBUhC3Sq
+ I9yA==
+X-Gm-Message-State: AOAM5335UCj4Y35ztVrmELBRefbzCZnkSWcbsAcNs+cfLYrRzZKBb6+v
+ ecZtWbnfZyRqi0oHsyIje3uFbZ4heYDmEOtXpQ+ZWZfEKJYAFdVmJberLpMA8fG/HizXHjHyutm
+ fKr6PaQOeFuhhpZfm9WEaVC/a4360xDc=
+X-Received: by 2002:a9d:12f7:: with SMTP id g110mr3359921otg.79.1594884798345; 
+ Thu, 16 Jul 2020 00:33:18 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJzUj2qKc/xiSXiAiUwxgVOgCf8L6ZkT/2GClY5rkaPDAo9ZsPdU2Ge5PvPsEW7r9yV1tLM0bLMsVjO4K5puCwE=
+X-Received: by 2002:a9d:12f7:: with SMTP id g110mr3359901otg.79.1594884798071; 
+ Thu, 16 Jul 2020 00:33:18 -0700 (PDT)
+MIME-Version: 1.0
+References: <20200716055655.24507-1-thuth@redhat.com>
+ <ec2ae831-d666-3d0c-a8f3-0e16e2ffd3d1@amsat.org>
+In-Reply-To: <ec2ae831-d666-3d0c-a8f3-0e16e2ffd3d1@amsat.org>
+From: =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <philmd@redhat.com>
+Date: Thu, 16 Jul 2020 09:33:07 +0200
+Message-ID: <CAP+75-U-wp3zyLqyWh8xTd-No1gMMqLW8sSgAibYpNWWSC293g@mail.gmail.com>
+Subject: Re: [PATCH] configure: Fix for running with --enable-werror on macOS
+To: =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <f4bug@amsat.org>
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
-Message-Id: <4F64B592-03CF-46F5-B761-78B4EBA5028E@linux.alibaba.com>
-References: <1594867315-8626-1-git-send-email-teawater@gmail.com>
- <1594867315-8626-6-git-send-email-teawater@gmail.com>
- <20200716023910-mutt-send-email-mst@kernel.org>
-To: "Michael S. Tsirkin" <mst@redhat.com>
-X-Mailer: Apple Mail (2.3608.80.23.2.2)
-Received-SPF: pass client-ip=115.124.30.131;
- envelope-from=teawaterz@linux.alibaba.com;
- helo=out30-131.freemail.mail.aliyun.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/07/16 03:32:39
-X-ACL-Warn: Detected OS   = Linux 3.x [generic] [fuzzy]
-X-Spam_score_int: -98
-X-Spam_score: -9.9
-X-Spam_bar: ---------
-X-Spam_report: (-9.9 / 5.0 requ) BAYES_00=-1.9, ENV_AND_HDR_SPF_MATCH=-0.5,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- UNPARSEABLE_RELAY=0.001,
- USER_IN_DEF_SPF_WL=-7.5 autolearn=ham autolearn_force=no
+Received-SPF: pass client-ip=205.139.110.120; envelope-from=philmd@redhat.com;
+ helo=us-smtp-1.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/07/15 19:36:06
+X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
+X-Spam_score_int: -40
+X-Spam_score: -4.1
+X-Spam_bar: ----
+X-Spam_report: (-4.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-1, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -64,134 +89,67 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: virtio-dev@lists.oasis-open.org, david@redhat.com, qemu-devel@nongnu.org,
- jasowang@redhat.com, linux-kernel@vger.kernel.org,
- virtualization@lists.linux-foundation.org, linux-mm@kvack.org,
- akpm@linux-foundation.org, Hui Zhu <teawater@gmail.com>
+Cc: QEMU Trivial <qemu-trivial@nongnu.org>,
+ Peter Maydell <peter.maydell@linaro.org>, Thomas Huth <thuth@redhat.com>,
+ QEMU Developers <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+On Thu, Jul 16, 2020 at 9:32 AM Philippe Mathieu-Daud=C3=A9 <f4bug@amsat.or=
+g> wrote:
+>
+> On 7/16/20 7:56 AM, Thomas Huth wrote:
+> > The configure script currently refuses to succeed when run on macOS
+> > with --enable-werror:
+> >
+> >  ERROR: configure test passed without -Werror but failed with -Werror.
+> >
+> > The information in config.log indicates:
+> >
+> >  config-temp/qemu-conf.c:3:55: error: control reaches end of non-void
+> >  function [-Werror,-Wreturn-type]
+> >  static void *f(void *p) { pthread_setname_np("QEMU"); }
+> >                                                       ^
+> > And indeed, the return statement is missing here.
+>
+> I have a similar commit dated "2019-07-13 17:13:51" that fixes that too,
+> because I had problem with a CI (cirrus?). I remember there was a
+> discussion about it, as I can't find on the list, I suppose it was
+> discussed on IRC.
+> I don't remember the outcome, it was negative or the patch was
+> incomplete. I'm happy if it get fixed, so:
+> Reviewed-by: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
 
+Oops the other one:
+Reviewed-by: Philippe Mathieu-Daud=C3=A9 <f4bug@amsat.org>
 
-> 2020=E5=B9=B47=E6=9C=8816=E6=97=A5 14:39=EF=BC=8CMichael S. Tsirkin =
-<mst@redhat.com> =E5=86=99=E9=81=93=EF=BC=9A
->=20
-> On Thu, Jul 16, 2020 at 10:41:55AM +0800, Hui Zhu wrote:
->> This commit adds a vq dcvq to deflate continuous pages.
->> When VIRTIO_BALLOON_F_CONT_PAGES is set, try to get continuous pages
->> from icvq and use madvise MADV_WILLNEED with the pages.
->>=20
->> Signed-off-by: Hui Zhu <teawaterz@linux.alibaba.com>
->=20
-> This is arguably something to benchmark. Does guest benefit
-> from MADV_WILLNEED or loose performance?
-
-MADV_WILLNEED will call madvise_willneed in the host kernel.
-madvise_willneed will schedule all required I/O operations (swap in or =
-vfs_fadvise POSIX_FADV_WILLNEED) of the address.
-
-But the pages of the balloon are released by MADV_DONTNEED.
-So I think MADV_WILLNEED will not affect the performance of the guest in =
-the most of situations.
-
-Best,
-Hui
-
->=20
->> ---
->> hw/virtio/virtio-balloon.c         | 14 +++++++++-----
->> include/hw/virtio/virtio-balloon.h |  2 +-
->> 2 files changed, 10 insertions(+), 6 deletions(-)
->>=20
->> diff --git a/hw/virtio/virtio-balloon.c b/hw/virtio/virtio-balloon.c
->> index d36a5c8..165adf7 100644
->> --- a/hw/virtio/virtio-balloon.c
->> +++ b/hw/virtio/virtio-balloon.c
->> @@ -138,7 +138,8 @@ static void balloon_inflate_page(VirtIOBalloon =
-*balloon,
->> }
->>=20
->> static void balloon_deflate_page(VirtIOBalloon *balloon,
->> -                                 MemoryRegion *mr, hwaddr mr_offset)
->> +                                 MemoryRegion *mr, hwaddr mr_offset,
->> +                                 size_t size)
->> {
->>     void *addr =3D memory_region_get_ram_ptr(mr) + mr_offset;
->>     ram_addr_t rb_offset;
->> @@ -153,10 +154,11 @@ static void balloon_deflate_page(VirtIOBalloon =
-*balloon,
->>     rb_page_size =3D qemu_ram_pagesize(rb);
->>=20
->>     host_addr =3D (void *)((uintptr_t)addr & ~(rb_page_size - 1));
->> +    size &=3D ~(rb_page_size - 1);
->>=20
->>     /* When a page is deflated, we hint the whole host page it lives
->>      * on, since we can't do anything smaller */
->> -    ret =3D qemu_madvise(host_addr, rb_page_size, =
-QEMU_MADV_WILLNEED);
->> +    ret =3D qemu_madvise(host_addr, size, QEMU_MADV_WILLNEED);
->>     if (ret !=3D 0) {
->>         warn_report("Couldn't MADV_WILLNEED on balloon deflate: %s",
->>                     strerror(errno));
->> @@ -354,7 +356,7 @@ static void =
-virtio_balloon_handle_output(VirtIODevice *vdev, VirtQueue *vq)
->>             pa =3D (hwaddr) p << VIRTIO_BALLOON_PFN_SHIFT;
->>             offset +=3D 4;
->>=20
->> -            if (vq =3D=3D s->icvq) {
->> +            if (vq =3D=3D s->icvq || vq =3D=3D s->dcvq) {
->>                 uint32_t psize_ptr;
->>                 if (iov_to_buf(elem->out_sg, elem->out_num, offset, =
-&psize_ptr, 4) !=3D 4) {
->>                     break;
->> @@ -383,8 +385,9 @@ static void =
-virtio_balloon_handle_output(VirtIODevice *vdev, VirtQueue *vq)
->>                     balloon_inflate_page(s, section.mr,
->>                                          =
-section.offset_within_region,
->>                                          psize, &pbp);
->> -                } else if (vq =3D=3D s->dvq) {
->> -                    balloon_deflate_page(s, section.mr, =
-section.offset_within_region);
->> +                } else if (vq =3D=3D s->dvq || vq =3D=3D s->dcvq) {
->> +                    balloon_deflate_page(s, section.mr, =
-section.offset_within_region,
->> +                                         psize);
->>                 } else {
->>                     g_assert_not_reached();
->>                 }
->> @@ -838,6 +841,7 @@ static void =
-virtio_balloon_device_realize(DeviceState *dev, Error **errp)
->>=20
->>     if (virtio_has_feature(s->host_features, =
-VIRTIO_BALLOON_F_CONT_PAGES)) {
->>         s->icvq =3D virtio_add_queue(vdev, 128, =
-virtio_balloon_handle_output);
->> +        s->dcvq =3D virtio_add_queue(vdev, 128, =
-virtio_balloon_handle_output);
->>     }
->>=20
->>     reset_stats(s);
->> diff --git a/include/hw/virtio/virtio-balloon.h =
-b/include/hw/virtio/virtio-balloon.h
->> index 6a2514d..848a7fb 100644
->> --- a/include/hw/virtio/virtio-balloon.h
->> +++ b/include/hw/virtio/virtio-balloon.h
->> @@ -42,7 +42,7 @@ enum virtio_balloon_free_page_report_status {
->>=20
->> typedef struct VirtIOBalloon {
->>     VirtIODevice parent_obj;
->> -    VirtQueue *ivq, *dvq, *svq, *free_page_vq, *icvq;
->> +    VirtQueue *ivq, *dvq, *svq, *free_page_vq, *icvq, *dcvq;
->>     uint32_t free_page_report_status;
->>     uint32_t num_pages;
->>     uint32_t actual;
->> --=20
->> 2.7.4
->=20
->=20
-> ---------------------------------------------------------------------
-> To unsubscribe, e-mail: virtio-dev-unsubscribe@lists.oasis-open.org
-> For additional commands, e-mail: virtio-dev-help@lists.oasis-open.org
+>
+> >
+> > Fixes: 479a57475e ("util: Implement debug-threads for macOS")
+> > Signed-off-by: Thomas Huth <thuth@redhat.com>
+> > ---
+> >  Note: There is another issue with --enable-werror on macOS, with the
+> >        atomic64, which I haven't quite figured out yet, so compiling
+> >        with --enable-werror is still not working there.
+> >
+> >  configure | 2 +-
+> >  1 file changed, 1 insertion(+), 1 deletion(-)
+> >
+> > diff --git a/configure b/configure
+> > index b751c853f5..e93836aaae 100755
+> > --- a/configure
+> > +++ b/configure
+> > @@ -4198,7 +4198,7 @@ pthread_setname_np_wo_tid=3Dno
+> >  cat > $TMPC << EOF
+> >  #include <pthread.h>
+> >
+> > -static void *f(void *p) { pthread_setname_np("QEMU"); }
+> > +static void *f(void *p) { pthread_setname_np("QEMU"); return NULL; }
+> >  int main(void)
+> >  {
+> >      pthread_t thread;
+> >
+>
+>
 
 
