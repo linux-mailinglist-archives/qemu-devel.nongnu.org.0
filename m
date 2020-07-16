@@ -2,74 +2,75 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 93CD0221A74
-	for <lists+qemu-devel@lfdr.de>; Thu, 16 Jul 2020 05:01:23 +0200 (CEST)
-Received: from localhost ([::1]:57636 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 22CB5221A77
+	for <lists+qemu-devel@lfdr.de>; Thu, 16 Jul 2020 05:01:59 +0200 (CEST)
+Received: from localhost ([::1]:59612 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jvu9C-0005x9-CZ
-	for lists+qemu-devel@lfdr.de; Wed, 15 Jul 2020 23:01:22 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:41314)
+	id 1jvu9m-0006qu-7K
+	for lists+qemu-devel@lfdr.de; Wed, 15 Jul 2020 23:01:58 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:41554)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <sundeep.lkml@gmail.com>)
- id 1jvu82-0005Ny-LQ; Wed, 15 Jul 2020 23:00:10 -0400
-Received: from mail-il1-x144.google.com ([2607:f8b0:4864:20::144]:39039)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <sundeep.lkml@gmail.com>)
- id 1jvu80-000453-R8; Wed, 15 Jul 2020 23:00:10 -0400
-Received: by mail-il1-x144.google.com with SMTP id k6so3825672ili.6;
- Wed, 15 Jul 2020 20:00:07 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc:content-transfer-encoding;
- bh=Kcv9F9yInqThuGi9ooZUXwSu/hdJyhJpWeASQpL33I0=;
- b=UyHpaA7brQcecUCqgqsffOSnPA4yCLOgdj9IgLU+k7BHdOm0pXFYFP6KxDHBzRi6t6
- cO2np075Txv8ddUGHeC1/2s2B9MBlAzAxH+aL7EW+vskKL12EbzkHwAQSkuweXpCqNle
- DC2QCHh8YNVgKTEi2b6ErnxfxOIKouZBuKEwjDGKRGvtEbqRP9BaenR7Z4GrF5SM4XOm
- OCdhaE1SrZZ+EnQfygro3RtUMP8YlKrOsIFq1v5YmevuV3tyJNziSk0gdDAsGWdSC7ry
- deupzxjpIVKGEKSw/O97MykGZnCvCftb6WkLD7+Tn9tpJiAhfgjkHsRrS850mrysyKXm
- keWQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc:content-transfer-encoding;
- bh=Kcv9F9yInqThuGi9ooZUXwSu/hdJyhJpWeASQpL33I0=;
- b=aeZrBoCFNssa0Uj6o7XVC0cym/dcld4YPTdOJ/5hpcXe5InNgSTl1w3adK6u9zTvqo
- olK3+WLqbtxs+KHZSZ/EVpHiyOCD6M5TvltYQOh9BgEB5zoRapAaSM9YdQDH7NaszrcX
- Sus0xTtQ7R1PAI7Lb7bLVLBtygsq+1QMVoliPQ6P4LQ0/RabxiEsb6eScfFAs4wmIDIF
- zXI1/Vu2xLg4T2OAwaDbq/WDeRNljmjLg4j0nQ63Gone7+oG9e+8ZQBM2qG52vgcYmq6
- UAtBIQrZVcKylMHV+voqLUtEFs/Qi9swNClrUH8wRXVmvzrR+dXz5ma+Krda4QnDaz7m
- MUVQ==
-X-Gm-Message-State: AOAM531+Hk1TYw6pSyD0c5x7SWH4LZYro77CN2F+6YrJNIZ6ShZ2VXUJ
- Cce5sAGQZIzpdTM142Kah28eg9+EPoP/NB0g1Uc=
-X-Google-Smtp-Source: ABdhPJz0V5PqocNQiuleGnwGAToyqfsNlT+seElo0VM4mBKehy3uk6gy9qSzk9YG7Xkq8n84BUIKta37JHZrEMNzuZE=
-X-Received: by 2002:a92:c0c4:: with SMTP id t4mr2491585ilf.211.1594868406315; 
- Wed, 15 Jul 2020 20:00:06 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <jasowang@redhat.com>)
+ id 1jvu8a-0005vY-38
+ for qemu-devel@nongnu.org; Wed, 15 Jul 2020 23:00:44 -0400
+Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:42187
+ helo=us-smtp-1.mimecast.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <jasowang@redhat.com>)
+ id 1jvu8X-0004X5-Ps
+ for qemu-devel@nongnu.org; Wed, 15 Jul 2020 23:00:43 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1594868440;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=R3UfTp4BIgAKkuMqkS4pQYOqNyz5sK9nfykS4N+Dpac=;
+ b=Gc4Cnvvx//fRcfeiBQO82tcul3VAGwNpuMg9YqIr4wJyWEgDX6JQypoTRGJ/x1eIbukTXo
+ MF0IyIK+HmFuh6+MwVpYHv/JxKSVV9k1mqCbti/OQQnvTbCI1W4bbJmtiamARS+t+eSYBn
+ th4SrrEryTH3ny9krjUZLBPRQM2DoBA=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-328-NbI-BdTgOby8CWnVvUM9bg-1; Wed, 15 Jul 2020 23:00:26 -0400
+X-MC-Unique: NbI-BdTgOby8CWnVvUM9bg-1
+Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
+ [10.5.11.16])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 33C20108B;
+ Thu, 16 Jul 2020 03:00:25 +0000 (UTC)
+Received: from [10.72.12.131] (ovpn-12-131.pek2.redhat.com [10.72.12.131])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 3F8A15C1BD;
+ Thu, 16 Jul 2020 03:00:23 +0000 (UTC)
+Subject: Re: [PULL 0/7] Net patches
+To: Peter Maydell <peter.maydell@linaro.org>
+References: <1594821201-3708-1-git-send-email-jasowang@redhat.com>
+ <CAFEAcA8q1WnAG7jDOh1AjqLnf5Hc0Gxr1oACEAz5U3uQQLy41w@mail.gmail.com>
+From: Jason Wang <jasowang@redhat.com>
+Message-ID: <86032619-ee9d-14b0-1080-d7e0b9dd7e48@redhat.com>
+Date: Thu, 16 Jul 2020 11:00:22 +0800
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.10.0
 MIME-Version: 1.0
-References: <20200715140440.3540942-1-armbru@redhat.com>
- <20200715140440.3540942-2-armbru@redhat.com>
- <ef1d7fe4-0558-cc7b-16d7-906c4aa9915b@amsat.org>
- <87wo34u9fv.fsf@dusky.pond.sub.org>
-In-Reply-To: <87wo34u9fv.fsf@dusky.pond.sub.org>
-From: sundeep subbaraya <sundeep.lkml@gmail.com>
-Date: Thu, 16 Jul 2020 08:29:55 +0530
-Message-ID: <CALHRZurw_HsyFmNWYuG_Cagx8cTTBCGzafWmx6JHJ+NS7aVKOw@mail.gmail.com>
-Subject: Re: [PATCH for-5.1 1/2] msf2: Unbreak device-list-properties for
- "msf-soc"
-To: Markus Armbruster <armbru@redhat.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=2607:f8b0:4864:20::144;
- envelope-from=sundeep.lkml@gmail.com; helo=mail-il1-x144.google.com
-X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
- That's all we know.
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- URIBL_BLOCKED=0.001 autolearn=ham autolearn_force=no
+In-Reply-To: <CAFEAcA8q1WnAG7jDOh1AjqLnf5Hc0Gxr1oACEAz5U3uQQLy41w@mail.gmail.com>
+Content-Language: en-US
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=205.139.110.120; envelope-from=jasowang@redhat.com;
+ helo=us-smtp-1.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/07/15 19:36:06
+X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
+X-Spam_score_int: -40
+X-Spam_score: -4.1
+X-Spam_bar: ----
+X-Spam_report: (-4.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-1, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -82,53 +83,39 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Maydell <peter.maydell@linaro.org>, Thomas Huth <thuth@redhat.com>,
- qemu-riscv@nongnu.org, Sagar Karandikar <sagark@eecs.berkeley.edu>,
- Bastian Koppelmann <kbastian@mail.uni-paderborn.de>,
- Alistair Francis <alistair@alistair23.me>,
- Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>,
- =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <f4bug@amsat.org>,
- QEMU Developers <qemu-devel@nongnu.org>,
- Beniamino Galvani <b.galvani@gmail.com>, nieklinnenbank@gmail.com,
- qemu-arm <qemu-arm@nongnu.org>, palmer@dabbelt.com
+Cc: QEMU Developers <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Wed, Jul 15, 2020 at 8:12 PM Markus Armbruster <armbru@redhat.com> wrote=
-:
+
+On 2020/7/16 上午2:06, Peter Maydell wrote:
+> On Wed, 15 Jul 2020 at 14:53, Jason Wang <jasowang@redhat.com> wrote:
+>> The following changes since commit 673205379fb499d2b72f2985b47ec7114282f5fe:
+>>
+>>    Merge remote-tracking branch 'remotes/philmd-gitlab/tags/python-next-20200714' into staging (2020-07-15 13:04:27 +0100)
+>>
+>> are available in the git repository at:
+>>
+>>    https://github.com/jasowang/qemu.git tags/net-pull-request
+>>
+>> for you to fetch changes up to a134321ef676723768973537bb9b49365ae2062e:
+>>
+>>    ftgmac100: fix dblac write test (2020-07-15 21:00:13 +0800)
+>>
+>> ----------------------------------------------------------------
+>>
+>> ----------------------------------------------------------------
+> just a note that this has missed rc0 but will go into rc1.
+
+
+Yes, I think it's fine.
+
+Thanks
+
+
 >
-> Philippe Mathieu-Daud=C3=A9 <f4bug@amsat.org> writes:
->
-> > On 7/15/20 4:04 PM, Markus Armbruster wrote:
-> >> Watch this:
-> >>
-> >>     $ qemu-system-aarch64 -M ast2600-evb -S -display none -qmp stdio
-> >>     {"QMP": {"version": {"qemu": {"micro": 50, "minor": 0, "major": 5}=
-, "package": "v5.0.0-2464-g3a9163af4e"}, "capabilities": ["oob"]}}
-> >>     {"execute": "qmp_capabilities"}
-> >>     {"return": {}}
-> >>     {"execute": "device-list-properties", "arguments": {"typename": "m=
-sf2-soc"}}
-> >>     Unsupported NIC model: ftgmac100
-> >>     armbru@dusky:~/work/images$ echo $?
-> >>     1
-> >>
-> >> This is what breaks "make check SPEED=3Dslow".
-> >>
-> >> Root cause is m2sxxx_soc_initfn()'s messing with nd_table[] via
-> >> qemu_check_nic_model().  That's wrong.
-> >>
-> >> We fixed the exact same bug for device "allwinner-a10" in commit
-> >> 8aabc5437b "hw/arm/allwinner-a10: Do not use nd_table in instance_init
-> >> function".  Fix this instance the same way: move the offending code to
-> >> m2sxxx_soc_realize(), where it's less wrong, and add a FIXME comment.
-> >
-> > That addresses this other thread, right?
-> > https://www.mail-archive.com/qemu-devel@nongnu.org/msg720658.html
->
-> Correct!  I wasn't aware of it, thanks for making the connection.
+> thanks
+> -- PMM
 >
 
-Thanks Markus for the fix.
-Sundeep
 
