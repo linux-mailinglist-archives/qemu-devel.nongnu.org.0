@@ -2,54 +2,85 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 083F3222C12
-	for <lists+qemu-devel@lfdr.de>; Thu, 16 Jul 2020 21:43:31 +0200 (CEST)
-Received: from localhost ([::1]:56800 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6FD92222C4E
+	for <lists+qemu-devel@lfdr.de>; Thu, 16 Jul 2020 21:53:48 +0200 (CEST)
+Received: from localhost ([::1]:34410 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jw9mz-0005r6-3w
-	for lists+qemu-devel@lfdr.de; Thu, 16 Jul 2020 15:43:29 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:48294)
+	id 1jw9wx-0000iE-H3
+	for lists+qemu-devel@lfdr.de; Thu, 16 Jul 2020 15:53:47 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:50920)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <luc.michel@greensocs.com>)
- id 1jw9je-0005FF-LF
- for qemu-devel@nongnu.org; Thu, 16 Jul 2020 15:40:02 -0400
-Received: from beetle.greensocs.com ([5.135.226.135]:36864)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <luc.michel@greensocs.com>)
- id 1jw9jc-0002j8-IQ
- for qemu-devel@nongnu.org; Thu, 16 Jul 2020 15:40:02 -0400
-Received: from michell-laptop.bar.greensocs.com (unknown [172.17.10.6])
- by beetle.greensocs.com (Postfix) with ESMTPS id 368B0219CA;
- Thu, 16 Jul 2020 19:39:57 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=greensocs.com;
- s=mail; t=1594928397;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:
- content-transfer-encoding:content-transfer-encoding;
- bh=8yKJ3PFfRI1+4hdxMcLpTHdA+dqcY8u/Hk+IgJron20=;
- b=Nn08U9gskGvg6smP/O8ft5DnS3ptuncHzyICAaPYg7i4TUiaNGGUg3egxQckIv3moBk/bV
- r+7APE2D3gcXyRmCzq7j4ZGDcvB+7TowZRuxQ0oapsFBLvREiOCPvcMEW9VEHb+xa2+X0i
- h0h75GljY9fz6oSF5gOk4fExOOvQrw8=
-From: Luc Michel <luc.michel@greensocs.com>
-To: qemu-devel@nongnu.org, Paolo Bonzini <pbonzini@redhat.com>,
- Richard Henderson <rth@twiddle.net>
-Subject: [PATCH v2] tcg/cpu-exec: precise single-stepping after an exception
-Date: Thu, 16 Jul 2020 21:39:47 +0200
-Message-Id: <20200716193947.3058389-1-luc.michel@greensocs.com>
-X-Mailer: git-send-email 2.27.0
+ (Exim 4.90_1) (envelope-from <flukshun@gmail.com>)
+ id 1jw9vz-0000FX-JR
+ for qemu-devel@nongnu.org; Thu, 16 Jul 2020 15:52:51 -0400
+Received: from mail-ot1-x32d.google.com ([2607:f8b0:4864:20::32d]:34144)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <flukshun@gmail.com>)
+ id 1jw9vx-0005MA-OA
+ for qemu-devel@nongnu.org; Thu, 16 Jul 2020 15:52:47 -0400
+Received: by mail-ot1-x32d.google.com with SMTP id e90so5202834ote.1
+ for <qemu-devel@nongnu.org>; Thu, 16 Jul 2020 12:52:45 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=sender:mime-version:content-transfer-encoding:from:user-agent:to
+ :references:in-reply-to:message-id:subject:date;
+ bh=nWxz5MeZS/iGSu+rt3DsZmvftjtW8jSBb4YISirYNAQ=;
+ b=gK/GWY8maJcTdJvqEVIVt6x797TaLpcDnkvFmeFlCD1dQex8KQ1ilpP2QHzQlOzMow
+ EVKYa891jh3qeXjBTkobi+qJKct1a09GwEQAJYzMVpFuY1nPpo845T39XEUPyIwBqThU
+ ckOtL4cIE8WLz1sOctoL0IcR9dAvNmgd5+rZ48/rTvgQwRnMhKYxTK8TNqi6vGhkpc7V
+ 7maBRrWHeOymD3TkMz1AHD3yq4tbFmayfGIaiLwWMmz7ucCftw0eeMaku8UGBtNAruUQ
+ 5L2YQHV8V19ldVTXsKobWfLVhLQ8RxA8HUKpctCqBzXJexpAMkovJKueKKIL4YyRv2rz
+ lwxA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:sender:mime-version:content-transfer-encoding
+ :from:user-agent:to:references:in-reply-to:message-id:subject:date;
+ bh=nWxz5MeZS/iGSu+rt3DsZmvftjtW8jSBb4YISirYNAQ=;
+ b=TTw2TAEgldJnGJbFlV1Yc+Ppy8+vLvvkyoMsNLApbVo7qNM9ZtW6oycVLkkc0HdFXg
+ HoXaLaFwunOUwVUYlT+Dgpy4tuuSRJWZf3htuotrNz+DWgwbQ3pWf3MkbH5lcgllhhTS
+ p6qVQSk7fzQlHNaV0XystkowkQvDoqk+m1HtwE9RRNqdaX/3K1q8nh13GJOH5vmhEUWJ
+ erqwxDqTe1FUIzxKoxufLFRhNq7mt7IToZSHLeCMOq8c1yX7CkXhtIIfS4Tx8UdeVpch
+ nZfs5LAvfmL0HeKtsdIETZx/LZUI/2H40StmYusnhRYrYhE+iQdzzHAjXPbrT0x84AFI
+ J0Zw==
+X-Gm-Message-State: AOAM532BRtwhNVs8jPaDaZ5OH7AF4FaJfYtvFGc2ioBBBMMrWmrE6ogI
+ W6QRxT0NLh9z8ZdwxMQwwdI=
+X-Google-Smtp-Source: ABdhPJwwUWUZgwHkjJ8oXZC6wmw6fPSzqx2zfhcQhnydTMLN+dO/s1+gm272vW2vxMA8vfGngyPrtA==
+X-Received: by 2002:a05:6830:151:: with SMTP id
+ j17mr5797878otp.142.1594929164398; 
+ Thu, 16 Jul 2020 12:52:44 -0700 (PDT)
+Received: from localhost (76-251-165-188.lightspeed.austtx.sbcglobal.net.
+ [76.251.165.188])
+ by smtp.gmail.com with ESMTPSA id w74sm1248350oif.57.2020.07.16.12.52.43
+ (version=TLS1_2 cipher=ECDHE-ECDSA-CHACHA20-POLY1305 bits=256/256);
+ Thu, 16 Jul 2020 12:52:43 -0700 (PDT)
+Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=5.135.226.135;
- envelope-from=luc.michel@greensocs.com; helo=beetle.greensocs.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/07/16 15:39:58
-X-ACL-Warn: Detected OS   = Linux 3.11 and newer
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001, URIBL_BLOCKED=0.001 autolearn=ham autolearn_force=no
+Content-Transfer-Encoding: quoted-printable
+From: Michael Roth <mdroth@linux.vnet.ibm.com>
+User-Agent: alot/0.7
+To: =?utf-8?q?Philippe_Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
+ Peter Maydell <peter.maydell@linaro.org>,
+ QEMU Developers <qemu-devel@nongnu.org>
+References: <CAFEAcA-reu8gKpBMgEffStTRA+M02OWj75riXqBYXjgtOh5Z_A@mail.gmail.com>
+ <159492211230.15440.2651129078319986183@sif>
+ <78b8c6b3-1710-da21-68ac-194bd19437b2@redhat.com>
+In-Reply-To: <78b8c6b3-1710-da21-68ac-194bd19437b2@redhat.com>
+Message-ID: <159492915780.15440.8588802536547059593@sif>
+Subject: Re: qemu test-qga failure on mergebuild after VERSION file change:
+ dependency issues??
+Date: Thu, 16 Jul 2020 14:52:37 -0500
+Received-SPF: pass client-ip=2607:f8b0:4864:20::32d;
+ envelope-from=flukshun@gmail.com; helo=mail-ot1-x32d.google.com
+X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
+ That's all we know.
+X-Spam_score_int: 0
+X-Spam_score: 0.0
+X-Spam_bar: /
+X-Spam_report: (0.0 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1, DKIM_VALID=-0.1,
+ DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=1, FREEMAIL_FROM=0.001,
+ HEADER_FROM_DIFFERENT_DOMAINS=1, RCVD_IN_DNSWL_NONE=-0.0001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ URIBL_BLOCKED=0.001 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -62,75 +93,74 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Luc Michel <luc.michel@greensocs.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-When single-stepping with a debugger attached to QEMU, and when an
-exception is raised, the debugger misses the first instruction after the
-exception:
+Quoting Philippe Mathieu-Daud=C3=A9 (2020-07-16 12:59:28)
+> On 7/16/20 7:55 PM, Michael Roth wrote:
+> > Quoting Peter Maydell (2020-07-16 05:53:17)
+> >> The first merge I tried to process after bumping VERSION for rc0
+> >> failed on test-qga like this:
+> >>
+> >> MALLOC_PERTURB_=3D${MALLOC_PERTURB_:-$(( ${RANDOM:-0} % 255 + 1))}
+> >> tests/test-qga -m=3Dquick -k --tap < /dev/null | ./scripts/tap-driv
+> >> er.pl --test-name=3D"test-qga"
+> >> PASS 1 test-qga /qga/sync-delimited
+> >> PASS 2 test-qga /qga/sync
+> >> PASS 3 test-qga /qga/ping
+> >> **
+> >> ERROR:/home/petmay01/linaro/qemu-for-merges/tests/test-qga.c:303:test_=
+qga_info:
+> >> assertion failed (version =3D=3D QEMU_VERSION): ("5.0.9
+> >> 0" =3D=3D "5.0.50")
+> >> ERROR test-qga - Bail out!
+> >> ERROR:/home/petmay01/linaro/qemu-for-merges/tests/test-qga.c:303:test_=
+qga_info:
+> >> assertion failed (versio
+> >> n =3D=3D QEMU_VERSION): ("5.0.90" =3D=3D "5.0.50")
+> >> Aborted (core dumped)
+> >> /home/petmay01/linaro/qemu-for-merges/tests/Makefile.include:659:
+> >> recipe for target 'check-unit' failed
+> >>
+> >> Looking at timestamps on files, tests/test-qga.o never got rebuilt,
+> >> even though config-host.h has been updated (and so has the new
+> >> QEMU_VERSION). Any idea what's gone wrong here?
+> >>
+> >> Also weird: this build tree has no .d files in it.
+> > =
 
-$ qemu-system-aarch64 -M virt -display none -cpu cortex-a53 -s -S
+> > I've been trying to reproduce with:
+> > =
 
-$ aarch64-linux-gnu-gdb
-GNU gdb (GDB) 9.2
-[...]
-(gdb) tar rem :1234
-Remote debugging using :1234
-warning: No executable has been specified and target does not support
-determining executable automatically.  Try using the "file" command.
-0x0000000000000000 in ?? ()
-(gdb) # writing nop insns to 0x200 and 0x204
-(gdb) set *0x200 = 0xd503201f
-(gdb) set *0x204 = 0xd503201f
-(gdb) # 0x0 address contains 0 which is an invalid opcode.
-(gdb) # The CPU should raise an exception and jump to 0x200
-(gdb) si
-0x0000000000000204 in ?? ()
+> > make
+> > make check-unit
+> > *bump VERSION
+> > make check-unit
+> > =
 
-With this commit, the same run steps correctly on the first instruction
-of the exception vector:
+> > but test-qga.o gets rebuilt as expected and the test passed.
+> > =
 
-(gdb) si
-0x0000000000000200 in ?? ()
+> > This is with ubuntu 18.04, x86, with out-of-tree build directory. Are y=
+ou aware
+> > of any other factors that might be needed to reproduce this?
+> =
 
-Signed-off-by: Luc Michel <luc.michel@greensocs.com>
----
-v2:
-  - remove RFC tag
-  - inline the recursive call to cpu_handle_exception [Richard]
----
- accel/tcg/cpu-exec.c | 12 ++++++++++++
- 1 file changed, 12 insertions(+)
+> The problem is not for qga, it affects all QEMU objects.
 
-diff --git a/accel/tcg/cpu-exec.c b/accel/tcg/cpu-exec.c
-index d95c4848a4..59b1b5fe76 100644
---- a/accel/tcg/cpu-exec.c
-+++ b/accel/tcg/cpu-exec.c
-@@ -502,10 +502,22 @@ static inline bool cpu_handle_exception(CPUState *cpu, int *ret)
-             CPUClass *cc = CPU_GET_CLASS(cpu);
-             qemu_mutex_lock_iothread();
-             cc->do_interrupt(cpu);
-             qemu_mutex_unlock_iothread();
-             cpu->exception_index = -1;
-+
-+            if (unlikely(cpu->singlestep_enabled)) {
-+                /*
-+                 * After processing the exception, ensure an EXCP_DEBUG is
-+                 * raised when single-stepping so that GDB doesn't miss the
-+                 * next instruction.
-+                 */
-+                *ret = EXCP_DEBUG;
-+                cpu_handle_debug_exception(cpu);
-+                return true;
-+            }
-+
-         } else if (!replay_has_interrupt()) {
-             /* give a chance to iothread in replay mode */
-             *ret = EXCP_INTERRUPT;
-             return true;
-         }
--- 
-2.27.0
+But is it intermittent, environment-dependent? I'm trying to understand how=
+ to
+replicate Peter's result since it seems like it would be straightforward
+reproducer.
 
+> =
+
+> > =
+
+> >>
+> >> thanks
+> >> -- PMM
+> > =
+
+>=20
 
