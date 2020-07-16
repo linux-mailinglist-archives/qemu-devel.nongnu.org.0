@@ -2,66 +2,58 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id F1F23222000
-	for <lists+qemu-devel@lfdr.de>; Thu, 16 Jul 2020 11:47:28 +0200 (CEST)
-Received: from localhost ([::1]:34528 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6D623222004
+	for <lists+qemu-devel@lfdr.de>; Thu, 16 Jul 2020 11:53:29 +0200 (CEST)
+Received: from localhost ([::1]:39204 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jw0UC-0000NE-2W
-	for lists+qemu-devel@lfdr.de; Thu, 16 Jul 2020 05:47:28 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:46632)
+	id 1jw0a0-0002Ze-9d
+	for lists+qemu-devel@lfdr.de; Thu, 16 Jul 2020 05:53:28 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:48356)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <qemu_oss@crudebyte.com>)
- id 1jw0Sj-0007k0-6G
- for qemu-devel@nongnu.org; Thu, 16 Jul 2020 05:45:57 -0400
-Received: from kylie.crudebyte.com ([5.189.157.229]:45293)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <qemu_oss@crudebyte.com>)
- id 1jw0Sh-0005dh-36
- for qemu-devel@nongnu.org; Thu, 16 Jul 2020 05:45:56 -0400
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
- d=crudebyte.com; s=kylie; h=Content-Type:Content-Transfer-Encoding:
- MIME-Version:References:In-Reply-To:Message-ID:Date:Subject:Cc:To:From:
- Content-ID:Content-Description;
- bh=1Ii7rqOdbrfZsPCbgQ6gaWphFHgb8aTcYJPvEXH2rgo=; b=mfEaW4wWG3L7UUMw2KiTpbpIgw
- MKG8iA7yprrwGZV1FsMR/ZMr0jpPxFOSTyi6LF2oGVYa3AKz7PUN22tspMMcVLA4y2hSAgP9SR8xo
- PxraMkTbTb3uTZQ/jRwgCcd6wGHs0gZt3ikrUdfl2D8fp92XPL/OQBUiYHXyZj+9wPT4ewYj5BtwB
- R4Z4KoisGXu/eSjXOnnH/JzNdRLOY0SF6JWNG5TU6FFOKIMoVNsZf3HKVF6seD48g0DL4FFETDbst
- yldrhPPuDI+3KaoXG2vbEKpmUq30K0B7iX+wrhDLjqURJoAzRtAqJ6G11+IEyq7wtZdK5BbLD+Kyz
- iq+tVdJaqm0WUpAoHLVKmT3VH4jC2jtorM02TsG5japSjZtg62aYR9n6QOyOJYS2IDcrU/WmjQZ+D
- ZA6edZs1AX1Mhy1VbQOt67dDiwAB3He5L1aKDIUvFSYn3Mwyg0nKq2+p8Co/MmXVPqcwKlTl8Yy8P
- xGb+enID8cHKyWpbC7N2jXOZkESEcqywdp0Su3UfEvR2mRsP1Qh8HD4+WEL/va+1PBHMbqZkLmyHq
- X4qee7roMz52jTOaFSS7ZENJN/7+aP3hWX1EZQ+uqosW/fNwN58jiOd45WsolALfzmL61sTw1ttIa
- UZD6ihIZTjSB7L49LfTYiOHrHtFOPrv8kcd4x0bV4=;
-From: Christian Schoenebeck <qemu_oss@crudebyte.com>
-To: qemu-devel@nongnu.org
-Cc: P J P <ppandit@redhat.com>,
- Daniel =?ISO-8859-1?Q?P=2E_Berrang=E9?= <berrange@redhat.com>,
- Kevin Wolf <kwolf@redhat.com>, Peter Maydell <peter.maydell@linaro.org>,
- Stefano Stabellini <sstabellini@kernel.org>,
- "Michael S. Tsirkin" <mst@redhat.com>, Cornelia Huck <cohuck@redhat.com>,
- Michael Roth <mdroth@linux.vnet.ibm.com>, Greg Kurz <groug@kaod.org>,
- Stefan Hajnoczi <stefanha@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>,
- Philippe =?ISO-8859-1?Q?Mathieu=2DDaud=E9?= <philmd@redhat.com>
-Subject: Re: [PATCH 1/1] MAINTAINERS: introduce cve or security quotient field
-Date: Thu, 16 Jul 2020 11:45:50 +0200
-Message-ID: <3491260.5YPxQhmjAg@silver>
-In-Reply-To: <nycvar.YSQ.7.78.906.2007161428570.950384@xnncv>
-References: <20200714083631.888605-1-ppandit@redhat.com>
- <20200716083654.GA227735@redhat.com>
- <nycvar.YSQ.7.78.906.2007161428570.950384@xnncv>
+ (Exim 4.90_1) (envelope-from <no-reply@patchew.org>)
+ id 1jw0Yz-0001XQ-GP; Thu, 16 Jul 2020 05:52:25 -0400
+Resent-Date: Thu, 16 Jul 2020 05:52:25 -0400
+Resent-Message-Id: <E1jw0Yz-0001XQ-GP@lists.gnu.org>
+Received: from sender4-of-o57.zoho.com ([136.143.188.57]:21759)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <no-reply@patchew.org>)
+ id 1jw0Yw-0006yK-No; Thu, 16 Jul 2020 05:52:25 -0400
+ARC-Seal: i=1; a=rsa-sha256; t=1594893122; cv=none; 
+ d=zohomail.com; s=zohoarc; 
+ b=Xr1fAZkyCl52haAfP6JAcEgmusU5kR2UrMCZ/rhbWogdlvGVWQ3oC6XurO1gHCTBcKjAXs0XLW2YzTN53SkDaJR07JobcKabCw8YdD/d0Yt5Q2kSeMDNf1Rw1Sq0mA05bGcHz0vxiOl8coBFsaUXSSCies3P1D5lDnxWRYV9UWw=
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.com;
+ s=zohoarc; t=1594893122;
+ h=Content-Type:Content-Transfer-Encoding:Cc:Date:From:In-Reply-To:MIME-Version:Message-ID:Reply-To:Subject:To;
+ bh=0kWqcMn/4x74uQxyZKAfe2eWfEtwRXw9nbOuRLDPVXw=; 
+ b=hxr7XcrO4EwFxgSicA7GJnyZYPswwcylKc7d+IA5c/dipm9PywIKWB68pxgOLDxzKKbHayPsY0HeUOANGJRdmmey8ljHcb/bAFYgJ2zAxDwDCJkvCA73rgnDlJaeBtj9W/B+baMlo984UJ2zRSGmtYJP5WD5fkmGQnrJRL628tg=
+ARC-Authentication-Results: i=1; mx.zohomail.com;
+ spf=pass  smtp.mailfrom=no-reply@patchew.org;
+ dmarc=pass header.from=<no-reply@patchew.org>
+ header.from=<no-reply@patchew.org>
+Received: from [172.17.0.3] (23.253.156.214 [23.253.156.214]) by
+ mx.zohomail.com with SMTPS id 1594893117609631.3915426017187;
+ Thu, 16 Jul 2020 02:51:57 -0700 (PDT)
+Subject: Re: [PATCH] hw/riscv: sifive_e: Correct debug block size
+Message-ID: <159489311546.24176.16290580199233458898@07a7f0d89f7d>
+In-Reply-To: <1594891856-15474-1-git-send-email-bmeng.cn@gmail.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain; charset="iso-8859-1"
-Received-SPF: pass client-ip=5.189.157.229;
- envelope-from=qemu_oss@crudebyte.com; helo=kylie.crudebyte.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/07/16 05:45:52
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
+Resent-From: 
+From: no-reply@patchew.org
+To: bmeng.cn@gmail.com
+Date: Thu, 16 Jul 2020 02:51:57 -0700 (PDT)
+X-ZohoMailClient: External
+Received-SPF: pass client-ip=136.143.188.57; envelope-from=no-reply@patchew.org;
+ helo=sender4-of-o57.zoho.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/07/16 05:52:19
 X-ACL-Warn: Detected OS   = Linux 3.11 and newer [fuzzy]
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, SPF_HELO_NONE=0.001,
+X-Spam_score_int: -18
+X-Spam_score: -1.9
+X-Spam_bar: -
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_NONE=-0.0001,
+ RCVD_IN_MSPIKE_H3=-0.01, RCVD_IN_MSPIKE_WL=-0.01, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001, URIBL_BLOCKED=0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -75,57 +67,48 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Reply-To: qemu-devel@nongnu.org
+Cc: qemu-riscv@nongnu.org, sagark@eecs.berkeley.edu,
+ kbastian@mail.uni-paderborn.de, palmerdabbelt@google.com,
+ qemu-devel@nongnu.org, Alistair.Francis@wdc.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Donnerstag, 16. Juli 2020 11:21:55 CEST P J P wrote:
-> +-- On Thu, 16 Jul 2020, Daniel P. Berrang=C3=A9 wrote --+
->=20
-> | > Failing to start (with a message that explains why) if one of the
-> | > command
-> | > line options is not covered by a specified security policy is not
-> | > unreasonable (after all, we fail to start for other cases of
-> | > incompatible
-> | > command line options as well.)
->=20
->   Yes, that's right.
->=20
-> | > However, we also need to cover dynamically-added devices. Aborting se=
-ems
-> | > very bad there, just failing to add the device seems like what we'd
-> | > want.
-> |=20
-> | Yep, aborting is simply not an option for the inner code. It all has to
-> | propagate to a proper Error **errp object. The ultimate entry-point at =
-the
-> | CLI vs QMP then decides whether to turn the error into an abort or feed
-> | back to the client app.
->=20
->   True, handling dynamic devices is tricky.
->=20
-> Though it seems kind of uniform workflow to check for '--security' flag at
-> options parsing OR while handling dynamic devices at run time; It is a hu=
-ge
-> task to cover all options/use-cases for all QEMU emulators across various
-> architectures.
-
-My concern here is that just distinguishing between either 'low' or 'high' =
-is=20
-a far too rough classification.
-
-In our preceding communication regarding 9pfs, I made clear that a) we do c=
-are=20
-about security relevant 9pfs issues, and only b) the avarage use cases (as =
-far=20
-we know) for 9pfs are above a certain trust level.
-
-However b) does not imply 9pfs being 'unsafe', nor that we want users to=20
-refrain using it in a security relevant environment. So 9pfs would actually=
- be=20
-somewhere in between.
-
-Best regards,
-Christian Schoenebeck
-
-
+UGF0Y2hldyBVUkw6IGh0dHBzOi8vcGF0Y2hldy5vcmcvUUVNVS8xNTk0ODkxODU2LTE1NDc0LTEt
+Z2l0LXNlbmQtZW1haWwtYm1lbmcuY25AZ21haWwuY29tLwoKCgpIaSwKClRoaXMgc2VyaWVzIGZh
+aWxlZCB0aGUgZG9ja2VyLXF1aWNrQGNlbnRvczcgYnVpbGQgdGVzdC4gUGxlYXNlIGZpbmQgdGhl
+IHRlc3RpbmcgY29tbWFuZHMgYW5kCnRoZWlyIG91dHB1dCBiZWxvdy4gSWYgeW91IGhhdmUgRG9j
+a2VyIGluc3RhbGxlZCwgeW91IGNhbiBwcm9iYWJseSByZXByb2R1Y2UgaXQKbG9jYWxseS4KCj09
+PSBURVNUIFNDUklQVCBCRUdJTiA9PT0KIyEvYmluL2Jhc2gKbWFrZSBkb2NrZXItaW1hZ2UtY2Vu
+dG9zNyBWPTEgTkVUV09SSz0xCnRpbWUgbWFrZSBkb2NrZXItdGVzdC1xdWlja0BjZW50b3M3IFNI
+T1dfRU5WPTEgSj0xNCBORVRXT1JLPTEKPT09IFRFU1QgU0NSSVBUIEVORCA9PT0KCiAgVEVTVCAg
+ICBjaGVjay11bml0OiB0ZXN0cy90ZXN0LWNyeXB0by1zZWNyZXQKICBURVNUICAgIGNoZWNrLXVu
+aXQ6IHRlc3RzL3Rlc3QtY2hhcgoqKgpFUlJPUjovdG1wL3FlbXUtdGVzdC9zcmMvdGVzdHMvdGVz
+dC1jaGFyLmM6MTIwNDpjaGFyX3NlcmlhbF90ZXN0OiAnY2hyJyBzaG91bGQgbm90IGJlIE5VTEwK
+RVJST1IgdGVzdC1jaGFyIC0gQmFpbCBvdXQhIEVSUk9SOi90bXAvcWVtdS10ZXN0L3NyYy90ZXN0
+cy90ZXN0LWNoYXIuYzoxMjA0OmNoYXJfc2VyaWFsX3Rlc3Q6ICdjaHInIHNob3VsZCBub3QgYmUg
+TlVMTAptYWtlOiAqKiogW2NoZWNrLXVuaXRdIEVycm9yIDEKbWFrZTogKioqIFdhaXRpbmcgZm9y
+IHVuZmluaXNoZWQgam9icy4uLi4KICBURVNUICAgIGlvdGVzdC1xY293MjogMDI0CiAgVEVTVCAg
+ICBpb3Rlc3QtcWNvdzI6IDAyNQotLS0KICAgIHJhaXNlIENhbGxlZFByb2Nlc3NFcnJvcihyZXRj
+b2RlLCBjbWQpCnN1YnByb2Nlc3MuQ2FsbGVkUHJvY2Vzc0Vycm9yOiBDb21tYW5kICdbJ3N1ZG8n
+LCAnLW4nLCAnZG9ja2VyJywgJ3J1bicsICctLWxhYmVsJywgJ2NvbS5xZW11Lmluc3RhbmNlLnV1
+aWQ9NGFjZjJiNjczZWZkNDlmMzhkNDQ4OTM3NDI2MzQ0ZmEnLCAnLXUnLCAnMTAwMycsICctLXNl
+Y3VyaXR5LW9wdCcsICdzZWNjb21wPXVuY29uZmluZWQnLCAnLS1ybScsICctZScsICdUQVJHRVRf
+TElTVD0nLCAnLWUnLCAnRVhUUkFfQ09ORklHVVJFX09QVFM9JywgJy1lJywgJ1Y9JywgJy1lJywg
+J0o9MTQnLCAnLWUnLCAnREVCVUc9JywgJy1lJywgJ1NIT1dfRU5WPTEnLCAnLWUnLCAnQ0NBQ0hF
+X0RJUj0vdmFyL3RtcC9jY2FjaGUnLCAnLXYnLCAnL2hvbWUvcGF0Y2hldzIvLmNhY2hlL3FlbXUt
+ZG9ja2VyLWNjYWNoZTovdmFyL3RtcC9jY2FjaGU6eicsICctdicsICcvdmFyL3RtcC9wYXRjaGV3
+LXRlc3Rlci10bXAtNjdwZ2ZxZmcvc3JjL2RvY2tlci1zcmMuMjAyMC0wNy0xNi0wNS4zNi4zMy4y
+NjY1MzovdmFyL3RtcC9xZW11Onoscm8nLCAncWVtdS9jZW50b3M3JywgJy92YXIvdG1wL3FlbXUv
+cnVuJywgJ3Rlc3QtcXVpY2snXScgcmV0dXJuZWQgbm9uLXplcm8gZXhpdCBzdGF0dXMgMi4KZmls
+dGVyPS0tZmlsdGVyPWxhYmVsPWNvbS5xZW11Lmluc3RhbmNlLnV1aWQ9NGFjZjJiNjczZWZkNDlm
+MzhkNDQ4OTM3NDI2MzQ0ZmEKbWFrZVsxXTogKioqIFtkb2NrZXItcnVuXSBFcnJvciAxCm1ha2Vb
+MV06IExlYXZpbmcgZGlyZWN0b3J5IGAvdmFyL3RtcC9wYXRjaGV3LXRlc3Rlci10bXAtNjdwZ2Zx
+Zmcvc3JjJwptYWtlOiAqKiogW2RvY2tlci1ydW4tdGVzdC1xdWlja0BjZW50b3M3XSBFcnJvciAy
+CgpyZWFsICAgIDE1bTIzLjI2M3MKdXNlciAgICAwbTguNjQzcwoKClRoZSBmdWxsIGxvZyBpcyBh
+dmFpbGFibGUgYXQKaHR0cDovL3BhdGNoZXcub3JnL2xvZ3MvMTU5NDg5MTg1Ni0xNTQ3NC0xLWdp
+dC1zZW5kLWVtYWlsLWJtZW5nLmNuQGdtYWlsLmNvbS90ZXN0aW5nLmRvY2tlci1xdWlja0BjZW50
+b3M3Lz90eXBlPW1lc3NhZ2UuCi0tLQpFbWFpbCBnZW5lcmF0ZWQgYXV0b21hdGljYWxseSBieSBQ
+YXRjaGV3IFtodHRwczovL3BhdGNoZXcub3JnL10uClBsZWFzZSBzZW5kIHlvdXIgZmVlZGJhY2sg
+dG8gcGF0Y2hldy1kZXZlbEByZWRoYXQuY29t
 
