@@ -2,80 +2,78 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id ADF83222019
-	for <lists+qemu-devel@lfdr.de>; Thu, 16 Jul 2020 12:01:44 +0200 (CEST)
-Received: from localhost ([::1]:46770 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8EE4F222097
+	for <lists+qemu-devel@lfdr.de>; Thu, 16 Jul 2020 12:26:43 +0200 (CEST)
+Received: from localhost ([::1]:39096 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jw0hz-0005y5-H6
-	for lists+qemu-devel@lfdr.de; Thu, 16 Jul 2020 06:01:43 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:49998)
+	id 1jw16A-0006vt-Ku
+	for lists+qemu-devel@lfdr.de; Thu, 16 Jul 2020 06:26:42 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:58184)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1jw0gv-0005RR-4g; Thu, 16 Jul 2020 06:00:37 -0400
-Received: from mail-wm1-x342.google.com ([2a00:1450:4864:20::342]:51849)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1jw0gt-0000Xl-IT; Thu, 16 Jul 2020 06:00:36 -0400
-Received: by mail-wm1-x342.google.com with SMTP id 22so9721528wmg.1;
- Thu, 16 Jul 2020 03:00:34 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=sender:subject:to:cc:references:from:message-id:date:user-agent
- :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=3qlwHGRFr9qgDZuvl1pc40Mt2g7o43wUiH/I8W7K+Tw=;
- b=QG6dJtJ0avm5wTbRxrNnocHcrO94ZfQK+FgdWTt63Dxe6sYGkM73YC9DVf8DHSTfl3
- L7vI+oUZ/j6+eV7TxIWY9glNiJ43ahZNSEvl/QjJQ0MBljapC3U84zDVZedHPZY3SnWf
- y95M/lrCoQOUzUVQnPMLmnFc2fae05MfbcRPF2on+5JXgXAhSoKJ5xN60Mcrtxlt3qsD
- 1cn07yflbxKNiX7zFiFIl7D5gS/ZDMnvWeUk5/wATTvUE4TLBy2iXHHhvu3ig5tp8N39
- 2Qvqguj+W/SxpxnprKjZb5rb3+QQn/DtnUR2KVV8+bjCvYpFSokXOt2Qes/Fy5HLdVvx
- lIhg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:sender:subject:to:cc:references:from:message-id
- :date:user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=3qlwHGRFr9qgDZuvl1pc40Mt2g7o43wUiH/I8W7K+Tw=;
- b=IuzOQ5LlFAtNLfJUSNa/iObZ0+H8j/IX2ecaHyMSdV95d24H31QOBvJ1pR1bl39Wdk
- BnVA2jd0ZGNzFeW3qwGbSG0jmkswxdAos2cznrWhk3wuk3FuSYU90G1YTNnRlLji5Pzv
- 5WdJu5/gbDXDxmox1fb4ANYqEp5Ri3bQvJDxHYRv1bc8GQyVCOSloKrqOSBSTP9gZhWh
- kVIg0EoqLAm2u4j1j0jtxJxRN09pQvHYJhNESsS7eeQsqiIsGqcd705UHkRTcd6LloTX
- yZ4HGUUdNe3yBGA1EoiucNwdL6rJOuRl3Rv9n80Zu0ni/9NdLJwUtQp/vZVvOeatfAlz
- hu+Q==
-X-Gm-Message-State: AOAM533JpO42Zn7eIkOHxSxS/jBOCD2AtqbCf7+T8y0QeaEqCGTKGsqX
- jcUNtKPbUPQRleDeYP0BcUM=
-X-Google-Smtp-Source: ABdhPJxBo/Rf/dAjTSqPYFPxif+gwk2PyQjyVCRZWq4rWM2/kSPdZvcy5Sww+xPx0KzYQSM1Ep88lQ==
-X-Received: by 2002:a7b:c0c9:: with SMTP id s9mr3437226wmh.166.1594893633148; 
- Thu, 16 Jul 2020 03:00:33 -0700 (PDT)
-Received: from [192.168.1.37] (138.red-83-57-170.dynamicip.rima-tde.net.
- [83.57.170.138])
- by smtp.gmail.com with ESMTPSA id d18sm8398711wrj.8.2020.07.16.03.00.31
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 16 Jul 2020 03:00:32 -0700 (PDT)
-Subject: Re: [PATCH 01/18] migration/vmstate: Document vmstate_dummy
-To: =?UTF-8?Q?Daniel_P=2e_Berrang=c3=a9?= <berrange@redhat.com>
-References: <20200703201911.26573-1-f4bug@amsat.org>
- <20200703201911.26573-2-f4bug@amsat.org> <20200716095219.GJ227735@redhat.com>
-From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>
-Message-ID: <3c93ea47-3916-eb98-6207-9d34b1430f0d@amsat.org>
-Date: Thu, 16 Jul 2020 12:00:31 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.5.0
+ (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
+ id 1jw15K-0006MN-7i
+ for qemu-devel@nongnu.org; Thu, 16 Jul 2020 06:25:50 -0400
+Received: from us-smtp-1.mimecast.com ([207.211.31.81]:42241
+ helo=us-smtp-delivery-1.mimecast.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
+ id 1jw15H-0007tM-KT
+ for qemu-devel@nongnu.org; Thu, 16 Jul 2020 06:25:49 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1594895145;
+ h=from:from:reply-to:reply-to:subject:subject:date:date:
+ message-id:message-id:to:to:cc:cc:mime-version:mime-version:
+ content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=i816klkVehlrHLDcStk8Dm4prbSi9rGJHFd4h1QSPC8=;
+ b=Lk+TwFPLrZnjlc9ilWjQ5qidJBVHhyppDBBorcG7n04zF8EjMRWFfSiRImxnWCrjqYnKOW
+ dGMWbTlr9EWuryNr467BCyz1EjhJV7owDJhGCH0HdrQoLBw8DzuUaN7ala67f9e4gMf3HN
+ N9Jk0cyZltcW1mJZ67d9xuEZF0hm1iA=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-278-a46M31iyOPWQIBUA7zDBkQ-1; Thu, 16 Jul 2020 06:02:24 -0400
+X-MC-Unique: a46M31iyOPWQIBUA7zDBkQ-1
+Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
+ [10.5.11.22])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id CB59E1013994;
+ Thu, 16 Jul 2020 10:02:02 +0000 (UTC)
+Received: from redhat.com (unknown [10.36.110.42])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 11BCD10098A1;
+ Thu, 16 Jul 2020 10:01:59 +0000 (UTC)
+Date: Thu, 16 Jul 2020 11:01:57 +0100
+From: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
+To: Christian Schoenebeck <qemu_oss@crudebyte.com>
+Subject: Re: [PATCH 1/1] MAINTAINERS: introduce cve or security quotient field
+Message-ID: <20200716100157.GK227735@redhat.com>
+References: <20200714083631.888605-1-ppandit@redhat.com>
+ <20200716083654.GA227735@redhat.com>
+ <nycvar.YSQ.7.78.906.2007161428570.950384@xnncv>
+ <3491260.5YPxQhmjAg@silver>
 MIME-Version: 1.0
-In-Reply-To: <20200716095219.GJ227735@redhat.com>
+In-Reply-To: <3491260.5YPxQhmjAg@silver>
+User-Agent: Mutt/1.14.5 (2020-06-23)
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::342;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wm1-x342.google.com
-X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
- That's all we know.
-X-Spam_score_int: 0
-X-Spam_score: 0.0
-X-Spam_bar: /
-X-Spam_report: (0.0 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1, DKIM_VALID=-0.1,
- DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=1, FREEMAIL_FROM=0.001,
- HEADER_FROM_DIFFERENT_DOMAINS=1, RCVD_IN_DNSWL_NONE=-0.0001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=no autolearn_force=no
+Content-Disposition: inline
+Received-SPF: pass client-ip=207.211.31.81; envelope-from=berrange@redhat.com;
+ helo=us-smtp-delivery-1.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/07/16 04:55:15
+X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
+X-Spam_score_int: -30
+X-Spam_score: -3.1
+X-Spam_bar: ---
+X-Spam_report: (-3.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H3=-0.01, RCVD_IN_MSPIKE_WL=-0.01,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ URIBL_BLOCKED=0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -88,73 +86,82 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Maydell <peter.maydell@linaro.org>,
- Eduardo Habkost <ehabkost@redhat.com>, Juan Quintela <quintela@redhat.com>,
- Andrew Jeffery <andrew@aj.id.au>,
- Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>, qemu-devel@nongnu.org,
- Andrew Baumann <Andrew.Baumann@microsoft.com>,
- Laurent Vivier <laurent@vivier.eu>, Joel Stanley <joel@jms.id.au>,
- qemu-arm@nongnu.org, Gerd Hoffmann <kraxel@redhat.com>,
- Artyom Tarasenko <atar4qemu@gmail.com>, Paolo Bonzini <pbonzini@redhat.com>,
- Subbaraya Sundeep <sundeep.lkml@gmail.com>,
- =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>,
- "Dr . David Alan Gilbert" <dgilbert@redhat.com>,
- =?UTF-8?Q?C=c3=a9dric_Le_Goater?= <clg@kaod.org>
+Reply-To: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
+Cc: Kevin Wolf <kwolf@redhat.com>, Peter Maydell <peter.maydell@linaro.org>,
+ Stefano Stabellini <sstabellini@kernel.org>,
+ Michael Roth <mdroth@linux.vnet.ibm.com>,
+ "Michael S. Tsirkin" <mst@redhat.com>, Cornelia Huck <cohuck@redhat.com>,
+ qemu-devel@nongnu.org, P J P <ppandit@redhat.com>, Greg Kurz <groug@kaod.org>,
+ Stefan Hajnoczi <stefanha@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>,
+ Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <philmd@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 7/16/20 11:52 AM, Daniel P. Berrangé wrote:
-> On Fri, Jul 03, 2020 at 10:18:54PM +0200, Philippe Mathieu-Daudé wrote:
->> vmstate_dummy is special and restricted to linux-user. See commit
->> c71c3e99b8 ("Add a vmstate_dummy struct for CONFIG_USER_ONLY").
->>
->> Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
->> ---
->>  include/migration/vmstate.h | 2 +-
->>  1 file changed, 1 insertion(+), 1 deletion(-)
->>
->> diff --git a/include/migration/vmstate.h b/include/migration/vmstate.h
->> index f68ed7db13..af7d80cd4e 100644
->> --- a/include/migration/vmstate.h
->> +++ b/include/migration/vmstate.h
->> @@ -194,7 +194,7 @@ struct VMStateDescription {
->>      const VMStateDescription **subsections;
->>  };
->>  
->> -extern const VMStateDescription vmstate_dummy;
->> +extern const VMStateDescription vmstate_dummy; /* Exclusively for linux-user */
+On Thu, Jul 16, 2020 at 11:45:50AM +0200, Christian Schoenebeck wrote:
+> On Donnerstag, 16. Juli 2020 11:21:55 CEST P J P wrote:
+> > +-- On Thu, 16 Jul 2020, Daniel P. BerrangÃ© wrote --+
+> > 
+> > | > Failing to start (with a message that explains why) if one of the
+> > | > command
+> > | > line options is not covered by a specified security policy is not
+> > | > unreasonable (after all, we fail to start for other cases of
+> > | > incompatible
+> > | > command line options as well.)
+> > 
+> >   Yes, that's right.
+> > 
+> > | > However, we also need to cover dynamically-added devices. Aborting seems
+> > | > very bad there, just failing to add the device seems like what we'd
+> > | > want.
+> > | 
+> > | Yep, aborting is simply not an option for the inner code. It all has to
+> > | propagate to a proper Error **errp object. The ultimate entry-point at the
+> > | CLI vs QMP then decides whether to turn the error into an abort or feed
+> > | back to the client app.
+> > 
+> >   True, handling dynamic devices is tricky.
+> > 
+> > Though it seems kind of uniform workflow to check for '--security' flag at
+> > options parsing OR while handling dynamic devices at run time; It is a huge
+> > task to cover all options/use-cases for all QEMU emulators across various
+> > architectures.
 > 
-> Originally in the commit mentioned above, this was enforced at build time:
+> My concern here is that just distinguishing between either 'low' or 'high' is 
+> a far too rough classification.
 > 
->   +#ifdef CONFIG_USER_ONLY
->   +extern const VMStateDescription vmstate_dummy;
->   +#endif
+> In our preceding communication regarding 9pfs, I made clear that a) we do care 
+> about security relevant 9pfs issues, and only b) the avarage use cases (as far 
+> we know) for 9pfs are above a certain trust level.
 > 
-> 
-> but this was removed in
-> 
->   commit 6afc14e92ac81b29c25f097468f7751d5df1b5bc
->   Author: Stefan Weil <sw@weilnetz.de>
->   Date:   Fri Feb 6 22:43:10 2015 +0100
-> 
->     migration: Fix warning caused by missing declaration of vmstate_dummy
->     
->     Warning from the Sparse static analysis tool:
->     
->     stubs/vmstate.c:4:26: warning:
->      symbol 'vmstate_dummy' was not declared. Should it be static?
-> 
-> 
-> So if this is really intended to only be used by linux-user, then I
-> suggest we put CONFIG_USER_ONLY back, and figure out a different
-> way to address the undeclared symbol problem. I guess the problem
-> was that stub code is shared both both user/softmmu builds. So
-> perhaps we need to stub this in linux-user only code, instead of
-> having it in the main stub library that is common.
+> However b) does not imply 9pfs being 'unsafe', nor that we want users to 
+> refrain using it in a security relevant environment. So 9pfs would actually be 
+> somewhere in between.
 
-Good idea, I'll look at it.
+We shouldn't overthink this and invent many classification levels.
 
-Thanks,
+This is essentially about distinguishing code that is written with the
+intent of protecting from a malicous guest, from code that assumes a
+non-malicious guest. That is a pretty clear demarcation on when it is
+reasonable to use any given feature in QEMU.
 
-Phil.
+Within the set of code that is assuming a malicious guest, there are
+still going to be varying levels of quality, and that is ok. We don't
+need to express that programatically, the docs are still there to
+describe the fine nuances of any given feature. We're just saying that
+in general, this set of code is acceptable to use in combination with
+a malicious guest, and if you find bugs we'll triage them as security
+flaws.
+
+9p is generally written from the POV of protecting against a malicious
+guest, so it would be considered part of the high security set, and
+flaws will be treated as CVEs. We don't need to be break it down into
+any more detail than that.
+
+Regards,
+Daniel
+-- 
+|: https://berrange.com      -o-    https://www.flickr.com/photos/dberrange :|
+|: https://libvirt.org         -o-            https://fstop138.berrange.com :|
+|: https://entangle-photo.org    -o-    https://www.instagram.com/dberrange :|
+
 
