@@ -2,82 +2,116 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 955A2222428
-	for <lists+qemu-devel@lfdr.de>; Thu, 16 Jul 2020 15:43:24 +0200 (CEST)
-Received: from localhost ([::1]:58754 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7ED8D222430
+	for <lists+qemu-devel@lfdr.de>; Thu, 16 Jul 2020 15:44:26 +0200 (CEST)
+Received: from localhost ([::1]:33762 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jw4AV-0005FS-4J
-	for lists+qemu-devel@lfdr.de; Thu, 16 Jul 2020 09:43:23 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:59332)
+	id 1jw4BV-0006cZ-IT
+	for lists+qemu-devel@lfdr.de; Thu, 16 Jul 2020 09:44:25 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:59684)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1jw49j-0004p9-1z
- for qemu-devel@nongnu.org; Thu, 16 Jul 2020 09:42:35 -0400
-Received: from mail-wr1-x444.google.com ([2a00:1450:4864:20::444]:38098)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1jw49h-0006CT-2i
- for qemu-devel@nongnu.org; Thu, 16 Jul 2020 09:42:34 -0400
-Received: by mail-wr1-x444.google.com with SMTP id z13so7119919wrw.5
- for <qemu-devel@nongnu.org>; Thu, 16 Jul 2020 06:42:32 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=references:user-agent:from:to:cc:subject:in-reply-to:date
- :message-id:mime-version:content-transfer-encoding;
- bh=evWRxzCsBS6rugw++k5qjyYFRBbto4of/HvSlbDac1M=;
- b=UldtFR9vh/G/SYAy4g2raekzDwsmu6c4IQHnt2gPJUOolCDb9mF1VeWGZio8DR7Ixg
- 8ATYsv07FvYthoTA8zMTIhm/16agyH57k6Fjj8G7wC8zrsducyfEl6LU07BWWvx5a4kC
- nShX0020poWr7qZipAOCdPTPAGHBRp2T6T+9/8PqQYUUGND7vN63z84W005iWfySfF/D
- NyA896q7dkSBMzZVEx9l2XFwn71k83/QZL2rW8EgosC1i5gYyWzNR6N2Pst22EDs7W7u
- 3AM7LQkob1Y1o/BuT8x88uMBRVgfA30M9o4Y0v7VK5mRQV27u4hRqkBCT9DTDq+wKvxw
- wOmA==
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1jw4AU-0005bd-G1
+ for qemu-devel@nongnu.org; Thu, 16 Jul 2020 09:43:22 -0400
+Received: from us-smtp-1.mimecast.com ([205.139.110.61]:26633
+ helo=us-smtp-delivery-1.mimecast.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1jw4AS-0006Jv-BL
+ for qemu-devel@nongnu.org; Thu, 16 Jul 2020 09:43:22 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1594906997;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
+ bh=vI9gEiec1hYDl6/toiwFmtNSSDkKUPNnzm3NZjnImEs=;
+ b=HR/YeSw1H5u/xzbuRk753dMp3GvSGRIrUeAxprOGxl602Vdkxz1tmq1Hr5QHNCjT4GctLA
+ 9+N1PlwlgEnkiQ+RE5JGmvgI4gIdSVT+ACaVGBKrXzl79YHWhyeoG7TduCoir5wvWIpRsg
+ nB75o05MgcGoy/+FU3LL0nBrs0akNWc=
+Received: from mail-wm1-f71.google.com (mail-wm1-f71.google.com
+ [209.85.128.71]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-472-sVDorzZrNHqBbJ0Yv2kZvQ-1; Thu, 16 Jul 2020 09:43:00 -0400
+X-MC-Unique: sVDorzZrNHqBbJ0Yv2kZvQ-1
+Received: by mail-wm1-f71.google.com with SMTP id e15so5232855wme.8
+ for <qemu-devel@nongnu.org>; Thu, 16 Jul 2020 06:42:59 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:references:user-agent:from:to:cc:subject
- :in-reply-to:date:message-id:mime-version:content-transfer-encoding;
- bh=evWRxzCsBS6rugw++k5qjyYFRBbto4of/HvSlbDac1M=;
- b=kd2RQVY2dm7/n3bRvMGPeuVx24F6JypuoU8VmKCRw9oMbpZdrj7K+31430+WIFLmNT
- lfJvCd5v8s5fMA7L1WrS/p/KPfrgZqEbEznxRq96KwC2Hcrm1tgmYIFyW6ctWTMR1rdf
- 0XICm7gADUwQBA/Xdlm38A4z78zAsd/crd0rRTQHfI3l2sB+khsLdxjmwXQO/AXYwxsv
- hl6xkZv4cn/G0irps58Buarm3QPkvpPkuV0jyBMDl8I2F+w6oPIJUHL4g7r/OunQHxCX
- ptgJKFtuiqqRRYHPO+vWxSDuwvbNh0wdi2PYyiP/0zMrXxyOuEM9RS1t+KxjUjB05GzV
- qUzA==
-X-Gm-Message-State: AOAM531f4mNCaq57EzJsurWS8tEt8JRzczx+jC+cheLi8ukjjJeJDo9l
- MxP7TiBUgju/NBybWbF4/S2YgA==
-X-Google-Smtp-Source: ABdhPJyC6QBPO5enBnoW0vRfpcKpMOEBkqCFLQLJPnrNMI2K3Ra9RYjDLH6L5bIXBuPz3JudybSwyQ==
-X-Received: by 2002:adf:fac8:: with SMTP id a8mr5146535wrs.368.1594906951373; 
- Thu, 16 Jul 2020 06:42:31 -0700 (PDT)
-Received: from zen.linaroharston ([51.148.130.216])
- by smtp.gmail.com with ESMTPSA id f15sm8798589wrx.91.2020.07.16.06.42.30
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 16 Jul 2020 06:42:30 -0700 (PDT)
-Received: from zen (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id 733CE1FF7E;
- Thu, 16 Jul 2020 14:42:29 +0100 (BST)
+ h=x-gm-message-state:subject:to:cc:references:from:autocrypt
+ :message-id:date:user-agent:mime-version:in-reply-to
+ :content-language:content-transfer-encoding;
+ bh=vI9gEiec1hYDl6/toiwFmtNSSDkKUPNnzm3NZjnImEs=;
+ b=O1cd3GjFCV9RYUlXVltqyX2O0Teb+N9MeoxOgkWKBRLxsbX2tjN8Vb3O9J9C3EWnuU
+ 6V+l7q8cgOq/qk0XuEsQa4tdJ5KgWrQPt/5XVm764eS5Iol6DQXL07m3mdxqFMMmbNQB
+ Xi2e2v5ro4nFWkrnwUueoZa0MAGbskoYC1D3PV2LZN/xq4tDMuWsMwn+ujKuWKDA2owm
+ xUWma6Q76xuDs4CvchsPRt/O+6H9bVr21Al9mqEzFiyILgdnTDxXZvui+c8IqnXMRjEb
+ H6sPteyX4oW9zFWcmIygov7sUdgxuPvggoMu5lw+dTrU+Te66mRqhUmTP6GHv36dm36o
+ o01g==
+X-Gm-Message-State: AOAM531VqpnCUndB0J8qKx81pWu/PgnWs2BoSU1UWcpjCyK1zaFg2x8O
+ xC4qrMIqBcpDufuDRvuRijLcJdQ2YS7zR9vweqfRNgxyWwuIU0wBkxIJBbxj+b3tK+VBHWJoL1W
+ 3J4ag7mR0XHHwYFQ=
+X-Received: by 2002:a1c:2ec4:: with SMTP id u187mr4378617wmu.188.1594906978779; 
+ Thu, 16 Jul 2020 06:42:58 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJwN1Zg33p59pbHZmcoGnJmmxVTasiSOIyyxmFsb6vvtyeyUDAOmtFDmZ9EHcVYmIVltLlFzeQ==
+X-Received: by 2002:a1c:2ec4:: with SMTP id u187mr4378604wmu.188.1594906978546; 
+ Thu, 16 Jul 2020 06:42:58 -0700 (PDT)
+Received: from [192.168.1.37] (138.red-83-57-170.dynamicip.rima-tde.net.
+ [83.57.170.138])
+ by smtp.gmail.com with ESMTPSA id c194sm8609142wme.8.2020.07.16.06.42.57
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Thu, 16 Jul 2020 06:42:58 -0700 (PDT)
+Subject: Re: [PATCH 1/2] python/qemu: Cleanup changes to ConsoleSocket
+To: =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>,
+ Robert Foley <robert.foley@linaro.org>
 References: <20200715204814.2630-1-robert.foley@linaro.org>
- <20200715204814.2630-3-robert.foley@linaro.org>
-User-agent: mu4e 1.5.4; emacs 28.0.50
-From: Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
-To: Robert Foley <robert.foley@linaro.org>
-Subject: Re: [PATCH 2/2] python/qemu: Change ConsoleSocket to optionally
- drain socket.
-In-reply-to: <20200715204814.2630-3-robert.foley@linaro.org>
-Date: Thu, 16 Jul 2020 14:42:29 +0100
-Message-ID: <875zanwp8a.fsf@linaro.org>
+ <20200715204814.2630-2-robert.foley@linaro.org> <87blkfwwe4.fsf@linaro.org>
+ <CAEyhzFsu9P4y15uSEZj=VgWE+mZKfsUyb2ov3WxG2NzXkuRqfA@mail.gmail.com>
+ <878sfjwqkp.fsf@linaro.org>
+From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
+Autocrypt: addr=philmd@redhat.com; keydata=
+ mQINBDXML8YBEADXCtUkDBKQvNsQA7sDpw6YLE/1tKHwm24A1au9Hfy/OFmkpzo+MD+dYc+7
+ bvnqWAeGweq2SDq8zbzFZ1gJBd6+e5v1a/UrTxvwBk51yEkadrpRbi+r2bDpTJwXc/uEtYAB
+ GvsTZMtiQVA4kRID1KCdgLa3zztPLCj5H1VZhqZsiGvXa/nMIlhvacRXdbgllPPJ72cLUkXf
+ z1Zu4AkEKpccZaJspmLWGSzGu6UTZ7UfVeR2Hcc2KI9oZB1qthmZ1+PZyGZ/Dy+z+zklC0xl
+ XIpQPmnfy9+/1hj1LzJ+pe3HzEodtlVA+rdttSvA6nmHKIt8Ul6b/h1DFTmUT1lN1WbAGxmg
+ CH1O26cz5nTrzdjoqC/b8PpZiT0kO5MKKgiu5S4PRIxW2+RA4H9nq7nztNZ1Y39bDpzwE5Sp
+ bDHzd5owmLxMLZAINtCtQuRbSOcMjZlg4zohA9TQP9krGIk+qTR+H4CV22sWldSkVtsoTaA2
+ qNeSJhfHQY0TyQvFbqRsSNIe2gTDzzEQ8itsmdHHE/yzhcCVvlUzXhAT6pIN0OT+cdsTTfif
+ MIcDboys92auTuJ7U+4jWF1+WUaJ8gDL69ThAsu7mGDBbm80P3vvUZ4fQM14NkxOnuGRrJxO
+ qjWNJ2ZUxgyHAh5TCxMLKWZoL5hpnvx3dF3Ti9HW2dsUUWICSQARAQABtDJQaGlsaXBwZSBN
+ YXRoaWV1LURhdWTDqSAoUGhpbCkgPHBoaWxtZEByZWRoYXQuY29tPokCVQQTAQgAPwIbDwYL
+ CQgHAwIGFQgCCQoLBBYCAwECHgECF4AWIQSJweePYB7obIZ0lcuio/1u3q3A3gUCXsfWwAUJ
+ KtymWgAKCRCio/1u3q3A3ircD/9Vjh3aFNJ3uF3hddeoFg1H038wZr/xi8/rX27M1Vj2j9VH
+ 0B8Olp4KUQw/hyO6kUxqkoojmzRpmzvlpZ0cUiZJo2bQIWnvScyHxFCv33kHe+YEIqoJlaQc
+ JfKYlbCoubz+02E2A6bFD9+BvCY0LBbEj5POwyKGiDMjHKCGuzSuDRbCn0Mz4kCa7nFMF5Jv
+ piC+JemRdiBd6102ThqgIsyGEBXuf1sy0QIVyXgaqr9O2b/0VoXpQId7yY7OJuYYxs7kQoXI
+ 6WzSMpmuXGkmfxOgbc/L6YbzB0JOriX0iRClxu4dEUg8Bs2pNnr6huY2Ft+qb41RzCJvvMyu
+ gS32LfN0bTZ6Qm2A8ayMtUQgnwZDSO23OKgQWZVglGliY3ezHZ6lVwC24Vjkmq/2yBSLakZE
+ 6DZUjZzCW1nvtRK05ebyK6tofRsx8xB8pL/kcBb9nCuh70aLR+5cmE41X4O+MVJbwfP5s/RW
+ 9BFSL3qgXuXso/3XuWTQjJJGgKhB6xXjMmb1J4q/h5IuVV4juv1Fem9sfmyrh+Wi5V1IzKI7
+ RPJ3KVb937eBgSENk53P0gUorwzUcO+ASEo3Z1cBKkJSPigDbeEjVfXQMzNt0oDRzpQqH2vp
+ apo2jHnidWt8BsckuWZpxcZ9+/9obQ55DyVQHGiTN39hkETy3Emdnz1JVHTU0Q==
+Message-ID: <871c1f92-1bdd-686b-0255-44c9221f5ef7@redhat.com>
+Date: Thu, 16 Jul 2020 15:42:56 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.5.0
 MIME-Version: 1.0
+In-Reply-To: <878sfjwqkp.fsf@linaro.org>
+Content-Language: en-US
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=2a00:1450:4864:20::444;
- envelope-from=alex.bennee@linaro.org; helo=mail-wr1-x444.google.com
-X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
- That's all we know.
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- URIBL_BLOCKED=0.001 autolearn=ham autolearn_force=no
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=205.139.110.61; envelope-from=philmd@redhat.com;
+ helo=us-smtp-delivery-1.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/07/16 09:29:31
+X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
+X-Spam_score_int: -40
+X-Spam_score: -4.1
+X-Spam_bar: ----
+X-Spam_report: (-4.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-1, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001, URIBL_BLOCKED=0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -90,184 +124,78 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: peter.puhov@linaro.org, Cleber Rosa <crosa@redhat.com>, jsnow@redhat.com,
- qemu-devel@nongnu.org, Eduardo Habkost <ehabkost@redhat.com>
+Cc: Peter Puhov <peter.puhov@linaro.org>, John Snow <jsnow@redhat.com>,
+ QEMU Developers <qemu-devel@nongnu.org>, Eduardo Habkost <ehabkost@redhat.com>,
+ Cleber Rosa <crosa@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+On 7/16/20 3:13 PM, Alex Bennée wrote:
+> 
+> Robert Foley <robert.foley@linaro.org> writes:
+> 
+>> On Thu, 16 Jul 2020 at 07:07, Alex Bennée <alex.bennee@linaro.org> wrote:
+>>>
+>>>
+>>> Robert Foley <robert.foley@linaro.org> writes:
+>>>
+>>>> The changes to console_socket.py and machine.py are to
+>>>> cleanup for pylint and flake8.
+>>>>
+>>>> Signed-off-by: Robert Foley <robert.foley@linaro.org>
+>>>> ---
+>>>>  python/qemu/console_socket.py | 58 +++++++++++++++++------------------
+>>>>  python/qemu/machine.py        |  7 +++--
+>>>>  python/qemu/pylintrc          |  2 +-
+>>>>  3 files changed, 34 insertions(+), 33 deletions(-)
+>>>>
+>>>> diff --git a/python/qemu/console_socket.py b/python/qemu/console_socket.py
+>>>> index 830cb7c628..6a746c1dbf 100644
+>>>> --- a/python/qemu/console_socket.py
+>>>> +++ b/python/qemu/console_socket.py
+>>>> @@ -1,12 +1,9 @@
+>>> <snip>
+>>>> @@ -103,7 +104,6 @@ class ConsoleSocket(asyncore.dispatcher):
+>>>>
+>>>>      def set_blocking(self):
+>>>>          """Maintain compatibility with socket API"""
+>>>> -        pass
+>>>
+>>> Hmm shouldn't this be with the change in 2/2 because I thought you
+>>> needed a "pass" for an empty function in python?
+>>
+>> Thanks for the review !
+>>
+>> Sure, I can move this change to 2/2.  Probably makes more sense there
+>> since we're changing this function there too.
+>>
+>> This change was one of the suggestions from John Snow.
+>> He pointed out that the pass is not needed here since the docstring takes
+>> the role of the function body.
+> 
+> Ahh I did not know you could do that... I'll defer to John's superior
+> python knowledge.
 
-Robert Foley <robert.foley@linaro.org> writes:
+Yes, a function with a comment is not function with an empty body...
 
-> The primary purpose of this change is to clean up
-> machine.py's console_socket property to return a single type,
-> a ConsoleSocket.
->
-> ConsoleSocket now derives from a socket, which means that
-> in the default case (of not draining), machine.py
-> will see the same behavior as it did prior to ConsoleSocket.
->
-> Signed-off-by: Robert Foley <robert.foley@linaro.org>
-> ---
->  python/qemu/console_socket.py | 81 +++++++++++++++++++++--------------
->  python/qemu/machine.py        | 13 ++----
->  2 files changed, 54 insertions(+), 40 deletions(-)
->
-> diff --git a/python/qemu/console_socket.py b/python/qemu/console_socket.py
-> index 6a746c1dbf..475de5b101 100644
-> --- a/python/qemu/console_socket.py
-> +++ b/python/qemu/console_socket.py
-> @@ -13,68 +13,76 @@ which can drain a socket and optionally dump the byte=
-s to file.
->  # the COPYING file in the top-level directory.
->  #
->=20=20
-> -import asyncore
->  import socket
->  import threading
->  from collections import deque
->  import time
->=20=20
->=20=20
-> -class ConsoleSocket(asyncore.dispatcher):
-> +class ConsoleSocket(socket.socket):
->      """
->      ConsoleSocket represents a socket attached to a char device.
->=20=20
-> -    Drains the socket and places the bytes into an in memory buffer
-> -    for later processing.
-> +    Optionally (if drain=3D=3DTrue), drains the socket and places the by=
-tes
-> +    into an in memory buffer for later processing.
->=20=20
->      Optionally a file path can be passed in and we will also
->      dump the characters to this file for debugging purposes.
->      """
-> -    def __init__(self, address, file=3DNone):
-> +    def __init__(self, address, file=3DNone, drain=3DFalse):
->          self._recv_timeout_sec =3D 300
->          self._sleep_time =3D 0.5
->          self._buffer =3D deque()
-> -        self._asyncore_thread =3D None
-> -        self._sock =3D socket.socket(socket.AF_UNIX, socket.SOCK_STREAM)
-> -        self._sock.connect(address)
-> +        self._drain_thread =3D None
-> +        socket.socket.__init__(self, socket.AF_UNIX, socket.SOCK_STREAM)
-> +        self.connect(address)
-> +        self._drain =3D drain
+¯\_(ツ)_/¯
 
-We end up with two variables that represent the fact we have draining
-happening. Could we rationalise it into:
+When you have doubt about Python, I recommend you Gary Bernhardt's talk
+from CodeMash 2012.
 
-  if drain:
-     self._drain_thread =3D self._thread_start()
-  else
-     self._drain_thread =3D None # if this is needed
+> 
+>>
+>> Thanks & Regards,
+>> -Rob
+>>
+>>>
+>>> Otherwise:
+>>>
+>>> Reviewed-by: Alex Bennée <alex.bennee@linaro.org>
+>>>
+>>> --
+>>> Alex Bennée
+> 
+> 
 
-And then tests for:
-
-  if not self._drain:
-
-become
-
-  if self._drain_thread is None:
-
->          self._logfile =3D None
->          if file:
->              self._logfile =3D open(file, "w")
-> -        asyncore.dispatcher.__init__(self, sock=3Dself._sock)
->          self._open =3D True
-> -        self._thread_start()
-> +        if drain:
-> +            self._thread_start()
-> +
-> +    def _drain_fn(self):
-> +        """Drains the socket and runs while the socket is open."""
-> +        while self._open:
-> +            try:
-> +                self._drain_socket()
-> +            except socket.timeout:
-> +                # The socket is expected to timeout since we set a
-> +                # short timeout to allow the thread to exit when
-> +                # self._open is set to False.
-> +                time.sleep(self._sleep_time)
->=20=20
->      def _thread_start(self):
-> -        """Kick off a thread to wait on the asyncore.loop"""
-> -        if self._asyncore_thread is not None:
-> +        """Kick off a thread to drain the socket."""
-> +        if self._drain_thread is not None:
->              return
-> -        self._asyncore_thread =3D threading.Thread(target=3Dasyncore.loo=
-p,
-> -                                                 kwargs=3D{'timeout':1})
-> -        self._asyncore_thread.daemon =3D True
-> -        self._asyncore_thread.start()
-> -
-> -    def handle_close(self):
-> -        """redirect close to base class"""
-> -        # Call the base class close, but not self.close() since
-> -        # handle_close() occurs in the context of the thread which
-> -        # self.close() attempts to join.
-> -        asyncore.dispatcher.close(self)
-> +        # Configure socket to not block and timeout.
-> +        # This allows our drain thread to not block
-> +        # on recieve and exit smoothly.
-> +        socket.socket.setblocking(self, 0)
-> +        socket.socket.settimeout(self, 1)
-> +        self._drain_thread =3D threading.Thread(target=3Dself._drain_fn)
-> +        self._drain_thread.daemon =3D True
-> +        self._drain_thread.start()
->=20=20
->      def close(self):
->          """Close the base object and wait for the thread to terminate"""
->          if self._open:
->              self._open =3D False
-> -            asyncore.dispatcher.close(self)
-> -            if self._asyncore_thread is not None:
-> -                thread, self._asyncore_thread =3D self._asyncore_thread,=
- None
-> +            if self._drain and self._drain_thread is not None:
-> +                thread, self._drain_thread =3D self._drain_thread, None
-
-Would self._drain ever not have self._drain_thread set?
-
->                  thread.join()
-> +            socket.socket.close(self)
-<snip>
-> diff --git a/python/qemu/machine.py b/python/qemu/machine.py
-> index 6769359766..62709d86e4 100644
-> --- a/python/qemu/machine.py
-> +++ b/python/qemu/machine.py
-> @@ -22,7 +22,6 @@ import logging
->  import os
->  import subprocess
->  import shutil
-> -import socket
-
-FYI minor patch conflict here with master
-
->  import tempfile
->  from typing import Optional, Type
->  from types import TracebackType
-> @@ -591,12 +590,8 @@ class QEMUMachine:
->          Returns a socket connected to the console
->          """
->          if self._console_socket is None:
-> -            if self._drain_console:
-> -                self._console_socket =3D console_socket.ConsoleSocket(
-> -                    self._console_address,
-> -                    file=3Dself._console_log_path)
-> -            else:
-> -                self._console_socket =3D socket.socket(socket.AF_UNIX,
-> -                                                     socket.SOCK_STREAM)
-> -                self._console_socket.connect(self._console_address)
-> +            self._console_socket =3D console_socket.ConsoleSocket(
-> +                self._console_address,
-> +                file=3Dself._console_log_path,
-> +                drain=3Dself._drain_console)
->          return self._console_socket
-
-
---=20
-Alex Benn=C3=A9e
 
