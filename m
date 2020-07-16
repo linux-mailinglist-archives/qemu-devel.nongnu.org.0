@@ -2,55 +2,87 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1D54C222E83
-	for <lists+qemu-devel@lfdr.de>; Fri, 17 Jul 2020 00:36:28 +0200 (CEST)
-Received: from localhost ([::1]:43946 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 53739222E88
+	for <lists+qemu-devel@lfdr.de>; Fri, 17 Jul 2020 00:58:10 +0200 (CEST)
+Received: from localhost ([::1]:56996 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jwCUM-0006G4-Jo
-	for lists+qemu-devel@lfdr.de; Thu, 16 Jul 2020 18:36:26 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:34874)
+	id 1jwCpM-0004fz-F5
+	for lists+qemu-devel@lfdr.de; Thu, 16 Jul 2020 18:58:08 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:40650)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <balaton@eik.bme.hu>)
- id 1jwCTP-0005is-F8
- for qemu-devel@nongnu.org; Thu, 16 Jul 2020 18:35:27 -0400
-Received: from zero.eik.bme.hu ([152.66.115.2]:10434)
+ (Exim 4.90_1) (envelope-from <arbab@linux.ibm.com>)
+ id 1jwCoX-00049P-0k; Thu, 16 Jul 2020 18:57:17 -0400
+Received: from mx0a-001b2d01.pphosted.com ([148.163.156.1]:9438)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <balaton@eik.bme.hu>)
- id 1jwCTL-0001uT-8Z
- for qemu-devel@nongnu.org; Thu, 16 Jul 2020 18:35:26 -0400
-Received: from zero.eik.bme.hu (blah.eik.bme.hu [152.66.115.182])
- by localhost (Postfix) with SMTP id B9DD674637F;
- Fri, 17 Jul 2020 00:35:10 +0200 (CEST)
-Received: by zero.eik.bme.hu (Postfix, from userid 432)
- id 85A50745702; Fri, 17 Jul 2020 00:35:10 +0200 (CEST)
-Received: from localhost (localhost [127.0.0.1])
- by zero.eik.bme.hu (Postfix) with ESMTP id 841AA745712;
- Fri, 17 Jul 2020 00:35:10 +0200 (CEST)
-Date: Fri, 17 Jul 2020 00:35:10 +0200 (CEST)
-From: BALATON Zoltan <balaton@eik.bme.hu>
-To: =?ISO-8859-15?Q?Alex_Benn=E9e?= <alex.bennee@linaro.org>
-Subject: Re: TB Cache size grows out of control with qemu 5.0
-In-Reply-To: <871rlbwhlp.fsf@linaro.org>
-Message-ID: <alpine.BSF.2.22.395.2007170013020.78424@zero.eik.bme.hu>
-References: <CAATJJ0JDs78irZYRA7-wBefZhmTFK7SpCecuq79Ub-8n1jfy3A@mail.gmail.com>
- <alpine.LMD.2.03.2007151755360.31652@eik.bme.hu>
- <CAATJJ0L2V5QgPHoJW25HrT1_4_YhZJOLS=jFdCU6+JkHFG_MbA@mail.gmail.com>
- <871rlbwhlp.fsf@linaro.org>
-User-Agent: Alpine 2.22 (BSF 395 2020-01-19)
-MIME-Version: 1.0
-Content-Type: multipart/mixed;
- boundary="3866299591-2130592759-1594938910=:78424"
-X-Spam-Probability: 9%
-Received-SPF: pass client-ip=152.66.115.2; envelope-from=balaton@eik.bme.hu;
- helo=zero.eik.bme.hu
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/07/16 18:35:11
-X-ACL-Warn: Detected OS   = FreeBSD 9.x or newer [fuzzy]
-X-Spam_score_int: -41
-X-Spam_score: -4.2
-X-Spam_bar: ----
-X-Spam_report: (-4.2 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_MED=-2.3,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ (Exim 4.90_1) (envelope-from <arbab@linux.ibm.com>)
+ id 1jwCoV-0008Cl-0L; Thu, 16 Jul 2020 18:57:16 -0400
+Received: from pps.filterd (m0098399.ppops.net [127.0.0.1])
+ by mx0a-001b2d01.pphosted.com (8.16.0.42/8.16.0.42) with SMTP id
+ 06GMWAD0141771; Thu, 16 Jul 2020 18:57:00 -0400
+Received: from pps.reinject (localhost [127.0.0.1])
+ by mx0a-001b2d01.pphosted.com with ESMTP id 32auraq2pf-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Thu, 16 Jul 2020 18:57:00 -0400
+Received: from m0098399.ppops.net (m0098399.ppops.net [127.0.0.1])
+ by pps.reinject (8.16.0.36/8.16.0.36) with SMTP id 06GMXTDu149059;
+ Thu, 16 Jul 2020 18:57:00 -0400
+Received: from ppma01wdc.us.ibm.com (fd.55.37a9.ip4.static.sl-reverse.com
+ [169.55.85.253])
+ by mx0a-001b2d01.pphosted.com with ESMTP id 32auraq2p4-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Thu, 16 Jul 2020 18:57:00 -0400
+Received: from pps.filterd (ppma01wdc.us.ibm.com [127.0.0.1])
+ by ppma01wdc.us.ibm.com (8.16.0.42/8.16.0.42) with SMTP id 06GMtKUe015692;
+ Thu, 16 Jul 2020 22:56:58 GMT
+Received: from b01cxnp22034.gho.pok.ibm.com (b01cxnp22034.gho.pok.ibm.com
+ [9.57.198.24]) by ppma01wdc.us.ibm.com with ESMTP id 3275294age-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Thu, 16 Jul 2020 22:56:58 +0000
+Received: from b01ledav005.gho.pok.ibm.com (b01ledav005.gho.pok.ibm.com
+ [9.57.199.110])
+ by b01cxnp22034.gho.pok.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
+ 06GMuwWZ55050624
+ (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+ Thu, 16 Jul 2020 22:56:58 GMT
+Received: from b01ledav005.gho.pok.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id 61DC1AE05C;
+ Thu, 16 Jul 2020 22:56:58 +0000 (GMT)
+Received: from b01ledav005.gho.pok.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id AD0A5AE05F;
+ Thu, 16 Jul 2020 22:56:57 +0000 (GMT)
+Received: from arbab-laptop.localdomain (unknown [9.160.63.114])
+ by b01ledav005.gho.pok.ibm.com (Postfix) with SMTP;
+ Thu, 16 Jul 2020 22:56:57 +0000 (GMT)
+Received: by arbab-laptop.localdomain (Postfix, from userid 152845)
+ id 43D7C4609C6; Thu, 16 Jul 2020 17:56:55 -0500 (CDT)
+From: Reza Arbab <arbab@linux.ibm.com>
+To: David Gibson <david@gibson.dropbear.id.au>, qemu-ppc@nongnu.org,
+ qemu-devel@nongnu.org
+Subject: [PATCH v4] spapr: Add a new level of NUMA for GPUs
+Date: Thu, 16 Jul 2020 17:56:55 -0500
+Message-Id: <20200716225655.24289-1-arbab@linux.ibm.com>
+X-Mailer: git-send-email 2.18.1
+X-TM-AS-GCONF: 00
+X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:6.0.235, 18.0.687
+ definitions=2020-07-16_11:2020-07-16,
+ 2020-07-16 signatures=0
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ mlxscore=0 adultscore=0
+ mlxlogscore=999 suspectscore=2 clxscore=1011 bulkscore=0 spamscore=0
+ phishscore=0 malwarescore=0 impostorscore=0 priorityscore=1501
+ lowpriorityscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2006250000 definitions=main-2007160145
+Received-SPF: pass client-ip=148.163.156.1; envelope-from=arbab@linux.ibm.com;
+ helo=mx0a-001b2d01.pphosted.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/07/16 17:57:19
+X-ACL-Warn: Detected OS   = Linux 3.x [generic] [fuzzy]
+X-Spam_score_int: -35
+X-Spam_score: -3.6
+X-Spam_bar: ---
+X-Spam_report: (-3.6 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_LOW=-0.7,
+ RCVD_IN_MSPIKE_H2=-1, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -63,129 +95,187 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Paolo Bonzini <pbonzini@redhat.com>, qemu-devel <qemu-devel@nongnu.org>,
- Christian Ehrhardt <christian.ehrhardt@canonical.com>,
- Richard Henderson <rth@twiddle.net>
+Cc: Alexey Kardashevskiy <aik@ozlabs.ru>,
+ Daniel Henrique Barboza <danielhb@linux.ibm.com>,
+ Daniel Henrique Barboza <danielhb413@gmail.com>, Greg Kurz <groug@kaod.org>,
+ Leonardo Augusto Guimaraes Garcia <lagarcia@linux.ibm.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-  This message is in MIME format.  The first part should be readable text,
-  while the remaining parts are likely unreadable without MIME-aware tools.
+NUMA nodes corresponding to GPU memory currently have the same
+affinity/distance as normal memory nodes. Add a third NUMA associativity
+reference point enabling us to give GPU nodes more distance.
 
---3866299591-2130592759-1594938910=:78424
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Transfer-Encoding: 8BIT
+This is guest visible information, which shouldn't change under a
+running guest across migration between different qemu versions, so make
+the change effective only in new (pseries > 5.0) machine types.
 
-On Thu, 16 Jul 2020, Alex Bennée wrote:
-> Christian Ehrhardt <christian.ehrhardt@canonical.com> writes:
->> On Wed, Jul 15, 2020 at 5:58 PM BALATON Zoltan <balaton@eik.bme.hu> wrote:
->>> See commit 47a2def4533a2807e48954abd50b32ecb1aaf29a and the next two
->>> following it.
->>
->> Thank you Zoltan for pointing out this commit, I agree that this seems to be
->> the trigger for the issues I'm seeing. Unfortunately the common CI host size
->> is 1-2G. For example on Ubuntu Autopkgtests 1.5G.
->> Those of them running guests do so in 0.5-1G size in TCG mode
->> (as they often can't rely on having KVM available).
->>
->> The 1G TB buffer + 0.5G actual guest size + lack of dynamic downsizing
->> on memory pressure (never existed) makes these systems go OOM-Killing
->> the qemu process.
->
-> Ooops. I admit the assumption was that most people running system
-> emulation would be doing it on beefier machines.
->
->> The patches indicated that the TB flushes on a full guest boot are a
->> good indicator of the TB size efficiency. From my old checks I had:
->>
->> - Qemu 4.2 512M guest with 32M default overwritten by ram-size/4
->> TB flush count      14, 14, 16
->> - Qemu 5.0 512M guest with 1G default
->> TB flush count      1, 1, 1
->>
->> I agree that ram/4 seems odd, especially on huge guests that is a lot
->> potentially wasted. And most environments have a bit of breathing
->> room 1G is too big in small host systems and the common CI system falls
->> into this category. So I tuned it down to 256M for a test.
->>
->> - Qemu 4.2 512M guest with tb-size 256M
->> TB flush count      5, 5, 5
->> - Qemu 5.0 512M guest with tb-size 256M
->> TB flush count      5, 5, 5
->> - Qemu 5.0 512M guest with 256M default in code
->> TB flush count      5, 5, 5
->>
->> So performance wise the results are as much in-between as you'd think from a
->> TB size in between. And the memory consumption which (for me) is the actual
->> current issue to fix would be back in line again as expected.
->
-> So I'm glad you have the workaround.
->
->>
->> So on one hand I'm suggesting something like:
->> --- a/accel/tcg/translate-all.c
->> +++ b/accel/tcg/translate-all.c
->> @@ -944,7 +944,7 @@ static void page_lock_pair(PageDesc **re
->>   * Users running large scale system emulation may want to tweak their
->>   * runtime setup via the tb-size control on the command line.
->>   */
->> -#define DEFAULT_CODE_GEN_BUFFER_SIZE_1 (1 * GiB)
->> +#define DEFAULT_CODE_GEN_BUFFER_SIZE_1 (256 * MiB)
->
-> The problem we have is any number we pick here is arbitrary. And while
-> it did regress your use-case changing it again just pushes a performance
-> regression onto someone else. The most (*) 64 bit desktop PCs have 16Gb
-> of RAM, almost all have more than 8gb. And there is a workaround.
->
-> * random number from Steams HW survey.
->
->>  #endif
->>  #endif
->>
->> OTOH I understand someone else might want to get the more speedy 1G
->> especially for large guests. If someone used to run a 4G guest in TCG the
->> TB Size was 1G all along.
->> How about picking the smaller of (1G || ram-size/4) as default?
->>
->> This might then look like:
->> --- a/accel/tcg/translate-all.c
->> +++ b/accel/tcg/translate-all.c
->> @@ -956,7 +956,12 @@ static inline size_t size_code_gen_buffe
->>  {
->>      /* Size the buffer.  */
->>      if (tb_size == 0) {
->> -        tb_size = DEFAULT_CODE_GEN_BUFFER_SIZE;
->> +        unsigned long max_default = (unsigned long)(ram_size / 4);
->> +        if (max_default < DEFAULT_CODE_GEN_BUFFER_SIZE) {
->> +            tb_size = max_default;
->> +        } else {
->> +           tb_size = DEFAULT_CODE_GEN_BUFFER_SIZE;
->> +        }
->>      }
->>      if (tb_size < MIN_CODE_GEN_BUFFER_SIZE) {
->>          tb_size = MIN_CODE_GEN_BUFFER_SIZE;
->>
->> This is a bit more tricky than it seems as ram_sizes is no more
->> present in that context but it is enough to discuss it.
->> That should serve all cases - small and large - better as a pure
->> static default of 1G or always ram/4?
->
-> I'm definitely against re-introducing ram_size into the mix. The
-> original commit (a1b18df9a4) that broke this introduced an ordering
-> dependency which we don't want to bring back.
->
-> I'd be more amenable to something that took into account host memory and
-> limited the default if it was smaller than a threshold. Is there a way
-> to probe that that doesn't involve slurping /proc/meminfo?
+Before, `numactl -H` output in a guest with 4 GPUs (nodes 2-5):
 
-I agree that this should be dependent on host memory size not guest 
-ram_size but it might be tricky to get that value because different host 
-OSes would need different ways. Maybe a new qemu_host_mem_size portability 
-function will be needed that implements this for different host OSes. 
-POSIX may or may not have sysconf _SC_PHYS_PAGES and _SC_AVPHYS_PAGES and 
-linux has sysinfo but don't know how reliable these are.
+node distances:
+node   0   1   2   3   4   5
+  0:  10  40  40  40  40  40
+  1:  40  10  40  40  40  40
+  2:  40  40  10  40  40  40
+  3:  40  40  40  10  40  40
+  4:  40  40  40  40  10  40
+  5:  40  40  40  40  40  10
 
-Regards,
-BALATON Zoltan
---3866299591-2130592759-1594938910=:78424--
+After:
+
+node distances:
+node   0   1   2   3   4   5
+  0:  10  40  80  80  80  80
+  1:  40  10  80  80  80  80
+  2:  80  80  10  80  80  80
+  3:  80  80  80  10  80  80
+  4:  80  80  80  80  10  80
+  5:  80  80  80  80  80  10
+
+These are the same distances as on the host, mirroring the change made
+to host firmware in skiboot commit f845a648b8cb ("numa/associativity:
+Add a new level of NUMA for GPU's").
+
+Signed-off-by: Reza Arbab <arbab@linux.ibm.com>
+---
+v4:
+* Use nvslot->numa_id for distinction at all levels of ibm,associativity
+* Use ARRAY_SIZE(refpoints)
+* Rebase
+
+v3:
+* Squash into one patch
+* Add PHB compat property
+---
+ hw/ppc/spapr.c              | 21 +++++++++++++++++++--
+ hw/ppc/spapr_pci.c          |  2 ++
+ hw/ppc/spapr_pci_nvlink2.c  | 13 ++++++++++---
+ include/hw/pci-host/spapr.h |  1 +
+ include/hw/ppc/spapr.h      |  1 +
+ 5 files changed, 33 insertions(+), 5 deletions(-)
+
+diff --git a/hw/ppc/spapr.c b/hw/ppc/spapr.c
+index 299908cc7396..0ae293ec9431 100644
+--- a/hw/ppc/spapr.c
++++ b/hw/ppc/spapr.c
+@@ -890,10 +890,16 @@ static int spapr_dt_rng(void *fdt)
+ static void spapr_dt_rtas(SpaprMachineState *spapr, void *fdt)
+ {
+     MachineState *ms = MACHINE(spapr);
++    SpaprMachineClass *smc = SPAPR_MACHINE_GET_CLASS(ms);
+     int rtas;
+     GString *hypertas = g_string_sized_new(256);
+     GString *qemu_hypertas = g_string_sized_new(256);
+-    uint32_t refpoints[] = { cpu_to_be32(0x4), cpu_to_be32(0x4) };
++    uint32_t refpoints[] = {
++        cpu_to_be32(0x4),
++        cpu_to_be32(0x4),
++        cpu_to_be32(0x2),
++    };
++    uint32_t nr_refpoints = ARRAY_SIZE(refpoints);
+     uint64_t max_device_addr = MACHINE(spapr)->device_memory->base +
+         memory_region_size(&MACHINE(spapr)->device_memory->mr);
+     uint32_t lrdr_capacity[] = {
+@@ -945,8 +951,12 @@ static void spapr_dt_rtas(SpaprMachineState *spapr, void *fdt)
+                      qemu_hypertas->str, qemu_hypertas->len));
+     g_string_free(qemu_hypertas, TRUE);
+ 
++    if (smc->pre_5_1_assoc_refpoints) {
++        nr_refpoints = 2;
++    }
++
+     _FDT(fdt_setprop(fdt, rtas, "ibm,associativity-reference-points",
+-                     refpoints, sizeof(refpoints)));
++                     refpoints, nr_refpoints * sizeof(refpoints[0])));
+ 
+     _FDT(fdt_setprop(fdt, rtas, "ibm,max-associativity-domains",
+                      maxdomains, sizeof(maxdomains)));
+@@ -4584,9 +4594,16 @@ DEFINE_SPAPR_MACHINE(5_1, "5.1", true);
+  */
+ static void spapr_machine_5_0_class_options(MachineClass *mc)
+ {
++    SpaprMachineClass *smc = SPAPR_MACHINE_CLASS(mc);
++    static GlobalProperty compat[] = {
++        { TYPE_SPAPR_PCI_HOST_BRIDGE, "pre-5.1-associativity", "on" },
++    };
++
+     spapr_machine_5_1_class_options(mc);
+     compat_props_add(mc->compat_props, hw_compat_5_0, hw_compat_5_0_len);
++    compat_props_add(mc->compat_props, compat, G_N_ELEMENTS(compat));
+     mc->numa_mem_supported = true;
++    smc->pre_5_1_assoc_refpoints = true;
+ }
+ 
+ DEFINE_SPAPR_MACHINE(5_0, "5.0", false);
+diff --git a/hw/ppc/spapr_pci.c b/hw/ppc/spapr_pci.c
+index 2a6a48744aaa..16739334e35f 100644
+--- a/hw/ppc/spapr_pci.c
++++ b/hw/ppc/spapr_pci.c
+@@ -2035,6 +2035,8 @@ static Property spapr_phb_properties[] = {
+                      pcie_ecs, true),
+     DEFINE_PROP_UINT64("gpa", SpaprPhbState, nv2_gpa_win_addr, 0),
+     DEFINE_PROP_UINT64("atsd", SpaprPhbState, nv2_atsd_win_addr, 0),
++    DEFINE_PROP_BOOL("pre-5.1-associativity", SpaprPhbState,
++                     pre_5_1_assoc, false),
+     DEFINE_PROP_END_OF_LIST(),
+ };
+ 
+diff --git a/hw/ppc/spapr_pci_nvlink2.c b/hw/ppc/spapr_pci_nvlink2.c
+index dd8cd6db9654..76ae77ebc851 100644
+--- a/hw/ppc/spapr_pci_nvlink2.c
++++ b/hw/ppc/spapr_pci_nvlink2.c
+@@ -362,9 +362,9 @@ void spapr_phb_nvgpu_ram_populate_dt(SpaprPhbState *sphb, void *fdt)
+                                                     &error_abort);
+         uint32_t associativity[] = {
+             cpu_to_be32(0x4),
+-            SPAPR_GPU_NUMA_ID,
+-            SPAPR_GPU_NUMA_ID,
+-            SPAPR_GPU_NUMA_ID,
++            cpu_to_be32(nvslot->numa_id),
++            cpu_to_be32(nvslot->numa_id),
++            cpu_to_be32(nvslot->numa_id),
+             cpu_to_be32(nvslot->numa_id)
+         };
+         uint64_t size = object_property_get_uint(nv_mrobj, "size", NULL);
+@@ -375,6 +375,13 @@ void spapr_phb_nvgpu_ram_populate_dt(SpaprPhbState *sphb, void *fdt)
+         _FDT(off);
+         _FDT((fdt_setprop_string(fdt, off, "device_type", "memory")));
+         _FDT((fdt_setprop(fdt, off, "reg", mem_reg, sizeof(mem_reg))));
++
++        if (sphb->pre_5_1_assoc) {
++            associativity[1] = SPAPR_GPU_NUMA_ID;
++            associativity[2] = SPAPR_GPU_NUMA_ID;
++            associativity[3] = SPAPR_GPU_NUMA_ID;
++        }
++
+         _FDT((fdt_setprop(fdt, off, "ibm,associativity", associativity,
+                           sizeof(associativity))));
+ 
+diff --git a/include/hw/pci-host/spapr.h b/include/hw/pci-host/spapr.h
+index 8877ff51fbf7..600eb55c3488 100644
+--- a/include/hw/pci-host/spapr.h
++++ b/include/hw/pci-host/spapr.h
+@@ -94,6 +94,7 @@ struct SpaprPhbState {
+     hwaddr nv2_gpa_win_addr;
+     hwaddr nv2_atsd_win_addr;
+     SpaprPhbPciNvGpuConfig *nvgpus;
++    bool pre_5_1_assoc;
+ };
+ 
+ #define SPAPR_PCI_MEM_WIN_BUS_OFFSET 0x80000000ULL
+diff --git a/include/hw/ppc/spapr.h b/include/hw/ppc/spapr.h
+index c421410e3fb8..3134d339e8fe 100644
+--- a/include/hw/ppc/spapr.h
++++ b/include/hw/ppc/spapr.h
+@@ -129,6 +129,7 @@ struct SpaprMachineClass {
+     bool linux_pci_probe;
+     bool smp_threads_vsmt; /* set VSMT to smp_threads by default */
+     hwaddr rma_limit;          /* clamp the RMA to this size */
++    bool pre_5_1_assoc_refpoints;
+ 
+     void (*phb_placement)(SpaprMachineState *spapr, uint32_t index,
+                           uint64_t *buid, hwaddr *pio, 
+-- 
+2.18.2
+
 
