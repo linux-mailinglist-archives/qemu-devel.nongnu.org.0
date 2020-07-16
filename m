@@ -2,64 +2,65 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 392352228A0
-	for <lists+qemu-devel@lfdr.de>; Thu, 16 Jul 2020 18:58:39 +0200 (CEST)
-Received: from localhost ([::1]:46312 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9F35B2228BA
+	for <lists+qemu-devel@lfdr.de>; Thu, 16 Jul 2020 19:11:01 +0200 (CEST)
+Received: from localhost ([::1]:55622 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jw7DS-0007Ec-AE
-	for lists+qemu-devel@lfdr.de; Thu, 16 Jul 2020 12:58:38 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:58440)
+	id 1jw7PP-00039L-RB
+	for lists+qemu-devel@lfdr.de; Thu, 16 Jul 2020 13:10:59 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:33558)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1jw7Bv-0005po-NT
- for qemu-devel@nongnu.org; Thu, 16 Jul 2020 12:57:03 -0400
-Received: from mail-oi1-x244.google.com ([2607:f8b0:4864:20::244]:39262)
+ (Exim 4.90_1) (envelope-from <robert.foley@linaro.org>)
+ id 1jw7Od-0002gO-Bb
+ for qemu-devel@nongnu.org; Thu, 16 Jul 2020 13:10:11 -0400
+Received: from mail-lf1-x143.google.com ([2a00:1450:4864:20::143]:35451)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1jw7Bt-0004LQ-NG
- for qemu-devel@nongnu.org; Thu, 16 Jul 2020 12:57:03 -0400
-Received: by mail-oi1-x244.google.com with SMTP id w17so5634058oie.6
- for <qemu-devel@nongnu.org>; Thu, 16 Jul 2020 09:57:01 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <robert.foley@linaro.org>)
+ id 1jw7Ob-0006vS-9b
+ for qemu-devel@nongnu.org; Thu, 16 Jul 2020 13:10:10 -0400
+Received: by mail-lf1-x143.google.com with SMTP id u12so4096236lff.2
+ for <qemu-devel@nongnu.org>; Thu, 16 Jul 2020 10:10:08 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=oo8LQfPjMmPon64in8szOE8JLpnJxVt+n6NSb2Y9ic0=;
- b=N8ihbD0I01YJZ3VHo6EMA+Hn3Qx7gjvOhLg+GJ43eb6+Kyvu1904sib+JN9hAMWiZB
- udIx+TwhpXG6BITMRFLnvChoKgeH6oFAZLufsQ9qiSbVEzxX8ZiXtxacqUOl0AO8Hbbt
- jbYebMqKDhSMXiFSESi2ijBvRX2XB3CbkV9c7XVmgmOd947x1mFz0iJ/js61pozQQtQc
- kyrT0TH72iq2am/tokidheLpfMu7aY4c1sZbIzcVeiY/HbcjggMIJNpruCJpLv46y3aB
- cuDI9zWEbzc4n/Uwumd032peWPUI9hRRQflGS6UWY5QsgwLdMRCELIO0RxTCyI4cBRGt
- Ws1w==
+ :cc:content-transfer-encoding;
+ bh=YqcsYynJBfMHZD5+yJDGwgPi48fPOpvnZ5f13VNmHIE=;
+ b=hHnFtnxKCYT+3Mpgf/bW7115RUSr0lQx606S4ld0y8FZZyQ/o5b4T0F9Dh5ceMS30L
+ W7/09rEizGPiCjqZLlSsT5jbA1uWaqEbXv76cStEgjKfEgrbnw8XsLho3Xb7vEQNcfaf
+ eGLv7l64fPUyPBpoGPbe/+qm1X2D00aTOECHsAIUEVrjQX6cf7SPhpMuqlSvUPaoBxpo
+ MpRO4V6mYOjyXsPOGq+tQVmTkX6Z6tmiaKJvvdLUwoycv8E217RPIcfdtwX+S+FVBkZa
+ 5xB2G0EVdcBDYq4feYmxKFpXFmPY7BcgA4n9+4i5fkDMxBy9BUYmQcad2qX7uC3KubGa
+ HZQw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=oo8LQfPjMmPon64in8szOE8JLpnJxVt+n6NSb2Y9ic0=;
- b=PVvDZA3oxo+aWnkpa/iF0J4tEI1txr438lzlWK9g6IntLBKG6D8b3USQaSv/dZEPPW
- 9YP15FcEpdAtEcKYV3tlvu6D0E2oPCO5uhawG65Xw5KQKvdbE0na/XqVcsCjaIHEfy2v
- t8jXcgUEbLyFDBfiX+r5LAxoQOE6VDJ7wZTY1C5pQI+kiY8qhF2dibfly11BUiQM6H94
- eAnXWlp5vCB/63A188nBEGmggKDe9zSUE96aPXqY3hVb5EivRjcCz7xrxCmTWIpQbbFz
- +111bD78QiOgM567WNC4l3xJBqXPtM1/OTLxtA/ufZB74DjecpJnM4aLr7jNywbTwP30
- PWOQ==
-X-Gm-Message-State: AOAM532uJbUmuEuLDBJua3AO6wg0kHa6Buc/BwFRXZflJiSDdcu1gdSP
- nvxcKfIPy7m+4P9bQYSBsronKOp53PxbAYCiodkaLQ==
-X-Google-Smtp-Source: ABdhPJyOigpefeDMt+8T9oExgK+f4t+3EjbDK11rpOfC+eHdLeNDC2BqSsMysKUuG0aY/y4oxT1YAFPRVkntjbrF7bU=
-X-Received: by 2002:aca:54c9:: with SMTP id i192mr4527632oib.163.1594918620390; 
- Thu, 16 Jul 2020 09:57:00 -0700 (PDT)
+ :message-id:subject:to:cc:content-transfer-encoding;
+ bh=YqcsYynJBfMHZD5+yJDGwgPi48fPOpvnZ5f13VNmHIE=;
+ b=tT5Ffa31WXVFtKZCAkTIlkTS3Us0Ec32nc54a66RyIvBCp0vt/mPtDOl6F6a4cgETW
+ XbGX1MG7d7R1u5AKV6Dg0PbdFuzx0oXhRfbroNzrxErA13Mszjz86f+Ua8GhmznRkzt+
+ plwXiNfPqeO1yC3/sj6ywb/97ob9FGtcfT14+p0bdhpB0WS2dh5Qpre/nhewUTbMgm8M
+ 2Wwum1Lk3Qy26cisYKLQq/SAFVbGr+EwxPOA2xzS0bXBlI7Xtu10l67HRq5ZcTh1DfSW
+ wcu1Qzqtf0FIZK6Qz7cgJgExiFUwXWxa1sc7J+HkxK8QIX7T3TgfERk8+fPwrUDIMc8i
+ W0Gg==
+X-Gm-Message-State: AOAM533TxRLZNGY3JfxyqyH28ablYCd6ZEDTBz5/vUZ6zY2dgiHGjqrc
+ 4Kon0cub7QNc7wOg4MWAK+1ZZYq3D7RsjlK0WNpledCaH8Ib8A==
+X-Google-Smtp-Source: ABdhPJzxcOb8x0Eh6cCw8DN3AXmkg/FWYSBE1dmN+rDNux1c674uOm9TyKqnFZ3RWaXXb6H0asNlcqWDs4YHvgR/BR0=
+X-Received: by 2002:a2e:974f:: with SMTP id f15mr2487615ljj.193.1594919100531; 
+ Thu, 16 Jul 2020 10:05:00 -0700 (PDT)
 MIME-Version: 1.0
-References: <20200630122710.1119158-1-ppandit@redhat.com>
- <20200630122710.1119158-9-ppandit@redhat.com>
- <CAFEAcA83oGZMFS40m2rcFF+b-k_B1=e5QORwPAN68e1zjhqDHQ@mail.gmail.com>
- <nycvar.YSQ.7.78.906.2007162217590.950384@xnncv>
-In-Reply-To: <nycvar.YSQ.7.78.906.2007162217590.950384@xnncv>
-From: Peter Maydell <peter.maydell@linaro.org>
-Date: Thu, 16 Jul 2020 17:56:49 +0100
-Message-ID: <CAFEAcA9KrXR1L6kEGZ1jJcXX+_hKVyME_+d0W5sNeyNcG1ZedA@mail.gmail.com>
-Subject: Re: [PATCH v3 8/9] imx7-ccm: add digprog mmio write method
-To: P J P <ppandit@redhat.com>
+References: <20200715204814.2630-1-robert.foley@linaro.org>
+ <20200715204814.2630-3-robert.foley@linaro.org> <875zanwp8a.fsf@linaro.org>
+In-Reply-To: <875zanwp8a.fsf@linaro.org>
+From: Robert Foley <robert.foley@linaro.org>
+Date: Thu, 16 Jul 2020 13:05:13 -0400
+Message-ID: <CAEyhzFvmBqQUPoXu=1sYopBQ2JC9YaS8bqsztRVtrwn6M6MLfw@mail.gmail.com>
+Subject: Re: [PATCH 2/2] python/qemu: Change ConsoleSocket to optionally drain
+ socket.
+To: =?UTF-8?B?QWxleCBCZW5uw6ll?= <alex.bennee@linaro.org>
 Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2607:f8b0:4864:20::244;
- envelope-from=peter.maydell@linaro.org; helo=mail-oi1-x244.google.com
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=2a00:1450:4864:20::143;
+ envelope-from=robert.foley@linaro.org; helo=mail-lf1-x143.google.com
 X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
  That's all we know.
 X-Spam_score_int: -20
@@ -67,8 +68,8 @@ X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
  DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ URIBL_BLOCKED=0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -81,35 +82,94 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <philmd@redhat.com>,
- Li Qiang <liq3ea@gmail.com>, QEMU Developers <qemu-devel@nongnu.org>,
- Lei Sun <slei.casper@gmail.com>, Alex Williamson <alex.williamson@redhat.com>,
- Paolo Bonzini <pbonzini@redhat.com>,
- =?UTF-8?B?QWxleCBCZW5uw6ll?= <alex.bennee@linaro.org>,
- David Gibson <david@gibson.dropbear.id.au>
+Cc: Peter Puhov <peter.puhov@linaro.org>, Cleber Rosa <crosa@redhat.com>,
+ John Snow <jsnow@redhat.com>, QEMU Developers <qemu-devel@nongnu.org>,
+ Eduardo Habkost <ehabkost@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Thu, 16 Jul 2020 at 17:55, P J P <ppandit@redhat.com> wrote:
+On Thu, 16 Jul 2020 at 09:42, Alex Benn=C3=A9e <alex.bennee@linaro.org> wro=
+te:
 >
-> +-- On Thu, 16 Jul 2020, Peter Maydell wrote --+
-> | > +static void imx7_digprog_write(void *opaque, hwaddr addr,
-> | > +                                        uint64_t data, unsigned size)
-> | > +{
-> | > +    qemu_log_mask(LOG_UNIMP, "%s not implemented\n", __func__);
-> | > +}
-> |
-> | This covers a single register (DIGPROG) which is read-only (it returns a
-> | silicon revision number). So this is not a LOG_UNIMP, but a LOG_GUEST_ERROR:
-> |
-> |      qemu_log_mask(LOG_GUEST_ERROR, "Guest write to read-only
-> | ANALOG_DIGPROG register\n");
+<snip>
+> > +        self._drain_thread =3D None
+> > +        socket.socket.__init__(self, socket.AF_UNIX, socket.SOCK_STREA=
+M)
+> > +        self.connect(address)
+> > +        self._drain =3D drain
 >
-> Should this be g_assert_not_reached() in that case?
+> We end up with two variables that represent the fact we have draining
+> happening. Could we rationalise it into:
+>
+>   if drain:
+>      self._drain_thread =3D self._thread_start()
+>   else
+>      self._drain_thread =3D None # if this is needed
+>
+> And then tests for:
+>
+>   if not self._drain:
+>
+> become
+>
+>   if self._drain_thread is None:
 
-No, because a malicious guest can write to the register
-(and cause the function to be called), it is merely that
-it is a bug in guest code for it to do that.
+Good point, this is simpler.  Will update.
 
--- PMM
+<snip>
+> > +            if self._drain and self._drain_thread is not None:
+> > +                thread, self._drain_thread =3D self._drain_thread, Non=
+e
+> Would self._drain ever not have self._drain_thread set?
+
+No, I believe that if drain is set, it results in _drain_thread also being =
+set.
+This will be cleaned up once we drop the _drain.
+
+>
+> >                  thread.join()
+> > +            socket.socket.close(self)
+> <snip>
+> > diff --git a/python/qemu/machine.py b/python/qemu/machine.py
+> > index 6769359766..62709d86e4 100644
+> > --- a/python/qemu/machine.py
+> > +++ b/python/qemu/machine.py
+> > @@ -22,7 +22,6 @@ import logging
+> >  import os
+> >  import subprocess
+> >  import shutil
+> > -import socket
+>
+> FYI minor patch conflict here with master
+
+OK, will rebase and fix this conflict.
+
+Thanks & Regards,
+-Rob
+>
+> >  import tempfile
+> >  from typing import Optional, Type
+> >  from types import TracebackType
+> > @@ -591,12 +590,8 @@ class QEMUMachine:
+> >          Returns a socket connected to the console
+> >          """
+> >          if self._console_socket is None:
+> > -            if self._drain_console:
+> > -                self._console_socket =3D console_socket.ConsoleSocket(
+> > -                    self._console_address,
+> > -                    file=3Dself._console_log_path)
+> > -            else:
+> > -                self._console_socket =3D socket.socket(socket.AF_UNIX,
+> > -                                                     socket.SOCK_STREA=
+M)
+> > -                self._console_socket.connect(self._console_address)
+> > +            self._console_socket =3D console_socket.ConsoleSocket(
+> > +                self._console_address,
+> > +                file=3Dself._console_log_path,
+> > +                drain=3Dself._drain_console)
+> >          return self._console_socket
+>
+>
+> --
+> Alex Benn=C3=A9e
 
