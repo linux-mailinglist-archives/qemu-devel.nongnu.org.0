@@ -2,48 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 677D0222884
-	for <lists+qemu-devel@lfdr.de>; Thu, 16 Jul 2020 18:48:15 +0200 (CEST)
-Received: from localhost ([::1]:56394 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 90B2B22289A
+	for <lists+qemu-devel@lfdr.de>; Thu, 16 Jul 2020 18:55:56 +0200 (CEST)
+Received: from localhost ([::1]:36672 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jw73N-0007Mm-VC
-	for lists+qemu-devel@lfdr.de; Thu, 16 Jul 2020 12:48:13 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:56118)
+	id 1jw7Ap-0003EF-3y
+	for lists+qemu-devel@lfdr.de; Thu, 16 Jul 2020 12:55:55 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:57874)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <alxndr@bu.edu>) id 1jw72a-0006uy-Oe
- for qemu-devel@nongnu.org; Thu, 16 Jul 2020 12:47:24 -0400
-Received: from relay64.bu.edu ([128.197.228.104]:45612)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <alxndr@bu.edu>) id 1jw72Y-0002MF-Qk
- for qemu-devel@nongnu.org; Thu, 16 Jul 2020 12:47:24 -0400
-X-Envelope-From: alxndr@bu.edu
-X-BU-AUTH: mozz.bu.edu [128.197.127.33]
-Received: from BU-AUTH (localhost.localdomain [127.0.0.1]) (authenticated
- bits=0)
- by relay64.bu.edu (8.14.3/8.14.3) with ESMTP id 06GGkEAH021904
- (version=TLSv1/SSLv3 cipher=AES256-GCM-SHA384 bits=256 verify=NO);
- Thu, 16 Jul 2020 12:46:19 -0400
-Date: Thu, 16 Jul 2020 12:46:14 -0400
-From: Alexander Bulekov <alxndr@bu.edu>
-To: Thomas Huth <thuth@redhat.com>
-Subject: Re: [PATCH] gitlab-ci.yml: Add fuzzer tests
-Message-ID: <20200716164557.gmt62pll4aszyknf@mozz.bu.edu>
-References: <20200716100950.27396-1-thuth@redhat.com>
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1jw79m-0002OW-4U
+ for qemu-devel@nongnu.org; Thu, 16 Jul 2020 12:54:50 -0400
+Received: from mail-oi1-x243.google.com ([2607:f8b0:4864:20::243]:45091)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1jw79k-0003nK-6e
+ for qemu-devel@nongnu.org; Thu, 16 Jul 2020 12:54:49 -0400
+Received: by mail-oi1-x243.google.com with SMTP id j11so5601883oiw.12
+ for <qemu-devel@nongnu.org>; Thu, 16 Jul 2020 09:54:47 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=xrxbVp0+KfRQ5lEE8m1hgWS4brHe9TqmR01tWtTDzN0=;
+ b=WEg/dTzpYAtO3ZRgF7di3YcRR9Bafk1+DykITVCPE6YSnlz/cXOkqqigpV9IVAqKrv
+ Q4pNWgQMO7aT9m1qJIxTGZQqO2RP//mwYjjrp1WR4HnS1JTsneVDtbuleE8SmMvbLc+A
+ hMhuxccX/nU2tvokdGXE6PlFB02fuHWgDkpkhUXgZX53rjQCSxHRfzqpHyMd3vT30hh6
+ HAAKSbwFguAkRHiEzmnT6xUvGWuFMKVr0fl1i4AO+FW+ArS6anP4s+JfixlebH6bDG0R
+ Z5OBfyEUKBAKYreMdgJdGRWH7D+2WbfjehKPJoucDIhpJvQsfcGPEirua0vT18pRjfho
+ dhJw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=xrxbVp0+KfRQ5lEE8m1hgWS4brHe9TqmR01tWtTDzN0=;
+ b=eBeRjpfZ9GPiVx1hS1sKr3U/NqWZxgqLwRTWRS9yCcQVEAVKJfqar3RrAAl6Q6sg7h
+ XndgsYq4I4yJVaSj32F149wgNj7hGGAv9WMkmUY0eoscCKY2vk96i4NladAENLY6CMm4
+ f5bizbFY41waeYU/Sn7WOGfGokuo27Vx1ijui5XvVf9ihV53yOqzI5gF+stIN69yeqIV
+ pBdhZGZrRRYOudqZBc31XVc3Ilv8XNqiFyfvz6ZkNvr3Kel1K+XITVLGsjVPxiKG/Nyq
+ osVxbe3W5Rpcujf7T4nkpugMH0ksqvluhgcVe0bk4v5YDErXNLiSjH2zj3JP1cwkcUSi
+ eIrQ==
+X-Gm-Message-State: AOAM530Idh6moYkeYddyMCZn7BnKlNuQ2saQiDW6bVEWrVeccQfQ+WyI
+ rkIXl9zY63AkYV/ql89ytFgYQYVukvT3ijKoL5sv2Q==
+X-Google-Smtp-Source: ABdhPJw+ZRY0s4ItArEp8luG1n/hK+5ZJNHq5bFizzTj2JJNOGB/EJsE6p4tEBEh6iINe36h46pNJrDf4JQc3cECm+s=
+X-Received: by 2002:aca:2819:: with SMTP id 25mr4257028oix.48.1594918486642;
+ Thu, 16 Jul 2020 09:54:46 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20200716100950.27396-1-thuth@redhat.com>
-User-Agent: NeoMutt/20180716
-Received-SPF: pass client-ip=128.197.228.104; envelope-from=alxndr@bu.edu;
- helo=relay64.bu.edu
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/07/16 12:47:21
-X-ACL-Warn: Detected OS   = Linux 2.6.x
-X-Spam_score_int: -31
-X-Spam_score: -3.2
-X-Spam_bar: ---
-X-Spam_report: (-3.2 / 5.0 requ) BAYES_00=-1.9, HK_RANDOM_ENVFROM=0.001,
- HK_RANDOM_FROM=1, RCVD_IN_DNSWL_MED=-2.3, SPF_HELO_NONE=0.001,
+References: <20200630122710.1119158-1-ppandit@redhat.com>
+ <20200630122710.1119158-3-ppandit@redhat.com>
+In-Reply-To: <20200630122710.1119158-3-ppandit@redhat.com>
+From: Peter Maydell <peter.maydell@linaro.org>
+Date: Thu, 16 Jul 2020 17:54:35 +0100
+Message-ID: <CAFEAcA_ux5iTNhCuevNz6O7_umhkZcVm+o68owhbNKGOUHZnGg@mail.gmail.com>
+Subject: Re: [PATCH v3 2/9] pci-host: add pcie-msi read method
+To: P J P <ppandit@redhat.com>
+Content-Type: text/plain; charset="UTF-8"
+Received-SPF: pass client-ip=2607:f8b0:4864:20::243;
+ envelope-from=peter.maydell@linaro.org; helo=mail-oi1-x243.google.com
+X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
+ That's all we know.
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -57,87 +79,87 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
- qemu-devel@nongnu.org, Wainer dos Santos Moschetta <wainersm@redhat.com>,
- Markus Armbruster <armbru@redhat.com>, Bandan Das <bsd@redhat.com>,
- Stefan Hajnoczi <stefanha@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>,
- Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
+Cc: Prasad J Pandit <pjp@fedoraproject.org>,
+ =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <philmd@redhat.com>,
+ Li Qiang <liq3ea@gmail.com>, QEMU Developers <qemu-devel@nongnu.org>,
+ Lei Sun <slei.casper@gmail.com>, Alex Williamson <alex.williamson@redhat.com>,
+ Paolo Bonzini <pbonzini@redhat.com>,
+ =?UTF-8?B?QWxleCBCZW5uw6ll?= <alex.bennee@linaro.org>,
+ David Gibson <david@gibson.dropbear.id.au>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 200716 1209, Thomas Huth wrote:
-> So far we neither compile-tested nor run any of the new fuzzers in our CI,
-> which led to some build failures of the fuzzer code in the past weeks.
-> To avoid this problem, add a job to compile the fuzzer code and run some
-> loops (which likely don't find any new bugs via fuzzing, but at least we
-> know that the code can still be run).
-> 
-> A nice side-effect of this test is that the leak tests are enabled here,
-> so we should now notice some of the memory leaks in our code base earlier.
-> 
-> Signed-off-by: Thomas Huth <thuth@redhat.com>
+On Tue, 30 Jun 2020 at 13:30, P J P <ppandit@redhat.com> wrote:
+>
+> From: Prasad J Pandit <pjp@fedoraproject.org>
+>
+> Add pcie-msi mmio read method to avoid NULL pointer dereference
+> issue.
 
-Thank you for this, Thomas. I just sent a patch to add a job that runs
-similar tests with the build-script that we use on oss-fuzz
-Patch: <20200716163330.29141-1-alxndr@bu.edu>
+This change is specific to the designware pci host controller;
+it would be nice to have "designware" in the commit subject.
 
-I know that these jobs have a lot of overlap, but there are enough
-quirks in the oss-fuzz build-script that I, personally, don't think
-they are redundant.
 
-A couple notes below, and I haven't been able to test on my own fork of
-qemu on gitlab, yet due to some pipeline errors, but otherwise
-
-Reviewed-by: Alexander Bulekov <alxndr@bu.edu>
-
+> Reported-by: Lei Sun <slei.casper@gmail.com>
+> Reviewed-by: Li Qiang <liq3ea@gmail.com>
+> Signed-off-by: Prasad J Pandit <pjp@fedoraproject.org>
 > ---
->  .gitlab-ci.yml | 20 +++++++++++++++++++-
->  1 file changed, 19 insertions(+), 1 deletion(-)
-> 
-> diff --git a/.gitlab-ci.yml b/.gitlab-ci.yml
-> index 5eeba2791b..e96f8794b9 100644
-> --- a/.gitlab-ci.yml
-> +++ b/.gitlab-ci.yml
-> @@ -161,9 +161,27 @@ build-clang:
->      IMAGE: fedora
->      CONFIGURE_ARGS: --cc=clang --cxx=clang++
->      TARGETS: alpha-softmmu arm-softmmu m68k-softmmu mips64-softmmu
-> -      ppc-softmmu s390x-softmmu x86_64-softmmu arm-linux-user
-> +      ppc-softmmu s390x-softmmu arm-linux-user
->      MAKE_CHECK_ARGS: check
->  
-> +build-fuzzer:
-> +  <<: *native_build_job_definition
-> +  variables:
-> +    IMAGE: fedora
-> +  script:
-> +    - mkdir build
-> +    - cd build
-> +    - ../configure --cc=clang --cxx=clang++ --enable-fuzzing
-> +                   --target-list=x86_64-softmmu
+>  hw/pci-host/designware.c | 9 +++++++++
+>  1 file changed, 9 insertions(+)
+>
+> Update v3: Add Reviewed-by: ...
+>   -> https://lists.gnu.org/archive/html/qemu-devel/2020-06/msg09400.html
 
-https://lists.nongnu.org/archive/html/qemu-devel/2020-07/msg02310.html
-When/if this gets merged, enable-fuzzing won't build with
-AddressSanitizer, by default, so I would add --enable-sanitizers, just
-to be safe. 
+> +static uint64_t designware_pcie_root_msi_read(void *opaque, hwaddr addr,
+> +                                              unsigned size)
+> +{
+> +    qemu_log_mask(LOG_UNIMP, "%s not implemented\n", __func__);
+> +    return 0;
 
-> +    - make -j"$JOBS" all check-build x86_64-softmmu/fuzz
-> +    - make check
-> +    - for fuzzer in i440fx-qos-fork-fuzz i440fx-qos-noreset-fuzz
-> +        i440fx-qtest-reboot-fuzz virtio-scsi-flags-fuzz virtio-scsi-fuzz ; do
+This is the right change, but is missing an explanation
+of why it's right:
 
-Any reason for these particular fuzzers? I know the virtio-net ones find
-crashes pretty quickly, but I dont think that causes a non-zero exit.
+Looking at the data sheet, in the real hardware MSI interrupts
+are handled by looking at writes to see whether they match the
+configured address; if so then the write gets quashed and never
+gets put out onto the AXI bus (to the CPU, memory, etc). This only
+happens for writes, so reads from the magic address are just
+allowed to pass through and will read from the system address
+space like any other read from any other address. That's not trivial
+to implement, though, and well-behaved guests won't care, so
+we can just explain why we're not doing anything with a suitable
+comment:
 
-> +          echo Testing ${fuzzer} ... ;
-> +          x86_64-softmmu/qemu-fuzz-x86_64 --fuzz-target=${fuzzer} -runs=1000
-> +            || exit 1 ;
-> +      done
+    /*
+     * Attempts to read from the MSI address are undefined in
+     * the PCI specifications. For this hardware, the datasheet
+     * specifies that a read from the magic address is simply not
+     * intercepted by the MSI controller, and will go out to the
+     * AHB/AXI bus like any other PCI-device-initiated DMA read.
+     * This is not trivial to implement in QEMU, so since
+     * well-behaved guests won't ever ask a PCI device to DMA from
+     * this address we just log the missing functionality.
+     */
+    qemu_log_mask(LOG_UNIMP, "%s not implemented\n", __func__);
+    return 0;
+
+> +}
 > +
->  build-tci:
->    <<: *native_build_job_definition
->    variables:
-> -- 
-> 2.18.1
-> 
+>  static void designware_pcie_root_msi_write(void *opaque, hwaddr addr,
+>                                             uint64_t val, unsigned len)
+>  {
+> @@ -77,6 +85,7 @@ static void designware_pcie_root_msi_write(void *opaque, hwaddr addr,
+>  }
+>
+>  static const MemoryRegionOps designware_pci_host_msi_ops = {
+> +    .read = designware_pcie_root_msi_read,
+>      .write = designware_pcie_root_msi_write,
+>      .endianness = DEVICE_LITTLE_ENDIAN,
+>      .valid = {
+
+With that comment,
+Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
+
+thanks
+-- PMM
 
