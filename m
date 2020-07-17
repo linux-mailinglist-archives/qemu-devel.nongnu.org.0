@@ -2,72 +2,75 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 44354224464
-	for <lists+qemu-devel@lfdr.de>; Fri, 17 Jul 2020 21:40:53 +0200 (CEST)
-Received: from localhost ([::1]:41288 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D2C6822446B
+	for <lists+qemu-devel@lfdr.de>; Fri, 17 Jul 2020 21:42:45 +0200 (CEST)
+Received: from localhost ([::1]:45312 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jwWDy-00034O-22
-	for lists+qemu-devel@lfdr.de; Fri, 17 Jul 2020 15:40:50 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:56880)
+	id 1jwWFo-0004sq-UU
+	for lists+qemu-devel@lfdr.de; Fri, 17 Jul 2020 15:42:44 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:57278)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1jwWCt-0002UM-0U; Fri, 17 Jul 2020 15:39:43 -0400
-Received: from mail-wr1-x432.google.com ([2a00:1450:4864:20::432]:45120)
+ id 1jwWEi-00041C-Ax
+ for qemu-devel@nongnu.org; Fri, 17 Jul 2020 15:41:36 -0400
+Received: from mail-wr1-x441.google.com ([2a00:1450:4864:20::441]:41914)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1jwWCr-0007ka-Ft; Fri, 17 Jul 2020 15:39:42 -0400
-Received: by mail-wr1-x432.google.com with SMTP id s10so12211488wrw.12;
- Fri, 17 Jul 2020 12:39:40 -0700 (PDT)
+ id 1jwWEg-00088Y-Qm
+ for qemu-devel@nongnu.org; Fri, 17 Jul 2020 15:41:36 -0400
+Received: by mail-wr1-x441.google.com with SMTP id z15so12245863wrl.8
+ for <qemu-devel@nongnu.org>; Fri, 17 Jul 2020 12:41:34 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=sender:subject:to:cc:references:from:message-id:date:user-agent
  :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=UzGa+rePLjaoL8vOlbvkRWpkRHHzZ1RhieO4rHtl86Q=;
- b=HHp9+xouP5Vt9J8V/cjKWaV2hcx73y61IKDp4wq49WM5zWIG7+IHgR6GNFr7tjmM8I
- z31QM0iJmtKS7sLa0RYDBJgBklD6hNt+z5oDysDsGHMILn+QONKUK1H92q5uazpBIoH3
- kl2j5f6pbhBI6p3plkIPsp0EmiXjVw9N462AstQg3n2DSDXZs2+rjGo/Oo2f8wU1htZC
- 9tU3Og/Q++nNL/EjinZ3WJFs3K13N0MYDquKw/nzGMkvtSp4rggEmQ5Hpb/UxBrVWDqg
- wwJnYAP1PaY24T6vwlKsjbf5vpMhfkZnkkNlaz5Oxik68ckg2F1E+D+tTC0YnIH0TzaU
- KmYg==
+ bh=D8JWmNIbn2NwKfz1n7e3cMzzVwSBqR8CseVfhNnvTlo=;
+ b=uwEfKMFtHZeDaRcXcYHgxgC469WWnjsRlZGMEKJ6ISQ01QTr4t0gpvfVGNC7dXnXb9
+ VYBtj7mbBF4l49Y35faLspVPBEdq5IY2Wi73c4lILkE73l9hJur9HWFvGgck7mbKkRAA
+ 9QvxFag+8dD9R3/i9y10c49+5cNjWuv47kZNfDib59YNmBdpBsGCJApgw0MSwvw/ZG1j
+ HdZI4DFRB8fU5x2/wamP/X+5tYjaqDZmTduGlpc+T1I5uwnt8CTJk4HmBLUjET04qS+s
+ 4pOAI6UMXP6LTjzBQ+O8RljbZl0TH0ZGtK/dE8zWnlUgmOtW7+Jtzv9cZXM6xYI2dZPP
+ eURQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:sender:subject:to:cc:references:from:message-id
  :date:user-agent:mime-version:in-reply-to:content-language
  :content-transfer-encoding;
- bh=UzGa+rePLjaoL8vOlbvkRWpkRHHzZ1RhieO4rHtl86Q=;
- b=rEnf8TT7SEfP+yZwmzVCf61FSoequdoyYxrhaLnORhQVY+KpOVs5AFHHWG3oD8q6SY
- W6zoaZ8shDOQTPvTCmq2lAYptr6CkWPGuhVidvbeaaMNSxRUSsEIuotXLbQMPKc6f21G
- FoiSbLvOEAi5GcTXIWIdfU2MqQig8SN1KC3tTAQR4JGvvD1qPv57J5C1Cz9xW/3bxXd1
- sGbKN626vfyjxiMH7Pk9uJRrr3f0MWfQwhNnPh+4NFeB/LeL1PHImG0BfHI7K5TPgY6G
- QOkvsJi4ooJkTvTQihYlbNoKJ3SvyOy3zehPra7F8l4E39sRDwcyaCo6lX+rCSggJqMs
- Xemg==
-X-Gm-Message-State: AOAM532OmZJTLxeygEepBWerrfRBISsujY4nycMmcCiJi5KlqYf5ddBQ
- 8/goF/G1fQwsEs7HRQzRrtU=
-X-Google-Smtp-Source: ABdhPJyor94LjkWMBa5dQnjBD16UC7Y5UIDPiB0Sdu76QuwfARxVVZZ6neKNynW6wlFwLdXxZfQj/g==
-X-Received: by 2002:adf:e7c9:: with SMTP id e9mr3043370wrn.307.1595014779211; 
- Fri, 17 Jul 2020 12:39:39 -0700 (PDT)
+ bh=D8JWmNIbn2NwKfz1n7e3cMzzVwSBqR8CseVfhNnvTlo=;
+ b=DNhFWVtn2H6MtYC2KWWtLvJQAXvSR58b0jLXoHj7/aAddjkVMh4eLMJgTdfWkZja+Y
+ LwgQHBbkql1HlV/ezwKaACY8CYFrUAXipcYxQxoLPAUNVtWI/nEN9KLNvBLzGSEHViad
+ UApgmSFEwSadVXheHGofdpmwT22BBCwhbRIlvSrcBohqZc+gDaRdyxS/z0JluJgdHexC
+ +zEIzy97YyULZfyqvqRjxrwULVJL40Sjn6JQlJ6ZicxHb8wiPX1qdeayLiRAKih6ugr6
+ 6ADBrUxRGUkET5gPiUY4Zuj1g94QAbv2f6ruq6zc0bOrKoXe5Wp3iiHLOXwad4pWAAHw
+ 6FXw==
+X-Gm-Message-State: AOAM533OQITLMNXdJISct7eY9+YHPtz5Vb03qLomG20UmEDoc2moDmxN
+ Rlwf5l6vA/WMK2b6tiTo623kgNfVHzI=
+X-Google-Smtp-Source: ABdhPJwM6LH7YWByJkM7Ww1yWwFF+aD9SxHcs0k/5NJKCL5oDj4ntmQiNBAm9UOKOMw+ieiAyLYoRw==
+X-Received: by 2002:a05:6000:cf:: with SMTP id
+ q15mr11976018wrx.203.1595014893409; 
+ Fri, 17 Jul 2020 12:41:33 -0700 (PDT)
 Received: from [192.168.1.43] (138.red-83-57-170.dynamicip.rima-tde.net.
  [83.57.170.138])
- by smtp.gmail.com with ESMTPSA id 14sm15308674wmk.19.2020.07.17.12.39.37
+ by smtp.gmail.com with ESMTPSA id x7sm16055940wrr.72.2020.07.17.12.41.32
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Fri, 17 Jul 2020 12:39:38 -0700 (PDT)
-Subject: Re: [RFC PATCH-for-5.1] hw/pci-host/q35: Ignore write of reserved
- PCIEXBAR LENGTH field
-To: Richard Henderson <richard.henderson@linaro.org>, qemu-devel@nongnu.org
-References: <20200717181724.27493-1-f4bug@amsat.org>
- <edf80e5a-b698-b9dc-f867-8fa920f41786@linaro.org>
+ Fri, 17 Jul 2020 12:41:32 -0700 (PDT)
+Subject: Re: [PATCH v1 1/5] shippable: add one more qemu to registry url
+To: =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>,
+ qemu-devel@nongnu.org
+References: <20200717105139.25293-1-alex.bennee@linaro.org>
+ <20200717105139.25293-2-alex.bennee@linaro.org>
 From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>
-Message-ID: <21f1ae09-0db2-cced-a117-961c4e337afc@amsat.org>
-Date: Fri, 17 Jul 2020 21:39:36 +0200
+Message-ID: <2bc0b2b6-2aea-b7d5-2572-0058137d7531@amsat.org>
+Date: Fri, 17 Jul 2020 21:41:31 +0200
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
  Thunderbird/68.5.0
 MIME-Version: 1.0
-In-Reply-To: <edf80e5a-b698-b9dc-f867-8fa920f41786@linaro.org>
+In-Reply-To: <20200717105139.25293-2-alex.bennee@linaro.org>
 Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::432;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wr1-x432.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::441;
+ envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wr1-x441.google.com
 X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
  That's all we know.
 X-Spam_score_int: 0
@@ -89,38 +92,36 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Alexander Bulekov <alxndr@bu.edu>, qemu-stable@nongnu.org,
- "Michael S. Tsirkin" <mst@redhat.com>
+Cc: fam@euphon.net, berrange@redhat.com,
+ =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>,
+ richard.henderson@linaro.org, cota@braap.org, aurelien@aurel32.net
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 7/17/20 8:38 PM, Richard Henderson wrote:
-> On 7/17/20 11:17 AM, Philippe Mathieu-Daudé wrote:
->>      case MCH_HOST_BRIDGE_PCIEXBAR_LENGTH_RVD:
->> -    default:
->> -        abort();
->> +        qemu_log_mask(LOG_GUEST_ERROR, "Q35: Reserved PCIEXBAR LENGTH\n");
->> +        return;
->>      }
+On 7/17/20 12:51 PM, Alex Bennée wrote:
+> The registry url is <project>/<repo>/qemu/<image>
 > 
-> Did you really want to remove the default case?
-
-The field takes 2 bits, 3 cases are covered...
-
-> I guess the mask means that only *_RVD is left over, but the default sorta
-> self-documents that.
-
-OK I don't have problem keeping it - until a compiler start warning
-about it "default case already covered" ;)
-
+> Perhaps we should rationalise that some day but for now.
 > 
-> Either way,
-> Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
+> Signed-off-by: Alex Bennée <alex.bennee@linaro.org>
+> ---
+>  .shippable.yml | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
+> 
+> diff --git a/.shippable.yml b/.shippable.yml
+> index f6b742432e5..89d8be4291b 100644
+> --- a/.shippable.yml
+> +++ b/.shippable.yml
+> @@ -27,7 +27,7 @@ env:
+>        TARGET_LIST=ppc64-softmmu,ppc64-linux-user,ppc64abi32-linux-user
+>  build:
+>    pre_ci_boot:
+> -    image_name: registry.gitlab.com/qemu-project/qemu/${IMAGE}
+> +    image_name: registry.gitlab.com/qemu-project/qemu/qemu/${IMAGE}
+>      image_tag: latest
+>      pull: true
+>      options: "-e HOME=/root"
+> 
 
-Thanks!
-
-> 
-> 
-> r~
-> 
+Reviewed-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
 
