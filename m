@@ -2,100 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0119422441B
-	for <lists+qemu-devel@lfdr.de>; Fri, 17 Jul 2020 21:19:56 +0200 (CEST)
-Received: from localhost ([::1]:60810 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id EE4CD224469
+	for <lists+qemu-devel@lfdr.de>; Fri, 17 Jul 2020 21:42:13 +0200 (CEST)
+Received: from localhost ([::1]:43538 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jwVti-00067o-KC
-	for lists+qemu-devel@lfdr.de; Fri, 17 Jul 2020 15:19:54 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:52384)
+	id 1jwWFJ-00049w-1Z
+	for lists+qemu-devel@lfdr.de; Fri, 17 Jul 2020 15:42:13 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:57148)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <hskinnemoen@google.com>)
- id 1jwVso-0005XM-Fi
- for qemu-devel@nongnu.org; Fri, 17 Jul 2020 15:18:58 -0400
-Received: from mail-vk1-xa44.google.com ([2607:f8b0:4864:20::a44]:44663)
+ (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
+ id 1jwWE9-0003eV-Ub
+ for qemu-devel@nongnu.org; Fri, 17 Jul 2020 15:41:01 -0400
+Received: from indium.canonical.com ([91.189.90.7]:48942)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <hskinnemoen@google.com>)
- id 1jwVsl-00042L-AI
- for qemu-devel@nongnu.org; Fri, 17 Jul 2020 15:18:58 -0400
-Received: by mail-vk1-xa44.google.com with SMTP id c11so2352711vkn.11
- for <qemu-devel@nongnu.org>; Fri, 17 Jul 2020 12:18:54 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=20161025;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc:content-transfer-encoding;
- bh=fFbV/WGauIu1qFQIk6uPeGGvzT8eOMCTPMLKkZgsQ98=;
- b=SIar3bPcs0dfke/pPi8cYDDCDMNBjiyuqTCpJcCM4LpjamQnBqRo80u4VKo8MVMr5W
- 5bAYiVpzHi1hS9y+OcjyGwmlgobehlWZCYyjRlRwD04BZfIbtgqyULd3z1W2DLcJ92zt
- ZSfneuTGjN4DW7LOUWmkDerdDbWODDsZyBY2yiqySBCznaTtjO5OkE6BHm1j38N50MY6
- JtwkJA9baVc73YApkX3pKDzqS+npV+RVpzm+mWOM7qng1Ad2hWGYi3XP6U00ZQamNxXG
- T9LY61NhEZITwbadmrgotk9IZJGx5/qg1+YE06Hr2OzT0MXtxvHUtJ1R8GzodXGBhX/W
- fCRA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc:content-transfer-encoding;
- bh=fFbV/WGauIu1qFQIk6uPeGGvzT8eOMCTPMLKkZgsQ98=;
- b=eaClFSdiN0feu+Asx95mu5rBma94j0TehARN/F7CuBVH3jQGqqzRPz2t4dcRL2ESSq
- D7BcLbEHhGAH/veWJrZDl+r3mPju4wouFsBe9fkxp936PC1EGqFJOLefHOhVJvJr6Nu6
- 1/1XMmS1zAxX/G+/lm1PsluY7L0V/+YXMF1D21Hyt/ojvkM+nLRpLMbtxLUSQ2rsN3DG
- mvZ2ysZlWdE8xcA6KGio6XfDyokWAymOA/vOBE9bXzCOQVIUqn7yJUjaZQrn3q2rUz2M
- uqpV8cJ0AD5O+q65/tsTxZBl4nLZ8kmkP1S9xqU4rQaD18CnXKUFSVFKBgKu8UKka9/A
- oy8Q==
-X-Gm-Message-State: AOAM531B8mQO8L1uVJCdfG31GTbHqw3rFO+uIdpZsDJV6WO6Xu9VqTCZ
- YeK9ZmmqVd2ojYQGhPR/kY0HsFQiYu4xYpuQagEl8Q==
-X-Google-Smtp-Source: ABdhPJy+fRlUV+e5KVsGgMT/s4OCsBDxXr+J0h73LAk9OhTY9uzFMlsu3hcop4tEAgBnuZdHglcBEZF+H7GCHELEJi4=
-X-Received: by 2002:ac5:c76e:: with SMTP id c14mr8789092vkn.60.1595013533750; 
- Fri, 17 Jul 2020 12:18:53 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
+ id 1jwWE7-00086Z-J3
+ for qemu-devel@nongnu.org; Fri, 17 Jul 2020 15:41:01 -0400
+Received: from loganberry.canonical.com ([91.189.90.37])
+ by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
+ id 1jwWE5-0000v7-EI
+ for <qemu-devel@nongnu.org>; Fri, 17 Jul 2020 19:40:57 +0000
+Received: from loganberry.canonical.com (localhost [127.0.0.1])
+ by loganberry.canonical.com (Postfix) with ESMTP id 6AFE62E8052
+ for <qemu-devel@nongnu.org>; Fri, 17 Jul 2020 19:40:57 +0000 (UTC)
 MIME-Version: 1.0
-References: <20200709003608.3834629-1-hskinnemoen@google.com>
- <20200709003608.3834629-11-hskinnemoen@google.com>
- <109d52ed-65bf-0fcc-98f1-47b7a6671d0b@kaod.org>
- <CAFQmdRZcygskP3iwss01-Jz67yjAP_JENXjWM2Bp8U=DRzxR0Q@mail.gmail.com>
- <875zaq78xq.fsf@dusky.pond.sub.org>
- <19733456-a672-595d-e721-e0ef26d7f665@amsat.org>
- <87v9iq2hkv.fsf@dusky.pond.sub.org>
- <e87663cf-7cb2-ca6c-a751-e5c1cebc5440@amsat.org>
- <87pn8xywz2.fsf@dusky.pond.sub.org>
- <b3bc658f-a865-8e6b-c904-01c7724e89cc@amsat.org>
- <CAFQmdRa9FiP6yX=XDrJy5KpjifQyVkQiY6DXtSoJSvfoq7Vm6w@mail.gmail.com>
- <CAFQmdRac6tsZafN3PsnLhPA_Ny032ZAjOFuXkmYvJ-ubjcpPPw@mail.gmail.com>
- <5345d70f-3041-ed13-12e9-9a8e3d803805@amsat.org>
- <416d5243-dc8e-37c6-197f-96dec1c9f5cc@redhat.com>
- <d66bf4fe-7349-a90f-c4fb-a80de7597819@amsat.org>
- <bc258d6f-059d-618d-6ccd-94c04082bb25@amsat.org>
-In-Reply-To: <bc258d6f-059d-618d-6ccd-94c04082bb25@amsat.org>
-From: Havard Skinnemoen <hskinnemoen@google.com>
-Date: Fri, 17 Jul 2020 12:18:42 -0700
-Message-ID: <CAFQmdRbdSYOGw1o2ur_dYdSAZZfvQMfz4PX1Hmu+XvX7b9B-QQ@mail.gmail.com>
-Subject: Re: [PATCH v5 10/11] hw/arm: Wire up BMC boot flash for npcm750-evb
- and quanta-gsj
-To: =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <f4bug@amsat.org>
-Cc: Thomas Huth <thuth@redhat.com>, Markus Armbruster <armbru@redhat.com>,
- Kevin Wolf <kwolf@redhat.com>, 
- Peter Maydell <peter.maydell@linaro.org>, Qemu-block <qemu-block@nongnu.org>, 
- QEMU Developers <qemu-devel@nongnu.org>, CS20 KFTing <kfting@nuvoton.com>, 
- qemu-arm <qemu-arm@nongnu.org>,
- =?UTF-8?Q?C=C3=A9dric_Le_Goater?= <clg@kaod.org>, 
- IS20 Avi Fishman <Avi.Fishman@nuvoton.com>
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=2607:f8b0:4864:20::a44;
- envelope-from=hskinnemoen@google.com; helo=mail-vk1-xa44.google.com
-X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
- That's all we know.
-X-Spam_score_int: -185
-X-Spam_score: -18.6
-X-Spam_bar: ------------------
-X-Spam_report: (-18.6 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_MED=-1,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- ENV_AND_HDR_SPF_MATCH=-0.5, RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001, USER_IN_DEF_DKIM_WL=-7.5,
- USER_IN_DEF_SPF_WL=-7.5 autolearn=unavailable autolearn_force=no
+Date: Fri, 17 Jul 2020 19:34:59 -0000
+From: =?utf-8?q?Philippe_Mathieu-Daud=C3=A9?= <1878641@bugs.launchpad.net>
+To: qemu-devel@nongnu.org
+X-Launchpad-Notification-Type: bug
+X-Launchpad-Bug: product=qemu; status=New; importance=Undecided; assignee=None;
+X-Launchpad-Bug-Information-Type: Public
+X-Launchpad-Bug-Private: no
+X-Launchpad-Bug-Security-Vulnerability: no
+X-Launchpad-Bug-Commenters: a1xndr philmd
+X-Launchpad-Bug-Reporter: Alexander Bulekov (a1xndr)
+X-Launchpad-Bug-Modifier: =?utf-8?q?Philippe_Mathieu-Daud=C3=A9_=28philmd?=
+ =?utf-8?q?=29?=
+References: <158947155555.22318.7487906636720013107.malonedeb@wampee.canonical.com>
+Message-Id: <159501449908.19487.16677639921106457605.malone@chaenomeles.canonical.com>
+Subject: [Bug 1878641] Re: Abort() in mch_update_pciexbar
+X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
+X-Launchpad-Message-For: qemu-devel-ml
+Precedence: bulk
+X-Generated-By: Launchpad (canonical.com);
+ Revision="4809fcb62f445aaa3ae919f7f6c3cc7d156ea57a";
+ Instance="production-secrets-lazr.conf"
+X-Launchpad-Hash: 1cb0776ec4fee9c28d4db7a5ca7499347abc5e0a
+Received-SPF: none client-ip=91.189.90.7; envelope-from=bounces@canonical.com;
+ helo=indium.canonical.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/07/17 11:25:37
+X-ACL-Warn: Detected OS   = Linux 3.11 and newer [fuzzy]
+X-Spam_score_int: -58
+X-Spam_score: -5.9
+X-Spam_bar: -----
+X-Spam_report: (-5.9 / 5.0 requ) BAYES_00=-1.9, HEADER_FROM_DIFFERENT_DOMAINS=1,
+ RCVD_IN_DNSWL_HI=-5, RCVD_IN_MSPIKE_H3=-0.01, RCVD_IN_MSPIKE_WL=-0.01,
+ SPF_HELO_NONE=0.001, SPF_NONE=0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
-Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -104,138 +72,123 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Reply-To: Bug 1878641 <1878641@bugs.launchpad.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Fri, Jul 17, 2020 at 2:00 AM Philippe Mathieu-Daud=C3=A9 <f4bug@amsat.or=
-g> wrote:
->
-> On 7/17/20 10:27 AM, Philippe Mathieu-Daud=C3=A9 wrote:
-> > On 7/17/20 10:03 AM, Thomas Huth wrote:
-> >> On 17/07/2020 09.48, Philippe Mathieu-Daud=C3=A9 wrote:
-> >>> +Thomas
-> >>
-> >>> On 7/16/20 10:56 PM, Havard Skinnemoen wrote:
-> >>>> On Wed, Jul 15, 2020 at 1:54 PM Havard Skinnemoen
-> >>>> <hskinnemoen@google.com> wrote:
-> >>>>>
-> >>>>> On Wed, Jul 15, 2020 at 3:57 AM Philippe Mathieu-Daud=C3=A9 <f4bug@=
-amsat.org> wrote:
-> >>>>>>
-> >>>>>> On 7/15/20 11:00 AM, Markus Armbruster wrote:
-> >>>>>>> Now my point.  Why first make up user configuration, then use tha=
-t to
-> >>>>>>> create a BlockBackend, when you could just go ahead and create th=
-e
-> >>>>>>> BlockBackend?
-> >>>>>>
-> >>>>>> CLI issue mostly.
-> >>>>>>
-> >>>>>> We can solve it similarly to the recent "sdcard: Do not allow inva=
-lid SD
-> >>>>>> card sizes" patch:
-> >>>>>>
-> >>>>>>  if (!dinfo) {
-> >>>>>>      error_setg(errp, "Missing SPI flash drive");
-> >>>>>>      error_append_hint(errp, "You can use a dummy drive using:\n")=
-;
-> >>>>>>      error_append_hint(errp, "-drive if=3Dmtd,driver=3Dnull-co,"
-> >>>>>>                              "read-ones=3Don,size=3D64M\n);
-> >>>>>>      return;
-> >>>>>>  }
-> >>>>>>
-> >>>>>> having npcm7xx_connect_flash() taking an Error* argument,
-> >>>>>> and MachineClass::init() call it with &error_fatal.
-> >>>>>
-> >>>>> Erroring out if the user specifies a configuration that can't possi=
-bly
-> >>>>> boot sounds good to me. Better than trying to come up with defaults
-> >>>>> that are still not going to result in a bootable system.
-> >>>>>
-> >>>>> For testing recovery paths, I think it makes sense to explicitly
-> >>>>> specify a null device as you suggest.
-> >>>>
-> >>>> Hmm, one problem. qom-test fails with
-> >>>>
-> >>>> qemu-system-aarch64: Missing SPI flash drive
-> >>>> You can add a dummy drive using:
-> >>>> -drive if=3Dmtd,driver=3Dnull-co,read-zeroes=3Don,size=3D32M
-> >>>> Broken pipe
-> >>>> /usr/local/google/home/hskinnemoen/qemu/for-upstream/tests/qtest/lib=
-qtest.c:166:
-> >>>> kill_qemu() tried to terminate QEMU process but encountered exit
-> >>>> status 1 (expected 0)
-> >>>> ERROR qom-test - too few tests run (expected 68, got 7)
-> >>>>
-> >>>> So it looks like we might need a different solution to this, unless =
-we
-> >>>> want to make generic tests more machine-aware...
-> >>
-> >> I didn't follow the other mails in this thread, but what we usually do
-> >> in such a case: Add a "if (qtest_enabled())" check to the device or th=
-e
-> >> machine to ignore the error if it is running in qtest mode.
-> >
-> > Hmm I'm not sure it works in this case. We could do:
-> >
-> >   if (!dinfo) {
-> >      if (qtest) {
-> >         /* create null drive for qtest */
-> >         opts =3D ...;
-> >         dinfo =3D drive_new(opts, IF_MTD, &error_abort);
-> >      } else {
-> >         /* teach user to use proper CLI */
-> >         error_setg(errp, "Missing SPI flash drive");
-> >         error_append_hint(errp, "You can use a dummy drive using:\n");
-> >         error_append_hint(errp, "-drive if=3Dmtd,driver=3Dnull-co,"
-> >                                 "read-ones=3Don,size=3D64M\n);
-> >      }
-> >   }
-> >
-> > But I'm not sure Markus will enjoy it :)
-> >
-> > Markus, any better idea about how to handle that with automatic qtests?
->
-> FWIW IDE device has a concept of "Anonymous BlockBackend for an empty
-> drive":
->
-> static void ide_dev_initfn(IDEDevice *dev, IDEDriveKind kind, Error **err=
-p)
-> {
->     IDEBus *bus =3D DO_UPCAST(IDEBus, qbus, dev->qdev.parent_bus);
->     IDEState *s =3D bus->ifs + dev->unit;
->     int ret;
->
->     if (!dev->conf.blk) {
->         if (kind !=3D IDE_CD) {
->             error_setg(errp, "No drive specified");
->             return;
->         } else {
->             /* Anonymous BlockBackend for an empty drive */
->             dev->conf.blk =3D blk_new(qemu_get_aio_context(), 0,
-> BLK_PERM_ALL);
->             ret =3D blk_attach_dev(dev->conf.blk, &dev->qdev);
->             assert(ret =3D=3D 0);
->         }
->     }
+Proposed fix:
+https://lists.gnu.org/archive/html/qemu-devel/2020-07/msg05612.html
 
-Could someone please remind me what problem we're trying to solve here?
+-- =
 
-Currently, if the user (or test) doesn't provide a drive, we pass NULL
-as the block backend to m25p80. This means we'll take the code path in
-m25p_realize() that does
+You received this bug notification because you are a member of qemu-
+devel-ml, which is subscribed to QEMU.
+https://bugs.launchpad.net/bugs/1878641
 
-        trace_m25p80_binding_no_bdrv(s);
-        s->storage =3D blk_blockalign(NULL, s->size);
-        memset(s->storage, 0xFF, s->size);
+Title:
+  Abort() in mch_update_pciexbar
 
-which will look like a freshly chip-erased flash chip.
+Status in QEMU:
+  New
 
-Are we looking for a more elegant way to replace those three lines of
-code (+ a couple of conditionals in the writeback paths)?
+Bug description:
+  Hello,
+  I found an input which triggers an abort() in mch_update_pciexbar:
 
-But we don't even have a dummy device that looks like an erased flash chip.=
-..
+  #0  0x00007ffff686d761 in __GI_raise (sig=3Dsig@entry=3D0x6) at ../sysdep=
+s/unix/sysv/linux/raise.c:50
+  #1  0x00007ffff685755b in __GI_abort () at abort.c:79
+  #2  0x000055555705c7ae in mch_update_pciexbar (mch=3D0x629000005920) at /=
+home/alxndr/Development/qemu/hw/pci-host/q35.c:324
+  #3  0x000055555705bb6a in mch_write_config (d=3D0x629000005920, address=
+=3D0x60, val=3D0x8400056e, len=3D0x4) at /home/alxndr/Development/qemu/hw/p=
+ci-host/q35.c:480
+  #4  0x00005555570954fb in pci_host_config_write_common (pci_dev=3D0x62900=
+0005920, addr=3D0x60, limit=3D0x100, val=3D0x8400056e, len=3D0x4) at /home/=
+alxndr/Development/qemu/hw/pci/pci_host.c:81
+  #5  0x000055555709606e in pci_data_write (s=3D0x61d000096080, addr=3D0xf2=
+000060, val=3D0x8400056e, len=3D0x4) at /home/alxndr/Development/qemu/hw/pc=
+i/pci_host.c:118
+  #6  0x00005555570967d0 in pci_host_data_write (opaque=3D0x629000005200, a=
+ddr=3D0x0, val=3D0x8400056e, len=3D0x4) at /home/alxndr/Development/qemu/hw=
+/pci/pci_host.c:165
+  #7  0x00005555564938b5 in memory_region_write_accessor (mr=3D0x6290000056=
+10, addr=3D0x0, value=3D0x7fffffff9c70, size=3D0x4, shift=3D0x0, mask=3D0xf=
+fffffff, attrs=3D...) at /home/alxndr/Development/qemu/memory.c:483
+  #8  0x000055555649328a in access_with_adjusted_size (addr=3D0x0, value=3D=
+0x7fffffff9c70, size=3D0x4, access_size_min=3D0x1, access_size_max=3D0x4, a=
+ccess_fn=3D0x555556493360 <memory_region_write_accessor>, mr=3D0x6290000056=
+10, attrs=3D...) at /home/alxndr/Development/qemu/memory.c:544
+  #9  0x0000555556491df6 in memory_region_dispatch_write (mr=3D0x6290000056=
+10, addr=3D0x0, data=3D0x8400056e, op=3DMO_32, attrs=3D...) at /home/alxndr=
+/Development/qemu/memory.c:1476
+  #10 0x00005555562cbbf4 in flatview_write_continue (fv=3D0x606000033b00, a=
+ddr=3D0xcfc, attrs=3D..., ptr=3D0x7fffffffa4e0, len=3D0x4, addr1=3D0x0, l=
+=3D0x4, mr=3D0x629000005610) at /home/alxndr/Development/qemu/exec.c:3137
+  #11 0x00005555562bbad9 in flatview_write (fv=3D0x606000033b00, addr=3D0xc=
+fc, attrs=3D..., buf=3D0x7fffffffa4e0, len=3D0x4) at /home/alxndr/Developme=
+nt/qemu/exec.c:3177
+  #12 0x00005555562bb609 in address_space_write (as=3D0x55555968f940 <addre=
+ss_space_io>, addr=3D0xcfc, attrs=3D..., buf=3D0x7fffffffa4e0, len=3D0x4) a=
+t /home/alxndr/Development/qemu/exec.c:3268
+  #13 0x0000555556478c0a in cpu_outl (addr=3D0xcfc, val=3D0x8400056e) at /h=
+ome/alxndr/Development/qemu/ioport.c:80
+  #14 0x000055555648166f in qtest_process_command (chr=3D0x555559691d00 <qt=
+est_chr>, words=3D0x60300009ebf0) at /home/alxndr/Development/qemu/qtest.c:=
+396
+  #15 0x000055555647f187 in qtest_process_inbuf (chr=3D0x555559691d00 <qtes=
+t_chr>, inbuf=3D0x61900000f680) at /home/alxndr/Development/qemu/qtest.c:710
+  #16 0x000055555647e8b4 in qtest_read (opaque=3D0x555559691d00 <qtest_chr>=
+, buf=3D0x7fffffffca40 "outl 0xcf8 0xf2000060\noutl 0xcfc 0x8400056e\n-M pc=
+-q35-5.0 -device intel-hda,id=3Dhda0 -device hda-output,bus=3Dhda0.0 -devic=
+e hda-micro,bus=3Dhda0.0 -device hda-duplex,bus=3Dhda0.0 -display none -nod=
+efaults -nographic\n\377\377\377\177", size=3D0xd2) at /home/alxndr/Develop=
+ment/qemu/qtest.c:722
+  #17 0x00005555579c260c in qemu_chr_be_write_impl (s=3D0x60f000001f30, buf=
+=3D0x7fffffffca40 "outl 0xcf8 0xf2000060\noutl 0xcfc 0x8400056e\n-M pc-q35-=
+5.0 -device intel-hda,id=3Dhda0 -device hda-output,bus=3Dhda0.0 -device hda=
+-micro,bus=3Dhda0.0 -device hda-duplex,bus=3Dhda0.0 -display none -nodefaul=
+ts -nographic\n\377\377\377\177", len=3D0xd2) at /home/alxndr/Development/q=
+emu/chardev/char.c:183
+  #18 0x00005555579c275b in qemu_chr_be_write (s=3D0x60f000001f30, buf=3D0x=
+7fffffffca40 "outl 0xcf8 0xf2000060\noutl 0xcfc 0x8400056e\n-M pc-q35-5.0 -=
+device intel-hda,id=3Dhda0 -device hda-output,bus=3Dhda0.0 -device hda-micr=
+o,bus=3Dhda0.0 -device hda-duplex,bus=3Dhda0.0 -display none -nodefaults -n=
+ographic\n\377\377\377\177", len=3D0xd2) at /home/alxndr/Development/qemu/c=
+hardev/char.c:195
+  #19 0x00005555579cb97a in fd_chr_read (chan=3D0x6080000026a0, cond=3DG_IO=
+_IN, opaque=3D0x60f000001f30) at /home/alxndr/Development/qemu/chardev/char=
+-fd.c:68
+  #20 0x0000555557a530ea in qio_channel_fd_source_dispatch (source=3D0x60c0=
+0002ef00, callback=3D0x5555579cb540 <fd_chr_read>, user_data=3D0x60f000001f=
+30) at /home/alxndr/Development/qemu/io/channel-watch.c:84
+  #21 0x00007ffff7ca8898 in g_main_context_dispatch () at /usr/lib/x86_64-l=
+inux-gnu/libglib-2.0.so.0
+  #22 0x0000555557c10b85 in glib_pollfds_poll () at /home/alxndr/Developmen=
+t/qemu/util/main-loop.c:219
+  #23 0x0000555557c0f57e in os_host_main_loop_wait (timeout=3D0x0) at /home=
+/alxndr/Development/qemu/util/main-loop.c:242
+  #24 0x0000555557c0f177 in main_loop_wait (nonblocking=3D0x0) at /home/alx=
+ndr/Development/qemu/util/main-loop.c:518
+  #25 0x000055555689fd1e in qemu_main_loop () at /home/alxndr/Development/q=
+emu/softmmu/vl.c:1664
+  #26 0x0000555557a6a29d in main (argc=3D0x17, argv=3D0x7fffffffe148, envp=
+=3D0x7fffffffe208) at /home/alxndr/Development/qemu/softmmu/main.c:49
 
-Havard
+  =
+
+  I can reproduce this in qemu 5.0 built using these qtest commands:
+
+  cat << EOF | ./qemu-system-i386 \
+  -qtest stdio -nographic -monitor none -serial none \
+  -M pc-q35-5.0
+  outl 0xcf8 0xf2000060
+  outl 0xcfc 0x8400056e
+  EOF
+
+  Please let me know if I can provide any further info.
+  -Alex
+
+To manage notifications about this bug go to:
+https://bugs.launchpad.net/qemu/+bug/1878641/+subscriptions
 
