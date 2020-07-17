@@ -2,80 +2,67 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9F8F22239CC
-	for <lists+qemu-devel@lfdr.de>; Fri, 17 Jul 2020 12:54:48 +0200 (CEST)
-Received: from localhost ([::1]:46314 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 49C0F2239D8
+	for <lists+qemu-devel@lfdr.de>; Fri, 17 Jul 2020 12:56:53 +0200 (CEST)
+Received: from localhost ([::1]:56508 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jwO0t-0000KW-Ir
-	for lists+qemu-devel@lfdr.de; Fri, 17 Jul 2020 06:54:47 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:44016)
+	id 1jwO2u-0004cL-Aj
+	for lists+qemu-devel@lfdr.de; Fri, 17 Jul 2020 06:56:52 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:44862)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1jwNy6-0004ct-OZ
- for qemu-devel@nongnu.org; Fri, 17 Jul 2020 06:51:54 -0400
-Received: from mail-wr1-x442.google.com ([2a00:1450:4864:20::442]:35700)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1jwNy3-0003sB-BS
- for qemu-devel@nongnu.org; Fri, 17 Jul 2020 06:51:54 -0400
-Received: by mail-wr1-x442.google.com with SMTP id z2so10539549wrp.2
- for <qemu-devel@nongnu.org>; Fri, 17 Jul 2020 03:51:48 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=from:to:cc:subject:date:message-id:in-reply-to:references
- :mime-version:content-transfer-encoding;
- bh=KVJaVP/ZQ17vhjW05uiIXG4G85am9cMHX0FIzvUa6Gc=;
- b=TIsgKk+7hM/o3q1rcPINasp0D3y3YY7fmPqK+eUpDIjnY8yEsLNi6ZHjTVaScsxRab
- gSBtqT5xLA/2ClouJBexXk9NnHrmYBFCaxX6uCmkuCtSrNN9KFn7OY8X18/GnL6DxviQ
- mGXYxL1+URFB45O5Uwy/IBK0LGoGjGWcfZzu7P7Dl1Y0f2M+qyZvSwnj4mRsYi5ntk2U
- sUdOq4m8oAbYtvuYB3T6vDvh5KVR4PR6LtWYHA1RKmevmlx3h4KP7eFMfKUKReRUh/OX
- brnfUUVD6k/IJKidftnVoc93zDoxWB2alwQInixtDBJthDlz4xUW7LgpGrtk3AmBgyXM
- azew==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
- :references:mime-version:content-transfer-encoding;
- bh=KVJaVP/ZQ17vhjW05uiIXG4G85am9cMHX0FIzvUa6Gc=;
- b=TORdoFQVLJRPc++k6hbrs7pEon/XbQ7VS50hfGkMnos8qjv5YlUozFVMBLeXlZw8Qf
- pjfwnaXxAp0hJsXyRdQcTunux1swUuV7hmc5H1RDNQHQu8awAH3VYZlnxGpwiDkfasj7
- j2djw0nU6/fH41f0gqvqzLH602j57exTKXaq+vyOd5h5YEBg1HqcxSyI4VPjMtFwtHEK
- YIZByfS8OR99KptUs3OMyF7DbV/+qPzpNHUg2LZs5MavAWaFpBLQq1D5sWt1AxbJ7COT
- +Xoedyj2mZgiGkyjhFDrptBEOLujvmo6hJYmeaVrGbY9hnCvYj9F8Fk+fOVjzSs0vBDW
- YMpg==
-X-Gm-Message-State: AOAM53268o031PSWuYv/WeUAdqIeVqJMubP4av8BCoXhZSjO6JMHRhq2
- zYaFw58DlH73LwAYmgI/UTKWgA==
-X-Google-Smtp-Source: ABdhPJwzBflR/rTnGfoL9M2+KTqfN9wYlFd/SsM6RgDTvjAqKdYh+NRhzl3o22Fnmdp2M+TT9ZyJPw==
-X-Received: by 2002:adf:f504:: with SMTP id q4mr9479420wro.163.1594983107713; 
- Fri, 17 Jul 2020 03:51:47 -0700 (PDT)
-Received: from zen.linaroharston ([51.148.130.216])
- by smtp.gmail.com with ESMTPSA id z16sm13486743wrr.35.2020.07.17.03.51.41
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 17 Jul 2020 03:51:43 -0700 (PDT)
-Received: from zen.lan (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id 121B31FF91;
- Fri, 17 Jul 2020 11:51:40 +0100 (BST)
-From: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
-To: qemu-devel@nongnu.org
-Subject: [PATCH  v1 5/5] accel/tcg: better handle memory constrained systems
-Date: Fri, 17 Jul 2020 11:51:39 +0100
-Message-Id: <20200717105139.25293-6-alex.bennee@linaro.org>
-X-Mailer: git-send-email 2.20.1
-In-Reply-To: <20200717105139.25293-1-alex.bennee@linaro.org>
-References: <20200717105139.25293-1-alex.bennee@linaro.org>
+ (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1jwO0l-0001GW-1e
+ for qemu-devel@nongnu.org; Fri, 17 Jul 2020 06:54:39 -0400
+Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:24175
+ helo=us-smtp-1.mimecast.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1jwO0g-0004Pt-5e
+ for qemu-devel@nongnu.org; Fri, 17 Jul 2020 06:54:38 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1594983272;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding;
+ bh=cIfWQjwN+ZCFi4IQJ+45eNiJc4wabA79TZpuwuYOCTg=;
+ b=V/Mm28s2webQyeTx5v3HIMonDbn6WfKM3ce+JIqdm8G/cV4zVwW+uwMaYZL+UMsFYtBWSX
+ wSFMhI1pO+ksvKQMf2BJmsxLHha9ee7G9ACmwo0iElpABnlRy+8o0TYHW+Epg3UJEAZ2qM
+ wsLtT/jqTu37JAHNZi5PzaOqcWx2DCE=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-415-pKBAhzvrOJmDXAkP1ZqfvA-1; Fri, 17 Jul 2020 06:54:30 -0400
+X-MC-Unique: pKBAhzvrOJmDXAkP1ZqfvA-1
+Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
+ [10.5.11.11])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id A82691DE1;
+ Fri, 17 Jul 2020 10:54:29 +0000 (UTC)
+Received: from linux.fritz.box.com (ovpn-113-80.ams2.redhat.com [10.36.113.80])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 8ED8D75554;
+ Fri, 17 Jul 2020 10:54:28 +0000 (UTC)
+From: Kevin Wolf <kwolf@redhat.com>
+To: qemu-block@nongnu.org
+Subject: [PATCH for-5.1 0/3] file-posix: Fix check_hdev_writable() with
+ auto-read-only
+Date: Fri, 17 Jul 2020 12:54:23 +0200
+Message-Id: <20200717105426.51134-1-kwolf@redhat.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::442;
- envelope-from=alex.bennee@linaro.org; helo=mail-wr1-x442.google.com
-X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
- That's all we know.
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Received-SPF: pass client-ip=207.211.31.120; envelope-from=kwolf@redhat.com;
+ helo=us-smtp-1.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/07/17 03:33:51
+X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
+X-Spam_score_int: -40
+X-Spam_score: -4.1
+X-Spam_bar: ----
+X-Spam_report: (-4.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-1, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -88,48 +75,21 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: fam@euphon.net, berrange@redhat.com,
- =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>,
- richard.henderson@linaro.org, f4bug@amsat.org,
- Christian Ehrhardt <christian.ehrhardt@canonical.com>, cota@braap.org,
- Paolo Bonzini <pbonzini@redhat.com>, aurelien@aurel32.net,
- Richard Henderson <rth@twiddle.net>
+Cc: kwolf@redhat.com, qemu-devel@nongnu.org, mreitz@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-It turns out there are some 64 bit systems that have relatively low
-amounts of physical memory available to them (typically CI system).
-Even with swapping available a 1GB translation buffer that fills up
-can put the machine under increased memory pressure. Detect these low
-memory situations and reduce tb_size appropriately.
+Fixes: https://bugzilla.redhat.com/show_bug.cgi?id=1828252
 
-Fixes: 600e17b261
-Signed-off-by: Alex Bennée <alex.bennee@linaro.org>
-Cc: BALATON Zoltan <balaton@eik.bme.hu>
-Cc: Christian Ehrhardt <christian.ehrhardt@canonical.com>
----
- accel/tcg/translate-all.c | 7 ++++++-
- 1 file changed, 6 insertions(+), 1 deletion(-)
+Kevin Wolf (3):
+  file-posix: Move check_hdev_writable() up
+  file-posix: Fix check_hdev_writable() with auto-read-only
+  file-posix: Fix leaked fd in raw_open_common() error path
 
-diff --git a/accel/tcg/translate-all.c b/accel/tcg/translate-all.c
-index 2afa46bd2b1..2ff0ba6d19b 100644
---- a/accel/tcg/translate-all.c
-+++ b/accel/tcg/translate-all.c
-@@ -976,7 +976,12 @@ static inline size_t size_code_gen_buffer(size_t tb_size)
- {
-     /* Size the buffer.  */
-     if (tb_size == 0) {
--        tb_size = DEFAULT_CODE_GEN_BUFFER_SIZE;
-+        size_t phys_mem = qemu_get_host_physmem();
-+        if (phys_mem > 0 && phys_mem < (2 * DEFAULT_CODE_GEN_BUFFER_SIZE)) {
-+            tb_size = phys_mem / 4;
-+        } else {
-+            tb_size = DEFAULT_CODE_GEN_BUFFER_SIZE;
-+        }
-     }
-     if (tb_size < MIN_CODE_GEN_BUFFER_SIZE) {
-         tb_size = MIN_CODE_GEN_BUFFER_SIZE;
+ block/file-posix.c | 96 ++++++++++++++++++++++++++--------------------
+ 1 file changed, 54 insertions(+), 42 deletions(-)
+
 -- 
-2.20.1
+2.25.4
 
 
