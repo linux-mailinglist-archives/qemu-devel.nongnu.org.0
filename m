@@ -2,75 +2,60 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4307822453F
-	for <lists+qemu-devel@lfdr.de>; Fri, 17 Jul 2020 22:37:30 +0200 (CEST)
-Received: from localhost ([::1]:36982 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6B25E22453A
+	for <lists+qemu-devel@lfdr.de>; Fri, 17 Jul 2020 22:33:36 +0200 (CEST)
+Received: from localhost ([::1]:59720 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jwX6n-0007pu-0j
-	for lists+qemu-devel@lfdr.de; Fri, 17 Jul 2020 16:37:29 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:41344)
+	id 1jwX31-0005Pg-0n
+	for lists+qemu-devel@lfdr.de; Fri, 17 Jul 2020 16:33:35 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:40514)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <robert.foley@linaro.org>)
- id 1jwX5N-0006Jo-Kc
- for qemu-devel@nongnu.org; Fri, 17 Jul 2020 16:36:01 -0400
-Received: from mail-pl1-x641.google.com ([2607:f8b0:4864:20::641]:39141)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <robert.foley@linaro.org>)
- id 1jwX5L-0000UT-PD
- for qemu-devel@nongnu.org; Fri, 17 Jul 2020 16:36:01 -0400
-Received: by mail-pl1-x641.google.com with SMTP id b9so5920454plx.6
- for <qemu-devel@nongnu.org>; Fri, 17 Jul 2020 13:35:59 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=from:to:cc:subject:date:message-id:in-reply-to:references;
- bh=BXD39H2r315BUklguxxDX43DDtP3dHTaS3Nmt0J1RaY=;
- b=tzADuf5Vzcqwc3qVkefTGHnni/t6G8bCSl0unioeoFhsTP5lnuWPnD3/pS07WycTdd
- x9O42WJ0ZtGZJKUm4Ymc/ZtHUI4y/iynhxotgsmg7+XcnddbUDVbG2KRDWVfzK60cDFS
- FlxY2khu5+TdhbiiQ5JJkDdKHaZBN+DuAeMBt4EofiPPmVDhJGq891Ne8SPafKRXC1tT
- nwMO2fJcJLP6/AcMXESf/1RA84mU4i+TRfO6L1CI9HJsf57Rpn+GH5KMsOl7r4lf8/ux
- +BzlgN9IeOwnBlGps1zg/IVeR+s7YMiIXt3cqve3TM91mW1vs/xz8/CcWwCokUpShei8
- 3ABw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
- :references;
- bh=BXD39H2r315BUklguxxDX43DDtP3dHTaS3Nmt0J1RaY=;
- b=tXlDikutV/F1bfgxkoFo+Vg4HIyN9Mq7zTYpXwf0lfjg9QxXvk0/R9R+CQFpnXjeH8
- PVfY1pFK021VtLlEzCXU769tWy/yUVdankskx7MhpNCaXyyrFx9T7mMVasyznugRXTuC
- 0NnOWW05a3iTrHreMB6o72je9jKfZO86Ygq/iJP0z66R/tmX3AQoIkPHdqXS70jRcGzd
- YXsuVCQWdWJILbz1uxpC+z/nMvI5Iy2ap5Bor00wByPjidrmSS0xQ2iE7OgHGUTLsNjI
- KUH6G4tkZ5j948Ch8gKDrha/d0GosB7t9h8Hqwgy5Qcdy2ijpAy1Yuklwj9QjjLB9AJs
- 52ZA==
-X-Gm-Message-State: AOAM532Ru/I/WEVuuToiHj9CjyrWUmeRrzchGqxQT6HC3/bEdoA49jAZ
- yHb1ApwJHjm/7kQ3mOFwrdciD4eHab4=
-X-Google-Smtp-Source: ABdhPJwqS/y0O/ohfauNls1h2VWRfR9oOF8riGl1vjOHYdLcl7UN4YTyuC0HKZ5Nur2j43JdT5ul5Q==
-X-Received: by 2002:a17:902:8c93:: with SMTP id
- t19mr8961533plo.196.1595018158019; 
- Fri, 17 Jul 2020 13:35:58 -0700 (PDT)
-Received: from Rfoley-MA01.hsd1.ma.comcast.net
- ([2601:199:4480:60c0:b0d0:3aae:620c:a8c5])
- by smtp.gmail.com with ESMTPSA id x7sm8212848pfq.197.2020.07.17.13.35.56
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 17 Jul 2020 13:35:57 -0700 (PDT)
-From: Robert Foley <robert.foley@linaro.org>
-To: qemu-devel@nongnu.org
-Subject: [PATCH v1 3/3] tests/vm: add shutdown timeout in basevm.py
-Date: Fri, 17 Jul 2020 16:30:41 -0400
-Message-Id: <20200717203041.9867-4-robert.foley@linaro.org>
-X-Mailer: git-send-email 2.17.1
-In-Reply-To: <20200717203041.9867-1-robert.foley@linaro.org>
-References: <20200717203041.9867-1-robert.foley@linaro.org>
-Received-SPF: pass client-ip=2607:f8b0:4864:20::641;
- envelope-from=robert.foley@linaro.org; helo=mail-pl1-x641.google.com
-X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
- That's all we know.
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- URIBL_BLOCKED=0.001 autolearn=ham autolearn_force=no
+ (Exim 4.90_1) (envelope-from <clg@kaod.org>) id 1jwX24-0004pp-M4
+ for qemu-devel@nongnu.org; Fri, 17 Jul 2020 16:32:36 -0400
+Received: from 19.mo7.mail-out.ovh.net ([178.33.251.118]:45981)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <clg@kaod.org>) id 1jwX20-0008C5-TK
+ for qemu-devel@nongnu.org; Fri, 17 Jul 2020 16:32:36 -0400
+Received: from player798.ha.ovh.net (unknown [10.108.42.73])
+ by mo7.mail-out.ovh.net (Postfix) with ESMTP id 9F1B8170CA2
+ for <qemu-devel@nongnu.org>; Fri, 17 Jul 2020 22:32:29 +0200 (CEST)
+Received: from kaod.org (82-64-250-170.subs.proxad.net [82.64.250.170])
+ (Authenticated sender: clg@kaod.org)
+ by player798.ha.ovh.net (Postfix) with ESMTPSA id 29049148CCAE3;
+ Fri, 17 Jul 2020 20:32:18 +0000 (UTC)
+Authentication-Results: garm.ovh; auth=pass
+ (GARM-99G003bcc50225-b47a-4b5c-8a89-c0938f7b6666,EDCDB8C856EF0F0B0CA5B21EBB7B009702C7510A)
+ smtp.auth=clg@kaod.org
+Subject: Re: [PATCH v6 00/13] Add Nuvoton NPCM730/NPCM750 SoCs and two BMC
+ machines
+To: Havard Skinnemoen <hskinnemoen@google.com>, qemu-devel@nongnu.org,
+ qemu-arm@nongnu.org
+References: <20200717060258.1602319-1-hskinnemoen@google.com>
+From: =?UTF-8?Q?C=c3=a9dric_Le_Goater?= <clg@kaod.org>
+Message-ID: <686266f7-c19e-918c-6df4-02f470506446@kaod.org>
+Date: Fri, 17 Jul 2020 22:32:17 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.9.0
+MIME-Version: 1.0
+In-Reply-To: <20200717060258.1602319-1-hskinnemoen@google.com>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 8bit
+X-Ovh-Tracer-Id: 782781912329784099
+X-VR-SPAMSTATE: OK
+X-VR-SPAMSCORE: -100
+X-VR-SPAMCAUSE: gggruggvucftvghtrhhoucdtuddrgeduiedrfeejgdeitdcutefuodetggdotefrodftvfcurfhrohhfihhlvgemucfqggfjpdevjffgvefmvefgnecuuegrihhlohhuthemucehtddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenucfjughrpefuvfhfhffkffgfgggjtgfgsehtkeertddtfeejnecuhfhrohhmpeevrogurhhitggpnfgvpgfiohgrthgvrhcuoegtlhhgsehkrghougdrohhrgheqnecuggftrfgrthhtvghrnhepfeeuveeuudegtdeujefhtdevleduhfeggeekiedtkeevhfegvefgheffgefgheevnecuffhomhgrihhnpehgihhthhhusgdrtghomhdpnhhuvhhothhonhdrtghomhdpkhgvrhhnvghlrdhorhhgnecukfhppedtrddtrddtrddtpdekvddrieegrddvhedtrddujedtnecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmohguvgepshhmthhpqdhouhhtpdhhvghlohepphhlrgihvghrjeelkedrhhgrrdhovhhhrdhnvghtpdhinhgvtheptddrtddrtddrtddpmhgrihhlfhhrohhmpegtlhhgsehkrghougdrohhrghdprhgtphhtthhopehqvghmuhdquggvvhgvlhesnhhonhhgnhhurdhorhhg
+Received-SPF: pass client-ip=178.33.251.118; envelope-from=clg@kaod.org;
+ helo=19.mo7.mail-out.ovh.net
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/07/17 16:32:29
+X-ACL-Warn: Detected OS   = Linux 3.11 and newer
+X-Spam_score_int: -18
+X-Spam_score: -1.9
+X-Spam_bar: -
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_NONE=-0.0001,
+ RCVD_IN_MSPIKE_H4=-0.01, RCVD_IN_MSPIKE_WL=-0.01, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001, URIBL_BLOCKED=0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -83,87 +68,255 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Fam Zheng <fam@euphon.net>, robert.foley@linaro.org,
- =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
- jsnow@redhat.com, peter.puhov@linaro.org, alex.bennee@linaro.org
+Cc: Peter Maydell <peter.maydell@linaro.org>, Andrew Jeffery <andrew@aj.id.au>,
+ kfting@nuvoton.com, Joel Stanley <joel@jms.id.au>,
+ =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>,
+ Avi.Fishman@nuvoton.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-We are adding the shutdown timeout to solve an issue
-we now see where the aarch64 VMs timeout on shutdown
-under TCG.
+On 7/17/20 8:02 AM, Havard Skinnemoen wrote:
+> I also pushed this and the previous two patchsets to my qemu fork on github.
+> The branches are named npcm7xx-v[1-6].
+> 
+>   https://github.com/hskinnemoen/qemu
+> 
+> This patch series models enough of the Nuvoton NPCM730 and NPCM750 SoCs to boot
+> an OpenBMC image built for quanta-gsj. This includes device models for:
+> 
+>   - Global Configuration Registers
+>   - Clock Control
+>   - Timers
+>   - Fuses
+>   - Memory Controller
+>   - Flash Controller
+> 
+> These modules, along with the existing Cortex A9 CPU cores and built-in
+> peripherals, are integrated into a NPCM730 or NPCM750 SoC, which in turn form
+> the foundation for the quanta-gsj and npcm750-evb machines, respectively. The
+> two SoCs are very similar; the only difference is that NPCM730 is missing some
+> peripherals that NPCM750 has, and which are not considered essential for
+> datacenter use (e.g. graphics controllers). For more information, see
+> 
+> https://www.nuvoton.com/products/cloud-computing/ibmc/
+> 
+> Both quanta-gsj and npcm750-evb correspond to real boards supported by OpenBMC.
+> At the end of the series, qemu can boot an OpenBMC image built for one of these
+> boards with some minor modifications.
+> 
+> The patches in this series were developed by Google and reviewed by Nuvoton. We
+> will be maintaining the machine and peripheral support together.
+> 
+> The data sheet for these SoCs is not generally available. Please let me know if
+> more comments are needed to understand the device behavior.
 
-There is a new 3 second timeout in machine.py,
-which we override in basevm.py when shutting down.
+I think this series is ready to go.
 
-Signed-off-by: Robert Foley <robert.foley@linaro.org>
----
- tests/vm/basevm.py | 15 ++++++++++-----
- 1 file changed, 10 insertions(+), 5 deletions(-)
+Patch 6 "roms: Add virtual Boot ROM for NPCM7xx SoCs" needs a few
+add-ons which can come later.
 
-diff --git a/tests/vm/basevm.py b/tests/vm/basevm.py
-index 7acb48b876..3fac20e929 100644
---- a/tests/vm/basevm.py
-+++ b/tests/vm/basevm.py
-@@ -80,6 +80,8 @@ class BaseVM(object):
-     arch = "#arch"
-     # command to halt the guest, can be overridden by subclasses
-     poweroff = "poweroff"
-+    # Time to wait for shutdown to finish.
-+    shutdown_timeout_default = 30
-     # enable IPv6 networking
-     ipv6 = True
-     # This is the timeout on the wait for console bytes.
-@@ -87,7 +89,7 @@ class BaseVM(object):
-     # Scale up some timeouts under TCG.
-     # 4 is arbitrary, but greater than 2,
-     # since we found we need to wait more than twice as long.
--    tcg_ssh_timeout_multiplier = 4
-+    tcg_timeout_multiplier = 4
-     def __init__(self, args, config=None):
-         self._guest = None
-         self._genisoimage = args.genisoimage
-@@ -141,9 +143,12 @@ class BaseVM(object):
-         if args.jobs and args.jobs > 1:
-             self._args += ["-smp", "%d" % args.jobs]
-         if kvm_available(self.arch):
-+            self._shutdown_timeout = self.shutdown_timeout_default
-             self._args += ["-enable-kvm"]
-         else:
-             logging.info("KVM not available, not using -enable-kvm")
-+            self._shutdown_timeout = \
-+                self.shutdown_timeout_default * self.tcg_timeout_multiplier
-         self._data_args = []
- 
-         if self._config['qemu_args'] != None:
-@@ -423,7 +428,7 @@ class BaseVM(object):
-     def wait_ssh(self, wait_root=False, seconds=300, cmd="exit 0"):
-         # Allow more time for VM to boot under TCG.
-         if not kvm_available(self.arch):
--            seconds *= self.tcg_ssh_timeout_multiplier
-+            seconds *= self.tcg_timeout_multiplier
-         starttime = datetime.datetime.now()
-         endtime = starttime + datetime.timedelta(seconds=seconds)
-         cmd_success = False
-@@ -441,14 +446,14 @@ class BaseVM(object):
-             raise Exception("Timeout while waiting for guest ssh")
- 
-     def shutdown(self):
--        self._guest.shutdown()
-+        self._guest.shutdown(timeout=self._shutdown_timeout)
- 
-     def wait(self):
--        self._guest.wait()
-+        self._guest.wait(timeout=self._shutdown_timeout)
- 
-     def graceful_shutdown(self):
-         self.ssh_root(self.poweroff)
--        self._guest.wait()
-+        self._guest.wait(timeout=self._shutdown_timeout)
- 
-     def qmp(self, *args, **kwargs):
-         return self._guest.qmp(*args, **kwargs)
--- 
-2.17.1
+Patch 13 "tests/acceptance: console boot tests for quanta-gsj" needs
+an Acked-by by our test gurus. Aspeed needs the same kind of tests
+if possible. It depends on the pressure that the QEMU CI will put on 
+the web servers hosting the images.
+
+I think that the rest of the comments are minor and can be fixed
+as follow-ups when 5.2 is being assembled. 
+
+Thanks,
+
+C.
+
+
+> Changes since v5:
+> 
+>   - Boot ROM included, as a git submodule and a binary blob, and loaded by
+>     default, so the -bios option is usually not necessary anymore.
+>   - Two acceptance tests added (openbmc image boot, and direct kernel boot).
+>   - npcm7xx_load_kernel() moved to SoC code.
+>   - NPCM7XX_TIMER_REF_HZ definition moved to CLK header.
+>   - Comments added clarifying available SPI flash chip selects.
+>   - Error handling adjustments:
+>       - Errors from CPU and GCR realization are propagated through the SoC
+>         since they may be triggered by user-configurable parameters.
+>       - Machine init uses error_fatal instead of error_abort for SoC
+>         realization flash init. This makes error messages more helpful.
+>       - Comments added to indicate whether peripherals may fail to realize.
+>       - Use ERRP_GUARD() instead of Error *err when possible.
+>   - Default CPU type is now set, and attempting to set it to anything else
+>     will fail.
+>   - Format string fixes (use HWADDR_PRIx, etc.)
+>   - Simplified memory size encoding and error checking in npcm7xx_gcr.
+>   - Encapsulate non-obvious pointer subtraction into helper functions in the
+>     FIU and TIMER modules.
+>   - Incorporate review feedback into the FIU module:
+>       - Add select/deselect trace events.
+>       - Use npcm7xx_fiu_{de,}select() consistently.
+>       - Use extract/deposit in more places for consistency.
+>       - Use -Wimplicit-fallthrough compatible fallthrough comments.
+>       - Use qdev_init_gpio_out_named instead of sysbus_init_irq for chip
+>         selects.
+>   - Incorporate review feedback into the TIMER module:
+>       - Assert that we never pause a timer that has already expired, instead of
+>         trying to handle it. This should be safe since QEMU_CLOCK_VIRTUAL is
+>         stopped while this code is running.
+>       - Simplify the switch blocks in the read and write handlers.
+> 
+> I made a change to error out if a flash drive was not specified, but reverted
+> it because it caused make check to fail (qom-test). When specifying a NULL
+> block device, the m25p flash device initializes its in-memory storage with 0xff
+> and doesn't attempt to write anything back. This seems correct to me.
+> 
+> Changes since v4:
+> 
+>   - OTP cleanups suggested by Philippe Mathieu-Daudé.
+>       - Added fuse array definitions based on public Nuvoton bootblock code.
+>       - Moved class structure to .c file since it's only used internally.
+>       - Readability improvements.
+>   - Split the first patch and folded parts of it into three other patches so
+>     that CONFIG_NPCM7XX is only enabled after the initial NPCM7xx machine
+>     support is added.
+>   - DRAM init moved to machine init code.
+>   - Consistently use lower-case hex literals.
+>   - Switched to fine-grained unimplemented devices, based on public bootblock
+>     source code. Added a tiny SRAM that got left out previously.
+>   - Simplified error handling in npcm7xx_realize() since the board code will
+>     abort anyway, and SoCs are not hot-pluggable.
+> 
+> Changes since v3:
+> 
+>   - License headers are now GPL v2-or-later throughout.
+>   - Added vmstate throughout (except the memory controller, which doesn't
+>     really have any state worth saving). Successfully booted a gsj image
+>     with two stop/savevm/quit/loadvm cycles along the way.
+>       - JFFS2 really doesn't like it if I let qemu keep running after savevm,
+>         and then jump back in time with loadvm. I assume this is expected.
+>   - Fixed an error API violation in npcm7xx_realize, removed pointless error
+>     check after object_property_set_link().
+>   - Switched the OTP device to use an embedded array instead of a g_malloc0'd
+>     one because I couldn't figure out how to set up vmstate for the latter.
+> 
+> Changes since v2:
+> 
+>   - Simplified the MAINTAINERS entry.
+>   - Added link to OpenPOWER jenkins for gsj BMC images.
+>   - Reverted the smpboot change, back to byte swapping.
+>   - Adapted to upstream API changes:
+>       - sysbus_init_child_obj -> object_initialize_child
+>       - object_property_set_bool -> qdev_realize / sysbus_realize
+>       - ssi_create_slave_no_init -> qdev_new
+>       - qdev_init_nofail -> qdev_realize_and_unref
+>       - ssi_auto_connect_slaves removed
+>   - Moved Boot ROM loading from soc to machine init.
+>   - Plumbed power-on-straps property from GCR to the machine init code so it
+>     can be properly initialized. Turns out npcm750 memory init doesn't work
+>     without this. npcm730 is fine either way, though I'm not sure why.
+>   - Reworked the flash init code so it looks more like aspeed (i.e. the flash
+>     device gets added even if there's no drive).
+> 
+> Changes since v1 (requested by reviewers):
+> 
+>   - Clarify the source of CLK reset values.
+>   - Made smpboot a constant byte array, eliinated byte swapping.
+>   - NPCM7xxState now stores an array of ARMCPUs, not pointers to ARMCPUs.
+>   - Clarify why EL3 is disabled.
+>   - Introduce NPCM7XX_NUM_IRQ constant.
+>   - Set the number of CPUs according to SoC variant, and disallow command line
+>     overrides (i.e. you can no longer override the number of CPUs with the -smp
+>     parameter). This is trying to follow the spirit of
+>     https://patchwork.kernel.org/patch/11595407/.
+>   - Switch register operations to DEVICE_LITTLE_ENDIAN throughout.
+>   - Machine documentation added (new patch).
+> 
+> Changes since v1 to support flash booting:
+> 
+>   - GCR reset value changes to get past memory initialization when booting
+>     from flash (patches 2 and 5):
+>       - INTCR2 now indicates that the DDR controller is initialized.
+>       - INTCR3 is initialized according to DDR memory size. A realize()
+> 	method was implemented to achieve this.
+>   - Refactor the machine initialization a bit to make it easier to drop in
+>     machine-specific flash initialization (patch 6).
+>   - Extend the series with additional patches to enable booting from flash:
+>       - Boot ROM (through the -bios option).
+>       - OTP (fuse) controller.
+>       - Memory Controller stub (just enough to skip memory training).
+>       - Flash controller.
+>       - Board-specific flash initialization.
+> 
+> Thanks for reviewing,
+> 
+> Havard
+> 
+> Havard Skinnemoen (13):
+>   hw/misc: Add NPCM7xx System Global Control Registers device model
+>   hw/misc: Add NPCM7xx Clock Controller device model
+>   hw/timer: Add NPCM7xx Timer device model
+>   hw/arm: Add NPCM730 and NPCM750 SoC models
+>   hw/arm: Add two NPCM7xx-based machines
+>   roms: Add virtual Boot ROM for NPCM7xx SoCs
+>   hw/arm: Load -bios image as a boot ROM for npcm7xx
+>   hw/nvram: NPCM7xx OTP device model
+>   hw/mem: Stubbed out NPCM7xx Memory Controller model
+>   hw/ssi: NPCM7xx Flash Interface Unit device model
+>   hw/arm: Wire up BMC boot flash for npcm750-evb and quanta-gsj
+>   docs/system: Add Nuvoton machine documentation
+>   tests/acceptance: console boot tests for quanta-gsj
+> 
+>  docs/system/arm/nuvoton.rst            |  90 +++++
+>  docs/system/target-arm.rst             |   1 +
+>  Makefile                               |   1 +
+>  default-configs/arm-softmmu.mak        |   1 +
+>  include/hw/arm/npcm7xx.h               | 111 +++++
+>  include/hw/mem/npcm7xx_mc.h            |  36 ++
+>  include/hw/misc/npcm7xx_clk.h          |  72 ++++
+>  include/hw/misc/npcm7xx_gcr.h          |  76 ++++
+>  include/hw/nvram/npcm7xx_otp.h         |  88 ++++
+>  include/hw/ssi/npcm7xx_fiu.h           | 100 +++++
+>  include/hw/timer/npcm7xx_timer.h       |  96 +++++
+>  hw/arm/npcm7xx.c                       | 500 +++++++++++++++++++++++
+>  hw/arm/npcm7xx_boards.c                | 195 +++++++++
+>  hw/mem/npcm7xx_mc.c                    |  84 ++++
+>  hw/misc/npcm7xx_clk.c                  | 234 +++++++++++
+>  hw/misc/npcm7xx_gcr.c                  | 227 +++++++++++
+>  hw/nvram/npcm7xx_otp.c                 | 424 +++++++++++++++++++
+>  hw/ssi/npcm7xx_fiu.c                   | 539 +++++++++++++++++++++++++
+>  hw/timer/npcm7xx_timer.c               | 489 ++++++++++++++++++++++
+>  .gitmodules                            |   3 +
+>  MAINTAINERS                            |   8 +
+>  hw/arm/Kconfig                         |   9 +
+>  hw/arm/Makefile.objs                   |   1 +
+>  hw/mem/Makefile.objs                   |   1 +
+>  hw/misc/Makefile.objs                  |   2 +
+>  hw/misc/trace-events                   |   8 +
+>  hw/nvram/Makefile.objs                 |   1 +
+>  hw/ssi/Makefile.objs                   |   1 +
+>  hw/ssi/trace-events                    |  11 +
+>  hw/timer/Makefile.objs                 |   1 +
+>  hw/timer/trace-events                  |   5 +
+>  pc-bios/npcm7xx_bootrom.bin            | Bin 0 -> 768 bytes
+>  roms/Makefile                          |   7 +
+>  roms/vbootrom                          |   1 +
+>  tests/acceptance/boot_linux_console.py |  65 +++
+>  35 files changed, 3488 insertions(+)
+>  create mode 100644 docs/system/arm/nuvoton.rst
+>  create mode 100644 include/hw/arm/npcm7xx.h
+>  create mode 100644 include/hw/mem/npcm7xx_mc.h
+>  create mode 100644 include/hw/misc/npcm7xx_clk.h
+>  create mode 100644 include/hw/misc/npcm7xx_gcr.h
+>  create mode 100644 include/hw/nvram/npcm7xx_otp.h
+>  create mode 100644 include/hw/ssi/npcm7xx_fiu.h
+>  create mode 100644 include/hw/timer/npcm7xx_timer.h
+>  create mode 100644 hw/arm/npcm7xx.c
+>  create mode 100644 hw/arm/npcm7xx_boards.c
+>  create mode 100644 hw/mem/npcm7xx_mc.c
+>  create mode 100644 hw/misc/npcm7xx_clk.c
+>  create mode 100644 hw/misc/npcm7xx_gcr.c
+>  create mode 100644 hw/nvram/npcm7xx_otp.c
+>  create mode 100644 hw/ssi/npcm7xx_fiu.c
+>  create mode 100644 hw/timer/npcm7xx_timer.c
+>  create mode 100644 pc-bios/npcm7xx_bootrom.bin
+>  create mode 160000 roms/vbootrom
+> 
 
 
