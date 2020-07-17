@@ -2,54 +2,98 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D006E223361
-	for <lists+qemu-devel@lfdr.de>; Fri, 17 Jul 2020 08:08:16 +0200 (CEST)
-Received: from localhost ([::1]:48794 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B032122333A
+	for <lists+qemu-devel@lfdr.de>; Fri, 17 Jul 2020 08:02:06 +0200 (CEST)
+Received: from localhost ([::1]:57582 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jwJXb-0002Tv-Sq
-	for lists+qemu-devel@lfdr.de; Fri, 17 Jul 2020 02:08:15 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:60782)
+	id 1jwJRd-0002iq-B2
+	for lists+qemu-devel@lfdr.de; Fri, 17 Jul 2020 02:02:05 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:59570)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <dgibson@ozlabs.org>)
- id 1jwJVS-0007kD-03; Fri, 17 Jul 2020 02:06:02 -0400
-Received: from ozlabs.org ([203.11.71.1]:55615)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <dgibson@ozlabs.org>)
- id 1jwJVN-0005zS-OD; Fri, 17 Jul 2020 02:06:01 -0400
-Received: by ozlabs.org (Postfix, from userid 1007)
- id 4B7LG92GyWz9sRk; Fri, 17 Jul 2020 16:05:53 +1000 (AEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=gibson.dropbear.id.au; s=201602; t=1594965953;
- bh=uv2K4WfVLFNWRxRu2em8SFafmKAbhkPI0HjrBoZ591M=;
- h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=lIbqaXImsDz7cZ7NIZWAsoriFrPKkRHJjAHi41B2R8yXh3xVpC8PDTUjjB6aW/QtQ
- es2KGPPMLX0MAmJOTSO7iIW9WEvJT9BYvcY3P3npSls9Lx1me6/pPQ19ckkHMxd0r6
- vj65ZxPzi+etUXCdDysL3/05olOdGX+ff4qPlZU0=
-Date: Fri, 17 Jul 2020 15:58:18 +1000
-From: David Gibson <david@gibson.dropbear.id.au>
-To: Greg Kurz <groug@kaod.org>
-Subject: Re: [PATCH v4 for-5.2 2/2] spapr: Forbid nested KVM-HV in pre-power9
- compat mode
-Message-ID: <20200717055818.GI5607@umbus.fritz.box>
-References: <159491945918.188975.4358645698778061430.stgit@bahia.lan>
- <159491948127.188975.9621435875869177751.stgit@bahia.lan>
+ (Exim 4.90_1) (envelope-from <dgibson@redhat.com>)
+ id 1jwJQe-0002Iq-KK
+ for qemu-devel@nongnu.org; Fri, 17 Jul 2020 02:01:04 -0400
+Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:39012
+ helo=us-smtp-1.mimecast.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <dgibson@redhat.com>)
+ id 1jwJQc-0004wo-Ac
+ for qemu-devel@nongnu.org; Fri, 17 Jul 2020 02:01:04 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1594965660;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=lUnGDjBxwkF5g5NeRWUDgVFwTQpoyDfRIDOrApqiqcM=;
+ b=BVhxk//UpaoYLg4CMQwllrhFdzgZfxm0uXmJpLDvKPozE95TCa6nRzzkuHolS5sYFy2Gii
+ Py5yPgJMzv3re4apcsviPhI3U0dCzO2nY2BtLb2tIimrAAsheHztoi70RIdjJLOsieV24a
+ qFWpyniuyJmCcLusyfbP5LQV7HMlzaI=
+Received: from mail-pl1-f199.google.com (mail-pl1-f199.google.com
+ [209.85.214.199]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-436-Bpl3-6ixMeaEv0EQboCONA-1; Fri, 17 Jul 2020 02:00:57 -0400
+X-MC-Unique: Bpl3-6ixMeaEv0EQboCONA-1
+Received: by mail-pl1-f199.google.com with SMTP id f4so5968760plo.3
+ for <qemu-devel@nongnu.org>; Thu, 16 Jul 2020 23:00:57 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:in-reply-to
+ :references:mime-version;
+ bh=lUnGDjBxwkF5g5NeRWUDgVFwTQpoyDfRIDOrApqiqcM=;
+ b=FwJhDbT9Nn9a6yg/coZGnCDeAFp1uoT92iB5lAAsAh92oAovWTYjgDhrEKgqvFZhBj
+ f3jLnZ72rOdY7W/ukrNaMJuO1p0LPBNdYNuvs7sKhy+SnjiSQYDjWDeoscjpy0F4opMr
+ m1xKYpdphVdPmfQ543vB+Sl+oeH2/eAnZZEoCF9s1fCiXBzB5pSGrAP2PomnAfufweo5
+ SkokjtxSo07RiKDMD6MVwVc+wpAZTACcPdjcyPExtCZmMQ3xSv9YEr9xC3qIcITvBIz1
+ jD890gDK8uGvydI6ag2gefo+8HChs5ZxEzQLwYvoddXkLjvuqaLR+7En75HRJwnE6X6K
+ Xmpw==
+X-Gm-Message-State: AOAM532O/dMwqOqQiqPJSbQxi4pS1Sz6Mo2b8f5wgxVbtTIPBI9IZEuv
+ kT65iTIf7U//YnMc5PWR62OuRbYA5Rjs87xNu24zFzDd2xY3J70a+JocULl4F7ktM/rMdPmQMMr
+ rlbXQLN92jSMlosE=
+X-Received: by 2002:a17:90a:f68c:: with SMTP id
+ cl12mr7365633pjb.116.1594965656669; 
+ Thu, 16 Jul 2020 23:00:56 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJxA612DHiTJvF3jyYfgyOc/Vkyc3M8PgEIr/3FOZY6C73iC/g/DDyVPeNjr9VDHJDIxVp0MfA==
+X-Received: by 2002:a17:90a:f68c:: with SMTP id
+ cl12mr7365593pjb.116.1594965656129; 
+ Thu, 16 Jul 2020 23:00:56 -0700 (PDT)
+Received: from umbus.fritz.box ([2001:4479:e100:3700:6379:248f:ca6b:e855])
+ by smtp.gmail.com with ESMTPSA id o18sm6957223pfu.138.2020.07.16.23.00.51
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Thu, 16 Jul 2020 23:00:55 -0700 (PDT)
+Date: Fri, 17 Jul 2020 16:00:45 +1000
+From: David Gibson <dgibson@redhat.com>
+To: Markus Armbruster <armbru@redhat.com>
+Subject: Re: Slow down with: 'Make "info qom-tree" show children sorted'
+Message-ID: <20200717160045.5ea0773d@umbus.fritz.box>
+In-Reply-To: <87a700rpf6.fsf@dusky.pond.sub.org>
+References: <20200527084754.7531-1-armbru@redhat.com>
+ <20200527084754.7531-3-armbru@redhat.com>
+ <49bea110-0a3d-5a40-6647-67b116fb41b5@redhat.com>
+ <5e967e5f-8ae5-01cc-0dfe-f22e0f03b6b3@redhat.com>
+ <87y2nvanya.fsf@dusky.pond.sub.org>
+ <794f6901-5fe3-f7a1-45e7-f277f687cb6b@redhat.com>
+ <87v9iz7cxl.fsf@dusky.pond.sub.org>
+ <20200713111344.23c1b313@umbus.fritz.box>
+ <874kqbbdft.fsf@dusky.pond.sub.org>
+ <20200716095926.74caee16@umbus.fritz.box>
+ <87a700rpf6.fsf@dusky.pond.sub.org>
+X-Mailer: Claws Mail 3.17.5 (GTK+ 2.24.32; x86_64-redhat-linux-gnu)
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature"; boundary="rCb8EA+9TsBVtA92"
-Content-Disposition: inline
-In-Reply-To: <159491948127.188975.9621435875869177751.stgit@bahia.lan>
-Received-SPF: pass client-ip=203.11.71.1; envelope-from=dgibson@ozlabs.org;
- helo=ozlabs.org
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/07/17 02:05:53
-X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic]
-X-Spam_score_int: -9
-X-Spam_score: -1.0
-X-Spam_bar: -
-X-Spam_report: (-1.0 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, HEADER_FROM_DIFFERENT_DOMAINS=1,
- SPF_HELO_PASS=-0.001, SPF_PASS=-0.001,
- URIBL_BLOCKED=0.001 autolearn=no autolearn_force=no
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: multipart/signed; boundary="Sig_/nbf2n50lxQd+QJ/zuUmJo+b";
+ protocol="application/pgp-signature"; micalg=pgp-sha256
+Received-SPF: pass client-ip=205.139.110.120; envelope-from=dgibson@redhat.com;
+ helo=us-smtp-1.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/07/16 23:13:19
+X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
+X-Spam_score_int: -40
+X-Spam_score: -4.1
+X-Spam_bar: ----
+X-Spam_report: (-4.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-1, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -62,96 +106,96 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Markus Armbruster <armbru@redhat.com>,
- Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>, qemu-ppc@nongnu.org,
- Laurent Vivier <laurent@vivier.eu>, qemu-devel@nongnu.org
+Cc: Laurent Vivier <lvivier@redhat.com>, Thomas Huth <thuth@redhat.com>,
+ berrange@redhat.com, ehabkost@redhat.com,
+ Alex =?UTF-8?B?QmVubsOpZQ==?= <alex.bennee@linaro.org>,
+ mark.cave-ayland@ilande.co.uk, qemu-devel@nongnu.org,
+ Greg Kurz <groug@kaod.org>, =?UTF-8?B?Q8OpZHJpYw==?= Le Goater <clg@kaod.org>,
+ Paolo Bonzini <pbonzini@redhat.com>,
+ Philippe =?UTF-8?B?TWF0aGlldS1E?= =?UTF-8?B?YXVkw6k=?= <philmd@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-
---rCb8EA+9TsBVtA92
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+--Sig_/nbf2n50lxQd+QJ/zuUmJo+b
+Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: quoted-printable
 
-On Thu, Jul 16, 2020 at 07:11:21PM +0200, Greg Kurz wrote:
-> Nested KVM HV only works if the kernel is using the radix MMU mode, ie.
-> the CPU is POWER9 and it is not running in some pre-power9 compat mode.
-> Otherwise, the KVM HV module fails to load in the guest with -ENODEV.
-> It might be painful for a user to discover this late that nested cannot
-> work with their setup. Erroring out at machine init instead seems to be
-> the best we can do.
->=20
-> Signed-off-by: Greg Kurz <groug@kaod.org>
-> Reviewed-by: Laurent Vivier <lvivier@redhat.com>
+On Thu, 16 Jul 2020 07:37:17 +0200
+Markus Armbruster <armbru@redhat.com> wrote:
 
-Applied to ppc-for-5.2.
+> David Gibson <dgibson@redhat.com> writes:
+>=20
+>  [...] =20
+>  [...] =20
+>  [...] =20
+>  [...] =20
+>  [...] =20
+>  [...] =20
+>  [...] =20
+>  [...] =20
+>  [...] =20
+> >
+> > ... as you say, 256 shouldn't really be a problem.  I was concerned
+> > about LMB DRCs rather than PCI DRCs.  To have that show up, you might
+> > need to create a machine with a large difference between initial memory
+> > and maxmem - I think you'll get a DRC object for every 256MiB in there,
+> > which can easily get into the thousands for large (potential) memory
+> > VMs. =20
+>=20
+> Okay, I can reproduce: with -m 256,128G, /machine has 549 children, of
+> which 511 are spapr-drc-lmb.
 
-> ---
->  hw/ppc/spapr_caps.c |   10 ++++++++++
->  1 file changed, 10 insertions(+)
+Ok.
+
+> > I don't know what the config was that showed up this problem in the
+> > first place, and whether that could be the case there. =20
 >=20
-> diff --git a/hw/ppc/spapr_caps.c b/hw/ppc/spapr_caps.c
-> index 275f5bd0342c..10a80a8159f4 100644
-> --- a/hw/ppc/spapr_caps.c
-> +++ b/hw/ppc/spapr_caps.c
-> @@ -382,6 +382,8 @@ static void cap_nested_kvm_hv_apply(SpaprMachineState=
- *spapr,
->                                      uint8_t val, Error **errp)
->  {
->      ERRP_GUARD();
-> +    PowerPCCPU *cpu =3D POWERPC_CPU(first_cpu);
-> +
->      if (!val) {
->          /* capability disabled by default */
->          return;
-> @@ -391,6 +393,14 @@ static void cap_nested_kvm_hv_apply(SpaprMachineStat=
-e *spapr,
->          error_setg(errp, "No Nested KVM-HV support in TCG");
->          error_append_hint(errp, "Try appending -machine cap-nested-hv=3D=
-off\n");
->      } else if (kvm_enabled()) {
-> +        if (!ppc_check_compat(cpu, CPU_POWERPC_LOGICAL_3_00, 0,
-> +                              spapr->max_compat_pvr)) {
-> +            error_setg(errp, "Nested KVM-HV only supported on POWER9");
-> +            error_append_hint(errp,
-> +                              "Try appending -machine max-cpu-compat=3Dp=
-ower9\n");
-> +            return;
-> +        }
-> +
->          if (!kvmppc_has_cap_nested_kvm_hv()) {
->              error_setg(errp,
->                         "KVM implementation does not support Nested KVM-H=
-V");
+> Thomas reported device-introspect-test -m slow has become much slower
+> for ppc64.  Bisection traced it to my commit e8c9e65816 "qom: Make "info
+> qom-tree" show children sorted".  Uses default memory size, no
+> spapr-drc-lmb as far as I remember.
+
+Ok, I think that nixes my theory.
+
+> >> >                 Though avoiding a n^2 behaviour here is probably a g=
+ood
+> >> > idea anyway.   =20
+> >>=20
+> >> Agreed. =20
 >=20
+> Patch posted:
 >=20
+>     Subject: [PATCH for-5.1 5/5] qom: Make info qom-tree sort children mo=
+re efficiently
+>     Message-Id: <20200714160202.3121879-6-armbru@redhat.com>
+>=20
+
 
 --=20
-David Gibson			| I'll have my music baroque, and my code
-david AT gibson.dropbear.id.au	| minimalist, thank you.  NOT _the_ _other_
-				| _way_ _around_!
-http://www.ozlabs.org/~dgibson
+David Gibson <dgibson@redhat.com>
+Principal Software Engineer, Virtualization, Red Hat
 
---rCb8EA+9TsBVtA92
-Content-Type: application/pgp-signature; name="signature.asc"
+--Sig_/nbf2n50lxQd+QJ/zuUmJo+b
+Content-Type: application/pgp-signature
+Content-Description: OpenPGP digital signature
 
 -----BEGIN PGP SIGNATURE-----
 
-iQIzBAEBCAAdFiEEdfRlhq5hpmzETofcbDjKyiDZs5IFAl8RPfkACgkQbDjKyiDZ
-s5JdchAAqwHe235vhx/s211Dp0oO8EbHBQt7n2TMBR8NP1uOxh8xXvP1mIKaf5mi
-qf9A0nOK0z6sZf6MRqUgGWQ2LbYDMXVtBLaFx8OeaHR6+nUFSCxgnSXwTtkWia5i
-W9FEUMwqj1lR3JruyUG7Cuocuzm9GXJe5JVnEQndKgPWQDDU/dBmNZe5p4pB6Q6T
-N4C6mdUQPeGsdpiBePUeGiiEPMYShd7wbOhj0wvRftYM1O7zTth/Cytcnd4FtyAu
-DE5jURud8laMrRkzMyLthyyb7nzSqmrq9yOi6fPPH9JxW/pr8fZPbxuuG7EEe83Z
-GUyZdsey2CI1hNUcn/3vC0dgnP5LwjJb7QpUmcsAsebrFlGXidJOSiMfl8exUwXH
-EvW74qtwdfef7670WpuDJrq3gr8PN03LYuA8sQfoV88a9jtwXF2v/xlk+F9KVPYP
-+R2UIbKp+D+A0WmRksWtoOGvyFfQjj8ZaeLDiGOjhXdPGUtjrrK1t4/sdeAkHElX
-S7t0y+SIeBmvtA5jsI5opiBe3HdNGD0iFXX5i6F8UZ86cjL4p9+bnf+7fj5ZQtC2
-6qoFTAXX065QCJRZYTRjdLCE9J9mhZIo2Rn8oTaIZnsFAgtv9uBex7AyEfo+Qp8A
-YY/j11XKJ0o0WfHF/wZd9TyrkH+PQtbdTqnPEsrOT8QOlZe0PAM=
-=xkhM
+iQIzBAEBCAAdFiEEdfRlhq5hpmzETofcbDjKyiDZs5IFAl8RPo0ACgkQbDjKyiDZ
+s5KwIRAAma9JVIYnLaQk0MY0NQFFf6FIPsgrdl4gB5vC7x5ayYzz+5IbYETdVFcU
+WYrHnQPM+OgYLawmmAVG7EjwsoIzupzduVxVq1hGsPiTJrOGZtrWWmPRKoLctbPT
+rWeKXzvEmXgYeP5zpD/IwyBa/jGHjQfUhdn/2bz5GbQyQzLxtQe1KIeJSI8dNWwa
+YwYE6Fzb810IFuqSQUFFmumv4+GnuUGrq+3CPwLM4W4Y9fBVt3UsnM1M/0Ksx9aH
+hM+x7l9MJYnEXR6okRMdKzD/TovQZch60+Gdii8z6O7QHiYuBzOFejuTI/6R4OAt
+I9H0eD6xUBtJCadkdtlgu1DYe9eFSKWhXf7CDudcoTuawU+Xg5eSnTBUp0mKDItW
+49fHpIAvWtdkkcaD8y3YroPMkntcasALMpDFWlx2TairarauZSjOnKVXhOXReei6
+0ChkE9pc1DR8Mdu8DwPWCI0bKcK6ky/RxutNTJwl2LCskonJr1OA1xtLQJWlLWcG
+7K0lTzC/sCli6Z0HrOYTJ11b32FT6YvmjGyHDgQC6WPMo8X6gPdkH4OAXnjCMzEm
+ebbO13Gq2Z+yJQiPsd4nb8j9SGIrM/LlBSGl4NmkySnLvw0tQj5Vk6Rq+mLb8XOJ
+tcRccwgt3azceZE4GbeXxsCFqU7TlblGD1Kt+4Ff5XYrElWBNoc=
+=kt24
 -----END PGP SIGNATURE-----
 
---rCb8EA+9TsBVtA92--
+--Sig_/nbf2n50lxQd+QJ/zuUmJo+b--
+
 
