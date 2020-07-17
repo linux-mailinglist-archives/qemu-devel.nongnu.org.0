@@ -2,110 +2,115 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9FCC6223FD1
-	for <lists+qemu-devel@lfdr.de>; Fri, 17 Jul 2020 17:43:02 +0200 (CEST)
-Received: from localhost ([::1]:50742 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 71085223F9F
+	for <lists+qemu-devel@lfdr.de>; Fri, 17 Jul 2020 17:32:00 +0200 (CEST)
+Received: from localhost ([::1]:36458 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jwRto-0003dV-7o
-	for lists+qemu-devel@lfdr.de; Fri, 17 Jul 2020 11:03:44 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:32990)
+	id 1jwSL9-0006Sg-GU
+	for lists+qemu-devel@lfdr.de; Fri, 17 Jul 2020 11:31:59 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:40524)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <vsementsov@virtuozzo.com>)
- id 1jwRrH-0002Gz-58; Fri, 17 Jul 2020 11:01:07 -0400
-Received: from mail-eopbgr30091.outbound.protection.outlook.com
- ([40.107.3.91]:30380 helo=EUR03-AM5-obe.outbound.protection.outlook.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <vsementsov@virtuozzo.com>)
- id 1jwRrA-0000i5-P8; Fri, 17 Jul 2020 11:01:06 -0400
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=mtQ/2OioqBIynolR+lqTSfGSVW9dbqA4dPaU6RxkqqTLH6oqlyCqNB7dEb1GzeKMhSHQxVo57fNVxEYZR64GIFF4pwACqDyFKBTVVcwIzUOxA9G5btktnC5vbbKI+CATg3z5kKH+wgUpbFfVBL3IjLKDNmTgQ3/Asu3bXAYxFWiO4dRtE9dus6fsmbHbhqmVoI4AAtPPWFCSU/iThRy82Skf3HS6o1kUTPjNEXmEQ5k1dN6iunGSnaBxbpa8nSrnbeRH7KhT2RssSoit6KlvDOqIM25UbonFPgjBoj8IpGVQCREkyW0pM1H66/sXg7gQkeuvE5c8ZUhdBZEsIcWKrQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=F8qoplOCrbgtxqu6rR3sHJ7TzU1uQMdiyIuTdkTVbv4=;
- b=l1ha+bPSZJYMaFiBKysMvJfS5gThJ4fjipZGAneexiTZ/w/usRyT38uksN53k4gmEPyKsBYlAVyC2vA3qRzMI53+UdVSKlAocbtjWmOWskR1QqjpSafDmzGB6xMvT+mmEvFI+Zc0picN6gjdWKP2B1zZp2JHbsQyVCDTsnD1XjSGEbBKdpeABd2szT1F3P5MtRyAUx4zhl0kN2cRB8X+cjqFJvJVA5lOTfciMK1wDICxtAKzgGSkwNkXmsK6vTrcDvK8/h8QUEbHm1ma4wff8NRDnhRrcZXS4hy3lN9svmAJzneGwjSjQmHMnUdlMacpxRdQFg9KvPNkKckEFZrapw==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=virtuozzo.com; dmarc=pass action=none
- header.from=virtuozzo.com; dkim=pass header.d=virtuozzo.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=virtuozzo.com;
- s=selector2;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=F8qoplOCrbgtxqu6rR3sHJ7TzU1uQMdiyIuTdkTVbv4=;
- b=q+BcRLBaoo5QAg9EySbNViA7/uxlu1ipRb/kUSmQsEX02eEg1bX5R5DZdOZK/RjFbm0H6+9C335L3drlfmPmIHVlK+Fq0kNRNnCkEUf4lcRNdL2EgqjyqYGsRb5zgzxRmGEGEpEp8afSq4PwnT2n9rfX5fZJXF3ZB2aPv6+VidQ=
-Authentication-Results: openvz.org; dkim=none (message not signed)
- header.d=none;openvz.org; dmarc=none action=none header.from=virtuozzo.com;
-Received: from AM7PR08MB5494.eurprd08.prod.outlook.com (2603:10a6:20b:dc::15)
- by AM6PR08MB4916.eurprd08.prod.outlook.com (2603:10a6:20b:ca::17)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3195.18; Fri, 17 Jul
- 2020 15:00:53 +0000
-Received: from AM7PR08MB5494.eurprd08.prod.outlook.com
- ([fe80::a408:2f0f:bc6c:d312]) by AM7PR08MB5494.eurprd08.prod.outlook.com
- ([fe80::a408:2f0f:bc6c:d312%3]) with mapi id 15.20.3195.022; Fri, 17 Jul 2020
- 15:00:53 +0000
-Subject: Re: [PATCH v3 for-5.1 0/2] Fix crash due to NBD export leak
-To: Kevin Wolf <kwolf@redhat.com>
-References: <20200714162234.13113-1-vsementsov@virtuozzo.com>
- <20200717120119.GC4550@linux.fritz.box>
-From: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
-Message-ID: <fb53ce2e-74a4-65c2-4347-878a88270591@virtuozzo.com>
-Date: Fri, 17 Jul 2020 18:00:51 +0300
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1jwSJp-0005sX-M6
+ for qemu-devel@nongnu.org; Fri, 17 Jul 2020 11:30:37 -0400
+Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:25750
+ helo=us-smtp-1.mimecast.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1jwSJm-0006t0-Qt
+ for qemu-devel@nongnu.org; Fri, 17 Jul 2020 11:30:37 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1594999833;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
+ bh=7RpVnQ6ZZ6dlWV8CePWkjA1hbCvX5kWsOOkkParpKjs=;
+ b=HmtHefHf+nQFKkTMdaUxPpuPY4R8s7uPf5/FJUj6Uf4rkaozu9sYNQwq/j1dq4lsJgEEVf
+ F6pem45mBUyseAtA6fDRLhpGhMCNK9w85CFUnKQnQiHeGOazcKEI7HrJc12tldl2s94d7U
+ agimD2MPPJG9vtrlcjmKVG5yOsCiMIk=
+Received: from mail-ed1-f69.google.com (mail-ed1-f69.google.com
+ [209.85.208.69]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-422-CygeNArGM6eLKyAkns1WYA-1; Fri, 17 Jul 2020 11:30:31 -0400
+X-MC-Unique: CygeNArGM6eLKyAkns1WYA-1
+Received: by mail-ed1-f69.google.com with SMTP id u25so6171262edq.1
+ for <qemu-devel@nongnu.org>; Fri, 17 Jul 2020 08:30:31 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:subject:to:cc:references:from:autocrypt
+ :message-id:date:user-agent:mime-version:in-reply-to
+ :content-language:content-transfer-encoding;
+ bh=7RpVnQ6ZZ6dlWV8CePWkjA1hbCvX5kWsOOkkParpKjs=;
+ b=hQyk0qTUV2TLAEiv1CxTsJUzdi1UEcoN5N/6vFFnZwYwJR6nq8M9oQjC9VemPxdhue
+ pinefiUfGSSyEj1FC86na2lCUkU6EmCB1UlpRouvpPwnvtyKc4tPlS29FsouBwawN/+3
+ GHnCqDP1jw997FF0t9Yxq252fRivT/VBH/M2u9YFI9kzkvFsatbxkYgESraasn5M7ILi
+ +HLSIg50aFDZa3thoV++vxg3sQwuzMeuddA9Eg3PMpYL1J1F9XX+S5Sns1B/9RlsxoF/
+ hjDTr1edSecWhiWz8cG/T1ouWzjS9C+3rY+d/9sgIMitQ/f3SRdkJoVFWRk6ii0XNPDg
+ GC1g==
+X-Gm-Message-State: AOAM532Nv2uiiSlzdpc8TH4HT6t981sDuWAFG+0b6lxv6kKUBkzrEXtf
+ CyAjcuXlPr38/AJ7fESHAzb0lgkrk1S5Bo3GLWa5d0UzUnBo2bDl6NTPM5B8ImeMq+H0p9qbKYw
+ RurhKT2Ao6525/iA=
+X-Received: by 2002:a05:6402:543:: with SMTP id
+ i3mr9428759edx.182.1594999829910; 
+ Fri, 17 Jul 2020 08:30:29 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJzfJ5946NuO8EYBdcqlrzyT36EL5bKAY3+RO92LnnR0YAfGb2JGc2OKsik750/to3ufDM7F3Q==
+X-Received: by 2002:a05:6402:543:: with SMTP id
+ i3mr9428734edx.182.1594999829528; 
+ Fri, 17 Jul 2020 08:30:29 -0700 (PDT)
+Received: from [192.168.1.37] (138.red-83-57-170.dynamicip.rima-tde.net.
+ [83.57.170.138])
+ by smtp.gmail.com with ESMTPSA id y22sm8544256edl.84.2020.07.17.08.30.28
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Fri, 17 Jul 2020 08:30:28 -0700 (PDT)
+Subject: Re: [PATCH for-5.1] Makefile: Remove config-devices.mak on "make
+ clean"
+To: Peter Maydell <peter.maydell@linaro.org>, qemu-devel@nongnu.org
+References: <20200717152508.10272-1-peter.maydell@linaro.org>
+From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
+Autocrypt: addr=philmd@redhat.com; keydata=
+ mQINBDXML8YBEADXCtUkDBKQvNsQA7sDpw6YLE/1tKHwm24A1au9Hfy/OFmkpzo+MD+dYc+7
+ bvnqWAeGweq2SDq8zbzFZ1gJBd6+e5v1a/UrTxvwBk51yEkadrpRbi+r2bDpTJwXc/uEtYAB
+ GvsTZMtiQVA4kRID1KCdgLa3zztPLCj5H1VZhqZsiGvXa/nMIlhvacRXdbgllPPJ72cLUkXf
+ z1Zu4AkEKpccZaJspmLWGSzGu6UTZ7UfVeR2Hcc2KI9oZB1qthmZ1+PZyGZ/Dy+z+zklC0xl
+ XIpQPmnfy9+/1hj1LzJ+pe3HzEodtlVA+rdttSvA6nmHKIt8Ul6b/h1DFTmUT1lN1WbAGxmg
+ CH1O26cz5nTrzdjoqC/b8PpZiT0kO5MKKgiu5S4PRIxW2+RA4H9nq7nztNZ1Y39bDpzwE5Sp
+ bDHzd5owmLxMLZAINtCtQuRbSOcMjZlg4zohA9TQP9krGIk+qTR+H4CV22sWldSkVtsoTaA2
+ qNeSJhfHQY0TyQvFbqRsSNIe2gTDzzEQ8itsmdHHE/yzhcCVvlUzXhAT6pIN0OT+cdsTTfif
+ MIcDboys92auTuJ7U+4jWF1+WUaJ8gDL69ThAsu7mGDBbm80P3vvUZ4fQM14NkxOnuGRrJxO
+ qjWNJ2ZUxgyHAh5TCxMLKWZoL5hpnvx3dF3Ti9HW2dsUUWICSQARAQABtDJQaGlsaXBwZSBN
+ YXRoaWV1LURhdWTDqSAoUGhpbCkgPHBoaWxtZEByZWRoYXQuY29tPokCVQQTAQgAPwIbDwYL
+ CQgHAwIGFQgCCQoLBBYCAwECHgECF4AWIQSJweePYB7obIZ0lcuio/1u3q3A3gUCXsfWwAUJ
+ KtymWgAKCRCio/1u3q3A3ircD/9Vjh3aFNJ3uF3hddeoFg1H038wZr/xi8/rX27M1Vj2j9VH
+ 0B8Olp4KUQw/hyO6kUxqkoojmzRpmzvlpZ0cUiZJo2bQIWnvScyHxFCv33kHe+YEIqoJlaQc
+ JfKYlbCoubz+02E2A6bFD9+BvCY0LBbEj5POwyKGiDMjHKCGuzSuDRbCn0Mz4kCa7nFMF5Jv
+ piC+JemRdiBd6102ThqgIsyGEBXuf1sy0QIVyXgaqr9O2b/0VoXpQId7yY7OJuYYxs7kQoXI
+ 6WzSMpmuXGkmfxOgbc/L6YbzB0JOriX0iRClxu4dEUg8Bs2pNnr6huY2Ft+qb41RzCJvvMyu
+ gS32LfN0bTZ6Qm2A8ayMtUQgnwZDSO23OKgQWZVglGliY3ezHZ6lVwC24Vjkmq/2yBSLakZE
+ 6DZUjZzCW1nvtRK05ebyK6tofRsx8xB8pL/kcBb9nCuh70aLR+5cmE41X4O+MVJbwfP5s/RW
+ 9BFSL3qgXuXso/3XuWTQjJJGgKhB6xXjMmb1J4q/h5IuVV4juv1Fem9sfmyrh+Wi5V1IzKI7
+ RPJ3KVb937eBgSENk53P0gUorwzUcO+ASEo3Z1cBKkJSPigDbeEjVfXQMzNt0oDRzpQqH2vp
+ apo2jHnidWt8BsckuWZpxcZ9+/9obQ55DyVQHGiTN39hkETy3Emdnz1JVHTU0Q==
+Message-ID: <6b2ea83f-2dbb-5ba1-8151-b275b80b3644@redhat.com>
+Date: Fri, 17 Jul 2020 17:30:27 +0200
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.10.0
-In-Reply-To: <20200717120119.GC4550@linux.fritz.box>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-X-ClientProxiedBy: AM4PR0701CA0003.eurprd07.prod.outlook.com
- (2603:10a6:200:42::13) To AM7PR08MB5494.eurprd08.prod.outlook.com
- (2603:10a6:20b:dc::15)
+ Thunderbird/68.5.0
 MIME-Version: 1.0
-X-MS-Exchange-MessageSentRepresentingType: 1
-Received: from [192.168.100.2] (185.215.60.164) by
- AM4PR0701CA0003.eurprd07.prod.outlook.com (2603:10a6:200:42::13) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3195.11 via Frontend
- Transport; Fri, 17 Jul 2020 15:00:52 +0000
-X-Originating-IP: [185.215.60.164]
-X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: 82c4e9f7-be31-4397-bb3f-08d82a62336b
-X-MS-TrafficTypeDiagnostic: AM6PR08MB4916:
-X-MS-Exchange-Transport-Forked: True
-X-Microsoft-Antispam-PRVS: <AM6PR08MB4916FF018DE6FE9767E80CC1C17C0@AM6PR08MB4916.eurprd08.prod.outlook.com>
-X-MS-Oob-TLC-OOBClassifiers: OLM:8882;
-X-MS-Exchange-SenderADCheck: 1
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: BAwE/DKEhduu6OV5loYeZHjCpkDr48F4IQNAxfD42UBJjSNMr8BrvoEku2jk/A/shXdbagYmZ+8E2kineQbY0sX8cwXDHC4gtqrazm1wRap8chTksLu9xIkKy/rnMrCOyyorNSxJunEE6zRpj3e5l/0YpW6nSXYbEnlA2yiIT4UFTsPkjg/ghNB+x9IDAODWQSQqf+b+TQ2ksiGXS9dD7yp5rR25m8UCu5JBJV3HSVu5vGdBnVk074lwIYwYldhlJy2iAWJdPdeAYA4+iB11+edEk613xp/DHJfamcV+2OcMryD/WBushqWXT4QgbyGr+iIqbQJNvMZ0ohfWcNSFL7MOwByJ3Uj66NDVIrGaP2SsE376kiA8elfM1ZsHNbBL
-X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:AM7PR08MB5494.eurprd08.prod.outlook.com; PTR:; CAT:NONE;
- SFTY:;
- SFS:(4636009)(346002)(366004)(136003)(376002)(396003)(39840400004)(16576012)(107886003)(8676002)(8936002)(6486002)(16526019)(31696002)(186003)(31686004)(36756003)(316002)(4326008)(86362001)(52116002)(6916009)(5660300002)(66946007)(26005)(66556008)(66476007)(478600001)(956004)(2616005)(2906002)(83380400001)(43740500002);
- DIR:OUT; SFP:1102; 
-X-MS-Exchange-AntiSpam-MessageData: Zgl6vLMXjaKGHp7IbGONEe9c8IjREZlZuv9i4AyIEqkcL7NSosr0OJWyH1aL0oxZnm/tl0GuyiB3JBoY/PIBxqeCd6Yl/cJofadbHzCk4BBakanwexe0SkL79SEXhQKhsC8IOuTA0XDFMugQLfBoZzWC6MhPnnpGlgbHcMb13JJnOC3dTZMIqhTIrv0gcpa3Zvl+iXzQQ8+qei3WZzHBG3Lqv1+REeSGzIYn+q9TCJFzU7vxxknjqkwQtS4pJhDXXxCKgS+3b+XpSF94HK9lHiLBP64ghuPN20/JNBLBw4SSrFQyLByFI38U6hA5s8Zns3o9uki27pUWu7IUIs11ZydstPL00UKNEpRv30g1UzZL5unYnXmBmxRf6xHsG3XHjHNU+xIsd3qG+dy9Oorf0QrdMYS7FNQUqDQ1bqD7/Cfk/42WV28x53pocpxlCRM1GUoZo9kdGoiV3AWcWYIQ+JrCnlROxRZARsFfxKZKBEs=
-X-OriginatorOrg: virtuozzo.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 82c4e9f7-be31-4397-bb3f-08d82a62336b
-X-MS-Exchange-CrossTenant-AuthSource: AM7PR08MB5494.eurprd08.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 17 Jul 2020 15:00:53.2328 (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 0bc7f26d-0264-416e-a6fc-8352af79c58f
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: +QdIG3Q8OC1hHJZzo3e/CCdwcSfNqSBJ9P/jcM+07HQXyQYjaTlTYC8kYV2WDPGV+3gQUveFalPev75q+YRtM6/utIXYbsUYikGxoDUU1jc=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: AM6PR08MB4916
-Received-SPF: pass client-ip=40.107.3.91;
- envelope-from=vsementsov@virtuozzo.com;
- helo=EUR03-AM5-obe.outbound.protection.outlook.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/07/17 11:00:54
-X-ACL-Warn: Detected OS   = Windows NT kernel [generic] [fuzzy]
-X-Spam_score_int: -37
-X-Spam_score: -3.8
-X-Spam_bar: ---
-X-Spam_report: (-3.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- MSGID_FROM_MTA_HEADER=0.001, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-1,
- SPF_HELO_PASS=-0.001, SPF_PASS=-0.001,
- URIBL_BLOCKED=0.001 autolearn=ham autolearn_force=no
+In-Reply-To: <20200717152508.10272-1-peter.maydell@linaro.org>
+Content-Language: en-US
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=205.139.110.120; envelope-from=philmd@redhat.com;
+ helo=us-smtp-1.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/07/16 23:13:19
+X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
+X-Spam_score_int: -40
+X-Spam_score: -4.1
+X-Spam_bar: ----
+X-Spam_report: (-4.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-1, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -118,44 +123,57 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-block@nongnu.org, qemu-devel@nongnu.org, mreitz@redhat.com,
- stefanha@redhat.com, den@openvz.org
+Cc: Paolo Bonzini <pbonzini@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-17.07.2020 15:01, Kevin Wolf wrote:
-> Am 14.07.2020 um 18:22 hat Vladimir Sementsov-Ogievskiy geschrieben:
->> Hi all!
->>
->> We've faced crash bug, which is reproducing on master branch as well.
->> The case is described in 01, where fix is suggested.
->> New iotest in 02 crashes without that fix.
->>
->> v3: resend for convenience, as all preparatory patches are merged.
->> 01-02: add Eric's r-b and t-b marks
->>
->> ====
->>
->> This is a crash-fix, so it would be good to fix in 5.1. Still neither
->> Eric nor I are sure in patch 01: is AIO_WAIT_WHILE used correctly?
+On 7/17/20 5:25 PM, Peter Maydell wrote:
+> The config-devices.mak files are generated by "make", and so they
+> should be deleted by "make clean".
 > 
-> Anything specific you had doubts about?
+> (This is different from config-host.mak and config-all-disas.mak,
+> which are created by "configure" and so only deleted by
+> "make distclen".)
+
+typo "distclean"
+
 > 
-> At first sight it looks good to me. It's always called in the main loop
-> and we don't hold any AioContext locks, so using NULL as the context is
-> fine. You also made sure to use aio_wait_kick() so that we won't hang
-> even though the condition has become false.
+> If we don't delete these files on "make clean", then the build
+> tree is left in a state where it has the config-devices.mak
+> file but not the config-devices.mak.d file, and make will not
+> realize that it needs to rebuild config-devices.mak if, for
+> instance, hw/sd/Kconfig changes.
 > 
-> I'm applying this to my block branch now. If your doubts were about
-> something more subtle that I missed, we can unstage/revert the patch.
-> 
-> Kevin
+> NB: config-all-devices.mak is also generated by "make", but we
+> already remove it on "make clean".
 > 
 
-Nothing specific, thanks!
+Suggested-by: Paolo Bonzini <pbonzini@redhat.com> ?
 
+Reviewed-by: Philippe Mathieu-Daudé <philmd@redhat.com>
 
--- 
-Best regards,
-Vladimir
+> Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
+> ---
+> I didn't remove the existing 'rm -f $(SUBDIR_DEVICES_MAK)'
+> from the 'distclean' rules on the basis that config-all-devices.mak
+> is explicitly removed in both 'distclean' and 'clean', despite
+> 'distclean' depending on 'clean'...
+> ---
+>  Makefile | 1 +
+>  1 file changed, 1 insertion(+)
+> 
+> diff --git a/Makefile b/Makefile
+> index 32345c610ee..c2120d8d48d 100644
+> --- a/Makefile
+> +++ b/Makefile
+> @@ -775,6 +775,7 @@ clean: recurse-clean
+>  	rm -f storage-daemon/qapi/qapi-gen-timestamp
+>  	rm -rf qga/qapi-generated
+>  	rm -f config-all-devices.mak
+> +	rm -f $(SUBDIR_DEVICES_MAK)
+>  
+>  VERSION ?= $(shell cat VERSION)
+>  
+> 
+
 
