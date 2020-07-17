@@ -2,67 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 332C62242FE
-	for <lists+qemu-devel@lfdr.de>; Fri, 17 Jul 2020 20:18:29 +0200 (CEST)
-Received: from localhost ([::1]:37870 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id BB129224300
+	for <lists+qemu-devel@lfdr.de>; Fri, 17 Jul 2020 20:18:32 +0200 (CEST)
+Received: from localhost ([::1]:38174 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jwUwF-0001Bk-ME
-	for lists+qemu-devel@lfdr.de; Fri, 17 Jul 2020 14:18:27 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:37050)
+	id 1jwUwJ-0001JM-QE
+	for lists+qemu-devel@lfdr.de; Fri, 17 Jul 2020 14:18:31 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:37088)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1jwUuL-0008RK-Fu
- for qemu-devel@nongnu.org; Fri, 17 Jul 2020 14:16:29 -0400
-Received: from mail-pl1-x62a.google.com ([2607:f8b0:4864:20::62a]:33248)
+ id 1jwUuO-0008T4-Ap
+ for qemu-devel@nongnu.org; Fri, 17 Jul 2020 14:16:32 -0400
+Received: from mail-pj1-x102b.google.com ([2607:f8b0:4864:20::102b]:52907)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1jwUuJ-0003GH-6p
- for qemu-devel@nongnu.org; Fri, 17 Jul 2020 14:16:29 -0400
-Received: by mail-pl1-x62a.google.com with SMTP id 72so5797291ple.0
- for <qemu-devel@nongnu.org>; Fri, 17 Jul 2020 11:16:26 -0700 (PDT)
+ id 1jwUuL-0003Gj-2s
+ for qemu-devel@nongnu.org; Fri, 17 Jul 2020 14:16:30 -0400
+Received: by mail-pj1-x102b.google.com with SMTP id gc9so6924495pjb.2
+ for <qemu-devel@nongnu.org>; Fri, 17 Jul 2020 11:16:27 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=Eh/urPCZyEjBe0HBw89fGP5pnfezlB/ZwMVheBt3xTs=;
- b=ly8K5F9KKEZ3th0zchH9QHAaRWBruOElbEx/Xhc/F8GJOvkILX8pDWYSVMgvWKY+E+
- zAqyW9xtwFOt4WL0CS8VktfhZMlUrDAZDI6P7X4opA4adTowW7rzOZTj7mjGa9n5UyVd
- XfhISo+MwyaLV/yytCnXbIWqjoVd7UbY2BKw1eVTjIigeVQRnzD60MQGROvt2uknp64W
- 7OibGueXDlXrqCN4vqWg0tGjx4lJC9txKGT65oDGdaPb1zAq+Vp7hAynQMMoN3BTtoZB
- 1SVqsqUrHoYlR7U0W8YtYlOodM7A0YvzCsilEtbIcJCmnC4b/FOhpVHzbG+R32zEew5W
- Nh8Q==
+ h=from:to:cc:subject:date:message-id:in-reply-to:references
+ :mime-version:content-transfer-encoding;
+ bh=1xo/F7/aAE6h7nPyZHFzXrWII41wbW4AOQQ3nfWZDVk=;
+ b=QiNeEiMGpGrZ6xkpRErjKyWf1u+hT0g/Ix+B3362CKVmQqfSAzX4t+JoSwiK7rt1GI
+ PnQ/pVwJrurcQkw7qE6YUYJxkPGuYq6jUSOTO7BHN97KKsXLG6wtcvNtLIcOoEpUlpkD
+ om1dg+givkjG5/F1y/pt/J5o+J0VF/7hi3JnGjAx335eNbKMo1BFWmXo7b+sDEy3TfBB
+ 03o05AQQsvklldqX5+hYmzYFkiJ2OlfP/3CiGnx6SWivmH3lYErloUydfvVUXGVoXUED
+ oTliO4CGviN7kb0c0f92ZrxS0UzLzVph29PWK71gsYo+H1XLk3rxKOEYiUboQ3CUnbZw
+ vT7Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=Eh/urPCZyEjBe0HBw89fGP5pnfezlB/ZwMVheBt3xTs=;
- b=tNCvhd2wNiBmGBVnn60d3PcUKXY5eZFQoJIYBVhfg157fYJ8Nt0TQl2UTVQYJNHbJN
- jLvRR3t+3Zq3fp0r8SXW+Ks6F4eeQ01pYI8Rwdr90fNI6WK57nex5AKidFjTpxSZCELN
- VHv/XNepv1jghXF3RGyoAXD4JW6jH5jNHgPB5F1PKxLjUutkqWNI/v1x+o6qjnPDXlw9
- 8d+XN3rygSOktOGi4kuh0/6rWS6/dTn0UkMMMX+uCpjG4bFuQvpsHIfRtKn82WF6NqsZ
- VwlXZgNdQgEslJcanAsh9GNsuZDqXZdn85cLcagurCzq8bPU+vYc32JdFJzGAQ5gULqJ
- eRIg==
-X-Gm-Message-State: AOAM532zaYy2Ku4iB7viz9N/NmPT5i1ZRnq4KCs8s0m5N9qdr5hAl0r1
- umpW8+SKj+F0nIP1kSmg88aeMg5Utkw=
-X-Google-Smtp-Source: ABdhPJxOHCXCkYiDBoZcCfq+9Cum2NMc07U/OZ8JjOEhuXuzHdZmjM3cMNBXCrImjNpuHkWHC8KnQA==
-X-Received: by 2002:a17:902:9a42:: with SMTP id
- x2mr8704252plv.174.1595009785106; 
- Fri, 17 Jul 2020 11:16:25 -0700 (PDT)
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+ :references:mime-version:content-transfer-encoding;
+ bh=1xo/F7/aAE6h7nPyZHFzXrWII41wbW4AOQQ3nfWZDVk=;
+ b=Wot4jBr8gf0t4Sg+4a7Xa8Qxil0/Yc1Gv7XHSSsxa5zlplL24bQMViT+9+6Yn4XBkg
+ 8pnrAGWHp+Jnz52EMY3RgWTcvS9/DYt405s0Tf8OLLcNlLO8o2or5TjJJObR4af+gDLm
+ 3eOZn36/Fsgxi0FMu0rjYPzMRlpKnGjO+TTc5kWA/FiT0VOd0BXw44ncbhXjyZnO/BpF
+ rDrAfs4M1LwsjCsF6LMosremSgqUio9HKr4f8lGfKjCXqaW3zfVYHZdunUuqCPVgJtAd
+ eCNWYvyD/Iny2vUVj5TSujJKPFGv5x7e49dKcFFBoJRmoRyMTAjUj3a4Kv/PGBEaxoQQ
+ JYgw==
+X-Gm-Message-State: AOAM5327674h/nyZ8YUQ9IptIj3wziiOguWu8aBwmE+dU2UOtKb/i1dS
+ 2ZtvgBCENi5J6DcX7Px8tjq9XJIGg/k=
+X-Google-Smtp-Source: ABdhPJzKu46eNv/fCzl+i1f6Wk3rhb0eFtTxgE2UWZp/MezB8M9HypcjdczVNGDn24j5Sc2hHo9tnQ==
+X-Received: by 2002:a17:902:d392:: with SMTP id
+ e18mr8347442pld.139.1595009786311; 
+ Fri, 17 Jul 2020 11:16:26 -0700 (PDT)
 Received: from localhost.localdomain (216-160-65-90.tukw.qwest.net.
  [216.160.65.90])
- by smtp.gmail.com with ESMTPSA id r7sm8698578pgu.51.2020.07.17.11.16.24
+ by smtp.gmail.com with ESMTPSA id r7sm8698578pgu.51.2020.07.17.11.16.25
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 17 Jul 2020 11:16:24 -0700 (PDT)
+ Fri, 17 Jul 2020 11:16:25 -0700 (PDT)
 From: Richard Henderson <richard.henderson@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PULL for-5.1 0/3] tcg patch queue
-Date: Fri, 17 Jul 2020 11:16:20 -0700
-Message-Id: <20200717181623.2742758-1-richard.henderson@linaro.org>
+Subject: [PULL for-5.1 1/3] tcg: Save/restore vecop_list around minmax fallback
+Date: Fri, 17 Jul 2020 11:16:21 -0700
+Message-Id: <20200717181623.2742758-2-richard.henderson@linaro.org>
 X-Mailer: git-send-email 2.25.1
+In-Reply-To: <20200717181623.2742758-1-richard.henderson@linaro.org>
+References: <20200717181623.2742758-1-richard.henderson@linaro.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::62a;
- envelope-from=richard.henderson@linaro.org; helo=mail-pl1-x62a.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::102b;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pj1-x102b.google.com
 X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
  That's all we know.
 X-Spam_score_int: -20
@@ -88,31 +90,30 @@ Cc: peter.maydell@linaro.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The following changes since commit 95d1fbabae0cd44156ac4b96d512d143ca7dfd5e:
+Forgetting this asserts when tcg_gen_cmp_vec is called from
+within tcg_gen_cmpsel_vec.
 
-  Merge remote-tracking branch 'remotes/kraxel/tags/fixes-20200716-pull-request' into staging (2020-07-16 18:50:51 +0100)
+Fixes: 72b4c792c7a
+Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
+---
+ tcg/tcg-op-vec.c | 2 ++
+ 1 file changed, 2 insertions(+)
 
-are available in the Git repository at:
+diff --git a/tcg/tcg-op-vec.c b/tcg/tcg-op-vec.c
+index f784517d84..ed6fb55fe1 100644
+--- a/tcg/tcg-op-vec.c
++++ b/tcg/tcg-op-vec.c
+@@ -657,7 +657,9 @@ static void do_minmax(unsigned vece, TCGv_vec r, TCGv_vec a,
+                       TCGv_vec b, TCGOpcode opc, TCGCond cond)
+ {
+     if (!do_op3(vece, r, a, b, opc)) {
++        const TCGOpcode *hold_list = tcg_swap_vecop_list(NULL);
+         tcg_gen_cmpsel_vec(cond, vece, r, a, b, a, b);
++        tcg_swap_vecop_list(hold_list);
+     }
+ }
+ 
+-- 
+2.25.1
 
-  https://github.com/rth7680/qemu.git tags/pull-tcg-20200717
-
-for you to fetch changes up to ba3c35d9c4026361fd380b269dc6def9510b7166:
-
-  tcg/cpu-exec: precise single-stepping after an interrupt (2020-07-17 11:09:34 -0700)
-
-----------------------------------------------------------------
-Fix vector min/max fallback expansion
-Fix singlestep from exception and interrupt
-
-----------------------------------------------------------------
-Luc Michel (1):
-      tcg/cpu-exec: precise single-stepping after an exception
-
-Richard Henderson (2):
-      tcg: Save/restore vecop_list around minmax fallback
-      tcg/cpu-exec: precise single-stepping after an interrupt
-
- accel/tcg/cpu-exec.c | 19 ++++++++++++++++++-
- tcg/tcg-op-vec.c     |  2 ++
- 2 files changed, 20 insertions(+), 1 deletion(-)
 
