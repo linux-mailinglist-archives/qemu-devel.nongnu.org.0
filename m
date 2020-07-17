@@ -2,57 +2,85 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 22633224207
-	for <lists+qemu-devel@lfdr.de>; Fri, 17 Jul 2020 19:41:57 +0200 (CEST)
-Received: from localhost ([::1]:33888 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0DBB322421D
+	for <lists+qemu-devel@lfdr.de>; Fri, 17 Jul 2020 19:42:55 +0200 (CEST)
+Received: from localhost ([::1]:37232 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jwUMt-0003Ga-Ng
-	for lists+qemu-devel@lfdr.de; Fri, 17 Jul 2020 13:41:55 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:55620)
+	id 1jwUNq-0004cE-4I
+	for lists+qemu-devel@lfdr.de; Fri, 17 Jul 2020 13:42:54 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:56054)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <groug@kaod.org>) id 1jwULP-0002dx-14
- for qemu-devel@nongnu.org; Fri, 17 Jul 2020 13:40:23 -0400
-Received: from us-smtp-1.mimecast.com ([207.211.31.81]:48919
- helo=us-smtp-delivery-1.mimecast.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <groug@kaod.org>) id 1jwULN-0001sz-Ic
- for qemu-devel@nongnu.org; Fri, 17 Jul 2020 13:40:22 -0400
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-419-sq4Ls5n3MhS_HQk96JGEcg-1; Fri, 17 Jul 2020 13:40:08 -0400
-X-MC-Unique: sq4Ls5n3MhS_HQk96JGEcg-1
-Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
- [10.5.11.12])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 8F1B1108E;
- Fri, 17 Jul 2020 17:40:07 +0000 (UTC)
-Received: from bahia.lan (ovpn-113-187.ams2.redhat.com [10.36.113.187])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 9D8FB619C4;
- Fri, 17 Jul 2020 17:40:06 +0000 (UTC)
-Subject: [PATCH for-5.2] spapr: Simplify error handling in spapr_phb_realize()
-From: Greg Kurz <groug@kaod.org>
-To: David Gibson <david@gibson.dropbear.id.au>
-Date: Fri, 17 Jul 2020 19:40:05 +0200
-Message-ID: <159500760539.383731.10928308889360009122.stgit@bahia.lan>
-User-Agent: StGit/0.21
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1jwUMW-0003SY-2u
+ for qemu-devel@nongnu.org; Fri, 17 Jul 2020 13:41:33 -0400
+Received: from mail-pj1-x1044.google.com ([2607:f8b0:4864:20::1044]:52432)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1jwUMU-0002GJ-A9
+ for qemu-devel@nongnu.org; Fri, 17 Jul 2020 13:41:31 -0400
+Received: by mail-pj1-x1044.google.com with SMTP id gc9so6886604pjb.2
+ for <qemu-devel@nongnu.org>; Fri, 17 Jul 2020 10:41:29 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=subject:to:cc:references:from:message-id:date:user-agent
+ :mime-version:in-reply-to:content-language:content-transfer-encoding;
+ bh=1TDrNTkhB473c5qVYfwnXP6IWa98wganudA4OflRNVI=;
+ b=lRrLP6ZsOoXQWnq4tI6G3+KMQAU/J+X/p4Z1icfMXnArh/0j3gtZsjH3+vQK5EDb9R
+ tYneJKw4igFSXNe1F60/cjAcYCrEloCLX3h3ICKzKQcv1zo/iiFUlQ5STWjt/8ck5AMj
+ nMABe+pep3mGk2g7Fl2woIDmP1frEGnDUMFtE5LFxXUd/76UoKfG1t7Z84KtzqCepUkE
+ 4eWn2IrqnGUcGt4oO0yi/TYGQ+arp3Gl2H2dS2hVjqmdPTJCZw2ycNGqP+fxHJQJqTkf
+ vurlg4CjM5rbjdjkrz/epVNnCiTtwJuyElXSn0zvFJQwOpud5/s5YF6WbvvKcbk4FAfP
+ M7JA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=1TDrNTkhB473c5qVYfwnXP6IWa98wganudA4OflRNVI=;
+ b=CEwxLf09d3LnkgX+Redyfb1isv7LvMF4b5jx/FXgXOuSGE7cytg1UHKb6KOamf+c/v
+ 6DWUtiV6GJtx36Jld0FeRNqNcQ5j/J0kto6mVih+slFVKj7dP5fk6QOf8nv1zmk9jxJh
+ xji431uV2rw3Y/OQ2z1Q373Sz7an12vYY6pWfC/LEepuKQfDzP0nR2qIn2SBLm/JZ1XW
+ PPDdI2CnrNDbkhs6+/Oo3Xa+mgtgnrX1E+KUukLg3u13CxQM0Rjgo0mnUGOpLTaNCztO
+ huUK8QJQn1ZIq4MaXmK9iLKLosoxhY1hVPVcNvSB0r5WQD4UXOXCvG8SsRCOonpxpl0b
+ 7Yxw==
+X-Gm-Message-State: AOAM533BBaO8I7YXf4crGHMlRbcx3P+NHD5sabi5VFWPKz1I2NdzEN4o
+ 3s2+ZZTAdaE0ChkEA0jkM6lp9w==
+X-Google-Smtp-Source: ABdhPJyABpkdt+/XQ61LcmTRaKxIkkI23LXY5XcSI8lC2enq4JA2sIB6ACGg1p01nQDft8g6cy9z8Q==
+X-Received: by 2002:a17:902:bb8c:: with SMTP id
+ m12mr2117307pls.274.1595007688629; 
+ Fri, 17 Jul 2020 10:41:28 -0700 (PDT)
+Received: from [192.168.1.11] (216-160-65-90.tukw.qwest.net. [216.160.65.90])
+ by smtp.gmail.com with ESMTPSA id
+ 19sm8258721pfy.193.2020.07.17.10.41.27
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Fri, 17 Jul 2020 10:41:27 -0700 (PDT)
+Subject: Re: [PATCH v1 2/5] semihosting: defer connect_chardevs a little more
+ to use serialx
+To: =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>,
+ qemu-devel@nongnu.org
+References: <20200717105139.25293-1-alex.bennee@linaro.org>
+ <20200717105139.25293-3-alex.bennee@linaro.org>
+From: Richard Henderson <richard.henderson@linaro.org>
+Message-ID: <dc7518e0-27c1-7ae8-9c31-842ec7878f42@linaro.org>
+Date: Fri, 17 Jul 2020 10:41:26 -0700
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.10.0
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: kaod.org
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: softfail client-ip=207.211.31.81; envelope-from=groug@kaod.org;
- helo=us-smtp-delivery-1.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/07/17 05:27:47
-X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
-X-Spam_score_int: -12
-X-Spam_score: -1.3
-X-Spam_bar: -
-X-Spam_report: (-1.3 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_NONE=-0.0001,
- RCVD_IN_MSPIKE_H3=-0.01, RCVD_IN_MSPIKE_WL=-0.01, SPF_HELO_NONE=0.001,
- SPF_SOFTFAIL=0.665 autolearn=no autolearn_force=no
+In-Reply-To: <20200717105139.25293-3-alex.bennee@linaro.org>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=2607:f8b0:4864:20::1044;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pj1-x1044.google.com
+X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
+ That's all we know.
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -65,99 +93,26 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-ppc@nongnu.org, qemu-devel@nongnu.org
+Cc: fam@euphon.net, berrange@redhat.com, f4bug@amsat.org,
+ KONRAD Frederic <frederic.konrad@adacore.com>, cota@braap.org,
+ Paolo Bonzini <pbonzini@redhat.com>, aurelien@aurel32.net
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The spapr_phb_realize() function has a local_err variable which
-is used to:
+On 7/17/20 3:51 AM, Alex Bennée wrote:
+> From: KONRAD Frederic <frederic.konrad@adacore.com>
+> 
+> With that we can just use -semihosting-config chardev=serial0.
+> 
+> Signed-off-by: KONRAD Frederic <frederic.konrad@adacore.com>
+> Message-Id: <1592215252-26742-1-git-send-email-frederic.konrad@adacore.com>
+> [AJB: tweak commit message]
+> Signed-off-by: Alex Bennée <alex.bennee@linaro.org>
+> ---
+>  softmmu/vl.c | 5 +++--
+>  1 file changed, 3 insertions(+), 2 deletions(-)
 
-1) check failures of spapr_irq_findone() and spapr_irq_claim()
+Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
 
-2) prepend extra information to the error message
-
-Recent work from Markus Armbruster highlighted we get better
-code when testing the return value of a function, rather than
-setting up all the local_err boiler plate. For similar reasons,
-it is now preferred to use ERRP_GUARD() and error_prepend()
-rather than error_propagate_prepend().
-
-Since spapr_irq_findone() and spapr_irq_claim() return negative
-values in case of failure, do both changes.
-
-This is just cleanup, no functional impact.
-
-Signed-off-by: Greg Kurz <groug@kaod.org>
----
-
-Since we add ERRP_GUARD(), we could theoretically check *errp
-rather than the return value, and thus avoid the uint32_t to
-int32_t change but I personally find it clearer the other way.
----
- hw/ppc/spapr_pci.c |   16 +++++++---------
- 1 file changed, 7 insertions(+), 9 deletions(-)
-
-diff --git a/hw/ppc/spapr_pci.c b/hw/ppc/spapr_pci.c
-index 21681215d405..b1ce51327db4 100644
---- a/hw/ppc/spapr_pci.c
-+++ b/hw/ppc/spapr_pci.c
-@@ -1796,6 +1796,7 @@ static void spapr_phb_destroy_msi(gpointer opaque)
-=20
- static void spapr_phb_realize(DeviceState *dev, Error **errp)
- {
-+    ERRP_GUARD();
-     /* We don't use SPAPR_MACHINE() in order to exit gracefully if the use=
-r
-      * tries to add a sPAPR PHB to a non-pseries machine.
-      */
-@@ -1813,7 +1814,6 @@ static void spapr_phb_realize(DeviceState *dev, Error=
- **errp)
-     uint64_t msi_window_size =3D 4096;
-     SpaprTceTable *tcet;
-     const unsigned windows_supported =3D spapr_phb_windows_supported(sphb)=
-;
--    Error *local_err =3D NULL;
-=20
-     if (!spapr) {
-         error_setg(errp, TYPE_SPAPR_PCI_HOST_BRIDGE " needs a pseries mach=
-ine");
-@@ -1964,13 +1964,12 @@ static void spapr_phb_realize(DeviceState *dev, Err=
-or **errp)
-=20
-     /* Initialize the LSI table */
-     for (i =3D 0; i < PCI_NUM_PINS; i++) {
--        uint32_t irq =3D SPAPR_IRQ_PCI_LSI + sphb->index * PCI_NUM_PINS + =
-i;
-+        int32_t irq =3D SPAPR_IRQ_PCI_LSI + sphb->index * PCI_NUM_PINS + i=
-;
-=20
-         if (smc->legacy_irq_allocation) {
--            irq =3D spapr_irq_findone(spapr, &local_err);
--            if (local_err) {
--                error_propagate_prepend(errp, local_err,
--                                        "can't allocate LSIs: ");
-+            irq =3D spapr_irq_findone(spapr, errp);
-+            if (irq < 0) {
-+                error_prepend(errp, "can't allocate LSIs: ");
-                 /*
-                  * Older machines will never support PHB hotplug, ie, this=
- is an
-                  * init only path and QEMU will terminate. No need to roll=
-back.
-@@ -1979,9 +1978,8 @@ static void spapr_phb_realize(DeviceState *dev, Error=
- **errp)
-             }
-         }
-=20
--        spapr_irq_claim(spapr, irq, true, &local_err);
--        if (local_err) {
--            error_propagate_prepend(errp, local_err, "can't allocate LSIs:=
- ");
-+        if (spapr_irq_claim(spapr, irq, true, errp) < 0) {
-+            error_prepend(errp, "can't allocate LSIs: ");
-             goto unrealize;
-         }
-=20
-
-
+r~
 
