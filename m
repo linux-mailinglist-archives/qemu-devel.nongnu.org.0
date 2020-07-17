@@ -2,64 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8EB492239BE
-	for <lists+qemu-devel@lfdr.de>; Fri, 17 Jul 2020 12:52:56 +0200 (CEST)
-Received: from localhost ([::1]:37616 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9199F2239D1
+	for <lists+qemu-devel@lfdr.de>; Fri, 17 Jul 2020 12:54:58 +0200 (CEST)
+Received: from localhost ([::1]:47258 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jwNz5-0005B3-ID
-	for lists+qemu-devel@lfdr.de; Fri, 17 Jul 2020 06:52:55 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:43552)
+	id 1jwO13-0000iD-I9
+	for lists+qemu-devel@lfdr.de; Fri, 17 Jul 2020 06:54:57 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:43958)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1jwNxE-00046M-1k
- for qemu-devel@nongnu.org; Fri, 17 Jul 2020 06:51:00 -0400
-Received: from mail-ot1-x344.google.com ([2607:f8b0:4864:20::344]:33603)
+ (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
+ id 1jwNy2-0004bp-7F
+ for qemu-devel@nongnu.org; Fri, 17 Jul 2020 06:51:53 -0400
+Received: from mail-wm1-x341.google.com ([2a00:1450:4864:20::341]:51859)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1jwNxC-0003im-Cc
- for qemu-devel@nongnu.org; Fri, 17 Jul 2020 06:50:59 -0400
-Received: by mail-ot1-x344.google.com with SMTP id h13so6565234otr.0
- for <qemu-devel@nongnu.org>; Fri, 17 Jul 2020 03:50:56 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
+ id 1jwNxv-0003qX-F6
+ for qemu-devel@nongnu.org; Fri, 17 Jul 2020 06:51:48 -0400
+Received: by mail-wm1-x341.google.com with SMTP id 22so14180088wmg.1
+ for <qemu-devel@nongnu.org>; Fri, 17 Jul 2020 03:51:42 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=NWY3zkF1M6hKTA2sE5Tnn3/05iw5/fl9oYymANXDgco=;
- b=TJGgDigWI1dBUW3Qd23z7wFPiiF21C7edt9/Ivm0j0zoW5PHOj1X8doDC89APvDcCC
- n7oXQ4kPJkWlN4sybKkDXQtDo5LS95Ebcibr+WUiWFLF9rIa81rb7RBWZ45yfWnBbHRu
- aK+Geosq79PDOaLDJLLJaiCPc7yh012g4WNmHF/N/tkvzChDPZfnKx1YBgf/YUCV19SC
- LNPGG8y0gnMfkaM8SACDLLWZYV7z9x8gcvJuZhJ9MEe55GIFHc0AbXgXqhxeq5Z/NTWy
- BgPIUvDGstKxEIFFniPCCqnyZkUi6ky48GOVPWSx7w/Oj/XQ450vB1kEybvs7bh5ZjV0
- BPVA==
+ h=from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=DqfpJSe2gTXPFMFK1RIpYZrvJwlQQx+0+8ewUbbarN8=;
+ b=ujkHhBGg2yoLYpffAxO7ZMdLwdbACGWuWTdf5ehbigSJeJgaF0Dxq4fhpQJ6owMo/x
+ jmPiVQ3iAs4LoKNSEiYpR8Tc5UqP8AYLVVN3wuS7pHkVdgX/6OA3zHjiSaOdmoFHtZhY
+ 97lovYZFmmAxn/dNPWeH/iwN+UOeSDGZjA7aYsEg3/MJbTHmMx11V5sTNYECJ62E2Amc
+ tQWTNucmGoJyEsWZdp5GKhbdgBGgIax3ICGorsxew027mZoRT3C4lLtiP4A4PmnMBt/A
+ 1ln9864HmQNyXQDfll8+6ZWqA8OKygjTWD0DycqKbHFECrNEgQAsVQ1pohnWnx+6aVn7
+ 17/w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=NWY3zkF1M6hKTA2sE5Tnn3/05iw5/fl9oYymANXDgco=;
- b=YNeaXIPVPGReLW8FmbSa0bLlasgkhwKXiLunEpMma19e0IR0cS3osYuNFs6uIIQVXe
- 70Gy4SBJX849S3rhV0xOoWOgARk4/YCz+t4UDNAW1VNmO1JuSn1JdIoFWPPKNI+MQyv4
- LqcWdYSOPPZCKirYdchvn54hBTax5OKxt9uXc+uKzuBaYr7gZoX0hoRDzgUazrib1UMI
- +N4q34ni/k23iBR4L7bGBJjWkhCyjbCFzlLt2tooWelJ5VJ0pjgPNVstrXZSGsLU/bsB
- Z6akKT/B8vfLJ5v1V35EwvL80WzjgPTeKXYLIXsM0HHpfV4sqccuXqLThy4RD1v1Xvos
- Cqmw==
-X-Gm-Message-State: AOAM532WnDvz7UtkNiXRRAdJO6XzfFTQSa/1Yx1BxFIf93ZT1D+6OV/T
- pGAdBZxKhSOej3rNGlMA4l8HbCoCwRzTS287qym/rw==
-X-Google-Smtp-Source: ABdhPJyR82d6VkNt6ZjOtam892mE1DEx4YKXdEjaeFVn+1KkQ6vGDXAg8WXNuERxSIR/wcKEgQajiko+bcbLklCVr44=
-X-Received: by 2002:a05:6830:1bd3:: with SMTP id
- v19mr8160438ota.91.1594983055825; 
- Fri, 17 Jul 2020 03:50:55 -0700 (PDT)
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=DqfpJSe2gTXPFMFK1RIpYZrvJwlQQx+0+8ewUbbarN8=;
+ b=dzrUO70XC+R+QalQ3Q9x/ZWXOFanIBfzZw0lYqhL864jvOAsZUmgSZf5tKp7pimZFx
+ il7Uh6V5GEWr2ot89fMFZUSgCFmKSpGZJhSjprXBmGFMwDmoBquu8SFTpoXJ56tI9v9O
+ OSP8dOsV1iyxzMAC7Nk0kUIgsr3i20qeZkGKSrGDQ2R1kcLJTj9k+00xEUolp2/jWDRd
+ XmA7zkPIggmVW1fvqPhnT90vxznV1pTVG6czdKTEEs0ur9PYw5mu23WHaZ2bsH/uByIj
+ OM5Bmyjzi5F3DNBbtOrqrknBFWsN7qZz+4yDbag0gLz9RLIVjph++07ojc9W+MKM/F22
+ imCA==
+X-Gm-Message-State: AOAM532U8QeeP9aOukCF2qfi4ZPhjyDYzI5XbxoJ4D+fmAW2CJ59CFCE
+ 0E7W6QD+NwplwSAzNU4hSATHJg==
+X-Google-Smtp-Source: ABdhPJz0NkUJVv0nBdxuQmN+sEtFGz4TRsw4y14w/Xv8s33haNB/YK1ENL5mkRQwrXIiBAYg01Lb9w==
+X-Received: by 2002:a05:600c:4114:: with SMTP id
+ j20mr8522271wmi.74.1594983101418; 
+ Fri, 17 Jul 2020 03:51:41 -0700 (PDT)
+Received: from zen.linaroharston ([51.148.130.216])
+ by smtp.gmail.com with ESMTPSA id j145sm13940777wmj.7.2020.07.17.03.51.40
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Fri, 17 Jul 2020 03:51:40 -0700 (PDT)
+Received: from zen.lan (localhost [127.0.0.1])
+ by zen.linaroharston (Postfix) with ESMTP id 907D11FF7E;
+ Fri, 17 Jul 2020 11:51:39 +0100 (BST)
+From: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
+To: qemu-devel@nongnu.org
+Subject: [PATCH  v1 0/5] candidate fixes for 5.1-rc1 (shippable, semihosting,
+ OOM tcg)
+Date: Fri, 17 Jul 2020 11:51:34 +0100
+Message-Id: <20200717105139.25293-1-alex.bennee@linaro.org>
+X-Mailer: git-send-email 2.20.1
 MIME-Version: 1.0
-References: <20200716174900.GL3235@minyard.net>
- <CAFEAcA-UWJBpM_-G2RAe9B-WcPzBaKGZTas1njehQ7gcjsMpew@mail.gmail.com>
- <20200716222601.GM3235@minyard.net>
-In-Reply-To: <20200716222601.GM3235@minyard.net>
-From: Peter Maydell <peter.maydell@linaro.org>
-Date: Fri, 17 Jul 2020 11:50:44 +0100
-Message-ID: <CAFEAcA_5M8MD+2s_r1jjcgDY0LX69iZRkUP1kbUQTQYEuSN1Nw@mail.gmail.com>
-Subject: Re: [GIT PULL] I2C updates
-To: Corey Minyard <minyard@acm.org>
-Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2607:f8b0:4864:20::344;
- envelope-from=peter.maydell@linaro.org; helo=mail-ot1-x344.google.com
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=2a00:1450:4864:20::341;
+ envelope-from=alex.bennee@linaro.org; helo=mail-wm1-x341.google.com
 X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
  That's all we know.
 X-Spam_score_int: -20
@@ -81,32 +88,51 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: QEMU Developers <qemu-devel@nongnu.org>
+Cc: fam@euphon.net, berrange@redhat.com,
+ =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>,
+ richard.henderson@linaro.org, f4bug@amsat.org, cota@braap.org,
+ aurelien@aurel32.net
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Thu, 16 Jul 2020 at 23:26, Corey Minyard <minyard@acm.org> wrote:
->
-> On Thu, Jul 16, 2020 at 09:45:41PM +0100, Peter Maydell wrote:
-> > Hi; this failed to build on x86-64 Linux (incremental build):
->
-> Hmm, I did test this, and I just rebuilt, then rebased on the end of
-> master and rebuilt, without issue.
->
-> It looks like the smbus code is not being included, but I don't see how
-> that can be.
+Hi,
 
-I was wrong about which config failed, sorry. Incremental builds
-are fine, but the build that does "make -C builddir clean" first
-fails.
+These are some candidate patches for rc1. 
 
-It looks like the problem is that in the created config-devices.mak
-files, CONFIG_SMBUS_EEPROM is set, but CONFIG_SMBUS is not.
-So presumably the problem is in the change
-"hw/i2c/Kconfig: Add an entry for the SMBus", or it is a more
-general issue with changes to Kconfig files not correctly
-resulting in rebuilds of config-devices.mak.
+The first is a quick fix that finally gets shippable up and running
+again. We may want to consider a grand renaming of our docker scheme
+but I don't think thats something worth dropping in while we are
+stabilising - especially if we change the project name on gitlab. 
 
-thanks
--- PMM
+The semihosting fixes had just slipped off my radar but are pretty
+minor bug fixes.
+
+Finally I whipped up the last two because of a report of QEMU OOM'ing
+on some CI systems with low memory. It doesn't restore the link to
+guest ram size but instead introduces an advisory helper function to
+probe guest physical memory.
+
+Please review.
+
+Alex Bennée (3):
+  shippable: add one more qemu to registry url
+  util: add qemu_get_host_physmem utility function
+  accel/tcg: better handle memory constrained systems
+
+KONRAD Frederic (2):
+  semihosting: defer connect_chardevs a little more to use serialx
+  semihosting: don't send the trailing '\0'
+
+ include/qemu/osdep.h      | 10 ++++++++++
+ accel/tcg/translate-all.c |  7 ++++++-
+ hw/semihosting/console.c  |  4 +++-
+ softmmu/vl.c              |  5 +++--
+ util/oslib-posix.c        | 11 +++++++++++
+ util/oslib-win32.c        |  6 ++++++
+ .shippable.yml            |  2 +-
+ 7 files changed, 40 insertions(+), 5 deletions(-)
+
+-- 
+2.20.1
+
 
