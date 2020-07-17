@@ -2,49 +2,52 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C728E223F50
+	by mail.lfdr.de (Postfix) with ESMTPS id A5494223F4F
 	for <lists+qemu-devel@lfdr.de>; Fri, 17 Jul 2020 17:16:56 +0200 (CEST)
-Received: from localhost ([::1]:34572 helo=lists1p.gnu.org)
+Received: from localhost ([::1]:34582 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jwS6Z-0001a8-Qi
+	id 1jwS6Z-0001aJ-Nh
 	for lists+qemu-devel@lfdr.de; Fri, 17 Jul 2020 11:16:55 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:36480)
+Received: from eggs.gnu.org ([2001:470:142:3::10]:36476)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <eblake@redhat.com>) id 1jwS53-0000bV-TR
- for qemu-devel@nongnu.org; Fri, 17 Jul 2020 11:15:23 -0400
-Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:55537
+ (Exim 4.90_1) (envelope-from <eblake@redhat.com>) id 1jwS52-0000aD-B2
+ for qemu-devel@nongnu.org; Fri, 17 Jul 2020 11:15:21 -0400
+Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:25314
  helo=us-smtp-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <eblake@redhat.com>) id 1jwS51-0004Hm-8N
- for qemu-devel@nongnu.org; Fri, 17 Jul 2020 11:15:21 -0400
+ (Exim 4.90_1) (envelope-from <eblake@redhat.com>) id 1jwS4z-0004HI-Aw
+ for qemu-devel@nongnu.org; Fri, 17 Jul 2020 11:15:20 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1594998918;
+ s=mimecast20190719; t=1594998915;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding;
- bh=l7wurX9GNs/LOQ7/QeYjTsSMtslTMmwh9bMiOKwULlc=;
- b=TKhz4JnsoaEsmdKYIW6qyPygMOX6P494rGBTw137NJjrdIs6zSe1XWG1iHf+id6WRfoXYW
- 1jj702S/p4ywAtofEubCQO4QsKwOoZDSe3QR5SOiM5RcVrFHNVDTV+WW0IPjqNMHF+D5SG
- V2RWJQ09p4U+7wuhxYTlAU/3nLR/xNc=
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=BfoIaOMsSAV66f6T35BcXzPvDmkqchT24FliN0xinPU=;
+ b=aasuHjlKwGzdapT/PH7lobIXgrGsPxi42aVmZ4i8HJ8hMQznVxlRW/c0GoTGnRd0f79Uwc
+ sppzmjE/IQJiIIF6pX2EXPrBxb+Be4f9ksJrMl5XiN4ah3YtWCmMC/1laSPfu9HOWG3eIY
+ Bkb8qS7DLSSIkAgeEHg69RF4YtoL658=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-343-3MZkFduqNoO27YRTDxgFKg-1; Fri, 17 Jul 2020 11:15:01 -0400
-X-MC-Unique: 3MZkFduqNoO27YRTDxgFKg-1
+ us-mta-193-iWGsAUcfOqqUFx3EEfS-Ug-1; Fri, 17 Jul 2020 11:15:13 -0400
+X-MC-Unique: iWGsAUcfOqqUFx3EEfS-Ug-1
 Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
  [10.5.11.13])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 3E5FF52640
- for <qemu-devel@nongnu.org>; Fri, 17 Jul 2020 15:14:59 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id E33D7108C283;
+ Fri, 17 Jul 2020 15:15:11 +0000 (UTC)
 Received: from blue.redhat.com (ovpn-113-239.phx2.redhat.com [10.3.113.239])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 0C39C872E6
- for <qemu-devel@nongnu.org>; Fri, 17 Jul 2020 15:14:58 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 697C87B439;
+ Fri, 17 Jul 2020 15:14:59 +0000 (UTC)
 From: Eric Blake <eblake@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PULL 0/1] bitmaps patches for 2020-07-17 [-rc1]
-Date: Fri, 17 Jul 2020 10:14:45 -0500
-Message-Id: <20200717151446.655571-1-eblake@redhat.com>
+Subject: [PULL 1/1] migration/block-dirty-bitmap: fix add_bitmaps_to_list
+Date: Fri, 17 Jul 2020 10:14:46 -0500
+Message-Id: <20200717151446.655571-2-eblake@redhat.com>
+In-Reply-To: <20200717151446.655571-1-eblake@redhat.com>
+References: <20200717151446.655571-1-eblake@redhat.com>
 MIME-Version: 1.0
 X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
 X-Mimecast-Spam-Score: 0
@@ -61,7 +64,7 @@ X-Spam_bar: ----
 X-Spam_report: (-4.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-1, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001, URIBL_BLOCKED=0.001 autolearn=ham autolearn_force=no
+ SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -74,37 +77,49 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Cc: Fam Zheng <fam@euphon.net>,
+ Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>,
+ "open list:Block I/O path" <qemu-block@nongnu.org>,
+ Juan Quintela <quintela@redhat.com>,
+ "Dr. David Alan Gilbert" <dgilbert@redhat.com>,
+ Stefan Hajnoczi <stefanha@redhat.com>, John Snow <jsnow@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The following changes since commit 151f76c689b1ff4c2c59e6d8469a0d4fe5346f55:
+From: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
 
-  Merge remote-tracking branch 'remotes/ehabkost/tags/x86-next-pull-request' into staging (2020-07-16 21:46:18 +0100)
+We shouldn't fail when finding an unnamed bitmap in a unnamed node or
+node with auto-generated node name, as bitmap migration ignores such
+bitmaps in the first place.
 
-are available in the Git repository at:
-
-  https://repo.or.cz/qemu/ericb.git tags/pull-bitmaps-2020-07-17
-
-for you to fetch changes up to 7cb015197b383a62f5729d2c92b1050db0185c1c:
-
-  migration/block-dirty-bitmap: fix add_bitmaps_to_list (2020-07-17 08:18:51 -0500)
-
-I had been waiting to see if I had more than one patch to bundle, but
-given that we are now coming up on -rc1 and this is a bugfix, it's time
-for the pull request of this in isolation.
-
-----------------------------------------------------------------
-bitmaps patches for 2020-07-17
-
-- improve corner-case of bitmap migration
-
-----------------------------------------------------------------
-Vladimir Sementsov-Ogievskiy (1):
-      migration/block-dirty-bitmap: fix add_bitmaps_to_list
-
+Fixes: 82640edb88faa
+Fixes: 4ff5cc121b089
+Signed-off-by: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
+Message-Id: <20200626130658.76498-1-vsementsov@virtuozzo.com>
+Reviewed-by: Eric Blake <eblake@redhat.com>
+[eblake: commit message grammar tweaks]
+Signed-off-by: Eric Blake <eblake@redhat.com>
+---
  migration/block-dirty-bitmap.c | 6 +++++-
  1 file changed, 5 insertions(+), 1 deletion(-)
 
+diff --git a/migration/block-dirty-bitmap.c b/migration/block-dirty-bitmap.c
+index 47bc0f650c1e..b0dbf9eeed43 100644
+--- a/migration/block-dirty-bitmap.c
++++ b/migration/block-dirty-bitmap.c
+@@ -274,7 +274,11 @@ static int add_bitmaps_to_list(BlockDriverState *bs, const char *bs_name)
+     DirtyBitmapMigBitmapState *dbms;
+     Error *local_err = NULL;
+
+-    bitmap = bdrv_dirty_bitmap_first(bs);
++    FOR_EACH_DIRTY_BITMAP(bs, bitmap) {
++        if (bdrv_dirty_bitmap_name(bitmap)) {
++            break;
++        }
++    }
+     if (!bitmap) {
+         return 0;
+     }
 -- 
 2.27.0
 
