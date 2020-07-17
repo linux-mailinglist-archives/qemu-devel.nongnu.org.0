@@ -2,61 +2,61 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1E4E222301F
-	for <lists+qemu-devel@lfdr.de>; Fri, 17 Jul 2020 02:55:07 +0200 (CEST)
-Received: from localhost ([::1]:60090 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6F7FD22302C
+	for <lists+qemu-devel@lfdr.de>; Fri, 17 Jul 2020 03:06:52 +0200 (CEST)
+Received: from localhost ([::1]:39108 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jwEeX-0002Au-Jh
-	for lists+qemu-devel@lfdr.de; Thu, 16 Jul 2020 20:55:05 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:46896)
+	id 1jwEpv-0005wN-0S
+	for lists+qemu-devel@lfdr.de; Thu, 16 Jul 2020 21:06:51 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:50138)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <liq3ea@gmail.com>) id 1jwEdq-0001kt-4C
- for qemu-devel@nongnu.org; Thu, 16 Jul 2020 20:54:22 -0400
-Received: from mail-ot1-x342.google.com ([2607:f8b0:4864:20::342]:34206)
+ (Exim 4.90_1) (envelope-from <pauldzim@gmail.com>)
+ id 1jwEpB-0005Xb-Gj
+ for qemu-devel@nongnu.org; Thu, 16 Jul 2020 21:06:05 -0400
+Received: from mail-pf1-x444.google.com ([2607:f8b0:4864:20::444]:45269)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <liq3ea@gmail.com>) id 1jwEdo-0002IU-G5
- for qemu-devel@nongnu.org; Thu, 16 Jul 2020 20:54:21 -0400
-Received: by mail-ot1-x342.google.com with SMTP id e90so5720072ote.1
- for <qemu-devel@nongnu.org>; Thu, 16 Jul 2020 17:54:20 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <pauldzim@gmail.com>)
+ id 1jwEp8-0004Yf-Di
+ for qemu-devel@nongnu.org; Thu, 16 Jul 2020 21:06:05 -0400
+Received: by mail-pf1-x444.google.com with SMTP id z3so4548276pfn.12
+ for <qemu-devel@nongnu.org>; Thu, 16 Jul 2020 18:06:01 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc:content-transfer-encoding;
- bh=7gZOlB576AUusftg2pqZ5wF43SGLFl0fw0tw/PBuByM=;
- b=YSroWR2Z6VbcDM82m7OB6/Q0hlS3rdaivv7DVYx6NIAd9z6BgzId048I/Oq5Ir2IkJ
- NW/FsqYwxygt+PoPNmL0u9Z2mNNT47mZ75EB1xLVUzM7noxTu2tL9Kf/NJ7F6MYuSKh1
- qAC76Z8DlW/4TCVnjTLXcnhH5NIQ0owYTXrX4/D2MEXwVFgBn19f+6SrAtsuaAJFjk+f
- apwxWWGuQULgvs5t2oQJ91vBRRbOCdYHNRh1zdTERX/XHsYbnWs40fT52OVmyTXGGa98
- B2ufEQwVsb+wqJniz8EbcqFWbxIqM8MIh3LcythAMbjFPPOFCiflq0m6r9IULjJZysGR
- 4NaA==
+ h=from:to:cc:subject:date:message-id;
+ bh=m2hDaWTugTlRwftfxzR404gSH/pGnw7yw+DdJofwF0I=;
+ b=UaB32+NQPRJXHWlXgDifXOdIFYC3QZBgCwBqCZmGsmY9fbi4ZEzpJ4YaP+36jWgoDf
+ s8iSMShF49xBaVtJ80Qu3cM7651qE6ctseUkreEgSz73Ifjk4Pj+BnJLDjpk/v8hQqQ5
+ mL63MiLGwB3dlVKCCMI5oGS+QIHMunBuCY2ruQ0cCD4+C1NfIsk1uCagsyIGDYy1qsNv
+ o5vd+NqHYuk2/xNlbeDFluELWocHMIekeH3GIEA/Rbo9cDTNdkAGtKL+M49DfLwy5uwL
+ fIL4hvuR//0zdQq7CLlgAW1gHGx0fNNFLHcqpjAHq45IwJC/c/VFGAZ4ymGDniOtEZOo
+ OheA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc:content-transfer-encoding;
- bh=7gZOlB576AUusftg2pqZ5wF43SGLFl0fw0tw/PBuByM=;
- b=htcINUJpnGH+tR6t/OjqtC4mDhhA+i9KVWTR7fkYjR+298L+1coxXyLnfBh/EoGCrw
- ak/38DrpGM9VPyYokFdq+QJRDLfYDx0ZQfIjxUQTuYTIIcWG45XSb/7QJL88zhz0R3oa
- 1/2yKzhIs0dtRnl7gsGWqbotbOlJDnwd2uy/qfTsscg53fw7JIvCu238g4YDaXfjkxj5
- yQucdXToGS8NDvKQXN01dYLaBI6qA46WzQ3ui0N6E6Zny/aPaj+MVDxif5wK6/MuJNIu
- 1RnSGcJDW51UEWYkfMONkDgjFU8m218QvmMrILhpvzCyAcGilP3x9J4skGKEfSe+z7Jh
- 4Nng==
-X-Gm-Message-State: AOAM533nu+5SEZ+5i6sbllkM2J9W19P6BjATqZRf43Ql0TU2DDCqpeGW
- gJ5T/NtL1RoDwXy2IjG6CrFSd80e7fOMwPD/FIQ=
-X-Google-Smtp-Source: ABdhPJya8+HqdcFAjK/82mAm2eaTThq5UcBmf/OJ6QzsVN8oa6iXj7WDwP8TYAA0TANE0dfx7kXS+MIYN2Xzh0ImQk0=
-X-Received: by 2002:a9d:787:: with SMTP id 7mr6672907oto.333.1594947259030;
- Thu, 16 Jul 2020 17:54:19 -0700 (PDT)
-MIME-Version: 1.0
-References: <20200716192335.1212638-1-ppandit@redhat.com>
-In-Reply-To: <20200716192335.1212638-1-ppandit@redhat.com>
-From: Li Qiang <liq3ea@gmail.com>
-Date: Fri, 17 Jul 2020 08:53:42 +0800
-Message-ID: <CAKXe6SKL3aNiOKKLEMof6GGNjYLcX9fvfSf-0PBSX48rh4--FQ@mail.gmail.com>
-Subject: Re: [PATCH] net: check payload length limit for all frames
-To: P J P <ppandit@redhat.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=2607:f8b0:4864:20::342;
- envelope-from=liq3ea@gmail.com; helo=mail-ot1-x342.google.com
+ h=x-gm-message-state:from:to:cc:subject:date:message-id;
+ bh=m2hDaWTugTlRwftfxzR404gSH/pGnw7yw+DdJofwF0I=;
+ b=S4xGIIxzCVhi3QACc2Wl97G6Kyj21d7nprq/+NitduvLNi5wAAVCa/p1ZkJ2JCQtic
+ nSOmN1TTmWE228wTk8b+Jwe/0x96NIUdBr9ue/7n/bff0cXKXZuuPTO/712CQ/KQmpoE
+ /vOe6zjiFT/xhiCwVDtEZJPq6vbMPKyDbyg7OVA86y/25ZLHZ8a3wMjONuaVQ3qdss6i
+ HplWbDJ6LzajSycukm1Qc2eT9De0GtfdXw4CtTJYVE/y/StO/xtl3/c776S5G6ti9w6t
+ sz5jYSbdtWQKd6Ug0hzaKPvi0rNl/BxngEOvW71ULn08K2CcaDYOZV61Ah9GPKjsv9xK
+ KGaQ==
+X-Gm-Message-State: AOAM530zbRhIi8fk/nGTuDiwheLmb8adBbDUyrDZW2bK38egfTD8swOO
+ YyxrTd3TeH06nhnbd8FToiY=
+X-Google-Smtp-Source: ABdhPJxNQITZq+XbmVzHbh1F4emUFin3vfCyHepze5ZdxOXWGfqV5xK+xpGpi6C3tH2K3rVyevDGRw==
+X-Received: by 2002:a63:525a:: with SMTP id s26mr6381553pgl.155.1594947960348; 
+ Thu, 16 Jul 2020 18:06:00 -0700 (PDT)
+Received: from localhost.localdomain ([75.167.235.8])
+ by smtp.gmail.com with ESMTPSA id l126sm5975016pfd.202.2020.07.16.18.05.59
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Thu, 16 Jul 2020 18:05:59 -0700 (PDT)
+From: Paul Zimmerman <pauldzim@gmail.com>
+To: Gerd Hoffmann <kraxel@redhat.com>
+Subject: [PATCH] usb: only build hcd-dwc2 host controller for RASPI target
+Date: Thu, 16 Jul 2020 18:05:48 -0700
+Message-Id: <20200717010548.9902-1-pauldzim@gmail.com>
+X-Mailer: git-send-email 2.17.1
+Received-SPF: pass client-ip=2607:f8b0:4864:20::444;
+ envelope-from=pauldzim@gmail.com; helo=mail-pf1-x444.google.com
 X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
  That's all we know.
 X-Spam_score_int: -20
@@ -78,64 +78,56 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Alexander Bulekov <alxndr@bu.edu>, Jason Wang <jasowang@redhat.com>,
- Dmitry Fleytman <dmitry.fleytman@gmail.com>,
- QEMU Developers <qemu-devel@nongnu.org>,
- Prasad J Pandit <pjp@fedoraproject.org>
+Cc: Peter Maydell <peter.maydell@linaro.org>,
+ QEMU Developers <qemu-devel@nongnu.org>, Paul Zimmerman <pauldzim@gmail.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-P J P <ppandit@redhat.com> =E4=BA=8E2020=E5=B9=B47=E6=9C=8817=E6=97=A5=E5=
-=91=A8=E4=BA=94 =E4=B8=8A=E5=8D=883:26=E5=86=99=E9=81=93=EF=BC=9A
->
-> From: Prasad J Pandit <pjp@fedoraproject.org>
->
-> While sending packets, the check that packet 'payload_len'
-> is within 64kB limit, seems to happen only for GSO frames.
-> It may lead to use-after-free or out-of-bounds access like
-> issues when sending non-GSO frames. Check the 'payload_len'
-> limit for all packets, irrespective of the gso type.
->
+The hcd-dwc2 host controller is currently built for all targets.
+Since for now hcd-dwc2 is only implemented on RASPI, restrict its
+build to that target only.
 
-Hello Prasad,
-Which issue are you trying to solve, any reference linking?
+Signed-off-by: Paul Zimmerman <pauldzim@gmail.com>
+---
 
-I also send a patch related this part and also a UAF.
+Hi Gerd,
+
+Do we want to apply this before the 5.1.0 release? It seems a waste
+to build this code for every target when it's only used on one.
+Sorry I didn't realize this earlier.
 
 Thanks,
-Li Qiang
+Paul
 
-> Reported-by: Alexander Bulekov <alxndr@bu.edu>
-> Signed-off-by: Prasad J Pandit <pjp@fedoraproject.org>
-> ---
->  hw/net/net_tx_pkt.c | 10 ++++------
->  1 file changed, 4 insertions(+), 6 deletions(-)
->
-> diff --git a/hw/net/net_tx_pkt.c b/hw/net/net_tx_pkt.c
-> index 162f802dd7..e66998a8f9 100644
-> --- a/hw/net/net_tx_pkt.c
-> +++ b/hw/net/net_tx_pkt.c
-> @@ -607,12 +607,10 @@ bool net_tx_pkt_send(struct NetTxPkt *pkt, NetClien=
-tState *nc)
->       * Since underlying infrastructure does not support IP datagrams lon=
-ger
->       * than 64K we should drop such packets and don't even try to send
->       */
-> -    if (VIRTIO_NET_HDR_GSO_NONE !=3D pkt->virt_hdr.gso_type) {
-> -        if (pkt->payload_len >
-> -            ETH_MAX_IP_DGRAM_LEN -
-> -            pkt->vec[NET_TX_PKT_L3HDR_FRAG].iov_len) {
-> -            return false;
-> -        }
-> +    if (pkt->payload_len >
-> +        ETH_MAX_IP_DGRAM_LEN -
-> +        pkt->vec[NET_TX_PKT_L3HDR_FRAG].iov_len) {
-> +        return false;
->      }
->
->      if (pkt->has_virt_hdr ||
-> --
-> 2.26.2
->
->
+ hw/arm/Kconfig | 1 +
+ hw/usb/Kconfig | 1 -
+ 2 files changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/hw/arm/Kconfig b/hw/arm/Kconfig
+index 4a224a6351..bc3a423940 100644
+--- a/hw/arm/Kconfig
++++ b/hw/arm/Kconfig
+@@ -315,6 +315,7 @@ config RASPI
+     select FRAMEBUFFER
+     select PL011 # UART
+     select SDHCI
++    select USB_DWC2
+ 
+ config STM32F205_SOC
+     bool
+diff --git a/hw/usb/Kconfig b/hw/usb/Kconfig
+index d4d8c37c28..5e63dc75f8 100644
+--- a/hw/usb/Kconfig
++++ b/hw/usb/Kconfig
+@@ -48,7 +48,6 @@ config USB_MUSB
+ 
+ config USB_DWC2
+     bool
+-    default y
+     select USB
+ 
+ config TUSB6010
+-- 
+2.17.1
+
 
