@@ -2,92 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 61DCE22386A
-	for <lists+qemu-devel@lfdr.de>; Fri, 17 Jul 2020 11:31:07 +0200 (CEST)
-Received: from localhost ([::1]:41050 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 74BB4223888
+	for <lists+qemu-devel@lfdr.de>; Fri, 17 Jul 2020 11:36:44 +0200 (CEST)
+Received: from localhost ([::1]:49258 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jwMhu-0007RT-Eb
-	for lists+qemu-devel@lfdr.de; Fri, 17 Jul 2020 05:31:06 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:50816)
+	id 1jwMnL-0002lH-Fn
+	for lists+qemu-devel@lfdr.de; Fri, 17 Jul 2020 05:36:43 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:51970)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mhartmay@linux.ibm.com>)
- id 1jwMgm-00067f-Eg
- for qemu-devel@nongnu.org; Fri, 17 Jul 2020 05:29:56 -0400
-Received: from mx0a-001b2d01.pphosted.com ([148.163.156.1]:42320)
+ (Exim 4.90_1) (envelope-from <r.bolshakov@yadro.com>)
+ id 1jwMm4-0001U7-EY
+ for qemu-devel@nongnu.org; Fri, 17 Jul 2020 05:35:24 -0400
+Received: from mta-02.yadro.com ([89.207.88.252]:36928 helo=mta-01.yadro.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mhartmay@linux.ibm.com>)
- id 1jwMgj-0004Gt-GV
- for qemu-devel@nongnu.org; Fri, 17 Jul 2020 05:29:56 -0400
-Received: from pps.filterd (m0098410.ppops.net [127.0.0.1])
- by mx0a-001b2d01.pphosted.com (8.16.0.42/8.16.0.42) with SMTP id
- 06H92pk5124719
- for <qemu-devel@nongnu.org>; Fri, 17 Jul 2020 05:29:52 -0400
-Received: from pps.reinject (localhost [127.0.0.1])
- by mx0a-001b2d01.pphosted.com with ESMTP id 32afd7dkpd-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT)
- for <qemu-devel@nongnu.org>; Fri, 17 Jul 2020 05:29:51 -0400
-Received: from m0098410.ppops.net (m0098410.ppops.net [127.0.0.1])
- by pps.reinject (8.16.0.36/8.16.0.36) with SMTP id 06H93Txt127543
- for <qemu-devel@nongnu.org>; Fri, 17 Jul 2020 05:29:51 -0400
-Received: from ppma03ams.nl.ibm.com (62.31.33a9.ip4.static.sl-reverse.com
- [169.51.49.98])
- by mx0a-001b2d01.pphosted.com with ESMTP id 32afd7dknj-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Fri, 17 Jul 2020 05:29:51 -0400
-Received: from pps.filterd (ppma03ams.nl.ibm.com [127.0.0.1])
- by ppma03ams.nl.ibm.com (8.16.0.42/8.16.0.42) with SMTP id 06H9BSLf031530;
- Fri, 17 Jul 2020 09:29:49 GMT
-Received: from b06cxnps3075.portsmouth.uk.ibm.com
- (d06relay10.portsmouth.uk.ibm.com [9.149.109.195])
- by ppma03ams.nl.ibm.com with ESMTP id 327527xhvs-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Fri, 17 Jul 2020 09:29:49 +0000
-Received: from d06av26.portsmouth.uk.ibm.com (d06av26.portsmouth.uk.ibm.com
- [9.149.105.62])
- by b06cxnps3075.portsmouth.uk.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
- 06H9Tkwl10748160
- (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Fri, 17 Jul 2020 09:29:46 GMT
-Received: from d06av26.portsmouth.uk.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id CD3A8AE051;
- Fri, 17 Jul 2020 09:29:46 +0000 (GMT)
-Received: from d06av26.portsmouth.uk.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id 65DE3AE056;
- Fri, 17 Jul 2020 09:29:46 +0000 (GMT)
-Received: from marcibm.ibmuc.com (unknown [9.145.17.123])
- by d06av26.portsmouth.uk.ibm.com (Postfix) with ESMTP;
- Fri, 17 Jul 2020 09:29:46 +0000 (GMT)
-From: Marc Hartmayer <mhartmay@linux.ibm.com>
+ (Exim 4.90_1) (envelope-from <r.bolshakov@yadro.com>)
+ id 1jwMm2-0005WN-Lt
+ for qemu-devel@nongnu.org; Fri, 17 Jul 2020 05:35:24 -0400
+Received: from localhost (unknown [127.0.0.1])
+ by mta-01.yadro.com (Postfix) with ESMTP id CA7DB4C91B;
+ Fri, 17 Jul 2020 09:35:20 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=yadro.com; h=
+ content-transfer-encoding:content-type:content-type:mime-version
+ :x-mailer:message-id:date:date:subject:subject:from:from
+ :received:received:received; s=mta-01; t=1594978519; x=
+ 1596792920; bh=Tf9KBHLOHs+MQbwmblmYxrqD9OWkzldHGBFrdeablg8=; b=j
+ wPmQ1RcSHZfCXGOyb0+Vpphcmfj8ejAh20ceS57Es77iNh/hAFzxKkYKQxGJ7a1K
+ 44YIxW7/qm4xdbHSTBQ1IdMlbeRobAwDvITBQRPhWbaM7UDF11NLNdkK5zIDe9Gl
+ MSkATx80GWzRDh0jfjj7OEHehSSNc4IV61ZnxP2lPI=
+X-Virus-Scanned: amavisd-new at yadro.com
+Received: from mta-01.yadro.com ([127.0.0.1])
+ by localhost (mta-01.yadro.com [127.0.0.1]) (amavisd-new, port 10024)
+ with ESMTP id YfqTvGQbxtwa; Fri, 17 Jul 2020 12:35:19 +0300 (MSK)
+Received: from T-EXCH-02.corp.yadro.com (t-exch-02.corp.yadro.com
+ [172.17.10.102])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES256-SHA384 (256/256 bits))
+ (No client certificate requested)
+ by mta-01.yadro.com (Postfix) with ESMTPS id 770B24C911;
+ Fri, 17 Jul 2020 12:35:19 +0300 (MSK)
+Received: from localhost (172.17.204.212) by T-EXCH-02.corp.yadro.com
+ (172.17.10.102) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA384_P384) id 15.1.669.32; Fri, 17
+ Jul 2020 12:35:19 +0300
+From: Roman Bolshakov <r.bolshakov@yadro.com>
 To: <qemu-devel@nongnu.org>
-Subject: [RFC v2 3/3] libvhost-user: fence legacy virtio devices
-Date: Fri, 17 Jul 2020 11:29:29 +0200
-Message-Id: <20200717092929.19453-4-mhartmay@linux.ibm.com>
-X-Mailer: git-send-email 2.26.2
-In-Reply-To: <20200717092929.19453-1-mhartmay@linux.ibm.com>
-References: <20200717092929.19453-1-mhartmay@linux.ibm.com>
+Subject: [PATCH v2 0/4] Add dtrace support on macOS
+Date: Fri, 17 Jul 2020 12:35:13 +0300
+Message-ID: <20200717093517.73397-1-r.bolshakov@yadro.com>
+X-Mailer: git-send-email 2.26.1
 MIME-Version: 1.0
+Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: 8bit
-X-TM-AS-GCONF: 00
-X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:6.0.235, 18.0.687
- definitions=2020-07-17_04:2020-07-17,
- 2020-07-17 signatures=0
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- malwarescore=0
- priorityscore=1501 mlxlogscore=999 lowpriorityscore=0 mlxscore=0
- spamscore=0 phishscore=0 adultscore=0 bulkscore=0 impostorscore=0
- suspectscore=1 clxscore=1015 classifier=spam adjust=0 reason=mlx
- scancount=1 engine=8.12.0-2006250000 definitions=main-2007170070
-Received-SPF: pass client-ip=148.163.156.1;
- envelope-from=mhartmay@linux.ibm.com; helo=mx0a-001b2d01.pphosted.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/07/17 05:29:52
-X-ACL-Warn: Detected OS   = Linux 3.x [generic] [fuzzy]
-X-Spam_score_int: -35
-X-Spam_score: -3.6
-X-Spam_bar: ---
-X-Spam_report: (-3.6 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_LOW=-0.7,
- RCVD_IN_MSPIKE_H2=-1, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Originating-IP: [172.17.204.212]
+X-ClientProxiedBy: T-EXCH-01.corp.yadro.com (172.17.10.101) To
+ T-EXCH-02.corp.yadro.com (172.17.10.102)
+Received-SPF: pass client-ip=89.207.88.252; envelope-from=r.bolshakov@yadro.com;
+ helo=mta-01.yadro.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/07/17 05:35:20
+X-ACL-Warn: Detected OS   = Linux 3.11 and newer
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001, URIBL_BLOCKED=0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -100,67 +78,44 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: =?UTF-8?q?Daniel=20P=2E=20Berrang=C3=A9?= <berrange@redhat.com>,
- "Michael S. Tsirkin" <mst@redhat.com>, Cornelia Huck <cohuck@redhat.com>,
- "Dr. David Alan Gilbert" <dgilbert@redhat.com>,
- Halil Pasic <pasic@linux.ibm.com>, Stefan Hajnoczi <stefanha@redhat.com>,
- =?UTF-8?q?Marc-Andr=C3=A9=20Lureau?= <marcandre.lureau@redhat.com>
+Cc: Roman Bolshakov <r.bolshakov@yadro.com>,
+ =?UTF-8?q?Daniel=20P=2E=20Berrang=C3=A9?= <berrange@redhat.com>,
+ Cameron Esfahani <dirty@apple.com>, Stefan Hajnoczi <stefanha@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-libvhost-user has no support for legacy virtio devices therefore
-let's fence them.
+Hi,
 
-Signed-off-by: Marc Hartmayer <mhartmay@linux.ibm.com>
----
- contrib/libvhost-user/libvhost-access.h | 10 ++++++++++
- contrib/libvhost-user/libvhost-user.c   |  6 ++++++
- 2 files changed, 16 insertions(+)
+This is a small series that enables dtrace tracing backend on macOS.
+Whether or not it should go to 5.1 is up to discretion of tracing
+maintainers.
 
-diff --git a/contrib/libvhost-user/libvhost-access.h b/contrib/libvhost-user/libvhost-access.h
-index 868ba3e7bfb8..aa505ea1ec02 100644
---- a/contrib/libvhost-user/libvhost-access.h
-+++ b/contrib/libvhost-user/libvhost-access.h
-@@ -1,11 +1,21 @@
- #ifndef LIBVHOST_ACCESS_H
- 
-+#include <assert.h>
-+
- #include "qemu/bswap.h"
- 
- #include "libvhost-user.h"
- 
-+static inline bool vu_has_feature(VuDev *dev, unsigned int fbit);
-+
- static inline bool vu_access_is_big_endian(VuDev *dev)
- {
-+    /*
-+     * TODO: can probably be removed as the fencing is already done in
-+     * `vu_set_features_exec`
-+     */
-+    assert(vu_has_feature(dev, VIRTIO_F_VERSION_1));
-+
-     /* Devices conforming to VIRTIO 1.0 or later are always LE. */
-     return false;
- }
-diff --git a/contrib/libvhost-user/libvhost-user.c b/contrib/libvhost-user/libvhost-user.c
-index 0214b04c5291..93c4503b1f53 100644
---- a/contrib/libvhost-user/libvhost-user.c
-+++ b/contrib/libvhost-user/libvhost-user.c
-@@ -540,6 +540,12 @@ vu_set_features_exec(VuDev *dev, VhostUserMsg *vmsg)
-     DPRINT("u64: 0x%016"PRIx64"\n", vmsg->payload.u64);
- 
-     dev->features = vmsg->payload.u64;
-+    if (!vu_has_feature(dev, VIRTIO_F_VERSION_1)) {
-+        /* We only support devices conforming to VIRTIO 1.0 or
-+         * later */
-+        vu_panic(dev, "virtio legacy devices aren't supported by libvhost-user");
-+        return false;
-+    }
- 
-     if (!(dev->features & VHOST_USER_F_PROTOCOL_FEATURES)) {
-         vu_set_enable_all_rings(dev, true);
+Thanks,
+Roman
+
+Changes since v1:
+ - Fixed a typo ANSI C to C99, wrt to _Bool in the first patch.
+ - Prevented a few [-Wpointer-sign] warnings by converting int8_t * to
+   signed char * in static probe definitions.
+ - Moved COLO packet dump under #ifdef DEBUG_COLO_PACKETS (Daniel).
+ - Separated tracepoints in net/filter-rewriter.c to use matching
+   is-enabled probe (Daniel).
+
+Roman Bolshakov (4):
+  scripts/tracetool: Fix dtrace generation for macOS
+  scripts/tracetool: Use void pointer for vcpu
+  build: Don't make object files for dtrace on macOS
+  net/colo: Match is-enabled probe to tracepoint
+
+ Makefile.objs                 |  2 ++
+ net/colo-compare.c            | 42 ++++++++++++++++++-----------------
+ net/filter-rewriter.c         | 10 +++++++--
+ net/trace-events              |  2 --
+ scripts/tracetool/format/d.py | 15 ++++++++++++-
+ scripts/tracetool/vcpu.py     |  2 +-
+ 6 files changed, 47 insertions(+), 26 deletions(-)
+
 -- 
-2.25.4
+2.26.1
 
 
