@@ -2,109 +2,107 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9DC21223E88
-	for <lists+qemu-devel@lfdr.de>; Fri, 17 Jul 2020 16:47:38 +0200 (CEST)
-Received: from localhost ([::1]:54302 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id BD3B8223E93
+	for <lists+qemu-devel@lfdr.de>; Fri, 17 Jul 2020 16:49:49 +0200 (CEST)
+Received: from localhost ([::1]:34204 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jwReA-0000XV-V8
-	for lists+qemu-devel@lfdr.de; Fri, 17 Jul 2020 10:47:35 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:56968)
+	id 1jwRgK-0003vH-RG
+	for lists+qemu-devel@lfdr.de; Fri, 17 Jul 2020 10:49:48 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:57620)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <Filip.Bozuta@syrmia.com>)
- id 1jwRbi-0006ii-J8
- for qemu-devel@nongnu.org; Fri, 17 Jul 2020 10:45:02 -0400
-Received: from mail-am6eur05on2136.outbound.protection.outlook.com
- ([40.107.22.136]:50880 helo=EUR05-AM6-obe.outbound.protection.outlook.com)
+ (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1jwReM-0001ah-P8
+ for qemu-devel@nongnu.org; Fri, 17 Jul 2020 10:47:46 -0400
+Received: from mout.kundenserver.de ([217.72.192.74]:47725)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <Filip.Bozuta@syrmia.com>)
- id 1jwRbf-0004yI-Tj
- for qemu-devel@nongnu.org; Fri, 17 Jul 2020 10:45:02 -0400
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=KYRydbkqDYCErDgEg1ZGwqc5Du6IqIF1Ll30mwbpnvvqo/5oSTLASS9RcEQ41Kv/zgklhUnSwTFT9tZiQF9JzdBsd2LvIkualrtSZW3+OGdUDCFCQgT3kUOugm9C/QcmYuJJK/lMGyNXN770OpM1EVEF2oXfud2ccIXw4R6rwdzb9Sr0wybIywIaScjK8r0gTH380B7kVvAAiuM3DqcIvDfD5YkSDXyQTb05lyVd+Iqke/WACie+54DOqglfciysZTqkOSVgQsqxPyCzG0+WN3r9us1oclDkTxDAuUmSf+mqHulu88NhosDBwGZJo4EWcrKbsXM52pUS5SBxHc3WWA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=ekTjZGCC4scdn4+xd+1rHdafnPeY7H44TRMCOIobEGc=;
- b=DusV7S0eTfsJwXqYCy6NhpxsHjb6NujqiIk8aR4Csph2PgCUMv0udXyghBtyH361pBQfU5w7jYK2n2RgE9e3nhaK+itzhSJT5bqLKI13Coxy3a7l3stp1XnyTSvWzEWhNNXjQWanudxuEZuEi6DUrNBYNvQGRSzTlQAhbEvf5pkX31qBPqAFMVdCsScgeknlbGlfIISOgyclNzBhdRoxkZCp3bJ41V+w9t2ToBLdQDHZ4v10/hKr0sNTydCtceLqmojUmjZYnmXi5NjVanL9VyZcmLZukB8GxzHn+ljxwtcVcg7v6L8m1fX+Qvpl8RTVVjeR9SzoO7cnRHsIzszqWw==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=syrmia.com; dmarc=pass action=none header.from=syrmia.com;
- dkim=pass header.d=syrmia.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=syrmia.com;
- s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=ekTjZGCC4scdn4+xd+1rHdafnPeY7H44TRMCOIobEGc=;
- b=wg+yxnMrsSFeECxsy1VKlySazqW7KJNLmVSgRbAXEq0zNJXVyaBeoqwbSUMVhdzLsKu8W6ZQd30dqk/7UnrpAqIzIa6iv56UCflKkNb5NdWlXm6XH9cx52IryNz30EcocPfwjJLHiDSrkpcGo0vk9q9FTlVuTt4vpv8MFanko5o=
-Authentication-Results: nongnu.org; dkim=none (message not signed)
- header.d=none;nongnu.org; dmarc=none action=none header.from=syrmia.com;
-Received: from VE1PR03MB5246.eurprd03.prod.outlook.com (2603:10a6:802:a1::22)
- by VI1PR0302MB3470.eurprd03.prod.outlook.com (2603:10a6:803:1f::13)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3174.23; Fri, 17 Jul
- 2020 14:44:57 +0000
-Received: from VE1PR03MB5246.eurprd03.prod.outlook.com
- ([fe80::ad93:b959:82ec:107f]) by VE1PR03MB5246.eurprd03.prod.outlook.com
- ([fe80::ad93:b959:82ec:107f%3]) with mapi id 15.20.3174.027; Fri, 17 Jul 2020
- 14:44:57 +0000
-From: Filip Bozuta <Filip.Bozuta@syrmia.com>
-To: qemu-devel@nongnu.org
-Subject: [PATCH v2 4/4] linux-user: Add support for btrfs ioctls used to scrub
- a filesystem
-Date: Fri, 17 Jul 2020 16:44:35 +0200
-Message-Id: <20200717144435.268166-5-Filip.Bozuta@syrmia.com>
-X-Mailer: git-send-email 2.25.1
-In-Reply-To: <20200717144435.268166-1-Filip.Bozuta@syrmia.com>
-References: <20200717144435.268166-1-Filip.Bozuta@syrmia.com>
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-ClientProxiedBy: GV0P278CA0028.CHEP278.PROD.OUTLOOK.COM
- (2603:10a6:710:28::15) To VE1PR03MB5246.eurprd03.prod.outlook.com
- (2603:10a6:802:a1::22)
+ (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1jwReJ-0005kb-H1
+ for qemu-devel@nongnu.org; Fri, 17 Jul 2020 10:47:46 -0400
+Received: from [192.168.100.1] ([82.252.135.186]) by mrelayeu.kundenserver.de
+ (mreue107 [213.165.67.119]) with ESMTPSA (Nemesis) id
+ 1MwgOK-1klUo33cUM-00y6QE; Fri, 17 Jul 2020 16:47:34 +0200
+To: Filip Bozuta <Filip.Bozuta@syrmia.com>, qemu-devel@nongnu.org
+References: <20200714200439.11328-1-Filip.Bozuta@syrmia.com>
+From: Laurent Vivier <laurent@vivier.eu>
+Autocrypt: addr=laurent@vivier.eu; prefer-encrypt=mutual; keydata=
+ mQINBFYFJhkBEAC2me7w2+RizYOKZM+vZCx69GTewOwqzHrrHSG07MUAxJ6AY29/+HYf6EY2
+ WoeuLWDmXE7A3oJoIsRecD6BXHTb0OYS20lS608anr3B0xn5g0BX7es9Mw+hV/pL+63EOCVm
+ SUVTEQwbGQN62guOKnJJJfphbbv82glIC/Ei4Ky8BwZkUuXd7d5NFJKC9/GDrbWdj75cDNQx
+ UZ9XXbXEKY9MHX83Uy7JFoiFDMOVHn55HnncflUncO0zDzY7CxFeQFwYRbsCXOUL9yBtqLer
+ Ky8/yjBskIlNrp0uQSt9LMoMsdSjYLYhvk1StsNPg74+s4u0Q6z45+l8RAsgLw5OLtTa+ePM
+ JyS7OIGNYxAX6eZk1+91a6tnqfyPcMbduxyBaYXn94HUG162BeuyBkbNoIDkB7pCByed1A7q
+ q9/FbuTDwgVGVLYthYSfTtN0Y60OgNkWCMtFwKxRaXt1WFA5ceqinN/XkgA+vf2Ch72zBkJL
+ RBIhfOPFv5f2Hkkj0MvsUXpOWaOjatiu0fpPo6Hw14UEpywke1zN4NKubApQOlNKZZC4hu6/
+ 8pv2t4HRi7s0K88jQYBRPObjrN5+owtI51xMaYzvPitHQ2053LmgsOdN9EKOqZeHAYG2SmRW
+ LOxYWKX14YkZI5j/TXfKlTpwSMvXho+efN4kgFvFmP6WT+tPnwARAQABtCJMYXVyZW50IFZp
+ dmllciA8bGF1cmVudEB2aXZpZXIuZXU+iQI4BBMBAgAiBQJWBTDeAhsDBgsJCAcDAgYVCAIJ
+ CgsEFgIDAQIeAQIXgAAKCRDzDDi9Py++PCEdD/oD8LD5UWxhQrMQCsUgLlXCSM7sxGLkwmmF
+ ozqSSljEGRhffxZvO35wMFcdX9Z0QOabVoFTKrT04YmvbjsErh/dP5zeM/4EhUByeOS7s6Yl
+ HubMXVQTkak9Wa9Eq6irYC6L41QNzz/oTwNEqL1weV1+XC3TNnht9B76lIaELyrJvRfgsp9M
+ rE+PzGPo5h7QHWdL/Cmu8yOtPLa8Y6l/ywEJ040IoiAUfzRoaJs2csMXf0eU6gVBhCJ4bs91
+ jtWTXhkzdl4tdV+NOwj3j0ukPy+RjqeL2Ej+bomnPTOW8nAZ32dapmu7Fj7VApuQO/BSIHyO
+ NkowMMjB46yohEepJaJZkcgseaus0x960c4ua/SUm/Nm6vioRsxyUmWd2nG0m089pp8LPopq
+ WfAk1l4GciiMepp1Cxn7cnn1kmG6fhzedXZ/8FzsKjvx/aVeZwoEmucA42uGJ3Vk9TiVdZes
+ lqMITkHqDIpHjC79xzlWkXOsDbA2UY/P18AtgJEZQPXbcrRBtdSifCuXdDfHvI+3exIdTpvj
+ BfbgZAar8x+lcsQBugvktlQWPfAXZu4Shobi3/mDYMEDOE92dnNRD2ChNXg2IuvAL4OW40wh
+ gXlkHC1ZgToNGoYVvGcZFug1NI+vCeCFchX+L3bXyLMg3rAfWMFPAZLzn42plIDMsBs+x2yP
+ +bkCDQRWBSYZARAAvFJBFuX9A6eayxUPFaEczlMbGXugs0mazbOYGlyaWsiyfyc3PStHLFPj
+ rSTaeJpPCjBJErwpZUN4BbpkBpaJiMuVO6egrC8Xy8/cnJakHPR2JPEvmj7Gm/L9DphTcE15
+ 92rxXLesWzGBbuYxKsj8LEnrrvLyi3kNW6B5LY3Id+ZmU8YTQ2zLuGV5tLiWKKxc6s3eMXNq
+ wrJTCzdVd6ThXrmUfAHbcFXOycUyf9vD+s+WKpcZzCXwKgm7x1LKsJx3UhuzT8ier1L363RW
+ ZaJBZ9CTPiu8R5NCSn9V+BnrP3wlFbtLqXp6imGhazT9nJF86b5BVKpF8Vl3F0/Y+UZ4gUwL
+ d9cmDKBcmQU/JaRUSWvvolNu1IewZZu3rFSVgcpdaj7F/1aC0t5vLdx9KQRyEAKvEOtCmP4m
+ 38kU/6r33t3JuTJnkigda4+Sfu5kYGsogeYG6dNyjX5wpK5GJIJikEhdkwcLM+BUOOTi+I9u
+ tX03BGSZo7FW/J7S9y0l5a8nooDs2gBRGmUgYKqQJHCDQyYut+hmcr+BGpUn9/pp2FTWijrP
+ inb/Pc96YDQLQA1q2AeAFv3Rx3XoBTGl0RCY4KZ02c0kX/dm3eKfMX40XMegzlXCrqtzUk+N
+ 8LeipEsnOoAQcEONAWWo1HcgUIgCjhJhBEF0AcELOQzitbJGG5UAEQEAAYkCHwQYAQIACQUC
+ VgUmGQIbDAAKCRDzDDi9Py++PCD3D/9VCtydWDdOyMTJvEMRQGbx0GacqpydMEWbE3kUW0ha
+ US5jz5gyJZHKR3wuf1En/3z+CEAEfP1M3xNGjZvpaKZXrgWaVWfXtGLoWAVTfE231NMQKGoB
+ w2Dzx5ivIqxikXB6AanBSVpRpoaHWb06tPNxDL6SVV9lZpUn03DSR6gZEZvyPheNWkvz7bE6
+ FcqszV/PNvwm0C5Ju7NlJA8PBAQjkIorGnvN/vonbVh5GsRbhYPOc/JVwNNr63P76rZL8Gk/
+ hb3xtcIEi5CCzab45+URG/lzc6OV2nTj9Lg0SNcRhFZ2ILE3txrmI+aXmAu26+EkxLLfqCVT
+ ohb2SffQha5KgGlOSBXustQSGH0yzzZVZb+HZPEvx6d/HjQ+t9sO1bCpEgPdZjyMuuMp9N1H
+ ctbwGdQM2Qb5zgXO+8ZSzwC+6rHHIdtcB8PH2j+Nd88dVGYlWFKZ36ELeZxD7iJflsE8E8yg
+ OpKgu3nD0ahBDqANU/ZmNNarBJEwvM2vfusmNnWm3QMIwxNuJghRyuFfx694Im1js0ZY3LEU
+ JGSHFG4ZynA+ZFUPA6Xf0wHeJOxGKCGIyeKORsteIqgnkINW9fnKJw2pgk8qHkwVc3Vu+wGS
+ ZiJK0xFusPQehjWTHn9WjMG1zvQ5TQQHxau/2FkP45+nRPco6vVFQe8JmgtRF8WFJA==
+Subject: Re: [PATCH] linux-user: Add strace support for printing arguments for
+ ioctls used for terminals and serial lines
+Message-ID: <76551f5e-ea9d-fcb9-2646-2653f110a635@vivier.eu>
+Date: Fri, 17 Jul 2020 16:47:32 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.9.0
 MIME-Version: 1.0
-X-MS-Exchange-MessageSentRepresentingType: 1
-Received: from localhost.localdomain (147.91.217.239) by
- GV0P278CA0028.CHEP278.PROD.OUTLOOK.COM (2603:10a6:710:28::15) with Microsoft
- SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.3195.17 via Frontend Transport; Fri, 17 Jul 2020 14:44:56 +0000
-X-Mailer: git-send-email 2.25.1
-X-Originating-IP: [147.91.217.239]
-X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: 6108ee74-cc35-4460-6e82-08d82a5ff973
-X-MS-TrafficTypeDiagnostic: VI1PR0302MB3470:
-X-Microsoft-Antispam-PRVS: <VI1PR0302MB347046C4014E82867CF2924FEB7C0@VI1PR0302MB3470.eurprd03.prod.outlook.com>
-X-MS-Oob-TLC-OOBClassifiers: OLM:10000;
-X-MS-Exchange-SenderADCheck: 1
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: 1buKHaaJbe9hrTzjJEVpSCBGxGbEzos1en2lYQ0x/KTbRbFjfLSWQ+msraB9taQSOmTkEH7I6yeAG31cQXTa8ff6PtgCpqSUujz1SeKMa/m/9B4yl3z4O69MY+aOEfNCeIz/Qmt83rE+UpYCG3gzS6sskD6Mskpnc7uxm6PBP3XRwP6ARTPXxbqQHUvmMc55Sy2nDyPcWEATdfxDbkLLVQS1Mo2h38/xFFwFlXzFX2rlnA1gZlQPvHqILWr4TU074UhHd0o8pat2buQZOFHsWfLPzLpKGuNqCUWwy+WyhlUXM1RdrsQU32syK+G5XMFn1jVPJoRxm4EEv1GiFpBrCMDWawPYIROHeiRQCTbhasYVGSS/1cR9nRW6qilO0YCrZe3mePuiknr87L7VclQVWp4UK++IUW2tenkj9Fu+CQFfGbsnJ0fBKNaS34DzANcnR4WsyO/M9yE2rqCakDkwow==
-X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:VE1PR03MB5246.eurprd03.prod.outlook.com; PTR:; CAT:NONE;
- SFTY:;
- SFS:(376002)(396003)(39830400003)(366004)(346002)(136003)(956004)(5660300002)(83380400001)(8936002)(66476007)(316002)(1076003)(66556008)(69590400007)(6666004)(66946007)(52116002)(8676002)(6506007)(186003)(966005)(6916009)(2616005)(36756003)(2906002)(4326008)(26005)(16526019)(6486002)(6512007)(86362001)(508600001);
- DIR:OUT; SFP:1102; 
-X-MS-Exchange-AntiSpam-MessageData: 2sqmxvC3F0Z2k3TwTZlmYQ4xYfMsH1FHx8T6ONr1u3b2Zwx9kOhdVdHxMDntydhbfLFRXEJKwWZTvFZlJH7cLyBSWAzz8nqMZGz3BmSk7FE3ZDbeGW1HTbEOUIxtgjCUK4t6wFEn+NUoJNU5dpLEztxsmNuKgBIMUjlw+tX1MJmgOgTZa+GSxVC2fZhDZjCxUpuWPohccD87d+yds0Y3Alm+bbLZbFdRUa0jLxUrMbwlppeDtl8lsERg5RANC1AJsxx8xMiabI4TRYfO4Yd6fBFGonPHVw2OXPlCJW+ALmLIOZTyZ+MFA0ItvKiPL68OloD20lRYAZYR9erFW/kme2C5f3SEUv92e8JldTvjg9dTVSZvcGvl9SMBE5SZ6GEhz+UACmu3zD3o8RjChStFAdIPj3uka8wum57Wfp/5SAIairLGA9PSx7CjHGzYB2pxbC6jXLbdqzTdQp+OTNgBv7zEhGKeE3pL5vVCkIpxaUg=
-X-OriginatorOrg: syrmia.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 6108ee74-cc35-4460-6e82-08d82a5ff973
-X-MS-Exchange-CrossTenant-AuthSource: VE1PR03MB5246.eurprd03.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 17 Jul 2020 14:44:57.0515 (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 19214a73-c1ab-4e19-8f59-14bdcb09a66e
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: 9AJmqP1udCh2iHCIF4qa3q9ArkqoETbAh3ZGRwRLTkAYMRHVpzBypvZjQe+WpNzacayTdNixITrwKBv4E3SilQ==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: VI1PR0302MB3470
-Received-SPF: pass client-ip=40.107.22.136;
- envelope-from=Filip.Bozuta@syrmia.com;
- helo=EUR05-AM6-obe.outbound.protection.outlook.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/07/17 10:44:57
-X-ACL-Warn: Detected OS   = Windows NT kernel [generic] [fuzzy]
-X-Spam_score_int: -37
-X-Spam_score: -3.8
-X-Spam_bar: ---
-X-Spam_report: (-3.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- MSGID_FROM_MTA_HEADER=0.001, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-1,
- SPF_HELO_PASS=-0.001, SPF_PASS=-0.001,
- URIBL_BLOCKED=0.001 autolearn=ham autolearn_force=no
+In-Reply-To: <20200714200439.11328-1-Filip.Bozuta@syrmia.com>
+Content-Type: text/plain; charset=utf-8
+Content-Language: fr
+Content-Transfer-Encoding: 8bit
+X-Provags-ID: V03:K1:XywwmRH+48mCmubzzhz97zPeOkzdXOp/jLEY/Kv8e5aTOgDaHT/
+ +NeYZzj7+Vo37feOWHNK66jzoIE/Vjj7Hwi8xDfA3RXvkHkth0QqRPquv0aMvGqpk05mLvQ
+ U7/lWAbpOwHtiCWPESmZhcgunx8eNX+p0809RBiIXTGNL9lmdoQoxkpkRiW8K3kwEH2+vdZ
+ iHoaza/+6mA7iURZUDJYA==
+X-UI-Out-Filterresults: notjunk:1;V03:K0:AKAw4TPY3Wo=:onfwamqzsq2kEglxWJSSn+
+ irC+71C0fWmnG4rAqhMkKv40/+1NYDKbozvrligOXarOksailiiiVPxusksyk86xhkXpHVLCF
+ 08UIJWEY5Vwdx9tlJA6uLkQo0hutVvnZpA93v50LhQbFiayVcFxb8Jn3bujmQ+lCYkjcHGMCq
+ qCAdW5TzHNAYSiEKUpGryyA9/F0c3dHfqzHUIPTxcexp9c8RntcIGlDTpS2/OyvYKplBVNkqi
+ bm9jkhlb06Q0REvmnuWIiP6+enUcpyYp2nVy59G89Y5Wjk5fMn9wDoG9v3qtnHhpkbooPowCO
+ I0VMJG7WaxvBdpKDyIjtcLbQxRGKPLIIR5kJlqDNhgnbAQti6xDVD8BbwuetxklFGyhQtODdn
+ FVIF3N6lmxhaHStW1QPsjQMM4jdkYUIZOJPif0SP0o+5M3GcxS5BqzqAUJ+eqrPHnq096h7Px
+ 4WfcEP8q7L2kHroSCNEQrymx7RjMMjx/h35nycSZ6eE5cZlHQH92zlPc6PZgtvNdRm3ZAG++H
+ sd4oYQ9TWaTLSvMcGLEJUYk3sneRt0AJM60L6d2KWAeFkN+hiLAapLVww4PPO0X1qfewzttSs
+ Syqqa9hLpcSYEiZ42YSFNmDwL1iyoM9E3BMjTFI7sFKY/ZTOt6hy2pzdShV/4nuWIND2uam8q
+ NZPOYcSoDEP3ZFV3b9BWFgxKGhdz4OsoCCLHfed+pTrjKY9DvWsg4zS6+BTCERKJtwwAvFMcL
+ FN57vftIt8+B/ghA31q30XdDyj5UnJT6bSHhil9rYZ749gxjtxv2aur03ijczj9dPq1q1Yn7f
+ AB12+nyXjna1yK9s9R3nOlMeL73kYRz2MitGr5lGAiXcvXqtx6AMXeD51Om9YLDCVzpxKxw
+Received-SPF: none client-ip=217.72.192.74; envelope-from=laurent@vivier.eu;
+ helo=mout.kundenserver.de
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/07/17 10:47:41
+X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic]
+X-Spam_score_int: -28
+X-Spam_score: -2.9
+X-Spam_bar: --
+X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_NONE=-0.0001,
+ RCVD_IN_MSPIKE_H2=-1, SPF_HELO_NONE=0.001,
+ SPF_NONE=0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -117,138 +115,339 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: riku.voipio@iki.fi, laurent@viver.eu
+Cc: Riku Voipio <riku.voipio@iki.fi>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-This patch implements functionality for following ioctls:
+Le 14/07/2020 à 22:04, Filip Bozuta a écrit :
+> Functions "print_ioctl()" and "print_syscall_ret_ioctl()" are used
+> to print arguments of "ioctl()" with "-strace". These functions
+> use "thunk_print()", which is defined in "thunk.c", to print the
+> contents of ioctl's third arguments that are not basic types.
+> However, this function doesn't handle ioctls of group ioctl_tty which
+> are used for terminals and serial lines. These ioctls use a type
+> "struct termios" which thunk type is defined in a non standard
+> way using "STRUCT_SPECIAL()". This means that this type is not decoded
+> regularly using "thunk_convert()" and uses special converting functions
+> "target_to_host_termios()" and "host_to_target_termios()", which are defined
+> in "syscall.c" to decode it's values. For simillar reasons, this type is
+> also not printed regularly using "thunk_print()". That is the reason
+> why a separate printing function "print_termios()" is defined in
+> file "strace.c". This function decodes and prints flag values of the
+> "termios" structure.
+> 
+> Implementation notes:
+> 
+>     Function "print_termios()" was implemented in "strace.c" using
+>     an existing function "print_flags()" to print flag values of
+>     "struct termios" fields. These flag values were defined
+>     using an existing macro "FLAG_TARGET()" that generates aproppriate
+>     target flag values and string representations of these flags.
+>     This function was declared in "qemu.h" so that it can be accessed
+>     in "syscall.c". Type "StructEntry" defined in "exec/user/thunk.h"
+>     contains information that is used to decode structure values.
+>     Field "void print(void *arg)" was added in this structure as a
+>     special print function. Also, function "thunk_print()" was changed
+>     a little so that it uses this special print function in case
+>     it is defined. This printing function was instantiated with the
+>     defined "print_termios()" in "syscall.c" in "struct_termios_def".
+> 
+> Signed-off-by: Filip Bozuta <Filip.Bozuta@syrmia.com>
+> ---
+>  include/exec/user/thunk.h |   1 +
+>  linux-user/qemu.h         |   2 +
+>  linux-user/strace.c       | 193 ++++++++++++++++++++++++++++++++++++++
+>  linux-user/syscall.c      |   1 +
+>  thunk.c                   |  23 +++--
+>  5 files changed, 211 insertions(+), 9 deletions(-)
+> 
+> diff --git a/include/exec/user/thunk.h b/include/exec/user/thunk.h
+> index 7992475c9f..a5bbb2c733 100644
+> --- a/include/exec/user/thunk.h
+> +++ b/include/exec/user/thunk.h
+> @@ -55,6 +55,7 @@ typedef struct {
+>      int *field_offsets[2];
+>      /* special handling */
+>      void (*convert[2])(void *dst, const void *src);
+> +    void (*print)(void *arg);
+>      int size[2];
+>      int align[2];
+>      const char *name;
+> diff --git a/linux-user/qemu.h b/linux-user/qemu.h
+> index 5c964389c1..e51a0ededb 100644
+> --- a/linux-user/qemu.h
+> +++ b/linux-user/qemu.h
+> @@ -706,6 +706,8 @@ static inline uint64_t target_offset64(uint64_t word0, uint64_t word1)
+>  }
+>  #endif /* TARGET_ABI_BITS != 32 */
+>  
+> +extern void print_termios(void *arg);
+> +
+>  /**
+>   * preexit_cleanup: housekeeping before the guest exits
+>   *
+> diff --git a/linux-user/strace.c b/linux-user/strace.c
+> index 5235b2260c..7b5408cf4a 100644
+> --- a/linux-user/strace.c
+> +++ b/linux-user/strace.c
+> @@ -1193,6 +1193,138 @@ UNUSED static struct flags falloc_flags[] = {
+>  #endif
+>  };
+>  
+> +UNUSED static struct flags termios_iflags[] = {
+> +    FLAG_TARGET(IGNBRK),
+> +    FLAG_TARGET(BRKINT),
+> +    FLAG_TARGET(IGNPAR),
+> +    FLAG_TARGET(PARMRK),
+> +    FLAG_TARGET(INPCK),
+> +    FLAG_TARGET(ISTRIP),
+> +    FLAG_TARGET(INLCR),
+> +    FLAG_TARGET(IGNCR),
+> +    FLAG_TARGET(ICRNL),
+> +    FLAG_TARGET(IUCLC),
+> +    FLAG_TARGET(IXON),
+> +    FLAG_TARGET(IXANY),
+> +    FLAG_TARGET(IXOFF),
+> +    FLAG_TARGET(IMAXBEL),
 
-BTRFS_IOC_SCRUB - Starting a btrfs filesystem scrub
+IUTF8 is missing
 
-    Start a btrfs filesystem scrub. The third ioctls argument
-    is a pointer to a following type:
+> +    FLAG_END,
+> +};
+> +
+> +UNUSED static struct flags termios_oflags[] = {
+> +    FLAG_TARGET(OPOST),
+> +    FLAG_TARGET(OLCUC),
+> +    FLAG_TARGET(ONLCR),
+> +    FLAG_TARGET(OCRNL),
+> +    FLAG_TARGET(ONOCR),
+> +    FLAG_TARGET(ONLRET),
+> +    FLAG_TARGET(OFILL),
+> +    FLAG_TARGET(OFDEL),
+> +    FLAG_END,
+> +};
+> +
 
-    struct btrfs_ioctl_scrub_args {
-	__u64 devid;				/* in */
-	__u64 start;				/* in */
-	__u64 end;				/* in */
-	__u64 flags;				/* in */
-	struct btrfs_scrub_progress progress;	/* out */
-	/* pad to 1k */
-	__u64 unused[(1024-32-sizeof(struct btrfs_scrub_progress))/8];
-    };
+the following entries are not flags: flags are bits, while we have
+enumerated values in these cases.
 
-    Before calling this ioctl, field 'devid' should be filled
-    with value that represents the device id of the btrfs filesystem
-    for which the scrub is to be started.
+NL0, NL1 = 0,1
 
-BTRFS_IOC_SCRUB_CANCEL - Canceling scrub of a btrfs filesystem
+> +UNUSED static struct flags termios_oflags_NLDLY[] = {
+> +    FLAG_TARGET(NL0),
+> +    FLAG_TARGET(NL1),
+> +    FLAG_END,
+> +};
 
-    Cancel a btrfs filesystem scrub if it is running. The third
-    ioctls argument is ignored.
+CR0, CR1, CR2, CR3 = 0, 1, 2, 3
 
-BTRFS_IOC_SCRUB_PROGRESS - Getting status of a running scrub
+> +UNUSED static struct flags termios_oflags_CRDLY[] = {
+> +    FLAG_TARGET(CR0),
+> +    FLAG_TARGET(CR1),
+> +    FLAG_TARGET(CR2),
+> +    FLAG_TARGET(CR3),
+> +    FLAG_END,
+> +};
+>
 
-    Read the status of a running btrfs filesystem scrub. The third
-    ioctls argument is a pointer to the above mentioned
-    'struct btrfs_ioctl_scrub_args'. Similarly as with 'BTRFS_IOC_SCRUB',
-    the 'devid' field should be filled with value that represents the
-    id of the btrfs device for which the scrub has started. The status
-    of a running scrub is returned in the field 'progress' which is
-    of type 'struct btrfs_scrub_progress' and its definition can be
-    found at:
-    https://elixir.bootlin.com/linux/latest/source/include/uapi/linux/btrfs.h#L150
+TAB0 is 0 so it cannot be detected
 
-Implementation nots:
+> +UNUSED static struct flags termios_oflags_TABDLY[] = {
+> +    FLAG_TARGET(TAB0),
+> +    FLAG_TARGET(TAB1),
+> +    FLAG_TARGET(TAB2),
+> +    FLAG_TARGET(TAB3),
+> +    FLAG_END,
+> +};
 
-    Ioctls in this patch use type 'struct btrfs_ioctl_scrub_args' as their
-    third argument. That is the reason why an aproppriate thunk type
-    definition is added in file 'syscall_types.h'.
+VT0 is 0
 
-Signed-off-by: Filip Bozuta <Filip.Bozuta@syrmia.com>
----
- linux-user/ioctls.h        | 11 +++++++++++
- linux-user/syscall_defs.h  |  6 ++++++
- linux-user/syscall_types.h | 26 ++++++++++++++++++++++++++
- 3 files changed, 43 insertions(+)
+> +UNUSED static struct flags termios_oflags_VTDLY[] = {
+> +    FLAG_TARGET(VT0),
+> +    FLAG_TARGET(VT1),
+> +    FLAG_END,
+> +};
 
-diff --git a/linux-user/ioctls.h b/linux-user/ioctls.h
-index 8665f504bf..bf80615438 100644
---- a/linux-user/ioctls.h
-+++ b/linux-user/ioctls.h
-@@ -215,6 +215,17 @@
- #ifdef BTRFS_IOC_SUBVOL_SETFLAGS
-      IOCTL(BTRFS_IOC_SUBVOL_SETFLAGS, IOC_W, MK_PTR(TYPE_ULONGLONG))
- #endif
-+#ifdef BTRFS_IOC_SCRUB
-+     IOCTL(BTRFS_IOC_SCRUB, IOC_RW,
-+           MK_PTR(MK_STRUCT(STRUCT_btrfs_ioctl_scrub_args)))
-+#endif
-+#ifdef BTRFS_IOC_SCRUB_CANCEL
-+     IOCTL(BTRFS_IOC_SCRUB_CANCEL, 0, TYPE_NULL)
-+#endif
-+#ifdef BTRFS_IOC_SCRUB_PROGRESS
-+     IOCTL(BTRFS_IOC_SCRUB_PROGRESS, IOC_RW,
-+           MK_PTR(MK_STRUCT(STRUCT_btrfs_ioctl_scrub_args)))
-+#endif
- #ifdef BTRFS_IOC_DEV_INFO
-      IOCTL(BTRFS_IOC_DEV_INFO, IOC_RW,
-            MK_PTR(MK_STRUCT(STRUCT_btrfs_ioctl_dev_info_args)))
-diff --git a/linux-user/syscall_defs.h b/linux-user/syscall_defs.h
-index 3f771ae5d1..589ec3e9b0 100644
---- a/linux-user/syscall_defs.h
-+++ b/linux-user/syscall_defs.h
-@@ -990,6 +990,12 @@ struct target_rtc_pll_info {
-                                                            25, abi_ullong)
- #define TARGET_BTRFS_IOC_SUBVOL_SETFLAGS        TARGET_IOW(BTRFS_IOCTL_MAGIC, \
-                                                            26, abi_ullong)
-+#define TARGET_BTRFS_IOC_SCRUB                  TARGET_IOWR(BTRFS_IOCTL_MAGIC,\
-+                                             27, struct btrfs_ioctl_scrub_args)
-+#define TARGET_BTRFS_IOC_SCRUB_CANCEL           TARGET_IO(BTRFS_IOCTL_MAGIC,  \
-+                                                          28)
-+#define TARGET_BTRFS_IOC_SCRUB_PROGRESS         TARGET_IOWR(BTRFS_IOCTL_MAGIC,\
-+                                             29, struct btrfs_ioctl_scrub_args)
- #define TARGET_BTRFS_IOC_DEV_INFO               TARGET_IOWR(BTRFS_IOCTL_MAGIC,\
-                                           30, struct btrfs_ioctl_dev_info_args)
- #define TARGET_BTRFS_IOC_INO_PATHS              TARGET_IOWR(BTRFS_IOCTL_MAGIC,\
-diff --git a/linux-user/syscall_types.h b/linux-user/syscall_types.h
-index b4f462b5c6..345193270c 100644
---- a/linux-user/syscall_types.h
-+++ b/linux-user/syscall_types.h
-@@ -373,6 +373,32 @@ STRUCT(btrfs_ioctl_ino_lookup_user_args,
-        MK_ARRAY(TYPE_CHAR, BTRFS_VOL_NAME_MAX + 1), /* name */
-        MK_ARRAY(TYPE_CHAR, BTRFS_INO_LOOKUP_USER_PATH_MAX)) /* path */
- 
-+STRUCT(btrfs_scrub_progress,
-+       TYPE_ULONGLONG, /* data_extents_scrubbed */
-+       TYPE_ULONGLONG, /* tree_extents_scrubbed */
-+       TYPE_ULONGLONG, /* data_bytes_scrubbed */
-+       TYPE_ULONGLONG, /* tree_bytes_scrubbed */
-+       TYPE_ULONGLONG, /* read_errors */
-+       TYPE_ULONGLONG, /* csum_errors */
-+       TYPE_ULONGLONG, /* verify_errors */
-+       TYPE_ULONGLONG, /* no_csum */
-+       TYPE_ULONGLONG, /* csum_discards */
-+       TYPE_ULONGLONG, /* super_errors */
-+       TYPE_ULONGLONG, /* malloc_errors */
-+       TYPE_ULONGLONG, /* uncorrectable_errors */
-+       TYPE_ULONGLONG, /* corrected_er */
-+       TYPE_ULONGLONG, /* last_physical */
-+       TYPE_ULONGLONG) /* unverified_errors */
-+
-+STRUCT(btrfs_ioctl_scrub_args,
-+  TYPE_ULONGLONG, /* devid */
-+  TYPE_ULONGLONG, /* start */
-+  TYPE_ULONGLONG, /* end */
-+  TYPE_ULONGLONG, /* flags */
-+  MK_STRUCT(STRUCT_btrfs_scrub_progress), /* progress */
-+  MK_ARRAY(TYPE_ULONGLONG,
-+           (1024 - 32 - sizeof(struct btrfs_scrub_progress)) / 8)) /* unused */
-+
- STRUCT(btrfs_ioctl_dev_info_args,
-        TYPE_ULONGLONG, /* devid */
-        MK_ARRAY(TYPE_CHAR, BTRFS_UUID_SIZE), /* uuid */
--- 
-2.25.1
+FF0 is 0
 
+> +UNUSED static struct flags termios_oflags_FFDLY[] = {
+> +    FLAG_TARGET(FF0),
+> +    FLAG_TARGET(FF1),
+> +    FLAG_END,
+> +};
+
+BS0 is 0
+
+> +UNUSED static struct flags termios_oflags_BSDLY[] = {
+> +    FLAG_TARGET(BS0),
+> +    FLAG_TARGET(BS1),
+> +    FLAG_END,
+> +};
+
+ditto: these are not bits but enumerated values (B0 is 0).
+
+> +UNUSED static struct flags termios_cflags_CBAUD[] = {
+> +    FLAG_TARGET(B0),
+> +    FLAG_TARGET(B50),
+> +    FLAG_TARGET(B75),
+> +    FLAG_TARGET(B110),
+> +    FLAG_TARGET(B134),
+> +    FLAG_TARGET(B150),
+> +    FLAG_TARGET(B200),
+> +    FLAG_TARGET(B300),
+> +    FLAG_TARGET(B600),
+> +    FLAG_TARGET(B1200),
+> +    FLAG_TARGET(B1800),
+> +    FLAG_TARGET(B2400),
+> +    FLAG_TARGET(B4800),
+> +    FLAG_TARGET(B9600),
+> +    FLAG_TARGET(B19200),
+> +    FLAG_TARGET(B38400),
+> +    FLAG_TARGET(B57600),
+> +    FLAG_TARGET(B115200),
+> +    FLAG_TARGET(B230400),
+> +    FLAG_TARGET(B460800),
+> +    FLAG_END,
+> +};
+
+CS5 is 0
+
+> +UNUSED static struct flags termios_cflags_CSIZE[] = {
+> +    FLAG_TARGET(CS5),
+> +    FLAG_TARGET(CS6),
+> +    FLAG_TARGET(CS7),
+> +    FLAG_TARGET(CS8),
+> +    FLAG_END,
+> +};
+
+These ones are ok:
+
+> +UNUSED static struct flags termios_cflags[] = {
+> +    FLAG_TARGET(CSTOPB),
+> +    FLAG_TARGET(CREAD),
+> +    FLAG_TARGET(PARENB),
+> +    FLAG_TARGET(PARODD),
+> +    FLAG_TARGET(HUPCL),
+> +    FLAG_TARGET(CLOCAL),
+> +    FLAG_TARGET(CRTSCTS),
+> +    FLAG_END,
+> +};
+
+These ones too:
+
+> +UNUSED static struct flags termios_lflags[] = {
+> +    FLAG_TARGET(ISIG),
+> +    FLAG_TARGET(ICANON),
+> +    FLAG_TARGET(XCASE),
+> +    FLAG_TARGET(ECHO),
+> +    FLAG_TARGET(ECHOE),
+> +    FLAG_TARGET(ECHOK),
+> +    FLAG_TARGET(ECHONL),
+> +    FLAG_TARGET(NOFLSH),
+> +    FLAG_TARGET(TOSTOP),
+> +    FLAG_TARGET(ECHOCTL),
+> +    FLAG_TARGET(ECHOPRT),
+> +    FLAG_TARGET(ECHOKE),
+> +    FLAG_TARGET(FLUSHO),
+> +    FLAG_TARGET(PENDIN),
+> +    FLAG_TARGET(IEXTEN),
+
+missing EXTPROC
+
+> +    FLAG_END,
+> +};
+> +
+>  /*
+>   * print_xxx utility functions.  These are used to print syscall
+>   * parameters in certain format.  All of these have parameter
+> @@ -1420,6 +1552,67 @@ print_timezone(abi_ulong tz_addr, int last)
+>      }
+>  }
+>  
+> +void
+> +print_termios(void *arg)
+> +{
+> +    const struct target_termios *target = arg;
+> +
+> +    abi_long iflags = tswap32(target->c_iflag);
+> +    abi_long oflags = tswap32(target->c_oflag);
+> +    abi_long cflags = tswap32(target->c_cflag);
+> +    abi_long lflags = tswap32(target->c_lflag);
+
+You should use target_tcflag_t here, rather than abi_long.
+To be able to do that we need some cleanup before:
+- define target_tcflag_t, target_cc_t, target_speed_t in a new file
+  linux-user/generic/termbits.h
+- update all the existing target_termios to use them
+
+> +
+> +    qemu_log("{");
+> +
+> +    qemu_log("c_iflag = ");
+> +    print_flags(termios_iflags, iflags, 0);
+> +
+> +    qemu_log("c_oflag = ");
+> +    abi_long oflags_clean =  oflags & ~(TARGET_NLDLY) & ~(TARGET_CRDLY) &
+> +                                      ~(TARGET_TABDLY) & ~(TARGET_BSDLY) &
+> +                                      ~(TARGET_VTDLY) & ~(TARGET_FFDLY);
+
+I think would simpler to write:
+
+oflags & ~(TARGET_NLDLY | TARGET_CRDLY | TARGET_TABDLY | TARGET_BSDLY |
+TARGET_VTDLY | TARGET_FFDLY)
+
+> +    print_flags(termios_oflags, oflags_clean, 0);
+> +    if (oflags & TARGET_NLDLY) {
+
+NL0 is 0 so you never display it.
+
+> +        print_flags(termios_oflags_NLDLY, oflags & TARGET_NLDLY, 0);
+> +    }
+> +    if (oflags & TARGET_CRDLY) {
+
+CR0 is 0, same comment for the following ones.
+
+> +        print_flags(termios_oflags_CRDLY, oflags & TARGET_CRDLY, 0);
+> +    }
+> +    if (oflags & TARGET_TABDLY) {
+> +        print_flags(termios_oflags_TABDLY, oflags & TARGET_TABDLY, 0);
+> +    }
+> +    if (oflags & TARGET_BSDLY) {
+> +        print_flags(termios_oflags_BSDLY, oflags & TARGET_BSDLY, 0);
+> +    }
+> +    if (oflags & TARGET_VTDLY) {
+> +        print_flags(termios_oflags_VTDLY, oflags & TARGET_VTDLY, 0);
+> +    }
+> +    if (oflags & TARGET_FFDLY) {
+> +        print_flags(termios_oflags_FFDLY, oflags & TARGET_FFDLY, 0);
+> +    }
+> +
+> +    qemu_log("c_cflag = ");
+> +    if (cflags & TARGET_CBAUD) {
+> +        print_flags(termios_cflags_CBAUD, cflags & TARGET_CBAUD, 0);
+> +    }
+> +    if (cflags & TARGET_CSIZE) {
+> +        print_flags(termios_cflags_CSIZE, cflags & TARGET_CSIZE, 0);
+> +    }
+> +    abi_long cflags_clean = cflags & ~(TARGET_CBAUD) & ~(TARGET_CSIZE);
+> +    print_flags(termios_cflags, cflags_clean, 0);
+> +
+> +    qemu_log("c_lflag = ");
+> +    print_flags(termios_lflags, lflags, 0);
+> +
+> +    qemu_log("c_cc = ");
+> +    qemu_log("\"%s\",", target->c_cc);
+> +
+> +    qemu_log("c_line = ");
+> +    print_raw_param("\'%c\'", target->c_line, 1);
+> +
+> +    qemu_log("}");
+> +}
+> +
+>  #undef UNUSED
+>  
+>  #ifdef TARGET_NR_accept
+
+Thanks,
+Laurent
 
