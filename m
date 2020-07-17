@@ -2,68 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 37820223BD1
-	for <lists+qemu-devel@lfdr.de>; Fri, 17 Jul 2020 14:59:45 +0200 (CEST)
-Received: from localhost ([::1]:54016 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 61FD1223BD8
+	for <lists+qemu-devel@lfdr.de>; Fri, 17 Jul 2020 15:02:33 +0200 (CEST)
+Received: from localhost ([::1]:35466 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jwPxo-0001rj-8t
-	for lists+qemu-devel@lfdr.de; Fri, 17 Jul 2020 08:59:44 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:52306)
+	id 1jwQ0W-0005y4-Dd
+	for lists+qemu-devel@lfdr.de; Fri, 17 Jul 2020 09:02:32 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:52238)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1jwPtw-0005AQ-Q9
- for qemu-devel@nongnu.org; Fri, 17 Jul 2020 08:55:44 -0400
-Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:23222
- helo=us-smtp-1.mimecast.com)
+ (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1jwPts-0004zZ-St
+ for qemu-devel@nongnu.org; Fri, 17 Jul 2020 08:55:40 -0400
+Received: from us-smtp-1.mimecast.com ([207.211.31.81]:29233
+ helo=us-smtp-delivery-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1jwPtv-0008Qc-8B
- for qemu-devel@nongnu.org; Fri, 17 Jul 2020 08:55:44 -0400
+ (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1jwPtp-0008O2-4Q
+ for qemu-devel@nongnu.org; Fri, 17 Jul 2020 08:55:40 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1594990542;
+ s=mimecast20190719; t=1594990536;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=l5LtfD+inHy3GTRqmhWnchn/ZoZZ/m+lo0JW9SbCS6I=;
- b=NPRG16y2ogSb2gcyUS4IBw7vnLzFDkT3PBTVrEUrY7sQsI2PMIgnJ7Nonn6/lXS+wiWYIA
- XoTej5DSFaG17ub5oBZOQ8T0kVJqbs0P8ccxHkVvmZgeqWPFTR8Mw+mmqgDXvbhSPf/qG/
- sIVNAJpOvF1lSgnRjoTXsLpv64vD4wQ=
+ bh=nUSRD1b1ARuFNDiZ762GHEYCKCvpovMoSmKMFBm7z5o=;
+ b=CzmILDvs1vPmlGsxQ6Lf6R5psJ5yvBVvXZaoQMSmEXbp2UhBPPHw4+N2b4ZhhrVCDCryi9
+ iIUPOGomXJXkf0v67wS1SEdYYAoZoB4X58cgf4HWj0nj0ndbRJzuDHI/RCCZQTjQyLVEwF
+ cV91XsRruU1lS3voASQfBpj05kPJv+o=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-147-3HalbDrzPOiY9kufjK50zA-1; Fri, 17 Jul 2020 08:55:38 -0400
-X-MC-Unique: 3HalbDrzPOiY9kufjK50zA-1
+ us-mta-451-LntpcqW-PEOiF_-v1UY8Bw-1; Fri, 17 Jul 2020 08:55:26 -0400
+X-MC-Unique: LntpcqW-PEOiF_-v1UY8Bw-1
 Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
  [10.5.11.15])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id D7345803129;
- Fri, 17 Jul 2020 12:55:29 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 781D21005280;
+ Fri, 17 Jul 2020 12:55:22 +0000 (UTC)
 Received: from linux.fritz.box.com (ovpn-113-80.ams2.redhat.com [10.36.113.80])
- by smtp.corp.redhat.com (Postfix) with ESMTP id E53EE710B1;
- Fri, 17 Jul 2020 12:55:28 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 86F4112563;
+ Fri, 17 Jul 2020 12:55:21 +0000 (UTC)
 From: Kevin Wolf <kwolf@redhat.com>
 To: qemu-block@nongnu.org
-Subject: [PULL 10/12] file-posix: Move check_hdev_writable() up
-Date: Fri, 17 Jul 2020 14:55:08 +0200
-Message-Id: <20200717125510.238374-11-kwolf@redhat.com>
+Subject: [PULL 04/12] crypto: use a stronger private key for tests
+Date: Fri, 17 Jul 2020 14:55:02 +0200
+Message-Id: <20200717125510.238374-5-kwolf@redhat.com>
 In-Reply-To: <20200717125510.238374-1-kwolf@redhat.com>
 References: <20200717125510.238374-1-kwolf@redhat.com>
 MIME-Version: 1.0
 X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=US-ASCII
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=207.211.31.120; envelope-from=kwolf@redhat.com;
- helo=us-smtp-1.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/07/17 03:33:51
+Received-SPF: pass client-ip=207.211.31.81; envelope-from=kwolf@redhat.com;
+ helo=us-smtp-delivery-1.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/07/17 05:27:47
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
-X-Spam_score_int: -40
-X-Spam_score: -4.1
-X-Spam_bar: ----
-X-Spam_report: (-4.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1,
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-1, SPF_HELO_NONE=0.001,
+ PDS_BTC_ID=1, RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H3=-0.01,
+ RCVD_IN_MSPIKE_WL=-0.01, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -81,101 +82,168 @@ Cc: kwolf@redhat.com, peter.maydell@linaro.org, qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-We'll need to call it in raw_open_common(), so move the function to
-avoid a forward declaration.
+From: Daniel P. Berrangé <berrange@redhat.com>
 
-Signed-off-by: Kevin Wolf <kwolf@redhat.com>
-Message-Id: <20200717105426.51134-2-kwolf@redhat.com>
-Reviewed-by: Max Reitz <mreitz@redhat.com>
+The unit tests using the x509 crypto functionality have started
+failing in Fedora 33 rawhide with a message like
+
+      The certificate uses an insecure algorithm
+
+This is result of Fedora changes to support strong crypto [1]. RSA
+with 1024 bit key is viewed as legacy and thus insecure. Generate
+a new private key which is 3072 bits long and reasonable future
+proof.
+
+[1] https://fedoraproject.org/wiki/Changes/StrongCryptoSettings2
+
+Signed-off-by: Daniel P. Berrangé <berrange@redhat.com>
+Message-Id: <20200715154701.1041325-1-berrange@redhat.com>
+Reviewed-by: Kashyap Chamarthy <kchamart@redhat.com>
+Reviewed-by: Philippe Mathieu-Daudé <philmd@redhat.com>
 Signed-off-by: Kevin Wolf <kwolf@redhat.com>
 ---
- block/file-posix.c | 66 +++++++++++++++++++++++-----------------------
- 1 file changed, 33 insertions(+), 33 deletions(-)
+ tests/crypto-tls-x509-helpers.c | 59 ++++++++++++++++++++++-----------
+ tests/qemu-iotests/common.tls   | 57 +++++++++++++++++++++----------
+ 2 files changed, 79 insertions(+), 37 deletions(-)
 
-diff --git a/block/file-posix.c b/block/file-posix.c
-index ae8190edab..dd7dab07d6 100644
---- a/block/file-posix.c
-+++ b/block/file-posix.c
-@@ -425,6 +425,39 @@ static void raw_probe_alignment(BlockDriverState *bs, int fd, Error **errp)
-     }
+diff --git a/tests/crypto-tls-x509-helpers.c b/tests/crypto-tls-x509-helpers.c
+index 9b669c2a4b..01b3daf358 100644
+--- a/tests/crypto-tls-x509-helpers.c
++++ b/tests/crypto-tls-x509-helpers.c
+@@ -37,25 +37,46 @@ ASN1_TYPE pkix_asn1;
+  * here's one we prepared earlier :-)
+  */
+ gnutls_x509_privkey_t privkey;
+-# define PRIVATE_KEY                                              \
+-    "-----BEGIN PRIVATE KEY-----\n"                               \
+-    "MIICdQIBADANBgkqhkiG9w0BAQEFAASCAl8wggJbAgEAAoGBALVcr\n"     \
+-    "BL40Tm6yq88FBhJNw1aaoCjmtg0l4dWQZ/e9Fimx4ARxFpT+ji4FE\n"     \
+-    "Cgl9s/SGqC+1nvlkm9ViSo0j7MKDbnDB+VRHDvMAzQhA2X7e8M0n9\n"     \
+-    "rPolUY2lIVC83q0BBaOBkCj2RSmT2xTEbbC2xLukSrg2WP/ihVOxc\n"     \
+-    "kXRuyFtzAgMBAAECgYB7slBexDwXrtItAMIH6m/U+LUpNe0Xx48OL\n"     \
+-    "IOn4a4whNgO/o84uIwygUK27ZGFZT0kAGAk8CdF9hA6ArcbQ62s1H\n"     \
+-    "myxrUbF9/mrLsQw1NEqpuUk9Ay2Tx5U/wPx35S3W/X2AvR/ZpTnCn\n"     \
+-    "2q/7ym9fyiSoj86drD7BTvmKXlOnOwQJBAPOFMp4mMa9NGpGuEssO\n"     \
+-    "m3Uwbp6lhcP0cA9MK+iOmeANpoKWfBdk5O34VbmeXnGYWEkrnX+9J\n"     \
+-    "bM4wVhnnBWtgBMCQQC+qAEmvwcfhauERKYznMVUVksyeuhxhCe7EK\n"     \
+-    "mPh+U2+g0WwdKvGDgO0PPt1gq0ILEjspMDeMHVdTwkaVBo/uMhAkA\n"     \
+-    "Z5SsZyCP2aTOPFDypXRdI4eqRcjaEPOUBq27r3uYb/jeboVb2weLa\n"     \
+-    "L1MmVuHiIHoa5clswPdWVI2y0em2IGoDAkBPSp/v9VKJEZabk9Frd\n"     \
+-    "a+7u4fanrM9QrEjY3KhduslSilXZZSxrWjjAJPyPiqFb3M8XXA26W\n"     \
+-    "nz1KYGnqYKhLcBAkB7dt57n9xfrhDpuyVEv+Uv1D3VVAhZlsaZ5Pp\n"     \
+-    "dcrhrkJn2sa/+O8OKvdrPSeeu/N5WwYhJf61+CPoenMp7IFci\n"         \
+-    "-----END PRIVATE KEY-----\n"
++# define PRIVATE_KEY \
++    "-----BEGIN RSA PRIVATE KEY-----\n" \
++    "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\n" \
++    "-----END RSA PRIVATE KEY-----\n"
+ 
+ /*
+  * This loads the private key we defined earlier
+diff --git a/tests/qemu-iotests/common.tls b/tests/qemu-iotests/common.tls
+index 54c331d7a5..6ba28a78d3 100644
+--- a/tests/qemu-iotests/common.tls
++++ b/tests/qemu-iotests/common.tls
+@@ -50,24 +50,45 @@ tls_x509_init()
+     # use a fixed key so we don't waste system entropy on
+     # each test run
+     cat > "${tls_dir}/key.pem" <<EOF
+------BEGIN PRIVATE KEY-----
+-MIICdQIBADANBgkqhkiG9w0BAQEFAASCAl8wggJbAgEAAoGBALVcr
+-BL40Tm6yq88FBhJNw1aaoCjmtg0l4dWQZ/e9Fimx4ARxFpT+ji4FE
+-Cgl9s/SGqC+1nvlkm9ViSo0j7MKDbnDB+VRHDvMAzQhA2X7e8M0n9
+-rPolUY2lIVC83q0BBaOBkCj2RSmT2xTEbbC2xLukSrg2WP/ihVOxc
+-kXRuyFtzAgMBAAECgYB7slBexDwXrtItAMIH6m/U+LUpNe0Xx48OL
+-IOn4a4whNgO/o84uIwygUK27ZGFZT0kAGAk8CdF9hA6ArcbQ62s1H
+-myxrUbF9/mrLsQw1NEqpuUk9Ay2Tx5U/wPx35S3W/X2AvR/ZpTnCn
+-2q/7ym9fyiSoj86drD7BTvmKXlOnOwQJBAPOFMp4mMa9NGpGuEssO
+-m3Uwbp6lhcP0cA9MK+iOmeANpoKWfBdk5O34VbmeXnGYWEkrnX+9J
+-bM4wVhnnBWtgBMCQQC+qAEmvwcfhauERKYznMVUVksyeuhxhCe7EK
+-mPh+U2+g0WwdKvGDgO0PPt1gq0ILEjspMDeMHVdTwkaVBo/uMhAkA
+-Z5SsZyCP2aTOPFDypXRdI4eqRcjaEPOUBq27r3uYb/jeboVb2weLa
+-L1MmVuHiIHoa5clswPdWVI2y0em2IGoDAkBPSp/v9VKJEZabk9Frd
+-a+7u4fanrM9QrEjY3KhduslSilXZZSxrWjjAJPyPiqFb3M8XXA26W
+-nz1KYGnqYKhLcBAkB7dt57n9xfrhDpuyVEv+Uv1D3VVAhZlsaZ5Pp
+-dcrhrkJn2sa/+O8OKvdrPSeeu/N5WwYhJf61+CPoenMp7IFci
+------END PRIVATE KEY-----
++-----BEGIN RSA PRIVATE KEY-----
++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
++-----END RSA PRIVATE KEY-----
+ EOF
  }
  
-+static int check_hdev_writable(BDRVRawState *s)
-+{
-+#if defined(BLKROGET)
-+    /* Linux block devices can be configured "read-only" using blockdev(8).
-+     * This is independent of device node permissions and therefore open(2)
-+     * with O_RDWR succeeds.  Actual writes fail with EPERM.
-+     *
-+     * bdrv_open() is supposed to fail if the disk is read-only.  Explicitly
-+     * check for read-only block devices so that Linux block devices behave
-+     * properly.
-+     */
-+    struct stat st;
-+    int readonly = 0;
-+
-+    if (fstat(s->fd, &st)) {
-+        return -errno;
-+    }
-+
-+    if (!S_ISBLK(st.st_mode)) {
-+        return 0;
-+    }
-+
-+    if (ioctl(s->fd, BLKROGET, &readonly) < 0) {
-+        return -errno;
-+    }
-+
-+    if (readonly) {
-+        return -EACCES;
-+    }
-+#endif /* defined(BLKROGET) */
-+    return 0;
-+}
-+
- static void raw_parse_flags(int bdrv_flags, int *open_flags, bool has_writers)
- {
-     bool read_write = false;
-@@ -3323,39 +3356,6 @@ static int hdev_probe_device(const char *filename)
-     return 0;
- }
- 
--static int check_hdev_writable(BDRVRawState *s)
--{
--#if defined(BLKROGET)
--    /* Linux block devices can be configured "read-only" using blockdev(8).
--     * This is independent of device node permissions and therefore open(2)
--     * with O_RDWR succeeds.  Actual writes fail with EPERM.
--     *
--     * bdrv_open() is supposed to fail if the disk is read-only.  Explicitly
--     * check for read-only block devices so that Linux block devices behave
--     * properly.
--     */
--    struct stat st;
--    int readonly = 0;
--
--    if (fstat(s->fd, &st)) {
--        return -errno;
--    }
--
--    if (!S_ISBLK(st.st_mode)) {
--        return 0;
--    }
--
--    if (ioctl(s->fd, BLKROGET, &readonly) < 0) {
--        return -errno;
--    }
--
--    if (readonly) {
--        return -EACCES;
--    }
--#endif /* defined(BLKROGET) */
--    return 0;
--}
--
- static void hdev_parse_filename(const char *filename, QDict *options,
-                                 Error **errp)
- {
 -- 
 2.25.4
 
