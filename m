@@ -2,68 +2,74 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id EAAAD223BF6
-	for <lists+qemu-devel@lfdr.de>; Fri, 17 Jul 2020 15:09:54 +0200 (CEST)
-Received: from localhost ([::1]:34946 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 424F0223C17
+	for <lists+qemu-devel@lfdr.de>; Fri, 17 Jul 2020 15:14:34 +0200 (CEST)
+Received: from localhost ([::1]:42994 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jwQ7e-0000aR-1Z
-	for lists+qemu-devel@lfdr.de; Fri, 17 Jul 2020 09:09:54 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:56496)
+	id 1jwQC9-0004BO-BX
+	for lists+qemu-devel@lfdr.de; Fri, 17 Jul 2020 09:14:33 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:57844)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1jwQ6a-00089C-1Q
- for qemu-devel@nongnu.org; Fri, 17 Jul 2020 09:08:48 -0400
-Received: from mail-ot1-x344.google.com ([2607:f8b0:4864:20::344]:46367)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1jwQ6X-0002JB-5r
- for qemu-devel@nongnu.org; Fri, 17 Jul 2020 09:08:47 -0400
-Received: by mail-ot1-x344.google.com with SMTP id n24so6789681otr.13
- for <qemu-devel@nongnu.org>; Fri, 17 Jul 2020 06:08:44 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=mime-version:from:date:message-id:subject:to:cc;
- bh=Tmu/bv39bd7aLaLFv+Ixw4iW7DvmHjUfrjUx+njOZ1o=;
- b=dgG3JVFzofuSPsWQu7kYWO0hZErR/o+jAjtjOs6EFe93LllH3epdblsXLoQp2unR/m
- mhU4CDtCVdN2L56nZqOEIQs+QdG8xAXDZXWuoA0OY6PCLI12E5jnRZYsOZhbujpj0PjZ
- dFa2pRWHjKklVssj1Ife5WaHNKpq00C8LcG4d9xyy/Ce7vXDPrgqyB+qGOBNkJl1hrDj
- OpSdflu6vFz0PqoN+UYX5yXQaOdtwp4jrRNmHZIhR2N6gmoLSuDL/lgaUGNYdDHyaaFp
- izKNayCPR7mIO8AsTaRQQ3H4VTxmGlvLnecTnm8dmAI+htZHP23qQF+584xsx5yMQYmV
- dVAQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:from:date:message-id:subject:to:cc;
- bh=Tmu/bv39bd7aLaLFv+Ixw4iW7DvmHjUfrjUx+njOZ1o=;
- b=mMYvjHeOns+Z2YYtYedmuRyN3dFLGdsppwzD26QT4VfBgNjnib9wXm+ZZTM1Bg9I1N
- MraNAINHwOzC9cJJXAdM93IPzAQHNH31K0qTLW+M4sRAmnwr6u4vVSOuELXt3PeyGuMX
- dPMKpj7ej1sqXxbZmlhGQRENxII/tasuO5VYfM8yL8Qc6+irFMAlrVv+1Ly1EQv/rjd/
- HMd+SSAgMZbXMl/pFuILQHcU4ffcQYTYWBoTiEzpxfdn9aTJOo8oyqlsRWBjz5nc0VS8
- 5VeyaLY53FT8pOTifslQnQF6cG2qvqJTrm04hpPOuhX//HFLj6T6g4LwZ412002N8Wl7
- AS/A==
-X-Gm-Message-State: AOAM531IpScC3qGuYLMwDZtL/n5RURA4QtPpWnqaRlp5JjNd5qRBSuHN
- VfOAyE44xJphlT6SiFzS4YX/fgcEtlsvMBChLQWvYpD0Yg4=
-X-Google-Smtp-Source: ABdhPJyl7afu9ijS9fFQWETIrcCyjmLiRNNABK8hHKvGTUDbccxtMd/U0P4u745dLnw/coaOH6HlnM4nUSw66BJgseQ=
-X-Received: by 2002:a05:6830:1bd3:: with SMTP id
- v19mr8601566ota.91.1594991323443; 
- Fri, 17 Jul 2020 06:08:43 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <imammedo@redhat.com>)
+ id 1jwQBE-0003N4-0g
+ for qemu-devel@nongnu.org; Fri, 17 Jul 2020 09:13:36 -0400
+Received: from us-smtp-2.mimecast.com ([207.211.31.81]:55798
+ helo=us-smtp-delivery-1.mimecast.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <imammedo@redhat.com>)
+ id 1jwQBB-0003Go-MI
+ for qemu-devel@nongnu.org; Fri, 17 Jul 2020 09:13:35 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1594991611;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=RXwcbGKMFHCdAyAclL6lCr8olrFJ0fevSWaLt762OD0=;
+ b=DdQq/844vL+gmKi2cXSOFZj/sClrcUezbTTyMA76eN1qV6VEkt6iDaSG+PMyoRIBn/BwCC
+ AGJytol0qsIHsdb0UvDmXjcLmi2t0Vasq2brdP54KRTiRQ+1nP44D7iTHqNhytGqAVWwHR
+ BVFmVIf87bV1svDp+LSJCLR5Gd5qLOo=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-295-zhN-HcPVPnS6uh2bd1_3CA-1; Fri, 17 Jul 2020 09:13:28 -0400
+X-MC-Unique: zhN-HcPVPnS6uh2bd1_3CA-1
+Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
+ [10.5.11.15])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 13425100A8E8;
+ Fri, 17 Jul 2020 13:13:27 +0000 (UTC)
+Received: from localhost (unknown [10.40.208.37])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id AC4CD710C8;
+ Fri, 17 Jul 2020 13:13:23 +0000 (UTC)
+Date: Fri, 17 Jul 2020 15:13:21 +0200
+From: Igor Mammedov <imammedo@redhat.com>
+To: Laszlo Ersek <lersek@redhat.com>
+Subject: Re: [RFC 3/3] x68: acpi: trigger SMI before scanning for hotplugged
+ CPUs
+Message-ID: <20200717151321.27e2d849@redhat.com>
+In-Reply-To: <515cc231-858a-a626-31a9-d74e1f6b4e38@redhat.com>
+References: <20200710161704.309824-1-imammedo@redhat.com>
+ <20200710161704.309824-4-imammedo@redhat.com>
+ <515cc231-858a-a626-31a9-d74e1f6b4e38@redhat.com>
 MIME-Version: 1.0
-From: Peter Maydell <peter.maydell@linaro.org>
-Date: Fri, 17 Jul 2020 14:08:32 +0100
-Message-ID: <CAFEAcA8iKKDKEdq8TtbZNwqfsH=ZO78eEXWfrVbYTDjdy9DYDw@mail.gmail.com>
-Subject: tests/vm infrastructure fails to notice that QEMU dying is a failure
-To: QEMU Developers <qemu-devel@nongnu.org>
-Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2607:f8b0:4864:20::344;
- envelope-from=peter.maydell@linaro.org; helo=mail-ot1-x344.google.com
-X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
- That's all we know.
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- URIBL_BLOCKED=0.001 autolearn=ham autolearn_force=no
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=207.211.31.81; envelope-from=imammedo@redhat.com;
+ helo=us-smtp-delivery-1.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/07/17 05:27:47
+X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
+X-Spam_score_int: -30
+X-Spam_score: -3.1
+X-Spam_bar: ---
+X-Spam_report: (-3.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H3=-0.01, RCVD_IN_MSPIKE_WL=-0.01,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -76,93 +82,52 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: =?UTF-8?B?QWxleCBCZW5uw6ll?= <alex.bennee@linaro.org>
+Cc: boris.ostrovsky@oracle.com, liran.alon@oracle.com, qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-If you run vm-build-openbsd, our makefile/scripting infrastructure
-seems to fail to notice that death of the QEMU process that's
-running the VM should be a failure, and ends up allowing make
-to return a success condition.
+On Tue, 14 Jul 2020 14:28:29 +0200
+Laszlo Ersek <lersek@redhat.com> wrote:
 
-I have a script which runs a VM build which basically does:
+> (CC'ing Peter Krempa due to virsh setvcpu (singular) / setvcpus (plural)
+> references)
+> 
+> On 07/10/20 18:17, Igor Mammedov wrote:
+[...]
 
-  #!/bin/sh -e
-  make -C "build" "vm-build-openbsd" J=8 V=1
-  echo "OK DONE openbsd"
+> (3) Just a thought: I wonder if we should reserve both ports (0xB2 and
+> 0xB3 too). For now we don't have any use for the "data" port, but
+> arguably it's part of the same register block.
 
-It just gave me this output (tail end of logfile). We're executing tests,
-and then the qemu-system-x86_64 that's running the OpenBSD VM gets
-a signal 9 (sigkill), for unclear reasons (oom killer??). The python
-scripting gets an exception, but doesn't exit with a failure status to
-make, which then thinks all is fine, exits success itself and allows
-the set -e script to proceed to print the "OK DONE" line...
+we probably should, might be used for unplug part.
 
+BTW any ideas how we'd like to procceed with unplug?
 
-PASS 30 qos-test /arm/imx25-pdk/imx.i2c/i2c-bus/pca9552/pca9552-tests/tx-rx
-PASS 31 qos-test /arm/imx25-pdk/imx.i2c/i2c-bus/pca9552/pca9552-tests/rx-autoinc
-PASS 32 qos-test /arm/imx25-pdk/imx.i2c/i2c-bus/ds1338/ds1338-tests/tx-rx
-DEBUG:QMP.qemu-26462:>>> {'execute': 'quit'}
-DEBUG:QMP.qemu-26462:<<< {'timestamp': {'seconds': 1594984057,
-'microseconds': 485197}, 'event': 'NIC_RX_FILTER_CHANGED', 'data':
-{'path': '/machine/peripheral-anon/device[0]/virtio-backend'}}
-DEBUG:QMP.qemu-26462:<<< {'timestamp': {'seconds': 1594985855,
-'microseconds': 169552}, 'event': 'RTC_CHANGE', 'data': {'offset': 0}}
-DEBUG:QMP.qemu-26462:<<< {'timestamp': {'seconds': 1594987655,
-'microseconds': 169187}, 'event': 'RTC_CHANGE', 'data': {'offset': 0}}
-DEBUG:QMP.qemu-26462:<<< {'timestamp': {'seconds': 1594989456,
-'microseconds': 88866}, 'event': 'RTC_CHANGE', 'data': {'offset': 0}}
-DEBUG:QMP.qemu-26462:<<< {'return': {}}
-WARNING:qemu.machine:qemu received signal 9; command:
-"qemu-system-x86_64 -display none -vga none -chardev
-socket,id=mon,path=/var/tmp/qemu-26462-monitor.sock -mon
-chardev=mon,mode=control -machine pc -chardev
-socket,id=console,path=/var/tmp/qemu-26462-console.sock,server,nowait
--serial chardev:console -nodefaults -m 4G -cpu max -netdev
-user,id=vnet,hostfwd=:127.0.0.1:0-:22 -device
-virtio-net-pci,netdev=vnet -vnc 127.0.0.1:0,to=20 -smp 8 -enable-kvm
--drive file=/home/peter.maydell/.cache/qemu-vm/images/openbsd.img,snapshot=on,if=none,id=drive0,cache=writeback
--device virtio-blk,drive=drive0,bootindex=0 -drive
-file=/home/peter.maydell/qemu-openbsd/build/vm-test-yzwn6xdc.tmp/data-993a1.tar,if=none,id=data-993a1,cache=writeback,format=raw
--device virtio-blk,drive=data-993a1,serial=data-993a1,bootindex=1"
-Error in atexit._run_exitfuncs:
-Traceback (most recent call last):
-  File "/home/peter.maydell/qemu-openbsd/tests/vm/../../python/qemu/machine.py",
-line 436, in _do_shutdown
-    self._soft_shutdown(has_quit, timeout)
-  File "/home/peter.maydell/qemu-openbsd/tests/vm/../../python/qemu/machine.py",
-line 419, in _soft_shutdown
-    self._popen.wait(timeout=timeout)
-  File "/usr/lib/python3.6/subprocess.py", line 1469, in wait
-    raise TimeoutExpired(self.args, timeout)
-subprocess.TimeoutExpired: Command '['qemu-system-x86_64', '-display',
-'none', '-vga', 'none', '-chardev',
-'socket,id=mon,path=/var/tmp/qemu-26462-monitor.sock', '-mon',
-'chardev=mon,mode=control', '-machine', 'pc', '-chardev',
-'socket,id=console,path=/var/tmp/qemu-26462-console.sock,server,nowait',
-'-serial', 'chardev:console', '-nodefaults', '-m', '4G', '-cpu',
-'max', '-netdev', 'user,id=vnet,hostfwd=:127.0.0.1:0-:22', '-device',
-'virtio-net-pci,netdev=vnet', '-vnc', '127.0.0.1:0,to=20', '-smp',
-'8', '-enable-kvm', '-drive',
-'file=/home/peter.maydell/.cache/qemu-vm/images/openbsd.img,snapshot=on,if=none,id=drive0,cache=writeback',
-'-device', 'virtio-blk,drive=drive0,bootindex=0', '-drive',
-'file=/home/peter.maydell/qemu-openbsd/build/vm-test-yzwn6xdc.tmp/data-993a1.tar,if=none,id=data-993a1,cache=writeback,format=raw',
-'-device', 'virtio-blk,drive=data-993a1,serial=data-993a1,bootindex=1']'
-timed out after 3 seconds
+current flow looks like:
 
-The above exception was the direct cause of the following exception:
+QEMU                       OSPM
+unplug_req()
+1)   =>SCI     --->
+  -------------------------
+2)                   handle_sci()
+                         scan for events and send
+                             Notify per removed CPU
+                             clear rm_evt
+  -------------------------
+3)                   offline cpu
+  -------------------------
+4)                    call _EJ0 to unplug CPU
+                         write into ej_evt
+              <-------------
+  -------------------------
+5)  unplug cb
+ 
 
-Traceback (most recent call last):
-  File "/home/peter.maydell/qemu-openbsd/tests/vm/../../python/qemu/machine.py",
-line 466, in shutdown
-    self._do_shutdown(has_quit, timeout=timeout)
-  File "/home/peter.maydell/qemu-openbsd/tests/vm/../../python/qemu/machine.py",
-line 440, in _do_shutdown
-    from exc
-qemu.machine.AbnormalShutdown: Could not perform graceful shutdown
-make: Leaving directory '/home/peter.maydell/qemu-openbsd/build'
-OK DONE openbsd
+We probably should modify _EJ0 to send SMI instead of direct access
+to cpuhp block, the question is how OSPM would tell FW which CPU it
+ejects.
+                      
 
-thanks
--- PMM
+[...]
+
 
