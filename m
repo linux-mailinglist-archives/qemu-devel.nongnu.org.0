@@ -2,70 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id EB316224301
-	for <lists+qemu-devel@lfdr.de>; Fri, 17 Jul 2020 20:18:33 +0200 (CEST)
-Received: from localhost ([::1]:38300 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2A963224305
+	for <lists+qemu-devel@lfdr.de>; Fri, 17 Jul 2020 20:20:00 +0200 (CEST)
+Received: from localhost ([::1]:43588 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jwUwK-0001MN-Vv
-	for lists+qemu-devel@lfdr.de; Fri, 17 Jul 2020 14:18:33 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:37090)
+	id 1jwUxj-0003ZE-8D
+	for lists+qemu-devel@lfdr.de; Fri, 17 Jul 2020 14:19:59 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:37092)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1jwUuO-0008TG-M0
- for qemu-devel@nongnu.org; Fri, 17 Jul 2020 14:16:32 -0400
-Received: from mail-pl1-x644.google.com ([2607:f8b0:4864:20::644]:45045)
+ id 1jwUuP-0008U6-1i
+ for qemu-devel@nongnu.org; Fri, 17 Jul 2020 14:16:33 -0400
+Received: from mail-pl1-x633.google.com ([2607:f8b0:4864:20::633]:38896)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1jwUuL-0003H6-H2
+ id 1jwUuM-0003HK-Un
  for qemu-devel@nongnu.org; Fri, 17 Jul 2020 14:16:32 -0400
-Received: by mail-pl1-x644.google.com with SMTP id w17so5779460ply.11
- for <qemu-devel@nongnu.org>; Fri, 17 Jul 2020 11:16:28 -0700 (PDT)
+Received: by mail-pl1-x633.google.com with SMTP id m16so5792005pls.5
+ for <qemu-devel@nongnu.org>; Fri, 17 Jul 2020 11:16:29 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=WF3WUUJ3102Nb47JAT2FiwU+zNqijVjebyKLsz6cFP8=;
- b=ch9byqhMvr04Ympul6i2g749xIj1liOt1rbWppVh8yvfjRdjRMB5cbEDD5wMsoEZvf
- 0tQ+48CPQPQArSyfGeO0DevA4WesHKcdpZTP93Iul5n/ruEQxUyDTQNN5I1jTVh6feAY
- 5eQBUVPETM2a+0XsKL1KGAr2jhxAk7nTpWnn1+jUytwC0vgFdccvRRp8AIe52RFBdjgW
- e2UrJ3674khcXfjiQixF0fXxx4CjOP1BqlOFVwjDcwL3FHXitBRi7gyZlGEgBH+uglEu
- I0CdygBaVNkWbCnH9ASZZP9vce+34xzRDxXEkq8uR9sI+1r0he3Gdf9mjHo6A0Dmh45S
- z9oA==
+ bh=soz5/dc63AWvfYnTeEOXYkPjarLppwOrJCQsvAF2Sbw=;
+ b=gtEOIcjcSir6uFvFnTXVDiyfze6bhdwMBkKx2ZxGa1H7E9PSk6uAFCNXuVNEVUm1lU
+ a91XLoqcSnUN6/wK8SPhT1VpCiguqm8uRiEqNXpwRC1XOB2xAwy76DXUnFFBLkcGaZtK
+ 89jzGTEsufPI4cwSp7DqtDFrAnQ3oef738QHIEaV5exRLdti1Hbp3c96WpsxJpFQdWj4
+ k6LvLDlDxOH2WlhWGEsQ9O+ex11Uk/xzEhXk4Hgnu8uThqvN3Ppgd3Ech4x/ax8B/pRd
+ ER/9n9ub4asA14dCSAdIMEG+JsRlxeITYDzOyX7XdrmxM6kXR/LN2SMRIbO/0dWdd2mb
+ fjig==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=WF3WUUJ3102Nb47JAT2FiwU+zNqijVjebyKLsz6cFP8=;
- b=bzNVHd1AXit4w07J4YM+qgB29MkVGPhvnjDFiH6XzXstpM/Ir0Fjab8kDnNENacsNB
- ZS0vwk+QRtuFEHugSNPaYb78RGiqmtsI0LM957dRs5Rb17LEy1YVqtWmxw3nVGzK4RmK
- +fKmkVgMRztTfM737CyLw4fzxWiVzRjYPNkCYuab7kauwakmVFzHL4rZryiD+eGIcXlc
- EkkN8eKvDGp89BqnJXqeD8Np32TPW1uePxs9Qpc3kCupkC66ZWAqEH1MLXztLlj+TfL1
- hzsPVLa5k0H6bX//jszLcmO15vnBx9t3ROufT2Rcls58MlB7GTB5mWl6lxf6dcrkgpFP
- oRVA==
-X-Gm-Message-State: AOAM533PU9Fd0UZDzWRvpSX/d25AMO++T+qWprP8TQi4L16fbHYp0OM7
- Mywv9ucja/xHAK8foaO4VuPfmR4QJR0=
-X-Google-Smtp-Source: ABdhPJw3T1bPoY0ytHRdhX5g2QSBZHEQlA9eF6X2tM5OrxGOzE2S8ks8YlkI+ZWGi2iRHaLNgA834Q==
-X-Received: by 2002:a17:90a:5d15:: with SMTP id
- s21mr11678190pji.154.1595009787587; 
- Fri, 17 Jul 2020 11:16:27 -0700 (PDT)
+ bh=soz5/dc63AWvfYnTeEOXYkPjarLppwOrJCQsvAF2Sbw=;
+ b=dBw3Tjkn7ckfkEyTs/F5fPyFuLW8obPo225nmx2VH/Mdb66LDxJTGuQxEVgXGsStNQ
+ Xjox4tPm69C1HgcxcYKkStWcsa5a7csSdnTSMNw8wN382V23dJ2L29gQahhUTzHuyB9r
+ RKBZALdd53n4wPSTL7Zmr1p0jzosiJ4SYOnJYiu7sdGw5PjzdPivSfH4a31/gzspmod7
+ wPeExavkPI1rSYBlvWvslhl7f68oh5SPadQIOwk0CWbVFeA5EPnBYPwvqbmzVDHqq+/O
+ Z5ddqY9xrptt5KuY0xl01cGym5o3hSJN1ZWDO3efHq3EST+kbhH7EfZYsAqxRJLm15Dq
+ Pxfg==
+X-Gm-Message-State: AOAM533N7Ab6B/at1TgqPFFKigpRt5NARvABw+bVQVxyR1xZd3/4qUMi
+ uBjzl/t/K/zLSIC/M5xxOIfH6kUYAks=
+X-Google-Smtp-Source: ABdhPJznO3+/rrrct3Yz4qitOk06c5qtaRzAHaWoHY7SiBfsLzGUdWlNzxZN2kCNKswXoK+peMSdAw==
+X-Received: by 2002:a17:902:be06:: with SMTP id
+ r6mr8129071pls.143.1595009788686; 
+ Fri, 17 Jul 2020 11:16:28 -0700 (PDT)
 Received: from localhost.localdomain (216-160-65-90.tukw.qwest.net.
  [216.160.65.90])
- by smtp.gmail.com with ESMTPSA id r7sm8698578pgu.51.2020.07.17.11.16.26
+ by smtp.gmail.com with ESMTPSA id r7sm8698578pgu.51.2020.07.17.11.16.27
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 17 Jul 2020 11:16:26 -0700 (PDT)
+ Fri, 17 Jul 2020 11:16:27 -0700 (PDT)
 From: Richard Henderson <richard.henderson@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PULL for-5.1 2/3] tcg/cpu-exec: precise single-stepping after an
- exception
-Date: Fri, 17 Jul 2020 11:16:22 -0700
-Message-Id: <20200717181623.2742758-3-richard.henderson@linaro.org>
+Subject: [PULL for-5.1 3/3] tcg/cpu-exec: precise single-stepping after an
+ interrupt
+Date: Fri, 17 Jul 2020 11:16:23 -0700
+Message-Id: <20200717181623.2742758-4-richard.henderson@linaro.org>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20200717181623.2742758-1-richard.henderson@linaro.org>
 References: <20200717181623.2742758-1-richard.henderson@linaro.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::644;
- envelope-from=richard.henderson@linaro.org; helo=mail-pl1-x644.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::633;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pl1-x633.google.com
 X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
  That's all we know.
 X-Spam_score_int: -20
@@ -91,66 +91,38 @@ Cc: peter.maydell@linaro.org, Luc Michel <luc.michel@greensocs.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Luc Michel <luc.michel@greensocs.com>
-
 When single-stepping with a debugger attached to QEMU, and when an
-exception is raised, the debugger misses the first instruction after the
-exception:
+interrupt is raised, the debugger misses the first instruction after
+the interrupt.
 
-$ qemu-system-aarch64 -M virt -display none -cpu cortex-a53 -s -S
-
-$ aarch64-linux-gnu-gdb
-GNU gdb (GDB) 9.2
-[...]
-(gdb) tar rem :1234
-Remote debugging using :1234
-warning: No executable has been specified and target does not support
-determining executable automatically.  Try using the "file" command.
-0x0000000000000000 in ?? ()
-(gdb) # writing nop insns to 0x200 and 0x204
-(gdb) set *0x200 = 0xd503201f
-(gdb) set *0x204 = 0xd503201f
-(gdb) # 0x0 address contains 0 which is an invalid opcode.
-(gdb) # The CPU should raise an exception and jump to 0x200
-(gdb) si
-0x0000000000000204 in ?? ()
-
-With this commit, the same run steps correctly on the first instruction
-of the exception vector:
-
-(gdb) si
-0x0000000000000200 in ?? ()
-
+Tested-by: Luc Michel <luc.michel@greensocs.com>
+Reviewed-by: Luc Michel <luc.michel@greensocs.com>
 Buglink: https://bugs.launchpad.net/qemu/+bug/757702
-Signed-off-by: Luc Michel <luc.michel@greensocs.com>
-Message-Id: <20200716193947.3058389-1-luc.michel@greensocs.com>
+Message-Id: <20200717163029.2737546-1-richard.henderson@linaro.org>
 Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 ---
- accel/tcg/cpu-exec.c | 11 +++++++++++
- 1 file changed, 11 insertions(+)
+ accel/tcg/cpu-exec.c | 8 +++++++-
+ 1 file changed, 7 insertions(+), 1 deletion(-)
 
 diff --git a/accel/tcg/cpu-exec.c b/accel/tcg/cpu-exec.c
-index d95c4848a4..6a3d3a3cfc 100644
+index 6a3d3a3cfc..66d38f9d85 100644
 --- a/accel/tcg/cpu-exec.c
 +++ b/accel/tcg/cpu-exec.c
-@@ -504,6 +504,17 @@ static inline bool cpu_handle_exception(CPUState *cpu, int *ret)
-             cc->do_interrupt(cpu);
-             qemu_mutex_unlock_iothread();
-             cpu->exception_index = -1;
-+
-+            if (unlikely(cpu->singlestep_enabled)) {
+@@ -588,7 +588,13 @@ static inline bool cpu_handle_interrupt(CPUState *cpu,
+         else {
+             if (cc->cpu_exec_interrupt(cpu, interrupt_request)) {
+                 replay_interrupt();
+-                cpu->exception_index = -1;
 +                /*
-+                 * After processing the exception, ensure an EXCP_DEBUG is
++                 * After processing the interrupt, ensure an EXCP_DEBUG is
 +                 * raised when single-stepping so that GDB doesn't miss the
 +                 * next instruction.
 +                 */
-+                *ret = EXCP_DEBUG;
-+                cpu_handle_debug_exception(cpu);
-+                return true;
-+            }
-         } else if (!replay_has_interrupt()) {
-             /* give a chance to iothread in replay mode */
-             *ret = EXCP_INTERRUPT;
++                cpu->exception_index =
++                    (cpu->singlestep_enabled ? EXCP_DEBUG : -1);
+                 *last_tb = NULL;
+             }
+             /* The target hook may have updated the 'cpu->interrupt_request';
 -- 
 2.25.1
 
