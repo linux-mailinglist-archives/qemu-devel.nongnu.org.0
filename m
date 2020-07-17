@@ -2,49 +2,49 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7AD162238CE
-	for <lists+qemu-devel@lfdr.de>; Fri, 17 Jul 2020 11:58:37 +0200 (CEST)
-Received: from localhost ([::1]:42732 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 54A742238CB
+	for <lists+qemu-devel@lfdr.de>; Fri, 17 Jul 2020 11:57:28 +0200 (CEST)
+Received: from localhost ([::1]:38488 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jwN8W-0005B3-IN
-	for lists+qemu-devel@lfdr.de; Fri, 17 Jul 2020 05:58:36 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:57250)
+	id 1jwN7P-0003RE-Co
+	for lists+qemu-devel@lfdr.de; Fri, 17 Jul 2020 05:57:27 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:57242)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1jwN6J-0002GL-5i
- for qemu-devel@nongnu.org; Fri, 17 Jul 2020 05:56:19 -0400
-Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:23967
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1jwN6I-0002G4-ST
+ for qemu-devel@nongnu.org; Fri, 17 Jul 2020 05:56:18 -0400
+Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:49163
  helo=us-smtp-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1jwN6H-0001BT-EO
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1jwN6H-0001BW-2E
  for qemu-devel@nongnu.org; Fri, 17 Jul 2020 05:56:18 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
  s=mimecast20190719; t=1594979776;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:content-type:content-type:in-reply-to:in-reply-to:
- references:references; bh=qDZBWVxjlP1RzIGLNAd+Hv7lGAWp0Y8xuODpMSmQXgg=;
- b=I8cimg9frhtpRvNcKpzg4JopSfzNsf9PFqgnfOFdyHACwi5qJpcXS6RPdtIJgZbXmQp0jR
- dhr+3VAvmUFIgukNhiBvT5+XCWGQdECDTPaEgYfFQ4psbuSEUMtSzSYMwuJ/8Zn+XVRsnb
- o9dHAysJLk7hkifUlAmcRJlMwdLou6s=
+ references:references; bh=xj1GTexbJRsxeq+sR2SiUApnw/+FUi/MCXCrVa0427w=;
+ b=HuJW8WcHG4O5YqN7rGUESgWwnAZTfxhdq8FZmpsF9A5jEpAC65RL28W6sxeQXvrG09BvYG
+ lZ9DVTRlRUq8Ux3xLrlXcHQvekden0FWjFA4z+wSk1rBtA7pRz0/NM4oytsprzWPSZWUuu
+ rSXtjYMeaXMuMB2z/6WLFdQRp1Ie9Ps=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-306-y5FpCEHdOkaUpF5P3DV2uA-1; Fri, 17 Jul 2020 05:56:12 -0400
-X-MC-Unique: y5FpCEHdOkaUpF5P3DV2uA-1
+ us-mta-332-bGybhaoGNiKv4JJfGgRuaw-1; Fri, 17 Jul 2020 05:56:13 -0400
+X-MC-Unique: bGybhaoGNiKv4JJfGgRuaw-1
 Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
  [10.5.11.16])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 32CFC100960F;
- Fri, 17 Jul 2020 09:56:11 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 9F36E106B24B;
+ Fri, 17 Jul 2020 09:56:12 +0000 (UTC)
 Received: from thuth.com (ovpn-112-62.ams2.redhat.com [10.36.112.62])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 286135C1D3;
- Fri, 17 Jul 2020 09:56:09 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 925615C240;
+ Fri, 17 Jul 2020 09:56:11 +0000 (UTC)
 From: Thomas Huth <thuth@redhat.com>
 To: peter.maydell@linaro.org,
 	qemu-devel@nongnu.org
-Subject: [PULL 2/6] tests: qmp-cmd-test: fix memory leak
-Date: Fri, 17 Jul 2020 11:56:01 +0200
-Message-Id: <20200717095605.27589-3-thuth@redhat.com>
+Subject: [PULL 3/6] fuzz: Expect the cmdline in a freeable GString
+Date: Fri, 17 Jul 2020 11:56:02 +0200
+Message-Id: <20200717095605.27589-4-thuth@redhat.com>
 In-Reply-To: <20200717095605.27589-1-thuth@redhat.com>
 References: <20200717095605.27589-1-thuth@redhat.com>
 X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
@@ -74,118 +74,124 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Li Qiang <liq3ea@163.com>
+Cc: Alexander Bulekov <alxndr@bu.edu>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Li Qiang <liq3ea@163.com>
+From: Alexander Bulekov <alxndr@bu.edu>
 
-Properly free each test response to avoid memory leak and separate
-qtest_qmp() calls with spare lines, in a consistent manner.
+In the initial FuzzTarget, get_init_cmdline returned a char *. With this
+API, we had no guarantee about where the string came from. For example,
+i440fx-qtest-reboot-fuzz simply returned a pointer to a string literal,
+while the QOS-based targets build the arguments out in a GString an
+return the gchar *str pointer. Since we did not try to free the cmdline,
+we have a leak for any targets that do not simply return string
+literals. Clean up this mess by forcing fuzz-targets to return
+a GString, that we can free.
 
-Fixes: 5b88849e7b9("tests/qmp-cmd-test: Add qmp/object-add-failure-modes")
-Reviewed-by: Eric Auger <eric.auger@redhat.com>
-Signed-off-by: Li Qiang <liq3ea@163.com>
-Message-Id: <20200715154117.15456-1-liq3ea@163.com>
-Fixes: 9fc719b869 ("tests/qmp-cmd-test: Add qmp/object-add-duplicate-id")
-Reviewed-by: Markus Armbruster <armbru@redhat.com>
+Signed-off-by: Alexander Bulekov <alxndr@bu.edu>
+Message-Id: <20200714174616.20709-1-alxndr@bu.edu>
+Reviewed-by: Darren Kenny <darren.kenny@oracle.com>
 Signed-off-by: Thomas Huth <thuth@redhat.com>
 ---
- tests/qtest/qmp-cmd-test.c | 13 +++++++++++++
- 1 file changed, 13 insertions(+)
+ tests/qtest/fuzz/fuzz.c        | 13 ++++++-------
+ tests/qtest/fuzz/fuzz.h        |  6 +++---
+ tests/qtest/fuzz/i440fx_fuzz.c |  4 ++--
+ tests/qtest/fuzz/qos_fuzz.c    |  6 +++---
+ 4 files changed, 14 insertions(+), 15 deletions(-)
 
-diff --git a/tests/qtest/qmp-cmd-test.c b/tests/qtest/qmp-cmd-test.c
-index c68f99f659..f7b1aa7fdc 100644
---- a/tests/qtest/qmp-cmd-test.c
-+++ b/tests/qtest/qmp-cmd-test.c
-@@ -230,6 +230,8 @@ static void test_object_add_failure_modes(void)
-                      " 'props': {'size': 1048576 } } }");
-     g_assert_nonnull(resp);
-     g_assert(qdict_haskey(resp, "return"));
-+    qobject_unref(resp);
-+
-     resp = qtest_qmp(qts, "{'execute': 'object-add', 'arguments':"
-                      " {'qom-type': 'memory-backend-ram', 'id': 'ram1',"
-                      " 'props': {'size': 1048576 } } }");
-@@ -241,6 +243,7 @@ static void test_object_add_failure_modes(void)
-                      " {'id': 'ram1' } }");
-     g_assert_nonnull(resp);
-     g_assert(qdict_haskey(resp, "return"));
-+    qobject_unref(resp);
+diff --git a/tests/qtest/fuzz/fuzz.c b/tests/qtest/fuzz/fuzz.c
+index 0b66e43409..6bc17ef313 100644
+--- a/tests/qtest/fuzz/fuzz.c
++++ b/tests/qtest/fuzz/fuzz.c
+@@ -199,16 +199,15 @@ int LLVMFuzzerInitialize(int *argc, char ***argv, char ***envp)
+     }
  
-     /* attempt to create an object with a property of a wrong type */
-     resp = qtest_qmp(qts, "{'execute': 'object-add', 'arguments':"
-@@ -249,17 +252,20 @@ static void test_object_add_failure_modes(void)
-     g_assert_nonnull(resp);
-     /* now do it right */
-     qmp_assert_error_class(resp, "GenericError");
-+
-     resp = qtest_qmp(qts, "{'execute': 'object-add', 'arguments':"
-                      " {'qom-type': 'memory-backend-ram', 'id': 'ram1',"
-                      " 'props': {'size': 1048576 } } }");
-     g_assert_nonnull(resp);
-     g_assert(qdict_haskey(resp, "return"));
-+    qobject_unref(resp);
+     /* Run QEMU's softmmu main with the fuzz-target dependent arguments */
+-    const char *init_cmdline = fuzz_target->get_init_cmdline(fuzz_target);
+-    init_cmdline = g_strdup_printf("%s -qtest /dev/null -qtest-log %s",
+-                                   init_cmdline,
+-                                   getenv("QTEST_LOG") ? "/dev/fd/2"
+-                                                       : "/dev/null");
+-
++    GString *cmd_line = fuzz_target->get_init_cmdline(fuzz_target);
++    g_string_append_printf(cmd_line,
++                           " -qtest /dev/null -qtest-log %s",
++                           getenv("QTEST_LOG") ? "/dev/fd/2" : "/dev/null");
  
-     /* delete ram1 object */
-     resp = qtest_qmp(qts, "{'execute': 'object-del', 'arguments':"
-                      " {'id': 'ram1' } }");
-     g_assert_nonnull(resp);
-     g_assert(qdict_haskey(resp, "return"));
-+    qobject_unref(resp);
+     /* Split the runcmd into an argv and argc */
+     wordexp_t result;
+-    wordexp(init_cmdline, &result, 0);
++    wordexp(cmd_line->str, &result, 0);
++    g_string_free(cmd_line, true);
  
-     /* attempt to create an object without the id */
-     resp = qtest_qmp(qts, "{'execute': 'object-add', 'arguments':"
-@@ -267,18 +273,21 @@ static void test_object_add_failure_modes(void)
-                      " 'props': {'size': 1048576 } } }");
-     g_assert_nonnull(resp);
-     qmp_assert_error_class(resp, "GenericError");
-+
-     /* now do it right */
-     resp = qtest_qmp(qts, "{'execute': 'object-add', 'arguments':"
-                      " {'qom-type': 'memory-backend-ram', 'id': 'ram1',"
-                      " 'props': {'size': 1048576 } } }");
-     g_assert_nonnull(resp);
-     g_assert(qdict_haskey(resp, "return"));
-+    qobject_unref(resp);
+     qemu_init(result.we_wordc, result.we_wordv, NULL);
  
-     /* delete ram1 object */
-     resp = qtest_qmp(qts, "{'execute': 'object-del', 'arguments':"
-                      " {'id': 'ram1' } }");
-     g_assert_nonnull(resp);
-     g_assert(qdict_haskey(resp, "return"));
-+    qobject_unref(resp);
+diff --git a/tests/qtest/fuzz/fuzz.h b/tests/qtest/fuzz/fuzz.h
+index 72d5710f6c..9ca3d107c5 100644
+--- a/tests/qtest/fuzz/fuzz.h
++++ b/tests/qtest/fuzz/fuzz.h
+@@ -50,10 +50,10 @@ typedef struct FuzzTarget {
  
-     /* attempt to set a non existing property */
-     resp = qtest_qmp(qts, "{'execute': 'object-add', 'arguments':"
-@@ -286,23 +295,27 @@ static void test_object_add_failure_modes(void)
-                      " 'props': {'sized': 1048576 } } }");
-     g_assert_nonnull(resp);
-     qmp_assert_error_class(resp, "GenericError");
-+
-     /* now do it right */
-     resp = qtest_qmp(qts, "{'execute': 'object-add', 'arguments':"
-                      " {'qom-type': 'memory-backend-ram', 'id': 'ram1',"
-                      " 'props': {'size': 1048576 } } }");
-     g_assert_nonnull(resp);
-     g_assert(qdict_haskey(resp, "return"));
-+    qobject_unref(resp);
  
-     /* delete ram1 object without id */
-     resp = qtest_qmp(qts, "{'execute': 'object-del', 'arguments':"
-                      " {'ida': 'ram1' } }");
-     g_assert_nonnull(resp);
-+    qobject_unref(resp);
+     /*
+-     * returns the arg-list that is passed to qemu/softmmu init()
+-     * Cannot be NULL
++     * Returns the arguments that are passed to qemu/softmmu init(). Freed by
++     * the caller.
+      */
+-    const char* (*get_init_cmdline)(struct FuzzTarget *);
++    GString *(*get_init_cmdline)(struct FuzzTarget *);
  
-     /* delete ram1 object */
-     resp = qtest_qmp(qts, "{'execute': 'object-del', 'arguments':"
-                      " {'id': 'ram1' } }");
-     g_assert_nonnull(resp);
-     g_assert(qdict_haskey(resp, "return"));
-+    qobject_unref(resp);
+     /*
+      * will run once, prior to running qemu/softmmu init.
+diff --git a/tests/qtest/fuzz/i440fx_fuzz.c b/tests/qtest/fuzz/i440fx_fuzz.c
+index e2f31e56f9..bf966d478b 100644
+--- a/tests/qtest/fuzz/i440fx_fuzz.c
++++ b/tests/qtest/fuzz/i440fx_fuzz.c
+@@ -158,9 +158,9 @@ static void i440fx_fuzz_qos_fork(QTestState *s,
  
-     /* delete ram1 object that does not exist anymore*/
-     resp = qtest_qmp(qts, "{'execute': 'object-del', 'arguments':"
+ static const char *i440fx_qtest_argv = TARGET_NAME " -machine accel=qtest"
+                                        " -m 0 -display none";
+-static const char *i440fx_argv(FuzzTarget *t)
++static GString *i440fx_argv(FuzzTarget *t)
+ {
+-    return i440fx_qtest_argv;
++    return g_string_new(i440fx_qtest_argv);
+ }
+ 
+ static void fork_init(void)
+diff --git a/tests/qtest/fuzz/qos_fuzz.c b/tests/qtest/fuzz/qos_fuzz.c
+index 0c68f5361f..d52f3ebd83 100644
+--- a/tests/qtest/fuzz/qos_fuzz.c
++++ b/tests/qtest/fuzz/qos_fuzz.c
+@@ -66,7 +66,7 @@ void *qos_allocate_objects(QTestState *qts, QGuestAllocator **p_alloc)
+     return allocate_objects(qts, current_path + 1, p_alloc);
+ }
+ 
+-static const char *qos_build_main_args(void)
++static GString *qos_build_main_args(void)
+ {
+     char **path = fuzz_path_vec;
+     QOSGraphNode *test_node;
+@@ -88,7 +88,7 @@ static const char *qos_build_main_args(void)
+     /* Prepend the arguments that we need */
+     g_string_prepend(cmd_line,
+             TARGET_NAME " -display none -machine accel=qtest -m 64 ");
+-    return cmd_line->str;
++    return cmd_line;
+ }
+ 
+ /*
+@@ -189,7 +189,7 @@ static void walk_path(QOSGraphNode *orig_path, int len)
+     g_free(path_str);
+ }
+ 
+-static const char *qos_get_cmdline(FuzzTarget *t)
++static GString *qos_get_cmdline(FuzzTarget *t)
+ {
+     /*
+      * Set a global variable that we use to identify the qos_path for our
 -- 
 2.18.1
 
