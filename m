@@ -2,56 +2,54 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id CD5AC223BD0
-	for <lists+qemu-devel@lfdr.de>; Fri, 17 Jul 2020 14:59:39 +0200 (CEST)
-Received: from localhost ([::1]:53948 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 11DDB223BCD
+	for <lists+qemu-devel@lfdr.de>; Fri, 17 Jul 2020 14:59:24 +0200 (CEST)
+Received: from localhost ([::1]:52744 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jwPxi-0001qE-Sn
-	for lists+qemu-devel@lfdr.de; Fri, 17 Jul 2020 08:59:38 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:52100)
+	id 1jwPxT-0001LX-0L
+	for lists+qemu-devel@lfdr.de; Fri, 17 Jul 2020 08:59:23 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:52164)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1jwPtm-0004jT-Qe
- for qemu-devel@nongnu.org; Fri, 17 Jul 2020 08:55:34 -0400
-Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:40541
+ (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1jwPtq-0004t8-F2
+ for qemu-devel@nongnu.org; Fri, 17 Jul 2020 08:55:38 -0400
+Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:50402
  helo=us-smtp-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1jwPtl-0008N8-7R
- for qemu-devel@nongnu.org; Fri, 17 Jul 2020 08:55:34 -0400
+ (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1jwPto-0008Nr-QF
+ for qemu-devel@nongnu.org; Fri, 17 Jul 2020 08:55:38 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1594990532;
+ s=mimecast20190719; t=1594990536;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=DeF1upc820Vo0wRn8Z3jAIiFITuv7lG6ThuUDPVcygw=;
- b=e9qlMglCh4qTij6LHxztlhBKb4jWKV+GRhNBbPSqQYyLmbUBnBuhr9EMiDf6OIvkYTFR2v
- q7+uOw3zLypBgCtx2SnvvWeJMFyHtuGzZkwRnEW/TiRRlZ5jewKCMezKDxcMNe2adJP6cB
- lHnzHJGxRcVUh1PFP8JBBl+CCYVreUE=
+ bh=176bmdEuvMrg1lCHTVJS3+4pNrYOIDKZBuVZSCBxM1k=;
+ b=FC5smtAYYnOfkzd+/7itGkCGIi7z2hWmE12e5ntqI3NeZto6Q3FzDUHZyt1K9sEuWT69C5
+ DmXAVWpbVMooPOBgCpTXIfrI0Krmnx119eJPZOTm+gtBrVGnUAvygXNp5fE65F5yb5J15Q
+ iZCzDbgPRkCeykSRlFPpFIU9d2hucU8=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-89-8IoGcMChNMGJ9YEZJGD4jQ-1; Fri, 17 Jul 2020 08:55:28 -0400
-X-MC-Unique: 8IoGcMChNMGJ9YEZJGD4jQ-1
+ us-mta-141-gVTc5EiaOy-oG4RMnRGGcw-1; Fri, 17 Jul 2020 08:55:31 -0400
+X-MC-Unique: gVTc5EiaOy-oG4RMnRGGcw-1
 Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
  [10.5.11.15])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id B2C858DFFF4;
- Fri, 17 Jul 2020 12:55:23 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id ED9A28C5A8E;
+ Fri, 17 Jul 2020 12:55:24 +0000 (UTC)
 Received: from linux.fritz.box.com (ovpn-113-80.ams2.redhat.com [10.36.113.80])
- by smtp.corp.redhat.com (Postfix) with ESMTP id C0AF6710B1;
- Fri, 17 Jul 2020 12:55:22 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 05886710C8;
+ Fri, 17 Jul 2020 12:55:23 +0000 (UTC)
 From: Kevin Wolf <kwolf@redhat.com>
 To: qemu-block@nongnu.org
-Subject: [PULL 05/12] iotests/030: Reduce job speed to make race less likely
-Date: Fri, 17 Jul 2020 14:55:03 +0200
-Message-Id: <20200717125510.238374-6-kwolf@redhat.com>
+Subject: [PULL 06/12] nbd: make nbd_export_close_all() synchronous
+Date: Fri, 17 Jul 2020 14:55:04 +0200
+Message-Id: <20200717125510.238374-7-kwolf@redhat.com>
 In-Reply-To: <20200717125510.238374-1-kwolf@redhat.com>
 References: <20200717125510.238374-1-kwolf@redhat.com>
 MIME-Version: 1.0
 X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=kwolf@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=US-ASCII
@@ -83,33 +81,81 @@ Cc: kwolf@redhat.com, peter.maydell@linaro.org, qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-It can happen that the throttling of the stream job doesn't make it slow
-enough that we can be sure that it still exists when it is referenced
-again. Just use a much smaller speed to make this very unlikely to
-happen again.
+From: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
 
-Reported-by: Peter Maydell <peter.maydell@linaro.org>
-Signed-off-by: Kevin Wolf <kwolf@redhat.com>
-Message-Id: <20200716132829.20127-1-kwolf@redhat.com>
-Reviewed-by: Max Reitz <mreitz@redhat.com>
+Consider nbd_export_close_all(). The call-stack looks like this:
+ nbd_export_close_all() -> nbd_export_close -> call client_close() for
+each client.
+
+client_close() doesn't guarantee that client is closed: nbd_trip()
+keeps reference to it. So, nbd_export_close_all() just reduce
+reference counter on export and removes it from the list, but doesn't
+guarantee that nbd_trip() finished neither export actually removed.
+
+Let's wait for all exports actually removed.
+
+Without this fix, the following crash is possible:
+
+- export bitmap through internal Qemu NBD server
+- connect a client
+- shutdown Qemu
+
+On shutdown nbd_export_close_all is called, but it actually don't wait
+for nbd_trip() to finish and to release its references. So, export is
+not release, and exported bitmap remains busy, and on try to remove the
+bitmap (which is part of bdrv_close()) the assertion fails:
+
+bdrv_release_dirty_bitmap_locked: Assertion `!bdrv_dirty_bitmap_busy(bitmap)' failed
+
+Signed-off-by: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
+Reviewed-by: Eric Blake <eblake@redhat.com>
+Message-Id: <20200714162234.13113-2-vsementsov@virtuozzo.com>
 Signed-off-by: Kevin Wolf <kwolf@redhat.com>
 ---
- tests/qemu-iotests/030 | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ nbd/server.c | 8 ++++++++
+ 1 file changed, 8 insertions(+)
 
-diff --git a/tests/qemu-iotests/030 b/tests/qemu-iotests/030
-index 256b2bfbc6..31c028306b 100755
---- a/tests/qemu-iotests/030
-+++ b/tests/qemu-iotests/030
-@@ -243,7 +243,7 @@ class TestParallelOps(iotests.QMPTestCase):
-             node_name = 'node%d' % i
-             job_id = 'stream-%s' % node_name
-             pending_jobs.append(job_id)
--            result = self.vm.qmp('block-stream', device=node_name, job_id=job_id, base=self.imgs[i-2], speed=512*1024)
-+            result = self.vm.qmp('block-stream', device=node_name, job_id=job_id, base=self.imgs[i-2], speed=1024)
-             self.assert_qmp(result, 'return', {})
+diff --git a/nbd/server.c b/nbd/server.c
+index 5357f588f0..4752a6c8bc 100644
+--- a/nbd/server.c
++++ b/nbd/server.c
+@@ -102,6 +102,8 @@ struct NBDExport {
+ };
  
-         for job in pending_jobs:
+ static QTAILQ_HEAD(, NBDExport) exports = QTAILQ_HEAD_INITIALIZER(exports);
++static QTAILQ_HEAD(, NBDExport) closed_exports =
++        QTAILQ_HEAD_INITIALIZER(closed_exports);
+ 
+ /* NBDExportMetaContexts represents a list of contexts to be exported,
+  * as selected by NBD_OPT_SET_META_CONTEXT. Also used for
+@@ -1659,6 +1661,7 @@ void nbd_export_close(NBDExport *exp)
+         g_free(exp->name);
+         exp->name = NULL;
+         QTAILQ_REMOVE(&exports, exp, next);
++        QTAILQ_INSERT_TAIL(&closed_exports, exp, next);
+     }
+     g_free(exp->description);
+     exp->description = NULL;
+@@ -1722,7 +1725,9 @@ void nbd_export_put(NBDExport *exp)
+             g_free(exp->export_bitmap_context);
+         }
+ 
++        QTAILQ_REMOVE(&closed_exports, exp, next);
+         g_free(exp);
++        aio_wait_kick();
+     }
+ }
+ 
+@@ -1742,6 +1747,9 @@ void nbd_export_close_all(void)
+         nbd_export_close(exp);
+         aio_context_release(aio_context);
+     }
++
++    AIO_WAIT_WHILE(NULL, !(QTAILQ_EMPTY(&exports) &&
++                           QTAILQ_EMPTY(&closed_exports)));
+ }
+ 
+ static int coroutine_fn nbd_co_send_iov(NBDClient *client, struct iovec *iov,
 -- 
 2.25.4
 
