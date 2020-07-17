@@ -2,68 +2,77 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C8B8D223C00
-	for <lists+qemu-devel@lfdr.de>; Fri, 17 Jul 2020 15:12:23 +0200 (CEST)
-Received: from localhost ([::1]:39870 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E8EBF223BE2
+	for <lists+qemu-devel@lfdr.de>; Fri, 17 Jul 2020 15:04:18 +0200 (CEST)
+Received: from localhost ([::1]:43304 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jwQA2-0002nF-T5
-	for lists+qemu-devel@lfdr.de; Fri, 17 Jul 2020 09:12:22 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:57230)
+	id 1jwQ2D-0000k9-Va
+	for lists+qemu-devel@lfdr.de; Fri, 17 Jul 2020 09:04:17 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:52552)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1jwQ8o-0002Al-7P
- for qemu-devel@nongnu.org; Fri, 17 Jul 2020 09:11:06 -0400
-Received: from indium.canonical.com ([91.189.90.7]:33584)
+ (Exim 4.90_1) (envelope-from <arilou@gmail.com>) id 1jwPv3-00075R-Ro
+ for qemu-devel@nongnu.org; Fri, 17 Jul 2020 08:56:53 -0400
+Received: from mail-wr1-x442.google.com ([2a00:1450:4864:20::442]:39929)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1jwQ8m-0002vI-7m
- for qemu-devel@nongnu.org; Fri, 17 Jul 2020 09:11:05 -0400
-Received: from loganberry.canonical.com ([91.189.90.37])
- by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
- id 1jwQ8j-0001kw-7d
- for <qemu-devel@nongnu.org>; Fri, 17 Jul 2020 13:11:01 +0000
-Received: from loganberry.canonical.com (localhost [127.0.0.1])
- by loganberry.canonical.com (Postfix) with ESMTP id 374E32E80EC
- for <qemu-devel@nongnu.org>; Fri, 17 Jul 2020 13:11:01 +0000 (UTC)
-MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: quoted-printable
-Date: Fri, 17 Jul 2020 12:56:08 -0000
-From: K <1887854@bugs.launchpad.net>
+ (Exim 4.90_1) (envelope-from <arilou@gmail.com>) id 1jwPv2-00006M-AY
+ for qemu-devel@nongnu.org; Fri, 17 Jul 2020 08:56:53 -0400
+Received: by mail-wr1-x442.google.com with SMTP id q5so10977580wru.6
+ for <qemu-devel@nongnu.org>; Fri, 17 Jul 2020 05:56:51 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=0snM9HRI0+JSg5Zt1iuTkTRirceAJfWdpQ4fjknU2q0=;
+ b=BA7cEVof/BPjd95tPhYvTa3QkkbTh7eHTiMVS8HExXXn7xQP0pdhkS6C4TV/TvmITQ
+ WsLEc6x8camriUi79rtDXAFtSwZ7v7gwb+YpeLAfzNkKDMnh4E6BnKas5roWHvXgq2Ul
+ ZjaAdCTgrMuWJSwWbzUm0Me1lzcmw4Vr91FDMOwIHwA+KCyyLf3BaqLYqBLEGvb+uF+5
+ staz7sojKYgYfKJJfR+UaPiJQQJ/nWbJhry29XNwsl8/zyyZaf4ZU5kcouqDWnZlZn1z
+ qoF0uqE342Lz9Xe25d83ssqasRvecwvf9ubtBMljQYFay+IaUQFKDaDYLcBR1TN1lToU
+ 29Ew==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=0snM9HRI0+JSg5Zt1iuTkTRirceAJfWdpQ4fjknU2q0=;
+ b=CHGPCGz0mL0WSoQBnVprOfq6DLtCXAvrfEPKprGXyoYg1/2/DfVEHXgEqSA6HFwPLg
+ WOYaQtzi9dfrwqgtfz5uBVXtoQpatgMFdlIDK23FqZXTTjOIGJe94q2neyKVPI7P8DbX
+ 5NWYJimOtp2rDF+PYzLvnA3HO4ZzlEr1RCCRGxaO/a2dsuPBqFfFRRZr4g86nr8TP/ZH
+ 2oYiEhWTGoPeZAmEI8EiDNWZm4HoV/MwlBWu0DwUdH+it5lW+j1N8lm+otiB5B5b1Aqg
+ ysUrJ3DqO6bk1o3WOcDZ6/xHqjdHiB+gEatK14X+ER27JOS4uQHtNN/fjSBbyGPIWpJt
+ MqFQ==
+X-Gm-Message-State: AOAM530CTMOqc/jVvoYGHffqMAIU48rTiDkhMqA3qkCwN6Xv4KX8jTXA
+ H4ABbpQrDhKADZcrKea0gokvYbcH
+X-Google-Smtp-Source: ABdhPJyvt+VTIWIIPvw9G0lc9wAGGu6nMXckvmKt2NWin3qyDeJORp8fJk5qdkMvIB0UTVuFq7R6uQ==
+X-Received: by 2002:adf:b1cf:: with SMTP id r15mr10976277wra.118.1594990610074; 
+ Fri, 17 Jul 2020 05:56:50 -0700 (PDT)
+Received: from jondnuc.lan (IGLD-84-229-155-64.inter.net.il. [84.229.155.64])
+ by smtp.gmail.com with ESMTPSA id
+ g82sm13655710wma.37.2020.07.17.05.56.49
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Fri, 17 Jul 2020 05:56:49 -0700 (PDT)
+From: Jon Doron <arilou@gmail.com>
 To: qemu-devel@nongnu.org
-X-Launchpad-Notification-Type: bug
-X-Launchpad-Bug: product=qemu; status=Invalid; importance=Undecided;
- assignee=None; 
-X-Launchpad-Bug-Information-Type: Public
-X-Launchpad-Bug-Private: no
-X-Launchpad-Bug-Security-Vulnerability: no
-X-Launchpad-Bug-Commenters: opticron pmaydell
-X-Launchpad-Bug-Reporter: K (opticron)
-X-Launchpad-Bug-Modifier: K (opticron)
-References: <159492817809.19148.14056725236873205625.malonedeb@chaenomeles.canonical.com>
-Message-Id: <159499056811.7835.10631528174607711831.malone@wampee.canonical.com>
-Subject: [Bug 1887854] Re: Spurious Data Abort on qemu-system-aarch64
-X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
-X-Launchpad-Message-For: qemu-devel-ml
-Precedence: bulk
-X-Generated-By: Launchpad (canonical.com);
- Revision="4809fcb62f445aaa3ae919f7f6c3cc7d156ea57a";
- Instance="production-secrets-lazr.conf"
-X-Launchpad-Hash: c8dedd3b76cde47c8519b2ba6b5a05450bff6550
-Received-SPF: none client-ip=91.189.90.7; envelope-from=bounces@canonical.com;
- helo=indium.canonical.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/07/17 08:00:58
-X-ACL-Warn: Detected OS   = Linux 3.11 and newer [fuzzy]
-X-Spam_score_int: -58
-X-Spam_score: -5.9
-X-Spam_bar: -----
-X-Spam_report: (-5.9 / 5.0 requ) BAYES_00=-1.9, HEADER_FROM_DIFFERENT_DOMAINS=1,
- RCVD_IN_DNSWL_HI=-5, RCVD_IN_MSPIKE_H3=-0.01, RCVD_IN_MSPIKE_WL=-0.01,
- SPF_HELO_NONE=0.001, SPF_NONE=0.001 autolearn=ham autolearn_force=no
+Subject: [PATCH v1 0/1] hyperv: Enable SCONTROL if SYNIC is enabled
+Date: Fri, 17 Jul 2020 15:56:38 +0300
+Message-Id: <20200717125639.1103876-1-arilou@gmail.com>
+X-Mailer: git-send-email 2.26.2
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=2a00:1450:4864:20::442;
+ envelope-from=arilou@gmail.com; helo=mail-wr1-x442.google.com
+X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
+ That's all we know.
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
+Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -72,68 +81,28 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Bug 1887854 <1887854@bugs.launchpad.net>
+Cc: pbonzini@redhat.com, vkuznets@redhat.com, Jon Doron <arilou@gmail.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Ok, thanks for rooting this out. I could swear that I checked that
-address several times and I clearly remember 0x4010ca28, but I don't
-remember ever seeing 0x10 ahead of it. I'll dig into it a bit and
-hopefully find the root cause in my code.
+Based on an analysis of the HyperV firmwares (Gen1 and Gen2) it seems
+like the SCONTROL is not being set to the ENABLED state as like we have
+thought.
 
-** Changed in: qemu
-       Status: New =3D> Invalid
+Also from a test done by Vitaly Kuznetsov, running a nested HyperV it
+was concluded that the first access to the SCONTROL MSR with a read
+resulted with the value of 0x1, aka HV_SYNIC_CONTROL_ENABLE.
 
--- =
+It's important to note that this diverges from the value states in the
+HyperV TLFS of 0.
 
-You received this bug notification because you are a member of qemu-
-devel-ml, which is subscribed to QEMU.
-https://bugs.launchpad.net/bugs/1887854
+Jon Doron (1):
+  hyperv: Enable SCONTROL if SYNIC is enabled
 
-Title:
-  Spurious Data Abort on qemu-system-aarch64
+ target/i386/kvm.c | 2 ++
+ 1 file changed, 2 insertions(+)
 
-Status in QEMU:
-  Invalid
+-- 
+2.24.1
 
-Bug description:
-  When running RTEMS test psxndbm01.exe built for AArch64-ilp32 (this code =
-is not yet publically available), the test generates a spurious data abort =
-(the MMU and alignment checks should be disabled according to bits 1, 0 of =
-SCTLR_EL1). The abort information is as follows:
-  Taking exception 4 [Data Abort]
-  ...from EL1 to EL1
-  ...with ESR 0x25/0x96000010
-  ...with FAR 0x104010ca28
-  ...with ELR 0x400195d8
-  ...to EL1 PC 0x40018200 PSTATE 0x3c5
-
-  The ESR indicates that a synchronous external abort has occurred.
-  ESR EC field: 0b100101
-
-  From the ARMv8 technical manual: Data Abort taken without a change in
-  Exception level. Used for MMU faults generated by data accesses,
-  alignment faults other than those caused by Stack Pointer
-  misalignment, and synchronous External aborts, including synchronous
-  parity or ECC errors. Not used for debug related exceptions.
-
-  ESR ISS field: 0b10000
-
-  From the ARMv8 technical manual: Synchronous External abort, not on
-  translation table walk or hardware update of translation table.
-
-  The following command line is used to invoke qemu:
-  qemu-system-aarch64 -machine virt -cpu cortex-a53 -m 256M -no-reboot -nog=
-raphic -serial mon:stdio -kernel build/aarch64/a53_ilp32_qemu/testsuites/ps=
-xtests/psxndbm01.exe -D qemu.log -d in_asm,int,cpu_reset,unimp,guest_errors
-
-  This occurs on Qemu 3.1.0 as distributed via Debian and on Qemu 4.1 as
-  built by the RTEMS source builder (4.1+minor patches).
-
-  Edit: This bug can be worked around by getting and setting SCTLR
-  without changing its value before each data abort would occur. This
-  test needs 6 of these workarounds to operate successfully.
-
-To manage notifications about this bug go to:
-https://bugs.launchpad.net/qemu/+bug/1887854/+subscriptions
 
