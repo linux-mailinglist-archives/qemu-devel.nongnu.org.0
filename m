@@ -2,98 +2,105 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id BE593223D90
-	for <lists+qemu-devel@lfdr.de>; Fri, 17 Jul 2020 16:02:10 +0200 (CEST)
-Received: from localhost ([::1]:33994 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8E5A5223DEC
+	for <lists+qemu-devel@lfdr.de>; Fri, 17 Jul 2020 16:21:56 +0200 (CEST)
+Received: from localhost ([::1]:56672 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jwQwD-0002Sh-QM
-	for lists+qemu-devel@lfdr.de; Fri, 17 Jul 2020 10:02:09 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:43678)
+	id 1jwRFL-0004rp-Bx
+	for lists+qemu-devel@lfdr.de; Fri, 17 Jul 2020 10:21:55 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:50504)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mreitz@redhat.com>) id 1jwQub-0001q2-96
- for qemu-devel@nongnu.org; Fri, 17 Jul 2020 10:00:29 -0400
-Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:59608
- helo=us-smtp-1.mimecast.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <mreitz@redhat.com>) id 1jwQuZ-000433-NA
- for qemu-devel@nongnu.org; Fri, 17 Jul 2020 10:00:29 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1594994426;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
- bh=8sj+n3v+dgJ0qiRHpdzmC25k5qn+hKhmyiopiT1jk8E=;
- b=Noo+bZTDNaGJSBrwFocISaZnOISLIc5mYSSbeokQHwQ4c8H4IJB3CfPIs8kV5eFOy+sC0C
- bx3smUBx6/IQ35a2BS71a2xcFz52V+kAcXc0Pfct1iDDS59bWG+IOYyCTZIbjf7E14oyRw
- g3HfwMEg42XCbx2lJ03/mCHDfMVj4po=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-208-b4etkOE_P6Kj5oBbbNYxdA-1; Fri, 17 Jul 2020 10:00:22 -0400
-X-MC-Unique: b4etkOE_P6Kj5oBbbNYxdA-1
-Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
- [10.5.11.12])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id ED1F7100CCC0;
- Fri, 17 Jul 2020 14:00:20 +0000 (UTC)
-Received: from dresden.str.redhat.com (ovpn-113-123.ams2.redhat.com
- [10.36.113.123])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 645F970104;
- Fri, 17 Jul 2020 14:00:05 +0000 (UTC)
-Subject: Re: [PATCH v2 05/20] block/block-copy: implement block_copy_async
-To: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>,
- qemu-block@nongnu.org
-References: <20200601181118.579-1-vsementsov@virtuozzo.com>
- <20200601181118.579-6-vsementsov@virtuozzo.com>
-From: Max Reitz <mreitz@redhat.com>
-Autocrypt: addr=mreitz@redhat.com; prefer-encrypt=mutual; keydata=
- mQENBFXOJlcBCADEyyhOTsoa/2ujoTRAJj4MKA21dkxxELVj3cuILpLTmtachWj7QW+TVG8U
- /PsMCFbpwsQR7oEy8eHHZwuGQsNpEtNC2G/L8Yka0BIBzv7dEgrPzIu+W3anZXQW4702+uES
- U29G8TP/NGfXRRHGlbBIH9KNUnOSUD2vRtpOLXkWsV5CN6vQFYgQfFvmp5ZpPeUe6xNplu8V
- mcTw8OSEDW/ZnxJc8TekCKZSpdzYoxfzjm7xGmZqB18VFwgJZlIibt1HE0EB4w5GsD7x5ekh
- awIe3RwoZgZDLQMdOitJ1tUc8aqaxvgA4tz6J6st8D8pS//m1gAoYJWGwwIVj1DjTYLtABEB
- AAG0HU1heCBSZWl0eiA8bXJlaXR6QHJlZGhhdC5jb20+iQFTBBMBCAA9AhsDBQkSzAMABQsJ
- CAcCBhUICQoLAgQWAgMBAh4BAheABQJVzie5FRhoa3A6Ly9rZXlzLmdudXBnLm5ldAAKCRD0
- B9sAYdXPQDcIB/9uNkbYEex1rHKz3mr12uxYMwLOOFY9fstP5aoVJQ1nWQVB6m2cfKGdcRe1
- 2/nFaHSNAzT0NnKz2MjhZVmcrpyd2Gp2QyISCfb1FbT82GMtXFj1wiHmPb3CixYmWGQUUh+I
- AvUqsevLA+WihgBUyaJq/vuDVM1/K9Un+w+Tz5vpeMidlIsTYhcsMhn0L9wlCjoucljvbDy/
- 8C9L2DUdgi3XTa0ORKeflUhdL4gucWoAMrKX2nmPjBMKLgU7WLBc8AtV+84b9OWFML6NEyo4
- 4cP7cM/07VlJK53pqNg5cHtnWwjHcbpGkQvx6RUx6F1My3y52vM24rNUA3+ligVEgPYBuQEN
- BFXOJlcBCADAmcVUNTWT6yLWQHvxZ0o47KCP8OcLqD+67T0RCe6d0LP8GsWtrJdeDIQk+T+F
- xO7DolQPS6iQ6Ak2/lJaPX8L0BkEAiMuLCKFU6Bn3lFOkrQeKp3u05wCSV1iKnhg0UPji9V2
- W5eNfy8F4ZQHpeGUGy+liGXlxqkeRVhLyevUqfU0WgNqAJpfhHSGpBgihUupmyUg7lfUPeRM
- DzAN1pIqoFuxnN+BRHdAecpsLcbR8sQddXmDg9BpSKozO/JyBmaS1RlquI8HERQoe6EynJhd
- 64aICHDfj61rp+/0jTIcevxIIAzW70IadoS/y3DVIkuhncgDBvGbF3aBtjrJVP+5ABEBAAGJ
- ASUEGAEIAA8FAlXOJlcCGwwFCRLMAwAACgkQ9AfbAGHVz0CbFwf9F/PXxQR9i4N0iipISYjU
- sxVdjJOM2TMut+ZZcQ6NSMvhZ0ogQxJ+iEQ5OjnIputKvPVd5U7WRh+4lF1lB/NQGrGZQ1ic
- alkj6ocscQyFwfib+xIe9w8TG1CVGkII7+TbS5pXHRxZH1niaRpoi/hYtgzkuOPp35jJyqT/
- /ELbqQTDAWcqtJhzxKLE/ugcOMK520dJDeb6x2xVES+S5LXby0D4juZlvUj+1fwZu+7Io5+B
- bkhSVPb/QdOVTpnz7zWNyNw+OONo1aBUKkhq2UIByYXgORPFnbfMY7QWHcjpBVw9MgC4tGeF
- R4bv+1nAMMxKmb5VvQCExr0eFhJUAHAhVg==
-Message-ID: <90825bab-19d1-466f-4fd4-adf76f1010b1@redhat.com>
-Date: Fri, 17 Jul 2020 16:00:03 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.10.0
+ (Exim 4.90_1) (envelope-from <Filip.Bozuta@syrmia.com>)
+ id 1jwREO-0003wD-7G
+ for qemu-devel@nongnu.org; Fri, 17 Jul 2020 10:20:56 -0400
+Received: from mail-eopbgr40090.outbound.protection.outlook.com
+ ([40.107.4.90]:41631 helo=EUR03-DB5-obe.outbound.protection.outlook.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <Filip.Bozuta@syrmia.com>)
+ id 1jwREL-0008Hm-VT
+ for qemu-devel@nongnu.org; Fri, 17 Jul 2020 10:20:55 -0400
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=TVCKLeg0VUdp1nBOX+i981ujfzRLJy3n15BPjzX3cC7xEH64W5JlXgpR1x9fhexNd03Tt8Uk9yM1Eiy5uUc+YZf1Uo/ZUsJRr6Hq0nuaVMc08YOp+nuWQjf5Ssq2Bq0/+DNM7uvEZ4DM4SX3ziEoLw9gfeqzpbrG5gY05Xc65vqoti7H8I2vfmqHE+bplE7JT2ocunb5ae7IvzTXXXSw9fBAHpYyOE7iwCSLpaqProwtLT9h9vJ9MJXGzZL407bOYAjHy6EmbphHzOmTVmcLvvD/o+uWD0GA0hrOUSAMmNQRWtFPBcFhQ0tq745b4d2SBcJFldR9CUCq5Way5j8T9g==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=ew/JAG6JXLqGZxY9fFsCIEOaB7BPDHNPEj4WMQkiAac=;
+ b=kMknVaR0dIwzKGUCwsrpDovcPG6kTbZL0akUgACMrBDeP691nQszitg5a/Sgb3loZyODQVlfENSVToXUyel7tcwowZXvwH8nu1vuMdwvaNyPcoAnh2B4qySQf+fXsBvO6zhyYDwlfVz4TVoAZF67T2N6Pv8mYMk0wNYhv5JnEMnunq9Zg2liaeMc+2ud7z/dXtV3SoaMFXeVul7J4ZKA09HJcNqHZxxXfKGJk4N/WES2p8fI2wOiBUwzkR0RHimSXmoIObezVqKQQKfaFRz6PWAGQ5bXgS3WjVOtzPwyCroT84HD7+AuN9fWYTqEeJLTmBkxe9ZHFgpgaxkSGyib+w==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=syrmia.com; dmarc=pass action=none header.from=syrmia.com;
+ dkim=pass header.d=syrmia.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=syrmia.com;
+ s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=ew/JAG6JXLqGZxY9fFsCIEOaB7BPDHNPEj4WMQkiAac=;
+ b=E1UZp7PbI+EEB2/fggz9RYPPdtKKRSUTy8lmM7mTfqE8dVfWn17Olcr3BLtjombZKuM/zT0739LNA2i8U818Kyl6ZQLDGI7bjBs1kOWryqEsZCPXou2QBzI8FcHSl/YxjgrMLmvb8pWn8O6bTvX/cqjEiBdgg8XqEv5tAbioXd8=
+Authentication-Results: nongnu.org; dkim=none (message not signed)
+ header.d=none;nongnu.org; dmarc=none action=none header.from=syrmia.com;
+Received: from VE1PR03MB5246.eurprd03.prod.outlook.com (2603:10a6:802:a1::22)
+ by VE1PR03MB5967.eurprd03.prod.outlook.com (2603:10a6:803:108::33)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3174.22; Fri, 17 Jul
+ 2020 14:05:49 +0000
+Received: from VE1PR03MB5246.eurprd03.prod.outlook.com
+ ([fe80::ad93:b959:82ec:107f]) by VE1PR03MB5246.eurprd03.prod.outlook.com
+ ([fe80::ad93:b959:82ec:107f%3]) with mapi id 15.20.3174.027; Fri, 17 Jul 2020
+ 14:05:49 +0000
+From: Filip Bozuta <Filip.Bozuta@syrmia.com>
+To: qemu-devel@nongnu.org
+Subject: [PATCH 0/4] Add support for a group of btrfs ioctls - 2
+Date: Fri, 17 Jul 2020 16:04:29 +0200
+Message-Id: <20200717140433.265599-1-Filip.Bozuta@syrmia.com>
+X-Mailer: git-send-email 2.25.1
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-ClientProxiedBy: GV0P278CA0026.CHEP278.PROD.OUTLOOK.COM
+ (2603:10a6:710:28::13) To VE1PR03MB5246.eurprd03.prod.outlook.com
+ (2603:10a6:802:a1::22)
 MIME-Version: 1.0
-In-Reply-To: <20200601181118.579-6-vsementsov@virtuozzo.com>
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature";
- boundary="rdT7P8Pb9hpmtcNNQ4AI1DdaxG0suCZey"
-Received-SPF: pass client-ip=205.139.110.120; envelope-from=mreitz@redhat.com;
- helo=us-smtp-1.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/07/16 23:13:19
-X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
-X-Spam_score_int: -40
-X-Spam_score: -4.1
-X-Spam_bar: ----
-X-Spam_report: (-4.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-1, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+X-MS-Exchange-MessageSentRepresentingType: 1
+Received: from localhost.localdomain (147.91.217.239) by
+ GV0P278CA0026.CHEP278.PROD.OUTLOOK.COM (2603:10a6:710:28::13) with Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.3195.18 via Frontend Transport; Fri, 17 Jul 2020 14:05:48 +0000
+X-Mailer: git-send-email 2.25.1
+X-Originating-IP: [147.91.217.239]
+X-MS-PublicTrafficType: Email
+X-MS-Office365-Filtering-Correlation-Id: 8e4d68d9-ecdb-4bb2-5097-08d82a5a820e
+X-MS-TrafficTypeDiagnostic: VE1PR03MB5967:
+X-Microsoft-Antispam-PRVS: <VE1PR03MB5967E55DF0E8D9E1BCFF07DFEB7C0@VE1PR03MB5967.eurprd03.prod.outlook.com>
+X-MS-Oob-TLC-OOBClassifiers: OLM:2331;
+X-MS-Exchange-SenderADCheck: 1
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: v/5/a7mMFXSNbflS8iMUW+5vkoYuBYw5/T2Ixwrimk/fX3gfJZnPbPS3nUTgag3d8+YkOWyHPujbXu5RrJeKjcCS75TyiZOp2Vt4iSGxfDHaztsW3b/kmIrLdmNE+lHwmIJ0jlOc5+n3RQS86V4gAqt5jbHtYOFUn1etxXejGBZomcTAdIA9lyXzKeieRVp2ouLZjbv0rAMHuv3XgHHjQ3eayLzxt9IXhQz51xzQ3Xz7BkKXnAisKraWwKpm5GUDrJQH+eGgOu65o25QnA6ut8f1GBfSDWRRN/Jdp9hK/zAVdu8G52KLrpl3+ETb32PlRt18uySvAbDxqk/U0kyY/81GN+UYGnCLgLWMdEsWvqQJ8bG03Jjvq9Q65mDbWMCjJPSqZYxkCWC5qobJBVbgrfslfNw0kQrXrZDbDeRd0NMVXbw7HMEQuHEVjrD85FpMflK1yi01fwS17wz/PPxmHQ==
+X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:VE1PR03MB5246.eurprd03.prod.outlook.com; PTR:; CAT:NONE;
+ SFTY:;
+ SFS:(39830400003)(136003)(366004)(346002)(396003)(376002)(2906002)(1076003)(83380400001)(52116002)(8936002)(66946007)(956004)(316002)(66476007)(36756003)(66556008)(508600001)(6512007)(966005)(6916009)(6666004)(2616005)(69590400007)(26005)(8676002)(6486002)(6506007)(16526019)(5660300002)(4326008)(186003)(86362001);
+ DIR:OUT; SFP:1102; 
+X-MS-Exchange-AntiSpam-MessageData: ScKBD+5Vi3kLxNBObGbMLSYrADvVKR/6QMIm/4XU3ZeiQp1+aH/29SrCvQWtyQS377hY7PrCHx/6WooT8xcqYBUdVgx5wYW+l/I95PNeyrS6NfOtn432YWqSQE9PyIl4jka7mi9DukrPkuBIzLeJr+ZUpW3l+0p/Frxb84d7CoFjisCWrcOM0q59l5PxAY9no4goAHb6xytlpSdNco+zmYkGc4o9TPYItzJtDAl7BdW+EK6wwHaGn6Y2uOLcU29GaArMPu4viVPAkbPLjbEMKbZl5lPPAtIQMveJK7LKGeN4xp0Isxje1whk5xlGbcqigyVwP4o/Je7hI+NKL/mEKMY2hKaF/uiioIMeWZhlKqFg6mkRoWB8fnMBrcLgVxR6WXWeuFE55Mhvr3Gt+Alx2ky4Mrn47ICC5Jgf/1RO05wcdV5fbwGkpjeYU4bA0gF5QxbR2HYjodKOUlGpaFg0NPDAuQDjGaWTmYf4ll5WJ4g=
+X-OriginatorOrg: syrmia.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 8e4d68d9-ecdb-4bb2-5097-08d82a5a820e
+X-MS-Exchange-CrossTenant-AuthSource: VE1PR03MB5246.eurprd03.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 17 Jul 2020 14:05:49.2813 (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 19214a73-c1ab-4e19-8f59-14bdcb09a66e
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: V4fVy6ciVL28rWWukbPWUaCPJLiLdcC7M2YcnclZg5sexHw2L3Uio2jl/a+b0VHyRWkc3Abj6wMz/zpt0PR2Hg==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: VE1PR03MB5967
+Received-SPF: pass client-ip=40.107.4.90; envelope-from=Filip.Bozuta@syrmia.com;
+ helo=EUR03-DB5-obe.outbound.protection.outlook.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/07/17 10:20:51
+X-ACL-Warn: Detected OS   = Windows NT kernel [generic] [fuzzy]
+X-Spam_score_int: -37
+X-Spam_score: -3.8
+X-Spam_bar: ---
+X-Spam_report: (-3.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ MSGID_FROM_MTA_HEADER=0.001, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-1,
+ SPF_HELO_PASS=-0.001, SPF_PASS=-0.001,
+ URIBL_BLOCKED=0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -106,176 +113,62 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: kwolf@redhat.com, wencongyang2@huawei.com, xiechanglong.d@gmail.com,
- armbru@redhat.com, qemu-devel@nongnu.org, den@openvz.org, jsnow@redhat.com
+Cc: riku.voipio@iki.fi, laurent@viver.eu
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
---rdT7P8Pb9hpmtcNNQ4AI1DdaxG0suCZey
-Content-Type: multipart/mixed; boundary="8C90YjtfxresFvYBoeNPQY6ws9RidQ1wK"
+This series covers support for following btrfs ioctls
 
---8C90YjtfxresFvYBoeNPQY6ws9RidQ1wK
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: quoted-printable
+    *BTRFS_IOC_DEFAULT_SUBVOL        *BTRFS_IOC_QUOTA_RESCAN
+    *BTRFS_IOC_GET_SUBVOL_ROOTREF    *BTRFS_IOC_QUOTA_RESCAN_WAIT
+    *BTRFS_IOC_QUOTA_CTL             *BTRFS_IOC_SCRUB
+    *BTRFS_IOC_QGROUP_CREATE         *BTRFS_IOC_SCRUB_CANCEL
+    *BTRFS_IOC_QGROUP_ASSIGN         *BTRFS_IOC_SCRUB_PROGRESS
+    *BTRFS_IOC_INO_PATHS             *BTRFS_IOC_QGROUP_LIMIT
+    *BTRFS_IOC_LOGICAL_INO           *BTRFS_IOC_QUOTA_RESCAN_STATUS
+    *BTRFS_IOC_LOGICAL_INO_V2
+    *BTRFS_IOC_INO_LOOKUP_USER
+    *BTRFS_IOC_INO_LOOKUP
 
-On 01.06.20 20:11, Vladimir Sementsov-Ogievskiy wrote:
-> We'll need async block-copy invocation to use in backup directly.
->=20
-> Signed-off-by: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
-> ---
->  include/block/block-copy.h | 13 +++++++++++++
->  block/block-copy.c         | 40 ++++++++++++++++++++++++++++++++++++++
->  2 files changed, 53 insertions(+)
->=20
-> diff --git a/include/block/block-copy.h b/include/block/block-copy.h
-> index 6397505f30..ada0d99566 100644
-> --- a/include/block/block-copy.h
-> +++ b/include/block/block-copy.h
-> @@ -19,7 +19,10 @@
->  #include "qemu/co-shared-resource.h"
-> =20
->  typedef void (*ProgressBytesCallbackFunc)(int64_t bytes, void *opaque);
-> +typedef void (*BlockCopyAsyncCallbackFunc)(int ret, bool error_is_read,
-> +                                           void *opaque);
->  typedef struct BlockCopyState BlockCopyState;
-> +typedef struct BlockCopyCallState BlockCopyCallState;
-> =20
->  BlockCopyState *block_copy_state_new(BdrvChild *source, BdrvChild *targe=
-t,
->                                       int64_t cluster_size, bool use_copy=
-_range,
-> @@ -41,6 +44,16 @@ int64_t block_copy_reset_unallocated(BlockCopyState *s=
-,
->  int coroutine_fn block_copy(BlockCopyState *s, int64_t offset, int64_t b=
-ytes,
->                              bool *error_is_read);
-> =20
-> +/*
-> + * Run block-copy in a coroutine, return state pointer. If finished earl=
-y
-> + * returns NULL (@cb is called anyway).
+The functionalities of individual ioctls were described in this series
+patch commit messages. Since all of these ioctls are added in kernel
+version 3.9, their definitions in file 'linux-user/ioctls.h' are
+enwrapped in an #ifdef directive.
 
-Any special reason for doing so?  Seems like the code would be a tad
-simpler if we just returned it either way.  (And off the top of my head
-I=E2=80=99d guess it=E2=80=99d be easier for the caller if the returned val=
-ue was always
-non-NULL, too.)
+Testing method:
 
-> + */
-> +BlockCopyCallState *block_copy_async(BlockCopyState *s,
-> +                                     int64_t offset, int64_t bytes,
-> +                                     bool ratelimit, int max_workers,
-> +                                     int64_t max_chunk,
-> +                                     BlockCopyAsyncCallbackFunc cb);
-> +
->  BdrvDirtyBitmap *block_copy_dirty_bitmap(BlockCopyState *s);
->  void block_copy_set_skip_unallocated(BlockCopyState *s, bool skip);
-> =20
-> diff --git a/block/block-copy.c b/block/block-copy.c
-> index 75882a094c..a0477d90f3 100644
-> --- a/block/block-copy.c
-> +++ b/block/block-copy.c
-> @@ -34,9 +34,11 @@ typedef struct BlockCopyCallState {
->      BlockCopyState *s;
->      int64_t offset;
->      int64_t bytes;
-> +    BlockCopyAsyncCallbackFunc cb;
-> =20
->      /* State */
->      bool failed;
-> +    bool finished;
-> =20
->      /* OUT parameters */
->      bool error_is_read;
-> @@ -676,6 +678,13 @@ static int coroutine_fn block_copy_common(BlockCopyC=
-allState *call_state)
->           */
->      } while (ret > 0);
-> =20
-> +    if (call_state->cb) {
-> +        call_state->cb(ret, call_state->error_is_read,
-> +                       call_state->s->progress_opaque);
+    Mini test programs were written for these ioctls. These test programs
+    can be found on a repository which is located on the link:
+    https://github.com/bozutaf/btrfs-tests
 
-I find it weird to pass progress_opaque here.  Shouldn=E2=80=99t we just ha=
-ve a
-dedicated opaque object for this CB?
+    These test programs were compiled (sometimes using cross compilers) for
+    following architectures:
 
-> +    }
-> +
-> +    call_state->finished =3D true;
-> +
->      return ret;
->  }
-> =20
-> @@ -697,6 +706,37 @@ int coroutine_fn block_copy(BlockCopyState *s, int64=
-_t start, int64_t bytes,
->      return ret;
->  }
-> =20
-> +static void coroutine_fn block_copy_async_co_entry(void *opaque)
-> +{
-> +    block_copy_common(opaque);
-> +}
-> +
-> +BlockCopyCallState *block_copy_async(BlockCopyState *s,
-> +                                     int64_t offset, int64_t bytes,
-> +                                     bool ratelimit, int max_workers,
-> +                                     int64_t max_chunk,
-> +                                     BlockCopyAsyncCallbackFunc cb)
-> +{
-> +    BlockCopyCallState *call_state =3D g_new(BlockCopyCallState, 1);
-> +    Coroutine *co =3D qemu_coroutine_create(block_copy_async_co_entry,
-> +                                          call_state);
-> +
-> +    *call_state =3D (BlockCopyCallState) {
-> +        .s =3D s,
-> +        .offset =3D offset,
-> +        .bytes =3D bytes,
-> +        .cb =3D cb,
-> +    };
-> +
-> +    qemu_coroutine_enter(co);
+         * Intel 64-bit (little endian)
+         * Power pc 32-bit (big endian)
+         * Power pc 64-bit (big endian)
 
-Do we need/want any already-in-coroutine shenanigans here?
+    The corresponding native programs were executed without using QEMU on
+    an intel x86_64 host.
 
-Max
+    All applicable compiled programs were in turn executed through QEMU
+    and the results obtained were the same ones gotten for native
+    execution.
 
-> +
-> +    if (call_state->finished) {
-> +        g_free(call_state);
-> +        return NULL;
-> +    }
-> +
-> +    return call_state;
-> +}
->  BdrvDirtyBitmap *block_copy_dirty_bitmap(BlockCopyState *s)
->  {
->      return s->copy_bitmap;
->=20
+Based-on: <20200709155203.21106-1-Filip.Bozuta@syrmia.com>
 
+Filip Bozuta (4):
+  linux-user: Add support for a group of btrfs inode ioctls
+  linux-user: Add support for two btrfs ioctls used for subvolume
+  linux-user: Add support for btrfs ioctls used to manage quota
+  linux-user: Add support for btrfs ioctls used to scrub a filesystem
 
+ linux-user/ioctls.h        | 65 +++++++++++++++++++++++++++
+ linux-user/syscall_defs.h  | 34 ++++++++++++++
+ linux-user/syscall_types.h | 90 ++++++++++++++++++++++++++++++++++++++
+ 3 files changed, 189 insertions(+)
 
---8C90YjtfxresFvYBoeNPQY6ws9RidQ1wK--
-
---rdT7P8Pb9hpmtcNNQ4AI1DdaxG0suCZey
-Content-Type: application/pgp-signature; name="signature.asc"
-Content-Description: OpenPGP digital signature
-Content-Disposition: attachment; filename="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQEzBAEBCAAdFiEEkb62CjDbPohX0Rgp9AfbAGHVz0AFAl8RruMACgkQ9AfbAGHV
-z0DNdQf/WWPI82HTPnhmluCXwE52rpuD2HdN5Tk9/2gLWjDnMRjZ/EFKp99u+ClN
-Sbv5F8oWhCw4EPeFSyIIKfmZz5oaakPYKf7Gp1MGtgs3rXjO5Z6OnT7IIBloXJWf
-tTeyQwWjL3EMqgwFqCdT793yp/s4e5ZGMOqourYblYyCPNgXKnygou28kUK1Eybu
-J7kjBnE1CY0qMTmfpNpWw5v1CtU4bRmfrwBEjg1Rq4O5pqaKw5nyBSjs7s5asTDE
-iasyPwNDSzyB7umIsTbiZ+QG5drV6FEC8IUmVNi0xYUARR7I8mcVNqnhd/TvDXxf
-NVunG2sjXEhQi5rwf2wMpm/L12nDiA==
-=lYU0
------END PGP SIGNATURE-----
-
---rdT7P8Pb9hpmtcNNQ4AI1DdaxG0suCZey--
+-- 
+2.25.1
 
 
