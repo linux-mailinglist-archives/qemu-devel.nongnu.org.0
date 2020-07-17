@@ -2,74 +2,107 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 91BC5223BF4
-	for <lists+qemu-devel@lfdr.de>; Fri, 17 Jul 2020 15:08:16 +0200 (CEST)
-Received: from localhost ([::1]:58740 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 73321223BE4
+	for <lists+qemu-devel@lfdr.de>; Fri, 17 Jul 2020 15:04:36 +0200 (CEST)
+Received: from localhost ([::1]:44528 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jwQ63-0007A9-MH
-	for lists+qemu-devel@lfdr.de; Fri, 17 Jul 2020 09:08:15 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:53910)
+	id 1jwQ2V-0001HG-Ft
+	for lists+qemu-devel@lfdr.de; Fri, 17 Jul 2020 09:04:35 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:54630)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1jwPzK-0005GU-Cu
- for qemu-devel@nongnu.org; Fri, 17 Jul 2020 09:01:19 -0400
-Received: from mail-ot1-x336.google.com ([2607:f8b0:4864:20::336]:40949)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1jwPzI-0000rn-HR
- for qemu-devel@nongnu.org; Fri, 17 Jul 2020 09:01:18 -0400
-Received: by mail-ot1-x336.google.com with SMTP id c25so6785447otf.7
- for <qemu-devel@nongnu.org>; Fri, 17 Jul 2020 06:01:16 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=HZahT6cWITW2wLuTimD0a3i/92r4xWl5ViO1bRx2RwA=;
- b=k/cYPPvbEUqW0q6Coj/ObIjP8wCAO1XjcSg6G0A2NsWEmGzbtiAITm50H5u/1Qe/qc
- 4o5txzUwx9kHJDABNVV/q/E3IdOenddYnpOEXKqRUP6pVYj4Ulc65Hc6eIo/Rh1uiete
- uzuPa3elrglps3ken228cnlzrVbeYvm0e4gWlQXGubOkr/I37UebOvX5pULdTxh1AoQp
- scVkpgeKgseUikgI1iQrggC7koARDACk4xDVpkenWtxNlTgQTulB6PKHn19TsGkZmf4A
- GRHq3l6rERcCHb+qR3KmoRpjKz/j6BbhWQUQeDB08m8TcRnq2qqyV85X7fYPv13s8nRi
- 3WZg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=HZahT6cWITW2wLuTimD0a3i/92r4xWl5ViO1bRx2RwA=;
- b=VMdzePkrw2frHJpWgmQnnywnHtYOOvhLh5XuUzsHVTrlaWUBqKykU4TGnhTuST/gyI
- C5Hr0EiPXJ7m2BgO2+O2gTdX3yer93hF4ekPT6nJqXIHJBBo0h8sDSJCd6fL/Sb2wDE/
- VE4K1Y8MyxZPpdaYq1JcajUMREPuQwjSI8h7fcVNK7HWZGn0R9q/r1club/G6bR3xSwA
- OnA7DIBwoq1bcG3jxD1wegj3UzElADlgVnK2NXbmiOTaWtFJaFIrmjfjglUtr3gOjJZ0
- uBc43gghu0n1lTq8roSsOT27sNUJ7svLXjRYnXu8Ib8U5HyFefwgeNX5gBRKYl1RGB3h
- TFig==
-X-Gm-Message-State: AOAM531E7dPb5o7YzceuaHBu53pQPFVm2P8puzcPpFWhh5Yes2Of1M0x
- Ie2lbacHjmutuu+oEa8cHFfyGvi1ww2NrQjf6Oo0VQ==
-X-Google-Smtp-Source: ABdhPJwM99JzwrHMQ5/eTxC5sFPafj9FTndvmcq0yd2bWLl4BvpX7BlHC4wZPcp1qVkfzDczj2LH+6H04/OOjTvzHsw=
-X-Received: by 2002:a05:6830:1bd3:: with SMTP id
- v19mr8560115ota.91.1594990871724; 
- Fri, 17 Jul 2020 06:01:11 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1jwQ18-0008NF-Uc
+ for qemu-devel@nongnu.org; Fri, 17 Jul 2020 09:03:10 -0400
+Received: from mout.kundenserver.de ([212.227.126.133]:36031)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1jwQ16-00018c-VQ
+ for qemu-devel@nongnu.org; Fri, 17 Jul 2020 09:03:10 -0400
+Received: from [192.168.100.1] ([82.252.135.186]) by mrelayeu.kundenserver.de
+ (mreue009 [213.165.67.103]) with ESMTPSA (Nemesis) id
+ 1MAORn-1k7fUw15H1-00BqNy; Fri, 17 Jul 2020 15:02:57 +0200
+Subject: Re: [PATCH v2] linux-user: Fix "print_fdset()" in "strace.c" to not
+ print ", " after last value
+To: Filip Bozuta <Filip.Bozuta@syrmia.com>, qemu-devel@nongnu.org
+References: <20200702160915.9517-1-Filip.Bozuta@syrmia.com>
+From: Laurent Vivier <laurent@vivier.eu>
+Autocrypt: addr=laurent@vivier.eu; prefer-encrypt=mutual; keydata=
+ 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
+Message-ID: <c57ea7ec-daef-1cdc-2fdb-35be884c8a37@vivier.eu>
+Date: Fri, 17 Jul 2020 15:02:56 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.9.0
 MIME-Version: 1.0
-References: <20200706164155.24696-1-pbonzini@redhat.com>
- <20200706164155.24696-29-pbonzini@redhat.com>
- <CAFEAcA-Ha4+ub=QQASREraok747+U2tUcNkSYu6PFnoc29_Jrw@mail.gmail.com>
- <CABgObfaFYmsiR-aYsq5vBEruL5Z2=qD0Z6Zf0d0C2N1cbfq4kQ@mail.gmail.com>
-In-Reply-To: <CABgObfaFYmsiR-aYsq5vBEruL5Z2=qD0Z6Zf0d0C2N1cbfq4kQ@mail.gmail.com>
-From: Peter Maydell <peter.maydell@linaro.org>
-Date: Fri, 17 Jul 2020 14:01:00 +0100
-Message-ID: <CAFEAcA_ncNaas_22k=07RUH-VGwp+pe7hYjt-OVoXdEEzLVXKg@mail.gmail.com>
-Subject: Re: [PULL 28/53] Makefile: simplify MINIKCONF rules
-To: Paolo Bonzini <pbonzini@redhat.com>
-Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2607:f8b0:4864:20::336;
- envelope-from=peter.maydell@linaro.org; helo=mail-ot1-x336.google.com
-X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
- That's all we know.
-X-Spam_score_int: -20
-X-Spam_score: -2.1
+In-Reply-To: <20200702160915.9517-1-Filip.Bozuta@syrmia.com>
+Content-Type: text/plain; charset=utf-8
+Content-Language: fr
+Content-Transfer-Encoding: 8bit
+X-Provags-ID: V03:K1:51uL0bVp2RxqRCGsaPg48KmqOsUREMaiYSd0LJfvwo7y8HXhlKD
+ nuDsx6jj9+LCTE2jyV2sF5kzRyuRP91n4hjdgds6Lbhs+F6OXmn3WgnmPi0QZVwix/K26RY
+ /xhap0cWOZT0jcJ+AAxDe23te5qI7Opotari7LNnsQO9lHViOEzSU5L0NtgDFfo+M3+UWJ0
+ 4p1Sd1RzNvjF79svSms2w==
+X-UI-Out-Filterresults: notjunk:1;V03:K0:D91TVOO68j4=:skb0V5QSQL9WRF8QNWRiak
+ IRNY1EabaMoSSU4ZylPb2i3+hs3lDSPT3CSWnU8DZmkvoq9We8od29RPyUok+Bl76nrbXDf64
+ XX6tHGIHU6lapkrShpyzoyg4RuwHdZNbNZEfHaP4qEEO6wbb9mjINhd6vAWCq/kY1ohHlsyhF
+ x3HJOQWExano8fP83wlj9/SPcuRLdS+8bwQ/JbksxiHOEPwg909JRgbveOon92k6vwzCA9byC
+ uZ4+skLURQdOeTWDWthnWR8wFsMorlAq0zNY9cysUenUYx8mkHI2aj7/FotH3mUM6X4TXxA7Z
+ ZzHFTsWvvur31Ra3IXwbbM9Fv9fhT44rW73msXn4pIw676mORc+6FLGpLKPylXy9P7ULWQSFC
+ /63xYSIOkkodUBaSqLcHnQLK7jZ5jeCBGF4F7bukGtssgQ+pquxCMw7GtN09vq1jWOAiUJsOc
+ 6c4Auuv9Qdur7CPKJXW3DCZnr3sc7lPyoTPUdxywvHucpF7mJcBcx9+Ar74t0ey9776mCBK6q
+ zWSodBsWmzlT7ViPHK8hTj+1ex3ZuWcbrrCkZiLvqIQ1d+8zfMQ0h/5W90nq3EeBhjbo85B8i
+ Q09DMzQ7rSV+Q1oQGuNNo69hWO1KuNcHnq067EG1c7rqRc1dZSTsU7LUJiq3Ja0VvBziIYbjx
+ PutrWmUW8RUq75iy2P4GEBm6SD4tyKmRnkz7VEiTos8r8SPFStN0xpsAc83FLfroFHLexk7zt
+ Xw7QZv/xpW2uV0a3NyySV43rUTBRU5nB4wq+GBtLaXli6Y7XLeC9BtcW8aVtgX+/68cZBMQzY
+ RCBVz+cfp97tUMKaeFw5mdm5rPWtmS1xxYMS24dFUPaZ40Fk5jo+Yk48bfDnDQQ08pfIfm3
+Received-SPF: none client-ip=212.227.126.133; envelope-from=laurent@vivier.eu;
+ helo=mout.kundenserver.de
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/07/17 09:03:05
+X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic]
+X-Spam_score_int: -28
+X-Spam_score: -2.9
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- URIBL_BLOCKED=0.001 autolearn=ham autolearn_force=no
+X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_NONE=-0.0001,
+ RCVD_IN_MSPIKE_H2=-1, SPF_HELO_NONE=0.001,
+ SPF_NONE=0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -82,42 +115,62 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <philmd@redhat.com>,
- QEMU Developers <qemu-devel@nongnu.org>, Corey Minyard <minyard@acm.org>
+Cc: Riku Voipio <riku.voipio@iki.fi>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Fri, 17 Jul 2020 at 12:20, Paolo Bonzini <pbonzini@redhat.com> wrote:
-> Il ven 17 lug 2020, 13:03 Peter Maydell <peter.maydell@linaro.org> ha scritto:
->> There doesn't seem to be any machinery for creating .d
->> files for make to include to tell it that Kconfig has a
->> dependency on hw/Kconfig which has a dependency on hw/i2c/Kconfig etc.
->> How is this intended to work ?
->
->
-> I cannot look at a build tree right now, but shouldn't that be in the .d file produced by minikconf.py Those are passed to minikconf.py as the second argument and included with "include $(SUBDIR_DEVICES_MAK_DEP)".
+Le 02/07/2020 à 18:09, Filip Bozuta a écrit :
+> Function "print_fdset()" in "strace.c" is used to print the file descriptor
+> values in "print__newselect()" which prints arguments of syscall _newselect().
+> Until changes from this patch, this function was printing "," even after the
+> last value of the fd_set argument. This was changed in this patch by removing
+> this unnecessary "," after the last fd value and thus improving the estetics of
+> the _newselect() "-strace" print.
+> 
+> Implementation notes:
+> 
+>    The printing fix was made possible by using an existing function "get_comma()"
+>    which returns a "," or an empty string "" based on its argument (0 for "," and
+>    other for "").
+> 
+> Signed-off-by: Filip Bozuta <Filip.Bozuta@syrmia.com>
+> Reviewed-by: Laurent Vivier <laurent@vivier.eu>
+> ---
+>  linux-user/strace.c | 8 ++++++--
+>  1 file changed, 6 insertions(+), 2 deletions(-)
+> 
+> diff --git a/linux-user/strace.c b/linux-user/strace.c
+> index 6044c66954..23ca5d88c8 100644
+> --- a/linux-user/strace.c
+> +++ b/linux-user/strace.c
+> @@ -541,6 +541,7 @@ static void
+>  print_fdset(int n, abi_ulong target_fds_addr)
+>  {
+>      int i;
+> +    int first = 1;
+>  
+>      qemu_log("[");
+>      if( target_fds_addr ) {
+> @@ -555,9 +556,12 @@ print_fdset(int n, abi_ulong target_fds_addr)
+>              return;
+>  
+>          for (i=n; i>=0; i--) {
+> -            if ((tswapal(target_fds[i / TARGET_ABI_BITS]) >> (i & (TARGET_ABI_BITS - 1))) & 1)
+> -                qemu_log("%d,", i);
+> +            if ((tswapal(target_fds[i / TARGET_ABI_BITS]) >>
+> +                (i & (TARGET_ABI_BITS - 1))) & 1) {
+> +                qemu_log("%s%d", get_comma(first), i);
+> +                first = 0;
+>              }
+> +        }
+>          unlock_user(target_fds, target_fds_addr, 0);
+>      }
+>      qemu_log("]");
+> 
 
-When you do a "make clean" those .d files get deleted
-(but the config-devices.mak files do not). There is no rule
-for rebuilding a config-devices.mak.d:
+I missed this patch for my last PR. I don't think it is critical enough
+to be in an RC. Applied to linux-user-for-5.2 branch.
 
-$ make -C build/x86 -n arm-softmmu/config-devices.mak.d
-make: Entering directory '/home/petmay01/linaro/qemu-from-laptop/qemu/build/x86'
-make[1]: Entering directory '/home/petmay01/linaro/qemu-from-laptop/qemu/slirp'
-make[1]: Nothing to be done for 'all'.
-make[1]: Leaving directory '/home/petmay01/linaro/qemu-from-laptop/qemu/slirp'
-make: *** No rule to make target 'arm-softmmu/config-devices.mak.d'. Stop.
-make: Leaving directory '/home/petmay01/linaro/qemu-from-laptop/qemu/build/x86'
-
-and we include them with "-include", so Make silently
-proceeds without the dependency information.
-
-My guess is that we need to tell make that this rule:
-$(SUBDIR_DEVICES_MAK): %/config-devices.mak: default-configs/%.mak
-$(SRC_PATH)/Kconfig $(BUILD_DIR)/config-host.mak
-
-also produces the .mak.d file somehow.
-
-thanks
--- PMM
+Thanks,
+Laurent
 
