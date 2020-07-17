@@ -2,75 +2,113 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id F0842223370
-	for <lists+qemu-devel@lfdr.de>; Fri, 17 Jul 2020 08:12:09 +0200 (CEST)
-Received: from localhost ([::1]:36110 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D2F9C223550
+	for <lists+qemu-devel@lfdr.de>; Fri, 17 Jul 2020 09:20:00 +0200 (CEST)
+Received: from localhost ([::1]:58912 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jwJbN-0000Rw-19
-	for lists+qemu-devel@lfdr.de; Fri, 17 Jul 2020 02:12:09 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:60646)
+	id 1jwKf1-0007HC-FB
+	for lists+qemu-devel@lfdr.de; Fri, 17 Jul 2020 03:19:59 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:46040)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jasowang@redhat.com>)
- id 1jwJVA-0007I6-MD
- for qemu-devel@nongnu.org; Fri, 17 Jul 2020 02:05:44 -0400
-Received: from us-smtp-2.mimecast.com ([205.139.110.61]:34393
- helo=us-smtp-delivery-1.mimecast.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <jasowang@redhat.com>)
- id 1jwJV8-0005uD-NE
- for qemu-devel@nongnu.org; Fri, 17 Jul 2020 02:05:44 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1594965942;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=u13KSSj8DMN1VZuU1tnx2IE6TiDfbcI5cNTd5BwL1mA=;
- b=LFJmNxgCaHt2XBiDW8JcdlDm3gCxrco3Ds3ISbQf3roF3SrvrBYtIL65j73wqfItClKQX5
- 9lnjG2mWPPRcnpwMncMulu7Iu+GRpWBLLirv8gWgbFcD3vmnEOsIEkYkTxsSEAQJh4XhSR
- ktFfKSdFhI7tY+HKADdkh+IwSkLIZOs=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-474-m2M7x2ifNT6l2LhysyCFKw-1; Fri, 17 Jul 2020 02:05:39 -0400
-X-MC-Unique: m2M7x2ifNT6l2LhysyCFKw-1
-Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
- [10.5.11.15])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 21E7A8015F7;
- Fri, 17 Jul 2020 06:05:38 +0000 (UTC)
-Received: from [10.72.12.157] (ovpn-12-157.pek2.redhat.com [10.72.12.157])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 9589E72AE8;
- Fri, 17 Jul 2020 06:05:15 +0000 (UTC)
-Subject: Re: [PATCH v3 2/2] hw/net: Added basic IPv6 software fragmentation
-To: andrew@daynix.com, qemu-devel@nongnu.org
-References: <20200716035325.1406919-1-andrew@daynix.com>
- <20200716035325.1406919-2-andrew@daynix.com>
-From: Jason Wang <jasowang@redhat.com>
-Message-ID: <a7764ed2-0fdb-39bd-55ba-eb308ea4b36e@redhat.com>
-Date: Fri, 17 Jul 2020 14:05:09 +0800
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.10.0
-MIME-Version: 1.0
-In-Reply-To: <20200716035325.1406919-2-andrew@daynix.com>
-Content-Language: en-US
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
+ (Exim 4.90_1) (envelope-from <andrey.shinkevich@virtuozzo.com>)
+ id 1jwKeG-0006mN-Jr; Fri, 17 Jul 2020 03:19:12 -0400
+Received: from mail-eopbgr60113.outbound.protection.outlook.com
+ ([40.107.6.113]:47426 helo=EUR04-DB3-obe.outbound.protection.outlook.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <andrey.shinkevich@virtuozzo.com>)
+ id 1jwKeD-0004Qv-9J; Fri, 17 Jul 2020 03:19:11 -0400
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=WBTPIvjqsUubUaFfwhvlU40SSy6JPIywgy3TfTXKBL1p+3yH+gdhZR/m8ntNC/f75Po6AYvNa1UXraQCxQsBD5cx7F7n31PORfRs+xc/dpoVailn4obg9YWz1QrVJSJmf94lkiGBKDxOv2ZLJKR6AYJM5QIn0daKFmu8SGQwONNVGh3MiPHj1GzvsDMLqM2V3pvi0Cy3mhigBk8LvqzSeiGZw0wCy4mRK+Q7ysDZInW0eTZd1BA3WQGN7b+RFirGz+V+dnwa6+WPC+onq+mvH3HuTks7VY5VHR6qLX9trrfi6jktoqluOteNTzS/B3/QyUaDAuIAwooZ5612bl1Ohw==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=/1lB0LG6CgeKz4G8LkH/DV9XIE3Zsjhv5dIE2ij/BWg=;
+ b=Ox6v7vOlvOh8suTFZ/Vcyk1f9DcGc0yy6orepvOe3lhrL76jKe8sSzTf0l8I8+hFU5gCUNgE7vM8oWF3hBP80PVv2XvaOZiclWO3DQt74zSXexxjTFTLLA+DUbntXYSq0iMitu/fRf6NargpZjC/Ci2i3D8Cvvsakplyd7KoYFqW8Io0o8kTsEXv/g8p520VpnW9dNyo8/LjGJq/Kn60ZYobsmhQQxannx8t9+ngUyrqdIzRBVrFSOEb2vtziDv1rin0EBsj/elu+TnXEZfnV8JpcUfNELx+FKiEdPPPJiqyLSH44wGVa172ZszCX8dqdSwWqZt4wKJ48HQBDCnO0w==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=virtuozzo.com; dmarc=pass action=none
+ header.from=virtuozzo.com; dkim=pass header.d=virtuozzo.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=virtuozzo.com;
+ s=selector2;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=/1lB0LG6CgeKz4G8LkH/DV9XIE3Zsjhv5dIE2ij/BWg=;
+ b=cEn69jwp1PdNBzHdxqLx4t+7WIdE79yN8rFaPQhHTvBsBfpnNkWGmFtmSP+4Xl1xEO6wPDexVu6K0L2aMIbff9sps0YhpFDWSzLuBIKqU1XnldjDFEk387dZLvTTUGBJ81Jea6i8yIMA7rZBjE1/tX6CTS+CylFFgM7b3g43ktI=
+Authentication-Results: openvz.org; dkim=none (message not signed)
+ header.d=none;openvz.org; dmarc=none action=none header.from=virtuozzo.com;
+Received: from AM6PR08MB4070.eurprd08.prod.outlook.com (2603:10a6:20b:a3::25)
+ by AM6PR08MB3959.eurprd08.prod.outlook.com (2603:10a6:20b:aa::18)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3195.17; Fri, 17 Jul
+ 2020 07:19:03 +0000
+Received: from AM6PR08MB4070.eurprd08.prod.outlook.com
+ ([fe80::78ec:8cb6:41f7:b2a0]) by AM6PR08MB4070.eurprd08.prod.outlook.com
+ ([fe80::78ec:8cb6:41f7:b2a0%5]) with mapi id 15.20.3195.022; Fri, 17 Jul 2020
+ 07:19:03 +0000
+Subject: Re: [PATCH v10 06/10] qcow2_format.py: pass cluster size to
+ substructures
+To: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>,
+ qemu-block@nongnu.org
+References: <1594676203-436999-1-git-send-email-andrey.shinkevich@virtuozzo.com>
+ <1594676203-436999-7-git-send-email-andrey.shinkevich@virtuozzo.com>
+ <409ffb85-7282-6f83-8a30-a1fb1fc3d455@virtuozzo.com>
+From: Andrey Shinkevich <andrey.shinkevich@virtuozzo.com>
+Message-ID: <35dd0713-5985-70b3-3c81-e0f864956071@virtuozzo.com>
+Date: Fri, 17 Jul 2020 10:18:58 +0300
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:68.0)
+ Gecko/20100101 Thunderbird/68.9.0
+In-Reply-To: <409ffb85-7282-6f83-8a30-a1fb1fc3d455@virtuozzo.com>
 Content-Type: text/plain; charset=utf-8; format=flowed
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=205.139.110.61; envelope-from=jasowang@redhat.com;
- helo=us-smtp-delivery-1.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/07/17 01:33:03
-X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
-X-Spam_score_int: -40
-X-Spam_score: -4.1
-X-Spam_bar: ----
-X-Spam_report: (-4.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-1, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Content-Language: en-GB
+X-ClientProxiedBy: AM4PR0302CA0024.eurprd03.prod.outlook.com
+ (2603:10a6:205:2::37) To AM6PR08MB4070.eurprd08.prod.outlook.com
+ (2603:10a6:20b:a3::25)
+MIME-Version: 1.0
+X-MS-Exchange-MessageSentRepresentingType: 1
+Received: from Admins-MacBook-Pro.local (109.252.114.191) by
+ AM4PR0302CA0024.eurprd03.prod.outlook.com (2603:10a6:205:2::37) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3195.18 via Frontend
+ Transport; Fri, 17 Jul 2020 07:19:02 +0000
+X-Originating-IP: [109.252.114.191]
+X-MS-PublicTrafficType: Email
+X-MS-Office365-Filtering-Correlation-Id: 75dd19df-0267-4f21-b5df-08d82a21af37
+X-MS-TrafficTypeDiagnostic: AM6PR08MB3959:
+X-MS-Exchange-Transport-Forked: True
+X-Microsoft-Antispam-PRVS: <AM6PR08MB3959769EE95C9205BFFFD1BAF47C0@AM6PR08MB3959.eurprd08.prod.outlook.com>
+X-MS-Oob-TLC-OOBClassifiers: OLM:10000;
+X-MS-Exchange-SenderADCheck: 1
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: 9Sbzdv/Ko6BUn7kDKurOIvgUQ7QlHkW9Cksdi4HiVSVWwcbzF885J2LtJL19Gsdp6hPhiZHTF3qNC8qeqi8DImFz3xaqmS3FdHLeTinSP0CLH+9BHdkrGYWq7VXiO5LH8VxgcSMAsdJx0Q2nq6NXJLf/mBlj4AflFglZxk+HBMJs1trObW58uOkauIkEY7a69xZ31+dTv3PM/nAyodNpnzWBQxHcBh6CKmTPWYVv3Yt4m/oPvkoHaeqT73TKIh7huQi/t0K2L8XRjlsuyJE0FrSG/IZm4hp137cJOUN5LKkowL4ACTflkQ2BcTcQyPm5I5IBTvcQY1GuGGWu7aJw/3NWBYisOrA25U67SkPhv7CF6dNrdIty0de+DV6qh/6h
+X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:AM6PR08MB4070.eurprd08.prod.outlook.com; PTR:; CAT:NONE;
+ SFTY:;
+ SFS:(4636009)(39840400004)(366004)(396003)(136003)(346002)(376002)(66946007)(66476007)(66556008)(6512007)(6666004)(26005)(53546011)(6506007)(2616005)(86362001)(956004)(2906002)(16526019)(186003)(6486002)(107886003)(44832011)(5660300002)(31686004)(52116002)(4326008)(478600001)(8676002)(8936002)(36756003)(83380400001)(316002)(31696002)(43740500002);
+ DIR:OUT; SFP:1102; 
+X-MS-Exchange-AntiSpam-MessageData: leNuWDyi/6iMaBFNtAADUqjsZkFDffNGZJzwIQJlqVFIeCTl+9UAu+aGeOMTiKAqjo6htM+6k+oUUILlkeZbL6O+8bVGLvn634LLTJOgXyG5QOS7hzKHtUrMz4f1IDDQBrCWXE4sBqmMcPqyWtLAeC+U6gx6pxCtvfMskxcTUmS6jR5hZtCNSScieJisp38MtMMAhDCpIRTX1bMllTeGfx/H22i5dexerzcBLvqLhY96TgoX4pb61Ar8ZuDHIvwfsfSdggSAKwKKBR9wPcFMhNxetyjbciDrNkxkLpMBVNcIfkThlXD4xO8fwspWw/jYQplOr4glAw5gb6TA4WbBFO4Dc3XKN0Wkvn8VmH6KLUBFrWEyauUx38Y8Dts9F9tRNdX9VTh/hvJvxklYPa5KJDEOCPI+lD1cePI9TD32UNFcxOyxaai1jWkODoawLDfghMPvYBDu5wwXzniqKMs/9Yyg2VQVUO6zeIcy6geuDj1p4oB4KsuymOjAPK3e/LU8
+X-OriginatorOrg: virtuozzo.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 75dd19df-0267-4f21-b5df-08d82a21af37
+X-MS-Exchange-CrossTenant-AuthSource: AM6PR08MB4070.eurprd08.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 17 Jul 2020 07:19:03.7065 (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 0bc7f26d-0264-416e-a6fc-8352af79c58f
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: JsVhNeHmbt1My0mvJkQ76sJ/KGtoliI9fDNTKserR/GJsTewdtmnwe4RbzZJUQYPyYnKh5A1e3xrdLrOWxZaxLcZS2g9Q5TSIZiCW6WRnaE=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: AM6PR08MB3959
+Received-SPF: pass client-ip=40.107.6.113;
+ envelope-from=andrey.shinkevich@virtuozzo.com;
+ helo=EUR04-DB3-obe.outbound.protection.outlook.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/07/17 03:19:04
+X-ACL-Warn: Detected OS   = Windows NT kernel [generic] [fuzzy]
+X-Spam_score_int: -37
+X-Spam_score: -3.8
+X-Spam_bar: ---
+X-Spam_report: (-3.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ MSGID_FROM_MTA_HEADER=0.001, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-1,
+ SPF_HELO_PASS=-0.001, SPF_PASS=-0.001,
+ URIBL_BLOCKED=0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -83,211 +121,80 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: dmitry.fleytman@gmail.com
+Cc: kwolf@redhat.com, den@openvz.org, qemu-devel@nongnu.org, mreitz@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-
-On 2020/7/16 上午11:53, andrew@daynix.com wrote:
-> From: Andrew <andrew@daynix.com>
+On 16.07.2020 12:26, Vladimir Sementsov-Ogievskiy wrote:
+> 14.07.2020 00:36, Andrey Shinkevich wrote:
+>> The cluster size of an image is the QcowHeader class member and may be
+>> obtained by dependent extension structures such as Qcow2BitmapExt for
+>> further bitmap table details print.
+>>
+>> Signed-off-by: Andrey Shinkevich <andrey.shinkevich@virtuozzo.com>
+>> ---
+>>   tests/qemu-iotests/qcow2_format.py | 18 +++++++++++-------
+>>   1 file changed, 11 insertions(+), 7 deletions(-)
+>>
+>> diff --git a/tests/qemu-iotests/qcow2_format.py 
+>> b/tests/qemu-iotests/qcow2_format.py
+>>
+...
+>>         def read_bitmap_directory(self, fd):
+>>           fd.seek(self.bitmap_directory_offset)
+>>           self.bitmap_directory = \
+>> -            [Qcow2BitmapDirEntry(fd) for _ in range(self.nb_bitmaps)]
+>> +            [Qcow2BitmapDirEntry(fd, cluster_size=self.cluster_size)
+>> +             for _ in range(self.nb_bitmaps)]
 >
-> The basic IPv6 fragmentation - adding 'frag' extension to
-> the packet, overall shares some logic with IPv4. It works,
-> but there are still issues with a combination of
-> extensions - in the future, it would require refactoring
-> work to implement workflow with IPv6 and extension.
-> "Jumbo option" isn't added yet, until
-> qemu supports packets greater than 64K.
+> Better to inline the bitmap directory loading code into __init__:
 >
-> Signed-off-by: Andrew Melnychenko <andrew@daynix.com>
-
-
-Queued for 5.2
-
-Thanks
-
-
-> ---
->   hw/net/net_tx_pkt.c |  7 ++--
->   include/net/eth.h   | 14 +++++--
->   net/eth.c           | 99 ++++++++++++++++++++++++++++++++++++++++++---
->   3 files changed, 109 insertions(+), 11 deletions(-)
+> Benefits:
+>  1. Less code. read_bitmap_directory() is very small, used only in 
+> __init__ and just not needed as a separate method. __init__ is very 
+> small and simple too, so it's not a problem.
+>  2. no need of extra self.cluster_size variable (you can use 
+> cluster_size parameter directly)
+>  3. keep all fd.seek logic in one method
 >
-> diff --git a/hw/net/net_tx_pkt.c b/hw/net/net_tx_pkt.c
-> index 9560e4a49e..74044c6618 100644
-> --- a/hw/net/net_tx_pkt.c
-> +++ b/hw/net/net_tx_pkt.c
-> @@ -589,10 +589,11 @@ static bool net_tx_pkt_do_sw_fragmentation(struct NetTxPkt *pkt,
->   
->           more_frags = (fragment_offset + fragment_len < pkt->payload_len);
->   
-> -        eth_setup_ip4_fragmentation(l2_iov_base, l2_iov_len, l3_iov_base,
-> -            l3_iov_len, fragment_len, fragment_offset, more_frags);
-> +        eth_setup_ip_fragmentation(l2_iov_base, l2_iov_len, l3_iov_base,
-> +            &l3_iov_len, ETH_MAX_IP_DGRAM_LEN,
-> +            fragment_len, fragment_offset, more_frags);
->   
-> -        eth_fix_ip4_checksum(l3_iov_base, l3_iov_len);
-> +        fragment[NET_TX_PKT_FRAGMENT_L3_HDR_POS].iov_len = l3_iov_len;
->   
->           net_tx_pkt_sendv(pkt, nc, fragment, dst_idx);
->   
-> diff --git a/include/net/eth.h b/include/net/eth.h
-> index 0671be6916..05c75ac9fc 100644
-> --- a/include/net/eth.h
-> +++ b/include/net/eth.h
-> @@ -139,6 +139,14 @@ struct ip6_ext_hdr_routing {
->       uint8_t     rsvd[4];
->   };
->   
-> +struct ip6_ext_hdr_fragment {
-> +    uint8_t     nxt;
-> +    uint8_t     res0;
-> +    uint16_t    off;
-> +    uint32_t    id;
-> +};
-> +
-> +
->   struct ip6_option_hdr {
->   #define IP6_OPT_PAD1   (0x00)
->   #define IP6_OPT_HOME   (0xC9)
-> @@ -399,9 +407,9 @@ void eth_get_protocols(const struct iovec *iov, int iovcnt,
->                          eth_ip4_hdr_info *ip4hdr_info,
->                          eth_l4_hdr_info  *l4hdr_info);
->   
-> -void eth_setup_ip4_fragmentation(const void *l2hdr, size_t l2hdr_len,
-> -                                 void *l3hdr, size_t l3hdr_len,
-> -                                 size_t l3payload_len,
-> +void eth_setup_ip_fragmentation(const void *l2hdr, size_t l2hdr_len,
-> +                                 void *l3hdr, size_t *l3hdr_len,
-> +                                 size_t l3hdr_max_len, size_t l3payload_len,
->                                    size_t frag_offset, bool more_frags);
->   
->   void
-> diff --git a/net/eth.c b/net/eth.c
-> index 0c1d413ee2..067111526d 100644
-> --- a/net/eth.c
-> +++ b/net/eth.c
-> @@ -314,10 +314,65 @@ eth_strip_vlan_ex(const struct iovec *iov, int iovcnt, size_t iovoff,
->       return 0;
->   }
->   
-> +static bool eth_is_ip6_extension_header_type(uint8_t hdr_type);
-> +
-> +static void *eth_ip6_find_ext(struct ip6_header *ip6, uint8_t ext_type)
-> +{
-> +    uint8_t curr_ext_hdr_type = ip6->ip6_nxt;
-> +    struct ip6_ext_hdr *ext_hdr = (struct ip6_ext_hdr *)(ip6 + 1);
-> +    for (; eth_is_ip6_extension_header_type(curr_ext_hdr_type);) {
-> +        if (curr_ext_hdr_type == ext_type) {
-> +            return ext_hdr;
-> +        }
-> +        curr_ext_hdr_type = ext_hdr->ip6r_nxt;
-> +        ext_hdr = (struct ip6_ext_hdr *)(((uint8_t *)ext_hdr)
-> +                + (ext_hdr->ip6r_len + 1) * IP6_EXT_GRANULARITY);
-> +    }
-> +
-> +    return NULL;
-> +}
-> +
-> +/*
-> + * To add an extension - there is should be
-> + * enough memory 'behind' the ip6 header.
-> + */
-> +static void *eth_ip6_add_ext_nonsafe(struct ip6_header *ip6, uint8_t ext_type)
-> +{
-> +    uint8_t curr_ext_hdr_type = ip6->ip6_nxt;
-> +    struct ip6_ext_hdr *ext_hdr = (struct ip6_ext_hdr *)(ip6 + 1);
-> +    struct ip6_ext_hdr *ext_hdr_prev = NULL;
-> +
-> +    if (!eth_is_ip6_extension_header_type(curr_ext_hdr_type)) {
-> +        ext_hdr->ip6r_nxt = ip6->ip6_nxt;
-> +        ip6->ip6_nxt = ext_type;
-> +        return ext_hdr;
-> +    }
-> +
-> +    ext_hdr_prev = ext_hdr;
-> +    curr_ext_hdr_type = ext_hdr->ip6r_nxt;
-> +    ext_hdr = (struct ip6_ext_hdr *)(((uint8_t *)ext_hdr)
-> +            + (ext_hdr->ip6r_len + 1) * IP6_EXT_GRANULARITY);
-> +
-> +    for (; eth_is_ip6_extension_header_type(curr_ext_hdr_type);) {
-> +        ext_hdr_prev = ext_hdr;
-> +        curr_ext_hdr_type = ext_hdr->ip6r_nxt;
-> +        ext_hdr = (struct ip6_ext_hdr *)(((uint8_t *)ext_hdr)
-> +                + (ext_hdr->ip6r_len + 1) * IP6_EXT_GRANULARITY);
-> +    }
-> +
-> +    ext_hdr->ip6r_nxt = ext_hdr_prev->ip6r_nxt;
-> +    ext_hdr_prev->ip6r_nxt = ext_type;
-> +
-> +    return ext_hdr;
-> +}
-> +
-> +/* When IP6_FRAGMENT added, first 'id' would be 0x71656d75 */
-> +static const uint32_t s_first_fragment_identificator = 0x71656d75; /* 'qemu' */
-> +
->   void
-> -eth_setup_ip4_fragmentation(const void *l2hdr, size_t l2hdr_len,
-> -                            void *l3hdr, size_t l3hdr_len,
-> -                            size_t l3payload_len,
-> +eth_setup_ip_fragmentation(const void *l2hdr, size_t l2hdr_len,
-> +                            void *l3hdr, size_t *l3hdr_len,
-> +                            size_t l3hdr_max_len, size_t l3payload_len,
->                               size_t frag_offset, bool more_frags)
->   {
->       const struct iovec l2vec = {
-> @@ -325,7 +380,9 @@ eth_setup_ip4_fragmentation(const void *l2hdr, size_t l2hdr_len,
->           .iov_len = l2hdr_len
->       };
->   
-> -    if (eth_get_l3_proto(&l2vec, 1, l2hdr_len) == ETH_P_IP) {
-> +    uint16_t l3_proto = eth_get_l3_proto(&l2vec, 1, l2hdr_len);
-> +
-> +    if (l3_proto == ETH_P_IP) {
->           uint16_t orig_flags;
->           struct ip_header *iphdr = (struct ip_header *) l3hdr;
->           uint16_t frag_off_units = frag_offset / IP_FRAG_UNIT_SIZE;
-> @@ -337,7 +394,39 @@ eth_setup_ip4_fragmentation(const void *l2hdr, size_t l2hdr_len,
->           orig_flags = be16_to_cpu(iphdr->ip_off) & ~(IP_OFFMASK|IP_MF);
->           new_ip_off = frag_off_units | orig_flags  | (more_frags ? IP_MF : 0);
->           iphdr->ip_off = cpu_to_be16(new_ip_off);
-> -        iphdr->ip_len = cpu_to_be16(l3payload_len + l3hdr_len);
-> +        iphdr->ip_len = cpu_to_be16(l3payload_len + *l3hdr_len);
-> +
-> +        eth_fix_ip4_checksum(l3hdr, *l3hdr_len);
-> +    } else if (l3_proto == ETH_P_IPV6) {
-> +        struct ip6_header *ip6 = (struct ip6_header *) l3hdr;
-> +
-> +        struct ip6_ext_hdr_fragment *frag_ext = NULL;
-> +
-> +        /* Find frag extension */
-> +        frag_ext = eth_ip6_find_ext(ip6, IP6_FRAGMENT);
-> +        if (frag_ext == NULL) {
-> +            /* No frag extension? Add one */
-> +            if (*l3hdr_len + sizeof(*frag_ext) > l3hdr_max_len) {
-> +                /*
-> +                 * TODO:
-> +                 * For now, qemu's L3 buffer allocated with NetTxPkt
-> +                 * and have enough memory(buffer allocated with 65K bytes
-> +                 * ETH_MAX_IP_DGRAM_LEN = 0xFFFF)
-> +                 * for additional extensions.
-> +                 */
-> +                return; /* TODO: request to reallocate l3hdr */
-> +            }
-> +            frag_ext = eth_ip6_add_ext_nonsafe(ip6, IP6_FRAGMENT);
-> +            *l3hdr_len += sizeof(*frag_ext);
-> +            static uint32_t s_id = s_first_fragment_identificator;
-> +            frag_ext->id = cpu_to_be32(s_id);
-> +            ++s_id;
-> +        }
-> +
-> +        frag_ext->off = cpu_to_be16((frag_offset / IP_FRAG_UNIT_SIZE) << 3
-> +                | (uint16_t)!!more_frags);
-> +
-> +        ip6->ip6_plen = cpu_to_be16(l3payload_len + *l3hdr_len - sizeof(*ip6));
->       }
->   }
->   
+> but it's not about this patch.
+>
 
+The idea behind the read_bitmap_directory() method was an encapsulation 
+of reading the optional parameter. So, we can be flexible in future. 
+Sure, there are prones and cons for that in the current implementation.
+
+
+Andrey
+
+
+>>         def dump(self):
+>>           super().dump()
+>> @@ -162,8 +164,9 @@ class Qcow2BitmapDirEntry(Qcow2Struct):
+>>
+...
+>> @@ -244,7 +249,6 @@ class QcowHeaderExtension(Qcow2Struct):
+>>                       data_str = '<binary>'
+>>                   self.data_str = data_str
+>>   -
+>
+> Unrelated style-fixing chunk, please don't do so.
+>
+> with it dropped:
+> Reviewed-by: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
+>
+>>       def dump(self):
+>>           super().dump()
+>>   @@ -316,7 +320,7 @@ class QcowHeader(Qcow2Struct):
+>>               end = self.cluster_size
+>>             while fd.tell() < end:
+>> -            ext = QcowHeaderExtension(fd=fd)
+>> +            ext = QcowHeaderExtension(fd=fd, 
+>> cluster_size=self.cluster_size)
+>>               if ext.magic == 0:
+>>                   break
+>>               else:
+>>
+>
+>
 
