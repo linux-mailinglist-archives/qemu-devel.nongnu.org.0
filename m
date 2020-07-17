@@ -2,64 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 64EE22232F5
-	for <lists+qemu-devel@lfdr.de>; Fri, 17 Jul 2020 07:35:29 +0200 (CEST)
-Received: from localhost ([::1]:46180 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5827F223304
+	for <lists+qemu-devel@lfdr.de>; Fri, 17 Jul 2020 07:40:00 +0200 (CEST)
+Received: from localhost ([::1]:48350 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jwJ1s-0004ct-Fo
-	for lists+qemu-devel@lfdr.de; Fri, 17 Jul 2020 01:35:28 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:54728)
+	id 1jwJ6F-0005nc-F3
+	for lists+qemu-devel@lfdr.de; Fri, 17 Jul 2020 01:39:59 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:55608)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1jwJ0G-0003om-Ob
- for qemu-devel@nongnu.org; Fri, 17 Jul 2020 01:33:48 -0400
-Received: from us-smtp-1.mimecast.com ([207.211.31.81]:49916
+ (Exim 4.90_1) (envelope-from <jasowang@redhat.com>)
+ id 1jwJ5M-0005NF-7C
+ for qemu-devel@nongnu.org; Fri, 17 Jul 2020 01:39:04 -0400
+Received: from us-smtp-1.mimecast.com ([207.211.31.81]:25618
  helo=us-smtp-delivery-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1jwJ0E-00058s-Vl
- for qemu-devel@nongnu.org; Fri, 17 Jul 2020 01:33:48 -0400
+ (Exim 4.90_1) (envelope-from <jasowang@redhat.com>)
+ id 1jwJ5J-0006ot-On
+ for qemu-devel@nongnu.org; Fri, 17 Jul 2020 01:39:03 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1594964026;
+ s=mimecast20190719; t=1594964340;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references:openpgp:openpgp;
- bh=OlYXEO7WEy59EVfHDigTFR8A/+1MIG8d3lc8eI8xP5I=;
- b=iMDPWn7yRsL+PqT92SS+ECO9cWN+xwqELVm/wbojWa2xfbdR/9PaT2ZI3Cf3CQbrnqLlFM
- T8mKLMU4ySl+ywOU8MsZhxaSuz0aC2OXJmik9f3sIbotIYXTgQNiJZEDAESSh7HUW6TW/S
- NRS5MiQGHWy5XPxUhu7F4FC5DY5+18Y=
+ in-reply-to:in-reply-to:references:references;
+ bh=KEn6H67qOHz7DTCiGNVC7qyVJhoFECI/NY8kmPVww4o=;
+ b=d+6d5RRqAd5kXgn6+3W0VBHaMH9MQNX6wwT+XAs1xsw1DycKPhwKEq+wk/DUvPEWQf0jhg
+ R8qRqqidW2A+TqKGFNaX865ZBZwy1DSKOb7mMomnS6QkuNLzARXfl/x//6+ALeE5hHZNBc
+ ghiJB6UZ3O1LoO9z+6pWVUbwyJW4gDY=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-333--kVF1XI6OaiOnHeicPsUVg-1; Fri, 17 Jul 2020 01:33:42 -0400
-X-MC-Unique: -kVF1XI6OaiOnHeicPsUVg-1
-Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
- [10.5.11.12])
+ us-mta-27-yZW8hqjpMm2BoVIZx061TA-1; Fri, 17 Jul 2020 01:38:56 -0400
+X-MC-Unique: yZW8hqjpMm2BoVIZx061TA-1
+Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
+ [10.5.11.16])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id DEA4B1888AAD;
- Fri, 17 Jul 2020 05:33:41 +0000 (UTC)
-Received: from thuth.remote.csb (ovpn-112-62.ams2.redhat.com [10.36.112.62])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id C4F1660C05;
- Fri, 17 Jul 2020 05:33:31 +0000 (UTC)
-Subject: Re: [PATCH] gitlab-ci.yml: Add fuzzer tests
-To: Alexander Bulekov <alxndr@bu.edu>
-References: <20200716100950.27396-1-thuth@redhat.com>
- <20200716164557.gmt62pll4aszyknf@mozz.bu.edu>
-From: Thomas Huth <thuth@redhat.com>
-Openpgp: preference=signencrypt
-Message-ID: <899ff957-1840-98e6-bc0c-459556452900@redhat.com>
-Date: Fri, 17 Jul 2020 07:33:29 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
- Thunderbird/60.9.0
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 648461800D42;
+ Fri, 17 Jul 2020 05:38:55 +0000 (UTC)
+Received: from [10.72.12.157] (ovpn-12-157.pek2.redhat.com [10.72.12.157])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 56F7F5C298;
+ Fri, 17 Jul 2020 05:38:48 +0000 (UTC)
+Subject: Re: [PATCH] e1000e: using bottom half to send packets
+To: Li Qiang <liq3ea@gmail.com>
+References: <20200716161453.61295-1-liq3ea@163.com>
+ <281e3c85-b8eb-0c3e-afc3-41011861b8ea@redhat.com>
+ <CAKXe6SLe_ZRqQQMi2hPFBkauWnbaOPKN27fwrdaTOymb-fTrFg@mail.gmail.com>
+From: Jason Wang <jasowang@redhat.com>
+Message-ID: <d9c249a1-5f63-7497-3783-3a3e8cf7b2da@redhat.com>
+Date: Fri, 17 Jul 2020 13:38:44 +0800
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.10.0
 MIME-Version: 1.0
-In-Reply-To: <20200716164557.gmt62pll4aszyknf@mozz.bu.edu>
+In-Reply-To: <CAKXe6SLe_ZRqQQMi2hPFBkauWnbaOPKN27fwrdaTOymb-fTrFg@mail.gmail.com>
 Content-Language: en-US
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=jasowang@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset=utf-8; format=flowed
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=207.211.31.81; envelope-from=thuth@redhat.com;
+Received-SPF: pass client-ip=207.211.31.81; envelope-from=jasowang@redhat.com;
  helo=us-smtp-delivery-1.mimecast.com
 X-detected-operating-system: by eggs.gnu.org: First seen = 2020/07/17 01:06:45
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
@@ -82,75 +86,180 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>,
- qemu-devel@nongnu.org, Wainer dos Santos Moschetta <wainersm@redhat.com>,
- Markus Armbruster <armbru@redhat.com>, Bandan Das <bsd@redhat.com>,
- Stefan Hajnoczi <stefanha@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>,
- =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>
+Cc: Paolo Bonzini <pbonzini@redhat.com>,
+ Dmitry Fleytman <dmitry.fleytman@gmail.com>, Li Qiang <liq3ea@163.com>,
+ Qemu Developers <qemu-devel@nongnu.org>, "Michael S. Tsirkin" <mst@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 16/07/2020 18.46, Alexander Bulekov wrote:
-> On 200716 1209, Thomas Huth wrote:
->> So far we neither compile-tested nor run any of the new fuzzers in our CI,
->> which led to some build failures of the fuzzer code in the past weeks.
->> To avoid this problem, add a job to compile the fuzzer code and run some
->> loops (which likely don't find any new bugs via fuzzing, but at least we
->> know that the code can still be run).
+
+On 2020/7/17 下午12:46, Li Qiang wrote:
+> Jason Wang <jasowang@redhat.com> 于2020年7月17日周五 上午11:10写道：
 >>
->> A nice side-effect of this test is that the leak tests are enabled here,
->> so we should now notice some of the memory leaks in our code base earlier.
+>> On 2020/7/17 上午12:14, Li Qiang wrote:
+>>> Alexander Bulekov reported a UAF bug related e1000e packets send.
+>>>
+>>> -->https://bugs.launchpad.net/qemu/+bug/1886362
+>>>
+>>> This is because the guest trigger a e1000e packet send and set the
+>>> data's address to e1000e's MMIO address. So when the e1000e do DMA
+>>> it will write the MMIO again and trigger re-entrancy and finally
+>>> causes this UAF.
+>>>
+>>> Paolo suggested to use a bottom half whenever MMIO is doing complicate
+>>> things in here:
+>>> -->https://lists.nongnu.org/archive/html/qemu-devel/2020-07/msg03342.html
+>>>
+>>> Reference here:
+>>> 'The easiest solution is to delay processing of descriptors to a bottom
+>>> half whenever MMIO is doing something complicated.  This is also better
+>>> for latency because it will free the vCPU thread more quickly and leave
+>>> the work to the I/O thread.'
 >>
->> Signed-off-by: Thomas Huth <thuth@redhat.com>
-> 
-> Thank you for this, Thomas. I just sent a patch to add a job that runs
-> similar tests with the build-script that we use on oss-fuzz
-> Patch: <20200716163330.29141-1-alxndr@bu.edu>
+>> I think several things were missed in this patch (take virtio-net as a
+>> reference), do we need the following things:
+>>
+> Thanks Jason,
+> In fact I know this, I'm scared for touching this but I want to try.
+> Thanks for your advice.
+>
+>> - Cancel the bh when VM is stopped.
+> Ok. I think add a vm state change notifier for e1000e can address this.
+>
+>> - A throttle to prevent bh from executing too much timer?
+> Ok, I think add a config timeout and add a timer in e1000e can address this.
 
-Good idea! ... but it does not work quite yet, I gave it a try and ended
-up here:
 
- https://gitlab.com/huth/qemu/-/jobs/643353500
+Sorry, a typo. I meant we probably need a tx_burst as what virtio-net did.
 
-> I know that these jobs have a lot of overlap, but there are enough
-> quirks in the oss-fuzz build-script that I, personally, don't think
-> they are redundant.
 
-I think we should finally go with your approach and compile the fuzzing
-test via the script. But since that seems to need some more work first,
-let's go with my patch now, so that we have something for 5.1-rc1, and
-then when your patch is ready, replace my "build-fuzzer" job with yours, ok?
+>
+>> - A flag to record whether or not this a pending tx (and migrate it?)
+> Is just a flag enough? Could you explain more about the idea behind
+> processing the virtio-net/e1000e using bh like this?
 
->> +build-fuzzer:
->> +  <<: *native_build_job_definition
->> +  variables:
->> +    IMAGE: fedora
->> +  script:
->> +    - mkdir build
->> +    - cd build
->> +    - ../configure --cc=clang --cxx=clang++ --enable-fuzzing
->> +                   --target-list=x86_64-softmmu
-> 
-> https://lists.nongnu.org/archive/html/qemu-devel/2020-07/msg02310.html
-> When/if this gets merged, enable-fuzzing won't build with
-> AddressSanitizer, by default, so I would add --enable-sanitizers, just
-> to be safe. 
 
-Ok, thanks, I'll add that.
+Virtio-net use a tx_waiting variable to record whether or not there's a 
+pending bh. (E.g bh is cancelled due to vmstop, we need reschedule it 
+after vmresume). Maybe we can do something simpler by just schecule bh 
+unconditionally during vm resuming.
 
->> +    - make -j"$JOBS" all check-build x86_64-softmmu/fuzz
->> +    - make check
->> +    - for fuzzer in i440fx-qos-fork-fuzz i440fx-qos-noreset-fuzz
->> +        i440fx-qtest-reboot-fuzz virtio-scsi-flags-fuzz virtio-scsi-fuzz ; do
-> 
-> Any reason for these particular fuzzers? I know the virtio-net ones find
-> crashes pretty quickly, but I dont think that causes a non-zero exit.
 
-I did not include the virtio-net fuzzers because I read that warning
-"May result in network traffic emitted from the  process. Run in an
-isolated network environment." in the help text ... so I was not sure
-whether they are really suitable for the CI on the gitlab machines?
+> For example, if the guest trigger a lot of packets send and if the bh
+> is scheduled in IO thread. So will we lost packets?
 
- Thomas
+
+We don't since we don't populate virtqueue which means packets are 
+queued there.
+
+Thanks
+
+
+> How we avoid this in virtio-net.
+>
+> Thanks,
+> Li Qiang
+>
+>
+>
+>> Thanks
+>>
+>>
+>>> This patch fixes this UAF.
+>>>
+>>> Signed-off-by: Li Qiang <liq3ea@163.com>
+>>> ---
+>>>    hw/net/e1000e_core.c | 25 +++++++++++++++++--------
+>>>    hw/net/e1000e_core.h |  2 ++
+>>>    2 files changed, 19 insertions(+), 8 deletions(-)
+>>>
+>>> diff --git a/hw/net/e1000e_core.c b/hw/net/e1000e_core.c
+>>> index bcd186cac5..6165b04b68 100644
+>>> --- a/hw/net/e1000e_core.c
+>>> +++ b/hw/net/e1000e_core.c
+>>> @@ -2423,32 +2423,27 @@ e1000e_set_dbal(E1000ECore *core, int index, uint32_t val)
+>>>    static void
+>>>    e1000e_set_tctl(E1000ECore *core, int index, uint32_t val)
+>>>    {
+>>> -    E1000E_TxRing txr;
+>>>        core->mac[index] = val;
+>>>
+>>>        if (core->mac[TARC0] & E1000_TARC_ENABLE) {
+>>> -        e1000e_tx_ring_init(core, &txr, 0);
+>>> -        e1000e_start_xmit(core, &txr);
+>>> +        qemu_bh_schedule(core->tx[0].tx_bh);
+>>>        }
+>>>
+>>>        if (core->mac[TARC1] & E1000_TARC_ENABLE) {
+>>> -        e1000e_tx_ring_init(core, &txr, 1);
+>>> -        e1000e_start_xmit(core, &txr);
+>>> +        qemu_bh_schedule(core->tx[1].tx_bh);
+>>>        }
+>>>    }
+>>>
+>>>    static void
+>>>    e1000e_set_tdt(E1000ECore *core, int index, uint32_t val)
+>>>    {
+>>> -    E1000E_TxRing txr;
+>>>        int qidx = e1000e_mq_queue_idx(TDT, index);
+>>>        uint32_t tarc_reg = (qidx == 0) ? TARC0 : TARC1;
+>>>
+>>>        core->mac[index] = val & 0xffff;
+>>>
+>>>        if (core->mac[tarc_reg] & E1000_TARC_ENABLE) {
+>>> -        e1000e_tx_ring_init(core, &txr, qidx);
+>>> -        e1000e_start_xmit(core, &txr);
+>>> +        qemu_bh_schedule(core->tx[qidx].tx_bh);
+>>>        }
+>>>    }
+>>>
+>>> @@ -3322,6 +3317,16 @@ e1000e_vm_state_change(void *opaque, int running, RunState state)
+>>>        }
+>>>    }
+>>>
+>>> +static void e1000e_core_tx_bh(void *opaque)
+>>> +{
+>>> +    struct e1000e_tx *tx = opaque;
+>>> +    E1000ECore *core = tx->core;
+>>> +    E1000E_TxRing txr;
+>>> +
+>>> +    e1000e_tx_ring_init(core, &txr, tx - &core->tx[0]);
+>>> +    e1000e_start_xmit(core, &txr);
+>>> +}
+>>> +
+>>>    void
+>>>    e1000e_core_pci_realize(E1000ECore     *core,
+>>>                            const uint16_t *eeprom_templ,
+>>> @@ -3340,6 +3345,8 @@ e1000e_core_pci_realize(E1000ECore     *core,
+>>>        for (i = 0; i < E1000E_NUM_QUEUES; i++) {
+>>>            net_tx_pkt_init(&core->tx[i].tx_pkt, core->owner,
+>>>                            E1000E_MAX_TX_FRAGS, core->has_vnet);
+>>> +        core->tx[i].core = core;
+>>> +        core->tx[i].tx_bh = qemu_bh_new(e1000e_core_tx_bh, &core->tx[i]);
+>>>        }
+>>>
+>>>        net_rx_pkt_init(&core->rx_pkt, core->has_vnet);
+>>> @@ -3367,6 +3374,8 @@ e1000e_core_pci_uninit(E1000ECore *core)
+>>>        for (i = 0; i < E1000E_NUM_QUEUES; i++) {
+>>>            net_tx_pkt_reset(core->tx[i].tx_pkt);
+>>>            net_tx_pkt_uninit(core->tx[i].tx_pkt);
+>>> +        qemu_bh_delete(core->tx[i].tx_bh);
+>>> +        core->tx[i].tx_bh = NULL;
+>>>        }
+>>>
+>>>        net_rx_pkt_uninit(core->rx_pkt);
+>>> diff --git a/hw/net/e1000e_core.h b/hw/net/e1000e_core.h
+>>> index aee32f7e48..94ddc6afc2 100644
+>>> --- a/hw/net/e1000e_core.h
+>>> +++ b/hw/net/e1000e_core.h
+>>> @@ -77,6 +77,8 @@ struct E1000Core {
+>>>            unsigned char sum_needed;
+>>>            bool cptse;
+>>>            struct NetTxPkt *tx_pkt;
+>>> +        QEMUBH *tx_bh;
+>>> +        E1000ECore *core;
+>>>        } tx[E1000E_NUM_QUEUES];
+>>>
+>>>        struct NetRxPkt *rx_pkt;
 
 
