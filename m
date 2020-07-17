@@ -2,52 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9B8C3222FB8
-	for <lists+qemu-devel@lfdr.de>; Fri, 17 Jul 2020 02:09:52 +0200 (CEST)
-Received: from localhost ([::1]:49284 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1E4E222301F
+	for <lists+qemu-devel@lfdr.de>; Fri, 17 Jul 2020 02:55:07 +0200 (CEST)
+Received: from localhost ([::1]:60090 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jwDwk-0002Wr-RA
-	for lists+qemu-devel@lfdr.de; Thu, 16 Jul 2020 20:09:50 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:35276)
+	id 1jwEeX-0002Au-Jh
+	for lists+qemu-devel@lfdr.de; Thu, 16 Jul 2020 20:55:05 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:46896)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <dgibson@ozlabs.org>)
- id 1jwDvR-0001S2-Hz; Thu, 16 Jul 2020 20:08:29 -0400
-Received: from ozlabs.org ([203.11.71.1]:35817)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <dgibson@ozlabs.org>)
- id 1jwDvO-0001j2-Dg; Thu, 16 Jul 2020 20:08:28 -0400
-Received: by ozlabs.org (Postfix, from userid 1007)
- id 4B7BKd2Qvdz9sRk; Fri, 17 Jul 2020 10:08:21 +1000 (AEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=gibson.dropbear.id.au; s=201602; t=1594944501;
- bh=VlHeZa+eb7mTldyXGIivdcmEqJfugQQFglev0jHyAuk=;
- h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=ojqgAuX4tDdMwrvQ+EMhlStBPROrMSKbP186+1G6wwtqcn8pCIQiKgw6jXWD8sK+4
- U2EAiMbWpbW2QLJELytQvXyHPzGGqdSd0YRQc9YWc9zXUfYm3AWBzQl8G3j3IcW/Ut
- 84iJKqlyTsB4nyoXWsohLWAKO2X0XG7JcxxqY844=
-Date: Fri, 17 Jul 2020 10:07:59 +1000
-From: David Gibson <david@gibson.dropbear.id.au>
-To: Reza Arbab <arbab@linux.ibm.com>
-Subject: Re: [PATCH v4] spapr: Add a new level of NUMA for GPUs
-Message-ID: <20200717000759.GE5607@umbus.fritz.box>
-References: <20200716225655.24289-1-arbab@linux.ibm.com>
+ (Exim 4.90_1) (envelope-from <liq3ea@gmail.com>) id 1jwEdq-0001kt-4C
+ for qemu-devel@nongnu.org; Thu, 16 Jul 2020 20:54:22 -0400
+Received: from mail-ot1-x342.google.com ([2607:f8b0:4864:20::342]:34206)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <liq3ea@gmail.com>) id 1jwEdo-0002IU-G5
+ for qemu-devel@nongnu.org; Thu, 16 Jul 2020 20:54:21 -0400
+Received: by mail-ot1-x342.google.com with SMTP id e90so5720072ote.1
+ for <qemu-devel@nongnu.org>; Thu, 16 Jul 2020 17:54:20 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc:content-transfer-encoding;
+ bh=7gZOlB576AUusftg2pqZ5wF43SGLFl0fw0tw/PBuByM=;
+ b=YSroWR2Z6VbcDM82m7OB6/Q0hlS3rdaivv7DVYx6NIAd9z6BgzId048I/Oq5Ir2IkJ
+ NW/FsqYwxygt+PoPNmL0u9Z2mNNT47mZ75EB1xLVUzM7noxTu2tL9Kf/NJ7F6MYuSKh1
+ qAC76Z8DlW/4TCVnjTLXcnhH5NIQ0owYTXrX4/D2MEXwVFgBn19f+6SrAtsuaAJFjk+f
+ apwxWWGuQULgvs5t2oQJ91vBRRbOCdYHNRh1zdTERX/XHsYbnWs40fT52OVmyTXGGa98
+ B2ufEQwVsb+wqJniz8EbcqFWbxIqM8MIh3LcythAMbjFPPOFCiflq0m6r9IULjJZysGR
+ 4NaA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc:content-transfer-encoding;
+ bh=7gZOlB576AUusftg2pqZ5wF43SGLFl0fw0tw/PBuByM=;
+ b=htcINUJpnGH+tR6t/OjqtC4mDhhA+i9KVWTR7fkYjR+298L+1coxXyLnfBh/EoGCrw
+ ak/38DrpGM9VPyYokFdq+QJRDLfYDx0ZQfIjxUQTuYTIIcWG45XSb/7QJL88zhz0R3oa
+ 1/2yKzhIs0dtRnl7gsGWqbotbOlJDnwd2uy/qfTsscg53fw7JIvCu238g4YDaXfjkxj5
+ yQucdXToGS8NDvKQXN01dYLaBI6qA46WzQ3ui0N6E6Zny/aPaj+MVDxif5wK6/MuJNIu
+ 1RnSGcJDW51UEWYkfMONkDgjFU8m218QvmMrILhpvzCyAcGilP3x9J4skGKEfSe+z7Jh
+ 4Nng==
+X-Gm-Message-State: AOAM533nu+5SEZ+5i6sbllkM2J9W19P6BjATqZRf43Ql0TU2DDCqpeGW
+ gJ5T/NtL1RoDwXy2IjG6CrFSd80e7fOMwPD/FIQ=
+X-Google-Smtp-Source: ABdhPJya8+HqdcFAjK/82mAm2eaTThq5UcBmf/OJ6QzsVN8oa6iXj7WDwP8TYAA0TANE0dfx7kXS+MIYN2Xzh0ImQk0=
+X-Received: by 2002:a9d:787:: with SMTP id 7mr6672907oto.333.1594947259030;
+ Thu, 16 Jul 2020 17:54:19 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature"; boundary="7LkOrbQMr4cezO2T"
-Content-Disposition: inline
-In-Reply-To: <20200716225655.24289-1-arbab@linux.ibm.com>
-Received-SPF: pass client-ip=203.11.71.1; envelope-from=dgibson@ozlabs.org;
- helo=ozlabs.org
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/07/16 20:08:21
-X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic]
-X-Spam_score_int: -9
-X-Spam_score: -1.0
-X-Spam_bar: -
-X-Spam_report: (-1.0 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, HEADER_FROM_DIFFERENT_DOMAINS=1,
- SPF_HELO_PASS=-0.001, SPF_PASS=-0.001,
- URIBL_BLOCKED=0.001 autolearn=no autolearn_force=no
+References: <20200716192335.1212638-1-ppandit@redhat.com>
+In-Reply-To: <20200716192335.1212638-1-ppandit@redhat.com>
+From: Li Qiang <liq3ea@gmail.com>
+Date: Fri, 17 Jul 2020 08:53:42 +0800
+Message-ID: <CAKXe6SKL3aNiOKKLEMof6GGNjYLcX9fvfSf-0PBSX48rh4--FQ@mail.gmail.com>
+Subject: Re: [PATCH] net: check payload length limit for all frames
+To: P J P <ppandit@redhat.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=2607:f8b0:4864:20::342;
+ envelope-from=liq3ea@gmail.com; helo=mail-ot1-x342.google.com
+X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
+ That's all we know.
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -60,227 +78,64 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Leonardo Augusto Guimaraes Garcia <lagarcia@linux.ibm.com>,
- Alexey Kardashevskiy <aik@ozlabs.ru>,
- Daniel Henrique Barboza <danielhb@linux.ibm.com>,
- Daniel Henrique Barboza <danielhb413@gmail.com>, qemu-devel@nongnu.org,
- Greg Kurz <groug@kaod.org>, qemu-ppc@nongnu.org
+Cc: Alexander Bulekov <alxndr@bu.edu>, Jason Wang <jasowang@redhat.com>,
+ Dmitry Fleytman <dmitry.fleytman@gmail.com>,
+ QEMU Developers <qemu-devel@nongnu.org>,
+ Prasad J Pandit <pjp@fedoraproject.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+P J P <ppandit@redhat.com> =E4=BA=8E2020=E5=B9=B47=E6=9C=8817=E6=97=A5=E5=
+=91=A8=E4=BA=94 =E4=B8=8A=E5=8D=883:26=E5=86=99=E9=81=93=EF=BC=9A
+>
+> From: Prasad J Pandit <pjp@fedoraproject.org>
+>
+> While sending packets, the check that packet 'payload_len'
+> is within 64kB limit, seems to happen only for GSO frames.
+> It may lead to use-after-free or out-of-bounds access like
+> issues when sending non-GSO frames. Check the 'payload_len'
+> limit for all packets, irrespective of the gso type.
+>
 
---7LkOrbQMr4cezO2T
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+Hello Prasad,
+Which issue are you trying to solve, any reference linking?
 
-On Thu, Jul 16, 2020 at 05:56:55PM -0500, Reza Arbab wrote:
-> NUMA nodes corresponding to GPU memory currently have the same
-> affinity/distance as normal memory nodes. Add a third NUMA associativity
-> reference point enabling us to give GPU nodes more distance.
->=20
-> This is guest visible information, which shouldn't change under a
-> running guest across migration between different qemu versions, so make
-> the change effective only in new (pseries > 5.0) machine types.
->=20
-> Before, `numactl -H` output in a guest with 4 GPUs (nodes 2-5):
->=20
-> node distances:
-> node   0   1   2   3   4   5
->   0:  10  40  40  40  40  40
->   1:  40  10  40  40  40  40
->   2:  40  40  10  40  40  40
->   3:  40  40  40  10  40  40
->   4:  40  40  40  40  10  40
->   5:  40  40  40  40  40  10
->=20
-> After:
->=20
-> node distances:
-> node   0   1   2   3   4   5
->   0:  10  40  80  80  80  80
->   1:  40  10  80  80  80  80
->   2:  80  80  10  80  80  80
->   3:  80  80  80  10  80  80
->   4:  80  80  80  80  10  80
->   5:  80  80  80  80  80  10
->=20
-> These are the same distances as on the host, mirroring the change made
-> to host firmware in skiboot commit f845a648b8cb ("numa/associativity:
-> Add a new level of NUMA for GPU's").
+I also send a patch related this part and also a UAF.
 
-Applied to ppc-for-5.1.
+Thanks,
+Li Qiang
 
->=20
-> Signed-off-by: Reza Arbab <arbab@linux.ibm.com>
+> Reported-by: Alexander Bulekov <alxndr@bu.edu>
+> Signed-off-by: Prasad J Pandit <pjp@fedoraproject.org>
 > ---
-> v4:
-> * Use nvslot->numa_id for distinction at all levels of ibm,associativity
-> * Use ARRAY_SIZE(refpoints)
-> * Rebase
->=20
-> v3:
-> * Squash into one patch
-> * Add PHB compat property
-> ---
->  hw/ppc/spapr.c              | 21 +++++++++++++++++++--
->  hw/ppc/spapr_pci.c          |  2 ++
->  hw/ppc/spapr_pci_nvlink2.c  | 13 ++++++++++---
->  include/hw/pci-host/spapr.h |  1 +
->  include/hw/ppc/spapr.h      |  1 +
->  5 files changed, 33 insertions(+), 5 deletions(-)
->=20
-> diff --git a/hw/ppc/spapr.c b/hw/ppc/spapr.c
-> index 299908cc7396..0ae293ec9431 100644
-> --- a/hw/ppc/spapr.c
-> +++ b/hw/ppc/spapr.c
-> @@ -890,10 +890,16 @@ static int spapr_dt_rng(void *fdt)
->  static void spapr_dt_rtas(SpaprMachineState *spapr, void *fdt)
->  {
->      MachineState *ms =3D MACHINE(spapr);
-> +    SpaprMachineClass *smc =3D SPAPR_MACHINE_GET_CLASS(ms);
->      int rtas;
->      GString *hypertas =3D g_string_sized_new(256);
->      GString *qemu_hypertas =3D g_string_sized_new(256);
-> -    uint32_t refpoints[] =3D { cpu_to_be32(0x4), cpu_to_be32(0x4) };
-> +    uint32_t refpoints[] =3D {
-> +        cpu_to_be32(0x4),
-> +        cpu_to_be32(0x4),
-> +        cpu_to_be32(0x2),
-> +    };
-> +    uint32_t nr_refpoints =3D ARRAY_SIZE(refpoints);
->      uint64_t max_device_addr =3D MACHINE(spapr)->device_memory->base +
->          memory_region_size(&MACHINE(spapr)->device_memory->mr);
->      uint32_t lrdr_capacity[] =3D {
-> @@ -945,8 +951,12 @@ static void spapr_dt_rtas(SpaprMachineState *spapr, =
-void *fdt)
->                       qemu_hypertas->str, qemu_hypertas->len));
->      g_string_free(qemu_hypertas, TRUE);
-> =20
-> +    if (smc->pre_5_1_assoc_refpoints) {
-> +        nr_refpoints =3D 2;
-> +    }
-> +
->      _FDT(fdt_setprop(fdt, rtas, "ibm,associativity-reference-points",
-> -                     refpoints, sizeof(refpoints)));
-> +                     refpoints, nr_refpoints * sizeof(refpoints[0])));
-> =20
->      _FDT(fdt_setprop(fdt, rtas, "ibm,max-associativity-domains",
->                       maxdomains, sizeof(maxdomains)));
-> @@ -4584,9 +4594,16 @@ DEFINE_SPAPR_MACHINE(5_1, "5.1", true);
->   */
->  static void spapr_machine_5_0_class_options(MachineClass *mc)
->  {
-> +    SpaprMachineClass *smc =3D SPAPR_MACHINE_CLASS(mc);
-> +    static GlobalProperty compat[] =3D {
-> +        { TYPE_SPAPR_PCI_HOST_BRIDGE, "pre-5.1-associativity", "on" },
-> +    };
-> +
->      spapr_machine_5_1_class_options(mc);
->      compat_props_add(mc->compat_props, hw_compat_5_0, hw_compat_5_0_len);
-> +    compat_props_add(mc->compat_props, compat, G_N_ELEMENTS(compat));
->      mc->numa_mem_supported =3D true;
-> +    smc->pre_5_1_assoc_refpoints =3D true;
->  }
-> =20
->  DEFINE_SPAPR_MACHINE(5_0, "5.0", false);
-> diff --git a/hw/ppc/spapr_pci.c b/hw/ppc/spapr_pci.c
-> index 2a6a48744aaa..16739334e35f 100644
-> --- a/hw/ppc/spapr_pci.c
-> +++ b/hw/ppc/spapr_pci.c
-> @@ -2035,6 +2035,8 @@ static Property spapr_phb_properties[] =3D {
->                       pcie_ecs, true),
->      DEFINE_PROP_UINT64("gpa", SpaprPhbState, nv2_gpa_win_addr, 0),
->      DEFINE_PROP_UINT64("atsd", SpaprPhbState, nv2_atsd_win_addr, 0),
-> +    DEFINE_PROP_BOOL("pre-5.1-associativity", SpaprPhbState,
-> +                     pre_5_1_assoc, false),
->      DEFINE_PROP_END_OF_LIST(),
->  };
-> =20
-> diff --git a/hw/ppc/spapr_pci_nvlink2.c b/hw/ppc/spapr_pci_nvlink2.c
-> index dd8cd6db9654..76ae77ebc851 100644
-> --- a/hw/ppc/spapr_pci_nvlink2.c
-> +++ b/hw/ppc/spapr_pci_nvlink2.c
-> @@ -362,9 +362,9 @@ void spapr_phb_nvgpu_ram_populate_dt(SpaprPhbState *s=
-phb, void *fdt)
->                                                      &error_abort);
->          uint32_t associativity[] =3D {
->              cpu_to_be32(0x4),
-> -            SPAPR_GPU_NUMA_ID,
-> -            SPAPR_GPU_NUMA_ID,
-> -            SPAPR_GPU_NUMA_ID,
-> +            cpu_to_be32(nvslot->numa_id),
-> +            cpu_to_be32(nvslot->numa_id),
-> +            cpu_to_be32(nvslot->numa_id),
->              cpu_to_be32(nvslot->numa_id)
->          };
->          uint64_t size =3D object_property_get_uint(nv_mrobj, "size", NUL=
-L);
-> @@ -375,6 +375,13 @@ void spapr_phb_nvgpu_ram_populate_dt(SpaprPhbState *=
-sphb, void *fdt)
->          _FDT(off);
->          _FDT((fdt_setprop_string(fdt, off, "device_type", "memory")));
->          _FDT((fdt_setprop(fdt, off, "reg", mem_reg, sizeof(mem_reg))));
-> +
-> +        if (sphb->pre_5_1_assoc) {
-> +            associativity[1] =3D SPAPR_GPU_NUMA_ID;
-> +            associativity[2] =3D SPAPR_GPU_NUMA_ID;
-> +            associativity[3] =3D SPAPR_GPU_NUMA_ID;
-> +        }
-> +
->          _FDT((fdt_setprop(fdt, off, "ibm,associativity", associativity,
->                            sizeof(associativity))));
-> =20
-> diff --git a/include/hw/pci-host/spapr.h b/include/hw/pci-host/spapr.h
-> index 8877ff51fbf7..600eb55c3488 100644
-> --- a/include/hw/pci-host/spapr.h
-> +++ b/include/hw/pci-host/spapr.h
-> @@ -94,6 +94,7 @@ struct SpaprPhbState {
->      hwaddr nv2_gpa_win_addr;
->      hwaddr nv2_atsd_win_addr;
->      SpaprPhbPciNvGpuConfig *nvgpus;
-> +    bool pre_5_1_assoc;
->  };
-> =20
->  #define SPAPR_PCI_MEM_WIN_BUS_OFFSET 0x80000000ULL
-> diff --git a/include/hw/ppc/spapr.h b/include/hw/ppc/spapr.h
-> index c421410e3fb8..3134d339e8fe 100644
-> --- a/include/hw/ppc/spapr.h
-> +++ b/include/hw/ppc/spapr.h
-> @@ -129,6 +129,7 @@ struct SpaprMachineClass {
->      bool linux_pci_probe;
->      bool smp_threads_vsmt; /* set VSMT to smp_threads by default */
->      hwaddr rma_limit;          /* clamp the RMA to this size */
-> +    bool pre_5_1_assoc_refpoints;
-> =20
->      void (*phb_placement)(SpaprMachineState *spapr, uint32_t index,
->                            uint64_t *buid, hwaddr *pio,=20
-
---=20
-David Gibson			| I'll have my music baroque, and my code
-david AT gibson.dropbear.id.au	| minimalist, thank you.  NOT _the_ _other_
-				| _way_ _around_!
-http://www.ozlabs.org/~dgibson
-
---7LkOrbQMr4cezO2T
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQIzBAEBCAAdFiEEdfRlhq5hpmzETofcbDjKyiDZs5IFAl8Q690ACgkQbDjKyiDZ
-s5IfQRAAxBIzSxK5Z9TaFTr45bnbnkmid4hpn/GguY5poke++0+ZH1wrsrzUCuqV
-QE3b09XlzqApsjDGV09qNle+lL3598alhF5yfup0Qhq8YrZyCXqG8Z5ys0wOQpeN
-bxOaZaV9dgEjU4rRIFuWBr+LXFPBW5HegonT7B5+jQzGqqU3UJFAvPA6S3uJkrfo
-g/oi3Wc7g4uA3F2L1tnqONec4WQae/xjJ2J9tnKgfa5VxQB+jZvp4Ev4XsZWHunL
-wr0SERS91Z+76psJkBMwaMv+awGpWsPsUuWOJNCZV2TuEHO4o9lltLS0+PhIGUUs
-qDmURNJEj2/Xg9HITwPGmj7t1yc4pPW//eIiJq8xS3Z7kww9IS/Dd4G8c/VJTdSn
-i2f3posTj8XHl6HU5qhm+zHtZeW25ET4uaVhK/LgGUAeCcdqgEPQktQjR1CxL904
-hAXZRA+/x6xIUAGOSnrEyRV9XjuF9dRw5fyqapjQszUAZawk2YWYs/ew325fiQzJ
-y378m3WMsdDrov2XSodDE/BfKJT5JGLZQ8a6mjLa+bl0pOpKWDPPnBMpjN4ouj0V
-M/VRhjautpm632+dT6NmEIbTiUaLbbb71Hi74S7ultYSUuyCLzeqd0R0KAVAobss
-j97EvqF1k1ZseiiR5qNQVg+ggfIouHJJ0nAgW0Y7WNVVRc8vP5k=
-=Q9yw
------END PGP SIGNATURE-----
-
---7LkOrbQMr4cezO2T--
+>  hw/net/net_tx_pkt.c | 10 ++++------
+>  1 file changed, 4 insertions(+), 6 deletions(-)
+>
+> diff --git a/hw/net/net_tx_pkt.c b/hw/net/net_tx_pkt.c
+> index 162f802dd7..e66998a8f9 100644
+> --- a/hw/net/net_tx_pkt.c
+> +++ b/hw/net/net_tx_pkt.c
+> @@ -607,12 +607,10 @@ bool net_tx_pkt_send(struct NetTxPkt *pkt, NetClien=
+tState *nc)
+>       * Since underlying infrastructure does not support IP datagrams lon=
+ger
+>       * than 64K we should drop such packets and don't even try to send
+>       */
+> -    if (VIRTIO_NET_HDR_GSO_NONE !=3D pkt->virt_hdr.gso_type) {
+> -        if (pkt->payload_len >
+> -            ETH_MAX_IP_DGRAM_LEN -
+> -            pkt->vec[NET_TX_PKT_L3HDR_FRAG].iov_len) {
+> -            return false;
+> -        }
+> +    if (pkt->payload_len >
+> +        ETH_MAX_IP_DGRAM_LEN -
+> +        pkt->vec[NET_TX_PKT_L3HDR_FRAG].iov_len) {
+> +        return false;
+>      }
+>
+>      if (pkt->has_virt_hdr ||
+> --
+> 2.26.2
+>
+>
 
