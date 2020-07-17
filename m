@@ -2,75 +2,110 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4096F223F62
-	for <lists+qemu-devel@lfdr.de>; Fri, 17 Jul 2020 17:21:47 +0200 (CEST)
-Received: from localhost ([::1]:47252 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 50545223F8C
+	for <lists+qemu-devel@lfdr.de>; Fri, 17 Jul 2020 17:26:23 +0200 (CEST)
+Received: from localhost ([::1]:51336 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jwSBG-0006yF-BI
-	for lists+qemu-devel@lfdr.de; Fri, 17 Jul 2020 11:21:46 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:37228)
+	id 1jwSFi-0000X1-5M
+	for lists+qemu-devel@lfdr.de; Fri, 17 Jul 2020 11:26:22 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:39024)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <alex.williamson@redhat.com>)
- id 1jwS8e-0004TG-2K
- for qemu-devel@nongnu.org; Fri, 17 Jul 2020 11:19:04 -0400
-Received: from us-smtp-2.mimecast.com ([205.139.110.61]:60785
- helo=us-smtp-delivery-1.mimecast.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <alex.williamson@redhat.com>)
- id 1jwS8b-0004ng-M0
- for qemu-devel@nongnu.org; Fri, 17 Jul 2020 11:19:03 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1594999140;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=qXUmWkPxibEzRGVIk03C1+SSnEHf2wvGfjHMihC3K8Y=;
- b=HimQfLFCadQjz/9x6ufplm8LLMksl3rCCI7uqCWYt+nwbZBa/Eo8y/ugZdtMUnFGRzzpVR
- rOjt8IO2eq2FbXlKbsICQrgj7R2FCTyAtGKDW95wvCwG66mWokhZoAyUFcd5ckZrCVTjp2
- wF0PydNWzer0N6LdQk24Jx6iIBgSm9E=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-376-R_BVpnwAOcOsVB4VW6xx7g-1; Fri, 17 Jul 2020 11:18:58 -0400
-X-MC-Unique: R_BVpnwAOcOsVB4VW6xx7g-1
-Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
- [10.5.11.13])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 3C3161015DA1;
- Fri, 17 Jul 2020 15:18:56 +0000 (UTC)
-Received: from x1.home (ovpn-112-71.phx2.redhat.com [10.3.112.71])
- by smtp.corp.redhat.com (Postfix) with ESMTP id B9F927BD47;
- Fri, 17 Jul 2020 15:18:54 +0000 (UTC)
-Date: Fri, 17 Jul 2020 09:18:54 -0600
-From: Alex Williamson <alex.williamson@redhat.com>
-To: Alex Xu <soulxu@gmail.com>
-Subject: Re: device compatibility interface for live migration with assigned
- devices
-Message-ID: <20200717091854.72013c91@x1.home>
-In-Reply-To: <CAH7mGatPWsczh_rbVhx4a+psJXvkZgKou3r5HrEQTqE7SqZkKA@mail.gmail.com>
-References: <20200713232957.GD5955@joy-OptiPlex-7040>
- <20200714102129.GD25187@redhat.com>
- <20200714101616.5d3a9e75@x1.home> <20200714171946.GL2728@work-vm>
- <20200714145948.17b95eb3@x1.home>
- <CAH7mGatPWsczh_rbVhx4a+psJXvkZgKou3r5HrEQTqE7SqZkKA@mail.gmail.com>
-Organization: Red Hat
+ (Exim 4.90_1) (envelope-from <vsementsov@virtuozzo.com>)
+ id 1jwSEE-0007qA-DK; Fri, 17 Jul 2020 11:24:50 -0400
+Received: from mail-db8eur05on2138.outbound.protection.outlook.com
+ ([40.107.20.138]:1729 helo=EUR05-DB8-obe.outbound.protection.outlook.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <vsementsov@virtuozzo.com>)
+ id 1jwSEB-0005kt-MM; Fri, 17 Jul 2020 11:24:49 -0400
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=Im5epDcedFJP+jz+tOEwQbAH8Nb6dP4sHvMeSPJC+oQziL+xyo/u++4UGkfL0PgPNls47DnWHLZRw3+D7MkPe1xpaJvErzhvZK2ISgU25HwdXBzM6SApdcLqznQVYNq13bVEs0MZri0+x+DBw11D8eLIhAmHzkg0AJx7HtfJIkE50o1yv6zt7wiBatbw06R7Ooby9s8qqo3gmVbmx3EwdiqdcRYhc7E7PBE6lDvsqIYLT1plf4RRQfFlGMuYIQuK4b0Sva70sNdNrh1p68jcVhpSsY1r6A9ytpbtX+/F+ZoWN3hlkbOY+sN7YIJK3RsK2nYyn2j1JefT1QY9qNQa+A==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=vSTuq+OtAy4UOBJ7zx7sq4fUen4DuH4bQVKTh8Vxs0s=;
+ b=IGhqx+CUBjiIFsMgbIHScwK1MrlJjJHsXtgSRWkp3Jpn1MET2XpKBkw+0ancfJXnkbgmVhOOaquCiuGEAH826QO0ujd+mWVojawI1QoGMjvtNiBYZtonCofxLkaqAczYENRME0mMNC1birzkjHvGr0v3uDcUIM/jmpp8XXJP4iHgPJu2s6CYBqWtXTbdH6sH5GBeH5/xKV6qLpKWRYVHY1rSglttEkBp31LuHfZ+LrmPkXP+WNWEltkVf/0U+XoCNC1fPOyQ79YtySYxEx9d2zQdqqEgRRa91pzStCB4gxtHMzU/xhtSqJXIBM0OQVTlTa1DwesPfXMhBqCvAjO+Jw==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=virtuozzo.com; dmarc=pass action=none
+ header.from=virtuozzo.com; dkim=pass header.d=virtuozzo.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=virtuozzo.com;
+ s=selector2;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=vSTuq+OtAy4UOBJ7zx7sq4fUen4DuH4bQVKTh8Vxs0s=;
+ b=py3MQv9C0xiyKw6xpXPzxo0gxgqSORaxDqeSPwFfE0vKQIijUzs8OqInwjW6yxTU8zCdxLcgE0BuMY00rQqreHi68HFPGcaUFbyYlFlmD6FViLXswp19+zKwzyaCCPsCCfhgUdM3TRBbsiGXp5vSHKmGlnsLw6Y9ETNmj8FIpK8=
+Authentication-Results: openvz.org; dkim=none (message not signed)
+ header.d=none;openvz.org; dmarc=none action=none header.from=virtuozzo.com;
+Received: from AM7PR08MB5494.eurprd08.prod.outlook.com (2603:10a6:20b:dc::15)
+ by AM6PR08MB3894.eurprd08.prod.outlook.com (2603:10a6:20b:90::10)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3174.20; Fri, 17 Jul
+ 2020 15:24:44 +0000
+Received: from AM7PR08MB5494.eurprd08.prod.outlook.com
+ ([fe80::a408:2f0f:bc6c:d312]) by AM7PR08MB5494.eurprd08.prod.outlook.com
+ ([fe80::a408:2f0f:bc6c:d312%3]) with mapi id 15.20.3195.022; Fri, 17 Jul 2020
+ 15:24:44 +0000
+Subject: Re: [PATCH v2 05/20] block/block-copy: implement block_copy_async
+To: Max Reitz <mreitz@redhat.com>, qemu-block@nongnu.org
+References: <20200601181118.579-1-vsementsov@virtuozzo.com>
+ <20200601181118.579-6-vsementsov@virtuozzo.com>
+ <90825bab-19d1-466f-4fd4-adf76f1010b1@redhat.com>
+From: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
+Message-ID: <39f90110-105b-2399-17c9-901da7078106@virtuozzo.com>
+Date: Fri, 17 Jul 2020 18:24:43 +0300
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.10.0
+In-Reply-To: <90825bab-19d1-466f-4fd4-adf76f1010b1@redhat.com>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 8bit
+X-ClientProxiedBy: AM0PR04CA0120.eurprd04.prod.outlook.com
+ (2603:10a6:208:55::25) To AM7PR08MB5494.eurprd08.prod.outlook.com
+ (2603:10a6:20b:dc::15)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
-Received-SPF: pass client-ip=205.139.110.61;
- envelope-from=alex.williamson@redhat.com; helo=us-smtp-delivery-1.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/07/17 01:33:03
-X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
-X-Spam_score_int: -40
-X-Spam_score: -4.1
-X-Spam_bar: ----
-X-Spam_report: (-4.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-1, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-MS-Exchange-MessageSentRepresentingType: 1
+Received: from [192.168.100.2] (185.215.60.164) by
+ AM0PR04CA0120.eurprd04.prod.outlook.com (2603:10a6:208:55::25) with Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.3195.17 via Frontend Transport; Fri, 17 Jul 2020 15:24:44 +0000
+X-Originating-IP: [185.215.60.164]
+X-MS-PublicTrafficType: Email
+X-MS-Office365-Filtering-Correlation-Id: d4058183-005f-4a5e-3688-08d82a6588aa
+X-MS-TrafficTypeDiagnostic: AM6PR08MB3894:
+X-MS-Exchange-Transport-Forked: True
+X-Microsoft-Antispam-PRVS: <AM6PR08MB3894FA10B46053F0B7B3E7DCC17C0@AM6PR08MB3894.eurprd08.prod.outlook.com>
+X-MS-Oob-TLC-OOBClassifiers: OLM:1227;
+X-MS-Exchange-SenderADCheck: 1
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: 5TjhpvWgHdKSSSRxJcRPut0ypFVpjd4VZeqWUtriT5qD3FaoJK8TJHDLPKSy3sYOmhwI8ijN9AfUWPlpmpoI8geulyWfokBPg96OqjFwan7J2M61jQ66G2IBh4mPPwfc/io80o6fd2HxoDp5odA2BEbT+7UzXGGb2Sri9CSl4Uojs+bRpt8H8uRA9U42BZ5s4wlm7e2nk2wJMnJ35xvHAqf1zIrT3gIHNFe5yd17GNIjkWNlL6+XkoZRRqFOxEqC0Cn8EXJMKcpTm5DCRz2uB3Cu2LgTX4phXXmj2Ri2Z6FBGTTdmedHF/TdGInRbI+b1ooIYZQAWz4ZV/bF4qV8Psctq9QkaFMQksVnstj3J46zGkSkpvTA08mFhTpeQS/s
+X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:AM7PR08MB5494.eurprd08.prod.outlook.com; PTR:; CAT:NONE;
+ SFTY:;
+ SFS:(4636009)(346002)(376002)(396003)(366004)(136003)(39840400004)(26005)(2616005)(52116002)(53546011)(186003)(8936002)(83380400001)(8676002)(16526019)(6486002)(31686004)(5660300002)(36756003)(956004)(31696002)(86362001)(478600001)(4326008)(66476007)(16576012)(66556008)(2906002)(66946007)(107886003)(316002)(43740500002);
+ DIR:OUT; SFP:1102; 
+X-MS-Exchange-AntiSpam-MessageData: TDXbU4AfQBfN6VkC8dKBOxpOG7mDZyJR0PauvbFaeicb7iuQKmdqQFcznVRiOnrdK8f3GqL56kv2ZgPYn2fMDZwT7LU9xxSv/anjByKKUz63gBKNLkgeLhwFEPtaGgGusMB/Jhsrw2FJlCNPrmiXr1LXkHIkfsoC3xLelaqUVulgAr9bCfk+KrQ0A08l5VAgpwWsxHCCF3ONmm+ou+qeiRwf8IOv/sT0RU1/bwtey8d9zrsbRobsAY9mH8LPEea8k+S0Cpq2T3KaHObXEf1n1VePYL2QralhyhEE2PmKps0F9bl1yZL26rv/HsI/9+Yb888B1fJ+2jHjPqhCHhC0Qow6VxVNiYAYk04mXurJyHMWGoe2/Yf/TbFxS3wP84w1H5DQjowkeGshbrlHuLMZaQTDmbZgfDh3Yu0dKaxciEJghZrYfYkmHv59x6um1oSgRCo/RlBHv2eW+S3ZnPUow+wemEY8dgSOuPwywNN7GzJ2jK0LP/udrRAYz4h/n1KP
+X-OriginatorOrg: virtuozzo.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: d4058183-005f-4a5e-3688-08d82a6588aa
+X-MS-Exchange-CrossTenant-AuthSource: AM7PR08MB5494.eurprd08.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 17 Jul 2020 15:24:44.6910 (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 0bc7f26d-0264-416e-a6fc-8352af79c58f
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: GUqQH+OrHFcSt5eYgIXJaM5/CYidlZ6ZBG5ZEuPcDaJW4peIqskIhucvMQJr2TYGNs4FZiUpag1Uy+oQWY2fiStdCMLZt01WcPFEdzHOT00=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: AM6PR08MB3894
+Received-SPF: pass client-ip=40.107.20.138;
+ envelope-from=vsementsov@virtuozzo.com;
+ helo=EUR05-DB8-obe.outbound.protection.outlook.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/07/17 11:24:45
+X-ACL-Warn: Detected OS   = Windows NT kernel [generic] [fuzzy]
+X-Spam_score_int: -37
+X-Spam_score: -3.8
+X-Spam_bar: ---
+X-Spam_report: (-3.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ MSGID_FROM_MTA_HEADER=0.001, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-1,
+ SPF_HELO_PASS=-0.001, SPF_PASS=-0.001,
+ URIBL_BLOCKED=0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -83,235 +118,150 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: kvm@vger.kernel.org, libvir-list@redhat.com, qemu-devel@nongnu.org,
- kwankhede@nvidia.com, eauger@redhat.com, "Wang,
- Xin-ran" <xin-ran.wang@intel.com>, corbet@lwn.net, devel@ovirt.org,
- openstack-discuss <openstack-discuss@lists.openstack.org>,
- shaohe.feng@intel.com, kevin.tian@intel.com, Yan Zhao <yan.y.zhao@intel.com>,
- eskultet@redhat.com, "Ding, Jian-feng" <jian-feng.ding@intel.com>,
- "Dr. David Alan Gilbert" <dgilbert@redhat.com>, zhenyuw@linux.intel.com, "Xu,
- Hejie" <hejie.xu@intel.com>, bao.yumeng@zte.com.cn,
- Sean Mooney <smooney@redhat.com>, intel-gvt-dev@lists.freedesktop.org,
- cohuck@redhat.com, dinechin@redhat.com
+Cc: kwolf@redhat.com, wencongyang2@huawei.com, xiechanglong.d@gmail.com,
+ armbru@redhat.com, qemu-devel@nongnu.org, den@openvz.org, jsnow@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Wed, 15 Jul 2020 15:37:19 +0800
-Alex Xu <soulxu@gmail.com> wrote:
+17.07.2020 17:00, Max Reitz wrote:
+> On 01.06.20 20:11, Vladimir Sementsov-Ogievskiy wrote:
+>> We'll need async block-copy invocation to use in backup directly.
+>>
+>> Signed-off-by: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
+>> ---
+>>   include/block/block-copy.h | 13 +++++++++++++
+>>   block/block-copy.c         | 40 ++++++++++++++++++++++++++++++++++++++
+>>   2 files changed, 53 insertions(+)
+>>
+>> diff --git a/include/block/block-copy.h b/include/block/block-copy.h
+>> index 6397505f30..ada0d99566 100644
+>> --- a/include/block/block-copy.h
+>> +++ b/include/block/block-copy.h
+>> @@ -19,7 +19,10 @@
+>>   #include "qemu/co-shared-resource.h"
+>>   
+>>   typedef void (*ProgressBytesCallbackFunc)(int64_t bytes, void *opaque);
+>> +typedef void (*BlockCopyAsyncCallbackFunc)(int ret, bool error_is_read,
+>> +                                           void *opaque);
+>>   typedef struct BlockCopyState BlockCopyState;
+>> +typedef struct BlockCopyCallState BlockCopyCallState;
+>>   
+>>   BlockCopyState *block_copy_state_new(BdrvChild *source, BdrvChild *target,
+>>                                        int64_t cluster_size, bool use_copy_range,
+>> @@ -41,6 +44,16 @@ int64_t block_copy_reset_unallocated(BlockCopyState *s,
+>>   int coroutine_fn block_copy(BlockCopyState *s, int64_t offset, int64_t bytes,
+>>                               bool *error_is_read);
+>>   
+>> +/*
+>> + * Run block-copy in a coroutine, return state pointer. If finished early
+>> + * returns NULL (@cb is called anyway).
+> 
+> Any special reason for doing so?  Seems like the code would be a tad
+> simpler if we just returned it either way.  (And off the top of my head
+> I’d guess it’d be easier for the caller if the returned value was always
+> non-NULL, too.)
 
-> Alex Williamson <alex.williamson@redhat.com> =E4=BA=8E2020=E5=B9=B47=E6=
-=9C=8815=E6=97=A5=E5=91=A8=E4=B8=89 =E4=B8=8A=E5=8D=885:00=E5=86=99=E9=81=
-=93=EF=BC=9A
->=20
-> > On Tue, 14 Jul 2020 18:19:46 +0100
-> > "Dr. David Alan Gilbert" <dgilbert@redhat.com> wrote:
-> > =20
-> > > * Alex Williamson (alex.williamson@redhat.com) wrote: =20
-> > > > On Tue, 14 Jul 2020 11:21:29 +0100
-> > > > Daniel P. Berrang=C3=A9 <berrange@redhat.com> wrote:
-> > > > =20
-> > > > > On Tue, Jul 14, 2020 at 07:29:57AM +0800, Yan Zhao wrote: =20
-> > > > > > hi folks,
-> > > > > > we are defining a device migration compatibility interface that=
- =20
-> > helps upper =20
-> > > > > > layer stack like openstack/ovirt/libvirt to check if two device=
-s =20
-> > are =20
-> > > > > > live migration compatible.
-> > > > > > The "devices" here could be MDEVs, physical devices, or hybrid =
-of =20
-> > the two. =20
-> > > > > > e.g. we could use it to check whether
-> > > > > > - a src MDEV can migrate to a target MDEV,
-> > > > > > - a src VF in SRIOV can migrate to a target VF in SRIOV,
-> > > > > > - a src MDEV can migration to a target VF in SRIOV.
-> > > > > >   (e.g. SIOV/SRIOV backward compatibility case)
-> > > > > >
-> > > > > > The upper layer stack could use this interface as the last step=
- to =20
-> > check =20
-> > > > > > if one device is able to migrate to another device before =20
-> > triggering a real =20
-> > > > > > live migration procedure.
-> > > > > > we are not sure if this interface is of value or help to you. =
-=20
-> > please don't =20
-> > > > > > hesitate to drop your valuable comments.
-> > > > > >
-> > > > > >
-> > > > > > (1) interface definition
-> > > > > > The interface is defined in below way:
-> > > > > >
-> > > > > >              __    userspace
-> > > > > >               /\              \
-> > > > > >              /                 \write
-> > > > > >             / read              \
-> > > > > >    ________/__________       ___\|/_____________
-> > > > > >   | migration_version |     | migration_version |-->check migra=
-tion
-> > > > > >   ---------------------     ---------------------   compatibili=
-ty
-> > > > > >      device A                    device B
-> > > > > >
-> > > > > >
-> > > > > > a device attribute named migration_version is defined under eac=
-h =20
-> > device's =20
-> > > > > > sysfs node. e.g. =20
-> > (/sys/bus/pci/devices/0000\:00\:02.0/$mdev_UUID/migration_version). =20
-> > > > > > userspace tools read the migration_version as a string from the=
- =20
-> > source device, =20
-> > > > > > and write it to the migration_version sysfs attribute in the =20
-> > target device. =20
-> > > > > >
-> > > > > > The userspace should treat ANY of below conditions as two devic=
-es =20
-> > not compatible: =20
-> > > > > > - any one of the two devices does not have a migration_version =
-=20
-> > attribute =20
-> > > > > > - error when reading from migration_version attribute of one de=
-vice
-> > > > > > - error when writing migration_version string of one device to
-> > > > > >   migration_version attribute of the other device
-> > > > > >
-> > > > > > The string read from migration_version attribute is defined by =
-=20
-> > device vendor =20
-> > > > > > driver and is completely opaque to the userspace.
-> > > > > > for a Intel vGPU, string format can be defined like
-> > > > > > "parent device PCI ID" + "version of gvt driver" + "mdev type" =
-+ =20
-> > "aggregator count". =20
-> > > > > >
-> > > > > > for an NVMe VF connecting to a remote storage. it could be
-> > > > > > "PCI ID" + "driver version" + "configured remote storage URL"
-> > > > > >
-> > > > > > for a QAT VF, it may be
-> > > > > > "PCI ID" + "driver version" + "supported encryption set".
-> > > > > >
-> > > > > > (to avoid namespace confliction from each vendor, we may prefix=
- a =20
-> > driver name to =20
-> > > > > > each migration_version string. e.g. =20
-> > i915-v1-8086-591d-i915-GVTg_V5_8-1) =20
-> > > >
-> > > > It's very strange to define it as opaque and then proceed to descri=
-be
-> > > > the contents of that opaque string.  The point is that its contents
-> > > > are defined by the vendor driver to describe the device, driver =20
-> > version, =20
-> > > > and possibly metadata about the configuration of the device.  One
-> > > > instance of a device might generate a different string from another.
-> > > > The string that a device produces is not necessarily the only string
-> > > > the vendor driver will accept, for example the driver might support
-> > > > backwards compatible migrations. =20
-> > >
-> > > (As I've said in the previous discussion, off one of the patch series)
-> > >
-> > > My view is it makes sense to have a half-way house on the opaqueness =
-of
-> > > this string; I'd expect to have an ID and version that are human
-> > > readable, maybe a device ID/name that's human interpretable and then a
-> > > bunch of other cruft that maybe device/vendor/version specific.
-> > >
-> > > I'm thinking that we want to be able to report problems and include t=
-he
-> > > string and the user to be able to easily identify the device that was
-> > > complaining and notice a difference in versions, and perhaps also use
-> > > it in compatibility patterns to find compatible hosts; but that does
-> > > get tricky when it's a 'ask the device if it's compatible'. =20
-> >
-> > In the reply I just sent to Dan, I gave this example of what a
-> > "compatibility string" might look like represented as json:
-> >
-> > {
-> >   "device_api": "vfio-pci",
-> >   "vendor": "vendor-driver-name",
-> >   "version": {
-> >     "major": 0,
-> >     "minor": 1
-> >   },
-> > =20
->=20
-> The OpenStack Placement service doesn't support to filtering the target
-> host by the semver syntax, altough we can code this filtering logic inside
-> scheduler filtering by python code. Basically, placement only supports
-> filtering the host by traits (it is same thing with labels, tags). The no=
-va
-> scheduler will call the placement service to filter the hosts first, then
-> go through all the scheduler filters. That would be great if the placement
-> service can filter out more hosts which isn't compatible first, and then =
-it
-> is better.
->=20
->=20
-> >   "vfio-pci": { // Based on above device_api
-> >     "vendor": 0x1234, // Values for the exposed device
-> >     "device": 0x5678,
-> >       // Possibly further parameters for a more specific match
-> >   },
-> > =20
->=20
-> OpenStack already based on vendor and device id to separate the devices
-> into the different resource pool, then the scheduler based on that to fil=
-er
-> the hosts, so I think it needn't be the part of this compatibility string.
+Sounds reasonable, will check
+
+> 
+>> + */
+>> +BlockCopyCallState *block_copy_async(BlockCopyState *s,
+>> +                                     int64_t offset, int64_t bytes,
+>> +                                     bool ratelimit, int max_workers,
+>> +                                     int64_t max_chunk,
+>> +                                     BlockCopyAsyncCallbackFunc cb);
+>> +
+>>   BdrvDirtyBitmap *block_copy_dirty_bitmap(BlockCopyState *s);
+>>   void block_copy_set_skip_unallocated(BlockCopyState *s, bool skip);
+>>   
+>> diff --git a/block/block-copy.c b/block/block-copy.c
+>> index 75882a094c..a0477d90f3 100644
+>> --- a/block/block-copy.c
+>> +++ b/block/block-copy.c
+>> @@ -34,9 +34,11 @@ typedef struct BlockCopyCallState {
+>>       BlockCopyState *s;
+>>       int64_t offset;
+>>       int64_t bytes;
+>> +    BlockCopyAsyncCallbackFunc cb;
+>>   
+>>       /* State */
+>>       bool failed;
+>> +    bool finished;
+>>   
+>>       /* OUT parameters */
+>>       bool error_is_read;
+>> @@ -676,6 +678,13 @@ static int coroutine_fn block_copy_common(BlockCopyCallState *call_state)
+>>            */
+>>       } while (ret > 0);
+>>   
+>> +    if (call_state->cb) {
+>> +        call_state->cb(ret, call_state->error_is_read,
+>> +                       call_state->s->progress_opaque);
+> 
+> I find it weird to pass progress_opaque here.  Shouldn’t we just have a
+> dedicated opaque object for this CB?
+
+I remember, it should be refactored later. But seems strange here, better to change.
+
+> 
+>> +    }
+>> +
+>> +    call_state->finished = true;
+>> +
+>>       return ret;
+>>   }
+>>   
+>> @@ -697,6 +706,37 @@ int coroutine_fn block_copy(BlockCopyState *s, int64_t start, int64_t bytes,
+>>       return ret;
+>>   }
+>>   
+>> +static void coroutine_fn block_copy_async_co_entry(void *opaque)
+>> +{
+>> +    block_copy_common(opaque);
+>> +}
+>> +
+>> +BlockCopyCallState *block_copy_async(BlockCopyState *s,
+>> +                                     int64_t offset, int64_t bytes,
+>> +                                     bool ratelimit, int max_workers,
+>> +                                     int64_t max_chunk,
+>> +                                     BlockCopyAsyncCallbackFunc cb)
+>> +{
+>> +    BlockCopyCallState *call_state = g_new(BlockCopyCallState, 1);
+>> +    Coroutine *co = qemu_coroutine_create(block_copy_async_co_entry,
+>> +                                          call_state);
+>> +
+>> +    *call_state = (BlockCopyCallState) {
+>> +        .s = s,
+>> +        .offset = offset,
+>> +        .bytes = bytes,
+>> +        .cb = cb,
+>> +    };
+>> +
+>> +    qemu_coroutine_enter(co);
+> 
+> Do we need/want any already-in-coroutine shenanigans here?
+> 
+
+No: the aim of the function is to start a new coroutine in parallel, independently of are we already in some other coroutine or not.
+
+> 
+>> +
+>> +    if (call_state->finished) {
+>> +        g_free(call_state);
+>> +        return NULL;
+>> +    }
+>> +
+>> +    return call_state;
+>> +}
+>>   BdrvDirtyBitmap *block_copy_dirty_bitmap(BlockCopyState *s)
+>>   {
+>>       return s->copy_bitmap;
+>>
+> 
+> 
 
 
-This is the part of the string that actually says what the resulting
-device is, so it's a rather fundamental part of the description.  This
-is where we'd determine that a physical to mdev migration is possible
-or that different mdev types result in the same guest PCI device,
-possibly with attributes set as specified later in the output.
-
-
-> >   "mdev_attrs": [
-> >     { "attribute0": "VALUE" }
-> >   ]
-> > }
-> >
-> > Are you thinking that we might allow the vendor to include a vendor
-> > specific array where we'd simply require that both sides have matching
-> > fields and values?  ie.
-
-
-That's what I'm defining in the below vendor_fields, the above
-mdev_attrs would be specifying attributes of the device that must be
-set in order to create the device with the compatibility described.
-For example if we're describing compatibility for type foo-1, which is
-a base type that can be equivalent to type foo-3 if type foo-1 is
-created with aggregation=3D3, this is where that would be defined.
-Thanks,
-
-Alex
-
-> >   "vendor_fields": [
-> >     { "unknown_field0": "unknown_value0" },
-> >     { "unknown_field1": "unknown_value1" },
-> >   ]
-> > =20
->=20
-> Since the placement support traits (labels, tags), so the placement just =
-to
-> matching those fields, so it isn't problem of openstack, since openstack
-> needn't to know the meaning of those fields. But the traits is just a
-> label, it isn't key-value format. But also if we have to, we can code this
-> scheduler filter by python code. But the same thing as above, the invalid
-> host can't be filtered out in the first step placement service filtering.
->=20
->=20
-> > We could certainly make that part of the spec, but I can't really
-> > figure the value of it other than to severely restrict compatibility,
-> > which the vendor could already do via the version.major value.  Maybe
-> > they'd want to put a build timestamp, random uuid, or source sha1 into
-> > such a field to make absolutely certain compatibility is only determined
-> > between identical builds?  Thanks,
-> >
-> > Alex
-> >
-> > =20
-
+-- 
+Best regards,
+Vladimir
 
