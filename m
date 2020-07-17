@@ -2,88 +2,66 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B7F31223B6B
-	for <lists+qemu-devel@lfdr.de>; Fri, 17 Jul 2020 14:35:40 +0200 (CEST)
-Received: from localhost ([::1]:58710 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1A06B223BC0
+	for <lists+qemu-devel@lfdr.de>; Fri, 17 Jul 2020 14:57:09 +0200 (CEST)
+Received: from localhost ([::1]:44296 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jwPaV-0006ip-AL
-	for lists+qemu-devel@lfdr.de; Fri, 17 Jul 2020 08:35:39 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:44144)
+	id 1jwPvH-0006IA-H8
+	for lists+qemu-devel@lfdr.de; Fri, 17 Jul 2020 08:57:07 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:51980)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <tcminyard@gmail.com>)
- id 1jwPYq-0005dm-Cw
- for qemu-devel@nongnu.org; Fri, 17 Jul 2020 08:33:56 -0400
-Received: from mail-ot1-x342.google.com ([2607:f8b0:4864:20::342]:46022)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <tcminyard@gmail.com>)
- id 1jwPYo-0003n7-Er
- for qemu-devel@nongnu.org; Fri, 17 Jul 2020 08:33:56 -0400
-Received: by mail-ot1-x342.google.com with SMTP id h1so6723729otq.12
- for <qemu-devel@nongnu.org>; Fri, 17 Jul 2020 05:33:54 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=sender:date:from:to:cc:subject:message-id:reply-to:references
- :mime-version:content-disposition:content-transfer-encoding
- :in-reply-to:user-agent;
- bh=BtEBcDSCTyIVVshJqWrjd1jDtZUMp0leo6UVzK4ejwk=;
- b=c8jw9v5EIVSxuh1ci2T7xWjLOqXEcoV+guPkSiGm8EYrZelT24d5WIklmhjhI4fYc0
- F3NyECh1dIMsbDrHijRAr02e8hgkIy2ujmSjZ4Ry5NE3CQujpJ9edaO+bSESfbFvnojY
- 28WHLRUGZrQ34GCz4eLaYaMLh6lfw9aOTqqNiiucU06waI/2TAnjjCIUTwoQTx+Ool/k
- fM83L0LU1o3lhG9tsU1UJr803Qg5x1XRUM0X31JD78BdUXq3D54PIVCZNWgqTrCVyFgH
- LMfKckOeMAHUgx3MT5XzVfCOxlXmT1kLiZeAqt+ilSaVjD6Noqkh8Hvy3LzfDUZ8S8nf
- V1mQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:sender:date:from:to:cc:subject:message-id
- :reply-to:references:mime-version:content-disposition
- :content-transfer-encoding:in-reply-to:user-agent;
- bh=BtEBcDSCTyIVVshJqWrjd1jDtZUMp0leo6UVzK4ejwk=;
- b=c0ajRPwM9UrazREQr17UPTA87s60PYWCsj2Gv+Z4ceiNDDzmtH35pa4MxequnWDVkb
- UZJxquXW8CZGe7X5AoxiDebej2di4V92N1VP/kvkqhq+jYn6HJLnHn/mPsNNpnGTEB1S
- LfTRi5lOGJxs15hL8SOWChgFcaSdDs4Wgdelvr40JZFqVwvfr1j2QL5/lUICuTKHh+sp
- a7Hpi1q9jp8yqbSEgzv3qxyNTIj7uPj9NRpUl8cVBIXjSGu+4GJ8WgGK59vf3siSgVau
- jxxjBUa4VKxS3aOQxqnQwGJRxVEwn9eribEOuIn9j1JFNsEMUWM0rly4M4Qqez9sHGni
- H5kg==
-X-Gm-Message-State: AOAM533cKffNPSYE7a8ddizzaPZ2H00TSF1B/Lsy/u/igTgrJw3dWLyA
- 84YER35AHmbQezfBYLk6Zw==
-X-Google-Smtp-Source: ABdhPJx453cd787CdlaxKEKro1GSdiCoJ4I66zo0qM+GvBk7D+FXjCihh0yQ+ecc5MtIuWsneHX94A==
-X-Received: by 2002:a9d:4002:: with SMTP id m2mr8629680ote.129.1594989232868; 
- Fri, 17 Jul 2020 05:33:52 -0700 (PDT)
-Received: from serve.minyard.net ([47.184.146.204])
- by smtp.gmail.com with ESMTPSA id n7sm1980869ooo.38.2020.07.17.05.33.51
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 17 Jul 2020 05:33:51 -0700 (PDT)
-Received: from minyard.net (unknown
- [IPv6:2001:470:b8f6:1b:899b:e727:2fc3:fa54])
- by serve.minyard.net (Postfix) with ESMTPSA id 7C971180050;
- Fri, 17 Jul 2020 12:33:50 +0000 (UTC)
-Date: Fri, 17 Jul 2020 07:33:49 -0500
-From: Corey Minyard <minyard@acm.org>
-To: Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
-Subject: Re: [GIT PULL] I2C updates
-Message-ID: <20200717123349.GN3235@minyard.net>
-References: <20200716174900.GL3235@minyard.net>
- <CAFEAcA-UWJBpM_-G2RAe9B-WcPzBaKGZTas1njehQ7gcjsMpew@mail.gmail.com>
- <20200716222601.GM3235@minyard.net>
- <CAFEAcA_5M8MD+2s_r1jjcgDY0LX69iZRkUP1kbUQTQYEuSN1Nw@mail.gmail.com>
- <c60beae4-2de2-3355-08bc-ee442cd6b091@amsat.org>
+ (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1jwPte-0004SE-CP
+ for qemu-devel@nongnu.org; Fri, 17 Jul 2020 08:55:26 -0400
+Received: from us-smtp-1.mimecast.com ([205.139.110.61]:51232
+ helo=us-smtp-delivery-1.mimecast.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1jwPta-0008JY-Sn
+ for qemu-devel@nongnu.org; Fri, 17 Jul 2020 08:55:25 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1594990521;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding;
+ bh=Ev0U6kbBSILivhI8keW2anf4yjg7QjyclxbAuctFXcg=;
+ b=hcHE8MRWdeYCoc+4NA3zClqEKAQvoZ0ziHUfZPtYyAZ9zjJeV/JyvZ1jpFDpDOppkwC4Kv
+ Ux/Q9IRuWfr1nKsNw+nqiMvba29t7WDNnC4QwiE3oobXb6wvX6l87c5RXditoBC+NGH/LM
+ ze3bB4fjq3p81kb4s4o3xg1Nspk5gB4=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-424-s1sxlEPeO6aA1e8oamJtdw-1; Fri, 17 Jul 2020 08:55:18 -0400
+X-MC-Unique: s1sxlEPeO6aA1e8oamJtdw-1
+Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
+ [10.5.11.15])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 58E9E1099;
+ Fri, 17 Jul 2020 12:55:17 +0000 (UTC)
+Received: from linux.fritz.box.com (ovpn-113-80.ams2.redhat.com [10.36.113.80])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 4CE4CA5829;
+ Fri, 17 Jul 2020 12:55:16 +0000 (UTC)
+From: Kevin Wolf <kwolf@redhat.com>
+To: qemu-block@nongnu.org
+Subject: [PULL 00/12] Block layer patches for 5.1.0-rc1
+Date: Fri, 17 Jul 2020 14:54:58 +0200
+Message-Id: <20200717125510.238374-1-kwolf@redhat.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <c60beae4-2de2-3355-08bc-ee442cd6b091@amsat.org>
-User-Agent: Mutt/1.9.4 (2018-02-28)
-Received-SPF: pass client-ip=2607:f8b0:4864:20::342;
- envelope-from=tcminyard@gmail.com; helo=mail-ot1-x342.google.com
-X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
- That's all we know.
-X-Spam_score_int: 0
-X-Spam_score: 0.0
-X-Spam_bar: /
-X-Spam_report: (0.0 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1, DKIM_VALID=-0.1,
- DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=1, FREEMAIL_FROM=0.001,
- HEADER_FROM_DIFFERENT_DOMAINS=1, RCVD_IN_DNSWL_NONE=-0.0001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=no autolearn_force=no
+Received-SPF: pass client-ip=205.139.110.61; envelope-from=kwolf@redhat.com;
+ helo=us-smtp-delivery-1.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/07/17 01:33:03
+X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
+X-Spam_score_int: -40
+X-Spam_score: -4.1
+X-Spam_bar: ----
+X-Spam_report: (-4.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-1, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001, URIBL_BLOCKED=0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -96,43 +74,90 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: minyard@acm.org
-Cc: Peter Maydell <peter.maydell@linaro.org>,
- QEMU Developers <qemu-devel@nongnu.org>
+Cc: kwolf@redhat.com, peter.maydell@linaro.org, qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Fri, Jul 17, 2020 at 01:30:35PM +0200, Philippe Mathieu-Daudé wrote:
-> On 7/17/20 12:50 PM, Peter Maydell wrote:
-> > On Thu, 16 Jul 2020 at 23:26, Corey Minyard <minyard@acm.org> wrote:
-> >>
-> >> On Thu, Jul 16, 2020 at 09:45:41PM +0100, Peter Maydell wrote:
-> >>> Hi; this failed to build on x86-64 Linux (incremental build):
-> >>
-> >> Hmm, I did test this, and I just rebuilt, then rebased on the end of
-> >> master and rebuilt, without issue.
-> >>
-> >> It looks like the smbus code is not being included, but I don't see how
-> >> that can be.
-> > 
-> > I was wrong about which config failed, sorry. Incremental builds
-> > are fine, but the build that does "make -C builddir clean" first
-> > fails.
-> > 
-> > It looks like the problem is that in the created config-devices.mak
-> > files, CONFIG_SMBUS_EEPROM is set, but CONFIG_SMBUS is not.
-> > So presumably the problem is in the change
-> > "hw/i2c/Kconfig: Add an entry for the SMBus", or it is a more
-> > general issue with changes to Kconfig files not correctly
-> > resulting in rebuilds of config-devices.mak.
-> 
-> To Corey, this is likely the later (buildsys), see:
-> https://lists.gnu.org/archive/html/qemu-devel/2020-07/msg05475.html
+The following changes since commit 151f76c689b1ff4c2c59e6d8469a0d4fe5346f55:
 
-Thanks, I was planning to try to figure this out this morning, but 
-Peter beat me to it.
+  Merge remote-tracking branch 'remotes/ehabkost/tags/x86-next-pull-request' into staging (2020-07-16 21:46:18 +0100)
 
-Thanks Peter.
+are available in the Git repository at:
 
--corey
+  git://repo.or.cz/qemu/kevin.git tags/for-upstream
+
+for you to fetch changes up to a8c5cf27c945d392edd85b0b0c64cd5c52cae658:
+
+  file-posix: Fix leaked fd in raw_open_common() error path (2020-07-17 14:20:57 +0200)
+
+----------------------------------------------------------------
+Block layer patches:
+
+- file-posix: Fix read-only Linux block devices with auto-read-only
+- Require aligned image size with O_DIRECT to avoid assertion failure
+- Allow byte-aligned direct I/O on NFS instead of guessing 4k alignment
+- Fix nbd_export_close_all() crash
+- Fix race in iotests case 030
+- qemu-img resize: Require --shrink for shrinking all image formats
+- crypto: use a stronger private key for tests
+- Remove VXHS block device
+- MAINTAINERS: vvfat: set status to odd fixes
+
+----------------------------------------------------------------
+Daniel P. Berrangé (1):
+      crypto: use a stronger private key for tests
+
+Kevin Wolf (7):
+      qemu-img resize: Require --shrink for shrinking all image formats
+      iotests/030: Reduce job speed to make race less likely
+      block: Require aligned image size to avoid assertion failure
+      file-posix: Allow byte-aligned O_DIRECT with NFS
+      file-posix: Move check_hdev_writable() up
+      file-posix: Fix check_hdev_writable() with auto-read-only
+      file-posix: Fix leaked fd in raw_open_common() error path
+
+Marc-André Lureau (1):
+      Remove VXHS block device
+
+Prasad J Pandit (1):
+      vvfat: set status to odd fixes
+
+Vladimir Sementsov-Ogievskiy (2):
+      nbd: make nbd_export_close_all() synchronous
+      iotests: test shutdown when bitmap is exported through NBD
+
+ qapi/block-core.json             |  22 +-
+ docs/system/deprecated.rst       |   8 +
+ configure                        |  39 ---
+ block.c                          |  16 ++
+ block/file-posix.c               | 122 +++++---
+ block/vxhs.c                     | 587 ---------------------------------------
+ nbd/server.c                     |   8 +
+ qemu-img.c                       |  14 +-
+ tests/crypto-tls-x509-helpers.c  |  59 ++--
+ MAINTAINERS                      |   2 +-
+ block/Makefile.objs              |   2 -
+ block/trace-events               |  17 --
+ tests/qemu-iotests/017           |   1 -
+ tests/qemu-iotests/029           |   1 -
+ tests/qemu-iotests/030           |   2 +-
+ tests/qemu-iotests/073           |   1 -
+ tests/qemu-iotests/114           |   1 -
+ tests/qemu-iotests/130           |   1 -
+ tests/qemu-iotests/134           |   1 -
+ tests/qemu-iotests/156           |   1 -
+ tests/qemu-iotests/158           |   1 -
+ tests/qemu-iotests/282           |   1 -
+ tests/qemu-iotests/299           |  65 +++++
+ tests/qemu-iotests/299.out       |  10 +
+ tests/qemu-iotests/check         |  10 -
+ tests/qemu-iotests/common.filter |   1 -
+ tests/qemu-iotests/common.rc     |  33 ---
+ tests/qemu-iotests/common.tls    |  57 ++--
+ tests/qemu-iotests/group         |   1 +
+ 29 files changed, 273 insertions(+), 811 deletions(-)
+ delete mode 100644 block/vxhs.c
+ create mode 100644 tests/qemu-iotests/299
+ create mode 100644 tests/qemu-iotests/299.out
+
 
