@@ -2,81 +2,78 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 25AF8223368
-	for <lists+qemu-devel@lfdr.de>; Fri, 17 Jul 2020 08:10:41 +0200 (CEST)
-Received: from localhost ([::1]:58078 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 13218223378
+	for <lists+qemu-devel@lfdr.de>; Fri, 17 Jul 2020 08:14:03 +0200 (CEST)
+Received: from localhost ([::1]:43960 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jwJZw-0006Eg-6g
-	for lists+qemu-devel@lfdr.de; Fri, 17 Jul 2020 02:10:40 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:60290)
+	id 1jwJdC-0003fC-5U
+	for lists+qemu-devel@lfdr.de; Fri, 17 Jul 2020 02:14:02 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:60318)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from
- <3OD8RXwsKCvkitljoofnpfohpphmf.dpnrfnv-efwfmopohov.psh@flex--hskinnemoen.bounces.google.com>)
- id 1jwJTA-0003xA-O8
- for qemu-devel@nongnu.org; Fri, 17 Jul 2020 02:03:40 -0400
-Received: from mail-pg1-x54a.google.com ([2607:f8b0:4864:20::54a]:43532)
+ <3OT8RXwsKCvojumkppgoqgpiqqing.eqosgow-fgxgnpqpipw.qti@flex--hskinnemoen.bounces.google.com>)
+ id 1jwJTL-0004Lx-Eo
+ for qemu-devel@nongnu.org; Fri, 17 Jul 2020 02:03:51 -0400
+Received: from mail-yb1-xb4a.google.com ([2607:f8b0:4864:20::b4a]:48860)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from
- <3OD8RXwsKCvkitljoofnpfohpphmf.dpnrfnv-efwfmopohov.psh@flex--hskinnemoen.bounces.google.com>)
- id 1jwJT8-0005K1-8k
- for qemu-devel@nongnu.org; Fri, 17 Jul 2020 02:03:40 -0400
-Received: by mail-pg1-x54a.google.com with SMTP id s1so7183150pgq.10
- for <qemu-devel@nongnu.org>; Thu, 16 Jul 2020 23:03:37 -0700 (PDT)
+ <3OT8RXwsKCvojumkppgoqgpiqqing.eqosgow-fgxgnpqpipw.qti@flex--hskinnemoen.bounces.google.com>)
+ id 1jwJTJ-0005Kx-PR
+ for qemu-devel@nongnu.org; Fri, 17 Jul 2020 02:03:51 -0400
+Received: by mail-yb1-xb4a.google.com with SMTP id i62so10125003ybc.15
+ for <qemu-devel@nongnu.org>; Thu, 16 Jul 2020 23:03:38 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=20161025;
  h=date:in-reply-to:message-id:mime-version:references:subject:from:to
- :cc:content-transfer-encoding;
- bh=WJHL2RP44qCbss7g+JVirS3Ai2qR2QDTEKM2FUYBsXc=;
- b=rPSTAZEEnJFFlS9nxAmAJbo2rnYRy805xv0Vmxg0h56mLiD9Y2rSI/5T5NK0C3Tx/k
- F4bHAc3HzCrriaKBmsKkyyz2bTgDT2YUp8bZOlSqta2gMtpNaTRuqqm3V3MuNJ/+WzXL
- qNwW932hkJ/P57oLpwSyVdFcbwskJ+41JL2NCW+qMPv+2p+BfDztHzF/OeKYHk5bxt/o
- dEri+Uk3lxVd0bnTUaf3mdp20DgpKzg4TngTPTSYV4BdlxOdkbbeKvlTFiZhYCMvgpQN
- XXtuzdG+5K+Dm4qvE9eNlmkMJKT4swZ+/VTYYoYdXTI8g9yONg7xSv8y3IsNwSkyfFEz
- R7XQ==
+ :cc; bh=uKYickmWfL8+Bpz4+Fgl3zDCXqjlabRC8OPCW303i24=;
+ b=DtJCKWoyTbqCyJyptQo1hAbDf/mlqLPt9u/Y6hOFA08VJA7neJJOjZMJVTNUa72fzI
+ Ebt541FTz5yT75aJy1CXE3ld/qMiWdwUETvoiZf1DmtSqP2LLG5tISeMAsHd7ROSoYMH
+ bQHdv5SK0EBNCUSZnaUsqxcBvfitMUJYCtDhdLw8768lF9b73oRPAQSPCNv0nBKqjJHE
+ oSDz+YtLKfSAj5iFExGZnrSgJbShiMYkUd0Pc/QHCAKOC3g+2BUtt/ipN4be1Onw3pRv
+ n3J+/eoD42relsvUExE6PUja1g4hkk9zTtlwsno7yXuHZ5pQaD82TgToWDvnNgEIUaBi
+ YFow==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:date:in-reply-to:message-id:mime-version
- :references:subject:from:to:cc:content-transfer-encoding;
- bh=WJHL2RP44qCbss7g+JVirS3Ai2qR2QDTEKM2FUYBsXc=;
- b=T6zb54poN3yEprxuET8XhiJGYL0ruiv3YvNK8sYo9G9smW59+4ZtrVDMBkgGnsXUvV
- E17zvdbamnR3XFzZLZyYFVLq1owmScPymjkutNBHcrIZ1qthsUAJoLpX1gakexhcrAjB
- WExq2WrshmNOvpj7b+V7HwD4hhbgqwnKZW8ySIMCy2wvx6dwYHseUxNq7fspPQtHdibn
- u66VHhNiieT4ABiYxK9Bvz6PhlKde2g/wjMo0Kd5ZSotVs15Dpqgg4QKMR4h0NJPJTAV
- 7vAcBZe659wynYGsatmdxB7XuALpdLSLexaCobDxAhxobz4q15nPM8tOSEcoYWqLF2aP
- fOSQ==
-X-Gm-Message-State: AOAM530crV2WnHlbokUbDLB0N5aVq7BOvUK0CRE9bFXzG0PMwzShf9sX
- qhThnT6aR0Pik+S1fDZk6ToIDWM7Qu1W+HTijk2PEhe2SFAi/51n1zHacUSJf4raqCO9/YjOx2p
- xWMl0zWANvK93VwdFdWZNrqOL6XMH8HSvGT8OMyci7/OLDZZ0HPDGEdnAzKbH7O5uUk1nCJ6F8Q
+ :references:subject:from:to:cc;
+ bh=uKYickmWfL8+Bpz4+Fgl3zDCXqjlabRC8OPCW303i24=;
+ b=JXEyCm0S2ArytNXluXrBlpIH4X5NB8MoM/qV1O0vh85BC3IaqsPUmXi/yjKDLO4IDa
+ repOacfR7x2/bKiuUVJ4QN+6nug8LeVm3GLjwQgdA4TEeTwY0k/m2vH63h4LrrgGohX/
+ D7fEtWxBc9M69xncZtB5wQB9LgqsDVPnyUSlDV5x5QK7BRy2oyELCsmADJw97Nw1Ak3+
+ pmBHXITt5RchpDjjiJn6ell6a/V85jSwV+IEP++1dtvIDFjz5RJFpHGMKso14cH5Cuzy
+ 1uqCqfvNJsgfL0X0h57i4Y+W3/mOsQ/i6wlQTgPZAdvFLvcCwUsuBdbNnQb/xQecWxOE
+ RBng==
+X-Gm-Message-State: AOAM530i8YncJRQTIDvnr2q7M3MGhWcfEG+sGui68acuqV0YvyEBQtKe
+ cBMLdkt7hhINoZn1Ob1JfuY0mqWuRFwDOF0ozWpw8lGanS7HRnFeGB6AO2cIzU9ah55MMvzROb4
+ X6xSax4okXYsslYycjEbvOHe8cJnT1BRdt3D+VZsVJf73rzAHuzZmsPC2Ylq+UrdwNNd4yJiANg
  ==
-X-Google-Smtp-Source: ABdhPJwtyHoqz+6ND2K9RPjOQsytC1rJ0+fEOe019Dbo/Bk8GLmQ9l1ZGMFXF29qzmYQuinXJNxvWs9cbMalxVloAQ==
-X-Received: by 2002:a63:135b:: with SMTP id 27mr7564767pgt.37.1594965816178;
- Thu, 16 Jul 2020 23:03:36 -0700 (PDT)
-Date: Thu, 16 Jul 2020 23:02:57 -0700
+X-Google-Smtp-Source: ABdhPJweYZwScHMJKchaH/lYiylSGlbUqKyGFJ89JRcywnKz90WhM3c3zoSZ3dXarKeSHfCvBYjD20fJboxynntgdQ==
+X-Received: by 2002:a25:21d6:: with SMTP id
+ h205mr11269020ybh.460.1594965817938; 
+ Thu, 16 Jul 2020 23:03:37 -0700 (PDT)
+Date: Thu, 16 Jul 2020 23:02:58 -0700
 In-Reply-To: <20200717060258.1602319-1-hskinnemoen@google.com>
-Message-Id: <20200717060258.1602319-13-hskinnemoen@google.com>
+Message-Id: <20200717060258.1602319-14-hskinnemoen@google.com>
 Mime-Version: 1.0
 References: <20200717060258.1602319-1-hskinnemoen@google.com>
 X-Mailer: git-send-email 2.28.0.rc0.105.gf9edc3c819-goog
-Subject: [PATCH v6 12/13] docs/system: Add Nuvoton machine documentation
+Subject: [PATCH v6 13/13] tests/acceptance: console boot tests for quanta-gsj
 From: Havard Skinnemoen <hskinnemoen@google.com>
 To: qemu-devel@nongnu.org, qemu-arm@nongnu.org
 Cc: Avi.Fishman@nuvoton.com, kfting@nuvoton.com, 
- Havard Skinnemoen <hskinnemoen@google.com>, 
- "=?UTF-8?q?C=C3=A9dric=20Le=20Goater?=" <clg@kaod.org>
+ Havard Skinnemoen <hskinnemoen@google.com>
 Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=2607:f8b0:4864:20::54a;
- envelope-from=3OD8RXwsKCvkitljoofnpfohpphmf.dpnrfnv-efwfmopohov.psh@flex--hskinnemoen.bounces.google.com;
- helo=mail-pg1-x54a.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::b4a;
+ envelope-from=3OT8RXwsKCvojumkppgoqgpiqqing.eqosgow-fgxgnpqpipw.qti@flex--hskinnemoen.bounces.google.com;
+ helo=mail-yb1-xb4a.google.com
 X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
  That's all we know.
-X-Spam_score_int: -95
-X-Spam_score: -9.6
-X-Spam_bar: ---------
-X-Spam_report: (-9.6 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_MED=-1,
+X-Spam_score_int: -105
+X-Spam_score: -10.6
+X-Spam_bar: ----------
+X-Spam_report: (-10.6 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_MED=-1,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- PDS_OTHER_BAD_TLD=1, RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001, URIBL_BLOCKED=0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
  USER_IN_DEF_DKIM_WL=-7.5 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -93,132 +90,98 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Reviewed-by: C=C3=A9dric Le Goater <clg@kaod.org>
+This adds two acceptance tests for the quanta-gsj machine.
+
+One test downloads a lightly patched openbmc flash image from github and
+verifies that it boots all the way to the login prompt.
+
+The other test downloads a kernel, initrd and dtb built from the same
+openbmc source and verifies that the kernel detects all CPUs and boots
+to the point where it can't find the root filesystem (because we have no
+flash image in this case).
+
 Signed-off-by: Havard Skinnemoen <hskinnemoen@google.com>
 ---
- docs/system/arm/nuvoton.rst | 90 +++++++++++++++++++++++++++++++++++++
- docs/system/target-arm.rst  |  1 +
- 2 files changed, 91 insertions(+)
- create mode 100644 docs/system/arm/nuvoton.rst
+ tests/acceptance/boot_linux_console.py | 65 ++++++++++++++++++++++++++
+ 1 file changed, 65 insertions(+)
 
-diff --git a/docs/system/arm/nuvoton.rst b/docs/system/arm/nuvoton.rst
-new file mode 100644
-index 0000000000..36bf901122
---- /dev/null
-+++ b/docs/system/arm/nuvoton.rst
-@@ -0,0 +1,90 @@
-+Nuvoton iBMC boards (``npcm750-evb``, ``quanta-gsj``)
-+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D
+diff --git a/tests/acceptance/boot_linux_console.py b/tests/acceptance/boot_linux_console.py
+index 73cc69c499..1d82fc7ff8 100644
+--- a/tests/acceptance/boot_linux_console.py
++++ b/tests/acceptance/boot_linux_console.py
+@@ -569,6 +569,71 @@ class BootLinuxConsole(LinuxKernelTest):
+                                                 'sda')
+         # cubieboard's reboot is not functioning; omit reboot test.
+ 
++    def test_arm_quanta_gsj(self):
++        """
++        :avocado: tags=arch:arm
++        :avocado: tags=machine:quanta-gsj
++        """
++        # 25 MiB compressed, 32 MiB uncompressed.
++        image_url = (
++                'https://github.com/hskinnemoen/openbmc/releases/download/'
++                '20200711-gsj-qemu-0/obmc-phosphor-image-gsj.static.mtd.gz')
++        image_hash = '14895e634923345cb5c8776037ff7876df96f6b1'
++        image_path_gz = self.fetch_asset(image_url, asset_hash=image_hash)
++        image_name = os.path.splitext(os.path.basename(image_path_gz))[0]
++        image_path = os.path.join(self.workdir, image_name)
++        archive.gzip_uncompress(image_path_gz, image_path)
 +
-+The `Nuvoton iBMC`_ chips (NPCM7xx) are a family of ARM-based SoCs that ar=
-e
-+designed to be used as Baseboard Management Controllers (BMCs) in various
-+servers. They all feature one or two ARM Cortex A9 CPU cores, as well as a=
-n
-+assortment of peripherals targeted for either Enterprise or Data Center /
-+Hyperscale applications. The former is a superset of the latter, so NPCM75=
-0 has
-+all the peripherals of NPCM730 and more.
++        self.vm.set_console()
++        drive_args = 'file=' + image_path + ',if=mtd,bus=0,unit=0'
++        self.vm.add_args('-drive', drive_args)
++        self.vm.launch()
 +
-+.. _Nuvoton iBMC: https://www.nuvoton.com/products/cloud-computing/ibmc/
++        self.wait_for_console_pattern('> BootBlock by Nuvoton')
++        self.wait_for_console_pattern('>Device: Poleg BMC NPCM730')
++        self.wait_for_console_pattern('>Skip DDR init.')
++        self.wait_for_console_pattern('U-Boot ')
++        self.wait_for_console_pattern('Booting Linux on physical CPU 0x0')
++        self.wait_for_console_pattern('CPU1: thread -1, cpu 1, socket 0')
++        self.wait_for_console_pattern('OpenBMC Project Reference Distro')
++        self.wait_for_console_pattern('gsj login:')
 +
-+The NPCM750 SoC has two Cortex A9 cores and is targeted for the Enterprise
-+segment. The following machines are based on this chip :
++    def test_arm_quanta_gsj_initrd(self):
++        """
++        :avocado: tags=arch:arm
++        :avocado: tags=machine:quanta-gsj
++        """
++        initrd_url = (
++                'https://github.com/hskinnemoen/openbmc/releases/download/'
++                '20200711-gsj-qemu-0/obmc-phosphor-initramfs-gsj.cpio.xz')
++        initrd_hash = '98fefe5d7e56727b1eb17d5c00311b1b5c945300'
++        initrd_path = self.fetch_asset(initrd_url, asset_hash=initrd_hash)
++        kernel_url = (
++                'https://github.com/hskinnemoen/openbmc/releases/download/'
++                '20200711-gsj-qemu-0/uImage-gsj.bin')
++        kernel_hash = 'fa67b2f141d56d39b3c54305c0e8a899c99eb2c7'
++        kernel_path = self.fetch_asset(kernel_url, asset_hash=kernel_hash)
++        dtb_url = (
++                'https://github.com/hskinnemoen/openbmc/releases/download/'
++                '20200711-gsj-qemu-0/nuvoton-npcm730-gsj.dtb')
++        dtb_hash = '18315f7006d7b688d8312d5c727eecd819aa36a4'
++        dtb_path = self.fetch_asset(dtb_url, asset_hash=dtb_hash)
 +
-+- ``npcm750-evb``       Nuvoton NPCM750 Evaluation board
++        self.vm.set_console()
++        kernel_command_line = (self.KERNEL_COMMON_COMMAND_LINE +
++                               'console=ttyS0,115200n8 '
++                               'earlycon=uart8250,mmio32,0xf0001000')
++        self.vm.add_args('-kernel', kernel_path,
++                         '-initrd', initrd_path,
++                         '-dtb', dtb_path,
++                         '-append', kernel_command_line)
++        self.vm.launch()
 +
-+The NPCM730 SoC has two Cortex A9 cores and is targeted for Data Center an=
-d
-+Hyperscale applications. The following machines are based on this chip :
++        self.wait_for_console_pattern('Booting Linux on physical CPU 0x0')
++        self.wait_for_console_pattern('CPU1: thread -1, cpu 1, socket 0')
++        self.wait_for_console_pattern(
++                'Give root password for system maintenance')
 +
-+- ``quanta-gsj``        Quanta GSJ server BMC
-+
-+There are also two more SoCs, NPCM710 and NPCM705, which are single-core
-+variants of NPCM750 and NPCM730, respectively. These are currently not
-+supported by QEMU.
-+
-+Supported devices
-+-----------------
-+
-+ * SMP (Dual Core Cortex-A9)
-+ * Cortex-A9MPCore built-in peripherals: SCU, GIC, Global Timer, Private T=
-imer
-+   and Watchdog.
-+ * SRAM, ROM and DRAM mappings
-+ * System Global Control Registers (GCR)
-+ * Clock and reset controller (CLK)
-+ * Timer controller (TIM)
-+ * Serial ports (16550-based)
-+ * DDR4 memory controller (dummy interface indicating memory training is d=
-one)
-+ * OTP controllers (no protection features)
-+ * Flash Interface Unit (FIU; no protection features)
-+
-+Missing devices
-+---------------
-+
-+ * GPIO controller
-+ * LPC/eSPI host-to-BMC interface, including
-+
-+   * Keyboard and mouse controller interface (KBCI)
-+   * Keyboard Controller Style (KCS) channels
-+   * BIOS POST code FIFO
-+   * System Wake-up Control (SWC)
-+   * Shared memory (SHM)
-+   * eSPI slave interface
-+
-+ * Ethernet controllers (GMAC and EMC)
-+ * USB host (USBH)
-+ * USB device (USBD)
-+ * SMBus controller (SMBF)
-+ * Peripheral SPI controller (PSPI)
-+ * Analog to Digital Converter (ADC)
-+ * SD/MMC host
-+ * Random Number Generator (RNG)
-+ * PECI interface
-+ * Pulse Width Modulation (PWM)
-+ * Tachometer
-+ * PCI and PCIe root complex and bridges
-+ * VDM and MCTP support
-+ * Serial I/O expansion
-+ * LPC/eSPI host
-+ * Coprocessor
-+ * Graphics
-+ * Video capture
-+ * Encoding compression engine
-+ * Security features
-+
-+Boot options
-+------------
-+
-+The Nuvoton machines can boot from an OpenBMC firmware image, or directly =
-into
-+a kernel using the ``-kernel`` option. OpenBMC images for `quanta-gsj` and
-+possibly others can be downloaded from the OpenPOWER jenkins :
-+
-+   https://openpower.xyz/
-+
-+The firmware image should be attached as an MTD drive. Example :
-+
-+.. code-block:: bash
-+
-+  $ qemu-system-arm -machine quanta-gsj -nographic \
-+      -drive file=3Dimage-bmc,if=3Dmtd,bus=3D0,unit=3D0,format=3Draw
-diff --git a/docs/system/target-arm.rst b/docs/system/target-arm.rst
-index 1bd477a293..38a9daa9b9 100644
---- a/docs/system/target-arm.rst
-+++ b/docs/system/target-arm.rst
-@@ -84,6 +84,7 @@ undocumented; you can get a complete list by running
-    arm/aspeed
-    arm/musicpal
-    arm/nseries
-+   arm/nuvoton
-    arm/orangepi
-    arm/palm
-    arm/xscale
---=20
+     def test_arm_orangepi(self):
+         """
+         :avocado: tags=arch:arm
+-- 
 2.28.0.rc0.105.gf9edc3c819-goog
 
 
