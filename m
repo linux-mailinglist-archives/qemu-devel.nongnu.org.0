@@ -2,59 +2,59 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C9790223889
-	for <lists+qemu-devel@lfdr.de>; Fri, 17 Jul 2020 11:36:46 +0200 (CEST)
-Received: from localhost ([::1]:49444 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id DBF2522388D
+	for <lists+qemu-devel@lfdr.de>; Fri, 17 Jul 2020 11:37:57 +0200 (CEST)
+Received: from localhost ([::1]:54706 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jwMnN-0002pg-RS
-	for lists+qemu-devel@lfdr.de; Fri, 17 Jul 2020 05:36:45 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:52006)
+	id 1jwMoW-0004yX-Vu
+	for lists+qemu-devel@lfdr.de; Fri, 17 Jul 2020 05:37:57 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:52000)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <r.bolshakov@yadro.com>)
- id 1jwMm5-0001UO-QR
+ id 1jwMm5-0001UI-Jh
  for qemu-devel@nongnu.org; Fri, 17 Jul 2020 05:35:25 -0400
-Received: from mta-02.yadro.com ([89.207.88.252]:36944 helo=mta-01.yadro.com)
+Received: from mta-02.yadro.com ([89.207.88.252]:36956 helo=mta-01.yadro.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <r.bolshakov@yadro.com>)
- id 1jwMm3-0005WR-CI
+ id 1jwMm3-0005Wr-Dp
  for qemu-devel@nongnu.org; Fri, 17 Jul 2020 05:35:25 -0400
 Received: from localhost (unknown [127.0.0.1])
- by mta-01.yadro.com (Postfix) with ESMTP id 39D1F4C91C;
- Fri, 17 Jul 2020 09:35:21 +0000 (UTC)
+ by mta-01.yadro.com (Postfix) with ESMTP id 1068A4C919;
+ Fri, 17 Jul 2020 09:35:22 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=yadro.com; h=
- content-type:content-type:content-transfer-encoding:mime-version
+ content-transfer-encoding:content-type:content-type:mime-version
  :references:in-reply-to:x-mailer:message-id:date:date:subject
  :subject:from:from:received:received:received; s=mta-01; t=
- 1594978519; x=1596792920; bh=LntcODvLDgZoNAVZeI618+GpuQCqN16jBYY
- ic2LUMck=; b=TySON8n+T8yxnG5+B9AhD3M6v8qN4uk2HwhdBLUJd35rAeYdcRG
- Rrl5jq+i98AVVDXC2QiNijd6OhorqWmBKbfZL4E/TJE8Lm4qwDkhL95igtmIubiJ
- hw5OJu5Smc6NK38dOTXhAgg4TtVKfz+wWcFU8Ti1ncFy3+J5zktRIM0k=
+ 1594978520; x=1596792921; bh=OIBev7tJN2yXZVTSi5iPRsUWR852a+rEpUS
+ oCeiR7go=; b=NR61HUuEuH1c7ywj5QwQDOnrl2JsI4lnbf1GZroDazFxe7K7Sol
+ 8iDKwEEwz1HuXFwEdSiATa5DHzP/frGdhtMVYWj9PFt1W311hODZMltZDxUqL96P
+ TSSGwV1LjMYqzY76oY+12ulSFgVJaFTsR5ARYGw+xSDXPQS8567htOjA=
 X-Virus-Scanned: amavisd-new at yadro.com
 Received: from mta-01.yadro.com ([127.0.0.1])
  by localhost (mta-01.yadro.com [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id OmpIN1oGT3yj; Fri, 17 Jul 2020 12:35:19 +0300 (MSK)
+ with ESMTP id BF4eOIyWp-gl; Fri, 17 Jul 2020 12:35:20 +0300 (MSK)
 Received: from T-EXCH-02.corp.yadro.com (t-exch-02.corp.yadro.com
  [172.17.10.102])
  (using TLSv1.2 with cipher ECDHE-RSA-AES256-SHA384 (256/256 bits))
  (No client certificate requested)
- by mta-01.yadro.com (Postfix) with ESMTPS id EE57C4C916;
- Fri, 17 Jul 2020 12:35:19 +0300 (MSK)
+ by mta-01.yadro.com (Postfix) with ESMTPS id 7DF184C914;
+ Fri, 17 Jul 2020 12:35:20 +0300 (MSK)
 Received: from localhost (172.17.204.212) by T-EXCH-02.corp.yadro.com
  (172.17.10.102) with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA384_P384) id 15.1.669.32; Fri, 17
- Jul 2020 12:35:19 +0300
+ Jul 2020 12:35:20 +0300
 From: Roman Bolshakov <r.bolshakov@yadro.com>
 To: <qemu-devel@nongnu.org>
-Subject: [PATCH v2 1/4] scripts/tracetool: Fix dtrace generation for macOS
-Date: Fri, 17 Jul 2020 12:35:14 +0300
-Message-ID: <20200717093517.73397-2-r.bolshakov@yadro.com>
+Subject: [PATCH v2 2/4] scripts/tracetool: Use void pointer for vcpu
+Date: Fri, 17 Jul 2020 12:35:15 +0300
+Message-ID: <20200717093517.73397-3-r.bolshakov@yadro.com>
 X-Mailer: git-send-email 2.26.1
 In-Reply-To: <20200717093517.73397-1-r.bolshakov@yadro.com>
 References: <20200717093517.73397-1-r.bolshakov@yadro.com>
 MIME-Version: 1.0
+Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
 X-Originating-IP: [172.17.204.212]
 X-ClientProxiedBy: T-EXCH-01.corp.yadro.com (172.17.10.101) To
  T-EXCH-02.corp.yadro.com (172.17.10.102)
@@ -86,60 +86,38 @@ Cc: Roman Bolshakov <r.bolshakov@yadro.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-dtrace USDT is fully supported since OS X 10.6. There are a few
-peculiarities compared to other dtrace flavors.
+dtrace on macOS complains that CPUState * is used for a few probes:
 
-1. It doesn't accept empty files.
-2. It doesn't recognize bool type but accepts C99 _Bool.
-3. It converts int8_t * in probe points to char * in
-   header files and introduces [-Wpointer-sign] warning.
+  dtrace: failed to compile script trace-dtrace-root.dtrace: line 130: syntax error near "CPUState"
 
+A comment in scripts/tracetool/__init__.py mentions that:
+
+  We only want to allow standard C types or fixed sized
+  integer types. We don't want QEMU specific types
+  as we can't assume trace backends can resolve all the
+  typedefs
+
+Fixes: 3d211d9f4dbee ("trace: Add 'vcpu' event property to trace guest vCPU")
+Reviewed-by: Daniel P. Berrangé <berrange@redhat.com>
 Cc: Cameron Esfahani <dirty@apple.com>
 Signed-off-by: Roman Bolshakov <r.bolshakov@yadro.com>
 ---
- scripts/tracetool/format/d.py | 15 ++++++++++++++-
- 1 file changed, 14 insertions(+), 1 deletion(-)
+ scripts/tracetool/vcpu.py | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/scripts/tracetool/format/d.py b/scripts/tracetool/format/d.py
-index 0afb5f3f47..353722f89c 100644
---- a/scripts/tracetool/format/d.py
-+++ b/scripts/tracetool/format/d.py
-@@ -13,6 +13,7 @@ __email__      = "stefanha@redhat.com"
+diff --git a/scripts/tracetool/vcpu.py b/scripts/tracetool/vcpu.py
+index b54e4f4e7a..868b4cb04c 100644
+--- a/scripts/tracetool/vcpu.py
++++ b/scripts/tracetool/vcpu.py
+@@ -24,7 +24,7 @@ def transform_event(event):
+         assert "tcg-trans" not in event.properties
+         assert "tcg-exec" not in event.properties
  
- 
- from tracetool import out
-+from sys import platform
- 
- 
- # Reserved keywords from
-@@ -34,7 +35,8 @@ def generate(events, backend, group):
- 
-     # SystemTap's dtrace(1) warns about empty "provider qemu {}" but is happy
-     # with an empty file.  Avoid the warning.
--    if not events:
-+    # But dtrace on macOS can't deal with empty files.
-+    if not events and platform != "darwin":
-         return
- 
-     out('/* This file is autogenerated by tracetool, do not edit. */'
-@@ -44,6 +46,17 @@ def generate(events, backend, group):
-     for e in events:
-         args = []
-         for type_, name in e.args:
-+            if platform == "darwin":
-+                # macOS dtrace accepts only C99 _Bool
-+                if type_ == 'bool':
-+                    type_ = '_Bool'
-+                if type_ == 'bool *':
-+                    type_ = '_Bool *'
-+                # It converts int8_t * in probe points to char * in header
-+                # files and introduces [-Wpointer-sign] warning.
-+                # Avoid it by changing probe type to signed char * beforehand.
-+                if type_ == 'int8_t *':
-+                    type_ = 'signed char *'
-             if name in RESERVED_WORDS:
-                 name += '_'
-             args.append(type_ + ' ' + name)
+-        event.args = Arguments([("CPUState *", "__cpu"), event.args])
++        event.args = Arguments([("void *", "__cpu"), event.args])
+         if "tcg" in event.properties:
+             fmt = "\"cpu=%p \""
+             event.fmt = [fmt + event.fmt[0],
 -- 
 2.26.1
 
