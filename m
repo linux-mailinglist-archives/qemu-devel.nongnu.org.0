@@ -2,34 +2,34 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 092F922421B
-	for <lists+qemu-devel@lfdr.de>; Fri, 17 Jul 2020 19:42:48 +0200 (CEST)
-Received: from localhost ([::1]:36826 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D36CA224298
+	for <lists+qemu-devel@lfdr.de>; Fri, 17 Jul 2020 19:51:43 +0200 (CEST)
+Received: from localhost ([::1]:42672 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jwUNj-0004SP-3u
-	for lists+qemu-devel@lfdr.de; Fri, 17 Jul 2020 13:42:47 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:55992)
+	id 1jwUWM-0007Kd-LL
+	for lists+qemu-devel@lfdr.de; Fri, 17 Jul 2020 13:51:42 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:58224)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1jwUMM-0003Hb-IE
- for qemu-devel@nongnu.org; Fri, 17 Jul 2020 13:41:22 -0400
-Received: from indium.canonical.com ([91.189.90.7]:59914)
+ id 1jwUVW-0006vy-RD
+ for qemu-devel@nongnu.org; Fri, 17 Jul 2020 13:50:50 -0400
+Received: from indium.canonical.com ([91.189.90.7]:33456)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1jwUMJ-0002EG-VU
- for qemu-devel@nongnu.org; Fri, 17 Jul 2020 13:41:22 -0400
+ id 1jwUVU-0004EB-As
+ for qemu-devel@nongnu.org; Fri, 17 Jul 2020 13:50:50 -0400
 Received: from loganberry.canonical.com ([91.189.90.37])
  by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
- id 1jwUMD-0004Ix-Vi
- for <qemu-devel@nongnu.org>; Fri, 17 Jul 2020 17:41:14 +0000
+ id 1jwUVR-000611-Ru
+ for <qemu-devel@nongnu.org>; Fri, 17 Jul 2020 17:50:45 +0000
 Received: from loganberry.canonical.com (localhost [127.0.0.1])
- by loganberry.canonical.com (Postfix) with ESMTP id 4A5DC2E816F
- for <qemu-devel@nongnu.org>; Fri, 17 Jul 2020 17:41:08 +0000 (UTC)
+ by loganberry.canonical.com (Postfix) with ESMTP id B09622E80F1
+ for <qemu-devel@nongnu.org>; Fri, 17 Jul 2020 17:50:45 +0000 (UTC)
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: quoted-printable
-Date: Fri, 17 Jul 2020 17:32:12 -0000
+Date: Fri, 17 Jul 2020 17:39:32 -0000
 From: "Dr. David Alan Gilbert" <1878043@bugs.launchpad.net>
 To: qemu-devel@nongnu.org
 X-Launchpad-Notification-Type: bug
@@ -42,7 +42,7 @@ X-Launchpad-Bug-Commenters: a1xndr dgilbert-h
 X-Launchpad-Bug-Reporter: Alexander Bulekov (a1xndr)
 X-Launchpad-Bug-Modifier: Dr. David Alan Gilbert (dgilbert-h)
 References: <158921393717.5475.17098174167918208525.malonedeb@soybean.canonical.com>
-Message-Id: <159500713236.20256.3620034705860337997.malone@chaenomeles.canonical.com>
+Message-Id: <159500757206.13740.11189896052809716530.malone@gac.canonical.com>
 Subject: [Bug 1878043] Re: memcpy param-overlap in Slirp ip_stripoptions
  through e1000e
 X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
@@ -51,7 +51,7 @@ Precedence: bulk
 X-Generated-By: Launchpad (canonical.com);
  Revision="4809fcb62f445aaa3ae919f7f6c3cc7d156ea57a";
  Instance="production-secrets-lazr.conf"
-X-Launchpad-Hash: f6b392fb6ff42880753ba49f287372b53e1dd0f3
+X-Launchpad-Hash: 080ef00e22f72d17a9813ae60c302d3431aac929
 Received-SPF: none client-ip=91.189.90.7; envelope-from=bounces@canonical.com;
  helo=indium.canonical.com
 X-detected-operating-system: by eggs.gnu.org: First seen = 2020/07/17 11:25:37
@@ -77,16 +77,14 @@ Reply-To: Bug 1878043 <1878043@bugs.launchpad.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Created patch and merge request in upstream libslirp:
+Committed in upstream libslirp:
 
-https://gitlab.freedesktop.org/dgilbert/libslirp/-/commit/d620bac888923524f=
-8b8407dbf35f6d2b3b7ddb2
+commit d620bac888923524f8b8407dbf35f6d2b3b7ddb2 (origin/lp1878043, lp187804=
+3)
+Author: Dr. David Alan Gilbert <dgilbert@redhat.com>
+Date:   Fri Jul 17 18:17:41 2020 +0100
 
-** Changed in: qemu
-     Assignee: (unassigned) =3D> Dr. David Alan Gilbert (dgilbert-h)
-
-** Changed in: qemu
-       Status: New =3D> In Progress
+    ip_stripoptions use memmove
 
 -- =
 
