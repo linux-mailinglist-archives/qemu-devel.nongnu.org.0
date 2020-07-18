@@ -2,74 +2,79 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 78367224A65
-	for <lists+qemu-devel@lfdr.de>; Sat, 18 Jul 2020 11:44:47 +0200 (CEST)
-Received: from localhost ([::1]:44734 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2E277224A8C
+	for <lists+qemu-devel@lfdr.de>; Sat, 18 Jul 2020 12:10:29 +0200 (CEST)
+Received: from localhost ([::1]:50562 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jwjOg-0007t8-9d
-	for lists+qemu-devel@lfdr.de; Sat, 18 Jul 2020 05:44:46 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:51966)
+	id 1jwjnX-0003Sb-NZ
+	for lists+qemu-devel@lfdr.de; Sat, 18 Jul 2020 06:10:27 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:56980)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1jwjNt-0007UA-84
- for qemu-devel@nongnu.org; Sat, 18 Jul 2020 05:43:57 -0400
-Received: from mail-ot1-x332.google.com ([2607:f8b0:4864:20::332]:37427)
+ (Exim 4.90_1) (envelope-from <ilg@livius.net>) id 1jwjmk-00031T-Oo
+ for qemu-devel@nongnu.org; Sat, 18 Jul 2020 06:09:38 -0400
+Received: from mail-ej1-x636.google.com ([2a00:1450:4864:20::636]:44954)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1jwjNr-0001Sv-GN
- for qemu-devel@nongnu.org; Sat, 18 Jul 2020 05:43:56 -0400
-Received: by mail-ot1-x332.google.com with SMTP id w17so8675927otl.4
- for <qemu-devel@nongnu.org>; Sat, 18 Jul 2020 02:43:54 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc:content-transfer-encoding;
- bh=QaeWJHiDpq6tF/nS+de0oEzYyBtEn9dHB61l8E7jeS4=;
- b=H4pkrR5G4Isi7CmL56t0UzFYqsYiid7uunHAuN4r0qs/TUFpzrvVHlk/wU+VNHgilc
- OhAVTQX5ug7ErELgmPcz7VZsNOZlGt/BqXp5sAOYRAqKFYqxhtu9yGyGm3Q0QTSchRqc
- ghOfwZBu7Op9Lg19H6LsW6cRJ3mxX8boGwklJTldn7Id2IXwA0C3G14B97iqhNDy4MZi
- omhJINMPImF16gk8o8xTxaHT+6LPIO/11QBaFtZpjsksWGMxxiRqv8KV2RWEK1rdg9cu
- Fe/ITf6jymFZmmXCnvrRjmRC/Vdk6DXLGHkeOJCTD0Jf7Ec7QMCQDPFuqhOtc7wtYN9x
- zQqg==
+ (Exim 4.90_1) (envelope-from <ilg@livius.net>) id 1jwjmj-0004yE-2H
+ for qemu-devel@nongnu.org; Sat, 18 Jul 2020 06:09:38 -0400
+Received: by mail-ej1-x636.google.com with SMTP id ga4so13399440ejb.11
+ for <qemu-devel@nongnu.org>; Sat, 18 Jul 2020 03:09:36 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=livius-net.20150623.gappssmtp.com; s=20150623;
+ h=mime-version:subject:from:in-reply-to:date:cc
+ :content-transfer-encoding:message-id:references:to;
+ bh=UnTw6jvFiKrbQMdofmbN5I/qBbGYkSC2HN5uulztFO0=;
+ b=BecsKIlqdAQZw7nyEv4sxAYGKx4e8CsYSRa0ie/quRAxE7B1dTT1RpHC6ESuYtsW65
+ AW6yoPjdRUp53sSPUbhiRHF5Xx/GSdi89+yAGbvqA/Y5UzYVkA+dU4QZxa2ltuIBn6hz
+ okZ71B9KiFOduFLQlECLcWsw9LWw6PUPiOzkDOLoDznUAjovS/+gTGhOu/Kfebk+ai9W
+ QnIG8UGk7R8WGO5nojnUWdCbhx//rMzT/+KwRsVmWHQt13YAu9cmuvcRWWDxVLqqTBxM
+ jDu9OELiOOS2zeSnNS6Fw8A53BCDcfn8rgDz3HWHCqT5fviglFPGtWF/wbCdYzdn1l1s
+ jwLg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc:content-transfer-encoding;
- bh=QaeWJHiDpq6tF/nS+de0oEzYyBtEn9dHB61l8E7jeS4=;
- b=SKkNvD33Z3PWXjW7L7XdTHPPxEE+277pY0XScjtmrzX4y+rlP9n3aVyI11FuQ5Tt2B
- byPwWyHviX7A212YoQPQPEy4tCBeSr1aee6aGSA8fzZR1mI5Gca+OiWmwP4v4sx0NmPL
- 5jLFB6ky4x1c43GQS8XSxR8HJr6hybX9zmYWv4uFkctv95ECVDlghXOWPbRlRgI0+hqL
- CbrF7gt/wLTpn1zhXKF2gKmtOd99YteZTeDEcF4jd64GmIXNOeyNj4hesNkF7dZZj5dF
- quFePbh9l+wiFrIsc8FScS6AahESviU8dxidyD3TGpneY++4XoBDHJ5H1kqmSSamKlOk
- dQDQ==
-X-Gm-Message-State: AOAM532RS7ApfSKegt48H43OF58an6AVYHjNW9rDq94MltUswqGnvqed
- RoVWbUaUfVusA0RGggyjuhiYI2ZS7ROxhANsPYqK6w==
-X-Google-Smtp-Source: ABdhPJxt2voHFLhqHtvkot/2WmvW3Kgvnfi1JZiC+4aU1kSnc7CA2Xz3oqrCf/NrsqrrfCJvHvQCCg1ICqVj8j/Jp0M=
-X-Received: by 2002:a05:6830:1bd3:: with SMTP id
- v19mr12050929ota.91.1595065434001; 
- Sat, 18 Jul 2020 02:43:54 -0700 (PDT)
-MIME-Version: 1.0
+ h=x-gm-message-state:mime-version:subject:from:in-reply-to:date:cc
+ :content-transfer-encoding:message-id:references:to;
+ bh=UnTw6jvFiKrbQMdofmbN5I/qBbGYkSC2HN5uulztFO0=;
+ b=F0X4sLSTZHpvJW0ZKf9aQ8kOEF/gmjZceM6NXSjHygQ0eK2/EA4dFYjrzblgWOYDrA
+ cD20FPvj4F9ltOp46oy3H9hkimY8EJxi1buOYjqL37te8xHRvjDg+qHdpAHFxgyhQqAR
+ 00TA2yOEpMIFwbzEq0RYJof8iFYMkQnNTelImjWyD2oOuB7sh2jzGCwfK+P2I6WmJJ3L
+ Ne0ORIfkg+E+MmoCIf9RRp9gPqX/zO/IsACH8N4UU9wKHbHRZS5gMYlwROdOFYKH5pJJ
+ xZYJvv5S6dXsbw+hcjbirHTvXtI7x0PR+hksNrPontAhaE663iRQPJe7nrD1ZcS/S3Te
+ A4kw==
+X-Gm-Message-State: AOAM5311JquA/gRnT2Leiv8yypmFsBdAWuuvbzPep4smVB82+fXvf644
+ 7SHtLGNumxOmQn/j4ScGirE+3A==
+X-Google-Smtp-Source: ABdhPJwPYg6nNaVr6Xzsnew+YiR3dIzOlo9zXrf+gzhI46orORXKXisHSYt6YNqSBoRDOctm3Ky6gw==
+X-Received: by 2002:a17:906:cd18:: with SMTP id
+ oz24mr12694394ejb.118.1595066975602; 
+ Sat, 18 Jul 2020 03:09:35 -0700 (PDT)
+Received: from wks.local ([188.26.49.79])
+ by smtp.gmail.com with ESMTPSA id d16sm10163731ejo.31.2020.07.18.03.09.34
+ (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
+ Sat, 18 Jul 2020 03:09:35 -0700 (PDT)
+Content-Type: text/plain;
+	charset=us-ascii
+Mime-Version: 1.0 (Mac OS X Mail 13.4 \(3608.120.23.2.1\))
+Subject: Re: instance_init() and the realize() functions
+From: Liviu Ionescu <ilg@livius.net>
+In-Reply-To: <CAFEAcA_yMhW5CSJBSkAn0opSq4on1N=TfEd8w-KZcYD=ABP9Rw@mail.gmail.com>
+Date: Sat, 18 Jul 2020 13:09:34 +0300
+Content-Transfer-Encoding: quoted-printable
+Message-Id: <268082DD-5FBB-41CC-8718-7D6BAA0D323A@livius.net>
 References: <CA+aXn+E2r1ZFyd1AZnwyvnxB1VsStkJC8vqkhmqZ4JDE_0LwMg@mail.gmail.com>
  <FEBB6630-0908-4097-BA78-ACB12932703A@livius.net>
-In-Reply-To: <FEBB6630-0908-4097-BA78-ACB12932703A@livius.net>
-From: Peter Maydell <peter.maydell@linaro.org>
-Date: Sat, 18 Jul 2020 10:43:43 +0100
-Message-ID: <CAFEAcA_yMhW5CSJBSkAn0opSq4on1N=TfEd8w-KZcYD=ABP9Rw@mail.gmail.com>
-Subject: Re: instance_init() and the realize() functions
-To: Liviu Ionescu <ilg@livius.net>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=2607:f8b0:4864:20::332;
- envelope-from=peter.maydell@linaro.org; helo=mail-ot1-x332.google.com
+ <CAFEAcA_yMhW5CSJBSkAn0opSq4on1N=TfEd8w-KZcYD=ABP9Rw@mail.gmail.com>
+To: Peter Maydell <peter.maydell@linaro.org>
+X-Mailer: Apple Mail (2.3608.120.23.2.1)
+Received-SPF: none client-ip=2a00:1450:4864:20::636;
+ envelope-from=ilg@livius.net; helo=mail-ej1-x636.google.com
 X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
  That's all we know.
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Spam_score_int: -18
+X-Spam_score: -1.9
+X-Spam_bar: -
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_NONE=0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -87,39 +92,37 @@ Cc: QEMU Developers <qemu-devel@nongnu.org>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Sat, 18 Jul 2020 at 09:27, Liviu Ionescu <ilg@livius.net> wrote:
-> For me it was difficult to draw a line of what initialisations should be =
-done in .instance_init and what in .realize, but given that .realise is cal=
-led when the whole hierarchy is ready, it might do links between objects, w=
-hich are not available when .instance_init is called.
 
-Yeah, we have not been able as a project to come up with a nice
-rule for how to do this split. There are a few definite rules:
- * anything that can fail and return an error must go in realize
-   (because instance_init has no failure-return mechanism)
- * anything you need to do to set up a QOM property on the
-   object must go in instance_init (so that the property can
-   be set by the user of the device object before realizing it)
- * anything that changes the state of the simulation must go in
-   realize (some QMP monitor commands to introspect objects
-   will do instance_init/look at object/delete)
-but a lot of things could validly go in either method, and we
-haven't set a convention for those cases. (There's a bunch
-of inconclusive discussions in the mailing list archives.)
 
-> A simple rule would be for .instance_init to ensure that all members have=
- default values and properties associated with them, and defer all function=
-al initialisations to .realize.
+> On 18 Jul 2020, at 12:43, Peter Maydell <peter.maydell@linaro.org> =
+wrote:
+>=20
+> Note that for a lot
+> of device state struct members (where they correspond to guest
+> registers state), you want to set their values in the
+> device's reset method, not in instance_init or realize.
+> That's because the guest-visible register state needs to
+> be set back to its initial value on a system reset anyway,
+> and QEMU guarantees that we will reset a device before
+> first use.
 
-Yeah, this is a reasonable default rule. Note that for a lot
-of device state struct members (where they correspond to guest
-registers state), you want to set their values in the
-device's reset method, not in instance_init or realize.
-That's because the guest-visible register state needs to
-be set back to its initial value on a system reset anyway,
-and QEMU guarantees that we will reset a device before
-first use.
+Yes, that's a good point, but must be used with caution; since .reset is =
+called **after** .realize, if the dynamically allocated structures are =
+not set to zero, leaving state members uninitialised up to .reset is =
+risky, it may lead to unexpected behaviour during .realize or other =
+parts of the code.
 
-thanks
--- PMM
+That's why I mentioned that .instance_init should ensure that all =
+members have default values and properties associated with them, such =
+that later code, like .realize, has a deterministic behaviour.
+
+
+Of course, for consistent results, both .instance_init and .reset can =
+call a common internal function.
+
+
+Regards,
+
+Liviu
+
 
