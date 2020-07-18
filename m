@@ -2,56 +2,57 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1DA28224B6E
-	for <lists+qemu-devel@lfdr.de>; Sat, 18 Jul 2020 15:20:21 +0200 (CEST)
-Received: from localhost ([::1]:59940 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9DC6F224B72
+	for <lists+qemu-devel@lfdr.de>; Sat, 18 Jul 2020 15:21:39 +0200 (CEST)
+Received: from localhost ([::1]:34258 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jwmlI-00051h-5r
-	for lists+qemu-devel@lfdr.de; Sat, 18 Jul 2020 09:20:20 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:36502)
+	id 1jwmmY-0006AF-NO
+	for lists+qemu-devel@lfdr.de; Sat, 18 Jul 2020 09:21:38 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:36638)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <devnexen@gmail.com>)
- id 1jwmkO-0004BG-7W; Sat, 18 Jul 2020 09:19:24 -0400
-Received: from mail-ed1-x544.google.com ([2a00:1450:4864:20::544]:36275)
+ id 1jwmlO-0005Ra-Q9; Sat, 18 Jul 2020 09:20:26 -0400
+Received: from mail-ed1-x543.google.com ([2a00:1450:4864:20::543]:45852)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <devnexen@gmail.com>)
- id 1jwmkM-0006pB-OQ; Sat, 18 Jul 2020 09:19:23 -0400
-Received: by mail-ed1-x544.google.com with SMTP id dg28so9738280edb.3;
- Sat, 18 Jul 2020 06:19:22 -0700 (PDT)
+ id 1jwmlM-00076U-Ou; Sat, 18 Jul 2020 09:20:26 -0400
+Received: by mail-ed1-x543.google.com with SMTP id d16so9710196edz.12;
+ Sat, 18 Jul 2020 06:20:24 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=mime-version:from:date:message-id:subject:to;
- bh=KjUtoZZqM9NA23xjBqHKp1zQEaxmX9yjbn2a/J5brxw=;
- b=ictH+GHXftQdTaLHsB04YtXafJueuET3qkfXS1EjpWi3VC55h9NA1KOGQLMKxaKVq9
- 8GlGv/g9MonfwyVgq793rE+SjLvehg5Sgy0B7hDgBa8+q+KoMLFhDNEWkHbEpyLS3LfS
- 237ZPNCJ89gsEXkbRsnanA9Uz4BmYMPhJOZasXPzntwEgrubR5C0jFYBrwq2UErW8c+j
- AmK4XHKVYaHmwjXtpvNj/8+w3gohSYtnYomnbLuaQEi//EV96W0iXBm40WHKFqSBh8Bo
- NLRYL0a9eW7o59NC7b7zQjod+iDoMtuFu3gH9yE9ZtxL0nxh0ovSemJqrp7m1M1Tp3bH
- /wMA==
+ bh=4NLSltG9Fq3+LyMw+KBm7QH7SD3tZnrczJ80c5oFSjw=;
+ b=mXdjPDq1Cn5Ejvp3JzrkWRpS9otBVNR5iGguunluWen1j0lvUkWH8ATvJwAN8SxKEp
+ qQWQivpvjazGYcuYsatkmrYZcYn8yTOWjyoAEppzaL2kvnxBQYluhc7991gEJE3gbs9D
+ OjKLweRGVBcZ3rI0hX09DhDVP2c5EAiJ521gAIo+AA7tVs2kyDUoOSFs/MIy8d8URpK3
+ BoRbQdzYo3eAJWJWFvsgokxQijnFX1cbaMI/3laX6axrNcGKnHOTNfWpx4A5CIEHTlzV
+ KcmnTPTgqtfjgiRa6hYuhcajiqgeGq80J5sYe+Gh6Jhxuy3jPGV30FR5gxI6QCH1VHtQ
+ Uvmg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:mime-version:from:date:message-id:subject:to;
- bh=KjUtoZZqM9NA23xjBqHKp1zQEaxmX9yjbn2a/J5brxw=;
- b=T3p9NFfPHemmBkJMBXxihwyS2GU6MfeOeGUQYsbDYHQPUA91rVBQ7G+7bxR92IekXX
- yy+AqzT1KOfeCCUD4W5K2YX1Q9xDu5stUOn7LL+34BfCe8fg0AOZtrsbW+5k4c+U4S0V
- JGLVbRgx3mMEVJs4eqydWhVRGsxpsvAcjn88DmtiVGXzxa6FPxTArUvmODZPvLhT6+6W
- Vcaj4wxpfy/v9yphafm49wYtgweVxqIY3MJrY2xX2jOiGZ4XPrAOa4tlGhPjh+NGJyQR
- 9mkG+UqKsVrUI0tls6VnY8oOGWRtzYaCDCuBdGZ68JRZRUwGHkAn5CkZeqoRBa2mP+BM
- s/oA==
-X-Gm-Message-State: AOAM531zss+4odbOvFBE5VFWHRxB0V8GGsrnqxAGZ7I2oHk5tuBDl2ly
- 7SfEsnO1iCnwHowtEeajXYHY7EXCCikPVv0h77pWCz3Nwg0=
-X-Google-Smtp-Source: ABdhPJyVflJu8k/hRoYB9hfjCTLGTWHRS4gLeccnSE7tpouUq4tc7z5D500S7UoycYxTshlZaP0XSjoJiCAaaWJPTJQ=
-X-Received: by 2002:aa7:db4b:: with SMTP id n11mr14011006edt.137.1595078360883; 
- Sat, 18 Jul 2020 06:19:20 -0700 (PDT)
+ bh=4NLSltG9Fq3+LyMw+KBm7QH7SD3tZnrczJ80c5oFSjw=;
+ b=LWkbRvMljCdduVX0y20Ig/MZuwzE6pcStZGKmjuS/UePv9q5HeZwWjMgpyhVfc0ena
+ ODM4khBML9BXaB1f6ct7jmdgwAL2i/yVmabQ58YHl+CvS6HkvsFCmM2Bh/AddFpWmb3s
+ qJ0+qOK38ye3ZBfb1i55ohdXd+edX6C5mpwUuDfVgvAVcIfl4QC5eyRiXxHMDWPg+dyu
+ 6g1+cZrlX8fR/o5OUyGs8UVtS3ROsJtnDo2gWDV7ke0o76UPWLMNaG9rTmXJYKbcbeDN
+ 1zCoN66PJRXwKxel6xPWr3diC84bEUyvyQ4EyR+UesD4DMkTStPayLe44Nf/z5jSwiaF
+ b9xQ==
+X-Gm-Message-State: AOAM5336J6aEthUYRFKWtcDnhTq251AaDy8s0uMYIkxdcS5Qj9HxERZV
+ cMViXRZH5Q8nGmqSM8kUdJ9IpdKVnEm4d8fIO4iTUV5e/W8=
+X-Google-Smtp-Source: ABdhPJwCII0hGfj6Y+cQQhji5L/5SoYZc+bSSrnUqlXx4eXZNo2JcfwApePdvnWPTWnzfp2hFZ2xntU8m/XsoTViWug=
+X-Received: by 2002:a05:6402:3049:: with SMTP id
+ bu9mr14055126edb.232.1595078422431; 
+ Sat, 18 Jul 2020 06:20:22 -0700 (PDT)
 MIME-Version: 1.0
 From: David CARLIER <devnexen@gmail.com>
-Date: Sat, 18 Jul 2020 14:19:10 +0100
-Message-ID: <CA+XhMqy95D8X-QvBcEfL=a-Rkgy6aJtheskkqZwQkreru+T_Wg@mail.gmail.com>
-Subject: [PATCH 0/3] configure: fix forSunOS based systems
+Date: Sat, 18 Jul 2020 14:20:11 +0100
+Message-ID: <CA+XhMqwtUrSpCqNGEETBijewzvmpno8OAX_PKSShDP_gUQ-3VQ@mail.gmail.com>
+Subject: [PATCH 2/3] exec: posix_madvise usage on SunOS.
 To: qemu-devel <qemu-devel@nongnu.org>, QEMU Trivial <qemu-trivial@nongnu.org>
 Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2a00:1450:4864:20::544;
- envelope-from=devnexen@gmail.com; helo=mail-ed1-x544.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::543;
+ envelope-from=devnexen@gmail.com; helo=mail-ed1-x543.google.com
 X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
  That's all we know.
 X-Spam_score_int: -20
@@ -76,31 +77,41 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From 63a3c9639d708a796abd958607aa6376fc9b99f2 Mon Sep 17 00:00:00 2001
+From a9e3cced279ae55a59847ba232f7828bc2479367 Mon Sep 17 00:00:00 2001
 From: David Carlier <devnexen@gmail.com>
-Date: Sat, 18 Jul 2020 13:27:52 +0100
-Subject: [PATCH 1/3] configure: fix for SunOS based systems.
+Date: Sat, 18 Jul 2020 13:29:44 +0100
+Subject: [PATCH 2/3] exec: posix_madvise usage on SunOS.
 
-local directive make the configure fails on these systems.
+with _XOPEN_SOURCE set, the older mman.h API based on caddr_t handling
+is not accessible thus using posix_madvise here.
 
 Signed-off-by: David Carlier <devnexen@gmail.com>
 ---
- configure | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ exec.c | 8 ++++++++
+ 1 file changed, 8 insertions(+)
 
-diff --git a/configure b/configure
-index e93836aaae..5d100eba72 100755
---- a/configure
-+++ b/configure
-@@ -59,7 +59,7 @@ error_exit() {
- do_compiler() {
-     # Run the compiler, capturing its output to the log. First argument
-     # is compiler binary to execute.
--    local compiler="$1"
-+    compiler="$1"
-     shift
-     if test -n "$BASH_VERSION"; then eval '
-         echo >>config.log "
+diff --git a/exec.c b/exec.c
+index 6f381f98e2..0466a75b89 100644
+--- a/exec.c
++++ b/exec.c
+@@ -3964,7 +3964,15 @@ int ram_block_discard_range(RAMBlock *rb,
+uint64_t start, size_t length)
+              * fallocate'd away).
+              */
+ #if defined(CONFIG_MADVISE)
++#if !defined(CONFIG_SOLARIS)
+             ret =  madvise(host_startaddr, length, MADV_DONTNEED);
++#else
++        /*
++         * mmap and its caddr_t based api is not accessible
++         * with _XOPEN_SOURCE set on illumos
++         */
++            ret =  posix_madvise(host_startaddr, length, POSIX_MADV_DONTNEED);
++#endif
+             if (ret) {
+                 ret = -errno;
+                 error_report("ram_block_discard_range: Failed to
+discard range "
 -- 
 2.25.4
 
