@@ -2,67 +2,85 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id AF9A2224C15
-	for <lists+qemu-devel@lfdr.de>; Sat, 18 Jul 2020 16:55:27 +0200 (CEST)
-Received: from localhost ([::1]:49064 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 66427224BFD
+	for <lists+qemu-devel@lfdr.de>; Sat, 18 Jul 2020 16:45:09 +0200 (CEST)
+Received: from localhost ([::1]:39792 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jwoFK-00035s-R5
-	for lists+qemu-devel@lfdr.de; Sat, 18 Jul 2020 10:55:26 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:35342)
+	id 1jwo5M-0007K3-8P
+	for lists+qemu-devel@lfdr.de; Sat, 18 Jul 2020 10:45:08 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:32808)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1jwoEZ-0002fM-69
- for qemu-devel@nongnu.org; Sat, 18 Jul 2020 10:54:39 -0400
-Received: from indium.canonical.com ([91.189.90.7]:37828)
+ (Exim 4.90_1) (envelope-from <jrtc27@jrtc27.com>) id 1jwo4G-0006Xq-UH
+ for qemu-devel@nongnu.org; Sat, 18 Jul 2020 10:44:00 -0400
+Received: from mail-wm1-x341.google.com ([2a00:1450:4864:20::341]:51922)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1jwoEX-000497-Gv
- for qemu-devel@nongnu.org; Sat, 18 Jul 2020 10:54:38 -0400
-Received: from loganberry.canonical.com ([91.189.90.37])
- by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
- id 1jwoEW-0003c2-Di
- for <qemu-devel@nongnu.org>; Sat, 18 Jul 2020 14:54:36 +0000
-Received: from loganberry.canonical.com (localhost [127.0.0.1])
- by loganberry.canonical.com (Postfix) with ESMTP id 589C22E80EF
- for <qemu-devel@nongnu.org>; Sat, 18 Jul 2020 14:54:36 +0000 (UTC)
-MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
+ (Exim 4.90_1) (envelope-from <jrtc27@jrtc27.com>) id 1jwo4E-0002If-Mf
+ for qemu-devel@nongnu.org; Sat, 18 Jul 2020 10:44:00 -0400
+Received: by mail-wm1-x341.google.com with SMTP id 22so18387163wmg.1
+ for <qemu-devel@nongnu.org>; Sat, 18 Jul 2020 07:43:58 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=jrtc27.com; s=gmail.jrtc27.user;
+ h=mime-version:subject:from:in-reply-to:date:cc
+ :content-transfer-encoding:message-id:references:to;
+ bh=2ZV2Vg08E0Fi1I39JJuwZXzIJ3C4rjnqoqWl0Fto08A=;
+ b=QFZcN0U55b4EGnip84iWthf7xySS+MBlQwHlqP/4KMtPIzXv6LrfVHpZCI63uW5fSJ
+ RBIY4oz+dlwaByKvWaePgnpUwulHnq2MoLVpN2u3ipHpjcVezIDAThhwxiJSv/K2+IGg
+ HO5mojT3iJbjQziJ/gLdn+jbX56oQkX/jCo6sMgZmYA8bfadAD5z0fwi+Wkt+BjRqiJn
+ 727WWojz1VJoamsRN5LJ81gfLVV3PUmZtXpgh/gvotuRTdTJzoSevwM+mXE3KAulfXkZ
+ Yd14Xz12J0tXG3o9cEf8Y1LEUXaE6kZHG2jTs3xHfjvjgDk9ARe7tZ3bSdkXESNa2Dym
+ u7jQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:subject:from:in-reply-to:date:cc
+ :content-transfer-encoding:message-id:references:to;
+ bh=2ZV2Vg08E0Fi1I39JJuwZXzIJ3C4rjnqoqWl0Fto08A=;
+ b=PjlRkjbMPi1wb0LgzILuyZHwlfWklgEwOLKkzu6q9H7U8tVdKbDWaGhOH/Hl178dbh
+ yB6NURODrsaiLaKjXlz04BwfNRzNt0gvzQ5SZb9oUMaxhrWkxre2epS/gURXETWr/OSU
+ gqPzv09Bbj1O1gYdlFzR+9uJZqs57my9GmD2OTXYZ3jWGMFJIP3osrGYmj9IKIgKPOHM
+ d+MN0TOatrSTLMvaURAQlnAfsYwCfqrHpDXN+I1DHYNx+LiikXFSh9ejlQ23vetUxxuz
+ jSWnoUGbqpZ8TG0jazYsolpVu1qgmcxi3/8CwDCDR/ihzNxLAcAvuxxuuYL3vX/pUZmG
+ rYqg==
+X-Gm-Message-State: AOAM533GGuBD+WmA4pSohXw+a7SnGmpHtEcxlF+W7U9CWm/XrkRFzzKc
+ bb/sD1oF3RRPzuTwHj9BGZgKvQ==
+X-Google-Smtp-Source: ABdhPJxNP+inUM5XrExIr8xJly44L8oQLOFwoLP9WKAmjWspvxVQkNkh9ElzAwsusOAncxE2i5c5ZQ==
+X-Received: by 2002:a7b:c775:: with SMTP id x21mr14140712wmk.34.1595083436946; 
+ Sat, 18 Jul 2020 07:43:56 -0700 (PDT)
+Received: from [192.168.149.251] (trinity-students-nat.trin.cam.ac.uk.
+ [131.111.193.104])
+ by smtp.gmail.com with ESMTPSA id a12sm21283398wrv.41.2020.07.18.07.43.55
+ (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
+ Sat, 18 Jul 2020 07:43:56 -0700 (PDT)
+Content-Type: text/plain;
+	charset=utf-8
+Mime-Version: 1.0 (Mac OS X Mail 13.4 \(3608.80.23.2.2\))
+Subject: Re: [PATCH v2] goldfish_rtc: Fix non-atomic read behaviour of
+ TIME_LOW/TIME_HIGH
+From: Jessica Clarke <jrtc27@jrtc27.com>
+In-Reply-To: <569659ed-7b03-7440-9167-855e92301f13@amsat.org>
+Date: Sat, 18 Jul 2020 15:43:55 +0100
 Content-Transfer-Encoding: quoted-printable
-Date: Sat, 18 Jul 2020 14:40:59 -0000
-From: Thomas Huth <1213196@bugs.launchpad.net>
-To: qemu-devel@nongnu.org
-X-Launchpad-Notification-Type: bug
-X-Launchpad-Bug: product=qemu; status=New; importance=Wishlist; assignee=None; 
-X-Launchpad-Bug-Information-Type: Public
-X-Launchpad-Bug-Private: no
-X-Launchpad-Bug-Security-Vulnerability: no
-X-Launchpad-Bug-Commenters: 5qk3gg6cp81roqqbfsitohb98stjiq5g
-X-Launchpad-Bug-Reporter: Nathaniel Filardo (5qk3gg6cp81roqqbfsitohb98stjiq5g)
-X-Launchpad-Bug-Modifier: Thomas Huth (th-huth)
-References: <20130816180742.32647.79496.malonedeb@chaenomeles.canonical.com>
-Message-Id: <159508326051.12172.3616328604406227804.launchpad@soybean.canonical.com>
-Subject: [Bug 1213196] Re: -serial tcp should hang up when DTR goes low
-X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
-X-Launchpad-Message-For: qemu-devel-ml
-Precedence: bulk
-X-Generated-By: Launchpad (canonical.com);
- Revision="4809fcb62f445aaa3ae919f7f6c3cc7d156ea57a";
- Instance="production-secrets-lazr.conf"
-X-Launchpad-Hash: e8a051f843c119612ec4a6631e05289369d70af5
-Received-SPF: none client-ip=91.189.90.7; envelope-from=bounces@canonical.com;
- helo=indium.canonical.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/07/18 10:41:00
-X-ACL-Warn: Detected OS   = Linux 3.11 and newer [fuzzy]
-X-Spam_score_int: -58
-X-Spam_score: -5.9
-X-Spam_bar: -----
-X-Spam_report: (-5.9 / 5.0 requ) BAYES_00=-1.9, HEADER_FROM_DIFFERENT_DOMAINS=1,
- RCVD_IN_DNSWL_HI=-5, RCVD_IN_MSPIKE_H3=-0.01, RCVD_IN_MSPIKE_WL=-0.01,
- SPF_HELO_NONE=0.001, SPF_NONE=0.001 autolearn=ham autolearn_force=no
+Message-Id: <92816800-F7B8-45CB-9863-96B8DF526D29@jrtc27.com>
+References: <20200718002027.82300-1-jrtc27@jrtc27.com>
+ <20200718004934.83174-1-jrtc27@jrtc27.com>
+ <569659ed-7b03-7440-9167-855e92301f13@amsat.org>
+To: =?utf-8?Q?Philippe_Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
+X-Mailer: Apple Mail (2.3608.80.23.2.2)
+Received-SPF: pass client-ip=2a00:1450:4864:20::341;
+ envelope-from=jrtc27@jrtc27.com; helo=mail-wm1-x341.google.com
+X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
+ That's all we know.
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ URIBL_BLOCKED=0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
+Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -71,32 +89,127 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Bug 1213196 <1213196@bugs.launchpad.net>
+Cc: Alistair Francis <Alistair.Francis@wdc.com>,
+ Anup Patel <anup.patel@wdc.com>, qemu-riscv@nongnu.org, qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-** Changed in: qemu
-   Importance: Undecided =3D> Wishlist
+On 18 Jul 2020, at 08:42, Philippe Mathieu-Daud=C3=A9 <f4bug@amsat.org> =
+wrote:
+> On 7/18/20 2:49 AM, Jessica Clarke wrote:
+>> The specification says:
+>>=20
+>>   0x00  TIME_LOW   R: Get current time, then return low-order =
+32-bits.
+>>   0x04  TIME_HIGH  R: Return high 32-bits from previous TIME_LOW =
+read.
+>>=20
+>>   ...
+>>=20
+>>   To read the value, the kernel must perform an IO_READ(TIME_LOW),
+>>   which returns an unsigned 32-bit value, before an =
+IO_READ(TIME_HIGH),
+>>   which returns a signed 32-bit value, corresponding to the higher =
+half
+>>   of the full value.
+>=20
+> What a odd design choice...
 
--- =
+It actually makes a lot of sense. You know software always needs both
+halves, and needs them to be atomic, so this is an easy way to provide
+atomicity across two seemingly-independent reads.
 
-You received this bug notification because you are a member of qemu-
-devel-ml, which is subscribed to QEMU.
-https://bugs.launchpad.net/bugs/1213196
+>> However, we were just returning the current time for both. If the =
+guest
+>> is unlucky enough to read TIME_LOW and TIME_HIGH either side of an
+>> overflow of the lower half, it will see time be in the future, before
+>> jumping backwards on the next read, and Linux currently relies on the
+>> atomicity guaranteed by the spec so is affected by this. Fix this
+>> violation of the spec by caching the correct value for TIME_HIGH
+>> whenever TIME_LOW is read, and returning that value for any TIME_HIGH
+>> read.
+>>=20
+>> Signed-off-by: Jessica Clarke <jrtc27@jrtc27.com>
+>> ---
+>> Changes since v1:
+>>=20
+>> * Add time_high to goldfish_rtc_vmstate and increment version.
+>>=20
+>> hw/rtc/goldfish_rtc.c         | 17 ++++++++++++++---
+>> include/hw/rtc/goldfish_rtc.h |  1 +
+>> 2 files changed, 15 insertions(+), 3 deletions(-)
+>>=20
+>> diff --git a/hw/rtc/goldfish_rtc.c b/hw/rtc/goldfish_rtc.c
+>> index 01e9d2b083..6ddd45cce0 100644
+>> --- a/hw/rtc/goldfish_rtc.c
+>> +++ b/hw/rtc/goldfish_rtc.c
+>> @@ -94,12 +94,22 @@ static uint64_t goldfish_rtc_read(void *opaque, =
+hwaddr offset,
+>>     GoldfishRTCState *s =3D opaque;
+>>     uint64_t r =3D 0;
+>>=20
+>> +    /*
+>> +     * =46rom the documentation linked at the top of the file:
+>> +     *
+>> +     *   To read the value, the kernel must perform an =
+IO_READ(TIME_LOW), which
+>> +     *   returns an unsigned 32-bit value, before an =
+IO_READ(TIME_HIGH), which
+>> +     *   returns a signed 32-bit value, corresponding to the higher =
+half of the
+>> +     *   full value.
+>> +     */
+>>     switch (offset) {
+>>     case RTC_TIME_LOW:
+>> -        r =3D goldfish_rtc_get_count(s) & 0xffffffff;
+>> +        r =3D goldfish_rtc_get_count(s);
+>> +        s->time_high =3D r >> 32;
+>> +        r &=3D 0xffffffff;
+>>         break;
+>>     case RTC_TIME_HIGH:
+>> -        r =3D goldfish_rtc_get_count(s) >> 32;
+>> +        r =3D s->time_high;
+>>         break;
+>>     case RTC_ALARM_LOW:
+>>         r =3D s->alarm_next & 0xffffffff;
+>> @@ -216,7 +226,7 @@ static const MemoryRegionOps goldfish_rtc_ops =3D =
+{
+>>=20
+>> static const VMStateDescription goldfish_rtc_vmstate =3D {
+>>     .name =3D TYPE_GOLDFISH_RTC,
+>> -    .version_id =3D 1,
+>> +    .version_id =3D 2,
+>>     .pre_save =3D goldfish_rtc_pre_save,
+>>     .post_load =3D goldfish_rtc_post_load,
+>>     .fields =3D (VMStateField[]) {
+>> @@ -225,6 +235,7 @@ static const VMStateDescription =
+goldfish_rtc_vmstate =3D {
+>>         VMSTATE_UINT32(alarm_running, GoldfishRTCState),
+>>         VMSTATE_UINT32(irq_pending, GoldfishRTCState),
+>>         VMSTATE_UINT32(irq_enabled, GoldfishRTCState),
+>> +        VMSTATE_UINT32(time_high, GoldfishRTCState),
+>>         VMSTATE_END_OF_LIST()
+>>     }
+>> };
+>> diff --git a/include/hw/rtc/goldfish_rtc.h =
+b/include/hw/rtc/goldfish_rtc.h
+>> index 16f9f9e29d..9bd8924f5f 100644
+>> --- a/include/hw/rtc/goldfish_rtc.h
+>> +++ b/include/hw/rtc/goldfish_rtc.h
+>> @@ -41,6 +41,7 @@ typedef struct GoldfishRTCState {
+>>     uint32_t alarm_running;
+>>     uint32_t irq_pending;
+>>     uint32_t irq_enabled;
+>> +    uint32_t time_high;
+>> } GoldfishRTCState;
+>=20
+> Maybe easier to cache the whole u64, this matches RTC_ALARM_LOW /
+> RTC_ALARM_HIGH pattern (goldfish_rtc_vmstate change not included):
 
-Title:
-  -serial tcp should hang up when DTR goes low
+We could, but why waste space storing an extra 32 bits you never need?
+I don't think saving all 64 bits makes it any easier to read, I'd
+personally even argue it makes it slightly less obvious what's going on.
 
-Status in QEMU:
-  New
+Jess
 
-Bug description:
-  In keeping with the spirit of serial modem control signals, de-
-  asserting DTR should cause the TCP connection to break; asserting DTR
-  should cause QEMU to initiate a new connection or for it to accept
-  another (in server mode; this may involve waiting for one to arrive,
-  too).
-
-To manage notifications about this bug go to:
-https://bugs.launchpad.net/qemu/+bug/1213196/+subscriptions
 
