@@ -2,57 +2,56 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 684B7224B6B
-	for <lists+qemu-devel@lfdr.de>; Sat, 18 Jul 2020 15:19:44 +0200 (CEST)
-Received: from localhost ([::1]:57732 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1DA28224B6E
+	for <lists+qemu-devel@lfdr.de>; Sat, 18 Jul 2020 15:20:21 +0200 (CEST)
+Received: from localhost ([::1]:59940 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jwmkh-00047N-0q
-	for lists+qemu-devel@lfdr.de; Sat, 18 Jul 2020 09:19:43 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:36430)
+	id 1jwmlI-00051h-5r
+	for lists+qemu-devel@lfdr.de; Sat, 18 Jul 2020 09:20:20 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:36502)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <devnexen@gmail.com>)
- id 1jwmje-0003Zg-14; Sat, 18 Jul 2020 09:18:38 -0400
-Received: from mail-ed1-x536.google.com ([2a00:1450:4864:20::536]:35975)
+ id 1jwmkO-0004BG-7W; Sat, 18 Jul 2020 09:19:24 -0400
+Received: from mail-ed1-x544.google.com ([2a00:1450:4864:20::544]:36275)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <devnexen@gmail.com>)
- id 1jwmjc-0006lm-KP; Sat, 18 Jul 2020 09:18:37 -0400
-Received: by mail-ed1-x536.google.com with SMTP id dg28so9737455edb.3;
- Sat, 18 Jul 2020 06:18:35 -0700 (PDT)
+ id 1jwmkM-0006pB-OQ; Sat, 18 Jul 2020 09:19:23 -0400
+Received: by mail-ed1-x544.google.com with SMTP id dg28so9738280edb.3;
+ Sat, 18 Jul 2020 06:19:22 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=mime-version:from:date:message-id:subject:to;
- bh=ZIGgbEWqMQEZSeGWdp/Sc6jD5b49KXoL2NjpXMOToKI=;
- b=IN50xkfpSxA/MF07WjA4in1cvdybXaMrfBQnUoWT1Y4PKSUB9j/HDstvdYvyXpFBSY
- y1lUOOT4zsFSCt5LNa3+liGoJ4qVqqnmas9Jt0QYeIgcKJPgR3mFsKwMfjTxdASohwfC
- tRCXeR4cMssPlFWz5ZodlbyHkJDIAQuhH525MbdMT6XGUGzijt53gyffAKqyvjSeYvVp
- poBogSlK+3VjGe/VGyBK6j3uyFeyCyd1BJZRubwtMZQ3rGJqEv2HDRKoKD9ZWxdC5WgX
- j/eKjgxXKV7kwF42ZExoGFbQTiGx+UYVsJqDwsPw4E2qqXW12Hvpnyv7J9NSULbOocRJ
- mSTA==
+ bh=KjUtoZZqM9NA23xjBqHKp1zQEaxmX9yjbn2a/J5brxw=;
+ b=ictH+GHXftQdTaLHsB04YtXafJueuET3qkfXS1EjpWi3VC55h9NA1KOGQLMKxaKVq9
+ 8GlGv/g9MonfwyVgq793rE+SjLvehg5Sgy0B7hDgBa8+q+KoMLFhDNEWkHbEpyLS3LfS
+ 237ZPNCJ89gsEXkbRsnanA9Uz4BmYMPhJOZasXPzntwEgrubR5C0jFYBrwq2UErW8c+j
+ AmK4XHKVYaHmwjXtpvNj/8+w3gohSYtnYomnbLuaQEi//EV96W0iXBm40WHKFqSBh8Bo
+ NLRYL0a9eW7o59NC7b7zQjod+iDoMtuFu3gH9yE9ZtxL0nxh0ovSemJqrp7m1M1Tp3bH
+ /wMA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:mime-version:from:date:message-id:subject:to;
- bh=ZIGgbEWqMQEZSeGWdp/Sc6jD5b49KXoL2NjpXMOToKI=;
- b=NaVTtgjKaDM1wUfQWFzPm/xTKBTlnyMczvXQnI1ry9/X7K0s6mkeIgoeX1P1JqzoxV
- 3HJ4bzyv/9u72FefrGde3EdFbbR+NrY9Fqmzx1GO8Jo5g0+54xqzrL/W2qICAhqrIvvh
- QpsJaSSGQjj70865jaOlIutD2rQT02J4cvMorRAE5ogWrwIgmoa5MVS4w9FbhX6dsYB5
- 9K7G/Pdn44y6Q1BniehauU5vxvD6jXEPi3ypIKEwT64bwZ9MjvdkPrWXv1FA74lcOVWd
- JNrw8Fu6jqF4+kz+8Lfbr7JZMkwvG3R4OTBAzSxsIleq/WM85C3VMrWa1ibY629NUi4t
- ifiw==
-X-Gm-Message-State: AOAM530prM6jM9irmgJM9TL7O/++UvVOJn/VnxSiWeaf/ydK3JXduzgj
- 5MeeWbXEmbeoeFOAueogStaXb3DZ7XGdC2wno9D3kMbfs+I=
-X-Google-Smtp-Source: ABdhPJyuM9RdBION656vrYTi5rO/wAak75mps3CAOZ6rFjfuoZlV3Prcj7mjCwLoP396A8iWlUToRyTRASr54jCgfJ8=
-X-Received: by 2002:a05:6402:354:: with SMTP id
- r20mr14386463edw.32.1595078313551; 
- Sat, 18 Jul 2020 06:18:33 -0700 (PDT)
+ bh=KjUtoZZqM9NA23xjBqHKp1zQEaxmX9yjbn2a/J5brxw=;
+ b=T3p9NFfPHemmBkJMBXxihwyS2GU6MfeOeGUQYsbDYHQPUA91rVBQ7G+7bxR92IekXX
+ yy+AqzT1KOfeCCUD4W5K2YX1Q9xDu5stUOn7LL+34BfCe8fg0AOZtrsbW+5k4c+U4S0V
+ JGLVbRgx3mMEVJs4eqydWhVRGsxpsvAcjn88DmtiVGXzxa6FPxTArUvmODZPvLhT6+6W
+ Vcaj4wxpfy/v9yphafm49wYtgweVxqIY3MJrY2xX2jOiGZ4XPrAOa4tlGhPjh+NGJyQR
+ 9mkG+UqKsVrUI0tls6VnY8oOGWRtzYaCDCuBdGZ68JRZRUwGHkAn5CkZeqoRBa2mP+BM
+ s/oA==
+X-Gm-Message-State: AOAM531zss+4odbOvFBE5VFWHRxB0V8GGsrnqxAGZ7I2oHk5tuBDl2ly
+ 7SfEsnO1iCnwHowtEeajXYHY7EXCCikPVv0h77pWCz3Nwg0=
+X-Google-Smtp-Source: ABdhPJyVflJu8k/hRoYB9hfjCTLGTWHRS4gLeccnSE7tpouUq4tc7z5D500S7UoycYxTshlZaP0XSjoJiCAaaWJPTJQ=
+X-Received: by 2002:aa7:db4b:: with SMTP id n11mr14011006edt.137.1595078360883; 
+ Sat, 18 Jul 2020 06:19:20 -0700 (PDT)
 MIME-Version: 1.0
 From: David CARLIER <devnexen@gmail.com>
-Date: Sat, 18 Jul 2020 14:18:22 +0100
-Message-ID: <CA+XhMqwLWxe-+QmFy=fRQn_Gjm251ThuydLJGgtCcT-EzD2Jpg@mail.gmail.com>
-Subject: [PATCH] build: fix for SunOS based systems.
+Date: Sat, 18 Jul 2020 14:19:10 +0100
+Message-ID: <CA+XhMqy95D8X-QvBcEfL=a-Rkgy6aJtheskkqZwQkreru+T_Wg@mail.gmail.com>
+Subject: [PATCH 0/3] configure: fix forSunOS based systems
 To: qemu-devel <qemu-devel@nongnu.org>, QEMU Trivial <qemu-trivial@nongnu.org>
 Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2a00:1450:4864:20::536;
- envelope-from=devnexen@gmail.com; helo=mail-ed1-x536.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::544;
+ envelope-from=devnexen@gmail.com; helo=mail-ed1-x544.google.com
 X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
  That's all we know.
 X-Spam_score_int: -20
@@ -77,22 +76,31 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From 1c5225132a01ad67c87d603659ef4e4bcd46a16d Mon Sep 17 00:00:00 2001
+From 63a3c9639d708a796abd958607aa6376fc9b99f2 Mon Sep 17 00:00:00 2001
 From: David Carlier <devnexen@gmail.com>
-Date: Sat, 18 Jul 2020 13:33:47 +0100
-Subject: [PATCH 0/3] build: fix for SunOS systems.
+Date: Sat, 18 Jul 2020 13:27:52 +0100
+Subject: [PATCH 1/3] configure: fix for SunOS based systems.
 
-David Carlier (3):
-  configure: fix for SunOS based systems.
-  exec: posix_madvise usage on SunOS.
-  contrib: ivshmem client and server build fix for SunOS.
+local directive make the configure fails on these systems.
 
- configure                               |  2 +-
- contrib/ivshmem-client/ivshmem-client.c | 12 ++++++------
- contrib/ivshmem-server/ivshmem-server.c | 12 ++++++------
- exec.c                                  |  8 ++++++++
- 4 files changed, 21 insertions(+), 13 deletions(-)
+Signed-off-by: David Carlier <devnexen@gmail.com>
+---
+ configure | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
+diff --git a/configure b/configure
+index e93836aaae..5d100eba72 100755
+--- a/configure
++++ b/configure
+@@ -59,7 +59,7 @@ error_exit() {
+ do_compiler() {
+     # Run the compiler, capturing its output to the log. First argument
+     # is compiler binary to execute.
+-    local compiler="$1"
++    compiler="$1"
+     shift
+     if test -n "$BASH_VERSION"; then eval '
+         echo >>config.log "
 -- 
 2.25.4
 
