@@ -2,79 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 71EA0224BC5
-	for <lists+qemu-devel@lfdr.de>; Sat, 18 Jul 2020 16:23:05 +0200 (CEST)
-Received: from localhost ([::1]:56964 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 63D35224BF4
+	for <lists+qemu-devel@lfdr.de>; Sat, 18 Jul 2020 16:42:16 +0200 (CEST)
+Received: from localhost ([::1]:34684 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jwnk0-0001b1-Hy
-	for lists+qemu-devel@lfdr.de; Sat, 18 Jul 2020 10:23:04 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:51128)
+	id 1jwo2Z-0005Ab-Cf
+	for lists+qemu-devel@lfdr.de; Sat, 18 Jul 2020 10:42:15 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:59994)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1jwnj7-0001CL-GG
- for qemu-devel@nongnu.org; Sat, 18 Jul 2020 10:22:09 -0400
-Received: from us-smtp-1.mimecast.com ([205.139.110.61]:26669
- helo=us-smtp-delivery-1.mimecast.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1jwnj4-0005ij-GS
- for qemu-devel@nongnu.org; Sat, 18 Jul 2020 10:22:08 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1595082124;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references:openpgp:openpgp;
- bh=CgYCHe5dlVqzGkGHy5oCmdZPNUZmtS7nOyEohSeUBxI=;
- b=agQqSNtvVzROXuS+sCPFXWfWy+X8rdmsLNCKH70VNDFhD/giNt2HAo/E5RjTdpxDtWvPO1
- nO2zibM5AGeu7Fmi2tmqjMCSKNIvukP8PHcA1wvgjkCkDbk2MvhvMaKRIsgNI1MxxAW/m0
- lPbWOR5nQ2+KR3WlK65hu0PdTY33jJY=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-70-icYoae31NfyI-2sDBjEp0g-1; Sat, 18 Jul 2020 10:22:02 -0400
-X-MC-Unique: icYoae31NfyI-2sDBjEp0g-1
-Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
- [10.5.11.11])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 130F58C4142;
- Sat, 18 Jul 2020 14:22:01 +0000 (UTC)
-Received: from thuth.remote.csb (ovpn-112-84.ams2.redhat.com [10.36.112.84])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 22963724A9;
- Sat, 18 Jul 2020 14:21:59 +0000 (UTC)
-Subject: Re: instance_init() and the realize() functions
-To: Pratik Parvati <pratikp@vayavyalabs.com>, qemu-devel@nongnu.org
-References: <CA+aXn+E2r1ZFyd1AZnwyvnxB1VsStkJC8vqkhmqZ4JDE_0LwMg@mail.gmail.com>
-From: Thomas Huth <thuth@redhat.com>
-Openpgp: preference=signencrypt
-Message-ID: <cebfe1ec-40d9-ee2e-fd69-f20beec69ce7@redhat.com>
-Date: Sat, 18 Jul 2020 16:21:57 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
- Thunderbird/60.9.0
+ (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
+ id 1jwo1R-0004JP-CW
+ for qemu-devel@nongnu.org; Sat, 18 Jul 2020 10:41:05 -0400
+Received: from indium.canonical.com ([91.189.90.7]:36972)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
+ id 1jwo1O-0001mL-PL
+ for qemu-devel@nongnu.org; Sat, 18 Jul 2020 10:41:05 -0400
+Received: from loganberry.canonical.com ([91.189.90.37])
+ by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
+ id 1jwo1M-0002ih-Bj
+ for <qemu-devel@nongnu.org>; Sat, 18 Jul 2020 14:41:00 +0000
+Received: from loganberry.canonical.com (localhost [127.0.0.1])
+ by loganberry.canonical.com (Postfix) with ESMTP id 5591B2E8106
+ for <qemu-devel@nongnu.org>; Sat, 18 Jul 2020 14:41:00 +0000 (UTC)
 MIME-Version: 1.0
-In-Reply-To: <CA+aXn+E2r1ZFyd1AZnwyvnxB1VsStkJC8vqkhmqZ4JDE_0LwMg@mail.gmail.com>
-Content-Language: en-US
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=thuth@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=205.139.110.61; envelope-from=thuth@redhat.com;
- helo=us-smtp-delivery-1.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/07/18 10:22:04
-X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
-X-Spam_score_int: -40
-X-Spam_score: -4.1
-X-Spam_bar: ----
-X-Spam_report: (-4.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-1, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: quoted-printable
+Date: Sat, 18 Jul 2020 14:31:52 -0000
+From: Thomas Huth <1816805@bugs.launchpad.net>
+To: qemu-devel@nongnu.org
+X-Launchpad-Notification-Type: bug
+X-Launchpad-Bug: product=qemu; status=Incomplete; importance=Undecided;
+ assignee=None; 
+X-Launchpad-Bug-Information-Type: Public
+X-Launchpad-Bug-Private: no
+X-Launchpad-Bug-Security-Vulnerability: no
+X-Launchpad-Bug-Commenters: ayaurov jnsnow
+X-Launchpad-Bug-Reporter: Andrii Yaurov (ayaurov)
+X-Launchpad-Bug-Modifier: Thomas Huth (th-huth)
+References: <155067985595.12116.1229580080440735698.malonedeb@gac.canonical.com>
+Message-Id: <159508271276.19930.3992238986140382719.launchpad@chaenomeles.canonical.com>
+Subject: [Bug 1816805] Re: Cannot create cdrom device with open tray and cache
+ option
+X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
+X-Launchpad-Message-For: qemu-devel-ml
+Precedence: bulk
+X-Generated-By: Launchpad (canonical.com);
+ Revision="4809fcb62f445aaa3ae919f7f6c3cc7d156ea57a";
+ Instance="production-secrets-lazr.conf"
+X-Launchpad-Hash: e210ac9f3c8bbb3bb68866498af111c3ea655f5a
+Received-SPF: none client-ip=91.189.90.7; envelope-from=bounces@canonical.com;
+ helo=indium.canonical.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/07/18 10:41:00
+X-ACL-Warn: Detected OS   = Linux 3.11 and newer [fuzzy]
+X-Spam_score_int: -58
+X-Spam_score: -5.9
+X-Spam_bar: -----
+X-Spam_report: (-5.9 / 5.0 requ) BAYES_00=-1.9, HEADER_FROM_DIFFERENT_DOMAINS=1,
+ RCVD_IN_DNSWL_HI=-5, RCVD_IN_MSPIKE_H3=-0.01, RCVD_IN_MSPIKE_WL=-0.01,
+ SPF_HELO_NONE=0.001, SPF_NONE=0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
-Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -83,26 +73,41 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Reply-To: Bug 1816805 <1816805@bugs.launchpad.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 18/07/2020 09.09, Pratik Parvati wrote:
-> Hi team,
-> 
-> Could someone please guild me to understand the difference
-> between *instance_init()* and the*realize()* functions? The
-> *class_init() *function is straight forward (it is similar to the
-> constructor in C++ OOP); But I am, finding hard to quote the difference
-> between *instance_init()* and *realize()*.
-> 
-> What is the code flow when both functions are defined?
+** Changed in: qemu
+     Assignee: John Snow (jnsnow) =3D> (unassigned)
 
-Beside the other good answers that you've already got, maybe this helps
-a little bit, too:
+-- =
 
- http://people.redhat.com/~thuth/blog/qemu/2018/09/10/instance-init-realize.html
+You received this bug notification because you are a member of qemu-
+devel-ml, which is subscribed to QEMU.
+https://bugs.launchpad.net/bugs/1816805
 
- Cheers,
-  Thomas
+Title:
+  Cannot create cdrom device with open tray and cache option
 
+Status in QEMU:
+  Incomplete
+
+Bug description:
+  When trying to create cdrom device with open tray and either of
+  "cache" or "discard" options specified, I get the following error:
+
+  qemu-system-x86_64: -drive if=3Dnone,id=3Ddrive-
+  ide0-0-0,readonly=3Don,cache=3Dwriteback,discard=3Dunmap,throttling.iops-
+  total=3D900: Must specify either driver or file
+
+  This bug essentially forbids live migration of VMs with open cdrom
+  trays.
+
+  I was able to find the same bug at RedHat:
+  https://bugzilla.redhat.com/show_bug.cgi?id=3D1338638
+
+  The bug was encountered in versions 2.5 and 2.11.
+
+To manage notifications about this bug go to:
+https://bugs.launchpad.net/qemu/+bug/1816805/+subscriptions
 
