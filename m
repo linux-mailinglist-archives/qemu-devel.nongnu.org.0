@@ -2,59 +2,60 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C447D2251D1
-	for <lists+qemu-devel@lfdr.de>; Sun, 19 Jul 2020 14:22:30 +0200 (CEST)
-Received: from localhost ([::1]:59478 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 95EC22251D2
+	for <lists+qemu-devel@lfdr.de>; Sun, 19 Jul 2020 14:22:31 +0200 (CEST)
+Received: from localhost ([::1]:59488 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jx8Kr-0006Nw-Ea
-	for lists+qemu-devel@lfdr.de; Sun, 19 Jul 2020 08:22:29 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:41010)
+	id 1jx8Ks-0006O9-M2
+	for lists+qemu-devel@lfdr.de; Sun, 19 Jul 2020 08:22:30 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:40960)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <mlevitsk@redhat.com>)
- id 1jx8Je-0005Nx-UG
- for qemu-devel@nongnu.org; Sun, 19 Jul 2020 08:21:14 -0400
-Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:53193
+ id 1jx8Jd-0005Nd-A5
+ for qemu-devel@nongnu.org; Sun, 19 Jul 2020 08:21:13 -0400
+Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:47336
  helo=us-smtp-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
  (Exim 4.90_1) (envelope-from <mlevitsk@redhat.com>)
- id 1jx8Ja-0006YR-Gh
- for qemu-devel@nongnu.org; Sun, 19 Jul 2020 08:21:14 -0400
+ id 1jx8Ja-0006Yb-13
+ for qemu-devel@nongnu.org; Sun, 19 Jul 2020 08:21:12 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1595161266;
+ s=mimecast20190719; t=1595161268;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding;
- bh=8lwNYnUQPTalzoGTj1+5WQ+13m/BHPVqpPqSHb3Lo1Y=;
- b=Nv0VLMc2HCe4K5spzsuiG4ttqNX1TO03n92ajiiioIuLiXVhbUChcVxY8RLI/CcMfBUZIN
- Tb8h2wpzY+MgHhyV6jS/zbTozZ8rhcGm8LNIQfRbjOzbCGMQnMlB5aCKh9CkDWhqiNlFhz
- AUDPupnZsyeCob5LiHkFwsC0qmdMq1s=
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=alYqC84muLQevxZ82fedJnoCADT3nLXoBULMpr364og=;
+ b=Obls9o5PkZidH1KrLf02hEe6F9CL5Z1EeL3Zsbv8+aNKepVnH1fqcDsSYnJSBPHB6AUqx6
+ gUqS0j1D4PqjKVKILaWlcFITo3TOLvMEJeaj0v5xJCXQD7s3vUsIcPwojwLmUXb52l+UV0
+ kKR+OVRVdE0kORtDsGGKklWeVkKJT4A=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-126-C-odP1sMNSWpe2YDI6cKLw-1; Sun, 19 Jul 2020 08:21:03 -0400
-X-MC-Unique: C-odP1sMNSWpe2YDI6cKLw-1
+ us-mta-454-P11Zs-twMuqhGbdpaiJ9NQ-1; Sun, 19 Jul 2020 08:21:06 -0400
+X-MC-Unique: P11Zs-twMuqhGbdpaiJ9NQ-1
 Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
  [10.5.11.14])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id E12F9100AA21;
- Sun, 19 Jul 2020 12:21:02 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id C7FE419057A1;
+ Sun, 19 Jul 2020 12:21:04 +0000 (UTC)
 Received: from starship.redhat.com (unknown [10.35.206.208])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 676A25D9CC;
- Sun, 19 Jul 2020 12:21:00 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 4EB035D9CC;
+ Sun, 19 Jul 2020 12:21:03 +0000 (UTC)
 From: Maxim Levitsky <mlevitsk@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH 0/2] Fix for write sharing on luks raw images
-Date: Sun, 19 Jul 2020 15:20:57 +0300
-Message-Id: <20200719122059.59843-1-mlevitsk@redhat.com>
+Subject: [PATCH 1/2] block/crypto: disallow write sharing by default
+Date: Sun, 19 Jul 2020 15:20:58 +0300
+Message-Id: <20200719122059.59843-2-mlevitsk@redhat.com>
+In-Reply-To: <20200719122059.59843-1-mlevitsk@redhat.com>
+References: <20200719122059.59843-1-mlevitsk@redhat.com>
 MIME-Version: 1.0
 X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=mlevitsk@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 8bit
 Received-SPF: pass client-ip=205.139.110.120; envelope-from=mlevitsk@redhat.com;
  helo=us-smtp-1.mimecast.com
 X-detected-operating-system: by eggs.gnu.org: First seen = 2020/07/19 08:21:06
@@ -83,25 +84,33 @@ Cc: Kevin Wolf <kwolf@redhat.com>, Maxim Levitsky <mlevitsk@redhat.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-A rebase gone wrong, and I ended up allowing a luks image=0D
-to be opened at the same time by two VMs without any warnings/overrides.=0D
-=0D
-Fix that and also add an iotest to prevent this from happening.=0D
-=0D
-Best regards,=0D
-=09Maxim Levisky=0D
-=0D
-Maxim Levitsky (2):=0D
-  block/crypto: disallow write sharing by default=0D
-  qemu-iotests: add testcase for bz #1857490=0D
-=0D
- block/crypto.c             |  2 +-=0D
- tests/qemu-iotests/296     | 44 +++++++++++++++++++++++++++++++++++++-=0D
- tests/qemu-iotests/296.out | 12 +++++++++--=0D
- 3 files changed, 54 insertions(+), 4 deletions(-)=0D
-=0D
---=20=0D
-2.26.2=0D
-=0D
+My commit 'block/crypto: implement the encryption key management'
+accidently allowed raw luks images to be shared between different
+qemu processes without share-rw=on explicit override.
+Fix that.
+
+Fixes: bbfdae91fb ("block/crypto: implement the encryption key management")
+Bugzilla: https://bugzilla.redhat.com/show_bug.cgi?id=1857490
+
+Signed-off-by: Maxim Levitsky <mlevitsk@redhat.com>
+---
+ block/crypto.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/block/crypto.c b/block/crypto.c
+index 8725c1bc02..0807557763 100644
+--- a/block/crypto.c
++++ b/block/crypto.c
+@@ -881,7 +881,7 @@ block_crypto_child_perms(BlockDriverState *bs, BdrvChild *c,
+      * For backward compatibility, manually share the write
+      * and resize permission
+      */
+-    *nshared |= (BLK_PERM_WRITE | BLK_PERM_RESIZE);
++    *nshared |= shared & (BLK_PERM_WRITE | BLK_PERM_RESIZE);
+     /*
+      * Since we are not fully a format driver, don't always request
+      * the read/resize permission but only when explicitly
+-- 
+2.26.2
 
 
