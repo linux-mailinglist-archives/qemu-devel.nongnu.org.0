@@ -2,40 +2,38 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 060B1225241
-	for <lists+qemu-devel@lfdr.de>; Sun, 19 Jul 2020 16:41:22 +0200 (CEST)
-Received: from localhost ([::1]:60098 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7E945225242
+	for <lists+qemu-devel@lfdr.de>; Sun, 19 Jul 2020 16:42:17 +0200 (CEST)
+Received: from localhost ([::1]:33994 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jxAVF-0004Yh-3X
-	for lists+qemu-devel@lfdr.de; Sun, 19 Jul 2020 10:41:21 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:40004)
+	id 1jxAW8-0005Rm-JI
+	for lists+qemu-devel@lfdr.de; Sun, 19 Jul 2020 10:42:16 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:40178)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1)
  (envelope-from <cb67ffe2c8e5bddc31511d62a859cebfda0b7feb@lizzy.crudebyte.com>)
- id 1jxAUJ-00042n-Dr
- for qemu-devel@nongnu.org; Sun, 19 Jul 2020 10:40:23 -0400
-Received: from lizzy.crudebyte.com ([91.194.90.13]:45411)
+ id 1jxAVM-0004wc-Mh
+ for qemu-devel@nongnu.org; Sun, 19 Jul 2020 10:41:28 -0400
+Received: from lizzy.crudebyte.com ([91.194.90.13]:35909)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1)
  (envelope-from <cb67ffe2c8e5bddc31511d62a859cebfda0b7feb@lizzy.crudebyte.com>)
- id 1jxAUH-0005Cv-Jf
- for qemu-devel@nongnu.org; Sun, 19 Jul 2020 10:40:23 -0400
+ id 1jxAVI-0005OK-EK
+ for qemu-devel@nongnu.org; Sun, 19 Jul 2020 10:41:28 -0400
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
- d=crudebyte.com; s=lizzy; h=Cc:To:Subject:Date:From:References:In-Reply-To:
- Message-Id:Content-Type:Content-Transfer-Encoding:MIME-Version:Content-ID:
- Content-Description; bh=dniHciHWD1s2sUmY62gnL597ZGnuF2fTUNk4k5tqqLE=; b=eVweJ
- zS+kwjAOSABAGZ/OnBEdXfzmO7BfwNaxrKRKbK5BUgXgL1NzbhbmncITp9StAj9qBulqV0BpBWzLv
- 5HAnIib+Dq7tjnXlQS418i5pjYly96pPyGySSN7JOGDXnjZUkHSlEJWbAZkvfYU+kfXp2sE3RQAKq
- tsdDh4DmxK1Hap2XvDyDNWhfR9J7SFEbTLcUdo6tna80k3i5WKiL1TbUL4h5fRhaz8kImqlbn5WsX
- GPCyrL0kGeLYrqaD90Om0yjPYSKtJ4GOvjHH6NgV4xwt7Sw2/OJ7CPLEfTcVpXQSAuw0hK2Fzz0gw
- 4SRkF0Ak8qPXBzKx80FjXGCyyk3Pw==;
-Message-Id: <cb67ffe2c8e5bddc31511d62a859cebfda0b7feb.1595166227.git.qemu_oss@crudebyte.com>
-In-Reply-To: <cover.1595166227.git.qemu_oss@crudebyte.com>
-References: <cover.1595166227.git.qemu_oss@crudebyte.com>
+ d=crudebyte.com; s=lizzy; h=Cc:To:Subject:Date:From:Message-Id:Content-Type:
+ Content-Transfer-Encoding:MIME-Version:References:In-Reply-To:Content-ID:
+ Content-Description; bh=qUnVgMmJwCCmefD8hN6aBd1Wz6oGOT8goAe+C5cdzkw=; b=meTzv
+ AwDU43nLnONwBGZwQ8njJqAaaGTzMnJG2mWK2DaQzH7TLeql6RtrLvBlgBW++5ZhBt5q7FJNdlKKq
+ T+ILpAGJynspmI2EomNuH2LspQX2ElUyIZDTOwdsoIhzKt8QmAzKy6YsRlkm0Q+yiVaCeSBWKQgym
+ JU4R1qanWru5oez3x2yS3hdvTr4VGYBTXZEbPZ1mj4jGEaVqefojzMEjBco5gm4uCrtB/EPrBr/28
+ UKc6g8sKEaakcYndDOt5xJIUroPHd75gFz8L4NTpc3qd5n2NiL7IdsecrnMtO4zESn46L/GWaMMEr
+ TeCk1KYpcZbzzYmYSMOv4m4Uzhr2A==;
+Message-Id: <cover.1595166227.git.qemu_oss@crudebyte.com>
 From: Christian Schoenebeck <qemu_oss@crudebyte.com>
-Date: Sun, 19 Jul 2020 15:39:59 +0200
-Subject: [PATCH v7 6/6] 9pfs: clarify latency of v9fs_co_run_in_worker()
+Date: Sun, 19 Jul 2020 15:43:47 +0200
+Subject: [PATCH v7 0/6] 9pfs: readdir optimization
 To: qemu-devel@nongnu.org
 Cc: Greg Kurz <groug@kaod.org>
 Received-SPF: none client-ip=91.194.90.13;
@@ -64,47 +62,63 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-As we just fixed a severe performance issue with Treaddir request
-handling, clarify this overall issue as a comment on
-v9fs_co_run_in_worker() with the intention to hopefully prevent
-such performance mistakes in future (and fixing other yet
-outstanding ones).
+As previously mentioned, I was investigating performance issues with 9pfs.
+Raw file read/write of 9pfs is actually quite good, provided that client
+picked a reasonable high msize (maximum message size). I would recommend
+to log a warning on 9p server side if a client attached with a small msize
+that would cause performance issues for that reason.
 
-Signed-off-by: Christian Schoenebeck <qemu_oss@crudebyte.com>
----
- hw/9pfs/coth.h | 12 +++++++++++-
- 1 file changed, 11 insertions(+), 1 deletion(-)
+However there are other aspects where 9pfs currently performs suboptimally,
+especially readdir handling of 9pfs is extremely slow, a simple readdir
+request of a guest typically blocks for several hundred milliseconds or
+even several seconds, no matter how powerful the underlying hardware is.
+The reason for this performance issue: latency.
+Currently 9pfs is heavily dispatching a T_readdir request numerous times
+between main I/O thread and a background I/O thread back and forth; in fact
+it is actually hopping between threads even multiple times for every single
+directory entry during T_readdir request handling which leads in total to
+huge latencies for a single T_readdir request.
 
-diff --git a/hw/9pfs/coth.h b/hw/9pfs/coth.h
-index fd4a45bc7c..c51289903d 100644
---- a/hw/9pfs/coth.h
-+++ b/hw/9pfs/coth.h
-@@ -19,7 +19,7 @@
- #include "qemu/coroutine.h"
- #include "9p.h"
- 
--/*
-+/**
-  * we want to use bottom half because we want to make sure the below
-  * sequence of events.
-  *
-@@ -28,6 +28,16 @@
-  *   3. Enter the coroutine in the worker thread.
-  * we cannot swap step 1 and 2, because that would imply worker thread
-  * can enter coroutine while step1 is still running
-+ *
-+ * @b PERFORMANCE @b CONSIDERATIONS: As a rule of thumb, keep in mind
-+ * that hopping between threads adds @b latency! So when handling a
-+ * 9pfs request, avoid calling v9fs_co_run_in_worker() too often, because
-+ * this might otherwise sum up to a significant, huge overall latency for
-+ * providing the response for just a single request. For that reason it
-+ * is highly recommended to fetch all data from fs driver with a single
-+ * fs driver request on a background I/O thread (bottom half) in one rush
-+ * first and then eventually assembling the final response from that data
-+ * on main I/O thread (top half).
-  */
- #define v9fs_co_run_in_worker(code_block)                               \
-     do {                                                                \
+This patch series aims to address this severe performance issue of 9pfs
+T_readdir request handling. The actual performance optimization is patch 4.
+
+v6->v7:
+
+  * Rebased to master: SHA-1 b442119329
+
+  * Handle directory seeking more consistently by doing it in
+    do_readdir_many() instead of in v9fs_readdir() [patch 3], [patch 4].
+
+  * Updated API doc on v9fs_co_readdir_many(): make it clear that
+    v9fs_free_dirents() must always be called, including error cases
+    [patch 3].
+
+  * New patch: use different lock type for 9p2000.u vs. 9p2000.L
+    [patch 5].
+
+Unchanged patches: [patch 1], [patch 2], [patch 6].
+
+Message-ID of previous version (v6):
+  cover.1587309014.git.qemu_oss@crudebyte.com
+
+Message-ID of version with performance benchmark (v4):
+  cover.1579567019.git.qemu_oss@crudebyte.com
+
+Christian Schoenebeck (6):
+  tests/virtio-9p: added split readdir tests
+  9pfs: make v9fs_readdir_response_size() public
+  9pfs: add new function v9fs_co_readdir_many()
+  9pfs: T_readdir latency optimization
+  9pfs: differentiate readdir lock between 9P2000.u vs. 9P2000.L
+  9pfs: clarify latency of v9fs_co_run_in_worker()
+
+ hw/9pfs/9p.c                 | 144 ++++++++++++-------------
+ hw/9pfs/9p.h                 |  50 ++++++++-
+ hw/9pfs/codir.c              | 196 +++++++++++++++++++++++++++++++++--
+ hw/9pfs/coth.h               |  15 ++-
+ tests/qtest/virtio-9p-test.c | 108 +++++++++++++++++++
+ 5 files changed, 419 insertions(+), 94 deletions(-)
+
 -- 
 2.20.1
 
