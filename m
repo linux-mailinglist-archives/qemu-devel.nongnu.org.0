@@ -2,71 +2,59 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 18AB62251D7
-	for <lists+qemu-devel@lfdr.de>; Sun, 19 Jul 2020 14:23:29 +0200 (CEST)
-Received: from localhost ([::1]:34508 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B15022251DA
+	for <lists+qemu-devel@lfdr.de>; Sun, 19 Jul 2020 14:30:10 +0200 (CEST)
+Received: from localhost ([::1]:37876 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jx8Lo-0007jM-64
-	for lists+qemu-devel@lfdr.de; Sun, 19 Jul 2020 08:23:28 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:41018)
+	id 1jx8SH-0001FB-O7
+	for lists+qemu-devel@lfdr.de; Sun, 19 Jul 2020 08:30:09 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:42910)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mlevitsk@redhat.com>)
- id 1jx8Jf-0005Ny-2G
- for qemu-devel@nongnu.org; Sun, 19 Jul 2020 08:21:15 -0400
-Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:48603
- helo=us-smtp-1.mimecast.com)
+ (Exim 4.90_1) (envelope-from <no-reply@patchew.org>)
+ id 1jx8Qz-0000fp-LL; Sun, 19 Jul 2020 08:28:50 -0400
+Resent-Date: Sun, 19 Jul 2020 08:28:49 -0400
+Resent-Message-Id: <E1jx8Qz-0000fp-LL@lists.gnu.org>
+Received: from sender4-of-o57.zoho.com ([136.143.188.57]:21731)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <mlevitsk@redhat.com>)
- id 1jx8Jc-0006Yw-Hi
- for qemu-devel@nongnu.org; Sun, 19 Jul 2020 08:21:14 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1595161271;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=aE6nNZtmYPvYCuM35y5q9HKwhayFHsq4lSNe/0ZYbhM=;
- b=cO2UWcSK0OMM2ErtCDq681mBquQqIFCZOo4dLkn8jVfb3qb+gp1rE4AKAEzAi79K7RiD2Q
- gGcxmJfTkk8MsvuhHWXZV0CdV9wXzGnJWg9if4jtdBvLbCsxKZavl9CMsiEeTNfsSgd5Jo
- YHZbtUdDgZzOzg/Hobtqr9C2aAeRu8g=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-458-7pHOths-Nw2XrQDbgndVpA-1; Sun, 19 Jul 2020 08:21:07 -0400
-X-MC-Unique: 7pHOths-Nw2XrQDbgndVpA-1
-Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
- [10.5.11.14])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id ADD7819057A0;
- Sun, 19 Jul 2020 12:21:06 +0000 (UTC)
-Received: from starship.redhat.com (unknown [10.35.206.208])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 364DC5D9CC;
- Sun, 19 Jul 2020 12:21:05 +0000 (UTC)
-From: Maxim Levitsky <mlevitsk@redhat.com>
-To: qemu-devel@nongnu.org
-Subject: [PATCH 2/2] qemu-iotests: add testcase for bz #1857490
-Date: Sun, 19 Jul 2020 15:20:59 +0300
-Message-Id: <20200719122059.59843-3-mlevitsk@redhat.com>
+ (Exim 4.90_1) (envelope-from <no-reply@patchew.org>)
+ id 1jx8Qx-0007Ke-5a; Sun, 19 Jul 2020 08:28:49 -0400
+ARC-Seal: i=1; a=rsa-sha256; t=1595161716; cv=none; 
+ d=zohomail.com; s=zohoarc; 
+ b=T/34NM+m6DsnxbMvADceWckmwTio391dRCRKcwJ5qkJGhTZTiGS/DnC+lZdIdU4XOmL/Hp5RTPUj6HX6NzwPHRLUK/DCtODc2x/poM36Jb4M3ZlWKorm1Vj1NElzBuYuFkPyn9MuZMnGvjFkFj9lwwX3mrdmo/JKS/cGSi9+0d8=
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.com;
+ s=zohoarc; t=1595161716;
+ h=Content-Type:Content-Transfer-Encoding:Cc:Date:From:In-Reply-To:MIME-Version:Message-ID:Reply-To:Subject:To;
+ bh=q9IXq4/EJP/uFoV99B+n4jDMowevJBJoMAjHn0GrQNk=; 
+ b=H2m5SCx7HjC3CdfNsEMJ41WTTieBsh9CKgEDLKxm/5EPbPUakbtkCZGDCimeyFCD6I4wkzQ7hcOL/ls9A6qmMNVXWMPoYMipVTtHI6Ve1mOVHH16F/uS8ApOPbIvRQLb4rIxhaK5srFtKlQ5MH3r8efy0of2VrZx1NL8OaTxvDE=
+ARC-Authentication-Results: i=1; mx.zohomail.com;
+ spf=pass  smtp.mailfrom=no-reply@patchew.org;
+ dmarc=pass header.from=<no-reply@patchew.org>
+ header.from=<no-reply@patchew.org>
+Received: from [172.17.0.3] (23.253.156.214 [23.253.156.214]) by
+ mx.zohomail.com with SMTPS id 1595161711330289.0703374033386;
+ Sun, 19 Jul 2020 05:28:31 -0700 (PDT)
+Subject: Re: [PATCH 0/2] Fix for write sharing on luks raw images
+Message-ID: <159516171020.23142.707783389592607188@07a7f0d89f7d>
 In-Reply-To: <20200719122059.59843-1-mlevitsk@redhat.com>
-References: <20200719122059.59843-1-mlevitsk@redhat.com>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=205.139.110.120; envelope-from=mlevitsk@redhat.com;
- helo=us-smtp-1.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/07/19 08:21:06
-X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
-X-Spam_score_int: -40
-X-Spam_score: -4.1
-X-Spam_bar: ----
-X-Spam_report: (-4.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-1, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
+Resent-From: 
+From: no-reply@patchew.org
+To: mlevitsk@redhat.com
+Date: Sun, 19 Jul 2020 05:28:31 -0700 (PDT)
+X-ZohoMailClient: External
+Received-SPF: pass client-ip=136.143.188.57; envelope-from=no-reply@patchew.org;
+ helo=sender4-of-o57.zoho.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/07/19 08:28:42
+X-ACL-Warn: Detected OS   = Linux 3.11 and newer [fuzzy]
+X-Spam_score_int: -18
+X-Spam_score: -1.9
+X-Spam_bar: -
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_NONE=-0.0001,
+ RCVD_IN_MSPIKE_H3=-0.01, RCVD_IN_MSPIKE_WL=-0.01, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001, URIBL_BLOCKED=0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -79,120 +67,23 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Kevin Wolf <kwolf@redhat.com>, Maxim Levitsky <mlevitsk@redhat.com>,
- qemu-block@nongnu.org, Max Reitz <mreitz@redhat.com>
+Reply-To: qemu-devel@nongnu.org
+Cc: kwolf@redhat.com, mreitz@redhat.com, qemu-devel@nongnu.org,
+ qemu-block@nongnu.org, mlevitsk@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Test that we can't write-share raw luks images by default,
-but we still can with share-rw=on
-
-Signed-off-by: Maxim Levitsky <mlevitsk@redhat.com>
----
- tests/qemu-iotests/296     | 44 +++++++++++++++++++++++++++++++++++++-
- tests/qemu-iotests/296.out | 12 +++++++++--
- 2 files changed, 53 insertions(+), 3 deletions(-)
-
-diff --git a/tests/qemu-iotests/296 b/tests/qemu-iotests/296
-index ec69ec8974..fb7dec88aa 100755
---- a/tests/qemu-iotests/296
-+++ b/tests/qemu-iotests/296
-@@ -133,6 +133,21 @@ class EncryptionSetupTestCase(iotests.QMPTestCase):
-         )
-         self.assert_qmp(result, 'return', {})
- 
-+
-+    ###########################################################################
-+    # add virtio-blk consumer for a block device
-+    def addImageUser(self, vm, id, disk_id, share_rw=False):
-+        result = vm.qmp('device_add', **
-+            {
-+                'driver': 'virtio-blk',
-+                'id': id,
-+                'drive': disk_id,
-+                'share-rw' : share_rw
-+            }
-+        )
-+
-+        iotests.log(result)
-+
-     # close the encrypted block device
-     def closeImageQmp(self, vm, id):
-         result = vm.qmp('blockdev-del', **{ 'node-name': id })
-@@ -159,7 +174,7 @@ class EncryptionSetupTestCase(iotests.QMPTestCase):
-         vm.run_job('job0')
- 
-     # test that when the image opened by two qemu processes,
--    # neither of them can update the image
-+    # neither of them can update the encryption keys
-     def test1(self):
-         self.createImg(test_img, self.secrets[0]);
- 
-@@ -193,6 +208,9 @@ class EncryptionSetupTestCase(iotests.QMPTestCase):
-         os.remove(test_img)
- 
- 
-+    # test that when the image opened by two qemu processes,
-+    # even if first VM opens it read-only, the second can't update encryption
-+    # keys
-     def test2(self):
-         self.createImg(test_img, self.secrets[0]);
- 
-@@ -226,6 +244,30 @@ class EncryptionSetupTestCase(iotests.QMPTestCase):
-         self.closeImageQmp(self.vm1, "testdev")
-         os.remove(test_img)
- 
-+    # test that two VMs can't open the same luks image by default
-+    # and attach it to a guest device
-+    def test3(self):
-+        self.createImg(test_img, self.secrets[0]);
-+
-+        self.openImageQmp(self.vm1, "testdev", test_img, self.secrets[0])
-+        self.addImageUser(self.vm1, "testctrl", "testdev")
-+
-+        self.openImageQmp(self.vm2, "testdev", test_img, self.secrets[0])
-+        self.addImageUser(self.vm2, "testctrl", "testdev")
-+
-+
-+    # test that two VMs can attach the same luks image to a guest device,
-+    # if both use share-rw=on
-+    def test4(self):
-+        self.createImg(test_img, self.secrets[0]);
-+
-+        self.openImageQmp(self.vm1, "testdev", test_img, self.secrets[0])
-+        self.addImageUser(self.vm1, "testctrl", "testdev", share_rw=True)
-+
-+        self.openImageQmp(self.vm2, "testdev", test_img, self.secrets[0])
-+        self.addImageUser(self.vm2, "testctrl", "testdev", share_rw=True)
-+
-+
- 
- if __name__ == '__main__':
-     # support only raw luks since luks encrypted qcow2 is a proper
-diff --git a/tests/qemu-iotests/296.out b/tests/qemu-iotests/296.out
-index afb6d2d09d..cb2859a15c 100644
---- a/tests/qemu-iotests/296.out
-+++ b/tests/qemu-iotests/296.out
-@@ -26,8 +26,16 @@ Job failed: Failed to get shared "consistent read" lock
- {"return": {}}
- {"execute": "job-dismiss", "arguments": {"id": "job0"}}
- {"return": {}}
--..
-+Formatting 'TEST_DIR/test.img', fmt=luks size=1048576 key-secret=keysec0 iter-time=10
-+
-+{"return": {}}
-+{"error": {"class": "GenericError", "desc": "Failed to get \"write\" lock"}}
-+Formatting 'TEST_DIR/test.img', fmt=luks size=1048576 key-secret=keysec0 iter-time=10
-+
-+{"return": {}}
-+{"return": {}}
-+....
- ----------------------------------------------------------------------
--Ran 2 tests
-+Ran 4 tests
- 
- OK
--- 
-2.26.2
-
+UGF0Y2hldyBVUkw6IGh0dHBzOi8vcGF0Y2hldy5vcmcvUUVNVS8yMDIwMDcxOTEyMjA1OS41OTg0
+My0xLW1sZXZpdHNrQHJlZGhhdC5jb20vCgoKCkhpLAoKVGhpcyBzZXJpZXMgZmFpbGVkIHRoZSBk
+b2NrZXItcXVpY2tAY2VudG9zNyBidWlsZCB0ZXN0LiBQbGVhc2UgZmluZCB0aGUgdGVzdGluZyBj
+b21tYW5kcyBhbmQKdGhlaXIgb3V0cHV0IGJlbG93LiBJZiB5b3UgaGF2ZSBEb2NrZXIgaW5zdGFs
+bGVkLCB5b3UgY2FuIHByb2JhYmx5IHJlcHJvZHVjZSBpdApsb2NhbGx5LgoKPT09IFRFU1QgU0NS
+SVBUIEJFR0lOID09PQojIS9iaW4vYmFzaAptYWtlIGRvY2tlci1pbWFnZS1jZW50b3M3IFY9MSBO
+RVRXT1JLPTEKdGltZSBtYWtlIGRvY2tlci10ZXN0LXF1aWNrQGNlbnRvczcgU0hPV19FTlY9MSBK
+PTE0IE5FVFdPUks9MQo9PT0gVEVTVCBTQ1JJUFQgRU5EID09PQoKCgoKVGhlIGZ1bGwgbG9nIGlz
+IGF2YWlsYWJsZSBhdApodHRwOi8vcGF0Y2hldy5vcmcvbG9ncy8yMDIwMDcxOTEyMjA1OS41OTg0
+My0xLW1sZXZpdHNrQHJlZGhhdC5jb20vdGVzdGluZy5kb2NrZXItcXVpY2tAY2VudG9zNy8/dHlw
+ZT1tZXNzYWdlLgotLS0KRW1haWwgZ2VuZXJhdGVkIGF1dG9tYXRpY2FsbHkgYnkgUGF0Y2hldyBb
+aHR0cHM6Ly9wYXRjaGV3Lm9yZy9dLgpQbGVhc2Ugc2VuZCB5b3VyIGZlZWRiYWNrIHRvIHBhdGNo
+ZXctZGV2ZWxAcmVkaGF0LmNvbQ==
 
