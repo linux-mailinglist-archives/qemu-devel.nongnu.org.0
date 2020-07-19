@@ -2,90 +2,54 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E76E422522F
-	for <lists+qemu-devel@lfdr.de>; Sun, 19 Jul 2020 16:17:07 +0200 (CEST)
-Received: from localhost ([::1]:45152 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D519F225240
+	for <lists+qemu-devel@lfdr.de>; Sun, 19 Jul 2020 16:40:16 +0200 (CEST)
+Received: from localhost ([::1]:57946 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jxA7m-0005Vo-IE
-	for lists+qemu-devel@lfdr.de; Sun, 19 Jul 2020 10:17:06 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:36370)
+	id 1jxAUB-0003at-U9
+	for lists+qemu-devel@lfdr.de; Sun, 19 Jul 2020 10:40:15 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:39888)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <pr0f3ss0r1492@yahoo.com>)
- id 1jxA6v-00056p-LN
- for qemu-devel@nongnu.org; Sun, 19 Jul 2020 10:16:13 -0400
-Received: from sonic307-9.consmr.mail.ne1.yahoo.com ([66.163.190.32]:34404)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <pr0f3ss0r1492@yahoo.com>)
- id 1jxA6s-0002tu-9r
- for qemu-devel@nongnu.org; Sun, 19 Jul 2020 10:16:13 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=yahoo.com; s=s2048;
- t=1595168168; bh=WOt8dJchIfDquG/bNZO+cYESBv6KD7jFc2tinXm5uOU=;
- h=References:In-Reply-To:From:Date:Subject:To:Cc:From:Subject;
- b=f5dL6oYkQ7QLeqm8nLa7ZELO/Yp24NOqnENWjienrLfD59lWE59pJCxyTnkb224Ln5DLmDtb/kbM5HnDaA68p+iZ2SpWLB90YpP/TGHYM7PG6LcH12pdnGElZi84W4+Z7h/klXCsAMZ38b1xyKPFuxjDtE18gaYHhvQzT5RiutdVCDVzitu/zjHg+Mh5jeyJZGX5CGembOrEjDNC/w55h/Cn7apO0J0QINiKh4K/WmSCico4kjwRyyh+B4tU1A43XZlkYR63CifgBQvDr8sDT3HNaQ5UWnXWDzHFNkxtMpU1xuxQAyMDo17P2jitEwlXCafoY6otPj7Kyicj2VTJbw==
-X-YMail-OSG: m9u0aQ8VM1kN2NqbSLh_EvRadA9O_zfU74aVfcpJm4STDaAbLDQDPSEzZjn2Hnl
- Cegm6AWmbxCpwigxz1B3CRuhyutFh4peahHhED3.ldNR9XCpM34SekTJk15US4IfZXya5hOIVj4o
- 30pvFBzhtexxFWHB8hwf143IwcITX4YedvNpo_n7rPgABs37o3BdrSCMV8QAmFK08qXSVnxSBXtW
- .KaUhl4KnTOUGhcQ_XVYXQX.RaOy.rnO2RY5MeoOsPfXft5BXcn513yzPR4_1BjwWhl2DnevuGNX
- k0tlwkd6t58qJtZVgaUoprS_PoZLZ1wTZwi8ByWtxE0wnNzEyGUlzmE3ApVoBSLipGBoKlK4OVCb
- smcHXPYfah5t7YcoG_OExp4P.0pT3b1S0i2pC2GPbN5SzoycgAFniwGRRdfydP_1XU2VO0y.EZnB
- 1aS5NmCvSqHPvBHJSVMR7oA9sP_zhYTcFLIzIaAqUTGv2falTpkf_MOFRQYTH0Mq.7a5N5SmGzMF
- 9OWjT8b.GujfkEts29CZGlcZEZfojQakivwJ8oSjYid50RK0XJbE.XC2IviNnBWHTG8zdenmSkan
- XW80GbPBtl6Cb6jp7VS4oT2v7XTAzBGHOkUXixYoCgebyzm6qqiBcUM59.HP3QFWbDWPECN21c7e
- EbG.HxdeILeU7iLt3S.slyfJCMDY_5SmfORp8eLX9IwptxxDZD_E81GUhHeKdqk76zOLfKgGT1Wb
- ArhbHO9mzTp6UF6ZzX0_0imS68dMPP4eez7vxYBKeYtSkW.K7g5XkSIC5J2oL02vpmgkbg57Psfd
- IZBoAjBI0ZIlODPnvVBpK6Kjxfg0uH1EhAQ9fZgnpjxxsej3senqXLnfCkYSmQ8o4HAe2DupSy.i
- pE17pCituxL2.X3O07jpgvwRUEHIV55BgfmeK5HDsmwMx6rRj59FWxyA6Y30z7IoBX1j355wY1Tn
- JAISjHrBPN4vb9kVrkZ7TcdW8kxtY0PLZaMrWoYqwpSjJhkcaW3pPPrW72lM9ARx9HM9Smfu73HJ
- VIlEwsiUkQtvshQXkqEd_NDy62wRvWrJSqAKAIej3oogHlWHcBj1FWF3bWOAeTlDR6qU0OGh1gQ1
- gb9GwtNTcZ6s4kxCj6Kbe2iaglOaTs3jw4hAaPUuUiCFf3EtBmGi9f9DZTCNUYxHfMQjEaXYngrq
- YTXy4qY6v6_Mfz8qsc3LIx_77Fhi5gKrlBZDKBB5mtdvaQeB9SqYUFHsp_Lp5s2H7wT7bxZ0Gkys
- VTw299ALWQbqd08ix_npL03n6ndL.0Av9W0WDxjequ09K59lRF1uswQJSqJptK7qK5tRP.po7DT6
- XgsLGvfiTsdFLngML.rZThVByxaMZfHy_PJd59Zem2sUQk77inRD1le_nLbjW0j5WFRtg5kzmKVz
- d9yh2Oue_lW3ijjeri72y1uts0cT0ssXBiu858L4-
-Received: from sonic.gate.mail.ne1.yahoo.com by
- sonic307.consmr.mail.ne1.yahoo.com with HTTP; Sun, 19 Jul 2020 14:16:08 +0000
-Received: by smtp417.mail.ne1.yahoo.com (VZM Hermes SMTP Server) with ESMTPA
- ID 7b1008d68f544c5613950e27c4582b76; 
- Sun, 19 Jul 2020 14:16:07 +0000 (UTC)
-Received: by mail-pl1-f182.google.com with SMTP id 72so7499837ple.0
- for <qemu-devel@nongnu.org>; Sun, 19 Jul 2020 07:16:07 -0700 (PDT)
-X-Gm-Message-State: AOAM533OUTSwUu2ZrDw4ud0NOtgMadFh9gH3PUog/ZpFPwgeB0qQEFU3
- 1+4XR7BjI7KQJwJwt6dz6WNRZMfYWyXD7QnkT0I=
-X-Google-Smtp-Source: ABdhPJxO+fLTqnV6bFfWikJdNBb3u82fVCN+6nUsxtDmLVpj/uNRm8zkDKxwT+9Vu5rmyHWRCzibKDAr07bI4ND/PZg=
-X-Received: by 2002:a17:902:a388:: with SMTP id
- x8mr14318624pla.48.1595168166736; 
- Sun, 19 Jul 2020 07:16:06 -0700 (PDT)
-MIME-Version: 1.0
-References: <CAEJNuHy+CqveTjiCxpjiLX-D=NczSveUSDSAZyz=D5F0XvL5QQ@mail.gmail.com>
- <CAEJNuHze25wdA_Kjw8ryi+hmg0eLP8nhZMR50_2yqXPu_Jir9A@mail.gmail.com>
- <20200719025055.kkjjiegyn4t6x64v@function>
- <CAEJNuHyYR1Vj4VaDVPLUG1dkSdzHjzbiCqq=Q+2j1tjy7kYBCw@mail.gmail.com>
- <20200719111602.2xeu4ise6zlbvf4c@function>
-In-Reply-To: <20200719111602.2xeu4ise6zlbvf4c@function>
-From: Ottavio Caruso <ottavio2006-usenet2012@yahoo.com>
-Date: Sun, 19 Jul 2020 15:15:50 +0100
-X-Gmail-Original-Message-ID: <CAEJNuHy7s+GqUaZ_sVgr03J6ZGzK9PwZZBsu6t0Znf6p4x6+8Q@mail.gmail.com>
-Message-ID: <CAEJNuHy7s+GqUaZ_sVgr03J6ZGzK9PwZZBsu6t0Znf6p4x6+8Q@mail.gmail.com>
-Subject: Re: Is traceroute supposed to work in user mode networking (slirp) ?
-To: Samuel Thibault <samuel.thibault@gnu.org>
-Cc: qemu-devel <qemu-devel@nongnu.org>
-Content-Type: text/plain; charset="UTF-8"
-X-Mailer: WebService/1.1.16271 hermes_yahoo Apache-HttpAsyncClient/4.1.4
- (Java/11.0.7)
-Received-SPF: pass client-ip=66.163.190.32;
- envelope-from=pr0f3ss0r1492@yahoo.com;
- helo=sonic307-9.consmr.mail.ne1.yahoo.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/07/19 10:16:08
-X-ACL-Warn: Detected OS   = Linux 3.11 and newer [fuzzy]
-X-Spam_score_int: -27
-X-Spam_score: -2.8
-X-Spam_bar: --
-X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- FREEMAIL_ENVFROM_END_DIGIT=0.25, FREEMAIL_FROM=0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-1, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ (Exim 4.90_1)
+ (envelope-from <39645158f4f71b6d824db9f7c470a53ebbd3f6ee@lizzy.crudebyte.com>)
+ id 1jxATI-0003Bt-K4
+ for qemu-devel@nongnu.org; Sun, 19 Jul 2020 10:39:20 -0400
+Received: from lizzy.crudebyte.com ([91.194.90.13]:46305)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1)
+ (envelope-from <39645158f4f71b6d824db9f7c470a53ebbd3f6ee@lizzy.crudebyte.com>)
+ id 1jxATG-00059y-WF
+ for qemu-devel@nongnu.org; Sun, 19 Jul 2020 10:39:20 -0400
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+ d=crudebyte.com; s=lizzy; h=Cc:To:Subject:Date:From:References:In-Reply-To:
+ Message-Id:Content-Type:Content-Transfer-Encoding:MIME-Version:Content-ID:
+ Content-Description; bh=IezmcX2Zz1GFPAfr+8apNBJ7XzlcmwBnC7ZbeGtNK9Q=; b=j+BLo
+ IP06MZSb3Y+zfHAqVb5qCQFB/OTUWC/+q2R1RDTRb42HcqHKhlhvuZf7u4ZgViM8YiIq2lL2xQEsl
+ I8i5VCHSxdMGnx6P/Fx1mw5MV1hNmVkCvz+IiP5DARyUv+UjNu17Gn6y+mhu/s0zHaBt6geG1dycj
+ aKBhcm7ow5E/mg+L9WpA/Nx+O8L327Xe7jukLY3yHt1Qd+ROUnMSpaDiVxusefBEp1s1MnELcwkZo
+ 5mGMApMW0F1PiEn4hwPv//bL25yCSZGdv5czbluYTyaE6XmFAD8F1FZ1Igmy4Tgd0i4Og6l3WOw9b
+ IsofWCwywH9dIaXm4BXQ+cUBnUdXg==;
+Message-Id: <39645158f4f71b6d824db9f7c470a53ebbd3f6ee.1595166227.git.qemu_oss@crudebyte.com>
+In-Reply-To: <cover.1595166227.git.qemu_oss@crudebyte.com>
+References: <cover.1595166227.git.qemu_oss@crudebyte.com>
+From: Christian Schoenebeck <qemu_oss@crudebyte.com>
+Date: Sun, 19 Jul 2020 13:20:54 +0200
+Subject: [PATCH v7 1/6] tests/virtio-9p: added split readdir tests
+To: qemu-devel@nongnu.org
+Cc: Greg Kurz <groug@kaod.org>
+Received-SPF: none client-ip=91.194.90.13;
+ envelope-from=39645158f4f71b6d824db9f7c470a53ebbd3f6ee@lizzy.crudebyte.com;
+ helo=lizzy.crudebyte.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/07/19 10:12:15
+X-ACL-Warn: Detected OS   = Linux 3.11 and newer
+X-Spam_score_int: -4
+X-Spam_score: -0.5
+X-Spam_bar: /
+X-Spam_report: (-0.5 / 5.0 requ) BAYES_00=-1.9, DATE_IN_PAST_03_06=1.592,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ SPF_HELO_NONE=0.001, SPF_NONE=0.001,
+ URIBL_BLOCKED=0.001 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -101,45 +65,172 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Sun, 19 Jul 2020 at 12:16, Samuel Thibault <samuel.thibault@gnu.org> wrote:
->
-> Ottavio Caruso, le dim. 19 juil. 2020 12:07:21 +0100, a ecrit:
-> > On Sun, 19 Jul 2020 at 03:50, Samuel Thibault <samuel.thibault@gnu.org> wrote:
-> > > Ottavio Caruso, le mar. 14 juil. 2020 12:15:48 +0100, a ecrit:
-> > > > I cannot get traceroute to work with standard udp from any of my
-> > > > guests.
-> > > >
-> > > > $ traceroute 8.8.8.8
-> > > > traceroute to 8.8.8.8 (8.8.8.8), 64 hops max, 40 byte packets
-> > > >  1  * * *
-> > >
-> > > That was because
-> > >
-> > > - libslirp was not forwarding the ttl value, thus always set to 64 hops
-> > > - libslirp was not reporting icmp errors.
-> > >
-> > > I had a try at both, and that indeed seems to be fixing the issue:
-> > > https://gitlab.freedesktop.org/slirp/libslirp/-/merge_requests/48
-> > > https://gitlab.freedesktop.org/slirp/libslirp/-/merge_requests/49
-> > >
-> > > > Any clues? Is this intended behaviour? Any workarounds that don't
-> > > > involve tap/tun/bridges?
-> > >
-> > > Not without updating libslirp with the abovementioned patches.
-> >
-> > Thanks Samuel. I've added a comment on the portal, but for the benefit
-> > of qemu-devel:
-> >
-> > Applying this patch on the latest qemu (5.0.90),
->
-> Did you also apply
-> https://gitlab.freedesktop.org/slirp/libslirp/-/merge_requests/48 ?
+The previous, already existing 'basic' readdir test simply used a
+'count' parameter big enough to retrieve all directory entries with a
+single Treaddir request.
 
-No, because I thought that 49 would include 48. Let me give a try and
-come back. Updates on Gitlab.
+In the 3 new 'split' readdir tests added by this patch, directory
+entries are retrieved, split over several Treaddir requests by picking
+small 'count' parameters which force the server to truncate the
+response. So the test client sends as many Treaddir requests as
+necessary to get all directory entries.
 
+The following 3 new tests are added (executed in this sequence):
 
+1. Split readdir test with count=512
+2. Split readdir test with count=256
+3. Split readdir test with count=128
 
+This test case sequence is chosen because the smaller the 'count' value,
+the higher the chance of errors in case of implementation bugs on server
+side.
+
+Signed-off-by: Christian Schoenebeck <qemu_oss@crudebyte.com>
+---
+ tests/qtest/virtio-9p-test.c | 108 +++++++++++++++++++++++++++++++++++
+ 1 file changed, 108 insertions(+)
+
+diff --git a/tests/qtest/virtio-9p-test.c b/tests/qtest/virtio-9p-test.c
+index 2167322985..de30b717b6 100644
+--- a/tests/qtest/virtio-9p-test.c
++++ b/tests/qtest/virtio-9p-test.c
+@@ -578,6 +578,7 @@ static bool fs_dirents_contain_name(struct V9fsDirent *e, const char* name)
+     return false;
+ }
+ 
++/* basic readdir test where reply fits into a single response message */
+ static void fs_readdir(void *obj, void *data, QGuestAllocator *t_alloc)
+ {
+     QVirtio9P *v9p = obj;
+@@ -631,6 +632,89 @@ static void fs_readdir(void *obj, void *data, QGuestAllocator *t_alloc)
+     g_free(wnames[0]);
+ }
+ 
++/* readdir test where overall request is split over several messages */
++static void fs_readdir_split(void *obj, void *data, QGuestAllocator *t_alloc,
++                             uint32_t count)
++{
++    QVirtio9P *v9p = obj;
++    alloc = t_alloc;
++    char *const wnames[] = { g_strdup(QTEST_V9FS_SYNTH_READDIR_DIR) };
++    uint16_t nqid;
++    v9fs_qid qid;
++    uint32_t nentries, npartialentries;
++    struct V9fsDirent *entries, *tail, *partialentries;
++    P9Req *req;
++    int fid;
++    uint64_t offset;
++
++    fs_attach(v9p, NULL, t_alloc);
++
++    fid = 1;
++    offset = 0;
++    entries = NULL;
++    nentries = 0;
++    tail = NULL;
++
++    req = v9fs_twalk(v9p, 0, fid, 1, wnames, 0);
++    v9fs_req_wait_for_reply(req, NULL);
++    v9fs_rwalk(req, &nqid, NULL);
++    g_assert_cmpint(nqid, ==, 1);
++
++    req = v9fs_tlopen(v9p, fid, O_DIRECTORY, 0);
++    v9fs_req_wait_for_reply(req, NULL);
++    v9fs_rlopen(req, &qid, NULL);
++
++    /*
++     * send as many Treaddir requests as required to get all directory
++     * entries
++     */
++    while (true) {
++        npartialentries = 0;
++        partialentries = NULL;
++
++        req = v9fs_treaddir(v9p, fid, offset, count, 0);
++        v9fs_req_wait_for_reply(req, NULL);
++        v9fs_rreaddir(req, &count, &npartialentries, &partialentries);
++        if (npartialentries > 0 && partialentries) {
++            if (!entries) {
++                entries = partialentries;
++                nentries = npartialentries;
++                tail = partialentries;
++            } else {
++                tail->next = partialentries;
++                nentries += npartialentries;
++            }
++            while (tail->next) {
++                tail = tail->next;
++            }
++            offset = tail->offset;
++        } else {
++            break;
++        }
++    }
++
++    g_assert_cmpint(
++        nentries, ==,
++        QTEST_V9FS_SYNTH_READDIR_NFILES + 2 /* "." and ".." */
++    );
++
++    /*
++     * Check all file names exist in returned entries, ignore their order
++     * though.
++     */
++    g_assert_cmpint(fs_dirents_contain_name(entries, "."), ==, true);
++    g_assert_cmpint(fs_dirents_contain_name(entries, ".."), ==, true);
++    for (int i = 0; i < QTEST_V9FS_SYNTH_READDIR_NFILES; ++i) {
++        char *name = g_strdup_printf(QTEST_V9FS_SYNTH_READDIR_FILE, i);
++        g_assert_cmpint(fs_dirents_contain_name(entries, name), ==, true);
++        g_free(name);
++    }
++
++    v9fs_free_dirents(entries);
++
++    g_free(wnames[0]);
++}
++
+ static void fs_walk_no_slash(void *obj, void *data, QGuestAllocator *t_alloc)
+ {
+     QVirtio9P *v9p = obj;
+@@ -793,6 +877,24 @@ static void fs_flush_ignored(void *obj, void *data, QGuestAllocator *t_alloc)
+     g_free(wnames[0]);
+ }
+ 
++static void fs_readdir_split_128(void *obj, void *data,
++                                 QGuestAllocator *t_alloc)
++{
++    fs_readdir_split(obj, data, t_alloc, 128);
++}
++
++static void fs_readdir_split_256(void *obj, void *data,
++                                 QGuestAllocator *t_alloc)
++{
++    fs_readdir_split(obj, data, t_alloc, 256);
++}
++
++static void fs_readdir_split_512(void *obj, void *data,
++                                 QGuestAllocator *t_alloc)
++{
++    fs_readdir_split(obj, data, t_alloc, 512);
++}
++
+ static void register_virtio_9p_test(void)
+ {
+     qos_add_test("config", "virtio-9p", pci_config, NULL);
+@@ -810,6 +912,12 @@ static void register_virtio_9p_test(void)
+     qos_add_test("fs/flush/ignored", "virtio-9p", fs_flush_ignored,
+                  NULL);
+     qos_add_test("fs/readdir/basic", "virtio-9p", fs_readdir, NULL);
++    qos_add_test("fs/readdir/split_512", "virtio-9p",
++                 fs_readdir_split_512, NULL);
++    qos_add_test("fs/readdir/split_256", "virtio-9p",
++                 fs_readdir_split_256, NULL);
++    qos_add_test("fs/readdir/split_128", "virtio-9p",
++                 fs_readdir_split_128, NULL);
+ }
+ 
+ libqos_init(register_virtio_9p_test);
 -- 
-Ottavio Caruso
+2.20.1
+
 
