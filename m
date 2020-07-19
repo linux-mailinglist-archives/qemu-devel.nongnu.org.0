@@ -2,45 +2,44 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 92B89225244
-	for <lists+qemu-devel@lfdr.de>; Sun, 19 Jul 2020 16:44:19 +0200 (CEST)
-Received: from localhost ([::1]:38254 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 060B1225241
+	for <lists+qemu-devel@lfdr.de>; Sun, 19 Jul 2020 16:41:22 +0200 (CEST)
+Received: from localhost ([::1]:60098 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jxAY6-0007C1-MG
-	for lists+qemu-devel@lfdr.de; Sun, 19 Jul 2020 10:44:18 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:40634)
+	id 1jxAVF-0004Yh-3X
+	for lists+qemu-devel@lfdr.de; Sun, 19 Jul 2020 10:41:21 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:40004)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1)
- (envelope-from <abccfcad6764986c8442f2163de618af11232475@lizzy.crudebyte.com>)
- id 1jxAXO-0006lC-77
- for qemu-devel@nongnu.org; Sun, 19 Jul 2020 10:43:34 -0400
-Received: from lizzy.crudebyte.com ([91.194.90.13]:33221)
+ (envelope-from <cb67ffe2c8e5bddc31511d62a859cebfda0b7feb@lizzy.crudebyte.com>)
+ id 1jxAUJ-00042n-Dr
+ for qemu-devel@nongnu.org; Sun, 19 Jul 2020 10:40:23 -0400
+Received: from lizzy.crudebyte.com ([91.194.90.13]:45411)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1)
- (envelope-from <abccfcad6764986c8442f2163de618af11232475@lizzy.crudebyte.com>)
- id 1jxAXM-0005au-LZ
- for qemu-devel@nongnu.org; Sun, 19 Jul 2020 10:43:33 -0400
+ (envelope-from <cb67ffe2c8e5bddc31511d62a859cebfda0b7feb@lizzy.crudebyte.com>)
+ id 1jxAUH-0005Cv-Jf
+ for qemu-devel@nongnu.org; Sun, 19 Jul 2020 10:40:23 -0400
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
  d=crudebyte.com; s=lizzy; h=Cc:To:Subject:Date:From:References:In-Reply-To:
  Message-Id:Content-Type:Content-Transfer-Encoding:MIME-Version:Content-ID:
- Content-Description; bh=c2gjWlA9KXE9xMxvVd4GTnin4I8DBwh8bFZ8rcqFpbY=; b=Zaa+7
- mWqz+AGuPgUQ9P3bXZE3jFPNn1Z/EPAMOZWbNGD7ogV+cZTtWZfbaJCJUrkp5hMW9xYwdOvnuJ9DS
- gKFSw8jjHsPlU+nc5ucCtZXBq9AR/UUOwuT3jp75FGy+iOfYDyKiaJn6WeQk4j9MYjKKX4DDq9PAE
- j53uw59aPJ7JblzKEjhgAPy58T6gIVPMtA3f5LwjiKQhkQP71/I/vIDMuqXvBseVOkocT109II6tD
- TgR3ru+LatJVpOpLnyNUc2XFjEfnVNafgH3mAZqNWBzW/xgjpMmd0y1r0ls+ky/1MP6K4BJpQl13n
- GghQLcR1Calqj911PZI0ixbmODDFg==;
-Message-Id: <abccfcad6764986c8442f2163de618af11232475.1595166227.git.qemu_oss@crudebyte.com>
+ Content-Description; bh=dniHciHWD1s2sUmY62gnL597ZGnuF2fTUNk4k5tqqLE=; b=eVweJ
+ zS+kwjAOSABAGZ/OnBEdXfzmO7BfwNaxrKRKbK5BUgXgL1NzbhbmncITp9StAj9qBulqV0BpBWzLv
+ 5HAnIib+Dq7tjnXlQS418i5pjYly96pPyGySSN7JOGDXnjZUkHSlEJWbAZkvfYU+kfXp2sE3RQAKq
+ tsdDh4DmxK1Hap2XvDyDNWhfR9J7SFEbTLcUdo6tna80k3i5WKiL1TbUL4h5fRhaz8kImqlbn5WsX
+ GPCyrL0kGeLYrqaD90Om0yjPYSKtJ4GOvjHH6NgV4xwt7Sw2/OJ7CPLEfTcVpXQSAuw0hK2Fzz0gw
+ 4SRkF0Ak8qPXBzKx80FjXGCyyk3Pw==;
+Message-Id: <cb67ffe2c8e5bddc31511d62a859cebfda0b7feb.1595166227.git.qemu_oss@crudebyte.com>
 In-Reply-To: <cover.1595166227.git.qemu_oss@crudebyte.com>
 References: <cover.1595166227.git.qemu_oss@crudebyte.com>
 From: Christian Schoenebeck <qemu_oss@crudebyte.com>
-Date: Sun, 19 Jul 2020 15:20:11 +0200
-Subject: [PATCH v7 5/6] 9pfs: differentiate readdir lock between 9P2000.u vs.
- 9P2000.L
+Date: Sun, 19 Jul 2020 15:39:59 +0200
+Subject: [PATCH v7 6/6] 9pfs: clarify latency of v9fs_co_run_in_worker()
 To: qemu-devel@nongnu.org
 Cc: Greg Kurz <groug@kaod.org>
 Received-SPF: none client-ip=91.194.90.13;
- envelope-from=abccfcad6764986c8442f2163de618af11232475@lizzy.crudebyte.com;
+ envelope-from=cb67ffe2c8e5bddc31511d62a859cebfda0b7feb@lizzy.crudebyte.com;
  helo=lizzy.crudebyte.com
 X-detected-operating-system: by eggs.gnu.org: First seen = 2020/07/19 10:12:15
 X-ACL-Warn: Detected OS   = Linux 3.11 and newer
@@ -65,90 +64,47 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Previous patch suggests that it might make sense to use a different mutex
-type now while handling readdir requests, depending on the precise
-protocol variant, as v9fs_do_readdir_with_stat() (used by 9P2000.u) uses
-a CoMutex to avoid deadlocks that might happen with QemuMutex otherwise,
-whereas do_readdir_many() (used by 9P2000.L) should better use a
-QemuMutex, as the precise behaviour of a failed CoMutex lock on fs driver
-side would not be clear.
-
-This patch is just intended as transitional measure, as currently 9P2000.u
-vs. 9P2000.L implementations currently differ where the main logic of
-fetching directory entries is located at (9P2000.u still being more top
-half focused, while 9P2000.L already being bottom half focused in regards
-to fetching directory entries that is).
+As we just fixed a severe performance issue with Treaddir request
+handling, clarify this overall issue as a comment on
+v9fs_co_run_in_worker() with the intention to hopefully prevent
+such performance mistakes in future (and fixing other yet
+outstanding ones).
 
 Signed-off-by: Christian Schoenebeck <qemu_oss@crudebyte.com>
 ---
- hw/9pfs/9p.c |  4 ++--
- hw/9pfs/9p.h | 27 ++++++++++++++++++++++-----
- 2 files changed, 24 insertions(+), 7 deletions(-)
+ hw/9pfs/coth.h | 12 +++++++++++-
+ 1 file changed, 11 insertions(+), 1 deletion(-)
 
-diff --git a/hw/9pfs/9p.c b/hw/9pfs/9p.c
-index cc4094b971..a0881ddc88 100644
---- a/hw/9pfs/9p.c
-+++ b/hw/9pfs/9p.c
-@@ -314,8 +314,8 @@ static V9fsFidState *alloc_fid(V9fsState *s, int32_t fid)
-     f->next = s->fid_list;
-     s->fid_list = f;
+diff --git a/hw/9pfs/coth.h b/hw/9pfs/coth.h
+index fd4a45bc7c..c51289903d 100644
+--- a/hw/9pfs/coth.h
++++ b/hw/9pfs/coth.h
+@@ -19,7 +19,7 @@
+ #include "qemu/coroutine.h"
+ #include "9p.h"
  
--    v9fs_readdir_init(&f->fs.dir);
--    v9fs_readdir_init(&f->fs_reclaim.dir);
-+    v9fs_readdir_init(s->proto_version, &f->fs.dir);
-+    v9fs_readdir_init(s->proto_version, &f->fs_reclaim.dir);
- 
-     return f;
- }
-diff --git a/hw/9pfs/9p.h b/hw/9pfs/9p.h
-index 93b7030edf..3dd1b50b1a 100644
---- a/hw/9pfs/9p.h
-+++ b/hw/9pfs/9p.h
-@@ -197,22 +197,39 @@ typedef struct V9fsXattr
- 
- typedef struct V9fsDir {
-     DIR *stream;
--    CoMutex readdir_mutex;
-+    P9ProtoVersion proto_version;
-+    /* readdir mutex type used for 9P2000.u protocol variant */
-+    CoMutex readdir_mutex_u;
-+    /* readdir mutex type used for 9P2000.L protocol variant */
-+    QemuMutex readdir_mutex_L;
- } V9fsDir;
- 
- static inline void v9fs_readdir_lock(V9fsDir *dir)
- {
--    qemu_co_mutex_lock(&dir->readdir_mutex);
-+    if (dir->proto_version == V9FS_PROTO_2000U) {
-+        qemu_co_mutex_lock(&dir->readdir_mutex_u);
-+    } else {
-+        qemu_mutex_lock(&dir->readdir_mutex_L);
-+    }
- }
- 
- static inline void v9fs_readdir_unlock(V9fsDir *dir)
- {
--    qemu_co_mutex_unlock(&dir->readdir_mutex);
-+    if (dir->proto_version == V9FS_PROTO_2000U) {
-+        qemu_co_mutex_unlock(&dir->readdir_mutex_u);
-+    } else {
-+        qemu_mutex_unlock(&dir->readdir_mutex_L);
-+    }
- }
- 
--static inline void v9fs_readdir_init(V9fsDir *dir)
-+static inline void v9fs_readdir_init(P9ProtoVersion proto_version, V9fsDir *dir)
- {
--    qemu_co_mutex_init(&dir->readdir_mutex);
-+    dir->proto_version = proto_version;
-+    if (proto_version == V9FS_PROTO_2000U) {
-+        qemu_co_mutex_init(&dir->readdir_mutex_u);
-+    } else {
-+        qemu_mutex_init(&dir->readdir_mutex_L);
-+    }
- }
- 
- /**
+-/*
++/**
+  * we want to use bottom half because we want to make sure the below
+  * sequence of events.
+  *
+@@ -28,6 +28,16 @@
+  *   3. Enter the coroutine in the worker thread.
+  * we cannot swap step 1 and 2, because that would imply worker thread
+  * can enter coroutine while step1 is still running
++ *
++ * @b PERFORMANCE @b CONSIDERATIONS: As a rule of thumb, keep in mind
++ * that hopping between threads adds @b latency! So when handling a
++ * 9pfs request, avoid calling v9fs_co_run_in_worker() too often, because
++ * this might otherwise sum up to a significant, huge overall latency for
++ * providing the response for just a single request. For that reason it
++ * is highly recommended to fetch all data from fs driver with a single
++ * fs driver request on a background I/O thread (bottom half) in one rush
++ * first and then eventually assembling the final response from that data
++ * on main I/O thread (top half).
+  */
+ #define v9fs_co_run_in_worker(code_block)                               \
+     do {                                                                \
 -- 
 2.20.1
 
