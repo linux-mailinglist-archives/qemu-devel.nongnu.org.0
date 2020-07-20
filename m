@@ -2,54 +2,54 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id DA71E225D5F
-	for <lists+qemu-devel@lfdr.de>; Mon, 20 Jul 2020 13:26:56 +0200 (CEST)
-Received: from localhost ([::1]:39272 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1A647225D8F
+	for <lists+qemu-devel@lfdr.de>; Mon, 20 Jul 2020 13:40:09 +0200 (CEST)
+Received: from localhost ([::1]:47632 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jxTwd-00053o-Ec
-	for lists+qemu-devel@lfdr.de; Mon, 20 Jul 2020 07:26:55 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:33840)
+	id 1jxU9Q-0000vn-1E
+	for lists+qemu-devel@lfdr.de; Mon, 20 Jul 2020 07:40:08 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:37178)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <dgibson@ozlabs.org>)
- id 1jxTvr-0004XG-SR; Mon, 20 Jul 2020 07:26:07 -0400
-Received: from bilbo.ozlabs.org ([203.11.71.1]:43635 helo=ozlabs.org)
+ (Exim 4.90_1) (envelope-from <its@irrelevant.dk>)
+ id 1jxU7M-0007Ek-U4; Mon, 20 Jul 2020 07:38:00 -0400
+Received: from charlie.dont.surf ([128.199.63.193]:46806)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <dgibson@ozlabs.org>)
- id 1jxTvo-0003W0-78; Mon, 20 Jul 2020 07:26:07 -0400
-Received: by ozlabs.org (Postfix, from userid 1007)
- id 4B9KD56tJHz9sRf; Mon, 20 Jul 2020 21:25:57 +1000 (AEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=gibson.dropbear.id.au; s=201602; t=1595244357;
- bh=cXadi8ggnXTkGx7kvvgkf7phpqLH/qKyNQ/W3TJlC5A=;
- h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=XReR5HJ29P5VL3FvhW2Y0k+pFD4DW4QZ8SDAzoRA9PsKr55t/OV3fHgG2hxYH+SWW
- LMVCQe2xhPHGE7PbghiaIN5Dfn43qwB0LccMcOfoAFpfpuJGg1e+EVx3T2ql1pSNlK
- wEWXVyIK6eUO7NU84hsi1hfWx7m8aqnhqyJFli2I=
-Date: Mon, 20 Jul 2020 21:25:51 +1000
-From: David Gibson <david@gibson.dropbear.id.au>
-To: Markus Armbruster <armbru@redhat.com>
-Subject: Re: [PATCH for-5.2] spapr: Simplify error handling in
- spapr_phb_realize()
-Message-ID: <20200720112551.GF215446@umbus.fritz.box>
-References: <159500760539.383731.10928308889360009122.stgit@bahia.lan>
- <87lfjefsbh.fsf@dusky.pond.sub.org>
+ (Exim 4.90_1) (envelope-from <its@irrelevant.dk>)
+ id 1jxU7J-00058c-Pj; Mon, 20 Jul 2020 07:38:00 -0400
+Received: from apples.local (80-167-98-190-cable.dk.customer.tdc.net
+ [80.167.98.190])
+ by charlie.dont.surf (Postfix) with ESMTPSA id 34A01BF5BE;
+ Mon, 20 Jul 2020 11:37:54 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=irrelevant.dk;
+ s=default; t=1595245074;
+ bh=QS5uBrENoJy7XphDGLMgUjDXhF4BDtOxlPzbV3xG0ws=;
+ h=From:To:Cc:Subject:Date:From;
+ b=v8vhCklFIa1jNKtylxbevJSPazH6OHhCrCfjuezRr8kOJDRMHqqsO/XVHjAvgOkjo
+ Ey4L9LxzD6lQuHkz0Fs1FPpONvSkZl/0wfeAn6KW5WR5Ct5Y1ViMiRW6dGz0lh3wHw
+ QRjC6CyUryJKVjTi5u5swv+zvZN2qVX9ztzS6afk+aFcHngSrZ1yZG6L++LJ6naKlR
+ 558DGy480IadlAhiAEb0/h8YbN/H5snyNp6LSSZ1EEHh0+IvfZY9XS2cDIvPXt6KYA
+ IKtu7LNYDcWgVVAFdssb9k+pkSzXMRj85Y0Gud+0jny8VJUVtPI3VF9X8L9UdSDtaK
+ kG1HyBAdREE2g==
+From: Klaus Jensen <its@irrelevant.dk>
+To: qemu-devel@nongnu.org
+Subject: [PATCH 00/16] hw/block/nvme: dma handling and address mapping cleanup
+Date: Mon, 20 Jul 2020 13:37:32 +0200
+Message-Id: <20200720113748.322965-1-its@irrelevant.dk>
+X-Mailer: git-send-email 2.27.0
+Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature"; boundary="lYetfuAxy9ic4HK3"
-Content-Disposition: inline
-In-Reply-To: <87lfjefsbh.fsf@dusky.pond.sub.org>
-Received-SPF: pass client-ip=203.11.71.1; envelope-from=dgibson@ozlabs.org;
- helo=ozlabs.org
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/07/20 07:25:59
-X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic]
-X-Spam_score_int: -9
-X-Spam_score: -1.0
-X-Spam_bar: -
-X-Spam_report: (-1.0 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, HEADER_FROM_DIFFERENT_DOMAINS=1,
- SPF_HELO_PASS=-0.001, SPF_PASS=-0.001,
- URIBL_BLOCKED=0.001 autolearn=no autolearn_force=no
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=128.199.63.193; envelope-from=its@irrelevant.dk;
+ helo=charlie.dont.surf
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/07/20 07:37:55
+X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001, URIBL_BLOCKED=0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -62,192 +62,45 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-ppc@nongnu.org, Greg Kurz <groug@kaod.org>, qemu-devel@nongnu.org
+Cc: Kevin Wolf <kwolf@redhat.com>, qemu-block@nongnu.org,
+ Klaus Jensen <k.jensen@samsung.com>, Max Reitz <mreitz@redhat.com>,
+ Keith Busch <kbusch@kernel.org>, Klaus Jensen <its@irrelevant.dk>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+From: Klaus Jensen <k.jensen@samsung.com>=0D
 
---lYetfuAxy9ic4HK3
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
-
-On Mon, Jul 20, 2020 at 11:29:06AM +0200, Markus Armbruster wrote:
-> Greg Kurz <groug@kaod.org> writes:
->=20
-> > The spapr_phb_realize() function has a local_err variable which
-> > is used to:
-> >
-> > 1) check failures of spapr_irq_findone() and spapr_irq_claim()
-> >
-> > 2) prepend extra information to the error message
-> >
-> > Recent work from Markus Armbruster highlighted we get better
-> > code when testing the return value of a function, rather than
-> > setting up all the local_err boiler plate. For similar reasons,
-> > it is now preferred to use ERRP_GUARD() and error_prepend()
-> > rather than error_propagate_prepend().
-> >
-> > Since spapr_irq_findone() and spapr_irq_claim() return negative
-> > values in case of failure, do both changes.
-> >
-> > This is just cleanup, no functional impact.
-> >
-> > Signed-off-by: Greg Kurz <groug@kaod.org>
-> > ---
-> >
-> > Since we add ERRP_GUARD(), we could theoretically check *errp
-> > rather than the return value, and thus avoid the uint32_t to
-> > int32_t change but I personally find it clearer the other way.
-> > ---
-> >  hw/ppc/spapr_pci.c |   16 +++++++---------
-> >  1 file changed, 7 insertions(+), 9 deletions(-)
-> >
-> > diff --git a/hw/ppc/spapr_pci.c b/hw/ppc/spapr_pci.c
-> > index 21681215d405..b1ce51327db4 100644
-> > --- a/hw/ppc/spapr_pci.c
-> > +++ b/hw/ppc/spapr_pci.c
-> > @@ -1796,6 +1796,7 @@ static void spapr_phb_destroy_msi(gpointer opaque)
-> > =20
-> >  static void spapr_phb_realize(DeviceState *dev, Error **errp)
-> >  {
-> > +    ERRP_GUARD();
-> >      /* We don't use SPAPR_MACHINE() in order to exit gracefully if the=
- user
-> >       * tries to add a sPAPR PHB to a non-pseries machine.
-> >       */
-> > @@ -1813,7 +1814,6 @@ static void spapr_phb_realize(DeviceState *dev, E=
-rror **errp)
-> >      uint64_t msi_window_size =3D 4096;
-> >      SpaprTceTable *tcet;
-> >      const unsigned windows_supported =3D spapr_phb_windows_supported(s=
-phb);
-> > -    Error *local_err =3D NULL;
-> > =20
-> >      if (!spapr) {
-> >          error_setg(errp, TYPE_SPAPR_PCI_HOST_BRIDGE " needs a pseries =
-machine");
-> > @@ -1964,13 +1964,12 @@ static void spapr_phb_realize(DeviceState *dev,=
- Error **errp)
-> > =20
-> >      /* Initialize the LSI table */
-> >      for (i =3D 0; i < PCI_NUM_PINS; i++) {
-> > -        uint32_t irq =3D SPAPR_IRQ_PCI_LSI + sphb->index * PCI_NUM_PIN=
-S + i;
-> > +        int32_t irq =3D SPAPR_IRQ_PCI_LSI + sphb->index * PCI_NUM_PINS=
- + i;
->=20
-> (1)
->=20
-> > =20
-> >          if (smc->legacy_irq_allocation) {
-> > -            irq =3D spapr_irq_findone(spapr, &local_err);
-> > -            if (local_err) {
-> > -                error_propagate_prepend(errp, local_err,
-> > -                                        "can't allocate LSIs: ");
-> > +            irq =3D spapr_irq_findone(spapr, errp);
->=20
-> (2)
->=20
-> > +            if (irq < 0) {
-> > +                error_prepend(errp, "can't allocate LSIs: ");
-> >                  /*
-> >                   * Older machines will never support PHB hotplug, ie, =
-this is an
-> >                   * init only path and QEMU will terminate. No need to =
-rollback.
-> > @@ -1979,9 +1978,8 @@ static void spapr_phb_realize(DeviceState *dev, E=
-rror **errp)
-> >              }
-> >          }
-> > =20
-> > -        spapr_irq_claim(spapr, irq, true, &local_err);
-> > -        if (local_err) {
-> > -            error_propagate_prepend(errp, local_err, "can't allocate L=
-SIs: ");
-> > +        if (spapr_irq_claim(spapr, irq, true, errp) < 0) {
->=20
-> (3)
->=20
-> > +            error_prepend(errp, "can't allocate LSIs: ");
-> >              goto unrealize;
-> >          }
->=20
->            sphb->lsi_table[i].irq =3D irq;
->=20
-> (4)
->=20
->        }
->=20
-> The error propagation elimination looks good to me, but I wonder whether
-> int32_t is the best choice for @irq.
->=20
-> Before the patch:
->=20
-> (1) The initialization converts unsigned (I think) to uint32_t.
->=20
-> (2) Converts from int (value of spapr_irq_findone()) to uint32_t.
->=20
-> (3) spapr_irq_claim() takes int, we convert back to int.
->=20
-> (4) The assignment does not convert.
->=20
-> After the patch:
->=20
-> (1) The initialization converts unsigned (I think) to int32_t.
->=20
-> (2) Converts from int (value of spapr_irq_findone()) to int32_t.
->=20
-> (3) spapr_irq_claim() takes int, we convert back to int.
->=20
-> (4) Converts from int32_t to uint32_t
->=20
-> I assume the conversions are all safe before and after the patch
-> (spapr_irq_claim() asserts @irq is between 0x1000 and 0x1000 + small
-> change).  Still, too many conversions for my taste.  What about making
-> irq plain int?  Then:
->=20
-> (1) The initialization converts unsigned (I think) to int.
->=20
-> (2) Does not convert.
->=20
-> (3) Does not convert.
->=20
-> (4) Converts from int to uint32_t.
->=20
-> Feels neater to me.
-
-Sounds like a good idea.  Greg, care to post a followup patch?
->=20
-> Regardless:
-> Reviewed-by: Markus Armbruster <armbru@redhat.com>
->=20
-
---=20
-David Gibson			| I'll have my music baroque, and my code
-david AT gibson.dropbear.id.au	| minimalist, thank you.  NOT _the_ _other_
-				| _way_ _around_!
-http://www.ozlabs.org/~dgibson
-
---lYetfuAxy9ic4HK3
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQIzBAEBCAAdFiEEdfRlhq5hpmzETofcbDjKyiDZs5IFAl8Vfz0ACgkQbDjKyiDZ
-s5LadxAAyXijUgUMx0z7LKVPQ2SGn60Eihgxl66ChlgAzwWB3mk0tEB6gUOx4ak9
-AvNR2G7vlI75DEGciuhcDG0aILonA+Za1xB2nr2dfLye+DBn/LdKxp+yRxrRXjlG
-J+D+sJQcxT38+Ng3YyTddc+OGSZ2rFv5I8IStAiDeQxIYwI57Vyru8kvVL92KnKe
-koV8ZKx2pbx9/AkuRrLvvZkEM91QfcFCm9TWYg3mhvR3BmFpSsuopmQ1feogLMMt
-PhyLkszbQvOvbZu3ZcEkFlWyMik1DtSgT1y6mNpmX4NQXab1ps2cs+A/mWyRxZYc
-LLqtB1BJ4gHexLa9v0lTKmoI/XVfEhUiFEiBl2BPXRQu1f6lOyhC2mJGSnc+iWAp
-Rt1k362qOARGn+csBHCNV7bPY0Vsxesg9iamEMbL5GhUjZS8/E3sON8eEzdh+iPS
-bO57xtt3rs9k9E6NwSpBd1elw3yOSXobNCLyCyd64bQfZCWuclxNmnWKlL4YHvmF
-sxbjnY9doAyZlaax43/1hmote57kaDSPhAvaZCr0S8p9rbNTljAXULbqkPJ9N1P2
-wKJQn0K0LROQ4rGYuNrAhCRdfzS5ry4I0T4iztCFy4nySB5WJklTsqDjBk2OOc8B
-qkT2X9eYQta0XnYv81wVjuFlpUS0Xi7D2nDgIOSwHeLiC+Lc84k=
-=AfTo
------END PGP SIGNATURE-----
-
---lYetfuAxy9ic4HK3--
+This series consists of patches that refactors dma read/write and adds a=0D
+number of address mapping helper functions.=0D
+=0D
+Based-on: <20200706061303.246057-1-its@irrelevant.dk>=0D
+=0D
+Klaus Jensen (16):=0D
+  hw/block/nvme: memset preallocated requests structures=0D
+  hw/block/nvme: add mapping helpers=0D
+  hw/block/nvme: replace dma_acct with blk_acct equivalent=0D
+  hw/block/nvme: remove redundant has_sg member=0D
+  hw/block/nvme: refactor dma read/write=0D
+  hw/block/nvme: pass request along for tracing=0D
+  hw/block/nvme: add request mapping helper=0D
+  hw/block/nvme: verify validity of prp lists in the cmb=0D
+  hw/block/nvme: refactor request bounds checking=0D
+  hw/block/nvme: add check for mdts=0D
+  hw/block/nvme: be consistent about zeros vs zeroes=0D
+  hw/block/nvme: refactor NvmeRequest clearing=0D
+  hw/block/nvme: add a namespace reference in NvmeRequest=0D
+  hw/block/nvme: consolidate qsg/iov clearing=0D
+  hw/block/nvme: remove NvmeCmd parameter=0D
+  hw/block/nvme: use preallocated qsg/iov in nvme_dma_prp=0D
+=0D
+ block/nvme.c          |   4 +-=0D
+ hw/block/nvme.c       | 498 +++++++++++++++++++++++++++---------------=0D
+ hw/block/nvme.h       |   4 +-=0D
+ hw/block/trace-events |   4 +=0D
+ include/block/nvme.h  |   4 +-=0D
+ 5 files changed, 331 insertions(+), 183 deletions(-)=0D
+=0D
+-- =0D
+2.27.0=0D
+=0D
 
