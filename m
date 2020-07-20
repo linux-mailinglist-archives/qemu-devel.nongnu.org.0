@@ -2,78 +2,77 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4E3AE2261EA
-	for <lists+qemu-devel@lfdr.de>; Mon, 20 Jul 2020 16:21:55 +0200 (CEST)
-Received: from localhost ([::1]:58018 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5E1842261EF
+	for <lists+qemu-devel@lfdr.de>; Mon, 20 Jul 2020 16:23:51 +0200 (CEST)
+Received: from localhost ([::1]:37250 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jxWfy-0000U5-7D
-	for lists+qemu-devel@lfdr.de; Mon, 20 Jul 2020 10:21:54 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:57414)
+	id 1jxWhq-0003ah-DQ
+	for lists+qemu-devel@lfdr.de; Mon, 20 Jul 2020 10:23:50 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:57926)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1jxWbX-0002uJ-IX
- for qemu-devel@nongnu.org; Mon, 20 Jul 2020 10:17:19 -0400
-Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:37554
- helo=us-smtp-1.mimecast.com)
+ (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
+ id 1jxWcW-0004oO-IQ
+ for qemu-devel@nongnu.org; Mon, 20 Jul 2020 10:18:20 -0400
+Received: from us-smtp-1.mimecast.com ([207.211.31.81]:48251
+ helo=us-smtp-delivery-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1jxWbN-0002qL-Sd
- for qemu-devel@nongnu.org; Mon, 20 Jul 2020 10:17:19 -0400
+ (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
+ id 1jxWcT-000304-P5
+ for qemu-devel@nongnu.org; Mon, 20 Jul 2020 10:18:20 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1595254629;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ s=mimecast20190719; t=1595254696;
+ h=from:from:reply-to:reply-to:subject:subject:date:date:
+ message-id:message-id:to:to:cc:cc:mime-version:mime-version:
+ content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=XIGogesj2pjtkUhjhK+zlBqNmnHAOq71h9rPnCukOIo=;
- b=BwftTtrrEX7suDIfjlNVVsEhCZApt+N/yQ+AFEQf2iBlcL4Vj7nWCiMRPfplSvRGmhfU22
- KYG1d29xWivt6glS95uQrG7v2uvorZcrpwAhQ32l1+Vmoa68rPYeegFynqdDEWSeUmKvmD
- YJwHLpmRLHZTpqjBhokzLjQwmrFSDt8=
+ bh=tjnHAofxUlLuTNnSY4SgVPLGaLaNWQs91RK7oNuR5YM=;
+ b=bxlO/h7ZTI1BWVZKpFZlyGaH7pGBHJ2X6ZJWFYITEGKUfaUZHYS94AN1lezvIzz82LMD6n
+ V8FtQhw8vn98mtzu8SYEelKx4VM/ZlnysST3NN1nFQSNtDcQAJ+b+Zy9Tx+nxHHIHN2KMF
+ geScp5mkOC/GmvAyRnvUEeWRmnp0s9I=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-401-rjCNQKGiNZOltfpUNDT1TQ-1; Mon, 20 Jul 2020 10:17:07 -0400
-X-MC-Unique: rjCNQKGiNZOltfpUNDT1TQ-1
+ us-mta-407-czQjFX1jOKaUaNLNvCFFaw-1; Mon, 20 Jul 2020 10:18:12 -0400
+X-MC-Unique: czQjFX1jOKaUaNLNvCFFaw-1
 Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
  [10.5.11.22])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 4BFD87A380;
- Mon, 20 Jul 2020 14:16:41 +0000 (UTC)
-Received: from ibm-p8-OVS-01-fsp.mgmt.pnr.lab.eng.rdu2.redhat.com
- (ovpn-119-174.rdu2.redhat.com [10.10.119.174])
- by smtp.corp.redhat.com (Postfix) with ESMTP id A2E581002393;
- Mon, 20 Jul 2020 14:16:40 +0000 (UTC)
-Subject: Re: tests/vm infrastructure fails to notice that QEMU dying is a
- failure
-To: Peter Maydell <peter.maydell@linaro.org>
-References: <CAFEAcA8iKKDKEdq8TtbZNwqfsH=ZO78eEXWfrVbYTDjdy9DYDw@mail.gmail.com>
- <890eb42e-cd77-2a63-c441-61637ac5094f@redhat.com>
- <42c71a79-4911-dc47-d983-783d98e819c5@redhat.com>
- <89f309c2-9909-f306-2f2b-93fc1b8adc17@redhat.com>
- <CAFEAcA8k50qCcxwp99fF2xOL13jP1unNMbVFEYXy119u00wJcg@mail.gmail.com>
-From: John Snow <jsnow@redhat.com>
-Message-ID: <90fcac2d-d2e5-0f09-b553-62fa8e386108@redhat.com>
-Date: Mon, 20 Jul 2020 10:16:40 -0400
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.10.0
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id EC16C108B;
+ Mon, 20 Jul 2020 14:18:10 +0000 (UTC)
+Received: from redhat.com (unknown [10.36.110.53])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 470271002393;
+ Mon, 20 Jul 2020 14:18:09 +0000 (UTC)
+Date: Mon, 20 Jul 2020 15:18:06 +0100
+From: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
+To: Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
+Subject: Re: [PATCH-for-5.1 4/4] hw/avr/boot: Fix memory leak in
+ avr_load_firmware()
+Message-ID: <20200720141806.GI643836@redhat.com>
+References: <20200714164257.23330-1-f4bug@amsat.org>
+ <20200714164257.23330-5-f4bug@amsat.org>
 MIME-Version: 1.0
-In-Reply-To: <CAFEAcA8k50qCcxwp99fF2xOL13jP1unNMbVFEYXy119u00wJcg@mail.gmail.com>
-Content-Language: en-US
+In-Reply-To: <20200714164257.23330-5-f4bug@amsat.org>
+User-Agent: Mutt/1.14.5 (2020-06-23)
 X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=207.211.31.120; envelope-from=jsnow@redhat.com;
- helo=us-smtp-1.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/07/20 03:17:01
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: 8bit
+Content-Disposition: inline
+Received-SPF: pass client-ip=207.211.31.81; envelope-from=berrange@redhat.com;
+ helo=us-smtp-delivery-1.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/07/19 21:45:06
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
 X-Spam_score_int: -30
 X-Spam_score: -3.1
 X-Spam_bar: ---
 X-Spam_report: (-3.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H4=-0.01, RCVD_IN_MSPIKE_WL=-0.01,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H3=-0.01, RCVD_IN_MSPIKE_WL=-0.01,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ URIBL_BLOCKED=0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -86,30 +85,52 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>,
- Robert Foley <robert.foley@linaro.org>,
- =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>,
- QEMU Developers <qemu-devel@nongnu.org>, Cleber Rosa <crosa@redhat.com>
+Reply-To: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
+Cc: Peter Maydell <peter.maydell@linaro.org>,
+ Sarah Harris <S.E.Harris@kent.ac.uk>, Stefan Weil <sw@weilnetz.de>,
+ qemu-devel@nongnu.org, Michael Rolnik <mrolnik@gmail.com>,
+ Paolo Bonzini <pbonzini@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 7/18/20 5:30 AM, Peter Maydell wrote:
-> On Fri, 17 Jul 2020 at 23:24, John Snow <jsnow@redhat.com> wrote:
->> - The real problem, though: Why is QEMU hanging? It might need a longer
->> timeout, or it might be having problems with the console socket again.
+On Tue, Jul 14, 2020 at 06:42:57PM +0200, Philippe Mathieu-Daudé wrote:
+> The value returned by qemu_find_file() must be freed.
 > 
-> The host machine seemed to be under really heavy I/O load at the time.
+> This fixes Coverity issue CID 1430449, which points out
+> that the memory returned by qemu_find_file() is leaked.
 > 
-> thanks
-> -- PMM
+> Fixes: Coverity CID 1430449 (RESOURCE_LEAK)
+> Fixes: 7dd8f6fde4 ('hw/avr: Add support for loading ELF/raw binaries')
+> Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
+> ---
+>  hw/avr/boot.c | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
 > 
+> diff --git a/hw/avr/boot.c b/hw/avr/boot.c
+> index 6fbcde4061..151734f82d 100644
+> --- a/hw/avr/boot.c
+> +++ b/hw/avr/boot.c
+> @@ -60,7 +60,7 @@ static const char *avr_elf_e_flags_to_cpu_type(uint32_t flags)
+>  bool avr_load_firmware(AVRCPU *cpu, MachineState *ms,
+>                         MemoryRegion *program_mr, const char *firmware)
+>  {
+> -    const char *filename;
+> +    g_autofree char *filename;
 
-Kevin's reporting problems too, with a 3 second wait being too 
-optimistic. Let's extend the timeout a bit, which should help in that case.
+Any variable marked g_autofree or g_auto must always be initialized
+to NULL otherwise there's risk of free'ing uninitialized data. Even
+if currently safe, any later refactoring could turn it into a bug.
 
-(Avoiding exceptions in the atexit handler will take a little longer 
-perhaps, but I will start working on that too.)
+So iff "= NULL" is added:
 
---js
+Reviewed-by: Daniel P. Berrangé <berrange@redhat.com>
+
+
+Regards,
+Daniel
+-- 
+|: https://berrange.com      -o-    https://www.flickr.com/photos/dberrange :|
+|: https://libvirt.org         -o-            https://fstop138.berrange.com :|
+|: https://entangle-photo.org    -o-    https://www.instagram.com/dberrange :|
 
 
