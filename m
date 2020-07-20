@@ -2,108 +2,56 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E5700226A05
-	for <lists+qemu-devel@lfdr.de>; Mon, 20 Jul 2020 18:32:26 +0200 (CEST)
-Received: from localhost ([::1]:52276 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0057F226C1B
+	for <lists+qemu-devel@lfdr.de>; Mon, 20 Jul 2020 18:47:41 +0200 (CEST)
+Received: from localhost ([::1]:60906 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jxYiH-0006fw-Dh
-	for lists+qemu-devel@lfdr.de; Mon, 20 Jul 2020 12:32:25 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:37402)
+	id 1jxYx3-0002cr-21
+	for lists+qemu-devel@lfdr.de; Mon, 20 Jul 2020 12:47:41 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:40506)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <vsementsov@virtuozzo.com>)
- id 1jxYhF-0006AO-Qv; Mon, 20 Jul 2020 12:31:21 -0400
-Received: from mail-eopbgr80104.outbound.protection.outlook.com
- ([40.107.8.104]:47486 helo=EUR04-VI1-obe.outbound.protection.outlook.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <vsementsov@virtuozzo.com>)
- id 1jxYhA-0005qs-9E; Mon, 20 Jul 2020 12:31:20 -0400
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=DAbboV/4vohEAGlGiIcD+EoukAOqpeqm/oP2757YLEVLzIydTNyaLjv5NWm186h+M9Rjef5bBfF8Lx3/X9bBltjVKAa3zPi8CJB5fOEZdWV8RT4BZ44EZ/d91Otl4sdTjg0qHY3xTQW8llfUyuzkygLcGL7RUlO2z7ZWQ3goai4LJhpVxhfYV0IzhzB3ohQZxR4y6DtXy5WdxJxAtEGB50LOBJqBWK9+F+ZxpU76oz4V1RKwc+AiMeQnVStuE/5Y4S7rQnYWCoyMUuwzKcvJcEV0WfvsL4eh+JfZlPlrWsxFl9hhPZIXRhBx/JT03xkXoqlBFoAvD5KHfCDiIJmRRg==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=oWnd5JVJqNdraaPdGWSxk0FEf3EbWPWEiBbYGpbewfQ=;
- b=CVXR5F14pJ+o17rfFTcatCcgNKAWpU5pTJ0PD/Tfvv0FCbTOPUwZ4dF1QHsg25Xp0be2T7yfgbPsxhUu420CjSOgkIEK+8QQIAFPANewUZGYUhYlW0fVt96aWQ3RgdvlSMB7mDvLjzvPiz7lC/pN8B4gbMDUS7L7BuTIlbydjBO70+Utbpg41xV5q5NrBirRk2OCMjDkIQPaybvJcheecasZHUaPCvkJ55VAwJWtLRyNuoGAAkU6lH1YBIHwtkskbkfX0B005CmXe8fyWiev/lxIPYvKNk2AoH/Xfo7d5v+mAI4EA1d8n7V5Djwn3LlCUrhl075M7A5O94rOo+lh9Q==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=virtuozzo.com; dmarc=pass action=none
- header.from=virtuozzo.com; dkim=pass header.d=virtuozzo.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=virtuozzo.com;
- s=selector2;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=oWnd5JVJqNdraaPdGWSxk0FEf3EbWPWEiBbYGpbewfQ=;
- b=IghkGdP+bhTZ5iVeizj14zDu+MMrcJKsAH/ydLt1Ya+yhbBwOfPeLpPIhQPbejvvKPCPAChbCmv11hmDNf92PuhBMSU5hZxz07DRDqqGnHra/x9ijTd1v9/JNWZZ0Mk8ZPn0MuOrifq5lrAuW2rjCDfC23Ndf3fQPQWzUhREk8k=
-Authentication-Results: redhat.com; dkim=none (message not signed)
- header.d=none;redhat.com; dmarc=none action=none header.from=virtuozzo.com;
-Received: from AM7PR08MB5494.eurprd08.prod.outlook.com (2603:10a6:20b:dc::15)
- by AM6PR08MB4600.eurprd08.prod.outlook.com (2603:10a6:20b:84::29)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3195.18; Mon, 20 Jul
- 2020 16:31:10 +0000
-Received: from AM7PR08MB5494.eurprd08.prod.outlook.com
- ([fe80::a408:2f0f:bc6c:d312]) by AM7PR08MB5494.eurprd08.prod.outlook.com
- ([fe80::a408:2f0f:bc6c:d312%3]) with mapi id 15.20.3195.025; Mon, 20 Jul 2020
- 16:31:10 +0000
-Subject: Re: [PATCH v2 1/3] migration: Add block-bitmap-mapping parameter
-To: Max Reitz <mreitz@redhat.com>, qemu-block@nongnu.org
-References: <20200716135303.319502-1-mreitz@redhat.com>
- <20200716135303.319502-2-mreitz@redhat.com>
-From: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
-Message-ID: <ab6c9048-868f-23bc-5366-ca53f11f01a5@virtuozzo.com>
-Date: Mon, 20 Jul 2020 19:31:08 +0300
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.10.0
-In-Reply-To: <20200716135303.319502-2-mreitz@redhat.com>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-X-ClientProxiedBy: AM0PR04CA0124.eurprd04.prod.outlook.com
- (2603:10a6:208:55::29) To AM7PR08MB5494.eurprd08.prod.outlook.com
- (2603:10a6:20b:dc::15)
-MIME-Version: 1.0
-X-MS-Exchange-MessageSentRepresentingType: 1
-Received: from [192.168.100.2] (185.215.60.171) by
- AM0PR04CA0124.eurprd04.prod.outlook.com (2603:10a6:208:55::29) with Microsoft
- SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.3195.18 via Frontend Transport; Mon, 20 Jul 2020 16:31:09 +0000
-X-Originating-IP: [185.215.60.171]
-X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: 9e2a5495-dab5-49ff-c84d-08d82cca4f97
-X-MS-TrafficTypeDiagnostic: AM6PR08MB4600:
-X-Microsoft-Antispam-PRVS: <AM6PR08MB4600D5F12EDD21898225C593C17B0@AM6PR08MB4600.eurprd08.prod.outlook.com>
-X-MS-Oob-TLC-OOBClassifiers: OLM:7691;
-X-MS-Exchange-SenderADCheck: 1
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: 6dRtIt2NVqZ+esJuE6P2/dWDvVXNblglLsBUBIWWTfushg9Sk5WsPnQ9PQt+G6IZRpXbvyKEfaNCX8LAaN+NN/KmhGtXsWGYJJ+riHxAjC4NPAeL4gOUq9NNFlfNRM7YsUo+bTUKIvDfUkH94p511meU8631EGO5cCW67FO5ZXXUuDmR7bRBmYZitgZd/Tg4Bu6Rlfft5B2E8FapH2UzhYOs7NQ96J6B7zI35PJRX9xwvCAK+7X1QPH2YRODBuwzbHEeMRxbGFKCLHo7qBzFmXDCdqUihrb8MrwGUbAKJD/xmcBwzCKvshMG+pVSmayujFw8BYPJeym659p/lT/WCh584HYuhbmFN+EBa9I3+tqn1x2b/B7WrSUhqkRTAPYiu03oAjF7cUgQBMs16JlPcVZ7veBL97DxJ9dkMNoqDr8=
-X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:AM7PR08MB5494.eurprd08.prod.outlook.com; PTR:; CAT:NONE;
- SFTY:;
- SFS:(4636009)(396003)(136003)(346002)(366004)(376002)(39840400004)(26005)(186003)(52116002)(16526019)(31696002)(86362001)(2616005)(2906002)(478600001)(83380400001)(16576012)(31686004)(6486002)(4326008)(66476007)(66556008)(66946007)(956004)(8676002)(36756003)(8936002)(5660300002)(316002)(54906003)(43740500002)(309714004);
- DIR:OUT; SFP:1102; 
-X-MS-Exchange-AntiSpam-MessageData: FUY1F905ffZ5wAtxAVEovg9R1NUXkorPNU0AzjAU8t8PRJaIjWMP5qJSFDt9DYjvrlyfUTmUZQQYnpnKaQj6RkKV1NzwYbUgvcBH0krwFe2kKW1PDYL54iZ5r7ZjpM0qmKzYsE4LYP1fS/DfCHKFzH9on8uiE8bg0wZy+5cRhhr6xIAQCvh3qNKXXvGRJqAL6UcTS7I/vMMCX5KtopzfZfDyh8gP+HeC0F1nX1hx6YpemU5AoZol4ycyVZ/UvLyCSOrcPgDIK2GTb6JRI4W01FOXBRfgRfwJfKy5olt9XZ54v+PWlGNqIU9ENu3ERoarx4w5wUFo0C2JnqN2J9VYGdUkbTz2v+EkDYE0VzIbViUlRK1zx9GTAtKmOWv36y4Ecszo78MSKRl+Be0m97JL6JxNjc9AZ9Rkm8mS7scw95/KePfX/y/2VqKcxRoiKFXTXDy79rPNUtWTZN1P29A0FLVM/mEnC5dJ1/qHYxozNYhmboEpDBw3SOF95xf2H7aX
-X-OriginatorOrg: virtuozzo.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 9e2a5495-dab5-49ff-c84d-08d82cca4f97
-X-MS-Exchange-CrossTenant-AuthSource: AM7PR08MB5494.eurprd08.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 20 Jul 2020 16:31:10.4522 (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 0bc7f26d-0264-416e-a6fc-8352af79c58f
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: +Uc9RY/6lgHV2N7eqZ8iKlVSsXzUs4zUj/4x6jVa/mzU+01jhY6qlE8wvnMZOelxm9Ku8Fx6TfWwSR/cqxRwShgt4R2t/JNT8UZT27jIOMs=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: AM6PR08MB4600
-Received-SPF: pass client-ip=40.107.8.104;
- envelope-from=vsementsov@virtuozzo.com;
- helo=EUR04-VI1-obe.outbound.protection.outlook.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/07/20 12:31:11
-X-ACL-Warn: Detected OS   = Windows NT kernel [generic] [fuzzy]
-X-Spam_score_int: -37
-X-Spam_score: -3.8
-X-Spam_bar: ---
-X-Spam_report: (-3.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- MSGID_FROM_MTA_HEADER=0.001, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-1,
- SPF_HELO_PASS=-0.001, SPF_PASS=-0.001,
- URIBL_BLOCKED=0.001 autolearn=ham autolearn_force=no
+ (Exim 4.90_1) (envelope-from <liq3ea@163.com>) id 1jxYvZ-0001ik-0s
+ for qemu-devel@nongnu.org; Mon, 20 Jul 2020 12:46:09 -0400
+Received: from mail-m971.mail.163.com ([123.126.97.1]:43780)
+ by eggs.gnu.org with esmtp (Exim 4.90_1)
+ (envelope-from <liq3ea@163.com>) id 1jxYvP-0007Zf-SL
+ for qemu-devel@nongnu.org; Mon, 20 Jul 2020 12:46:07 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=163.com;
+ s=s110527; h=From:Subject:Date:Message-Id; bh=4tq8ItQDnGgjnTbwdK
+ RPljKtjILylHMFZyFmgvb/pGg=; b=EpqCcXDwzZoDPf0XWD1BJe8kVvTya6zsAo
+ N/ZGkvSWk+TsV8DFE7BkLHLlztIWGYXyJX/6nUFola0Rx37B/4Q0MqiF8utbylya
+ gTs8tv3599JpSaDiOEVW72JQQ5GEJSE4A8FIIky1pc8VlJJxFNf3rLLZ6AL0xI9K
+ AJB6OyjZo=
+Received: from localhost.localdomain (unknown [115.199.195.7])
+ by smtp1 (Coremail) with SMTP id GdxpCgAn4lsxyhVfP3Z_Bg--.566S4;
+ Tue, 21 Jul 2020 00:45:42 +0800 (CST)
+From: Li Qiang <liq3ea@163.com>
+To: dmitry.fleytman@gmail.com,
+	jasowang@redhat.com,
+	pbonzini@redhat.com
+Subject: [PATCH v2] e1000e: using bottom half to send packets
+Date: Mon, 20 Jul 2020 09:45:35 -0700
+Message-Id: <20200720164535.76559-1-liq3ea@163.com>
+X-Mailer: git-send-email 2.17.1
+X-CM-TRANSID: GdxpCgAn4lsxyhVfP3Z_Bg--.566S4
+X-Coremail-Antispam: 1Uf129KBjvJXoWxtw4DJr47tw1fGFy8Jr4ruFg_yoW3AF18pa
+ ykGwsxXr15Gry3Ars7Wr15Jr15Jr4xJ3s7Wr4Uu34FqFZ3A34DJr18ta1UZFW3ua9FvrZ5
+ CF45trya9ryDXw7anT9S1TB71UUUUUUqnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
+ 9KBjDUYxBIdaVFxhVjvjDU0xZFpf9x07U-18PUUUUU=
+X-Originating-IP: [115.199.195.7]
+X-CM-SenderInfo: 5oltjvrd6rljoofrz/xtbBaxlnbVet1SidywABso
+Received-SPF: pass client-ip=123.126.97.1; envelope-from=liq3ea@163.com;
+ helo=mail-m971.mail.163.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/07/20 12:45:46
+X-ACL-Warn: Detected OS   = Linux 3.1-3.10
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H4=-0.01, RCVD_IN_MSPIKE_WL=-0.01,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -116,216 +64,295 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Kevin Wolf <kwolf@redhat.com>, Peter Krempa <pkrempa@redhat.com>,
- Juan Quintela <quintela@redhat.com>, John Snow <jsnow@redhat.com>,
- qemu-devel@nongnu.org, "Dr . David Alan Gilbert" <dgilbert@redhat.com>
+Cc: alxndr@bu.edu, Li Qiang <liq3ea@163.com>, liq3ea@gmail.com,
+ qemu-devel@nongnu.org, ppandit@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-16.07.2020 16:53, Max Reitz wrote:
-> This migration parameter allows mapping block node names and bitmap
-> names to aliases for the purpose of block dirty bitmap migration.
-> 
-> This way, management tools can use different node and bitmap names on
-> the source and destination and pass the mapping of how bitmaps are to be
-> transferred to qemu (on the source, the destination, or even both with
-> arbitrary aliases in the migration stream).
-> 
-> Suggested-by: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
-> Signed-off-by: Max Reitz <mreitz@redhat.com>
-> ---
-> Vladimir noted in v1 that it would be better to ignore bitmaps whose
-> names aren't mapped, or that are on nodes whose names aren't mapped.
-> One of the reasons he gave was that bitmap migration is inherently a
-> form of postcopy migration, and we should not break the target when it
-> is already running because of a bitmap issue.
-> 
-> So in this version, I changed the behavior to just ignore bitmaps
-> without a mapping on the source side.  On the destination, however, I
-> kept it an error when an incoming bitmap or node alias is unknown.
-> 
-> This is in violation of Vladimir's (rightful) reasoning that such
-> errors should never break the already running target, but I decided to
-> do so anyway for a couple of reasons:
-> 
-> - Ignoring unmapped bitmaps on the source is trivial: We just have to
->    not put them into the migration stream.
->    On the destination, it isn't so easy: We (I think) would have to
->    modify the code to actively skip the bitmap in the stream.
->    (On the other hand, erroring out is always easy.)
+Alexander Bulekov reported a UAF bug related e1000e packets send.
 
-Agree. Actually, my series "[PATCH v2 00/22] Fix error handling during bitmap postcopy"
-do something like this. But no sense in mixing such logic into your series :)
+-->https://bugs.launchpad.net/qemu/+bug/1886362
 
-> 
-> - Incoming bitmaps with unknown names are already an error before this
->    series.  So this isn't introducing new breakage.
-> 
-> - I think it makes sense to drop all bitmaps you don't want to migrate
->    (or implicitly drop them by just not specifying them if you don't care
->    about them) on the source.  I can't imagine a scenario where it would
->    be really useful if the destination could silently drop unknown
->    bitmaps.  Unknown bitmaps should just be dropped on the source.
-> 
-> - Choosing to make it an error now doesn't prevent us from relaxing that
->    restriction in the future.
+This is because the guest trigger a e1000e packet send and set the
+data's address to e1000e's MMIO address. So when the e1000e do DMA
+it will write the MMIO again and trigger re-entrancy and finally
+causes this UAF.
 
-Agree, that's all OK. Still we can at least ignore, if we don't get some
-bitmap on destination, for which mapping is set (I think you do exactly
-this, will see below).
+Paolo suggested to use a bottom half whenever MMIO is doing complicate
+things in here:
+-->https://lists.nongnu.org/archive/html/qemu-devel/2020-07/msg03342.html
 
+Reference here:
+'The easiest solution is to delay processing of descriptors to a bottom
+half whenever MMIO is doing something complicated.  This is also better
+for latency because it will free the vCPU thread more quickly and leave
+the work to the I/O thread.'
 
-> ---
->   qapi/migration.json            |  92 +++++++-
->   migration/migration.h          |   3 +
->   migration/block-dirty-bitmap.c | 373 ++++++++++++++++++++++++++++-----
->   migration/migration.c          |  30 +++
->   monitor/hmp-cmds.c             |  30 +++
->   5 files changed, 473 insertions(+), 55 deletions(-)
-> 
-> diff --git a/qapi/migration.json b/qapi/migration.json
-> index d5000558c6..1b0fbcef96 100644
-> --- a/qapi/migration.json
-> +++ b/qapi/migration.json
-> @@ -507,6 +507,44 @@
+This patch fixes this UAF.
 
-[..]
+Signed-off-by: Li Qiang <liq3ea@163.com>
+---
+Change since v1:
+Per Jason's review here:
+-- https://lists.nongnu.org/archive/html/qemu-devel/2020-07/msg05368.html
+1. Cancel and schedule the tx bh when VM is stopped or resume
+2. Add a tx_burst for e1000e configuration to throttle the bh execution
+3. Add a tx_waiting to record whether the bh is pending or not
+Don't use BQL in the tx_bh handler as when tx_bh is executed, the BQL is
+acquired.
 
->   #
-> +# @block-bitmap-mapping: Maps block nodes and bitmaps on them to
-> +#          aliases for the purpose of dirty bitmap migration.  Such
-> +#          aliases may for example be the corresponding names on the
-> +#          opposite site.
-> +#          The mapping must be one-to-one, and on the destination also
-> +#          complete: On the source, bitmaps on nodes where either the
-> +#          bitmap or the node is not mapped will be ignored.  In
-> +#          contrast, on the destination, receiving a bitmap (by alias)
-> +#          from a node (by alias) when either alias is not mapped will
-> +#          result in an error.
+ hw/net/e1000e.c      |   6 +++
+ hw/net/e1000e_core.c | 106 ++++++++++++++++++++++++++++++++++---------
+ hw/net/e1000e_core.h |   8 ++++
+ 3 files changed, 98 insertions(+), 22 deletions(-)
 
-Still, not receiving some bitmap is not an error. It's good. I think, should
-be mentioned here too (does it violate "compelete" term?).
-
-> +#          By default (when this parameter has never been set), bitmap
-> +#          names are mapped to themselves.  Nodes are mapped to their
-> +#          block device name if there is one, and to their node name
-> +#          otherwise. (Since 5.2)
-> +#
->   # Since: 2.4
-
-[..]
-
-> -static int dirty_bitmap_load_header(QEMUFile *f, DirtyBitmapLoadState *s)
-> +static int dirty_bitmap_load_header(QEMUFile *f, DirtyBitmapLoadState *s,
-> +                                    GHashTable *alias_map)
->   {
-> +    GHashTable *bitmap_alias_map = NULL;
->       Error *local_err = NULL;
->       bool nothing;
->       s->flags = qemu_get_bitmap_flags(f);
-> @@ -676,25 +890,68 @@ static int dirty_bitmap_load_header(QEMUFile *f, DirtyBitmapLoadState *s)
->       nothing = s->flags == (s->flags & DIRTY_BITMAP_MIG_FLAG_EOS);
->   
->       if (s->flags & DIRTY_BITMAP_MIG_FLAG_DEVICE_NAME) {
-> -        if (!qemu_get_counted_string(f, s->node_name)) {
-> -            error_report("Unable to read node name string");
-> +        if (!qemu_get_counted_string(f, s->node_alias)) {
-> +            error_report("Unable to read node alias string");
->               return -EINVAL;
->           }
-> -        s->bs = bdrv_lookup_bs(s->node_name, s->node_name, &local_err);
-> +
-> +        if (alias_map) {
-> +            const AliasMapInnerNode *amin;
-> +
-> +            amin = g_hash_table_lookup(alias_map, s->node_alias);
-> +            if (!amin) {
-> +                error_report("Error: Unknown node alias '%s'", s->node_alias);
-> +                return -EINVAL;
-> +            }
-> +
-> +            bitmap_alias_map = amin->subtree;
-> +            s->bs = bdrv_lookup_bs(NULL, amin->string, &local_err);
-> +        } else {
-> +            s->bs = bdrv_lookup_bs(s->node_alias, s->node_alias, &local_err);
-> +        }
->           if (!s->bs) {
->               error_report_err(local_err);
->               return -EINVAL;
->           }
-> -    } else if (!s->bs && !nothing) {
-> +    } else if (s->bs) {
-> +        if (alias_map) {
-> +            const AliasMapInnerNode *amin;
-> +
-> +            /* Must be present in the map, or s->bs would not be set */
-> +            amin = g_hash_table_lookup(alias_map, s->node_alias);
-> +            assert(amin != NULL);
-> +
-> +            bitmap_alias_map = amin->subtree;
-> +        }
-> +    } else if (!nothing) {
->           error_report("Error: block device name is not set");
->           return -EINVAL;
->       }
->   
-> +    assert(!!alias_map == !!bitmap_alias_map);
-
-Actually one '!' is enough. But '!!' looks good too (usual convertion to bool, why not).
-
-But what's more serious: this assertion will fail in case of "nothing"
-(sorry my architecture :(.
-
-I assume, by protocol, chunk with EOS flag may contain bitmap and/or node information or may not.
-
-So, it most probably should be: assert(nothing || (!alias_map == !bitmap_alias_map))
-
-(You can cover "nothing" case in test, if enable bitmap migrations when no bitmaps to migrate)
-
-> +
->       if (s->flags & DIRTY_BITMAP_MIG_FLAG_BITMAP_NAME) {
-> -        if (!qemu_get_counted_string(f, s->bitmap_name)) {
-> +        const char *bitmap_name;
-> +
-> +        if (!qemu_get_counted_string(f, s->bitmap_alias)) {
->               error_report("Unable to read bitmap name string");
->               return -EINVAL;
->           }
-> +
-> +        if (bitmap_alias_map) {
-> +            bitmap_name = g_hash_table_lookup(bitmap_alias_map,
-> +                                              s->bitmap_alias);
-> +            if (!bitmap_name) {
-> +                error_report("Error: Unknown bitmap alias '%s' on node '%s' "
-> +                             "(alias '%s')", s->bitmap_alias, s->bs->node_name,
-> +                             s->node_alias);
-> +                return -EINVAL;
-> +            }
-> +        } else {
-> +            bitmap_name = s->bitmap_alias;
-> +        }
-> +
-> +        g_strlcpy(s->bitmap_name, bitmap_name, sizeof(s->bitmap_name));
-
-Hmm. Actually, we should check that in alias map target bitmap_name is short enough. It may be done later.
-
->           s->bitmap = bdrv_find_dirty_bitmap(s->bs, s->bitmap_name);
->   
->           /* bitmap may be NULL here, it wouldn't be an error if it is the
-> @@ -702,7 +959,7 @@ static int dirty_bitmap_load_header(QEMUFile *f, DirtyBitmapLoadState *s)
->           if (!s->bitmap && !(s->flags & DIRTY_BITMAP_MIG_FLAG_START)) {
-
-
-OK, with assertion fixed;
-
-Reviewed-by: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
-
-It's a bit weak, because:
-
-  - I don't have good understanding all these migration parameters logics with this triple duplication. So if it works in test, it should be good enough.
-  - The whole logic of bitmap migration is a bit hard to follow (I know, that it's my code :). I'll revisit it when rebasing my big series "[PATCH v2 00/22] Fix error handling during bitmap postcopy".
-
+diff --git a/hw/net/e1000e.c b/hw/net/e1000e.c
+index fda34518c9..24e35a78bf 100644
+--- a/hw/net/e1000e.c
++++ b/hw/net/e1000e.c
+@@ -77,10 +77,14 @@ typedef struct E1000EState {
+ 
+     bool disable_vnet;
+ 
++    int32_t tx_burst;
++
+     E1000ECore core;
+ 
+ } E1000EState;
+ 
++#define TX_BURST 256
++
+ #define E1000E_MMIO_IDX     0
+ #define E1000E_FLASH_IDX    1
+ #define E1000E_IO_IDX       2
+@@ -263,6 +267,7 @@ static void e1000e_core_realize(E1000EState *s)
+ {
+     s->core.owner = &s->parent_obj;
+     s->core.owner_nic = s->nic;
++    s->core.tx_burst = s->tx_burst;
+ }
+ 
+ static void
+@@ -665,6 +670,7 @@ static Property e1000e_properties[] = {
+                         e1000e_prop_subsys_ven, uint16_t),
+     DEFINE_PROP_SIGNED("subsys", E1000EState, subsys, 0,
+                         e1000e_prop_subsys, uint16_t),
++    DEFINE_PROP_INT32("x-txburst", E1000EState, tx_burst, TX_BURST),
+     DEFINE_PROP_END_OF_LIST(),
+ };
+ 
+diff --git a/hw/net/e1000e_core.c b/hw/net/e1000e_core.c
+index bcd186cac5..0a38a50cca 100644
+--- a/hw/net/e1000e_core.c
++++ b/hw/net/e1000e_core.c
+@@ -909,19 +909,18 @@ e1000e_rx_ring_init(E1000ECore *core, E1000E_RxRing *rxr, int idx)
+     rxr->i      = &i[idx];
+ }
+ 
+-static void
+-e1000e_start_xmit(E1000ECore *core, const E1000E_TxRing *txr)
++static int32_t
++e1000e_start_xmit(struct e1000e_tx *q)
+ {
++    E1000ECore *core = q->core;
+     dma_addr_t base;
+     struct e1000_tx_desc desc;
+-    bool ide = false;
+-    const E1000E_RingInfo *txi = txr->i;
+-    uint32_t cause = E1000_ICS_TXQE;
++    const E1000E_RingInfo *txi;
++    E1000E_TxRing txr;
++    int32_t num_packets = 0;
+ 
+-    if (!(core->mac[TCTL] & E1000_TCTL_EN)) {
+-        trace_e1000e_tx_disabled();
+-        return;
+-    }
++    e1000e_tx_ring_init(core, &txr, q - &core->tx[0]);
++    txi = txr.i;
+ 
+     while (!e1000e_ring_empty(core, txi)) {
+         base = e1000e_ring_head_descr(core, txi);
+@@ -931,15 +930,17 @@ e1000e_start_xmit(E1000ECore *core, const E1000E_TxRing *txr)
+         trace_e1000e_tx_descr((void *)(intptr_t)desc.buffer_addr,
+                               desc.lower.data, desc.upper.data);
+ 
+-        e1000e_process_tx_desc(core, txr->tx, &desc, txi->idx);
+-        cause |= e1000e_txdesc_writeback(core, base, &desc, &ide, txi->idx);
++        e1000e_process_tx_desc(core, txr.tx, &desc, txi->idx);
++        q->cause |= e1000e_txdesc_writeback(core, base, &desc,
++                                            &q->ide, txi->idx);
+ 
+         e1000e_ring_advance(core, txi, 1);
++        if (++num_packets >= core->tx_burst) {
++            break;
++        }
+     }
+ 
+-    if (!ide || !e1000e_intrmgr_delay_tx_causes(core, &cause)) {
+-        e1000e_set_interrupt_cause(core, cause);
+-    }
++    return num_packets;
+ }
+ 
+ static bool
+@@ -2423,32 +2424,41 @@ e1000e_set_dbal(E1000ECore *core, int index, uint32_t val)
+ static void
+ e1000e_set_tctl(E1000ECore *core, int index, uint32_t val)
+ {
+-    E1000E_TxRing txr;
+     core->mac[index] = val;
+ 
+     if (core->mac[TARC0] & E1000_TARC_ENABLE) {
+-        e1000e_tx_ring_init(core, &txr, 0);
+-        e1000e_start_xmit(core, &txr);
++        if (core->tx[0].tx_waiting) {
++            return;
++        }
++        core->tx[0].tx_waiting = 1;
++        if (!core->vm_running) {
++            return;
++        }
++        qemu_bh_schedule(core->tx[0].tx_bh);
+     }
+ 
+     if (core->mac[TARC1] & E1000_TARC_ENABLE) {
+-        e1000e_tx_ring_init(core, &txr, 1);
+-        e1000e_start_xmit(core, &txr);
++        if (core->tx[1].tx_waiting) {
++            return;
++        }
++        core->tx[1].tx_waiting = 1;
++        if (!core->vm_running) {
++            return;
++        }
++        qemu_bh_schedule(core->tx[1].tx_bh);
+     }
+ }
+ 
+ static void
+ e1000e_set_tdt(E1000ECore *core, int index, uint32_t val)
+ {
+-    E1000E_TxRing txr;
+     int qidx = e1000e_mq_queue_idx(TDT, index);
+     uint32_t tarc_reg = (qidx == 0) ? TARC0 : TARC1;
+ 
+     core->mac[index] = val & 0xffff;
+ 
+     if (core->mac[tarc_reg] & E1000_TARC_ENABLE) {
+-        e1000e_tx_ring_init(core, &txr, qidx);
+-        e1000e_start_xmit(core, &txr);
++        qemu_bh_schedule(core->tx[qidx].tx_bh);
+     }
+ }
+ 
+@@ -3315,10 +3325,56 @@ e1000e_vm_state_change(void *opaque, int running, RunState state)
+         trace_e1000e_vm_state_running();
+         e1000e_intrmgr_resume(core);
+         e1000e_autoneg_resume(core);
++        core->vm_running = 1;
++
++        for (int i = 0; i < E1000E_NUM_QUEUES; i++) {
++            qemu_bh_schedule(core->tx[i].tx_bh);
++        }
++
+     } else {
+         trace_e1000e_vm_state_stopped();
++
++        for (int i = 0; i < E1000E_NUM_QUEUES; i++) {
++            qemu_bh_cancel(core->tx[i].tx_bh);
++        }
++
+         e1000e_autoneg_pause(core);
+         e1000e_intrmgr_pause(core);
++        core->vm_running = 0;
++    }
++}
++
++
++static void e1000e_core_tx_bh(void *opaque)
++{
++    struct e1000e_tx *q = opaque;
++    E1000ECore *core = q->core;
++    int32_t ret;
++
++    if (!core->vm_running) {
++        assert(q->tx_waiting);
++        return;
++    }
++
++    q->tx_waiting = 0;
++
++    if (!(core->mac[TCTL] & E1000_TCTL_EN)) {
++        trace_e1000e_tx_disabled();
++        return;
++    }
++
++    q->cause = E1000_ICS_TXQE;
++    q->ide = false;
++
++    ret = e1000e_start_xmit(q);
++    if (ret >= core->tx_burst) {
++        qemu_bh_schedule(q->tx_bh);
++        q->tx_waiting = 1;
++        return;
++    }
++
++    if (!q->ide || !e1000e_intrmgr_delay_tx_causes(core, &q->cause)) {
++        e1000e_set_interrupt_cause(core, q->cause);
+     }
+ }
+ 
+@@ -3334,12 +3390,15 @@ e1000e_core_pci_realize(E1000ECore     *core,
+                                        e1000e_autoneg_timer, core);
+     e1000e_intrmgr_pci_realize(core);
+ 
++    core->vm_running = runstate_is_running();
+     core->vmstate =
+         qemu_add_vm_change_state_handler(e1000e_vm_state_change, core);
+ 
+     for (i = 0; i < E1000E_NUM_QUEUES; i++) {
+         net_tx_pkt_init(&core->tx[i].tx_pkt, core->owner,
+                         E1000E_MAX_TX_FRAGS, core->has_vnet);
++        core->tx[i].core = core;
++        core->tx[i].tx_bh = qemu_bh_new(e1000e_core_tx_bh, &core->tx[i]);
+     }
+ 
+     net_rx_pkt_init(&core->rx_pkt, core->has_vnet);
+@@ -3367,6 +3426,9 @@ e1000e_core_pci_uninit(E1000ECore *core)
+     for (i = 0; i < E1000E_NUM_QUEUES; i++) {
+         net_tx_pkt_reset(core->tx[i].tx_pkt);
+         net_tx_pkt_uninit(core->tx[i].tx_pkt);
++        qemu_bh_cancel(core->tx[i].tx_bh);
++        qemu_bh_delete(core->tx[i].tx_bh);
++        core->tx[i].tx_bh = NULL;
+     }
+ 
+     net_rx_pkt_uninit(core->rx_pkt);
+diff --git a/hw/net/e1000e_core.h b/hw/net/e1000e_core.h
+index aee32f7e48..0c16dce3a6 100644
+--- a/hw/net/e1000e_core.h
++++ b/hw/net/e1000e_core.h
+@@ -77,10 +77,18 @@ struct E1000Core {
+         unsigned char sum_needed;
+         bool cptse;
+         struct NetTxPkt *tx_pkt;
++        QEMUBH *tx_bh;
++        uint32_t tx_waiting;
++        uint32_t cause;
++        bool ide;
++        E1000ECore *core;
+     } tx[E1000E_NUM_QUEUES];
+ 
+     struct NetRxPkt *rx_pkt;
+ 
++    int32_t tx_burst;
++
++    bool vm_running;
+     bool has_vnet;
+     int max_queue_num;
+ 
 -- 
-Best regards,
-Vladimir
+2.17.1
+
 
