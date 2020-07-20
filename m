@@ -2,74 +2,78 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8471C226342
-	for <lists+qemu-devel@lfdr.de>; Mon, 20 Jul 2020 17:25:43 +0200 (CEST)
-Received: from localhost ([::1]:39718 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3224A22638A
+	for <lists+qemu-devel@lfdr.de>; Mon, 20 Jul 2020 17:38:29 +0200 (CEST)
+Received: from localhost ([::1]:50024 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jxXfi-0007qp-5U
-	for lists+qemu-devel@lfdr.de; Mon, 20 Jul 2020 11:25:42 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:48438)
+	id 1jxXs3-0004bf-LD
+	for lists+qemu-devel@lfdr.de; Mon, 20 Jul 2020 11:38:27 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:52332)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1jxXen-0007Ji-JS
- for qemu-devel@nongnu.org; Mon, 20 Jul 2020 11:24:45 -0400
-Received: from us-smtp-2.mimecast.com ([205.139.110.61]:57501
- helo=us-smtp-delivery-1.mimecast.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1jxXek-0004zn-TY
- for qemu-devel@nongnu.org; Mon, 20 Jul 2020 11:24:44 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1595258680;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=mjUkemNZt8Ayf3GGfnJ/0jNl6f4HscBFc7YK3mPnJ+I=;
- b=N/grj4GeYDMQ1iAYODt++YuwJP7zM163+Vu0zyyZ/gRlsMLN0x8W+ryEeIHneSix6dicdV
- L5l2kZ7Ywsbb8NkGlHuuZ+e2IsYST3vkDSk1+8HQl8/ifIvfXZBkJQ30mXxDCl8RZhzssb
- PYd9z5E3vIltpuHPW2VCKdpJAeQJPr0=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-418-s_RD4tc2MySB0kdgmKweOg-1; Mon, 20 Jul 2020 11:24:38 -0400
-X-MC-Unique: s_RD4tc2MySB0kdgmKweOg-1
-Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
- [10.5.11.12])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 71B111080;
- Mon, 20 Jul 2020 15:24:37 +0000 (UTC)
-Received: from blackfin.pond.sub.org (ovpn-112-143.ams2.redhat.com
- [10.36.112.143])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id D1ED960E3E;
- Mon, 20 Jul 2020 15:24:36 +0000 (UTC)
-Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
- id 15C771141C54; Mon, 20 Jul 2020 17:24:35 +0200 (CEST)
-From: Markus Armbruster <armbru@redhat.com>
-To: Greg Kurz <groug@kaod.org>
-Subject: Re: [PATCH v4 for-5.2 1/2] spapr: Use error_append_hint() in
- spapr_caps.c
-References: <159491945918.188975.4358645698778061430.stgit@bahia.lan>
- <159491947184.188975.5055299566400098290.stgit@bahia.lan>
-Date: Mon, 20 Jul 2020 17:24:35 +0200
-In-Reply-To: <159491947184.188975.5055299566400098290.stgit@bahia.lan> (Greg
- Kurz's message of "Thu, 16 Jul 2020 19:11:11 +0200")
-Message-ID: <87mu3uciq4.fsf@dusky.pond.sub.org>
-User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/26.3 (gnu/linux)
+ (Exim 4.90_1) (envelope-from <antoine.damhet@blade-group.com>)
+ id 1jxXr6-0003rV-KH
+ for qemu-devel@nongnu.org; Mon, 20 Jul 2020 11:37:28 -0400
+Received: from mail-wm1-x344.google.com ([2a00:1450:4864:20::344]:50283)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <antoine.damhet@blade-group.com>)
+ id 1jxXr4-0007Uf-H1
+ for qemu-devel@nongnu.org; Mon, 20 Jul 2020 11:37:27 -0400
+Received: by mail-wm1-x344.google.com with SMTP id c80so22718154wme.0
+ for <qemu-devel@nongnu.org>; Mon, 20 Jul 2020 08:37:25 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=blade-group.com; s=google;
+ h=date:from:to:cc:subject:message-id:references:mime-version
+ :content-disposition:in-reply-to;
+ bh=TxNiv0mmwz5tykaYIMa25MfWsV2KeVFrzqGHWHnQ3oo=;
+ b=QDNMebnBKEU7OAIncO403byn2hNfmcM/hoh91kZVEGghNjjp1RGfUgt6f3KqV1ZP2L
+ MurlvhdtjmyKNFf87DkKnRqP2sJ3QVXoQ0bUiTBKsmO34zA4C7r3UW3oHIDlBpZBPVlz
+ hrwIek6vR5oSZh05jE/1FRtK41AnqKNkM+xSNcUKn3X58s19ss7Mh2s9EzaS3szDWBBN
+ prEw8dJjJA2cCu7b8D4TtD7hIhZKCj7dc5BvB7axUuSRBALjYbzvdDHaO9gGG9cMlvLE
+ t4Ya61g6dtYatb+XYNLoCuxoB0t0i0rrHABwyzgKZd84yVCYRnAYKc0IQphhYfEZKYLp
+ u8nA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+ :mime-version:content-disposition:in-reply-to;
+ bh=TxNiv0mmwz5tykaYIMa25MfWsV2KeVFrzqGHWHnQ3oo=;
+ b=rtpXCXeTs6iccV3BBZNknrEvbuEMGN7Ht9znbwXDZo2rJxgAT6J950cYVATBDVckBJ
+ TmmjTk0haqPslzFt9DI755acgYiMGDcNZunwwO+PpuXqkb9+Zniiafa/ExkVJhGrko+W
+ ZRKZi3zHLoY/fGoQTrvVPCBSCPT2JFvbEkcXqy0D9C1ovvJeCS8+MCxT/AZ0NfJCKgKb
+ wCDvA3HWDLOVhHf5Fij8kuNs/axyng4CDyZTKH3kCX/tk9PJZy6maK4jTybLDmZ2Z8pV
+ cejtbSLCc1/oiS5PEEaM/8RX1vWMuNoT4HyNXsj889fgoxu0mqNZgT43ZuAgoEYLHAJ9
+ dxhQ==
+X-Gm-Message-State: AOAM5320ggKclSWoapaZgbQOkD/zlRo8uTrw4dxUG5Am4cifARSUMEfg
+ JImdaxbRubI78bzQIsDXFbafxw==
+X-Google-Smtp-Source: ABdhPJz8ruxlaxqSQ+G4YGOY3GQNTWt7USyDpzNT0uzE3oh5c/xmmhfUygCSsN7XX6K03nuv8+Q8Sg==
+X-Received: by 2002:a1c:9e4c:: with SMTP id h73mr23752951wme.177.1595259444241; 
+ Mon, 20 Jul 2020 08:37:24 -0700 (PDT)
+Received: from localhost ([2a01:e34:ec16:8a90:4e1d:96ff:fe49:7109])
+ by smtp.gmail.com with ESMTPSA id y11sm17747298wrs.80.2020.07.20.08.37.23
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Mon, 20 Jul 2020 08:37:23 -0700 (PDT)
+Date: Mon, 20 Jul 2020 17:37:22 +0200
+From: Antoine Damhet <antoine.damhet@blade-group.com>
+To: Kevin Wolf <kwolf@redhat.com>
+Subject: Re: [PATCH RESEND] file-posix: Handle `EINVAL` fallocate return value
+Message-ID: <20200720153722.2zv2vhzficgg73lo@tartarus>
+References: <20200717135603.51180-1-antoine.damhet@blade-group.com>
+ <20200720140726.GD5541@linux.fritz.box>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain
-Received-SPF: pass client-ip=205.139.110.61; envelope-from=armbru@redhat.com;
- helo=us-smtp-delivery-1.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/07/20 02:16:39
-X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
-X-Spam_score_int: -40
-X-Spam_score: -4.1
-X-Spam_bar: ----
-X-Spam_report: (-4.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-1, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature"; boundary="qq6g4k2v5x3z4g5d"
+Content-Disposition: inline
+In-Reply-To: <20200720140726.GD5541@linux.fritz.box>
+Received-SPF: pass client-ip=2a00:1450:4864:20::344;
+ envelope-from=antoine.damhet@blade-group.com; helo=mail-wm1-x344.google.com
+X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
+ That's all we know.
+X-Spam_score_int: -16
+X-Spam_score: -1.7
+X-Spam_bar: -
+X-Spam_report: (-1.7 / 5.0 requ) BAYES_00=-1.9, DKIM_INVALID=0.1,
+ DKIM_SIGNED=0.1, RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001, URIBL_BLOCKED=0.001 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -82,42 +86,108 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-devel@nongnu.org,
- Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>, qemu-ppc@nongnu.org,
- Laurent Vivier <laurent@vivier.eu>, David Gibson <david@gibson.dropbear.id.au>
+Cc: qemu-devel@nongnu.org, "open list:raw" <qemu-block@nongnu.org>,
+ Max Reitz <mreitz@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Greg Kurz <groug@kaod.org> writes:
 
-> We have a dedicated error API for hints. Use it instead of embedding
-> the hint in the error message, as recommanded in the "qapi/error.h"
-> header file.
->
-> Since spapr_caps_apply() passes &error_fatal, all functions must
-> also call the ERRP_GUARD() macro for error_append_hint() to be
-> functional.
+--qq6g4k2v5x3z4g5d
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-This isn't a request for change in this patch, just an attempt to squash
-possible misunderstandings.
+On Mon, Jul 20, 2020 at 04:07:26PM +0200, Kevin Wolf wrote:
+> Am 17.07.2020 um 15:56 hat antoine.damhet@blade-group.com geschrieben:
+> > From: Antoine Damhet <antoine.damhet@blade-group.com>
+> >=20
+> > The `detect-zeroes=3Dunmap` option may issue unaligned
+> > `FALLOC_FL_PUNCH_HOLE` requests, raw block devices can (and will) return
+> > `EINVAL`, qemu should then write the zeroes to the blockdev instead of
+> > issuing an `IO_ERROR`.
+> >=20
+> > Signed-off-by: Antoine Damhet <antoine.damhet@blade-group.com>
+>=20
+> Do you have a simple reproducer for this? I tried it with something like
+> this (also with a LV instead of loop, but it didn't really make a
+> difference):
+>=20
+> $ ./qemu-io -c 'write -P 0 42 1234' --image-opts driver=3Dhost_device,fil=
+ename=3D/dev/loop0,cache.direct=3Don,detect-zeroes=3Don
+> wrote 1234/1234 bytes at offset 42
+> 1.205 KiB, 1 ops; 00.00 sec (2.021 MiB/sec and 1717.5697 ops/sec)
+>=20
+> So I don't seem to run into an error.
 
-It's true that error_append_hint() without ERRP_GUARD() works as long as
-the caller doesn't pass certain errp arguments.  But the callee should
-work for all possible @errp arguments, not just the ones that get passed
-today.  That's why error.h wants you to guard *all* uses of
-error_append_hint(errp):
+```
+$ qemu-io -c 'write -P 0 42 1234' --image-opts driver=3Dhost_device,filenam=
+e=3D/dev/loop0,detect-zeroes=3Dunmap
+write failed: Invalid argument
+```
 
- * = Why, when and how to use ERRP_GUARD() =
- *
- * Without ERRP_GUARD(), use of the @errp parameter is restricted:
- * - It must not be dereferenced, because it may be null.
- * - It should not be passed to error_prepend() or
- *   error_append_hint(), because that doesn't work with &error_fatal.
- * ERRP_GUARD() lifts these restrictions.
+This seems do do the trick :) (We triggered the bug with Windows 10
+guests and with an iSCSI drive so it was hardly a simple reproducer).
 
-No need to make an argument involving the possible arguments (pardon the
-pun).
+>=20
+> > diff --git a/block/file-posix.c b/block/file-posix.c
+> > index 8067e238cb..b2fabcc1b8 100644
+> > --- a/block/file-posix.c
+> > +++ b/block/file-posix.c
+> > @@ -1620,7 +1620,11 @@ static int handle_aiocb_write_zeroes_unmap(void =
+*opaque)
+> >  #ifdef CONFIG_FALLOCATE_PUNCH_HOLE
+> >      int ret =3D do_fallocate(s->fd, FALLOC_FL_PUNCH_HOLE | FALLOC_FL_K=
+EEP_SIZE,
+> >                             aiocb->aio_offset, aiocb->aio_nbytes);
+> > -    if (ret !=3D -ENOTSUP) {
+> > +    switch (ret) {
+> > +    case -ENOTSUP:
+> > +    case -EINVAL:
+> > +        break;
+> > +    default:
+> >          return ret;
+> >      }
+> >  #endif
+>=20
+> This means that we fall back to BLKZEROOUT in case of -EINVAL. Does this
+> return a better error code in the relevant cases, or did you just happen
+> to test a case where it was skipped or returned -ENOTSUP?
 
-[...]
+I guess I misinterpreted the comment before calling
+`handle_aiocb_write_zeroes`.
 
+The codepath is:
+* handle_aiocb_write_zeroes_unmap -> handle_aiocb_write_zeroes -> handle_ai=
+ocb_write_zeroes_block
+
+In witch the code will return `-ENOSTUP` (`!s->has_write_zeroes`) and
+never fall back to `BLKZEROOUT`.
+
+So it's working as I expected but now I am unsure that my fix is the
+right thing to do, what do you think ?
+
+>=20
+> Kevin
+>=20
+>=20
+
+--=20
+Antoine 'xdbob' Damhet
+
+--qq6g4k2v5x3z4g5d
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAABCAAdFiEEArm1WbQx2GmOsfF83AmjLzzljz4FAl8Vui8ACgkQ3AmjLzzl
+jz624gf/eQnV+Y8IAvqNRSfvm3DFHxWabfMAAHltXYcgNkD+Z6eZc/cprCu9fbll
+hYotSNLfnmEeEiQNIymW0PF7MmYQEoP3SexDnureayPeeVATqHMQC0GDZ0xcrZvU
+pzKl/Tt5yu1o/TYM8hxAO4umPUwYRLIR731Ac/0Q3rH37103nYc0bzbOrmTnha/1
+UUncwJYaUbetRPDgMc1OC54ANWoBqxumWBwXouxbNsvNnoGX1wZIIX1TCiswQ/Ga
+8ZfzgwN5tX6eIFxIke98Ohed6YSTdGEdJK7XvKn3htPLVLdUlvGANvFGeiA7GzHC
+W5SyDMCND7rHd/ZJ7F3/U9cImQljkw==
+=tOfX
+-----END PGP SIGNATURE-----
+
+--qq6g4k2v5x3z4g5d--
 
