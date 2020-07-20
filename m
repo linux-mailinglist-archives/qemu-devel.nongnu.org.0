@@ -2,83 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D4DF4226D1E
-	for <lists+qemu-devel@lfdr.de>; Mon, 20 Jul 2020 19:30:23 +0200 (CEST)
-Received: from localhost ([::1]:59328 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1DBB2226D51
+	for <lists+qemu-devel@lfdr.de>; Mon, 20 Jul 2020 19:42:28 +0200 (CEST)
+Received: from localhost ([::1]:38636 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jxZcM-0007Vs-Tc
-	for lists+qemu-devel@lfdr.de; Mon, 20 Jul 2020 13:30:22 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:49482)
+	id 1jxZo3-0002tx-7d
+	for lists+qemu-devel@lfdr.de; Mon, 20 Jul 2020 13:42:27 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:51834)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <lersek@redhat.com>) id 1jxZbZ-00076F-Ps
- for qemu-devel@nongnu.org; Mon, 20 Jul 2020 13:29:33 -0400
-Received: from us-smtp-2.mimecast.com ([205.139.110.61]:25155
- helo=us-smtp-delivery-1.mimecast.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <lersek@redhat.com>) id 1jxZbX-0004aO-Aa
- for qemu-devel@nongnu.org; Mon, 20 Jul 2020 13:29:33 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1595266168;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=E4IsUpO4/YTsqlMmWHLU83KEHpNoOiQBAqSonZuhVZM=;
- b=isuhitgnkge0FQhddFaVWKJwJcByUCinMBN2S7twS+u3R6sR+5LGLJMCOujrKZo7KUlxVx
- kEfO+49W/5EjFiTeAegi4eD+8fVek8U+oiPXWStXrUEEP5SmM+NixyYCDimgfMZ/OQ60yh
- SqHFVeo6F7yfgS03kxMsdFKAId4tcUo=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-34-NBEA9DNXOSyIMsHZ5r3Cbw-1; Mon, 20 Jul 2020 13:29:26 -0400
-X-MC-Unique: NBEA9DNXOSyIMsHZ5r3Cbw-1
-Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
- [10.5.11.15])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 7E8A91005504;
- Mon, 20 Jul 2020 17:29:25 +0000 (UTC)
-Received: from lacos-laptop-7.usersys.redhat.com (ovpn-115-27.ams2.redhat.com
- [10.36.115.27])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 354697EF87;
- Mon, 20 Jul 2020 17:29:23 +0000 (UTC)
-Subject: Re: [RFC 2/3] x86: cphp: prevent guest crash on CPU hotplug when
- broadcast SMI is in use
-To: Igor Mammedov <imammedo@redhat.com>
-References: <20200710161704.309824-1-imammedo@redhat.com>
- <20200710161704.309824-3-imammedo@redhat.com>
- <e3598f14-2e91-436c-9a8c-c3b3a36b9190@redhat.com>
- <20200717145759.04a4399f@redhat.com>
-From: Laszlo Ersek <lersek@redhat.com>
-Message-ID: <494a910a-16a9-5113-d0b5-6634718f279e@redhat.com>
-Date: Mon, 20 Jul 2020 19:29:23 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:52.0) Gecko/20100101
- Firefox/52.0 Thunderbird/52.9.1
+ (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
+ id 1jxZmq-00023e-SK
+ for qemu-devel@nongnu.org; Mon, 20 Jul 2020 13:41:12 -0400
+Received: from indium.canonical.com ([91.189.90.7]:41170)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
+ id 1jxZmo-0006Ec-PA
+ for qemu-devel@nongnu.org; Mon, 20 Jul 2020 13:41:12 -0400
+Received: from loganberry.canonical.com ([91.189.90.37])
+ by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
+ id 1jxZmm-0007nY-AI
+ for <qemu-devel@nongnu.org>; Mon, 20 Jul 2020 17:41:08 +0000
+Received: from loganberry.canonical.com (localhost [127.0.0.1])
+ by loganberry.canonical.com (Postfix) with ESMTP id 45E162E8105
+ for <qemu-devel@nongnu.org>; Mon, 20 Jul 2020 17:41:08 +0000 (UTC)
 MIME-Version: 1.0
-In-Reply-To: <20200717145759.04a4399f@redhat.com>
-Content-Language: en-US
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=lersek@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=205.139.110.61; envelope-from=lersek@redhat.com;
- helo=us-smtp-delivery-1.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/07/20 02:16:39
-X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
-X-Spam_score_int: -40
-X-Spam_score: -4.1
-X-Spam_bar: ----
-X-Spam_report: (-4.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-1, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: quoted-printable
+Date: Mon, 20 Jul 2020 17:29:51 -0000
+From: Richard Henderson <1880287@bugs.launchpad.net>
+To: qemu-devel@nongnu.org
+X-Launchpad-Notification-Type: bug
+X-Launchpad-Bug: product=qemu; status=In Progress; importance=Undecided;
+ assignee=rth@twiddle.net; 
+X-Launchpad-Bug-Tags: linux-user tcg
+X-Launchpad-Bug-Information-Type: Public
+X-Launchpad-Bug-Private: no
+X-Launchpad-Bug-Security-Vulnerability: no
+X-Launchpad-Bug-Commenters: hdeller rth
+X-Launchpad-Bug-Reporter: Helge Deller (hdeller)
+X-Launchpad-Bug-Modifier: Richard Henderson (rth)
+References: <159022297856.20775.958724179871171148.malonedeb@soybean.canonical.com>
+Message-Id: <159526619210.7835.7990272986832135840.malone@wampee.canonical.com>
+Subject: [Bug 1880287] Re: gcc crashes in hppa emulation
+X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
+X-Launchpad-Message-For: qemu-devel-ml
+Precedence: bulk
+X-Generated-By: Launchpad (canonical.com);
+ Revision="4809fcb62f445aaa3ae919f7f6c3cc7d156ea57a";
+ Instance="production-secrets-lazr.conf"
+X-Launchpad-Hash: 66d8c8e29dd7945e14750eb09f850af8030d06eb
+Received-SPF: none client-ip=91.189.90.7; envelope-from=bounces@canonical.com;
+ helo=indium.canonical.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/07/20 11:25:44
+X-ACL-Warn: Detected OS   = Linux 3.11 and newer [fuzzy]
+X-Spam_score_int: -58
+X-Spam_score: -5.9
+X-Spam_bar: -----
+X-Spam_report: (-5.9 / 5.0 requ) BAYES_00=-1.9, HEADER_FROM_DIFFERENT_DOMAINS=1,
+ RCVD_IN_DNSWL_HI=-5, RCVD_IN_MSPIKE_H3=-0.01, RCVD_IN_MSPIKE_WL=-0.01,
+ SPF_HELO_NONE=0.001, SPF_NONE=0.001,
+ URIBL_BLOCKED=0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
-Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -87,153 +74,45 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: boris.ostrovsky@oracle.com, liran.alon@oracle.com, qemu-devel@nongnu.org
+Reply-To: Bug 1880287 <1880287@bugs.launchpad.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 07/17/20 14:57, Igor Mammedov wrote:
-> On Tue, 14 Jul 2020 12:56:50 +0200
-> Laszlo Ersek <lersek@redhat.com> wrote:
-> 
->> On 07/10/20 18:17, Igor Mammedov wrote:
-> [...]
-> 
->>> @@ -1508,6 +1508,17 @@ static void pc_cpu_pre_plug(HotplugHandler *hotplug_dev,
->>>          return;
->>>      }
->>>
->>> +    if (pcms->acpi_dev) {
->>> +        Error *local_err = NULL;
->>> +
->>> +        hotplug_handler_pre_plug(HOTPLUG_HANDLER(pcms->acpi_dev), dev,
->>> +                                 &local_err);
->>> +        if (local_err) {
->>> +            error_propagate(errp, local_err);
->>> +            return;
->>> +        }
->>> +    }
->>> +
->>>      init_topo_info(&topo_info, x86ms);
->>>
->>>      env->nr_dies = x86ms->smp_dies;
->>>  
->>
->> (6) This looks sane to me, but I have a question for the *pre-patch*
->> code.
-> 
-> (not so short introduction)
-> 
-> plug callbacks were designed for wiring up hotplugged device, hence
-> it has check for acpi_dev which is one of HW connections needed to make
-> it work. Later on coldplug was consolidated with it, so plug callbacks
-> are also handling coldplugged devices.
-> 
-> then later plug callback was split on pre_ and plug_, where pre_
-> part is called right before device_foo.realize() and plug_ right after.
-> Split was intended to make graceful failure easier, where pre_ is taking
-> care of checking already set properties and optionally setting additional
-> properties and can/should fail without side-effects, and plug_ part
-> should not fail (maybe there is still cleanup to do there) and used to
-> finish wiring after the device had been realized.
-> 
-> 
->>
->> I notice that hotplug_handler_pre_plug() is already called from the
->> (completely unrelated) function pc_memory_pre_plug().
->>
->> In pc_memory_pre_plug(), we have the following snippet:
->>
->>     /*
->>      * When -no-acpi is used with Q35 machine type, no ACPI is built,
->>      * but pcms->acpi_dev is still created. Check !acpi_enabled in
->>      * addition to cover this case.
->>      */
->>     if (!pcms->acpi_dev || !x86_machine_is_acpi_enabled(X86_MACHINE(pcms))) {
->>         error_setg(errp,
->>                    "memory hotplug is not enabled: missing acpi device or acpi disabled");
->>         return;
->>     }
->>
->> Whereas in pc_cpu_pre_plug(), the present patch only adds a
->> "pcms->acpi_dev" nullity check.
->>
->> Should pc_cpu_pre_plug() check for ACPI enablement similarly to
->> pc_memory_pre_plug()?
-> extra check is not must have in pc_memory_pre_plug() as it should not break anything
-> (modulo MMIO memhp interface, which went unnoticed since probably nobody
-> uses MMIO memhp registers directly (i.e. QEMU's ACPI tables is sole user))
->  
->> I'm asking for two reasons:
->>
->> (6a) for the feature at hand (CPU hotplug with SMI), maybe we should
->> write:
->>
->>     if (pcms->acpi_dev && x86_machine_is_acpi_enabled(X86_MACHINE(pcms))) {
-> pretty harmless in the same sense as in pc_memory_pre_plug(),
-> but I'd rather avoid checks that are not must have.
-> 
-> 
->> (6b) or maybe more strictly, copy the check from memory hotplug (just
->> update the error message):
->>
->>     if (!pcms->acpi_dev || !x86_machine_is_acpi_enabled(X86_MACHINE(pcms))) {
->>         error_setg(errp,
->>                    "CPU hotplug is not enabled: missing acpi device or acpi disabled");
-> can't do it as it will break CPU clodplug when -no-cpi is used
-> 
->>         return;
->>     }
->>
->> Because CPU hotplug depends on ACPI too, just like memory hotplug,
->> regardless of firmware, and regardless of guest-SMM. Am I correct to
->> think that?
-> 
-> We have pcms->acpi_dev check in x86 code because isapc/piix4 machines
-> will/might not create the pm device (which implements acpi hw). 
-> 
-> (1) if (pcmc->pci_enabled && x86_machine_is_acpi_enabled(X86_MACHINE(pcms)))
-> 
-> if that weren't the case, calls to acpi_dev would be unconditional
-> 
-> I'm adding check into pre_plug so we can gracefully reject device_add
-> in case firmware is not prepared for handling hotplug SMI. Since
-> the later might crash the guest. It's for the sake of better user
-> experience since QEMU might easily run older firmware.
-> 
-> If we don't care about that, we can drop negotiation and the check,
-> send SMI on hotplug when SMI broadcast is enabled, that might
-> crash guest since it might be not supported by used fw, but that
-> was already the case for quite a while and I've heard only few
-> complaints. (I guess most users have sense not to use something
-> not impl./supported)
-> 
-> 
->> Basically, I'm asking if we should replicate original commit
->> 8cd91acec8df ("pc: fail memory hot-plug/unplug with -no-acpi and Q35
->> machine type", 2018-01-12) for CPU hotplug first (in a separate patch!),
->> before dealing with "lpc->smi_negotiated_features" in this patch.
-> 
-> I'd rather leave hw part decoupled from acpi tables part,
-> nothing prevents users implementing their own fw/os which uses
-> our cpuhp interface directly without ACPI.
-> 
->> Hmm... I'm getting confused. I *do* see similar checks in pc_cpu_plug()
->> and pc_cpu_unplug_request_cb(). But:
->>
->> - I don't understand what determines whether we put the ACPI check in
->> *PRE* plug functions, or the plug functions,
-> I beleive [1] answers that
-> 
->> - and I don't understand why pc_cpu_plug() and
->> pc_cpu_unplug_request_cb() only check "pcms->acpi_dev", and not
->> x86_machine_is_acpi_enabled().
-> 
-> x86_machine_is_acpi_enabled() is not must have in this case as
-> callbacks implement only hw part of cpuhp protocol (QEMU part),
-> what guest uses to handle it (fw tables(qemu generated),
-> or some custom code) is another story.
+Thanks for the debugging.  Failure to free temporaries.
 
-Thank you for the explanation!
-Laszlo
+** Changed in: qemu
+       Status: New =3D> In Progress
 
+** Changed in: qemu
+     Assignee: (unassigned) =3D> Richard Henderson (rth)
+
+-- =
+
+You received this bug notification because you are a member of qemu-
+devel-ml, which is subscribed to QEMU.
+https://bugs.launchpad.net/bugs/1880287
+
+Title:
+  gcc crashes in hppa emulation
+
+Status in QEMU:
+  In Progress
+
+Bug description:
+  There seems to be a translation bug in the qemu-hppa (qemu v5.0.0) emulat=
+ion:
+  A stripped down testcase (taken from Linux kernel build) is attached.
+
+  In there is "a.sh", a shell script which calls gcc-9 (fails with both
+  debian gcc-9.3.0-11 or gcc-9.3.0-12). and "a.iii", the preprocessed
+  source.
+
+  When starting a.sh, in the emulation gcc crashes with segfault.
+  On real hardware gcc succeeds to compile the source.
+
+  In a hppa-user chroot running "apt update && apt install gcc-9" should
+  be sufficient to get the needed reproducer environment.
+
+To manage notifications about this bug go to:
+https://bugs.launchpad.net/qemu/+bug/1880287/+subscriptions
 
