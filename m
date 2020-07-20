@@ -2,72 +2,72 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 800E3226F79
-	for <lists+qemu-devel@lfdr.de>; Mon, 20 Jul 2020 22:07:07 +0200 (CEST)
-Received: from localhost ([::1]:33214 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9DBA1226F7A
+	for <lists+qemu-devel@lfdr.de>; Mon, 20 Jul 2020 22:07:26 +0200 (CEST)
+Received: from localhost ([::1]:34102 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jxc42-00067D-D6
-	for lists+qemu-devel@lfdr.de; Mon, 20 Jul 2020 16:07:06 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:56508)
+	id 1jxc4L-0006T8-Ml
+	for lists+qemu-devel@lfdr.de; Mon, 20 Jul 2020 16:07:25 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:56628)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <walling@linux.ibm.com>)
- id 1jxc3C-0005Qy-Vg; Mon, 20 Jul 2020 16:06:14 -0400
-Received: from mx0b-001b2d01.pphosted.com ([148.163.158.5]:5838)
+ id 1jxc3O-0005ck-Gh; Mon, 20 Jul 2020 16:06:26 -0400
+Received: from mx0b-001b2d01.pphosted.com ([148.163.158.5]:4806)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <walling@linux.ibm.com>)
- id 1jxc3A-0000bh-2m; Mon, 20 Jul 2020 16:06:14 -0400
-Received: from pps.filterd (m0098417.ppops.net [127.0.0.1])
+ id 1jxc3M-0000eQ-RM; Mon, 20 Jul 2020 16:06:26 -0400
+Received: from pps.filterd (m0098421.ppops.net [127.0.0.1])
  by mx0a-001b2d01.pphosted.com (8.16.0.42/8.16.0.42) with SMTP id
- 06KK3XVZ043781; Mon, 20 Jul 2020 16:06:08 -0400
+ 06KK1AYl047166; Mon, 20 Jul 2020 16:06:23 -0400
 Received: from pps.reinject (localhost [127.0.0.1])
- by mx0a-001b2d01.pphosted.com with ESMTP id 32d5peyw3c-1
+ by mx0a-001b2d01.pphosted.com with ESMTP id 32d5k080b3-1
  (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Mon, 20 Jul 2020 16:06:08 -0400
-Received: from m0098417.ppops.net (m0098417.ppops.net [127.0.0.1])
- by pps.reinject (8.16.0.36/8.16.0.36) with SMTP id 06KK3ijO044511;
- Mon, 20 Jul 2020 16:06:08 -0400
-Received: from ppma03wdc.us.ibm.com (ba.79.3fa9.ip4.static.sl-reverse.com
- [169.63.121.186])
- by mx0a-001b2d01.pphosted.com with ESMTP id 32d5peyw32-1
+ Mon, 20 Jul 2020 16:06:23 -0400
+Received: from m0098421.ppops.net (m0098421.ppops.net [127.0.0.1])
+ by pps.reinject (8.16.0.36/8.16.0.36) with SMTP id 06KK1KZ4047726;
+ Mon, 20 Jul 2020 16:06:23 -0400
+Received: from ppma05wdc.us.ibm.com (1b.90.2fa9.ip4.static.sl-reverse.com
+ [169.47.144.27])
+ by mx0a-001b2d01.pphosted.com with ESMTP id 32d5k080ay-1
  (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Mon, 20 Jul 2020 16:06:08 -0400
-Received: from pps.filterd (ppma03wdc.us.ibm.com [127.0.0.1])
- by ppma03wdc.us.ibm.com (8.16.0.42/8.16.0.42) with SMTP id 06KK4x4v004885;
- Mon, 20 Jul 2020 20:06:07 GMT
-Received: from b03cxnp07029.gho.boulder.ibm.com
- (b03cxnp07029.gho.boulder.ibm.com [9.17.130.16])
- by ppma03wdc.us.ibm.com with ESMTP id 32brq8v067-1
+ Mon, 20 Jul 2020 16:06:23 -0400
+Received: from pps.filterd (ppma05wdc.us.ibm.com [127.0.0.1])
+ by ppma05wdc.us.ibm.com (8.16.0.42/8.16.0.42) with SMTP id 06KK5IXd031454;
+ Mon, 20 Jul 2020 20:06:22 GMT
+Received: from b03cxnp08026.gho.boulder.ibm.com
+ (b03cxnp08026.gho.boulder.ibm.com [9.17.130.18])
+ by ppma05wdc.us.ibm.com with ESMTP id 32brq8bxw5-1
  (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Mon, 20 Jul 2020 20:06:07 +0000
+ Mon, 20 Jul 2020 20:06:22 +0000
 Received: from b03ledav004.gho.boulder.ibm.com
  (b03ledav004.gho.boulder.ibm.com [9.17.130.235])
- by b03cxnp07029.gho.boulder.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
- 06KK66O916384300
+ by b03cxnp08026.gho.boulder.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
+ 06KK6I9P24510800
  (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Mon, 20 Jul 2020 20:06:06 GMT
+ Mon, 20 Jul 2020 20:06:18 GMT
 Received: from b03ledav004.gho.boulder.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id 3040C78066;
- Mon, 20 Jul 2020 20:06:06 +0000 (GMT)
+ by IMSVA (Postfix) with ESMTP id 1A86278060;
+ Mon, 20 Jul 2020 20:06:21 +0000 (GMT)
 Received: from b03ledav004.gho.boulder.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id 163FE7805F;
- Mon, 20 Jul 2020 20:06:04 +0000 (GMT)
+ by IMSVA (Postfix) with ESMTP id CF67278064;
+ Mon, 20 Jul 2020 20:06:19 +0000 (GMT)
 Received: from localhost.localdomain (unknown [9.85.191.4])
  by b03ledav004.gho.boulder.ibm.com (Postfix) with ESMTPS;
- Mon, 20 Jul 2020 20:06:04 +0000 (GMT)
-Subject: Re: [PATCH v4 3/8] s390/sclp: rework sclp boundary and length checks
+ Mon, 20 Jul 2020 20:06:19 +0000 (GMT)
+Subject: Re: [PATCH v4 4/8] s390/sclp: read sccb from mem based on sccb length
 To: David Hildenbrand <david@redhat.com>, qemu-devel@nongnu.org,
  qemu-s390x@nongnu.org
 References: <20200624202312.28349-1-walling@linux.ibm.com>
- <20200624202312.28349-4-walling@linux.ibm.com>
- <89b72ce5-39c7-3080-286a-ab6ed59afb7e@redhat.com>
+ <20200624202312.28349-5-walling@linux.ibm.com>
+ <cf1c33ea-2a2a-8400-a56b-384de356cf05@redhat.com>
 From: Collin Walling <walling@linux.ibm.com>
-Message-ID: <c7ba363c-a142-9fb9-2ecf-a8dc56a6e6f8@linux.ibm.com>
-Date: Mon, 20 Jul 2020 16:06:04 -0400
+Message-ID: <1b552e26-3bce-0aba-0cc4-900e6b31839a@linux.ibm.com>
+Date: Mon, 20 Jul 2020 16:06:18 -0400
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
  Thunderbird/68.9.0
 MIME-Version: 1.0
-In-Reply-To: <89b72ce5-39c7-3080-286a-ab6ed59afb7e@redhat.com>
+In-Reply-To: <cf1c33ea-2a2a-8400-a56b-384de356cf05@redhat.com>
 Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
 Content-Transfer-Encoding: 7bit
@@ -76,11 +76,11 @@ X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:6.0.235, 18.0.687
  definitions=2020-07-20_09:2020-07-20,
  2020-07-20 signatures=0
 X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- bulkscore=0 malwarescore=0
- mlxlogscore=999 suspectscore=0 lowpriorityscore=0 adultscore=0
- priorityscore=1501 mlxscore=0 phishscore=0 impostorscore=0 spamscore=0
- clxscore=1015 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2006250000 definitions=main-2007200131
+ bulkscore=0 phishscore=0
+ mlxlogscore=999 suspectscore=0 priorityscore=1501 mlxscore=0 clxscore=1015
+ lowpriorityscore=0 malwarescore=0 impostorscore=0 spamscore=0 adultscore=0
+ classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2006250000
+ definitions=main-2007200131
 Received-SPF: pass client-ip=148.163.158.5; envelope-from=walling@linux.ibm.com;
  helo=mx0b-001b2d01.pphosted.com
 X-detected-operating-system: by eggs.gnu.org: First seen = 2020/07/20 16:06:09
@@ -109,102 +109,81 @@ Cc: thuth@redhat.com, frankja@linux.ibm.com, mst@redhat.com, cohuck@redhat.com,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 7/20/20 4:17 AM, David Hildenbrand wrote:
+On 7/20/20 4:19 AM, David Hildenbrand wrote:
 > On 24.06.20 22:23, Collin Walling wrote:
->> Rework the SCLP boundary check to account for different SCLP commands
->> (eventually) allowing different boundary sizes.
->>
->> Move the length check code into a separate function, and introduce a
->> new function to determine the length of the read SCP data (i.e. the size
->> from the start of the struct to where the CPU entries should begin).
->>
->> The format of read CPU info is unlikely to change in the future,
->> so we do not require a separate function to calculate its length.
+>> The header of the SCCB contains the actual length of the SCCB. Instead
+>> of using a static 4K size, let's allow for a variable size determined
+>> by the value set in the header. The proper checks are already in place
+>> to ensure the SCCB length is sufficent to store a full response, and
+>> that the length does not cross any explicitly-set boundaries.
 >>
 >> Signed-off-by: Collin Walling <walling@linux.ibm.com>
->> Acked-by: Janosch Frank <frankja@linux.ibm.com>
+>> Reviewed-by: Thomas Huth <thuth@redhat.com>
+>> Reviewed-by: Janosch Frank <frankja@linux.ibm.com>
 >> Reviewed-by: Cornelia Huck <cohuck@redhat.com>
 >> ---
->>  hw/s390x/sclp.c | 54 ++++++++++++++++++++++++++++++++++++++++---------
->>  1 file changed, 44 insertions(+), 10 deletions(-)
+>>  hw/s390x/sclp.c | 13 ++++++++-----
+>>  1 file changed, 8 insertions(+), 5 deletions(-)
 >>
 >> diff --git a/hw/s390x/sclp.c b/hw/s390x/sclp.c
->> index 181ce04007..5899c1e3b8 100644
+>> index 5899c1e3b8..1feba6f692 100644
 >> --- a/hw/s390x/sclp.c
 >> +++ b/hw/s390x/sclp.c
->> @@ -49,6 +49,34 @@ static inline bool sclp_command_code_valid(uint32_t code)
->>      return false;
->>  }
+>> @@ -251,9 +251,8 @@ int sclp_service_call_protected(CPUS390XState *env, uint64_t sccb,
+>>      SCLPDevice *sclp = get_sclp_device();
+>>      SCLPDeviceClass *sclp_c = SCLP_GET_CLASS(sclp);
+>>      SCCB work_sccb;
+>> -    hwaddr sccb_len = sizeof(SCCB);
 >>  
->> +static bool sccb_verify_boundary(uint64_t sccb_addr, uint32_t code,
->> +                                 SCCBHeader *header)
->> +{
->> +    uint64_t sccb_max_addr = sccb_addr + be16_to_cpu(header->length) - 1;
->> +    uint64_t sccb_boundary = (sccb_addr & PAGE_MASK) + PAGE_SIZE;
+>> -    s390_cpu_pv_mem_read(env_archcpu(env), 0, &work_sccb, sccb_len);
+>> +    s390_cpu_pv_mem_read(env_archcpu(env), 0, &work_sccb, sizeof(SCCBHeader));
+>>  
+>>      if (!sclp_command_code_valid(code)) {
+>>          work_sccb.h.response_code = cpu_to_be16(SCLP_RC_INVALID_SCLP_COMMAND);
+>> @@ -264,6 +263,9 @@ int sclp_service_call_protected(CPUS390XState *env, uint64_t sccb,
+>>          goto out_write;
+>>      }
+>>  
+>> +    s390_cpu_pv_mem_read(env_archcpu(env), 0, &work_sccb,
+>> +                         be16_to_cpu(work_sccb.h.length));
 >> +
->> +    switch (code & SCLP_CMD_CODE_MASK) {
->> +    default:
->> +        if (sccb_max_addr < sccb_boundary) {
->> +            return true;
->> +        }
->> +    }
+>>      sclp_c->execute(sclp, &work_sccb, code);
+>>  out_write:
+>>      s390_cpu_pv_mem_write(env_archcpu(env), 0, &work_sccb,
+>> @@ -278,8 +280,6 @@ int sclp_service_call(CPUS390XState *env, uint64_t sccb, uint32_t code)
+>>      SCLPDeviceClass *sclp_c = SCLP_GET_CLASS(sclp);
+>>      SCCB work_sccb;
+>>  
+>> -    hwaddr sccb_len = sizeof(SCCB);
+>> -
+>>      /* first some basic checks on program checks */
+>>      if (env->psw.mask & PSW_MASK_PSTATE) {
+>>          return -PGM_PRIVILEGED;
+>> @@ -297,7 +297,7 @@ int sclp_service_call(CPUS390XState *env, uint64_t sccb, uint32_t code)
+>>       * from playing dirty tricks by modifying the memory content after
+>>       * the host has checked the values
+>>       */
+>> -    cpu_physical_memory_read(sccb, &work_sccb, sccb_len);
+>> +    cpu_physical_memory_read(sccb, &work_sccb, sizeof(SCCBHeader));
+>>  
+>>      /* Valid sccb sizes */
+>>      if (be16_to_cpu(work_sccb.h.length) < sizeof(SCCBHeader)) {
+>> @@ -313,6 +313,9 @@ int sclp_service_call(CPUS390XState *env, uint64_t sccb, uint32_t code)
+>>          goto out_write;
+>>      }
+>>  
+>> +    /* the header contains the actual length of the sccb */
+>> +    cpu_physical_memory_read(sccb, &work_sccb, be16_to_cpu(work_sccb.h.length));
+>> +
+>>      sclp_c->execute(sclp, &work_sccb, code);
+>>  out_write:
+>>      cpu_physical_memory_write(sccb, &work_sccb,
+>>
 > 
-> ^ what is that?
-> 
->     if ((code & SCLP_CMD_CODE_MASK) && sccb_max_addr < sccb_boundary) {
->         return true;
->     }
-> 
-
-I agree it looks pointless in this patch, but it makes more sense in
-patch #6 where we introduce cases for the SCLP commands that bypass
-these checks if the extended-length sccb feature is enabled.
-
->> +    header->response_code = cpu_to_be16(SCLP_RC_SCCB_BOUNDARY_VIOLATION);
->> +    return false;
-> 
-> So we return "false" on success? At least I consider that weird when
-> returning the bool type. Maybe make it clearer what the function indicates
-> 
-
-Hmmm... I figured since there were more paths that can lead to success
-(i.e. when I introduce the feat check in a later patch), then it made
-more sense to to return false at the end. sclp_command_code_valid has
-similar logic.
-
-But if boolean functions traditionally return true as the last return
-value, I can rework it to align to coding preferences / standards.
-
-> "sccb_boundary_is_invalid"
-> 
-
-Unless it's simply the name that is confusing?
-
-> or leave it named as is and switch from return value "bool" to "int",
-> using "0" on success and "-EINVAL" on error.
+> Reviewed-by: David Hildenbrand <david@redhat.com>
 > 
 
-Is the switch statement an overkill? I thought of it as a cleaner way to
-later show which commands have a special conditions (introduced in patch
-6 for the ELS stuff) instead of a nasty long if statement.
-
-The alternative...
-
-/* Comment explaining this check */
-if ((code & SCLP_CMD_CODE_MASK) & (SCLP_CMDW_READ_SCP_INFO |
-	SCLP_CMDW_READ_SCP_INFO_FORCED | SCLP_CMDW_READ_CPU_INFO) &&
-	s390_has_feat(S390_FEAT_EXTENDED_LENGTH_SCCB)) {
-	return true;
-}
-
-if (sccb_max_addr < sccb_boundary) {
-        return true;
-}
-
-header->response_code = cpu_to_be16(SCLP_RC_SCCB_BOUNDARY_VIOLATION);
-return false;
-
-[...]
+Thanks!
 
 -- 
 Regards,
