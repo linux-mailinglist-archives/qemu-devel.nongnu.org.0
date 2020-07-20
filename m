@@ -2,69 +2,61 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B7FCA2261EE
-	for <lists+qemu-devel@lfdr.de>; Mon, 20 Jul 2020 16:23:42 +0200 (CEST)
-Received: from localhost ([::1]:36280 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8C2612261F0
+	for <lists+qemu-devel@lfdr.de>; Mon, 20 Jul 2020 16:25:00 +0200 (CEST)
+Received: from localhost ([::1]:40786 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jxWhh-0003AC-QS
-	for lists+qemu-devel@lfdr.de; Mon, 20 Jul 2020 10:23:41 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:57870)
+	id 1jxWix-00053s-Ki
+	for lists+qemu-devel@lfdr.de; Mon, 20 Jul 2020 10:24:59 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:58998)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1jxWcU-0004kz-V0
- for qemu-devel@nongnu.org; Mon, 20 Jul 2020 10:18:18 -0400
-Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:27111
+ (Exim 4.90_1) (envelope-from <dinechin@redhat.com>)
+ id 1jxWfS-0000vN-M3
+ for qemu-devel@nongnu.org; Mon, 20 Jul 2020 10:21:24 -0400
+Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:46426
  helo=us-smtp-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1jxWcR-0002zO-UU
- for qemu-devel@nongnu.org; Mon, 20 Jul 2020 10:18:18 -0400
+ (Exim 4.90_1) (envelope-from <dinechin@redhat.com>)
+ id 1jxWfQ-0003X4-Bk
+ for qemu-devel@nongnu.org; Mon, 20 Jul 2020 10:21:22 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1595254694;
+ s=mimecast20190719; t=1595254879;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=0ImpfNHtMK6ULotLHVWg1tOLS4u3oY/I4wF2T+YlQVY=;
- b=QjZYB4Hk4wiTrBxtIGXpfCQtP2Br1so6yZLfRVt2b1c6a6Evb064Pj0ORw8J1AaqZ0tNT8
- hgenDrG3ITzQOWdWCy/bYq1Nz5a22OtrgRkNPaS38+Z165WckVzLrJiaER/5/2t5PDptkY
- QSLtaO+DVRvbEIzo5SrqEU1YDDuiPlU=
+ bh=yOM5+LaZ+NpEwww2zAfULROns6G6qYD2oxQus1YsOxs=;
+ b=ONF6Rt+/XvHnzPYNeuhqYH819epLfadAQ61ZjPT2bdd2eydPxJFbzhIux7ByhL+r8H3Aru
+ C3KlniHSXX+01m58ozOWEQO/vDvdasYYeOdRDMFN+Hp4c9dzSvXeepqI24EGfRsnfJMeH+
+ IUnDHPiWJc3M0q0kyf0HK+xaPRELVlM=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-84-RH4wIsp4NHupjCcQEFYr5Q-1; Mon, 20 Jul 2020 10:18:11 -0400
-X-MC-Unique: RH4wIsp4NHupjCcQEFYr5Q-1
+ us-mta-424-We7Q6k_1MDm4NExTVyUYjA-1; Mon, 20 Jul 2020 10:21:17 -0400
+X-MC-Unique: We7Q6k_1MDm4NExTVyUYjA-1
 Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
  [10.5.11.12])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 4DCE58D7561;
- Mon, 20 Jul 2020 14:18:10 +0000 (UTC)
-Received: from ibm-p8-OVS-01-fsp.mgmt.pnr.lab.eng.rdu2.redhat.com
- (ovpn-119-174.rdu2.redhat.com [10.10.119.174])
- by smtp.corp.redhat.com (Postfix) with ESMTP id B918E709E1;
- Mon, 20 Jul 2020 14:18:09 +0000 (UTC)
-Subject: Re: various iotests failures apparently due to overly optimistic
- timeout settings
-To: Peter Maydell <peter.maydell@linaro.org>
-References: <CAFEAcA_dEBT1jNLWeThhmKisFNwbaSUe+vAEEbv5bnVVb+=bjA@mail.gmail.com>
- <20200720104641.GB5541@linux.fritz.box>
- <90c29aa8-ad14-0538-0e29-c2c9c434a051@redhat.com>
- <CAFEAcA_SWO7fwR6nDAn9=HoYOVEf=L6AomjsonjbscPvTejQQA@mail.gmail.com>
-From: John Snow <jsnow@redhat.com>
-Message-ID: <439a5b00-997d-dbd2-f8d9-55d440ebd567@redhat.com>
-Date: Mon, 20 Jul 2020 10:18:09 -0400
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.10.0
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id EBAA98017FB
+ for <qemu-devel@nongnu.org>; Mon, 20 Jul 2020 14:21:16 +0000 (UTC)
+Received: from turbo.dinechin.lan (ovpn-114-55.ams2.redhat.com [10.36.114.55])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 6B43A60E1C;
+ Mon, 20 Jul 2020 14:20:57 +0000 (UTC)
+References: <20200624131045.14512-1-kraxel@redhat.com>
+ <20200624131045.14512-3-kraxel@redhat.com>
+User-agent: mu4e 1.3.9; emacs 26.3
+From: Christophe de Dinechin <dinechin@redhat.com>
+To: Gerd Hoffmann <kraxel@redhat.com>
+Subject: Re: [PATCH v5 02/10] object: qom module support
+In-reply-to: <20200624131045.14512-3-kraxel@redhat.com>
+Date: Mon, 20 Jul 2020 16:20:55 +0200
+Message-ID: <7himeimfnc.fsf@turbo.dinechin.lan>
 MIME-Version: 1.0
-In-Reply-To: <CAFEAcA_SWO7fwR6nDAn9=HoYOVEf=L6AomjsonjbscPvTejQQA@mail.gmail.com>
-Content-Language: en-US
 X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=jsnow@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=205.139.110.120; envelope-from=jsnow@redhat.com;
+Content-Type: text/plain
+Received-SPF: pass client-ip=205.139.110.120; envelope-from=dinechin@redhat.com;
  helo=us-smtp-1.mimecast.com
 X-detected-operating-system: by eggs.gnu.org: First seen = 2020/07/20 02:11:17
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
@@ -74,7 +66,7 @@ X-Spam_bar: ----
 X-Spam_report: (-4.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-1, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001, URIBL_BLOCKED=0.001 autolearn=unavailable autolearn_force=no
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -87,33 +79,85 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Kevin Wolf <kwolf@redhat.com>, QEMU Developers <qemu-devel@nongnu.org>,
- Qemu-block <qemu-block@nongnu.org>, Max Reitz <mreitz@redhat.com>
+Cc: =?utf-8?Q?Daniel_P=2E_Berrang=C3=A9?= <berrange@redhat.com>,
+ Eduardo Habkost <ehabkost@redhat.com>, qemu-devel@nongnu.org,
+ =?utf-8?Q?Marc-Andr=C3=A9?= Lureau <marcandre.lureau@redhat.com>,
+ Paolo Bonzini <pbonzini@redhat.com>, philmd@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 7/20/20 10:15 AM, Peter Maydell wrote:
-> On Mon, 20 Jul 2020 at 15:12, John Snow <jsnow@redhat.com> wrote:
->>
->> On 7/20/20 6:46 AM, Kevin Wolf wrote:
->>> John, I think this is a result of your recent python/qemu/ changes that
->>> make failure of graceful shutdown an error rather than just silently
->>> falling back to SIGKILL.
->>>
->>> Should the default timeout be longer, should iotests override the
->>> default, or should iotests just always kill their VM instead of trying
->>> to shut it down gracefully?
-> 
->> Let's make it longer. Since you are seeing the failures, can you edit
->> python/qemu/machine.py and find the default timeout of 3 seconds for
->> shutdown() and change it to 10? 30? 60?
-> 
-> Not conveniently, because this is for merge pull requests, and
-> all the iotests failures are nested inside the tests/vm BSD VM
-> setup.
 
-I meant permanently, for everything -- not as a one-off for just this case.
+On 2020-06-24 at 15:10 CEST, Gerd Hoffmann wrote...
+> Little helper function to load modules on demand.  In most cases adding
+> module loading support for devices and other objects is just
+> s/object_class_by_name/module_object_class_by_name/ in the right spot.
+>
+> Signed-off-by: Gerd Hoffmann <kraxel@redhat.com>
+> ---
+>  include/qom/object.h | 12 ++++++++++++
+>  qom/object.c         | 14 ++++++++++++++
+>  2 files changed, 26 insertions(+)
+>
+> diff --git a/include/qom/object.h b/include/qom/object.h
+> index 94a61ccc3fe8..51f188137f1f 100644
+> --- a/include/qom/object.h
+> +++ b/include/qom/object.h
+> @@ -994,6 +994,18 @@ bool object_class_is_abstract(ObjectClass *klass);
+>   */
+>  ObjectClass *object_class_by_name(const char *typename);
+>
+> +/**
+> + * module_object_class_by_name:
+> + * @typename: The QOM typename to obtain the class for.
+> + *
+> + * For objects which might be provided by a module.  Behaves like
+> + * object_class_by_name, but additionally tries to load the module
+> + * needed in case the class is not available.
+> + *
+> + * Returns: The class for @typename or %NULL if not found.
+> + */
+> +ObjectClass *module_object_class_by_name(const char *typename);
+> +
+>  void object_class_foreach(void (*fn)(ObjectClass *klass, void *opaque),
+>                            const char *implements_type, bool include_abstract,
+>                            void *opaque);
+> diff --git a/qom/object.c b/qom/object.c
+> index 6ece96bc2bfc..34daaf1280f5 100644
+> --- a/qom/object.c
+> +++ b/qom/object.c
+> @@ -985,6 +985,20 @@ ObjectClass *object_class_by_name(const char *typename)
+>      return type->class;
+>  }
+>
+> +ObjectClass *module_object_class_by_name(const char *typename)
+> +{
+> +    ObjectClass *oc;
+> +
+> +    oc = object_class_by_name(typename);
+> +#ifdef CONFIG_MODULES
+> +    if (!oc) {
+> +        module_load_qom_one(typename);
+> +        oc = object_class_by_name(typename);
+> +    }
+> +#endif
 
---js
+I'm wondering if there is any reason to only trigger the module load when
+you don't find the object class. You could simply call module_load_qom_one
+under #ifdef CONFIG_MODULES.
+
+Performance wise, I don't think this makes much of a difference, and it
+simplifies the logical flow IMO.
+
+> +    return oc;
+> +}
+> +
+>  ObjectClass *object_class_get_parent(ObjectClass *class)
+>  {
+>      TypeImpl *type = type_get_parent(class->type);
+
+
+--
+Cheers,
+Christophe de Dinechin (IRC c3d)
 
 
