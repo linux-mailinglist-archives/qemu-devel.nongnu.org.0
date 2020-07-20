@@ -2,68 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id BD12C2260E0
-	for <lists+qemu-devel@lfdr.de>; Mon, 20 Jul 2020 15:26:08 +0200 (CEST)
-Received: from localhost ([::1]:59156 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9DFD8226107
+	for <lists+qemu-devel@lfdr.de>; Mon, 20 Jul 2020 15:37:40 +0200 (CEST)
+Received: from localhost ([::1]:35108 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jxVnz-0006hq-RH
-	for lists+qemu-devel@lfdr.de; Mon, 20 Jul 2020 09:26:07 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:36094)
+	id 1jxVz9-00010W-5m
+	for lists+qemu-devel@lfdr.de; Mon, 20 Jul 2020 09:37:39 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:39170)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mrolnik@gmail.com>) id 1jxVn3-0006Hl-Q8
- for qemu-devel@nongnu.org; Mon, 20 Jul 2020 09:25:09 -0400
-Received: from mail-qt1-x82e.google.com ([2607:f8b0:4864:20::82e]:35967)
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1jxVyF-0000Y1-Aj
+ for qemu-devel@nongnu.org; Mon, 20 Jul 2020 09:36:43 -0400
+Received: from mail-ot1-x32f.google.com ([2607:f8b0:4864:20::32f]:38014)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <mrolnik@gmail.com>) id 1jxVn2-0002wQ-3T
- for qemu-devel@nongnu.org; Mon, 20 Jul 2020 09:25:09 -0400
-Received: by mail-qt1-x82e.google.com with SMTP id x62so12896195qtd.3
- for <qemu-devel@nongnu.org>; Mon, 20 Jul 2020 06:25:07 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1jxVyD-0004aI-N2
+ for qemu-devel@nongnu.org; Mon, 20 Jul 2020 09:36:43 -0400
+Received: by mail-ot1-x32f.google.com with SMTP id t18so12171233otq.5
+ for <qemu-devel@nongnu.org>; Mon, 20 Jul 2020 06:36:41 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=bKY4XsCvOTySWaVXgClJQulhs6qBbepkIgDk+vnGSLU=;
- b=dzOrkIobbr5sck25NZyVLB1ycip+6nfEejVbtLkrhQCwp3hjiw+9HOHY5NeKMfWRUj
- RvWOGIDpZUH/BCeNpkFr4fGn6DvVsPUKXPU4eupaWhvotECYf1kiVX06Wjj5t9iHDAv2
- O9ctkBRJ7NGnWnrk907gSlHwcZf1yT7gpxEE9/2ET/Jgo50+cepGIbyEAYxzH3xMqemN
- 9flmHfYaBiuCIybKglxaRfhlsI++Y+0qz9DgsIKc+QHIjtB+CoeA3Ctq4Q6xL1yEZob4
- /C2rAyuFHym5bHKlzItIIDrnX8pI5Bg04/Q1o1jzAX35hc66VSdEM0IraBm1DQLLt7zc
- Aiew==
+ :cc; bh=0WrRLTEXcopl+mM9Qcvu+50OuqR0QQmhAAjOw/lnh5U=;
+ b=PFDM5ebVQUKQXOkFPHml0Kz3JcZ/fv5eeSlg7UaPrTkTYWJM9SWqTPj2AMCu9jowML
+ HdZYCPM0zHaPIrmuRR+AiyC23bDO5YMMDp/uO8YgZjs8Z2TUgi4UI49gUsFi5VKsE9vd
+ u/SoShnrZ+S3j1W3iNnsUzXTpc1v0PtH2um4VSxNMbALVAO9q4Braz88QnRD6/JBdxAR
+ wO4u9TZ68SGhNZuPG7nSbsVTo3DWwEpynE5+lgI2DDkW2VS6ul5l8ubAu4lQIgbEscAj
+ /Dx71f2qXIHNdI7sRCLuIyEhZc8jDTONkgJoHxp5bc2g6X/i7bRkGkRhs0yXQCG5tITd
+ p6XQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
  :message-id:subject:to:cc;
- bh=bKY4XsCvOTySWaVXgClJQulhs6qBbepkIgDk+vnGSLU=;
- b=UMf9JEck+zHqiZH9t+SamvcAOQYJNN5MxE55MPWGkJwGjwi00FZS2aLpbwYE7CQHaX
- 0OroM3kMKMj2iGWlkkjcfJqKWNmK5wjy4AWGyk2oZKL6/mnkt3U4hHlqz9DWMalicyUl
- zPyrAvtq9aI1RwA61paPXEXjcZ8DhbTZC0RoZoo/je73GLCaquUkoPxQbsIAschqwVXi
- 2f+SbzvZXh2qwRS53CAoIVLxONyk0H6FD1OhI4EPOYXc03OImcTJaiV4/1L6vQ4CGSSa
- 6I3JSZqOXWJuzg78bOB6HKokBwuues6C/ln6Yv6qzX7BcdioekWr8ceBa4B9NuVI6Xlu
- JFJA==
-X-Gm-Message-State: AOAM531XSolYaEdyMrs4CviT11LPi47WfVsCdKmQy1bkBIm2qrVAeEuC
- HQIG+EetaDWbnLcYI+GnI7qdWtjIw2u5XTkGVjE=
-X-Google-Smtp-Source: ABdhPJwZBzoJgQlA9lfdhLu2eiZf4tzuXhPLxn/YAt97Ifww0S3ivNCjd9+v7N75EyIx/anULT+TL8I3u5tUrN1cH3U=
-X-Received: by 2002:aed:32e5:: with SMTP id z92mr23639610qtd.282.1595251506768; 
- Mon, 20 Jul 2020 06:25:06 -0700 (PDT)
+ bh=0WrRLTEXcopl+mM9Qcvu+50OuqR0QQmhAAjOw/lnh5U=;
+ b=VHMwZapJXqCr84F/BwELCmOFq0f1gRVQr8LF8GzrBzeWzXx8cW2KVoxm9TmoDZDui+
+ TPJGsN4W5N/5XJPSuWNwuI0LfNNnGbbrT6UkBPKVbL2Q7q6J14NZkSdgIO1VumIrjsAx
+ z2jBgzYhqRLf9Lx6zl/FG/wcRyJ5G8PNH12L/suCmXz7fckazeEvXd1gozG+KKkYKEkX
+ KYK8ZVHY8w12rILCpu6gqsYTp7Y6Np1K47NRplHNV2D94dTq2uNdFsfKGMOnfbv9LNl3
+ +b32HzP/RiPUQoymwH0g7hC7VEuULjxkh5y/XUPH0/cpykrFwhrAUzxcWzN/NuqOHq3C
+ mK8A==
+X-Gm-Message-State: AOAM533iyJKhD5b+6co5B/BU4jMt+d4ahysJ7Bdz9WARHFdlWHpWHhol
+ 09HJzC7tpHcwxlQMdM8DqypqeliTKjiO+Fwszt0ATQ==
+X-Google-Smtp-Source: ABdhPJyi/wSVtxxWbXeJafznCSKv3n2QtQH4hRs65zx/6woqA8pTiWX+pjYWvvfApdoWfgY9KO0MTKDrvUh3JEUCjDA=
+X-Received: by 2002:a05:6830:1bd3:: with SMTP id
+ v19mr19782791ota.91.1595252200203; 
+ Mon, 20 Jul 2020 06:36:40 -0700 (PDT)
 MIME-Version: 1.0
-References: <20200714164257.23330-1-f4bug@amsat.org>
-In-Reply-To: <20200714164257.23330-1-f4bug@amsat.org>
-From: Michael Rolnik <mrolnik@gmail.com>
-Date: Mon, 20 Jul 2020 16:24:30 +0300
-Message-ID: <CAK4993j2jvhC_puPHWmH7+t2w3xQReSYwXBwDVhYP1nX1pAfiQ@mail.gmail.com>
-Subject: Re: [PATCH-for-5.1 0/4] misc: Document qemu_find_file and fix memory
- leak in avr_load_firmware
-To: =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <f4bug@amsat.org>
-Content-Type: multipart/alternative; boundary="00000000000063708e05aadf6f3e"
-Received-SPF: pass client-ip=2607:f8b0:4864:20::82e;
- envelope-from=mrolnik@gmail.com; helo=mail-qt1-x82e.google.com
+References: <63109e68.7dc9.1736c073666.Coremail.13824125580@163.com>
+In-Reply-To: <63109e68.7dc9.1736c073666.Coremail.13824125580@163.com>
+From: Peter Maydell <peter.maydell@linaro.org>
+Date: Mon, 20 Jul 2020 14:36:29 +0100
+Message-ID: <CAFEAcA_CmNdmhFrJOxOpHsKCER2gXvqrq5DcQTdp42V+HLK1cg@mail.gmail.com>
+Subject: Re: What is this mean of the comment?
+To: tugouxp <13824125580@163.com>
+Content-Type: text/plain; charset="UTF-8"
+Received-SPF: pass client-ip=2607:f8b0:4864:20::32f;
+ envelope-from=peter.maydell@linaro.org; helo=mail-ot1-x32f.google.com
 X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
  That's all we know.
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
- HTML_MESSAGE=0.001, RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -77,79 +79,36 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Maydell <peter.maydell@linaro.org>,
- Paolo Bonzini <pbonzini@redhat.com>, Sarah Harris <S.E.Harris@kent.ac.uk>,
- QEMU Developers <qemu-devel@nongnu.org>, Stefan Weil <sw@weilnetz.de>
+Cc: QEMU Developers <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
---00000000000063708e05aadf6f3e
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+On Mon, 20 Jul 2020 at 12:52, tugouxp <13824125580@163.com> wrote:
+>  in flollowing comment of tcg.h, it says every helper max need 6
+> input argument and 1 output argument,
+> but why here both multiply by 2  in here?
 
-Reviewed-by: Michael Rolnik <mrolnik@gmail.com>
+Because arguments might be 64 bits, and on a 32-bit host
+a 64-bit argument has to be passed as 2 separate operands.
 
+> what  is the 14 mean?
 
-On Tue, Jul 14, 2020 at 7:42 PM Philippe Mathieu-Daud=C3=A9 <f4bug@amsat.or=
-g>
-wrote:
+It's the maximum possible number of operands in the
+worst case: six 64-bit input arguments which need to
+be passed as 2 32-bit operands each, and a 64-bit
+return value which also needs to be passed as 2
+32-bit operands. (6 * 2) + 2 == 14.
+The reason we care is described in the next part
+of the comment: we keep one bit of information (liveness)
+about the operands of each TCGop, and because 14 < 16
+we can fit this information into a single 16-bit integer
+per TCG op.
 
-> Fix the memory leak reported by Coverity (CID 1430449).
->
-> Philippe Mathieu-Daud=C3=A9 (4):
->   qemu/osdep: Document os_find_datadir() return value
->   qemu/osdep: Reword qemu_get_exec_dir() documentation
->   qemu-common: Document qemu_find_file()
->   hw/avr/boot: Fix memory leak in avr_load_firmware()
->
->  include/qemu-common.h | 14 ++++++++++++++
->  include/qemu/osdep.h  |  5 ++++-
->  hw/avr/boot.c         |  2 +-
->  os-posix.c            |  3 +++
->  os-win32.c            |  7 ++++++-
->  5 files changed, 28 insertions(+), 3 deletions(-)
->
-> --
-> 2.21.3
->
->
+>  520 /* While we limit helpers to 6 arguments, for 32-bit hosts, with padding,
+>  521    this imples a max of 6*2 (64-bit in) + 2 (64-bit out) = 14 operands.
+>  522    There are never more than 2 outputs, which means that we can store all
+>  523    dead + sync data within 16 bits.  */
 
---=20
-Best Regards,
-Michael Rolnik
-
---00000000000063708e05aadf6f3e
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-
-<div dir=3D"ltr"><span class=3D"gmail-il">Reviewed</span>-<span class=3D"gm=
-ail-il">by</span>: Michael Rolnik &lt;<a href=3D"mailto:mrolnik@gmail.com">=
-mrolnik@gmail.com</a>&gt;<br><div><br></div></div><br><div class=3D"gmail_q=
-uote"><div dir=3D"ltr" class=3D"gmail_attr">On Tue, Jul 14, 2020 at 7:42 PM=
- Philippe Mathieu-Daud=C3=A9 &lt;<a href=3D"mailto:f4bug@amsat.org">f4bug@a=
-msat.org</a>&gt; wrote:<br></div><blockquote class=3D"gmail_quote" style=3D=
-"margin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);padding-le=
-ft:1ex">Fix the memory leak reported by Coverity (CID 1430449).<br>
-<br>
-Philippe Mathieu-Daud=C3=A9 (4):<br>
-=C2=A0 qemu/osdep: Document os_find_datadir() return value<br>
-=C2=A0 qemu/osdep: Reword qemu_get_exec_dir() documentation<br>
-=C2=A0 qemu-common: Document qemu_find_file()<br>
-=C2=A0 hw/avr/boot: Fix memory leak in avr_load_firmware()<br>
-<br>
-=C2=A0include/qemu-common.h | 14 ++++++++++++++<br>
-=C2=A0include/qemu/osdep.h=C2=A0 |=C2=A0 5 ++++-<br>
-=C2=A0hw/avr/boot.c=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0|=C2=A0 2 +-<br>
-=C2=A0os-posix.c=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 |=C2=A0 3 +++<br>
-=C2=A0os-win32.c=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 |=C2=A0 7 ++++++-=
-<br>
-=C2=A05 files changed, 28 insertions(+), 3 deletions(-)<br>
-<br>
--- <br>
-2.21.3<br>
-<br>
-</blockquote></div><br clear=3D"all"><div><br></div>-- <br><div dir=3D"ltr"=
- class=3D"gmail_signature">Best Regards,<br>Michael Rolnik</div>
-
---00000000000063708e05aadf6f3e--
+thanks
+-- PMM
 
