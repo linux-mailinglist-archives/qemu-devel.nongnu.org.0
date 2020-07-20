@@ -2,40 +2,40 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 873F9225DAB
-	for <lists+qemu-devel@lfdr.de>; Mon, 20 Jul 2020 13:45:00 +0200 (CEST)
-Received: from localhost ([::1]:38628 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id CE379225DC7
+	for <lists+qemu-devel@lfdr.de>; Mon, 20 Jul 2020 13:48:20 +0200 (CEST)
+Received: from localhost ([::1]:49938 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jxUE7-0000LD-K4
-	for lists+qemu-devel@lfdr.de; Mon, 20 Jul 2020 07:44:59 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:37402)
+	id 1jxUHL-00050P-TD
+	for lists+qemu-devel@lfdr.de; Mon, 20 Jul 2020 07:48:19 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:37298)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <its@irrelevant.dk>)
- id 1jxU7k-00081h-VQ; Mon, 20 Jul 2020 07:38:24 -0400
-Received: from charlie.dont.surf ([128.199.63.193]:46898)
+ id 1jxU7R-0007Nl-WC; Mon, 20 Jul 2020 07:38:06 -0400
+Received: from charlie.dont.surf ([128.199.63.193]:46888)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <its@irrelevant.dk>)
- id 1jxU7j-0005BC-5T; Mon, 20 Jul 2020 07:38:24 -0400
+ id 1jxU7P-0005B5-28; Mon, 20 Jul 2020 07:38:05 -0400
 Received: from apples.local (80-167-98-190-cable.dk.customer.tdc.net
  [80.167.98.190])
- by charlie.dont.surf (Postfix) with ESMTPSA id 1F09CBF5F1;
+ by charlie.dont.surf (Postfix) with ESMTPSA id 839C6BFB1B;
  Mon, 20 Jul 2020 11:38:00 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=irrelevant.dk;
  s=default; t=1595245080;
- bh=X/wsVqfw1/FsdcK8SaPGwwSq1tr6rlWBwc4HMvRFUpY=;
+ bh=WBJTvPuUpVdkPBaC1mnh3RNYDll46h8qc7kXEHTw7wQ=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=wC7e/eEfv5NsnWKeaqFgCptVe1SS8lOsWWtM+Jd2+EB+P+kkD7iEW5VGU1j8AJ1Gk
- WIuFlqyTXRmC6TmF2PkXxxbf/DCWqw5DrdX2OQwD+6j08eHEFssiUjbRlGFspMjSvx
- ZTcajR6auyADJtsPAkwvpVaqjIi8H/6En5gJG+TpR9bIoVqjvuX5PE0btSPpFnHUZo
- GSfCsi59kCfgHmMYgmH2+KqYpLNNbgM4cMDtOPE0KGA2KLaWB2K0dBXcFgnl/WgWaO
- dbJmCLX9ja/R++ej3KFV9+3Zw+BMeWmQkBG1k4Hrh5PMObn7beBXJKnkyPbFZle7aV
- hOPZblzkI7knw==
+ b=v9hL9cAz8Wtl23MudOljtGeBMTt3Di5PzzqDynwEnaTy01KwB6bvsjPYjdeTO+Nrv
+ qSycrv1xVdDlzOoUWJEwnoWBCR32SdKqtCAkyCgV5mWbgGO94lmJAp2sHlkQu4ntCA
+ YDI1Ryfb+4QzhS4XOCkKojZtxbQsCZWJDR+5KgRuvBqMj3gTv4jwbN7abojZFg8ShI
+ woX+nHMbAS1L75OrjDTr0zNvaP3UZWrxbSPleItHWObmhHtQZxzYSSRl3dq4W0idqK
+ 2X9DGmr+QzPNbULBjcNbJ+mqHXoHQqoAdVwz7r1UIOcXK9b0fmfFqrpG4GGf2urrC0
+ nMzgN2B7ADwQg==
 From: Klaus Jensen <its@irrelevant.dk>
 To: qemu-devel@nongnu.org
-Subject: [PATCH 09/16] hw/block/nvme: refactor request bounds checking
-Date: Mon, 20 Jul 2020 13:37:41 +0200
-Message-Id: <20200720113748.322965-10-its@irrelevant.dk>
+Subject: [PATCH 10/16] hw/block/nvme: add check for mdts
+Date: Mon, 20 Jul 2020 13:37:42 +0200
+Message-Id: <20200720113748.322965-11-its@irrelevant.dk>
 X-Mailer: git-send-email 2.27.0
 In-Reply-To: <20200720113748.322965-1-its@irrelevant.dk>
 References: <20200720113748.322965-1-its@irrelevant.dk>
@@ -72,73 +72,127 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Klaus Jensen <k.jensen@samsung.com>
 
-Hoist bounds checking into its own function and check for wrap-around.
+Add 'mdts' device parameter to control the Maximum Data Transfer Size of
+the controller and check that it is respected.
 
 Signed-off-by: Klaus Jensen <k.jensen@samsung.com>
 Reviewed-by: Maxim Levitsky <mlevitsk@redhat.com>
 ---
- hw/block/nvme.c | 26 +++++++++++++++++++++-----
- 1 file changed, 21 insertions(+), 5 deletions(-)
+ hw/block/nvme.c       | 32 ++++++++++++++++++++++++++++++--
+ hw/block/nvme.h       |  1 +
+ hw/block/trace-events |  1 +
+ 3 files changed, 32 insertions(+), 2 deletions(-)
 
 diff --git a/hw/block/nvme.c b/hw/block/nvme.c
-index 530f5155eac0..35bc1a7b7e21 100644
+index 35bc1a7b7e21..10fe53873ae9 100644
 --- a/hw/block/nvme.c
 +++ b/hw/block/nvme.c
-@@ -553,6 +553,18 @@ static void nvme_clear_events(NvmeCtrl *n, uint8_t event_type)
+@@ -18,9 +18,10 @@
+  * Usage: add options:
+  *      -drive file=<file>,if=none,id=<drive_id>
+  *      -device nvme,drive=<drive_id>,serial=<serial>,id=<id[optional]>, \
+- *              cmb_size_mb=<cmb_size_mb[optional]>, \
++ *              [cmb_size_mb=<cmb_size_mb>,] \
+  *              [pmrdev=<mem_backend_file_id>,] \
+- *              max_ioqpairs=<N[optional]>
++ *              [max_ioqpairs=<N>,] \
++ *              [mdts=<N>]
+  *
+  * Note cmb_size_mb denotes size of CMB in MB. CMB is assumed to be at
+  * offset 0 in BAR2 and supports only WDS, RDS and SQS for now.
+@@ -553,6 +554,17 @@ static void nvme_clear_events(NvmeCtrl *n, uint8_t event_type)
      }
  }
  
-+static inline uint16_t nvme_check_bounds(NvmeCtrl *n, NvmeNamespace *ns,
-+                                         uint64_t slba, uint32_t nlb)
++static inline uint16_t nvme_check_mdts(NvmeCtrl *n, size_t len)
 +{
-+    uint64_t nsze = le64_to_cpu(ns->id_ns.nsze);
++    uint8_t mdts = n->params.mdts;
 +
-+    if (unlikely(UINT64_MAX - slba < nlb || slba + nlb > nsze)) {
-+        return NVME_LBA_RANGE | NVME_DNR;
++    if (mdts && len > n->page_size << mdts) {
++        return NVME_INVALID_FIELD | NVME_DNR;
 +    }
 +
 +    return NVME_SUCCESS;
 +}
 +
- static void nvme_rw_cb(void *opaque, int ret)
+ static inline uint16_t nvme_check_bounds(NvmeCtrl *n, NvmeNamespace *ns,
+                                          uint64_t slba, uint32_t nlb)
  {
-     NvmeRequest *req = opaque;
-@@ -600,12 +612,14 @@ static uint16_t nvme_write_zeros(NvmeCtrl *n, NvmeNamespace *ns, NvmeCmd *cmd,
-     uint32_t nlb  = le16_to_cpu(rw->nlb) + 1;
-     uint64_t offset = slba << data_shift;
-     uint32_t count = nlb << data_shift;
-+    uint16_t status;
- 
-     trace_pci_nvme_write_zeroes(nvme_cid(req), slba, nlb);
- 
--    if (unlikely(slba + nlb > ns->id_ns.nsze)) {
-+    status = nvme_check_bounds(n, ns, slba, nlb);
-+    if (status) {
-         trace_pci_nvme_err_invalid_lba_range(slba, nlb, ns->id_ns.nsze);
--        return NVME_LBA_RANGE | NVME_DNR;
-+        return status;
-     }
- 
-     block_acct_start(blk_get_stats(n->conf.blk), &req->acct, 0,
-@@ -628,13 +642,15 @@ static uint16_t nvme_rw(NvmeCtrl *n, NvmeNamespace *ns, NvmeCmd *cmd,
-     uint64_t data_offset = slba << data_shift;
-     int is_write = rw->opcode == NVME_CMD_WRITE ? 1 : 0;
-     enum BlockAcctType acct = is_write ? BLOCK_ACCT_WRITE : BLOCK_ACCT_READ;
-+    uint16_t status;
+@@ -646,6 +658,13 @@ static uint16_t nvme_rw(NvmeCtrl *n, NvmeNamespace *ns, NvmeCmd *cmd,
  
      trace_pci_nvme_rw(is_write ? "write" : "read", nlb, data_size, slba);
  
--    if (unlikely((slba + nlb) > ns->id_ns.nsze)) {
--        block_acct_invalid(blk_get_stats(n->conf.blk), acct);
-+    status = nvme_check_bounds(n, ns, slba, nlb);
++    status = nvme_check_mdts(n, data_size);
 +    if (status) {
-         trace_pci_nvme_err_invalid_lba_range(slba, nlb, ns->id_ns.nsze);
--        return NVME_LBA_RANGE | NVME_DNR;
++        trace_pci_nvme_err_mdts(nvme_cid(req), data_size);
 +        block_acct_invalid(blk_get_stats(n->conf.blk), acct);
 +        return status;
-     }
++    }
++
+     status = nvme_check_bounds(n, ns, slba, nlb);
+     if (status) {
+         trace_pci_nvme_err_invalid_lba_range(slba, nlb, ns->id_ns.nsze);
+@@ -938,6 +957,7 @@ static uint16_t nvme_get_log(NvmeCtrl *n, NvmeCmd *cmd, NvmeRequest *req)
+     uint32_t numdl, numdu;
+     uint64_t off, lpol, lpou;
+     size_t   len;
++    uint16_t status;
  
-     if (nvme_map(n, cmd, data_size, req)) {
+     numdl = (dw10 >> 16);
+     numdu = (dw11 & 0xffff);
+@@ -953,6 +973,12 @@ static uint16_t nvme_get_log(NvmeCtrl *n, NvmeCmd *cmd, NvmeRequest *req)
+ 
+     trace_pci_nvme_get_log(nvme_cid(req), lid, lsp, rae, len, off);
+ 
++    status = nvme_check_mdts(n, len);
++    if (status) {
++        trace_pci_nvme_err_mdts(nvme_cid(req), len);
++        return status;
++    }
++
+     switch (lid) {
+     case NVME_LOG_ERROR_INFO:
+         return nvme_error_info(n, cmd, rae, len, off, req);
+@@ -2275,6 +2301,7 @@ static void nvme_init_ctrl(NvmeCtrl *n, PCIDevice *pci_dev)
+     id->ieee[0] = 0x00;
+     id->ieee[1] = 0x02;
+     id->ieee[2] = 0xb3;
++    id->mdts = n->params.mdts;
+     id->ver = cpu_to_le32(NVME_SPEC_VER);
+     id->oacs = cpu_to_le16(0);
+ 
+@@ -2394,6 +2421,7 @@ static Property nvme_props[] = {
+     DEFINE_PROP_UINT16("msix_qsize", NvmeCtrl, params.msix_qsize, 65),
+     DEFINE_PROP_UINT8("aerl", NvmeCtrl, params.aerl, 3),
+     DEFINE_PROP_UINT32("aer_max_queued", NvmeCtrl, params.aer_max_queued, 64),
++    DEFINE_PROP_UINT8("mdts", NvmeCtrl, params.mdts, 7),
+     DEFINE_PROP_END_OF_LIST(),
+ };
+ 
+diff --git a/hw/block/nvme.h b/hw/block/nvme.h
+index 5519b5cc7686..137cd8c2bf20 100644
+--- a/hw/block/nvme.h
++++ b/hw/block/nvme.h
+@@ -11,6 +11,7 @@ typedef struct NvmeParams {
+     uint32_t cmb_size_mb;
+     uint8_t  aerl;
+     uint32_t aer_max_queued;
++    uint8_t  mdts;
+ } NvmeParams;
+ 
+ typedef struct NvmeAsyncEvent {
+diff --git a/hw/block/trace-events b/hw/block/trace-events
+index 6d0cd588c786..5d7d4679650b 100644
+--- a/hw/block/trace-events
++++ b/hw/block/trace-events
+@@ -85,6 +85,7 @@ pci_nvme_mmio_shutdown_set(void) "shutdown bit set"
+ pci_nvme_mmio_shutdown_cleared(void) "shutdown bit cleared"
+ 
+ # nvme traces for error conditions
++pci_nvme_err_mdts(uint16_t cid, size_t len) "cid %"PRIu16" len %"PRIu64""
+ pci_nvme_err_invalid_dma(void) "PRP/SGL is too small for transfer size"
+ pci_nvme_err_invalid_prplist_ent(uint64_t prplist) "PRP list entry is null or not page aligned: 0x%"PRIx64""
+ pci_nvme_err_invalid_prp2_align(uint64_t prp2) "PRP2 is not page aligned: 0x%"PRIx64""
 -- 
 2.27.0
 
