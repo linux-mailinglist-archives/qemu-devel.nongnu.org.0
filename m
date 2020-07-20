@@ -2,61 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 98F402261D0
-	for <lists+qemu-devel@lfdr.de>; Mon, 20 Jul 2020 16:19:41 +0200 (CEST)
-Received: from localhost ([::1]:51674 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4E3AE2261EA
+	for <lists+qemu-devel@lfdr.de>; Mon, 20 Jul 2020 16:21:55 +0200 (CEST)
+Received: from localhost ([::1]:58018 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jxWdo-0006Bw-KP
-	for lists+qemu-devel@lfdr.de; Mon, 20 Jul 2020 10:19:40 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:57390)
+	id 1jxWfy-0000U5-7D
+	for lists+qemu-devel@lfdr.de; Mon, 20 Jul 2020 10:21:54 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:57414)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <dinechin@redhat.com>)
- id 1jxWbW-0002s8-Hy
- for qemu-devel@nongnu.org; Mon, 20 Jul 2020 10:17:18 -0400
-Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:24199
+ (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1jxWbX-0002uJ-IX
+ for qemu-devel@nongnu.org; Mon, 20 Jul 2020 10:17:19 -0400
+Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:37554
  helo=us-smtp-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <dinechin@redhat.com>)
- id 1jxWbG-0002pV-BD
- for qemu-devel@nongnu.org; Mon, 20 Jul 2020 10:17:18 -0400
+ (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1jxWbN-0002qL-Sd
+ for qemu-devel@nongnu.org; Mon, 20 Jul 2020 10:17:19 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1595254621;
+ s=mimecast20190719; t=1595254629;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=YCwtlwfbDn462d1r/IyFvYkVgG8sFkAb/kcergJIeyk=;
- b=bzTV2AEIaRF36kNRt7qP9bimqZRG3G5xh366GnhgD6N5GMYvR37GixFE/c5TnaL1JHqKIS
- AOK7vq2/HqFERA+TAjwKlJ9Aom6mr9r8Q0Sxzk615wIrZGO22weM/GYpRJZIupOZJzXwUu
- E1bMl++x6FlXfRLdVpxEbL9iMtPPSpg=
+ bh=XIGogesj2pjtkUhjhK+zlBqNmnHAOq71h9rPnCukOIo=;
+ b=BwftTtrrEX7suDIfjlNVVsEhCZApt+N/yQ+AFEQf2iBlcL4Vj7nWCiMRPfplSvRGmhfU22
+ KYG1d29xWivt6glS95uQrG7v2uvorZcrpwAhQ32l1+Vmoa68rPYeegFynqdDEWSeUmKvmD
+ YJwHLpmRLHZTpqjBhokzLjQwmrFSDt8=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-131-UwvHLOuiOg6hM7EixazEfQ-1; Mon, 20 Jul 2020 10:17:00 -0400
-X-MC-Unique: UwvHLOuiOg6hM7EixazEfQ-1
+ us-mta-401-rjCNQKGiNZOltfpUNDT1TQ-1; Mon, 20 Jul 2020 10:17:07 -0400
+X-MC-Unique: rjCNQKGiNZOltfpUNDT1TQ-1
 Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
  [10.5.11.22])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 106745257D
- for <qemu-devel@nongnu.org>; Mon, 20 Jul 2020 14:16:34 +0000 (UTC)
-Received: from turbo.dinechin.lan (ovpn-114-55.ams2.redhat.com [10.36.114.55])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 3918010027AC;
- Mon, 20 Jul 2020 14:16:32 +0000 (UTC)
-References: <20200624131045.14512-1-kraxel@redhat.com>
- <20200624131045.14512-2-kraxel@redhat.com>
-User-agent: mu4e 1.3.9; emacs 26.3
-From: Christophe de Dinechin <dinechin@redhat.com>
-To: Gerd Hoffmann <kraxel@redhat.com>
-Subject: Re: [PATCH v5 01/10] module: qom module support
-In-reply-to: <20200624131045.14512-2-kraxel@redhat.com>
-Date: Mon, 20 Jul 2020 16:16:30 +0200
-Message-ID: <7hlfjemfup.fsf@turbo.dinechin.lan>
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 4BFD87A380;
+ Mon, 20 Jul 2020 14:16:41 +0000 (UTC)
+Received: from ibm-p8-OVS-01-fsp.mgmt.pnr.lab.eng.rdu2.redhat.com
+ (ovpn-119-174.rdu2.redhat.com [10.10.119.174])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id A2E581002393;
+ Mon, 20 Jul 2020 14:16:40 +0000 (UTC)
+Subject: Re: tests/vm infrastructure fails to notice that QEMU dying is a
+ failure
+To: Peter Maydell <peter.maydell@linaro.org>
+References: <CAFEAcA8iKKDKEdq8TtbZNwqfsH=ZO78eEXWfrVbYTDjdy9DYDw@mail.gmail.com>
+ <890eb42e-cd77-2a63-c441-61637ac5094f@redhat.com>
+ <42c71a79-4911-dc47-d983-783d98e819c5@redhat.com>
+ <89f309c2-9909-f306-2f2b-93fc1b8adc17@redhat.com>
+ <CAFEAcA8k50qCcxwp99fF2xOL13jP1unNMbVFEYXy119u00wJcg@mail.gmail.com>
+From: John Snow <jsnow@redhat.com>
+Message-ID: <90fcac2d-d2e5-0f09-b553-62fa8e386108@redhat.com>
+Date: Mon, 20 Jul 2020 10:16:40 -0400
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.10.0
 MIME-Version: 1.0
+In-Reply-To: <CAFEAcA8k50qCcxwp99fF2xOL13jP1unNMbVFEYXy119u00wJcg@mail.gmail.com>
+Content-Language: en-US
 X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain
-Received-SPF: pass client-ip=207.211.31.120; envelope-from=dinechin@redhat.com;
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=207.211.31.120; envelope-from=jsnow@redhat.com;
  helo=us-smtp-1.mimecast.com
 X-detected-operating-system: by eggs.gnu.org: First seen = 2020/07/20 03:17:01
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
@@ -79,127 +86,30 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: =?utf-8?Q?Daniel_P=2E_Berrang=C3=A9?= <berrange@redhat.com>,
- Eduardo Habkost <ehabkost@redhat.com>, qemu-devel@nongnu.org,
- =?utf-8?Q?Marc-Andr=C3=A9?= Lureau <marcandre.lureau@redhat.com>,
- Paolo Bonzini <pbonzini@redhat.com>, philmd@redhat.com
+Cc: =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>,
+ Robert Foley <robert.foley@linaro.org>,
+ =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>,
+ QEMU Developers <qemu-devel@nongnu.org>, Cleber Rosa <crosa@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+On 7/18/20 5:30 AM, Peter Maydell wrote:
+> On Fri, 17 Jul 2020 at 23:24, John Snow <jsnow@redhat.com> wrote:
+>> - The real problem, though: Why is QEMU hanging? It might need a longer
+>> timeout, or it might be having problems with the console socket again.
+> 
+> The host machine seemed to be under really heavy I/O load at the time.
+> 
+> thanks
+> -- PMM
+> 
 
-On 2020-06-24 at 15:10 CEST, Gerd Hoffmann wrote...
-> Add support for qom types provided by modules.  For starters use a
-> manually maintained list which maps qom type to module and prefix.
->
-> Two load functions are added:  One to load the module for a specific
-> type, and one to load all modules (needed for object/device lists as
-> printed by -- for example -- qemu -device help).
->
-> Signed-off-by: Gerd Hoffmann <kraxel@redhat.com>
-> ---
->  include/qemu/module.h |  2 ++
->  util/module.c         | 55 +++++++++++++++++++++++++++++++++++++++++++
->  2 files changed, 57 insertions(+)
->
-> diff --git a/include/qemu/module.h b/include/qemu/module.h
-> index 011ae1ae7605..9121a475c1b6 100644
-> --- a/include/qemu/module.h
-> +++ b/include/qemu/module.h
-> @@ -70,5 +70,7 @@ void register_dso_module_init(void (*fn)(void), module_init_type type);
->
->  void module_call_init(module_init_type type);
->  bool module_load_one(const char *prefix, const char *lib_name);
-> +void module_load_qom_one(const char *type);
-> +void module_load_qom_all(void);
->
->  #endif
-> diff --git a/util/module.c b/util/module.c
-> index e48d9aacc05a..ee560a4b4269 100644
-> --- a/util/module.c
-> +++ b/util/module.c
-> @@ -245,3 +245,58 @@ bool module_load_one(const char *prefix, const char *lib_name)
->  #endif
->      return success;
->  }
-> +
-> +/*
-> + * Building devices and other qom objects modular is mostly useful in
-> + * case they have dependencies to external shared libraries, so we can
-> + * cut down the core qemu library dependencies.  Which is the case for
-> + * only a very few devices & objects.
-> + *
-> + * So with the expectation that this will be rather the exception than
-> + * to rule and the list will not gain that many entries go with a
+Kevin's reporting problems too, with a 3 second wait being too 
+optimistic. Let's extend the timeout a bit, which should help in that case.
 
-Nit: Add a comma after "entries"
+(Avoiding exceptions in the atexit handler will take a little longer 
+perhaps, but I will start working on that too.)
 
-I would also indicate that this list needs to be sorted by prefix/module
-
-> + * simple manually maintained list for now.
-> + */
-> +static struct {
-> +    const char *type;
-> +    const char *prefix;
-> +    const char *module;
-
-Because of the sorting rule, it is more intuitive to put the module first
-and the type last, for cases where you have
-
-    mod1 prefix1 type1
-    mod1 prefix1 type2
-    mod1 prefix1 type3
-    mod2 prefix2 type1
-
-Visually, I expect the constants to come first.
-
-
-> +} const qom_modules[] = {
-> +};
-> +
-> +static bool module_loaded_qom_all;
-> +
-> +void module_load_qom_one(const char *type)
-> +{
-> +    int i;
-> +
-> +    if (module_loaded_qom_all) {
-> +        return;
-> +    }
-> +    for (i = 0; i < ARRAY_SIZE(qom_modules); i++) {
-> +        if (strcmp(qom_modules[i].type, type) == 0) {
-> +            module_load_one(qom_modules[i].prefix,
-> +                            qom_modules[i].module);
-> +            return;
-> +        }
-> +    }
-> +}
-> +
-> +void module_load_qom_all(void)
-> +{
-> +    int i;
-> +
-> +    if (module_loaded_qom_all) {
-> +        return;
-> +    }
-> +    for (i = 0; i < ARRAY_SIZE(qom_modules); i++) {
-> +        if (i > 0 && (strcmp(qom_modules[i - 1].module,
-> +                             qom_modules[i].module) == 0 &&
-> +                      strcmp(qom_modules[i - 1].prefix,
-> +                             qom_modules[i].prefix) == 0)) {
-> +            /* one module implementing multiple types -> load only once */
-
-This is the sorting requirement I'm talking about
-
-> +            continue;
-> +        }
-> +        module_load_one(qom_modules[i].prefix, qom_modules[i].module);
-> +    }
-> +    module_loaded_qom_all = true;
-> +}
-
-
---
-Cheers,
-Christophe de Dinechin (IRC c3d)
+--js
 
 
