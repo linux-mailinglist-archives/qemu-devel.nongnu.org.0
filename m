@@ -2,70 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 68BC1225C04
-	for <lists+qemu-devel@lfdr.de>; Mon, 20 Jul 2020 11:48:35 +0200 (CEST)
-Received: from localhost ([::1]:35702 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7AEB3225BFC
+	for <lists+qemu-devel@lfdr.de>; Mon, 20 Jul 2020 11:46:22 +0200 (CEST)
+Received: from localhost ([::1]:58456 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jxSPS-0004un-HL
-	for lists+qemu-devel@lfdr.de; Mon, 20 Jul 2020 05:48:34 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:38960)
+	id 1jxSNI-0002fz-Vi
+	for lists+qemu-devel@lfdr.de; Mon, 20 Jul 2020 05:46:21 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:39002)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <zong.li@sifive.com>)
- id 1jxRLD-0004Br-78
- for qemu-devel@nongnu.org; Mon, 20 Jul 2020 04:40:07 -0400
-Received: from mail-pg1-x543.google.com ([2607:f8b0:4864:20::543]:39812)
+ id 1jxRLE-0004E8-Rj
+ for qemu-devel@nongnu.org; Mon, 20 Jul 2020 04:40:08 -0400
+Received: from mail-pf1-x441.google.com ([2607:f8b0:4864:20::441]:39205)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <zong.li@sifive.com>)
- id 1jxRLB-0003ta-HI
- for qemu-devel@nongnu.org; Mon, 20 Jul 2020 04:40:06 -0400
-Received: by mail-pg1-x543.google.com with SMTP id z5so9984355pgb.6
- for <qemu-devel@nongnu.org>; Mon, 20 Jul 2020 01:40:05 -0700 (PDT)
+ id 1jxRLD-0003u3-5L
+ for qemu-devel@nongnu.org; Mon, 20 Jul 2020 04:40:08 -0400
+Received: by mail-pf1-x441.google.com with SMTP id x72so8717247pfc.6
+ for <qemu-devel@nongnu.org>; Mon, 20 Jul 2020 01:40:06 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=sifive.com; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=JsLTfddsKgoMRSVCuJtsD4pLBNDevQya9a9kk1rBuvs=;
- b=HTYmFu40g+Oa9ygM0ZvoPP1PgQX2rz4Dr4B7FQOUoyPtgA74+p3GLJnMm1EwqAoPfq
- L6Zt+SOXvaJbp4E9H5OzgFZTk31lh5joGbmTEYBqxegHWHgKvG0wDecCAbV903cDH2/Y
- 6CfYV1O9vl0wt+aUw6N8IxWNWOOJHAj0tUaUHtv5FJzS8vLEJMPX5H1z5AliINJ1p3XH
- oMCohpVDuEehbe4komI+eq/sPgj2WusEopgpneuMOTTQlcplMepk6qMcS1Fz50q9/DET
- J67XAJ49FhB8NetlWEpkLr2FKp+uNh5PI7QTpnt3MJT6plXriGX3WwcHEn60cH8o/xNA
- 840w==
+ bh=hHlA6wmhpvYVr+0JFQxF6AzpWLBgIsPSzrz6OprCNsQ=;
+ b=iKj+cIaGrtmTYNZccQXM1I1mOsrkjEFYFMUR3SWCbsS+zT6DkG/G4jbbekAwe8bfN8
+ kt0VPleUYJcBPMmNP7bVuD9BU9Mg5bgbSFeoh7MVLBEby0QmCHEJejxkdeh0VseyhX5i
+ WmQ6fDsVajFW4FXTJOJWk+yyfHROPRxHRP88mDe+Pkc72i54T1f2aJn0JB/r7FaSfBdo
+ N97cMbm0aHVI1CBX2Y0PXWJjegTtJElBydoXB1tuHdOrJ2AHWhzDVz7/Kk5gwX8SJUmc
+ /Buns+o6KNu25dybhaNXlXSv5bwL6keMRVPy/+Qana9EKjshGKOAy/gHr3Jyfjnz/bl4
+ 94mg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=JsLTfddsKgoMRSVCuJtsD4pLBNDevQya9a9kk1rBuvs=;
- b=OxZIFZK/MutMf0W+vBN64Y4rx4QJ28nVg52IoTznLu+Qihw4VZQ1L/ShxzjG//dHaq
- aPGjI92lp/YGWO5aTLi8dVzwbwG1gWUsCz9G3wQqpkWOv8HAdDKorsAHHQjuhW0Magnk
- ocq5HiHDICWSArTXhN5A6RWGVqq2PKtxM6UzgJSiFJ6ULTePm6g29G6kr+iUUEP5blN4
- piMoPFrmnfeZwB+tR82nGzQPIkJbCgnDUbOInoVZRAudZzW70hrh3jLkJ3JkJt1odbsB
- BbHh0+oHWoikuBiEaIKUIgQdRUggBGdwQgfHlo5ZYjE/tYpgFO1yu21QAx+qFcG+G7Rn
- tX+A==
-X-Gm-Message-State: AOAM532gmN32nRN8zbl0XtLQW6ZyBTN6Dj7bu0HHw23TFPnA4a1Q+3zH
- 8dfIO3F8gHfAw8jBV+syccbtGA==
-X-Google-Smtp-Source: ABdhPJypxHssbOrUNASzWyJtBQzO8CXAyQLzJbyxtMYaWvDwcey4PU3MRhC5jWdAbMfOqBkuecE2mQ==
-X-Received: by 2002:a63:6c0a:: with SMTP id h10mr17924212pgc.11.1595234404148; 
- Mon, 20 Jul 2020 01:40:04 -0700 (PDT)
+ bh=hHlA6wmhpvYVr+0JFQxF6AzpWLBgIsPSzrz6OprCNsQ=;
+ b=Pz+WWeDQ8Z55Bzw4H5P24nKF0gY47wjQhA2kO6J2wz406hGL6Jk63t3sd/wwlcqWbN
+ 6SCiRR2FyQ6aXa+cZOvUzw/CGwHbgRZl2YowuwknC/O4H2wJOrGYEtyTmrVQ5KzJWG7A
+ gOiKu6diw04DFf4JaBKRPoJt/TOPu4iK46pB3keyHRUNsddrPu9gMMczoyq1g2Uv+VaD
+ ZGSL9z5lAJq+VHjf3xzuXsnSwugPwX6J602EDCrphbDCWzZYp0C/OdMFiAkYax23ge31
+ BODOAS62ASnJ59ZPm844mH0/3/709V+xkSAZ7EbKBW59ONIz3nJ4aKMX7Sa9/Wql+ILi
+ Masw==
+X-Gm-Message-State: AOAM532xZSHBxgSVAI/Ofhi3MZAPbB6CRAvjQp+Z2VemnfDYBA/zn1F2
+ N8UWdjRMwr034Ig8+zp/u+o7Bw==
+X-Google-Smtp-Source: ABdhPJxtdrRtnGeEssu2d6QbFJYoHGCidiXzGoO3Uo9LeOzGmBQ8Rla5uNx09vVG+5XwmIslihtfoA==
+X-Received: by 2002:aa7:9ec2:: with SMTP id r2mr18816853pfq.265.1595234405912; 
+ Mon, 20 Jul 2020 01:40:05 -0700 (PDT)
 Received: from hsinchu02.internal.sifive.com
  (114-34-229-221.HINET-IP.hinet.net. [114.34.229.221])
- by smtp.gmail.com with ESMTPSA id o4sm11388151pjo.16.2020.07.20.01.40.02
+ by smtp.gmail.com with ESMTPSA id o4sm11388151pjo.16.2020.07.20.01.40.04
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 20 Jul 2020 01:40:03 -0700 (PDT)
+ Mon, 20 Jul 2020 01:40:05 -0700 (PDT)
 From: Zong Li <zong.li@sifive.com>
 To: palmer@dabbelt.com, Alistair.Francis@wdc.com, sagark@eecs.berkeley.edu,
  kbastian@mail.uni-paderborn.de, qemu-riscv@nongnu.org,
  qemu-devel@nongnu.org
-Subject: [PATCH 1/2] target/riscv: Fix the range of pmpcfg of CSR funcion table
-Date: Mon, 20 Jul 2020 16:39:56 +0800
-Message-Id: <c01aa428c0b4dc9c3e5b24a3d04040a1253bb3a5.1595234208.git.zong.li@sifive.com>
+Subject: [PATCH 2/2] target/riscv/pmp.c: Fix the index offset on RV64
+Date: Mon, 20 Jul 2020 16:39:57 +0800
+Message-Id: <658e49284fc564d4114307cb559cf23ea3e751fd.1595234208.git.zong.li@sifive.com>
 X-Mailer: git-send-email 2.27.0
 In-Reply-To: <cover.1595234208.git.zong.li@sifive.com>
 References: <cover.1595234208.git.zong.li@sifive.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::543;
- envelope-from=zong.li@sifive.com; helo=mail-pg1-x543.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::441;
+ envelope-from=zong.li@sifive.com; helo=mail-pf1-x441.google.com
 X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
  That's all we know.
 X-Spam_score_int: -20
@@ -76,7 +76,7 @@ X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
  URIBL_BLOCKED=0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
-X-Mailman-Approved-At: Mon, 20 Jul 2020 05:44:43 -0400
+X-Mailman-Approved-At: Mon, 20 Jul 2020 05:44:47 -0400
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -92,27 +92,49 @@ Cc: Zong Li <zong.li@sifive.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The range of Physical Memory Protection should be from CSR_PMPCFG0
-to CSR_PMPCFG3, not to CSR_PMPADDR9.
+On RV64, the reg_index is 2 (pmpcfg2 CSR) after the seventh pmp
+entry, it is not 1 (pmpcfg1 CSR) like RV32. In the original
+implementation, the second parameter of pmp_write_cfg is
+"reg_index * sizeof(target_ulong)", and we get the the result
+which is started from 16 if reg_index is 2, but we expect that
+it should be started from 8. Separate the implementation for
+RV32 and RV64 respectively.
 
 Signed-off-by: Zong Li <zong.li@sifive.com>
 ---
- target/riscv/csr.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ target/riscv/pmp.c | 9 +++++++++
+ 1 file changed, 9 insertions(+)
 
-diff --git a/target/riscv/csr.c b/target/riscv/csr.c
-index ac01c835e1..6a96a01b1c 100644
---- a/target/riscv/csr.c
-+++ b/target/riscv/csr.c
-@@ -1353,7 +1353,7 @@ static riscv_csr_operations csr_ops[CSR_TABLE_SIZE] = {
-     [CSR_MTINST] =              { hmode,   read_mtinst,      write_mtinst     },
+diff --git a/target/riscv/pmp.c b/target/riscv/pmp.c
+index 2a2b9f5363..adcdd411e6 100644
+--- a/target/riscv/pmp.c
++++ b/target/riscv/pmp.c
+@@ -320,8 +320,13 @@ void pmpcfg_csr_write(CPURISCVState *env, uint32_t reg_index,
  
-     /* Physical Memory Protection */
--    [CSR_PMPCFG0  ... CSR_PMPADDR9] =  { pmp,   read_pmpcfg,  write_pmpcfg   },
-+    [CSR_PMPCFG0  ... CSR_PMPCFG3]   = { pmp,   read_pmpcfg,  write_pmpcfg   },
-     [CSR_PMPADDR0 ... CSR_PMPADDR15] = { pmp,   read_pmpaddr, write_pmpaddr  },
+     for (i = 0; i < sizeof(target_ulong); i++) {
+         cfg_val = (val >> 8 * i)  & 0xff;
++#if defined(TARGET_RISCV32)
+         pmp_write_cfg(env, (reg_index * sizeof(target_ulong)) + i,
+             cfg_val);
++#elif defined(TARGET_RISCV64)
++        pmp_write_cfg(env, ((reg_index >> 1) * sizeof(target_ulong)) + i,
++            cfg_val);
++#endif
+     }
+ }
  
-     /* Performance Counters */
+@@ -336,7 +341,11 @@ target_ulong pmpcfg_csr_read(CPURISCVState *env, uint32_t reg_index)
+     target_ulong val = 0;
+ 
+     for (i = 0; i < sizeof(target_ulong); i++) {
++#if defined(TARGET_RISCV32)
+         val = pmp_read_cfg(env, (reg_index * sizeof(target_ulong)) + i);
++#elif defined(TARGET_RISCV64)
++        val = pmp_read_cfg(env, ((reg_index >> 1) * sizeof(target_ulong)) + i);
++#endif
+         cfg_val |= (val << (i * 8));
+     }
+     trace_pmpcfg_csr_read(env->mhartid, reg_index, cfg_val);
 -- 
 2.27.0
 
