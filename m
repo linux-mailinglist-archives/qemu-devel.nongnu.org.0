@@ -2,40 +2,40 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id CE379225DC7
-	for <lists+qemu-devel@lfdr.de>; Mon, 20 Jul 2020 13:48:20 +0200 (CEST)
-Received: from localhost ([::1]:49938 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C8E39225DAA
+	for <lists+qemu-devel@lfdr.de>; Mon, 20 Jul 2020 13:44:57 +0200 (CEST)
+Received: from localhost ([::1]:38356 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jxUHL-00050P-TD
-	for lists+qemu-devel@lfdr.de; Mon, 20 Jul 2020 07:48:19 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:37298)
+	id 1jxUE4-0000EE-R6
+	for lists+qemu-devel@lfdr.de; Mon, 20 Jul 2020 07:44:56 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:37448)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <its@irrelevant.dk>)
- id 1jxU7R-0007Nl-WC; Mon, 20 Jul 2020 07:38:06 -0400
-Received: from charlie.dont.surf ([128.199.63.193]:46888)
+ id 1jxU7m-000854-CJ; Mon, 20 Jul 2020 07:38:26 -0400
+Received: from charlie.dont.surf ([128.199.63.193]:46906)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <its@irrelevant.dk>)
- id 1jxU7P-0005B5-28; Mon, 20 Jul 2020 07:38:05 -0400
+ id 1jxU7j-0005BV-PE; Mon, 20 Jul 2020 07:38:26 -0400
 Received: from apples.local (80-167-98-190-cable.dk.customer.tdc.net
  [80.167.98.190])
- by charlie.dont.surf (Postfix) with ESMTPSA id 839C6BFB1B;
+ by charlie.dont.surf (Postfix) with ESMTPSA id E520DBF5BE;
  Mon, 20 Jul 2020 11:38:00 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=irrelevant.dk;
- s=default; t=1595245080;
- bh=WBJTvPuUpVdkPBaC1mnh3RNYDll46h8qc7kXEHTw7wQ=;
+ s=default; t=1595245081;
+ bh=fAW93TvhNDOPtrVLxagRxdXJo5R/MwLVsUice3pfDW0=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=v9hL9cAz8Wtl23MudOljtGeBMTt3Di5PzzqDynwEnaTy01KwB6bvsjPYjdeTO+Nrv
- qSycrv1xVdDlzOoUWJEwnoWBCR32SdKqtCAkyCgV5mWbgGO94lmJAp2sHlkQu4ntCA
- YDI1Ryfb+4QzhS4XOCkKojZtxbQsCZWJDR+5KgRuvBqMj3gTv4jwbN7abojZFg8ShI
- woX+nHMbAS1L75OrjDTr0zNvaP3UZWrxbSPleItHWObmhHtQZxzYSSRl3dq4W0idqK
- 2X9DGmr+QzPNbULBjcNbJ+mqHXoHQqoAdVwz7r1UIOcXK9b0fmfFqrpG4GGf2urrC0
- nMzgN2B7ADwQg==
+ b=Vknn/I77Cdxovhv3eGgntxo0pEsNRIZjPNRsLDZwsyJo+wNBZueFC/4z44XXpBMSz
+ C4tWKkkbCCt+rmvuJ/6G0AlHxWDoCTGmasNcKXwNcvVKEUMm3a64PBfmLxzX0IveC+
+ 0ZqTTWJBGEHBpeCnxitQecbEzyn7XKudHJTD6OQK58fnC0rr4xuE/rGJGZN9jp5xTY
+ gf6eEP+D80JYpWub2LaVzOy1Yg0e5zMcWXMRAbmFDdc8o7QPiMXwsUZszz6drHYSwC
+ Pbc/ndOj63O3PPA3vUH2fElbqHxG+C56JRbPxrvBg6XTlavm32z2YzflsKoovLu+sp
+ 0i0iTOXdFbZ6A==
 From: Klaus Jensen <its@irrelevant.dk>
 To: qemu-devel@nongnu.org
-Subject: [PATCH 10/16] hw/block/nvme: add check for mdts
-Date: Mon, 20 Jul 2020 13:37:42 +0200
-Message-Id: <20200720113748.322965-11-its@irrelevant.dk>
+Subject: [PATCH 11/16] hw/block/nvme: be consistent about zeros vs zeroes
+Date: Mon, 20 Jul 2020 13:37:43 +0200
+Message-Id: <20200720113748.322965-12-its@irrelevant.dk>
 X-Mailer: git-send-email 2.27.0
 In-Reply-To: <20200720113748.322965-1-its@irrelevant.dk>
 References: <20200720113748.322965-1-its@irrelevant.dk>
@@ -63,136 +63,103 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Kevin Wolf <kwolf@redhat.com>, qemu-block@nongnu.org,
- Klaus Jensen <k.jensen@samsung.com>, Max Reitz <mreitz@redhat.com>,
- Keith Busch <kbusch@kernel.org>, Klaus Jensen <its@irrelevant.dk>,
- Maxim Levitsky <mlevitsk@redhat.com>
+Cc: Kevin Wolf <kwolf@redhat.com>, Fam Zheng <fam@euphon.net>,
+ qemu-block@nongnu.org, Klaus Jensen <k.jensen@samsung.com>,
+ Max Reitz <mreitz@redhat.com>, Keith Busch <kbusch@kernel.org>,
+ Klaus Jensen <its@irrelevant.dk>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Klaus Jensen <k.jensen@samsung.com>
 
-Add 'mdts' device parameter to control the Maximum Data Transfer Size of
-the controller and check that it is respected.
+The NVM Express specification generally uses 'zeroes' and not 'zeros',
+so let us align with it.
 
+Cc: Fam Zheng <fam@euphon.net>
 Signed-off-by: Klaus Jensen <k.jensen@samsung.com>
-Reviewed-by: Maxim Levitsky <mlevitsk@redhat.com>
 ---
- hw/block/nvme.c       | 32 ++++++++++++++++++++++++++++++--
- hw/block/nvme.h       |  1 +
- hw/block/trace-events |  1 +
- 3 files changed, 32 insertions(+), 2 deletions(-)
+ block/nvme.c         | 4 ++--
+ hw/block/nvme.c      | 8 ++++----
+ include/block/nvme.h | 4 ++--
+ 3 files changed, 8 insertions(+), 8 deletions(-)
 
+diff --git a/block/nvme.c b/block/nvme.c
+index c1c4c07ac6cc..05485fdd1189 100644
+--- a/block/nvme.c
++++ b/block/nvme.c
+@@ -537,7 +537,7 @@ static void nvme_identify(BlockDriverState *bs, int namespace, Error **errp)
+                           s->page_size / sizeof(uint64_t) * s->page_size);
+ 
+     oncs = le16_to_cpu(idctrl->oncs);
+-    s->supports_write_zeroes = !!(oncs & NVME_ONCS_WRITE_ZEROS);
++    s->supports_write_zeroes = !!(oncs & NVME_ONCS_WRITE_ZEROES);
+     s->supports_discard = !!(oncs & NVME_ONCS_DSM);
+ 
+     memset(resp, 0, 4096);
+@@ -1201,7 +1201,7 @@ static coroutine_fn int nvme_co_pwrite_zeroes(BlockDriverState *bs,
+     }
+ 
+     NvmeCmd cmd = {
+-        .opcode = NVME_CMD_WRITE_ZEROS,
++        .opcode = NVME_CMD_WRITE_ZEROES,
+         .nsid = cpu_to_le32(s->nsid),
+         .cdw10 = cpu_to_le32((offset >> s->blkshift) & 0xFFFFFFFF),
+         .cdw11 = cpu_to_le32(((offset >> s->blkshift) >> 32) & 0xFFFFFFFF),
 diff --git a/hw/block/nvme.c b/hw/block/nvme.c
-index 35bc1a7b7e21..10fe53873ae9 100644
+index 10fe53873ae9..e2932239c661 100644
 --- a/hw/block/nvme.c
 +++ b/hw/block/nvme.c
-@@ -18,9 +18,10 @@
-  * Usage: add options:
-  *      -drive file=<file>,if=none,id=<drive_id>
-  *      -device nvme,drive=<drive_id>,serial=<serial>,id=<id[optional]>, \
-- *              cmb_size_mb=<cmb_size_mb[optional]>, \
-+ *              [cmb_size_mb=<cmb_size_mb>,] \
-  *              [pmrdev=<mem_backend_file_id>,] \
-- *              max_ioqpairs=<N[optional]>
-+ *              [max_ioqpairs=<N>,] \
-+ *              [mdts=<N>]
-  *
-  * Note cmb_size_mb denotes size of CMB in MB. CMB is assumed to be at
-  * offset 0 in BAR2 and supports only WDS, RDS and SQS for now.
-@@ -553,6 +554,17 @@ static void nvme_clear_events(NvmeCtrl *n, uint8_t event_type)
-     }
+@@ -614,7 +614,7 @@ static uint16_t nvme_flush(NvmeCtrl *n, NvmeNamespace *ns, NvmeCmd *cmd,
+     return NVME_NO_COMPLETE;
  }
  
-+static inline uint16_t nvme_check_mdts(NvmeCtrl *n, size_t len)
-+{
-+    uint8_t mdts = n->params.mdts;
-+
-+    if (mdts && len > n->page_size << mdts) {
-+        return NVME_INVALID_FIELD | NVME_DNR;
-+    }
-+
-+    return NVME_SUCCESS;
-+}
-+
- static inline uint16_t nvme_check_bounds(NvmeCtrl *n, NvmeNamespace *ns,
-                                          uint64_t slba, uint32_t nlb)
+-static uint16_t nvme_write_zeros(NvmeCtrl *n, NvmeNamespace *ns, NvmeCmd *cmd,
++static uint16_t nvme_write_zeroes(NvmeCtrl *n, NvmeNamespace *ns, NvmeCmd *cmd,
+     NvmeRequest *req)
  {
-@@ -646,6 +658,13 @@ static uint16_t nvme_rw(NvmeCtrl *n, NvmeNamespace *ns, NvmeCmd *cmd,
+     NvmeRwCmd *rw = (NvmeRwCmd *)cmd;
+@@ -714,8 +714,8 @@ static uint16_t nvme_io_cmd(NvmeCtrl *n, NvmeCmd *cmd, NvmeRequest *req)
+     switch (cmd->opcode) {
+     case NVME_CMD_FLUSH:
+         return nvme_flush(n, ns, cmd, req);
+-    case NVME_CMD_WRITE_ZEROS:
+-        return nvme_write_zeros(n, ns, cmd, req);
++    case NVME_CMD_WRITE_ZEROES:
++        return nvme_write_zeroes(n, ns, cmd, req);
+     case NVME_CMD_WRITE:
+     case NVME_CMD_READ:
+         return nvme_rw(n, ns, cmd, req);
+@@ -2328,7 +2328,7 @@ static void nvme_init_ctrl(NvmeCtrl *n, PCIDevice *pci_dev)
+     id->sqes = (0x6 << 4) | 0x6;
+     id->cqes = (0x4 << 4) | 0x4;
+     id->nn = cpu_to_le32(n->num_namespaces);
+-    id->oncs = cpu_to_le16(NVME_ONCS_WRITE_ZEROS | NVME_ONCS_TIMESTAMP |
++    id->oncs = cpu_to_le16(NVME_ONCS_WRITE_ZEROES | NVME_ONCS_TIMESTAMP |
+                            NVME_ONCS_FEATURES);
  
-     trace_pci_nvme_rw(is_write ? "write" : "read", nlb, data_size, slba);
- 
-+    status = nvme_check_mdts(n, data_size);
-+    if (status) {
-+        trace_pci_nvme_err_mdts(nvme_cid(req), data_size);
-+        block_acct_invalid(blk_get_stats(n->conf.blk), acct);
-+        return status;
-+    }
-+
-     status = nvme_check_bounds(n, ns, slba, nlb);
-     if (status) {
-         trace_pci_nvme_err_invalid_lba_range(slba, nlb, ns->id_ns.nsze);
-@@ -938,6 +957,7 @@ static uint16_t nvme_get_log(NvmeCtrl *n, NvmeCmd *cmd, NvmeRequest *req)
-     uint32_t numdl, numdu;
-     uint64_t off, lpol, lpou;
-     size_t   len;
-+    uint16_t status;
- 
-     numdl = (dw10 >> 16);
-     numdu = (dw11 & 0xffff);
-@@ -953,6 +973,12 @@ static uint16_t nvme_get_log(NvmeCtrl *n, NvmeCmd *cmd, NvmeRequest *req)
- 
-     trace_pci_nvme_get_log(nvme_cid(req), lid, lsp, rae, len, off);
- 
-+    status = nvme_check_mdts(n, len);
-+    if (status) {
-+        trace_pci_nvme_err_mdts(nvme_cid(req), len);
-+        return status;
-+    }
-+
-     switch (lid) {
-     case NVME_LOG_ERROR_INFO:
-         return nvme_error_info(n, cmd, rae, len, off, req);
-@@ -2275,6 +2301,7 @@ static void nvme_init_ctrl(NvmeCtrl *n, PCIDevice *pci_dev)
-     id->ieee[0] = 0x00;
-     id->ieee[1] = 0x02;
-     id->ieee[2] = 0xb3;
-+    id->mdts = n->params.mdts;
-     id->ver = cpu_to_le32(NVME_SPEC_VER);
-     id->oacs = cpu_to_le16(0);
- 
-@@ -2394,6 +2421,7 @@ static Property nvme_props[] = {
-     DEFINE_PROP_UINT16("msix_qsize", NvmeCtrl, params.msix_qsize, 65),
-     DEFINE_PROP_UINT8("aerl", NvmeCtrl, params.aerl, 3),
-     DEFINE_PROP_UINT32("aer_max_queued", NvmeCtrl, params.aer_max_queued, 64),
-+    DEFINE_PROP_UINT8("mdts", NvmeCtrl, params.mdts, 7),
-     DEFINE_PROP_END_OF_LIST(),
+     subnqn = g_strdup_printf("nqn.2019-08.org.qemu:%s", n->params.serial);
+diff --git a/include/block/nvme.h b/include/block/nvme.h
+index 370df7fc0570..65e68a82c897 100644
+--- a/include/block/nvme.h
++++ b/include/block/nvme.h
+@@ -460,7 +460,7 @@ enum NvmeIoCommands {
+     NVME_CMD_READ               = 0x02,
+     NVME_CMD_WRITE_UNCOR        = 0x04,
+     NVME_CMD_COMPARE            = 0x05,
+-    NVME_CMD_WRITE_ZEROS        = 0x08,
++    NVME_CMD_WRITE_ZEROES       = 0x08,
+     NVME_CMD_DSM                = 0x09,
  };
  
-diff --git a/hw/block/nvme.h b/hw/block/nvme.h
-index 5519b5cc7686..137cd8c2bf20 100644
---- a/hw/block/nvme.h
-+++ b/hw/block/nvme.h
-@@ -11,6 +11,7 @@ typedef struct NvmeParams {
-     uint32_t cmb_size_mb;
-     uint8_t  aerl;
-     uint32_t aer_max_queued;
-+    uint8_t  mdts;
- } NvmeParams;
- 
- typedef struct NvmeAsyncEvent {
-diff --git a/hw/block/trace-events b/hw/block/trace-events
-index 6d0cd588c786..5d7d4679650b 100644
---- a/hw/block/trace-events
-+++ b/hw/block/trace-events
-@@ -85,6 +85,7 @@ pci_nvme_mmio_shutdown_set(void) "shutdown bit set"
- pci_nvme_mmio_shutdown_cleared(void) "shutdown bit cleared"
- 
- # nvme traces for error conditions
-+pci_nvme_err_mdts(uint16_t cid, size_t len) "cid %"PRIu16" len %"PRIu64""
- pci_nvme_err_invalid_dma(void) "PRP/SGL is too small for transfer size"
- pci_nvme_err_invalid_prplist_ent(uint64_t prplist) "PRP list entry is null or not page aligned: 0x%"PRIx64""
- pci_nvme_err_invalid_prp2_align(uint64_t prp2) "PRP2 is not page aligned: 0x%"PRIx64""
+@@ -838,7 +838,7 @@ enum NvmeIdCtrlOncs {
+     NVME_ONCS_COMPARE       = 1 << 0,
+     NVME_ONCS_WRITE_UNCORR  = 1 << 1,
+     NVME_ONCS_DSM           = 1 << 2,
+-    NVME_ONCS_WRITE_ZEROS   = 1 << 3,
++    NVME_ONCS_WRITE_ZEROES  = 1 << 3,
+     NVME_ONCS_FEATURES      = 1 << 4,
+     NVME_ONCS_RESRVATIONS   = 1 << 5,
+     NVME_ONCS_TIMESTAMP     = 1 << 6,
 -- 
 2.27.0
 
