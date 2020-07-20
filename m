@@ -2,69 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4B2BD226066
-	for <lists+qemu-devel@lfdr.de>; Mon, 20 Jul 2020 15:05:13 +0200 (CEST)
-Received: from localhost ([::1]:40028 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3DC70226052
+	for <lists+qemu-devel@lfdr.de>; Mon, 20 Jul 2020 15:02:12 +0200 (CEST)
+Received: from localhost ([::1]:59114 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jxVTk-000648-Ba
-	for lists+qemu-devel@lfdr.de; Mon, 20 Jul 2020 09:05:12 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:55860)
+	id 1jxVQp-0002HH-8W
+	for lists+qemu-devel@lfdr.de; Mon, 20 Jul 2020 09:02:11 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:55870)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1jxVLT-0002aR-EQ
- for qemu-devel@nongnu.org; Mon, 20 Jul 2020 08:56:39 -0400
-Received: from mail-wr1-x42a.google.com ([2a00:1450:4864:20::42a]:41266)
+ id 1jxVLU-0002d9-IY
+ for qemu-devel@nongnu.org; Mon, 20 Jul 2020 08:56:40 -0400
+Received: from mail-wm1-x32e.google.com ([2a00:1450:4864:20::32e]:35430)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1jxVLR-0007Jr-M7
- for qemu-devel@nongnu.org; Mon, 20 Jul 2020 08:56:39 -0400
-Received: by mail-wr1-x42a.google.com with SMTP id z15so17720268wrl.8
- for <qemu-devel@nongnu.org>; Mon, 20 Jul 2020 05:56:37 -0700 (PDT)
+ id 1jxVLS-0007K1-No
+ for qemu-devel@nongnu.org; Mon, 20 Jul 2020 08:56:40 -0400
+Received: by mail-wm1-x32e.google.com with SMTP id l2so25113136wmf.0
+ for <qemu-devel@nongnu.org>; Mon, 20 Jul 2020 05:56:38 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:subject:date:message-id:in-reply-to:references:mime-version
  :content-transfer-encoding;
- bh=/CYzeU7y3oLD60p/I26mnIKvepekcuC7eHDRGOCqlio=;
- b=jIrMUgcNk/3xzZpc8wqn+AZC2FIbCRomhHHdr4yY2EtVWwVvyB672+aYe9apaaAYIr
- XS3fbPiErib3cN5Vq2+GEDsAXhxmW4vWOnsX3/Zc0HwaFxBZYgLZcxeXvrWoSfO5+9DC
- wSq5pUkY0KGaW1OzGzFqp/i9y3St2LXzfGuV8jv2ESjanxAT+Ecv0dlE4MPo0V9rYCAu
- oZIM++7v8SYtKKfKPXCOwdBlUqu4Zzvo5nbEGBo4PoY6b1h80gTI0fIICs3XFjIEVGXc
- /HqTPoIsgVA1zlICzLSSCZuKEBDtwa3n9Ldb49BKAPrL3aZDGixLmgOtxwjS/XVJLB+M
- g4AA==
+ bh=/Qnf6IlQrDPLH/pkVSmr5xzm83LBS6FFFF/CTFBek8g=;
+ b=pqFF4y8rG5Vq+nRbEG55pG7cz0N1nbAlVwto+6yIx7670BaJJctppqRFI2zZQDp+pq
+ IjlvIE/cuaymq3rBYiI18EwDSoJWgnjFeQLVwaK+I1vTI8CZXNehp+ZUYd2rvC0i+xG7
+ ZtCKF6sCKM5IkSHn2jVuMXR+gjjf1eKImpCdUZTlg7t2Yx4yWB0hLmRM4E2vRKdrQsrS
+ WK6VOjR97xaYPxget+rlYPj/IUg+6jlwtRJ/TvnWWdTqPQIiJ5LdbXlEkJbib9AhpzQc
+ Yi77g43Rc1LIW9yLN8VXpwcYO0T1CTFZSGynowk58fTkdFbeLK1tChYGnDt+E6VB5EIM
+ qbKQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=/CYzeU7y3oLD60p/I26mnIKvepekcuC7eHDRGOCqlio=;
- b=uHoyW+5J5g//f8V4SOzHzLtyQYfK8L0+Np/AYmU4j3359oDtojC4OXFVhaxjjsZeqr
- X2CD0BorSPS/0hb38fAuezCdKy/U86jGY7XmuqYvnj9NOFS7ib4u/nejq+qqOEnzSr9j
- 8hPbwgi4owW7fHHhQHslexqCKsCCRF1UOK2YtvrnLpLDL899q392ygZitVJor/uqfun7
- yvA3MKYUNnGKNOZCzB5HwIXlLKLrQ0sX6orPq+tWZbzJhCXP4RnqtFyM0ulWwXdWqE+U
- oDWK6JIaJNyTRrsgh9FTd5TQMrMw0Q5XpzC5yz6RHub4yxJzzVAHilWV34+hPVyHBEqg
- K7Cw==
-X-Gm-Message-State: AOAM533Sx3kelFIE7J+nBZ0I6PDNw9iOAg9ao6sBoIxzd8DATTxjbEk8
- BXdm6vFvJjRdkZpVcDsL1hyReFy0gVYWbA==
-X-Google-Smtp-Source: ABdhPJy7lGoUnHHS2gXv+AkKpWXHvNySYYZv9RfLzYHfAn9DdJbo8JlgRQ5e89sowBCCse15BABidg==
-X-Received: by 2002:a5d:4991:: with SMTP id r17mr22004601wrq.1.1595249795937; 
- Mon, 20 Jul 2020 05:56:35 -0700 (PDT)
+ bh=/Qnf6IlQrDPLH/pkVSmr5xzm83LBS6FFFF/CTFBek8g=;
+ b=hn65XCDmVnBKb6jXp6ZEbkFWB3/mC1/0bgSX2tvw/YsezCeG+3p1+7KpjrYPE14rl2
+ uWMo2RYZzSba6Dn+/k91/M2diRPR0ZSXP2jkB7Ir2ei+JoMWpDgBFlRnRJVVETWr9G0u
+ frtzHuJHcoJarfWMzOykgGIUWCvJ3ebmLvUKiMFcovaaJZffnc2c/WFlUgzmCChWHkeQ
+ 8je6M0DwCWPRfrsql+ysFhD0s5Fb3+9nNeTg0D1MZyPrS5pvimfWQCIGQDiemAKlvD7E
+ sUNQ+wGfxkFo0Jm2KLShyhPC6cJxDhQBLoJD5qwivmTHEUeM48vH9ROafUsLTqqzDVCm
+ nUJw==
+X-Gm-Message-State: AOAM530mWM35euuKFuvRKUS657WbVAy+lMNLY9/F50E9L8pEK+bin33c
+ bg15rge0M8oPtZEIWwOqx6SnBJFiiEhVNg==
+X-Google-Smtp-Source: ABdhPJxwcLLRjT8x64EQZNWucbVPDiljf64/9AEws0McFI8cEuTeQ1XZuI4aNnz73uVWAPIgTNSIew==
+X-Received: by 2002:a1c:6308:: with SMTP id x8mr22325336wmb.92.1595249797086; 
+ Mon, 20 Jul 2020 05:56:37 -0700 (PDT)
 Received: from orth.archaic.org.uk (orth.archaic.org.uk. [81.2.115.148])
- by smtp.gmail.com with ESMTPSA id p29sm34025403wmi.43.2020.07.20.05.56.35
+ by smtp.gmail.com with ESMTPSA id p29sm34025403wmi.43.2020.07.20.05.56.36
  for <qemu-devel@nongnu.org>
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 20 Jul 2020 05:56:35 -0700 (PDT)
+ Mon, 20 Jul 2020 05:56:36 -0700 (PDT)
 From: Peter Maydell <peter.maydell@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PULL 10/12] docs/system: Briefly document collie board
-Date: Mon, 20 Jul 2020 13:56:19 +0100
-Message-Id: <20200720125621.13460-11-peter.maydell@linaro.org>
+Subject: [PULL 11/12] docs/system: Briefly document gumstix boards
+Date: Mon, 20 Jul 2020 13:56:20 +0100
+Message-Id: <20200720125621.13460-12-peter.maydell@linaro.org>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20200720125621.13460-1-peter.maydell@linaro.org>
 References: <20200720125621.13460-1-peter.maydell@linaro.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::42a;
- envelope-from=peter.maydell@linaro.org; helo=mail-wr1-x42a.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::32e;
+ envelope-from=peter.maydell@linaro.org; helo=mail-wm1-x32e.google.com
 X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
  That's all we know.
 X-Spam_score_int: -20
@@ -89,64 +89,70 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Add skeletal documentation of the collie board.
+Add skeletal documentation of the gumstix boards
+('connex' and 'verdex').
 
 Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
 Reviewed-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
 Reviewed-by: Alex Bennée <alex.bennee@linaro.org>
-Message-id: 20200713175746.5936-3-peter.maydell@linaro.org
+Message-id: 20200713175746.5936-4-peter.maydell@linaro.org
 ---
- docs/system/arm/collie.rst | 16 ++++++++++++++++
- docs/system/target-arm.rst |  1 +
- MAINTAINERS                |  1 +
- 3 files changed, 18 insertions(+)
- create mode 100644 docs/system/arm/collie.rst
+ docs/system/arm/gumstix.rst | 21 +++++++++++++++++++++
+ docs/system/target-arm.rst  |  1 +
+ MAINTAINERS                 |  1 +
+ 3 files changed, 23 insertions(+)
+ create mode 100644 docs/system/arm/gumstix.rst
 
-diff --git a/docs/system/arm/collie.rst b/docs/system/arm/collie.rst
+diff --git a/docs/system/arm/gumstix.rst b/docs/system/arm/gumstix.rst
 new file mode 100644
-index 00000000000..5cc67b6d1b5
+index 00000000000..cb373139dcb
 --- /dev/null
-+++ b/docs/system/arm/collie.rst
-@@ -0,0 +1,16 @@
-+Sharp Zaurus SL-5500 (``collie``)
-+=================================
++++ b/docs/system/arm/gumstix.rst
+@@ -0,0 +1,21 @@
++Gumstix Connex and Verdex (``connex``, ``verdex``)
++==================================================
 +
-+This machine is a model of the Sharp Zaurus SL-5500, which was
-+a 1990s PDA based on the StrongARM SA1110.
++These machines model the Gumstix Connex and Verdex boards.
++The Connex has a PXA255 CPU and the Verdex has a PXA270.
 +
 +Implemented devices:
 +
 + * NOR flash
++ * SMC91C111 ethernet
 + * Interrupt controller
++ * DMA
 + * Timer
-+ * RTC
 + * GPIO
-+ * Peripheral Pin Controller (PPC)
-+ * UARTs
-+ * Synchronous Serial Ports (SSP)
++ * MMC/SD card
++ * Fast infra-red communications port (FIR)
++ * LCD controller
++ * Synchronous serial ports (SPI)
++ * PCMCIA interface
++ * I2C
++ * I2S
 diff --git a/docs/system/target-arm.rst b/docs/system/target-arm.rst
-index 8fa51a22817..376c18f0b17 100644
+index 376c18f0b17..163ab915592 100644
 --- a/docs/system/target-arm.rst
 +++ b/docs/system/target-arm.rst
-@@ -88,6 +88,7 @@ undocumented; you can get a complete list by running
+@@ -84,6 +84,7 @@ undocumented; you can get a complete list by running
+    arm/aspeed
+    arm/digic
+    arm/musicpal
++   arm/gumstix
+    arm/nseries
     arm/orangepi
     arm/palm
-    arm/xscale
-+   arm/collie
-    arm/sx1
-    arm/stellaris
- 
 diff --git a/MAINTAINERS b/MAINTAINERS
-index 9ed36dcf736..6973b68975b 100644
+index 6973b68975b..935ccb3ab31 100644
 --- a/MAINTAINERS
 +++ b/MAINTAINERS
-@@ -847,6 +847,7 @@ L: qemu-arm@nongnu.org
+@@ -652,6 +652,7 @@ R: Philippe Mathieu-Daudé <f4bug@amsat.org>
+ L: qemu-arm@nongnu.org
  S: Odd Fixes
- F: hw/arm/collie.c
- F: hw/arm/strongarm*
-+F: docs/system/arm/collie.rst
+ F: hw/arm/gumstix.c
++F: docs/system/arm/gumstix.rst
  
- Stellaris
+ i.MX25 PDK
  M: Peter Maydell <peter.maydell@linaro.org>
 -- 
 2.20.1
