@@ -2,110 +2,115 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 27C0222673B
-	for <lists+qemu-devel@lfdr.de>; Mon, 20 Jul 2020 18:09:58 +0200 (CEST)
-Received: from localhost ([::1]:41086 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 82C0C226839
+	for <lists+qemu-devel@lfdr.de>; Mon, 20 Jul 2020 18:19:02 +0200 (CEST)
+Received: from localhost ([::1]:44866 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jxYMX-0000tO-8D
-	for lists+qemu-devel@lfdr.de; Mon, 20 Jul 2020 12:09:57 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:60092)
+	id 1jxYVJ-0002tP-EQ
+	for lists+qemu-devel@lfdr.de; Mon, 20 Jul 2020 12:19:01 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:33928)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <andrey.shinkevich@virtuozzo.com>)
- id 1jxYLZ-0008U7-9h; Mon, 20 Jul 2020 12:08:57 -0400
-Received: from mail-eopbgr80101.outbound.protection.outlook.com
- ([40.107.8.101]:46470 helo=EUR04-VI1-obe.outbound.protection.outlook.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <andrey.shinkevich@virtuozzo.com>)
- id 1jxYLV-00031f-Gs; Mon, 20 Jul 2020 12:08:55 -0400
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=D0s6Xl1Zaedulhm/vsevkyLMwtseV7XOoeboqeK4hs/QY3hnvU+HXu+sxKRVaZX2GVe/oZkm+K/QempNdJzzy5E+khehMqRfCqt5eiN8kEQ2bat7HqdiEjlLO50iNJDbkXgYdjLoMI1fUTxrE4EkrUCwOlnmo4y3l/zrkzwrP7mosDFUUyp8kGPygGSpSuN1Iz4ZdL11V11a/SCc2ssjvkCR0EX/za0IYI1RW9Kr571BwtH0l3njgYvyFaaUcilprIBc4ywPH5MIyoUZP9vVWdfa0OHadkQ3c+6A4uCSAEyWbHhSaI3ON1ldJfFvh/y9Ckbm0+uEKmZateITTwAebw==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=sJZHt+O1lDzt7Q0charwNqJxjL/sVc3fZuR8HoIyilE=;
- b=CDsTM1JWdKtKexpBpUhVAO6fEZTCKZn0SXutpGTNg6FgvLPxcodOisESoLbuYoI0WsM2jEddYIT5kAttSDHt6/cbdQTMYpLLrQyAVbQ4NHwCwgqJIEqJDPvzJYgzwoYBRFwxEtPoxfitPcQ2UnbNQu9gVwMSNwQs5AXZVqm+/VZO4dhxunLsV4++46LFB1RAvEs4P+wKoQ20jUIhfySpMMDJaApKatGJgj+7mPIqed8aICSt/g3S1RM20cyWmDEp/Z/73/kmBF8pLFL1CX6qXp51LiC/zTWLYEB8UzMb3qk5Jun7bUxzlyD67EkF3Auu4be5Ouqy2lDw/0AaRYa64g==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=virtuozzo.com; dmarc=pass action=none
- header.from=virtuozzo.com; dkim=pass header.d=virtuozzo.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=virtuozzo.com;
- s=selector2;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=sJZHt+O1lDzt7Q0charwNqJxjL/sVc3fZuR8HoIyilE=;
- b=NTNgktOxCkDGsqBm4YMiVuGGQm5F6/xJp5uvi3qpZ3H7aw4l6WWfHm03FEq/dQAueXKNLkPWJNP2HvNAG0U56/Ovm7g1YIgCpBU1j6iebYe6iofeK0g/Qib8LWL7uk56R1ED4EP0S1yK6KMaep646TbSVoUq2++9L0joKAJD8a4=
-Authentication-Results: nongnu.org; dkim=none (message not signed)
- header.d=none;nongnu.org; dmarc=none action=none header.from=virtuozzo.com;
-Received: from AM6PR08MB4070.eurprd08.prod.outlook.com (2603:10a6:20b:a3::25)
- by AM6PR08MB4469.eurprd08.prod.outlook.com (2603:10a6:20b:70::20)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3195.17; Mon, 20 Jul
- 2020 16:08:48 +0000
-Received: from AM6PR08MB4070.eurprd08.prod.outlook.com
- ([fe80::78ec:8cb6:41f7:b2a0]) by AM6PR08MB4070.eurprd08.prod.outlook.com
- ([fe80::78ec:8cb6:41f7:b2a0%5]) with mapi id 15.20.3195.025; Mon, 20 Jul 2020
- 16:08:48 +0000
-Subject: Re: [PATCH v7 29/47] blockdev: Use CAF in external_snapshot_prepare()
-To: Max Reitz <mreitz@redhat.com>, qemu-block@nongnu.org
-References: <20200625152215.941773-1-mreitz@redhat.com>
- <20200625152215.941773-30-mreitz@redhat.com>
-From: Andrey Shinkevich <andrey.shinkevich@virtuozzo.com>
-Message-ID: <f89e95e4-10c8-f5ae-f085-2da4d936c043@virtuozzo.com>
-Date: Mon, 20 Jul 2020 19:08:44 +0300
-User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:68.0)
- Gecko/20100101 Thunderbird/68.9.0
-In-Reply-To: <20200625152215.941773-30-mreitz@redhat.com>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Transfer-Encoding: 8bit
-Content-Language: en-GB
-X-ClientProxiedBy: AM4PR0101CA0079.eurprd01.prod.exchangelabs.com
- (2603:10a6:200:41::47) To AM6PR08MB4070.eurprd08.prod.outlook.com
- (2603:10a6:20b:a3::25)
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1jxYUX-0002Ts-GJ
+ for qemu-devel@nongnu.org; Mon, 20 Jul 2020 12:18:13 -0400
+Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:60024
+ helo=us-smtp-1.mimecast.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1jxYUT-00045e-8N
+ for qemu-devel@nongnu.org; Mon, 20 Jul 2020 12:18:11 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1595261887;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
+ bh=1iwkwlXVDGVTXJtczAXYtIaJjYeuENE7MNG3Mzr5Vro=;
+ b=HEdpoYD22RMmJRtQzA9+Nl+p+M6RCctfUxHqr511p/xJR5Kn6A/RBcRsuQZgJUFTBf8M7X
+ zrAnsV3QwwLhaVWrl7nUbZ4hYwLwRkuliWpRJYWK2TYUQwxBZDLXy9Wh5WppIPM3w4EVmE
+ uaNAzDnKGggoGGUBmv1XibRhC+WVHtg=
+Received: from mail-wm1-f71.google.com (mail-wm1-f71.google.com
+ [209.85.128.71]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-98-cJlj66TdO2aVzMa_swastw-1; Mon, 20 Jul 2020 12:18:01 -0400
+X-MC-Unique: cJlj66TdO2aVzMa_swastw-1
+Received: by mail-wm1-f71.google.com with SMTP id e15so17666wme.8
+ for <qemu-devel@nongnu.org>; Mon, 20 Jul 2020 09:18:01 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:subject:to:cc:references:from:autocrypt
+ :message-id:date:user-agent:mime-version:in-reply-to
+ :content-language:content-transfer-encoding;
+ bh=1iwkwlXVDGVTXJtczAXYtIaJjYeuENE7MNG3Mzr5Vro=;
+ b=koG/3h+5pNy5EpWbbTArytO82PAVvy8pn/KurelXW/FUkIBZNakBYU1Wqoz8OFrA0w
+ CMItHbpwrOI3LH411pbjA48wNeSU/orkih7YPffEuS/n4mWoUQpPSeoB6/tqC2SNWE57
+ iDCcoROU1ezVcHfG2eoa41s4Ig7fIoHtLgWIJ/zggOpnGxRaGgmbkqbXLIqAOal/wZYd
+ O9j2mFUSeOa6SzEJNoLMY1uHB7euoDP5dB/nCz7xEn4pqC6qMC19utsjhHZE6J9WMIq5
+ t3D+HCuPjgux02kRWRimD/wKXk8WIHGSAfLX1hkgFfiEeZIHmWHNnPT51ZUPoRt+gjvw
+ ujGw==
+X-Gm-Message-State: AOAM530qEJTpOilEyIr/8R2dH6JppYrxyHNTO8n3JHld4+XkTf4ttip3
+ fB9P8L8xD6ZYaqVPkZqcEGoMRcaqzw1TY1+OwSv8jRAFi/mEtSqLrW3y/UBu48NnBImpkyn4uB5
+ E7QaJxcW9Saz/8do=
+X-Received: by 2002:a1c:4086:: with SMTP id n128mr135638wma.118.1595261879980; 
+ Mon, 20 Jul 2020 09:17:59 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJwJkDgjXgiE3+Ih419sdjLgOr0VcHg7WMmm8xuGGGGJsQYqFTfKyy8oTkuuUfxz3Rfuw7w/Qg==
+X-Received: by 2002:a1c:4086:: with SMTP id n128mr135619wma.118.1595261879711; 
+ Mon, 20 Jul 2020 09:17:59 -0700 (PDT)
+Received: from [192.168.1.37] (138.red-83-57-170.dynamicip.rima-tde.net.
+ [83.57.170.138])
+ by smtp.gmail.com with ESMTPSA id f186sm42768wmf.29.2020.07.20.09.17.58
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Mon, 20 Jul 2020 09:17:59 -0700 (PDT)
+Subject: Re: [PATCH for-5.1] acpi: allow accessing acpi-cnt register by byte
+To: "Michael S. Tsirkin" <mst@redhat.com>, Michael Tokarev <mjt@tls.msk.ru>
+References: <20200720153915.12267-1-mjt@msgid.tls.msk.ru>
+ <20200720115730-mutt-send-email-mst@kernel.org>
+From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
+Autocrypt: addr=philmd@redhat.com; keydata=
+ mQINBDXML8YBEADXCtUkDBKQvNsQA7sDpw6YLE/1tKHwm24A1au9Hfy/OFmkpzo+MD+dYc+7
+ bvnqWAeGweq2SDq8zbzFZ1gJBd6+e5v1a/UrTxvwBk51yEkadrpRbi+r2bDpTJwXc/uEtYAB
+ GvsTZMtiQVA4kRID1KCdgLa3zztPLCj5H1VZhqZsiGvXa/nMIlhvacRXdbgllPPJ72cLUkXf
+ z1Zu4AkEKpccZaJspmLWGSzGu6UTZ7UfVeR2Hcc2KI9oZB1qthmZ1+PZyGZ/Dy+z+zklC0xl
+ XIpQPmnfy9+/1hj1LzJ+pe3HzEodtlVA+rdttSvA6nmHKIt8Ul6b/h1DFTmUT1lN1WbAGxmg
+ CH1O26cz5nTrzdjoqC/b8PpZiT0kO5MKKgiu5S4PRIxW2+RA4H9nq7nztNZ1Y39bDpzwE5Sp
+ bDHzd5owmLxMLZAINtCtQuRbSOcMjZlg4zohA9TQP9krGIk+qTR+H4CV22sWldSkVtsoTaA2
+ qNeSJhfHQY0TyQvFbqRsSNIe2gTDzzEQ8itsmdHHE/yzhcCVvlUzXhAT6pIN0OT+cdsTTfif
+ MIcDboys92auTuJ7U+4jWF1+WUaJ8gDL69ThAsu7mGDBbm80P3vvUZ4fQM14NkxOnuGRrJxO
+ qjWNJ2ZUxgyHAh5TCxMLKWZoL5hpnvx3dF3Ti9HW2dsUUWICSQARAQABtDJQaGlsaXBwZSBN
+ YXRoaWV1LURhdWTDqSAoUGhpbCkgPHBoaWxtZEByZWRoYXQuY29tPokCVQQTAQgAPwIbDwYL
+ CQgHAwIGFQgCCQoLBBYCAwECHgECF4AWIQSJweePYB7obIZ0lcuio/1u3q3A3gUCXsfWwAUJ
+ KtymWgAKCRCio/1u3q3A3ircD/9Vjh3aFNJ3uF3hddeoFg1H038wZr/xi8/rX27M1Vj2j9VH
+ 0B8Olp4KUQw/hyO6kUxqkoojmzRpmzvlpZ0cUiZJo2bQIWnvScyHxFCv33kHe+YEIqoJlaQc
+ JfKYlbCoubz+02E2A6bFD9+BvCY0LBbEj5POwyKGiDMjHKCGuzSuDRbCn0Mz4kCa7nFMF5Jv
+ piC+JemRdiBd6102ThqgIsyGEBXuf1sy0QIVyXgaqr9O2b/0VoXpQId7yY7OJuYYxs7kQoXI
+ 6WzSMpmuXGkmfxOgbc/L6YbzB0JOriX0iRClxu4dEUg8Bs2pNnr6huY2Ft+qb41RzCJvvMyu
+ gS32LfN0bTZ6Qm2A8ayMtUQgnwZDSO23OKgQWZVglGliY3ezHZ6lVwC24Vjkmq/2yBSLakZE
+ 6DZUjZzCW1nvtRK05ebyK6tofRsx8xB8pL/kcBb9nCuh70aLR+5cmE41X4O+MVJbwfP5s/RW
+ 9BFSL3qgXuXso/3XuWTQjJJGgKhB6xXjMmb1J4q/h5IuVV4juv1Fem9sfmyrh+Wi5V1IzKI7
+ RPJ3KVb937eBgSENk53P0gUorwzUcO+ASEo3Z1cBKkJSPigDbeEjVfXQMzNt0oDRzpQqH2vp
+ apo2jHnidWt8BsckuWZpxcZ9+/9obQ55DyVQHGiTN39hkETy3Emdnz1JVHTU0Q==
+Message-ID: <3ea5f395-9248-c0d8-ec4d-d8161d9b8ba3@redhat.com>
+Date: Mon, 20 Jul 2020 18:17:58 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.5.0
 MIME-Version: 1.0
-X-MS-Exchange-MessageSentRepresentingType: 1
-Received: from Admins-MacBook-Pro.local (109.252.114.191) by
- AM4PR0101CA0079.eurprd01.prod.exchangelabs.com (2603:10a6:200:41::47) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3195.18 via Frontend
- Transport; Mon, 20 Jul 2020 16:08:46 +0000
-X-Originating-IP: [109.252.114.191]
-X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: 95f1b6af-9c25-406e-f398-08d82cc72f60
-X-MS-TrafficTypeDiagnostic: AM6PR08MB4469:
-X-MS-Exchange-Transport-Forked: True
-X-Microsoft-Antispam-PRVS: <AM6PR08MB44692B4C5598755992DF53E8F47B0@AM6PR08MB4469.eurprd08.prod.outlook.com>
-X-MS-Oob-TLC-OOBClassifiers: OLM:4714;
-X-MS-Exchange-SenderADCheck: 1
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: XZoptUi3o7G2jBnNWmaQAYNzkbgASf2+95HApOy7h3qjKuYd2tEgxWsvrkKy+y7k+C5uZNMc+H/fd+jtZYjNtaY9EemEx6c2uH50UaDtGx442K2O77R2bRWUpfSDZiiQnymq0ctQ4F8LzQGYasa1MXQcinI2OFPnie2EPY3ah3xB+TjYh5IVmkf7DAPa55X8O7d+23ASRc2D+rG8ONvXy9+AKxZ0GeJ2lVL9NLPI6ewlx158ibp7hYK4YGpfSKUsaQY0yUWgnIwvNwXiXxN4TE1b5TruRgUTJpGU5KbzRpcQ2wJdvDOk07f/2o16Hd4TBriKcEP9X2+SFbtgq4ooax2uo8VO7Gmueed91iEfDyamUVFe7HfZc9eT0OH4/+nm
-X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:AM6PR08MB4070.eurprd08.prod.outlook.com; PTR:; CAT:NONE;
- SFTY:;
- SFS:(4636009)(136003)(396003)(376002)(346002)(39840400004)(366004)(6486002)(26005)(31696002)(36756003)(8936002)(478600001)(2906002)(66946007)(6506007)(5660300002)(66556008)(66476007)(6512007)(86362001)(53546011)(186003)(83380400001)(52116002)(316002)(2616005)(31686004)(8676002)(956004)(54906003)(4326008)(44832011)(16526019)(43740500002);
- DIR:OUT; SFP:1102; 
-X-MS-Exchange-AntiSpam-MessageData: WKHSS4MeCVIGYlp/ScJXfl10YUw3cDC3ENTk369/GGs7blXPpycAcXchdmSztg5VoS6cgotPWLA9LjcbyixMRJxmo+wmeRLbOGAO97JUJpjFGbEOWB9YFthBbR77wwwg2P5VXKW8Dt1deNLEWznLjvtf83jaWYVLEksoC5RPY8N/X/etgTkbwrP9146v9ktH3CFYRS9wtk+br36Ju3q0Cvxxz2JG6/M+xvypDRGzf93xkBLPPhuiLywN5EWh6tzwpU99+4fvTjm/tULRktGQ94FSYLnRNXX8Euo41d+wmQp/wR8MEGBzAO1sorQq5TzjMbGd8eXN7RWH4NycTiAQzP0u5ZlNT9cS4spg2yr6mLyuOYTkCltD/uocRgzYu8kBpIUJu1HrkVpa7jrQW2lyrbgxb++ogkH7kfbyKYuYTgTrMAusJDTvHD4Zij0+hU7C+OvCMP1iBq3QolHz1pYr63P6h5oF4/IZ+4+3UJQGBqF1hxVGkle43ZSUM0giLmqz
-X-OriginatorOrg: virtuozzo.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 95f1b6af-9c25-406e-f398-08d82cc72f60
-X-MS-Exchange-CrossTenant-AuthSource: AM6PR08MB4070.eurprd08.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 20 Jul 2020 16:08:48.0520 (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 0bc7f26d-0264-416e-a6fc-8352af79c58f
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: 1c1kZh1HalPdsrqknXPCtTMtSWSmtt4ttERcwhm2EQg2lYl7/EXVMK0YlQfYKu6z9oImR7LDqwIHEe1ZmlZhq+fmOLhaxp/fCuWayxdfUWM=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: AM6PR08MB4469
-Received-SPF: pass client-ip=40.107.8.101;
- envelope-from=andrey.shinkevich@virtuozzo.com;
- helo=EUR04-VI1-obe.outbound.protection.outlook.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/07/20 12:08:51
-X-ACL-Warn: Detected OS   = Windows NT kernel [generic] [fuzzy]
-X-Spam_score_int: -37
-X-Spam_score: -3.8
-X-Spam_bar: ---
-X-Spam_report: (-3.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- MSGID_FROM_MTA_HEADER=0.001, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-1,
- SPF_HELO_PASS=-0.001, SPF_PASS=-0.001,
- URIBL_BLOCKED=0.001 autolearn=ham autolearn_force=no
+In-Reply-To: <20200720115730-mutt-send-email-mst@kernel.org>
+Content-Language: en-US
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=philmd@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=205.139.110.120; envelope-from=philmd@redhat.com;
+ helo=us-smtp-1.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/07/20 02:11:17
+X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
+X-Spam_score_int: -40
+X-Spam_score: -4.1
+X-Spam_bar: ----
+X-Spam_report: (-4.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-1, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001, URIBL_BLOCKED=0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -118,51 +123,65 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Kevin Wolf <kwolf@redhat.com>,
- Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>, qemu-devel@nongnu.org
+Cc: qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 25.06.2020 18:21, Max Reitz wrote:
-> This allows us to differentiate between filters and nodes with COW
-> backing files: Filters cannot be used as overlays at all (for this
-> function).
->
-> Signed-off-by: Max Reitz <mreitz@redhat.com>
-> ---
->   blockdev.c | 7 ++++++-
->   1 file changed, 6 insertions(+), 1 deletion(-)
->
-> diff --git a/blockdev.c b/blockdev.c
-> index 1eb0fcdea2..aabe51036d 100644
-> --- a/blockdev.c
-> +++ b/blockdev.c
-> @@ -1549,7 +1549,12 @@ static void external_snapshot_prepare(BlkActionState *common,
->           goto out;
->       }
->   
-> -    if (state->new_bs->backing != NULL) {
-> +    if (state->new_bs->drv->is_filter) {
+On 7/20/20 5:58 PM, Michael S. Tsirkin wrote:
+> On Mon, Jul 20, 2020 at 06:39:15PM +0300, Michael Tokarev wrote:
+>> >From the ACPI spec (4.8.3.2.1 PM1 Control Registers):
+>>
+>> Register Location: <PM1a_CNT_BLK / PM1b_CNT_BLK> System I/O or Memory Space
+>> Default Value:     00h
+>> Attribute:         Read/Write
+>> Size:              PM1_CNT_LEN (2 bytes)
+>> The PM1 control registers contain the fixed hardware feature control bits.
+>> These bits can be split between two registers: PM1a_CNT or PM1b_CNT.
+>> Each register grouping can be at a different 32-bit aligned address
+>> and is pointed to by the PM1a_CNT_BLK or PM1b_CNT_BLK. The values
+>> for these pointers to the register space are found in the FADT.
+>> Accesses to PM1 control registers are accessed through byte
+>> and word accesses.
+>>
+>> So allow 1-byte access too, not only 2-byte.
+>>
+>> Fixes: afafe4bbe0cf7d3318e1ac7b40925561f86a6bd4
+>> Fixes: 5d971f9e672507210e77d020d89e0e89165c8fc9
+> 
+> Fixes links are a bit off. Should be:
+> Fixes: <short sha> ("commit subject")
 
+This is indeed documented:
+https://wiki.qemu.org/Contribute/SubmitAPatch#Write_a_meaningful_commit_message
 
-Is there a chance to get a filter here? If so, is that when a user 
-specifies the file name of such a kind “filter[filter-name]:foo.qcow2” 
-or somehow else?
+You can use the git-alias suggested here:
+https://www.mail-archive.com/qemu-devel@nongnu.org/msg711059.html
 
-Andrey
-
-
-> +        error_setg(errp, "Filters cannot be used as overlays");
-> +        goto out;
-> +    }
-> +
-> +    if (bdrv_cow_child(state->new_bs)) {
->           error_setg(errp, "The overlay already has a backing image");
->           goto out;
->       }
-
-
-Reviewed-by: Andrey Shinkevich <andrey.shinkevich@virtuozzo.com>
-
+> 
+>> Buglink: https://lore.kernel.org/xen-devel/20200630170913.123646-1-anthony.perard@citrix.com/T/
+>> Buglink: https://bugs.debian.org/964793
+>> Signed-off-by: Michael Tokarev <mjt@tls.msk.ru>
+>> ---
+>>  hw/acpi/core.c | 3 ++-
+>>  1 file changed, 2 insertions(+), 1 deletion(-)
+>>
+>> diff --git a/hw/acpi/core.c b/hw/acpi/core.c
+>> index f6d9ec4f13..2c1199d9dc 100644
+>> --- a/hw/acpi/core.c
+>> +++ b/hw/acpi/core.c
+>> @@ -599,7 +599,8 @@ static void acpi_pm_cnt_write(void *opaque, hwaddr addr, uint64_t val,
+>>  static const MemoryRegionOps acpi_pm_cnt_ops = {
+>>      .read = acpi_pm_cnt_read,
+>>      .write = acpi_pm_cnt_write,
+>> -    .valid.min_access_size = 2,
+>> +    .impl.min_access_size = 2,
+>> +    .valid.min_access_size = 1,
+>>      .valid.max_access_size = 2,
+>>      .endianness = DEVICE_LITTLE_ENDIAN,
+>>  };
+>> -- 
+>> 2.20.1
+> 
+> 
 
 
