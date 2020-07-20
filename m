@@ -2,73 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 73F79226E8A
-	for <lists+qemu-devel@lfdr.de>; Mon, 20 Jul 2020 20:49:42 +0200 (CEST)
-Received: from localhost ([::1]:42874 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id BCE5F226E9A
+	for <lists+qemu-devel@lfdr.de>; Mon, 20 Jul 2020 20:58:50 +0200 (CEST)
+Received: from localhost ([::1]:47994 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jxar6-0006sQ-8T
-	for lists+qemu-devel@lfdr.de; Mon, 20 Jul 2020 14:49:41 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:40006)
+	id 1jxazx-00014R-Rm
+	for lists+qemu-devel@lfdr.de; Mon, 20 Jul 2020 14:58:49 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:41956)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1jxaq4-0006R2-3C
- for qemu-devel@nongnu.org; Mon, 20 Jul 2020 14:48:36 -0400
-Received: from mail-wm1-x341.google.com ([2a00:1450:4864:20::341]:37113)
+ id 1jxazE-0000e7-HB
+ for qemu-devel@nongnu.org; Mon, 20 Jul 2020 14:58:04 -0400
+Received: from mail-wm1-x343.google.com ([2a00:1450:4864:20::343]:52887)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1jxaq1-0007Ou-LS
- for qemu-devel@nongnu.org; Mon, 20 Jul 2020 14:48:34 -0400
-Received: by mail-wm1-x341.google.com with SMTP id o2so519234wmh.2
- for <qemu-devel@nongnu.org>; Mon, 20 Jul 2020 11:48:33 -0700 (PDT)
+ id 1jxazC-0000H3-W8
+ for qemu-devel@nongnu.org; Mon, 20 Jul 2020 14:58:04 -0400
+Received: by mail-wm1-x343.google.com with SMTP id q15so526934wmj.2
+ for <qemu-devel@nongnu.org>; Mon, 20 Jul 2020 11:58:02 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=sender:subject:to:cc:references:from:message-id:date:user-agent
- :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=JQm0K31MZJouqsJl6ZLuXhcu8K9f379VaOClUICnFm4=;
- b=B1QgfKq3I8ye/chrGvA9Y9XP/ftFfxLbhypmyMVcPhWMIM1fqd2vdcSWP6QuAIuF1H
- 9+ALvYdGPROO5ebiVv/UF01j20rrIx4Nk7RkctdCMpSQHHdxqCDccoVp3eS5BvRNCfxg
- F33EsUBzEF3fMEo7GhgQdRXXZeROqmsIonE1sJ2o1LRtiypPqEIEUJtYAO0qBvqabUYb
- 51dYhiB0gcMWt28tHrRq1QRQmPa7bsjtS7JmdcW+ZaGtzEw1E86qK9s4X7cap4uV5gI6
- eEBIp70W8UyYfLmzZP4aG6hxZJ6uzM6j0TUt+pDCrvXJV/l1jRNHN+rrICUm9zLVb+j7
- YuEg==
+ h=sender:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=CNb0bok8A2GvYk4uLFq3HwZGJ739nczlW4+FlSKYeSo=;
+ b=o0qIH5irZhHh1htoa8MO0cDyotelKeyMw3yk5v7fbpRjPXAVxBYHbGauc7MtCSJV5x
+ EFWFLJyqLdoOpxEKmUq+APL6RFBdiZg25ODdSf/IPg57s8htO02+ehrXj/L0kASqRtfE
+ s6q5VrLHqgptRxYu8U8CDs+amamKXpaejHh70AFWpuInTAMQO+LujidcVu3yWzSDgBhh
+ r3q2bzblglyp4v08gEmoM4e0pILCXXmeo7F2xKBHppDOqL9yhBZF7mKFku4QIRWHGh08
+ 9/IZP4tv1ODBQ+scZTSsUJvGP+74RFJeP7J+ja9TlsNdoWwCwL7B731zKCg9/SiEVWVy
+ Cn8g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:sender:subject:to:cc:references:from:message-id
- :date:user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=JQm0K31MZJouqsJl6ZLuXhcu8K9f379VaOClUICnFm4=;
- b=bsS4KxU2WpeGpG5IYoGbeL1yQHR6JYxULPyjI6zCSWj704dVi2dXIfEVUDngO0yExm
- Tmy7Apy9TxDRpgcSRT/xBkjOXimDy+U9qvFKvCi6C+twn/hgbxqtOvCRRS9Q2QDmhCAJ
- q4fnQknkVl2hifIRyTTQhXOVxENYZV7XtBFYf+hMPoS54b10p0kuK3kC1sMuKjqsuINI
- A/YF/ZY42j245hNfzHOBd/d+figum79piZvY2dy0FeaWab/00kuZU3A8CFP6Vs70YA32
- 4o8jP3eGSl3pJTB/BBxojaVGjBlBVrAiZNTePvAS7tY5KkJ1qUocX/zMvAGhmuGM5dPm
- PVNA==
-X-Gm-Message-State: AOAM531oYcnUxwOyXK1MsN3KrfedItRozNlK8jKpSs0hl2FLv8sFZPMq
- fPkV+t27sbkvOmoyjdhcnXY=
-X-Google-Smtp-Source: ABdhPJz8zYCwyxe9Ue2B3Unvru0Jrd+7Vn1g26ZLVd0Z/T6uxhgxFTwdhewkAOZm+xlj8mwA0tLAbg==
-X-Received: by 2002:a1c:7315:: with SMTP id d21mr606150wmb.108.1595270911995; 
- Mon, 20 Jul 2020 11:48:31 -0700 (PDT)
-Received: from [192.168.1.37] (138.red-83-57-170.dynamicip.rima-tde.net.
- [83.57.170.138])
- by smtp.gmail.com with ESMTPSA id v15sm14442759wrm.23.2020.07.20.11.48.30
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 20 Jul 2020 11:48:31 -0700 (PDT)
-Subject: Re: [PATCH-for-5.1 0/4] misc: Document qemu_find_file and fix memory
- leak in avr_load_firmware
+ h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
+ :mime-version:content-transfer-encoding;
+ bh=CNb0bok8A2GvYk4uLFq3HwZGJ739nczlW4+FlSKYeSo=;
+ b=N/CYY9BgRRZzf7V9HH88O7vD77/H5UjE0G1++TyTHgbams61OTg2zq7MKFlnWgs3u6
+ N+h4YNRuvlKg4ROGl1Uxp2K/yJ5uWz1lxJk19f4rmYDb1Y42ZAJP+N79b4aAKHyG7mnn
+ qGnUpEFc3C8Ox9JTw4Etabl2vDBiXLYpVk8gXKooBUNILWyg/tt0LGmHwQjrQF4YDsHn
+ a2QuMjISpw3lfBhg+itdjcJKxjGSY5zEqYtDiqLOcFrBS1vdutULHxtaHGc7/AANidUL
+ FAyM1/63fbVtwaeohK0mqYcCOH913qjeZAFYQ45QGcM0VV7+np3LUV8gwucMKFDjOMnM
+ dYOQ==
+X-Gm-Message-State: AOAM530kyzpz+hkpHz0mmzc/aFVggKNjVKgoztY+zCEBW1to5OpqpxY6
+ hfqNNGjfgn1IZyGyt5aRea223p38tQg=
+X-Google-Smtp-Source: ABdhPJxVaQtYACLXyYSRAlq/31SyzZQsxQnh2AMkwhyDYq9PBDcl+J9HvlrCivV1jdKMehXCht5zbw==
+X-Received: by 2002:a1c:7f0e:: with SMTP id a14mr663334wmd.21.1595271481153;
+ Mon, 20 Jul 2020 11:58:01 -0700 (PDT)
+Received: from localhost.localdomain
+ (138.red-83-57-170.dynamicip.rima-tde.net. [83.57.170.138])
+ by smtp.gmail.com with ESMTPSA id 129sm490256wmd.48.2020.07.20.11.57.59
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Mon, 20 Jul 2020 11:58:00 -0700 (PDT)
+From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
 To: qemu-devel@nongnu.org
-References: <20200714164257.23330-1-f4bug@amsat.org>
-From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>
-Message-ID: <d1ce0d86-c1bb-2f49-b8bc-00f299ed7424@amsat.org>
-Date: Mon, 20 Jul 2020 20:48:30 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.5.0
+Subject: [RFC PATCH-not-for-5.1? v2] hw/isa/isa-bus: Ensure ISA I/O regions
+ are 8/16-bit accessible
+Date: Mon, 20 Jul 2020 20:57:58 +0200
+Message-Id: <20200720185758.21280-1-f4bug@amsat.org>
+X-Mailer: git-send-email 2.21.3
 MIME-Version: 1.0
-In-Reply-To: <20200714164257.23330-1-f4bug@amsat.org>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
+Content-Type: text/plain; charset=UTF-8
+Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::341;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wm1-x341.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::343;
+ envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wm1-x343.google.com
 X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
  That's all we know.
 X-Spam_score_int: 0
@@ -91,32 +87,64 @@ List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
 Cc: Peter Maydell <peter.maydell@linaro.org>,
- Sarah Harris <S.E.Harris@kent.ac.uk>, Paolo Bonzini <pbonzini@redhat.com>,
- Michael Rolnik <mrolnik@gmail.com>, Stefan Weil <sw@weilnetz.de>
+ "Michael S . Tsirkin" <mst@redhat.com>, Michael Tokarev <mjt@tls.msk.ru>,
+ =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>,
+ Paolo Bonzini <pbonzini@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 7/14/20 6:42 PM, Philippe Mathieu-Daudé wrote:
-> Fix the memory leak reported by Coverity (CID 1430449).
-> 
-> Philippe Mathieu-Daudé (4):
->   qemu/osdep: Document os_find_datadir() return value
->   qemu/osdep: Reword qemu_get_exec_dir() documentation
->   qemu-common: Document qemu_find_file()
->   hw/avr/boot: Fix memory leak in avr_load_firmware()
-> 
->  include/qemu-common.h | 14 ++++++++++++++
->  include/qemu/osdep.h  |  5 ++++-
->  hw/avr/boot.c         |  2 +-
->  os-posix.c            |  3 +++
->  os-win32.c            |  7 ++++++-
->  5 files changed, 28 insertions(+), 3 deletions(-)
-> 
+Since commit 5d971f9e67 we don't accept mismatching sizes
+in memory_region_access_valid(). This gives troubles when
+a device is on an ISA bus, because the CPU is free to use
+8/16-bit accesses on the bus (or up to 32-bit on EISA bus),
+regardless what range is valid for the device.
 
-Thanks to the reviewers.
+Add a check to ensure devices plugged on the ISA bus can
+accept 8/16-bits accesses.
 
-I addressed Daniel's review comments and will send a pull
-request once the testing succeeds.
+Related bug reports:
 
-Phil.
+- https://lore.kernel.org/xen-devel/20200630170913.123646-1-anthony.perard@citrix.com/T/
+- https://bugs.debian.org/964793
+- https://bugs.debian.org/cgi-bin/bugreport.cgi?bug=964247
+- https://bugs.launchpad.net/bugs/1886318
+
+Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
+---
+MST: I really don't like this approach, I think the ISA bus
+     should adjust the access.
+
+since v1: only 8/16-bit accesses enforced
+---
+ hw/isa/isa-bus.c | 14 ++++++++++++++
+ 1 file changed, 14 insertions(+)
+
+diff --git a/hw/isa/isa-bus.c b/hw/isa/isa-bus.c
+index 58fde178f9..e142eeef06 100644
+--- a/hw/isa/isa-bus.c
++++ b/hw/isa/isa-bus.c
+@@ -132,6 +132,20 @@ static inline void isa_init_ioport(ISADevice *dev, uint16_t ioport)
+ 
+ void isa_register_ioport(ISADevice *dev, MemoryRegion *io, uint16_t start)
+ {
++    if (io->ops->valid.min_access_size > 1) {
++        /*
++         * To be backward compatible with IBM-PC bus, ISA bus must accept
++         * 8-bit accesses.
++         */
++        error_report("ISA device '%s' requires I/O min_access_size of 1 (byte)",
++                     object_get_typename(OBJECT(dev)));
++        exit(1);
++    } else if (io->ops->valid.max_access_size < 2) {
++        /* ISA bus must accept 16-bit accesses (EISA accepts 32-bit) */
++        error_report("ISA device '%s' requires I/O max_access_size of "
++                     "at least 2 (bytes)", object_get_typename(OBJECT(dev)));
++        exit(1);
++    }
+     memory_region_add_subregion(isabus->address_space_io, start, io);
+     isa_init_ioport(dev, start);
+ }
+-- 
+2.21.3
+
 
