@@ -2,37 +2,37 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id F3A24225AB1
-	for <lists+qemu-devel@lfdr.de>; Mon, 20 Jul 2020 11:02:52 +0200 (CEST)
-Received: from localhost ([::1]:45434 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6842A225AB3
+	for <lists+qemu-devel@lfdr.de>; Mon, 20 Jul 2020 11:02:59 +0200 (CEST)
+Received: from localhost ([::1]:46076 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jxRhD-0000Ia-LX
-	for lists+qemu-devel@lfdr.de; Mon, 20 Jul 2020 05:02:51 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:47246)
+	id 1jxRhK-0000ar-Fu
+	for lists+qemu-devel@lfdr.de; Mon, 20 Jul 2020 05:02:58 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:47260)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <vsementsov@virtuozzo.com>)
- id 1jxRfF-0007Jq-2X; Mon, 20 Jul 2020 05:00:49 -0400
+ id 1jxRfG-0007K7-Nc; Mon, 20 Jul 2020 05:00:50 -0400
 Received: from mail-eopbgr80094.outbound.protection.outlook.com
  ([40.107.8.94]:22905 helo=EUR04-VI1-obe.outbound.protection.outlook.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <vsementsov@virtuozzo.com>)
- id 1jxRfB-00076G-Rk; Mon, 20 Jul 2020 05:00:47 -0400
+ id 1jxRfE-00076G-SE; Mon, 20 Jul 2020 05:00:50 -0400
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=UAY43eSB22uEz+7horJoX5QpwfBU5n8d3gr3H5dWTk2ltUSoa9O+dPuQAqtFhzi1F5RxhqiImIEzfOiwxigUmP++7qudBJKaVopTO5+t3BZ/jN+/c7Q02K+0W3KZ7uB09eLFBHkWUfJlhSwqCd6Qx0DlB5j7VeOdJIlcgjKYUDZE5dMNbgVKzxhwcuDyuSIrF+yGmfm7J7tqdsYCoZqsNIi5E4YcJFi/qjcvfKPNbX5MebkyuiTud7XYCtyZPh5jDmeDWwcL5MmFpovvgEa57J/S6hu1OB+bOhataDZxD/0leO4z6dC4GdIdGdQGLXxC401C2LCiKf3RJccZV5VuXQ==
+ b=KjfdLBWMW9I5mMXR7gAL0vzL0aS5S8CiTJ+bH8PsAGihaksDJbRFR/QCpxYd0He88VuSk4n9Mus7C81A6FeOFGQbiJH/lxMWAVDUkAOuLPFgeLdzYjLPZK4TRZKAkSIj08hpI/0gwQnnAERGhrRvmxm39pYVUsCF8vrhehQwt3AvCQV/RKUDowUqltsO+zXqq5+aigpdw4qEQ5ErPCrjDAyaxXaYPG9/OtHDXrf+gosmboDs1cmhvfNkPxxfUquoUiK+G6pd3snuuBLOmDeB+YUwE1XDIlXS14h2Xd09eFdglsFUcriQl0bJgPEc87y2FfcOf5hBfaJmbXmWxQKE9w==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=AzM5USOpcKgCozlLSOWPVxfsYocGdqGKlxZraaYKsqM=;
- b=Pflyi3RY9wtda3IfOKb9BSma/BMNYQ/itaZwuMZkQ2Htr3PJFofCr1zi/V7JDqHxZgHeD5byr2DLfR7QSWOjlXzGUpF8IRS4u9BfPQV0oSGJl+Yf8QdzchDUH/4XF6gvDQKoAIOBhdtw5RJ6aVN0EID8d/Kqi36GSq1PSZBfc7P48XulI2a4gxOAJupGzFLy71nCQfAHAAvIE9c0O7kC5LaFihomMFR3De3A7O+82Y8wpXHAjexTSUzCQ4c6q64SkBIeSp59EY/ITIGb4Rg3QmJXQSKDcRMEhIsX6eVrh5MGRb7cBsa6VQDVkB6+fAHAgkZCo2GN0LfxRZMGiE57Ww==
+ bh=biV/oDpnBp6C3oTD6Neeubd07SsjUE/FVtiSksJaL+0=;
+ b=be+n88xAYjc7E+d4Hf0w5U4ZoGTBghHoPLOgx3fB8V20e3CpyETw6VBoYgnofUUhe32+LD0d4S06GbTFAY7a33K+r37RnjRUuRnOZcJqWveY0YVDQOPoUqMKwJ43Clic68HDmN5t2jennDJTb76/1stSkswRb3vsczzpjPfGuZnA3KXJkkQo5BvYr6BEfaSn9jvx5hEXkofBFtehg9RYh1hGv+r0ovPOeuOx1AlJ5Yl8P3NruHrEiRZJjMesV5Mha1HzpAsrSfEmI/SLGwinfKdwSnsP1yWyEYOrd0rUSB2m4ZGVp7JkYy/YV7+5DmnqyzHTTb3mzsn6cmvkMswwKw==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
  smtp.mailfrom=virtuozzo.com; dmarc=pass action=none
  header.from=virtuozzo.com; dkim=pass header.d=virtuozzo.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=virtuozzo.com;
  s=selector2;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=AzM5USOpcKgCozlLSOWPVxfsYocGdqGKlxZraaYKsqM=;
- b=ButKFmzI09v7rHnGpZQ9xMl6fGoDiZSCFQ90iAEfGHfNdouElPCkuXQmhLIUzA6SjPXCgP3QwiCFzteNXFIyj4NPmJVlbIIdXzPTjiKovQBO2CyYnszf1vd6BfNdf3aZMGj3u0oJlLZ5FVoVEJ57e6lExZL0zQRdg9YBmlq84d8=
+ bh=biV/oDpnBp6C3oTD6Neeubd07SsjUE/FVtiSksJaL+0=;
+ b=ja3D7sb+Df2+ZEhqUm0EejlhyGQ42pl7xqGcOApTwdz1vsCrIaSwKNyDbJxvedbbUVfoB6Ur/vpYg849rgesqqsNWfTTkp4J2eX2eGrAFDm68Ktt3zwTDw8EU+sni3WC50eBtoKGEJQ/8XATpEBg8YK5XNZkyKdq0eR2z0e4zS8=
 Authentication-Results: nongnu.org; dkim=none (message not signed)
  header.d=none;nongnu.org; dmarc=none action=none header.from=virtuozzo.com;
 Received: from AM7PR08MB5494.eurprd08.prod.outlook.com (2603:10a6:20b:dc::15)
@@ -46,10 +46,12 @@ Received: from AM7PR08MB5494.eurprd08.prod.outlook.com
  09:00:42 +0000
 From: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
 To: qemu-block@nongnu.org
-Subject: [PATCH for-5.1? 0/3] Fix nbd reconnect dead-locks
-Date: Mon, 20 Jul 2020 12:00:21 +0300
-Message-Id: <20200720090024.18186-1-vsementsov@virtuozzo.com>
+Subject: [PATCH 1/3] block/nbd: allow drain during reconnect attempt
+Date: Mon, 20 Jul 2020 12:00:22 +0300
+Message-Id: <20200720090024.18186-2-vsementsov@virtuozzo.com>
 X-Mailer: git-send-email 2.21.0
+In-Reply-To: <20200720090024.18186-1-vsementsov@virtuozzo.com>
+References: <20200720090024.18186-1-vsementsov@virtuozzo.com>
 Content-Transfer-Encoding: 8bit
 Content-Type: text/plain
 X-ClientProxiedBy: AM0PR10CA0097.EURPRD10.PROD.OUTLOOK.COM
@@ -60,33 +62,33 @@ X-MS-Exchange-MessageSentRepresentingType: 1
 Received: from localhost.localdomain (185.215.60.179) by
  AM0PR10CA0097.EURPRD10.PROD.OUTLOOK.COM (2603:10a6:208:e6::14) with Microsoft
  SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.3195.17 via Frontend Transport; Mon, 20 Jul 2020 09:00:41 +0000
+ 15.20.3195.17 via Frontend Transport; Mon, 20 Jul 2020 09:00:42 +0000
 X-Mailer: git-send-email 2.21.0
 X-Originating-IP: [185.215.60.179]
 X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: 4cd6011d-0f94-464a-2276-08d82c8b6155
+X-MS-Office365-Filtering-Correlation-Id: 733cf195-b166-420f-1c9e-08d82c8b61be
 X-MS-TrafficTypeDiagnostic: AM6PR08MB3767:
 X-MS-Exchange-Transport-Forked: True
-X-Microsoft-Antispam-PRVS: <AM6PR08MB376777E42650C2BA3309A42DC17B0@AM6PR08MB3767.eurprd08.prod.outlook.com>
-X-MS-Oob-TLC-OOBClassifiers: OLM:6108;
+X-Microsoft-Antispam-PRVS: <AM6PR08MB37678C2B6207DC67EBA915BAC17B0@AM6PR08MB3767.eurprd08.prod.outlook.com>
+X-MS-Oob-TLC-OOBClassifiers: OLM:299;
 X-MS-Exchange-SenderADCheck: 1
 X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: alOi8hj1+VzQ3Lr9bCXrv7fs/O0beWhb4LiRnVC6UwEISAhw7De+JY8E3e/+sdUuGlXW0h7VM2cVQB9isc3SAjIep2ZTWAKBGJvS+xKN3OiUPvcMGIo1RHqwiMih5DPLbJfd6cJrmEFgTKnPuOtzZgrq9GCwOGl6lnibr9AQHPxo+TxvrKXvguVRnpJfxcdgI5dk1a1MBFN9S3yKfelDN882SIWLNB7lBIF1dlyzh7N/A7z8nSvXMECSoBeVxI6aATewIwHJf1ZY4G6H4CfvcWEgLxxKVmJV7wTgx/Xd7g2az6ZJ1l6usymexByhBNBT7pIJbaYOIsQ5rN/8QgGBT5+x2Oca//g+KJmof0+/0FODr5m1702P5rlhMCR+kVSb
+X-Microsoft-Antispam-Message-Info: dAzeg5IltM68gnD/+tuQk7zJZ8efRSXHVzIN1Ef8fiI7o/GWX+VGCOiWjL6rygfUFTYW6q2CEp6dFGYzCA5RZfrM+ShAg0r6oPJm4t4QjiXG2bXCkp7WXsCMynnb4c79ci2UkM98zSsuHiPag8gY8KsjpvocYjwbwwqH7F+xfO1MxaNQ6qdwsQ7lCejIji1kf6MkQMcccBAJcQanvh8/yVnMWTwnJB7BlyyVT0ftfTl/s83zc1ApJgaH8SzoC/vzz5xZYKdGctpvO/8xLhfSUYwGORuo9F8O5KdwiafTf3A/nYVOURm2O+auiaJU7oDZ65ZUx8NIaFdDVAs1aYiXHggGeRRqePiTcZUkdPtqVHR76T51CqI+MmzIbo//aFze
 X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
  IPV:NLI; SFV:NSPM; H:AM7PR08MB5494.eurprd08.prod.outlook.com; PTR:; CAT:NONE;
  SFTY:;
- SFS:(4636009)(39830400003)(366004)(376002)(346002)(396003)(136003)(316002)(52116002)(107886003)(83380400001)(186003)(16526019)(4326008)(956004)(2616005)(4744005)(1076003)(69590400007)(8676002)(66946007)(66476007)(66556008)(6486002)(26005)(6916009)(36756003)(478600001)(2906002)(8936002)(6666004)(6512007)(86362001)(6506007)(5660300002);
+ SFS:(4636009)(39830400003)(366004)(376002)(346002)(396003)(136003)(316002)(52116002)(107886003)(83380400001)(186003)(16526019)(4326008)(956004)(2616005)(1076003)(69590400007)(8676002)(66946007)(66476007)(66556008)(6486002)(26005)(6916009)(36756003)(478600001)(2906002)(8936002)(6666004)(6512007)(86362001)(6506007)(5660300002);
  DIR:OUT; SFP:1102; 
-X-MS-Exchange-AntiSpam-MessageData: dnV5DvEY8jSDdw3QFS/E6KHgwFF2q88Hs715ONB79Zqvw6jEgq3VoUGa0ve0V53A6eYZDnzzCXdTz5nB4rALYsREFzmozFGIYlkZiJR/+VJhh4PXxWpOTsJcMlQsJerUr6R/3nG0YTyHmyOMKlz56Bral+cw6F3LyoA8BrtYYkZcpr1KHqHljXIlPyDoh6zEwyayyApB2O9FGgP7Z4QkT8b+sw7B76kOtjhQrHidUbIn+SriOsomXeYkPqlUq66dfUxN0WXMdPiDBoeJFwAfJUbpRJ52xZr+rA8bc2IoemvRiUHylvONXh2Mjh91UAmCDLYXOsH2YbylDxHhYydE2lVCvNbt3B+RhsoMOpWJU2NpRz3l/ozgfeXgFpckTRVodDrLV+IZUHHXy80HeGyjtf15apvyvAioPGAqYfqfM8li2WeJ6QmX5VnNWW22F4emG4y3g1U4nxwAt1ChCvJ5efEEqteWmq4heS1A4IpfG5h/376jyc1kUEH8z/slBZOS
+X-MS-Exchange-AntiSpam-MessageData: nwWs80rAwrV19njEDJYb9KhJvlUm0KIR6AAZOSyscdRtULeNevoilnC8q+gRVnNca2jwYicfkpJhNNH1ksST3JJP6QfFz+X2NW7yViJEOKCjfO+KRWmCxW+U2gZ6R2kHh3OoMV5tG44UEKBbzm8/f9yXLrQcq/m+1RoZFUh0BAKF/pDrkCy4SgnUBxZINZdtjAxTIkwHQ2am2AKCOqWRqe6qN6XwxU2bASufGKe56ch9ukH5k+lxfcAoVRm4CsuKYc1/9rW51LNgAr2o1ToLqOuDXUlzI3VVB9q3g3v7waa06sUL5tT25QB4pAOjLYFLruoEA1q8RqHXEJaKw3B9fnKCXgEZ6ZRyxQeGkfk7so/yDgHHF7KjqwweBHS67FQuunjJYZnMU0TxCK0Y8zUR2XokyzpmgUgrGe/ed3KTw59jtmImjDxiBK1RSdQpkHLY6bpmWTI01HQKktmxjRlQdETtCdQk8P8z1U/EbMapSANs7YZpmY4dco23Dbe9/48h
 X-OriginatorOrg: virtuozzo.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 4cd6011d-0f94-464a-2276-08d82c8b6155
+X-MS-Exchange-CrossTenant-Network-Message-Id: 733cf195-b166-420f-1c9e-08d82c8b61be
 X-MS-Exchange-CrossTenant-AuthSource: AM7PR08MB5494.eurprd08.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 20 Jul 2020 09:00:41.9394 (UTC)
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 20 Jul 2020 09:00:42.6055 (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
 X-MS-Exchange-CrossTenant-Id: 0bc7f26d-0264-416e-a6fc-8352af79c58f
 X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: AfZUS7HgaPRMZzy4ogAfSnD4qN644eAPy1WCV9GQoUjaGi3yqn7r1QTAMYAJrx2V8t7qNJ7EA+ZZMy2X+BIwHe1MZYDAKtMzW3WnkAPeQSg=
+X-MS-Exchange-CrossTenant-UserPrincipalName: 7ApHhie87qyizkMg1vhdomq/ntn6nhWxvUiVGUEi4yj2BiH/WRFr2U/AFPG5NnD5Kma/CMKSzgZF6VcxziCbs7bprrh+oEqwFO8pffEYL4Q=
 X-MS-Exchange-Transport-CrossTenantHeadersStamped: AM6PR08MB3767
 Received-SPF: pass client-ip=40.107.8.94;
  envelope-from=vsementsov@virtuozzo.com;
@@ -118,26 +120,124 @@ Cc: kwolf@redhat.com, vsementsov@virtuozzo.com, qemu-devel@nongnu.org,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Hi all!
+It should be to reenter qio_channel_yield() on io/channel read/write
+path, so it's safe to reduce in_flight and allow attaching new aio
+context. And no problem to allow drain itself: connection attempt is
+not a guest request. Moreover, if remote server is down, we can hang
+in negotiation, blocking drain section and provoking a dead lock.
 
-I've found some dead-locks, which can be easily triggered on master
-branch with default nbd configuration (reconnect-delay is 0),
-here are fixes.
+How to reproduce the dead lock:
 
-01-02 fix real dead-locks 
-03 - hm. I'm not sure that the problem is reachable on master, I've
-faced it in my development branch where I move initial connect into
-coroutine and introduce non-blocking connect. So consider it as an
-intuitive fix. It just makes code a bit better.
+1. Create nbd-fault-injector.conf with the following contents:
 
-Vladimir Sementsov-Ogievskiy (3):
-  block/nbd: allow drain during reconnect attempt
-  block/nbd: on shutdown terminate connection attempt
-  block/nbd: nbd_co_reconnect_loop(): don't sleep if drained
+[inject-error "mega1"]
+event=data
+io=readwrite
+when=before
 
- block/nbd.c | 36 +++++++++++++++++++++++++++---------
- 1 file changed, 27 insertions(+), 9 deletions(-)
+2. In one terminal run nbd-fault-injector in a loop, like this:
 
+n=1; while true; do
+    echo $n; ((n++));
+    ./nbd-fault-injector.py 127.0.0.1:10000 nbd-fault-injector.conf;
+done
+
+3. In another terminal run qemu-io in a loop, like this:
+
+n=1; while true; do
+    echo $n; ((n++));
+    ./qemu-io -c 'read 0 512' nbd+tcp://127.0.0.1:10000;
+done
+
+After some time, qemu-io will hang trying to drain, for example, like
+this:
+
+ #3 aio_poll (ctx=0x55f006bdd890, blocking=true) at
+    util/aio-posix.c:600
+ #4 bdrv_do_drained_begin (bs=0x55f006bea710, recursive=false,
+    parent=0x0, ignore_bds_parents=false, poll=true) at block/io.c:427
+ #5 bdrv_drained_begin (bs=0x55f006bea710) at block/io.c:433
+ #6 blk_drain (blk=0x55f006befc80) at block/block-backend.c:1710
+ #7 blk_unref (blk=0x55f006befc80) at block/block-backend.c:498
+ #8 bdrv_open_inherit (filename=0x7fffba1563bc
+    "nbd+tcp://127.0.0.1:10000", reference=0x0, options=0x55f006be86d0,
+    flags=24578, parent=0x0, child_class=0x0, child_role=0,
+    errp=0x7fffba154620) at block.c:3491
+ #9 bdrv_open (filename=0x7fffba1563bc "nbd+tcp://127.0.0.1:10000",
+    reference=0x0, options=0x0, flags=16386, errp=0x7fffba154620) at
+    block.c:3513
+ #10 blk_new_open (filename=0x7fffba1563bc "nbd+tcp://127.0.0.1:10000",
+    reference=0x0, options=0x0, flags=16386, errp=0x7fffba154620) at
+    block/block-backend.c:421
+
+And connection_co stack like this:
+
+ #0 qemu_coroutine_switch (from_=0x55f006bf2650, to_=0x7fe96e07d918,
+    action=COROUTINE_YIELD) at util/coroutine-ucontext.c:302
+ #1 qemu_coroutine_yield () at util/qemu-coroutine.c:193
+ #2 qio_channel_yield (ioc=0x55f006bb3c20, condition=G_IO_IN) at
+    io/channel.c:472
+ #3 qio_channel_readv_all_eof (ioc=0x55f006bb3c20, iov=0x7fe96d729bf0,
+    niov=1, errp=0x7fe96d729eb0) at io/channel.c:110
+ #4 qio_channel_readv_all (ioc=0x55f006bb3c20, iov=0x7fe96d729bf0,
+    niov=1, errp=0x7fe96d729eb0) at io/channel.c:143
+ #5 qio_channel_read_all (ioc=0x55f006bb3c20, buf=0x7fe96d729d28
+    "\300.\366\004\360U", buflen=8, errp=0x7fe96d729eb0) at
+    io/channel.c:247
+ #6 nbd_read (ioc=0x55f006bb3c20, buffer=0x7fe96d729d28, size=8,
+    desc=0x55f004f69644 "initial magic", errp=0x7fe96d729eb0) at
+    /work/src/qemu/master/include/block/nbd.h:365
+ #7 nbd_read64 (ioc=0x55f006bb3c20, val=0x7fe96d729d28,
+    desc=0x55f004f69644 "initial magic", errp=0x7fe96d729eb0) at
+    /work/src/qemu/master/include/block/nbd.h:391
+ #8 nbd_start_negotiate (aio_context=0x55f006bdd890,
+    ioc=0x55f006bb3c20, tlscreds=0x0, hostname=0x0,
+    outioc=0x55f006bf19f8, structured_reply=true,
+    zeroes=0x7fe96d729dca, errp=0x7fe96d729eb0) at nbd/client.c:904
+ #9 nbd_receive_negotiate (aio_context=0x55f006bdd890,
+    ioc=0x55f006bb3c20, tlscreds=0x0, hostname=0x0,
+    outioc=0x55f006bf19f8, info=0x55f006bf1a00, errp=0x7fe96d729eb0) at
+    nbd/client.c:1032
+ #10 nbd_client_connect (bs=0x55f006bea710, errp=0x7fe96d729eb0) at
+    block/nbd.c:1460
+ #11 nbd_reconnect_attempt (s=0x55f006bf19f0) at block/nbd.c:287
+ #12 nbd_co_reconnect_loop (s=0x55f006bf19f0) at block/nbd.c:309
+ #13 nbd_connection_entry (opaque=0x55f006bf19f0) at block/nbd.c:360
+ #14 coroutine_trampoline (i0=113190480, i1=22000) at
+    util/coroutine-ucontext.c:173
+
+Note, that the hang may be
+triggered by another bug, so the whole case is fixed only together with
+commit "block/nbd: on shutdown terminate connection attempt".
+
+Signed-off-by: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
+---
+ block/nbd.c | 11 +++++++++++
+ 1 file changed, 11 insertions(+)
+
+diff --git a/block/nbd.c b/block/nbd.c
+index 65a4f56924..49254f1c3c 100644
+--- a/block/nbd.c
++++ b/block/nbd.c
+@@ -280,7 +280,18 @@ static coroutine_fn void nbd_reconnect_attempt(BDRVNBDState *s)
+         s->ioc = NULL;
+     }
+ 
++    bdrv_dec_in_flight(s->bs);
+     s->connect_status = nbd_client_connect(s->bs, &local_err);
++    s->wait_drained_end = true;
++    while (s->drained) {
++        /*
++         * We may be entered once from nbd_client_attach_aio_context_bh
++         * and then from nbd_client_co_drain_end. So here is a loop.
++         */
++        qemu_coroutine_yield();
++    }
++    bdrv_inc_in_flight(s->bs);
++
+     error_free(s->connect_err);
+     s->connect_err = NULL;
+     error_propagate(&s->connect_err, local_err);
 -- 
 2.21.0
 
