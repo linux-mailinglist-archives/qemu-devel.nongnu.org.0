@@ -2,53 +2,53 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id BA55F226DC2
-	for <lists+qemu-devel@lfdr.de>; Mon, 20 Jul 2020 20:09:00 +0200 (CEST)
-Received: from localhost ([::1]:35574 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id EEB12226E03
+	for <lists+qemu-devel@lfdr.de>; Mon, 20 Jul 2020 20:11:15 +0200 (CEST)
+Received: from localhost ([::1]:42608 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jxaDj-0006d8-IO
-	for lists+qemu-devel@lfdr.de; Mon, 20 Jul 2020 14:08:59 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:58458)
+	id 1jxaFv-0001Bw-2c
+	for lists+qemu-devel@lfdr.de; Mon, 20 Jul 2020 14:11:15 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:58472)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <vsementsov@virtuozzo.com>)
- id 1jxaCT-0005Zz-BL; Mon, 20 Jul 2020 14:07:41 -0400
+ id 1jxaCV-0005cg-LB; Mon, 20 Jul 2020 14:07:43 -0400
 Received: from mail-eopbgr30115.outbound.protection.outlook.com
  ([40.107.3.115]:44342 helo=EUR03-AM5-obe.outbound.protection.outlook.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <vsementsov@virtuozzo.com>)
- id 1jxaCR-0001VM-QF; Mon, 20 Jul 2020 14:07:41 -0400
+ id 1jxaCT-0001VM-RN; Mon, 20 Jul 2020 14:07:43 -0400
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=OASEzoWfdwv3eCCQQxS/hkg8FcHhSG0N9fdBooX7xhY9UexOJofR7ewL7dElVAWGMos1VFMM76UpgOzPVgq1m/YnpB1u5rruO64ENwRRW9nShC36lXriNvGZGyg+B924s2lAoRdGLLi5kqm98Qu8o6sNpS0Umxqv5tIhx01KOtwO5V4WiNtXiGZAK3y05KYhTPmKkJQ5IyahVluLMyNZag536ASTTI339rKFsPChJShZjOxHP2rBF2/qLn1FXrd3aNpRWzuT4mLOHh5KnTFCvOdnQQwgE9byATMX77dfLrgyiYPqbcTRY2iKcORSgsx2FW4MqC3W7m82f/pNcGb4bQ==
+ b=cWIGFsPTenXwOkI1rtBjIJOUO9KHi6BTnDUQwd6oOH62v9AGHsR38GQxQFj7Zwny1lhmDx8BgVr/ul5R+wKg2MFo9rhBMXV4lyDNwg/JRKwPf68JTEpvSeKhRIj4RJAnvUYQENbMFCiGcEn3wk7Z4AksVOObN71mDBPtHZLNT865pRktMD4PaMUVHZzgqWfLTF+S34CebqCmn5/NoGPRpF+YxsRow8LZtvnenJoao2jIxQ+QP7OQ81eFlTBYEDfgX0iZqYjcm0MogMYH3EKqaTjfKkLQ9qyqbM+5vm5zCi+nXzo0VKglkgS42pil80Lzuzjxo88LiXZQGps9QuQA1Q==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=PG6cTf5Qit+1icUrpH22YVcK+nC3ckzQEiuctJkqkoI=;
- b=NrpzNISAhAvmHZMBh9E5mGA4xSoTOcR49TIVoRBm8/qny1PPkGy269vx+ZVntNigfoEz9LBHzuAhCI8uZa0Xz5CK6WWL84w8RdKGkhJqBMZw/9AOrCbi7SUjBUC47qby9jummReMsfhpOg+O8nN8cF/H/oBODzWjEuCaajhL6FRBhXQiNt4WTi6d/BabhnyNVYSvRyCHdo/vsjUo3fT2mQ6IcigIig8bs9T7wVXHa7u5lJy/22VGg7A6dr/cu/rLbX18u+KwgBVQShv7faHW+52xzQ4ITxIwsz3wk+nwiW/dzn5zo1KuOgFaRHw2w7nT2owYyiUnejgpeoRyY5vdXQ==
+ bh=foWrUqcfERZ2Cs2I47EltGvGgldT8PFtErWBP/y+hzo=;
+ b=DNnB7SdmVc3ruJVXZ0BtGke/ZdC7tAgThDDXNgrgIybgWL/+3aYE9MXbO4jc9mfJgSSuJzZiT34nRWVmi79qrMZJ6ipb/JkQ7L+MxZV5rjn+o0hen1RwRhCXNCSpXlusq0O42BNXpRMnnpnGT95VAIR89Tn1kP2UV48iC6x1lciML9WqQ1JgChuqF74Kq5feAorvckNXhIXUewSUyF1quqSsVjLoa1TlARxsYuM4uK8PbEocEAzTCJAeWJKmvRihkAudPzLDuC6ebwC4EEFPATwmtOixR1myKsNNPqSHAarrXnFiqyI0hq4fVHxUzcmBVUz245ufnbdILuOZX4LG3g==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
  smtp.mailfrom=virtuozzo.com; dmarc=pass action=none
  header.from=virtuozzo.com; dkim=pass header.d=virtuozzo.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=virtuozzo.com;
  s=selector2;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=PG6cTf5Qit+1icUrpH22YVcK+nC3ckzQEiuctJkqkoI=;
- b=FvYFZtDtD9Xg+Rjmqi3xGcN/2IhlhR8BXxoEsdqgCVghdrjY6x/cIcQy1AW/KT3vd10yg/c/UALvYEIs3rj/J6Xkw696FXCc5QX3imUuLSWk0XscXDZgFj3PFZNxo7bBDxhn89OAMZui1ldCtqW4roMTVucvfsMm8o/6yM50Kbc=
+ bh=foWrUqcfERZ2Cs2I47EltGvGgldT8PFtErWBP/y+hzo=;
+ b=piYvVfaV55A6gl94maZRUFH9WLQmMwOeXrsQMslzw04ICGaf3hP9OCtL+MA8L7swUzgE/7QYRfIrH3so/PjXn1fSCj5dzHpR4BNT/9KAJ/vy+ZRvcwvt/oEzHWQjMJxWZYO+GqZgF26ThrZxlvCJ4XLnKjZRhQA+UHMoY+fkNKw=
 Authentication-Results: nongnu.org; dkim=none (message not signed)
  header.d=none;nongnu.org; dmarc=none action=none header.from=virtuozzo.com;
 Received: from AM7PR08MB5494.eurprd08.prod.outlook.com (2603:10a6:20b:dc::15)
  by AM6PR08MB4342.eurprd08.prod.outlook.com (2603:10a6:20b:b4::22)
  with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3195.17; Mon, 20 Jul
- 2020 18:07:34 +0000
+ 2020 18:07:35 +0000
 Received: from AM7PR08MB5494.eurprd08.prod.outlook.com
  ([fe80::a408:2f0f:bc6c:d312]) by AM7PR08MB5494.eurprd08.prod.outlook.com
  ([fe80::a408:2f0f:bc6c:d312%3]) with mapi id 15.20.3195.025; Mon, 20 Jul 2020
- 18:07:34 +0000
+ 18:07:35 +0000
 From: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
 To: qemu-block@nongnu.org
-Subject: [PATCH 1/4] qemu-sockets: refactor inet_connect_addr
-Date: Mon, 20 Jul 2020 21:07:12 +0300
-Message-Id: <20200720180715.10521-2-vsementsov@virtuozzo.com>
+Subject: [PATCH 2/4] qemu-sockets: implement non-blocking connect interface
+Date: Mon, 20 Jul 2020 21:07:13 +0300
+Message-Id: <20200720180715.10521-3-vsementsov@virtuozzo.com>
 X-Mailer: git-send-email 2.21.0
 In-Reply-To: <20200720180715.10521-1-vsementsov@virtuozzo.com>
 References: <20200720180715.10521-1-vsementsov@virtuozzo.com>
@@ -62,33 +62,33 @@ X-MS-Exchange-MessageSentRepresentingType: 1
 Received: from localhost.localdomain (185.215.60.171) by
  AM0PR06CA0130.eurprd06.prod.outlook.com (2603:10a6:208:ab::35) with Microsoft
  SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.3195.17 via Frontend Transport; Mon, 20 Jul 2020 18:07:33 +0000
+ 15.20.3195.17 via Frontend Transport; Mon, 20 Jul 2020 18:07:34 +0000
 X-Mailer: git-send-email 2.21.0
 X-Originating-IP: [185.215.60.171]
 X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: a346781b-fd4e-4b94-8890-08d82cd7c720
+X-MS-Office365-Filtering-Correlation-Id: aa6d474e-326a-42d0-c12b-08d82cd7c7a0
 X-MS-TrafficTypeDiagnostic: AM6PR08MB4342:
 X-MS-Exchange-Transport-Forked: True
-X-Microsoft-Antispam-PRVS: <AM6PR08MB43423EC23A4C620E5329A681C17B0@AM6PR08MB4342.eurprd08.prod.outlook.com>
-X-MS-Oob-TLC-OOBClassifiers: OLM:4941;
+X-Microsoft-Antispam-PRVS: <AM6PR08MB4342E876D51558B296A48BC0C17B0@AM6PR08MB4342.eurprd08.prod.outlook.com>
+X-MS-Oob-TLC-OOBClassifiers: OLM:9508;
 X-MS-Exchange-SenderADCheck: 1
 X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: ierSNRfsoy7y1Lul4p7Bbn6toQQfHHcYCIPsDuM3oLfvLSHYvMru6FILYAqVlKz/3KRra/T0tjcKfnyjAHK60QMcIwSKUC+2LXTo8YNEu+bLX/rpqcB6n8fVvsgLXw0sASmwZYamigRvUrETHiX7kAWi20mrU9/TpCRFn5fDUg0fggyoZ9Iv8Go/6Mkysu7fpqF/mKq5vGLdEN4r/sROfiil7UBcv7u6QtMuJvIstjD/7Sc946IJt/cc+UeYWzR2W8BlTsQfAnjHURX8I6/5KG0YnxfKRT5VJ/eMxPwVAEzX9VR/WCTDqe8TsUjfq0dmcSUmIvpfzPK6K5eL2CVsjAUHftUSjMOkvwAz+5Y+3nFAW8c7fJsahI+RTjUTGXum
+X-Microsoft-Antispam-Message-Info: yis8nznOXzVKTrji15rKwVNodm9TaU9UHFtfdfzCKSrGAIJTOQ+ucQdgU6J/gqebR5F2oz75+TowqZz6bGe7/jRC5nPwsOB+JIvuQPvgnj86PKurRg86TDYJxgN0yH9gdxD0ROlaGg3hj3bIX0gPhgxsnDPqI7gUokxDpXjDDRDIuuYqXSMuyRY+qYWcp+jFL4tQ4BETk9uVB3R2OV5c/vacWsK9sUjDr7u2VqA91qZN3gqacouCFontjStfHvpQtRKXw4P5IOVKgy6H8bic/T+KLN0CxeQQ5jnOx6VQuXhMVbgNfK2LUvA0JWXDORXpnqSXcqLYX2t3bcIJCWSCWz8GkFwFsfmDVdSjg6gqIZ73IOe4q5U/ddlIBmX+/e7B
 X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
  IPV:NLI; SFV:NSPM; H:AM7PR08MB5494.eurprd08.prod.outlook.com; PTR:; CAT:NONE;
  SFTY:;
  SFS:(4636009)(396003)(136003)(376002)(346002)(366004)(39840400004)(86362001)(4326008)(107886003)(316002)(16526019)(83380400001)(6666004)(2616005)(956004)(6512007)(6916009)(6486002)(2906002)(66556008)(66476007)(66946007)(8676002)(478600001)(186003)(8936002)(52116002)(5660300002)(26005)(36756003)(6506007)(69590400007)(1076003);
  DIR:OUT; SFP:1102; 
-X-MS-Exchange-AntiSpam-MessageData: ZMgINxDRV2aY1+cmcjCYE9QhCBiLXNcHjfSQXyPplE6T+rkFGgwmkdpKvxKjHU/OBIyir7aZhzAhpy+w45VQGRWBV8gVNyNxknYcC/02LSR1Cdo92V4xwhWeeXG3GdyX4B5qMJXk2dfYLOnV5Cidf9syDO73DNg8jl8TvNZpOHzgcmahOuqBlGPqt0mwUqS/4ZgH+zg+NyrFvk/Ca1CmqO1rAlH4Tlyw4SCTUe7U0GTIFRdQNrXZtjb9gWOZrnwuUD0xUNEFrI4qIHlHNcpK5VTCKpmxFVSezWuDk25i/sm3/bH45r5v9vrITSt8ZlXXkZpDrZtZuRfCUOJXqcaLwyis3Q8LdsevQkNpO7Tr71lOOp2EqdMsojVQNdkKraaynAcNeEoY+yeRYXrQMNcCkv5afzBFJNZxzetbdZpt7KIo20oQowYCi9srU6HXvz7ijG2ZEYgUVxovJ17cYNdyQJc2uq3t4LxoKqCMobosFgA=
+X-MS-Exchange-AntiSpam-MessageData: dtbsWZU8Vgp5hXiMXRVGjjAcAG3YIyBxDg4Oh9Zd+OSs6LDz241VON+z21B9gF0E2GZnbZkvLipTT6XCo1/h74qRpyrXFFg+oUeAsKBaAQii6Rpe7aFZT4pGd5RJne83ZPawdamgFQx6Iqnuu2gfTUuqGCzFHsZ+gX9ricxn0H+Y2IfWv0gYrNCA1jp74uN+AVvvVceEc1gCJE1Xif4q5mX+oO+/r0gByJkEmzPm9p8cYxi0UEZF3bqvc8qHSThAq4pMrPMLLx4mXtAHQ5erkk7GDivfoFwyY3w8whxUBEUWYQUkHxWfKBvhDEKeGNIwi06NR+0hdrYNicU0H6ZlJsYvMlrZrODA2PZMDr2/oP5pifPmE+LMKDxT11pZbP/htvNXRlTEHV5QiV13WDDTzCOjsHSbRV6u+kAetzrnTWo+RYX3g0Mb68dwDJuE8HLyjq8ja70fVpbMcmxtcm5rwkHQ69ogv3OCMeqJ3M4ec/Q=
 X-OriginatorOrg: virtuozzo.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: a346781b-fd4e-4b94-8890-08d82cd7c720
+X-MS-Exchange-CrossTenant-Network-Message-Id: aa6d474e-326a-42d0-c12b-08d82cd7c7a0
 X-MS-Exchange-CrossTenant-AuthSource: AM7PR08MB5494.eurprd08.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 20 Jul 2020 18:07:34.5275 (UTC)
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 20 Jul 2020 18:07:35.3379 (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
 X-MS-Exchange-CrossTenant-Id: 0bc7f26d-0264-416e-a6fc-8352af79c58f
 X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: 8pQK53kRQCDNeghmI2Awy3wpMX7mUTmtbZdfoyIKcBA9qfDvMSTk2bET/qe+5JPbEEAo/R4zxAoZ/rQHBQykSlq190SNQdy0FRfSNUviz3s=
+X-MS-Exchange-CrossTenant-UserPrincipalName: geIjhmv41rcIkZPkbaH90GptBXD2qmrXb8b2yx/5iflYtDex98WOUcvY24OKs+IBOBCnlA4lY9pE640Z9I3Sgtqv4VEiT4+TgBaAcA5MUrg=
 X-MS-Exchange-Transport-CrossTenantHeadersStamped: AM6PR08MB4342
 Received-SPF: pass client-ip=40.107.3.115;
  envelope-from=vsementsov@virtuozzo.com;
@@ -120,87 +120,140 @@ Cc: kwolf@redhat.com, vsementsov@virtuozzo.com, berrange@redhat.com,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-We are going to publish inet_connect_addr to be used in separate. Let's
-move keep_alive handling to it. Pass the whole InetSocketAddress
-pointer, not only keep_alive, so that future external callers will not
-care about internals of InetSocketAddress.
+We are going to implement non-blocking connect in io/channel-socket.
 
-While being here, remove redundant inet_connect_addr() declaration.
+non-blocking connect includes three phases:
+
+    1. connect() call
+    2. wait until socket is ready
+    3. check result
+
+io/channel-socket has wait-on-socket API (qio_channel_yield(),
+qio_channel_wait()), so it's a good place for [2].
+
+Still, the whole thing is not simple, because socket connect in case of
+inet socket includes several connect() calls, as SocketAddress may be
+parsed into a list of inet addresses. And after each non-blocking
+connect() upper layer should have a possibility to wait on the socket.
+
+We may try to implement a kind of abstract list or iterator for
+"sub" addresses of SocketAddress, but all this appears to be too
+complex and not worth doing (as actually, only inet sockets has such a
+"multiple" SocketAddress).
+
+So, let's instead make public API for inet sockets themselves, to be
+handled in separate in upper layer, if it needs non-blocking connect.
 
 Signed-off-by: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
 ---
- util/qemu-sockets.c | 37 ++++++++++++++++---------------------
- 1 file changed, 16 insertions(+), 21 deletions(-)
+ include/qemu/sockets.h |  6 ++++++
+ util/qemu-sockets.c    | 45 +++++++++++++++++++++++++++++++++++++-----
+ 2 files changed, 46 insertions(+), 5 deletions(-)
 
+diff --git a/include/qemu/sockets.h b/include/qemu/sockets.h
+index 7d1f813576..7389d6be55 100644
+--- a/include/qemu/sockets.h
++++ b/include/qemu/sockets.h
+@@ -34,6 +34,12 @@ int inet_ai_family_from_address(InetSocketAddress *addr,
+ int inet_parse(InetSocketAddress *addr, const char *str, Error **errp);
+ int inet_connect(const char *str, Error **errp);
+ int inet_connect_saddr(InetSocketAddress *saddr, Error **errp);
++int inet_connect_addr(InetSocketAddress *saddr, struct addrinfo *addr,
++                      bool blocking, bool *in_progress, Error **errp);
++struct addrinfo *inet_parse_connect_saddr(InetSocketAddress *saddr,
++                                          Error **errp);
++
++int socket_check(int fd, Error **errp);
+ 
+ NetworkAddressFamily inet_netfamily(int family);
+ 
 diff --git a/util/qemu-sockets.c b/util/qemu-sockets.c
-index b37d288866..8ccf4088c2 100644
+index 8ccf4088c2..a02d00f342 100644
 --- a/util/qemu-sockets.c
 +++ b/util/qemu-sockets.c
-@@ -354,9 +354,8 @@ listen_ok:
+@@ -354,11 +354,17 @@ listen_ok:
      ((rc) == -EINPROGRESS)
  #endif
  
--static int inet_connect_addr(struct addrinfo *addr, Error **errp);
--
--static int inet_connect_addr(struct addrinfo *addr, Error **errp)
-+static int inet_connect_addr(InetSocketAddress *saddr,
-+                             struct addrinfo *addr, Error **errp)
+-static int inet_connect_addr(InetSocketAddress *saddr,
+-                             struct addrinfo *addr, Error **errp)
++int inet_connect_addr(InetSocketAddress *saddr, struct addrinfo *addr,
++                      bool blocking, bool *in_progress, Error **errp)
  {
      int sock, rc;
  
-@@ -381,6 +380,18 @@ static int inet_connect_addr(struct addrinfo *addr, Error **errp)
-         return -1;
-     }
- 
-+    if (saddr->keep_alive) {
-+        int val = 1;
-+        int ret = qemu_setsockopt(sock, SOL_SOCKET, SO_KEEPALIVE,
-+                                  &val, sizeof(val));
++    assert(blocking == !in_progress);
 +
-+        if (ret < 0) {
-+            error_setg_errno(errp, errno, "Unable to set KEEPALIVE");
-+            closesocket(sock);
-+            return -1;
-+        }
++    if (in_progress) {
++        *in_progress = false;
 +    }
 +
+     sock = qemu_socket(addr->ai_family, addr->ai_socktype, addr->ai_protocol);
+     if (sock < 0) {
+         error_setg_errno(errp, errno, "Failed to create socket");
+@@ -366,6 +372,10 @@ static int inet_connect_addr(InetSocketAddress *saddr,
+     }
+     socket_set_fast_reuse(sock);
+ 
++    if (!blocking) {
++        qemu_set_nonblock(sock);
++    }
++
+     /* connect to peer */
+     do {
+         rc = 0;
+@@ -374,6 +384,13 @@ static int inet_connect_addr(InetSocketAddress *saddr,
+         }
+     } while (rc == -EINTR);
+ 
++    if (!blocking && rc == -EINPROGRESS) {
++        if (in_progress) {
++            *in_progress = true;
++        }
++        return sock;
++    }
++
+     if (rc < 0) {
+         error_setg_errno(errp, errno, "Failed to connect socket");
+         closesocket(sock);
+@@ -395,8 +412,26 @@ static int inet_connect_addr(InetSocketAddress *saddr,
      return sock;
  }
  
-@@ -455,7 +466,7 @@ int inet_connect_saddr(InetSocketAddress *saddr, Error **errp)
+-static struct addrinfo *inet_parse_connect_saddr(InetSocketAddress *saddr,
+-                                                 Error **errp)
++int socket_check(int fd, Error **errp)
++{
++    int optval;
++    socklen_t optlen = sizeof(optval);
++    if (qemu_getsockopt(fd, SOL_SOCKET, SO_ERROR, &optval, &optlen) < 0) {
++        error_setg_errno(errp, errno, "Unable to check connection");
++        return -1;
++    }
++
++    if (optval != 0) {
++        error_setg_errno(errp, errno, "Connection failed");
++        return -1;
++    }
++
++    return 0;
++}
++
++
++struct addrinfo *inet_parse_connect_saddr(InetSocketAddress *saddr,
++                                          Error **errp)
+ {
+     struct addrinfo ai, *res;
+     int rc;
+@@ -466,7 +501,7 @@ int inet_connect_saddr(InetSocketAddress *saddr, Error **errp)
      for (e = res; e != NULL; e = e->ai_next) {
          error_free(local_err);
          local_err = NULL;
--        sock = inet_connect_addr(e, &local_err);
-+        sock = inet_connect_addr(saddr, e, &local_err);
+-        sock = inet_connect_addr(saddr, e, &local_err);
++        sock = inet_connect_addr(saddr, e, true, NULL, &local_err);
          if (sock >= 0) {
              break;
          }
-@@ -463,23 +474,7 @@ int inet_connect_saddr(InetSocketAddress *saddr, Error **errp)
- 
-     freeaddrinfo(res);
- 
--    if (sock < 0) {
--        error_propagate(errp, local_err);
--        return sock;
--    }
--
--    if (saddr->keep_alive) {
--        int val = 1;
--        int ret = qemu_setsockopt(sock, SOL_SOCKET, SO_KEEPALIVE,
--                                  &val, sizeof(val));
--
--        if (ret < 0) {
--            error_setg_errno(errp, errno, "Unable to set KEEPALIVE");
--            close(sock);
--            return -1;
--        }
--    }
--
-+    error_propagate(errp, local_err);
-     return sock;
- }
- 
 -- 
 2.21.0
 
