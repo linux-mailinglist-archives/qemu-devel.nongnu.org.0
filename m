@@ -2,34 +2,34 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id AEE66225500
+	by mail.lfdr.de (Postfix) with ESMTPS id AA14F2254FF
 	for <lists+qemu-devel@lfdr.de>; Mon, 20 Jul 2020 02:42:06 +0200 (CEST)
-Received: from localhost ([::1]:55734 helo=lists1p.gnu.org)
+Received: from localhost ([::1]:55730 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jxJsb-00074N-Gk
+	id 1jxJsb-00074H-98
 	for lists+qemu-devel@lfdr.de; Sun, 19 Jul 2020 20:42:05 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:43674)
+Received: from eggs.gnu.org ([2001:470:142:3::10]:43672)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1jxJrR-0006Cu-5F
+ id 1jxJrR-0006Ct-2z
  for qemu-devel@nongnu.org; Sun, 19 Jul 2020 20:40:53 -0400
-Received: from indium.canonical.com ([91.189.90.7]:58704)
+Received: from indium.canonical.com ([91.189.90.7]:58720)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1jxJrO-0002kF-P4
+ id 1jxJrO-0002kH-Nt
  for qemu-devel@nongnu.org; Sun, 19 Jul 2020 20:40:52 -0400
 Received: from loganberry.canonical.com ([91.189.90.37])
  by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
- id 1jxJrL-000217-JX
- for <qemu-devel@nongnu.org>; Mon, 20 Jul 2020 00:40:47 +0000
+ id 1jxJrM-00021t-91
+ for <qemu-devel@nongnu.org>; Mon, 20 Jul 2020 00:40:48 +0000
 Received: from loganberry.canonical.com (localhost [127.0.0.1])
- by loganberry.canonical.com (Postfix) with ESMTP id 734102E8025
- for <qemu-devel@nongnu.org>; Mon, 20 Jul 2020 00:40:47 +0000 (UTC)
+ by loganberry.canonical.com (Postfix) with ESMTP id 416CE2E80E7
+ for <qemu-devel@nongnu.org>; Mon, 20 Jul 2020 00:40:48 +0000 (UTC)
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: quoted-printable
-Date: Mon, 20 Jul 2020 00:33:44 -0000
+Date: Mon, 20 Jul 2020 00:34:08 -0000
 From: Jeffrey <1888165@bugs.launchpad.net>
 To: qemu-devel@nongnu.org
 X-Launchpad-Notification-Type: bug
@@ -41,7 +41,7 @@ X-Launchpad-Bug-Commenters: jmmorlan
 X-Launchpad-Bug-Reporter: Jeffrey (jmmorlan)
 X-Launchpad-Bug-Modifier: Jeffrey (jmmorlan)
 References: <159520414927.8137.962061150870003047.malonedeb@wampee.canonical.com>
-Message-Id: <159520522430.12870.4037074571911078073.malone@soybean.canonical.com>
+Message-Id: <159520524867.19097.9276067402107201506.malone@chaenomeles.canonical.com>
 Subject: [Bug 1888165] Re: loopz/loopnz clearing previous instruction's
  modified flags on cx -> 0
 X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
@@ -50,7 +50,7 @@ Precedence: bulk
 X-Generated-By: Launchpad (canonical.com);
  Revision="4809fcb62f445aaa3ae919f7f6c3cc7d156ea57a";
  Instance="production-secrets-lazr.conf"
-X-Launchpad-Hash: 79db8db83e628da7627940419492b81930a4deb9
+X-Launchpad-Hash: 7aeccbc0b5984ed6810c9af541dc777990fe0136
 Received-SPF: none client-ip=91.189.90.7; envelope-from=bounces@canonical.com;
  helo=indium.canonical.com
 X-detected-operating-system: by eggs.gnu.org: First seen = 2020/07/19 20:25:38
@@ -76,9 +76,9 @@ Reply-To: Bug 1888165 <1888165@bugs.launchpad.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-** Attachment added: "bootable image demonstrating bug"
-   https://bugs.launchpad.net/qemu/+bug/1888165/+attachment/5394189/+files/=
-loopnzbug.img
+** Attachment added: "source"
+   https://bugs.launchpad.net/qemu/+bug/1888165/+attachment/5394190/+files/=
+loopnzbug.asm
 
 -- =
 
