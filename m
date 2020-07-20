@@ -2,58 +2,78 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 43428226E33
-	for <lists+qemu-devel@lfdr.de>; Mon, 20 Jul 2020 20:25:43 +0200 (CEST)
-Received: from localhost ([::1]:50884 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 65D93226E41
+	for <lists+qemu-devel@lfdr.de>; Mon, 20 Jul 2020 20:28:25 +0200 (CEST)
+Received: from localhost ([::1]:53872 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jxaTu-0005Je-5X
-	for lists+qemu-devel@lfdr.de; Mon, 20 Jul 2020 14:25:42 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:34626)
+	id 1jxaWW-0006iR-En
+	for lists+qemu-devel@lfdr.de; Mon, 20 Jul 2020 14:28:24 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:35032)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <cfontana@suse.de>) id 1jxaSW-0004os-La
- for qemu-devel@nongnu.org; Mon, 20 Jul 2020 14:24:16 -0400
-Received: from mx2.suse.de ([195.135.220.15]:40754)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <cfontana@suse.de>) id 1jxaSU-00040d-J3
- for qemu-devel@nongnu.org; Mon, 20 Jul 2020 14:24:16 -0400
-X-Virus-Scanned: by amavisd-new at test-mx.suse.de
-Received: from relay2.suse.de (unknown [195.135.221.27])
- by mx2.suse.de (Postfix) with ESMTP id D518DB710;
- Mon, 20 Jul 2020 18:24:18 +0000 (UTC)
-Subject: Re: migration: broken snapshot saves appear on s390 when small fields
- in migration stream removed
-From: Claudio Fontana <cfontana@suse.de>
-To: Thomas Huth <thuth@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>,
- Juan Quintela <quintela@redhat.com>,
- "Dr. David Alan Gilbert" <dgilbert@redhat.com>, Kevin Wolf
- <kwolf@redhat.com>, Max Reitz <mreitz@redhat.com>
-References: <8bbafdec-836d-b7de-cab8-7a325b6e238d@suse.de>
- <55c406cd-b9ca-4e9b-0acd-d33cfe2a70e3@redhat.com>
- <bf074240-8cc3-96ff-e95e-bd301822b756@suse.de>
- <ea3b617f-c2ea-534c-06ba-f5f9f43828a7@suse.de>
- <8125b1ff-373a-aadc-eccf-27c567007a27@redhat.com>
- <8ff7eeab-bef1-0957-a95c-72819680c431@suse.de>
- <1db6d502-73d1-5e3d-10d1-796d80ab8f07@suse.de>
-Message-ID: <13728e69-75a5-2edc-9ed3-6e08d94c722d@suse.de>
-Date: Mon, 20 Jul 2020 20:24:11 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.4.1
+ (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
+ id 1jxaUU-00061m-Ju
+ for qemu-devel@nongnu.org; Mon, 20 Jul 2020 14:26:18 -0400
+Received: from mail-wr1-x441.google.com ([2a00:1450:4864:20::441]:41738)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
+ id 1jxaUS-0004PL-SY
+ for qemu-devel@nongnu.org; Mon, 20 Jul 2020 14:26:18 -0400
+Received: by mail-wr1-x441.google.com with SMTP id z15so18779449wrl.8
+ for <qemu-devel@nongnu.org>; Mon, 20 Jul 2020 11:26:16 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=sender:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=fiWZ7ZCS7JvebFEZ8o5COLaHhu5Dx6oYVhzVUzG7i6A=;
+ b=XhWq9+Jid9CfTl0ITutQrW3ZLe/HVTGPwK7yukavpCDmqKkirPZDuSEbJnRcWKfhpw
+ 0mG8qf5ZwAQugCAZj4rFiQVLoKNEA0OSJo3JAQWCI9v6yXGYAd6+Fk5hH7YNbjW1IbCa
+ kXETliOgfBTg3WD8OLi9RB1cUyffpIcKMMWJ/iJibCgmSt8mBR4NRr5kMHwfXelYVaKN
+ Tq2Je6NgffnI5dim3gvNwSBivYggpLenhSehFhsX5xA28l1qpGkE6ngJAXDQ5O3c0P68
+ urAFFny1i1WFfZg8kWLN8X2HmKLsnS18GffnfEBh8rJJfgdpVx8VGAfsdJP4we2WqeaP
+ Rm8A==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
+ :mime-version:content-transfer-encoding;
+ bh=fiWZ7ZCS7JvebFEZ8o5COLaHhu5Dx6oYVhzVUzG7i6A=;
+ b=pfSwvagjWZG+vKWegae2VlcdzdiS7ma3qCS4+ZD/eFOUViREerHBYcl7FoysgAFdH4
+ Nc/Cmys1qBXFtUGZPkOYCVicANjjgQM6f0xfwWA7wpctHapWy9W9kOvD3LJ9Xov6ZPfn
+ LgMxH9tQqFu8JfI3ko4bdwUifT/X13a3rAjKTyx36i7gHLl6Tbqhrrz9IrNYx5EiT75c
+ oam0damGz86C6GpTmIimMe1AkjpdHteK79nUiADxOVf3VcH38ihx7VXaaTHqR4xvcd9d
+ s512jtTLsRkSVyRxciJOdLBFgYYu3tHVtyLePQf4rAtO61LZQoozCfP/pKX988cWmdeK
+ yFXw==
+X-Gm-Message-State: AOAM531Fu59QiW39Rx3fc7a6TMh2Z0UQa/GR3npr6JFsbXGZY6FHAccY
+ qjSMaX2EjNtJGeuiVAqtwEDKVDAoFoQ=
+X-Google-Smtp-Source: ABdhPJxHLsWV0V8GvTy36Ig1Sxeh6sXPC0eYX+24+8lYVJfZ4Bac5puWtzS+ZnbvepPQ3dhpTiwWdg==
+X-Received: by 2002:a5d:650e:: with SMTP id x14mr24410834wru.187.1595269574946; 
+ Mon, 20 Jul 2020 11:26:14 -0700 (PDT)
+Received: from localhost.localdomain
+ (138.red-83-57-170.dynamicip.rima-tde.net. [83.57.170.138])
+ by smtp.gmail.com with ESMTPSA id 138sm637932wmb.1.2020.07.20.11.26.14
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Mon, 20 Jul 2020 11:26:14 -0700 (PDT)
+From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
+To: qemu-devel@nongnu.org
+Subject: [RFC PATCH-not-for-5.1?] hw/isa/isa-bus: Ensure ISA I/O regions are
+ 8/16/32-bit accessible
+Date: Mon, 20 Jul 2020 20:26:13 +0200
+Message-Id: <20200720182613.10857-1-f4bug@amsat.org>
+X-Mailer: git-send-email 2.21.3
 MIME-Version: 1.0
-In-Reply-To: <1db6d502-73d1-5e3d-10d1-796d80ab8f07@suse.de>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=195.135.220.15; envelope-from=cfontana@suse.de;
- helo=mx2.suse.de
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/07/20 00:22:39
-X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x (no timestamps) [generic]
-X-Spam_score_int: -41
-X-Spam_score: -4.2
-X-Spam_bar: ----
-X-Spam_report: (-4.2 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_MED=-2.3,
- RCVD_IN_MSPIKE_H3=-0.01, RCVD_IN_MSPIKE_WL=-0.01, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Content-Type: text/plain; charset=UTF-8
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=2a00:1450:4864:20::441;
+ envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wr1-x441.google.com
+X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
+ That's all we know.
+X-Spam_score_int: 0
+X-Spam_score: 0.0
+X-Spam_bar: /
+X-Spam_report: (0.0 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1, DKIM_VALID=-0.1,
+ DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=1, FREEMAIL_FROM=0.001,
+ HEADER_FROM_DIFFERENT_DOMAINS=1, RCVD_IN_DNSWL_NONE=-0.0001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -66,186 +86,60 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: "Jason J. Herne" <jjherne@linux.ibm.com>, Fam Zheng <fam@euphon.net>,
- Liang Yan <lyan@suse.com>, Peter Maydell <peter.maydell@linaro.org>,
- Cornelia Huck <cohuck@redhat.com>, qemu-devel <qemu-devel@nongnu.org>,
- Bruce Rogers <brogers@suse.com>, Stefan Hajnoczi <stefanha@redhat.com>
+Cc: Peter Maydell <peter.maydell@linaro.org>,
+ Paolo Bonzini <pbonzini@redhat.com>, Michael Tokarev <mjt@tls.msk.ru>,
+ =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>,
+ "Michael S . Tsirkin" <mst@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-I have now been able to reproduce this on X86 as well.
+Since commit 5d971f9e67 we don't accept mismatching sizes
+in memory_region_access_valid(). This gives troubles when
+a device is on an ISA bus, because the CPU is free to use
+8/16/32-bit accesses on the bus, regardless what range is
+valid for the device.
 
-It happens much more rarely, about once every 10 times.
+Add a check to ensure devices plugged on the ISA bus can
+accept 8/16/32-bits accesses.
 
-I will sort out the data and try to make it even more reproducible, then post my findings in detail.
+Related bug reports:
 
-Overall I proceeded as follows:
+- https://lore.kernel.org/xen-devel/20200630170913.123646-1-anthony.perard@citrix.com/T/
+- https://bugs.debian.org/964793
+- https://bugs.debian.org/cgi-bin/bugreport.cgi?bug=964247
+- https://bugs.launchpad.net/bugs/1886318
 
-1) hooked the savevm code to skip all fields with the exception of "s390-skeys". So only s390-skeys are actually saved.
+Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
+---
+MST: I really don't like this approach, I think the ISA bus
+     should adjust the access.
+---
+ hw/isa/isa-bus.c | 11 +++++++++++
+ 1 file changed, 11 insertions(+)
 
-2) reimplemented "s390-skeys" in a common implementation in cpus.c, used on both x86 and s390, modeling the behaviour of save/load from hw/s390
-
-3) ran ./check -qcow2 267 on both x86 and s390.
-
-In the case of s390, failure seems to be reproducible 100% of the times.
-On X86, it is as mentioned failing about 10% of the times.
-
-Ciao,
-
-Claudio
-
-
-On 7/16/20 2:58 PM, Claudio Fontana wrote:
-> Small update on this,
-> 
-> On 7/15/20 1:10 PM, Claudio Fontana wrote:
->> Hi Thomas,
->>
->> On 7/14/20 4:35 PM, Thomas Huth wrote:
->>> On 14/07/2020 16.29, Claudio Fontana wrote:
->>>> Hello,
->>>>
->>>> I have some tiny progress in narrowing down this issue, possibly a qcow2 issue, still unclear,
->>>> but involving Kevin Wolf and Max Reitz.
->>>>
->>>>
->>>> The reproducer again:
->>>>
->>>>> --------------------------------------------cut-------------------------------------------
->>>>> diff --git a/cpus.c b/cpus.c
->>>>> index 41d1c5099f..443b88697a 100644
->>>>> --- a/cpus.c
->>>>> +++ b/cpus.c
->>>>> @@ -643,7 +643,7 @@ static void qemu_account_warp_timer(void)
->>>>>  
->>>>>  static bool icount_state_needed(void *opaque)
->>>>>  {
->>>>> -    return use_icount;
->>>>> +    return 0;
->>>>>  }
->>>>>  
->>>>>  static bool warp_timer_state_needed(void *opaque)
->>>>> --------------------------------------------cut-------------------------------------------
->>>>
->>>> This issue for now appears on s390 only:
->>>>
->>>> On s390 hardware, test 267 fails (both kvm and tcg) in the qcow2 backing file part, with broken migration stream data in the s390-skeys vmsave (old style).
->>> [...]
->>>> If someone has a good idea let me know - first attempts to reproduce on x86 failed, but maybe more work could lead to it.
->>>
->>
->> small update: in the GOOD case (enough padding added) a qcow_merge() is triggered for the last write of 16202 bytes.
->> In the BAD case (not enough padding added) a qcow_merge() is not triggered for the last write of 16201 bytes.
->>
->> Note: manually flushing with qemu_fflush in s390-skeys vmsave also works (maybe got lost in the noise).
->>
->>
->>> Two questions:
->>>
->>> 1) Can you also reproduce the issue manually, without running iotest
->>> 267? ... I tried, but so far I failed.
->>
->> Thanks for the suggestion, will try.
-> 
-> Currently trying to reproduce manually an environment similar to that of the test,
-> at the moment I am not able to reproduce the issue manually.
-> 
-> Not very familiar with s390,
-> I've been running with 
-> 
-> export QEMU=/home/cfontana/qemu-build/s390x-softmmu/qemu-system-s390x
-> 
-> $QEMU -nographic -monitor stdio -nodefaults -no-shutdown FILENAME
-> 
-> where FILENAME is the qcow2 produced by the test.
-> 
-> let me know if you have a suggestion on how to setup up something simple properly.
-> 
-> 
->>
->>>
->>> 2) Since all the information so far sounds like the problem could be
->>> elsewhere in the code, and the skeys just catch it by accident ... have
->>> you tried running with valgrind? Maybe it catches something useful?
->>
->> Nothing yet, but will fiddle with the options a bit more.
-> 
-> Only thing I have seen so far:
-> 
-> 
-> +==33321== 
-> +==33321== Warning: client switching stacks?  SP change: 0x1ffeffe5e8 --> 0x5d9cf60
-> +==33321==          to suppress, use: --max-stackframe=137324009096 or greater
-> +==33321== Warning: client switching stacks?  SP change: 0x5d9cd18 --> 0x1ffeffe5e8
-> +==33321==          to suppress, use: --max-stackframe=137324009680 or greater
-> +==33321== Warning: client switching stacks?  SP change: 0x1ffeffe8b8 --> 0x5d9ce58
-> +==33321==          to suppress, use: --max-stackframe=137324010080 or greater
-> +==33321==          further instances of this message will not be shown.
-> +==33321== Thread 4:
-> +==33321== Conditional jump or move depends on uninitialised value(s)
-> +==33321==    at 0x3AEC70: process_queued_cpu_work (cpus-common.c:331)
-> +==33321==    by 0x2753E1: qemu_wait_io_event_common (cpus.c:1213)
-> +==33321==    by 0x2755CD: qemu_wait_io_event (cpus.c:1253)
-> +==33321==    by 0x27596D: qemu_dummy_cpu_thread_fn (cpus.c:1337)
-> +==33321==    by 0x725C87: qemu_thread_start (qemu-thread-posix.c:521)
-> +==33321==    by 0x4D504E9: start_thread (in /lib64/libpthread-2.26.so)
-> +==33321==    by 0x4E72BBD: ??? (in /lib64/libc-2.26.so)
-> +==33321== 
-> +==33321== Conditional jump or move depends on uninitialised value(s)
-> +==33321==    at 0x3AEC74: process_queued_cpu_work (cpus-common.c:331)
-> +==33321==    by 0x2753E1: qemu_wait_io_event_common (cpus.c:1213)
-> +==33321==    by 0x2755CD: qemu_wait_io_event (cpus.c:1253)
-> +==33321==    by 0x27596D: qemu_dummy_cpu_thread_fn (cpus.c:1337)
-> +==33321==    by 0x725C87: qemu_thread_start (qemu-thread-posix.c:521)
-> +==33321==    by 0x4D504E9: start_thread (in /lib64/libpthread-2.26.so)
-> +==33321==    by 0x4E72BBD: ??? (in /lib64/libc-2.26.so)
-> +==33321== 
-> +==33321== 
-> +==33321== HEAP SUMMARY:
-> +==33321==     in use at exit: 2,138,442 bytes in 13,935 blocks
-> +==33321==   total heap usage: 19,089 allocs, 5,154 frees, 5,187,670 bytes allocated
-> +==33321== 
-> +==33321== LEAK SUMMARY:
-> +==33321==    definitely lost: 0 bytes in 0 blocks
-> +==33321==    indirectly lost: 0 bytes in 0 blocks
-> +==33321==      possibly lost: 7,150 bytes in 111 blocks
-> +==33321==    still reachable: 2,131,292 bytes in 13,824 blocks
-> +==33321==         suppressed: 0 bytes in 0 blocks
-> +==33321== Rerun with --leak-check=full to see details of leaked memory
-> 
-> 
->>
->>>
->>>  Thomas
->>>
->>
->> Ciao,
->>
->> Claudio
->>
->>
-> 
-> A more interesting update is what follows I think.
-> 
-> I was able to "fix" the problem shown by the reproducer:
-> 
-> @@ -643,7 +643,7 @@ static void qemu_account_warp_tim@@ -643,7 +643,7 @@ static void qemu_account_warp_timer(void)
->  
->  static bool icount_state_needed(void *opaque)
->  {
-> -    return use_icount;
-> +    return 0;
->  }
->  
-> by just slowing down qcow2_co_pwritev_task_entry with some tight loops,
-> without changing any fields between runs (other than the reproducer icount field removal).
-> 
-> I tried to insert the same slowdown just in savevm.c at the end of save_snapshot, but that does not work, needs to be in the coroutine.
-> 
-> Thanks,
-> 
-> Claudio
-> 
-> 
+diff --git a/hw/isa/isa-bus.c b/hw/isa/isa-bus.c
+index 58fde178f9..3d97ad1bdd 100644
+--- a/hw/isa/isa-bus.c
++++ b/hw/isa/isa-bus.c
+@@ -132,6 +132,17 @@ static inline void isa_init_ioport(ISADevice *dev, uint16_t ioport)
+ 
+ void isa_register_ioport(ISADevice *dev, MemoryRegion *io, uint16_t start)
+ {
++    if (io->ops->valid.min_access_size > 1) {
++        /* CPU can always use 8-bit accesses on an ISA bus */
++        error_report("ISA device '%s' requires I/O min_access_size of 1",
++                     object_get_typename(OBJECT(dev)));
++        exit(1);
++    } else if (io->ops->valid.max_access_size < 4) {
++        /* CPU can always use 32-bit accesses on an ISA bus */
++        error_report("ISA device '%s' requires I/O max_access_size of 4",
++                     object_get_typename(OBJECT(dev)));
++        exit(1);
++    }
+     memory_region_add_subregion(isabus->address_space_io, start, io);
+     isa_init_ioport(dev, start);
+ }
+-- 
+2.21.3
 
 
