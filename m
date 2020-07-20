@@ -2,71 +2,47 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id F0C172266BD
-	for <lists+qemu-devel@lfdr.de>; Mon, 20 Jul 2020 18:06:02 +0200 (CEST)
-Received: from localhost ([::1]:60356 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6E102226789
+	for <lists+qemu-devel@lfdr.de>; Mon, 20 Jul 2020 18:12:36 +0200 (CEST)
+Received: from localhost ([::1]:42546 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jxYIk-0005c2-1n
-	for lists+qemu-devel@lfdr.de; Mon, 20 Jul 2020 12:06:02 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:58558)
+	id 1jxYP5-0001Zh-AG
+	for lists+qemu-devel@lfdr.de; Mon, 20 Jul 2020 12:12:35 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:59692)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1jxYFs-00031a-6D
- for qemu-devel@nongnu.org; Mon, 20 Jul 2020 12:03:04 -0400
-Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:26715
- helo=us-smtp-1.mimecast.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1jxYFo-0002Ej-Gy
- for qemu-devel@nongnu.org; Mon, 20 Jul 2020 12:03:03 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1595260978;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=NkjD66WGtZfhbipYtEcVUAhkxQe/HWyUoUbFUyKqxGU=;
- b=AdyQ6L+bAMHN3ZiHRebNaSMzZYQ3Ytj74+bVTeS4VWMcna+QYp5DWFFfouwu2RLv4TG/b9
- 29tAVx1Hf46yqziU3DGsNiU5BoRhsg8Nlbr0Wf6QaJyojwX/08GUI2EgFjMJoTJ9PACOZP
- q7heM7boMNZ44dbQ0bD/lLx5CuWQIWE=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-473-mQtgWl70PsKVTRxIYoGPIQ-1; Mon, 20 Jul 2020 12:02:56 -0400
-X-MC-Unique: mQtgWl70PsKVTRxIYoGPIQ-1
-Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
- [10.5.11.16])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 6ECDF100CC85;
- Mon, 20 Jul 2020 16:02:55 +0000 (UTC)
-Received: from ibm-p8-OVS-01-fsp.mgmt.pnr.lab.eng.rdu2.redhat.com
- (ovpn-120-206.rdu2.redhat.com [10.10.120.206])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 9BE7D5C66E;
- Mon, 20 Jul 2020 16:02:54 +0000 (UTC)
-From: John Snow <jsnow@redhat.com>
-To: qemu-devel@nongnu.org
-Subject: [PATCH 1/1] python/machine: Change default timeout to 30 seconds
-Date: Mon, 20 Jul 2020 12:02:52 -0400
-Message-Id: <20200720160252.104139-2-jsnow@redhat.com>
-In-Reply-To: <20200720160252.104139-1-jsnow@redhat.com>
-References: <20200720160252.104139-1-jsnow@redhat.com>
+ (Exim 4.90_1) (envelope-from <mjt@tls.msk.ru>) id 1jxYJN-0006cB-DK
+ for qemu-devel@nongnu.org; Mon, 20 Jul 2020 12:06:41 -0400
+Received: from isrv.corpit.ru ([86.62.121.231]:37267)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <mjt@tls.msk.ru>) id 1jxYJL-0002on-4C
+ for qemu-devel@nongnu.org; Mon, 20 Jul 2020 12:06:41 -0400
+Received: from tsrv.corpit.ru (tsrv.tls.msk.ru [192.168.177.2])
+ by isrv.corpit.ru (Postfix) with ESMTP id B0C2640547;
+ Mon, 20 Jul 2020 19:06:35 +0300 (MSK)
+Received: from tls.msk.ru (mjt.vpn.tls.msk.ru [192.168.177.99])
+ by tsrv.corpit.ru (Postfix) with SMTP id 1544DA4;
+ Mon, 20 Jul 2020 19:06:35 +0300 (MSK)
+Received: (nullmailer pid 15538 invoked by uid 1000);
+ Mon, 20 Jul 2020 16:06:34 -0000
+From: Michael Tokarev <mjt@tls.msk.ru>
+To: qemu-devel@nongnu.org, "Michael S . Tsirkin" <mst@redhat.com>
+Subject: [PATCH for-5.1] acpi: accept byte and word access to core ACPI
+ registers
+Date: Mon, 20 Jul 2020 19:06:27 +0300
+Message-Id: <20200720160627.15491-1-mjt@msgid.tls.msk.ru>
+X-Mailer: git-send-email 2.20.1
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=207.211.31.120; envelope-from=jsnow@redhat.com;
- helo=us-smtp-1.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/07/20 03:17:01
-X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
-X-Spam_score_int: -30
-X-Spam_score: -3.1
-X-Spam_bar: ---
-X-Spam_report: (-3.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H4=-0.01, RCVD_IN_MSPIKE_WL=-0.01,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- URIBL_BLOCKED=0.001 autolearn=ham autolearn_force=no
+Received-SPF: none client-ip=86.62.121.231; envelope-from=mjt@tls.msk.ru;
+ helo=isrv.corpit.ru
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/07/20 10:57:00
+X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic]
+X-Spam_score_int: -68
+X-Spam_score: -6.9
+X-Spam_bar: ------
+X-Spam_report: (-6.9 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_HI=-5,
+ SPF_HELO_NONE=0.001, SPF_NONE=0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -79,117 +55,63 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: kwolf@redhat.com, peter.maydell@linaro.org,
- Eduardo Habkost <ehabkost@redhat.com>, philmd@redhat.com,
- Cleber Rosa <crosa@redhat.com>, John Snow <jsnow@redhat.com>
+Cc: Simon John <git@the-jedi.co.uk>, Michael Tokarev <mjt@tls.msk.ru>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-3 seconds is too short for some tests running inside busy VMs. Build it out to
-a rather generous 30 seconds to find out conclusively if there are more severe
-problems in the merge/CI tests.
+All ISA registers should be accessible as bytes, words or dwords
+(if wide enough).  Fix the access constraints for acpi-pm-evt,
+acpi-pm-tmr & acpi-cnt registers.
 
-Signed-off-by: John Snow <jsnow@redhat.com>
+Fixes: 5d971f9e67 (memory: Revert "memory: accept mismatching sizes in memory_region_access_valid")
+Fixes: afafe4bbe0 (apci: switch cnt to memory api)
+Fixes: 77d58b1e47 (apci: switch timer to memory api)
+Fixes: b5a7c024d2 (apci: switch evt to memory api)
+Buglink: https://lore.kernel.org/xen-devel/20200630170913.123646-1-anthony.perard@citrix.com/T/
+Buglink: https://bugs.debian.org/964793
+BugLink: https://bugs.debian.org/cgi-bin/bugreport.cgi?bug=964247
+BugLink: https://bugs.launchpad.net/bugs/1886318
+Reported-By: Simon John <git@the-jedi.co.uk>
+Signed-off-by: Michael Tokarev <mjt@tls.msk.ru>
 ---
- python/qemu/machine.py | 30 +++++++++++++++---------------
- 1 file changed, 15 insertions(+), 15 deletions(-)
+ hw/acpi/core.c | 9 ++++++---
+ 1 file changed, 6 insertions(+), 3 deletions(-)
 
-diff --git a/python/qemu/machine.py b/python/qemu/machine.py
-index 80c4d4a8b6..51aa255ef9 100644
---- a/python/qemu/machine.py
-+++ b/python/qemu/machine.py
-@@ -394,15 +394,15 @@ def _hard_shutdown(self) -> None:
-         self._popen.kill()
-         self._popen.wait(timeout=60)
- 
--    def _soft_shutdown(self, has_quit: bool = False,
--                       timeout: Optional[int] = 3) -> None:
-+    def _soft_shutdown(self, timeout: Optional[int],
-+                       has_quit: bool = False) -> None:
-         """
-         Perform early cleanup, attempt to gracefully shut down the VM, and wait
-         for it to terminate.
- 
-+        :param timeout: Timeout in seconds for graceful shutdown.
-+                        A value of None is an infinite wait.
-         :param has_quit: When True, don't attempt to issue 'quit' QMP command
--        :param timeout: Optional timeout in seconds for graceful shutdown.
--                        Default 3 seconds, A value of None is an infinite wait.
- 
-         :raise ConnectionReset: On QMP communication errors
-         :raise subprocess.TimeoutExpired: When timeout is exceeded waiting for
-@@ -418,14 +418,14 @@ def _soft_shutdown(self, has_quit: bool = False,
-         # May raise subprocess.TimeoutExpired
-         self._popen.wait(timeout=timeout)
- 
--    def _do_shutdown(self, has_quit: bool = False,
--                     timeout: Optional[int] = 3) -> None:
-+    def _do_shutdown(self, timeout: Optional[int],
-+                     has_quit: bool = False) -> None:
-         """
-         Attempt to shutdown the VM gracefully; fallback to a hard shutdown.
- 
-+        :param timeout: Timeout in seconds for graceful shutdown.
-+                        A value of None is an infinite wait.
-         :param has_quit: When True, don't attempt to issue 'quit' QMP command
--        :param timeout: Optional timeout in seconds for graceful shutdown.
--                        Default 3 seconds, A value of None is an infinite wait.
- 
-         :raise AbnormalShutdown: When the VM could not be shut down gracefully.
-             The inner exception will likely be ConnectionReset or
-@@ -433,7 +433,7 @@ def _do_shutdown(self, has_quit: bool = False,
-             may result in its own exceptions, likely subprocess.TimeoutExpired.
-         """
-         try:
--            self._soft_shutdown(has_quit, timeout)
-+            self._soft_shutdown(timeout, has_quit)
-         except Exception as exc:
-             self._hard_shutdown()
-             raise AbnormalShutdown("Could not perform graceful shutdown") \
-@@ -441,7 +441,7 @@ def _do_shutdown(self, has_quit: bool = False,
- 
-     def shutdown(self, has_quit: bool = False,
-                  hard: bool = False,
--                 timeout: Optional[int] = 3) -> None:
-+                 timeout: Optional[int] = 30) -> None:
-         """
-         Terminate the VM (gracefully if possible) and perform cleanup.
-         Cleanup will always be performed.
-@@ -453,7 +453,7 @@ def shutdown(self, has_quit: bool = False,
-         :param hard: When true, do not attempt graceful shutdown, and
-                      suppress the SIGKILL warning log message.
-         :param timeout: Optional timeout in seconds for graceful shutdown.
--                        Default 3 seconds, A value of None is an infinite wait.
-+                        Default 30 seconds, A `None` value is an infinite wait.
-         """
-         if not self._launched:
-             return
-@@ -463,7 +463,7 @@ def shutdown(self, has_quit: bool = False,
-                 self._user_killed = True
-                 self._hard_shutdown()
-             else:
--                self._do_shutdown(has_quit, timeout=timeout)
-+                self._do_shutdown(timeout, has_quit)
-         finally:
-             self._post_shutdown()
- 
-@@ -473,12 +473,12 @@ def kill(self):
-         """
-         self.shutdown(hard=True)
- 
--    def wait(self, timeout: Optional[int] = 3) -> None:
-+    def wait(self, timeout: Optional[int] = 30) -> None:
-         """
-         Wait for the VM to power off and perform post-shutdown cleanup.
- 
--        :param timeout: Optional timeout in seconds.
--                        Default 3 seconds, A value of None is an infinite wait.
-+        :param timeout: Optional timeout in seconds. Default 30 seconds.
-+                        A value of `None` is an infinite wait.
-         """
-         self.shutdown(has_quit=True, timeout=timeout)
- 
+diff --git a/hw/acpi/core.c b/hw/acpi/core.c
+index f6d9ec4f13..ac06db3450 100644
+--- a/hw/acpi/core.c
++++ b/hw/acpi/core.c
+@@ -458,7 +458,8 @@ static void acpi_pm_evt_write(void *opaque, hwaddr addr, uint64_t val,
+ static const MemoryRegionOps acpi_pm_evt_ops = {
+     .read = acpi_pm_evt_read,
+     .write = acpi_pm_evt_write,
+-    .valid.min_access_size = 2,
++    .impl.min_access_size = 2,
++    .valid.min_access_size = 1,
+     .valid.max_access_size = 2,
+     .endianness = DEVICE_LITTLE_ENDIAN,
+ };
+@@ -527,7 +528,8 @@ static void acpi_pm_tmr_write(void *opaque, hwaddr addr, uint64_t val,
+ static const MemoryRegionOps acpi_pm_tmr_ops = {
+     .read = acpi_pm_tmr_read,
+     .write = acpi_pm_tmr_write,
+-    .valid.min_access_size = 4,
++    .impl.min_access_size = 4,
++    .valid.min_access_size = 1,
+     .valid.max_access_size = 4,
+     .endianness = DEVICE_LITTLE_ENDIAN,
+ };
+@@ -599,7 +601,8 @@ static void acpi_pm_cnt_write(void *opaque, hwaddr addr, uint64_t val,
+ static const MemoryRegionOps acpi_pm_cnt_ops = {
+     .read = acpi_pm_cnt_read,
+     .write = acpi_pm_cnt_write,
+-    .valid.min_access_size = 2,
++    .impl.min_access_size = 2,
++    .valid.min_access_size = 1,
+     .valid.max_access_size = 2,
+     .endianness = DEVICE_LITTLE_ENDIAN,
+ };
 -- 
-2.26.2
+2.20.1
 
 
