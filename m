@@ -2,53 +2,53 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 17366225AB2
-	for <lists+qemu-devel@lfdr.de>; Mon, 20 Jul 2020 11:02:56 +0200 (CEST)
-Received: from localhost ([::1]:45826 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 509DA225ABF
+	for <lists+qemu-devel@lfdr.de>; Mon, 20 Jul 2020 11:04:29 +0200 (CEST)
+Received: from localhost ([::1]:51490 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jxRhH-0000U6-3X
-	for lists+qemu-devel@lfdr.de; Mon, 20 Jul 2020 05:02:55 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:47284)
+	id 1jxRim-0002mq-Cs
+	for lists+qemu-devel@lfdr.de; Mon, 20 Jul 2020 05:04:28 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:47314)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <vsementsov@virtuozzo.com>)
- id 1jxRfJ-0007Nb-61; Mon, 20 Jul 2020 05:00:53 -0400
+ id 1jxRfL-0007SH-Hr; Mon, 20 Jul 2020 05:00:55 -0400
 Received: from mail-eopbgr80094.outbound.protection.outlook.com
  ([40.107.8.94]:22905 helo=EUR04-VI1-obe.outbound.protection.outlook.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <vsementsov@virtuozzo.com>)
- id 1jxRfH-00076G-Bi; Mon, 20 Jul 2020 05:00:52 -0400
+ id 1jxRfJ-00076G-PQ; Mon, 20 Jul 2020 05:00:55 -0400
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=bR1mZlZ3EoVwhl3LlsBLR5AaIBpJw6gMPGV3F3L6qmFz9i8L7ffSSzWknWihqarEjk4+odjn8zUPnsJH5D+/gks7JZjkGaK7pJAXHJMRAeLSm9L1A8WWRlI4jYXXOzRNo7ZRU6MPqRe0bF84aeZ4StHTUNFW0Kr0qQEp+NGTXaxXVqhaJwj9nWRDtJffMELC19TsGtt7PzI8rmN2cYxdeVu+TIy+lGE6IJOqJuGjvEg5y/YGMafcRoh32DX20AaDMzX3Ojjj5zAm47gD89M6oK1mh230fepiYJSqBYuXgWusrfj1d8XwwaLB8JvDKpESxzPj5ml1F25tb7b0BCOTWw==
+ b=JBhSDGbcL5CX+mE48MMXWKpRN/h+GM7nMvMaLek2V625zFTm4VhZYXVkQ6gSeHD3MYyrigLQRoj7fpxXoZY0AUAoSHlqE0WcV4YO80xc60WGKcP1saBBayyGli/1qBpe05KE/23Vzo011fI05vHf9mQUblGdnOjGzQmZqwi1MbvCf3MsDhzyjW91hglaA1DqpkDMGgRo5IOe6pJnui1r69s65H+OkHABdltOkFjdPCnwnybAf1jVwWJkfqXXENgz2V0oQTtoXEf2upTCW8NxsrLM0T6lGGSCpru17zaTZ5dcLGHgzwKUv5vGaX9oyi+z6mHQ/LoqpMHntCyIC/J3eA==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=okPr8s04mfuJdKu/DUImIAeFNbR5KFkCEiBrp/rXWa8=;
- b=EmA2djRRYtsPSkKpVnVgqt8n9dUjnTJe8mXnv/xJ3WkhHVLWJmm+i6ALcKAXiEEdKn71mfR73r8pG19OPNBqj9ff8XznZYmD/gIenFOG+e8gz3tyxpqGkCnhLNgpzyf1/pscXp1PNNJnADsGomko1H09I8fOMPJQfTQ3l9JbWq1XoDTEUrjCiQm1x6HCtHj5sF4Shu+A7m2QO1cFNq7xVdV0Te+QWQEK+O1iPnAAH+rmTSYxqWdf0HwwRDO10Muk6XWDd3D6Owrv9jjbn2Wl+NBwKj1Nenvj6cOdicwokVaUNW6ovjq4T62+b6et/ma/KLa1r+lB4+121MLMXjBJ0Q==
+ bh=XnlIBhwOPeuvYKpRLux1PRhqBEBZprefd4CW6AU5dJg=;
+ b=i8oPt7uvk5qF0io88ws3BI7meVpI71covnyxNHs0nSvaTX8d+tDa0u9MYhJ6phRJcnfyosgMI8KloxhanCC24O/nNDmIJvILcjaqIqPQQH+vOPE7YIZMu2hK9G4+b15kVw36UU6WpcdBrUznRam7Dch20jLb3jwT1U/WZRqU89VStdPy+1K4MvoJE8Ag33KYMKqoFhkEsGoWgp0mUEYP0qprHmIhRR7xxvI6N1XQehWvFjR6eZGxU3Z8E6cX+cdekk3LJN643Lr6+xJsedrBkI3qDIoaei4MMsAz1/5Qcw5YyrzcXOcpoGSA7SVD5Gu/GcgU+FdywDEg/j/xE6//vQ==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
  smtp.mailfrom=virtuozzo.com; dmarc=pass action=none
  header.from=virtuozzo.com; dkim=pass header.d=virtuozzo.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=virtuozzo.com;
  s=selector2;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=okPr8s04mfuJdKu/DUImIAeFNbR5KFkCEiBrp/rXWa8=;
- b=t0HalUaFT1wv3I+qIWJ7OQBgJlwW06zedMUJRq9D9K4rFUJQEJ2TU+hzQRRa5+X3qQpVeIGZOzzV5jBhWPR86sCUDgGNUwRNC1DD9UBikoxkFiiCJ2CZDMOGIw4YAHIY5EHkuy+2isNEmCFqY0e5NwC/9nk9RK2It/kDGqe24wc=
+ bh=XnlIBhwOPeuvYKpRLux1PRhqBEBZprefd4CW6AU5dJg=;
+ b=rjZsFMWjI181ux6xwx5yKrWhBUFopC+8zj9jjP61byG0brag3nVICgqjN/SHtfH6cCtYZb7IwaVHwn+1U7tI8TVMAp3WUuqqwhH6Kh+sB8u0yZ7xNmX0Lt8qApEG14cwYp7MvB9FKgYxt3S/hmiYIz4arvU00fYfRQhuNJ954Ho=
 Authentication-Results: nongnu.org; dkim=none (message not signed)
  header.d=none;nongnu.org; dmarc=none action=none header.from=virtuozzo.com;
 Received: from AM7PR08MB5494.eurprd08.prod.outlook.com (2603:10a6:20b:dc::15)
  by AM6PR08MB3767.eurprd08.prod.outlook.com (2603:10a6:20b:84::28)
  with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3195.17; Mon, 20 Jul
- 2020 09:00:43 +0000
+ 2020 09:00:44 +0000
 Received: from AM7PR08MB5494.eurprd08.prod.outlook.com
  ([fe80::a408:2f0f:bc6c:d312]) by AM7PR08MB5494.eurprd08.prod.outlook.com
  ([fe80::a408:2f0f:bc6c:d312%3]) with mapi id 15.20.3195.025; Mon, 20 Jul 2020
- 09:00:43 +0000
+ 09:00:44 +0000
 From: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
 To: qemu-block@nongnu.org
-Subject: [PATCH 2/3] block/nbd: on shutdown terminate connection attempt
-Date: Mon, 20 Jul 2020 12:00:23 +0300
-Message-Id: <20200720090024.18186-3-vsementsov@virtuozzo.com>
+Subject: [PATCH 3/3] block/nbd: nbd_co_reconnect_loop(): don't sleep if drained
+Date: Mon, 20 Jul 2020 12:00:24 +0300
+Message-Id: <20200720090024.18186-4-vsementsov@virtuozzo.com>
 X-Mailer: git-send-email 2.21.0
 In-Reply-To: <20200720090024.18186-1-vsementsov@virtuozzo.com>
 References: <20200720090024.18186-1-vsementsov@virtuozzo.com>
@@ -62,33 +62,33 @@ X-MS-Exchange-MessageSentRepresentingType: 1
 Received: from localhost.localdomain (185.215.60.179) by
  AM0PR10CA0097.EURPRD10.PROD.OUTLOOK.COM (2603:10a6:208:e6::14) with Microsoft
  SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.3195.17 via Frontend Transport; Mon, 20 Jul 2020 09:00:42 +0000
+ 15.20.3195.17 via Frontend Transport; Mon, 20 Jul 2020 09:00:43 +0000
 X-Mailer: git-send-email 2.21.0
 X-Originating-IP: [185.215.60.179]
 X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: 39b52143-ea8e-447e-2a11-08d82c8b6221
+X-MS-Office365-Filtering-Correlation-Id: 7386a24e-9eda-43b3-7be0-08d82c8b628d
 X-MS-TrafficTypeDiagnostic: AM6PR08MB3767:
 X-MS-Exchange-Transport-Forked: True
-X-Microsoft-Antispam-PRVS: <AM6PR08MB376784595241F9DEFDA24ABEC17B0@AM6PR08MB3767.eurprd08.prod.outlook.com>
-X-MS-Oob-TLC-OOBClassifiers: OLM:86;
+X-Microsoft-Antispam-PRVS: <AM6PR08MB376704CF614A9F9D3E6A5E84C17B0@AM6PR08MB3767.eurprd08.prod.outlook.com>
+X-MS-Oob-TLC-OOBClassifiers: OLM:517;
 X-MS-Exchange-SenderADCheck: 1
 X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: jqdO52kFpOAK0Bbnn5X6EZojTM0pLPixw11wTfOzfQIgkhXIVm4S2r5VvgmwAO0R0Zg0nm8dKFTefS3U106ZhSxomUGmASNa9htkxfahcoT1FthHgP4V3S/IdrVxNV6bqrlyQgQZvRvO2PUkrVdXVOolbDCmi3uNP8a0b+sN95Z6Ss3NVjRL4xnPyO0QmUyfmwGSqnjZ2NSy+fpMEyikmP5aN/paBPhFTbEnqsvqg6BP1qOUXQ/vaaEl4l4BoxjVgdTSEY3q1Re8DLhp07Z1kPzgc3shLi0ppyRXzmBVZ8tIWd9xYlM05gE0WpIAVrY7aXI7BMJNPtQQoBLsXdghYKEBh1BcRS1VXRf6gsu2Z79wQgOGmc52LfyXh2r8Afr5
+X-Microsoft-Antispam-Message-Info: nbRisPANNsK/TlrwjiIoGHV9sotLsT6TF60a5ovFMmDeFGCK8M4D1FmC7zl+GO2YJ4NpZf/OgKZBiYm6KH+r1aAHBNuohmgv4ByQWKYSQhmNTLsG62Qk1I4vC0Ozk+YIlNA8VFL2HdbjNAfyj/wzkYJZYu6h/TCHYuKCpTp5B46ATb3RUf+ZTnzBpSF6dvA1K1OJBvyCxB9ecnLhpHeJ6tantT4hWuP6+JEuvjmL2sLBZC7Rr95vBXXdHTTo3FKehj+W94GQhjOk9nY/wXHbtQ06tdd2cgJCJcmLbGLxqYVqaSEbNPGo3vZ97+fsPyFsy3nJRIj0lyWN3nNp8l6ml8PWnDGWOKSfExU6OAqqQfzD3u2bnnO0ENrLACAs04KZ
 X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
  IPV:NLI; SFV:NSPM; H:AM7PR08MB5494.eurprd08.prod.outlook.com; PTR:; CAT:NONE;
  SFTY:;
  SFS:(4636009)(39830400003)(366004)(376002)(346002)(396003)(136003)(316002)(52116002)(107886003)(83380400001)(186003)(16526019)(4326008)(956004)(2616005)(1076003)(69590400007)(8676002)(66946007)(66476007)(66556008)(6486002)(26005)(6916009)(36756003)(478600001)(2906002)(8936002)(6666004)(6512007)(86362001)(6506007)(5660300002);
  DIR:OUT; SFP:1102; 
-X-MS-Exchange-AntiSpam-MessageData: r87+wKkAMK5vZe0bPSVPNcKqWI8sL80jWQNveUpJK7dLgI4LNtgykhAlUy2sZR2Ypa415Cbpdmr3D4KoN5raBub/vssMvcrRUNt/XK8jNTLfNDMYmRFIG8k2Wy+Aq0VQONIrBqnvGOles17jZMU0CaHkZa324mKgG13Aib/g4ncPuAbq5SnWXht3nLE7kSQMSGObUP8B8sEgbqcUrngGIVZ53k6DhN48fXAKqrjoypf0Prt+nDhBS05mQSUve3H9HqINitiWNl2t6KqVh1ThJIWtYLHTHmQuPyaRG+8xsQ+6EUheAmUT5tdSeTRF+CO4vfFvQQcYSl2R1+TGKXKcCGC9j1kbrL3t8ImVxwu7pN1XkmRdPooRXTLjH5zs4dQKus9sdwwirwJ67IcooIxkp6pK5wr6C0KBLcuIjj1NGUehFdvuATXEtxS3lctmZOrsiy+HG7SBJZ9O5Y36TlengEXcnrm0L9sec6cr5uY8ZIk=
+X-MS-Exchange-AntiSpam-MessageData: hfQk2YSc1NTTirH7yNMpXRBcf2yx4qHdtFAwvenDv67IwirTfk0/+hTREXl8HOSMKpv/e+i4gWPHI6fNt0d54F4YBASMnnya+IgcDq/gxrvyVKgBBrSuLwIll19UtJwKzFkmkbnXz/JxJgUO30dsjzpeCz1njvg87CT6pz2DiyQZHvlJqv0Gn9pTt6iDzyHerVt3xdMLEguDG1TbgUrvsD8kzipM0RHQZUcErlO9Zg9X+dKpmHxGMcy16dBMerqS1ZxROrY0eGMSBTSJrFy+QP+OY60JtQPdSA2l0kke3KecFThKGm1MNLA5UhVf90tFaDZvpyGypygv1alIWXq6mRM7bGJs8ZVpvpSvlb96vPHPAVfB6G2qPxy19XvLkpugUWZfNSVKWyvdPuYPLs4WNoi1rfd1OPzI/wMGetMVcp27tOiBa6dv0hHs2nw1RokOZO1j3Fh+Yc71NPdt5eYxJ2FvM746flgcnGo2x6gm7WQ=
 X-OriginatorOrg: virtuozzo.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 39b52143-ea8e-447e-2a11-08d82c8b6221
+X-MS-Exchange-CrossTenant-Network-Message-Id: 7386a24e-9eda-43b3-7be0-08d82c8b628d
 X-MS-Exchange-CrossTenant-AuthSource: AM7PR08MB5494.eurprd08.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 20 Jul 2020 09:00:43.2845 (UTC)
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 20 Jul 2020 09:00:43.9526 (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
 X-MS-Exchange-CrossTenant-Id: 0bc7f26d-0264-416e-a6fc-8352af79c58f
 X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: B2NnbONugke4GktB49sBBgnmdVnQf1FCaiuaXRxpAo09sLwXLh1tkGrvc4RTw1dUKrP6wqKWNGjsWOeZ3QalBSdyr5S0o6Whz2HtlgBlXco=
+X-MS-Exchange-CrossTenant-UserPrincipalName: kNzVPfvdLFCUvLMYgTLK0RNDXLspxSA9ffS50OiVs15v/dvlG86SzxEpZMtKC2OAcFnlqVV2sS1oSkfUMq364Phb/UP8YinwluUEeJQzKR8=
 X-MS-Exchange-Transport-CrossTenantHeadersStamped: AM6PR08MB3767
 Received-SPF: pass client-ip=40.107.8.94;
  envelope-from=vsementsov@virtuozzo.com;
@@ -120,99 +120,45 @@ Cc: kwolf@redhat.com, vsementsov@virtuozzo.com, qemu-devel@nongnu.org,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On shutdown nbd driver may be in a connecting state. We should shutdown
-it as well, otherwise we may hang in
-nbd_teardown_connection, waiting for conneciton_co to finish in
-BDRV_POLL_WHILE(bs, s->connection_co) loop if remote server is down.
-
-How to reproduce the dead lock:
-
-1. Create nbd-fault-injector.conf with the following contents:
-
-[inject-error "mega1"]
-event=data
-io=readwrite
-when=before
-
-2. In one terminal run nbd-fault-injector in a loop, like this:
-
-n=1; while true; do
-    echo $n; ((n++));
-    ./nbd-fault-injector.py 127.0.0.1:10000 nbd-fault-injector.conf;
-done
-
-3. In another terminal run qemu-io in a loop, like this:
-
-n=1; while true; do
-    echo $n; ((n++));
-    ./qemu-io -c 'read 0 512' nbd+tcp://127.0.0.1:10000;
-done
-
-After some time, qemu-io will hang. Note, that this hang may be
-triggered by another bug, so the whole case is fixed only together with
-commit "block/nbd: allow drain during reconnect attempt".
+We try to go to wakeable sleep, so that, if drain begins it will break
+the sleep. But what if nbd_client_co_drain_begin() already called and
+s->drained is already true? We'll go to sleep, and drain will have to
+wait for the whole timeout. Let's improve it.
 
 Signed-off-by: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
 ---
- block/nbd.c | 14 ++++++++++----
- 1 file changed, 10 insertions(+), 4 deletions(-)
+ block/nbd.c | 11 ++++++-----
+ 1 file changed, 6 insertions(+), 5 deletions(-)
 
 diff --git a/block/nbd.c b/block/nbd.c
-index 49254f1c3c..42146a26f7 100644
+index 42146a26f7..d9cde30457 100644
 --- a/block/nbd.c
 +++ b/block/nbd.c
-@@ -206,11 +206,15 @@ static void nbd_teardown_connection(BlockDriverState *bs)
- {
-     BDRVNBDState *s = (BDRVNBDState *)bs->opaque;
- 
--    if (s->state == NBD_CLIENT_CONNECTED) {
-+    if (s->ioc) {
-         /* finish any pending coroutines */
--        assert(s->ioc);
-         qio_channel_shutdown(s->ioc, QIO_CHANNEL_SHUTDOWN_BOTH, NULL);
-+    } else if (s->sioc) {
-+        /* abort negotiation */
-+        qio_channel_shutdown(QIO_CHANNEL(s->sioc), QIO_CHANNEL_SHUTDOWN_BOTH,
-+                             NULL);
-     }
-+
-     s->state = NBD_CLIENT_QUIT;
-     if (s->connection_co) {
-         if (s->connection_co_sleep_ns_state) {
-@@ -1452,6 +1456,8 @@ static int nbd_client_connect(BlockDriverState *bs, Error **errp)
-         return -ECONNREFUSED;
-     }
- 
-+    s->sioc = sioc;
-+
-     /* NBD handshake */
-     trace_nbd_client_connect(s->export);
-     qio_channel_set_blocking(QIO_CHANNEL(sioc), false, NULL);
-@@ -1468,6 +1474,7 @@ static int nbd_client_connect(BlockDriverState *bs, Error **errp)
-     g_free(s->info.name);
-     if (ret < 0) {
-         object_unref(OBJECT(sioc));
-+        s->sioc = NULL;
-         return ret;
-     }
-     if (s->x_dirty_bitmap && !s->info.base_allocation) {
-@@ -1493,8 +1500,6 @@ static int nbd_client_connect(BlockDriverState *bs, Error **errp)
+@@ -327,8 +327,6 @@ static coroutine_fn void nbd_co_reconnect_loop(BDRVNBDState *s)
+             qemu_co_queue_restart_all(&s->free_sema);
          }
-     }
  
--    s->sioc = sioc;
--
-     if (!s->ioc) {
-         s->ioc = QIO_CHANNEL(sioc);
-         object_ref(OBJECT(s->ioc));
-@@ -1515,6 +1520,7 @@ static int nbd_client_connect(BlockDriverState *bs, Error **errp)
-         nbd_send_request(s->ioc ?: QIO_CHANNEL(sioc), &request);
+-        qemu_co_sleep_ns_wakeable(QEMU_CLOCK_REALTIME, timeout,
+-                                  &s->connection_co_sleep_ns_state);
+         if (s->drained) {
+             bdrv_dec_in_flight(s->bs);
+             s->wait_drained_end = true;
+@@ -340,9 +338,12 @@ static coroutine_fn void nbd_co_reconnect_loop(BDRVNBDState *s)
+                 qemu_coroutine_yield();
+             }
+             bdrv_inc_in_flight(s->bs);
+-        }
+-        if (timeout < max_timeout) {
+-            timeout *= 2;
++        } else {
++            qemu_co_sleep_ns_wakeable(QEMU_CLOCK_REALTIME, timeout,
++                                      &s->connection_co_sleep_ns_state);
++            if (timeout < max_timeout) {
++                timeout *= 2;
++            }
+         }
  
-         object_unref(OBJECT(sioc));
-+        s->sioc = NULL;
- 
-         return ret;
-     }
+         nbd_reconnect_attempt(s);
 -- 
 2.21.0
 
