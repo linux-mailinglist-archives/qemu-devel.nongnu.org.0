@@ -2,78 +2,76 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1D57822604C
-	for <lists+qemu-devel@lfdr.de>; Mon, 20 Jul 2020 15:00:27 +0200 (CEST)
-Received: from localhost ([::1]:54176 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 90EC2226055
+	for <lists+qemu-devel@lfdr.de>; Mon, 20 Jul 2020 15:02:19 +0200 (CEST)
+Received: from localhost ([::1]:59852 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jxVP7-000097-W5
-	for lists+qemu-devel@lfdr.de; Mon, 20 Jul 2020 09:00:26 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:56484)
+	id 1jxVQw-0002Zc-HU
+	for lists+qemu-devel@lfdr.de; Mon, 20 Jul 2020 09:02:18 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:55798)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <ppandit@redhat.com>)
- id 1jxVMi-0005AF-PK
- for qemu-devel@nongnu.org; Mon, 20 Jul 2020 08:57:57 -0400
-Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:32089
- helo=us-smtp-1.mimecast.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <ppandit@redhat.com>)
- id 1jxVMe-0007UY-74
- for qemu-devel@nongnu.org; Mon, 20 Jul 2020 08:57:55 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1595249870;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=2jei6jn6+qaZvhntd7P/M/6NH/LCzrWCsrXh5HzAzcA=;
- b=R9tcab9xuPZRfYlAQl5vEEuDyMpN9Nkm1uRLgHQ81A+GvV0DIvbLh4y0z4UohsLXzrqjBx
- SADeKp6yns0NJ6jmIdqpVe/s4vc/oXfgzY7XtqZzrUgJqR7rPcWrTe8r+1J5eHAEqcyNWB
- xEbTeWkOmqeURJ0o6hLwIMOS93sVb54=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-227-TmKq61NKOW-s9KntribgmQ-1; Mon, 20 Jul 2020 08:57:46 -0400
-X-MC-Unique: TmKq61NKOW-s9KntribgmQ-1
-Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
- [10.5.11.11])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 7F507100CCC3;
- Mon, 20 Jul 2020 12:57:45 +0000 (UTC)
-Received: from kaapi (ovpn-112-156.phx2.redhat.com [10.3.112.156])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 6AA1F6FECD;
- Mon, 20 Jul 2020 12:57:43 +0000 (UTC)
-Date: Mon, 20 Jul 2020 18:27:41 +0530 (IST)
-From: P J P <ppandit@redhat.com>
-X-X-Sender: pjp@kaapi
-To: Li Qiang <liq3ea@gmail.com>
-Subject: Re: [PATCH] net: check payload length limit for all frames
-In-Reply-To: <CAKXe6SKV8=B2rb6EY72W17r6-oz5nx9VQndH9gSyafubOU4rJg@mail.gmail.com>
-Message-ID: <nycvar.YSQ.7.78.906.2007201822290.4380@xnncv>
-References: <20200716192335.1212638-1-ppandit@redhat.com>
- <CAKXe6SKL3aNiOKKLEMof6GGNjYLcX9fvfSf-0PBSX48rh4--FQ@mail.gmail.com>
- <20200717012151.tlfmc6hsfia22f4e@mozz.bu.edu>
- <4e4909ae-db2f-4a32-ae5c-d52149e80a8c@redhat.com>
- <nycvar.YSQ.7.78.906.2007171016480.950384@xnncv>
- <3620abab-a464-8e3c-d5b9-0bd80b35e2f1@redhat.com>
- <nycvar.YSQ.7.78.906.2007171326100.4380@xnncv>
- <CAKXe6SJbJaEepRVFtNy=5fhJrw8+Gax=mcwFuhfXrHTgo+wmog@mail.gmail.com>
- <nycvar.YSQ.7.78.906.2007200752230.4380@xnncv>
- <20200720033304.sttpqr337xsf4rna@mozz.bu.edu>
- <CAKXe6SKV8=B2rb6EY72W17r6-oz5nx9VQndH9gSyafubOU4rJg@mail.gmail.com>
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1jxVLO-0002P6-MU
+ for qemu-devel@nongnu.org; Mon, 20 Jul 2020 08:56:34 -0400
+Received: from mail-wm1-x333.google.com ([2a00:1450:4864:20::333]:53617)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1jxVLM-0007JD-Tp
+ for qemu-devel@nongnu.org; Mon, 20 Jul 2020 08:56:34 -0400
+Received: by mail-wm1-x333.google.com with SMTP id j18so22172187wmi.3
+ for <qemu-devel@nongnu.org>; Mon, 20 Jul 2020 05:56:32 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=from:to:subject:date:message-id:in-reply-to:references:mime-version
+ :content-transfer-encoding;
+ bh=10LO/QCoMpR7jIRc6OlNm9WJ8aeWJRb66wCBW65n2ZM=;
+ b=qBsI2Ra42VlwXp7Kl2gFxtX2bIeSOIuL0xgUxvSkhbKPu9BjvUUAp1JYL2yIGO6ys5
+ sjQlpiPSJZp03F/LoViTNm5gToBlaK8P8zWqaZ9RiW7kVBSIJon7AIdthIC81DAL8L8u
+ 0x4gNzEwuSkYEx1bVgE0vxLdwFWDGpCmIYdl/zUqIaeu9GazyvLPh3I9WZh8Q3ZTndJ5
+ aiU4Kdr8kG3xpVkotYfW8tJdz2OTexWA3VP9Cb06Fq2mBWjppH7QW3VNcnRm6aUV6VJ4
+ jTkQlSrO+z2f95VQQmp3D3V4oA0jcXjPdYvSltatfJwI4lKU4dtMMVvrDSBe/pBQl2rm
+ blUw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
+ :references:mime-version:content-transfer-encoding;
+ bh=10LO/QCoMpR7jIRc6OlNm9WJ8aeWJRb66wCBW65n2ZM=;
+ b=fv7Axyg6ZU322gBzqqTlkxxsKtzs7EIksvD/bmjPsLJyu+ckO530S1fHc/rZxAcwyl
+ x3MRum5CmS2FoJAhe0pO1Jy3hpr/1WeIcboHH23DhCjnvvCfFvE4nxOQeRVzU9Rahr9b
+ AtTeQcs3gmdl1p4hEIawc8VyCGH/GMFkjn0TUaAH5wl20ysDyj2LUN009+Qd6luUAhhS
+ aUoyjILci5oB2t2U0k83fRyCY6GAmLjTPQCDIZwk0Z5w2vxO6nEhQZ+okEdtn87b13W9
+ ZKw/Pb6QAYMd3LcFqQW0hawh9NFEcNwOuAma/dXIqF+UFjo5SwxNcB2StdoS6wDwksiJ
+ 2DTQ==
+X-Gm-Message-State: AOAM531S2O3pqhe2OQxsx4lt0cs4D2k3BQkFf2NU58QNq0Kt0h5ax6D5
+ y4uZrTrSH+GlKCCjiPrnFB4mP/xe49mywg==
+X-Google-Smtp-Source: ABdhPJx4sxD/jRp3i20+IEuQAsXn7R4814Nuv1qyi9DFsMlaaZJ1IjEkMzhir6pFooD7b9V/qUd4DQ==
+X-Received: by 2002:a05:600c:249:: with SMTP id
+ 9mr20186415wmj.80.1595249791240; 
+ Mon, 20 Jul 2020 05:56:31 -0700 (PDT)
+Received: from orth.archaic.org.uk (orth.archaic.org.uk. [81.2.115.148])
+ by smtp.gmail.com with ESMTPSA id p29sm34025403wmi.43.2020.07.20.05.56.29
+ for <qemu-devel@nongnu.org>
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Mon, 20 Jul 2020 05:56:30 -0700 (PDT)
+From: Peter Maydell <peter.maydell@linaro.org>
+To: qemu-devel@nongnu.org
+Subject: [PULL 06/12] qdev: Document qdev_unrealize()
+Date: Mon, 20 Jul 2020 13:56:15 +0100
+Message-Id: <20200720125621.13460-7-peter.maydell@linaro.org>
+X-Mailer: git-send-email 2.20.1
+In-Reply-To: <20200720125621.13460-1-peter.maydell@linaro.org>
+References: <20200720125621.13460-1-peter.maydell@linaro.org>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=US-ASCII
-Received-SPF: pass client-ip=207.211.31.120; envelope-from=ppandit@redhat.com;
- helo=us-smtp-1.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/07/20 03:17:01
-X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
-X-Spam_score_int: -30
-X-Spam_score: -3.1
-X-Spam_bar: ---
-X-Spam_report: (-3.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=2a00:1450:4864:20::333;
+ envelope-from=peter.maydell@linaro.org; helo=mail-wm1-x333.google.com
+X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
+ That's all we know.
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
@@ -88,33 +86,50 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Alexander Bulekov <alxndr@bu.edu>, Jason Wang <jasowang@redhat.com>,
- Dmitry Fleytman <dmitry.fleytman@gmail.com>,
- QEMU Developers <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-+-- On Mon, 20 Jul 2020, Li Qiang wrote --+
-| This seems is the same issue as LP#1886362 . Look at the free path. Here the 
-| 'e1000e_write_to_rx_buffers' trigger DMA and then go to address space 
-| dispatch. So the DMA is not RAM but a MMIO range. Then we go to another send 
-| path, and in that we frees the 'iov'.
+Add a doc comment for qdev_unrealize(), to go with the new
+documentation for the realize part of the qdev lifecycle.
 
-  Cool. Thanks so much for the confirmation Li.
- 
-| Alex do you tried my patch to solve LP#1886362 ? I have tried it and it 
-| seems no this UAF triggered.
+Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
+Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
+Message-id: 20200711142425.16283-3-peter.maydell@linaro.org
+---
+ include/hw/qdev-core.h | 19 +++++++++++++++++++
+ 1 file changed, 19 insertions(+)
 
-He mentioned that your patch fixes both issues:
-  -> https://lists.gnu.org/archive/html/qemu-devel/2020-07/msg05367.html
-    ...
-    > On the other hand, I cannot reproduce either issue with Li's patch:
-    > Message-Id: <20200716161453.61295-1-liq3ea@163.com>
-
-
-Thank you.
---
-Prasad J Pandit / Red Hat Product Security Team
-8685 545E B54C 486B C6EB 271E E285 8B5A F050 DE8D
+diff --git a/include/hw/qdev-core.h b/include/hw/qdev-core.h
+index 2d441d1fb2e..1d2bf5f37da 100644
+--- a/include/hw/qdev-core.h
++++ b/include/hw/qdev-core.h
+@@ -381,6 +381,25 @@ bool qdev_realize(DeviceState *dev, BusState *bus, Error **errp);
+  * would be incorrect. For that use case you want qdev_realize().
+  */
+ bool qdev_realize_and_unref(DeviceState *dev, BusState *bus, Error **errp);
++/**
++ * qdev_unrealize: Unrealize a device
++ * @dev: device to unrealize
++ *
++ * This function will "unrealize" a device, which is the first phase
++ * of correctly destroying a device that has been realized. It will:
++ *
++ *  - unrealize any child buses by calling qbus_unrealize()
++ *    (this will recursively unrealize any devices on those buses)
++ *  - call the the unrealize method of @dev
++ *
++ * The device can then be freed by causing its reference count to go
++ * to zero.
++ *
++ * Warning: most devices in QEMU do not expect to be unrealized.  Only
++ * devices which are hot-unpluggable should be unrealized (as part of
++ * the unplugging process); all other devices are expected to last for
++ * the life of the simulation and should not be unrealized and freed.
++ */
+ void qdev_unrealize(DeviceState *dev);
+ void qdev_set_legacy_instance_id(DeviceState *dev, int alias_id,
+                                  int required_for_version);
+-- 
+2.20.1
 
 
