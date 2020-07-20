@@ -2,109 +2,109 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 07A482259A4
-	for <lists+qemu-devel@lfdr.de>; Mon, 20 Jul 2020 10:06:35 +0200 (CEST)
-Received: from localhost ([::1]:42530 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 370E52259CC
+	for <lists+qemu-devel@lfdr.de>; Mon, 20 Jul 2020 10:16:11 +0200 (CEST)
+Received: from localhost ([::1]:49758 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jxQoj-00011I-Md
-	for lists+qemu-devel@lfdr.de; Mon, 20 Jul 2020 04:06:33 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:58790)
+	id 1jxQy2-0004LK-AM
+	for lists+qemu-devel@lfdr.de; Mon, 20 Jul 2020 04:16:10 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:32798)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <vsementsov@virtuozzo.com>)
- id 1jxQnm-0000Lb-5s
- for qemu-devel@nongnu.org; Mon, 20 Jul 2020 04:05:34 -0400
-Received: from mail-eopbgr10129.outbound.protection.outlook.com
- ([40.107.1.129]:5604 helo=EUR02-HE1-obe.outbound.protection.outlook.com)
+ (Exim 4.90_1) (envelope-from <saipava@xilinx.com>)
+ id 1jxQxC-0003s0-Lr
+ for qemu-devel@nongnu.org; Mon, 20 Jul 2020 04:15:18 -0400
+Received: from mail-bn8nam11on2059.outbound.protection.outlook.com
+ ([40.107.236.59]:13729 helo=NAM11-BN8-obe.outbound.protection.outlook.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <vsementsov@virtuozzo.com>)
- id 1jxQni-0007oV-Uq
- for qemu-devel@nongnu.org; Mon, 20 Jul 2020 04:05:33 -0400
+ (Exim 4.90_1) (envelope-from <saipava@xilinx.com>)
+ id 1jxQx9-0000TZ-80
+ for qemu-devel@nongnu.org; Mon, 20 Jul 2020 04:15:17 -0400
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=M9KUw+SFqwJLdFDOKMxQi1Qz4fW0dLuuTHTaK1UlZO71KZoFDeK7trfisi1Gm0Jvcx99gFpDQOKXLnnoBqiHrbOPOh16BpSWLFgbm0qjhqMbYS+OWrh2HAW+F+oPZn3ExOkMoOQIl7XRut2lXVeABJRGhIeUilJ3onJyYG+41oihFyslzITbkJ6JcxAT5xSvIOM5ccVY+o3VkCSafH83FSlSJlx7XPnW73FIMYUWObH6Qya2FV6uPaxxnRd+B6zBdT46JM2DKEaNifYG7S86G6gJEloFUJKX4fY74bN3oTl/kVHYQA1gPGhTEAkiuMAuOeHPnPHyAEkhY5/3neP3IQ==
+ b=k+R3NMG5harHOsF21I9jbk5ba/J/G2H3AZAGSReAYC1uB5vpzL5HISJAmrRjC9wAhlXwPrzHlIqPa8h7LmRPg4obpniHf8yxytdoCQR7opPBjGt72RQDliCfFdKrBE3H66Uj6YGtMJKGESN6eCwivcsxCfYsk8mfX5YgYfhhU2mIJtdZSTa0rx1KXuVA2a5xL0HCSZc0chC2FiqgnvYlrjg+YsvwlW9hr/JqnM0pj63Am5Pp2EzFAesJmTnGNBzsG7wn2hAVjEvDAYpvnT2ydeBGoiW1M0nYxJGKISsXnyvbS2ItNyEZ1Er1EzMncv/qwq3bWPyxOJTZIdI7Q+3XtA==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=Q3iIZPj9h3G7hmAk0WxR2yZVaQIFeR6ViB82q4eJyos=;
- b=HgtqC4wUNPcAbXo7za7A1iso/yb1Nb2KpxjzALtlm2Efhanp7y4zdml8EtjXFvo/uRysVI1QfM8A+u1hUSTfrXrJrA2RJbXu9rUVEDwbtgEzpiQogRW6tqMJJ4I6Xcf1JG9yLYgSaGM8r6bymx0EcJ2WRulZyhBmSvbifjURk6Yke+Nr6wYHdGZbqX+d9nsKuc+4/d2vPB02cUdWXAjyf/XRt4bXDKZXovzgYHVoqg/AsV7Z9ObLOM16ubWpbpZd4dtQPqbUkDcR1zf3OeCtmLyoNMUQqGg/ZQMpQEqECcPChUE7gOCX3FAqbfXJf/ZBfWbael/SvKjUxaNYwY0+Tg==
+ bh=9b4noLI96HG6Qkjm2w6FYcJAUiEXGAHqcU8h2IHeumg=;
+ b=DsC/dl0RrPE9eREQgL1rFZyuKA9BNB/Q8gC8oJ8f+T+i+nPP5dYjxDBv4STb3bMuSOemtP8y9shSOFR3PnUo/tThBEPPmdpgJ5Xc3oRQzswkINlVWt8juj7bFnHzx4raQhzRGFYP2Xj8/zGvtJ1svCpJIklwFZdap+tWlvmCKQ58sSl8r5gwpbdSIMNKxmyFDV0xhtWmgVGb28JCMT/xBJzS4KzwOORQA00RJEQIY8JRQHUuBatB5z9XbPqyo0mzkgiAVlaKftOO/IPVVDAyTcEC+TjLhNjtMscczsIsRNOREIVFAMgKdF77WKoWw8TaTZ/x0h6rPVTPw88MDh/t8Q==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=virtuozzo.com; dmarc=pass action=none
- header.from=virtuozzo.com; dkim=pass header.d=virtuozzo.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=virtuozzo.com;
- s=selector2;
+ smtp.mailfrom=xilinx.com; dmarc=pass action=none header.from=xilinx.com;
+ dkim=pass header.d=xilinx.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=xilinx.onmicrosoft.com; s=selector2-xilinx-onmicrosoft-com;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=Q3iIZPj9h3G7hmAk0WxR2yZVaQIFeR6ViB82q4eJyos=;
- b=v9apvYU0n9XeZ55jwcw7AyNLtVSSeLBrHUgBYuqCY8j2CDcPzIJJ+S30RAuJXfYSkeQq6Mb8FnAOPg+F9oW4eIpbVBgy9ydHgFIyMdDtwF2xRYPYPbuSyX4CGTS3Pj8S7rOhD4iWoaNl3/AU3xQ6YicXmlSVcFYpCrMrIr8DN9s=
-Authentication-Results: redhat.com; dkim=none (message not signed)
- header.d=none;redhat.com; dmarc=none action=none header.from=virtuozzo.com;
-Received: from AM7PR08MB5494.eurprd08.prod.outlook.com (2603:10a6:20b:dc::15)
- by AM6PR08MB3573.eurprd08.prod.outlook.com (2603:10a6:20b:4b::26)
+ bh=9b4noLI96HG6Qkjm2w6FYcJAUiEXGAHqcU8h2IHeumg=;
+ b=VsGMyxjLxyc+zJFQLDJ8sS+3FkBCpk0qamVTwdTQ4KuPl2BsTr6Z569RfVitPW53BJbOowZ1V2QJyzBM51dXt0xZBlHgQ4EjHpDdqyd5r/2ferfHW7HTGKZ25tNqzihvOgLzFXuZu7QDU7RSv5xdGloOHJS+oY2n/oetabc6cHs=
+Received: from BY5PR02MB6772.namprd02.prod.outlook.com (2603:10b6:a03:206::11)
+ by BYAPR02MB4056.namprd02.prod.outlook.com (2603:10b6:a02:fa::20)
  with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3195.23; Mon, 20 Jul
- 2020 07:50:25 +0000
-Received: from AM7PR08MB5494.eurprd08.prod.outlook.com
- ([fe80::a408:2f0f:bc6c:d312]) by AM7PR08MB5494.eurprd08.prod.outlook.com
- ([fe80::a408:2f0f:bc6c:d312%3]) with mapi id 15.20.3195.025; Mon, 20 Jul 2020
- 07:50:25 +0000
-Subject: Re: Memory leak in bitmap code?
-To: Thomas Huth <thuth@redhat.com>, QEMU Developers <qemu-devel@nongnu.org>,
- Eric Blake <eblake@redhat.com>
-References: <5f14a0997a4e8_4e6d3fcbdd8e41b010815d@sidekiq-catchall-05-sv-gprd.mail>
- <16102b4a-160a-a400-a332-4477b83468d8@redhat.com>
-From: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
-Message-ID: <90825871-7259-d516-e103-176d0433c4e6@virtuozzo.com>
-Date: Mon, 20 Jul 2020 10:50:23 +0300
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.10.0
-In-Reply-To: <16102b4a-160a-a400-a332-4477b83468d8@redhat.com>
-Content-Type: text/plain; charset=utf-8; format=flowed
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3195.25; Mon, 20 Jul
+ 2020 08:00:08 +0000
+Received: from BY5PR02MB6772.namprd02.prod.outlook.com
+ ([fe80::4477:7134:37a6:c828]) by BY5PR02MB6772.namprd02.prod.outlook.com
+ ([fe80::4477:7134:37a6:c828%3]) with mapi id 15.20.3195.025; Mon, 20 Jul 2020
+ 08:00:08 +0000
+From: Sai Pavan Boddu <saipava@xilinx.com>
+To: =?utf-8?B?UGhpbGlwcGUgTWF0aGlldS1EYXVkw6k=?= <philmd@redhat.com>, Markus
+ Armbruster <armbru@redhat.com>, Thomas Huth <thuth@redhat.com>
+Subject: RE: [PATCH v2 2/3] usb/hcd-xhci: Move qemu-xhci device to
+ hcd-xhci-pci.c
+Thread-Topic: [PATCH v2 2/3] usb/hcd-xhci: Move qemu-xhci device to
+ hcd-xhci-pci.c
+Thread-Index: AQHWSseXs5W1CCwXt0udqNJ08afgVqjo/J0AgCdFE0A=
+Date: Mon, 20 Jul 2020 08:00:08 +0000
+Message-ID: <BY5PR02MB677295286C4193236973EC0ECA7B0@BY5PR02MB6772.namprd02.prod.outlook.com>
+References: <1593008176-9629-1-git-send-email-sai.pavan.boddu@xilinx.com>
+ <1593008176-9629-3-git-send-email-sai.pavan.boddu@xilinx.com>
+ <87zh8rzi0e.fsf@dusky.pond.sub.org>
+ <d8e247a3-5b50-0889-2522-37f2d486fdf9@redhat.com>
+In-Reply-To: <d8e247a3-5b50-0889-2522-37f2d486fdf9@redhat.com>
+Accept-Language: en-US
 Content-Language: en-US
-Content-Transfer-Encoding: 8bit
-X-ClientProxiedBy: AM3PR03CA0068.eurprd03.prod.outlook.com
- (2603:10a6:207:5::26) To AM7PR08MB5494.eurprd08.prod.outlook.com
- (2603:10a6:20b:dc::15)
-MIME-Version: 1.0
-X-MS-Exchange-MessageSentRepresentingType: 1
-Received: from [192.168.100.2] (185.215.60.179) by
- AM3PR03CA0068.eurprd03.prod.outlook.com (2603:10a6:207:5::26) with Microsoft
- SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.3195.17 via Frontend Transport; Mon, 20 Jul 2020 07:50:24 +0000
-X-Originating-IP: [185.215.60.179]
-X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: 824a7e18-bb62-4082-4e40-08d82c818fc6
-X-MS-TrafficTypeDiagnostic: AM6PR08MB3573:
-X-Microsoft-Antispam-PRVS: <AM6PR08MB357340803E6128F6D85ADFBEC17B0@AM6PR08MB3573.eurprd08.prod.outlook.com>
-X-MS-Oob-TLC-OOBClassifiers: OLM:332;
-X-MS-Exchange-SenderADCheck: 1
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: +/gwewLBCENa6/kIsIY70HBv0tqItqxUbtAZXChVyzqbfs5qGmBnjKUFH1rJQwviWg8bwJK2pJ1cU04EJRmW7+nxdVkZWJA/M6eWMFPHgBfXYNjqrAST4gj1FPvGs1JM9XtUIS3jFepIY0Mcg0XB5+HiZJyhcrf6fBBlmmAvPZ8X/P1ZQZe7NkrJbneuCoONMY0ldqx3bXTBKS4o2OgsLifZCxlzFbGB6G6SqIesvTpHVTnTGRJeEErQonHLHDSr92IJkB7nX9kcc7y2C5cv+qQlBnje8KbCVJi5kG+7QoJT7edmx4pzmbvWN887kT6TOlOZ1C4cuNPPrbbloGIDI3PLiildToAhE9iJX6tEqFq2z+7Y6G2orlsW22UCO+tPfSzLP7lT8GgyT6wJ05M3xr8WE3eFJITDxilIwBI5CAiz8wtUxu+pMW1Ax0Hw4QV+lXneMh3BJEHPBqdlcRULdA==
-X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:AM7PR08MB5494.eurprd08.prod.outlook.com; PTR:; CAT:NONE;
+X-MS-Has-Attach: 
+X-Auto-Response-Suppress: DR, RN, NRN, OOF, AutoReply
+X-MS-TNEF-Correlator: 
+authentication-results: redhat.com; dkim=none (message not signed)
+ header.d=none;redhat.com; dmarc=none action=none header.from=xilinx.com;
+x-originating-ip: [183.83.78.46]
+x-ms-publictraffictype: Email
+x-ms-office365-filtering-ht: Tenant
+x-ms-office365-filtering-correlation-id: ef1237f5-f456-436d-645a-08d82c82eb99
+x-ms-traffictypediagnostic: BYAPR02MB4056:
+x-microsoft-antispam-prvs: <BYAPR02MB40561B3C31A4526B929B87FFCA7B0@BYAPR02MB4056.namprd02.prod.outlook.com>
+x-ms-oob-tlc-oobclassifiers: OLM:9508;
+x-ms-exchange-senderadcheck: 1
+x-microsoft-antispam: BCL:0;
+x-microsoft-antispam-message-info: pFPJaFBqnULhwkkBVFneh8ARU0dHlIzudgZKzj90xKL7HCnC9Hco2DUwPdemFshkVgPZCEkZR09Vj3l7fjAQun4j31G3YAgeVyPofi9jvOZfemQd7wcrcO1sWetoQ7SPxL7EDHKfd8IMIMQYODT1aCSnqJS9Xyh9GkEIAxZ44dpi8DpGhqaUMERKObLKJ1PNeV7RJ3MbY4pQPeEnYFaP6U4fTPUPaHlv3J2IzeFaTuqsSM+CdxRpGZODKuPjXJIefbIu3AM02C21TZuL1LFQkzFn86LTHvtlZIelZD1JhpldRc4pJhxOWEFvZH/WSwfkKM7VIPPvQIt3J2v3NypJMVmyFItVFAnPho3pz98Cx/E5Bsl5kHmr8bgAtE0kCnaxphjPedGSZp8Bn8+Cqwnbpgoq/37e2AYBYMtLjPYMBbMlsE7Eg958pZ5dTb0ugO48RUbHTFMtEdIRg9spcrlUXw==
+x-forefront-antispam-report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:BY5PR02MB6772.namprd02.prod.outlook.com; PTR:; CAT:NONE;
  SFTY:;
- SFS:(4636009)(396003)(39830400003)(346002)(376002)(136003)(366004)(2906002)(52116002)(54906003)(16576012)(8676002)(110136005)(316002)(5660300002)(478600001)(83380400001)(66574015)(66476007)(66946007)(86362001)(31686004)(2616005)(956004)(26005)(8936002)(16526019)(4326008)(186003)(36756003)(31696002)(66556008)(6486002)(966005)(43740500002);
- DIR:OUT; SFP:1102; 
-X-MS-Exchange-AntiSpam-MessageData: zKQk5KkPaN6vmguiyhZzhE72PLz7WC5GkRKErqkEmel0dhyRD7wXfGtfTpSQImNZUwD1fFdU9D0MUa5CK0Za4SHOCkgZicLwNL85+06vPbdgf0Hhkq8lWhLVS0ARUurFs1guRurKy6P4uBw/lP5mfS6NLVtWIlPclPggQTc0UyYn0lqH0xz0WEHhZSKRN4k2Usrer81ZyvPwGV+IX9UswkmZsSU30FVDo0CLztkH+M0u6/ic1C1xXOloud7JQ2Td5IHD7hpxqneBHnu0yX/ccamJAucBecX9t9mc88caGOazlI1VS/DLupDIZwgdR9nXfVnZMZONPY/f2y2/TsnU67+jn3gdGYuaQh0kGf1X/WcYwUnJaNvcG1IygQ/YyoKCsdyUExCl99PnPhwQHkXgs2sX4C9wvWXQI6zjWyywm3hcbVaschrsm35pzEID+PKePoxOyvD6kv7oJWxmoEr3cbNBtcsEk00ldsjTezZJEUk=
-X-OriginatorOrg: virtuozzo.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 824a7e18-bb62-4082-4e40-08d82c818fc6
-X-MS-Exchange-CrossTenant-AuthSource: AM7PR08MB5494.eurprd08.prod.outlook.com
+ SFS:(396003)(366004)(39860400002)(136003)(346002)(376002)(2906002)(4326008)(186003)(7416002)(33656002)(54906003)(110136005)(316002)(83380400001)(55016002)(8676002)(8936002)(9686003)(7696005)(53546011)(52536014)(86362001)(71200400001)(26005)(6506007)(966005)(76116006)(66556008)(66476007)(66446008)(64756008)(5660300002)(66946007)(478600001)(2004002);
+ DIR:OUT; SFP:1101; 
+x-ms-exchange-antispam-messagedata: 7hiOqfVo+54jha0YQKMNeVUqHYkFmyNLwkT1XamH7xOXHdA0XaUpkubcR+e3X9LCfZAsUrKJKwy4gaDdI3+ddJrUcRQbudbn6GDtLvgJ/64amSxwcoQHvrbvqkNO9tq5w3aGogdt+EUTRFxiouOhVhH9puFOkZAavZUMt6E/ECA1zS4wXOiNJye2+YewUNR16VtnhY4p6absgiGAqGc4Y2i/cjAy+wSWYdKSZvu692VdjHagDlswNrcH358s4mpQsK0hRhow/GIomTPwp+Y0NwdMAhfMlgPKX0bLpB+qL2OrNNKze65CQqKzDUsluMIR+kqyT4lZxbcx7Z1Bw7/fcYilOK6wLzrhyrHkcD9d9L+GxfTUYKWB40Va4/WxDsE1OTaCheYm9iGUviZTgfDXdLPQPHC+Q4voEm5XAu3ud4Hw8hul6aetWvmxjnOfNc1qIjAxBBVPXKFDUNHsHOiIlbDJDyRFc7c4gQVwG0tgFq8=
+x-ms-exchange-transport-forked: True
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
+MIME-Version: 1.0
+X-OriginatorOrg: xilinx.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 20 Jul 2020 07:50:25.1160 (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 0bc7f26d-0264-416e-a6fc-8352af79c58f
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: PJVQs0O9ZvKH/RUJOAayzpXxQ+Io9M0QB8GvvDdawbz5HV0dwBvzoWg87SpvMtYIe9RL6igOB7DyONPOItxmGDSnHrcKRtAZfwP7N4rtrK4=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: AM6PR08MB3573
-Received-SPF: pass client-ip=40.107.1.129;
- envelope-from=vsementsov@virtuozzo.com;
- helo=EUR02-HE1-obe.outbound.protection.outlook.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/07/20 04:05:28
+X-MS-Exchange-CrossTenant-AuthSource: BY5PR02MB6772.namprd02.prod.outlook.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: ef1237f5-f456-436d-645a-08d82c82eb99
+X-MS-Exchange-CrossTenant-originalarrivaltime: 20 Jul 2020 08:00:08.1550 (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: 657af505-d5df-48d0-8300-c31994686c5c
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: PNL8M5RMpVED8iwPBf0lq3srIHaAngM6nhrZGkCcTDMYGoXyctXd9fRFO/WJVX9VmRHEjUkFgmyoB8KaBkAu+w==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: BYAPR02MB4056
+Received-SPF: pass client-ip=40.107.236.59; envelope-from=saipava@xilinx.com;
+ helo=NAM11-BN8-obe.outbound.protection.outlook.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/07/20 04:15:12
 X-ACL-Warn: Detected OS   = Windows NT kernel [generic] [fuzzy]
-X-Spam_score_int: -37
-X-Spam_score: -3.8
-X-Spam_bar: ---
-X-Spam_report: (-3.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- MSGID_FROM_MTA_HEADER=0.001, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-1,
+X-Spam_score_int: -28
+X-Spam_score: -2.9
+X-Spam_bar: --
+X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-1,
  SPF_HELO_PASS=-0.001, SPF_PASS=-0.001,
  URIBL_BLOCKED=0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
@@ -119,135 +119,74 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Kevin Wolf <kwolf@redhat.com>,
- Richard Henderson <richard.henderson@linaro.org>,
- Stefan Hajnoczi <stefanha@redhat.com>
+Cc: Peter Maydell <peter.maydell@linaro.org>,
+ Eduardo Habkost <ehabkost@redhat.com>,
+ "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>,
+ Alistair Francis <alistair.francis@wdc.com>, Gerd Hoffmann <kraxel@redhat.com>,
+ Paolo Bonzini <pbonzini@redhat.com>, Ying Fang <fangying1@huawei.com>,
+ =?utf-8?B?J01hcmMtQW5kcsOpIEx1cmVhdSc=?= <marcandre.lureau@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-20.07.2020 09:16, Thomas Huth wrote:
-> 
->   Hi,
-> 
-> looks like the LeakSanitizer spotted a memory leak in the bitmap related
-> code ... not sure why it just triggered with Richard's pull request, and
-> I can also not reproduce it... But since there is a nice backtrace in it
-> and there have been some bitmap-related patches recently, could you
-> maybe have a look whether this rings a bell by any chance:
-> 
->   https://gitlab.com/qemu-project/qemu/-/jobs/645799805#L3282
-> 
-
-Hi! Hmm. bitmap.c/bitmap.h is a simple bitmap library, which was not changed this
-year. The last commit I see is about a year ago.
-
-So, I assume the problem should be somewhere below in the stack trace.
-
-I don't know this code, but try to look at:
-
-OK, sanitizer reports that we loose the memory allocated at exce.c:2219, i.e.
-
-new_blocks->blocks1[j] = bitmap_new(DIRTY_MEMORY_BLOCK_SIZE);
-
-Hmm. And where is this bitmap released? I can't find the place. May be the leak
-was introduced in far 5b82b703b69acc67b7 with this bitmap_new()? Add Stefan to
-CC.
-
-> 
->   Thanks,
->    Thomas
-> 
-> 
-> On 19/07/2020 21.35, GitLab via wrote:
->> GitLab
->> ✖ 	Your pipeline has failed.
->>
->>   
->> Project 	QEMU <https://gitlab.com/qemu-project> / QEMU
->> <https://gitlab.com/qemu-project/qemu>
->> Branch 	
->> 	master <https://gitlab.com/qemu-project/qemu/-/commits/master>
->>
->> Commit 	
->> 	9fc87111
->> <https://gitlab.com/qemu-project/qemu/-/commit/9fc87111005e8903785db40819af66b8f85b8b96>
->>
->>
->> Merge remote-tracking branch 'remotes/rth/tags/...
->> Commit Author 	
->> 	Peter Maydell <https://gitlab.com/pm215>
->>
->>   
->> Pipeline #168317253
->> <https://gitlab.com/qemu-project/qemu/-/pipelines/168317253>
->> triggered by 		Alex Bennée <https://gitlab.com/stsquad>
->>
->> had 1 failed build.
->> Logs may contain sensitive data. Please consider before forwarding this
->> email.
->> ✖ 	build
->>
->> 	build-fuzzer <https://gitlab.com/qemu-project/qemu/-/jobs/645799805>
->>
->> ==11111==ERROR: LeakSanitizer: detected memory leaks
->>
->> Direct leak of 2359296 byte(s) in 9 object(s) allocated from:
->> #0 0x5570060105d7 in calloc
->> (/builds/qemu-project/qemu/build/x86_64-softmmu/qemu-system-x86_64+0x2bdb5d7)
->> #1 0x55700605ddf9 in bitmap_try_new
->> /builds/qemu-project/qemu/include/qemu/bitmap.h:96:12
->> #2 0x55700605ddf9 in bitmap_new
->> /builds/qemu-project/qemu/include/qemu/bitmap.h:101:26
->> #3 0x55700605ddf9 in dirty_memory_extend
->> /builds/qemu-project/qemu/exec.c:2219:37
->> #4 0x55700605ddf9 in ram_block_add /builds/qemu-project/qemu/exec.c:2268:9
->> #5 0x5570060611b4 in qemu_ram_alloc_internal
->> /builds/qemu-project/qemu/exec.c:2441:5
->> #6 0x557006061567 in qemu_ram_alloc /builds/qemu-project/qemu/exec.c:2460:12
->> #7 0x55700675d350 in memory_region_init_ram_shared_nomigrate
->> /builds/qemu-project/qemu/softmmu/memory.c:1514:21
->> #8 0x557006bdd127 in ram_backend_memory_alloc
->> /builds/qemu-project/qemu/backends/hostmem-ram.c:30:5
->> #9 0x557006bd9733 in host_memory_backend_memory_complete
->> /builds/qemu-project/qemu/backends/hostmem.c:333:9
->> #10 0x557007a20ffc in user_creatable_complete
->> /builds/qemu-project/qemu/qom/object_interfaces.c:23:9
->> #11 0x557007a2178a in user_creatable_add_type
->> /builds/qemu-project/qemu/qom/object_interfaces.c:93:10
->> #12 0x557007a219dc in user_creatable_add_dict
->> /builds/qemu-project/qemu/qom/object_interfaces.c:134:11
->> #13 0x557007ee7eb6 in qmp_dispatch
->> /builds/qemu-project/qemu/qapi/qmp-dispatch.c:155:5
->> #14 0x5570077452a8 in monitor_qmp_dispatch
->> /builds/qemu-project/qemu/monitor/qmp.c:145:11
->> #15 0x55700774411d in monitor_qmp_bh_dispatcher
->> /builds/qemu-project/qemu/monitor/qmp.c:234:9
->> #16 0x557008065c66 in aio_bh_poll
->> /builds/qemu-project/qemu/util/async.c:164:13
->> #17 0x55700800235c in aio_dispatch
->> /builds/qemu-project/qemu/util/aio-posix.c:380:5
->> #18 0x55700806a62c in aio_ctx_dispatch
->> /builds/qemu-project/qemu/util/async.c:306:5
->> #19 0x7f93662807ae in g_main_context_dispatch
->> (/lib64/libglib-2.0.so.0+0x527ae)
->>
->> SUMMARY: AddressSanitizer: 2359296 byte(s) leaked in 9 allocation(s).
->> /builds/qemu-project/qemu/tests/qtest/libqtest.c:166: kill_qemu() tried
->> to terminate QEMU process but encountered exit status 1 (expected 0)
->> ERROR qmp-cmd-test - too few tests run (expected 51, got 50)
->> make: *** [/builds/qemu-project/qemu/tests/Makefile.include:650:
->> check-qtest-x86_64] Error 1
->> ERROR: Job failed: exit code 1
->>
->> GitLab
->> You're receiving this email because of your account on gitlab.com.
->> Manage all notifications <https://gitlab.com/profile/notifications> ·
->> Help <https://gitlab.com/help>
->>
-> 
-
-
--- 
-Best regards,
-Vladimir
+SEkgUGhpbGlwcGUsDQoNCj4gLS0tLS1PcmlnaW5hbCBNZXNzYWdlLS0tLS0NCj4gRnJvbTogUGhp
+bGlwcGUgTWF0aGlldS1EYXVkw6kgPHBoaWxtZEByZWRoYXQuY29tPg0KPiBTZW50OiBUaHVyc2Rh
+eSwgSnVuZSAyNSwgMjAyMCAxOjQ4IFBNDQo+IFRvOiBNYXJrdXMgQXJtYnJ1c3RlciA8YXJtYnJ1
+QHJlZGhhdC5jb20+OyBTYWkgUGF2YW4gQm9kZHUNCj4gPHNhaXBhdmFAeGlsaW54LmNvbT47IFRo
+b21hcyBIdXRoIDx0aHV0aEByZWRoYXQuY29tPg0KPiBDYzogR2VyZCBIb2ZmbWFubiA8a3JheGVs
+QHJlZGhhdC5jb20+OyBQZXRlciBNYXlkZWxsDQo+IDxwZXRlci5tYXlkZWxsQGxpbmFyby5vcmc+
+OyBFZHVhcmRvIEhhYmtvc3QgPGVoYWJrb3N0QHJlZGhhdC5jb20+Ow0KPiBxZW11LWRldmVsQG5v
+bmdudS5vcmc7IEFsaXN0YWlyIEZyYW5jaXMgPGFsaXN0YWlyLmZyYW5jaXNAd2RjLmNvbT47DQo+
+ICdNYXJjLUFuZHLDqSBMdXJlYXUnIDxtYXJjYW5kcmUubHVyZWF1QHJlZGhhdC5jb20+OyBZaW5n
+IEZhbmcNCj4gPGZhbmd5aW5nMUBodWF3ZWkuY29tPjsgUGFvbG8gQm9uemluaSA8cGJvbnppbmlA
+cmVkaGF0LmNvbT4NCj4gU3ViamVjdDogUmU6IFtQQVRDSCB2MiAyLzNdIHVzYi9oY2QteGhjaTog
+TW92ZSBxZW11LXhoY2kgZGV2aWNlIHRvIGhjZC0NCj4geGhjaS1wY2kuYw0KPiANCj4gT24gNi8y
+NS8yMCAxMDowNiBBTSwgTWFya3VzIEFybWJydXN0ZXIgd3JvdGU6DQo+ID4gU2FpIFBhdmFuIEJv
+ZGR1IDxzYWkucGF2YW4uYm9kZHVAeGlsaW54LmNvbT4gd3JpdGVzOg0KPiA+DQo+ID4+IE1vdmUg
+cGNpIHNwZWNpZmljIGRldmljZXMgdG8gbmV3IGZpbGUuIFRoaXMgc2V0IHRoZSBlbnZpcm9ubWVu
+dCB0bw0KPiA+PiBtb3ZlIGFsbCBwY2kgc3BlY2lmaWMgaG9va3MgaW4gaGNkLXhoY2kuYyB0byBo
+Y2QteGhjaS1wY2kuYy4NCj4gPj4NCj4gPj4gU2lnbmVkLW9mZi1ieTogU2FpIFBhdmFuIEJvZGR1
+IDxzYWkucGF2YW4uYm9kZHVAeGlsaW54LmNvbT4NCj4gPj4gLS0tDQo+ID4+ICBody91c2IvaGNk
+LXhoY2ktcGNpLmMgfCA2NA0KPiArKysrKysrKysrKysrKysrKysrKysrKysrKysrKysrKysrKysr
+KysrKysrKysrKysrKysNCj4gPj4gIGh3L3VzYi9oY2QteGhjaS5jICAgICB8IDMyICsrLS0tLS0t
+LS0tLS0tLS0tLS0tLS0tLS0tDQo+ID4+ICBody91c2IvaGNkLXhoY2kuaCAgICAgfCAgMiArKw0K
+PiA+PiAgMyBmaWxlcyBjaGFuZ2VkLCA2OCBpbnNlcnRpb25zKCspLCAzMCBkZWxldGlvbnMoLSkg
+IGNyZWF0ZSBtb2RlDQo+ID4+IDEwMDY0NCBody91c2IvaGNkLXhoY2ktcGNpLmMNCj4gPj4NCj4g
+Pj4gZGlmZiAtLWdpdCBhL2h3L3VzYi9oY2QteGhjaS1wY2kuYyBiL2h3L3VzYi9oY2QteGhjaS1w
+Y2kuYyBuZXcgZmlsZQ0KPiA+PiBtb2RlIDEwMDY0NCBpbmRleCAwMDAwMDAwLi4yNmFmNjgzDQo+
+ID4+IC0tLSAvZGV2L251bGwNCj4gPj4gKysrIGIvaHcvdXNiL2hjZC14aGNpLXBjaS5jDQo+ID4+
+IEBAIC0wLDAgKzEsNjQgQEANCj4gPj4gKy8qDQo+ID4+ICsgKiBVU0IgeEhDSSBjb250cm9sbGVy
+IHdpdGggUENJIHN5c3RlbSBidXMgZW11bGF0aW9uDQo+ID4NCj4gPiBTY3JhdGNoICJzeXN0ZW0i
+Lg0KPiA+DQo+ID4+ICsgKg0KPiA+PiArICogQ29weXJpZ2h0IChjKSAyMDExIFNlY3VyaWZvcmVz
+dA0KPiA+PiArICogRGF0ZTogMjAxMS0wNS0xMSA7ICBBdXRob3I6IEhlY3RvciBNYXJ0aW4gPGhl
+Y3RvckBtYXJjYW5zb2Z0LmNvbT4NCj4gPg0KPiA+IExldCdzIHVzZSB0aGUgb3Bwb3J0dW5pdHkg
+dG8gZHJvcCB0aGUgIkRhdGU6ICIgcGFydCwgYmVjYXVzZSB3ZSBkb24ndA0KPiA+IGhhdmUgaXQg
+YW55d2hlcmUgZWxzZS4NCj4gDQo+IEdvb2Qgb3Bwb3J0dW5pdHkgdG8gc3VnZ2VzdCB0aGUgU1BE
+WCB0YWdzIGFnYWluIDpQDQo+IA0KPiAvKg0KPiAgKiBTUERYLUZpbGVDb3B5cmlnaHRUZXh0OiAy
+MDExIFNlY3VyaWZvcmVzdA0KPiAgKiBTUERYLUZpbGVDb250cmlidXRvcjogSGVjdG9yIE1hcnRp
+biA8aGVjdG9yQG1hcmNhbnNvZnQuY29tPg0KPiAgKiBTUERYLUZpbGVDb3B5cmlnaHRUZXh0OiAy
+MDIwIFhpbGlueCBJbmMuDQo+ICAqIFNQRFgtRmlsZUNvbnRyaWJ1dG9yOiBTYWkgUGF2YW4gQm9k
+ZHUgPHNhaS5wYXZhbi5ib2RkdUB4aWxpbnguY29tPg0KPiAgKiBTUERYLUxpY2Vuc2UtSWRlbnRp
+ZmllcjogR1BMLTIuMC1vci1sYXRlciAgKi8JDQpbU2FpIFBhdmFuIEJvZGR1XSBJIHdvdWxkIGlu
+Y2x1ZGUgdGhpcyBpbiBWNCwgRm9yZ290IHRoZW0gaW4gVjMuDQoNClRoYW5rcywNClNhaSBQYXZh
+bg0KPiANCj4gaHR0cHM6Ly9zcGR4Lm9yZy9yZGYvb250b2xvZ3kvc3BkeC0yLTAtDQo+IHJjL2Rh
+dGFwcm9wZXJ0aWVzL2ZpbGVDb250cmlidXRvcl9fXy0xNjM1NzE3MTcyLmh0bWwNCj4gDQo+ID4N
+Cj4gPj4gKyAqIEJhc2VkIG9uIHVzYi1vaGNpLmMsIGVtdWxhdGVzIFJlbmVzYXMgTkVDIFVTQiAz
+LjANCj4gPj4gKyAqIERhdGU6IDIwMjAtMDMtMDE7IEF1dGhvcjogU2FpIFBhdmFuIEJvZGR1DQo+
+ID4+ICsgPHNhaS5wYXZhbi5ib2RkdUB4aWxpbnguY29tPg0KPiA+DQo+ID4gQW5kIG5vIG5ldyAi
+RGF0ZTogIiBwYXJ0cywgcGxlYXNlLg0KPiA+DQo+ID4+ICsgKiBNb3ZlZCB0aGUgcGNpIHNwZWNp
+ZmljIGNvbnRlbnQgZm9yIGhjZC14aGNpLmMgdG8gaGNkLXhoY2ktcGNpLmMNCj4gPj4gKyAqDQo+
+ID4+ICsgKiBUaGlzIGxpYnJhcnkgaXMgZnJlZSBzb2Z0d2FyZTsgeW91IGNhbiByZWRpc3RyaWJ1
+dGUgaXQgYW5kL29yDQo+ID4+ICsgKiBtb2RpZnkgaXQgdW5kZXIgdGhlIHRlcm1zIG9mIHRoZSBH
+TlUgTGVzc2VyIEdlbmVyYWwgUHVibGljDQo+ID4+ICsgKiBMaWNlbnNlIGFzIHB1Ymxpc2hlZCBi
+eSB0aGUgRnJlZSBTb2Z0d2FyZSBGb3VuZGF0aW9uOyBlaXRoZXINCj4gPj4gKyAqIHZlcnNpb24g
+MiBvZiB0aGUgTGljZW5zZSwgb3IgKGF0IHlvdXIgb3B0aW9uKSBhbnkgbGF0ZXIgdmVyc2lvbi4N
+Cj4gPj4gKyAqDQo+ID4+ICsgKiBUaGlzIGxpYnJhcnkgaXMgZGlzdHJpYnV0ZWQgaW4gdGhlIGhv
+cGUgdGhhdCBpdCB3aWxsIGJlIHVzZWZ1bCwNCj4gPj4gKyAqIGJ1dCBXSVRIT1VUIEFOWSBXQVJS
+QU5UWTsgd2l0aG91dCBldmVuIHRoZSBpbXBsaWVkIHdhcnJhbnR5IG9mDQo+ID4+ICsgKiBNRVJD
+SEFOVEFCSUxJVFkgb3IgRklUTkVTUyBGT1IgQSBQQVJUSUNVTEFSIFBVUlBPU0UuICBTZWUgdGhl
+DQo+IEdOVQ0KPiA+PiArICogTGVzc2VyIEdlbmVyYWwgUHVibGljIExpY2Vuc2UgZm9yIG1vcmUg
+ZGV0YWlscy4NCj4gPj4gKyAqDQo+ID4+ICsgKiBZb3Ugc2hvdWxkIGhhdmUgcmVjZWl2ZWQgYSBj
+b3B5IG9mIHRoZSBHTlUgTGVzc2VyIEdlbmVyYWwgUHVibGljDQo+ID4+ICsgKiBMaWNlbnNlIGFs
+b25nIHdpdGggdGhpcyBsaWJyYXJ5OyBpZiBub3QsIHNlZQ0KPiA8aHR0cDovL3d3dy5nbnUub3Jn
+L2xpY2Vuc2VzLz4uDQo+ID4+ICsgKi8NCj4gPiBbLi4uXQ0KPiA+DQoNCg==
 
