@@ -2,72 +2,74 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2713B226E4A
-	for <lists+qemu-devel@lfdr.de>; Mon, 20 Jul 2020 20:31:35 +0200 (CEST)
-Received: from localhost ([::1]:56586 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 47C7D226E90
+	for <lists+qemu-devel@lfdr.de>; Mon, 20 Jul 2020 20:51:47 +0200 (CEST)
+Received: from localhost ([::1]:45590 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jxaZa-00084B-71
-	for lists+qemu-devel@lfdr.de; Mon, 20 Jul 2020 14:31:34 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:35666)
+	id 1jxat8-00089f-BV
+	for lists+qemu-devel@lfdr.de; Mon, 20 Jul 2020 14:51:46 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:40530)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1jxaXn-0007SZ-1k
- for qemu-devel@nongnu.org; Mon, 20 Jul 2020 14:29:43 -0400
-Received: from us-smtp-1.mimecast.com ([207.211.31.81]:26943
- helo=us-smtp-delivery-1.mimecast.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1jxaXk-0004jU-3O
- for qemu-devel@nongnu.org; Mon, 20 Jul 2020 14:29:42 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1595269778;
- h=from:from:reply-to:reply-to:subject:subject:date:date:
- message-id:message-id:to:to:cc:cc:mime-version:mime-version:
- content-type:content-type:in-reply-to:in-reply-to:  references:references;
- bh=ESC7lHJZEWU8baXjgzf9kEzpgGoBQTa40Od5KbPxuos=;
- b=eIvbjWnmD1GAuxLGkDV3npdE6jxhERBbK+ALWv3lPT1WpgkASDYNaxbCDNxI+SiPPSQG1y
- VkhGMoOU72Kn1/TelIHDH/Va3XjvomshEJ+iO/Ed4nW1TGDpxlIyd9SQSxEyJV4hvH5jD5
- T9rnCwdb0Bjmuol4PD2n4lzT3X57XG8=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-469-SXBfPDZ0NICzTifIysEbYQ-1; Mon, 20 Jul 2020 14:29:33 -0400
-X-MC-Unique: SXBfPDZ0NICzTifIysEbYQ-1
-Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
- [10.5.11.14])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 0C95C8015F3;
- Mon, 20 Jul 2020 18:29:32 +0000 (UTC)
-Received: from redhat.com (unknown [10.36.110.53])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 187B45D9D5;
- Mon, 20 Jul 2020 18:29:25 +0000 (UTC)
-Date: Mon, 20 Jul 2020 19:29:23 +0100
-From: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
-To: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
-Subject: Re: [PATCH 3/4] io/channel-socket: implement non-blocking connect
-Message-ID: <20200720182923.GP643836@redhat.com>
-References: <20200720180715.10521-1-vsementsov@virtuozzo.com>
- <20200720180715.10521-4-vsementsov@virtuozzo.com>
+ (Exim 4.90_1) (envelope-from <alistair23@gmail.com>)
+ id 1jxasK-0007bH-AU
+ for qemu-devel@nongnu.org; Mon, 20 Jul 2020 14:50:56 -0400
+Received: from mail-il1-x142.google.com ([2607:f8b0:4864:20::142]:41338)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <alistair23@gmail.com>)
+ id 1jxasI-0007ma-7H
+ for qemu-devel@nongnu.org; Mon, 20 Jul 2020 14:50:55 -0400
+Received: by mail-il1-x142.google.com with SMTP id q3so14217195ilt.8
+ for <qemu-devel@nongnu.org>; Mon, 20 Jul 2020 11:50:53 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc:content-transfer-encoding;
+ bh=kPLUy4ruE6SmSFW/HvKYH317wuW6AEoqx0ydrarpHMM=;
+ b=AFUvEIitOnYGRONmbL6vgCY6K81kf623C9MN7qq0p6pqNdEBMK1mzCnSOQVcgGs1ee
+ Lwun1Mk2MRxCVTiVpFifsQ2REN+sbhZ3vcHTL2CinNkn9dVShIjl6F4/Ipzg/K95uWe5
+ mvn1Ji/7F9Qh+i85lyCH+Ei7s8FCZVMwBAxlcI1VXFFrpEjN9WagdzFlh3Bnn35n7Gme
+ Z0wrvRhmRAIhaeD4Pd5FzpLRWrl6LL8uMfBikj8mC72WzbQjoEnUL5B7/d5K4C0cXIU0
+ RCzaxYwiLDU2r10JpVja2rgTqy3DJZPLsihX42Ea5n2UUfjJdobWutghQ9lUKDwzrFgM
+ ce4A==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc:content-transfer-encoding;
+ bh=kPLUy4ruE6SmSFW/HvKYH317wuW6AEoqx0ydrarpHMM=;
+ b=PXLuGr4M/QJx/pwzHiLe8gvua/0eYx0oDdYv4W3+wT7mSpXfnWBCrSs8hWuA7r6K9z
+ iBabh2FZhWlrKc3CNxX+GFtTaw4rERtZs0Yn2nex5cOImj7M6dDTLXAxsgXlQcaGZ2Y+
+ syJpyHEBwQj1STibooagPVJBxISXxHbZpfEfhfzheT3SiU8zOIbisoO2ere+tJMJazOF
+ XGiFiXEBpSUW9Kzkk4geLRlh2Kg+RE6Eq7CXCz09E/jEwpQCpNcmhxfbiwLi+s95G77A
+ 9H9nDtLzv6A/ssyEOK3ZOUP7vDtS851d7MoM+KAA2p03clNjxqsnQYC8xSUfYk9BYno4
+ 33Ew==
+X-Gm-Message-State: AOAM531PFVz8U8O8Kt4QcM3iIQ0C2AHD62XJ6dVPrAiSmGDC3l56r1Y2
+ qovW4gvhIxnNQ1xbyBJk/U7S3Nay+iafSQZIuvQz5wuf
+X-Google-Smtp-Source: ABdhPJzxCX399SAOxgNgmrn1ycoGX4zI1MbKr0xfd47hZUaBZgg2i4TqXPuY2ci78RJ2gN3yZrYbAJV+triuPq3bYpY=
+X-Received: by 2002:a92:bb84:: with SMTP id x4mr25546508ilk.177.1595271052862; 
+ Mon, 20 Jul 2020 11:50:52 -0700 (PDT)
 MIME-Version: 1.0
-In-Reply-To: <20200720180715.10521-4-vsementsov@virtuozzo.com>
-User-Agent: Mutt/1.14.5 (2020-06-23)
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Received-SPF: pass client-ip=207.211.31.81; envelope-from=berrange@redhat.com;
- helo=us-smtp-delivery-1.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/07/19 21:45:06
-X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
-X-Spam_score_int: -30
-X-Spam_score: -3.1
-X-Spam_bar: ---
-X-Spam_report: (-3.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H3=-0.01, RCVD_IN_MSPIKE_WL=-0.01,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+References: <BMXPR01MB2344EC13172300E0384B97B8EE7B0@BMXPR01MB2344.INDPRD01.PROD.OUTLOOK.COM>
+ <CAKmqyKOsS+bTM=R4gEHBaDCGh3Lmo-bKiG=zbnHS30EwP70RoQ@mail.gmail.com>
+ <BMXPR01MB2344CFB0D2C0CBD133ACCD0AEE7B0@BMXPR01MB2344.INDPRD01.PROD.OUTLOOK.COM>
+In-Reply-To: <BMXPR01MB2344CFB0D2C0CBD133ACCD0AEE7B0@BMXPR01MB2344.INDPRD01.PROD.OUTLOOK.COM>
+From: Alistair Francis <alistair23@gmail.com>
+Date: Mon, 20 Jul 2020 11:40:48 -0700
+Message-ID: <CAKmqyKMdoXP1axxLMY4onNUkc7yxZi4RX-vE3f=gzPpnsV4Whw@mail.gmail.com>
+Subject: Re: Replacing existing kernel with new on qemuriscv64
+To: Pankaj Vinadrao Joshi <Pankaj.VJ@exaleapsemi.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=2607:f8b0:4864:20::142;
+ envelope-from=alistair23@gmail.com; helo=mail-il1-x142.google.com
+X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
+ That's all we know.
+X-Spam_score_int: -17
+X-Spam_score: -1.8
+X-Spam_bar: -
+X-Spam_report: (-1.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ FREEMAIL_ENVFROM_END_DIGIT=0.25, FREEMAIL_FROM=0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
  URIBL_BLOCKED=0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -81,160 +83,136 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
-Cc: kwolf@redhat.com, qemu-block@nongnu.org, qemu-devel@nongnu.org,
- mreitz@redhat.com, kraxel@redhat.com, den@openvz.org
+Cc: "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Mon, Jul 20, 2020 at 09:07:14PM +0300, Vladimir Sementsov-Ogievskiy wrote:
-> Utilize new socket API to make a non-blocking connect for inet sockets.
-> 
-> Signed-off-by: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
-> ---
->  include/io/channel-socket.h | 14 +++++++
->  io/channel-socket.c         | 74 +++++++++++++++++++++++++++++++++++++
->  2 files changed, 88 insertions(+)
-> 
-> diff --git a/include/io/channel-socket.h b/include/io/channel-socket.h
-> index 777ff5954e..82e868bc02 100644
-> --- a/include/io/channel-socket.h
-> +++ b/include/io/channel-socket.h
-> @@ -94,6 +94,20 @@ int qio_channel_socket_connect_sync(QIOChannelSocket *ioc,
->                                      SocketAddress *addr,
->                                      Error **errp);
->  
-> +/**
-> + * qio_channel_socket_connect_non_blocking_sync:
-> + * @ioc: the socket channel object
-> + * @addr: the address to connect to
-> + * @errp: pointer to a NULL-initialized error object
-> + *
-> + * Attempt to connect to the address @addr using non-blocking mode of
-> + * the socket. Function is synchronous, but being called from
-> + * coroutine context will yield during connect operation.
-> + */
-> +int qio_channel_socket_connect_non_blocking_sync(QIOChannelSocket *ioc,
-> +                                                 SocketAddress *addr,
-> +                                                 Error **errp);
-> +
->  /**
->   * qio_channel_socket_connect_async:
->   * @ioc: the socket channel object
-> diff --git a/io/channel-socket.c b/io/channel-socket.c
-> index e1b4667087..076de7578a 100644
-> --- a/io/channel-socket.c
-> +++ b/io/channel-socket.c
-> @@ -22,6 +22,7 @@
->  #include "qapi/error.h"
->  #include "qapi/qapi-visit-sockets.h"
->  #include "qemu/module.h"
-> +#include "qemu/sockets.h"
->  #include "io/channel-socket.h"
->  #include "io/channel-watch.h"
->  #include "trace.h"
-> @@ -29,6 +30,8 @@
->  
->  #define SOCKET_MAX_FDS 16
->  
-> +static int qio_channel_socket_close(QIOChannel *ioc, Error **errp);
-> +
->  SocketAddress *
->  qio_channel_socket_get_local_address(QIOChannelSocket *ioc,
->                                       Error **errp)
-> @@ -157,6 +160,77 @@ int qio_channel_socket_connect_sync(QIOChannelSocket *ioc,
->      return 0;
->  }
->  
-> +static int qio_channel_inet_connect_non_blocking_sync(QIOChannelSocket *ioc,
-> +        InetSocketAddress *addr, Error **errp)
-> +{
-> +    Error *local_err = NULL;
-> +    struct addrinfo *infos, *info;
-> +    int sock = -1;
-> +
-> +    infos = inet_parse_connect_saddr(addr, errp);
-> +    if (!infos) {
-> +        return -1;
-> +    }
+On Mon, Jul 20, 2020 at 11:19 AM Pankaj Vinadrao Joshi
+<Pankaj.VJ@exaleapsemi.com> wrote:
+>
+> Hi Alistair Francis,
+>
+> Thanks for your response.I have same concern for other riscv hardware wit=
+h custom kernel will same be applicable for it?If no from where i should ch=
+ange my kernel image since there also i am not able to find grub and the cl=
+arification given on web are seems to be very specific to x86 arch where i =
+should look in case of riscv ??
 
-This call is blocking since it calls getaddrinfo whose design
-offers no ability todo non-blocking DNS lookups. Given this
-call, ...
+Hello,
 
-> +
-> +    for (info = infos; info != NULL; info = info->ai_next) {
-> +        bool in_progress;
-> +
-> +        error_free(local_err);
-> +        local_err = NULL;
-> +
-> +        sock = inet_connect_addr(addr, info, false, &in_progress, &local_err);
-> +        if (sock < 0) {
-> +            continue;
-> +        }
-> +
-> +        if (qio_channel_socket_set_fd(ioc, sock, &local_err) < 0) {
-> +            close(sock);
-> +            continue;
-> +        }
-> +
-> +        if (in_progress) {
-> +            if (qemu_in_coroutine()) {
-> +                qio_channel_yield(QIO_CHANNEL(ioc), G_IO_OUT);
-> +            } else {
-> +                qio_channel_wait(QIO_CHANNEL(ioc), G_IO_OUT);
-> +            }
+I'm not really sure what you are asking.
 
-...this is offering false assurances of being non-blocking.
+The way to update the kernel will depend on how you are booting it and
+where it is stored. GRUB supports RISC-V, but as there is no UEFI
+support in the kernel (yet) it probably isn't the best boot method.
+Most hardware will probably use u-boot instead.
 
-If we don't want the current thread to be blocked then we
-need to be using the existing qio_channel_socket_connect_async
-method or similar. It uses a throw away background thread to
-run the connection attempt, and then reports completion back
-later, thus avoiding the getaddrinfo design flaw for the callers.
+Alistair
 
-I explicitly didn't want to add an method like the impl in this
-patch, because getaddrinfo dooms it and we already had bugs in
-the pre-QIOChannel code where QEMU thought it was non-blocking
-but wasn't due to getaddrinfo lookups.
-
-
-IIUC, the main appeal of this method is that the non-blocking
-nature is hidden from the caller who can continue to treat it
-as a synchronous call and have the coroutine magic happen in
-behind the scenes.
-
-IOW, What's needed is a simple way to run the operation in a
-thread, and sleep for completion while having the coroutine
-yield.
-
-I think this could likely be achieved with QIOTask with an
-alternate impl of the qio_task_wait_thread() method that is
-friendly to coroutines instead of being based on pthread
-condition variable waits.
-
-
-> +            if (socket_check(sock, &local_err) < 0) {
-> +                qio_channel_socket_close(QIO_CHANNEL(ioc), NULL);
-> +                continue;
-> +            }
-> +        }
-> +
-> +        break;
-> +    }
-> +
-> +    freeaddrinfo(infos);
-> +
-> +    error_propagate(errp, local_err);
-> +    return sock;
-> +}
-
-Regards,
-Daniel
--- 
-|: https://berrange.com      -o-    https://www.flickr.com/photos/dberrange :|
-|: https://libvirt.org         -o-            https://fstop138.berrange.com :|
-|: https://entangle-photo.org    -o-    https://www.instagram.com/dberrange :|
-
+>
+> Thanks
+>
+> ________________________________
+> From: Alistair Francis <alistair23@gmail.com>
+> Sent: Monday, July 20, 2020 10:29 PM
+> To: Pankaj Vinadrao Joshi <Pankaj.VJ@exaleapsemi.com>
+> Cc: qemu-devel@nongnu.org <qemu-devel@nongnu.org>
+> Subject: Re: Replacing existing kernel with new on qemuriscv64
+>
+> On Mon, Jul 20, 2020 at 2:46 AM Pankaj Vinadrao Joshi
+> <Pankaj.VJ@exaleapsemi.com> wrote:
+> >
+> > Hi ,
+> > I am trying to replace my existing kernel image which is 5.5.6 to 5.5.7=
+ on qemuriscv64 i would like to mention i have built my qemu image with ope=
+nembedded-core.
+> >
+> > i have tried to build the kernel 5.5.7 natively,i was able to build the=
+ kernel successfully and in my /boot folder i am able to see vmlinux-5.5.7 =
+ but now i want to install this image..i have tried to do it by make instal=
+l i didnt got any error with it but when i rebooted my system i am getting
+> >
+> > i have followed the following steps to build kernel
+> > $root@qemuriscv64-exaleapsemi-r2:/usr/src/kernel#  make menuconfig arch=
+=3Driscv64
+> > $root@qemuriscv64-exaleapsemi-r2:/usr/src/kernel# make -j4
+> > $root@qemuriscv64-exaleapsemi-r2:/usr/src/kernel# make modules_install
+> > $root@qemuriscv64-exaleapsemi-r2:/usr/src/kernel# make install
+> > sh ./arch/riscv/boot/install.sh 5.5.7 \
+> > arch/riscv/boot/Image System.map "/boot"
+> > Installing normal kernel
+> >
+> > $reboot
+> > 13024.451157] printk: systemd-shutdow: 37 output lines suppressed due t=
+o ratelimiting
+> > [13024.527282] systemd-shutdown[1]: Syncing filesystems and block devic=
+es.
+> > [13024.668538] systemd-shutdown[1]: Sending SIGTERM to remaining proces=
+ses...
+> > [13024.719496] systemd-journald[87]: Received SIGTERM from PID 1 (syste=
+md-shutdow).
+> > [13024.769405] systemd-shutdown[1]: Sending SIGKILL to remaining proces=
+ses...
+> > [13024.834318] systemd-shutdown[1]: Unmounting file systems.
+> > [13024.868285] [13413]: Remounting '/' read-only in with options '(null=
+)'.
+> > [13025.228499] EXT4-fs (vda): re-mounted. Opts: (null)
+> > [13025.358123] systemd-shutdown[1]: All filesystems unmounted.
+> > [13025.358576] systemd-shutdown[1]: Deactivating swaps.
+> > [13025.361264] systemd-shutdown[1]: All swaps deactivated.
+> > [13025.361727] systemd-shutdown[1]: Detaching loop devices.
+> > [13025.420602] systemd-shutdown[1]: All loop devices detached.
+> > [13025.421071] systemd-shutdown[1]: Detaching DM devices.
+> > [13025.595237] reboot: Restarting system
+> > [13046.599875] rcu: INFO: rcu_sched detected stalls on CPUs/tasks:
+> > [13046.600329] (detected by 0, t=3D5252 jiffies, g=3D2837145, q=3D17)
+> > [13046.600763] rcu: All QSes seen, last rcu_sched kthread activity 5252=
+ (4298153942-4298148690), jiffies_till_next_fqs=3D1, root ->qsmask 0x0
+> > [13046.601503] systemd-shutdow R  running task        0     1      0 0x=
+00000008
+> > [13046.602053] Call Trace:
+> > [13046.602562] [<ffffffe00006d3fc>] walk_stackframe+0x0/0xa4
+> > [13046.602890] [<ffffffe00006d5e2>] show_stack+0x2a/0x34
+> > [13046.603156] [<ffffffe000091094>] sched_show_task+0x158/0x174
+> > [13046.603442] [<ffffffe0000c4dde>] rcu_sched_clock_irq+0x6b2/0x6ec
+> > [13046.603740] [<ffffffe0000ccadc>] update_process_times+0x1e/0x44
+> > [13046.604009] [<ffffffe0000d79dc>] tick_sched_handle.isra.16+0x30/0x3e
+> > [13046.604331] [<ffffffe0000d7a38>] tick_sched_timer+0x4e/0x94
+> > [13046.604620] [<ffffffe0000cd44a>] __hrtimer_run_queues+0x10c/0x2de
+> > [13046.604928] [<ffffffe0000cdc96>] hrtimer_interrupt+0xcc/0x1d6
+> > [13046.605236] [<ffffffe0005d3f7c>] riscv_timer_interrupt+0x32/0x3a
+> > [13046.605580] [<ffffffe0007889ce>] do_IRQ+0xae/0xba
+> > [13046.605837] [<ffffffe00006bd3c>] ret_from_exception+0x0/0xc
+> > [13046.606127] [<ffffffe00006ca58>] machine_restart+0xc/0xe
+> > [13046.606508] rcu: rcu_sched kthread starved for 5252 jiffies! g283714=
+5 f0x2 RCU_GP_WAIT_FQS(5) ->state=3D0x0 ->cpu=3D0
+> > [13046.606990] rcu: RCU grace-period kthread stack dump:
+> > [13046.607257] rcu_sched       R  running task        0    10      2 0x=
+00000000
+> > [13046.607610] Call Trace:
+> > [13046.607774] [<ffffffe000784258>] __schedule+0x1a8/0x482
+> > [13046.608044] [<ffffffe000784592>] schedule+0x60/0xda
+> > [13046.608304] [<ffffffe000787a56>] schedule_timeout+0x15c/0x2b2
+> > [13046.608602] [<ffffffe0000c2ec8>] rcu_gp_kthread+0x4cc/0x7ec
+> > [13046.608889] [<ffffffe00008b0f2>] kthread+0xf0/0x102
+> > [13046.609162] [<ffffffe00006bd3c>] ret_from_exception+0x0/0xc
+> >
+> > ..... so on getting continuously......
+> >
+> >
+> > Can someone help me out how i can replace my kernel to 5.5.7 since i am=
+ not able to find grub or grub2 on my riscv platform?? i have googled for t=
+he solution but most of them seems to be x86 specific where they are trying=
+ to change the grub??Where i should modify for riscv to get my kernel up???=
+?
+>
+> You won't be able to install a new kernel from the QEMU guest. You
+> will need to use OpenEmbedded to build a new kernel and boot that.
+>
+> Alistair
+>
+> >
+> >
+> > Thanks
+> [EXT]
 
