@@ -2,72 +2,75 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 11083225C27
-	for <lists+qemu-devel@lfdr.de>; Mon, 20 Jul 2020 11:57:38 +0200 (CEST)
-Received: from localhost ([::1]:46020 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A2F69225C41
+	for <lists+qemu-devel@lfdr.de>; Mon, 20 Jul 2020 11:59:37 +0200 (CEST)
+Received: from localhost ([::1]:49912 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jxSYD-0001DY-4Y
-	for lists+qemu-devel@lfdr.de; Mon, 20 Jul 2020 05:57:37 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:35632)
+	id 1jxSa8-0002rp-Ns
+	for lists+qemu-devel@lfdr.de; Mon, 20 Jul 2020 05:59:36 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:35976)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1jxSX5-0000Zs-9b
- for qemu-devel@nongnu.org; Mon, 20 Jul 2020 05:56:27 -0400
-Received: from mail-oi1-x243.google.com ([2607:f8b0:4864:20::243]:41608)
+ (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
+ id 1jxSZ9-0002JD-67; Mon, 20 Jul 2020 05:58:35 -0400
+Received: from mail-wr1-x444.google.com ([2a00:1450:4864:20::444]:41549)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1jxSX2-0006wN-HS
- for qemu-devel@nongnu.org; Mon, 20 Jul 2020 05:56:26 -0400
-Received: by mail-oi1-x243.google.com with SMTP id y22so13928281oie.8
- for <qemu-devel@nongnu.org>; Mon, 20 Jul 2020 02:56:24 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=Igl+SeUa2coVvr0kUZnPl7TcdbXnN/EO0v1zIvH6CxY=;
- b=PlxPjlKxHoo48Sd5OgeICMu2gCoSftiSn63AZhrA9VyObhTi/03dz+ugKYVqU0481J
- WshALREvOMIqD3bUELRIOs43tiWqr5z2nh5Iw05Y1E3DPt9GeMBedzADOaF4pOQxrRXl
- EKl7zVWmF76y+VYukJdAqEMJ7He9n6x1Cht32qlzgXr7ENkTm3Q1FFtJ262SL/jz/5Tb
- 2YzBMGXs7EVBMgwS0uCUvTf5wFgPYaj2C5HLkOi9oHUeNd9vWjWkAhLD3jVoY1Gv7OfU
- dFCvW+PqtsyxWX435U6bKbsem8CKTlOWzBdGd4puQmpV97B/efMbE0mb7EWMBMxD54OD
- ZvEQ==
+ (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
+ id 1jxSZ7-0007CA-Jv; Mon, 20 Jul 2020 05:58:34 -0400
+Received: by mail-wr1-x444.google.com with SMTP id z15so17170049wrl.8;
+ Mon, 20 Jul 2020 02:58:32 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=sender:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=0R9WNlxMj4PxesDQXzX/Id0a5bZihglA4UZSVrsmxIY=;
+ b=jUS6dqxUC93xccANDgYTtymLi4KjfHM776whWUotydd712ZcpX6u93KYbttVfqlMyQ
+ bqzuEVlzBBzMmV2McTFQQuYcbwRRyQDvC9zEx7EV9jTvUclFYa2jFOfkD5QzW7WxlInn
+ 9+9wlvaLWlu6rsq42ep5pT1+e18zsgle/8McQtR7HAQXa30egesCugIBa5wdWUA4bezU
+ KUHn6Gm+5Q3OWmLmXUGDA2tiQ/RpzUhFgk4Ri2Z4qha317AxMhwvIsItn6Y23Mhi9Gcn
+ JumyM3YvBvnOhXKvYy2QgZMl+rASZtlJ5xw5uJ2Lw9b64XIUBeiRoEMcYXdltjlFHh5t
+ 1WMg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=Igl+SeUa2coVvr0kUZnPl7TcdbXnN/EO0v1zIvH6CxY=;
- b=Ojm9oMMr4oI9T1Ra6LjXcXAhvlgxtutdUy1eXy6SIyIQZnpQEOvv6qiPOWlswT/WAK
- j+OKEp5Dl+9EPhz5MwHGSLIa3QwiOnwqRkWHoRnPEoUkE2MlIoF3TNUWQFoTt2fruQkS
- DqI2Ig+PSbekYZHQiPZDzA1SM7ftC+4Kfz+m5WlN3zuZxSx5CQmkq0fMh+qXmRueLVpB
- wNryoWYZFX+S5f4AAsy+FTKZHIUhbTrsrr2+AJgqz1M3CuOtQ09Bz1uAwLI3nWeBDcaE
- D695LMlO8QfecGRsqhBimFs7YHi+TgvpbDrydeHLneXxMxxAFvw07v856zNHuPN4RddO
- cMsg==
-X-Gm-Message-State: AOAM533NK2qf+kP2AqN8CTAJQdIaJSst7pFvQIDaZMpHF9W+Eob1loMo
- 176ISP0O/iE9K4e+U8Hz8KhgI5jsCFJfsyCLO/8QMQ==
-X-Google-Smtp-Source: ABdhPJzR3o6HsUQC8cAkr1NtmQjEn+O1UENBYOkihbmCbfkCTliHAZw8kd5Edd1PF94bIJ27PwFvEZLjdFGTtGDRicc=
-X-Received: by 2002:aca:54c9:: with SMTP id
- i192mr17085614oib.163.1595238983048; 
- Mon, 20 Jul 2020 02:56:23 -0700 (PDT)
+ h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
+ :mime-version:content-transfer-encoding;
+ bh=0R9WNlxMj4PxesDQXzX/Id0a5bZihglA4UZSVrsmxIY=;
+ b=RNIthe9o1Cl2idSW2eE37YMLUEJkaJ89QsIC8PMmnM1CGf9inthM4ErfEEBnhblygx
+ mEGKoGOaOKcbcz6ihH/7IfKgXKNlN7UbAxC05lJVMmriZuA5lFaAvfAD8Nqjo/buF/81
+ HuYgRxCr/nbFx8l+vzLIDinICiN9QVQOeQLvAVtDkqFUhwRPEHZtQHk3fmCMhhjjmtPW
+ xN5h8QS6rsFhFn9gq448tLroz+sEeh5fsUHEHZTtNKBMVfabtNWyXVewM+jonCcZr3eQ
+ LBIv4/lFjBmJ2W3yTIK0srW4vgUsSsOD1SCJDVvtgIHsrq+K79uqk+q/pPTLp6xLXffe
+ KBDA==
+X-Gm-Message-State: AOAM533rmUuDhQ91bjXvX2CfeFE1HWqR4jcMDKp99cCASL69WdbEJU9y
+ rZdJMxvuYniV6ze7svN0k/jJvGnsAJU=
+X-Google-Smtp-Source: ABdhPJxop5LTo+3GZQF1OXE/lzZusonV5In2SHQtMzxocdKI+vDBtpzlmG7/VgZNUIYq+zVCyBm1Wg==
+X-Received: by 2002:a5d:6cce:: with SMTP id c14mr20491149wrc.377.1595239111506; 
+ Mon, 20 Jul 2020 02:58:31 -0700 (PDT)
+Received: from localhost.localdomain
+ (138.red-83-57-170.dynamicip.rima-tde.net. [83.57.170.138])
+ by smtp.gmail.com with ESMTPSA id c194sm31321485wme.8.2020.07.20.02.58.30
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Mon, 20 Jul 2020 02:58:30 -0700 (PDT)
+From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
+To: qemu-devel@nongnu.org
+Subject: [PATCH-for-5.1] hw/misc/aspeed_sdmc: Fix incorrect memory size
+Date: Mon, 20 Jul 2020 11:58:29 +0200
+Message-Id: <20200720095829.22839-1-f4bug@amsat.org>
+X-Mailer: git-send-email 2.21.3
 MIME-Version: 1.0
-References: <159480834629.15819.10175861928294983612.stgit@pasha-ThinkPad-X280>
- <159480835744.15819.10383908697966018668.stgit@pasha-ThinkPad-X280>
-In-Reply-To: <159480835744.15819.10383908697966018668.stgit@pasha-ThinkPad-X280>
-From: Peter Maydell <peter.maydell@linaro.org>
-Date: Mon, 20 Jul 2020 10:56:11 +0100
-Message-ID: <CAFEAcA9f18nwJQhX5EGtHWeHjw4DbRBmU1xmZm8gCgOkSgP+Mw@mail.gmail.com>
-Subject: Re: [PATCH 2/2] hw/arm: remove exit(1) in case of missing ROM
-To: Pavel Dovgalyuk <pavel.dovgalyuk@ispras.ru>
-Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2607:f8b0:4864:20::243;
- envelope-from=peter.maydell@linaro.org; helo=mail-oi1-x243.google.com
+Content-Type: text/plain; charset=UTF-8
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=2a00:1450:4864:20::444;
+ envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wr1-x444.google.com
 X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
  That's all we know.
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Spam_score_int: 0
+X-Spam_score: 0.0
+X-Spam_bar: /
+X-Spam_report: (0.0 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1, DKIM_VALID=-0.1,
+ DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=1, FREEMAIL_FROM=0.001,
+ HEADER_FROM_DIFFERENT_DOMAINS=1, RCVD_IN_DNSWL_NONE=-0.0001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -80,159 +83,79 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: QEMU Developers <qemu-devel@nongnu.org>,
- =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <f4bug@amsat.org>,
- Aleksandar Markovic <aleksandar.qemu.devel@gmail.com>,
- Antony Pavlov <antonynpavlov@gmail.com>, Huacai Chen <chenhc@lemote.com>,
- Aurelien Jarno <aurelien@aurel32.net>
+Cc: Peter Maydell <peter.maydell@linaro.org>, Andrew Jeffery <andrew@aj.id.au>,
+ =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>,
+ qemu-arm@nongnu.org, Joel Stanley <joel@jms.id.au>,
+ =?UTF-8?q?C=C3=A9dric=20Le=20Goater?= <clg@kaod.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Wed, 15 Jul 2020 at 11:19, Pavel Dovgalyuk <pavel.dovgalyuk@ispras.ru> wrote:
->
-> This patch updates ARM-based machines to allow starting them without ROM.
-> In this case CPU starts to execute instructions from the empty memory,
-> but QEMU allows introspecting the machine configuration.
->
-> Signed-off-by: Pavel Dovgalyuk <Pavel.Dovgalyuk@ispras.ru>
+The SDRAM Memory Controller has a 32-bit address bus, thus
+supports up to 4 GiB of DRAM. There is a signed to unsigned
+conversion error with the AST2600 maximum memory size:
 
-I guess this makes sense -- this is how most of our machines
-already behave, so consistency and being able to introspect
-the machine config are both worth having. Also these errors
-mostly pre-date the 'generic loader' device, which is another
-way to load guest code that the error-exit prevents. (You could
-even load guest code via the gdbstub if you wanted...)
+  (uint64_t)(2048 << 20) = (uint64_t)(-2147483648)
+                         = 0xffffffff40000000
+                         = 16 EiB - 2 GiB
 
-arm machines affected by this patch:
- * canon-a1100
- * connex
- * verdex
- * sx1
- * sx1-v1
- * cheetah
+Fix by using the IEC suffixes which are usually safer, and add
+a check to verify the memory is valid. This would have catched
+this bug:
 
-none of which are commonly-used anyway.
+    Unexpected error in aspeed_sdmc_realize() at hw/misc/aspeed_sdmc.c:261:
+    qemu-system-arm: Invalid RAM size 16 EiB
 
-> ---
->  0 files changed
->
-> diff --git a/hw/arm/digic_boards.c b/hw/arm/digic_boards.c
-> index b6452d918c..dbad63ffa2 100644
-> --- a/hw/arm/digic_boards.c
-> +++ b/hw/arm/digic_boards.c
-> @@ -102,8 +102,12 @@ static void digic_load_rom(DigicState *s, hwaddr addr,
->          char *fn = qemu_find_file(QEMU_FILE_TYPE_BIOS, filename);
->
->          if (!fn) {
-> -            error_report("Couldn't find rom image '%s'.", filename);
-> -            exit(1);
-> +            if (bios_name) {
-> +                error_report("Couldn't find rom image '%s'.", filename);
-> +                exit(1);
-> +            } else {
-> +                return;
-> +            }
->          }
->
->          rom_size = load_image_targphys(fn, addr, max_size);
-> diff --git a/hw/arm/gumstix.c b/hw/arm/gumstix.c
-> index 3a4bc332c4..a74bb5e27c 100644
-> --- a/hw/arm/gumstix.c
-> +++ b/hw/arm/gumstix.c
-> @@ -60,9 +60,8 @@ static void connex_init(MachineState *machine)
->
->      dinfo = drive_get(IF_PFLASH, 0, 0);
->      if (!dinfo && !qtest_enabled()) {
-> -        error_report("A flash image must be given with the "
-> -                     "'pflash' parameter");
-> -        exit(1);
-> +        warn_report("A flash image must be given with the "
-> +                    "'pflash' parameter");
+Fixes: 1550d72679 ("aspeed/sdmc: Add AST2600 support")
+Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
+---
+ hw/misc/aspeed_sdmc.c | 12 +++++++++---
+ 1 file changed, 9 insertions(+), 3 deletions(-)
 
-I think we should just drop the error message. If we will
-start without the flash image, then "A flash image
-must be given" is no longer true.
+diff --git a/hw/misc/aspeed_sdmc.c b/hw/misc/aspeed_sdmc.c
+index 0737d8de81..76dd7e6a20 100644
+--- a/hw/misc/aspeed_sdmc.c
++++ b/hw/misc/aspeed_sdmc.c
+@@ -256,6 +256,12 @@ static void aspeed_sdmc_realize(DeviceState *dev, Error **errp)
+     AspeedSDMCClass *asc = ASPEED_SDMC_GET_CLASS(s);
+ 
+     s->max_ram_size = asc->max_ram_size;
++    if (s->max_ram_size >= 4 * GiB) {
++        char *szstr = size_to_str(s->max_ram_size);
++        error_setg(errp, "Invalid RAM size %s", szstr);
++        g_free(szstr);
++        return;
++    }
+ 
+     memory_region_init_io(&s->iomem, OBJECT(s), &aspeed_sdmc_ops, s,
+                           TYPE_ASPEED_SDMC, 0x1000);
+@@ -341,7 +347,7 @@ static void aspeed_2400_sdmc_class_init(ObjectClass *klass, void *data)
+     AspeedSDMCClass *asc = ASPEED_SDMC_CLASS(klass);
+ 
+     dc->desc = "ASPEED 2400 SDRAM Memory Controller";
+-    asc->max_ram_size = 512 << 20;
++    asc->max_ram_size = 512 * MiB;
+     asc->compute_conf = aspeed_2400_sdmc_compute_conf;
+     asc->write = aspeed_2400_sdmc_write;
+     asc->valid_ram_sizes = aspeed_2400_ram_sizes;
+@@ -408,7 +414,7 @@ static void aspeed_2500_sdmc_class_init(ObjectClass *klass, void *data)
+     AspeedSDMCClass *asc = ASPEED_SDMC_CLASS(klass);
+ 
+     dc->desc = "ASPEED 2500 SDRAM Memory Controller";
+-    asc->max_ram_size = 1024 << 20;
++    asc->max_ram_size = 1 * GiB;
+     asc->compute_conf = aspeed_2500_sdmc_compute_conf;
+     asc->write = aspeed_2500_sdmc_write;
+     asc->valid_ram_sizes = aspeed_2500_ram_sizes;
+@@ -485,7 +491,7 @@ static void aspeed_2600_sdmc_class_init(ObjectClass *klass, void *data)
+     AspeedSDMCClass *asc = ASPEED_SDMC_CLASS(klass);
+ 
+     dc->desc = "ASPEED 2600 SDRAM Memory Controller";
+-    asc->max_ram_size = 2048 << 20;
++    asc->max_ram_size = 2 * GiB;
+     asc->compute_conf = aspeed_2600_sdmc_compute_conf;
+     asc->write = aspeed_2600_sdmc_write;
+     asc->valid_ram_sizes = aspeed_2600_ram_sizes;
+-- 
+2.21.3
 
->      }
->
->      if (!pflash_cfi01_register(0x00000000, "connext.rom", connex_rom,
-> @@ -90,9 +89,8 @@ static void verdex_init(MachineState *machine)
->
->      dinfo = drive_get(IF_PFLASH, 0, 0);
->      if (!dinfo && !qtest_enabled()) {
-> -        error_report("A flash image must be given with the "
-> -                     "'pflash' parameter");
-> -        exit(1);
-> +        warn_report("A flash image must be given with the "
-> +                    "'pflash' parameter");
-
-Ditto here.
-
->      }
->
->      if (!pflash_cfi01_register(0x00000000, "verdex.rom", verdex_rom,
-> diff --git a/hw/arm/omap_sx1.c b/hw/arm/omap_sx1.c
-> index 57829b3744..c0ed3d93e9 100644
-> --- a/hw/arm/omap_sx1.c
-> +++ b/hw/arm/omap_sx1.c
-> @@ -191,13 +191,12 @@ static void sx1_init(MachineState *machine, const int version)
->      }
->
->      if (!machine->kernel_filename && !fl_idx && !qtest_enabled()) {
-> -        error_report("Kernel or Flash image must be specified");
-> -        exit(1);
-> +        warn_report("Kernel or Flash image must be specified");
-
-And here.
-
-> +    } else {
-> +        /* Load the kernel.  */
-> +        arm_load_kernel(mpu->cpu, machine, &sx1_binfo);
->      }
-
-Calling arm_load_kernel() must not be conditional -- it is the
-function which makes sure the guest CPU is reset.
-
-(A handful of boards will call arm_load_kernel() only if
-!qtest_enabled(), but most call it unconditionally. We should
-look at why those handful of boards seem to need the conditional
-and either remove it if useless or see if it should be applied
-in other places or if arm_load_kernel() itself could be improved
-to make the check unnecessary for all boards.)
-
->
-> -    /* Load the kernel.  */
-> -    arm_load_kernel(mpu->cpu, machine, &sx1_binfo);
-> -
->      /* TODO: fix next line */
->      //~ qemu_console_resize(ds, 640, 480);
->  }
-> diff --git a/hw/arm/palm.c b/hw/arm/palm.c
-> index 97ca105d29..d4f4a8d07a 100644
-> --- a/hw/arm/palm.c
-> +++ b/hw/arm/palm.c
-> @@ -257,12 +257,11 @@ static void palmte_init(MachineState *machine)
->      }
->
->      if (!rom_loaded && !machine->kernel_filename && !qtest_enabled()) {
-> -        fprintf(stderr, "Kernel or ROM image must be specified\n");
-> -        exit(1);
-> +        warn_report("Kernel or ROM image must be specified");
-> +    } else {
-> +        /* Load the kernel.  */
-> +        arm_load_kernel(mpu->cpu, machine, &palmte_binfo);
-
-Again, drop the warning, and the call to arm_load_kernel()
-must not be conditional.
-
->      }
-> -
-> -    /* Load the kernel.  */
-> -    arm_load_kernel(mpu->cpu, machine, &palmte_binfo);
->  }
->
->  static void palmte_machine_init(MachineClass *mc)
-
-thanks
--- PMM
 
