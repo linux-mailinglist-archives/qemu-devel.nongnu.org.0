@@ -2,40 +2,40 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C8E39225DAA
-	for <lists+qemu-devel@lfdr.de>; Mon, 20 Jul 2020 13:44:57 +0200 (CEST)
-Received: from localhost ([::1]:38356 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 73277225DB3
+	for <lists+qemu-devel@lfdr.de>; Mon, 20 Jul 2020 13:46:07 +0200 (CEST)
+Received: from localhost ([::1]:42128 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jxUE4-0000EE-R6
-	for lists+qemu-devel@lfdr.de; Mon, 20 Jul 2020 07:44:56 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:37448)
+	id 1jxUFC-0001lo-Ef
+	for lists+qemu-devel@lfdr.de; Mon, 20 Jul 2020 07:46:06 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:37418)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <its@irrelevant.dk>)
- id 1jxU7m-000854-CJ; Mon, 20 Jul 2020 07:38:26 -0400
-Received: from charlie.dont.surf ([128.199.63.193]:46906)
+ id 1jxU7l-00082d-E2; Mon, 20 Jul 2020 07:38:25 -0400
+Received: from charlie.dont.surf ([128.199.63.193]:46908)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <its@irrelevant.dk>)
- id 1jxU7j-0005BV-PE; Mon, 20 Jul 2020 07:38:26 -0400
+ id 1jxU7j-0005BX-My; Mon, 20 Jul 2020 07:38:25 -0400
 Received: from apples.local (80-167-98-190-cable.dk.customer.tdc.net
  [80.167.98.190])
- by charlie.dont.surf (Postfix) with ESMTPSA id E520DBF5BE;
- Mon, 20 Jul 2020 11:38:00 +0000 (UTC)
+ by charlie.dont.surf (Postfix) with ESMTPSA id 7A549BF7BC;
+ Mon, 20 Jul 2020 11:38:01 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=irrelevant.dk;
  s=default; t=1595245081;
- bh=fAW93TvhNDOPtrVLxagRxdXJo5R/MwLVsUice3pfDW0=;
+ bh=NdHcDEjfx0CpKEm33zR5lsluKrc/d76xJefhFOLOPxs=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=Vknn/I77Cdxovhv3eGgntxo0pEsNRIZjPNRsLDZwsyJo+wNBZueFC/4z44XXpBMSz
- C4tWKkkbCCt+rmvuJ/6G0AlHxWDoCTGmasNcKXwNcvVKEUMm3a64PBfmLxzX0IveC+
- 0ZqTTWJBGEHBpeCnxitQecbEzyn7XKudHJTD6OQK58fnC0rr4xuE/rGJGZN9jp5xTY
- gf6eEP+D80JYpWub2LaVzOy1Yg0e5zMcWXMRAbmFDdc8o7QPiMXwsUZszz6drHYSwC
- Pbc/ndOj63O3PPA3vUH2fElbqHxG+C56JRbPxrvBg6XTlavm32z2YzflsKoovLu+sp
- 0i0iTOXdFbZ6A==
+ b=mlLH82CEwjJ3Q+N4NqG03+EPGBU44CYNHE4zidMGBOBcz5daEN6mjKOjqzCoNI6lQ
+ 7nu/M0llPysVNyzVC7T9IVm5lZDbh7M8ofVc9YKCN8BoWdV18VWQcS4+4eck8Ggppv
+ RhiCNM0gZ+Glv4WtavW4mXBfH6jjHvcH6baruM6jL9HgocURh2Oh09Xpvt4z3D9iZq
+ w1lwhq/9kcHPFEC2DSI8w6e1iqDxqgLg2UrCnVeb7gRp6d9oI49atLL/PyxXkErlvK
+ PrK7yPR4kWBbZy1ypipwlrqSruLfJPmjuHdLeGXyNwyCl83TmSl0zBVUowdINNq5hX
+ NDsDzUYUIYKMw==
 From: Klaus Jensen <its@irrelevant.dk>
 To: qemu-devel@nongnu.org
-Subject: [PATCH 11/16] hw/block/nvme: be consistent about zeros vs zeroes
-Date: Mon, 20 Jul 2020 13:37:43 +0200
-Message-Id: <20200720113748.322965-12-its@irrelevant.dk>
+Subject: [PATCH 12/16] hw/block/nvme: refactor NvmeRequest clearing
+Date: Mon, 20 Jul 2020 13:37:44 +0200
+Message-Id: <20200720113748.322965-13-its@irrelevant.dk>
 X-Mailer: git-send-email 2.27.0
 In-Reply-To: <20200720113748.322965-1-its@irrelevant.dk>
 References: <20200720113748.322965-1-its@irrelevant.dk>
@@ -63,103 +63,54 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Kevin Wolf <kwolf@redhat.com>, Fam Zheng <fam@euphon.net>,
- qemu-block@nongnu.org, Klaus Jensen <k.jensen@samsung.com>,
- Max Reitz <mreitz@redhat.com>, Keith Busch <kbusch@kernel.org>,
- Klaus Jensen <its@irrelevant.dk>
+Cc: Kevin Wolf <kwolf@redhat.com>, qemu-block@nongnu.org,
+ Klaus Jensen <k.jensen@samsung.com>, Max Reitz <mreitz@redhat.com>,
+ Keith Busch <kbusch@kernel.org>, Klaus Jensen <its@irrelevant.dk>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Klaus Jensen <k.jensen@samsung.com>
 
-The NVM Express specification generally uses 'zeroes' and not 'zeros',
-so let us align with it.
+Move clearing of the structure from "clear before use" to "clear
+after use".
 
-Cc: Fam Zheng <fam@euphon.net>
 Signed-off-by: Klaus Jensen <k.jensen@samsung.com>
 ---
- block/nvme.c         | 4 ++--
- hw/block/nvme.c      | 8 ++++----
- include/block/nvme.h | 4 ++--
- 3 files changed, 8 insertions(+), 8 deletions(-)
+ hw/block/nvme.c | 7 ++++++-
+ 1 file changed, 6 insertions(+), 1 deletion(-)
 
-diff --git a/block/nvme.c b/block/nvme.c
-index c1c4c07ac6cc..05485fdd1189 100644
---- a/block/nvme.c
-+++ b/block/nvme.c
-@@ -537,7 +537,7 @@ static void nvme_identify(BlockDriverState *bs, int namespace, Error **errp)
-                           s->page_size / sizeof(uint64_t) * s->page_size);
- 
-     oncs = le16_to_cpu(idctrl->oncs);
--    s->supports_write_zeroes = !!(oncs & NVME_ONCS_WRITE_ZEROS);
-+    s->supports_write_zeroes = !!(oncs & NVME_ONCS_WRITE_ZEROES);
-     s->supports_discard = !!(oncs & NVME_ONCS_DSM);
- 
-     memset(resp, 0, 4096);
-@@ -1201,7 +1201,7 @@ static coroutine_fn int nvme_co_pwrite_zeroes(BlockDriverState *bs,
-     }
- 
-     NvmeCmd cmd = {
--        .opcode = NVME_CMD_WRITE_ZEROS,
-+        .opcode = NVME_CMD_WRITE_ZEROES,
-         .nsid = cpu_to_le32(s->nsid),
-         .cdw10 = cpu_to_le32((offset >> s->blkshift) & 0xFFFFFFFF),
-         .cdw11 = cpu_to_le32(((offset >> s->blkshift) >> 32) & 0xFFFFFFFF),
 diff --git a/hw/block/nvme.c b/hw/block/nvme.c
-index 10fe53873ae9..e2932239c661 100644
+index e2932239c661..431f26c2f589 100644
 --- a/hw/block/nvme.c
 +++ b/hw/block/nvme.c
-@@ -614,7 +614,7 @@ static uint16_t nvme_flush(NvmeCtrl *n, NvmeNamespace *ns, NvmeCmd *cmd,
-     return NVME_NO_COMPLETE;
+@@ -209,6 +209,11 @@ static void nvme_irq_deassert(NvmeCtrl *n, NvmeCQueue *cq)
+     }
  }
  
--static uint16_t nvme_write_zeros(NvmeCtrl *n, NvmeNamespace *ns, NvmeCmd *cmd,
-+static uint16_t nvme_write_zeroes(NvmeCtrl *n, NvmeNamespace *ns, NvmeCmd *cmd,
-     NvmeRequest *req)
++static void nvme_req_clear(NvmeRequest *req)
++{
++    memset(&req->cqe, 0x0, sizeof(req->cqe));
++}
++
+ static uint16_t nvme_map_addr_cmb(NvmeCtrl *n, QEMUIOVector *iov, hwaddr addr,
+                                   size_t len)
  {
-     NvmeRwCmd *rw = (NvmeRwCmd *)cmd;
-@@ -714,8 +714,8 @@ static uint16_t nvme_io_cmd(NvmeCtrl *n, NvmeCmd *cmd, NvmeRequest *req)
-     switch (cmd->opcode) {
-     case NVME_CMD_FLUSH:
-         return nvme_flush(n, ns, cmd, req);
--    case NVME_CMD_WRITE_ZEROS:
--        return nvme_write_zeros(n, ns, cmd, req);
-+    case NVME_CMD_WRITE_ZEROES:
-+        return nvme_write_zeroes(n, ns, cmd, req);
-     case NVME_CMD_WRITE:
-     case NVME_CMD_READ:
-         return nvme_rw(n, ns, cmd, req);
-@@ -2328,7 +2328,7 @@ static void nvme_init_ctrl(NvmeCtrl *n, PCIDevice *pci_dev)
-     id->sqes = (0x6 << 4) | 0x6;
-     id->cqes = (0x4 << 4) | 0x4;
-     id->nn = cpu_to_le32(n->num_namespaces);
--    id->oncs = cpu_to_le16(NVME_ONCS_WRITE_ZEROS | NVME_ONCS_TIMESTAMP |
-+    id->oncs = cpu_to_le16(NVME_ONCS_WRITE_ZEROES | NVME_ONCS_TIMESTAMP |
-                            NVME_ONCS_FEATURES);
+@@ -458,6 +463,7 @@ static void nvme_post_cqes(void *opaque)
+         nvme_inc_cq_tail(cq);
+         pci_dma_write(&n->parent_obj, addr, (void *)&req->cqe,
+             sizeof(req->cqe));
++        nvme_req_clear(req);
+         QTAILQ_INSERT_TAIL(&sq->req_list, req, entry);
+     }
+     if (cq->tail != cq->head) {
+@@ -1601,7 +1607,6 @@ static void nvme_process_sq(void *opaque)
+         req = QTAILQ_FIRST(&sq->req_list);
+         QTAILQ_REMOVE(&sq->req_list, req, entry);
+         QTAILQ_INSERT_TAIL(&sq->out_req_list, req, entry);
+-        memset(&req->cqe, 0, sizeof(req->cqe));
+         req->cqe.cid = cmd.cid;
  
-     subnqn = g_strdup_printf("nqn.2019-08.org.qemu:%s", n->params.serial);
-diff --git a/include/block/nvme.h b/include/block/nvme.h
-index 370df7fc0570..65e68a82c897 100644
---- a/include/block/nvme.h
-+++ b/include/block/nvme.h
-@@ -460,7 +460,7 @@ enum NvmeIoCommands {
-     NVME_CMD_READ               = 0x02,
-     NVME_CMD_WRITE_UNCOR        = 0x04,
-     NVME_CMD_COMPARE            = 0x05,
--    NVME_CMD_WRITE_ZEROS        = 0x08,
-+    NVME_CMD_WRITE_ZEROES       = 0x08,
-     NVME_CMD_DSM                = 0x09,
- };
- 
-@@ -838,7 +838,7 @@ enum NvmeIdCtrlOncs {
-     NVME_ONCS_COMPARE       = 1 << 0,
-     NVME_ONCS_WRITE_UNCORR  = 1 << 1,
-     NVME_ONCS_DSM           = 1 << 2,
--    NVME_ONCS_WRITE_ZEROS   = 1 << 3,
-+    NVME_ONCS_WRITE_ZEROES  = 1 << 3,
-     NVME_ONCS_FEATURES      = 1 << 4,
-     NVME_ONCS_RESRVATIONS   = 1 << 5,
-     NVME_ONCS_TIMESTAMP     = 1 << 6,
+         status = sq->sqid ? nvme_io_cmd(n, &cmd, req) :
 -- 
 2.27.0
 
