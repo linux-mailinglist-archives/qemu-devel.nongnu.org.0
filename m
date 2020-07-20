@@ -2,74 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id DAB5022687A
-	for <lists+qemu-devel@lfdr.de>; Mon, 20 Jul 2020 18:19:54 +0200 (CEST)
-Received: from localhost ([::1]:47036 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id DCFC3226BF9
+	for <lists+qemu-devel@lfdr.de>; Mon, 20 Jul 2020 18:47:26 +0200 (CEST)
+Received: from localhost ([::1]:60162 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jxYW9-0003mW-Va
-	for lists+qemu-devel@lfdr.de; Mon, 20 Jul 2020 12:19:53 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:34076)
+	id 1jxYwn-0002Ke-Lx
+	for lists+qemu-devel@lfdr.de; Mon, 20 Jul 2020 12:47:25 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:40478)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1jxYVQ-0003Ka-L4
- for qemu-devel@nongnu.org; Mon, 20 Jul 2020 12:19:08 -0400
-Received: from mail-oi1-x244.google.com ([2607:f8b0:4864:20::244]:37468)
+ (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
+ id 1jxYvQ-0001e8-RH
+ for qemu-devel@nongnu.org; Mon, 20 Jul 2020 12:46:00 -0400
+Received: from indium.canonical.com ([91.189.90.7]:38202)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1jxYVO-0004AI-T1
- for qemu-devel@nongnu.org; Mon, 20 Jul 2020 12:19:08 -0400
-Received: by mail-oi1-x244.google.com with SMTP id 12so14804467oir.4
- for <qemu-devel@nongnu.org>; Mon, 20 Jul 2020 09:19:06 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=gYab95KTlgSe0lUVDL6GmfEMJXEuwj3Vn709Sj92YRw=;
- b=YDlqGd08s5sQmRQB5zLbqKn0ayz4sY0Q9mMF6tt3ngcQzJ2ImJsUW4j2tZTW43qmAA
- v9YHVQ1HodxS2rulPMOhlqqY7X6t42mgxsTYpOZsJuCtJTf2DY6Y4+/5x4ZOr+2RJgGU
- fJovT1B+k7mRoG2d+rIMckKz6lv162Q62jozOLCeaB+ecNIMMxYOpIEtc860PD4vDaTt
- dj2IU4NWurUZ9KEkDAgLHgJ9HIJGDa0de8d8c5k7cGKEz7Or6FBmzj34ajRieXaGAxly
- 29U/Qj12ngCztAd43Zd8O0E3X88uaONZKL9cF3YoYiNkGkRnVcPw479bgW/BUCxiHRiK
- qROA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=gYab95KTlgSe0lUVDL6GmfEMJXEuwj3Vn709Sj92YRw=;
- b=mIJH2R/xzn+rP/XRDI8lBX4EJ2HGdXclJ4ry36C2SYJXV2YssFX/b4tilKRO/qhhwB
- v6F0R+iwH4rJBogajw+MxINBys941eAOl+rubVnxYMUQncCxGVL9lmqRmDG7OU2A20Ie
- BovvEWnvr0D/4iWGv03kd8+WAntxeSvEVIBHHcK8Wu7pkTfjS+ZQ1f80Zhima+5/zAjK
- ddaVqT7igifl4/p07/7293QACxNW0BqNDgpN/C8BvRBKbZOXJD7igC0zdS6k6G0CAemK
- 62m2eFHk1+2kCo5WnAH+A4xWYIZGG9sVeAy6adlcXsG3VSLwYy6bhF9ioTbu7OmkjHmu
- 90gw==
-X-Gm-Message-State: AOAM530Awtnzhf5ZsaBah5V1d2J7fJqR23CkNpqZdPNNfsSHStnHAOsD
- BfvKMAtVkNNTRjfNF4RN0Ve6EW71AgiMBQCRJzPisg==
-X-Google-Smtp-Source: ABdhPJzNR7P9SBVfU8Bd0/+pn/7OizJwV09Jky07eLrayAcphxyQ8lHmr4xhSMFNzjjbuW404w1MEYbOTRBi0FD+ISQ=
-X-Received: by 2002:aca:2819:: with SMTP id 25mr117704oix.48.1595261945323;
- Mon, 20 Jul 2020 09:19:05 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
+ id 1jxYvO-0007b0-Nd
+ for qemu-devel@nongnu.org; Mon, 20 Jul 2020 12:46:00 -0400
+Received: from loganberry.canonical.com ([91.189.90.37])
+ by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
+ id 1jxYvN-0001B2-EA
+ for <qemu-devel@nongnu.org>; Mon, 20 Jul 2020 16:45:57 +0000
+Received: from loganberry.canonical.com (localhost [127.0.0.1])
+ by loganberry.canonical.com (Postfix) with ESMTP id 5F3392E810B
+ for <qemu-devel@nongnu.org>; Mon, 20 Jul 2020 16:45:57 +0000 (UTC)
 MIME-Version: 1.0
-References: <20200709024657.2500558-1-crosa@redhat.com>
-In-Reply-To: <20200709024657.2500558-1-crosa@redhat.com>
-From: Peter Maydell <peter.maydell@linaro.org>
-Date: Mon, 20 Jul 2020 17:18:54 +0100
-Message-ID: <CAFEAcA9qdYm+a-PTPE-Vbhmp4iZ5Bo0Gt-2RcCrO7CS2yp9_CA@mail.gmail.com>
-Subject: Re: [PATCH v2 0/2] QEMU Gating CI
-To: Cleber Rosa <crosa@redhat.com>
-Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2607:f8b0:4864:20::244;
- envelope-from=peter.maydell@linaro.org; helo=mail-oi1-x244.google.com
-X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
- That's all we know.
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: quoted-printable
+Date: Mon, 20 Jul 2020 16:26:12 -0000
+From: Peter Maydell <1216845@bugs.launchpad.net>
+To: qemu-devel@nongnu.org
+X-Launchpad-Notification-Type: bug
+X-Launchpad-Bug: product=qemu; status=Fix Released; importance=Undecided;
+ assignee=None; 
+X-Launchpad-Bug-Tags: arm
+X-Launchpad-Bug-Information-Type: Public
+X-Launchpad-Bug-Private: no
+X-Launchpad-Bug-Security-Vulnerability: no
+X-Launchpad-Bug-Commenters: ilg karl-erik-zimmerman pmaydell
+X-Launchpad-Bug-Reporter: Liviu Ionescu (ilg)
+X-Launchpad-Bug-Modifier: Peter Maydell (pmaydell)
+References: <20130826101205.25802.19011.malonedeb@soybean.canonical.com>
+Message-Id: <159526237257.13569.3719971137946656099.malone@gac.canonical.com>
+Subject: [Bug 1216845] Re: qemu-system-arm semihosting always calls exit(0)
+X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
+X-Launchpad-Message-For: qemu-devel-ml
+Precedence: bulk
+X-Generated-By: Launchpad (canonical.com);
+ Revision="4809fcb62f445aaa3ae919f7f6c3cc7d156ea57a";
+ Instance="production-secrets-lazr.conf"
+X-Launchpad-Hash: a62a8aab9a6f8716e815031820af0c596ba8fbce
+Received-SPF: none client-ip=91.189.90.7; envelope-from=bounces@canonical.com;
+ helo=indium.canonical.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/07/20 11:25:44
+X-ACL-Warn: Detected OS   = Linux 3.11 and newer [fuzzy]
+X-Spam_score_int: -58
+X-Spam_score: -5.9
+X-Spam_bar: -----
+X-Spam_report: (-5.9 / 5.0 requ) BAYES_00=-1.9, HEADER_FROM_DIFFERENT_DOMAINS=1,
+ RCVD_IN_DNSWL_HI=-5, RCVD_IN_MSPIKE_H3=-0.01, RCVD_IN_MSPIKE_WL=-0.01,
+ SPF_HELO_NONE=0.001, SPF_NONE=0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
-Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -78,32 +73,91 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Thomas Huth <thuth@redhat.com>,
- =?UTF-8?Q?Daniel_P=2E_Berrang=C3=A9?= <berrange@redhat.com>,
- Eduardo Habkost <ehabkost@redhat.com>, Erik Skultety <eskultet@redhat.com>,
- =?UTF-8?B?QWxleCBCZW5uw6ll?= <alex.bennee@linaro.org>,
- QEMU Developers <qemu-devel@nongnu.org>,
- Wainer dos Santos Moschetta <wainersm@redhat.com>,
- Willian Rampazzo <wrampazz@redhat.com>,
- =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <philmd@redhat.com>,
- Beraldo Leal <bleal@redhat.com>
+Reply-To: Bug 1216845 <1216845@bugs.launchpad.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Thu, 9 Jul 2020 at 03:47, Cleber Rosa <crosa@redhat.com> wrote:
->
-> The idea about a public facing Gating CI for QEMU was summarized in an
-> RFC[1].  Since then, it was decided that a simpler version should be
-> attempted first.
->
-> At this point, there are two specific runners (an aarch64 and an s390)
-> registered with GitLab, at https://gitlab.com/qemu-project, currently
-> setup to the "qemu" repository.
+The semihosting v2 support went into QEMU in the 4.2 release, but I
+forgot to close this bug...
 
-Could I have a simple "this is the command you need to run to
-test your staging branch with the project gitlab" set of
-getting-started instructions, please?
 
-thanks
--- PMM
+** Changed in: qemu
+       Status: In Progress =3D> Fix Released
+
+-- =
+
+You received this bug notification because you are a member of qemu-
+devel-ml, which is subscribed to QEMU.
+https://bugs.launchpad.net/bugs/1216845
+
+Title:
+  qemu-system-arm semihosting always calls exit(0)
+
+Status in QEMU:
+  Fix Released
+
+Bug description:
+  In my embedded ARM project I have a bunch of unit tests that I run in
+  a POSIX synthetic environment, and, as usual for POSIX processes,
+  these tests return 0 for success and !=3D0 for error.
+
+  Now I expanded the testing environment to run some of these tests
+  compiled for ARM, under QEMU, with the tracing messages forwarded via
+  the semihosting API.
+
+  Up to now everything is fine with the emulation.
+
+  However I have a problem with passing the failure code back to the
+  operating system, to drive the continuous integration framework.
+
+  I checked the arm-semi.c code and for SYS_EXIT and I discovered that
+  the parameter passed is ignored and it always calls exit(0):
+
+      case SYS_EXIT:
+          gdb_exit(env, 0);
+          exit(0);
+
+  To solve my problem I temporarily made a patch, and for cases that
+  should return non zero codes, I call an unsupported BKPT instruction,
+  which makes QEMU abort, and pass an non zero code (1) back to the
+  operating system.
+
+      qemu: Unsupported SemiHosting SWI 0xf1
+
+  This kludge is more or less functional, but is quite inconvenient.
+
+  After checking the ARM manuals, I discovered that SYS_EXIT is not
+  standard, and the 0x18 code used for it originally was used for
+  angel_SWIreason_ReportException, which has a slightly different
+  purpose.
+
+  Now the question:
+
+  Would it be possible to no longer ignore the code passed to 0x18, and
+  if it is non zero, to call exit() with a different value?
+
+  The suggested rule would be:
+
+  if (code =3D=3D0 || code =3D=3D 0x20026)
+    exit(0);
+  elif (code < 256)
+    exit(code);
+  else
+    exit(1);
+
+  The value 0x20026 means ADP_Stopped_ApplicationExit, and, if I
+  understood it right, it means that the program terminated
+  successfully. If this is not true, it can be removed from the first
+  conditional statement.
+
+  What do you think? Can this be added to arm-semi.c?
+
+  =
+
+  Regards,
+
+  Liviu
+
+To manage notifications about this bug go to:
+https://bugs.launchpad.net/qemu/+bug/1216845/+subscriptions
 
