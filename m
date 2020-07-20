@@ -2,36 +2,38 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5DABE22572C
-	for <lists+qemu-devel@lfdr.de>; Mon, 20 Jul 2020 07:45:23 +0200 (CEST)
-Received: from localhost ([::1]:60972 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8D011225723
+	for <lists+qemu-devel@lfdr.de>; Mon, 20 Jul 2020 07:42:59 +0200 (CEST)
+Received: from localhost ([::1]:53216 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jxOc6-0001RN-D9
-	for lists+qemu-devel@lfdr.de; Mon, 20 Jul 2020 01:45:22 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:48840)
+	id 1jxOZm-0006lC-4v
+	for lists+qemu-devel@lfdr.de; Mon, 20 Jul 2020 01:42:58 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:48814)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <dgibson@ozlabs.org>)
- id 1jxOYX-0005hh-T7; Mon, 20 Jul 2020 01:41:41 -0400
-Received: from ozlabs.org ([2401:3900:2:1::2]:46257)
+ id 1jxOYW-0005hW-Nn; Mon, 20 Jul 2020 01:41:40 -0400
+Received: from bilbo.ozlabs.org ([2401:3900:2:1::2]:35337 helo=ozlabs.org)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <dgibson@ozlabs.org>)
- id 1jxOYU-0005w0-5K; Mon, 20 Jul 2020 01:41:41 -0400
+ id 1jxOYT-0005w3-TO; Mon, 20 Jul 2020 01:41:40 -0400
 Received: by ozlabs.org (Postfix, from userid 1007)
- id 4B99Zd4JwBz9sRk; Mon, 20 Jul 2020 15:41:29 +1000 (AEST)
+ id 4B99Zd5tm9z9sRN; Mon, 20 Jul 2020 15:41:29 +1000 (AEST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
  d=gibson.dropbear.id.au; s=201602; t=1595223689;
- bh=eBr4bdyEfMI0tJyIfpPTdIOeZRYk43Iz8534158RrmQ=;
- h=From:To:Cc:Subject:Date:From;
- b=JvzaZgmGdrYHT7XPdqibTs8GvfzUwblyZr/0USuLHAqhynXzMow44oy29xPea3pJM
- ehQ+iU8SLLx5OWKPs990Mtjv3YEp3cnKigy74+AKqheP+fEb9l7D1PPsAIrmftCkDn
- jF6UhJ3jVWxfM7UTR/Jpy3f9vBmYYtL65JyMXJOM=
+ bh=GRhVhfoQfc+mGBRWEkJexw+nAj42hew1pHivUA4/MQY=;
+ h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
+ b=HVjVCybuClqL3U6/9ekQp/gmLjeRm/lL2srvLJ0qM+vqFxfV9cbREa5sOqxyIaegS
+ mMZBQWXh5b+S6j/Smrjv3oq8TFtMWRsCL1EFfQzUXkqNoN0Uv1Wn8wLyq6sx4xmYvG
+ hojf7ogAMS3XEtyP0ebOn18eaHoSAu0m6cAdAQS8=
 From: David Gibson <david@gibson.dropbear.id.au>
 To: peter.maydell@linaro.org
-Subject: [PULL 0/4] ppc-for-5.1 queue 20200720
-Date: Mon, 20 Jul 2020 15:41:22 +1000
-Message-Id: <20200720054126.258032-1-david@gibson.dropbear.id.au>
+Subject: [PULL 1/4] ppc/pnv: Make PSI device types not user creatable
+Date: Mon, 20 Jul 2020 15:41:23 +1000
+Message-Id: <20200720054126.258032-2-david@gibson.dropbear.id.au>
 X-Mailer: git-send-email 2.26.2
+In-Reply-To: <20200720054126.258032-1-david@gibson.dropbear.id.au>
+References: <20200720054126.258032-1-david@gibson.dropbear.id.au>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 Received-SPF: pass client-ip=2401:3900:2:1::2; envelope-from=dgibson@ozlabs.org;
@@ -57,52 +59,53 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: David Gibson <david@gibson.dropbear.id.au>, qemu-ppc@nongnu.org,
- qemu-devel@nongnu.org, groug@kaod.org
+Cc: Thomas Huth <thuth@redhat.com>, David Gibson <david@gibson.dropbear.id.au>,
+ qemu-ppc@nongnu.org, qemu-devel@nongnu.org, groug@kaod.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The following changes since commit 9fc87111005e8903785db40819af66b8f85b8b96:
+From: Greg Kurz <groug@kaod.org>
 
-  Merge remote-tracking branch 'remotes/rth/tags/pull-tcg-20200717' into staging (2020-07-19 10:29:05 +0100)
+QEMU aborts with -device pnv-psi-POWER8:
 
-are available in the Git repository at:
+$ qemu-system-ppc64 -device pnv-psi-POWER8
+qemu-system-ppc64: hw/intc/xics.c:605: ics_realize: Assertion
+`ics->xics' failed.
+Aborted (core dumped)
 
-  git://github.com/dgibson/qemu.git tags/ppc-for-5.1-20200720
+The Processor Service Interface Controller is an internal device.
+It should only be instantiated by the chip, which takes care of
+configuring the link required by the ICS object in the case of
+POWER8. It doesn't make sense for a user to specify it on the
+command line.
 
-for you to fetch changes up to b25fbd6a1302c0eac5b326be3e1f828e905c0c9a:
+Note that the PSI model for POWER8 was added 3 yrs ago but the
+devices weren't available on the command line because of a bug
+that was fixed by recent commit 2f35254aa0 ("pnv/psi: Correct
+the pnv-psi* devices not to be sysbus devices").
 
-  pseries: Update SLOF firmware image (2020-07-20 09:21:39 +1000)
+Fixes: 54f59d786c ("ppc/pnv: Add cut down PSI bridge model and hookup external interrupt")
+Reported-by: Thomas Huth <thuth@redhat.com>
+Signed-off-by: Greg Kurz <groug@kaod.org>
+Message-Id: <159413975752.169116.5808968580649255382.stgit@bahia.lan>
+Signed-off-by: David Gibson <david@gibson.dropbear.id.au>
+---
+ hw/ppc/pnv_psi.c | 1 +
+ 1 file changed, 1 insertion(+)
 
-----------------------------------------------------------------
-ppc patch queue 20200720
+diff --git a/hw/ppc/pnv_psi.c b/hw/ppc/pnv_psi.c
+index 5bdeec700e..6a479cac53 100644
+--- a/hw/ppc/pnv_psi.c
++++ b/hw/ppc/pnv_psi.c
+@@ -929,6 +929,7 @@ static void pnv_psi_class_init(ObjectClass *klass, void *data)
+     dc->desc = "PowerNV PSI Controller";
+     device_class_set_props(dc, pnv_psi_properties);
+     dc->reset = pnv_psi_reset;
++    dc->user_creatable = false;
+ }
+ 
+ static const TypeInfo pnv_psi_info = {
+-- 
+2.26.2
 
-Here are some assorted fixes for qemu-5.1:
- * SLOF update with improved TPM handling, and fix for possible stack
-   overflows on many-vcpu machines
- * Fix for NUMA distances on NVLink2 attached GPU memory nodes
- * Fixes to fail more gracefully on attempting to plug unsupported PCI bridge types
- * Don't allow pnv-psi device to be user created
-
-----------------------------------------------------------------
-Alexey Kardashevskiy (1):
-      pseries: Update SLOF firmware image
-
-Greg Kurz (2):
-      ppc/pnv: Make PSI device types not user creatable
-      spapr_pci: Robustify support of PCI bridges
-
-Reza Arbab (1):
-      spapr: Add a new level of NUMA for GPUs
-
- hw/ppc/pnv_psi.c            |   1 +
- hw/ppc/spapr.c              |  21 +++++++++++++++--
- hw/ppc/spapr_pci.c          |  56 ++++++++++++++++++++++++++++++++++++++++++++
- hw/ppc/spapr_pci_nvlink2.c  |  13 +++++++---
- include/hw/pci-host/spapr.h |   1 +
- include/hw/ppc/spapr.h      |   1 +
- pc-bios/README              |   2 +-
- pc-bios/slof.bin            | Bin 965112 -> 968368 bytes
- roms/SLOF                   |   2 +-
- 9 files changed, 90 insertions(+), 7 deletions(-)
 
