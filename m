@@ -2,73 +2,76 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id EA0942261C4
-	for <lists+qemu-devel@lfdr.de>; Mon, 20 Jul 2020 16:19:08 +0200 (CEST)
-Received: from localhost ([::1]:48696 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 754682261C0
+	for <lists+qemu-devel@lfdr.de>; Mon, 20 Jul 2020 16:17:59 +0200 (CEST)
+Received: from localhost ([::1]:43108 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jxWdH-0004xt-VB
-	for lists+qemu-devel@lfdr.de; Mon, 20 Jul 2020 10:19:07 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:57108)
+	id 1jxWc0-0002gK-Mq
+	for lists+qemu-devel@lfdr.de; Mon, 20 Jul 2020 10:17:48 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:57034)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <imammedo@redhat.com>)
- id 1jxWag-00014Y-Nw
- for qemu-devel@nongnu.org; Mon, 20 Jul 2020 10:16:27 -0400
-Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:38728
+ (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
+ id 1jxWac-00012G-MY
+ for qemu-devel@nongnu.org; Mon, 20 Jul 2020 10:16:22 -0400
+Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:25087
  helo=us-smtp-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <imammedo@redhat.com>)
- id 1jxWaf-0002lk-34
- for qemu-devel@nongnu.org; Mon, 20 Jul 2020 10:16:26 -0400
+ (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
+ id 1jxWaa-0002lG-V2
+ for qemu-devel@nongnu.org; Mon, 20 Jul 2020 10:16:22 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1595254584;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ s=mimecast20190719; t=1595254580;
+ h=from:from:reply-to:reply-to:subject:subject:date:date:
+ message-id:message-id:to:to:cc:cc:mime-version:mime-version:
+ content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=7bNJFBT29B95LO3FLXiU5YcyXTspzQqwbp25IxUclUs=;
- b=HZjKvZOEv6iHnMfG6Rlo5hoxu1jMoCsIISsDZnnsBd9fF+pCrOx6C+Ud92wVUtKhm0DKH9
- E1c8nGd2xpZWqIgqXjgyDCNLPyfdszKLm0E+VoEmH2GecNBT1Y7lBKBhoXFjlP68pnDV5R
- QIQSQdIRSnClyDcyroWmPi8nKmW1a7I=
+ bh=VnWwnBA7bibI/BD/RADjapULEjAc8iF6V3spLaU7rbg=;
+ b=EbvFRrRyp/pugjEo8TuFXP6SnsQQ2sDb2UG0a9n0cvr2JHzuBpNRDDwoARRewWyFmWTcty
+ XTeBGHT+D7smELHyqjhnf5IdGHvhxxAbR8xmh6mflWWjlqblSKYt1a7CBkn11N8jxOq01c
+ 0SAFyLhdqoYlSEhXt6vVkN7rneRKDSc=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-184-1z-WW270NfaMqCvRKCdmcA-1; Mon, 20 Jul 2020 10:16:21 -0400
-X-MC-Unique: 1z-WW270NfaMqCvRKCdmcA-1
+ us-mta-495-eOA1W7IkO7aEzLjInQYOWg-1; Mon, 20 Jul 2020 10:16:17 -0400
+X-MC-Unique: eOA1W7IkO7aEzLjInQYOWg-1
 Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
  [10.5.11.23])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 799621902EBB;
- Mon, 20 Jul 2020 14:16:16 +0000 (UTC)
-Received: from dell-r430-03.lab.eng.brq.redhat.com
- (dell-r430-03.lab.eng.brq.redhat.com [10.37.153.18])
- by smtp.corp.redhat.com (Postfix) with ESMTP id A505F2B6E2;
- Mon, 20 Jul 2020 14:16:15 +0000 (UTC)
-From: Igor Mammedov <imammedo@redhat.com>
-To: qemu-devel@nongnu.org
-Subject: [PATCH 3/6] x86: cpuhp: refuse cpu hot-unplug request earlier if not
- supported
-Date: Mon, 20 Jul 2020 10:16:07 -0400
-Message-Id: <20200720141610.574308-4-imammedo@redhat.com>
-In-Reply-To: <20200720141610.574308-1-imammedo@redhat.com>
-References: <20200720141610.574308-1-imammedo@redhat.com>
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 0E9E8527ED;
+ Mon, 20 Jul 2020 14:16:12 +0000 (UTC)
+Received: from redhat.com (unknown [10.36.110.53])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id DF5C119C71;
+ Mon, 20 Jul 2020 14:16:09 +0000 (UTC)
+Date: Mon, 20 Jul 2020 15:16:07 +0100
+From: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
+To: Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
+Subject: Re: [PATCH-for-5.1 3/4] qemu-common: Document qemu_find_file()
+Message-ID: <20200720141607.GH643836@redhat.com>
+References: <20200714164257.23330-1-f4bug@amsat.org>
+ <20200714164257.23330-4-f4bug@amsat.org>
 MIME-Version: 1.0
+In-Reply-To: <20200714164257.23330-4-f4bug@amsat.org>
+User-Agent: Mutt/1.14.5 (2020-06-23)
 X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=US-ASCII
+Content-Type: text/plain; charset=utf-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=205.139.110.120; envelope-from=imammedo@redhat.com;
+Content-Disposition: inline
+Received-SPF: pass client-ip=207.211.31.120; envelope-from=berrange@redhat.com;
  helo=us-smtp-1.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/07/20 02:11:17
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/07/20 03:17:01
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
-X-Spam_score_int: -40
-X-Spam_score: -4.1
-X-Spam_bar: ----
-X-Spam_report: (-4.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1,
+X-Spam_score_int: -30
+X-Spam_score: -3.1
+X-Spam_bar: ---
+X-Spam_report: (-3.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-1, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H4=-0.01, RCVD_IN_MSPIKE_WL=-0.01,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ URIBL_BLOCKED=0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -81,47 +84,75 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: boris.ostrovsky@oracle.com, lersek@redhat.com
+Reply-To: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
+Cc: Peter Maydell <peter.maydell@linaro.org>,
+ Sarah Harris <S.E.Harris@kent.ac.uk>, Stefan Weil <sw@weilnetz.de>,
+ qemu-devel@nongnu.org, Michael Rolnik <mrolnik@gmail.com>,
+ Paolo Bonzini <pbonzini@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-CPU hot-unplug with SMM requires firmware participation to prevent
-guest crash (i.e. CPU can be removed only after OS _and_ firmware
-were prepared for th action).
-Previous patches introduced ICH9_LPC_SMI_F_CPU_HOT_UNPLUG_BIT
-feature bit, which is advertised by firmware when it has support
-for CPU hot-unplug. Use it to check if guest is able to handle
-unplug and make device_del fail gracefully if hot-unplug feature
-hasn't been negotiated.
+On Tue, Jul 14, 2020 at 06:42:56PM +0200, Philippe Mathieu-Daudé wrote:
+> Document qemu_find_file(), in particular the returned
+> value which must be freed.
+> 
+> Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
+> ---
+>  include/qemu-common.h | 14 ++++++++++++++
+>  1 file changed, 14 insertions(+)
 
-Signed-off-by: Igor Mammedov <imammedo@redhat.com>
----
- hw/acpi/ich9.c | 11 +++++++++++
- 1 file changed, 11 insertions(+)
+Reviewed-by: Daniel P. Berrangé <berrange@redhat.com>
 
-diff --git a/hw/acpi/ich9.c b/hw/acpi/ich9.c
-index 0acc9a3107..98fc363186 100644
---- a/hw/acpi/ich9.c
-+++ b/hw/acpi/ich9.c
-@@ -460,6 +460,17 @@ void ich9_pm_device_unplug_request_cb(HotplugHandler *hotplug_dev,
-                                       errp);
-     } else if (object_dynamic_cast(OBJECT(dev), TYPE_CPU) &&
-                !lpc->pm.cpu_hotplug_legacy) {
-+        uint64_t negotiated = lpc->smi_negotiated_features;
-+
-+        if (negotiated & BIT_ULL(ICH9_LPC_SMI_F_BROADCAST_BIT) &&
-+            !(negotiated & BIT_ULL(ICH9_LPC_SMI_F_CPU_HOT_UNPLUG_BIT))) {
-+            error_setg(errp, "cpu hot-unplug with SMI wasn't enabled "
-+                             "by firmware");
-+            error_append_hint(errp, "update machine type to newer than 5.1 "
-+                "and firmware that suppors CPU hot-unplug with SMM");
-+            return;
-+        }
-+
-         acpi_cpu_unplug_request_cb(hotplug_dev, &lpc->pm.cpuhp_state,
-                                    dev, errp);
-     } else {
+> 
+> diff --git a/include/qemu-common.h b/include/qemu-common.h
+> index d0142f29ac..d6a08259d3 100644
+> --- a/include/qemu-common.h
+> +++ b/include/qemu-common.h
+> @@ -110,6 +110,20 @@ const char *qemu_get_vm_name(void);
+>  
+>  #define QEMU_FILE_TYPE_BIOS   0
+>  #define QEMU_FILE_TYPE_KEYMAP 1
+> +/**
+> + * qemu_find_file:
+> + * @type: QEMU_FILE_TYPE_BIOS (for BIOS, VGA BIOS)
+> + *        or QEMU_FILE_TYPE_KEYMAP (for keymaps).
+> + * @name: File name
+
+s/File name/relative or absolute file name/
+
+> + *
+
+Insert:
+
+  "If @name exists on disk as an absolute path, or a path relative
+   to the current directory, then returns @name unchanged.
+
+
+> + * Search for @name file in the data directories, either configured at
+> + * build time (DATADIR) or registered with the -L command line option.
+
+s/Search/Otherwise searches/
+
+
+> + *
+> + * The caller must use g_free() to free the returned data when it is
+> + * no longer required.
+> + *
+> + * Returns: absolute path to the file or NULL on error.
+
+It doesn't always return an absolute path. It can return a path
+relative to the currently working directory via the initial
+short-circuit access() check.
+
+   Returns: a path that can access @name, or NULL if no matching
+            file exists.
+
+
+Regards,
+Daniel
 -- 
-2.26.2
+|: https://berrange.com      -o-    https://www.flickr.com/photos/dberrange :|
+|: https://libvirt.org         -o-            https://fstop138.berrange.com :|
+|: https://entangle-photo.org    -o-    https://www.instagram.com/dberrange :|
 
 
