@@ -2,60 +2,62 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id ECC27225C67
-	for <lists+qemu-devel@lfdr.de>; Mon, 20 Jul 2020 12:06:58 +0200 (CEST)
-Received: from localhost ([::1]:33928 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B9147225C63
+	for <lists+qemu-devel@lfdr.de>; Mon, 20 Jul 2020 12:05:24 +0200 (CEST)
+Received: from localhost ([::1]:57848 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jxShF-0008HQ-Vf
-	for lists+qemu-devel@lfdr.de; Mon, 20 Jul 2020 06:06:58 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:37114)
+	id 1jxSfj-0006Om-Q7
+	for lists+qemu-devel@lfdr.de; Mon, 20 Jul 2020 06:05:23 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:37108)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1jxSeR-0005X8-BY
- for qemu-devel@nongnu.org; Mon, 20 Jul 2020 06:04:03 -0400
-Received: from us-smtp-2.mimecast.com ([205.139.110.61]:21834
- helo=us-smtp-delivery-1.mimecast.com)
+ (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1jxSeQ-0005WG-MC
+ for qemu-devel@nongnu.org; Mon, 20 Jul 2020 06:04:02 -0400
+Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:36249
+ helo=us-smtp-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1jxSeO-0007ug-U9
- for qemu-devel@nongnu.org; Mon, 20 Jul 2020 06:04:03 -0400
+ (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1jxSeO-0007uY-Hc
+ for qemu-devel@nongnu.org; Mon, 20 Jul 2020 06:04:02 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
  s=mimecast20190719; t=1595239439;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:content-type:content-type:in-reply-to:in-reply-to:
- references:references; bh=soYWbjBNfE0Nqrqy0uff7UQUaeakj2qiATbwInnQ+Gw=;
- b=IDiFy2/XbiJIZiYatIW9gtoaSuw8zw7/pam7CI0vo5Rjfv78JlyH3/EA6gNeGs0Jn3baSH
- rAIzQUVRUzAfZlbbMAJawNVPtp5+/KR0yC1qVwonsNH9mubOU5znFUALEKLMtO+qJK4+Vx
- yCuSVWmcTELdwAJkwdQoOEzG/oMRZQA=
+ references:references; bh=qyjk0nD5qv7SgRtbfTF32Ffkbp5JEPojYMyQI9NUQYQ=;
+ b=eLqsHwtJRK57lXO75cb7QQEX29bhvXd5dQ0DYtqyBtvX4CyzK+Hm9OMbFq+KFnO6cEIMZV
+ 9dFRTqcEEH/E0WziOYlFN4VAxalHp2L8ZCVjCSZ3Nfn0DqWsdOxQoDyjZL4SVAo6R4jGN6
+ 1by0YX6q4flU4Rp4PK61UVmcnKgqtOw=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-258-vRor3VlENQWOsjHn8wRV6Q-1; Mon, 20 Jul 2020 06:03:58 -0400
-X-MC-Unique: vRor3VlENQWOsjHn8wRV6Q-1
-Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
- [10.5.11.13])
+ us-mta-38-XihBW7ALP6Si_E3hQdmCyA-1; Mon, 20 Jul 2020 06:03:57 -0400
+X-MC-Unique: XihBW7ALP6Si_E3hQdmCyA-1
+Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
+ [10.5.11.12])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 5EEA7108B
- for <qemu-devel@nongnu.org>; Mon, 20 Jul 2020 10:03:57 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id E15BC100526C
+ for <qemu-devel@nongnu.org>; Mon, 20 Jul 2020 10:03:56 +0000 (UTC)
 Received: from sirius.home.kraxel.org (ovpn-115-89.ams2.redhat.com
  [10.36.115.89])
- by smtp.corp.redhat.com (Postfix) with ESMTP id CA18F797FC;
+ by smtp.corp.redhat.com (Postfix) with ESMTP id C44E559;
  Mon, 20 Jul 2020 10:03:53 +0000 (UTC)
 Received: by sirius.home.kraxel.org (Postfix, from userid 1000)
- id EC3E79DA0; Mon, 20 Jul 2020 12:03:52 +0200 (CEST)
+ id 00C189D57; Mon, 20 Jul 2020 12:03:53 +0200 (CEST)
 From: Gerd Hoffmann <kraxel@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH 1/3] qxl: fix modular builds with dtrace
-Date: Mon, 20 Jul 2020 12:03:50 +0200
-Message-Id: <20200720100352.2477-2-kraxel@redhat.com>
+Subject: [PATCH 2/3] module: ignore NULL type
+Date: Mon, 20 Jul 2020 12:03:51 +0200
+Message-Id: <20200720100352.2477-3-kraxel@redhat.com>
 In-Reply-To: <20200720100352.2477-1-kraxel@redhat.com>
 References: <20200720100352.2477-1-kraxel@redhat.com>
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=kraxel@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=US-ASCII
-Received-SPF: pass client-ip=205.139.110.61; envelope-from=kraxel@redhat.com;
- helo=us-smtp-delivery-1.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/07/20 02:16:39
+Received-SPF: pass client-ip=205.139.110.120; envelope-from=kraxel@redhat.com;
+ helo=us-smtp-1.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/07/20 02:11:17
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
 X-Spam_score_int: -40
 X-Spam_score: -4.1
@@ -81,39 +83,28 @@ Cc: Laurent Vivier <lvivier@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Checking the enable/disable state of tracepoints via
-trace_event_get_state_backends() does not work for modules.
-
-qxl checks the state for a small optimization (avoid g_strndup
-call in case log_buf will not be used anyway), so we can just
-drop that check for modular builds.
+Just return in case module_load_qom_one(NULL) is called.
+vga_interface_available() can do that.
 
 Signed-off-by: Gerd Hoffmann <kraxel@redhat.com>
 ---
- hw/display/qxl.c | 9 +++++++++
- 1 file changed, 9 insertions(+)
+ util/module.c | 3 +++
+ 1 file changed, 3 insertions(+)
 
-diff --git a/hw/display/qxl.c b/hw/display/qxl.c
-index d5627119ec62..11871340e75d 100644
---- a/hw/display/qxl.c
-+++ b/hw/display/qxl.c
-@@ -1762,7 +1762,16 @@ async_common:
-         qxl_set_mode(d, val, 0);
-         break;
-     case QXL_IO_LOG:
-+#ifdef CONFIG_MODULES
-+        /*
-+         * FIXME
-+         * trace_event_get_state_backends() does not work for modules,
-+         * it leads to "undefined symbol: qemu_qxl_io_log_semaphore"
-+         */
-+        if (true) {
-+#else
-         if (trace_event_get_state_backends(TRACE_QXL_IO_LOG) || d->guestdebug) {
-+#endif
-             /* We cannot trust the guest to NUL terminate d->ram->log_buf */
-             char *log_buf = g_strndup((const char *)d->ram->log_buf,
-                                       sizeof(d->ram->log_buf));
+diff --git a/util/module.c b/util/module.c
+index 90e9bd42c6c7..0ab00851f0a4 100644
+--- a/util/module.c
++++ b/util/module.c
+@@ -275,6 +275,9 @@ void module_load_qom_one(const char *type)
+ {
+     int i;
+ 
++    if (!type) {
++        return;
++    }
+     if (module_loaded_qom_all) {
+         return;
+     }
 -- 
 2.18.4
 
