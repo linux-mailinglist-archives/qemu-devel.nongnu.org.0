@@ -2,68 +2,80 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0BA3F2260A4
-	for <lists+qemu-devel@lfdr.de>; Mon, 20 Jul 2020 15:19:48 +0200 (CEST)
-Received: from localhost ([::1]:52148 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0E9A32260B1
+	for <lists+qemu-devel@lfdr.de>; Mon, 20 Jul 2020 15:21:56 +0200 (CEST)
+Received: from localhost ([::1]:56640 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jxVhr-0003SC-3Y
-	for lists+qemu-devel@lfdr.de; Mon, 20 Jul 2020 09:19:47 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:34364)
+	id 1jxVjv-0005RY-58
+	for lists+qemu-devel@lfdr.de; Mon, 20 Jul 2020 09:21:55 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:34914)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1jxVgf-00020p-DQ
- for qemu-devel@nongnu.org; Mon, 20 Jul 2020 09:18:33 -0400
-Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:44294
- helo=us-smtp-1.mimecast.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1jxVgd-0001zD-N8
- for qemu-devel@nongnu.org; Mon, 20 Jul 2020 09:18:33 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1595251111;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=Y+NxlkH3rhIut/JMt1D7oYh8k9S9q2R+3FMhNB5ptXU=;
- b=ZkSITt2MtS65wGmLgYlWZ7FjyCCgDaF9oQCkHAyrzg6+NCONUg773YZmhzUnL4xgyREeoF
- 8NKD1Ah2EghyGg+pAij0I1Iq/Wwm+hsxNkUeB35OLX2U84J8zFqpATA85Q75Hlevr7+k68
- qGm9ZLcwprCGRCOGIriQvFQtPwEQ8Ak=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-432-UgGZlyhbMAeK0eQQyO4VzQ-1; Mon, 20 Jul 2020 09:18:28 -0400
-X-MC-Unique: UgGZlyhbMAeK0eQQyO4VzQ-1
-Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
- [10.5.11.15])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 0C11918C63C0;
- Mon, 20 Jul 2020 13:18:28 +0000 (UTC)
-Received: from linux.fritz.box.com (ovpn-114-59.ams2.redhat.com [10.36.114.59])
- by smtp.corp.redhat.com (Postfix) with ESMTP id E35467303C;
- Mon, 20 Jul 2020 13:18:26 +0000 (UTC)
-From: Kevin Wolf <kwolf@redhat.com>
-To: qemu-block@nongnu.org
-Subject: [PATCH for-5.1 2/2] iotests: Test sparseness for qemu-img convert -n
-Date: Mon, 20 Jul 2020 15:18:10 +0200
-Message-Id: <20200720131810.177978-3-kwolf@redhat.com>
-In-Reply-To: <20200720131810.177978-1-kwolf@redhat.com>
-References: <20200720131810.177978-1-kwolf@redhat.com>
+ (Exim 4.90_1) (envelope-from <liq3ea@gmail.com>) id 1jxVj1-000502-SF
+ for qemu-devel@nongnu.org; Mon, 20 Jul 2020 09:20:59 -0400
+Received: from mail-ot1-x334.google.com ([2607:f8b0:4864:20::334]:37904)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <liq3ea@gmail.com>) id 1jxVj0-0002Yp-61
+ for qemu-devel@nongnu.org; Mon, 20 Jul 2020 09:20:59 -0400
+Received: by mail-ot1-x334.google.com with SMTP id t18so12127309otq.5
+ for <qemu-devel@nongnu.org>; Mon, 20 Jul 2020 06:20:57 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc:content-transfer-encoding;
+ bh=6cvrcLMPloJI7battwfXerfrUbUDXKtE35mRQSAjw/4=;
+ b=XkwsSM9xkbn+axwQOuhDptNLdZ8M0rLhx0aFUOIlr30dT9Jzv3KPMtegrJqh+C0Qpd
+ w/OdivFaZEUCFE9J3URmsNpX/xEzPpfr7sCGCt+BB7nnKDTrb6U2Lj+0KQJECQ9Mwc1R
+ a4kCts08ENG7gA2mE1tlt70BwtehH/IBhZIjvO0ltr3tRyUKJk1oMQNE4WEDIYcZOKwa
+ WVUWXzKeuJ40H9rhNCgi+nCmdh+SE7bwthLOy6U/T98abebClA4T4L55Xpg1+iYtfMBK
+ XF69ts2VLK8qpOc7SSypMMndLDgMSIV/JQn5bpempLacj9bVJ4lLIw3oLmBC6cObufKA
+ Mv9g==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc:content-transfer-encoding;
+ bh=6cvrcLMPloJI7battwfXerfrUbUDXKtE35mRQSAjw/4=;
+ b=Of0tUmCfYuBuJQ+/St7nGt2boKk67TN+tHwnzBkcxBhTCh20x7lvL77yj3EyX9qWYl
+ z8wVFL7eVCyAZAgytud3mXtEbZczudJ4iGuDQG4gomjtb5yBGbFNr8GyuS+QAoc7v9eh
+ NCyYN/uRSASqfC63yoISwQlyGmDqJFnpnlT1cWG7epJ8tbwPtFzCuMnV82msNzPznTeP
+ NJbjRSmkDqzrjQe1Dwomi1yduvzmO6vQjvKo1/2KMkMJOLiAsN4IN04EPXZSjJ4DjPdk
+ nMRD8c8rjw25j57FJwhJplLWVVFbr8OPcg7xwhqixnCrAnFR1SaipuIb65dj0oqRyazx
+ Ox5w==
+X-Gm-Message-State: AOAM532iMpbwZGK4+lGGINCzxvzqeOLlXMgxSjypxFBmBwtkkvUKHr+9
+ J4BeP1keErtOLuUP14hR2RfNXlqJ7azV0sbdVvs=
+X-Google-Smtp-Source: ABdhPJzVQ8JJjmOqTdkkJjRDxQfHIJ99B8RrCRbDdNnjzcLWbPbzudhp1Z/Re1oda8/d6M8+VEQ4qbQE0chgvYsjRYg=
+X-Received: by 2002:a9d:787:: with SMTP id 7mr19468874oto.333.1595251256961;
+ Mon, 20 Jul 2020 06:20:56 -0700 (PDT)
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=205.139.110.120; envelope-from=kwolf@redhat.com;
- helo=us-smtp-1.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/07/20 02:11:17
-X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
-X-Spam_score_int: -40
-X-Spam_score: -4.1
-X-Spam_bar: ----
-X-Spam_report: (-4.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-1, SPF_HELO_NONE=0.001,
+References: <20200716192335.1212638-1-ppandit@redhat.com>
+ <CAKXe6SKL3aNiOKKLEMof6GGNjYLcX9fvfSf-0PBSX48rh4--FQ@mail.gmail.com>
+ <20200717012151.tlfmc6hsfia22f4e@mozz.bu.edu>
+ <4e4909ae-db2f-4a32-ae5c-d52149e80a8c@redhat.com>
+ <nycvar.YSQ.7.78.906.2007171016480.950384@xnncv>
+ <3620abab-a464-8e3c-d5b9-0bd80b35e2f1@redhat.com>
+ <nycvar.YSQ.7.78.906.2007171326100.4380@xnncv>
+ <CAKXe6SJbJaEepRVFtNy=5fhJrw8+Gax=mcwFuhfXrHTgo+wmog@mail.gmail.com>
+ <nycvar.YSQ.7.78.906.2007200752230.4380@xnncv>
+ <20200720033304.sttpqr337xsf4rna@mozz.bu.edu>
+ <CAKXe6SKV8=B2rb6EY72W17r6-oz5nx9VQndH9gSyafubOU4rJg@mail.gmail.com>
+ <nycvar.YSQ.7.78.906.2007201822290.4380@xnncv>
+In-Reply-To: <nycvar.YSQ.7.78.906.2007201822290.4380@xnncv>
+From: Li Qiang <liq3ea@gmail.com>
+Date: Mon, 20 Jul 2020 21:20:17 +0800
+Message-ID: <CAKXe6SLxxvCkwekVqZSQP68bAME3=wu0wxzzn1JCmb2UaR0OZA@mail.gmail.com>
+Subject: Re: [PATCH] net: check payload length limit for all frames
+To: P J P <ppandit@redhat.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=2607:f8b0:4864:20::334;
+ envelope-from=liq3ea@gmail.com; helo=mail-ot1-x334.google.com
+X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
+ That's all we know.
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -77,91 +89,44 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: kwolf@redhat.com, nsoffer@redhat.com, qemu-devel@nongnu.org,
- mreitz@redhat.com
+Cc: Alexander Bulekov <alxndr@bu.edu>, Jason Wang <jasowang@redhat.com>,
+ Dmitry Fleytman <dmitry.fleytman@gmail.com>,
+ QEMU Developers <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Signed-off-by: Kevin Wolf <kwolf@redhat.com>
----
- tests/qemu-iotests/122     | 34 ++++++++++++++++++++++++++++++++++
- tests/qemu-iotests/122.out | 17 +++++++++++++++++
- 2 files changed, 51 insertions(+)
+P J P <ppandit@redhat.com> =E4=BA=8E2020=E5=B9=B47=E6=9C=8820=E6=97=A5=E5=
+=91=A8=E4=B8=80 =E4=B8=8B=E5=8D=888:57=E5=86=99=E9=81=93=EF=BC=9A
+>
+> +-- On Mon, 20 Jul 2020, Li Qiang wrote --+
+> | This seems is the same issue as LP#1886362 . Look at the free path. Her=
+e the
+> | 'e1000e_write_to_rx_buffers' trigger DMA and then go to address space
+> | dispatch. So the DMA is not RAM but a MMIO range. Then we go to another=
+ send
+> | path, and in that we frees the 'iov'.
+>
+>   Cool. Thanks so much for the confirmation Li.
+>
+> | Alex do you tried my patch to solve LP#1886362 ? I have tried it and it
+> | seems no this UAF triggered.
+>
+> He mentioned that your patch fixes both issues:
+>   -> https://lists.gnu.org/archive/html/qemu-devel/2020-07/msg05367.html
 
-diff --git a/tests/qemu-iotests/122 b/tests/qemu-iotests/122
-index dfd1cd05d6..1112fc0730 100755
---- a/tests/qemu-iotests/122
-+++ b/tests/qemu-iotests/122
-@@ -281,6 +281,40 @@ $QEMU_IMG convert -O $IMGFMT -n "$TEST_IMG" "$TEST_IMG".orig
- 
- $QEMU_IMG compare "$TEST_IMG" "$TEST_IMG".orig
- 
-+echo
-+echo '=== -n to an empty image ==='
-+echo
-+
-+_make_test_img 64M
-+
-+# Convert with -n, which should not result in a fully allocated image, not even
-+# with compat=0.10 (because the target doesn't have a backing file)
-+TEST_IMG="$TEST_IMG".orig _make_test_img -o compat=1.1 64M
-+$QEMU_IMG convert -O $IMGFMT -n "$TEST_IMG" "$TEST_IMG".orig
-+$QEMU_IMG map --output=json "$TEST_IMG".orig
-+
-+TEST_IMG="$TEST_IMG".orig _make_test_img -o compat=0.10 64M
-+$QEMU_IMG convert -O $IMGFMT -n "$TEST_IMG" "$TEST_IMG".orig
-+$QEMU_IMG map --output=json "$TEST_IMG".orig
-+
-+echo
-+echo '=== -n to an empty image with a backing file ==='
-+echo
-+
-+_make_test_img 64M
-+TEST_IMG="$TEST_IMG".base _make_test_img 64M
-+
-+# Convert with -n, which should still not result in a fully allocated image for
-+# compat=1.1 (because it can use zero clusters), but it should be fully
-+# allocated with compat=0.10
-+TEST_IMG="$TEST_IMG".orig _make_test_img -b "$TEST_IMG".base -F $IMGFMT -o compat=1.1 64M
-+$QEMU_IMG convert -O $IMGFMT -n "$TEST_IMG" "$TEST_IMG".orig
-+$QEMU_IMG map --output=json "$TEST_IMG".orig
-+
-+TEST_IMG="$TEST_IMG".orig _make_test_img -b "$TEST_IMG".base -F $IMGFMT -o compat=0.10 64M
-+$QEMU_IMG convert -O $IMGFMT -n "$TEST_IMG" "$TEST_IMG".orig
-+$QEMU_IMG map --output=json "$TEST_IMG".orig
-+
- echo
- echo '=== -n -B to an image without a backing file ==='
- echo
-diff --git a/tests/qemu-iotests/122.out b/tests/qemu-iotests/122.out
-index f1f195ed77..b8028efb1d 100644
---- a/tests/qemu-iotests/122.out
-+++ b/tests/qemu-iotests/122.out
-@@ -229,6 +229,23 @@ wrote 65536/65536 bytes at offset 0
- 64 KiB, X ops; XX:XX:XX.X (XXX YYY/sec and XXX ops/sec)
- Images are identical.
- 
-+=== -n to an empty image ===
-+
-+Formatting 'TEST_DIR/t.IMGFMT', fmt=IMGFMT size=67108864
-+Formatting 'TEST_DIR/t.IMGFMT.orig', fmt=IMGFMT size=67108864
-+[{ "start": 0, "length": 67108864, "depth": 0, "zero": true, "data": false}]
-+Formatting 'TEST_DIR/t.IMGFMT.orig', fmt=IMGFMT size=67108864
-+[{ "start": 0, "length": 67108864, "depth": 0, "zero": true, "data": false}]
-+
-+=== -n to an empty image with a backing file ===
-+
-+Formatting 'TEST_DIR/t.IMGFMT', fmt=IMGFMT size=67108864
-+Formatting 'TEST_DIR/t.IMGFMT.base', fmt=IMGFMT size=67108864
-+Formatting 'TEST_DIR/t.IMGFMT.orig', fmt=IMGFMT size=67108864 backing_file=TEST_DIR/t.IMGFMT.base backing_fmt=IMGFMT
-+[{ "start": 0, "length": 67108864, "depth": 0, "zero": true, "data": false}]
-+Formatting 'TEST_DIR/t.IMGFMT.orig', fmt=IMGFMT size=67108864 backing_file=TEST_DIR/t.IMGFMT.base backing_fmt=IMGFMT
-+[{ "start": 0, "length": 67108864, "depth": 0, "zero": false, "data": true, "offset": 327680}]
-+
- === -n -B to an image without a backing file ===
- 
- Formatting 'TEST_DIR/t.IMGFMT.base', fmt=IMGFMT size=67108864
--- 
-2.25.4
+Ok, then let's focus that patch.
 
+Thanks,
+Li Qiang
+
+>     ...
+>     > On the other hand, I cannot reproduce either issue with Li's patch:
+>     > Message-Id: <20200716161453.61295-1-liq3ea@163.com>
+>
+>
+> Thank you.
+> --
+> Prasad J Pandit / Red Hat Product Security Team
+> 8685 545E B54C 486B C6EB 271E E285 8B5A F050 DE8D
+>
 
