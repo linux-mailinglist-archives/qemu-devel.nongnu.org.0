@@ -2,76 +2,73 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 754682261C0
+	by mail.lfdr.de (Postfix) with ESMTPS id B3BCE2261C1
 	for <lists+qemu-devel@lfdr.de>; Mon, 20 Jul 2020 16:17:59 +0200 (CEST)
-Received: from localhost ([::1]:43108 helo=lists1p.gnu.org)
+Received: from localhost ([::1]:43668 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jxWc0-0002gK-Mq
-	for lists+qemu-devel@lfdr.de; Mon, 20 Jul 2020 10:17:48 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:57034)
+	id 1jxWc5-0002tr-Tu
+	for lists+qemu-devel@lfdr.de; Mon, 20 Jul 2020 10:17:53 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:57144)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1jxWac-00012G-MY
- for qemu-devel@nongnu.org; Mon, 20 Jul 2020 10:16:22 -0400
-Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:25087
+ (Exim 4.90_1) (envelope-from <imammedo@redhat.com>)
+ id 1jxWaj-00015d-4S
+ for qemu-devel@nongnu.org; Mon, 20 Jul 2020 10:16:29 -0400
+Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:46306
  helo=us-smtp-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1jxWaa-0002lG-V2
- for qemu-devel@nongnu.org; Mon, 20 Jul 2020 10:16:22 -0400
+ (Exim 4.90_1) (envelope-from <imammedo@redhat.com>)
+ id 1jxWah-0002mN-KC
+ for qemu-devel@nongnu.org; Mon, 20 Jul 2020 10:16:28 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1595254580;
- h=from:from:reply-to:reply-to:subject:subject:date:date:
- message-id:message-id:to:to:cc:cc:mime-version:mime-version:
- content-type:content-type:
+ s=mimecast20190719; t=1595254586;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=VnWwnBA7bibI/BD/RADjapULEjAc8iF6V3spLaU7rbg=;
- b=EbvFRrRyp/pugjEo8TuFXP6SnsQQ2sDb2UG0a9n0cvr2JHzuBpNRDDwoARRewWyFmWTcty
- XTeBGHT+D7smELHyqjhnf5IdGHvhxxAbR8xmh6mflWWjlqblSKYt1a7CBkn11N8jxOq01c
- 0SAFyLhdqoYlSEhXt6vVkN7rneRKDSc=
+ bh=CNrqDuxvUYwoxUreKhOkKO2k2Wkz5pO3b0+eW3WCsSk=;
+ b=RiX18t1IwYSfrUyObNlrMYvziJARi+tVeITcs28FWffKuAuofIafvQf2KGDTYej/lRFQJO
+ nsrZuv7AVyz0HgpVLw8wpoawBsP8AKS7TXc0XrONJsqQPLPgvvjORFHlOqBZxjCup7doDP
+ y3Az2zPokjXwRf7ZdAnxcMlaAV/c8qQ=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-495-eOA1W7IkO7aEzLjInQYOWg-1; Mon, 20 Jul 2020 10:16:17 -0400
-X-MC-Unique: eOA1W7IkO7aEzLjInQYOWg-1
+ us-mta-166-uzmr7LcHM8mdncK3F8VpxA-1; Mon, 20 Jul 2020 10:16:21 -0400
+X-MC-Unique: uzmr7LcHM8mdncK3F8VpxA-1
 Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
  [10.5.11.23])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 0E9E8527ED;
- Mon, 20 Jul 2020 14:16:12 +0000 (UTC)
-Received: from redhat.com (unknown [10.36.110.53])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id DF5C119C71;
- Mon, 20 Jul 2020 14:16:09 +0000 (UTC)
-Date: Mon, 20 Jul 2020 15:16:07 +0100
-From: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
-To: Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
-Subject: Re: [PATCH-for-5.1 3/4] qemu-common: Document qemu_find_file()
-Message-ID: <20200720141607.GH643836@redhat.com>
-References: <20200714164257.23330-1-f4bug@amsat.org>
- <20200714164257.23330-4-f4bug@amsat.org>
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 9998F1902ED1;
+ Mon, 20 Jul 2020 14:16:17 +0000 (UTC)
+Received: from dell-r430-03.lab.eng.brq.redhat.com
+ (dell-r430-03.lab.eng.brq.redhat.com [10.37.153.18])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id C43A219C71;
+ Mon, 20 Jul 2020 14:16:16 +0000 (UTC)
+From: Igor Mammedov <imammedo@redhat.com>
+To: qemu-devel@nongnu.org
+Subject: [PATCH 4/6] tests: acpi: mark to be changed tables in
+ bios-tables-test-allowed-diff
+Date: Mon, 20 Jul 2020 10:16:08 -0400
+Message-Id: <20200720141610.574308-5-imammedo@redhat.com>
+In-Reply-To: <20200720141610.574308-1-imammedo@redhat.com>
+References: <20200720141610.574308-1-imammedo@redhat.com>
 MIME-Version: 1.0
-In-Reply-To: <20200714164257.23330-4-f4bug@amsat.org>
-User-Agent: Mutt/1.14.5 (2020-06-23)
 X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: 8bit
-Content-Disposition: inline
-Received-SPF: pass client-ip=207.211.31.120; envelope-from=berrange@redhat.com;
+Received-SPF: pass client-ip=205.139.110.120; envelope-from=imammedo@redhat.com;
  helo=us-smtp-1.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/07/20 03:17:01
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/07/20 02:11:17
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
-X-Spam_score_int: -30
-X-Spam_score: -3.1
-X-Spam_bar: ---
-X-Spam_report: (-3.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1,
+X-Spam_score_int: -40
+X-Spam_score: -4.1
+X-Spam_bar: ----
+X-Spam_report: (-4.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H4=-0.01, RCVD_IN_MSPIKE_WL=-0.01,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- URIBL_BLOCKED=0.001 autolearn=ham autolearn_force=no
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-1, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -84,75 +81,43 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
-Cc: Peter Maydell <peter.maydell@linaro.org>,
- Sarah Harris <S.E.Harris@kent.ac.uk>, Stefan Weil <sw@weilnetz.de>,
- qemu-devel@nongnu.org, Michael Rolnik <mrolnik@gmail.com>,
- Paolo Bonzini <pbonzini@redhat.com>
+Cc: boris.ostrovsky@oracle.com, lersek@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Tue, Jul 14, 2020 at 06:42:56PM +0200, Philippe Mathieu-Daudé wrote:
-> Document qemu_find_file(), in particular the returned
-> value which must be freed.
-> 
-> Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
-> ---
->  include/qemu-common.h | 14 ++++++++++++++
->  1 file changed, 14 insertions(+)
+... to let tests pass until binary blobs are updated with new AML
 
-Reviewed-by: Daniel P. Berrangé <berrange@redhat.com>
+Signed-off-by: Igor Mammedov <imammedo@redhat.com>
+---
+ tests/qtest/bios-tables-test-allowed-diff.h | 19 +++++++++++++++++++
+ 1 file changed, 19 insertions(+)
 
-> 
-> diff --git a/include/qemu-common.h b/include/qemu-common.h
-> index d0142f29ac..d6a08259d3 100644
-> --- a/include/qemu-common.h
-> +++ b/include/qemu-common.h
-> @@ -110,6 +110,20 @@ const char *qemu_get_vm_name(void);
->  
->  #define QEMU_FILE_TYPE_BIOS   0
->  #define QEMU_FILE_TYPE_KEYMAP 1
-> +/**
-> + * qemu_find_file:
-> + * @type: QEMU_FILE_TYPE_BIOS (for BIOS, VGA BIOS)
-> + *        or QEMU_FILE_TYPE_KEYMAP (for keymaps).
-> + * @name: File name
-
-s/File name/relative or absolute file name/
-
-> + *
-
-Insert:
-
-  "If @name exists on disk as an absolute path, or a path relative
-   to the current directory, then returns @name unchanged.
-
-
-> + * Search for @name file in the data directories, either configured at
-> + * build time (DATADIR) or registered with the -L command line option.
-
-s/Search/Otherwise searches/
-
-
-> + *
-> + * The caller must use g_free() to free the returned data when it is
-> + * no longer required.
-> + *
-> + * Returns: absolute path to the file or NULL on error.
-
-It doesn't always return an absolute path. It can return a path
-relative to the currently working directory via the initial
-short-circuit access() check.
-
-   Returns: a path that can access @name, or NULL if no matching
-            file exists.
-
-
-Regards,
-Daniel
+diff --git a/tests/qtest/bios-tables-test-allowed-diff.h b/tests/qtest/bios-tables-test-allowed-diff.h
+index dfb8523c8b..dba32d5613 100644
+--- a/tests/qtest/bios-tables-test-allowed-diff.h
++++ b/tests/qtest/bios-tables-test-allowed-diff.h
+@@ -1 +1,20 @@
+ /* List of comma-separated changed AML files to ignore */
++"tests/data/acpi/pc/DSDT",
++"tests/data/acpi/q35/DSDT",
++"tests/data/acpi/q35/DSDT.tis",
++"tests/data/acpi/q35/DSDT.bridge",
++"tests/data/acpi/q35/DSDT.mmio64",
++"tests/data/acpi/q35/DSDT.ipmibt",
++"tests/data/acpi/q35/DSDT.cphp",
++"tests/data/acpi/q35/DSDT.memhp",
++"tests/data/acpi/q35/DSDT.numamem",
++"tests/data/acpi/q35/DSDT.dimmpxm",
++"tests/data/acpi/q35/DSDT.acpihmat",
++"tests/data/acpi/pc/DSDT.bridge",
++"tests/data/acpi/pc/DSDT.ipmikcs",
++"tests/data/acpi/pc/DSDT.cphp",
++"tests/data/acpi/pc/DSDT.memhp",
++"tests/data/acpi/pc/DSDT.numamem",
++"tests/data/acpi/pc/DSDT.dimmpxm",
++"tests/data/acpi/pc/DSDT.acpihmat",
++"tests/data/acpi/pc/DSDT.acpihmat",
 -- 
-|: https://berrange.com      -o-    https://www.flickr.com/photos/dberrange :|
-|: https://libvirt.org         -o-            https://fstop138.berrange.com :|
-|: https://entangle-photo.org    -o-    https://www.instagram.com/dberrange :|
+2.26.2
 
 
