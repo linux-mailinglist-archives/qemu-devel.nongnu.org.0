@@ -2,54 +2,56 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1F209226DC3
-	for <lists+qemu-devel@lfdr.de>; Mon, 20 Jul 2020 20:09:03 +0200 (CEST)
-Received: from localhost ([::1]:35700 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id BA55F226DC2
+	for <lists+qemu-devel@lfdr.de>; Mon, 20 Jul 2020 20:09:00 +0200 (CEST)
+Received: from localhost ([::1]:35574 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jxaDm-0006g8-5e
-	for lists+qemu-devel@lfdr.de; Mon, 20 Jul 2020 14:09:02 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:58446)
+	id 1jxaDj-0006d8-IO
+	for lists+qemu-devel@lfdr.de; Mon, 20 Jul 2020 14:08:59 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:58458)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <vsementsov@virtuozzo.com>)
- id 1jxaCR-0005Zi-Tt; Mon, 20 Jul 2020 14:07:39 -0400
+ id 1jxaCT-0005Zz-BL; Mon, 20 Jul 2020 14:07:41 -0400
 Received: from mail-eopbgr30115.outbound.protection.outlook.com
  ([40.107.3.115]:44342 helo=EUR03-AM5-obe.outbound.protection.outlook.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <vsementsov@virtuozzo.com>)
- id 1jxaCO-0001VM-T6; Mon, 20 Jul 2020 14:07:39 -0400
+ id 1jxaCR-0001VM-QF; Mon, 20 Jul 2020 14:07:41 -0400
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=b7m/O/Tpd2R/e32poy8HU7RHn7V0lbF8x+gyRMc3qZLCVFEzyLu+wZZVuG9nO0Jc2ETs/u//cFsRj4qcazxlc9pLHawF96HaydUUGkWotIOsHpe67ei1hAdVno+zTeatxMkJZwwKihXdM+xGJuG/n8BfOhxsKBRdpYrcG9fWjslVFDCZNWIIyP8T6hTXCggV/Z7UqekzFUlR6A2CThEz/HiIdj2XUZUKeFY0OZKoFhCjjMD7zRJZCW7yIwXv+c7ztaes+JnVg/fP5eBAwQjfGBPrcJ1ruTC482f4Z2XeCEcUl5SNZVizX/AAWU57VHNCoZ3ZnYGioZx2K7XJVHuTjw==
+ b=OASEzoWfdwv3eCCQQxS/hkg8FcHhSG0N9fdBooX7xhY9UexOJofR7ewL7dElVAWGMos1VFMM76UpgOzPVgq1m/YnpB1u5rruO64ENwRRW9nShC36lXriNvGZGyg+B924s2lAoRdGLLi5kqm98Qu8o6sNpS0Umxqv5tIhx01KOtwO5V4WiNtXiGZAK3y05KYhTPmKkJQ5IyahVluLMyNZag536ASTTI339rKFsPChJShZjOxHP2rBF2/qLn1FXrd3aNpRWzuT4mLOHh5KnTFCvOdnQQwgE9byATMX77dfLrgyiYPqbcTRY2iKcORSgsx2FW4MqC3W7m82f/pNcGb4bQ==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=bKy59x7S3TJmvWNqUfre3JEdHF1Yh/JeYzBXP6rsedo=;
- b=A350FttkZ+g/B/VvOau9W4SB2lXWKGcf4F8xc4YdXevqjFXfjKb5zIPDBoQoY4ntacbCSPTnpjFv1Goz9ysGY9wB75gy0ByoKS74xo4mKI8IrDymv74TXR8MuRbL0aNv6De+Ia+lYY89eJu8rDhAMgPvcwwl5SciaNqRRu9JB3NCebwZBq1ZKUl7nrpOxY7JcN7BjAN0uHQxXwOSCU4h0RlOLXFO9FoSZ79/pxKrhMfMa760lNhzVF9bXJT718ict7LbiV+E2HYU7gcXDbv5M85HnlpXXoqdRd5ezHaPRSGHi3/TsjExUW4M2h0TMcFbi59Zjc1oNTdEw/Y44AGrHw==
+ bh=PG6cTf5Qit+1icUrpH22YVcK+nC3ckzQEiuctJkqkoI=;
+ b=NrpzNISAhAvmHZMBh9E5mGA4xSoTOcR49TIVoRBm8/qny1PPkGy269vx+ZVntNigfoEz9LBHzuAhCI8uZa0Xz5CK6WWL84w8RdKGkhJqBMZw/9AOrCbi7SUjBUC47qby9jummReMsfhpOg+O8nN8cF/H/oBODzWjEuCaajhL6FRBhXQiNt4WTi6d/BabhnyNVYSvRyCHdo/vsjUo3fT2mQ6IcigIig8bs9T7wVXHa7u5lJy/22VGg7A6dr/cu/rLbX18u+KwgBVQShv7faHW+52xzQ4ITxIwsz3wk+nwiW/dzn5zo1KuOgFaRHw2w7nT2owYyiUnejgpeoRyY5vdXQ==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
  smtp.mailfrom=virtuozzo.com; dmarc=pass action=none
  header.from=virtuozzo.com; dkim=pass header.d=virtuozzo.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=virtuozzo.com;
  s=selector2;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=bKy59x7S3TJmvWNqUfre3JEdHF1Yh/JeYzBXP6rsedo=;
- b=k/5LIemH+Y+jks9au/GVx44B1l0eHZb7PFsZMtnFBCjrY7/kAqAs+IZqm2+blOUuQNe3+uoDJyu8gWMabVjdpFkTl3HqwHOya4smn86YZ0ONvtP2meaGghZ07XvL991EM0f2rmvwAkE3zZ90REKVHhfWIn7ztCA2xXbeXGu+7Xw=
+ bh=PG6cTf5Qit+1icUrpH22YVcK+nC3ckzQEiuctJkqkoI=;
+ b=FvYFZtDtD9Xg+Rjmqi3xGcN/2IhlhR8BXxoEsdqgCVghdrjY6x/cIcQy1AW/KT3vd10yg/c/UALvYEIs3rj/J6Xkw696FXCc5QX3imUuLSWk0XscXDZgFj3PFZNxo7bBDxhn89OAMZui1ldCtqW4roMTVucvfsMm8o/6yM50Kbc=
 Authentication-Results: nongnu.org; dkim=none (message not signed)
  header.d=none;nongnu.org; dmarc=none action=none header.from=virtuozzo.com;
 Received: from AM7PR08MB5494.eurprd08.prod.outlook.com (2603:10a6:20b:dc::15)
  by AM6PR08MB4342.eurprd08.prod.outlook.com (2603:10a6:20b:b4::22)
  with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3195.17; Mon, 20 Jul
- 2020 18:07:33 +0000
+ 2020 18:07:34 +0000
 Received: from AM7PR08MB5494.eurprd08.prod.outlook.com
  ([fe80::a408:2f0f:bc6c:d312]) by AM7PR08MB5494.eurprd08.prod.outlook.com
  ([fe80::a408:2f0f:bc6c:d312%3]) with mapi id 15.20.3195.025; Mon, 20 Jul 2020
- 18:07:33 +0000
+ 18:07:34 +0000
 From: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
 To: qemu-block@nongnu.org
-Subject: [PATCH for-5.1? 0/4] non-blocking connect
-Date: Mon, 20 Jul 2020 21:07:11 +0300
-Message-Id: <20200720180715.10521-1-vsementsov@virtuozzo.com>
+Subject: [PATCH 1/4] qemu-sockets: refactor inet_connect_addr
+Date: Mon, 20 Jul 2020 21:07:12 +0300
+Message-Id: <20200720180715.10521-2-vsementsov@virtuozzo.com>
 X-Mailer: git-send-email 2.21.0
+In-Reply-To: <20200720180715.10521-1-vsementsov@virtuozzo.com>
+References: <20200720180715.10521-1-vsementsov@virtuozzo.com>
 Content-Transfer-Encoding: 8bit
 Content-Type: text/plain
 X-ClientProxiedBy: AM0PR06CA0130.eurprd06.prod.outlook.com
@@ -64,29 +66,29 @@ Received: from localhost.localdomain (185.215.60.171) by
 X-Mailer: git-send-email 2.21.0
 X-Originating-IP: [185.215.60.171]
 X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: 16fbd2b0-a5a7-4378-c7f6-08d82cd7c6a5
+X-MS-Office365-Filtering-Correlation-Id: a346781b-fd4e-4b94-8890-08d82cd7c720
 X-MS-TrafficTypeDiagnostic: AM6PR08MB4342:
 X-MS-Exchange-Transport-Forked: True
-X-Microsoft-Antispam-PRVS: <AM6PR08MB4342A07C81422BF4C9FC28F8C17B0@AM6PR08MB4342.eurprd08.prod.outlook.com>
-X-MS-Oob-TLC-OOBClassifiers: OLM:5797;
+X-Microsoft-Antispam-PRVS: <AM6PR08MB43423EC23A4C620E5329A681C17B0@AM6PR08MB4342.eurprd08.prod.outlook.com>
+X-MS-Oob-TLC-OOBClassifiers: OLM:4941;
 X-MS-Exchange-SenderADCheck: 1
 X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: xvzgSEEoIglQNNmUJsNynF5hhU6lbBJ6weCFnXjD4Or25X7bBYTsEBLlTk2UoSpSerB8rjm7VP+2iF7SDdVv5O+LaPWr8hiTo6J1Z5dVhbt5CSJADftsj6arB0CE3EYTSWWUfGN/rKNbR3BhTY9I7bXwSj6AeHjSufKXTQIioQPLDNq4C5GCLPNwOEFwoXI46lQzxy4qZa/JX5oK6etbbAjDZ6bWiPvWU6VmHvbbxQqDPx76ArYsf7J7/tNKdXClfMVBmfRo7gFDeQxWD2ZCGa7yr/ekDyDXvg12Yf5I1CajkbQzyhDbqfv8EA/uqVnabjPK/xBaz8z/YchEj8mwf1dqsisEcdguXnSPnJWgXhKd4I6CKAfyJamXkezBjNub
+X-Microsoft-Antispam-Message-Info: ierSNRfsoy7y1Lul4p7Bbn6toQQfHHcYCIPsDuM3oLfvLSHYvMru6FILYAqVlKz/3KRra/T0tjcKfnyjAHK60QMcIwSKUC+2LXTo8YNEu+bLX/rpqcB6n8fVvsgLXw0sASmwZYamigRvUrETHiX7kAWi20mrU9/TpCRFn5fDUg0fggyoZ9Iv8Go/6Mkysu7fpqF/mKq5vGLdEN4r/sROfiil7UBcv7u6QtMuJvIstjD/7Sc946IJt/cc+UeYWzR2W8BlTsQfAnjHURX8I6/5KG0YnxfKRT5VJ/eMxPwVAEzX9VR/WCTDqe8TsUjfq0dmcSUmIvpfzPK6K5eL2CVsjAUHftUSjMOkvwAz+5Y+3nFAW8c7fJsahI+RTjUTGXum
 X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
  IPV:NLI; SFV:NSPM; H:AM7PR08MB5494.eurprd08.prod.outlook.com; PTR:; CAT:NONE;
  SFTY:;
- SFS:(4636009)(396003)(136003)(376002)(346002)(366004)(39840400004)(86362001)(4326008)(107886003)(316002)(16526019)(4744005)(83380400001)(6666004)(2616005)(956004)(6512007)(6916009)(6486002)(2906002)(66556008)(66476007)(66946007)(8676002)(478600001)(186003)(8936002)(52116002)(5660300002)(26005)(36756003)(6506007)(69590400007)(1076003);
+ SFS:(4636009)(396003)(136003)(376002)(346002)(366004)(39840400004)(86362001)(4326008)(107886003)(316002)(16526019)(83380400001)(6666004)(2616005)(956004)(6512007)(6916009)(6486002)(2906002)(66556008)(66476007)(66946007)(8676002)(478600001)(186003)(8936002)(52116002)(5660300002)(26005)(36756003)(6506007)(69590400007)(1076003);
  DIR:OUT; SFP:1102; 
-X-MS-Exchange-AntiSpam-MessageData: XLLUlHONQ2fWb1w9FphgbNV4ETOenXY21MiXBF6m3PlQcs8gizOAZXPbl34gQInXTG6s+gyfwJjx9VGnO6LN8RWP9l11PCdijmaQbedosIvUY5F+5C6aoIeNRiZWIePn390FUIOahOc8bGLrB+OZQcAH97ukTsV9WwLkjW8FcUpMEWGgRw5htSyYK/iGnh7QtmI5T73IM+90TMcNWdO31Zk4NKJ3fmAQNLrdbeE5R6d8UyIZKrg9AxJgO60iZV5NAVys9QGNXYA7rOyh/vV2ajqx46BjsG4eChmx63GiovDtHdlyFTRYhdCfgq7JOXSonh5MBRW7zN6fQUI97+U89oXIPj4X2nS2kzSL1g6CT0OnnW9Pcko5XA5axy//5dE+W+UyfGP+xvt1+97xhlqQTMnavhB0y15LxoDdYg98kvrLN2NjBUtzCQ8ZGRIoCPE/wMH5is/A59xB8kosR+05+at9w3lYJLFnR3bobQ5Lb1azTmEAHSAS6pQgZL+ATwUV
+X-MS-Exchange-AntiSpam-MessageData: ZMgINxDRV2aY1+cmcjCYE9QhCBiLXNcHjfSQXyPplE6T+rkFGgwmkdpKvxKjHU/OBIyir7aZhzAhpy+w45VQGRWBV8gVNyNxknYcC/02LSR1Cdo92V4xwhWeeXG3GdyX4B5qMJXk2dfYLOnV5Cidf9syDO73DNg8jl8TvNZpOHzgcmahOuqBlGPqt0mwUqS/4ZgH+zg+NyrFvk/Ca1CmqO1rAlH4Tlyw4SCTUe7U0GTIFRdQNrXZtjb9gWOZrnwuUD0xUNEFrI4qIHlHNcpK5VTCKpmxFVSezWuDk25i/sm3/bH45r5v9vrITSt8ZlXXkZpDrZtZuRfCUOJXqcaLwyis3Q8LdsevQkNpO7Tr71lOOp2EqdMsojVQNdkKraaynAcNeEoY+yeRYXrQMNcCkv5afzBFJNZxzetbdZpt7KIo20oQowYCi9srU6HXvz7ijG2ZEYgUVxovJ17cYNdyQJc2uq3t4LxoKqCMobosFgA=
 X-OriginatorOrg: virtuozzo.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 16fbd2b0-a5a7-4378-c7f6-08d82cd7c6a5
+X-MS-Exchange-CrossTenant-Network-Message-Id: a346781b-fd4e-4b94-8890-08d82cd7c720
 X-MS-Exchange-CrossTenant-AuthSource: AM7PR08MB5494.eurprd08.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 20 Jul 2020 18:07:33.6971 (UTC)
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 20 Jul 2020 18:07:34.5275 (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
 X-MS-Exchange-CrossTenant-Id: 0bc7f26d-0264-416e-a6fc-8352af79c58f
 X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: kF+dv4ktCZ1SgnZW8u4P7fgFD2Q87JlJRXJVH+dMpflRTw/DqG+st5ngApx98jWacP7XhKDTP1j/0VTTWUvQ7jTjaHHF2YqveAsxcPo4fbc=
+X-MS-Exchange-CrossTenant-UserPrincipalName: 8pQK53kRQCDNeghmI2Awy3wpMX7mUTmtbZdfoyIKcBA9qfDvMSTk2bET/qe+5JPbEEAo/R4zxAoZ/rQHBQykSlq190SNQdy0FRfSNUviz3s=
 X-MS-Exchange-Transport-CrossTenantHeadersStamped: AM6PR08MB4342
 Received-SPF: pass client-ip=40.107.3.115;
  envelope-from=vsementsov@virtuozzo.com;
@@ -118,26 +120,87 @@ Cc: kwolf@redhat.com, vsementsov@virtuozzo.com, berrange@redhat.com,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Hi! This fixes real problem (see 04). On the other hand it may be too
-much for 5.1, and it's not a degradation. So, up to you.
+We are going to publish inet_connect_addr to be used in separate. Let's
+move keep_alive handling to it. Pass the whole InetSocketAddress
+pointer, not only keep_alive, so that future external callers will not
+care about internals of InetSocketAddress.
 
-It's based on "[PATCH for-5.1? 0/3] Fix nbd reconnect dead-locks", or
-in other words
-Based-on: <20200720090024.18186-1-vsementsov@virtuozzo.com>
+While being here, remove redundant inet_connect_addr() declaration.
 
-Vladimir Sementsov-Ogievskiy (4):
-  qemu-sockets: refactor inet_connect_addr
-  qemu-sockets: implement non-blocking connect interface
-  io/channel-socket: implement non-blocking connect
-  block/nbd: use non-blocking connect: fix vm hang on connect()
+Signed-off-by: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
+---
+ util/qemu-sockets.c | 37 ++++++++++++++++---------------------
+ 1 file changed, 16 insertions(+), 21 deletions(-)
 
- include/io/channel-socket.h | 14 +++++++
- include/qemu/sockets.h      |  6 +++
- block/nbd.c                 | 11 +++---
- io/channel-socket.c         | 74 ++++++++++++++++++++++++++++++++++++
- util/qemu-sockets.c         | 76 ++++++++++++++++++++++++++-----------
- 5 files changed, 153 insertions(+), 28 deletions(-)
-
+diff --git a/util/qemu-sockets.c b/util/qemu-sockets.c
+index b37d288866..8ccf4088c2 100644
+--- a/util/qemu-sockets.c
++++ b/util/qemu-sockets.c
+@@ -354,9 +354,8 @@ listen_ok:
+     ((rc) == -EINPROGRESS)
+ #endif
+ 
+-static int inet_connect_addr(struct addrinfo *addr, Error **errp);
+-
+-static int inet_connect_addr(struct addrinfo *addr, Error **errp)
++static int inet_connect_addr(InetSocketAddress *saddr,
++                             struct addrinfo *addr, Error **errp)
+ {
+     int sock, rc;
+ 
+@@ -381,6 +380,18 @@ static int inet_connect_addr(struct addrinfo *addr, Error **errp)
+         return -1;
+     }
+ 
++    if (saddr->keep_alive) {
++        int val = 1;
++        int ret = qemu_setsockopt(sock, SOL_SOCKET, SO_KEEPALIVE,
++                                  &val, sizeof(val));
++
++        if (ret < 0) {
++            error_setg_errno(errp, errno, "Unable to set KEEPALIVE");
++            closesocket(sock);
++            return -1;
++        }
++    }
++
+     return sock;
+ }
+ 
+@@ -455,7 +466,7 @@ int inet_connect_saddr(InetSocketAddress *saddr, Error **errp)
+     for (e = res; e != NULL; e = e->ai_next) {
+         error_free(local_err);
+         local_err = NULL;
+-        sock = inet_connect_addr(e, &local_err);
++        sock = inet_connect_addr(saddr, e, &local_err);
+         if (sock >= 0) {
+             break;
+         }
+@@ -463,23 +474,7 @@ int inet_connect_saddr(InetSocketAddress *saddr, Error **errp)
+ 
+     freeaddrinfo(res);
+ 
+-    if (sock < 0) {
+-        error_propagate(errp, local_err);
+-        return sock;
+-    }
+-
+-    if (saddr->keep_alive) {
+-        int val = 1;
+-        int ret = qemu_setsockopt(sock, SOL_SOCKET, SO_KEEPALIVE,
+-                                  &val, sizeof(val));
+-
+-        if (ret < 0) {
+-            error_setg_errno(errp, errno, "Unable to set KEEPALIVE");
+-            close(sock);
+-            return -1;
+-        }
+-    }
+-
++    error_propagate(errp, local_err);
+     return sock;
+ }
+ 
 -- 
 2.21.0
 
