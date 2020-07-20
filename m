@@ -2,47 +2,59 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6E102226789
-	for <lists+qemu-devel@lfdr.de>; Mon, 20 Jul 2020 18:12:36 +0200 (CEST)
-Received: from localhost ([::1]:42546 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 03DC1226720
+	for <lists+qemu-devel@lfdr.de>; Mon, 20 Jul 2020 18:09:04 +0200 (CEST)
+Received: from localhost ([::1]:38452 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jxYP5-0001Zh-AG
-	for lists+qemu-devel@lfdr.de; Mon, 20 Jul 2020 12:12:35 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:59692)
+	id 1jxYLe-0008Eo-Pw
+	for lists+qemu-devel@lfdr.de; Mon, 20 Jul 2020 12:09:02 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:59944)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mjt@tls.msk.ru>) id 1jxYJN-0006cB-DK
- for qemu-devel@nongnu.org; Mon, 20 Jul 2020 12:06:41 -0400
-Received: from isrv.corpit.ru ([86.62.121.231]:37267)
+ (Exim 4.90_1) (envelope-from <clg@kaod.org>) id 1jxYKt-0007fO-N3
+ for qemu-devel@nongnu.org; Mon, 20 Jul 2020 12:08:15 -0400
+Received: from 1.mo68.mail-out.ovh.net ([46.105.41.146]:33817)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mjt@tls.msk.ru>) id 1jxYJL-0002on-4C
- for qemu-devel@nongnu.org; Mon, 20 Jul 2020 12:06:41 -0400
-Received: from tsrv.corpit.ru (tsrv.tls.msk.ru [192.168.177.2])
- by isrv.corpit.ru (Postfix) with ESMTP id B0C2640547;
- Mon, 20 Jul 2020 19:06:35 +0300 (MSK)
-Received: from tls.msk.ru (mjt.vpn.tls.msk.ru [192.168.177.99])
- by tsrv.corpit.ru (Postfix) with SMTP id 1544DA4;
- Mon, 20 Jul 2020 19:06:35 +0300 (MSK)
-Received: (nullmailer pid 15538 invoked by uid 1000);
- Mon, 20 Jul 2020 16:06:34 -0000
-From: Michael Tokarev <mjt@tls.msk.ru>
-To: qemu-devel@nongnu.org, "Michael S . Tsirkin" <mst@redhat.com>
-Subject: [PATCH for-5.1] acpi: accept byte and word access to core ACPI
- registers
-Date: Mon, 20 Jul 2020 19:06:27 +0300
-Message-Id: <20200720160627.15491-1-mjt@msgid.tls.msk.ru>
-X-Mailer: git-send-email 2.20.1
+ (Exim 4.90_1) (envelope-from <clg@kaod.org>) id 1jxYKr-0002wp-Q4
+ for qemu-devel@nongnu.org; Mon, 20 Jul 2020 12:08:15 -0400
+Received: from player691.ha.ovh.net (unknown [10.110.171.148])
+ by mo68.mail-out.ovh.net (Postfix) with ESMTP id 1BB42173DA9
+ for <qemu-devel@nongnu.org>; Mon, 20 Jul 2020 18:08:02 +0200 (CEST)
+Received: from kaod.org (bad36-1-78-202-132-1.fbx.proxad.net [78.202.132.1])
+ (Authenticated sender: clg@kaod.org)
+ by player691.ha.ovh.net (Postfix) with ESMTPSA id 3F9C81498A4D2;
+ Mon, 20 Jul 2020 16:07:55 +0000 (UTC)
+Authentication-Results: garm.ovh; auth=pass
+ (GARM-97G0025bee732f-b8c7-4e32-8983-4cc0222cbcde,6196D7FED5334CEB3A8C25BBD62C6C93FB7A110A)
+ smtp.auth=clg@kaod.org
+Subject: Re: [PATCH-for-5.1] hw/misc/aspeed_sdmc: Fix incorrect memory size
+To: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>,
+ qemu-devel@nongnu.org
+References: <20200720095829.22839-1-f4bug@amsat.org>
+From: =?UTF-8?Q?C=c3=a9dric_Le_Goater?= <clg@kaod.org>
+Message-ID: <ed5e6bd0-0962-b182-3348-d3c6655ef35e@kaod.org>
+Date: Mon, 20 Jul 2020 18:07:54 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.9.0
 MIME-Version: 1.0
+In-Reply-To: <20200720095829.22839-1-f4bug@amsat.org>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
 Content-Transfer-Encoding: 8bit
-Received-SPF: none client-ip=86.62.121.231; envelope-from=mjt@tls.msk.ru;
- helo=isrv.corpit.ru
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/07/20 10:57:00
-X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic]
-X-Spam_score_int: -68
-X-Spam_score: -6.9
-X-Spam_bar: ------
-X-Spam_report: (-6.9 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_HI=-5,
- SPF_HELO_NONE=0.001, SPF_NONE=0.001 autolearn=ham autolearn_force=no
+X-Ovh-Tracer-Id: 13934700199559531281
+X-VR-SPAMSTATE: OK
+X-VR-SPAMSCORE: -100
+X-VR-SPAMCAUSE: gggruggvucftvghtrhhoucdtuddrgeduiedrgeeggdejfecutefuodetggdotefrodftvfcurfhrohhfihhlvgemucfqggfjpdevjffgvefmvefgnecuuegrihhlohhuthemucehtddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenucfjughrpefuvfhfhffkffgfgggjtgfgsehtkeertddtfeejnecuhfhrohhmpeevrogurhhitggpnfgvpgfiohgrthgvrhcuoegtlhhgsehkrghougdrohhrgheqnecuggftrfgrthhtvghrnhepfeffvddtudegieefudeugffhjefgieegieegleettdehgfeiieevueeihfegfefgnecukfhppedtrddtrddtrddtpdejkedrvddtvddrudefvddrudenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhhouggvpehsmhhtphdqohhuthdphhgvlhhopehplhgrhigvrheiledurdhhrgdrohhvhhdrnhgvthdpihhnvghtpedtrddtrddtrddtpdhmrghilhhfrhhomheptghlgheskhgrohgurdhorhhgpdhrtghpthhtohepqhgvmhhuqdguvghvvghlsehnohhnghhnuhdrohhrgh
+Received-SPF: pass client-ip=46.105.41.146; envelope-from=clg@kaod.org;
+ helo=1.mo68.mail-out.ovh.net
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/07/20 12:08:03
+X-ACL-Warn: Detected OS   = Linux 3.11 and newer
+X-Spam_score_int: -18
+X-Spam_score: -1.9
+X-Spam_bar: -
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_NONE=-0.0001,
+ RCVD_IN_MSPIKE_H3=-0.01, RCVD_IN_MSPIKE_WL=-0.01, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -55,63 +67,85 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Simon John <git@the-jedi.co.uk>, Michael Tokarev <mjt@tls.msk.ru>
+Cc: Andrew Jeffery <andrew@aj.id.au>, Peter Maydell <peter.maydell@linaro.org>,
+ qemu-arm@nongnu.org, Joel Stanley <joel@jms.id.au>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-All ISA registers should be accessible as bytes, words or dwords
-(if wide enough).  Fix the access constraints for acpi-pm-evt,
-acpi-pm-tmr & acpi-cnt registers.
+On 7/20/20 11:58 AM, Philippe Mathieu-Daudé wrote:
+> The SDRAM Memory Controller has a 32-bit address bus, thus
+> supports up to 4 GiB of DRAM. There is a signed to unsigned
+> conversion error with the AST2600 maximum memory size:
+> 
+>   (uint64_t)(2048 << 20) = (uint64_t)(-2147483648)
+>                          = 0xffffffff40000000
+>                          = 16 EiB - 2 GiB
+> 
+> Fix by using the IEC suffixes which are usually safer, and add
+> a check to verify the memory is valid. This would have catched
+> this bug:
+> 
+>     Unexpected error in aspeed_sdmc_realize() at hw/misc/aspeed_sdmc.c:261:
+>     qemu-system-arm: Invalid RAM size 16 EiB
 
-Fixes: 5d971f9e67 (memory: Revert "memory: accept mismatching sizes in memory_region_access_valid")
-Fixes: afafe4bbe0 (apci: switch cnt to memory api)
-Fixes: 77d58b1e47 (apci: switch timer to memory api)
-Fixes: b5a7c024d2 (apci: switch evt to memory api)
-Buglink: https://lore.kernel.org/xen-devel/20200630170913.123646-1-anthony.perard@citrix.com/T/
-Buglink: https://bugs.debian.org/964793
-BugLink: https://bugs.debian.org/cgi-bin/bugreport.cgi?bug=964247
-BugLink: https://bugs.launchpad.net/bugs/1886318
-Reported-By: Simon John <git@the-jedi.co.uk>
-Signed-off-by: Michael Tokarev <mjt@tls.msk.ru>
----
- hw/acpi/core.c | 9 ++++++---
- 1 file changed, 6 insertions(+), 3 deletions(-)
+Indeed :/
 
-diff --git a/hw/acpi/core.c b/hw/acpi/core.c
-index f6d9ec4f13..ac06db3450 100644
---- a/hw/acpi/core.c
-+++ b/hw/acpi/core.c
-@@ -458,7 +458,8 @@ static void acpi_pm_evt_write(void *opaque, hwaddr addr, uint64_t val,
- static const MemoryRegionOps acpi_pm_evt_ops = {
-     .read = acpi_pm_evt_read,
-     .write = acpi_pm_evt_write,
--    .valid.min_access_size = 2,
-+    .impl.min_access_size = 2,
-+    .valid.min_access_size = 1,
-     .valid.max_access_size = 2,
-     .endianness = DEVICE_LITTLE_ENDIAN,
- };
-@@ -527,7 +528,8 @@ static void acpi_pm_tmr_write(void *opaque, hwaddr addr, uint64_t val,
- static const MemoryRegionOps acpi_pm_tmr_ops = {
-     .read = acpi_pm_tmr_read,
-     .write = acpi_pm_tmr_write,
--    .valid.min_access_size = 4,
-+    .impl.min_access_size = 4,
-+    .valid.min_access_size = 1,
-     .valid.max_access_size = 4,
-     .endianness = DEVICE_LITTLE_ENDIAN,
- };
-@@ -599,7 +601,8 @@ static void acpi_pm_cnt_write(void *opaque, hwaddr addr, uint64_t val,
- static const MemoryRegionOps acpi_pm_cnt_ops = {
-     .read = acpi_pm_cnt_read,
-     .write = acpi_pm_cnt_write,
--    .valid.min_access_size = 2,
-+    .impl.min_access_size = 2,
-+    .valid.min_access_size = 1,
-     .valid.max_access_size = 2,
-     .endianness = DEVICE_LITTLE_ENDIAN,
- };
--- 
-2.20.1
+> 
+> Fixes: 1550d72679 ("aspeed/sdmc: Add AST2600 support")
+> Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
+> ---
+>  hw/misc/aspeed_sdmc.c | 12 +++++++++---
+>  1 file changed, 9 insertions(+), 3 deletions(-)
+> 
+> diff --git a/hw/misc/aspeed_sdmc.c b/hw/misc/aspeed_sdmc.c
+> index 0737d8de81..76dd7e6a20 100644
+> --- a/hw/misc/aspeed_sdmc.c
+> +++ b/hw/misc/aspeed_sdmc.c
+> @@ -256,6 +256,12 @@ static void aspeed_sdmc_realize(DeviceState *dev, Error **errp)
+>      AspeedSDMCClass *asc = ASPEED_SDMC_GET_CLASS(s);
+>  
+>      s->max_ram_size = asc->max_ram_size;
+> +    if (s->max_ram_size >= 4 * GiB) {
+> +        char *szstr = size_to_str(s->max_ram_size);
+> +        error_setg(errp, "Invalid RAM size %s", szstr);
+> +        g_free(szstr);
+> +        return;
+> +    }
+>
+
+I would put an assert() since the max RAM size is not user configurable. 
+
+C.
+
+>      memory_region_init_io(&s->iomem, OBJECT(s), &aspeed_sdmc_ops, s,
+>                            TYPE_ASPEED_SDMC, 0x1000);
+> @@ -341,7 +347,7 @@ static void aspeed_2400_sdmc_class_init(ObjectClass *klass, void *data)
+>      AspeedSDMCClass *asc = ASPEED_SDMC_CLASS(klass);
+>  
+>      dc->desc = "ASPEED 2400 SDRAM Memory Controller";
+> -    asc->max_ram_size = 512 << 20;
+> +    asc->max_ram_size = 512 * MiB;
+>      asc->compute_conf = aspeed_2400_sdmc_compute_conf;
+>      asc->write = aspeed_2400_sdmc_write;
+>      asc->valid_ram_sizes = aspeed_2400_ram_sizes;
+> @@ -408,7 +414,7 @@ static void aspeed_2500_sdmc_class_init(ObjectClass *klass, void *data)
+>      AspeedSDMCClass *asc = ASPEED_SDMC_CLASS(klass);
+>  
+>      dc->desc = "ASPEED 2500 SDRAM Memory Controller";
+> -    asc->max_ram_size = 1024 << 20;
+> +    asc->max_ram_size = 1 * GiB;
+>      asc->compute_conf = aspeed_2500_sdmc_compute_conf;
+>      asc->write = aspeed_2500_sdmc_write;
+>      asc->valid_ram_sizes = aspeed_2500_ram_sizes;
+> @@ -485,7 +491,7 @@ static void aspeed_2600_sdmc_class_init(ObjectClass *klass, void *data)
+>      AspeedSDMCClass *asc = ASPEED_SDMC_CLASS(klass);
+>  
+>      dc->desc = "ASPEED 2600 SDRAM Memory Controller";
+> -    asc->max_ram_size = 2048 << 20;
+> +    asc->max_ram_size = 2 * GiB;
+>      asc->compute_conf = aspeed_2600_sdmc_compute_conf;
+>      asc->write = aspeed_2600_sdmc_write;
+>      asc->valid_ram_sizes = aspeed_2600_ram_sizes;
+> 
 
 
