@@ -2,66 +2,61 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id EFB9B225C6D
-	for <lists+qemu-devel@lfdr.de>; Mon, 20 Jul 2020 12:08:52 +0200 (CEST)
-Received: from localhost ([::1]:39308 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7A750225C82
+	for <lists+qemu-devel@lfdr.de>; Mon, 20 Jul 2020 12:17:51 +0200 (CEST)
+Received: from localhost ([::1]:47632 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jxSj5-00023q-W1
-	for lists+qemu-devel@lfdr.de; Mon, 20 Jul 2020 06:08:52 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:38682)
+	id 1jxSrm-0005r0-IP
+	for lists+qemu-devel@lfdr.de; Mon, 20 Jul 2020 06:17:50 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:43074)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1jxShw-00017U-7p
- for qemu-devel@nongnu.org; Mon, 20 Jul 2020 06:07:40 -0400
-Received: from mail-ot1-x341.google.com ([2607:f8b0:4864:20::341]:38204)
+ id 1jxSqv-0005IY-CK
+ for qemu-devel@nongnu.org; Mon, 20 Jul 2020 06:16:57 -0400
+Received: from mail-oi1-x241.google.com ([2607:f8b0:4864:20::241]:43311)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1jxShu-00006n-Iq
- for qemu-devel@nongnu.org; Mon, 20 Jul 2020 06:07:39 -0400
-Received: by mail-ot1-x341.google.com with SMTP id t18so11704798otq.5
- for <qemu-devel@nongnu.org>; Mon, 20 Jul 2020 03:07:38 -0700 (PDT)
+ id 1jxSqs-0001Nh-FN
+ for qemu-devel@nongnu.org; Mon, 20 Jul 2020 06:16:57 -0400
+Received: by mail-oi1-x241.google.com with SMTP id x83so13978959oif.10
+ for <qemu-devel@nongnu.org>; Mon, 20 Jul 2020 03:16:53 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc:content-transfer-encoding;
- bh=Yy/yAmIohauinqypZy3r8dZZEu29B97c3gh4MR7TDxA=;
- b=fFfqOx7vSqZ82Evm1N8/VIvTbipeRWQ7lUSQUfFUe96M1kA8MV9QpE59WrUvk+F30o
- eJ8fWKVxo3VtzDexjSLa40ohQwqzHi2RkSSqcaptr1lHz7/UakJ/vs4S4bpDrI1k9zZF
- tx5ja800RwxJCCqTx32w/5Npvkm8bvkNYrARP7F7OUun+r6BgvSNcDXgZDkqbejdFMM2
- +aHQw756+xTYejNnCyjKwSdgNP4sMWHaT4/YXicqP22VUzWm/wJQ+3R3w8GvlpqDO1VP
- MJ+TNIgXeXFpl+O+eyOp5W5aXlFi8h57ZpmT4JkSojLSnKASTH/UQkrWotm5XIZNFmdU
- 8+eg==
+ :cc; bh=d22r45gYornC+aj8Wxf5zyEsQLelQikNBkLiinXRA4A=;
+ b=jZGX5X6zVCm/MNvaV8ZqLchyE2fip47xrEMTFJQEhLLPUilK89DbMvARSfYunDwOUK
+ 2AmBbkKkusOdp8OKI7U7+tP6mZyJr0h3hta6SAsUD1AgYVdcwXIISoENh3S+saIKg6R/
+ wwEgrD3bUwXjj2SHeWVw0VN2CI4dYTowy4x79wv9qd01qJ9DtMFHvSeSOMFr3EA4ELN0
+ RAodUgyQqIQTiDT7d/Cx7ktTae137y+m7mQjOylwkXirDLH//sN49cYv+XR1Xvn2umP3
+ TuiSri/q8yiZoPD07yzHBCmqvdEwyhOKNPCf+HhfY2Wz0biThfHDNY3tV4SEdbDPDOaS
+ i60Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc:content-transfer-encoding;
- bh=Yy/yAmIohauinqypZy3r8dZZEu29B97c3gh4MR7TDxA=;
- b=J17JZFbjqEgqctzrx0xqtiRyfWpRNYVjdS3TgPC3V3rpdytxPVp2ysfRjWbbWr3wWH
- og5V3uzc5xqi6N29Tbdxjhpn/fHfweICnH+uyDZw0TdC9/Mjoe34SUYdAE5UNh99CaHb
- OL04ZVBM94jgsdocf39DZZ0AkG3oe+7a44tG5YcM1WeiHyEy1W6fPLwvH46KW7GAAkEw
- Q/UOUbrzJlMHfhIv/MYIxed3TyVRq5tqDXa8V7zC0SGrO3X+YFI2LX8Uzr4zdkzZvWI3
- tahoqv3PR+FmR0JQUtScEiwkEtTzqDqU3yXlzc+UYCo+f2WC59DAa0ppnWU0yvsdX55y
- dorA==
-X-Gm-Message-State: AOAM532jzyCefrTpsWV9E4A5zTW/8FSQV9PYYGAlepyS7X07u6zRSAb6
- VMtgwGqi+xGuedE50hlCiHGucduG/IZGwbI77u+jtQ==
-X-Google-Smtp-Source: ABdhPJzrvPVdLAC1SOhfrAEQvi23kJQkqKvmjASC6ilyOSPrsQHTZ6q5GpW5GxMRGEJ4KHj21XIGzcYdR306e6gWbyw=
-X-Received: by 2002:a05:6830:10ce:: with SMTP id
- z14mr19819674oto.135.1595239656966; 
- Mon, 20 Jul 2020 03:07:36 -0700 (PDT)
+ :message-id:subject:to:cc;
+ bh=d22r45gYornC+aj8Wxf5zyEsQLelQikNBkLiinXRA4A=;
+ b=sF3UF1rOYGlMcFJBSOAwqBEX0bAsdrZHky8kCZPjgc+JYxmO+ed/bW9/y3vEqcAxfo
+ ZW0Pw/CdkzIL2SLuYutEpQHtdSMnDcpd4JdaqhRWa/HZlDIk1USIP383v9K3T/wg+Cjp
+ YgxTNIoS2MsWMmFA9a9FMnP+13LiPUAMsXbYxpwbPEqb28JqeCzibz+6R/L9s+RXrxeY
+ b1QkraZ0uKfsIAhPTdhJU+0NNdj8RcogJQF4RB2a4XFOEGK9Ks0boZOpmDp1nNAnhBI3
+ 4h2XLAR3jrPx7phMVwM8OPtIULK36k3170VTXaHxlrytizqCDAhcIjKmrLJcxLSI+J1c
+ GcgQ==
+X-Gm-Message-State: AOAM531m69bqn8jTf0QxZHPVZ1cPo+C8eY9Fc5I+KV5zlmN1h2Znfhr7
+ QrbKIynfxEYdxFvK8y5sDhED7DiI2NmWO1rQ3yorqQ==
+X-Google-Smtp-Source: ABdhPJwdd+lZQ/rTukm0SghOVdyc4FZGEfU+7UhV9QC5P8m6Bo6KTZKu6u3/JGGT8KrN29R28YVuQUM36FPIEtYsNFE=
+X-Received: by 2002:aca:1706:: with SMTP id j6mr16331853oii.146.1595240213005; 
+ Mon, 20 Jul 2020 03:16:53 -0700 (PDT)
 MIME-Version: 1.0
-References: <20200717152508.10272-1-peter.maydell@linaro.org>
- <6b2ea83f-2dbb-5ba1-8151-b275b80b3644@redhat.com>
-In-Reply-To: <6b2ea83f-2dbb-5ba1-8151-b275b80b3644@redhat.com>
+References: <20200711101033.47371-1-drjones@redhat.com>
+In-Reply-To: <20200711101033.47371-1-drjones@redhat.com>
 From: Peter Maydell <peter.maydell@linaro.org>
-Date: Mon, 20 Jul 2020 11:07:25 +0100
-Message-ID: <CAFEAcA_dgaGsz7rqJXbY--T_Q_bNL+0freRDgPBn_feo+R2AsA@mail.gmail.com>
-Subject: Re: [PATCH for-5.1] Makefile: Remove config-devices.mak on "make
- clean"
-To: =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <philmd@redhat.com>
+Date: Mon, 20 Jul 2020 11:16:41 +0100
+Message-ID: <CAFEAcA_F_zJESdsZbsQaD+SLN5HDuL1x9Z=YrxC9kXw1XGvrcg@mail.gmail.com>
+Subject: Re: [PATCH 0/3] hw/arm/virt: Introduce kvm-steal-time
+To: Andrew Jones <drjones@redhat.com>
 Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=2607:f8b0:4864:20::341;
- envelope-from=peter.maydell@linaro.org; helo=mail-ot1-x341.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::241;
+ envelope-from=peter.maydell@linaro.org; helo=mail-oi1-x241.google.com
 X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
  That's all we know.
 X-Spam_score_int: -20
@@ -70,7 +65,7 @@ X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
  DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -83,41 +78,32 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Paolo Bonzini <pbonzini@redhat.com>,
- QEMU Developers <qemu-devel@nongnu.org>
+Cc: qemu-arm <qemu-arm@nongnu.org>, QEMU Developers <qemu-devel@nongnu.org>,
+ Beata Michalska <beata.michalska@linaro.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Fri, 17 Jul 2020 at 16:30, Philippe Mathieu-Daud=C3=A9 <philmd@redhat.co=
-m> wrote:
+On Sat, 11 Jul 2020 at 11:10, Andrew Jones <drjones@redhat.com> wrote:
 >
-> On 7/17/20 5:25 PM, Peter Maydell wrote:
-> > The config-devices.mak files are generated by "make", and so they
-> > should be deleted by "make clean".
-> >
-> > (This is different from config-host.mak and config-all-disas.mak,
-> > which are created by "configure" and so only deleted by
-> > "make distclen".)
+> KVM supports the ability to publish the amount of time that VCPUs
+> were runnable, but not running due to other host threads running
+> instead, to the guest. The guest scheduler may use that information
+> when making decisions and the guest may expose it to its userspace
+> (Linux publishes this information in /proc/stat). This feature is
+> called "steal time" as it represents the amount of time stolen from
+> a guest by scheduling out its VCPUs. To enable this feature KVM
+> userspace must provide a memory region that will be used to publish
+> the information to the guest. The memory region is typical migratable
+> region. The GPA of the region is given to KVM through a VCPU device
+> ioctl interface. This feature is only available for 64-bit hosts
+> running 64-bit guests.
 >
-> typo "distclean"
->
-> >
-> > If we don't delete these files on "make clean", then the build
-> > tree is left in a state where it has the config-devices.mak
-> > file but not the config-devices.mak.d file, and make will not
-> > realize that it needs to rebuild config-devices.mak if, for
-> > instance, hw/sd/Kconfig changes.
-> >
-> > NB: config-all-devices.mak is also generated by "make", but we
-> > already remove it on "make clean".
-> >
->
-> Suggested-by: Paolo Bonzini <pbonzini@redhat.com> ?
->
-> Reviewed-by: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
+> This series provides the QEMU support of this feature. It will
+> be enabled by default for 5.1 machine types and later, but may
+> be disabled with a new CPU property "kvm-steal-time".
 
-Applied to master with the commit-message fixes so I could merge
-the i2c pullreq.
+Just a note that this has missed 5.1, but I'll review it at
+some point for 5.2.
 
 thanks
 -- PMM
