@@ -2,74 +2,104 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id EC0EB225BAB
-	for <lists+qemu-devel@lfdr.de>; Mon, 20 Jul 2020 11:30:31 +0200 (CEST)
-Received: from localhost ([::1]:42618 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9E9AD225BFD
+	for <lists+qemu-devel@lfdr.de>; Mon, 20 Jul 2020 11:46:38 +0200 (CEST)
+Received: from localhost ([::1]:59618 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jxS7z-0003pW-0Y
-	for lists+qemu-devel@lfdr.de; Mon, 20 Jul 2020 05:30:31 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:56186)
+	id 1jxSNZ-00037s-Ne
+	for lists+qemu-devel@lfdr.de; Mon, 20 Jul 2020 05:46:37 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:57906)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1jxS6k-0003CO-Lb
- for qemu-devel@nongnu.org; Mon, 20 Jul 2020 05:29:14 -0400
-Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:21961
- helo=us-smtp-1.mimecast.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1jxS6i-0002ol-4F
- for qemu-devel@nongnu.org; Mon, 20 Jul 2020 05:29:14 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1595237351;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=J1pEPthk6V7dKIxeoWQjkLbSNzH3B/wQj5BahGPw+Xg=;
- b=RiU2pnWRk7ka1bPj+JbkV17LVHuyRFLGWs+D9m6iSxwGwRiX6/nKLRry9Xk7t9Ohwz4hHJ
- mxd4yDMkgh7Z/MUj0UfS6255V0KFZkM9s0XefWVsp+VUMVuxdFmpCOxfq3M1NvzS/zQNX+
- cr6MARMrrJRew2Q17KlYWppWBYUCqOM=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-455-ZMFODs4ZNZCytEP-3K3odw-1; Mon, 20 Jul 2020 05:29:09 -0400
-X-MC-Unique: ZMFODs4ZNZCytEP-3K3odw-1
-Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
- [10.5.11.13])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 16778108A;
- Mon, 20 Jul 2020 09:29:08 +0000 (UTC)
-Received: from blackfin.pond.sub.org (ovpn-112-143.ams2.redhat.com
- [10.36.112.143])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id B890787303;
- Mon, 20 Jul 2020 09:29:07 +0000 (UTC)
-Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
- id 144DE1141C54; Mon, 20 Jul 2020 11:29:06 +0200 (CEST)
-From: Markus Armbruster <armbru@redhat.com>
-To: Greg Kurz <groug@kaod.org>
-Subject: Re: [PATCH for-5.2] spapr: Simplify error handling in
- spapr_phb_realize()
-References: <159500760539.383731.10928308889360009122.stgit@bahia.lan>
-Date: Mon, 20 Jul 2020 11:29:06 +0200
-In-Reply-To: <159500760539.383731.10928308889360009122.stgit@bahia.lan> (Greg
- Kurz's message of "Fri, 17 Jul 2020 19:40:05 +0200")
-Message-ID: <87lfjefsbh.fsf@dusky.pond.sub.org>
-User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/26.3 (gnu/linux)
+ (Exim 4.90_1) (envelope-from <Pankaj.VJ@exaleapsemi.com>)
+ id 1jxQjT-0007i2-Q5
+ for qemu-devel@nongnu.org; Mon, 20 Jul 2020 04:01:09 -0400
+Received: from mail-bo1ind01on0722.outbound.protection.outlook.com
+ ([2a01:111:f400:fea5::722]:59851
+ helo=IND01-BO1-obe.outbound.protection.outlook.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <Pankaj.VJ@exaleapsemi.com>)
+ id 1jxQjP-0007Cs-QN
+ for qemu-devel@nongnu.org; Mon, 20 Jul 2020 04:01:07 -0400
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=V6prm7/ItV0ZcjKUpLyyEoJwSXTJinuAflQnZhE5JyHu6X/zoVW57xxfrapiNdhB6XI2o0XV7VUYxxjDUMwXOE4drZY/LmikZDWYPiw8bLmwohukgjA6DUWUyb6Rza6gvNCLO4kHkZ0CVLS7hwrXO/BH3r1V5Q+RdJAH8F9JJyITkk2MRoPAbaGgj2CpdGnSKj7yD5kIpkTk5sImT1n3IceAYrQCwq1tEpoQz+gBzjOhIMBwNAdhNjAE+kUZoa14PmM3PcQXn5cFp/M10QQy/r34mMHeHFkGaN+KyUG8s/soZysEiV/uEaIT6ytGHA23kZd7kP9AXv0o8ZD6pBQvGw==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=xN2laifAlgLpY5uhvB8v995rPmHPNEUMioMz6/ezp2s=;
+ b=LT70P7+1ub17ufVFgkWtfog9qAPTqQDcgmjagrkznJKs6Mx3ihq5fqlwcI3FQvhlqQ8D2HjvWq4eYQM6AkiROHB5zgwC4lCLdf2Z07sevE/ipjwetm6T1pk/ThVQxNXK7Q3xOwCi18pU5r+YyfAw2yVGm50UczApBii0c9jOA2/bu6gY/3QNUNqjyRi2Ti5WMQwk0g8GvXaUGNPCmUzVj+NBlfLtstqLGOhDQEWYoqlZ8QNBOibW6MJmanchyf6zJCGt08iXL/Upn69G8ZhSCbsjrQZ0LG3PqKL96HwuKBzW07UMcKMRqbgZ9ELHZ3KZGQNHv/PcPKBgqbL9ArD1vg==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=exaleapsemi.com; dmarc=pass action=none
+ header.from=exaleapsemi.com; dkim=pass header.d=exaleapsemi.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=exaleapsemi.onmicrosoft.com; s=selector2-exaleapsemi-onmicrosoft-com;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=xN2laifAlgLpY5uhvB8v995rPmHPNEUMioMz6/ezp2s=;
+ b=Y3NikZ2t4XwUFoJ8ZCb/MfXAfJwBuYU5r6UHl3iwk1xQwMfSufekTFEYYON7wOmJ3bkX2kmj6gRMVrpWvne8WEPrM5dTbQihjejgXEBIwUOygfBOLfanXTOKMQEQGhQ0nfAiFvVFgC/ZnzxSeHeZdNeshY4ffvg4JRZYBzdPSTE=
+Received: from BMXPR01MB2344.INDPRD01.PROD.OUTLOOK.COM (2603:1096:b00:36::20)
+ by BMXPR01MB2246.INDPRD01.PROD.OUTLOOK.COM (2603:1096:b00:3e::22)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3195.23; Mon, 20 Jul
+ 2020 07:45:26 +0000
+Received: from BMXPR01MB2344.INDPRD01.PROD.OUTLOOK.COM
+ ([fe80::adf5:6e2d:b2df:3e72]) by BMXPR01MB2344.INDPRD01.PROD.OUTLOOK.COM
+ ([fe80::adf5:6e2d:b2df:3e72%2]) with mapi id 15.20.3195.025; Mon, 20 Jul 2020
+ 07:45:26 +0000
+From: "Pankaj  Vinadrao Joshi" <Pankaj.VJ@exaleapsemi.com>
+To: "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>
+Subject: Replacing existing kernel with new on qemuriscv64
+Thread-Topic: Replacing existing kernel with new on qemuriscv64
+Thread-Index: AQHWXmlvPudUmHc3zkyu85nr5qnBjA==
+Date: Mon, 20 Jul 2020 07:45:26 +0000
+Message-ID: <BMXPR01MB2344EC13172300E0384B97B8EE7B0@BMXPR01MB2344.INDPRD01.PROD.OUTLOOK.COM>
+Accept-Language: en-US
+Content-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+authentication-results: nongnu.org; dkim=none (message not signed)
+ header.d=none; nongnu.org; dmarc=none action=none header.from=exaleapsemi.com; 
+x-originating-ip: [2405:204:9590:b44:fd38:28d1:95f4:7eea]
+x-ms-publictraffictype: Email
+x-ms-office365-filtering-correlation-id: 691d7c79-f927-46ee-0755-08d82c80ddf0
+x-ms-traffictypediagnostic: BMXPR01MB2246:
+x-microsoft-antispam-prvs: <BMXPR01MB2246797097793A872FA56C49EE7B0@BMXPR01MB2246.INDPRD01.PROD.OUTLOOK.COM>
+x-ms-oob-tlc-oobclassifiers: OLM:10000;
+x-ms-exchange-senderadcheck: 1
+x-microsoft-antispam: BCL:0;
+x-microsoft-antispam-message-info: bOLQjwcjaPYjjkARHv8Ful6wGtVotbQi1nSe678RZb3dmWuSbo51l2WV1NHP16fJHyLKgW6SnExIxbcQIW6S4zPnv5Gyo7IFftcEv109t42TMgLLPRjPJHF2pFLGVtbZPm8tb8mVKMiRNp3UfOp8sWj8FW/nyLogNcx/j9myNnpUMv0jDTeAH4gNiXnTuvcNsjBGV4TVAWIrb36cpVvKyBJ83Vr8MsN4qhAP8hpBpPR4YKa3whlDTPt+6dCtkdA+XvcybCHO7vXX1DH8pccwDYGlSiTJWU3t+guZAe9rEPBkVlcaEq0HasUU7oTqR9/p9jObjCwjBQm2+4nfrWbPYg==
+x-forefront-antispam-report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:BMXPR01MB2344.INDPRD01.PROD.OUTLOOK.COM; PTR:; CAT:NONE;
+ SFTY:;
+ SFS:(396003)(346002)(376002)(366004)(136003)(39830400003)(83380400001)(8676002)(66946007)(316002)(76116006)(66446008)(33656002)(52536014)(66556008)(66476007)(64756008)(5660300002)(2906002)(8936002)(9686003)(19627405001)(6506007)(6916009)(7696005)(55016002)(186003)(86362001)(508600001)(71200400001);
+ DIR:OUT; SFP:1102; 
+x-ms-exchange-antispam-messagedata: +6rCVTIEj9PgDL88SLInTHBjVuJ9Wjqk1qyd5o5O1/zj/xFeD6L3QLkEBpiKOo5tIfS3eby3xEvW1AtfzQsj3UbjwcOtMnV0/eD8KVvRLyL84a/vxycmlAFwOCC1Je9e7ED6N/oKvBueiPiUUvfdenATWWaeVvQKqSR064o6ZW+ei6uITn17tHOWe0h/0rtzMPUR2Ca1B+Jse3XISMrCK793RdJpqiM8b4x2208AZsI/zGfoiB00y55vZTnqSaRxkeOQGQ2llnGqaKtA1piKHpRMmbpypac5Qy+Tp5DHPU2tFI+w9DzR+RWowiFUenNirSMGaYT/J4rtiO0pWD98fMgct5kgXoQgd9OsnoRFJDZF+dCFoFX5992ToidSVs1nC72ffXmaRgkMBbciG+Sf4OljUqL0X3BFyNagdH7pbj+EAdl5jzkNKuBIR6RkdNKWGhwMfqVCmHmHAXVL5UJX5y8+x+G11wc3u7E+KmX/j6Jnqal3zjG/uO2A7M+U2YeEcJgutkqoOC2FKk3dmIkuST+qst5sKHxWX/4MbNQLYvc=
+x-ms-exchange-transport-forked: True
+Content-Type: multipart/alternative;
+ boundary="_000_BMXPR01MB2344EC13172300E0384B97B8EE7B0BMXPR01MB2344INDP_"
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain
-Received-SPF: pass client-ip=207.211.31.120; envelope-from=armbru@redhat.com;
- helo=us-smtp-1.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/07/20 03:17:01
-X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
-X-Spam_score_int: -30
-X-Spam_score: -3.1
-X-Spam_bar: ---
-X-Spam_report: (-3.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-OriginatorOrg: exaleapsemi.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-AuthSource: BMXPR01MB2344.INDPRD01.PROD.OUTLOOK.COM
+X-MS-Exchange-CrossTenant-Network-Message-Id: 691d7c79-f927-46ee-0755-08d82c80ddf0
+X-MS-Exchange-CrossTenant-originalarrivaltime: 20 Jul 2020 07:45:26.1657 (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: 34df156e-9bc4-4450-9e80-487c0e7f9471
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: OG+OadCvYYVGHM86tjboPDkgSeQRRk1+egpasurjqr8f9/FIj+rC7UBxtH4Lm5JLkOA5ML8ltSY03nTutipFTv/aWwv2dr1UrGWG9AVvrQo=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: BMXPR01MB2246
+Received-SPF: pass client-ip=2a01:111:f400:fea5::722;
+ envelope-from=Pankaj.VJ@exaleapsemi.com;
+ helo=IND01-BO1-obe.outbound.protection.outlook.com
+X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
+ That's all we know.
+X-Spam_score_int: -18
+X-Spam_score: -1.9
+X-Spam_bar: -
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, HTML_MESSAGE=0.001, SPF_HELO_PASS=-0.001, SPF_PASS=-0.001,
+ URIBL_BLOCKED=0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
+X-Mailman-Approved-At: Mon, 20 Jul 2020 05:44:35 -0400
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -81,145 +111,329 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-ppc@nongnu.org, qemu-devel@nongnu.org,
- David Gibson <david@gibson.dropbear.id.au>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Greg Kurz <groug@kaod.org> writes:
+--_000_BMXPR01MB2344EC13172300E0384B97B8EE7B0BMXPR01MB2344INDP_
+Content-Type: text/plain; charset="iso-8859-1"
+Content-Transfer-Encoding: quoted-printable
 
-> The spapr_phb_realize() function has a local_err variable which
-> is used to:
->
-> 1) check failures of spapr_irq_findone() and spapr_irq_claim()
->
-> 2) prepend extra information to the error message
->
-> Recent work from Markus Armbruster highlighted we get better
-> code when testing the return value of a function, rather than
-> setting up all the local_err boiler plate. For similar reasons,
-> it is now preferred to use ERRP_GUARD() and error_prepend()
-> rather than error_propagate_prepend().
->
-> Since spapr_irq_findone() and spapr_irq_claim() return negative
-> values in case of failure, do both changes.
->
-> This is just cleanup, no functional impact.
->
-> Signed-off-by: Greg Kurz <groug@kaod.org>
-> ---
->
-> Since we add ERRP_GUARD(), we could theoretically check *errp
-> rather than the return value, and thus avoid the uint32_t to
-> int32_t change but I personally find it clearer the other way.
-> ---
->  hw/ppc/spapr_pci.c |   16 +++++++---------
->  1 file changed, 7 insertions(+), 9 deletions(-)
->
-> diff --git a/hw/ppc/spapr_pci.c b/hw/ppc/spapr_pci.c
-> index 21681215d405..b1ce51327db4 100644
-> --- a/hw/ppc/spapr_pci.c
-> +++ b/hw/ppc/spapr_pci.c
-> @@ -1796,6 +1796,7 @@ static void spapr_phb_destroy_msi(gpointer opaque)
->  
->  static void spapr_phb_realize(DeviceState *dev, Error **errp)
->  {
-> +    ERRP_GUARD();
->      /* We don't use SPAPR_MACHINE() in order to exit gracefully if the user
->       * tries to add a sPAPR PHB to a non-pseries machine.
->       */
-> @@ -1813,7 +1814,6 @@ static void spapr_phb_realize(DeviceState *dev, Error **errp)
->      uint64_t msi_window_size = 4096;
->      SpaprTceTable *tcet;
->      const unsigned windows_supported = spapr_phb_windows_supported(sphb);
-> -    Error *local_err = NULL;
->  
->      if (!spapr) {
->          error_setg(errp, TYPE_SPAPR_PCI_HOST_BRIDGE " needs a pseries machine");
-> @@ -1964,13 +1964,12 @@ static void spapr_phb_realize(DeviceState *dev, Error **errp)
->  
->      /* Initialize the LSI table */
->      for (i = 0; i < PCI_NUM_PINS; i++) {
-> -        uint32_t irq = SPAPR_IRQ_PCI_LSI + sphb->index * PCI_NUM_PINS + i;
-> +        int32_t irq = SPAPR_IRQ_PCI_LSI + sphb->index * PCI_NUM_PINS + i;
+Hi ,
+I am trying to replace my existing kernel image which is 5.5.6 to 5.5.7 on =
+qemuriscv64 i would like to mention i have built my qemu image with openemb=
+edded-core.
 
-(1)
+i have tried to build the kernel 5.5.7 natively,i was able to build the ker=
+nel successfully and in my /boot folder i am able to see vmlinux-5.5.7  but=
+ now i want to install this image..i have tried to do it by make install i =
+didnt got any error with it but when i rebooted my system i am getting
 
->  
->          if (smc->legacy_irq_allocation) {
-> -            irq = spapr_irq_findone(spapr, &local_err);
-> -            if (local_err) {
-> -                error_propagate_prepend(errp, local_err,
-> -                                        "can't allocate LSIs: ");
-> +            irq = spapr_irq_findone(spapr, errp);
+i have followed the following steps to build kernel
+$root@qemuriscv64-exaleapsemi-r2:/usr/src/kernel#  make menuconfig arch=3Dr=
+iscv64
+$root@qemuriscv64-exaleapsemi-r2:/usr/src/kernel# make -j4
+$root@qemuriscv64-exaleapsemi-r2:/usr/src/kernel# make modules_install
+$root@qemuriscv64-exaleapsemi-r2:/usr/src/kernel# make install
+sh ./arch/riscv/boot/install.sh 5.5.7 \
+arch/riscv/boot/Image System.map "/boot"
+Installing normal kernel
 
-(2)
+$reboot
+13024.451157] printk: systemd-shutdow: 37 output lines suppressed due to ra=
+telimiting
+[13024.527282] systemd-shutdown[1]: Syncing filesystems and block devices.
+[13024.668538] systemd-shutdown[1]: Sending SIGTERM to remaining processes.=
+..
+[13024.719496] systemd-journald[87]: Received SIGTERM from PID 1 (systemd-s=
+hutdow).
+[13024.769405] systemd-shutdown[1]: Sending SIGKILL to remaining processes.=
+..
+[13024.834318] systemd-shutdown[1]: Unmounting file systems.
+[13024.868285] [13413]: Remounting '/' read-only in with options '(null)'.
+[13025.228499] EXT4-fs (vda): re-mounted. Opts: (null)
+[13025.358123] systemd-shutdown[1]: All filesystems unmounted.
+[13025.358576] systemd-shutdown[1]: Deactivating swaps.
+[13025.361264] systemd-shutdown[1]: All swaps deactivated.
+[13025.361727] systemd-shutdown[1]: Detaching loop devices.
+[13025.420602] systemd-shutdown[1]: All loop devices detached.
+[13025.421071] systemd-shutdown[1]: Detaching DM devices.
+[13025.595237] reboot: Restarting system
+[13046.599875] rcu: INFO: rcu_sched detected stalls on CPUs/tasks:
+[13046.600329] (detected by 0, t=3D5252 jiffies, g=3D2837145, q=3D17)
+[13046.600763] rcu: All QSes seen, last rcu_sched kthread activity 5252 (42=
+98153942-4298148690), jiffies_till_next_fqs=3D1, root ->qsmask 0x0
+[13046.601503] systemd-shutdow R  running task        0     1      0 0x0000=
+0008
+[13046.602053] Call Trace:
+[13046.602562] [<ffffffe00006d3fc>] walk_stackframe+0x0/0xa4
+[13046.602890] [<ffffffe00006d5e2>] show_stack+0x2a/0x34
+[13046.603156] [<ffffffe000091094>] sched_show_task+0x158/0x174
+[13046.603442] [<ffffffe0000c4dde>] rcu_sched_clock_irq+0x6b2/0x6ec
+[13046.603740] [<ffffffe0000ccadc>] update_process_times+0x1e/0x44
+[13046.604009] [<ffffffe0000d79dc>] tick_sched_handle.isra.16+0x30/0x3e
+[13046.604331] [<ffffffe0000d7a38>] tick_sched_timer+0x4e/0x94
+[13046.604620] [<ffffffe0000cd44a>] __hrtimer_run_queues+0x10c/0x2de
+[13046.604928] [<ffffffe0000cdc96>] hrtimer_interrupt+0xcc/0x1d6
+[13046.605236] [<ffffffe0005d3f7c>] riscv_timer_interrupt+0x32/0x3a
+[13046.605580] [<ffffffe0007889ce>] do_IRQ+0xae/0xba
+[13046.605837] [<ffffffe00006bd3c>] ret_from_exception+0x0/0xc
+[13046.606127] [<ffffffe00006ca58>] machine_restart+0xc/0xe
+[13046.606508] rcu: rcu_sched kthread starved for 5252 jiffies! g2837145 f0=
+x2 RCU_GP_WAIT_FQS(5) ->state=3D0x0 ->cpu=3D0
+[13046.606990] rcu: RCU grace-period kthread stack dump:
+[13046.607257] rcu_sched       R  running task        0    10      2 0x0000=
+0000
+[13046.607610] Call Trace:
+[13046.607774] [<ffffffe000784258>] __schedule+0x1a8/0x482
+[13046.608044] [<ffffffe000784592>] schedule+0x60/0xda
+[13046.608304] [<ffffffe000787a56>] schedule_timeout+0x15c/0x2b2
+[13046.608602] [<ffffffe0000c2ec8>] rcu_gp_kthread+0x4cc/0x7ec
+[13046.608889] [<ffffffe00008b0f2>] kthread+0xf0/0x102
+[13046.609162] [<ffffffe00006bd3c>] ret_from_exception+0x0/0xc
 
-> +            if (irq < 0) {
-> +                error_prepend(errp, "can't allocate LSIs: ");
->                  /*
->                   * Older machines will never support PHB hotplug, ie, this is an
->                   * init only path and QEMU will terminate. No need to rollback.
-> @@ -1979,9 +1978,8 @@ static void spapr_phb_realize(DeviceState *dev, Error **errp)
->              }
->          }
->  
-> -        spapr_irq_claim(spapr, irq, true, &local_err);
-> -        if (local_err) {
-> -            error_propagate_prepend(errp, local_err, "can't allocate LSIs: ");
-> +        if (spapr_irq_claim(spapr, irq, true, errp) < 0) {
+..... so on getting continuously......
 
-(3)
 
-> +            error_prepend(errp, "can't allocate LSIs: ");
->              goto unrealize;
->          }
+Can someone help me out how i can replace my kernel to 5.5.7 since i am not=
+ able to find grub or grub2 on my riscv platform?? i have googled for the s=
+olution but most of them seems to be x86 specific where they are trying to =
+change the grub??Where i should modify for riscv to get my kernel up????
 
-           sphb->lsi_table[i].irq = irq;
 
-(4)
+Thanks
 
-       }
+--_000_BMXPR01MB2344EC13172300E0384B97B8EE7B0BMXPR01MB2344INDP_
+Content-Type: text/html; charset="iso-8859-1"
+Content-Transfer-Encoding: quoted-printable
 
-The error propagation elimination looks good to me, but I wonder whether
-int32_t is the best choice for @irq.
+<html>
+<head>
+<meta http-equiv=3D"Content-Type" content=3D"text/html; charset=3Diso-8859-=
+1">
+<style type=3D"text/css" style=3D"display:none;"> P {margin-top:0;margin-bo=
+ttom:0;} </style>
+</head>
+<body dir=3D"ltr">
+<div style=3D"font-family: Calibri, Arial, Helvetica, sans-serif; font-size=
+: 12pt; color: rgb(0, 0, 0);">
+<div style=3D"margin: 0px; font-size: 12pt; font-family: Calibri, Arial, He=
+lvetica, sans-serif; color: black; background-color: rgb(255, 255, 255)">
+Hi ,</div>
+<div style=3D"margin: 0px; font-size: 12pt; font-family: Calibri, Arial, He=
+lvetica, sans-serif; color: black; background-color: rgb(255, 255, 255)">
+I am trying to replace my existing kernel image which is 5.5.6 to 5.5.7 on =
+qemuriscv64 i would like to mention i have built my qemu image with openemb=
+edded-core.</div>
+<div style=3D"margin: 0px; font-size: 12pt; font-family: Calibri, Arial, He=
+lvetica, sans-serif; color: black; background-color: rgb(255, 255, 255)">
+<br>
+</div>
+<div style=3D"margin: 0px; font-size: 12pt; font-family: Calibri, Arial, He=
+lvetica, sans-serif; color: black; background-color: rgb(255, 255, 255)">
+i have tried to build the kernel 5.5.7 natively,i was able to build the ker=
+nel successfully and in my /boot folder i am able to see vmlinux-5.5.7&nbsp=
+; but now i want to install this image..i have tried to do it by make insta=
+ll i didnt got any error with it but
+ when i rebooted my system i am getting&nbsp;</div>
+<div style=3D"margin: 0px; font-size: 12pt; font-family: Calibri, Arial, He=
+lvetica, sans-serif; color: black; background-color: rgb(255, 255, 255)">
+<br>
+</div>
+<div style=3D"margin: 0px; font-size: 12pt; font-family: Calibri, Arial, He=
+lvetica, sans-serif; color: black; background-color: rgb(255, 255, 255)">
+i have followed the following steps to build kernel</div>
+<div style=3D"margin: 0px; font-size: 12pt; font-family: Calibri, Arial, He=
+lvetica, sans-serif; color: black; background-color: rgb(255, 255, 255)">
+$<span style=3D"margin: 0px; background-color: white">root@qemuriscv64-exal=
+eapsemi-r2:/usr/src/kernel#&nbsp;&nbsp;</span>make menuconfig arch=3Driscv6=
+4</div>
+<div style=3D"margin: 0px; font-size: 12pt; font-family: Calibri, Arial, He=
+lvetica, sans-serif; color: black; background-color: rgb(255, 255, 255)">
+$<span style=3D"margin: 0px; background-color: white">root@qemuriscv64-exal=
+eapsemi-r2:/usr/src/kernel#&nbsp;</span>make -j4</div>
+<div style=3D"margin: 0px; font-size: 12pt; font-family: Calibri, Arial, He=
+lvetica, sans-serif; color: black; background-color: rgb(255, 255, 255)">
+$<span style=3D"margin: 0px; background-color: white">root@qemuriscv64-exal=
+eapsemi-r2:/usr/src/kernel#&nbsp;</span>make modules_install</div>
+<div style=3D"margin: 0px; font-size: 12pt; font-family: Calibri, Arial, He=
+lvetica, sans-serif; color: black; background-color: rgb(255, 255, 255)">
+<span style=3D"margin: 0px">$root@qemuriscv64-exaleapsemi-r2:/usr/src/kerne=
+l# make install</span><br>
+</div>
+<div style=3D"margin: 0px; font-size: 12pt; font-family: Calibri, Arial, He=
+lvetica, sans-serif; color: black; background-color: rgb(255, 255, 255)">
+<div style=3D"margin: 0px; background-color: white">sh ./arch/riscv/boot/in=
+stall.sh 5.5.7 \</div>
+<div style=3D"margin: 0px; background-color: white">arch/riscv/boot/Image S=
+ystem.map &quot;/boot&quot;</div>
+<div style=3D"margin: 0px; background-color: white">Installing normal kerne=
+l</div>
+<br>
+</div>
+<div style=3D"margin: 0px; font-size: 12pt; font-family: Calibri, Arial, He=
+lvetica, sans-serif; color: black; background-color: rgb(255, 255, 255)">
+<span style=3D"margin: 0px">$reboot</span><br>
+</div>
+<div style=3D"margin: 0px; font-size: 12pt; font-family: Calibri, Arial, He=
+lvetica, sans-serif; color: black; background-color: rgb(255, 255, 255)">
+<div style=3D"margin: 0px; background-color: white"><span style=3D"margin: =
+0px">13024.451157] printk: systemd-shutdow: 37 output lines suppressed due =
+to ratelimiting<br>
+</span>
+<div style=3D"margin: 0px">[13024.527282] systemd-shutdown[1]: Syncing file=
+systems and block devices.<br>
+</div>
+<div style=3D"margin: 0px">[13024.668538] systemd-shutdown[1]: Sending SIGT=
+ERM to remaining processes...<br>
+</div>
+<div style=3D"margin: 0px">[13024.719496] systemd-journald[87]: Received SI=
+GTERM from PID 1 (systemd-shutdow).<br>
+</div>
+<div style=3D"margin: 0px">[13024.769405] systemd-shutdown[1]: Sending SIGK=
+ILL to remaining processes...<br>
+</div>
+<div style=3D"margin: 0px">[13024.834318] systemd-shutdown[1]: Unmounting f=
+ile systems.<br>
+</div>
+<div style=3D"margin: 0px">[13024.868285] [13413]: Remounting '/' read-only=
+ in with options '(null)'.<br>
+</div>
+<div style=3D"margin: 0px">[13025.228499] EXT4-fs (vda): re-mounted. Opts: =
+(null)<br>
+</div>
+<div style=3D"margin: 0px">[13025.358123] systemd-shutdown[1]: All filesyst=
+ems unmounted.<br>
+</div>
+<div style=3D"margin: 0px">[13025.358576] systemd-shutdown[1]: Deactivating=
+ swaps.<br>
+</div>
+<div style=3D"margin: 0px">[13025.361264] systemd-shutdown[1]: All swaps de=
+activated.<br>
+</div>
+<div style=3D"margin: 0px">[13025.361727] systemd-shutdown[1]: Detaching lo=
+op devices.<br>
+</div>
+<div style=3D"margin: 0px">[13025.420602] systemd-shutdown[1]: All loop dev=
+ices detached.<br>
+</div>
+<div style=3D"margin: 0px">[13025.421071] systemd-shutdown[1]: Detaching DM=
+ devices.<br>
+</div>
+<div style=3D"margin: 0px">[13025.595237] reboot: Restarting system<br>
+</div>
+<div style=3D"margin: 0px">[13046.599875] rcu: INFO: rcu_sched detected sta=
+lls on CPUs/tasks:<br>
+</div>
+<div style=3D"margin: 0px">[13046.600329] (detected by 0, t=3D5252 jiffies,=
+ g=3D2837145, q=3D17)<br>
+</div>
+<div style=3D"margin: 0px">[13046.600763] rcu: All QSes seen, last rcu_sche=
+d kthread activity 5252 (4298153942-4298148690), jiffies_till_next_fqs=3D1,=
+ root -&gt;qsmask 0x0<br>
+</div>
+<div style=3D"margin: 0px">[13046.601503] systemd-shutdow R &nbsp;running t=
+ask &nbsp; &nbsp; &nbsp; &nbsp;0 &nbsp; &nbsp; 1 &nbsp; &nbsp; &nbsp;0 0x00=
+000008<br>
+</div>
+<div style=3D"margin: 0px">[13046.602053] Call Trace:<br>
+</div>
+<div style=3D"margin: 0px">[13046.602562] [&lt;ffffffe00006d3fc&gt;] walk_s=
+tackframe&#43;0x0/0xa4<br>
+</div>
+<div style=3D"margin: 0px">[13046.602890] [&lt;ffffffe00006d5e2&gt;] show_s=
+tack&#43;0x2a/0x34<br>
+</div>
+<div style=3D"margin: 0px">[13046.603156] [&lt;ffffffe000091094&gt;] sched_=
+show_task&#43;0x158/0x174<br>
+</div>
+<div style=3D"margin: 0px">[13046.603442] [&lt;ffffffe0000c4dde&gt;] rcu_sc=
+hed_clock_irq&#43;0x6b2/0x6ec<br>
+</div>
+<div style=3D"margin: 0px">[13046.603740] [&lt;ffffffe0000ccadc&gt;] update=
+_process_times&#43;0x1e/0x44<br>
+</div>
+<div style=3D"margin: 0px">[13046.604009] [&lt;ffffffe0000d79dc&gt;] tick_s=
+ched_handle.isra.16&#43;0x30/0x3e<br>
+</div>
+<div style=3D"margin: 0px">[13046.604331] [&lt;ffffffe0000d7a38&gt;] tick_s=
+ched_timer&#43;0x4e/0x94<br>
+</div>
+<div style=3D"margin: 0px">[13046.604620] [&lt;ffffffe0000cd44a&gt;] __hrti=
+mer_run_queues&#43;0x10c/0x2de<br>
+</div>
+<div style=3D"margin: 0px">[13046.604928] [&lt;ffffffe0000cdc96&gt;] hrtime=
+r_interrupt&#43;0xcc/0x1d6<br>
+</div>
+<div style=3D"margin: 0px">[13046.605236] [&lt;ffffffe0005d3f7c&gt;] riscv_=
+timer_interrupt&#43;0x32/0x3a<br>
+</div>
+<div style=3D"margin: 0px">[13046.605580] [&lt;ffffffe0007889ce&gt;] do_IRQ=
+&#43;0xae/0xba<br>
+</div>
+<div style=3D"margin: 0px">[13046.605837] [&lt;ffffffe00006bd3c&gt;] ret_fr=
+om_exception&#43;0x0/0xc<br>
+</div>
+<div style=3D"margin: 0px">[13046.606127] [&lt;ffffffe00006ca58&gt;] machin=
+e_restart&#43;0xc/0xe<br>
+</div>
+<div style=3D"margin: 0px">[13046.606508] rcu: rcu_sched kthread starved fo=
+r 5252 jiffies! g2837145 f0x2 RCU_GP_WAIT_FQS(5) -&gt;state=3D0x0 -&gt;cpu=
+=3D0<br>
+</div>
+<div style=3D"margin: 0px">[13046.606990] rcu: RCU grace-period kthread sta=
+ck dump:<br>
+</div>
+<div style=3D"margin: 0px">[13046.607257] rcu_sched &nbsp; &nbsp; &nbsp; R =
+&nbsp;running task &nbsp; &nbsp; &nbsp; &nbsp;0 &nbsp; &nbsp;10 &nbsp; &nbs=
+p; &nbsp;2 0x00000000<br>
+</div>
+<div style=3D"margin: 0px">[13046.607610] Call Trace:<br>
+</div>
+<div style=3D"margin: 0px">[13046.607774] [&lt;ffffffe000784258&gt;] __sche=
+dule&#43;0x1a8/0x482<br>
+</div>
+<div style=3D"margin: 0px">[13046.608044] [&lt;ffffffe000784592&gt;] schedu=
+le&#43;0x60/0xda<br>
+</div>
+<div style=3D"margin: 0px">[13046.608304] [&lt;ffffffe000787a56&gt;] schedu=
+le_timeout&#43;0x15c/0x2b2<br>
+</div>
+<div style=3D"margin: 0px">[13046.608602] [&lt;ffffffe0000c2ec8&gt;] rcu_gp=
+_kthread&#43;0x4cc/0x7ec<br>
+</div>
+<div style=3D"margin: 0px">[13046.608889] [&lt;ffffffe00008b0f2&gt;] kthrea=
+d&#43;0xf0/0x102<br>
+</div>
+<div style=3D"margin: 0px">[13046.609162] [&lt;ffffffe00006bd3c&gt;] ret_fr=
+om_exception&#43;0x0/0xc&nbsp;</div>
+<div style=3D"margin: 0px"><br>
+</div>
+<div style=3D"margin: 0px">..... so on getting continuously......</div>
+</div>
+<br>
+</div>
+<div style=3D"margin: 0px; font-size: 12pt; font-family: Calibri, Arial, He=
+lvetica, sans-serif; color: black; background-color: rgb(255, 255, 255)">
+<br>
+</div>
+<div style=3D"margin: 0px; font-size: 12pt; font-family: Calibri, Arial, He=
+lvetica, sans-serif; color: black; background-color: rgb(255, 255, 255)">
+Can someone help me out how i can replace my kernel to 5.5.7 since i am not=
+ able to find grub or grub2 on my riscv platform?? i have googled for the s=
+olution but most of them seems to be x86 specific where they are trying to =
+change the grub??Where i should
+ modify for riscv to get my kernel up????</div>
+<br>
+</div>
+<div style=3D"font-family: Calibri, Arial, Helvetica, sans-serif; font-size=
+: 12pt; color: rgb(0, 0, 0);">
+<br>
+</div>
+<div style=3D"font-family: Calibri, Arial, Helvetica, sans-serif; font-size=
+: 12pt; color: rgb(0, 0, 0);">
+Thanks</div>
+</body>
+</html>
 
-Before the patch:
-
-(1) The initialization converts unsigned (I think) to uint32_t.
-
-(2) Converts from int (value of spapr_irq_findone()) to uint32_t.
-
-(3) spapr_irq_claim() takes int, we convert back to int.
-
-(4) The assignment does not convert.
-
-After the patch:
-
-(1) The initialization converts unsigned (I think) to int32_t.
-
-(2) Converts from int (value of spapr_irq_findone()) to int32_t.
-
-(3) spapr_irq_claim() takes int, we convert back to int.
-
-(4) Converts from int32_t to uint32_t
-
-I assume the conversions are all safe before and after the patch
-(spapr_irq_claim() asserts @irq is between 0x1000 and 0x1000 + small
-change).  Still, too many conversions for my taste.  What about making
-irq plain int?  Then:
-
-(1) The initialization converts unsigned (I think) to int.
-
-(2) Does not convert.
-
-(3) Does not convert.
-
-(4) Converts from int to uint32_t.
-
-Feels neater to me.
-
-Regardless:
-Reviewed-by: Markus Armbruster <armbru@redhat.com>
-
+--_000_BMXPR01MB2344EC13172300E0384B97B8EE7B0BMXPR01MB2344INDP_--
 
