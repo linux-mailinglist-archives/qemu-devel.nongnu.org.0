@@ -2,74 +2,72 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B227722825D
-	for <lists+qemu-devel@lfdr.de>; Tue, 21 Jul 2020 16:37:25 +0200 (CEST)
-Received: from localhost ([::1]:38492 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id BA870228264
+	for <lists+qemu-devel@lfdr.de>; Tue, 21 Jul 2020 16:40:18 +0200 (CEST)
+Received: from localhost ([::1]:49046 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jxtOW-0006Zx-Q9
-	for lists+qemu-devel@lfdr.de; Tue, 21 Jul 2020 10:37:24 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:38244)
+	id 1jxtRJ-0002UJ-PG
+	for lists+qemu-devel@lfdr.de; Tue, 21 Jul 2020 10:40:17 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:38468)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1jxtND-0005JH-Pt
- for qemu-devel@nongnu.org; Tue, 21 Jul 2020 10:36:03 -0400
-Received: from mail-wr1-x444.google.com ([2a00:1450:4864:20::444]:35297)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1jxtNA-0005m6-UK
- for qemu-devel@nongnu.org; Tue, 21 Jul 2020 10:36:03 -0400
-Received: by mail-wr1-x444.google.com with SMTP id z2so21486627wrp.2
- for <qemu-devel@nongnu.org>; Tue, 21 Jul 2020 07:36:00 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=6I9SMKjr6PmWwGXVMVs+FgMWnXt/xrUHEYtD8jIqzQE=;
- b=E3CbQozsFoDamjMdege56dKXM/NL68NNHKQc586Iz2lpblrO9DaqEK95piq06Dj9rL
- LQCG1ld3ZcWDp2G1unw0zWRQrSA+8D7KyY9cDaS4zclmWTIJG/kfiz2OA4uwnJgk9SoD
- utmCzpQXAyKWDHttRASX9PeNX1dNlPbEoXs2mxzxQ6A55LXp5ukeEy9wAN8tHuoxCYII
- EXz3pbUEkvZ+80aQDqZHpf8YeSgljP8mgDkdtVbmp23N1gA6CBIykhweSoZ41Zf4bd0E
- j3Jgph6LurEpGFQhykGO0pG/4+3ej2cjvOu7uZ7qForhQ6NywpQUBBH4Byguufhvcrer
- 3jyw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=6I9SMKjr6PmWwGXVMVs+FgMWnXt/xrUHEYtD8jIqzQE=;
- b=c5YyihpFbEId1Vqn6N46MVb1hC9kKrPQWoVVb57hJxlisS1pCrcTCiZAmQ6oN5mpWt
- M2FCdG9kgp2evqfQQNfQ0cyurK9+Se6RXdA57Upb7iSY+DSon34zClFeMTKSRf91drK9
- NEJui4ey9I/HY+4voX5xu5VddSXKFJObcUnzIXIzBQ2KByoEgZYa09ovd6BNwtJ2nC8P
- WyF+OO8BldW8ya+7xy0kukLEurEyWtR+O+1+lq+IVFPxLpQiTYzVPhBzBarebGNKAHqq
- EKDdYGVL9Vdd/tX1/Bj3a0mY4ZWcJk3n3J6vg0Gyi5+avihqwESIX/pFultlVqyY28SC
- U4Vw==
-X-Gm-Message-State: AOAM532gbhVJp1vtg8cMry/tmEDYN+dv+QH2vA3HWNGHXkY1RJQcmZtc
- uchQxonFg/bvoA2/XJjH/QZclw==
-X-Google-Smtp-Source: ABdhPJzIy7YunHJ3K4q7WHb2W9jS9rDJK9WQUmCV0URycHJMyNBc4q19Z+5eYkEnPnycRV/y3KD8pg==
-X-Received: by 2002:a5d:618e:: with SMTP id j14mr773165wru.374.1595342159082; 
- Tue, 21 Jul 2020 07:35:59 -0700 (PDT)
-Received: from orth.archaic.org.uk (orth.archaic.org.uk. [81.2.115.148])
- by smtp.gmail.com with ESMTPSA id k204sm1985773wma.21.2020.07.21.07.35.57
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 21 Jul 2020 07:35:58 -0700 (PDT)
-From: Peter Maydell <peter.maydell@linaro.org>
-To: qemu-arm@nongnu.org,
-	qemu-devel@nongnu.org
-Subject: [PATCH for-5.1] docs/system/arm/virt: Document mte machine option
-Date: Tue, 21 Jul 2020 15:35:56 +0100
-Message-Id: <20200721143556.19484-1-peter.maydell@linaro.org>
-X-Mailer: git-send-email 2.20.1
+ (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1jxtNN-0005Zv-5F
+ for qemu-devel@nongnu.org; Tue, 21 Jul 2020 10:36:13 -0400
+Received: from us-smtp-1.mimecast.com ([205.139.110.61]:44046
+ helo=us-smtp-delivery-1.mimecast.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1jxtNL-0005oq-3W
+ for qemu-devel@nongnu.org; Tue, 21 Jul 2020 10:36:12 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1595342170;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=fLAHpFo7NSSVMkWT/pcXRiGWqBjq3xLsq1zcv+d49B8=;
+ b=TURnz6xS82hOEWMfiQdblXnHwV/3BHgkSnvWv5fvU65YGZw7aUuUhi8jvmOBvdiw3gy0ud
+ B1pD3xK/aZEQqTwXPi0+1EEbpV63dNK9Y/TWKSe+HSoL3GAyechMBnVC6n1iEpN1FZOQzX
+ Y7FFE5nwP6KTqdWHu4XXTb62DBCjUSw=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-372-XrmG-OvrN5e2tO34hwYXXg-1; Tue, 21 Jul 2020 10:36:08 -0400
+X-MC-Unique: XrmG-OvrN5e2tO34hwYXXg-1
+Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
+ [10.5.11.15])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 7FDC410059A2
+ for <qemu-devel@nongnu.org>; Tue, 21 Jul 2020 14:36:07 +0000 (UTC)
+Received: from sirius.home.kraxel.org (ovpn-115-89.ams2.redhat.com
+ [10.36.115.89])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 40C0372686;
+ Tue, 21 Jul 2020 14:36:00 +0000 (UTC)
+Received: by sirius.home.kraxel.org (Postfix, from userid 1000)
+ id 664069D05; Tue, 21 Jul 2020 16:35:59 +0200 (CEST)
+Date: Tue, 21 Jul 2020 16:35:59 +0200
+From: Gerd Hoffmann <kraxel@redhat.com>
+To: Christophe de Dinechin <dinechin@redhat.com>
+Subject: Re: [PATCH v5 10/10] chardev: enable modules, use for braille
+Message-ID: <20200721143559.5mx235crcuheetdv@sirius.home.kraxel.org>
+References: <20200624131045.14512-1-kraxel@redhat.com>
+ <20200624131045.14512-11-kraxel@redhat.com>
+ <7hk0yyql9h.fsf@turbo.dinechin.lan>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::444;
- envelope-from=peter.maydell@linaro.org; helo=mail-wr1-x444.google.com
-X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
- That's all we know.
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+In-Reply-To: <7hk0yyql9h.fsf@turbo.dinechin.lan>
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Received-SPF: pass client-ip=205.139.110.61; envelope-from=kraxel@redhat.com;
+ helo=us-smtp-delivery-1.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/07/21 10:17:05
+X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
+X-Spam_score_int: -40
+X-Spam_score: -4.1
+X-Spam_bar: ----
+X-Spam_report: (-4.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-1, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -83,35 +81,26 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Richard Henderson <richard.henderson@linaro.org>
+Cc: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>,
+ Eduardo Habkost <ehabkost@redhat.com>, qemu-devel@nongnu.org,
+ Paolo Bonzini <pbonzini@redhat.com>,
+ =?utf-8?Q?Marc-Andr=C3=A9?= Lureau <marcandre.lureau@redhat.com>,
+ philmd@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Commit 6a0b7505f1fd6769c which added documentation of the virt board
-crossed in the post with commit 6f4e1405b91da0d0 which added a new
-'mte' machine option. Update the docs to include the new option.
+> >  common-obj-y += msmouse.o wctablet.o testdev.o
+> > -common-obj-$(CONFIG_BRLAPI) += baum.o
+> > +
+> > +ifeq ($(CONFIG_BRLAPI),y)
+> > +common-obj-m += baum.o
+> 
+> Shouldn't that be a .mo?
 
-Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
----
- docs/system/arm/virt.rst | 4 ++++
- 1 file changed, 4 insertions(+)
+This variant works too (but can only be used for modules built from a
+single object file).
 
-diff --git a/docs/system/arm/virt.rst b/docs/system/arm/virt.rst
-index 6621ab7205d..32dc5eb22ee 100644
---- a/docs/system/arm/virt.rst
-+++ b/docs/system/arm/virt.rst
-@@ -79,6 +79,10 @@ virtualization
-   Set ``on``/``off`` to enable/disable emulating a guest CPU which implements the
-   Arm Virtualization Extensions. The default is ``off``.
- 
-+mte
-+  Set ``on``/``off`` to enable/disable emulating a guest CPU which implements the
-+  Arm Memory Tagging Extensions. The default is ``off``.
-+
- highmem
-   Set ``on``/``off`` to enable/disable placing devices and RAM in physical
-   address space above 32 bits. The default is ``on`` for machine types
--- 
-2.20.1
+take care,
+  Gerd
 
 
