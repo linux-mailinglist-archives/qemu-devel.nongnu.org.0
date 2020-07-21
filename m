@@ -2,31 +2,33 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0391F2278BF
-	for <lists+qemu-devel@lfdr.de>; Tue, 21 Jul 2020 08:16:50 +0200 (CEST)
-Received: from localhost ([::1]:60208 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8FAD32278C0
+	for <lists+qemu-devel@lfdr.de>; Tue, 21 Jul 2020 08:16:53 +0200 (CEST)
+Received: from localhost ([::1]:60402 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jxla5-00084i-2z
-	for lists+qemu-devel@lfdr.de; Tue, 21 Jul 2020 02:16:49 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:47368)
+	id 1jxla8-00089e-Jz
+	for lists+qemu-devel@lfdr.de; Tue, 21 Jul 2020 02:16:52 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:47384)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <pavel.dovgalyuk@ispras.ru>)
- id 1jxlYS-0006r8-QA
- for qemu-devel@nongnu.org; Tue, 21 Jul 2020 02:15:08 -0400
-Received: from mail.ispras.ru ([83.149.199.84]:53654)
+ id 1jxlYT-0006rH-OK
+ for qemu-devel@nongnu.org; Tue, 21 Jul 2020 02:15:09 -0400
+Received: from mail.ispras.ru ([83.149.199.84]:53676)
  by eggs.gnu.org with esmtps (TLS1.2:DHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <pavel.dovgalyuk@ispras.ru>)
- id 1jxlYP-0001cX-ES
- for qemu-devel@nongnu.org; Tue, 21 Jul 2020 02:15:08 -0400
+ id 1jxlYR-0001dy-WC
+ for qemu-devel@nongnu.org; Tue, 21 Jul 2020 02:15:09 -0400
 Received: from [127.0.1.1] (unknown [62.118.151.149])
- by mail.ispras.ru (Postfix) with ESMTPSA id 609094089F10;
- Tue, 21 Jul 2020 06:15:00 +0000 (UTC)
-Subject: [PATCH v2 0/2] Romless QEMU shutdown patches
+ by mail.ispras.ru (Postfix) with ESMTPSA id 0023F40A92BA;
+ Tue, 21 Jul 2020 06:15:05 +0000 (UTC)
+Subject: [PATCH v2 1/2] hw/mips: remove exit(1) in case of missing ROM
 From: Pavel Dovgalyuk <pavel.dovgalyuk@ispras.ru>
 To: qemu-devel@nongnu.org
-Date: Tue, 21 Jul 2020 09:15:00 +0300
-Message-ID: <159531210010.24117.10018704762356020189.stgit@pasha-ThinkPad-X280>
+Date: Tue, 21 Jul 2020 09:15:05 +0300
+Message-ID: <159531210571.24117.231100997794891819.stgit@pasha-ThinkPad-X280>
+In-Reply-To: <159531210010.24117.10018704762356020189.stgit@pasha-ThinkPad-X280>
+References: <159531210010.24117.10018704762356020189.stgit@pasha-ThinkPad-X280>
 User-Agent: StGit/0.17.1-dirty
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
@@ -58,36 +60,127 @@ Cc: peter.maydell@linaro.org, pavel.dovgalyuk@ispras.ru, f4bug@amsat.org,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Some machines require custom ROMs or kernels. They can't be started without
--bios, -kernel, or -pflash options. But this requirement can't be detected
-automatically.
+This patch updates MIPS-based machines to allow starting them without ROM.
+In this case CPU starts to execute instructions from the empty memory,
+but QEMU allows introspecting the machine configuration.
 
-Running a romless machine may be needed for automatic introspection of default
-machine hardware, when QEMU is started with a single -machine option.
-
-This series provides patches that enable QEMU execution for MIPS and ARM machines,
-even when there is no ROM.
-
-v2 changes:
- - useless error reports were dropped (suggested by Peter Maydell)
-
+Signed-off-by: Pavel Dovgalyuk <Pavel.Dovgalyuk@ispras.ru>
 ---
+ hw/mips/fuloong2e.c |    8 +++-----
+ hw/mips/jazz.c      |    8 +++-----
+ hw/mips/malta.c     |   11 ++++-------
+ hw/mips/mipssim.c   |   10 +++-------
+ 4 files changed, 13 insertions(+), 24 deletions(-)
 
-Pavel Dovgalyuk (2):
-      hw/mips: remove exit(1) in case of missing ROM
-      hw/arm: remove exit(1) in case of missing ROM
+diff --git a/hw/mips/fuloong2e.c b/hw/mips/fuloong2e.c
+index 8ca31e5162..3e8a073922 100644
+--- a/hw/mips/fuloong2e.c
++++ b/hw/mips/fuloong2e.c
+@@ -336,10 +336,8 @@ static void mips_fuloong2e_init(MachineState *machine)
+         kernel_entry = load_kernel(env);
+         write_bootloader(env, memory_region_get_ram_ptr(bios), kernel_entry);
+     } else {
+-        if (bios_name == NULL) {
+-                bios_name = FULOONG_BIOSNAME;
+-        }
+-        filename = qemu_find_file(QEMU_FILE_TYPE_BIOS, bios_name);
++        filename = qemu_find_file(QEMU_FILE_TYPE_BIOS,
++                                  bios_name ?: FULOONG_BIOSNAME);
+         if (filename) {
+             bios_size = load_image_targphys(filename, 0x1fc00000LL,
+                                             BIOS_SIZE);
+@@ -349,7 +347,7 @@ static void mips_fuloong2e_init(MachineState *machine)
+         }
+ 
+         if ((bios_size < 0 || bios_size > BIOS_SIZE) &&
+-            !kernel_filename && !qtest_enabled()) {
++            bios_name && !qtest_enabled()) {
+             error_report("Could not load MIPS bios '%s'", bios_name);
+             exit(1);
+         }
+diff --git a/hw/mips/jazz.c b/hw/mips/jazz.c
+index 82a6e3220e..b6dee3eb1f 100644
+--- a/hw/mips/jazz.c
++++ b/hw/mips/jazz.c
+@@ -205,10 +205,7 @@ static void mips_jazz_init(MachineState *machine,
+     memory_region_add_subregion(address_space, 0xfff00000LL, bios2);
+ 
+     /* load the BIOS image. */
+-    if (bios_name == NULL) {
+-        bios_name = BIOS_FILENAME;
+-    }
+-    filename = qemu_find_file(QEMU_FILE_TYPE_BIOS, bios_name);
++    filename = qemu_find_file(QEMU_FILE_TYPE_BIOS, bios_name ?: BIOS_FILENAME);
+     if (filename) {
+         bios_size = load_image_targphys(filename, 0xfff00000LL,
+                                         MAGNUM_BIOS_SIZE);
+@@ -216,7 +213,8 @@ static void mips_jazz_init(MachineState *machine,
+     } else {
+         bios_size = -1;
+     }
+-    if ((bios_size < 0 || bios_size > MAGNUM_BIOS_SIZE) && !qtest_enabled()) {
++    if ((bios_size < 0 || bios_size > MAGNUM_BIOS_SIZE)
++        && bios_name && !qtest_enabled()) {
+         error_report("Could not load MIPS bios '%s'", bios_name);
+         exit(1);
+     }
+diff --git a/hw/mips/malta.c b/hw/mips/malta.c
+index a59e20c81c..838de0f905 100644
+--- a/hw/mips/malta.c
++++ b/hw/mips/malta.c
+@@ -1334,10 +1334,8 @@ void mips_malta_init(MachineState *machine)
+         /* Load firmware from flash. */
+         if (!dinfo) {
+             /* Load a BIOS image. */
+-            if (bios_name == NULL) {
+-                bios_name = BIOS_FILENAME;
+-            }
+-            filename = qemu_find_file(QEMU_FILE_TYPE_BIOS, bios_name);
++            filename = qemu_find_file(QEMU_FILE_TYPE_BIOS,
++                                      bios_name ?: BIOS_FILENAME);
+             if (filename) {
+                 bios_size = load_image_targphys(filename, FLASH_ADDRESS,
+                                                 BIOS_SIZE);
+@@ -1346,9 +1344,8 @@ void mips_malta_init(MachineState *machine)
+                 bios_size = -1;
+             }
+             if ((bios_size < 0 || bios_size > BIOS_SIZE) &&
+-                !kernel_filename && !qtest_enabled()) {
+-                error_report("Could not load MIPS bios '%s', and no "
+-                             "-kernel argument was specified", bios_name);
++                bios_name && !qtest_enabled()) {
++                error_report("Could not load MIPS bios '%s'", bios_name);
+                 exit(1);
+             }
+         }
+diff --git a/hw/mips/mipssim.c b/hw/mips/mipssim.c
+index 1b3b762203..f259e7041e 100644
+--- a/hw/mips/mipssim.c
++++ b/hw/mips/mipssim.c
+@@ -173,10 +173,7 @@ mips_mipssim_init(MachineState *machine)
+     /* Map the BIOS / boot exception handler. */
+     memory_region_add_subregion(address_space_mem, 0x1fc00000LL, bios);
+     /* Load a BIOS / boot exception handler image. */
+-    if (bios_name == NULL) {
+-        bios_name = BIOS_FILENAME;
+-    }
+-    filename = qemu_find_file(QEMU_FILE_TYPE_BIOS, bios_name);
++    filename = qemu_find_file(QEMU_FILE_TYPE_BIOS, bios_name ?: BIOS_FILENAME);
+     if (filename) {
+         bios_size = load_image_targphys(filename, 0x1fc00000LL, BIOS_SIZE);
+         g_free(filename);
+@@ -184,10 +181,9 @@ mips_mipssim_init(MachineState *machine)
+         bios_size = -1;
+     }
+     if ((bios_size < 0 || bios_size > BIOS_SIZE) &&
+-        !kernel_filename && !qtest_enabled()) {
++        bios_name && !qtest_enabled()) {
+         /* Bail out if we have neither a kernel image nor boot vector code. */
+-        error_report("Could not load MIPS bios '%s', and no "
+-                     "-kernel argument was specified", bios_name);
++        error_report("Could not load MIPS bios '%s'", bios_name);
+         exit(1);
+     } else {
+         /* We have a boot vector start address. */
 
-
- hw/arm/digic_boards.c |    8 ++++++--
- hw/arm/gumstix.c      |   12 ------------
- hw/arm/omap_sx1.c     |    5 -----
- hw/arm/palm.c         |    8 +-------
- hw/mips/fuloong2e.c   |    8 +++-----
- hw/mips/jazz.c        |    8 +++-----
- hw/mips/malta.c       |   11 ++++-------
- hw/mips/mipssim.c     |   10 +++-------
- 8 files changed, 20 insertions(+), 50 deletions(-)
-
---
-Pavel Dovgalyuk
 
