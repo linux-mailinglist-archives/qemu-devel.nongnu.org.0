@@ -2,82 +2,73 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id CFC7D228041
-	for <lists+qemu-devel@lfdr.de>; Tue, 21 Jul 2020 14:48:10 +0200 (CEST)
-Received: from localhost ([::1]:36054 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D4E91228048
+	for <lists+qemu-devel@lfdr.de>; Tue, 21 Jul 2020 14:51:00 +0200 (CEST)
+Received: from localhost ([::1]:41738 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jxrgn-0001YM-TN
-	for lists+qemu-devel@lfdr.de; Tue, 21 Jul 2020 08:48:09 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:36284)
+	id 1jxrjX-00049s-TX
+	for lists+qemu-devel@lfdr.de; Tue, 21 Jul 2020 08:50:59 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:36982)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1jxrfY-0000Vx-HZ; Tue, 21 Jul 2020 08:46:52 -0400
-Received: from mail-wr1-x42d.google.com ([2a00:1450:4864:20::42d]:38950)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1jxrfW-0005el-Tc; Tue, 21 Jul 2020 08:46:52 -0400
-Received: by mail-wr1-x42d.google.com with SMTP id q5so21063133wru.6;
- Tue, 21 Jul 2020 05:46:50 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=sender:subject:to:cc:references:from:message-id:date:user-agent
- :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=o9OyYZ1PvfyceNDHrZdu2M/SQe0CGMxOggIZTgQa7v0=;
- b=P3A2CaRJvqs4IovbDtVpUTDw2+RJDUAwma3JVadd1lA9pE5woMm15wFyilIWmUDiM3
- 1voIHYFIYFVbaZI/U/64ar+kSfYSL6Vz69P8ZQ08t0YmgsAADNqqED32mv0zLrCd18MC
- uYq6scLm+9pMGClkpHOuNC2EYN92Pd3B8qMoavIUEpqbSW7GU5bBqAzTUEi29bnGrc69
- g+OURDikngdwrFP5IRbLVwidfoEByqRnrf/Bma0GEYWAYx7vDIshyN4LRtYlp9lX/QSH
- Pr4xEsZq7puLM02+X/OhyYisyWn1kt+cZ0BzZC1qAP/rZjd+etwnM1ULM3Kkey+gLhDz
- bOQw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:sender:subject:to:cc:references:from:message-id
- :date:user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=o9OyYZ1PvfyceNDHrZdu2M/SQe0CGMxOggIZTgQa7v0=;
- b=gMTsf8RzixIBPyzjdJ+Uj92vsa2Htck/0/7sVhvHn2JRQDFEIexaybIA+y+4YuhtF/
- i+B3o4jksDOWkXcfHPdho5QuOxZ058jKhBF6iMLwCCaKvGUV+JuaxzmWy9W5RiJD9Xp5
- ULhoayP1aTqHyFGUPPXTLK8u4EUWz35Yr0iuOnuQy4yt5roZ+uaHU7B50UeqviWHNxk4
- ZZADZtjZpXiZ5V7inPemebHcmLGE3E5cZbOU48AMbkduIsd/YJZT6AwDttYqkoAHofES
- BiQ3ZhyRrSAwaZdGVezwKZR9BwI9cVtIfqsqxgY57bmilRUeifo7ltQoNq9779CY2SvF
- dUUw==
-X-Gm-Message-State: AOAM531jVgVcNCaUjZBfIlxCJLuL8xQpvqYFw2vV31lEIPot/DKaDExH
- Hw6CCWo/cKO/8uwcKQbCVvTRcTK34no=
-X-Google-Smtp-Source: ABdhPJwz88kcp6W3iWCvBZt4VNeC+XWCcQJ2Ug+CGkziooShlU9PVBu7jN47MHcg3QND3klb4U0HPA==
-X-Received: by 2002:a5d:6683:: with SMTP id l3mr27745298wru.288.1595335609190; 
- Tue, 21 Jul 2020 05:46:49 -0700 (PDT)
-Received: from [192.168.1.37] (138.red-83-57-170.dynamicip.rima-tde.net.
- [83.57.170.138])
- by smtp.gmail.com with ESMTPSA id j24sm7687925wrb.49.2020.07.21.05.46.48
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 21 Jul 2020 05:46:48 -0700 (PDT)
-Subject: Re: [PATCH-for-5.1] hw/isa/isa-superio: Fix IDE controller realization
-To: Markus Armbruster <armbru@redhat.com>
-References: <20200720172348.23465-1-f4bug@amsat.org>
- <87zh7t9tda.fsf@dusky.pond.sub.org>
- <c0c7fd3d-fa14-df6f-ecb9-44a7a2a783e6@amsat.org>
- <87wo2x8a1z.fsf@dusky.pond.sub.org>
-From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>
-Message-ID: <f77d2060-5f9a-e81e-8f61-0b22b7d4ca22@amsat.org>
-Date: Tue, 21 Jul 2020 14:46:47 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.5.0
+ (Exim 4.90_1) (envelope-from <stefanha@redhat.com>)
+ id 1jxrhx-0002rs-EH
+ for qemu-devel@nongnu.org; Tue, 21 Jul 2020 08:49:21 -0400
+Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:25030
+ helo=us-smtp-1.mimecast.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <stefanha@redhat.com>)
+ id 1jxrhu-0005qS-Ni
+ for qemu-devel@nongnu.org; Tue, 21 Jul 2020 08:49:20 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1595335757;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=UcDJQq7yypIfmXRQ5Q+hecpLDQfOt0saHjYdFJOHQVY=;
+ b=W6AoVeakwrwOImtsZQnMviMCJtA23rpzE01rFub5YLN47r47H1VMUKNeFpjXNjzMqmAVo+
+ M5f0i+kwNeFroGSzRyfWJYWSk4r40xmFDa/afr9nzKFBky5w7B05EIzESkIDM3A3bEQKAO
+ p58zpQvRGA8zqT8QbWwU4Z+w83vM3FU=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-306-6eZF3wkeMpeSSYoMd_VloQ-1; Tue, 21 Jul 2020 08:49:08 -0400
+X-MC-Unique: 6eZF3wkeMpeSSYoMd_VloQ-1
+Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
+ [10.5.11.11])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id A7F5C1083FA4;
+ Tue, 21 Jul 2020 12:49:07 +0000 (UTC)
+Received: from localhost (ovpn-114-133.ams2.redhat.com [10.36.114.133])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 48FF287B01;
+ Tue, 21 Jul 2020 12:49:01 +0000 (UTC)
+Date: Tue, 21 Jul 2020 13:48:59 +0100
+From: Stefan Hajnoczi <stefanha@redhat.com>
+To: Marc Hartmayer <mhartmay@linux.ibm.com>
+Subject: Re: [RFC v2 2/3] libvhost-user: handle endianness as mandated by the
+ spec
+Message-ID: <20200721124859.GF183198@stefanha-x1.localdomain>
+References: <20200717092929.19453-1-mhartmay@linux.ibm.com>
+ <20200717092929.19453-3-mhartmay@linux.ibm.com>
 MIME-Version: 1.0
-In-Reply-To: <87wo2x8a1z.fsf@dusky.pond.sub.org>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::42d;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wr1-x42d.google.com
-X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
- That's all we know.
-X-Spam_score_int: 0
-X-Spam_score: 0.0
-X-Spam_bar: /
-X-Spam_report: (0.0 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1, DKIM_VALID=-0.1,
- DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=1, FREEMAIL_FROM=0.001,
- HEADER_FROM_DIFFERENT_DOMAINS=1, RCVD_IN_DNSWL_NONE=-0.0001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=no autolearn_force=no
+In-Reply-To: <20200717092929.19453-3-mhartmay@linux.ibm.com>
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature"; boundary="Mjqg7Yu+0hL22rav"
+Content-Disposition: inline
+Received-SPF: pass client-ip=205.139.110.120; envelope-from=stefanha@redhat.com;
+ helo=us-smtp-1.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/07/21 01:30:29
+X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
+X-Spam_score_int: -40
+X-Spam_score: -4.1
+X-Spam_bar: ----
+X-Spam_report: (-4.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-1, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001, URIBL_BLOCKED=0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -90,51 +81,81 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-trivial@nongnu.org, Paolo Bonzini <pbonzini@redhat.com>,
- qemu-devel@nongnu.org, "Michael S. Tsirkin" <mst@redhat.com>
+Cc: Daniel =?iso-8859-1?Q?P=2E_Berrang=E9?= <berrange@redhat.com>,
+ "Michael S. Tsirkin" <mst@redhat.com>, Cornelia Huck <cohuck@redhat.com>,
+ qemu-devel@nongnu.org, "Dr. David Alan Gilbert" <dgilbert@redhat.com>,
+ Halil Pasic <pasic@linux.ibm.com>,
+ =?iso-8859-1?Q?Marc-Andr=E9?= Lureau <marcandre.lureau@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 7/21/20 11:57 AM, Markus Armbruster wrote:
-> Philippe Mathieu-Daudé <f4bug@amsat.org> writes:
-> 
->> On 7/21/20 10:15 AM, Markus Armbruster wrote:
->>> Philippe Mathieu-Daudé <f4bug@amsat.org> writes:
->>>
->>>> When realizing a Super I/O with IDE controller [*], we get:
->>>>
->>>>   qom/object.c:1684: object_property_try_add_child: Assertion `!child->parent' failed.
->>>>   Aborted (core dumped)
->>>>
->>>> This is because the device is already realized when we try to
->>>> add the QOM property to the parent. Fix by realizing *after*
->>>> adding the QOM relationship.
->>>>
->>>> [*] Set ISASuperIOClass::ide.count = N with N not zero
->>>
->>> Is this a latent bug, or can it bite in master?  If the latter, can you
->>> show how to reproduce?
->>
->> Latent bug for master:
->>
->> $ git grep ide.count
->> hw/isa/isa-superio.c:149:    if (k->ide.count && (!k->ide.is_enabled ||
->> k->ide.is_enabled(sio, 0))) {
->> hw/isa/isa-superio.c:197:    sc->ide.count = 0;
->> hw/isa/smc37c669-superio.c:100:    sc->ide.count = 0;
->> hw/isa/vt82c686.c:529:    sc->ide.count = 0;
->>
->> I hit it rebasing undergoing series for 5.2 and testing them.
-> 
-> Let's tweak the commit message like this
-> 
->     [*] Set ISASuperIOClass::ide.count = N with N not zero (no such
->     thing currently exists; the bug is latent)
-> 
-> Preferably with that or something like it:
-> Reviewed-by: Markus Armbruster <armbru@redhat.com>
+--Mjqg7Yu+0hL22rav
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-OK. I still consider it worthwhile fixing for 5.1, as while it
-doesn't bite master, forks might be affected, since the bug is
-in master.
+On Fri, Jul 17, 2020 at 11:29:28AM +0200, Marc Hartmayer wrote:
+> Since virtio existed even before it got standardized, the virtio
+> standard defines the following types of virtio devices:
+>=20
+>  + legacy device (pre-virtio 1.0)
+>  + non-legacy or VIRTIO 1.0 device
+>  + transitional device (which can act both as legacy and non-legacy)
+>=20
+> Virtio 1.0 defines the fields of the virtqueues as little endian,
+> while legacy uses guest's native endian [1]. Currently libvhost-user
+> does not handle virtio endianness at all, i.e. it works only if the
+> native endianness matches with whatever is actually needed. That means
+> things break spectacularly on big-endian targets. Let us handle virtio
+> endianness for non-legacy as required by the virtio specification
+> [1]. We will fence non-legacy virtio devices with the upcoming patch.
+>=20
+> [1] https://docs.oasis-open.org/virtio/virtio/v1.1/cs01/virtio-v1.1-cs01.=
+html#x1-210003
+>=20
+> Signed-off-by: Marc Hartmayer <mhartmay@linux.ibm.com>
+>=20
+> ---
+> Note: As we don't support legacy virtio devices there is dead code in
+> libvhost-access.h that could be removed. But for the sake of
+> completeness, I left it in the code.
+
+Please remove the dead code. It is unlikely that legacy device support
+will be required in the future and it will just confuse people reading
+the code.
+
+> ---
+>  contrib/libvhost-user/libvhost-access.h |  61 ++++++++++++
+>  contrib/libvhost-user/libvhost-user.c   | 119 ++++++++++++------------
+>  2 files changed, 121 insertions(+), 59 deletions(-)
+>  create mode 100644 contrib/libvhost-user/libvhost-access.h
+>=20
+> diff --git a/contrib/libvhost-user/libvhost-access.h b/contrib/libvhost-u=
+ser/libvhost-access.h
+> new file mode 100644
+> index 000000000000..868ba3e7bfb8
+> --- /dev/null
+> +++ b/contrib/libvhost-user/libvhost-access.h
+> @@ -0,0 +1,61 @@
+> +#ifndef LIBVHOST_ACCESS_H
+
+License/copyright header?
+
+--Mjqg7Yu+0hL22rav
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAEBCAAdFiEEhpWov9P5fNqsNXdanKSrs4Grc8gFAl8W5DsACgkQnKSrs4Gr
+c8hO0AgAg6voMDfAiLIlxBa1a3E5gbrfYFIDbffQ1Kh6UsHudIW5PIw7zHStcJiZ
+APiM+2BpcAbXB6eh5ryPb6sxQt27eIULrfPBDSc/wxbkSyLrwCyNWpx8825wL3Zl
+Sa3asC1xlyaCG9/fZHO1wZ6UTmrRNmapJtb3RWi9/Wi2rfhUOrB+TWJwIT3ytVMB
+qNxeCOt/f17mr17tI12dwXxgkf07OPrVFC26zixZ2MJfpy3oWsJ9odWSWUQE9ZYI
+rrcDCYvUPdpuAxtisZCcXQenZtcPySeYi6svQkg0ylcb6ye6SiDDxb8kG8NdfQYA
+nTYofTCnSp6lL73KEEQkLHxPOEnABg==
+=YD8S
+-----END PGP SIGNATURE-----
+
+--Mjqg7Yu+0hL22rav--
+
 
