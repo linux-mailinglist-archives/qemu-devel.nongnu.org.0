@@ -2,52 +2,50 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 571DE228143
-	for <lists+qemu-devel@lfdr.de>; Tue, 21 Jul 2020 15:46:02 +0200 (CEST)
-Received: from localhost ([::1]:43336 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 38F47228148
+	for <lists+qemu-devel@lfdr.de>; Tue, 21 Jul 2020 15:48:08 +0200 (CEST)
+Received: from localhost ([::1]:48028 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jxsan-0005Vz-E1
-	for lists+qemu-devel@lfdr.de; Tue, 21 Jul 2020 09:46:01 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:54552)
+	id 1jxscp-0007X9-9V
+	for lists+qemu-devel@lfdr.de; Tue, 21 Jul 2020 09:48:07 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:55034)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1jxsZh-0004zA-9w
- for qemu-devel@nongnu.org; Tue, 21 Jul 2020 09:44:53 -0400
-Received: from mail-ot1-x341.google.com ([2607:f8b0:4864:20::341]:41463)
+ (Exim 4.90_1) (envelope-from <liq3ea@gmail.com>) id 1jxsba-0006RY-Qb
+ for qemu-devel@nongnu.org; Tue, 21 Jul 2020 09:46:50 -0400
+Received: from mail-ot1-x343.google.com ([2607:f8b0:4864:20::343]:34283)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1jxsZf-0005xw-83
- for qemu-devel@nongnu.org; Tue, 21 Jul 2020 09:44:52 -0400
-Received: by mail-ot1-x341.google.com with SMTP id a21so15065976otq.8
- for <qemu-devel@nongnu.org>; Tue, 21 Jul 2020 06:44:50 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ (Exim 4.90_1) (envelope-from <liq3ea@gmail.com>) id 1jxsbZ-0006LI-0X
+ for qemu-devel@nongnu.org; Tue, 21 Jul 2020 09:46:50 -0400
+Received: by mail-ot1-x343.google.com with SMTP id e90so15107417ote.1
+ for <qemu-devel@nongnu.org>; Tue, 21 Jul 2020 06:46:48 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=mime-version:references:in-reply-to:from:date:message-id:subject:to
  :cc:content-transfer-encoding;
- bh=cwH0eQfXfZXNOrLozsdlWlWjFwPgBN0+LAmx2GMdbsg=;
- b=MtvfaGDbJmYUtgz3ky7JodB0jc8MaWCUsXTNVGdHBCnq+syPIcK5QZs03SES42XSxw
- eCrUIaApvknIJZCuTWFoteeZx2Gc/3/0pSS86rD9PyWLYZGZlTOrnN+6Y/VYK9ihYDMy
- xHagDGLGsGlmKG8qLFUDPTxFxr8CopnBDLRUTdaaYDpk0I9var+cx/KoYzaIwmOWPUtn
- VLjWbs4HQ/QdT8ilHXZ4YtDYJoj82XDHAgmscx9ag48mnreTC9sV5xmFHJ6W6iDZZite
- 2XSdhZ2b9gn9qda/ue/qaiGEag+5g1mzT5Y/6w8ywmR/YYptBTohklh2ontmr0taEIij
- Sm5A==
+ bh=lNRzKBDMfW3j3djz42vcJOq2OF3CutK+m56CkzVdtOA=;
+ b=EI6wKfXn164J6bph+XbGa/fOMtamLA7z8XzIrz2/fDHOkzXhD//afUQAPFlDDcCVSb
+ O9ap6Q+AA4BjVSJNQujuYySgbVm7jwUF8q504EDoUGLgAugSnipA5v4PaU+gvXoyovo+
+ ZIK3D/BTSIZ2aBtVPCYPcmktEYtFUcvymRHuJl6jFWqnyF2FcPFDYsYDhUCEJm1AtUkh
+ NbXIPv08uyrBnpiOXmfSvLrGXwz/PdKD9cB4lMpoyyEDNx1Qmaes31X5wvsb0772NnRS
+ iwYdB9PKOZQZ5AcrU48trOSe24KdYKeXxC+5UZPKzbKwEC7ym9gaxWGpO1jtTORRVyXi
+ 3YTQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
  :message-id:subject:to:cc:content-transfer-encoding;
- bh=cwH0eQfXfZXNOrLozsdlWlWjFwPgBN0+LAmx2GMdbsg=;
- b=Hy67JokDrXlyVJ1IoN0jZfODzDUizaGSD7A8S11Zb4Daw5FCmUnkYyFUl07oT1Onir
- lU8Ic1vO9QXm8DzvLH/tdMKXt+Y4JT2Btip33rVtbBd9e/GgFgzzyvjZAes3DmgfPa3E
- gvI6BCY+QbKapW2eJ7fXhpF/wlS6KVf7PlMI5SbFmahLQmYAk6pQY3qM6iV8i7pxKVTG
- 9PkiC6QeXYWNtNKlE2/pk8KgjsbhHVGgCR8KmdM/0rHMjL9sioQkvhP9sbMBZQiyXxKh
- mB459f6w4agkbh0brxnKYt3rP7QfCpog2B51feeZ8uBBKQkmc4KwpU7a8r9KvrsEYdzl
- c5bQ==
-X-Gm-Message-State: AOAM533zJrSoK0t6m7bsHfG5dbl+hgkO5lwMmy+3CoYdBBA0+ylsio+3
- wHtWSEm9mgEKywUkTrTON7fuuDZmwdlncWzXZ4GfIw==
-X-Google-Smtp-Source: ABdhPJwDQPA13d2ZzQjtvW/a9CZsKqIECWlMaBkmg5cF3/XcYrT5+8kx/ZgYU7TCnCJNXq2uCr46KkkH/9wOitLl6hA=
-X-Received: by 2002:a05:6830:10ce:: with SMTP id
- z14mr25180370oto.135.1595339089805; 
- Tue, 21 Jul 2020 06:44:49 -0700 (PDT)
+ bh=lNRzKBDMfW3j3djz42vcJOq2OF3CutK+m56CkzVdtOA=;
+ b=Jms7jpXSckL8cI4ySQiYGuNmPHe+VMIwR5GEJTIE8K2BCoXvASHWjuPU18NZSoyReR
+ V2F6aoMlptoxsddtV0r/dRoTCBHXf4CzcMBM/09B6nWO2YOF/GBf3z5ApuXMI0PIxusb
+ 78NgIQ/JN66EihsVoVCfynmtaK9CSId0WxW2Y1SWrtfqNHCiUTiPGgPpnC4RHMK43UYp
+ K6relh9vOykXoRVe3sMcsP7v93mWdgI0JLPk6jNH4EvXrp7dbyF4rxrC7P9ROhxQqPl0
+ YAK223o7ORFw3BWNAxX1mIsKdIGNnktEw0q0lKgxlcUxArFWBJZz7dNm7X0OuqqCAv44
+ NtUw==
+X-Gm-Message-State: AOAM530zZhffSEPBBJWHE5ChP88zFsOdUIcWHsHfBM4zvIEzvNOMRJRG
+ 76Cfx4pkdL+O5yaIXUlJZFDFZSeBnZM1wyqjN+0=
+X-Google-Smtp-Source: ABdhPJxS2njTjoznYMrgLQ6ksCLxyxYJtTyPvAtSjRRvmWWsDAIxi38S438qo1OGV/lXRKipz6Zh/fp1/FnUNyVyZzU=
+X-Received: by 2002:a05:6830:15c3:: with SMTP id
+ j3mr22597335otr.353.1595339207712; 
+ Tue, 21 Jul 2020 06:46:47 -0700 (PDT)
 MIME-Version: 1.0
 References: <159400349818.1851.7243060688419202620.malonedeb@wampee.canonical.com>
  <CAKXe6S+J3nARveToQjECbwV224gs66WkqGHybUhfw35t1+V8og@mail.gmail.com>
@@ -59,23 +57,23 @@ References: <159400349818.1851.7243060688419202620.malonedeb@wampee.canonical.co
  <CAFEAcA-qrpXJtzW=tigyAqQuYFNCBMQK_CZFx6zYkcJa+RuZuw@mail.gmail.com>
  <28d42c0f-99eb-a9c1-e3fc-98f11ee686ab@redhat.com>
 In-Reply-To: <28d42c0f-99eb-a9c1-e3fc-98f11ee686ab@redhat.com>
-From: Peter Maydell <peter.maydell@linaro.org>
-Date: Tue, 21 Jul 2020 14:44:37 +0100
-Message-ID: <CAFEAcA8ECKgRanHLiFZMDS3fd77ASBkba2nfv+iwnjgSLWnbPw@mail.gmail.com>
+From: Li Qiang <liq3ea@gmail.com>
+Date: Tue, 21 Jul 2020 21:46:11 +0800
+Message-ID: <CAKXe6SJvrTx=X2kQk6cKOwHczzTM0nocCj22m1eQaNtw-9yOuQ@mail.gmail.com>
 Subject: Re: [Bug 1886362] [NEW] Heap use-after-free in lduw_he_p through
  e1000e_write_to_rx_buffers
 To: Jason Wang <jasowang@redhat.com>
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=2607:f8b0:4864:20::341;
- envelope-from=peter.maydell@linaro.org; helo=mail-ot1-x341.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::343;
+ envelope-from=liq3ea@gmail.com; helo=mail-ot1-x343.google.com
 X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
  That's all we know.
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
@@ -90,13 +88,16 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Paolo Bonzini <pbonzini@redhat.com>,
- Bug 1886362 <1886362@bugs.launchpad.net>, Li Qiang <liq3ea@gmail.com>,
- Qemu Developers <qemu-devel@nongnu.org>
+Cc: Peter Maydell <peter.maydell@linaro.org>,
+ Bug 1886362 <1886362@bugs.launchpad.net>,
+ Qemu Developers <qemu-devel@nongnu.org>, Paolo Bonzini <pbonzini@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Tue, 21 Jul 2020 at 14:21, Jason Wang <jasowang@redhat.com> wrote:
+Jason Wang <jasowang@redhat.com> =E4=BA=8E2020=E5=B9=B47=E6=9C=8821=E6=97=
+=A5=E5=91=A8=E4=BA=8C =E4=B8=8B=E5=8D=889:21=E5=86=99=E9=81=93=EF=BC=9A
+>
+>
 > On 2020/7/21 =E4=B8=8B=E5=8D=888:31, Peter Maydell wrote:
 > > On Wed, 15 Jul 2020 at 09:36, Jason Wang <jasowang@redhat.com> wrote:
 > >> I think the point is to make DMA to MMIO work as real hardware.
@@ -107,18 +108,18 @@ On Tue, 21 Jul 2020 at 14:21, Jason Wang <jasowang@redhat.com> wrote:
 > > the respond-to-memory-transactions-for-registers logic, but
 > > it probably wasn't something the designers were actively
 > > thinking about either...
-
+>
+>
 > I think some device want such peer to peer transactions:
 >
 > https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/tree/D=
 ocumentation/driver-api/pci/p2pdma.rst
-
-That's a device DMAing to another device, not DMAing to *itself*
-(device-to-another-device DMA should work fine in QEMU). And only
-a very few devices will ever be sensible targets of the DMA --
-basically things like nvme that have a looks-like-memory area,
-or special cases like doorbell registers.
-
+>
+>
+> >
+> >> For
+> >> e1000e and other networking devices we need make sure such DMA doesn't
+> >> break anything.
 > > Yeah, this is the interesting part for QEMU. How should we
 > > structure devices that do DMA so that we can be sure that
 > > the device emulation at least doesn't crash? We could have
@@ -129,13 +130,33 @@ or special cases like doorbell registers.
 >
 > It looks to me the issue happens only for device with loopback
 
-I think in principle we have a problem for any device that
-(a) has memory mapped registers and (b) does DMA reads
-whose address is guest-controlled. Loopback isn't a
-requirement -- if the guest programs, say, an RX descriptor
-base address to point at the device's own registers, you
-get exactly the same kind of unexpected-reentrancy.
+IMO I think this is not related-loopback.
 
-thanks
--- PMM
+It happens when the guest write the MMIO address to the device's
+DMA-related registers.
+The one we see UAF occurs in loopback device because the same
+structure uses in re-entry.
+But we can't say there are no issue for non-loopback device.
+
+>
+> Simply git grep loopback in hw/net tells me we probably need only to
+> audit dp8393x and rtl8139.
+>
+> Qiang, want to help to audit those devices?
+
+No problem. Once I finish the e1000e patch I will try to audit those and
+also try to audit some no-loopback device re-entry issue.
+
+Thanks,
+Li Qiang
+
+>
+> Thanks
+>
+>
+> >
+> > thanks
+> > -- PMM
+> >
+>
 
