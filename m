@@ -2,106 +2,63 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 50A24227A9B
-	for <lists+qemu-devel@lfdr.de>; Tue, 21 Jul 2020 10:25:06 +0200 (CEST)
-Received: from localhost ([::1]:42848 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1D900227AAF
+	for <lists+qemu-devel@lfdr.de>; Tue, 21 Jul 2020 10:32:21 +0200 (CEST)
+Received: from localhost ([::1]:48344 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jxnaD-0005hC-C1
-	for lists+qemu-devel@lfdr.de; Tue, 21 Jul 2020 04:25:05 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:38464)
+	id 1jxnhD-0008Kx-KQ
+	for lists+qemu-devel@lfdr.de; Tue, 21 Jul 2020 04:32:19 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:40136)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1jxnZT-0005Hs-Vw
- for qemu-devel@nongnu.org; Tue, 21 Jul 2020 04:24:20 -0400
-Received: from us-smtp-2.mimecast.com ([207.211.31.81]:37937
+ (Exim 4.90_1) (envelope-from <stefanha@redhat.com>)
+ id 1jxnfy-0007cV-Mf
+ for qemu-devel@nongnu.org; Tue, 21 Jul 2020 04:31:02 -0400
+Received: from us-smtp-1.mimecast.com ([207.211.31.81]:32576
  helo=us-smtp-delivery-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1jxnZS-0006VL-3Y
- for qemu-devel@nongnu.org; Tue, 21 Jul 2020 04:24:19 -0400
+ (Exim 4.90_1) (envelope-from <stefanha@redhat.com>)
+ id 1jxnfv-0007aZ-Qo
+ for qemu-devel@nongnu.org; Tue, 21 Jul 2020 04:31:02 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1595319857;
+ s=mimecast20190719; t=1595320258;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
- bh=16jSyxv2sA5h3PIqny5QjEy+y77fugkHOSzWreHnQYE=;
- b=JK1iXKUrbq5c8bgUD4xVR5hdUXChjLGPz9jXQ3iT6bLoN76V2K1VT4GGK9LnLEf9jUk0Bi
- mo1tuh8DgN9ZYzTa7TiQmMfkMK6HIHu6OxGDlYXgvri5tuHsxMjhYs6Q0t4UVls+eEnmWi
- TQbkibPQPqkVbNUvxhCU57j8sA8DctY=
-Received: from mail-wm1-f72.google.com (mail-wm1-f72.google.com
- [209.85.128.72]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-415-SBhJg0CROZWsGjd0Biny7A-1; Tue, 21 Jul 2020 04:24:13 -0400
-X-MC-Unique: SBhJg0CROZWsGjd0Biny7A-1
-Received: by mail-wm1-f72.google.com with SMTP id v6so716880wmg.1
- for <qemu-devel@nongnu.org>; Tue, 21 Jul 2020 01:24:13 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:autocrypt
- :message-id:date:user-agent:mime-version:in-reply-to
- :content-language:content-transfer-encoding;
- bh=16jSyxv2sA5h3PIqny5QjEy+y77fugkHOSzWreHnQYE=;
- b=fstczex2kWLkhAEaoq6nh9NpAQHdm35M4NOh1ajRf7T4MlAzfxc67Uo/B2iU2z9avE
- RJtv+4TlReTxr9dqc3rJkh675H97APFPXGuL/94RAW6GLJd83xyPOX7aeEUo3SnngcA2
- 2+VYyOAPMz/OXbQKQIFDgXlfcV4XXSiBxD37wiSgJMh8ZOX5OmjmP/4oS4cPZzfjqyBb
- nl5ClpWZGLb7Ett7bYHojjlQWzK5eYxbyKb3kjhiZ1nm23McKp0Or/LDDhpxFCHwRKDt
- /QHhRs6VscMEiy34rmo1Ac3k5YlsO7lubsAdlm/lPIfTjfGbuVWgfIwcB8x82mXe/Fbc
- p90w==
-X-Gm-Message-State: AOAM531wc/g6T3IEmoTGam5c45kbBivqQc62Jq1Q5J/7jUPIFnDYTwEO
- VeVc1NzoC8wTBtX2jYcuv80jo7BDYMB+vkkvbEMkAGimabLPfGoLfHIB0qc2OyEesrM5C7X9zun
- Xu8rFpEV2/g65ir4=
-X-Received: by 2002:a05:600c:2295:: with SMTP id
- 21mr2813603wmf.87.1595319852316; 
- Tue, 21 Jul 2020 01:24:12 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJyWDjTndqfz6L7V0INjyBMYdnkO0RgAByKg1drKgAEFmcwDFbDuDnBCIXq2T+2PlB0ZWyY8Qw==
-X-Received: by 2002:a05:600c:2295:: with SMTP id
- 21mr2813584wmf.87.1595319852078; 
- Tue, 21 Jul 2020 01:24:12 -0700 (PDT)
-Received: from [192.168.1.37] (138.red-83-57-170.dynamicip.rima-tde.net.
- [83.57.170.138])
- by smtp.gmail.com with ESMTPSA id 22sm2686891wmb.11.2020.07.21.01.24.10
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 21 Jul 2020 01:24:11 -0700 (PDT)
-Subject: Re: [PATCH v2 4/9] prep: add ppc-parity write method
-To: Li Qiang <liq3ea@gmail.com>, P J P <ppandit@redhat.com>
-References: <20200624185523.762240-1-ppandit@redhat.com>
- <20200624185523.762240-5-ppandit@redhat.com>
- <CAKXe6SJy0Pocgd2EuF6jfdOn8AN4xFmzepgJMgKK=x-ouA5JQA@mail.gmail.com>
-From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
-Autocrypt: addr=philmd@redhat.com; keydata=
- mQINBDXML8YBEADXCtUkDBKQvNsQA7sDpw6YLE/1tKHwm24A1au9Hfy/OFmkpzo+MD+dYc+7
- bvnqWAeGweq2SDq8zbzFZ1gJBd6+e5v1a/UrTxvwBk51yEkadrpRbi+r2bDpTJwXc/uEtYAB
- GvsTZMtiQVA4kRID1KCdgLa3zztPLCj5H1VZhqZsiGvXa/nMIlhvacRXdbgllPPJ72cLUkXf
- z1Zu4AkEKpccZaJspmLWGSzGu6UTZ7UfVeR2Hcc2KI9oZB1qthmZ1+PZyGZ/Dy+z+zklC0xl
- XIpQPmnfy9+/1hj1LzJ+pe3HzEodtlVA+rdttSvA6nmHKIt8Ul6b/h1DFTmUT1lN1WbAGxmg
- CH1O26cz5nTrzdjoqC/b8PpZiT0kO5MKKgiu5S4PRIxW2+RA4H9nq7nztNZ1Y39bDpzwE5Sp
- bDHzd5owmLxMLZAINtCtQuRbSOcMjZlg4zohA9TQP9krGIk+qTR+H4CV22sWldSkVtsoTaA2
- qNeSJhfHQY0TyQvFbqRsSNIe2gTDzzEQ8itsmdHHE/yzhcCVvlUzXhAT6pIN0OT+cdsTTfif
- MIcDboys92auTuJ7U+4jWF1+WUaJ8gDL69ThAsu7mGDBbm80P3vvUZ4fQM14NkxOnuGRrJxO
- qjWNJ2ZUxgyHAh5TCxMLKWZoL5hpnvx3dF3Ti9HW2dsUUWICSQARAQABtDJQaGlsaXBwZSBN
- YXRoaWV1LURhdWTDqSAoUGhpbCkgPHBoaWxtZEByZWRoYXQuY29tPokCVQQTAQgAPwIbDwYL
- CQgHAwIGFQgCCQoLBBYCAwECHgECF4AWIQSJweePYB7obIZ0lcuio/1u3q3A3gUCXsfWwAUJ
- KtymWgAKCRCio/1u3q3A3ircD/9Vjh3aFNJ3uF3hddeoFg1H038wZr/xi8/rX27M1Vj2j9VH
- 0B8Olp4KUQw/hyO6kUxqkoojmzRpmzvlpZ0cUiZJo2bQIWnvScyHxFCv33kHe+YEIqoJlaQc
- JfKYlbCoubz+02E2A6bFD9+BvCY0LBbEj5POwyKGiDMjHKCGuzSuDRbCn0Mz4kCa7nFMF5Jv
- piC+JemRdiBd6102ThqgIsyGEBXuf1sy0QIVyXgaqr9O2b/0VoXpQId7yY7OJuYYxs7kQoXI
- 6WzSMpmuXGkmfxOgbc/L6YbzB0JOriX0iRClxu4dEUg8Bs2pNnr6huY2Ft+qb41RzCJvvMyu
- gS32LfN0bTZ6Qm2A8ayMtUQgnwZDSO23OKgQWZVglGliY3ezHZ6lVwC24Vjkmq/2yBSLakZE
- 6DZUjZzCW1nvtRK05ebyK6tofRsx8xB8pL/kcBb9nCuh70aLR+5cmE41X4O+MVJbwfP5s/RW
- 9BFSL3qgXuXso/3XuWTQjJJGgKhB6xXjMmb1J4q/h5IuVV4juv1Fem9sfmyrh+Wi5V1IzKI7
- RPJ3KVb937eBgSENk53P0gUorwzUcO+ASEo3Z1cBKkJSPigDbeEjVfXQMzNt0oDRzpQqH2vp
- apo2jHnidWt8BsckuWZpxcZ9+/9obQ55DyVQHGiTN39hkETy3Emdnz1JVHTU0Q==
-Message-ID: <c2b078bd-1625-7f6f-1457-20e684104789@redhat.com>
-Date: Tue, 21 Jul 2020 10:24:10 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.5.0
+ in-reply-to:in-reply-to:references:references;
+ bh=tZFf+V9uxODQf1HYAapGFYicomExMNLU+pf8rDfAAYw=;
+ b=EkMWuzp75iR1dFQgA/8WPmSQ1y0nbgGUykvcNu7SVGL+Gb2TfF0/+P85xp3QgV/Hjp/op1
+ FE9suv0r7Y/7ca3zGqrnCezfyPfoYVWsTaseYL+x7gmNOUky8cbf+rfoL80Qjf/H3CRQSF
+ 2BiYGfP6pSeBeB4jD6lsnLsQHBhCacs=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-29--Xiv4oB_PGGMYpYMViP0Cg-1; Tue, 21 Jul 2020 04:30:51 -0400
+X-MC-Unique: -Xiv4oB_PGGMYpYMViP0Cg-1
+Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
+ [10.5.11.16])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 66CD091271;
+ Tue, 21 Jul 2020 08:30:50 +0000 (UTC)
+Received: from localhost (ovpn-114-133.ams2.redhat.com [10.36.114.133])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id B89F05C1BD;
+ Tue, 21 Jul 2020 08:30:49 +0000 (UTC)
+Date: Tue, 21 Jul 2020 09:30:48 +0100
+From: Stefan Hajnoczi <stefanha@redhat.com>
+To: Alyssa Ross <hi@alyssa.is>
+Subject: Re: Testing the virtio-vhost-user QEMU patch
+Message-ID: <20200721083048.GB144170@stefanha-x1.localdomain>
+References: <87h7u1s5k1.fsf@alyssa.is>
 MIME-Version: 1.0
-In-Reply-To: <CAKXe6SJy0Pocgd2EuF6jfdOn8AN4xFmzepgJMgKK=x-ouA5JQA@mail.gmail.com>
-Content-Language: en-US
+In-Reply-To: <87h7u1s5k1.fsf@alyssa.is>
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=stefanha@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=207.211.31.81; envelope-from=philmd@redhat.com;
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature"; boundary="v9Ux+11Zm5mwPlX6"
+Content-Disposition: inline
+Received-SPF: pass client-ip=207.211.31.81; envelope-from=stefanha@redhat.com;
  helo=us-smtp-delivery-1.mimecast.com
 X-detected-operating-system: by eggs.gnu.org: First seen = 2020/07/21 03:39:19
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
@@ -111,7 +68,8 @@ X-Spam_bar: ---
 X-Spam_report: (-3.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H3=-0.01, RCVD_IN_MSPIKE_WL=-0.01,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ URIBL_BLOCKED=0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -124,88 +82,156 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Maydell <peter.maydell@linaro.org>,
- Prasad J Pandit <pjp@fedoraproject.org>,
- QEMU Developers <qemu-devel@nongnu.org>, Lei Sun <slei.casper@gmail.com>,
- Alex Williamson <alex.williamson@redhat.com>,
- Paolo Bonzini <pbonzini@redhat.com>,
- =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>,
- David Gibson <david@gibson.dropbear.id.au>
+Cc: Nikos Dragazis <ndragazis@arrikto.com>, qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 6/29/20 1:22 PM, Li Qiang wrote:
-> P J P <ppandit@redhat.com> 于2020年6月25日周四 上午3:00写道：
->>
->> From: Prasad J Pandit <pjp@fedoraproject.org>
->>
->> Add ppc-parity mmio write method to avoid NULL pointer dereference
->> issue.
->>
->> Reported-by: Lei Sun <slei.casper@gmail.com>
->> Signed-off-by: Prasad J Pandit <pjp@fedoraproject.org>
->> ---
->>  hw/ppc/prep_systemio.c | 8 ++++++++
->>  1 file changed, 8 insertions(+)
->>
->> Update v2: use LOG_GUEST_ERROR
->>   -> https://lists.gnu.org/archive/html/qemu-devel/2020-06/msg04975.html
->>
->> diff --git a/hw/ppc/prep_systemio.c b/hw/ppc/prep_systemio.c
->> index bbc51b6e9a..03a2f8af6e 100644
->> --- a/hw/ppc/prep_systemio.c
->> +++ b/hw/ppc/prep_systemio.c
->> @@ -23,6 +23,7 @@
->>   */
->>
->>  #include "qemu/osdep.h"
->> +#include "qemu/log.h"
->>  #include "hw/irq.h"
->>  #include "hw/isa/isa.h"
->>  #include "hw/qdev-properties.h"
->> @@ -235,8 +236,15 @@ static uint64_t ppc_parity_error_readl(void *opaque, hwaddr addr,
->>      return val;
->>  }
->>
->> +static void ppc_parity_error_writel(void *opaque, hwaddr addr,
->> +                                    uint64_t data, unsigned size)
->> +{
->> +    qemu_log_mask(LOG_GUEST_ERROR, "%s not implemented\n", __func__);
->> +}
-> 
-> I'm not familiar with this platform-related stuff. I think a
-> 'qemu_log_mask(LOG_UNIMP, xxx)' is ok.
+--v9Ux+11Zm5mwPlX6
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-No. The message is indeed confusing, as Prasad mixed GuestError
-VS UnimplementedFeature.
+On Tue, Jul 21, 2020 at 07:14:38AM +0000, Alyssa Ross wrote:
+> Hi -- I hope it's okay me reaching out like this.
+>=20
+> I've been trying to test out the virtio-vhost-user implementation that's
+> been posted to this list a couple of times, but have been unable to get
+> it to boot a kernel following the steps listed either on
+> <https://wiki.qemu.org/Features/VirtioVhostUser> or
+> <https://ndragazis.github.io/dpdk-vhost-vvu-demo.html>.
+>=20
+> Specifically, the kernel appears to be unable to write to the
+> virtio-vhost-user device's PCI registers.  I've included the full panic
+> output from the kernel at the end of this message.  The panic is
+> reproducible with two different kernels I tried (with different configs
+> and versions).  I tried both versions of the virtio-vhost-user I was
+> able to find[1][2], and both exhibited the same behaviour.
+>=20
+> Is this a known issue?  Am I doing something wrong?
 
-Guest should not write the the error parity registers (I suppose
-they are read-only). If it does, the hardware won't behave
-incorrectly, it will just ignore the invalid accesses. We want
-to report an incorrect guest behavior (why is the guest code
-trying to do that?). Also, we will never implement this.
-We usually use something like:
+Hi,
+Unfortunately I'm not sure what the issue is. This is an early
+virtio-pci register access before a driver for any specific device type
+(net, blk, vhost-user, etc) comes into play.
 
-  qemu_log_mask(LOG_GUEST_ERROR,
-                "%s: Illegal write to read-only register "
-                "(size %u, offset 0x%"HWADDR_PRIx","
-                " value 0x04%"PRIx64")\n",
-                __func__, size, addr, data);
+Did you test the git trees linked below or did you rebase the commits
+on top of your own QEMU tree?
 
-> 
-> Thanks,
-> Li Qiang
-> 
->> +
->>  static const MemoryRegionOps ppc_parity_error_ops = {
->>      .read = ppc_parity_error_readl,
->> +    .write = ppc_parity_error_writel,
->>      .valid = {
->>          .min_access_size = 4,
->>          .max_access_size = 4,
->> --
->> 2.26.2
->>
-> 
+Is your guest kernel a stock kernel.org/distro kernel or has it been
+modified (especially with security patches)?
+
+If no one else knows what is wrong here then it will be necessary to
+check the Intel manuals to figure out the exact meaning of
+"error_code(0x000b) - reserved bit violation" and why Linux triggers it
+with "PGD 3b128067 P4D 3b128067 PUD 3b129067 PMD 3b12a067 PTE
+8000002000000073".
+
+Stefan
+
+>=20
+> Thanks in advance -- I'm excitedly following the progress of this
+> feature.
+>=20
+> Alyssa Ross
+>=20
+> [1]: https://github.com/ndragazis/qemu/commits/virtio-vhost-user
+> [2]: https://github.com/stefanha/qemu/commits/virtio-vhost-user
+>=20
+>=20
+> [    1.287979] BUG: unable to handle page fault for address: ffffb8ca4002=
+5014
+> [    1.288311] #PF: supervisor write access in kernel mode
+> [    1.288311] #PF: error_code(0x000b) - reserved bit violation
+> [    1.288311] PGD 3b128067 P4D 3b128067 PUD 3b129067 PMD 3b12a067 PTE 80=
+00002000000073
+> [    1.288311] Oops: 000b [#1] SMP PTI
+> [    1.288311] CPU: 1 PID: 1 Comm: swapper/0 Not tainted 5.4.28 #1-NixOS
+> [    1.288311] Hardware name: QEMU Standard PC (i440FX + PIIX, 1996), BIO=
+S rel-1.11.0-0-g63451fca13-prebuilt.qemu-project.org 04/01/2014
+> [    1.288311] RIP: 0010:iowrite8+0xe/0x30
+> [    1.288311] Code: fe ff ff 48 c7 c0 ff ff ff ff c3 48 8b 3f 48 89 f8 c=
+3 66 2e 0f 1f 84 00 00 00 00 00 89 f8 48 89 f7 48 81 fe ff ff 3
+> [    1.288311] RSP: 0000:ffffb8ca40013cd8 EFLAGS: 00010292
+> [    1.288311] RAX: 0000000000000000 RBX: ffffb8ca40013d60 RCX: 000000000=
+0000000
+> [    1.288311] RDX: 000000000000002f RSI: ffffb8ca40025014 RDI: ffffb8ca4=
+0025014
+> [    1.288311] RBP: ffff9c742ea20400 R08: ffff9c742f0a60af R09: 000000000=
+0000000
+> [    1.288311] R10: 0000000000000018 R11: ffff9c742f0a60af R12: 000000000=
+0000000
+> [    1.288311] R13: ffff9c742ea20410 R14: 0000000000000000 R15: 000000000=
+0000000
+> [    1.288311] FS:  0000000000000000(0000) GS:ffff9c743b700000(0000) knlG=
+S:0000000000000000
+> [    1.288311] CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
+> [    1.288311] CR2: ffffb8ca40025014 CR3: 0000000037a0a001 CR4: 000000000=
+0060ee0
+> [    1.288311] Call Trace:
+> [    1.288311]  vp_reset+0x1b/0x50
+> [    1.288311]  register_virtio_device+0x74/0xe0
+> [    1.288311]  virtio_pci_probe+0xaf/0x140
+> [    1.288311]  local_pci_probe+0x42/0x80
+> [    1.288311]  pci_device_probe+0x104/0x1b0
+> [    1.288311]  really_probe+0x147/0x3c0
+> [    1.288311]  driver_probe_device+0xb6/0x100
+> [    1.288311]  device_driver_attach+0x53/0x60
+> [    1.288311]  __driver_attach+0x8a/0x150
+> [    1.288311]  ? device_driver_attach+0x60/0x60
+> [    1.288311]  bus_for_each_dev+0x78/0xc0
+> [    1.288311]  bus_add_driver+0x14d/0x1f0
+> [    1.288311]  driver_register+0x6c/0xc0
+> [    1.288311]  ? dma_bus_init+0xbf/0xbf
+> [    1.288311]  do_one_initcall+0x46/0x1f4
+> [    1.288311]  kernel_init_freeable+0x176/0x200
+> [    1.288311]  ? rest_init+0xab/0xab
+> [    1.288311]  kernel_init+0xa/0x105
+> [    1.288311]  ret_from_fork+0x35/0x40
+> [    1.288311] Modules linked in:
+> [    1.288311] CR2: ffffb8ca40025014
+> [    1.288311] ---[ end trace 5164b2fa531e028f ]---
+> [    1.288311] RIP: 0010:iowrite8+0xe/0x30
+> [    1.288311] Code: fe ff ff 48 c7 c0 ff ff ff ff c3 48 8b 3f 48 89 f8 c=
+3 66 2e 0f 1f 84 00 00 00 00 00 89 f8 48 89 f7 48 81 fe ff ff 3
+> [    1.288311] RSP: 0000:ffffb8ca40013cd8 EFLAGS: 00010292
+> [    1.288311] RAX: 0000000000000000 RBX: ffffb8ca40013d60 RCX: 000000000=
+0000000
+> [    1.288311] RDX: 000000000000002f RSI: ffffb8ca40025014 RDI: ffffb8ca4=
+0025014
+> [    1.288311] RBP: ffff9c742ea20400 R08: ffff9c742f0a60af R09: 000000000=
+0000000
+> [    1.288311] R10: 0000000000000018 R11: ffff9c742f0a60af R12: 000000000=
+0000000
+> [    1.288311] R13: ffff9c742ea20410 R14: 0000000000000000 R15: 000000000=
+0000000
+> [    1.288311] FS:  0000000000000000(0000) GS:ffff9c743b700000(0000) knlG=
+S:0000000000000000
+> [    1.288311] CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
+> [    1.288311] CR2: ffffb8ca40025014 CR3: 0000000037a0a001 CR4: 000000000=
+0060ee0
+> [    1.288311] Kernel panic - not syncing: Attempted to kill init! exitco=
+de=3D0x00000009
+> [    1.288311] Kernel Offset: 0x21200000 from 0xffffffff81000000 (relocat=
+ion range: 0xffffffff80000000-0xffffffffbfffffff)
+> [    1.288311] ---[ end Kernel panic - not syncing: Attempted to kill ini=
+t! exitcode=3D0x00000009 ]---
+>=20
+
+--v9Ux+11Zm5mwPlX6
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAEBCAAdFiEEhpWov9P5fNqsNXdanKSrs4Grc8gFAl8Wp7gACgkQnKSrs4Gr
+c8ijCgf/R+DhVBQZ1LnVeahtuPAtSJw/mnSB5NI21v2ySU6X7k3HnTB7Ik2yevD7
+1zzSYue3Y+SSWSJ1nScQq9AepPm+tqx9FoyFlSrQ8WS2rjjCB+4dAJ7x26StUbTT
+1WUWekayDN59svdkfGqNUmtwxcmLJypphaxxMW831Gpn3jA8iQI+GnfOUi7Mq97q
+TzJ04zrgv5/tSfMrjlNZn149ZvUstzL5fdGSavp13254e6PCfG6DFdingpccYQt/
+FuFIdLHu4tsP5KhECHKxq2qgrVKOMuiB1kXc3jgNRtf33f5/6lm81bnsmBHjo+8E
+icbHlqa/mMAA+ES4xTKUgv5vAX+OFw==
+=jre2
+-----END PGP SIGNATURE-----
+
+--v9Ux+11Zm5mwPlX6--
 
 
