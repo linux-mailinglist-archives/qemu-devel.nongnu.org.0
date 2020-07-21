@@ -2,73 +2,65 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 76C3022800E
-	for <lists+qemu-devel@lfdr.de>; Tue, 21 Jul 2020 14:37:01 +0200 (CEST)
-Received: from localhost ([::1]:35614 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3EA05228003
+	for <lists+qemu-devel@lfdr.de>; Tue, 21 Jul 2020 14:35:05 +0200 (CEST)
+Received: from localhost ([::1]:55204 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jxrW0-0006Ub-H5
-	for lists+qemu-devel@lfdr.de; Tue, 21 Jul 2020 08:37:00 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:60804)
+	id 1jxrU8-0002uu-8q
+	for lists+qemu-devel@lfdr.de; Tue, 21 Jul 2020 08:35:04 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:33006)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1jxrRL-0007GA-KH
- for qemu-devel@nongnu.org; Tue, 21 Jul 2020 08:32:11 -0400
-Received: from mail-wr1-x444.google.com ([2a00:1450:4864:20::444]:44452)
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1jxrT9-0001du-Ki
+ for qemu-devel@nongnu.org; Tue, 21 Jul 2020 08:34:03 -0400
+Received: from mail-oi1-x243.google.com ([2607:f8b0:4864:20::243]:44921)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1jxrRI-0003Tf-Qy
- for qemu-devel@nongnu.org; Tue, 21 Jul 2020 08:32:10 -0400
-Received: by mail-wr1-x444.google.com with SMTP id b6so21005598wrs.11
- for <qemu-devel@nongnu.org>; Tue, 21 Jul 2020 05:32:07 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1jxrT7-0003dk-SH
+ for qemu-devel@nongnu.org; Tue, 21 Jul 2020 08:34:03 -0400
+Received: by mail-oi1-x243.google.com with SMTP id k6so17004802oij.11
+ for <qemu-devel@nongnu.org>; Tue, 21 Jul 2020 05:34:01 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=references:user-agent:from:to:cc:subject:in-reply-to:date
- :message-id:mime-version:content-transfer-encoding;
- bh=DhBK8HyX73jHYM3ax8BFgUhYlAuX64Zsz0yqTH0y8OU=;
- b=stWZoh8zgInPseKhyj9p6QdzDVtmZiiRDSH+fetB7dAkuWzbO+LEYgXAl8KoWYlvEI
- Op4BlsTTS4HRqLnRA+FKSpYc8nZUvTG/vLdirQZUhJz61FcKU/2imhFDrxBQiVtoNkdN
- ml7AhT5okrdfB3Y4fmE/jg0XvQzAMAs/WkINcMTBMTn1zIqvjiVk94CT7p1s9fgNolnM
- GmHCGxvL7md3QnLAh2dWslPlWXRPhs+MFX4h6fTdn+9B0l5YiSYSUmnIC5N40bPgyHCD
- zdaBk8pE7zvPVXFmkTu5cWkYk+dZLsptlntv1xVDEiVfmBO3XKZCacdlmbbyEV6DoMMY
- xOmQ==
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc:content-transfer-encoding;
+ bh=7pzAIy2Cuz2ZgaZSDdy7tuJpWl/ZYvY4wXnjuidX6Qk=;
+ b=Wt/nyHHEhoeKdunAbPURFguirdvcTfYx/u+yth6PUpaYqRBIo6+k1gegUZnZw1A6kh
+ 3DNdjahzVsqphprz+CXgXHju04ztBEadCqwjbzz8OzmqZVort8YQwAvvdQJZzDHWf4/W
+ Vszbot4PAoAh2oE6PLwUnplHxnIX//0rcAXwGB9CEtfKwXVxaApmGAk2gWAZHKX7QYkx
+ 5e9sMT315Gu3XlFPgxgv3nEMatd9WFpTJjiJxGAWEJSMi9quqU9saqzT9Izk5FpAWb+m
+ XVzSeCnrB4ELnPm3L2t2ReDhxJYB3pfzrgttbnw2afBmkt7E72qbzl+zp8JA+6uSsrzV
+ TSbA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:references:user-agent:from:to:cc:subject
- :in-reply-to:date:message-id:mime-version:content-transfer-encoding;
- bh=DhBK8HyX73jHYM3ax8BFgUhYlAuX64Zsz0yqTH0y8OU=;
- b=iR4A2sqtJSy3R3QQMdZhRK0heyT3kJsbue6lAZ7K1Yl8VlDFSxhrKn9Qk1DLxgFX5C
- fbxEFRvh+JzHmUhBfmz3uBz7Cp2jobO6wfz9JaMm8Rf2DCzIt/wsn0ae0OmtGj4f6WD5
- CbT0MuOpLpJh6nmI19pADgLNWWB5Xv+3ADcAT1HuHryR/FJwiZZlrbJ+OboMu+PTS2TQ
- VOQcP0qRHEWAr8WrVU59R0k+uttw532JNftBSYj4FGkNruNN2+FNgpC4vk02NrtafFwu
- issifCnUDAa0FQ2+kdWp1VPm6AaKjgliExVNvge+AfnPkamJlqop/9gEvmy3CuJQoUDm
- mUYQ==
-X-Gm-Message-State: AOAM532MFFgrrDafI/9decwpS1AntEtrMmCVqmHUoWbAael+FcXr/7RM
- VbyL4BBATBEOX7Zop+QpWN5+ug==
-X-Google-Smtp-Source: ABdhPJxlUkv0gdJPi6NSrXeRPyJSexBu+hddyYjg9W9KJlJMcS6heFKp+pYJRHGy0zww21zyu9dktg==
-X-Received: by 2002:adf:9062:: with SMTP id h89mr24495065wrh.285.1595334726562; 
- Tue, 21 Jul 2020 05:32:06 -0700 (PDT)
-Received: from zen.linaroharston ([51.148.130.216])
- by smtp.gmail.com with ESMTPSA id e5sm21099169wrc.37.2020.07.21.05.32.05
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 21 Jul 2020 05:32:05 -0700 (PDT)
-Received: from zen (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id 8506D1FF7E;
- Tue, 21 Jul 2020 13:32:04 +0100 (BST)
-References: <20200721085757.14358-1-f4bug@amsat.org>
- <5989e383-eade-7112-7c04-336679734e49@vivier.eu>
-User-agent: mu4e 1.5.5; emacs 28.0.50
-From: Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
-To: Laurent Vivier <laurent@vivier.eu>
-Subject: Re: [RFC PATCH-for-5.1?] tests/tcg/multiarch/linux-test: Skip test
- if nanosleep missing (Travis)
-In-reply-to: <5989e383-eade-7112-7c04-336679734e49@vivier.eu>
-Date: Tue, 21 Jul 2020 13:32:04 +0100
-Message-ID: <87v9ihujzv.fsf@linaro.org>
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc:content-transfer-encoding;
+ bh=7pzAIy2Cuz2ZgaZSDdy7tuJpWl/ZYvY4wXnjuidX6Qk=;
+ b=t0km5Cb309ayyADX+c1dGQEdw5/3C2OBJkyv9qcGlj7Gj7YIgwpsCL4wJFi2TuUTPE
+ gVNXb/UzjqqM0TpO9O2KmHOs2bR4I6Xm6nM3vcDOiJOrRENl3Pjex2uAyfVvxgA4qe1o
+ lqkCIGUGz2sZveTwwtlRQCWnCbMSfUQYOuYaYdaF74PDua4zir2L3Rai5OcvA1dlGsM9
+ /7jpS7ZOPh1Fkcqy6uvz5r0VrXPGb/8Z06juVK5rcMR+dI9qrCw2neagbDyOJtr55Aom
+ etuIpgT5ADYDiSASzh29kUof8JSnizMY0R3JOlMp6NunwoDd6IoICwdRcQx/TttKqDF7
+ 0dHQ==
+X-Gm-Message-State: AOAM533fP1VJgW4AxwHQEWUA2ZXh7K9DOlahXK5ql5N5uw3Xw5Y9MB2H
+ qhfrDY2gpqX9rNoEbbDSlm8jral1zE333ZOY7X1O3w==
+X-Google-Smtp-Source: ABdhPJwjR8fA7wCPGNAvlt4KCdWtlsQQ/SCSeGoRU33JYlZmoOnaDDZ/GQwXczP85IlzGRovaHRIq9msW6ejureKmw4=
+X-Received: by 2002:aca:1706:: with SMTP id j6mr2677635oii.146.1595334840636; 
+ Tue, 21 Jul 2020 05:34:00 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+References: <20200721123154.5302-1-f4bug@amsat.org>
+ <20200721123154.5302-2-f4bug@amsat.org>
+In-Reply-To: <20200721123154.5302-2-f4bug@amsat.org>
+From: Peter Maydell <peter.maydell@linaro.org>
+Date: Tue, 21 Jul 2020 13:33:49 +0100
+Message-ID: <CAFEAcA_C1C-5oSrEZgJoufCc_91TdC3vv5+SUSBHHnWDGVyOCg@mail.gmail.com>
+Subject: Re: [RFC PATCH-for-5.1? v3 1/2] memory: Allow monkey-patching
+ MemoryRegion access sizes
+To: =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <f4bug@amsat.org>
+Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=2a00:1450:4864:20::444;
- envelope-from=alex.bennee@linaro.org; helo=mail-wr1-x444.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::243;
+ envelope-from=peter.maydell@linaro.org; helo=mail-oi1-x243.google.com
 X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
  That's all we know.
 X-Spam_score_int: -20
@@ -76,8 +68,8 @@ X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
  DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- URIBL_BLOCKED=0.001 autolearn=ham autolearn_force=no
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -90,95 +82,55 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Thomas Huth <thuth@redhat.com>,
- Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <f4bug@amsat.org>,
- qemu-devel@nongnu.org
+Cc: "Daniel P . Berrange" <berrange@redhat.com>,
+ "Michael S . Tsirkin" <mst@redhat.com>, Michael Tokarev <mjt@tls.msk.ru>,
+ Richard Henderson <richard.henderson@linaro.org>,
+ QEMU Developers <qemu-devel@nongnu.org>,
+ Anthony Perard <anthony.perard@citrix.com>,
+ Paolo Bonzini <pbonzini@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-
-Laurent Vivier <laurent@vivier.eu> writes:
-
-> Le 21/07/2020 =C3=A0 10:57, Philippe Mathieu-Daud=C3=A9 a =C3=A9crit :
->> The time test sometimes fails on Travis-CI [*]:
->>=20
->>     TEST    linux-test on aarch64
->>   tests/tcg/multiarch/linux-test.c:237: nanosleep
->>   make[2]: *** [run-linux-test] Error 1
->>   make: *** [run-tcg-tests-aarch64-linux-user] Error 2
->>=20
->> As this seems due to a container limitation on Travis-CI,
->> simply skip the test there.
->>=20
->> [*] https://travis-ci.org/github/qemu/qemu/jobs/710005078#L3706
->>=20
->> Signed-off-by: Philippe Mathieu-Daud=C3=A9 <f4bug@amsat.org>
->> ---
->> RFC because per Laurent Vivier we are not using the correct libc
->>     while cross-linking the test (maybe change in the container
->>     packages?)
->> ---
->>  tests/tcg/multiarch/linux-test.c | 7 ++++++-
->>  1 file changed, 6 insertions(+), 1 deletion(-)
->>=20
->> diff --git a/tests/tcg/multiarch/linux-test.c b/tests/tcg/multiarch/linu=
-x-test.c
->> index 8a7c15cd31..c7dfdec9ec 100644
->> --- a/tests/tcg/multiarch/linux-test.c
->> +++ b/tests/tcg/multiarch/linux-test.c
->> @@ -233,8 +233,13 @@ static void test_time(void)
->>      ts.tv_sec =3D 0;
->>      ts.tv_nsec =3D 20 * 1000000;
->>      chk_error(nanosleep(&ts, &rem));
->> -    if (rem.tv_sec !=3D 1)
->> +    if (rem.tv_sec !=3D 1) {
->> +        if (getenv("TRAVIS_ARCH")) {
->> +            printf("nanosleep missing? skipping 'time' test\n");
->> +            return;
->> +        }
->>          error("nanosleep");
->> +    }
->>      chk_error(gettimeofday(&tv2, NULL));
->>      ti =3D tv2.tv_sec - tv.tv_sec;
->>      if (ti >=3D 2)
->>=20
+On Tue, 21 Jul 2020 at 13:31, Philippe Mathieu-Daud=C3=A9 <f4bug@amsat.org>=
+ wrote:
 >
-> Well, in the end I think the problem is in linux-user:
+> To fixes CVE-2020-13754, commit 5d971f9e67 refuses mismatching
+> sizes in memory_region_access_valid(). This gives troubles when
+> a device is on an ISA bus, because the CPU is free to use
+> 8/16-bit accesses on the bus (or up to 32-bit on EISA bus),
+> regardless what range is valid for the device.
 >
-> We copy the "rem" structure even if there is no error, so "1" is
-> overwritten.
+> To allow surgical change for the 5.1 release, allow monkey
+> patching of the MemoryRegionOps (by making the MemoryRegion
+> field not const). This should be reverted after the release
+> and fixed in a more elegant manner.
 >
-> We don't have the problem on all architectures because some use
-> nanosleep() syscall (that is correct) others use clock_nanosleep()
-> syscall that is not correct.
+> Fixes: 5d971f9e67 ('memory: Revert "accept mismatching sizes in memory_re=
+gion_access_valid"')
+> Signed-off-by: Philippe Mathieu-Daud=C3=A9 <f4bug@amsat.org>
+> ---
+>  include/exec/memory.h |  7 ++++++-
+>  softmmu/memory.c      | 12 ++++++++----
+>  2 files changed, 14 insertions(+), 5 deletions(-)
 >
-> This should fix the problem:
+> diff --git a/softmmu/memory.c b/softmmu/memory.c
+> index 9200b20130..84b5c617e2 100644
+> --- a/softmmu/memory.c
+> +++ b/softmmu/memory.c
+> @@ -1218,7 +1218,7 @@ static void memory_region_initfn(Object *obj)
+>      MemoryRegion *mr =3D MEMORY_REGION(obj);
+>      ObjectProperty *op;
 >
-> diff --git a/linux-user/syscall.c b/linux-user/syscall.c
-> index 1211e759c26c..130005716ece 100644
-> --- a/linux-user/syscall.c
-> +++ b/linux-user/syscall.c
-> @@ -11831,7 +11831,7 @@ static abi_long do_syscall1(void *cpu_env, int
-> num, abi_long arg1,
->          target_to_host_timespec(&ts, arg3);
->          ret =3D get_errno(safe_clock_nanosleep(arg1, arg2,
->                                               &ts, arg4 ? &ts : NULL));
-> -        if (arg4)
-> +        if (is_error(ret) && arg4)
->              host_to_target_timespec(arg4, &ts);
+> -    mr->ops =3D &unassigned_mem_ops;
+> +    mr->ops =3D g_memdup(&unassigned_mem_ops, sizeof(MemoryRegionOps));
+>      mr->enabled =3D true;
+>      mr->romd_mode =3D true;
+>      mr->global_locking =3D true;
 
-So the testcase worked and caught something :-)
+Don't you now need to g_memfree() mr->ops somewhere? Otherwise
+you've leaked it if the device which owned this MemoryRegion
+is hot-unplugged, I think.
 
-I don't know why I couldn't trigger it reliably on my own dev setting thoug=
-h...
-
->
->  #if defined(TARGET_PPC)
->
-> Thanks,
-> Laurent
-
-
---=20
-Alex Benn=C3=A9e
+thanks
+-- PMM
 
