@@ -2,68 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 089EE22845C
-	for <lists+qemu-devel@lfdr.de>; Tue, 21 Jul 2020 17:59:38 +0200 (CEST)
-Received: from localhost ([::1]:49714 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id DC5872284D6
+	for <lists+qemu-devel@lfdr.de>; Tue, 21 Jul 2020 18:06:36 +0200 (CEST)
+Received: from localhost ([::1]:37574 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jxug5-0003JM-4X
-	for lists+qemu-devel@lfdr.de; Tue, 21 Jul 2020 11:59:37 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:60860)
+	id 1jxump-0001il-V3
+	for lists+qemu-devel@lfdr.de; Tue, 21 Jul 2020 12:06:35 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:33574)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1jxufL-0002tW-E5
- for qemu-devel@nongnu.org; Tue, 21 Jul 2020 11:58:51 -0400
-Received: from mail-wr1-x443.google.com ([2a00:1450:4864:20::443]:43724)
+ id 1jxujA-0006pk-Mz
+ for qemu-devel@nongnu.org; Tue, 21 Jul 2020 12:02:50 -0400
+Received: from mail-wr1-x443.google.com ([2a00:1450:4864:20::443]:46394)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1jxufJ-0002uZ-PE
- for qemu-devel@nongnu.org; Tue, 21 Jul 2020 11:58:51 -0400
-Received: by mail-wr1-x443.google.com with SMTP id a15so6778104wrh.10
- for <qemu-devel@nongnu.org>; Tue, 21 Jul 2020 08:58:49 -0700 (PDT)
+ id 1jxuj5-0003V4-Hk
+ for qemu-devel@nongnu.org; Tue, 21 Jul 2020 12:02:48 -0400
+Received: by mail-wr1-x443.google.com with SMTP id r12so21634628wrj.13
+ for <qemu-devel@nongnu.org>; Tue, 21 Jul 2020 09:02:42 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=references:user-agent:from:to:cc:subject:in-reply-to:date
  :message-id:mime-version:content-transfer-encoding;
- bh=mEeTZ2cmAcR5i8hd1VKggd6XPfzprou2Ahc+7rPYaIg=;
- b=cS12iOIvlZVP378UA0qN9HWm6/XejSNTJRRxZb/j9ZgQWaZaHzImOy/ZT9CUCN94JE
- DuUc0bBlu1VLY4ubaLS3ceBzalC46bPsaIsHG4VMTcrUxgL8hNBgP8ZDDxDOItmxyusd
- GFHfW1qJNOM6kU3PvcW1B84BBjTyWI1WvO/rm95RxxwgH30UIhe4rlOQrqsxznNzPWeR
- 1v2JKnQP1DzsiEoHGt3cfvgxDfGYHmnIm4ch1xzvd6vx2aMeiEQfzhabKSJpPK78lqx1
- kBchDRZFSs72zOrCarJAhpq+rt6gP+r0Xg4NF5aheXejIHLhdbIImRUao3bPR56edl9f
- YcNA==
+ bh=c5WSna24NYXlpTR8ZC4MX1SjLp4KK09QM1iOPtr7AE4=;
+ b=OT2sWL7mHWyYOUPi68ct/KO56zdyA9TWNXq77sfrrJAy6ke/D87Fbcru6COj05+Jx/
+ Ip41nr+3hf15oWWRW7XOKC3ypDSS53dgvkuldF6Jfh6cPHGo1QtQh6mATeFp1HDW+Kg3
+ Perhv64OtRzFg3g5c02D6pU9sXxHfB3Qr+xVfhdbDB1C+mB9uMODV5eIQexfyybSIcnf
+ E5GF679bEn/mJ4JXHuU40uzMapAjIt4hvJSWluY/jGGGa6HLuOv1TdrvvqV82HicdJcc
+ SvB1Ce9Ze199hP5yNEy6tdxlcrUYRpKSTwunst5xMnFQPzFhNfSg8xXaTxRVsTc8QL6P
+ AQpg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:references:user-agent:from:to:cc:subject
  :in-reply-to:date:message-id:mime-version:content-transfer-encoding;
- bh=mEeTZ2cmAcR5i8hd1VKggd6XPfzprou2Ahc+7rPYaIg=;
- b=mhdvmVsI4dPikF5cPFLT8z1kz3oubDXXHNxYCEiRa/+wFpig4kEAlPMpxRUS49PYhr
- QLgjC0Q/IX/UMNG5/BJBPRGp7ZKNRJEx3ImmvawEQmTE6PBEjgYs+NoT84BGYcGNv6bu
- 8jwNUGhPyydn7QBp5DWZYNRzXZ+pcjLCz2ESUbCVSen3+Hzs5I/mI+Kh46vc/AedirZE
- zUnT1i6BtJnGsEw9Lb/iPpW8LuOmrNoqcZLzSYEE+yRkGjGogMkytq8fffu5kIOm2zXx
- 5rSD8N52FXsdVgRTaTKFsy5lLdxALcrQDyT8nTRzxhdp9bN6E60CBrahHewpCjYo5XGM
- r4Lg==
-X-Gm-Message-State: AOAM533lz5YOz1wzTHVTe3rwM+08m6JnzSzQ2vSyWOEp+2uZzEjcTDB8
- XuQCBWfaNKO1STr+mo3qQE68ow==
-X-Google-Smtp-Source: ABdhPJyIFGbeRKKFjLZP6r3BW48QTK7HOQ27UT2os/kZ9GL7XoyqIN1OkQTCIjmqpcC+ijmzLjAGxA==
-X-Received: by 2002:adf:fe12:: with SMTP id n18mr10607714wrr.295.1595347127914; 
- Tue, 21 Jul 2020 08:58:47 -0700 (PDT)
+ bh=c5WSna24NYXlpTR8ZC4MX1SjLp4KK09QM1iOPtr7AE4=;
+ b=VbyDTtY8Ff4I9XjsniNMp1jhSODSIy1WKCHofQJqCB6BwGDem0ilm0jgqHKb17l/qv
+ 8y1xLtUraqHIn5p+AHRGPrvR5N3cD6Sp9/9rMlzN8Rv+VB0or/r5LWIYF1FYlBB+Y6jv
+ R8yKn2LEEQ+2pMA68xr5y3tqw6yjMJp/XG50swBpMSFVyUJKtyU0saLv/56gLFkgevvM
+ 6lfzM1+e3XkJJ9WbuO78QtCZO06Tj4xoZSA7P8A3AV7oef1kzn5aVpgd+nZhsEozAtsR
+ ASe8oRO9xaduQTEPwhAuNLKfdqrYvi1ZWVSiyRogKBI8qzlkB7/6LgNLExcimxP2kLIA
+ 1Mqg==
+X-Gm-Message-State: AOAM530Bwt9lXNzWrN/wBBmMOVA4ZAod8zMoaMeYv5eTFD8fBuvWOgvl
+ iFcHG28YqYHbnyQgl5PP80h4kQ==
+X-Google-Smtp-Source: ABdhPJz9pMbgoA7dVb8jrwm3AcKywtSB6qD1FJdS6fPnB4f5+sM79kQlV3KRlC1m1uZ4HiDZx/H+5g==
+X-Received: by 2002:a5d:414e:: with SMTP id c14mr1047547wrq.57.1595347361785; 
+ Tue, 21 Jul 2020 09:02:41 -0700 (PDT)
 Received: from zen.linaroharston ([51.148.130.216])
- by smtp.gmail.com with ESMTPSA id w7sm3775731wmc.32.2020.07.21.08.58.45
+ by smtp.gmail.com with ESMTPSA id o9sm38021909wrs.1.2020.07.21.09.02.39
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 21 Jul 2020 08:58:46 -0700 (PDT)
+ Tue, 21 Jul 2020 09:02:40 -0700 (PDT)
 Received: from zen (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id 309D11FF7E;
- Tue, 21 Jul 2020 16:58:39 +0100 (BST)
-References: <20200717105139.25293-1-alex.bennee@linaro.org>
- <20200717105139.25293-5-alex.bennee@linaro.org>
- <c575e03a-1655-c317-abf7-40a7449eaf0e@linaro.org>
+ by zen.linaroharston (Postfix) with ESMTP id 3631D1FF7E;
+ Tue, 21 Jul 2020 17:02:34 +0100 (BST)
+References: <20200716144251.23004-1-lersek@redhat.com>
+ <a38a3da3-7406-0ba3-ca32-e96a99915c97@redhat.com>
+ <af008780-5207-c156-56f3-dcda95367a5a@redhat.com>
+ <cc685d76-db4c-74bf-34dc-744fdd28add3@redhat.com>
+ <d3686a7e-c949-8111-80d9-45aa506fcf58@redhat.com>
 User-agent: mu4e 1.5.5; emacs 28.0.50
 From: Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
-To: Richard Henderson <richard.henderson@linaro.org>
-Subject: Re: [PATCH v1 4/5] util: add qemu_get_host_physmem utility function
-In-reply-to: <c575e03a-1655-c317-abf7-40a7449eaf0e@linaro.org>
-Date: Tue, 21 Jul 2020 16:58:39 +0100
-Message-ID: <87h7u0vp00.fsf@linaro.org>
+To: Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <philmd@redhat.com>
+Subject: Re: [PATCH] target/i386: floatx80: avoid compound literals in
+ static initializers
+In-reply-to: <d3686a7e-c949-8111-80d9-45aa506fcf58@redhat.com>
+Date: Tue, 21 Jul 2020 17:02:34 +0100
+Message-ID: <87eep4voth.fsf@linaro.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Transfer-Encoding: quoted-printable
@@ -90,39 +93,117 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: fam@euphon.net, berrange@redhat.com, Stefan Weil <sw@weilnetz.de>,
- qemu-devel@nongnu.org, Christian Ehrhardt <christian.ehrhardt@canonical.com>,
- f4bug@amsat.org, cota@braap.org, Paolo Bonzini <pbonzini@redhat.com>,
- aurelien@aurel32.net
+Cc: Peter Maydell <peter.maydell@linaro.org>,
+ Eduardo Habkost <ehabkost@redhat.com>, qemu-devel@nongnu.org,
+ Joseph Myers <joseph@codesourcery.com>, Paolo Bonzini <pbonzini@redhat.com>,
+ Laszlo Ersek <lersek@redhat.com>, Aurelien Jarno <aurelien@aurel32.net>,
+ Richard Henderson <rth@twiddle.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 
-Richard Henderson <richard.henderson@linaro.org> writes:
+Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com> writes:
 
-> On 7/17/20 3:51 AM, Alex Benn=C3=A9e wrote:
->> +size_t qemu_get_host_physmem(void)
->> +{
->> +#ifdef _SC_PHYS_PAGES
->> +    long pages =3D sysconf(_SC_PHYS_PAGES);
->> +    if (pages > 0) {
->> +        return pages * qemu_real_host_page_size;
->> +    }
->> +#endif
->> +    return 0;
->> +}
+> On 7/17/20 6:46 PM, Laszlo Ersek wrote:
+>> On 07/17/20 11:26, Laszlo Ersek wrote:
+>>> On 07/16/20 17:09, Philippe Mathieu-Daud=C3=A9 wrote:
+>>>> On 7/16/20 4:42 PM, Laszlo Ersek wrote:
+>>>>> Quoting ISO C99 6.7.8p4, "All the expressions in an initializer for an
+>>>>> object that has static storage duration shall be constant expressions=
+ or
+>>>>> string literals".
+>>>>>
+>>>>> The compound literal produced by the make_floatx80() macro is not suc=
+h a
+>>>>> constant expression, per 6.6p7-9. (An implementation may accept it,
+>>>>> according to 6.6p10, but is not required to.)
+>>>>>
+>>>>> Therefore using "floatx80_zero" and make_floatx80() for initializing
+>>>>> "f2xm1_table" and "fpatan_table" is not portable. And gcc-4.8 in RHEL=
+-7.6
+>>>>> actually chokes on them:
+>>>>>
+>>>>>> target/i386/fpu_helper.c:871:5: error: initializer element is not co=
+nstant
+>>>>>>      { make_floatx80(0xbfff, 0x8000000000000000ULL),
+>>>>>>      ^
+>>>>
+>>>> This reminds me of:
+>>>>
+>>>> commit 6fa9ba09dbf4eb8b52bcb47d6820957f1b77ee0b
+>>>> Author: Kamil Rytarowski <n54@gmx.com>
+>>>> Date:   Mon Sep 4 23:23:06 2017 +0200
+>>>>
+>>>>     target/m68k: Switch fpu_rom from make_floatx80() to make_floatx80_=
+init()
+>>>>
+>>>>     GCC 4.7.2 on SunOS reports that the values assigned to array membe=
+rs
+>>>> are not
+>>>>     real constants:
+>>>>
+>>>>     target/m68k/fpu_helper.c:32:5: error: initializer element is not
+>>>> constant
+>>>>     target/m68k/fpu_helper.c:32:5: error: (near initialization for
+>>>> 'fpu_rom[0]')
+>>>>     rules.mak:66: recipe for target 'target/m68k/fpu_helper.o' failed
+>>>>
+>>>>     Convert the array to make_floatx80_init() to fix it.
+>>>>     Replace floatx80_pi-like constants with make_floatx80_init() as th=
+ey are
+>>>>     defined as make_floatx80().
+>>>>
+>>>> Reviewed-by: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
+>>>>
+>>>>>
+>>>>> We've had the make_floatx80_init() macro for this purpose since commit
+>>>>> 3bf7e40ab914 ("softfloat: fix for C99", 2012-03-17), so let's use that
+>>>>> macro again.
+>>>>>
+>>>>> Fixes: eca30647fc07
+>>>>> Fixes: ff57bb7b6326
+>>>>> Link: https://lists.gnu.org/archive/html/qemu-devel/2017-08/msg06566.=
+html
+>>>>> Link: https://lists.gnu.org/archive/html/qemu-devel/2020-07/msg04714.=
+html
+>>>>> Cc: Alex Benn=C3=A9e <alex.bennee@linaro.org>
+>>>>> Cc: Aurelien Jarno <aurelien@aurel32.net>
+>>>>> Cc: Eduardo Habkost <ehabkost@redhat.com>
+>>>>> Cc: Joseph Myers <joseph@codesourcery.com>
+>>>>> Cc: Paolo Bonzini <pbonzini@redhat.com>
+>>>>> Cc: Peter Maydell <peter.maydell@linaro.org>
+>>>>> Cc: Richard Henderson <rth@twiddle.net>
+>>>>> Signed-off-by: Laszlo Ersek <lersek@redhat.com>
+>>>>> ---
+>>>>>
+>>>>> Notes:
+>>>>>     I can see that there are test cases under "tests/tcg/i386", but I=
+ don't
+>>>>>     know how to run them.
+>>>>
+>>>> Yeah it is not easy to figure...
+>>>>
+>>>> Try 'make run-tcg-tests-i386-softmmu'
+>>>> but you need docker :^)
+>>>
+>>> That worked, thanks! Even without Docker: I just had to add
+>>>
+>>>   --cross-cc-i386=3Dgcc
+>>>
+>>> to my ./configure flags.
+>>>
+>>=20
+>> Also -- I meant to, but I forgot to put "for-5.1" in the subject prefix;
+>> sorry about that.
 >
-> Is it worth examining our own RLIMIT_{AS,DATA} as well?
+> Alex, as Paolo is not available, can this go via your tree?
 
-We don't anywhere else in the code so for now I'd say not.
+Ok queued to for-5.1/fixes-for-rc1-v2, thanks.
 
 >
-> I suppose that's not usually what is tweaked in the example of a ram-limi=
-ted
-> container...
->
->
-> r~
+>>=20
+>> Laszlo
+>>=20
 
 
 --=20
