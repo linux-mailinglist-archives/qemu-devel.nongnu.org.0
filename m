@@ -2,97 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4926F228341
-	for <lists+qemu-devel@lfdr.de>; Tue, 21 Jul 2020 17:12:25 +0200 (CEST)
-Received: from localhost ([::1]:40564 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 548D3228393
+	for <lists+qemu-devel@lfdr.de>; Tue, 21 Jul 2020 17:22:26 +0200 (CEST)
+Received: from localhost ([::1]:52876 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jxtwO-00066b-9t
-	for lists+qemu-devel@lfdr.de; Tue, 21 Jul 2020 11:12:24 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:48550)
+	id 1jxu65-0003eK-EG
+	for lists+qemu-devel@lfdr.de; Tue, 21 Jul 2020 11:22:25 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:51116)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peterx@redhat.com>) id 1jxtuu-0004zx-Po
- for qemu-devel@nongnu.org; Tue, 21 Jul 2020 11:10:52 -0400
-Received: from us-smtp-1.mimecast.com ([205.139.110.61]:50374
- helo=us-smtp-delivery-1.mimecast.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <peterx@redhat.com>) id 1jxtus-0003Qa-3J
- for qemu-devel@nongnu.org; Tue, 21 Jul 2020 11:10:51 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1595344248;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=AYtx0/kxbKRvrVWKzSYssk7MuM9i+n5A8NH0KDI5/NU=;
- b=AdWryUHvY1Tw5p1cQZf5SM6tiGzCBY342riZFNFRPtZoIX2AZRuU0jxWhW7NMdtQJeB3VA
- vUShICNx0sC7nRiM1F42zETU7MXNnW0nD006S/U76Z+2TGDlLuo3dJ964GiBTgI9hDohxs
- TC5aLoqbzJ0JSTpUSipRd9w7g+iGjag=
-Received: from mail-qv1-f72.google.com (mail-qv1-f72.google.com
- [209.85.219.72]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-312-3l1i3zdYMaW6JMiXI1O7sA-1; Tue, 21 Jul 2020 11:10:46 -0400
-X-MC-Unique: 3l1i3zdYMaW6JMiXI1O7sA-1
-Received: by mail-qv1-f72.google.com with SMTP id e6so12560233qva.2
- for <qemu-devel@nongnu.org>; Tue, 21 Jul 2020 08:10:46 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <alistair23@gmail.com>)
+ id 1jxu5D-0002tf-BY; Tue, 21 Jul 2020 11:21:31 -0400
+Received: from mail-io1-xd43.google.com ([2607:f8b0:4864:20::d43]:43547)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <alistair23@gmail.com>)
+ id 1jxu5B-000585-SM; Tue, 21 Jul 2020 11:21:31 -0400
+Received: by mail-io1-xd43.google.com with SMTP id k23so21790658iom.10;
+ Tue, 21 Jul 2020 08:21:29 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=B/WewGkuED5ZclfNuICMT67tC9Y0KAaeDc8gnr/D54Q=;
+ b=E7pnYrlkEXAAhuiMhovn3MPu+81vCx5yCXawGyFNBJC6AiOTDOob7hrIevQUsUmcvS
+ pHef+lGT4UrH//JmYGQMmlOsTNBSG78MsFfuqVp+ga8WzLVY9C4RcheOG9wCuT6cjjX6
+ DH8zzna46O92mYJz6FInQTVKfuiHbt/xpVztwuMP+O2dJs0IJk2smz3JF9rxj5VBp0DM
+ yGVDwVSVaeOnLh7ae08NRLtFBEh/VN+sjAr9n+IFJGk/4XF3Mf0s45TlzuvdYrlcy3SS
+ Kw6aAUndCaTNydEvIw0vRYKM82XfIReE7fQFuq2FDyfexqALIaFS2E6gX1QElG3+PMOE
+ 3HRA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:content-transfer-encoding
- :in-reply-to;
- bh=AYtx0/kxbKRvrVWKzSYssk7MuM9i+n5A8NH0KDI5/NU=;
- b=Q4FW/FLO0/s6EZS2wjsqvDrg/bUDTr0ki+B4hPNBsih3kCSZW+amXDY80EjKvytOwY
- XF0ydFVLqchnvWmlQXvTppvZERWH71If/fdnxvRtz2WC4VNUqI/TnfluKuvstcOYdWpJ
- pBgr/b23S+LhgobbLM5K+zfFw4DQiJJjIl8eCvWwtGtt0tkU7fkg7EBrdu1XZNn2h4r7
- lp5r3bQ/dEvnV7zSP0gVRgJxz0tD+fLDsktTqG0rfoMhwhVcTrg8RITV491KRJsw6Ury
- GsdAdZ+JKTOx9tr92YJPYhRXwj655hj7dubVlKhFYwhwd0j2P8/ehmTA8efq8uRkGCbU
- pcSw==
-X-Gm-Message-State: AOAM533O34fSFbFQG0nqH1unTReY46KL12LDQxsmLmgOoJXXkcMXHx6N
- JUt4I7dwWuqXlpcAeNMPTEmbP+6FyZrM5TJnDSywNj2CQTlMcx1mUc4KWXjcgMM6iozIghmSbc3
- 3gFYh/7LGVoVj68o=
-X-Received: by 2002:a05:6214:2d2:: with SMTP id
- g18mr26617935qvu.215.1595344245945; 
- Tue, 21 Jul 2020 08:10:45 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJzO+/tCaDEs8+tg/gaU8dH1G/u3AlHn9rMf4JRyXTZ0X4WQ7JXemUkSZlujB7WhKTuPphx4Vg==
-X-Received: by 2002:a05:6214:2d2:: with SMTP id
- g18mr26617900qvu.215.1595344245677; 
- Tue, 21 Jul 2020 08:10:45 -0700 (PDT)
-Received: from xz-x1 ([2607:9880:19c8:6f::1f4f])
- by smtp.gmail.com with ESMTPSA id x23sm2521561qki.6.2020.07.21.08.10.43
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 21 Jul 2020 08:10:44 -0700 (PDT)
-Date: Tue, 21 Jul 2020 11:10:42 -0400
-From: Peter Xu <peterx@redhat.com>
-To: Jason Wang <jasowang@redhat.com>
-Subject: Re: [RFC v2 1/1] memory: Delete assertion in
- memory_region_unregister_iommu_notifier
-Message-ID: <20200721151042.GQ535743@xz-x1>
-References: <20200709141037.GF199122@xz-x1>
- <fb2f8d35-3f04-55ac-e0c0-7eeedbaf2429@redhat.com>
- <20200710133005.GL199122@xz-x1>
- <05bb512c-ca0a-e80e-1eed-446e918ad729@redhat.com>
- <20200716010005.GA535743@xz-x1>
- <b0319440-6e53-f274-59ba-6dbc67de69be@redhat.com>
- <20200717141806.GE535743@xz-x1>
- <d772c597-e6a2-ab88-43c5-b35b77d6c84e@redhat.com>
- <20200720130346.GM535743@xz-x1>
- <31f7ee27-e649-b547-9cf8-35a88a1aa491@redhat.com>
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=B/WewGkuED5ZclfNuICMT67tC9Y0KAaeDc8gnr/D54Q=;
+ b=tK30jk/6lZba+utNF8QLO7+aRlcdX6+/GcScsrsXQi+Cklw1xCeHhb3xTsnMFBCOFt
+ t7U3V5mYC4ScfVkKIsZV8VSSJ2z3d3y0Kun2mbfYd9LkJ2Zx0VEHoDJ1ODiTKxoppu7r
+ kWI0oaa+/9odTCUnTpUoZaVJGuaJG+i1aOOgbHVpqIBeL2Gf01800wm7xdx8RfHMsbhY
+ 3LtCZbEUXupWFmuv/Apqg7B/Cq6o8VpC22VUeTlD1qB0qRBGtTz7EQ2Cxy1bHRJYl5rb
+ M6BwqgrRhvCNL2fGe/EXtynyQpR0JXJd5DfvPivZ+NOrgPoLUkiDunEC7ZW3fJujr7ez
+ ZL7A==
+X-Gm-Message-State: AOAM530q6451I8pJiJeKdHbpW8CoeQW3XkieQIxG2p6NYSlhvxQHMrJ7
+ SCuv1zw0JVTNJjzBQ5xx6VLNRFGfHFafWSCZNzY=
+X-Google-Smtp-Source: ABdhPJxZTgGDhzLoCe/0QER79v1EQDAhKkC79ytFKTiqBjDzQM3u5B+mr0p4EaUuSpNVUo9osTGtlaoHGhO1MAg+Euw=
+X-Received: by 2002:a02:7092:: with SMTP id f140mr3548254jac.8.1595344888308; 
+ Tue, 21 Jul 2020 08:21:28 -0700 (PDT)
 MIME-Version: 1.0
-In-Reply-To: <31f7ee27-e649-b547-9cf8-35a88a1aa491@redhat.com>
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: 8bit
-Content-Disposition: inline
-Received-SPF: pass client-ip=205.139.110.61; envelope-from=peterx@redhat.com;
- helo=us-smtp-delivery-1.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/07/21 10:17:05
-X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
-X-Spam_score_int: -40
-X-Spam_score: -4.1
-X-Spam_bar: ----
-X-Spam_report: (-4.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-1, SPF_HELO_NONE=0.001,
+References: <20200721133742.2298-1-zhiwei_liu@c-sky.com>
+ <20200721133742.2298-2-zhiwei_liu@c-sky.com>
+In-Reply-To: <20200721133742.2298-2-zhiwei_liu@c-sky.com>
+From: Alistair Francis <alistair23@gmail.com>
+Date: Tue, 21 Jul 2020 08:11:22 -0700
+Message-ID: <CAKmqyKPVPJDAYdUQrMLS6db8E1dqosGV5bN5Qeoqk7Ox_+G9_w@mail.gmail.com>
+Subject: Re: [PATCH 2/2] target/riscv: fix vector index load/store constraints
+To: LIU Zhiwei <zhiwei_liu@c-sky.com>
+Content-Type: text/plain; charset="UTF-8"
+Received-SPF: pass client-ip=2607:f8b0:4864:20::d43;
+ envelope-from=alistair23@gmail.com; helo=mail-io1-xd43.google.com
+X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
+ That's all we know.
+X-Spam_score_int: -17
+X-Spam_score: -1.8
+X-Spam_bar: -
+X-Spam_report: (-1.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ FREEMAIL_ENVFROM_END_DIGIT=0.25, FREEMAIL_FROM=0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -106,31 +78,60 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Maydell <peter.maydell@linaro.org>, Yan Zhao <yan.y.zhao@intel.com>,
- Juan Quintela <quintela@redhat.com>,
- "libvir-list@redhat.com" <libvir-list@redhat.com>,
- "Michael S. Tsirkin" <mst@redhat.com>, qemu-devel@nongnu.org,
- Eugenio =?utf-8?B?UMOpcmV6?= <eperezma@redhat.com>,
- Eric Auger <eric.auger@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>
+Cc: Alistair Francis <Alistair.Francis@wdc.com>,
+ Richard Henderson <richard.henderson@linaro.org>,
+ "open list:RISC-V" <qemu-riscv@nongnu.org>,
+ "qemu-devel@nongnu.org Developers" <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Tue, Jul 21, 2020 at 02:20:01PM +0800, Jason Wang wrote:
-> 
-> On 2020/7/20 下午9:03, Peter Xu wrote:
-> > On Mon, Jul 20, 2020 at 12:02:06PM +0800, Jason Wang wrote:
-> > > Right, so there's no need to deal with unmap in vtd's replay implementation
-> > > (as what generic one did).
-> > We don't even for now; see vtd_page_walk_info.notify_unmap.  Thanks,
-> 
-> 
-> Right, but I meant the vtd_address_space_unmap() in vtd_iomm_replay(). It
-> looks to me it will trigger UNMAP notifiers.
+On Tue, Jul 21, 2020 at 6:38 AM LIU Zhiwei <zhiwei_liu@c-sky.com> wrote:
+>
+> Although not explicitly specified that the the destination
+> vector register groups cannot overlap the source vector register group,
+> it is still necessary.
+>
+> And this constraint has been added to the v0.8 spec.
+>
+> Signed-off-by: LIU Zhiwei <zhiwei_liu@c-sky.com>
 
-Should be pretty safe for now, but I agree it seems optional (as we've
-discussed about this previously).  Thanks,
+Reviewed-by: Alistair Francis <alistair.francis@wdc.com>
 
--- 
-Peter Xu
+Alistair
 
+> ---
+>  target/riscv/insn_trans/trans_rvv.inc.c | 10 +++++++++-
+>  1 file changed, 9 insertions(+), 1 deletion(-)
+>
+> diff --git a/target/riscv/insn_trans/trans_rvv.inc.c b/target/riscv/insn_trans/trans_rvv.inc.c
+> index 7b4752b911..887c6b8883 100644
+> --- a/target/riscv/insn_trans/trans_rvv.inc.c
+> +++ b/target/riscv/insn_trans/trans_rvv.inc.c
+> @@ -513,13 +513,21 @@ static bool ld_index_op(DisasContext *s, arg_rnfvm *a, uint8_t seq)
+>      return ldst_index_trans(a->rd, a->rs1, a->rs2, data, fn, s);
+>  }
+>
+> +/*
+> + * For vector indexed segment loads, the destination vector register
+> + * groups cannot overlap the source vector register group (specified by
+> + * `vs2`), else an illegal instruction exception is raised.
+> + */
+>  static bool ld_index_check(DisasContext *s, arg_rnfvm* a)
+>  {
+>      return (vext_check_isa_ill(s) &&
+>              vext_check_overlap_mask(s, a->rd, a->vm, false) &&
+>              vext_check_reg(s, a->rd, false) &&
+>              vext_check_reg(s, a->rs2, false) &&
+> -            vext_check_nf(s, a->nf));
+> +            vext_check_nf(s, a->nf) &&
+> +            ((a->nf == 1) ||
+> +             vext_check_overlap_group(a->rd, a->nf << s->lmul,
+> +                                      a->rs2, 1 << s->lmul)));
+>  }
+>
+>  GEN_VEXT_TRANS(vlxb_v, 0, rnfvm, ld_index_op, ld_index_check)
+> --
+> 2.23.0
+>
+>
 
