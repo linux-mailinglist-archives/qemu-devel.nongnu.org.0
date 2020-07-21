@@ -2,74 +2,76 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E08772287D0
-	for <lists+qemu-devel@lfdr.de>; Tue, 21 Jul 2020 19:58:04 +0200 (CEST)
-Received: from localhost ([::1]:39624 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C4BDF2287EA
+	for <lists+qemu-devel@lfdr.de>; Tue, 21 Jul 2020 20:03:44 +0200 (CEST)
+Received: from localhost ([::1]:44998 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jxwWh-0007vj-Tw
-	for lists+qemu-devel@lfdr.de; Tue, 21 Jul 2020 13:58:03 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:35806)
+	id 1jxwcB-00025v-HS
+	for lists+qemu-devel@lfdr.de; Tue, 21 Jul 2020 14:03:43 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:37352)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1jxwVd-0007UH-29
- for qemu-devel@nongnu.org; Tue, 21 Jul 2020 13:56:57 -0400
-Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:51338
- helo=us-smtp-1.mimecast.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1jxwVb-00038V-FC
- for qemu-devel@nongnu.org; Tue, 21 Jul 2020 13:56:56 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1595354214;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=S/04qTr+VBJg2CrmwyfsL+gyfwoiSG3h8c4PeABF6cw=;
- b=abKHX2lJnC8y9PoH5KYO6Skx4EGSxzT6bCfYCEbShYVCsOWwZ55BBIFonSQcUp5YUkkZNY
- gTFS/o3XIsP5SgBUBf7ESqmRRm7+ZQsrRokds/w9T3tCPvuBpVNK5WWZZWoZlfMaDiL4JJ
- vllbUceFyGzsRpkx/swEo1YCWeJJxSs=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-198-JQlSrqKLPA-imZFS4c_VzQ-1; Tue, 21 Jul 2020 13:56:52 -0400
-X-MC-Unique: JQlSrqKLPA-imZFS4c_VzQ-1
-Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
- [10.5.11.14])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 5ECEB1005510;
- Tue, 21 Jul 2020 17:56:51 +0000 (UTC)
-Received: from ibm-p8-OVS-01-fsp.mgmt.pnr.lab.eng.rdu2.redhat.com
- (ovpn-120-206.rdu2.redhat.com [10.10.120.206])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 990E25D9CA;
- Tue, 21 Jul 2020 17:56:50 +0000 (UTC)
-Subject: Re: [PATCH-for-5.1] hw/ide/ahci: Do not dma_memory_unmap(NULL)
-To: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>,
- qemu-devel@nongnu.org
-References: <20200718072854.7001-1-f4bug@amsat.org>
-From: John Snow <jsnow@redhat.com>
-Message-ID: <c98f64ba-45ad-66be-c2c8-22d1efd4f7bb@redhat.com>
-Date: Tue, 21 Jul 2020 13:56:50 -0400
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.10.0
+ (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
+ id 1jxwaF-0000YH-1D
+ for qemu-devel@nongnu.org; Tue, 21 Jul 2020 14:01:43 -0400
+Received: from mail-wr1-x444.google.com ([2a00:1450:4864:20::444]:39442)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
+ id 1jxwaD-0003uO-Au
+ for qemu-devel@nongnu.org; Tue, 21 Jul 2020 14:01:42 -0400
+Received: by mail-wr1-x444.google.com with SMTP id q5so22057683wru.6
+ for <qemu-devel@nongnu.org>; Tue, 21 Jul 2020 11:01:40 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=sender:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=iffYNJCjZMfkQNG/K5IEyiUEOe84TcgbyNlODKnBPac=;
+ b=SzU/TPMTQum3wtWCGkFuDD4I51EzlGdjirbfO9pmmO6ra1jgN0656wlLN7Qse4JQy/
+ C/rqNww9IFyp7oLOmFxDdYU9ruvMj4zh6H1ebKJdaDbxG41uzVtj/9HsxHZoxXOPm4TO
+ BVT/eYC3JJvOTcgPjqlI3RgVC6omOq4DWvEnsyzB/eiThTpfg1C3+YKWH7DUfQOiQnVE
+ 25dm2LreHtFXz6sKKAl2zo+nsOkxZIL2CkzVqvL64zczWqqQLkvjz9XgVuUtA5rBixO5
+ jRFCN4UpL3BuFiRfCdJ9JZwpemuiEC2Yvce0TvtjVgXFKex6/899t6PGDUA4iNOXIk1t
+ V8Rg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
+ :mime-version:content-transfer-encoding;
+ bh=iffYNJCjZMfkQNG/K5IEyiUEOe84TcgbyNlODKnBPac=;
+ b=MZv84wzKLviN5SPpWe9i+9e6vtextQ1GEL6xqvLw4w/6fl1uX43z9oPsIaCZvujuxH
+ 4tHdlCCQAgY4OqVz2yGY3UX2yHiyiVopFYqM7Gqoib6dVjmgAp4ryk6BPQOIm1e/Z3WR
+ 2Nz9TM1pI1MK2hS2hNTP9fgmm/HUqH1WgsjJ/Q4PNo+mSCQ7ObfkzrtUOcwub/ZuotL6
+ 97aPCLpWrrkoougeTLUsoKvpz5Y2rGTUlXb+RQ47tKsJNtgVlGgF613pkop5LzY33Yrx
+ 5Ra1eygtAKE5ADEk4zC5hKslOhSYLN04lljBjf/Y2YYCCpmdQQqw1sHDFYDx+n6ovnmY
+ RVQQ==
+X-Gm-Message-State: AOAM531Tai9fYAbTRlO9AE5ooGIw3ue9xYy7Hh7EZNuY065C1/eWASCW
+ IomsPioJoYsVli/mAail7BiIE2Y6PvY=
+X-Google-Smtp-Source: ABdhPJxTF6jUtLdbDwWLTPjjQ+PsWVY2FHA0PhI3Me/CG+QUSn9mn9rqtMUIz5jvFVRd+2h4eC6duA==
+X-Received: by 2002:a5d:4a0d:: with SMTP id m13mr9910001wrq.12.1595354499017; 
+ Tue, 21 Jul 2020 11:01:39 -0700 (PDT)
+Received: from x1w.redhat.com (138.red-83-57-170.dynamicip.rima-tde.net.
+ [83.57.170.138])
+ by smtp.gmail.com with ESMTPSA id t2sm3557249wmb.25.2020.07.21.11.01.37
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Tue, 21 Jul 2020 11:01:37 -0700 (PDT)
+From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
+To: qemu-devel@nongnu.org
+Subject: [PULL 0/4] AVR patches for 2020-07-21
+Date: Tue, 21 Jul 2020 20:01:33 +0200
+Message-Id: <20200721180137.11136-1-f4bug@amsat.org>
+X-Mailer: git-send-email 2.21.3
 MIME-Version: 1.0
-In-Reply-To: <20200718072854.7001-1-f4bug@amsat.org>
-Content-Language: en-US
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=205.139.110.120; envelope-from=jsnow@redhat.com;
- helo=us-smtp-1.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/07/21 10:58:38
-X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
-X-Spam_score_int: -40
-X-Spam_score: -4.1
-X-Spam_bar: ----
-X-Spam_report: (-4.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-1, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Received-SPF: pass client-ip=2a00:1450:4864:20::444;
+ envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wr1-x444.google.com
+X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
+ That's all we know.
+X-Spam_score_int: 0
+X-Spam_score: 0.0
+X-Spam_bar: /
+X-Spam_report: (0.0 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1, DKIM_VALID=-0.1,
+ DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=1, FREEMAIL_FROM=0.001,
+ HEADER_FROM_DIFFERENT_DOMAINS=1, RCVD_IN_DNSWL_NONE=-0.0001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -82,61 +84,51 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Alexander Bulekov <alxndr@bu.edu>, qemu-stable@nongnu.org,
- qemu-block@nongnu.org
+Cc: Stefan Weil <sw@weilnetz.de>, Sarah Harris <S.E.Harris@kent.ac.uk>,
+ Michael Rolnik <mrolnik@gmail.com>,
+ =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>,
+ Paolo Bonzini <pbonzini@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 7/18/20 3:28 AM, Philippe Mathieu-Daudé wrote:
-> libFuzzer triggered the following assertion:
-> 
->    cat << EOF | qemu-system-i386 -M pc-q35-5.0 \
->      -nographic -monitor none -serial none -qtest stdio
->    outl 0xcf8 0x8000fa24
->    outl 0xcfc 0xe1068000
->    outl 0xcf8 0x8000fa04
->    outw 0xcfc 0x7
->    outl 0xcf8 0x8000fb20
->    write 0xe1068304 0x1 0x21
->    write 0xe1068318 0x1 0x21
->    write 0xe1068384 0x1 0x21
->    write 0xe1068398 0x2 0x21
->    EOF
->    qemu-system-i386: exec.c:3621: address_space_unmap: Assertion `mr != NULL' failed.
->    Aborted (core dumped)
-> 
-> This is because we don't check the return value from dma_memory_map()
-> which can return NULL, then we call dma_memory_unmap(NULL) which is
-> illegal. Fix by only unmap if the value is not NULL (and the size is
-> not the expected one).
-> 
-> Cc: qemu-stable@nongnu.org
-> Reported-by: Alexander Bulekov <alxndr@bu.edu>
-> Fixes: f6ad2e32f8 ("ahci: add ahci emulation")
-> BugLink: https://bugs.launchpad.net/qemu/+bug/1884693
-> Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
-> ---
->   hw/ide/ahci.c | 2 +-
->   1 file changed, 1 insertion(+), 1 deletion(-)
-> 
-> diff --git a/hw/ide/ahci.c b/hw/ide/ahci.c
-> index 009120f88b..4f596cb9ce 100644
-> --- a/hw/ide/ahci.c
-> +++ b/hw/ide/ahci.c
-> @@ -250,7 +250,7 @@ static void map_page(AddressSpace *as, uint8_t **ptr, uint64_t addr,
->       }
->   
->       *ptr = dma_memory_map(as, addr, &len, DMA_DIRECTION_FROM_DEVICE);
-> -    if (len < wanted) {
-> +    if (len < wanted && *ptr) {
->           dma_memory_unmap(as, *ptr, len, DMA_DIRECTION_FROM_DEVICE, len);
->           *ptr = NULL;
->       }
-> 
+The following changes since commit 90218a9a393c7925f330e7dcc08658e2a01d3bd4:
 
-Staged @ gitlab
+  Merge remote-tracking branch 'remotes/huth-gitlab/tags/pull-request-2020-07=
+-21' into staging (2020-07-21 10:24:38 +0100)
 
-https://gitlab.com/jsnow/qemu/-/commits/ide
+are available in the Git repository at:
 
+  https://gitlab.com/philmd/qemu.git tags/avr-20200721
+
+for you to fetch changes up to 5e29521a82e540552880c3572cb8274bcaa1002c:
+
+  hw/avr/boot: Fix memory leak in avr_load_firmware() (2020-07-21 16:13:04 +0=
+200)
+
+----------------------------------------------------------------
+AVR patches
+
+Fixes a memory leak reported by Coverity (CID 1430449).
+
+CI jobs result:
+. https://gitlab.com/philmd/qemu/-/pipelines/168722631
+
+----------------------------------------------------------------
+
+Philippe Mathieu-Daud=C3=A9 (4):
+  qemu/osdep: Document os_find_datadir() return value
+  qemu/osdep: Reword qemu_get_exec_dir() documentation
+  qemu-common: Document qemu_find_file()
+  hw/avr/boot: Fix memory leak in avr_load_firmware()
+
+ include/qemu-common.h | 17 +++++++++++++++++
+ include/qemu/osdep.h  |  5 ++++-
+ hw/avr/boot.c         |  2 +-
+ os-posix.c            |  3 +++
+ os-win32.c            |  7 ++++++-
+ 5 files changed, 31 insertions(+), 3 deletions(-)
+
+--=20
+2.21.3
 
 
