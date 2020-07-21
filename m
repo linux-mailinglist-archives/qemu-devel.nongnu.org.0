@@ -2,85 +2,90 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 505112280CD
-	for <lists+qemu-devel@lfdr.de>; Tue, 21 Jul 2020 15:20:26 +0200 (CEST)
-Received: from localhost ([::1]:44276 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3BA182280CE
+	for <lists+qemu-devel@lfdr.de>; Tue, 21 Jul 2020 15:20:32 +0200 (CEST)
+Received: from localhost ([::1]:44754 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jxsC0-0001hv-S5
-	for lists+qemu-devel@lfdr.de; Tue, 21 Jul 2020 09:20:24 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:48802)
+	id 1jxsC7-0001tg-9O
+	for lists+qemu-devel@lfdr.de; Tue, 21 Jul 2020 09:20:31 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:48822)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1jxsB0-0000gJ-JQ
- for qemu-devel@nongnu.org; Tue, 21 Jul 2020 09:19:22 -0400
-Received: from us-smtp-2.mimecast.com ([207.211.31.81]:45849
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1jxsB4-0000ix-8d
+ for qemu-devel@nongnu.org; Tue, 21 Jul 2020 09:19:26 -0400
+Received: from us-smtp-1.mimecast.com ([205.139.110.61]:38134
  helo=us-smtp-delivery-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1jxsAx-0002YF-Ao
- for qemu-devel@nongnu.org; Tue, 21 Jul 2020 09:19:22 -0400
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1jxsB2-0002Yg-OS
+ for qemu-devel@nongnu.org; Tue, 21 Jul 2020 09:19:25 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1595337557;
+ s=mimecast20190719; t=1595337563;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding;
- bh=HRNs1Eh71NYqle+QW+ORf61+4+aVAHB0LYnICG4zTOU=;
- b=c4Pus7zBeFv03v1bNR8o/YvlkWhYJTC+MYLDgzenm5r/1iURxe3jJmDdWy27oL8n5X3YtQ
- JWHTcfongLIAqy4cJ6VJQU79xTt0dStJLRfYDD1uL5x83ndlNBCO/j5YVctpFPdIn/HVMb
- I47fke2oh4FRhJwopflTXv+ouxHli3k=
-Received: from mail-wm1-f72.google.com (mail-wm1-f72.google.com
- [209.85.128.72]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-197-M6gx46ckNbKCFq4D7EGBDg-1; Tue, 21 Jul 2020 09:19:16 -0400
-X-MC-Unique: M6gx46ckNbKCFq4D7EGBDg-1
-Received: by mail-wm1-f72.google.com with SMTP id t63so1234109wmf.6
- for <qemu-devel@nongnu.org>; Tue, 21 Jul 2020 06:19:15 -0700 (PDT)
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=GNzbI9utSY5TYVTak6sCapo8DHgXPnOsnOEA+QtC6FI=;
+ b=C3qzReUvUSnYoXNijKeQKzk5GDAjRUraBb7gbLr+nv7K7/7B0/yala1H7FbGj4WNWIR74t
+ j+D6FOmx8K/eW/WtIpvP9lbfTpX8Fvt5fkVW0opXLnNa6HRvFp/ld1GTgySW8A8WgR6tMs
+ a+ibuOsqM4JDJpTmGJNovN8bF1C9tng=
+Received: from mail-wr1-f72.google.com (mail-wr1-f72.google.com
+ [209.85.221.72]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-108-nfT9V4gaNzaheQRPrE1AnA-1; Tue, 21 Jul 2020 09:19:20 -0400
+X-MC-Unique: nfT9V4gaNzaheQRPrE1AnA-1
+Received: by mail-wr1-f72.google.com with SMTP id z1so13041289wrn.18
+ for <qemu-devel@nongnu.org>; Tue, 21 Jul 2020 06:19:20 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=HRNs1Eh71NYqle+QW+ORf61+4+aVAHB0LYnICG4zTOU=;
- b=Lv7eadOO6S6Aeg6UjbflvKunlkMdruP2YH76DLTs7N7Cs60INDePCyrlwrItRHDgCm
- BchLmvOFSevdYK2KBWSQVvqqPh/7mP3TUejGuhhsvBP2EC8Lgi+y9JDvBMcasdImQE0+
- EiKVwX5lbQYkjWQbXjUrAUp5dg7oMrWxgB/qA6idfP6QHyxkn0GbGP5M7fh4ZfjRv6vO
- 5S2VMejEAN8onJJHjKGAeSLn7faqNgJANY3P2sLl498dYzfWFOG+76dKZv5pg+fyo+oU
- wkDM5QrhK9Yhk/VkEfMTy963MJrGhj59KHHhAmoDBCQaMvrtZysIyoQ3v+TbYq1SDG+0
- zXeg==
-X-Gm-Message-State: AOAM530dew28XHfU7llMCrzRcyZmRU743EzVqkEMl+e11ULW3U7AE0ZH
- uI0VBdzrqNNxVVCdE7R8oVTSBVu8r4GW6KEZpw+pCDBGD5ZRaCMElk3LJyIoObX7j4TUQAcDetU
- qPkA4g5LAzwKlv24=
-X-Received: by 2002:a5d:5651:: with SMTP id j17mr25359084wrw.145.1595337554545; 
- Tue, 21 Jul 2020 06:19:14 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJzH0wOYb3i2LiqGd5+6DjFnnsmzHN6hem8uhGt8HY3dVcI9eo3lY+fTNOKs1l+qHofkzhXFmQ==
-X-Received: by 2002:a5d:5651:: with SMTP id j17mr25359065wrw.145.1595337554348; 
- Tue, 21 Jul 2020 06:19:14 -0700 (PDT)
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+ :references:mime-version:content-transfer-encoding;
+ bh=GNzbI9utSY5TYVTak6sCapo8DHgXPnOsnOEA+QtC6FI=;
+ b=pEq/399uHyeMQ2j/uCuBD4XqZmok4UlUeaZSTpPfFZ4wU7jJ2JyFSZYUxokBF9wzAM
+ DKXVniEWlrwSc+g1sJX+pLUp9IgYxEgBoxKjS2sYra2gGPGfQLvFhFOT0P2dTowdhJXH
+ 7q8cOz2j+HNSxsO1i1X4d3zJynPHe0jdMMY2XvH+CJd9CCIVu2RpAM2ZmCVS59txP/pe
+ wy6x/Nfh4ZSNrgkDinHmuMa6Mez9JW8QET/DSJsgPBz95bP8xmuK5+fSKE2ad/uqAECg
+ FvCuRa0N50y9K4r0SJN22WTs7x9Dck9HvVNur3EWNtXSre6l1v5LbF48JdlbWYvF11C8
+ PU6g==
+X-Gm-Message-State: AOAM533r9RSR2LqddP/dYjd+4/WyXvsYxVFDneS/ypwoyTVTqlEOAGhU
+ P05C12Wi4I2FMnoYeKzoLy9lOHaoDHxew0a1ckK2XJNs0vEBufWkHZDqZhsnPbJ1V166qykL3Fs
+ 5TH1XmgJK//vL4ZA=
+X-Received: by 2002:a1c:2e10:: with SMTP id u16mr3892313wmu.121.1595337559303; 
+ Tue, 21 Jul 2020 06:19:19 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJzhYxqqLSwgyj3XM2IpAAXAzOnKPNwo7AVH9/4u5IydCTKn1X0dvi6XwEqJsJPiR4Om/vmUDA==
+X-Received: by 2002:a1c:2e10:: with SMTP id u16mr3892302wmu.121.1595337559110; 
+ Tue, 21 Jul 2020 06:19:19 -0700 (PDT)
 Received: from localhost.localdomain
  (138.red-83-57-170.dynamicip.rima-tde.net. [83.57.170.138])
- by smtp.gmail.com with ESMTPSA id l132sm3447765wmf.6.2020.07.21.06.19.13
+ by smtp.gmail.com with ESMTPSA id c15sm3355721wme.23.2020.07.21.06.19.18
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 21 Jul 2020 06:19:13 -0700 (PDT)
+ Tue, 21 Jul 2020 06:19:18 -0700 (PDT)
 From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v2 0/2] hw/nvram/fw_cfg: Let fw_cfg_add_from_generator()
- return boolean value
-Date: Tue, 21 Jul 2020 15:19:09 +0200
-Message-Id: <20200721131911.27380-1-philmd@redhat.com>
+Subject: [PATCH v2 1/2] hw/nvram/fw_cfg: Simplify fw_cfg_add_from_generator()
+ error propagation
+Date: Tue, 21 Jul 2020 15:19:10 +0200
+Message-Id: <20200721131911.27380-2-philmd@redhat.com>
 X-Mailer: git-send-email 2.21.3
+In-Reply-To: <20200721131911.27380-1-philmd@redhat.com>
+References: <20200721131911.27380-1-philmd@redhat.com>
 MIME-Version: 1.0
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=philmd@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=UTF-8;
 	text/plain; charset="utf-8"
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=207.211.31.81; envelope-from=philmd@redhat.com;
+Received-SPF: pass client-ip=205.139.110.61; envelope-from=philmd@redhat.com;
  helo=us-smtp-delivery-1.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/07/21 03:39:19
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/07/21 01:26:46
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
-X-Spam_score_int: -30
-X-Spam_score: -3.1
-X-Spam_bar: ---
-X-Spam_report: (-3.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1,
+X-Spam_score_int: -40
+X-Spam_score: -4.1
+X-Spam_bar: ----
+X-Spam_report: (-4.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H3=-0.01, RCVD_IN_MSPIKE_WL=-0.01,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-1, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -99,20 +104,55 @@ Cc: Laszlo Ersek <lersek@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Since v1:
-- Addressed Markus review comments
-- Added patch to clarify fw_cfg_add_from_generator (Markus)
+Document FWCfgDataGeneratorClass::get_data() return NULL
+on error, and non-NULL on success. This allow us to simplify
+fw_cfg_add_from_generator(). Since we don't need a local
+variable to propagate the error, we can remove the ERRP_GUARD()
+macro.
 
-Philippe Mathieu-Daudé (2):
-  hw/nvram/fw_cfg: Simplify fw_cfg_add_from_generator() error
-    propagation
-  hw/nvram/fw_cfg: Let fw_cfg_add_from_generator() return boolean value
+Suggested-by: Markus Armbruster <armbru@redhat.com>
+Signed-off-by: Philippe Mathieu-Daudé <philmd@redhat.com>
+---
+ include/hw/nvram/fw_cfg.h | 4 +++-
+ hw/nvram/fw_cfg.c         | 3 +--
+ 2 files changed, 4 insertions(+), 3 deletions(-)
 
- include/hw/nvram/fw_cfg.h |  8 ++++++--
- hw/nvram/fw_cfg.c         | 13 +++++++------
- softmmu/vl.c              |  6 +-----
- 3 files changed, 14 insertions(+), 13 deletions(-)
-
+diff --git a/include/hw/nvram/fw_cfg.h b/include/hw/nvram/fw_cfg.h
+index 11feae3177..bbcf405649 100644
+--- a/include/hw/nvram/fw_cfg.h
++++ b/include/hw/nvram/fw_cfg.h
+@@ -32,7 +32,9 @@ typedef struct FWCfgDataGeneratorClass {
+      * @obj: the object implementing this interface
+      * @errp: pointer to a NULL-initialized error object
+      *
+-     * Returns: reference to a byte array containing the data.
++     * Returns: reference to a byte array containing the data on success,
++     *          or NULL on error.
++     *
+      * The caller should release the reference when no longer
+      * required.
+      */
+diff --git a/hw/nvram/fw_cfg.c b/hw/nvram/fw_cfg.c
+index 3b1811d3bf..dfa1f2012a 100644
+--- a/hw/nvram/fw_cfg.c
++++ b/hw/nvram/fw_cfg.c
+@@ -1035,7 +1035,6 @@ void *fw_cfg_modify_file(FWCfgState *s, const char *filename,
+ void fw_cfg_add_from_generator(FWCfgState *s, const char *filename,
+                                const char *gen_id, Error **errp)
+ {
+-    ERRP_GUARD();
+     FWCfgDataGeneratorClass *klass;
+     GByteArray *array;
+     Object *obj;
+@@ -1053,7 +1052,7 @@ void fw_cfg_add_from_generator(FWCfgState *s, const char *filename,
+     }
+     klass = FW_CFG_DATA_GENERATOR_GET_CLASS(obj);
+     array = klass->get_data(obj, errp);
+-    if (*errp) {
++    if (!array) {
+         return;
+     }
+     size = array->len;
 -- 
 2.21.3
 
