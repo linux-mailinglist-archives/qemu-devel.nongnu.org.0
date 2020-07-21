@@ -2,69 +2,75 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9AE6E228399
-	for <lists+qemu-devel@lfdr.de>; Tue, 21 Jul 2020 17:23:48 +0200 (CEST)
-Received: from localhost ([::1]:55228 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9B3E022836E
+	for <lists+qemu-devel@lfdr.de>; Tue, 21 Jul 2020 17:18:49 +0200 (CEST)
+Received: from localhost ([::1]:45634 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jxu7P-0004ky-MI
-	for lists+qemu-devel@lfdr.de; Tue, 21 Jul 2020 11:23:47 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:51436)
+	id 1jxu2a-0000LP-EL
+	for lists+qemu-devel@lfdr.de; Tue, 21 Jul 2020 11:18:48 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:50140)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <alistair23@gmail.com>)
- id 1jxu6V-0004Dj-1h; Tue, 21 Jul 2020 11:22:51 -0400
-Received: from mail-io1-xd44.google.com ([2607:f8b0:4864:20::d44]:39216)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <alistair23@gmail.com>)
- id 1jxu6T-0005Hm-Du; Tue, 21 Jul 2020 11:22:50 -0400
-Received: by mail-io1-xd44.google.com with SMTP id z6so4317739iow.6;
- Tue, 21 Jul 2020 08:22:48 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=dg6ywj0QsHTflwHtlgnpMJUCnmY3aA89oiRMLeeCkVU=;
- b=WnQmO+uOxBMCf2Qrld2/ZKoWKpxx+hc+mjYLZQgsWMLP7iwHnKQVtwCvyScPSvZIBc
- EMpgACiOcUFifMDHX/GNzjkQuSt+gPx6vOrK7ZcLuSsvfBohcD8+bGP/+HNgYWcXnkex
- HbH1ubhKS1eLrJt40llhuZi2zLdAvq/WeIB+gWHpGqfmm9oKPQPvNYhrT0hZHJ1RrRWm
- WX1NkUEUqSMDsEvsoRqJAsHqmGWukmmN3tTLaN0Plgu0u6IV2SVur9GQB+lyJBGCpjRR
- zMOvJqik0UPF3ycm+kCAnwkWZqWvl57v1tgCuNuA3vGweie9HtVjybJ/i62jtW/k7UEV
- +XbQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=dg6ywj0QsHTflwHtlgnpMJUCnmY3aA89oiRMLeeCkVU=;
- b=s1hLAD8tW4bCDAAyWYbJ3F8PFzAr4AfjdnWPhjfd8dA64ySeomuR5ReHBXlYFfXzgm
- pDz3GAprxVyC+N2QkKywR9tOMGWBPqMZfdjOHCBMOb6kpJNQkJQVuAsDZHPOt3zYzuuq
- WqGGXnYkOZWMplqjWeTFAU7Z+Po3n4KTSGoub545bh4ROzzUtuyTQc0TZbl/wAYBneYy
- RgJxHIoHllbUGbLMcoXPhpddfzUkhLzgnCOTL4sXED3yX4pi+5GO4oJZdLPNvSkkNavV
- Zd5IoLHTn6IWb/d8qMhI9aD9U5tVgDUowSfp9vJxmPKUXMkPiS0s1/WfJCQKI2lGmJwH
- vB7Q==
-X-Gm-Message-State: AOAM531g5TA1rtko54qS2nylGEjkAKfXwR+USWEvWuxzHgLCLZ9O8oZn
- IswNr2IyIqNlNA+x8anrGhIb4d65v7PD8CuLilo=
-X-Google-Smtp-Source: ABdhPJyusPRk8SfzFFbnFVCo73IoZ/dyg8Vrrtp9uKeqPr7+Bk5VyNT3Q4sltslhsvVD28hIDXPwJeVKI+ruY7iLUm0=
-X-Received: by 2002:a5d:9306:: with SMTP id l6mr28810280ion.105.1595344967830; 
- Tue, 21 Jul 2020 08:22:47 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <dgilbert@redhat.com>)
+ id 1jxu1M-0007yt-J1
+ for qemu-devel@nongnu.org; Tue, 21 Jul 2020 11:17:32 -0400
+Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:45149
+ helo=us-smtp-1.mimecast.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <dgilbert@redhat.com>)
+ id 1jxu1K-0004ZF-PP
+ for qemu-devel@nongnu.org; Tue, 21 Jul 2020 11:17:32 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1595344649;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=HS1VIDuP1YINGt35gQ1+L+fhifaAatthJ6cqCJKlM/M=;
+ b=VNo/wPeaDmV60s2NKdaVyHWL++tIAiloqxXrZJPwSfvmNr+O+cEQLA+er+Zf9PlgPSRk4b
+ KOTvrXbvx1JFiNNp8OXDoykPiLS/48F/P5nMLkahvDY1hYCQanB7A+VFmBj+CoCkJhrPq1
+ DlorZhXLLKGNbm0Hr4y4dpigtQX2aLs=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-151-Y8kSjh-2Ormn5WO06Wq31Q-1; Tue, 21 Jul 2020 11:17:26 -0400
+X-MC-Unique: Y8kSjh-2Ormn5WO06Wq31Q-1
+Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
+ [10.5.11.23])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 877251005510;
+ Tue, 21 Jul 2020 15:17:25 +0000 (UTC)
+Received: from work-vm (ovpn-114-151.ams2.redhat.com [10.36.114.151])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 0E7002DE6F;
+ Tue, 21 Jul 2020 15:17:14 +0000 (UTC)
+Date: Tue, 21 Jul 2020 16:17:12 +0100
+From: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
+To: Markus Armbruster <armbru@redhat.com>
+Subject: Re: [PATCH for-5.1 1/5] qdev: Fix device_add DRIVER, help to print
+ to monitor
+Message-ID: <20200721151712.GA27840@work-vm>
+References: <20200714160202.3121879-1-armbru@redhat.com>
+ <20200714160202.3121879-2-armbru@redhat.com>
 MIME-Version: 1.0
-References: <1594891856-15474-1-git-send-email-bmeng.cn@gmail.com>
-In-Reply-To: <1594891856-15474-1-git-send-email-bmeng.cn@gmail.com>
-From: Alistair Francis <alistair23@gmail.com>
-Date: Tue, 21 Jul 2020 08:12:42 -0700
-Message-ID: <CAKmqyKOGVqFxh7azqo95TwPtCyBtVLE34x6UFfmqvmbNZWDDXA@mail.gmail.com>
-Subject: Re: [PATCH] hw/riscv: sifive_e: Correct debug block size
-To: Bin Meng <bmeng.cn@gmail.com>
-Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2607:f8b0:4864:20::d44;
- envelope-from=alistair23@gmail.com; helo=mail-io1-xd44.google.com
-X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
- That's all we know.
-X-Spam_score_int: -17
-X-Spam_score: -1.8
-X-Spam_bar: -
-X-Spam_report: (-1.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- FREEMAIL_ENVFROM_END_DIGIT=0.25, FREEMAIL_FROM=0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+In-Reply-To: <20200714160202.3121879-2-armbru@redhat.com>
+User-Agent: Mutt/1.14.5 (2020-06-23)
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=iso-8859-1
+Content-Transfer-Encoding: 8bit
+Content-Disposition: inline
+Received-SPF: pass client-ip=207.211.31.120; envelope-from=dgilbert@redhat.com;
+ helo=us-smtp-1.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/07/21 10:20:34
+X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
+X-Spam_score_int: -30
+X-Spam_score: -3.1
+X-Spam_bar: ---
+X-Spam_report: (-3.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H4=-0.01, RCVD_IN_MSPIKE_WL=-0.01,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -77,51 +83,51 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: "open list:RISC-V" <qemu-riscv@nongnu.org>,
- Sagar Karandikar <sagark@eecs.berkeley.edu>,
- Bastian Koppelmann <kbastian@mail.uni-paderborn.de>,
- Palmer Dabbelt <palmerdabbelt@google.com>,
- "qemu-devel@nongnu.org Developers" <qemu-devel@nongnu.org>,
- Alistair Francis <Alistair.Francis@wdc.com>
+Cc: lvivier@redhat.com, thuth@redhat.com, berrange@redhat.com,
+ ehabkost@redhat.com, qemu-devel@nongnu.org, qemu-stable@nongnu.org,
+ =?iso-8859-1?Q?Marc-Andr=E9?= Lureau <marcandre.lureau@redhat.com>,
+ pbonzini@redhat.com, alex.bennee@linaro.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Thu, Jul 16, 2020 at 2:31 AM Bin Meng <bmeng.cn@gmail.com> wrote:
->
-> Currently the debug region size is set to 0x100, but according to
-> FE310-G000 and FE310-G002 manuals:
->
->   FE310-G000: 0x100 - 0xFFF
->   FE310-G002: 0x0   - 0xFFF
->
-> Change the size to 0x1000 that applies to both.
->
-> Signed-off-by: Bin Meng <bmeng.cn@gmail.com>
+* Markus Armbruster (armbru@redhat.com) wrote:
+> Help on device properties gets printed to stdout instead of the
+> monitor.  If you have the monitor anywhere else, no help for you.
+> Broken when commit e1043d674d "qdev: use object_property_help()"
+> accidentally switched from qemu_printf() to printf().  Switch right
+> back.
+> 
+> Fixes: e1043d674d792ff64aebae1a3eafc08b38a8a085
+> Cc: Marc-André Lureau <marcandre.lureau@redhat.com>
+> Cc: qemu-stable@nongnu.org
+> Signed-off-by: Markus Armbruster <armbru@redhat.com>
 
-Reviewed-by: Alistair Francis <alistair.francis@wdc.com>
 
-Alistair
+
+Reviewed-by: Dr. David Alan Gilbert <dgilbert@redhat.com>
 
 > ---
->
->  hw/riscv/sifive_e.c | 2 +-
+>  qdev-monitor.c | 2 +-
 >  1 file changed, 1 insertion(+), 1 deletion(-)
->
-> diff --git a/hw/riscv/sifive_e.c b/hw/riscv/sifive_e.c
-> index 7bb97b4..c8b0604 100644
-> --- a/hw/riscv/sifive_e.c
-> +++ b/hw/riscv/sifive_e.c
-> @@ -54,7 +54,7 @@ static const struct MemmapEntry {
->      hwaddr base;
->      hwaddr size;
->  } sifive_e_memmap[] = {
-> -    [SIFIVE_E_DEBUG] =    {        0x0,      0x100 },
-> +    [SIFIVE_E_DEBUG] =    {        0x0,     0x1000 },
->      [SIFIVE_E_MROM] =     {     0x1000,     0x2000 },
->      [SIFIVE_E_OTP] =      {    0x20000,     0x2000 },
->      [SIFIVE_E_CLINT] =    {  0x2000000,    0x10000 },
-> --
-> 2.7.4
->
->
+> 
+> diff --git a/qdev-monitor.c b/qdev-monitor.c
+> index 71ebce19df..e9b7228480 100644
+> --- a/qdev-monitor.c
+> +++ b/qdev-monitor.c
+> @@ -300,7 +300,7 @@ int qdev_device_help(QemuOpts *opts)
+>      }
+>      g_ptr_array_sort(array, (GCompareFunc)qemu_pstrcmp0);
+>      for (i = 0; i < array->len; i++) {
+> -        printf("%s\n", (char *)array->pdata[i]);
+> +        qemu_printf("%s\n", (char *)array->pdata[i]);
+>      }
+>      g_ptr_array_set_free_func(array, g_free);
+>      g_ptr_array_free(array, true);
+> -- 
+> 2.26.2
+> 
+> 
+--
+Dr. David Alan Gilbert / dgilbert@redhat.com / Manchester, UK
+
 
