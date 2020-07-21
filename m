@@ -2,60 +2,60 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 68588228149
-	for <lists+qemu-devel@lfdr.de>; Tue, 21 Jul 2020 15:48:40 +0200 (CEST)
-Received: from localhost ([::1]:50428 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6795322814F
+	for <lists+qemu-devel@lfdr.de>; Tue, 21 Jul 2020 15:49:46 +0200 (CEST)
+Received: from localhost ([::1]:52992 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jxsdL-0008Ve-Fq
-	for lists+qemu-devel@lfdr.de; Tue, 21 Jul 2020 09:48:39 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:55248)
+	id 1jxseP-00016k-GU
+	for lists+qemu-devel@lfdr.de; Tue, 21 Jul 2020 09:49:45 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:55276)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <stefanha@redhat.com>)
- id 1jxscT-0007Zn-Ka
- for qemu-devel@nongnu.org; Tue, 21 Jul 2020 09:47:45 -0400
-Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:27517
+ id 1jxscl-00083B-De
+ for qemu-devel@nongnu.org; Tue, 21 Jul 2020 09:48:03 -0400
+Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:47530
  helo=us-smtp-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
  (Exim 4.90_1) (envelope-from <stefanha@redhat.com>)
- id 1jxscR-0006Ra-KG
- for qemu-devel@nongnu.org; Tue, 21 Jul 2020 09:47:45 -0400
+ id 1jxscj-0006TB-IY
+ for qemu-devel@nongnu.org; Tue, 21 Jul 2020 09:48:03 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1595339262;
+ s=mimecast20190719; t=1595339280;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  in-reply-to:in-reply-to:references:references;
- bh=iWhzcSbW9El81og4hP+zMbi9USsPc6xITJmKjVFqEhQ=;
- b=Zu+5/KDCi/MgyCsd8abxzOGWdjWxaIodgqlTEo9Uc2ds58RtnD+Pdcj7NmALy5/+goHfvu
- Djg5rLjTQrwpnPkLktn2Ay11FZg48dtp4MKJJLZdh7uJTFkW0e2ZnYbfz5pzLePY04l4RJ
- Cs+aK3J4u78tejyTwJAHJCHt4Otd1G0=
+ bh=le0uRquTl/Fr9x8i/kta/jkFdE5PbS3wb/9B/eyXOIY=;
+ b=IzEG8GxlKPzio9tbKYxwcYujmPZLpgYXOWu+9k0DU17iS4NC/ulFs2HV7AUwP9Lg17gOeL
+ tKbxwym6FwqePhEvkhyeIP3HMwaatS3ZiRbWlRvC/S59b2fdiB1g/UNFULLtp9S4TiIEB9
+ 3YW+eVA/ffOcxf+U3S2nKXf4QTU4gk4=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-373-LSh3V5INPLuFcAmVa_H7zQ-1; Tue, 21 Jul 2020 09:47:37 -0400
-X-MC-Unique: LSh3V5INPLuFcAmVa_H7zQ-1
-Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
- [10.5.11.22])
+ us-mta-219-A1ZQ6172MTyzNRCS6Z750w-1; Tue, 21 Jul 2020 09:47:54 -0400
+X-MC-Unique: A1ZQ6172MTyzNRCS6Z750w-1
+Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
+ [10.5.11.15])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id DBA6480046B;
- Tue, 21 Jul 2020 13:47:35 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id C2042189CEE3;
+ Tue, 21 Jul 2020 13:47:53 +0000 (UTC)
 Received: from localhost (ovpn-114-133.ams2.redhat.com [10.36.114.133])
- by smtp.corp.redhat.com (Postfix) with ESMTP id DBB0010023A7;
- Tue, 21 Jul 2020 13:47:29 +0000 (UTC)
-Date: Tue, 21 Jul 2020 14:47:29 +0100
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 0791372682;
+ Tue, 21 Jul 2020 13:47:47 +0000 (UTC)
+Date: Tue, 21 Jul 2020 14:47:46 +0100
 From: Stefan Hajnoczi <stefanha@redhat.com>
 To: Marc Hartmayer <mhartmay@linux.ibm.com>
-Subject: Re: [RFC v2 3/3] libvhost-user: fence legacy virtio devices
-Message-ID: <20200721134729.GA186372@stefanha-x1.localdomain>
+Subject: Re: [RFC v2 1/3] virtio: add vhost-user-fs-ccw device
+Message-ID: <20200721134746.GB186372@stefanha-x1.localdomain>
 References: <20200717092929.19453-1-mhartmay@linux.ibm.com>
- <20200717092929.19453-4-mhartmay@linux.ibm.com>
+ <20200717092929.19453-2-mhartmay@linux.ibm.com>
 MIME-Version: 1.0
-In-Reply-To: <20200717092929.19453-4-mhartmay@linux.ibm.com>
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
+In-Reply-To: <20200717092929.19453-2-mhartmay@linux.ibm.com>
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature"; boundary="AqsLC8rIMeq19msA"
+ protocol="application/pgp-signature"; boundary="VrqPEDrXMn8OVzN4"
 Content-Disposition: inline
 Received-SPF: pass client-ip=207.211.31.120; envelope-from=stefanha@redhat.com;
  helo=us-smtp-1.mimecast.com
@@ -88,63 +88,40 @@ Cc: Daniel =?iso-8859-1?Q?P=2E_Berrang=E9?= <berrange@redhat.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
---AqsLC8rIMeq19msA
+--VrqPEDrXMn8OVzN4
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 Content-Transfer-Encoding: quoted-printable
 
-On Fri, Jul 17, 2020 at 11:29:29AM +0200, Marc Hartmayer wrote:
-> libvhost-user has no support for legacy virtio devices therefore
-> let's fence them.
+On Fri, Jul 17, 2020 at 11:29:27AM +0200, Marc Hartmayer wrote:
+> From: Halil Pasic <pasic@linux.ibm.com>
 >=20
-> Signed-off-by: Marc Hartmayer <mhartmay@linux.ibm.com>
+> Wire up the CCW device for vhost-user-fs.
+>=20
+> Signed-off-by: Halil Pasic <pasic@linux.ibm.com>
 > ---
->  contrib/libvhost-user/libvhost-access.h | 10 ++++++++++
->  contrib/libvhost-user/libvhost-user.c   |  6 ++++++
->  2 files changed, 16 insertions(+)
->=20
-> diff --git a/contrib/libvhost-user/libvhost-access.h b/contrib/libvhost-u=
-ser/libvhost-access.h
-> index 868ba3e7bfb8..aa505ea1ec02 100644
-> --- a/contrib/libvhost-user/libvhost-access.h
-> +++ b/contrib/libvhost-user/libvhost-access.h
-> @@ -1,11 +1,21 @@
->  #ifndef LIBVHOST_ACCESS_H
-> =20
-> +#include <assert.h>
-> +
->  #include "qemu/bswap.h"
-> =20
->  #include "libvhost-user.h"
-> =20
-> +static inline bool vu_has_feature(VuDev *dev, unsigned int fbit);
-> +
->  static inline bool vu_access_is_big_endian(VuDev *dev)
->  {
-> +    /*
-> +     * TODO: can probably be removed as the fencing is already done in
-> +     * `vu_set_features_exec`
-> +     */
-> +    assert(vu_has_feature(dev, VIRTIO_F_VERSION_1));
+>  hw/s390x/Makefile.objs       |  1 +
+>  hw/s390x/vhost-user-fs-ccw.c | 73 ++++++++++++++++++++++++++++++++++++
+>  2 files changed, 74 insertions(+)
+>  create mode 100644 hw/s390x/vhost-user-fs-ccw.c
 
-Great, please drop it since the memory accesses are called from
-performance-critical code paths.
+Reviewed-by: Stefan Hajnoczi <stefanha@redhat.com>
 
---AqsLC8rIMeq19msA
+--VrqPEDrXMn8OVzN4
 Content-Type: application/pgp-signature; name="signature.asc"
 
 -----BEGIN PGP SIGNATURE-----
 
-iQEzBAEBCAAdFiEEhpWov9P5fNqsNXdanKSrs4Grc8gFAl8W8fAACgkQnKSrs4Gr
-c8iLvwf/eeG6JH1j0+NvPbud0pUW6MvNy/tUc9XTUDKgmuzEyszRgmmEwxTdJ38G
-p0r8pISDhL1G2hQOa4lrCoRGEnyvTizKLRp5EDTZ1K/EDjwkXlnD5dACFBtUKZ4r
-qiEDBfAp6CWxGAFRusQb+gSTkSDbm8fnxuxMWD4th7K20+tY+Iaarza/JGYTOvwU
-NKx/wwrj+nSetsXxfI4Y/SHku3RiqLoY1S9piMUPs+kvH8zLcXfSi3KdJvXxbvPo
-96dJIeeIJ1hDPARtoCQpwPlhDRGjA7BQ6XQsj+R4tkaPgyLa19uZYRMUtPam7sdo
-k08YtvIh8iYVBDfvYSrlASsXvnGmCw==
-=MCCj
+iQEzBAEBCAAdFiEEhpWov9P5fNqsNXdanKSrs4Grc8gFAl8W8gIACgkQnKSrs4Gr
+c8jL2gf+PmQ2jBYlD9USTtEbRh69VQFVAFJ30j6fo8qzI0nSuu1WWCYyUMv2af9l
+Zrx43LomYZwIdMcbjltZ6nbfrZ8mq5UV1EHjtQeOBbKCSQaHgFYZ6JGv9jAaBlAt
+pL5yzx5ZvbrwQvNqzuUk+FwjXTbd0OM7YPxoNDTFRW9ZllNu+RZXg8Sx8ZlW42Bx
+Ga62Rp0oQUKW8Pz1PHfQihMyovFWsgxc06b26De7dzUIDrdQ4xYlLG0J2tKBWnvI
++nhqW8UouA5UEf5VV0lLFB8klNgqPNqoR+vVoFMoI0M2oyAFRw8bWudQrC+ryb2W
+4pUf17A7oZiXiQd3ImNFbirpkGVpjw==
+=fjbC
 -----END PGP SIGNATURE-----
 
---AqsLC8rIMeq19msA--
+--VrqPEDrXMn8OVzN4--
 
 
