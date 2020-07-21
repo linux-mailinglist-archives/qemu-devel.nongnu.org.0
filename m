@@ -2,66 +2,66 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id EDFEB22803F
-	for <lists+qemu-devel@lfdr.de>; Tue, 21 Jul 2020 14:47:03 +0200 (CEST)
-Received: from localhost ([::1]:60816 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 61355228043
+	for <lists+qemu-devel@lfdr.de>; Tue, 21 Jul 2020 14:48:31 +0200 (CEST)
+Received: from localhost ([::1]:37250 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jxrfi-00007V-Q8
-	for lists+qemu-devel@lfdr.de; Tue, 21 Jul 2020 08:47:02 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:35300)
+	id 1jxrh8-00022E-Fy
+	for lists+qemu-devel@lfdr.de; Tue, 21 Jul 2020 08:48:30 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:35912)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1jxrbm-0004ES-LI; Tue, 21 Jul 2020 08:42:58 -0400
-Received: from mail-wr1-x441.google.com ([2a00:1450:4864:20::441]:33462)
+ id 1jxre7-0007So-CB; Tue, 21 Jul 2020 08:45:23 -0400
+Received: from mail-wr1-x435.google.com ([2a00:1450:4864:20::435]:44351)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1jxrbk-0005B4-Ur; Tue, 21 Jul 2020 08:42:58 -0400
-Received: by mail-wr1-x441.google.com with SMTP id f18so21109351wrs.0;
- Tue, 21 Jul 2020 05:42:54 -0700 (PDT)
+ id 1jxre5-0005Nk-Hu; Tue, 21 Jul 2020 08:45:22 -0400
+Received: by mail-wr1-x435.google.com with SMTP id b6so21046002wrs.11;
+ Tue, 21 Jul 2020 05:45:20 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=sender:from:to:cc:subject:date:message-id:mime-version
  :content-transfer-encoding;
- bh=P65Bv8Dg7uT0DN6qbTNjhnvSKqzYAGqpE5gNoNpHkJo=;
- b=P3jL4mSSu2Usjqpi2o65sEQgOmd1L9tnpdf7ArJX9yZ4/r8/uFr9vxaD/zQKSDGzu3
- JKP/XRIyjZtx8Hd4zMxSn8VjCX1F1GXtI+K66GX6JgpUCGLmU69J5FfCYy7NSAmXruRH
- i/zl2gC/lFn709k+jccnyfFGAUFLdFgtPwHKN/zw4Bs1OgN0c7vMgxjoZKcMhDLKwmf8
- YLjbUiR704TJmMtVHTzaa2IgBimnNXRRsrqqe0V2H4C18oU9SCz1w6bsVZdZO/Vtc+l0
- 6cCjOiHPgXxw/fU9db57ifPFpGz1CCF5AbSA11C0A/2R+oVdOI59RKNbdF4HyLXc8Fh8
- jYGw==
+ bh=WTGLuOqhqj69Pag6VxaIwWSrmHIZ+AovhPPzMX0ni9g=;
+ b=m2gka5dA1Mf7rnIYYF8c32Qxv3RtmbhiddSYDn03ji1AQU3cnbZEAPq3wWVsg+6JWR
+ NjRyCfYnt1O5xTfiUh5gE8SL26WNzlLEGxSb/Vg3MhwkDFznlC/DHGOjxj1pewYs8erq
+ Aj2spwDXuOOINKUv9KfUqGpej1oR5VJlWrCPJFy5SazLITBuVkdu/6XkV8zQ1AU9RV28
+ wmQnRoZRnQH/mej4pP1Fl+7Dsr6UuqeiJdY1QyRZ2zlEXKWdUHc19D+GR4YJR+5yP4FH
+ VVEaWCoLvM2hmpTC/pi3GHDjwgn1XGaxQTEGkrIrY6k5IZx1DMlBc2KHHrmE0YNJRF29
+ QyIA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
  :mime-version:content-transfer-encoding;
- bh=P65Bv8Dg7uT0DN6qbTNjhnvSKqzYAGqpE5gNoNpHkJo=;
- b=VXu4T0GvCgWgp7ju7+gtQraexpaF+GVkjPrI2gej9ZLIRovnJxLgHf+6dougrYydjI
- KClR3B42nydGp/IDrD2cChCafaNvBCJsZkd8DX15F+fDUJGt5wADkEaweRQ0j4FGcApn
- wpw8rrIcv6XcJv+draBOssmT8ZpoGXCwmFfMKGycOp8eCOwtl4GFEWpndQ7n0JfbI7Zv
- KnmEWvtByUGqk2bXBbwLYGkAxi2a3nFc2mGszkhD2GKSXr3BdLexksKfoOIO0dN7T0qf
- Fqvq2pPk9Gaz8g84VxzD9B27VCdU+wtzKKWcyR1q/I6xl/VqxccI1X6hsYgVafD2OGYr
- V4/Q==
-X-Gm-Message-State: AOAM533zV7hxswfAWT82LY/itqb7RR2jcqf+b/axoA0xnqsoEDvGLG8Y
- husJzWTiU4Ge8Tf9zb8JZrxeI4qHU8I=
-X-Google-Smtp-Source: ABdhPJz92YSjDlHGp4WNvXx5UtPyQ37A4OxAJfkjFN0OZRjOLjpgAjA4PSMKnshypn+ZHagUF64z8w==
-X-Received: by 2002:a5d:440e:: with SMTP id z14mr8572381wrq.422.1595335373540; 
- Tue, 21 Jul 2020 05:42:53 -0700 (PDT)
+ bh=WTGLuOqhqj69Pag6VxaIwWSrmHIZ+AovhPPzMX0ni9g=;
+ b=WDr/Hfz1wUCHaDXRVoTnkPtV+heePmM0iUTSK/KuoW/BsvfFK9bFWiv2ueXNqnNq5A
+ mnI+Uts/w9J2fFt5zD7i+sHnqKNCHZZreOxw9SEL2+E27RFtY0shDChpaG4bLhO8XhiA
+ zLH7krGA7k+v6FIyAL3eHe+r5Ux2+bNDVaZI9kZNJwAcsGbyx8pu/8JM95QSPm5tLzmV
+ cGO+AsDnfyygfnSw+C4C74avOO8KTqWPO4xk7Vj4yeHOIYZ1LHrGFy4IMUuZpotuPaxx
+ FQ/qRka77iAqhiek7IQKRacJZaW+UqLBiq2HvDnKwPtGqWHwLv0iRbp86vj7Ovwp1MH2
+ J/DQ==
+X-Gm-Message-State: AOAM532ohsA61PjmQH6YoqsA8BiI6nsUaEvm7ydtInImcQfhhY+GvhSp
+ gsBdeCkhjfooaRh+JbToeMPdTWyagL8=
+X-Google-Smtp-Source: ABdhPJyeSv9jiDx3n+STX1b/clvP2PkK7WDE0QTluuDQ1dAwVE1wW4M8jyJVT7WhTlAhY0iWrU8xTQ==
+X-Received: by 2002:adf:ecc8:: with SMTP id s8mr27197060wro.317.1595335518933; 
+ Tue, 21 Jul 2020 05:45:18 -0700 (PDT)
 Received: from localhost.localdomain
  (138.red-83-57-170.dynamicip.rima-tde.net. [83.57.170.138])
- by smtp.gmail.com with ESMTPSA id q1sm37018777wro.82.2020.07.21.05.42.51
+ by smtp.gmail.com with ESMTPSA id u65sm3499302wmg.5.2020.07.21.05.45.17
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 21 Jul 2020 05:42:51 -0700 (PDT)
+ Tue, 21 Jul 2020 05:45:17 -0700 (PDT)
 From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
 To: qemu-devel@nongnu.org
-Subject: [PATCH-for-5.1 v3] hw/misc/aspeed_sdmc: Fix incorrect memory size
-Date: Tue, 21 Jul 2020 14:42:50 +0200
-Message-Id: <20200721124250.8601-1-f4bug@amsat.org>
+Subject: [PATCH-for-5.1 v2] hw/isa/isa-superio: Fix IDE controller realization
+Date: Tue, 21 Jul 2020 14:45:16 +0200
+Message-Id: <20200721124516.9602-1-f4bug@amsat.org>
 X-Mailer: git-send-email 2.21.3
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::441;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wr1-x441.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::435;
+ envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wr1-x435.google.com
 X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
  That's all we know.
 X-Spam_score_int: 0
@@ -83,79 +83,47 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Maydell <peter.maydell@linaro.org>, Andrew Jeffery <andrew@aj.id.au>,
+Cc: qemu-trivial@nongnu.org, Paolo Bonzini <pbonzini@redhat.com>,
  =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>,
- qemu-trivial@nongnu.org, qemu-arm@nongnu.org,
- =?UTF-8?q?C=C3=A9dric=20Le=20Goater?= <clg@kaod.org>,
- Joel Stanley <joel@jms.id.au>
+ Markus Armbruster <armbru@redhat.com>, "Michael S. Tsirkin" <mst@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The SDRAM Memory Controller has a 32-bit address bus, thus
-supports up to 4 GiB of DRAM. There is a signed to unsigned
-conversion error with the AST2600 maximum memory size:
+When realizing a Super I/O with IDE controller [*], we get:
 
-  (uint64_t)(2048 << 20) = (uint64_t)(-2147483648)
-                         = 0xffffffff40000000
-                         = 16 EiB - 2 GiB
-
-Fix by using the IEC suffixes which are usually safer, and add
-an assertion check to verify the memory is valid. This would have
-caught this bug:
-
-  $ qemu-system-arm -M ast2600-evb
-  qemu-system-arm: hw/misc/aspeed_sdmc.c:258: aspeed_sdmc_realize: Assertion `asc->max_ram_size < 4 * GiB' failed.
+  qom/object.c:1684: object_property_try_add_child: Assertion `!child->parent' failed.
   Aborted (core dumped)
 
-Fixes: 1550d72679 ("aspeed/sdmc: Add AST2600 support")
-Reviewed-by: Cédric Le Goater <clg@kaod.org>
+This is because the device is already realized when we try to
+add the QOM property to the parent. Fix by realizing *after*
+adding the QOM relationship.
+
+[*] Set ISASuperIOClass::ide.count = N with N not zero
+    (no such thing currently exists; the bug is latent)
+
+Fixes: e508430619 ("hw/isa/superio: Make the components QOM children")
+Reviewed-by: Markus Armbruster <armbru@redhat.com>
 Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
 ---
-v2: Assert (Cédric)
-v3: Fixed typo (Markus)
+v2: Reword bug is latent (Markus)
 ---
- hw/misc/aspeed_sdmc.c | 7 ++++---
- 1 file changed, 4 insertions(+), 3 deletions(-)
+ hw/isa/isa-superio.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/hw/misc/aspeed_sdmc.c b/hw/misc/aspeed_sdmc.c
-index 0737d8de81..855848b7d2 100644
---- a/hw/misc/aspeed_sdmc.c
-+++ b/hw/misc/aspeed_sdmc.c
-@@ -255,6 +255,7 @@ static void aspeed_sdmc_realize(DeviceState *dev, Error **errp)
-     AspeedSDMCState *s = ASPEED_SDMC(dev);
-     AspeedSDMCClass *asc = ASPEED_SDMC_GET_CLASS(s);
- 
-+    assert(asc->max_ram_size < 4 * GiB); /* 32-bit address bus */
-     s->max_ram_size = asc->max_ram_size;
- 
-     memory_region_init_io(&s->iomem, OBJECT(s), &aspeed_sdmc_ops, s,
-@@ -341,7 +342,7 @@ static void aspeed_2400_sdmc_class_init(ObjectClass *klass, void *data)
-     AspeedSDMCClass *asc = ASPEED_SDMC_CLASS(klass);
- 
-     dc->desc = "ASPEED 2400 SDRAM Memory Controller";
--    asc->max_ram_size = 512 << 20;
-+    asc->max_ram_size = 512 * MiB;
-     asc->compute_conf = aspeed_2400_sdmc_compute_conf;
-     asc->write = aspeed_2400_sdmc_write;
-     asc->valid_ram_sizes = aspeed_2400_ram_sizes;
-@@ -408,7 +409,7 @@ static void aspeed_2500_sdmc_class_init(ObjectClass *klass, void *data)
-     AspeedSDMCClass *asc = ASPEED_SDMC_CLASS(klass);
- 
-     dc->desc = "ASPEED 2500 SDRAM Memory Controller";
--    asc->max_ram_size = 1024 << 20;
-+    asc->max_ram_size = 1 * GiB;
-     asc->compute_conf = aspeed_2500_sdmc_compute_conf;
-     asc->write = aspeed_2500_sdmc_write;
-     asc->valid_ram_sizes = aspeed_2500_ram_sizes;
-@@ -485,7 +486,7 @@ static void aspeed_2600_sdmc_class_init(ObjectClass *klass, void *data)
-     AspeedSDMCClass *asc = ASPEED_SDMC_CLASS(klass);
- 
-     dc->desc = "ASPEED 2600 SDRAM Memory Controller";
--    asc->max_ram_size = 2048 << 20;
-+    asc->max_ram_size = 2 * GiB;
-     asc->compute_conf = aspeed_2600_sdmc_compute_conf;
-     asc->write = aspeed_2600_sdmc_write;
-     asc->valid_ram_sizes = aspeed_2600_ram_sizes;
+diff --git a/hw/isa/isa-superio.c b/hw/isa/isa-superio.c
+index e2e47d8fd9..179c185695 100644
+--- a/hw/isa/isa-superio.c
++++ b/hw/isa/isa-superio.c
+@@ -158,8 +158,8 @@ static void isa_superio_realize(DeviceState *dev, Error **errp)
+         if (k->ide.get_irq) {
+             qdev_prop_set_uint32(d, "irq", k->ide.get_irq(sio, 0));
+         }
+-        isa_realize_and_unref(isa, bus, &error_fatal);
+         object_property_add_child(OBJECT(sio), "isa-ide", OBJECT(isa));
++        isa_realize_and_unref(isa, bus, &error_fatal);
+         sio->ide = isa;
+         trace_superio_create_ide(0,
+                                  k->ide.get_iobase ?
 -- 
 2.21.3
 
