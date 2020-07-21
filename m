@@ -2,88 +2,109 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6CCF22284C3
-	for <lists+qemu-devel@lfdr.de>; Tue, 21 Jul 2020 18:05:36 +0200 (CEST)
-Received: from localhost ([::1]:34826 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 908732284DA
+	for <lists+qemu-devel@lfdr.de>; Tue, 21 Jul 2020 18:07:33 +0200 (CEST)
+Received: from localhost ([::1]:39730 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jxulr-0000VA-0l
-	for lists+qemu-devel@lfdr.de; Tue, 21 Jul 2020 12:05:35 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:33582)
+	id 1jxunk-0002e2-MN
+	for lists+qemu-devel@lfdr.de; Tue, 21 Jul 2020 12:07:32 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:33750)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <hi@alyssa.is>) id 1jxujC-0006pr-4s
- for qemu-devel@nongnu.org; Tue, 21 Jul 2020 12:02:51 -0400
-Received: from out3-smtp.messagingengine.com ([66.111.4.27]:40125)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <hi@alyssa.is>) id 1jxuj4-0003Uz-PJ
- for qemu-devel@nongnu.org; Tue, 21 Jul 2020 12:02:49 -0400
-Received: from compute2.internal (compute2.nyi.internal [10.202.2.42])
- by mailout.nyi.internal (Postfix) with ESMTP id 7B5135C00EB;
- Tue, 21 Jul 2020 12:02:41 -0400 (EDT)
-Received: from mailfrontend2 ([10.202.2.163])
- by compute2.internal (MEProxy); Tue, 21 Jul 2020 12:02:41 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=alyssa.is; h=
- from:to:cc:subject:in-reply-to:references:date:message-id
- :mime-version:content-type; s=fm3; bh=0w1LD0KFP5BTQIS+DKFw60Ddzd
- qtjnSiVyCQNJt8I88=; b=GnXJkpFR9H3L+SLpkGzVT5mIHthLgwQ4lslwUrA0dQ
- Fy2qww2kzHGudduodhA/c+e7fKmRbYqKFQI3BRu9KQfgDuAIRTtesVKjKBbYno5v
- 0d0jmyXK54J/MI4tyc+L4hwcGLm41F4DTIqe0RXMfHRlWYZobKhTEJ2vFznWiQtN
- SQeiq32EOooz8qCdedn21gHkR7kw6IeuEyiezdR+ONA5hRrD+O36OojvxDU5XAhV
- 1J6yPdHPd+FlKoqGiAjxVCm4i03hjEdTdfOxTCttn72C/bfaX+J8ODEcN7oA5nB2
- biqOffbZHZ7ooVvdd0hhy7VKOvpkC0qZF4Z7OTPXcyrg==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
- messagingengine.com; h=cc:content-type:date:from:in-reply-to
- :message-id:mime-version:references:subject:to:x-me-proxy
- :x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm3; bh=0w1LD0
- KFP5BTQIS+DKFw60DdzdqtjnSiVyCQNJt8I88=; b=R3Tg4X1Hl/pdhup3QDD1t7
- VTLybZYQk+NLEeluokdMa7j8aT7cjsCmfh878N2l3CimsZLRK698j0EerLEui2Vc
- B4cC+fSrvW6oUUeiJ6MTbKomgarnOKgjk1T87skalvf79pWcSUDDhf71kz5cdkBM
- i77QVbisyK8nuE62wYWC22ZoItJEaFgGJp838Q3+xLWsDuTfv0a0r3VIhGndjydm
- +zICluzt3Qopc1JnvS9eqJO8574IZ+I1yCqY1hE40PiDepghnRir9kV3XcI58K1j
- dMY63k6FAYjf5ejgGPq79N8XvHijAMJTmELLqL7SWpf0klBixuyA1IvatseuoyDA
- ==
-X-ME-Sender: <xms:oBEXX0pDmPwXfkexuTNHEJXtoadONnSFw7gAMC5zkpIaAwtlt1QUGA>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeduiedrgeeigdelvdcutefuodetggdotefrodftvf
- curfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfghnecu
- uegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenog
- fuuhhsphgvtghtffhomhgrihhnucdlgeelmdenucfjughrpefhvffujghffffkgggtseht
- tdertddttddtnecuhfhrohhmpeetlhihshhsrgcutfhoshhsuceohhhisegrlhihshhsrg
- drihhsqeenucggtffrrghtthgvrhhnpeehgeffhfduhfejheffveelkeettedtleduueff
- ieejtdeuhffhudejffehgeeivdenucffohhmrghinhepqhgvmhhurdhorhhgpdhgihhthh
- husgdrihhopdhkvghrnhgvlhdrohhrghenucfkphepgeeirdektddrudegvddrkeefnecu
- vehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmrghilhhfrhhomhephhhisegrlh
- ihshhsrgdrihhs
-X-ME-Proxy: <xmx:oBEXX6o-d9UX_4c46exreZT-MMscm5IqFC0X7TwNUoJTSvDEcADgTg>
- <xmx:oBEXX5PCKi5EwEoOY_JI0gcPc0UdRN9mcoDTBjfZbGtdHs6mZa_rNA>
- <xmx:oBEXX75WbDG7lGvFNZzf5W9jPWYZ50API-V1aFYYGjNBWGnHAgdR1A>
- <xmx:oREXX8XcoKicmXnhfiRYk-yRCC9iWSRV6s5HEjedpGia6baPUGw61A>
-Received: from x220.qyliss.net (p2e508e53.dip0.t-ipconnect.de [46.80.142.83])
- by mail.messagingengine.com (Postfix) with ESMTPA id 2A523306005F;
- Tue, 21 Jul 2020 12:02:40 -0400 (EDT)
-Received: by x220.qyliss.net (Postfix, from userid 1000)
- id 9541D2E6; Tue, 21 Jul 2020 16:02:38 +0000 (UTC)
-From: Alyssa Ross <hi@alyssa.is>
-To: Stefan Hajnoczi <stefanha@redhat.com>
-Subject: Re: Testing the virtio-vhost-user QEMU patch
-In-Reply-To: <20200721083048.GB144170@stefanha-x1.localdomain>
-References: <87h7u1s5k1.fsf@alyssa.is>
- <20200721083048.GB144170@stefanha-x1.localdomain>
-Date: Tue, 21 Jul 2020 16:02:38 +0000
-Message-ID: <87d04osvoh.fsf@alyssa.is>
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1jxujS-00074Z-3v
+ for qemu-devel@nongnu.org; Tue, 21 Jul 2020 12:03:07 -0400
+Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:52625
+ helo=us-smtp-1.mimecast.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1jxujP-0003XW-II
+ for qemu-devel@nongnu.org; Tue, 21 Jul 2020 12:03:05 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1595347381;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:autocrypt:autocrypt;
+ bh=qAT1tq1gzwDKvIvzjVmUSYExSiE1pM2yRC9ZlJgB6W0=;
+ b=EW+riJqDOeC83Kuzlxex6WU/aK9xIYFq51C3y+IGAekFlinVI/S9+6seI7Pvvj0cDEbGIC
+ FocjsdSdKjwkAROJ59oBillG0O1+9MVKpE9Od3zmrSruAvnzkSQHP1pmeilc1LX2UUE5MA
+ Dqva+5n6w78CsnrNbDRHRAKhuZOodi4=
+Received: from mail-wm1-f71.google.com (mail-wm1-f71.google.com
+ [209.85.128.71]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-201-Wi4CKkGJNfCCFi9_U6WqQQ-1; Tue, 21 Jul 2020 12:02:59 -0400
+X-MC-Unique: Wi4CKkGJNfCCFi9_U6WqQQ-1
+Received: by mail-wm1-f71.google.com with SMTP id t63so1408596wmf.6
+ for <qemu-devel@nongnu.org>; Tue, 21 Jul 2020 09:02:59 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:to:cc:from:subject:autocrypt:message-id:date
+ :user-agent:mime-version:content-language:content-transfer-encoding;
+ bh=qAT1tq1gzwDKvIvzjVmUSYExSiE1pM2yRC9ZlJgB6W0=;
+ b=en2RGXBLCNr1QCTdjqB4p1RVA2rD1PiAbf2tn3COmPcfOqxUZzEqGnKF7VwlqBDvix
+ Bd5ifUamwoMRB9vsmmc6c/VVHlOWHEWsF5Wo60Bw0VG1i5G/o+BZ7ZEjB41zsg0nDD9+
+ vdkhOSlhk/ukhAcFKzZ2AiJd4fDMMZEIr8OK81lVyeOSEied5xUpXZa2kMS0Jx230rZe
+ nztCMhrtMDqx4Ql0+DwSfd5o4S3kTBZhgV2mEYdJqfGPES8qyxJHeB+nau0kUFH1hR15
+ SKDmFNCWmCeqWsIm9AYdYg2cWT2XoswXuKMgIqhrF8JMInGuNfzSbK1r9FTzoh45/IYz
+ 4RaA==
+X-Gm-Message-State: AOAM530QAhvzpRQajm8smf9y6usB1jTOCzzDnrGsjn72FwDo06GRHSuL
+ bGyDGREfAait4XIWvkCQkOXP7tVOfzr5mZxDVroDujRB62gcj6wNcWYTwcAnyIldLktqX5R2MLR
+ fCeDTd/mZgLNkoT0=
+X-Received: by 2002:a5d:608f:: with SMTP id w15mr25957713wrt.136.1595347378705; 
+ Tue, 21 Jul 2020 09:02:58 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJzfeiK8exlyfDJFKXk1Y+ghHDJcQJ7ib8ZcLJyiHePTqbXSdAz3IX7gwuaXKKn5L64TbMhJ6Q==
+X-Received: by 2002:a5d:608f:: with SMTP id w15mr25957702wrt.136.1595347378520; 
+ Tue, 21 Jul 2020 09:02:58 -0700 (PDT)
+Received: from [192.168.1.36] (138.red-83-57-170.dynamicip.rima-tde.net.
+ [83.57.170.138])
+ by smtp.gmail.com with ESMTPSA id x13sm2475454wro.64.2020.07.21.09.02.57
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Tue, 21 Jul 2020 09:02:57 -0700 (PDT)
+To: Stefan Berger <stefanb@linux.ibm.com>, qemu-devel
+ <qemu-devel@nongnu.org>, Eric Auger <eric.auger@redhat.com>
+From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
+Subject: What is TYPE_TPM_TIS_ISA? (Not an ISA Device)
+Autocrypt: addr=philmd@redhat.com; keydata=
+ mQINBDXML8YBEADXCtUkDBKQvNsQA7sDpw6YLE/1tKHwm24A1au9Hfy/OFmkpzo+MD+dYc+7
+ bvnqWAeGweq2SDq8zbzFZ1gJBd6+e5v1a/UrTxvwBk51yEkadrpRbi+r2bDpTJwXc/uEtYAB
+ GvsTZMtiQVA4kRID1KCdgLa3zztPLCj5H1VZhqZsiGvXa/nMIlhvacRXdbgllPPJ72cLUkXf
+ z1Zu4AkEKpccZaJspmLWGSzGu6UTZ7UfVeR2Hcc2KI9oZB1qthmZ1+PZyGZ/Dy+z+zklC0xl
+ XIpQPmnfy9+/1hj1LzJ+pe3HzEodtlVA+rdttSvA6nmHKIt8Ul6b/h1DFTmUT1lN1WbAGxmg
+ CH1O26cz5nTrzdjoqC/b8PpZiT0kO5MKKgiu5S4PRIxW2+RA4H9nq7nztNZ1Y39bDpzwE5Sp
+ bDHzd5owmLxMLZAINtCtQuRbSOcMjZlg4zohA9TQP9krGIk+qTR+H4CV22sWldSkVtsoTaA2
+ qNeSJhfHQY0TyQvFbqRsSNIe2gTDzzEQ8itsmdHHE/yzhcCVvlUzXhAT6pIN0OT+cdsTTfif
+ MIcDboys92auTuJ7U+4jWF1+WUaJ8gDL69ThAsu7mGDBbm80P3vvUZ4fQM14NkxOnuGRrJxO
+ qjWNJ2ZUxgyHAh5TCxMLKWZoL5hpnvx3dF3Ti9HW2dsUUWICSQARAQABtDJQaGlsaXBwZSBN
+ YXRoaWV1LURhdWTDqSAoUGhpbCkgPHBoaWxtZEByZWRoYXQuY29tPokCVQQTAQgAPwIbDwYL
+ CQgHAwIGFQgCCQoLBBYCAwECHgECF4AWIQSJweePYB7obIZ0lcuio/1u3q3A3gUCXsfWwAUJ
+ KtymWgAKCRCio/1u3q3A3ircD/9Vjh3aFNJ3uF3hddeoFg1H038wZr/xi8/rX27M1Vj2j9VH
+ 0B8Olp4KUQw/hyO6kUxqkoojmzRpmzvlpZ0cUiZJo2bQIWnvScyHxFCv33kHe+YEIqoJlaQc
+ JfKYlbCoubz+02E2A6bFD9+BvCY0LBbEj5POwyKGiDMjHKCGuzSuDRbCn0Mz4kCa7nFMF5Jv
+ piC+JemRdiBd6102ThqgIsyGEBXuf1sy0QIVyXgaqr9O2b/0VoXpQId7yY7OJuYYxs7kQoXI
+ 6WzSMpmuXGkmfxOgbc/L6YbzB0JOriX0iRClxu4dEUg8Bs2pNnr6huY2Ft+qb41RzCJvvMyu
+ gS32LfN0bTZ6Qm2A8ayMtUQgnwZDSO23OKgQWZVglGliY3ezHZ6lVwC24Vjkmq/2yBSLakZE
+ 6DZUjZzCW1nvtRK05ebyK6tofRsx8xB8pL/kcBb9nCuh70aLR+5cmE41X4O+MVJbwfP5s/RW
+ 9BFSL3qgXuXso/3XuWTQjJJGgKhB6xXjMmb1J4q/h5IuVV4juv1Fem9sfmyrh+Wi5V1IzKI7
+ RPJ3KVb937eBgSENk53P0gUorwzUcO+ASEo3Z1cBKkJSPigDbeEjVfXQMzNt0oDRzpQqH2vp
+ apo2jHnidWt8BsckuWZpxcZ9+/9obQ55DyVQHGiTN39hkETy3Emdnz1JVHTU0Q==
+Message-ID: <8f5a171a-59db-f5d1-477c-1ddf7af45da7@redhat.com>
+Date: Tue, 21 Jul 2020 18:02:56 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.5.0
 MIME-Version: 1.0
-Content-Type: text/plain
-Received-SPF: pass client-ip=66.111.4.27; envelope-from=hi@alyssa.is;
- helo=out3-smtp.messagingengine.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/07/21 12:02:41
+Content-Language: en-US
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=207.211.31.120; envelope-from=philmd@redhat.com;
+ helo=us-smtp-1.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/07/21 10:20:34
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
-X-Spam_score_int: -27
-X-Spam_score: -2.8
-X-Spam_bar: --
-X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=-0.01, RCVD_IN_MSPIKE_WL=-0.01,
- SPF_HELO_PASS=-0.001, SPF_PASS=-0.001,
- URIBL_BLOCKED=0.001 autolearn=ham autolearn_force=no
+X-Spam_score_int: -30
+X-Spam_score: -3.1
+X-Spam_bar: ---
+X-Spam_report: (-3.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H4=-0.01, RCVD_IN_MSPIKE_WL=-0.01,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -96,63 +117,39 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Nikos Dragazis <ndragazis@arrikto.com>, qemu-devel@nongnu.org
+Cc: =?UTF-8?Q?Marc-Andr=c3=a9_Lureau?= <marcandre.lureau@redhat.com>,
+ David Safford <safford@us.ibm.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Stefan Hajnoczi <stefanha@redhat.com> writes:
+Hi Stefan,
 
-> On Tue, Jul 21, 2020 at 07:14:38AM +0000, Alyssa Ross wrote:
->> Hi -- I hope it's okay me reaching out like this.
->> 
->> I've been trying to test out the virtio-vhost-user implementation that's
->> been posted to this list a couple of times, but have been unable to get
->> it to boot a kernel following the steps listed either on
->> <https://wiki.qemu.org/Features/VirtioVhostUser> or
->> <https://ndragazis.github.io/dpdk-vhost-vvu-demo.html>.
->> 
->> Specifically, the kernel appears to be unable to write to the
->> virtio-vhost-user device's PCI registers.  I've included the full panic
->> output from the kernel at the end of this message.  The panic is
->> reproducible with two different kernels I tried (with different configs
->> and versions).  I tried both versions of the virtio-vhost-user I was
->> able to find[1][2], and both exhibited the same behaviour.
->> 
->> Is this a known issue?  Am I doing something wrong?
->
-> Hi,
-> Unfortunately I'm not sure what the issue is. This is an early
-> virtio-pci register access before a driver for any specific device type
-> (net, blk, vhost-user, etc) comes into play.
->
-> Did you test the git trees linked below or did you rebase the commits
-> on top of your own QEMU tree?
+I'm trying to understand what is modelling the
+TYPE_TPM_TIS_ISA device.
 
-I tested the git trees.  For your one I had to make a slight
-modification to delete the memfd syscall wrapper in util/memfd.c, since
-it conflicted with the one that is now provided by Glibc.  Nikos's tree
-I used totally unmodified.
+It inherits from TYPE_ISA_DEVICE, so I expected
+to see an ISA device, but then I noticed:
 
-> Is your guest kernel a stock kernel.org/distro kernel or has it been
-> modified (especially with security patches)?
+1/ it doesn't use the ISA I/O space, it directly
+maps the device in the system memory at a fixed
+address that is not addressable by the ISA bus:
 
-I tried a slightly modified Chromium OS kernel (5.4.23), and a stock
-Ubuntu 18.10 kernel (4.15.0).  I think the most "normal" setup I tried
-was building QEMU on Fedora 32, and then attempting to boot a freshly
-installed Ubuntu Server 18.10 VM with
+#define TPM_TIS_ADDR_BASE           0xFED40000
 
-    -chardev socket,id=chardev0,path=vhost-user.sock,server,nowait \
-    -device virtio-vhost-user-pci,chardev=chardev0
+2/ it is not plugged to an ISA BUS (ISABus*)
 
-(The crash was reproducible with the full QEMU command lines in the
-write-ups, but these seemed to be the load-bearing bits.)
+3/ no machine plug it using isa_register_ioport()
+   (it is not registered to the ISA memory space)
 
-> If no one else knows what is wrong here then it will be necessary to
-> check the Intel manuals to figure out the exact meaning of
-> "error_code(0x000b) - reserved bit violation" and why Linux triggers it
-> with "PGD 3b128067 P4D 3b128067 PUD 3b129067 PMD 3b12a067 PTE
-> 8000002000000073".
+4/ the only thing slightly related to ISA is it
+checks the IRQ number is < ISA_NUM_IRQS
 
-Thanks for your insight.  Now I at least have a place to start if nobody
-else knows what's up. :)
+
+So it seems this is a plain SysBusDevice. But then
+there is TYPE_TPM_TIS_SYSBUS... What is the difference?
+
+Thanks,
+
+Phil.
+
 
