@@ -2,70 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 342FC2282F5
-	for <lists+qemu-devel@lfdr.de>; Tue, 21 Jul 2020 16:59:47 +0200 (CEST)
-Received: from localhost ([::1]:35996 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 78389228371
+	for <lists+qemu-devel@lfdr.de>; Tue, 21 Jul 2020 17:19:11 +0200 (CEST)
+Received: from localhost ([::1]:46906 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jxtkA-0002Ax-8W
-	for lists+qemu-devel@lfdr.de; Tue, 21 Jul 2020 10:59:46 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:45190)
+	id 1jxu2w-0000th-GI
+	for lists+qemu-devel@lfdr.de; Tue, 21 Jul 2020 11:19:10 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:50210)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <dgilbert@redhat.com>)
- id 1jxtj7-0001i9-46
- for qemu-devel@nongnu.org; Tue, 21 Jul 2020 10:58:41 -0400
-Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:57216
- helo=us-smtp-1.mimecast.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <dgilbert@redhat.com>)
- id 1jxtj5-0000eH-Gw
- for qemu-devel@nongnu.org; Tue, 21 Jul 2020 10:58:40 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1595343518;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=/urrWh8kmsRnAtvlzIN0fYA06DD+Z0xlQ3Rf671P/Ck=;
- b=TW7y8XRVrz5/PUaR8A4P6JDAVsukZfiQ6pSbT2V/7+zIdch0An3cLp97V+Q++E/ETETksx
- We3aqyAT9COLaqNK5ccDjOVBUX4UR0J3jn2wGp/1dOkny4aTEEtCfYO4Cqq+79diAQ6KvY
- p/WtMSmeu0FCNfgorNpZTWA7AtkVL7Y=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-440-eaZuK8DbNCi_Y66xHHBYCA-1; Tue, 21 Jul 2020 10:58:36 -0400
-X-MC-Unique: eaZuK8DbNCi_Y66xHHBYCA-1
-Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
- [10.5.11.22])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 033FE107ACCA;
- Tue, 21 Jul 2020 14:58:36 +0000 (UTC)
-Received: from work-vm (ovpn-114-151.ams2.redhat.com [10.36.114.151])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 32B5E1001901;
- Tue, 21 Jul 2020 14:58:35 +0000 (UTC)
-Date: Tue, 21 Jul 2020 15:58:32 +0100
-From: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
-To: Peter Maydell <peter.maydell@linaro.org>
-Subject: Re: error reporting from pre_load etc callbacks
-Message-ID: <20200721145832.GC2800@work-vm>
-References: <CAFEAcA_rFLk2Fs1ibHH7YnR38K-nGjKas5SkPP8ReubHfHtvMQ@mail.gmail.com>
+ (Exim 4.90_1) (envelope-from <alistair23@gmail.com>)
+ id 1jxu1Z-0008Gg-MF; Tue, 21 Jul 2020 11:17:45 -0400
+Received: from mail-il1-x143.google.com ([2607:f8b0:4864:20::143]:37497)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <alistair23@gmail.com>)
+ id 1jxu1Y-0004be-6Y; Tue, 21 Jul 2020 11:17:45 -0400
+Received: by mail-il1-x143.google.com with SMTP id r12so16728908ilh.4;
+ Tue, 21 Jul 2020 08:17:43 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=MfWz9fPCOMiUVr2NfsD86HGp8a5prAi545lXtr1QfVY=;
+ b=iFo0RCuJdoRqejre4ePjKtToHOHx60CH5aMynuwRZlE5USPjIjTJXCtOeSKQmy+HI/
+ 7B5GNczqEGg8T4+WngoS6h6TOzeAOxMEoXW7qGIJCY+No/dSF2zZONmW+jfqyBPlom2f
+ JhOuVTwYsD0le+cp8sIiNhKTZq/4JVT2KHSiC5mTy6sDaUVVC/l9R4BYUqvod11vvjQ8
+ +r/5A3adTuwafZmo2P7WmcwZU9vR/wqZ4HnbPvCnNhb+lkVyCW4+4PrHumpNJu+1sp0t
+ ePRV2TiPD+Iy4MoXtO07W/sYryD27PfABlO1xXQDG3TK9joxr4GZXo6jfp2S6leuq0IP
+ rbkA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=MfWz9fPCOMiUVr2NfsD86HGp8a5prAi545lXtr1QfVY=;
+ b=V0tW9eURJB/ohM7VZzLEcXOOXrmdNWpcvtmw0YIsLzHs3xZhUycczmrzXhMeiJbieq
+ EjRcchspkmPlkMCSIpL/hPJiNkrBPzZWG9XbBsun8oTR+atZgFG6vFzzRr8dwvHa+MMe
+ SXXs39u9aJw1LrE8tYkBZbMBsLSdeo5LPXNg6VT8QZ20d5QWTUIN8r3lNv+99fchzYhs
+ jE4AJmFdjA57vVK8cpI+pzb7eqswlCBFK4jz6rHDoO1giLlf/Kh9MDwMzSWeeqa6W4Ee
+ DTyt+WaLLXcSFMTxJZQzcNx7+0LgrLbwreLCUKvPRCwcyvR99e/gM0bRnK9un/BGWtD3
+ 5Xkg==
+X-Gm-Message-State: AOAM532cO0gWGz++2qgW0td+u3bvWMgUpFtrz+xRPrOkQ9HeV+kq7hEQ
+ VfANSzcfxZgBse0XdzuxiSKa9I86cZqu3VgfWAk=
+X-Google-Smtp-Source: ABdhPJzdA+tMauiHbKma/mPvIHDcIBBsREg3DpaWhhkv2EeS792Z5icxm6nPrNpQOtVW+exgyhz5j+lhR2eRk98xBo4=
+X-Received: by 2002:a92:d186:: with SMTP id z6mr30543774ilz.227.1595344662227; 
+ Tue, 21 Jul 2020 08:17:42 -0700 (PDT)
 MIME-Version: 1.0
-In-Reply-To: <CAFEAcA_rFLk2Fs1ibHH7YnR38K-nGjKas5SkPP8ReubHfHtvMQ@mail.gmail.com>
-User-Agent: Mutt/1.14.5 (2020-06-23)
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Received-SPF: pass client-ip=205.139.110.120; envelope-from=dgilbert@redhat.com;
- helo=us-smtp-1.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/07/21 10:58:38
-X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
-X-Spam_score_int: -40
-X-Spam_score: -4.1
-X-Spam_bar: ----
-X-Spam_report: (-4.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-1, SPF_HELO_NONE=0.001,
+References: <20200721133742.2298-1-zhiwei_liu@c-sky.com>
+In-Reply-To: <20200721133742.2298-1-zhiwei_liu@c-sky.com>
+From: Alistair Francis <alistair23@gmail.com>
+Date: Tue, 21 Jul 2020 08:07:36 -0700
+Message-ID: <CAKmqyKMPrwkxhXgfWqEofGUdKTJ3jAi7hQ7h6hEP-zFDN3Yt9w@mail.gmail.com>
+Subject: Re: [PATCH 1/2] target/riscv: Quiet Coverity complains about vamo*
+To: LIU Zhiwei <zhiwei_liu@c-sky.com>
+Content-Type: text/plain; charset="UTF-8"
+Received-SPF: pass client-ip=2607:f8b0:4864:20::143;
+ envelope-from=alistair23@gmail.com; helo=mail-il1-x143.google.com
+X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
+ That's all we know.
+X-Spam_score_int: -17
+X-Spam_score: -1.8
+X-Spam_bar: -
+X-Spam_report: (-1.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ FREEMAIL_ENVFROM_END_DIGIT=0.25, FREEMAIL_FROM=0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -79,47 +77,39 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: QEMU Developers <qemu-devel@nongnu.org>,
- Juan Quintela <quintela@redhat.com>
+Cc: Alistair Francis <Alistair.Francis@wdc.com>,
+ Richard Henderson <richard.henderson@linaro.org>,
+ "open list:RISC-V" <qemu-riscv@nongnu.org>,
+ "qemu-devel@nongnu.org Developers" <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-* Peter Maydell (peter.maydell@linaro.org) wrote:
-> (This was pointed out to me off-list.)
-> 
-> What is the intended API of the pre_load() etc callbacks?
-> docs/devel/migration.rst doesn't say, and there's no doc comment
-> in include/migration/vmstate.h. Most actual device implementations
-> of the hooks seem to return 0 on success and -1 on failure.
-> But the callers of the hooks like vmstate_load_state() seem to
-> assume they return negative-errnos: a non-zero return value
-> is just propagated up to the caller, and can end up for
-> instance treated as negative-errno in process_incoming_migration_co():
->         error_report("load of migration failed: %s", strerror(-ret));
-> which results in nonsensical error messages to the user like:
->  qemu-system-aarch64: load of migration failed: Operation not permitted
+On Tue, Jul 21, 2020 at 6:38 AM LIU Zhiwei <zhiwei_liu@c-sky.com> wrote:
+>
+> Signed-off-by: LIU Zhiwei <zhiwei_liu@c-sky.com>
 
-In theory (pre|post)_(load|save) have the same interface; in practice
-they're all rather inconsistent.
-Returning 0 on success, -errno on failure is my preference.
+Reviewed-by: Alistair Francis <alistair.francis@wdc.com>
 
-> More generally, it would be nice if a pre_load/post_load/etc
-> hook could report an error more precisely than just yes/no
-> or even than just an errno: in the case of arm CPU loading
-> we could in theory report more detail like which register the
-> kernel didn't handle...
+Alistair
 
-On the load side, just error_report as tightly as you can; what
-you should see on stderr is basically a backtrace:
-   'failed to do something in ...'
-   'load of migration failed of ...'
-
-Dave
-
-> thanks
-> -- PMM
-> 
---
-Dr. David Alan Gilbert / dgilbert@redhat.com / Manchester, UK
-
+> ---
+>  target/riscv/insn_trans/trans_rvv.inc.c | 1 +
+>  1 file changed, 1 insertion(+)
+>
+> diff --git a/target/riscv/insn_trans/trans_rvv.inc.c b/target/riscv/insn_trans/trans_rvv.inc.c
+> index c0b7375927..7b4752b911 100644
+> --- a/target/riscv/insn_trans/trans_rvv.inc.c
+> +++ b/target/riscv/insn_trans/trans_rvv.inc.c
+> @@ -733,6 +733,7 @@ static bool amo_op(DisasContext *s, arg_rwdvm *a, uint8_t seq)
+>              g_assert_not_reached();
+>  #endif
+>          } else {
+> +            assert(seq < ARRAY_SIZE(fnsw));
+>              fn = fnsw[seq];
+>          }
+>      }
+> --
+> 2.23.0
+>
+>
 
