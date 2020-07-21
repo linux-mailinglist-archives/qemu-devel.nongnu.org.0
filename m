@@ -2,66 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 77F4A227936
-	for <lists+qemu-devel@lfdr.de>; Tue, 21 Jul 2020 09:07:39 +0200 (CEST)
-Received: from localhost ([::1]:60722 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 17A7722794C
+	for <lists+qemu-devel@lfdr.de>; Tue, 21 Jul 2020 09:11:18 +0200 (CEST)
+Received: from localhost ([::1]:35130 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jxmNG-0006Y4-JC
-	for lists+qemu-devel@lfdr.de; Tue, 21 Jul 2020 03:07:38 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:36584)
+	id 1jxmQn-0007nb-5X
+	for lists+qemu-devel@lfdr.de; Tue, 21 Jul 2020 03:11:17 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:37906)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1jxmLn-0005Vm-1B
- for qemu-devel@nongnu.org; Tue, 21 Jul 2020 03:06:07 -0400
-Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:29727
- helo=us-smtp-1.mimecast.com)
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1jxmQ0-0007Nr-DA
+ for qemu-devel@nongnu.org; Tue, 21 Jul 2020 03:10:28 -0400
+Received: from us-smtp-1.mimecast.com ([205.139.110.61]:39533
+ helo=us-smtp-delivery-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1jxmLk-0001JD-UC
- for qemu-devel@nongnu.org; Tue, 21 Jul 2020 03:06:06 -0400
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1jxmPx-0002QD-69
+ for qemu-devel@nongnu.org; Tue, 21 Jul 2020 03:10:28 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1595315164;
+ s=mimecast20190719; t=1595315424;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references:openpgp:openpgp;
- bh=5bT9f/UIxrSImFy78hK26YbDB3pxu5Qgs6E9TSEvTdw=;
- b=hbLS/zDKTVTy8fPStSYybSOHncFhoSmb5n+UNyshIvr1LVwgBPCnVLgDYk/53gUiQns51h
- R5VC6V+lHN+UyEmOcgXneso8ERtaSIiC7rAz1aFeNQbexcSHTG5trwBz2KArWRv/7pD1oi
- PYKG49Nkf5q4KMt/UXPuwdHNdfbBCmA=
+ bh=udG+iUoPj4f6ExWEkcmqj0J32VqSH4BMB2gK0TiCtkM=;
+ b=Ie1wL/9CUSkxTNMg7wzepmVbYJpMNiTu062f2X8ettSg0kTf6QUK0qEiRiprLzQ4x0szwJ
+ UNxahQ91rVkXUD/zN18v+q0+hV+YZOKcr75CiSbvBqetA+HD9rePMuW3KkPXhO/l5RH77/
+ ofBvkV0LVVgFW77+SQT0Q9WhiqAbbdE=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-356-_xNrTRcjN-yzgJ9cFcciDg-1; Tue, 21 Jul 2020 03:06:02 -0400
-X-MC-Unique: _xNrTRcjN-yzgJ9cFcciDg-1
-Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
- [10.5.11.23])
+ us-mta-102-0PxrTT1jOjWo6k9YY0mHXg-1; Tue, 21 Jul 2020 03:10:22 -0400
+X-MC-Unique: 0PxrTT1jOjWo6k9YY0mHXg-1
+Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
+ [10.5.11.16])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 0C95F800469;
- Tue, 21 Jul 2020 07:06:01 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 4D4E880183C;
+ Tue, 21 Jul 2020 07:10:21 +0000 (UTC)
 Received: from thuth.remote.csb (ovpn-112-102.ams2.redhat.com [10.36.112.102])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 7EA1B2B6E2;
- Tue, 21 Jul 2020 07:05:56 +0000 (UTC)
-Subject: Re: [PATCH 6/7] pc-bios: s390x: Use PSW constants in start.S
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 6EEBC6931A;
+ Tue, 21 Jul 2020 07:10:05 +0000 (UTC)
+Subject: Re: [PATCH 3/7] pc-bios: s390x: Remove unneeded dasd-ipl.c reset psw
+ mask changes
 To: Janosch Frank <frankja@linux.ibm.com>, qemu-devel@nongnu.org
 References: <20200715094045.381984-1-frankja@linux.ibm.com>
- <20200715094045.381984-7-frankja@linux.ibm.com>
+ <20200715094045.381984-4-frankja@linux.ibm.com>
+ <fdc4168f-ea1d-de51-9b6f-ddced1d19f5e@redhat.com>
+ <19b628cd-9766-4ccb-995f-4374aac851dc@linux.ibm.com>
 From: Thomas Huth <thuth@redhat.com>
 Openpgp: preference=signencrypt
-Message-ID: <0692c47b-6c3b-fdd8-72af-66c337a434e2@redhat.com>
-Date: Tue, 21 Jul 2020 09:05:54 +0200
+Message-ID: <5241ad31-5f82-3736-2792-1fdc59b256a8@redhat.com>
+Date: Tue, 21 Jul 2020 09:10:03 +0200
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
  Thunderbird/60.9.0
 MIME-Version: 1.0
-In-Reply-To: <20200715094045.381984-7-frankja@linux.ibm.com>
+In-Reply-To: <19b628cd-9766-4ccb-995f-4374aac851dc@linux.ibm.com>
 Content-Language: en-US
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=thuth@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=utf-8
 Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=205.139.110.120; envelope-from=thuth@redhat.com;
- helo=us-smtp-1.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/07/21 01:30:29
+Received-SPF: pass client-ip=205.139.110.61; envelope-from=thuth@redhat.com;
+ helo=us-smtp-delivery-1.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/07/21 01:26:46
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
 X-Spam_score_int: -40
 X-Spam_score: -4.1
@@ -86,114 +91,29 @@ Cc: borntraeger@de.ibm.com, cohuck@redhat.com, david@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 15/07/2020 11.40, Janosch Frank wrote:
-> Let's decrease the number of magic numbers.
+On 20/07/2020 14.16, Janosch Frank wrote:
+> On 7/20/20 1:45 PM, Thomas Huth wrote:
+>> On 15/07/2020 11.40, Janosch Frank wrote:
+>>> jump_to_low_kernel() and the functions that it calls will already or
+>>> 64 bit addressing into the reset psw mask when executing
+>>> jump_to_IPL_2() after the diag308 subcode 1.
+>>
+>> But there is also a check in jump_to_low_kernel that could be affected
+>> by your change:
+>>
+>>     if (*((uint64_t *)0) & RESET_PSW_MASK) {
+>>         jump_to_IPL_code((*((uint64_t *)0)) & PSW_MASK_SHORT_ADDR);
+>>     }
+>>
+>> ... but I assume that there should not be any kernels out there in the
+>> wild which do not have these bits set, so I think your modifications
+>> here should be ok.
 > 
-> Signed-off-by: Janosch Frank <frankja@linux.ibm.com>
-> Reviewed-by: Pierre Morel <pmorel@linux.ibm.com>
-> ---
->  pc-bios/s390-ccw/s390-arch.h | 25 +++++++++++++++----------
->  pc-bios/s390-ccw/start.S     |  9 +++++----
->  2 files changed, 20 insertions(+), 14 deletions(-)
-> 
-> diff --git a/pc-bios/s390-ccw/s390-arch.h b/pc-bios/s390-ccw/s390-arch.h
-> index 6da44d4436..d450c096d0 100644
-> --- a/pc-bios/s390-ccw/s390-arch.h
-> +++ b/pc-bios/s390-ccw/s390-arch.h
-> @@ -11,6 +11,20 @@
->  #ifndef S390_ARCH_H
->  #define S390_ARCH_H
->  
-> +/* s390 psw bit masks */
-> +#define PSW_MASK_EXT        0x0100000000000000UL
-> +#define PSW_MASK_IOINT      0x0200000000000000ULL
-> +#define PSW_MASK_SHORTPSW   0x0008000000000000ULL
-> +#define PSW_MASK_WAIT       0x0002000000000000ULL
-> +#define PSW_MASK_EAMODE     0x0000000100000000ULL
-> +#define PSW_MASK_BAMODE     0x0000000080000000ULL
-> +#define PSW_MASK_SHORT_ADDR 0x000000007fffffffULL
-> +#define PSW_MASK_64         (PSW_MASK_EAMODE | PSW_MASK_BAMODE)
-> +#define PSW_MASK_DWAIT      (PSW_MASK_64 | PSW_MASK_WAIT)
-> +#define PSW_MASK_EWAIT      (PSW_MASK_DWAIT | PSW_MASK_IOINT | PSW_MASK_EXT)
-> +
-> +#ifndef __ASSEMBLER__
-> +
->  typedef struct PSW {
->      uint64_t mask;
->      uint64_t addr;
-> @@ -24,15 +38,6 @@ typedef struct PSWLegacy {
->  } __attribute__ ((aligned(8))) PSWLegacy;
->  _Static_assert(sizeof(struct PSWLegacy) == 8, "PSWLegacy size incorrect");
->  
-> -/* s390 psw bit masks */
-> -#define PSW_MASK_IOINT      0x0200000000000000ULL
-> -#define PSW_MASK_SHORTPSW   0x0008000000000000ULL
-> -#define PSW_MASK_WAIT       0x0002000000000000ULL
-> -#define PSW_MASK_EAMODE     0x0000000100000000ULL
-> -#define PSW_MASK_BAMODE     0x0000000080000000ULL
-> -#define PSW_MASK_SHORT_ADDR 0x000000007fffffffULL
-> -#define PSW_MASK_64         (PSW_MASK_EAMODE | PSW_MASK_BAMODE)
-> -
->  /* Low core mapping */
->  typedef struct LowCore {
->      /* prefix area: defined by architecture */
-> @@ -107,5 +112,5 @@ static inline uint32_t store_prefix(void)
->      asm volatile("stpx %0" : "=m" (address));
->      return address;
->  }
-> -
-> +#endif /* !__ASSEMBLER__ */
->  #endif
-> diff --git a/pc-bios/s390-ccw/start.S b/pc-bios/s390-ccw/start.S
-> index ce519300a1..01c4c21b26 100644
-> --- a/pc-bios/s390-ccw/start.S
-> +++ b/pc-bios/s390-ccw/start.S
-> @@ -9,6 +9,7 @@
->   * your option) any later version. See the COPYING file in the top-level
->   * directory.
->   */
-> +#include "s390-arch.h"
->  
->          .globl _start
->  _start:
-> @@ -108,10 +109,10 @@ io_new_code:
->  
->          .align  8
->  disabled_wait_psw:
-> -        .quad   0x0002000180000000,0x0000000000000000
-> +        .quad   PSW_MASK_DWAIT, 0x0000000000000000
->  enabled_wait_psw:
-> -        .quad   0x0302000180000000,0x0000000000000000
-> +        .quad   PSW_MASK_EWAIT, 0x0000000000000000
->  external_new_mask:
-> -        .quad   0x0000000180000000
-> +        .quad   PSW_MASK_64
->  io_new_mask:
-> -        .quad   0x0000000180000000
-> +        .quad   PSW_MASK_64
-> 
+> The mask needs to have the short bit indication set so it needs to be !=
+> 0 anyway, no?
 
-This fails to compile with older versions of binutils (e.g. the ones in
-RHEL7):
-
-pc-bios/s390-ccw/start.S: Assembler messages:
-pc-bios/s390-ccw/start.S:108: Error: found 'L', expected: ')'
-pc-bios/s390-ccw/start.S:108: Error: found 'L', expected: ')'
-pc-bios/s390-ccw/start.S:108: Error: junk at end of line, first
-unrecognized character is `L'
-pc-bios/s390-ccw/start.S:110: Error: found 'L', expected: ')'
-pc-bios/s390-ccw/start.S:110: Error: found 'L', expected: ')'
-pc-bios/s390-ccw/start.S:110: Error: found 'L', expected: ')'
-pc-bios/s390-ccw/start.S:110: Error: junk at end of line, first
-unrecognized character is `L'
-pc-bios/s390-ccw/start.S:112: Error: found 'L', expected: ')'
-pc-bios/s390-ccw/start.S:112: Error: junk at end of line, first
-unrecognized character is `L'
-pc-bios/s390-ccw/start.S:114: Error: found 'L', expected: ')'
-pc-bios/s390-ccw/start.S:114: Error: junk at end of line, first
-unrecognized character is `L'
-
-You either need some macro-magic for this, or simply drop the patch.
+That's true. If there were still broken images out there, they should
+have stopped working since commit 104130cb7c106378da anyway.
 
  Thomas
 
