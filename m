@@ -2,72 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7697022816F
-	for <lists+qemu-devel@lfdr.de>; Tue, 21 Jul 2020 15:57:12 +0200 (CEST)
-Received: from localhost ([::1]:38034 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 13570228192
+	for <lists+qemu-devel@lfdr.de>; Tue, 21 Jul 2020 16:03:32 +0200 (CEST)
+Received: from localhost ([::1]:46102 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jxslb-0006xk-HP
-	for lists+qemu-devel@lfdr.de; Tue, 21 Jul 2020 09:57:11 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:56930)
+	id 1jxsrj-00023S-38
+	for lists+qemu-devel@lfdr.de; Tue, 21 Jul 2020 10:03:31 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:58230)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1jxsk1-0005Zs-RT
- for qemu-devel@nongnu.org; Tue, 21 Jul 2020 09:55:33 -0400
-Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:37483
- helo=us-smtp-1.mimecast.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1jxsk0-0007dX-6B
- for qemu-devel@nongnu.org; Tue, 21 Jul 2020 09:55:33 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1595339731;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=XiRcHwsEu67CK5FfrlnOPel9std7EgSdCj+MvoPyuhM=;
- b=TrfZwHmGf7vcOo5EnPXGx6jw8a1RXuNIczZNgkr3zSkV+kKlun38dVy9sVelm1nCYmwbOo
- ad4zzpNORJyi2xgXJN1Xr9bLyX2bwUQc114Fn/dQGXtCl6UStVhNhqNawquL9szxU1wMnX
- qgtsoJgddtBgHuTWx0JD8unng8fC5Zw=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-77-llCgb1jxN_2y0iWKK8WU6g-1; Tue, 21 Jul 2020 09:55:29 -0400
-X-MC-Unique: llCgb1jxN_2y0iWKK8WU6g-1
-Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
- [10.5.11.12])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id BB580800688;
- Tue, 21 Jul 2020 13:55:28 +0000 (UTC)
-Received: from linux.fritz.box.com (ovpn-113-97.ams2.redhat.com [10.36.113.97])
- by smtp.corp.redhat.com (Postfix) with ESMTP id A238459;
- Tue, 21 Jul 2020 13:55:27 +0000 (UTC)
-From: Kevin Wolf <kwolf@redhat.com>
-To: qemu-block@nongnu.org
-Subject: [PATCH for-5.1 v2 2/2] iotests: Test sparseness for qemu-img convert
- -n
-Date: Tue, 21 Jul 2020 15:55:20 +0200
-Message-Id: <20200721135520.72355-3-kwolf@redhat.com>
-In-Reply-To: <20200721135520.72355-1-kwolf@redhat.com>
-References: <20200721135520.72355-1-kwolf@redhat.com>
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1jxsq2-0000gP-Uc
+ for qemu-devel@nongnu.org; Tue, 21 Jul 2020 10:01:47 -0400
+Received: from mail-ot1-x335.google.com ([2607:f8b0:4864:20::335]:34822)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1jxspx-0008Mg-EX
+ for qemu-devel@nongnu.org; Tue, 21 Jul 2020 10:01:46 -0400
+Received: by mail-ot1-x335.google.com with SMTP id d4so15146515otk.2
+ for <qemu-devel@nongnu.org>; Tue, 21 Jul 2020 07:01:40 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=mime-version:from:date:message-id:subject:to;
+ bh=szrYo0+/01kyqzyD6v2ECmzRfRMPG1FJb1hfl64GppQ=;
+ b=I/bmaWVh0NGiaSwAUG1jxnD9h2+hMKPbuVqzq+6LEbpNF/YqGsvQlc4Uzh2nTEcxjt
+ nrAt/rqTjpfU/fiQ5bRPDy0jbH8OIZ1IHJVforqxok8YfP5Wkj1iK+2PRFRYO5BIhcu9
+ tVTr+lDc2g/NcezmlDr3sZINbygF55DNg5KXifENj1+fHN7L4z7KGRahjX3XtCRitxKK
+ WOP4T4SHUf2gbLbwQPZFZJS6M+0cWzl2r9oJDEoBo3Wd5Noc7RTJiFTqMGjibpdsEebP
+ SDcF5noZlbLcGcJruU9bJj6oVNcTHLoq4iUonCNI5UltclYWL/OuElQCNf8nPx8OI8mh
+ JkfQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:from:date:message-id:subject:to;
+ bh=szrYo0+/01kyqzyD6v2ECmzRfRMPG1FJb1hfl64GppQ=;
+ b=kVxs/jOZv9bCAmBnXfKQ4Hoe7wlLWqzVVXGlcjPrdAAIQ7r8XV5zZNIZJi40EJNzzZ
+ X92rymE9GwRrxg8EuNWFS8bOThkmp6fVrW/WZFviqgLR1gBsOhLWQ0pyrKi3WoJgkCWV
+ QtiDHyCRJNIg7pkGnxx+pj2zx9e3eG8AXg4I0sQ1TEFgzecUtCB4uF6XCPq2/x2sTrKq
+ GP4IfOK0qnFt1QT7XeHft3WDArdn+OgW++MptdCXzee+ZF62Juq7ttuV3xJ+LcoIHOUa
+ q8qNI4Gc9ukVfDcDPJR76reTUQ/qLGLeA8kS2IVkRfrEvF3yWUtdH2zP1vBr7429VAdM
+ OW+Q==
+X-Gm-Message-State: AOAM530KQQS4bv9kuHsNLD7K5hFOWf/T+B55avQinxlH7KNxiw7AIKOH
+ PRIh6Jq7LLrxy3dnBpaj0r1SRyTRKzrlHGxwTucv6pc6L4s=
+X-Google-Smtp-Source: ABdhPJzjjD0+mBgYXm7UtZ4BcC9RbKrT4/qgnFduZAWSM1prMygxx3NOJprLVKw6afId6XO8gRkSNTHhPj4UdjRfFTE=
+X-Received: by 2002:a05:6830:10ce:: with SMTP id
+ z14mr25238513oto.135.1595340099436; 
+ Tue, 21 Jul 2020 07:01:39 -0700 (PDT)
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=kwolf@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=207.211.31.120; envelope-from=kwolf@redhat.com;
- helo=us-smtp-1.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/07/21 01:46:39
-X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
-X-Spam_score_int: -30
-X-Spam_score: -3.1
-X-Spam_bar: ---
-X-Spam_report: (-3.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H4=-0.01, RCVD_IN_MSPIKE_WL=-0.01,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+From: Peter Maydell <peter.maydell@linaro.org>
+Date: Tue, 21 Jul 2020 15:01:28 +0100
+Message-ID: <CAFEAcA_rFLk2Fs1ibHH7YnR38K-nGjKas5SkPP8ReubHfHtvMQ@mail.gmail.com>
+Subject: error reporting from pre_load etc callbacks
+To: QEMU Developers <qemu-devel@nongnu.org>,
+ "Dr. David Alan Gilbert" <dgilbert@redhat.com>, 
+ Juan Quintela <quintela@redhat.com>
+Content-Type: text/plain; charset="UTF-8"
+Received-SPF: pass client-ip=2607:f8b0:4864:20::335;
+ envelope-from=peter.maydell@linaro.org; helo=mail-ot1-x335.google.com
+X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
+ That's all we know.
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -80,87 +78,30 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: kwolf@redhat.com, nsoffer@redhat.com, qemu-devel@nongnu.org,
- mreitz@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Signed-off-by: Kevin Wolf <kwolf@redhat.com>
----
- tests/qemu-iotests/122     | 30 ++++++++++++++++++++++++++++++
- tests/qemu-iotests/122.out | 17 +++++++++++++++++
- 2 files changed, 47 insertions(+)
+(This was pointed out to me off-list.)
 
-diff --git a/tests/qemu-iotests/122 b/tests/qemu-iotests/122
-index dfd1cd05d6..0f3d4ca851 100755
---- a/tests/qemu-iotests/122
-+++ b/tests/qemu-iotests/122
-@@ -281,6 +281,36 @@ $QEMU_IMG convert -O $IMGFMT -n "$TEST_IMG" "$TEST_IMG".orig
- 
- $QEMU_IMG compare "$TEST_IMG" "$TEST_IMG".orig
- 
-+echo
-+echo '=== -n to an empty image ==='
-+echo
-+
-+TEST_IMG="$TEST_IMG".orig _make_test_img 64M
-+
-+# Convert with -n, which should not result in a fully allocated image, not even
-+# with compat=0.10 (because the target doesn't have a backing file)
-+for compat in "1.1" "0.10"; do
-+    IMGOPTS="compat=$compat" _make_test_img 64M
-+    $QEMU_IMG convert -O $IMGFMT -n "$TEST_IMG".orig "$TEST_IMG"
-+    $QEMU_IMG map --output=json "$TEST_IMG"
-+done
-+
-+echo
-+echo '=== -n to an empty image with a backing file ==='
-+echo
-+
-+TEST_IMG="$TEST_IMG".orig _make_test_img 64M
-+TEST_IMG="$TEST_IMG".base _make_test_img 64M
-+
-+# Convert with -n, which should still not result in a fully allocated image for
-+# compat=1.1 (because it can use zero clusters), but it should be fully
-+# allocated with compat=0.10
-+for compat in "1.1" "0.10"; do
-+    IMGOPTS="compat=$compat" _make_test_img -b "$TEST_IMG".base -F $IMGFMT 64M
-+    $QEMU_IMG convert -O $IMGFMT -n "$TEST_IMG".orig "$TEST_IMG"
-+    $QEMU_IMG map --output=json "$TEST_IMG"
-+done
-+
- echo
- echo '=== -n -B to an image without a backing file ==='
- echo
-diff --git a/tests/qemu-iotests/122.out b/tests/qemu-iotests/122.out
-index f1f195ed77..3a3e121d57 100644
---- a/tests/qemu-iotests/122.out
-+++ b/tests/qemu-iotests/122.out
-@@ -229,6 +229,23 @@ wrote 65536/65536 bytes at offset 0
- 64 KiB, X ops; XX:XX:XX.X (XXX YYY/sec and XXX ops/sec)
- Images are identical.
- 
-+=== -n to an empty image ===
-+
-+Formatting 'TEST_DIR/t.IMGFMT.orig', fmt=IMGFMT size=67108864
-+Formatting 'TEST_DIR/t.IMGFMT', fmt=IMGFMT size=67108864
-+[{ "start": 0, "length": 67108864, "depth": 0, "zero": true, "data": false}]
-+Formatting 'TEST_DIR/t.IMGFMT', fmt=IMGFMT size=67108864
-+[{ "start": 0, "length": 67108864, "depth": 0, "zero": true, "data": false}]
-+
-+=== -n to an empty image with a backing file ===
-+
-+Formatting 'TEST_DIR/t.IMGFMT.orig', fmt=IMGFMT size=67108864
-+Formatting 'TEST_DIR/t.IMGFMT.base', fmt=IMGFMT size=67108864
-+Formatting 'TEST_DIR/t.IMGFMT', fmt=IMGFMT size=67108864 backing_file=TEST_DIR/t.IMGFMT.base backing_fmt=IMGFMT
-+[{ "start": 0, "length": 67108864, "depth": 0, "zero": true, "data": false}]
-+Formatting 'TEST_DIR/t.IMGFMT', fmt=IMGFMT size=67108864 backing_file=TEST_DIR/t.IMGFMT.base backing_fmt=IMGFMT
-+[{ "start": 0, "length": 67108864, "depth": 0, "zero": false, "data": true, "offset": 327680}]
-+
- === -n -B to an image without a backing file ===
- 
- Formatting 'TEST_DIR/t.IMGFMT.base', fmt=IMGFMT size=67108864
--- 
-2.25.4
+What is the intended API of the pre_load() etc callbacks?
+docs/devel/migration.rst doesn't say, and there's no doc comment
+in include/migration/vmstate.h. Most actual device implementations
+of the hooks seem to return 0 on success and -1 on failure.
+But the callers of the hooks like vmstate_load_state() seem to
+assume they return negative-errnos: a non-zero return value
+is just propagated up to the caller, and can end up for
+instance treated as negative-errno in process_incoming_migration_co():
+        error_report("load of migration failed: %s", strerror(-ret));
+which results in nonsensical error messages to the user like:
+ qemu-system-aarch64: load of migration failed: Operation not permitted
 
+
+More generally, it would be nice if a pre_load/post_load/etc
+hook could report an error more precisely than just yes/no
+or even than just an errno: in the case of arm CPU loading
+we could in theory report more detail like which register the
+kernel didn't handle...
+
+thanks
+-- PMM
 
