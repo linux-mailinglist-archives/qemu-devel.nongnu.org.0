@@ -2,77 +2,84 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4946C22804B
-	for <lists+qemu-devel@lfdr.de>; Tue, 21 Jul 2020 14:51:52 +0200 (CEST)
-Received: from localhost ([::1]:44758 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8E416228054
+	for <lists+qemu-devel@lfdr.de>; Tue, 21 Jul 2020 14:56:20 +0200 (CEST)
+Received: from localhost ([::1]:50174 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jxrkN-0005RA-CE
-	for lists+qemu-devel@lfdr.de; Tue, 21 Jul 2020 08:51:51 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:37162)
+	id 1jxroh-00085h-Iy
+	for lists+qemu-devel@lfdr.de; Tue, 21 Jul 2020 08:56:19 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:39808)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1jxriJ-0003C8-BK
- for qemu-devel@nongnu.org; Tue, 21 Jul 2020 08:49:43 -0400
-Received: from mail-ot1-x344.google.com ([2607:f8b0:4864:20::344]:32973)
+ (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
+ id 1jxrnb-0007Rv-68
+ for qemu-devel@nongnu.org; Tue, 21 Jul 2020 08:55:11 -0400
+Received: from mail-wm1-x342.google.com ([2a00:1450:4864:20::342]:38052)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1jxriH-0005s3-Ll
- for qemu-devel@nongnu.org; Tue, 21 Jul 2020 08:49:42 -0400
-Received: by mail-ot1-x344.google.com with SMTP id h13so14952989otr.0
- for <qemu-devel@nongnu.org>; Tue, 21 Jul 2020 05:49:37 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc:content-transfer-encoding;
- bh=2YTOEYkSLxB/0JxW+ThRFXv1GQARK/n24g546JJKt5o=;
- b=Z5Hr3dOXt9nsAGu3iJgJmW0Y2gN9rRDu/mhTfCdnK6o2LGaiGUkIGb84zCPul6xZPw
- 5R3npiPyEOGwidmLlcGbWC3j+NsRkdwAlptGI/6i9+AtMuBwBstbJQZi/UpB3SB+ey/w
- HPxyUa5FkuXjbtc7MHD5no1w81kRAeuonU4nduoXFNycA7RoeneivpJp3b5EA5sFcTCp
- lLHzURxQ/8F+asMJbl+hWKslnD6L/errZbb1ycFcGUt3CbijqRh+6w5aNFk94l8q/cOX
- dHT1n7hNj3b/0y1WfFR/XAJNa/10pjnTi7liYbRgs0ZlvCD+p1Bm1fXCwIApJxS4nlEf
- YLLg==
+ (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
+ id 1jxrnZ-000796-IM
+ for qemu-devel@nongnu.org; Tue, 21 Jul 2020 08:55:10 -0400
+Received: by mail-wm1-x342.google.com with SMTP id f18so2761150wml.3
+ for <qemu-devel@nongnu.org>; Tue, 21 Jul 2020 05:55:09 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=sender:subject:to:cc:references:from:message-id:date:user-agent
+ :mime-version:in-reply-to:content-language:content-transfer-encoding;
+ bh=228v2kygEcf/uM14ARtEb6/hMyuaawqMCSCYTYpRlFo=;
+ b=Uzn2G646R1Gra1A6JRXKuGuGHzbmFzEqtMNG636dqqb2nG2cGHwqPdyR4JCOByUR7O
+ ku3iTk1ZioBuE/XrRBaTqTWM4J5baPZ5Svhn+A25FGr5Dqw96JJWKzMVeOSkqbUhKMiu
+ VVJhrUpWpZD9rlGdsr/4O3P9ofTcWFdv1H4tAXs//P2aj4QN8JkNf2oqzXestaaAMinP
+ UCejoYE/nTXfBKTxPF3nS28udG7IpkyfL/NkgoEm6EV4I52kdpaHrxwkLj5rryPkIam1
+ cKVp1t3eN8KXeW9h48lnTjR9CL89GTmbJ5M9Cf09PuAxHMu68i3YMxmxE+zTfGRUR+2R
+ wJeg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc:content-transfer-encoding;
- bh=2YTOEYkSLxB/0JxW+ThRFXv1GQARK/n24g546JJKt5o=;
- b=jDessbjpZxCppRatTNKT42UGhYn5lzNwjnxef60F5CMW6E4+V4xPpG3UqjqQPX7u4a
- eeNbYP3OxySjyLVxjWOBaBQqRux2RraLPtB6VEbnkc+f5gomuF6cJ708nJxBrjuICE/6
- CXbuE2S5kGEvyb5bQH0Zb+8Mxcs8tWCJ80ZBMxwhKG/xO3OxRH6ad/gAzXiH7a6FEHak
- zdzr5HLcS4lxmr5LZh2Z84jQg+4wd3LxNAUaQ2dnBIlAuDUT6KGfCauA/94xE47oRg9T
- HGniIxKAAqJz8QGn1wlZESKLW/8Df5k4hgiSE9dCRDQkff6Ij/HbQ9+VF52jIFQJ1fAR
- j65A==
-X-Gm-Message-State: AOAM532uWHLeMAn7lk5pCbXgjBL3d1mfyF8KV9Axzd9GkqARHHCa6rmW
- riGOc16ahjfAahpO//DF57E/T8NceTXPPmcSFUdC/w==
-X-Google-Smtp-Source: ABdhPJzqN4D2mKN8fUBkEUdXRaNMdD+3H0s9LqsLUrwlrwmxdaaCio9IKwlWQIIREVWvZ9N3ZvsUByBeLhVC6mhGOTA=
-X-Received: by 2002:a05:6830:10ce:: with SMTP id
- z14mr24963119oto.135.1595335776322; 
- Tue, 21 Jul 2020 05:49:36 -0700 (PDT)
-MIME-Version: 1.0
+ h=x-gm-message-state:sender:subject:to:cc:references:from:message-id
+ :date:user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=228v2kygEcf/uM14ARtEb6/hMyuaawqMCSCYTYpRlFo=;
+ b=DKueoj0Ycgg/vprvdchzLY50LtfqjXWES5EejqkmxXFHffkMLvvJQC4hK1kErC9Oty
+ Yu+8sNMSqe/Dnc7R/3MXsfnqdoKQbUC/LZMc27cjWQMTOSLbGKe48TXLha2gDZqQGrBf
+ jG5NsmLaFqPmUBXenSBFj0NGUCmUrMIc03tV4bFogtqxk/cwaMlFDBQHpdwZNrmyWEjN
+ SCEDXXFtkmHzJcizKJyYV8znDnMx7r3Bs3LnonfYIgl+GDro8MXl0OekDx9igklfI2H4
+ StX0N0x5ZeG1P9ge/mW7eN2Viwx9OFvLG2upM/6YmVK2FxJf0Xo+IE1igxL+iX85B8wf
+ yc9w==
+X-Gm-Message-State: AOAM531j40fIKaxbyaOx7dUUSfX+lhyIEtP2R93I6yl9l+XhxPxZmW4u
+ 6Trp9AKtxm3dB9UWCAC/AYQ=
+X-Google-Smtp-Source: ABdhPJxBnWFQX7yn1X9ONdvqZOjyDcbTWvFiptbeGz493+ZXJACoOmq/roUt+ZxGADWn/F/J2RwvwQ==
+X-Received: by 2002:a1c:b6c3:: with SMTP id g186mr4122611wmf.135.1595336107927; 
+ Tue, 21 Jul 2020 05:55:07 -0700 (PDT)
+Received: from [192.168.1.37] (138.red-83-57-170.dynamicip.rima-tde.net.
+ [83.57.170.138])
+ by smtp.gmail.com with ESMTPSA id g144sm3002610wme.2.2020.07.21.05.55.06
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Tue, 21 Jul 2020 05:55:06 -0700 (PDT)
+Subject: Re: [RFC PATCH-for-5.1? v3 2/2] hw/isa/isa-bus: Ensure ISA I/O
+ regions are 8/16/32-bit accessible
+To: Peter Maydell <peter.maydell@linaro.org>
 References: <20200721123154.5302-1-f4bug@amsat.org>
- <20200721123154.5302-2-f4bug@amsat.org>
- <CAFEAcA_C1C-5oSrEZgJoufCc_91TdC3vv5+SUSBHHnWDGVyOCg@mail.gmail.com>
- <1e60f58f-b4b1-3490-5485-d51f4584caf4@amsat.org>
-In-Reply-To: <1e60f58f-b4b1-3490-5485-d51f4584caf4@amsat.org>
-From: Peter Maydell <peter.maydell@linaro.org>
-Date: Tue, 21 Jul 2020 13:49:25 +0100
-Message-ID: <CAFEAcA_bDSqH=JHWJDYAehov8p1VHS8rjMFWp27-DPi2Nu8nxQ@mail.gmail.com>
-Subject: Re: [RFC PATCH-for-5.1? v3 1/2] memory: Allow monkey-patching
- MemoryRegion access sizes
-To: =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <f4bug@amsat.org>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=2607:f8b0:4864:20::344;
- envelope-from=peter.maydell@linaro.org; helo=mail-ot1-x344.google.com
+ <20200721123154.5302-3-f4bug@amsat.org>
+ <CAFEAcA_Xz4OPGEx5T5aoWaW9-G92ioS-jLt1B_vFYFS+s_RkYA@mail.gmail.com>
+From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>
+Message-ID: <f2fe44a6-e783-8c2e-27d5-9db79b77e23c@amsat.org>
+Date: Tue, 21 Jul 2020 14:55:06 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.5.0
+MIME-Version: 1.0
+In-Reply-To: <CAFEAcA_Xz4OPGEx5T5aoWaW9-G92ioS-jLt1B_vFYFS+s_RkYA@mail.gmail.com>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=2a00:1450:4864:20::342;
+ envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wm1-x342.google.com
 X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
  That's all we know.
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Spam_score_int: 0
+X-Spam_score: 0.0
+X-Spam_bar: /
+X-Spam_report: (0.0 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1, DKIM_VALID=-0.1,
+ DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=1, FREEMAIL_FROM=0.001,
+ HEADER_FROM_DIFFERENT_DOMAINS=1, RCVD_IN_DNSWL_NONE=-0.0001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -94,28 +101,38 @@ Cc: "Daniel P . Berrange" <berrange@redhat.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Tue, 21 Jul 2020 at 13:39, Philippe Mathieu-Daud=C3=A9 <f4bug@amsat.org>=
- wrote:
->
-> On 7/21/20 2:33 PM, Peter Maydell wrote:
-> > On Tue, 21 Jul 2020 at 13:31, Philippe Mathieu-Daud=C3=A9 <f4bug@amsat.=
-org> wrote:
-> > Don't you now need to g_memfree() mr->ops somewhere? Otherwise
-> > you've leaked it if the device which owned this MemoryRegion
-> > is hot-unplugged, I think.
->
-> I haven't thinking of hot-unplug. I went with the simplest fix
-> considering we are in freeze, and fixing the bug was more
-> important that a leak at this point.
-> I'll have a look at freeing this memory, hoping it is still less
-> disruptive than a proper architectural change to fix this problem.
+On 7/21/20 2:41 PM, Peter Maydell wrote:
+> On Tue, 21 Jul 2020 at 13:31, Philippe Mathieu-Daudé <f4bug@amsat.org> wrote:
+>>
+>> Since commit 5d971f9e67 we don't accept mismatching sizes
+>> in memory_region_access_valid(). This gives troubles when
+>> a device is on an ISA bus, because the CPU is free to use
+>> 8/16-bit accesses on the bus (or up to 32-bit on EISA bus),
+>> regardless what range is valid for the device.
+>>
+>> Monkey-patch the ISA device MemoryRegionOps to force it
+>> to accepts 8/16/32-bit accesses. This should be reverted
+>> after the release and fixed in a more elegant manner.
+> 
+> Do we need something similar for isa_register_portio_list(),
+> or is that function OK ?
+> 
+> Do we have a view on what the 'more elegant manner' would look like?
 
-Instead of g_memdup()ing the ops struct here, you could maybe
-do it in isa_register_ioport() instead. Then you don't need to
-worry about leaks because we know all ISA devices are not
-hotpluggable, and the ugliness is also a bit more constrained
-to the ISA code. (Coverity probably still thinks it's a leak though.)
+What I suggested on IRC is a isabus->address_space_io is not assigned
+by the bus creator but created internally as a MemoryRegion container
+accepting 8/16 (ISA bus) or 8/16/32-bit (EISA bus) accesses from the I/O
+address space, and this MR uses memory::access_with_adjusted_size()
+(or similar) to access the registered portio devices.
 
-thanks
--- PMM
+We already have isa_address_space_io() to access
+isabus->address_space_io.
+
+isa_bus_new() could takes an 'is_eisa' boolean argument to select
+between the adjusting MR.
+
+> 
+> thanks
+> -- PMM
+> 
 
