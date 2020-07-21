@@ -2,58 +2,58 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B67E4227A43
-	for <lists+qemu-devel@lfdr.de>; Tue, 21 Jul 2020 10:14:17 +0200 (CEST)
-Received: from localhost ([::1]:47710 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D7121227A41
+	for <lists+qemu-devel@lfdr.de>; Tue, 21 Jul 2020 10:12:32 +0200 (CEST)
+Received: from localhost ([::1]:39966 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jxnPk-00043O-Mj
-	for lists+qemu-devel@lfdr.de; Tue, 21 Jul 2020 04:14:16 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:34528)
+	id 1jxnO3-0000rq-TB
+	for lists+qemu-devel@lfdr.de; Tue, 21 Jul 2020 04:12:31 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:34534)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1jxnMj-0007X9-6u
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1jxnMj-0007YI-JV
  for qemu-devel@nongnu.org; Tue, 21 Jul 2020 04:11:09 -0400
-Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:20448
- helo=us-smtp-1.mimecast.com)
+Received: from us-smtp-2.mimecast.com ([205.139.110.61]:46933
+ helo=us-smtp-delivery-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1jxnMh-0004K5-HB
- for qemu-devel@nongnu.org; Tue, 21 Jul 2020 04:11:08 -0400
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1jxnMh-0004KA-Rw
+ for qemu-devel@nongnu.org; Tue, 21 Jul 2020 04:11:09 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1595319066;
+ s=mimecast20190719; t=1595319067;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:content-type:content-type:in-reply-to:in-reply-to:
- references:references; bh=ksI6DxVRb9WUjZEjZRxkO2/ukg0emKrzyQcSJLbaae8=;
- b=VwjbP6nSUJ5z8tfwIQC0z2zbJZRZqVr/Ga9bkMwUxgsOS/cBfTRvoG+xq/8ZEBJZtJrZ6n
- nvyKdZIwB7rbkz2rkA+XLxsJPy5CJy1WAh9+2lP73YHPXaJFN9zrXcwm/M9PRgqwTT6z6O
- eb5Az/c908yMRSM+n8lGsxFJiHQdMxg=
+ references:references; bh=k45Qt3os4wd7ourRNG8YTcJpHm84McI5FBzK0pB4Mys=;
+ b=Ynp3A/DLyF1LWPzm3A2XI+LeIWv8fVk9jCppNJorOYgozlVxRnrGG9MeSWjat3nEmWQp/m
+ /UqhC8/cUD4P5yPVR4fqctYmvRxL74e2uVQrJwnjlZyJYRGhNB/n7HZFHm1OtDeO9TqRQ+
+ dHoizcEwSJCt4ICtnPZ95ma9UgqnZsg=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-324-YtDQPfhCMTSOsqtM3wrqKQ-1; Tue, 21 Jul 2020 04:11:02 -0400
-X-MC-Unique: YtDQPfhCMTSOsqtM3wrqKQ-1
+ us-mta-276-Pq3NX5nSMSOKimGY44_EDQ-1; Tue, 21 Jul 2020 04:11:03 -0400
+X-MC-Unique: Pq3NX5nSMSOKimGY44_EDQ-1
 Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
  [10.5.11.23])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 46A6D91270;
- Tue, 21 Jul 2020 08:11:01 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id B1B34102C7F1;
+ Tue, 21 Jul 2020 08:11:02 +0000 (UTC)
 Received: from thuth.com (ovpn-112-102.ams2.redhat.com [10.36.112.102])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 3B0F82DE72;
- Tue, 21 Jul 2020 08:11:00 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id A511F2DE68;
+ Tue, 21 Jul 2020 08:11:01 +0000 (UTC)
 From: Thomas Huth <thuth@redhat.com>
 To: peter.maydell@linaro.org,
 	qemu-devel@nongnu.org
-Subject: [PULL 02/10] fuzz: Fix leak when assembling datadir path string
-Date: Tue, 21 Jul 2020 10:10:47 +0200
-Message-Id: <20200721081055.14073-3-thuth@redhat.com>
+Subject: [PULL 03/10] gitlab-ci.yml: Add oss-fuzz build tests
+Date: Tue, 21 Jul 2020 10:10:48 +0200
+Message-Id: <20200721081055.14073-4-thuth@redhat.com>
 In-Reply-To: <20200721081055.14073-1-thuth@redhat.com>
 References: <20200721081055.14073-1-thuth@redhat.com>
 X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=US-ASCII
-Received-SPF: pass client-ip=205.139.110.120; envelope-from=thuth@redhat.com;
- helo=us-smtp-1.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/07/21 01:30:29
+Received-SPF: pass client-ip=205.139.110.61; envelope-from=thuth@redhat.com;
+ helo=us-smtp-delivery-1.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/07/21 01:26:46
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
 X-Spam_score_int: -40
 X-Spam_score: -4.1
@@ -61,7 +61,7 @@ X-Spam_bar: ----
 X-Spam_report: (-4.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-1, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ SPF_PASS=-0.001, URIBL_BLOCKED=0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -80,49 +80,60 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Alexander Bulekov <alxndr@bu.edu>
 
-We freed the string containing the final datadir path, but did not free
-the path to the executable's directory that we get from
-g_path_get_dirname(). Fix that.
+This tries to build and run the fuzzers with the same build-script used
+by oss-fuzz. This doesn't guarantee that the builds on oss-fuzz will
+also succeed, since oss-fuzz provides its own compiler and fuzzer vars,
+but it can catch changes that are not compatible with the the
+./scripts/oss-fuzz/build.sh script.
+The strange way of finding fuzzer binaries stems from the method used by
+oss-fuzz:
+https://github.com/google/oss-fuzz/blob/master/infra/base-images/base-runner/targets_list
 
-Reported-by: Thomas Huth <thuth@redhat.com>
 Signed-off-by: Alexander Bulekov <alxndr@bu.edu>
-Message-Id: <20200717163523.1591-1-alxndr@bu.edu>
+Message-Id: <20200720073223.22945-1-thuth@redhat.com>
+[thuth: Tweak the "script" to make it work, exclude slirp test, etc.]
 Signed-off-by: Thomas Huth <thuth@redhat.com>
 ---
- tests/qtest/fuzz/fuzz.c | 12 +++++++-----
- 1 file changed, 7 insertions(+), 5 deletions(-)
+ .gitlab-ci.yml | 22 ++++++++++------------
+ 1 file changed, 10 insertions(+), 12 deletions(-)
 
-diff --git a/tests/qtest/fuzz/fuzz.c b/tests/qtest/fuzz/fuzz.c
-index 6bc17ef313..031594a686 100644
---- a/tests/qtest/fuzz/fuzz.c
-+++ b/tests/qtest/fuzz/fuzz.c
-@@ -143,7 +143,7 @@ int LLVMFuzzerInitialize(int *argc, char ***argv, char ***envp)
- {
+diff --git a/.gitlab-ci.yml b/.gitlab-ci.yml
+index 41597c3603..362e5ee755 100644
+--- a/.gitlab-ci.yml
++++ b/.gitlab-ci.yml
+@@ -164,22 +164,20 @@ build-clang:
+       ppc-softmmu s390x-softmmu arm-linux-user
+     MAKE_CHECK_ARGS: check
  
-     char *target_name;
--    char *dir;
-+    char *bindir, *datadir;
-     bool serialize = false;
+-build-fuzzer:
++build-oss-fuzz:
+   <<: *native_build_job_definition
+   variables:
+     IMAGE: fedora
+   script:
+-    - mkdir build
+-    - cd build
+-    - ../configure --cc=clang --cxx=clang++ --enable-fuzzing
+-                   --enable-sanitizers --target-list=x86_64-softmmu
+-    - make -j"$JOBS" all check-build x86_64-softmmu/fuzz
+-    - make check
+-    - for fuzzer in i440fx-qos-fork-fuzz i440fx-qos-noreset-fuzz
+-        i440fx-qtest-reboot-fuzz virtio-scsi-flags-fuzz virtio-scsi-fuzz ; do
+-          echo Testing ${fuzzer} ... ;
+-          x86_64-softmmu/qemu-fuzz-x86_64 --fuzz-target=${fuzzer} -runs=1000
+-            || exit 1 ;
++    - mkdir build-oss-fuzz
++    - CC="clang" CXX="clang++" CFLAGS="-fsanitize=address"
++      ./scripts/oss-fuzz/build.sh
++    - for fuzzer in $(find ./build-oss-fuzz/DEST_DIR/ -executable -type f
++                      | grep -v slirp); do
++        grep "LLVMFuzzerTestOneInput" ${fuzzer} > /dev/null 2>&1 || continue ;
++        echo Testing ${fuzzer} ... ;
++        ASAN_OPTIONS="fast_unwind_on_malloc=0"
++         "${fuzzer}" -runs=1000 -seed=1 || exit 1 ;
+       done
  
-     /* Initialize qgraph and modules */
-@@ -164,11 +164,13 @@ int LLVMFuzzerInitialize(int *argc, char ***argv, char ***envp)
-          * location of the executable. Using this we add exec_dir/pc-bios to
-          * the datadirs.
-          */
--        dir = g_build_filename(g_path_get_dirname(**argv), "pc-bios", NULL);
--        if (g_file_test(dir, G_FILE_TEST_IS_DIR)) {
--            qemu_add_data_dir(dir);
-+        bindir = g_path_get_dirname(**argv);
-+        datadir = g_build_filename(bindir, "pc-bios", NULL);
-+        g_free(bindir);
-+        if (g_file_test(datadir, G_FILE_TEST_IS_DIR)) {
-+            qemu_add_data_dir(datadir);
-         }
--        g_free(dir);
-+        g_free(datadir);
-     } else if (*argc > 1) {  /* The target is specified as an argument */
-         target_name = (*argv)[1];
-         if (!strstr(target_name, "--fuzz-target=")) {
+ build-tci:
 -- 
 2.18.1
 
