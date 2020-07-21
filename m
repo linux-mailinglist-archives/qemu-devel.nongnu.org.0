@@ -2,66 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1C5C4227F48
-	for <lists+qemu-devel@lfdr.de>; Tue, 21 Jul 2020 13:51:01 +0200 (CEST)
-Received: from localhost ([::1]:36862 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9AC4F227F4D
+	for <lists+qemu-devel@lfdr.de>; Tue, 21 Jul 2020 13:52:27 +0200 (CEST)
+Received: from localhost ([::1]:42452 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jxqnU-0006tu-5m
-	for lists+qemu-devel@lfdr.de; Tue, 21 Jul 2020 07:51:00 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:50464)
+	id 1jxqos-0000nV-NB
+	for lists+qemu-devel@lfdr.de; Tue, 21 Jul 2020 07:52:26 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:50502)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mreitz@redhat.com>) id 1jxqm4-0005O4-3d
- for qemu-devel@nongnu.org; Tue, 21 Jul 2020 07:49:32 -0400
-Received: from us-smtp-1.mimecast.com ([207.211.31.81]:50369
+ (Exim 4.90_1) (envelope-from <mreitz@redhat.com>) id 1jxqm7-0005Un-3j
+ for qemu-devel@nongnu.org; Tue, 21 Jul 2020 07:49:35 -0400
+Received: from us-smtp-1.mimecast.com ([205.139.110.61]:20125
  helo=us-smtp-delivery-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <mreitz@redhat.com>) id 1jxqm2-00064F-DA
- for qemu-devel@nongnu.org; Tue, 21 Jul 2020 07:49:31 -0400
+ (Exim 4.90_1) (envelope-from <mreitz@redhat.com>) id 1jxqm4-00064V-5V
+ for qemu-devel@nongnu.org; Tue, 21 Jul 2020 07:49:34 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1595332169;
+ s=mimecast20190719; t=1595332171;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding;
- bh=lw8mx+m6sMfWGkitxmSA90L40LaNs2qupLW2x2LUCYM=;
- b=bKCIqNG3IWiPSyMhXRkT/5uoLROjAR3XQ5f6Y7cpBXXtzATW6lBNL119PncEAdcWD36Htw
- GkMZ8d2x1Myl5OvpsbXbVwQUMfSUJja7xKJKjDGXX3975E1pNbhqx1hUdLlcApNNKgLEkm
- DnoL8vVOROGGLrkF2IX7PZRECUkyoj8=
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=LO2o6iouqBBqtiAy+J1nbi0a6TP3rCZ4xkeB4F6aIr0=;
+ b=cHIObmrI//RpRqDvtaLcusfCrj27e29ghc87lGhlA/+96MPzYdodu4M7xk5hs6zmQQ8L2Q
+ 8rYIFFupcDtOzp/CAAKjnFqpKcRsH0SXTI1jyola3FcIhpgW6EMpH1QzlwvtiucCp/Dqr3
+ T44ybBI7m932Y7Xn25/wGYLddjnQP/w=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-301-SDx5fGmnPUmFWG--r6FNdw-1; Tue, 21 Jul 2020 07:49:26 -0400
-X-MC-Unique: SDx5fGmnPUmFWG--r6FNdw-1
-Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
- [10.5.11.11])
+ us-mta-366-2Co-EZb5OdiCTmbyd-PKxQ-1; Tue, 21 Jul 2020 07:49:29 -0400
+X-MC-Unique: 2Co-EZb5OdiCTmbyd-PKxQ-1
+Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
+ [10.5.11.13])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id C78A71005504;
- Tue, 21 Jul 2020 11:49:25 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 2E0D4100AA44;
+ Tue, 21 Jul 2020 11:49:28 +0000 (UTC)
 Received: from localhost (ovpn-113-68.ams2.redhat.com [10.36.113.68])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 5BD017854A;
- Tue, 21 Jul 2020 11:49:22 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id B71C1872E6;
+ Tue, 21 Jul 2020 11:49:27 +0000 (UTC)
 From: Max Reitz <mreitz@redhat.com>
 To: qemu-block@nongnu.org
-Subject: [PULL 0/3] Block patches for 5.1
-Date: Tue, 21 Jul 2020 13:49:17 +0200
-Message-Id: <20200721114920.1174149-1-mreitz@redhat.com>
+Subject: [PULL 1/3] block/crypto: disallow write sharing by default
+Date: Tue, 21 Jul 2020 13:49:18 +0200
+Message-Id: <20200721114920.1174149-2-mreitz@redhat.com>
+In-Reply-To: <20200721114920.1174149-1-mreitz@redhat.com>
+References: <20200721114920.1174149-1-mreitz@redhat.com>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=UTF-8
+Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=207.211.31.81; envelope-from=mreitz@redhat.com;
+Received-SPF: pass client-ip=205.139.110.61; envelope-from=mreitz@redhat.com;
  helo=us-smtp-delivery-1.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/07/21 03:39:19
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/07/21 01:26:46
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
-X-Spam_score_int: -30
-X-Spam_score: -3.1
-X-Spam_bar: ---
-X-Spam_report: (-3.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1,
+X-Spam_score_int: -40
+X-Spam_score: -4.1
+X-Spam_bar: ----
+X-Spam_report: (-4.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H3=-0.01, RCVD_IN_MSPIKE_WL=-0.01,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-1, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -79,38 +82,36 @@ Cc: Kevin Wolf <kwolf@redhat.com>, Peter Maydell <peter.maydell@linaro.org>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The following changes since commit af3d69058e09bede9900f266a618ed11f76f49f3:
+From: Maxim Levitsky <mlevitsk@redhat.com>
 
-  Merge remote-tracking branch 'remotes/pmaydell/tags/pull-target-arm-20200720' into staging (2020-07-20 15:58:07 +0100)
+My commit 'block/crypto: implement the encryption key management'
+accidently allowed raw luks images to be shared between different
+qemu processes without share-rw=on explicit override.
+Fix that.
 
-are available in the Git repository at:
+Fixes: bbfdae91fb ("block/crypto: implement the encryption key management")
+Bugzilla: https://bugzilla.redhat.com/show_bug.cgi?id=1857490
 
-  https://github.com/XanClic/qemu.git tags/pull-block-2020-07-21
+Signed-off-by: Maxim Levitsky <mlevitsk@redhat.com>
+Message-Id: <20200719122059.59843-2-mlevitsk@redhat.com>
+Signed-off-by: Max Reitz <mreitz@redhat.com>
+---
+ block/crypto.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-for you to fetch changes up to 1d719ddc35e9827b6e5df771555874df34301a0d:
-
-  block: fix bdrv_aio_cancel() for ENOMEDIUM requests (2020-07-21 12:00:38 +0200)
-
-----------------------------------------------------------------
-Block patches for 5.1:
-- Let LUKS images only be shared between VMs if the guest device was
-  configured to allow that
-- Fix abort() from bdrv_aio_cancel() for guest devices without a BDS
-
-----------------------------------------------------------------
-Maxim Levitsky (2):
-  block/crypto: disallow write sharing by default
-  qemu-iotests: add testcase for bz #1857490
-
-Stefan Hajnoczi (1):
-  block: fix bdrv_aio_cancel() for ENOMEDIUM requests
-
- block/block-backend.c      |  8 +++++++
- block/crypto.c             |  2 +-
- tests/qemu-iotests/296     | 44 +++++++++++++++++++++++++++++++++++++-
- tests/qemu-iotests/296.out | 12 +++++++++--
- 4 files changed, 62 insertions(+), 4 deletions(-)
-
+diff --git a/block/crypto.c b/block/crypto.c
+index 8725c1bc02..0807557763 100644
+--- a/block/crypto.c
++++ b/block/crypto.c
+@@ -881,7 +881,7 @@ block_crypto_child_perms(BlockDriverState *bs, BdrvChild *c,
+      * For backward compatibility, manually share the write
+      * and resize permission
+      */
+-    *nshared |= (BLK_PERM_WRITE | BLK_PERM_RESIZE);
++    *nshared |= shared & (BLK_PERM_WRITE | BLK_PERM_RESIZE);
+     /*
+      * Since we are not fully a format driver, don't always request
+      * the read/resize permission but only when explicitly
 -- 
 2.26.2
 
