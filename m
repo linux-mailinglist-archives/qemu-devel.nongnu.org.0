@@ -2,70 +2,76 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 13570228192
-	for <lists+qemu-devel@lfdr.de>; Tue, 21 Jul 2020 16:03:32 +0200 (CEST)
-Received: from localhost ([::1]:46102 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1DDD6228187
+	for <lists+qemu-devel@lfdr.de>; Tue, 21 Jul 2020 16:02:29 +0200 (CEST)
+Received: from localhost ([::1]:43532 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jxsrj-00023S-38
-	for lists+qemu-devel@lfdr.de; Tue, 21 Jul 2020 10:03:31 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:58230)
+	id 1jxsqi-0000zz-5C
+	for lists+qemu-devel@lfdr.de; Tue, 21 Jul 2020 10:02:28 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:58216)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1jxsq2-0000gP-Uc
- for qemu-devel@nongnu.org; Tue, 21 Jul 2020 10:01:47 -0400
-Received: from mail-ot1-x335.google.com ([2607:f8b0:4864:20::335]:34822)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1jxspx-0008Mg-EX
- for qemu-devel@nongnu.org; Tue, 21 Jul 2020 10:01:46 -0400
-Received: by mail-ot1-x335.google.com with SMTP id d4so15146515otk.2
- for <qemu-devel@nongnu.org>; Tue, 21 Jul 2020 07:01:40 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=mime-version:from:date:message-id:subject:to;
- bh=szrYo0+/01kyqzyD6v2ECmzRfRMPG1FJb1hfl64GppQ=;
- b=I/bmaWVh0NGiaSwAUG1jxnD9h2+hMKPbuVqzq+6LEbpNF/YqGsvQlc4Uzh2nTEcxjt
- nrAt/rqTjpfU/fiQ5bRPDy0jbH8OIZ1IHJVforqxok8YfP5Wkj1iK+2PRFRYO5BIhcu9
- tVTr+lDc2g/NcezmlDr3sZINbygF55DNg5KXifENj1+fHN7L4z7KGRahjX3XtCRitxKK
- WOP4T4SHUf2gbLbwQPZFZJS6M+0cWzl2r9oJDEoBo3Wd5Noc7RTJiFTqMGjibpdsEebP
- SDcF5noZlbLcGcJruU9bJj6oVNcTHLoq4iUonCNI5UltclYWL/OuElQCNf8nPx8OI8mh
- JkfQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:from:date:message-id:subject:to;
- bh=szrYo0+/01kyqzyD6v2ECmzRfRMPG1FJb1hfl64GppQ=;
- b=kVxs/jOZv9bCAmBnXfKQ4Hoe7wlLWqzVVXGlcjPrdAAIQ7r8XV5zZNIZJi40EJNzzZ
- X92rymE9GwRrxg8EuNWFS8bOThkmp6fVrW/WZFviqgLR1gBsOhLWQ0pyrKi3WoJgkCWV
- QtiDHyCRJNIg7pkGnxx+pj2zx9e3eG8AXg4I0sQ1TEFgzecUtCB4uF6XCPq2/x2sTrKq
- GP4IfOK0qnFt1QT7XeHft3WDArdn+OgW++MptdCXzee+ZF62Juq7ttuV3xJ+LcoIHOUa
- q8qNI4Gc9ukVfDcDPJR76reTUQ/qLGLeA8kS2IVkRfrEvF3yWUtdH2zP1vBr7429VAdM
- OW+Q==
-X-Gm-Message-State: AOAM530KQQS4bv9kuHsNLD7K5hFOWf/T+B55avQinxlH7KNxiw7AIKOH
- PRIh6Jq7LLrxy3dnBpaj0r1SRyTRKzrlHGxwTucv6pc6L4s=
-X-Google-Smtp-Source: ABdhPJzjjD0+mBgYXm7UtZ4BcC9RbKrT4/qgnFduZAWSM1prMygxx3NOJprLVKw6afId6XO8gRkSNTHhPj4UdjRfFTE=
-X-Received: by 2002:a05:6830:10ce:: with SMTP id
- z14mr25238513oto.135.1595340099436; 
- Tue, 21 Jul 2020 07:01:39 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1jxspv-0000aK-Az
+ for qemu-devel@nongnu.org; Tue, 21 Jul 2020 10:01:39 -0400
+Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:41637
+ helo=us-smtp-1.mimecast.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1jxspt-0008ME-Qf
+ for qemu-devel@nongnu.org; Tue, 21 Jul 2020 10:01:39 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1595340096;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=mhAuwq5sD7tvcPGVylUKCyO6MSgM3RtvHrdJu1vOrNI=;
+ b=SNeD5WzPcxT/o1jZDxvc1FFhXkxe2Dd9yTLzbjEXMp2hN3QKg9V9lJ7J1hpJubWK5i0e2H
+ bwGkVhIPIL2CPqPf05F/iv7y2nqTA5BocPctPtsXlmx69d0cgnbZDxjykyzY9ADXYy4Hsx
+ qUkRarGuGN9t9YkGQ2PYuJokE2SUpTQ=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-11-OwjnbuurP2qusx5A_VofMw-1; Tue, 21 Jul 2020 10:01:34 -0400
+X-MC-Unique: OwjnbuurP2qusx5A_VofMw-1
+Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
+ [10.5.11.13])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id B6739800469;
+ Tue, 21 Jul 2020 14:01:32 +0000 (UTC)
+Received: from sirius.home.kraxel.org (ovpn-115-89.ams2.redhat.com
+ [10.36.115.89])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 27D9F87314;
+ Tue, 21 Jul 2020 14:01:32 +0000 (UTC)
+Received: by sirius.home.kraxel.org (Postfix, from userid 1000)
+ id 67BD09D9E; Tue, 21 Jul 2020 16:01:31 +0200 (CEST)
+Date: Tue, 21 Jul 2020 16:01:31 +0200
+From: Gerd Hoffmann <kraxel@redhat.com>
+To: Laurent Vivier <lvivier@redhat.com>
+Subject: Re: [PATCH for-5.1] xhci: fix valid.max_access_size to access
+ address registers
+Message-ID: <20200721140131.ygigq46fkd4ntqog@sirius.home.kraxel.org>
+References: <20200721083322.90651-1-lvivier@redhat.com>
+ <65c1e6b9-523b-99ec-39eb-00ce59399ccf@redhat.com>
+ <d7f4e646-ac72-cb41-c3bc-13e4e5b91827@redhat.com>
 MIME-Version: 1.0
-From: Peter Maydell <peter.maydell@linaro.org>
-Date: Tue, 21 Jul 2020 15:01:28 +0100
-Message-ID: <CAFEAcA_rFLk2Fs1ibHH7YnR38K-nGjKas5SkPP8ReubHfHtvMQ@mail.gmail.com>
-Subject: error reporting from pre_load etc callbacks
-To: QEMU Developers <qemu-devel@nongnu.org>,
- "Dr. David Alan Gilbert" <dgilbert@redhat.com>, 
- Juan Quintela <quintela@redhat.com>
-Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2607:f8b0:4864:20::335;
- envelope-from=peter.maydell@linaro.org; helo=mail-ot1-x335.google.com
-X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
- That's all we know.
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+In-Reply-To: <d7f4e646-ac72-cb41-c3bc-13e4e5b91827@redhat.com>
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=kraxel@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Received-SPF: pass client-ip=207.211.31.120; envelope-from=kraxel@redhat.com;
+ helo=us-smtp-1.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/07/21 01:46:39
+X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
+X-Spam_score_int: -30
+X-Spam_score: -3.1
+X-Spam_bar: ---
+X-Spam_report: (-3.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H4=-0.01, RCVD_IN_MSPIKE_WL=-0.01,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -78,30 +84,25 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Cc: Alexey Kardashevskiy <aik@au1.ibm.com>,
+ Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
+ qemu-devel@nongnu.org, David Gibson <david@gibson.dropbear.id.au>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-(This was pointed out to me off-list.)
+  Hi,
 
-What is the intended API of the pre_load() etc callbacks?
-docs/devel/migration.rst doesn't say, and there's no doc comment
-in include/migration/vmstate.h. Most actual device implementations
-of the hooks seem to return 0 on success and -1 on failure.
-But the callers of the hooks like vmstate_load_state() seem to
-assume they return negative-errnos: a non-zero return value
-is just propagated up to the caller, and can end up for
-instance treated as negative-errno in process_incoming_migration_co():
-        error_report("load of migration failed: %s", strerror(-ret));
-which results in nonsensical error messages to the user like:
- qemu-system-aarch64: load of migration failed: Operation not permitted
+> >> -    .valid.max_access_size = 4,
+> >> +    .valid.max_access_size = sizeof(dma_addr_t),
 
+> I don't think it's needed as AC64 (in fact a bit in HCCPARAMS) is set
+> only if sizeof(dma_addr_t) != 4...
 
-More generally, it would be nice if a pre_load/post_load/etc
-hook could report an error more precisely than just yes/no
-or even than just an errno: in the case of arm CPU loading
-we could in theory report more detail like which register the
-kernel didn't handle...
+So both AC64 bit and max_access_size are in sync, good.
 
-thanks
--- PMM
+Patch queued.
+
+thanks,
+  Gerd
+
 
