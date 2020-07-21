@@ -2,61 +2,61 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 047E22287EC
-	for <lists+qemu-devel@lfdr.de>; Tue, 21 Jul 2020 20:03:55 +0200 (CEST)
-Received: from localhost ([::1]:45300 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B00572287F6
+	for <lists+qemu-devel@lfdr.de>; Tue, 21 Jul 2020 20:06:20 +0200 (CEST)
+Received: from localhost ([::1]:51690 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jxwcM-0002DE-00
-	for lists+qemu-devel@lfdr.de; Tue, 21 Jul 2020 14:03:54 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:37448)
+	id 1jxweh-0004zy-Qq
+	for lists+qemu-devel@lfdr.de; Tue, 21 Jul 2020 14:06:19 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:37472)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1jxwaI-0000ax-GC
- for qemu-devel@nongnu.org; Tue, 21 Jul 2020 14:01:46 -0400
-Received: from mail-wr1-x42d.google.com ([2a00:1450:4864:20::42d]:37305)
+ id 1jxwaJ-0000c0-5P
+ for qemu-devel@nongnu.org; Tue, 21 Jul 2020 14:01:47 -0400
+Received: from mail-wr1-x442.google.com ([2a00:1450:4864:20::442]:40627)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1jxwaG-0003ut-RK
+ id 1jxwaH-0003v9-B7
  for qemu-devel@nongnu.org; Tue, 21 Jul 2020 14:01:46 -0400
-Received: by mail-wr1-x42d.google.com with SMTP id y3so4714591wrl.4
+Received: by mail-wr1-x442.google.com with SMTP id f2so22034777wrp.7
  for <qemu-devel@nongnu.org>; Tue, 21 Jul 2020 11:01:44 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=sender:from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=qgnMWdA6GNo7AWlQMpq/zRkLjbt1h9TvjUdYX6CVScw=;
- b=HPSpeOeu3CjvdDLSOuXfMdGwH300aFkQ4O4JLvYu3bm3amBQTVDyzCBoYT7WECskPA
- bv+RnLbtUoJKfFocGHyNGQM6AyPN7jXVf7VqmhmqK6LL8AiMicnno5ufQgu4yNxYoC4D
- DsHjAO9WEXoFUTjOml4o5nG0R4k0T3gJk1lgiKTkast5ALUqsJcwapAGjMLnl5bNHcso
- +cjXxV4V9W6y09F04mg/Re639awSGFxAB40d1S/PuO2lCN+kFxYnjh+V3QmRqtBjuY/3
- SsJD0gTSZ3KbBzNKs7FqdoZa5S3z2qGemSsLT4O5afaq/RRSwDCiivaM8xIWjrro4a1j
- Wx8Q==
+ bh=zEMRo8te83NUGt40sJx+NazqtYzYQf05FrJyvrG948Y=;
+ b=sZYwBps8b/LtZWO8+sYkq3qR+HOurIu0jtzqKe6XEt56EkVxZrq8JoECbVH+paNR74
+ gf7TbW/kdfM9a//8imSkAjQS0y0HRZoScBVVbwjAg0xFgjOUabpoQpEqkp9tBQ9n7esG
+ jm2q/BGQSuJ6sHyy7DPdZds7J7hukykgFzQdW8vsvvzCD14kWlTUeyv6AqfnE2rdu/dK
+ 4c1q7tkvIX11/EQeLSAHgggNKrgfG9ANi++m5bd5ucHHV9p7gOxizo/rzOyoCAjCfNk4
+ RX5/oyoT6mHWFbj+rPxgHWoT4+uva0/8PYyW1vU13lApR4qGDPvE/VOEOfXPIR2ASz1Q
+ 65aA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
  :in-reply-to:references:mime-version:content-transfer-encoding;
- bh=qgnMWdA6GNo7AWlQMpq/zRkLjbt1h9TvjUdYX6CVScw=;
- b=Lnr8c0i+cYHLa3eI6pvIPU5Xrd4246UGGdbWrrilL7mdNJSY5i4JxUavr1itZig0AF
- rifyEoVr7Dvr/5hAHKPABK872z3UG26mvaqVJ3oShtOEMEIRkeoIdB473wcgOUWymtCv
- PqVv09kowUkHpzqxCVTFdxXjMz/p+R9i5fviACgu/IgKqOhvFw5mlcUY2F7I+71T14Gf
- Bk4nTnEf4TwVNj3pt1YJNoN2NjxS6mKquu8jAqTVBIbXF87SsDObuhIfxfWtTBxDeK64
- BSFIMd+lhYpoYrNiySuPMXVKHcjG2BxW95r9HTtkctTk56KATXL1Q8VJd+ZDg72v/OD4
- RD0w==
-X-Gm-Message-State: AOAM531/sKbM5Y+jNfLwwFUlPk6+YhB+YfdjhExY2PUgDV0iiLE1uzmg
- cBOH2eyWd53Spy4nqs3PPtkyg/F2oG8=
-X-Google-Smtp-Source: ABdhPJyjOHL7RbdyGU3qt9khevryKoH6p22/ZHcAiiAvd3lWqhaCpbNMnO8Tql9iGUbqrV/4L7bI6g==
-X-Received: by 2002:adf:ab46:: with SMTP id r6mr27867714wrc.260.1595354502628; 
- Tue, 21 Jul 2020 11:01:42 -0700 (PDT)
+ bh=zEMRo8te83NUGt40sJx+NazqtYzYQf05FrJyvrG948Y=;
+ b=eIfDFWw9lJcLlfU3EQV+7A0FfvNZd2hTPWFPphn0iaq8W4zV+kzUzeW1RxrYQ4UBMr
+ HPTxJcvJ2bYDYW+XJzHL8EW0VpckVTVwn12gzFUKYk+s6Am9qL5ysy1ddmLSqB6CqrsO
+ 0rMqDkpD7/E3JMYtWs54buXp+m7dSTDFfitjddsLZS2YaLEAXHis8XcoHi/OsXdnyAB5
+ 1794GXUGn6EHQJkvUj1fHz080mhw+M5BN9Bte+D+txA9YuKovW8ARRh9wyL9z4sRwjtg
+ VxctuDazCcGu1Oz+7XtU9/e+IS0zV6+IJeajoMf8fWydwmV4pY7R6GjVq0HktFS+pgOg
+ prDw==
+X-Gm-Message-State: AOAM531OIbQyKI3cI3cgOhRG7Fb7wH4ccKIZlYbxm7pOK8J/JWs5w7qb
+ mPfa3Noo9UiHgVGR+0EXg00JSuvzCf4=
+X-Google-Smtp-Source: ABdhPJxbXlMNujAC2hiHXEpPhXMssKW3WtBTjgzjbKnkot3uHqqs9XBDE8dzjr7TbtAs6XY6SBO9eQ==
+X-Received: by 2002:adf:a3d0:: with SMTP id m16mr26289978wrb.232.1595354503725; 
+ Tue, 21 Jul 2020 11:01:43 -0700 (PDT)
 Received: from x1w.redhat.com (138.red-83-57-170.dynamicip.rima-tde.net.
  [83.57.170.138])
- by smtp.gmail.com with ESMTPSA id t2sm3557249wmb.25.2020.07.21.11.01.41
+ by smtp.gmail.com with ESMTPSA id t2sm3557249wmb.25.2020.07.21.11.01.42
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 21 Jul 2020 11:01:42 -0700 (PDT)
+ Tue, 21 Jul 2020 11:01:43 -0700 (PDT)
 From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
 To: qemu-devel@nongnu.org
-Subject: [PULL 3/4] qemu-common: Document qemu_find_file()
-Date: Tue, 21 Jul 2020 20:01:36 +0200
-Message-Id: <20200721180137.11136-4-f4bug@amsat.org>
+Subject: [PULL 4/4] hw/avr/boot: Fix memory leak in avr_load_firmware()
+Date: Tue, 21 Jul 2020 20:01:37 +0200
+Message-Id: <20200721180137.11136-5-f4bug@amsat.org>
 X-Mailer: git-send-email 2.21.3
 In-Reply-To: <20200721180137.11136-1-f4bug@amsat.org>
 References: <20200721180137.11136-1-f4bug@amsat.org>
@@ -64,8 +64,8 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::42d;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wr1-x42d.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::442;
+ envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wr1-x442.google.com
 X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
  That's all we know.
 X-Spam_score_int: 0
@@ -87,57 +87,43 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Maydell <peter.maydell@linaro.org>,
- Sarah Harris <S.E.Harris@kent.ac.uk>,
+Cc: Sarah Harris <S.E.Harris@kent.ac.uk>,
  =?UTF-8?q?Daniel=20P=20=2E=20Berrang=C3=A9?= <berrange@redhat.com>,
- Stefan Weil <sw@weilnetz.de>, Li Qiang <liq3ea@gmail.com>,
+ Stefan Weil <sw@weilnetz.de>,
  =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>,
  Michael Rolnik <mrolnik@gmail.com>, Paolo Bonzini <pbonzini@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Document qemu_find_file(), in particular the returned
-value which must be freed.
+The value returned by qemu_find_file() must be freed.
 
+This fixes Coverity issue CID 1430449, which points out
+that the memory returned by qemu_find_file() is leaked.
+
+Fixes: Coverity CID 1430449 (RESOURCE_LEAK)
+Fixes: 7dd8f6fde4 ('hw/avr: Add support for loading ELF/raw binaries')
 Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
-Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
-Reviewed-by: Li Qiang <liq3ea@gmail.com>
 Reviewed-by: Michael Rolnik <mrolnik@gmail.com>
 Tested-by: Michael Rolnik <mrolnik@gmail.com>
 Reviewed-by: Daniel P. Berrangé <berrange@redhat.com>
-Message-Id: <20200714164257.23330-4-f4bug@amsat.org>
+Message-Id: <20200714164257.23330-5-f4bug@amsat.org>
 ---
- include/qemu-common.h | 17 +++++++++++++++++
- 1 file changed, 17 insertions(+)
+ hw/avr/boot.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/include/qemu-common.h b/include/qemu-common.h
-index d0142f29ac..bb9496bd80 100644
---- a/include/qemu-common.h
-+++ b/include/qemu-common.h
-@@ -110,6 +110,23 @@ const char *qemu_get_vm_name(void);
- 
- #define QEMU_FILE_TYPE_BIOS   0
- #define QEMU_FILE_TYPE_KEYMAP 1
-+/**
-+ * qemu_find_file:
-+ * @type: QEMU_FILE_TYPE_BIOS (for BIOS, VGA BIOS)
-+ *        or QEMU_FILE_TYPE_KEYMAP (for keymaps).
-+ * @name: Relative or absolute file name
-+ *
-+ * If @name exists on disk as an absolute path, or a path relative
-+ * to the current directory, then returns @name unchanged.
-+ * Otherwise searches for @name file in the data directories, either
-+ * configured at build time (DATADIR) or registered with the -L command
-+ * line option.
-+ *
-+ * The caller must use g_free() to free the returned data when it is
-+ * no longer required.
-+ *
-+ * Returns: a path that can access @name, or NULL if no matching file exists.
-+ */
- char *qemu_find_file(int type, const char *name);
- 
- /* OS specific functions */
+diff --git a/hw/avr/boot.c b/hw/avr/boot.c
+index 6fbcde4061..d16bb3dbe1 100644
+--- a/hw/avr/boot.c
++++ b/hw/avr/boot.c
+@@ -60,7 +60,7 @@ static const char *avr_elf_e_flags_to_cpu_type(uint32_t flags)
+ bool avr_load_firmware(AVRCPU *cpu, MachineState *ms,
+                        MemoryRegion *program_mr, const char *firmware)
+ {
+-    const char *filename;
++    g_autofree char *filename = NULL;
+     int bytes_loaded;
+     uint64_t entry;
+     uint32_t e_flags;
 -- 
 2.21.3
 
