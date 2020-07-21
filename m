@@ -2,109 +2,75 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8ED4C22805E
-	for <lists+qemu-devel@lfdr.de>; Tue, 21 Jul 2020 14:58:41 +0200 (CEST)
-Received: from localhost ([::1]:57496 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id EDFEB22803F
+	for <lists+qemu-devel@lfdr.de>; Tue, 21 Jul 2020 14:47:03 +0200 (CEST)
+Received: from localhost ([::1]:60816 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jxrqy-0002oC-LT
-	for lists+qemu-devel@lfdr.de; Tue, 21 Jul 2020 08:58:40 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:41768)
+	id 1jxrfi-00007V-Q8
+	for lists+qemu-devel@lfdr.de; Tue, 21 Jul 2020 08:47:02 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:35300)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <andrey.shinkevich@virtuozzo.com>)
- id 1jxrqC-0002CR-4u; Tue, 21 Jul 2020 08:57:52 -0400
-Received: from mail-eopbgr60134.outbound.protection.outlook.com
- ([40.107.6.134]:11014 helo=EUR04-DB3-obe.outbound.protection.outlook.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <andrey.shinkevich@virtuozzo.com>)
- id 1jxrq7-0007o6-Sq; Tue, 21 Jul 2020 08:57:50 -0400
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=WmpKHg1PZYvW858930D0MlzveJorLMT6eVJ3tP8YEb15lxmfFGw07s2XjAhzqUSi4m/itCrob95vMkcdz7FxfelPG2Gsd6h1NQ3D65uMhygT9tCI3Xg3mRqOtM+DVYpkHiGMhX+Yi72fHRcVxWMf4P9Mq0JAJ9N1DcHZBWFZucoQWDfxhW9M0tZZSX4QNijbbrig1jLVqk8f89wHM8jfn9MqAkqT2Any0VCwIDlJdIUn6vVN43Q+xHWkDetPTlArdzUP8bmpJlvltTBhlndI4JZRDB66nYFjmYxnzQr2J1rcyYI8CvAwmj2C7KhliG/xgGz7uNW2QB/sUNmdLpl25g==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=UTABr+V3DEJws/Ov0X9eStwcVxCCzKVaCcglsiJL284=;
- b=U+qM4b+/aQ5zhJJpcs+6/e4w26vgWfLShGloPLPGoULDamsz4LSlJVw+uPbjeX2/UbZCcxn9tDd96YMLadPzRx1ruQ3C1FASecN62mztmX8TpX+qOSTFGjou5jZ1u0SQlA1npPaMRoNKoKkGVFuR8ZhHgW09ckFIq0JvttO0N0mdtqZK7wflqvQ5S+oIKp5+ptrtiXztkv1Zmi/Zc9XV4yZWimThMoQ+Cvq1Q+S6mPblZxwLbR/SvDWsKuCxRi8urw5FfwTBJ4zajX7rW5Hx8nedixXyQZCloF7a5FvPG6u1uobgd1S3rvXKx4gxdcnDOjIKdZT5UU8XFr8oYjSvJw==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=virtuozzo.com; dmarc=pass action=none
- header.from=virtuozzo.com; dkim=pass header.d=virtuozzo.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=virtuozzo.com;
- s=selector2;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=UTABr+V3DEJws/Ov0X9eStwcVxCCzKVaCcglsiJL284=;
- b=qa9wOre8IFQYnkj40Cw5BvDvjEehDVHQvEow2O2KO391r/lnR7zxgys/8wRAbEeDQR1TNzadVU4aL1QpQdNgswjDrSplBUT78QenmPJdiV9Fj2uzHpquzSMfYhVlXXGlPn7DJWRBih/MQYj8sjLXQl/XyPtImacpQqlImeqjioE=
-Authentication-Results: nongnu.org; dkim=none (message not signed)
- header.d=none;nongnu.org; dmarc=none action=none header.from=virtuozzo.com;
-Received: from AM6PR08MB4070.eurprd08.prod.outlook.com (2603:10a6:20b:a3::25)
- by AM5PR0801MB1715.eurprd08.prod.outlook.com (2603:10a6:203:3c::10)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3195.25; Tue, 21 Jul
- 2020 12:42:42 +0000
-Received: from AM6PR08MB4070.eurprd08.prod.outlook.com
- ([fe80::78ec:8cb6:41f7:b2a0]) by AM6PR08MB4070.eurprd08.prod.outlook.com
- ([fe80::78ec:8cb6:41f7:b2a0%5]) with mapi id 15.20.3195.026; Tue, 21 Jul 2020
- 12:42:42 +0000
-Subject: Re: [PATCH v7 32/47] block-copy: Use CAF to find sync=top base
-To: Max Reitz <mreitz@redhat.com>, qemu-block@nongnu.org
-References: <20200625152215.941773-1-mreitz@redhat.com>
- <20200625152215.941773-33-mreitz@redhat.com>
-From: Andrey Shinkevich <andrey.shinkevich@virtuozzo.com>
-Message-ID: <8814f53b-5d8c-26b7-a02d-88f325741fea@virtuozzo.com>
-Date: Tue, 21 Jul 2020 15:42:35 +0300
-User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:68.0)
- Gecko/20100101 Thunderbird/68.9.0
-In-Reply-To: <20200625152215.941773-33-mreitz@redhat.com>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Transfer-Encoding: 7bit
-Content-Language: en-GB
-X-ClientProxiedBy: AM0P190CA0024.EURP190.PROD.OUTLOOK.COM
- (2603:10a6:208:190::34) To AM6PR08MB4070.eurprd08.prod.outlook.com
- (2603:10a6:20b:a3::25)
+ (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
+ id 1jxrbm-0004ES-LI; Tue, 21 Jul 2020 08:42:58 -0400
+Received: from mail-wr1-x441.google.com ([2a00:1450:4864:20::441]:33462)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
+ id 1jxrbk-0005B4-Ur; Tue, 21 Jul 2020 08:42:58 -0400
+Received: by mail-wr1-x441.google.com with SMTP id f18so21109351wrs.0;
+ Tue, 21 Jul 2020 05:42:54 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=sender:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=P65Bv8Dg7uT0DN6qbTNjhnvSKqzYAGqpE5gNoNpHkJo=;
+ b=P3jL4mSSu2Usjqpi2o65sEQgOmd1L9tnpdf7ArJX9yZ4/r8/uFr9vxaD/zQKSDGzu3
+ JKP/XRIyjZtx8Hd4zMxSn8VjCX1F1GXtI+K66GX6JgpUCGLmU69J5FfCYy7NSAmXruRH
+ i/zl2gC/lFn709k+jccnyfFGAUFLdFgtPwHKN/zw4Bs1OgN0c7vMgxjoZKcMhDLKwmf8
+ YLjbUiR704TJmMtVHTzaa2IgBimnNXRRsrqqe0V2H4C18oU9SCz1w6bsVZdZO/Vtc+l0
+ 6cCjOiHPgXxw/fU9db57ifPFpGz1CCF5AbSA11C0A/2R+oVdOI59RKNbdF4HyLXc8Fh8
+ jYGw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
+ :mime-version:content-transfer-encoding;
+ bh=P65Bv8Dg7uT0DN6qbTNjhnvSKqzYAGqpE5gNoNpHkJo=;
+ b=VXu4T0GvCgWgp7ju7+gtQraexpaF+GVkjPrI2gej9ZLIRovnJxLgHf+6dougrYydjI
+ KClR3B42nydGp/IDrD2cChCafaNvBCJsZkd8DX15F+fDUJGt5wADkEaweRQ0j4FGcApn
+ wpw8rrIcv6XcJv+draBOssmT8ZpoGXCwmFfMKGycOp8eCOwtl4GFEWpndQ7n0JfbI7Zv
+ KnmEWvtByUGqk2bXBbwLYGkAxi2a3nFc2mGszkhD2GKSXr3BdLexksKfoOIO0dN7T0qf
+ Fqvq2pPk9Gaz8g84VxzD9B27VCdU+wtzKKWcyR1q/I6xl/VqxccI1X6hsYgVafD2OGYr
+ V4/Q==
+X-Gm-Message-State: AOAM533zV7hxswfAWT82LY/itqb7RR2jcqf+b/axoA0xnqsoEDvGLG8Y
+ husJzWTiU4Ge8Tf9zb8JZrxeI4qHU8I=
+X-Google-Smtp-Source: ABdhPJz92YSjDlHGp4WNvXx5UtPyQ37A4OxAJfkjFN0OZRjOLjpgAjA4PSMKnshypn+ZHagUF64z8w==
+X-Received: by 2002:a5d:440e:: with SMTP id z14mr8572381wrq.422.1595335373540; 
+ Tue, 21 Jul 2020 05:42:53 -0700 (PDT)
+Received: from localhost.localdomain
+ (138.red-83-57-170.dynamicip.rima-tde.net. [83.57.170.138])
+ by smtp.gmail.com with ESMTPSA id q1sm37018777wro.82.2020.07.21.05.42.51
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Tue, 21 Jul 2020 05:42:51 -0700 (PDT)
+From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
+To: qemu-devel@nongnu.org
+Subject: [PATCH-for-5.1 v3] hw/misc/aspeed_sdmc: Fix incorrect memory size
+Date: Tue, 21 Jul 2020 14:42:50 +0200
+Message-Id: <20200721124250.8601-1-f4bug@amsat.org>
+X-Mailer: git-send-email 2.21.3
 MIME-Version: 1.0
-X-MS-Exchange-MessageSentRepresentingType: 1
-Received: from Admins-MacBook-Pro.local (109.252.114.191) by
- AM0P190CA0024.EURP190.PROD.OUTLOOK.COM (2603:10a6:208:190::34) with Microsoft
- SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.3195.18 via Frontend Transport; Tue, 21 Jul 2020 12:42:39 +0000
-X-Originating-IP: [109.252.114.191]
-X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: 11f0a4b6-9101-43d2-517f-08d82d738f6e
-X-MS-TrafficTypeDiagnostic: AM5PR0801MB1715:
-X-MS-Exchange-Transport-Forked: True
-X-Microsoft-Antispam-PRVS: <AM5PR0801MB171593E822235A98E70587AAF4780@AM5PR0801MB1715.eurprd08.prod.outlook.com>
-X-MS-Oob-TLC-OOBClassifiers: OLM:59;
-X-MS-Exchange-SenderADCheck: 1
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: 0bfpjrrlg+mrUbOua8Sj85D0C69DE8+CNjoHtA+njILgR/aru8vttR1qZT20zksFrXeZyYOo4Q+q95dS+ANYtLlO5BaZJi0JySXKXtXGFFlqtD1y5upJc9t222MRGQ51qekj23fujfv5maSQnVDtggZ0XvU7MqMPQWHBrvkvHl73UWYd84vkm+YiYLm8wXmayWGqdzbBqDXMDbzVpQPtyTT5ulXay/I4Evw0t57ueGE+eyykOVly8OYCHQAItXHVSgmhkQqXk1HHvGaTsA2d6RZ8rTAFN3zVMZqr+d9VEJin4KNcBklS4E4P2tn5eAK5XZwwxrBYXJ9Xdb/ZYTN4Sx/9P7J6/G1d2NnWTIxAKno7YWsbtZXvmUZsMoOWGsFrrdywnNb0yJgm9qEA5Cwv3Q==
-X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:AM6PR08MB4070.eurprd08.prod.outlook.com; PTR:; CAT:NONE;
- SFTY:;
- SFS:(4636009)(366004)(376002)(346002)(39840400004)(136003)(396003)(8676002)(5660300002)(6506007)(316002)(53546011)(6512007)(2906002)(31696002)(4744005)(83380400001)(8936002)(52116002)(4326008)(86362001)(54906003)(31686004)(6666004)(66946007)(66556008)(66476007)(956004)(36756003)(478600001)(2616005)(6486002)(186003)(44832011)(26005)(16526019)(37363001)(43740500002);
- DIR:OUT; SFP:1102; 
-X-MS-Exchange-AntiSpam-MessageData: BqWQDsDOgIJ9PAzCSxz7X1xYZxBoyLzJaO9uAaB46Sl4GnHT4BAdXNwcmWoiVZM4JJ/aKJRcUNN1eEUhb9/XzaZHKzGyWOZdK3LvLk7NIoONmW6yeNkuiSQB2hv6sb0l9lXNZXfeQagDxtsjqBcjp9IUqnZoPFVS5YVkPDqFRGof5ZYLXQEjDFfSALzQ8MNUyDSZvaMO/2wogX/0a2/f/Afr1uMGk6DxDgkaUXACJlS5ByhU4iIt5rEmE1nWws+i87ZNTT/hCE10epTtuKDhWFTct8c/GFBbVS/ulwoW8799OiP3ilgno3YSXR2xGbUb3NIEiRigMjFhtKE+ebIxbwAxWC5ksin7Ud++1R43wagEbz9jv/4Es2pqmIBLukWfg516unlLJ2OvQHCCDOXyYYWznMPYNrvIp19k1KMr3Apz/XPlmDzmkHBHbVUHk1ikVTVE4GsfkfCqX4fdTj9U1OcjB/w9B75N1Iv75m+4qLMM6OpMGSauFArtJ1hZ3a51
-X-OriginatorOrg: virtuozzo.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 11f0a4b6-9101-43d2-517f-08d82d738f6e
-X-MS-Exchange-CrossTenant-AuthSource: AM6PR08MB4070.eurprd08.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 21 Jul 2020 12:42:42.6214 (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 0bc7f26d-0264-416e-a6fc-8352af79c58f
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: IhgFy994Vb4sL81ac9sdfTWlCjtyqfrNBKBJr8Kzu31jMQhZRkgHMUDaK5/ZqpmASgTtwr6wa9+KgLEBaYKGcv9JubVD3M4a/DULmc7Fwuo=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: AM5PR0801MB1715
-Received-SPF: pass client-ip=40.107.6.134;
- envelope-from=andrey.shinkevich@virtuozzo.com;
- helo=EUR04-DB3-obe.outbound.protection.outlook.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/07/21 08:57:45
-X-ACL-Warn: Detected OS   = Windows NT kernel [generic] [fuzzy]
-X-Spam_score_int: -37
-X-Spam_score: -3.8
-X-Spam_bar: ---
-X-Spam_report: (-3.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- MSGID_FROM_MTA_HEADER=0.001, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-1,
- SPF_HELO_PASS=-0.001, SPF_PASS=-0.001,
- URIBL_BLOCKED=0.001 autolearn=ham autolearn_force=no
+Content-Type: text/plain; charset=UTF-8
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=2a00:1450:4864:20::441;
+ envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wr1-x441.google.com
+X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
+ That's all we know.
+X-Spam_score_int: 0
+X-Spam_score: 0.0
+X-Spam_bar: /
+X-Spam_report: (0.0 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1, DKIM_VALID=-0.1,
+ DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=1, FREEMAIL_FROM=0.001,
+ HEADER_FROM_DIFFERENT_DOMAINS=1, RCVD_IN_DNSWL_NONE=-0.0001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -117,35 +83,80 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Kevin Wolf <kwolf@redhat.com>,
- Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>, qemu-devel@nongnu.org
+Cc: Peter Maydell <peter.maydell@linaro.org>, Andrew Jeffery <andrew@aj.id.au>,
+ =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>,
+ qemu-trivial@nongnu.org, qemu-arm@nongnu.org,
+ =?UTF-8?q?C=C3=A9dric=20Le=20Goater?= <clg@kaod.org>,
+ Joel Stanley <joel@jms.id.au>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 25.06.2020 18:22, Max Reitz wrote:
-> Signed-off-by: Max Reitz <mreitz@redhat.com>
-> ---
->   block/block-copy.c | 4 ++--
->   1 file changed, 2 insertions(+), 2 deletions(-)
->
-> diff --git a/block/block-copy.c b/block/block-copy.c
-> index f7428a7c08..5e80569bb8 100644
-> --- a/block/block-copy.c
-> +++ b/block/block-copy.c
-> @@ -437,8 +437,8 @@ static int block_copy_block_status(BlockCopyState *s, int64_t offset,
->       BlockDriverState *base;
->       int ret;
->   
-> -    if (s->skip_unallocated && s->source->bs->backing) {
-> -        base = s->source->bs->backing->bs;
-> +    if (s->skip_unallocated) {
-> +        base = bdrv_backing_chain_next(s->source->bs);
->       } else {
->           base = NULL;
->       }
+The SDRAM Memory Controller has a 32-bit address bus, thus
+supports up to 4 GiB of DRAM. There is a signed to unsigned
+conversion error with the AST2600 maximum memory size:
 
+  (uint64_t)(2048 << 20) = (uint64_t)(-2147483648)
+                         = 0xffffffff40000000
+                         = 16 EiB - 2 GiB
 
-Reviewed-by: Andrey Shinkevich <andrey.shinkevich@virtuozzo.com>
+Fix by using the IEC suffixes which are usually safer, and add
+an assertion check to verify the memory is valid. This would have
+caught this bug:
 
+  $ qemu-system-arm -M ast2600-evb
+  qemu-system-arm: hw/misc/aspeed_sdmc.c:258: aspeed_sdmc_realize: Assertion `asc->max_ram_size < 4 * GiB' failed.
+  Aborted (core dumped)
+
+Fixes: 1550d72679 ("aspeed/sdmc: Add AST2600 support")
+Reviewed-by: Cédric Le Goater <clg@kaod.org>
+Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
+---
+v2: Assert (Cédric)
+v3: Fixed typo (Markus)
+---
+ hw/misc/aspeed_sdmc.c | 7 ++++---
+ 1 file changed, 4 insertions(+), 3 deletions(-)
+
+diff --git a/hw/misc/aspeed_sdmc.c b/hw/misc/aspeed_sdmc.c
+index 0737d8de81..855848b7d2 100644
+--- a/hw/misc/aspeed_sdmc.c
++++ b/hw/misc/aspeed_sdmc.c
+@@ -255,6 +255,7 @@ static void aspeed_sdmc_realize(DeviceState *dev, Error **errp)
+     AspeedSDMCState *s = ASPEED_SDMC(dev);
+     AspeedSDMCClass *asc = ASPEED_SDMC_GET_CLASS(s);
+ 
++    assert(asc->max_ram_size < 4 * GiB); /* 32-bit address bus */
+     s->max_ram_size = asc->max_ram_size;
+ 
+     memory_region_init_io(&s->iomem, OBJECT(s), &aspeed_sdmc_ops, s,
+@@ -341,7 +342,7 @@ static void aspeed_2400_sdmc_class_init(ObjectClass *klass, void *data)
+     AspeedSDMCClass *asc = ASPEED_SDMC_CLASS(klass);
+ 
+     dc->desc = "ASPEED 2400 SDRAM Memory Controller";
+-    asc->max_ram_size = 512 << 20;
++    asc->max_ram_size = 512 * MiB;
+     asc->compute_conf = aspeed_2400_sdmc_compute_conf;
+     asc->write = aspeed_2400_sdmc_write;
+     asc->valid_ram_sizes = aspeed_2400_ram_sizes;
+@@ -408,7 +409,7 @@ static void aspeed_2500_sdmc_class_init(ObjectClass *klass, void *data)
+     AspeedSDMCClass *asc = ASPEED_SDMC_CLASS(klass);
+ 
+     dc->desc = "ASPEED 2500 SDRAM Memory Controller";
+-    asc->max_ram_size = 1024 << 20;
++    asc->max_ram_size = 1 * GiB;
+     asc->compute_conf = aspeed_2500_sdmc_compute_conf;
+     asc->write = aspeed_2500_sdmc_write;
+     asc->valid_ram_sizes = aspeed_2500_ram_sizes;
+@@ -485,7 +486,7 @@ static void aspeed_2600_sdmc_class_init(ObjectClass *klass, void *data)
+     AspeedSDMCClass *asc = ASPEED_SDMC_CLASS(klass);
+ 
+     dc->desc = "ASPEED 2600 SDRAM Memory Controller";
+-    asc->max_ram_size = 2048 << 20;
++    asc->max_ram_size = 2 * GiB;
+     asc->compute_conf = aspeed_2600_sdmc_compute_conf;
+     asc->write = aspeed_2600_sdmc_write;
+     asc->valid_ram_sizes = aspeed_2600_ram_sizes;
+-- 
+2.21.3
 
 
