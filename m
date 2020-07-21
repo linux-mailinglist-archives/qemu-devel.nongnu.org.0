@@ -2,83 +2,137 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0E987228157
-	for <lists+qemu-devel@lfdr.de>; Tue, 21 Jul 2020 15:52:02 +0200 (CEST)
-Received: from localhost ([::1]:57670 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 35E6C228163
+	for <lists+qemu-devel@lfdr.de>; Tue, 21 Jul 2020 15:55:09 +0200 (CEST)
+Received: from localhost ([::1]:33658 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jxsgb-0003Id-4k
-	for lists+qemu-devel@lfdr.de; Tue, 21 Jul 2020 09:52:01 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:56054)
+	id 1jxsjc-00054U-9E
+	for lists+qemu-devel@lfdr.de; Tue, 21 Jul 2020 09:55:08 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:56704)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1jxsfc-0002WJ-PL
- for qemu-devel@nongnu.org; Tue, 21 Jul 2020 09:51:00 -0400
-Received: from mail-wm1-x344.google.com ([2a00:1450:4864:20::344]:52526)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1jxsfb-00079C-1g
- for qemu-devel@nongnu.org; Tue, 21 Jul 2020 09:51:00 -0400
-Received: by mail-wm1-x344.google.com with SMTP id q15so2914581wmj.2
- for <qemu-devel@nongnu.org>; Tue, 21 Jul 2020 06:50:58 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=references:user-agent:from:to:cc:subject:in-reply-to:date
- :message-id:mime-version:content-transfer-encoding;
- bh=DrIPPhQhV/GWLS/R9qmGqgg2A0UPjcVb8QkS+lfQikU=;
- b=yFFIKJQpadc1IR7obaCqtzr70eQnvKSxMUvWSybwXq1KFNpiR/Piz5fcWUHpCS0JRU
- QtUznKENgS0lNFiVO33wAL9dq46dSP2OdTIlrj7zXOyg5+RIqGiXfmNsC1d7AVHrbe7W
- WsLOdF8C0IAbGiFtES5ih91/h9osqGoMMFeP8+doEwtXJEVVtM0t2N+b9feRGSXrvcOV
- 8JBmlXLMc0qyPr29iDmOrbyCLKRS+Hen+4/1swB7ZFp7wcRnZZ5hqDxQCspljWvwnZ0R
- E00BJ/4ls6HePqwf95PnsJWmP83kg73LEYrnCtSPFWqtotL19U4nhZ2wQQPZTZLlo6/V
- 7OAg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:references:user-agent:from:to:cc:subject
- :in-reply-to:date:message-id:mime-version:content-transfer-encoding;
- bh=DrIPPhQhV/GWLS/R9qmGqgg2A0UPjcVb8QkS+lfQikU=;
- b=i4tkqpPx+I9hyWv7QGdb24X1152zOmyxspzGhXYBGer5Z4ZuYtdqRGDNWe2Wgx9C/Y
- eoDuIa3Jo44E/+5goGRXdmsvy8f5ePr0P2ht+v+FewwPPh+Oa44kHv16u8h5rabyuzl6
- uFhHhjf+s6qLTH5pi4XAogxzMrszstYtTJJ0yQiDq1x76/Gk33fDBx4NbzbAFph8vKGe
- 0eDRHlJY0PJWRm6P2Gp3wOEwrZsYc+GPPhe7opAnOlOJ+3rbOTCafQI17rfZVA+dDMHl
- qB4AAD76jegIkWDX4COocPIaG+SkDaJVLSK3OEXIBTnve9FBlYBtBWX7rvlSlu+SMxmg
- JtZA==
-X-Gm-Message-State: AOAM531wCV0+a0EbPuiSQxVJ5p3E4GUcU0rNroj7ZRta4rIlr0gOgfWh
- K210SiNZPGdxSbyNPfGXYoAgvw==
-X-Google-Smtp-Source: ABdhPJzyi84GTBlaSfmQjABP75pK7jLfJsj2iJsL/FVTBAe/rVL9qNXDtXXxXxRBs0Pd7gYtLr/kEA==
-X-Received: by 2002:a1c:7510:: with SMTP id o16mr3895682wmc.146.1595339457463; 
- Tue, 21 Jul 2020 06:50:57 -0700 (PDT)
-Received: from zen.linaroharston ([51.148.130.216])
- by smtp.gmail.com with ESMTPSA id y77sm3874270wmd.36.2020.07.21.06.50.56
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 21 Jul 2020 06:50:56 -0700 (PDT)
-Received: from zen (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id 8BB7B1FF7E;
- Tue, 21 Jul 2020 14:50:55 +0100 (BST)
-References: <20200717105139.25293-1-alex.bennee@linaro.org>
- <20200717105139.25293-5-alex.bennee@linaro.org>
- <alpine.BSF.2.22.395.2007171529440.1227@zero.eik.bme.hu>
- <CAATJJ0+JV0PFcPBdr5CbMnQF2FZrSe7B0g0fGmzOobHhjOdfJg@mail.gmail.com>
- <b565376b-a269-27c1-61c5-b010db963f9f@linaro.org>
-User-agent: mu4e 1.5.5; emacs 28.0.50
-From: Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
-To: Richard Henderson <richard.henderson@linaro.org>
-Subject: Re: [PATCH v1 4/5] util: add qemu_get_host_physmem utility function
-In-reply-to: <b565376b-a269-27c1-61c5-b010db963f9f@linaro.org>
-Date: Tue, 21 Jul 2020 14:50:55 +0100
-Message-ID: <87pn8pugcg.fsf@linaro.org>
+ (Exim 4.90_1) (envelope-from <borntraeger@de.ibm.com>)
+ id 1jxsiu-0004fY-Du
+ for qemu-devel@nongnu.org; Tue, 21 Jul 2020 09:54:24 -0400
+Received: from mx0a-001b2d01.pphosted.com ([148.163.156.1]:48642)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <borntraeger@de.ibm.com>)
+ id 1jxsis-0007TE-8Z
+ for qemu-devel@nongnu.org; Tue, 21 Jul 2020 09:54:24 -0400
+Received: from pps.filterd (m0098409.ppops.net [127.0.0.1])
+ by mx0a-001b2d01.pphosted.com (8.16.0.42/8.16.0.42) with SMTP id
+ 06LDXkAL016702
+ for <qemu-devel@nongnu.org>; Tue, 21 Jul 2020 09:54:20 -0400
+Received: from pps.reinject (localhost [127.0.0.1])
+ by mx0a-001b2d01.pphosted.com with ESMTP id 32d5h8tg8f-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT)
+ for <qemu-devel@nongnu.org>; Tue, 21 Jul 2020 09:54:20 -0400
+Received: from m0098409.ppops.net (m0098409.ppops.net [127.0.0.1])
+ by pps.reinject (8.16.0.36/8.16.0.36) with SMTP id 06LDYA9u019522
+ for <qemu-devel@nongnu.org>; Tue, 21 Jul 2020 09:54:20 -0400
+Received: from ppma05fra.de.ibm.com (6c.4a.5195.ip4.static.sl-reverse.com
+ [149.81.74.108])
+ by mx0a-001b2d01.pphosted.com with ESMTP id 32d5h8tg6v-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Tue, 21 Jul 2020 09:54:19 -0400
+Received: from pps.filterd (ppma05fra.de.ibm.com [127.0.0.1])
+ by ppma05fra.de.ibm.com (8.16.0.42/8.16.0.42) with SMTP id 06LDoVVc007977;
+ Tue, 21 Jul 2020 13:54:17 GMT
+Received: from b06cxnps3075.portsmouth.uk.ibm.com
+ (d06relay10.portsmouth.uk.ibm.com [9.149.109.195])
+ by ppma05fra.de.ibm.com with ESMTP id 32brq820sj-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Tue, 21 Jul 2020 13:54:17 +0000
+Received: from d06av21.portsmouth.uk.ibm.com (d06av21.portsmouth.uk.ibm.com
+ [9.149.105.232])
+ by b06cxnps3075.portsmouth.uk.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
+ 06LDsEik28049838
+ (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+ Tue, 21 Jul 2020 13:54:14 GMT
+Received: from d06av21.portsmouth.uk.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id 1F1AC5204E;
+ Tue, 21 Jul 2020 13:54:14 +0000 (GMT)
+Received: from oc7455500831.ibm.com (unknown [9.145.80.29])
+ by d06av21.portsmouth.uk.ibm.com (Postfix) with ESMTP id BD9EB52052;
+ Tue, 21 Jul 2020 13:54:13 +0000 (GMT)
+Subject: Re: [PATCH 2/7] pc-bios: s390x: Cleanup jump to ipl code
+To: Thomas Huth <thuth@redhat.com>, Janosch Frank <frankja@linux.ibm.com>,
+ qemu-devel@nongnu.org
+References: <20200715094045.381984-1-frankja@linux.ibm.com>
+ <20200715094045.381984-3-frankja@linux.ibm.com>
+ <cd3b6812-b3d4-2a10-382d-2587b661ab2c@redhat.com>
+From: Christian Borntraeger <borntraeger@de.ibm.com>
+Autocrypt: addr=borntraeger@de.ibm.com; prefer-encrypt=mutual; keydata=
+ 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
+ nS4h0HDFPrrp1C2EMVYIQrMokWvlFZbCpsdYbBI=
+Message-ID: <1a52b0e5-2657-d637-0061-a167f8b4484e@de.ibm.com>
+Date: Tue, 21 Jul 2020 15:54:13 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.9.0
 MIME-Version: 1.0
+In-Reply-To: <cd3b6812-b3d4-2a10-382d-2587b661ab2c@redhat.com>
 Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=2a00:1450:4864:20::344;
- envelope-from=alex.bennee@linaro.org; helo=mail-wm1-x344.google.com
-X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
- That's all we know.
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+Content-Language: en-US
+Content-Transfer-Encoding: 8bit
+X-TM-AS-GCONF: 00
+X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:6.0.235, 18.0.687
+ definitions=2020-07-21_08:2020-07-21,
+ 2020-07-21 signatures=0
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ malwarescore=0 phishscore=0
+ mlxlogscore=999 spamscore=0 adultscore=0 clxscore=1015 mlxscore=0
+ priorityscore=1501 bulkscore=0 impostorscore=0 suspectscore=0
+ lowpriorityscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2006250000 definitions=main-2007210098
+Received-SPF: pass client-ip=148.163.156.1;
+ envelope-from=borntraeger@de.ibm.com; helo=mx0a-001b2d01.pphosted.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/07/21 06:32:08
+X-ACL-Warn: Detected OS   = Linux 3.x [generic] [fuzzy]
+X-Spam_score_int: -35
+X-Spam_score: -3.6
+X-Spam_bar: ---
+X-Spam_report: (-3.6 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_LOW=-0.7,
+ RCVD_IN_MSPIKE_H2=-1, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -92,62 +146,57 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: fam@euphon.net, "Daniel P. Berrange" <berrange@redhat.com>,
- Stefan Weil <sw@weilnetz.de>, qemu-devel <qemu-devel@nongnu.org>,
- Christian Ehrhardt <christian.ehrhardt@canonical.com>, cota@braap.org,
- Paolo Bonzini <pbonzini@redhat.com>, aurelien@aurel32.net, f4bug@amsat.org
+Cc: cohuck@redhat.com, david@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 
-Richard Henderson <richard.henderson@linaro.org> writes:
 
-> On 7/17/20 7:24 AM, Christian Ehrhardt wrote:
->>     > +size_t qemu_get_host_physmem(void)
->>     > +{
->>     > +#ifdef _SC_PHYS_PAGES
->>     > +    long pages =3D sysconf(_SC_PHYS_PAGES);
->>     > +    if (pages > 0) {
->>     > +        return pages * qemu_real_host_page_size;
->>=20
->>     The Linux man page warns that this product may overflow so maybe you=
- could
->>     return pages here.
->>=20
->>=20
->> The caller might be even less aware of that than this function - so maybe
->> better handle it here.
->> How about handling overflows and cutting it to MiB before returning?
->
-> Indeed, the caller may be less aware, so we should handle it here.  But I=
- don't
-> think truncating to MiB helps at all, because again, the caller has to ha=
-ndle
-> overflow.
->
-> Better, I think, to saturate the result to ~(size_t)0 and leave it at
-> that.
+On 17.07.20 17:13, Thomas Huth wrote:
+> On 15/07/2020 11.40, Janosch Frank wrote:
+>> jump_to_IPL_code takes a 64 bit address, masks it with the short psw
+>> address mask and later branches to it using a full 64 bit register.
+>>
+>> * As the masking is not necessary, let's remove it
+>> * Without the mask we can save the ipl address to a static 64 bit
+>>   function ptr as we later branch to it
+>> * Let's also clean up the variable names and remove the now unneeded
+>>   ResetInfo
+>>
+>> Signed-off-by: Janosch Frank <frankja@linux.ibm.com>
+>> ---
+>>  pc-bios/s390-ccw/jump2ipl.c | 27 +++++++++++----------------
+>>  1 file changed, 11 insertions(+), 16 deletions(-)
+>>
+>> diff --git a/pc-bios/s390-ccw/jump2ipl.c b/pc-bios/s390-ccw/jump2ipl.c
+>> index 767012bf0c..aef37cea76 100644
+>> --- a/pc-bios/s390-ccw/jump2ipl.c
+>> +++ b/pc-bios/s390-ccw/jump2ipl.c
+>> @@ -13,20 +13,15 @@
+>>  #define KERN_IMAGE_START 0x010000UL
+>>  #define RESET_PSW_MASK (PSW_MASK_SHORTPSW | PSW_MASK_64)
+>>  
+>> -typedef struct ResetInfo {
+>> -    uint64_t ipl_psw;
+>> -    uint32_t ipl_continue;
+>> -} ResetInfo;
+>> -
+>> -static ResetInfo save;
+>> +static void (*ipl_continue)(void);
+>> +static uint64_t psw_save;
+> 
+> Christian, do you remember whether there was a reason that we saved the
+> "ipl_continue" in the low-core in the past?
+> 
+> The changes here look ok to me, but I still wonder why it has been more
+> "complicated" before...?
 
-So I went for:
+This construct was made to restore the memory outside of the loader to the
+original content. The new code should also work I guess. 
 
-  size_t qemu_get_host_physmem(void)
-  {
-  #ifdef _SC_PHYS_PAGES
-      long pages =3D sysconf(_SC_PHYS_PAGES);
-      if (pages > 0) {
-          if (pages > SIZE_MAX / qemu_real_host_page_size) {
-              return SIZE_MAX;
-          } else {
-              return pages * qemu_real_host_page_size;
-          }
-      }
-  #endif
-      return 0;
-  }
 
-apparently the first case of saturating integer arithmetic outside of
-the instruction emulation in QEMU :-/
 
---=20
-Alex Benn=C3=A9e
+> 
+> Acked-by: Thomas Huth <thuth@redhat.com>
+> 
 
