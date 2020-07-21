@@ -2,51 +2,51 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 149C5227A1F
-	for <lists+qemu-devel@lfdr.de>; Tue, 21 Jul 2020 10:04:13 +0200 (CEST)
-Received: from localhost ([::1]:56078 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id BDF64227A2D
+	for <lists+qemu-devel@lfdr.de>; Tue, 21 Jul 2020 10:06:15 +0200 (CEST)
+Received: from localhost ([::1]:33148 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jxnFz-0003YM-M4
-	for lists+qemu-devel@lfdr.de; Tue, 21 Jul 2020 04:04:11 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:57546)
+	id 1jxnHy-0005wY-Rs
+	for lists+qemu-devel@lfdr.de; Tue, 21 Jul 2020 04:06:14 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:59362)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mreitz@redhat.com>) id 1jxnEg-0002Y7-Fw
- for qemu-devel@nongnu.org; Tue, 21 Jul 2020 04:02:50 -0400
-Received: from us-smtp-2.mimecast.com ([207.211.31.81]:22037
+ (Exim 4.90_1) (envelope-from <mreitz@redhat.com>) id 1jxnH8-0005Jl-6Z
+ for qemu-devel@nongnu.org; Tue, 21 Jul 2020 04:05:22 -0400
+Received: from us-smtp-1.mimecast.com ([205.139.110.61]:21326
  helo=us-smtp-delivery-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <mreitz@redhat.com>) id 1jxnEd-0002dg-DK
- for qemu-devel@nongnu.org; Tue, 21 Jul 2020 04:02:49 -0400
+ (Exim 4.90_1) (envelope-from <mreitz@redhat.com>) id 1jxnH6-00036F-Mv
+ for qemu-devel@nongnu.org; Tue, 21 Jul 2020 04:05:21 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1595318565;
+ s=mimecast20190719; t=1595318719;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
- bh=OtLmgmRYozzvyDN1Ns8X/iKE6xRukz4E5XvZh2SRFa8=;
- b=hOEeciwixh3ZEkxRydjvW3qz3yp2FCWBLt9sm0EQABTsKpBgxnvRIeux3oaiMNB96rr0Sy
- WroJPt7oWkEqQBpj3DuYJTBB5UQhVSDdBdyb/QifhM+nOMbZxoc/oDDdM8JDYRdRQobkNl
- A/G28QUVwKcj5aueVoeeK4iflfSDlzM=
+ bh=UnRxhe2bV3ptoRjFXbXct2ymXOXq/XpipWiUJaGus1s=;
+ b=jHBnKkHqMXUWgEgtIg9fQfq8X5Tr3JUyXrzcsEbllLoRRHE3PKx6NORKAYYPCm8FOKzYm+
+ oIrkWQNVP6nrQLzNxWJc+nsKjNYETPkPhZ00vrJMD32WCMX+cPKNuC0kS9DdDnrLQkSuNC
+ fMojFDqKIYaRILXCE/yhBxXIDjjtAOU=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-419-wSpRMyp6PuqszxLVTaMCIA-1; Tue, 21 Jul 2020 04:02:43 -0400
-X-MC-Unique: wSpRMyp6PuqszxLVTaMCIA-1
-Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
- [10.5.11.13])
+ us-mta-334-JBxq8fVSPSqAfBiJE23chg-1; Tue, 21 Jul 2020 04:05:15 -0400
+X-MC-Unique: JBxq8fVSPSqAfBiJE23chg-1
+Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
+ [10.5.11.15])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 76AAD800460;
- Tue, 21 Jul 2020 08:02:42 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id DF77C80183C;
+ Tue, 21 Jul 2020 08:05:14 +0000 (UTC)
 Received: from dresden.str.redhat.com (ovpn-113-68.ams2.redhat.com
  [10.36.113.68])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 31BF1872FD;
- Tue, 21 Jul 2020 08:02:40 +0000 (UTC)
-Subject: Re: [PATCH v2 1/3] migration: Add block-bitmap-mapping parameter
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id EA96972AC6;
+ Tue, 21 Jul 2020 08:05:12 +0000 (UTC)
+Subject: Re: [PATCH v2 2/3] iotests.py: Add wait_for_runstate()
 To: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>,
  qemu-block@nongnu.org
 References: <20200716135303.319502-1-mreitz@redhat.com>
- <20200716135303.319502-2-mreitz@redhat.com>
- <ab6c9048-868f-23bc-5366-ca53f11f01a5@virtuozzo.com>
+ <20200716135303.319502-3-mreitz@redhat.com>
+ <e018b44e-2597-5cca-79af-272df950e1d7@virtuozzo.com>
 From: Max Reitz <mreitz@redhat.com>
 Autocrypt: addr=mreitz@redhat.com; prefer-encrypt=mutual; keydata=
  mQENBFXOJlcBCADEyyhOTsoa/2ujoTRAJj4MKA21dkxxELVj3cuILpLTmtachWj7QW+TVG8U
@@ -72,29 +72,29 @@ Autocrypt: addr=mreitz@redhat.com; prefer-encrypt=mutual; keydata=
  /ELbqQTDAWcqtJhzxKLE/ugcOMK520dJDeb6x2xVES+S5LXby0D4juZlvUj+1fwZu+7Io5+B
  bkhSVPb/QdOVTpnz7zWNyNw+OONo1aBUKkhq2UIByYXgORPFnbfMY7QWHcjpBVw9MgC4tGeF
  R4bv+1nAMMxKmb5VvQCExr0eFhJUAHAhVg==
-Message-ID: <c6245682-d688-1596-964c-8b08c46e53fd@redhat.com>
-Date: Tue, 21 Jul 2020 10:02:37 +0200
+Message-ID: <88749571-6e01-44c0-eaa7-ca5bb60d0ae5@redhat.com>
+Date: Tue, 21 Jul 2020 10:05:11 +0200
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
  Thunderbird/68.10.0
 MIME-Version: 1.0
-In-Reply-To: <ab6c9048-868f-23bc-5366-ca53f11f01a5@virtuozzo.com>
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
+In-Reply-To: <e018b44e-2597-5cca-79af-272df950e1d7@virtuozzo.com>
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Type: multipart/signed; micalg=pgp-sha256;
  protocol="application/pgp-signature";
- boundary="82leYXn046kF4QNaT6bD0e4JVFeVLpelu"
-Received-SPF: pass client-ip=207.211.31.81; envelope-from=mreitz@redhat.com;
+ boundary="M3GtBPMF7pedYmBXKFmeb5aZxpcdRWtY7"
+Received-SPF: pass client-ip=205.139.110.61; envelope-from=mreitz@redhat.com;
  helo=us-smtp-delivery-1.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/07/21 03:39:19
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/07/21 01:26:46
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
-X-Spam_score_int: -30
-X-Spam_score: -3.1
-X-Spam_bar: ---
-X-Spam_report: (-3.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1,
+X-Spam_score_int: -40
+X-Spam_score: -4.1
+X-Spam_bar: ----
+X-Spam_report: (-4.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H3=-0.01, RCVD_IN_MSPIKE_WL=-0.01,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-1, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001, URIBL_BLOCKED=0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -114,363 +114,79 @@ Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
---82leYXn046kF4QNaT6bD0e4JVFeVLpelu
-Content-Type: multipart/mixed; boundary="pIfcnmXylONN5OfLc1u3QVvthft9aWZLe"
+--M3GtBPMF7pedYmBXKFmeb5aZxpcdRWtY7
+Content-Type: multipart/mixed; boundary="byoFFMM9YLBLvw9U48tQWUpqEFzR1yGWw"
 
---pIfcnmXylONN5OfLc1u3QVvthft9aWZLe
+--byoFFMM9YLBLvw9U48tQWUpqEFzR1yGWw
 Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
 Content-Transfer-Encoding: quoted-printable
 
-On 20.07.20 18:31, Vladimir Sementsov-Ogievskiy wrote:
+On 20.07.20 18:46, Vladimir Sementsov-Ogievskiy wrote:
 > 16.07.2020 16:53, Max Reitz wrote:
->> This migration parameter allows mapping block node names and bitmap
->> names to aliases for the purpose of block dirty bitmap migration.
->>
->> This way, management tools can use different node and bitmap names on
->> the source and destination and pass the mapping of how bitmaps are to be
->> transferred to qemu (on the source, the destination, or even both with
->> arbitrary aliases in the migration stream).
->>
->> Suggested-by: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
 >> Signed-off-by: Max Reitz <mreitz@redhat.com>
 >> ---
->> Vladimir noted in v1 that it would be better to ignore bitmaps whose
->> names aren't mapped, or that are on nodes whose names aren't mapped.
->> One of the reasons he gave was that bitmap migration is inherently a
->> form of postcopy migration, and we should not break the target when it
->> is already running because of a bitmap issue.
+>> =C2=A0 tests/qemu-iotests/iotests.py | 4 ++++
+>> =C2=A0 1 file changed, 4 insertions(+)
 >>
->> So in this version, I changed the behavior to just ignore bitmaps
->> without a mapping on the source side.=C2=A0 On the destination, however,=
- I
->> kept it an error when an incoming bitmap or node alias is unknown.
->>
->> This is in violation of Vladimir's (rightful) reasoning that such
->> errors should never break the already running target, but I decided to
->> do so anyway for a couple of reasons:
->>
->> - Ignoring unmapped bitmaps on the source is trivial: We just have to
->> =C2=A0=C2=A0 not put them into the migration stream.
->> =C2=A0=C2=A0 On the destination, it isn't so easy: We (I think) would ha=
-ve to
->> =C2=A0=C2=A0 modify the code to actively skip the bitmap in the stream.
->> =C2=A0=C2=A0 (On the other hand, erroring out is always easy.)
->=20
-> Agree. Actually, my series "[PATCH v2 00/22] Fix error handling during
-> bitmap postcopy"
-> do something like this. But no sense in mixing such logic into your
-> series :)
->=20
->>
->> - Incoming bitmaps with unknown names are already an error before this
->> =C2=A0=C2=A0 series.=C2=A0 So this isn't introducing new breakage.
->>
->> - I think it makes sense to drop all bitmaps you don't want to migrate
->> =C2=A0=C2=A0 (or implicitly drop them by just not specifying them if you=
- don't care
->> =C2=A0=C2=A0 about them) on the source.=C2=A0 I can't imagine a scenario=
- where it would
->> =C2=A0=C2=A0 be really useful if the destination could silently drop unk=
-nown
->> =C2=A0=C2=A0 bitmaps.=C2=A0 Unknown bitmaps should just be dropped on th=
-e source.
->>
->> - Choosing to make it an error now doesn't prevent us from relaxing that
->> =C2=A0=C2=A0 restriction in the future.
->=20
-> Agree, that's all OK. Still we can at least ignore, if we don't get some
-> bitmap on destination, for which mapping is set (I think you do exactly
-> this, will see below).
->=20
->=20
->> ---
->> =C2=A0 qapi/migration.json=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0=C2=A0=C2=A0 |=C2=A0 92 +++++++-
->> =C2=A0 migration/migration.h=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0 |=C2=A0=C2=A0 3 +
->> =C2=A0 migration/block-dirty-bitmap.c | 373 ++++++++++++++++++++++++++++=
------
->> =C2=A0 migration/migration.c=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0 |=C2=A0 30 +++
->> =C2=A0 monitor/hmp-cmds.c=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0=C2=A0=C2=A0=C2=A0 |=C2=A0 30 +++
->> =C2=A0 5 files changed, 473 insertions(+), 55 deletions(-)
->>
->> diff --git a/qapi/migration.json b/qapi/migration.json
->> index d5000558c6..1b0fbcef96 100644
->> --- a/qapi/migration.json
->> +++ b/qapi/migration.json
->> @@ -507,6 +507,44 @@
->=20
-> [..]
->=20
->> =C2=A0 #
->> +# @block-bitmap-mapping: Maps block nodes and bitmaps on them to
->> +#=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 aliases for the=
- purpose of dirty bitmap migration.=C2=A0 Such
->> +#=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 aliases may for=
- example be the corresponding names on the
->> +#=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 opposite site.
->> +#=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 The mapping mus=
-t be one-to-one, and on the destination also
->> +#=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 complete: On th=
-e source, bitmaps on nodes where either the
->> +#=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 bitmap or the n=
-ode is not mapped will be ignored.=C2=A0 In
->> +#=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 contrast, on th=
-e destination, receiving a bitmap (by alias)
->> +#=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 from a node (by=
- alias) when either alias is not mapped will
->> +#=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 result in an er=
-ror.
->=20
-> Still, not receiving some bitmap is not an error. It's good. I think,
-> should
-> be mentioned here too (does it violate "compelete" term?).
-
-Hm.  Well, from the implementation=E2=80=99s perspective, it obviously isn=
-=E2=80=99t an
-error, because there=E2=80=99s no list of bitmaps that=E2=80=99s transferre=
-d outside of
-the bitmaps themselves; so if some bitmap isn=E2=80=99t transferred, the
-destination of course never knows about it.  (And =E2=80=9Ccomplete=E2=80=
-=9D just means
-that all received bitmaps must be mapped.)
-
-So I never thought about mentioning that detail here.
-
-How would we even go about documenting that?  =E2=80=9CNote that the destin=
-ation
-does not know about bitmaps it does not receive, so there is no
-limitation or requirement about the number of bitmaps received, or how
-they are named, or on which nodes they are placed.=E2=80=9D
-
->> +#=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 By default (whe=
-n this parameter has never been set), bitmap
->> +#=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 names are mappe=
-d to themselves.=C2=A0 Nodes are mapped to their
->> +#=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 block device na=
-me if there is one, and to their node name
->> +#=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 otherwise. (Sin=
-ce 5.2)
->> +#
->> =C2=A0 # Since: 2.4
->=20
-> [..]
->=20
->> -static int dirty_bitmap_load_header(QEMUFile *f, DirtyBitmapLoadState
->> *s)
->> +static int dirty_bitmap_load_header(QEMUFile *f, DirtyBitmapLoadState
->> *s,
->> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 GHashTab=
-le *alias_map)
->> =C2=A0 {
->> +=C2=A0=C2=A0=C2=A0 GHashTable *bitmap_alias_map =3D NULL;
->> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 Error *local_err =3D NULL;
->> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 bool nothing;
->> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 s->flags =3D qemu_get_bitmap_flags(f);
->> @@ -676,25 +890,68 @@ static int dirty_bitmap_load_header(QEMUFile *f,
->> DirtyBitmapLoadState *s)
->> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 nothing =3D s->flags =3D=3D (s->flags & D=
-IRTY_BITMAP_MIG_FLAG_EOS);
->> =C2=A0 =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 if (s->flags & DIRTY_BITMAP_MIG_FL=
-AG_DEVICE_NAME) {
->> -=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 if (!qemu_get_counted_string=
-(f, s->node_name)) {
->> -=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 erro=
-r_report("Unable to read node name string");
->> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 if (!qemu_get_counted_string=
-(f, s->node_alias)) {
->> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 erro=
-r_report("Unable to read node alias string");
+>> diff --git a/tests/qemu-iotests/iotests.py
+>> b/tests/qemu-iotests/iotests.py
+>> index 3590ed78a0..fb240a334c 100644
+>> --- a/tests/qemu-iotests/iotests.py
+>> +++ b/tests/qemu-iotests/iotests.py
+>> @@ -803,6 +803,10 @@ class VM(qtest.QEMUQtestMachine):
 >> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0 return -EINVAL;
->> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 }
->> -=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 s->bs =3D bdrv_lookup_bs(s->=
-node_name, s->node_name, &local_err);
->> +
->> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 if (alias_map) {
->> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 cons=
-t AliasMapInnerNode *amin;
->> +
->> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 amin=
- =3D g_hash_table_lookup(alias_map, s->node_alias);
->> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 if (=
-!amin) {
->> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0=C2=A0=C2=A0 error_report("Error: Unknown node alias '%s'",
->> s->node_alias);
->> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0=C2=A0=C2=A0 return -EINVAL;
->> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 }
->> +
->> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 bitm=
-ap_alias_map =3D amin->subtree;
->> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 s->b=
-s =3D bdrv_lookup_bs(NULL, amin->string, &local_err);
->> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 } else {
->> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 s->b=
-s =3D bdrv_lookup_bs(s->node_alias, s->node_alias,
->> &local_err);
->> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 }
->> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 if (!s->bs) {
+=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 'Found node %s under %s (b=
+ut expected %s)' % \
 >> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0 error_report_err(local_err);
->> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0 return -EINVAL;
->> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 }
->> -=C2=A0=C2=A0=C2=A0 } else if (!s->bs && !nothing) {
->> +=C2=A0=C2=A0=C2=A0 } else if (s->bs) {
->> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 if (alias_map) {
->> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 cons=
-t AliasMapInnerNode *amin;
->> +
->> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 /* M=
-ust be present in the map, or s->bs would not be set */
->> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 amin=
- =3D g_hash_table_lookup(alias_map, s->node_alias);
->> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 asse=
-rt(amin !=3D NULL);
->> +
->> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 bitm=
-ap_alias_map =3D amin->subtree;
->> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 }
->> +=C2=A0=C2=A0=C2=A0 } else if (!nothing) {
->> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 error_report("Err=
-or: block device name is not set");
->> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 return -EINVAL;
->> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 }
->> =C2=A0 +=C2=A0=C2=A0=C2=A0 assert(!!alias_map =3D=3D !!bitmap_alias_map)=
-;
+=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 (node['name'], path, expec=
+ted_node)
+>> =C2=A0 +=C2=A0=C2=A0=C2=A0 def wait_for_runstate(self, runstate: str) ->=
+ None:
+>> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 while self.qmp('query-status=
+')['return']['status'] !=3D runstate:
+>> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 pass
 >=20
-> Actually one '!' is enough. But '!!' looks good too (usual convertion to
-> bool, why not).
->=20
-> But what's more serious: this assertion will fail in case of "nothing"
-> (sorry my architecture :(.
->=20
-> I assume, by protocol, chunk with EOS flag may contain bitmap and/or
-> node information or may not.
->=20
-> So, it most probably should be: assert(nothing || (!alias_map =3D=3D
-> !bitmap_alias_map))
+> don't we need something like time.sleep(0.5) instead of just pass?
 
-Right, sure.
+Hm.  Maybe not =E2=80=9Cneed=E2=80=9D?  I thought this polling would last a=
+ short time
+anyway, so it wouldn=E2=80=99t matter if there was high CPU usage during th=
+at time.
 
-> (You can cover "nothing" case in test, if enable bitmap migrations when
-> no bitmaps to migrate)
+OTOH, I don=E2=80=99t think a short sleep would hurt.
 
-Thanks, will do.
-
->> +
->> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 if (s->flags & DIRTY_BITMAP_MIG_FLAG_BITM=
-AP_NAME) {
->> -=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 if (!qemu_get_counted_string=
-(f, s->bitmap_name)) {
->> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 const char *bitmap_name;
->> +
->> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 if (!qemu_get_counted_string=
-(f, s->bitmap_alias)) {
->> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0 error_report("Unable to read bitmap name string");
->> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0 return -EINVAL;
->> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 }
->> +
->> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 if (bitmap_alias_map) {
->> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 bitm=
-ap_name =3D g_hash_table_lookup(bitmap_alias_map,
->> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 s->bitmap_alias);
->> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 if (=
-!bitmap_name) {
->> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0=C2=A0=C2=A0 error_report("Error: Unknown bitmap alias '%s' on
->> node '%s' "
->> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0=C2=A0=C2=A0 "(alias '%s')", s->bitmap_alias,
->> s->bs->node_name,
->> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0=C2=A0=C2=A0 s->node_alias);
->> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0=C2=A0=C2=A0 return -EINVAL;
->> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 }
->> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 } else {
->> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 bitm=
-ap_name =3D s->bitmap_alias;
->> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 }
->> +
->> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 g_strlcpy(s->bitmap_name, bi=
-tmap_name, sizeof(s->bitmap_name));
->=20
-> Hmm. Actually, we should check that in alias map target bitmap_name is
-> short enough. It may be done later.
-
-OK.
-
->> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 s->bitmap =3D bdr=
-v_find_dirty_bitmap(s->bs, s->bitmap_name);
->> =C2=A0 =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 /* bitmap =
-may be NULL here, it wouldn't be an error if it
->> is the
->> @@ -702,7 +959,7 @@ static int dirty_bitmap_load_header(QEMUFile *f,
->> DirtyBitmapLoadState *s)
->> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 if (!s->bitmap &&=
- !(s->flags & DIRTY_BITMAP_MIG_FLAG_START)) {
->=20
->=20
-> OK, with assertion fixed;
->=20
+> Anyway:
 > Reviewed-by: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
-
-Thanks again!
-
-> It's a bit weak, because:
 >=20
-> =C2=A0- I don't have good understanding all these migration parameters lo=
-gics
-> with this triple duplication. So if it works in test, it should be good
-> enough.
-
-I hope so, yes.
-
-> =C2=A0- The whole logic of bitmap migration is a bit hard to follow (I kn=
-ow,
-> that it's my code :).
-
-O:)
-
-> I'll revisit it when rebasing my big series
-> "[PATCH v2 00/22] Fix error handling during bitmap postcopy".
+>> +
+>> =C2=A0 index_re =3D re.compile(r'([^\[]+)\[([^\]]+)\]')
+>> =C2=A0 =C2=A0 class QMPTestCase(unittest.TestCase):
+>>
+>=20
+>=20
 
 
 
---pIfcnmXylONN5OfLc1u3QVvthft9aWZLe--
+--byoFFMM9YLBLvw9U48tQWUpqEFzR1yGWw--
 
---82leYXn046kF4QNaT6bD0e4JVFeVLpelu
+--M3GtBPMF7pedYmBXKFmeb5aZxpcdRWtY7
 Content-Type: application/pgp-signature; name="signature.asc"
 Content-Description: OpenPGP digital signature
 Content-Disposition: attachment; filename="signature.asc"
 
 -----BEGIN PGP SIGNATURE-----
 
-iQEzBAEBCAAdFiEEkb62CjDbPohX0Rgp9AfbAGHVz0AFAl8WoR0ACgkQ9AfbAGHV
-z0AfpwgAkhhtuDFKdXKQ6Ow4FVTNxmnVzigxp36c84LYaV+3oLSnZ7OpPAvirZay
-CfzybIvhnBEnKzTTmXwjOSwwotqAnidNDJz1cjAHmGGz/oEfmjs6RG/XrR2nkQEh
-k+kcuPOI4z3Q/OOSr/ebhbd1pbl166/c2vtg5z0GEZpHi5PiSEr/t9qP0UIzwFIO
-nO1D3cxYKO+4wIwd2+XAazxN2aVdbZu9ShbncYzn8JTpknAuDrEbmt9t2ry2jUSp
-i1UW6nrYv4FyXPPQprm+8DOSYhM7KhUDU5TLBkJCtnHY4uaxQ/WORcMBH/MaNdNM
-2kkswmM8nI9WyZ8S292NmGmNwE1UFA==
-=5HGo
+iQEzBAEBCAAdFiEEkb62CjDbPohX0Rgp9AfbAGHVz0AFAl8WobcACgkQ9AfbAGHV
+z0Bcuwf9EbVBkzQ23TtZwkzFxSEOcE7H98ILTP02iMwFAZ7y1SgDe84UNjYB5Io/
+7ItcJFsSTv+M9eB4TGn0/PzaOnuXaIXY7t+LL8b38mPBnKkUy4hyBWmD1Cug0vf0
+lP3uN9fmL9gsMrUfQQbLrEjNiYEn9jI+SSlc3cY9dCWKi3aL3RaiuJIv555aDEkA
+q1HdLeyXu+ES+PyeBqACGr9KbULQaxadfN2GmElVew3oha0BvXOd+XHCeNM2jn+2
+EAv1F1cXOXPECpjBLceOVmHf7uAeWubsVEAaytAEQf9tR1pjiZ6t1D0sZwaEmH06
+0Vgl0NG9EfFW6aNYodGTVz4VNqy8LQ==
+=IEfs
 -----END PGP SIGNATURE-----
 
---82leYXn046kF4QNaT6bD0e4JVFeVLpelu--
+--M3GtBPMF7pedYmBXKFmeb5aZxpcdRWtY7--
 
 
