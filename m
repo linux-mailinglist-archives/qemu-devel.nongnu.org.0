@@ -2,62 +2,58 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 98A79228439
-	for <lists+qemu-devel@lfdr.de>; Tue, 21 Jul 2020 17:51:43 +0200 (CEST)
-Received: from localhost ([::1]:44710 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6D159228456
+	for <lists+qemu-devel@lfdr.de>; Tue, 21 Jul 2020 17:57:27 +0200 (CEST)
+Received: from localhost ([::1]:47574 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jxuYQ-0000v3-N8
-	for lists+qemu-devel@lfdr.de; Tue, 21 Jul 2020 11:51:42 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:59012)
+	id 1jxudy-0002Mf-Gt
+	for lists+qemu-devel@lfdr.de; Tue, 21 Jul 2020 11:57:26 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:60524)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1jxuXL-0000H6-9E
- for qemu-devel@nongnu.org; Tue, 21 Jul 2020 11:50:35 -0400
-Received: from mail-ot1-x343.google.com ([2607:f8b0:4864:20::343]:45903)
+ id 1jxudE-0001x0-Hj
+ for qemu-devel@nongnu.org; Tue, 21 Jul 2020 11:56:40 -0400
+Received: from mail-oi1-x234.google.com ([2607:f8b0:4864:20::234]:37812)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1jxuXJ-0001tJ-Gs
- for qemu-devel@nongnu.org; Tue, 21 Jul 2020 11:50:34 -0400
-Received: by mail-ot1-x343.google.com with SMTP id h1so15412616otq.12
- for <qemu-devel@nongnu.org>; Tue, 21 Jul 2020 08:50:33 -0700 (PDT)
+ id 1jxudB-0002cw-SA
+ for qemu-devel@nongnu.org; Tue, 21 Jul 2020 11:56:40 -0400
+Received: by mail-oi1-x234.google.com with SMTP id 12so17631677oir.4
+ for <qemu-devel@nongnu.org>; Tue, 21 Jul 2020 08:56:37 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=vXNgM0lmkt/S9LlBaM7KgizasmMuWqMS0dh+MCs7Dws=;
- b=LJRmHOS6T9iE/NnXi3Zr7Mg/DOOS3sm7slbA3VJsqw+ZiENXdTvpBKesUcqqwmM0Ku
- Bhus4gmL6CKkeKETi9UQEiDzyNknMWXsl26yOQYpenDSS/FHyU/zVjZuj0GsNSUwkuMk
- 6PqQJFObSi5WqwqKpWtIsLN3l7XL0g0tlTShjGFhv1mkLAcHjtCw1tAcCzGpS/5AwjzH
- mDvZExhMWG4DOFZ00hYohGGqRZDsUkhWvba+urSVGYVutqTNnyWMrqWznKJ6sHoZ1AD9
- r/o/vCWFIFa9ECaaPWacL1PLkKpsOv87TKUIjWlzAU+5SkoJpdxwdvYO5Yk6fbMCcUyg
- oIgg==
+ h=mime-version:from:date:message-id:subject:to:cc;
+ bh=9WHJOR4K/wLw2zEE2mWrWVFrH6DLnOht1WDiRE/PK2s=;
+ b=rbAtQmgYIWfJl5j0r7maT6iN6XpENyluNDQ7pLDdogcT6m9Lm/JHayDC86n/W30Poe
+ XTKSBLyZSoo6pj0XBatAp+NwIG17TQCK7jj6YKO+ceNk7ENHqVztkSW+AvkNsLAjW7NY
+ Sr0wPaPZmvRt4TME0qrJ0XIampywi4cOiW6ZhCOZ0YafUFPAVTfYx7+lm0U0lbN2SfQB
+ wSi6K+ySZXk4LWvMLss99ZJ+6Iv5q1H3yghwky674BFIRSPQZNQew47U+vwaYl/aKAoW
+ jNUiUPY3+J/i8XqJJeoAKrRcrcvc/fMhmH5Od79KCusfzpe+HfOwfhFuNd8JXeGOJi4k
+ 74ig==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=vXNgM0lmkt/S9LlBaM7KgizasmMuWqMS0dh+MCs7Dws=;
- b=Sx9HWOmm5UAK7A+0lcjzfr+GmkEPZa39CCBxXeHDZC7J3Gj5vAZZMMuap+U+ucfFp1
- jdcEnP8D5dqNSCW2i8m7S283rzV7wgMCCjyTNL0C72Q3qPjhmYE6JWR0LoTxCPyvrv8f
- FbtNrou0tSzAxpmGN+Z0hhm+NWnP7vEIOzmafxwlhjIdHaSttkGookXE1IxIYGEIZctq
- q34JS1Tuu7COpG53sgLnrKWQuz3UXV0PFA2bGuLAAdTHtAewxYn+Vwul/uRI4QFvyB3r
- /X/COBalTfDG6kg3RaWB7id2PvfD908DUQvmSFrCX9/+IMxCZ+SK22/pk8KvaVUD+ygZ
- Iflw==
-X-Gm-Message-State: AOAM531updYlqis5+7FZ6V6GOuqOeG70EmRPoJJK602viMGKiUkFEfCM
- iKHuIiOO/EkB9rktiOEurlZLiDPp9Qb2i9erD1fyQw==
-X-Google-Smtp-Source: ABdhPJz5SfQ3poXC9WjJVAr1D/ippj1QVcgslrD0bqcsOjGhJTEESIIJGjIJihIQQ0mN9cPBjbFNm09ePHY017t0c/0=
-X-Received: by 2002:a05:6830:1bd3:: with SMTP id
- v19mr24692461ota.91.1595346632202; 
- Tue, 21 Jul 2020 08:50:32 -0700 (PDT)
+ h=x-gm-message-state:mime-version:from:date:message-id:subject:to:cc;
+ bh=9WHJOR4K/wLw2zEE2mWrWVFrH6DLnOht1WDiRE/PK2s=;
+ b=D2bf3npGEYp8+It1c55dAmQexieZINOFl+0/2fpnU5oK79qzBgSop2KghMl8BVN2Sq
+ XMeQsuAFedZ5MGxWpd2Nvh+faf0Fx7mB0q2I71CRGdJc3Y+lz3jMisxAlNBEULE7EvtG
+ rNCEUAb917WmQtYN29QwritesWDVBwa2WjF3FohTIuNCb0SqEy7M2mYApj2PkENIAZop
+ H5J/x6Yexb5II6tM271b5I0icvJIA4EYJuVCadhoOFqXXmBOYMEv8A9Nh9Iw/ekj9c+K
+ 1x4gegDPC52vQJaVqP2BuxP/gas0eXYULNHvLTMfY+5IqrVZ6ZzNbOg1cEXFhfLlfBdg
+ 4QHg==
+X-Gm-Message-State: AOAM531oPKgT6nnaXZxG6ZOFVb4v0cCklkDVAxKByEDGBTQ/2F7O5Uky
+ j0xG5A6uNmyhoz3unwczgb1NFa8NZb2z71W3fqqykrqD
+X-Google-Smtp-Source: ABdhPJysoq0J26GSIoY9Fh/VeduvR52Y5j6La17M7V7gIqBMenGeX0n3+0FhqTCdOCZ71M2n77p8Q2CehPq5loBI0XQ=
+X-Received: by 2002:aca:1706:: with SMTP id j6mr3434460oii.146.1595346996399; 
+ Tue, 21 Jul 2020 08:56:36 -0700 (PDT)
 MIME-Version: 1.0
-References: <20200721130709.1242662-1-armbru@redhat.com>
-In-Reply-To: <20200721130709.1242662-1-armbru@redhat.com>
 From: Peter Maydell <peter.maydell@linaro.org>
-Date: Tue, 21 Jul 2020 16:50:21 +0100
-Message-ID: <CAFEAcA_=921Wwq8vsRqe5yP0D=V1edCU_tmyy2MpPjhSQFetqw@mail.gmail.com>
-Subject: Re: [PULL 0/1] QAPI patches patches for 2020-07-21
-To: Markus Armbruster <armbru@redhat.com>
+Date: Tue, 21 Jul 2020 16:56:25 +0100
+Message-ID: <CAFEAcA9+9ZQY2CxZ9V4bZrkAGR5eUapbwSk6sNyFGyyd39Y=1Q@mail.gmail.com>
+Subject: please try to avoid sending pullreqs late on release-candidate day
+To: QEMU Developers <qemu-devel@nongnu.org>
 Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2607:f8b0:4864:20::343;
- envelope-from=peter.maydell@linaro.org; helo=mail-ot1-x343.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::234;
+ envelope-from=peter.maydell@linaro.org; helo=mail-oi1-x234.google.com
 X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
  That's all we know.
 X-Spam_score_int: -20
@@ -65,8 +61,8 @@ X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
  DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- URIBL_BLOCKED=0.001 autolearn=ham autolearn_force=no
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -79,33 +75,16 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: QEMU Developers <qemu-devel@nongnu.org>
+Cc: Kevin Wolf <kwolf@redhat.com>, Jason Wang <jasowang@redhat.com>,
+ Markus Armbruster <armbru@redhat.com>, Gerd Hoffmann <kraxel@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Tue, 21 Jul 2020 at 14:07, Markus Armbruster <armbru@redhat.com> wrote:
->
-> The following changes since commit af3d69058e09bede9900f266a618ed11f76f49f3:
->
->   Merge remote-tracking branch 'remotes/pmaydell/tags/pull-target-arm-20200720' into staging (2020-07-20 15:58:07 +0100)
->
-> are available in the Git repository at:
->
->   git://repo.or.cz/qemu/armbru.git tags/pull-qapi-2020-07-21
->
-> for you to fetch changes up to cbf97d5b799f4bc47b9e825100d1a98d3cf77c80:
->
->   qapi: Fix visit_type_STRUCT() not to fail for null object (2020-07-21 14:38:23 +0200)
->
-> ----------------------------------------------------------------
-> QAPI patches patches for 2020-07-21
->
+It is not helpful if everybody sends their pullrequests late
+on the Tuesday afternoon, as there just isn't enough time in the
+day to merge test and apply them all before I have to cut the tag.
+Please, if you can, try to send pullrequests earlier, eg Monday.
 
-
-Applied, thanks.
-
-Please update the changelog at https://wiki.qemu.org/ChangeLog/5.1
-for any user-visible changes.
-
+thanks
 -- PMM
 
