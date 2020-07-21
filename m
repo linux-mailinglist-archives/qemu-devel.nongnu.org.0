@@ -2,51 +2,52 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7A4BE227A48
-	for <lists+qemu-devel@lfdr.de>; Tue, 21 Jul 2020 10:14:28 +0200 (CEST)
-Received: from localhost ([::1]:48248 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 70A90227A42
+	for <lists+qemu-devel@lfdr.de>; Tue, 21 Jul 2020 10:12:35 +0200 (CEST)
+Received: from localhost ([::1]:40216 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jxnPv-0004Gg-I9
-	for lists+qemu-devel@lfdr.de; Tue, 21 Jul 2020 04:14:27 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:34556)
+	id 1jxnO6-0000xz-Fy
+	for lists+qemu-devel@lfdr.de; Tue, 21 Jul 2020 04:12:34 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:34624)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1jxnMk-0007b6-K0
- for qemu-devel@nongnu.org; Tue, 21 Jul 2020 04:11:10 -0400
-Received: from us-smtp-2.mimecast.com ([207.211.31.81]:28220
- helo=us-smtp-delivery-1.mimecast.com)
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1jxnMm-0007fW-Li
+ for qemu-devel@nongnu.org; Tue, 21 Jul 2020 04:11:12 -0400
+Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:40330
+ helo=us-smtp-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1jxnMi-0004KI-6y
- for qemu-devel@nongnu.org; Tue, 21 Jul 2020 04:11:10 -0400
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1jxnMk-0004KX-NC
+ for qemu-devel@nongnu.org; Tue, 21 Jul 2020 04:11:12 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1595319067;
+ s=mimecast20190719; t=1595319069;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=NDeCjODWd2sR1PLveUfus8P4jDOiazbulApwjnBgP2k=;
- b=fCykeDdO5+k6n4OH2asE/nrNLyexU7FH8wU7XM0Q0PsgHfsl8sE1WD8IQ05YBuoF59O/Wz
- av979rmq7NZA2XzexTvvmExlgW98AAjOqCLpEAtXLMGGw9pNZE6wx4eGm64UeFAfWpb24T
- wB/C5dHQ0fK685nTq48LfHnfJELe2Qk=
+ bh=ZPtrztw9XpCfhwIOLgP9AbPXxCIFdvLDY4Et5nO8O1c=;
+ b=jGkvwhOYapMnNMo5eC2zkaC/sniaO+PVjRYkGzUlyiexPeKw5FKX7kd0IT5OmCBLgPPMMj
+ iTmk72D1UaU+QyqYrIIPSM0U7VTRy5WPr6mA/AC1vLgR2ublG+FyN/V+IT/687naWhbqWi
+ RCI4u95/LfBYErGlYnC8EfA5YEQHp34=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-227-6bkaSYZ_OXKlOCF7DYzZ4w-1; Tue, 21 Jul 2020 04:11:05 -0400
-X-MC-Unique: 6bkaSYZ_OXKlOCF7DYzZ4w-1
+ us-mta-339-rYbpRK0wOmubSoz-PevEDw-1; Tue, 21 Jul 2020 04:11:06 -0400
+X-MC-Unique: rYbpRK0wOmubSoz-PevEDw-1
 Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
  [10.5.11.23])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 26A7B18C63C1;
- Tue, 21 Jul 2020 08:11:04 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id A991F801A03;
+ Tue, 21 Jul 2020 08:11:05 +0000 (UTC)
 Received: from thuth.com (ovpn-112-102.ams2.redhat.com [10.36.112.102])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 1B2272DE68;
- Tue, 21 Jul 2020 08:11:02 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 84B2E19C66;
+ Tue, 21 Jul 2020 08:11:04 +0000 (UTC)
 From: Thomas Huth <thuth@redhat.com>
 To: peter.maydell@linaro.org,
 	qemu-devel@nongnu.org
-Subject: [PULL 04/10] fuzz: build without AddressSanitizer, by default
-Date: Tue, 21 Jul 2020 10:10:49 +0200
-Message-Id: <20200721081055.14073-5-thuth@redhat.com>
+Subject: [PULL 05/10] docs/fuzz: describe building fuzzers with
+ enable-sanitizers
+Date: Tue, 21 Jul 2020 10:10:50 +0200
+Message-Id: <20200721081055.14073-6-thuth@redhat.com>
 In-Reply-To: <20200721081055.14073-1-thuth@redhat.com>
 References: <20200721081055.14073-1-thuth@redhat.com>
 MIME-Version: 1.0
@@ -55,16 +56,16 @@ X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=207.211.31.81; envelope-from=thuth@redhat.com;
- helo=us-smtp-delivery-1.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/07/21 03:39:19
+Received-SPF: pass client-ip=207.211.31.120; envelope-from=thuth@redhat.com;
+ helo=us-smtp-1.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/07/21 01:46:39
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
 X-Spam_score_int: -30
 X-Spam_score: -3.1
 X-Spam_bar: ---
 X-Spam_report: (-3.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H3=-0.01, RCVD_IN_MSPIKE_WL=-0.01,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H4=-0.01, RCVD_IN_MSPIKE_WL=-0.01,
  SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -84,53 +85,34 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Alexander Bulekov <alxndr@bu.edu>
 
-We already have a nice --enable-sanitizers option to enable
-AddressSanitizer. There is no reason to duplicate and force this
-functionality in --enable-fuzzing. In the future, if more sanitizers are
-added to --enable-sanitizers, it might be impossible to build with both
---enable-sanitizers and --enable-fuzzing, since not all sanitizers are
-compatible with libFuzzer. In that case, we could enable ASAN with
---extra-cflags="-fsanitize=address"
-
 Signed-off-by: Alexander Bulekov <alxndr@bu.edu>
-Message-Id: <20200706195534.14962-2-alxndr@bu.edu>
+Message-Id: <20200706195534.14962-3-alxndr@bu.edu>
 Reviewed-by: Philippe Mathieu-Daudé <philmd@redhat.com>
 Reviewed-by: Thomas Huth <thuth@redhat.com>
-[thuth: Added missing $CFLAGS]
 Signed-off-by: Thomas Huth <thuth@redhat.com>
 ---
- configure | 10 +++++-----
- 1 file changed, 5 insertions(+), 5 deletions(-)
+ docs/devel/fuzzing.txt | 7 +++++--
+ 1 file changed, 5 insertions(+), 2 deletions(-)
 
-diff --git a/configure b/configure
-index 33cee41f9c..4bd80ed507 100755
---- a/configure
-+++ b/configure
-@@ -6337,7 +6337,7 @@ fi
- # checks for fuzzer
- if test "$fuzzing" = "yes" ; then
-   write_c_fuzzer_skeleton
--  if compile_prog "$CPU_CFLAGS -Werror -fsanitize=address,fuzzer" ""; then
-+  if compile_prog "$CPU_CFLAGS -Werror -fsanitize=fuzzer" ""; then
-       have_fuzzer=yes
-   fi
- fi
-@@ -7893,11 +7893,11 @@ if test "$have_mlockall" = "yes" ; then
- fi
- if test "$fuzzing" = "yes" ; then
-   if test "$have_fuzzer" = "yes"; then
--    FUZZ_LDFLAGS=" -fsanitize=address,fuzzer"
--    FUZZ_CFLAGS=" -fsanitize=address,fuzzer"
--    CFLAGS="$CFLAGS -fsanitize=address,fuzzer-no-link"
-+    FUZZ_LDFLAGS=" -fsanitize=fuzzer"
-+    FUZZ_CFLAGS=" -fsanitize=fuzzer"
-+    CFLAGS="$CFLAGS -fsanitize=fuzzer-no-link"
-   else
--    error_exit "Your compiler doesn't support -fsanitize=address,fuzzer"
-+    error_exit "Your compiler doesn't support -fsanitize=fuzzer"
-     exit 1
-   fi
- fi
+diff --git a/docs/devel/fuzzing.txt b/docs/devel/fuzzing.txt
+index db5641de74..12bf6aa0ca 100644
+--- a/docs/devel/fuzzing.txt
++++ b/docs/devel/fuzzing.txt
+@@ -23,9 +23,12 @@ AddressSanitizer mmaps ~20TB of memory, as part of its detection. This results
+ in a large page-map, and a much slower fork().
+ 
+ To build the fuzzers, install a recent version of clang:
+-Configure with (substitute the clang binaries with the version you installed):
++Configure with (substitute the clang binaries with the version you installed).
++Here, enable-sanitizers, is optional but it allows us to reliably detect bugs
++such as out-of-bounds accesses, use-after-frees, double-frees etc.
+ 
+-    CC=clang-8 CXX=clang++-8 /path/to/configure --enable-fuzzing
++    CC=clang-8 CXX=clang++-8 /path/to/configure --enable-fuzzing \
++                                                --enable-sanitizers
+ 
+ Fuzz targets are built similarly to system/softmmu:
+ 
 -- 
 2.18.1
 
