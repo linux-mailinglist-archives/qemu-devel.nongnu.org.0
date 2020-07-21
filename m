@@ -2,69 +2,73 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 567C3228002
-	for <lists+qemu-devel@lfdr.de>; Tue, 21 Jul 2020 14:34:48 +0200 (CEST)
-Received: from localhost ([::1]:53772 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 76C3022800E
+	for <lists+qemu-devel@lfdr.de>; Tue, 21 Jul 2020 14:37:01 +0200 (CEST)
+Received: from localhost ([::1]:35614 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jxrTr-0002M6-DP
-	for lists+qemu-devel@lfdr.de; Tue, 21 Jul 2020 08:34:47 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:60814)
+	id 1jxrW0-0006Ub-H5
+	for lists+qemu-devel@lfdr.de; Tue, 21 Jul 2020 08:37:00 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:60804)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1jxrRM-0007HB-Qw
- for qemu-devel@nongnu.org; Tue, 21 Jul 2020 08:32:14 -0400
-Received: from mail-ot1-x335.google.com ([2607:f8b0:4864:20::335]:35277)
+ (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
+ id 1jxrRL-0007GA-KH
+ for qemu-devel@nongnu.org; Tue, 21 Jul 2020 08:32:11 -0400
+Received: from mail-wr1-x444.google.com ([2a00:1450:4864:20::444]:44452)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1jxrRK-0003Tp-Sv
- for qemu-devel@nongnu.org; Tue, 21 Jul 2020 08:32:12 -0400
-Received: by mail-ot1-x335.google.com with SMTP id d4so14929350otk.2
- for <qemu-devel@nongnu.org>; Tue, 21 Jul 2020 05:32:10 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
+ id 1jxrRI-0003Tf-Qy
+ for qemu-devel@nongnu.org; Tue, 21 Jul 2020 08:32:10 -0400
+Received: by mail-wr1-x444.google.com with SMTP id b6so21005598wrs.11
+ for <qemu-devel@nongnu.org>; Tue, 21 Jul 2020 05:32:07 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=lUjXUHcNC2RKdxH82Y7OBdBYR3gP15O5mHU3+9XCGrU=;
- b=WejlhzTB05trDUuMLlbVziubchwaApyp7Hm8Y/alst+5K56DbhLRCZUfoGNMd+86hT
- Don1oaF6E2FixroraZZAYaKlkoYfHlld6nlUC1eAK/fGYtGxKab2thhyxrr51X2uZiCp
- 5NSpKHCbyiHvKh2Emkr8qBCg8IxuHUASK+btZzSACINbfgc5+WMruXA+9jPmjT7lORKw
- C/UC7S5uUuZYOwSjGR4giWEKrP6VwU1pH6/XTrAVB+v7nKS9IL9sSOPXHj+kXwhc2mZR
- x/6sDvdHnb/zN1y5+zqGBhfIe4F9Xce7q20u0MV+17DA6gf6hlTrPUT8N4lGlvXdvxp9
- LYTA==
+ h=references:user-agent:from:to:cc:subject:in-reply-to:date
+ :message-id:mime-version:content-transfer-encoding;
+ bh=DhBK8HyX73jHYM3ax8BFgUhYlAuX64Zsz0yqTH0y8OU=;
+ b=stWZoh8zgInPseKhyj9p6QdzDVtmZiiRDSH+fetB7dAkuWzbO+LEYgXAl8KoWYlvEI
+ Op4BlsTTS4HRqLnRA+FKSpYc8nZUvTG/vLdirQZUhJz61FcKU/2imhFDrxBQiVtoNkdN
+ ml7AhT5okrdfB3Y4fmE/jg0XvQzAMAs/WkINcMTBMTn1zIqvjiVk94CT7p1s9fgNolnM
+ GmHCGxvL7md3QnLAh2dWslPlWXRPhs+MFX4h6fTdn+9B0l5YiSYSUmnIC5N40bPgyHCD
+ zdaBk8pE7zvPVXFmkTu5cWkYk+dZLsptlntv1xVDEiVfmBO3XKZCacdlmbbyEV6DoMMY
+ xOmQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=lUjXUHcNC2RKdxH82Y7OBdBYR3gP15O5mHU3+9XCGrU=;
- b=i1WmSyCsz/T0RoRALjwHGg2anIltmqoUloTE4GvLXiaRh+8b1cFmEKU6Fzfnu3L7Eo
- BF4koTddaKVcKFrYjXuXT9xWMUxf5IgeBePex6TsxpfTVpP8YoCTVeSz2eG0uSLpTBIj
- NSafOqKRTkQ3v6N4T74QBqj1Jihah63nF39toLE7BW0mno2cgbbpFKCVk7U6Xe+cdUwX
- HalPn/5ZBicWWtLuCNB+2xE6lr9PS5N528PHMijhhc7wrZPUmy7Y4j8wog15671VgGyz
- 8Cnk+PvicbTwqoztMVwhEAGSdEUhdGLhSXnexUXjrBJfJUGQGDr/L/9nfaBtBzrlij/Y
- wJ1A==
-X-Gm-Message-State: AOAM530i/TZfhb3DMpBYvrKGfjjcuDbfaJQhQGjX2yhYBlEXIRPIwoWj
- tIA/o3FKXaNh2kJEu/9gmyevd3BADxj01hzqaymWWQ==
-X-Google-Smtp-Source: ABdhPJy+Q1njas1wAZ7+gF8DjWqz1hOPBACGj9Tk3udQ4kr8O+bhRP9BMcMDfFw9Ib4gvywz+VfJeT1GPLEYO8fIDGs=
-X-Received: by 2002:a05:6830:10ce:: with SMTP id
- z14mr24913851oto.135.1595334729311; 
- Tue, 21 Jul 2020 05:32:09 -0700 (PDT)
+ h=x-gm-message-state:references:user-agent:from:to:cc:subject
+ :in-reply-to:date:message-id:mime-version:content-transfer-encoding;
+ bh=DhBK8HyX73jHYM3ax8BFgUhYlAuX64Zsz0yqTH0y8OU=;
+ b=iR4A2sqtJSy3R3QQMdZhRK0heyT3kJsbue6lAZ7K1Yl8VlDFSxhrKn9Qk1DLxgFX5C
+ fbxEFRvh+JzHmUhBfmz3uBz7Cp2jobO6wfz9JaMm8Rf2DCzIt/wsn0ae0OmtGj4f6WD5
+ CbT0MuOpLpJh6nmI19pADgLNWWB5Xv+3ADcAT1HuHryR/FJwiZZlrbJ+OboMu+PTS2TQ
+ VOQcP0qRHEWAr8WrVU59R0k+uttw532JNftBSYj4FGkNruNN2+FNgpC4vk02NrtafFwu
+ issifCnUDAa0FQ2+kdWp1VPm6AaKjgliExVNvge+AfnPkamJlqop/9gEvmy3CuJQoUDm
+ mUYQ==
+X-Gm-Message-State: AOAM532MFFgrrDafI/9decwpS1AntEtrMmCVqmHUoWbAael+FcXr/7RM
+ VbyL4BBATBEOX7Zop+QpWN5+ug==
+X-Google-Smtp-Source: ABdhPJxlUkv0gdJPi6NSrXeRPyJSexBu+hddyYjg9W9KJlJMcS6heFKp+pYJRHGy0zww21zyu9dktg==
+X-Received: by 2002:adf:9062:: with SMTP id h89mr24495065wrh.285.1595334726562; 
+ Tue, 21 Jul 2020 05:32:06 -0700 (PDT)
+Received: from zen.linaroharston ([51.148.130.216])
+ by smtp.gmail.com with ESMTPSA id e5sm21099169wrc.37.2020.07.21.05.32.05
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Tue, 21 Jul 2020 05:32:05 -0700 (PDT)
+Received: from zen (localhost [127.0.0.1])
+ by zen.linaroharston (Postfix) with ESMTP id 8506D1FF7E;
+ Tue, 21 Jul 2020 13:32:04 +0100 (BST)
+References: <20200721085757.14358-1-f4bug@amsat.org>
+ <5989e383-eade-7112-7c04-336679734e49@vivier.eu>
+User-agent: mu4e 1.5.5; emacs 28.0.50
+From: Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
+To: Laurent Vivier <laurent@vivier.eu>
+Subject: Re: [RFC PATCH-for-5.1?] tests/tcg/multiarch/linux-test: Skip test
+ if nanosleep missing (Travis)
+In-reply-to: <5989e383-eade-7112-7c04-336679734e49@vivier.eu>
+Date: Tue, 21 Jul 2020 13:32:04 +0100
+Message-ID: <87v9ihujzv.fsf@linaro.org>
 MIME-Version: 1.0
-References: <159400349818.1851.7243060688419202620.malonedeb@wampee.canonical.com>
- <CAKXe6S+J3nARveToQjECbwV224gs66WkqGHybUhfw35t1+V8og@mail.gmail.com>
- <2cbdf822-c74c-1af9-e5e6-7dd71412201e@redhat.com>
- <CAKXe6S+ct7D+ibGmrAMJnqKBBKyUpwVnCem8=d=jB-0tUT-N2Q@mail.gmail.com>
- <e4a34525-dbd1-1f85-475b-b5004885215b@redhat.com>
- <CAKXe6SJb=1YLLGF+TP1fMd95k_WzZd73JeUJv5Sn4EE4m2zP4w@mail.gmail.com>
- <f19f605c-9468-e7eb-f255-60766df2a50c@redhat.com>
-In-Reply-To: <f19f605c-9468-e7eb-f255-60766df2a50c@redhat.com>
-From: Peter Maydell <peter.maydell@linaro.org>
-Date: Tue, 21 Jul 2020 13:31:57 +0100
-Message-ID: <CAFEAcA-qrpXJtzW=tigyAqQuYFNCBMQK_CZFx6zYkcJa+RuZuw@mail.gmail.com>
-Subject: Re: [Bug 1886362] [NEW] Heap use-after-free in lduw_he_p through
- e1000e_write_to_rx_buffers
-To: Jason Wang <jasowang@redhat.com>
-Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2607:f8b0:4864:20::335;
- envelope-from=peter.maydell@linaro.org; helo=mail-ot1-x335.google.com
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=2a00:1450:4864:20::444;
+ envelope-from=alex.bennee@linaro.org; helo=mail-wr1-x444.google.com
 X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
  That's all we know.
 X-Spam_score_int: -20
@@ -72,8 +76,8 @@ X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
  DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ URIBL_BLOCKED=0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -86,34 +90,95 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Paolo Bonzini <pbonzini@redhat.com>,
- Bug 1886362 <1886362@bugs.launchpad.net>, Li Qiang <liq3ea@gmail.com>,
- Qemu Developers <qemu-devel@nongnu.org>
+Cc: Thomas Huth <thuth@redhat.com>,
+ Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <f4bug@amsat.org>,
+ qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Wed, 15 Jul 2020 at 09:36, Jason Wang <jasowang@redhat.com> wrote:
-> I think the point is to make DMA to MMIO work as real hardware.
 
-I wouldn't care to give a 100% guarantee that asking a real
-h/w device to DMA to itself didn't cause it to misbehave :-)
-It's more likely to happen-to-work because the DMA engine bit
-of a real h/w device is going to be decoupled somewhat from
-the respond-to-memory-transactions-for-registers logic, but
-it probably wasn't something the designers were actively
-thinking about either...
+Laurent Vivier <laurent@vivier.eu> writes:
 
-> For
-> e1000e and other networking devices we need make sure such DMA doesn't
-> break anything.
+> Le 21/07/2020 =C3=A0 10:57, Philippe Mathieu-Daud=C3=A9 a =C3=A9crit :
+>> The time test sometimes fails on Travis-CI [*]:
+>>=20
+>>     TEST    linux-test on aarch64
+>>   tests/tcg/multiarch/linux-test.c:237: nanosleep
+>>   make[2]: *** [run-linux-test] Error 1
+>>   make: *** [run-tcg-tests-aarch64-linux-user] Error 2
+>>=20
+>> As this seems due to a container limitation on Travis-CI,
+>> simply skip the test there.
+>>=20
+>> [*] https://travis-ci.org/github/qemu/qemu/jobs/710005078#L3706
+>>=20
+>> Signed-off-by: Philippe Mathieu-Daud=C3=A9 <f4bug@amsat.org>
+>> ---
+>> RFC because per Laurent Vivier we are not using the correct libc
+>>     while cross-linking the test (maybe change in the container
+>>     packages?)
+>> ---
+>>  tests/tcg/multiarch/linux-test.c | 7 ++++++-
+>>  1 file changed, 6 insertions(+), 1 deletion(-)
+>>=20
+>> diff --git a/tests/tcg/multiarch/linux-test.c b/tests/tcg/multiarch/linu=
+x-test.c
+>> index 8a7c15cd31..c7dfdec9ec 100644
+>> --- a/tests/tcg/multiarch/linux-test.c
+>> +++ b/tests/tcg/multiarch/linux-test.c
+>> @@ -233,8 +233,13 @@ static void test_time(void)
+>>      ts.tv_sec =3D 0;
+>>      ts.tv_nsec =3D 20 * 1000000;
+>>      chk_error(nanosleep(&ts, &rem));
+>> -    if (rem.tv_sec !=3D 1)
+>> +    if (rem.tv_sec !=3D 1) {
+>> +        if (getenv("TRAVIS_ARCH")) {
+>> +            printf("nanosleep missing? skipping 'time' test\n");
+>> +            return;
+>> +        }
+>>          error("nanosleep");
+>> +    }
+>>      chk_error(gettimeofday(&tv2, NULL));
+>>      ti =3D tv2.tv_sec - tv.tv_sec;
+>>      if (ti >=3D 2)
+>>=20
+>
+> Well, in the end I think the problem is in linux-user:
+>
+> We copy the "rem" structure even if there is no error, so "1" is
+> overwritten.
+>
+> We don't have the problem on all architectures because some use
+> nanosleep() syscall (that is correct) others use clock_nanosleep()
+> syscall that is not correct.
+>
+> This should fix the problem:
+>
+> diff --git a/linux-user/syscall.c b/linux-user/syscall.c
+> index 1211e759c26c..130005716ece 100644
+> --- a/linux-user/syscall.c
+> +++ b/linux-user/syscall.c
+> @@ -11831,7 +11831,7 @@ static abi_long do_syscall1(void *cpu_env, int
+> num, abi_long arg1,
+>          target_to_host_timespec(&ts, arg3);
+>          ret =3D get_errno(safe_clock_nanosleep(arg1, arg2,
+>                                               &ts, arg4 ? &ts : NULL));
+> -        if (arg4)
+> +        if (is_error(ret) && arg4)
+>              host_to_target_timespec(arg4, &ts);
 
-Yeah, this is the interesting part for QEMU. How should we
-structure devices that do DMA so that we can be sure that
-the device emulation at least doesn't crash? We could have
-a rule that all devices that do DMA must always postpone
-all of that DMA to a bottom-half, but that's a lot of
-refactoring of a lot of device code...
+So the testcase worked and caught something :-)
 
-thanks
--- PMM
+I don't know why I couldn't trigger it reliably on my own dev setting thoug=
+h...
+
+>
+>  #if defined(TARGET_PPC)
+>
+> Thanks,
+> Laurent
+
+
+--=20
+Alex Benn=C3=A9e
 
