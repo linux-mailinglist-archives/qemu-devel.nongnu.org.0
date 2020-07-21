@@ -2,68 +2,75 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3E7F8228794
-	for <lists+qemu-devel@lfdr.de>; Tue, 21 Jul 2020 19:42:04 +0200 (CEST)
-Received: from localhost ([::1]:56370 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1061A228764
+	for <lists+qemu-devel@lfdr.de>; Tue, 21 Jul 2020 19:32:57 +0200 (CEST)
+Received: from localhost ([::1]:44634 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jxwHD-0002KY-BW
-	for lists+qemu-devel@lfdr.de; Tue, 21 Jul 2020 13:42:03 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:60144)
+	id 1jxw8N-0005OT-JV
+	for lists+qemu-devel@lfdr.de; Tue, 21 Jul 2020 13:32:55 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:57860)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1jxwG5-0001ov-Em
- for qemu-devel@nongnu.org; Tue, 21 Jul 2020 13:40:53 -0400
-Received: from indium.canonical.com ([91.189.90.7]:49824)
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1jxw76-0004uV-BW
+ for qemu-devel@nongnu.org; Tue, 21 Jul 2020 13:31:36 -0400
+Received: from mail-ot1-x332.google.com ([2607:f8b0:4864:20::332]:42338)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1jxwG3-0000jq-De
- for qemu-devel@nongnu.org; Tue, 21 Jul 2020 13:40:53 -0400
-Received: from loganberry.canonical.com ([91.189.90.37])
- by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
- id 1jxwG1-0006ye-Ei
- for <qemu-devel@nongnu.org>; Tue, 21 Jul 2020 17:40:49 +0000
-Received: from loganberry.canonical.com (localhost [127.0.0.1])
- by loganberry.canonical.com (Postfix) with ESMTP id 5D39F2E80EC
- for <qemu-devel@nongnu.org>; Tue, 21 Jul 2020 17:40:49 +0000 (UTC)
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1jxw74-00085F-9A
+ for qemu-devel@nongnu.org; Tue, 21 Jul 2020 13:31:35 -0400
+Received: by mail-ot1-x332.google.com with SMTP id g37so15639130otb.9
+ for <qemu-devel@nongnu.org>; Tue, 21 Jul 2020 10:31:33 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=3tG5pS3wylim5+bEWdvfYQgTNe8D9880D7JlV1TSHXk=;
+ b=KOJwDNuMynNaujXrijmrEcJceew1VtpVL9q6Ej66gACbCyD3mV1aWQ0NdTyN9thya5
+ v94TmAq4TPahx7nGgGPZn3gsYL0zHDwtxdQUz8zKj+kqSjUIkS+OWPHGB9enhyasa+Eq
+ bTa73E9VtKmmbHk3i5wYCDBcXAcsnxzRZyxO/YE2Pz9aHf6yQ0pr3bGAmPNDdGhh1U+A
+ jVqEJ1oFRl161NT/pF8VfFK6NwCBGr/qmQE5q8MNFuTGGzijh1wyzQuWnAbdBAcZ8zNg
+ xDuECqIcmGAeoDSWy/7nlM0yMGkLE62JpzvzkiwXIaMgtaaxyEC3UzeOHIfmqIjTiJiS
+ 8faA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=3tG5pS3wylim5+bEWdvfYQgTNe8D9880D7JlV1TSHXk=;
+ b=DnkzwyTEF22PIOl3cRjKvk4YZI3o2YiKP/Twhg50iHEm4+VECShyhMysKonowEeAJG
+ PsR09AyDiaO7QjHEkdrRqRAAedP3oNV2u8rlFOcATgqgD4feMfdxEUTo4Rut4r5WMAEV
+ RrfWg8fxLPn362fhTHvjV/qGoQk52j7cn7TJvRvv1WOiJ6ceVm2AaFEbX+uhCEqh8+Ny
+ AGmpaTfxv7Fc87Ypl8Ij2/rrP/lIGG9v16+HaXQlZ3iXOszqM0FUEBB9ToxrfTzHcwh1
+ 4i2yX3XxVxuzeJRByvVLp8sLTEO6+akv0gliR45nhzvi789PRpXBgAYYWKiLa7S4ZcTg
+ Uxuw==
+X-Gm-Message-State: AOAM530ZRVgLp+WjQhaZcchM4HnqcLCSQQA+L/6I8sVT18mxQwIxZE00
+ R02wWUX+7B+XkVIXZ3O3lvjKZStmrEt4VeQI7X8C+g==
+X-Google-Smtp-Source: ABdhPJxD/XuIR1J11w3H+5YBLSJeneRGGXd6Z/qtdq45hz9fXQCC3zvjEO9gQEp3wuePlpIbVpapmT09AKHZR/b6/0E=
+X-Received: by 2002:a05:6830:10ce:: with SMTP id
+ z14mr26064406oto.135.1595352692722; 
+ Tue, 21 Jul 2020 10:31:32 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: quoted-printable
-Date: Tue, 21 Jul 2020 17:29:26 -0000
-From: Jason <1888417@bugs.launchpad.net>
-To: qemu-devel@nongnu.org
-X-Launchpad-Notification-Type: bug
-X-Launchpad-Bug: product=qemu; status=New; importance=Undecided; assignee=None;
-X-Launchpad-Bug-Tags: force-stop hangs nvidia pci reboot
-X-Launchpad-Bug-Information-Type: Public
-X-Launchpad-Bug-Private: no
-X-Launchpad-Bug-Security-Vulnerability: no
-X-Launchpad-Bug-Commenters: lightninjay
-X-Launchpad-Bug-Reporter: Jason (lightninjay)
-X-Launchpad-Bug-Modifier: Jason (lightninjay)
-Message-Id: <159535256686.7592.12361820079263274205.malonedeb@wampee.canonical.com>
-Subject: [Bug 1888417] [NEW] Latest QEMU git build on Arch linux causes PCI
- Passthrough host to hang on guest reboot.
-X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
-X-Launchpad-Message-For: qemu-devel-ml
-Precedence: bulk
-X-Generated-By: Launchpad (canonical.com);
- Revision="4809fcb62f445aaa3ae919f7f6c3cc7d156ea57a";
- Instance="production-secrets-lazr.conf"
-X-Launchpad-Hash: 3fa82cc9717a66445bdab20a69eed8540461c4fe
-Received-SPF: none client-ip=91.189.90.7; envelope-from=bounces@canonical.com;
- helo=indium.canonical.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/07/21 13:40:49
-X-ACL-Warn: Detected OS   = Linux 3.11 and newer [fuzzy]
-X-Spam_score_int: -58
-X-Spam_score: -5.9
-X-Spam_bar: -----
-X-Spam_report: (-5.9 / 5.0 requ) BAYES_00=-1.9, HEADER_FROM_DIFFERENT_DOMAINS=1,
- RCVD_IN_DNSWL_HI=-5, RCVD_IN_MSPIKE_H3=-0.01, RCVD_IN_MSPIKE_WL=-0.01,
- SPF_HELO_NONE=0.001, SPF_NONE=0.001 autolearn=ham autolearn_force=no
+References: <20200721140245.14634-1-kraxel@redhat.com>
+In-Reply-To: <20200721140245.14634-1-kraxel@redhat.com>
+From: Peter Maydell <peter.maydell@linaro.org>
+Date: Tue, 21 Jul 2020 18:31:21 +0100
+Message-ID: <CAFEAcA_eNiZ8MPtcXsK0waLBZ6cta_f9=2vMWcTq7EkgpWuTzw@mail.gmail.com>
+Subject: Re: [PULL 0/3] Fixes 20200721 patches
+To: Gerd Hoffmann <kraxel@redhat.com>
+Content-Type: text/plain; charset="UTF-8"
+Received-SPF: pass client-ip=2607:f8b0:4864:20::332;
+ envelope-from=peter.maydell@linaro.org; helo=mail-ot1-x332.google.com
+X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
+ That's all we know.
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ URIBL_BLOCKED=0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
+Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -72,59 +79,33 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Bug 1888417 <1888417@bugs.launchpad.net>
+Cc: QEMU Developers <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Public bug reported:
+On Tue, 21 Jul 2020 at 15:05, Gerd Hoffmann <kraxel@redhat.com> wrote:
+>
+> The following changes since commit af3d69058e09bede9900f266a618ed11f76f49f3:
+>
+>   Merge remote-tracking branch 'remotes/pmaydell/tags/pull-target-arm-20200720' into staging (2020-07-20 15:58:07 +0100)
+>
+> are available in the Git repository at:
+>
+>   git://git.kraxel.org/qemu tags/fixes-20200721-pull-request
+>
+> for you to fetch changes up to d87350b065128e8156e7aca93e89a1ab9e5fa63d:
+>
+>   module: ignore NULL type (2020-07-21 10:56:51 +0200)
+>
+> ----------------------------------------------------------------
+> fixes for xhci and modular builds.
+>
 
-Current Arch linux release, up-to-date as of 7/21/2020.
 
-Running a windows 7 virtual machine (also happens with windows 10,
-possibly more OSes), with an nvidia GTX 1060 passthrough, if the VM is
-attempted to be restarted, either through the guest interface, or by
-libvirt's gui interface "Virtual Machine Manager", it hangs in a
-"paused" state once the VM shutsdown, and just before the reboot can
-take place.  A force-stop of the VM allows the VM to be properly booted
-without any disk error checks, alluding to a clean shutdown, but failed
-reboot.  The VM can be properly shutdown using the guests shutdown
-function, or the libvirt manager shutdown, without any hangs.  Reverting
-to Arch stable build QEMU 5.0.0-7 fixes the issue.
+Applied, thanks.
 
-** Affects: qemu
-     Importance: Undecided
-         Status: New
+Please update the changelog at https://wiki.qemu.org/ChangeLog/5.1
+for any user-visible changes.
 
-
-** Tags: force-stop hangs nvidia pci reboot
-
--- =
-
-You received this bug notification because you are a member of qemu-
-devel-ml, which is subscribed to QEMU.
-https://bugs.launchpad.net/bugs/1888417
-
-Title:
-  Latest QEMU git build on Arch linux causes PCI Passthrough host to
-  hang on guest reboot.
-
-Status in QEMU:
-  New
-
-Bug description:
-  Current Arch linux release, up-to-date as of 7/21/2020.
-
-  Running a windows 7 virtual machine (also happens with windows 10,
-  possibly more OSes), with an nvidia GTX 1060 passthrough, if the VM is
-  attempted to be restarted, either through the guest interface, or by
-  libvirt's gui interface "Virtual Machine Manager", it hangs in a
-  "paused" state once the VM shutsdown, and just before the reboot can
-  take place.  A force-stop of the VM allows the VM to be properly
-  booted without any disk error checks, alluding to a clean shutdown,
-  but failed reboot.  The VM can be properly shutdown using the guests
-  shutdown function, or the libvirt manager shutdown, without any hangs.
-  Reverting to Arch stable build QEMU 5.0.0-7 fixes the issue.
-
-To manage notifications about this bug go to:
-https://bugs.launchpad.net/qemu/+bug/1888417/+subscriptions
+-- PMM
 
