@@ -2,70 +2,76 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id EB6F92285D1
-	for <lists+qemu-devel@lfdr.de>; Tue, 21 Jul 2020 18:37:21 +0200 (CEST)
-Received: from localhost ([::1]:50582 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9FA0B2285DD
+	for <lists+qemu-devel@lfdr.de>; Tue, 21 Jul 2020 18:38:36 +0200 (CEST)
+Received: from localhost ([::1]:53444 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jxvGb-0000fu-2C
-	for lists+qemu-devel@lfdr.de; Tue, 21 Jul 2020 12:37:21 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:43762)
+	id 1jxvHn-0001tD-NY
+	for lists+qemu-devel@lfdr.de; Tue, 21 Jul 2020 12:38:35 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:44026)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1jxvFX-0008Nr-OA
- for qemu-devel@nongnu.org; Tue, 21 Jul 2020 12:36:15 -0400
-Received: from mail-oi1-x234.google.com ([2607:f8b0:4864:20::234]:39492)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1jxvFU-0000De-VI
- for qemu-devel@nongnu.org; Tue, 21 Jul 2020 12:36:14 -0400
-Received: by mail-oi1-x234.google.com with SMTP id w17so17754722oie.6
- for <qemu-devel@nongnu.org>; Tue, 21 Jul 2020 09:36:12 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=53g4g+ACUrjSoP+PZBASP0ajghZPhdeS4sI046CtSCI=;
- b=ysFwfXYH8SZNRMSfGCQxsyvaSBZBpjmrdJuGj/15ozlMoW7QJcs/pVjtKo4uunpfTj
- SSZUbOvvyx2ALOwRTyBbMNnWAyd9WcFhkMnCar3HiDy4Vax67a7/g6V94i1HvQcoS5ju
- i54CF9Fca7PdkjQ0D+B+y6hwZ6FyxVo6HqV2yjIytiPE2EA1VSdeXzbbi5vD/ymqwqHA
- EX3xRthd7SCpWO9xcUstgS6ehIfn2Nj1ybAZ7cng1niUYdU+OPYQ0hJZA6scUym0cmaw
- iCFJFm19UOpWYE+JWexSyizZvw7QKwwsn563aZiqnCrtN0e18UZFrAe+JfYu+/0qQjLQ
- kZ6Q==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=53g4g+ACUrjSoP+PZBASP0ajghZPhdeS4sI046CtSCI=;
- b=OfhApFbIiN+75z520PLv5q128/jEVafTdsxeUkOz7OcDqsZADbBhglK/QUR/hmNXu5
- atzXDDzaIQJyoPqyvi0FNXmPBLIhwVDPzjtYLtZMSQ/0wn45JHjGzC8Ds9OlVRsWg83t
- KG1G3DwkdDu3L7LxvIC7GKr3XdBAHt3iAcsRzD7dWidpCDG3iyCppBjxcpLg51qDwKsy
- nP0jsR/4RcaZQXVAWVwBqqHPLqACJYsHcr9UjbKPL8NxyF9RSvI1WpL6kovoiYGF5ZXb
- h71OrESOgJ7lVX8I8ctWv91l2y5Tjy4mHWmNhFP1JDaHT22iYbVRM7jSIYWVhW2iKXlY
- XAyw==
-X-Gm-Message-State: AOAM5331p/vajWwYmgL8zUH9pwRIEPnCy44SfwGi03xaHcfdH/tsrKHT
- 8QXmM/pbbgF8gyeyvCdY5ypGTACRyFIuq3qG2A41ug==
-X-Google-Smtp-Source: ABdhPJz18eh76tOPumqzFkkPlaq+scsmaLxiVhCceNvuMAQdIgnbNrk0Lrm648j4Y4mNTW+hOOwa/TMU/CL6MyWVa+U=
-X-Received: by 2002:aca:2819:: with SMTP id 25mr3511948oix.48.1595349371754;
- Tue, 21 Jul 2020 09:36:11 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1jxvGq-0001HK-NM
+ for qemu-devel@nongnu.org; Tue, 21 Jul 2020 12:37:36 -0400
+Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:52347
+ helo=us-smtp-1.mimecast.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1jxvGo-0000KJ-BZ
+ for qemu-devel@nongnu.org; Tue, 21 Jul 2020 12:37:36 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1595349453;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=eIR4CbSK82CzCUBKxZ5hEDMIxILQxXQSqvgRCuvn1u8=;
+ b=glXhSuxJJETf4Mf+o8O90F3dxWPiX6WmLB1oMnZ6Xj6qV0OKW0bZD2xr5EQCZIIrj2cXB1
+ zFpMnWa1Q9rt81RN/iInVsfcL3+3gltuw2TuPCbRXYqqzJh/JpSAEFTuxJgM/5lnTlgbUa
+ clmYNA7eWs7fNVsmyqxR0aIKcupXWq4=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-254-D5Ke43ZEPcOAwXgMtn8DLQ-1; Tue, 21 Jul 2020 12:37:29 -0400
+X-MC-Unique: D5Ke43ZEPcOAwXgMtn8DLQ-1
+Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
+ [10.5.11.15])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 938FC91299;
+ Tue, 21 Jul 2020 16:37:28 +0000 (UTC)
+Received: from ibm-p8-OVS-01-fsp.mgmt.pnr.lab.eng.rdu2.redhat.com
+ (ovpn-120-206.rdu2.redhat.com [10.10.120.206])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id E9E5E7268E;
+ Tue, 21 Jul 2020 16:37:24 +0000 (UTC)
+Subject: Re: [RFC PATCH-for-5.1] hw/ide: Do not block for AIO while resetting
+ a drive
+To: Stefan Hajnoczi <stefanha@redhat.com>,
+ =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>
+References: <20200717171938.1249-1-f4bug@amsat.org>
+ <20200720100246.GA24159@stefanha-x1.localdomain>
+From: John Snow <jsnow@redhat.com>
+Message-ID: <e853fb33-8b6a-1e36-e028-1efc51b01616@redhat.com>
+Date: Tue, 21 Jul 2020 12:37:24 -0400
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.10.0
 MIME-Version: 1.0
-References: <1595338467-19556-1-git-send-email-jasowang@redhat.com>
-In-Reply-To: <1595338467-19556-1-git-send-email-jasowang@redhat.com>
-From: Peter Maydell <peter.maydell@linaro.org>
-Date: Tue, 21 Jul 2020 17:36:00 +0100
-Message-ID: <CAFEAcA9JHPTB4KuKY8a6ZXYiyj_i3k=Ej0m3a1Pw0j=ahkSHdQ@mail.gmail.com>
-Subject: Re: [PULL 0/2] Net patches
-To: Jason Wang <jasowang@redhat.com>
-Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2607:f8b0:4864:20::234;
- envelope-from=peter.maydell@linaro.org; helo=mail-oi1-x234.google.com
-X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
- That's all we know.
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+In-Reply-To: <20200720100246.GA24159@stefanha-x1.localdomain>
+Content-Language: en-US
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=WINDOWS-1252; format=flowed
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=205.139.110.120; envelope-from=jsnow@redhat.com;
+ helo=us-smtp-1.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/07/21 10:58:38
+X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
+X-Spam_score_int: -40
+X-Spam_score: -4.1
+X-Spam_bar: ----
+X-Spam_report: (-4.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-1, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -78,38 +84,50 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: QEMU Developers <qemu-devel@nongnu.org>
+Cc: Alexander Bulekov <alxndr@bu.edu>, qemu-devel@nongnu.org,
+ qemu-block@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Tue, 21 Jul 2020 at 14:34, Jason Wang <jasowang@redhat.com> wrote:
->
-> The following changes since commit 90218a9a393c7925f330e7dcc08658e2a01d3bd4:
->
->   Merge remote-tracking branch 'remotes/huth-gitlab/tags/pull-request-2020-07-21' into staging (2020-07-21 10:24:38 +0100)
->
-> are available in the git repository at:
->
->   https://github.com/jasowang/qemu.git tags/net-pull-request
->
-> for you to fetch changes up to 5519724a13664b43e225ca05351c60b4468e4555:
->
->   hw/net/xgmac: Fix buffer overflow in xgmac_enet_send() (2020-07-21 21:30:39 +0800)
->
-> ----------------------------------------------------------------
->
-> ----------------------------------------------------------------
-> Andrew (1):
->       hw/net: Added plen fix for IPv6
->
-> Mauro Matteo Cascella (1):
->       hw/net/xgmac: Fix buffer overflow in xgmac_enet_send()
->
+On 7/20/20 6:02 AM, Stefan Hajnoczi wrote:
+> On Fri, Jul 17, 2020 at 07:19:38PM +0200, Philippe Mathieu-Daudé wrote:
+>> Last minute chat:
+>> 19:01 <stefanha> f4bug: use bdrv_aio_cancel_async() if possible because it won't block the current thread.
+>> 19:02 <stefanha> f4bug: For example, in device emulation code where the guest has requested to cancel an I/O request it's often possible to use the async version.
+>> 19:02 <stefanha> f4bug: But in synchronous code like device reset it may be necessary to use the synchronous (blocking) bdrv_aio_cancel() API instead. :(
+>> 19:14 <stefanha> f4bug: The way to decide is: will the current function return to the event loop and is there someone who will handle the request completion callback when cancel finishes?
+>> 19:14 <stefanha> f4bug: If the next line of code requires the request to finished then async cancel cannot be used.
+>> 19:15 <stefanha> f4bug: On the other hand, if the function can return and it's okay for the request to cancel at some future time then you can use async.
+>>
+>> So I'll revisit this patch :)
+>> ---
+>>   hw/ide/core.c | 3 ++-
+>>   1 file changed, 2 insertions(+), 1 deletion(-)
+>>
+>> diff --git a/hw/ide/core.c b/hw/ide/core.c
+>> index d997a78e47..e3a9ce7d25 100644
+>> --- a/hw/ide/core.c
+>> +++ b/hw/ide/core.c
+>> @@ -1315,7 +1315,8 @@ static void ide_reset(IDEState *s)
+>>       trace_ide_reset(s);
+>>   
+>>       if (s->pio_aiocb) {
+>> -        blk_aio_cancel(s->pio_aiocb);
+>> +        /* If there is a pending AIO callback, invoke it now. */
+>> +        blk_aio_cancel_async(s->pio_aiocb);
+> 
+> This is a place where an async call is not allowed. The completion
+> function must be called right away (synchronously) before we can
+> continue resetting the device.
+> 
+> I sent a patch that allows bdrv_aio_cancel() to find the AioContext so
+> it can call aio_poll().
+> 
+> Stefan
+> 
 
-Applied, thanks.
+OK, dropping Phil's patch here.
 
-Please update the changelog at https://wiki.qemu.org/ChangeLog/5.1
-for any user-visible changes.
+--js
 
--- PMM
 
