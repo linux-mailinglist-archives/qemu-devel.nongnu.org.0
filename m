@@ -2,75 +2,75 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 31DA922792A
-	for <lists+qemu-devel@lfdr.de>; Tue, 21 Jul 2020 09:04:36 +0200 (CEST)
-Received: from localhost ([::1]:55362 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E728722792F
+	for <lists+qemu-devel@lfdr.de>; Tue, 21 Jul 2020 09:06:32 +0200 (CEST)
+Received: from localhost ([::1]:58544 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jxmKJ-000491-8n
-	for lists+qemu-devel@lfdr.de; Tue, 21 Jul 2020 03:04:35 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:35808)
+	id 1jxmMC-0005bz-1f
+	for lists+qemu-devel@lfdr.de; Tue, 21 Jul 2020 03:06:32 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:36404)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1jxmJ2-0003jD-NC
- for qemu-devel@nongnu.org; Tue, 21 Jul 2020 03:03:16 -0400
-Received: from us-smtp-2.mimecast.com ([205.139.110.61]:25649
- helo=us-smtp-delivery-1.mimecast.com)
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1jxmL9-0004p2-C5
+ for qemu-devel@nongnu.org; Tue, 21 Jul 2020 03:05:27 -0400
+Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:57449
+ helo=us-smtp-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1jxmJ0-0000l4-2G
- for qemu-devel@nongnu.org; Tue, 21 Jul 2020 03:03:16 -0400
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1jxmL7-00017C-Qb
+ for qemu-devel@nongnu.org; Tue, 21 Jul 2020 03:05:27 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1595314993;
+ s=mimecast20190719; t=1595315125;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references:openpgp:openpgp;
- bh=u5d0bhXt3sfyqcWUcu3ZfzX3B20Z+uZolkLXl+v8n+A=;
- b=gk/aoF6kMvpPTzdFyn8p/yOdYhxp+djCzG/8jrsLr9rCb+HqhO6MCPNiXv/yqMMPdPoj1F
- NBnvtSNdE6HZAiRCMwrzNj1qZ+nzwxEmfS0c+UtxUmPXucKfZaHmBwmVNqMAztswnGDLko
- nYulXyvEZSNfAwDRyjddbdt69gBK5R8=
+ in-reply-to:in-reply-to:references:references;
+ bh=kXIABjJzir6vJLp4Jsf94FB0ty9gB3NwlhdUDzO5hxY=;
+ b=HisOa32HZrCQYVEsIOrnXXzKLAgSKwFcOvIZa7Kzv+vbzUHET3SeOI/jwtmSaLh6AXmNMC
+ IYXYc9LmJvd0HNwf59cjsZL6rDV+weU/kaEMPlV0xJIqfQdHWNJPC39Ye3pKJFha9iTNZk
+ 9U9HT3ykwjrwrYYGLApGIz3vKAODolk=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-248-jwdaaqWHPGGgJF9JergpuQ-1; Tue, 21 Jul 2020 03:03:11 -0400
-X-MC-Unique: jwdaaqWHPGGgJF9JergpuQ-1
-Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
- [10.5.11.11])
+ us-mta-33-oWCFghNnOJaMR5_HUdlOpA-1; Tue, 21 Jul 2020 03:05:21 -0400
+X-MC-Unique: oWCFghNnOJaMR5_HUdlOpA-1
+Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
+ [10.5.11.12])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 223C51DE1;
- Tue, 21 Jul 2020 07:03:10 +0000 (UTC)
-Received: from thuth.remote.csb (ovpn-112-102.ams2.redhat.com [10.36.112.102])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 2D8476FEE9;
- Tue, 21 Jul 2020 07:03:06 +0000 (UTC)
-Subject: Re: [PATCH] pc-bios: s390x: Add a comment to the io and external new
- PSW setup
-To: Janosch Frank <frankja@linux.ibm.com>, qemu-devel@nongnu.org
-References: <033b0db7-7b7d-6eb0-9018-bcc342f13509@de.ibm.com>
- <20200715140820.3401-1-frankja@linux.ibm.com>
-From: Thomas Huth <thuth@redhat.com>
-Openpgp: preference=signencrypt
-Message-ID: <108aafd0-e82d-53b8-ef77-d8b9fb36a80f@redhat.com>
-Date: Tue, 21 Jul 2020 09:03:04 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
- Thunderbird/60.9.0
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id EFFE618C63C0;
+ Tue, 21 Jul 2020 07:05:19 +0000 (UTC)
+Received: from blackfin.pond.sub.org (ovpn-112-143.ams2.redhat.com
+ [10.36.112.143])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id DE11B60BF1;
+ Tue, 21 Jul 2020 07:05:16 +0000 (UTC)
+Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
+ id 7B4FC111CA27; Tue, 21 Jul 2020 09:05:15 +0200 (CEST)
+From: Markus Armbruster <armbru@redhat.com>
+To: "Michael S. Tsirkin" <mst@redhat.com>
+Subject: Re: Intended purpose of virtio-rng's QOM link "rng"?
+References: <87d04qfco3.fsf@dusky.pond.sub.org>
+ <20200720112838-mutt-send-email-mst@kernel.org>
+Date: Tue, 21 Jul 2020 09:05:15 +0200
+In-Reply-To: <20200720112838-mutt-send-email-mst@kernel.org> (Michael
+ S. Tsirkin's message of "Mon, 20 Jul 2020 11:56:32 -0400")
+Message-ID: <87mu3tbb6c.fsf@dusky.pond.sub.org>
+User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/26.3 (gnu/linux)
 MIME-Version: 1.0
-In-Reply-To: <20200715140820.3401-1-frankja@linux.ibm.com>
-Content-Language: en-US
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=armbru@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=205.139.110.61; envelope-from=thuth@redhat.com;
- helo=us-smtp-delivery-1.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/07/21 01:26:46
+Content-Type: text/plain
+Received-SPF: pass client-ip=207.211.31.120; envelope-from=armbru@redhat.com;
+ helo=us-smtp-1.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/07/21 01:46:39
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
-X-Spam_score_int: -40
-X-Spam_score: -4.1
-X-Spam_bar: ----
-X-Spam_report: (-4.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1,
+X-Spam_score_int: -30
+X-Spam_score: -3.1
+X-Spam_bar: ---
+X-Spam_report: (-3.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-1, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H4=-0.01, RCVD_IN_MSPIKE_WL=-0.01,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -83,51 +83,72 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: borntraeger@de.ibm.com, cohuck@redhat.com, david@redhat.com
+Cc: Halil Pasic <pasic@linux.ibm.com>,
+ Christian Borntraeger <borntraeger@de.ibm.com>,
+ Cornelia Huck <cohuck@redhat.com>, qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 15/07/2020 16.08, Janosch Frank wrote:
-> Normally they don't need to be set up before waiting for an interrupt
-> but are set up on boot. The BIOS however might overwrite the lowcore
-> (and hence the PSWs) when loading a blob into memory and therefore
-> needs to set up those PSWs more often.
-> 
-> Signed-off-by: Janosch Frank <frankja@linux.ibm.com>
-> ---
->  pc-bios/s390-ccw/start.S | 10 ++++++++--
->  1 file changed, 8 insertions(+), 2 deletions(-)
-> 
-> diff --git a/pc-bios/s390-ccw/start.S b/pc-bios/s390-ccw/start.S
-> index 01c4c21b26..b0fcb918cc 100644
-> --- a/pc-bios/s390-ccw/start.S
-> +++ b/pc-bios/s390-ccw/start.S
-> @@ -64,7 +64,10 @@ consume_sclp_int:
->          stctg   %c0,%c0,0(%r15)
->          oi      6(%r15),0x2
->          lctlg   %c0,%c0,0(%r15)
-> -        /* prepare external call handler */
-> +        /*
-> +         * Prepare external new PSW as it might have been overwritten
-> +         * by a loaded blob
-> +         */
->          larl %r1, external_new_code
->          stg %r1, 0x1b8
->          larl %r1, external_new_mask
-> @@ -84,7 +87,10 @@ consume_io_int:
->          stctg %c6,%c6,0(%r15)
->          oi    4(%r15), 0xff
->          lctlg %c6,%c6,0(%r15)
-> -        /* prepare i/o call handler */
-> +        /*
-> +         * Prepare i/o new PSW as it might have been overwritten
-> +         * by a loaded blob
-> +         */
->          larl  %r1, io_new_code
->          stg   %r1, 0x1f8
->          larl  %r1, io_new_mask
-> 
+"Michael S. Tsirkin" <mst@redhat.com> writes:
 
-Reviewed-by: Thomas Huth <thuth@redhat.com>
+> On Mon, Jul 20, 2020 at 05:07:08PM +0200, Markus Armbruster wrote:
+>> What is the intended purpose of object_property_set_link() in
+>> 
+>>     static void virtio_rng_pci_realize(VirtIOPCIProxy *vpci_dev, Error **errp)
+>>     {
+>>         VirtIORngPCI *vrng = VIRTIO_RNG_PCI(vpci_dev);
+>>         DeviceState *vdev = DEVICE(&vrng->vdev);
+>> 
+>>         if (!qdev_realize(vdev, BUS(&vpci_dev->bus), errp)) {
+>>             return;
+>>         }
+>> 
+>>         object_property_set_link(OBJECT(vrng), "rng", OBJECT(vrng->vdev.conf.rng),
+>>                                  NULL);
+>>     }
+>> 
+>> ?
+>> 
+>> I'm asking because the function *always* fails.  I believe it's been
+>> failing for years.
+>> 
+>> Similar code in the CCW buddy.  Also virtio-crypto-pci and
+>> virtio-crypto-ccw link "cryptodev".
+>> 
+>> I tried moving it before qdev_realize(), where it doesn't fail.  But
+>> then *I* fail, namely at finding any effect in QOM.
+>
+> I suspect that's because there's already a link with that name
+> created by virtio core. Is that right?
+
+Looks like it, in virtio_rng_device_realize():
+
+    if (vrng->conf.rng == NULL) {
+        ... make up @default_backend ...
+        object_property_set_link(OBJECT(dev), "rng", default_backend,
+                                 &error_abort);
+    }
+
+The object_property_set_link actually sets vrng->vdev.conf.rng (but it
+takes quite some digging to see that; MICAHI[*] at work).
+
+For virtio-crypto, the link is vcrypto->vdev.conf.cryptodev.
+virtio_crypto_pci_realize() first checks its already set:
+
+    if (vcrypto->vdev.conf.cryptodev == NULL) {
+        error_setg(errp, "'cryptodev' parameter expects a valid object");
+        return;
+    }
+
+>> If it's really useless, I'll send a patch to drop it.
+
+All four are useless; will send patches.
+
+>> If it has a use, tell me more, so I can test my patch to move it.
+
+Thanks!
+
+
+[*] Make It Complicated And Hide It.
 
 
