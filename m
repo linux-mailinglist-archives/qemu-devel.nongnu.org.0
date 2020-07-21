@@ -2,66 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D7121227A41
-	for <lists+qemu-devel@lfdr.de>; Tue, 21 Jul 2020 10:12:32 +0200 (CEST)
-Received: from localhost ([::1]:39966 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7A4BE227A48
+	for <lists+qemu-devel@lfdr.de>; Tue, 21 Jul 2020 10:14:28 +0200 (CEST)
+Received: from localhost ([::1]:48248 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jxnO3-0000rq-TB
-	for lists+qemu-devel@lfdr.de; Tue, 21 Jul 2020 04:12:31 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:34534)
+	id 1jxnPv-0004Gg-I9
+	for lists+qemu-devel@lfdr.de; Tue, 21 Jul 2020 04:14:27 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:34556)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1jxnMj-0007YI-JV
- for qemu-devel@nongnu.org; Tue, 21 Jul 2020 04:11:09 -0400
-Received: from us-smtp-2.mimecast.com ([205.139.110.61]:46933
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1jxnMk-0007b6-K0
+ for qemu-devel@nongnu.org; Tue, 21 Jul 2020 04:11:10 -0400
+Received: from us-smtp-2.mimecast.com ([207.211.31.81]:28220
  helo=us-smtp-delivery-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1jxnMh-0004KA-Rw
- for qemu-devel@nongnu.org; Tue, 21 Jul 2020 04:11:09 -0400
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1jxnMi-0004KI-6y
+ for qemu-devel@nongnu.org; Tue, 21 Jul 2020 04:11:10 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
  s=mimecast20190719; t=1595319067;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:content-type:content-type:in-reply-to:in-reply-to:
- references:references; bh=k45Qt3os4wd7ourRNG8YTcJpHm84McI5FBzK0pB4Mys=;
- b=Ynp3A/DLyF1LWPzm3A2XI+LeIWv8fVk9jCppNJorOYgozlVxRnrGG9MeSWjat3nEmWQp/m
- /UqhC8/cUD4P5yPVR4fqctYmvRxL74e2uVQrJwnjlZyJYRGhNB/n7HZFHm1OtDeO9TqRQ+
- dHoizcEwSJCt4ICtnPZ95ma9UgqnZsg=
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=NDeCjODWd2sR1PLveUfus8P4jDOiazbulApwjnBgP2k=;
+ b=fCykeDdO5+k6n4OH2asE/nrNLyexU7FH8wU7XM0Q0PsgHfsl8sE1WD8IQ05YBuoF59O/Wz
+ av979rmq7NZA2XzexTvvmExlgW98AAjOqCLpEAtXLMGGw9pNZE6wx4eGm64UeFAfWpb24T
+ wB/C5dHQ0fK685nTq48LfHnfJELe2Qk=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-276-Pq3NX5nSMSOKimGY44_EDQ-1; Tue, 21 Jul 2020 04:11:03 -0400
-X-MC-Unique: Pq3NX5nSMSOKimGY44_EDQ-1
+ us-mta-227-6bkaSYZ_OXKlOCF7DYzZ4w-1; Tue, 21 Jul 2020 04:11:05 -0400
+X-MC-Unique: 6bkaSYZ_OXKlOCF7DYzZ4w-1
 Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
  [10.5.11.23])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id B1B34102C7F1;
- Tue, 21 Jul 2020 08:11:02 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 26A7B18C63C1;
+ Tue, 21 Jul 2020 08:11:04 +0000 (UTC)
 Received: from thuth.com (ovpn-112-102.ams2.redhat.com [10.36.112.102])
- by smtp.corp.redhat.com (Postfix) with ESMTP id A511F2DE68;
- Tue, 21 Jul 2020 08:11:01 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 1B2272DE68;
+ Tue, 21 Jul 2020 08:11:02 +0000 (UTC)
 From: Thomas Huth <thuth@redhat.com>
 To: peter.maydell@linaro.org,
 	qemu-devel@nongnu.org
-Subject: [PULL 03/10] gitlab-ci.yml: Add oss-fuzz build tests
-Date: Tue, 21 Jul 2020 10:10:48 +0200
-Message-Id: <20200721081055.14073-4-thuth@redhat.com>
+Subject: [PULL 04/10] fuzz: build without AddressSanitizer, by default
+Date: Tue, 21 Jul 2020 10:10:49 +0200
+Message-Id: <20200721081055.14073-5-thuth@redhat.com>
 In-Reply-To: <20200721081055.14073-1-thuth@redhat.com>
 References: <20200721081055.14073-1-thuth@redhat.com>
+MIME-Version: 1.0
 X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=US-ASCII
-Received-SPF: pass client-ip=205.139.110.61; envelope-from=thuth@redhat.com;
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=207.211.31.81; envelope-from=thuth@redhat.com;
  helo=us-smtp-delivery-1.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/07/21 01:26:46
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/07/21 03:39:19
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
-X-Spam_score_int: -40
-X-Spam_score: -4.1
-X-Spam_bar: ----
-X-Spam_report: (-4.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1,
+X-Spam_score_int: -30
+X-Spam_score: -3.1
+X-Spam_bar: ---
+X-Spam_report: (-3.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-1, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001, URIBL_BLOCKED=0.001 autolearn=ham autolearn_force=no
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H3=-0.01, RCVD_IN_MSPIKE_WL=-0.01,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -80,60 +84,53 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Alexander Bulekov <alxndr@bu.edu>
 
-This tries to build and run the fuzzers with the same build-script used
-by oss-fuzz. This doesn't guarantee that the builds on oss-fuzz will
-also succeed, since oss-fuzz provides its own compiler and fuzzer vars,
-but it can catch changes that are not compatible with the the
-./scripts/oss-fuzz/build.sh script.
-The strange way of finding fuzzer binaries stems from the method used by
-oss-fuzz:
-https://github.com/google/oss-fuzz/blob/master/infra/base-images/base-runner/targets_list
+We already have a nice --enable-sanitizers option to enable
+AddressSanitizer. There is no reason to duplicate and force this
+functionality in --enable-fuzzing. In the future, if more sanitizers are
+added to --enable-sanitizers, it might be impossible to build with both
+--enable-sanitizers and --enable-fuzzing, since not all sanitizers are
+compatible with libFuzzer. In that case, we could enable ASAN with
+--extra-cflags="-fsanitize=address"
 
 Signed-off-by: Alexander Bulekov <alxndr@bu.edu>
-Message-Id: <20200720073223.22945-1-thuth@redhat.com>
-[thuth: Tweak the "script" to make it work, exclude slirp test, etc.]
+Message-Id: <20200706195534.14962-2-alxndr@bu.edu>
+Reviewed-by: Philippe Mathieu-Daudé <philmd@redhat.com>
+Reviewed-by: Thomas Huth <thuth@redhat.com>
+[thuth: Added missing $CFLAGS]
 Signed-off-by: Thomas Huth <thuth@redhat.com>
 ---
- .gitlab-ci.yml | 22 ++++++++++------------
- 1 file changed, 10 insertions(+), 12 deletions(-)
+ configure | 10 +++++-----
+ 1 file changed, 5 insertions(+), 5 deletions(-)
 
-diff --git a/.gitlab-ci.yml b/.gitlab-ci.yml
-index 41597c3603..362e5ee755 100644
---- a/.gitlab-ci.yml
-+++ b/.gitlab-ci.yml
-@@ -164,22 +164,20 @@ build-clang:
-       ppc-softmmu s390x-softmmu arm-linux-user
-     MAKE_CHECK_ARGS: check
- 
--build-fuzzer:
-+build-oss-fuzz:
-   <<: *native_build_job_definition
-   variables:
-     IMAGE: fedora
-   script:
--    - mkdir build
--    - cd build
--    - ../configure --cc=clang --cxx=clang++ --enable-fuzzing
--                   --enable-sanitizers --target-list=x86_64-softmmu
--    - make -j"$JOBS" all check-build x86_64-softmmu/fuzz
--    - make check
--    - for fuzzer in i440fx-qos-fork-fuzz i440fx-qos-noreset-fuzz
--        i440fx-qtest-reboot-fuzz virtio-scsi-flags-fuzz virtio-scsi-fuzz ; do
--          echo Testing ${fuzzer} ... ;
--          x86_64-softmmu/qemu-fuzz-x86_64 --fuzz-target=${fuzzer} -runs=1000
--            || exit 1 ;
-+    - mkdir build-oss-fuzz
-+    - CC="clang" CXX="clang++" CFLAGS="-fsanitize=address"
-+      ./scripts/oss-fuzz/build.sh
-+    - for fuzzer in $(find ./build-oss-fuzz/DEST_DIR/ -executable -type f
-+                      | grep -v slirp); do
-+        grep "LLVMFuzzerTestOneInput" ${fuzzer} > /dev/null 2>&1 || continue ;
-+        echo Testing ${fuzzer} ... ;
-+        ASAN_OPTIONS="fast_unwind_on_malloc=0"
-+         "${fuzzer}" -runs=1000 -seed=1 || exit 1 ;
-       done
- 
- build-tci:
+diff --git a/configure b/configure
+index 33cee41f9c..4bd80ed507 100755
+--- a/configure
++++ b/configure
+@@ -6337,7 +6337,7 @@ fi
+ # checks for fuzzer
+ if test "$fuzzing" = "yes" ; then
+   write_c_fuzzer_skeleton
+-  if compile_prog "$CPU_CFLAGS -Werror -fsanitize=address,fuzzer" ""; then
++  if compile_prog "$CPU_CFLAGS -Werror -fsanitize=fuzzer" ""; then
+       have_fuzzer=yes
+   fi
+ fi
+@@ -7893,11 +7893,11 @@ if test "$have_mlockall" = "yes" ; then
+ fi
+ if test "$fuzzing" = "yes" ; then
+   if test "$have_fuzzer" = "yes"; then
+-    FUZZ_LDFLAGS=" -fsanitize=address,fuzzer"
+-    FUZZ_CFLAGS=" -fsanitize=address,fuzzer"
+-    CFLAGS="$CFLAGS -fsanitize=address,fuzzer-no-link"
++    FUZZ_LDFLAGS=" -fsanitize=fuzzer"
++    FUZZ_CFLAGS=" -fsanitize=fuzzer"
++    CFLAGS="$CFLAGS -fsanitize=fuzzer-no-link"
+   else
+-    error_exit "Your compiler doesn't support -fsanitize=address,fuzzer"
++    error_exit "Your compiler doesn't support -fsanitize=fuzzer"
+     exit 1
+   fi
+ fi
 -- 
 2.18.1
 
