@@ -2,92 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4776F22805B
-	for <lists+qemu-devel@lfdr.de>; Tue, 21 Jul 2020 14:56:48 +0200 (CEST)
-Received: from localhost ([::1]:51918 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id EC78D228082
+	for <lists+qemu-devel@lfdr.de>; Tue, 21 Jul 2020 15:04:32 +0200 (CEST)
+Received: from localhost ([::1]:33208 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jxrp9-0000Nt-Bb
-	for lists+qemu-devel@lfdr.de; Tue, 21 Jul 2020 08:56:47 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:40004)
+	id 1jxrwd-0004ok-Q4
+	for lists+qemu-devel@lfdr.de; Tue, 21 Jul 2020 09:04:31 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:44468)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <dbuono@linux.vnet.ibm.com>)
- id 1jxro1-0007vA-Fx
- for qemu-devel@nongnu.org; Tue, 21 Jul 2020 08:55:37 -0400
-Received: from mx0a-001b2d01.pphosted.com ([148.163.156.1]:17772)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <dbuono@linux.vnet.ibm.com>)
- id 1jxrnz-0007JV-Nr
- for qemu-devel@nongnu.org; Tue, 21 Jul 2020 08:55:37 -0400
-Received: from pps.filterd (m0098396.ppops.net [127.0.0.1])
- by mx0a-001b2d01.pphosted.com (8.16.0.42/8.16.0.42) with SMTP id
- 06LCWigM084930
- for <qemu-devel@nongnu.org>; Tue, 21 Jul 2020 08:55:33 -0400
-Received: from pps.reinject (localhost [127.0.0.1])
- by mx0a-001b2d01.pphosted.com with ESMTP id 32dn0y42v0-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT)
- for <qemu-devel@nongnu.org>; Tue, 21 Jul 2020 08:55:33 -0400
-Received: from m0098396.ppops.net (m0098396.ppops.net [127.0.0.1])
- by pps.reinject (8.16.0.36/8.16.0.36) with SMTP id 06LCWmFw085216
- for <qemu-devel@nongnu.org>; Tue, 21 Jul 2020 08:55:33 -0400
-Received: from ppma02wdc.us.ibm.com (aa.5b.37a9.ip4.static.sl-reverse.com
- [169.55.91.170])
- by mx0a-001b2d01.pphosted.com with ESMTP id 32dn0y42uh-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Tue, 21 Jul 2020 08:55:33 -0400
-Received: from pps.filterd (ppma02wdc.us.ibm.com [127.0.0.1])
- by ppma02wdc.us.ibm.com (8.16.0.42/8.16.0.42) with SMTP id 06LCp1fW010078;
- Tue, 21 Jul 2020 12:55:32 GMT
-Received: from b03cxnp08025.gho.boulder.ibm.com
- (b03cxnp08025.gho.boulder.ibm.com [9.17.130.17])
- by ppma02wdc.us.ibm.com with ESMTP id 32brq933bh-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Tue, 21 Jul 2020 12:55:32 +0000
-Received: from b03ledav003.gho.boulder.ibm.com
- (b03ledav003.gho.boulder.ibm.com [9.17.130.234])
- by b03cxnp08025.gho.boulder.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
- 06LCtThO53674272
- (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Tue, 21 Jul 2020 12:55:29 GMT
-Received: from b03ledav003.gho.boulder.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id 2CFEE6A04F;
- Tue, 21 Jul 2020 12:55:31 +0000 (GMT)
-Received: from b03ledav003.gho.boulder.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id 56E196A054;
- Tue, 21 Jul 2020 12:55:30 +0000 (GMT)
-Received: from Buonos-Thinkpad-X1.ibm.com (unknown [9.160.84.152])
- by b03ledav003.gho.boulder.ibm.com (Postfix) with ESMTP;
- Tue, 21 Jul 2020 12:55:30 +0000 (GMT)
-From: Daniele Buono <dbuono@linux.vnet.ibm.com>
-To: qemu-devel@nongnu.org
-Subject: [PATCH 1/1] tests/acceptance: set VM socket encoding to UTF-8
-Date: Tue, 21 Jul 2020 08:55:22 -0400
-Message-Id: <20200721125522.20511-2-dbuono@linux.vnet.ibm.com>
-X-Mailer: git-send-email 2.26.2
-In-Reply-To: <20200721125522.20511-1-dbuono@linux.vnet.ibm.com>
-References: <20200721125522.20511-1-dbuono@linux.vnet.ibm.com>
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1jxrvv-0004Oy-3A
+ for qemu-devel@nongnu.org; Tue, 21 Jul 2020 09:03:47 -0400
+Received: from mail-ot1-x330.google.com ([2607:f8b0:4864:20::330]:45308)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1jxrvt-0000Q2-Ce
+ for qemu-devel@nongnu.org; Tue, 21 Jul 2020 09:03:46 -0400
+Received: by mail-ot1-x330.google.com with SMTP id h1so14986101otq.12
+ for <qemu-devel@nongnu.org>; Tue, 21 Jul 2020 06:03:44 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=sVUAzy3z6JOUq3DuUZftnq4HSi5EIWF1XBPrB13YaU4=;
+ b=jvI0bx4FQM5meDR4V418v+e+He89IOgv0mTyz2wLr+TH9jsa2vucOfHSy1Pl7iCLjc
+ NA86rZgV8okomySoKI5+bBjS2M1CTAzA+cZdNyusqWvZgV97rKpRwsyT7HJzhFZyHBjv
+ eUeyBCR32dYzgez8d63vOgcfLnsd6joqYxLr04NhWzcLE0tAaztXA9xVhw8FfFEuxB7p
+ jjySjXfR2uTvnqKlAbnZ62D7pCZ3JQzu8ZaTzArYryIWRgTCTUlpkEv+CnqzVuvWHJG0
+ mGe1VzAx+AHxBgw16A7Qy/B7Prpjixsl3X0PBWyOY72a7MSkUaLGAhfsgGuGeypE/0LU
+ LZQg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=sVUAzy3z6JOUq3DuUZftnq4HSi5EIWF1XBPrB13YaU4=;
+ b=MLg/I2pjJk0al9mGdIrCBTZj3rrVg6LjEi6wLXRdyDigoNBAt2Cy9QySYMyD51DPoz
+ Xeo7hKdagtuvrmLGr2mNa0Kl/KCZA0ygDUV6cUzS4eMU5iK5UpxwO52iyKRC1bMFcOaX
+ SXd7o8n1X+apz0nlCl1Q76FczpATXmM9c5Zl3Q+cjOTAOCL/lurCIVI278ScndxZHa3G
+ MfUmLkQ2nIQ87DOx5rapnEG9oiUDZdT+GWx3f7JKVCxo2OyZ1Xrg11kChutexgBzIHKy
+ hKDZ7U+91Sw2FbGF7AZXU3ubWKludCzzHkxZjilLKmAB7buQgatTjAKFsMB4NIy7b9CO
+ Ey6w==
+X-Gm-Message-State: AOAM533Z0pMgf97F39mWxJWCMHvSRuK6h53AQQ9sCC++KTCQ04PwPja+
+ 0DCrgGx9kZLbjcj3yenD+npRpF+tCpHZVJm5RKykqg==
+X-Google-Smtp-Source: ABdhPJxibdpE+qLvoA+BGXx8OqPEMLqMbT14DdLj7GAYuCccLAzxmbCQFlo/+hw9HRq/1Kk4NyPtlg1+BCKan4e6v8w=
+X-Received: by 2002:a05:6830:1bd3:: with SMTP id
+ v19mr24035941ota.91.1595336624167; 
+ Tue, 21 Jul 2020 06:03:44 -0700 (PDT)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-TM-AS-GCONF: 00
-X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:6.0.235, 18.0.687
- definitions=2020-07-21_08:2020-07-21,
- 2020-07-21 signatures=0
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- mlxscore=0 clxscore=1015
- priorityscore=1501 adultscore=0 bulkscore=0 impostorscore=0
- lowpriorityscore=0 spamscore=0 mlxlogscore=802 suspectscore=1 phishscore=0
- malwarescore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2006250000 definitions=main-2007210089
-Received-SPF: none client-ip=148.163.156.1;
- envelope-from=dbuono@linux.vnet.ibm.com; helo=mx0a-001b2d01.pphosted.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/07/21 06:32:08
-X-ACL-Warn: Detected OS   = Linux 3.x [generic] [fuzzy]
-X-Spam_score_int: -35
-X-Spam_score: -3.6
-X-Spam_bar: ---
-X-Spam_report: (-3.6 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_LOW=-0.7,
- RCVD_IN_MSPIKE_H2=-1, SPF_HELO_NONE=0.001,
- SPF_NONE=0.001 autolearn=ham autolearn_force=no
+References: <20200721081055.14073-1-thuth@redhat.com>
+In-Reply-To: <20200721081055.14073-1-thuth@redhat.com>
+From: Peter Maydell <peter.maydell@linaro.org>
+Date: Tue, 21 Jul 2020 14:03:33 +0100
+Message-ID: <CAFEAcA8XjyBA4sBNZf3t6zwavQer+iSp9p0RnZma_P46N9jZBQ@mail.gmail.com>
+Subject: Re: [PULL 00/10] qtest / fuzzer patches
+To: Thomas Huth <thuth@redhat.com>
+Content-Type: text/plain; charset="UTF-8"
+Received-SPF: pass client-ip=2607:f8b0:4864:20::330;
+ envelope-from=peter.maydell@linaro.org; helo=mail-ot1-x330.google.com
+X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
+ That's all we know.
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -100,41 +79,38 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
- Daniele Buono <dbuono@linux.vnet.ibm.com>,
- Wainer dos Santos Moschetta <wainersm@redhat.com>,
- Cleber Rosa <crosa@redhat.com>
+Cc: QEMU Developers <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The OS of some VM used by acceptance tests sends messages in UTF-8
-encoding.
+On Tue, 21 Jul 2020 at 09:11, Thomas Huth <thuth@redhat.com> wrote:
+>
+>  Hi Peter,
+>
+> the following changes since commit af3d69058e09bede9900f266a618ed11f76f49f3:
+>
+>   Merge remote-tracking branch 'remotes/pmaydell/tags/pull-target-arm-20200720' into staging (2020-07-20 15:58:07 +0100)
+>
+> are available in the Git repository at:
+>
+>   https://gitlab.com/huth/qemu.git tags/pull-request-2020-07-21
+>
+> for you to fetch changes up to 7ad36e2e241bd924f774a1f9fb208c102da58e50:
+>
+>   hw: Mark nd_table[] misuse in realize methods FIXME (2020-07-21 08:41:15 +0200)
+>
+> ----------------------------------------------------------------
+> * Fix memory leak in fuzzer
+> * Fuzzer documentation updates
+> * Some other minor fuzzer updates
+> * Fix "make check-qtest SPEED=slow" (bug in msf2 instance_init)
+> ----------------------------------------------------------------
 
-The socket used to communicate between the VM and the host by the
-AVOCADO framework uses the default host encoding. This is not generally
-a problem since most distributions default to UTF. However, if for some
-reason the host is using a plain ASCII encoding, the VM test will fail
-with an error. This patch explicitly sets the encoding to be UTF-8.
 
-Signed-off-by: Daniele Buono <dbuono@linux.vnet.ibm.com>
----
- tests/acceptance/avocado_qemu/__init__.py | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+Applied, thanks.
 
-diff --git a/tests/acceptance/avocado_qemu/__init__.py b/tests/acceptance/avocado_qemu/__init__.py
-index 77d1c1d9ff..5f7ef0a2f2 100644
---- a/tests/acceptance/avocado_qemu/__init__.py
-+++ b/tests/acceptance/avocado_qemu/__init__.py
-@@ -73,7 +73,7 @@ def _console_interaction(test, success_message, failure_message,
-     assert not keep_sending or send_string
-     if vm is None:
-         vm = test.vm
--    console = vm.console_socket.makefile()
-+    console = vm.console_socket.makefile(encoding='UTF-8')
-     console_logger = logging.getLogger('console')
-     while True:
-         if send_string:
--- 
-2.26.2
+Please update the changelog at https://wiki.qemu.org/ChangeLog/5.1
+for any user-visible changes.
 
+-- PMM
 
