@@ -2,45 +2,87 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id BA320229330
-	for <lists+qemu-devel@lfdr.de>; Wed, 22 Jul 2020 10:12:57 +0200 (CEST)
-Received: from localhost ([::1]:44990 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 76BB122935D
+	for <lists+qemu-devel@lfdr.de>; Wed, 22 Jul 2020 10:26:37 +0200 (CEST)
+Received: from localhost ([::1]:57154 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jy9s0-0000X3-Pg
-	for lists+qemu-devel@lfdr.de; Wed, 22 Jul 2020 04:12:56 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:38220)
+	id 1jyA5E-0006By-9W
+	for lists+qemu-devel@lfdr.de; Wed, 22 Jul 2020 04:26:36 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:41188)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <dplotnikov@virtuozzo.com>)
- id 1jy9qt-0007jV-Sk
- for qemu-devel@nongnu.org; Wed, 22 Jul 2020 04:11:47 -0400
-Received: from relay.sw.ru ([185.231.240.75]:54952 helo=relay3.sw.ru)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <dplotnikov@virtuozzo.com>)
- id 1jy9qr-0004p6-7y
- for qemu-devel@nongnu.org; Wed, 22 Jul 2020 04:11:47 -0400
-Received: from [10.94.4.71] (helo=dptest2.qa.sw.ru)
- by relay3.sw.ru with esmtp (Exim 4.93)
- (envelope-from <dplotnikov@virtuozzo.com>)
- id 1jy9ql-0002yK-Uz; Wed, 22 Jul 2020 11:11:39 +0300
-From: Denis Plotnikov <dplotnikov@virtuozzo.com>
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1jyA4H-0005m9-0B
+ for qemu-devel@nongnu.org; Wed, 22 Jul 2020 04:25:37 -0400
+Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:40713
+ helo=us-smtp-1.mimecast.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1jyA44-0006cF-G9
+ for qemu-devel@nongnu.org; Wed, 22 Jul 2020 04:25:36 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1595406323;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding;
+ bh=iMxQatL9RPRr52uoa/cQsIi+/qvfqC+NGO6O/Z/trAk=;
+ b=ELpFr0TSwHtbJhlGuvPPyiR4Rv6JBARFNyjN/7mtmxphARaHrlMw2YePFITgKznRGzEn4j
+ qx75Hf+Nx67Cx1TU9p/A60YcDjw+/+RvOC7pTTqIQZzbMmqVZyZNBb6+3KLl5Lodygv7T4
+ lOmBPCwCh/8l7qm7RFF7c2O1dWJTnaU=
+Received: from mail-ej1-f72.google.com (mail-ej1-f72.google.com
+ [209.85.218.72]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-325-GmPvZSdhMVS17cYCP5APfQ-1; Wed, 22 Jul 2020 04:25:21 -0400
+X-MC-Unique: GmPvZSdhMVS17cYCP5APfQ-1
+Received: by mail-ej1-f72.google.com with SMTP id f11so722651ejb.0
+ for <qemu-devel@nongnu.org>; Wed, 22 Jul 2020 01:25:21 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=iMxQatL9RPRr52uoa/cQsIi+/qvfqC+NGO6O/Z/trAk=;
+ b=e/Tj65xHlSTWFM3yPrkE6VQPPVcNBa5vzGc33AgSowJ/GSffciUE9Df5DeIVsiMNF0
+ JE51u/1EfT6WCYvHjvhaFIBVEwo8XkhWFCbq/A0/IXImF2bF1CLsF/dP/Sdqfb/HgVGN
+ diDtEteCR4BReJGfZoePM3KPVNxNRd4mTDbV7W5cWoRQi5hLQ5YxXE8wpyYREc5PwO3j
+ xQ5yJv7jW/oTcmQiVKwGVACY+LTw2eSDTyMAbIQ6rpq8iFKLMYi+JZUaUoEfut1dFy8Y
+ B8ClMUeRSCfuFyXMIzA8+W7jf77sozQUm9JNn9xMsYLrLoAhCiZnmi/7ULcuy4FzKFQB
+ qibQ==
+X-Gm-Message-State: AOAM533TbdMEeCRy5eOqgPnbzXt7AdBE1HZo53MjVXFmFf0n8PuliiqR
+ Qg05iwY64MllUK8oKIkBuhp3dIYc48F64B2q/mHywgckE6GDy624Gw4KHk1sRaN6bbbmZYkIccL
+ LJBmwRztu0iqDqkw=
+X-Received: by 2002:a05:6402:cb9:: with SMTP id
+ cn25mr30469512edb.247.1595406320006; 
+ Wed, 22 Jul 2020 01:25:20 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJyjYRzzJTOzYTRVfwqd/zbj7wdZv8GzJF0hCcZfQHNO6k/Ak91x0TPiYTcKtYKYbO1SqY50dg==
+X-Received: by 2002:a05:6402:cb9:: with SMTP id
+ cn25mr30469485edb.247.1595406319749; 
+ Wed, 22 Jul 2020 01:25:19 -0700 (PDT)
+Received: from x1w.redhat.com (138.red-83-57-170.dynamicip.rima-tde.net.
+ [83.57.170.138])
+ by smtp.gmail.com with ESMTPSA id m6sm18125273eja.87.2020.07.22.01.25.17
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Wed, 22 Jul 2020 01:25:19 -0700 (PDT)
+From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v0 4/4] background snapshot: add trace events for page fault
- processing
-Date: Wed, 22 Jul 2020 11:11:33 +0300
-Message-Id: <20200722081133.29926-5-dplotnikov@virtuozzo.com>
-X-Mailer: git-send-email 2.17.0
-In-Reply-To: <20200722081133.29926-1-dplotnikov@virtuozzo.com>
-References: <20200722081133.29926-1-dplotnikov@virtuozzo.com>
-Received-SPF: pass client-ip=185.231.240.75;
- envelope-from=dplotnikov@virtuozzo.com; helo=relay3.sw.ru
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/07/22 04:11:41
-X-ACL-Warn: Detected OS   = Linux 3.11 and newer
-X-Spam_score_int: -5
-X-Spam_score: -0.6
-X-Spam_bar: /
-X-Spam_report: (-0.6 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_BL_SPAMCOP_NET=1.347,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=no autolearn_force=no
+Subject: [PATCH-for-5.2] hw/i386/q35: Remove unreachable Xen code on Q35
+ machine
+Date: Wed, 22 Jul 2020 10:25:17 +0200
+Message-Id: <20200722082517.18708-1-philmd@redhat.com>
+X-Mailer: git-send-email 2.21.3
+MIME-Version: 1.0
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=UTF-8;
+	text/plain; charset="utf-8"
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=207.211.31.120; envelope-from=philmd@redhat.com;
+ helo=us-smtp-1.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/07/22 00:40:35
+X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
+X-Spam_score_int: -30
+X-Spam_score: -3.1
+X-Spam_bar: ---
+X-Spam_report: (-3.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H4=-0.01, RCVD_IN_MSPIKE_WL=-0.01,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -53,52 +95,76 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: quintela@redhat.com, dgilbert@redhat.com, peterx@redhat.com,
- armbru@redhat.com, den@openvz.org, pbonzini@redhat.com
+Cc: Stefano Stabellini <sstabellini@kernel.org>,
+ Eduardo Habkost <ehabkost@redhat.com>, Paul Durrant <paul@xen.org>,
+ "Michael S. Tsirkin" <mst@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>,
+ Anthony Perard <anthony.perard@citrix.com>, xen-devel@lists.xenproject.org,
+ Richard Henderson <rth@twiddle.net>,
+ =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
+ =?UTF-8?q?Roger=20Pau=20Monn=C3=A9?= <roger.pau@citrix.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Signed-off-by: Denis Plotnikov <dplotnikov@virtuozzo.com>
----
- migration/ram.c        | 4 ++++
- migration/trace-events | 2 ++
- 2 files changed, 6 insertions(+)
+Xen accelerator requires specific changes to a machine to be able
+to use it. See for example the 'Xen PC' machine configure its PCI
+bus calling pc_xen_hvm_init_pci(). There is no 'Xen Q35' machine
+declared. This code was probably added while introducing the Q35
+machine, based on the existing PC machine (see commit df2d8b3ed4
+"Introduce q35 pc based chipset emulator"). Remove the unreachable
+code to simplify this file.
 
-diff --git a/migration/ram.c b/migration/ram.c
-index f187b5b494..29712a11c2 100644
---- a/migration/ram.c
-+++ b/migration/ram.c
-@@ -2172,12 +2172,16 @@ again:
-             break;
-         }
- 
-+        trace_page_fault_processing_start(msg.arg.pagefault.address);
-+
-         if (ram_process_page_fault(msg.arg.pagefault.address) < 0) {
-             error_report("page fault: error on write protected page "
-                          "processing [0x%llx]",
-                          msg.arg.pagefault.address);
-             break;
-         }
-+
-+        trace_page_fault_processing_finish(msg.arg.pagefault.address);
+Signed-off-by: Philippe Mathieu-Daudé <philmd@redhat.com>
+---
+ hw/i386/pc_q35.c | 13 ++-----------
+ 1 file changed, 2 insertions(+), 11 deletions(-)
+
+diff --git a/hw/i386/pc_q35.c b/hw/i386/pc_q35.c
+index a3e607a544..12f5934241 100644
+--- a/hw/i386/pc_q35.c
++++ b/hw/i386/pc_q35.c
+@@ -34,9 +34,7 @@
+ #include "sysemu/arch_init.h"
+ #include "hw/i2c/smbus_eeprom.h"
+ #include "hw/rtc/mc146818rtc.h"
+-#include "hw/xen/xen.h"
+ #include "sysemu/kvm.h"
+-#include "sysemu/xen.h"
+ #include "hw/kvm/clock.h"
+ #include "hw/pci-host/q35.h"
+ #include "hw/qdev-properties.h"
+@@ -179,10 +177,6 @@ static void pc_q35_init(MachineState *machine)
+         x86ms->below_4g_mem_size = machine->ram_size;
      }
  
-     return NULL;
-diff --git a/migration/trace-events b/migration/trace-events
-index 4ab0a503d2..f46b3b9a72 100644
---- a/migration/trace-events
-+++ b/migration/trace-events
-@@ -128,6 +128,8 @@ save_xbzrle_page_skipping(void) ""
- save_xbzrle_page_overflow(void) ""
- ram_save_iterate_big_wait(uint64_t milliconds, int iterations) "big wait: %" PRIu64 " milliseconds, %d iterations"
- ram_load_complete(int ret, uint64_t seq_iter) "exit_code %d seq iteration %" PRIu64
-+page_fault_processing_start(unsigned long address) "HVA: 0x%lx"
-+page_fault_processing_finish(unsigned long address) "HVA: 0x%lx"
+-    if (xen_enabled()) {
+-        xen_hvm_init(pcms, &ram_memory);
+-    }
+-
+     x86_cpus_init(x86ms, pcmc->default_cpu_version);
  
- # migration.c
- await_return_path_close_on_source_close(void) ""
+     kvmclock_create();
+@@ -208,10 +202,7 @@ static void pc_q35_init(MachineState *machine)
+     }
+ 
+     /* allocate ram and load rom/bios */
+-    if (!xen_enabled()) {
+-        pc_memory_init(pcms, get_system_memory(),
+-                       rom_memory, &ram_memory);
+-    }
++    pc_memory_init(pcms, get_system_memory(), rom_memory, &ram_memory);
+ 
+     /* create pci host bus */
+     q35_host = Q35_HOST_DEVICE(qdev_new(TYPE_Q35_HOST_DEVICE));
+@@ -271,7 +262,7 @@ static void pc_q35_init(MachineState *machine)
+ 
+     assert(pcms->vmport != ON_OFF_AUTO__MAX);
+     if (pcms->vmport == ON_OFF_AUTO_AUTO) {
+-        pcms->vmport = xen_enabled() ? ON_OFF_AUTO_OFF : ON_OFF_AUTO_ON;
++        pcms->vmport = ON_OFF_AUTO_ON;
+     }
+ 
+     /* init basic PC hardware */
 -- 
-2.17.0
+2.21.3
 
 
