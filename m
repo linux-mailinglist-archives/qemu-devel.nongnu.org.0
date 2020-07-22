@@ -2,76 +2,84 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5E9532294E7
-	for <lists+qemu-devel@lfdr.de>; Wed, 22 Jul 2020 11:29:26 +0200 (CEST)
-Received: from localhost ([::1]:57004 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2FF962294C6
+	for <lists+qemu-devel@lfdr.de>; Wed, 22 Jul 2020 11:23:48 +0200 (CEST)
+Received: from localhost ([::1]:57876 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jyB41-0003gZ-D9
-	for lists+qemu-devel@lfdr.de; Wed, 22 Jul 2020 05:29:25 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:54194)
+	id 1jyAyZ-00015N-6G
+	for lists+qemu-devel@lfdr.de; Wed, 22 Jul 2020 05:23:47 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:52760)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <frank.chang@sifive.com>)
- id 1jyAvM-0002yc-EB
- for qemu-devel@nongnu.org; Wed, 22 Jul 2020 05:20:28 -0400
-Received: from mail-pj1-x1034.google.com ([2607:f8b0:4864:20::1034]:34895)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <frank.chang@sifive.com>)
- id 1jyAvK-0005mn-Il
- for qemu-devel@nongnu.org; Wed, 22 Jul 2020 05:20:28 -0400
-Received: by mail-pj1-x1034.google.com with SMTP id f16so877639pjt.0
- for <qemu-devel@nongnu.org>; Wed, 22 Jul 2020 02:20:26 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=sifive.com; s=google;
- h=from:to:cc:subject:date:message-id:in-reply-to:references;
- bh=b009y4bHWo9FAz89fm3BgjB9nWZ1yvMrO2kzUNMCm3c=;
- b=LqbDzH5CV2k9wi5FFm4oOQT6m/6TaAQC38s44XtrIZas/r9bjgexPhr/+n7h3sERqT
- hasWriro2FeSeeQFoelK8FPZIG+vjxJdagY81E13w63viMgdGd/Ytrw2B3+S5pKwCc05
- f38wSlisxTjv8zO+9/EhDV/1WBYulHCxuGY5MsRvnecimOivD8nTPNmP3AgmeyUe9PAO
- vcJFt4uVZDsd+BrCBMtDk6qrDZB8YJnC0Uh+SOrt0EjHGtA7hBc2BI9FYAEmSdILv8Vo
- 4bQ9phQ2agui7+DCRqv24KXEFKHihYJDwXKKnhJ70Z8wPRvmknK7QXavLMU4a5HDAWy0
- +RXQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
- :references;
- bh=b009y4bHWo9FAz89fm3BgjB9nWZ1yvMrO2kzUNMCm3c=;
- b=T47RhgQ4NFabNLJu7fRdNEa5fjLAZifnnSapaAlA8YT22qfivme/p3xJZ5yF7pX2FV
- sa93XX6kwbz5jJVVOXHKN+AuouGcsek9HA+dR4h5O60foMinBMTMFZ6loZHxUD+3jWP5
- q5lg1OBRpoPXkiPBWx7hXFqSECpdfv/xiJN6ceKW/v8wO/7Pq/NFBEUC9ocanHxe9kPo
- Fm0E0DtLmcLwyyD0TSJimiV6g5cURrYmXF35k2dYKRzeR2V/K5fOK8HM0Tbns4Y18QcO
- Vg9HraviOBu1oMfOmRTHx8NQTgbY0Dmc+6hRt8BDQenqF7FLWNd0ZrXDAdylLc1U4gjb
- sZqA==
-X-Gm-Message-State: AOAM530j7WWuTZmvky4L8FgUGbUPIAxg4gK5pZr6aJY6/0lA4hRY2r97
- f3hLoTpp30lpr18uXTacNNA6eIwV7GU=
-X-Google-Smtp-Source: ABdhPJwqRnwSt1IFeouHr9Qx3sqLOzjev7Z6eEBwIoIbM4nh8rHC9vR97nAtcEKLyfpuN1k82UNPog==
-X-Received: by 2002:a17:90a:ef17:: with SMTP id
- k23mr8227711pjz.45.1595409625095; 
- Wed, 22 Jul 2020 02:20:25 -0700 (PDT)
-Received: from frankchang-ThinkPad-T490.internal.sifive.com
- (114-34-229-221.HINET-IP.hinet.net. [114.34.229.221])
- by smtp.gmail.com with ESMTPSA id c125sm22301879pfa.119.2020.07.22.02.20.22
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 22 Jul 2020 02:20:24 -0700 (PDT)
-From: frank.chang@sifive.com
-To: qemu-devel@nongnu.org,
-	qemu-riscv@nongnu.org
-Subject: [RFC v2 39/76] target/riscv: rvv-0.9: integer scalar move instructions
-Date: Wed, 22 Jul 2020 17:16:02 +0800
-Message-Id: <20200722091641.8834-40-frank.chang@sifive.com>
-X-Mailer: git-send-email 2.17.1
-In-Reply-To: <20200722091641.8834-1-frank.chang@sifive.com>
-References: <20200722091641.8834-1-frank.chang@sifive.com>
-Received-SPF: pass client-ip=2607:f8b0:4864:20::1034;
- envelope-from=frank.chang@sifive.com; helo=mail-pj1-x1034.google.com
-X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
- That's all we know.
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- URIBL_BLOCKED=0.001 autolearn=ham autolearn_force=no
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1jyAsw-00067p-Le
+ for qemu-devel@nongnu.org; Wed, 22 Jul 2020 05:17:58 -0400
+Received: from us-smtp-2.mimecast.com ([205.139.110.61]:40398
+ helo=us-smtp-delivery-1.mimecast.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1jyAsu-0005GD-Pg
+ for qemu-devel@nongnu.org; Wed, 22 Jul 2020 05:17:58 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1595409476;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=1V2mk/bwTHCUjmaKrY+2HRsiQcGFrKwTBYnEx3jPTS4=;
+ b=HV92wg1K4NpbWGEJWgyVGFZ5iXOm9hkAX4EdnYTukQL9e8cRigprG+OWMHNV3dcZKZkRdp
+ HsaG2rlHOzBYtT/4RanHKsBujaNUP/A0tLVtpwvf+CUKfZHRwa7XX6t9j/FL4jNC7765qr
+ KtUFReWt2v6imMbRTkfaNJ/nOwXnwAs=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-44-ixUiX2tpMgqNOeTWRAC5wg-1; Wed, 22 Jul 2020 05:17:53 -0400
+X-MC-Unique: ixUiX2tpMgqNOeTWRAC5wg-1
+Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
+ [10.5.11.16])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 07F7A805721;
+ Wed, 22 Jul 2020 09:17:52 +0000 (UTC)
+Received: from blackfin.pond.sub.org (ovpn-112-143.ams2.redhat.com
+ [10.36.112.143])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 648925C1C3;
+ Wed, 22 Jul 2020 09:17:42 +0000 (UTC)
+Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
+ id 0161E10F5AF1; Wed, 22 Jul 2020 11:17:40 +0200 (CEST)
+From: Markus Armbruster <armbru@redhat.com>
+To: Thomas Huth <thuth@redhat.com>
+Subject: Re: [PATCH v2 2/3] usb/hcd-xhci: Move qemu-xhci device to
+ hcd-xhci-pci.c
+References: <1593008176-9629-1-git-send-email-sai.pavan.boddu@xilinx.com>
+ <1593008176-9629-3-git-send-email-sai.pavan.boddu@xilinx.com>
+ <87zh8rzi0e.fsf@dusky.pond.sub.org>
+ <d8e247a3-5b50-0889-2522-37f2d486fdf9@redhat.com>
+ <BY5PR02MB677295286C4193236973EC0ECA7B0@BY5PR02MB6772.namprd02.prod.outlook.com>
+ <b3d4924f-5259-3f55-a52c-9693c532d40b@redhat.com>
+ <BY5PR02MB6772EAC0125218AD9E09FC97CA790@BY5PR02MB6772.namprd02.prod.outlook.com>
+ <391efac2-8600-3011-6aba-d29f44b57174@redhat.com>
+Date: Wed, 22 Jul 2020 11:17:40 +0200
+In-Reply-To: <391efac2-8600-3011-6aba-d29f44b57174@redhat.com> (Thomas Huth's
+ message of "Wed, 22 Jul 2020 10:38:09 +0200")
+Message-ID: <87r1t3ucwb.fsf@dusky.pond.sub.org>
+User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/26.3 (gnu/linux)
+MIME-Version: 1.0
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=armbru@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=205.139.110.61; envelope-from=armbru@redhat.com;
+ helo=us-smtp-delivery-1.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/07/21 21:28:05
+X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
+X-Spam_score_int: -40
+X-Spam_score: -4.1
+X-Spam_bar: ----
+X-Spam_report: (-4.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-1, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -84,112 +92,59 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Sagar Karandikar <sagark@eecs.berkeley.edu>,
- Frank Chang <frank.chang@sifive.com>,
- Bastian Koppelmann <kbastian@mail.uni-paderborn.de>,
- Richard Henderson <richard.henderson@linaro.org>,
- Alistair Francis <Alistair.Francis@wdc.com>,
- Palmer Dabbelt <palmer@dabbelt.com>, LIU Zhiwei <zhiwei_liu@c-sky.com>
+Cc: Peter Maydell <peter.maydell@linaro.org>,
+ Eduardo Habkost <ehabkost@redhat.com>,
+ "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>,
+ Sai Pavan Boddu <saipava@xilinx.com>,
+ Alistair Francis <alistair.francis@wdc.com>, Gerd Hoffmann <kraxel@redhat.com>,
+ =?utf-8?Q?'Marc-Andr=C3=A9?= Lureau' <marcandre.lureau@redhat.com>,
+ Ying Fang <fangying1@huawei.com>, Paolo Bonzini <pbonzini@redhat.com>,
+ Philippe =?utf-8?Q?Mathieu-Daud?= =?utf-8?Q?=C3=A9?= <philmd@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Frank Chang <frank.chang@sifive.com>
+Thomas Huth <thuth@redhat.com> writes:
 
-* Remove "vmv.s.x: dothing if rs1 == 0" constraint.
-* Add vmv.x.s instruction.
+>  Hi,
+>
+> On 22/07/2020 09.49, Sai Pavan Boddu wrote:
+> [...]
+>>>>>>> + * This library is free software; you can redistribute it and/or
+>>>>>>> + * modify it under the terms of the GNU Lesser General Public
+>>>>>>> + * License as published by the Free Software Foundation; either
+>>>>>>> + * version 2 of the License, or (at your option) any later version=
+.
+>>>
+>>> And while you're at it: There was never a "version 2" of the Lesser GPL=
+.
+>>> In version 2.0, it was still called "Library" GPL. So it is quite likel=
+y that version
+>>> 2.1 is meant here instead.
+>> [Sai Pavan Boddu] I have less knowledge here. But indeed I don=E2=80=99t=
+ find LGPL 2.0 https://www.gnu.org/licenses/licenses.html#LicenseURLs
+>
+> You can find version 2.0 here, for example:
+>
+>  https://www.gnu.org/licenses/old-licenses/old-licenses.html#LGPL
+>
+> ... but as I said, v2.0 is called "Library" GPL instead of "Lesser" GPL.
+>
+>> BTW, I still see our repository use combination of GPL and LGPL. Is ther=
+e any general rule to follow at high level.
+>
+> As long as the license is a standard license that is compatible with the
+> GPLv2 or any later version, you should be fine. See the LICENSE file in
+> the top directory of the sources for details.
+>
+> As a general rule, I'd say either use "GPLv2 or later" (see the file
+> COPYING in the main directory) or "LGPLv2.1 or later" (see COPYING.LIB
+> in the main directory) for new code, unless you contribute to the tcg/
+> folder where MIT or BSD is preferred instead.
 
-Signed-off-by: Frank Chang <frank.chang@sifive.com>
----
- target/riscv/insn32.decode              |  3 +-
- target/riscv/insn_trans/trans_rvv.inc.c | 46 ++++++++++++++++++++-----
- 2 files changed, 40 insertions(+), 9 deletions(-)
+Please use "GPLv2 or later".
 
-diff --git a/target/riscv/insn32.decode b/target/riscv/insn32.decode
-index 01316c908d..ef53df7c73 100644
---- a/target/riscv/insn32.decode
-+++ b/target/riscv/insn32.decode
-@@ -580,8 +580,9 @@ vmsif_m         010100 . ..... 00011 010 ..... 1010111 @r2_vm
- vmsof_m         010100 . ..... 00010 010 ..... 1010111 @r2_vm
- viota_m         010100 . ..... 10000 010 ..... 1010111 @r2_vm
- vid_v           010100 . 00000 10001 010 ..... 1010111 @r1_vm
-+vmv_x_s         010000 1 ..... 00000 010 ..... 1010111 @r2rd
-+vmv_s_x         010000 1 00000 ..... 110 ..... 1010111 @r2
- vext_x_v        001100 1 ..... ..... 010 ..... 1010111 @r
--vmv_s_x         001101 1 00000 ..... 110 ..... 1010111 @r2
- vfmv_f_s        001100 1 ..... 00000 001 ..... 1010111 @r2rd
- vfmv_s_f        001101 1 00000 ..... 101 ..... 1010111 @r2
- vslideup_vx     001110 . ..... ..... 100 ..... 1010111 @r_vm
-diff --git a/target/riscv/insn_trans/trans_rvv.inc.c b/target/riscv/insn_trans/trans_rvv.inc.c
-index af19561e7d..780f8660bf 100644
---- a/target/riscv/insn_trans/trans_rvv.inc.c
-+++ b/target/riscv/insn_trans/trans_rvv.inc.c
-@@ -3252,27 +3252,57 @@ static void vec_element_storei(DisasContext *s, int vreg,
-     store_element(val, cpu_env, endian_ofs(s, vreg, idx), s->sew);
- }
- 
-+/* vmv.x.s rd, vs2 # x[rd] = vs2[0] */
-+static bool trans_vmv_x_s(DisasContext *s, arg_vmv_x_s *a)
-+{
-+    if (require_rvv(s) &&
-+        vext_check_isa_ill(s)) {
-+        TCGv_i64 t1;
-+        TCGv dest;
-+
-+        t1 = tcg_temp_new_i64();
-+        dest = tcg_temp_new();
-+        /*
-+         * load vreg and sign-extend to 64 bits,
-+         * then truncate to XLEN bits before storing to gpr.
-+         */
-+        vec_element_loadi(s, t1, a->rs2, 0, true);
-+        tcg_gen_trunc_i64_tl(dest, t1);
-+        gen_set_gpr(a->rd, dest);
-+        tcg_temp_free_i64(t1);
-+        tcg_temp_free(dest);
-+        mark_vs_dirty(s);
-+
-+        return true;
-+    }
-+    return false;
-+}
-+
- /* vmv.s.x vd, rs1 # vd[0] = rs1 */
- static bool trans_vmv_s_x(DisasContext *s, arg_vmv_s_x *a)
- {
--    if (vext_check_isa_ill(s)) {
-+    if (require_rvv(s) &&
-+        vext_check_isa_ill(s)) {
-         /* This instruction ignores LMUL and vector register groups */
--        int maxsz = s->vlen >> 3;
-         TCGv_i64 t1;
-+        TCGv s1;
-         TCGLabel *over = gen_new_label();
- 
-         tcg_gen_brcondi_tl(TCG_COND_EQ, cpu_vl, 0, over);
--        tcg_gen_gvec_dup_imm(SEW64, vreg_ofs(s, a->rd), maxsz, maxsz, 0);
--        if (a->rs1 == 0) {
--            goto done;
--        }
- 
-         t1 = tcg_temp_new_i64();
--        tcg_gen_extu_tl_i64(t1, cpu_gpr[a->rs1]);
-+        s1 = tcg_temp_new();
-+
-+        /*
-+         * load gpr and sign-extend to 64 bits,
-+         * then truncate to SEW bits when storing to vreg.
-+         */
-+        gen_get_gpr(s1, a->rs1);
-+        tcg_gen_ext_tl_i64(t1, s1);
-         vec_element_storei(s, a->rd, 0, t1);
-         tcg_temp_free_i64(t1);
-+        tcg_temp_free(s1);
-         mark_vs_dirty(s);
--    done:
-         gen_set_label(over);
-         return true;
-     }
--- 
-2.17.1
+If you believe you have a compelling reason for using a different
+license (compatible with GPLv2, of course), then explain yourself in the
+commit message.
 
 
