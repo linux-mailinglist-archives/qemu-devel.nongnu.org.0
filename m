@@ -2,113 +2,60 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E78DB22998D
-	for <lists+qemu-devel@lfdr.de>; Wed, 22 Jul 2020 15:48:22 +0200 (CEST)
-Received: from localhost ([::1]:34130 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5A7362299A1
+	for <lists+qemu-devel@lfdr.de>; Wed, 22 Jul 2020 15:59:37 +0200 (CEST)
+Received: from localhost ([::1]:41386 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jyF6c-0000qC-0Y
-	for lists+qemu-devel@lfdr.de; Wed, 22 Jul 2020 09:48:22 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:45504)
+	id 1jyFHU-0004hj-Er
+	for lists+qemu-devel@lfdr.de; Wed, 22 Jul 2020 09:59:36 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:48470)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <vsementsov@virtuozzo.com>)
- id 1jyF5i-00007j-NK; Wed, 22 Jul 2020 09:47:26 -0400
-Received: from mail-eopbgr10094.outbound.protection.outlook.com
- ([40.107.1.94]:5079 helo=EUR02-HE1-obe.outbound.protection.outlook.com)
+ (Exim 4.90_1) (envelope-from <vit9696@protonmail.com>)
+ id 1jyFGi-0004HG-QB
+ for qemu-devel@nongnu.org; Wed, 22 Jul 2020 09:58:49 -0400
+Received: from mail2.protonmail.ch ([185.70.40.22]:22616)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <vsementsov@virtuozzo.com>)
- id 1jyF5f-00045h-Ur; Wed, 22 Jul 2020 09:47:26 -0400
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=Fld9eMKcIxZj9O4B3X9H1yR1zL1qSgfvPRM1sVT8aoWPQNqKx9FsfESoFdqNm6L6I7+KT9H1KeAD9v0LaC36Q6Ndrj1HlnccauuEE8U7plFn257EbubRxICimskSuGS9KnHuFtpMhgEUijlZm5CIi79vOUIkGf1qSyxcIbhRqlwVqlkOihjPYBT8ryWX8fTaRWPNpYbz/jKUHn38tcBuXDAaMd1q+D3y0Di+0plUeGxmc9cNncTEeViEs0d1ZGFvcn77VhdI5C2K/cqmoXizsNLbs5MZ5R+Ij1OhFT6pc8L1osO8/3JcdCagxuvu3U/R0JyxwuWdSlZ16c1ok4o+EQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=4mNs4bq+CrMybbYkRD2Tn+lYt+e45bTqGJ+uIfI3aCM=;
- b=I55qyvX3aQK56eAndHr6JONfDm+S3FBWVcQ5xAGjOr3DnwWvQU8fVRG3zIMqUSMMd5q4MujbKlAXsFmGN4ez9Fm4C6Ueb9cLsSTZ7XFiONKvMkRn6cpISlzXEeOlQMOYQyAaoPMtKw182sD17VxtJXpwvsVp0VeAPDlNbI6svMTzbcYNyDqDN2oZfDivL4nV/h2AtXDa5cAsmvpFqSU6zOBPtAmchjWLWf6kHxDiTI8tgwBBdaQiZNW769pnkOxdaggj3Jxw6dP/5FbU5q8G6V8OfJpnVJzmUDNMciTBf2BtAXkNflk56OP4AZU/HrAHfYKyYLCfTDlgRfOtiKpnxg==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=virtuozzo.com; dmarc=pass action=none
- header.from=virtuozzo.com; dkim=pass header.d=virtuozzo.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=virtuozzo.com;
- s=selector2;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=4mNs4bq+CrMybbYkRD2Tn+lYt+e45bTqGJ+uIfI3aCM=;
- b=SO5PxF4r/prcAXKXriDywtdVOW5+PUPeYmiWy3HtBGAQuUrxaZ67aHVUeLeh7Rqu/8BOhzJARUZ9A+JPQV7RShrm4t3hIK835oztO0J34Yn96xGNMgO59VIMFkIQ+Sg5avEW7SliJaDxQT4bTptjRDCuWAOHDSNHuSGADJJ+tac=
-Authentication-Results: openvz.org; dkim=none (message not signed)
- header.d=none;openvz.org; dmarc=none action=none header.from=virtuozzo.com;
-Received: from AM7PR08MB5494.eurprd08.prod.outlook.com (2603:10a6:20b:dc::15)
- by AM7PR08MB5333.eurprd08.prod.outlook.com (2603:10a6:20b:104::23)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3195.24; Wed, 22 Jul
- 2020 13:47:20 +0000
-Received: from AM7PR08MB5494.eurprd08.prod.outlook.com
- ([fe80::a408:2f0f:bc6c:d312]) by AM7PR08MB5494.eurprd08.prod.outlook.com
- ([fe80::a408:2f0f:bc6c:d312%3]) with mapi id 15.20.3195.026; Wed, 22 Jul 2020
- 13:47:20 +0000
-Subject: Re: [PATCH 3/4] io/channel-socket: implement non-blocking connect
-To: =?UTF-8?Q?Daniel_P=2e_Berrang=c3=a9?= <berrange@redhat.com>
-References: <20200720180715.10521-1-vsementsov@virtuozzo.com>
- <20200720180715.10521-4-vsementsov@virtuozzo.com>
- <20200720182923.GP643836@redhat.com>
- <840b762e-1ce1-af25-2ea0-b8cfdedba0d4@virtuozzo.com>
- <20200722112104.GC2324845@redhat.com>
- <cd5058fe-20d4-615e-8489-a30ac54d57de@virtuozzo.com>
- <20200722125303.GI2324845@redhat.com>
-From: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
-Message-ID: <71bd9b95-6db6-bfaa-729e-df9d1493e5b7@virtuozzo.com>
-Date: Wed, 22 Jul 2020 16:47:18 +0300
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.10.0
-In-Reply-To: <20200722125303.GI2324845@redhat.com>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 8bit
-X-ClientProxiedBy: AM0PR04CA0093.eurprd04.prod.outlook.com
- (2603:10a6:208:be::34) To AM7PR08MB5494.eurprd08.prod.outlook.com
- (2603:10a6:20b:dc::15)
+ (Exim 4.90_1) (envelope-from <vit9696@protonmail.com>)
+ id 1jyFGf-0005sd-6I
+ for qemu-devel@nongnu.org; Wed, 22 Jul 2020 09:58:48 -0400
+Date: Wed, 22 Jul 2020 13:53:23 +0000
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=protonmail.com;
+ s=protonmail; t=1595426007;
+ bh=BaxiNXGZ50QK7GCApgawAd/+8ErXfm22kB4+uv99z/k=;
+ h=Date:To:From:Cc:Reply-To:Subject:In-Reply-To:References:From;
+ b=nsYf+4Q/4Cr53B+1TZZVLMQHC/dT/+jfjPgOGernPe2UftGR3YOwXEFO2Bdo0CTO/
+ 3WLe4DHBRx5o+37X6H565xQH5dG7Ug6Q2HTpIJNdyQ+lTyqmlPDwHdIUT9q81LyAvE
+ Gpp8Cq7lJzQV7AZiLPpuJdCn5k1DLzoHfITgT5as=
+To: "Michael S. Tsirkin" <mst@redhat.com>, Laszlo Ersek <lersek@redhat.com>
+Cc: mhaeuser@posteo.de, Igor Mammedov <imammedo@redhat.com>,
+ Marcel Apfelbaum <marcel.apfelbaum@gmail.com>,
+ qemu devel list <qemu-devel@nongnu.org>
+Subject: Re: OVMF and PCI0 UID
+Message-ID: <YOYfNLw-NvrJb0_cXoe66EsssRZYv1T099QNHtlpvktzBndo6yIfecUZ2XeybP7TBaibMAyDxa_jZV-2ZVytTDTTvE_dFjRkmolDYi_8Hjs=@protonmail.com>
+In-Reply-To: <BF9EF866-55D1-47A4-85F5-3E654F825AEF@protonmail.com>
+References: <56E4DCD4-DBA1-4A41-8568-1CBBB37ED320@protonmail.com>
+ <829eba8a-d9a7-a335-6b85-91e64462e64b@redhat.com>
+ <20200721025745-mutt-send-email-mst@kernel.org>
+ <BF9EF866-55D1-47A4-85F5-3E654F825AEF@protonmail.com>
 MIME-Version: 1.0
-X-MS-Exchange-MessageSentRepresentingType: 1
-Received: from [192.168.100.2] (185.215.60.154) by
- AM0PR04CA0093.eurprd04.prod.outlook.com (2603:10a6:208:be::34) with Microsoft
- SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.3216.23 via Frontend Transport; Wed, 22 Jul 2020 13:47:20 +0000
-X-Originating-IP: [185.215.60.154]
-X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: 9384d958-a5e6-4a0e-94fd-08d82e45c15c
-X-MS-TrafficTypeDiagnostic: AM7PR08MB5333:
-X-MS-Exchange-Transport-Forked: True
-X-Microsoft-Antispam-PRVS: <AM7PR08MB533387EE48D9020F7719C694C1790@AM7PR08MB5333.eurprd08.prod.outlook.com>
-X-MS-Oob-TLC-OOBClassifiers: OLM:10000;
-X-MS-Exchange-SenderADCheck: 1
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: 3y8Y+zKmP7E4yHDbs1We6gi94CFEpE0/GbSBWL612J1kS8XzVKndinZLQ41Y0SrqXc14ouoN3b2XqYMY4t+ElcUMVBAvKauUYcxQOebRHAj//2QMBCBXWL6MQJ5ibziO8osb+YIgxvjCV12xiiTLpEF+v4EZs0+NG4P2vpR18AXeDJnkMiqBkPdR782QHzYvDl342vdAXbHMuE0vBBLJnpLPCIj9PZnDbccCZh2+4cy4AuN40LgQfOGTWdzv+f6ZXDsBC2NPrfugNLiDR2jXgJnX+WgRBuQopNDGyTqovHoCXZERtYBcQHeOAPGdHJDUhfTW/3uBfCe0/je82RnR28l/amyxpUH7OB6KYc+tjwdFurJ79m4aJ8j0w1eXmEx0
-X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:AM7PR08MB5494.eurprd08.prod.outlook.com; PTR:; CAT:NONE;
- SFTY:;
- SFS:(4636009)(396003)(366004)(376002)(136003)(346002)(39840400004)(6486002)(478600001)(52116002)(956004)(2616005)(36756003)(4326008)(83380400001)(6916009)(31686004)(26005)(66946007)(66556008)(66476007)(107886003)(8936002)(186003)(16526019)(5660300002)(8676002)(31696002)(316002)(16576012)(86362001)(2906002)(43740500002);
- DIR:OUT; SFP:1102; 
-X-MS-Exchange-AntiSpam-MessageData: ZnHpRah7N+poy8jNXey4tvwztJ89rUwIpd3ZKbwXzHHgCcFkLvV59Bop2A8/x6oQbtDjcaxNRWHLaXh4NvG5jpI8VsrV6mDZxUO9520gkvWypnSLAMNzmtZ8daWV6OLPdBNFxt8l6WhdvfPW5xqtq8wu6s2INsxkcQyLQ2EBKWpp19JfhDpIhgXb6Bw/f8Jll+in+ipqY6YR0/qKtFGGX6vA0rdVkgl/lCofeILjLZsLIBlBzcbCEuIP+QTM67QwR/DesoaiPlFZ5Q3YFNbP5hJOkWqWiXw+G0ge84atDOsA9+ncXivcB/pNzh/kFHt7FwsuvKS5Td7s7ErQFTm6mOvz9Y8NZCvj7cAONMaX4r0uijO1ufhWhVAmWi3EWBxjdw9ua6e20bq8wg9Ur8Fg/jt6apwGqc04r7r2p5KiAk25UXtFgscX8NCwpmceEn7EfiMevwERAgTBktsJWtlWbP3uprtHaY17iHLgsufJlpwc3wNAp6vPg2Sf8FAPBwfy
-X-OriginatorOrg: virtuozzo.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 9384d958-a5e6-4a0e-94fd-08d82e45c15c
-X-MS-Exchange-CrossTenant-AuthSource: AM7PR08MB5494.eurprd08.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 22 Jul 2020 13:47:20.6687 (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 0bc7f26d-0264-416e-a6fc-8352af79c58f
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: vxLvE8Sd7XQpn3MXMl4678lB15D1U5Qktxp8JaOXwj09Gs7TkGwzIWe9I+zmXeGLM+9y3tRuSu0NpJ8XKVEf/Ega8rl+et7Bg0FzBS1sWxQ=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: AM7PR08MB5333
-Received-SPF: pass client-ip=40.107.1.94;
- envelope-from=vsementsov@virtuozzo.com;
- helo=EUR02-HE1-obe.outbound.protection.outlook.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/07/22 09:47:21
-X-ACL-Warn: Detected OS   = Windows NT kernel [generic] [fuzzy]
-X-Spam_score_int: -37
-X-Spam_score: -3.8
-X-Spam_bar: ---
-X-Spam_report: (-3.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+Content-Type: multipart/signed; protocol="application/pgp-signature";
+ micalg=pgp-sha256;
+ boundary="---------------------d79141e4cfab7771263c551880342dd4";
+ charset=utf-8
+Received-SPF: pass client-ip=185.70.40.22; envelope-from=vit9696@protonmail.com;
+ helo=mail2.protonmail.ch
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/07/22 09:58:40
+X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
+X-Spam_score_int: -27
+X-Spam_score: -2.8
+X-Spam_bar: --
+X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
  DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- MSGID_FROM_MTA_HEADER=0.001, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-1,
- SPF_HELO_PASS=-0.001, SPF_PASS=-0.001,
+ FREEMAIL_ENVFROM_END_DIGIT=0.25, FREEMAIL_FROM=0.001,
+ FREEMAIL_REPLYTO_END_DIGIT=0.25, HTML_MESSAGE=0.001,
+ HTML_MIME_NO_HTML_TAG=0.377, MIME_HTML_ONLY=0.1, RCVD_IN_DNSWL_LOW=-0.7,
+ RCVD_IN_MSPIKE_H2=-1, SPF_HELO_PASS=-0.001, SPF_PASS=-0.001,
  URIBL_BLOCKED=0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -122,179 +69,221 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: kwolf@redhat.com, qemu-block@nongnu.org, qemu-devel@nongnu.org,
- mreitz@redhat.com, kraxel@redhat.com, den@openvz.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
+Reply-to: vit9696 <vit9696@protonmail.com>, vit9696 <vit9696@protonmail.com>
+From: vit9696 via <qemu-devel@nongnu.org>
 
-22.07.2020 15:53, Daniel P. Berrangé wrote:
-> On Wed, Jul 22, 2020 at 03:43:54PM +0300, Vladimir Sementsov-Ogievskiy wrote:
->> 22.07.2020 14:21, Daniel P. Berrangé wrote:
->>> On Wed, Jul 22, 2020 at 02:00:25PM +0300, Vladimir Sementsov-Ogievskiy wrote:
->>>> 20.07.2020 21:29, Daniel P. Berrangé wrote:
->>>>> On Mon, Jul 20, 2020 at 09:07:14PM +0300, Vladimir Sementsov-Ogievskiy wrote:
->>>>>> Utilize new socket API to make a non-blocking connect for inet sockets.
->>>>>>
->>>>>> Signed-off-by: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
->>>>>> ---
->>>>>>     include/io/channel-socket.h | 14 +++++++
->>>>>>     io/channel-socket.c         | 74 +++++++++++++++++++++++++++++++++++++
->>>>>>     2 files changed, 88 insertions(+)
->>>>>>
->>>>>> diff --git a/include/io/channel-socket.h b/include/io/channel-socket.h
->>>>>> index 777ff5954e..82e868bc02 100644
->>>>>> --- a/include/io/channel-socket.h
->>>>>> +++ b/include/io/channel-socket.h
->>>>>> @@ -94,6 +94,20 @@ int qio_channel_socket_connect_sync(QIOChannelSocket *ioc,
->>>>>>                                         SocketAddress *addr,
->>>>>>                                         Error **errp);
->>>>>> +/**
->>>>>> + * qio_channel_socket_connect_non_blocking_sync:
->>>>>> + * @ioc: the socket channel object
->>>>>> + * @addr: the address to connect to
->>>>>> + * @errp: pointer to a NULL-initialized error object
->>>>>> + *
->>>>>> + * Attempt to connect to the address @addr using non-blocking mode of
->>>>>> + * the socket. Function is synchronous, but being called from
->>>>>> + * coroutine context will yield during connect operation.
->>>>>> + */
->>>>>> +int qio_channel_socket_connect_non_blocking_sync(QIOChannelSocket *ioc,
->>>>>> +                                                 SocketAddress *addr,
->>>>>> +                                                 Error **errp);
->>>>>> +
->>>>>>     /**
->>>>>>      * qio_channel_socket_connect_async:
->>>>>>      * @ioc: the socket channel object
->>>>>> diff --git a/io/channel-socket.c b/io/channel-socket.c
->>>>>> index e1b4667087..076de7578a 100644
->>>>>> --- a/io/channel-socket.c
->>>>>> +++ b/io/channel-socket.c
->>>>>> @@ -22,6 +22,7 @@
->>>>>>     #include "qapi/error.h"
->>>>>>     #include "qapi/qapi-visit-sockets.h"
->>>>>>     #include "qemu/module.h"
->>>>>> +#include "qemu/sockets.h"
->>>>>>     #include "io/channel-socket.h"
->>>>>>     #include "io/channel-watch.h"
->>>>>>     #include "trace.h"
->>>>>> @@ -29,6 +30,8 @@
->>>>>>     #define SOCKET_MAX_FDS 16
->>>>>> +static int qio_channel_socket_close(QIOChannel *ioc, Error **errp);
->>>>>> +
->>>>>>     SocketAddress *
->>>>>>     qio_channel_socket_get_local_address(QIOChannelSocket *ioc,
->>>>>>                                          Error **errp)
->>>>>> @@ -157,6 +160,77 @@ int qio_channel_socket_connect_sync(QIOChannelSocket *ioc,
->>>>>>         return 0;
->>>>>>     }
->>>>>> +static int qio_channel_inet_connect_non_blocking_sync(QIOChannelSocket *ioc,
->>>>>> +        InetSocketAddress *addr, Error **errp)
->>>>>> +{
->>>>>> +    Error *local_err = NULL;
->>>>>> +    struct addrinfo *infos, *info;
->>>>>> +    int sock = -1;
->>>>>> +
->>>>>> +    infos = inet_parse_connect_saddr(addr, errp);
->>>>>> +    if (!infos) {
->>>>>> +        return -1;
->>>>>> +    }
->>>>>
->>>>> This call is blocking since it calls getaddrinfo whose design
->>>>> offers no ability todo non-blocking DNS lookups. Given this
->>>>> call, ...
->>>>
->>>> Oh, that's bad, thanks for taking a look on that early stage!
->>>>
->>>>>
->>>>>> +
->>>>>> +    for (info = infos; info != NULL; info = info->ai_next) {
->>>>>> +        bool in_progress;
->>>>>> +
->>>>>> +        error_free(local_err);
->>>>>> +        local_err = NULL;
->>>>>> +
->>>>>> +        sock = inet_connect_addr(addr, info, false, &in_progress, &local_err);
->>>>>> +        if (sock < 0) {
->>>>>> +            continue;
->>>>>> +        }
->>>>>> +
->>>>>> +        if (qio_channel_socket_set_fd(ioc, sock, &local_err) < 0) {
->>>>>> +            close(sock);
->>>>>> +            continue;
->>>>>> +        }
->>>>>> +
->>>>>> +        if (in_progress) {
->>>>>> +            if (qemu_in_coroutine()) {
->>>>>> +                qio_channel_yield(QIO_CHANNEL(ioc), G_IO_OUT);
->>>>>> +            } else {
->>>>>> +                qio_channel_wait(QIO_CHANNEL(ioc), G_IO_OUT);
->>>>>> +            }
->>>>>
->>>>> ...this is offering false assurances of being non-blocking.
->>>>>
->>>>> If we don't want the current thread to be blocked then we
->>>>> need to be using the existing qio_channel_socket_connect_async
->>>>> method or similar. It uses a throw away background thread to
->>>>> run the connection attempt, and then reports completion back
->>>>> later, thus avoiding the getaddrinfo design flaw for the callers.
->>>>>
->>>>> I explicitly didn't want to add an method like the impl in this
->>>>> patch, because getaddrinfo dooms it and we already had bugs in
->>>>> the pre-QIOChannel code where QEMU thought it was non-blocking
->>>>> but wasn't due to getaddrinfo lookups.
->>>>>
->>>>>
->>>>> IIUC, the main appeal of this method is that the non-blocking
->>>>> nature is hidden from the caller who can continue to treat it
->>>>> as a synchronous call and have the coroutine magic happen in
->>>>> behind the scenes.
->>>>>
->>>>> IOW, What's needed is a simple way to run the operation in a
->>>>> thread, and sleep for completion while having the coroutine
->>>>> yield.
->>>>>
->>>>> I think this could likely be achieved with QIOTask with an
->>>>> alternate impl of the qio_task_wait_thread() method that is
->>>>> friendly to coroutines instead of being based on pthread
->>>>> condition variable waits.
->>>>
->>>> The most simple thing is just run qio_channel_socket_connect_sync in
->>>> a thread with help of thread_pool_submit_co() which is coroutine-friendly.
->>>> And this don't need any changes in io/channel.
->>>>
->>>> Actually, I've started with such design, but decided that better use
->>>> non-blocking connect to not deal with cancelling the connecting thread
->>>> on shutdown.
->>>>
->>>> I think, I'll resend based on thread_pool_submit_co().
->>>>
->>>> ===
->>>>
->>>> Hmm, there is async getaddrinfo_a function.. What do you think of it?
->>>
->>> It isn't portable, glibc only.
->>>
->>>> But seems simpler to use a thread than move to async interfaces everywhere.
->>>
->>>
->>
->> Hmm.. Still, on shutdown, how to cancel this connect and getaddrinfo ? I'm not sure
->> how much time may getaddrinfo take, but connect can take about a minute. It's not really
->> good to wait for it on shutdown.
-> 
-> The intention was that if you don't want to carry on waiting for the
-> async operation to complete you just give and pretend it no longer
-> exists. Eventually it will fail or complete and the thread will exit.
-> The only important thing there is making sure that the callback you
-> are passing to the _async() method can cope with the cleanup when the
-> work eventually completes, even if you've given up.
-> 
+This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
+-----------------------d79141e4cfab7771263c551880342dd4
+Content-Type: multipart/mixed; boundary="732d27ff1e3b3cbc6c95a22b922a6039db2a5e51"
 
-At least it's not possible with thread_pool_submit_co as I wanted, because underlying
-thread pool waits for all its threads to complete on exit.
+--732d27ff1e3b3cbc6c95a22b922a6039db2a5e51
+Content-Type: text/html; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
+Content-Language: en-US
+
+  Hello,<div><br></div><div>We can confirm that the suggested change to zer=
+o UIDs&nbsp;<caret></caret>resolves the problem. It will be great if you co=
+uld handle the rest as you see fit. Thank you!</div><div><br></div><div>Bes=
+t regards,</div><div>Vitaly<br> <div><br></div><div><br></div>=D0=92 =D0=B2=
+=D1=82, =D0=B8=D1=8E=D0=BB=D1=8F 21, 2020 =D0=B2 12:24, vit9696 &lt;<a href=
+=3D"mailto:vit9696@protonmail.com" class=3D"">vit9696@protonmail.com</a>&gt=
+; =D0=BF=D0=B8=D1=88=D0=B5=D1=82:<blockquote class=3D"protonmail_quote" typ=
+e=3D"cite">  Thank you, we will provide an update whether this solves the p=
+roblem.<div class=3D""><br class=3D""></div><div class=3D"">Besides, this i=
+s not the only case where UIDs are wrong for the PCI bus. In&nbsp;hw/arm/vi=
+rt-acpi-build.c there is the following code:</div><div class=3D""><br class=
+=3D""></div><div class=3D""><div class=3D"">&nbsp; &nbsp; Aml *dev =3D aml_=
+device("%s", "PCI0");</div><div class=3D"">&nbsp; &nbsp; aml_append(dev, am=
+l_name_decl("_HID", aml_string("PNP0A08")));</div><div class=3D"">&nbsp; &n=
+bsp; aml_append(dev, aml_name_decl("_CID", aml_string("PNP0A03")));</div><d=
+iv class=3D"">&nbsp; &nbsp; aml_append(dev, aml_name_decl("_SEG", aml_int(0=
+)));</div><div class=3D"">&nbsp; &nbsp; aml_append(dev, aml_name_decl("_BBN=
+", aml_int(0)));</div><div class=3D"">&nbsp; &nbsp; aml_append(dev, aml_nam=
+e_decl("_ADR", aml_int(0)));</div><div class=3D"">&nbsp; &nbsp; aml_append(=
+dev, aml_name_decl("_UID", aml_string("PCI0")));</div><div class=3D"">&nbsp=
+; &nbsp; aml_append(dev, aml_name_decl("_STR", aml_unicode("PCIe 0 Device")=
+));</div><div class=3D"">&nbsp; &nbsp; aml_append(dev, aml_name_decl("_CCA"=
+, aml_int(1)));</div><div class=3D""><br class=3D""></div><div class=3D""><=
+a href=3D"https://github.com/qemu/qemu/blob/2c1fb4d/hw/arm/virt-acpi-build.=
+c#L168-L175" class=3D"">https://github.com/qemu/qemu/blob/2c1fb4d/hw/arm/vi=
+rt-acpi-build.c#L168-L175</a></div><div class=3D""><br class=3D""></div><di=
+v class=3D"">It makes UID on ARM builds a string, which is certainly not ex=
+pected. We do not have ARM test setups, but I hope this can be useful too.<=
+/div><div class=3D""><br class=3D""></div><div class=3D"">Best wishes,</div=
+><div class=3D"">Vitaly</div><div><br class=3D""><blockquote type=3D"cite" =
+class=3D""><div class=3D"">21 =D0=B8=D1=8E=D0=BB=D1=8F 2020 =D0=B3., =D0=B2=
+ 09:58, Michael S. Tsirkin &lt;<a href=3D"mailto:mst@redhat.com" class=3D""=
+>mst@redhat.com</a>&gt; =D0=BD=D0=B0=D0=BF=D0=B8=D1=81=D0=B0=D0=BB(=D0=B0):=
+</div><br class=3D"Apple-interchange-newline"><div class=3D""><br style=3D"=
+caret-color: rgb(0, 0, 0); font-family: Helvetica; font-size: 12px; font-st=
+yle: normal; font-variant-caps: normal; font-weight: normal; letter-spacing=
+: normal; text-align: start; text-indent: 0px; text-transform: none; white-=
+space: normal; word-spacing: 0px; -webkit-text-stroke-width: 0px; text-deco=
+ration: none;" class=3D""><span style=3D"caret-color: rgb(0, 0, 0); font-fa=
+mily: Helvetica; font-size: 12px; font-style: normal; font-variant-caps: no=
+rmal; font-weight: normal; letter-spacing: normal; text-align: start; text-=
+indent: 0px; text-transform: none; white-space: normal; word-spacing: 0px; =
+-webkit-text-stroke-width: 0px; text-decoration: none; float: none; display=
+: inline !important;" class=3D"">On Mon, Jul 20, 2020 at 11:25:58PM +0200, =
+Laszlo Ersek wrote:</span><br style=3D"caret-color: rgb(0, 0, 0); font-fami=
+ly: Helvetica; font-size: 12px; font-style: normal; font-variant-caps: norm=
+al; font-weight: normal; letter-spacing: normal; text-align: start; text-in=
+dent: 0px; text-transform: none; white-space: normal; word-spacing: 0px; -w=
+ebkit-text-stroke-width: 0px; text-decoration: none;" class=3D""><blockquot=
+e type=3D"cite" style=3D"font-family: Helvetica; font-size: 12px; font-styl=
+e: normal; font-variant-caps: normal; font-weight: normal; letter-spacing: =
+normal; orphans: auto; text-align: start; text-indent: 0px; text-transform:=
+ none; white-space: normal; widows: auto; word-spacing: 0px; -webkit-text-s=
+ize-adjust: auto; -webkit-text-stroke-width: 0px; text-decoration: none;" c=
+lass=3D"">Hi Vitaly,<br class=3D""><br class=3D"">adding Igor, Michael, Mar=
+cel, and qemu-devel.<br class=3D""><br class=3D"">On 07/20/20 11:06, vit969=
+6 wrote:<br class=3D""><blockquote type=3D"cite" class=3D"">Hello,<br class=
+=3D""><br class=3D"">I discovered an issue with inconsistent QEMU/OVMF devi=
+ce paths, and<br class=3D"">while I am unsure whether directing this e-mail=
+ is appropriate to you,<br class=3D"">I believe that you likely have the co=
+ntacts you could forward this<br class=3D"">e-mail to.<br class=3D""><br cl=
+ass=3D"">macOS uses ACPI UIDs to build the DevicePath for NVRAM boot option=
+s,<br class=3D"">while OVMF firmware gets them via an internal channel thro=
+ugh QEMU.<br class=3D"">Due to a bug in QEMU (or OVMF) currently UEFI firmw=
+are and ACPI have<br class=3D"">different values, and this makes the underl=
+ying operating system<br class=3D"">unable to report its boot option.<br cl=
+ass=3D""><br class=3D"">The particular node in question is the primary PciR=
+oot (PCI0 in ACPI),<br class=3D"">which for some reason gets assigned 1 in =
+ACPI UID and 0 in the<br class=3D"">DevicePath. To me this looks like a bug=
+ here:<br class=3D""><a href=3D"https://github.com/qemu/qemu/blob/8f06f22/h=
+w/i386/acpi-build.c#L1511-L1515" class=3D"">https://github.com/qemu/qemu/bl=
+ob/8f06f22/hw/i386/acpi-build.c#L1511-L1515</a><br class=3D"">Which does no=
+t correspond to the primary PCI identifier here:<br class=3D"">https://gith=
+ub.com/qemu/qemu/blob/5a79d10/hw/pci/pci.c#L160-L162<br class=3D""><br clas=
+s=3D"">Reference with the device paths, OVMF startup logs, and ACPI table<b=
+r class=3D"">dumps (SysReport):<br class=3D"">https://github.com/acidanther=
+a/bugtracker/issues/1050<br class=3D""><br class=3D"">Would you be able to =
+forward this to the right people or perhaps keep<br class=3D"">an eye on th=
+e issue itself?<br class=3D""></blockquote><br class=3D"">I think you are r=
+ight.<br class=3D""><br class=3D"">In UEFI v2.8, section "10.4.2 Rules with=
+ ACPI _HID and _UID" ends with<br class=3D"">the paragraph,<br class=3D""><=
+br class=3D"">&nbsp;&nbsp;&nbsp;Root PCI bridges will use the plug and play=
+ ID of PNP0A03, This will<br class=3D"">&nbsp;&nbsp;&nbsp;be stored in the =
+ACPI Device Path _HID field, or in the Expanded<br class=3D"">&nbsp;&nbsp;&=
+nbsp;ACPI Device Path _CID field to match the ACPI name space. The _UID<br =
+class=3D"">&nbsp;&nbsp;&nbsp;in the ACPI Device Path structure must match t=
+he _UID in the ACPI<br class=3D"">&nbsp;&nbsp;&nbsp;name space.<br class=3D=
+""><br class=3D"">(See especially the last sentence.)<br class=3D""><br cla=
+ss=3D"">Considering *extra* root bridges / root buses (with bus number &gt;=
+ 0),<br class=3D"">QEMU's ACPI generator actually does the right thing; sin=
+ce QEMU commit<br class=3D"">c96d9286a6d7 ("i386/acpi-build: more tradition=
+al _UID and _HID for PXB<br class=3D"">root buses", 2015-06-11).<br class=
+=3D""><br class=3D"">However, the _UID values for root bridge zero (on both=
+ i440fx and q35)<br class=3D"">have always been "wrong" (from UEFI perspect=
+ive), going back in QEMU to<br class=3D"">commit 74523b850189 ("i386: add A=
+CPI table files from seabios",<br class=3D"">2013-10-14).<br class=3D""><br=
+ class=3D"">Even in SeaBIOS, these _UID values have always been 1; see comm=
+it<br class=3D"">a4d357638c57 ("Port rombios32 code from bochs-bios.", 2008=
+-03-08) for<br class=3D"">i440fx, and commit ecbe3fd61511 ("seabios: q35: a=
+dd dsdt", 2012-12-01)<br class=3D"">for q35.<br class=3D""><br class=3D"">D=
+oes the following patch work for you? (I can see you proposed the same<br c=
+lass=3D"">in<br class=3D"">&lt;<a href=3D"https://github.com/acidanthera/bu=
+gtracker/issues/1050#issuecomment-660734139" class=3D"">https://github.com/=
+acidanthera/bugtracker/issues/1050#issuecomment-660734139</a>&gt;)<br class=
+=3D""><br class=3D""><blockquote type=3D"cite" class=3D"">diff --git a/hw/i=
+386/acpi-build.c b/hw/i386/acpi-build.c<br class=3D"">index b7bcbbbb2a35..7=
+a5a8b3521b0 100644<br class=3D"">--- a/hw/i386/acpi-build.c<br class=3D"">+=
+++ b/hw/i386/acpi-build.c<br class=3D"">@@ -1496,9 +1496,9 @@ build_dsdt(GA=
+rray *table_data, BIOSLinker *linker,<br class=3D"">&nbsp;&nbsp;&nbsp;&nbsp=
+;&nbsp;&nbsp;&nbsp;&nbsp;sb_scope =3D aml_scope("_SB");<br class=3D"">&nbsp=
+;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;dev =3D aml_device("PCI0");<br c=
+lass=3D"">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;aml_append(dev, a=
+ml_name_decl("_HID", aml_eisaid("PNP0A03")));<br class=3D"">&nbsp;&nbsp;&nb=
+sp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;aml_append(dev, aml_name_decl("_ADR", aml_=
+int(0)));<br class=3D"">- &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;aml_app=
+end(dev, aml_name_decl("_UID", aml_int(1)));<br class=3D"">+ &nbsp;&nbsp;&n=
+bsp;&nbsp;&nbsp;&nbsp;&nbsp;aml_append(dev, aml_name_decl("_UID", aml_int(0=
+)));<br class=3D"">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;aml_appe=
+nd(sb_scope, dev);<br class=3D"">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;=
+&nbsp;aml_append(dsdt, sb_scope);<br class=3D""><br class=3D"">&nbsp;&nbsp;=
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;build_hpet_aml(dsdt);<br class=3D"">@@ =
+-1511,9 +1511,9 @@ build_dsdt(GArray *table_data, BIOSLinker *linker,<br cl=
+ass=3D"">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;dev =3D aml_device=
+("PCI0");<br class=3D"">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;aml=
+_append(dev, aml_name_decl("_HID", aml_eisaid("PNP0A08")));<br class=3D"">&=
+nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;aml_append(dev, aml_name_dec=
+l("_CID", aml_eisaid("PNP0A03")));<br class=3D"">&nbsp;&nbsp;&nbsp;&nbsp;&n=
+bsp;&nbsp;&nbsp;&nbsp;aml_append(dev, aml_name_decl("_ADR", aml_int(0)));<b=
+r class=3D"">- &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;aml_append(dev, am=
+l_name_decl("_UID", aml_int(1)));<br class=3D"">+ &nbsp;&nbsp;&nbsp;&nbsp;&=
+nbsp;&nbsp;&nbsp;aml_append(dev, aml_name_decl("_UID", aml_int(0)));<br cla=
+ss=3D"">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;aml_append(dev, bui=
+ld_q35_osc_method());<br class=3D"">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nb=
+sp;&nbsp;aml_append(sb_scope, dev);<br class=3D"">&nbsp;&nbsp;&nbsp;&nbsp;&=
+nbsp;&nbsp;&nbsp;&nbsp;aml_append(dsdt, sb_scope);<br class=3D""></blockquo=
+te><br class=3D"">If it does, I suggest submitting the above patch to qemu-=
+devel, and/or<br class=3D"">filing a bug for upstream QEMU at &lt;<a href=
+=3D"https://bugs.launchpad.net/qemu/" class=3D"">https://bugs.launchpad.net=
+/qemu/</a>&gt;.<br class=3D""></blockquote><br style=3D"caret-color: rgb(0,=
+ 0, 0); font-family: Helvetica; font-size: 12px; font-style: normal; font-v=
+ariant-caps: normal; font-weight: normal; letter-spacing: normal; text-alig=
+n: start; text-indent: 0px; text-transform: none; white-space: normal; word=
+-spacing: 0px; -webkit-text-stroke-width: 0px; text-decoration: none;" clas=
+s=3D""><span style=3D"caret-color: rgb(0, 0, 0); font-family: Helvetica; fo=
+nt-size: 12px; font-style: normal; font-variant-caps: normal; font-weight: =
+normal; letter-spacing: normal; text-align: start; text-indent: 0px; text-t=
+ransform: none; white-space: normal; word-spacing: 0px; -webkit-text-stroke=
+-width: 0px; text-decoration: none; float: none; display: inline !important=
+;" class=3D"">Or even just reporting whether the above helps you, we can</s=
+pan><br style=3D"caret-color: rgb(0, 0, 0); font-family: Helvetica; font-si=
+ze: 12px; font-style: normal; font-variant-caps: normal; font-weight: norma=
+l; letter-spacing: normal; text-align: start; text-indent: 0px; text-transf=
+orm: none; white-space: normal; word-spacing: 0px; -webkit-text-stroke-widt=
+h: 0px; text-decoration: none;" class=3D""><span style=3D"caret-color: rgb(=
+0, 0, 0); font-family: Helvetica; font-size: 12px; font-style: normal; font=
+-variant-caps: normal; font-weight: normal; letter-spacing: normal; text-al=
+ign: start; text-indent: 0px; text-transform: none; white-space: normal; wo=
+rd-spacing: 0px; -webkit-text-stroke-width: 0px; text-decoration: none; flo=
+at: none; display: inline !important;" class=3D"">take it from there.</span=
+><br style=3D"caret-color: rgb(0, 0, 0); font-family: Helvetica; font-size:=
+ 12px; font-style: normal; font-variant-caps: normal; font-weight: normal; =
+letter-spacing: normal; text-align: start; text-indent: 0px; text-transform=
+: none; white-space: normal; word-spacing: 0px; -webkit-text-stroke-width: =
+0px; text-decoration: none;" class=3D""><br style=3D"caret-color: rgb(0, 0,=
+ 0); font-family: Helvetica; font-size: 12px; font-style: normal; font-vari=
+ant-caps: normal; font-weight: normal; letter-spacing: normal; text-align: =
+start; text-indent: 0px; text-transform: none; white-space: normal; word-sp=
+acing: 0px; -webkit-text-stroke-width: 0px; text-decoration: none;" class=
+=3D""><blockquote type=3D"cite" style=3D"font-family: Helvetica; font-size:=
+ 12px; font-style: normal; font-variant-caps: normal; font-weight: normal; =
+letter-spacing: normal; orphans: auto; text-align: start; text-indent: 0px;=
+ text-transform: none; white-space: normal; widows: auto; word-spacing: 0px=
+; -webkit-text-size-adjust: auto; -webkit-text-stroke-width: 0px; text-deco=
+ration: none;" class=3D"">(Note: I didn't even compile the above change.)<b=
+r class=3D""><br class=3D"">Thanks<br class=3D"">Laszlo</blockquote></div><=
+/blockquote></div><br class=3D""></div></blockquote><div><br></div><div><br=
+></div></div>
 
 
--- 
-Best regards,
-Vladimir
+
+--732d27ff1e3b3cbc6c95a22b922a6039db2a5e51--
+
+-----------------------d79141e4cfab7771263c551880342dd4
+Content-Type: application/pgp-signature; name="signature.asc"
+Content-Description: OpenPGP digital signature
+Content-Disposition: attachment; filename="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+Version: ProtonMail
+
+wsBmBAEBCAAQBQJfGESxCRBPsoxt7Hy0xQAKCRBPsoxt7Hy0xb1BB/4qwG4t
+sx6V1Td9wwgr5N2BzIucQS8yX+hNryfE/cfm78XezezCx3yvlEpbM6w/wB2X
+NfmD6ZUKMrTP9+hej0A5jjxde0lK3AsGJ4CwtFuqggLsKnAlGp3+x0BWG0GY
+b/aCQ1Et9Qja00Zg7JxZhr7XgqRG5eqn7Z3yy+4IQmOl37D6sBzCnQKD7YuD
+itRlG2yVT/dFX3AsxoUKooNprsUMEojgItOI/3uAdjxTHHuKRGpetzGFGHd0
+HoBimgoC3SsQ95kdwjoTZxvOGbxmS4pQpqBm+Xk8Sh6/Ii159hqECDbVRAZH
+JDHZ36Zbv6xmtgZyQ+0fMf1Hr7mPVl3QSwUC
+=hEfY
+-----END PGP SIGNATURE-----
+
+
+-----------------------d79141e4cfab7771263c551880342dd4--
+
 
