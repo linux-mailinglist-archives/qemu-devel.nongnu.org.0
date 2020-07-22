@@ -2,108 +2,87 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9BB052297E7
-	for <lists+qemu-devel@lfdr.de>; Wed, 22 Jul 2020 14:09:39 +0200 (CEST)
-Received: from localhost ([::1]:48330 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4023B2297DA
+	for <lists+qemu-devel@lfdr.de>; Wed, 22 Jul 2020 14:05:54 +0200 (CEST)
+Received: from localhost ([::1]:39864 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jyDZ4-00058p-49
-	for lists+qemu-devel@lfdr.de; Wed, 22 Jul 2020 08:09:38 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:43782)
+	id 1jyDVR-0001Ym-AY
+	for lists+qemu-devel@lfdr.de; Wed, 22 Jul 2020 08:05:53 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:43824)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1jyDTy-0000uO-8B
- for qemu-devel@nongnu.org; Wed, 22 Jul 2020 08:04:23 -0400
-Received: from mout.kundenserver.de ([212.227.17.10]:60959)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1jyDTv-0005kC-T8
- for qemu-devel@nongnu.org; Wed, 22 Jul 2020 08:04:21 -0400
-Received: from [192.168.100.1] ([82.252.135.186]) by mrelayeu.kundenserver.de
- (mreue108 [213.165.67.119]) with ESMTPSA (Nemesis) id
- 1MrQR7-1kdrPx1DdP-00oViz; Wed, 22 Jul 2020 14:03:30 +0200
-Subject: Re: [PATCH v2 12/12] linux-user: fix clock_nanosleep()
-To: =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>
-References: <20200722062902.24509-1-alex.bennee@linaro.org>
- <20200722062902.24509-13-alex.bennee@linaro.org>
- <2c1c17a6-9bae-322b-9e28-722d11074405@vivier.eu> <87365kudwv.fsf@linaro.org>
-From: Laurent Vivier <laurent@vivier.eu>
-Autocrypt: addr=laurent@vivier.eu; prefer-encrypt=mutual; keydata=
- mQINBFYFJhkBEAC2me7w2+RizYOKZM+vZCx69GTewOwqzHrrHSG07MUAxJ6AY29/+HYf6EY2
- WoeuLWDmXE7A3oJoIsRecD6BXHTb0OYS20lS608anr3B0xn5g0BX7es9Mw+hV/pL+63EOCVm
- SUVTEQwbGQN62guOKnJJJfphbbv82glIC/Ei4Ky8BwZkUuXd7d5NFJKC9/GDrbWdj75cDNQx
- UZ9XXbXEKY9MHX83Uy7JFoiFDMOVHn55HnncflUncO0zDzY7CxFeQFwYRbsCXOUL9yBtqLer
- Ky8/yjBskIlNrp0uQSt9LMoMsdSjYLYhvk1StsNPg74+s4u0Q6z45+l8RAsgLw5OLtTa+ePM
- JyS7OIGNYxAX6eZk1+91a6tnqfyPcMbduxyBaYXn94HUG162BeuyBkbNoIDkB7pCByed1A7q
- q9/FbuTDwgVGVLYthYSfTtN0Y60OgNkWCMtFwKxRaXt1WFA5ceqinN/XkgA+vf2Ch72zBkJL
- RBIhfOPFv5f2Hkkj0MvsUXpOWaOjatiu0fpPo6Hw14UEpywke1zN4NKubApQOlNKZZC4hu6/
- 8pv2t4HRi7s0K88jQYBRPObjrN5+owtI51xMaYzvPitHQ2053LmgsOdN9EKOqZeHAYG2SmRW
- LOxYWKX14YkZI5j/TXfKlTpwSMvXho+efN4kgFvFmP6WT+tPnwARAQABtCJMYXVyZW50IFZp
- dmllciA8bGF1cmVudEB2aXZpZXIuZXU+iQI4BBMBAgAiBQJWBTDeAhsDBgsJCAcDAgYVCAIJ
- CgsEFgIDAQIeAQIXgAAKCRDzDDi9Py++PCEdD/oD8LD5UWxhQrMQCsUgLlXCSM7sxGLkwmmF
- ozqSSljEGRhffxZvO35wMFcdX9Z0QOabVoFTKrT04YmvbjsErh/dP5zeM/4EhUByeOS7s6Yl
- HubMXVQTkak9Wa9Eq6irYC6L41QNzz/oTwNEqL1weV1+XC3TNnht9B76lIaELyrJvRfgsp9M
- rE+PzGPo5h7QHWdL/Cmu8yOtPLa8Y6l/ywEJ040IoiAUfzRoaJs2csMXf0eU6gVBhCJ4bs91
- jtWTXhkzdl4tdV+NOwj3j0ukPy+RjqeL2Ej+bomnPTOW8nAZ32dapmu7Fj7VApuQO/BSIHyO
- NkowMMjB46yohEepJaJZkcgseaus0x960c4ua/SUm/Nm6vioRsxyUmWd2nG0m089pp8LPopq
- WfAk1l4GciiMepp1Cxn7cnn1kmG6fhzedXZ/8FzsKjvx/aVeZwoEmucA42uGJ3Vk9TiVdZes
- lqMITkHqDIpHjC79xzlWkXOsDbA2UY/P18AtgJEZQPXbcrRBtdSifCuXdDfHvI+3exIdTpvj
- BfbgZAar8x+lcsQBugvktlQWPfAXZu4Shobi3/mDYMEDOE92dnNRD2ChNXg2IuvAL4OW40wh
- gXlkHC1ZgToNGoYVvGcZFug1NI+vCeCFchX+L3bXyLMg3rAfWMFPAZLzn42plIDMsBs+x2yP
- +bkCDQRWBSYZARAAvFJBFuX9A6eayxUPFaEczlMbGXugs0mazbOYGlyaWsiyfyc3PStHLFPj
- rSTaeJpPCjBJErwpZUN4BbpkBpaJiMuVO6egrC8Xy8/cnJakHPR2JPEvmj7Gm/L9DphTcE15
- 92rxXLesWzGBbuYxKsj8LEnrrvLyi3kNW6B5LY3Id+ZmU8YTQ2zLuGV5tLiWKKxc6s3eMXNq
- wrJTCzdVd6ThXrmUfAHbcFXOycUyf9vD+s+WKpcZzCXwKgm7x1LKsJx3UhuzT8ier1L363RW
- ZaJBZ9CTPiu8R5NCSn9V+BnrP3wlFbtLqXp6imGhazT9nJF86b5BVKpF8Vl3F0/Y+UZ4gUwL
- d9cmDKBcmQU/JaRUSWvvolNu1IewZZu3rFSVgcpdaj7F/1aC0t5vLdx9KQRyEAKvEOtCmP4m
- 38kU/6r33t3JuTJnkigda4+Sfu5kYGsogeYG6dNyjX5wpK5GJIJikEhdkwcLM+BUOOTi+I9u
- tX03BGSZo7FW/J7S9y0l5a8nooDs2gBRGmUgYKqQJHCDQyYut+hmcr+BGpUn9/pp2FTWijrP
- inb/Pc96YDQLQA1q2AeAFv3Rx3XoBTGl0RCY4KZ02c0kX/dm3eKfMX40XMegzlXCrqtzUk+N
- 8LeipEsnOoAQcEONAWWo1HcgUIgCjhJhBEF0AcELOQzitbJGG5UAEQEAAYkCHwQYAQIACQUC
- VgUmGQIbDAAKCRDzDDi9Py++PCD3D/9VCtydWDdOyMTJvEMRQGbx0GacqpydMEWbE3kUW0ha
- US5jz5gyJZHKR3wuf1En/3z+CEAEfP1M3xNGjZvpaKZXrgWaVWfXtGLoWAVTfE231NMQKGoB
- w2Dzx5ivIqxikXB6AanBSVpRpoaHWb06tPNxDL6SVV9lZpUn03DSR6gZEZvyPheNWkvz7bE6
- FcqszV/PNvwm0C5Ju7NlJA8PBAQjkIorGnvN/vonbVh5GsRbhYPOc/JVwNNr63P76rZL8Gk/
- hb3xtcIEi5CCzab45+URG/lzc6OV2nTj9Lg0SNcRhFZ2ILE3txrmI+aXmAu26+EkxLLfqCVT
- ohb2SffQha5KgGlOSBXustQSGH0yzzZVZb+HZPEvx6d/HjQ+t9sO1bCpEgPdZjyMuuMp9N1H
- ctbwGdQM2Qb5zgXO+8ZSzwC+6rHHIdtcB8PH2j+Nd88dVGYlWFKZ36ELeZxD7iJflsE8E8yg
- OpKgu3nD0ahBDqANU/ZmNNarBJEwvM2vfusmNnWm3QMIwxNuJghRyuFfx694Im1js0ZY3LEU
- JGSHFG4ZynA+ZFUPA6Xf0wHeJOxGKCGIyeKORsteIqgnkINW9fnKJw2pgk8qHkwVc3Vu+wGS
- ZiJK0xFusPQehjWTHn9WjMG1zvQ5TQQHxau/2FkP45+nRPco6vVFQe8JmgtRF8WFJA==
-Message-ID: <844fdfc7-1c2e-87c7-3889-7ed6cdc65dee@vivier.eu>
-Date: Wed, 22 Jul 2020 14:03:26 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.9.0
+ (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1jyDU3-0000yi-Lj
+ for qemu-devel@nongnu.org; Wed, 22 Jul 2020 08:04:27 -0400
+Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:22738
+ helo=us-smtp-1.mimecast.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1jyDU1-0005lO-Qt
+ for qemu-devel@nongnu.org; Wed, 22 Jul 2020 08:04:27 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1595419464;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=mV66PB7m3yf7oVVuigVjZH4PSb7D7KkAeg8aL8WPTeY=;
+ b=eJaV8CHYg/J29s3rSGE4ccG79MpqahKOdCR2CIgFotI7YRHNRkCPr7p6qV80GxsESnb352
+ br1ISTqfv4sKyHzUIry4G5ih2DBSNXNUnqdZFDX0lJYZmy/PjKDObCpjD4reyE2FPACpkn
+ q4sQMWpnKVo96Ggf2qHbCKHSEd3cp3w=
+Received: from mail-wr1-f70.google.com (mail-wr1-f70.google.com
+ [209.85.221.70]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-306-YFyz4MdJNpS7nuCDtpcFsQ-1; Wed, 22 Jul 2020 08:04:23 -0400
+X-MC-Unique: YFyz4MdJNpS7nuCDtpcFsQ-1
+Received: by mail-wr1-f70.google.com with SMTP id b8so542039wro.19
+ for <qemu-devel@nongnu.org>; Wed, 22 Jul 2020 05:04:23 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+ :mime-version:content-disposition:in-reply-to;
+ bh=mV66PB7m3yf7oVVuigVjZH4PSb7D7KkAeg8aL8WPTeY=;
+ b=iVS9TDgx4nDEROPqllVjTxXo3GEUu2CeMWwGPaayXEezwNeWx5UEPcwMNogp6elCWP
+ x9bII1wBMQgEg8AKjeFRszcTC9YAEGO1J8GItswyJf3heFeOUxpHn0IY/iYweD9zzmin
+ rzvbbBGljeJsgzd67nS4d3WtVwfwMCVU73b5tO1A7NzEwYfkuwN2AFhvqM/S6nifzkZD
+ NBN2RfRVUeVjI3CNhGqYhGxWDMEMAiejZ7WV0gczcqAMUHPtaOya++eIutoohEaNr8eL
+ 48ONjBaRn00N7e1fZJlNz2W/UCrEL6RtY8gnH1MD0dJMpIl0cMVvS09tSYf+Vy/XSN+s
+ GDPg==
+X-Gm-Message-State: AOAM533hz2ldBj0YsJFq3QvPheNyG1T5Bbd9LvSyU+LNs5xA7BCmip14
+ FaYveF1asWcJZOWm4zvJnLCdEkahRB25d6W4ONhFaIvsEbrsmtrwcoPVs+A236/WAQwJXM56yJb
+ 2x7Qx+r8hylEIb+0=
+X-Received: by 2002:a05:600c:21d3:: with SMTP id
+ x19mr1527680wmj.174.1595419461390; 
+ Wed, 22 Jul 2020 05:04:21 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJxwRYGmcujUtVZ3JTjdVYugu0dDG8YKyXbsFGHdrP0CA1oCAXNp+d1v6TCLySD/5SnfpoykFQ==
+X-Received: by 2002:a05:600c:21d3:: with SMTP id
+ x19mr1527655wmj.174.1595419461129; 
+ Wed, 22 Jul 2020 05:04:21 -0700 (PDT)
+Received: from redhat.com (bzq-79-182-82-99.red.bezeqint.net. [79.182.82.99])
+ by smtp.gmail.com with ESMTPSA id
+ z6sm6830553wmf.33.2020.07.22.05.04.19
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Wed, 22 Jul 2020 05:04:20 -0700 (PDT)
+Date: Wed, 22 Jul 2020 08:04:17 -0400
+From: "Michael S. Tsirkin" <mst@redhat.com>
+To: David Hildenbrand <david@redhat.com>
+Subject: Re: [PATCH v2] virtio-balloon: always indicate S_DONE when migration
+ fails
+Message-ID: <20200722080356-mutt-send-email-mst@kernel.org>
+References: <20200629080615.26022-1-david@redhat.com>
 MIME-Version: 1.0
-In-Reply-To: <87365kudwv.fsf@linaro.org>
-Content-Type: text/plain; charset=utf-8
-Content-Language: fr
-Content-Transfer-Encoding: 8bit
-X-Provags-ID: V03:K1:TdaHZ4ZJreaIxUuVZvgXfR0kEwIMV78YVayRDgaMXnbCIxDWVP4
- 2Y/80l5sYDMThY04enAJAa5HRMsKy38NH7/K5Z7MWfLBv7nnCLbS4iAKPHnWsrilZS3SOdz
- r0GAqaBUgM6JS1UYsbyi58HlfHeYF1aKaC8w1WDpX0fMWDxL++f+DjuyCp9PiU8grk7Jl+N
- WT0sDKj4sAHrTh4feQUHA==
-X-UI-Out-Filterresults: notjunk:1;V03:K0:vLnNIGyvJSI=:3PUi5wm0+SCe5SbJv39t6g
- lfYaULJzC6lMHTJ0tM51aicyYRV4ivUi+rPeA+zkVVBeqUMJHPM9llrjJfDwcv/euZVNoACeQ
- 3VZDsDceAAM76XlWeqy5olIyO0loyVFyTrCZM7E8q0B94vpzpg2liJ3r8Ytz2vzwy6Y9srr+8
- n4ekN1b1iD8v65Dv410tMMp1bom2cJucw8TF2MNX6baVaRvb+1QemhifP/UafGEQVPIKMDoWf
- uQC1ewgMalF+bn1EQ3bwRondxtmmwZsosxipteUEpoqSBE8XlnR+yzYxeStIzlUi5Wm5+PHO8
- 7itEpLZdxPe3iF7YrO1DS33vsx5Hwd59nZRuG4L33nJxvjNiv6bukHiL14kCzEpfOU4MTZJam
- XD93ktkEU7/fGQ02us0NgZKUlvwEB5JqRUAj5zZGtC4PnrrKsTm6Y5bhhwSqcKfmmoMHu69yb
- gNvl53ClGua5npuStz6tVB99yb8MtnkxN+AbPbmolxMnGNpCdNEnqR9TP/ebZjGb5O0DiYqoh
- qkWkTVWlgwaJObgTvsn3POIp6YlsjP6IFXfneeUNToPlZMrwyTCxG4/E77VS4npvDaL0XtXeh
- VlfM6E3MMifCsqMdPYv5Zvt8Olz78AZGEIu/qqFF5mU/SAA80yX4UWbbdibkQela3IuTJwUOU
- OqerhhBYoPk9Dtqw+HD3/0fJhXWi1TNFchYV/S6n6RTxOAfMKQNmRdDrU+wh3UfVi5fpjzskj
- pfNxcggBTorJOk4NEGo6aaMugLEoeuU4Rjzy3m1Wq/eVG5dWrkdNX5O9qFj9DlMRIGxusreUs
- aJB6gRyDMM+G6ZRmKLMEun+XdLInebvz+35ge/S8djkyNXZPMEWCSFZDM1n8/hMOAYPR2Dw
-Received-SPF: none client-ip=212.227.17.10; envelope-from=laurent@vivier.eu;
- helo=mout.kundenserver.de
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/07/22 08:04:17
-X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic]
-X-Spam_score_int: -28
-X-Spam_score: -2.9
-X-Spam_bar: --
-X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_NONE=-0.0001,
- RCVD_IN_MSPIKE_H2=-1, SPF_HELO_NONE=0.001,
- SPF_NONE=0.001 autolearn=ham autolearn_force=no
+In-Reply-To: <20200629080615.26022-1-david@redhat.com>
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Received-SPF: pass client-ip=205.139.110.120; envelope-from=mst@redhat.com;
+ helo=us-smtp-1.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/07/21 23:27:14
+X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
+X-Spam_score_int: -40
+X-Spam_score: -4.1
+X-Spam_bar: ----
+X-Spam_report: (-4.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-1, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -116,86 +95,96 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: fam@euphon.net, berrange@redhat.com, richard.henderson@linaro.org,
- qemu-devel@nongnu.org, f4bug@amsat.org, cota@braap.org, aurelien@aurel32.net
+Cc: virtio-dev@lists.oasis-open.org,
+ Alexander Duyck <alexander.h.duyck@linux.intel.com>,
+ Wei Wang <wei.w.wang@intel.com>, qemu-devel@nongnu.org,
+ Alexander Duyck <alexander.duyck@gmail.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Le 22/07/2020 à 10:55, Alex Bennée a écrit :
+On Mon, Jun 29, 2020 at 10:06:15AM +0200, David Hildenbrand wrote:
+> If something goes wrong during precopy, before stopping the VM, we will
+> never send a S_DONE indication to the VM, resulting in the hinted pages
+> not getting released to be used by the guest OS (e.g., Linux).
 > 
-> Laurent Vivier <laurent@vivier.eu> writes:
+> Easy to reproduce:
+> 1. Start migration (e.g., HMP "migrate -d 'exec:gzip -c > STATEFILE.gz'")
+> 2. Cancel migration (e.g., HMP "migrate_cancel")
+> 3. Oberve in the guest (e.g., cat /proc/meminfo) that there is basically
+>    no free memory left.
 > 
->> Le 22/07/2020 à 08:29, Alex Bennée a écrit :
->>> From: Laurent Vivier <laurent@vivier.eu>
->>>
->>> If clock_nanosleep() encounters an error, it returns one of the positive
->>> error number.
->>>
->>> If the call is interrupted by a signal handler, it fails with error EINTR
->>> and if "remain" is not NULL and "flags" is not TIMER_ABSTIME, it returns
->>> the remaining unslept time in "remain".
->>>
->>> Update linux-user to not overwrite the "remain" structure if there is no
->>> error.
->>>
->>> Found with "make check-tcg", linux-test fails on nanosleep test:
->>>
->>>   TEST    linux-test on x86_64
->>> .../tests/tcg/multiarch/linux-test.c:242: nanosleep
->>> make[2]: *** [../Makefile.target:153: run-linux-test] Error 1
->>> make[1]: *** [.../tests/tcg/Makefile.qemu:76: run-guest-tests] Error 2
->>> make: *** [.../tests/Makefile.include:857: run-tcg-tests-x86_64-linux-user] Error 2
->>>
->>> Reported-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
->>> Signed-off-by: Laurent Vivier <laurent@vivier.eu>
->>> Message-Id: <20200721201754.2731479-1-laurent@vivier.eu>
->>> ---
->>>  linux-user/syscall.c | 15 ++++++++++++---
->>>  1 file changed, 12 insertions(+), 3 deletions(-)
->>>
->>> diff --git a/linux-user/syscall.c b/linux-user/syscall.c
->>> index 1211e759c26..caa7cd3cab9 100644
->>> --- a/linux-user/syscall.c
->>> +++ b/linux-user/syscall.c
->>> @@ -11829,10 +11829,19 @@ static abi_long do_syscall1(void *cpu_env, int num, abi_long arg1,
->>>      {
->>>          struct timespec ts;
->>>          target_to_host_timespec(&ts, arg3);
->>> -        ret = get_errno(safe_clock_nanosleep(arg1, arg2,
->>> -                                             &ts, arg4 ? &ts : NULL));
->>> -        if (arg4)
->>> +        /*
->>> +         * clock_nanosleep() returns 0 or one of the *positive* error number.
->>> +         */
->>> +        ret = host_to_target_errno(safe_clock_nanosleep(arg1, arg2, &ts,
->>> +                                                        arg4 ? &ts : NULL));
->>> +        /*
->>> +         * if the call is interrupted by a signal handler, it fails
->>> +         * with error TARGET_EINTR and if arg4 is not NULL and arg2 is not
->>> +         * TIMER_ABSTIME, it returns the remaining unslept time in arg4.
->>> +         */
->>> +        if (ret == TARGET_EINTR && arg4 && arg2 != TIMER_ABSTIME) {
->>>              host_to_target_timespec(arg4, &ts);
->>> +        }
->>>  
->>>  #if defined(TARGET_PPC)
->>>          /* clock_nanosleep is odd in that it returns positive errno values.
->>>
->>
->> Wait a little before pushing that: I've made more tests and it seems to
->> break something in LTP. I have to analyze.
+> While at it, add similar locking to virtio_balloon_free_page_done() as
+> done in virtio_balloon_free_page_stop. Locking is still weird, but that
+> has to be sorted out separately.
 > 
-> OK - which LTP test does it break?
-
-clock_nanosleep01
-
+> There is nothing to do in the PRECOPY_NOTIFY_COMPLETE case. Add some
+> comments regarding S_DONE handling.
 > 
-> I can drop from the PR if we don't have a clean-up by then (Fri?).
+> Fixes: c13c4153f76d ("virtio-balloon: VIRTIO_BALLOON_F_FREE_PAGE_HINT")
+> Reviewed-by: Alexander Duyck <alexander.h.duyck@linux.intel.com>
+> Cc: Wei Wang <wei.w.wang@intel.com>
+> Cc: Alexander Duyck <alexander.duyck@gmail.com>
+> Signed-off-by: David Hildenbrand <david@redhat.com>
 
-I have a fix. I'm testing it. I will send the v2 today.
+IIUC this is superceded by Alexander's patches right?
+If not pls rebase ...
 
-https://github.com/vivier/qemu/commit/25060f425e71c57112a334d9930f234011d079a1
+> ---
+>  hw/virtio/virtio-balloon.c | 26 ++++++++++++++++++++------
+>  1 file changed, 20 insertions(+), 6 deletions(-)
+> 
+> diff --git a/hw/virtio/virtio-balloon.c b/hw/virtio/virtio-balloon.c
+> index 10507b2a43..8a84718490 100644
+> --- a/hw/virtio/virtio-balloon.c
+> +++ b/hw/virtio/virtio-balloon.c
+> @@ -628,8 +628,13 @@ static void virtio_balloon_free_page_done(VirtIOBalloon *s)
+>  {
+>      VirtIODevice *vdev = VIRTIO_DEVICE(s);
+>  
+> -    s->free_page_report_status = FREE_PAGE_REPORT_S_DONE;
+> -    virtio_notify_config(vdev);
+> +    if (s->free_page_report_status != FREE_PAGE_REPORT_S_DONE) {
+> +        /* See virtio_balloon_free_page_stop() */
+> +        qemu_mutex_lock(&s->free_page_lock);
+> +        s->free_page_report_status = FREE_PAGE_REPORT_S_DONE;
+> +        qemu_mutex_unlock(&s->free_page_lock);
+> +        virtio_notify_config(vdev);
+> +    }
+>  }
+>  
+>  static int
+> @@ -653,17 +658,26 @@ virtio_balloon_free_page_report_notify(NotifierWithReturn *n, void *data)
+>      case PRECOPY_NOTIFY_SETUP:
+>          precopy_enable_free_page_optimization();
+>          break;
+> -    case PRECOPY_NOTIFY_COMPLETE:
+> -    case PRECOPY_NOTIFY_CLEANUP:
+>      case PRECOPY_NOTIFY_BEFORE_BITMAP_SYNC:
+>          virtio_balloon_free_page_stop(dev);
+>          break;
+>      case PRECOPY_NOTIFY_AFTER_BITMAP_SYNC:
+>          if (vdev->vm_running) {
+>              virtio_balloon_free_page_start(dev);
+> -        } else {
+> -            virtio_balloon_free_page_done(dev);
+> +            break;
+>          }
+> +        /*
+> +         * Set S_DONE before migrating the vmstate, so the guest will reuse
+> +         * all hinted pages once running on the destination. Fall through.
+> +         */
+> +    case PRECOPY_NOTIFY_CLEANUP:
+> +        /*
+> +         * Especially, if something goes wrong during precopy or if migration
+> +         * is canceled, we have to properly communicate S_DONE to the VM.
+> +         */
+> +        virtio_balloon_free_page_done(dev);
+> +        break;
+> +    case PRECOPY_NOTIFY_COMPLETE:
+>          break;
+>      default:
+>          virtio_error(vdev, "%s: %d reason unknown", __func__, pnd->reason);
+> -- 
+> 2.26.2
 
-Thanks,
-Laurent
 
