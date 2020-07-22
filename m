@@ -2,55 +2,60 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2A9E5229430
-	for <lists+qemu-devel@lfdr.de>; Wed, 22 Jul 2020 10:59:12 +0200 (CEST)
-Received: from localhost ([::1]:40376 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 868D2229435
+	for <lists+qemu-devel@lfdr.de>; Wed, 22 Jul 2020 11:00:01 +0200 (CEST)
+Received: from localhost ([::1]:42498 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jyAal-0006kP-8h
-	for lists+qemu-devel@lfdr.de; Wed, 22 Jul 2020 04:59:11 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:47970)
+	id 1jyAbY-0007bK-Km
+	for lists+qemu-devel@lfdr.de; Wed, 22 Jul 2020 05:00:00 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:48000)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <jasowang@redhat.com>)
- id 1jyAa0-0006Jv-1L
- for qemu-devel@nongnu.org; Wed, 22 Jul 2020 04:58:24 -0400
-Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:50883
+ id 1jyAa8-0006PA-Na
+ for qemu-devel@nongnu.org; Wed, 22 Jul 2020 04:58:32 -0400
+Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:20601
  helo=us-smtp-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
  (Exim 4.90_1) (envelope-from <jasowang@redhat.com>)
- id 1jyAZx-0002PY-NT
- for qemu-devel@nongnu.org; Wed, 22 Jul 2020 04:58:23 -0400
+ id 1jyAa4-0002TK-O7
+ for qemu-devel@nongnu.org; Wed, 22 Jul 2020 04:58:32 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1595408299;
+ s=mimecast20190719; t=1595408307;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding;
- bh=G5iunSP/qQNSr6Ac1EmU9q3Zv828VygEYKpBOU6ZhRM=;
- b=hMc8pRiyfmetARjQptEz7ywdKoorIOfLTeJWdFmnRukiboXwpYhSelAPdgwEoctWEmPzrj
- nAeL9cyOEsrkiPBfZF4MwwdWQmRuiHclR2PgNJllOZsy6WRQfBpslb2fMMMUrMX9aXe0Ag
- TYAZo3WvToUQ+1qJ20LpjTCDPu/+ApU=
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=t7OAJHVFFI0NnKPP6LGSuhvnyc8Y6OUAOpILOntCGBM=;
+ b=O9V5Iu4yFrfAKxdoD6wF56ZkrghNg00fD8V9bbA/Qg90aoffy++2h6/GFWMCzZvaMupnDl
+ aea7TAJLWlWwRdq59GZ/nXAwHlB9UvfGxIBYWwYl/CsQoILjtjGGLHh1Iiy9Z7emyr5f2Y
+ x8qJnra/z3nIXt6GmxGGcxCC4RsofTI=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-486-hbF_UoMUNWyDZYPvzZOWyg-1; Wed, 22 Jul 2020 04:58:17 -0400
-X-MC-Unique: hbF_UoMUNWyDZYPvzZOWyg-1
+ us-mta-118-W0tu3DutNYyqDg6PG8vvZA-1; Wed, 22 Jul 2020 04:58:25 -0400
+X-MC-Unique: W0tu3DutNYyqDg6PG8vvZA-1
 Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
  [10.5.11.14])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 6D8141932481;
- Wed, 22 Jul 2020 08:58:16 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 8CE06800C64;
+ Wed, 22 Jul 2020 08:58:24 +0000 (UTC)
 Received: from jason-ThinkPad-X1-Carbon-6th.redhat.com
  (ovpn-13-156.pek2.redhat.com [10.72.13.156])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 006625D9DC;
- Wed, 22 Jul 2020 08:57:59 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id DFA635D9DC;
+ Wed, 22 Jul 2020 08:58:16 +0000 (UTC)
 From: Jason Wang <jasowang@redhat.com>
 To: jasowang@redhat.com,
 	qemu-devel@nongnu.org
-Subject: [PATCH 1/2] net: forbid the reentrant RX
-Date: Wed, 22 Jul 2020 16:57:46 +0800
-Message-Id: <20200722085747.6514-1-jasowang@redhat.com>
+Subject: [PATCH 2/2] e1000e: make TX reentrant
+Date: Wed, 22 Jul 2020 16:57:47 +0800
+Message-Id: <20200722085747.6514-2-jasowang@redhat.com>
+In-Reply-To: <20200722085747.6514-1-jasowang@redhat.com>
+References: <20200722085747.6514-1-jasowang@redhat.com>
 MIME-Version: 1.0
 X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=jasowang@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=US-ASCII
@@ -83,33 +88,55 @@ Cc: dmitry.fleytman@gmail.com, mst@redhat.com, liq3ea@163.com, liq3ea@gmail.com,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The memory API allows DMA into NIC's MMIO area. This means the NIC's
-RX routine must be reentrant. Instead of auditing all the NIC, we can
-simply detect the reentrancy and return early. The queue->delivering
-is set and cleared by qemu_net_queue_deliver() for other queue helpers
-to know whether the delivering in on going (NIC's receive is being
-called). We can check it and return early in qemu_net_queue_flush() to
-forbid reentrant RX.
+In loopback mode, e1000e RX can DMA into TX doorbell which requires
+TX to be reentrant. This patch make e1000e's TX routine reentrant by
+introducing a per device boolean for recording whether or not a TX
+rountine is being called and return early.
 
 Signed-off-by: Jason Wang <jasowang@redhat.com>
 ---
- net/queue.c | 3 +++
- 1 file changed, 3 insertions(+)
+ hw/net/e1000e_core.c | 8 ++++++++
+ hw/net/e1000e_core.h | 1 +
+ 2 files changed, 9 insertions(+)
 
-diff --git a/net/queue.c b/net/queue.c
-index 0164727e39..19e32c80fd 100644
---- a/net/queue.c
-+++ b/net/queue.c
-@@ -250,6 +250,9 @@ void qemu_net_queue_purge(NetQueue *queue, NetClientState *from)
+diff --git a/hw/net/e1000e_core.c b/hw/net/e1000e_core.c
+index bcd186cac5..8126a644a5 100644
+--- a/hw/net/e1000e_core.c
++++ b/hw/net/e1000e_core.c
+@@ -923,6 +923,12 @@ e1000e_start_xmit(E1000ECore *core, const E1000E_TxRing *txr)
+         return;
+     }
  
- bool qemu_net_queue_flush(NetQueue *queue)
- {
-+    if (queue->delivering)
-+        return false;
++    if (core->sending) {
++        return;
++    }
 +
-     while (!QTAILQ_EMPTY(&queue->packets)) {
-         NetPacket *packet;
-         int ret;
++    core->sending = true;
++
+     while (!e1000e_ring_empty(core, txi)) {
+         base = e1000e_ring_head_descr(core, txi);
+ 
+@@ -940,6 +946,8 @@ e1000e_start_xmit(E1000ECore *core, const E1000E_TxRing *txr)
+     if (!ide || !e1000e_intrmgr_delay_tx_causes(core, &cause)) {
+         e1000e_set_interrupt_cause(core, cause);
+     }
++
++    core->sending = false;
+ }
+ 
+ static bool
+diff --git a/hw/net/e1000e_core.h b/hw/net/e1000e_core.h
+index aee32f7e48..4679c1761f 100644
+--- a/hw/net/e1000e_core.h
++++ b/hw/net/e1000e_core.h
+@@ -114,6 +114,7 @@ struct E1000Core {
+     void (*owner_start_recv)(PCIDevice *d);
+ 
+     uint32_t msi_causes_pending;
++    bool sending;
+ };
+ 
+ void
 -- 
 2.20.1
 
