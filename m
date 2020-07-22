@@ -2,91 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id EACA62295DF
-	for <lists+qemu-devel@lfdr.de>; Wed, 22 Jul 2020 12:21:23 +0200 (CEST)
-Received: from localhost ([::1]:45454 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B836322966F
+	for <lists+qemu-devel@lfdr.de>; Wed, 22 Jul 2020 12:41:58 +0200 (CEST)
+Received: from localhost ([::1]:57290 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jyBsI-0001vE-Fu
-	for lists+qemu-devel@lfdr.de; Wed, 22 Jul 2020 06:21:22 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:43734)
+	id 1jyCCD-0008K9-RG
+	for lists+qemu-devel@lfdr.de; Wed, 22 Jul 2020 06:41:57 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:49046)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1jyBqo-0000ry-ET; Wed, 22 Jul 2020 06:19:50 -0400
-Received: from mail-ej1-x642.google.com ([2a00:1450:4864:20::642]:35119)
+ (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
+ id 1jyCBL-0007rv-DG
+ for qemu-devel@nongnu.org; Wed, 22 Jul 2020 06:41:03 -0400
+Received: from indium.canonical.com ([91.189.90.7]:59304)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1jyBqm-0006Wb-TR; Wed, 22 Jul 2020 06:19:50 -0400
-Received: by mail-ej1-x642.google.com with SMTP id rk21so1643265ejb.2;
- Wed, 22 Jul 2020 03:19:47 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=sender:subject:to:cc:references:from:message-id:date:user-agent
- :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=+3cwYKGXMrE5BasGoOhTkvyaax9meai/zFmaQjmOqRo=;
- b=AQil5HGVzw9zkPQNItcpbN3UkaYFQ38KKjzQ3sx8qCKInfIR+endRZHbvuV/9m8YTo
- +UMoFYfc8pHt5DjV6ltPC+iEXElIASYI3Ix90/432ca2BFip1UtoQBbyKVVa9p0I/Gmc
- Ojr6Rp1FXT4UhUXGFoPWm94sJ+YNRsBFuVvHqqAxDODaqEqpPimE0kHIVSOdY0sEhCvH
- 6hkR22INiemL3A2FZTtnmWYktUqVwn7PZgNynOP4Fkaf4Lh7Kt2TmF0rc8wkpSUVpctR
- Qbx7MA9FLRsnzCecgmjNVCHNV9VoDDyzvDtLQp4Xi7ohtg3Ifg1lazr1ldS+Tl5+UBDy
- O8oQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:sender:subject:to:cc:references:from:message-id
- :date:user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=+3cwYKGXMrE5BasGoOhTkvyaax9meai/zFmaQjmOqRo=;
- b=isvW5MZCEJgHbYQ2wq6sQ2Pdrb9KaIK7wStp0ZdgJ2FEm9dRhHH4PZukrm6rM4BaGC
- j0hHyL6TaWSS0bM4uJqqcU6TCvE7tesRU5RMf7JUyjxWNrJzVWSd9bT14LodjB0KzJCJ
- +jiDCGO6VqQelTzHNsOAw/rSTN8UEjWqKv9FHg0ZwNVDILozymtx7lQaRDhYaUEgiuu8
- c71b8N3GIGViHzzxYkoeXhYkSjMTL330QYzAQuRfOrkKPxxBeq6n8CtRqUXLVaeMtJUG
- 3bXcprUfpROPFKoGikS8zzl4F/2Dg3sIaUR+8QLGQz8eCN6KGZD7nkky+wOpJmrtZfBx
- AFJw==
-X-Gm-Message-State: AOAM530p/FawQ8L/zsG5xpZmUfG8P+4qwxkZK3Tf4EMJ/CtDvIpZs1GP
- ckYWIGcGmGTqQHQcuZqQ9XE=
-X-Google-Smtp-Source: ABdhPJzHRWNp5Oky+eutYhjPBplSjuC4dGWf/+I3NTphcwmyu0cgcTYU6FOY6M9lasTJaWZ/dvrG4w==
-X-Received: by 2002:a17:906:774d:: with SMTP id
- o13mr29017624ejn.373.1595413186351; 
- Wed, 22 Jul 2020 03:19:46 -0700 (PDT)
-Received: from [192.168.1.36] (138.red-83-57-170.dynamicip.rima-tde.net.
- [83.57.170.138])
- by smtp.gmail.com with ESMTPSA id e16sm18393261ejt.14.2020.07.22.03.19.44
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Wed, 22 Jul 2020 03:19:45 -0700 (PDT)
-Subject: Re: [PATCH v2 2/4] m25p80: Improve command handling for Jedec commands
-To: =?UTF-8?Q?C=c3=a9dric_Le_Goater?= <clg@kaod.org>,
- Guenter Roeck <linux@roeck-us.net>, Alistair Francis
- <alistair@alistair23.me>, Kevin Wolf <kwolf@redhat.com>
-References: <20200206183219.3756-1-linux@roeck-us.net>
- <20200206183219.3756-2-linux@roeck-us.net>
- <eb21047a-aa9f-eb39-af8a-b5858e01fee5@kaod.org>
- <0ae638a0-6e74-c32b-a5bb-6a89ae5b819f@roeck-us.net>
- <83f26c3b-cc7e-585a-1eae-2d7d9adb30af@kaod.org>
-From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>
-Message-ID: <ad6b4998-a201-fd88-6558-261e641a5322@amsat.org>
-Date: Wed, 22 Jul 2020 12:19:44 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.5.0
+ (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
+ id 1jyCBI-0001kd-HY
+ for qemu-devel@nongnu.org; Wed, 22 Jul 2020 06:41:03 -0400
+Received: from loganberry.canonical.com ([91.189.90.37])
+ by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
+ id 1jyCBG-0007mK-1E
+ for <qemu-devel@nongnu.org>; Wed, 22 Jul 2020 10:40:58 +0000
+Received: from loganberry.canonical.com (localhost [127.0.0.1])
+ by loganberry.canonical.com (Postfix) with ESMTP id B9B0C2E8052
+ for <qemu-devel@nongnu.org>; Wed, 22 Jul 2020 10:40:57 +0000 (UTC)
 MIME-Version: 1.0
-In-Reply-To: <83f26c3b-cc7e-585a-1eae-2d7d9adb30af@kaod.org>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::642;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-ej1-x642.google.com
-X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
- That's all we know.
-X-Spam_score_int: 0
-X-Spam_score: 0.0
-X-Spam_bar: /
-X-Spam_report: (0.0 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1, DKIM_VALID=-0.1,
- DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=1, FREEMAIL_FROM=0.001,
- HEADER_FROM_DIFFERENT_DOMAINS=1, RCVD_IN_DNSWL_NONE=-0.0001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- URIBL_BLOCKED=0.001 autolearn=no autolearn_force=no
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: quoted-printable
+Date: Wed, 22 Jul 2020 10:27:29 -0000
+From: ZhaoSQ-CH <1888492@bugs.launchpad.net>
+To: qemu-devel@nongnu.org
+X-Launchpad-Notification-Type: bug
+X-Launchpad-Bug: product=qemu; status=New; importance=Undecided; assignee=None;
+X-Launchpad-Bug-Tags: windows
+X-Launchpad-Bug-Information-Type: Public
+X-Launchpad-Bug-Private: no
+X-Launchpad-Bug-Security-Vulnerability: no
+X-Launchpad-Bug-Commenters: zhaosq
+X-Launchpad-Bug-Reporter: ZhaoSQ-CH (zhaosq)
+X-Launchpad-Bug-Modifier: ZhaoSQ-CH (zhaosq)
+Message-Id: <159541364991.32738.5508954702379988107.malonedeb@chaenomeles.canonical.com>
+Subject: [Bug 1888492] [NEW] After installing Ubuntu,
+ restart and pop up the CMD command prompt
+X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
+X-Launchpad-Message-For: qemu-devel-ml
+Precedence: bulk
+X-Generated-By: Launchpad (canonical.com);
+ Revision="4809fcb62f445aaa3ae919f7f6c3cc7d156ea57a";
+ Instance="production-secrets-lazr.conf"
+X-Launchpad-Hash: c17055d105dc9c6be821ce00df7adf31314d72f3
+Received-SPF: none client-ip=91.189.90.7; envelope-from=bounces@canonical.com;
+ helo=indium.canonical.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/07/22 04:15:39
+X-ACL-Warn: Detected OS   = Linux 3.11 and newer [fuzzy]
+X-Spam_score_int: -58
+X-Spam_score: -5.9
+X-Spam_bar: -----
+X-Spam_report: (-5.9 / 5.0 requ) BAYES_00=-1.9, HEADER_FROM_DIFFERENT_DOMAINS=1,
+ RCVD_IN_DNSWL_HI=-5, RCVD_IN_MSPIKE_H3=-0.01, RCVD_IN_MSPIKE_WL=-0.01,
+ SPF_HELO_NONE=0.001, SPF_NONE=0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
-Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -95,92 +72,244 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Maydell <peter.maydell@linaro.org>, qemu-block@nongnu.org,
- Andrew Jeffery <andrew@aj.id.au>, qemu-devel@nongnu.org,
- Max Reitz <mreitz@redhat.com>, Erik Smit <erik.lucas.smit@gmail.com>,
- qemu-arm@nongnu.org, Joel Stanley <joel@jms.id.au>
+Reply-To: Bug 1888492 <1888492@bugs.launchpad.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 7/22/20 10:02 AM, Cédric Le Goater wrote:
-> On 7/21/20 9:57 PM, Guenter Roeck wrote:
->> On 7/21/20 10:36 AM, Cédric Le Goater wrote:
->>> Hello,
->>>
->>> On 2/6/20 7:32 PM, Guenter Roeck wrote:
->>>> When requesting JEDEC data using the JEDEC_READ command, the Linux kernel
->>>> always requests 6 bytes. The current implementation only returns three
->>>> bytes, and interprets the remaining three bytes as new commands.
->>>> While this does not matter most of the time, it is at the very least
->>>> confusing. To avoid the problem, always report up to 6 bytes of JEDEC
->>>> data. Fill remaining data with 0.
->>>>
->>>> Signed-off-by: Guenter Roeck <linux@roeck-us.net>
->>>> ---
->>>> v2: Split patch into two parts; improved decription
->>>>
->>>>  hw/block/m25p80.c | 5 ++++-
->>>>  1 file changed, 4 insertions(+), 1 deletion(-)
->>>>
->>>> diff --git a/hw/block/m25p80.c b/hw/block/m25p80.c
->>>> index 5ff8d270c4..53bf63856f 100644
->>>> --- a/hw/block/m25p80.c
->>>> +++ b/hw/block/m25p80.c
->>>> @@ -1040,8 +1040,11 @@ static void decode_new_cmd(Flash *s, uint32_t value)
->>>>          for (i = 0; i < s->pi->id_len; i++) {
->>>>              s->data[i] = s->pi->id[i];
->>>>          }
->>>> +        for (; i < SPI_NOR_MAX_ID_LEN; i++) {
->>>> +            s->data[i] = 0;
->>>> +        }
->>>
->>> This is breaking an old firmware (Linux version 2.6.28.9) for a SuperMicro
->>> board : 
->>>
->>> 	https://www.supermicro.com/en/products/motherboard/X11SSL-F 
->>>
->>> which expects the flash ID to repeat. Erik solved the problem with the patch 
->>> below and I think it makes sense to wrap around. Anyone knows what should be 
->>> the expected behavior ? 
->>>
->>
->> No idea what the expected behavior is, but I am fine with the code below
->> if it works.
-> 
-> I checked on a few real systems and indeed the mx25l25635e behaves
-> differently.
-> 
-> AST2400
-> 
-> [    5.594176] aspeed-smc 1e620000.spi: reading JEDEC ID 20:BA:19:10:00:00
-> [    5.602226] aspeed-smc 1e620000.spi: n25q256a (32768 Kbytes)
-> ...
-> [    6.174052] aspeed-smc 1e630000.spi: reading JEDEC ID C2:20:19:C2:20:19
-> [    6.181682] aspeed-smc 1e630000.spi: mx25l25635e (32768 Kbytes)
-> 
-> AST2500
-> 
-> [    1.641317] aspeed-smc 1e620000.spi: reading JEDEC ID EF:40:19:00:00:00
-> [    1.648174] aspeed-smc 1e620000.spi: w25q256 (32768 Kbytes)
-> ...
-> [    1.179214] aspeed-smc 1e630000.spi: reading JEDEC ID EF:40:19:00:00:00
-> [    1.186737] aspeed-smc 1e630000.spi: w25q256 (32768 Kbytes)
-> 
-> AST2600
-> 
-> [    1.020255] aspeed-smc 1e620000.spi: reading JEDEC ID EF:40:20:00:00:00
-> [    1.027830] aspeed-smc 1e620000.spi: w25q512jv (65536 Kbytes)
-> ...
-> [    1.884171] aspeed-smc 1e630000.spi: reading JEDEC ID EF:40:19:00:00:00
-> [    1.890937] aspeed-smc 1e630000.spi: w25q256 (32768 Kbytes)
+Public bug reported:
 
-FWIW QEMU models this one as 64KiB.
+QEMU release version=EF=BC=9A V5.1.0
+time=EF=BC=9A2020=E5=B9=B47=E6=9C=8822=E6=97=A510:34:40
+Operation: =E5=AE=89=E8=A3=85=E5=AE=8CUbuntu=E5=90=8E=E9=87=8D=E6=96=B0=E5=
+=90=AF=E5=8A=A8=EF=BC=8C=E5=B9=B6=E5=BC=B9=E5=87=BACMD=E5=91=BD=E4=BB=A4=E6=
+=8F=90=E7=A4=BA=E7=AC=A6
+use Ubuntu release version =EF=BC=9AV20.04-desktop.
+use windows release version: windows 10.
+Question:
+Command used=EF=BC=9Aqemu-system-x86_64.exe -name test -m 4096 -machine acc=
+el=3Dhax -cdrom .\workspace\ubuntu\ubuntu-20.04-desktop-amd64.iso .\workspa=
+ce\img\ubuntu.img
+HAX is working and emulator runs in fast virt mode.
+*** BUG ***
+In pixman_region32_init_rect: Invalid rectangle passed
+Set a breakpoint on '_pixman_log_error' to debug
 
-> 
-> 
-> I think we need a special case for it.
-> 
-> C. 
-> 
+*** BUG ***
+In pixman_region32_init_rect: Invalid rectangle passed
+Set a breakpoint on '_pixman_log_error' to debug
 
+*** BUG ***
+In pixman_region32_init_rect: Invalid rectangle passed
+Set a breakpoint on '_pixman_log_error' to debug
+
+*** BUG ***
+In pixman_region32_init_rect: Invalid rectangle passed
+Set a breakpoint on '_pixman_log_error' to debug
+
+*** BUG ***
+In pixman_region32_init_rect: Invalid rectangle passed
+Set a breakpoint on '_pixman_log_error' to debug
+
+*** BUG ***
+In pixman_region32_init_rect: Invalid rectangle passed
+Set a breakpoint on '_pixman_log_error' to debug
+
+*** BUG ***
+In pixman_region32_init_rect: Invalid rectangle passed
+Set a breakpoint on '_pixman_log_error' to debug
+
+*** BUG ***
+In pixman_region32_init_rect: Invalid rectangle passed
+Set a breakpoint on '_pixman_log_error' to debug
+
+*** BUG ***
+In pixman_region32_init_rect: Invalid rectangle passed
+Set a breakpoint on '_pixman_log_error' to debug
+
+*** BUG ***
+In pixman_region32_init_rect: Invalid rectangle passed
+Set a breakpoint on '_pixman_log_error' to debug
+
+(qemu:660): Gtk-WARNING **: Negative content width -7 (allocation 1,
+extents 4x4) while allocating gadget (node headerbar, owner
+GtkHeaderBar)
+
+(qemu:660): Gtk-WARNING **: gtk_widget_size_allocate(): attempt to
+allocate widget with width -102 and height 16
+
+(qemu:660): Gtk-WARNING **: Negative content width -23 (allocation 1, exten=
+ts 12x12) while allocating gadget (node label, owner GtkLabel)
+qemu-system-x86_64.exe: Gtk: gtk_distribute_natural_allocation: assertion '=
+extra_space >=3D 0' failed
+
+** Affects: qemu
+     Importance: Undecided
+         Status: New
+
+
+** Tags: windows
+
+** Tags added: windows
+
+** Description changed:
+
+  QEMU release version=EF=BC=9A V5.1.0
+  time=EF=BC=9A2020=E5=B9=B47=E6=9C=8822=E6=97=A510:34:40
+  Operation: =E5=AE=89=E8=A3=85=E5=AE=8CUbuntu=E5=90=8E=E9=87=8D=E6=96=B0=
+=E5=90=AF=E5=8A=A8=EF=BC=8C=E5=B9=B6=E5=BC=B9=E5=87=BACMD=E5=91=BD=E4=BB=A4=
+=E6=8F=90=E7=A4=BA=E7=AC=A6
++ use Ubuntu release version =EF=BC=9AV20.04-desktop.
++ use windows release version: windows 10.
+  Question:
+  Command used=EF=BC=9Aqemu-system-x86_64.exe -name test -m 4096 -machine a=
+ccel=3Dhax -cdrom .\workspace\ubuntu\ubuntu-20.04-desktop-amd64.iso .\works=
+pace\img\ubuntu.img
+  HAX is working and emulator runs in fast virt mode.
+  *** BUG ***
+  In pixman_region32_init_rect: Invalid rectangle passed
+  Set a breakpoint on '_pixman_log_error' to debug
+  =
+
+  *** BUG ***
+  In pixman_region32_init_rect: Invalid rectangle passed
+  Set a breakpoint on '_pixman_log_error' to debug
+  =
+
+  *** BUG ***
+  In pixman_region32_init_rect: Invalid rectangle passed
+  Set a breakpoint on '_pixman_log_error' to debug
+  =
+
+  *** BUG ***
+  In pixman_region32_init_rect: Invalid rectangle passed
+  Set a breakpoint on '_pixman_log_error' to debug
+  =
+
+  *** BUG ***
+  In pixman_region32_init_rect: Invalid rectangle passed
+  Set a breakpoint on '_pixman_log_error' to debug
+  =
+
+  *** BUG ***
+  In pixman_region32_init_rect: Invalid rectangle passed
+  Set a breakpoint on '_pixman_log_error' to debug
+  =
+
+  *** BUG ***
+  In pixman_region32_init_rect: Invalid rectangle passed
+  Set a breakpoint on '_pixman_log_error' to debug
+  =
+
+  *** BUG ***
+  In pixman_region32_init_rect: Invalid rectangle passed
+  Set a breakpoint on '_pixman_log_error' to debug
+  =
+
+  *** BUG ***
+  In pixman_region32_init_rect: Invalid rectangle passed
+  Set a breakpoint on '_pixman_log_error' to debug
+  =
+
+  *** BUG ***
+  In pixman_region32_init_rect: Invalid rectangle passed
+  Set a breakpoint on '_pixman_log_error' to debug
+  =
+
+- =
+
+- (qemu:660): Gtk-WARNING **: Negative content width -7 (allocation 1, exte=
+nts 4x4) while allocating gadget (node headerbar, owner GtkHeaderBar)
++ (qemu:660): Gtk-WARNING **: Negative content width -7 (allocation 1,
++ extents 4x4) while allocating gadget (node headerbar, owner
++ GtkHeaderBar)
+  =
+
+  (qemu:660): Gtk-WARNING **: gtk_widget_size_allocate(): attempt to
+  allocate widget with width -102 and height 16
+  =
+
+  (qemu:660): Gtk-WARNING **: Negative content width -23 (allocation 1, ext=
+ents 12x12) while allocating gadget (node label, owner GtkLabel)
+  qemu-system-x86_64.exe: Gtk: gtk_distribute_natural_allocation: assertion=
+ 'extra_space >=3D 0' failed
+
+-- =
+
+You received this bug notification because you are a member of qemu-
+devel-ml, which is subscribed to QEMU.
+https://bugs.launchpad.net/bugs/1888492
+
+Title:
+  After installing Ubuntu, restart and pop up the CMD command prompt
+
+Status in QEMU:
+  New
+
+Bug description:
+  QEMU release version=EF=BC=9A V5.1.0
+  time=EF=BC=9A2020=E5=B9=B47=E6=9C=8822=E6=97=A510:34:40
+  Operation: =E5=AE=89=E8=A3=85=E5=AE=8CUbuntu=E5=90=8E=E9=87=8D=E6=96=B0=
+=E5=90=AF=E5=8A=A8=EF=BC=8C=E5=B9=B6=E5=BC=B9=E5=87=BACMD=E5=91=BD=E4=BB=A4=
+=E6=8F=90=E7=A4=BA=E7=AC=A6
+  use Ubuntu release version =EF=BC=9AV20.04-desktop.
+  use windows release version: windows 10.
+  Question:
+  Command used=EF=BC=9Aqemu-system-x86_64.exe -name test -m 4096 -machine a=
+ccel=3Dhax -cdrom .\workspace\ubuntu\ubuntu-20.04-desktop-amd64.iso .\works=
+pace\img\ubuntu.img
+  HAX is working and emulator runs in fast virt mode.
+  *** BUG ***
+  In pixman_region32_init_rect: Invalid rectangle passed
+  Set a breakpoint on '_pixman_log_error' to debug
+
+  *** BUG ***
+  In pixman_region32_init_rect: Invalid rectangle passed
+  Set a breakpoint on '_pixman_log_error' to debug
+
+  *** BUG ***
+  In pixman_region32_init_rect: Invalid rectangle passed
+  Set a breakpoint on '_pixman_log_error' to debug
+
+  *** BUG ***
+  In pixman_region32_init_rect: Invalid rectangle passed
+  Set a breakpoint on '_pixman_log_error' to debug
+
+  *** BUG ***
+  In pixman_region32_init_rect: Invalid rectangle passed
+  Set a breakpoint on '_pixman_log_error' to debug
+
+  *** BUG ***
+  In pixman_region32_init_rect: Invalid rectangle passed
+  Set a breakpoint on '_pixman_log_error' to debug
+
+  *** BUG ***
+  In pixman_region32_init_rect: Invalid rectangle passed
+  Set a breakpoint on '_pixman_log_error' to debug
+
+  *** BUG ***
+  In pixman_region32_init_rect: Invalid rectangle passed
+  Set a breakpoint on '_pixman_log_error' to debug
+
+  *** BUG ***
+  In pixman_region32_init_rect: Invalid rectangle passed
+  Set a breakpoint on '_pixman_log_error' to debug
+
+  *** BUG ***
+  In pixman_region32_init_rect: Invalid rectangle passed
+  Set a breakpoint on '_pixman_log_error' to debug
+
+  (qemu:660): Gtk-WARNING **: Negative content width -7 (allocation 1,
+  extents 4x4) while allocating gadget (node headerbar, owner
+  GtkHeaderBar)
+
+  (qemu:660): Gtk-WARNING **: gtk_widget_size_allocate(): attempt to
+  allocate widget with width -102 and height 16
+
+  (qemu:660): Gtk-WARNING **: Negative content width -23 (allocation 1, ext=
+ents 12x12) while allocating gadget (node label, owner GtkLabel)
+  qemu-system-x86_64.exe: Gtk: gtk_distribute_natural_allocation: assertion=
+ 'extra_space >=3D 0' failed
+
+To manage notifications about this bug go to:
+https://bugs.launchpad.net/qemu/+bug/1888492/+subscriptions
 
