@@ -2,67 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 85DC3229530
-	for <lists+qemu-devel@lfdr.de>; Wed, 22 Jul 2020 11:42:21 +0200 (CEST)
-Received: from localhost ([::1]:38954 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D8B5422957D
+	for <lists+qemu-devel@lfdr.de>; Wed, 22 Jul 2020 11:54:40 +0200 (CEST)
+Received: from localhost ([::1]:41492 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jyBGW-0005HM-K3
-	for lists+qemu-devel@lfdr.de; Wed, 22 Jul 2020 05:42:20 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:54806)
+	id 1jyBSR-0003se-V2
+	for lists+qemu-devel@lfdr.de; Wed, 22 Jul 2020 05:54:39 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:54870)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <frank.chang@sifive.com>)
- id 1jyAwB-000566-SQ
- for qemu-devel@nongnu.org; Wed, 22 Jul 2020 05:21:19 -0400
-Received: from mail-pf1-x42d.google.com ([2607:f8b0:4864:20::42d]:46554)
+ id 1jyAwI-0005Lx-QR
+ for qemu-devel@nongnu.org; Wed, 22 Jul 2020 05:21:26 -0400
+Received: from mail-pl1-x62f.google.com ([2607:f8b0:4864:20::62f]:36940)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <frank.chang@sifive.com>)
- id 1jyAwA-00061t-0N
- for qemu-devel@nongnu.org; Wed, 22 Jul 2020 05:21:19 -0400
-Received: by mail-pf1-x42d.google.com with SMTP id a23so850650pfk.13
- for <qemu-devel@nongnu.org>; Wed, 22 Jul 2020 02:21:17 -0700 (PDT)
+ id 1jyAwF-00062U-De
+ for qemu-devel@nongnu.org; Wed, 22 Jul 2020 05:21:26 -0400
+Received: by mail-pl1-x62f.google.com with SMTP id p1so656790pls.4
+ for <qemu-devel@nongnu.org>; Wed, 22 Jul 2020 02:21:22 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=sifive.com; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references;
- bh=rgRsumD+WyP+g+9ywiEhwYNS2OqBdlvEKjanU4B1RZU=;
- b=LtE6qf826ci3D7L3stHnLZ4IxQdcpNzXYKRjHxlMvlmy0w/BWZKmndqxLcrbOn5HVq
- z6e0pZnvfB2ErKm2AYLU/1yv3EBGifBf8MOBWYK0lwrZ7afkb1hCui08Mp4nloXrPknf
- tsf31SZjQDjYVaJtez8q+OoLMBBHrlkE+I+eU+pH3YnSeRACpkmtakgpoD0QrkMjn1UN
- GNGGyrKUIFz9l3MTabNXCwd6P3nU8N9/sBTs/fqCOqFJwUsDOjJUm2ZPPUQEfu0JItCA
- A6ojSUd8cjYOhQTOVoDuE74vY4SJquFecQWrmzdM9LSBSbccBj6E/6lchEHNz3oANly0
- l4Ig==
+ bh=59BWiZrmPRQuRcEmfLlUp8+VJfVUsYTl3vyGYCbvxMo=;
+ b=DW8VGy/u8HNcDzgL4u1IG/sTeSPjp0wgPD6QOlBXvlgeQwnXLzIWtzmcn7ckdVjAS8
+ yqZOIvJczRI7xzeK/K8THZB4WHtnufONVIRPVs15+67V5vwO45GDjA47bVHyOISbppol
+ KAJcV4cGqS3MbbAhAExCrJ8aq40KcC7KIp7uHDETnbFfunc0NgQtS0gpLXomtU6T1Z0b
+ l+YuluheBbbtgFMVku1g4k6SVqAnMCbuVt5meVMWOLfRIPCZpD6Hog7RL/AzhIYgJ5Eh
+ GSGrvq46QOly6xoNR1UW6kIqRy2ikgsd96ZdEYvI0pFNC5QOpDCaGCizU1Ha67b3M7ce
+ nNwA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references;
- bh=rgRsumD+WyP+g+9ywiEhwYNS2OqBdlvEKjanU4B1RZU=;
- b=HdNsJifTtp3Rr7FEHQD1KsF/EQShYG4hkqSLmBSOleSpJTTbU7koYb7c2PGn2Tm/jU
- lzDRMS5VNdKxVnhBS0yaLAYOfVKFWWfylOG3zmHhBGxW9vLcpGIJjjDnWAb7sQIX0Yuc
- qw4rWP9zSFbNM3WBFzxS+CuulCXuk9wKI7e0jfWBBWgfvv0GJQlkeiwKIklzv3WhMePH
- rovqKU3vGCHFsATC1Z+pGjYRMvHivLvXtwRyI3Ix+bagOBkra/+MC8PhK+PjxMXQMhVp
- a209IogWDRPOK+JPWeNyCMb+Dp8pNT3bPy4nRUCyBFAtB2Bugr5mP+jPr4BImiSRTPHJ
- 1uSA==
-X-Gm-Message-State: AOAM532LP49Kv4VLoWuhVHFM3D/F11nyA/Zeen2qZv6ZANYLXweOSodS
- UPFadLzBMCAnj01m5jnDadUIwPFXQaM=
-X-Google-Smtp-Source: ABdhPJzJAg1FBZ5yz5oMup7bXnqJFltT2P+fmSTrDrZimyZiFP4rPJJmx+/D7S2I3Q6KZ1MpVr91eg==
-X-Received: by 2002:a62:1ad6:: with SMTP id
- a205mr27235306pfa.109.1595409676608; 
- Wed, 22 Jul 2020 02:21:16 -0700 (PDT)
+ bh=59BWiZrmPRQuRcEmfLlUp8+VJfVUsYTl3vyGYCbvxMo=;
+ b=E13pZ7Vnqs9zA4a24aGTrfeAgBYt37k6k5TfIYLc53Z7uWWmCE/DRJpNIxFyxy0OC4
+ 7W2VyiHJv35iCpKI9dBQojybbMzbazwKxhnB2iKp9hLXT7OXyAowz3y60OW9twzZu30x
+ DfliwjQpWc5mnue88xNbdPJzlCkBvGWhWiAz5svCIgX3CKPqZzuzIb49vcfm6BKMx2LP
+ /tFVgh+wbcyWdJCNW2QY5t+xfU3gfHryFGOt7MH9LFvckotZ+tDc89042iOOzDEPcChd
+ q1bUGvAHOMLF+6Gt2Pl5rsj4uYihYFzla/9Bah0n7gOOC8UoEMtmkbl4lyWaZk0ldfgO
+ AGcQ==
+X-Gm-Message-State: AOAM533G1S0XZ5xEBZzQZt2k4JJl51njbHRtSFl+7jU/zAshoOTeRKY2
+ FaF+/7SK7b5TEj3vu3yEBDshx/z1gG0=
+X-Google-Smtp-Source: ABdhPJwD9dVVRqrh9a9dDtRhgIMUQafBtyHE5pQDLZd5IL9uU0j7nQdo5o5LYz3LoXb7jHm0aMz+/w==
+X-Received: by 2002:a17:90a:ef17:: with SMTP id
+ k23mr8230563pjz.45.1595409682007; 
+ Wed, 22 Jul 2020 02:21:22 -0700 (PDT)
 Received: from frankchang-ThinkPad-T490.internal.sifive.com
  (114-34-229-221.HINET-IP.hinet.net. [114.34.229.221])
- by smtp.gmail.com with ESMTPSA id c125sm22301879pfa.119.2020.07.22.02.21.14
+ by smtp.gmail.com with ESMTPSA id c125sm22301879pfa.119.2020.07.22.02.21.19
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 22 Jul 2020 02:21:16 -0700 (PDT)
+ Wed, 22 Jul 2020 02:21:21 -0700 (PDT)
 From: frank.chang@sifive.com
 To: qemu-devel@nongnu.org,
 	qemu-riscv@nongnu.org
-Subject: [RFC v2 52/76] fpu: implement full set compare for fp16
-Date: Wed, 22 Jul 2020 17:16:15 +0800
-Message-Id: <20200722091641.8834-53-frank.chang@sifive.com>
+Subject: [RFC v2 53/76] target/riscv: use softfloat lib float16 comparison
+ functions
+Date: Wed, 22 Jul 2020 17:16:16 +0800
+Message-Id: <20200722091641.8834-54-frank.chang@sifive.com>
 X-Mailer: git-send-email 2.17.1
 In-Reply-To: <20200722091641.8834-1-frank.chang@sifive.com>
 References: <20200722091641.8834-1-frank.chang@sifive.com>
-Received-SPF: pass client-ip=2607:f8b0:4864:20::42d;
- envelope-from=frank.chang@sifive.com; helo=mail-pf1-x42d.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::62f;
+ envelope-from=frank.chang@sifive.com; helo=mail-pl1-x62f.google.com
 X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
  That's all we know.
 X-Spam_score_int: -20
@@ -84,115 +85,65 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Maydell <peter.maydell@linaro.org>,
- Frank Chang <frank.chang@sifive.com>, Chih-Min Chao <chihmin.chao@sifive.com>,
- Kito Cheng <kito.cheng@sifive.com>,
- =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>,
- Aurelien Jarno <aurelien@aurel32.net>
+Cc: Frank Chang <frank.chang@sifive.com>,
+ Alistair Francis <Alistair.Francis@wdc.com>,
+ Palmer Dabbelt <palmer@dabbelt.com>,
+ Sagar Karandikar <sagark@eecs.berkeley.edu>,
+ Bastian Koppelmann <kbastian@mail.uni-paderborn.de>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Kito Cheng <kito.cheng@sifive.com>
+From: Frank Chang <frank.chang@sifive.com>
 
-Signed-off-by: Kito Cheng <kito.cheng@sifive.com>
-Signed-off-by: Chih-Min Chao <chihmin.chao@sifive.com>
 Signed-off-by: Frank Chang <frank.chang@sifive.com>
 ---
- fpu/softfloat.c         | 28 ++++++++++++++++++++++++++++
- include/fpu/softfloat.h | 41 +++++++++++++++++++++++++++++++++++++++++
- 2 files changed, 69 insertions(+)
+ target/riscv/vector_helper.c | 19 -------------------
+ 1 file changed, 19 deletions(-)
 
-diff --git a/fpu/softfloat.c b/fpu/softfloat.c
-index 79be4f5840..9c6640862e 100644
---- a/fpu/softfloat.c
-+++ b/fpu/softfloat.c
-@@ -401,6 +401,34 @@ float64_gen2(float64 xa, float64 xb, float_status *s,
-     return soft(ua.s, ub.s, s);
+diff --git a/target/riscv/vector_helper.c b/target/riscv/vector_helper.c
+index dc883e0352..95cce063d0 100644
+--- a/target/riscv/vector_helper.c
++++ b/target/riscv/vector_helper.c
+@@ -4197,12 +4197,6 @@ void HELPER(NAME)(void *vd, void *v0, void *vs1, void *vs2,   \
+     }                                                         \
  }
  
-+/*----------------------------------------------------------------------------
-+| Returns the fraction bits of the half-precision floating-point value `a'.
-+*----------------------------------------------------------------------------*/
-+
-+static inline uint32_t extractFloat16Frac(float16 a)
-+{
-+    return float16_val(a) & 0x3ff;
-+}
-+
-+/*----------------------------------------------------------------------------
-+| Returns the exponent bits of the half-precision floating-point value `a'.
-+*----------------------------------------------------------------------------*/
-+
-+static inline int extractFloat16Exp(float16 a)
-+{
-+    return (float16_val(a) >> 10) & 0x1f;
-+}
-+
-+/*----------------------------------------------------------------------------
-+| Returns the sign bit of the half-precision floating-point value `a'.
-+*----------------------------------------------------------------------------*/
-+
-+static inline bool extractFloat16Sign(float16 a)
-+{
-+    return float16_val(a) >> 15;
-+}
-+
-+
- /*----------------------------------------------------------------------------
- | Returns the fraction bits of the single-precision floating-point value `a'.
- *----------------------------------------------------------------------------*/
-diff --git a/include/fpu/softfloat.h b/include/fpu/softfloat.h
-index ff4e2605b1..267519cd65 100644
---- a/include/fpu/softfloat.h
-+++ b/include/fpu/softfloat.h
-@@ -285,6 +285,47 @@ static inline float16 float16_set_sign(float16 a, int sign)
-     return make_float16((float16_val(a) & 0x7fff) | (sign << 15));
- }
+-static bool float16_eq_quiet(uint16_t a, uint16_t b, float_status *s)
+-{
+-    FloatRelation compare = float16_compare_quiet(a, b, s);
+-    return compare == float_relation_equal;
+-}
+-
+ GEN_VEXT_CMP_VV_ENV(vmfeq_vv_h, uint16_t, H2, float16_eq_quiet)
+ GEN_VEXT_CMP_VV_ENV(vmfeq_vv_w, uint32_t, H4, float32_eq_quiet)
+ GEN_VEXT_CMP_VV_ENV(vmfeq_vv_d, uint64_t, H8, float64_eq_quiet)
+@@ -4258,12 +4252,6 @@ GEN_VEXT_CMP_VF(vmfne_vf_h, uint16_t, H2, vmfne16)
+ GEN_VEXT_CMP_VF(vmfne_vf_w, uint32_t, H4, vmfne32)
+ GEN_VEXT_CMP_VF(vmfne_vf_d, uint64_t, H8, vmfne64)
  
-+static inline bool float16_eq(float16 a, float16 b, float_status *s)
-+{
-+    return float16_compare(a, b, s) == float_relation_equal;
-+}
-+
-+static inline bool float16_le(float16 a, float16 b, float_status *s)
-+{
-+    return float16_compare(a, b, s) <= float_relation_equal;
-+}
-+
-+static inline bool float16_lt(float16 a, float16 b, float_status *s)
-+{
-+    return float16_compare(a, b, s) < float_relation_equal;
-+}
-+
-+static inline bool float16_unordered(float16 a, float16 b, float_status *s)
-+{
-+    return float16_compare(a, b, s) == float_relation_unordered;
-+}
-+
-+static inline bool float16_eq_quiet(float16 a, float16 b, float_status *s)
-+{
-+    return float16_compare_quiet(a, b, s) == float_relation_equal;
-+}
-+
-+static inline bool float16_le_quiet(float16 a, float16 b, float_status *s)
-+{
-+    return float16_compare_quiet(a, b, s) <= float_relation_equal;
-+}
-+
-+static inline bool float16_lt_quiet(float16 a, float16 b, float_status *s)
-+{
-+    return float16_compare_quiet(a, b, s) < float_relation_equal;
-+}
-+
-+static inline bool float16_unordered_quiet(float16 a, float16 b,
-+                                           float_status *s)
-+{
-+    return float16_compare_quiet(a, b, s) == float_relation_unordered;
-+}
-+
- #define float16_zero make_float16(0)
- #define float16_half make_float16(0x3800)
- #define float16_one make_float16(0x3c00)
+-static bool float16_lt(uint16_t a, uint16_t b, float_status *s)
+-{
+-    FloatRelation compare = float16_compare(a, b, s);
+-    return compare == float_relation_less;
+-}
+-
+ GEN_VEXT_CMP_VV_ENV(vmflt_vv_h, uint16_t, H2, float16_lt)
+ GEN_VEXT_CMP_VV_ENV(vmflt_vv_w, uint32_t, H4, float32_lt)
+ GEN_VEXT_CMP_VV_ENV(vmflt_vv_d, uint64_t, H8, float64_lt)
+@@ -4271,13 +4259,6 @@ GEN_VEXT_CMP_VF(vmflt_vf_h, uint16_t, H2, float16_lt)
+ GEN_VEXT_CMP_VF(vmflt_vf_w, uint32_t, H4, float32_lt)
+ GEN_VEXT_CMP_VF(vmflt_vf_d, uint64_t, H8, float64_lt)
+ 
+-static bool float16_le(uint16_t a, uint16_t b, float_status *s)
+-{
+-    FloatRelation compare = float16_compare(a, b, s);
+-    return compare == float_relation_less ||
+-           compare == float_relation_equal;
+-}
+-
+ GEN_VEXT_CMP_VV_ENV(vmfle_vv_h, uint16_t, H2, float16_le)
+ GEN_VEXT_CMP_VV_ENV(vmfle_vv_w, uint32_t, H4, float32_le)
+ GEN_VEXT_CMP_VV_ENV(vmfle_vv_d, uint64_t, H8, float64_le)
 -- 
 2.17.1
 
