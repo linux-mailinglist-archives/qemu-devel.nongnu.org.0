@@ -2,71 +2,72 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id DE6AB2290D6
-	for <lists+qemu-devel@lfdr.de>; Wed, 22 Jul 2020 08:30:52 +0200 (CEST)
-Received: from localhost ([::1]:55238 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 355FF2290F4
+	for <lists+qemu-devel@lfdr.de>; Wed, 22 Jul 2020 08:34:56 +0200 (CEST)
+Received: from localhost ([::1]:43310 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jy8HD-0000JN-VD
-	for lists+qemu-devel@lfdr.de; Wed, 22 Jul 2020 02:30:51 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:41302)
+	id 1jy8L9-0006tW-6p
+	for lists+qemu-devel@lfdr.de; Wed, 22 Jul 2020 02:34:55 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:41326)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1jy8Fe-00075j-7m
- for qemu-devel@nongnu.org; Wed, 22 Jul 2020 02:29:14 -0400
-Received: from mail-wr1-x441.google.com ([2a00:1450:4864:20::441]:39997)
+ id 1jy8Fg-0007AU-DH
+ for qemu-devel@nongnu.org; Wed, 22 Jul 2020 02:29:16 -0400
+Received: from mail-wm1-x342.google.com ([2a00:1450:4864:20::342]:37898)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1jy8Fc-0006ui-Kh
- for qemu-devel@nongnu.org; Wed, 22 Jul 2020 02:29:13 -0400
-Received: by mail-wr1-x441.google.com with SMTP id f2so699970wrp.7
- for <qemu-devel@nongnu.org>; Tue, 21 Jul 2020 23:29:12 -0700 (PDT)
+ id 1jy8Fe-0006vC-Tc
+ for qemu-devel@nongnu.org; Wed, 22 Jul 2020 02:29:16 -0400
+Received: by mail-wm1-x342.google.com with SMTP id f18so837617wml.3
+ for <qemu-devel@nongnu.org>; Tue, 21 Jul 2020 23:29:14 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=3SEE/U35Sk7kKQ9s+FBzHg3olOo/kk7QFWLZd3Yj4zo=;
- b=KIvG4tOsCATGg01BVhSb0xWejAqfS4NH7ZNobtUxrmYYxlrCpOzK0tJguGk8RAshxU
- 0CMvO4E7jOzdTJPyjPSFfcey/xMwrHz+i2ORhcEn2QzScZI9WYlRPKeOwPWSBr+9ziQC
- HETUBjeXDS6Qf4OoTQRfgJZxDXCDNgYYoTjjTzW6xOvGA3aL4BEMci/Lu1aMJBl3RlOl
- LOw3WRQInB5snrl8vxqUUQA9Njvc1EIzwl9Ygs3sogj6tL22zDUT4iDFnxEbxQKQyDCC
- bghkZzgeTH4Msv4FqHq+PVx9WUUt2Q0WwUNtSCzoioDq92n/s8rZ6UpdwBlU5r77821x
- g5uQ==
+ bh=UjtgMi3yK33ZjhmVkRGlgMB3WMVIed90Ngc7ulb8I7c=;
+ b=F9+l6cOYOB3MiOiDh5JXDMQ70OsszixR6C/OvcWj6quO1dKI6derFoOEOhHyEKfPFz
+ Eit2iB91yDBreCmGOz8kSlIVl09cvJ5ho7vwrhW3lGlZ27BkLORTFCpqFmGiksK/qqsk
+ FfxuREQa8EUAktPQ4+u5RlfQn3fQbEpbx0dLwp1pDnj0Dt/7P+HpoX7HKSkshl//6k1w
+ 6J5Xo+CKkeSSwb9lb870UfGReYkdJ21h6FsJDhbOjJEvVs+5ucHD9Mxeps8JdmgiKA42
+ 465ZwxAg7L2TmHw/240rdbK7QuG3W50rht8s5UDbaRlJZuSlM2rumzVILJKDTKJstxdP
+ f54Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=3SEE/U35Sk7kKQ9s+FBzHg3olOo/kk7QFWLZd3Yj4zo=;
- b=Cyf+LEQ5sCrpQkARbPkroOodMN6vTrlxRPSxp2waEEf7p1nEgVIcufcUX1Wh1MCb7n
- olLND6aD5zR8pnEpPvCKvHRihtdLPTcDJlfoB1XUXf+FL07tWsZA68PsoBE4B6tuY1it
- epDoWvCRB+0/G4oOajieu6v4b3E3Q2wgpgjRME0ry4HMetKtW7BGebx5YM8GiZwGis3x
- DQ72JQvUOLYxhMjcYHkUnXPEQHfLcYLYXhNs2FEOAOZb+EK3m2XgSN8izaodPizrOqsG
- tr2sO8yHkvacTPw9ONI//mGpACY1+yoPudcNYclbEPVwpeG3ClCmxnDBkRI/JPc8sFIw
- jJTg==
-X-Gm-Message-State: AOAM531drAA0OeCjShyU7EXgK+8kI4CnUoxxfUkh1xyumhIusyvOiOWu
- AzX5HxAjGZ7L/hvy6dNc4gulrA==
-X-Google-Smtp-Source: ABdhPJy3E7qc9Y3KH3mYnikQGjN/kRG1SBpTmUMJwjx9nERZ19VdbDAjA/9FMVrtd3zQnp7PPd07CA==
-X-Received: by 2002:a5d:6646:: with SMTP id f6mr14933699wrw.155.1595399351235; 
- Tue, 21 Jul 2020 23:29:11 -0700 (PDT)
+ bh=UjtgMi3yK33ZjhmVkRGlgMB3WMVIed90Ngc7ulb8I7c=;
+ b=Mk0F+vJD+zY8LekJxvw05wdyEOu9X1T7flxUtDblMq5KELJ3iV/NGinfbSVDgs8LTC
+ B0wW+Stl7SJks8DXMKvsv35n9+F8bYqPpV53397hHCt7cTHfzCV6wUVeyl0PA7sk3xt6
+ wOTzJpHmATkLXmTo4Bw8t93c4/attVtHx0jbpC3af8sQbbh1vctknUqH9APqF3Xmstqt
+ ouyZ7+wnE87s8khNzGilSz0RA+QZ4RPi9nr92BSJuF40kWCiadImi6vrQZW7QuRfsqCf
+ lUCLmdMkhyFct00I4j5MG36hlPRmUmSu2924i1tdGyLyL03eXY39qHbdFDl5FhqRiaxy
+ eElQ==
+X-Gm-Message-State: AOAM530tPP/51DuL5N6lvYXf2hHbYNK9W2XO8jtAHfomQpEAeAJWeK62
+ 3ox89w7E8VyO++TmfoIbmlnXlw==
+X-Google-Smtp-Source: ABdhPJzj/cxSWlnClphOoG2kHsrh4fM/Y6VUr/jSzMd/1izruW9cbILADXaK4DmHqh3sT9TPpNSFvw==
+X-Received: by 2002:a1c:dd86:: with SMTP id u128mr7085401wmg.123.1595399353628; 
+ Tue, 21 Jul 2020 23:29:13 -0700 (PDT)
 Received: from zen.linaroharston ([51.148.130.216])
- by smtp.gmail.com with ESMTPSA id x18sm39876727wrq.13.2020.07.21.23.29.03
+ by smtp.gmail.com with ESMTPSA id j8sm24537574wrd.85.2020.07.21.23.29.05
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 21 Jul 2020 23:29:08 -0700 (PDT)
+ Tue, 21 Jul 2020 23:29:09 -0700 (PDT)
 Received: from zen.lan (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id 5AE6C1FF90;
+ by zen.linaroharston (Postfix) with ESMTP id 7172A1FF91;
  Wed, 22 Jul 2020 07:29:03 +0100 (BST)
 From: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PATCH  v2 04/12] util: add qemu_get_host_physmem utility function
-Date: Wed, 22 Jul 2020 07:28:54 +0100
-Message-Id: <20200722062902.24509-5-alex.bennee@linaro.org>
+Subject: [PATCH v2 05/12] util/oslib-win32: add qemu_get_host_physmem
+ implementation
+Date: Wed, 22 Jul 2020 07:28:55 +0100
+Message-Id: <20200722062902.24509-6-alex.bennee@linaro.org>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20200722062902.24509-1-alex.bennee@linaro.org>
 References: <20200722062902.24509-1-alex.bennee@linaro.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::441;
- envelope-from=alex.bennee@linaro.org; helo=mail-wr1-x441.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::342;
+ envelope-from=alex.bennee@linaro.org; helo=mail-wm1-x342.google.com
 X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
  That's all we know.
 X-Spam_score_int: -20
@@ -90,94 +91,51 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
 Cc: fam@euphon.net, berrange@redhat.com,
  =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>,
- richard.henderson@linaro.org, f4bug@amsat.org,
- Christian Ehrhardt <christian.ehrhardt@canonical.com>, cota@braap.org,
- Stefan Weil <sw@weilnetz.de>, Paolo Bonzini <pbonzini@redhat.com>,
- aurelien@aurel32.net
+ richard.henderson@linaro.org, f4bug@amsat.org, cota@braap.org,
+ Stefan Weil <sw@weilnetz.de>, aurelien@aurel32.net
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-This will be used in a future patch. For POSIX systems _SC_PHYS_PAGES
-isn't standardised but at least appears in the man pages for
-Open/FreeBSD. The result is advisory so any users of it shouldn't just
-fail if we can't work it out.
+It seems GetPhysicallyInstalledSystemMemory isn't available in the
+MinGW headers so we have to declare it ourselves. Compile tested only.
 
-The win32 stub currently returns 0 until someone with a Windows system
-can develop and test a patch.
-
+Cc: Stefan Weil <sw@weilnetz.de>
 Signed-off-by: Alex Bennée <alex.bennee@linaro.org>
-Cc: BALATON Zoltan <balaton@eik.bme.hu>
-Cc: Christian Ehrhardt <christian.ehrhardt@canonical.com>
-Message-Id: <20200717105139.25293-5-alex.bennee@linaro.org>
-
 ---
-v2
-  - fix agnostic typo
-  - saturate to SIZE_MAX rather than overflow
----
- include/qemu/osdep.h | 12 ++++++++++++
- util/oslib-posix.c   | 15 +++++++++++++++
- util/oslib-win32.c   |  6 ++++++
- 3 files changed, 33 insertions(+)
+ util/oslib-win32.c | 15 +++++++++++++--
+ 1 file changed, 13 insertions(+), 2 deletions(-)
 
-diff --git a/include/qemu/osdep.h b/include/qemu/osdep.h
-index 4841b5c6b5f..e44547fb33e 100644
---- a/include/qemu/osdep.h
-+++ b/include/qemu/osdep.h
-@@ -665,4 +665,16 @@ static inline void qemu_reset_optind(void)
-  */
- char *qemu_get_host_name(Error **errp);
- 
-+/**
-+ * qemu_get_host_physmem:
-+ *
-+ * Operating system agnostic way of querying host memory.
-+ *
-+ * Returns amount of physical memory on the system. This is purely
-+ * advisery and may return 0 if we can't work it out. At the other
-+ * end we saturate to SIZE_MAX if you are lucky enough to have that
-+ * much memory.
-+ */
-+size_t qemu_get_host_physmem(void);
-+
- #endif
-diff --git a/util/oslib-posix.c b/util/oslib-posix.c
-index d9236746248..ad8001a4ad8 100644
---- a/util/oslib-posix.c
-+++ b/util/oslib-posix.c
-@@ -841,3 +841,18 @@ char *qemu_get_host_name(Error **errp)
- 
-     return g_steal_pointer(&hostname);
- }
-+
-+size_t qemu_get_host_physmem(void)
-+{
-+#ifdef _SC_PHYS_PAGES
-+    long pages = sysconf(_SC_PHYS_PAGES);
-+    if (pages > 0) {
-+        if (pages > SIZE_MAX / qemu_real_host_page_size) {
-+            return SIZE_MAX;
-+        } else {
-+            return pages * qemu_real_host_page_size;
-+        }
-+    }
-+#endif
-+    return 0;
-+}
 diff --git a/util/oslib-win32.c b/util/oslib-win32.c
-index 7eedbe5859a..31030463cc9 100644
+index 31030463cc9..f0f94833197 100644
 --- a/util/oslib-win32.c
 +++ b/util/oslib-win32.c
-@@ -828,3 +828,9 @@ char *qemu_get_host_name(Error **errp)
+@@ -43,6 +43,8 @@
+ /* this must come after including "trace.h" */
+ #include <shlobj.h>
  
-     return g_utf16_to_utf8(tmp, size, NULL, NULL, NULL);
- }
++WINBASEAPI BOOL WINAPI GetPhysicallyInstalledSystemMemory (PULONGLONG);
 +
-+size_t qemu_get_host_physmem(void)
-+{
-+    /* currently unimplemented */
-+    return 0;
-+}
+ void *qemu_oom_check(void *ptr)
+ {
+     if (ptr == NULL) {
+@@ -831,6 +833,15 @@ char *qemu_get_host_name(Error **errp)
+ 
+ size_t qemu_get_host_physmem(void)
+ {
+-    /* currently unimplemented */
+-    return 0;
++    ULONGLONG mem;
++
++    if (GetPhysicallyInstalledSystemMemory(&mem)) {
++        if (mem > SIZE_MAX) {
++            return SIZE_MAX;
++        } else {
++            return mem;
++        }
++    } else {
++        return 0;
++    }
+ }
 -- 
 2.20.1
 
