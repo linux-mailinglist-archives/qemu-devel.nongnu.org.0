@@ -2,67 +2,67 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 39BB222951A
-	for <lists+qemu-devel@lfdr.de>; Wed, 22 Jul 2020 11:39:30 +0200 (CEST)
-Received: from localhost ([::1]:53446 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 44F8E2294F4
+	for <lists+qemu-devel@lfdr.de>; Wed, 22 Jul 2020 11:31:25 +0200 (CEST)
+Received: from localhost ([::1]:37624 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jyBDl-00086S-9A
-	for lists+qemu-devel@lfdr.de; Wed, 22 Jul 2020 05:39:29 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:54104)
+	id 1jyB5w-0007DM-98
+	for lists+qemu-devel@lfdr.de; Wed, 22 Jul 2020 05:31:24 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:54246)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <frank.chang@sifive.com>)
- id 1jyAvE-0002lz-2B
- for qemu-devel@nongnu.org; Wed, 22 Jul 2020 05:20:20 -0400
-Received: from mail-pj1-x1042.google.com ([2607:f8b0:4864:20::1042]:38982)
+ id 1jyAvQ-00038S-Ay
+ for qemu-devel@nongnu.org; Wed, 22 Jul 2020 05:20:32 -0400
+Received: from mail-pj1-x1044.google.com ([2607:f8b0:4864:20::1044]:54176)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <frank.chang@sifive.com>)
- id 1jyAvC-0005jH-75
- for qemu-devel@nongnu.org; Wed, 22 Jul 2020 05:20:19 -0400
-Received: by mail-pj1-x1042.google.com with SMTP id b92so865665pjc.4
- for <qemu-devel@nongnu.org>; Wed, 22 Jul 2020 02:20:17 -0700 (PDT)
+ id 1jyAvO-0005oL-9g
+ for qemu-devel@nongnu.org; Wed, 22 Jul 2020 05:20:32 -0400
+Received: by mail-pj1-x1044.google.com with SMTP id a9so866829pjd.3
+ for <qemu-devel@nongnu.org>; Wed, 22 Jul 2020 02:20:29 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=sifive.com; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references;
- bh=mA6WmTq0HAeTWVW9JADPKdrVVOFarnUnoSrrLmA/A+I=;
- b=Wti7+Qy45b3jYHs9Xy8mbgqEGdSM7BFOtliljG7BXGEWbbMK9RJiWprcnalthE2p6m
- O+q1HOouRAZSiJvCz1/9cYhInm+VKZ+myABMGLP2lugHqqV7iWSlrswkFtTENQ3XcgzC
- 6p7DEF42AdDLD4JIeEKNtqfAnGq1jt/26isQm04kNEgI0FYp4jFGUz0ikSY51yQ3CJOe
- vyVJ8E1P/iNx2KkumbGYh0CL1+l/mkNRSDEZEvqtjxYKnJzmSiwqQ2r+bt9zn2rALPZp
- B3XKS7U2Ro22lDkfSbe3YwftGsvBHpYbDGRufotqwzyjDRdhCl2oqXOG3KD9hyv0Hnlp
- ewTg==
+ bh=RsjYqEd04rZOwTgEVDJRj2EjmbnjKZAUxlfDmSey2n4=;
+ b=QMqHoraymo6ZHu3en9HR9qnl7q2fRz62DP7dLa+JFXPOwP/34xN9hdEVaEJ+XQPKH3
+ iiUAnMaZLam1BhEYlWRC88C2ouxKbhW36tC1DmLyjU18agmLuF2Szyole/yvK+eykDCe
+ nR7TBcatauOBPCOMmSIh08gNkXg6EJEi+YeJOSzOHsVrZAnc5oagnlZmuo9DiaTGpQBW
+ +h3tXd8LF4XozNQur8grG9iYEeccQS8DvE2k9utbMWWCYJyhHTMgqoMipLwS47sJaBES
+ +9amxzx9GhoqE7OU2UeYBDisS879BCMXina7IqV2je/2brCvcOkcDa05HUO6JuSMl585
+ TpPA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references;
- bh=mA6WmTq0HAeTWVW9JADPKdrVVOFarnUnoSrrLmA/A+I=;
- b=MQYlRwQ3cLGgf5rrLvitHwmRyCjszd0mDqToCUIIgrIiNUs2fyCw0eaHUlW7l7atFq
- Wx7sWRuiv7cbZnGTz1NQ5ihisKrykFYEb5QpQqkqZwiuzpMb+1TLzTiCwNN1gpIrs6lI
- pRE4sgE9olbawsROGafMYDtExUi74mIQv/j3UZsbMSzBQ/evgwHwtE97+ydJhREbFIrf
- e3YODixitPM0SfB0l0C7hiMHdMkDK3sCLMKWayzNPoXOCev/WMC8yOIBUs40kaQdQ6pd
- qcnggS/cgCMH2qmcuNFY5RhJ1lHBdvZYEXvsfNb/zuhJWpsI2C/S11X38qZcIS88nWmF
- xpSw==
-X-Gm-Message-State: AOAM532VlQPeb4nXgvHxaj2KL2I4pakvk1ei6Wjop8TmnWeht/pJWnLX
- dQB9Qqmh1RVDA6tr2BE3D1cKXqoMDbU=
-X-Google-Smtp-Source: ABdhPJxawJijz3GoSVgY68jv8xFhHGiVxhuOumLtsecuLmof5ZIi1Fr6ayu3ousgh+c38+o70/jIUg==
-X-Received: by 2002:a17:90a:cc:: with SMTP id v12mr8357277pjd.96.1595409616905; 
- Wed, 22 Jul 2020 02:20:16 -0700 (PDT)
+ bh=RsjYqEd04rZOwTgEVDJRj2EjmbnjKZAUxlfDmSey2n4=;
+ b=nWJ1WCpez3R+T9PH2gzUz/LJ+ipK6anyoR1xcT+lk9zHRgjirPKLnZ/ViAgHULqS/d
+ fOCzCYq+/OjLsJZ4vq4PB3J2CiS1ZeD9sPZHQT7vOe61XfY/MN47bbj2MFnwUXWo5c0G
+ PtRT0raWwI6NmqywyKIXT60b5++vioHDhzME3vITmeh1+WxD8ool03PCkmgE0j37j81m
+ kWtj3DV3N09v/kzNvLFceaosH/60vFUTJgZbwdlIp3JdzJY6Z0Vwg0tWuRxiXQyBmw31
+ V7HGqIJTT7rkvqZ/JgOMELh1eDygB/o4/g5gBiFYmX+AvLceaqgesSCHu5rYR9xxyswP
+ v3Qw==
+X-Gm-Message-State: AOAM532govsEqD9oDkcOqGRESQEJxZcmHCVnN8086NSkeEKE6gkyxaVU
+ TgxTuLAXDBgBCIR+DLWC89EydP//n5Y=
+X-Google-Smtp-Source: ABdhPJywhaIt7+yrWBwlfZyqEcv6IC9+qMUk6Jj/gZi5Uasgn7SIfSpzT03acDxT8QRD8vom7lQFww==
+X-Received: by 2002:a17:902:b205:: with SMTP id
+ t5mr26305231plr.7.1595409628847; 
+ Wed, 22 Jul 2020 02:20:28 -0700 (PDT)
 Received: from frankchang-ThinkPad-T490.internal.sifive.com
  (114-34-229-221.HINET-IP.hinet.net. [114.34.229.221])
- by smtp.gmail.com with ESMTPSA id c125sm22301879pfa.119.2020.07.22.02.20.14
+ by smtp.gmail.com with ESMTPSA id c125sm22301879pfa.119.2020.07.22.02.20.26
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 22 Jul 2020 02:20:16 -0700 (PDT)
+ Wed, 22 Jul 2020 02:20:28 -0700 (PDT)
 From: frank.chang@sifive.com
 To: qemu-devel@nongnu.org,
 	qemu-riscv@nongnu.org
-Subject: [RFC v2 37/76] target/riscv: rvv-0.9: allow load element with
- sign-extended
-Date: Wed, 22 Jul 2020 17:16:00 +0800
-Message-Id: <20200722091641.8834-38-frank.chang@sifive.com>
+Subject: [RFC v2 40/76] target/riscv: rvv-0.9: floating-point move instruction
+Date: Wed, 22 Jul 2020 17:16:03 +0800
+Message-Id: <20200722091641.8834-41-frank.chang@sifive.com>
 X-Mailer: git-send-email 2.17.1
 In-Reply-To: <20200722091641.8834-1-frank.chang@sifive.com>
 References: <20200722091641.8834-1-frank.chang@sifive.com>
-Received-SPF: pass client-ip=2607:f8b0:4864:20::1042;
- envelope-from=frank.chang@sifive.com; helo=mail-pj1-x1042.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::1044;
+ envelope-from=frank.chang@sifive.com; helo=mail-pj1-x1044.google.com
 X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
  That's all we know.
 X-Spam_score_int: -20
@@ -71,7 +71,7 @@ X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
  DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- URIBL_BLOCKED=0.001 autolearn=ham autolearn_force=no
+ URIBL_BLOCKED=0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -95,73 +95,47 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Frank Chang <frank.chang@sifive.com>
 
-For some vector instructions (e.g. vmv.s.x), the element is loaded with
-sign-extended.
+NaN-boxed the scalar floating-point register based on RVV 0.9's rules.
 
 Signed-off-by: Frank Chang <frank.chang@sifive.com>
 ---
- target/riscv/insn_trans/trans_rvv.inc.c | 26 ++++++++++++++++++-------
- 1 file changed, 19 insertions(+), 7 deletions(-)
+ target/riscv/insn_trans/trans_rvv.inc.c | 16 +++++++++++++++-
+ 1 file changed, 15 insertions(+), 1 deletion(-)
 
 diff --git a/target/riscv/insn_trans/trans_rvv.inc.c b/target/riscv/insn_trans/trans_rvv.inc.c
-index 3834aca9ab..6b4b7f6574 100644
+index 780f8660bf..54c08ea1f8 100644
 --- a/target/riscv/insn_trans/trans_rvv.inc.c
 +++ b/target/riscv/insn_trans/trans_rvv.inc.c
-@@ -3097,17 +3097,29 @@ static bool trans_vid_v(DisasContext *s, arg_vid_v *a)
- /* Integer Extract Instruction */
- 
- static void load_element(TCGv_i64 dest, TCGv_ptr base,
--                         int ofs, int sew)
-+                         int ofs, int sew, bool sign)
+@@ -2722,6 +2722,7 @@ GEN_OPFVF_TRANS(vfmerge_vfm,  opfvf_check)
+ static bool trans_vfmv_v_f(DisasContext *s, arg_vfmv_v_f *a)
  {
-     switch (sew) {
-     case MO_8:
--        tcg_gen_ld8u_i64(dest, base, ofs);
-+        if (!sign) {
-+            tcg_gen_ld8u_i64(dest, base, ofs);
-+        } else {
-+            tcg_gen_ld8s_i64(dest, base, ofs);
-+        }
-         break;
-     case MO_16:
--        tcg_gen_ld16u_i64(dest, base, ofs);
-+        if (!sign) {
-+            tcg_gen_ld16u_i64(dest, base, ofs);
-+        } else {
-+            tcg_gen_ld16s_i64(dest, base, ofs);
-+        }
-         break;
-     case MO_32:
--        tcg_gen_ld32u_i64(dest, base, ofs);
-+        if (!sign) {
-+            tcg_gen_ld32u_i64(dest, base, ofs);
-+        } else {
-+            tcg_gen_ld32s_i64(dest, base, ofs);
-+        }
-         break;
-     case MO_64:
-         tcg_gen_ld_i64(dest, base, ofs);
-@@ -3162,7 +3174,7 @@ static void vec_element_loadx(DisasContext *s, TCGv_i64 dest,
+     if (require_rvv(s) &&
++        has_ext(s, RVF) &&
+         vext_check_isa_ill(s) &&
+         require_align(a->rd, s->flmul) &&
+         (s->sew != 0)) {
+@@ -2744,7 +2745,20 @@ static bool trans_vfmv_v_f(DisasContext *s, arg_vfmv_v_f *a)
+             dest = tcg_temp_new_ptr();
+             desc = tcg_const_i32(simd_desc(0, s->vlen / 8, data));
+             tcg_gen_addi_ptr(dest, cpu_env, vreg_ofs(s, a->rd));
+-            fns[s->sew - 1](dest, cpu_fpr[a->rs1], cpu_env, desc);
++
++            if ((s->sew < MO_64 && has_ext(s, RVD)) ||
++                (s->sew < MO_32)) {
++                /* SEW < FLEN */
++                TCGv_i64 t1 = tcg_temp_new_i64();
++                TCGv_i32 sew = tcg_const_i32(1 << (s->sew + 3));
++                gen_helper_narrower_nanbox_fpr(t1, cpu_fpr[a->rs1],
++                                               sew, cpu_env);
++                fns[s->sew - 1](dest, t1, cpu_env, desc);
++                tcg_temp_free_i64(t1);
++                tcg_temp_free_i32(sew);
++            } else {
++                fns[s->sew - 1](dest, cpu_fpr[a->rs1], cpu_env, desc);
++            }
  
-     /* Perform the load. */
-     load_element(dest, base,
--                 vreg_ofs(s, vreg), s->sew);
-+                 vreg_ofs(s, vreg), s->sew, false);
-     tcg_temp_free_ptr(base);
-     tcg_temp_free_i32(ofs);
- 
-@@ -3180,9 +3192,9 @@ static void vec_element_loadx(DisasContext *s, TCGv_i64 dest,
- }
- 
- static void vec_element_loadi(DisasContext *s, TCGv_i64 dest,
--                              int vreg, int idx)
-+                              int vreg, int idx, bool sign)
- {
--    load_element(dest, cpu_env, endian_ofs(s, vreg, idx), s->sew);
-+    load_element(dest, cpu_env, endian_ofs(s, vreg, idx), s->sew, sign);
- }
- 
- static bool trans_vext_x_v(DisasContext *s, arg_r *a)
+             tcg_temp_free_ptr(dest);
+             tcg_temp_free_i32(desc);
 -- 
 2.17.1
 
