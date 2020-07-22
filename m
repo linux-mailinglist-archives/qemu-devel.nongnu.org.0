@@ -2,64 +2,64 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 834C8228ECA
-	for <lists+qemu-devel@lfdr.de>; Wed, 22 Jul 2020 05:55:02 +0200 (CEST)
-Received: from localhost ([::1]:37626 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id BDB17228ED6
+	for <lists+qemu-devel@lfdr.de>; Wed, 22 Jul 2020 05:57:17 +0200 (CEST)
+Received: from localhost ([::1]:46468 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jy5qP-0003Cc-H3
-	for lists+qemu-devel@lfdr.de; Tue, 21 Jul 2020 23:55:01 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:43588)
+	id 1jy5sa-0006qA-TH
+	for lists+qemu-devel@lfdr.de; Tue, 21 Jul 2020 23:57:16 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:43652)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <bauerman@linux.ibm.com>)
- id 1jy5o3-0007NQ-Ub; Tue, 21 Jul 2020 23:52:35 -0400
-Received: from mx0a-001b2d01.pphosted.com ([148.163.156.1]:61406)
+ id 1jy5oA-0007cd-Af; Tue, 21 Jul 2020 23:52:42 -0400
+Received: from mx0a-001b2d01.pphosted.com ([148.163.156.1]:57456)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <bauerman@linux.ibm.com>)
- id 1jy5o2-00042x-2N; Tue, 21 Jul 2020 23:52:35 -0400
-Received: from pps.filterd (m0187473.ppops.net [127.0.0.1])
+ id 1jy5o8-000445-81; Tue, 21 Jul 2020 23:52:42 -0400
+Received: from pps.filterd (m0098394.ppops.net [127.0.0.1])
  by mx0a-001b2d01.pphosted.com (8.16.0.42/8.16.0.42) with SMTP id
- 06M3WZvE140269; Tue, 21 Jul 2020 23:52:13 -0400
+ 06M3X2LB030452; Tue, 21 Jul 2020 23:52:19 -0400
 Received: from pps.reinject (localhost [127.0.0.1])
- by mx0a-001b2d01.pphosted.com with ESMTP id 32bvqw7gfv-1
+ by mx0a-001b2d01.pphosted.com with ESMTP id 32e11mw7vu-1
  (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Tue, 21 Jul 2020 23:52:13 -0400
-Received: from m0187473.ppops.net (m0187473.ppops.net [127.0.0.1])
- by pps.reinject (8.16.0.36/8.16.0.36) with SMTP id 06M3WuY5140990;
- Tue, 21 Jul 2020 23:52:12 -0400
-Received: from ppma02wdc.us.ibm.com (aa.5b.37a9.ip4.static.sl-reverse.com
- [169.55.91.170])
- by mx0a-001b2d01.pphosted.com with ESMTP id 32bvqw7gfe-1
+ Tue, 21 Jul 2020 23:52:19 -0400
+Received: from m0098394.ppops.net (m0098394.ppops.net [127.0.0.1])
+ by pps.reinject (8.16.0.36/8.16.0.36) with SMTP id 06M3kbui085318;
+ Tue, 21 Jul 2020 23:52:19 -0400
+Received: from ppma03wdc.us.ibm.com (ba.79.3fa9.ip4.static.sl-reverse.com
+ [169.63.121.186])
+ by mx0a-001b2d01.pphosted.com with ESMTP id 32e11mw7vg-1
  (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Tue, 21 Jul 2020 23:52:12 -0400
-Received: from pps.filterd (ppma02wdc.us.ibm.com [127.0.0.1])
- by ppma02wdc.us.ibm.com (8.16.0.42/8.16.0.42) with SMTP id 06M3pEej008617;
- Wed, 22 Jul 2020 03:52:11 GMT
-Received: from b01cxnp23032.gho.pok.ibm.com (b01cxnp23032.gho.pok.ibm.com
- [9.57.198.27]) by ppma02wdc.us.ibm.com with ESMTP id 32brq98r96-1
+ Tue, 21 Jul 2020 23:52:19 -0400
+Received: from pps.filterd (ppma03wdc.us.ibm.com [127.0.0.1])
+ by ppma03wdc.us.ibm.com (8.16.0.42/8.16.0.42) with SMTP id 06M3pEOJ018825;
+ Wed, 22 Jul 2020 03:52:17 GMT
+Received: from b01cxnp22036.gho.pok.ibm.com (b01cxnp22036.gho.pok.ibm.com
+ [9.57.198.26]) by ppma03wdc.us.ibm.com with ESMTP id 32brq98t8x-1
  (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Wed, 22 Jul 2020 03:52:11 +0000
+ Wed, 22 Jul 2020 03:52:17 +0000
 Received: from b01ledav005.gho.pok.ibm.com (b01ledav005.gho.pok.ibm.com
  [9.57.199.110])
- by b01cxnp23032.gho.pok.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
- 06M3qBd453477664
+ by b01cxnp22036.gho.pok.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
+ 06M3qHGm41615636
  (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Wed, 22 Jul 2020 03:52:11 GMT
+ Wed, 22 Jul 2020 03:52:17 GMT
 Received: from b01ledav005.gho.pok.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id EE31FAE05C;
- Wed, 22 Jul 2020 03:52:10 +0000 (GMT)
+ by IMSVA (Postfix) with ESMTP id 4C829AE062;
+ Wed, 22 Jul 2020 03:52:17 +0000 (GMT)
 Received: from b01ledav005.gho.pok.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id 50911AE060;
- Wed, 22 Jul 2020 03:52:05 +0000 (GMT)
+ by IMSVA (Postfix) with ESMTP id 77245AE060;
+ Wed, 22 Jul 2020 03:52:11 +0000 (GMT)
 Received: from morokweng.localdomain.com (unknown [9.163.58.88])
  by b01ledav005.gho.pok.ibm.com (Postfix) with ESMTP;
- Wed, 22 Jul 2020 03:52:05 +0000 (GMT)
+ Wed, 22 Jul 2020 03:52:11 +0000 (GMT)
 From: Thiago Jung Bauermann <bauerman@linux.ibm.com>
 To: qemu-ppc@nongnu.org
-Subject: [RFC PATCH v2 8/9] sparc/sun4m: Use one cpu_reset() function for main
- and secondary CPUs
-Date: Wed, 22 Jul 2020 00:50:15 -0300
-Message-Id: <20200722035016.469075-9-bauerman@linux.ibm.com>
+Subject: [RFC PATCH v2 9/9] target/s390x: Use start-powered-off CPUState
+ property
+Date: Wed, 22 Jul 2020 00:50:16 -0300
+Message-Id: <20200722035016.469075-10-bauerman@linux.ibm.com>
 X-Mailer: git-send-email 2.26.2
 In-Reply-To: <20200722035016.469075-1-bauerman@linux.ibm.com>
 References: <20200722035016.469075-1-bauerman@linux.ibm.com>
@@ -70,15 +70,15 @@ X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:6.0.235, 18.0.687
  definitions=2020-07-22_01:2020-07-21,
  2020-07-21 signatures=0
 X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- mlxlogscore=999 spamscore=0
- bulkscore=0 impostorscore=0 malwarescore=0 mlxscore=0 lowpriorityscore=0
- suspectscore=1 adultscore=0 clxscore=1015 phishscore=0 priorityscore=1501
- classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2006250000
- definitions=main-2007220022
+ suspectscore=1
+ impostorscore=0 phishscore=0 bulkscore=0 mlxlogscore=967
+ priorityscore=1501 spamscore=0 malwarescore=0 clxscore=1015 mlxscore=0
+ adultscore=0 lowpriorityscore=0 classifier=spam adjust=0 reason=mlx
+ scancount=1 engine=8.12.0-2006250000 definitions=main-2007220022
 Received-SPF: pass client-ip=148.163.156.1;
  envelope-from=bauerman@linux.ibm.com; helo=mx0a-001b2d01.pphosted.com
 X-detected-operating-system: by eggs.gnu.org: First seen = 2020/07/21 23:51:27
-X-ACL-Warn: Detected OS   = Linux 3.1-3.10 [fuzzy]
+X-ACL-Warn: Detected OS   = Linux 3.x [generic] [fuzzy]
 X-Spam_score_int: -35
 X-Spam_score: -3.6
 X-Spam_bar: ---
@@ -112,62 +112,30 @@ Cc: Thiago Jung Bauermann <bauerman@linux.ibm.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-If we rely on cpu_common_reset() setting CPUState::halted according to the
-start-powered-off property, both reset functions become equivalent and we
-can use only one.
+Instead of setting CPUState::halted to 1 in s390_cpu_initfn(), use the
+start-powered-off property which makes cpu_common_reset() initialize it to
+1 in common code.
 
 Signed-off-by: Thiago Jung Bauermann <bauerman@linux.ibm.com>
 ---
- hw/sparc/sun4m.c | 21 ++++-----------------
- 1 file changed, 4 insertions(+), 17 deletions(-)
+ target/s390x/cpu.c | 3 ++-
+ 1 file changed, 2 insertions(+), 1 deletion(-)
 
 NB: I was only able to test that this patch builds. I wasn't able to
 run it.
 
-diff --git a/hw/sparc/sun4m.c b/hw/sparc/sun4m.c
-index 7b3042a801..deb5e9f027 100644
---- a/hw/sparc/sun4m.c
-+++ b/hw/sparc/sun4m.c
-@@ -218,16 +218,7 @@ static void dummy_cpu_set_irq(void *opaque, int irq, int level)
- {
- }
+diff --git a/target/s390x/cpu.c b/target/s390x/cpu.c
+index 08eb674d22..d3a14af1d9 100644
+--- a/target/s390x/cpu.c
++++ b/target/s390x/cpu.c
+@@ -291,7 +291,8 @@ static void s390_cpu_initfn(Object *obj)
+     S390CPU *cpu = S390_CPU(obj);
  
--static void main_cpu_reset(void *opaque)
--{
--    SPARCCPU *cpu = opaque;
--    CPUState *cs = CPU(cpu);
--
--    cpu_reset(cs);
--    cs->halted = 0;
--}
--
--static void secondary_cpu_reset(void *opaque)
-+static void sun4m_cpu_reset(void *opaque)
- {
-     SPARCCPU *cpu = opaque;
-     CPUState *cs = CPU(cpu);
-@@ -818,7 +809,6 @@ static const TypeInfo ram_info = {
- static void cpu_devinit(const char *cpu_type, unsigned int id,
-                         uint64_t prom_addr, qemu_irq **cpu_irqs)
- {
--    CPUState *cs;
-     SPARCCPU *cpu;
-     CPUSPARCState *env;
- 
-@@ -826,12 +816,9 @@ static void cpu_devinit(const char *cpu_type, unsigned int id,
-     env = &cpu->env;
- 
-     cpu_sparc_set_id(env, id);
--    if (id == 0) {
--        qemu_register_reset(main_cpu_reset, cpu);
--    } else {
--        qemu_register_reset(secondary_cpu_reset, cpu);
--        cs = CPU(cpu);
--        object_property_set_bool(OBJECT(cs), "start-powered-off", true,
-+    qemu_register_reset(sun4m_cpu_reset, cpu);
-+    if (id != 0) {
-+        object_property_set_bool(OBJECT(cpu), "start-powered-off", true,
-                                  &error_abort);
-     }
-     *cpu_irqs = qemu_allocate_irqs(cpu_set_irq, cpu, MAX_PILS);
+     cpu_set_cpustate_pointers(cpu);
+-    cs->halted = 1;
++    object_property_set_bool(OBJECT(cs), "start-powered-off", true,
++                             &error_abort);
+     cs->exception_index = EXCP_HLT;
+ #if !defined(CONFIG_USER_ONLY)
+     object_property_add(obj, "crash-information", "GuestPanicInformation",
 
