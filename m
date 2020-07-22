@@ -2,67 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E2728229531
-	for <lists+qemu-devel@lfdr.de>; Wed, 22 Jul 2020 11:42:27 +0200 (CEST)
-Received: from localhost ([::1]:39668 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0A3C122953F
+	for <lists+qemu-devel@lfdr.de>; Wed, 22 Jul 2020 11:45:35 +0200 (CEST)
+Received: from localhost ([::1]:57264 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jyBGc-0005Ya-Tp
-	for lists+qemu-devel@lfdr.de; Wed, 22 Jul 2020 05:42:26 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:55188)
+	id 1jyBJd-0004A7-Tu
+	for lists+qemu-devel@lfdr.de; Wed, 22 Jul 2020 05:45:33 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:55230)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <frank.chang@sifive.com>)
- id 1jyAwq-0006TR-9P
- for qemu-devel@nongnu.org; Wed, 22 Jul 2020 05:22:00 -0400
-Received: from mail-pg1-x543.google.com ([2607:f8b0:4864:20::543]:44040)
+ id 1jyAwv-0006Yf-7Z
+ for qemu-devel@nongnu.org; Wed, 22 Jul 2020 05:22:05 -0400
+Received: from mail-pj1-x1029.google.com ([2607:f8b0:4864:20::1029]:34889)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <frank.chang@sifive.com>)
- id 1jyAwo-00068D-Gh
- for qemu-devel@nongnu.org; Wed, 22 Jul 2020 05:22:00 -0400
-Received: by mail-pg1-x543.google.com with SMTP id j19so864116pgm.11
- for <qemu-devel@nongnu.org>; Wed, 22 Jul 2020 02:21:58 -0700 (PDT)
+ id 1jyAws-00068q-Pt
+ for qemu-devel@nongnu.org; Wed, 22 Jul 2020 05:22:04 -0400
+Received: by mail-pj1-x1029.google.com with SMTP id f16so879755pjt.0
+ for <qemu-devel@nongnu.org>; Wed, 22 Jul 2020 02:22:01 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=sifive.com; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references;
- bh=kgevnvu183fosxsa31Scb7niGRVtkpmcq30ar5EP818=;
- b=bUe06ltLaIMDmQ9hzJJmGBvHWxL9E6Ga4WqmJoDrv1iugDhw0XF0VXtWetQEYwjqFH
- f+1zlv73SdAKQJZy6hAUjLPk7egBmX24bm7diaAgwOiN5pqws/HQsNZCazTp/dlbr7rf
- Ug5qbE/K9+2u0XNzwmmGI1MAZpQkI6WiVqsQJKcC1rHW5/iiLYWANgYCAb2mCQSR8KJx
- ykkBM+kNGJBYUmxfkGeXJ6apeXq06ri4b94zPrw/YqGhcclgZojr+vD4R+c+txlnafbm
- yr8GpTsD92Fi3UZCfCugsNW2H2ntPVzEjFMWVn7lXRCNSK3uKT0kPwimiRv4R6VqjM76
- MIGA==
+ bh=6dsPvMVzHsJABh7xGBvaDWgI0xunFGRz6/WHgzy8toI=;
+ b=Hqee3IIbrbU7SgY2cti+lZCMReNAianILVcLsmKK6FWMrZgUKLdwWBuAwtWhZI92vp
+ kDnA+tVBHQBkl3ymCqTCUfIXA7rQcWAWx0k8O2276W+7LaJuS4L39kIa1psjuwDKM8sQ
+ DapVwlDH2dh/lxQZW0QenRPQWgtD/H/XLrghMKNGtwIbtcS+V/BsM+bujFg/5aka4ot/
+ lYyPi9ayRK1co7FLEgpF68sWFRBCMEIBw+I1wkjlSiymwtRtNbADBo+1SimdRwKKXCxL
+ JgGeAjMlFXcEuxoAkQgny4mhPukjPAX8FG8qy8kX9O+c6FtSj98j0bLnogbEguDlG3xR
+ VHpA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references;
- bh=kgevnvu183fosxsa31Scb7niGRVtkpmcq30ar5EP818=;
- b=PnggFuwzECLqyZfN2MxaACpftMkm0DF4SPffHUU2PimFG/iwOzrxXIrLXRRO4cBwoO
- NroXCO9RJG914pc4l+wQ7AYPgBoKpeDp1vSYBAqeEEcA3on0QgmLUInLgORCZGwmyVhc
- dyPPMILzJXFMAZu11NgsdIVmMUqS5O8L6nxDO6e6TrcgDwXaHbiGFMxMgIe94tVgUrsM
- eid/UkzTrBIzXNVcgc3QuEhyhvTdaYIg1crViDgCgHxJDoYAHHSV0yKu+wFl5ePtvEdt
- 4ICZtLMF3xrZaVAsWzNUEvh8Sb3a5go6o4CX/oYKl11jyWEFAu2YtKHxhSOdBFERC0Vp
- RAQA==
-X-Gm-Message-State: AOAM533SMI6sKqxC7PW1K4symNg5kEBLas8a69FMKvxAoSig2vFv4/nA
- 6801ffZ7l5dxLQugJFamIKA3cbroE4Q=
-X-Google-Smtp-Source: ABdhPJyb9rD3sNaA/k2li3wr315NqPjhAPtSfzHkn1hoMOA75t+D29Qt8pG/+BLOgMmHk1ojzAig7A==
-X-Received: by 2002:a65:5c08:: with SMTP id u8mr27180403pgr.184.1595409716806; 
- Wed, 22 Jul 2020 02:21:56 -0700 (PDT)
+ bh=6dsPvMVzHsJABh7xGBvaDWgI0xunFGRz6/WHgzy8toI=;
+ b=FVcFHD/e8gP5I98k90ZahsBRHqtQXGD4DcbrzJsE0Ew8h8plQUy0/0CGkDIfUMtSuH
+ m6Xhn3qSFvVcZFbnlXDrm1Ceyz3d6ZoWJcug5ElA3BUjzF4nnfVAEK78PeKAhIqM6Wxo
+ aJCU+R9uoFOPOn/Gupd4NntXo0sTARuwn6BhXHyN2W7XIrAUsFFgsMXeqjrXA+M8C7hl
+ SZ2stIyA5EhvLJocTwIK/Akg0RWcogr5enxnqZ5YcNY8PvOfArCtwgGWQCZOPEHb8JPI
+ zdhSTnBILvQS3UZ0RUtbdHLTkENyhrRiu0STFQqyjm2DxIvdjbeIATMflnZD2jQAW4L6
+ NKXA==
+X-Gm-Message-State: AOAM533Oeo22tbV3oTX+2vrBXYafydJNJWk7C3eeO/5XjppvHL/hbK7O
+ hX1aT51x/IvvZ9FpClUy0JD0P8BRk7E=
+X-Google-Smtp-Source: ABdhPJziDrxIuaxE17ResbUr9xJDZfqQeXzqYbFacv47gZXkutpezyqyI3IkY05nww6ml8nkMLV5hQ==
+X-Received: by 2002:a17:902:6842:: with SMTP id
+ f2mr10817507pln.281.1595409720683; 
+ Wed, 22 Jul 2020 02:22:00 -0700 (PDT)
 Received: from frankchang-ThinkPad-T490.internal.sifive.com
  (114-34-229-221.HINET-IP.hinet.net. [114.34.229.221])
- by smtp.gmail.com with ESMTPSA id c125sm22301879pfa.119.2020.07.22.02.21.54
+ by smtp.gmail.com with ESMTPSA id c125sm22301879pfa.119.2020.07.22.02.21.58
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 22 Jul 2020 02:21:56 -0700 (PDT)
+ Wed, 22 Jul 2020 02:22:00 -0700 (PDT)
 From: frank.chang@sifive.com
 To: qemu-devel@nongnu.org,
 	qemu-riscv@nongnu.org
-Subject: [RFC v2 62/76] target/riscv: rvv-0.9: single-width floating-point
- reduction
-Date: Wed, 22 Jul 2020 17:16:25 +0800
-Message-Id: <20200722091641.8834-63-frank.chang@sifive.com>
+Subject: [RFC v2 63/76] target/riscv: rvv-0.9: widening floating-point
+ reduction instructions
+Date: Wed, 22 Jul 2020 17:16:26 +0800
+Message-Id: <20200722091641.8834-64-frank.chang@sifive.com>
 X-Mailer: git-send-email 2.17.1
 In-Reply-To: <20200722091641.8834-1-frank.chang@sifive.com>
 References: <20200722091641.8834-1-frank.chang@sifive.com>
-Received-SPF: pass client-ip=2607:f8b0:4864:20::543;
- envelope-from=frank.chang@sifive.com; helo=mail-pg1-x543.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::1029;
+ envelope-from=frank.chang@sifive.com; helo=mail-pj1-x1029.google.com
 X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
  That's all we know.
 X-Spam_score_int: -20
@@ -95,222 +96,177 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Frank Chang <frank.chang@sifive.com>
 
-Separate the implementation of vfredsum.vs and vfredosum.vs.
+Separate the implementation of vfwredsum.vs and vfwredosum.vs.
 
-Introduce propagate NaN feature for vfredsum.vs as implementations are
-permitted to canonicalize the NaN and, if the NaN is signaling, set
-the invalid exception flag.
+Introduce propagate NaN feature for vfwredsum.vs as implementations are
+permitted to canonicalize the NaN and, if the NaN is signaling, set the
+invalid exception flag.
 
 Signed-off-by: Frank Chang <frank.chang@sifive.com>
 ---
- target/riscv/helper.h                   |   3 +
- target/riscv/insn32.decode              |   3 +-
- target/riscv/insn_trans/trans_rvv.inc.c |   1 +
- target/riscv/vector_helper.c            | 144 +++++++++++++++++++-----
- 4 files changed, 120 insertions(+), 31 deletions(-)
+ target/riscv/helper.h                   |  2 +
+ target/riscv/insn32.decode              |  3 +-
+ target/riscv/insn_trans/trans_rvv.inc.c |  3 +-
+ target/riscv/vector_helper.c            | 71 +++++++++++++++++++++++--
+ 4 files changed, 73 insertions(+), 6 deletions(-)
 
 diff --git a/target/riscv/helper.h b/target/riscv/helper.h
-index 318fe643f4..6957a98237 100644
+index 6957a98237..cfe9baa253 100644
 --- a/target/riscv/helper.h
 +++ b/target/riscv/helper.h
-@@ -1066,6 +1066,9 @@ DEF_HELPER_6(vwredsum_vs_w, void, ptr, ptr, ptr, ptr, env, i32)
- DEF_HELPER_6(vfredsum_vs_h, void, ptr, ptr, ptr, ptr, env, i32)
- DEF_HELPER_6(vfredsum_vs_w, void, ptr, ptr, ptr, ptr, env, i32)
- DEF_HELPER_6(vfredsum_vs_d, void, ptr, ptr, ptr, ptr, env, i32)
-+DEF_HELPER_6(vfredosum_vs_h, void, ptr, ptr, ptr, ptr, env, i32)
-+DEF_HELPER_6(vfredosum_vs_w, void, ptr, ptr, ptr, ptr, env, i32)
-+DEF_HELPER_6(vfredosum_vs_d, void, ptr, ptr, ptr, ptr, env, i32)
- DEF_HELPER_6(vfredmax_vs_h, void, ptr, ptr, ptr, ptr, env, i32)
- DEF_HELPER_6(vfredmax_vs_w, void, ptr, ptr, ptr, ptr, env, i32)
- DEF_HELPER_6(vfredmax_vs_d, void, ptr, ptr, ptr, ptr, env, i32)
+@@ -1078,6 +1078,8 @@ DEF_HELPER_6(vfredmin_vs_d, void, ptr, ptr, ptr, ptr, env, i32)
+ 
+ DEF_HELPER_6(vfwredsum_vs_h, void, ptr, ptr, ptr, ptr, env, i32)
+ DEF_HELPER_6(vfwredsum_vs_w, void, ptr, ptr, ptr, ptr, env, i32)
++DEF_HELPER_6(vfwredosum_vs_h, void, ptr, ptr, ptr, ptr, env, i32)
++DEF_HELPER_6(vfwredosum_vs_w, void, ptr, ptr, ptr, ptr, env, i32)
+ 
+ DEF_HELPER_6(vmand_mm, void, ptr, ptr, ptr, ptr, env, i32)
+ DEF_HELPER_6(vmnand_mm, void, ptr, ptr, ptr, ptr, env, i32)
 diff --git a/target/riscv/insn32.decode b/target/riscv/insn32.decode
-index e4b36af89e..0fe46c10c2 100644
+index 0fe46c10c2..e32946b1f5 100644
 --- a/target/riscv/insn32.decode
 +++ b/target/riscv/insn32.decode
-@@ -575,7 +575,8 @@ vredmax_vs      000111 . ..... ..... 010 ..... 1010111 @r_vm
- vwredsumu_vs    110000 . ..... ..... 000 ..... 1010111 @r_vm
- vwredsum_vs     110001 . ..... ..... 000 ..... 1010111 @r_vm
- # Vector ordered and unordered reduction sum
--vfredsum_vs     0000-1 . ..... ..... 001 ..... 1010111 @r_vm
-+vfredsum_vs     000001 . ..... ..... 001 ..... 1010111 @r_vm
-+vfredosum_vs    000011 . ..... ..... 001 ..... 1010111 @r_vm
+@@ -580,7 +580,8 @@ vfredosum_vs    000011 . ..... ..... 001 ..... 1010111 @r_vm
  vfredmin_vs     000101 . ..... ..... 001 ..... 1010111 @r_vm
  vfredmax_vs     000111 . ..... ..... 001 ..... 1010111 @r_vm
  # Vector widening ordered and unordered float reduction sum
+-vfwredsum_vs    1100-1 . ..... ..... 001 ..... 1010111 @r_vm
++vfwredsum_vs    110001 . ..... ..... 001 ..... 1010111 @r_vm
++vfwredosum_vs   110011 . ..... ..... 001 ..... 1010111 @r_vm
+ vmand_mm        011001 - ..... ..... 010 ..... 1010111 @r
+ vmnand_mm       011101 - ..... ..... 010 ..... 1010111 @r
+ vmandnot_mm     011000 - ..... ..... 010 ..... 1010111 @r
 diff --git a/target/riscv/insn_trans/trans_rvv.inc.c b/target/riscv/insn_trans/trans_rvv.inc.c
-index c1fc168043..37eee6cf97 100644
+index 37eee6cf97..10d8b8b00d 100644
 --- a/target/riscv/insn_trans/trans_rvv.inc.c
 +++ b/target/riscv/insn_trans/trans_rvv.inc.c
-@@ -3011,6 +3011,7 @@ GEN_OPIVV_WIDEN_TRANS(vwredsumu_vs, reduction_widen_check)
- 
- /* Vector Single-Width Floating-Point Reduction Instructions */
- GEN_OPFVV_TRANS(vfredsum_vs, reduction_check)
-+GEN_OPFVV_TRANS(vfredosum_vs, reduction_check)
- GEN_OPFVV_TRANS(vfredmax_vs, reduction_check)
+@@ -3016,7 +3016,8 @@ GEN_OPFVV_TRANS(vfredmax_vs, reduction_check)
  GEN_OPFVV_TRANS(vfredmin_vs, reduction_check)
  
+ /* Vector Widening Floating-Point Reduction Instructions */
+-GEN_OPFVV_WIDEN_TRANS(vfwredsum_vs, reduction_check)
++GEN_OPFVV_WIDEN_TRANS(vfwredsum_vs, reduction_widen_check)
++GEN_OPFVV_WIDEN_TRANS(vfwredosum_vs, reduction_widen_check)
+ 
+ /*
+  *** Vector Mask Operations
 diff --git a/target/riscv/vector_helper.c b/target/riscv/vector_helper.c
-index bbd3be527c..8465aec94e 100644
+index 8465aec94e..2b2b1f521f 100644
 --- a/target/riscv/vector_helper.c
 +++ b/target/riscv/vector_helper.c
-@@ -4682,43 +4682,127 @@ GEN_VEXT_RED(vwredsumu_vs_h, uint32_t, uint16_t, H4, H2, DO_ADD)
- GEN_VEXT_RED(vwredsumu_vs_w, uint64_t, uint32_t, H8, H4, DO_ADD)
- 
- /* Vector Single-Width Floating-Point Reduction Instructions */
--#define GEN_VEXT_FRED(NAME, TD, TS2, HD, HS2, OP, CLEAR_FN)\
--void HELPER(NAME)(void *vd, void *v0, void *vs1,           \
--                  void *vs2, CPURISCVState *env,           \
--                  uint32_t desc)                           \
--{                                                          \
--    uint32_t vm = vext_vm(desc);                           \
--    uint32_t vta = vext_vta(desc);                         \
--    uint32_t vl = env->vl;                                 \
--    uint32_t i;                                            \
--    uint32_t tot = env_archcpu(env)->cfg.vlen / 8;         \
--    TD s1 =  *((TD *)vs1 + HD(0));                         \
--                                                           \
--    for (i = 0; i < vl; i++) {                             \
--        TS2 s2 = *((TS2 *)vs2 + HS2(i));                   \
--        if (!vm && !vext_elem_mask(v0, i)) {               \
--            continue;                                      \
--        }                                                  \
--        s1 = OP(s1, (TD)s2, &env->fp_status);              \
--    }                                                      \
--    *((TD *)vd + HD(0)) = s1;                              \
--    CLEAR_FN(vd, vta, 1, sizeof(TD), tot);                 \
-+
-+/*
-+ * If f is NaN, return SEW-bit canonical NaN.
-+ * Set the invalid exception flag if f is a sNaN.
-+ */
-+static uint64_t propagate_nan(uint64_t f, uint32_t sew, float_status *s)
-+{
-+    target_ulong ret;
-+
-+    switch (sew) {
-+    case 16:
-+        ret = fclass_h(f);
-+        /* check if f is NaN */
-+        if (ret & 0x300) {
-+            /* check if f is a sNaN */
-+            if (ret & 0x100) {
-+                s->float_exception_flags |= float_flag_invalid;
-+            }
-+            /* return canonical NaN */
-+            return float16_default_nan(s);
-+        } else {
-+            return f;
-+        }
-+        break;
-+    case 32:
-+        ret = fclass_s(f);
-+        /* check if f is NaN */
-+        if (ret & 0x300) {
-+            /* check if f is a sNaN */
-+            if (ret & 0x100) {
-+                s->float_exception_flags |= float_flag_invalid;
-+            }
-+            /* return canonical NaN */
-+            return float32_default_nan(s);
-+        } else {
-+            return f;
-+        }
-+        break;
-+    case 64:
-+        ret = fclass_d(f);
-+        /* check if f is NaN */
-+        if (ret & 0x300) {
-+            /* check if f is a sNaN */
-+            if (ret & 0x100) {
-+                s->float_exception_flags |= float_flag_invalid;
-+            }
-+            /* return canonical NaN */
-+            return float64_default_nan(s);
-+        } else {
-+            return f;
-+        }
-+        break;
-+    default:
-+        g_assert_not_reached();
-+    }
- }
- 
-+#define GEN_VEXT_FRED(NAME, TD, TS2, HD, HS2, PROPAGATE_NAN, OP, CLEAR_FN) \
-+void HELPER(NAME)(void *vd, void *v0, void *vs1,                           \
-+                  void *vs2, CPURISCVState *env,                           \
-+                  uint32_t desc)                                           \
-+{                                                                          \
-+    uint32_t vm = vext_vm(desc);                                           \
-+    uint32_t vta = vext_vta(desc);                                         \
-+    uint32_t vl = env->vl;                                                 \
-+    uint32_t i;                                                            \
-+    uint32_t tot = env_archcpu(env)->cfg.vlen >> 3;                        \
-+    bool active = false;                                                   \
-+    TD s1 = *((TD *)vs1 + HD(0));                                          \
-+                                                                           \
-+    for (i = 0; i < vl; i++) {                                             \
-+        TS2 s2 = *((TS2 *)vs2 + HS2(i));                                   \
-+        if (!vm && !vext_elem_mask(v0, i)) {                               \
-+            continue;                                                      \
-+        }                                                                  \
-+        active = true;                                                     \
-+        s1 = OP(s1, (TD)s2, &env->fp_status);                              \
-+    }                                                                      \
-+                                                                           \
-+    if (vl > 0) {                                                          \
-+        if (PROPAGATE_NAN && !active) {                                    \
-+            *((TD *)vd + HD(0)) = propagate_nan(s1, sizeof(TD) * 8,        \
-+                                                &env->fp_status);          \
-+        } else {                                                           \
-+            *((TD *)vd + HD(0)) = s1;                                      \
-+        }                                                                  \
-+    }                                                                      \
-+    CLEAR_FN(vd, vta, 1, sizeof(TD), tot);                                 \
-+}
-+
-+/* Ordered sum */
-+GEN_VEXT_FRED(vfredosum_vs_h, uint16_t, uint16_t, H2, H2, false,
-+              float16_add, clearh)
-+GEN_VEXT_FRED(vfredosum_vs_w, uint32_t, uint32_t, H4, H4, false,
-+              float32_add, clearl)
-+GEN_VEXT_FRED(vfredosum_vs_d, uint64_t, uint64_t, H8, H8, false,
-+              float64_add, clearq)
-+
- /* Unordered sum */
--GEN_VEXT_FRED(vfredsum_vs_h, uint16_t, uint16_t, H2, H2, float16_add, clearh)
--GEN_VEXT_FRED(vfredsum_vs_w, uint32_t, uint32_t, H4, H4, float32_add, clearl)
--GEN_VEXT_FRED(vfredsum_vs_d, uint64_t, uint64_t, H8, H8, float64_add, clearq)
-+GEN_VEXT_FRED(vfredsum_vs_h, uint16_t, uint16_t, H2, H2, true,
-+              float16_add, clearh)
-+GEN_VEXT_FRED(vfredsum_vs_w, uint32_t, uint32_t, H4, H4, true,
-+              float32_add, clearl)
-+GEN_VEXT_FRED(vfredsum_vs_d, uint64_t, uint64_t, H8, H8, true,
-+              float64_add, clearq)
- 
- /* Maximum value */
--GEN_VEXT_FRED(vfredmax_vs_h, uint16_t, uint16_t, H2, H2, float16_maxnum, clearh)
--GEN_VEXT_FRED(vfredmax_vs_w, uint32_t, uint32_t, H4, H4, float32_maxnum, clearl)
--GEN_VEXT_FRED(vfredmax_vs_d, uint64_t, uint64_t, H8, H8, float64_maxnum, clearq)
-+GEN_VEXT_FRED(vfredmax_vs_h, uint16_t, uint16_t, H2, H2, false,
-+              float16_maxnum_noprop, clearh)
-+GEN_VEXT_FRED(vfredmax_vs_w, uint32_t, uint32_t, H4, H4, false,
-+              float32_maxnum_noprop, clearl)
-+GEN_VEXT_FRED(vfredmax_vs_d, uint64_t, uint64_t, H8, H8, false,
-+              float64_maxnum_noprop, clearq)
- 
- /* Minimum value */
--GEN_VEXT_FRED(vfredmin_vs_h, uint16_t, uint16_t, H2, H2, float16_minnum, clearh)
--GEN_VEXT_FRED(vfredmin_vs_w, uint32_t, uint32_t, H4, H4, float32_minnum, clearl)
--GEN_VEXT_FRED(vfredmin_vs_d, uint64_t, uint64_t, H8, H8, float64_minnum, clearq)
-+GEN_VEXT_FRED(vfredmin_vs_h, uint16_t, uint16_t, H2, H2, false,
-+              float16_minnum_noprop, clearh)
-+GEN_VEXT_FRED(vfredmin_vs_w, uint32_t, uint32_t, H4, H4, false,
-+              float32_minnum_noprop, clearl)
-+GEN_VEXT_FRED(vfredmin_vs_d, uint64_t, uint64_t, H8, H8, false,
-+              float64_minnum_noprop, clearq)
+@@ -4805,6 +4805,51 @@ GEN_VEXT_FRED(vfredmin_vs_d, uint64_t, uint64_t, H8, H8, false,
+               float64_minnum_noprop, clearq)
  
  /* Vector Widening Floating-Point Reduction Instructions */
++/* Ordered reduce 2*SEW = 2*SEW + sum(promote(SEW)) */
++void HELPER(vfwredosum_vs_h)(void *vd, void *v0, void *vs1,
++                             void *vs2, CPURISCVState *env, uint32_t desc)
++{
++    uint32_t vm = vext_vm(desc);
++    uint32_t vta = vext_vta(desc);
++    uint32_t vl = env->vl;
++    uint32_t i;
++    uint32_t tot = env_archcpu(env)->cfg.vlen >> 3;
++    uint32_t s1 =  *((uint32_t *)vs1 + H4(0));
++
++    for (i = 0; i < vl; i++) {
++        uint16_t s2 = *((uint16_t *)vs2 + H2(i));
++        if (!vm && !vext_elem_mask(v0, i)) {
++            continue;
++        }
++        s1 = float32_add(s1, float16_to_float32(s2, true, &env->fp_status),
++                         &env->fp_status);
++    }
++    *((uint32_t *)vd + H4(0)) = s1;
++    clearl(vd, vta, 1, sizeof(uint32_t), tot);
++}
++
++void HELPER(vfwredosum_vs_w)(void *vd, void *v0, void *vs1,
++                             void *vs2, CPURISCVState *env, uint32_t desc)
++{
++    uint32_t vm = vext_vm(desc);
++    uint32_t vta = vext_vta(desc);
++    uint32_t vl = env->vl;
++    uint32_t i;
++    uint32_t tot = env_archcpu(env)->cfg.vlen >> 3;
++    uint64_t s1 =  *((uint64_t *)vs1);
++
++    for (i = 0; i < vl; i++) {
++        uint32_t s2 = *((uint32_t *)vs2 + H4(i));
++        if (!vm && !vext_elem_mask(v0, i)) {
++            continue;
++        }
++        s1 = float64_add(s1, float32_to_float64(s2, &env->fp_status),
++                         &env->fp_status);
++    }
++    *((uint64_t *)vd) = s1;
++    clearq(vd, vta, 1, sizeof(uint64_t), tot);
++}
++
  /* Unordered reduce 2*SEW = 2*SEW + sum(promote(SEW)) */
+ void HELPER(vfwredsum_vs_h)(void *vd, void *v0, void *vs1,
+                             void *vs2, CPURISCVState *env, uint32_t desc)
+@@ -4813,18 +4858,27 @@ void HELPER(vfwredsum_vs_h)(void *vd, void *v0, void *vs1,
+     uint32_t vta = vext_vta(desc);
+     uint32_t vl = env->vl;
+     uint32_t i;
+-    uint32_t tot = env_archcpu(env)->cfg.vlen / 8;
++    uint32_t tot = env_archcpu(env)->cfg.vlen >> 3;
+     uint32_t s1 =  *((uint32_t *)vs1 + H4(0));
++    bool active = false;
+ 
+     for (i = 0; i < vl; i++) {
+         uint16_t s2 = *((uint16_t *)vs2 + H2(i));
+         if (!vm && !vext_elem_mask(v0, i)) {
+             continue;
+         }
++        active = true;
+         s1 = float32_add(s1, float16_to_float32(s2, true, &env->fp_status),
+                          &env->fp_status);
+     }
+-    *((uint32_t *)vd + H4(0)) = s1;
++
++    if (vl > 0) {
++        if (!active) {
++            *((uint32_t *)vd + H4(0)) = propagate_nan(s1, 32, &env->fp_status);
++        } else {
++            *((uint32_t *)vd + H4(0)) = s1;
++        }
++    }
+     clearl(vd, vta, 1, sizeof(uint32_t), tot);
+ }
+ 
+@@ -4835,18 +4889,27 @@ void HELPER(vfwredsum_vs_w)(void *vd, void *v0, void *vs1,
+     uint32_t vta = vext_vta(desc);
+     uint32_t vl = env->vl;
+     uint32_t i;
+-    uint32_t tot = env_archcpu(env)->cfg.vlen / 8;
++    uint32_t tot = env_archcpu(env)->cfg.vlen >> 3;
+     uint64_t s1 =  *((uint64_t *)vs1);
++    bool active = false;                                                   \
+ 
+     for (i = 0; i < vl; i++) {
+         uint32_t s2 = *((uint32_t *)vs2 + H4(i));
+         if (!vm && !vext_elem_mask(v0, i)) {
+             continue;
+         }
++        active = true;
+         s1 = float64_add(s1, float32_to_float64(s2, &env->fp_status),
+                          &env->fp_status);
+     }
+-    *((uint64_t *)vd) = s1;
++
++    if (vl > 0) {
++        if (!active) {
++            *((uint64_t *)vd) = propagate_nan(s1, 64, &env->fp_status);
++        } else {
++            *((uint64_t *)vd) = s1;
++        }
++    }
+     clearq(vd, vta, 1, sizeof(uint64_t), tot);
+ }
+ 
 -- 
 2.17.1
 
