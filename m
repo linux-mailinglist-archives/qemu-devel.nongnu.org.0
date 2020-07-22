@@ -2,114 +2,140 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6EB2C22920F
-	for <lists+qemu-devel@lfdr.de>; Wed, 22 Jul 2020 09:23:31 +0200 (CEST)
-Received: from localhost ([::1]:50886 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id EFEFB229214
+	for <lists+qemu-devel@lfdr.de>; Wed, 22 Jul 2020 09:25:38 +0200 (CEST)
+Received: from localhost ([::1]:53288 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jy96A-0001km-Hm
-	for lists+qemu-devel@lfdr.de; Wed, 22 Jul 2020 03:23:30 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:53686)
+	id 1jy98E-0002pG-2d
+	for lists+qemu-devel@lfdr.de; Wed, 22 Jul 2020 03:25:38 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:54274)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1jy95J-00016e-7t
- for qemu-devel@nongnu.org; Wed, 22 Jul 2020 03:22:37 -0400
-Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:21224
- helo=us-smtp-1.mimecast.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1jy95G-0006Fr-K9
- for qemu-devel@nongnu.org; Wed, 22 Jul 2020 03:22:36 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1595402554;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
- bh=Voy1Dk6k2QdCie982rx41zKGzP7KxX19Wo/i1Q/B+c8=;
- b=gJiJP4LrhaBQjHP05U3eLUSM5KBklaGGpm3I1hCEF2BmzGUWahiq8tipDR+vQJZm0zRXk7
- /mibUdJkcYHYsqlvtcc8kIhLiovJkqbYFShY8sxZ6vZwPvkrL5gPZrHXrllKVlfi8tUjrz
- ZfZ6WQ/64/2xaA8DiexbYl7DSFbCTHE=
-Received: from mail-ej1-f69.google.com (mail-ej1-f69.google.com
- [209.85.218.69]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-412-qBROmvvTNrKInga6OBRRoA-1; Wed, 22 Jul 2020 03:22:32 -0400
-X-MC-Unique: qBROmvvTNrKInga6OBRRoA-1
-Received: by mail-ej1-f69.google.com with SMTP id e7so646520ejj.10
- for <qemu-devel@nongnu.org>; Wed, 22 Jul 2020 00:22:31 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:autocrypt
- :message-id:date:user-agent:mime-version:in-reply-to
- :content-language:content-transfer-encoding;
- bh=Voy1Dk6k2QdCie982rx41zKGzP7KxX19Wo/i1Q/B+c8=;
- b=o9wX0j+OoEV4BUiNby/bDXLHiQ5jld/6NbYU/psRBQ0l+9JKNf9Hy5InXeeZ+TQuWY
- MeOymHoiFyCBqxsMFsT8HcAj01sdTj8tnhhIUF4ePoK6Z15XkPMoYiUTy+J16Y2FYT+X
- GAk5cKFZsTGsfarS42OcIJl6z2YlvRQsByShyia1VNmPBwLIEmBZcxGlIPF2492zehhD
- /KVrqWpyrjfPDbasUkhFB8DQfJvA+Pgh/Exi7vMbCjldtcgL9qVnXi81MNO5KARyut8W
- d6cxDbxNTut4VrRUH11SIaZtNou5gFY2nHYRlDDBpnJxBT/urkT6L7qcePyTVxINbity
- RbLw==
-X-Gm-Message-State: AOAM5334ZY9eNF91AGBcQLlwaE0ro3OprA0ttkqu6an2/2FyAyjG0YEP
- FoHfdO39+WposTRJRlBVNh714vruFSyspfB0jp+EUCwdZsJfB6fhRpTc3jtdMJdGygxst5MZNmI
- JKYjalxbTE+AslhM=
-X-Received: by 2002:aa7:da89:: with SMTP id q9mr29974291eds.273.1595402550773; 
- Wed, 22 Jul 2020 00:22:30 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJzrN18fPJXYYhEr6EcbuPkuQX1jEkKnLM57nIqfNzNuJiy1uLlOTUuSvQZ89Hwnl5HWcjz+sQ==
-X-Received: by 2002:aa7:da89:: with SMTP id q9mr29974255eds.273.1595402550452; 
- Wed, 22 Jul 2020 00:22:30 -0700 (PDT)
-Received: from [192.168.1.36] (138.red-83-57-170.dynamicip.rima-tde.net.
- [83.57.170.138])
- by smtp.gmail.com with ESMTPSA id c18sm18027177eja.59.2020.07.22.00.22.28
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Wed, 22 Jul 2020 00:22:29 -0700 (PDT)
-Subject: Re: [RFC PATCH v2 8/9] sparc/sun4m: Use one cpu_reset() function for
- main and secondary CPUs
-To: Thiago Jung Bauermann <bauerman@linux.ibm.com>, qemu-ppc@nongnu.org
-References: <20200722035016.469075-1-bauerman@linux.ibm.com>
- <20200722035016.469075-9-bauerman@linux.ibm.com>
-From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
-Autocrypt: addr=philmd@redhat.com; keydata=
- mQINBDXML8YBEADXCtUkDBKQvNsQA7sDpw6YLE/1tKHwm24A1au9Hfy/OFmkpzo+MD+dYc+7
- bvnqWAeGweq2SDq8zbzFZ1gJBd6+e5v1a/UrTxvwBk51yEkadrpRbi+r2bDpTJwXc/uEtYAB
- GvsTZMtiQVA4kRID1KCdgLa3zztPLCj5H1VZhqZsiGvXa/nMIlhvacRXdbgllPPJ72cLUkXf
- z1Zu4AkEKpccZaJspmLWGSzGu6UTZ7UfVeR2Hcc2KI9oZB1qthmZ1+PZyGZ/Dy+z+zklC0xl
- XIpQPmnfy9+/1hj1LzJ+pe3HzEodtlVA+rdttSvA6nmHKIt8Ul6b/h1DFTmUT1lN1WbAGxmg
- CH1O26cz5nTrzdjoqC/b8PpZiT0kO5MKKgiu5S4PRIxW2+RA4H9nq7nztNZ1Y39bDpzwE5Sp
- bDHzd5owmLxMLZAINtCtQuRbSOcMjZlg4zohA9TQP9krGIk+qTR+H4CV22sWldSkVtsoTaA2
- qNeSJhfHQY0TyQvFbqRsSNIe2gTDzzEQ8itsmdHHE/yzhcCVvlUzXhAT6pIN0OT+cdsTTfif
- MIcDboys92auTuJ7U+4jWF1+WUaJ8gDL69ThAsu7mGDBbm80P3vvUZ4fQM14NkxOnuGRrJxO
- qjWNJ2ZUxgyHAh5TCxMLKWZoL5hpnvx3dF3Ti9HW2dsUUWICSQARAQABtDJQaGlsaXBwZSBN
- YXRoaWV1LURhdWTDqSAoUGhpbCkgPHBoaWxtZEByZWRoYXQuY29tPokCVQQTAQgAPwIbDwYL
- CQgHAwIGFQgCCQoLBBYCAwECHgECF4AWIQSJweePYB7obIZ0lcuio/1u3q3A3gUCXsfWwAUJ
- KtymWgAKCRCio/1u3q3A3ircD/9Vjh3aFNJ3uF3hddeoFg1H038wZr/xi8/rX27M1Vj2j9VH
- 0B8Olp4KUQw/hyO6kUxqkoojmzRpmzvlpZ0cUiZJo2bQIWnvScyHxFCv33kHe+YEIqoJlaQc
- JfKYlbCoubz+02E2A6bFD9+BvCY0LBbEj5POwyKGiDMjHKCGuzSuDRbCn0Mz4kCa7nFMF5Jv
- piC+JemRdiBd6102ThqgIsyGEBXuf1sy0QIVyXgaqr9O2b/0VoXpQId7yY7OJuYYxs7kQoXI
- 6WzSMpmuXGkmfxOgbc/L6YbzB0JOriX0iRClxu4dEUg8Bs2pNnr6huY2Ft+qb41RzCJvvMyu
- gS32LfN0bTZ6Qm2A8ayMtUQgnwZDSO23OKgQWZVglGliY3ezHZ6lVwC24Vjkmq/2yBSLakZE
- 6DZUjZzCW1nvtRK05ebyK6tofRsx8xB8pL/kcBb9nCuh70aLR+5cmE41X4O+MVJbwfP5s/RW
- 9BFSL3qgXuXso/3XuWTQjJJGgKhB6xXjMmb1J4q/h5IuVV4juv1Fem9sfmyrh+Wi5V1IzKI7
- RPJ3KVb937eBgSENk53P0gUorwzUcO+ASEo3Z1cBKkJSPigDbeEjVfXQMzNt0oDRzpQqH2vp
- apo2jHnidWt8BsckuWZpxcZ9+/9obQ55DyVQHGiTN39hkETy3Emdnz1JVHTU0Q==
-Message-ID: <21df06b3-725f-9bba-7e98-db8b74d97902@redhat.com>
-Date: Wed, 22 Jul 2020 09:22:28 +0200
+ (Exim 4.90_1) (envelope-from <frankja@linux.ibm.com>)
+ id 1jy97J-0002Ot-S2
+ for qemu-devel@nongnu.org; Wed, 22 Jul 2020 03:24:41 -0400
+Received: from mx0a-001b2d01.pphosted.com ([148.163.156.1]:56666)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <frankja@linux.ibm.com>)
+ id 1jy97H-0006Qw-EN
+ for qemu-devel@nongnu.org; Wed, 22 Jul 2020 03:24:41 -0400
+Received: from pps.filterd (m0098399.ppops.net [127.0.0.1])
+ by mx0a-001b2d01.pphosted.com (8.16.0.42/8.16.0.42) with SMTP id
+ 06M73EqE093618
+ for <qemu-devel@nongnu.org>; Wed, 22 Jul 2020 03:24:37 -0400
+Received: from pps.reinject (localhost [127.0.0.1])
+ by mx0a-001b2d01.pphosted.com with ESMTP id 32dn6yf2b8-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT)
+ for <qemu-devel@nongnu.org>; Wed, 22 Jul 2020 03:24:37 -0400
+Received: from m0098399.ppops.net (m0098399.ppops.net [127.0.0.1])
+ by pps.reinject (8.16.0.36/8.16.0.36) with SMTP id 06M73Lgs094147
+ for <qemu-devel@nongnu.org>; Wed, 22 Jul 2020 03:24:37 -0400
+Received: from ppma04fra.de.ibm.com (6a.4a.5195.ip4.static.sl-reverse.com
+ [149.81.74.106])
+ by mx0a-001b2d01.pphosted.com with ESMTP id 32dn6yf2a5-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Wed, 22 Jul 2020 03:24:36 -0400
+Received: from pps.filterd (ppma04fra.de.ibm.com [127.0.0.1])
+ by ppma04fra.de.ibm.com (8.16.0.42/8.16.0.42) with SMTP id 06M7OYjA001724;
+ Wed, 22 Jul 2020 07:24:34 GMT
+Received: from b06avi18626390.portsmouth.uk.ibm.com
+ (b06avi18626390.portsmouth.uk.ibm.com [9.149.26.192])
+ by ppma04fra.de.ibm.com with ESMTP id 32dbmn13be-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Wed, 22 Jul 2020 07:24:34 +0000
+Received: from b06wcsmtp001.portsmouth.uk.ibm.com
+ (b06wcsmtp001.portsmouth.uk.ibm.com [9.149.105.160])
+ by b06avi18626390.portsmouth.uk.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP
+ id 06M7N8Mq63439122
+ (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+ Wed, 22 Jul 2020 07:23:08 GMT
+Received: from b06wcsmtp001.portsmouth.uk.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id 19F37A4054;
+ Wed, 22 Jul 2020 07:24:32 +0000 (GMT)
+Received: from b06wcsmtp001.portsmouth.uk.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id BE3A6A405B;
+ Wed, 22 Jul 2020 07:24:31 +0000 (GMT)
+Received: from localhost.localdomain (unknown [9.145.169.63])
+ by b06wcsmtp001.portsmouth.uk.ibm.com (Postfix) with ESMTP;
+ Wed, 22 Jul 2020 07:24:31 +0000 (GMT)
+Subject: Re: [PATCH] pc-bios: s390x: Add a comment to the io and external new
+ PSW setup
+To: Christian Borntraeger <borntraeger@de.ibm.com>, qemu-devel@nongnu.org
+References: <033b0db7-7b7d-6eb0-9018-bcc342f13509@de.ibm.com>
+ <20200715140820.3401-1-frankja@linux.ibm.com>
+ <3216babd-433b-4ec7-5333-43a75df2e331@de.ibm.com>
+From: Janosch Frank <frankja@linux.ibm.com>
+Autocrypt: addr=frankja@linux.ibm.com; prefer-encrypt=mutual; keydata=
+ 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
+Message-ID: <d493a0c2-c0df-4ed5-27af-34a9fc82927d@linux.ibm.com>
+Date: Wed, 22 Jul 2020 09:24:30 +0200
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.5.0
+ Thunderbird/68.8.0
 MIME-Version: 1.0
-In-Reply-To: <20200722035016.469075-9-bauerman@linux.ibm.com>
-Content-Language: en-US
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=205.139.110.120; envelope-from=philmd@redhat.com;
- helo=us-smtp-1.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/07/21 23:27:14
-X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
-X-Spam_score_int: -40
-X-Spam_score: -4.1
-X-Spam_bar: ----
-X-Spam_report: (-4.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-1, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+In-Reply-To: <3216babd-433b-4ec7-5333-43a75df2e331@de.ibm.com>
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature";
+ boundary="lp0TEpbEwRDqWiA4F0ZxCdlBjzwvbJrW9"
+X-TM-AS-GCONF: 00
+X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:6.0.235, 18.0.687
+ definitions=2020-07-22_03:2020-07-22,
+ 2020-07-22 signatures=0
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ phishscore=0 spamscore=0
+ impostorscore=0 mlxscore=0 malwarescore=0 clxscore=1015 bulkscore=0
+ priorityscore=1501 lowpriorityscore=0 mlxlogscore=999 adultscore=0
+ suspectscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2006250000 definitions=main-2007220052
+Received-SPF: pass client-ip=148.163.156.1; envelope-from=frankja@linux.ibm.com;
+ helo=mx0a-001b2d01.pphosted.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/07/22 02:50:42
+X-ACL-Warn: Detected OS   = Linux 3.x [generic] [fuzzy]
+X-Spam_score_int: -35
+X-Spam_score: -3.6
+X-Spam_bar: ---
+X-Spam_report: (-3.6 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_LOW=-0.7,
+ RCVD_IN_MSPIKE_H2=-1, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -122,94 +148,109 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Maydell <peter.maydell@linaro.org>,
- Aleksandar Rikalo <aleksandar.rikalo@syrmia.com>,
- Eduardo Habkost <ehabkost@redhat.com>, David Hildenbrand <david@redhat.com>,
- qemu-s390x@nongnu.org, Cornelia Huck <cohuck@redhat.com>,
- Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>, qemu-devel@nongnu.org,
- Aleksandar Markovic <aleksandar.qemu.devel@gmail.com>, qemu-arm@nongnu.org,
- Aurelien Jarno <aurelien@aurel32.net>, Thomas Huth <thuth@redhat.com>,
- Paolo Bonzini <pbonzini@redhat.com>,
- David Gibson <david@gibson.dropbear.id.au>,
- Artyom Tarasenko <atar4qemu@gmail.com>, Richard Henderson <rth@twiddle.net>
+Cc: thuth@redhat.com, cohuck@redhat.com, david@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 7/22/20 5:50 AM, Thiago Jung Bauermann wrote:
-> If we rely on cpu_common_reset() setting CPUState::halted according to the
-> start-powered-off property, both reset functions become equivalent and we
-> can use only one.
-> 
-> Signed-off-by: Thiago Jung Bauermann <bauerman@linux.ibm.com>
-> ---
->  hw/sparc/sun4m.c | 21 ++++-----------------
->  1 file changed, 4 insertions(+), 17 deletions(-)
-> 
-> NB: I was only able to test that this patch builds. I wasn't able to
-> run it.
-> 
-> diff --git a/hw/sparc/sun4m.c b/hw/sparc/sun4m.c
-> index 7b3042a801..deb5e9f027 100644
-> --- a/hw/sparc/sun4m.c
-> +++ b/hw/sparc/sun4m.c
-> @@ -218,16 +218,7 @@ static void dummy_cpu_set_irq(void *opaque, int irq, int level)
->  {
->  }
->  
-> -static void main_cpu_reset(void *opaque)
-> -{
-> -    SPARCCPU *cpu = opaque;
-> -    CPUState *cs = CPU(cpu);
-> -
-> -    cpu_reset(cs);
-> -    cs->halted = 0;
-> -}
-> -
-> -static void secondary_cpu_reset(void *opaque)
-> +static void sun4m_cpu_reset(void *opaque)
->  {
->      SPARCCPU *cpu = opaque;
->      CPUState *cs = CPU(cpu);
-> @@ -818,7 +809,6 @@ static const TypeInfo ram_info = {
->  static void cpu_devinit(const char *cpu_type, unsigned int id,
->                          uint64_t prom_addr, qemu_irq **cpu_irqs)
->  {
-> -    CPUState *cs;
->      SPARCCPU *cpu;
->      CPUSPARCState *env;
->  
-> @@ -826,12 +816,9 @@ static void cpu_devinit(const char *cpu_type, unsigned int id,
->      env = &cpu->env;
->  
->      cpu_sparc_set_id(env, id);
-> -    if (id == 0) {
-> -        qemu_register_reset(main_cpu_reset, cpu);
+This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
+--lp0TEpbEwRDqWiA4F0ZxCdlBjzwvbJrW9
+Content-Type: multipart/mixed; boundary="Dsj03nVqEa3464FHnQj9PicTtvA1OV1y2"
 
-IMO it is easier to review this patch in 2, first drop main_cpu_reset
-as it is pointless (we rely on cpu_common_reset), then set the
-"start-powered-off" property and drop secondary_cpu_reset().
+--Dsj03nVqEa3464FHnQj9PicTtvA1OV1y2
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: quoted-printable
 
-> -    } else {
-> -        qemu_register_reset(secondary_cpu_reset, cpu);
-> -        cs = CPU(cpu);
-> -        object_property_set_bool(OBJECT(cs), "start-powered-off", true,
-> +    qemu_register_reset(sun4m_cpu_reset, cpu);
+On 7/22/20 8:43 AM, Christian Borntraeger wrote:
+>=20
+>=20
+> On 15.07.20 16:08, Janosch Frank wrote:
+>> Normally they don't need to be set up before waiting for an interrupt
+>> but are set up on boot. The BIOS however might overwrite the lowcore
+>> (and hence the PSWs) when loading a blob into memory and therefore
+>> needs to set up those PSWs more often.
+>=20
+> Now when I read the new comment this actually inidicates a bug.=20
+> When do we restore the original content? If the loaded program
+> does have interrupt handlers in the original image and relies on that
+> then we are broken, no?
 
-Why do you still keep it?
+I haven't seen references to a save/restore functionality for those
+PSWs. And I also think it's not that easy to do because we have multiple
+ways of loading data and if we want to print when loading we might end
+up overwriting and then saving the written value for a later restore.
 
-> +    if (id != 0) {
-> +        object_property_set_bool(OBJECT(cpu), "start-powered-off", true,
->                                   &error_abort);
+I need to have a closer look at how virtio works, but wouldn't we have a
+chicken - egg problem with IO interrupts for IO that writes the prefix?
 
-At this point the CPU is realized, so this is correct.
+The BIOS often has "interesting" solutions to problems.
+If you have a quick fix, be my guest and send it. If not I'd put it on
+my todo list or let Stefan make it a proper dev item.
 
-I'd use directly:
+>=20
+>>
+>> Signed-off-by: Janosch Frank <frankja@linux.ibm.com>
+>> ---
+>>  pc-bios/s390-ccw/start.S | 10 ++++++++--
+>>  1 file changed, 8 insertions(+), 2 deletions(-)
+>>
+>> diff --git a/pc-bios/s390-ccw/start.S b/pc-bios/s390-ccw/start.S
+>> index 01c4c21b26..b0fcb918cc 100644
+>> --- a/pc-bios/s390-ccw/start.S
+>> +++ b/pc-bios/s390-ccw/start.S
+>> @@ -64,7 +64,10 @@ consume_sclp_int:
+>>          stctg   %c0,%c0,0(%r15)
+>>          oi      6(%r15),0x2
+>>          lctlg   %c0,%c0,0(%r15)
+>> -        /* prepare external call handler */
+>> +        /*
+>> +         * Prepare external new PSW as it might have been overwritten=
 
-       object_property_set_bool(OBJECT(cpu), "start-powered-off", !!id,
-                                &error_abort);
+>> +         * by a loaded blob
+>> +         */
+>>          larl %r1, external_new_code
+>>          stg %r1, 0x1b8
+>>          larl %r1, external_new_mask
+>> @@ -84,7 +87,10 @@ consume_io_int:
+>>          stctg %c6,%c6,0(%r15)
+>>          oi    4(%r15), 0xff
+>>          lctlg %c6,%c6,0(%r15)
+>> -        /* prepare i/o call handler */
+>> +        /*
+>> +         * Prepare i/o new PSW as it might have been overwritten
+>> +         * by a loaded blob
+>> +         */
+>>          larl  %r1, io_new_code
+>>          stg   %r1, 0x1f8
+>>          larl  %r1, io_new_mask
+>>
 
->      }
->      *cpu_irqs = qemu_allocate_irqs(cpu_set_irq, cpu, MAX_PILS);
-> 
+
+
+--Dsj03nVqEa3464FHnQj9PicTtvA1OV1y2--
+
+--lp0TEpbEwRDqWiA4F0ZxCdlBjzwvbJrW9
+Content-Type: application/pgp-signature; name="signature.asc"
+Content-Description: OpenPGP digital signature
+Content-Disposition: attachment; filename="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQIzBAEBCAAdFiEEwGNS88vfc9+v45Yq41TmuOI4ufgFAl8X6a8ACgkQ41TmuOI4
+ufibBA//eCMzgp5c1CaZ6Rh4LzZtoz9Y28nLk/xZNCpkKEirOqD4Jsru7Roq7YzF
+Z+CP9pTtNo7a1w8bUKEv7awkUQ0L9HO5m4S6yYnSV0qFpdh/smEg4ajJW/GrgNu7
+YOZOssKIPeVlN/B+xa7Nxcy8rMj+jH+IsJ11Fkx3ARdnC7W7oHMk61QUBDRoSSYH
+HxQrtZXdXpM5uzkwCHTefVwuxjJ+RbdnMKLKXdVqNtIwwE9rD1gfEtPuiMOi5Lm9
+F+SU9avdZAH3IXoahwMc+r3lOgD3k/sERCD2jP/n5/kWbkrCFG5KIiztFyhAhTZi
+yJP853pJ6Rdxy4Ci3GfCEtWea4STTPDPcXnZEAgr1c/1kphe1SDoRcL+IyNeroNO
+Lobc/eqscT6722KP2NYohVxs+4FSdC926eiO24xFhNJ+p4YcCYP8SLZyKm+d0HhQ
+dCDkkAbFjpiwVlyeqTyZdUdq91nG3v3DCb18lsZQMjDdT8qp04Lh5ZR1uj38WZpO
+BNrldVZyxjjWWt1mz8TnsWvwEv4m7KBXIfMsynAU9yOETfMcjGRv4USweR5rP35L
+UCHa7bFkejAgVBDDMfDlC8Z8nqV6RxJckf2trnOxIJ52vwWm4Jbf2GK1uZovVl1z
+aQGdopcCz54c0mceTOVJ+mZN/rnK50473lZ5jA4d+wPmD3IlIdU=
+=mM3k
+-----END PGP SIGNATURE-----
+
+--lp0TEpbEwRDqWiA4F0ZxCdlBjzwvbJrW9--
 
 
