@@ -2,69 +2,73 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4B8EE2293CC
-	for <lists+qemu-devel@lfdr.de>; Wed, 22 Jul 2020 10:43:04 +0200 (CEST)
-Received: from localhost ([::1]:46032 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2CAAE2293CE
+	for <lists+qemu-devel@lfdr.de>; Wed, 22 Jul 2020 10:43:08 +0200 (CEST)
+Received: from localhost ([::1]:46448 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jyAL9-0005Iq-AD
-	for lists+qemu-devel@lfdr.de; Wed, 22 Jul 2020 04:43:03 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:44296)
+	id 1jyALD-0005T1-7T
+	for lists+qemu-devel@lfdr.de; Wed, 22 Jul 2020 04:43:07 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:44336)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1jyAJ7-0003lN-Im
- for qemu-devel@nongnu.org; Wed, 22 Jul 2020 04:40:57 -0400
-Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:52724
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1jyAJA-0003ms-OR
+ for qemu-devel@nongnu.org; Wed, 22 Jul 2020 04:41:00 -0400
+Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:25145
  helo=us-smtp-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1jyAJ4-0000No-MT
- for qemu-devel@nongnu.org; Wed, 22 Jul 2020 04:40:57 -0400
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1jyAJ8-0000Np-GJ
+ for qemu-devel@nongnu.org; Wed, 22 Jul 2020 04:41:00 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
  s=mimecast20190719; t=1595407253;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding;
- bh=WHHVip+jrv4qLOaTSUfIeioSoPdyvyzIY70YZURDlsQ=;
- b=XYOAJFkCkZ5RZMe7sitmwqJTP8TG5OQ332fclrehZ42Jzm/OYn1kFqIdHeswRQAYf/wtzp
- smSRTfWD99Fgs1+jn3EpKvhXXFrb5VMByMJfkF19fau4quuDBjxRqYZGnmUhmo+cjybzqD
- tmf8YU99Z7WnXafX+ercjbsqMyXwcGQ=
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=v4qjKJe9vEQSPCqLFgJL2Yoi057G7kUTdd4SX34/9jU=;
+ b=Eu1yy6JvBBIidnlBg4chCofpDousGgbaen+xTC0XNMXbdrGJcq6fu8c+poO+BMFU+GTjRF
+ nd+MFyhtWrqv1mjimvMeytZaKrYlZuhHJ6yeXCpAkAiV490ALin/CVZ7zwz33MzTrQDmGl
+ PL3GghwTVYx1GdUyuz09V2tHcuAJJYs=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-369-C3XxtsWzMfanLryClFYgUQ-1; Wed, 22 Jul 2020 04:40:51 -0400
-X-MC-Unique: C3XxtsWzMfanLryClFYgUQ-1
-Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
- [10.5.11.11])
+ us-mta-502-HZ-1MavQMPCWARZ-oPH-jA-1; Wed, 22 Jul 2020 04:40:51 -0400
+X-MC-Unique: HZ-1MavQMPCWARZ-oPH-jA-1
+Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
+ [10.5.11.15])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 8E7FF19200D2
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 920E7107BF04
  for <qemu-devel@nongnu.org>; Wed, 22 Jul 2020 08:40:50 +0000 (UTC)
 Received: from blackfin.pond.sub.org (ovpn-112-143.ams2.redhat.com
  [10.36.112.143])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 635456FECD
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 671E55BAD5
  for <qemu-devel@nongnu.org>; Wed, 22 Jul 2020 08:40:50 +0000 (UTC)
 Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
- id 0205610F5AF1; Wed, 22 Jul 2020 10:40:48 +0200 (CEST)
+ id 045BE10A5B7A; Wed, 22 Jul 2020 10:40:49 +0200 (CEST)
 From: Markus Armbruster <armbru@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH 0/4] error: Mechanical fixes & cleanups
-Date: Wed, 22 Jul 2020 10:40:44 +0200
-Message-Id: <20200722084048.1726105-1-armbru@redhat.com>
+Subject: [PATCH 1/4] coccinelle/err-bad-newline: Fix for Python 3,
+ and add patterns
+Date: Wed, 22 Jul 2020 10:40:45 +0200
+Message-Id: <20200722084048.1726105-2-armbru@redhat.com>
+In-Reply-To: <20200722084048.1726105-1-armbru@redhat.com>
+References: <20200722084048.1726105-1-armbru@redhat.com>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=207.211.31.120; envelope-from=armbru@redhat.com;
+Received-SPF: pass client-ip=205.139.110.120; envelope-from=armbru@redhat.com;
  helo=us-smtp-1.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/07/22 00:40:35
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/07/21 23:27:14
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
-X-Spam_score_int: -30
-X-Spam_score: -3.1
-X-Spam_bar: ---
-X-Spam_report: (-3.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1,
+X-Spam_score_int: -40
+X-Spam_score: -4.1
+X-Spam_bar: ----
+X-Spam_report: (-4.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H4=-0.01, RCVD_IN_MSPIKE_WL=-0.01,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-1, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -80,23 +84,65 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Markus Armbruster (4):
-  coccinelle/err-bad-newline: Fix for Python 3, and add patterns
-  error: Strip trailing '\n' from error string arguments (again)
-  error: Remove NULL checks on error_propagate() calls (again)
-  error: Use error_fatal to simplify obvious fatal errors (again)
-
+Signed-off-by: Markus Armbruster <armbru@redhat.com>
+---
  scripts/coccinelle/err-bad-newline.cocci | 24 ++++++++++++++++++++++--
- exec.c                                   | 11 +++--------
- hw/i386/intel_iommu.c                    |  6 +++---
- hw/net/virtio-net.c                      |  8 ++------
- hw/s390x/s390-virtio-ccw.c               |  6 +-----
- hw/virtio/vhost.c                        | 10 +++-------
- migration/colo.c                         |  4 +---
- migration/migration.c                    |  8 ++------
- target/ppc/mmu-hash64.c                  |  2 +-
- 9 files changed, 38 insertions(+), 41 deletions(-)
+ 1 file changed, 22 insertions(+), 2 deletions(-)
 
+diff --git a/scripts/coccinelle/err-bad-newline.cocci b/scripts/coccinelle/err-bad-newline.cocci
+index 1316cc86a6..5394421873 100644
+--- a/scripts/coccinelle/err-bad-newline.cocci
++++ b/scripts/coccinelle/err-bad-newline.cocci
+@@ -1,22 +1,42 @@
+ // Error messages should not contain newlines.  This script finds
+ // messages that do.  Fixing them is manual.
+ @r@
+-expression errp, eno, cls, fmt;
++expression errp, err, eno, cls, fmt, ap;
+ position p;
+ @@
+ (
++error_vreport(fmt, ap)@p
++|
++warn_vreport(fmt, ap)@p
++|
++info_vreport(fmt, ap)@p
++|
+ error_report(fmt, ...)@p
+ |
++warn_report(fmt, ...)@p
++|
++info_report(fmt, ...)@p
++|
++error_report_once(fmt, ...)@p
++|
++warn_report_once(fmt, ...)@p
++|
+ error_setg(errp, fmt, ...)@p
+ |
+ error_setg_errno(errp, eno, fmt, ...)@p
+ |
+ error_setg_win32(errp, eno, cls, fmt, ...)@p
+ |
++error_propagate_prepend(errp, err, fmt, ...)@p
++|
++error_vprepend(errp, fmt, ap)@p
++|
+ error_prepend(errp, fmt, ...)@p
+ |
+ error_setg_file_open(errp, eno, cls, fmt, ...)@p
+ |
++warn_reportf_err(errp, fmt, ...)@p
++|
+ error_reportf_err(errp, fmt, ...)@p
+ |
+ error_set(errp, cls, fmt, ...)@p
+@@ -26,4 +46,4 @@ fmt << r.fmt;
+ p << r.p;
+ @@
+ if "\\n" in str(fmt):
+-    print "%s:%s:%s:%s" % (p[0].file, p[0].line, p[0].column, fmt)
++    print("%s:%s:%s:%s" % (p[0].file, p[0].line, p[0].column, fmt))
 -- 
 2.26.2
 
