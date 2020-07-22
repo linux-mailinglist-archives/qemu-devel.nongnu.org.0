@@ -2,60 +2,60 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D1188228EEF
-	for <lists+qemu-devel@lfdr.de>; Wed, 22 Jul 2020 06:20:50 +0200 (CEST)
-Received: from localhost ([::1]:53970 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id BFF19228F2B
+	for <lists+qemu-devel@lfdr.de>; Wed, 22 Jul 2020 06:30:01 +0200 (CEST)
+Received: from localhost ([::1]:37038 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jy6FL-0002x0-Oj
-	for lists+qemu-devel@lfdr.de; Wed, 22 Jul 2020 00:20:47 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:48440)
+	id 1jy6OG-0008GN-Rq
+	for lists+qemu-devel@lfdr.de; Wed, 22 Jul 2020 00:30:00 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:50060)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1jy6ED-0002LC-8r
- for qemu-devel@nongnu.org; Wed, 22 Jul 2020 00:19:37 -0400
-Received: from us-smtp-1.mimecast.com ([205.139.110.61]:40600
+ (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1jy6MU-00073i-2e
+ for qemu-devel@nongnu.org; Wed, 22 Jul 2020 00:28:10 -0400
+Received: from us-smtp-1.mimecast.com ([205.139.110.61]:31677
  helo=us-smtp-delivery-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1jy6E9-0007Rf-Ra
- for qemu-devel@nongnu.org; Wed, 22 Jul 2020 00:19:36 -0400
+ (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1jy6MR-0000SA-QY
+ for qemu-devel@nongnu.org; Wed, 22 Jul 2020 00:28:09 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1595391572;
+ s=mimecast20190719; t=1595392086;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=jlp1IodwrnMCR5IvRjRW7MKH00tV6JWdmYvKCqI7JBM=;
- b=RUFiHEx7Wyd25/nrEtiVAVGXu9dTWoWuZQ1KR4xvGP/GDTg1Tmih5M+EMUHeCYN7G/GcIN
- 4vwREtXv70wOpG/BhcpfGchijhKIOtr/8zFqC/vJzKJpvZhA7IuobSmscNPfT3ddiSdLae
- u2MvDlXkyjW4pINA1ZAjI4Kze2wE0L4=
+ bh=beK0/BfqKFKNJ1EqM3TbZwAHIxqXpS5JvWlvCmVPfn4=;
+ b=F8iBZ4Jc6rrM6xHn7Dfl6xKQ3amLyU0cJryx4LCwimVA3Q6ugdaVmFJ57yeFU/vVHtT0cR
+ dNse58xyz2AegyULyVfm6urVUuvLs7Ovag2EZuOizOfNj7uiOTUFMdRvZAWeov7mVEK8SW
+ 0wbZ/x+yYUZ9bsOEveuUz8MROLWcHaE=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-250-2eg8s77qNkSp_4uvZW3mew-1; Wed, 22 Jul 2020 00:19:27 -0400
-X-MC-Unique: 2eg8s77qNkSp_4uvZW3mew-1
-Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
- [10.5.11.12])
+ us-mta-432-NKouwMhEPQS8HI5UVaQRXA-1; Wed, 22 Jul 2020 00:28:02 -0400
+X-MC-Unique: NKouwMhEPQS8HI5UVaQRXA-1
+Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
+ [10.5.11.11])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 8E27D800460;
- Wed, 22 Jul 2020 04:19:26 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 64CAB800C64;
+ Wed, 22 Jul 2020 04:28:01 +0000 (UTC)
 Received: from ibm-p8-OVS-01-fsp.mgmt.pnr.lab.eng.rdu2.redhat.com
  (ovpn-120-206.rdu2.redhat.com [10.10.120.206])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 00541BA66;
- Wed, 22 Jul 2020 04:19:25 +0000 (UTC)
-Subject: Re: [RFC PATCH-for-5.1 v2] hw/ide: Cancel pending DMA requests before
- setting as inactive
-To: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>,
- qemu-devel@nongnu.org
-References: <20200717075317.5376-1-f4bug@amsat.org>
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 9433C6FECD;
+ Wed, 22 Jul 2020 04:28:00 +0000 (UTC)
+Subject: Re: [Bug 1878253] [NEW] null-ptr dereference in
+ address_space_to_flatview through ide
+To: Bug 1878253 <1878253@bugs.launchpad.net>
+References: <158930706000.2313.17393615876486439811.malonedeb@gac.canonical.com>
+ <159387929229.3426.10851162301936170602.launchpad@wampee.canonical.com>
 From: John Snow <jsnow@redhat.com>
-Message-ID: <d7ebf46d-a449-6ffc-e71d-423af0accd35@redhat.com>
-Date: Wed, 22 Jul 2020 00:19:25 -0400
+Message-ID: <78a9ea9e-f3e0-728a-db57-4aba17f76915@redhat.com>
+Date: Wed, 22 Jul 2020 00:28:00 -0400
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
  Thunderbird/68.10.0
 MIME-Version: 1.0
-In-Reply-To: <20200717075317.5376-1-f4bug@amsat.org>
+In-Reply-To: <159387929229.3426.10851162301936170602.launchpad@wampee.canonical.com>
 Content-Language: en-US
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=utf-8; format=flowed
@@ -83,116 +83,91 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Alexander Bulekov <alxndr@bu.edu>, qemu-block@nongnu.org
+Cc: Alexander Bulekov <alxndr@bu.edu>, QEMU Developers <qemu-devel@nongnu.org>,
+ Qemu-block <qemu-block@nongnu.org>,
+ =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 7/17/20 3:53 AM, Philippe Mathieu-Daudé wrote:
-> libFuzzer found a case where requests are queued for later in the
-> AIO context, but a command set the bus inactive, then when finally
-> the requests are processed by the DMA it aborts because it is
-> inactive:
+On 7/4/20 12:14 PM, Launchpad Bug Tracker wrote:
+> You have been subscribed to a public bug by Philippe Mathieu-Daudé (philmd):
 > 
->   include/hw/ide/pci.h:59: IDEState *bmdma_active_if(BMDMAState *): Assertion `bmdma->bus->retry_unit != (uint8_t)-1' failed.
+> Hello,
+> While fuzzing, I found an input that triggers a null-ptr dereference in
+> address_space_to_flatview through ide:
 > 
-> Reproducer available on the BugLink.
+> ==31699==ERROR: AddressSanitizer: SEGV on unknown address 0x000000000020 (pc 0x55e0f562bafd bp 0x7ffee92355b0 sp 0x7ffee92354e0 T0)
+> ==31699==The signal is caused by a READ memory access.
+> ==31699==Hint: address points to the zero page.
+>      #0 0x55e0f562bafd in address_space_to_flatview /home/alxndr/Development/qemu/include/exec/memory.h:693:12
+>      #1 0x55e0f562bafd in address_space_write /home/alxndr/Development/qemu/exec.c:3267:14
+>      #2 0x55e0f562dd9c in address_space_unmap /home/alxndr/Development/qemu/exec.c:3592:9
+>      #3 0x55e0f5ab8277 in dma_memory_unmap /home/alxndr/Development/qemu/include/sysemu/dma.h:145:5
+>      #4 0x55e0f5ab8277 in dma_blk_unmap /home/alxndr/Development/qemu/dma-helpers.c:104:9
+>      #5 0x55e0f5ab8277 in dma_blk_cb /home/alxndr/Development/qemu/dma-helpers.c:139:5
+>      #6 0x55e0f617a6b8 in blk_aio_complete /home/alxndr/Development/qemu/block/block-backend.c:1398:9
+>      #7 0x55e0f617a6b8 in blk_aio_complete_bh /home/alxndr/Development/qemu/block/block-backend.c:1408:5
+>      #8 0x55e0f6355efb in aio_bh_call /home/alxndr/Development/qemu/util/async.c:136:5
+>      #9 0x55e0f6355efb in aio_bh_poll /home/alxndr/Development/qemu/util/async.c:164:13
+>      #10 0x55e0f63608ce in aio_dispatch /home/alxndr/Development/qemu/util/aio-posix.c:380:5
+>      #11 0x55e0f635799a in aio_ctx_dispatch /home/alxndr/Development/qemu/util/async.c:306:5
+>      #12 0x7f16e85d69ed in g_main_context_dispatch (/usr/lib/x86_64-linux-gnu/libglib-2.0.so.0+0x4e9ed)
+>      #13 0x55e0f635e384 in glib_pollfds_poll /home/alxndr/Development/qemu/util/main-loop.c:219:9
+>      #14 0x55e0f635e384 in os_host_main_loop_wait /home/alxndr/Development/qemu/util/main-loop.c:242:5
+>      #15 0x55e0f635e384 in main_loop_wait /home/alxndr/Development/qemu/util/main-loop.c:518:11
+>      #16 0x55e0f593d676 in qemu_main_loop /home/alxndr/Development/qemu/softmmu/vl.c:1664:9
+>      #17 0x55e0f6267c6a in main /home/alxndr/Development/qemu/softmmu/main.c:49:5
+>      #18 0x7f16e7186e0a in __libc_start_main /build/glibc-GwnBeO/glibc-2.30/csu/../csu/libc-start.c:308:16
+>      #19 0x55e0f55727b9 in _start (/home/alxndr/Development/qemu/build/i386-softmmu/qemu-system-i386+0x9027b9)
 > 
-> Fix by draining the pending DMA requests before inactivating the bus.
+> AddressSanitizer can not provide additional info.
+> SUMMARY: AddressSanitizer: SEGV /home/alxndr/Development/qemu/include/exec/memory.h:693:12 in address_space_to_flatview
 > 
-> BugLink: https://bugs.launchpad.net/qemu/+bug/1887303
-> Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
-> ---
-> RFC because I don't have much clue about block drive and IDE,
-> so block-team please be very careful while reviewing this bug.
-> ---
->   hw/ide/core.c | 2 +-
->   1 file changed, 1 insertion(+), 1 deletion(-)
+> I can reproduce it in qemu 5.0 using:
 > 
-> diff --git a/hw/ide/core.c b/hw/ide/core.c
-> index d997a78e47..f7affafb0c 100644
-> --- a/hw/ide/core.c
-> +++ b/hw/ide/core.c
-> @@ -804,7 +804,7 @@ void dma_buf_commit(IDEState *s, uint32_t tx_bytes)
->   
->   void ide_set_inactive(IDEState *s, bool more)
->   {
+> cat << EOF | ~/Development/qemu/build/i386-softmmu/qemu-system-i386 -M pc -nographic -drive file=null-co://,if=ide,cache=writeback,format=raw -nodefaults -display none -nographic -qtest stdio -monitor none -serial none
+> outl 0xcf8 0x80000920
+> outl 0xcfc 0xc001
+> outl 0xcf8 0x80000924
+> outl 0xcf8 0x80000904
+> outw 0xcfc 0x7
+> outb 0x1f7 0xc8
+> outw 0x3f6 0xe784
+> outw 0x3f6 0xeb01
+> outb 0xc005 0x21
+> write 0x2103 0x1 0x4e
+> outb 0xc000 0x1b
+> outw 0x1f7 0xff35
+> EOF
+> 
 
-Generally, ide_set_inactive is meant to be used as the normative 
-function to transition to the idle state; not something that performs a 
-cancellation.
+Willing to bet this is the same root cause as some of the others, 
+because of this sequence:
 
-(It should probably assert that there are no pending BHs.)
+outb 0x1f7 0xc8 (Issues a command)
+outb 0x3f6 0x84 [1000 0100] - Arms SRST
+outb 0x3f6 0x01 [0000 0001] - Issues SRST
+...
+outb 0x1f7 0x35 - Issues another command
 
-...Let's run through the reproducer!
-In my annotation here,
+The problem continues to be that SRST allows new commands to come in 
+while the state machine is still stuck on the first command.
 
-0x1F0 - Primary Bus I/O
-0x3F6 - Primary Bus Control
-   [0] Primary Bus, dev0
-   [1] Primary Bus, dev1
-0x170 - Secondary Bus I/O
-0x376 - Secondary Bus Control
-   [2] Secondary Bus, dev0
-   [3] Secondary Bus, dev1
+--js
 
-
- > outw 0x176 0x3538
-
-   [2].select = 0x38 [0011 1000]
-                         ^ select secondary device
-   [3].command = 0x35
-                   ^ WRITE DMA EXT
-
-outw 0x376 0x6007
-
-   [3].control = 0x07 [0000 0111]
-                             ^- +SRST
-   # 0x06 goes into the void?
-
-outw 0x376 0x6b6b
-
-   [3].control = 0x6b; [0110 1011]
-                              ^- -SRST
-   # Oops, this does a Software Reset without cancelling the DMA again.
-   # second write goes into the void?
-
-outw 0x176 0x985c
-
-   [3].select = 0x5c; [0101 1100]
-   [3].command = 0x98; CHECK POWER MODE
-              (Note: Deprecated in ATA4!)
-   # Oops, this command shouldn't start when another one is in-process.
-   # It also has the bad effect of setting the nsector register to 0xff!
-
-outl 0xcf8 0x80000903
-outl 0xcfc 0x2f2931
-outl 0xcf8 0x80000920
-outb 0xcfc 0x6b
-		^- PCI stuff. I'm not as fast at reading hex here.
-                    My brain has adapted to ATA only.
-
-outb 0x68 0x7
-   # Not entirely sure where this goes, but it seems to kick the DMA BH.
-   # ... The pending DMA BH that belongs to WRITE_DMA_EXT.
-
-outw 0x176 0x2530
-
-     [3].select = 0x30 [0011 0000]
-                           ^ select drive1
-     [3].command = 0x25 (READ DMA EXT)
-
-... At this point, it explodes because there's a pending DMA already, 
-and the sector registers are all wrong.
-
-This bug actually seems to have the same root cause as the other one: 
-SRST does not perform the SRST sufficiently.
-
-
-> -    s->bus->dma->aiocb = NULL;
-> +    ide_cancel_dma_sync(s);
->       ide_clear_retry(s);
->       if (s->bus->dma->ops->set_inactive) {
->           s->bus->dma->ops->set_inactive(s->bus->dma, more);
+> I also attached the traces to this launchpad report, in case the
+> formatting is broken:
+> 
+> qemu-system-i386 -M pc -nographic -drive file=null-
+> co://,if=ide,cache=writeback,format=raw -nodefaults -display none
+> -nographic -qtest stdio -monitor none -serial none < attachment
+> 
+> Please let me know if I can provide any further info.
+> -Alex
+> 
+> ** Affects: qemu
+>       Importance: Undecided
+>           Status: New
 > 
 
 
