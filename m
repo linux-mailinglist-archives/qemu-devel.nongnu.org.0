@@ -2,72 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 45F522290E0
-	for <lists+qemu-devel@lfdr.de>; Wed, 22 Jul 2020 08:32:20 +0200 (CEST)
-Received: from localhost ([::1]:35104 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 292D42290D8
+	for <lists+qemu-devel@lfdr.de>; Wed, 22 Jul 2020 08:30:55 +0200 (CEST)
+Received: from localhost ([::1]:55448 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jy8Id-0003cP-7P
-	for lists+qemu-devel@lfdr.de; Wed, 22 Jul 2020 02:32:19 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:41266)
+	id 1jy8HG-0000Om-6R
+	for lists+qemu-devel@lfdr.de; Wed, 22 Jul 2020 02:30:54 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:41268)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1jy8Fb-000713-DK
+ id 1jy8Fb-00071b-VH
  for qemu-devel@nongnu.org; Wed, 22 Jul 2020 02:29:11 -0400
-Received: from mail-wm1-x343.google.com ([2a00:1450:4864:20::343]:53729)
+Received: from mail-wm1-x344.google.com ([2a00:1450:4864:20::344]:33386)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1jy8FZ-0006uE-NO
+ id 1jy8Fa-0006uM-Gx
  for qemu-devel@nongnu.org; Wed, 22 Jul 2020 02:29:11 -0400
-Received: by mail-wm1-x343.google.com with SMTP id j18so799447wmi.3
- for <qemu-devel@nongnu.org>; Tue, 21 Jul 2020 23:29:09 -0700 (PDT)
+Received: by mail-wm1-x344.google.com with SMTP id a6so3659828wmm.0
+ for <qemu-devel@nongnu.org>; Tue, 21 Jul 2020 23:29:10 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=VATDeEmHe81iWlkc3YdJcm4+JPfu8GfZbyW4AtdCEog=;
- b=YbhRwC7NfCDVUmdjnWcYy5uHKivpP9KWc0ust5RdVP2W8qHmMZbTfHW+7q30/cn0/1
- ojvB81uUmP0B4tV/PjO7egK42JMDzSDH4BE4wncZTGzIbBWsDxJpqOf9VGu6+TajC8vZ
- b/aLnuFRfySeujFCts9foVKhC9gCadElMzuz26nWejgoS5bmq+Aq63QvcyV3RJ4EOkfG
- 4grbpXNDUvdkZuG+0hVk00FcTJXBQIhihCRkJ3IR35/IBopFX/7IIl4USFmnUzVKcyCg
- 5MzgVgfz0pFaFG7QNCrMvyNHsVt6rfPXkXMvnc2DRUCNxtuO0IkXc3XwuhfzWnlYmc1v
- KWcw==
+ bh=FXawODYQMPXkW63coV0jaCgGZ0mloHIJB4WSMUcLFTA=;
+ b=KhwPHa9yjKnauoBpSsKJLnF0es/YzqGalAAoPgWCdfqgzK+Z93KpaN8CIXTgKoipid
+ joLQcjIoNVGCZAaLep382LfuDFqvk13i8td7aDE8YF1OGfYg+EX+UmGQ9twfOYvlDnFH
+ RojoGhlXU9xml5AJ+zQLhOUFdhdDMpKrTW+Yms8BZNw7n6xZhNFrfpUNmH6PP5iFnuQK
+ qLMytkcii8r/tWQOD/mrYb8p0FE1v5D39SwWrz57qKu95QjOKJLNQx1DXzO7hdDWu6xG
+ v1jxO5dJWWZCuf0Ql91r9t3tEB42Y/kGtlfiAMFnekTCPaOisGs/cqRZ4BJuP6oB5OPH
+ N9Qg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=VATDeEmHe81iWlkc3YdJcm4+JPfu8GfZbyW4AtdCEog=;
- b=FirsVgZIcgzjxfdDDi1NmAwiPbAlIewL4hCbcrBgJ9Fm3joOVfZlt0U0/kT29KDKfS
- Wfsw03SxCr2lyfTF13a3FcekZp3XYyuDFF8T6F8zRFgMsDHtg32caC5rF21wZgrLd1VB
- eHSRWQNw4+5Vv/xDiUykkfs1btvD30VZJZB2DoQ6XNtmTNEc7tgJO1/6x52OipeaN0cJ
- LQMHj2BOXHVw1YzrDnTnEvAeG/QZGRMB5Uj3i/43Ku/8ixrWAy/ez1nwlPV/Pt/wDLuG
- QVIhb6w50NOQmsWZU3Ioh+jfq1gpT/Kmm2FK6dVQ778UTaZiaPC06Oe5c+CXIyHrSalE
- apVg==
-X-Gm-Message-State: AOAM530hCIHeAjXLSCUraQ2vbS3TYJLkGUhCfBoi8SppYnEFB8O5rfTU
- /k3czCtpXyDnjEaXkFGGwFHgcA==
-X-Google-Smtp-Source: ABdhPJx1icjXYHeus9S5zNLsWayQncqes+KUrUYVVqTUV7BSoBGhY/hawVUhXM+DcPMTgbeqb8tn+g==
-X-Received: by 2002:a1c:2d89:: with SMTP id t131mr7419311wmt.151.1595399348037; 
- Tue, 21 Jul 2020 23:29:08 -0700 (PDT)
+ bh=FXawODYQMPXkW63coV0jaCgGZ0mloHIJB4WSMUcLFTA=;
+ b=GqVx1a6e1Bma1v9Xw0r3T73MKMsJgd6E2YEn41TCy5YBl8Dw8EoJohp4zLu68hqXoO
+ Yr+WPB1Gswi/WZFJnUMDz6OL+Q1um0eeaPZinYmg/qdZPIPa36r8Mf3MvW7bIFWpg2Kj
+ DPZq4Nb7oAUh2TRIyYv2F/J+PJNgZ/GqC2l4akhX2l1a/uQx3xK7aTim297kjJKoxsaw
+ LERw5F0E6kpiVYswSULcs84qgh7HFlCmIqc1oDPZZbiXrtce77E/gp/M3CDEHhwHmmN2
+ cWC2n0L48PVbPs16NXQaZBMdMqMGI/kkc9UCV4UvuLfoGMU8ltbpsYVee0UeXiUkT4KE
+ nSWA==
+X-Gm-Message-State: AOAM532kDyKhSEB0KNY0DdDuil+xRSOEgQicdIpSUZTWAykjxnePU8P7
+ KtaBZJc8VG7M0VYegWo5LB6Uog==
+X-Google-Smtp-Source: ABdhPJyacCCk/0B3/A+JLg/+8wPu53mnLJAoDOrwOpzG2r9MaK2Ij3/qRcsl8dNtna8kEzO+u/jVvA==
+X-Received: by 2002:a1c:f616:: with SMTP id w22mr6837124wmc.44.1595399349155; 
+ Tue, 21 Jul 2020 23:29:09 -0700 (PDT)
 Received: from zen.linaroharston ([51.148.130.216])
- by smtp.gmail.com with ESMTPSA id o21sm6122615wmh.18.2020.07.21.23.29.03
+ by smtp.gmail.com with ESMTPSA id 60sm15886664wrs.20.2020.07.21.23.29.03
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
  Tue, 21 Jul 2020 23:29:03 -0700 (PDT)
 Received: from zen.lan (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id 28CE91FF8C;
+ by zen.linaroharston (Postfix) with ESMTP id 3E4761FF8F;
  Wed, 22 Jul 2020 07:29:03 +0100 (BST)
 From: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v2 02/12] semihosting: defer connect_chardevs a little more to
- use serialx
-Date: Wed, 22 Jul 2020 07:28:52 +0100
-Message-Id: <20200722062902.24509-3-alex.bennee@linaro.org>
+Subject: [PATCH  v2 03/12] semihosting: don't send the trailing '\0'
+Date: Wed, 22 Jul 2020 07:28:53 +0100
+Message-Id: <20200722062902.24509-4-alex.bennee@linaro.org>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20200722062902.24509-1-alex.bennee@linaro.org>
 References: <20200722062902.24509-1-alex.bennee@linaro.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::343;
- envelope-from=alex.bennee@linaro.org; helo=mail-wm1-x343.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::344;
+ envelope-from=alex.bennee@linaro.org; helo=mail-wm1-x344.google.com
 X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
  That's all we know.
 X-Spam_score_int: -20
@@ -92,49 +91,41 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Cc: fam@euphon.net, berrange@redhat.com,
  =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>,
  richard.henderson@linaro.org, f4bug@amsat.org,
+ =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
  KONRAD Frederic <frederic.konrad@adacore.com>, cota@braap.org,
- Paolo Bonzini <pbonzini@redhat.com>, aurelien@aurel32.net
+ aurelien@aurel32.net
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: KONRAD Frederic <frederic.konrad@adacore.com>
 
-With that we can just use -semihosting-config chardev=serial0.
-
-[AJB: tweak commit message]
+Don't send the trailing 0 from the string.
 
 Signed-off-by: KONRAD Frederic <frederic.konrad@adacore.com>
 Signed-off-by: Alex Bennée <alex.bennee@linaro.org>
+Reviewed-by: Philippe Mathieu-Daudé <philmd@redhat.com>
 Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
-Message-Id: <1592215252-26742-1-git-send-email-frederic.konrad@adacore.com>
-Message-Id: <20200717105139.25293-3-alex.bennee@linaro.org>
+Message-Id: <1592215252-26742-2-git-send-email-frederic.konrad@adacore.com>
+Message-Id: <20200717105139.25293-4-alex.bennee@linaro.org>
 ---
- softmmu/vl.c | 5 +++--
- 1 file changed, 3 insertions(+), 2 deletions(-)
+ hw/semihosting/console.c | 4 +++-
+ 1 file changed, 3 insertions(+), 1 deletion(-)
 
-diff --git a/softmmu/vl.c b/softmmu/vl.c
-index f476ef89edb..4fedbe60c39 100644
---- a/softmmu/vl.c
-+++ b/softmmu/vl.c
-@@ -4131,8 +4131,6 @@ void qemu_init(int argc, char **argv, char **envp)
+diff --git a/hw/semihosting/console.c b/hw/semihosting/console.c
+index 22e7827824a..9b4fee92602 100644
+--- a/hw/semihosting/console.c
++++ b/hw/semihosting/console.c
+@@ -52,7 +52,9 @@ static GString *copy_user_string(CPUArchState *env, target_ulong addr)
  
-     qemu_opts_foreach(qemu_find_opts("chardev"),
-                       chardev_init_func, NULL, &error_fatal);
--    /* now chardevs have been created we may have semihosting to connect */
--    qemu_semihosting_connect_chardevs();
- 
- #ifdef CONFIG_VIRTFS
-     qemu_opts_foreach(qemu_find_opts("fsdev"),
-@@ -4281,6 +4279,9 @@ void qemu_init(int argc, char **argv, char **envp)
-     if (foreach_device_config(DEV_DEBUGCON, debugcon_parse) < 0)
-         exit(1);
- 
-+    /* now chardevs have been created we may have semihosting to connect */
-+    qemu_semihosting_connect_chardevs();
-+
-     /* If no default VGA is requested, the default is "none".  */
-     if (default_vga) {
-         vga_model = get_default_vga_model(machine_class);
+     do {
+         if (cpu_memory_rw_debug(cpu, addr++, &c, 1, 0) == 0) {
+-            s = g_string_append_c(s, c);
++            if (c) {
++                s = g_string_append_c(s, c);
++            }
+         } else {
+             qemu_log_mask(LOG_GUEST_ERROR,
+                           "%s: passed inaccessible address " TARGET_FMT_lx,
 -- 
 2.20.1
 
