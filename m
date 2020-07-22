@@ -2,71 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 171C9228F4E
-	for <lists+qemu-devel@lfdr.de>; Wed, 22 Jul 2020 06:42:54 +0200 (CEST)
-Received: from localhost ([::1]:47332 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8922C228F68
+	for <lists+qemu-devel@lfdr.de>; Wed, 22 Jul 2020 06:51:36 +0200 (CEST)
+Received: from localhost ([::1]:58164 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jy6aj-0004mA-10
-	for lists+qemu-devel@lfdr.de; Wed, 22 Jul 2020 00:42:53 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:52598)
+	id 1jy6j9-0001FG-L8
+	for lists+qemu-devel@lfdr.de; Wed, 22 Jul 2020 00:51:35 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:53868)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1jy6Yf-0002zr-F7
- for qemu-devel@nongnu.org; Wed, 22 Jul 2020 00:40:45 -0400
-Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:24667
- helo=us-smtp-1.mimecast.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1jy6Yc-0002mp-Ik
- for qemu-devel@nongnu.org; Wed, 22 Jul 2020 00:40:45 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1595392841;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:content-type:content-type:in-reply-to:in-reply-to:
- references:references; bh=5uq+UYEuC6nkUqQ+a/hfRkqBNYdVuBxxPe0O7MvBGpg=;
- b=WvwTI+WZh2c5bCGRABNjZ2UpcOTXzUAX28qfPxmNnd8hFwh3RhzmAwf4CaRAy5xsrZlDr6
- 8DcXyN+84Dl0FUWwKqnUvcmaR526Qrc2GIzMEp1IZuQLTdsMYZ4D7x2QKqbE91D+wkWB5e
- ZBlLHg70rhtVElZwB75x2eLVyNalXzA=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-380-KI7fv8rTMiqNpyg6DOuTdw-1; Wed, 22 Jul 2020 00:40:39 -0400
-X-MC-Unique: KI7fv8rTMiqNpyg6DOuTdw-1
-Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
- [10.5.11.15])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id E32E618C63C0;
- Wed, 22 Jul 2020 04:40:38 +0000 (UTC)
-Received: from thuth.com (ovpn-112-92.ams2.redhat.com [10.36.112.92])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 7461C7268C;
- Wed, 22 Jul 2020 04:40:37 +0000 (UTC)
-From: Thomas Huth <thuth@redhat.com>
-To: qemu-devel@nongnu.org,
-	Michael Roth <mdroth@linux.vnet.ibm.com>
-Subject: [PATCH v2 4/4] qga/commands-posix: Support fsinfo for non-PCI virtio
- devices, too
-Date: Wed, 22 Jul 2020 06:40:28 +0200
-Message-Id: <20200722044028.4059-5-thuth@redhat.com>
-In-Reply-To: <20200722044028.4059-1-thuth@redhat.com>
-References: <20200722044028.4059-1-thuth@redhat.com>
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=US-ASCII
-Received-SPF: pass client-ip=205.139.110.120; envelope-from=thuth@redhat.com;
- helo=us-smtp-1.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/07/21 23:27:14
-X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
-X-Spam_score_int: -40
-X-Spam_score: -4.1
-X-Spam_bar: ----
-X-Spam_report: (-4.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-1, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+ (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
+ id 1jy6iL-0000pW-NW
+ for qemu-devel@nongnu.org; Wed, 22 Jul 2020 00:50:45 -0400
+Received: from indium.canonical.com ([91.189.90.7]:52752)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
+ id 1jy6iJ-0003tN-Kz
+ for qemu-devel@nongnu.org; Wed, 22 Jul 2020 00:50:45 -0400
+Received: from loganberry.canonical.com ([91.189.90.37])
+ by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
+ id 1jy6iH-0000ha-I5
+ for <qemu-devel@nongnu.org>; Wed, 22 Jul 2020 04:50:41 +0000
+Received: from loganberry.canonical.com (localhost [127.0.0.1])
+ by loganberry.canonical.com (Postfix) with ESMTP id 5BC532E810E
+ for <qemu-devel@nongnu.org>; Wed, 22 Jul 2020 04:50:41 +0000 (UTC)
+MIME-Version: 1.0
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: quoted-printable
+Date: Wed, 22 Jul 2020 04:44:23 -0000
+From: Thomas Huth <1751494@bugs.launchpad.net>
+To: qemu-devel@nongnu.org
+X-Launchpad-Notification-Type: bug
+X-Launchpad-Bug: product=qemu; status=Fix Released; importance=Undecided;
+ assignee=None; 
+X-Launchpad-Bug-Information-Type: Public
+X-Launchpad-Bug-Private: no
+X-Launchpad-Bug-Security-Vulnerability: no
+X-Launchpad-Bug-Commenters: programmingkidx th-huth
+X-Launchpad-Bug-Reporter: John Arbuckle (programmingkidx)
+X-Launchpad-Bug-Modifier: Thomas Huth (th-huth)
+References: <151949814019.828.11043064332951500017.malonedeb@chaenomeles.canonical.com>
+Message-Id: <159539306368.28743.5724386031741947116.malone@soybean.canonical.com>
+Subject: [Bug 1751494] Re: tcg-target.inc.c:3495:no such instruction: `xgetbv'
+X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
+X-Launchpad-Message-For: qemu-devel-ml
+Precedence: bulk
+X-Generated-By: Launchpad (canonical.com);
+ Revision="4809fcb62f445aaa3ae919f7f6c3cc7d156ea57a";
+ Instance="production-secrets-lazr.conf"
+X-Launchpad-Hash: 1257302da2d8b0e30671fa99bcd4f94e8a7b131d
+Received-SPF: none client-ip=91.189.90.7; envelope-from=bounces@canonical.com;
+ helo=indium.canonical.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/07/21 23:35:28
+X-ACL-Warn: Detected OS   = Linux 3.11 and newer [fuzzy]
+X-Spam_score_int: -58
+X-Spam_score: -5.9
+X-Spam_bar: -----
+X-Spam_report: (-5.9 / 5.0 requ) BAYES_00=-1.9, HEADER_FROM_DIFFERENT_DOMAINS=1,
+ RCVD_IN_DNSWL_HI=-5, RCVD_IN_MSPIKE_H3=-0.01, RCVD_IN_MSPIKE_WL=-0.01,
+ SPF_HELO_NONE=0.001, SPF_NONE=0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
-Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -75,82 +72,49 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-s390x@nongnu.org,
- =?UTF-8?q?Tom=C3=A1=C5=A1=20Golembiovsk=C3=BD?= <tgolembi@redhat.com>,
- =?UTF-8?q?Daniel=20P=20=2E=20Berrang=C3=A9?= <berrange@redhat.com>
+Reply-To: Bug 1751494 <1751494@bugs.launchpad.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-QEMU on s390x uses virtio via channel I/O instead of PCI by default.
-Add a function to detect and provide information for virtio-scsi and
-virtio-block devices here, too.
+This has been fixed here:
+https://git.qemu.org/?p=3Dqemu.git;a=3Dcommitdiff;h=3D1019242af11400252
 
-Signed-off-by: Thomas Huth <thuth@redhat.com>
----
- qga/commands-posix.c | 42 +++++++++++++++++++++++++++++++++++++++++-
- 1 file changed, 41 insertions(+), 1 deletion(-)
+** Changed in: qemu
+       Status: New =3D> Fix Released
 
-diff --git a/qga/commands-posix.c b/qga/commands-posix.c
-index e8467ac567..744c2b5a5d 100644
---- a/qga/commands-posix.c
-+++ b/qga/commands-posix.c
-@@ -996,6 +996,39 @@ cleanup:
-     return ret;
- }
- 
-+/*
-+ * Store disk device info for non-PCI virtio devices (for example s390x
-+ * channel I/O devices). Returns true if information has been stored, or
-+ * false for failure.
-+ */
-+static bool build_guest_fsinfo_for_nonpci_virtio(char const *syspath,
-+                                                 GuestDiskAddress *disk,
-+                                                 Error **errp)
-+{
-+    unsigned int tgt[3];
-+    char *p;
-+
-+    if (!strstr(syspath, "/virtio") || !strstr(syspath, "/block")) {
-+        g_debug("Unsupported virtio device '%s'", syspath);
-+        return false;
-+    }
-+
-+    p = strstr(syspath, "/target");
-+    if (p && sscanf(p + 7, "%*u:%*u:%*u/%*u:%u:%u:%u",
-+                    &tgt[0], &tgt[1], &tgt[2]) == 3) {
-+        /* virtio-scsi: target*:0:<target>:<unit> */
-+        disk->bus_type = GUEST_DISK_BUS_TYPE_SCSI;
-+        disk->bus = tgt[0];
-+        disk->target = tgt[1];
-+        disk->unit = tgt[2];
-+    } else {
-+        /* virtio-blk: 1 disk per 1 device */
-+        disk->bus_type = GUEST_DISK_BUS_TYPE_VIRTIO;
-+    }
-+
-+    return true;
-+}
-+
- /* Store disk device info specified by @sysfs into @fs */
- static void build_guest_fsinfo_for_real_device(char const *syspath,
-                                                GuestFilesystemInfo *fs,
-@@ -1046,7 +1079,14 @@ static void build_guest_fsinfo_for_real_device(char const *syspath,
-     udev_device_unref(udevice);
- #endif
- 
--    has_hwinf = build_guest_fsinfo_for_pci_dev(syspath, disk, errp);
-+    if (strstr(syspath, "/devices/pci")) {
-+        has_hwinf = build_guest_fsinfo_for_pci_dev(syspath, disk, errp);
-+    } else if (strstr(syspath, "/virtio")) {
-+        has_hwinf = build_guest_fsinfo_for_nonpci_virtio(syspath, disk, errp);
-+    } else {
-+        g_debug("Unsupported device type for '%s'", syspath);
-+        has_hwinf = false;
-+    }
- 
-     if (has_hwinf || disk->has_dev || disk->has_serial) {
-         list->next = fs->disk;
--- 
-2.18.1
+-- =
 
+You received this bug notification because you are a member of qemu-
+devel-ml, which is subscribed to QEMU.
+https://bugs.launchpad.net/bugs/1751494
+
+Title:
+  tcg-target.inc.c:3495:no such instruction: `xgetbv'
+
+Status in QEMU:
+  Fix Released
+
+Bug description:
+  While building QEMU on Mac OS 10.6.8 I saw this error message:
+  tag-target.inc.c:3495:no such instruction: `xgetbv'
+  In the file tcg/i386/tcg-target.inc.c at line 3495 is where the issue is =
+located. This is the problem code:
+  asm ("xgetbv" : "=3Da" (xcrl), "=3Dd" (xcrh) : "c" (0));
+
+  https://github.com/asmjit/asmjit/issues/78
+  According to the above link, another project also experienced this proble=
+m on Mac OS X. The fix was to replace the name of the instruction with the =
+encoded form '.byte 0x0F, 0x01, 0xd0'. =
+
+
+  Host info:
+  Mac OS 10.6.8
+  GCC 5.2.0
+
+  Additional information:
+  This may be a gcc issue. I have compiled QEMU on Mac OS 10.12 and didn't =
+experience any issues. The compiler used was Apple's clang.
+
+To manage notifications about this bug go to:
+https://bugs.launchpad.net/qemu/+bug/1751494/+subscriptions
 
