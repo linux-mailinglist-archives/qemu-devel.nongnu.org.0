@@ -2,70 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7B1A022932A
-	for <lists+qemu-devel@lfdr.de>; Wed, 22 Jul 2020 10:10:48 +0200 (CEST)
-Received: from localhost ([::1]:38222 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D6656229319
+	for <lists+qemu-devel@lfdr.de>; Wed, 22 Jul 2020 10:08:44 +0200 (CEST)
+Received: from localhost ([::1]:58532 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jy9pv-00066S-Io
-	for lists+qemu-devel@lfdr.de; Wed, 22 Jul 2020 04:10:47 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:36940)
+	id 1jy9nv-0002s7-Tx
+	for lists+qemu-devel@lfdr.de; Wed, 22 Jul 2020 04:08:43 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:37134)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <frankja@linux.ibm.com>)
- id 1jy9lL-0007sF-TS
- for qemu-devel@nongnu.org; Wed, 22 Jul 2020 04:06:03 -0400
-Received: from mx0a-001b2d01.pphosted.com ([148.163.156.1]:10984)
+ id 1jy9m7-0000tc-Od
+ for qemu-devel@nongnu.org; Wed, 22 Jul 2020 04:06:51 -0400
+Received: from mx0b-001b2d01.pphosted.com ([148.163.158.5]:12512
+ helo=mx0a-001b2d01.pphosted.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <frankja@linux.ibm.com>)
- id 1jy9lJ-000497-6F
- for qemu-devel@nongnu.org; Wed, 22 Jul 2020 04:06:03 -0400
-Received: from pps.filterd (m0098404.ppops.net [127.0.0.1])
- by mx0a-001b2d01.pphosted.com (8.16.0.42/8.16.0.42) with SMTP id
- 06M84Hef169816
- for <qemu-devel@nongnu.org>; Wed, 22 Jul 2020 04:05:59 -0400
+ id 1jy9m2-0004Cv-Qn
+ for qemu-devel@nongnu.org; Wed, 22 Jul 2020 04:06:51 -0400
+Received: from pps.filterd (m0098416.ppops.net [127.0.0.1])
+ by mx0b-001b2d01.pphosted.com (8.16.0.42/8.16.0.42) with SMTP id
+ 06M81ZcW077989
+ for <qemu-devel@nongnu.org>; Wed, 22 Jul 2020 04:06:45 -0400
 Received: from pps.reinject (localhost [127.0.0.1])
- by mx0a-001b2d01.pphosted.com with ESMTP id 32e1xx855b-1
+ by mx0b-001b2d01.pphosted.com with ESMTP id 32e92kvcm7-1
  (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT)
- for <qemu-devel@nongnu.org>; Wed, 22 Jul 2020 04:05:58 -0400
-Received: from m0098404.ppops.net (m0098404.ppops.net [127.0.0.1])
- by pps.reinject (8.16.0.36/8.16.0.36) with SMTP id 06M85uUH178355
- for <qemu-devel@nongnu.org>; Wed, 22 Jul 2020 04:05:58 -0400
-Received: from ppma06ams.nl.ibm.com (66.31.33a9.ip4.static.sl-reverse.com
- [169.51.49.102])
- by mx0a-001b2d01.pphosted.com with ESMTP id 32e1xx8546-1
+ for <qemu-devel@nongnu.org>; Wed, 22 Jul 2020 04:06:45 -0400
+Received: from m0098416.ppops.net (m0098416.ppops.net [127.0.0.1])
+ by pps.reinject (8.16.0.36/8.16.0.36) with SMTP id 06M81lbD078957
+ for <qemu-devel@nongnu.org>; Wed, 22 Jul 2020 04:06:44 -0400
+Received: from ppma04fra.de.ibm.com (6a.4a.5195.ip4.static.sl-reverse.com
+ [149.81.74.106])
+ by mx0b-001b2d01.pphosted.com with ESMTP id 32e92kvcj5-1
  (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Wed, 22 Jul 2020 04:05:58 -0400
-Received: from pps.filterd (ppma06ams.nl.ibm.com [127.0.0.1])
- by ppma06ams.nl.ibm.com (8.16.0.42/8.16.0.42) with SMTP id 06M81oEP011122;
- Wed, 22 Jul 2020 08:05:56 GMT
-Received: from b06cxnps4075.portsmouth.uk.ibm.com
- (d06relay12.portsmouth.uk.ibm.com [9.149.109.197])
- by ppma06ams.nl.ibm.com with ESMTP id 32brbh4pds-1
+ Wed, 22 Jul 2020 04:06:44 -0400
+Received: from pps.filterd (ppma04fra.de.ibm.com [127.0.0.1])
+ by ppma04fra.de.ibm.com (8.16.0.42/8.16.0.42) with SMTP id 06M80j4b032342;
+ Wed, 22 Jul 2020 08:06:42 GMT
+Received: from b06cxnps3074.portsmouth.uk.ibm.com
+ (d06relay09.portsmouth.uk.ibm.com [9.149.109.194])
+ by ppma04fra.de.ibm.com with ESMTP id 32dbmn142n-1
  (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Wed, 22 Jul 2020 08:05:56 +0000
+ Wed, 22 Jul 2020 08:06:42 +0000
 Received: from b06wcsmtp001.portsmouth.uk.ibm.com
  (b06wcsmtp001.portsmouth.uk.ibm.com [9.149.105.160])
- by b06cxnps4075.portsmouth.uk.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
- 06M85sgO61734946
+ by b06cxnps3074.portsmouth.uk.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
+ 06M86eL032309646
  (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Wed, 22 Jul 2020 08:05:54 GMT
+ Wed, 22 Jul 2020 08:06:40 GMT
 Received: from b06wcsmtp001.portsmouth.uk.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id F1489A4062;
- Wed, 22 Jul 2020 08:05:53 +0000 (GMT)
+ by IMSVA (Postfix) with ESMTP id 29CC0A405C;
+ Wed, 22 Jul 2020 08:06:40 +0000 (GMT)
 Received: from b06wcsmtp001.portsmouth.uk.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id 999B8A405C;
- Wed, 22 Jul 2020 08:05:53 +0000 (GMT)
+ by IMSVA (Postfix) with ESMTP id CEFE1A405B;
+ Wed, 22 Jul 2020 08:06:39 +0000 (GMT)
 Received: from localhost.localdomain (unknown [9.145.169.63])
  by b06wcsmtp001.portsmouth.uk.ibm.com (Postfix) with ESMTP;
- Wed, 22 Jul 2020 08:05:53 +0000 (GMT)
-Subject: Re: [PATCH] pc-bios: s390x: Add a comment to the io and external new
- PSW setup
+ Wed, 22 Jul 2020 08:06:39 +0000 (GMT)
+Subject: Re: [PATCH 1/7] pc-bios: s390x: Fix bootmap.c zipl component entry
+ data handling
 To: Christian Borntraeger <borntraeger@de.ibm.com>, qemu-devel@nongnu.org
-References: <033b0db7-7b7d-6eb0-9018-bcc342f13509@de.ibm.com>
- <20200715140820.3401-1-frankja@linux.ibm.com>
- <3216babd-433b-4ec7-5333-43a75df2e331@de.ibm.com>
- <d493a0c2-c0df-4ed5-27af-34a9fc82927d@linux.ibm.com>
- <2e6134fb-3e34-4d3a-1bf8-1665ceffef38@de.ibm.com>
+References: <20200715094045.381984-1-frankja@linux.ibm.com>
+ <20200715094045.381984-2-frankja@linux.ibm.com>
+ <20d8b933-b37a-1ddb-4414-013eb4ec84f0@de.ibm.com>
+ <80fa1441-588e-0f69-c8e5-df79a2e021fb@linux.ibm.com>
+ <a77c0071-4b66-5096-79b0-304c267ffba5@de.ibm.com>
 From: Janosch Frank <frankja@linux.ibm.com>
 Autocrypt: addr=frankja@linux.ibm.com; prefer-encrypt=mutual; keydata=
  mQINBFubpD4BEADX0uhkRhkj2AVn7kI4IuPY3A8xKat0ihuPDXbynUC77mNox7yvK3X5QBO6
@@ -109,29 +110,29 @@ Autocrypt: addr=frankja@linux.ibm.com; prefer-encrypt=mutual; keydata=
  DchCqFm5adiSP5+OT4NjkKUeGpBe/aRyQSle/RropTgCi85pje/juYEn2P9UAgkfBJrOHvQ9
  Z+2Sva8FRd61NJLkCJ4LFumRn9wQlX2icFbi8UDV3do0hXJRRYTWCxrHscMhkrFWLhYiPF4i
  phX7UNdOWBQ90qpHyAxHmDazdo27gEjfvsgYMdveKknEOTEb5phwxWgg7BcIDoJf9UMC
-Message-ID: <cd2c8bb2-413f-b6b9-ae16-e79e838b503d@linux.ibm.com>
-Date: Wed, 22 Jul 2020 10:05:53 +0200
+Message-ID: <a0a8b71e-caca-fba9-da16-b2eb01314da0@linux.ibm.com>
+Date: Wed, 22 Jul 2020 10:06:39 +0200
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
  Thunderbird/68.8.0
 MIME-Version: 1.0
-In-Reply-To: <2e6134fb-3e34-4d3a-1bf8-1665ceffef38@de.ibm.com>
+In-Reply-To: <a77c0071-4b66-5096-79b0-304c267ffba5@de.ibm.com>
 Content-Type: multipart/signed; micalg=pgp-sha256;
  protocol="application/pgp-signature";
- boundary="KVP8ySZ9JH0NvRpzZnHODUlmqqda8d5hi"
+ boundary="uQ24Wa3VUEKrVKiA4FUsneKfk18hGShOZ"
 X-TM-AS-GCONF: 00
 X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:6.0.235, 18.0.687
  definitions=2020-07-22_03:2020-07-22,
  2020-07-22 signatures=0
 X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- spamscore=0
- priorityscore=1501 bulkscore=0 mlxlogscore=999 clxscore=1015 phishscore=0
- mlxscore=0 lowpriorityscore=0 suspectscore=0 impostorscore=0 adultscore=0
+ priorityscore=1501
+ mlxlogscore=999 clxscore=1015 mlxscore=0 impostorscore=0 adultscore=0
+ lowpriorityscore=0 spamscore=0 phishscore=0 bulkscore=0 suspectscore=0
  malwarescore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2006250000 definitions=main-2007220061
-Received-SPF: pass client-ip=148.163.156.1; envelope-from=frankja@linux.ibm.com;
+ engine=8.12.0-2006250000 definitions=main-2007220056
+Received-SPF: pass client-ip=148.163.158.5; envelope-from=frankja@linux.ibm.com;
  helo=mx0a-001b2d01.pphosted.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/07/22 02:50:42
-X-ACL-Warn: Detected OS   = Linux 3.x [generic] [fuzzy]
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/07/22 02:43:19
+X-ACL-Warn: Detected OS   = Linux 3.x [generic]
 X-Spam_score_int: -35
 X-Spam_score: -3.6
 X-Spam_bar: ---
@@ -155,128 +156,79 @@ Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
---KVP8ySZ9JH0NvRpzZnHODUlmqqda8d5hi
-Content-Type: multipart/mixed; boundary="3CEmtN9ZyS6Q3rKd3GbygFp76aliqiolf"
+--uQ24Wa3VUEKrVKiA4FUsneKfk18hGShOZ
+Content-Type: multipart/mixed; boundary="lA3TCzR1f1QnoG5YAt5j97LBp4Pnd9Pqg"
 
---3CEmtN9ZyS6Q3rKd3GbygFp76aliqiolf
+--lA3TCzR1f1QnoG5YAt5j97LBp4Pnd9Pqg
 Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
 Content-Transfer-Encoding: quoted-printable
 
-On 7/22/20 9:39 AM, Christian Borntraeger wrote:
+On 7/22/20 9:33 AM, Christian Borntraeger wrote:
 >=20
 >=20
-> On 22.07.20 09:24, Janosch Frank wrote:
->> On 7/22/20 8:43 AM, Christian Borntraeger wrote:
+> On 22.07.20 09:30, Janosch Frank wrote:
+>> On 7/22/20 8:50 AM, Christian Borntraeger wrote:
 >>>
 >>>
->>> On 15.07.20 16:08, Janosch Frank wrote:
->>>> Normally they don't need to be set up before waiting for an interrup=
+>>> On 15.07.20 11:40, Janosch Frank wrote:
+>>>> The two main types of zipl component entries are execute and
+>>>> load/data. The last member of the component entry struct therefore
+>>>> denotes either a PSW or an address. Let's make this a bit more clear=
+
+>>>> by introducing a union and cleaning up the code that uses that struc=
 t
->>>> but are set up on boot. The BIOS however might overwrite the lowcore=
-
->>>> (and hence the PSWs) when loading a blob into memory and therefore
->>>> needs to set up those PSWs more often.
+>>>> member.
+>>>>
+>>>> The execute type component entries written by zipl contain short PSW=
+s,
+>>>> not addresses. Let's mask them and only pass the address part to
+>>>> jump_to_IPL_code(uint64_t address) because it expects an address as
+>>>> visible by the name of the argument.
 >>>
->>> Now when I read the new comment this actually inidicates a bug.=20
->>> When do we restore the original content? If the loaded program
->>> does have interrupt handlers in the original image and relies on that=
-
->>> then we are broken, no?
+>>> If zipl actually specifies a PSW, shouldnt we actually USE that PSW i=
+ncluding
+>>> the zipl specified mask?
 >>
->> I haven't seen references to a save/restore functionality for those
->> PSWs. And I also think it's not that easy to do because we have multip=
-le
->> ways of loading data and if we want to print when loading we might end=
-
->> up overwriting and then saving the written value for a later restore.
->>
->> I need to have a closer look at how virtio works, but wouldn't we have=
- a
->> chicken - egg problem with IO interrupts for IO that writes the prefix=
-?
->>
->> The BIOS often has "interesting" solutions to problems.
->> If you have a quick fix, be my guest and send it. If not I'd put it on=
-
->> my todo list or let Stefan make it a proper dev item.
+>> I expected the current approach to have some kind of meaning behind it=
+,
+>> if there isn't I'll be the first one to make it more sensible.
+> I think this was just something to make it work with Linux, especially =
+when Linux
+> still started in ESA mode.(So we faked a mask that is good enough to bo=
+ot Linux and
+> then used the address). But I think the proper solution is to really us=
+e the=20
+> full PSW and go with that according to the CZAM rules.=20
 >=20
-> Maybe a global fixup table in BIOS memory that restores all the memory =
-that
-> we messed with when we hand over control? Can you at least change the c=
-omment
-> here to add a fixme?
 
-Sure
-
->=20
->>
->>>
->>>>
->>>> Signed-off-by: Janosch Frank <frankja@linux.ibm.com>
->>>> ---
->>>>  pc-bios/s390-ccw/start.S | 10 ++++++++--
->>>>  1 file changed, 8 insertions(+), 2 deletions(-)
->>>>
->>>> diff --git a/pc-bios/s390-ccw/start.S b/pc-bios/s390-ccw/start.S
->>>> index 01c4c21b26..b0fcb918cc 100644
->>>> --- a/pc-bios/s390-ccw/start.S
->>>> +++ b/pc-bios/s390-ccw/start.S
->>>> @@ -64,7 +64,10 @@ consume_sclp_int:
->>>>          stctg   %c0,%c0,0(%r15)
->>>>          oi      6(%r15),0x2
->>>>          lctlg   %c0,%c0,0(%r15)
->>>> -        /* prepare external call handler */
->>>> +        /*
->>>> +         * Prepare external new PSW as it might have been overwritt=
-en
->>>> +         * by a loaded blob
->>>> +         */
->>>>          larl %r1, external_new_code
->>>>          stg %r1, 0x1b8
->>>>          larl %r1, external_new_mask
->>>> @@ -84,7 +87,10 @@ consume_io_int:
->>>>          stctg %c6,%c6,0(%r15)
->>>>          oi    4(%r15), 0xff
->>>>          lctlg %c6,%c6,0(%r15)
->>>> -        /* prepare i/o call handler */
->>>> +        /*
->>>> +         * Prepare i/o new PSW as it might have been overwritten
->>>> +         * by a loaded blob
->>>> +         */
->>>>          larl  %r1, io_new_code
->>>>          stg   %r1, 0x1f8
->>>>          larl  %r1, io_new_mask
->>>>
->>
->>
+Okay, I'll come up with a proper fix.
 
 
+--lA3TCzR1f1QnoG5YAt5j97LBp4Pnd9Pqg--
 
---3CEmtN9ZyS6Q3rKd3GbygFp76aliqiolf--
-
---KVP8ySZ9JH0NvRpzZnHODUlmqqda8d5hi
+--uQ24Wa3VUEKrVKiA4FUsneKfk18hGShOZ
 Content-Type: application/pgp-signature; name="signature.asc"
 Content-Description: OpenPGP digital signature
 Content-Disposition: attachment; filename="signature.asc"
 
 -----BEGIN PGP SIGNATURE-----
 
-iQIzBAEBCAAdFiEEwGNS88vfc9+v45Yq41TmuOI4ufgFAl8X82EACgkQ41TmuOI4
-ufhu+A/8Cy8mEmR3Z+VT+5vkn1ZD9d35Cq8RP6TDc/+m/vOfav9sMuIAYUpoWIAN
-oKKU7ZFgifigrh61dBxwo3g3Lt7bziNMR8VuAj74nTxBeZ8YpGdDQkUKPpG2N39B
-tdva386bxdvFUw+bGgOGCnwB1M+zrLcv0AozKkoQvjlqNunVy0zsUkS+HiH6ZKS2
-SEODPN7TQQiT3S4deRPUFODF7EgQ9kGGrKAhWxiQojWUOYamWrVQfkEzqnZZ97Wr
-2OGHw+avrEvJ52AQN7hpunXQTWBDv0FNxKhacFcwN63t/cGG3yBVSdX5eVUDv9s0
-c8Ig6a+N8lpZINXS1MK7nAB8ej/shlTcxdR6lPp17DV7asElJY+SdABIuL4wcjtd
-Xugg13QJiA8ZCyJ6rP1Mr7HSQU0xDna0uQo2jKu18l8KEOLYJvn7oFrdMcMmqV4u
-O7nlSdrPgswwjQVe6JWpsf/Lrs5/2llxS6DePvAJpsDTPISQUFqdJCu6/GEeky0x
-S3ZjzDf6Px6RuU511q7UuxjpaMeCOyj1dRUCxN/iZoRF/aWeOGJfbvfOb1lYwgxh
-+c6gUusjOtvzed7T9jhNb2LjSSLinldcNBtfiROe5DioGavsjnCtE9q7gmbWuBLS
-tfaQBMxZ6IkqvUSjFvc+WG7m2qWpPnz7o9yajHVadctH0Pawl0M=
-=g1te
+iQIzBAEBCAAdFiEEwGNS88vfc9+v45Yq41TmuOI4ufgFAl8X848ACgkQ41TmuOI4
+ufj/6hAAtPLSTTn2Km0Ll5Gr4vYqRSoVERuH9071WFm4BuQBxvlljJgIyVqZRB5/
+lI6SMdJY/08jYEff+Gzf5XeugeUtXAGTLn5sQ7HAIvXNFNziUCAaod7yqcx6bGZF
+5OJB75sYkRDZc0d1jzrBQ+11L8Mb44v0Qli5LgOUp8ggAh8EKw4vea7yOVbyZ46l
+GtlCMhwsRXRa0KPVlpBEv9+P2ep9aW6A9qmO+xVagAAMW98IftKB933kFNnWRhuU
+rPEvOdP2TUXBuWyTn0/LEIDa9eCLuQYvz7ncqILk50uSu9Oyi0yTv9I//JI0CoAU
+NN6Bc+PVMxxAZlGbk/5skpl2EBP9AaUsfuqOzq4+VsaGEfc9ULwv9ce6KlDwTt9J
+WAZ/7QNzISJFSEgcZJ1DPbN6GRgNpuHaDO3kQixFMWdEgOtlNUfoXX8WLs1VF9hj
+4r3cuWugnbLV7+7Vk5ZJWjNma9x5V+S+7/rJ010Y4sGNNEYKxRhnB0bLPCUdYJwl
+kBl05YJCAi4Tq00c78srrZkCfjQLBNvseLcuG3MqNJVPxN9lYm4awza8tWbKdZ4P
+YpBgw4MFXWLdpZlAy4m/goaVuhXYD8GC3qYe7J6wA5vz+QNRQzGXXl0wVnCkiR8E
+qCmYe2vuEchjxSsHaZ6ZHXFzftZOjUvm0lQYpvn2IpmIElkL8uA=
+=dqdF
 -----END PGP SIGNATURE-----
 
---KVP8ySZ9JH0NvRpzZnHODUlmqqda8d5hi--
+--uQ24Wa3VUEKrVKiA4FUsneKfk18hGShOZ--
 
 
