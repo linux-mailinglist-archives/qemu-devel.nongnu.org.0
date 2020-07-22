@@ -2,68 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2CA5222915C
-	for <lists+qemu-devel@lfdr.de>; Wed, 22 Jul 2020 08:55:05 +0200 (CEST)
-Received: from localhost ([::1]:50974 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A119022916D
+	for <lists+qemu-devel@lfdr.de>; Wed, 22 Jul 2020 08:56:35 +0200 (CEST)
+Received: from localhost ([::1]:53756 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jy8ee-0005Fe-7s
-	for lists+qemu-devel@lfdr.de; Wed, 22 Jul 2020 02:55:04 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:47750)
+	id 1jy8g6-0006UX-Ox
+	for lists+qemu-devel@lfdr.de; Wed, 22 Jul 2020 02:56:34 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:47994)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1jy8dt-0004Zr-1Z
- for qemu-devel@nongnu.org; Wed, 22 Jul 2020 02:54:17 -0400
-Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:44060
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1jy8f4-0005jb-CM
+ for qemu-devel@nongnu.org; Wed, 22 Jul 2020 02:55:30 -0400
+Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:39699
  helo=us-smtp-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1jy8dr-0002Ok-Ek
- for qemu-devel@nongnu.org; Wed, 22 Jul 2020 02:54:16 -0400
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1jy8f2-0002bZ-MT
+ for qemu-devel@nongnu.org; Wed, 22 Jul 2020 02:55:30 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1595400854;
+ s=mimecast20190719; t=1595400927;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
- bh=5uXzey2OTG1f+yg5assNjVI8pL8btjS/UeJPYf8IhZ0=;
- b=c4uGrlbGe/2qiEPloNj825dVB1tX5jtV932Zn8ZNT6vAp8ss3eUsahLISL/iEWTardRGEE
- MzyIpasRLtaATerVac3Vfv5iBBjiz3SOL7h1y81AyKqG5b7qnemkHFu8PJO6GOxXLhiSsR
- KJUOvjZS1rH5VfOjXHs1JbCEPLjhqvo=
-Received: from mail-ej1-f69.google.com (mail-ej1-f69.google.com
- [209.85.218.69]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-44-5QxqaMw5MZWrlyZR5s5SJw-1; Wed, 22 Jul 2020 02:54:12 -0400
-X-MC-Unique: 5QxqaMw5MZWrlyZR5s5SJw-1
-Received: by mail-ej1-f69.google.com with SMTP id lg24so615854ejb.11
- for <qemu-devel@nongnu.org>; Tue, 21 Jul 2020 23:54:12 -0700 (PDT)
+ bh=F6EE/98OqJDs1uHTA88M/+ICntTLO6ujMdXq95SikSA=;
+ b=SNgrJkzefZqp5pAbj06UQmY14YZy/q8Umtl6MENcOpERwFl6NTkGTNdnlatjadgaB+LHaj
+ Yk3nockbxqPAvopenJ7ghY4WDhBO5KY5AIq5Cjxasrp9FWz4IywGslXzA0lIDpqxI/LuVc
+ F5fbfCAQA1xaJOvHJv0LIItoamttREY=
+Received: from mail-ej1-f71.google.com (mail-ej1-f71.google.com
+ [209.85.218.71]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-73-aDSHwhywOWa3cyB0pl6JQg-1; Wed, 22 Jul 2020 02:55:25 -0400
+X-MC-Unique: aDSHwhywOWa3cyB0pl6JQg-1
+Received: by mail-ej1-f71.google.com with SMTP id dc5so609842ejb.18
+ for <qemu-devel@nongnu.org>; Tue, 21 Jul 2020 23:55:25 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:subject:to:cc:references:from:autocrypt
  :message-id:date:user-agent:mime-version:in-reply-to
  :content-language:content-transfer-encoding;
- bh=5uXzey2OTG1f+yg5assNjVI8pL8btjS/UeJPYf8IhZ0=;
- b=ogvnNYdtXtp6XP/hPWMQmMEy5ebwu3ykkTPD8BAaT6r3lFDf8cNzM2nCXdd7lyI5Xa
- lbw5TKbluqghsYjqkNg85tSuVwEkdL/+lTBx2RAmFmk4g3RC/LQVgpncvlprO+KPa4tm
- i0IScGvB8wYLMIKcP+mqnvl6cyiHHELU7ZUbVmlzWjW1qA+axZ/ntl/k1/R3mXqhXBkc
- zOR5ihswrz5nSMSPPpmEo9wf0IxzZasSCkuG7HZP5lFLzIgS94kDHEg/xWcf8XIutV8A
- 0LU0GZVgR4J2ins14SpUuuCbQRzNI/dth6E73P4gm3j7wHDgvy8/EK1Hnn8kzKln9zdp
- zv0Q==
-X-Gm-Message-State: AOAM532WxUGGoZWwYvf7fv+GUBhg4niw3PFUyaCKbiGpQA4cCzhugQgR
- qZE1GU6ChS+e4ruuIllGU+SVL6a/phg3WQQkkioyiWkzQgFEdZkDKmoQtKTdZmQKj+8Jc2T2vl6
- 0a57yE6lpT2BZsUU=
-X-Received: by 2002:aa7:d8cf:: with SMTP id k15mr28408246eds.250.1595400851703; 
- Tue, 21 Jul 2020 23:54:11 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJyHvLgkLvdJPEg5VKeSkGla5a28LQQP6A59tbxn6xpryWeRlOPjBjvRK3q5i59zpu1k2lxIzA==
-X-Received: by 2002:aa7:d8cf:: with SMTP id k15mr28408222eds.250.1595400851512; 
- Tue, 21 Jul 2020 23:54:11 -0700 (PDT)
+ bh=F6EE/98OqJDs1uHTA88M/+ICntTLO6ujMdXq95SikSA=;
+ b=sI1rZCmiqHVM0B/LL7EnyI+iYdBFGzcYQbiRaRJLA3SUK+EOYMpv/JcQ+UTEZ2UITc
+ gEEzmboadt1mO9JDRncFgDmwS5MVxf2Ki30gnaiwWRchLYsNkas71BklEDmbxlSmmIBD
+ YyVOnEx53BokQDUcixENuLz5J+8FzRpUXExtE+7BuDNUihUNPP7fccIcDcpj65fB7KtH
+ YHk8maFBTqb8dcWhf0Fq+G1fOmG8TkfLG4TPRB+7ACC1HLuzGbaKiab6NkaJYcMVqPIo
+ CMAScTAdEq72J8JHJLveFH/wPUEajUudkkrrBCzRqNRJDKzkMuJHsVVW35ECYZaT8tso
+ rt4g==
+X-Gm-Message-State: AOAM533QRqR9VCkdwPdMptIt6aXVbAICbuHxC110KrPDHMmW44mFjqbs
+ APM1cQwQBRPysRg/4sD2HfLC3DFrDgVlS1FzYJzhiRas8lXKoJeelChjDGfGOhjalTCl7eOI/xF
+ 9oQuDt+WKEzJekYE=
+X-Received: by 2002:a17:906:f20d:: with SMTP id
+ gt13mr29200776ejb.117.1595400924163; 
+ Tue, 21 Jul 2020 23:55:24 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJxi4C59JQ8TgKAYnVb1eqZYmoIAkYV81ra5B/bKYcDY1MStwX7pDKNNjZltiRZrGQOHooFFBw==
+X-Received: by 2002:a17:906:f20d:: with SMTP id
+ gt13mr29200762ejb.117.1595400923994; 
+ Tue, 21 Jul 2020 23:55:23 -0700 (PDT)
 Received: from [192.168.1.36] (138.red-83-57-170.dynamicip.rima-tde.net.
  [83.57.170.138])
- by smtp.gmail.com with ESMTPSA id u13sm18575703eds.10.2020.07.21.23.54.09
+ by smtp.gmail.com with ESMTPSA id w18sm18213824ejc.62.2020.07.21.23.55.22
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 21 Jul 2020 23:54:10 -0700 (PDT)
-Subject: Re: [PATCH v2 2/9] target/arm: Move setting of CPU halted state to
- generic code
+ Tue, 21 Jul 2020 23:55:23 -0700 (PDT)
+Subject: Re: [PATCH v2 4/9] ppc/e500: Use start-powered-off CPUState property
 To: Thiago Jung Bauermann <bauerman@linux.ibm.com>, qemu-ppc@nongnu.org
 References: <20200722035016.469075-1-bauerman@linux.ibm.com>
- <20200722035016.469075-3-bauerman@linux.ibm.com>
+ <20200722035016.469075-5-bauerman@linux.ibm.com>
 From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
 Autocrypt: addr=philmd@redhat.com; keydata=
  mQINBDXML8YBEADXCtUkDBKQvNsQA7sDpw6YLE/1tKHwm24A1au9Hfy/OFmkpzo+MD+dYc+7
@@ -88,12 +89,12 @@ Autocrypt: addr=philmd@redhat.com; keydata=
  9BFSL3qgXuXso/3XuWTQjJJGgKhB6xXjMmb1J4q/h5IuVV4juv1Fem9sfmyrh+Wi5V1IzKI7
  RPJ3KVb937eBgSENk53P0gUorwzUcO+ASEo3Z1cBKkJSPigDbeEjVfXQMzNt0oDRzpQqH2vp
  apo2jHnidWt8BsckuWZpxcZ9+/9obQ55DyVQHGiTN39hkETy3Emdnz1JVHTU0Q==
-Message-ID: <b9301808-87f7-1ba6-bd95-f5a12c95344e@redhat.com>
-Date: Wed, 22 Jul 2020 08:54:08 +0200
+Message-ID: <29a87d12-ce2a-2d48-2578-860e160565e9@redhat.com>
+Date: Wed, 22 Jul 2020 08:55:21 +0200
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
  Thunderbird/68.5.0
 MIME-Version: 1.0
-In-Reply-To: <20200722035016.469075-3-bauerman@linux.ibm.com>
+In-Reply-To: <20200722035016.469075-5-bauerman@linux.ibm.com>
 Content-Language: en-US
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=philmd@redhat.com
@@ -101,17 +102,17 @@ X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=utf-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=205.139.110.120; envelope-from=philmd@redhat.com;
+Received-SPF: pass client-ip=207.211.31.120; envelope-from=philmd@redhat.com;
  helo=us-smtp-1.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/07/21 23:27:14
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/07/22 00:40:35
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
-X-Spam_score_int: -40
-X-Spam_score: -4.1
-X-Spam_bar: ----
-X-Spam_report: (-4.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1,
+X-Spam_score_int: -30
+X-Spam_score: -3.1
+X-Spam_bar: ---
+X-Spam_report: (-3.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-1, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H4=-0.01, RCVD_IN_MSPIKE_WL=-0.01,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -138,15 +139,45 @@ Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 On 7/22/20 5:50 AM, Thiago Jung Bauermann wrote:
-> This change is in a separate patch because it's not so obvious that it
-> won't cause a regression.
+> Instead of setting CPUState::halted to 1 in ppce500_cpu_reset_sec(), use
+> the start-powered-off property which makes cpu_common_reset() initialize it
+> to 1 in common code.
 > 
-> Suggested-by: Eduardo Habkost <ehabkost@redhat.com>
 > Signed-off-by: Thiago Jung Bauermann <bauerman@linux.ibm.com>
 > ---
->  hw/core/cpu.c    | 2 +-
->  target/arm/cpu.c | 1 -
->  2 files changed, 1 insertion(+), 2 deletions(-)
+>  hw/ppc/e500.c | 10 +++++++---
+>  1 file changed, 7 insertions(+), 3 deletions(-)
+> 
+> NB: I was only able to test that this patch builds. I wasn't able to
+> run it.
+> 
+> diff --git a/hw/ppc/e500.c b/hw/ppc/e500.c
+> index ab9884e315..dda71bc05d 100644
+> --- a/hw/ppc/e500.c
+> +++ b/hw/ppc/e500.c
+> @@ -704,9 +704,6 @@ static void ppce500_cpu_reset_sec(void *opaque)
+>  
+>      cpu_reset(cs);
+>  
+> -    /* Secondary CPU starts in halted state for now. Needs to change when
+> -       implementing non-kernel boot. */
+> -    cs->halted = 1;
+>      cs->exception_index = EXCP_HLT;
+>  }
+>  
+> @@ -897,6 +894,13 @@ void ppce500_init(MachineState *machine)
+>          } else {
+>              /* Secondary CPUs */
+>              qemu_register_reset(ppce500_cpu_reset_sec, cpu);
+> +
+> +            /*
+> +             * Secondary CPU starts in halted state for now. Needs to change
+> +             * when implementing non-kernel boot.
+> +             */
+> +            object_property_set_bool(OBJECT(cs), "start-powered-off", true,
+> +                                     &error_abort);
+>          }
+>      }
 
 Reviewed-by: Philippe Mathieu-Daudé <philmd@redhat.com>
 
