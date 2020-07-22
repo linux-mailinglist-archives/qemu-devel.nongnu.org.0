@@ -2,85 +2,108 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7B013229141
-	for <lists+qemu-devel@lfdr.de>; Wed, 22 Jul 2020 08:49:56 +0200 (CEST)
-Received: from localhost ([::1]:38146 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1854022914C
+	for <lists+qemu-devel@lfdr.de>; Wed, 22 Jul 2020 08:51:42 +0200 (CEST)
+Received: from localhost ([::1]:42800 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jy8Zf-0008LS-Ie
-	for lists+qemu-devel@lfdr.de; Wed, 22 Jul 2020 02:49:55 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:46662)
+	id 1jy8bN-0001sX-5s
+	for lists+qemu-devel@lfdr.de; Wed, 22 Jul 2020 02:51:41 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:46862)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1jy8Yu-0007rJ-Gl
- for qemu-devel@nongnu.org; Wed, 22 Jul 2020 02:49:08 -0400
-Received: from mail-ed1-x544.google.com ([2a00:1450:4864:20::544]:45627)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1jy8Ys-0001hZ-WD
- for qemu-devel@nongnu.org; Wed, 22 Jul 2020 02:49:08 -0400
-Received: by mail-ed1-x544.google.com with SMTP id d16so780945edz.12
- for <qemu-devel@nongnu.org>; Tue, 21 Jul 2020 23:49:06 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=sender:subject:to:cc:references:from:message-id:date:user-agent
- :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=bEpqDMbsJ3CyxAXXiTqOosllIjKxqU7go4mt46yt1SQ=;
- b=W3aW2nGZ+78U+Y5ck+HcdjEzOxMYFwMYhzIfrfHFJLha+CwcRWrxgwkMfPdpBOL5/j
- VdODCvRFmOQ+IZ4XSa2cRyQKa6cbPR+NETqri0mnWMjaTa89IEc2w0tlYk29VZs3R0Dw
- H9IAvMy/uckmCcNEj9rMqtFrC96vqe3Q689KkPdsx8QuGUtuw7pzrDgASr9hbIA+yFae
- ZTyA02qURrmL7y/3VaxIKJX4PhutIX/yJMrdw79H2D9l/Bq9J4kv3n9keAAyPGG6ou7l
- pDp/osj3jXiterq1nKcYquCVO/ejQ7/BfEeiizMFOfmAxgo7Nzn598jBO96+6t1vmFHP
- VANA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:sender:subject:to:cc:references:from:message-id
- :date:user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=bEpqDMbsJ3CyxAXXiTqOosllIjKxqU7go4mt46yt1SQ=;
- b=D1IXuGR9VKv8w7hJiuVw3HBsQV/aI/hxEBJyvjwV/6mgGmMWHEgTgxpXM7g1ghNSfY
- ZBmo/NoBe8pvas1pYkt4hKXt/tBYkzRvdSAJj8fsk04ZI7zjXyH3yi08Ki2JqR6aynmx
- qqQETxRyJhO4uahdK1gRVEmTPMWnKZK2d//HpQ82TH9J2tmyyX/TGuknf+rqHNLHUm1C
- lnG6jQsMif+cMm4wb1p3VGAT0gfFP2X+DjCRulg+oSLPhyisd45O7iNJPglfJ6tyVFOO
- Ww+UFklKpS1Q0HlgI5TBIxkPZ+hyEgDfzPLNnWfJR4Ljo079D79TexvgIzevAvFrLe3o
- r8sQ==
-X-Gm-Message-State: AOAM530eIQ+9NSSTrkEqap9QrzgyTuY0osx+EHzozrLsz1BKV/z/V6kp
- UZqKVIDC7bJVCxpYfCCfCr0=
-X-Google-Smtp-Source: ABdhPJzFJZRI2MmvFbZXxPTR5ZCJzYS3A4DIdeGodMrKAAHEfFKJj+WP7r4G7xeVxMORgzQfrBb6UQ==
-X-Received: by 2002:a05:6402:1c96:: with SMTP id
- cy22mr28793783edb.79.1595400545312; 
- Tue, 21 Jul 2020 23:49:05 -0700 (PDT)
-Received: from [192.168.1.36] (138.red-83-57-170.dynamicip.rima-tde.net.
- [83.57.170.138])
- by smtp.gmail.com with ESMTPSA id b4sm18547483edx.96.2020.07.21.23.49.04
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 21 Jul 2020 23:49:04 -0700 (PDT)
-Subject: Re: [PATCH v2 05/12] util/oslib-win32: add qemu_get_host_physmem
- implementation
+ (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1jy8aN-0000gO-38
+ for qemu-devel@nongnu.org; Wed, 22 Jul 2020 02:50:39 -0400
+Received: from mout.kundenserver.de ([212.227.126.130]:36921)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1jy8aL-0001sn-3A
+ for qemu-devel@nongnu.org; Wed, 22 Jul 2020 02:50:38 -0400
+Received: from [192.168.100.1] ([82.252.135.186]) by mrelayeu.kundenserver.de
+ (mreue011 [213.165.67.103]) with ESMTPSA (Nemesis) id
+ 1N6Kl7-1kv2h52QJ7-016cdK; Wed, 22 Jul 2020 08:49:58 +0200
+Subject: Re: [PATCH v2 12/12] linux-user: fix clock_nanosleep()
 To: =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>,
  qemu-devel@nongnu.org
 References: <20200722062902.24509-1-alex.bennee@linaro.org>
- <20200722062902.24509-6-alex.bennee@linaro.org>
-From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>
-Message-ID: <64bfc75d-542b-203c-af9b-9acc441f56c4@amsat.org>
-Date: Wed, 22 Jul 2020 08:49:03 +0200
+ <20200722062902.24509-13-alex.bennee@linaro.org>
+From: Laurent Vivier <laurent@vivier.eu>
+Autocrypt: addr=laurent@vivier.eu; prefer-encrypt=mutual; keydata=
+ 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
+Message-ID: <2c1c17a6-9bae-322b-9e28-722d11074405@vivier.eu>
+Date: Wed, 22 Jul 2020 08:49:56 +0200
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.5.0
+ Thunderbird/68.9.0
 MIME-Version: 1.0
-In-Reply-To: <20200722062902.24509-6-alex.bennee@linaro.org>
+In-Reply-To: <20200722062902.24509-13-alex.bennee@linaro.org>
 Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
+Content-Language: fr
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::544;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-ed1-x544.google.com
-X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
- That's all we know.
-X-Spam_score_int: 0
-X-Spam_score: 0.0
-X-Spam_bar: /
-X-Spam_report: (0.0 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1, DKIM_VALID=-0.1,
- DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=1, FREEMAIL_FROM=0.001,
- HEADER_FROM_DIFFERENT_DOMAINS=1, RCVD_IN_DNSWL_NONE=-0.0001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=no autolearn_force=no
+X-Provags-ID: V03:K1:pPyML5BIBtO/YIqfvx0jN20WyfAQQAoIOHTVgTBBQ1Zzo24sY6U
+ W+8wo8wldIL6QEDaj4WJNTf+LCO8Ifczd3eAxnaCPOu9dIAsQ2uUoU9GEH5C30OAFuoCXK6
+ JGFhdWrQYobkcg1bTYs24915bw48/NOUQCYATsdyP8GYQ2wAoOTgZxOra3Iw1gZ5NSVjwbJ
+ KUUWo7z0SJoFld5bt0HDA==
+X-UI-Out-Filterresults: notjunk:1;V03:K0:tQbNLIZptbM=:hiC2/HBL2bObcF0vPSC9Nc
+ VM1pQxcj5xEGo7Jth54rqJ4Px5iW1oJkCJydk30FUIhJ5upxeyNaJpS60bWJT6aaGCtmR1Geb
+ NmGbf3UDpOrNPW8Bvl/AET0KmNbKb4Io89kLpySyKEGAbEMc9gWJgRiKd+ARigN5ja9yUoQYi
+ U1ybISsg7IDg4+Ss928iPzzQSB+HxlYEnbfPHaizLTx9ZfYlnqaADcesbrVxzO4Isk+OV1jbj
+ ZyRp+hgpwMbCMH5rB84diGQDtgW9dBR3sMml2Fv1RAd2V6XaQyba3tGs7ChgqlOk0NLC063Db
+ awXncowPpYxtPnUx+JMFNQ5WSx8tREGDA2xC5w7AoqzCzeRUhcUJS3kPPv51WlucShXSxcIgT
+ mBc3NMb2vFGttBBuF28mRJtxsYWY9+ggv5l9SNkkA3bJ6zSJszXXdzvEAa/b5p4u1sdUtQzWB
+ IsFf47PP1p2Sc+pMflEqyvlgkuRwaih+TEPS1+WwwOwU8b5DlxXa6h5MAQRqjZL0Z3jqlivqz
+ DALTBMH6WhN0g2bCv3HV8x4SBwwWD4T+UmQIHA35CGbvK19p9+0g7jJ3cOXRgilUhakrOvvHj
+ rZ1cMSUElxxfQhGjCP97IO6sH8MmcX9ZWxqlBMmUfyTgHU63SsUlCyUi3PoDLU3D6VWcqzeFT
+ kdc9Ak90poU/fYenq5aeBFH4IIkPf3ziaQjtMpKVWAA8nfWUJLd/F3MU+OA+atIJfs8zv/DRX
+ A5T2oggee41CuVMXzXu5b4nuDMhhNjl94voQin38T5l6/3NkDobdSVqS0riav4lRYfadNHSMo
+ ulEfVNj9+Vbq13//bs2YAOh10oBd8OUVolNKn6iYDNi0LX4BqVDyXoHn5RPN7v7sW28sb4V
+Received-SPF: none client-ip=212.227.126.130; envelope-from=laurent@vivier.eu;
+ helo=mout.kundenserver.de
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/07/22 02:50:35
+X-ACL-Warn: Detected OS   = Linux 3.11 and newer
+X-Spam_score_int: -28
+X-Spam_score: -2.9
+X-Spam_bar: --
+X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_NONE=-0.0001,
+ RCVD_IN_MSPIKE_H2=-1, SPF_HELO_NONE=0.001,
+ SPF_NONE=0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -93,54 +116,71 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: fam@euphon.net, berrange@redhat.com, Stefan Weil <sw@weilnetz.de>,
- richard.henderson@linaro.org, cota@braap.org, aurelien@aurel32.net
+Cc: fam@euphon.net, berrange@redhat.com, richard.henderson@linaro.org,
+ f4bug@amsat.org, cota@braap.org, aurelien@aurel32.net
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 7/22/20 8:28 AM, Alex Bennée wrote:
-> It seems GetPhysicallyInstalledSystemMemory isn't available in the
-> MinGW headers so we have to declare it ourselves. Compile tested only.
+Le 22/07/2020 à 08:29, Alex Bennée a écrit :
+> From: Laurent Vivier <laurent@vivier.eu>
 > 
-> Cc: Stefan Weil <sw@weilnetz.de>
-> Signed-off-by: Alex Bennée <alex.bennee@linaro.org>
-
-Reviewed-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
-
+> If clock_nanosleep() encounters an error, it returns one of the positive
+> error number.
+> 
+> If the call is interrupted by a signal handler, it fails with error EINTR
+> and if "remain" is not NULL and "flags" is not TIMER_ABSTIME, it returns
+> the remaining unslept time in "remain".
+> 
+> Update linux-user to not overwrite the "remain" structure if there is no
+> error.
+> 
+> Found with "make check-tcg", linux-test fails on nanosleep test:
+> 
+>   TEST    linux-test on x86_64
+> .../tests/tcg/multiarch/linux-test.c:242: nanosleep
+> make[2]: *** [../Makefile.target:153: run-linux-test] Error 1
+> make[1]: *** [.../tests/tcg/Makefile.qemu:76: run-guest-tests] Error 2
+> make: *** [.../tests/Makefile.include:857: run-tcg-tests-x86_64-linux-user] Error 2
+> 
+> Reported-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
+> Signed-off-by: Laurent Vivier <laurent@vivier.eu>
+> Message-Id: <20200721201754.2731479-1-laurent@vivier.eu>
 > ---
->  util/oslib-win32.c | 15 +++++++++++++--
->  1 file changed, 13 insertions(+), 2 deletions(-)
+>  linux-user/syscall.c | 15 ++++++++++++---
+>  1 file changed, 12 insertions(+), 3 deletions(-)
 > 
-> diff --git a/util/oslib-win32.c b/util/oslib-win32.c
-> index 31030463cc9..f0f94833197 100644
-> --- a/util/oslib-win32.c
-> +++ b/util/oslib-win32.c
-> @@ -43,6 +43,8 @@
->  /* this must come after including "trace.h" */
->  #include <shlobj.h>
->  
-> +WINBASEAPI BOOL WINAPI GetPhysicallyInstalledSystemMemory (PULONGLONG);
-> +
->  void *qemu_oom_check(void *ptr)
->  {
->      if (ptr == NULL) {
-> @@ -831,6 +833,15 @@ char *qemu_get_host_name(Error **errp)
->  
->  size_t qemu_get_host_physmem(void)
->  {
-> -    /* currently unimplemented */
-> -    return 0;
-> +    ULONGLONG mem;
-> +
-> +    if (GetPhysicallyInstalledSystemMemory(&mem)) {
-> +        if (mem > SIZE_MAX) {
-> +            return SIZE_MAX;
-> +        } else {
-> +            return mem;
+> diff --git a/linux-user/syscall.c b/linux-user/syscall.c
+> index 1211e759c26..caa7cd3cab9 100644
+> --- a/linux-user/syscall.c
+> +++ b/linux-user/syscall.c
+> @@ -11829,10 +11829,19 @@ static abi_long do_syscall1(void *cpu_env, int num, abi_long arg1,
+>      {
+>          struct timespec ts;
+>          target_to_host_timespec(&ts, arg3);
+> -        ret = get_errno(safe_clock_nanosleep(arg1, arg2,
+> -                                             &ts, arg4 ? &ts : NULL));
+> -        if (arg4)
+> +        /*
+> +         * clock_nanosleep() returns 0 or one of the *positive* error number.
+> +         */
+> +        ret = host_to_target_errno(safe_clock_nanosleep(arg1, arg2, &ts,
+> +                                                        arg4 ? &ts : NULL));
+> +        /*
+> +         * if the call is interrupted by a signal handler, it fails
+> +         * with error TARGET_EINTR and if arg4 is not NULL and arg2 is not
+> +         * TIMER_ABSTIME, it returns the remaining unslept time in arg4.
+> +         */
+> +        if (ret == TARGET_EINTR && arg4 && arg2 != TIMER_ABSTIME) {
+>              host_to_target_timespec(arg4, &ts);
 > +        }
-> +    } else {
-> +        return 0;
-> +    }
->  }
+>  
+>  #if defined(TARGET_PPC)
+>          /* clock_nanosleep is odd in that it returns positive errno values.
 > 
+
+Wait a little before pushing that: I've made more tests and it seems to
+break something in LTP. I have to analyze.
+
+Thanks,
+Laurent
 
