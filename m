@@ -2,76 +2,51 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 058212294E6
-	for <lists+qemu-devel@lfdr.de>; Wed, 22 Jul 2020 11:29:09 +0200 (CEST)
-Received: from localhost ([::1]:55334 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id AC8CF2294A5
+	for <lists+qemu-devel@lfdr.de>; Wed, 22 Jul 2020 11:16:55 +0200 (CEST)
+Received: from localhost ([::1]:51884 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jyB3k-000320-0p
-	for lists+qemu-devel@lfdr.de; Wed, 22 Jul 2020 05:29:08 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:53458)
+	id 1jyAru-0003lS-G1
+	for lists+qemu-devel@lfdr.de; Wed, 22 Jul 2020 05:16:54 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:52162)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <frank.chang@sifive.com>)
- id 1jyAtx-0000Gg-CM
- for qemu-devel@nongnu.org; Wed, 22 Jul 2020 05:19:01 -0400
-Received: from mail-pg1-x542.google.com ([2607:f8b0:4864:20::542]:46534)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <frank.chang@sifive.com>)
- id 1jyAtu-0005W2-Ip
- for qemu-devel@nongnu.org; Wed, 22 Jul 2020 05:19:01 -0400
-Received: by mail-pg1-x542.google.com with SMTP id s189so857282pgc.13
- for <qemu-devel@nongnu.org>; Wed, 22 Jul 2020 02:18:58 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=sifive.com; s=google;
- h=from:to:cc:subject:date:message-id:in-reply-to:references;
- bh=6l7ajT+KNolo0CGKboLF/OzzmhcDECUMbbw6mVvJ14o=;
- b=KOZSJwebz0Y7RyEt60irDwlHYeE/gcbbE7SXN5eHqWuXCJSNftu/iNDsi736pLa5f4
- tA9ui0lpHBgYTt0GayuT8uCGaSHhhTPLxMmVC71dJx5Y7DylYc5AR1SHLryYbxXd4gVY
- aSELJivstDPO65LBIg79Un4YuL465Cv0lNSsbzKpjVfae1wCFAuUnEbKWHgC0eZj8kl+
- yb/203ksDEwuXgbGIY0KJBwUSeMQdbyITB8TFu+Y0oomau3CcFtymifFzzoNHOzphkP6
- PzWhmGiATCjnFSwmVQg4dya0dRwnVotJvp4VAP50Wfyqj3Jzd4oNzclO8GbhhDP55AXi
- 5gZA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
- :references;
- bh=6l7ajT+KNolo0CGKboLF/OzzmhcDECUMbbw6mVvJ14o=;
- b=bJqyy8xc09MsTZ2fm0D8wcu7CeKrRmwe7JaC9ViNBxJRWQAXJFzOBzUepkdLzyeFYB
- rhXcbKlNTx+LsfhL2SO/9VG/7l7znO8lAFMzhQVFQO0zawqMwmLVIu0PtHxYwDewtVQn
- FdI73aCXk9ST6fYTZsUVGOVJEoZjS7nU6z4Jc1dbwLc+625x4gAcUklJl5CArDx9VdqC
- FB8OTytHeTuWmbsIjkqKALEpioRJRp40IFdWn2a6071tltCLIZGKL9cQKkjzi4baw0q2
- kmktI6NAk7Vwu18PsyxU7ZC6VkiDVVLbWuvWSSTOxyHs6myGraY8vATTvtpkUiBXaX9R
- c3Vg==
-X-Gm-Message-State: AOAM533IBfD7/EE9RJv6InUrUKFD95TUeUtj6w9KJQqrK7qoz8isKdt1
- BY54kevQD/5GKeOHHR9Zrne59bX52tQ=
-X-Google-Smtp-Source: ABdhPJyOhIcggfbs5DsF5MgqfWnXsbLbJibleSVTqSJRw3v+NVRiIQFp5l6QX4Sg7QOR+48mHaObQg==
-X-Received: by 2002:a62:1782:: with SMTP id 124mr26899231pfx.204.1595409537051; 
- Wed, 22 Jul 2020 02:18:57 -0700 (PDT)
-Received: from frankchang-ThinkPad-T490.internal.sifive.com
- (114-34-229-221.HINET-IP.hinet.net. [114.34.229.221])
- by smtp.gmail.com with ESMTPSA id c125sm22301879pfa.119.2020.07.22.02.18.54
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 22 Jul 2020 02:18:56 -0700 (PDT)
-From: frank.chang@sifive.com
-To: qemu-devel@nongnu.org,
-	qemu-riscv@nongnu.org
-Subject: [RFC v2 20/76] target/riscv: rvv-0.9: apply narrower nanbox helper in
- opfvf_trans
-Date: Wed, 22 Jul 2020 17:15:43 +0800
-Message-Id: <20200722091641.8834-21-frank.chang@sifive.com>
-X-Mailer: git-send-email 2.17.1
-In-Reply-To: <20200722091641.8834-1-frank.chang@sifive.com>
-References: <20200722091641.8834-1-frank.chang@sifive.com>
-Received-SPF: pass client-ip=2607:f8b0:4864:20::542;
- envelope-from=frank.chang@sifive.com; helo=mail-pg1-x542.google.com
-X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
- That's all we know.
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- URIBL_BLOCKED=0.001 autolearn=unavailable autolearn_force=no
+ (Exim 4.90_1) (envelope-from <jan.kiszka@siemens.com>)
+ id 1jyAr3-00035g-Hp
+ for qemu-devel@nongnu.org; Wed, 22 Jul 2020 05:16:01 -0400
+Received: from gecko.sbs.de ([194.138.37.40]:60231)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <jan.kiszka@siemens.com>)
+ id 1jyAr0-00051f-QG
+ for qemu-devel@nongnu.org; Wed, 22 Jul 2020 05:16:00 -0400
+Received: from mail2.sbs.de (mail2.sbs.de [192.129.41.66])
+ by gecko.sbs.de (8.15.2/8.15.2) with ESMTPS id 06M9Fi8T031874
+ (version=TLSv1.2 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+ Wed, 22 Jul 2020 11:15:44 +0200
+Received: from [167.87.24.251] ([167.87.24.251])
+ by mail2.sbs.de (8.15.2/8.15.2) with ESMTP id 06M9FhCg028144;
+ Wed, 22 Jul 2020 11:15:44 +0200
+To: qemu-devel <qemu-devel@nongnu.org>, Paolo Bonzini <pbonzini@redhat.com>
+From: Jan Kiszka <jan.kiszka@siemens.com>
+Subject: 5.1.0-rc1 regression: reset fails with kvm and -cpu host
+Message-ID: <bf007af9-f81e-3542-0237-5ea467f34377@siemens.com>
+Date: Wed, 22 Jul 2020 11:15:43 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.10.0
+MIME-Version: 1.0
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=194.138.37.40;
+ envelope-from=jan.kiszka@siemens.com; helo=gecko.sbs.de
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/07/22 05:15:45
+X-ACL-Warn: Detected OS   = Linux 3.1-3.10
+X-Spam_score_int: -58
+X-Spam_score: -5.9
+X-Spam_bar: -----
+X-Spam_report: (-5.9 / 5.0 requ) BAYES_00=-1.9, PDS_TONAME_EQ_TOLOCAL_SHORT=1,
+ RCVD_IN_DNSWL_HI=-5, RCVD_IN_MSPIKE_H3=-0.01, RCVD_IN_MSPIKE_WL=-0.01,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -84,50 +59,22 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Sagar Karandikar <sagark@eecs.berkeley.edu>,
- Frank Chang <frank.chang@sifive.com>,
- Bastian Koppelmann <kbastian@mail.uni-paderborn.de>,
- Richard Henderson <richard.henderson@linaro.org>,
- Alistair Francis <Alistair.Francis@wdc.com>,
- Palmer Dabbelt <palmer@dabbelt.com>, LIU Zhiwei <zhiwei_liu@c-sky.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Frank Chang <frank.chang@sifive.com>
+Hi all,
 
-If SEW < FLEN, call narrower_nanbox_fpr helper to generate the
-correspond NaN-boxed value.
+this locks up the guest:
 
-Signed-off-by: Frank Chang <frank.chang@sifive.com>
----
- target/riscv/insn_trans/trans_rvv.inc.c | 13 ++++++++++++-
- 1 file changed, 12 insertions(+), 1 deletion(-)
+- qemu-system-x86_64 -enable-kvm -cpu host
+- trigger hard reset
 
-diff --git a/target/riscv/insn_trans/trans_rvv.inc.c b/target/riscv/insn_trans/trans_rvv.inc.c
-index 22b4e11a20..85738ba4f7 100644
---- a/target/riscv/insn_trans/trans_rvv.inc.c
-+++ b/target/riscv/insn_trans/trans_rvv.inc.c
-@@ -2196,7 +2196,18 @@ static bool opfvf_trans(uint32_t vd, uint32_t rs1, uint32_t vs2,
-     tcg_gen_addi_ptr(src2, cpu_env, vreg_ofs(s, vs2));
-     tcg_gen_addi_ptr(mask, cpu_env, vreg_ofs(s, 0));
- 
--    fn(dest, mask, cpu_fpr[rs1], src2, cpu_env, desc);
-+    if ((s->sew < MO_64 && has_ext(s, RVD)) ||
-+        (s->sew < MO_32)) {
-+        /* SEW < FLEN */
-+        TCGv_i64 t1 = tcg_temp_new_i64();
-+        TCGv_i32 sew = tcg_const_i32(1 << (s->sew + 3));
-+        gen_helper_narrower_nanbox_fpr(t1, cpu_fpr[rs1], sew, cpu_env);
-+        fn(dest, mask, t1, src2, cpu_env, desc);
-+        tcg_temp_free_i64(t1);
-+        tcg_temp_free_i32(sew);
-+    } else {
-+        fn(dest, mask, cpu_fpr[rs1], src2, cpu_env, desc);
-+    }
- 
-     tcg_temp_free_ptr(dest);
-     tcg_temp_free_ptr(mask);
+Host kernel: 5.7.7.
+Host CPU: i7-8850H
+
+Jan
+
 -- 
-2.17.1
-
+Siemens AG, Corporate Technology, CT RDA IOT SES-DE
+Corporate Competence Center Embedded Linux
 
