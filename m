@@ -2,84 +2,74 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2FF962294C6
-	for <lists+qemu-devel@lfdr.de>; Wed, 22 Jul 2020 11:23:48 +0200 (CEST)
-Received: from localhost ([::1]:57876 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C7E792294EE
+	for <lists+qemu-devel@lfdr.de>; Wed, 22 Jul 2020 11:30:38 +0200 (CEST)
+Received: from localhost ([::1]:34950 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jyAyZ-00015N-6G
-	for lists+qemu-devel@lfdr.de; Wed, 22 Jul 2020 05:23:47 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:52760)
+	id 1jyB5B-00068b-Nk
+	for lists+qemu-devel@lfdr.de; Wed, 22 Jul 2020 05:30:37 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:53284)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1jyAsw-00067p-Le
- for qemu-devel@nongnu.org; Wed, 22 Jul 2020 05:17:58 -0400
-Received: from us-smtp-2.mimecast.com ([205.139.110.61]:40398
+ (Exim 4.90_1) (envelope-from <dgilbert@redhat.com>)
+ id 1jyAtk-0008E6-9V
+ for qemu-devel@nongnu.org; Wed, 22 Jul 2020 05:18:48 -0400
+Received: from us-smtp-1.mimecast.com ([207.211.31.81]:49787
  helo=us-smtp-delivery-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1jyAsu-0005GD-Pg
- for qemu-devel@nongnu.org; Wed, 22 Jul 2020 05:17:58 -0400
+ (Exim 4.90_1) (envelope-from <dgilbert@redhat.com>)
+ id 1jyAti-0005U3-7B
+ for qemu-devel@nongnu.org; Wed, 22 Jul 2020 05:18:47 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1595409476;
+ s=mimecast20190719; t=1595409525;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=1V2mk/bwTHCUjmaKrY+2HRsiQcGFrKwTBYnEx3jPTS4=;
- b=HV92wg1K4NpbWGEJWgyVGFZ5iXOm9hkAX4EdnYTukQL9e8cRigprG+OWMHNV3dcZKZkRdp
- HsaG2rlHOzBYtT/4RanHKsBujaNUP/A0tLVtpwvf+CUKfZHRwa7XX6t9j/FL4jNC7765qr
- KtUFReWt2v6imMbRTkfaNJ/nOwXnwAs=
+ bh=LE30UYgVnX/l8PS1mVFpuF7rc4Trw+g4OyRPNWbVtpA=;
+ b=MrppoD1VxUhrISpGGtAkPTDW33phEOW3D5L8IgISNhDHt1oSynHrmxqRV/Q8HWnu+8O7H5
+ Dr67tj8O1yz+GBWgMnU7aSRpv46HMPMP2vCOTN51bh7lguN2qo5MT23diEx7DCMwKqJlF0
+ tBM357ZJzeHqSvn9ZRID52Jv27KVpq8=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-44-ixUiX2tpMgqNOeTWRAC5wg-1; Wed, 22 Jul 2020 05:17:53 -0400
-X-MC-Unique: ixUiX2tpMgqNOeTWRAC5wg-1
-Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
- [10.5.11.16])
+ us-mta-147-EZK0XEshPyGAdiphRkQlWA-1; Wed, 22 Jul 2020 05:18:18 -0400
+X-MC-Unique: EZK0XEshPyGAdiphRkQlWA-1
+Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
+ [10.5.11.22])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 07F7A805721;
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id E2168100CCC5;
+ Wed, 22 Jul 2020 09:18:17 +0000 (UTC)
+Received: from work-vm (ovpn-112-43.ams2.redhat.com [10.36.112.43])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 2D5C11001B2C;
  Wed, 22 Jul 2020 09:17:52 +0000 (UTC)
-Received: from blackfin.pond.sub.org (ovpn-112-143.ams2.redhat.com
- [10.36.112.143])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 648925C1C3;
- Wed, 22 Jul 2020 09:17:42 +0000 (UTC)
-Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
- id 0161E10F5AF1; Wed, 22 Jul 2020 11:17:40 +0200 (CEST)
-From: Markus Armbruster <armbru@redhat.com>
-To: Thomas Huth <thuth@redhat.com>
-Subject: Re: [PATCH v2 2/3] usb/hcd-xhci: Move qemu-xhci device to
- hcd-xhci-pci.c
-References: <1593008176-9629-1-git-send-email-sai.pavan.boddu@xilinx.com>
- <1593008176-9629-3-git-send-email-sai.pavan.boddu@xilinx.com>
- <87zh8rzi0e.fsf@dusky.pond.sub.org>
- <d8e247a3-5b50-0889-2522-37f2d486fdf9@redhat.com>
- <BY5PR02MB677295286C4193236973EC0ECA7B0@BY5PR02MB6772.namprd02.prod.outlook.com>
- <b3d4924f-5259-3f55-a52c-9693c532d40b@redhat.com>
- <BY5PR02MB6772EAC0125218AD9E09FC97CA790@BY5PR02MB6772.namprd02.prod.outlook.com>
- <391efac2-8600-3011-6aba-d29f44b57174@redhat.com>
-Date: Wed, 22 Jul 2020 11:17:40 +0200
-In-Reply-To: <391efac2-8600-3011-6aba-d29f44b57174@redhat.com> (Thomas Huth's
- message of "Wed, 22 Jul 2020 10:38:09 +0200")
-Message-ID: <87r1t3ucwb.fsf@dusky.pond.sub.org>
-User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/26.3 (gnu/linux)
+Date: Wed, 22 Jul 2020 10:17:50 +0100
+From: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
+To: Max Reitz <mreitz@redhat.com>
+Subject: Re: [PATCH v2 0/3] migration: Add block-bitmap-mapping parameter
+Message-ID: <20200722091750.GC2660@work-vm>
+References: <20200716135303.319502-1-mreitz@redhat.com>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=armbru@redhat.com
+In-Reply-To: <20200716135303.319502-1-mreitz@redhat.com>
+User-Agent: Mutt/1.14.5 (2020-06-23)
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=205.139.110.61; envelope-from=armbru@redhat.com;
+Content-Transfer-Encoding: 8bit
+Content-Disposition: inline
+Received-SPF: pass client-ip=207.211.31.81; envelope-from=dgilbert@redhat.com;
  helo=us-smtp-delivery-1.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/07/21 21:28:05
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/07/21 23:34:34
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
-X-Spam_score_int: -40
-X-Spam_score: -4.1
-X-Spam_bar: ----
-X-Spam_report: (-4.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1,
+X-Spam_score_int: -30
+X-Spam_score: -3.1
+X-Spam_bar: ---
+X-Spam_report: (-3.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-1, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H3=-0.01, RCVD_IN_MSPIKE_WL=-0.01,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ URIBL_BLOCKED=0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -92,59 +82,114 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Maydell <peter.maydell@linaro.org>,
- Eduardo Habkost <ehabkost@redhat.com>,
- "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>,
- Sai Pavan Boddu <saipava@xilinx.com>,
- Alistair Francis <alistair.francis@wdc.com>, Gerd Hoffmann <kraxel@redhat.com>,
- =?utf-8?Q?'Marc-Andr=C3=A9?= Lureau' <marcandre.lureau@redhat.com>,
- Ying Fang <fangying1@huawei.com>, Paolo Bonzini <pbonzini@redhat.com>,
- Philippe =?utf-8?Q?Mathieu-Daud?= =?utf-8?Q?=C3=A9?= <philmd@redhat.com>
+Cc: Kevin Wolf <kwolf@redhat.com>,
+ Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>, qemu-block@nongnu.org,
+ Juan Quintela <quintela@redhat.com>, John Snow <jsnow@redhat.com>,
+ qemu-devel@nongnu.org, Peter Krempa <pkrempa@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Thomas Huth <thuth@redhat.com> writes:
+* Max Reitz (mreitz@redhat.com) wrote:
+> RFC v1: https://lists.nongnu.org/archive/html/qemu-block/2020-05/msg00912.html
+> RFC v2: https://lists.nongnu.org/archive/html/qemu-block/2020-05/msg00915.html
+> v1: https://lists.nongnu.org/archive/html/qemu-devel/2020-06/msg09792.html
+> 
+> Branch: https://github.com/XanClic/qemu.git migration-bitmap-mapping-v2
+> Branch: https://git.xanclic.moe/XanClic/qemu.git migration-bitmap-mapping-v2
+> 
+> Based-on: <20200626130658.76498-1-vsementsov@virtuozzo.com>
+>           (“migration/block-dirty-bitmap: fix add_bitmaps_to_list”)
+> 
+> 
+> Hi,
+> 
+> This new migration parameter allows mapping block node names and bitmap
+> names to aliases for the purpose of block dirty bitmap migration.
 
->  Hi,
->
-> On 22/07/2020 09.49, Sai Pavan Boddu wrote:
-> [...]
->>>>>>> + * This library is free software; you can redistribute it and/or
->>>>>>> + * modify it under the terms of the GNU Lesser General Public
->>>>>>> + * License as published by the Free Software Foundation; either
->>>>>>> + * version 2 of the License, or (at your option) any later version=
-.
->>>
->>> And while you're at it: There was never a "version 2" of the Lesser GPL=
-.
->>> In version 2.0, it was still called "Library" GPL. So it is quite likel=
-y that version
->>> 2.1 is meant here instead.
->> [Sai Pavan Boddu] I have less knowledge here. But indeed I don=E2=80=99t=
- find LGPL 2.0 https://www.gnu.org/licenses/licenses.html#LicenseURLs
->
-> You can find version 2.0 here, for example:
->
->  https://www.gnu.org/licenses/old-licenses/old-licenses.html#LGPL
->
-> ... but as I said, v2.0 is called "Library" GPL instead of "Lesser" GPL.
->
->> BTW, I still see our repository use combination of GPL and LGPL. Is ther=
-e any general rule to follow at high level.
->
-> As long as the license is a standard license that is compatible with the
-> GPLv2 or any later version, you should be fine. See the LICENSE file in
-> the top directory of the sources for details.
->
-> As a general rule, I'd say either use "GPLv2 or later" (see the file
-> COPYING in the main directory) or "LGPLv2.1 or later" (see COPYING.LIB
-> in the main directory) for new code, unless you contribute to the tcg/
-> folder where MIT or BSD is preferred instead.
+One random thought is that you might find these block name aliases turn
+out to be useful in other places, and an alias list may well turn out to
+be generically useful.
 
-Please use "GPLv2 or later".
+Dave
 
-If you believe you have a compelling reason for using a different
-license (compatible with GPLv2, of course), then explain yourself in the
-commit message.
+> This way, management tools can use different node names on the source
+> and destination and pass the mapping of how bitmaps are to be
+> transferred to qemu (on the source, the destination, or even both with
+> arbitrary aliases in the migration stream).
+> 
+> 
+> v2:
+> - Dropped what used to be patch 1 (the memleak fix), I see the exact
+>   same fix has been sent concurrently and has been merged as
+>   9728ebfb77f0159f4
+> 
+> - Patch 1:
+>   - Changed documentation to clarify the default behavior
+>   - s/5.1/5.2/
+>   - Dropped dead assignment
+>   - Fixed bitmaps_map memleak
+>   - Assert that the bs_name given to add_bitmaps_to_list() must be the
+>     BDS’s node name if an alias_map is given
+>   - On the source side, unmapped bitmaps are simply dropped without
+>     error
+>   - On the destination side, unmapped aliases still result in errors
+>     (see patch 1 for a short explanation on my reasoning)
+>   - Fixed a bug in qmp_query_migrate_parameters(): We have to clone
+>     s->parameters.block_bitmap_mapping, not
+>     params->block_bitmap_mapping, or the latter will just stay NULL (and
+>     so qmp_query_migrate_parameters() won’t return a result for the
+>     block-bitmap-mapping)
+>   - Emit the mapping through HMP’s “info migrate_parameters”
+>   - Return an error when trying to set the mapping through HMP (instead
+>     of just crashing because of an “assert(0)” signalling an unhandled
+>     migration parameter)
+> 
+> - Patch 3:
+>   - Type alias for BlockBitmapMapping
+>   - Check the result of “info migrate_parameters” whenever setting the
+>     block-bitmap-mapping (just to test the new formatting code)
+>   - Catch the qemu.machine.AbnormalShutdown exception on the destination
+>     VM whenever the migration is expected to fail
+>     (necessary since commit ef5d474472426eda6abf81)
+>   - Cases where we don’t set up a mapping for some bitmap on the source
+>     are now expected to succeed (without the bitmap being migrated)
+> 
+> 
+> git-backport-diff against v1:
+> 
+> Key:
+> [----] : patches are identical
+> [####] : number of functional differences between upstream/downstream patch
+> [down] : patch is downstream-only
+> The flags [FC] indicate (F)unctional and (C)ontextual differences, respectively
+> 
+> 001/3:[0117] [FC] 'migration: Add block-bitmap-mapping parameter'
+> 002/3:[----] [--] 'iotests.py: Add wait_for_runstate()'
+> 003/3:[0202] [FC] 'iotests: Test node/bitmap aliases during migration'
+> 
+> 
+> Max Reitz (3):
+>   migration: Add block-bitmap-mapping parameter
+>   iotests.py: Add wait_for_runstate()
+>   iotests: Test node/bitmap aliases during migration
+> 
+>  qapi/migration.json            |  92 +++++-
+>  migration/migration.h          |   3 +
+>  migration/block-dirty-bitmap.c | 373 ++++++++++++++++++++----
+>  migration/migration.c          |  30 ++
+>  monitor/hmp-cmds.c             |  30 ++
+>  tests/qemu-iotests/300         | 511 +++++++++++++++++++++++++++++++++
+>  tests/qemu-iotests/300.out     |   5 +
+>  tests/qemu-iotests/group       |   1 +
+>  tests/qemu-iotests/iotests.py  |   4 +
+>  9 files changed, 994 insertions(+), 55 deletions(-)
+>  create mode 100755 tests/qemu-iotests/300
+>  create mode 100644 tests/qemu-iotests/300.out
+> 
+> -- 
+> 2.26.2
+> 
+--
+Dr. David Alan Gilbert / dgilbert@redhat.com / Manchester, UK
 
 
