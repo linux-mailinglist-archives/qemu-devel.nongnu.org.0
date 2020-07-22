@@ -2,67 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C6CFB2297EF
-	for <lists+qemu-devel@lfdr.de>; Wed, 22 Jul 2020 14:11:24 +0200 (CEST)
-Received: from localhost ([::1]:53276 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 117F02297F7
+	for <lists+qemu-devel@lfdr.de>; Wed, 22 Jul 2020 14:13:19 +0200 (CEST)
+Received: from localhost ([::1]:33604 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jyDal-0007De-Qu
-	for lists+qemu-devel@lfdr.de; Wed, 22 Jul 2020 08:11:23 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:44932)
+	id 1jyDcc-0002MZ-43
+	for lists+qemu-devel@lfdr.de; Wed, 22 Jul 2020 08:13:18 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:44954)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1jyDYl-0005RS-Rn
- for qemu-devel@nongnu.org; Wed, 22 Jul 2020 08:09:19 -0400
-Received: from us-smtp-1.mimecast.com ([207.211.31.81]:33029
+ (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1jyDYt-0005mn-Py
+ for qemu-devel@nongnu.org; Wed, 22 Jul 2020 08:09:27 -0400
+Received: from us-smtp-2.mimecast.com ([205.139.110.61]:29068
  helo=us-smtp-delivery-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1jyDYk-0006ZN-6A
- for qemu-devel@nongnu.org; Wed, 22 Jul 2020 08:09:19 -0400
+ (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1jyDYs-0006Zq-6H
+ for qemu-devel@nongnu.org; Wed, 22 Jul 2020 08:09:27 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1595419757;
+ s=mimecast20190719; t=1595419765;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  in-reply-to:in-reply-to:references:references;
- bh=ge/NPs5maQ977E98YNqRK3OYZ1LGaZWTbEL2f1Ol8j0=;
- b=HOi7aE30E4UMJat3Rv30kAtCKY79T9B4ssNFLMnLrcGRpF3XQiFQNM5qt5SgZYA0/6N9wn
- 8T3PxrmPSGIkQNsqoNSgJXNZVxlR94a9oGxvKvk6rQTSvjUyA2ENoPwrDD7xLjbZHzeaKD
- 38bFeL57HN7Yy7yDzel2JW6pgGCnDX4=
-Received: from mail-wm1-f72.google.com (mail-wm1-f72.google.com
- [209.85.128.72]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-245-d22p-4qbOAyr2rw4qsrhdQ-1; Wed, 22 Jul 2020 08:09:15 -0400
-X-MC-Unique: d22p-4qbOAyr2rw4qsrhdQ-1
-Received: by mail-wm1-f72.google.com with SMTP id a5so1022440wmj.5
- for <qemu-devel@nongnu.org>; Wed, 22 Jul 2020 05:09:15 -0700 (PDT)
+ bh=Ir1mQoDZtpCFjemMlgBAUOy/k9rxHtJelilQmy3Q970=;
+ b=RAomasegoyjdtXJfDmRNS38qOg0LNPTvAipJLutRNEDCeAtt6cLMtkHGyAghozi7UUUEPq
+ VYqsJEHT+bdJaHP9yKBU6DHRMfWhE3V7aoyOTNtr/naul4g0qSGmgPpIf+Yo1mKRMy0N94
+ c+EAW84JKH/Qv8Lc+9HRZFaqk8OBn+Y=
+Received: from mail-wr1-f70.google.com (mail-wr1-f70.google.com
+ [209.85.221.70]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-362-qJhZDVm0OUeX_JBPBfcIEQ-1; Wed, 22 Jul 2020 08:09:23 -0400
+X-MC-Unique: qJhZDVm0OUeX_JBPBfcIEQ-1
+Received: by mail-wr1-f70.google.com with SMTP id w7so549766wrt.9
+ for <qemu-devel@nongnu.org>; Wed, 22 Jul 2020 05:09:22 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:date:from:to:cc:subject:message-id:references
  :mime-version:content-disposition:in-reply-to;
- bh=ge/NPs5maQ977E98YNqRK3OYZ1LGaZWTbEL2f1Ol8j0=;
- b=UTaUAZOkY/QEjQSi2iJjrT9bLJBwwhCzK0CZ2KJCn9fRu3ckFCLrXOV/+z04wyChfl
- wErHdYNtXZfawKU9XK0vPazd5qf2I7HwPn7ltUNZ+P6QhTympABOTBacnpRAY0LMhjWb
- 9wJAWYV39ENxzPBXWLqN4kgmbCv+r4DOMJol+TJ58ptrSBYc6OzVihxkJaoHusyHeUyf
- XtGNgHSKnrmIYlPBomSfyQr0fU5UkXv/qyurMcKG1jsH4bP1XzWsHKZygJMupWNdlwUR
- hwonP7+qDzUCwSYM9yA0x/mLkxX7Jsx/EPvX9zJtLNddwx4SWj8F3W8N6vkjWwNihRF4
- 3P2w==
-X-Gm-Message-State: AOAM532Q9Wut4gc1y6dXzu9h1pjVAzz6pHIVZEGAvWezOlknB6l1mFjn
- 7Tu8+ShQ4Q30tJD9jW0xgggonWu8PZfvMQ45KzwA61mrUoW49HHeUI4/569JBbKrEpYtsbQ825b
- Kij+RJlodRQPOTbI=
-X-Received: by 2002:adf:df06:: with SMTP id y6mr720630wrl.89.1595419753843;
- Wed, 22 Jul 2020 05:09:13 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJyRgydDziEav8BWoQhl0kLNhM4wH0dqxINccHL8yd8WIbYEkEXBXDRN+03csXZoJUgyMA4szg==
-X-Received: by 2002:adf:df06:: with SMTP id y6mr720614wrl.89.1595419753608;
- Wed, 22 Jul 2020 05:09:13 -0700 (PDT)
+ bh=Ir1mQoDZtpCFjemMlgBAUOy/k9rxHtJelilQmy3Q970=;
+ b=Mr1bKiZkiJu7WYfV6LOfdLpzQdfmw7ckYYKk03gZ2w7laYQacv8iUr7iT5I3naepsR
+ Q+PmlFV3XuUqgozvR7UsIOSGX328jJmPha6iZtiLcaPpNCxK7lXoiLQnh5zZ8Rq37lex
+ nBtUOhIGuTqk4NRB+kaC1RD4ndvgWtgxK6Ej257LAuqs/5oxu10CzllIv5AHzRX/3sXO
+ gUkAx8ftSZs4ZAqFnxrn5XLf1kOj40cN2MaV4IjMatOTjwYYV5dDuyU94dvK3fYAGPKR
+ 0tqvpM26Vwz5rpwOvl5eoZGwE0LsCDNGyO+ttTtuiRugRMTL9kkVeWaj45gIuqYVBmHC
+ AN6w==
+X-Gm-Message-State: AOAM530UvQ+SkEdeAuGE90izyuF5VUAs+N4fQwWVC/og7p2GM+9G+Nu8
+ l/Pu5aXPZ/iy0UBZy3QthMeXZNjNxqqzwgUvMByYZ0BdhmxIqGdsiQGGDOzBU+arR6anAOpo9Vf
+ Y776phpA0x4joRf4=
+X-Received: by 2002:a05:600c:2907:: with SMTP id
+ i7mr8035514wmd.40.1595419761630; 
+ Wed, 22 Jul 2020 05:09:21 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJzHYfJo3ILHK3pe9Ds7U7OQuEX9nm9YVgEFeh9KCfcXuJ7ardN7LFIOYjqRWumZw4wxoRoAwg==
+X-Received: by 2002:a05:600c:2907:: with SMTP id
+ i7mr8035500wmd.40.1595419761451; 
+ Wed, 22 Jul 2020 05:09:21 -0700 (PDT)
 Received: from redhat.com (bzq-79-182-82-99.red.bezeqint.net. [79.182.82.99])
  by smtp.gmail.com with ESMTPSA id
- i14sm12093235wrc.19.2020.07.22.05.09.11
+ u17sm41322377wrp.70.2020.07.22.05.09.20
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 22 Jul 2020 05:09:13 -0700 (PDT)
-Date: Wed, 22 Jul 2020 08:09:10 -0400
+ Wed, 22 Jul 2020 05:09:20 -0700 (PDT)
+Date: Wed, 22 Jul 2020 08:09:19 -0400
 From: "Michael S. Tsirkin" <mst@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PULL 2/9] virtio: Drop broken and superfluous
- object_property_set_link()
-Message-ID: <20200722120853.9144-3-mst@redhat.com>
+Subject: [PULL 3/9] virtio-balloon: Prevent guest from starting a report when
+ we didn't request one
+Message-ID: <20200722120853.9144-4-mst@redhat.com>
 References: <20200722120853.9144-1-mst@redhat.com>
 MIME-Version: 1.0
 In-Reply-To: <20200722120853.9144-1-mst@redhat.com>
@@ -72,17 +74,17 @@ X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Received-SPF: pass client-ip=207.211.31.81; envelope-from=mst@redhat.com;
+Received-SPF: pass client-ip=205.139.110.61; envelope-from=mst@redhat.com;
  helo=us-smtp-delivery-1.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/07/21 23:34:34
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/07/21 21:28:05
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
-X-Spam_score_int: -30
-X-Spam_score: -3.1
-X-Spam_bar: ---
-X-Spam_report: (-3.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1,
+X-Spam_score_int: -40
+X-Spam_score: -4.1
+X-Spam_bar: ----
+X-Spam_report: (-4.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H3=-0.01, RCVD_IN_MSPIKE_WL=-0.01,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-1, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -95,100 +97,48 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Maydell <peter.maydell@linaro.org>, Thomas Huth <thuth@redhat.com>,
- David Hildenbrand <david@redhat.com>, Cornelia Huck <cohuck@redhat.com>,
- Markus Armbruster <armbru@redhat.com>, Halil Pasic <pasic@linux.ibm.com>,
- Christian Borntraeger <borntraeger@de.ibm.com>, qemu-s390x@nongnu.org,
- "Gonglei \(Arei\)" <arei.gonglei@huawei.com>,
- Richard Henderson <rth@twiddle.net>
+Cc: Peter Maydell <peter.maydell@linaro.org>,
+ Alexander Duyck <alexander.h.duyck@linux.intel.com>, qemu-stable@nongnu.org,
+ David Hildenbrand <david@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Markus Armbruster <armbru@redhat.com>
+From: Alexander Duyck <alexander.h.duyck@linux.intel.com>
 
-virtio_crypto_pci_realize() and copies the value of vcrypto->vdev's
-property "cryptodev" to vcrypto's property:
+Based on code review it appears possible for the driver to force the device
+out of a stopped state when hinting by repeating the last ID it was
+provided.
 
-    object_property_set_link(OBJECT(vrng), "rng", OBJECT(vrng->vdev.conf.rng),
-                             NULL);
+Prevent this by only allowing a transition to the start state when we are
+in the requested state. This way the driver is only allowed to send one
+descriptor that will transition the device into the start state. All others
+will leave it in the stop state once it has finished.
 
-Since it does so only after realize, this always fails, but the error
-is ignored.
-
-It's actually superfluous: vcrypto's property is an alias of
-vcrypto->vdev's property, created by virtio_instance_init_common().
-
-Drop the call.
-
-Same for virtio_ccw_crypto_realize(), virtio_rng_pci_realize(),
-virtio_ccw_rng_realize().
-
-Signed-off-by: Markus Armbruster <armbru@redhat.com>
-Message-Id: <20200721121153.1128844-1-armbru@redhat.com>
+Fixes: c13c4153f76d ("virtio-balloon: VIRTIO_BALLOON_F_FREE_PAGE_HINT")
+Acked-by: David Hildenbrand <david@redhat.com>
+Signed-off-by: Alexander Duyck <alexander.h.duyck@linux.intel.com>
+Message-Id: <20200720175115.21935.99563.stgit@localhost.localdomain>
+Cc: qemu-stable@nongnu.org
 Reviewed-by: Michael S. Tsirkin <mst@redhat.com>
 Signed-off-by: Michael S. Tsirkin <mst@redhat.com>
 ---
- hw/s390x/virtio-ccw-crypto.c  | 3 ---
- hw/s390x/virtio-ccw-rng.c     | 3 ---
- hw/virtio/virtio-crypto-pci.c | 2 --
- hw/virtio/virtio-rng-pci.c    | 3 ---
- 4 files changed, 11 deletions(-)
+ hw/virtio/virtio-balloon.c | 3 ++-
+ 1 file changed, 2 insertions(+), 1 deletion(-)
 
-diff --git a/hw/s390x/virtio-ccw-crypto.c b/hw/s390x/virtio-ccw-crypto.c
-index 570c0333fc..358c74fb4b 100644
---- a/hw/s390x/virtio-ccw-crypto.c
-+++ b/hw/s390x/virtio-ccw-crypto.c
-@@ -23,9 +23,6 @@ static void virtio_ccw_crypto_realize(VirtioCcwDevice *ccw_dev, Error **errp)
-     if (!qdev_realize(vdev, BUS(&ccw_dev->bus), errp)) {
-         return;
-     }
--
--    object_property_set_link(OBJECT(vdev), "cryptodev",
--                             OBJECT(dev->vdev.conf.cryptodev), NULL);
- }
- 
- static void virtio_ccw_crypto_instance_init(Object *obj)
-diff --git a/hw/s390x/virtio-ccw-rng.c b/hw/s390x/virtio-ccw-rng.c
-index 4bb8c16d79..2e3a9da5e8 100644
---- a/hw/s390x/virtio-ccw-rng.c
-+++ b/hw/s390x/virtio-ccw-rng.c
-@@ -24,9 +24,6 @@ static void virtio_ccw_rng_realize(VirtioCcwDevice *ccw_dev, Error **errp)
-     if (!qdev_realize(vdev, BUS(&ccw_dev->bus), errp)) {
-         return;
-     }
--
--    object_property_set_link(OBJECT(dev), "rng", OBJECT(dev->vdev.conf.rng),
--                             NULL);
- }
- 
- static void virtio_ccw_rng_instance_init(Object *obj)
-diff --git a/hw/virtio/virtio-crypto-pci.c b/hw/virtio/virtio-crypto-pci.c
-index f1cc979d33..198f86e08c 100644
---- a/hw/virtio/virtio-crypto-pci.c
-+++ b/hw/virtio/virtio-crypto-pci.c
-@@ -57,8 +57,6 @@ static void virtio_crypto_pci_realize(VirtIOPCIProxy *vpci_dev, Error **errp)
-     if (!qdev_realize(vdev, BUS(&vpci_dev->bus), errp)) {
-         return;
-     }
--    object_property_set_link(OBJECT(vcrypto), "cryptodev",
--                             OBJECT(vcrypto->vdev.conf.cryptodev), NULL);
- }
- 
- static void virtio_crypto_pci_class_init(ObjectClass *klass, void *data)
-diff --git a/hw/virtio/virtio-rng-pci.c b/hw/virtio/virtio-rng-pci.c
-index 2f0b529b62..8afbb4c209 100644
---- a/hw/virtio/virtio-rng-pci.c
-+++ b/hw/virtio/virtio-rng-pci.c
-@@ -38,9 +38,6 @@ static void virtio_rng_pci_realize(VirtIOPCIProxy *vpci_dev, Error **errp)
-     if (!qdev_realize(vdev, BUS(&vpci_dev->bus), errp)) {
-         return;
-     }
--
--    object_property_set_link(OBJECT(vrng), "rng", OBJECT(vrng->vdev.conf.rng),
--                             NULL);
- }
- 
- static void virtio_rng_pci_class_init(ObjectClass *klass, void *data)
+diff --git a/hw/virtio/virtio-balloon.c b/hw/virtio/virtio-balloon.c
+index e670f1e595..ce70adcc69 100644
+--- a/hw/virtio/virtio-balloon.c
++++ b/hw/virtio/virtio-balloon.c
+@@ -526,7 +526,8 @@ static bool get_free_page_hints(VirtIOBalloon *dev)
+             ret = false;
+             goto out;
+         }
+-        if (id == dev->free_page_report_cmd_id) {
++        if (dev->free_page_report_status == FREE_PAGE_REPORT_S_REQUESTED &&
++            id == dev->free_page_report_cmd_id) {
+             dev->free_page_report_status = FREE_PAGE_REPORT_S_START;
+         } else {
+             /*
 -- 
 MST
 
