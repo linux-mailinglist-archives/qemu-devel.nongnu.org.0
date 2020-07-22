@@ -2,72 +2,51 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6CA1E2297BC
-	for <lists+qemu-devel@lfdr.de>; Wed, 22 Jul 2020 13:51:54 +0200 (CEST)
-Received: from localhost ([::1]:59552 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2FE1A2297DB
+	for <lists+qemu-devel@lfdr.de>; Wed, 22 Jul 2020 14:06:28 +0200 (CEST)
+Received: from localhost ([::1]:37228 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jyDHt-0005Ux-Gr
-	for lists+qemu-devel@lfdr.de; Wed, 22 Jul 2020 07:51:53 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:40164)
+	id 1jyDVy-0000Rv-1E
+	for lists+qemu-devel@lfdr.de; Wed, 22 Jul 2020 08:06:26 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:42640)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1jyDGc-0004Zs-RR
- for qemu-devel@nongnu.org; Wed, 22 Jul 2020 07:50:34 -0400
-Received: from mail-ot1-x335.google.com ([2607:f8b0:4864:20::335]:42091)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1jyDGb-0003rm-4C
- for qemu-devel@nongnu.org; Wed, 22 Jul 2020 07:50:34 -0400
-Received: by mail-ot1-x335.google.com with SMTP id g37so1505553otb.9
- for <qemu-devel@nongnu.org>; Wed, 22 Jul 2020 04:50:32 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=7c1GKLGh6kUcP0cXnDe1M01HYdzizw4NSpILlqyDRYA=;
- b=L4jnb2hUFm7bWdAQURCT4BedpC/uNzKyjy9GmwmFt8UcCKmRcX9hUSiaFTWeIu52GD
- XrF6Ki/IVbOgv35vLTzR5uiDwK9VZqBXeznW8me/9Afgu2k/e43RwMxBalkbkzFV8kGf
- n7JOfoy3qauV2FBlmONhHhCnW97gN7cGd2gqmnKVHIZKZoX2Xr/4Q1lAkdHmO5yGE49f
- w/bjcz8MdFJKWwzYauFfoH5UQS5d0O4+KnWkad+5ZRBJJ6bRSU4wa1QLTnfxVMR/TLwy
- MJAahsv19q8MYtQYSr8UwWwkg7jxWolVg0Vxjm+Esj8d96TbPUFiDlIt2VdFgsglodu/
- yX6A==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=7c1GKLGh6kUcP0cXnDe1M01HYdzizw4NSpILlqyDRYA=;
- b=nH17/d5FhLAHOrPGKKR2aJMKuvwmx2K2rGdi2YomqxT0mGFckh7oihnc1D/t09aKfd
- kp9CY2NnC0ZGaiA96TaQsVQwb0e+Qe0Yk8ZKr3ciW/C/0MSe5rStLhmCp9PAZYtln2LI
- mEOTiEpLy2CAKCpDvSc5qQOzuDXWMP4md0cVaqGQvlN1tYJ1IVMKTNNpAbVT+UoQIOL0
- 0oWhn0hy7qf7Sbfb3XNrK7lMHZHbbng3NsfoflIdwXQxivs7RTxU/g8iI+EJr8HEmDm3
- gb/3GVEC0IkXgRzuGdKFMrUX5jPZrSSY/mpK9KPCYy47nt49upWfHftfhe/XBTyG8V2u
- EnKQ==
-X-Gm-Message-State: AOAM5320yQew2sNxcSf9ALcaJnL8vMuMB2ePmTkoRnYiMe/s0cVC+U3k
- 308ZDvUNfDpTGzttNgok0hA+e9bMsaN0x7/uWYbloQ==
-X-Google-Smtp-Source: ABdhPJwugeOWNorb61CBK7IVT2KtpGCb0KUULCPO+GSv3h3iUu5PysMrIWkjxpMhgs+AoicQB+LbgamqXqU5vAvU7Zw=
-X-Received: by 2002:a05:6830:1bd3:: with SMTP id
- v19mr27887160ota.91.1595418631798; 
- Wed, 22 Jul 2020 04:50:31 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <mjt@tls.msk.ru>) id 1jyDQ6-0007aN-Pc
+ for qemu-devel@nongnu.org; Wed, 22 Jul 2020 08:00:22 -0400
+Received: from isrv.corpit.ru ([86.62.121.231]:53285)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <mjt@tls.msk.ru>) id 1jyDQ3-00056b-UD
+ for qemu-devel@nongnu.org; Wed, 22 Jul 2020 08:00:22 -0400
+Received: from tsrv.corpit.ru (tsrv.tls.msk.ru [192.168.177.2])
+ by isrv.corpit.ru (Postfix) with ESMTP id 66F3A40657;
+ Wed, 22 Jul 2020 15:00:15 +0300 (MSK)
+Received: from [192.168.177.99] (mjt.vpn.tls.msk.ru [192.168.177.99])
+ by tsrv.corpit.ru (Postfix) with ESMTP id 2060B71;
+ Wed, 22 Jul 2020 15:00:16 +0300 (MSK)
+Subject: Re: [PATCH for-5.1] acpi: accept byte and word access to core ACPI
+ registers
+To: "Michael S. Tsirkin" <mst@redhat.com>
+References: <20200720160627.15491-1-mjt@msgid.tls.msk.ru>
+ <20200722072414-mutt-send-email-mst@kernel.org>
+From: Michael Tokarev <mjt@tls.msk.ru>
+Message-ID: <f928d1ed-d71a-c02b-bc4c-8049589aca2a@msgid.tls.msk.ru>
+Date: Wed, 22 Jul 2020 15:00:15 +0300
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.10.0
 MIME-Version: 1.0
-References: <CAFEAcA9+9ZQY2CxZ9V4bZrkAGR5eUapbwSk6sNyFGyyd39Y=1Q@mail.gmail.com>
- <20200722093621.GA4838@linux.fritz.box>
-In-Reply-To: <20200722093621.GA4838@linux.fritz.box>
-From: Peter Maydell <peter.maydell@linaro.org>
-Date: Wed, 22 Jul 2020 12:50:20 +0100
-Message-ID: <CAFEAcA93OY0omjoYW7ofH7N6iRFHfboa1DGO1ra3qha0SasVVg@mail.gmail.com>
-Subject: Re: please try to avoid sending pullreqs late on release-candidate day
-To: Kevin Wolf <kwolf@redhat.com>
-Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2607:f8b0:4864:20::335;
- envelope-from=peter.maydell@linaro.org; helo=mail-ot1-x335.google.com
-X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
- That's all we know.
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+In-Reply-To: <20200722072414-mutt-send-email-mst@kernel.org>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+Received-SPF: none client-ip=86.62.121.231; envelope-from=mjt@tls.msk.ru;
+ helo=isrv.corpit.ru
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/07/22 08:00:16
+X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic]
+X-Spam_score_int: -68
+X-Spam_score: -6.9
+X-Spam_bar: ------
+X-Spam_report: (-6.9 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_HI=-5,
+ SPF_HELO_NONE=0.001, SPF_NONE=0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -80,48 +59,33 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Jason Wang <jasowang@redhat.com>, Gerd Hoffmann <kraxel@redhat.com>,
- QEMU Developers <qemu-devel@nongnu.org>, Markus Armbruster <armbru@redhat.com>
+Cc: qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Wed, 22 Jul 2020 at 10:36, Kevin Wolf <kwolf@redhat.com> wrote:
->
-> Am 21.07.2020 um 17:56 hat Peter Maydell geschrieben:
-> > It is not helpful if everybody sends their pullrequests late
-> > on the Tuesday afternoon, as there just isn't enough time in the
-> > day to merge test and apply them all before I have to cut the tag.
-> > Please, if you can, try to send pullrequests earlier, eg Monday.
->
-> I sent the majority of my fixes for -rc1 on Friday, not the least to
-> give us some time in case we get a testing failure. However, the earlier
-> you send the pull request, the greater the chance that you get some new
-> patches after the pull request. In this case, the patches were only
-> ready Tuesday afternoon, so even sending on Monday instead of Friday
-> wouldn't have helped.
+22.07.2020 14:24, Michael S. Tsirkin wrote:
+> On Mon, Jul 20, 2020 at 07:06:27PM +0300, Michael Tokarev wrote:
+>> All ISA registers should be accessible as bytes, words or dwords
+>> (if wide enough).  Fix the access constraints for acpi-pm-evt,
+>> acpi-pm-tmr & acpi-cnt registers.
+>>
+>> Fixes: 5d971f9e67 (memory: Revert "memory: accept mismatching sizes in memory_region_access_valid")
+>> Fixes: afafe4bbe0 (apci: switch cnt to memory api)
+>> Fixes: 77d58b1e47 (apci: switch timer to memory api)
+>> Fixes: b5a7c024d2 (apci: switch evt to memory api)
+>> Buglink: https://lore.kernel.org/xen-devel/20200630170913.123646-1-anthony.perard@citrix.com/T/
+>> Buglink: https://bugs.debian.org/964793
+>> BugLink: https://bugs.debian.org/cgi-bin/bugreport.cgi?bug=964247
+>> BugLink: https://bugs.launchpad.net/bugs/1886318
+>> Reported-By: Simon John <git@the-jedi.co.uk>
+>> Signed-off-by: Michael Tokarev <mjt@tls.msk.ru>
+> 
+> Queued, thanks!
 
-Patches that arrive and are only ready Tuesday afternoon are
-naturally at risk of slipping into the next RC. That's OK.
-Though when we get to rc2/rc3 you should warn me when you
-expect that so I can make a decision about whether it's better
-to slip the rc by a day to wait for them.
+Michael, please add Cc: stable@ for this. Many people suffered due to
+this already, it's enough of that ;)
 
-> The alternative would have been letting them wait for -rc2. I suppose
-> you can always says "too late" and make that decision for me, but I
-> wouldn't want to unnecessarily move things to a later RC. Do you think
-> we shouldn't send a pull request in case of doubt?
+Thanks,
 
-Mostly what I mean is "don't assume that because RC day is Tuesday
-that you can send a pullreq on Tuesday and have it get into the RC".
-If it turns out that you have to do that, that's not a big problem.
-What is a problem is if half a dozen submaintainers all send a
-pullreq at once on the Tuesday afternoon. So in the situation where
-you don't anticipate anything much late arriving then send it earlier.
-
-> Can you test multiple pull requests at once?
-
-I could in theory I guess, but my scripting assumes one at once.
-
-thanks
--- PMM
+/mjt
 
