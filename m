@@ -2,70 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8E63E229C3F
-	for <lists+qemu-devel@lfdr.de>; Wed, 22 Jul 2020 17:58:36 +0200 (CEST)
-Received: from localhost ([::1]:50908 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 110DA229CC2
+	for <lists+qemu-devel@lfdr.de>; Wed, 22 Jul 2020 18:05:16 +0200 (CEST)
+Received: from localhost ([::1]:34276 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jyH8d-0000zq-LV
-	for lists+qemu-devel@lfdr.de; Wed, 22 Jul 2020 11:58:35 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:55468)
+	id 1jyHF5-0006yq-55
+	for lists+qemu-devel@lfdr.de; Wed, 22 Jul 2020 12:05:15 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:55970)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1jyH7a-0000Ad-2w
- for qemu-devel@nongnu.org; Wed, 22 Jul 2020 11:57:30 -0400
-Received: from mail-pl1-x642.google.com ([2607:f8b0:4864:20::642]:44549)
+ id 1jyHAE-0001xX-6H
+ for qemu-devel@nongnu.org; Wed, 22 Jul 2020 12:00:14 -0400
+Received: from mail-pl1-x642.google.com ([2607:f8b0:4864:20::642]:38445)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1jyH7Y-0000Dj-FA
- for qemu-devel@nongnu.org; Wed, 22 Jul 2020 11:57:29 -0400
-Received: by mail-pl1-x642.google.com with SMTP id w17so1196398ply.11
- for <qemu-devel@nongnu.org>; Wed, 22 Jul 2020 08:57:27 -0700 (PDT)
+ id 1jyHAC-0000S6-B1
+ for qemu-devel@nongnu.org; Wed, 22 Jul 2020 12:00:13 -0400
+Received: by mail-pl1-x642.google.com with SMTP id m16so1209764pls.5
+ for <qemu-devel@nongnu.org>; Wed, 22 Jul 2020 09:00:11 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=subject:to:cc:references:from:message-id:date:user-agent
  :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=h92YLNQeHZNhF7rnwb1Hv1of+/ZQ55ODKJJXMMS2iFU=;
- b=eUSfVgfLNAbKslf8fY1UAR2yO1AqJ2F3XzAgtBCgjMIYSlQeiWXc3maXa9aQH4fjzs
- LdIN8ZMn546GpBSs2pq1r37TGtprjRTCRN0ijuCyKuVAcykqvvc0wf7jQ5LAs/VnFhWU
- n/sVDiqWVYA/5RdTwrWxYX7Bh0x/ZkAhSmlf6wYadMx7xVXt7SyG4gFB5TmOPXbCquwG
- tY+sqkBQbuVrqDeU9loTlBWfFGaHkp/DConZDRIYWZhQsk+LcGLlF5P/gNBCeZ68iqe2
- 5cFsgeXoJDupaNm705h5ZPockd1jWmHT1EH53ak/2gZjKKAlZ+S5rjLeGDjawBurF1sN
- 0xUA==
+ bh=HwiPq/ihmkuTZzS34G1uHkCt279WwS3EykSqYSI2CKA=;
+ b=Cf5GjXqmGrl2ZJH+D25FSq0AekilrTEdzbkXapw9vD88+e1Jgfx9N5IEWVetV9qplW
+ qw+RKAJy69LcUdbcFSBoHUIox0Vba9SndSoZ4olwio+UriB0mZDq4S6eDSiaSMFgv0WU
+ EyuKJWipnqUD0Ii5SgAAVJ1gRnbAt2B+l+ehTTo8Qibe88FpENhH5FaDwxpg7MmAW1Ff
+ lxRWpdhS6rB/HzTODyWeGkEYfe8HRmuWrQ7rIziMWZ7Vr5KeeqVhpYkqjJYmYYlslOXa
+ EwOKSKGbB7K4FHZja0uP9DacGr/xCWX7oEJSSO4W+VS/k+5wRlRPPLJrTh8/PNi42eow
+ ZCSg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:subject:to:cc:references:from:message-id:date
  :user-agent:mime-version:in-reply-to:content-language
  :content-transfer-encoding;
- bh=h92YLNQeHZNhF7rnwb1Hv1of+/ZQ55ODKJJXMMS2iFU=;
- b=KUMgsq/o3H5n8rgpjo+olplQCOMZIrmKcFpcICIrPMD6AxRgFEJ16bxgciZC7JQa6b
- s/8nmXR6Dg669WMwVkd8tf+YChxmUHhslhhPUJxLW6nDb4A7rxk1VW6yNUdHC+eRrxoU
- 8VSBAp5PvRjMwD0qtqak3Y5/yjCoyU/R3y1a8k5+mvLnd3v6Cb5dGDEJUQ13zWAJBtsL
- 5fsVPZ7RpCA3TT2c5E4NxxZUhhdEqkJoOXb8/zdY/pPe8FNz7Mcc7Ko+v8zpBiETvWgc
- dlU/mbV0KRoybEssp1Wh1YCM3XXwMIH2S5KT6hJC2SLc6RQMCydJIAvcEqwJA7otD2jy
- g8Mw==
-X-Gm-Message-State: AOAM5310O/E1dCSMoEFdgADBXvoGZHPHsmznxWVbg0A9DI5tMxoyNaXu
- gIFKg1TMalseCeRA1q7EGcLOYw==
-X-Google-Smtp-Source: ABdhPJyHHx5SsUjkK2LJkUss071kJApX4QzHCKSE1LQ0eIeXG6j8OV7TtNsta6DUBqlSTED6AvvUxA==
-X-Received: by 2002:a17:902:bc49:: with SMTP id t9mr118689plz.17.1595433446820; 
- Wed, 22 Jul 2020 08:57:26 -0700 (PDT)
+ bh=HwiPq/ihmkuTZzS34G1uHkCt279WwS3EykSqYSI2CKA=;
+ b=VeXVzT+zwnQ5n2O+Suutjj7NJl2s7gL4IGO28QnuGd9U+J78PU+2BEyMohVECvUIpT
+ GIQqwf0Elk4H9kZrr9HpvauXTijtGIMUHYwq/O6ZN9U/sqdCi7N4QjsihG+gQH0aIMsy
+ J39G6KA7bhX2YvrJhY529WdkTHO0MV5H3wUi+mBUUFYlWrMX+2yiZGwLj49UB7vHQUVF
+ p7pmCTgvtEy+oQXdV0JPgTcb/TOlBj9ttAD6FDh4BnTrhH4NEDGVytgSnxttANr/bzT/
+ pRjUTvp00x3V845bCX7QQwYMP91FVB4jlUt/g1RHzkgenvFFEoMK7Vq2o9B+ZUD96LZb
+ NJGQ==
+X-Gm-Message-State: AOAM530gVU4FMiqsFEl435Q6Tf/Drrth6aye5PPAyY+CmCGrKeQUsQFE
+ ouLtWEnZkb0ZkWbsQSyOW2e9pIjUvKo=
+X-Google-Smtp-Source: ABdhPJyO+0TPcGNq+a0mnkJXJv/y6WDRrohtKeuvp08zdnFRNdLd+KWORTaIPtmCISpU34QOYSasQw==
+X-Received: by 2002:a17:90a:338a:: with SMTP id
+ n10mr128901pjb.50.1595433611003; 
+ Wed, 22 Jul 2020 09:00:11 -0700 (PDT)
 Received: from [192.168.1.11] (216-160-65-90.tukw.qwest.net. [216.160.65.90])
  by smtp.gmail.com with ESMTPSA id
- o17sm119151pjq.6.2020.07.22.08.57.25
+ n137sm3964pfd.194.2020.07.22.09.00.09
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Wed, 22 Jul 2020 08:57:26 -0700 (PDT)
-Subject: Re: [PATCH v2 06/12] accel/tcg: better handle memory constrained
- systems
+ Wed, 22 Jul 2020 09:00:10 -0700 (PDT)
+Subject: Re: [PATCH v2 08/12] linux-user: don't use MAP_FIXED in
+ pgd_find_hole_fallback
 To: =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>,
  qemu-devel@nongnu.org
 References: <20200722062902.24509-1-alex.bennee@linaro.org>
- <20200722062902.24509-7-alex.bennee@linaro.org>
+ <20200722062902.24509-9-alex.bennee@linaro.org>
 From: Richard Henderson <richard.henderson@linaro.org>
-Message-ID: <5d26e26f-55f7-5b74-bb9e-b97ea1040c05@linaro.org>
-Date: Wed, 22 Jul 2020 08:57:24 -0700
+Message-ID: <f2f95833-4989-3df3-bf84-8a7017bc7683@linaro.org>
+Date: Wed, 22 Jul 2020 09:00:08 -0700
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
  Thunderbird/68.10.0
 MIME-Version: 1.0
-In-Reply-To: <20200722062902.24509-7-alex.bennee@linaro.org>
+In-Reply-To: <20200722062902.24509-9-alex.bennee@linaro.org>
 Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
 Content-Transfer-Encoding: 8bit
@@ -93,32 +94,25 @@ List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
 Cc: fam@euphon.net, berrange@redhat.com, f4bug@amsat.org,
- Christian Ehrhardt <christian.ehrhardt@canonical.com>, cota@braap.org,
- Paolo Bonzini <pbonzini@redhat.com>, aurelien@aurel32.net,
- Richard Henderson <rth@twiddle.net>
+ Laurent Vivier <laurent@vivier.eu>, cota@braap.org, aurelien@aurel32.net
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 On 7/21/20 11:28 PM, Alex Bennée wrote:
-> +        size_t phys_mem = qemu_get_host_physmem();
-> +        if (phys_mem > 0 && phys_mem < (2 * DEFAULT_CODE_GEN_BUFFER_SIZE)) {
-> +            tb_size = phys_mem / 8;
-> +        } else {
-> +            tb_size = DEFAULT_CODE_GEN_BUFFER_SIZE;
-> +        }
+> Plain MAP_FIXED has the undesirable behaviour of splatting exiting
+> maps so we don't actually achieve what we want when looking for gaps.
+> We should be using MAP_FIXED_NOREPLACE. As this isn't always available
+> we need to potentially check the returned address to see if the kernel
+> gave us what we asked for.
+> 
+> Fixes: ad592e3
+> Signed-off-by: Alex Bennée <alex.bennee@linaro.org>
+> ---
+>  include/qemu/osdep.h |  3 +++
+>  linux-user/elfload.c | 10 ++++++----
+>  2 files changed, 9 insertions(+), 4 deletions(-)
 
-I don't understand the 2 * DEFAULT part.
-
-Does this make more sense as
-
-    if (phys_mem == 0) {
-        tb_size = default;
-    } else {
-        tb_size = MIN(default, phys_mem / 8);
-    }
-
-?
-
+Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
 
 r~
 
