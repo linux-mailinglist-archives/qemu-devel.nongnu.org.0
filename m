@@ -2,50 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B017C2298D3
-	for <lists+qemu-devel@lfdr.de>; Wed, 22 Jul 2020 14:59:17 +0200 (CEST)
-Received: from localhost ([::1]:47840 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 623D22298E7
+	for <lists+qemu-devel@lfdr.de>; Wed, 22 Jul 2020 15:03:18 +0200 (CEST)
+Received: from localhost ([::1]:53480 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jyEL6-0005Xi-Hn
-	for lists+qemu-devel@lfdr.de; Wed, 22 Jul 2020 08:59:16 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:57130)
+	id 1jyEOz-0008FX-ER
+	for lists+qemu-devel@lfdr.de; Wed, 22 Jul 2020 09:03:17 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:59588)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mjt@tls.msk.ru>) id 1jyEFe-0003z9-Lv
- for qemu-devel@nongnu.org; Wed, 22 Jul 2020 08:53:38 -0400
-Received: from isrv.corpit.ru ([86.62.121.231]:59295)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mjt@tls.msk.ru>) id 1jyEFc-0004a3-Qb
- for qemu-devel@nongnu.org; Wed, 22 Jul 2020 08:53:38 -0400
-Received: from tsrv.corpit.ru (tsrv.tls.msk.ru [192.168.177.2])
- by isrv.corpit.ru (Postfix) with ESMTP id 509B14066D;
- Wed, 22 Jul 2020 15:53:33 +0300 (MSK)
-Received: from [192.168.177.99] (mjt.vpn.tls.msk.ru [192.168.177.99])
- by tsrv.corpit.ru (Postfix) with ESMTP id B43EA71;
- Wed, 22 Jul 2020 15:53:33 +0300 (MSK)
-Subject: Re: [PATCH 2/2] e1000e: make TX reentrant
-To: Jason Wang <jasowang@redhat.com>, qemu-devel@nongnu.org
-References: <20200722085747.6514-1-jasowang@redhat.com>
- <20200722085747.6514-2-jasowang@redhat.com>
-From: Michael Tokarev <mjt@tls.msk.ru>
-Message-ID: <4022bb82-9c7a-cf74-8caf-03ef0989f5f8@msgid.tls.msk.ru>
-Date: Wed, 22 Jul 2020 15:53:32 +0300
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.10.0
+ (Exim 4.90_1) (envelope-from <stefanha@redhat.com>)
+ id 1jyEO4-0007VU-C1
+ for qemu-devel@nongnu.org; Wed, 22 Jul 2020 09:02:20 -0400
+Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:37676
+ helo=us-smtp-1.mimecast.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <stefanha@redhat.com>)
+ id 1jyEO2-0005xw-Ak
+ for qemu-devel@nongnu.org; Wed, 22 Jul 2020 09:02:19 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1595422937;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding;
+ bh=oDpcY7ez8wSBK04VaUdTLgUobPM5eBs/gRy4DYtUGuQ=;
+ b=OfmU9/9DUzUsusWhGk7XfGUEsRgOxKJEAeWcLkLBj9HxQEvRYqsyh0yHm1eN4Y2K/s9XJ6
+ kr3BG4aCzP3LtPQZjNFn5B8hUip8acXbQdeFOdgiSpnsVE4/Iy8AADSWbiqH+3n643tQPF
+ xGlGAfFuqTcng4TmGlWp9qJThT3WRZM=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-218-mTQYxpq2OzCNqdswKgc0JA-1; Wed, 22 Jul 2020 09:02:15 -0400
+X-MC-Unique: mTQYxpq2OzCNqdswKgc0JA-1
+Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
+ [10.5.11.13])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 56AB71923769
+ for <qemu-devel@nongnu.org>; Wed, 22 Jul 2020 13:02:14 +0000 (UTC)
+Received: from localhost (ovpn-114-42.ams2.redhat.com [10.36.114.42])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id E57E8872FB;
+ Wed, 22 Jul 2020 13:02:07 +0000 (UTC)
+From: Stefan Hajnoczi <stefanha@redhat.com>
+To: qemu-devel@nongnu.org
+Subject: [PATCH for-5.1 0/3] virtiofsd: allow virtiofsd to run in a container
+Date: Wed, 22 Jul 2020 14:02:03 +0100
+Message-Id: <20200722130206.224898-1-stefanha@redhat.com>
 MIME-Version: 1.0
-In-Reply-To: <20200722085747.6514-2-jasowang@redhat.com>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-Received-SPF: none client-ip=86.62.121.231; envelope-from=mjt@tls.msk.ru;
- helo=isrv.corpit.ru
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/07/22 08:00:16
-X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic]
-X-Spam_score_int: -68
-X-Spam_score: -6.9
-X-Spam_bar: ------
-X-Spam_report: (-6.9 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_HI=-5,
- SPF_HELO_NONE=0.001, SPF_NONE=0.001 autolearn=ham autolearn_force=no
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
+Received-SPF: pass client-ip=205.139.110.120; envelope-from=stefanha@redhat.com;
+ helo=us-smtp-1.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/07/21 23:27:14
+X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
+X-Spam_score_int: -40
+X-Spam_score: -4.1
+X-Spam_bar: ----
+X-Spam_report: (-4.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-1, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -58,13 +76,29 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: dmitry.fleytman@gmail.com, mst@redhat.com, liq3ea@163.com, liq3ea@gmail.com,
- alxndr@bu.edu, stefanha@redhat.com, pbonzini@redhat.com
+Cc: virtio-fs@redhat.com, rmohr@redhat.com,
+ "Dr. David Alan Gilbert" <dgilbert@redhat.com>,
+ Stefan Hajnoczi <stefanha@redhat.com>, vromanso@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-FWIW, this is not "making TX reentrant", it is about forbidding
-reentrancy instead :)
+Q29udGFpbmVyIHJ1bnRpbWVzIGhhbmRsZSBuYW1lc3BhY2Ugc2V0dXAgYW5kIHJlbW92ZSBwcml2
+aWxlZ2VzIG5lZWRlZCBieQ0KdmlydGlvZnNkIHRvIHBlcmZvcm0gc2FuZGJveGluZy4gTHVja2ls
+eSB0aGUgY29udGFpbmVyIGVudmlyb25tZW50IGFscmVhZHkNCnByb3ZpZGVzIG1vc3Qgb2YgdGhl
+IHNhbmRib3ggdGhhdCB2aXJ0aW9mc2QgbmVlZHMgZm9yIHNlY3VyaXR5Lg0KDQpJbnRyb2R1Y2Ug
+YSBuZXcgInZpcnRpb2ZzZCAtbyBjaHJvb3QiIG9wdGlvbiB0aGF0IHVzZXMgY2hyb290KDIpIGlu
+c3RlYWQgb2YNCm5hbWVzcGFjZXMuIFRoaXMgb3B0aW9uIGFsbG93cyB2aXJ0aW9mc2QgdG8gd29y
+ayBpbnNpZGUgYSBjb250YWluZXIuDQoNClBsZWFzZSBzZWUgdGhlIGluZGl2aWR1YWwgcGF0Y2hl
+cyBmb3IgZGV0YWlscyBvbiB0aGUgY2hhbmdlcyBhbmQgc2VjdXJpdHkNCmltcGxpY2F0aW9ucy4N
+Cg0KR2l2ZW4gdGhhdCBwZW9wbGUgYXJlIHN0YXJ0aW5nIHRvIGF0dGVtcHQgcnVubmluZyB2aXJ0
+aW9mc2QgaW4gY29udGFpbmVycyBJDQp0aGluayB0aGlzIHNob3VsZCBnbyBpbnRvIFFFTVUgNS4x
+Lg0KDQpTdGVmYW4gSGFqbm9jemkgKDMpOg0KICB2aXJ0aW9mc2Q6IGRyb3AgQ0FQX0RBQ19SRUFE
+X1NFQVJDSA0KICB2aXJ0aW9mc2Q6IGFkZCBjb250YWluZXItZnJpZW5kbHkgLW8gY2hyb290IHNh
+bmRib3hpbmcgb3B0aW9uDQogIHZpcnRpb2ZzZDogcHJvYmUgdW5zaGFyZShDTE9ORV9GUykgYW5k
+IHByaW50IGFuIGVycm9yDQoNCiB0b29scy92aXJ0aW9mc2QvZnVzZV92aXJ0aW8uYyAgICB8IDEz
+ICsrKysrKysrKw0KIHRvb2xzL3ZpcnRpb2ZzZC9oZWxwZXIuYyAgICAgICAgIHwgIDMgKysrDQog
+dG9vbHMvdmlydGlvZnNkL3Bhc3N0aHJvdWdoX2xsLmMgfCA0NSArKysrKysrKysrKysrKysrKysr
+KysrKysrKysrKy0tLQ0KIDMgZmlsZXMgY2hhbmdlZCwgNTggaW5zZXJ0aW9ucygrKSwgMyBkZWxl
+dGlvbnMoLSkNCg0KLS0gDQoyLjI2LjINCg0K
 
-/mjt
 
