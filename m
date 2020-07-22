@@ -2,68 +2,67 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D8B5422957D
-	for <lists+qemu-devel@lfdr.de>; Wed, 22 Jul 2020 11:54:40 +0200 (CEST)
-Received: from localhost ([::1]:41492 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 24549229537
+	for <lists+qemu-devel@lfdr.de>; Wed, 22 Jul 2020 11:43:49 +0200 (CEST)
+Received: from localhost ([::1]:47794 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jyBSR-0003se-V2
-	for lists+qemu-devel@lfdr.de; Wed, 22 Jul 2020 05:54:39 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:54870)
+	id 1jyBHw-0000M7-3h
+	for lists+qemu-devel@lfdr.de; Wed, 22 Jul 2020 05:43:48 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:54900)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <frank.chang@sifive.com>)
- id 1jyAwI-0005Lx-QR
- for qemu-devel@nongnu.org; Wed, 22 Jul 2020 05:21:26 -0400
-Received: from mail-pl1-x62f.google.com ([2607:f8b0:4864:20::62f]:36940)
+ id 1jyAwK-0005SP-Ud
+ for qemu-devel@nongnu.org; Wed, 22 Jul 2020 05:21:28 -0400
+Received: from mail-pf1-x42b.google.com ([2607:f8b0:4864:20::42b]:41165)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <frank.chang@sifive.com>)
- id 1jyAwF-00062U-De
- for qemu-devel@nongnu.org; Wed, 22 Jul 2020 05:21:26 -0400
-Received: by mail-pl1-x62f.google.com with SMTP id p1so656790pls.4
- for <qemu-devel@nongnu.org>; Wed, 22 Jul 2020 02:21:22 -0700 (PDT)
+ id 1jyAwJ-00062y-Bl
+ for qemu-devel@nongnu.org; Wed, 22 Jul 2020 05:21:28 -0400
+Received: by mail-pf1-x42b.google.com with SMTP id w126so701282pfw.8
+ for <qemu-devel@nongnu.org>; Wed, 22 Jul 2020 02:21:26 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=sifive.com; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references;
- bh=59BWiZrmPRQuRcEmfLlUp8+VJfVUsYTl3vyGYCbvxMo=;
- b=DW8VGy/u8HNcDzgL4u1IG/sTeSPjp0wgPD6QOlBXvlgeQwnXLzIWtzmcn7ckdVjAS8
- yqZOIvJczRI7xzeK/K8THZB4WHtnufONVIRPVs15+67V5vwO45GDjA47bVHyOISbppol
- KAJcV4cGqS3MbbAhAExCrJ8aq40KcC7KIp7uHDETnbFfunc0NgQtS0gpLXomtU6T1Z0b
- l+YuluheBbbtgFMVku1g4k6SVqAnMCbuVt5meVMWOLfRIPCZpD6Hog7RL/AzhIYgJ5Eh
- GSGrvq46QOly6xoNR1UW6kIqRy2ikgsd96ZdEYvI0pFNC5QOpDCaGCizU1Ha67b3M7ce
- nNwA==
+ bh=lSGavHjP8DkZgSzTSXFcl5cCaE8i//N9BsXmCdZs8Ww=;
+ b=KnWT1lixgFk93ruSwizppy66iVSTs4uQDmPJVDG6azKUhMF/vrkNPXwIqe4J1B1ntZ
+ OPTmxCdZ0u2Shkdu9MEQ5vfTqJMfzb4t12BbYXG4Faksy0KZ+oYNRpApi2m0wa03vL/G
+ BY57bbbGelfBJKSbQNTakkkNWRjShXExUazmLr4XgN6OMTwV4LG3BJ0xshL9mnUPkWNW
+ IeISZaLH4URxadfcpMJa271M+VM7TMdxE74z+laNI2Kp+mQ2s7o5pnu1spYmxrOV7Mly
+ wRwjKRhIQ1CN2lHl/YayZj+ta/mQI2C7gnfmFpWJgfzqHvKJA4DfTWuu3IBIaYpW5hc2
+ Xifg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references;
- bh=59BWiZrmPRQuRcEmfLlUp8+VJfVUsYTl3vyGYCbvxMo=;
- b=E13pZ7Vnqs9zA4a24aGTrfeAgBYt37k6k5TfIYLc53Z7uWWmCE/DRJpNIxFyxy0OC4
- 7W2VyiHJv35iCpKI9dBQojybbMzbazwKxhnB2iKp9hLXT7OXyAowz3y60OW9twzZu30x
- DfliwjQpWc5mnue88xNbdPJzlCkBvGWhWiAz5svCIgX3CKPqZzuzIb49vcfm6BKMx2LP
- /tFVgh+wbcyWdJCNW2QY5t+xfU3gfHryFGOt7MH9LFvckotZ+tDc89042iOOzDEPcChd
- q1bUGvAHOMLF+6Gt2Pl5rsj4uYihYFzla/9Bah0n7gOOC8UoEMtmkbl4lyWaZk0ldfgO
- AGcQ==
-X-Gm-Message-State: AOAM533G1S0XZ5xEBZzQZt2k4JJl51njbHRtSFl+7jU/zAshoOTeRKY2
- FaF+/7SK7b5TEj3vu3yEBDshx/z1gG0=
-X-Google-Smtp-Source: ABdhPJwD9dVVRqrh9a9dDtRhgIMUQafBtyHE5pQDLZd5IL9uU0j7nQdo5o5LYz3LoXb7jHm0aMz+/w==
-X-Received: by 2002:a17:90a:ef17:: with SMTP id
- k23mr8230563pjz.45.1595409682007; 
- Wed, 22 Jul 2020 02:21:22 -0700 (PDT)
+ bh=lSGavHjP8DkZgSzTSXFcl5cCaE8i//N9BsXmCdZs8Ww=;
+ b=INZ2Fe86uS6LhKcmkG5M8GgFYQdVefa/4sXbB0+SxVFXNhRpcredf0vsKK1FIWMwWp
+ +wL/ilvPdtyfFRLI8e2Qh/PA8hRD+fn52A8xgUSpP0OAt2pBObBZ5r8pi4QXWFeC4t7D
+ e2i9K9P0n995UmZcFd8zzeZOoaq6hxhHu6OeLPHfjLHx1nzRtBdnnT8kriedw/g6+1oG
+ ilEziHPxDGvcDEfkWrBz0V+V4RDzGAaD+n6YsHhTYsx0iMPGmejorva+j7dcxj14Nl9z
+ w6zLEYgzYIu8cqi7nG+qCpG7Ubb7WtRsY5hn2lX2s1AZP0meOWGJLm6IP2stLP7XPJ4T
+ 5JPQ==
+X-Gm-Message-State: AOAM531tMLWCguYmkGbI3BRB6Pgg3JJrmJzKc5DUtiVgrvLjoiGZz5NF
+ QbbHj2Q8hZQXuIYnma2J3qYKMiVz0w4=
+X-Google-Smtp-Source: ABdhPJw4B0xCrzhHOPZfBkQkihjMR9DtE3963cnKY79n15QckVEZ8ytX+dJHhJvZeDQh9TTxrc2o3Q==
+X-Received: by 2002:a62:a20d:: with SMTP id m13mr6294215pff.201.1595409685603; 
+ Wed, 22 Jul 2020 02:21:25 -0700 (PDT)
 Received: from frankchang-ThinkPad-T490.internal.sifive.com
  (114-34-229-221.HINET-IP.hinet.net. [114.34.229.221])
- by smtp.gmail.com with ESMTPSA id c125sm22301879pfa.119.2020.07.22.02.21.19
+ by smtp.gmail.com with ESMTPSA id c125sm22301879pfa.119.2020.07.22.02.21.23
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 22 Jul 2020 02:21:21 -0700 (PDT)
+ Wed, 22 Jul 2020 02:21:25 -0700 (PDT)
 From: frank.chang@sifive.com
 To: qemu-devel@nongnu.org,
 	qemu-riscv@nongnu.org
-Subject: [RFC v2 53/76] target/riscv: use softfloat lib float16 comparison
- functions
-Date: Wed, 22 Jul 2020 17:16:16 +0800
-Message-Id: <20200722091641.8834-54-frank.chang@sifive.com>
+Subject: [RFC v2 54/76] target/riscv: rvv-0.9: floating-point compare
+ instructions
+Date: Wed, 22 Jul 2020 17:16:17 +0800
+Message-Id: <20200722091641.8834-55-frank.chang@sifive.com>
 X-Mailer: git-send-email 2.17.1
 In-Reply-To: <20200722091641.8834-1-frank.chang@sifive.com>
 References: <20200722091641.8834-1-frank.chang@sifive.com>
-Received-SPF: pass client-ip=2607:f8b0:4864:20::62f;
- envelope-from=frank.chang@sifive.com; helo=mail-pl1-x62f.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::42b;
+ envelope-from=frank.chang@sifive.com; helo=mail-pf1-x42b.google.com
 X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
  That's all we know.
 X-Spam_score_int: -20
@@ -95,55 +94,90 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Frank Chang <frank.chang@sifive.com>
 
+Clear tail elements only if VTA is agnostic.
+
 Signed-off-by: Frank Chang <frank.chang@sifive.com>
 ---
- target/riscv/vector_helper.c | 19 -------------------
- 1 file changed, 19 deletions(-)
+ target/riscv/vector_helper.c | 52 ++++++++++++++++++++----------------
+ 1 file changed, 29 insertions(+), 23 deletions(-)
 
 diff --git a/target/riscv/vector_helper.c b/target/riscv/vector_helper.c
-index dc883e0352..95cce063d0 100644
+index 95cce063d0..8dccec4e04 100644
 --- a/target/riscv/vector_helper.c
 +++ b/target/riscv/vector_helper.c
-@@ -4197,12 +4197,6 @@ void HELPER(NAME)(void *vd, void *v0, void *vs1, void *vs2,   \
-     }                                                         \
+@@ -4174,27 +4174,30 @@ GEN_VEXT_VF(vfsgnjx_vf_w, 4, 4, clearl)
+ GEN_VEXT_VF(vfsgnjx_vf_d, 8, 8, clearq)
+ 
+ /* Vector Floating-Point Compare Instructions */
+-#define GEN_VEXT_CMP_VV_ENV(NAME, ETYPE, H, DO_OP)            \
+-void HELPER(NAME)(void *vd, void *v0, void *vs1, void *vs2,   \
+-                  CPURISCVState *env, uint32_t desc)          \
+-{                                                             \
+-    uint32_t vm = vext_vm(desc);                              \
+-    uint32_t vl = env->vl;                                    \
+-    uint32_t vlmax = vext_maxsz(desc) / sizeof(ETYPE);        \
+-    uint32_t i;                                               \
+-                                                              \
+-    for (i = 0; i < vl; i++) {                                \
+-        ETYPE s1 = *((ETYPE *)vs1 + H(i));                    \
+-        ETYPE s2 = *((ETYPE *)vs2 + H(i));                    \
+-        if (!vm && !vext_elem_mask(v0, i)) {                  \
+-            continue;                                         \
+-        }                                                     \
+-        vext_set_elem_mask(vd, i,                             \
+-                           DO_OP(s2, s1, &env->fp_status));   \
+-    }                                                         \
+-    for (; i < vlmax; i++) {                                  \
+-        vext_set_elem_mask(vd, i, 0);                         \
+-    }                                                         \
++#define GEN_VEXT_CMP_VV_ENV(NAME, ETYPE, H, DO_OP)               \
++void HELPER(NAME)(void *vd, void *v0, void *vs1, void *vs2,      \
++                  CPURISCVState *env, uint32_t desc)             \
++{                                                                \
++    uint32_t vm = vext_vm(desc);                                 \
++    uint32_t vl = env->vl;                                       \
++    uint32_t vlmax = vext_max_elems(desc, sizeof(ETYPE), false); \
++    uint32_t vta = vext_vta(desc);                               \
++    uint32_t i;                                                  \
++                                                                 \
++    for (i = 0; i < vl; i++) {                                   \
++        ETYPE s1 = *((ETYPE *)vs1 + H(i));                       \
++        ETYPE s2 = *((ETYPE *)vs2 + H(i));                       \
++        if (!vm && !vext_elem_mask(v0, i)) {                     \
++            continue;                                            \
++        }                                                        \
++        vext_set_elem_mask(vd, i,                                \
++                           DO_OP(s2, s1, &env->fp_status));      \
++    }                                                            \
++    if (vta == 1) {                                              \
++        for (; i < vlmax; i++) {                                 \
++            vext_set_elem_mask(vd, i, 1);                        \
++        }                                                        \
++    }                                                            \
  }
  
--static bool float16_eq_quiet(uint16_t a, uint16_t b, float_status *s)
--{
--    FloatRelation compare = float16_compare_quiet(a, b, s);
--    return compare == float_relation_equal;
--}
--
  GEN_VEXT_CMP_VV_ENV(vmfeq_vv_h, uint16_t, H2, float16_eq_quiet)
- GEN_VEXT_CMP_VV_ENV(vmfeq_vv_w, uint32_t, H4, float32_eq_quiet)
- GEN_VEXT_CMP_VV_ENV(vmfeq_vv_d, uint64_t, H8, float64_eq_quiet)
-@@ -4258,12 +4252,6 @@ GEN_VEXT_CMP_VF(vmfne_vf_h, uint16_t, H2, vmfne16)
- GEN_VEXT_CMP_VF(vmfne_vf_w, uint32_t, H4, vmfne32)
- GEN_VEXT_CMP_VF(vmfne_vf_d, uint64_t, H8, vmfne64)
+@@ -4208,6 +4211,7 @@ void HELPER(NAME)(void *vd, void *v0, uint64_t s1, void *vs2,       \
+     uint32_t vm = vext_vm(desc);                                    \
+     uint32_t vl = env->vl;                                          \
+     uint32_t vlmax = vext_max_elems(desc, sizeof(ETYPE), false);    \
++    uint32_t vta = vext_vta(desc);                                  \
+     uint32_t i;                                                     \
+                                                                     \
+     for (i = 0; i < vl; i++) {                                      \
+@@ -4218,8 +4222,10 @@ void HELPER(NAME)(void *vd, void *v0, uint64_t s1, void *vs2,       \
+         vext_set_elem_mask(vd, i,                                   \
+                            DO_OP(s2, (ETYPE)s1, &env->fp_status));  \
+     }                                                               \
+-    for (; i < vlmax; i++) {                                        \
+-        vext_set_elem_mask(vd, i, 0);                               \
++    if (vta == 1) {                                                 \
++        for (; i < vlmax; i++) {                                    \
++            vext_set_elem_mask(vd, i, 1);                           \
++        }                                                           \
+     }                                                               \
+ }
  
--static bool float16_lt(uint16_t a, uint16_t b, float_status *s)
--{
--    FloatRelation compare = float16_compare(a, b, s);
--    return compare == float_relation_less;
--}
--
- GEN_VEXT_CMP_VV_ENV(vmflt_vv_h, uint16_t, H2, float16_lt)
- GEN_VEXT_CMP_VV_ENV(vmflt_vv_w, uint32_t, H4, float32_lt)
- GEN_VEXT_CMP_VV_ENV(vmflt_vv_d, uint64_t, H8, float64_lt)
-@@ -4271,13 +4259,6 @@ GEN_VEXT_CMP_VF(vmflt_vf_h, uint16_t, H2, float16_lt)
- GEN_VEXT_CMP_VF(vmflt_vf_w, uint32_t, H4, float32_lt)
- GEN_VEXT_CMP_VF(vmflt_vf_d, uint64_t, H8, float64_lt)
- 
--static bool float16_le(uint16_t a, uint16_t b, float_status *s)
--{
--    FloatRelation compare = float16_compare(a, b, s);
--    return compare == float_relation_less ||
--           compare == float_relation_equal;
--}
--
- GEN_VEXT_CMP_VV_ENV(vmfle_vv_h, uint16_t, H2, float16_le)
- GEN_VEXT_CMP_VV_ENV(vmfle_vv_w, uint32_t, H4, float32_le)
- GEN_VEXT_CMP_VV_ENV(vmfle_vv_d, uint64_t, H8, float64_le)
 -- 
 2.17.1
 
