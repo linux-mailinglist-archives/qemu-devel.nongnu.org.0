@@ -2,93 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id BDB17228ED6
-	for <lists+qemu-devel@lfdr.de>; Wed, 22 Jul 2020 05:57:17 +0200 (CEST)
-Received: from localhost ([::1]:46468 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9C1BB228F24
+	for <lists+qemu-devel@lfdr.de>; Wed, 22 Jul 2020 06:27:19 +0200 (CEST)
+Received: from localhost ([::1]:58574 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jy5sa-0006qA-TH
-	for lists+qemu-devel@lfdr.de; Tue, 21 Jul 2020 23:57:16 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:43652)
+	id 1jy6Le-0005U9-93
+	for lists+qemu-devel@lfdr.de; Wed, 22 Jul 2020 00:27:18 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:49696)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <bauerman@linux.ibm.com>)
- id 1jy5oA-0007cd-Af; Tue, 21 Jul 2020 23:52:42 -0400
-Received: from mx0a-001b2d01.pphosted.com ([148.163.156.1]:57456)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <bauerman@linux.ibm.com>)
- id 1jy5o8-000445-81; Tue, 21 Jul 2020 23:52:42 -0400
-Received: from pps.filterd (m0098394.ppops.net [127.0.0.1])
- by mx0a-001b2d01.pphosted.com (8.16.0.42/8.16.0.42) with SMTP id
- 06M3X2LB030452; Tue, 21 Jul 2020 23:52:19 -0400
-Received: from pps.reinject (localhost [127.0.0.1])
- by mx0a-001b2d01.pphosted.com with ESMTP id 32e11mw7vu-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Tue, 21 Jul 2020 23:52:19 -0400
-Received: from m0098394.ppops.net (m0098394.ppops.net [127.0.0.1])
- by pps.reinject (8.16.0.36/8.16.0.36) with SMTP id 06M3kbui085318;
- Tue, 21 Jul 2020 23:52:19 -0400
-Received: from ppma03wdc.us.ibm.com (ba.79.3fa9.ip4.static.sl-reverse.com
- [169.63.121.186])
- by mx0a-001b2d01.pphosted.com with ESMTP id 32e11mw7vg-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Tue, 21 Jul 2020 23:52:19 -0400
-Received: from pps.filterd (ppma03wdc.us.ibm.com [127.0.0.1])
- by ppma03wdc.us.ibm.com (8.16.0.42/8.16.0.42) with SMTP id 06M3pEOJ018825;
- Wed, 22 Jul 2020 03:52:17 GMT
-Received: from b01cxnp22036.gho.pok.ibm.com (b01cxnp22036.gho.pok.ibm.com
- [9.57.198.26]) by ppma03wdc.us.ibm.com with ESMTP id 32brq98t8x-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Wed, 22 Jul 2020 03:52:17 +0000
-Received: from b01ledav005.gho.pok.ibm.com (b01ledav005.gho.pok.ibm.com
- [9.57.199.110])
- by b01cxnp22036.gho.pok.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
- 06M3qHGm41615636
- (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Wed, 22 Jul 2020 03:52:17 GMT
-Received: from b01ledav005.gho.pok.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id 4C829AE062;
- Wed, 22 Jul 2020 03:52:17 +0000 (GMT)
-Received: from b01ledav005.gho.pok.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id 77245AE060;
- Wed, 22 Jul 2020 03:52:11 +0000 (GMT)
-Received: from morokweng.localdomain.com (unknown [9.163.58.88])
- by b01ledav005.gho.pok.ibm.com (Postfix) with ESMTP;
- Wed, 22 Jul 2020 03:52:11 +0000 (GMT)
-From: Thiago Jung Bauermann <bauerman@linux.ibm.com>
-To: qemu-ppc@nongnu.org
-Subject: [RFC PATCH v2 9/9] target/s390x: Use start-powered-off CPUState
- property
-Date: Wed, 22 Jul 2020 00:50:16 -0300
-Message-Id: <20200722035016.469075-10-bauerman@linux.ibm.com>
-X-Mailer: git-send-email 2.26.2
-In-Reply-To: <20200722035016.469075-1-bauerman@linux.ibm.com>
-References: <20200722035016.469075-1-bauerman@linux.ibm.com>
+ (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
+ id 1jy6KS-00052W-2t
+ for qemu-devel@nongnu.org; Wed, 22 Jul 2020 00:26:04 -0400
+Received: from indium.canonical.com ([91.189.90.7]:48638)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
+ id 1jy6KQ-0008UR-13
+ for qemu-devel@nongnu.org; Wed, 22 Jul 2020 00:26:03 -0400
+Received: from loganberry.canonical.com ([91.189.90.37])
+ by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
+ id 1jy6KM-00066o-R7
+ for <qemu-devel@nongnu.org>; Wed, 22 Jul 2020 04:25:58 +0000
+Received: from loganberry.canonical.com (localhost [127.0.0.1])
+ by loganberry.canonical.com (Postfix) with ESMTP id 8862E2E8110
+ for <qemu-devel@nongnu.org>; Wed, 22 Jul 2020 04:25:58 +0000 (UTC)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-TM-AS-GCONF: 00
-X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:6.0.235, 18.0.687
- definitions=2020-07-22_01:2020-07-21,
- 2020-07-21 signatures=0
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- suspectscore=1
- impostorscore=0 phishscore=0 bulkscore=0 mlxlogscore=967
- priorityscore=1501 spamscore=0 malwarescore=0 clxscore=1015 mlxscore=0
- adultscore=0 lowpriorityscore=0 classifier=spam adjust=0 reason=mlx
- scancount=1 engine=8.12.0-2006250000 definitions=main-2007220022
-Received-SPF: pass client-ip=148.163.156.1;
- envelope-from=bauerman@linux.ibm.com; helo=mx0a-001b2d01.pphosted.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/07/21 23:51:27
-X-ACL-Warn: Detected OS   = Linux 3.x [generic] [fuzzy]
-X-Spam_score_int: -35
-X-Spam_score: -3.6
-X-Spam_bar: ---
-X-Spam_report: (-3.6 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_LOW=-0.7,
- RCVD_IN_MSPIKE_H2=-1, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: quoted-printable
+Date: Wed, 22 Jul 2020 04:17:25 -0000
+From: Launchpad Bug Tracker <1693667@bugs.launchpad.net>
+To: qemu-devel@nongnu.org
+X-Launchpad-Notification-Type: bug
+X-Launchpad-Bug: product=qemu; status=Expired; importance=Undecided;
+ assignee=None; 
+X-Launchpad-Bug-Information-Type: Public
+X-Launchpad-Bug-Private: no
+X-Launchpad-Bug-Security-Vulnerability: no
+X-Launchpad-Bug-Commenters: janitor paul-whooppee th-huth
+X-Launchpad-Bug-Reporter: Paul Goyette (paul-whooppee)
+X-Launchpad-Bug-Modifier: Launchpad Janitor (janitor)
+References: <149576851455.3442.6872660890935328507.malonedeb@gac.canonical.com>
+Message-Id: <159539144543.13913.1655176529811860512.malone@loganberry.canonical.com>
+Subject: [Bug 1693667] Re: -cpu haswell / broadwell have no MONITOR in
+ features1
+X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
+X-Launchpad-Message-For: qemu-devel-ml
+Precedence: bulk
+X-Generated-By: Launchpad (canonical.com);
+ Revision="4809fcb62f445aaa3ae919f7f6c3cc7d156ea57a";
+ Instance="production-secrets-lazr.conf"
+X-Launchpad-Hash: c186bf847fbf86ec79c84fb0f52b9c2eb1cf73b8
+Received-SPF: none client-ip=91.189.90.7; envelope-from=bounces@canonical.com;
+ helo=indium.canonical.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/07/21 23:35:28
+X-ACL-Warn: Detected OS   = Linux 3.11 and newer [fuzzy]
+X-Spam_score_int: -58
+X-Spam_score: -5.9
+X-Spam_bar: -----
+X-Spam_report: (-5.9 / 5.0 requ) BAYES_00=-1.9, HEADER_FROM_DIFFERENT_DOMAINS=1,
+ RCVD_IN_DNSWL_HI=-5, RCVD_IN_MSPIKE_H3=-0.01, RCVD_IN_MSPIKE_WL=-0.01,
+ SPF_HELO_NONE=0.001, SPF_NONE=0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
-Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -97,45 +73,70 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Thiago Jung Bauermann <bauerman@linux.ibm.com>,
- Peter Maydell <peter.maydell@linaro.org>,
- Aleksandar Rikalo <aleksandar.rikalo@syrmia.com>,
- Eduardo Habkost <ehabkost@redhat.com>,
- Aleksandar Markovic <aleksandar.qemu.devel@gmail.com>,
- Cornelia Huck <cohuck@redhat.com>,
- Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>, qemu-devel@nongnu.org,
- qemu-s390x@nongnu.org, qemu-arm@nongnu.org,
- Artyom Tarasenko <atar4qemu@gmail.com>, Thomas Huth <thuth@redhat.com>,
- Paolo Bonzini <pbonzini@redhat.com>, David Hildenbrand <david@redhat.com>,
- Richard Henderson <rth@twiddle.net>, Aurelien Jarno <aurelien@aurel32.net>,
- David Gibson <david@gibson.dropbear.id.au>
+Reply-To: Bug 1693667 <1693667@bugs.launchpad.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Instead of setting CPUState::halted to 1 in s390_cpu_initfn(), use the
-start-powered-off property which makes cpu_common_reset() initialize it to
-1 in common code.
+[Expired for QEMU because there has been no activity for 60 days.]
 
-Signed-off-by: Thiago Jung Bauermann <bauerman@linux.ibm.com>
----
- target/s390x/cpu.c | 3 ++-
- 1 file changed, 2 insertions(+), 1 deletion(-)
+** Changed in: qemu
+       Status: Incomplete =3D> Expired
 
-NB: I was only able to test that this patch builds. I wasn't able to
-run it.
+-- =
 
-diff --git a/target/s390x/cpu.c b/target/s390x/cpu.c
-index 08eb674d22..d3a14af1d9 100644
---- a/target/s390x/cpu.c
-+++ b/target/s390x/cpu.c
-@@ -291,7 +291,8 @@ static void s390_cpu_initfn(Object *obj)
-     S390CPU *cpu = S390_CPU(obj);
- 
-     cpu_set_cpustate_pointers(cpu);
--    cs->halted = 1;
-+    object_property_set_bool(OBJECT(cs), "start-powered-off", true,
-+                             &error_abort);
-     cs->exception_index = EXCP_HLT;
- #if !defined(CONFIG_USER_ONLY)
-     object_property_add(obj, "crash-information", "GuestPanicInformation",
+You received this bug notification because you are a member of qemu-
+devel-ml, which is subscribed to QEMU.
+https://bugs.launchpad.net/bugs/1693667
+
+Title:
+  -cpu haswell / broadwell have no MONITOR in features1
+
+Status in QEMU:
+  Expired
+
+Bug description:
+  In qemu 2.9.0 if you run
+
+      qemu-system-x86_64 -cpu Broadwell (or Haswell)
+
+  then the CPU features1 flag include the SSE3 bit, but do NOT include
+  the MONITOR/MWAIT bit.  This is so even when the host includes the
+  features.
+
+  =
+
+  Additionally, running qemu in this manner results in several error messag=
+es:
+
+  warning: TCG doesn't support requested feature: CPUID.01H:ECX.fma [bit 12]
+  warning: TCG doesn't support requested feature: CPUID.01H:ECX.pcid [bit 1=
+7]
+  warning: TCG doesn't support requested feature: CPUID.01H:ECX.x2apic [bit=
+ 21]
+  warning: TCG doesn't support requested feature: CPUID.01H:ECX.tsc-deadlin=
+e [bit 24]
+  warning: TCG doesn't support requested feature: CPUID.01H:ECX.avx [bit 28]
+  warning: TCG doesn't support requested feature: CPUID.01H:ECX.f16c [bit 2=
+9]
+  warning: TCG doesn't support requested feature: CPUID.01H:ECX.rdrand [bit=
+ 30]
+  warning: TCG doesn't support requested feature: CPUID.07H:EBX.hle [bit 4]
+  warning: TCG doesn't support requested feature: CPUID.07H:EBX.avx2 [bit 5]
+  warning: TCG doesn't support requested feature: CPUID.07H:EBX.invpcid [bi=
+t 10]
+  warning: TCG doesn't support requested feature: CPUID.07H:EBX.rtm [bit 11]
+  warning: TCG doesn't support requested feature: CPUID.07H:EBX.rdseed [bit=
+ 18]
+  warning: TCG doesn't support requested feature: CPUID.80000001H:ECX.3dnow=
+prefetch
+
+  =
+
+  (Among possible other uses, the lack of the MONITOR feature bit causes Ne=
+tBSD to fall-back on a
+  check-and-pause loop while an application CPU is waiting to be told to pr=
+oceed by the boot CPU.)
+
+To manage notifications about this bug go to:
+https://bugs.launchpad.net/qemu/+bug/1693667/+subscriptions
 
