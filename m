@@ -2,68 +2,73 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id AE9A5229408
-	for <lists+qemu-devel@lfdr.de>; Wed, 22 Jul 2020 10:51:56 +0200 (CEST)
-Received: from localhost ([::1]:59744 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4B8EE2293CC
+	for <lists+qemu-devel@lfdr.de>; Wed, 22 Jul 2020 10:43:04 +0200 (CEST)
+Received: from localhost ([::1]:46032 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jyATj-0002mY-Px
-	for lists+qemu-devel@lfdr.de; Wed, 22 Jul 2020 04:51:55 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:46178)
+	id 1jyAL9-0005Iq-AD
+	for lists+qemu-devel@lfdr.de; Wed, 22 Jul 2020 04:43:03 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:44296)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1jyASc-00028L-M3
- for qemu-devel@nongnu.org; Wed, 22 Jul 2020 04:50:46 -0400
-Received: from indium.canonical.com ([91.189.90.7]:60300)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1jyASa-0001TL-Fw
- for qemu-devel@nongnu.org; Wed, 22 Jul 2020 04:50:46 -0400
-Received: from loganberry.canonical.com ([91.189.90.37])
- by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
- id 1jyASY-0008Ve-1z
- for <qemu-devel@nongnu.org>; Wed, 22 Jul 2020 08:50:42 +0000
-Received: from loganberry.canonical.com (localhost [127.0.0.1])
- by loganberry.canonical.com (Postfix) with ESMTP id 0CE6A2E80EC
- for <qemu-devel@nongnu.org>; Wed, 22 Jul 2020 08:50:42 +0000 (UTC)
-MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: quoted-printable
-Date: Wed, 22 Jul 2020 08:38:53 -0000
-From: Max Reitz <1888467@bugs.launchpad.net>
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1jyAJ7-0003lN-Im
+ for qemu-devel@nongnu.org; Wed, 22 Jul 2020 04:40:57 -0400
+Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:52724
+ helo=us-smtp-1.mimecast.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1jyAJ4-0000No-MT
+ for qemu-devel@nongnu.org; Wed, 22 Jul 2020 04:40:57 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1595407253;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding;
+ bh=WHHVip+jrv4qLOaTSUfIeioSoPdyvyzIY70YZURDlsQ=;
+ b=XYOAJFkCkZ5RZMe7sitmwqJTP8TG5OQ332fclrehZ42Jzm/OYn1kFqIdHeswRQAYf/wtzp
+ smSRTfWD99Fgs1+jn3EpKvhXXFrb5VMByMJfkF19fau4quuDBjxRqYZGnmUhmo+cjybzqD
+ tmf8YU99Z7WnXafX+ercjbsqMyXwcGQ=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-369-C3XxtsWzMfanLryClFYgUQ-1; Wed, 22 Jul 2020 04:40:51 -0400
+X-MC-Unique: C3XxtsWzMfanLryClFYgUQ-1
+Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
+ [10.5.11.11])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 8E7FF19200D2
+ for <qemu-devel@nongnu.org>; Wed, 22 Jul 2020 08:40:50 +0000 (UTC)
+Received: from blackfin.pond.sub.org (ovpn-112-143.ams2.redhat.com
+ [10.36.112.143])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 635456FECD
+ for <qemu-devel@nongnu.org>; Wed, 22 Jul 2020 08:40:50 +0000 (UTC)
+Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
+ id 0205610F5AF1; Wed, 22 Jul 2020 10:40:48 +0200 (CEST)
+From: Markus Armbruster <armbru@redhat.com>
 To: qemu-devel@nongnu.org
-X-Launchpad-Notification-Type: bug
-X-Launchpad-Bug: product=qemu; status=New; importance=Undecided; assignee=None;
-X-Launchpad-Bug-Information-Type: Public
-X-Launchpad-Bug-Private: no
-X-Launchpad-Bug-Security-Vulnerability: no
-X-Launchpad-Bug-Commenters: arrowfeng xanclic
-X-Launchpad-Bug-Reporter: dunfeng zhang (arrowfeng)
-X-Launchpad-Bug-Modifier: Max Reitz (xanclic)
-References: <159540494097.10238.3390638369680947345.malonedeb@gac.canonical.com>
-Message-Id: <159540713337.17235.12127964168471229859.malone@wampee.canonical.com>
-Subject: [Bug 1888467] Re: qemu-img http convert bug
-X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
-X-Launchpad-Message-For: qemu-devel-ml
-Precedence: bulk
-X-Generated-By: Launchpad (canonical.com);
- Revision="4809fcb62f445aaa3ae919f7f6c3cc7d156ea57a";
- Instance="production-secrets-lazr.conf"
-X-Launchpad-Hash: 2c8df87ae647184fb63c6028ec956e3255cffc8c
-Received-SPF: none client-ip=91.189.90.7; envelope-from=bounces@canonical.com;
- helo=indium.canonical.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/07/22 04:15:39
-X-ACL-Warn: Detected OS   = Linux 3.11 and newer [fuzzy]
-X-Spam_score_int: -58
-X-Spam_score: -5.9
-X-Spam_bar: -----
-X-Spam_report: (-5.9 / 5.0 requ) BAYES_00=-1.9, HEADER_FROM_DIFFERENT_DOMAINS=1,
- RCVD_IN_DNSWL_HI=-5, RCVD_IN_MSPIKE_H3=-0.01, RCVD_IN_MSPIKE_WL=-0.01,
- SPF_HELO_NONE=0.001, SPF_NONE=0.001,
- URIBL_BLOCKED=0.001 autolearn=ham autolearn_force=no
+Subject: [PATCH 0/4] error: Mechanical fixes & cleanups
+Date: Wed, 22 Jul 2020 10:40:44 +0200
+Message-Id: <20200722084048.1726105-1-armbru@redhat.com>
+MIME-Version: 1.0
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=207.211.31.120; envelope-from=armbru@redhat.com;
+ helo=us-smtp-1.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/07/22 00:40:35
+X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
+X-Spam_score_int: -30
+X-Spam_score: -3.1
+X-Spam_bar: ---
+X-Spam_report: (-3.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H4=-0.01, RCVD_IN_MSPIKE_WL=-0.01,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
+Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -72,62 +77,27 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Bug 1888467 <1888467@bugs.launchpad.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Hi,
+Markus Armbruster (4):
+  coccinelle/err-bad-newline: Fix for Python 3, and add patterns
+  error: Strip trailing '\n' from error string arguments (again)
+  error: Remove NULL checks on error_propagate() calls (again)
+  error: Use error_fatal to simplify obvious fatal errors (again)
 
-What exactly do you mean by =E2=80=9Cfile size=E2=80=9D?  The file length (=
-as reported
-by ls -l) or the bytes used on disk (reported as =E2=80=9Cdisk size=E2=80=
-=9D by qemu-
-img, or by du -B1)?
+ scripts/coccinelle/err-bad-newline.cocci | 24 ++++++++++++++++++++++--
+ exec.c                                   | 11 +++--------
+ hw/i386/intel_iommu.c                    |  6 +++---
+ hw/net/virtio-net.c                      |  8 ++------
+ hw/s390x/s390-virtio-ccw.c               |  6 +-----
+ hw/virtio/vhost.c                        | 10 +++-------
+ migration/colo.c                         |  4 +---
+ migration/migration.c                    |  8 ++------
+ target/ppc/mmu-hash64.c                  |  2 +-
+ 9 files changed, 38 insertions(+), 41 deletions(-)
 
-You say that qcow2 and vmdk are normal =E2=80=93 do you mean as input or as
-output formats?
+-- 
+2.26.2
 
-One thing that comes to my mind is that from http, we have no way of inquir=
-ing about holes in the source file, so we have to scan the file for ranges =
-that are zero, which may not be optimal.  OTOH, the default minimum-zero le=
-ngth is 4 kB, which should basically be the granularity at which filesystem=
-s can record and report holes, too.
-(And if that=E2=80=99s the problem, it should present itself regardless of =
-the output format.)
-
-Can you paste the output for =E2=80=9Cqemu-img map=E2=80=9D on your source =
-file
-somewhere (the local one), or is that too long?
-
--- =
-
-You received this bug notification because you are a member of qemu-
-devel-ml, which is subscribed to QEMU.
-https://bugs.launchpad.net/bugs/1888467
-
-Title:
-  qemu-img http convert bug
-
-Status in QEMU:
-  New
-
-Bug description:
-  Hello, Why the file sizes of http conversion and local conversion are
-  inconsistent?
-
-  Use the http method of qemu-img for conversion. The size of some formats =
-after conversion is different from the local method of qemu-img. Such as vh=
-d, vdi. qcow2 and vmdk are normal=E3=80=82
-  My image size is 40 G, raw format.
-
-  The source is the same file, but the access method is different
-  http method of qemu-img=EF=BC=9A qemu-img convert -f raw -O vdi http://xx=
-x xxx.vdi=EF=BC=8819G=EF=BC=8Cafter conversion=EF=BC=89
-  local method of qemu-img=EF=BC=9A qemu-img convert -f raw -O vdi xxx.raw =
-xxx.vdi=EF=BC=883G=EF=BC=8Cafter conversion=EF=BC=89
-
-  thank you
-
-To manage notifications about this bug go to:
-https://bugs.launchpad.net/qemu/+bug/1888467/+subscriptions
 
