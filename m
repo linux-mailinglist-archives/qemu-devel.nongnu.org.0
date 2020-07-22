@@ -2,66 +2,67 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3985C22957B
-	for <lists+qemu-devel@lfdr.de>; Wed, 22 Jul 2020 11:53:34 +0200 (CEST)
-Received: from localhost ([::1]:36560 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 85DC3229530
+	for <lists+qemu-devel@lfdr.de>; Wed, 22 Jul 2020 11:42:21 +0200 (CEST)
+Received: from localhost ([::1]:38954 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jyBRN-0001rx-90
-	for lists+qemu-devel@lfdr.de; Wed, 22 Jul 2020 05:53:33 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:54770)
+	id 1jyBGW-0005HM-K3
+	for lists+qemu-devel@lfdr.de; Wed, 22 Jul 2020 05:42:20 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:54806)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <frank.chang@sifive.com>)
- id 1jyAw8-0004yU-NB
- for qemu-devel@nongnu.org; Wed, 22 Jul 2020 05:21:16 -0400
-Received: from mail-pg1-x535.google.com ([2607:f8b0:4864:20::535]:43113)
+ id 1jyAwB-000566-SQ
+ for qemu-devel@nongnu.org; Wed, 22 Jul 2020 05:21:19 -0400
+Received: from mail-pf1-x42d.google.com ([2607:f8b0:4864:20::42d]:46554)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <frank.chang@sifive.com>)
- id 1jyAw6-00061F-JZ
- for qemu-devel@nongnu.org; Wed, 22 Jul 2020 05:21:16 -0400
-Received: by mail-pg1-x535.google.com with SMTP id w2so865498pgg.10
- for <qemu-devel@nongnu.org>; Wed, 22 Jul 2020 02:21:14 -0700 (PDT)
+ id 1jyAwA-00061t-0N
+ for qemu-devel@nongnu.org; Wed, 22 Jul 2020 05:21:19 -0400
+Received: by mail-pf1-x42d.google.com with SMTP id a23so850650pfk.13
+ for <qemu-devel@nongnu.org>; Wed, 22 Jul 2020 02:21:17 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=sifive.com; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references;
- bh=uszXZkWPs2BCvFrrB1JthqoxvCbuVc0XI1W65Psr/2M=;
- b=Go68i/sgzrI1dJzZTOuVdxpGojBZSafl5Jw3ZsN68oc3zsZUI1f6+z0o+X8sm1faY6
- c1qGKm+2vfI1YKkNxQNh9vhmwxUohSTYnXYLkL1lcGQGaZI4SMLm/GewXLbVEcOpi8cv
- EkZU02fqTJI1zQqKhol7cyje6/buanzxjKzTJfkZO7Buc6T1qlJfIfKmqA3ts8lsNfWf
- V+HEulkBJNvWcBuHKs/rPSh3WZWBjFSHpfsnM1viEShJ0D1Ytrf+XKuUByhGjWCKCdrk
- DVyzFDT76hpR69avvoven8llEzXQtUgDgWce67NCsa8qz1sGrAfu2jnyteU283vGQCvq
- qoWQ==
+ bh=rgRsumD+WyP+g+9ywiEhwYNS2OqBdlvEKjanU4B1RZU=;
+ b=LtE6qf826ci3D7L3stHnLZ4IxQdcpNzXYKRjHxlMvlmy0w/BWZKmndqxLcrbOn5HVq
+ z6e0pZnvfB2ErKm2AYLU/1yv3EBGifBf8MOBWYK0lwrZ7afkb1hCui08Mp4nloXrPknf
+ tsf31SZjQDjYVaJtez8q+OoLMBBHrlkE+I+eU+pH3YnSeRACpkmtakgpoD0QrkMjn1UN
+ GNGGyrKUIFz9l3MTabNXCwd6P3nU8N9/sBTs/fqCOqFJwUsDOjJUm2ZPPUQEfu0JItCA
+ A6ojSUd8cjYOhQTOVoDuE74vY4SJquFecQWrmzdM9LSBSbccBj6E/6lchEHNz3oANly0
+ l4Ig==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references;
- bh=uszXZkWPs2BCvFrrB1JthqoxvCbuVc0XI1W65Psr/2M=;
- b=UU/KKikxz+PMl3o+z0Rybd6Yp8/NlKMq0bcn6Wv9vDM7iUPrnHqj0N3RoIzGuSlq4K
- 14JVfNJ4awLPo/mIZteLLMAaAKLimu8uKSqCT+XjVnM2uhWaaJA6WNZ3S9m4EUyPu2MH
- tVr4N9Puy9giNtPM5/aO+eU/jctPGwT3wgZu7G0JOLXNNtPtsSrupSwFw9hCwYIDk8IC
- 2786Lnt/Gkeppq/VgtKY3xi/61gZw4qJFgiZOdLsQdMfJgpf0Iuuj1eN0zRIL3JncdTO
- anmtYzCh1o1jzf2RMngJdkxgTqxPaQWerbKHlZBKpekV4xqrWjFIgwgnE88kuOwCqfk2
- LEnQ==
-X-Gm-Message-State: AOAM533dfc1P7ewHH/uoN+d++xK8YVkrQnbuChujx6IN089hS+aNlwwo
- 2nBz8Wkp0CpG9sLzMvlE3gMugbaunm0=
-X-Google-Smtp-Source: ABdhPJxiznK1NDdNeR+/zl98A036l8wSlCyFgqQ8ipZJT4LNu6HlQzH33u8GA5iLRPsQxDT7kZZoAQ==
-X-Received: by 2002:a63:1f04:: with SMTP id f4mr25541942pgf.34.1595409673099; 
- Wed, 22 Jul 2020 02:21:13 -0700 (PDT)
+ bh=rgRsumD+WyP+g+9ywiEhwYNS2OqBdlvEKjanU4B1RZU=;
+ b=HdNsJifTtp3Rr7FEHQD1KsF/EQShYG4hkqSLmBSOleSpJTTbU7koYb7c2PGn2Tm/jU
+ lzDRMS5VNdKxVnhBS0yaLAYOfVKFWWfylOG3zmHhBGxW9vLcpGIJjjDnWAb7sQIX0Yuc
+ qw4rWP9zSFbNM3WBFzxS+CuulCXuk9wKI7e0jfWBBWgfvv0GJQlkeiwKIklzv3WhMePH
+ rovqKU3vGCHFsATC1Z+pGjYRMvHivLvXtwRyI3Ix+bagOBkra/+MC8PhK+PjxMXQMhVp
+ a209IogWDRPOK+JPWeNyCMb+Dp8pNT3bPy4nRUCyBFAtB2Bugr5mP+jPr4BImiSRTPHJ
+ 1uSA==
+X-Gm-Message-State: AOAM532LP49Kv4VLoWuhVHFM3D/F11nyA/Zeen2qZv6ZANYLXweOSodS
+ UPFadLzBMCAnj01m5jnDadUIwPFXQaM=
+X-Google-Smtp-Source: ABdhPJzJAg1FBZ5yz5oMup7bXnqJFltT2P+fmSTrDrZimyZiFP4rPJJmx+/D7S2I3Q6KZ1MpVr91eg==
+X-Received: by 2002:a62:1ad6:: with SMTP id
+ a205mr27235306pfa.109.1595409676608; 
+ Wed, 22 Jul 2020 02:21:16 -0700 (PDT)
 Received: from frankchang-ThinkPad-T490.internal.sifive.com
  (114-34-229-221.HINET-IP.hinet.net. [114.34.229.221])
- by smtp.gmail.com with ESMTPSA id c125sm22301879pfa.119.2020.07.22.02.21.10
+ by smtp.gmail.com with ESMTPSA id c125sm22301879pfa.119.2020.07.22.02.21.14
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 22 Jul 2020 02:21:12 -0700 (PDT)
+ Wed, 22 Jul 2020 02:21:16 -0700 (PDT)
 From: frank.chang@sifive.com
 To: qemu-devel@nongnu.org,
 	qemu-riscv@nongnu.org
-Subject: [RFC v2 51/76] target/riscv: rvv-0.9: integer comparison instructions
-Date: Wed, 22 Jul 2020 17:16:14 +0800
-Message-Id: <20200722091641.8834-52-frank.chang@sifive.com>
+Subject: [RFC v2 52/76] fpu: implement full set compare for fp16
+Date: Wed, 22 Jul 2020 17:16:15 +0800
+Message-Id: <20200722091641.8834-53-frank.chang@sifive.com>
 X-Mailer: git-send-email 2.17.1
 In-Reply-To: <20200722091641.8834-1-frank.chang@sifive.com>
 References: <20200722091641.8834-1-frank.chang@sifive.com>
-Received-SPF: pass client-ip=2607:f8b0:4864:20::535;
- envelope-from=frank.chang@sifive.com; helo=mail-pg1-x535.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::42d;
+ envelope-from=frank.chang@sifive.com; helo=mail-pf1-x42d.google.com
 X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
  That's all we know.
 X-Spam_score_int: -20
@@ -83,145 +84,115 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Sagar Karandikar <sagark@eecs.berkeley.edu>,
- Frank Chang <frank.chang@sifive.com>,
- Bastian Koppelmann <kbastian@mail.uni-paderborn.de>,
- Richard Henderson <richard.henderson@linaro.org>,
- Alistair Francis <Alistair.Francis@wdc.com>,
- Palmer Dabbelt <palmer@dabbelt.com>, LIU Zhiwei <zhiwei_liu@c-sky.com>
+Cc: Peter Maydell <peter.maydell@linaro.org>,
+ Frank Chang <frank.chang@sifive.com>, Chih-Min Chao <chihmin.chao@sifive.com>,
+ Kito Cheng <kito.cheng@sifive.com>,
+ =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>,
+ Aurelien Jarno <aurelien@aurel32.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Frank Chang <frank.chang@sifive.com>
+From: Kito Cheng <kito.cheng@sifive.com>
 
-Sign-extend vmselu.vi and vmsgtu.vi immediate values.
-
+Signed-off-by: Kito Cheng <kito.cheng@sifive.com>
+Signed-off-by: Chih-Min Chao <chihmin.chao@sifive.com>
 Signed-off-by: Frank Chang <frank.chang@sifive.com>
 ---
- target/riscv/insn_trans/trans_rvv.inc.c |  4 +-
- target/riscv/vector_helper.c            | 86 +++++++++++++------------
- 2 files changed, 48 insertions(+), 42 deletions(-)
+ fpu/softfloat.c         | 28 ++++++++++++++++++++++++++++
+ include/fpu/softfloat.h | 41 +++++++++++++++++++++++++++++++++++++++++
+ 2 files changed, 69 insertions(+)
 
-diff --git a/target/riscv/insn_trans/trans_rvv.inc.c b/target/riscv/insn_trans/trans_rvv.inc.c
-index 3018489536..378af8344d 100644
---- a/target/riscv/insn_trans/trans_rvv.inc.c
-+++ b/target/riscv/insn_trans/trans_rvv.inc.c
-@@ -2118,9 +2118,9 @@ GEN_OPIVX_TRANS(vmsgt_vx, opivx_cmp_check)
- 
- GEN_OPIVI_TRANS(vmseq_vi, IMM_SX, vmseq_vx, opivx_cmp_check)
- GEN_OPIVI_TRANS(vmsne_vi, IMM_SX, vmsne_vx, opivx_cmp_check)
--GEN_OPIVI_TRANS(vmsleu_vi, IMM_ZX, vmsleu_vx, opivx_cmp_check)
-+GEN_OPIVI_TRANS(vmsleu_vi, IMM_SX, vmsleu_vx, opivx_cmp_check)
- GEN_OPIVI_TRANS(vmsle_vi, IMM_SX, vmsle_vx, opivx_cmp_check)
--GEN_OPIVI_TRANS(vmsgtu_vi, IMM_ZX, vmsgtu_vx, opivx_cmp_check)
-+GEN_OPIVI_TRANS(vmsgtu_vi, IMM_SX, vmsgtu_vx, opivx_cmp_check)
- GEN_OPIVI_TRANS(vmsgt_vi, IMM_SX, vmsgt_vx, opivx_cmp_check)
- 
- /* Vector Integer Min/Max Instructions */
-diff --git a/target/riscv/vector_helper.c b/target/riscv/vector_helper.c
-index 420c5f675d..dc883e0352 100644
---- a/target/riscv/vector_helper.c
-+++ b/target/riscv/vector_helper.c
-@@ -1535,26 +1535,29 @@ GEN_VEXT_SHIFT_VX(vnsra_wx_w, int32_t, int64_t, H4, H8, DO_SRL, 0x3f, clearl)
- #define DO_MSLE(N, M) (N <= M)
- #define DO_MSGT(N, M) (N > M)
- 
--#define GEN_VEXT_CMP_VV(NAME, ETYPE, H, DO_OP)                \
--void HELPER(NAME)(void *vd, void *v0, void *vs1, void *vs2,   \
--                  CPURISCVState *env, uint32_t desc)          \
--{                                                             \
--    uint32_t vm = vext_vm(desc);                              \
--    uint32_t vl = env->vl;                                    \
--    uint32_t vlmax = vext_maxsz(desc) / sizeof(ETYPE);        \
--    uint32_t i;                                               \
--                                                              \
--    for (i = 0; i < vl; i++) {                                \
--        ETYPE s1 = *((ETYPE *)vs1 + H(i));                    \
--        ETYPE s2 = *((ETYPE *)vs2 + H(i));                    \
--        if (!vm && !vext_elem_mask(v0, i)) {                  \
--            continue;                                         \
--        }                                                     \
--        vext_set_elem_mask(vd, i, DO_OP(s2, s1));             \
--    }                                                         \
--    for (; i < vlmax; i++) {                                  \
--        vext_set_elem_mask(vd, i, 0);                         \
--    }                                                         \
-+#define GEN_VEXT_CMP_VV(NAME, ETYPE, H, DO_OP)                   \
-+void HELPER(NAME)(void *vd, void *v0, void *vs1, void *vs2,      \
-+                  CPURISCVState *env, uint32_t desc)             \
-+{                                                                \
-+    uint32_t vm = vext_vm(desc);                                 \
-+    uint32_t vl = env->vl;                                       \
-+    uint32_t vlmax = vext_max_elems(desc, sizeof(ETYPE), false); \
-+    uint32_t vta = vext_vta(desc);                               \
-+    uint32_t i;                                                  \
-+                                                                 \
-+    for (i = 0; i < vl; i++) {                                   \
-+        ETYPE s1 = *((ETYPE *)vs1 + H(i));                       \
-+        ETYPE s2 = *((ETYPE *)vs2 + H(i));                       \
-+        if (!vm && !vext_elem_mask(v0, i)) {                     \
-+            continue;                                            \
-+        }                                                        \
-+        vext_set_elem_mask(vd, i, DO_OP(s2, s1));                \
-+    }                                                            \
-+    if (vta == 1) {                                              \
-+        for (; i < vlmax; i++) {                                 \
-+            vext_set_elem_mask(vd, i, 1);                        \
-+        }                                                        \
-+    }                                                            \
+diff --git a/fpu/softfloat.c b/fpu/softfloat.c
+index 79be4f5840..9c6640862e 100644
+--- a/fpu/softfloat.c
++++ b/fpu/softfloat.c
+@@ -401,6 +401,34 @@ float64_gen2(float64 xa, float64 xb, float_status *s,
+     return soft(ua.s, ub.s, s);
  }
  
- GEN_VEXT_CMP_VV(vmseq_vv_b, uint8_t,  H1, DO_MSEQ)
-@@ -1587,26 +1590,29 @@ GEN_VEXT_CMP_VV(vmsle_vv_h, int16_t, H2, DO_MSLE)
- GEN_VEXT_CMP_VV(vmsle_vv_w, int32_t, H4, DO_MSLE)
- GEN_VEXT_CMP_VV(vmsle_vv_d, int64_t, H8, DO_MSLE)
- 
--#define GEN_VEXT_CMP_VX(NAME, ETYPE, H, DO_OP)                      \
--void HELPER(NAME)(void *vd, void *v0, target_ulong s1, void *vs2,   \
--                  CPURISCVState *env, uint32_t desc)                \
--{                                                                   \
--    uint32_t vm = vext_vm(desc);                                    \
--    uint32_t vl = env->vl;                                          \
--    uint32_t vlmax = vext_maxsz(desc) / sizeof(ETYPE);              \
--    uint32_t i;                                                     \
--                                                                    \
--    for (i = 0; i < vl; i++) {                                      \
--        ETYPE s2 = *((ETYPE *)vs2 + H(i));                          \
--        if (!vm && !vext_elem_mask(v0, i)) {                        \
--            continue;                                               \
--        }                                                           \
--        vext_set_elem_mask(vd, i,                                   \
--                DO_OP(s2, (ETYPE)(target_long)s1));                 \
--    }                                                               \
--    for (; i < vlmax; i++) {                                        \
--        vext_set_elem_mask(vd, i, 0);                               \
--    }                                                               \
-+#define GEN_VEXT_CMP_VX(NAME, ETYPE, H, DO_OP)                    \
-+void HELPER(NAME)(void *vd, void *v0, target_ulong s1, void *vs2, \
-+                  CPURISCVState *env, uint32_t desc)              \
-+{                                                                 \
-+    uint32_t vm = vext_vm(desc);                                  \
-+    uint32_t vl = env->vl;                                        \
-+    uint32_t vlmax = vext_max_elems(desc, sizeof(ETYPE), false);  \
-+    uint32_t vta = vext_vta(desc);                                \
-+    uint32_t i;                                                   \
-+                                                                  \
-+    for (i = 0; i < vl; i++) {                                    \
-+        ETYPE s2 = *((ETYPE *)vs2 + H(i));                        \
-+        if (!vm && !vext_elem_mask(v0, i)) {                      \
-+            continue;                                             \
-+        }                                                         \
-+        vext_set_elem_mask(vd, i,                                 \
-+            DO_OP(s2, (ETYPE)(target_long)s1));                   \
-+    }                                                             \
-+    if (vta == 1) {                                               \
-+        for (; i < vlmax; i++) {                                  \
-+            vext_set_elem_mask(vd, i, 1);                         \
-+        }                                                         \
-+    }                                                             \
++/*----------------------------------------------------------------------------
++| Returns the fraction bits of the half-precision floating-point value `a'.
++*----------------------------------------------------------------------------*/
++
++static inline uint32_t extractFloat16Frac(float16 a)
++{
++    return float16_val(a) & 0x3ff;
++}
++
++/*----------------------------------------------------------------------------
++| Returns the exponent bits of the half-precision floating-point value `a'.
++*----------------------------------------------------------------------------*/
++
++static inline int extractFloat16Exp(float16 a)
++{
++    return (float16_val(a) >> 10) & 0x1f;
++}
++
++/*----------------------------------------------------------------------------
++| Returns the sign bit of the half-precision floating-point value `a'.
++*----------------------------------------------------------------------------*/
++
++static inline bool extractFloat16Sign(float16 a)
++{
++    return float16_val(a) >> 15;
++}
++
++
+ /*----------------------------------------------------------------------------
+ | Returns the fraction bits of the single-precision floating-point value `a'.
+ *----------------------------------------------------------------------------*/
+diff --git a/include/fpu/softfloat.h b/include/fpu/softfloat.h
+index ff4e2605b1..267519cd65 100644
+--- a/include/fpu/softfloat.h
++++ b/include/fpu/softfloat.h
+@@ -285,6 +285,47 @@ static inline float16 float16_set_sign(float16 a, int sign)
+     return make_float16((float16_val(a) & 0x7fff) | (sign << 15));
  }
  
- GEN_VEXT_CMP_VX(vmseq_vx_b, uint8_t,  H1, DO_MSEQ)
++static inline bool float16_eq(float16 a, float16 b, float_status *s)
++{
++    return float16_compare(a, b, s) == float_relation_equal;
++}
++
++static inline bool float16_le(float16 a, float16 b, float_status *s)
++{
++    return float16_compare(a, b, s) <= float_relation_equal;
++}
++
++static inline bool float16_lt(float16 a, float16 b, float_status *s)
++{
++    return float16_compare(a, b, s) < float_relation_equal;
++}
++
++static inline bool float16_unordered(float16 a, float16 b, float_status *s)
++{
++    return float16_compare(a, b, s) == float_relation_unordered;
++}
++
++static inline bool float16_eq_quiet(float16 a, float16 b, float_status *s)
++{
++    return float16_compare_quiet(a, b, s) == float_relation_equal;
++}
++
++static inline bool float16_le_quiet(float16 a, float16 b, float_status *s)
++{
++    return float16_compare_quiet(a, b, s) <= float_relation_equal;
++}
++
++static inline bool float16_lt_quiet(float16 a, float16 b, float_status *s)
++{
++    return float16_compare_quiet(a, b, s) < float_relation_equal;
++}
++
++static inline bool float16_unordered_quiet(float16 a, float16 b,
++                                           float_status *s)
++{
++    return float16_compare_quiet(a, b, s) == float_relation_unordered;
++}
++
+ #define float16_zero make_float16(0)
+ #define float16_half make_float16(0x3800)
+ #define float16_one make_float16(0x3c00)
 -- 
 2.17.1
 
