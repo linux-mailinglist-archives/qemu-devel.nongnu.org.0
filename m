@@ -2,72 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 355FF2290F4
-	for <lists+qemu-devel@lfdr.de>; Wed, 22 Jul 2020 08:34:56 +0200 (CEST)
-Received: from localhost ([::1]:43310 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B08F62290DF
+	for <lists+qemu-devel@lfdr.de>; Wed, 22 Jul 2020 08:32:18 +0200 (CEST)
+Received: from localhost ([::1]:34958 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jy8L9-0006tW-6p
-	for lists+qemu-devel@lfdr.de; Wed, 22 Jul 2020 02:34:55 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:41326)
+	id 1jy8Ib-0003Yl-OQ
+	for lists+qemu-devel@lfdr.de; Wed, 22 Jul 2020 02:32:17 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:41314)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1jy8Fg-0007AU-DH
- for qemu-devel@nongnu.org; Wed, 22 Jul 2020 02:29:16 -0400
-Received: from mail-wm1-x342.google.com ([2a00:1450:4864:20::342]:37898)
+ id 1jy8Ff-00077Z-7k
+ for qemu-devel@nongnu.org; Wed, 22 Jul 2020 02:29:15 -0400
+Received: from mail-wr1-x441.google.com ([2a00:1450:4864:20::441]:46836)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1jy8Fe-0006vC-Tc
- for qemu-devel@nongnu.org; Wed, 22 Jul 2020 02:29:16 -0400
-Received: by mail-wm1-x342.google.com with SMTP id f18so837617wml.3
- for <qemu-devel@nongnu.org>; Tue, 21 Jul 2020 23:29:14 -0700 (PDT)
+ id 1jy8Fd-0006v4-MF
+ for qemu-devel@nongnu.org; Wed, 22 Jul 2020 02:29:14 -0400
+Received: by mail-wr1-x441.google.com with SMTP id r12so676771wrj.13
+ for <qemu-devel@nongnu.org>; Tue, 21 Jul 2020 23:29:13 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=UjtgMi3yK33ZjhmVkRGlgMB3WMVIed90Ngc7ulb8I7c=;
- b=F9+l6cOYOB3MiOiDh5JXDMQ70OsszixR6C/OvcWj6quO1dKI6derFoOEOhHyEKfPFz
- Eit2iB91yDBreCmGOz8kSlIVl09cvJ5ho7vwrhW3lGlZ27BkLORTFCpqFmGiksK/qqsk
- FfxuREQa8EUAktPQ4+u5RlfQn3fQbEpbx0dLwp1pDnj0Dt/7P+HpoX7HKSkshl//6k1w
- 6J5Xo+CKkeSSwb9lb870UfGReYkdJ21h6FsJDhbOjJEvVs+5ucHD9Mxeps8JdmgiKA42
- 465ZwxAg7L2TmHw/240rdbK7QuG3W50rht8s5UDbaRlJZuSlM2rumzVILJKDTKJstxdP
- f54Q==
+ bh=wrFjogpJXlZ8LOQmtibpdguwXtzA6ik1VNS/5s1gAM8=;
+ b=hRWEUNjqFBP8p5+ZNl8s0EYl7uuSwwoO9YMjiG7lWAPH0Tc2v1EMZr0GOmChzGkVNh
+ lnCAw6oLFnsEJ3roFRYkzXYYh/jNwKjHg0ZNAiAJPS+Hz+WbkX5uLcbyFKS4zV44nLzi
+ DG+6PcsPdAr4l9x4MXyuouAtj6nJ/DXOOFp7bUCm5NGuzEQ6G6xYIkxO7GJ4cLy/3BUv
+ fThc2YHKb+u9Bs//8m2QcxwbeEomnhO5DtAA8DBiEVxLjcdasZyBXv8u3191SHFWlxeC
+ bmFk8eMKwuSVEXXhVWa6FEXnBkPJVbQTmc++eF6yXoXesYeigr7Tp7xCeuXco9x3vRmw
+ pTYA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=UjtgMi3yK33ZjhmVkRGlgMB3WMVIed90Ngc7ulb8I7c=;
- b=Mk0F+vJD+zY8LekJxvw05wdyEOu9X1T7flxUtDblMq5KELJ3iV/NGinfbSVDgs8LTC
- B0wW+Stl7SJks8DXMKvsv35n9+F8bYqPpV53397hHCt7cTHfzCV6wUVeyl0PA7sk3xt6
- wOTzJpHmATkLXmTo4Bw8t93c4/attVtHx0jbpC3af8sQbbh1vctknUqH9APqF3Xmstqt
- ouyZ7+wnE87s8khNzGilSz0RA+QZ4RPi9nr92BSJuF40kWCiadImi6vrQZW7QuRfsqCf
- lUCLmdMkhyFct00I4j5MG36hlPRmUmSu2924i1tdGyLyL03eXY39qHbdFDl5FhqRiaxy
- eElQ==
-X-Gm-Message-State: AOAM530tPP/51DuL5N6lvYXf2hHbYNK9W2XO8jtAHfomQpEAeAJWeK62
- 3ox89w7E8VyO++TmfoIbmlnXlw==
-X-Google-Smtp-Source: ABdhPJzj/cxSWlnClphOoG2kHsrh4fM/Y6VUr/jSzMd/1izruW9cbILADXaK4DmHqh3sT9TPpNSFvw==
-X-Received: by 2002:a1c:dd86:: with SMTP id u128mr7085401wmg.123.1595399353628; 
- Tue, 21 Jul 2020 23:29:13 -0700 (PDT)
+ bh=wrFjogpJXlZ8LOQmtibpdguwXtzA6ik1VNS/5s1gAM8=;
+ b=daYGmU5hRCtl1FTWxA/qk0xNOwR12OVPVLycLylXowyOIFogkbvxqpLAGgaNgFV9mM
+ Hs96yPNgLtl++rkQ+MrzkgGGHI97f5KxjaqLkd32LutcaD6fBLpwDXnj1YipXHfzEdHz
+ R2VXkv45ndjR6U6hXuw/z0FvveS2e9GRowWxYshwspd4Ti8yLMTD9jnPlxENgsonIDy4
+ tEhjDqe1gdC/SELoWOFOMwzcK1zGJPGj8soxOB3iG38648bVBcw53C1W3EwPDx9Zsx6V
+ mm9IXPqQfCkW1gK4A0uYbTxmDUeZlvM4NhdHgunVQUHwrEf7Fu/V+zch8emO7ZVjnLdQ
+ vxmQ==
+X-Gm-Message-State: AOAM533Fu95WKuwJc1UhF/5ul4zYPYNO6+ITKQYHrbtvKL60qYI7TV0t
+ r+ga6pxzoX3Y3nap6lczptfzcg==
+X-Google-Smtp-Source: ABdhPJwBZuHuioDSq4Uh41Ngc8FuZgbRE/c46PCq0SgpYwEVXo2TRpaMOMG39WHPJSAuNX71sxChrQ==
+X-Received: by 2002:a5d:4649:: with SMTP id j9mr28136859wrs.270.1595399352430; 
+ Tue, 21 Jul 2020 23:29:12 -0700 (PDT)
 Received: from zen.linaroharston ([51.148.130.216])
- by smtp.gmail.com with ESMTPSA id j8sm24537574wrd.85.2020.07.21.23.29.05
+ by smtp.gmail.com with ESMTPSA id f17sm6701806wme.14.2020.07.21.23.29.05
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
  Tue, 21 Jul 2020 23:29:09 -0700 (PDT)
 Received: from zen.lan (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id 7172A1FF91;
+ by zen.linaroharston (Postfix) with ESMTP id 8882A1FF92;
  Wed, 22 Jul 2020 07:29:03 +0100 (BST)
 From: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v2 05/12] util/oslib-win32: add qemu_get_host_physmem
- implementation
-Date: Wed, 22 Jul 2020 07:28:55 +0100
-Message-Id: <20200722062902.24509-6-alex.bennee@linaro.org>
+Subject: [PATCH v2 06/12] accel/tcg: better handle memory constrained systems
+Date: Wed, 22 Jul 2020 07:28:56 +0100
+Message-Id: <20200722062902.24509-7-alex.bennee@linaro.org>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20200722062902.24509-1-alex.bennee@linaro.org>
 References: <20200722062902.24509-1-alex.bennee@linaro.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::342;
- envelope-from=alex.bennee@linaro.org; helo=mail-wm1-x342.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::441;
+ envelope-from=alex.bennee@linaro.org; helo=mail-wr1-x441.google.com
 X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
  That's all we know.
 X-Spam_score_int: -20
@@ -91,51 +90,50 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
 Cc: fam@euphon.net, berrange@redhat.com,
  =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>,
- richard.henderson@linaro.org, f4bug@amsat.org, cota@braap.org,
- Stefan Weil <sw@weilnetz.de>, aurelien@aurel32.net
+ richard.henderson@linaro.org, f4bug@amsat.org,
+ Christian Ehrhardt <christian.ehrhardt@canonical.com>, cota@braap.org,
+ Paolo Bonzini <pbonzini@redhat.com>, aurelien@aurel32.net,
+ Richard Henderson <rth@twiddle.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-It seems GetPhysicallyInstalledSystemMemory isn't available in the
-MinGW headers so we have to declare it ourselves. Compile tested only.
+It turns out there are some 64 bit systems that have relatively low
+amounts of physical memory available to them (typically CI system).
+Even with swapping available a 1GB translation buffer that fills up
+can put the machine under increased memory pressure. Detect these low
+memory situations and reduce tb_size appropriately.
 
-Cc: Stefan Weil <sw@weilnetz.de>
+Fixes: 600e17b261
 Signed-off-by: Alex Bennée <alex.bennee@linaro.org>
----
- util/oslib-win32.c | 15 +++++++++++++--
- 1 file changed, 13 insertions(+), 2 deletions(-)
+Cc: BALATON Zoltan <balaton@eik.bme.hu>
+Cc: Christian Ehrhardt <christian.ehrhardt@canonical.com>
+Message-Id: <20200717105139.25293-6-alex.bennee@linaro.org>
 
-diff --git a/util/oslib-win32.c b/util/oslib-win32.c
-index 31030463cc9..f0f94833197 100644
---- a/util/oslib-win32.c
-+++ b/util/oslib-win32.c
-@@ -43,6 +43,8 @@
- /* this must come after including "trace.h" */
- #include <shlobj.h>
- 
-+WINBASEAPI BOOL WINAPI GetPhysicallyInstalledSystemMemory (PULONGLONG);
-+
- void *qemu_oom_check(void *ptr)
+---
+v2
+  - /4 to /8 as suggested by Christian
+---
+ accel/tcg/translate-all.c | 7 ++++++-
+ 1 file changed, 6 insertions(+), 1 deletion(-)
+
+diff --git a/accel/tcg/translate-all.c b/accel/tcg/translate-all.c
+index 2afa46bd2b1..3fe40ec1710 100644
+--- a/accel/tcg/translate-all.c
++++ b/accel/tcg/translate-all.c
+@@ -976,7 +976,12 @@ static inline size_t size_code_gen_buffer(size_t tb_size)
  {
-     if (ptr == NULL) {
-@@ -831,6 +833,15 @@ char *qemu_get_host_name(Error **errp)
- 
- size_t qemu_get_host_physmem(void)
- {
--    /* currently unimplemented */
--    return 0;
-+    ULONGLONG mem;
-+
-+    if (GetPhysicallyInstalledSystemMemory(&mem)) {
-+        if (mem > SIZE_MAX) {
-+            return SIZE_MAX;
+     /* Size the buffer.  */
+     if (tb_size == 0) {
+-        tb_size = DEFAULT_CODE_GEN_BUFFER_SIZE;
++        size_t phys_mem = qemu_get_host_physmem();
++        if (phys_mem > 0 && phys_mem < (2 * DEFAULT_CODE_GEN_BUFFER_SIZE)) {
++            tb_size = phys_mem / 8;
 +        } else {
-+            return mem;
++            tb_size = DEFAULT_CODE_GEN_BUFFER_SIZE;
 +        }
-+    } else {
-+        return 0;
-+    }
- }
+     }
+     if (tb_size < MIN_CODE_GEN_BUFFER_SIZE) {
+         tb_size = MIN_CODE_GEN_BUFFER_SIZE;
 -- 
 2.20.1
 
