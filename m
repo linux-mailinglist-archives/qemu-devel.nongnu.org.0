@@ -2,72 +2,72 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 43DC72290F5
-	for <lists+qemu-devel@lfdr.de>; Wed, 22 Jul 2020 08:34:58 +0200 (CEST)
-Received: from localhost ([::1]:43526 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 90C1F2290FA
+	for <lists+qemu-devel@lfdr.de>; Wed, 22 Jul 2020 08:36:33 +0200 (CEST)
+Received: from localhost ([::1]:49998 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jy8LB-0006yj-B0
-	for lists+qemu-devel@lfdr.de; Wed, 22 Jul 2020 02:34:57 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:41382)
+	id 1jy8Mi-0001Ew-Lm
+	for lists+qemu-devel@lfdr.de; Wed, 22 Jul 2020 02:36:32 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:41384)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1jy8Fl-0007Nh-5P
+ id 1jy8Fl-0007PI-Ph
  for qemu-devel@nongnu.org; Wed, 22 Jul 2020 02:29:21 -0400
-Received: from mail-wr1-x443.google.com ([2a00:1450:4864:20::443]:46839)
+Received: from mail-wr1-x442.google.com ([2a00:1450:4864:20::442]:39656)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1jy8Fj-0006vn-0Z
- for qemu-devel@nongnu.org; Wed, 22 Jul 2020 02:29:20 -0400
-Received: by mail-wr1-x443.google.com with SMTP id r12so676969wrj.13
- for <qemu-devel@nongnu.org>; Tue, 21 Jul 2020 23:29:18 -0700 (PDT)
+ id 1jy8Fk-0006vr-7t
+ for qemu-devel@nongnu.org; Wed, 22 Jul 2020 02:29:21 -0400
+Received: by mail-wr1-x442.google.com with SMTP id q5so705436wru.6
+ for <qemu-devel@nongnu.org>; Tue, 21 Jul 2020 23:29:19 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=8L2vbKsuiM4fLbSGCq4fCZieZ/wNbRKZPh+JXVwckiw=;
- b=elfPb4nnrSUwiW/bV0pZBaHIpKnqzEM61rBwtZcLcn5JFU9z+74X8DiuvkjtrNxRz8
- TJAJZcA7VH+B6ctLfzXk3LjR7ns8yNGlX7ly5hfRwJtVlccrm+ewd5p00GGSje5wZTq0
- Zxd5mm6GwffgX7dTXJ42+NA8PVeL2cZLu8bXEaoq4AVwOkTdw8+TPmyAlc3TW4adO1q1
- SyaloCWXZZ53SKMjWSZg8KlrIbdzvyS1CTuSSevg7/CmlBvudQIUq9eOZtLj2DQ6arKJ
- 1VRdL9VeodH5TG84ci7+dBbBLdnjyv0smj8m91mElhqQLw3PhVYREY6BpdsBR1/yFfGe
- twWg==
+ bh=ltWiVwdUknugsiDwNPNQ/zuHjy+8DNFqI6hfoHm84KU=;
+ b=GHvLLkoxkpao1nPfCrN0SbryTXyG9S4FyTHb6vOW0CnHx+giro9PQ4S8MLrrUJSbOK
+ rDfMnMDzcmqEc/5igOMO1WgKsotlj3/pe2rGKG7FIAliCqf+ov9donIDGHyTft4tyOpc
+ HbOnHW+18cZxnxW4xRS7/0MxWLGtLyi2Gd6tBCarjrfbV7udqPSKjZ/puX+Bi1bBuqx+
+ v1Hl1EJGu52P4zT1Os1piGjxdqRCd5dDuLV3nXE5Rp27N0NY+kiGzSocy4rbJyWH/syA
+ Jo8VG/nJYh8vJFenvQB3kB7YWESLFPwtajfKUkTFkEB17cl/v2K6GMizUFSMGTc/mPk0
+ IwTw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=8L2vbKsuiM4fLbSGCq4fCZieZ/wNbRKZPh+JXVwckiw=;
- b=XuIOgIg+iRyan2QdMUWXgW9qYm5w1pCQi8nZWooFZdnn3BiRwTwUcbT10S3Ybo93hd
- lUixo5ik6Wi3g5dQxlVRHk6dSeHLh5mYiabrgwscYYNBw1VRfcRTwkepVRt9od20gfrx
- H76g1h/CB/t4P12SrM6Q1SXdJRU5I/fQDZS0FgScL1IAsh14kOqykrYZUEU7Xr8lHtX8
- IXkpd0hMf+w9/mkb37FRerJbtCPQLQ4VhT+SIYSvSZipeEH1T0WaOl1SRPekxJgPgbi4
- LhQ0IyN6aqrE+1Ehsr/N776wJAW513R3kyJRiB+HY9NtcqvHsDWEq4tRQbQjcIgZOotW
- gTgg==
-X-Gm-Message-State: AOAM531cpuDtJ2B/0FJgU/czX/XjoLaqOTm/fpdo8UAVrYIh/XXQAErj
- g5I7WSgDVIK2HDA29IF+EdNK8lHf3Hw=
-X-Google-Smtp-Source: ABdhPJxFhcMAgJr5CRZ3Emw8aCypboNv9TMcjVGrFJi+ZoZ+6a3wFO6wT/+JBg6Iio1K1kXylSeOKg==
-X-Received: by 2002:a5d:4687:: with SMTP id u7mr31382443wrq.357.1595399357669; 
- Tue, 21 Jul 2020 23:29:17 -0700 (PDT)
+ bh=ltWiVwdUknugsiDwNPNQ/zuHjy+8DNFqI6hfoHm84KU=;
+ b=lvFKGX0vlbzDlywkZvlUDS5knssVh0cTEtbTs+H7rtDFNUel1YZ/MBMQcTGeILfjN4
+ eHTXdWiU9gC7grnauQdDPJUIlLikWry2TNRumplSNFc4w57MjwKIvqwO+Je9OnxZrLq7
+ rjNpelDPWLPOlibjN/POqtiWYJJSPCz/KnSiK2kT0ZVq7wziTgICM/Cr4iO0ynQj1h1H
+ gpLtfeOcL6kB1dYpyzhbS2k4HMLQpeRtTNJFcOtDIfrZ2v+HRg7mUVfBRyGaRZoqCS/k
+ HZXDiPY98eSuhqLPnl7uD4sI6HB0Duuu23vQBxBIanpkk9OA6qMtaPQOMUlG32f9Ydcp
+ r55w==
+X-Gm-Message-State: AOAM5316uSeg9YLuPC3Vca5p3tW5YC8D0/Z9IY9W0y/n60ervyC/kXrp
+ 5QJ6EwchCJe0+K/F0IQVRWkYP2W30Mo=
+X-Google-Smtp-Source: ABdhPJx5WPi0QlB2sSZ04waoWE8NVJyqAS/IOusW5FTbNrEdMtwGDrp/M58GJ97Mgtfec82beb+8mA==
+X-Received: by 2002:a05:6000:12c5:: with SMTP id
+ l5mr32281935wrx.219.1595399358737; 
+ Tue, 21 Jul 2020 23:29:18 -0700 (PDT)
 Received: from zen.linaroharston ([51.148.130.216])
- by smtp.gmail.com with ESMTPSA id r11sm5854388wmh.1.2020.07.21.23.29.08
+ by smtp.gmail.com with ESMTPSA id 60sm15886959wrs.20.2020.07.21.23.29.08
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
  Tue, 21 Jul 2020 23:29:11 -0700 (PDT)
 Received: from zen.lan (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id D04591FF98;
+ by zen.linaroharston (Postfix) with ESMTP id E5D661FF99;
  Wed, 22 Jul 2020 07:29:03 +0100 (BST)
 From: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v2 09/12] tests/docker: fix update command due to python3
- str/bytes distinction
-Date: Wed, 22 Jul 2020 07:28:59 +0100
-Message-Id: <20200722062902.24509-10-alex.bennee@linaro.org>
+Subject: [PATCH  v2 10/12] tests/docker: fix binfmt_misc image building
+Date: Wed, 22 Jul 2020 07:29:00 +0100
+Message-Id: <20200722062902.24509-11-alex.bennee@linaro.org>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20200722062902.24509-1-alex.bennee@linaro.org>
 References: <20200722062902.24509-1-alex.bennee@linaro.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::443;
- envelope-from=alex.bennee@linaro.org; helo=mail-wr1-x443.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::442;
+ envelope-from=alex.bennee@linaro.org; helo=mail-wr1-x442.google.com
 X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
  That's all we know.
 X-Spam_score_int: -20
@@ -97,46 +97,27 @@ Cc: fam@euphon.net, berrange@redhat.com,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Does this seem convoluted to you? It feels a little complicated to me.
+When we updated the arguments for docker.py we missed a bit.
 
+Fixes: dfae6284
 Signed-off-by: Alex Bennée <alex.bennee@linaro.org>
 ---
- tests/docker/docker.py | 13 +++++++------
- 1 file changed, 7 insertions(+), 6 deletions(-)
+ tests/docker/Makefile.include | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/tests/docker/docker.py b/tests/docker/docker.py
-index c9f20d8d093..356d7618f1a 100755
---- a/tests/docker/docker.py
-+++ b/tests/docker/docker.py
-@@ -24,7 +24,7 @@ import tempfile
- import re
- import signal
- from tarfile import TarFile, TarInfo
--from io import StringIO
-+from io import StringIO, BytesIO
- from shutil import copy, rmtree
- from pwd import getpwuid
- from datetime import datetime, timedelta
-@@ -541,13 +541,14 @@ class UpdateCommand(SubCommand):
- 
-         # Create a Docker buildfile
-         df = StringIO()
--        df.write("FROM %s\n" % args.tag)
--        df.write("ADD . /\n")
--        df.seek(0)
-+        df.write(u"FROM %s\n" % args.tag)
-+        df.write(u"ADD . /\n")
-+
-+        df_bytes = BytesIO(bytes(df.getvalue(), "UTF-8"))
- 
-         df_tar = TarInfo(name="Dockerfile")
--        df_tar.size = len(df.buf)
--        tmp_tar.addfile(df_tar, fileobj=df)
-+        df_tar.size = df_bytes.getbuffer().nbytes
-+        tmp_tar.addfile(df_tar, fileobj=df_bytes)
- 
-         tmp_tar.close()
- 
+diff --git a/tests/docker/Makefile.include b/tests/docker/Makefile.include
+index a104e9df281..9119dff97de 100644
+--- a/tests/docker/Makefile.include
++++ b/tests/docker/Makefile.include
+@@ -78,7 +78,7 @@ docker-binfmt-image-debian-%: $(DOCKER_FILES_DIR)/debian-bootstrap.docker
+ 			DEB_ARCH=$(DEB_ARCH)					\
+ 			DEB_TYPE=$(DEB_TYPE) 					\
+ 			$(if $(DEB_URL),DEB_URL=$(DEB_URL),)			\
+-			$(DOCKER_SCRIPT) build qemu/debian-$* $< 		\
++			$(DOCKER_SCRIPT) build -t qemu/debian-$* -f $< 		\
+ 			$(if $V,,--quiet) $(if $(NOCACHE),--no-cache) 		\
+ 			$(if $(NOUSER),,--add-current-user) 			\
+ 			$(if $(EXTRA_FILES),--extra-files $(EXTRA_FILES))	\
 -- 
 2.20.1
 
