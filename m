@@ -2,58 +2,73 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 78E862297E8
-	for <lists+qemu-devel@lfdr.de>; Wed, 22 Jul 2020 14:09:43 +0200 (CEST)
-Received: from localhost ([::1]:48490 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 817572297F1
+	for <lists+qemu-devel@lfdr.de>; Wed, 22 Jul 2020 14:11:53 +0200 (CEST)
+Received: from localhost ([::1]:56176 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jyDZ8-0005Cj-H4
-	for lists+qemu-devel@lfdr.de; Wed, 22 Jul 2020 08:09:42 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:44852)
+	id 1jyDbE-0008V4-EL
+	for lists+qemu-devel@lfdr.de; Wed, 22 Jul 2020 08:11:52 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:44902)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1jyDY8-0004NB-FS
- for qemu-devel@nongnu.org; Wed, 22 Jul 2020 08:08:40 -0400
-Received: from us-smtp-1.mimecast.com ([205.139.110.61]:46383
+ (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1jyDYf-0005Gw-Jz
+ for qemu-devel@nongnu.org; Wed, 22 Jul 2020 08:09:13 -0400
+Received: from us-smtp-1.mimecast.com ([205.139.110.61]:23327
  helo=us-smtp-delivery-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1jyDY6-0006XX-Pi
- for qemu-devel@nongnu.org; Wed, 22 Jul 2020 08:08:40 -0400
+ (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1jyDYe-0006Yy-2G
+ for qemu-devel@nongnu.org; Wed, 22 Jul 2020 08:09:13 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1595419717;
+ s=mimecast20190719; t=1595419751;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type;
- bh=OcDzYTCrFI8vItXVqJ/O67h/z3VbAj2Uxj8szeY7b6A=;
- b=caxembnwagT9y5/AtTw7CBCwi5rQ0f8MElPiJdhNjlP/HltfT7T1Vfke7Vr+7M53l5ff/4
- 3j9MMpwQJT6wa5TVym5ICRYzOxV70opbzd5rkV+kaLxe154LlpDyU9tKnYaZl35+ijdDF4
- kLWG9aRP3kRMI5c1bLn3b8/siKn1fXI=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-362-SKJfoKkfOnqUEU-aCQjayQ-1; Wed, 22 Jul 2020 08:08:32 -0400
-X-MC-Unique: SKJfoKkfOnqUEU-aCQjayQ-1
-Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
- [10.5.11.12])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 88E57800465;
- Wed, 22 Jul 2020 12:08:30 +0000 (UTC)
-Received: from sirius.home.kraxel.org (ovpn-115-89.ams2.redhat.com
- [10.36.115.89])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 3A14961176;
- Wed, 22 Jul 2020 12:08:28 +0000 (UTC)
-Received: by sirius.home.kraxel.org (Postfix, from userid 1000)
- id 85EDC9D9F; Wed, 22 Jul 2020 14:08:27 +0200 (CEST)
-Date: Wed, 22 Jul 2020 14:08:27 +0200
-From: Gerd Hoffmann <kraxel@redhat.com>
-To: ipxe-devel@lists.ipxe.org, qemu-devel@nongnu.org
-Subject: https booting
-Message-ID: <20200722120827.dq72uabrk26nllra@sirius.home.kraxel.org>
+ bh=31VqY//DtBodiNGMXlVfA/2kGPUGV525DXCYEW/HUqs=;
+ b=DVE17KGUezWmryv5DjNvcFxw5k9kIF7JahL4BpAeICUMfbay/xPrw4v+BKw6vAmCfjpfED
+ VyFlcN3+focWEsgaELU/SqdrlmNheO28cqmhGxTeoacacUpyNdDOYT05FBfuuHVcCNRNp4
+ cWfWyKnhl3JjA0lbU8OLTjb+l4kSxjk=
+Received: from mail-wm1-f70.google.com (mail-wm1-f70.google.com
+ [209.85.128.70]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-260-VKOqQqEYPbG2SDHqNY7O-Q-1; Wed, 22 Jul 2020 08:09:09 -0400
+X-MC-Unique: VKOqQqEYPbG2SDHqNY7O-Q-1
+Received: by mail-wm1-f70.google.com with SMTP id z74so975319wmc.4
+ for <qemu-devel@nongnu.org>; Wed, 22 Jul 2020 05:09:09 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:mime-version
+ :content-disposition;
+ bh=31VqY//DtBodiNGMXlVfA/2kGPUGV525DXCYEW/HUqs=;
+ b=TrwOCzSTo0U4Qx8XaJua88xh6tMWfhzdrG1mI8mQxEtyn4rU4eiDLk4XTG9fpHVoHq
+ 0r7r11D2b/+TkmjgUJwlYYz85Qmoa6snJJchAtZqbeJJ5kwjB0+uD168p0Y1/Dy7QiT/
+ DExH+bY+MvgVcA5hqBP38eB5W+jsMYFzSSWoN/3Hq5CqKu+8D2F57zL0SrTFLUlC7mC5
+ ZQFIXfK/4/K0hUpPeolElheJWRAqCF3iUPcYfbdYivFZ/dmiQuicsjZzSJ9Nc67iI+UW
+ ceYdMZggFdgShGJmSnBP/WgABBFnZFrzG9A2PMKcMdoQo1MkWcCPOxeYCpYCS7UaNpvK
+ p4dw==
+X-Gm-Message-State: AOAM530Nl2eIJkrsyJmgieBOPVccwCoceeqZ2LCnrofACc42uMHkKZdt
+ LDpWYWvUTXXcyVB39SKXmdU4m8h3+uM+3hiRwL4IXY0ybgizIPLp3A6TNQoEu2dZt6pqZVklBoD
+ JUysug13iljGpHak=
+X-Received: by 2002:a1c:9e06:: with SMTP id h6mr7932292wme.45.1595419748030;
+ Wed, 22 Jul 2020 05:09:08 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJwbeCThEDeXQXXoSOAOk0QUKUkli2853xncBuPPyxeJNj+hI6kK8ksEcJ3mYIkLvtJOJsnLAA==
+X-Received: by 2002:a1c:9e06:: with SMTP id h6mr7932276wme.45.1595419747800;
+ Wed, 22 Jul 2020 05:09:07 -0700 (PDT)
+Received: from redhat.com (bzq-79-182-82-99.red.bezeqint.net. [79.182.82.99])
+ by smtp.gmail.com with ESMTPSA id
+ t14sm29233384wrv.14.2020.07.22.05.09.06
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Wed, 22 Jul 2020 05:09:07 -0700 (PDT)
+Date: Wed, 22 Jul 2020 08:09:04 -0400
+From: "Michael S. Tsirkin" <mst@redhat.com>
+To: qemu-devel@nongnu.org
+Subject: [PULL 0/9] acpi,virtio,pc: bugfixes
+Message-ID: <20200722120853.9144-1-mst@redhat.com>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
+X-Mailer: git-send-email 2.27.0.106.g8ac3dc51b1
+X-Mutt-Fcc: =sent
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Received-SPF: pass client-ip=205.139.110.61; envelope-from=kraxel@redhat.com;
+Received-SPF: pass client-ip=205.139.110.61; envelope-from=mst@redhat.com;
  helo=us-smtp-delivery-1.mimecast.com
 X-detected-operating-system: by eggs.gnu.org: First seen = 2020/07/21 21:28:05
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
@@ -63,7 +78,7 @@ X-Spam_bar: ----
 X-Spam_report: (-4.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-1, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001, URIBL_BLOCKED=0.001 autolearn=ham autolearn_force=no
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -76,36 +91,70 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: =?utf-8?B?TMOhc3psw7Mgw4lyc2Vr?= <lersek@redhat.com>, crobinso@redhat.com
+Cc: Peter Maydell <peter.maydell@linaro.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-  Hi,
+The following changes since commit c8004fe6bbfc0d9c2e7b942c418a85efb3ac4b00:
 
-With the world moving to use https by default people start to ask for
-https being enabled by default for the qemu boot roms.
+  Update version for v5.1.0-rc1 release (2020-07-21 20:28:59 +0100)
 
-We could simply flip the DOWNLOAD_PROTO_HTTPS switch in
-src/config/qemu/general.h (ipxe git repo).  Note that this would only
-affect booting in bios mode, for uefi qemu uses the efidrv builds which
-implies https support is in the hands of the uefi firmware (edk2/ovmf).
+are available in the Git repository at:
 
-After looking at https://ipxe.org/cfg/crosscert I'm not convinced this
-is a good idea though.  This would likely put quite some load to
-ca.ipxe.org.  Also that machine becomes a single point of failure for
-worldwide ipxe https boot, and looking through the mailing list I've
-seen we already had (at least) two outages this year.
+  git://git.kernel.org/pub/scm/virt/kvm/mst/qemu.git tags/for_upstream
 
-What happens if you sent crosscert to the empty string?
-Will ipxe fail or will it boot without cert verification?
+for you to fetch changes up to ccec7e9603f446fe75c6c563ba335c00cfda6a06:
 
-What does it take to mirror http://ca.ipxe.org/auto/?
-Just "wget -r" everything and serve it?
+  virtio-pci: Changed vdev to proxy for VirtIO PCI BAR callbacks. (2020-07-22 08:05:37 -0400)
 
-How does edk2 handle the root ca problem?
-Other comments?
+----------------------------------------------------------------
+acpi,virtio,pc: bugfixes
 
-take care,
-  Gerd
+Fix bug in ACPI which were tripping up guests.
+Fix a use-after-free with hotplug of virtio devices.
+Block ability to create legacy devices which shouldn't have been
+there in the first place.
+Fix migration error handling with balloon.
+Drop some dead code in virtio.
+vtd emulation fixup.
+
+Signed-off-by: Michael S. Tsirkin <mst@redhat.com>
+
+----------------------------------------------------------------
+Alexander Duyck (3):
+      virtio-balloon: Prevent guest from starting a report when we didn't request one
+      virtio-balloon: Add locking to prevent possible race when starting hinting
+      virtio-balloon: Replace free page hinting references to 'report' with 'hint'
+
+Andrew Melnychenko (1):
+      virtio-pci: Changed vdev to proxy for VirtIO PCI BAR callbacks.
+
+Cornelia Huck (2):
+      virtio: list legacy-capable devices
+      virtio: verify that legacy support is not accidentally on
+
+Liu Yi L (1):
+      intel_iommu: Use correct shift for 256 bits qi descriptor
+
+Markus Armbruster (1):
+      virtio: Drop broken and superfluous object_property_set_link()
+
+Michael Tokarev (1):
+      acpi: accept byte and word access to core ACPI registers
+
+ hw/i386/intel_iommu_internal.h     |  3 +-
+ include/hw/virtio/virtio-balloon.h | 20 +++++-----
+ include/hw/virtio/virtio.h         |  2 +
+ hw/acpi/core.c                     |  9 +++--
+ hw/i386/intel_iommu.c              |  7 +++-
+ hw/s390x/virtio-ccw-crypto.c       |  3 --
+ hw/s390x/virtio-ccw-rng.c          |  3 --
+ hw/s390x/virtio-ccw.c              |  6 +++
+ hw/virtio/virtio-balloon.c         | 79 ++++++++++++++++++++------------------
+ hw/virtio/virtio-crypto-pci.c      |  2 -
+ hw/virtio/virtio-pci.c             | 38 +++++++++++++-----
+ hw/virtio/virtio-rng-pci.c         |  3 --
+ hw/virtio/virtio.c                 | 25 ++++++++++++
+ 13 files changed, 127 insertions(+), 73 deletions(-)
 
 
