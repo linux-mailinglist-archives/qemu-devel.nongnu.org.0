@@ -2,67 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id DDEE8228F4D
-	for <lists+qemu-devel@lfdr.de>; Wed, 22 Jul 2020 06:42:50 +0200 (CEST)
-Received: from localhost ([::1]:47054 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 695F5228F4F
+	for <lists+qemu-devel@lfdr.de>; Wed, 22 Jul 2020 06:43:57 +0200 (CEST)
+Received: from localhost ([::1]:52388 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jy6af-0004f4-TD
-	for lists+qemu-devel@lfdr.de; Wed, 22 Jul 2020 00:42:49 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:52526)
+	id 1jy6bk-0006pl-Cj
+	for lists+qemu-devel@lfdr.de; Wed, 22 Jul 2020 00:43:56 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:52554)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1jy6Yb-0002qW-G0
- for qemu-devel@nongnu.org; Wed, 22 Jul 2020 00:40:41 -0400
-Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:50249
- helo=us-smtp-1.mimecast.com)
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1jy6Yc-0002sh-Lz
+ for qemu-devel@nongnu.org; Wed, 22 Jul 2020 00:40:42 -0400
+Received: from us-smtp-2.mimecast.com ([207.211.31.81]:25262
+ helo=us-smtp-delivery-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1jy6YY-0002lx-U2
- for qemu-devel@nongnu.org; Wed, 22 Jul 2020 00:40:41 -0400
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1jy6Ya-0002mH-OI
+ for qemu-devel@nongnu.org; Wed, 22 Jul 2020 00:40:42 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1595392837;
+ s=mimecast20190719; t=1595392840;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:content-type:content-type:in-reply-to:in-reply-to:
- references:references; bh=1Yr2eWjUvnZxwwMdpp68vf/1MyEQFAKvoUYB5EwVOS0=;
- b=JB2P9KdUya6L3ndGYG+e5Dy1Ld2rBAGALQY+aRtgrQPwLnV7kTsNtCYyZzlshO88YDKuSJ
- m0EW0WkMdrti0kZ229k5cL+2495w/Zq2/mkSgtPLhb5X0zQsW+lVBIhumQnNJwBWnFy8xA
- fwV/wi/2uqLu86UjeRI/y3AsWiXfLU4=
+ references:references; bh=MvhamPpwgReB9Sphit1s83rRsQO6ok80fcqjytucDf4=;
+ b=anAJrYwkUVNUAkeVfU0uSaA3yoDp32CJPaF7qt7SesGvSmrniUgnV++52mxYqugtuMroBS
+ UvlREHVTYB9NHTsfln4fKjD7hoyT40mMj4XYH51w8q76LBPNKFtWC76x7FGAREmXF+I8Wy
+ 7IhIsuZgg96O/XQgCTqTmRj+/e7tzPs=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-422-mFvaOCNdO8q_syamjqc2dA-1; Wed, 22 Jul 2020 00:40:36 -0400
-X-MC-Unique: mFvaOCNdO8q_syamjqc2dA-1
+ us-mta-33-gawb5SmyNG6xbnbpueioKA-1; Wed, 22 Jul 2020 00:40:38 -0400
+X-MC-Unique: gawb5SmyNG6xbnbpueioKA-1
 Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
  [10.5.11.15])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 3B0488005B0;
- Wed, 22 Jul 2020 04:40:35 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 16B4B100A8E7;
+ Wed, 22 Jul 2020 04:40:37 +0000 (UTC)
 Received: from thuth.com (ovpn-112-92.ams2.redhat.com [10.36.112.92])
- by smtp.corp.redhat.com (Postfix) with ESMTP id C0D9D7268C;
- Wed, 22 Jul 2020 04:40:33 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 9A82E7268C;
+ Wed, 22 Jul 2020 04:40:35 +0000 (UTC)
 From: Thomas Huth <thuth@redhat.com>
 To: qemu-devel@nongnu.org,
 	Michael Roth <mdroth@linux.vnet.ibm.com>
-Subject: [PATCH v2 2/4] qga/commands-posix: Rework
- build_guest_fsinfo_for_real_device() function
-Date: Wed, 22 Jul 2020 06:40:26 +0200
-Message-Id: <20200722044028.4059-3-thuth@redhat.com>
+Subject: [PATCH v2 3/4] qga/commands-posix: Move the udev code from the pci to
+ the generic function
+Date: Wed, 22 Jul 2020 06:40:27 +0200
+Message-Id: <20200722044028.4059-4-thuth@redhat.com>
 In-Reply-To: <20200722044028.4059-1-thuth@redhat.com>
 References: <20200722044028.4059-1-thuth@redhat.com>
 X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=thuth@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=US-ASCII
-Received-SPF: pass client-ip=205.139.110.120; envelope-from=thuth@redhat.com;
- helo=us-smtp-1.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/07/21 23:27:14
+Received-SPF: pass client-ip=207.211.31.81; envelope-from=thuth@redhat.com;
+ helo=us-smtp-delivery-1.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/07/21 23:34:34
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
-X-Spam_score_int: -40
-X-Spam_score: -4.1
-X-Spam_bar: ----
-X-Spam_report: (-4.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1,
+X-Spam_score_int: -30
+X-Spam_score: -3.1
+X-Spam_bar: ---
+X-Spam_report: (-3.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-1, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H3=-0.01, RCVD_IN_MSPIKE_WL=-0.01,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -81,138 +83,121 @@ Cc: qemu-s390x@nongnu.org,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-We are going to support non-PCI devices soon. For this we need to split
-the generic GuestDiskAddress and GuestDiskAddressList memory allocation
-and list chaining into a separate function first.
+The libudev-related code is independent from the other pci-related code
+and can be re-used for non-pci devices (like ccw devices on s390x). Thus
+move this part to the generic function.
 
+Buglink: https://bugzilla.redhat.com/show_bug.cgi?id=1755075
 Signed-off-by: Thomas Huth <thuth@redhat.com>
 ---
- qga/commands-posix.c | 65 ++++++++++++++++++++++++++++----------------
- 1 file changed, 41 insertions(+), 24 deletions(-)
+ qga/commands-posix.c | 62 +++++++++++++++++++++++---------------------
+ 1 file changed, 33 insertions(+), 29 deletions(-)
 
 diff --git a/qga/commands-posix.c b/qga/commands-posix.c
-index 1a62a3a70d..1a42ec8171 100644
+index 1a42ec8171..e8467ac567 100644
 --- a/qga/commands-posix.c
 +++ b/qga/commands-posix.c
-@@ -861,28 +861,30 @@ static int build_hosts(char const *syspath, char const *host, bool ata,
-     return i;
- }
- 
--/* Store disk device info specified by @sysfs into @fs */
--static void build_guest_fsinfo_for_real_device(char const *syspath,
--                                               GuestFilesystemInfo *fs,
--                                               Error **errp)
-+/*
-+ * Store disk device info for devices on the PCI bus.
-+ * Returns true if information has been stored, or false for failure.
-+ */
-+static bool build_guest_fsinfo_for_pci_dev(char const *syspath,
-+                                           GuestDiskAddress *disk,
-+                                           Error **errp)
- {
-     unsigned int pci[4], host, hosts[8], tgt[3];
-     int i, nhosts = 0, pcilen;
--    GuestDiskAddress *disk;
--    GuestPCIAddress *pciaddr;
--    GuestDiskAddressList *list = NULL;
-+    GuestPCIAddress *pciaddr = disk->pci_controller;
+@@ -874,10 +874,6 @@ static bool build_guest_fsinfo_for_pci_dev(char const *syspath,
+     GuestPCIAddress *pciaddr = disk->pci_controller;
      bool has_ata = false, has_host = false, has_tgt = false;
      char *p, *q, *driver = NULL;
- #ifdef CONFIG_LIBUDEV
-     struct udev *udev = NULL;
-     struct udev_device *udevice = NULL;
- #endif
-+    bool ret = false;
+-#ifdef CONFIG_LIBUDEV
+-    struct udev *udev = NULL;
+-    struct udev_device *udevice = NULL;
+-#endif
+     bool ret = false;
  
      p = strstr(syspath, "/devices/pci");
-     if (!p || sscanf(p + 12, "%*x:%*x/%x:%x:%x.%x%n",
-                      pci, pci + 1, pci + 2, pci + 3, &pcilen) < 4) {
-         g_debug("only pci device is supported: sysfs path '%s'", syspath);
--        return;
-+        return false;
-     }
- 
-     p += 12 + pcilen;
-@@ -903,7 +905,7 @@ static void build_guest_fsinfo_for_real_device(char const *syspath,
-         }
- 
-         g_debug("unsupported driver or sysfs path '%s'", syspath);
--        return;
-+        return false;
-     }
- 
-     p = strstr(syspath, "/target");
-@@ -929,18 +931,11 @@ static void build_guest_fsinfo_for_real_device(char const *syspath,
-         }
-     }
- 
--    pciaddr = g_malloc0(sizeof(*pciaddr));
-     pciaddr->domain = pci[0];
-     pciaddr->bus = pci[1];
+@@ -936,26 +932,6 @@ static bool build_guest_fsinfo_for_pci_dev(char const *syspath,
      pciaddr->slot = pci[2];
      pciaddr->function = pci[3];
  
--    disk = g_malloc0(sizeof(*disk));
--    disk->pci_controller = pciaddr;
+-#ifdef CONFIG_LIBUDEV
+-    udev = udev_new();
+-    udevice = udev_device_new_from_syspath(udev, syspath);
+-    if (udev == NULL || udevice == NULL) {
+-        g_debug("failed to query udev");
+-    } else {
+-        const char *devnode, *serial;
+-        devnode = udev_device_get_devnode(udevice);
+-        if (devnode != NULL) {
+-            disk->dev = g_strdup(devnode);
+-            disk->has_dev = true;
+-        }
+-        serial = udev_device_get_property_value(udevice, "ID_SERIAL");
+-        if (serial != NULL && *serial != 0) {
+-            disk->serial = g_strdup(serial);
+-            disk->has_serial = true;
+-        }
+-    }
+-#endif
 -
--    list = g_malloc0(sizeof(*list));
--    list->value = disk;
--
- #ifdef CONFIG_LIBUDEV
-     udev = udev_new();
-     udevice = udev_device_new_from_syspath(udev, syspath);
-@@ -1018,21 +1013,43 @@ static void build_guest_fsinfo_for_real_device(char const *syspath,
-         goto cleanup;
-     }
- 
--    list->next = fs->disk;
--    fs->disk = list;
--    goto out;
-+    ret = true;
+     if (strcmp(driver, "ata_piix") == 0) {
+         /* a host per ide bus, target*:0:<unit>:0 */
+         if (!has_host || !has_tgt) {
+@@ -1017,10 +993,6 @@ static bool build_guest_fsinfo_for_pci_dev(char const *syspath,
  
  cleanup:
--    if (list) {
--        qapi_free_GuestDiskAddressList(list);
--    }
--out:
      g_free(driver);
- #ifdef CONFIG_LIBUDEV
-     udev_unref(udev);
-     udev_device_unref(udevice);
- #endif
--    return;
-+    return ret;
-+}
-+
-+/* Store disk device info specified by @sysfs into @fs */
-+static void build_guest_fsinfo_for_real_device(char const *syspath,
-+                                               GuestFilesystemInfo *fs,
-+                                               Error **errp)
-+{
-+    GuestDiskAddress *disk;
-+    GuestPCIAddress *pciaddr;
-+    GuestDiskAddressList *list = NULL;
-+    bool has_hwinf;
-+
-+    pciaddr = g_new0(GuestPCIAddress, 1);
-+
-+    disk = g_new0(GuestDiskAddress, 1);
-+    disk->pci_controller = pciaddr;
-+
-+    list = g_new0(GuestDiskAddressList, 1);
-+    list->value = disk;
-+
-+    has_hwinf = build_guest_fsinfo_for_pci_dev(syspath, disk, errp);
-+
-+    if (has_hwinf) {
-+        list->next = fs->disk;
-+        fs->disk = list;
-+    } else {
-+        qapi_free_GuestDiskAddressList(list);
-+    }
+-#ifdef CONFIG_LIBUDEV
+-    udev_unref(udev);
+-    udev_device_unref(udevice);
+-#endif
+     return ret;
  }
  
- static void build_guest_fsinfo_for_device(char const *devpath,
+@@ -1033,18 +1005,50 @@ static void build_guest_fsinfo_for_real_device(char const *syspath,
+     GuestPCIAddress *pciaddr;
+     GuestDiskAddressList *list = NULL;
+     bool has_hwinf;
++#ifdef CONFIG_LIBUDEV
++    struct udev *udev = NULL;
++    struct udev_device *udevice = NULL;
++#endif
+ 
+     pciaddr = g_new0(GuestPCIAddress, 1);
++    pciaddr->domain = -1;                       /* -1 means field is invalid */
++    pciaddr->bus = -1;
++    pciaddr->slot = -1;
++    pciaddr->function = -1;
+ 
+     disk = g_new0(GuestDiskAddress, 1);
+     disk->pci_controller = pciaddr;
++    disk->bus_type = GUEST_DISK_BUS_TYPE_UNKNOWN;
+ 
+     list = g_new0(GuestDiskAddressList, 1);
+     list->value = disk;
+ 
++#ifdef CONFIG_LIBUDEV
++    udev = udev_new();
++    udevice = udev_device_new_from_syspath(udev, syspath);
++    if (udev == NULL || udevice == NULL) {
++        g_debug("failed to query udev");
++    } else {
++        const char *devnode, *serial;
++        devnode = udev_device_get_devnode(udevice);
++        if (devnode != NULL) {
++            disk->dev = g_strdup(devnode);
++            disk->has_dev = true;
++        }
++        serial = udev_device_get_property_value(udevice, "ID_SERIAL");
++        if (serial != NULL && *serial != 0) {
++            disk->serial = g_strdup(serial);
++            disk->has_serial = true;
++        }
++    }
++
++    udev_unref(udev);
++    udev_device_unref(udevice);
++#endif
++
+     has_hwinf = build_guest_fsinfo_for_pci_dev(syspath, disk, errp);
+ 
+-    if (has_hwinf) {
++    if (has_hwinf || disk->has_dev || disk->has_serial) {
+         list->next = fs->disk;
+         fs->disk = list;
+     } else {
 -- 
 2.18.1
 
