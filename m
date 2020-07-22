@@ -2,109 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0A42322939C
-	for <lists+qemu-devel@lfdr.de>; Wed, 22 Jul 2020 10:35:01 +0200 (CEST)
-Received: from localhost ([::1]:36616 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E4D5D2293B9
+	for <lists+qemu-devel@lfdr.de>; Wed, 22 Jul 2020 10:38:48 +0200 (CEST)
+Received: from localhost ([::1]:39032 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jyADM-00019r-4Y
-	for lists+qemu-devel@lfdr.de; Wed, 22 Jul 2020 04:35:00 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:43132)
+	id 1jyAH2-0002Kc-15
+	for lists+qemu-devel@lfdr.de; Wed, 22 Jul 2020 04:38:48 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:43622)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1jyACX-0000jr-Q1
- for qemu-devel@nongnu.org; Wed, 22 Jul 2020 04:34:09 -0400
-Received: from mout.kundenserver.de ([212.227.126.131]:39057)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1jyACV-0007zS-SR
- for qemu-devel@nongnu.org; Wed, 22 Jul 2020 04:34:09 -0400
-Received: from [192.168.100.1] ([82.252.135.186]) by mrelayeu.kundenserver.de
- (mreue010 [213.165.67.103]) with ESMTPSA (Nemesis) id
- 1MN5S1-1kEJzd2Nb3-00J6jF; Wed, 22 Jul 2020 10:33:16 +0200
-Subject: Re: [PATCH v2 12/12] linux-user: fix clock_nanosleep()
-From: Laurent Vivier <laurent@vivier.eu>
-To: =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>,
- qemu-devel@nongnu.org
-References: <20200722062902.24509-1-alex.bennee@linaro.org>
- <20200722062902.24509-13-alex.bennee@linaro.org>
- <2c1c17a6-9bae-322b-9e28-722d11074405@vivier.eu>
-Autocrypt: addr=laurent@vivier.eu; prefer-encrypt=mutual; keydata=
- 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
-Message-ID: <7ecbf352-6855-fa25-9eb6-870618f05f11@vivier.eu>
-Date: Wed, 22 Jul 2020 10:33:14 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.9.0
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1jyAGE-0001ta-Ia
+ for qemu-devel@nongnu.org; Wed, 22 Jul 2020 04:37:58 -0400
+Received: from mail-oo1-xc41.google.com ([2607:f8b0:4864:20::c41]:40547)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1jyAFZ-0008Q9-Fv
+ for qemu-devel@nongnu.org; Wed, 22 Jul 2020 04:37:58 -0400
+Received: by mail-oo1-xc41.google.com with SMTP id p26so258090oos.7
+ for <qemu-devel@nongnu.org>; Wed, 22 Jul 2020 01:37:17 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=v/cjIzbDBZgN1h/K4uwgkqsaC6CRNlxsyyzLkJMFcag=;
+ b=NN0Z0MPxM4FgpbJLaAYzt/7m2yOYhEvjlZlEq1nt98qxTV9E1/HctHgRboCddyhXHD
+ 6P/gOw4L5/QfWzDGga55Acm9lfC0IWEtCm5X4A9Jzisv9ym3Y4eonH3mcufX9Zcag+XE
+ WPhsDlk00DsyfwF/DxBnFlmlGdcvJQOfZAFS0N6eXWVL/d8ldNIO50FD6yhnwk7ZP6EG
+ qzE5K5dzE6HL6JcCB5Q9IAItbzz1UowMSloi7G+2mEgj/JQPqxbkniibFw8Pi0Bxh116
+ PkpRD32Y2fINRo9QvjCvWIZ/liGHIPHxML+PBMyh30ZHu8RFZUkCWeNqb2eVRNhoS/lX
+ DXJw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=v/cjIzbDBZgN1h/K4uwgkqsaC6CRNlxsyyzLkJMFcag=;
+ b=Zt064Fe0AMH3XxBbHD88bwkdg/Q1ck5qFontXxS+N2OPIfQqwBHOef5cFUslBaEgBb
+ fgVN6OqafxNvAw8pN1O7DUWosbfT7NmvMlMUW/ApAzPTyxkmwGWzK6S9Jmzzo62/h/hg
+ oKq/gVcVctTrhQkguP3a0joc+2IJCeyDBtEiFHwnyHk0x9sNag3KRnOLjkJE/c7c/ZIq
+ DyzLIswBsMNQ6es4Uht+J0Hhr5ROIrw5frT3HrQ65oHWr+6cFXwnB2hJztU2bKZG7gmN
+ hr98goT+3yPaOLwqPSBJf+nfseSjo0BCF/X/oPqYcUM4/8jsomSDHOA7tejASM9bx5xM
+ wbjA==
+X-Gm-Message-State: AOAM531xRL7/q+qDydzMGdT1fE8h8sZH7a/PmFBSrcsXFsv37MNosPE/
+ gW40LsX3wcxLF30soI4jrHwdu7oXX9sLZrzA3XqHrA==
+X-Google-Smtp-Source: ABdhPJzqJuTJAYsOunwDJqyCJRY3q1BfoJvF9IJNGndMA1y17zIvB+6eDSufPm/uVRIgFhZ6o12eAaK7kibKvHB8Vkk=
+X-Received: by 2002:a4a:8784:: with SMTP id b4mr27476612ooi.69.1595407036200; 
+ Wed, 22 Jul 2020 01:37:16 -0700 (PDT)
 MIME-Version: 1.0
-In-Reply-To: <2c1c17a6-9bae-322b-9e28-722d11074405@vivier.eu>
-Content-Type: text/plain; charset=utf-8
-Content-Language: fr
-Content-Transfer-Encoding: 8bit
-X-Provags-ID: V03:K1:4bFO6xqRQIjTc/Dy3+cosjV0sdm2PKilo3MsOcK+PAFlJincpzv
- Y0UiRveFbZwpDtT0qBRDKo2Z+z2QyTlK970JblmePVrzCkF3ufxY5CaRoWDIP7YdhapBp71
- ZekkLhAhoEcgMuO27hAktfxzbmGDNROZtg7iRhyn02amy9R4IoYhss2Jo+7OBIOWk9ZiG3r
- +9M+GQI+2BtouFWojUGjg==
-X-UI-Out-Filterresults: notjunk:1;V03:K0:hVVn01xnx0M=:mFEOceTZ5X3x3YBUdbpPVJ
- leBBzE8LB8sMc90LeP8WJQ7iOJXS5ZEZ1tGfGZ/581GhLsGtDotlqV+Z5NGszzOuEtx0gnpn6
- IZr5vohXmtcyGwdxsu3DjmQDBg2Ywm53T1ix3zgCQQbnMgZDqZ0ip9b+xcPTAZQsS2tMFQ41p
- H3RZ03o5gFXHXkbeF2Wv8UBcGLcjAwEFCGj1lmBVJA0l/SnxDkPexX09snk2Q1Up4Q/xkVEgp
- bvlfE7orsDhVe1OOgGWvPK49cMdU+PNnsbOM5ow8YY/9zw58PvZDQiSDSwIrSvVdU4kzBINTd
- gKMA0SCvS19BuryPcvjUPezna5dG4uCPcfot+6C+j3IgcVqXeobcOyqq7SRn68Q8HlrczQEuP
- eU9tDrzThFbxpct1eGnKvOKn63MLdoBsdw/s48qZ4R9R/cjJUYTd6z4o6YMsJP3H/WQ4wjiLR
- UHCGJ3AUWzRtAoculMl7pxrvtqEZVEy02XtoOfiqdc7QZXI0yvY18CRsoV49BQUlbR/7zpAiV
- D1yLQFDB9kn+oFBKoR1fpKmjCmj6OuMz8fyY78D0EvZmWVhpwDMkB4AxFItHutHOwHLWIQGpK
- rqh5hbUJU4j8Kk3Ao3YhPDyxczPXNHakAKupnYIeHm5WOtLn1YHgnf6T60emqaHaRT7mnpzC9
- 5INvsXdwrsyc2614kduiGpdvfNswtWjd0n+blUsMlhWVsbeEKNol1kDsWvKUMhW7l0oeq3m7R
- E5Yby2I3qoT2euVLGFITsYuRoYfsf6P9NS1zle/X3kIhic5rrL82xoucWQkS1zsFeFgrs774O
- XDIS9noEJ5ehczO0zmqle48Mt0XDDM8Q1U/VFXCE9xlq8eSOTzwUmUdyaaqkBMhwSn/SVoK
-Received-SPF: none client-ip=212.227.126.131; envelope-from=laurent@vivier.eu;
- helo=mout.kundenserver.de
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/07/22 04:34:06
-X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic]
-X-Spam_score_int: -28
-X-Spam_score: -2.9
+References: <20200722081323.9893-1-guang.zeng@intel.com>
+In-Reply-To: <20200722081323.9893-1-guang.zeng@intel.com>
+From: Peter Maydell <peter.maydell@linaro.org>
+Date: Wed, 22 Jul 2020 09:37:05 +0100
+Message-ID: <CAFEAcA-M6OghOCX76q2kZDh_Nf1YLEDSLZcwa2ZVJgzwjdDaWw@mail.gmail.com>
+Subject: Re: [PATCH] hw/misc/edu: support pci device state migration
+To: Zeng Guang <guang.zeng@intel.com>
+Content-Type: text/plain; charset="UTF-8"
+Received-SPF: pass client-ip=2607:f8b0:4864:20::c41;
+ envelope-from=peter.maydell@linaro.org; helo=mail-oo1-xc41.google.com
+X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
+ That's all we know.
+X-Spam_score_int: -20
+X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_NONE=-0.0001,
- RCVD_IN_MSPIKE_H2=-1, SPF_HELO_NONE=0.001,
- SPF_NONE=0.001 autolearn=ham autolearn_force=no
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -117,79 +78,55 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: fam@euphon.net, berrange@redhat.com, richard.henderson@linaro.org,
- f4bug@amsat.org, cota@braap.org, aurelien@aurel32.net
+Cc: Juan Quintela <quintela@redhat.com>, David Hildenbrand <david@redhat.com>,
+ QEMU Developers <qemu-devel@nongnu.org>, wei.w.wang@intel.com,
+ Jiri Slaby <jslaby@suse.cz>, chao.gao@intel.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Le 22/07/2020 à 08:49, Laurent Vivier a écrit :
-> Le 22/07/2020 à 08:29, Alex Bennée a écrit :
->> From: Laurent Vivier <laurent@vivier.eu>
->>
->> If clock_nanosleep() encounters an error, it returns one of the positive
->> error number.
->>
->> If the call is interrupted by a signal handler, it fails with error EINTR
->> and if "remain" is not NULL and "flags" is not TIMER_ABSTIME, it returns
->> the remaining unslept time in "remain".
->>
->> Update linux-user to not overwrite the "remain" structure if there is no
->> error.
->>
->> Found with "make check-tcg", linux-test fails on nanosleep test:
->>
->>   TEST    linux-test on x86_64
->> .../tests/tcg/multiarch/linux-test.c:242: nanosleep
->> make[2]: *** [../Makefile.target:153: run-linux-test] Error 1
->> make[1]: *** [.../tests/tcg/Makefile.qemu:76: run-guest-tests] Error 2
->> make: *** [.../tests/Makefile.include:857: run-tcg-tests-x86_64-linux-user] Error 2
->>
->> Reported-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
->> Signed-off-by: Laurent Vivier <laurent@vivier.eu>
->> Message-Id: <20200721201754.2731479-1-laurent@vivier.eu>
->> ---
->>  linux-user/syscall.c | 15 ++++++++++++---
->>  1 file changed, 12 insertions(+), 3 deletions(-)
->>
->> diff --git a/linux-user/syscall.c b/linux-user/syscall.c
->> index 1211e759c26..caa7cd3cab9 100644
->> --- a/linux-user/syscall.c
->> +++ b/linux-user/syscall.c
->> @@ -11829,10 +11829,19 @@ static abi_long do_syscall1(void *cpu_env, int num, abi_long arg1,
->>      {
->>          struct timespec ts;
->>          target_to_host_timespec(&ts, arg3);
->> -        ret = get_errno(safe_clock_nanosleep(arg1, arg2,
->> -                                             &ts, arg4 ? &ts : NULL));
->> -        if (arg4)
->> +        /*
->> +         * clock_nanosleep() returns 0 or one of the *positive* error number.
->> +         */
->> +        ret = host_to_target_errno(safe_clock_nanosleep(arg1, arg2, &ts,
->> +                                                        arg4 ? &ts : NULL));
->> +        /*
->> +         * if the call is interrupted by a signal handler, it fails
->> +         * with error TARGET_EINTR and if arg4 is not NULL and arg2 is not
->> +         * TIMER_ABSTIME, it returns the remaining unslept time in arg4.
->> +         */
->> +        if (ret == TARGET_EINTR && arg4 && arg2 != TIMER_ABSTIME) {
->>              host_to_target_timespec(arg4, &ts);
->> +        }
->>  
->>  #if defined(TARGET_PPC)
->>          /* clock_nanosleep is odd in that it returns positive errno values.
->>
-> 
-> Wait a little before pushing that: I've made more tests and it seems to
-> break something in LTP. I have to analyze.
+On Wed, 22 Jul 2020 at 09:31, Zeng Guang <guang.zeng@intel.com> wrote:
+>
+> Currently edu device doesn't support live migration. Part of PCI
+> configuration information would be lost after migration.
+>
+> PCI device state in source VM:
+>      Bus  0, device   3, function 0:
+>      Class 0255: PCI device 1234:11e8
+>      PCI subsystem 1af4:1100
+>      IRQ 11, pin A
+>      BAR0: 32 bit memory at 0xfea00000 [0xfeafffff].
+>      id ""
+>
+> PCI device state in destination VM:
+>      Bus  0, device   3, function 0:
+>      Class 0255: PCI device 1234:11e8
+>      PCI subsystem 1af4:1100
+>      IRQ 0, pin A
+>      BAR0: 32 bit memory at 0xffffffffffffffff [0x000ffffe].
+>      id ""
+>
+> Add VMState for edu device to support migration.
+>
+> Signed-off-by: Gao Chao <chao.gao@intel.com>
+> Signed-off-by: Zeng Guang <guang.zeng@intel.com>
+> Reviewed-by: Wei Wang <wei.w.wang@intel.com>
 
-Apparently our safe_clock_nanosleep() doesn't behave like the system one
-described in the manpage: it actually returns -1 and update errno.
-So we need to keep the get_errno() and I think TARGET_PPC part can be
-removed because the crf bit will be updated in ppc/cpu_loop.c.
+Hi; thanks for adding migration support for this device.
 
-I update and test my patch and I will send the v2.
 
-Thanks,
-Laurent
+> +static const VMStateDescription vmstate_edu = {
+> +    .name = "edu",
+> +    .version_id = 1,
+> +    .minimum_version_id = 1,
+> +    .fields = (VMStateField[]) {
+> +        VMSTATE_PCI_DEVICE(pdev, EduState),
+
+This isn't the only state that the device has. You
+also need to migrate:
+stopping, addr4, fact, status, irq_status, the struct dma_state members,
+the dma_timer, dma_buf and dma_mask.
+
+
+thanks
+-- PMM
 
