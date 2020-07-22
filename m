@@ -2,53 +2,86 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 50141228EAE
-	for <lists+qemu-devel@lfdr.de>; Wed, 22 Jul 2020 05:39:25 +0200 (CEST)
-Received: from localhost ([::1]:49932 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5DC6D228EC3
+	for <lists+qemu-devel@lfdr.de>; Wed, 22 Jul 2020 05:52:46 +0200 (CEST)
+Received: from localhost ([::1]:53310 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jy5bI-0004Gy-DU
-	for lists+qemu-devel@lfdr.de; Tue, 21 Jul 2020 23:39:24 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:41702)
+	id 1jy5oC-0006TZ-Sv
+	for lists+qemu-devel@lfdr.de; Tue, 21 Jul 2020 23:52:44 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:43340)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <yezhenyu2@huawei.com>)
- id 1jy5aU-0003qQ-47
- for qemu-devel@nongnu.org; Tue, 21 Jul 2020 23:38:34 -0400
-Received: from szxga07-in.huawei.com ([45.249.212.35]:60836 helo=huawei.com)
+ (Exim 4.90_1) (envelope-from <bauerman@linux.ibm.com>)
+ id 1jy5n3-0005a4-IQ; Tue, 21 Jul 2020 23:51:33 -0400
+Received: from mx0a-001b2d01.pphosted.com ([148.163.156.1]:28748)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <yezhenyu2@huawei.com>)
- id 1jy5aS-0002W2-9B
- for qemu-devel@nongnu.org; Tue, 21 Jul 2020 23:38:33 -0400
-Received: from DGGEMS403-HUB.china.huawei.com (unknown [172.30.72.60])
- by Forcepoint Email with ESMTP id 9BD23B771DDAAC2506D1;
- Wed, 22 Jul 2020 11:38:25 +0800 (CST)
-Received: from [127.0.0.1] (10.174.186.173) by DGGEMS403-HUB.china.huawei.com
- (10.3.19.203) with Microsoft SMTP Server id 14.3.487.0;
- Wed, 22 Jul 2020 11:38:16 +0800
-Subject: Re: [PATCH v1] migration: tls: unref creds after used
-To: =?UTF-8?Q?Daniel_P=2e_Berrang=c3=a9?= <berrange@redhat.com>
-References: <20200717091943.1942-1-yezhenyu2@huawei.com>
- <20200721115445.GG843362@redhat.com>
-From: Zhenyu Ye <yezhenyu2@huawei.com>
-Message-ID: <c7b05334-0484-8bc5-7476-81adbce24fca@huawei.com>
-Date: Wed, 22 Jul 2020 11:38:16 +0800
-User-Agent: Mozilla/5.0 (Windows NT 10.0; WOW64; rv:68.0) Gecko/20100101
- Thunderbird/68.3.0
+ (Exim 4.90_1) (envelope-from <bauerman@linux.ibm.com>)
+ id 1jy5n1-0003ps-K9; Tue, 21 Jul 2020 23:51:33 -0400
+Received: from pps.filterd (m0098409.ppops.net [127.0.0.1])
+ by mx0a-001b2d01.pphosted.com (8.16.0.42/8.16.0.42) with SMTP id
+ 06M3XPn7117120; Tue, 21 Jul 2020 23:50:58 -0400
+Received: from pps.reinject (localhost [127.0.0.1])
+ by mx0a-001b2d01.pphosted.com with ESMTP id 32e1yakdsr-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Tue, 21 Jul 2020 23:50:58 -0400
+Received: from m0098409.ppops.net (m0098409.ppops.net [127.0.0.1])
+ by pps.reinject (8.16.0.36/8.16.0.36) with SMTP id 06M3ovBC155068;
+ Tue, 21 Jul 2020 23:50:57 -0400
+Received: from ppma02dal.us.ibm.com (a.bd.3ea9.ip4.static.sl-reverse.com
+ [169.62.189.10])
+ by mx0a-001b2d01.pphosted.com with ESMTP id 32e1yakdsc-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Tue, 21 Jul 2020 23:50:57 -0400
+Received: from pps.filterd (ppma02dal.us.ibm.com [127.0.0.1])
+ by ppma02dal.us.ibm.com (8.16.0.42/8.16.0.42) with SMTP id 06M3oMR8031965;
+ Wed, 22 Jul 2020 03:50:56 GMT
+Received: from b01cxnp23033.gho.pok.ibm.com (b01cxnp23033.gho.pok.ibm.com
+ [9.57.198.28]) by ppma02dal.us.ibm.com with ESMTP id 32brq9gxah-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Wed, 22 Jul 2020 03:50:56 +0000
+Received: from b01ledav005.gho.pok.ibm.com (b01ledav005.gho.pok.ibm.com
+ [9.57.199.110])
+ by b01cxnp23033.gho.pok.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
+ 06M3ot4G57999832
+ (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+ Wed, 22 Jul 2020 03:50:56 GMT
+Received: from b01ledav005.gho.pok.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id E12ECAE05F;
+ Wed, 22 Jul 2020 03:50:55 +0000 (GMT)
+Received: from b01ledav005.gho.pok.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id ECF4DAE05C;
+ Wed, 22 Jul 2020 03:50:49 +0000 (GMT)
+Received: from morokweng.localdomain.com (unknown [9.163.58.88])
+ by b01ledav005.gho.pok.ibm.com (Postfix) with ESMTP;
+ Wed, 22 Jul 2020 03:50:49 +0000 (GMT)
+From: Thiago Jung Bauermann <bauerman@linux.ibm.com>
+To: qemu-ppc@nongnu.org
+Subject: [PATCH v2 0/9] Generalize start-powered-off property from ARM
+Date: Wed, 22 Jul 2020 00:50:07 -0300
+Message-Id: <20200722035016.469075-1-bauerman@linux.ibm.com>
+X-Mailer: git-send-email 2.26.2
 MIME-Version: 1.0
-In-Reply-To: <20200721115445.GG843362@redhat.com>
-Content-Type: text/plain; charset="utf-8"
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-X-Originating-IP: [10.174.186.173]
-X-CFilter-Loop: Reflected
-Received-SPF: pass client-ip=45.249.212.35; envelope-from=yezhenyu2@huawei.com;
- helo=huawei.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/07/21 23:38:26
-X-ACL-Warn: Detected OS   = Linux 3.11 and newer [fuzzy]
-X-Spam_score_int: -41
-X-Spam_score: -4.2
-X-Spam_bar: ----
-X-Spam_report: (-4.2 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_MED=-2.3,
- RCVD_IN_MSPIKE_H4=-0.01, RCVD_IN_MSPIKE_WL=-0.01, SPF_HELO_PASS=-0.001,
+X-TM-AS-GCONF: 00
+X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:6.0.235, 18.0.687
+ definitions=2020-07-22_01:2020-07-21,
+ 2020-07-21 signatures=0
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ spamscore=0
+ lowpriorityscore=0 suspectscore=1 bulkscore=0 adultscore=0 clxscore=1011
+ priorityscore=1501 mlxscore=0 mlxlogscore=999 phishscore=0 impostorscore=0
+ malwarescore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2006250000 definitions=main-2007220022
+Received-SPF: pass client-ip=148.163.156.1;
+ envelope-from=bauerman@linux.ibm.com; helo=mx0a-001b2d01.pphosted.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/07/21 23:51:27
+X-ACL-Warn: Detected OS   = Linux 3.x [generic] [fuzzy]
+X-Spam_score_int: -35
+X-Spam_score: -3.6
+X-Spam_bar: ---
+X-Spam_report: (-3.6 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_LOW=-0.7,
+ RCVD_IN_MSPIKE_H2=-1, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -62,36 +95,68 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: xiexiangyou@huawei.com, qemu-devel@nongnu.org, dgilbert@redhat.com,
- quintela@redhat.com
+Cc: Thiago Jung Bauermann <bauerman@linux.ibm.com>,
+ Peter Maydell <peter.maydell@linaro.org>,
+ Aleksandar Rikalo <aleksandar.rikalo@syrmia.com>,
+ Eduardo Habkost <ehabkost@redhat.com>,
+ Aleksandar Markovic <aleksandar.qemu.devel@gmail.com>,
+ Cornelia Huck <cohuck@redhat.com>,
+ Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>, qemu-devel@nongnu.org,
+ qemu-s390x@nongnu.org, qemu-arm@nongnu.org,
+ Artyom Tarasenko <atar4qemu@gmail.com>, Thomas Huth <thuth@redhat.com>,
+ Paolo Bonzini <pbonzini@redhat.com>, David Hildenbrand <david@redhat.com>,
+ Richard Henderson <rth@twiddle.net>, Aurelien Jarno <aurelien@aurel32.net>,
+ David Gibson <david@gibson.dropbear.id.au>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 2020/7/21 19:54, Daniel P. Berrangé wrote:
-> On Fri, Jul 17, 2020 at 05:19:43PM +0800, Zhenyu Ye wrote:
->> We add the reference of creds in migration_tls_get_creds(),
->> but there was no place to unref it.  So the OBJECT(creds) will
->> never be freed and result in memory leak.
->>
->> Unref the creds after creating the tls-channel server/client.
->> ...
->>
->> +
->> +cleanup:
->> +    object_unref(OBJECT(creds));
->>  }
-> 
-> Simpler to just change  migration_tls_get_creds() to remove the
-> object_ref() call, since we're fine to use the borrowed reference
-> in these methods.
-> 
+The ARM code has a start-powered-off property in ARMCPU, which is a
+subclass of CPUState. This property causes arm_cpu_reset() to set
+CPUState::halted to 1, signalling that the CPU should start in a halted
+state. Other architectures also have code which aim to achieve the same
+effect, but without using a property.
 
-Thanks for your review.  I have sent a new series since the current
-title "unref creds after used" is no longer appropriate:
+The ppc/spapr version has a bug where QEMU does a KVM_RUN on the vcpu
+before cs->halted is set to 1, causing the vcpu to run while it's still in
+an unitialized state (more details in patch 3).
 
-https://lore.kernel.org/qemu-devel/20200722033228.71-1-yezhenyu2@huawei.com/
+Peter Maydell mentioned the ARM start-powered-off property and
+Eduardo Habkost suggested making it generic, so this patch series does
+that, for all cases which I was able to find via grep in the code.
 
-Thanks,
-Zhenyu
+The only problem is that I was only able to test these changes on a ppc64le
+pseries KVM guest, so except for patches 2 and 3, all others are only
+build-tested. Also, my grasp of QOM lifecycle is basically non-existant so
+please be aware of that when reviewing this series.
+
+The last 3 patches I think are good cleanups but I'm even less confident in
+their correctness compared to the other patches, so I marked them as RFC.
+
+Applies cleanly on yesterday's master.
+
+Thiago Jung Bauermann (9):
+  target/arm: Move start-powered-off property to generic CPUState
+  target/arm: Move setting of CPU halted state to generic code
+  ppc/spapr: Use start-powered-off CPUState property
+  ppc/e500: Use start-powered-off CPUState property
+  mips/cps: Use start-powered-off CPUState property
+  sparc/sun4m: Use start-powered-off CPUState property
+  sparc/sun4m: Don't set CPUState::halted in cpu_devinit()
+  sparc/sun4m: Use one cpu_reset() function for main and secondary CPUs
+  target/s390x: Use start-powered-off CPUState property
+
+ exec.c                  |  1 +
+ hw/core/cpu.c           |  2 +-
+ hw/mips/cps.c           |  6 +++---
+ hw/ppc/e500.c           | 10 +++++++---
+ hw/ppc/spapr_cpu_core.c | 12 +++++++-----
+ hw/sparc/sun4m.c        | 23 +++++------------------
+ include/hw/core/cpu.h   |  4 ++++
+ target/arm/cpu.c        |  4 +---
+ target/arm/cpu.h        |  3 ---
+ target/arm/kvm32.c      |  2 +-
+ target/arm/kvm64.c      |  2 +-
+ target/s390x/cpu.c      |  3 ++-
+ 12 files changed, 33 insertions(+), 39 deletions(-)
 
 
