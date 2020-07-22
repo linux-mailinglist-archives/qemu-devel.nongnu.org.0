@@ -2,67 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E651522956D
-	for <lists+qemu-devel@lfdr.de>; Wed, 22 Jul 2020 11:49:53 +0200 (CEST)
-Received: from localhost ([::1]:47360 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A6232229507
+	for <lists+qemu-devel@lfdr.de>; Wed, 22 Jul 2020 11:35:06 +0200 (CEST)
+Received: from localhost ([::1]:57496 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jyBNo-0003CK-Tw
-	for lists+qemu-devel@lfdr.de; Wed, 22 Jul 2020 05:49:52 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:54600)
+	id 1jyB9V-0006o6-LR
+	for lists+qemu-devel@lfdr.de; Wed, 22 Jul 2020 05:35:05 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:54626)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <frank.chang@sifive.com>)
- id 1jyAvu-0004Nw-AO
- for qemu-devel@nongnu.org; Wed, 22 Jul 2020 05:21:02 -0400
-Received: from mail-pg1-x52c.google.com ([2607:f8b0:4864:20::52c]:37643)
+ id 1jyAvx-0004Uo-32
+ for qemu-devel@nongnu.org; Wed, 22 Jul 2020 05:21:05 -0400
+Received: from mail-pj1-x1031.google.com ([2607:f8b0:4864:20::1031]:37467)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <frank.chang@sifive.com>)
- id 1jyAvq-0005xY-U7
- for qemu-devel@nongnu.org; Wed, 22 Jul 2020 05:21:01 -0400
-Received: by mail-pg1-x52c.google.com with SMTP id d4so880088pgk.4
- for <qemu-devel@nongnu.org>; Wed, 22 Jul 2020 02:20:58 -0700 (PDT)
+ id 1jyAvu-0005yz-18
+ for qemu-devel@nongnu.org; Wed, 22 Jul 2020 05:21:04 -0400
+Received: by mail-pj1-x1031.google.com with SMTP id o22so871795pjw.2
+ for <qemu-devel@nongnu.org>; Wed, 22 Jul 2020 02:21:01 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=sifive.com; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references;
- bh=eOba8Tk0Biv7SLGf/daURGXR2aaUs/Gp2nVqvWqB5qE=;
- b=VshEqaXTSjLa8rznLll+sehXT8znnQOkABdCa5MAVDZwsWS/BYDU13vUnqz7+O+FAY
- +uFeVt40YBjk5O60+AfNwPeowWpQpQOAu2+oXne0mNIHXNv+OxQnWtpBDiAGHj5d85iD
- Ojq0Szg8CqFEVoJqAgFGrV7SBTkXfX0mejh+4NLgRY+CzTZRYbfRZDX8cN3DNSnCUfZa
- XU4CJG7K+fT8B/8zApk8HRLL/vnH7gngjjCHSBokNIt8GrFHxLK2rOKcqgD+7aJYzbj8
- lW9USkjtVWqE1vLwBeLcrtL9J61I0s36TcQIoK94SS+RFekXTCZlVHj3MNaOwyxLbqJa
- M1XA==
+ bh=V77vPoxF5wHJpkr1vzvCn6SW3F0N4bm+U02KvfCaIVI=;
+ b=NqUTBCVRXRd+sTcoCU5+MGfTn2sznVrpu6qrvqCL0Oi4fvO20C2HGRCsGGHmElkmw2
+ mUI3sNhnRm3xKTWsk2EV/0pMdXRBAMeI23UiXKRagN3yuIsg/sfRaKyEWZHDdxv8P5DX
+ EYqLTqGBmNKhXU9P9prwVPkTrztAyvdR0HP619wus4BoVIBSKFDKHN1vq+MVx4VsIQz1
+ 9uKRtOF76kdJdcES9Xx49F7uc0YzhQRQPR1v1bpJ2UWeEPk2wpnzKNubOmbDNDMbeklI
+ ifQErwstsxorFLuNupvMume1YeUrBY8LQ2+DEBWIuuIRaVRhR+cr5woltAOLxM9HTCYR
+ nLjw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references;
- bh=eOba8Tk0Biv7SLGf/daURGXR2aaUs/Gp2nVqvWqB5qE=;
- b=euu23PpU1dV5Ca6UAD57i6hwot2BBJbCwxkk1et6h698b/5ey3lCxVdzWWJn9Ek4KJ
- LRFD+A5ovxBIFtKaQXjPsKJTY73e7c4isMj5Y6PKaim7sVaWBxryppuBX5E8OeDsy3c0
- Vkcj0Z9NibI8soi7aAPeZkSpdpD2C3xIqvMJpoYN4vNr4SziqmlJ2s3oLt77vNOP41N3
- 1gQ66ujRwUipL48D6X1fXFiWLrnNJQRaBnkCpG0ODl/L3jLwa2Wn52zRHOIvkZXzyWTZ
- Dov6ulxWxYsLgV0djKE0ph47EtIYEP9KLdUulMVO7Qd3vu4BHF9iM/wRbElDng/hQpii
- +5Kw==
-X-Gm-Message-State: AOAM532u8a1wNlIUS2BP0plM/gKCIAfr5qXXdz339QolMOA6JLqnlMpV
- CKapG3aqqSZ0nhX6otEJ4jd57E679Fg=
-X-Google-Smtp-Source: ABdhPJxaaxTUccG9otJ8a/ExrSi5RIyzdbBpX0YLZP3sC9wMBlJKUlY+ONY/pf6kIgw79SS5QIGWpQ==
-X-Received: by 2002:a63:1408:: with SMTP id u8mr26602455pgl.282.1595409657334; 
- Wed, 22 Jul 2020 02:20:57 -0700 (PDT)
+ bh=V77vPoxF5wHJpkr1vzvCn6SW3F0N4bm+U02KvfCaIVI=;
+ b=qZ6PypcTlthb95ihkuSFQRg3RQ5GQQGtC0eY3s9xTz2PkUH5b0dilFZVtldGGK+Z7/
+ efgAjpe9xV9tFbQhd3JfkAfKZ1K/R5CcWlJgKENVfQmWpuJhg3s10L/3H1JR5pCPYquL
+ i3TXBUzuGZ3uTuiq1Nf2gFNf1ooFzo10Nxxp+Us6Z65WD9b+NuzMuBjPUjNZVoKTZEtg
+ yQL4beNDyVVYUFi1kGBVnOVyDH/RVEs04EGgut0UABd1Ugxe2PfVSgTFrlmyS183wOff
+ s7lJtej4q/3BpaqLmOvPpIjzkFdWAeygnAIjKQOHMr6S0SNvCLJHV50D73FO7+R2GrEX
+ lo3w==
+X-Gm-Message-State: AOAM53238glRawdjPZQMDxpYVwDRr8CAAOjtqyf7narRH2yL0hUH9S/h
+ krPfvICidXWy/WSKx5y1mOzS6xPIPTA=
+X-Google-Smtp-Source: ABdhPJw/INe8A2OwpA3e0HysV41P0wQ60wemAi5fO7ATOkcyA8U/1hMvj55DIu9GecdiguT5acwSmQ==
+X-Received: by 2002:a17:90a:1acc:: with SMTP id
+ p70mr9572815pjp.210.1595409660695; 
+ Wed, 22 Jul 2020 02:21:00 -0700 (PDT)
 Received: from frankchang-ThinkPad-T490.internal.sifive.com
  (114-34-229-221.HINET-IP.hinet.net. [114.34.229.221])
- by smtp.gmail.com with ESMTPSA id c125sm22301879pfa.119.2020.07.22.02.20.55
+ by smtp.gmail.com with ESMTPSA id c125sm22301879pfa.119.2020.07.22.02.20.58
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 22 Jul 2020 02:20:56 -0700 (PDT)
+ Wed, 22 Jul 2020 02:21:00 -0700 (PDT)
 From: frank.chang@sifive.com
 To: qemu-devel@nongnu.org,
 	qemu-riscv@nongnu.org
-Subject: [RFC v2 47/76] target/riscv: rvv-0.9: narrowing integer right shift
+Subject: [RFC v2 48/76] target/riscv: rvv-0.9: widening integer multiply-add
  instructions
-Date: Wed, 22 Jul 2020 17:16:10 +0800
-Message-Id: <20200722091641.8834-48-frank.chang@sifive.com>
+Date: Wed, 22 Jul 2020 17:16:11 +0800
+Message-Id: <20200722091641.8834-49-frank.chang@sifive.com>
 X-Mailer: git-send-email 2.17.1
 In-Reply-To: <20200722091641.8834-1-frank.chang@sifive.com>
 References: <20200722091641.8834-1-frank.chang@sifive.com>
-Received-SPF: pass client-ip=2607:f8b0:4864:20::52c;
- envelope-from=frank.chang@sifive.com; helo=mail-pg1-x52c.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::1031;
+ envelope-from=frank.chang@sifive.com; helo=mail-pj1-x1031.google.com
 X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
  That's all we know.
 X-Spam_score_int: -20
@@ -84,12 +85,11 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Sagar Karandikar <sagark@eecs.berkeley.edu>,
- Frank Chang <frank.chang@sifive.com>,
- Bastian Koppelmann <kbastian@mail.uni-paderborn.de>,
- Richard Henderson <richard.henderson@linaro.org>,
+Cc: Frank Chang <frank.chang@sifive.com>,
  Alistair Francis <Alistair.Francis@wdc.com>,
- Palmer Dabbelt <palmer@dabbelt.com>, LIU Zhiwei <zhiwei_liu@c-sky.com>
+ Palmer Dabbelt <palmer@dabbelt.com>,
+ Sagar Karandikar <sagark@eecs.berkeley.edu>,
+ Bastian Koppelmann <kbastian@mail.uni-paderborn.de>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
@@ -97,189 +97,26 @@ From: Frank Chang <frank.chang@sifive.com>
 
 Signed-off-by: Frank Chang <frank.chang@sifive.com>
 ---
- target/riscv/helper.h                   | 24 ++++++++++----------
- target/riscv/insn32.decode              | 12 +++++-----
- target/riscv/insn_trans/trans_rvv.inc.c | 30 ++++++++++++-------------
- target/riscv/vector_helper.c            | 24 ++++++++++----------
- 4 files changed, 45 insertions(+), 45 deletions(-)
+ target/riscv/insn32.decode | 6 +++---
+ 1 file changed, 3 insertions(+), 3 deletions(-)
 
-diff --git a/target/riscv/helper.h b/target/riscv/helper.h
-index 11048efe7e..02258b42d1 100644
---- a/target/riscv/helper.h
-+++ b/target/riscv/helper.h
-@@ -379,18 +379,18 @@ DEF_HELPER_6(vsra_vx_h, void, ptr, ptr, tl, ptr, env, i32)
- DEF_HELPER_6(vsra_vx_w, void, ptr, ptr, tl, ptr, env, i32)
- DEF_HELPER_6(vsra_vx_d, void, ptr, ptr, tl, ptr, env, i32)
- 
--DEF_HELPER_6(vnsrl_vv_b, void, ptr, ptr, ptr, ptr, env, i32)
--DEF_HELPER_6(vnsrl_vv_h, void, ptr, ptr, ptr, ptr, env, i32)
--DEF_HELPER_6(vnsrl_vv_w, void, ptr, ptr, ptr, ptr, env, i32)
--DEF_HELPER_6(vnsra_vv_b, void, ptr, ptr, ptr, ptr, env, i32)
--DEF_HELPER_6(vnsra_vv_h, void, ptr, ptr, ptr, ptr, env, i32)
--DEF_HELPER_6(vnsra_vv_w, void, ptr, ptr, ptr, ptr, env, i32)
--DEF_HELPER_6(vnsrl_vx_b, void, ptr, ptr, tl, ptr, env, i32)
--DEF_HELPER_6(vnsrl_vx_h, void, ptr, ptr, tl, ptr, env, i32)
--DEF_HELPER_6(vnsrl_vx_w, void, ptr, ptr, tl, ptr, env, i32)
--DEF_HELPER_6(vnsra_vx_b, void, ptr, ptr, tl, ptr, env, i32)
--DEF_HELPER_6(vnsra_vx_h, void, ptr, ptr, tl, ptr, env, i32)
--DEF_HELPER_6(vnsra_vx_w, void, ptr, ptr, tl, ptr, env, i32)
-+DEF_HELPER_6(vnsrl_wv_b, void, ptr, ptr, ptr, ptr, env, i32)
-+DEF_HELPER_6(vnsrl_wv_h, void, ptr, ptr, ptr, ptr, env, i32)
-+DEF_HELPER_6(vnsrl_wv_w, void, ptr, ptr, ptr, ptr, env, i32)
-+DEF_HELPER_6(vnsra_wv_b, void, ptr, ptr, ptr, ptr, env, i32)
-+DEF_HELPER_6(vnsra_wv_h, void, ptr, ptr, ptr, ptr, env, i32)
-+DEF_HELPER_6(vnsra_wv_w, void, ptr, ptr, ptr, ptr, env, i32)
-+DEF_HELPER_6(vnsrl_wx_b, void, ptr, ptr, tl, ptr, env, i32)
-+DEF_HELPER_6(vnsrl_wx_h, void, ptr, ptr, tl, ptr, env, i32)
-+DEF_HELPER_6(vnsrl_wx_w, void, ptr, ptr, tl, ptr, env, i32)
-+DEF_HELPER_6(vnsra_wx_b, void, ptr, ptr, tl, ptr, env, i32)
-+DEF_HELPER_6(vnsra_wx_h, void, ptr, ptr, tl, ptr, env, i32)
-+DEF_HELPER_6(vnsra_wx_w, void, ptr, ptr, tl, ptr, env, i32)
- 
- DEF_HELPER_6(vmseq_vv_b, void, ptr, ptr, ptr, ptr, env, i32)
- DEF_HELPER_6(vmseq_vv_h, void, ptr, ptr, ptr, ptr, env, i32)
 diff --git a/target/riscv/insn32.decode b/target/riscv/insn32.decode
-index 481f909d47..bc6c788edf 100644
+index bc6c788edf..c6a7145aa5 100644
 --- a/target/riscv/insn32.decode
 +++ b/target/riscv/insn32.decode
-@@ -352,12 +352,12 @@ vsrl_vi         101000 . ..... ..... 011 ..... 1010111 @r_vm
- vsra_vv         101001 . ..... ..... 000 ..... 1010111 @r_vm
- vsra_vx         101001 . ..... ..... 100 ..... 1010111 @r_vm
- vsra_vi         101001 . ..... ..... 011 ..... 1010111 @r_vm
--vnsrl_vv        101100 . ..... ..... 000 ..... 1010111 @r_vm
--vnsrl_vx        101100 . ..... ..... 100 ..... 1010111 @r_vm
--vnsrl_vi        101100 . ..... ..... 011 ..... 1010111 @r_vm
--vnsra_vv        101101 . ..... ..... 000 ..... 1010111 @r_vm
--vnsra_vx        101101 . ..... ..... 100 ..... 1010111 @r_vm
--vnsra_vi        101101 . ..... ..... 011 ..... 1010111 @r_vm
-+vnsrl_wv        101100 . ..... ..... 000 ..... 1010111 @r_vm
-+vnsrl_wx        101100 . ..... ..... 100 ..... 1010111 @r_vm
-+vnsrl_wi        101100 . ..... ..... 011 ..... 1010111 @r_vm
-+vnsra_wv        101101 . ..... ..... 000 ..... 1010111 @r_vm
-+vnsra_wx        101101 . ..... ..... 100 ..... 1010111 @r_vm
-+vnsra_wi        101101 . ..... ..... 011 ..... 1010111 @r_vm
- vmseq_vv        011000 . ..... ..... 000 ..... 1010111 @r_vm
- vmseq_vx        011000 . ..... ..... 100 ..... 1010111 @r_vm
- vmseq_vi        011000 . ..... ..... 011 ..... 1010111 @r_vm
-diff --git a/target/riscv/insn_trans/trans_rvv.inc.c b/target/riscv/insn_trans/trans_rvv.inc.c
-index 45853812f7..451931492d 100644
---- a/target/riscv/insn_trans/trans_rvv.inc.c
-+++ b/target/riscv/insn_trans/trans_rvv.inc.c
-@@ -1952,7 +1952,7 @@ GEN_OPIVI_GVEC_TRANS(vsrl_vi, IMM_TRUNC_SEW, vsrl_vx, shri)
- GEN_OPIVI_GVEC_TRANS(vsra_vi, IMM_TRUNC_SEW, vsra_vx, sari)
- 
- /* Vector Narrowing Integer Right Shift Instructions */
--static bool opivv_narrow_check(DisasContext *s, arg_rmrr *a)
-+static bool opiwv_narrow_check(DisasContext *s, arg_rmrr *a)
- {
-     return require_rvv(s) &&
-            vext_check_isa_ill(s) &&
-@@ -1960,10 +1960,10 @@ static bool opivv_narrow_check(DisasContext *s, arg_rmrr *a)
- }
- 
- /* OPIVV with NARROW */
--#define GEN_OPIVV_NARROW_TRANS(NAME)                               \
-+#define GEN_OPIWV_NARROW_TRANS(NAME)                               \
- static bool trans_##NAME(DisasContext *s, arg_rmrr *a)             \
- {                                                                  \
--    if (opivv_narrow_check(s, a)) {                                \
-+    if (opiwv_narrow_check(s, a)) {                                \
-         uint32_t data = 0;                                         \
-         static gen_helper_gvec_4_ptr * const fns[3] = {            \
-             gen_helper_##NAME##_b,                                 \
-@@ -1987,10 +1987,10 @@ static bool trans_##NAME(DisasContext *s, arg_rmrr *a)             \
-     }                                                              \
-     return false;                                                  \
- }
--GEN_OPIVV_NARROW_TRANS(vnsra_vv)
--GEN_OPIVV_NARROW_TRANS(vnsrl_vv)
-+GEN_OPIWV_NARROW_TRANS(vnsra_wv)
-+GEN_OPIWV_NARROW_TRANS(vnsrl_wv)
- 
--static bool opivx_narrow_check(DisasContext *s, arg_rmrr *a)
-+static bool opiwx_narrow_check(DisasContext *s, arg_rmrr *a)
- {
-     return require_rvv(s) &&
-            vext_check_isa_ill(s) &&
-@@ -1998,10 +1998,10 @@ static bool opivx_narrow_check(DisasContext *s, arg_rmrr *a)
- }
- 
- /* OPIVX with NARROW */
--#define GEN_OPIVX_NARROW_TRANS(NAME)                                     \
-+#define GEN_OPIWX_NARROW_TRANS(NAME)                                     \
- static bool trans_##NAME(DisasContext *s, arg_rmrr *a)                   \
- {                                                                        \
--    if (opivx_narrow_check(s, a)) {                                      \
-+    if (opiwx_narrow_check(s, a)) {                                      \
-         static gen_helper_opivx * const fns[3] = {                       \
-             gen_helper_##NAME##_b,                                       \
-             gen_helper_##NAME##_h,                                       \
-@@ -2012,14 +2012,14 @@ static bool trans_##NAME(DisasContext *s, arg_rmrr *a)                   \
-     return false;                                                        \
- }
- 
--GEN_OPIVX_NARROW_TRANS(vnsra_vx)
--GEN_OPIVX_NARROW_TRANS(vnsrl_vx)
-+GEN_OPIWX_NARROW_TRANS(vnsra_wx)
-+GEN_OPIWX_NARROW_TRANS(vnsrl_wx)
- 
--/* OPIVI with NARROW */
--#define GEN_OPIVI_NARROW_TRANS(NAME, IMM_MODE, OPIVX)                    \
-+/* OPIWI with NARROW */
-+#define GEN_OPIWI_NARROW_TRANS(NAME, IMM_MODE, OPIVX)                    \
- static bool trans_##NAME(DisasContext *s, arg_rmrr *a)                   \
- {                                                                        \
--    if (opivx_narrow_check(s, a)) {                                      \
-+    if (opiwx_narrow_check(s, a)) {                                      \
-         static gen_helper_opivx * const fns[3] = {                       \
-             gen_helper_##OPIVX##_b,                                      \
-             gen_helper_##OPIVX##_h,                                      \
-@@ -2031,8 +2031,8 @@ static bool trans_##NAME(DisasContext *s, arg_rmrr *a)                   \
-     return false;                                                        \
- }
- 
--GEN_OPIVI_NARROW_TRANS(vnsra_vi, IMM_ZX, vnsra_vx)
--GEN_OPIVI_NARROW_TRANS(vnsrl_vi, IMM_ZX, vnsrl_vx)
-+GEN_OPIWI_NARROW_TRANS(vnsra_wi, IMM_ZX, vnsra_wx)
-+GEN_OPIWI_NARROW_TRANS(vnsrl_wi, IMM_ZX, vnsrl_wx)
- 
- /* Vector Integer Comparison Instructions */
- /*
-diff --git a/target/riscv/vector_helper.c b/target/riscv/vector_helper.c
-index 95248238df..7de858d65b 100644
---- a/target/riscv/vector_helper.c
-+++ b/target/riscv/vector_helper.c
-@@ -1515,18 +1515,18 @@ GEN_VEXT_SHIFT_VX(vsra_vx_w, int32_t, int32_t, H4, H4, DO_SRL, 0x1f, clearl)
- GEN_VEXT_SHIFT_VX(vsra_vx_d, int64_t, int64_t, H8, H8, DO_SRL, 0x3f, clearq)
- 
- /* Vector Narrowing Integer Right Shift Instructions */
--GEN_VEXT_SHIFT_VV(vnsrl_vv_b, uint8_t,  uint16_t, H1, H2, DO_SRL, 0xf, clearb)
--GEN_VEXT_SHIFT_VV(vnsrl_vv_h, uint16_t, uint32_t, H2, H4, DO_SRL, 0x1f, clearh)
--GEN_VEXT_SHIFT_VV(vnsrl_vv_w, uint32_t, uint64_t, H4, H8, DO_SRL, 0x3f, clearl)
--GEN_VEXT_SHIFT_VV(vnsra_vv_b, uint8_t,  int16_t, H1, H2, DO_SRL, 0xf, clearb)
--GEN_VEXT_SHIFT_VV(vnsra_vv_h, uint16_t, int32_t, H2, H4, DO_SRL, 0x1f, clearh)
--GEN_VEXT_SHIFT_VV(vnsra_vv_w, uint32_t, int64_t, H4, H8, DO_SRL, 0x3f, clearl)
--GEN_VEXT_SHIFT_VX(vnsrl_vx_b, uint8_t, uint16_t, H1, H2, DO_SRL, 0xf, clearb)
--GEN_VEXT_SHIFT_VX(vnsrl_vx_h, uint16_t, uint32_t, H2, H4, DO_SRL, 0x1f, clearh)
--GEN_VEXT_SHIFT_VX(vnsrl_vx_w, uint32_t, uint64_t, H4, H8, DO_SRL, 0x3f, clearl)
--GEN_VEXT_SHIFT_VX(vnsra_vx_b, int8_t, int16_t, H1, H2, DO_SRL, 0xf, clearb)
--GEN_VEXT_SHIFT_VX(vnsra_vx_h, int16_t, int32_t, H2, H4, DO_SRL, 0x1f, clearh)
--GEN_VEXT_SHIFT_VX(vnsra_vx_w, int32_t, int64_t, H4, H8, DO_SRL, 0x3f, clearl)
-+GEN_VEXT_SHIFT_VV(vnsrl_wv_b, uint8_t,  uint16_t, H1, H2, DO_SRL, 0xf, clearb)
-+GEN_VEXT_SHIFT_VV(vnsrl_wv_h, uint16_t, uint32_t, H2, H4, DO_SRL, 0x1f, clearh)
-+GEN_VEXT_SHIFT_VV(vnsrl_wv_w, uint32_t, uint64_t, H4, H8, DO_SRL, 0x3f, clearl)
-+GEN_VEXT_SHIFT_VV(vnsra_wv_b, uint8_t,  int16_t, H1, H2, DO_SRL, 0xf, clearb)
-+GEN_VEXT_SHIFT_VV(vnsra_wv_h, uint16_t, int32_t, H2, H4, DO_SRL, 0x1f, clearh)
-+GEN_VEXT_SHIFT_VV(vnsra_wv_w, uint32_t, int64_t, H4, H8, DO_SRL, 0x3f, clearl)
-+GEN_VEXT_SHIFT_VX(vnsrl_wx_b, uint8_t, uint16_t, H1, H2, DO_SRL, 0xf, clearb)
-+GEN_VEXT_SHIFT_VX(vnsrl_wx_h, uint16_t, uint32_t, H2, H4, DO_SRL, 0x1f, clearh)
-+GEN_VEXT_SHIFT_VX(vnsrl_wx_w, uint32_t, uint64_t, H4, H8, DO_SRL, 0x3f, clearl)
-+GEN_VEXT_SHIFT_VX(vnsra_wx_b, int8_t, int16_t, H1, H2, DO_SRL, 0xf, clearb)
-+GEN_VEXT_SHIFT_VX(vnsra_wx_h, int16_t, int32_t, H2, H4, DO_SRL, 0x1f, clearh)
-+GEN_VEXT_SHIFT_VX(vnsra_wx_w, int32_t, int64_t, H4, H8, DO_SRL, 0x3f, clearl)
- 
- /* Vector Integer Comparison Instructions */
- #define DO_MSEQ(N, M) (N == M)
+@@ -420,9 +420,9 @@ vwmaccu_vv      111100 . ..... ..... 010 ..... 1010111 @r_vm
+ vwmaccu_vx      111100 . ..... ..... 110 ..... 1010111 @r_vm
+ vwmacc_vv       111101 . ..... ..... 010 ..... 1010111 @r_vm
+ vwmacc_vx       111101 . ..... ..... 110 ..... 1010111 @r_vm
+-vwmaccsu_vv     111110 . ..... ..... 010 ..... 1010111 @r_vm
+-vwmaccsu_vx     111110 . ..... ..... 110 ..... 1010111 @r_vm
+-vwmaccus_vx     111111 . ..... ..... 110 ..... 1010111 @r_vm
++vwmaccsu_vv     111111 . ..... ..... 010 ..... 1010111 @r_vm
++vwmaccsu_vx     111111 . ..... ..... 110 ..... 1010111 @r_vm
++vwmaccus_vx     111110 . ..... ..... 110 ..... 1010111 @r_vm
+ vmv_v_v         010111 1 00000 ..... 000 ..... 1010111 @r2
+ vmv_v_x         010111 1 00000 ..... 100 ..... 1010111 @r2
+ vmv_v_i         010111 1 00000 ..... 011 ..... 1010111 @r2
 -- 
 2.17.1
 
