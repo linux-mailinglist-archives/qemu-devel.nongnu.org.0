@@ -2,63 +2,62 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6A8F1229DA5
-	for <lists+qemu-devel@lfdr.de>; Wed, 22 Jul 2020 19:00:59 +0200 (CEST)
-Received: from localhost ([::1]:55352 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8E580229DAF
+	for <lists+qemu-devel@lfdr.de>; Wed, 22 Jul 2020 19:03:00 +0200 (CEST)
+Received: from localhost ([::1]:33720 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jyI70-0000cH-Ch
-	for lists+qemu-devel@lfdr.de; Wed, 22 Jul 2020 13:00:58 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:46080)
+	id 1jyI8x-0003Pf-Js
+	for lists+qemu-devel@lfdr.de; Wed, 22 Jul 2020 13:02:59 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:46128)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1)
  (envelope-from <prvs=465c3c755=alistair.francis@wdc.com>)
- id 1jyI4h-0005u2-KI
- for qemu-devel@nongnu.org; Wed, 22 Jul 2020 12:58:35 -0400
+ id 1jyI4j-0005xW-No
+ for qemu-devel@nongnu.org; Wed, 22 Jul 2020 12:58:37 -0400
 Received: from esa1.hgst.iphmx.com ([68.232.141.245]:10279)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1)
  (envelope-from <prvs=465c3c755=alistair.francis@wdc.com>)
- id 1jyI4f-0002fu-PA
- for qemu-devel@nongnu.org; Wed, 22 Jul 2020 12:58:35 -0400
+ id 1jyI4h-0002fu-UT
+ for qemu-devel@nongnu.org; Wed, 22 Jul 2020 12:58:37 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple;
  d=wdc.com; i=@wdc.com; q=dns/txt; s=dkim.wdc.com;
- t=1595437113; x=1626973113;
+ t=1595437115; x=1626973115;
  h=from:to:cc:subject:date:message-id:in-reply-to:
  references:mime-version:content-transfer-encoding;
- bh=EEcXoQzOEpyedNq1KqU81uQZwfqgkAVodrjSDY+pIyA=;
- b=Y+96SxxvWmO10FRshdM0VYIqr8E5B72E4oK+wTiJiVk4lgm4tYhkAyvj
- gFK3DbQHXhseoX1NnT7PJBeqZWt5OqWhXH1foPdIx3vbXf5PxT1RsfEtr
- 8UIdUF9g2xdXMgwMw9adGYXmI5LPEfq/BRPzel+1mwhmgniCnVL7GRZkA
- DkA3Zk9FNX79Z30XX1Pl0ZCjThZRDBxL+AA7DEAw1+VBXxBe9xDMtwzAC
- OfYJbfpFiTOGO5hWD+sf8Emjc3DinR9Yvp9dEI/Og6teANgW7VuQkYjCo
- Gl8TbSlK7OK0elPhJaU31JembPPRRtBZ5DL+vjlVjKULNjN7qPVebtPln w==;
-IronPort-SDR: nukzmwo5bl2eRh0EzRmGIWcdZAk5OX+NMPg4lYVVnjdftqGD9qdrMPZbvlusdLVVYqjXf3dqlU
- rE/IyYY1kSgWJxEZrw6I++eNFbcD8upPoyuzwye60CNmQQU9Trlhw6o+DGPzP78QnpQWpIrkOW
- cH4CueLxmO+Ja2U4BwWjlYkenpeaXk8a/CrgsGSdTyXySRyhXyNpZ/T9zXrYdVsL0pjT+TSoQC
- oaqoYDVY275M/3FrLDLhAZYAKQn6Dqh+0ZtaONq+x2d9FFFPISCsFu2/2m2i69fD+ej5tPy1tU
- Pzk=
-X-IronPort-AV: E=Sophos;i="5.75,383,1589212800"; d="scan'208";a="252418633"
+ bh=P/k2D2D4QAIblvv6h3Y5Rw3h3hsa6l5k5jMFvrCStiU=;
+ b=ltEoMbyI5THOI4aB5bPIwnB0Lb3BQOXvZCmay2zBHVTkpdQZonjJX05L
+ xR2b30fppbkZ0JqqBprOdXTusNSafUHnc9vtI1s1kZJX04+0x+ATQ/HDU
+ gqgvBFb5QnyLmbLCPb/Zx/ReoLU7ggjURRbCKaKEfuLxHNef3ZIpoEkFq
+ PbKTxfYP8s2eQXrznceDjR00JIImuVSPAtVen+6m1a0kxHbu2JJlo1EBn
+ 7dM6y9Fr5qKSB5XBbkAmozf9zXqGkwNFHUI+cBlWBhDH60Iv1VUnZVlC2
+ MCwSQjD7fqcmp+YpNZ/0FzIMmmommO7JZqdpcPX+DGlRiYIV9jma8IMlV A==;
+IronPort-SDR: NpYMQFqaM/ip+O/qW9tnzt3RxEUNKi8UPSD8EgBrlb/BUKl4/+JbTFuhOGH29NREekiwWuZOWH
+ 8BieRbgX2O8yehfGJtS6w/jfafQHZktZtkAw1mFrakikVv+M38EiL+eEa+hrJ3HnbVncIjxRGI
+ aXOmp2ZO6rkX8Qhb/FHrmuHVMILUgTUoG4Xk3HDMjICjM1u8NQ1ngEFTZde3e3izfKbgKm75Lg
+ GrPqUF3BjUS3k56qFVwrkAUder7qrcnJa0bzJCsyGoti1/w1pCnMdLztCCNdCBksR1fV3bfjht
+ TeQ=
+X-IronPort-AV: E=Sophos;i="5.75,383,1589212800"; d="scan'208";a="252418636"
 Received: from h199-255-45-14.hgst.com (HELO uls-op-cesaep01.wdc.com)
  ([199.255.45.14])
  by ob1.hgst.iphmx.com with ESMTP; 23 Jul 2020 00:58:21 +0800
-IronPort-SDR: 33U8veotb/MG5fTjjbi0i6gpe0jprWR/4u4bBYwV468M+qsE870JqDYMF8B7DtqBG6JNvg6HOk
- e8EHaBvdNzQKRf/poYa5S9x2Eeu5ocmvM=
+IronPort-SDR: hTMyhXynS3PWceY5QtaEPQla3z9HDNWfZFMCFb8WQXVxwDAwntC/DhwKTop+FuAlp4Dj/XAPcq
+ x4PCbRP7Gci4+blhW4RsbfXIfY8OwtU78=
 Received: from uls-op-cesaip02.wdc.com ([10.248.3.37])
  by uls-op-cesaep01.wdc.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
  22 Jul 2020 09:46:38 -0700
-IronPort-SDR: hVNb4kZzjpLeKmIF9LS2qp96/k78/zaJzEgIhs14gIyntrFmuEtepi0QNfLqBpmQY6OLmMG+mN
- So+AwVHXh/DA==
+IronPort-SDR: 4KkGJrx4Q5uTgYlouEphm1GTAmo3xFA9w4OtSEzxFdjHM5yA5crYWvbS9IX8GzpQe/9otaDn4E
+ QCQvV2CkzCCw==
 WDCIronportException: Internal
 Received: from usa001575.ad.shared (HELO risc6-mainframe.hgst.com)
  ([10.86.58.115])
- by uls-op-cesaip02.wdc.com with ESMTP; 22 Jul 2020 09:58:21 -0700
+ by uls-op-cesaip02.wdc.com with ESMTP; 22 Jul 2020 09:58:22 -0700
 From: Alistair Francis <alistair.francis@wdc.com>
 To: qemu-devel@nongnu.org
-Subject: [PULL 1/5] goldfish_rtc: Fix non-atomic read behaviour of
- TIME_LOW/TIME_HIGH
-Date: Wed, 22 Jul 2020 09:48:34 -0700
-Message-Id: <20200722164838.1591305-2-alistair.francis@wdc.com>
+Subject: [PULL 3/5] target/riscv: fix vector index load/store constraints
+Date: Wed, 22 Jul 2020 09:48:36 -0700
+Message-Id: <20200722164838.1591305-4-alistair.francis@wdc.com>
 X-Mailer: git-send-email 2.27.0
 In-Reply-To: <20200722164838.1591305-1-alistair.francis@wdc.com>
 References: <20200722164838.1591305-1-alistair.francis@wdc.com>
@@ -88,104 +87,54 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Maydell <peter.maydell@linaro.org>,
- Alistair Francis <alistair.francis@wdc.com>,
- Richard Henderson <richard.henderson@linaro.org>,
- Jessica Clarke <jrtc27@jrtc27.com>
+Cc: Alistair Francis <alistair.francis@wdc.com>,
+ LIU Zhiwei <zhiwei_liu@c-sky.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Jessica Clarke <jrtc27@jrtc27.com>
+From: LIU Zhiwei <zhiwei_liu@c-sky.com>
 
-The specification says:
+Although not explicitly specified that the the destination
+vector register groups cannot overlap the source vector register group,
+it is still necessary.
 
-   0x00  TIME_LOW   R: Get current time, then return low-order 32-bits.
-   0x04  TIME_HIGH  R: Return high 32-bits from previous TIME_LOW read.
+And this constraint has been added to the v0.8 spec.
 
-   ...
-
-   To read the value, the kernel must perform an IO_READ(TIME_LOW),
-   which returns an unsigned 32-bit value, before an IO_READ(TIME_HIGH),
-   which returns a signed 32-bit value, corresponding to the higher half
-   of the full value.
-
-However, we were just returning the current time for both. If the guest
-is unlucky enough to read TIME_LOW and TIME_HIGH either side of an
-overflow of the lower half, it will see time be in the future, before
-jumping backwards on the next read, and Linux currently relies on the
-atomicity guaranteed by the spec so is affected by this. Fix this
-violation of the spec by caching the correct value for TIME_HIGH
-whenever TIME_LOW is read, and returning that value for any TIME_HIGH
-read.
-
-Signed-off-by: Jessica Clarke <jrtc27@jrtc27.com>
-Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
-Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
-Message-Id: <20200718004934.83174-1-jrtc27@jrtc27.com>
+Signed-off-by: LIU Zhiwei <zhiwei_liu@c-sky.com>
+Reviewed-by: Alistair Francis <alistair.francis@wdc.com>
+Message-Id: <20200721133742.2298-2-zhiwei_liu@c-sky.com>
 Signed-off-by: Alistair Francis <alistair.francis@wdc.com>
 ---
- include/hw/rtc/goldfish_rtc.h |  1 +
- hw/rtc/goldfish_rtc.c         | 17 ++++++++++++++---
- 2 files changed, 15 insertions(+), 3 deletions(-)
+ target/riscv/insn_trans/trans_rvv.inc.c | 10 +++++++++-
+ 1 file changed, 9 insertions(+), 1 deletion(-)
 
-diff --git a/include/hw/rtc/goldfish_rtc.h b/include/hw/rtc/goldfish_rtc.h
-index 16f9f9e29d..9bd8924f5f 100644
---- a/include/hw/rtc/goldfish_rtc.h
-+++ b/include/hw/rtc/goldfish_rtc.h
-@@ -41,6 +41,7 @@ typedef struct GoldfishRTCState {
-     uint32_t alarm_running;
-     uint32_t irq_pending;
-     uint32_t irq_enabled;
-+    uint32_t time_high;
- } GoldfishRTCState;
+diff --git a/target/riscv/insn_trans/trans_rvv.inc.c b/target/riscv/insn_trans/trans_rvv.inc.c
+index 7b4752b911..887c6b8883 100644
+--- a/target/riscv/insn_trans/trans_rvv.inc.c
++++ b/target/riscv/insn_trans/trans_rvv.inc.c
+@@ -513,13 +513,21 @@ static bool ld_index_op(DisasContext *s, arg_rnfvm *a, uint8_t seq)
+     return ldst_index_trans(a->rd, a->rs1, a->rs2, data, fn, s);
+ }
  
- #endif
-diff --git a/hw/rtc/goldfish_rtc.c b/hw/rtc/goldfish_rtc.c
-index 01e9d2b083..6ddd45cce0 100644
---- a/hw/rtc/goldfish_rtc.c
-+++ b/hw/rtc/goldfish_rtc.c
-@@ -94,12 +94,22 @@ static uint64_t goldfish_rtc_read(void *opaque, hwaddr offset,
-     GoldfishRTCState *s = opaque;
-     uint64_t r = 0;
++/*
++ * For vector indexed segment loads, the destination vector register
++ * groups cannot overlap the source vector register group (specified by
++ * `vs2`), else an illegal instruction exception is raised.
++ */
+ static bool ld_index_check(DisasContext *s, arg_rnfvm* a)
+ {
+     return (vext_check_isa_ill(s) &&
+             vext_check_overlap_mask(s, a->rd, a->vm, false) &&
+             vext_check_reg(s, a->rd, false) &&
+             vext_check_reg(s, a->rs2, false) &&
+-            vext_check_nf(s, a->nf));
++            vext_check_nf(s, a->nf) &&
++            ((a->nf == 1) ||
++             vext_check_overlap_group(a->rd, a->nf << s->lmul,
++                                      a->rs2, 1 << s->lmul)));
+ }
  
-+    /*
-+     * From the documentation linked at the top of the file:
-+     *
-+     *   To read the value, the kernel must perform an IO_READ(TIME_LOW), which
-+     *   returns an unsigned 32-bit value, before an IO_READ(TIME_HIGH), which
-+     *   returns a signed 32-bit value, corresponding to the higher half of the
-+     *   full value.
-+     */
-     switch (offset) {
-     case RTC_TIME_LOW:
--        r = goldfish_rtc_get_count(s) & 0xffffffff;
-+        r = goldfish_rtc_get_count(s);
-+        s->time_high = r >> 32;
-+        r &= 0xffffffff;
-         break;
-     case RTC_TIME_HIGH:
--        r = goldfish_rtc_get_count(s) >> 32;
-+        r = s->time_high;
-         break;
-     case RTC_ALARM_LOW:
-         r = s->alarm_next & 0xffffffff;
-@@ -216,7 +226,7 @@ static const MemoryRegionOps goldfish_rtc_ops = {
- 
- static const VMStateDescription goldfish_rtc_vmstate = {
-     .name = TYPE_GOLDFISH_RTC,
--    .version_id = 1,
-+    .version_id = 2,
-     .pre_save = goldfish_rtc_pre_save,
-     .post_load = goldfish_rtc_post_load,
-     .fields = (VMStateField[]) {
-@@ -225,6 +235,7 @@ static const VMStateDescription goldfish_rtc_vmstate = {
-         VMSTATE_UINT32(alarm_running, GoldfishRTCState),
-         VMSTATE_UINT32(irq_pending, GoldfishRTCState),
-         VMSTATE_UINT32(irq_enabled, GoldfishRTCState),
-+        VMSTATE_UINT32(time_high, GoldfishRTCState),
-         VMSTATE_END_OF_LIST()
-     }
- };
+ GEN_VEXT_TRANS(vlxb_v, 0, rnfvm, ld_index_op, ld_index_check)
 -- 
 2.27.0
 
