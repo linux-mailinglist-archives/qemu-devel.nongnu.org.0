@@ -2,62 +2,62 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8E580229DAF
-	for <lists+qemu-devel@lfdr.de>; Wed, 22 Jul 2020 19:03:00 +0200 (CEST)
-Received: from localhost ([::1]:33720 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1338F229DBC
+	for <lists+qemu-devel@lfdr.de>; Wed, 22 Jul 2020 19:04:19 +0200 (CEST)
+Received: from localhost ([::1]:39948 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jyI8x-0003Pf-Js
-	for lists+qemu-devel@lfdr.de; Wed, 22 Jul 2020 13:02:59 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:46128)
+	id 1jyIAE-0005vB-44
+	for lists+qemu-devel@lfdr.de; Wed, 22 Jul 2020 13:04:18 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:46142)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1)
  (envelope-from <prvs=465c3c755=alistair.francis@wdc.com>)
- id 1jyI4j-0005xW-No
- for qemu-devel@nongnu.org; Wed, 22 Jul 2020 12:58:37 -0400
-Received: from esa1.hgst.iphmx.com ([68.232.141.245]:10279)
+ id 1jyI4k-0005yV-B8
+ for qemu-devel@nongnu.org; Wed, 22 Jul 2020 12:58:38 -0400
+Received: from esa1.hgst.iphmx.com ([68.232.141.245]:10302)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1)
  (envelope-from <prvs=465c3c755=alistair.francis@wdc.com>)
- id 1jyI4h-0002fu-UT
- for qemu-devel@nongnu.org; Wed, 22 Jul 2020 12:58:37 -0400
+ id 1jyI4i-0002jR-Gs
+ for qemu-devel@nongnu.org; Wed, 22 Jul 2020 12:58:38 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple;
  d=wdc.com; i=@wdc.com; q=dns/txt; s=dkim.wdc.com;
- t=1595437115; x=1626973115;
+ t=1595437116; x=1626973116;
  h=from:to:cc:subject:date:message-id:in-reply-to:
  references:mime-version:content-transfer-encoding;
- bh=P/k2D2D4QAIblvv6h3Y5Rw3h3hsa6l5k5jMFvrCStiU=;
- b=ltEoMbyI5THOI4aB5bPIwnB0Lb3BQOXvZCmay2zBHVTkpdQZonjJX05L
- xR2b30fppbkZ0JqqBprOdXTusNSafUHnc9vtI1s1kZJX04+0x+ATQ/HDU
- gqgvBFb5QnyLmbLCPb/Zx/ReoLU7ggjURRbCKaKEfuLxHNef3ZIpoEkFq
- PbKTxfYP8s2eQXrznceDjR00JIImuVSPAtVen+6m1a0kxHbu2JJlo1EBn
- 7dM6y9Fr5qKSB5XBbkAmozf9zXqGkwNFHUI+cBlWBhDH60Iv1VUnZVlC2
- MCwSQjD7fqcmp+YpNZ/0FzIMmmommO7JZqdpcPX+DGlRiYIV9jma8IMlV A==;
-IronPort-SDR: NpYMQFqaM/ip+O/qW9tnzt3RxEUNKi8UPSD8EgBrlb/BUKl4/+JbTFuhOGH29NREekiwWuZOWH
- 8BieRbgX2O8yehfGJtS6w/jfafQHZktZtkAw1mFrakikVv+M38EiL+eEa+hrJ3HnbVncIjxRGI
- aXOmp2ZO6rkX8Qhb/FHrmuHVMILUgTUoG4Xk3HDMjICjM1u8NQ1ngEFTZde3e3izfKbgKm75Lg
- GrPqUF3BjUS3k56qFVwrkAUder7qrcnJa0bzJCsyGoti1/w1pCnMdLztCCNdCBksR1fV3bfjht
- TeQ=
-X-IronPort-AV: E=Sophos;i="5.75,383,1589212800"; d="scan'208";a="252418636"
+ bh=wjZgWmbxiWOu+2b26iONQcOU3qvLXTQffE2z6wWEdj8=;
+ b=h0l3U9BmVtHvyrQgFkQQ826Wf8oF5stpcbjn2fYotNN+ukVkcfgKHl5q
+ ZirDBUkDlV59Vx5KFVllS7HaRQqsgB5/rx1udE23xSfDfNJnkQaVqEI0C
+ 5zr8iUCtwMUyXSoXDNRwpRwcMEpsS9he1pHQA8LMp8aW/jwGb4Dojph+0
+ 1cFQioz3wXw+vHa3lQUFmbQDIo+1mMEEOLD2xcK/BqLSqdmfwD6A13oyt
+ 96b++YDgx9aRJOzNf3uwaNJJKODGwut+AmbwDvREInUkAVF9IG/As8vhZ
+ jzH1CjMFQ7Mu1LuOKL1C5Wuvk0kflcV8mJWW6+Q9rj2B45InBKpbL8JXl w==;
+IronPort-SDR: 47UmbFsWVpltXSK67u4vkyGnZLfHLD5/Xp3Cvy4t1goQvsaurwBa4YoQySJn5zuiGggQ2qvDJp
+ MkI/n7Vrxw8QWlOZ+ntmO2GXFZyquc/MzouAlzBP3d88ll39iq1gxpHN4Mj6uh4V8ANwCp1MVy
+ 7dPlYx1G1dIUXZm5asrXbzYJYgcb0UkjsSztJCbu+85f/iQmk8RNIlBBHfYIoYuTQJwiyTQ3ht
+ AJooogJc9Kgfs4WQURJS9J49r+K9fsNznAgUKmWZf0Qu4ssr3AHSY2Zh3I2NNtPwVL+a2aQVqK
+ Qaw=
+X-IronPort-AV: E=Sophos;i="5.75,383,1589212800"; d="scan'208";a="252418637"
 Received: from h199-255-45-14.hgst.com (HELO uls-op-cesaep01.wdc.com)
  ([199.255.45.14])
- by ob1.hgst.iphmx.com with ESMTP; 23 Jul 2020 00:58:21 +0800
-IronPort-SDR: hTMyhXynS3PWceY5QtaEPQla3z9HDNWfZFMCFb8WQXVxwDAwntC/DhwKTop+FuAlp4Dj/XAPcq
- x4PCbRP7Gci4+blhW4RsbfXIfY8OwtU78=
+ by ob1.hgst.iphmx.com with ESMTP; 23 Jul 2020 00:58:22 +0800
+IronPort-SDR: Pak/mhMkpKhQd987pBUjTY2yJjYbier79RFYG/8W1TzQa27lwNVoE/3vmDMFVGoGTuFWP66Ded
+ a/5bMVbfBsnc//+yanwaVVNXIIXde0yKY=
 Received: from uls-op-cesaip02.wdc.com ([10.248.3.37])
  by uls-op-cesaep01.wdc.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
  22 Jul 2020 09:46:38 -0700
-IronPort-SDR: 4KkGJrx4Q5uTgYlouEphm1GTAmo3xFA9w4OtSEzxFdjHM5yA5crYWvbS9IX8GzpQe/9otaDn4E
- QCQvV2CkzCCw==
+IronPort-SDR: 69Cyq7dqMU6gU5W9HJaRjo8woJJr5TB+hhXvxmKAA1GHzYdl5SXY7kQKXsGLFcs6MSJ5I4XXLA
+ tyr21Upibrxg==
 WDCIronportException: Internal
 Received: from usa001575.ad.shared (HELO risc6-mainframe.hgst.com)
  ([10.86.58.115])
  by uls-op-cesaip02.wdc.com with ESMTP; 22 Jul 2020 09:58:22 -0700
 From: Alistair Francis <alistair.francis@wdc.com>
 To: qemu-devel@nongnu.org
-Subject: [PULL 3/5] target/riscv: fix vector index load/store constraints
-Date: Wed, 22 Jul 2020 09:48:36 -0700
-Message-Id: <20200722164838.1591305-4-alistair.francis@wdc.com>
+Subject: [PULL 4/5] hw/riscv: sifive_e: Correct debug block size
+Date: Wed, 22 Jul 2020 09:48:37 -0700
+Message-Id: <20200722164838.1591305-5-alistair.francis@wdc.com>
 X-Mailer: git-send-email 2.27.0
 In-Reply-To: <20200722164838.1591305-1-alistair.francis@wdc.com>
 References: <20200722164838.1591305-1-alistair.francis@wdc.com>
@@ -87,54 +87,41 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Alistair Francis <alistair.francis@wdc.com>,
- LIU Zhiwei <zhiwei_liu@c-sky.com>
+Cc: Bin Meng <bmeng.cn@gmail.com>, Alistair Francis <alistair.francis@wdc.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: LIU Zhiwei <zhiwei_liu@c-sky.com>
+From: Bin Meng <bmeng.cn@gmail.com>
 
-Although not explicitly specified that the the destination
-vector register groups cannot overlap the source vector register group,
-it is still necessary.
+Currently the debug region size is set to 0x100, but according to
+FE310-G000 and FE310-G002 manuals:
 
-And this constraint has been added to the v0.8 spec.
+  FE310-G000: 0x100 - 0xFFF
+  FE310-G002: 0x0   - 0xFFF
 
-Signed-off-by: LIU Zhiwei <zhiwei_liu@c-sky.com>
+Change the size to 0x1000 that applies to both.
+
+Signed-off-by: Bin Meng <bmeng.cn@gmail.com>
 Reviewed-by: Alistair Francis <alistair.francis@wdc.com>
-Message-Id: <20200721133742.2298-2-zhiwei_liu@c-sky.com>
+Message-Id: <1594891856-15474-1-git-send-email-bmeng.cn@gmail.com>
 Signed-off-by: Alistair Francis <alistair.francis@wdc.com>
 ---
- target/riscv/insn_trans/trans_rvv.inc.c | 10 +++++++++-
- 1 file changed, 9 insertions(+), 1 deletion(-)
+ hw/riscv/sifive_e.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/target/riscv/insn_trans/trans_rvv.inc.c b/target/riscv/insn_trans/trans_rvv.inc.c
-index 7b4752b911..887c6b8883 100644
---- a/target/riscv/insn_trans/trans_rvv.inc.c
-+++ b/target/riscv/insn_trans/trans_rvv.inc.c
-@@ -513,13 +513,21 @@ static bool ld_index_op(DisasContext *s, arg_rnfvm *a, uint8_t seq)
-     return ldst_index_trans(a->rd, a->rs1, a->rs2, data, fn, s);
- }
- 
-+/*
-+ * For vector indexed segment loads, the destination vector register
-+ * groups cannot overlap the source vector register group (specified by
-+ * `vs2`), else an illegal instruction exception is raised.
-+ */
- static bool ld_index_check(DisasContext *s, arg_rnfvm* a)
- {
-     return (vext_check_isa_ill(s) &&
-             vext_check_overlap_mask(s, a->rd, a->vm, false) &&
-             vext_check_reg(s, a->rd, false) &&
-             vext_check_reg(s, a->rs2, false) &&
--            vext_check_nf(s, a->nf));
-+            vext_check_nf(s, a->nf) &&
-+            ((a->nf == 1) ||
-+             vext_check_overlap_group(a->rd, a->nf << s->lmul,
-+                                      a->rs2, 1 << s->lmul)));
- }
- 
- GEN_VEXT_TRANS(vlxb_v, 0, rnfvm, ld_index_op, ld_index_check)
+diff --git a/hw/riscv/sifive_e.c b/hw/riscv/sifive_e.c
+index 7bb97b463d..c8b060486a 100644
+--- a/hw/riscv/sifive_e.c
++++ b/hw/riscv/sifive_e.c
+@@ -54,7 +54,7 @@ static const struct MemmapEntry {
+     hwaddr base;
+     hwaddr size;
+ } sifive_e_memmap[] = {
+-    [SIFIVE_E_DEBUG] =    {        0x0,      0x100 },
++    [SIFIVE_E_DEBUG] =    {        0x0,     0x1000 },
+     [SIFIVE_E_MROM] =     {     0x1000,     0x2000 },
+     [SIFIVE_E_OTP] =      {    0x20000,     0x2000 },
+     [SIFIVE_E_CLINT] =    {  0x2000000,    0x10000 },
 -- 
 2.27.0
 
