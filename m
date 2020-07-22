@@ -2,78 +2,77 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id EED39229D70
-	for <lists+qemu-devel@lfdr.de>; Wed, 22 Jul 2020 18:45:39 +0200 (CEST)
-Received: from localhost ([::1]:53666 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id BF0A9229DA1
+	for <lists+qemu-devel@lfdr.de>; Wed, 22 Jul 2020 18:59:50 +0200 (CEST)
+Received: from localhost ([::1]:51140 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jyHsA-0004LD-GL
-	for lists+qemu-devel@lfdr.de; Wed, 22 Jul 2020 12:45:38 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:42958)
+	id 1jyI5t-0007ND-S3
+	for lists+qemu-devel@lfdr.de; Wed, 22 Jul 2020 12:59:49 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:46056)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1jyHr9-0003VS-RX
- for qemu-devel@nongnu.org; Wed, 22 Jul 2020 12:44:35 -0400
-Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:53898
- helo=us-smtp-1.mimecast.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1jyHr6-0000dt-RB
- for qemu-devel@nongnu.org; Wed, 22 Jul 2020 12:44:34 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1595436271;
- h=from:from:reply-to:reply-to:subject:subject:date:date:
- message-id:message-id:to:to:cc:cc:mime-version:mime-version:
- content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=DNkbKCo7ER/3+EBd9aXnFB6r+pgSvYJhVH4bCdmcnMA=;
- b=I76M78TFquOVGvI/kRMbpDEwYkvI3C48fJoN5UsgKkgPNGlrDAvrgThHnmPHkMRtEfTcfj
- fdxkBj7iEwT2CT+auTs1ULeYwpaAokazogzrMHvLSfwfYR+5EwQrMgM6NLfcGbb7ZVxGSx
- EMT+9N1Xe7LRnSHt19E5ORISdYzJrH4=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-340-0yM4LlSfPtSxpf3RBS3Wvg-1; Wed, 22 Jul 2020 12:44:17 -0400
-X-MC-Unique: 0yM4LlSfPtSxpf3RBS3Wvg-1
-Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
- [10.5.11.12])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 95F6419253C3;
- Wed, 22 Jul 2020 16:44:14 +0000 (UTC)
-Received: from redhat.com (unknown [10.36.110.48])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 1A9FA60C05;
- Wed, 22 Jul 2020 16:44:10 +0000 (UTC)
-Date: Wed, 22 Jul 2020 17:44:07 +0100
-From: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
-To: Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
-Subject: Re: [PATCH v2 06/12] accel/tcg: better handle memory constrained
- systems
-Message-ID: <20200722163722.GS2324845@redhat.com>
-References: <20200722062902.24509-1-alex.bennee@linaro.org>
- <20200722062902.24509-7-alex.bennee@linaro.org>
- <5d26e26f-55f7-5b74-bb9e-b97ea1040c05@linaro.org>
- <87ft9jtsw5.fsf@linaro.org>
+ (Exim 4.90_1)
+ (envelope-from <prvs=465c3c755=alistair.francis@wdc.com>)
+ id 1jyI4f-0005pb-E3
+ for qemu-devel@nongnu.org; Wed, 22 Jul 2020 12:58:33 -0400
+Received: from esa1.hgst.iphmx.com ([68.232.141.245]:10279)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1)
+ (envelope-from <prvs=465c3c755=alistair.francis@wdc.com>)
+ id 1jyI4a-0002fu-7V
+ for qemu-devel@nongnu.org; Wed, 22 Jul 2020 12:58:33 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple;
+ d=wdc.com; i=@wdc.com; q=dns/txt; s=dkim.wdc.com;
+ t=1595437108; x=1626973108;
+ h=from:to:cc:subject:date:message-id:mime-version:
+ content-transfer-encoding;
+ bh=oEaFn4RHdtpjxjDlM/jVm2p+mJnY0NHM0/IFLrhx1Us=;
+ b=eiYq8UgfoGhhag/UD+11y5kKiOPwqv4qOtcbrj174iir1HZyid3ONHg7
+ vP2GOf47yNupaR4AVHUe89wjkwXjFMQnWQsolL+yR4AJduwlpY7LFZyQE
+ ydXXJskVmMG5z5utkVqcjhAV1jyqqBGZEYdsRYf2RH2P0czNJveVt/En4
+ mneU+oGxJOssY/0apK3l0AewSxO0cBFMW+zajKJltqtVVaPr+ks+uSP6h
+ xuRoN5Wnma8duAr261cveZYaabPtvyZ9ehXGeZwKE+IIpgbwVdBftUa1Y
+ C1dh9ztzKLwJAtW18YlotBPrFIdWct6WYWTgXqYiCv1Q17kv+QzBbK64C g==;
+IronPort-SDR: wmG3vS5cTRcARL2RIzkFzWEks9Pv94d6tMNJushQk26tF0hBEWQYLrE4lRP2awQthzAHfVNgLj
+ L9ShTl+ZyuerY2tp94jxQR0jx1UpTjq/0LTVmaE9Oq30xYK8sc+PvRmjfiL4w9nSAkgrOIb0wi
+ p4glhls/LsigBSd4Fs0DlcKBM2XRryRR8/rEV51CtADsgips4iif63bNWg+ZJRXA+tHYl6eXiL
+ fyPxwsW54amRKrbXPmh7rbY/y6Wkj7JRPfwaiNIacgIPnS6e4qpiBDF7Sk/aHLztBUoK+qMpop
+ oqg=
+X-IronPort-AV: E=Sophos;i="5.75,383,1589212800"; d="scan'208";a="252418632"
+Received: from h199-255-45-14.hgst.com (HELO uls-op-cesaep01.wdc.com)
+ ([199.255.45.14])
+ by ob1.hgst.iphmx.com with ESMTP; 23 Jul 2020 00:58:21 +0800
+IronPort-SDR: J3cmYUinu41HUHdxhTYaQdCmP4PnG9ZCsrxtMejzX1jDkyk+BoAdi+BUeN0oeL8K0dN/n4Xu5G
+ PskQXmOyUNzSgExBX3beBj9CJCxX7PXuU=
+Received: from uls-op-cesaip02.wdc.com ([10.248.3.37])
+ by uls-op-cesaep01.wdc.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 22 Jul 2020 09:46:37 -0700
+IronPort-SDR: ezqWPJXveeijhGJKbzj0uITu5v0bvLD4yxDaIAw2rLitFvCY9ppEkWkEcEpEAFQLWb1w9JrRvi
+ PftX7a5hJDng==
+WDCIronportException: Internal
+Received: from usa001575.ad.shared (HELO risc6-mainframe.hgst.com)
+ ([10.86.58.115])
+ by uls-op-cesaip02.wdc.com with ESMTP; 22 Jul 2020 09:58:21 -0700
+From: Alistair Francis <alistair.francis@wdc.com>
+To: qemu-devel@nongnu.org
+Subject: [PULL 0/5] riscv-to-apply queue
+Date: Wed, 22 Jul 2020 09:48:33 -0700
+Message-Id: <20200722164838.1591305-1-alistair.francis@wdc.com>
+X-Mailer: git-send-email 2.27.0
 MIME-Version: 1.0
-In-Reply-To: <87ft9jtsw5.fsf@linaro.org>
-User-Agent: Mutt/1.14.5 (2020-06-23)
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8
 Content-Transfer-Encoding: 8bit
-Content-Disposition: inline
-Received-SPF: pass client-ip=205.139.110.120; envelope-from=berrange@redhat.com;
- helo=us-smtp-1.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/07/21 23:27:14
-X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
-X-Spam_score_int: -40
-X-Spam_score: -4.1
+Received-SPF: pass client-ip=68.232.141.245;
+ envelope-from=prvs=465c3c755=alistair.francis@wdc.com;
+ helo=esa1.hgst.iphmx.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/07/22 12:58:21
+X-ACL-Warn: Detected OS   = FreeBSD 9.x or newer [fuzzy]
+X-Spam_score_int: -43
+X-Spam_score: -4.4
 X-Spam_bar: ----
-X-Spam_report: (-4.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-1, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001, URIBL_BLOCKED=0.001 autolearn=ham autolearn_force=no
+X-Spam_report: (-4.4 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_MED=-2.3, SPF_HELO_PASS=-0.001, SPF_PASS=-0.001,
+ URIBL_BLOCKED=0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -86,75 +85,49 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
-Cc: fam@euphon.net, Richard Henderson <richard.henderson@linaro.org>,
- qemu-devel@nongnu.org, Christian Ehrhardt <christian.ehrhardt@canonical.com>,
- f4bug@amsat.org, cota@braap.org, Paolo Bonzini <pbonzini@redhat.com>,
- aurelien@aurel32.net, Richard Henderson <rth@twiddle.net>
+Cc: Alistair Francis <alistair.francis@wdc.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Wed, Jul 22, 2020 at 05:29:46PM +0100, Alex Bennée wrote:
-> 
-> Richard Henderson <richard.henderson@linaro.org> writes:
-> 
-> > On 7/21/20 11:28 PM, Alex Bennée wrote:
-> >> +        size_t phys_mem = qemu_get_host_physmem();
-> >> +        if (phys_mem > 0 && phys_mem < (2 * DEFAULT_CODE_GEN_BUFFER_SIZE)) {
-> >> +            tb_size = phys_mem / 8;
-> >> +        } else {
-> >> +            tb_size = DEFAULT_CODE_GEN_BUFFER_SIZE;
-> >> +        }
-> >
-> > I don't understand the 2 * DEFAULT part.
-> 
-> I figured once you had at least twice as much memory you could use the
-> full amount but...
-> 
-> 
-> > Does this make more sense as
-> >
-> >     if (phys_mem == 0) {
-> >         tb_size = default;
-> >     } else {
-> >         tb_size = MIN(default, phys_mem / 8);
-> >     }
-> 
-> This is probably a less aggressive tapering off which still doesn't
-> affect my 32gb dev machine ;-)
+The following changes since commit 3cbc8970f55c87cb58699b6dc8fe42998bc79dc0:
 
-I still feel like this logic of looking at physmem is doomed, because
-it makes the assumption that all of physical RAM is theoretically
-available to the user, and this isn't the case if running inside a
-container or cgroup with a memory cap set.
+  Merge remote-tracking branch 'remotes/armbru/tags/pull-monitor-2020-07-21' into staging (2020-07-22 09:13:46 +0100)
 
-I don't really have any good answer here, but assuming we can use
-1 GB for a cache just doesn't seem like a good idea, especially if
-users are running multiple VMs in parallel.
+are available in the Git repository at:
 
-OpenStack uses TCG in alot of their CI infrastructure for example
-and runs multiple VMs. If there's 4 VMs, that's another 4 GB of
-RAM usage just silently added on top of the explicit -m value.
+  git@github.com:alistair23/qemu.git tags/pull-riscv-to-apply-20200722-1
 
-I wouldn't be surprised if this pushes CI into OOM, even without
-containers or cgroups being involved, as they have plenty of other
-services consuming RAM in the CI VMs.
+for you to fetch changes up to 8ba26b0b2b00dd5849a6c0981e358dc7a7cc315d:
 
-The commit 600e17b261555c56a048781b8dd5ba3985650013 talks about this
-minimizing codegen cache flushes, but doesn't mention the real world
-performance impact of eliminating those flushes ?
+  target/riscv: Fix the range of pmpcfg of CSR funcion table (2020-07-22 09:41:36 -0700)
 
-Presumably this makes the guest OS boot faster, but what's the before
-and after time ?  And what's the time like for values in between the
-original 32mb and the new 1 GB ?  Can we get some value that is
-*significantly* smaller than 1 GB but still gives some useful benefit ?
-what would 128 MB be like compared to the original 32mb ?
+----------------------------------------------------------------
+This PR contains a few RISC-V fixes.
 
-Regards,
-Daniel
--- 
-|: https://berrange.com      -o-    https://www.flickr.com/photos/dberrange :|
-|: https://libvirt.org         -o-            https://fstop138.berrange.com :|
-|: https://entangle-photo.org    -o-    https://www.instagram.com/dberrange :|
+The main fix is the correction of the goldfish RTC time. On top of that
+some small fixes to the recently added vector extensions have been added
+(including an assert that fixed a coverity report). There is a change in
+the SiFive E debug memory size to match hardware. Finally there is a fix
+for PMP accesses.
 
+----------------------------------------------------------------
+Bin Meng (1):
+      hw/riscv: sifive_e: Correct debug block size
+
+Jessica Clarke (1):
+      goldfish_rtc: Fix non-atomic read behaviour of TIME_LOW/TIME_HIGH
+
+LIU Zhiwei (2):
+      target/riscv: Quiet Coverity complains about vamo*
+      target/riscv: fix vector index load/store constraints
+
+Zong Li (1):
+      target/riscv: Fix the range of pmpcfg of CSR funcion table
+
+ include/hw/rtc/goldfish_rtc.h           |  1 +
+ hw/riscv/sifive_e.c                     |  2 +-
+ hw/rtc/goldfish_rtc.c                   | 17 ++++++++++++++---
+ target/riscv/csr.c                      |  2 +-
+ target/riscv/insn_trans/trans_rvv.inc.c | 11 ++++++++++-
+ 5 files changed, 27 insertions(+), 6 deletions(-)
 
