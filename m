@@ -2,53 +2,141 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 92796229140
-	for <lists+qemu-devel@lfdr.de>; Wed, 22 Jul 2020 08:49:37 +0200 (CEST)
-Received: from localhost ([::1]:34236 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id AE965229119
+	for <lists+qemu-devel@lfdr.de>; Wed, 22 Jul 2020 08:44:16 +0200 (CEST)
+Received: from localhost ([::1]:57554 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jy8ZM-0006jF-Dv
-	for lists+qemu-devel@lfdr.de; Wed, 22 Jul 2020 02:49:36 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:45388)
+	id 1jy8UB-0004ax-H8
+	for lists+qemu-devel@lfdr.de; Wed, 22 Jul 2020 02:44:15 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:45376)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mjt@tls.msk.ru>) id 1jy8TO-0004AW-4A
- for qemu-devel@nongnu.org; Wed, 22 Jul 2020 02:43:26 -0400
-Received: from isrv.corpit.ru ([86.62.121.231]:47529)
+ (Exim 4.90_1) (envelope-from <borntraeger@de.ibm.com>)
+ id 1jy8TL-0004AJ-E6
+ for qemu-devel@nongnu.org; Wed, 22 Jul 2020 02:43:23 -0400
+Received: from mx0b-001b2d01.pphosted.com ([148.163.158.5]:45984
+ helo=mx0a-001b2d01.pphosted.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mjt@tls.msk.ru>) id 1jy8TM-00010A-5A
- for qemu-devel@nongnu.org; Wed, 22 Jul 2020 02:43:25 -0400
-Received: from tsrv.corpit.ru (tsrv.tls.msk.ru [192.168.177.2])
- by isrv.corpit.ru (Postfix) with ESMTP id 0EF5A40627;
- Wed, 22 Jul 2020 09:43:13 +0300 (MSK)
-Received: from [192.168.177.99] (mjt.vpn.tls.msk.ru [192.168.177.99])
- by tsrv.corpit.ru (Postfix) with ESMTP id B1B4471;
- Wed, 22 Jul 2020 09:43:13 +0300 (MSK)
-Subject: Re: [RFC PATCH-not-for-5.1? v2] hw/isa/isa-bus: Ensure ISA I/O
- regions are 8/16-bit accessible
-To: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>,
- qemu-devel@nongnu.org
-References: <20200720185758.21280-1-f4bug@amsat.org>
- <d4fbf384-91cd-2820-abd8-157f9849ef53@msgid.tls.msk.ru>
- <c4388215-aee7-f609-9f19-8e2a66675971@amsat.org>
-From: Michael Tokarev <mjt@tls.msk.ru>
-Message-ID: <d0c1aa70-47c4-ce5b-fdea-1d62a830308d@msgid.tls.msk.ru>
-Date: Wed, 22 Jul 2020 09:43:12 +0300
+ (Exim 4.90_1) (envelope-from <borntraeger@de.ibm.com>)
+ id 1jy8TJ-00010K-N1
+ for qemu-devel@nongnu.org; Wed, 22 Jul 2020 02:43:23 -0400
+Received: from pps.filterd (m0098413.ppops.net [127.0.0.1])
+ by mx0b-001b2d01.pphosted.com (8.16.0.42/8.16.0.42) with SMTP id
+ 06M6DVZq074951
+ for <qemu-devel@nongnu.org>; Wed, 22 Jul 2020 02:43:19 -0400
+Received: from pps.reinject (localhost [127.0.0.1])
+ by mx0b-001b2d01.pphosted.com with ESMTP id 32d982pp5v-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT)
+ for <qemu-devel@nongnu.org>; Wed, 22 Jul 2020 02:43:19 -0400
+Received: from m0098413.ppops.net (m0098413.ppops.net [127.0.0.1])
+ by pps.reinject (8.16.0.36/8.16.0.36) with SMTP id 06M6Fx0Z079609
+ for <qemu-devel@nongnu.org>; Wed, 22 Jul 2020 02:43:19 -0400
+Received: from ppma06ams.nl.ibm.com (66.31.33a9.ip4.static.sl-reverse.com
+ [169.51.49.102])
+ by mx0b-001b2d01.pphosted.com with ESMTP id 32d982pp56-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Wed, 22 Jul 2020 02:43:18 -0400
+Received: from pps.filterd (ppma06ams.nl.ibm.com [127.0.0.1])
+ by ppma06ams.nl.ibm.com (8.16.0.42/8.16.0.42) with SMTP id 06M6fodx009805;
+ Wed, 22 Jul 2020 06:43:17 GMT
+Received: from b06cxnps4076.portsmouth.uk.ibm.com
+ (d06relay13.portsmouth.uk.ibm.com [9.149.109.198])
+ by ppma06ams.nl.ibm.com with ESMTP id 32brbh4m4r-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Wed, 22 Jul 2020 06:43:17 +0000
+Received: from d06av24.portsmouth.uk.ibm.com (d06av24.portsmouth.uk.ibm.com
+ [9.149.105.60])
+ by b06cxnps4076.portsmouth.uk.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
+ 06M6hE0M54198276
+ (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+ Wed, 22 Jul 2020 06:43:14 GMT
+Received: from d06av24.portsmouth.uk.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id D9F1D42045;
+ Wed, 22 Jul 2020 06:43:14 +0000 (GMT)
+Received: from d06av24.portsmouth.uk.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id 871E742047;
+ Wed, 22 Jul 2020 06:43:14 +0000 (GMT)
+Received: from oc7455500831.ibm.com (unknown [9.145.164.86])
+ by d06av24.portsmouth.uk.ibm.com (Postfix) with ESMTP;
+ Wed, 22 Jul 2020 06:43:14 +0000 (GMT)
+Subject: Re: [PATCH] pc-bios: s390x: Add a comment to the io and external new
+ PSW setup
+To: Janosch Frank <frankja@linux.ibm.com>, qemu-devel@nongnu.org
+References: <033b0db7-7b7d-6eb0-9018-bcc342f13509@de.ibm.com>
+ <20200715140820.3401-1-frankja@linux.ibm.com>
+From: Christian Borntraeger <borntraeger@de.ibm.com>
+Autocrypt: addr=borntraeger@de.ibm.com; prefer-encrypt=mutual; keydata=
+ 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
+ nS4h0HDFPrrp1C2EMVYIQrMokWvlFZbCpsdYbBI=
+Message-ID: <3216babd-433b-4ec7-5333-43a75df2e331@de.ibm.com>
+Date: Wed, 22 Jul 2020 08:43:14 +0200
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.10.0
+ Thunderbird/68.9.0
 MIME-Version: 1.0
-In-Reply-To: <c4388215-aee7-f609-9f19-8e2a66675971@amsat.org>
+In-Reply-To: <20200715140820.3401-1-frankja@linux.ibm.com>
 Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
-Content-Transfer-Encoding: 8bit
-Received-SPF: none client-ip=86.62.121.231; envelope-from=mjt@tls.msk.ru;
- helo=isrv.corpit.ru
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/07/22 02:43:13
-X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic]
-X-Spam_score_int: -68
-X-Spam_score: -6.9
-X-Spam_bar: ------
-X-Spam_report: (-6.9 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_HI=-5,
- SPF_HELO_NONE=0.001, SPF_NONE=0.001 autolearn=ham autolearn_force=no
+Content-Transfer-Encoding: 7bit
+X-TM-AS-GCONF: 00
+X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:6.0.235, 18.0.687
+ definitions=2020-07-22_02:2020-07-22,
+ 2020-07-22 signatures=0
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ malwarescore=0 clxscore=1015
+ phishscore=0 impostorscore=0 mlxscore=0 spamscore=0 lowpriorityscore=0
+ priorityscore=1501 bulkscore=0 mlxlogscore=999 adultscore=0 suspectscore=0
+ classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2006250000
+ definitions=main-2007220040
+Received-SPF: pass client-ip=148.163.158.5;
+ envelope-from=borntraeger@de.ibm.com; helo=mx0a-001b2d01.pphosted.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/07/22 02:43:19
+X-ACL-Warn: Detected OS   = Linux 3.x [generic]
+X-Spam_score_int: -35
+X-Spam_score: -3.6
+X-Spam_bar: ---
+X-Spam_report: (-3.6 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_LOW=-0.7,
+ RCVD_IN_MSPIKE_H2=-1, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -61,37 +149,56 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Maydell <peter.maydell@linaro.org>,
- "Michael S . Tsirkin" <mst@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>
+Cc: thuth@redhat.com, cohuck@redhat.com, david@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-21.07.2020 15:29, Philippe Mathieu-Daudé wrote:
-> On 7/20/20 9:45 PM, Michael Tokarev wrote:
-...
->> For now we don't have any released qemu version with this situation
->> so not many project enabled workarounds for broken qemu behavour
->> like the xen-devel link above.
 
-Note: all of the entries below have min_access_size = max_access_size = 0
-I dunno what it gives us, but it is a different issue.
 
->> qemu-system-x86_64: ISA device 'kvm-i8259' requires I/O max_access_size of 2
->> qemu-system-x86_64: ISA device 'kvm-i8259' requires I/O max_access_size of 2
->> qemu-system-x86_64: ISA device 'kvm-i8259' requires I/O max_access_size of 2
->> qemu-system-x86_64: ISA device 'kvm-i8259' requires I/O max_access_size of 2
->> qemu-system-x86_64: ISA device 'mc146818rtc' requires I/O max_access_size of 2
->> qemu-system-x86_64: ISA device 'kvm-pit' requires I/O max_access_size of 2
->> qemu-system-x86_64: ISA device 'isa-pcspk' requires I/O max_access_size of 2
->> qemu-system-x86_64: ISA device 'isa-serial' requires I/O max_access_size of 2
->> qemu-system-x86_64: ISA device 'i8042' requires I/O max_access_size of 2
->> qemu-system-x86_64: ISA device 'i8042' requires I/O max_access_size of 2
->> qemu-system-x86_64: ISA device 'vmport' requires I/O max_access_size of 2
->> qemu-system-x86_64: ISA device 'port92' requires I/O max_access_size of 2
+On 15.07.20 16:08, Janosch Frank wrote:
+> Normally they don't need to be set up before waiting for an interrupt
+> but are set up on boot. The BIOS however might overwrite the lowcore
+> (and hence the PSWs) when loading a blob into memory and therefore
+> needs to set up those PSWs more often.
+
+Now when I read the new comment this actually inidicates a bug. 
+When do we restore the original content? If the loaded program
+does have interrupt handlers in the original image and relies on that
+then we are broken, no?
+
 > 
-> This is better to find the full list:
-
-I found no other entries which restrict access to >1.
-
-/mjt
+> Signed-off-by: Janosch Frank <frankja@linux.ibm.com>
+> ---
+>  pc-bios/s390-ccw/start.S | 10 ++++++++--
+>  1 file changed, 8 insertions(+), 2 deletions(-)
+> 
+> diff --git a/pc-bios/s390-ccw/start.S b/pc-bios/s390-ccw/start.S
+> index 01c4c21b26..b0fcb918cc 100644
+> --- a/pc-bios/s390-ccw/start.S
+> +++ b/pc-bios/s390-ccw/start.S
+> @@ -64,7 +64,10 @@ consume_sclp_int:
+>          stctg   %c0,%c0,0(%r15)
+>          oi      6(%r15),0x2
+>          lctlg   %c0,%c0,0(%r15)
+> -        /* prepare external call handler */
+> +        /*
+> +         * Prepare external new PSW as it might have been overwritten
+> +         * by a loaded blob
+> +         */
+>          larl %r1, external_new_code
+>          stg %r1, 0x1b8
+>          larl %r1, external_new_mask
+> @@ -84,7 +87,10 @@ consume_io_int:
+>          stctg %c6,%c6,0(%r15)
+>          oi    4(%r15), 0xff
+>          lctlg %c6,%c6,0(%r15)
+> -        /* prepare i/o call handler */
+> +        /*
+> +         * Prepare i/o new PSW as it might have been overwritten
+> +         * by a loaded blob
+> +         */
+>          larl  %r1, io_new_code
+>          stg   %r1, 0x1f8
+>          larl  %r1, io_new_mask
+> 
 
