@@ -2,67 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 24549229537
-	for <lists+qemu-devel@lfdr.de>; Wed, 22 Jul 2020 11:43:49 +0200 (CEST)
-Received: from localhost ([::1]:47794 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E3FD3229518
+	for <lists+qemu-devel@lfdr.de>; Wed, 22 Jul 2020 11:38:54 +0200 (CEST)
+Received: from localhost ([::1]:49842 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jyBHw-0000M7-3h
-	for lists+qemu-devel@lfdr.de; Wed, 22 Jul 2020 05:43:48 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:54900)
+	id 1jyBDB-0006fH-UQ
+	for lists+qemu-devel@lfdr.de; Wed, 22 Jul 2020 05:38:53 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:54928)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <frank.chang@sifive.com>)
- id 1jyAwK-0005SP-Ud
- for qemu-devel@nongnu.org; Wed, 22 Jul 2020 05:21:28 -0400
-Received: from mail-pf1-x42b.google.com ([2607:f8b0:4864:20::42b]:41165)
+ id 1jyAwO-0005ax-8V
+ for qemu-devel@nongnu.org; Wed, 22 Jul 2020 05:21:32 -0400
+Received: from mail-pf1-x442.google.com ([2607:f8b0:4864:20::442]:35261)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <frank.chang@sifive.com>)
- id 1jyAwJ-00062y-Bl
- for qemu-devel@nongnu.org; Wed, 22 Jul 2020 05:21:28 -0400
-Received: by mail-pf1-x42b.google.com with SMTP id w126so701282pfw.8
- for <qemu-devel@nongnu.org>; Wed, 22 Jul 2020 02:21:26 -0700 (PDT)
+ id 1jyAwM-00064S-Fl
+ for qemu-devel@nongnu.org; Wed, 22 Jul 2020 05:21:31 -0400
+Received: by mail-pf1-x442.google.com with SMTP id a14so878277pfi.2
+ for <qemu-devel@nongnu.org>; Wed, 22 Jul 2020 02:21:30 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=sifive.com; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references;
- bh=lSGavHjP8DkZgSzTSXFcl5cCaE8i//N9BsXmCdZs8Ww=;
- b=KnWT1lixgFk93ruSwizppy66iVSTs4uQDmPJVDG6azKUhMF/vrkNPXwIqe4J1B1ntZ
- OPTmxCdZ0u2Shkdu9MEQ5vfTqJMfzb4t12BbYXG4Faksy0KZ+oYNRpApi2m0wa03vL/G
- BY57bbbGelfBJKSbQNTakkkNWRjShXExUazmLr4XgN6OMTwV4LG3BJ0xshL9mnUPkWNW
- IeISZaLH4URxadfcpMJa271M+VM7TMdxE74z+laNI2Kp+mQ2s7o5pnu1spYmxrOV7Mly
- wRwjKRhIQ1CN2lHl/YayZj+ta/mQI2C7gnfmFpWJgfzqHvKJA4DfTWuu3IBIaYpW5hc2
- Xifg==
+ bh=Y2KhL2jx26SA0fTdqwK4kIep/hAoNdtUzmiGc3hCqv0=;
+ b=fBSVIFt8M+1vCfA5AkeAlSY7H3yfNI3CYuRBLR19toJ85X7JXkeMQLBqV3TLYBmaJa
+ 8PJohVgPvNGppJQ+PRrY6WEQfrgQmGpKjta0QRL5C7KcFVljxUta+lD+IsDDU9CMeveV
+ 5Nh6d4x8O933PY3JwQecSMhNntwdviXcaDGBZWRc0UmW0bdx3Lv3tru2M1/ocTzlHpk3
+ YXw42Q3zT2tg/ZyzUSTw2V8rKlErXaakMWGZTRyzGsPNoGnpwS5xdsXbZMdD3JIn2mGE
+ hd9yJkacr41bheLJnx3me1ploDXjz8/qqx9+rEG/UAzpFjs/KgHHYGhHf+s1s0WC1kjj
+ hU9A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references;
- bh=lSGavHjP8DkZgSzTSXFcl5cCaE8i//N9BsXmCdZs8Ww=;
- b=INZ2Fe86uS6LhKcmkG5M8GgFYQdVefa/4sXbB0+SxVFXNhRpcredf0vsKK1FIWMwWp
- +wL/ilvPdtyfFRLI8e2Qh/PA8hRD+fn52A8xgUSpP0OAt2pBObBZ5r8pi4QXWFeC4t7D
- e2i9K9P0n995UmZcFd8zzeZOoaq6hxhHu6OeLPHfjLHx1nzRtBdnnT8kriedw/g6+1oG
- ilEziHPxDGvcDEfkWrBz0V+V4RDzGAaD+n6YsHhTYsx0iMPGmejorva+j7dcxj14Nl9z
- w6zLEYgzYIu8cqi7nG+qCpG7Ubb7WtRsY5hn2lX2s1AZP0meOWGJLm6IP2stLP7XPJ4T
- 5JPQ==
-X-Gm-Message-State: AOAM531tMLWCguYmkGbI3BRB6Pgg3JJrmJzKc5DUtiVgrvLjoiGZz5NF
- QbbHj2Q8hZQXuIYnma2J3qYKMiVz0w4=
-X-Google-Smtp-Source: ABdhPJw4B0xCrzhHOPZfBkQkihjMR9DtE3963cnKY79n15QckVEZ8ytX+dJHhJvZeDQh9TTxrc2o3Q==
-X-Received: by 2002:a62:a20d:: with SMTP id m13mr6294215pff.201.1595409685603; 
- Wed, 22 Jul 2020 02:21:25 -0700 (PDT)
+ bh=Y2KhL2jx26SA0fTdqwK4kIep/hAoNdtUzmiGc3hCqv0=;
+ b=XPh86c84g0B8VNDPrEy82d8fPnGG/l2aCuokVm614XbpJRvpS7+Js9EZ+OaHxGoMHv
+ RkMi0XC0jiV8X4idHh5Iax9Q2wA6ENZ+BlM2E2hOJV8eKINZhBXTS7FikdzO9qTXIxp/
+ 6r5amp3M1W2YncgR8NRc7v59ZGlgW58eGQD84wcrOTO3Q8IV8ul510PS0bSVa0YU1zrd
+ wyLkp91dQw2b42zDyHL3WrRLj8/reHrLezPuU2HAThO1GBbnYNo/bhOt54BJcT1C5Nw0
+ 6kXmonfWYSIwVvizJOCtuwbYEeh6uAekN6fCy7t0s1ee1C+2a6VszFOI36ChtEWFIH4h
+ kRnA==
+X-Gm-Message-State: AOAM530vSiMWo+ga5jfCp7Jf+s5B7dsYCYzLtGwGT1NatJKr7cof5JTP
+ mrssFppXYEH0qJY9y/bO66OrHOQ5MTo=
+X-Google-Smtp-Source: ABdhPJx3KaHP5GqEREd1cWksd+w4MxzRbEVM1BS1JpjUOJ46Be6xvW3A5+SPDEzAB5ZUANE7tbHNyA==
+X-Received: by 2002:a62:52cd:: with SMTP id
+ g196mr27987915pfb.178.1595409689032; 
+ Wed, 22 Jul 2020 02:21:29 -0700 (PDT)
 Received: from frankchang-ThinkPad-T490.internal.sifive.com
  (114-34-229-221.HINET-IP.hinet.net. [114.34.229.221])
- by smtp.gmail.com with ESMTPSA id c125sm22301879pfa.119.2020.07.22.02.21.23
+ by smtp.gmail.com with ESMTPSA id c125sm22301879pfa.119.2020.07.22.02.21.27
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 22 Jul 2020 02:21:25 -0700 (PDT)
+ Wed, 22 Jul 2020 02:21:28 -0700 (PDT)
 From: frank.chang@sifive.com
 To: qemu-devel@nongnu.org,
 	qemu-riscv@nongnu.org
-Subject: [RFC v2 54/76] target/riscv: rvv-0.9: floating-point compare
+Subject: [RFC v2 55/76] target/riscv: rvv-0.9: single-width integer reduction
  instructions
-Date: Wed, 22 Jul 2020 17:16:17 +0800
-Message-Id: <20200722091641.8834-55-frank.chang@sifive.com>
+Date: Wed, 22 Jul 2020 17:16:18 +0800
+Message-Id: <20200722091641.8834-56-frank.chang@sifive.com>
 X-Mailer: git-send-email 2.17.1
 In-Reply-To: <20200722091641.8834-1-frank.chang@sifive.com>
 References: <20200722091641.8834-1-frank.chang@sifive.com>
-Received-SPF: pass client-ip=2607:f8b0:4864:20::42b;
- envelope-from=frank.chang@sifive.com; helo=mail-pf1-x42b.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::442;
+ envelope-from=frank.chang@sifive.com; helo=mail-pf1-x442.google.com
 X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
  That's all we know.
 X-Spam_score_int: -20
@@ -94,90 +95,124 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Frank Chang <frank.chang@sifive.com>
 
-Clear tail elements only if VTA is agnostic.
+Remove clear function from helper function as the tail elements
+are unchanged in RVV 0.9.
 
 Signed-off-by: Frank Chang <frank.chang@sifive.com>
 ---
- target/riscv/vector_helper.c | 52 ++++++++++++++++++++----------------
- 1 file changed, 29 insertions(+), 23 deletions(-)
+ target/riscv/vector_helper.c | 69 +++++++++++++++++-------------------
+ 1 file changed, 33 insertions(+), 36 deletions(-)
 
 diff --git a/target/riscv/vector_helper.c b/target/riscv/vector_helper.c
-index 95cce063d0..8dccec4e04 100644
+index 8dccec4e04..39245b5ac8 100644
 --- a/target/riscv/vector_helper.c
 +++ b/target/riscv/vector_helper.c
-@@ -4174,27 +4174,30 @@ GEN_VEXT_VF(vfsgnjx_vf_w, 4, 4, clearl)
- GEN_VEXT_VF(vfsgnjx_vf_d, 8, 8, clearq)
- 
- /* Vector Floating-Point Compare Instructions */
--#define GEN_VEXT_CMP_VV_ENV(NAME, ETYPE, H, DO_OP)            \
--void HELPER(NAME)(void *vd, void *v0, void *vs1, void *vs2,   \
--                  CPURISCVState *env, uint32_t desc)          \
--{                                                             \
--    uint32_t vm = vext_vm(desc);                              \
--    uint32_t vl = env->vl;                                    \
--    uint32_t vlmax = vext_maxsz(desc) / sizeof(ETYPE);        \
--    uint32_t i;                                               \
--                                                              \
--    for (i = 0; i < vl; i++) {                                \
--        ETYPE s1 = *((ETYPE *)vs1 + H(i));                    \
--        ETYPE s2 = *((ETYPE *)vs2 + H(i));                    \
--        if (!vm && !vext_elem_mask(v0, i)) {                  \
--            continue;                                         \
--        }                                                     \
--        vext_set_elem_mask(vd, i,                             \
--                           DO_OP(s2, s1, &env->fp_status));   \
--    }                                                         \
--    for (; i < vlmax; i++) {                                  \
--        vext_set_elem_mask(vd, i, 0);                         \
--    }                                                         \
-+#define GEN_VEXT_CMP_VV_ENV(NAME, ETYPE, H, DO_OP)               \
-+void HELPER(NAME)(void *vd, void *v0, void *vs1, void *vs2,      \
-+                  CPURISCVState *env, uint32_t desc)             \
-+{                                                                \
-+    uint32_t vm = vext_vm(desc);                                 \
-+    uint32_t vl = env->vl;                                       \
-+    uint32_t vlmax = vext_max_elems(desc, sizeof(ETYPE), false); \
-+    uint32_t vta = vext_vta(desc);                               \
-+    uint32_t i;                                                  \
-+                                                                 \
-+    for (i = 0; i < vl; i++) {                                   \
-+        ETYPE s1 = *((ETYPE *)vs1 + H(i));                       \
-+        ETYPE s2 = *((ETYPE *)vs2 + H(i));                       \
-+        if (!vm && !vext_elem_mask(v0, i)) {                     \
-+            continue;                                            \
-+        }                                                        \
-+        vext_set_elem_mask(vd, i,                                \
-+                           DO_OP(s2, s1, &env->fp_status));      \
-+    }                                                            \
-+    if (vta == 1) {                                              \
-+        for (; i < vlmax; i++) {                                 \
-+            vext_set_elem_mask(vd, i, 1);                        \
-+        }                                                        \
-+    }                                                            \
+@@ -4565,15 +4565,13 @@ GEN_VEXT_V_ENV(vfncvt_f_f_v_w, 4, 4, clearl)
+  *** Vector Reduction Operations
+  */
+ /* Vector Single-Width Integer Reduction Instructions */
+-#define GEN_VEXT_RED(NAME, TD, TS2, HD, HS2, OP, CLEAR_FN)\
++#define GEN_VEXT_RED(NAME, TD, TS2, HD, HS2, OP)          \
+ void HELPER(NAME)(void *vd, void *v0, void *vs1,          \
+         void *vs2, CPURISCVState *env, uint32_t desc)     \
+ {                                                         \
+     uint32_t vm = vext_vm(desc);                          \
+-    uint32_t vta = vext_vm(desc);                         \
+     uint32_t vl = env->vl;                                \
+     uint32_t i;                                           \
+-    uint32_t tot = env_archcpu(env)->cfg.vlen / 8;        \
+     TD s1 =  *((TD *)vs1 + HD(0));                        \
+                                                           \
+     for (i = 0; i < vl; i++) {                            \
+@@ -4584,56 +4582,55 @@ void HELPER(NAME)(void *vd, void *v0, void *vs1,          \
+         s1 = OP(s1, (TD)s2);                              \
+     }                                                     \
+     *((TD *)vd + HD(0)) = s1;                             \
+-    CLEAR_FN(vd, vta, 1, sizeof(TD), tot);                \
  }
  
- GEN_VEXT_CMP_VV_ENV(vmfeq_vv_h, uint16_t, H2, float16_eq_quiet)
-@@ -4208,6 +4211,7 @@ void HELPER(NAME)(void *vd, void *v0, uint64_t s1, void *vs2,       \
-     uint32_t vm = vext_vm(desc);                                    \
-     uint32_t vl = env->vl;                                          \
-     uint32_t vlmax = vext_max_elems(desc, sizeof(ETYPE), false);    \
-+    uint32_t vta = vext_vta(desc);                                  \
-     uint32_t i;                                                     \
-                                                                     \
-     for (i = 0; i < vl; i++) {                                      \
-@@ -4218,8 +4222,10 @@ void HELPER(NAME)(void *vd, void *v0, uint64_t s1, void *vs2,       \
-         vext_set_elem_mask(vd, i,                                   \
-                            DO_OP(s2, (ETYPE)s1, &env->fp_status));  \
-     }                                                               \
--    for (; i < vlmax; i++) {                                        \
--        vext_set_elem_mask(vd, i, 0);                               \
-+    if (vta == 1) {                                                 \
-+        for (; i < vlmax; i++) {                                    \
-+            vext_set_elem_mask(vd, i, 1);                           \
-+        }                                                           \
-     }                                                               \
- }
+ /* vd[0] = sum(vs1[0], vs2[*]) */
+-GEN_VEXT_RED(vredsum_vs_b, int8_t, int8_t, H1, H1, DO_ADD, clearb)
+-GEN_VEXT_RED(vredsum_vs_h, int16_t, int16_t, H2, H2, DO_ADD, clearh)
+-GEN_VEXT_RED(vredsum_vs_w, int32_t, int32_t, H4, H4, DO_ADD, clearl)
+-GEN_VEXT_RED(vredsum_vs_d, int64_t, int64_t, H8, H8, DO_ADD, clearq)
++GEN_VEXT_RED(vredsum_vs_b, int8_t,  int8_t,  H1, H1, DO_ADD)
++GEN_VEXT_RED(vredsum_vs_h, int16_t, int16_t, H2, H2, DO_ADD)
++GEN_VEXT_RED(vredsum_vs_w, int32_t, int32_t, H4, H4, DO_ADD)
++GEN_VEXT_RED(vredsum_vs_d, int64_t, int64_t, H8, H8, DO_ADD)
  
+ /* vd[0] = maxu(vs1[0], vs2[*]) */
+-GEN_VEXT_RED(vredmaxu_vs_b, uint8_t, uint8_t, H1, H1, DO_MAX, clearb)
+-GEN_VEXT_RED(vredmaxu_vs_h, uint16_t, uint16_t, H2, H2, DO_MAX, clearh)
+-GEN_VEXT_RED(vredmaxu_vs_w, uint32_t, uint32_t, H4, H4, DO_MAX, clearl)
+-GEN_VEXT_RED(vredmaxu_vs_d, uint64_t, uint64_t, H8, H8, DO_MAX, clearq)
++GEN_VEXT_RED(vredmaxu_vs_b, uint8_t,  uint8_t,  H1, H1, DO_MAX)
++GEN_VEXT_RED(vredmaxu_vs_h, uint16_t, uint16_t, H2, H2, DO_MAX)
++GEN_VEXT_RED(vredmaxu_vs_w, uint32_t, uint32_t, H4, H4, DO_MAX)
++GEN_VEXT_RED(vredmaxu_vs_d, uint64_t, uint64_t, H8, H8, DO_MAX)
+ 
+ /* vd[0] = max(vs1[0], vs2[*]) */
+-GEN_VEXT_RED(vredmax_vs_b, int8_t, int8_t, H1, H1, DO_MAX, clearb)
+-GEN_VEXT_RED(vredmax_vs_h, int16_t, int16_t, H2, H2, DO_MAX, clearh)
+-GEN_VEXT_RED(vredmax_vs_w, int32_t, int32_t, H4, H4, DO_MAX, clearl)
+-GEN_VEXT_RED(vredmax_vs_d, int64_t, int64_t, H8, H8, DO_MAX, clearq)
++GEN_VEXT_RED(vredmax_vs_b, int8_t,  int8_t,  H1, H1, DO_MAX)
++GEN_VEXT_RED(vredmax_vs_h, int16_t, int16_t, H2, H2, DO_MAX)
++GEN_VEXT_RED(vredmax_vs_w, int32_t, int32_t, H4, H4, DO_MAX)
++GEN_VEXT_RED(vredmax_vs_d, int64_t, int64_t, H8, H8, DO_MAX)
+ 
+ /* vd[0] = minu(vs1[0], vs2[*]) */
+-GEN_VEXT_RED(vredminu_vs_b, uint8_t, uint8_t, H1, H1, DO_MIN, clearb)
+-GEN_VEXT_RED(vredminu_vs_h, uint16_t, uint16_t, H2, H2, DO_MIN, clearh)
+-GEN_VEXT_RED(vredminu_vs_w, uint32_t, uint32_t, H4, H4, DO_MIN, clearl)
+-GEN_VEXT_RED(vredminu_vs_d, uint64_t, uint64_t, H8, H8, DO_MIN, clearq)
++GEN_VEXT_RED(vredminu_vs_b, uint8_t,  uint8_t,  H1, H1, DO_MIN)
++GEN_VEXT_RED(vredminu_vs_h, uint16_t, uint16_t, H2, H2, DO_MIN)
++GEN_VEXT_RED(vredminu_vs_w, uint32_t, uint32_t, H4, H4, DO_MIN)
++GEN_VEXT_RED(vredminu_vs_d, uint64_t, uint64_t, H8, H8, DO_MIN)
+ 
+ /* vd[0] = min(vs1[0], vs2[*]) */
+-GEN_VEXT_RED(vredmin_vs_b, int8_t, int8_t, H1, H1, DO_MIN, clearb)
+-GEN_VEXT_RED(vredmin_vs_h, int16_t, int16_t, H2, H2, DO_MIN, clearh)
+-GEN_VEXT_RED(vredmin_vs_w, int32_t, int32_t, H4, H4, DO_MIN, clearl)
+-GEN_VEXT_RED(vredmin_vs_d, int64_t, int64_t, H8, H8, DO_MIN, clearq)
++GEN_VEXT_RED(vredmin_vs_b, int8_t,  int8_t,  H1, H1, DO_MIN)
++GEN_VEXT_RED(vredmin_vs_h, int16_t, int16_t, H2, H2, DO_MIN)
++GEN_VEXT_RED(vredmin_vs_w, int32_t, int32_t, H4, H4, DO_MIN)
++GEN_VEXT_RED(vredmin_vs_d, int64_t, int64_t, H8, H8, DO_MIN)
+ 
+ /* vd[0] = and(vs1[0], vs2[*]) */
+-GEN_VEXT_RED(vredand_vs_b, int8_t, int8_t, H1, H1, DO_AND, clearb)
+-GEN_VEXT_RED(vredand_vs_h, int16_t, int16_t, H2, H2, DO_AND, clearh)
+-GEN_VEXT_RED(vredand_vs_w, int32_t, int32_t, H4, H4, DO_AND, clearl)
+-GEN_VEXT_RED(vredand_vs_d, int64_t, int64_t, H8, H8, DO_AND, clearq)
++GEN_VEXT_RED(vredand_vs_b, int8_t,  int8_t,  H1, H1, DO_AND)
++GEN_VEXT_RED(vredand_vs_h, int16_t, int16_t, H2, H2, DO_AND)
++GEN_VEXT_RED(vredand_vs_w, int32_t, int32_t, H4, H4, DO_AND)
++GEN_VEXT_RED(vredand_vs_d, int64_t, int64_t, H8, H8, DO_AND)
+ 
+ /* vd[0] = or(vs1[0], vs2[*]) */
+-GEN_VEXT_RED(vredor_vs_b, int8_t, int8_t, H1, H1, DO_OR, clearb)
+-GEN_VEXT_RED(vredor_vs_h, int16_t, int16_t, H2, H2, DO_OR, clearh)
+-GEN_VEXT_RED(vredor_vs_w, int32_t, int32_t, H4, H4, DO_OR, clearl)
+-GEN_VEXT_RED(vredor_vs_d, int64_t, int64_t, H8, H8, DO_OR, clearq)
++GEN_VEXT_RED(vredor_vs_b, int8_t,  int8_t,  H1, H1, DO_OR)
++GEN_VEXT_RED(vredor_vs_h, int16_t, int16_t, H2, H2, DO_OR)
++GEN_VEXT_RED(vredor_vs_w, int32_t, int32_t, H4, H4, DO_OR)
++GEN_VEXT_RED(vredor_vs_d, int64_t, int64_t, H8, H8, DO_OR)
+ 
+ /* vd[0] = xor(vs1[0], vs2[*]) */
+-GEN_VEXT_RED(vredxor_vs_b, int8_t, int8_t, H1, H1, DO_XOR, clearb)
+-GEN_VEXT_RED(vredxor_vs_h, int16_t, int16_t, H2, H2, DO_XOR, clearh)
+-GEN_VEXT_RED(vredxor_vs_w, int32_t, int32_t, H4, H4, DO_XOR, clearl)
+-GEN_VEXT_RED(vredxor_vs_d, int64_t, int64_t, H8, H8, DO_XOR, clearq)
++GEN_VEXT_RED(vredxor_vs_b, int8_t,  int8_t,  H1, H1, DO_XOR)
++GEN_VEXT_RED(vredxor_vs_h, int16_t, int16_t, H2, H2, DO_XOR)
++GEN_VEXT_RED(vredxor_vs_w, int32_t, int32_t, H4, H4, DO_XOR)
++GEN_VEXT_RED(vredxor_vs_d, int64_t, int64_t, H8, H8, DO_XOR)
+ 
+ /* Vector Widening Integer Reduction Instructions */
+ /* signed sum reduction into double-width accumulator */
 -- 
 2.17.1
 
