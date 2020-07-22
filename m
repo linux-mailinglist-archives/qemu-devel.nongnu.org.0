@@ -2,73 +2,74 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 380C3229CFF
-	for <lists+qemu-devel@lfdr.de>; Wed, 22 Jul 2020 18:21:08 +0200 (CEST)
-Received: from localhost ([::1]:53500 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 38689229D21
+	for <lists+qemu-devel@lfdr.de>; Wed, 22 Jul 2020 18:31:47 +0200 (CEST)
+Received: from localhost ([::1]:35846 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jyHUR-0007Wx-AF
-	for lists+qemu-devel@lfdr.de; Wed, 22 Jul 2020 12:21:07 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:34296)
+	id 1jyHed-0004U6-A4
+	for lists+qemu-devel@lfdr.de; Wed, 22 Jul 2020 12:31:40 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:38348)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1jyHSe-0005VQ-S8
- for qemu-devel@nongnu.org; Wed, 22 Jul 2020 12:19:16 -0400
-Received: from mail-pf1-x42b.google.com ([2607:f8b0:4864:20::42b]:42116)
+ (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
+ id 1jyHcu-0003Yh-G9
+ for qemu-devel@nongnu.org; Wed, 22 Jul 2020 12:29:52 -0400
+Received: from mail-wm1-x341.google.com ([2a00:1450:4864:20::341]:51283)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1jyHSd-0004Am-9j
- for qemu-devel@nongnu.org; Wed, 22 Jul 2020 12:19:16 -0400
-Received: by mail-pf1-x42b.google.com with SMTP id 1so1535830pfn.9
- for <qemu-devel@nongnu.org>; Wed, 22 Jul 2020 09:19:14 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
+ id 1jyHcs-0006VO-T9
+ for qemu-devel@nongnu.org; Wed, 22 Jul 2020 12:29:52 -0400
+Received: by mail-wm1-x341.google.com with SMTP id p14so2099620wmg.1
+ for <qemu-devel@nongnu.org>; Wed, 22 Jul 2020 09:29:49 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=subject:to:cc:references:from:message-id:date:user-agent
- :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=J1Vt0n3Xj7aKrd0m0W0pivNkeO1i6Pu+6tItym+hE28=;
- b=O8b0tiIgmyzrH40uU5m4gW8hWfvGr2gHWPmVaiwQM041CSnQ1I9Fabvvu7v9Zq9G2r
- cKzL7mMfbYBl5w7mt5zd/8jpJMcNx2y/lywOYDQuJTDo4Ssv2+9GIJT3BGLFVVmwIDEr
- 6EEdN8HpK1d6Dc2oipC6CCKf6QTJYlV1ViAKSEbIp5wbz7chpdteAHKGt4SmbedCSrMP
- cy8TWFkOThuByFY0bwitjOaTUyt6zBZYM0XMaMcinDYm9n6R156HcrYn2cLJqFOZZ+UX
- xsCnUAfzqqrLPADwl6el9ufoPVh3Wqib7iTE4/nx65a6UE1jyYmmpMamsVuTPAQoJMkk
- 1/xA==
+ h=references:user-agent:from:to:cc:subject:in-reply-to:date
+ :message-id:mime-version:content-transfer-encoding;
+ bh=+rG3qvT7ySzAQUCoeVQPFrcWS7ra7WD2Vh84T2cZ9Bs=;
+ b=OB3G+paDppI2H/szTjq4diWkRzxzqUBxGTM7lPj8ZdXpNIXmHOt4wn2XcjX2RUDzNE
+ vBR/3/du4Qy92DGdVUygAPkYngeAK8WxRCNSb5zRrYcMYUStvNQkF+RZOeeE6BoZXFik
+ SIelJQaJHxySkcsRcwpakYQjxphdSnj155+Tvt2QigrOg9MyYuZRJKG/dzYdab1DSotg
+ zOoxJ1eNiAQzW5h/BnKECaUmceh56DIyIsSZgWBZMjBQYuOXtAHuCtuinw/gjBapypmb
+ c3yDLeZrGyXiv3QHs+2hztHkimpLQWZjJP7V5I372MmbRnLsgLuicU258HRZ/xnzcBxJ
+ E08g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=J1Vt0n3Xj7aKrd0m0W0pivNkeO1i6Pu+6tItym+hE28=;
- b=jLh/r2fRNDE89spzyPGPMEvllDyiLQS2R09sdwdSudQBv6vDP65z1tJmB+9rQUptOQ
- Oo8Ml/PbY1ps9ffmnMWJ3gv9fFtYDgSbvEhEqUJ3UB2R2izAxDA4tJMjBNc79NQSh1h+
- mhk8UJUSc6dbEL7Oy04lkXJ6Y1moW4L0hsecil+BvqZUMuYakfwHpFEUgZ6Rz09uy6K+
- IlSgnWznRdtpPvTgvsjFQuXC2cYH3JQXDjvPGlZ1dFUUl+M23Eq5tux5e7gmR2aikAP7
- vhwBE248pGw/GsBb5+aR+2YiLovh3pa2U6QjUxDHBM29+Vgrg2Zu4dINMYfhGZM8KnuR
- lnKg==
-X-Gm-Message-State: AOAM530ULJbaH1yweXAV6sXrir0fUmNBZbAe8XW6GsPGkAW9kRlInyCF
- 3N5oB5/+IzfKP9mmKt6iSZ7+WQ==
-X-Google-Smtp-Source: ABdhPJwqhHle0TasW2iBLdjl+yaKxt6YJ8qgO+afGZNc3XUfY8uQpojrqJUMrXlQ4etdNobUiHVyRQ==
-X-Received: by 2002:a63:525a:: with SMTP id s26mr505177pgl.155.1595434753797; 
- Wed, 22 Jul 2020 09:19:13 -0700 (PDT)
-Received: from [192.168.1.11] (216-160-65-90.tukw.qwest.net. [216.160.65.90])
- by smtp.gmail.com with ESMTPSA id
- b14sm77733pfo.28.2020.07.22.09.19.12
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Wed, 22 Jul 2020 09:19:13 -0700 (PDT)
-Subject: Re: [RFC v2 07/76] target/riscv: Use FIELD_EX32() to extract wd field
-To: frank.chang@sifive.com, qemu-devel@nongnu.org, qemu-riscv@nongnu.org
-References: <20200722091641.8834-1-frank.chang@sifive.com>
- <20200722091641.8834-8-frank.chang@sifive.com>
-From: Richard Henderson <richard.henderson@linaro.org>
-Message-ID: <ba5ce958-8b01-7b97-f8e2-09a2ceb9ea8f@linaro.org>
-Date: Wed, 22 Jul 2020 09:19:11 -0700
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.10.0
+ h=x-gm-message-state:references:user-agent:from:to:cc:subject
+ :in-reply-to:date:message-id:mime-version:content-transfer-encoding;
+ bh=+rG3qvT7ySzAQUCoeVQPFrcWS7ra7WD2Vh84T2cZ9Bs=;
+ b=nxet8gCgpq7EB5/JjKVi6IuNLroRslEekL/LfulgJPpCeWG8FZuKPraLH1niltmSdn
+ T3pCs1PftaE9aM/9VbK293GQ+iM0gvO4CYDJYT88RYhloFk26mJnoNR2MGszkkN337+F
+ phjEq3NHVvpBHhSyFDmL4nM2ezWCW6q6YcOy7I1DPsMo3QmNfiCGzrjE4rZ1EFvgju5Y
+ 8OQ3TlLfH1DbKt7oCtjoqBIa1g1dZ/TB3rpI6VanQZBgFEMh/e164CCcSHxD0YusNFBm
+ 7Rx+GFoen7bfNO5oVAY6tASp9Y187EKJzg9rlqNDcV03NmhxSHP5WsYO46nbhLXaI6wF
+ tTXA==
+X-Gm-Message-State: AOAM530E7x2btQbiaNOHXgyZf6LtmKLl7AxP24STf06NxD+1OFiZ9RFR
+ lCBdFRLDzSHSENxEyi2XRBMSaA==
+X-Google-Smtp-Source: ABdhPJxZwDuZWDpUWl8yz7lSZcVGjmfBluJqLHGMaHyhcmw/vWFZtg4V1xJjsbzXrN2RTHz+COhKhg==
+X-Received: by 2002:a1c:7416:: with SMTP id p22mr449584wmc.32.1595435388749;
+ Wed, 22 Jul 2020 09:29:48 -0700 (PDT)
+Received: from zen.linaroharston ([51.148.130.216])
+ by smtp.gmail.com with ESMTPSA id 129sm208845wmd.48.2020.07.22.09.29.46
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Wed, 22 Jul 2020 09:29:47 -0700 (PDT)
+Received: from zen (localhost [127.0.0.1])
+ by zen.linaroharston (Postfix) with ESMTP id 59D071FF7E;
+ Wed, 22 Jul 2020 17:29:46 +0100 (BST)
+References: <20200722062902.24509-1-alex.bennee@linaro.org>
+ <20200722062902.24509-7-alex.bennee@linaro.org>
+ <5d26e26f-55f7-5b74-bb9e-b97ea1040c05@linaro.org>
+User-agent: mu4e 1.5.5; emacs 28.0.50
+From: Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
+To: Richard Henderson <richard.henderson@linaro.org>
+Subject: Re: [PATCH v2 06/12] accel/tcg: better handle memory constrained
+ systems
+In-reply-to: <5d26e26f-55f7-5b74-bb9e-b97ea1040c05@linaro.org>
+Date: Wed, 22 Jul 2020 17:29:46 +0100
+Message-ID: <87ft9jtsw5.fsf@linaro.org>
 MIME-Version: 1.0
-In-Reply-To: <20200722091641.8834-8-frank.chang@sifive.com>
 Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::42b;
- envelope-from=richard.henderson@linaro.org; helo=mail-pf1-x42b.google.com
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=2a00:1450:4864:20::341;
+ envelope-from=alex.bennee@linaro.org; helo=mail-wm1-x341.google.com
 X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
  That's all we know.
 X-Spam_score_int: -20
@@ -77,7 +78,7 @@ X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
  DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -90,24 +91,42 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Palmer Dabbelt <palmer@dabbelt.com>,
- Alistair Francis <Alistair.Francis@wdc.com>,
- Sagar Karandikar <sagark@eecs.berkeley.edu>,
- Bastian Koppelmann <kbastian@mail.uni-paderborn.de>
+Cc: fam@euphon.net, berrange@redhat.com, qemu-devel@nongnu.org,
+ Christian Ehrhardt <christian.ehrhardt@canonical.com>, f4bug@amsat.org,
+ cota@braap.org, Paolo Bonzini <pbonzini@redhat.com>, aurelien@aurel32.net,
+ Richard Henderson <rth@twiddle.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 7/22/20 2:15 AM, frank.chang@sifive.com wrote:
-> From: Frank Chang <frank.chang@sifive.com>
-> 
-> Signed-off-by: Frank Chang <frank.chang@sifive.com>
-> ---
->  target/riscv/vector_helper.c | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
 
-Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
+Richard Henderson <richard.henderson@linaro.org> writes:
+
+> On 7/21/20 11:28 PM, Alex Benn=C3=A9e wrote:
+>> +        size_t phys_mem =3D qemu_get_host_physmem();
+>> +        if (phys_mem > 0 && phys_mem < (2 * DEFAULT_CODE_GEN_BUFFER_SIZ=
+E)) {
+>> +            tb_size =3D phys_mem / 8;
+>> +        } else {
+>> +            tb_size =3D DEFAULT_CODE_GEN_BUFFER_SIZE;
+>> +        }
+>
+> I don't understand the 2 * DEFAULT part.
+
+I figured once you had at least twice as much memory you could use the
+full amount but...
 
 
-r~
+> Does this make more sense as
+>
+>     if (phys_mem =3D=3D 0) {
+>         tb_size =3D default;
+>     } else {
+>         tb_size =3D MIN(default, phys_mem / 8);
+>     }
 
+This is probably a less aggressive tapering off which still doesn't
+affect my 32gb dev machine ;-)
+
+--=20
+Alex Benn=C3=A9e
 
