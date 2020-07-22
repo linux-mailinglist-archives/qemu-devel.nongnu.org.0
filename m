@@ -2,71 +2,72 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6EA56229DAE
-	for <lists+qemu-devel@lfdr.de>; Wed, 22 Jul 2020 19:02:40 +0200 (CEST)
-Received: from localhost ([::1]:60552 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 41E1A229DBB
+	for <lists+qemu-devel@lfdr.de>; Wed, 22 Jul 2020 19:04:01 +0200 (CEST)
+Received: from localhost ([::1]:39022 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jyI8d-0002qf-Ej
-	for lists+qemu-devel@lfdr.de; Wed, 22 Jul 2020 13:02:39 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:46656)
+	id 1jyI9w-0005Yk-B6
+	for lists+qemu-devel@lfdr.de; Wed, 22 Jul 2020 13:04:00 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:46744)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <andrzej.jakowski@linux.intel.com>)
- id 1jyI6n-0001cF-4E; Wed, 22 Jul 2020 13:00:45 -0400
-Received: from mga02.intel.com ([134.134.136.20]:20977)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <andrzej.jakowski@linux.intel.com>)
- id 1jyI6j-0003IL-0q; Wed, 22 Jul 2020 13:00:44 -0400
-IronPort-SDR: xurqIrJqKDQ4L7XDiTxs83lQURYVOAmqf2FTdVewAFZIuwaM2HNG4uRa91YuvWZWWPuGgJ3Os8
- ZhwPrqgNwBzg==
-X-IronPort-AV: E=McAfee;i="6000,8403,9690"; a="138460139"
-X-IronPort-AV: E=Sophos;i="5.75,383,1589266800"; d="scan'208";a="138460139"
-X-Amp-Result: SKIPPED(no attachment in message)
-X-Amp-File-Uploaded: False
-Received: from orsmga004.jf.intel.com ([10.7.209.38])
- by orsmga101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 22 Jul 2020 10:00:33 -0700
-IronPort-SDR: H6Y4IokFQdvCraijod3zeikeFMtRtcK/WtSzzEfu+/BF1n3tAD91zuhXRPSm3vHCSohAnELcv3
- Yk4oB8aR5sYA==
-X-IronPort-AV: E=Sophos;i="5.75,383,1589266800"; d="scan'208";a="432440776"
-Received: from ajakowsk-mobl1.amr.corp.intel.com (HELO localhost.localdomain)
- ([10.212.27.19])
- by orsmga004-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 22 Jul 2020 10:00:32 -0700
-Subject: Re: [PATCH v4 2/2] nvme: allow cmb and pmr to be enabled on same
- device
-To: Klaus Jensen <its@irrelevant.dk>
-References: <20200701214858.28515-3-andrzej.jakowski@linux.intel.com>
- <20200702101318.rmd65uzwfpcmb24n@apples.localdomain>
- <20200702103127.hoonqkas3bw2v7re@apples.localdomain>
- <8f871a0d-47f1-1c8a-fcc2-aab2638c70cf@linux.intel.com>
- <20200702175113.6qtnpxqimpavzx7h@apples.localdomain>
- <191b39ed-0588-b5db-d352-965efd19128a@linux.intel.com>
- <20200706071545.md4tivimefffgyi6@apples.localdomain>
- <16d74d40-bd55-997d-7fd6-e7ec59566a68@linux.intel.com>
- <20200715080658.GA506302@apples.localdomain>
- <9143a543-d32d-f3e7-c37b-b3df7f853952@linux.intel.com>
- <20200722074305.GA606300@apples.localdomain>
-From: Andrzej Jakowski <andrzej.jakowski@linux.intel.com>
-Message-ID: <63d2e5ed-3c73-4a80-ae45-ce3665b406c8@linux.intel.com>
-Date: Wed, 22 Jul 2020 10:00:30 -0700
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.9.0
+ (Exim 4.90_1) (envelope-from <ehabkost@redhat.com>)
+ id 1jyI6v-0001jZ-Fc
+ for qemu-devel@nongnu.org; Wed, 22 Jul 2020 13:00:53 -0400
+Received: from us-smtp-2.mimecast.com ([207.211.31.81]:59308
+ helo=us-smtp-delivery-1.mimecast.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <ehabkost@redhat.com>)
+ id 1jyI6s-0003JX-UM
+ for qemu-devel@nongnu.org; Wed, 22 Jul 2020 13:00:53 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1595437250;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=GBKL2KDH0DuQCsm41OIUEbJpyWb36ZTlR0ekcnDwbOE=;
+ b=WLLsyVum8smFNiaa4GZrWvHoiu0CRoOBA3OM6oXTQGqeH5yJFyTUMEtOfo/h5ye4qQ5o6U
+ sweA1riWsa6VhsrHLdUVeOGOox2+HHKYUheyOdvo1TPK6eKkFJC6trptZzCJmRx7P3FDh2
+ V1XdZaoX2ezLrfJJM1+QS6QKwIgXCl0=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-193-ckgGDMVAO-yC0EIobFMM0A-1; Wed, 22 Jul 2020 13:00:42 -0400
+X-MC-Unique: ckgGDMVAO-yC0EIobFMM0A-1
+Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
+ [10.5.11.13])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 444E31902EA1;
+ Wed, 22 Jul 2020 17:00:40 +0000 (UTC)
+Received: from localhost (unknown [10.10.67.212])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 4F7FD8BEC6;
+ Wed, 22 Jul 2020 17:00:33 +0000 (UTC)
+Date: Wed, 22 Jul 2020 13:00:32 -0400
+From: Eduardo Habkost <ehabkost@redhat.com>
+To: Thiago Jung Bauermann <bauerman@linux.ibm.com>
+Subject: Re: [RFC PATCH v2 9/9] target/s390x: Use start-powered-off CPUState
+ property
+Message-ID: <20200722170032.GN1274972@habkost.net>
+References: <20200722035016.469075-1-bauerman@linux.ibm.com>
+ <20200722035016.469075-10-bauerman@linux.ibm.com>
 MIME-Version: 1.0
-In-Reply-To: <20200722074305.GA606300@apples.localdomain>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-Received-SPF: none client-ip=134.134.136.20;
- envelope-from=andrzej.jakowski@linux.intel.com; helo=mga02.intel.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/07/22 13:00:38
-X-ACL-Warn: Detected OS   = FreeBSD 9.x or newer [fuzzy]
-X-Spam_score_int: -41
-X-Spam_score: -4.2
-X-Spam_bar: ----
-X-Spam_report: (-4.2 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_MED=-2.3,
- RCVD_IN_MSPIKE_H3=-0.01, RCVD_IN_MSPIKE_WL=-0.01, SPF_HELO_NONE=0.001,
- SPF_NONE=0.001, URIBL_BLOCKED=0.001 autolearn=ham autolearn_force=no
+In-Reply-To: <20200722035016.469075-10-bauerman@linux.ibm.com>
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Received-SPF: pass client-ip=207.211.31.81; envelope-from=ehabkost@redhat.com;
+ helo=us-smtp-delivery-1.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/07/21 23:34:34
+X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
+X-Spam_score_int: -30
+X-Spam_score: -3.1
+X-Spam_bar: ---
+X-Spam_report: (-3.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H3=-0.01, RCVD_IN_MSPIKE_WL=-0.01,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -79,129 +80,54 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: kbusch@kernel.org, kwolf@redhat.com, qemu-devel@nongnu.org,
- qemu-block@nongnu.org, mreitz@redhat.com
+Cc: Peter Maydell <peter.maydell@linaro.org>,
+ Aleksandar Rikalo <aleksandar.rikalo@syrmia.com>,
+ Aleksandar Markovic <aleksandar.qemu.devel@gmail.com>,
+ Cornelia Huck <cohuck@redhat.com>,
+ Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>, qemu-devel@nongnu.org,
+ qemu-s390x@nongnu.org, qemu-arm@nongnu.org, qemu-ppc@nongnu.org,
+ Artyom Tarasenko <atar4qemu@gmail.com>, Thomas Huth <thuth@redhat.com>,
+ Paolo Bonzini <pbonzini@redhat.com>, David Hildenbrand <david@redhat.com>,
+ Richard Henderson <rth@twiddle.net>, Aurelien Jarno <aurelien@aurel32.net>,
+ David Gibson <david@gibson.dropbear.id.au>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 7/22/20 12:43 AM, Klaus Jensen wrote:
-> @keith, please see below - can you comment on the Linux kernel 2 MB
-> boundary requirement for the CMB? Or should we hail Stephen (or Logan
-> maybe) since this seems to be related to p2pdma?
+On Wed, Jul 22, 2020 at 12:50:16AM -0300, Thiago Jung Bauermann wrote:
+> Instead of setting CPUState::halted to 1 in s390_cpu_initfn(), use the
+> start-powered-off property which makes cpu_common_reset() initialize it to
+> 1 in common code.
 > 
-> On Jul 21 14:54, Andrzej Jakowski wrote:
->> On 7/15/20 1:06 AM, Klaus Jensen wrote:
->>> Hi Andrzej,
->>>
->>> I've not been ignoring this, but sorry for not following up earlier.
->>>
->>> I'm hesitent to merge anything that very obviously breaks an OS that we
->>> know is used a lot to this using this device. Also because the issue has
->>> not been analyzed well enough to actually know if this is a QEMU or
->>> kernel issue.
->>
->> Hi Klaus,
->>
->> Thx for your response! I understand your hesitance on merging stuff that
->> obviously breaks guest OS. 
->>
->>>
->>> Now, as far as I can test, having the MSI-X vector table and PBA in BAR
->>> 0, PMR in BAR 2 and CMB in BAR 4 seems to make everyone happy
->>> (irregardless of IOMMU on/off).
->>>
->>> Later, when the issue is better understood, we can add options to set
->>> offsets, BIRs etc.
->>>
->>> The patch below replaces your "[PATCH v4 2/2] nvme: allow cmb and pmr to
->>> be enabled" (but still requires "[PATCH v4 1/2] ...") and applies to
->>> git://git.infradead.org/qemu-nvme.git nvme-next branch.
->>>
->>> Can you reproduce the issues with that patch? I can't on a stock Arch
->>> Linux 5.7.5-arch1-1 kernel.
->>
->> While I'm happy that approach with MSIX and PBA in BAR0 works fine, I
->> feel that investigation part why it works while mine doesn't is
->> missing. It looks to me that both patches are basically following same 
->> approach: create memory subregion and overlay on top of other memory
->> region. Why one works and the other doesn't then?
->>
->> Having in mind that, I have recently focused on understanding problem.
->> I observed that when guest assigns address to BAR4, addr field in
->> nvme-bar4 memory region gets populated, but it doesn't get automatically
->> populated in ctrl_mem (cmb) memory subregion, so later when nvme_addr_is_cmb() 
->> is called address check works incorrectly and as a consequence vmm does dma 
->> read instead of memcpy.
->> I created a patch that sets correct address on ctrl_mem subregion and guest 
->> OS boots up correctly.
->>
->> When I looked into pci and memory region code I noticed that indeed address
->> is only assigned to top level memory region but not to contained subregions.
->> I think that because in your approach cmb grabs whole bar exclusively it works
->> fine.
->>
->> Here is my question (perhaps pci folks can help answer :)): if we consider 
->> memory region overlapping for pci devices as valid use case should pci 
->> code on configuration cycles walk through all contained subregion and
->> update addr field accordingly?
->>
->> Thx!
->>
+> Signed-off-by: Thiago Jung Bauermann <bauerman@linux.ibm.com>
+> ---
+>  target/s390x/cpu.c | 3 ++-
+>  1 file changed, 2 insertions(+), 1 deletion(-)
 > 
-> Hi Andrzej,
+> NB: I was only able to test that this patch builds. I wasn't able to
+> run it.
 > 
-> Thanks for looking into this. I think your analysis helped me nail this.
-> The problem is that we added the use of a subregion and have some
-> assumptions that no longer hold.
-> 
-> nvme_addr_is_cmb() assumes that n->ctrl_mem.addr is an absolute address.
-> But when the memory region is a subregion, addr holds an offset into the
-> parent container instead. Thus, changing all occurances of
-> n->ctrl_mem.addr to (n->bar0.addr + n->ctrl_mem.addr) fixes the issue
-> (this is required in nvme_addr_is_cmb and nvme_map_prp). I patched that
-> in your original patch[1]. The reason my version worked is because there
-> was no subregion involved for the CMB, so the existing address
-> validation calculations were still correct.
+> diff --git a/target/s390x/cpu.c b/target/s390x/cpu.c
+> index 08eb674d22..d3a14af1d9 100644
+> --- a/target/s390x/cpu.c
+> +++ b/target/s390x/cpu.c
+> @@ -291,7 +291,8 @@ static void s390_cpu_initfn(Object *obj)
+>      S390CPU *cpu = S390_CPU(obj);
+>  
+>      cpu_set_cpustate_pointers(cpu);
+> -    cs->halted = 1;
+> +    object_property_set_bool(OBJECT(cs), "start-powered-off", true,
+> +                             &error_abort);
 
-I'm a little bit concerned with this approach:
-(n->bar0.addr + n->ctrl_mem.addr) and hoping to have some debate. Let me 
-describe my understanding of the problem.
-It looks to me that addr field sometimes contains *absolute* address (when no 
-hierarchy is used) and other times it contains *relative* address (when
-hierarchy is created). From my perspective use of this field is inconsistent
-and thus error-prone.  
-Because of that I think that doing n->bar0.addr + n->ctrl_mem.addr doesn't
-solve root problem and is still prone to the same problem if in the future
-we potentially build even more complicated hierarchy.
-I think that we could solve it by introducing helper function like
+Is this really OK?  s390 CPUs don't seem to set halted=1 on reset
+today.
 
-hwaddr memory_region_get_abs_addr(MemoryRegion *mr) 
 
-to retrieve absolute address and in the documentation indicate that addr field
-can be relative or absolute and it is recommended to use above function to 
-retrieve absolute address.
-What do you think?
-
+>      cs->exception_index = EXCP_HLT;
+>  #if !defined(CONFIG_USER_ONLY)
+>      object_property_add(obj, "crash-information", "GuestPanicInformation",
 > 
-> This leaves us with the Linux kernel complaining about not being able to
-> register the CMB if it is not on a 2MB boundary - this is probably just
-> a constraint in the kernel that we can't do anything about (but I'm no
-> kernel hacker...), which can be fixed by either being "nice" towards the
-> Linux kernel by forcing a 2 MB alignment in the device or exposing the
-> SZU field such that the user can choose 16MiB size units (or higher)
-> instead of 1MiB. I'm leaning towards ensuring the 2 MB alignment in the
-> device such that we do not have to introduce new cmb_size parameters,
-> while also making it easier for the user to configure. But I'm not
-> really sure.
-This is kernel limitation that we have to live with. The minimum granularity
-of devm_memremap_pages() is 2MB and it must be 2MB aligned. It used to worse
-at 128MB size+align (section-size), but sub-section memory-hotplug patches 
-adjusted that to a 2MB section. 
-Ensuring 2MiB size and alignment in the device emulation makes sense to me.
-Perhaps we could document that limitations - making user more aware of it.
 
-> 
->   [1]: Message-Id: <20200701214858.28515-3-andrzej.jakowski@linux.intel.com>
-> 
+-- 
+Eduardo
 
 
