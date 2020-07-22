@@ -2,72 +2,72 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 50DCB2290E1
-	for <lists+qemu-devel@lfdr.de>; Wed, 22 Jul 2020 08:32:24 +0200 (CEST)
-Received: from localhost ([::1]:35556 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 43DC72290F5
+	for <lists+qemu-devel@lfdr.de>; Wed, 22 Jul 2020 08:34:58 +0200 (CEST)
+Received: from localhost ([::1]:43526 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jy8Ih-0003nB-Aw
-	for lists+qemu-devel@lfdr.de; Wed, 22 Jul 2020 02:32:23 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:41344)
+	id 1jy8LB-0006yj-B0
+	for lists+qemu-devel@lfdr.de; Wed, 22 Jul 2020 02:34:57 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:41382)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1jy8Fh-0007En-UE
- for qemu-devel@nongnu.org; Wed, 22 Jul 2020 02:29:17 -0400
-Received: from mail-wr1-x444.google.com ([2a00:1450:4864:20::444]:36725)
+ id 1jy8Fl-0007Nh-5P
+ for qemu-devel@nongnu.org; Wed, 22 Jul 2020 02:29:21 -0400
+Received: from mail-wr1-x443.google.com ([2a00:1450:4864:20::443]:46839)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1jy8Fg-0006vP-9V
- for qemu-devel@nongnu.org; Wed, 22 Jul 2020 02:29:17 -0400
-Received: by mail-wr1-x444.google.com with SMTP id 88so715718wrh.3
- for <qemu-devel@nongnu.org>; Tue, 21 Jul 2020 23:29:15 -0700 (PDT)
+ id 1jy8Fj-0006vn-0Z
+ for qemu-devel@nongnu.org; Wed, 22 Jul 2020 02:29:20 -0400
+Received: by mail-wr1-x443.google.com with SMTP id r12so676969wrj.13
+ for <qemu-devel@nongnu.org>; Tue, 21 Jul 2020 23:29:18 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=YyRiXDgTkbk33Yj3Xqp8uu/l6zlWxTYX8kOGxgasWGE=;
- b=jHGaLKEyDYe70D+qWIBzD+FLQaBI6I2AZlS522As0ycmm35vNXAu4YP3OrrC0/OSnO
- jL9AHuw9OWDgz35ej7VDgJWrYRzZOu494xI5SLTR2dLamPSVoPy2MraCRC1eO4KtakoO
- 0+gEFSpADy2LsZRgGduuI2XexBmhi/VrJwcnZFj9uTB5dRGFc6caZoCvHnUWMoTvyVCJ
- oExAibYGuXM5iWllE/SLkyu3ovU+6umVeIFz+iYR+tWiTLm6rAY0tozhH0gnSVcvkn6k
- 5Z+mHCdLkObzAB5JSc4Z1fjcsNsj5Nel9KsWmGC8tP5No9kKth2U38QxqCMmzb1tWqh5
- za+Q==
+ bh=8L2vbKsuiM4fLbSGCq4fCZieZ/wNbRKZPh+JXVwckiw=;
+ b=elfPb4nnrSUwiW/bV0pZBaHIpKnqzEM61rBwtZcLcn5JFU9z+74X8DiuvkjtrNxRz8
+ TJAJZcA7VH+B6ctLfzXk3LjR7ns8yNGlX7ly5hfRwJtVlccrm+ewd5p00GGSje5wZTq0
+ Zxd5mm6GwffgX7dTXJ42+NA8PVeL2cZLu8bXEaoq4AVwOkTdw8+TPmyAlc3TW4adO1q1
+ SyaloCWXZZ53SKMjWSZg8KlrIbdzvyS1CTuSSevg7/CmlBvudQIUq9eOZtLj2DQ6arKJ
+ 1VRdL9VeodH5TG84ci7+dBbBLdnjyv0smj8m91mElhqQLw3PhVYREY6BpdsBR1/yFfGe
+ twWg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=YyRiXDgTkbk33Yj3Xqp8uu/l6zlWxTYX8kOGxgasWGE=;
- b=Mw9/YQEbfLcPwai0B9hbqZgSINfGhOt2hDUlTeM6n0SoDKz/BnIFO0jA2QHp3W0w/h
- KXXCwwAB3dXqbQK3djTrJUuqXrkuSd7yM+1UcsHQfxgG46RqhWuSr1PC4s3/WAUIr58v
- YywNl19SlB8edn1MXvYv1GWDc5zfZBeC4jZODSSrYYPqsm0PrZVwhS42FVY9oADgDj5I
- Bkktpm6MgcvsUlFXzsf/TV1tAQx9gkTzzfsUEyNRe/fr/KDvrZRk6GxnUWJnTET/UYUK
- pU8jUMJyEJMNzaMIHjwvT6iOoqWuOwsyqTFEEGW95usz/tYtWobBcwy7pjJR56fBo4Ok
- ppPA==
-X-Gm-Message-State: AOAM533LfMBl+3hYQOE1SUl4uVntXl5xIqZSUoDA9pWXkojQOYrqUpL8
- UDMN7WGycKw5e3oS3v6Iwva0xA==
-X-Google-Smtp-Source: ABdhPJymAhrJDly9rOLg5dmifucr+R+YPDYCgh55zwc9+zrR3TQrN5/+poVBOdTJruIckc9Ofb2nNg==
-X-Received: by 2002:a5d:608f:: with SMTP id w15mr28140898wrt.136.1595399354945; 
- Tue, 21 Jul 2020 23:29:14 -0700 (PDT)
+ bh=8L2vbKsuiM4fLbSGCq4fCZieZ/wNbRKZPh+JXVwckiw=;
+ b=XuIOgIg+iRyan2QdMUWXgW9qYm5w1pCQi8nZWooFZdnn3BiRwTwUcbT10S3Ybo93hd
+ lUixo5ik6Wi3g5dQxlVRHk6dSeHLh5mYiabrgwscYYNBw1VRfcRTwkepVRt9od20gfrx
+ H76g1h/CB/t4P12SrM6Q1SXdJRU5I/fQDZS0FgScL1IAsh14kOqykrYZUEU7Xr8lHtX8
+ IXkpd0hMf+w9/mkb37FRerJbtCPQLQ4VhT+SIYSvSZipeEH1T0WaOl1SRPekxJgPgbi4
+ LhQ0IyN6aqrE+1Ehsr/N776wJAW513R3kyJRiB+HY9NtcqvHsDWEq4tRQbQjcIgZOotW
+ gTgg==
+X-Gm-Message-State: AOAM531cpuDtJ2B/0FJgU/czX/XjoLaqOTm/fpdo8UAVrYIh/XXQAErj
+ g5I7WSgDVIK2HDA29IF+EdNK8lHf3Hw=
+X-Google-Smtp-Source: ABdhPJxFhcMAgJr5CRZ3Emw8aCypboNv9TMcjVGrFJi+ZoZ+6a3wFO6wT/+JBg6Iio1K1kXylSeOKg==
+X-Received: by 2002:a5d:4687:: with SMTP id u7mr31382443wrq.357.1595399357669; 
+ Tue, 21 Jul 2020 23:29:17 -0700 (PDT)
 Received: from zen.linaroharston ([51.148.130.216])
- by smtp.gmail.com with ESMTPSA id j6sm40145422wro.25.2020.07.21.23.29.07
+ by smtp.gmail.com with ESMTPSA id r11sm5854388wmh.1.2020.07.21.23.29.08
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 21 Jul 2020 23:29:10 -0700 (PDT)
+ Tue, 21 Jul 2020 23:29:11 -0700 (PDT)
 Received: from zen.lan (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id BA8101FF96;
+ by zen.linaroharston (Postfix) with ESMTP id D04591FF98;
  Wed, 22 Jul 2020 07:29:03 +0100 (BST)
 From: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v2 08/12] linux-user: don't use MAP_FIXED in
- pgd_find_hole_fallback
-Date: Wed, 22 Jul 2020 07:28:58 +0100
-Message-Id: <20200722062902.24509-9-alex.bennee@linaro.org>
+Subject: [PATCH v2 09/12] tests/docker: fix update command due to python3
+ str/bytes distinction
+Date: Wed, 22 Jul 2020 07:28:59 +0100
+Message-Id: <20200722062902.24509-10-alex.bennee@linaro.org>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20200722062902.24509-1-alex.bennee@linaro.org>
 References: <20200722062902.24509-1-alex.bennee@linaro.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::444;
- envelope-from=alex.bennee@linaro.org; helo=mail-wr1-x444.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::443;
+ envelope-from=alex.bennee@linaro.org; helo=mail-wr1-x443.google.com
 X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
  That's all we know.
 X-Spam_score_int: -20
@@ -75,8 +75,8 @@ X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
  DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ URIBL_BLOCKED=0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -92,70 +92,51 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Cc: fam@euphon.net, berrange@redhat.com,
  =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>,
  richard.henderson@linaro.org, f4bug@amsat.org,
- Laurent Vivier <laurent@vivier.eu>, cota@braap.org, aurelien@aurel32.net
+ =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>, cota@braap.org,
+ aurelien@aurel32.net
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Plain MAP_FIXED has the undesirable behaviour of splatting exiting
-maps so we don't actually achieve what we want when looking for gaps.
-We should be using MAP_FIXED_NOREPLACE. As this isn't always available
-we need to potentially check the returned address to see if the kernel
-gave us what we asked for.
+Does this seem convoluted to you? It feels a little complicated to me.
 
-Fixes: ad592e3
 Signed-off-by: Alex Bennée <alex.bennee@linaro.org>
 ---
- include/qemu/osdep.h |  3 +++
- linux-user/elfload.c | 10 ++++++----
- 2 files changed, 9 insertions(+), 4 deletions(-)
+ tests/docker/docker.py | 13 +++++++------
+ 1 file changed, 7 insertions(+), 6 deletions(-)
 
-diff --git a/include/qemu/osdep.h b/include/qemu/osdep.h
-index e44547fb33e..4f8b95619ef 100644
---- a/include/qemu/osdep.h
-+++ b/include/qemu/osdep.h
-@@ -173,6 +173,9 @@ extern int daemon(int, int);
- #ifndef MAP_ANONYMOUS
- #define MAP_ANONYMOUS MAP_ANON
- #endif
-+#ifndef MAP_FIXED_NOREPLACE
-+#define MAP_FIXED_NOREPLACE 0
-+#endif
- #ifndef ENOMEDIUM
- #define ENOMEDIUM ENODEV
- #endif
-diff --git a/linux-user/elfload.c b/linux-user/elfload.c
-index 7e7f642332d..fe9dfe795dd 100644
---- a/linux-user/elfload.c
-+++ b/linux-user/elfload.c
-@@ -2134,12 +2134,15 @@ static uintptr_t pgd_find_hole_fallback(uintptr_t guest_size, uintptr_t brk,
-             /* we have run out of space */
-             return -1;
-         } else {
--            int flags = MAP_ANONYMOUS | MAP_PRIVATE | MAP_NORESERVE | MAP_FIXED;
-+            int flags = MAP_ANONYMOUS | MAP_PRIVATE | MAP_NORESERVE |
-+                MAP_FIXED_NOREPLACE;
-             void * mmap_start = mmap((void *) align_start, guest_size,
-                                      PROT_NONE, flags, -1, 0);
-             if (mmap_start != MAP_FAILED) {
-                 munmap((void *) align_start, guest_size);
--                return (uintptr_t) mmap_start + offset;
-+                if (MAP_FIXED_NOREPLACE || mmap_start == (void *) align_start) {
-+                    return (uintptr_t) mmap_start + offset;
-+                }
-             }
-             base += qemu_host_page_size;
-         }
-@@ -2307,9 +2310,8 @@ static void pgb_reserved_va(const char *image_name, abi_ulong guest_loaddr,
-     /* Widen the "image" to the entire reserved address space. */
-     pgb_static(image_name, 0, reserved_va, align);
+diff --git a/tests/docker/docker.py b/tests/docker/docker.py
+index c9f20d8d093..356d7618f1a 100755
+--- a/tests/docker/docker.py
++++ b/tests/docker/docker.py
+@@ -24,7 +24,7 @@ import tempfile
+ import re
+ import signal
+ from tarfile import TarFile, TarInfo
+-from io import StringIO
++from io import StringIO, BytesIO
+ from shutil import copy, rmtree
+ from pwd import getpwuid
+ from datetime import datetime, timedelta
+@@ -541,13 +541,14 @@ class UpdateCommand(SubCommand):
  
--#ifdef MAP_FIXED_NOREPLACE
-+    /* osdep.h defines this as 0 if it's missing */
-     flags |= MAP_FIXED_NOREPLACE;
--#endif
+         # Create a Docker buildfile
+         df = StringIO()
+-        df.write("FROM %s\n" % args.tag)
+-        df.write("ADD . /\n")
+-        df.seek(0)
++        df.write(u"FROM %s\n" % args.tag)
++        df.write(u"ADD . /\n")
++
++        df_bytes = BytesIO(bytes(df.getvalue(), "UTF-8"))
  
-     /* Reserve the memory on the host. */
-     assert(guest_base != 0);
+         df_tar = TarInfo(name="Dockerfile")
+-        df_tar.size = len(df.buf)
+-        tmp_tar.addfile(df_tar, fileobj=df)
++        df_tar.size = df_bytes.getbuffer().nbytes
++        tmp_tar.addfile(df_tar, fileobj=df_bytes)
+ 
+         tmp_tar.close()
+ 
 -- 
 2.20.1
 
