@@ -2,77 +2,65 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id EC1242297DF
-	for <lists+qemu-devel@lfdr.de>; Wed, 22 Jul 2020 14:08:31 +0200 (CEST)
-Received: from localhost ([::1]:45268 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 58BA62297D5
+	for <lists+qemu-devel@lfdr.de>; Wed, 22 Jul 2020 14:04:17 +0200 (CEST)
+Received: from localhost ([::1]:37348 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jyDXz-0003tv-1I
-	for lists+qemu-devel@lfdr.de; Wed, 22 Jul 2020 08:08:31 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:43572)
+	id 1jyDTr-0000Up-RK
+	for lists+qemu-devel@lfdr.de; Wed, 22 Jul 2020 08:04:15 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:43588)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1jyDSu-0008Op-2g
- for qemu-devel@nongnu.org; Wed, 22 Jul 2020 08:03:16 -0400
-Received: from us-smtp-2.mimecast.com ([207.211.31.81]:45039
+ (Exim 4.90_1) (envelope-from <lersek@redhat.com>) id 1jyDT3-0008Qm-Vl
+ for qemu-devel@nongnu.org; Wed, 22 Jul 2020 08:03:25 -0400
+Received: from us-smtp-2.mimecast.com ([207.211.31.81]:60943
  helo=us-smtp-delivery-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1jyDSr-0005aR-GW
- for qemu-devel@nongnu.org; Wed, 22 Jul 2020 08:03:15 -0400
+ (Exim 4.90_1) (envelope-from <lersek@redhat.com>) id 1jyDT2-0005c9-6V
+ for qemu-devel@nongnu.org; Wed, 22 Jul 2020 08:03:25 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1595419392;
+ s=mimecast20190719; t=1595419403;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=PnE8+G8xmw59yOqGwZx78IPncWOMXEACp1KU/ypc+B4=;
- b=HqJngLkcJyzWoqc5Auomw7rvUcjjm6RDhP5rGTOtWSRLilCyLJ94jgZB6oSUewaPSICsZe
- 9LnVzdVGHPhfTpywqJmQlr45j5O7PAvqlwln/Cl/ZafupKjQ9s8b428BDa4p5hZ9lOxl83
- M0XHSVhMmpsa5s4IE1lrNjvFdZnTRkM=
-Received: from mail-wr1-f71.google.com (mail-wr1-f71.google.com
- [209.85.221.71]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-315-dAhmwl2kNQiKTNtisCJXDw-1; Wed, 22 Jul 2020 08:03:00 -0400
-X-MC-Unique: dAhmwl2kNQiKTNtisCJXDw-1
-Received: by mail-wr1-f71.google.com with SMTP id m7so536580wrb.20
- for <qemu-devel@nongnu.org>; Wed, 22 Jul 2020 05:03:00 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:in-reply-to;
- bh=PnE8+G8xmw59yOqGwZx78IPncWOMXEACp1KU/ypc+B4=;
- b=Rn1NM7HfnGXV7g4/gqDvzC0fPrEl4D+FRWT+rEX+vAErYQZS5ySYIK2foK5BCgKOXV
- BM+cyLLmCcwY8SOjbcFod7UqIvC1G9U8binSKiDrL51o69KoebTsZ/ZY/H2RXOIhHx9b
- OxMxpHmOKia/idp8G2iK0w1qA5vVwGxmL6+83mViS1fnSqDR1AIWirZwhGlsCS9K3OJi
- QPOk3d2Hobzwv4Oq0PM1QPsMo4z4s4s0+ir75ezFwNoP1LuxF4WjT+Fptu1QRKks0FRl
- FIz0Q3KcuXJ7roE8+577wkQIBGOIsIozT3Q9ZmQOy9030IvlM+p9AF11FRBfYhRTgNNx
- 9/Mg==
-X-Gm-Message-State: AOAM5309o9xgIhm7pK1Qy5aqRsSS3jm5NJmkPba30gO7ejINHtD08CBy
- /xRH1sW46Se/xlyTDR0h5jZYl2LXpJjJlEMCQDYhBifMQU7sE2aMVn8yXzZatOQ9W7t+wt8GwsN
- fyzLWMPoADq0XDCU=
-X-Received: by 2002:adf:e60a:: with SMTP id p10mr12688325wrm.312.1595419379633; 
- Wed, 22 Jul 2020 05:02:59 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJxlBcj4o4W6caHbEiKuX08OEtcEn1US/f86smnJi8H8oo/wggPrr8WVUMjmCc+qMFt3Ouk4Fw==
-X-Received: by 2002:adf:e60a:: with SMTP id p10mr12688309wrm.312.1595419379441; 
- Wed, 22 Jul 2020 05:02:59 -0700 (PDT)
-Received: from redhat.com (bzq-79-182-82-99.red.bezeqint.net. [79.182.82.99])
- by smtp.gmail.com with ESMTPSA id
- k126sm7666197wme.17.2020.07.22.05.02.56
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 22 Jul 2020 05:02:58 -0700 (PDT)
-Date: Wed, 22 Jul 2020 08:02:54 -0400
-From: "Michael S. Tsirkin" <mst@redhat.com>
-To: Michael Tokarev <mjt@tls.msk.ru>
-Subject: Re: [PATCH for-5.1] acpi: accept byte and word access to core ACPI
- registers
-Message-ID: <20200722080234-mutt-send-email-mst@kernel.org>
-References: <20200720160627.15491-1-mjt@msgid.tls.msk.ru>
- <20200722072414-mutt-send-email-mst@kernel.org>
- <f928d1ed-d71a-c02b-bc4c-8049589aca2a@msgid.tls.msk.ru>
+ bh=hxHpK3lXFt84bsfK0JPwbmlNcOxaSVImAPYsv5CBMKU=;
+ b=iNBSbXD6USjNck7HV+hpYejNWjCBV7/y4fXzw+8haKHIU+SdB90F0GyNydCeSK+qNlidHE
+ 2+uxtQPbNpivYE+RhrY8HmMjK0BBxn4F25HRsgFGwGHRxf7hyxz2RISImGMVpuIyZLZ7FG
+ N9xr92/35ar9kw5c5rCJfENxLSyjqbU=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-217-ERO-lI8TM_23wOC8ufP_OA-1; Wed, 22 Jul 2020 08:03:21 -0400
+X-MC-Unique: ERO-lI8TM_23wOC8ufP_OA-1
+Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
+ [10.5.11.11])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 05DE11DE2;
+ Wed, 22 Jul 2020 12:03:20 +0000 (UTC)
+Received: from lacos-laptop-7.usersys.redhat.com (ovpn-113-129.ams2.redhat.com
+ [10.36.113.129])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id EEB6A512FE;
+ Wed, 22 Jul 2020 12:03:18 +0000 (UTC)
+Subject: Re: [PATCH 1/6] x86: lpc9: let firmware negotiate 'CPU hotplug with
+ SMI' features
+To: Igor Mammedov <imammedo@redhat.com>, qemu-devel@nongnu.org
+References: <20200720141610.574308-1-imammedo@redhat.com>
+ <20200720141610.574308-2-imammedo@redhat.com>
+From: Laszlo Ersek <lersek@redhat.com>
+Message-ID: <00b7e32c-36ad-a71a-00da-d1f0d9977e79@redhat.com>
+Date: Wed, 22 Jul 2020 14:03:17 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:52.0) Gecko/20100101
+ Firefox/52.0 Thunderbird/52.9.1
 MIME-Version: 1.0
-In-Reply-To: <f928d1ed-d71a-c02b-bc4c-8049589aca2a@msgid.tls.msk.ru>
+In-Reply-To: <20200720141610.574308-2-imammedo@redhat.com>
+Content-Language: en-US
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Received-SPF: pass client-ip=207.211.31.81; envelope-from=mst@redhat.com;
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=207.211.31.81; envelope-from=lersek@redhat.com;
  helo=us-smtp-delivery-1.mimecast.com
 X-detected-operating-system: by eggs.gnu.org: First seen = 2020/07/21 23:34:34
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
@@ -95,38 +83,107 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-devel@nongnu.org
+Cc: boris.ostrovsky@oracle.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Wed, Jul 22, 2020 at 03:00:15PM +0300, Michael Tokarev wrote:
-> 22.07.2020 14:24, Michael S. Tsirkin wrote:
-> > On Mon, Jul 20, 2020 at 07:06:27PM +0300, Michael Tokarev wrote:
-> >> All ISA registers should be accessible as bytes, words or dwords
-> >> (if wide enough).  Fix the access constraints for acpi-pm-evt,
-> >> acpi-pm-tmr & acpi-cnt registers.
-> >>
-> >> Fixes: 5d971f9e67 (memory: Revert "memory: accept mismatching sizes in memory_region_access_valid")
-> >> Fixes: afafe4bbe0 (apci: switch cnt to memory api)
-> >> Fixes: 77d58b1e47 (apci: switch timer to memory api)
-> >> Fixes: b5a7c024d2 (apci: switch evt to memory api)
-> >> Buglink: https://lore.kernel.org/xen-devel/20200630170913.123646-1-anthony.perard@citrix.com/T/
-> >> Buglink: https://bugs.debian.org/964793
-> >> BugLink: https://bugs.debian.org/cgi-bin/bugreport.cgi?bug=964247
-> >> BugLink: https://bugs.launchpad.net/bugs/1886318
-> >> Reported-By: Simon John <git@the-jedi.co.uk>
-> >> Signed-off-by: Michael Tokarev <mjt@tls.msk.ru>
-> > 
-> > Queued, thanks!
+On 07/20/20 16:16, Igor Mammedov wrote:
+> It will allow firmware to notify QEMU that firmware requires SMI
+> being triggered on CPU hot[un]plug, so that it would be able to account
+> for hotplugged CPU and relocate it to new SMM base and/or safely remove
+> CPU on unplug.
 > 
-> Michael, please add Cc: stable@ for this. Many people suffered due to
-> this already, it's enough of that ;)
+> Using negotiated features, follow up patches will insert SMI upcall
+> into AML code, to make sure that firmware processes hotplug before
+> guest OS would attempt to use new CPU.
 > 
-> Thanks,
+> Signed-off-by: Igor Mammedov <imammedo@redhat.com>
+> ---
+>  include/hw/i386/ich9.h |  2 ++
+>  hw/i386/pc.c           |  5 ++++-
+>  hw/isa/lpc_ich9.c      | 12 ++++++++++++
+>  3 files changed, 18 insertions(+), 1 deletion(-)
 > 
-> /mjt
+> diff --git a/include/hw/i386/ich9.h b/include/hw/i386/ich9.h
+> index a98d10b252..d1bb3f7bf0 100644
+> --- a/include/hw/i386/ich9.h
+> +++ b/include/hw/i386/ich9.h
+> @@ -247,5 +247,7 @@ typedef struct ICH9LPCState {
+>  
+>  /* bit positions used in fw_cfg SMI feature negotiation */
+>  #define ICH9_LPC_SMI_F_BROADCAST_BIT            0
+> +#define ICH9_LPC_SMI_F_CPU_HOTPLUG_BIT          1
+> +#define ICH9_LPC_SMI_F_CPU_HOT_UNPLUG_BIT       2
+>  
+>  #endif /* HW_ICH9_H */
+> diff --git a/hw/i386/pc.c b/hw/i386/pc.c
+> index 3d419d5991..57d50fad6b 100644
+> --- a/hw/i386/pc.c
+> +++ b/hw/i386/pc.c
+> @@ -97,7 +97,10 @@
+>  #include "fw_cfg.h"
+>  #include "trace.h"
+>  
+> -GlobalProperty pc_compat_5_0[] = {};
+> +GlobalProperty pc_compat_5_0[] = {
+> +    { "ICH9-LPC", "x-smi-cpu-hotplug", "off" },
+> +    { "ICH9-LPC", "x-smi-cpu-hotunplug", "off" },
+> +};
+>  const size_t pc_compat_5_0_len = G_N_ELEMENTS(pc_compat_5_0);
+>  
+>  GlobalProperty pc_compat_4_2[] = {
+> diff --git a/hw/isa/lpc_ich9.c b/hw/isa/lpc_ich9.c
+> index cd6e169d47..c9305080b5 100644
+> --- a/hw/isa/lpc_ich9.c
+> +++ b/hw/isa/lpc_ich9.c
+> @@ -373,6 +373,14 @@ static void smi_features_ok_callback(void *opaque)
+>          /* guest requests invalid features, leave @features_ok at zero */
+>          return;
+>      }
+> +    if (!(guest_features & BIT_ULL(ICH9_LPC_SMI_F_BROADCAST_BIT)) &&
+> +        guest_features & (BIT_ULL(ICH9_LPC_SMI_F_CPU_HOTPLUG_BIT) |
+> +                          BIT_ULL(ICH9_LPC_SMI_F_CPU_HOT_UNPLUG_BIT))) {
+> +        /* cpu hot-[un]plug with SMI requires SMI broadcast,
+> +         * leave @features_ok at zero
+> +         */
+> +        return;
+> +    }
+>  
+>      /* valid feature subset requested, lock it down, report success */
+>      lpc->smi_negotiated_features = guest_features;
+> @@ -747,6 +755,10 @@ static Property ich9_lpc_properties[] = {
+>      DEFINE_PROP_BOOL("noreboot", ICH9LPCState, pin_strap.spkr_hi, true),
+>      DEFINE_PROP_BIT64("x-smi-broadcast", ICH9LPCState, smi_host_features,
+>                        ICH9_LPC_SMI_F_BROADCAST_BIT, true),
+> +    DEFINE_PROP_BIT64("x-smi-cpu-hotplug", ICH9LPCState, smi_host_features,
+> +                      ICH9_LPC_SMI_F_CPU_HOTPLUG_BIT, true),
+> +    DEFINE_PROP_BIT64("x-smi-cpu-hotunplug", ICH9LPCState, smi_host_features,
+> +                      ICH9_LPC_SMI_F_CPU_HOT_UNPLUG_BIT, true),
+>      DEFINE_PROP_END_OF_LIST(),
+>  };
+>  
+> 
 
-I did that, thanks!
+(1) I think that, at this time, the default value for
+"x-smi-cpu-hotunplug" should be false. Accordingly, the
+"x-smi-cpu-hotunplug" compat property should be dropped.
 
+The reason is that in this series, QEMU won't actually learn to handle
+CPU hot-unplug with SMI. We shouldn't advertize support for it.
+
+We should only recognize the feature, so that the QMP command can rely
+on it for rejecting hot-unplug attempts. If (later) we have a more
+advanced OVMF binary with unplug support (so that OVMF would try to
+negotiate unplug), but the user runs it on QEMU-5.1 (or more precisely
+with an 5.1 machine type), which will support plug, but not unplug, then
+QEMU should reject the device_del QMP command.
+
+In brief, we need both properties because we want both device_add and
+device_del to fail gracefully, but the default values (and accordingly
+the compat properties) should reflect the actual feature support. So
+unplug should default to false at this point.
+
+Thanks,
+Laszlo
 
 
