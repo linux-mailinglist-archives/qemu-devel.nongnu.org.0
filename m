@@ -2,75 +2,76 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2D490229565
-	for <lists+qemu-devel@lfdr.de>; Wed, 22 Jul 2020 11:48:38 +0200 (CEST)
-Received: from localhost ([::1]:41016 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B8B67229509
+	for <lists+qemu-devel@lfdr.de>; Wed, 22 Jul 2020 11:36:21 +0200 (CEST)
+Received: from localhost ([::1]:34256 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jyBMb-0000eM-3z
-	for lists+qemu-devel@lfdr.de; Wed, 22 Jul 2020 05:48:37 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:55794)
+	id 1jyBAi-0000Mf-Nw
+	for lists+qemu-devel@lfdr.de; Wed, 22 Jul 2020 05:36:20 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:53636)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <frank.chang@sifive.com>)
- id 1jyAxl-00006j-PM
- for qemu-devel@nongnu.org; Wed, 22 Jul 2020 05:22:57 -0400
-Received: from mail-pg1-x531.google.com ([2607:f8b0:4864:20::531]:34520)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <frank.chang@sifive.com>)
- id 1jyAxj-0006HU-Mv
- for qemu-devel@nongnu.org; Wed, 22 Jul 2020 05:22:57 -0400
-Received: by mail-pg1-x531.google.com with SMTP id t6so888653pgq.1
- for <qemu-devel@nongnu.org>; Wed, 22 Jul 2020 02:22:55 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=sifive.com; s=google;
- h=from:to:cc:subject:date:message-id:in-reply-to:references;
- bh=GIJ/UPBp2WO1BlyJ6/1RakPZrL4gW2QpybA3d/fh+SA=;
- b=TbbuQQtXZYu2JpdFy8Tdk7LxbOGQyLrthVVvl0wL1MDdvLcXnf3uS2TKeJ0Q7bq+Zw
- gsLKn/nZC0HA+012QiJ3HEhgYGrTPw1lUo2MM+25qpzxpKK3DOv00HRWA2w+1HMtcIgO
- eSD9SIWanyGhOF6gKUAGYgcAiEMwCoBUot1MpNLI/fIUh/omnsd3Hay5NNXw5atdbMQC
- Zp3hrOfevwPqU3dSmiGaeudf6LMN6hy9fm8f4hl8imlwWIDTp94mZ/xAztDhJD2rdH4s
- 0U5S8GDvYxrQ+sCXNSgStr24wDKE+4XGjE2K3kAGgquuasVC05vh03Q+qnSBE/Bmo+PJ
- wXPw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
- :references;
- bh=GIJ/UPBp2WO1BlyJ6/1RakPZrL4gW2QpybA3d/fh+SA=;
- b=XIMC2e03cQgt2AEpfjgM3w+oguWzcLYnrSY0ZSsabnhyAHUk5B/nu45PLaxDuqHhCy
- AT0xqB/WW8oF/ei8kh1+BN8+LLfUP3CoEBelLYH8ym5gb7Zli3klA+ot/m5Vzwv1oaUY
- ldwjO/Fy+LOHdEVmRpYdGT8j1ytPAPNenYbse+RSYDQeRx7XFg9Ua6Ku2ywqX+ch9GAV
- uf/zz+DzplwsoHbUVwwGihq2S3dtWw7ikz8gfpoqoRt/aytvauGbWcw7WgJFKf9voAbO
- YVnOVFwXlFkYkIR7td70kXgnWiCCVr23MVzTiex+Y1L4gIgHQvYTInr6YRBe0VzOCA4u
- TGqQ==
-X-Gm-Message-State: AOAM530CPrvFHQyekI53+axmkFQWj/ftX/5yEgAqZ99DB5YuNQBZyQnA
- Cl0wX5XquMw5eWxlIk3bjPhXRDSX/no=
-X-Google-Smtp-Source: ABdhPJyHbDRWFvF6iQV+zWgVF8l6wJO3Q5vFAKDFGHWF6yMpzrPehgMV82I6RSBAaCJ0Ht7gF/Nt/w==
-X-Received: by 2002:a65:43c1:: with SMTP id n1mr25240703pgp.67.1595409774369; 
- Wed, 22 Jul 2020 02:22:54 -0700 (PDT)
-Received: from frankchang-ThinkPad-T490.internal.sifive.com
- (114-34-229-221.HINET-IP.hinet.net. [114.34.229.221])
- by smtp.gmail.com with ESMTPSA id c125sm22301879pfa.119.2020.07.22.02.22.52
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 22 Jul 2020 02:22:54 -0700 (PDT)
-From: frank.chang@sifive.com
-To: qemu-devel@nongnu.org,
-	qemu-riscv@nongnu.org
-Subject: [RFC v2 76/76] target/riscv: gdb: support vector registers for rv32
-Date: Wed, 22 Jul 2020 17:16:39 +0800
-Message-Id: <20200722091641.8834-77-frank.chang@sifive.com>
-X-Mailer: git-send-email 2.17.1
-In-Reply-To: <20200722091641.8834-1-frank.chang@sifive.com>
-References: <20200722091641.8834-1-frank.chang@sifive.com>
-Received-SPF: pass client-ip=2607:f8b0:4864:20::531;
- envelope-from=frank.chang@sifive.com; helo=mail-pg1-x531.google.com
-X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
- That's all we know.
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- URIBL_BLOCKED=0.001 autolearn=unavailable autolearn_force=no
+ (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
+ id 1jyAuH-0000tu-Hl
+ for qemu-devel@nongnu.org; Wed, 22 Jul 2020 05:19:21 -0400
+Received: from us-smtp-1.mimecast.com ([205.139.110.61]:22438
+ helo=us-smtp-delivery-1.mimecast.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
+ id 1jyAuF-0005YS-Sy
+ for qemu-devel@nongnu.org; Wed, 22 Jul 2020 05:19:21 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1595409559;
+ h=from:from:reply-to:reply-to:subject:subject:date:date:
+ message-id:message-id:to:to:cc:cc:mime-version:mime-version:
+ content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=8aE7+EUIFXnlN6l79rBeBGRtrZ4kW1m8UR0V4eLHssQ=;
+ b=cUVxnNExkZlWlHN6IMqDNJxxgCPEnyIBKU3yaMJ97VxnZUzZK6HI/v5EuCojovqwjjwMBd
+ +I1b+bfwkPlceG+TbSKpfvlrlABgqtqYr/7j/2isReUELBTchAaM7sDi3qMfdoyEypyjOh
+ es06Ni3K/0TM683Rfarm8Vrv9r3/cZY=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-294-qI-6xNLDMmK4gXQkGOb0gw-1; Wed, 22 Jul 2020 05:19:15 -0400
+X-MC-Unique: qI-6xNLDMmK4gXQkGOb0gw-1
+Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
+ [10.5.11.15])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 7981E800465;
+ Wed, 22 Jul 2020 09:19:14 +0000 (UTC)
+Received: from redhat.com (unknown [10.36.110.48])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 1251672681;
+ Wed, 22 Jul 2020 09:19:12 +0000 (UTC)
+Date: Wed, 22 Jul 2020 10:19:10 +0100
+From: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
+To: Thomas Huth <thuth@redhat.com>
+Subject: Re: [PATCH v2 2/4] qga/commands-posix: Rework
+ build_guest_fsinfo_for_real_device() function
+Message-ID: <20200722091910.GH2323046@redhat.com>
+References: <20200722044028.4059-1-thuth@redhat.com>
+ <20200722044028.4059-3-thuth@redhat.com>
+MIME-Version: 1.0
+In-Reply-To: <20200722044028.4059-3-thuth@redhat.com>
+User-Agent: Mutt/1.14.5 (2020-06-23)
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: 8bit
+Content-Disposition: inline
+Received-SPF: pass client-ip=205.139.110.61; envelope-from=berrange@redhat.com;
+ helo=us-smtp-delivery-1.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/07/21 21:28:05
+X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
+X-Spam_score_int: -40
+X-Spam_score: -4.1
+X-Spam_bar: ----
+X-Spam_report: (-4.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-1, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001, URIBL_BLOCKED=0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -83,40 +84,31 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Frank Chang <frank.chang@sifive.com>,
- =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>,
- Richard Henderson <richard.henderson@linaro.org>,
- Laurent Vivier <laurent@vivier.eu>, Paolo Bonzini <pbonzini@redhat.com>,
- Greentime Hu <greentime.hu@sifive.com>,
- =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>
+Reply-To: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
+Cc: qemu-s390x@nongnu.org,
+ =?utf-8?B?VG9tw6HFoSBHb2xlbWJpb3Zza8O9?= <tgolembi@redhat.com>,
+ qemu-devel@nongnu.org, Michael Roth <mdroth@linux.vnet.ibm.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Greentime Hu <greentime.hu@sifive.com>
+On Wed, Jul 22, 2020 at 06:40:26AM +0200, Thomas Huth wrote:
+> We are going to support non-PCI devices soon. For this we need to split
+> the generic GuestDiskAddress and GuestDiskAddressList memory allocation
+> and list chaining into a separate function first.
+> 
+> Signed-off-by: Thomas Huth <thuth@redhat.com>
+> ---
+>  qga/commands-posix.c | 65 ++++++++++++++++++++++++++++----------------
+>  1 file changed, 41 insertions(+), 24 deletions(-)
 
-This patch adds vector support for rv32 gdb. It allows gdb client to access
-vector registers correctly.
+Reviewed-by: Daniel P. Berrangé <berrange@redhat.com>
 
-Signed-off-by: Greentime Hu <greentime.hu@sifive.com>
-Signed-off-by: Frank Chang <frank.chang@sifive.com>
----
- configure | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/configure b/configure
-index 8d69013a97..dbe3c4e4c5 100755
---- a/configure
-+++ b/configure
-@@ -8222,7 +8222,7 @@ case "$target_name" in
-     TARGET_BASE_ARCH=riscv
-     TARGET_ABI_DIR=riscv
-     mttcg=yes
--    gdb_xml_files="riscv-32bit-cpu.xml riscv-32bit-fpu.xml riscv-64bit-fpu.xml riscv-32bit-csr.xml riscv-32bit-virtual.xml"
-+    gdb_xml_files="riscv-32bit-cpu.xml riscv-32bit-fpu.xml riscv-64bit-fpu.xml riscv-64bit-vector-128b.xml riscv-64bit-vector-256b.xml riscv-64bit-vector-512b.xml riscv-32bit-csr.xml riscv-32bit-virtual.xml"
-   ;;
-   riscv64)
-     TARGET_BASE_ARCH=riscv
+Regards,
+Daniel
 -- 
-2.17.1
+|: https://berrange.com      -o-    https://www.flickr.com/photos/dberrange :|
+|: https://libvirt.org         -o-            https://fstop138.berrange.com :|
+|: https://entangle-photo.org    -o-    https://www.instagram.com/dberrange :|
 
 
