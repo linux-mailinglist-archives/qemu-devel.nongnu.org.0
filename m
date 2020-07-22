@@ -2,70 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2EA282291AA
-	for <lists+qemu-devel@lfdr.de>; Wed, 22 Jul 2020 09:07:09 +0200 (CEST)
-Received: from localhost ([::1]:37252 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 17E112291C2
+	for <lists+qemu-devel@lfdr.de>; Wed, 22 Jul 2020 09:10:47 +0200 (CEST)
+Received: from localhost ([::1]:40272 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jy8qK-0003cY-8s
-	for lists+qemu-devel@lfdr.de; Wed, 22 Jul 2020 03:07:08 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:50520)
+	id 1jy8tq-000514-60
+	for lists+qemu-devel@lfdr.de; Wed, 22 Jul 2020 03:10:46 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:51004)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1jy8pX-00033Z-Lc
- for qemu-devel@nongnu.org; Wed, 22 Jul 2020 03:06:19 -0400
-Received: from us-smtp-1.mimecast.com ([205.139.110.61]:53985
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1jy8sq-0004OY-N4
+ for qemu-devel@nongnu.org; Wed, 22 Jul 2020 03:09:44 -0400
+Received: from us-smtp-2.mimecast.com ([207.211.31.81]:43187
  helo=us-smtp-delivery-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1jy8pU-0004FO-LT
- for qemu-devel@nongnu.org; Wed, 22 Jul 2020 03:06:19 -0400
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1jy8so-0004S9-T3
+ for qemu-devel@nongnu.org; Wed, 22 Jul 2020 03:09:44 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1595401575;
+ s=mimecast20190719; t=1595401782;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
- bh=1fE+KYzeMHKnZxP5vA4r0EUpb5JQoiKRPbY9NFx8jY4=;
- b=J7kxrUxdQW8ulFvMWVAKXA3MkVNbE6pLTe29NMrU5thSZoQNFewJVH8uUpeKA0Cp8uQjtZ
- 8ifG+MIpn2ELt8lKlzrmiMbsMWKmmvKJ4fZlTUu8INODLF5m+EAikZV7YOZhJnA+RyY9cW
- qV0fQLZZOD7DEszxrtO6DPanYyQUqzQ=
-Received: from mail-ed1-f70.google.com (mail-ed1-f70.google.com
- [209.85.208.70]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-490-zZCsNGX3PvK71NfasCjgmA-1; Wed, 22 Jul 2020 03:06:13 -0400
-X-MC-Unique: zZCsNGX3PvK71NfasCjgmA-1
-Received: by mail-ed1-f70.google.com with SMTP id j15so402044edq.11
- for <qemu-devel@nongnu.org>; Wed, 22 Jul 2020 00:06:13 -0700 (PDT)
+ bh=lsEhs0fc1WdzdBVHbuQDBxEi1Ah7IsWhqbI/XxdY3IY=;
+ b=WY1ItsdIU2UEV57nYs/WxD199dNeKUwqT5QJhlBec1wZ1EOJLpHZk/+0XmnsobUcejYXol
+ 5bcf0dAWFHGIUf4hpM8iOqojVjGWC4/jjxtGf3MqzokTB4DVWclfJw7UHU0EjFHyQn4bj5
+ YsElQFBAlS7Wgelxu1f9pqLCtu+p/Tc=
+Received: from mail-ej1-f69.google.com (mail-ej1-f69.google.com
+ [209.85.218.69]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-251-NDhlnp1VPeyjDTho2MJiIQ-1; Wed, 22 Jul 2020 03:09:38 -0400
+X-MC-Unique: NDhlnp1VPeyjDTho2MJiIQ-1
+Received: by mail-ej1-f69.google.com with SMTP id q11so641331eja.3
+ for <qemu-devel@nongnu.org>; Wed, 22 Jul 2020 00:09:38 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:subject:to:cc:references:from:autocrypt
  :message-id:date:user-agent:mime-version:in-reply-to
  :content-language:content-transfer-encoding;
- bh=1fE+KYzeMHKnZxP5vA4r0EUpb5JQoiKRPbY9NFx8jY4=;
- b=DDP7QIL05LrdrZmyAfQuSlIaE4hCba7D9Dl1v7LbI+U5CuUJ6XS8VPExM4qtWPzGA/
- 3hXOMzTYd+rNwkgycs70jruNH9xQoBP4Yc0lO1AF5a9pRtufa3toMesp7IRszttPZFlb
- pNETNr9N6eRtiQkpxTn6sBD/5IS60vxMPXQjzm2xlAlgRsv1V1blAF2P96HbYHG2skCR
- jFBIFWuLl6ikUmH8cHWpktw77g8MgDXIAY9U7a8BG4xFscsTmERgqdknCCwpSKFIO8X3
- KeH1vHouL942wdtIbB3G+uW0WdFnEhtyL2+NrKbAGe68YffA9b9ZQJcdN83UpsvrTUYn
- tH0w==
-X-Gm-Message-State: AOAM533UUHAizECKeyjeKLkpSo0EJNAlZ3ut5bwDvIoLZAlsdJLrNpK+
- x04/HvrMTia6DfUfY+43PRBI0Ux1WVt1VmZZIYl7SMC8PaOqCOE7siu+DDr0JgbRi6F2AE7+7/J
- fjJ0bgZZW6YQvV7c=
-X-Received: by 2002:a17:906:578c:: with SMTP id
- k12mr27738950ejq.339.1595401572450; 
- Wed, 22 Jul 2020 00:06:12 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJxm8re2WtA4XixZSMtxFgpW4PyoRBfkWNXLWaH4Tr02wBcpAOeqm8V6PgSa7fQ0LPZjvoG09w==
-X-Received: by 2002:a17:906:578c:: with SMTP id
- k12mr27738936ejq.339.1595401572286; 
- Wed, 22 Jul 2020 00:06:12 -0700 (PDT)
+ bh=lsEhs0fc1WdzdBVHbuQDBxEi1Ah7IsWhqbI/XxdY3IY=;
+ b=meR1ipYBbyc1XhB12QYNFtYssJePAP8pCFXTnEqXNvHr13YY+tCIyvGutQ8oVqSr3c
+ 4Ny+VrGGZBAIGiN/Uk4XS4plsQKV6gqxAV5rkM9PnipS3XJRmYa0OhCVFnY3AFgdzypB
+ RWPQfIQSSbN1RptYTWL/0RGcXBX5ebvL2cSnSkyEBvQQwgxO0iR1aGKJXSma/1648ANn
+ O5tv89+LoqpKH700rmVpa2NZFdCkXmTZ6l3zKx/JNF/LkrQWPE9elhCB0uQqGo4OYlGQ
+ JKV87l7LdNxigY97eS810hJHYkbU09Rs86us5QG0+k+t5p3YkckZmifAlRu0aVja2Vb+
+ jvOA==
+X-Gm-Message-State: AOAM532oJV/Nz2ymrNxRzgTrmB21PKUGhSrCAqjd9Y74kMw/qxbQMOd+
+ 4P3ll7SPxgo611GTwyYG3icfnIhqkFRLYN2Dtd8IzEwDEHcDAmmHfMtz91l/T9Fpc2Vrbazixy/
+ Ang98/aE/SeTwCs0=
+X-Received: by 2002:a17:907:2170:: with SMTP id
+ rl16mr30181724ejb.422.1595401777393; 
+ Wed, 22 Jul 2020 00:09:37 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJzHP/jsurpABc8BZWQZ0DOeMqEiMg3MyOxH0p8PbOFBt+EkZWJM84Imt7ttLHB0BgnD+iMLrQ==
+X-Received: by 2002:a17:907:2170:: with SMTP id
+ rl16mr30181706ejb.422.1595401777219; 
+ Wed, 22 Jul 2020 00:09:37 -0700 (PDT)
 Received: from [192.168.1.36] (138.red-83-57-170.dynamicip.rima-tde.net.
  [83.57.170.138])
- by smtp.gmail.com with ESMTPSA id q21sm18206527ejr.75.2020.07.22.00.06.10
+ by smtp.gmail.com with ESMTPSA id a2sm18707420edt.48.2020.07.22.00.09.35
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Wed, 22 Jul 2020 00:06:11 -0700 (PDT)
-Subject: Re: [RFC PATCH v2 9/9] target/s390x: Use start-powered-off CPUState
- property
+ Wed, 22 Jul 2020 00:09:36 -0700 (PDT)
+Subject: Re: [PATCH v2 5/9] mips/cps: Use start-powered-off CPUState property
 To: Thiago Jung Bauermann <bauerman@linux.ibm.com>, qemu-ppc@nongnu.org
 References: <20200722035016.469075-1-bauerman@linux.ibm.com>
- <20200722035016.469075-10-bauerman@linux.ibm.com>
+ <20200722035016.469075-6-bauerman@linux.ibm.com>
 From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
 Autocrypt: addr=philmd@redhat.com; keydata=
  mQINBDXML8YBEADXCtUkDBKQvNsQA7sDpw6YLE/1tKHwm24A1au9Hfy/OFmkpzo+MD+dYc+7
@@ -90,28 +89,28 @@ Autocrypt: addr=philmd@redhat.com; keydata=
  9BFSL3qgXuXso/3XuWTQjJJGgKhB6xXjMmb1J4q/h5IuVV4juv1Fem9sfmyrh+Wi5V1IzKI7
  RPJ3KVb937eBgSENk53P0gUorwzUcO+ASEo3Z1cBKkJSPigDbeEjVfXQMzNt0oDRzpQqH2vp
  apo2jHnidWt8BsckuWZpxcZ9+/9obQ55DyVQHGiTN39hkETy3Emdnz1JVHTU0Q==
-Message-ID: <366d7ab3-cc45-5d47-4317-080c2d594462@redhat.com>
-Date: Wed, 22 Jul 2020 09:06:10 +0200
+Message-ID: <250a3a6b-6006-4432-71a6-9b479137cc59@redhat.com>
+Date: Wed, 22 Jul 2020 09:09:34 +0200
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
  Thunderbird/68.5.0
 MIME-Version: 1.0
-In-Reply-To: <20200722035016.469075-10-bauerman@linux.ibm.com>
+In-Reply-To: <20200722035016.469075-6-bauerman@linux.ibm.com>
 Content-Language: en-US
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=205.139.110.61; envelope-from=philmd@redhat.com;
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=207.211.31.81; envelope-from=philmd@redhat.com;
  helo=us-smtp-delivery-1.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/07/21 21:28:05
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/07/21 23:34:34
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
-X-Spam_score_int: -40
-X-Spam_score: -4.1
-X-Spam_bar: ----
-X-Spam_report: (-4.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1,
+X-Spam_score_int: -30
+X-Spam_score: -3.1
+X-Spam_bar: ---
+X-Spam_report: (-3.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-1, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H3=-0.01, RCVD_IN_MSPIKE_WL=-0.01,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -138,38 +137,48 @@ Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 On 7/22/20 5:50 AM, Thiago Jung Bauermann wrote:
-> Instead of setting CPUState::halted to 1 in s390_cpu_initfn(), use the
-> start-powered-off property which makes cpu_common_reset() initialize it to
-> 1 in common code.
+> Instead of setting CPUState::halted to 1 in main_cpu_reset(), use the
+> start-powered-off property which makes cpu_common_reset() initialize it
+> to 1 in common code.
 > 
 > Signed-off-by: Thiago Jung Bauermann <bauerman@linux.ibm.com>
 > ---
->  target/s390x/cpu.c | 3 ++-
->  1 file changed, 2 insertions(+), 1 deletion(-)
+>  hw/mips/cps.c | 6 +++---
+>  1 file changed, 3 insertions(+), 3 deletions(-)
 > 
 > NB: I was only able to test that this patch builds. I wasn't able to
 > run it.
 > 
-> diff --git a/target/s390x/cpu.c b/target/s390x/cpu.c
-> index 08eb674d22..d3a14af1d9 100644
-> --- a/target/s390x/cpu.c
-> +++ b/target/s390x/cpu.c
-> @@ -291,7 +291,8 @@ static void s390_cpu_initfn(Object *obj)
->      S390CPU *cpu = S390_CPU(obj);
+> diff --git a/hw/mips/cps.c b/hw/mips/cps.c
+> index 615e1a1ad2..d5b6c78019 100644
+> --- a/hw/mips/cps.c
+> +++ b/hw/mips/cps.c
+> @@ -52,9 +52,6 @@ static void main_cpu_reset(void *opaque)
+>      CPUState *cs = CPU(cpu);
 >  
->      cpu_set_cpustate_pointers(cpu);
+>      cpu_reset(cs);
+> -
+> -    /* All VPs are halted on reset. Leave powering up to CPC. */
 > -    cs->halted = 1;
-> +    object_property_set_bool(OBJECT(cs), "start-powered-off", true,
-> +                             &error_abort);
+>  }
+>  
+>  static bool cpu_mips_itu_supported(CPUMIPSState *env)
+> @@ -89,6 +86,9 @@ static void mips_cps_realize(DeviceState *dev, Error **errp)
+>              env->itc_tag = mips_itu_get_tag_region(&s->itu);
+>              env->itu = &s->itu;
+>          }
+> +        /* All VPs are halted on reset. Leave powering up to CPC. */
+> +        object_property_set_bool(OBJECT(cpu), "start-powered-off", true,
+> +                                 &error_abort);
 
-Here this seems overkill since this is the same object, so you can
-directly do:
+This is indeed better as now the property is set once, *after* realize
+but *before* reset.
 
-  +    cs->start_powered_off = true;
+Reviewed-by: Philippe Mathieu-Daudé <philmd@redhat.com>
 
->      cs->exception_index = EXCP_HLT;
->  #if !defined(CONFIG_USER_ONLY)
->      object_property_add(obj, "crash-information", "GuestPanicInformation",
+>          qemu_register_reset(main_cpu_reset, cpu);
+>      }
+>  
 > 
 
 
