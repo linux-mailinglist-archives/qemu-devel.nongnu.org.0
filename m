@@ -2,33 +2,35 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 69FD4229331
-	for <lists+qemu-devel@lfdr.de>; Wed, 22 Jul 2020 10:12:58 +0200 (CEST)
-Received: from localhost ([::1]:45086 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A7A8C229336
+	for <lists+qemu-devel@lfdr.de>; Wed, 22 Jul 2020 10:13:00 +0200 (CEST)
+Received: from localhost ([::1]:45210 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jy9s1-0000ZM-Ew
-	for lists+qemu-devel@lfdr.de; Wed, 22 Jul 2020 04:12:57 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:38218)
+	id 1jy9s3-0000cY-OL
+	for lists+qemu-devel@lfdr.de; Wed, 22 Jul 2020 04:12:59 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:38196)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <dplotnikov@virtuozzo.com>)
- id 1jy9qt-0007jT-QW
+ id 1jy9qt-0007it-GB
  for qemu-devel@nongnu.org; Wed, 22 Jul 2020 04:11:47 -0400
-Received: from relay.sw.ru ([185.231.240.75]:54950 helo=relay3.sw.ru)
+Received: from relay.sw.ru ([185.231.240.75]:54956 helo=relay3.sw.ru)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <dplotnikov@virtuozzo.com>)
- id 1jy9qq-0004p3-N6
- for qemu-devel@nongnu.org; Wed, 22 Jul 2020 04:11:47 -0400
+ id 1jy9qq-0004p7-ML
+ for qemu-devel@nongnu.org; Wed, 22 Jul 2020 04:11:46 -0400
 Received: from [10.94.4.71] (helo=dptest2.qa.sw.ru)
  by relay3.sw.ru with esmtp (Exim 4.93)
  (envelope-from <dplotnikov@virtuozzo.com>)
- id 1jy9ql-0002yK-O1; Wed, 22 Jul 2020 11:11:39 +0300
+ id 1jy9ql-0002yK-PU; Wed, 22 Jul 2020 11:11:39 +0300
 From: Denis Plotnikov <dplotnikov@virtuozzo.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v0 0/4] background snapshot
-Date: Wed, 22 Jul 2020 11:11:29 +0300
-Message-Id: <20200722081133.29926-1-dplotnikov@virtuozzo.com>
+Subject: [PATCH v0 1/4] bitops: add some atomic versions of bitmap operations
+Date: Wed, 22 Jul 2020 11:11:30 +0300
+Message-Id: <20200722081133.29926-2-dplotnikov@virtuozzo.com>
 X-Mailer: git-send-email 2.17.0
+In-Reply-To: <20200722081133.29926-1-dplotnikov@virtuozzo.com>
+References: <20200722081133.29926-1-dplotnikov@virtuozzo.com>
 Received-SPF: pass client-ip=185.231.240.75;
  envelope-from=dplotnikov@virtuozzo.com; helo=relay3.sw.ru
 X-detected-operating-system: by eggs.gnu.org: First seen = 2020/07/22 04:11:41
@@ -55,52 +57,58 @@ Cc: quintela@redhat.com, dgilbert@redhat.com, peterx@redhat.com,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Currently where is no way to make a vm snapshot without pausing a vm
-for the whole time until the snapshot is done. So, the problem is
-the vm downtime on snapshoting. The downtime value depends on the vmstate
-size, the major part of which is RAM and the disk performance which is
-used for the snapshot saving.
+1. test bit
+2. test and set bit
 
-The series propose a way to reduce the vm snapshot downtime. This is done
-by saving RAM, the major part of vmstate, in the background when the vm
-is running.
+Signed-off-by: Denis Plotnikov <dplotnikov@virtuozzo.com>
+Reviewed-by: Peter Xu <peterx@redhat.com>
+---
+ include/qemu/bitops.h | 25 +++++++++++++++++++++++++
+ 1 file changed, 25 insertions(+)
 
-The background snapshot uses linux UFFD write-protected mode for memory
-page access intercepting. UFFD write-protected mode was added to the linux v5.7.
-If UFFD write-protected mode isn't available the background snapshot rejects to
-run.
-
-How to use:
-1. enable background snapshot capability
-   virsh qemu-monitor-command vm --hmp migrate_set_capability background-snapshot on
-
-2. stop the vm
-   virsh qemu-monitor-command vm --hmp stop
-
-3. Start the external migration to a file
-   virsh qemu-monitor-command cent78-bs --hmp migrate exec:'cat > ./vm_state'
-
-4. Wait for the migration finish and check that the migration has completed state.
-
-Denis Plotnikov (4):
-  bitops: add some atomic versions of bitmap operations
-  migration: add background snapshot capability
-  migration: add background snapshot
-  background snapshot: add trace events for page fault processing
-
- qapi/migration.json     |   7 +-
- include/exec/ramblock.h |   8 +
- include/exec/ramlist.h  |   2 +
- include/qemu/bitops.h   |  25 ++
- migration/migration.h   |   1 +
- migration/ram.h         |  19 +-
- migration/savevm.h      |   3 +
- migration/migration.c   | 142 +++++++++-
- migration/ram.c         | 582 ++++++++++++++++++++++++++++++++++++++--
- migration/savevm.c      |   1 -
- migration/trace-events  |   2 +
- 11 files changed, 771 insertions(+), 21 deletions(-)
-
+diff --git a/include/qemu/bitops.h b/include/qemu/bitops.h
+index f55ce8b320..63218afa5a 100644
+--- a/include/qemu/bitops.h
++++ b/include/qemu/bitops.h
+@@ -95,6 +95,21 @@ static inline int test_and_set_bit(long nr, unsigned long *addr)
+     return (old & mask) != 0;
+ }
+ 
++/**
++ * test_and_set_bit_atomic - Set a bit atomically and return its old value
++ * @nr: Bit to set
++ * @addr: Address to count from
++ */
++static inline int test_and_set_bit_atomic(long nr, unsigned long *addr)
++{
++    unsigned long mask = BIT_MASK(nr);
++    unsigned long *p = addr + BIT_WORD(nr);
++    unsigned long old;
++
++    old = atomic_fetch_or(p, mask);
++    return (old & mask) != 0;
++}
++
+ /**
+  * test_and_clear_bit - Clear a bit and return its old value
+  * @nr: Bit to clear
+@@ -135,6 +150,16 @@ static inline int test_bit(long nr, const unsigned long *addr)
+     return 1UL & (addr[BIT_WORD(nr)] >> (nr & (BITS_PER_LONG-1)));
+ }
+ 
++/**
++ * test_bit_atomic - Determine whether a bit is set atomicallly
++ * @nr: bit number to test
++ * @addr: Address to start counting from
++ */
++static inline int test_bit_atomic(long nr, const unsigned long *addr)
++{
++    long valid_nr = nr & (BITS_PER_LONG - 1);
++    return 1UL & (atomic_read(&addr[BIT_WORD(nr)]) >> valid_nr);
++}
+ /**
+  * find_last_bit - find the last set bit in a memory region
+  * @addr: The address to start the search at
 -- 
 2.17.0
 
