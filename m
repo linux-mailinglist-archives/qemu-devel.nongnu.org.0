@@ -2,34 +2,34 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E3128228EAC
-	for <lists+qemu-devel@lfdr.de>; Wed, 22 Jul 2020 05:37:30 +0200 (CEST)
-Received: from localhost ([::1]:47798 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A5C67228EA6
+	for <lists+qemu-devel@lfdr.de>; Wed, 22 Jul 2020 05:36:32 +0200 (CEST)
+Received: from localhost ([::1]:45680 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jy5ZS-0003LB-0H
-	for lists+qemu-devel@lfdr.de; Tue, 21 Jul 2020 23:37:30 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:41202)
+	id 1jy5YV-0002Tl-Og
+	for lists+qemu-devel@lfdr.de; Tue, 21 Jul 2020 23:36:31 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:41200)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1jy5Xe-0001gz-5H
- for qemu-devel@nongnu.org; Tue, 21 Jul 2020 23:35:38 -0400
-Received: from indium.canonical.com ([91.189.90.7]:42606)
+ id 1jy5Xd-0001fi-Ag
+ for qemu-devel@nongnu.org; Tue, 21 Jul 2020 23:35:37 -0400
+Received: from indium.canonical.com ([91.189.90.7]:42622)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1jy5XZ-0002BC-DR
+ id 1jy5XZ-0002BK-DN
  for qemu-devel@nongnu.org; Tue, 21 Jul 2020 23:35:37 -0400
 Received: from loganberry.canonical.com ([91.189.90.37])
  by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
- id 1jy5XU-0001bI-C0
- for <qemu-devel@nongnu.org>; Wed, 22 Jul 2020 03:35:28 +0000
+ id 1jy5XV-0001by-4Y
+ for <qemu-devel@nongnu.org>; Wed, 22 Jul 2020 03:35:29 +0000
 Received: from loganberry.canonical.com (localhost [127.0.0.1])
- by loganberry.canonical.com (Postfix) with ESMTP id 35C472E80BA
- for <qemu-devel@nongnu.org>; Wed, 22 Jul 2020 03:35:28 +0000 (UTC)
+ by loganberry.canonical.com (Postfix) with ESMTP id 1B5C62E80E7
+ for <qemu-devel@nongnu.org>; Wed, 22 Jul 2020 03:35:29 +0000 (UTC)
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: quoted-printable
-Date: Wed, 22 Jul 2020 03:25:32 -0000
+Date: Wed, 22 Jul 2020 03:27:06 -0000
 From: Jason Wang <1886362@bugs.launchpad.net>
 To: qemu-devel@nongnu.org
 X-Launchpad-Notification-Type: bug
@@ -41,11 +41,7 @@ X-Launchpad-Bug-Commenters: a1xndr jasowang philmd pjps pmaydell
 X-Launchpad-Bug-Reporter: Alexander Bulekov (a1xndr)
 X-Launchpad-Bug-Modifier: Jason Wang (jasowang)
 References: <159400349818.1851.7243060688419202620.malonedeb@wampee.canonical.com>
- <f19f605c-9468-e7eb-f255-60766df2a50c@redhat.com>
- <CAFEAcA-qrpXJtzW=tigyAqQuYFNCBMQK_CZFx6zYkcJa+RuZuw@mail.gmail.com>
- <28d42c0f-99eb-a9c1-e3fc-98f11ee686ab@redhat.com>
- <CAFEAcA8ECKgRanHLiFZMDS3fd77ASBkba2nfv+iwnjgSLWnbPw@mail.gmail.com>
-Message-Id: <16092892-9055-1ed9-ea0d-bb2794bb2e6a@redhat.com>
+Message-Id: <ed905a22-d5bb-7aef-a98c-6897f721b8ea@redhat.com>
 Subject: Re: [Bug 1886362] [NEW] Heap use-after-free in lduw_he_p through
  e1000e_write_to_rx_buffers
 X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
@@ -54,7 +50,7 @@ Precedence: bulk
 X-Generated-By: Launchpad (canonical.com);
  Revision="4809fcb62f445aaa3ae919f7f6c3cc7d156ea57a";
  Instance="production-secrets-lazr.conf"
-X-Launchpad-Hash: a801e61905fbc3e77907c944a12062d4023f20e5
+X-Launchpad-Hash: 2a98fa1d8e944ede280b5a3f486aa3a3bb0affc4
 Received-SPF: none client-ip=91.189.90.7; envelope-from=bounces@canonical.com;
  helo=indium.canonical.com
 X-detected-operating-system: by eggs.gnu.org: First seen = 2020/07/21 23:35:28
@@ -80,8 +76,10 @@ Reply-To: Bug 1886362 <1886362@bugs.launchpad.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 2020/7/21 =E4=B8=8B=E5=8D=889:44, Peter Maydell wrote:
-> On Tue, 21 Jul 2020 at 14:21, Jason Wang <jasowang@redhat.com> wrote:
+On 2020/7/21 =E4=B8=8B=E5=8D=889:46, Li Qiang wrote:
+> Jason Wang <jasowang@redhat.com> =E4=BA=8E2020=E5=B9=B47=E6=9C=8821=E6=97=
+=A5=E5=91=A8=E4=BA=8C =E4=B8=8B=E5=8D=889:21=E5=86=99=E9=81=93=EF=BC=9A
+>>
 >> On 2020/7/21 =E4=B8=8B=E5=8D=888:31, Peter Maydell wrote:
 >>> On Wed, 15 Jul 2020 at 09:36, Jason Wang <jasowang@redhat.com> wrote:
 >>>> I think the point is to make DMA to MMIO work as real hardware.
@@ -92,33 +90,16 @@ On 2020/7/21 =E4=B8=8B=E5=8D=889:44, Peter Maydell wrote:
 >>> the respond-to-memory-transactions-for-registers logic, but
 >>> it probably wasn't something the designers were actively
 >>> thinking about either...
+>>
 >> I think some device want such peer to peer transactions:
 >>
 >> https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/tree/=
 Documentation/driver-api/pci/p2pdma.rst
-> That's a device DMAing to another device, not DMAing to *itself*
-> (device-to-another-device DMA should work fine in QEMU). And only
-> a very few devices will ever be sensible targets of the DMA --
-> basically things like nvme that have a looks-like-memory area,
-> or special cases like doorbell registers.
-
-
-Well, my understanding is:
-
-- it's not about whether or not we have an actual device that can do DMA =
-
-into itself but whether it's allowed by PCI spec
-- it's not really matter whether or not it tries to DMA into itself. =
-
-Devices could be taught to DMA into each other's RX:
-
-e1000e(1) RX DMA to e1000e(2) MMIO (RX)
-e1000e(2) RX DMA to e1000e(1) RX
-
-So we get re-reentrancy again.
-
-
->
+>>
+>>
+>>>> For
+>>>> e1000e and other networking devices we need make sure such DMA doesn't
+>>>> break anything.
 >>> Yeah, this is the interesting part for QEMU. How should we
 >>> structure devices that do DMA so that we can be sure that
 >>> the device emulation at least doesn't crash? We could have
@@ -127,25 +108,39 @@ So we get re-reentrancy again.
 >>> refactoring of a lot of device code...
 >>
 >> It looks to me the issue happens only for device with loopback
-> I think in principle we have a problem for any device that
-> (a) has memory mapped registers and (b) does DMA reads
-> whose address is guest-controlled. Loopback isn't a
-> requirement -- if the guest programs, say, an RX descriptor
-> base address to point at the device's own registers, you
-> get exactly the same kind of unexpected-reentrancy.
+> IMO I think this is not related-loopback.
+>
+> It happens when the guest write the MMIO address to the device's
+> DMA-related registers.
+> The one we see UAF occurs in loopback device because the same
+> structure uses in re-entry.
+> But we can't say there are no issue for non-loopback device.
 
 
-Right, so about the solution, instead of refactoring DMA I wonder we can =
+Yes.
 
-simply detect and fail the RX by device itself.
 
-Thanks
+>> Simply git grep loopback in hw/net tells me we probably need only to
+>> audit dp8393x and rtl8139.
+>>
+>> Qiang, want to help to audit those devices?
+> No problem. Once I finish the e1000e patch I will try to audit those and
+> also try to audit some no-loopback device re-entry issue.
+
+
+Thanks.
 
 
 >
-> thanks
-> -- PMM
+> Thanks,
+> Li Qiang
 >
+>> Thanks
+>>
+>>
+>>> thanks
+>>> -- PMM
+>>>
 
 -- =
 
