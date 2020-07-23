@@ -2,53 +2,53 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5B2FD22A631
-	for <lists+qemu-devel@lfdr.de>; Thu, 23 Jul 2020 05:43:28 +0200 (CEST)
-Received: from localhost ([::1]:40096 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 977E122A634
+	for <lists+qemu-devel@lfdr.de>; Thu, 23 Jul 2020 05:43:45 +0200 (CEST)
+Received: from localhost ([::1]:41240 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jyS8l-0000dT-A6
-	for lists+qemu-devel@lfdr.de; Wed, 22 Jul 2020 23:43:27 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:45944)
+	id 1jyS92-00015a-Jn
+	for lists+qemu-devel@lfdr.de; Wed, 22 Jul 2020 23:43:44 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:45964)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <alxndr@bu.edu>) id 1jyS5w-0004WB-Cz
- for qemu-devel@nongnu.org; Wed, 22 Jul 2020 23:40:32 -0400
+ (Exim 4.90_1) (envelope-from <alxndr@bu.edu>) id 1jyS5z-0004YD-Bx
+ for qemu-devel@nongnu.org; Wed, 22 Jul 2020 23:40:35 -0400
 Received: from mail-mw2nam12on2114.outbound.protection.outlook.com
  ([40.107.244.114]:16939 helo=NAM12-MW2-obe.outbound.protection.outlook.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <alxndr@bu.edu>) id 1jyS5u-0002Ew-Vc
- for qemu-devel@nongnu.org; Wed, 22 Jul 2020 23:40:32 -0400
+ (Exim 4.90_1) (envelope-from <alxndr@bu.edu>) id 1jyS5w-0002Ew-Up
+ for qemu-devel@nongnu.org; Wed, 22 Jul 2020 23:40:34 -0400
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=l6VtSUIj/1uVsOxycihbNcZ4nZcF2DgX/zyiCwh26N2VlqOOVHOeRiTbrQNmnd2FzHK6w5wa+ApY+DKt1i/WHztiPkf2DUs9kWllnIBoitGSEhBjsUxqEks//V30IstQeYNi5ecXLnoZb9TX0prcfaEQn3LPa4r44sZHPm8hdb1hJ/AYjDOVuBof6OmnoV554K0qawcrKEc91WmxhAefiKT0wAWj5u23c/RTrVGHrxrsqL5cFw7t+GZW4lrMGCWaUBiGR/6dKxajhCknFBx05efm8AjCOyGoXQpfnPyzHQlyRZ/cWK+o2PAxnwghEdf1BzJxRIMUqr1p07rhs/6ahA==
+ b=QyTIlUJqN8sMOd7SYN81BUhGI8K/QfgHoAFreQM4m9+wUA6ptndNXeZ1WzR0rF1bynDgUBGLyfTSR2002+u4Gn1APp7O7jB5vW+DlXTSKJhVIh3KbxtQOPe2pjCHJvZdOZuoWdrvlmTkjTJ+a9ogrShAEQjNOuzWzdZra4ym1BnL9Cl3mRZgJzQ3Ntp+nZEiV5Ym2nitVFNVSahjj+Eqh/gEjEsyb8vWoEi/QMAIcxOD1eLyJoaIdDNej/PzTwR9gXaGhpt9GGZyqY7yrwTIpuy7DmICWscyhJpgswKsuXqXtQwd1qZEbYtmtX/5wrcfqR9iz6XFD98qadju2kt21w==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=ktyxUGnYf+LmUVRdpxI0BGBhgpxPWQEYle6Jaz1ifws=;
- b=fCXrbzUv35Y2eRcTC/VT18Clhsdp1MXETbCL3F0qXhtiUO97FovOEFsMEn6G+2sScElFbZWL2itljCiY0Lh5aNr2mcJ/5FmBZIBT1ytAi1HRrqDnz8fHV4pSfzgkgetVFgZHF6lpjEt64+srdmM4TuQhD00Sy8qY02N1oFAfu77Z2jWYY+CLIFjBi1PAWdUq7Gv2yP09MUGt+0w9iAe3yfITTi89ynUR2XOXKjPAum9HbVtpWf/PNqjCjlyyYUebups3pSbCrF2dFSTeXCNLhcP3RqsTavjVxkUWEHedFvZocm3p0nioLxnYd535UoVNewRALw4420J8EMW54gZCuQ==
+ bh=NpNZNsG6MAtW9gsCEmHuXJ48bi7crbRDQgLPRi4F5tU=;
+ b=nZoBG7OibeI4DIMeWgyAGPJDDQHJUbw7r45JfatF7owpvOQbpP0s0M0mp1wHVu7kGzfjvND28c3SfBASV0i2jYDmVvHIjGfY51o/lkhEdpiSKXYVVqDZLyiwJwjf6DmfwLZXxY5liY/4Qpzwdf7qGvGITiwKAHJSPAXOxUIkxhDtyUgJgLpTB46pA5EGPayXIhCvs6VoMYU8szMnR8bXKUFUSZeQPMMK2x5mM8P1CH+RJNs0bNh4FDyUnYeO3PG6B/Bgv9x/NIcyB5wYWNXVcEr7E+17hrv1kHrXkiGPv9LTN9/bo+bb+Hjh3DTF9OskqQaFnG7UCdh1KjjVux19eg==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
  smtp.mailfrom=bu.edu; dmarc=pass action=none header.from=bu.edu; dkim=pass
  header.d=bu.edu; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=bushare.onmicrosoft.com; s=selector2-bushare-onmicrosoft-com;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=ktyxUGnYf+LmUVRdpxI0BGBhgpxPWQEYle6Jaz1ifws=;
- b=Eb4+5mR8ZWWiN9FCG9FC7D4bYdKVE9mWZ1NEkC36jSuln0JCf41Jd6N7dgxmplTy3ytCnfNTodaulqBkhegN20D8HW3gLCqAfPNo8l92wQslrRaC9uVbLw6bogPGfGdfdT7qDYr2kpk3vuN9NXMwekw64TW3/iQilOYsfDXV1mY=
+ bh=NpNZNsG6MAtW9gsCEmHuXJ48bi7crbRDQgLPRi4F5tU=;
+ b=q4ZFa6EVkiRbVMhFP3bVhzLvdGkcOeBxm3v4edyAf3ccToLnSxfb0sOAUxdR4NQ9jgVUrR7ODXPcA+giw3EmM69hxoOd1uemCk3dI7rzFZwi5DYNy8xnhWmpCtJF6PKcrqKnZMW/V+3gk90LXt/ntB+3azUj2Rrofe64jRiXQs4=
 Authentication-Results: nongnu.org; dkim=none (message not signed)
  header.d=none;nongnu.org; dmarc=none action=none header.from=bu.edu;
 Received: from SN6PR03MB3871.namprd03.prod.outlook.com (2603:10b6:805:6d::32)
  by SN6PR03MB3982.namprd03.prod.outlook.com (2603:10b6:805:67::13)
  with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3216.22; Thu, 23 Jul
- 2020 03:40:17 +0000
+ 2020 03:40:19 +0000
 Received: from SN6PR03MB3871.namprd03.prod.outlook.com
  ([fe80::8ce:29a6:77be:c35b]) by SN6PR03MB3871.namprd03.prod.outlook.com
  ([fe80::8ce:29a6:77be:c35b%7]) with mapi id 15.20.3216.024; Thu, 23 Jul 2020
- 03:40:17 +0000
+ 03:40:19 +0000
 From: Alexander Bulekov <alxndr@bu.edu>
 To: qemu-devel@nongnu.org
-Subject: [PATCH 07/12] scripts/oss-fuzz: Add wrapper program for generic fuzzer
-Date: Wed, 22 Jul 2020 23:39:28 -0400
-Message-Id: <20200723033933.21883-8-alxndr@bu.edu>
+Subject: [PATCH 08/12] scripts/oss-fuzz: Add general-fuzzer build script
+Date: Wed, 22 Jul 2020 23:39:29 -0400
+Message-Id: <20200723033933.21883-9-alxndr@bu.edu>
 X-Mailer: git-send-email 2.27.0
 In-Reply-To: <20200723033933.21883-1-alxndr@bu.edu>
 References: <20200723033933.21883-1-alxndr@bu.edu>
@@ -63,33 +63,33 @@ Received: from mozz.bu.edu (128.197.127.33) by
  MN2PR16CA0057.namprd16.prod.outlook.com (2603:10b6:208:234::26) with
  Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3216.23 via Frontend
- Transport; Thu, 23 Jul 2020 03:40:15 +0000
+ Transport; Thu, 23 Jul 2020 03:40:18 +0000
 X-Mailer: git-send-email 2.27.0
 X-Originating-IP: [128.197.127.33]
 X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: ead30c39-6fac-4fff-3b2a-08d82eba1d61
+X-MS-Office365-Filtering-Correlation-Id: 4a85f9c0-0cd8-4357-8619-08d82eba1ed1
 X-MS-TrafficTypeDiagnostic: SN6PR03MB3982:
 X-MS-Exchange-Transport-Forked: True
-X-Microsoft-Antispam-PRVS: <SN6PR03MB39828FF3ECC728C670A38E08BA760@SN6PR03MB3982.namprd03.prod.outlook.com>
+X-Microsoft-Antispam-PRVS: <SN6PR03MB3982612B6D2DDE2AFF7D7489BA760@SN6PR03MB3982.namprd03.prod.outlook.com>
 X-MS-Oob-TLC-OOBClassifiers: OLM:849;
 X-MS-Exchange-SenderADCheck: 1
 X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: tLxPHZcrh1YbdrijRoHz1fyWWGHEIWC1g+ktndOfKVUcqzTP2v+kmxOhdjcfSVaHl0Uapq7xk+IwhHb5q3pGgtfD+pbYcgJ0euXL2RwdSbgBkuDHAA8j8PF+Ozwh8G2NdmgU5/J17PUNKv1vPk4lszEbIdtMgljvjmQoza21VkhqJwy9G/LUXwyiEUqiQan5YPobAM/i8DP6OCTPqQADxID6zFkbGGtHr1McRhYIDzTCQY88V6KSOM1n/QsK/qXsxl18qTRmLKIHetIPROYMnbLQ+Be6yQgxLLMOo32yi5jX1YLEiW4UFhvPLsdPKkHvqR++HCPLEFEnlqWeUn7tpKYYbH6RmLIWGrKaKvbJlG2CprcmnGvrTx9rGcGEIK1V
+X-Microsoft-Antispam-Message-Info: HoD12aCOA8pZZkC/jrbHzn7mjPs0KGh2rQQZ8gghQnx8hI5TH4uaQIAEvthknwuk1cHDmNwlxWPCkMeXv5BKNkDqZsUc2rpyDFfNfNMWNFYNbNHs4YEd0qaQ4n2lUkn8PwBcnm+L1+CEv5xLpk9rL+oodGyL9akt5tAskVGWWdas+WbbNYC5xxnmhD0fg/mD5eU8VvCWYLkeKNP2FrzXSlL/A6MOE9EWaAoEvk+l5Jn01wBCzKQktb4DtFHjVdKKfbqUlJ85stmnPem1QwJJYArq+n2DtqP0CxqTbq9JrjL8zowfp8xjOHIDUE9Sx2pu6pejE9QiVSventp5lXi2aA==
 X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
  IPV:NLI; SFV:NSPM; H:SN6PR03MB3871.namprd03.prod.outlook.com; PTR:; CAT:NONE;
  SFTY:;
- SFS:(4636009)(39860400002)(396003)(346002)(366004)(136003)(376002)(6916009)(4326008)(36756003)(478600001)(83380400001)(5660300002)(2616005)(956004)(6666004)(8936002)(52116002)(7696005)(66946007)(66556008)(66476007)(6486002)(75432002)(26005)(8676002)(16526019)(54906003)(86362001)(186003)(316002)(1076003)(786003)(2906002)(41533002);
+ SFS:(4636009)(39860400002)(396003)(346002)(366004)(136003)(376002)(6916009)(4326008)(36756003)(478600001)(5660300002)(2616005)(956004)(6666004)(8936002)(52116002)(7696005)(66946007)(66556008)(66476007)(6486002)(75432002)(26005)(8676002)(16526019)(54906003)(86362001)(186003)(316002)(1076003)(786003)(2906002);
  DIR:OUT; SFP:1102; 
-X-MS-Exchange-AntiSpam-MessageData: 7bUTUSOzZVBIgWrhpl/qAqR+NFG63Jp4roohOqDRF9Qc3u/kNPQcr10vJH166vSa9sz+apmOV46Fmaj4ud/gpUN8K4014BV0X2H1OaH7RVwUbQHwc+gRf1DS7d1l+Oaz2izUmAcRcJ+hmqu6VTscckHAHbaGF+pKNm7n3uydSDA+xJE1udobA3pJ3zmVWVCyuWpu2pq3d25WRWTLBe6cnHMb9DjuDb6YJZGKIWhhS4S5qrUbiQBcuMqekXf0jUteZC135g3Rk/tkAofJC6ar1f2hymgfGk+OlC6knuWEaQpVpE80UpGqoO7BWm/C6LZPhT4S5AnnGfY1M+foJnhfAspU+1PfnJ4pxMV9yJoNbdp0CAAX5ohA9emkACVdGLlrvwayWpft9EP8Qlbe9bi+36V3h+FK/kh3mRBEg2QQhEb514/cOcA2oo6fT+kXrb6o/Hhl+3j+WsBamHReUirs/GQIiQR2JSt287Mj8nt9TiM=
+X-MS-Exchange-AntiSpam-MessageData: rSnauaLlq9rIcA2xZu5DDRXFPy7bjffDdP5jK7ord+CTcrC2Qj3gL9Xn6r71PXMe+uvg1IhZ4hxOo7/Fc+epHUbGXNPUNGn5FbLpWZIh8yWziAo+FZwxETaPzzI8W1Smp2bpwVvwTJsYMUx/9YBMZ1ApWgdVPBJ0KXbX3EDY2U0dmYquD/zpiM2TC7nRq0CWg2e1jmvN9duyTY280WdDmf39jCkjc5OHwVovQ2HPEEdDm/QgHbFQnc2QNVLOBqLJjtui81R/rgCcqh4fiord4kD4PRJaOxryi/kyuwO5xT86XXV6jWdRgURi+3J22hMflO9MUlilWC3U3fWufCTUVe5NsIzZlZp090CYtigfjp+guklceIOd04mwid7Lus4f1QXitJiOK25+Blk9XY6a4p5Y3zUYfwV1z83wFkWqvP3jCOBL0UMa0d1UjZ6DQsJ24OjrdN3KMUxhRGDONDlsimXOqxz2ReZlA8ZdHE57X4U=
 X-OriginatorOrg: bu.edu
-X-MS-Exchange-CrossTenant-Network-Message-Id: ead30c39-6fac-4fff-3b2a-08d82eba1d61
+X-MS-Exchange-CrossTenant-Network-Message-Id: 4a85f9c0-0cd8-4357-8619-08d82eba1ed1
 X-MS-Exchange-CrossTenant-AuthSource: SN6PR03MB3871.namprd03.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 23 Jul 2020 03:40:17.4475 (UTC)
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 23 Jul 2020 03:40:19.2205 (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
 X-MS-Exchange-CrossTenant-Id: d57d32cc-c121-488f-b07b-dfe705680c71
 X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: dHBcueXBFzcLNmCnTEMcR/4S//S6saPBvwPO4/VPd6LB76RQ9WR7RL4oimmDWfUm
+X-MS-Exchange-CrossTenant-UserPrincipalName: Ys1jw2/UQLH0HfboQDHqT0gHt3/aYJ9JLibPlKGrWlYVNBI+56fTQz8IcMuVFwrE
 X-MS-Exchange-Transport-CrossTenantHeadersStamped: SN6PR03MB3982
 Received-SPF: pass client-ip=40.107.244.114; envelope-from=alxndr@bu.edu;
  helo=NAM12-MW2-obe.outbound.protection.outlook.com
@@ -120,66 +120,86 @@ Cc: thuth@redhat.com, Alexander Bulekov <alxndr@bu.edu>, f4bug@amsat.org,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On oss-fuzz we need some sort of wrapper to specify command-line
-arguments or environment variables. When we had a similar problem with
-other targets that I fixed with
-05509c8e6d ("fuzz: select fuzz target using executable name")
-by selecting the fuzz target based on the executable's name. In the
-future should probably commit to one approach (wrapper binary or
-argv0-based target selection).
+This parses a yaml file containing general-fuzzer configs and builds a
+separate oss-fuzz wrapper binary for each one, changing some
+preprocessor macros for each configuration. To avoid dealing with
+escaping and stringifying, convert each string into a byte-array
+representation
 
 Signed-off-by: Alexander Bulekov <alxndr@bu.edu>
 ---
- scripts/oss-fuzz/target.c | 40 +++++++++++++++++++++++++++++++++++++++
- 1 file changed, 40 insertions(+)
- create mode 100644 scripts/oss-fuzz/target.c
+ scripts/oss-fuzz/build_general_fuzzers.py | 62 +++++++++++++++++++++++
+ 1 file changed, 62 insertions(+)
+ create mode 100755 scripts/oss-fuzz/build_general_fuzzers.py
 
-diff --git a/scripts/oss-fuzz/target.c b/scripts/oss-fuzz/target.c
-new file mode 100644
-index 0000000000..4a7257412a
+diff --git a/scripts/oss-fuzz/build_general_fuzzers.py b/scripts/oss-fuzz/build_general_fuzzers.py
+new file mode 100755
+index 0000000000..79f4664117
 --- /dev/null
-+++ b/scripts/oss-fuzz/target.c
-@@ -0,0 +1,40 @@
-+/*
-+ * Copyright Red Hat Inc., 2020
-+ *
-+ * Authors:
-+ *  Alexander Bulekov   <alxndr@bu.edu>
-+ *
-+ * This work is licensed under the terms of the GNU GPL, version 2 or later.
-+ * See the COPYING file in the top-level directory.
-+ */
++++ b/scripts/oss-fuzz/build_general_fuzzers.py
+@@ -0,0 +1,62 @@
++#!/usr/bin/env python3
++# -*- coding: utf-8 -*-
 +
-+#include <stdio.h>
-+#include <stdlib.h>
-+#include <limits.h>
-+#include <libgen.h>
-+#include <string.h>
-+#include <unistd.h>
++"""
++This script creates wrapper binaries that invoke the general-device-fuzzer with
++configurations specified in a yaml config file.
++"""
++import sys
++import os
++import yaml
++import tempfile
++
++CC = ""
++TEMPLATE = ""
 +
 +
-+/* Required for oss-fuzz to consider the binary a target. */
-+static const char *magic __attribute__((used)) = "LLVMFuzzerTestOneInput";
-+static const char args[] = {QEMU_FUZZ_ARGS, 0x00};
-+static const char objects[] = {QEMU_FUZZ_OBJECTS, 0x00};
++def usage():
++    print("Usage: CC=COMPILER {} CONFIG_PATH \
++OUTPUT_PATH_PREFIX".format(sys.argv[0]))
++    sys.exit(0)
 +
-+int main(int argc, char *argv[])
-+{
-+    char path[PATH_MAX] = {0};
-+    char *dir = dirname(argv[0]);
-+    strncpy(path, dir, PATH_MAX);
-+    strcat(path, "/deps/qemu-fuzz-i386-target-general-fuzz");
 +
-+    setenv("QEMU_FUZZ_ARGS", args, 0);
-+    setenv("QEMU_FUZZ_OBJECTS", objects, 0);
++def str_to_c_byte_array(s):
++    """
++    Convert strings to byte-arrays so we don't worry about formatting
++    strings to play nicely with cc -DQEMU_FUZZARGS etc
++    """
++    return ','.join('0x{:02x}'.format(ord(x)) for x in s)
 +
-+    argv[0] = path;
-+    int ret = execvp(path, argv);
-+    if (ret) {
-+        perror("execv");
-+    }
-+    return ret;
-+}
++
++def compile_wrapper(cfg, path):
++    os.system('$CC -DQEMU_FUZZ_ARGS="{}" -DQEMU_FUZZ_OBJECTS="{}" \
++                {} -o {}'.format(
++                    str_to_c_byte_array(cfg["args"].replace("\n", " ")),
++                    str_to_c_byte_array(cfg["objects"].replace("\n", " ")),
++                    TEMPLATE, path))
++
++
++def main():
++    global CC
++    global TEMPLATE
++
++    if len(sys.argv) != 3:
++        usage()
++
++    cfg_path = sys.argv[1]
++    out_path = sys.argv[2]
++
++    CC = os.getenv("CC")
++    TEMPLATE = os.path.join(os.path.dirname(__file__), "target.c")
++
++    with open(cfg_path, "r") as f:
++        configs = yaml.load(f)["configs"]
++    for cfg in configs:
++        assert "name" in cfg
++        assert "args" in cfg
++        assert "objects" in cfg
++        compile_wrapper(cfg, out_path + cfg["name"])
++
++
++if __name__ == '__main__':
++    main()
 -- 
 2.27.0
 
