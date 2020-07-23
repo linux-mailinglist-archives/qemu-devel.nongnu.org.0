@@ -2,75 +2,73 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A975222B6A8
-	for <lists+qemu-devel@lfdr.de>; Thu, 23 Jul 2020 21:27:49 +0200 (CEST)
-Received: from localhost ([::1]:44426 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C599A22B6D3
+	for <lists+qemu-devel@lfdr.de>; Thu, 23 Jul 2020 21:36:42 +0200 (CEST)
+Received: from localhost ([::1]:50560 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jygse-0005cM-OI
-	for lists+qemu-devel@lfdr.de; Thu, 23 Jul 2020 15:27:48 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:37570)
+	id 1jyh1F-0000F8-MT
+	for lists+qemu-devel@lfdr.de; Thu, 23 Jul 2020 15:36:41 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:39420)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <eblake@redhat.com>) id 1jygrf-0004mB-TF
- for qemu-devel@nongnu.org; Thu, 23 Jul 2020 15:26:47 -0400
-Received: from us-smtp-2.mimecast.com ([207.211.31.81]:36601
- helo=us-smtp-delivery-1.mimecast.com)
+ (Exim 4.90_1) (envelope-from <eblake@redhat.com>) id 1jyh0O-0008Bo-SG
+ for qemu-devel@nongnu.org; Thu, 23 Jul 2020 15:35:48 -0400
+Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:54191
+ helo=us-smtp-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <eblake@redhat.com>) id 1jygre-0000e7-9P
- for qemu-devel@nongnu.org; Thu, 23 Jul 2020 15:26:47 -0400
+ (Exim 4.90_1) (envelope-from <eblake@redhat.com>) id 1jyh0M-0001w9-Jx
+ for qemu-devel@nongnu.org; Thu, 23 Jul 2020 15:35:48 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1595532405;
+ s=mimecast20190719; t=1595532945;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=Y7XgXKBHHDBF2ytUYNyb0YOlRwG6VCCQVVGJ7N5HROE=;
- b=StF9SA97mnQSae84THxbQpZDR2DdpTZor71rZvDW0HC6/9vsrGlXfw+FUwkrLF53Rt4Uil
- lc0xtkYzX7xth/gteCd6C6BW7czjMbyXwjWaKKr3ijTux6Q3vi7kG7q8k4nhOBz5iwtqVq
- oMNbEzbJ8r1ImYb8qRwxQjQt+7J7/Lk=
+ bh=n8TOOYWB4lunXnbSQmUrX9VSxwG3g0jjm9oPj4E6/3Y=;
+ b=E+rGrX8cE1U7W1VGw6aEYDfgNy+Wcc0D/AF8g10rpNY4YI+k11hId3rAdzbOqq3IeMJoke
+ WXjTgj7JoOmOqNLbSGehqOQMTVymQx+UgYvEYbysPkrD34s8VrQw8/awRaApULBhl9K1Cv
+ wOp9hkDXjts/EEtn4WuWYRtXeHr+sys=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-511-9SKPhn_kPU6OPp0RqHk7AQ-1; Thu, 23 Jul 2020 15:26:41 -0400
-X-MC-Unique: 9SKPhn_kPU6OPp0RqHk7AQ-1
+ us-mta-309-2kYnxYwVN6apunvD-rRtyQ-1; Thu, 23 Jul 2020 15:35:43 -0400
+X-MC-Unique: 2kYnxYwVN6apunvD-rRtyQ-1
 Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
  [10.5.11.13])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id D251F102C808
- for <qemu-devel@nongnu.org>; Thu, 23 Jul 2020 19:26:40 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 57023100AA24;
+ Thu, 23 Jul 2020 19:35:42 +0000 (UTC)
 Received: from [10.3.112.189] (ovpn-112-189.phx2.redhat.com [10.3.112.189])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 7F7C874F58;
- Thu, 23 Jul 2020 19:26:40 +0000 (UTC)
-Subject: Re: [PATCH 4/4] crypto: use QOM macros for declaration/definition of
- TLS creds types
-To: =?UTF-8?Q?Daniel_P=2e_Berrang=c3=a9?= <berrange@redhat.com>,
- qemu-devel@nongnu.org
-References: <20200723181410.3145233-1-berrange@redhat.com>
- <20200723181410.3145233-5-berrange@redhat.com>
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id EFA1C8BEE8;
+ Thu, 23 Jul 2020 19:35:39 +0000 (UTC)
+Subject: Re: [PATCH for-5.1? 0/4] non-blocking connect
+To: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>,
+ qemu-block@nongnu.org
+References: <20200720180715.10521-1-vsementsov@virtuozzo.com>
 From: Eric Blake <eblake@redhat.com>
 Organization: Red Hat, Inc.
-Message-ID: <54cf57cb-aca4-a321-3cea-693bfecb558c@redhat.com>
-Date: Thu, 23 Jul 2020 14:26:40 -0500
+Message-ID: <c8a9ac63-6d7d-1955-976d-b51c3ad6b0ab@redhat.com>
+Date: Thu, 23 Jul 2020 14:35:35 -0500
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
  Thunderbird/68.10.0
 MIME-Version: 1.0
-In-Reply-To: <20200723181410.3145233-5-berrange@redhat.com>
+In-Reply-To: <20200720180715.10521-1-vsementsov@virtuozzo.com>
 Content-Language: en-US
 X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=207.211.31.81; envelope-from=eblake@redhat.com;
- helo=us-smtp-delivery-1.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/07/23 02:26:42
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=207.211.31.120; envelope-from=eblake@redhat.com;
+ helo=us-smtp-1.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/07/22 22:13:02
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
 X-Spam_score_int: -30
 X-Spam_score: -3.1
 X-Spam_bar: ---
 X-Spam_report: (-3.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H3=-0.01, RCVD_IN_MSPIKE_WL=-0.01,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H4=-0.01, RCVD_IN_MSPIKE_WL=-0.01,
  SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -84,17 +82,36 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Paolo Bonzini <pbonzini@redhat.com>, Eduardo Habkost <ehabkost@redhat.com>
+Cc: kwolf@redhat.com, berrange@redhat.com, qemu-devel@nongnu.org,
+ mreitz@redhat.com, kraxel@redhat.com, den@openvz.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 7/23/20 1:14 PM, Daniel P. Berrangé wrote:
-> This introduces the use of the OBJECT_DEFINE and OBJECT_DECLARE macro
-> families in the TLS creds types, in order to eliminate boilerplate code.
+On 7/20/20 1:07 PM, Vladimir Sementsov-Ogievskiy wrote:
+> Hi! This fixes real problem (see 04). On the other hand it may be too
+> much for 5.1, and it's not a degradation. So, up to you.
+
+Given the concerns raised on 3, I think I'll wait for v2 of the series, 
+and defer it to 5.2.
+
 > 
-> Signed-off-by: Daniel P. Berrangé <berrange@redhat.com>
-> ---
-Reviewed-by: Eric Blake <eblake@redhat.com>
+> It's based on "[PATCH for-5.1? 0/3] Fix nbd reconnect dead-locks", or
+> in other words
+> Based-on: <20200720090024.18186-1-vsementsov@virtuozzo.com>
+> 
+> Vladimir Sementsov-Ogievskiy (4):
+>    qemu-sockets: refactor inet_connect_addr
+>    qemu-sockets: implement non-blocking connect interface
+>    io/channel-socket: implement non-blocking connect
+>    block/nbd: use non-blocking connect: fix vm hang on connect()
+> 
+>   include/io/channel-socket.h | 14 +++++++
+>   include/qemu/sockets.h      |  6 +++
+>   block/nbd.c                 | 11 +++---
+>   io/channel-socket.c         | 74 ++++++++++++++++++++++++++++++++++++
+>   util/qemu-sockets.c         | 76 ++++++++++++++++++++++++++-----------
+>   5 files changed, 153 insertions(+), 28 deletions(-)
+> 
 
 -- 
 Eric Blake, Principal Software Engineer
