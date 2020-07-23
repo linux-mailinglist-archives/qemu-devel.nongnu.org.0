@@ -2,114 +2,67 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4CD1122B4C0
-	for <lists+qemu-devel@lfdr.de>; Thu, 23 Jul 2020 19:22:15 +0200 (CEST)
-Received: from localhost ([::1]:56036 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3F04222B4EB
+	for <lists+qemu-devel@lfdr.de>; Thu, 23 Jul 2020 19:31:45 +0200 (CEST)
+Received: from localhost ([::1]:34392 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jyev8-0006v3-CM
-	for lists+qemu-devel@lfdr.de; Thu, 23 Jul 2020 13:22:14 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:37516)
+	id 1jyf4J-0001qG-PH
+	for lists+qemu-devel@lfdr.de; Thu, 23 Jul 2020 13:31:43 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:39522)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <andrey.shinkevich@virtuozzo.com>)
- id 1jyeu6-0006NR-3M; Thu, 23 Jul 2020 13:21:10 -0400
-Received: from mail-eopbgr140102.outbound.protection.outlook.com
- ([40.107.14.102]:10629 helo=EUR01-VE1-obe.outbound.protection.outlook.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <andrey.shinkevich@virtuozzo.com>)
- id 1jyeu4-0000gj-E5; Thu, 23 Jul 2020 13:21:09 -0400
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=BV+YfcGKBHTpiJU4YBq4xeq2Ql+SEv2/XK2s6QAIbEY/Oeho0Gl5HmXdFxUuQN7usB1CEALSEZ9MtCCF4OATPGEkSoKLgQvORuJYf6VVWaRsVLzRbFWin9p/t20KfRkmEPaeMC/fCGV+saIiQz/uEADxkBUUA1VmKb0GgjZ9kgvPY/u4pPeH0x3MvfCysVPHT7nLz96efS0F6Upc4OVGm2Gr26QhqtmNeaeemDSQZ3A6PcBFCt4jX0RUUrbQFtj64E4hkZIQ66JkDsHI21SSixhSwjWQyDNPNK9ZMNCVCvpBt79jYwzFc3w8JsNuX6wXunNuoerQoo6a2N+M69mDfg==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=TkATKVRu6MErgKEb0RFGDuVUXn0foOnRLRaGowDncHE=;
- b=RdiS+Q0Q83W1A6qvAFlmSzGvCgfkWNcmF8C6GrkbwfZxjlf/AawkLtYyuzVmMA1OWiJrNZsWWzC2KLjPiALw3hr1BEF/JERkPwQQ78tIOhYSqxcrOA4ebvIGgvioFATA3Qctn2xRAS586wAT4aQ/hsaahlsuj0N68hDrjmQLO2qXSPuKBQgA8+dGAzde9ZPpDzNEsCBXxjYU6zJ8UCU7y3h7LgwJytaKR/1xZYTsz6lx4orm6j6GrwJJN7HIHOAeUxg2vpQpsnTU1Hi8WjRnuzEXqwxNu5lsuOXxyr2zaySAN6TQ7YXTZRjnLPiF9esPeJ3tlwgf+UBxAG82CuDm8A==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=virtuozzo.com; dmarc=pass action=none
- header.from=virtuozzo.com; dkim=pass header.d=virtuozzo.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=virtuozzo.com;
- s=selector2;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=TkATKVRu6MErgKEb0RFGDuVUXn0foOnRLRaGowDncHE=;
- b=Hw9ALC3sYGb17k8SemjvANgkjtpKbIfQVY4jKUoX1gCZ0v1Ts9wGp9lKgpqPRLC8GyZ3fPQgKI7uUx9ZMhrK4d0m4au7f+xjjVzwQdJKx7huqrzU1CR/3IHxC82cW5/gP62KXtbS5f12oBpTe5rMD8U1+WdqR1gz6z3/1CKyy70=
-Authentication-Results: nongnu.org; dkim=none (message not signed)
- header.d=none;nongnu.org; dmarc=none action=none header.from=virtuozzo.com;
-Received: from AM6PR08MB4070.eurprd08.prod.outlook.com (2603:10a6:20b:a3::25)
- by AM5PR0801MB1907.eurprd08.prod.outlook.com (2603:10a6:203:4a::11)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3216.23; Thu, 23 Jul
- 2020 17:21:05 +0000
-Received: from AM6PR08MB4070.eurprd08.prod.outlook.com
- ([fe80::78ec:8cb6:41f7:b2a0]) by AM6PR08MB4070.eurprd08.prod.outlook.com
- ([fe80::78ec:8cb6:41f7:b2a0%5]) with mapi id 15.20.3195.028; Thu, 23 Jul 2020
- 17:21:05 +0000
-Subject: Re: [PATCH v7 36/47] nbd: Use CAF when looking for dirty bitmap
-To: Max Reitz <mreitz@redhat.com>, qemu-block@nongnu.org
-References: <20200625152215.941773-1-mreitz@redhat.com>
- <20200625152215.941773-37-mreitz@redhat.com>
-From: Andrey Shinkevich <andrey.shinkevich@virtuozzo.com>
-Message-ID: <4f5ef9db-2f79-7010-4626-e2497382c003@virtuozzo.com>
-Date: Thu, 23 Jul 2020 20:21:01 +0300
-User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:68.0)
- Gecko/20100101 Thunderbird/68.9.0
-In-Reply-To: <20200625152215.941773-37-mreitz@redhat.com>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Transfer-Encoding: 7bit
-Content-Language: en-GB
-X-ClientProxiedBy: AM4PR0501CA0051.eurprd05.prod.outlook.com
- (2603:10a6:200:68::19) To AM6PR08MB4070.eurprd08.prod.outlook.com
- (2603:10a6:20b:a3::25)
+ (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
+ id 1jyf3O-0001RF-0d
+ for qemu-devel@nongnu.org; Thu, 23 Jul 2020 13:30:46 -0400
+Received: from indium.canonical.com ([91.189.90.7]:56962)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
+ id 1jyf3L-0001zP-B6
+ for qemu-devel@nongnu.org; Thu, 23 Jul 2020 13:30:45 -0400
+Received: from loganberry.canonical.com ([91.189.90.37])
+ by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
+ id 1jyf3I-0002mx-Sl
+ for <qemu-devel@nongnu.org>; Thu, 23 Jul 2020 17:30:40 +0000
+Received: from loganberry.canonical.com (localhost [127.0.0.1])
+ by loganberry.canonical.com (Postfix) with ESMTP id D59832E80BA
+ for <qemu-devel@nongnu.org>; Thu, 23 Jul 2020 17:30:40 +0000 (UTC)
 MIME-Version: 1.0
-X-MS-Exchange-MessageSentRepresentingType: 1
-Received: from Admins-MacBook-Pro.local (109.252.114.82) by
- AM4PR0501CA0051.eurprd05.prod.outlook.com (2603:10a6:200:68::19) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3216.23 via Frontend
- Transport; Thu, 23 Jul 2020 17:21:03 +0000
-X-Originating-IP: [109.252.114.82]
-X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: 2e3a0614-e56a-4563-9332-08d82f2cc7fa
-X-MS-TrafficTypeDiagnostic: AM5PR0801MB1907:
-X-MS-Exchange-Transport-Forked: True
-X-Microsoft-Antispam-PRVS: <AM5PR0801MB1907CF96796EB57D645C8F18F4760@AM5PR0801MB1907.eurprd08.prod.outlook.com>
-X-MS-Oob-TLC-OOBClassifiers: OLM:267;
-X-MS-Exchange-SenderADCheck: 1
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: Sin5ZswGtHN//MKyqqU8c8/+pU3CyROVxcgO0jyf5pdZzycXBdFyncib1ToncSZh8AOsH7pugHUUBLzk14qXCk3Tlf4GPuvAK24ZZs3u7U0qvki9u02UmazTHmtMjEBwjYhHbhPv07fECNzqFTan8p052URwo58rv+N3c6Xwu4X2OAPXalAJHxp2E/HNb6sod7GoDASm5vFCeRU0neWk0VPGZJ+LhP4lTsleumEdSODy1lbofPNvPaj1ZOHVsFRqEm5nQHcY+DEq0mjtTZlzvrxLYEpzK5ynZancEJytTG43o0uTa2+7A7hhECHzhBjztdBjzS75ou9R5ArQFFISZ93e4HzxGZY4n8Ew6OHU6iWfafNaYXy22LRGBhcCCBObl+A1TrN4DADttV5idbIlDA==
-X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:AM6PR08MB4070.eurprd08.prod.outlook.com; PTR:; CAT:NONE;
- SFTY:;
- SFS:(4636009)(396003)(376002)(39840400004)(366004)(346002)(136003)(31686004)(86362001)(16526019)(6512007)(26005)(36756003)(8936002)(53546011)(52116002)(6506007)(31696002)(66946007)(4326008)(186003)(6486002)(8676002)(83380400001)(5660300002)(2906002)(956004)(44832011)(316002)(2616005)(4744005)(66556008)(66476007)(478600001)(54906003)(14143004)(43740500002);
- DIR:OUT; SFP:1102; 
-X-MS-Exchange-AntiSpam-MessageData: fNLo+0HrdjG0nGR4gy0wIGavgwmzy/h5Kwf7YTwc2zZKtPySRr0CZl66FkHTRaiBQd2Q6z9OMOk3DipOUUh1ZIqISLo2/3Kp/vETFhzxyBG+9ZSz5elSGnkAu81I3Na4wxqtPPGPhsplf4PQU51u9dMQQIACQKtnsq1xOvZWLRLbNu00FgkPhQ1yooDzjFMLirVPYiuxzOSrzc45ldLRGbz3VZ+YIuBpkbmVcqaHayeUcfL14RLh/CxKMZqGt0f4rTYyN+K93aMjlGkCWPzKqV9jzWx4SdzEGKKN0Oo0ZFNba82j3gpRnhvYR5MKNnhewMfLwsvNRAkcJQfeg+lEFj2wZyLlELbkEssYELWtSzxIFV/hoZZb6qkbWmAoqjsTwg2aVPMkLSJtvTiZprO9P2sDTNLgS5h/l2a2CKN6Pv+NTcRryjjSyOLO4WFO8sdLwYuIBRPbHq5x0XX2XxuqQxZ/q8jyz94ZKCh3uB0klyUvZcWNuzW4c2A8uJIudTjO
-X-OriginatorOrg: virtuozzo.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 2e3a0614-e56a-4563-9332-08d82f2cc7fa
-X-MS-Exchange-CrossTenant-AuthSource: AM6PR08MB4070.eurprd08.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 23 Jul 2020 17:21:05.5288 (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 0bc7f26d-0264-416e-a6fc-8352af79c58f
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: XD5KIyfiY2pd0rMqdftVwlycO6RGRc6w0pSg57D1BzSSFkaFaHUZpqePAyOATa2V1oAL7yZA4sm3eTH4Wdp0OxbN50AqYeYn4S7HNgPY6As=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: AM5PR0801MB1907
-Received-SPF: pass client-ip=40.107.14.102;
- envelope-from=andrey.shinkevich@virtuozzo.com;
- helo=EUR01-VE1-obe.outbound.protection.outlook.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/07/23 13:21:06
-X-ACL-Warn: Detected OS   = Windows NT kernel [generic] [fuzzy]
-X-Spam_score_int: -37
-X-Spam_score: -3.8
-X-Spam_bar: ---
-X-Spam_report: (-3.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- MSGID_FROM_MTA_HEADER=0.001, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-1,
- SPF_HELO_PASS=-0.001, SPF_PASS=-0.001,
- URIBL_BLOCKED=0.001 autolearn=ham autolearn_force=no
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: quoted-printable
+Date: Thu, 23 Jul 2020 17:23:35 -0000
+From: Alexander Bulekov <1888714@bugs.launchpad.net>
+To: qemu-devel@nongnu.org
+X-Launchpad-Notification-Type: bug
+X-Launchpad-Bug: product=qemu; status=New; importance=Undecided; assignee=None;
+X-Launchpad-Bug-Information-Type: Public
+X-Launchpad-Bug-Private: no
+X-Launchpad-Bug-Security-Vulnerability: no
+X-Launchpad-Bug-Commenters: a1xndr
+X-Launchpad-Bug-Reporter: Alexander Bulekov (a1xndr)
+X-Launchpad-Bug-Modifier: Alexander Bulekov (a1xndr)
+Message-Id: <159552501514.3414.9224287999042731513.malonedeb@gac.canonical.com>
+Subject: [Bug 1888714] [NEW] Memory Leak in hpet_timer results in unusable
+ machine
+X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
+X-Launchpad-Message-For: qemu-devel-ml
+Precedence: bulk
+X-Generated-By: Launchpad (canonical.com);
+ Revision="f877c5162b568393e2d07ce948459ba0abc456fe";
+ Instance="production-secrets-lazr.conf"
+X-Launchpad-Hash: 71df160e2902df1944e492a2d066180ed820cea8
+Received-SPF: none client-ip=91.189.90.7; envelope-from=bounces@canonical.com;
+ helo=indium.canonical.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/07/23 07:31:00
+X-ACL-Warn: Detected OS   = Linux 3.11 and newer [fuzzy]
+X-Spam_score_int: -58
+X-Spam_score: -5.9
+X-Spam_bar: -----
+X-Spam_report: (-5.9 / 5.0 requ) BAYES_00=-1.9, HEADER_FROM_DIFFERENT_DOMAINS=1,
+ RCVD_IN_DNSWL_HI=-5, RCVD_IN_MSPIKE_H3=-0.01, RCVD_IN_MSPIKE_WL=-0.01,
+ SPF_HELO_NONE=0.001, SPF_NONE=0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
-Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -118,44 +71,217 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Kevin Wolf <kwolf@redhat.com>,
- Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>, qemu-devel@nongnu.org
+Reply-To: Bug 1888714 <1888714@bugs.launchpad.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 25.06.2020 18:22, Max Reitz wrote:
-> When looking for a dirty bitmap to share, we should handle filters by
-> just including them in the search (so they do not break backing chains).
->
-> Signed-off-by: Max Reitz <mreitz@redhat.com>
-> ---
->   nbd/server.c | 6 +++---
->   1 file changed, 3 insertions(+), 3 deletions(-)
->
-> diff --git a/nbd/server.c b/nbd/server.c
-> index 20754e9ebc..b504a79435 100644
-> --- a/nbd/server.c
-> +++ b/nbd/server.c
-> @@ -1561,13 +1561,13 @@ NBDExport *nbd_export_new(BlockDriverState *bs, uint64_t dev_offset,
->       if (bitmap) {
->           BdrvDirtyBitmap *bm = NULL;
->   
-> -        while (true) {
-> +        while (bs) {
->               bm = bdrv_find_dirty_bitmap(bs, bitmap);
-> -            if (bm != NULL || bs->backing == NULL) {
-> +            if (bm != NULL) {
->                   break;
->               }
->   
-> -            bs = bs->backing->bs;
-> +            bs = bdrv_filter_or_cow_bs(bs);
->           }
->   
->           if (bm == NULL) {
+Public bug reported:
+
+Fair warning: this might be specific to QTest (specifically its
+clock_step) command. This reproducer only works with -accel qtest. Build
+with --enable-sanitizers to exit once we hit 1G RSS.
+
+export ASAN_OPTIONS=3Dhard_rss_limit_mb=3D1000 =
+
+cat << EOF | ./i386-softmmu/qemu-system-i386 -nographic \
+-nodefaults -qtest stdio -accel qtest
+writeq 0xfed0000e 0x15151515151515f1
+clock_step
+clock_step
+clock_step
+clock_step
+writeq 0xfed00100 0x5e90c5be00ff5e9e
+writeq 0xfed00109 0xffffe0ff5cfec0ff
+clock_step
+EOF
+
+On my machine it takes around 10 seconds to reach the RSS limit.
+
+Unfortunately, I can't find a way to tell ASAN to log each malloc to
+figure out whats going on, but running the original fuzzing test case
+with the libfuzzer -trace_malloc=3D2 flag, I found that the allocations
+happen here:
+
+MALLOC[130968] 0x60300069ac90 32
+    #0 0x55fa3f615851 in __sanitizer_print_stack_trace (/home/alxndr/Develo=
+pment/qemu/build/i386-softmmu/qemu-fuzz-i386+0x2683851)
+    #1 0x55fa3f55fe88 in fuzzer::PrintStackTrace() (/home/alxndr/Developmen=
+t/qemu/build/i386-softmmu/qemu-fuzz-i386+0x25cde88)
+    #2 0x55fa3f5447d6 in fuzzer::MallocHook(void const volatile*, unsigned =
+long) (/home/alxndr/Development/qemu/build/i386-softmmu/qemu-fuzz-i386+0x25=
+b27d6)
+    #3 0x55fa3f61bbb7 in __sanitizer::RunMallocHooks(void const*, unsigned =
+long) (/home/alxndr/Development/qemu/build/i386-softmmu/qemu-fuzz-i386+0x26=
+89bb7)
+    #4 0x55fa3f596d75 in __asan::Allocator::Allocate(unsigned long, unsigne=
+d long, __sanitizer::BufferedStackTrace*, __asan::AllocType, bool) (/home/a=
+lxndr/Development/qemu/build/i386-softmmu/qemu-fuzz-i386+0x2604d75)
+    #5 0x55fa3f596f7a in __asan::asan_calloc(unsigned long, unsigned long, =
+__sanitizer::BufferedStackTrace*) (/home/alxndr/Development/qemu/build/i386=
+-softmmu/qemu-fuzz-i386+0x2604f7a)
+    #6 0x55fa3f60d173 in calloc (/home/alxndr/Development/qemu/build/i386-s=
+oftmmu/qemu-fuzz-i386+0x267b173)
+    #7 0x7fb300737548 in g_malloc0 (/usr/lib/x86_64-linux-gnu/libglib-2.0.s=
+o.0+0x54548)
+    #8 0x55fa40157689 in async_run_on_cpu /home/alxndr/Development/qemu/cpu=
+s-common.c:163:10
+    #9 0x55fa409fab83 in hpet_timer /home/alxndr/Development/qemu/hw/timer/=
+hpet.c:376:9
+    #10 0x55fa416a5751 in timerlist_run_timers /home/alxndr/Development/qem=
+u/util/qemu-timer.c:572:9
+    #11 0x55fa3fcfdac4 in qtest_clock_warp /home/alxndr/Development/qemu/so=
+ftmmu/cpus.c:507:9
+    #12 0x55fa3fd65c35 in qtest_process_command /home/alxndr/Development/qe=
+mu/softmmu/qtest.c:665:9
+    #13 0x55fa3fd5e128 in qtest_process_inbuf /home/alxndr/Development/qemu=
+/softmmu/qtest.c:710:9
+    #14 0x55fa3fd5de67 in qtest_server_inproc_recv /home/alxndr/Development=
+/qemu/softmmu/qtest.c:817:9
+    #15 0x55fa4142b64b in qtest_sendf /home/alxndr/Development/qemu/tests/q=
+test/libqtest.c:424:5
+    #16 0x55fa4142c482 in qtest_clock_step_next /home/alxndr/Development/qe=
+mu/tests/qtest/libqtest.c:864:5
+    #17 0x55fa414b12d1 in general_fuzz /home/alxndr/Development/qemu/tests/=
+qtest/fuzz/general_fuzz.c:581:17
+
+It doesn't look like we ever exit out of the loop in
+timerlist_run_timers, ie timer_list->active_timers is always True.
 
 
-Reviewed-by: Andrey Shinkevich <andrey.shinkevich@virtuozzo.com>
+Info From GDB:
+#0  0x0000555558070d31 in address_space_stl_internal (as=3D0x55555f0e8f20 <=
+address_space_memory>, addr=3D0x0, val=3D0x0, attrs=3D..., result=3D0x0, en=
+dian=3DDEVICE_LITTLE_ENDIAN) at /home/alxndr/Development/qemu/memory_ldst.i=
+nc.c:323
+#1  0x0000555558071339 in address_space_stl_le (as=3D0x55555f0e8f20 <addres=
+s_space_memory>, addr=3D0x0, val=3D0x0, attrs=3D..., result=3D0x0) at /home=
+/alxndr/Development/qemu/memory_ldst.inc.c:357
+#2  0x000055555a6a6f95 in update_irq (timer=3D0x61f0000005b8, set=3D0x1) at=
+ /home/alxndr/Development/qemu/hw/timer/hpet.c:210
+#3  0x000055555a6ae55f in hpet_timer (opaque=3D0x61f0000005b8) at /home/alx=
+ndr/Development/qemu/hw/timer/hpet.c:386
+#4  0x000055555c03d178 in timerlist_run_timers (timer_list=3D0x60b0000528f0=
+) at /home/alxndr/Development/qemu/util/qemu-timer.c:572
+#5  0x000055555c03d6b5 in qemu_clock_run_timers (type=3DQEMU_CLOCK_VIRTUAL)=
+ at /home/alxndr/Development/qemu/util/qemu-timer.c:586
+#6  0x0000555558c3d0c4 in qtest_clock_warp (dest=3D0x3461864) at /home/alxn=
+dr/Development/qemu/softmmu/cpus.c:507
 
 
+-Alex
+
+** Affects: qemu
+     Importance: Undecided
+         Status: New
+
+-- =
+
+You received this bug notification because you are a member of qemu-
+devel-ml, which is subscribed to QEMU.
+https://bugs.launchpad.net/bugs/1888714
+
+Title:
+  Memory Leak in hpet_timer results in unusable machine
+
+Status in QEMU:
+  New
+
+Bug description:
+  Fair warning: this might be specific to QTest (specifically its
+  clock_step) command. This reproducer only works with -accel qtest.
+  Build with --enable-sanitizers to exit once we hit 1G RSS.
+
+  export ASAN_OPTIONS=3Dhard_rss_limit_mb=3D1000 =
+
+  cat << EOF | ./i386-softmmu/qemu-system-i386 -nographic \
+  -nodefaults -qtest stdio -accel qtest
+  writeq 0xfed0000e 0x15151515151515f1
+  clock_step
+  clock_step
+  clock_step
+  clock_step
+  writeq 0xfed00100 0x5e90c5be00ff5e9e
+  writeq 0xfed00109 0xffffe0ff5cfec0ff
+  clock_step
+  EOF
+
+  On my machine it takes around 10 seconds to reach the RSS limit.
+
+  Unfortunately, I can't find a way to tell ASAN to log each malloc to
+  figure out whats going on, but running the original fuzzing test case
+  with the libfuzzer -trace_malloc=3D2 flag, I found that the allocations
+  happen here:
+
+  MALLOC[130968] 0x60300069ac90 32
+      #0 0x55fa3f615851 in __sanitizer_print_stack_trace (/home/alxndr/Deve=
+lopment/qemu/build/i386-softmmu/qemu-fuzz-i386+0x2683851)
+      #1 0x55fa3f55fe88 in fuzzer::PrintStackTrace() (/home/alxndr/Developm=
+ent/qemu/build/i386-softmmu/qemu-fuzz-i386+0x25cde88)
+      #2 0x55fa3f5447d6 in fuzzer::MallocHook(void const volatile*, unsigne=
+d long) (/home/alxndr/Development/qemu/build/i386-softmmu/qemu-fuzz-i386+0x=
+25b27d6)
+      #3 0x55fa3f61bbb7 in __sanitizer::RunMallocHooks(void const*, unsigne=
+d long) (/home/alxndr/Development/qemu/build/i386-softmmu/qemu-fuzz-i386+0x=
+2689bb7)
+      #4 0x55fa3f596d75 in __asan::Allocator::Allocate(unsigned long, unsig=
+ned long, __sanitizer::BufferedStackTrace*, __asan::AllocType, bool) (/home=
+/alxndr/Development/qemu/build/i386-softmmu/qemu-fuzz-i386+0x2604d75)
+      #5 0x55fa3f596f7a in __asan::asan_calloc(unsigned long, unsigned long=
+, __sanitizer::BufferedStackTrace*) (/home/alxndr/Development/qemu/build/i3=
+86-softmmu/qemu-fuzz-i386+0x2604f7a)
+      #6 0x55fa3f60d173 in calloc (/home/alxndr/Development/qemu/build/i386=
+-softmmu/qemu-fuzz-i386+0x267b173)
+      #7 0x7fb300737548 in g_malloc0 (/usr/lib/x86_64-linux-gnu/libglib-2.0=
+.so.0+0x54548)
+      #8 0x55fa40157689 in async_run_on_cpu /home/alxndr/Development/qemu/c=
+pus-common.c:163:10
+      #9 0x55fa409fab83 in hpet_timer /home/alxndr/Development/qemu/hw/time=
+r/hpet.c:376:9
+      #10 0x55fa416a5751 in timerlist_run_timers /home/alxndr/Development/q=
+emu/util/qemu-timer.c:572:9
+      #11 0x55fa3fcfdac4 in qtest_clock_warp /home/alxndr/Development/qemu/=
+softmmu/cpus.c:507:9
+      #12 0x55fa3fd65c35 in qtest_process_command /home/alxndr/Development/=
+qemu/softmmu/qtest.c:665:9
+      #13 0x55fa3fd5e128 in qtest_process_inbuf /home/alxndr/Development/qe=
+mu/softmmu/qtest.c:710:9
+      #14 0x55fa3fd5de67 in qtest_server_inproc_recv /home/alxndr/Developme=
+nt/qemu/softmmu/qtest.c:817:9
+      #15 0x55fa4142b64b in qtest_sendf /home/alxndr/Development/qemu/tests=
+/qtest/libqtest.c:424:5
+      #16 0x55fa4142c482 in qtest_clock_step_next /home/alxndr/Development/=
+qemu/tests/qtest/libqtest.c:864:5
+      #17 0x55fa414b12d1 in general_fuzz /home/alxndr/Development/qemu/test=
+s/qtest/fuzz/general_fuzz.c:581:17
+
+  It doesn't look like we ever exit out of the loop in
+  timerlist_run_timers, ie timer_list->active_timers is always True.
+
+  =
+
+  Info From GDB:
+  #0  0x0000555558070d31 in address_space_stl_internal (as=3D0x55555f0e8f20=
+ <address_space_memory>, addr=3D0x0, val=3D0x0, attrs=3D..., result=3D0x0, =
+endian=3DDEVICE_LITTLE_ENDIAN) at /home/alxndr/Development/qemu/memory_ldst=
+.inc.c:323
+  #1  0x0000555558071339 in address_space_stl_le (as=3D0x55555f0e8f20 <addr=
+ess_space_memory>, addr=3D0x0, val=3D0x0, attrs=3D..., result=3D0x0) at /ho=
+me/alxndr/Development/qemu/memory_ldst.inc.c:357
+  #2  0x000055555a6a6f95 in update_irq (timer=3D0x61f0000005b8, set=3D0x1) =
+at /home/alxndr/Development/qemu/hw/timer/hpet.c:210
+  #3  0x000055555a6ae55f in hpet_timer (opaque=3D0x61f0000005b8) at /home/a=
+lxndr/Development/qemu/hw/timer/hpet.c:386
+  #4  0x000055555c03d178 in timerlist_run_timers (timer_list=3D0x60b0000528=
+f0) at /home/alxndr/Development/qemu/util/qemu-timer.c:572
+  #5  0x000055555c03d6b5 in qemu_clock_run_timers (type=3DQEMU_CLOCK_VIRTUA=
+L) at /home/alxndr/Development/qemu/util/qemu-timer.c:586
+  #6  0x0000555558c3d0c4 in qtest_clock_warp (dest=3D0x3461864) at /home/al=
+xndr/Development/qemu/softmmu/cpus.c:507
+
+  =
+
+  -Alex
+
+To manage notifications about this bug go to:
+https://bugs.launchpad.net/qemu/+bug/1888714/+subscriptions
 
