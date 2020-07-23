@@ -2,76 +2,73 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D463322B84F
-	for <lists+qemu-devel@lfdr.de>; Thu, 23 Jul 2020 23:06:04 +0200 (CEST)
-Received: from localhost ([::1]:50792 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5D16A22B896
+	for <lists+qemu-devel@lfdr.de>; Thu, 23 Jul 2020 23:26:55 +0200 (CEST)
+Received: from localhost ([::1]:35216 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jyiPj-00042O-RK
-	for lists+qemu-devel@lfdr.de; Thu, 23 Jul 2020 17:06:03 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:35224)
+	id 1jyijt-0002VU-WB
+	for lists+qemu-devel@lfdr.de; Thu, 23 Jul 2020 17:26:54 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:40474)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <eblake@redhat.com>) id 1jyiOP-0002pv-4c
- for qemu-devel@nongnu.org; Thu, 23 Jul 2020 17:04:41 -0400
-Received: from us-smtp-2.mimecast.com ([205.139.110.61]:51429
- helo=us-smtp-delivery-1.mimecast.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <eblake@redhat.com>) id 1jyiOL-0006U1-77
- for qemu-devel@nongnu.org; Thu, 23 Jul 2020 17:04:39 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1595538276;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=fDQwEOwmpXq/uZywxI5HJQK9jZhjI/JwFVDEdR9ew8E=;
- b=axms+gRQK7C3ETCdxIfizFnentpsd8zgi335onsnVrgu3DxdLCCpexeIOQmJjL9KN6a9BI
- 8MGAk2xRRKxFkLAqIuzm+cNaJuHaejm9rn5XMWubqIjtkM8dR4VH5Ku00UI7xiGp3IfQCG
- gDTctTdvsT3sbN+6VdBAC8pDfW2xWvs=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-208-e7ygVz3lM82xzSHzzir43g-1; Thu, 23 Jul 2020 17:04:32 -0400
-X-MC-Unique: e7ygVz3lM82xzSHzzir43g-1
-Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
- [10.5.11.12])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 30DA1800465;
- Thu, 23 Jul 2020 21:04:31 +0000 (UTC)
-Received: from [10.3.112.189] (ovpn-112-189.phx2.redhat.com [10.3.112.189])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id B6E7A37DD;
- Thu, 23 Jul 2020 21:04:27 +0000 (UTC)
-Subject: Re: [PATCH v2 10/22] migration/block-dirty-bitmap: cancel migration
- on shutdown
-To: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>,
- qemu-devel@nongnu.org
-References: <20200217150246.29180-1-vsementsov@virtuozzo.com>
- <20200217150246.29180-11-vsementsov@virtuozzo.com>
-From: Eric Blake <eblake@redhat.com>
-Organization: Red Hat, Inc.
-Message-ID: <d15d7cba-f9a7-8b3e-34d2-695e317d26a5@redhat.com>
-Date: Thu, 23 Jul 2020 16:04:27 -0500
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.10.0
+ (Exim 4.90_1) (envelope-from <jcmvbkbc@gmail.com>)
+ id 1jyiiQ-0001Z1-C9
+ for qemu-devel@nongnu.org; Thu, 23 Jul 2020 17:25:22 -0400
+Received: from mail-pf1-x443.google.com ([2607:f8b0:4864:20::443]:39640)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <jcmvbkbc@gmail.com>)
+ id 1jyiiO-0000oy-TM
+ for qemu-devel@nongnu.org; Thu, 23 Jul 2020 17:25:22 -0400
+Received: by mail-pf1-x443.google.com with SMTP id x72so3754723pfc.6
+ for <qemu-devel@nongnu.org>; Thu, 23 Jul 2020 14:25:20 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=Heg1Aghvm/3l1pWYj9VlSS6jmZFl24oMWqORxy83deY=;
+ b=fFr/zRqQocWMaVBe4B8txiTVBsc+hqDW4O6axsTXbXxMbbNaDZU0kTLzmsKBsizF9F
+ rGJTotAq0wf34yWgyGSHhB34FOr/DwdBb4mfJ5QiLpHWQge9A7WlBbN3cMUZnor+DZic
+ 9yylbEY2I2W3zm0gEmH92eAWRyH/uW/9C/9JY7CAJBTlq8XrUkYuTRJk72s/LT3UhH8w
+ kb8dqFlngeIxuk7qBHDGrQLmU6ixSm0r1BzHvxR1+iv+wLLRsH/jB+iKY3QyESsrWa0A
+ V/w0Boavvz+iNWVktbFVSTPHjNTRYynIh1pDStEpa6/OvChZfWu3rcJ3GqmWzbxpXMDN
+ Dh5Q==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=Heg1Aghvm/3l1pWYj9VlSS6jmZFl24oMWqORxy83deY=;
+ b=aEbvhbWpE23CivLzfm8Tqv678TRq3Y2QmK9WMp4XQpDso4H2bILnfLUeee95wfH+VJ
+ u6VTd5rv9Gd+FHRi1BjhYRs0N7IdqpKTkHR34PkfNnO402WSGmcGgSkj/J3qaQEISCjl
+ sn6O/yTI1fnkpDvSqfbfDHwIlx+qp2bjTNkG4eSsrpZjNUiqbIxcxKit8XEVot58pR/p
+ qFXLpdZki3Pcgvn9KiQigAKtGaA4B2uT8krhpjwaUEua78EJFy5qZDj37kFZgK/lJf31
+ XxMptR4yoVyw8wtQK+PruHa1wpEkolN7CfE67D4FuL7n2CjGwtgOdgBlxav287hz92e1
+ VPdA==
+X-Gm-Message-State: AOAM533SU8Bt2EkCVugyYE4dfj+nLqFBSxBLv8M5//sHU4T7nD/rxnGB
+ X6jRDiJscAbR/RYIliEutj44NCQXbaWkINAzPP4=
+X-Google-Smtp-Source: ABdhPJwVXBP1VQPrFlMK51oN/K7dJm7ykfxIf7LZBLtRY+MmNi5l/xWPpspvwywmHN8fUhjmlOIOhkKHdjKNKvySi74=
+X-Received: by 2002:a65:6554:: with SMTP id a20mr5143671pgw.301.1595539519154; 
+ Thu, 23 Jul 2020 14:25:19 -0700 (PDT)
 MIME-Version: 1.0
-In-Reply-To: <20200217150246.29180-11-vsementsov@virtuozzo.com>
-Content-Language: en-US
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=windows-1252; format=flowed
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=205.139.110.61; envelope-from=eblake@redhat.com;
- helo=us-smtp-delivery-1.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/07/23 02:33:29
-X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
-X-Spam_score_int: -40
-X-Spam_score: -4.1
-X-Spam_bar: ----
-X-Spam_report: (-4.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-1, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+References: <20200723210233.349690-1-Filip.Bozuta@syrmia.com>
+ <20200723210233.349690-3-Filip.Bozuta@syrmia.com>
+In-Reply-To: <20200723210233.349690-3-Filip.Bozuta@syrmia.com>
+From: Max Filippov <jcmvbkbc@gmail.com>
+Date: Thu, 23 Jul 2020 14:25:08 -0700
+Message-ID: <CAMo8Bf+O8ggdKuxhwQ_GyBwDyPAwBB=v=kD1Dnq=VWW-SvHJEg@mail.gmail.com>
+Subject: Re: [PATCH v2 2/3] linux-user: Add missing termbits types and values
+ definitions
+To: Filip Bozuta <Filip.Bozuta@syrmia.com>
+Content-Type: text/plain; charset="UTF-8"
+Received-SPF: pass client-ip=2607:f8b0:4864:20::443;
+ envelope-from=jcmvbkbc@gmail.com; helo=mail-pf1-x443.google.com
+X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
+ That's all we know.
+X-Spam_score_int: -5
+X-Spam_score: -0.6
+X-Spam_bar: /
+X-Spam_report: (-0.6 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
+ FROM_LOCAL_NOVOWEL=0.5, HK_RANDOM_ENVFROM=0.001, HK_RANDOM_FROM=1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -84,33 +81,47 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Fam Zheng <fam@euphon.net>, qemu-block@nongnu.org, quintela@redhat.com,
- dgilbert@redhat.com, Stefan Hajnoczi <stefanha@redhat.com>,
- andrey.shinkevich@virtuozzo.com
+Cc: Riku Voipio <riku.voipio@iki.fi>, qemu-devel <qemu-devel@nongnu.org>,
+ Laurent Vivier <laurent@vivier.eu>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 2/17/20 9:02 AM, Vladimir Sementsov-Ogievskiy wrote:
-> If target is turned of prior to postcopy finished, target crashes
-
-s/of/off/
-
-> because busy bitmaps are found at shutdown.
-> Canceling incoming migration helps, as it removes all unfinished (and
-> therefore busy) bitmaps.
-> 
-> Similarly on source we crash in bdrv_close_all which asserts that all
-> bdrv states are removed, because bdrv states involved into dirty bitmap
-> migration are referenced by it. So, we need to cancel outgoing
-> migration as well.
-> 
-> Signed-off-by: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
+On Thu, Jul 23, 2020 at 2:04 PM Filip Bozuta <Filip.Bozuta@syrmia.com> wrote:
+>
+> This patch introduces missing target types ('target_flag_t', 'target_cc_t',
+> 'target_speed_t') in a few 'termibts.h' header files. Also, two missing
+> values ('TARGET_IUTF8' and 'TARGET_EXTPROC') were also added. These values
+> were also added in file 'syscall.c' in bitmask tables 'iflag_tbl[]' and
+> 'lflag_tbl[]' which are used to convert values of 'struct termios' between
+> target and host.
+>
+> Signed-off-by: Filip Bozuta <Filip.Bozuta@syrmia.com>
 > ---
-> 
+>  linux-user/alpha/termbits.h   |  1 +
+>  linux-user/cris/termbits.h    | 18 ++++++++----
+>  linux-user/hppa/termbits.h    | 17 +++++++----
+>  linux-user/mips/termbits.h    | 17 +++++++----
+>  linux-user/ppc/termbits.h     | 21 ++++++++------
+>  linux-user/sh4/termbits.h     | 19 +++++++++----
+>  linux-user/sparc/termbits.h   | 18 ++++++++----
+>  linux-user/sparc64/termbits.h | 18 ++++++++----
+>  linux-user/syscall.c          | 34 +++++++++++-----------
+>  linux-user/xtensa/termbits.h  | 53 ++++++++++++++++++-----------------
+>  10 files changed, 130 insertions(+), 86 deletions(-)
+
+Curious why you did it to some targets, but not to others?
+E.g. the following headers have similar definitions:
+linux-user/aarch64/termbits.h
+linux-user/arm/termbits.h
+linux-user/i386/termbits.h
+linux-user/m68k/termbits.h
+linux-user/microblaze/termbits.h
+linux-user/nios2/termbits.h
+linux-user/riscv/termbits.h
+linux-user/s390x/termbits.h
+linux-user/tilegx/termbits.h
 
 -- 
-Eric Blake, Principal Software Engineer
-Red Hat, Inc.           +1-919-301-3226
-Virtualization:  qemu.org | libvirt.org
-
+Thanks.
+-- Max
 
