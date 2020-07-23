@@ -2,73 +2,101 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id DE28322B086
-	for <lists+qemu-devel@lfdr.de>; Thu, 23 Jul 2020 15:31:42 +0200 (CEST)
-Received: from localhost ([::1]:47114 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id CE4A622B08C
+	for <lists+qemu-devel@lfdr.de>; Thu, 23 Jul 2020 15:32:19 +0200 (CEST)
+Received: from localhost ([::1]:49454 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jybK1-00050C-U3
-	for lists+qemu-devel@lfdr.de; Thu, 23 Jul 2020 09:31:41 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:53594)
+	id 1jybKc-0005xY-Tl
+	for lists+qemu-devel@lfdr.de; Thu, 23 Jul 2020 09:32:18 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:54906)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <dinechin@redhat.com>)
- id 1jybHr-0003Kj-QF
- for qemu-devel@nongnu.org; Thu, 23 Jul 2020 09:29:27 -0400
-Received: from us-smtp-2.mimecast.com ([207.211.31.81]:51758
- helo=us-smtp-delivery-1.mimecast.com)
+ (Exim 4.90_1) (envelope-from <mreitz@redhat.com>) id 1jybJX-0004zM-2r
+ for qemu-devel@nongnu.org; Thu, 23 Jul 2020 09:31:11 -0400
+Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:59544
+ helo=us-smtp-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <dinechin@redhat.com>)
- id 1jybHo-0005PV-5k
- for qemu-devel@nongnu.org; Thu, 23 Jul 2020 09:29:27 -0400
+ (Exim 4.90_1) (envelope-from <mreitz@redhat.com>) id 1jybJR-00063H-9J
+ for qemu-devel@nongnu.org; Thu, 23 Jul 2020 09:31:10 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1595510963;
+ s=mimecast20190719; t=1595511063;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=3X7RJpzUMPF8J+wdkMnhsqm3/0vtWeM8YRC6/Q+/O3E=;
- b=FtCXdq6DSutXnjdgIH9Z3PKO84j6wLqbjRD4YcM5lPkVuZl3F4sUAFiivKL2po+llUsFFM
- E5aVuyRLZpDUKHuhyyBLpnQuBrMpKk5yfeXUGmAanblf9JxCQBsfxxF8g7SIbobMTWPK98
- 0++qxYfUCUThqOC2nmNd6/nOTXVrkNI=
+ in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
+ bh=ixqgI0wjgymsaubfYKLYeAD1oeTbglvQJ6agqB6uT78=;
+ b=AUTv1MYCwdOwrDu0eAxoOI4IjtKKkaz68BUypHmSeJcmnxEYrhNgeSfV9MaGIaaXG32WWo
+ uSoppaB13pwDsCmFWxN+jLMza9HX5WxGUhuNVM/zjKLlUKFDC/Exm7vRs14/DK5gmAyHuJ
+ h9y2d7YIJROzRMnJ8m2fMvVUCZPwqEc=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-31-B1yugL9gP_OgJH_uaqwYoA-1; Thu, 23 Jul 2020 09:29:21 -0400
-X-MC-Unique: B1yugL9gP_OgJH_uaqwYoA-1
-Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
- [10.5.11.14])
+ us-mta-122-B3hz5boQOrWrQfKhtew_5w-1; Thu, 23 Jul 2020 09:30:59 -0400
+X-MC-Unique: B3hz5boQOrWrQfKhtew_5w-1
+Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
+ [10.5.11.15])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 5C2A057;
- Thu, 23 Jul 2020 13:29:20 +0000 (UTC)
-Received: from turbo.com (ovpn-113-141.ams2.redhat.com [10.36.113.141])
- by smtp.corp.redhat.com (Postfix) with ESMTP id BE6B85D9D3;
- Thu, 23 Jul 2020 13:29:18 +0000 (UTC)
-From: Christophe de Dinechin <dinechin@redhat.com>
-To: qemu-devel@nongnu.org
-Subject: [PATCH v4 2/2] trace: Example of non-tracing recorder use
-Date: Thu, 23 Jul 2020 15:29:03 +0200
-Message-Id: <20200723132903.1980743-3-dinechin@redhat.com>
-In-Reply-To: <20200723132903.1980743-1-dinechin@redhat.com>
-References: <20200723132903.1980743-1-dinechin@redhat.com>
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 12C6980183C;
+ Thu, 23 Jul 2020 13:30:58 +0000 (UTC)
+Received: from dresden.str.redhat.com (ovpn-114-38.ams2.redhat.com
+ [10.36.114.38])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 095D671D33;
+ Thu, 23 Jul 2020 13:30:54 +0000 (UTC)
+Subject: Re: [PATCH v2 19/20] simplebench: bench_block_job: add cmd_options
+ argument
+To: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>,
+ qemu-block@nongnu.org
+References: <20200601181118.579-1-vsementsov@virtuozzo.com>
+ <20200601181118.579-20-vsementsov@virtuozzo.com>
+From: Max Reitz <mreitz@redhat.com>
+Autocrypt: addr=mreitz@redhat.com; prefer-encrypt=mutual; keydata=
+ mQENBFXOJlcBCADEyyhOTsoa/2ujoTRAJj4MKA21dkxxELVj3cuILpLTmtachWj7QW+TVG8U
+ /PsMCFbpwsQR7oEy8eHHZwuGQsNpEtNC2G/L8Yka0BIBzv7dEgrPzIu+W3anZXQW4702+uES
+ U29G8TP/NGfXRRHGlbBIH9KNUnOSUD2vRtpOLXkWsV5CN6vQFYgQfFvmp5ZpPeUe6xNplu8V
+ mcTw8OSEDW/ZnxJc8TekCKZSpdzYoxfzjm7xGmZqB18VFwgJZlIibt1HE0EB4w5GsD7x5ekh
+ awIe3RwoZgZDLQMdOitJ1tUc8aqaxvgA4tz6J6st8D8pS//m1gAoYJWGwwIVj1DjTYLtABEB
+ AAG0HU1heCBSZWl0eiA8bXJlaXR6QHJlZGhhdC5jb20+iQFTBBMBCAA9AhsDBQkSzAMABQsJ
+ CAcCBhUICQoLAgQWAgMBAh4BAheABQJVzie5FRhoa3A6Ly9rZXlzLmdudXBnLm5ldAAKCRD0
+ B9sAYdXPQDcIB/9uNkbYEex1rHKz3mr12uxYMwLOOFY9fstP5aoVJQ1nWQVB6m2cfKGdcRe1
+ 2/nFaHSNAzT0NnKz2MjhZVmcrpyd2Gp2QyISCfb1FbT82GMtXFj1wiHmPb3CixYmWGQUUh+I
+ AvUqsevLA+WihgBUyaJq/vuDVM1/K9Un+w+Tz5vpeMidlIsTYhcsMhn0L9wlCjoucljvbDy/
+ 8C9L2DUdgi3XTa0ORKeflUhdL4gucWoAMrKX2nmPjBMKLgU7WLBc8AtV+84b9OWFML6NEyo4
+ 4cP7cM/07VlJK53pqNg5cHtnWwjHcbpGkQvx6RUx6F1My3y52vM24rNUA3+ligVEgPYBuQEN
+ BFXOJlcBCADAmcVUNTWT6yLWQHvxZ0o47KCP8OcLqD+67T0RCe6d0LP8GsWtrJdeDIQk+T+F
+ xO7DolQPS6iQ6Ak2/lJaPX8L0BkEAiMuLCKFU6Bn3lFOkrQeKp3u05wCSV1iKnhg0UPji9V2
+ W5eNfy8F4ZQHpeGUGy+liGXlxqkeRVhLyevUqfU0WgNqAJpfhHSGpBgihUupmyUg7lfUPeRM
+ DzAN1pIqoFuxnN+BRHdAecpsLcbR8sQddXmDg9BpSKozO/JyBmaS1RlquI8HERQoe6EynJhd
+ 64aICHDfj61rp+/0jTIcevxIIAzW70IadoS/y3DVIkuhncgDBvGbF3aBtjrJVP+5ABEBAAGJ
+ ASUEGAEIAA8FAlXOJlcCGwwFCRLMAwAACgkQ9AfbAGHVz0CbFwf9F/PXxQR9i4N0iipISYjU
+ sxVdjJOM2TMut+ZZcQ6NSMvhZ0ogQxJ+iEQ5OjnIputKvPVd5U7WRh+4lF1lB/NQGrGZQ1ic
+ alkj6ocscQyFwfib+xIe9w8TG1CVGkII7+TbS5pXHRxZH1niaRpoi/hYtgzkuOPp35jJyqT/
+ /ELbqQTDAWcqtJhzxKLE/ugcOMK520dJDeb6x2xVES+S5LXby0D4juZlvUj+1fwZu+7Io5+B
+ bkhSVPb/QdOVTpnz7zWNyNw+OONo1aBUKkhq2UIByYXgORPFnbfMY7QWHcjpBVw9MgC4tGeF
+ R4bv+1nAMMxKmb5VvQCExr0eFhJUAHAhVg==
+Message-ID: <2da32d21-c446-194b-bd64-b01dd4a31f71@redhat.com>
+Date: Thu, 23 Jul 2020 15:30:53 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.10.0
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
+In-Reply-To: <20200601181118.579-20-vsementsov@virtuozzo.com>
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=dinechin@redhat.com
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=mreitz@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=207.211.31.81; envelope-from=dinechin@redhat.com;
- helo=us-smtp-delivery-1.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/07/23 02:26:42
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature";
+ boundary="dSUTCN1NYWlwzC7YHOlAi89gfvlIt61Hj"
+Received-SPF: pass client-ip=205.139.110.120; envelope-from=mreitz@redhat.com;
+ helo=us-smtp-1.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/07/23 06:04:25
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
-X-Spam_score_int: -30
-X-Spam_score: -3.1
-X-Spam_bar: ---
-X-Spam_report: (-3.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1,
+X-Spam_score_int: -40
+X-Spam_score: -4.1
+X-Spam_bar: ----
+X-Spam_report: (-4.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H3=-0.01, RCVD_IN_MSPIKE_WL=-0.01,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-1, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001, URIBL_BLOCKED=0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -81,85 +109,64 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Michael Tokarev <mjt@tls.msk.ru>, Markus Armbruster <armbru@redhat.com>,
- "Dr. David Alan Gilbert" <dgilbert@redhat.com>,
- Stefan Hajnoczi <stefanha@redhat.com>,
- Christophe de Dinechin <dinechin@redhat.com>,
- Laurent Vivier <laurent@vivier.eu>
+Cc: kwolf@redhat.com, wencongyang2@huawei.com, xiechanglong.d@gmail.com,
+ armbru@redhat.com, qemu-devel@nongnu.org, den@openvz.org, jsnow@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-This patch is a simple example showing how the recorder can be used to
-have one "topic" covering multiple entries. Here, the topic is "lock",
-the idea being to have the latest lock changes for instance in case of
-a crash or hang.
+This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
+--dSUTCN1NYWlwzC7YHOlAi89gfvlIt61Hj
+Content-Type: multipart/mixed; boundary="JdRLtuUki1dtc96knBls58OVuDvFwOfEP"
 
-Here are a few use cases:
+--JdRLtuUki1dtc96knBls58OVuDvFwOfEP
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: quoted-printable
 
-* Tracing  lock updates:
-    RECORDER_TRACES=lock qemu
-* Showing lock changes prior to a hang
-    RECORDER_TRACES=lock qemu &
-    # Wait until hang
-    killall -USR2 qemu  # This will trigger a dump
-* Graphic visualization of lock states:
-    RECORDER_TRACES="lock=state,id" qemu &
-    recorder_scope state
-    # Hit the 't' key to toggle timing display
-    # Hit the 'c' key to dump the screen data as CSV
-    cat recorder_scope_data-1.csv
+On 01.06.20 20:11, Vladimir Sementsov-Ogievskiy wrote:
+> Add argument to allow additional block-job options.
+>=20
+> Signed-off-by: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
+> ---
+>  scripts/simplebench/bench-example.py   |  2 +-
+>  scripts/simplebench/bench_block_job.py | 13 ++++++++-----
+>  2 files changed, 9 insertions(+), 6 deletions(-)
 
-Signed-off-by: Christophe de Dinechin <dinechin@redhat.com>
----
- util/qemu-thread-common.h | 7 +++++++
- 1 file changed, 7 insertions(+)
+[...]
 
-diff --git a/util/qemu-thread-common.h b/util/qemu-thread-common.h
-index 2af6b12085..0de07a471f 100644
---- a/util/qemu-thread-common.h
-+++ b/util/qemu-thread-common.h
-@@ -15,6 +15,9 @@
- 
- #include "qemu/thread.h"
- #include "trace.h"
-+#include "trace/recorder.h"
-+
-+RECORDER_DEFINE(lock, 16, "Lock state");
- 
- static inline void qemu_mutex_post_init(QemuMutex *mutex)
- {
-@@ -23,12 +26,14 @@ static inline void qemu_mutex_post_init(QemuMutex *mutex)
-     mutex->line = 0;
- #endif
-     mutex->initialized = true;
-+    record(lock, "Init state %d for %p", -1, mutex);
- }
- 
- static inline void qemu_mutex_pre_lock(QemuMutex *mutex,
-                                        const char *file, int line)
- {
-     trace_qemu_mutex_lock(mutex, file, line);
-+    record(lock, "Locking state %d for %p", 1, mutex);
- }
- 
- static inline void qemu_mutex_post_lock(QemuMutex *mutex,
-@@ -39,6 +44,7 @@ static inline void qemu_mutex_post_lock(QemuMutex *mutex,
-     mutex->line = line;
- #endif
-     trace_qemu_mutex_locked(mutex, file, line);
-+    record(lock, "Locked state %d for %p", 2, mutex);
- }
- 
- static inline void qemu_mutex_pre_unlock(QemuMutex *mutex,
-@@ -49,6 +55,7 @@ static inline void qemu_mutex_pre_unlock(QemuMutex *mutex,
-     mutex->line = 0;
- #endif
-     trace_qemu_mutex_unlock(mutex, file, line);
-+    record(lock, "Unkocked state %d for %p", 0, mutex);
- }
- 
- #endif
--- 
-2.26.2
+> diff --git a/scripts/simplebench/bench_block_job.py b/scripts/simplebench=
+/bench_block_job.py
+> index 9808d696cf..7332845c1c 100755
+> --- a/scripts/simplebench/bench_block_job.py
+> +++ b/scripts/simplebench/bench_block_job.py
+> @@ -1,4 +1,4 @@
+> -#!/usr/bin/env python
+> +#!/usr/bin/env python3
+
+Looks a bit unrelated.  Apart from that:
+
+Reviewed-by: Max Reitz <mreitz@redhat.com>
+
+
+--JdRLtuUki1dtc96knBls58OVuDvFwOfEP--
+
+--dSUTCN1NYWlwzC7YHOlAi89gfvlIt61Hj
+Content-Type: application/pgp-signature; name="signature.asc"
+Content-Description: OpenPGP digital signature
+Content-Disposition: attachment; filename="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAEBCAAdFiEEkb62CjDbPohX0Rgp9AfbAGHVz0AFAl8ZkQ0ACgkQ9AfbAGHV
+z0BvzQf8DgOKQbNeX2509hdVqlAI8EhNz8+eKq5wPYTt2QBsSp19eKfdRrRMvPSN
+KKaK593wFf2oi6CPYSAOrVAy2nzLKeet1Bs6Fpn+IuoRn+o0Hn8aHUKfU20LNIjn
+5p1ZVU/7emX+nszCQlvHuq5pCjDcNPrpQyTqu5eQn2YOJRYzDiA2Aba0IFnY2RN8
+0YSHaL6HweIA8N5BS8Luy/l3LkmsQeCVGXZbTkUBo4DP8qBbSXOG/qA5c+zYOnGg
+29iJzbXIN2sEXy6zIsJCgFdyAxGdLo3npaIdL24+LafwZdM9rJZPrQKHT3TDpIen
+79fTIM/Rv76XwfRWA12CHfDAyXYC+g==
+=QGH2
+-----END PGP SIGNATURE-----
+
+--dSUTCN1NYWlwzC7YHOlAi89gfvlIt61Hj--
 
 
