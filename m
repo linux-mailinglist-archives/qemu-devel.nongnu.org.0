@@ -2,68 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8124B22A3C8
-	for <lists+qemu-devel@lfdr.de>; Thu, 23 Jul 2020 02:43:31 +0200 (CEST)
-Received: from localhost ([::1]:34618 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7B4D522A3D7
+	for <lists+qemu-devel@lfdr.de>; Thu, 23 Jul 2020 02:48:28 +0200 (CEST)
+Received: from localhost ([::1]:37536 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jyPKc-0000HO-Jk
-	for lists+qemu-devel@lfdr.de; Wed, 22 Jul 2020 20:43:30 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:34698)
+	id 1jyPPP-0001nx-Ic
+	for lists+qemu-devel@lfdr.de; Wed, 22 Jul 2020 20:48:27 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:35600)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <bauerman@linux.ibm.com>)
- id 1jyPJn-00087q-GA; Wed, 22 Jul 2020 20:42:39 -0400
-Received: from mx0b-001b2d01.pphosted.com ([148.163.158.5]:11310)
+ id 1jyPOJ-0001Bo-Rg; Wed, 22 Jul 2020 20:47:19 -0400
+Received: from mx0a-001b2d01.pphosted.com ([148.163.156.1]:50650)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <bauerman@linux.ibm.com>)
- id 1jyPJl-000557-Tn; Wed, 22 Jul 2020 20:42:39 -0400
-Received: from pps.filterd (m0098421.ppops.net [127.0.0.1])
+ id 1jyPOG-0005fD-RD; Wed, 22 Jul 2020 20:47:19 -0400
+Received: from pps.filterd (m0187473.ppops.net [127.0.0.1])
  by mx0a-001b2d01.pphosted.com (8.16.0.42/8.16.0.42) with SMTP id
- 06N0VYd8013149; Wed, 22 Jul 2020 20:42:25 -0400
+ 06N0X6DP067052; Wed, 22 Jul 2020 20:46:56 -0400
 Received: from pps.reinject (localhost [127.0.0.1])
- by mx0a-001b2d01.pphosted.com with ESMTP id 32e1x8mqsy-1
+ by mx0a-001b2d01.pphosted.com with ESMTP id 32bvqx4vc4-1
  (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Wed, 22 Jul 2020 20:42:25 -0400
-Received: from m0098421.ppops.net (m0098421.ppops.net [127.0.0.1])
- by pps.reinject (8.16.0.36/8.16.0.36) with SMTP id 06N0gPKH041902;
- Wed, 22 Jul 2020 20:42:25 -0400
-Received: from ppma03dal.us.ibm.com (b.bd.3ea9.ip4.static.sl-reverse.com
- [169.62.189.11])
- by mx0a-001b2d01.pphosted.com with ESMTP id 32e1x8mqsr-1
+ Wed, 22 Jul 2020 20:46:55 -0400
+Received: from m0187473.ppops.net (m0187473.ppops.net [127.0.0.1])
+ by pps.reinject (8.16.0.36/8.16.0.36) with SMTP id 06N0X7dC067091;
+ Wed, 22 Jul 2020 20:46:41 -0400
+Received: from ppma02wdc.us.ibm.com (aa.5b.37a9.ip4.static.sl-reverse.com
+ [169.55.91.170])
+ by mx0a-001b2d01.pphosted.com with ESMTP id 32bvqx4v9h-1
  (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Wed, 22 Jul 2020 20:42:25 -0400
-Received: from pps.filterd (ppma03dal.us.ibm.com [127.0.0.1])
- by ppma03dal.us.ibm.com (8.16.0.42/8.16.0.42) with SMTP id 06N0aF9V001250;
- Thu, 23 Jul 2020 00:42:24 GMT
-Received: from b01cxnp22035.gho.pok.ibm.com (b01cxnp22035.gho.pok.ibm.com
- [9.57.198.25]) by ppma03dal.us.ibm.com with ESMTP id 32brq9t7u8-1
+ Wed, 22 Jul 2020 20:46:41 -0400
+Received: from pps.filterd (ppma02wdc.us.ibm.com [127.0.0.1])
+ by ppma02wdc.us.ibm.com (8.16.0.42/8.16.0.42) with SMTP id 06N0j5Es021418;
+ Thu, 23 Jul 2020 00:45:11 GMT
+Received: from b01cxnp22034.gho.pok.ibm.com (b01cxnp22034.gho.pok.ibm.com
+ [9.57.198.24]) by ppma02wdc.us.ibm.com with ESMTP id 32brq9g6e1-1
  (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Thu, 23 Jul 2020 00:42:24 +0000
+ Thu, 23 Jul 2020 00:45:11 +0000
 Received: from b01ledav004.gho.pok.ibm.com (b01ledav004.gho.pok.ibm.com
  [9.57.199.109])
- by b01cxnp22035.gho.pok.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
- 06N0gN4346268818
+ by b01cxnp22034.gho.pok.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
+ 06N0jAHk50004272
  (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Thu, 23 Jul 2020 00:42:23 GMT
+ Thu, 23 Jul 2020 00:45:10 GMT
 Received: from b01ledav004.gho.pok.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id 84218112063;
- Thu, 23 Jul 2020 00:42:23 +0000 (GMT)
+ by IMSVA (Postfix) with ESMTP id 87882112065;
+ Thu, 23 Jul 2020 00:45:10 +0000 (GMT)
 Received: from b01ledav004.gho.pok.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id 53BFC112061;
- Thu, 23 Jul 2020 00:42:18 +0000 (GMT)
+ by IMSVA (Postfix) with ESMTP id AFA60112064;
+ Thu, 23 Jul 2020 00:45:04 +0000 (GMT)
 Received: from morokweng.localdomain (unknown [9.211.93.190])
  by b01ledav004.gho.pok.ibm.com (Postfix) with ESMTPS;
- Thu, 23 Jul 2020 00:42:18 +0000 (GMT)
+ Thu, 23 Jul 2020 00:45:04 +0000 (GMT)
 References: <20200722035016.469075-1-bauerman@linux.ibm.com>
- <20200722035016.469075-6-bauerman@linux.ibm.com>
- <250a3a6b-6006-4432-71a6-9b479137cc59@redhat.com>
+ <20200722035016.469075-8-bauerman@linux.ibm.com>
+ <4dc8f2fe-763b-c25d-7049-20d60229d611@redhat.com>
 User-agent: mu4e 1.2.0; emacs 26.3
 From: Thiago Jung Bauermann <bauerman@linux.ibm.com>
-To: qemu-ppc@nongnu.org
-Subject: Re: [PATCH v2 5/9] mips/cps: Use start-powered-off CPUState property
-In-reply-to: <250a3a6b-6006-4432-71a6-9b479137cc59@redhat.com>
-Date: Wed, 22 Jul 2020 21:42:14 -0300
-Message-ID: <87r1t3rrix.fsf@morokweng.localdomain>
+To: Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <philmd@redhat.com>
+Subject: Re: [RFC PATCH v2 7/9] sparc/sun4m: Don't set CPUState::halted in
+ cpu_devinit()
+In-reply-to: <4dc8f2fe-763b-c25d-7049-20d60229d611@redhat.com>
+Date: Wed, 22 Jul 2020 21:45:01 -0300
+Message-ID: <87pn8nrrea.fsf@morokweng.localdomain>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Transfer-Encoding: quoted-printable
@@ -72,15 +73,15 @@ X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:6.0.235, 18.0.687
  definitions=2020-07-22_16:2020-07-22,
  2020-07-22 signatures=0
 X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- phishscore=0 malwarescore=0
- impostorscore=0 spamscore=0 adultscore=0 mlxscore=0 lowpriorityscore=0
- clxscore=1015 bulkscore=0 suspectscore=1 priorityscore=1501
- mlxlogscore=968 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2006250000 definitions=main-2007220151
-Received-SPF: pass client-ip=148.163.158.5;
- envelope-from=bauerman@linux.ibm.com; helo=mx0b-001b2d01.pphosted.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/07/22 18:08:00
-X-ACL-Warn: Detected OS   = Linux 3.x [generic]
+ mlxlogscore=999 spamscore=0
+ bulkscore=0 impostorscore=0 malwarescore=0 mlxscore=0 lowpriorityscore=0
+ suspectscore=0 adultscore=0 clxscore=1015 phishscore=0 priorityscore=1501
+ classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2006250000
+ definitions=main-2007230001
+Received-SPF: pass client-ip=148.163.156.1;
+ envelope-from=bauerman@linux.ibm.com; helo=mx0a-001b2d01.pphosted.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/07/22 20:39:13
+X-ACL-Warn: Detected OS   = Linux 3.1-3.10 [fuzzy]
 X-Spam_score_int: -35
 X-Spam_score: -3.6
 X-Spam_bar: ---
@@ -102,12 +103,13 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Cc: Peter Maydell <peter.maydell@linaro.org>,
  Aleksandar Rikalo <aleksandar.rikalo@syrmia.com>,
  Eduardo Habkost <ehabkost@redhat.com>, David Hildenbrand <david@redhat.com>,
- Cornelia Huck <cohuck@redhat.com>, qemu-devel@nongnu.org,
- Aleksandar Markovic <aleksandar.qemu.devel@gmail.com>, qemu-s390x@nongnu.org,
- qemu-arm@nongnu.org, Artyom Tarasenko <atar4qemu@gmail.com>,
+ qemu-s390x@nongnu.org, Cornelia Huck <cohuck@redhat.com>,
+ Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>, qemu-devel@nongnu.org,
+ Aleksandar Markovic <aleksandar.qemu.devel@gmail.com>, qemu-arm@nongnu.org,
+ qemu-ppc@nongnu.org, Aurelien Jarno <aurelien@aurel32.net>,
  Thomas Huth <thuth@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>,
- Richard Henderson <rth@twiddle.net>, Aurelien Jarno <aurelien@aurel32.net>,
- David Gibson <david@gibson.dropbear.id.au>
+ David Gibson <david@gibson.dropbear.id.au>,
+ Artyom Tarasenko <atar4qemu@gmail.com>, Richard Henderson <rth@twiddle.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
@@ -115,55 +117,43 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com> writes:
 
 > On 7/22/20 5:50 AM, Thiago Jung Bauermann wrote:
->> Instead of setting CPUState::halted to 1 in main_cpu_reset(), use the
->> start-powered-off property which makes cpu_common_reset() initialize it
->> to 1 in common code.
->>=20
+>> Remove setting of cs->halted from cpu_devinit(), which seems out of place
+>> when compared to similar code in other architectures (e.g., ppce500_init=
+()
+>> in hw/ppc/e500.c).
+>>
 >> Signed-off-by: Thiago Jung Bauermann <bauerman@linux.ibm.com>
 >> ---
->>  hw/mips/cps.c | 6 +++---
->>  1 file changed, 3 insertions(+), 3 deletions(-)
->>=20
+>>  hw/sparc/sun4m.c | 1 -
+>>  1 file changed, 1 deletion(-)
+>>
 >> NB: I was only able to test that this patch builds. I wasn't able to
 >> run it.
->>=20
->> diff --git a/hw/mips/cps.c b/hw/mips/cps.c
->> index 615e1a1ad2..d5b6c78019 100644
->> --- a/hw/mips/cps.c
->> +++ b/hw/mips/cps.c
->> @@ -52,9 +52,6 @@ static void main_cpu_reset(void *opaque)
->>      CPUState *cs =3D CPU(cpu);
->>=20=20
->>      cpu_reset(cs);
->> -
->> -    /* All VPs are halted on reset. Leave powering up to CPC. */
->> -    cs->halted =3D 1;
->>  }
->>=20=20
->>  static bool cpu_mips_itu_supported(CPUMIPSState *env)
->> @@ -89,6 +86,9 @@ static void mips_cps_realize(DeviceState *dev, Error *=
-*errp)
->>              env->itc_tag =3D mips_itu_get_tag_region(&s->itu);
->>              env->itu =3D &s->itu;
->>          }
->> +        /* All VPs are halted on reset. Leave powering up to CPC. */
->> +        object_property_set_bool(OBJECT(cpu), "start-powered-off", true,
->> +                                 &error_abort);
->
-> This is indeed better as now the property is set once, *after* realize
-> but *before* reset.
->
-> Reviewed-by: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
-
-Thanks for confirming!
-
->>          qemu_register_reset(main_cpu_reset, cpu);
+>>
+>> diff --git a/hw/sparc/sun4m.c b/hw/sparc/sun4m.c
+>> index 766e79bb5e..7b3042a801 100644
+>> --- a/hw/sparc/sun4m.c
+>> +++ b/hw/sparc/sun4m.c
+>> @@ -831,7 +831,6 @@ static void cpu_devinit(const char *cpu_type, unsign=
+ed int id,
+>>      } else {
+>>          qemu_register_reset(secondary_cpu_reset, cpu);
+>>          cs =3D CPU(cpu);
+>> -        cs->halted =3D 1;
+>>          object_property_set_bool(OBJECT(cs), "start-powered-off", true,
+>>                                   &error_abort);
 >>      }
->>=20=20
->>=20
+>>
+>
+> Why not squash with previous patch?
 
+I wasn't sure about this change, and it's also not strictly necessary
+for this patch set so I wanted to make it easy for maintainers to not
+apply it.
 
---=20
+I squashed it for v3.
+
+--
 Thiago Jung Bauermann
 IBM Linux Technology Center
 
