@@ -2,68 +2,73 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6DA3822B584
-	for <lists+qemu-devel@lfdr.de>; Thu, 23 Jul 2020 20:17:09 +0200 (CEST)
-Received: from localhost ([::1]:60200 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 32F9F22B57F
+	for <lists+qemu-devel@lfdr.de>; Thu, 23 Jul 2020 20:15:48 +0200 (CEST)
+Received: from localhost ([::1]:55416 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jyfmG-0000nd-H8
-	for lists+qemu-devel@lfdr.de; Thu, 23 Jul 2020 14:17:08 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:50474)
+	id 1jyfkx-0007Dp-7p
+	for lists+qemu-devel@lfdr.de; Thu, 23 Jul 2020 14:15:47 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:50422)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1jyfjg-0006GJ-UY
- for qemu-devel@nongnu.org; Thu, 23 Jul 2020 14:14:28 -0400
-Received: from us-smtp-1.mimecast.com ([207.211.31.81]:31649
- helo=us-smtp-delivery-1.mimecast.com)
+ id 1jyfjZ-00068n-VP
+ for qemu-devel@nongnu.org; Thu, 23 Jul 2020 14:14:21 -0400
+Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:43208
+ helo=us-smtp-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
  (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1jyfje-0007k9-W5
- for qemu-devel@nongnu.org; Thu, 23 Jul 2020 14:14:28 -0400
+ id 1jyfjX-0007hd-9P
+ for qemu-devel@nongnu.org; Thu, 23 Jul 2020 14:14:21 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1595528066;
+ s=mimecast20190719; t=1595528058;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding;
- bh=7JSrOaxBt7jmd/iy3lVXLFwWbsAU5eJo6KE6sKIEDUo=;
- b=a8pjEuwtu4Yc9T4hl/py/daaSEhfW0vEU8tcQN8w23J9fM1W8yMaKJkgNSTYAfE4GlGAC5
- 7B91hwyBxf79j6703+G82SffAs2uHY2EGcv4ouU4JeVgGnOz5E4GKmwRkUWAMgMJ5Xr3vE
- nVU+xVds42YlrFIYUcb37QZW9GTbrWI=
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=kDXwO5gPlivIb5XB4hL1oqWbFOuIH4X6en9/lBXkT5c=;
+ b=UTg7YHsh197boz4cm1Hl+q65wqZL2BIqYr0sNg8N7lQ0EYYjkErs0/bDALCG/RxLZmTs5t
+ k0n4T8TlkI+qY9zv9w5ma39ehEpzselMbJtvyX5If/iKHFlI+XkGS8D5AGDrPyJNo34FpN
+ qGO+7cMhSgvbo/nlYqzyb2XEoDcSJUQ=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-507-ebOf09EeNiy8KqJ_Iuw-pw-1; Thu, 23 Jul 2020 14:14:14 -0400
-X-MC-Unique: ebOf09EeNiy8KqJ_Iuw-pw-1
+ us-mta-57-vK7cqvjJNVeEQ1C95jrBLQ-1; Thu, 23 Jul 2020 14:14:16 -0400
+X-MC-Unique: vK7cqvjJNVeEQ1C95jrBLQ-1
 Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
  [10.5.11.22])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 79B231932480
- for <qemu-devel@nongnu.org>; Thu, 23 Jul 2020 18:14:13 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 659B51932481
+ for <qemu-devel@nongnu.org>; Thu, 23 Jul 2020 18:14:15 +0000 (UTC)
 Received: from localhost.localdomain.com (unknown [10.36.110.60])
- by smtp.corp.redhat.com (Postfix) with ESMTP id DAAE41009940;
- Thu, 23 Jul 2020 18:14:11 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id D366D1009940;
+ Thu, 23 Jul 2020 18:14:13 +0000 (UTC)
 From: =?UTF-8?q?Daniel=20P=2E=20Berrang=C3=A9?= <berrange@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH 0/4] qom: reduce boilerplate required for declaring and
- defining objects
-Date: Thu, 23 Jul 2020 19:14:06 +0100
-Message-Id: <20200723181410.3145233-1-berrange@redhat.com>
+Subject: [PATCH 1/4] qom: make object_ref/unref use a void * instead of Object
+ *.
+Date: Thu, 23 Jul 2020 19:14:07 +0100
+Message-Id: <20200723181410.3145233-2-berrange@redhat.com>
+In-Reply-To: <20200723181410.3145233-1-berrange@redhat.com>
+References: <20200723181410.3145233-1-berrange@redhat.com>
 MIME-Version: 1.0
 X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=berrange@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=207.211.31.81; envelope-from=berrange@redhat.com;
- helo=us-smtp-delivery-1.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/07/23 02:26:42
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=207.211.31.120; envelope-from=berrange@redhat.com;
+ helo=us-smtp-1.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/07/22 22:13:02
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
 X-Spam_score_int: -30
 X-Spam_score: -3.1
 X-Spam_bar: ---
 X-Spam_report: (-3.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H3=-0.01, RCVD_IN_MSPIKE_WL=-0.01,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H4=-0.01, RCVD_IN_MSPIKE_WL=-0.01,
  SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -83,151 +88,69 @@ Cc: Paolo Bonzini <pbonzini@redhat.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-To just duplicate the patch 2 message....=0D
-=0D
-When creating new QOM types, there is a lot of boilerplate code that=0D
-must be repeated using a standard pattern. This is tedious to write=0D
-and liable to suffer from subtle inconsistencies. Thus it would=0D
-benefit from some simple automation.=0D
-=0D
-QOM was loosely inspired by GLib's GObject, and indeed GObject suffers=0D
-from the same burden of boilerplate code, but has long provided a set of=0D
-macros to eliminate this burden in the source implementation. More=0D
-recently it has also provided a set of macros to eliminate this burden=0D
-in the header declaration.=0D
-=0D
-In GLib there are the G_DECLARE_* and G_DEFINE_* family of macros=0D
-for the header declaration and source implementation respectively:=0D
-=0D
-  https://developer.gnome.org/gobject/stable/chapter-gobject.html=0D
-  https://developer.gnome.org/gobject/stable/howto-gobject.html=0D
-=0D
-This patch takes inspiration from GObject to provide the equivalent=0D
-functionality for QOM.=0D
-=0D
-In the header file, instead of:=0D
-=0D
-    typedef struct MyDevice MyDevice;=0D
-    typedef struct MyDeviceClass MyDeviceClass;=0D
-=0D
-    G_DEFINE_AUTOPTR_CLEANUP_FUNC(MyDeviceClass, object_unref)=0D
-=0D
-    #define MY_DEVICE_GET_CLASS(void *obj) \=0D
-            OBJECT_GET_CLASS(MyDeviceClass, obj, TYPE_MY_DEVICE)=0D
-    #define MY_DEVICE_CLASS(void *klass) \=0D
-            OBJECT_CLASS_CHECK(MyDeviceClass, klass, TYPE_MY_DEVICE)=0D
-    #define MY_DEVICE(void *obj)=0D
-            OBJECT_CHECK(MyDevice, obj, TYPE_MY_DEVICE)=0D
-=0D
-    struct MyDeviceClass {=0D
-        DeviceClass parent_class;=0D
-    };=0D
-=0D
-We now have=0D
-=0D
-    OBJECT_DECLARE_SIMPLE_TYPE(MyDevice, my_device, MY_DEVICE, DEVICE)=0D
-=0D
-In cases where the class needs some virtual methods, it can be left=0D
-to be implemented manually using=0D
-=0D
-    OBJECT_DECLARE_TYPE(MyDevice, my_device, MY_DEVICE)=0D
-=0D
-Note that these macros are including support for g_autoptr() for the=0D
-object types, which is something previously only supported for variables=0D
-declared as the base Object * type.=0D
-=0D
-Meanwhile in the source file, instead of:=0D
-=0D
-    static void my_device_finalize(Object *obj);=0D
-    static void my_device_class_init(ObjectClass *oc, void *data);=0D
-    static void my_device_init(Object *obj);=0D
-=0D
-    static const TypeInfo my_device_info =3D {=0D
-        .parent =3D TYPE_DEVICE,=0D
-        .name =3D TYPE_MY_DEVICE,=0D
-        .instance_size =3D sizeof(MyDevice),=0D
-        .instance_init =3D my_device_init,=0D
-        .instance_finalize =3D my_device_finalize,=0D
-        .class_size =3D sizeof(MyDeviceClass),=0D
-        .class_init =3D my_device_class_init,=0D
-    };=0D
-=0D
-    static void=0D
-    my_device_register_types(void)=0D
-    {=0D
-        type_register_static(&my_device_info);=0D
-    }=0D
-    type_init(my_device_register_types);=0D
-=0D
-We now have=0D
-=0D
-    OBJECT_DEFINE_TYPE(MyDevice, my_device, MY_DEVICE, DEVICE)=0D
-=0D
-Or, if a class needs to implement interfaces:=0D
-=0D
-    OBJECT_DEFINE_TYPE_WITH_INTERFACES(MyDevice, my_device, MY_DEVICE, DEVI=
-CE,=0D
-                                       { TYPE_USER_CREATABLE }, { NULL })=
-=0D
-=0D
-Or, if a class needs to be abstract=0D
-=0D
-    OBJECT_DEFINE_ABSTRACT_TYPE(MyDevice, my_device, MY_DEVICE, DEVICE)=0D
-=0D
-IOW, in both cases the maintainer now only has to think about the=0D
-interesting part of the code which implements useful functionality=0D
-and avoids much of the boilerplate.=0D
-=0D
-=0D
-Patches 3 and 4 illustrate the usage of the new macros, and by excluding=0D
-the qom changes, and just looking at the crypto, the diffstat shows the=0D
-benefits quite nicely:=0D
-=0D
- crypto/secret.c                 | 24 ++++--------------------=0D
- crypto/secret_common.c          | 32 +++++++++-----------------------=0D
- crypto/secret_keyring.c         | 28 +++++++++-------------------=0D
- crypto/tlscreds.c               | 25 +++----------------------=0D
- crypto/tlscredsanon.c           | 23 ++++-------------------=0D
- crypto/tlscredspsk.c            | 25 +++++--------------------=0D
- crypto/tlscredsx509.c           | 29 ++++-------------------------=0D
- include/crypto/secret.h         | 11 ++---------=0D
- include/crypto/secret_common.h  | 13 ++-----------=0D
- include/crypto/secret_keyring.h | 18 ++----------------=0D
- include/crypto/tlscreds.h       | 13 ++-----------=0D
- include/crypto/tlscredsanon.h   | 14 ++------------=0D
- include/crypto/tlscredspsk.h    | 13 ++-----------=0D
- include/crypto/tlscredsx509.h   | 13 ++-----------=0D
- 14 files changed, 52 insertions(+), 229 deletions(-)=0D
-=0D
-(The 'qom' file diffstat is misled by the large amount of API doc text=0D
- added).=0D
-=0D
-Daniel P. Berrang=C3=A9 (4):=0D
-  qom: make object_ref/unref use a void * instead of Object *.=0D
-  qom: provide convenient macros for declaring and defining types=0D
-  crypto: use QOM macros for declaration/definition of secret types=0D
-  crypto: use QOM macros for declaration/definition of TLS creds types=0D
-=0D
- crypto/secret.c                 |  24 +--=0D
- crypto/secret_common.c          |  32 +---=0D
- crypto/secret_keyring.c         |  28 +---=0D
- crypto/tlscreds.c               |  25 +--=0D
- crypto/tlscredsanon.c           |  23 +--=0D
- crypto/tlscredspsk.c            |  25 +--=0D
- crypto/tlscredsx509.c           |  29 +---=0D
- include/crypto/secret.h         |  11 +-=0D
- include/crypto/secret_common.h  |  13 +-=0D
- include/crypto/secret_keyring.h |  18 +-=0D
- include/crypto/tlscreds.h       |  13 +-=0D
- include/crypto/tlscredsanon.h   |  14 +-=0D
- include/crypto/tlscredspsk.h    |  13 +-=0D
- include/crypto/tlscredsx509.h   |  13 +-=0D
- include/qom/object.h            | 281 +++++++++++++++++++++++++++++++-=0D
- qom/object.c                    |   6 +-=0D
- 16 files changed, 335 insertions(+), 233 deletions(-)=0D
-=0D
---=20=0D
-2.26.2=0D
-=0D
+The object_ref/unref methods are intended for use with any subclass of
+the base Object. Using "Object *" in the signature is not adding any
+meaningful level of type safety, since callers simply use "OBJECT(ptr)"
+and this expands to an unchecked cast "(Object *)".
+
+By using "void *" we enable the object_unref() method to be used to
+provide support for g_autoptr() with any subclass.
+
+Signed-off-by: Daniel P. Berrangé <berrange@redhat.com>
+---
+ include/qom/object.h | 4 ++--
+ qom/object.c         | 6 ++++--
+ 2 files changed, 6 insertions(+), 4 deletions(-)
+
+diff --git a/include/qom/object.h b/include/qom/object.h
+index 0f3a60617c..1f8aa2d48e 100644
+--- a/include/qom/object.h
++++ b/include/qom/object.h
+@@ -1035,7 +1035,7 @@ GSList *object_class_get_list_sorted(const char *implements_type,
+  * as its reference count is greater than zero.
+  * Returns: @obj
+  */
+-Object *object_ref(Object *obj);
++Object *object_ref(void *obj);
+ 
+ /**
+  * object_unref:
+@@ -1044,7 +1044,7 @@ Object *object_ref(Object *obj);
+  * Decrease the reference count of a object.  A object cannot be freed as long
+  * as its reference count is greater than zero.
+  */
+-void object_unref(Object *obj);
++void object_unref(void *obj);
+ 
+ /**
+  * object_property_try_add:
+diff --git a/qom/object.c b/qom/object.c
+index 00fdf89b3b..b1822a2ef4 100644
+--- a/qom/object.c
++++ b/qom/object.c
+@@ -1124,8 +1124,9 @@ GSList *object_class_get_list_sorted(const char *implements_type,
+                         object_class_cmp);
+ }
+ 
+-Object *object_ref(Object *obj)
++Object *object_ref(void *objptr)
+ {
++    Object *obj = OBJECT(objptr);
+     if (!obj) {
+         return NULL;
+     }
+@@ -1133,8 +1134,9 @@ Object *object_ref(Object *obj)
+     return obj;
+ }
+ 
+-void object_unref(Object *obj)
++void object_unref(void *objptr)
+ {
++    Object *obj = OBJECT(objptr);
+     if (!obj) {
+         return;
+     }
+-- 
+2.26.2
 
 
