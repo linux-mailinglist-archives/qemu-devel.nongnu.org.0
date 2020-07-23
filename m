@@ -2,46 +2,46 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8603A22A5D9
-	for <lists+qemu-devel@lfdr.de>; Thu, 23 Jul 2020 05:10:16 +0200 (CEST)
-Received: from localhost ([::1]:56576 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7019722A5E2
+	for <lists+qemu-devel@lfdr.de>; Thu, 23 Jul 2020 05:13:40 +0200 (CEST)
+Received: from localhost ([::1]:39510 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jyRcd-0007tL-Hq
-	for lists+qemu-devel@lfdr.de; Wed, 22 Jul 2020 23:10:15 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:39698)
+	id 1jyRfv-0004IH-GD
+	for lists+qemu-devel@lfdr.de; Wed, 22 Jul 2020 23:13:39 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:39810)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <dgibson@ozlabs.org>)
- id 1jyRbD-0006HX-IT; Wed, 22 Jul 2020 23:08:47 -0400
-Received: from bilbo.ozlabs.org ([203.11.71.1]:44947 helo=ozlabs.org)
+ id 1jyRbJ-0006Tm-9V; Wed, 22 Jul 2020 23:08:53 -0400
+Received: from bilbo.ozlabs.org ([2401:3900:2:1::2]:53305 helo=ozlabs.org)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <dgibson@ozlabs.org>)
- id 1jyRbA-0006TB-Rp; Wed, 22 Jul 2020 23:08:47 -0400
+ id 1jyRbH-0006UQ-2t; Wed, 22 Jul 2020 23:08:52 -0400
 Received: by ozlabs.org (Postfix, from userid 1007)
- id 4BBy2v3xSFz9sRf; Thu, 23 Jul 2020 13:08:39 +1000 (AEST)
+ id 4BBy2v6JQmz9sSn; Thu, 23 Jul 2020 13:08:39 +1000 (AEST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
  d=gibson.dropbear.id.au; s=201602; t=1595473719;
- bh=8gO8lrXm9Zs06bXFiLzN1vzF+m8bshGnphaA+b13KCA=;
+ bh=/3q+qLEIXDksYPkpoztheGx/0Gg45dfxB5RFVCq5noQ=;
  h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=Tn5K2CNJ5aUz8S411SpZaQbNzRgyxKuhLV+kQOmsTz5/4lM7ElYWXQnDfNSOIKLzq
- vJkjPiiBpD6QEud4HJ9fBRkr0h3hr6yNnqn5qmU3YHJgdmj4bZF4gzUWR7dOfSFYc8
- TdL/vK1EIDMIpqF08oOWYM6u1HN+uOJ0vQ3PHFC4=
-Date: Thu, 23 Jul 2020 13:07:11 +1000
+ b=b2WkPEO1LNULVqHT6wDa/TavMhuFeeW0WS8QkGaa8/9zpRqt9SdnfWaXWpxAx29Rq
+ 7if1wosHvnqveofLaTmgN9Mlv4Xekf/SYb6dN2e1XC9K/OfU5J+ZaJmz9KsU2uEwx1
+ exSITBfrw26TU/hmiKQJ8nxuvOvQksRJjnfM2NNY=
+Date: Thu, 23 Jul 2020 13:07:41 +1000
 From: David Gibson <david@gibson.dropbear.id.au>
 To: Thiago Jung Bauermann <bauerman@linux.ibm.com>
-Subject: Re: [PATCH v3 4/8] ppc/e500: Use start-powered-off CPUState property
-Message-ID: <20200723030711.GO5513@umbus.fritz.box>
+Subject: Re: [PATCH v3 5/8] mips/cps: Use start-powered-off CPUState property
+Message-ID: <20200723030741.GP5513@umbus.fritz.box>
 References: <20200723025657.644724-1-bauerman@linux.ibm.com>
- <20200723025657.644724-5-bauerman@linux.ibm.com>
+ <20200723025657.644724-6-bauerman@linux.ibm.com>
 MIME-Version: 1.0
 Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature"; boundary="+wSiqF7c0ySQ2tNi"
+ protocol="application/pgp-signature"; boundary="ccJhwVfaC+fHwTsl"
 Content-Disposition: inline
-In-Reply-To: <20200723025657.644724-5-bauerman@linux.ibm.com>
-Received-SPF: pass client-ip=203.11.71.1; envelope-from=dgibson@ozlabs.org;
+In-Reply-To: <20200723025657.644724-6-bauerman@linux.ibm.com>
+Received-SPF: pass client-ip=2401:3900:2:1::2; envelope-from=dgibson@ozlabs.org;
  helo=ozlabs.org
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/07/22 23:08:40
-X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic]
+X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
+ That's all we know.
 X-Spam_score_int: -9
 X-Spam_score: -1.0
 X-Spam_bar: -
@@ -78,57 +78,51 @@ Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 
---+wSiqF7c0ySQ2tNi
+--ccJhwVfaC+fHwTsl
 Content-Type: text/plain; charset=iso-8859-1
 Content-Disposition: inline
 Content-Transfer-Encoding: quoted-printable
 
-On Wed, Jul 22, 2020 at 11:56:53PM -0300, Thiago Jung Bauermann wrote:
-> Instead of setting CPUState::halted to 1 in ppce500_cpu_reset_sec(), use
-> the start-powered-off property which makes cpu_common_reset() initialize =
-it
+On Wed, Jul 22, 2020 at 11:56:54PM -0300, Thiago Jung Bauermann wrote:
+> Instead of setting CPUState::halted to 1 in main_cpu_reset(), use the
+> start-powered-off property which makes cpu_common_reset() initialize it
 > to 1 in common code.
 >=20
 > Reviewed-by: Philippe Mathieu-Daud=E9 <philmd@redhat.com>
 > Signed-off-by: Thiago Jung Bauermann <bauerman@linux.ibm.com>
 
-Acked-by: David Gibson <david@gibson.dropbear.id.au>
+Reviewed-by: David Gibson <david@gibson.dropbear.id.au>
 
 > ---
->  hw/ppc/e500.c | 10 +++++++---
->  1 file changed, 7 insertions(+), 3 deletions(-)
+>  hw/mips/cps.c | 6 +++---
+>  1 file changed, 3 insertions(+), 3 deletions(-)
 >=20
 > NB: I was only able to test that this patch builds. I wasn't able to
 > run it.
 >=20
-> diff --git a/hw/ppc/e500.c b/hw/ppc/e500.c
-> index ab9884e315..dda71bc05d 100644
-> --- a/hw/ppc/e500.c
-> +++ b/hw/ppc/e500.c
-> @@ -704,9 +704,6 @@ static void ppce500_cpu_reset_sec(void *opaque)
+> diff --git a/hw/mips/cps.c b/hw/mips/cps.c
+> index 615e1a1ad2..d5b6c78019 100644
+> --- a/hw/mips/cps.c
+> +++ b/hw/mips/cps.c
+> @@ -52,9 +52,6 @@ static void main_cpu_reset(void *opaque)
+>      CPUState *cs =3D CPU(cpu);
 > =20
 >      cpu_reset(cs);
-> =20
-> -    /* Secondary CPU starts in halted state for now. Needs to change when
-> -       implementing non-kernel boot. */
+> -
+> -    /* All VPs are halted on reset. Leave powering up to CPC. */
 > -    cs->halted =3D 1;
->      cs->exception_index =3D EXCP_HLT;
 >  }
 > =20
-> @@ -897,6 +894,13 @@ void ppce500_init(MachineState *machine)
->          } else {
->              /* Secondary CPUs */
->              qemu_register_reset(ppce500_cpu_reset_sec, cpu);
-> +
-> +            /*
-> +             * Secondary CPU starts in halted state for now. Needs to ch=
-ange
-> +             * when implementing non-kernel boot.
-> +             */
-> +            object_property_set_bool(OBJECT(cs), "start-powered-off", tr=
-ue,
-> +                                     &error_abort);
+>  static bool cpu_mips_itu_supported(CPUMIPSState *env)
+> @@ -89,6 +86,9 @@ static void mips_cps_realize(DeviceState *dev, Error **=
+errp)
+>              env->itc_tag =3D mips_itu_get_tag_region(&s->itu);
+>              env->itu =3D &s->itu;
 >          }
+> +        /* All VPs are halted on reset. Leave powering up to CPC. */
+> +        object_property_set_bool(OBJECT(cpu), "start-powered-off", true,
+> +                                 &error_abort);
+>          qemu_register_reset(main_cpu_reset, cpu);
 >      }
 > =20
 >=20
@@ -139,25 +133,25 @@ david AT gibson.dropbear.id.au	| minimalist, thank you.  NOT _the_ _other_
 				| _way_ _around_!
 http://www.ozlabs.org/~dgibson
 
---+wSiqF7c0ySQ2tNi
+--ccJhwVfaC+fHwTsl
 Content-Type: application/pgp-signature; name="signature.asc"
 
 -----BEGIN PGP SIGNATURE-----
 
-iQIzBAEBCAAdFiEEdfRlhq5hpmzETofcbDjKyiDZs5IFAl8Y/t8ACgkQbDjKyiDZ
-s5IrjxAAj8w1dlpy4ndOgDi84moUQXy+GpWtzsFjdyjozBcz3RxkW8RVZVDBQiG3
-fz+IFQqf0BKgOiKX5gM6s69g0AFl3y632eq4aOViJZJHnEdsn/V2Prl50yKZHD14
-MabdK7GjI6hv9ird5V6Gmv2mI+Yhfz9+9woz5S6y7ZTWWwx8LyynvLzFJR1D+3eF
-5ETb8fBXri4jeFqfy1upW0miKJrn/BaKbx1f0Wk0RJ793AbhHgO9f/X5xRIb8sZG
-9k2U1cLP6VClKQ0Y0zKq6kMyFikSiiC+Iyj9jgO2w+SOCFoSKD3U3T4ehum7n+d8
-OY9Tt3JdUGQU/oa5HwJleON/da0hzEtGdjBR2M4Ozmzv4JLtKS1P0kgDd6c5U/00
-kzIT2eS/mM7nG6E2WEgd78EswDdqwcrdZA/fNtJYkAf/ghrSpk+RolYAkikpLIiZ
-9KXZwUBv99DelCl1rbFSKhidmgirzTQIh1WtkbTlXfXLAUKo2RLDj8513O8klxh4
-yBnw2TmjQ0GJbc/nOOvDuqMT9VfsLmVxSdzBEIRbl9XgMX6aHxxOjVOH5J17JPIp
-DNoaax7ybgEMFhBmPYdOD0ZmYCjK9WhROZzR4jowO8k79Am58eZo2IizzGvo6MiZ
-WUZAJTghW5nDlBbCKsr68/QeVB45Hqn36MwkiKcDkklKJkUlr3c=
-=Qpx7
+iQIzBAEBCAAdFiEEdfRlhq5hpmzETofcbDjKyiDZs5IFAl8Y/v0ACgkQbDjKyiDZ
+s5K9uA//d+6joOJM6ETKu6e2feviuz0xobf0FwbR2LFgh2l3nDsAtYh5Ohq2rku2
+KOTiMP7j3erjw0SHphbivaNqcQrN2i9M1lKm3qWgVG+gy1R8Qp4RdV5IzDCGXvDp
+hiSsyPr31FU0LfUahU26kkBa4Mv6/HWlVpstWFLUyfk1JMZdqar2EdMkCY64vSE5
+eloUY5GQryor52oXIfqBrt/Ik0lWqp2wL8py11oopRO6ATlegaRV9b1Ft6Wk98X4
+leiHGKnXuEsmf5gSwcoYgTFYKWtgnGZiLB3wN0QYWz7whHThM9R1OETQGIEl/GWb
+nTgnwn8VeP+M+f9bZFC0wUHE45IBwHNdi1/6Usl1Uk+T/lSaEmXt1IKGDIAAEjA7
+2F/GePUBfFOkESmmPr6Dphzg4Uv7+Pz9y3k8cOVUJrqRO92xYJFqVfpQE3IWwZJF
+NC8K8+fM8GwLV6BtiRpfrjbVxEA/JEkaoVF+w666Lz1lT/UKWpw0XImxz/+BBf4u
+OwImdh/7zWMJpNA7C33yVBk/OIfql33sQu9ZLSyZ1RgxrxdRSmDV/X9Asew4Xcmy
+yUTTUnzupvdZDwlcF7KJJuKGaIy2o7p2huKJI+7jLtxIjo/mD73KsuhXriQ1n5Lz
+pUCp8GFNKZm2Zjh6Sn4mTNgnPmWiNaPsUO2C4TBk8u5CscQpSlc=
+=fS7F
 -----END PGP SIGNATURE-----
 
---+wSiqF7c0ySQ2tNi--
+--ccJhwVfaC+fHwTsl--
 
