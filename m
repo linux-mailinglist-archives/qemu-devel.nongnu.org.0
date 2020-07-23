@@ -2,44 +2,44 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0E5FE22B320
-	for <lists+qemu-devel@lfdr.de>; Thu, 23 Jul 2020 18:06:30 +0200 (CEST)
-Received: from localhost ([::1]:37130 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B75E922B321
+	for <lists+qemu-devel@lfdr.de>; Thu, 23 Jul 2020 18:07:26 +0200 (CEST)
+Received: from localhost ([::1]:39248 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jydjp-00080k-4V
-	for lists+qemu-devel@lfdr.de; Thu, 23 Jul 2020 12:06:29 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:44708)
+	id 1jydkj-0000S2-RF
+	for lists+qemu-devel@lfdr.de; Thu, 23 Jul 2020 12:07:25 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:44722)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <andrzej.jakowski@linux.intel.com>)
- id 1jydfN-0003Gy-9i; Thu, 23 Jul 2020 12:01:53 -0400
-Received: from mga03.intel.com ([134.134.136.65]:36927)
+ id 1jydfP-0003IP-Gh; Thu, 23 Jul 2020 12:01:55 -0400
+Received: from mga03.intel.com ([134.134.136.65]:36921)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <andrzej.jakowski@linux.intel.com>)
- id 1jydfK-0006jP-EO; Thu, 23 Jul 2020 12:01:52 -0400
-IronPort-SDR: PQZHZ4eQ60ompf1bNc/obCjFPub14AgYQcxDy3PMl+2b7FD2FohteWH5U2m7xfQExoLIZWbERb
- u7kv9wIOXmxA==
-X-IronPort-AV: E=McAfee;i="6000,8403,9691"; a="150543455"
-X-IronPort-AV: E=Sophos;i="5.75,387,1589266800"; d="scan'208";a="150543455"
+ id 1jydfN-0006j0-LG; Thu, 23 Jul 2020 12:01:55 -0400
+IronPort-SDR: zvjIa4CamGcESwPgtKODoesRzLdbGKusv5jjRW4aG9SgF3nZdScyd4NCLBh6aZlj0pSnk31+Cm
+ r3mN46CpOuAw==
+X-IronPort-AV: E=McAfee;i="6000,8403,9691"; a="150543473"
+X-IronPort-AV: E=Sophos;i="5.75,387,1589266800"; d="scan'208";a="150543473"
 X-Amp-Result: SKIPPED(no attachment in message)
 X-Amp-File-Uploaded: False
 Received: from orsmga008.jf.intel.com ([10.7.209.65])
  by orsmga103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 23 Jul 2020 09:01:48 -0700
-IronPort-SDR: DfeKIEwem2bWAJMNeGXQltjSFJJDGUE93Mmv5EdsZ/b2PBuoJvUPqXiyr8fRXg2ZUUjnG3ii45
- RpxstpocNNCA==
+ 23 Jul 2020 09:01:52 -0700
+IronPort-SDR: 1E0oNIEvKa2hmLJfGqtr12ZR8iwtskMF9A5Pxsd7ZseL5EhkCC/hVD1n55JPwNKKOmJBZ2cQMz
+ j+Bq1duXEzKg==
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.75,387,1589266800"; d="scan'208";a="319033172"
+X-IronPort-AV: E=Sophos;i="5.75,387,1589266800"; d="scan'208";a="319033209"
 Received: from unknown (HELO localhost.ch.intel.com) ([10.2.61.79])
- by orsmga008.jf.intel.com with ESMTP; 23 Jul 2020 09:01:46 -0700
+ by orsmga008.jf.intel.com with ESMTP; 23 Jul 2020 09:01:51 -0700
 From: Andrzej Jakowski <andrzej.jakowski@linux.intel.com>
 To: kbusch@kernel.org,
 	kwolf@redhat.com,
 	mreitz@redhat.com
-Subject: [PATCH v5 1/3] memory: export memory_region_to_absolute_addr()
- function
-Date: Thu, 23 Jul 2020 09:03:23 -0700
-Message-Id: <20200723160325.41734-2-andrzej.jakowski@linux.intel.com>
+Subject: [PATCH v5 2/3] nvme: indicate CMB support through controller
+ capabilities register
+Date: Thu, 23 Jul 2020 09:03:24 -0700
+Message-Id: <20200723160325.41734-3-andrzej.jakowski@linux.intel.com>
 X-Mailer: git-send-email 2.21.1
 In-Reply-To: <20200723160325.41734-1-andrzej.jakowski@linux.intel.com>
 References: <20200723160325.41734-1-andrzej.jakowski@linux.intel.com>
@@ -66,54 +66,71 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: pbonzini@redhat.com, Andrzej Jakowski <andrzej.jakowski@linux.intel.com>,
- qemu-devel@nongnu.org, qemu-block@nongnu.org
+Cc: qemu-block@nongnu.org, Klaus Jensen <k.jensen@samsung.com>,
+ qemu-devel@nongnu.org, Andrzej Jakowski <andrzej.jakowski@linux.intel.com>,
+ Maxim Levitsky <mlevitsky@gmail.com>, pbonzini@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-This change exports memory_region_to_absolute_addr() function so it can
-be used by drivers requiring to calculate absolute address for memory
-subregions when memory hierarchy is used.
+This patch sets CMBS bit in controller capabilities register when user
+configures NVMe driver with CMB support, so capabilites are correctly
+reported to guest OS.
 
 Signed-off-by: Andrzej Jakowski <andrzej.jakowski@linux.intel.com>
+Reviewed-by: Klaus Jensen <k.jensen@samsung.com>
+Reviewed-by: Maxim Levitsky <mlevitsky@gmail.com>
 ---
- include/exec/memory.h | 9 +++++++++
- softmmu/memory.c      | 2 +-
- 2 files changed, 10 insertions(+), 1 deletion(-)
+ hw/block/nvme.c      |  1 +
+ include/block/nvme.h | 10 +++++++---
+ 2 files changed, 8 insertions(+), 3 deletions(-)
 
-diff --git a/include/exec/memory.h b/include/exec/memory.h
-index 307e527835..6e5bba602e 100644
---- a/include/exec/memory.h
-+++ b/include/exec/memory.h
-@@ -2017,6 +2017,15 @@ MemTxResult memory_region_dispatch_write(MemoryRegion *mr,
-                                          MemOp op,
-                                          MemTxAttrs attrs);
+diff --git a/hw/block/nvme.c b/hw/block/nvme.c
+index 841c18920c..43866b744f 100644
+--- a/hw/block/nvme.c
++++ b/hw/block/nvme.c
+@@ -2198,6 +2198,7 @@ static void nvme_init_ctrl(NvmeCtrl *n, PCIDevice *pci_dev)
+     NVME_CAP_SET_TO(n->bar.cap, 0xf);
+     NVME_CAP_SET_CSS(n->bar.cap, 1);
+     NVME_CAP_SET_MPSMAX(n->bar.cap, 4);
++    NVME_CAP_SET_CMBS(n->bar.cap, n->params.cmb_size_mb ? 1 : 0);
  
-+/**
-+ * memory_region_to_absolute_addr: walk through memory hierarchy to retrieve
-+ * absolute address for given MemoryRegion.
-+ *
-+ * @mr: #MemoryRegion to scan through
-+ * @offset: starting offset within mr
-+ */
-+hwaddr memory_region_to_absolute_addr(MemoryRegion *mr, hwaddr offset);
-+
- /**
-  * address_space_init: initializes an address space
-  *
-diff --git a/softmmu/memory.c b/softmmu/memory.c
-index 9200b20130..deff3739ff 100644
---- a/softmmu/memory.c
-+++ b/softmmu/memory.c
-@@ -399,7 +399,7 @@ static inline uint64_t memory_region_shift_write_access(uint64_t *value,
-     return tmp;
- }
+     n->bar.vs = NVME_SPEC_VER;
+     n->bar.intmc = n->bar.intms = 0;
+diff --git a/include/block/nvme.h b/include/block/nvme.h
+index 370df7fc05..d641ca6649 100644
+--- a/include/block/nvme.h
++++ b/include/block/nvme.h
+@@ -36,6 +36,7 @@ enum NvmeCapShift {
+     CAP_MPSMIN_SHIFT   = 48,
+     CAP_MPSMAX_SHIFT   = 52,
+     CAP_PMR_SHIFT      = 56,
++    CAP_CMB_SHIFT      = 57,
+ };
  
--static hwaddr memory_region_to_absolute_addr(MemoryRegion *mr, hwaddr offset)
-+hwaddr memory_region_to_absolute_addr(MemoryRegion *mr, hwaddr offset)
- {
-     MemoryRegion *root;
-     hwaddr abs_addr = offset;
+ enum NvmeCapMask {
+@@ -49,6 +50,7 @@ enum NvmeCapMask {
+     CAP_MPSMIN_MASK    = 0xf,
+     CAP_MPSMAX_MASK    = 0xf,
+     CAP_PMR_MASK       = 0x1,
++    CAP_CMB_MASK       = 0x1,
+ };
+ 
+ #define NVME_CAP_MQES(cap)  (((cap) >> CAP_MQES_SHIFT)   & CAP_MQES_MASK)
+@@ -78,9 +80,11 @@ enum NvmeCapMask {
+ #define NVME_CAP_SET_MPSMIN(cap, val) (cap |= (uint64_t)(val & CAP_MPSMIN_MASK)\
+                                                            << CAP_MPSMIN_SHIFT)
+ #define NVME_CAP_SET_MPSMAX(cap, val) (cap |= (uint64_t)(val & CAP_MPSMAX_MASK)\
+-                                                            << CAP_MPSMAX_SHIFT)
+-#define NVME_CAP_SET_PMRS(cap, val) (cap |= (uint64_t)(val & CAP_PMR_MASK)\
+-                                                            << CAP_PMR_SHIFT)
++                                                           << CAP_MPSMAX_SHIFT)
++#define NVME_CAP_SET_PMRS(cap, val)   (cap |= (uint64_t)(val & CAP_PMR_MASK)   \
++                                                           << CAP_PMR_SHIFT)
++#define NVME_CAP_SET_CMBS(cap, val)   (cap |= (uint64_t)(val & CAP_CMB_MASK)   \
++                                                           << CAP_CMB_SHIFT)
+ 
+ enum NvmeCcShift {
+     CC_EN_SHIFT     = 0,
 -- 
 2.21.1
 
