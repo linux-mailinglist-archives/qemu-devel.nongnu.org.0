@@ -2,62 +2,65 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id CCBB822A39A
-	for <lists+qemu-devel@lfdr.de>; Thu, 23 Jul 2020 02:28:27 +0200 (CEST)
-Received: from localhost ([::1]:49948 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 74CF722A39E
+	for <lists+qemu-devel@lfdr.de>; Thu, 23 Jul 2020 02:29:43 +0200 (CEST)
+Received: from localhost ([::1]:53320 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jyP62-0002Wm-Ru
-	for lists+qemu-devel@lfdr.de; Wed, 22 Jul 2020 20:28:26 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:59818)
+	id 1jyP7G-0003va-Ig
+	for lists+qemu-devel@lfdr.de; Wed, 22 Jul 2020 20:29:42 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:59832)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from
- <3W9kYXwMKCnAgQkUccUZS.QcaeSai-RSjSZbcbUbi.cfU@flex--scw.bounces.google.com>)
- id 1jyP4p-0001hR-1f
- for qemu-devel@nongnu.org; Wed, 22 Jul 2020 20:27:11 -0400
-Received: from mail-yb1-xb4a.google.com ([2607:f8b0:4864:20::b4a]:56152)
+ <3XdkYXwMKCnIiSmWeeWbU.SecgUck-TUlUbdedWdk.ehW@flex--scw.bounces.google.com>)
+ id 1jyP4r-0001i5-0x
+ for qemu-devel@nongnu.org; Wed, 22 Jul 2020 20:27:13 -0400
+Received: from mail-yb1-xb4a.google.com ([2607:f8b0:4864:20::b4a]:54448)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from
- <3W9kYXwMKCnAgQkUccUZS.QcaeSai-RSjSZbcbUbi.cfU@flex--scw.bounces.google.com>)
- id 1jyP4n-00035I-Hx
- for qemu-devel@nongnu.org; Wed, 22 Jul 2020 20:27:10 -0400
-Received: by mail-yb1-xb4a.google.com with SMTP id h194so4426362ybg.22
- for <qemu-devel@nongnu.org>; Wed, 22 Jul 2020 17:27:08 -0700 (PDT)
+ <3XdkYXwMKCnIiSmWeeWbU.SecgUck-TUlUbdedWdk.ehW@flex--scw.bounces.google.com>)
+ id 1jyP4p-00035U-Dv
+ for qemu-devel@nongnu.org; Wed, 22 Jul 2020 20:27:12 -0400
+Received: by mail-yb1-xb4a.google.com with SMTP id p22so4475462ybg.21
+ for <qemu-devel@nongnu.org>; Wed, 22 Jul 2020 17:27:10 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=20161025;
- h=date:message-id:mime-version:subject:from:to:cc;
- bh=Sk/1dhRJdyGFY/ZXAB2amd3chsommc+oi+T6QAGUc0M=;
- b=NREcEN6WBoN/Rj4wtdem9OCb+eLzPYUINA6A/bGmD+oEzm3Thd+gBHIjy4beogZyKl
- 0JusghEafXI5dRQkCgyKt+ZZ0S9XZXcvbWNS0+bugM5WdKC/AIHySpIu2PYSvwErsVDX
- 9xxHhFYerivsrOAp7sEXXqMOk272i8xF5e+Ax/nU3eOo7YSLzDkBWs9uz2DZhLCD83N7
- WujAO93Wiot2jrlSWoLVwnz12fFz7HimrmNBsNNAFC+pNRqPtTQCt3+wl2A+Ys/sK7dL
- 3SxQh6iLag2vhtDMh0A401h6XzdH7ZFR+hKDvSsxyWxnr1qHRFNCVG2FAV8dtBceXQSB
- dBLQ==
+ h=date:in-reply-to:message-id:mime-version:references:subject:from:to
+ :cc; bh=sCOftwdnsJ6da9H2SVH18et2O50tZ5Rzg9ttJkK+/9I=;
+ b=kXUJEkw8+OjdOAqCX7Qg80IJeQT41lu2DILBcQHueAtEyIiIO+JC9VcXyz6idzC6kU
+ y7DRnOp5x/imhvipbdHJ3M/mpDsZokXhH8PoUMVOsMyW/txeeu/hAHI4Q1LOnKz9xE80
+ cpTZMS2JJkgCqetGS/8vWFMRsxyLfosLD50a+hJn6C2f+0TQpmjJmir80hCkBdQi6lu2
+ 6QO65gKax9fm0IwkFekOLfK+5ZeCEp0EPG6CQQ+voZyG2ZT0ybg1fY1kqSmAUbaVQFyw
+ BHhqKAWquTxHjuBL/5VhiAvpYT6+dqQWw58f3d145FnkX/tzhEMWQ3LQteScMTSLpIxv
+ 2Ykg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:date:message-id:mime-version:subject:from:to:cc;
- bh=Sk/1dhRJdyGFY/ZXAB2amd3chsommc+oi+T6QAGUc0M=;
- b=qUlq3LGr7YN6K/0VCacm/sWvz/nSAAAWX6cstsB/mWFu8cJ5F/HRtbXgoIY7jywpE+
- 2QIF6Ui16X7ujhFxaw5n3E+Jt/zt8bhQ126gXjvv35AYHSTp6AYpYvBkkKo9WWmX22oy
- 3ubpzW38D2CvVLr/ehhhneHLTMy0WCJ8GCvjQeaAkwHd4NMOBEfDq55hXcVBVMgUQWc9
- VW+nRB74OSfTc6AK5jpQhCjDanaudyPr+ctqfZIS3k1edA1JM0dzw5ygVXWfo9jQt+Pr
- iiMVXTmRQwfOpHyv1ttr+HP/8EsvzoNYt6d1jY9zhCAJDOJyZKMDRUVc0SHRZNEBRxX4
- Peug==
-X-Gm-Message-State: AOAM531JkhnkP7h7RslAV5x3j0uhRQAHNdrFIg3lL75q/+w5zsmvUQS0
- JGE7uWyzccu2s6PuOhwCFcJ1Gns=
-X-Google-Smtp-Source: ABdhPJxtn7decsNj255WAAtCwmF8LZx2Fe65z+m9tAiPkCL+3slQX9MBzGm8kuIQ+W2Hchejwxzucsc=
-X-Received: by 2002:a25:ddc3:: with SMTP id u186mr3226089ybg.152.1595464027831; 
- Wed, 22 Jul 2020 17:27:07 -0700 (PDT)
-Date: Wed, 22 Jul 2020 17:27:03 -0700
-Message-Id: <cover.1595463707.git.scw@google.com>
+ h=x-gm-message-state:date:in-reply-to:message-id:mime-version
+ :references:subject:from:to:cc;
+ bh=sCOftwdnsJ6da9H2SVH18et2O50tZ5Rzg9ttJkK+/9I=;
+ b=uczYfY2PaF8g2c1/ujSOHQKVgGZ69EMfED+XpUmI0TyVOTOUDUHnnlplMU922pzkkB
+ +3cXBjoCtanW22C4ePEB9yt2pbfjhvhkUylU2kjfbNln++r9CgsOFL385u7l40Al95nI
+ HEctvWY7RCXC4t0302L6dxn6xBpNNs7Qrn4xIliN5CbCBrm0ooTf23UFu5AXOdzbRi6M
+ OT1j4CWLISmDp/4excxvoPz/7AacVL7leLJXyVgKnKIiPF0ggNmpqhwbx5lBPwL/D9Dx
+ 3sehH0E90cTZQ8YwjxW1OiYoHLa2RaeOM61pYw/V18td9O0yz2TAPggyApKCvGkzMHZB
+ 0LMA==
+X-Gm-Message-State: AOAM530q185827yfcI2oJf6JcJhZ1Ja7/wonRcywqOwfTHB2hxdjodeo
+ zsHN4nVqhE6f8VV8R3ww2nxuWEI=
+X-Google-Smtp-Source: ABdhPJwkjhNqCkLPCALkltPyMGelbhaXcQCxMo4fB5Frc3Dk+AGf9EnCaB8IYyguKmJfN6nB1P3WLbE=
+X-Received: by 2002:a25:e708:: with SMTP id e8mr3226850ybh.137.1595464029847; 
+ Wed, 22 Jul 2020 17:27:09 -0700 (PDT)
+Date: Wed, 22 Jul 2020 17:27:04 -0700
+In-Reply-To: <cover.1595463707.git.scw@google.com>
+Message-Id: <bf706105addcaa3f48391be8f7e5c09c3b1735ae.1595463707.git.scw@google.com>
 Mime-Version: 1.0
+References: <cover.1595463707.git.scw@google.com>
 X-Mailer: git-send-email 2.28.0.rc0.105.gf9edc3c819-goog
-Subject: [PATCH 0/2] Instruction set detection for clang.
+Subject: [PATCH 1/2] configure: avx2 and avx512f detection for clang
 From: Shu-Chun Weng <scw@google.com>
 To: rth@twiddle.net
 Cc: Shu-Chun Weng <scw@google.com>, qemu-devel@nongnu.org
 Content-Type: text/plain; charset="UTF-8"
 Received-SPF: pass client-ip=2607:f8b0:4864:20::b4a;
- envelope-from=3W9kYXwMKCnAgQkUccUZS.QcaeSai-RSjSZbcbUbi.cfU@flex--scw.bounces.google.com;
+ envelope-from=3XdkYXwMKCnIiSmWeeWbU.SecgUck-TUlUbdedWdk.ehW@flex--scw.bounces.google.com;
  helo=mail-yb1-xb4a.google.com
 X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
  That's all we know.
@@ -83,19 +86,161 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Currently when configuring QEMU with clang, AVX2, AVX512F, ATOMIC64, and
-ATOMIC128 are all disabled because the detection code is GCC-only. With these
-two patches, I am able to configure, build, and run tests with clang with all of
-the above enabled.
+Since clang does not support "#pragma GCC", the instruction sets are
+always disabled. In this change, we
 
-Shu-Chun Weng (2):
-  configure: avx2 and avx512f detection for clang
-  configure: atomic64/128 detection for clang
+ 1. wrap "#pragma GCC" inside "#ifndef __clang__",
+ 2. only retain them around "#include <{e,i,s}mmintrin.h>" to work
+    around gcc bug,
+ 3. and annotate each function with `__attribute__((target(*)))` which
+    is recognized by both gcc and clang.
 
- configure           | 34 +++++++++++++++++++++++-----------
+Signed-off-by: Shu-Chun Weng <scw@google.com>
+---
+ configure           | 16 ++++++++++++++--
  util/bufferiszero.c | 33 +++++++++++++++++++++++----------
- 2 files changed, 46 insertions(+), 21 deletions(-)
+ 2 files changed, 37 insertions(+), 12 deletions(-)
 
+diff --git a/configure b/configure
+index 4bd80ed507..d9ce3aa5db 100755
+--- a/configure
++++ b/configure
+@@ -5808,10 +5808,16 @@ fi
+ 
+ if test "$cpuid_h" = "yes" && test "$avx2_opt" != "no"; then
+   cat > $TMPC << EOF
++#include <cpuid.h>
++#ifndef __clang__
+ #pragma GCC push_options
+ #pragma GCC target("avx2")
+-#include <cpuid.h>
++#endif
+ #include <immintrin.h>
++#ifndef __clang__
++#pragma GCC pop_options
++#endif
++__attribute__((target("avx2")))
+ static int bar(void *a) {
+     __m256i x = *(__m256i *)a;
+     return _mm256_testz_si256(x, x);
+@@ -5835,10 +5841,16 @@ fi
+ 
+ if test "$cpuid_h" = "yes" && test "$avx512f_opt" = "yes"; then
+   cat > $TMPC << EOF
++#include <cpuid.h>
++#ifndef __clang__
+ #pragma GCC push_options
+ #pragma GCC target("avx512f")
+-#include <cpuid.h>
++#endif
+ #include <immintrin.h>
++#ifndef __clang__
++#pragma GCC pop_options
++#endif
++__attribute__((target("avx512f")))
+ static int bar(void *a) {
+     __m512i x = *(__m512i *)a;
+     return _mm512_test_epi64_mask(x, x);
+diff --git a/util/bufferiszero.c b/util/bufferiszero.c
+index 695bb4ce28..ca836b6e8c 100644
+--- a/util/bufferiszero.c
++++ b/util/bufferiszero.c
+@@ -64,17 +64,18 @@ buffer_zero_int(const void *buf, size_t len)
+ }
+ 
+ #if defined(CONFIG_AVX512F_OPT) || defined(CONFIG_AVX2_OPT) || defined(__SSE2__)
+-/* Do not use push_options pragmas unnecessarily, because clang
+- * does not support them.
+- */
+-#if defined(CONFIG_AVX512F_OPT) || defined(CONFIG_AVX2_OPT)
++#ifndef __clang__
+ #pragma GCC push_options
+ #pragma GCC target("sse2")
+ #endif
+ #include <emmintrin.h>
++#ifndef __clang__
++#pragma GCC pop_options
++#endif
+ 
+ /* Note that each of these vectorized functions require len >= 64.  */
+ 
++__attribute__((target("sse2")))
+ static bool
+ buffer_zero_sse2(const void *buf, size_t len)
+ {
+@@ -104,19 +105,22 @@ buffer_zero_sse2(const void *buf, size_t len)
+ 
+     return _mm_movemask_epi8(_mm_cmpeq_epi8(t, zero)) == 0xFFFF;
+ }
+-#if defined(CONFIG_AVX512F_OPT) || defined(CONFIG_AVX2_OPT)
+-#pragma GCC pop_options
+-#endif
+ 
+ #ifdef CONFIG_AVX2_OPT
+ /* Note that due to restrictions/bugs wrt __builtin functions in gcc <= 4.8,
+  * the includes have to be within the corresponding push_options region, and
+  * therefore the regions themselves have to be ordered with increasing ISA.
+  */
++#ifndef __clang__
+ #pragma GCC push_options
+ #pragma GCC target("sse4")
++#endif
+ #include <smmintrin.h>
++#ifndef __clang__
++#pragma GCC pop_options
++#endif
+ 
++__attribute__((target("sse4")))
+ static bool
+ buffer_zero_sse4(const void *buf, size_t len)
+ {
+@@ -145,11 +149,16 @@ buffer_zero_sse4(const void *buf, size_t len)
+     return _mm_testz_si128(t, t);
+ }
+ 
+-#pragma GCC pop_options
++#ifndef __clang__
+ #pragma GCC push_options
+ #pragma GCC target("avx2")
++#endif
+ #include <immintrin.h>
++#ifndef __clang__
++#pragma GCC pop_options
++#endif
+ 
++__attribute__((target("avx2")))
+ static bool
+ buffer_zero_avx2(const void *buf, size_t len)
+ {
+@@ -176,14 +185,19 @@ buffer_zero_avx2(const void *buf, size_t len)
+ 
+     return _mm256_testz_si256(t, t);
+ }
+-#pragma GCC pop_options
+ #endif /* CONFIG_AVX2_OPT */
+ 
+ #ifdef CONFIG_AVX512F_OPT
++#ifndef __clang__
+ #pragma GCC push_options
+ #pragma GCC target("avx512f")
++#endif
+ #include <immintrin.h>
++#ifndef __clang__
++#pragma GCC pop_options
++#endif
+ 
++__attribute__((target("avx512f")))
+ static bool
+ buffer_zero_avx512(const void *buf, size_t len)
+ {
+@@ -210,7 +224,6 @@ buffer_zero_avx512(const void *buf, size_t len)
+     return !_mm512_test_epi64_mask(t, t);
+ 
+ }
+-#pragma GCC pop_options
+ #endif
+ 
+ 
 -- 
 2.28.0.rc0.105.gf9edc3c819-goog
 
