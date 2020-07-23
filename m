@@ -2,54 +2,62 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A452522A428
-	for <lists+qemu-devel@lfdr.de>; Thu, 23 Jul 2020 03:02:47 +0200 (CEST)
-Received: from localhost ([::1]:56942 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 88A4E22A437
+	for <lists+qemu-devel@lfdr.de>; Thu, 23 Jul 2020 03:04:26 +0200 (CEST)
+Received: from localhost ([::1]:36312 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jyPdG-0002Gi-Li
-	for lists+qemu-devel@lfdr.de; Wed, 22 Jul 2020 21:02:46 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:38408)
+	id 1jyPer-0005Kb-Kq
+	for lists+qemu-devel@lfdr.de; Wed, 22 Jul 2020 21:04:25 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:38570)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <dgibson@ozlabs.org>)
- id 1jyPaw-0008Qd-CT; Wed, 22 Jul 2020 21:00:22 -0400
-Received: from ozlabs.org ([2401:3900:2:1::2]:42731)
+ (Exim 4.90_1) (envelope-from <guang.zeng@intel.com>)
+ id 1jyPbi-0001VQ-GJ
+ for qemu-devel@nongnu.org; Wed, 22 Jul 2020 21:01:10 -0400
+Received: from mga11.intel.com ([192.55.52.93]:15170)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <dgibson@ozlabs.org>)
- id 1jyPau-0007HN-7b; Wed, 22 Jul 2020 21:00:22 -0400
-Received: by ozlabs.org (Postfix, from userid 1007)
- id 4BBvBk6Pvvz9sRf; Thu, 23 Jul 2020 11:00:14 +1000 (AEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=gibson.dropbear.id.au; s=201602; t=1595466014;
- bh=/dGgJclc9RTkcxSGPVohP34vadU4jFuxm92lYW2hUIQ=;
- h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=YiKCuN8sQG8+6edKLVlPmEt/SDXTmVwADMu8O6hqsc28OWcqLoal8FMqBQlM3hy7o
- F8Rffg5pnr7hiLN+0aqILejml97YWzeXxk7D54QEDMxpU2ScegFerj9Ud5cBkZ91lA
- 5ZkPWAGVfguk9B4rmKSo1Hngti/HORT1vQZ0YeLI=
-Date: Thu, 23 Jul 2020 10:57:36 +1000
-From: David Gibson <david@gibson.dropbear.id.au>
-To: Thiago Jung Bauermann <bauerman@linux.ibm.com>
-Subject: Re: [PATCH v2 6/9] sparc/sun4m: Use start-powered-off CPUState
- property
-Message-ID: <20200723005736.GK5513@umbus.fritz.box>
-References: <20200722035016.469075-1-bauerman@linux.ibm.com>
- <20200722035016.469075-7-bauerman@linux.ibm.com>
+ (Exim 4.90_1) (envelope-from <guang.zeng@intel.com>)
+ id 1jyPbf-0007R1-KI
+ for qemu-devel@nongnu.org; Wed, 22 Jul 2020 21:01:09 -0400
+IronPort-SDR: HsOqlbOz178T6wNDXE6cKTCcgeDKhrJI+InVzqTGA0pbZhvhoRtvZzsQqhhC+SumbHZBpxrWpP
+ /QtNs0c4dqxg==
+X-IronPort-AV: E=McAfee;i="6000,8403,9690"; a="148385497"
+X-IronPort-AV: E=Sophos;i="5.75,383,1589266800"; d="scan'208";a="148385497"
+X-Amp-Result: SKIPPED(no attachment in message)
+X-Amp-File-Uploaded: False
+Received: from fmsmga006.fm.intel.com ([10.253.24.20])
+ by fmsmga102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 22 Jul 2020 18:01:03 -0700
+IronPort-SDR: W/HWfaItXgle0qSdtTODqvSQtc9/JjpDTtmlwum0zJa3sm106gL6lVrjxuoknrHjz2xoUd/2/e
+ 5B76V5nxducQ==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.75,383,1589266800"; d="scan'208";a="488185534"
+Received: from zengguan-mobl.ccr.corp.intel.com (HELO [10.238.0.188])
+ ([10.238.0.188])
+ by fmsmga006.fm.intel.com with ESMTP; 22 Jul 2020 18:01:01 -0700
+Subject: Re: [PATCH] hw/misc/edu: support pci device state migration
+To: Peter Maydell <peter.maydell@linaro.org>
+References: <20200722081323.9893-1-guang.zeng@intel.com>
+ <CAFEAcA-M6OghOCX76q2kZDh_Nf1YLEDSLZcwa2ZVJgzwjdDaWw@mail.gmail.com>
+From: Zeng Guang <guang.zeng@intel.com>
+Message-ID: <03961ed0-f917-8f2c-0262-442d768ce3e4@intel.com>
+Date: Thu, 23 Jul 2020 09:01:00 +0800
+User-Agent: Mozilla/5.0 (Windows NT 10.0; WOW64; rv:68.0) Gecko/20100101
+ Thunderbird/68.10.0
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature"; boundary="Cy+5HEalSgyXkpVS"
-Content-Disposition: inline
-In-Reply-To: <20200722035016.469075-7-bauerman@linux.ibm.com>
-Received-SPF: pass client-ip=2401:3900:2:1::2; envelope-from=dgibson@ozlabs.org;
- helo=ozlabs.org
-X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
- That's all we know.
-X-Spam_score_int: -9
-X-Spam_score: -1.0
-X-Spam_bar: -
-X-Spam_report: (-1.0 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, HEADER_FROM_DIFFERENT_DOMAINS=1,
- SPF_HELO_PASS=-0.001, SPF_PASS=-0.001,
- URIBL_BLOCKED=0.001 autolearn=no autolearn_force=no
+In-Reply-To: <CAFEAcA-M6OghOCX76q2kZDh_Nf1YLEDSLZcwa2ZVJgzwjdDaWw@mail.gmail.com>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Transfer-Encoding: 7bit
+Content-Language: en-US
+Received-SPF: pass client-ip=192.55.52.93; envelope-from=guang.zeng@intel.com;
+ helo=mga11.intel.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/07/22 21:01:03
+X-ACL-Warn: Detected OS   = FreeBSD 9.x or newer [fuzzy]
+X-Spam_score_int: -68
+X-Spam_score: -6.9
+X-Spam_bar: ------
+X-Spam_report: (-6.9 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_HI=-5,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -62,90 +70,53 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Maydell <peter.maydell@linaro.org>,
- Aleksandar Rikalo <aleksandar.rikalo@syrmia.com>,
- Eduardo Habkost <ehabkost@redhat.com>,
- Aleksandar Markovic <aleksandar.qemu.devel@gmail.com>,
- Cornelia Huck <cohuck@redhat.com>,
- Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>, qemu-devel@nongnu.org,
- qemu-s390x@nongnu.org, qemu-arm@nongnu.org, qemu-ppc@nongnu.org,
- Artyom Tarasenko <atar4qemu@gmail.com>, Thomas Huth <thuth@redhat.com>,
- Paolo Bonzini <pbonzini@redhat.com>, David Hildenbrand <david@redhat.com>,
- Aurelien Jarno <aurelien@aurel32.net>, Richard Henderson <rth@twiddle.net>
+Cc: Juan Quintela <quintela@redhat.com>, David Hildenbrand <david@redhat.com>,
+ QEMU Developers <qemu-devel@nongnu.org>, wei.w.wang@intel.com,
+ Jiri Slaby <jslaby@suse.cz>, chao.gao@intel.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-
---Cy+5HEalSgyXkpVS
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
-
-On Wed, Jul 22, 2020 at 12:50:13AM -0300, Thiago Jung Bauermann wrote:
-> Instead of setting CPUState::halted to 1 in secondary_cpu_reset(), use the
-> start-powered-off property which makes cpu_common_reset() initialize it
-> to 1 in common code.
->=20
-> Signed-off-by: Thiago Jung Bauermann <bauerman@linux.ibm.com>
-
-Reviewed-by: David Gibson <david@gibson.dropbear.id.au>
-
-> ---
->  hw/sparc/sun4m.c | 3 ++-
->  1 file changed, 2 insertions(+), 1 deletion(-)
->=20
-> NB: I was only able to test that this patch builds. I wasn't able to
-> run it.
->=20
-> diff --git a/hw/sparc/sun4m.c b/hw/sparc/sun4m.c
-> index 9be930415f..766e79bb5e 100644
-> --- a/hw/sparc/sun4m.c
-> +++ b/hw/sparc/sun4m.c
-> @@ -233,7 +233,6 @@ static void secondary_cpu_reset(void *opaque)
->      CPUState *cs =3D CPU(cpu);
-> =20
->      cpu_reset(cs);
-> -    cs->halted =3D 1;
->  }
-> =20
->  static void cpu_halt_signal(void *opaque, int irq, int level)
-> @@ -833,6 +832,8 @@ static void cpu_devinit(const char *cpu_type, unsigne=
-d int id,
->          qemu_register_reset(secondary_cpu_reset, cpu);
->          cs =3D CPU(cpu);
->          cs->halted =3D 1;
-> +        object_property_set_bool(OBJECT(cs), "start-powered-off", true,
-> +                                 &error_abort);
->      }
->      *cpu_irqs =3D qemu_allocate_irqs(cpu_set_irq, cpu, MAX_PILS);
->      env->prom_addr =3D prom_addr;
->=20
-
---=20
-David Gibson			| I'll have my music baroque, and my code
-david AT gibson.dropbear.id.au	| minimalist, thank you.  NOT _the_ _other_
-				| _way_ _around_!
-http://www.ozlabs.org/~dgibson
-
---Cy+5HEalSgyXkpVS
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQIzBAEBCAAdFiEEdfRlhq5hpmzETofcbDjKyiDZs5IFAl8Y4IAACgkQbDjKyiDZ
-s5L62g/8C3RVn5hXu4Ubj7n3wjsL2HJXNRFYXkuPXXQFEQSQjV0bcx94ckyrvV9S
-NBYEallDQ8gm7MTI8OyBs7LTBpzyCdg5U4CBU+ybsM78kqrIghMOOnUvBBQip8tm
-ihUBhLSNV08xvUf/S0yjn5pkvmvfDjhZRNGPo9S9u+xY86FqK0Ipm436jAetXq0j
-VJccwALsdj5L3eaYrhKocyRal6VDRIoHAN0HcjClSg85y6Nx7ZJdl8uxNqKWxbgi
-jRmooWASAUUcJJfr+FmE3r+qkl2ZjWu7Tr3/3cPRb7qoXAsrQYMi1Z20W5CvVhRt
-kMcOtJRPW3k/3o5ChwUciZoHvU05bb5KOMGmrdaj4hs85HYrvhywO5m+nNH6DKb7
-Hy5YGwzzZJPtyEUc67n5hGkQqbllyAXw8fTDm18cxYohW60zx8T/kY912R4NRYBf
-bt0GzIYAHwSRE4niINxXdR70cYY4ufh3Cv9vmD29tQVk65EfuZQyPSuTTaCpqqe6
-s8sfCoI4wj6vTuBpeSWEUSEwlyD1A4sFPhKHxehLaMi9SsCgZmpCJcAvjQ2/d2Xi
-kJ199l7Ij18qXe3+lOu3ha4X4Bk8pwz0yW/DDoLuR8tqUvOdca/8CJGXEvk2FyAP
-uapmP3ednQaXA3lDfMX/Bf0Zx75NKmocTrt9RXpKBA+bTXO3FNM=
-=FTDb
------END PGP SIGNATURE-----
-
---Cy+5HEalSgyXkpVS--
+On 7/22/2020 4:37 PM, Peter Maydell wrote:
+> On Wed, 22 Jul 2020 at 09:31, Zeng Guang <guang.zeng@intel.com> wrote:
+>> Currently edu device doesn't support live migration. Part of PCI
+>> configuration information would be lost after migration.
+>>
+>> PCI device state in source VM:
+>>       Bus  0, device   3, function 0:
+>>       Class 0255: PCI device 1234:11e8
+>>       PCI subsystem 1af4:1100
+>>       IRQ 11, pin A
+>>       BAR0: 32 bit memory at 0xfea00000 [0xfeafffff].
+>>       id ""
+>>
+>> PCI device state in destination VM:
+>>       Bus  0, device   3, function 0:
+>>       Class 0255: PCI device 1234:11e8
+>>       PCI subsystem 1af4:1100
+>>       IRQ 0, pin A
+>>       BAR0: 32 bit memory at 0xffffffffffffffff [0x000ffffe].
+>>       id ""
+>>
+>> Add VMState for edu device to support migration.
+>>
+>> Signed-off-by: Gao Chao <chao.gao@intel.com>
+>> Signed-off-by: Zeng Guang <guang.zeng@intel.com>
+>> Reviewed-by: Wei Wang <wei.w.wang@intel.com>
+> Hi; thanks for adding migration support for this device.
+>
+>
+>> +static const VMStateDescription vmstate_edu = {
+>> +    .name = "edu",
+>> +    .version_id = 1,
+>> +    .minimum_version_id = 1,
+>> +    .fields = (VMStateField[]) {
+>> +        VMSTATE_PCI_DEVICE(pdev, EduState),
+> This isn't the only state that the device has. You
+> also need to migrate:
+> stopping, addr4, fact, status, irq_status, the struct dma_state members,
+> the dma_timer, dma_buf and dma_mask.
+Right . I will add those params in VMstate and update patch. Thanks.
+>
+> thanks
+> -- PMM
 
