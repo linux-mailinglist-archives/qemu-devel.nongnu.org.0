@@ -2,46 +2,46 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3EC2922A5DA
-	for <lists+qemu-devel@lfdr.de>; Thu, 23 Jul 2020 05:11:46 +0200 (CEST)
-Received: from localhost ([::1]:60282 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8603A22A5D9
+	for <lists+qemu-devel@lfdr.de>; Thu, 23 Jul 2020 05:10:16 +0200 (CEST)
+Received: from localhost ([::1]:56576 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jyRe5-00017C-9N
-	for lists+qemu-devel@lfdr.de; Wed, 22 Jul 2020 23:11:45 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:39746)
+	id 1jyRcd-0007tL-Hq
+	for lists+qemu-devel@lfdr.de; Wed, 22 Jul 2020 23:10:15 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:39698)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <dgibson@ozlabs.org>)
- id 1jyRbF-0006IC-3k; Wed, 22 Jul 2020 23:08:49 -0400
-Received: from bilbo.ozlabs.org ([2401:3900:2:1::2]:59779 helo=ozlabs.org)
+ id 1jyRbD-0006HX-IT; Wed, 22 Jul 2020 23:08:47 -0400
+Received: from bilbo.ozlabs.org ([203.11.71.1]:44947 helo=ozlabs.org)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <dgibson@ozlabs.org>)
- id 1jyRbB-0006T9-1b; Wed, 22 Jul 2020 23:08:48 -0400
+ id 1jyRbA-0006TB-Rp; Wed, 22 Jul 2020 23:08:47 -0400
 Received: by ozlabs.org (Postfix, from userid 1007)
- id 4BBy2v4wbGz9sSJ; Thu, 23 Jul 2020 13:08:39 +1000 (AEST)
+ id 4BBy2v3xSFz9sRf; Thu, 23 Jul 2020 13:08:39 +1000 (AEST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
  d=gibson.dropbear.id.au; s=201602; t=1595473719;
- bh=SuFKnJtCX3Fir48Plm6JLHASs5M1Y7sRHGO+Nub+nCk=;
+ bh=8gO8lrXm9Zs06bXFiLzN1vzF+m8bshGnphaA+b13KCA=;
  h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=gXyYB4f4zZemW/JvVg618Yfl0Vh9m40E4hpkjwLLN7Ze+vJWjHrID6hY8srmQBcfI
- pq03WecoTTmpqSgCGRJ7iX55AjwXmaLOa662feRF6iCeUPuuDxlgCsvXS7OXdplKtF
- j57YtXZ6fsKr4N6Li9yL9FWTpzIsdnm5lCRV/bzU=
-Date: Thu, 23 Jul 2020 13:06:51 +1000
+ b=Tn5K2CNJ5aUz8S411SpZaQbNzRgyxKuhLV+kQOmsTz5/4lM7ElYWXQnDfNSOIKLzq
+ vJkjPiiBpD6QEud4HJ9fBRkr0h3hr6yNnqn5qmU3YHJgdmj4bZF4gzUWR7dOfSFYc8
+ TdL/vK1EIDMIpqF08oOWYM6u1HN+uOJ0vQ3PHFC4=
+Date: Thu, 23 Jul 2020 13:07:11 +1000
 From: David Gibson <david@gibson.dropbear.id.au>
 To: Thiago Jung Bauermann <bauerman@linux.ibm.com>
-Subject: Re: [PATCH v3 3/8] ppc/spapr: Use start-powered-off CPUState property
-Message-ID: <20200723030651.GN5513@umbus.fritz.box>
+Subject: Re: [PATCH v3 4/8] ppc/e500: Use start-powered-off CPUState property
+Message-ID: <20200723030711.GO5513@umbus.fritz.box>
 References: <20200723025657.644724-1-bauerman@linux.ibm.com>
- <20200723025657.644724-4-bauerman@linux.ibm.com>
+ <20200723025657.644724-5-bauerman@linux.ibm.com>
 MIME-Version: 1.0
 Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature"; boundary="WeDu0lr7bteb/II5"
+ protocol="application/pgp-signature"; boundary="+wSiqF7c0ySQ2tNi"
 Content-Disposition: inline
-In-Reply-To: <20200723025657.644724-4-bauerman@linux.ibm.com>
-Received-SPF: pass client-ip=2401:3900:2:1::2; envelope-from=dgibson@ozlabs.org;
+In-Reply-To: <20200723025657.644724-5-bauerman@linux.ibm.com>
+Received-SPF: pass client-ip=203.11.71.1; envelope-from=dgibson@ozlabs.org;
  helo=ozlabs.org
-X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
- That's all we know.
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/07/22 23:08:40
+X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic]
 X-Spam_score_int: -9
 X-Spam_score: -1.0
 X-Spam_bar: -
@@ -78,82 +78,59 @@ Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 
---WeDu0lr7bteb/II5
-Content-Type: text/plain; charset=us-ascii
+--+wSiqF7c0ySQ2tNi
+Content-Type: text/plain; charset=iso-8859-1
 Content-Disposition: inline
 Content-Transfer-Encoding: quoted-printable
 
-On Wed, Jul 22, 2020 at 11:56:52PM -0300, Thiago Jung Bauermann wrote:
-65;6003;1c> PowerPC sPAPR CPUs start in the halted state, and spapr_reset_v=
-cpu()
-> attempts to implement this by setting CPUState::halted to 1. But that's t=
-oo
-> late for the case of hotplugged CPUs in a machine configure with 2 or more
-> threads per core.
+On Wed, Jul 22, 2020 at 11:56:53PM -0300, Thiago Jung Bauermann wrote:
+> Instead of setting CPUState::halted to 1 in ppce500_cpu_reset_sec(), use
+> the start-powered-off property which makes cpu_common_reset() initialize =
+it
+> to 1 in common code.
 >=20
-> By then, other parts of QEMU have already caused the vCPU to run in an
-> unitialized state a couple of times. For example, ppc_cpu_reset() calls
-> ppc_tlb_invalidate_all(), which ends up calling async_run_on_cpu(). This
-> kicks the new vCPU while it has CPUState::halted =3D 0, causing QEMU to i=
-ssue
-> a KVM_RUN ioctl on the new vCPU before the guest is able to make the
-> start-cpu RTAS call to initialize its register state.
->=20
-> This problem doesn't seem to cause visible issues for regular guests, but
-> on a secure guest running under the Ultravisor it does. The Ultravisor
-> relies on being able to snoop on the start-cpu RTAS call to map vCPUs to
-> guests, and this issue causes it to see a stray vCPU that doesn't belong =
-to
-> any guest.
->=20
-> Fix by setting the start-powered-off CPUState property in
-> spapr_create_vcpu(), which makes cpu_common_reset() initialize
-> CPUState::halted to 1 at an earlier moment.
->=20
-> Suggested-by: Eduardo Habkost <ehabkost@redhat.com>
+> Reviewed-by: Philippe Mathieu-Daud=E9 <philmd@redhat.com>
 > Signed-off-by: Thiago Jung Bauermann <bauerman@linux.ibm.com>
 
 Acked-by: David Gibson <david@gibson.dropbear.id.au>
 
 > ---
->  hw/ppc/spapr_cpu_core.c | 10 +++++-----
->  1 file changed, 5 insertions(+), 5 deletions(-)
+>  hw/ppc/e500.c | 10 +++++++---
+>  1 file changed, 7 insertions(+), 3 deletions(-)
 >=20
-> NB: Tested on ppc64le pseries KVM guest with two threads per core.=20
-> Hot-plugging additional cores doesn't cause the bug described above
-> anymore.
+> NB: I was only able to test that this patch builds. I wasn't able to
+> run it.
 >=20
-> diff --git a/hw/ppc/spapr_cpu_core.c b/hw/ppc/spapr_cpu_core.c
-> index c4f47dcc04..2125fdac34 100644
-> --- a/hw/ppc/spapr_cpu_core.c
-> +++ b/hw/ppc/spapr_cpu_core.c
-> @@ -36,11 +36,6 @@ static void spapr_reset_vcpu(PowerPCCPU *cpu)
+> diff --git a/hw/ppc/e500.c b/hw/ppc/e500.c
+> index ab9884e315..dda71bc05d 100644
+> --- a/hw/ppc/e500.c
+> +++ b/hw/ppc/e500.c
+> @@ -704,9 +704,6 @@ static void ppce500_cpu_reset_sec(void *opaque)
 > =20
 >      cpu_reset(cs);
 > =20
-> -    /* All CPUs start halted.  CPU0 is unhalted from the machine level
-> -     * reset code and the rest are explicitly started up by the guest
-> -     * using an RTAS call */
+> -    /* Secondary CPU starts in halted state for now. Needs to change when
+> -       implementing non-kernel boot. */
 > -    cs->halted =3D 1;
-> -
->      env->spr[SPR_HIOR] =3D 0;
+>      cs->exception_index =3D EXCP_HLT;
+>  }
 > =20
->      lpcr =3D env->spr[SPR_LPCR];
-> @@ -274,6 +269,11 @@ static PowerPCCPU *spapr_create_vcpu(SpaprCpuCore *s=
-c, int i, Error **errp)
+> @@ -897,6 +894,13 @@ void ppce500_init(MachineState *machine)
+>          } else {
+>              /* Secondary CPUs */
+>              qemu_register_reset(ppce500_cpu_reset_sec, cpu);
+> +
+> +            /*
+> +             * Secondary CPU starts in halted state for now. Needs to ch=
+ange
+> +             * when implementing non-kernel boot.
+> +             */
+> +            object_property_set_bool(OBJECT(cs), "start-powered-off", tr=
+ue,
+> +                                     &error_abort);
+>          }
+>      }
 > =20
->      cs =3D CPU(obj);
->      cpu =3D POWERPC_CPU(obj);
-> +    /*
-> +     * All CPUs start halted. CPU0 is unhalted from the machine level re=
-set code
-> +     * and the rest are explicitly started up by the guest using an RTAS=
- call.
-> +     */
-> +    cs->start_powered_off =3D true;
->      cs->cpu_index =3D cc->core_id + i;
->      spapr_set_vcpu_id(cpu, cs->cpu_index, &local_err);
->      if (local_err) {
 >=20
 
 --=20
@@ -162,25 +139,25 @@ david AT gibson.dropbear.id.au	| minimalist, thank you.  NOT _the_ _other_
 				| _way_ _around_!
 http://www.ozlabs.org/~dgibson
 
---WeDu0lr7bteb/II5
+--+wSiqF7c0ySQ2tNi
 Content-Type: application/pgp-signature; name="signature.asc"
 
 -----BEGIN PGP SIGNATURE-----
 
-iQIzBAEBCAAdFiEEdfRlhq5hpmzETofcbDjKyiDZs5IFAl8Y/ssACgkQbDjKyiDZ
-s5KYVxAAv7P27aed2Mohc1UK3Bum8vJaeFcPpfr/EPEfJb78dgyvscEPglAvIBal
-Ia2ElTiYxzROnRiD209HoBR432VeEELIvXtaO99yp/u0sF2QRBrNtMVcZ3DyUWr2
-MbTcD4BSR4Qq1GiCKBGvXtC6fGQv6R1vy3Z31eMqDdPXwnE67DjoiRuuXjQs+DzY
-J2v5BTMhBWcfMJyirzJq02OReKCSZwhRu15l77j/Wyc7LC9nYM/fZxYHxwKGVEL/
-D0w0YpBy7wwtioxKUhuqkeO6ONGc/tWrNTzzDTenfZHUyJ/EC2azYFcSj9y24SiI
-2NjUOsTTtvekOlD+4lW2mS2ZonkgIzYiTTa0PLPIZdJZ8P50ZEO3jbuFdmyPc7ur
-Mz4STuZQT/mPxFuuKU7RPQY04E++cSFIWjYhna3IqTK9K3trICGaC9OhrSQ3EUJp
-hBepwmoeA+Ik+xte4HR7/r+xRnVWME0hEuR/v4qhMiQ3FuK4j1mNBal9x47LTsUg
-r39CO8a0b6V/t3NKRT5CShsBDjQPikk2DX4wyMheRL697Tw4N3pkzI40Cpx0QZgP
-ludgUrzuZ+waEfujZCrPYHac7oRoSrUimV3K54hPoQE4xAAm3rDl97oBpKGHObqk
-2AhiTzBtdkoB1ALG9XLNixXU/gExcrfhxYw84SdfbUYd8zdCxBc=
-=H/Oe
+iQIzBAEBCAAdFiEEdfRlhq5hpmzETofcbDjKyiDZs5IFAl8Y/t8ACgkQbDjKyiDZ
+s5IrjxAAj8w1dlpy4ndOgDi84moUQXy+GpWtzsFjdyjozBcz3RxkW8RVZVDBQiG3
+fz+IFQqf0BKgOiKX5gM6s69g0AFl3y632eq4aOViJZJHnEdsn/V2Prl50yKZHD14
+MabdK7GjI6hv9ird5V6Gmv2mI+Yhfz9+9woz5S6y7ZTWWwx8LyynvLzFJR1D+3eF
+5ETb8fBXri4jeFqfy1upW0miKJrn/BaKbx1f0Wk0RJ793AbhHgO9f/X5xRIb8sZG
+9k2U1cLP6VClKQ0Y0zKq6kMyFikSiiC+Iyj9jgO2w+SOCFoSKD3U3T4ehum7n+d8
+OY9Tt3JdUGQU/oa5HwJleON/da0hzEtGdjBR2M4Ozmzv4JLtKS1P0kgDd6c5U/00
+kzIT2eS/mM7nG6E2WEgd78EswDdqwcrdZA/fNtJYkAf/ghrSpk+RolYAkikpLIiZ
+9KXZwUBv99DelCl1rbFSKhidmgirzTQIh1WtkbTlXfXLAUKo2RLDj8513O8klxh4
+yBnw2TmjQ0GJbc/nOOvDuqMT9VfsLmVxSdzBEIRbl9XgMX6aHxxOjVOH5J17JPIp
+DNoaax7ybgEMFhBmPYdOD0ZmYCjK9WhROZzR4jowO8k79Am58eZo2IizzGvo6MiZ
+WUZAJTghW5nDlBbCKsr68/QeVB45Hqn36MwkiKcDkklKJkUlr3c=
+=Qpx7
 -----END PGP SIGNATURE-----
 
---WeDu0lr7bteb/II5--
+--+wSiqF7c0ySQ2tNi--
 
