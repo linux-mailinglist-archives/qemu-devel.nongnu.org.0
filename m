@@ -2,92 +2,73 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5677F22AFA7
-	for <lists+qemu-devel@lfdr.de>; Thu, 23 Jul 2020 14:47:59 +0200 (CEST)
-Received: from localhost ([::1]:42246 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6B08022AFAA
+	for <lists+qemu-devel@lfdr.de>; Thu, 23 Jul 2020 14:49:13 +0200 (CEST)
+Received: from localhost ([::1]:46190 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jyadi-0007ra-Cv
-	for lists+qemu-devel@lfdr.de; Thu, 23 Jul 2020 08:47:58 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:40230)
+	id 1jyaeu-00014v-Fn
+	for lists+qemu-devel@lfdr.de; Thu, 23 Jul 2020 08:49:12 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:40392)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1jyach-0007FY-7b
- for qemu-devel@nongnu.org; Thu, 23 Jul 2020 08:46:55 -0400
-Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:45442
- helo=us-smtp-1.mimecast.com)
+ (Exim 4.90_1) (envelope-from <stefanha@redhat.com>)
+ id 1jyadX-0008D5-GS
+ for qemu-devel@nongnu.org; Thu, 23 Jul 2020 08:47:47 -0400
+Received: from us-smtp-2.mimecast.com ([207.211.31.81]:25556
+ helo=us-smtp-delivery-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1jyacf-0006Rm-Gj
- for qemu-devel@nongnu.org; Thu, 23 Jul 2020 08:46:54 -0400
+ (Exim 4.90_1) (envelope-from <stefanha@redhat.com>)
+ id 1jyadV-0006bW-Jh
+ for qemu-devel@nongnu.org; Thu, 23 Jul 2020 08:47:47 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1595508412;
+ s=mimecast20190719; t=1595508464;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=mqDjNoa40RQ2D/QJ8iMwYzddlX+gaK+RJ2wPh7ag0A8=;
- b=Dbpill+sef74IxbyndWK2DfF/DyswY7XBk4ByWPzmZOiv1ucpQ19fJz7bNTA5M8UHSJC+c
- OUnmWVThzB/vrEFolw67/erd4UQqURxVR8wJEvKE5Df3Lfp1if2nKNuNRa1HZT+931qCkE
- Ad42aYhU2V1iyw17jKHe5KQbgmMv++o=
-Received: from mail-wr1-f69.google.com (mail-wr1-f69.google.com
- [209.85.221.69]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-439-xR0QlAm-MDuYFArpp6emkA-1; Thu, 23 Jul 2020 08:46:50 -0400
-X-MC-Unique: xR0QlAm-MDuYFArpp6emkA-1
-Received: by mail-wr1-f69.google.com with SMTP id h4so1370901wrh.10
- for <qemu-devel@nongnu.org>; Thu, 23 Jul 2020 05:46:50 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:content-transfer-encoding
- :in-reply-to;
- bh=bfHlCQjilkZPoVtutIeW5pxlXzKAg6whEOZgejSpOPU=;
- b=dUavvQudWxuDQWW6JkQ82itvqxYNP9vIKl5LMMtWm7avSj6vu5D/GewlexER4kU2ou
- g1jyX5Q8xhVKNbBKf7rER7hJGdCbUIREybHsVIkXmtxz8/8oybwRGvAEULDGELLU7gar
- cWFyo8aVkMaJnH0A7/80Xzq0dp9O9vlQa4VTynt0PV0rDRrG9q7ExB03es17sP8ArT3e
- QC0zc8JxuWR1FXbis6+g2OMBPXnWWWEQf+/dzNKq3L2/40r35AhsnTk3AWuPbJBUzL0f
- OStp6IW83qCCE/ZreChfpprygrsQws7ANgJNtvQXkC4k2f1v49BN0dSZUm7BVM69s5mN
- erhw==
-X-Gm-Message-State: AOAM533LOziOGNoXaPsXzHRtJxOL7xAwQn0sLRAOYUVjA8/Bu2y46Es9
- xwReOPB4KHTtZp66g7EdzjnppWDRtOTCYtydaMkhhP7wuubKJAFaAoF86fUm72Wp5wpyq6mVN2a
- iOiexXIaoXg2i7jk=
-X-Received: by 2002:a05:600c:21ca:: with SMTP id
- x10mr3950846wmj.63.1595508409502; 
- Thu, 23 Jul 2020 05:46:49 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJxKbW4gBjCJP6BzX6YO7HU8CyY8SMLqxEK1DxT1SUafX4TEFhpYxAVyAAsF7mvzYQ//neBWtg==
-X-Received: by 2002:a05:600c:21ca:: with SMTP id
- x10mr3950808wmj.63.1595508409137; 
- Thu, 23 Jul 2020 05:46:49 -0700 (PDT)
-Received: from redhat.com (bzq-79-179-105-63.red.bezeqint.net. [79.179.105.63])
- by smtp.gmail.com with ESMTPSA id p14sm3848125wrx.90.2020.07.23.05.46.47
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 23 Jul 2020 05:46:48 -0700 (PDT)
-Date: Thu, 23 Jul 2020 08:46:45 -0400
-From: "Michael S. Tsirkin" <mst@redhat.com>
-To: =?iso-8859-1?Q?C=E9dric?= Le Goater <clg@kaod.org>
-Subject: Re: [PATCH] acpi: Fix access to PM1 control and status registers
-Message-ID: <20200723084554-mutt-send-email-mst@kernel.org>
-References: <20200701110549.148522-1-anthony.perard@citrix.com>
- <20200701075914-mutt-send-email-mst@kernel.org>
- <20200701124836.GD2030@perard.uk.xensource.com>
- <20200702063310-mutt-send-email-mst@kernel.org>
- <0a9c7f42-c6e3-4103-febc-3811319341d9@kaod.org>
+ bh=SHYMgp7dccR8OqdhT2Dvku33n1oGX34gNmZM7hmLvlA=;
+ b=CCENdGxUvWQ5HjYztW6Xwy4626RBsin5CnEDNk34x2euU77M2Wmvr+eGLoqJ+cZftpnITQ
+ un8tEdIrzfqsgY0C675gDCG85RKENTKjqGeVmgDEyAZL36QLWMhttM86g9G5b9zV/dSabo
+ EqFnXujX7ZeYmkvdLb4w1MD6w0sE1VI=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-425-Tu-L44YnM-e-OqU0JrqCGw-1; Thu, 23 Jul 2020 08:47:43 -0400
+X-MC-Unique: Tu-L44YnM-e-OqU0JrqCGw-1
+Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
+ [10.5.11.23])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 608A010A1520
+ for <qemu-devel@nongnu.org>; Thu, 23 Jul 2020 12:46:50 +0000 (UTC)
+Received: from localhost (ovpn-114-204.ams2.redhat.com [10.36.114.204])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 126E719D81;
+ Thu, 23 Jul 2020 12:46:46 +0000 (UTC)
+Date: Thu, 23 Jul 2020 13:46:45 +0100
+From: Stefan Hajnoczi <stefanha@redhat.com>
+To: Vivek Goyal <vgoyal@redhat.com>
+Subject: Re: [Virtio-fs] [PATCH for-5.1 0/3] virtiofsd: allow virtiofsd to
+ run in a container
+Message-ID: <20200723124645.GM186372@stefanha-x1.localdomain>
+References: <20200722130206.224898-1-stefanha@redhat.com>
+ <20200722181914.GB598987@redhat.com>
 MIME-Version: 1.0
-In-Reply-To: <0a9c7f42-c6e3-4103-febc-3811319341d9@kaod.org>
+In-Reply-To: <20200722181914.GB598987@redhat.com>
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=iso-8859-1
-Content-Transfer-Encoding: 8bit
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature"; boundary="xtx0sNU5lZ46KfgK"
 Content-Disposition: inline
-Received-SPF: pass client-ip=207.211.31.120; envelope-from=mst@redhat.com;
- helo=us-smtp-1.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/07/22 22:13:02
+Received-SPF: pass client-ip=207.211.31.81; envelope-from=stefanha@redhat.com;
+ helo=us-smtp-delivery-1.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/07/23 02:26:42
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
 X-Spam_score_int: -30
 X-Spam_score: -3.1
 X-Spam_bar: ---
 X-Spam_report: (-3.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H4=-0.01, RCVD_IN_MSPIKE_WL=-0.01,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H3=-0.01, RCVD_IN_MSPIKE_WL=-0.01,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -100,220 +81,65 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Maydell <peter.maydell@linaro.org>, Andrew Jeffery <andrew@aj.id.au>,
- Alistair Francis <alistair@alistair23.me>, qemu-devel@nongnu.org,
- "open list:ASPEED BMCs" <qemu-arm@nongnu.org>,
- =?iso-8859-1?Q?Herv=E9?= Poussineau <hpoussin@reactos.org>,
- Joel Stanley <joel@jms.id.au>, pbonzini@redhat.com,
- Anthony PERARD <anthony.perard@citrix.com>,
- Igor Mammedov <imammedo@redhat.com>, "open list:PReP" <qemu-ppc@nongnu.org>
+Cc: virtio-fs@redhat.com, vromanso@redhat.com, qemu-devel@nongnu.org,
+ rmohr@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Thu, Jul 16, 2020 at 11:05:06AM +0200, Cédric Le Goater wrote:
-> On 7/2/20 1:12 PM, Michael S. Tsirkin wrote:
-> > On Wed, Jul 01, 2020 at 01:48:36PM +0100, Anthony PERARD wrote:
-> >> On Wed, Jul 01, 2020 at 08:01:55AM -0400, Michael S. Tsirkin wrote:
-> >>> On Wed, Jul 01, 2020 at 12:05:49PM +0100, Anthony PERARD wrote:
-> >>>> The ACPI spec state that "Accesses to PM1 control registers are
-> >>>> accessed through byte and word accesses." (In section 4.7.3.2.1 PM1
-> >>>> Control Registers of my old spec copy rev 4.0a).
-> >>>>
-> >>>> With commit 5d971f9e6725 ("memory: Revert "memory: accept mismatching
-> >>>> sizes in memory_region_access_valid""), it wasn't possible anymore to
-> >>>> access the pm1_cnt register by reading a single byte, and that is use
-> >>>> by at least a Xen firmware called "hvmloader".
-> >>>>
-> >>>> Also, take care of the PM1 Status Registers which also have "Accesses
-> >>>> to the PM1 status registers are done through byte or word accesses"
-> >>>> (In section 4.7.3.1.1 PM1 Status Registers).
-> >>>>
-> >>>> Signed-off-by: Anthony PERARD <anthony.perard@citrix.com>
-> >>>
-> >>>
-> >>> Can't we set impl.min_access_size to convert byte accesses
-> >>> to word accesses?
-> >>
-> >> I actually tried, but when reading `addr` or `addr+1` I had the same
-> >> value. So I guess `addr` wasn't taken into account.
-> >>
-> >> I've checked again, with `.impl.min_access_size = 2`, the width that the
-> >> function acpi_pm_cnt_read() get is 2, but addr isn't changed so the
-> >> function is still supposed to shift the result (or the value to write)
-> >> based on addr, I guess.
-> > 
-> > True address is misaligned.  I think memory core should just align it -
-> > this is what devices seem to expect.
-> > However result is shifted properly so just align addr and be done with
-> > it.
-> > 
-> > 
-> > In fact I have a couple more questions. Paolo - maybe you can answer some of these?
-> > 
-> > 
-> > 
-> >     if (!access_size_min) {
-> >         access_size_min = 1;
-> >     }
-> >     if (!access_size_max) {
-> >         access_size_max = 4;
-> >     }
-> > 
-> >>>>>
-> > 
-> > So 8 byte accesses are split up unless one requests 8 bytes.
-> > Undocumented right?  Why are we doing this?
-> > 
-> >>>>>
-> > 
-> > 
-> >     /* FIXME: support unaligned access? */
-> > 
-> >>>>>
-> > 
-> > Shouldn't we document impl.unaligned is ignored right now?
-> > Shouldn't we do something to make sure callbacks do not get
-> > unaligned accesses they don't expect?
-> > 
-> > 
-> > In fact, there are just 2 devices which set valid.unaligned but
-> > not impl.unaligned:
-> >     aspeed_smc_ops
-> >     raven_io_ops
-> > 
-> > 
-> > Is this intentional? 
-> 
-> I think it is a leftover from the initial implementation. The model works fine 
-> without valid.unaligned being set and with your patch.
-> 
-> C. 
+--xtx0sNU5lZ46KfgK
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-Oh good, we can drop this. What about raven? Hervé could you comment pls?
+On Wed, Jul 22, 2020 at 02:19:14PM -0400, Vivek Goyal wrote:
+> On Wed, Jul 22, 2020 at 02:02:03PM +0100, Stefan Hajnoczi wrote:
+> > Container runtimes handle namespace setup and remove privileges needed =
+by
+> > virtiofsd to perform sandboxing. Luckily the container environment alre=
+ady
+> > provides most of the sandbox that virtiofsd needs for security.
+> >=20
+> > Introduce a new "virtiofsd -o chroot" option that uses chroot(2) instea=
+d of
+> > namespaces. This option allows virtiofsd to work inside a container.
+> >=20
+> > Please see the individual patches for details on the changes and securi=
+ty
+> > implications.
+> >=20
+> > Given that people are starting to attempt running virtiofsd in containe=
+rs I
+> > think this should go into QEMU 5.1.
+>=20
+> Hi Stefan,
+>=20
+> I have written a document to help with testing virtiofs with any changes.
+>=20
+> https://github.com/rhvgoyal/misc/blob/master/virtiofs-tests/virtio-fs-tes=
+ting-requirement.txt
+>=20
+> Will be good to run some of these tests to make sure there are no
+> regressions due to these changes.
 
+Thank you! I will run them and post the results.
 
-> 
-> > Do these in fact expect memory core to
-> > provide aligned addresses to the callbacks?
-> > Given impl.unaligned is not implemented, can we drop it completely?
-> > Cc a bunch of people who might know.
-> > 
-> > Can relevant maintainers please comment? Thanks a lot!
-> > 
-> >>>>>
-> > 
-> > 
-> >     access_size = MAX(MIN(size, access_size_max), access_size_min);
-> >     access_mask = MAKE_64BIT_MASK(0, access_size * 8);
-> > 
-> >>>>>
-> > 
-> > 
-> > So with a 1 byte access at address 1, with impl.min_access_size = 2, we get:
-> >     access_size = 2
-> >     access_mask = 0xffff
-> >     addr = 1
-> > 
-> > 
-> > 
-> > <<<<
-> > 
-> > 
-> >     if (memory_region_big_endian(mr)) {
-> >         for (i = 0; i < size; i += access_size) {
-> >             r |= access_fn(mr, addr + i, value, access_size,
-> >                         (size - access_size - i) * 8, access_mask, attrs);
-> > 
-> >>>>
-> > 
-> > now shift is -8.
-> > 
-> > <<<<
-> > 
-> > 
-> >         }
-> >     } else {
-> >         for (i = 0; i < size; i += access_size) {
-> >             r |= access_fn(mr, addr + i, value, access_size, i * 8,
-> >                         access_mask, attrs);
-> >         }
-> >     }
-> > 
-> > 
-> > <<<<
-> > 
-> > callback is invoked with addr 1 and size 2:
-> > 
-> >>>>>
-> > 
-> > 
-> >     uint64_t tmp;
-> > 
-> >     tmp = mr->ops->read(mr->opaque, addr, size);
-> >     if (mr->subpage) {
-> >         trace_memory_region_subpage_read(get_cpu_index(), mr, addr, tmp, size);
-> >     } else if (trace_event_get_state_backends(TRACE_MEMORY_REGION_OPS_READ)) {
-> >         hwaddr abs_addr = memory_region_to_absolute_addr(mr, addr);
-> >         trace_memory_region_ops_read(get_cpu_index(), mr, abs_addr, tmp, size);
-> >     }
-> >     memory_region_shift_read_access(value, shift, mask, tmp);
-> >     return MEMTX_OK;
-> > 
-> > <<<<
-> > 
-> > let's assume callback returned 0xabcd
-> > 
-> > this is where we are shifting the return value:
-> > 
-> >>>>>
-> > 
-> > 
-> > static inline void memory_region_shift_read_access(uint64_t *value,
-> >                                                    signed shift,
-> >                                                    uint64_t mask,
-> >                                                    uint64_t tmp)
-> > {
-> >     if (shift >= 0) {
-> >         *value |= (tmp & mask) << shift;
-> >     } else {
-> >         *value |= (tmp & mask) >> -shift;
-> >     }
-> > }
-> > 
-> > 
-> > So we do 0xabcd & 0xffff >> 8, and we get 0xab.
-> > 
-> >>>>
-> > 
-> > How about aligning address for now? Paolo?
-> > 
-> > -->
-> > 
-> > memory: align to min access size
-> > 
-> > If impl.min_access_size > valid.min_access_size access callbacks
-> > can get a misaligned access as size is increased.
-> > They don't expect that, let's fix it in the memory core.
-> > 
-> > Signed-off-by: Michael S. Tsirkin <mst@redhat.com>
-> > 
-> > ---
-> > 
-> > 
-> > diff --git a/memory.c b/memory.c
-> > index 9200b20130..ea489ce405 100644
-> > --- a/memory.c
-> > +++ b/memory.c
-> > @@ -532,6 +532,7 @@ static MemTxResult access_with_adjusted_size(hwaddr addr,
-> >      }
-> >  
-> >      /* FIXME: support unaligned access? */
-> > +    addr &= ~(access_size_min - 1);
-> >      access_size = MAX(MIN(size, access_size_max), access_size_min);
-> >      access_mask = MAKE_64BIT_MASK(0, access_size * 8);
-> >      if (memory_region_big_endian(mr)) {
-> >> -- 
-> >> Anthony PERARD
-> > 
+Stefan
+
+--xtx0sNU5lZ46KfgK
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAEBCAAdFiEEhpWov9P5fNqsNXdanKSrs4Grc8gFAl8ZhrUACgkQnKSrs4Gr
+c8ifwQgAnRfwLw3v2RsrTVxdGUTdcqsHwsvUWfjyL9nd764aMInem2uO2wX1uwS8
+LBCwSetSYNjGvZPUJTQ4EPAD/cE3Y7v6e8M9Uxc/iM69Nye10KnwfyOWizYi217G
+JTaAjXYU5WEZJJzNtZW3oqJJKKTdbx+D8mVXYnBH58xqAbM0X3ijPgbuywrTz26g
+U4+/fjbCD+9O1JYZEs6Mj89U6GKusjMG4bGVozNtWT9y1I5e6tJZuY9IGOyB9EtB
+tRJWMZWQAy7Gut1C1bvCqR3hF3ff63OzJHAs6ORLC83ZZVrX0FYL+hQEnllS3pk0
+FgJKkdj7Hv1A8e9vpw5y7aDL4xJ4Xw==
+=GCV3
+-----END PGP SIGNATURE-----
+
+--xtx0sNU5lZ46KfgK--
 
 
