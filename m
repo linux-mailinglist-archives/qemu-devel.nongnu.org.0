@@ -2,57 +2,67 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2840422B17F
-	for <lists+qemu-devel@lfdr.de>; Thu, 23 Jul 2020 16:40:13 +0200 (CEST)
-Received: from localhost ([::1]:36192 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 87F2E22B1F3
+	for <lists+qemu-devel@lfdr.de>; Thu, 23 Jul 2020 16:56:46 +0200 (CEST)
+Received: from localhost ([::1]:44640 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jycOK-0007VM-7Y
-	for lists+qemu-devel@lfdr.de; Thu, 23 Jul 2020 10:40:12 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:50552)
+	id 1jyceL-0003Vg-K2
+	for lists+qemu-devel@lfdr.de; Thu, 23 Jul 2020 10:56:45 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:54584)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jan.kiszka@siemens.com>)
- id 1jycNb-000756-R6
- for qemu-devel@nongnu.org; Thu, 23 Jul 2020 10:39:27 -0400
-Received: from thoth.sbs.de ([192.35.17.2]:36949)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jan.kiszka@siemens.com>)
- id 1jycNZ-0000Rr-LJ
- for qemu-devel@nongnu.org; Thu, 23 Jul 2020 10:39:27 -0400
-Received: from mail2.sbs.de (mail2.sbs.de [192.129.41.66])
- by thoth.sbs.de (8.15.2/8.15.2) with ESMTPS id 06NEdMfN031748
- (version=TLSv1.2 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Thu, 23 Jul 2020 16:39:22 +0200
-Received: from [139.25.68.37] ([139.25.68.37])
- by mail2.sbs.de (8.15.2/8.15.2) with ESMTP id 06NEdLRW023597;
- Thu, 23 Jul 2020 16:39:21 +0200
-Subject: Re: [PATCH] KVM: fix CPU reset wrt HF2_GIF_MASK
-To: Vitaly Kuznetsov <vkuznets@redhat.com>, qemu-devel@nongnu.org
-References: <20200723142701.2521161-1-vkuznets@redhat.com>
-From: Jan Kiszka <jan.kiszka@siemens.com>
-Message-ID: <4b5a9074-decd-bec1-b60f-db103660d8bd@siemens.com>
-Date: Thu, 23 Jul 2020 16:39:21 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.10.0
+ (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
+ id 1jycdR-0002tF-LG
+ for qemu-devel@nongnu.org; Thu, 23 Jul 2020 10:55:49 -0400
+Received: from indium.canonical.com ([91.189.90.7]:37316)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
+ id 1jycdP-0002un-Jy
+ for qemu-devel@nongnu.org; Thu, 23 Jul 2020 10:55:49 -0400
+Received: from loganberry.canonical.com ([91.189.90.37])
+ by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
+ id 1jycdM-0001eV-TQ
+ for <qemu-devel@nongnu.org>; Thu, 23 Jul 2020 14:55:44 +0000
+Received: from loganberry.canonical.com (localhost [127.0.0.1])
+ by loganberry.canonical.com (Postfix) with ESMTP id DDA542E80EE
+ for <qemu-devel@nongnu.org>; Thu, 23 Jul 2020 14:55:44 +0000 (UTC)
 MIME-Version: 1.0
-In-Reply-To: <20200723142701.2521161-1-vkuznets@redhat.com>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=192.35.17.2; envelope-from=jan.kiszka@siemens.com;
- helo=thoth.sbs.de
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/07/23 10:39:23
-X-ACL-Warn: Detected OS   = Linux 3.1-3.10
-X-Spam_score_int: -68
-X-Spam_score: -6.9
-X-Spam_bar: ------
-X-Spam_report: (-6.9 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_HI=-5,
- RCVD_IN_MSPIKE_H3=-0.01, RCVD_IN_MSPIKE_WL=-0.01, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: quoted-printable
+Date: Thu, 23 Jul 2020 14:46:55 -0000
+From: "Dr. David Alan Gilbert" <1888601@bugs.launchpad.net>
+To: qemu-devel@nongnu.org
+X-Launchpad-Notification-Type: bug
+X-Launchpad-Bug: product=qemu; status=New; importance=Undecided; assignee=None;
+X-Launchpad-Bug-Information-Type: Public
+X-Launchpad-Bug-Private: no
+X-Launchpad-Bug-Security-Vulnerability: no
+X-Launchpad-Bug-Commenters: dgilbert-h skaegi
+X-Launchpad-Bug-Reporter: Simon Kaegi (skaegi)
+X-Launchpad-Bug-Modifier: Dr. David Alan Gilbert (dgilbert-h)
+References: <159547584008.11100.1316842366379773629.malonedeb@wampee.canonical.com>
+Message-Id: <159551561554.10948.7317630467925873180.malone@wampee.canonical.com>
+Subject: [Bug 1888601] Re: QEMU v5.1.0-rc0/rc1 hang with nested virtualization
+X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
+X-Launchpad-Message-For: qemu-devel-ml
+Precedence: bulk
+X-Generated-By: Launchpad (canonical.com);
+ Revision="f877c5162b568393e2d07ce948459ba0abc456fe";
+ Instance="production-secrets-lazr.conf"
+X-Launchpad-Hash: b85ed60eeb23bd4b91dd61c461040cb859c023a2
+Received-SPF: none client-ip=91.189.90.7; envelope-from=bounces@canonical.com;
+ helo=indium.canonical.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/07/23 07:31:00
+X-ACL-Warn: Detected OS   = Linux 3.11 and newer [fuzzy]
+X-Spam_score_int: -58
+X-Spam_score: -5.9
+X-Spam_bar: -----
+X-Spam_report: (-5.9 / 5.0 requ) BAYES_00=-1.9, HEADER_FROM_DIFFERENT_DOMAINS=1,
+ RCVD_IN_DNSWL_HI=-5, RCVD_IN_MSPIKE_H3=-0.01, RCVD_IN_MSPIKE_WL=-0.01,
+ SPF_HELO_NONE=0.001, SPF_NONE=0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
-Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -61,81 +71,109 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Eduardo Habkost <ehabkost@redhat.com>,
- Marcelo Tosatti <mtosatti@redhat.com>,
- "Dr. David Alan Gilbert" <dgilbert@redhat.com>,
- Paolo Bonzini <pbonzini@redhat.com>,
- =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>,
- Richard Henderson <rth@twiddle.net>
+Reply-To: Bug 1888601 <1888601@bugs.launchpad.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 23.07.20 16:27, Vitaly Kuznetsov wrote:
-> HF2_GIF_MASK is set in env->hflags2 unconditionally on CPU reset
-> (see x86_cpu_reset()) but when calling KVM_SET_NESTED_STATE,
-> KVM_STATE_NESTED_GIF_SET is only valid for nSVM as e.g. nVMX code
-> looks like
-> 
-> if (kvm_state->hdr.vmx.vmxon_pa == -1ull) {
->      if (kvm_state->flags & ~KVM_STATE_NESTED_EVMCS)
->          return -EINVAL;
-> }
-> 
-> Also, when adjusting the environment after KVM_GET_NESTED_STATE we
-> need not reset HF2_GIF_MASK on VMX as e.g. x86_cpu_pending_interrupt()
-> expects it to be set.
-> 
-> Alternatively, we could've made env->hflags2 SVM-only.
-> 
-> Reported-by: Jan Kiszka <jan.kiszka@siemens.com>
-> Fixes: b16c0e20c742 ("KVM: add support for AMD nested live migration")
-> Signed-off-by: Vitaly Kuznetsov <vkuznets@redhat.com>
-> ---
->   target/i386/kvm.c | 16 +++++++++++-----
->   1 file changed, 11 insertions(+), 5 deletions(-)
-> 
-> diff --git a/target/i386/kvm.c b/target/i386/kvm.c
-> index 2b6b7443d273..3c4647fbfbf6 100644
-> --- a/target/i386/kvm.c
-> +++ b/target/i386/kvm.c
-> @@ -3883,7 +3883,9 @@ static int kvm_put_nested_state(X86CPU *cpu)
->       } else {
->           env->nested_state->flags &= ~KVM_STATE_NESTED_GUEST_MODE;
->       }
-> -    if (env->hflags2 & HF2_GIF_MASK) {
-> +
-> +    /* Don't set KVM_STATE_NESTED_GIF_SET on VMX as it is illegal */
-> +    if (cpu_has_svm(env) && (env->hflags2 & HF2_GIF_MASK)) {
->           env->nested_state->flags |= KVM_STATE_NESTED_GIF_SET;
->       } else {
->           env->nested_state->flags &= ~KVM_STATE_NESTED_GIF_SET;
-> @@ -3925,10 +3927,14 @@ static int kvm_get_nested_state(X86CPU *cpu)
->       } else {
->           env->hflags &= ~HF_GUEST_MASK;
->       }
-> -    if (env->nested_state->flags & KVM_STATE_NESTED_GIF_SET) {
-> -        env->hflags2 |= HF2_GIF_MASK;
-> -    } else {
-> -        env->hflags2 &= ~HF2_GIF_MASK;
-> +
-> +    /* Keep HF2_GIF_MASK set on !SVM as x86_cpu_pending_interrupt() needs it */
-> +    if (cpu_has_svm(env)) {
-> +        if (env->nested_state->flags & KVM_STATE_NESTED_GIF_SET) {
-> +            env->hflags2 |= HF2_GIF_MASK;
-> +        } else {
-> +            env->hflags2 &= ~HF2_GIF_MASK;
-> +        }
->       }
->   
->       return ret;
-> 
+Seems an odd one to be the culprit? Still lets ask Jason.
+Can you just clarify; is this qemu 5.1.0-rc on both the host and the kata, =
+or are you just changing to using qemu 5.1 as the host, and you're sticking=
+ with the existing kata qemu?
 
-Tested-by: Jan Kiszka <jan.kiszka@siemens.com>
+Which host CPU have you got?
 
-Thanks!
-Jan
+-- =
 
--- 
-Siemens AG, Corporate Technology, CT RDA IOT SES-DE
-Corporate Competence Center Embedded Linux
+You received this bug notification because you are a member of qemu-
+devel-ml, which is subscribed to QEMU.
+https://bugs.launchpad.net/bugs/1888601
+
+Title:
+  QEMU v5.1.0-rc0/rc1 hang with nested virtualization
+
+Status in QEMU:
+  New
+
+Bug description:
+  We're running Kata Containers using QEMU and with v5.1.0rc0 and rc1
+  have noticed a problem at startup where QEMu appears to hang. We are
+  not seeing this problem on our bare metal nodes and only on a VSI that
+  supports nested virtualization.
+
+  We unfortunately see nothing at all in the QEMU logs to help
+  understand the problem and a hung process is just a guess at this
+  point.
+
+  Using git bisect we first see the problem with...
+
+  ---
+
+  f19bcdfedd53ee93412d535a842a89fa27cae7f2 is the first bad commit
+  commit f19bcdfedd53ee93412d535a842a89fa27cae7f2
+  Author: Jason Wang <jasowang@redhat.com>
+  Date:   Wed Jul 1 22:55:28 2020 +0800
+
+  =C2=A0=C2=A0=C2=A0=C2=A0virtio-pci: implement queue_enabled method
+
+  =C2=A0=C2=A0=C2=A0=C2=A0With version 1, we can detect whether a queue is =
+enabled via
+  =C2=A0=C2=A0=C2=A0=C2=A0queue_enabled.
+
+  =C2=A0=C2=A0=C2=A0=C2=A0Signed-off-by: Jason Wang <jasowang@redhat.com>
+  =C2=A0=C2=A0=C2=A0=C2=A0Signed-off-by: Cindy Lu <lulu@redhat.com>
+  =C2=A0=C2=A0=C2=A0=C2=A0Message-Id: <20200701145538.22333-5-lulu@redhat.c=
+om>
+  =C2=A0=C2=A0=C2=A0=C2=A0Reviewed-by: Michael S. Tsirkin <mst@redhat.com>
+  =C2=A0=C2=A0=C2=A0=C2=A0Signed-off-by: Michael S. Tsirkin <mst@redhat.com>
+  =C2=A0=C2=A0=C2=A0=C2=A0Acked-by: Jason Wang <jasowang@redhat.com>
+
+  =C2=A0hw/virtio/virtio-pci.c | 13 +++++++++++++
+  =C2=A01 file changed, 13 insertions(+)
+
+  ---
+
+  Reverting this commit (on top of 5.1.0-rc1) seems to work and prevent
+  the hanging.
+
+  ---
+
+  Here's how kata ends up launching qemu in our environment --
+  /opt/kata/bin/qemu-system-x86_64 -name sandbox-849df14c6065931adedb9d18bc=
+9260a6d896f1814a8c5cfa239865772f1b7a5f -uuid 6bec458e-1da7-4847-a5d7-5ab31d=
+4d2465 -machine pc,accel=3Dkvm,kernel_irqchip -cpu host,pmu=3Doff -qmp unix=
+:/run/vc/vm/849df14c6065931adedb9d18bc9260a6d896f1814a8c5cfa239865772f1b7a5=
+f/qmp.sock,server,nowait -m 4096M,slots=3D10,maxmem=3D30978M -device pci-br=
+idge,bus=3Dpci.0,id=3Dpci-bridge-0,chassis_nr=3D1,shpc=3Don,addr=3D2,romfil=
+e=3D -device virtio-serial-pci,disable-modern=3Dtrue,id=3Dserial0,romfile=
+=3D -device virtconsole,chardev=3Dcharconsole0,id=3Dconsole0 -chardev socke=
+t,id=3Dcharconsole0,path=3D/run/vc/vm/849df14c6065931adedb9d18bc9260a6d896f=
+1814a8c5cfa239865772f1b7a5f/console.sock,server,nowait -device virtio-scsi-=
+pci,id=3Dscsi0,disable-modern=3Dtrue,romfile=3D -object rng-random,id=3Drng=
+0,filename=3D/dev/urandom -device virtio-rng-pci,rng=3Drng0,romfile=3D -dev=
+ice virtserialport,chardev=3Dcharch0,id=3Dchannel0,name=3Dagent.channel.0 -=
+chardev socket,id=3Dcharch0,path=3D/run/vc/vm/849df14c6065931adedb9d18bc926=
+0a6d896f1814a8c5cfa239865772f1b7a5f/kata.sock,server,nowait -chardev socket=
+,id=3Dchar-396c5c3e19e29353,path=3D/run/vc/vm/849df14c6065931adedb9d18bc926=
+0a6d896f1814a8c5cfa239865772f1b7a5f/vhost-fs.sock -device vhost-user-fs-pci=
+,chardev=3Dchar-396c5c3e19e29353,tag=3DkataShared,romfile=3D -netdev tap,id=
+=3Dnetwork-0,vhost=3Don,vhostfds=3D3:4,fds=3D5:6 -device driver=3Dvirtio-ne=
+t-pci,netdev=3Dnetwork-0,mac=3D52:ac:2d:02:1f:6f,disable-modern=3Dtrue,mq=
+=3Don,vectors=3D6,romfile=3D -global kvm-pit.lost_tick_policy=3Ddiscard -vg=
+a none -no-user-config -nodefaults -nographic -daemonize -object memory-bac=
+kend-file,id=3Ddimm1,size=3D4096M,mem-path=3D/dev/shm,share=3Don -numa node=
+,memdev=3Ddimm1 -kernel /opt/kata/share/kata-containers/vmlinuz-5.7.9-74 -i=
+nitrd /opt/kata/share/kata-containers/kata-containers-initrd_alpine_1.11.2-=
+6_agent.initrd -append tsc=3Dreliable no_timer_check rcupdate.rcu_expedited=
+=3D1 i8042.direct=3D1 i8042.dumbkbd=3D1 i8042.nopnp=3D1 i8042.noaux=3D1 nor=
+eplace-smp reboot=3Dk console=3Dhvc0 console=3Dhvc1 iommu=3Doff cryptomgr.n=
+otests net.ifnames=3D0 pci=3Dlastbus=3D0 debug panic=3D1 nr_cpus=3D4 agent.=
+use_vsock=3Dfalse scsi_mod.scan=3Dnone init=3D/usr/bin/kata-agent -pidfile =
+/run/vc/vm/849df14c6065931adedb9d18bc9260a6d896f1814a8c5cfa239865772f1b7a5f=
+/pid -D /run/vc/vm/849df14c6065931adedb9d18bc9260a6d896f1814a8c5cfa23986577=
+2f1b7a5f/qemu.log -smp 2,cores=3D1,threads=3D1,sockets=3D4,maxcpus=3D4
+
+  ---
+
+To manage notifications about this bug go to:
+https://bugs.launchpad.net/qemu/+bug/1888601/+subscriptions
 
