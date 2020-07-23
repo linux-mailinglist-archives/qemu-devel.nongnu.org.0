@@ -2,74 +2,76 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id CCECE22B6A5
-	for <lists+qemu-devel@lfdr.de>; Thu, 23 Jul 2020 21:25:54 +0200 (CEST)
-Received: from localhost ([::1]:39294 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5CB4622B6A9
+	for <lists+qemu-devel@lfdr.de>; Thu, 23 Jul 2020 21:27:50 +0200 (CEST)
+Received: from localhost ([::1]:44532 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jygqn-0003TC-Tw
-	for lists+qemu-devel@lfdr.de; Thu, 23 Jul 2020 15:25:53 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:37100)
+	id 1jygsf-0005ex-Ff
+	for lists+qemu-devel@lfdr.de; Thu, 23 Jul 2020 15:27:49 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:37274)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1jygpz-0002pD-IG
- for qemu-devel@nongnu.org; Thu, 23 Jul 2020 15:25:03 -0400
-Received: from mail-wm1-x341.google.com ([2a00:1450:4864:20::341]:34715)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1jygpx-0000HI-Vw
- for qemu-devel@nongnu.org; Thu, 23 Jul 2020 15:25:03 -0400
-Received: by mail-wm1-x341.google.com with SMTP id g10so7119000wmc.1
- for <qemu-devel@nongnu.org>; Thu, 23 Jul 2020 12:25:01 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=diP0Ikbvho+I6Mms1spyyg4KYwxa5PP0ZncvtRg8lU8=;
- b=izRfbO1b8saZDwL3JHNMqQMJSGAQ3EiXsvagvx/NfYBgtrv7KPXlAZKPKC4Wudx6gJ
- J0Ozu8BztdaDAofkBJvtOIiCQB74Jovl/Btm5COIPk0ooQWQAHZWahLRFv08FLq3oyOg
- FVaoE4n6Gpd9FiLSYE8WxsP3GWmfUpBfmIidYgFW79SY2nudQ6EldaK5WtYr+D7ABKIS
- ABfNnqjNFLULAtw+u/9x3GeIWOGVavRJK7SOOxw+GW5Qzlolhj4gPk6uhi5wz7ZFol3I
- sLDlDzj/sYtRAf6dPXXU/XIKYmj2wGKKIbw3PPg/0xp9R9zGZ4tk6Mjb0K/joyuW7ZfC
- TScw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=diP0Ikbvho+I6Mms1spyyg4KYwxa5PP0ZncvtRg8lU8=;
- b=l31Kt6Qg5SaAloAuPbwoSgts9dwni1caXpGvGz9roonLTc4DzkNYyxdXze8BRqRkLV
- pao25evNSM/xa389yeWAWTFx1Z0/iJJjXZUBFG6uG6oTbav0wwSeMKVzUyJ9BoQo3kij
- AdVVA/M+j5u2g7yLsFQujHrofp/Kdk55RG+o0KZ12pyUXkRE5Cpp9aWzHoM0bd9wA+bx
- rJacSmXkdaDJsZP0LLaP13SrDxocyZ2Byk9+XaYjVvLtqoeMEWRBAcnuE9XFmlL9ML01
- HAilBq31joRRk4HbSehgsyHhICjb7eRucO614lENdGEmEDSzRV0RCxW1D0YVtMfbK2gZ
- u98w==
-X-Gm-Message-State: AOAM530i15y+btrB+7kZdgpGEPqhCeoUzhYzBu47GzKAqqgDYuzVZ1QX
- EBRkNDDehDbAhJMTbAcEKT8+LkwT4piEjQ==
-X-Google-Smtp-Source: ABdhPJxuZZO+/LM9FVhlNPTMa5Amj+CtdSuce1frOZ0os/FV9KkfzVAby7BDEqNZNmU3K3YgLjFPwA==
-X-Received: by 2002:a7b:c84d:: with SMTP id c13mr5413817wml.170.1595532300030; 
- Thu, 23 Jul 2020 12:25:00 -0700 (PDT)
-Received: from orth.archaic.org.uk (orth.archaic.org.uk. [81.2.115.148])
- by smtp.gmail.com with ESMTPSA id h5sm5375544wrc.97.2020.07.23.12.24.58
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 23 Jul 2020 12:24:59 -0700 (PDT)
-From: Peter Maydell <peter.maydell@linaro.org>
-To: qemu-devel@nongnu.org
-Subject: [PATCH] hw/input/virtio-input-hid.c: Don't undef CONFIG_CURSES
-Date: Thu, 23 Jul 2020 20:24:57 +0100
-Message-Id: <20200723192457.28136-1-peter.maydell@linaro.org>
-X-Mailer: git-send-email 2.20.1
+ (Exim 4.90_1) (envelope-from <eblake@redhat.com>) id 1jygqd-0003e7-P9
+ for qemu-devel@nongnu.org; Thu, 23 Jul 2020 15:25:43 -0400
+Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:28599
+ helo=us-smtp-1.mimecast.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <eblake@redhat.com>) id 1jygqc-0000Vg-60
+ for qemu-devel@nongnu.org; Thu, 23 Jul 2020 15:25:43 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1595532341;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=AL8m00FnP7Q7AfnX1qOZXbGjEZYXcPmswn04RMfuRvU=;
+ b=Dhy/M5RTRlzKsJ7MAxF8Q/X6cR76Od2NegSQNxUfwiemWM9qKvr4ajBDY8ykllxRa8858E
+ uAJwOY8sWyYl5W/CUK9NNrwkp5orOSqmP43VeN/3QmuHr8lSITd7HKe3TvIiiWLhxQtDIL
+ BNrFWPVhBe3gaLlM9PKs8gFN8Wm7yC4=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-149-rNTVrE7VPhm2HZWja-2MMg-1; Thu, 23 Jul 2020 15:25:37 -0400
+X-MC-Unique: rNTVrE7VPhm2HZWja-2MMg-1
+Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
+ [10.5.11.11])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 6B55B19057DA
+ for <qemu-devel@nongnu.org>; Thu, 23 Jul 2020 19:25:36 +0000 (UTC)
+Received: from [10.3.112.189] (ovpn-112-189.phx2.redhat.com [10.3.112.189])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 7B2367854A;
+ Thu, 23 Jul 2020 19:25:33 +0000 (UTC)
+Subject: Re: [PATCH 3/4] crypto: use QOM macros for declaration/definition of
+ secret types
+To: =?UTF-8?Q?Daniel_P=2e_Berrang=c3=a9?= <berrange@redhat.com>,
+ qemu-devel@nongnu.org
+References: <20200723181410.3145233-1-berrange@redhat.com>
+ <20200723181410.3145233-4-berrange@redhat.com>
+From: Eric Blake <eblake@redhat.com>
+Organization: Red Hat, Inc.
+Message-ID: <3d818cd0-c8b6-2a1f-cca8-3fd8c5ba45bd@redhat.com>
+Date: Thu, 23 Jul 2020 14:25:32 -0500
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.10.0
 MIME-Version: 1.0
+In-Reply-To: <20200723181410.3145233-4-berrange@redhat.com>
+Content-Language: en-US
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=utf-8; format=flowed
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::341;
- envelope-from=peter.maydell@linaro.org; helo=mail-wm1-x341.google.com
-X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
- That's all we know.
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Received-SPF: pass client-ip=207.211.31.120; envelope-from=eblake@redhat.com;
+ helo=us-smtp-1.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/07/22 22:13:02
+X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
+X-Spam_score_int: -30
+X-Spam_score: -3.1
+X-Spam_bar: ---
+X-Spam_report: (-3.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H4=-0.01, RCVD_IN_MSPIKE_WL=-0.01,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -82,36 +84,21 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Thomas Huth <thuth@redhat.com>, Gerd Hoffmann <kraxel@redhat.com>,
- "Michael S. Tsirkin" <mst@redhat.com>
+Cc: Paolo Bonzini <pbonzini@redhat.com>, Eduardo Habkost <ehabkost@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-virtio-input-hid.c undefines CONFIG_CURSES before including
-ui/console.h. However since commits e2f82e924d057935 and b0766612d16da18
-that header does not have behaviour dependent on CONFIG_CURSES.
-Remove the now-unneeded undef.
+On 7/23/20 1:14 PM, Daniel P. Berrangé wrote:
+> This introduces the use of the OBJECT_DEFINE and OBJECT_DECLARE macro
+> families in the secret types, in order to eliminate boilerplate code.
+> 
+> Signed-off-by: Daniel P. Berrangé <berrange@redhat.com>
+> ---
+Reviewed-by: Eric Blake <eblake@redhat.com>
 
-Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
----
-NB: tested with 'make check' only.
-
- hw/input/virtio-input-hid.c | 1 -
- 1 file changed, 1 deletion(-)
-
-diff --git a/hw/input/virtio-input-hid.c b/hw/input/virtio-input-hid.c
-index 09cf2609854..a7a244a95db 100644
---- a/hw/input/virtio-input-hid.c
-+++ b/hw/input/virtio-input-hid.c
-@@ -12,7 +12,6 @@
- #include "hw/qdev-properties.h"
- #include "hw/virtio/virtio-input.h"
- 
--#undef CONFIG_CURSES
- #include "ui/console.h"
- 
- #include "standard-headers/linux/input.h"
 -- 
-2.20.1
+Eric Blake, Principal Software Engineer
+Red Hat, Inc.           +1-919-301-3226
+Virtualization:  qemu.org | libvirt.org
 
 
