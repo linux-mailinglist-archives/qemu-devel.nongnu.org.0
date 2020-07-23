@@ -2,68 +2,90 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id BECDA22A9BB
-	for <lists+qemu-devel@lfdr.de>; Thu, 23 Jul 2020 09:38:23 +0200 (CEST)
-Received: from localhost ([::1]:59996 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2F28122A9F0
+	for <lists+qemu-devel@lfdr.de>; Thu, 23 Jul 2020 09:44:43 +0200 (CEST)
+Received: from localhost ([::1]:39476 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jyVo6-0006U0-As
-	for lists+qemu-devel@lfdr.de; Thu, 23 Jul 2020 03:38:22 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:41038)
+	id 1jyVuE-0001SK-8i
+	for lists+qemu-devel@lfdr.de; Thu, 23 Jul 2020 03:44:42 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:43702)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1jyVnJ-0005vt-Gy
- for qemu-devel@nongnu.org; Thu, 23 Jul 2020 03:37:33 -0400
-Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:52232
+ (Exim 4.90_1) (envelope-from <mreitz@redhat.com>) id 1jyVtK-0000yY-RR
+ for qemu-devel@nongnu.org; Thu, 23 Jul 2020 03:43:46 -0400
+Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:46888
  helo=us-smtp-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1jyVnG-0001DB-EG
- for qemu-devel@nongnu.org; Thu, 23 Jul 2020 03:37:32 -0400
+ (Exim 4.90_1) (envelope-from <mreitz@redhat.com>) id 1jyVtI-0002NG-9n
+ for qemu-devel@nongnu.org; Thu, 23 Jul 2020 03:43:46 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1595489849;
+ s=mimecast20190719; t=1595490222;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=QNN+ZSW3plgDBG+aAYlqui/4yeOvxw55wAG2XsF+58s=;
- b=bAGOeFZKHbKnD5GxYOQhP6b29/z06q2/5R69lQBT/39aHlTzmsjpm8bRnZmtm4JiVOa9MF
- 5Zc8lAtjCIsPFZKm30xiKgPPeuguSZPqmjN9uaxQIIOujYuB26z/a74yptu86tcAQL4UMr
- jA39tc9SQfTVakI0TVedEZ8weqkywMI=
+ in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
+ bh=lVoX3YccBjKZxJAG75IW82TJ54s9gdjpEk/2CsQ60jE=;
+ b=FD2GRniAK/FYU1ggB9IlURNVG6tLa0DNFZ9fwC2e8Xm9yfWxdN1uuiQKzkCtuQjAhiOdc5
+ Z6UAXP1wWiHNO9Hp5fkvZoMt6BB3FzRRBdK2dHCCpjitnF31ldGbTcMr9eHk7JRiLOOZ9N
+ 88RGcPd96RFhSaiH6LUkw2XoAGpjPkI=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-260-VR8i-SQeMTSC2EF6APCPaw-1; Thu, 23 Jul 2020 03:37:25 -0400
-X-MC-Unique: VR8i-SQeMTSC2EF6APCPaw-1
-Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
- [10.5.11.15])
+ us-mta-484-wV2wqJ70Od6r-kvNklWOvQ-1; Thu, 23 Jul 2020 03:43:39 -0400
+X-MC-Unique: wV2wqJ70Od6r-kvNklWOvQ-1
+Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
+ [10.5.11.23])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 35E0E58;
- Thu, 23 Jul 2020 07:37:24 +0000 (UTC)
-Received: from blackfin.pond.sub.org (ovpn-112-143.ams2.redhat.com
- [10.36.112.143])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 2361071D2F;
- Thu, 23 Jul 2020 07:37:21 +0000 (UTC)
-Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
- id B4E3F111CA26; Thu, 23 Jul 2020 09:37:19 +0200 (CEST)
-From: Markus Armbruster <armbru@redhat.com>
-To: Laszlo Ersek <lersek@redhat.com>
-Subject: Re: [PATCH-for-5.1] hw/nvram/fw_cfg: Let fw_cfg_add_from_generator()
- return boolean value
-References: <20200720123521.8135-1-philmd@redhat.com>
- <34e8619f-4301-d746-fe3f-c340040c22c1@redhat.com>
- <87r1t59sj7.fsf@dusky.pond.sub.org>
- <b7bdbf46-b410-3ff7-4536-86b2886dc201@redhat.com>
-Date: Thu, 23 Jul 2020 09:37:19 +0200
-In-Reply-To: <b7bdbf46-b410-3ff7-4536-86b2886dc201@redhat.com> (Laszlo Ersek's
- message of "Wed, 22 Jul 2020 19:50:57 +0200")
-Message-ID: <875zaeptqo.fsf@dusky.pond.sub.org>
-User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/26.3 (gnu/linux)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 4AB16800685;
+ Thu, 23 Jul 2020 07:43:38 +0000 (UTC)
+Received: from dresden.str.redhat.com (ovpn-113-146.ams2.redhat.com
+ [10.36.113.146])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id D976E19C4F;
+ Thu, 23 Jul 2020 07:43:35 +0000 (UTC)
+Subject: Re: [PATCH v2 11/20] qapi: backup: add x-max-chunk and x-max-workers
+ parameters
+From: Max Reitz <mreitz@redhat.com>
+To: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>,
+ qemu-block@nongnu.org
+References: <20200601181118.579-1-vsementsov@virtuozzo.com>
+ <20200601181118.579-12-vsementsov@virtuozzo.com>
+ <2117c54a-c9b3-59c6-c0b2-9fd84cb965b6@redhat.com>
+Autocrypt: addr=mreitz@redhat.com; prefer-encrypt=mutual; keydata=
+ mQENBFXOJlcBCADEyyhOTsoa/2ujoTRAJj4MKA21dkxxELVj3cuILpLTmtachWj7QW+TVG8U
+ /PsMCFbpwsQR7oEy8eHHZwuGQsNpEtNC2G/L8Yka0BIBzv7dEgrPzIu+W3anZXQW4702+uES
+ U29G8TP/NGfXRRHGlbBIH9KNUnOSUD2vRtpOLXkWsV5CN6vQFYgQfFvmp5ZpPeUe6xNplu8V
+ mcTw8OSEDW/ZnxJc8TekCKZSpdzYoxfzjm7xGmZqB18VFwgJZlIibt1HE0EB4w5GsD7x5ekh
+ awIe3RwoZgZDLQMdOitJ1tUc8aqaxvgA4tz6J6st8D8pS//m1gAoYJWGwwIVj1DjTYLtABEB
+ AAG0HU1heCBSZWl0eiA8bXJlaXR6QHJlZGhhdC5jb20+iQFTBBMBCAA9AhsDBQkSzAMABQsJ
+ CAcCBhUICQoLAgQWAgMBAh4BAheABQJVzie5FRhoa3A6Ly9rZXlzLmdudXBnLm5ldAAKCRD0
+ B9sAYdXPQDcIB/9uNkbYEex1rHKz3mr12uxYMwLOOFY9fstP5aoVJQ1nWQVB6m2cfKGdcRe1
+ 2/nFaHSNAzT0NnKz2MjhZVmcrpyd2Gp2QyISCfb1FbT82GMtXFj1wiHmPb3CixYmWGQUUh+I
+ AvUqsevLA+WihgBUyaJq/vuDVM1/K9Un+w+Tz5vpeMidlIsTYhcsMhn0L9wlCjoucljvbDy/
+ 8C9L2DUdgi3XTa0ORKeflUhdL4gucWoAMrKX2nmPjBMKLgU7WLBc8AtV+84b9OWFML6NEyo4
+ 4cP7cM/07VlJK53pqNg5cHtnWwjHcbpGkQvx6RUx6F1My3y52vM24rNUA3+ligVEgPYBuQEN
+ BFXOJlcBCADAmcVUNTWT6yLWQHvxZ0o47KCP8OcLqD+67T0RCe6d0LP8GsWtrJdeDIQk+T+F
+ xO7DolQPS6iQ6Ak2/lJaPX8L0BkEAiMuLCKFU6Bn3lFOkrQeKp3u05wCSV1iKnhg0UPji9V2
+ W5eNfy8F4ZQHpeGUGy+liGXlxqkeRVhLyevUqfU0WgNqAJpfhHSGpBgihUupmyUg7lfUPeRM
+ DzAN1pIqoFuxnN+BRHdAecpsLcbR8sQddXmDg9BpSKozO/JyBmaS1RlquI8HERQoe6EynJhd
+ 64aICHDfj61rp+/0jTIcevxIIAzW70IadoS/y3DVIkuhncgDBvGbF3aBtjrJVP+5ABEBAAGJ
+ ASUEGAEIAA8FAlXOJlcCGwwFCRLMAwAACgkQ9AfbAGHVz0CbFwf9F/PXxQR9i4N0iipISYjU
+ sxVdjJOM2TMut+ZZcQ6NSMvhZ0ogQxJ+iEQ5OjnIputKvPVd5U7WRh+4lF1lB/NQGrGZQ1ic
+ alkj6ocscQyFwfib+xIe9w8TG1CVGkII7+TbS5pXHRxZH1niaRpoi/hYtgzkuOPp35jJyqT/
+ /ELbqQTDAWcqtJhzxKLE/ugcOMK520dJDeb6x2xVES+S5LXby0D4juZlvUj+1fwZu+7Io5+B
+ bkhSVPb/QdOVTpnz7zWNyNw+OONo1aBUKkhq2UIByYXgORPFnbfMY7QWHcjpBVw9MgC4tGeF
+ R4bv+1nAMMxKmb5VvQCExr0eFhJUAHAhVg==
+Message-ID: <76c4e42b-db7d-4cde-5db7-b86d24432d21@redhat.com>
+Date: Thu, 23 Jul 2020 09:43:33 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.10.0
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
+In-Reply-To: <2117c54a-c9b3-59c6-c0b2-9fd84cb965b6@redhat.com>
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=205.139.110.120; envelope-from=armbru@redhat.com;
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature";
+ boundary="iZSqDSUmgZMAnyy37NU3OLerVPjpmMHCr"
+Received-SPF: pass client-ip=205.139.110.120; envelope-from=mreitz@redhat.com;
  helo=us-smtp-1.mimecast.com
 X-detected-operating-system: by eggs.gnu.org: First seen = 2020/07/23 02:33:29
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
@@ -73,7 +95,7 @@ X-Spam_bar: ----
 X-Spam_report: (-4.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-1, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001, URIBL_BLOCKED=0.001 autolearn=ham autolearn_force=no
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -86,306 +108,80 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Maydell <peter.maydell@linaro.org>,
- Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>,
- qemu-trivial@nongnu.org, qemu-devel@nongnu.org,
- Gerd Hoffmann <kraxel@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>,
- Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <philmd@redhat.com>
+Cc: kwolf@redhat.com, wencongyang2@huawei.com, xiechanglong.d@gmail.com,
+ armbru@redhat.com, qemu-devel@nongnu.org, den@openvz.org, jsnow@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Cc: Vladimir
+This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
+--iZSqDSUmgZMAnyy37NU3OLerVPjpmMHCr
+Content-Type: multipart/mixed; boundary="oWKfCHzcPrIttCioJATyURVS00dZ1DPhQ"
 
-Laszlo Ersek <lersek@redhat.com> writes:
+--oWKfCHzcPrIttCioJATyURVS00dZ1DPhQ
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: quoted-printable
 
-> On 07/21/20 10:33, Markus Armbruster wrote:
->> Laszlo Ersek <lersek@redhat.com> writes:
+On 22.07.20 14:22, Max Reitz wrote:
+> On 01.06.20 20:11, Vladimir Sementsov-Ogievskiy wrote:
+>> Add new parameters to configure future backup features. The patch
+>> doesn't introduce aio backup requests (so we actually have only one
+>> worker) neither requests larger than one cluster. Still, formally we
+>> satisfy these maximums anyway, so add the parameters now, to facilitate
+>> further patch which will really change backup job behavior.
 >>
->>> On 07/20/20 14:35, Philippe Mathieu-Daud=C3=A9 wrote:
->>>> Commits b6d7e9b66f..a43770df5d simplified the error propagation.
->>>> Similarly to commit 6fd5bef10b "qom: Make functions taking Error**
->>>> return bool, not void", let fw_cfg_add_from_generator() return a
->>>> boolean value, not void.
->>>> This allow to simplify parse_fw_cfg() and fixes the error handling
->>>> issue reported by Coverity (CID 1430396):
->>>>
->>>>   In parse_fw_cfg():
->>>>
->>>>     Variable assigned once to a constant guards dead code.
->>>>
->>>>     Local variable local_err is assigned only once, to a constant
->>>>     value, making it effectively constant throughout its scope.
->>>>     If this is not the intent, examine the logic to see if there
->>>>     is a missing assignment that would make local_err not remain
->>>>     constant.
+>> Options are added with x- prefixes, as the only use for them are some
+>> very conservative iotests which will be updated soon.
 >>
->> It's the call of fw_cfg_add_from_generator():
->>
->>         Error *local_err =3D NULL;
->>
->>         fw_cfg_add_from_generator(fw_cfg, name, gen_id, errp);
->>         if (local_err) {
->>             error_propagate(errp, local_err);
->>             return -1;
->>         }
->>         return 0;
->>
->> If it fails, parse_fw_cfg() sets an error and returns 0, which is wrong.
->> Harmless, because the only caller passes &error_fatal.
->>
->> Please work this impact assessment into the commit message.
->>
->>>>
->>>> Reported-by: Peter Maydell <peter.maydell@linaro.org>
->>>> Fixes: Coverity CID 1430396: 'Constant' variable guards dead code (DEA=
-DCODE)
->>>> Fixes: 6552d87c48 ("softmmu/vl: Let -fw_cfg option take a 'gen_id' arg=
-ument")
->>>> Signed-off-by: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
->>>> ---
->>>>  include/hw/nvram/fw_cfg.h |  4 +++-
->>>>  hw/nvram/fw_cfg.c         | 10 ++++++----
->>>>  softmmu/vl.c              |  6 +-----
->>>>  3 files changed, 10 insertions(+), 10 deletions(-)
->>>>
->>>> diff --git a/include/hw/nvram/fw_cfg.h b/include/hw/nvram/fw_cfg.h
->>>> index 11feae3177..d90857f092 100644
->>>> --- a/include/hw/nvram/fw_cfg.h
->>>> +++ b/include/hw/nvram/fw_cfg.h
->>>> @@ -302,8 +302,10 @@ void *fw_cfg_modify_file(FWCfgState *s, const cha=
-r *filename, void *data,
->>>>   * will be used; also, a new entry will be added to the file director=
-y
->>>>   * structure residing at key value FW_CFG_FILE_DIR, containing the it=
-em name,
->>>>   * data size, and assigned selector key value.
->>>> + *
->>>> + * Returns: %true on success, %false on error.
->>>>   */
->>>> -void fw_cfg_add_from_generator(FWCfgState *s, const char *filename,
->>>> +bool fw_cfg_add_from_generator(FWCfgState *s, const char *filename,
->>>>                                 const char *gen_id, Error **errp);
->>>>
->>>>  FWCfgState *fw_cfg_init_io_dma(uint32_t iobase, uint32_t dma_iobase,
->>>> diff --git a/hw/nvram/fw_cfg.c b/hw/nvram/fw_cfg.c
->>>> index 3b1811d3bf..c88aec4341 100644
->>>> --- a/hw/nvram/fw_cfg.c
->>>> +++ b/hw/nvram/fw_cfg.c
->>>> @@ -1032,7 +1032,7 @@ void *fw_cfg_modify_file(FWCfgState *s, const ch=
-ar *filename,
->>>>      return NULL;
->>>>  }
->>>>
->>>> -void fw_cfg_add_from_generator(FWCfgState *s, const char *filename,
->>>> +bool fw_cfg_add_from_generator(FWCfgState *s, const char *filename,
->>>>                                 const char *gen_id, Error **errp)
->>>>  {
->>>>      ERRP_GUARD();
->>>> @@ -1044,20 +1044,22 @@ void fw_cfg_add_from_generator(FWCfgState *s, =
-const char *filename,
->>>>      obj =3D object_resolve_path_component(object_get_objects_root(), =
-gen_id);
->>>>      if (!obj) {
->>>>          error_setg(errp, "Cannot find object ID '%s'", gen_id);
->>>> -        return;
->>>> +        return false;
->>>>      }
->>>>      if (!object_dynamic_cast(obj, TYPE_FW_CFG_DATA_GENERATOR_INTERFAC=
-E)) {
->>>>          error_setg(errp, "Object ID '%s' is not a '%s' subclass",
->>>>                     gen_id, TYPE_FW_CFG_DATA_GENERATOR_INTERFACE);
->>>> -        return;
->>>> +        return false;
->>>>      }
->>>>      klass =3D FW_CFG_DATA_GENERATOR_GET_CLASS(obj);
->>>>      array =3D klass->get_data(obj, errp);
->>>>      if (*errp) {
->>>> -        return;
->>>> +        return false;
->>>>      }
->>>>      size =3D array->len;
->>>>      fw_cfg_add_file(s, filename, g_byte_array_free(array, TRUE), size=
-);
->>>> +
->>>> +    return true;
->>>>  }
->>>>
->>>>  static void fw_cfg_machine_reset(void *opaque)
->>>> diff --git a/softmmu/vl.c b/softmmu/vl.c
->>>> index f476ef89ed..3416241557 100644
->>>> --- a/softmmu/vl.c
->>>> +++ b/softmmu/vl.c
->>>> @@ -2070,11 +2070,7 @@ static int parse_fw_cfg(void *opaque, QemuOpts =
-*opts, Error **errp)
->>>>          size =3D strlen(str); /* NUL terminator NOT included in fw_cf=
-g blob */
->>>>          buf =3D g_memdup(str, size);
->>>>      } else if (nonempty_str(gen_id)) {
->>>> -        Error *local_err =3D NULL;
->>>> -
->>>> -        fw_cfg_add_from_generator(fw_cfg, name, gen_id, errp);
->>>> -        if (local_err) {
->>>> -            error_propagate(errp, local_err);
->>>> +        if (!fw_cfg_add_from_generator(fw_cfg, name, gen_id, errp)) {
->>>>              return -1;
->>>>          }
->>>>          return 0;
->>
->> The minimally invasive fix would be this one-liner:
->>
->>     diff --git a/softmmu/vl.c b/softmmu/vl.c
->>     index f476ef89ed..46718c1eea 100644
->>     --- a/softmmu/vl.c
->>     +++ b/softmmu/vl.c
->>     @@ -2072,7 +2072,7 @@ static int parse_fw_cfg(void *opaque, QemuOpts=
- *opts, Error **errp)
->>          } else if (nonempty_str(gen_id)) {
->>              Error *local_err =3D NULL;
->>
->>     -        fw_cfg_add_from_generator(fw_cfg, name, gen_id, errp);
->>     +        fw_cfg_add_from_generator(fw_cfg, name, gen_id, &local_err)=
-;
->>              if (local_err) {
->>                  error_propagate(errp, local_err);
->>                  return -1;
->>
->> I like yours better.  We have a long tail of functions taking the
->> conventional Error **errp parameter to convert from returning void to
->> bool.
->>
->>> The retvals seem OK, but I have no idea if this plays nicely with the
->>> new ERRP_GUARD (which I'm just noticing in fw_cfg_add_from_generator())=
-.
->>
->> Return values don't interfere with ERRP_GUARD().
->>
->> Below the hood, ERRP_GUARD() replaces problematic values of @errp by a
->> pointer to a local variable that is automatically propagated to the
->> original value.  Why is that useful?  From error.h's big comment:
->>
->>  * Without ERRP_GUARD(), use of the @errp parameter is restricted:
->>  * - It must not be dereferenced, because it may be null.
->>  * - It should not be passed to error_prepend() or
->>  *   error_append_hint(), because that doesn't work with &error_fatal.
->>  * ERRP_GUARD() lifts these restrictions.
->
-> Hmmm... OK. So I guess the problem was that some functions didn't
-> introduce their own local_err variables (which is always safe to use),
-> and consequently didn't use explicit propagation to the errp that they
-> received form their callers. Instead, they just passed on the errp they
-> received to their callees. And ERRP_GUARD was deemed a better / safer
-> design than manually converting all such functions to local_err usage /
-> propagation.
+>> Signed-off-by: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
+>> ---
+>>  qapi/block-core.json      |  9 ++++++++-
+>>  include/block/block_int.h |  7 +++++++
+>>  block/backup.c            | 21 +++++++++++++++++++++
+>>  block/replication.c       |  2 +-
+>>  blockdev.c                |  5 +++++
+>>  5 files changed, 42 insertions(+), 2 deletions(-)
 
-Not quite :)
+[...]
 
-Passing @errp directly to avoid error_propagate() is fine.  In fact,
-I've grown to dislike use of error_propagate() for several reasons:
+>> diff --git a/block/replication.c b/block/replication.c
+>> index 25987eab0f..a9ee82db80 100644
+>> --- a/block/replication.c
+>> +++ b/block/replication.c
+>> @@ -563,7 +563,7 @@ static void replication_start(ReplicationState *rs, =
+ReplicationMode mode,
+>>          s->backup_job =3D backup_job_create(
+>>                                  NULL, s->secondary_disk->bs, s->hidden_=
+disk->bs,
+>>                                  0, MIRROR_SYNC_MODE_NONE, NULL, 0, fals=
+e, NULL,
+>> -                                true,
+>> +                                true, 0, 0,
+>=20
+> Passing 0 for max_workers will error out immediately, won=E2=80=99t it?
 
-1. It's t-e-d-i-o-u-s-l-y verbose.  All that error handling boilerplate
-makes it hard to see what the code is trying to get done.
+Ah, oops.  Saw your own reply only now.  Yep, 1 worker would be nice. :)
 
-2. It gives me crappy stack backtraces: the backtrace for
-error_propagate(&error_abort, local_err) is better than nothing, but the
-one I really want is for the error_setg().
 
-3. It annoys me in the debugger by defeating things like break
-error_setg_internal if errp =3D=3D ...
+--oWKfCHzcPrIttCioJATyURVS00dZ1DPhQ--
 
-I'm on a quest to kill as many error_propagate() as I can.
+--iZSqDSUmgZMAnyy37NU3OLerVPjpmMHCr
+Content-Type: application/pgp-signature; name="signature.asc"
+Content-Description: OpenPGP digital signature
+Content-Disposition: attachment; filename="signature.asc"
 
-We can pass @errp directly unless
+-----BEGIN PGP SIGNATURE-----
 
-a. we need to check for failure by checking whether an error was set, or
+iQEzBAEBCAAdFiEEkb62CjDbPohX0Rgp9AfbAGHVz0AFAl8ZP6UACgkQ9AfbAGHV
+z0DJgwgAo7YR751kMp6k1M2ATYfCD+u8H65E3zNr/p5XsAL9qVSHq7nFuOFyy47U
+MTcMX3+YtEZcvdIqElnHUNGEQTJ+/aEtYJgz+PXcdy1NN+uwtQuJI43yjCGne6BD
+Bc1diNSp3vrgB6NMa5RBDHf9g7HII5jUHkN38moxKU3VZ5Fv5qTVKCdJm1C8wMBs
+Xpjgf3ZjxMjcBpRT1fT9pG4qChwLEFu+CfOYPXSOMCSUMCvYjnA43oksem2i9GiU
+diXgyk9MarlbmB7NTa6B9wFg9p0brNuU8ZpZZ0fuIbNpvxMr/PRufW23EU1D9z9M
+unV793ACVnyRkJYSR+wthklc+x0k3w==
+=ycgW
+-----END PGP SIGNATURE-----
 
-b. we want to use error_prepend() or error_append_hint().
-
-We can often avoid (a) by making the function return a distinct error
-value.  I finally codified this practice in commit e3fe3988d78, and
-updated a substantial amount of code to work that way ("[PATCH v4 00/45]
-Less clumsy error checking", commit b6d7e9b66f..a43770df5d).  The
-diffstat illustrates the severity of 1.: 275 files changed, 2419
-insertions(+), 3558 deletions(-).
-
-ERRP_GUARD() mitigates the remaining propagations: 1. becomes much
-better, 2. is addressed fully, 3. remains.
-
-> If a function receives an errp, is the function now *required* to use
-> ERRP_GUARD? Even if the function uses local_err + explicit propagation?
-
-You must use ERRP_GUARD() in functions that dereference their @errp
-parameter (so that works even when the argument is null) or pass it to
-error_prepend() or error_append_hint() (so they get reached even when
-the argumentis &error_fatal).
-
-You should use Use ERRP_GUARD() to avoid clumsy error propagation.
-
-You should not use ERRP_GUARD() when propagation is not actually needed.
-
-> (I think error_prepend() and error_append_hint() should work with
-> local_err, no?)
-
-They do.
-
-In fact, ERRP_GUARD() creates local variable under the hood.
-
-> Anyway... commit 8b4b52759a7c ("fw_cfg: Use ERRP_GUARD()", 2020-07-10)
-> indicates that ERRP_GUARD() is not preferred over local_err + manual
-> propagation. OK.
->
-> Side question: how do we intend to catch reintroductions of local_err +
-> manual propagation?
-
-It's the usual plan
-
-1. Put the rule in writing (done)
-
-2. Eliminate the bad examples (in progress)
-
-We could additionally
-
-3. Make checkpatch.pl flag (some) rule violations, but I go there only
-when I know it's necessary.
-
-The plan's success depends on carrying through 2.  That's where many an
-ambitious improvement has stalled for us.  I'm confident on this one,
-because Vladimir *automated* the conversion to ERRP_GUARD(): commit
-8220f3ac74 "scripts: Coccinelle script to use ERRP_GUARD()".
-
->> fw_cfg_add_from_generator() dereferences @errp to check for failure of
->> klass->get_data().
->>
->> If ->get_data() returns null on error and non-null on success, we
->> could simplify:
->>
->>   diff --git a/hw/nvram/fw_cfg.c b/hw/nvram/fw_cfg.c
->>   index 3b1811d3bf..dfa1f2012a 100644
->>   --- a/hw/nvram/fw_cfg.c
->>   +++ b/hw/nvram/fw_cfg.c
->>   @@ -1035,7 +1035,6 @@ void *fw_cfg_modify_file(FWCfgState *s, const ch=
-ar *filename,
->>    void fw_cfg_add_from_generator(FWCfgState *s, const char *filename,
->>                                   const char *gen_id, Error **errp)
->>    {
->>   -    ERRP_GUARD();
->>        FWCfgDataGeneratorClass *klass;
->>        GByteArray *array;
->>        Object *obj;
->>   @@ -1053,7 +1052,7 @@ void fw_cfg_add_from_generator(FWCfgState *s, co=
-nst char *filename,
->>        }
->>        klass =3D FW_CFG_DATA_GENERATOR_GET_CLASS(obj);
->>        array =3D klass->get_data(obj, errp);
->>   -    if (*errp) {
->>   +    if (!array) {
->>            return;
->>        }
->>        size =3D array->len;
->>
->> Clearer now?
->
-> Yes, thanks!
->
-> Laszlo
+--iZSqDSUmgZMAnyy37NU3OLerVPjpmMHCr--
 
 
