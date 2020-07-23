@@ -2,74 +2,46 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 89BED22B162
-	for <lists+qemu-devel@lfdr.de>; Thu, 23 Jul 2020 16:30:37 +0200 (CEST)
-Received: from localhost ([::1]:52148 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9D87022B16D
+	for <lists+qemu-devel@lfdr.de>; Thu, 23 Jul 2020 16:34:19 +0200 (CEST)
+Received: from localhost ([::1]:58968 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jycF2-00025F-KU
-	for lists+qemu-devel@lfdr.de; Thu, 23 Jul 2020 10:30:36 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:45244)
+	id 1jycIc-00052R-OL
+	for lists+qemu-devel@lfdr.de; Thu, 23 Jul 2020 10:34:18 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:48610)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1jycCH-0006Ts-Sx
- for qemu-devel@nongnu.org; Thu, 23 Jul 2020 10:27:45 -0400
-Received: from us-smtp-1.mimecast.com ([205.139.110.61]:51017
- helo=us-smtp-delivery-1.mimecast.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1jycCG-0006x2-27
- for qemu-devel@nongnu.org; Thu, 23 Jul 2020 10:27:45 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1595514462;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=SxgpzSARUKg0APZeWeak/iVUy1+FhCYqHcriF0jmv2s=;
- b=Hgfpyk96xtxf8zHcmVmdTMzYQiWJ3dw9w3avu9io3iYGSrxPUZP9aBcp0lxARKpEiFyTTW
- NNIWMWN5wwumvcfVN+3quYUOhR/hCIEtEfZ7CEmYtVgtFp0Vq6XiCjnw9mFnTUzwKPJbmI
- pvmtZMvXiPmo2VnUS73H2A3qXOvUsrk=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-68-cEPslwJ9N_W8pw3ZMJydGg-1; Thu, 23 Jul 2020 10:27:40 -0400
-X-MC-Unique: cEPslwJ9N_W8pw3ZMJydGg-1
-Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
- [10.5.11.23])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id EAF9C1DE9
- for <qemu-devel@nongnu.org>; Thu, 23 Jul 2020 14:27:39 +0000 (UTC)
-Received: from blackfin.pond.sub.org (ovpn-112-143.ams2.redhat.com
- [10.36.112.143])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id BD75919D7B;
- Thu, 23 Jul 2020 14:27:39 +0000 (UTC)
-Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
- id 58EAC10A5B7A; Thu, 23 Jul 2020 16:27:38 +0200 (CEST)
-From: Markus Armbruster <armbru@redhat.com>
-To: qemu-devel@nongnu.org
-Subject: [PATCH 3/3] scripts/qmp/qom-fuse: Fix getattr(), read() for files in /
-Date: Thu, 23 Jul 2020 16:27:38 +0200
-Message-Id: <20200723142738.1868568-4-armbru@redhat.com>
-In-Reply-To: <20200723142738.1868568-1-armbru@redhat.com>
-References: <20200723142738.1868568-1-armbru@redhat.com>
+ (Exim 4.90_1) (envelope-from <a.lauterer@proxmox.com>)
+ id 1jycHK-0004DB-AS
+ for qemu-devel@nongnu.org; Thu, 23 Jul 2020 10:32:58 -0400
+Received: from proxmox-new.maurer-it.com ([212.186.127.180]:26993)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <a.lauterer@proxmox.com>)
+ id 1jycHI-00087G-5m
+ for qemu-devel@nongnu.org; Thu, 23 Jul 2020 10:32:57 -0400
+Received: from proxmox-new.maurer-it.com (localhost.localdomain [127.0.0.1])
+ by proxmox-new.maurer-it.com (Proxmox) with ESMTP id CA6114333E;
+ Thu, 23 Jul 2020 16:24:06 +0200 (CEST)
+To: qemu-devel <qemu-devel@nongnu.org>
+From: Aaron Lauterer <a.lauterer@proxmox.com>
+Subject: Possible regression with VGA and resolutions in Windows 10?
+Message-ID: <24909a16-be74-7516-b5c5-08bdc743a553@proxmox.com>
+Date: Thu, 23 Jul 2020 16:24:06 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.0.1
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=armbru@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=205.139.110.61; envelope-from=armbru@redhat.com;
- helo=us-smtp-delivery-1.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/07/23 02:33:29
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=212.186.127.180;
+ envelope-from=a.lauterer@proxmox.com; helo=proxmox-new.maurer-it.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/07/23 10:24:07
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
-X-Spam_score_int: -40
-X-Spam_score: -4.1
+X-Spam_score_int: -41
+X-Spam_score: -4.2
 X-Spam_bar: ----
-X-Spam_report: (-4.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-1, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Spam_report: (-4.2 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_MED=-2.3,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -82,56 +54,42 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: jsnow@redhat.com
+Cc: kraxel@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-path, prop = "type".rsplit('/', 1) sets path to "", which doesn't
-work.  Correct to "/".
+Hi all,
 
-Signed-off-by: Markus Armbruster <armbru@redhat.com>
----
- scripts/qmp/qom-fuse | 10 ++++++++--
- 1 file changed, 8 insertions(+), 2 deletions(-)
+I think we have a regression introduced in commit 0221d73ce6.
 
-diff --git a/scripts/qmp/qom-fuse b/scripts/qmp/qom-fuse
-index 405e6ebd67..7c7cff8edf 100755
---- a/scripts/qmp/qom-fuse
-+++ b/scripts/qmp/qom-fuse
-@@ -45,8 +45,10 @@ class QOMFS(Operations):
-             return False
- 
-     def is_property(self, path):
-+        path, prop = path.rsplit('/', 1)
-+        if path == '':
-+            path = '/'
-         try:
--            path, prop = path.rsplit('/', 1)
-             for item in self.qmp.command('qom-list', path=path):
-                 if item['name'] == prop:
-                     return True
-@@ -55,8 +57,10 @@ class QOMFS(Operations):
-             return False
- 
-     def is_link(self, path):
-+        path, prop = path.rsplit('/', 1)
-+        if path == '':
-+            path = '/'
-         try:
--            path, prop = path.rsplit('/', 1)
-             for item in self.qmp.command('qom-list', path=path):
-                 if item['name'] == prop:
-                     if item['type'].startswith('link<'):
-@@ -71,6 +75,8 @@ class QOMFS(Operations):
-             return -ENOENT
- 
-         path, prop = path.rsplit('/', 1)
-+        if path == '':
-+            path = '/'
-         try:
-             data = self.qmp.command('qom-get', path=path, property=prop)
-             data += '\n' # make values shell friendly
--- 
-2.26.2
+Once I start a Windows 10 VM (build 18363) with `-device VGA` I have only the following resolutions to choose from instead of the much longer list:
+
+1920x1080
+1024x768
+800x600
+
+Linux guests work fine.
+
+qemu-system-x86_64 \
+   -name windows-resolution-test \
+   -smp '2,sockets=1,cores=2,maxcpus=2' \
+   -nodefaults \
+   -cpu host,+kvm_pv_eoi,+kvm_pv_unhalt \
+   -m 3072 \
+   -device 'piix3-usb-uhci,id=uhci,bus=pci.0,addr=0x1.0x2' \
+   -device 'usb-tablet,id=tablet,bus=uhci.0,port=1' \
+   -device 'VGA,id=vga,vgamem_mb=32,bus=pci.0,addr=0x2' \
+   -device 'virtio-scsi-pci,id=scsihw0,bus=pci.0,addr=0x5' \
+   -drive 'file=/dev/zvol/rpool/data/vm-102-disk-0,if=none,id=drive-scsi0,discard=on,format=raw,cache=none,aio=native,detect-zeroes=unmap' \
+   -device 'scsi-hd,bus=scsihw0.0,channel=0,scsi-id=0,lun=0,drive=drive-scsi0,id=scsi0,rotation_rate=1,bootindex=100' \
+   -machine pc,accel=kvm
+
+
+I have not yet gotten around to bisect the SeaBIOS repository to know exactly which commit there is causing it.
+
+If this is better handled at the SeaBIOS mailing list, let me know.
+
+
+Aaron
 
 
