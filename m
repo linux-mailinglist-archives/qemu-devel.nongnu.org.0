@@ -2,74 +2,73 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8625522B532
-	for <lists+qemu-devel@lfdr.de>; Thu, 23 Jul 2020 19:50:42 +0200 (CEST)
-Received: from localhost ([::1]:54134 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 490B022B527
+	for <lists+qemu-devel@lfdr.de>; Thu, 23 Jul 2020 19:48:24 +0200 (CEST)
+Received: from localhost ([::1]:44440 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jyfMf-0002Va-Ja
-	for lists+qemu-devel@lfdr.de; Thu, 23 Jul 2020 13:50:41 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:43426)
+	id 1jyfKR-0006z7-8h
+	for lists+qemu-devel@lfdr.de; Thu, 23 Jul 2020 13:48:23 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:43450)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <dinechin@redhat.com>)
- id 1jyfJ3-0005Kq-7x
- for qemu-devel@nongnu.org; Thu, 23 Jul 2020 13:46:57 -0400
-Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:21639
+ id 1jyfJ4-0005M9-KN
+ for qemu-devel@nongnu.org; Thu, 23 Jul 2020 13:46:58 -0400
+Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:39844
  helo=us-smtp-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
  (Exim 4.90_1) (envelope-from <dinechin@redhat.com>)
- id 1jyfJ1-0004Bc-Dr
- for qemu-devel@nongnu.org; Thu, 23 Jul 2020 13:46:56 -0400
+ id 1jyfJ2-0004Bp-Ko
+ for qemu-devel@nongnu.org; Thu, 23 Jul 2020 13:46:58 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1595526414;
+ s=mimecast20190719; t=1595526415;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=Vh5y6IxFHd1mghC1947BBUvp4rrSDNgO8cJkedJIYaE=;
- b=h+0KgDzXtJi2Vo8l+NCfDFvUuCNWGSjAIjtZjuCR2KlAhFhLeHQY61ggorgsVuY1FX05To
- +sMVUEAf36MrLsaH3EWWfykybfGbPIJdXt9Kw0JdcKlpQgUH9H63d9YhkqgWXIYdvV3K5D
- 3wRV75ROm5PDGeldNC5z2w1PBlsAFv0=
+ bh=GJX9oFYWeI2gJAGUHHop5bfOVja0UQenPIRkX5m0vFQ=;
+ b=TejynlmmOLTUNLitkdjnVQOdiuSc9h0lTnhujUILdlppqzKqaNz32UwVo3NEGlJq16rH83
+ ULz5bkKW6RDd9ZKz8WVyPglN1JgAInL9VMhiH4en3+22Ogq9qfJMTkaFOLj02D7Dgb4YTn
+ vJTf9YQVpTIadSnbQS/BEVlSI4Lzico=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-76-yUFXwX8qMN6cqWRTQ9Qgug-1; Thu, 23 Jul 2020 13:46:50 -0400
-X-MC-Unique: yUFXwX8qMN6cqWRTQ9Qgug-1
+ us-mta-411-qFoEvPjcM9uRs-Qxuiwezg-1; Thu, 23 Jul 2020 13:46:53 -0400
+X-MC-Unique: qFoEvPjcM9uRs-Qxuiwezg-1
 Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
  [10.5.11.16])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id C86C480183C;
- Thu, 23 Jul 2020 17:46:49 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 8D0F88015F3;
+ Thu, 23 Jul 2020 17:46:52 +0000 (UTC)
 Received: from turbo.com (ovpn-113-141.ams2.redhat.com [10.36.113.141])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 4071E69316;
- Thu, 23 Jul 2020 17:46:36 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 223786972F;
+ Thu, 23 Jul 2020 17:46:49 +0000 (UTC)
 From: Christophe de Dinechin <dinechin@redhat.com>
 To: qemu-devel@nongnu.org,
 	kraxel@redhat.com
-Subject: [PATCH 2/7] build: fix device module builds
-Date: Thu, 23 Jul 2020 19:46:10 +0200
-Message-Id: <20200723174615.2370096-3-dinechin@redhat.com>
+Subject: [PATCH 3/7] minikconf: Pass variables for modules
+Date: Thu, 23 Jul 2020 19:46:11 +0200
+Message-Id: <20200723174615.2370096-4-dinechin@redhat.com>
 In-Reply-To: <20200723174615.2370096-1-dinechin@redhat.com>
 References: <20200723174615.2370096-1-dinechin@redhat.com>
 MIME-Version: 1.0
 X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=dinechin@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=205.139.110.120; envelope-from=dinechin@redhat.com;
+Received-SPF: pass client-ip=207.211.31.120; envelope-from=dinechin@redhat.com;
  helo=us-smtp-1.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/07/23 06:04:25
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/07/22 22:13:02
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
-X-Spam_score_int: -40
-X-Spam_score: -4.1
-X-Spam_bar: ----
-X-Spam_report: (-4.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1,
+X-Spam_score_int: -30
+X-Spam_score: -3.1
+X-Spam_bar: ---
+X-Spam_report: (-3.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-1, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H4=-0.01, RCVD_IN_MSPIKE_WL=-0.01,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ URIBL_BLOCKED=0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -92,63 +91,28 @@ Cc: Eduardo Habkost <ehabkost@redhat.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Gerd Hoffmann <kraxel@redhat.com>
-
-See comment.  Feels quite hackish.  Better ideas anyone?
-
-Signed-off-by: Gerd Hoffmann <kraxel@redhat.com>
 Signed-off-by: Christophe de Dinechin <dinechin@redhat.com>
 ---
- dtc           | 2 +-
- roms/SLOF     | 2 +-
- roms/openbios | 2 +-
- roms/opensbi  | 2 +-
- roms/seabios  | 2 +-
- slirp         | 2 +-
- 6 files changed, 6 insertions(+), 6 deletions(-)
+ scripts/minikconf.py | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
-diff --git a/dtc b/dtc
-index 85e5d83984..88f18909db 160000
---- a/dtc
-+++ b/dtc
-@@ -1 +1 @@
--Subproject commit 85e5d839847af54efab170f2b1331b2a6421e647
-+Subproject commit 88f18909db731a627456f26d779445f84e449536
-diff --git a/roms/SLOF b/roms/SLOF
-index e18ddad851..9546892a80 160000
---- a/roms/SLOF
-+++ b/roms/SLOF
-@@ -1 +1 @@
--Subproject commit e18ddad8516ff2cfe36ec130200318f7251aa78c
-+Subproject commit 9546892a80d5a4c73deea6719de46372f007f4a6
-diff --git a/roms/openbios b/roms/openbios
-index 75fbb41d28..7e5b89e429 160000
---- a/roms/openbios
-+++ b/roms/openbios
-@@ -1 +1 @@
--Subproject commit 75fbb41d2857d93208c74a8e0228b29fd7bf04c0
-+Subproject commit 7e5b89e4295063d8eba55b9c8ce8bc681c2d129a
-diff --git a/roms/opensbi b/roms/opensbi
-index 9f1b72ce66..be92da280d 160000
---- a/roms/opensbi
-+++ b/roms/opensbi
-@@ -1 +1 @@
--Subproject commit 9f1b72ce66d659e91013b358939e832fb27223f5
-+Subproject commit be92da280d87c38a2e0adc5d3f43bab7b5468f09
-diff --git a/roms/seabios b/roms/seabios
-index 88ab0c1552..f21b5a4aeb 160000
---- a/roms/seabios
-+++ b/roms/seabios
-@@ -1 +1 @@
--Subproject commit 88ab0c15525ced2eefe39220742efe4769089ad8
-+Subproject commit f21b5a4aeb020f2a5e2c6503f906a9349dd2f069
-diff --git a/slirp b/slirp
-index 2faae0f778..126c04acba 160000
---- a/slirp
-+++ b/slirp
-@@ -1 +1 @@
--Subproject commit 2faae0f778f818fadc873308f983289df697eb93
-+Subproject commit 126c04acbabd7ad32c2b018fe10dfac2a3bc1210
+diff --git a/scripts/minikconf.py b/scripts/minikconf.py
+index bcd91015d3..d60add97f6 100755
+--- a/scripts/minikconf.py
++++ b/scripts/minikconf.py
+@@ -690,10 +690,10 @@ if __name__ == '__main__':
+     parser = KconfigParser(data)
+     external_vars = set()
+     for arg in argv[3:]:
+-        m = re.match(r'^(CONFIG_[A-Z0-9_]+)=([yn]?)$', arg)
++        m = re.match(r'^(CONFIG_[A-Z0-9_]+)=([ymn]?)$', arg)
+         if m is not None:
+             name, value = m.groups()
+-            parser.do_assignment(name, value == 'y')
++            parser.do_assignment(name, value == 'y' or value == 'm')
+             external_vars.add(name[7:])
+         else:
+             fp = open(arg, 'rt', encoding='utf-8')
 -- 
 2.26.2
 
