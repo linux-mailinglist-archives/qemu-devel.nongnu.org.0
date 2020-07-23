@@ -2,97 +2,73 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 99A4B22A1C7
-	for <lists+qemu-devel@lfdr.de>; Thu, 23 Jul 2020 00:09:18 +0200 (CEST)
-Received: from localhost ([::1]:58542 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 177F722A38C
+	for <lists+qemu-devel@lfdr.de>; Thu, 23 Jul 2020 02:21:36 +0200 (CEST)
+Received: from localhost ([::1]:35544 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jyMvN-0007GF-NB
-	for lists+qemu-devel@lfdr.de; Wed, 22 Jul 2020 18:09:17 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:60724)
+	id 1jyOzO-0004fq-Jf
+	for lists+qemu-devel@lfdr.de; Wed, 22 Jul 2020 20:21:34 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:58292)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <stefanb@linux.ibm.com>)
- id 1jyMuG-00067Y-Ml
- for qemu-devel@nongnu.org; Wed, 22 Jul 2020 18:08:08 -0400
-Received: from mx0b-001b2d01.pphosted.com ([148.163.158.5]:13155
- helo=mx0a-001b2d01.pphosted.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <stefanb@linux.ibm.com>)
- id 1jyMuA-0002LY-Ue
- for qemu-devel@nongnu.org; Wed, 22 Jul 2020 18:08:08 -0400
-Received: from pps.filterd (m0098414.ppops.net [127.0.0.1])
- by mx0b-001b2d01.pphosted.com (8.16.0.42/8.16.0.42) with SMTP id
- 06MM1dmc069100
- for <qemu-devel@nongnu.org>; Wed, 22 Jul 2020 18:08:00 -0400
-Received: from pps.reinject (localhost [127.0.0.1])
- by mx0b-001b2d01.pphosted.com with ESMTP id 32e1vsdb5p-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT)
- for <qemu-devel@nongnu.org>; Wed, 22 Jul 2020 18:08:00 -0400
-Received: from m0098414.ppops.net (m0098414.ppops.net [127.0.0.1])
- by pps.reinject (8.16.0.36/8.16.0.36) with SMTP id 06MM1cWt068950
- for <qemu-devel@nongnu.org>; Wed, 22 Jul 2020 18:07:59 -0400
-Received: from ppma02wdc.us.ibm.com (aa.5b.37a9.ip4.static.sl-reverse.com
- [169.55.91.170])
- by mx0b-001b2d01.pphosted.com with ESMTP id 32e1vsdb5a-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Wed, 22 Jul 2020 18:07:59 -0400
-Received: from pps.filterd (ppma02wdc.us.ibm.com [127.0.0.1])
- by ppma02wdc.us.ibm.com (8.16.0.42/8.16.0.42) with SMTP id 06MM13KH025026;
- Wed, 22 Jul 2020 22:07:59 GMT
-Received: from b01cxnp22034.gho.pok.ibm.com (b01cxnp22034.gho.pok.ibm.com
- [9.57.198.24]) by ppma02wdc.us.ibm.com with ESMTP id 32brq9f9fk-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Wed, 22 Jul 2020 22:07:59 +0000
-Received: from b01ledav001.gho.pok.ibm.com (b01ledav001.gho.pok.ibm.com
- [9.57.199.106])
- by b01cxnp22034.gho.pok.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
- 06MM7wkN52363656
- (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Wed, 22 Jul 2020 22:07:59 GMT
-Received: from b01ledav001.gho.pok.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id DF85A2807A;
- Wed, 22 Jul 2020 22:07:58 +0000 (GMT)
-Received: from b01ledav001.gho.pok.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id A0FD128074;
- Wed, 22 Jul 2020 22:07:58 +0000 (GMT)
-Received: from sbct-3.pok.ibm.com (unknown [9.47.158.153])
- by b01ledav001.gho.pok.ibm.com (Postfix) with ESMTP;
- Wed, 22 Jul 2020 22:07:58 +0000 (GMT)
-Subject: Re: What is TYPE_TPM_TIS_ISA? (Not an ISA Device)
-To: Markus Armbruster <armbru@redhat.com>
-References: <8f5a171a-59db-f5d1-477c-1ddf7af45da7@redhat.com>
- <CAFEAcA8b3N+oxAAW3JEKGTtsZezXTOFdnu9Hm1MYK=yURTfVsQ@mail.gmail.com>
- <87pn8o14cj.fsf@dusky.pond.sub.org>
-From: Stefan Berger <stefanb@linux.ibm.com>
-Message-ID: <e4ad751f-8418-bdd4-6c81-600e68f5c92e@linux.ibm.com>
-Date: Wed, 22 Jul 2020 18:07:58 -0400
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.4.1
-MIME-Version: 1.0
-In-Reply-To: <87pn8o14cj.fsf@dusky.pond.sub.org>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Transfer-Encoding: 8bit
-Content-Language: en-US
-X-TM-AS-GCONF: 00
-X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:6.0.235, 18.0.687
- definitions=2020-07-22_16:2020-07-22,
- 2020-07-22 signatures=0
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- bulkscore=0 mlxscore=0
- malwarescore=0 mlxlogscore=999 phishscore=0 spamscore=0 impostorscore=0
- lowpriorityscore=0 adultscore=0 suspectscore=0 clxscore=1015
- priorityscore=1501 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2006250000 definitions=main-2007220135
-Received-SPF: pass client-ip=148.163.158.5; envelope-from=stefanb@linux.ibm.com;
- helo=mx0a-001b2d01.pphosted.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/07/22 18:08:00
-X-ACL-Warn: Detected OS   = Linux 3.x [generic]
-X-Spam_score_int: -35
-X-Spam_score: -3.6
-X-Spam_bar: ---
-X-Spam_report: (-3.6 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_LOW=-0.7,
- RCVD_IN_MSPIKE_H2=-1, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ (Exim 4.90_1) (envelope-from
+ <3jdcYXwMKCp4QAUEMMEJC.AMKOCKS-BCTCJLMLELS.MPE@flex--scw.bounces.google.com>)
+ id 1jyOxQ-0003E0-3e
+ for qemu-devel@nongnu.org; Wed, 22 Jul 2020 20:19:32 -0400
+Received: from mail-yb1-xb49.google.com ([2607:f8b0:4864:20::b49]:56135)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from
+ <3jdcYXwMKCp4QAUEMMEJC.AMKOCKS-BCTCJLMLELS.MPE@flex--scw.bounces.google.com>)
+ id 1jyOxO-00022O-9K
+ for qemu-devel@nongnu.org; Wed, 22 Jul 2020 20:19:31 -0400
+Received: by mail-yb1-xb49.google.com with SMTP id h194so4407440ybg.22
+ for <qemu-devel@nongnu.org>; Wed, 22 Jul 2020 17:19:26 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=20161025;
+ h=date:message-id:mime-version:subject:from:to:cc;
+ bh=CUxyDgrhzcYJYn2h2oo/OVj1c2i+VcMUMYbLL66wAiM=;
+ b=XAPH4qcx501/WlrqInGCA8Y6WsQbDOm8XzmmoQisxkwolaXHsbcaumd62kKRJakCIA
+ V+e95EGoT+ulv8imnkN8Y/sxTRCJdFr5h50paF4gP9++QQzQeDF3tQHuwdYC0RwjDi3K
+ /VcbsQTCSf4bxXA4L5VBBXtwR2ceOJ5nbaOitxC5FnIXomOQs8RvSnOXANAPjSmP7pA4
+ c4X6L//2+cRmyVAzQjfqxqQ+X14LbdbsiBkch1krvh42ZdbD5GdZRv5imtPjMsrpyGYw
+ bm+qGwnllUxfxK6l3En9Ud50K84HM5C/9r9hU0RFdyqTWeYP9V3fJaTiO1cIYVgpnVYP
+ fpdg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:date:message-id:mime-version:subject:from:to:cc;
+ bh=CUxyDgrhzcYJYn2h2oo/OVj1c2i+VcMUMYbLL66wAiM=;
+ b=CHY3hzumWcFmDOYBRiacFAKVQS83lVWkko7pzNK0BT4yS3wKns9AvJIk1su++kRbdD
+ DbzCq+4XoWaRScKBORrkv+rrCheHvokMtsCUmTrGltwKfqLOyCIw97PRA10NzldfLXOq
+ JgD9lqk16PvtOvzzS9GYstwwXLQaubSCIPCy2+ybm1ttKrPA1CgAABTNdNom+NjBN0IO
+ ICy3EdiskAS/9+Wy/UWkYV2/BDo426rByN8mK/fyVAQTvWjy4+T7HzE/L0YKyRzTSRUX
+ 6ZlqY46Ft18dX4mC8zPFz5MzPnoUgsUXxW3Dns7baZEnFUY2fm6JOYc+wuwHEv36zsVH
+ IyAw==
+X-Gm-Message-State: AOAM532FNxD9fzax0FKcNd2EMTWxNsCwJkDbczd0hnLuNnUAoppQd81i
+ E1S2L2tHCoyBybYpjDeltaFcGRMeHq86BAM7yYHFAizgDjpZcbgEm7QTvL58LouRxlMjBIB9skH
+ ZAXmLz2Q5OkcEsKm1yGjifnRx4PKX3b4wC7fOETBtGn1bC5iq915l
+X-Google-Smtp-Source: ABdhPJyY7M/SkAxguqZGFxEw5/OVGBHXGoD9WNVIr3WTBGOhTmyZ83OcNy1i75IGMNs+hSuzQZ9CCDY=
+X-Received: by 2002:a25:2512:: with SMTP id l18mr2963775ybl.288.1595463565836; 
+ Wed, 22 Jul 2020 17:19:25 -0700 (PDT)
+Date: Wed, 22 Jul 2020 17:19:09 -0700
+Message-Id: <cover.1595461447.git.scw@google.com>
+Mime-Version: 1.0
+X-Mailer: git-send-email 2.28.0.rc0.105.gf9edc3c819-goog
+Subject: [PATCH 0/6] fcntl, sockopt, and ioctl options
+From: Shu-Chun Weng <scw@google.com>
+To: qemu-devel@nongnu.org
+Cc: Shu-Chun Weng <scw@google.com>, laurent@vivier.eu
+Content-Type: text/plain; charset="UTF-8"
+Received-SPF: pass client-ip=2607:f8b0:4864:20::b49;
+ envelope-from=3jdcYXwMKCp4QAUEMMEJC.AMKOCKS-BCTCJLMLELS.MPE@flex--scw.bounces.google.com;
+ helo=mail-yb1-xb49.google.com
+X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
+ That's all we know.
+X-Spam_score_int: -105
+X-Spam_score: -10.6
+X-Spam_bar: ----------
+X-Spam_report: (-10.6 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_MED=-1,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ USER_IN_DEF_DKIM_WL=-7.5 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -105,78 +81,67 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Eric Auger <eric.auger@redhat.com>,
- =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>,
- qemu-devel <qemu-devel@nongnu.org>,
- =?UTF-8?Q?Marc-Andr=c3=a9_Lureau?= <marcandre.lureau@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 7/22/20 1:55 AM, Markus Armbruster wrote:
-> pm socket --tpmstate dir=tpm --ctrl type=unixio,path=tpm/swtpm-soc
-> running in another terminal.
->
->>> 3/ no machine plug it using isa_register_ioport()
->>>     (it is not registered to the ISA memory space)
->> There's no requirement for an ISA device to have IO ports...
->>
->> thanks
->> -- PMM
-> Thread hijack!  Since I didn't have swtpm installed, I tried to take a
-> shortcut:
->
->      $ qemu-system-x86_64 -nodefaults -S -display none -monitor stdio -chardev null,id=tpm0 -tpmdev emulator,id=tpm0,chardev=chrtpm -device tpm-tis,tpmdev=tpm0
->      qemu-system-x86_64: -tpmdev emulator,id=tpm0,chardev=chrtpm: tpm-emulator: tpm chardev 'chrtpm' not found.
->      qemu-system-x86_64: -tpmdev emulator,id=tpm0,chardev=chrtpm: tpm-emulator: Could not cleanly shutdown the TPM: No such file or directory
->      QEMU 5.0.90 monitor - type 'help' for more information
->      (qemu) qemu-system-x86_64: -device tpm-tis,tpmdev=tpm0: Property 'tpm-tis.tpmdev' can't find value 'tpm0'
->      $ echo $?
->      1
->
-> That a null chardev doesn't work is fine.  But the error handling looks
-> broken: QEMU diagnoses and reports the problem, then continues.  The
-> final error message indicates that it continued without creating the
-> backend "tpm0".  That's wrong.
+Hi Laurent,
 
+This is a series of 6 patches in 4 groups, putting into a single thread for
+easier tracking.
 
-This issue can be solve via the following change that then displays this 
-error:
+[PATCH 1/6] linux-user: Support F_ADD_SEALS and F_GET_SEALS fcntls
+  An incidental follow up on
+  https://lists.nongnu.org/archive/html/qemu-devel/2019-09/msg01925.html
 
-$ x86_64-softmmu/qemu-system-x86_64 -nodefaults -S -display none 
--monitor stdio -chardev null,id=tpm0 -tpmdev 
-emulator,id=tpm0,chardev=chrtpm -device tpm-tis,tpmdev=tpm0
-qemu-system-x86_64: -tpmdev emulator,id=tpm0,chardev=chrtpm: 
-tpm-emulator: tpm chardev 'chrtpm' not found.
-qemu-system-x86_64: -tpmdev emulator,id=tpm0,chardev=chrtpm: 
-tpm-emulator: Could not cleanly shutdown the TPM: No such file or directory
+[PATCH 2/6] linux-user: add missing UDP and IPv6 get/setsockopt
+  Updated https://lists.nongnu.org/archive/html/qemu-devel/2019-09/msg01317.html
+  to consistently add them in get/setsockopt
 
+[PATCH 3/6] linux-user: Update SO_TIMESTAMP to SO_TIMESTAMP_OLD/NEW
+[PATCH 4/6] linux-user: setsockopt() SO_TIMESTAMPNS and SO_TIMESTAMPING
+  Updated https://lists.nongnu.org/archive/html/qemu-devel/2019-09/msg01319.html
+  to only use TARGET_SO_*_OLD/NEW
 
-diff --git a/tpm.c b/tpm.c
-index 358566cb10..857a861e69 100644
---- a/tpm.c
-+++ b/tpm.c
-@@ -170,8 +170,10 @@ void tpm_cleanup(void)
-   */
-  void tpm_init(void)
-  {
--    qemu_opts_foreach(qemu_find_opts("tpmdev"),
--                      tpm_init_tpmdev, NULL, &error_fatal);
-+    if (qemu_opts_foreach(qemu_find_opts("tpmdev"),
-+                          tpm_init_tpmdev, NULL, &error_fatal)) {
-+        exit(1);
-+    }
-  }
+[PATCH 5/6] thunk: supports flexible arrays
+[PATCH 6/6] linux-user: Add support for SIOCETHTOOL ioctl
+  Updated https://lists.nongnu.org/archive/html/qemu-devel/2019-08/msg05090.html
 
-  /*
+Shu-Chun Weng (6):
+  linux-user: Support F_ADD_SEALS and F_GET_SEALS fcntls
+  linux-user: add missing UDP and IPv6 get/setsockopt options
+  linux-user: Update SO_TIMESTAMP to SO_TIMESTAMP_OLD/NEW
+  linux-user: setsockopt() SO_TIMESTAMPNS and SO_TIMESTAMPING
+  thunk: supports flexible arrays
+  linux-user: Add support for SIOCETHTOOL ioctl
 
-We had something like this before this patch here was applied: 
-https://github.com/qemu/qemu/commit/d10e05f15d5c3dd5e5cc59c5dfff460d89d48580#diff-0ec5df49c6751cb2dc9fa18ed5cf9f0e
+ include/exec/user/thunk.h              |  20 +
+ linux-user/Makefile.objs               |   3 +-
+ linux-user/alpha/sockbits.h            |  21 +-
+ linux-user/ethtool.c                   | 819 +++++++++++++++++++++++++
+ linux-user/ethtool.h                   |  19 +
+ linux-user/ethtool_entries.h           | 107 ++++
+ linux-user/fd-trans.h                  |  41 +-
+ linux-user/generic/sockbits.h          |  17 +-
+ linux-user/hppa/sockbits.h             |  20 +-
+ linux-user/ioctls.h                    |   2 +
+ linux-user/mips/sockbits.h             |  16 +-
+ linux-user/qemu.h                      |   1 +
+ linux-user/sparc/sockbits.h            |  21 +-
+ linux-user/strace.c                    |  19 +-
+ linux-user/syscall.c                   | 233 ++++++-
+ linux-user/syscall_defs.h              |  26 +-
+ linux-user/syscall_types.h             | 277 +++++++++
+ tests/tcg/multiarch/ethtool.c          | 417 +++++++++++++
+ tests/tcg/multiarch/socket_timestamp.c | 542 ++++++++++++++++
+ thunk.c                                | 151 ++++-
+ 20 files changed, 2706 insertions(+), 66 deletions(-)
+ create mode 100644 linux-user/ethtool.c
+ create mode 100644 linux-user/ethtool.h
+ create mode 100644 linux-user/ethtool_entries.h
+ create mode 100644 tests/tcg/multiarch/ethtool.c
+ create mode 100644 tests/tcg/multiarch/socket_timestamp.c
 
-
-Do we now want to partially revert this patch or call the exit(1) as 
-shown here?
-
-
-    Stefan
+-- 
+2.28.0.rc0.105.gf9edc3c819-goog
 
 
