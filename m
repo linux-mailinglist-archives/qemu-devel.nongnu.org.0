@@ -2,113 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id BFD1122AFC4
-	for <lists+qemu-devel@lfdr.de>; Thu, 23 Jul 2020 14:58:21 +0200 (CEST)
-Received: from localhost ([::1]:47376 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id CE81022AFCB
+	for <lists+qemu-devel@lfdr.de>; Thu, 23 Jul 2020 15:00:24 +0200 (CEST)
+Received: from localhost ([::1]:51140 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jyank-0005Ix-RT
-	for lists+qemu-devel@lfdr.de; Thu, 23 Jul 2020 08:58:20 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:42768)
+	id 1jyapj-00073X-RR
+	for lists+qemu-devel@lfdr.de; Thu, 23 Jul 2020 09:00:23 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:43148)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1jyamc-000490-1V
- for qemu-devel@nongnu.org; Thu, 23 Jul 2020 08:57:10 -0400
-Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:52776
- helo=us-smtp-1.mimecast.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1jyama-0008A9-Bt
- for qemu-devel@nongnu.org; Thu, 23 Jul 2020 08:57:09 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1595509027;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
- bh=OV18F5B0iOdgpfo0wRVmWWF0SpN3VU+x/re96XTZX54=;
- b=Mbj/6/cKPz3FJuokkW8oeVEO2/AHEnsqKR68R8GpAsuK69PtpySl8fcJqOdOvu0WOlBlN6
- ZsLNfKCQqmsWZRjM+ZrG33aCpckuLMLdAfVJZKYH3p8FKLGQ+NepWtZzncvGyBcE+jZUVI
- ww2f0mq4mGby20l50/GLYTDtRj7C+5E=
-Received: from mail-wm1-f71.google.com (mail-wm1-f71.google.com
- [209.85.128.71]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-408-xrBlIHfwM8yDmMPjKTpkVQ-1; Thu, 23 Jul 2020 08:57:03 -0400
-X-MC-Unique: xrBlIHfwM8yDmMPjKTpkVQ-1
-Received: by mail-wm1-f71.google.com with SMTP id a5so2494501wmj.5
- for <qemu-devel@nongnu.org>; Thu, 23 Jul 2020 05:57:03 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <marcandre.lureau@gmail.com>)
+ id 1jyaoX-0006Os-H9; Thu, 23 Jul 2020 08:59:09 -0400
+Received: from mail-wm1-x331.google.com ([2a00:1450:4864:20::331]:55069)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <marcandre.lureau@gmail.com>)
+ id 1jyaoQ-0008Ju-8D; Thu, 23 Jul 2020 08:59:09 -0400
+Received: by mail-wm1-x331.google.com with SMTP id o8so4874802wmh.4;
+ Thu, 23 Jul 2020 05:59:01 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=CiHBJ8Fm7Fw+byqoSR3craa+SAlPgQDaNxuH17HkSCg=;
+ b=RcG2HRyCXYI01lD31Gwa3PYYjydpWoqgV0FOB96OYPdBtjJHXc80JgMkMHOek7QfQZ
+ x0+qGfe3PpSkAZKBdy/5MW3owWh1vP9pRSXcYE/pO3ZLcAkhpZJZPfTyEnsSwK0/JP/L
+ zXhN32uBdDwdizIfOYE7eRemNEGJwA11+gK9Eq0qFd9CsL/gZh6Ya6/T3Cl77MrR2C5b
+ g61VZ3gFvxnXzGucYX317yxR6gY2253iBDBh9mZpQFzg5ILMAysLtdz6UJMFddGGdmGr
+ ifL3qq4ugZWO6OZT+orLePuCkUuKlgKx+dBOpLbt28DslSnfJf05CWlD/0zTNtYRwk8R
+ ThgA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:autocrypt
- :message-id:date:user-agent:mime-version:in-reply-to
- :content-language:content-transfer-encoding;
- bh=OV18F5B0iOdgpfo0wRVmWWF0SpN3VU+x/re96XTZX54=;
- b=igZFreB4iignT4J6kRjSNbdnTA7VHIGLo/pwJHBn2+xQxXgORK3DVAbH+wUciNDpAG
- xu9ADTy7vN9EEo4YGMljnMy4fkKaCkYTr7zf+5qcnmAXnJgQlRpyPrY3Is7T3NTjmpJ8
- L7YyNYcMLIOgL4zfd23xscqpc9vTVleCuvyoryt9KzgfMpV1RqDLXkLo1J39vGUCZxqy
- wUQ4H8size5NbBZ7E0ZZ5mQfbtgSo4h1NHqK/dLbs9PNFZVcLICjhiYkz2j1HGieeF2b
- /1BsSX/aH/OvwhxdEHVhFUVcibId7LIKFiWQ4HBELSPfLXuy1RimF202gimFxsLb8IK1
- 8ytg==
-X-Gm-Message-State: AOAM531Ao1wDoqWxm6zqCJtU3fUo1qDBuvS0LQEri4kHr/X6bpduJQNL
- GbjwhYvbMNqz9EWeuKa0Gdh0+SO1pLptHcSSY0WdHfLjVn4WRy5xat5gt7UL0oCc1P9AQnVMtWG
- Ojxhz1zdXotIL89s=
-X-Received: by 2002:adf:bb0a:: with SMTP id r10mr1693861wrg.23.1595509021884; 
- Thu, 23 Jul 2020 05:57:01 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJxdKJZsmHgTskvwhPK9cqnbyDwMyHmqe3j8TEuOUOTIIcfqD6/TXZOcmVp+xvVjSNYPXZPyKQ==
-X-Received: by 2002:adf:bb0a:: with SMTP id r10mr1693841wrg.23.1595509021574; 
- Thu, 23 Jul 2020 05:57:01 -0700 (PDT)
-Received: from [192.168.1.36] (138.red-83-57-170.dynamicip.rima-tde.net.
- [83.57.170.138])
- by smtp.gmail.com with ESMTPSA id c10sm3920709wro.84.2020.07.23.05.57.00
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 23 Jul 2020 05:57:00 -0700 (PDT)
-Subject: Re: [PULL 0/2] fw_cfg patches for 2020-07-21
-To: Peter Maydell <peter.maydell@linaro.org>
-References: <20200721175326.8004-1-philmd@redhat.com>
- <CAFEAcA-H0E-EFkbHuVOhyy1_p47dbr5uHXqzZL=jgwXVzmD1vw@mail.gmail.com>
-From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
-Autocrypt: addr=philmd@redhat.com; keydata=
- mQINBDXML8YBEADXCtUkDBKQvNsQA7sDpw6YLE/1tKHwm24A1au9Hfy/OFmkpzo+MD+dYc+7
- bvnqWAeGweq2SDq8zbzFZ1gJBd6+e5v1a/UrTxvwBk51yEkadrpRbi+r2bDpTJwXc/uEtYAB
- GvsTZMtiQVA4kRID1KCdgLa3zztPLCj5H1VZhqZsiGvXa/nMIlhvacRXdbgllPPJ72cLUkXf
- z1Zu4AkEKpccZaJspmLWGSzGu6UTZ7UfVeR2Hcc2KI9oZB1qthmZ1+PZyGZ/Dy+z+zklC0xl
- XIpQPmnfy9+/1hj1LzJ+pe3HzEodtlVA+rdttSvA6nmHKIt8Ul6b/h1DFTmUT1lN1WbAGxmg
- CH1O26cz5nTrzdjoqC/b8PpZiT0kO5MKKgiu5S4PRIxW2+RA4H9nq7nztNZ1Y39bDpzwE5Sp
- bDHzd5owmLxMLZAINtCtQuRbSOcMjZlg4zohA9TQP9krGIk+qTR+H4CV22sWldSkVtsoTaA2
- qNeSJhfHQY0TyQvFbqRsSNIe2gTDzzEQ8itsmdHHE/yzhcCVvlUzXhAT6pIN0OT+cdsTTfif
- MIcDboys92auTuJ7U+4jWF1+WUaJ8gDL69ThAsu7mGDBbm80P3vvUZ4fQM14NkxOnuGRrJxO
- qjWNJ2ZUxgyHAh5TCxMLKWZoL5hpnvx3dF3Ti9HW2dsUUWICSQARAQABtDJQaGlsaXBwZSBN
- YXRoaWV1LURhdWTDqSAoUGhpbCkgPHBoaWxtZEByZWRoYXQuY29tPokCVQQTAQgAPwIbDwYL
- CQgHAwIGFQgCCQoLBBYCAwECHgECF4AWIQSJweePYB7obIZ0lcuio/1u3q3A3gUCXsfWwAUJ
- KtymWgAKCRCio/1u3q3A3ircD/9Vjh3aFNJ3uF3hddeoFg1H038wZr/xi8/rX27M1Vj2j9VH
- 0B8Olp4KUQw/hyO6kUxqkoojmzRpmzvlpZ0cUiZJo2bQIWnvScyHxFCv33kHe+YEIqoJlaQc
- JfKYlbCoubz+02E2A6bFD9+BvCY0LBbEj5POwyKGiDMjHKCGuzSuDRbCn0Mz4kCa7nFMF5Jv
- piC+JemRdiBd6102ThqgIsyGEBXuf1sy0QIVyXgaqr9O2b/0VoXpQId7yY7OJuYYxs7kQoXI
- 6WzSMpmuXGkmfxOgbc/L6YbzB0JOriX0iRClxu4dEUg8Bs2pNnr6huY2Ft+qb41RzCJvvMyu
- gS32LfN0bTZ6Qm2A8ayMtUQgnwZDSO23OKgQWZVglGliY3ezHZ6lVwC24Vjkmq/2yBSLakZE
- 6DZUjZzCW1nvtRK05ebyK6tofRsx8xB8pL/kcBb9nCuh70aLR+5cmE41X4O+MVJbwfP5s/RW
- 9BFSL3qgXuXso/3XuWTQjJJGgKhB6xXjMmb1J4q/h5IuVV4juv1Fem9sfmyrh+Wi5V1IzKI7
- RPJ3KVb937eBgSENk53P0gUorwzUcO+ASEo3Z1cBKkJSPigDbeEjVfXQMzNt0oDRzpQqH2vp
- apo2jHnidWt8BsckuWZpxcZ9+/9obQ55DyVQHGiTN39hkETy3Emdnz1JVHTU0Q==
-Message-ID: <bde02d2a-e967-d80f-13ad-37c787d85a2c@redhat.com>
-Date: Thu, 23 Jul 2020 14:56:59 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.5.0
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=CiHBJ8Fm7Fw+byqoSR3craa+SAlPgQDaNxuH17HkSCg=;
+ b=XQ0VGBIejNUJs4unaJsRVsGMrAB70XLrrk8CSIf428+jBSgCrb+WOoWTSwCjhMLljU
+ rb0z/mLfJNrnwdA++A3f/0WVV5HpVcBWhG/WvQw3l2cCn5PfajHdvrOeQ0pqSNflHhdF
+ D3tDHew2EXbgO0GE6aN4kcBZpjfCGDRVHahrZwM9iTW01q2GFBHIWAWvFFrTePwOxu2l
+ a8jEXzOtT28EfSBBCiCz8wSMBRqBLHlUqDUiHVRvoNAmiYF6/b0LdWcbQxWlk/KGNvZ7
+ HDTVu2yHI6DRQTOR76HOQHxwVYzBVF6MPmJaiXKpUvT5K93I+nP7sVelPr8s0b3Yts7P
+ Sz2Q==
+X-Gm-Message-State: AOAM532ei87QIiipYUIYe8K3q+6CSDeaxrDUMe0ZcVTqA5qZkI/w4LMi
+ cZVzlAKskfVYUMW1vNigHzJAUUWeTVZf0fIcNM0=
+X-Google-Smtp-Source: ABdhPJxhxV9/AmVQjnmEMaiPpKiiIX7XIZ+rCrH0S+2klK7BV+rOLThbIWD7itVP9nhBWfr11Tsu+fNR/7Ij6dIWF00=
+X-Received: by 2002:a1c:dc02:: with SMTP id t2mr3995406wmg.55.1595509140330;
+ Thu, 23 Jul 2020 05:59:00 -0700 (PDT)
 MIME-Version: 1.0
-In-Reply-To: <CAFEAcA-H0E-EFkbHuVOhyy1_p47dbr5uHXqzZL=jgwXVzmD1vw@mail.gmail.com>
-Content-Language: en-US
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=205.139.110.120; envelope-from=philmd@redhat.com;
- helo=us-smtp-1.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/07/23 06:04:25
-X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
-X-Spam_score_int: -40
-X-Spam_score: -4.1
-X-Spam_bar: ----
-X-Spam_report: (-4.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-1, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+References: <20200709194234.2117650-1-marcandre.lureau@redhat.com>
+ <20200709194234.2117650-14-marcandre.lureau@redhat.com>
+ <20200723123141.GP3888@redhat.com>
+In-Reply-To: <20200723123141.GP3888@redhat.com>
+From: =?UTF-8?B?TWFyYy1BbmRyw6kgTHVyZWF1?= <marcandre.lureau@gmail.com>
+Date: Thu, 23 Jul 2020 16:58:48 +0400
+Message-ID: <CAJ+F1CKW8gEQ1fEng_W3HnBVk0Suxu21AyGuLKWGroQ8QTWsrA@mail.gmail.com>
+Subject: Re: [PATCH 13/13] ssh: add GUri-based URI parsing
+To: "Richard W.M. Jones" <rjones@redhat.com>
+Content-Type: multipart/alternative; boundary="0000000000008b9f1205ab1b6b65"
+Received-SPF: pass client-ip=2a00:1450:4864:20::331;
+ envelope-from=marcandre.lureau@gmail.com; helo=mail-wm1-x331.google.com
+X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
+ That's all we know.
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
+ HTML_MESSAGE=0.001, RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001, URIBL_BLOCKED=0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -121,61 +78,403 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Paolo Bonzini <pbonzini@redhat.com>, Laszlo Ersek <lersek@redhat.com>,
- QEMU Developers <qemu-devel@nongnu.org>, Gerd Hoffmann <kraxel@redhat.com>
+Cc: Kevin Wolf <kwolf@redhat.com>, integration@gluster.org,
+ sheepdog@lists.wpkg.org, "open list:Block layer core" <qemu-block@nongnu.org>,
+ Peter Lieven <pl@kamp.de>, QEMU <qemu-devel@nongnu.org>,
+ Max Reitz <mreitz@redhat.com>, Liu Yuan <namei.unix@gmail.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 7/23/20 12:43 PM, Peter Maydell wrote:
-> On Tue, 21 Jul 2020 at 18:54, Philippe Mathieu-Daudé <philmd@redhat.com> wrote:
->>
->> The following changes since commit 90218a9a393c7925f330e7dcc08658e2a01d3bd4:
->>
->>   Merge remote-tracking branch 'remotes/huth-gitlab/tags/pull-request-2020-07=
->> -21' into staging (2020-07-21 10:24:38 +0100)
->>
->> are available in the Git repository at:
->>
->>   https://gitlab.com/philmd/qemu.git tags/fw_cfg-20200721
->>
->> for you to fetch changes up to 077195187b47d83418e5fb521c89d7881fab3049:
->>
->>   hw/nvram/fw_cfg: Let fw_cfg_add_from_generator() return boolean value (2020=
->> -07-21 16:47:54 +0200)
->>
->> ----------------------------------------------------------------
->> fw_cfg patches
->>
->> Fixes the DEADCODE issue reported by Coverity (CID 1430396).
->>
->> CI jobs result:
->> . https://gitlab.com/philmd/qemu/-/pipelines/169086301
->>
->> ----------------------------------------------------------------
->>
->> Philippe Mathieu-Daud=C3=A9 (2):
-> 
-> Something in your cover-letter creation is not handling UTF-8 right :-)
+--0000000000008b9f1205ab1b6b65
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-Yes, this is a known git-publish issue:
-https://github.com/stefanha/git-publish/issues/88
+Hi
 
-It only happens with the cover, it doesn't affect the patches,
-so it is considered a very low priority issue :)
+On Thu, Jul 23, 2020 at 4:33 PM Richard W.M. Jones <rjones@redhat.com>
+wrote:
 
-> 
->>   hw/nvram/fw_cfg: Simplify fw_cfg_add_from_generator() error
->>     propagation
->>   hw/nvram/fw_cfg: Let fw_cfg_add_from_generator() return boolean value
-> 
-> 
-> Applied, thanks.
-> 
-> Please update the changelog at https://wiki.qemu.org/ChangeLog/5.1
-> for any user-visible changes.
+> On Thu, Jul 09, 2020 at 11:42:34PM +0400, Marc-Andr=C3=A9 Lureau wrote:
+> > Signed-off-by: Marc-Andr=C3=A9 Lureau <marcandre.lureau@redhat.com>
+> > ---
+> >  block/ssh.c | 75 +++++++++++++++++++++++++++++++++++++++++------------
+> >  1 file changed, 58 insertions(+), 17 deletions(-)
+> >
+> > diff --git a/block/ssh.c b/block/ssh.c
+> > index c8f6ad79e3c..d2bc6277613 100644
+> > --- a/block/ssh.c
+> > +++ b/block/ssh.c
+> > @@ -180,9 +180,37 @@ static void sftp_error_trace(BDRVSSHState *s, cons=
+t
+> char *op)
+> >
+> >  static int parse_uri(const char *filename, QDict *options, Error **err=
+p)
+> >  {
+> > +    g_autofree char *port_str =3D NULL;
+> > +    const char *scheme, *server, *path, *user, *key, *value;
+> > +    gint port;
+> > +
+> > +#ifdef HAVE_GLIB_GURI
+> > +    g_autoptr(GUri) uri =3D NULL;
+> > +    g_autoptr(GHashTable) params =3D NULL;
+> > +    g_autoptr(GError) err =3D NULL;
+> > +    GHashTableIter iter;
+> > +
+> > +    uri =3D g_uri_parse(filename, G_URI_FLAGS_ENCODED_QUERY, &err);
+> > +    if (!uri) {
+> > +        error_setg(errp, "Failed to parse SSH URI: %s", err->message);
+> > +        return -EINVAL;
+> > +    }
+> > +
+> > +    params =3D g_uri_parse_params(g_uri_get_query(uri), -1,
+> > +                                "&;", G_URI_PARAMS_NONE, &err);
+> > +    if (err) {
+> > +        error_report("Failed to parse SSH URI query: %s", err->message=
+);
+> > +        return -EINVAL;
+> > +    }
+> > +
+> > +    scheme =3D g_uri_get_scheme(uri);
+> > +    user =3D g_uri_get_user(uri);
+> > +    server =3D g_uri_get_host(uri);
+> > +    path =3D g_uri_get_path(uri);
+> > +    port =3D g_uri_get_port(uri);
+> > +#else
+> >      g_autoptr(URI) uri =3D NULL;
+> >      g_autoptr(QueryParams) qp =3D NULL;
+> > -    g_autofree char *port_str =3D NULL;
+> >      int i;
+>
+> As Dan said already, this conditional code looks horrible and is going
+> to be a maintenance burden.  Was there a later version of this patch
+> series that resolved this?  I don't think I saw one.
+>
 
-Thanks (no user-visible changes in these patches).
+The patch is quite experimental. glib didn't even yet receive a release
+with GUri! But since I am working on the glib side, I wanted to make sure
+it covers qemu needs.
 
-Phil.
+I will revisit the series once GUri is frozen & released (in
+mid-september),and use a copy version fallback.
 
+Although, as I said in the cover, this is a bit riskier than having a
+transition period with both the old libxml-based parser and glib-based one
+for very recent distro.
+
+Tbh, I think having both is not a big burden, because there is very low
+activity around those functions. Iow, we are not spreading qemu with a lot
+of extra conditionals, but only in very limited mostly static places.
+
+
+> Rich.
+>
+>
+> >      uri =3D uri_parse(filename);
+> > @@ -190,44 +218,57 @@ static int parse_uri(const char *filename, QDict
+> *options, Error **errp)
+> >          return -EINVAL;
+> >      }
+> >
+> > -    if (g_strcmp0(uri->scheme, "ssh") !=3D 0) {
+> > -        error_setg(errp, "URI scheme must be 'ssh'");
+> > +    qp =3D query_params_parse(uri->query);
+> > +    if (!qp) {
+> > +        error_setg(errp, "could not parse query parameters");
+> >          return -EINVAL;
+> >      }
+> >
+> > -    if (!uri->server || strcmp(uri->server, "") =3D=3D 0) {
+> > -        error_setg(errp, "missing hostname in URI");
+> > +    scheme =3D uri->scheme;
+> > +    user =3D uri->user;
+> > +    server =3D uri->server;
+> > +    path =3D uri->path;
+> > +    port =3D uri->port;
+> > +#endif
+> > +    if (g_strcmp0(scheme, "ssh") !=3D 0) {
+> > +        error_setg(errp, "URI scheme must be 'ssh'");
+> >          return -EINVAL;
+> >      }
+> >
+> > -    if (!uri->path || strcmp(uri->path, "") =3D=3D 0) {
+> > -        error_setg(errp, "missing remote path in URI");
+> > +    if (!server || strcmp(server, "") =3D=3D 0) {
+> > +        error_setg(errp, "missing hostname in URI");
+> >          return -EINVAL;
+> >      }
+> >
+> > -    qp =3D query_params_parse(uri->query);
+> > -    if (!qp) {
+> > -        error_setg(errp, "could not parse query parameters");
+> > +    if (!path || strcmp(path, "") =3D=3D 0) {
+> > +        error_setg(errp, "missing remote path in URI");
+> >          return -EINVAL;
+> >      }
+> >
+> > -    if(uri->user && strcmp(uri->user, "") !=3D 0) {
+> > -        qdict_put_str(options, "user", uri->user);
+> > +    if (user && strcmp(user, "") !=3D 0) {
+> > +        qdict_put_str(options, "user", user);
+> >      }
+> >
+> > -    qdict_put_str(options, "server.host", uri->server);
+> > +    qdict_put_str(options, "server.host", server);
+> >
+> > -    port_str =3D g_strdup_printf("%d", uri->port ?: 22);
+> > +    port_str =3D g_strdup_printf("%d", port ?: 22);
+> >      qdict_put_str(options, "server.port", port_str);
+> >
+> > -    qdict_put_str(options, "path", uri->path);
+> > +    qdict_put_str(options, "path", path);
+> >
+> >      /* Pick out any query parameters that we understand, and ignore
+> >       * the rest.
+> >       */
+> > +#ifdef HAVE_GLIB_GURI
+> > +    g_hash_table_iter_init(&iter, params);
+> > +    while (g_hash_table_iter_next(&iter, (void **)&key, (void
+> **)&value)) {
+> > +#else
+> >      for (i =3D 0; i < qp->n; ++i) {
+> > -        if (strcmp(qp->p[i].name, "host_key_check") =3D=3D 0) {
+> > -            qdict_put_str(options, "host_key_check", qp->p[i].value);
+> > +        key =3D qp->p[i].name;
+> > +        value =3D qp->p[i].value;
+> > +#endif
+> > +        if (g_strcmp0(key, "host_key_check") =3D=3D 0) {
+> > +            qdict_put_str(options, "host_key_check", value);
+> >          }
+> >      }
+> >
+> > --
+> > 2.27.0.221.ga08a83db2b
+>
+> --
+> Richard Jones, Virtualization Group, Red Hat
+> http://people.redhat.com/~rjones
+> Read my programming and virtualization blog: http://rwmj.wordpress.com
+> libguestfs lets you edit virtual machines.  Supports shell scripting,
+> bindings from many languages.  http://libguestfs.org
+>
+>
+>
+
+--=20
+Marc-Andr=C3=A9 Lureau
+
+--0000000000008b9f1205ab1b6b65
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+
+<div dir=3D"ltr"><div dir=3D"ltr">Hi<br></div><br><div class=3D"gmail_quote=
+"><div dir=3D"ltr" class=3D"gmail_attr">On Thu, Jul 23, 2020 at 4:33 PM Ric=
+hard W.M. Jones &lt;<a href=3D"mailto:rjones@redhat.com">rjones@redhat.com<=
+/a>&gt; wrote:<br></div><blockquote class=3D"gmail_quote" style=3D"margin:0=
+px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);padding-left:1ex">O=
+n Thu, Jul 09, 2020 at 11:42:34PM +0400, Marc-Andr=C3=A9 Lureau wrote:<br>
+&gt; Signed-off-by: Marc-Andr=C3=A9 Lureau &lt;<a href=3D"mailto:marcandre.=
+lureau@redhat.com" target=3D"_blank">marcandre.lureau@redhat.com</a>&gt;<br=
+>
+&gt; ---<br>
+&gt;=C2=A0 block/ssh.c | 75 +++++++++++++++++++++++++++++++++++++++++------=
+------<br>
+&gt;=C2=A0 1 file changed, 58 insertions(+), 17 deletions(-)<br>
+&gt; <br>
+&gt; diff --git a/block/ssh.c b/block/ssh.c<br>
+&gt; index c8f6ad79e3c..d2bc6277613 100644<br>
+&gt; --- a/block/ssh.c<br>
+&gt; +++ b/block/ssh.c<br>
+&gt; @@ -180,9 +180,37 @@ static void sftp_error_trace(BDRVSSHState *s, con=
+st char *op)<br>
+&gt;=C2=A0 <br>
+&gt;=C2=A0 static int parse_uri(const char *filename, QDict *options, Error=
+ **errp)<br>
+&gt;=C2=A0 {<br>
+&gt; +=C2=A0 =C2=A0 g_autofree char *port_str =3D NULL;<br>
+&gt; +=C2=A0 =C2=A0 const char *scheme, *server, *path, *user, *key, *value=
+;<br>
+&gt; +=C2=A0 =C2=A0 gint port;<br>
+&gt; +<br>
+&gt; +#ifdef HAVE_GLIB_GURI<br>
+&gt; +=C2=A0 =C2=A0 g_autoptr(GUri) uri =3D NULL;<br>
+&gt; +=C2=A0 =C2=A0 g_autoptr(GHashTable) params =3D NULL;<br>
+&gt; +=C2=A0 =C2=A0 g_autoptr(GError) err =3D NULL;<br>
+&gt; +=C2=A0 =C2=A0 GHashTableIter iter;<br>
+&gt; +<br>
+&gt; +=C2=A0 =C2=A0 uri =3D g_uri_parse(filename, G_URI_FLAGS_ENCODED_QUERY=
+, &amp;err);<br>
+&gt; +=C2=A0 =C2=A0 if (!uri) {<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 error_setg(errp, &quot;Failed to parse SS=
+H URI: %s&quot;, err-&gt;message);<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 return -EINVAL;<br>
+&gt; +=C2=A0 =C2=A0 }<br>
+&gt; +<br>
+&gt; +=C2=A0 =C2=A0 params =3D g_uri_parse_params(g_uri_get_query(uri), -1,=
+<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=
+ =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 &quot;&amp;;&quot;, G_URI_PARAMS=
+_NONE, &amp;err);<br>
+&gt; +=C2=A0 =C2=A0 if (err) {<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 error_report(&quot;Failed to parse SSH UR=
+I query: %s&quot;, err-&gt;message);<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 return -EINVAL;<br>
+&gt; +=C2=A0 =C2=A0 }<br>
+&gt; +<br>
+&gt; +=C2=A0 =C2=A0 scheme =3D g_uri_get_scheme(uri);<br>
+&gt; +=C2=A0 =C2=A0 user =3D g_uri_get_user(uri);<br>
+&gt; +=C2=A0 =C2=A0 server =3D g_uri_get_host(uri);<br>
+&gt; +=C2=A0 =C2=A0 path =3D g_uri_get_path(uri);<br>
+&gt; +=C2=A0 =C2=A0 port =3D g_uri_get_port(uri);<br>
+&gt; +#else<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 g_autoptr(URI) uri =3D NULL;<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 g_autoptr(QueryParams) qp =3D NULL;<br>
+&gt; -=C2=A0 =C2=A0 g_autofree char *port_str =3D NULL;<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 int i;<br>
+<br>
+As Dan said already, this conditional code looks horrible and is going<br>
+to be a maintenance burden.=C2=A0 Was there a later version of this patch<b=
+r>
+series that resolved this?=C2=A0 I don&#39;t think I saw one.<br></blockquo=
+te><div><br></div><div>The patch is quite experimental. glib didn&#39;t eve=
+n yet receive a release with GUri! But since I am working on the glib side,=
+ I wanted to make sure it covers qemu needs.</div><div><br></div><div>I wil=
+l revisit the series once GUri is frozen &amp; released (in mid-september),=
+and use a copy version fallback.</div><div><br></div><div>Although, as I sa=
+id in the cover, this is a bit riskier than having a transition period with=
+ both the old libxml-based parser and glib-based one for very recent distro=
+.<br></div><div><br></div><div>Tbh, I think having both is not a big burden=
+, because there is very low activity around those functions. Iow, we are no=
+t spreading qemu with a lot of extra conditionals, but only in very limited=
+ mostly static places.<br></div><div><br></div><blockquote class=3D"gmail_q=
+uote" style=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,2=
+04);padding-left:1ex">
+<br>
+Rich.<br>
+<br>
+<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 uri =3D uri_parse(filename);<br>
+&gt; @@ -190,44 +218,57 @@ static int parse_uri(const char *filename, QDict=
+ *options, Error **errp)<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 return -EINVAL;<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 }<br>
+&gt;=C2=A0 <br>
+&gt; -=C2=A0 =C2=A0 if (g_strcmp0(uri-&gt;scheme, &quot;ssh&quot;) !=3D 0) =
+{<br>
+&gt; -=C2=A0 =C2=A0 =C2=A0 =C2=A0 error_setg(errp, &quot;URI scheme must be=
+ &#39;ssh&#39;&quot;);<br>
+&gt; +=C2=A0 =C2=A0 qp =3D query_params_parse(uri-&gt;query);<br>
+&gt; +=C2=A0 =C2=A0 if (!qp) {<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 error_setg(errp, &quot;could not parse qu=
+ery parameters&quot;);<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 return -EINVAL;<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 }<br>
+&gt;=C2=A0 <br>
+&gt; -=C2=A0 =C2=A0 if (!uri-&gt;server || strcmp(uri-&gt;server, &quot;&qu=
+ot;) =3D=3D 0) {<br>
+&gt; -=C2=A0 =C2=A0 =C2=A0 =C2=A0 error_setg(errp, &quot;missing hostname i=
+n URI&quot;);<br>
+&gt; +=C2=A0 =C2=A0 scheme =3D uri-&gt;scheme;<br>
+&gt; +=C2=A0 =C2=A0 user =3D uri-&gt;user;<br>
+&gt; +=C2=A0 =C2=A0 server =3D uri-&gt;server;<br>
+&gt; +=C2=A0 =C2=A0 path =3D uri-&gt;path;<br>
+&gt; +=C2=A0 =C2=A0 port =3D uri-&gt;port;<br>
+&gt; +#endif<br>
+&gt; +=C2=A0 =C2=A0 if (g_strcmp0(scheme, &quot;ssh&quot;) !=3D 0) {<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 error_setg(errp, &quot;URI scheme must be=
+ &#39;ssh&#39;&quot;);<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 return -EINVAL;<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 }<br>
+&gt;=C2=A0 <br>
+&gt; -=C2=A0 =C2=A0 if (!uri-&gt;path || strcmp(uri-&gt;path, &quot;&quot;)=
+ =3D=3D 0) {<br>
+&gt; -=C2=A0 =C2=A0 =C2=A0 =C2=A0 error_setg(errp, &quot;missing remote pat=
+h in URI&quot;);<br>
+&gt; +=C2=A0 =C2=A0 if (!server || strcmp(server, &quot;&quot;) =3D=3D 0) {=
+<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 error_setg(errp, &quot;missing hostname i=
+n URI&quot;);<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 return -EINVAL;<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 }<br>
+&gt;=C2=A0 <br>
+&gt; -=C2=A0 =C2=A0 qp =3D query_params_parse(uri-&gt;query);<br>
+&gt; -=C2=A0 =C2=A0 if (!qp) {<br>
+&gt; -=C2=A0 =C2=A0 =C2=A0 =C2=A0 error_setg(errp, &quot;could not parse qu=
+ery parameters&quot;);<br>
+&gt; +=C2=A0 =C2=A0 if (!path || strcmp(path, &quot;&quot;) =3D=3D 0) {<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 error_setg(errp, &quot;missing remote pat=
+h in URI&quot;);<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 return -EINVAL;<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 }<br>
+&gt;=C2=A0 <br>
+&gt; -=C2=A0 =C2=A0 if(uri-&gt;user &amp;&amp; strcmp(uri-&gt;user, &quot;&=
+quot;) !=3D 0) {<br>
+&gt; -=C2=A0 =C2=A0 =C2=A0 =C2=A0 qdict_put_str(options, &quot;user&quot;, =
+uri-&gt;user);<br>
+&gt; +=C2=A0 =C2=A0 if (user &amp;&amp; strcmp(user, &quot;&quot;) !=3D 0) =
+{<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 qdict_put_str(options, &quot;user&quot;, =
+user);<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 }<br>
+&gt;=C2=A0 <br>
+&gt; -=C2=A0 =C2=A0 qdict_put_str(options, &quot;server.host&quot;, uri-&gt=
+;server);<br>
+&gt; +=C2=A0 =C2=A0 qdict_put_str(options, &quot;server.host&quot;, server)=
+;<br>
+&gt;=C2=A0 <br>
+&gt; -=C2=A0 =C2=A0 port_str =3D g_strdup_printf(&quot;%d&quot;, uri-&gt;po=
+rt ?: 22);<br>
+&gt; +=C2=A0 =C2=A0 port_str =3D g_strdup_printf(&quot;%d&quot;, port ?: 22=
+);<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 qdict_put_str(options, &quot;server.port&quot;, po=
+rt_str);<br>
+&gt;=C2=A0 <br>
+&gt; -=C2=A0 =C2=A0 qdict_put_str(options, &quot;path&quot;, uri-&gt;path);=
+<br>
+&gt; +=C2=A0 =C2=A0 qdict_put_str(options, &quot;path&quot;, path);<br>
+&gt;=C2=A0 <br>
+&gt;=C2=A0 =C2=A0 =C2=A0 /* Pick out any query parameters that we understan=
+d, and ignore<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0* the rest.<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0*/<br>
+&gt; +#ifdef HAVE_GLIB_GURI<br>
+&gt; +=C2=A0 =C2=A0 g_hash_table_iter_init(&amp;iter, params);<br>
+&gt; +=C2=A0 =C2=A0 while (g_hash_table_iter_next(&amp;iter, (void **)&amp;=
+key, (void **)&amp;value)) {<br>
+&gt; +#else<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 for (i =3D 0; i &lt; qp-&gt;n; ++i) {<br>
+&gt; -=C2=A0 =C2=A0 =C2=A0 =C2=A0 if (strcmp(qp-&gt;p[i].name, &quot;host_k=
+ey_check&quot;) =3D=3D 0) {<br>
+&gt; -=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 qdict_put_str(options, &quo=
+t;host_key_check&quot;, qp-&gt;p[i].value);<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 key =3D qp-&gt;p[i].name;<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 value =3D qp-&gt;p[i].value;<br>
+&gt; +#endif<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 if (g_strcmp0(key, &quot;host_key_check&q=
+uot;) =3D=3D 0) {<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 qdict_put_str(options, &quo=
+t;host_key_check&quot;, value);<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 }<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 }<br>
+&gt;=C2=A0 <br>
+&gt; -- <br>
+&gt; 2.27.0.221.ga08a83db2b<br>
+<br>
+-- <br>
+Richard Jones, Virtualization Group, Red Hat <a href=3D"http://people.redha=
+t.com/~rjones" rel=3D"noreferrer" target=3D"_blank">http://people.redhat.co=
+m/~rjones</a><br>
+Read my programming and virtualization blog: <a href=3D"http://rwmj.wordpre=
+ss.com" rel=3D"noreferrer" target=3D"_blank">http://rwmj.wordpress.com</a><=
+br>
+libguestfs lets you edit virtual machines.=C2=A0 Supports shell scripting,<=
+br>
+bindings from many languages.=C2=A0 <a href=3D"http://libguestfs.org" rel=
+=3D"noreferrer" target=3D"_blank">http://libguestfs.org</a><br>
+<br>
+<br>
+</blockquote></div><br clear=3D"all"><br>-- <br><div dir=3D"ltr" class=3D"g=
+mail_signature">Marc-Andr=C3=A9 Lureau<br></div></div>
+
+--0000000000008b9f1205ab1b6b65--
 
