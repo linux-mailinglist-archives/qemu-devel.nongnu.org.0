@@ -2,54 +2,91 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 28F0622A5DD
-	for <lists+qemu-devel@lfdr.de>; Thu, 23 Jul 2020 05:12:46 +0200 (CEST)
-Received: from localhost ([::1]:35412 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id EE34622A5F2
+	for <lists+qemu-devel@lfdr.de>; Thu, 23 Jul 2020 05:19:18 +0200 (CEST)
+Received: from localhost ([::1]:45462 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jyRf3-0002Ys-72
-	for lists+qemu-devel@lfdr.de; Wed, 22 Jul 2020 23:12:45 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:39808)
+	id 1jyRlO-00072i-36
+	for lists+qemu-devel@lfdr.de; Wed, 22 Jul 2020 23:19:18 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:42466)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <dgibson@ozlabs.org>)
- id 1jyRbJ-0006TN-3W; Wed, 22 Jul 2020 23:08:53 -0400
-Received: from bilbo.ozlabs.org ([2401:3900:2:1::2]:36223 helo=ozlabs.org)
+ (Exim 4.90_1) (envelope-from <bauerman@linux.ibm.com>)
+ id 1jyRkV-0006OZ-Sf; Wed, 22 Jul 2020 23:18:23 -0400
+Received: from mx0b-001b2d01.pphosted.com ([148.163.158.5]:15634)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <dgibson@ozlabs.org>)
- id 1jyRbH-0006UO-0z; Wed, 22 Jul 2020 23:08:52 -0400
-Received: by ozlabs.org (Postfix, from userid 1007)
- id 4BBy2w0Zv1z9sSd; Thu, 23 Jul 2020 13:08:39 +1000 (AEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=gibson.dropbear.id.au; s=201602; t=1595473720;
- bh=7IPc2Q1fTaCeaM4LUpDehskEstA2XXUOp7aYej6dJSc=;
- h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=LBS807HfKJJsLUOK1BFWmk1dk3FoLyfXjaq8mBlGnVAHeAf3ieXxIYN2EskcM8Glb
- cpTTOiV5BkVVkma9X04Uo9uQrG4ISNqDIjRi5DaWlkeDVJLaXDwRAjzUa72/6d4U9D
- sElZF7m2ffp0jMiZ7CdMoLvRV7U/Ty+u3fqDY1kQ=
-Date: Thu, 23 Jul 2020 13:08:22 +1000
-From: David Gibson <david@gibson.dropbear.id.au>
-To: Thiago Jung Bauermann <bauerman@linux.ibm.com>
-Subject: Re: [PATCH v3 7/8] sparc/sun4m: Use start-powered-off CPUState
- property
-Message-ID: <20200723030822.GR5513@umbus.fritz.box>
-References: <20200723025657.644724-1-bauerman@linux.ibm.com>
- <20200723025657.644724-8-bauerman@linux.ibm.com>
+ (Exim 4.90_1) (envelope-from <bauerman@linux.ibm.com>)
+ id 1jyRkU-00086I-34; Wed, 22 Jul 2020 23:18:23 -0400
+Received: from pps.filterd (m0098421.ppops.net [127.0.0.1])
+ by mx0a-001b2d01.pphosted.com (8.16.0.42/8.16.0.42) with SMTP id
+ 06N3FlrR003826; Wed, 22 Jul 2020 23:18:02 -0400
+Received: from pps.reinject (localhost [127.0.0.1])
+ by mx0a-001b2d01.pphosted.com with ESMTP id 32f1pmrx2q-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Wed, 22 Jul 2020 23:18:02 -0400
+Received: from m0098421.ppops.net (m0098421.ppops.net [127.0.0.1])
+ by pps.reinject (8.16.0.36/8.16.0.36) with SMTP id 06N3I1TD008213;
+ Wed, 22 Jul 2020 23:18:02 -0400
+Received: from ppma04dal.us.ibm.com (7a.29.35a9.ip4.static.sl-reverse.com
+ [169.53.41.122])
+ by mx0a-001b2d01.pphosted.com with ESMTP id 32f1pmrx2j-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Wed, 22 Jul 2020 23:18:01 -0400
+Received: from pps.filterd (ppma04dal.us.ibm.com [127.0.0.1])
+ by ppma04dal.us.ibm.com (8.16.0.42/8.16.0.42) with SMTP id 06N3A7i6007391;
+ Thu, 23 Jul 2020 03:18:01 GMT
+Received: from b01cxnp22036.gho.pok.ibm.com (b01cxnp22036.gho.pok.ibm.com
+ [9.57.198.26]) by ppma04dal.us.ibm.com with ESMTP id 32d5dqh6ek-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Thu, 23 Jul 2020 03:18:01 +0000
+Received: from b01ledav005.gho.pok.ibm.com (b01ledav005.gho.pok.ibm.com
+ [9.57.199.110])
+ by b01cxnp22036.gho.pok.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
+ 06N3I0kZ9503500
+ (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+ Thu, 23 Jul 2020 03:18:00 GMT
+Received: from b01ledav005.gho.pok.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id 6692BAE062;
+ Thu, 23 Jul 2020 03:18:00 +0000 (GMT)
+Received: from b01ledav005.gho.pok.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id 9468AAE05F;
+ Thu, 23 Jul 2020 03:17:54 +0000 (GMT)
+Received: from morokweng.localdomain (unknown [9.211.93.190])
+ by b01ledav005.gho.pok.ibm.com (Postfix) with ESMTPS;
+ Thu, 23 Jul 2020 03:17:54 +0000 (GMT)
+References: <20200722035016.469075-1-bauerman@linux.ibm.com>
+ <20200722035016.469075-2-bauerman@linux.ibm.com>
+ <20200723005530.GG5513@umbus.fritz.box>
+User-agent: mu4e 1.2.0; emacs 26.3
+From: Thiago Jung Bauermann <bauerman@linux.ibm.com>
+To: David Gibson <david@gibson.dropbear.id.au>
+Subject: Re: [PATCH v2 1/9] target/arm: Move start-powered-off property to
+ generic CPUState
+In-reply-to: <20200723005530.GG5513@umbus.fritz.box>
+Date: Thu, 23 Jul 2020 00:17:50 -0300
+Message-ID: <87k0yusyw1.fsf@morokweng.localdomain>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature"; boundary="2z7AKWNQ4hR/M4ga"
-Content-Disposition: inline
-In-Reply-To: <20200723025657.644724-8-bauerman@linux.ibm.com>
-Received-SPF: pass client-ip=2401:3900:2:1::2; envelope-from=dgibson@ozlabs.org;
- helo=ozlabs.org
-X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
- That's all we know.
-X-Spam_score_int: -9
-X-Spam_score: -1.0
-X-Spam_bar: -
-X-Spam_report: (-1.0 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, HEADER_FROM_DIFFERENT_DOMAINS=1,
- SPF_HELO_PASS=-0.001, SPF_PASS=-0.001,
- URIBL_BLOCKED=0.001 autolearn=no autolearn_force=no
+Content-Type: text/plain
+X-TM-AS-GCONF: 00
+X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:6.0.235, 18.0.687
+ definitions=2020-07-22_17:2020-07-22,
+ 2020-07-22 signatures=0
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ mlxscore=0 malwarescore=0
+ suspectscore=0 mlxlogscore=999 phishscore=0 spamscore=0 priorityscore=1501
+ adultscore=0 bulkscore=0 impostorscore=0 clxscore=1015 lowpriorityscore=0
+ classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2006250000
+ definitions=main-2007230019
+Received-SPF: pass client-ip=148.163.158.5;
+ envelope-from=bauerman@linux.ibm.com; helo=mx0b-001b2d01.pphosted.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/07/22 22:57:54
+X-ACL-Warn: Detected OS   = Linux 3.x [generic]
+X-Spam_score_int: -35
+X-Spam_score: -3.6
+X-Spam_bar: ---
+X-Spam_report: (-3.6 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_LOW=-0.7,
+ RCVD_IN_MSPIKE_H2=-1, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -66,118 +103,42 @@ Cc: Peter Maydell <peter.maydell@linaro.org>,
  Aleksandar Rikalo <aleksandar.rikalo@syrmia.com>,
  Eduardo Habkost <ehabkost@redhat.com>,
  Aleksandar Markovic <aleksandar.qemu.devel@gmail.com>,
- Alex =?iso-8859-1?Q?Benn=E9e?= <alex.bennee@linaro.org>,
  Cornelia Huck <cohuck@redhat.com>,
  Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>, qemu-devel@nongnu.org,
- Greg Kurz <groug@kaod.org>, qemu-s390x@nongnu.org, qemu-arm@nongnu.org,
- qemu-ppc@nongnu.org, Artyom Tarasenko <atar4qemu@gmail.com>,
- Thomas Huth <thuth@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>,
- David Hildenbrand <david@redhat.com>,
- Philippe =?iso-8859-1?Q?Mathieu-Daud=E9?= <philmd@redhat.com>,
+ qemu-s390x@nongnu.org, qemu-arm@nongnu.org, qemu-ppc@nongnu.org,
+ Artyom Tarasenko <atar4qemu@gmail.com>, Thomas Huth <thuth@redhat.com>,
+ Paolo Bonzini <pbonzini@redhat.com>, David Hildenbrand <david@redhat.com>,
  Aurelien Jarno <aurelien@aurel32.net>, Richard Henderson <rth@twiddle.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 
---2z7AKWNQ4hR/M4ga
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+Hello David,
 
-On Wed, Jul 22, 2020 at 11:56:56PM -0300, Thiago Jung Bauermann wrote:
-> Instead of setting CPUState::halted to 1 in secondary_cpu_reset(), use the
-> start-powered-off property which makes cpu_common_reset() initialize it
-> to 1 in common code.
->=20
-> This makes secondary_cpu_reset() unnecessary, so remove it.
->=20
-> Also remove setting of cs->halted from cpu_devinit(), which seems out of
-> place when compared to similar code in other architectures (e.g.,
-> ppce500_init() in hw/ppc/e500.c).
->=20
-> Suggested-by: Philippe Mathieu-Daud=E9 <philmd@redhat.com>
-> Signed-off-by: Thiago Jung Bauermann <bauerman@linux.ibm.com>
+David Gibson <david@gibson.dropbear.id.au> writes:
 
-Reviewed-by: David Gibson <david@gibson.dropbear.id.au>
+> On Wed, Jul 22, 2020 at 12:50:08AM -0300, Thiago Jung Bauermann wrote:
+>> There are other platforms which also have CPUs that start powered off, so
+>> generalize the start-powered-off property so that it can be used by them.
+>> 
+>> Note that ARMv7MState also has a property of the same name but this patch
+>> doesn't change it because that class isn't a subclass of CPUState so it
+>> wouldn't be a trivial change.
+>> 
+>> This change should not cause any change in behavior.
+>> 
+>> Suggested-by: Eduardo Habkost <ehabkost@redhat.com>
+>> Signed-off-by: Thiago Jung Bauermann <bauerman@linux.ibm.com>
+>
+> Reviewed-by: David Gibson <david@gibson.dropbear.id.au>
 
-> ---
->  hw/sparc/sun4m.c | 17 ++---------------
->  1 file changed, 2 insertions(+), 15 deletions(-)
->=20
-> NB: I was only able to test that this patch builds. I wasn't able to
-> run it.
->=20
-> diff --git a/hw/sparc/sun4m.c b/hw/sparc/sun4m.c
-> index f1d92df781..fd74e516bb 100644
-> --- a/hw/sparc/sun4m.c
-> +++ b/hw/sparc/sun4m.c
-> @@ -218,15 +218,6 @@ static void dummy_cpu_set_irq(void *opaque, int irq,=
- int level)
->  {
->  }
-> =20
-> -static void secondary_cpu_reset(void *opaque)
-> -{
-> -    SPARCCPU *cpu =3D opaque;
-> -    CPUState *cs =3D CPU(cpu);
-> -
-> -    cpu_reset(cs);
-> -    cs->halted =3D 1;
-> -}
-> -
->  static void cpu_halt_signal(void *opaque, int irq, int level)
->  {
->      if (level && current_cpu) {
-> @@ -810,7 +801,6 @@ static const TypeInfo ram_info =3D {
->  static void cpu_devinit(const char *cpu_type, unsigned int id,
->                          uint64_t prom_addr, qemu_irq **cpu_irqs)
->  {
-> -    CPUState *cs;
->      SPARCCPU *cpu;
->      CPUSPARCState *env;
-> =20
-> @@ -818,11 +808,8 @@ static void cpu_devinit(const char *cpu_type, unsign=
-ed int id,
->      env =3D &cpu->env;
-> =20
->      cpu_sparc_set_id(env, id);
-> -    if (id !=3D 0) {
-> -        qemu_register_reset(secondary_cpu_reset, cpu);
-> -        cs =3D CPU(cpu);
-> -        cs->halted =3D 1;
-> -    }
-> +    object_property_set_bool(OBJECT(cpu), "start-powered-off", id !=3D 0,
-> +                             &error_abort);
->      *cpu_irqs =3D qemu_allocate_irqs(cpu_set_irq, cpu, MAX_PILS);
->      env->prom_addr =3D prom_addr;
->  }
->=20
+Thank you very much for your review!
 
---=20
-David Gibson			| I'll have my music baroque, and my code
-david AT gibson.dropbear.id.au	| minimalist, thank you.  NOT _the_ _other_
-				| _way_ _around_!
-http://www.ozlabs.org/~dgibson
+Unfortunately I apparently had a minor email mishap and only got your
+reviews after I sent the v3 patches, so I wasn't able to put your
+Reviewed-by's in them. Sorry about that.
 
---2z7AKWNQ4hR/M4ga
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQIzBAEBCAAdFiEEdfRlhq5hpmzETofcbDjKyiDZs5IFAl8Y/yUACgkQbDjKyiDZ
-s5JsVw//fEJWBKkb5iGCm0e/sLgbwcRm7nmw+o6Uthn5eMWXAYTk5hydgF13HlGC
-6PjROV2N6PtgQlWwERcuJMZ0kdTnytbKzLKXWwk7A/PIUHDNjxzc9wlTQ70rRA9G
-sDrKIGsDXJP7oQ2a9RixxHTcg/LRp1HfhZAZBHHdt9Zf0rW4JVJR9xjRJ/lH64rx
-6lqBQCkLuSH1ZPCZikriNwD4/olq4KAT+UMECHSkWqiYNFAWB4b7s/o963+nX6xw
-lPethsUMsqIU555LGnxNS1bKlif1/254o0aZ3LRcbU5fNmUdw9RqozIvubo7d026
-xwaEDDSF/kk7M3LgF/O6R7j/g2qZXxHB+PFiV8qQh0PXtmsdy7xdaRkbTiTnZRz5
-A38CMxqOcCwlK1JFSEe1P/lQCZVkHOf4rakw5IAiFTpvsRB/wTuruCNxYXzJCrg5
-0np4FfQPnku6PSYuMLpyHyoZlBs2nUHTIBp2qu+9YdNt4u7kxLH6A8Ui+arNN0es
-M22ZeO+aaEbb5pk/XKcaVulFlueTW6rQlywZdFERSdUr6Dk98aNFSRO2ke4bPIO8
-9Dn1R6T8oskzlFww0iPOALx6qe+LQHd06PWI5Jqar9sFCcwgjIum3/BIChYV/eg5
-VMeu4x5vVhhp23v1Yxg/pRYJ1DRFh1T/wowBj6gxUGZ0PAxmbUE=
-=l61x
------END PGP SIGNATURE-----
-
---2z7AKWNQ4hR/M4ga--
+-- 
+Thiago Jung Bauermann
+IBM Linux Technology Center
 
