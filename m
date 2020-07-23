@@ -2,64 +2,66 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id AAAA622B52F
-	for <lists+qemu-devel@lfdr.de>; Thu, 23 Jul 2020 19:49:18 +0200 (CEST)
-Received: from localhost ([::1]:49568 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8625522B532
+	for <lists+qemu-devel@lfdr.de>; Thu, 23 Jul 2020 19:50:42 +0200 (CEST)
+Received: from localhost ([::1]:54134 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jyfLJ-0000f3-NC
-	for lists+qemu-devel@lfdr.de; Thu, 23 Jul 2020 13:49:17 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:43300)
+	id 1jyfMf-0002Va-Ja
+	for lists+qemu-devel@lfdr.de; Thu, 23 Jul 2020 13:50:41 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:43426)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <dinechin@redhat.com>)
- id 1jyfIo-000567-00
- for qemu-devel@nongnu.org; Thu, 23 Jul 2020 13:46:42 -0400
-Received: from us-smtp-2.mimecast.com ([205.139.110.61]:53651
- helo=us-smtp-delivery-1.mimecast.com)
+ id 1jyfJ3-0005Kq-7x
+ for qemu-devel@nongnu.org; Thu, 23 Jul 2020 13:46:57 -0400
+Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:21639
+ helo=us-smtp-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
  (Exim 4.90_1) (envelope-from <dinechin@redhat.com>)
- id 1jyfIl-00049h-NC
- for qemu-devel@nongnu.org; Thu, 23 Jul 2020 13:46:41 -0400
+ id 1jyfJ1-0004Bc-Dr
+ for qemu-devel@nongnu.org; Thu, 23 Jul 2020 13:46:56 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1595526399;
+ s=mimecast20190719; t=1595526414;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=txsvG1Xp5ORtHBO3Fw0NSNNLQye/tWThgKOM1E2vDYs=;
- b=DRLPSLMVhO08SfySC7edZ5b7lYCNXLZtxHCFDqzc5Wo7Xl2M0VRX2Wn7wcWt3TaE3dm+0/
- KnF9n7AsbgQ6N3rCpNfT4KgrWKH9E4MqlsPvlS/lrItRirGNNcH1NkoS86mc7A/csN5ZJT
- 8oUQghupvezFWklxwCgX4OfHVe6TbGQ=
+ bh=Vh5y6IxFHd1mghC1947BBUvp4rrSDNgO8cJkedJIYaE=;
+ b=h+0KgDzXtJi2Vo8l+NCfDFvUuCNWGSjAIjtZjuCR2KlAhFhLeHQY61ggorgsVuY1FX05To
+ +sMVUEAf36MrLsaH3EWWfykybfGbPIJdXt9Kw0JdcKlpQgUH9H63d9YhkqgWXIYdvV3K5D
+ 3wRV75ROm5PDGeldNC5z2w1PBlsAFv0=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-468-hhc-bxO4MZO-kQR9mqZBzg-1; Thu, 23 Jul 2020 13:46:36 -0400
-X-MC-Unique: hhc-bxO4MZO-kQR9mqZBzg-1
+ us-mta-76-yUFXwX8qMN6cqWRTQ9Qgug-1; Thu, 23 Jul 2020 13:46:50 -0400
+X-MC-Unique: yUFXwX8qMN6cqWRTQ9Qgug-1
 Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
  [10.5.11.16])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id D02FB800685;
- Thu, 23 Jul 2020 17:46:35 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id C86C480183C;
+ Thu, 23 Jul 2020 17:46:49 +0000 (UTC)
 Received: from turbo.com (ovpn-113-141.ams2.redhat.com [10.36.113.141])
- by smtp.corp.redhat.com (Postfix) with ESMTP id B462569316;
- Thu, 23 Jul 2020 17:46:29 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 4071E69316;
+ Thu, 23 Jul 2020 17:46:36 +0000 (UTC)
 From: Christophe de Dinechin <dinechin@redhat.com>
 To: qemu-devel@nongnu.org,
 	kraxel@redhat.com
-Subject: [PATCH 1/7] spice: simplify chardev setup
-Date: Thu, 23 Jul 2020 19:46:09 +0200
-Message-Id: <20200723174615.2370096-2-dinechin@redhat.com>
+Subject: [PATCH 2/7] build: fix device module builds
+Date: Thu, 23 Jul 2020 19:46:10 +0200
+Message-Id: <20200723174615.2370096-3-dinechin@redhat.com>
 In-Reply-To: <20200723174615.2370096-1-dinechin@redhat.com>
 References: <20200723174615.2370096-1-dinechin@redhat.com>
 MIME-Version: 1.0
 X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=dinechin@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=205.139.110.61; envelope-from=dinechin@redhat.com;
- helo=us-smtp-delivery-1.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/07/23 02:33:29
+Received-SPF: pass client-ip=205.139.110.120; envelope-from=dinechin@redhat.com;
+ helo=us-smtp-1.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/07/23 06:04:25
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
 X-Spam_score_int: -40
 X-Spam_score: -4.1
@@ -92,194 +94,61 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Gerd Hoffmann <kraxel@redhat.com>
 
-Initialize spice before chardevs.  That allows to register the spice
-chardevs directly in the init function and removes the need to maintain
-a linked list of chardevs just for registration.
+See comment.  Feels quite hackish.  Better ideas anyone?
 
 Signed-off-by: Gerd Hoffmann <kraxel@redhat.com>
 Signed-off-by: Christophe de Dinechin <dinechin@redhat.com>
 ---
- chardev/spice.c         | 29 ++++++-----------------------
- include/chardev/spice.h |  1 -
- include/ui/qemu-spice.h |  1 -
- softmmu/vl.c            |  9 +++++----
- ui/spice-app.c          | 17 +++++++++--------
- ui/spice-core.c         |  2 --
- 6 files changed, 20 insertions(+), 39 deletions(-)
+ dtc           | 2 +-
+ roms/SLOF     | 2 +-
+ roms/openbios | 2 +-
+ roms/opensbi  | 2 +-
+ roms/seabios  | 2 +-
+ slirp         | 2 +-
+ 6 files changed, 6 insertions(+), 6 deletions(-)
 
-diff --git a/chardev/spice.c b/chardev/spice.c
-index bf7ea1e294..9733f06716 100644
---- a/chardev/spice.c
-+++ b/chardev/spice.c
-@@ -14,9 +14,6 @@ typedef struct SpiceCharSource {
-     SpiceChardev       *scd;
- } SpiceCharSource;
- 
--static QLIST_HEAD(, SpiceChardev) spice_chars =
--    QLIST_HEAD_INITIALIZER(spice_chars);
--
- static int vmc_write(SpiceCharDeviceInstance *sin, const uint8_t *buf, int len)
- {
-     SpiceChardev *scd = container_of(sin, SpiceChardev, sin);
-@@ -216,8 +213,6 @@ static void char_spice_finalize(Object *obj)
- 
-     vmc_unregister_interface(s);
- 
--    QLIST_SAFE_REMOVE(s, next);
--
-     g_free((char *)s->sin.subtype);
-     g_free((char *)s->sin.portname);
- }
-@@ -256,8 +251,6 @@ static void chr_open(Chardev *chr, const char *subtype)
- 
-     s->active = false;
-     s->sin.subtype = g_strdup(subtype);
--
--    QLIST_INSERT_HEAD(&spice_chars, s, next);
- }
- 
- static void qemu_chr_open_spice_vmc(Chardev *chr,
-@@ -310,28 +303,18 @@ void qemu_chr_open_spice_port(Chardev *chr,
-         return;
-     }
- 
-+    if (!using_spice) {
-+        error_setg(errp, "spice not enabled");
-+        return;
-+    }
-+
-     chr_open(chr, "port");
- 
-     *be_opened = false;
-     s = SPICE_CHARDEV(chr);
-     s->sin.portname = g_strdup(name);
- 
--    if (using_spice) {
--        /* spice server already created */
--        vmc_register_interface(s);
--    }
--}
--
--void qemu_spice_register_ports(void)
--{
--    SpiceChardev *s;
--
--    QLIST_FOREACH(s, &spice_chars, next) {
--        if (s->sin.portname == NULL) {
--            continue;
--        }
--        vmc_register_interface(s);
--    }
-+    vmc_register_interface(s);
- }
- 
- static void qemu_chr_parse_spice_vmc(QemuOpts *opts, ChardevBackend *backend,
-diff --git a/include/chardev/spice.h b/include/chardev/spice.h
-index 1f7339b649..2013255f34 100644
---- a/include/chardev/spice.h
-+++ b/include/chardev/spice.h
-@@ -12,7 +12,6 @@ typedef struct SpiceChardev {
-     bool                  blocked;
-     const uint8_t         *datapos;
-     int                   datalen;
--    QLIST_ENTRY(SpiceChardev) next;
- } SpiceChardev;
- 
- #define TYPE_CHARDEV_SPICE "chardev-spice"
-diff --git a/include/ui/qemu-spice.h b/include/ui/qemu-spice.h
-index 8c23dfe717..d34cea2e0f 100644
---- a/include/ui/qemu-spice.h
-+++ b/include/ui/qemu-spice.h
-@@ -46,7 +46,6 @@ int qemu_spice_migrate_info(const char *hostname, int port, int tls_port,
- #else
- #define SPICE_NEEDS_SET_MM_TIME 0
- #endif
--void qemu_spice_register_ports(void);
- 
- #else  /* CONFIG_SPICE */
- 
-diff --git a/softmmu/vl.c b/softmmu/vl.c
-index f476ef89ed..bc0dcc4f58 100644
---- a/softmmu/vl.c
-+++ b/softmmu/vl.c
-@@ -4125,6 +4125,11 @@ void qemu_init(int argc, char **argv, char **envp)
-     page_size_init();
-     socket_init();
- 
-+    /* spice needs the timers to be initialized by this point */
-+    /* spice must initialize before audio as it changes the default auiodev */
-+    /* spice must initialize before chardevs (for spicevmc and spiceport) */
-+    qemu_spice_init();
-+
-     qemu_opts_foreach(qemu_find_opts("object"),
-                       user_creatable_add_opts_foreach,
-                       object_create_initial, &error_fatal);
-@@ -4139,10 +4144,6 @@ void qemu_init(int argc, char **argv, char **envp)
-                       fsdev_init_func, NULL, &error_fatal);
- #endif
- 
--    /* spice needs the timers to be initialized by this point */
--    /* spice must initialize before audio as it changes the default auiodev */
--    qemu_spice_init();
--
-     /*
-      * Note: we need to create audio and block backends before
-      * machine_set_property(), so machine properties can refer to
-diff --git a/ui/spice-app.c b/ui/spice-app.c
-index 40fb2ef573..03d971b15f 100644
---- a/ui/spice-app.c
-+++ b/ui/spice-app.c
-@@ -117,7 +117,6 @@ static void spice_app_atexit(void)
- static void spice_app_display_early_init(DisplayOptions *opts)
- {
-     QemuOpts *qopts;
--    ChardevBackend *be = chr_spice_backend_new();
-     GError *err = NULL;
- 
-     if (opts->has_full_screen) {
-@@ -162,6 +161,15 @@ static void spice_app_display_early_init(DisplayOptions *opts)
-     qemu_opt_set(qopts, "gl", opts->has_gl ? "on" : "off", &error_abort);
-     display_opengl = opts->has_gl;
- #endif
-+}
-+
-+static void spice_app_display_init(DisplayState *ds, DisplayOptions *opts)
-+{
-+    ChardevBackend *be = chr_spice_backend_new();
-+    QemuOpts *qopts;
-+    GError *err = NULL;
-+    gchar *uri;
-+
-     be->u.spiceport.data->fqdn = g_strdup("org.qemu.monitor.qmp.0");
-     qemu_chardev_new("org.qemu.monitor.qmp", TYPE_CHARDEV_SPICEPORT,
-                      be, NULL, &error_abort);
-@@ -171,13 +179,6 @@ static void spice_app_display_early_init(DisplayOptions *opts)
-     qemu_opt_set(qopts, "mode", "control", &error_abort);
- 
-     qapi_free_ChardevBackend(be);
--}
--
--static void spice_app_display_init(DisplayState *ds, DisplayOptions *opts)
--{
--    GError *err = NULL;
--    gchar *uri;
--
-     uri = g_strjoin("", "spice+unix://", app_dir, "/", "spice.sock", NULL);
-     info_report("Launching display with URI: %s", uri);
-     g_app_info_launch_default_for_uri(uri, NULL, &err);
-diff --git a/ui/spice-core.c b/ui/spice-core.c
-index ecc2ec2c55..37dd68f2ab 100644
---- a/ui/spice-core.c
-+++ b/ui/spice-core.c
-@@ -813,8 +813,6 @@ void qemu_spice_init(void)
-     g_free(x509_cert_file);
-     g_free(x509_cacert_file);
- 
--    qemu_spice_register_ports();
--
- #ifdef HAVE_SPICE_GL
-     if (qemu_opt_get_bool(opts, "gl", 0)) {
-         if ((port != 0) || (tls_port != 0)) {
+diff --git a/dtc b/dtc
+index 85e5d83984..88f18909db 160000
+--- a/dtc
++++ b/dtc
+@@ -1 +1 @@
+-Subproject commit 85e5d839847af54efab170f2b1331b2a6421e647
++Subproject commit 88f18909db731a627456f26d779445f84e449536
+diff --git a/roms/SLOF b/roms/SLOF
+index e18ddad851..9546892a80 160000
+--- a/roms/SLOF
++++ b/roms/SLOF
+@@ -1 +1 @@
+-Subproject commit e18ddad8516ff2cfe36ec130200318f7251aa78c
++Subproject commit 9546892a80d5a4c73deea6719de46372f007f4a6
+diff --git a/roms/openbios b/roms/openbios
+index 75fbb41d28..7e5b89e429 160000
+--- a/roms/openbios
++++ b/roms/openbios
+@@ -1 +1 @@
+-Subproject commit 75fbb41d2857d93208c74a8e0228b29fd7bf04c0
++Subproject commit 7e5b89e4295063d8eba55b9c8ce8bc681c2d129a
+diff --git a/roms/opensbi b/roms/opensbi
+index 9f1b72ce66..be92da280d 160000
+--- a/roms/opensbi
++++ b/roms/opensbi
+@@ -1 +1 @@
+-Subproject commit 9f1b72ce66d659e91013b358939e832fb27223f5
++Subproject commit be92da280d87c38a2e0adc5d3f43bab7b5468f09
+diff --git a/roms/seabios b/roms/seabios
+index 88ab0c1552..f21b5a4aeb 160000
+--- a/roms/seabios
++++ b/roms/seabios
+@@ -1 +1 @@
+-Subproject commit 88ab0c15525ced2eefe39220742efe4769089ad8
++Subproject commit f21b5a4aeb020f2a5e2c6503f906a9349dd2f069
+diff --git a/slirp b/slirp
+index 2faae0f778..126c04acba 160000
+--- a/slirp
++++ b/slirp
+@@ -1 +1 @@
+-Subproject commit 2faae0f778f818fadc873308f983289df697eb93
++Subproject commit 126c04acbabd7ad32c2b018fe10dfac2a3bc1210
 -- 
 2.26.2
 
