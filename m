@@ -2,47 +2,46 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 802C622A42B
-	for <lists+qemu-devel@lfdr.de>; Thu, 23 Jul 2020 03:02:59 +0200 (CEST)
-Received: from localhost ([::1]:58204 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id DE16F22A441
+	for <lists+qemu-devel@lfdr.de>; Thu, 23 Jul 2020 03:04:40 +0200 (CEST)
+Received: from localhost ([::1]:37168 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jyPdS-0002mF-IW
-	for lists+qemu-devel@lfdr.de; Wed, 22 Jul 2020 21:02:58 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:38404)
+	id 1jyPf5-0005fR-Vj
+	for lists+qemu-devel@lfdr.de; Wed, 22 Jul 2020 21:04:39 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:38412)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <dgibson@ozlabs.org>)
- id 1jyPaw-0008QX-6P; Wed, 22 Jul 2020 21:00:22 -0400
-Received: from bilbo.ozlabs.org ([203.11.71.1]:53295 helo=ozlabs.org)
+ id 1jyPaw-0008RO-QM; Wed, 22 Jul 2020 21:00:22 -0400
+Received: from ozlabs.org ([2401:3900:2:1::2]:36849)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <dgibson@ozlabs.org>)
- id 1jyPau-0007HK-5O; Wed, 22 Jul 2020 21:00:21 -0400
+ id 1jyPau-0007HH-Hk; Wed, 22 Jul 2020 21:00:22 -0400
 Received: by ozlabs.org (Postfix, from userid 1007)
- id 4BBvBk5hgVz9sRk; Thu, 23 Jul 2020 11:00:14 +1000 (AEST)
+ id 4BBvBk4qCWz9sRR; Thu, 23 Jul 2020 11:00:14 +1000 (AEST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
  d=gibson.dropbear.id.au; s=201602; t=1595466014;
- bh=tr7gQrN42u5aEHaqrxncV5QaQ2nEQSjtEEwFVJkNzAo=;
+ bh=Dj0Y0gkrxPHbTK/MI/TwCv7ZL7R9wEyOUsLsGzFq2Z4=;
  h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=D4BEZOPLe5WPvlQqRD22k1IHcutUcFSpDgl/8p0znAMxDe4Ml169YJVlfRkZqOqW3
- u+llE1hg1RUKpX9gojNfwSYVd9kgpxcGTI72rcEXHKsCkS3Q0qNU79a5EBYYH2qgxw
- 0uKvEqls3EmGVm143t2eyCMvfQx2Dh5oSOX2SG+k=
-Date: Thu, 23 Jul 2020 10:55:49 +1000
+ b=bBtJ7vdyoRl3HDe/HBYdeIPU1tT0SpmAmthKh15FonsXjj03Yjd3C5+LH4Gep0c5j
+ TWSD3GlK16FVF5aES+lEy3IZoS6smkDw9+K3C2Wf2nlkEpNzBMkk44hO3J9FIZ5tXi
+ ZzE1/BuwmnEYWaS7MpZysIaHyUqzb/mt3Mu1hfyc=
+Date: Thu, 23 Jul 2020 10:56:30 +1000
 From: David Gibson <david@gibson.dropbear.id.au>
 To: Thiago Jung Bauermann <bauerman@linux.ibm.com>
-Subject: Re: [PATCH v2 2/9] target/arm: Move setting of CPU halted state to
- generic code
-Message-ID: <20200723005549.GH5513@umbus.fritz.box>
+Subject: Re: [PATCH v2 4/9] ppc/e500: Use start-powered-off CPUState property
+Message-ID: <20200723005630.GI5513@umbus.fritz.box>
 References: <20200722035016.469075-1-bauerman@linux.ibm.com>
- <20200722035016.469075-3-bauerman@linux.ibm.com>
+ <20200722035016.469075-5-bauerman@linux.ibm.com>
 MIME-Version: 1.0
 Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature"; boundary="uJrvpPjGB3z5kYrA"
+ protocol="application/pgp-signature"; boundary="4BlIp4fARb6QCoOq"
 Content-Disposition: inline
-In-Reply-To: <20200722035016.469075-3-bauerman@linux.ibm.com>
-Received-SPF: pass client-ip=203.11.71.1; envelope-from=dgibson@ozlabs.org;
+In-Reply-To: <20200722035016.469075-5-bauerman@linux.ibm.com>
+Received-SPF: pass client-ip=2401:3900:2:1::2; envelope-from=dgibson@ozlabs.org;
  helo=ozlabs.org
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/07/22 20:52:06
-X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic]
+X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
+ That's all we know.
 X-Spam_score_int: -9
 X-Spam_score: -1.0
 X-Spam_bar: -
@@ -76,53 +75,58 @@ Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 
---uJrvpPjGB3z5kYrA
+--4BlIp4fARb6QCoOq
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 Content-Transfer-Encoding: quoted-printable
 
-On Wed, Jul 22, 2020 at 12:50:09AM -0300, Thiago Jung Bauermann wrote:
-> This change is in a separate patch because it's not so obvious that it
-> won't cause a regression.
+On Wed, Jul 22, 2020 at 12:50:11AM -0300, Thiago Jung Bauermann wrote:
+> Instead of setting CPUState::halted to 1 in ppce500_cpu_reset_sec(), use
+> the start-powered-off property which makes cpu_common_reset() initialize =
+it
+> to 1 in common code.
 >=20
-> Suggested-by: Eduardo Habkost <ehabkost@redhat.com>
 > Signed-off-by: Thiago Jung Bauermann <bauerman@linux.ibm.com>
 
 Reviewed-by: David Gibson <david@gibson.dropbear.id.au>
 
 > ---
->  hw/core/cpu.c    | 2 +-
->  target/arm/cpu.c | 1 -
->  2 files changed, 1 insertion(+), 2 deletions(-)
+>  hw/ppc/e500.c | 10 +++++++---
+>  1 file changed, 7 insertions(+), 3 deletions(-)
 >=20
 > NB: I was only able to test that this patch builds. I wasn't able to
-> run it on an ARM machine. I did on a ppc64le pseries KVM guest.
+> run it.
 >=20
-> diff --git a/hw/core/cpu.c b/hw/core/cpu.c
-> index 594441a150..71bb7859f1 100644
-> --- a/hw/core/cpu.c
-> +++ b/hw/core/cpu.c
-> @@ -258,7 +258,7 @@ static void cpu_common_reset(DeviceState *dev)
+> diff --git a/hw/ppc/e500.c b/hw/ppc/e500.c
+> index ab9884e315..dda71bc05d 100644
+> --- a/hw/ppc/e500.c
+> +++ b/hw/ppc/e500.c
+> @@ -704,9 +704,6 @@ static void ppce500_cpu_reset_sec(void *opaque)
+> =20
+>      cpu_reset(cs);
+> =20
+> -    /* Secondary CPU starts in halted state for now. Needs to change when
+> -       implementing non-kernel boot. */
+> -    cs->halted =3D 1;
+>      cs->exception_index =3D EXCP_HLT;
+>  }
+> =20
+> @@ -897,6 +894,13 @@ void ppce500_init(MachineState *machine)
+>          } else {
+>              /* Secondary CPUs */
+>              qemu_register_reset(ppce500_cpu_reset_sec, cpu);
+> +
+> +            /*
+> +             * Secondary CPU starts in halted state for now. Needs to ch=
+ange
+> +             * when implementing non-kernel boot.
+> +             */
+> +            object_property_set_bool(OBJECT(cs), "start-powered-off", tr=
+ue,
+> +                                     &error_abort);
+>          }
 >      }
 > =20
->      cpu->interrupt_request =3D 0;
-> -    cpu->halted =3D 0;
-> +    cpu->halted =3D cpu->start_powered_off;
->      cpu->mem_io_pc =3D 0;
->      cpu->icount_extra =3D 0;
->      atomic_set(&cpu->icount_decr_ptr->u32, 0);
-> diff --git a/target/arm/cpu.c b/target/arm/cpu.c
-> index ec65c7653f..b6c65e4df6 100644
-> --- a/target/arm/cpu.c
-> +++ b/target/arm/cpu.c
-> @@ -175,7 +175,6 @@ static void arm_cpu_reset(DeviceState *dev)
->      env->vfp.xregs[ARM_VFP_MVFR2] =3D cpu->isar.mvfr2;
-> =20
->      cpu->power_state =3D s->start_powered_off ? PSCI_OFF : PSCI_ON;
-> -    s->halted =3D s->start_powered_off;
-> =20
->      if (arm_feature(env, ARM_FEATURE_IWMMXT)) {
->          env->iwmmxt.cregs[ARM_IWMMXT_wCID] =3D 0x69051000 | 'Q';
 >=20
 
 --=20
@@ -131,25 +135,25 @@ david AT gibson.dropbear.id.au	| minimalist, thank you.  NOT _the_ _other_
 				| _way_ _around_!
 http://www.ozlabs.org/~dgibson
 
---uJrvpPjGB3z5kYrA
+--4BlIp4fARb6QCoOq
 Content-Type: application/pgp-signature; name="signature.asc"
 
 -----BEGIN PGP SIGNATURE-----
 
-iQIzBAEBCAAdFiEEdfRlhq5hpmzETofcbDjKyiDZs5IFAl8Y4BUACgkQbDjKyiDZ
-s5K3iRAApLHWr2t2WVJoDwgdjlDiUu5LgaiieQH4R6cxApqBnNYE/0oMTnsMSK9g
-LmBG1CcRcjs751PUdZTPECu8HeIk1Jjlsw6m3TZLR8k2JFYlbNjOPFJs4GqZDU74
-KQVuUp0/wIjCppuYNcpjL/i2vnRBiErKvOXy00Z3M9I3Vuux5kWjV9gpMDRuQlCG
-97KgCVmO7YR7eYDX7T4jR1DSNCz1gMeuD5AbiPPR3vk76z9wwoQ48y5+vnLA5TXk
-+iOhHsgtDtlJVVoVCCnmJuoowRzBZDuCiM8BZeGmj0smkn8+h3CcujoX5t7gE0G5
-PdaLewLS3FsZMR89LgsTVGj41EeKpN/ITUxwkdPN9pBxDWhb/pXlzQIAfJadotzZ
-AvaenDHeue4e66oLHe54XGdyTqQBq6tzAq4/Zi3qnALIjRZxC7l2Y2STuB+wkWEX
-JU6sAfme+YLZpIW3FvhvB6jbK+jwDDrRmZ3Z3j5JNy3eJeaz5XCHdZerUVAp/7F5
-SGXRmh+bjX4yb2DDI0/Q57qwaOJWUgp+53mL6758qQ9mktGL0Eekq6i1oeh5xnGZ
-LMLBY2nuftk4QCnhL5IKhxZGmcGHHqWvU/w6MjbYPjd+AG0pwqBfw3JD6R8vDVRv
-SkQQCxZRV1+APEPRjoHBH+BfdP6xagns2j/lostFo/iOVK4lD7I=
-=n6yt
+iQIzBAEBCAAdFiEEdfRlhq5hpmzETofcbDjKyiDZs5IFAl8Y4D0ACgkQbDjKyiDZ
+s5Lf5w/+PoQjOoiGcvCl8nMUJvCDIB2G8Ft0xGjbAxMJf3IYkQaLAWiczhujLem7
+GYIXtu8WpgjGZj9u+tMEKkfch9L9OtLbmpvRXXxrcBovhXu8YQPoMcjePwbJijVd
+3fxHWC6g+Dc5GUJD3ugqHQP/ntpLjr5+vZ43I6NwOtuL71INn5R5jdHhP36zrCYq
+xQQnRQT3Sg+hoD/9kkffP1qCXm1siw64RwsELLbKCVYbLyI85ZUQJqS3nxiuXlDx
+vp8gMX3NLjDevvz4wkPMOp9xq68CN1sosiQXSzenLNND2f1lx0iC0/RM8WNIvssA
+DitHjO6UJMlqrwHg423ko1G+74VKy7r/3rC91scg0ldXKjceABIGz7RhHvaImLbH
+ar5PG4uTgN6HxjVUK97dgjcFflvfn055jKAoOWOhfJZDtfiSp+JWf79JxQzf1Wt3
+iQVs6NGBxkANwhMVu7ztzJBA3NzoCvpa2fJ0xyoBW49BvNFQqNCGZ9CXeEsD5sny
+r8CQGOhSUYuGs8bmVkQmGEyqRcbDwUPXotF2tUv1iAGZ7NENJsiR+cWaPVX3qxq7
+Iu4hPpIXeMSxvnjIC393yTtzRkDA3wI3d0gG6X2iXFU1qAS3IfAWz+cRAw2ZPyI6
+1/PTAvo9RRKO6T4CPJX2ZBg6hI9DlSXWUjsmGulppBQbTDvxK8g=
+=J82A
 -----END PGP SIGNATURE-----
 
---uJrvpPjGB3z5kYrA--
+--4BlIp4fARb6QCoOq--
 
