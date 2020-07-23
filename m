@@ -2,67 +2,66 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8FDFE22A392
-	for <lists+qemu-devel@lfdr.de>; Thu, 23 Jul 2020 02:23:49 +0200 (CEST)
-Received: from localhost ([::1]:43546 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A8C9522A38E
+	for <lists+qemu-devel@lfdr.de>; Thu, 23 Jul 2020 02:21:46 +0200 (CEST)
+Received: from localhost ([::1]:36528 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jyP1Y-0007zx-Kd
-	for lists+qemu-devel@lfdr.de; Wed, 22 Jul 2020 20:23:48 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:58354)
+	id 1jyOzZ-00056H-Mj
+	for lists+qemu-devel@lfdr.de; Wed, 22 Jul 2020 20:21:45 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:58374)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from
- <3ntcYXwMKCq8hRlVddVaT.RdbfTbj-STkTacdcVcj.dgV@flex--scw.bounces.google.com>)
- id 1jyOxh-0003Me-C3
- for qemu-devel@nongnu.org; Wed, 22 Jul 2020 20:19:50 -0400
-Received: from mail-yb1-xb49.google.com ([2607:f8b0:4864:20::b49]:51917)
+ <3odcYXwMKCrIkUoYggYdW.UgeiWem-VWnWdfgfYfm.gjY@flex--scw.bounces.google.com>)
+ id 1jyOxk-0003Ni-2U
+ for qemu-devel@nongnu.org; Wed, 22 Jul 2020 20:19:52 -0400
+Received: from mail-yb1-xb49.google.com ([2607:f8b0:4864:20::b49]:37859)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from
- <3ntcYXwMKCq8hRlVddVaT.RdbfTbj-STkTacdcVcj.dgV@flex--scw.bounces.google.com>)
- id 1jyOxc-00024I-7V
- for qemu-devel@nongnu.org; Wed, 22 Jul 2020 20:19:49 -0400
-Received: by mail-yb1-xb49.google.com with SMTP id l17so4440745ybe.18
- for <qemu-devel@nongnu.org>; Wed, 22 Jul 2020 17:19:43 -0700 (PDT)
+ <3odcYXwMKCrIkUoYggYdW.UgeiWem-VWnWdfgfYfm.gjY@flex--scw.bounces.google.com>)
+ id 1jyOxh-00024T-Sn
+ for qemu-devel@nongnu.org; Wed, 22 Jul 2020 20:19:51 -0400
+Received: by mail-yb1-xb49.google.com with SMTP id e135so4535433ybf.4
+ for <qemu-devel@nongnu.org>; Wed, 22 Jul 2020 17:19:45 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=20161025;
  h=date:in-reply-to:message-id:mime-version:references:subject:from:to
- :cc; bh=flHUWQsTG5TkvofUeP5c8g/c6Px7De3nC5lYfrojDj8=;
- b=HTaP7tylh3+6Gemltd/yC+CqhJhNuwVpmWJ3in/RvO3aHMYhNLhAtD+JE9EJB2E7tn
- 7NyuT3J2DtySUQdIqeQzpNKbO8zD4E7PyyJDqyAFmOHM12UcQC0ADnFHi5K25KcFMRA8
- 2a0qBiRex4/jCEQu6ExIy88qtzVg7ssGBgp4+uVOfEP6Aqu9gvOUAyJv7dfsDmsYQ3Yx
- Jgk6NHESRwl1LdagWKamBR3o52JhdRT6eo6o2MHOqBsI+vQpeGYtVHofQPAwE4q6FGPh
- LjAPE9cBGy0lP28EXjAw0WpUu4VqLOufarORZCLseQQE+h8SfKhSp9/YUDflgc4Hkarj
- 9O8A==
+ :cc; bh=XQ2622JAxk5T9LN28W6/btS5omHEQqR3RjN3a6hCK6k=;
+ b=eZ0r1Kgssz8S/OB08jH22yr4U+bYoL52Lkz8piANEd/GGNGQm1zm44+ku7Vl8rywdc
+ V0QivId/EpvNh23uojuO6jzkUfWwcRQc0GetFquk7H4mZS9ErskIJtz9pHIoKFddLd1a
+ 4D78GMiGexzma4w4nuMC5nfpcuHVk5H70AKp+F5R7f1Tvv2LKNPFNewla7wz2XG4rwV1
+ edizAmFrUr3vm5KFrSQTNmYSogR1QgINL7Zjj5NY5Dy+aIjua/7IOK9/YP/a/IDGyzxQ
+ HmdckJtUCaBJOxhb71JWsg2924op8MhqqcjHI2G8M7JArsHF+Qx7vdvnOp8ShMcyIEjZ
+ KiXw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:date:in-reply-to:message-id:mime-version
  :references:subject:from:to:cc;
- bh=flHUWQsTG5TkvofUeP5c8g/c6Px7De3nC5lYfrojDj8=;
- b=ivWFCD0Qy2JV+f1qppPy1K3J4qktixEI7cT7J+aNOlBYVfhnjW7Y+40Qbb8dLoMQ4Z
- StXjY3hNKUdEhZ6/SrciQ13QZWkyZemxF/tQOPlSndJm8J9ruva39pqSLsTzUhVIckoR
- VYm5yVU/SvS/yAkpF39W1g5nO04doC73C5+ZoHBv9oe4OSllP4gIIjkOLi2/HqwCDchS
- k/735R5gLMZMq9KFozN/kipp5BFHmZUo1Al3sF0VMnZRMoc8u4q7ZQN+uRn+UNWug36J
- Fw4M8wLZtuQInunz/SQ0IxCnCpT49VvTBGPMIOcrkBpPK0Ug/bo6bPfyJGN6/C3fdyxu
- h5Vg==
-X-Gm-Message-State: AOAM532+74HxgmVV+6xJRHKNRQMQbT7IPfZwgmdk8w0RlhDn3VHhbaSl
- zvl/HJ5zlB9B8qIc2ussuHl2BJytOCjjMgAhIPsDYQKXXCL8rHrAg3eO2hDcTBUncYB8dBtNyXX
- pfM6FpBZ6C6EAJ2uOyWDOgjYAR8gp4o0/jRwynibGkZRtMn3NEYDi
-X-Google-Smtp-Source: ABdhPJyU8ozF8IoKyCKPo/kbfNvSVIUQ7L/fxO9K71yANHYaFKBWMXcdOZaAPfmzzmER6wIBeMmfzwY=
-X-Received: by 2002:a25:da87:: with SMTP id n129mr3206345ybf.149.1595463582787; 
- Wed, 22 Jul 2020 17:19:42 -0700 (PDT)
-Date: Wed, 22 Jul 2020 17:19:13 -0700
+ bh=XQ2622JAxk5T9LN28W6/btS5omHEQqR3RjN3a6hCK6k=;
+ b=gEBh80+U5itWCg6EcYcI+CKrpZKMJybfSq2iRbd0/FMEOQoZX0i6646BRivk2jX3rm
+ FZgx+04Vpzvo8NvuBjrnU6uHnbCOQzvhsav+PHYMtELWtU/ZZOJsvtwP96RedemHEP6d
+ 1exuh6VsJ6zqQqX1o1GzviP8oJA5q1Vo5A+aQOlqa06c3HnO0x0I8OvkaVRIrjdTUhrf
+ Nk7zulGnEm4D4zmSTlIKP7aGNb3UJ+l7I8LW2nR4Zsrxbm8bvIeWL6St+wVvNwJESdLr
+ CSiiP4aKh1PSaHgKc6BWA8gFfrpg27ZaIjEn2Ud1u4UJdfX2d3Z6pbxEgGRupfHBZhQz
+ 6uLA==
+X-Gm-Message-State: AOAM530YAArdw1pPdirAly4JTOoogbzNqkHvnZqBvgM2jhpt19dyEpvD
+ GBf5tYy5O6GwGS6ie+d14wRCMrqG7nopsOZ+uPhww7tuNMXlwt+5Cj7cwz8S2C37I/MoGnNRxB4
+ TtsI7SAEqlM2AsvwWsyQTdU/KI7HrGhKKKXLmCdGgkUo1wPjHxB/7
+X-Google-Smtp-Source: ABdhPJxYCQkfdIesHI5Y8B7ouiFl2bjZchIKnIj1UzIzHIWUcQhC3QgI5PJ9msVJz3S7YGarM1blrO4=
+X-Received: by 2002:a25:7e41:: with SMTP id z62mr2893188ybc.463.1595463585034; 
+ Wed, 22 Jul 2020 17:19:45 -0700 (PDT)
+Date: Wed, 22 Jul 2020 17:19:14 -0700
 In-Reply-To: <cover.1595461447.git.scw@google.com>
-Message-Id: <85839c0b66e423f42be587229534587b3954a126.1595461447.git.scw@google.com>
+Message-Id: <ce3b505c59a7f1467ef949eeef3165b4bdf4ccae.1595461447.git.scw@google.com>
 Mime-Version: 1.0
 References: <cover.1595461447.git.scw@google.com>
 X-Mailer: git-send-email 2.28.0.rc0.105.gf9edc3c819-goog
-Subject: [PATCH 4/6] linux-user: setsockopt() SO_TIMESTAMPNS and
- SO_TIMESTAMPING
+Subject: [PATCH 5/6] thunk: supports flexible arrays
 From: Shu-Chun Weng <scw@google.com>
 To: qemu-devel@nongnu.org
-Cc: Shu-Chun Weng <scw@google.com>, laurent@vivier.eu, alex.bennee@linaro.org
+Cc: Shu-Chun Weng <scw@google.com>, laurent@vivier.eu, riku.voipio@iki.fi
 Content-Type: text/plain; charset="UTF-8"
 Received-SPF: pass client-ip=2607:f8b0:4864:20::b49;
- envelope-from=3ntcYXwMKCq8hRlVddVaT.RdbfTbj-STkTacdcVcj.dgV@flex--scw.bounces.google.com;
+ envelope-from=3odcYXwMKCrIkUoYggYdW.UgeiWem-VWnWdfgfYfm.gjY@flex--scw.bounces.google.com;
  helo=mail-yb1-xb49.google.com
 X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
  That's all we know.
@@ -88,971 +87,314 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-This change supports SO_TIMESTAMPNS_OLD/NEW and SO_TIMESTAMPING_OLD/NEW
-for setsocketopt() with SOL_SOCKET. Based on the SO_TIMESTAMP_OLD/NEW
-framework. The three pairs share the same flag `SOCK_TSTAMP_NEW` in
-linux kernel for deciding if the old or the new format is used.
+Flexible arrays may appear in the last field of a struct and are heavily
+used in the ioctl(SIOCETHTOOL) system call on Linux. E.g.
+
+  struct ethtool_regs {
+      __u32   cmd;
+      __u32   version; /* driver-specific, indicates different chips/revs */
+      __u32   len; /* bytes */
+      __u8    data[0];
+  };
+
+where number of elements in `data` is specified in `len`. It is translated
+into:
+
+  STRUCT(ethtool_regs,
+         TYPE_INT, /* cmd */
+         TYPE_INT, /* version */
+         TYPE_INT, /* len */
+         MK_FLEXIBLE_ARRAY(TYPE_CHAR, 2)) /* data[0]: len */
+
+where the "2" passed to `MK_FLEXIBLE_ARRAY` means the number of element
+is specified by field number 2 (0-index).
 
 Signed-off-by: Shu-Chun Weng <scw@google.com>
 ---
- linux-user/alpha/sockbits.h            |  13 +-
- linux-user/generic/sockbits.h          |   8 +
- linux-user/hppa/sockbits.h             |  12 +-
- linux-user/mips/sockbits.h             |   8 +
- linux-user/sparc/sockbits.h            |  13 +-
- linux-user/strace.c                    |  12 +
- linux-user/syscall.c                   | 119 ++++++-
- tests/tcg/multiarch/socket_timestamp.c | 458 +++++++++++++++++++------
- 8 files changed, 521 insertions(+), 122 deletions(-)
+ include/exec/user/thunk.h |  20 +++++
+ thunk.c                   | 151 +++++++++++++++++++++++++++++++++++++-
+ 2 files changed, 169 insertions(+), 2 deletions(-)
 
-diff --git a/linux-user/alpha/sockbits.h b/linux-user/alpha/sockbits.h
-index 40f0644df0..c2c88f432b 100644
---- a/linux-user/alpha/sockbits.h
-+++ b/linux-user/alpha/sockbits.h
-@@ -51,8 +51,6 @@
+diff --git a/include/exec/user/thunk.h b/include/exec/user/thunk.h
+index 7992475c9f..080d84e806 100644
+--- a/include/exec/user/thunk.h
++++ b/include/exec/user/thunk.h
+@@ -39,12 +39,19 @@ typedef enum argtype {
+     TYPE_ARRAY,
+     TYPE_STRUCT,
+     TYPE_OLDDEVT,
++    TYPE_FLEXIBLE_ARRAY,
+ } argtype;
  
- #define TARGET_SO_PEERSEC       30
- #define TARGET_SO_PASSSEC       34
--#define TARGET_SO_TIMESTAMPNS       35
--#define TARGET_SCM_TIMESTAMPNS      TARGET_SO_TIMESTAMPNS
+ #define MK_PTR(type) TYPE_PTR, type
+ #define MK_ARRAY(type, size) TYPE_ARRAY, size, type
+ #define MK_STRUCT(id) TYPE_STRUCT, id
  
- /* Security levels - as per NRL IPv6 - don't actually do anything */
- #define TARGET_SO_SECURITY_AUTHENTICATION       19
-@@ -61,9 +59,6 @@
++/* Should only appear as the last element of a TYPE_STRUCT. `len_field_idx` is
++ * the index into the fields in the enclosing struct that specify the length of
++ * the flexibly array. The length field MUST be a TYPE_INT field. */
++#define MK_FLEXIBLE_ARRAY(type, len_field_idx) \
++    TYPE_FLEXIBLE_ARRAY, len_field_idx, type
++
+ #define THUNK_TARGET 0
+ #define THUNK_HOST   1
  
- #define TARGET_SO_MARK          36
+@@ -55,6 +62,8 @@ typedef struct {
+     int *field_offsets[2];
+     /* special handling */
+     void (*convert[2])(void *dst, const void *src);
++    int (*thunk_size[2])(const void *src);
++
+     int size[2];
+     int align[2];
+     const char *name;
+@@ -75,6 +84,11 @@ const argtype *thunk_convert(void *dst, const void *src,
+                              const argtype *type_ptr, int to_host);
+ const argtype *thunk_print(void *arg, const argtype *type_ptr);
  
--#define TARGET_SO_TIMESTAMPING      37
--#define TARGET_SCM_TIMESTAMPING TARGET_SO_TIMESTAMPING
--
- #define TARGET_SO_RXQ_OVFL             40
++bool thunk_type_has_flexible_array(const argtype *type_ptr);
++/* thunk_type_size but can handle TYPE_FLEXIBLE_ARRAY */
++int thunk_type_size_with_src(const void *src, const argtype *type_ptr,
++                             int is_host);
++
+ extern StructEntry *struct_entries;
  
- #define TARGET_SO_WIFI_STATUS       41
-@@ -75,9 +70,17 @@
+ int thunk_type_size_array(const argtype *type_ptr, int is_host);
+@@ -137,6 +151,10 @@ static inline int thunk_type_size(const argtype *type_ptr, int is_host)
+     case TYPE_STRUCT:
+         se = struct_entries + type_ptr[1];
+         return se->size[is_host];
++    case TYPE_FLEXIBLE_ARRAY:
++        /* Flexible arrays do not count toward sizeof(). Users of structures
++         * containing them need to calculate it themselves. */
++        return 0;
+     default:
+         g_assert_not_reached();
+     }
+@@ -187,6 +205,8 @@ static inline int thunk_type_align(const argtype *type_ptr, int is_host)
+     case TYPE_STRUCT:
+         se = struct_entries + type_ptr[1];
+         return se->align[is_host];
++    case TYPE_FLEXIBLE_ARRAY:
++        return thunk_type_align_array(type_ptr + 2, is_host);
+     default:
+         g_assert_not_reached();
+     }
+diff --git a/thunk.c b/thunk.c
+index c5d9719747..7b89332712 100644
+--- a/thunk.c
++++ b/thunk.c
+@@ -50,6 +50,8 @@ static inline const argtype *thunk_type_next(const argtype *type_ptr)
+         return thunk_type_next_ptr(type_ptr + 1);
+     case TYPE_STRUCT:
+         return type_ptr + 1;
++    case TYPE_FLEXIBLE_ARRAY:
++        return thunk_type_next_ptr(type_ptr + 1);
+     default:
+         return NULL;
+     }
+@@ -122,6 +124,34 @@ void thunk_register_struct_direct(int id, const char *name,
+     se->name = name;
+ }
  
- #define TARGET_SO_TIMESTAMP_OLD        29
- #define TARGET_SCM_TIMESTAMP_OLD       TARGET_SO_TIMESTAMP_OLD
-+#define TARGET_SO_TIMESTAMPNS_OLD      35
-+#define TARGET_SCM_TIMESTAMPNS_OLD     TARGET_SO_TIMESTAMPNS_OLD
-+#define TARGET_SO_TIMESTAMPING_OLD     37
-+#define TARGET_SCM_TIMESTAMPING_OLD    TARGET_SO_TIMESTAMPING_OLD
++static const argtype *
++thunk_convert_flexible_array(void *dst, const void *src,
++                             const uint8_t *dst_struct,
++                             const uint8_t *src_struct, const argtype *type_ptr,
++                             const StructEntry *se, int to_host) {
++    int len_field_idx, dst_size, src_size, i;
++    uint32_t array_length;
++    uint8_t *d;
++    const uint8_t *s;
++
++    assert(*type_ptr == TYPE_FLEXIBLE_ARRAY);
++    type_ptr++;
++    len_field_idx = *type_ptr++;
++    array_length =
++        *(const uint32_t *)(to_host ?
++                            dst_struct + se->field_offsets[1][len_field_idx] :
++                            src_struct + se->field_offsets[0][len_field_idx]);
++    dst_size = thunk_type_size(type_ptr, to_host);
++    src_size = thunk_type_size(type_ptr, to_host);
++    d = dst;
++    s = src;
++    for (i = 0; i < array_length; i++) {
++        thunk_convert(d, s, type_ptr, to_host);
++        d += dst_size;
++        s += src_size;
++    }
++    return thunk_type_next(type_ptr);
++}
  
- #define TARGET_SO_TIMESTAMP_NEW        63
- #define TARGET_SCM_TIMESTAMP_NEW       TARGET_SO_TIMESTAMP_NEW
-+#define TARGET_SO_TIMESTAMPNS_NEW      64
-+#define TARGET_SCM_TIMESTAMPNS_NEW     TARGET_SO_TIMESTAMPNS_NEW
-+#define TARGET_SO_TIMESTAMPING_NEW     65
-+#define TARGET_SCM_TIMESTAMPING_NEW    TARGET_SO_TIMESTAMPING_NEW
+ /* now we can define the main conversion functions */
+ const argtype *thunk_convert(void *dst, const void *src,
+@@ -246,7 +276,7 @@ const argtype *thunk_convert(void *dst, const void *src,
  
- /* TARGET_O_NONBLOCK clashes with the bits used for socket types.  Therefore we
-  * have to define SOCK_NONBLOCK to a different value here.
-diff --git a/linux-user/generic/sockbits.h b/linux-user/generic/sockbits.h
-index 532cf2d3dc..a0496d8751 100644
---- a/linux-user/generic/sockbits.h
-+++ b/linux-user/generic/sockbits.h
-@@ -56,8 +56,16 @@
- 
- #define TARGET_SO_TIMESTAMP_OLD        29
- #define TARGET_SCM_TIMESTAMP_OLD       TARGET_SO_TIMESTAMP_OLD
-+#define TARGET_SO_TIMESTAMPNS_OLD      35
-+#define TARGET_SCM_TIMESTAMPNS_OLD     TARGET_SO_TIMESTAMPNS_OLD
-+#define TARGET_SO_TIMESTAMPING_OLD     37
-+#define TARGET_SCM_TIMESTAMPING_OLD    TARGET_SO_TIMESTAMPING_OLD
- 
- #define TARGET_SO_TIMESTAMP_NEW        63
- #define TARGET_SCM_TIMESTAMP_NEW       TARGET_SO_TIMESTAMP_NEW
-+#define TARGET_SO_TIMESTAMPNS_NEW      64
-+#define TARGET_SCM_TIMESTAMPNS_NEW     TARGET_SO_TIMESTAMPNS_NEW
-+#define TARGET_SO_TIMESTAMPING_NEW     65
-+#define TARGET_SCM_TIMESTAMPING_NEW    TARGET_SO_TIMESTAMPING_NEW
- 
- #endif
-diff --git a/linux-user/hppa/sockbits.h b/linux-user/hppa/sockbits.h
-index 284a47e74e..d7e9aa340d 100644
---- a/linux-user/hppa/sockbits.h
-+++ b/linux-user/hppa/sockbits.h
-@@ -29,8 +29,6 @@
- #define TARGET_SO_BSDCOMPAT    0x400e
- #define TARGET_SO_PASSCRED     0x4010
- #define TARGET_SO_PEERCRED     0x4011
--#define TARGET_SO_TIMESTAMPNS  0x4013
--#define TARGET_SCM_TIMESTAMPNS TARGET_SO_TIMESTAMPNS
- 
- #define TARGET_SO_SECURITY_AUTHENTICATION              0x4016
- #define TARGET_SO_SECURITY_ENCRYPTION_TRANSPORT        0x4017
-@@ -44,8 +42,6 @@
- #define TARGET_SO_PEERSEC              0x401d
- #define TARGET_SO_PASSSEC              0x401e
- #define TARGET_SO_MARK                 0x401f
--#define TARGET_SO_TIMESTAMPING         0x4020
--#define TARGET_SCM_TIMESTAMPING        TARGET_SO_TIMESTAMPING
- #define TARGET_SO_RXQ_OVFL             0x4021
- #define TARGET_SO_WIFI_STATUS          0x4022
- #define TARGET_SCM_WIFI_STATUS         TARGET_SO_WIFI_STATUS
-@@ -67,9 +63,17 @@
- 
- #define TARGET_SO_TIMESTAMP_OLD        0x4012
- #define TARGET_SCM_TIMESTAMP_OLD       TARGET_SO_TIMESTAMP_OLD
-+#define TARGET_SO_TIMESTAMPNS_OLD      0x4013
-+#define TARGET_SCM_TIMESTAMPNS_OLD     TARGET_SO_TIMESTAMPNS_OLD
-+#define TARGET_SO_TIMESTAMPING_OLD     0x4020
-+#define TARGET_SCM_TIMESTAMPING_OLD    TARGET_SO_TIMESTAMPING_OLD
- 
- #define TARGET_SO_TIMESTAMP_NEW        0x4038
- #define TARGET_SCM_TIMESTAMP_NEW       TARGET_SO_TIMESTAMP_NEW
-+#define TARGET_SO_TIMESTAMPNS_NEW      0x4039
-+#define TARGET_SCM_TIMESTAMPNS_NEW     TARGET_SO_TIMESTAMPNS_NEW
-+#define TARGET_SO_TIMESTAMPING_NEW     0x403A
-+#define TARGET_SCM_TIMESTAMPING_NEW    TARGET_SO_TIMESTAMPING_NEW
- 
- /* TARGET_O_NONBLOCK clashes with the bits used for socket types.  Therefore we
-  * have to define SOCK_NONBLOCK to a different value here.
-diff --git a/linux-user/mips/sockbits.h b/linux-user/mips/sockbits.h
-index b4c39d9588..49524e23ac 100644
---- a/linux-user/mips/sockbits.h
-+++ b/linux-user/mips/sockbits.h
-@@ -69,9 +69,17 @@
- 
- #define TARGET_SO_TIMESTAMP_OLD        29
- #define TARGET_SCM_TIMESTAMP_OLD       TARGET_SO_TIMESTAMP_OLD
-+#define TARGET_SO_TIMESTAMPNS_OLD      35
-+#define TARGET_SCM_TIMESTAMPNS_OLD     TARGET_SO_TIMESTAMPNS_OLD
-+#define TARGET_SO_TIMESTAMPING_OLD     37
-+#define TARGET_SCM_TIMESTAMPING_OLD    TARGET_SO_TIMESTAMPING_OLD
- 
- #define TARGET_SO_TIMESTAMP_NEW        63
- #define TARGET_SCM_TIMESTAMP_NEW       TARGET_SO_TIMESTAMP_NEW
-+#define TARGET_SO_TIMESTAMPNS_NEW      64
-+#define TARGET_SCM_TIMESTAMPNS_NEW     TARGET_SO_TIMESTAMPNS_NEW
-+#define TARGET_SO_TIMESTAMPING_NEW     65
-+#define TARGET_SCM_TIMESTAMPING_NEW    TARGET_SO_TIMESTAMPING_NEW
- 
- /** sock_type - Socket types
-  *
-diff --git a/linux-user/sparc/sockbits.h b/linux-user/sparc/sockbits.h
-index 07440efd14..c5fade3ad1 100644
---- a/linux-user/sparc/sockbits.h
-+++ b/linux-user/sparc/sockbits.h
-@@ -51,14 +51,9 @@
- 
- #define TARGET_SO_PEERSEC              0x001e
- #define TARGET_SO_PASSSEC              0x001f
--#define TARGET_SO_TIMESTAMPNS          0x0021
--#define TARGET_SCM_TIMESTAMPNS         TARGET_SO_TIMESTAMPNS
- 
- #define TARGET_SO_MARK                 0x0022
- 
--#define TARGET_SO_TIMESTAMPING         0x0023
--#define TARGET_SCM_TIMESTAMPING        TARGET_SO_TIMESTAMPING
--
- #define TARGET_SO_RXQ_OVFL             0x0024
- 
- #define TARGET_SO_WIFI_STATUS          0x0025
-@@ -104,9 +99,17 @@
- 
- #define TARGET_SO_TIMESTAMP_OLD        0x001d
- #define TARGET_SCM_TIMESTAMP_OLD       TARGET_SO_TIMESTAMP_OLD
-+#define TARGET_SO_TIMESTAMPNS_OLD      0x0021
-+#define TARGET_SCM_TIMESTAMPNS_OLD     TARGET_SO_TIMESTAMPNS_OLD
-+#define TARGET_SO_TIMESTAMPING_OLD     0x0023
-+#define TARGET_SCM_TIMESTAMPING_OLD    TARGET_SO_TIMESTAMPING_OLD
- 
- #define TARGET_SO_TIMESTAMP_NEW        0x0046
- #define TARGET_SCM_TIMESTAMP_NEW       TARGET_SO_TIMESTAMP_NEW
-+#define TARGET_SO_TIMESTAMPNS_NEW      0x0042
-+#define TARGET_SCM_TIMESTAMPNS_NEW     TARGET_SO_TIMESTAMPNS_NEW
-+#define TARGET_SO_TIMESTAMPING_NEW     0x0043
-+#define TARGET_SCM_TIMESTAMPING_NEW    TARGET_SO_TIMESTAMPING_NEW
- 
- /* Security levels - as per NRL IPv6 - don't actually do anything */
- #define TARGET_SO_SECURITY_AUTHENTICATION              0x5001
-diff --git a/linux-user/strace.c b/linux-user/strace.c
-index 369cfcd7bd..603723d6c8 100644
---- a/linux-user/strace.c
-+++ b/linux-user/strace.c
-@@ -2216,9 +2216,21 @@ print_optint:
-         case TARGET_SO_TIMESTAMP_OLD:
-             qemu_log("SO_TIMESTAMP_OLD,");
-             goto print_optint;
-+        case TARGET_SO_TIMESTAMPNS_OLD:
-+            qemu_log("SO_TIMESTAMPNS_OLD,");
-+            goto print_optint;
-+        case TARGET_SO_TIMESTAMPING_OLD:
-+            qemu_log("SO_TIMESTAMPING_OLD,");
-+            goto print_optint;
-         case TARGET_SO_TIMESTAMP_NEW:
-             qemu_log("SO_TIMESTAMP_NEW,");
-             goto print_optint;
-+        case TARGET_SO_TIMESTAMPNS_NEW:
-+            qemu_log("SO_TIMESTAMPNS_NEW,");
-+            goto print_optint;
-+        case TARGET_SO_TIMESTAMPING_NEW:
-+            qemu_log("SO_TIMESTAMPING_NEW,");
-+            goto print_optint;
-         case TARGET_SO_RCVLOWAT:
-             qemu_log("SO_RCVLOWAT,");
-             goto print_optint;
-diff --git a/linux-user/syscall.c b/linux-user/syscall.c
-index 7f95ccda7f..483f8ce48f 100644
---- a/linux-user/syscall.c
-+++ b/linux-user/syscall.c
-@@ -1764,6 +1764,28 @@ static inline abi_long host_to_target_cmsg(struct target_msghdr *target_msgh,
-                     target_cmsg->cmsg_type = tswap32(TARGET_SCM_TIMESTAMP_OLD);
-                 }
-                 break;
-+            case SCM_TIMESTAMPNS:
-+                if (target_uses_timeval64) {
-+                    tgt_len = sizeof(struct target__kernel_timespec);
-+                    target_cmsg->cmsg_type =
-+                        tswap32(TARGET_SCM_TIMESTAMPNS_NEW);
-+                } else {
-+                    tgt_len = sizeof(struct target_timespec);
-+                    target_cmsg->cmsg_type =
-+                        tswap32(TARGET_SCM_TIMESTAMPNS_OLD);
-+                }
-+                break;
-+            case SCM_TIMESTAMPING:
-+                if (target_uses_timeval64) {
-+                    tgt_len = sizeof(struct target__kernel_timespec[3]);
-+                    target_cmsg->cmsg_type =
-+                        tswap32(TARGET_SCM_TIMESTAMPING_NEW);
-+                } else {
-+                    tgt_len = sizeof(struct target_timespec[3]);
-+                    target_cmsg->cmsg_type =
-+                        tswap32(TARGET_SCM_TIMESTAMPING_OLD);
-+                }
-+                break;
-             default:
-                 break;
+             assert(*type_ptr < max_struct_entries);
+             se = struct_entries + *type_ptr++;
+-            if (se->convert[0] != NULL) {
++            if (se->convert[to_host] != NULL) {
+                 /* specific conversion is needed */
+                 (*se->convert[to_host])(dst, src);
+             } else {
+@@ -256,7 +286,18 @@ const argtype *thunk_convert(void *dst, const void *src,
+                 src_offsets = se->field_offsets[1 - to_host];
+                 d = dst;
+                 s = src;
+-                for(i = 0;i < se->nb_fields; i++) {
++                for(i = 0; i < se->nb_fields; i++) {
++                    if (*field_types == TYPE_FLEXIBLE_ARRAY) {
++                        field_types = thunk_convert_flexible_array(
++                            d + dst_offsets[i],
++                            s + src_offsets[i],
++                            d,
++                            s,
++                            field_types,
++                            se,
++                            to_host);
++                        continue;
++                    }
+                     field_types = thunk_convert(d + dst_offsets[i],
+                                                 s + src_offsets[i],
+                                                 field_types, to_host);
+@@ -264,6 +305,11 @@ const argtype *thunk_convert(void *dst, const void *src,
              }
-@@ -1824,6 +1846,67 @@ static inline abi_long host_to_target_cmsg(struct target_msghdr *target_msgh,
-                 }
-                 break;
-             }
-+            case SCM_TIMESTAMPNS:
-+            {
-+                struct timespec *ts = (struct timespec *)data;
-+                if (len != sizeof(struct timespec)) {
-+                    goto unimplemented;
-+                }
-+
-+                if (target_uses_timeval64) {
-+                    struct target__kernel_timespec *target_ts =
-+                        (struct target__kernel_timespec *)target_data;
-+                    if (tgt_len != sizeof(struct target__kernel_timespec)) {
-+                        goto unimplemented;
-+                    }
-+
-+                    __put_user(ts->tv_sec, &target_ts->tv_sec);
-+                    __put_user(ts->tv_nsec, &target_ts->tv_nsec);
-+                } else {
-+                    struct target_timespec *target_ts =
-+                        (struct target_timespec *)target_data;
-+                    if (tgt_len != sizeof(struct target_timespec)) {
-+                        goto unimplemented;
-+                    }
-+
-+                    __put_user(ts->tv_sec, &target_ts->tv_sec);
-+                    __put_user(ts->tv_nsec, &target_ts->tv_nsec);
-+                }
-+                break;
-+            }
-+            case SCM_TIMESTAMPING:
-+            {
-+                int i;
-+                struct timespec *ts = (struct timespec *)data;
-+                if (len != sizeof(struct timespec[3])) {
-+                    goto unimplemented;
-+                }
-+
-+                if (target_uses_timeval64) {
-+                    struct target__kernel_timespec *target_ts =
-+                        (struct target__kernel_timespec *)target_data;
-+                    if (tgt_len != sizeof(struct target__kernel_timespec[3])) {
-+                        goto unimplemented;
-+                    }
-+
-+                    for (i = 0; i < 3; ++i) {
-+                        __put_user(ts[i].tv_sec, &target_ts[i].tv_sec);
-+                        __put_user(ts[i].tv_nsec, &target_ts[i].tv_nsec);
-+                    }
-+                } else {
-+                    struct target_timespec *target_ts =
-+                        (struct target_timespec *)target_data;
-+                    if (tgt_len != sizeof(struct target_timespec[3])) {
-+                        goto unimplemented;
-+                    }
-+
-+                    for (i = 0; i < 3; ++i) {
-+                        __put_user(ts[i].tv_sec, &target_ts[i].tv_sec);
-+                        __put_user(ts[i].tv_nsec, &target_ts[i].tv_nsec);
-+                    }
-+                }
-+                break;
-+            }
-             case SCM_CREDENTIALS:
-             {
-                 struct ucred *cred = (struct ucred *)data;
-@@ -2362,6 +2445,18 @@ set_timeout:
-                 timestamp_format_is_new = (optname == TARGET_SO_TIMESTAMP_NEW);
-                 optname = SO_TIMESTAMP;
-                 break;
-+        case TARGET_SO_TIMESTAMPNS_OLD:
-+        case TARGET_SO_TIMESTAMPNS_NEW:
-+                timestamp_format_is_new =
-+                    (optname == TARGET_SO_TIMESTAMPNS_NEW);
-+                optname = SO_TIMESTAMPNS;
-+                break;
-+        case TARGET_SO_TIMESTAMPING_OLD:
-+        case TARGET_SO_TIMESTAMPING_NEW:
-+                timestamp_format_is_new =
-+                    (optname == TARGET_SO_TIMESTAMPING_NEW);
-+                optname = SO_TIMESTAMPING;
-+                break;
-         case TARGET_SO_RCVLOWAT:
- 		optname = SO_RCVLOWAT;
- 		break;
-@@ -2374,7 +2469,9 @@ set_timeout:
- 	if (get_user_u32(val, optval_addr))
-             return -TARGET_EFAULT;
- 	ret = get_errno(setsockopt(sockfd, SOL_SOCKET, optname, &val, sizeof(val)));
--        if (!is_error(ret) && optname == SO_TIMESTAMP) {
-+        if (!is_error(ret) &&
-+            (optname == SO_TIMESTAMP || optname == SO_TIMESTAMPNS ||
-+             optname == SO_TIMESTAMPING)) {
-             fd_trans_mark_socket_timestamp_new(sockfd, timestamp_format_is_new);
          }
          break;
-@@ -2615,6 +2712,20 @@ get_timeout:
-                  (optname == TARGET_SO_TIMESTAMP_NEW));
-             optname = SO_TIMESTAMP;
-             goto int_case;
-+        case TARGET_SO_TIMESTAMPNS_OLD:
-+        case TARGET_SO_TIMESTAMPNS_NEW:
-+            timestamp_format_matches =
-+                (fd_trans_socket_timestamp_new(sockfd) ==
-+                 (optname == TARGET_SO_TIMESTAMPNS_NEW));
-+            optname = SO_TIMESTAMPNS;
-+            goto int_case;
-+        case TARGET_SO_TIMESTAMPING_OLD:
-+        case TARGET_SO_TIMESTAMPING_NEW:
-+            timestamp_format_matches =
-+                (fd_trans_socket_timestamp_new(sockfd) ==
-+                 (optname == TARGET_SO_TIMESTAMPING_NEW));
-+            optname = SO_TIMESTAMPING;
-+            goto int_case;
-         case TARGET_SO_RCVLOWAT:
-             optname = SO_RCVLOWAT;
-             goto int_case;
-@@ -2639,9 +2750,9 @@ get_timeout:
-             return ret;
-         if (optname == SO_TYPE) {
-             val = host_to_target_sock_type(val);
--        }
--        if (optname == SO_TIMESTAMP) {
--            val = val && timestamp_format_matches;
-+        } else if ((optname == SO_TIMESTAMP || optname == SO_TIMESTAMPNS ||
-+                    optname == SO_TIMESTAMPING) && !timestamp_format_matches) {
-+            val = 0;
++    case TYPE_FLEXIBLE_ARRAY:
++        fprintf(stderr,
++                "Invalid flexible array (type 0x%x) outside of a structure\n",
++                type);
++        break;
+     default:
+         fprintf(stderr, "Invalid type 0x%x\n", type);
+         break;
+@@ -271,6 +317,45 @@ const argtype *thunk_convert(void *dst, const void *src,
+     return type_ptr;
+ }
+ 
++static const argtype *
++thunk_print_flexible_array(void *arg, const uint8_t *arg_struct,
++                           const argtype *type_ptr, const StructEntry *se) {
++    int array_length, len_field_idx, arg_size, i;
++    uint8_t *a;
++    int is_string = 0;
++
++    assert(*type_ptr == TYPE_FLEXIBLE_ARRAY);
++    type_ptr++;
++    len_field_idx = *type_ptr++;
++
++    array_length = tswap32(
++        *(const uint32_t *)(arg_struct + se->field_offsets[0][len_field_idx]));
++    arg_size = thunk_type_size(type_ptr, 0);
++    a = arg;
++
++    if (*type_ptr == TYPE_CHAR) {
++        qemu_log("\"");
++        is_string = 1;
++    } else {
++        qemu_log("[");
++    }
++
++    for (i = 0; i < array_length; i++) {
++        if (i > 0 && !is_string) {
++            qemu_log(",");
++        }
++        thunk_print(a, type_ptr);
++        a += arg_size;
++    }
++
++    if (is_string) {
++        qemu_log("\"");
++    } else {
++        qemu_log("]");
++    }
++    return thunk_type_next(type_ptr);
++}
++
+ const argtype *thunk_print(void *arg, const argtype *type_ptr)
+ {
+     int type;
+@@ -414,17 +499,79 @@ const argtype *thunk_print(void *arg, const argtype *type_ptr)
+                 if (i > 0) {
+                     qemu_log(",");
+                 }
++                if (*field_types == TYPE_FLEXIBLE_ARRAY) {
++                    field_types = thunk_print_flexible_array(
++                        a + arg_offsets[i], a, field_types, se);
++                    continue;
++                }
+                 field_types = thunk_print(a + arg_offsets[i], field_types);
+             }
+             qemu_log("}");
          }
-         if (len > lv)
-             len = lv;
-diff --git a/tests/tcg/multiarch/socket_timestamp.c b/tests/tcg/multiarch/socket_timestamp.c
-index fd2833e5c8..fe6059226b 100644
---- a/tests/tcg/multiarch/socket_timestamp.c
-+++ b/tests/tcg/multiarch/socket_timestamp.c
-@@ -1,5 +1,6 @@
- #include <assert.h>
- #include <errno.h>
-+#include <linux/net_tstamp.h>
- #include <linux/types.h>
- #include <netinet/in.h>
- #include <stdint.h>
-@@ -11,6 +12,7 @@
- #include <sys/time.h>
- #include <sys/types.h>
- #include <sys/wait.h>
-+#include <time.h>
- #include <unistd.h>
- 
- #ifdef __kernel_old_timeval
-@@ -29,6 +31,38 @@ struct kernel_sock_timeval
-     int64_t tv_usec;
- };
- 
-+struct kernel_old_timespec
-+{
-+    __kernel_long_t tv_sec;
-+    long            tv_nsec;
-+};
-+
-+struct kernel_timespec
-+{
-+    int64_t   tv_sec;
-+    long long tv_nsec;
-+};
-+
-+struct scm_timestamping
-+{
-+    struct timespec ts[3];
-+};
-+
-+struct scm_old_timestamping
-+{
-+    struct kernel_old_timespec ts[3];
-+};
-+
-+struct scm_timestamping64
-+{
-+    struct kernel_timespec ts[3];
-+};
-+
-+const int so_timestamping_flags =
-+    SOF_TIMESTAMPING_RX_HARDWARE |
-+    SOF_TIMESTAMPING_RX_SOFTWARE |
-+    SOF_TIMESTAMPING_SOFTWARE;
-+
- int create_udp_socket(struct sockaddr_in *sockaddr)
- {
-     socklen_t sockaddr_len;
-@@ -62,43 +96,47 @@ int create_udp_socket(struct sockaddr_in *sockaddr)
- /* Checks that the timestamp in the message is not after the reception timestamp
-  * as well as the reception time is within 10 seconds of the message time.
-  */
--void check_timestamp_difference(const struct timeval *msg_tv,
--                                const struct timeval *pkt_tv)
-+void check_timestamp_difference(const struct timespec *msg_ts,
-+                                const struct timespec *pkt_ts)
- {
--    if (pkt_tv->tv_sec < msg_tv->tv_sec ||
--        (pkt_tv->tv_sec == msg_tv->tv_sec && pkt_tv->tv_usec < msg_tv->tv_usec))
-+    if (pkt_ts->tv_sec < msg_ts->tv_sec ||
-+        (pkt_ts->tv_sec == msg_ts->tv_sec && pkt_ts->tv_nsec < msg_ts->tv_nsec))
-     {
-         fprintf(stderr,
--                "Packet received before sent: %lld.%06lld < %lld.%06lld\n",
--                (long long)pkt_tv->tv_sec, (long long)pkt_tv->tv_usec,
--                (long long)msg_tv->tv_sec, (long long)msg_tv->tv_usec);
-+                "Packet received before sent: %lld.%06lld < %lld.%09lld\n",
-+                (long long)pkt_ts->tv_sec, (long long)pkt_ts->tv_nsec,
-+                (long long)msg_ts->tv_sec, (long long)msg_ts->tv_nsec);
-         exit(-1);
+         break;
++    case TYPE_FLEXIBLE_ARRAY:
++        fprintf(stderr,
++                "Invalid flexible array (type 0x%x) outside of a structure\n",
++                type);
++        break;
+     default:
+         g_assert_not_reached();
      }
- 
--    if (pkt_tv->tv_sec > msg_tv->tv_sec + 10 ||
--        (pkt_tv->tv_sec == msg_tv->tv_sec + 10 &&
--         pkt_tv->tv_usec > msg_tv->tv_usec)) {
-+    if (pkt_ts->tv_sec > msg_ts->tv_sec + 10 ||
-+        (pkt_ts->tv_sec == msg_ts->tv_sec + 10 &&
-+         pkt_ts->tv_nsec > msg_ts->tv_nsec)) {
-         fprintf(stderr,
-                 "Packet received more than 10 seconds after sent: "
--                "%lld.%06lld > %lld.%06lld + 10\n",
--                (long long)pkt_tv->tv_sec, (long long)pkt_tv->tv_usec,
--                (long long)msg_tv->tv_sec, (long long)msg_tv->tv_usec);
-+                "%lld.%06lld > %lld.%09lld + 10\n",
-+                (long long)pkt_ts->tv_sec, (long long)pkt_ts->tv_nsec,
-+                (long long)msg_ts->tv_sec, (long long)msg_ts->tv_nsec);
-         exit(-1);
-     }
+     return type_ptr;
  }
  
- void send_current_time(int sock, struct sockaddr_in server_sockaddr)
- {
--    struct timeval tv = {0, 0};
--    gettimeofday(&tv, NULL);
--    sendto(sock, &tv, sizeof(tv), 0, (struct sockaddr *)&server_sockaddr,
-+    struct timespec ts = {0, 0};
-+    clock_gettime(CLOCK_REALTIME, &ts);
-+#ifdef MSG_CONFIRM
-+    const int flags = MSG_CONFIRM;
-+#else
-+    const int flags = 0;
-+#endif
-+    sendto(sock, &ts, sizeof(ts), flags, (struct sockaddr *)&server_sockaddr,
-            sizeof(server_sockaddr));
- }
- 
--typedef void (*get_timeval_t)(const struct cmsghdr *cmsg, struct timeval *tv);
--
-+typedef void (*get_timespec_t)(const struct cmsghdr *cmsg, struct timespec *tv);
- 
--void receive_packet(int sock, get_timeval_t get_timeval)
-+void receive_packet(int sock, get_timespec_t get_timespec)
- {
-     struct msghdr msg = {0};
- 
-@@ -106,12 +144,14 @@ void receive_packet(int sock, get_timeval_t get_timeval)
-     struct iovec iov;
- 
-     union {
--        /* 128 bytes should cover all imaginable timeval/timespec*/
-+        /* 128 bytes are enough for all existing
-+         * timeval/timespec/scm_timestamping structures.
-+         */
-         char cmsg_buf[CMSG_SPACE(128)];
-         struct cmsghdr align;
-     } u;
-     struct cmsghdr *cmsg;
--    struct timeval msg_tv, pkt_tv;
-+    struct timespec msg_ts, pkt_ts;
- 
-     int res;
- 
-@@ -126,160 +166,370 @@ void receive_packet(int sock, get_timeval_t get_timeval)
-     if ((res = recvmsg(sock, &msg, 0)) < 0) {
-         int err = errno;
-         fprintf(stderr, "Failed to receive packet: %s\n", strerror(err));
--        exit(-err);
-+        exit(err);
-     }
- 
-     assert(res == sizeof(struct timeval));
-     assert(iov.iov_base == iobuf);
--    memcpy(&msg_tv, iov.iov_base, sizeof(msg_tv));
--    printf("Message timestamp: %lld.%06lld\n",
--           (long long)msg_tv.tv_sec, (long long)msg_tv.tv_usec);
-+    memcpy(&msg_ts, iov.iov_base, sizeof(msg_ts));
-+    printf("Message timestamp: %lld.%09lld\n",
-+           (long long)msg_ts.tv_sec, (long long)msg_ts.tv_nsec);
- 
-     cmsg = CMSG_FIRSTHDR(&msg);
-     assert(cmsg);
--    (*get_timeval)(cmsg, &pkt_tv);
--    printf("Packet timestamp: %lld.%06lld\n",
--           (long long)pkt_tv.tv_sec, (long long)pkt_tv.tv_usec);
-+    (*get_timespec)(cmsg, &pkt_ts);
-+    printf("Packet timestamp: %lld.%09lld\n",
-+           (long long)pkt_ts.tv_sec, (long long)pkt_ts.tv_nsec);
- 
--    check_timestamp_difference(&msg_tv, &pkt_tv);
-+    check_timestamp_difference(&msg_ts, &pkt_ts);
- }
- 
--void get_timeval_from_so_timestamp(const struct cmsghdr *cmsg,
--                                   struct timeval *tv)
-+void get_timespec_from_so_timestamp(const struct cmsghdr *cmsg,
-+                                    struct timespec *ts)
- {
-+    struct timeval tv;
-     assert(cmsg->cmsg_level == SOL_SOCKET);
-     assert(cmsg->cmsg_type == SCM_TIMESTAMP);
--    assert(cmsg->cmsg_len >= CMSG_LEN(sizeof(struct timeval)));
--    memcpy(tv, CMSG_DATA(cmsg), sizeof(*tv));
-+    assert(cmsg->cmsg_len == CMSG_LEN(sizeof(tv)));
-+
-+    memcpy(&tv, CMSG_DATA(cmsg), sizeof(tv));
-+    ts->tv_sec = tv.tv_sec;
-+    ts->tv_nsec = tv.tv_usec * 1000LL;
- }
- 
- #ifdef SO_TIMESTAMP_OLD
--void get_timeval_from_so_timestamp_old(const struct cmsghdr *cmsg,
--                                       struct timeval *tv)
-+void get_timespec_from_so_timestamp_old(const struct cmsghdr *cmsg,
-+                                        struct timespec *ts)
- {
-     struct kernel_old_timeval old_tv;
-     assert(cmsg->cmsg_level == SOL_SOCKET);
-     assert(cmsg->cmsg_type == SO_TIMESTAMP_OLD);
--    assert(cmsg->cmsg_len >= CMSG_LEN(sizeof(old_tv)));
-+    assert(cmsg->cmsg_len == CMSG_LEN(sizeof(old_tv)));
- 
-     memcpy(&old_tv, CMSG_DATA(cmsg), sizeof(old_tv));
--    tv->tv_sec = old_tv.tv_sec;
--    tv->tv_usec = old_tv.tv_usec;
-+    ts->tv_sec = old_tv.tv_sec;
-+    ts->tv_nsec = old_tv.tv_usec * 1000LL;
- }
- 
- #ifdef SO_TIMESTAMP_NEW
--void get_timeval_from_so_timestamp_new(const struct cmsghdr *cmsg,
--                                       struct timeval *tv)
-+void get_timespec_from_so_timestamp_new(const struct cmsghdr *cmsg,
-+                                        struct timespec *ts)
- {
-     struct kernel_sock_timeval sock_tv;
-     assert(cmsg->cmsg_level == SOL_SOCKET);
-     assert(cmsg->cmsg_type == SO_TIMESTAMP_NEW);
--    assert(cmsg->cmsg_len >= CMSG_LEN(sizeof(sock_tv)));
-+    assert(cmsg->cmsg_len == CMSG_LEN(sizeof(sock_tv)));
- 
-     memcpy(&sock_tv, CMSG_DATA(cmsg), sizeof(sock_tv));
--    tv->tv_sec = sock_tv.tv_sec;
--    tv->tv_usec = sock_tv.tv_usec;
-+    ts->tv_sec = sock_tv.tv_sec;
-+    ts->tv_nsec = sock_tv.tv_usec * 1000LL;
- }
- #endif /* defined(SO_TIMESTAMP_NEW) */
- #endif /* defined(SO_TIMESTAMP_OLD) */
- 
--void set_socket_option(int sock, int sockopt, int on)
-+void get_timespec_from_so_timestampns(const struct cmsghdr *cmsg,
-+                                      struct timespec *ts)
-+{
-+    assert(cmsg->cmsg_level == SOL_SOCKET);
-+    assert(cmsg->cmsg_type == SCM_TIMESTAMPNS);
-+    assert(cmsg->cmsg_len == CMSG_LEN(sizeof(*ts)));
-+
-+    memcpy(ts, CMSG_DATA(cmsg), sizeof(*ts));
-+}
-+
-+#ifdef SO_TIMESTAMPNS_OLD
-+void get_timespec_from_so_timestampns_old(const struct cmsghdr *cmsg,
-+                                          struct timespec *ts)
-+{
-+    struct kernel_old_timespec old_ts;
-+    assert(cmsg->cmsg_level == SOL_SOCKET);
-+    assert(cmsg->cmsg_type == SO_TIMESTAMPNS_OLD);
-+    assert(cmsg->cmsg_len == CMSG_LEN(sizeof(old_ts)));
-+
-+    memcpy(&old_ts, CMSG_DATA(cmsg), sizeof(old_ts));
-+    ts->tv_sec = old_ts.tv_sec;
-+    ts->tv_nsec = old_ts.tv_nsec;
-+}
-+
-+#ifdef SO_TIMESTAMPNS_NEW
-+void get_timespec_from_so_timestampns_new(const struct cmsghdr *cmsg,
-+                                          struct timespec *ts)
-+{
-+    struct kernel_timespec sock_ts;
-+    assert(cmsg->cmsg_level == SOL_SOCKET);
-+    assert(cmsg->cmsg_type == SO_TIMESTAMPNS_NEW);
-+    assert(cmsg->cmsg_len == CMSG_LEN(sizeof(sock_ts)));
-+
-+    memcpy(&sock_ts, CMSG_DATA(cmsg), sizeof(sock_ts));
-+    ts->tv_sec = sock_ts.tv_sec;
-+    ts->tv_nsec = sock_ts.tv_nsec;
-+}
-+#endif /* defined(SO_TIMESTAMPNS_NEW) */
-+#endif /* defined(SO_TIMESTAMPNS_OLD) */
-+
-+void get_timespec_from_so_timestamping(const struct cmsghdr *cmsg,
-+                                       struct timespec *ts)
-+{
-+    int i;
-+    struct scm_timestamping tss;
-+    assert(cmsg->cmsg_level == SOL_SOCKET);
-+    assert(cmsg->cmsg_type == SCM_TIMESTAMPING);
-+    assert(cmsg->cmsg_len == CMSG_LEN(sizeof(tss)));
-+
-+    memcpy(&tss, CMSG_DATA(cmsg), sizeof(tss));
-+
-+    for (i = 0; i < 3; ++i) {
-+        if (tss.ts[i].tv_sec || tss.ts[i].tv_nsec) {
-+            *ts = tss.ts[i];
-+            return;
++bool thunk_type_has_flexible_array(const argtype *type_ptr) {
++  int i;
++  const StructEntry *se;
++  const argtype *field_types;
++    if (*type_ptr != TYPE_STRUCT) {
++        return false;
++    }
++    se = struct_entries + type_ptr[1];
++    field_types = se->field_types;
++    for (i = 0; i < se->nb_fields; i++) {
++        if (*field_types == TYPE_FLEXIBLE_ARRAY) {
++            return true;
 +        }
++        field_types = thunk_type_next(type_ptr);
 +    }
-+    assert(!"All three entries in scm_timestamping are empty");
++    return false;
 +}
 +
-+#ifdef SO_TIMESTAMPING_OLD
-+void get_timespec_from_so_timestamping_old(const struct cmsghdr *cmsg,
-+                                           struct timespec *ts)
++int thunk_type_size_with_src(const void *src, const argtype *type_ptr,
++                             int is_host)
 +{
-+    int i;
-+    struct scm_old_timestamping tss;
-+    assert(cmsg->cmsg_level == SOL_SOCKET);
-+    assert(cmsg->cmsg_type == SO_TIMESTAMPING_OLD);
-+    assert(cmsg->cmsg_len == CMSG_LEN(sizeof(tss)));
-+
-+    memcpy(&tss, CMSG_DATA(cmsg), sizeof(tss));
-+
-+    for (i = 0; i < 3; ++i) {
-+        if (tss.ts[i].tv_sec || tss.ts[i].tv_nsec) {
-+            ts->tv_sec = tss.ts[i].tv_sec;
-+            ts->tv_nsec = tss.ts[i].tv_nsec;
-+            return;
++    switch(*type_ptr) {
++    case TYPE_STRUCT: {
++        int i;
++        const StructEntry *se = struct_entries + type_ptr[1];
++        const argtype *field_types;
++        if (se->thunk_size[is_host] != NULL) {
++            return (*se->thunk_size[is_host])(src);
 +        }
-+    }
-+    assert(!"All three entries in scm_old_timestamping are empty");
-+}
 +
-+#ifdef SO_TIMESTAMPING_NEW
-+void get_timespec_from_so_timestamping_new(const struct cmsghdr *cmsg,
-+                                           struct timespec *ts)
-+{
-+    int i;
-+    struct scm_timestamping64 tss;
-+    assert(cmsg->cmsg_level == SOL_SOCKET);
-+    assert(cmsg->cmsg_type == SO_TIMESTAMPING_NEW);
-+    assert(cmsg->cmsg_len == CMSG_LEN(sizeof(tss)));
-+
-+    memcpy(&tss, CMSG_DATA(cmsg), sizeof(tss));
-+    for (i = 0; i < 3; ++i) {
-+        if (tss.ts[i].tv_sec || tss.ts[i].tv_nsec) {
-+            ts->tv_sec = tss.ts[i].tv_sec;
-+            ts->tv_nsec = tss.ts[i].tv_nsec;
-+            return;
++        field_types = se->field_types;
++        for (i = 0; i < se->nb_fields; i++) {
++            if (*field_types == TYPE_FLEXIBLE_ARRAY) {
++                uint32_t array_length = *(const uint32_t *)(
++                    (const uint8_t*) src +
++                    se->field_offsets[is_host][field_types[1]]);
++                if (!is_host) {
++                    array_length = tswap32(array_length);
++                }
++                return se->size[is_host] +
++                    array_length *
++                    thunk_type_size(field_types + 2, is_host);
++            }
++            field_types = thunk_type_next(type_ptr);
 +        }
++        return se->size[is_host];
 +    }
-+    assert(!"All three entries in scm_timestamp64 are empty");
-+}
-+#endif /* defined(SO_TIMESTAMPING_NEW) */
-+#endif /* defined(SO_TIMESTAMPING_OLD) */
-+
-+void set_socket_option(int sock, int sockopt, int set_to)
- {
-     socklen_t len;
--    int val = on;
-+    int val = set_to;
-     if (setsockopt(sock, SOL_SOCKET, sockopt, &val, sizeof(val)) < 0) {
-         int err = errno;
--        fprintf(stderr, "Failed to setsockopt %d (%s): %s\n",
--                sockopt, on ? "on" : "off", strerror(err));
-+        fprintf(stderr, "Failed at setsockopt(%d, SOL_SOCKET, %d, %d): %s\n",
-+                sock, sockopt, set_to, strerror(err));
-         exit(err);
-     }
- 
-+#ifdef SO_TIMESTAMPING_NEW
-+    if (sockopt == SO_TIMESTAMPING_NEW) {
-+        /* `getsockopt(sock, SOL_SOCKET, SO_TIMESTAMPING_NEW)` not implemented
-+         * as of linux kernel v5.8-rc4.
-+         */
-+        return;
++    default:
++        return thunk_type_size(type_ptr, is_host);
 +    }
-+#endif
-+
-     len = sizeof(val);
-     val = -1;
-     if (getsockopt(sock, SOL_SOCKET, sockopt, &val, &len) < 0) {
-         int err = errno;
--        fprintf(stderr, "Failed to getsockopt (%d): %s\n", sock, strerror(err));
-+        fprintf(stderr, "Failed at getsockopt(%d, SOL_SOCKET, %d): %s\n",
-+                sock, sockopt, strerror(err));
-         exit(err);
-     }
-     assert(len == sizeof(val));
--    assert(val == on);
-+    assert(val == set_to);
 +}
 +
-+void child_steps(int sock, struct sockaddr_in addr, int run_old)
-+{
-+    /* Test 1: SO_TIMESTAMP */
-+    send_current_time(sock, addr);
-+
-+    /* Test 2: SO_TIMESTAMPNS */
-+    printf("Test 2: SO_TIMESTAMPNS\n");
-+    set_socket_option(sock, SO_TIMESTAMPNS, 1);
-+    receive_packet(sock, &get_timespec_from_so_timestampns);
-+    set_socket_option(sock, SO_TIMESTAMPNS, 0);
-+
-+    /* Test 3: SO_TIMESTAMPING */
-+    send_current_time(sock, addr);
-+
-+    if (!run_old) {
-+        return;
-+    }
-+
-+#ifdef SO_TIMESTAMP_OLD
-+    if (SO_TIMESTAMP_OLD != SO_TIMESTAMP) {
-+        /* Test 4a: SO_TIMESTAMP_OLD */
-+        printf("Test 4a: SO_TIMESTAMP_OLD\n");
-+        set_socket_option(sock, SO_TIMESTAMP_OLD, 1);
-+        receive_packet(sock, &get_timespec_from_so_timestamp_old);
-+        set_socket_option(sock, SO_TIMESTAMP_OLD, 0);
-+    }
-+#ifdef SO_TIMESTAMP_NEW
-+    else {
-+        /* Test 4b: SO_TIMESTAMP_NEW */
-+        printf("Test 4b: SO_TIMESTAMP_NEW\n");
-+        set_socket_option(sock, SO_TIMESTAMP_NEW, 1);
-+        receive_packet(sock, &get_timespec_from_so_timestamp_new);
-+        set_socket_option(sock, SO_TIMESTAMP_NEW, 0);
-+    }
-+#endif /* defined(SO_TIMESTAMP_NEW) */
-+#endif /* defined(SO_TIMESTAMP_OLD) */
-+
-+#ifdef SO_TIMESTAMPNS_OLD
-+    if (SO_TIMESTAMPNS_OLD != SO_TIMESTAMPNS) {
-+        /* Test 5a: SO_TIMESTAMPNS_OLD */
-+        send_current_time(sock, addr);
-+    }
-+#ifdef SO_TIMESTAMPNS_NEW
-+    else {
-+        /* Test 5b: SO_TIMESTAMPNS_NEW */
-+        send_current_time(sock, addr);
-+    }
-+#endif /* defined(SO_TIMESTAMPNS_NEW) */
-+#endif /* defined(SO_TIMESTAMPNS_OLD) */
-+
-+#ifdef SO_TIMESTAMPING_OLD
-+    if (SO_TIMESTAMPING_OLD != SO_TIMESTAMPING) {
-+        /* Test 6a: SO_TIMESTAMPING_OLD */
-+        printf("Test 6a: SO_TIMESTAMPING_OLD\n");
-+        set_socket_option(sock, SO_TIMESTAMPING_OLD, so_timestamping_flags);
-+        receive_packet(sock, &get_timespec_from_so_timestamping_old);
-+        set_socket_option(sock, SO_TIMESTAMPING_OLD, 0);
-+    }
-+#ifdef SO_TIMESTAMPING_NEW
-+    else {
-+        /* Test 6b: SO_TIMESTAMPING_NEW */
-+        printf("Test 6b: SO_TIMESTAMPING_NEW\n");
-+        set_socket_option(sock, SO_TIMESTAMPING_NEW, so_timestamping_flags);
-+        receive_packet(sock, &get_timespec_from_so_timestamping_new);
-+        set_socket_option(sock, SO_TIMESTAMPING_NEW, 0);
-+    }
-+#endif /* defined(SO_TIMESTAMPING_NEW) */
-+#endif /* defined(SO_TIMESTAMPING_OLD) */
-+}
-+
-+void parent_steps(int sock, struct sockaddr_in addr, int run_old)
-+{
-+    /* Test 1: SO_TIMESTAMP */
-+    printf("Test 1: SO_TIMESTAMP\n");
-+    set_socket_option(sock, SO_TIMESTAMP, 1);
-+    receive_packet(sock, &get_timespec_from_so_timestamp);
-+    set_socket_option(sock, SO_TIMESTAMP, 0);
-+
-+    /* Test 2: SO_TIMESTAMPNS */
-+    send_current_time(sock, addr);
-+
-+    /* Test 3: SO_TIMESTAMPING */
-+    printf("Test 3: SO_TIMESTAMPING\n");
-+    set_socket_option(sock, SO_TIMESTAMPING, so_timestamping_flags);
-+    receive_packet(sock, &get_timespec_from_so_timestamping);
-+    set_socket_option(sock, SO_TIMESTAMPING, 0);
-+
-+    if (!run_old) {
-+        return;
-+    }
-+
-+#ifdef SO_TIMESTAMP_OLD
-+    if (SO_TIMESTAMP_OLD != SO_TIMESTAMP) {
-+        /* Test 4a: SO_TIMESTAMP_OLD */
-+        send_current_time(sock, addr);
-+    }
-+#ifdef SO_TIMESTAMP_NEW
-+    else {
-+        /* Test 4b: SO_TIMESTAMP_NEW */
-+        send_current_time(sock, addr);
-+    }
-+#endif /* defined(SO_TIMESTAMP_NEW) */
-+#endif /* defined(SO_TIMESTAMP_OLD) */
-+
-+#ifdef SO_TIMESTAMPNS_OLD
-+    if (SO_TIMESTAMPNS_OLD != SO_TIMESTAMPNS) {
-+        /* Test 5a: SO_TIMESTAMPNS_OLD */
-+        printf("Test 5a: SO_TIMESTAMPNS_OLD\n");
-+        set_socket_option(sock, SO_TIMESTAMPNS_OLD, 1);
-+        receive_packet(sock, &get_timespec_from_so_timestampns_old);
-+        set_socket_option(sock, SO_TIMESTAMPNS_OLD, 0);
-+    }
-+#ifdef SO_TIMESTAMPNS_NEW
-+    else {
-+        /* Test 5b: SO_TIMESTAMPNS_NEW */
-+        printf("Test 5b: SO_TIMESTAMPNS_NEW\n");
-+        set_socket_option(sock, SO_TIMESTAMPNS_NEW, 1);
-+        receive_packet(sock, &get_timespec_from_so_timestampns_new);
-+        set_socket_option(sock, SO_TIMESTAMPNS_NEW, 0);
-+    }
-+#endif /* defined(SO_TIMESTAMPNS_NEW) */
-+#endif /* defined(SO_TIMESTAMPNS_OLD) */
-+
-+#ifdef SO_TIMESTAMPING_OLD
-+    if (SO_TIMESTAMPING_OLD != SO_TIMESTAMPING) {
-+        /* Test 6a: SO_TIMESTAMPING_OLD */
-+        send_current_time(sock, addr);
-+    }
-+#ifdef SO_TIMESTAMPING_NEW
-+    else {
-+        /* Test 6b: SO_TIMESTAMPING_NEW */
-+        send_current_time(sock, addr);
-+    }
-+#endif /* defined(SO_TIMESTAMPING_NEW) */
-+#endif /* defined(SO_TIMESTAMPING_OLD) */
- }
+ /* from em86 */
  
- int main(int argc, char **argv)
- {
-     int parent_sock, child_sock;
-     struct sockaddr_in parent_sockaddr, child_sockaddr;
--    int pid;
-+    int pid, run_old;
-     struct timeval tv = {0, 0};
-     gettimeofday(&tv, NULL);
- 
-+    /* Too close to y2038 old systems may not work. */
-+    run_old = tv.tv_sec < 0x7fffff00;
-+
-     parent_sock = create_udp_socket(&parent_sockaddr);
-     child_sock = create_udp_socket(&child_sockaddr);
- 
-     printf("Parent sock bound to port %d\nChild sock bound to port %d\n",
-            parent_sockaddr.sin_port, child_sockaddr.sin_port);
- 
--    if ((pid = fork()) == -2) {
-+    if ((pid = fork()) < 0) {
-         fprintf(stderr, "SKIPPED. Failed to fork: %s\n", strerror(errno));
-     } else if (pid == 0) {
--        close(child_sock);
--
--        /* Test 1: SO_TIMESTAMP */
--        send_current_time(parent_sock, child_sockaddr);
--
--        if (tv.tv_sec > 0x7fffff00) {
--            /* Too close to y2038 problem, old system may not work. */
--            close(parent_sock);
--            return 0;
--        }
--
--#ifdef SO_TIMESTAMP_OLD
--        if (SO_TIMESTAMP_OLD != SO_TIMESTAMP) {
--            /* Test 2a: SO_TIMESTAMP_OLD */
--            set_socket_option(parent_sock, SO_TIMESTAMP_OLD, 1);
--            receive_packet(parent_sock, &get_timeval_from_so_timestamp_old);
--            set_socket_option(parent_sock, SO_TIMESTAMP_OLD, 0);
--        }
--#ifdef SO_TIMESTAMP_NEW
--        else {
--            /* Test 2b: SO_TIMESTAMP_NEW */
--            set_socket_option(parent_sock, SO_TIMESTAMP_NEW, 1);
--            receive_packet(parent_sock, &get_timeval_from_so_timestamp_new);
--            set_socket_option(parent_sock, SO_TIMESTAMP_NEW, 0);
--        }
--#endif /* defined(SO_TIMESTAMP_NEW) */
--#endif /* defined(SO_TIMESTAMP_OLD) */
--
-         close(parent_sock);
-+        child_steps(child_sock, parent_sockaddr, run_old);
-+        close(child_sock);
-     } else {
-         int child_status;
--        close(parent_sock);
--
--        /* Test 1: SO_TIMESTAMP */
--        set_socket_option(child_sock, SO_TIMESTAMP, 1);
--        receive_packet(child_sock, &get_timeval_from_so_timestamp);
--        set_socket_option(child_sock, SO_TIMESTAMP, 0);
--
--        if (tv.tv_sec > 0x7fffff00) {
--            /* Too close to y2038 problem, old system may not work. */
--            close(child_sock);
--            return 0;
--        }
--
--#ifdef SO_TIMESTAMP_OLD
--        if (SO_TIMESTAMP_OLD != SO_TIMESTAMP) {
--            /* Test 2a: SO_TIMESTAMP_OLD */
--            send_current_time(child_sock, parent_sockaddr);
--        }
--#ifdef SO_TIMESTAMP_NEW
--        else {
--            /* Test 2b: SO_TIMESTAMP_NEW */
--            send_current_time(child_sock, parent_sockaddr);
--        }
--#endif /* defined(SO_TIMESTAMP_NEW) */
--#endif /* defined(SO_TIMESTAMP_OLD) */
- 
-         close(child_sock);
-+        parent_steps(parent_sock, child_sockaddr, run_old);
-+        close(parent_sock);
- 
-         if (waitpid(pid, &child_status, 0) < 0) {
-             int err = errno;
+ /* Utility function: Table-driven functions to translate bitmasks
 -- 
 2.28.0.rc0.105.gf9edc3c819-goog
 
