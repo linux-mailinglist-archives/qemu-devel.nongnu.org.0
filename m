@@ -2,81 +2,77 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id F2DDB22AFB3
-	for <lists+qemu-devel@lfdr.de>; Thu, 23 Jul 2020 14:53:11 +0200 (CEST)
-Received: from localhost ([::1]:56590 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 04C3722AFB2
+	for <lists+qemu-devel@lfdr.de>; Thu, 23 Jul 2020 14:52:47 +0200 (CEST)
+Received: from localhost ([::1]:55298 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jyail-0005SX-1Z
-	for lists+qemu-devel@lfdr.de; Thu, 23 Jul 2020 08:53:11 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:41126)
+	id 1jyaiM-0004vs-2Z
+	for lists+qemu-devel@lfdr.de; Thu, 23 Jul 2020 08:52:46 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:41080)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1jyagl-0003vH-HY
- for qemu-devel@nongnu.org; Thu, 23 Jul 2020 08:51:07 -0400
-Received: from us-smtp-2.mimecast.com ([207.211.31.81]:38375
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1jyagc-0003dp-A7
+ for qemu-devel@nongnu.org; Thu, 23 Jul 2020 08:50:58 -0400
+Received: from us-smtp-1.mimecast.com ([205.139.110.61]:22192
  helo=us-smtp-delivery-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1jyagj-0007Kq-KA
- for qemu-devel@nongnu.org; Thu, 23 Jul 2020 08:51:07 -0400
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1jyaga-0007KI-HE
+ for qemu-devel@nongnu.org; Thu, 23 Jul 2020 08:50:57 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1595508664;
- h=from:from:reply-to:reply-to:subject:subject:date:date:
- message-id:message-id:to:to:cc:cc:mime-version:mime-version:
- content-type:content-type:
+ s=mimecast20190719; t=1595508655;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=mbl7igg55iL4JVzvE7179tNN557zpiyPlrvNFaVxqfM=;
- b=irCJ5mVugLDjlp44NQAJU/72CJkXG00/Ceyz20dIOqRPFUwzY25UYM8CIf+QtyQGeyJ6a5
- pHfjPTThqJXmegNtOt8R/xY8X2MkGjabu+Cq3Ju9Ezto4ohu2v44KZSXmeL7fzlSsGaQrU
- nMEOsPOYI5NyEcyR8a8gX1c6divHP10=
+ bh=3GglShkq8VO2R26dtBxRdBPqP76zifRY2wT/vLOvxI0=;
+ b=Nus8GanByU9oF3sDeSFQ1S0NVjrdraCwgl5CXZEZvYAxr67tl9JnZXm8tzNg9rx6yQxwGH
+ LORqyyRw/w8h0BooAkOvjhelthx+HLvh23jJZh6ea5fGBZidWsb7qMJt4m2Wolg5F/caha
+ Sj6/Qs0ELv1YE8ehubT2MT1GmRu/Zr8=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-115-gPw5sBQjOjeJyWm-UvN1FQ-1; Thu, 23 Jul 2020 08:50:46 -0400
-X-MC-Unique: gPw5sBQjOjeJyWm-UvN1FQ-1
+ us-mta-174--lUUu7T0PeOOalGAsIrClQ-1; Thu, 23 Jul 2020 08:50:54 -0400
+X-MC-Unique: -lUUu7T0PeOOalGAsIrClQ-1
 Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
  [10.5.11.11])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id D643D80183C;
- Thu, 23 Jul 2020 12:50:45 +0000 (UTC)
-Received: from redhat.com (unknown [10.36.110.60])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 2383572E48;
- Thu, 23 Jul 2020 12:50:38 +0000 (UTC)
-Date: Thu, 23 Jul 2020 13:50:35 +0100
-From: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
-To: Stefan Hajnoczi <stefanha@redhat.com>
-Subject: Re: [PATCH for-5.1 3/3] virtiofsd: probe unshare(CLONE_FS) and print
- an error
-Message-ID: <20200723125035.GH2615312@redhat.com>
-References: <20200722130206.224898-1-stefanha@redhat.com>
- <20200722130206.224898-4-stefanha@redhat.com>
- <20200722170328.GU2324845@redhat.com>
- <20200723124611.GL186372@stefanha-x1.localdomain>
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 1D8BE18C63CE;
+ Thu, 23 Jul 2020 12:50:53 +0000 (UTC)
+Received: from blackfin.pond.sub.org (ovpn-112-143.ams2.redhat.com
+ [10.36.112.143])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id E304472E48;
+ Thu, 23 Jul 2020 12:50:52 +0000 (UTC)
+Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
+ id 7C505111CA26; Thu, 23 Jul 2020 14:50:51 +0200 (CEST)
+From: Markus Armbruster <armbru@redhat.com>
+To: Daniel P. =?utf-8?Q?Berrang=C3=A9?= <berrange@redhat.com>
+Subject: Re: [PATCH] qapi: enable use of g_autoptr with QAPI types
+References: <20200723111250.2650203-1-berrange@redhat.com>
+ <781b8043-bce5-9f64-bc5f-4f2f740c6a6d@redhat.com>
+ <20200723115619.GG2615312@redhat.com>
+Date: Thu, 23 Jul 2020 14:50:51 +0200
+In-Reply-To: <20200723115619.GG2615312@redhat.com> ("Daniel P. =?utf-8?Q?B?=
+ =?utf-8?Q?errang=C3=A9=22's?=
+ message of "Thu, 23 Jul 2020 12:56:19 +0100")
+Message-ID: <87a6zqgztg.fsf@dusky.pond.sub.org>
+User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/26.3 (gnu/linux)
 MIME-Version: 1.0
-In-Reply-To: <20200723124611.GL186372@stefanha-x1.localdomain>
-User-Agent: Mutt/1.14.5 (2020-06-23)
 X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=berrange@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: 8bit
-Content-Disposition: inline
-Received-SPF: pass client-ip=207.211.31.81; envelope-from=berrange@redhat.com;
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=205.139.110.61; envelope-from=armbru@redhat.com;
  helo=us-smtp-delivery-1.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/07/23 02:26:42
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/07/23 02:33:29
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
-X-Spam_score_int: -30
-X-Spam_score: -3.1
-X-Spam_bar: ---
-X-Spam_report: (-3.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1,
+X-Spam_score_int: -40
+X-Spam_score: -4.1
+X-Spam_bar: ----
+X-Spam_report: (-4.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H3=-0.01, RCVD_IN_MSPIKE_WL=-0.01,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- URIBL_BLOCKED=0.001 autolearn=ham autolearn_force=no
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-1, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001, URIBL_BLOCKED=0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -89,84 +85,71 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
-Cc: vromanso@redhat.com, Misono Tomohiro <misono.tomohiro@jp.fujitsu.com>,
- qemu-devel@nongnu.org, virtio-fs@redhat.com, rmohr@redhat.com,
- "Dr. David Alan Gilbert" <dgilbert@redhat.com>
+Cc: Michael Roth <mdroth@linux.vnet.ibm.com>, qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Thu, Jul 23, 2020 at 01:46:11PM +0100, Stefan Hajnoczi wrote:
-> On Wed, Jul 22, 2020 at 06:03:28PM +0100, Daniel P. Berrangé wrote:
-> > On Wed, Jul 22, 2020 at 02:02:06PM +0100, Stefan Hajnoczi wrote:
-> > > An assertion failure is raised during request processing if
-> > > unshare(CLONE_FS) fails. Implement a probe at startup so the problem can
-> > > be detected right away.
-> > > 
-> > > Unfortunately Docker/Moby does not include unshare in the seccomp.json
-> > > list unless CAP_SYS_ADMIN is given. Other seccomp.json lists always
-> > > include unshare (e.g. podman is unaffected):
-> > > https://raw.githubusercontent.com/seccomp/containers-golang/master/seccomp.json
-> > > 
-> > > Use "docker run --security-opt seccomp=path/to/seccomp.json ..." if the
-> > > default seccomp.json is missing unshare.
-> > > 
-> > > Cc: Misono Tomohiro <misono.tomohiro@jp.fujitsu.com>
-> > > Signed-off-by: Stefan Hajnoczi <stefanha@redhat.com>
-> > > ---
-> > >  tools/virtiofsd/fuse_virtio.c | 13 +++++++++++++
-> > >  1 file changed, 13 insertions(+)
-> > > 
-> > > diff --git a/tools/virtiofsd/fuse_virtio.c b/tools/virtiofsd/fuse_virtio.c
-> > > index 3b6d16a041..ebeb352514 100644
-> > > --- a/tools/virtiofsd/fuse_virtio.c
-> > > +++ b/tools/virtiofsd/fuse_virtio.c
-> > > @@ -949,6 +949,19 @@ int virtio_session_mount(struct fuse_session *se)
-> > >  {
-> > >      int ret;
-> > >  
-> > > +    /*
-> > > +     * Test that unshare(CLONE_FS) works. fv_queue_worker() will need it. It's
-> > > +     * an unprivileged system call but some Docker/Moby versions are known to
-> > > +     * reject it via seccomp when CAP_SYS_ADMIN is not given.
-> > > +     */
-> > > +    ret = unshare(CLONE_FS);
-> > > +    if (ret == -1 && errno == EPERM) {
-> > > +        fuse_log(FUSE_LOG_ERR, "unshare(CLONE_FS) failed with EPERM. If "
-> > > +                "running in a container please check that the container "
-> > > +                "runtime seccomp policy allows unshare.\n");
-> > > +        return -1;
-> > > +    }
-> > > +
-> > 
-> > This describes the unshare() call as a "probe" and a "test", but that's
-> > misleading IMHO. A "probe" / "test" implies that after it has completed,
-> > there's no lingering side-effect, which isn't the case here.
-> > 
-> > This is actively changing the process' namespace environment in the
-> > success case, and not putting it back how it was originally.
-> > 
-> > May be this is in fact OK, but if so I think the commit message and
-> > comment should explain/justify what its fine to have this lingering
-> > side-effect.
-> > 
-> > If we want to avoid the side-effect then we need to fork() and run
-> > unshare() in the child, and use a check of exit status of the child
-> > to determine the result.
-> 
-> Thanks for pointing this out. I'll add a comment explaining that
-> virtiofsd is single-threaded at this point. No other threads share the
-> file system attributes so the call has no observable side-effects.
+Daniel P. Berrang=C3=A9 <berrange@redhat.com> writes:
 
-Also, if we do an unshare() here, do we still need the unshare() later
-on in the code ?
+> On Thu, Jul 23, 2020 at 06:49:44AM -0500, Eric Blake wrote:
+>> On 7/23/20 6:12 AM, Daniel P. Berrang=C3=A9 wrote:
+>> > Currently QAPI generates a type and function for free'ing it:
+>> >=20
+>> >    typedef struct QCryptoBlockCreateOptions QCryptoBlockCreateOptions;
+>> >    void qapi_free_QCryptoBlockCreateOptions(QCryptoBlockCreateOptions =
+*obj);
+>> >=20
+>>=20
+>> > The above code example now becomes
+>> >=20
+>> >    g_autoptr(QCryptoBlockCreateOptions) opts =3D NULL;
+>> >=20
+>> >    opts =3D g_new0(QCryptoBlockCreateOptions, 1);
+>> >=20
+>> >    ....do stuff with opts...
+>> >=20
+>> > Note, if the local pointer needs to live beyond the scope holding the
+>> > variable, then g_steal_pointer can be used. This is useful to return t=
+he
+>> > pointer to the caller in the success codepath, while letting it be fre=
+ed
+>> > in all error codepaths.
+>> >=20
+>> >    return g_steal_pointer(&opts);
+>> >=20
+>>=20
+>> Yep, the idea makes sense!
 
+Agree.
 
-Regards,
-Daniel
--- 
-|: https://berrange.com      -o-    https://www.flickr.com/photos/dberrange :|
-|: https://libvirt.org         -o-            https://fstop138.berrange.com :|
-|: https://entangle-photo.org    -o-    https://www.instagram.com/dberrange :|
+>> > Signed-off-by: Daniel P. Berrang=C3=A9 <berrange@redhat.com>
+>> > ---
+>> >   include/crypto/block.h | 2 --
+>> >   scripts/qapi/types.py  | 1 +
+>> >   2 files changed, 1 insertion(+), 2 deletions(-)
+>>=20
+>> Missing a counterpart change to docs/devel/qapi-code-gen.txt.
+
+Yes.  Can do that in my tree.
+
+>>                                                                And it mi=
+ght
+>> be nice to make this a series with at least one followup patch using the=
+ new
+>> capability, or at least so 'make check' coverage.  But otherwise on the
+>> right track.
+>
+> The crypto/block.c already makes use of this capability, which is why
+> I had to remove the line from block.h to avoid declaring the same thing
+> twice !
+
+Could be mentioned in the commit message.
+
+Still, using it somewhere in tests would be nice.
+test-qobject-input-visitor.c's test_visitor_in_struct_nested() looks
+trivial to convert.  Feel free to pick something else.
+
+In case you prefer not to, with a qapi-code-gen.txt update:
+Reviewed-by: Markus Armbruster <armbru@redhat.com>
 
 
