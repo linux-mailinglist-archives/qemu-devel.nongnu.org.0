@@ -2,95 +2,99 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B18DC22B0C0
-	for <lists+qemu-devel@lfdr.de>; Thu, 23 Jul 2020 15:48:58 +0200 (CEST)
-Received: from localhost ([::1]:48184 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5B9B422B0C4
+	for <lists+qemu-devel@lfdr.de>; Thu, 23 Jul 2020 15:50:00 +0200 (CEST)
+Received: from localhost ([::1]:51808 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jybaj-0000fA-Pk
-	for lists+qemu-devel@lfdr.de; Thu, 23 Jul 2020 09:48:57 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:60720)
+	id 1jybbj-0002A4-EL
+	for lists+qemu-devel@lfdr.de; Thu, 23 Jul 2020 09:49:59 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:60916)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <vkuznets@redhat.com>)
- id 1jybZ2-00081m-IW
- for qemu-devel@nongnu.org; Thu, 23 Jul 2020 09:47:12 -0400
-Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:45870
- helo=us-smtp-1.mimecast.com)
+ (Exim 4.90_1) (envelope-from <mreitz@redhat.com>) id 1jybZd-0008Tz-TO
+ for qemu-devel@nongnu.org; Thu, 23 Jul 2020 09:47:49 -0400
+Received: from us-smtp-1.mimecast.com ([207.211.31.81]:57156
+ helo=us-smtp-delivery-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <vkuznets@redhat.com>)
- id 1jybZ1-0000Pe-00
- for qemu-devel@nongnu.org; Thu, 23 Jul 2020 09:47:12 -0400
+ (Exim 4.90_1) (envelope-from <mreitz@redhat.com>) id 1jybZb-0000W9-Gc
+ for qemu-devel@nongnu.org; Thu, 23 Jul 2020 09:47:49 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1595512030;
+ s=mimecast20190719; t=1595512066;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=Wi3XwguH+rI7xDFElNuMYvAwVhlDfJK/ugZeJP9B8dk=;
- b=FCQhXopAsXbAmEBLEQoRGxYKYBxX2A6rQXn86eVNEtKmlbp1hzg+uhZZpf4Ec2VJ7vc6hM
- pwQP1ZOJFRRTWe2HZTbsbMfSXjuJG/M/gl6T2qrVlEQTBBA7hr9yp+NdTm7nk/IBHE9iF8
- LxU8lr0GMPfO/uV0LDz+yFzQs+mQNUo=
-Received: from mail-ej1-f71.google.com (mail-ej1-f71.google.com
- [209.85.218.71]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-389-BFitADnRPH25FGfhgM87RA-1; Thu, 23 Jul 2020 09:47:06 -0400
-X-MC-Unique: BFitADnRPH25FGfhgM87RA-1
-Received: by mail-ej1-f71.google.com with SMTP id gv21so2421513ejb.8
- for <qemu-devel@nongnu.org>; Thu, 23 Jul 2020 06:47:06 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:in-reply-to:references:date
- :message-id:mime-version;
- bh=Wi3XwguH+rI7xDFElNuMYvAwVhlDfJK/ugZeJP9B8dk=;
- b=AEdGUiclInAuLN0UU8+4/IoPZkugvqbkfTOfqqGIlyJ0WmusOU5ZWVAhhMCNlUZyr6
- G0qT3DA1fVzo2V8nZxnngblqetzHJKSR+miCp8XRwGLhlG+W2G1Q5nwEwFOP7o0gJakb
- j2S1WpQ7zfG3vzI5Ni3F+TO6Xbjh3OKisJOI/pb6StoxGDG3Jcp9KXLlWNAhb4htkHQk
- O/sf/FggUeUkXiGKv/90X8McsbdfMah6EPv39VLId0TGsgPDutOHyKeup/0U4i20yvnE
- caI+43qShmW3G4xT3ADJ44W0g1/fS8nGC5pgfyLnrars8RnzLrVOxhonEv/dpOj+lQRf
- DdBQ==
-X-Gm-Message-State: AOAM532DuWwON8ZFhSWH2H0Abx8tJ973yMxZTdDjcQ0/Sc9dAMQGqQBZ
- p1O2jxi9MWd41ZN1zJrcwVKzTrUky8VvBPlqjL0/Y2o8P/OJoQGiFqFIH79ittFQhci7tztA+YC
- y7yB17AJfQgH6I9E=
-X-Received: by 2002:a17:906:3e54:: with SMTP id
- t20mr4315186eji.471.1595512025330; 
- Thu, 23 Jul 2020 06:47:05 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJw9WtnQy0mLJVorxpnlLK/GYBTRMKoeUE/LoxNg45YsIDqlUH3e12y/mPkPHx5t0zHMijQ6ew==
-X-Received: by 2002:a17:906:3e54:: with SMTP id
- t20mr4315163eji.471.1595512025154; 
- Thu, 23 Jul 2020 06:47:05 -0700 (PDT)
-Received: from vitty.brq.redhat.com (g-server-2.ign.cz. [91.219.240.2])
- by smtp.gmail.com with ESMTPSA id oz7sm2063028ejb.96.2020.07.23.06.47.04
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 23 Jul 2020 06:47:04 -0700 (PDT)
-From: Vitaly Kuznetsov <vkuznets@redhat.com>
-To: Paolo Bonzini <pbonzini@redhat.com>
-Subject: Re: 5.1.0-rc1 regression: reset fails with kvm and -cpu host
-In-Reply-To: <CABgObfZZCPGq9-G8aP9+6X1kxCfPFy9Kbfgq8FUsNKLdxOfLpQ@mail.gmail.com>
-References: <bf007af9-f81e-3542-0237-5ea467f34377@siemens.com>
- <20200722173513.GO1274972@habkost.net>
- <7be95bd6-dfc6-2c22-85a1-a1c932d07fdd@siemens.com>
- <20200722204731.GP1274972@habkost.net> <20200722212159.GQ1274972@habkost.net>
- <20200723084026.GB2622@work-vm>
- <3eba2f87-5527-bd7c-2eb7-ce67cb32d9ef@redhat.com>
- <87pn8mo20i.fsf@vitty.brq.redhat.com> <20200723125223.GI2621@work-vm>
- <60af679d-8c7d-cc37-344b-79aa193df166@siemens.com>
- <87mu3qnz00.fsf@vitty.brq.redhat.com>
- <CABgObfZZCPGq9-G8aP9+6X1kxCfPFy9Kbfgq8FUsNKLdxOfLpQ@mail.gmail.com>
-Date: Thu, 23 Jul 2020 15:47:03 +0200
-Message-ID: <87k0yuny20.fsf@vitty.brq.redhat.com>
+ in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
+ bh=sZqYL2Qh2htEiwGJUcFHAQRMrMALc1RvFXqvIWNSKmA=;
+ b=PryvS0UbyiDWvOb6c3WuTYNxpCL1KrU6RLzHYdCmIcmcpieK/xjM2k28GGvtRrdnKUBMiA
+ n2N9H4MsMzqLnnLAKn8UWFbk/rpCk9ZjLEuv1Da0/Cq5gfxBidWzoeCyEdbs9puRxfbVFD
+ qxi99vUH09C4rN8AymehTmmowADJZFU=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-183-GI1idbhtOtu8d0PgDKrIeg-1; Thu, 23 Jul 2020 09:47:41 -0400
+X-MC-Unique: GI1idbhtOtu8d0PgDKrIeg-1
+Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
+ [10.5.11.14])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 664FF18C63C0;
+ Thu, 23 Jul 2020 13:47:40 +0000 (UTC)
+Received: from dresden.str.redhat.com (ovpn-114-38.ams2.redhat.com
+ [10.36.114.38])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 5E4A85D9D3;
+ Thu, 23 Jul 2020 13:47:35 +0000 (UTC)
+Subject: Re: [PATCH v2 20/20] simplebench: add bench-backup.py
+To: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>,
+ qemu-block@nongnu.org
+References: <20200601181118.579-1-vsementsov@virtuozzo.com>
+ <20200601181118.579-21-vsementsov@virtuozzo.com>
+From: Max Reitz <mreitz@redhat.com>
+Autocrypt: addr=mreitz@redhat.com; prefer-encrypt=mutual; keydata=
+ mQENBFXOJlcBCADEyyhOTsoa/2ujoTRAJj4MKA21dkxxELVj3cuILpLTmtachWj7QW+TVG8U
+ /PsMCFbpwsQR7oEy8eHHZwuGQsNpEtNC2G/L8Yka0BIBzv7dEgrPzIu+W3anZXQW4702+uES
+ U29G8TP/NGfXRRHGlbBIH9KNUnOSUD2vRtpOLXkWsV5CN6vQFYgQfFvmp5ZpPeUe6xNplu8V
+ mcTw8OSEDW/ZnxJc8TekCKZSpdzYoxfzjm7xGmZqB18VFwgJZlIibt1HE0EB4w5GsD7x5ekh
+ awIe3RwoZgZDLQMdOitJ1tUc8aqaxvgA4tz6J6st8D8pS//m1gAoYJWGwwIVj1DjTYLtABEB
+ AAG0HU1heCBSZWl0eiA8bXJlaXR6QHJlZGhhdC5jb20+iQFTBBMBCAA9AhsDBQkSzAMABQsJ
+ CAcCBhUICQoLAgQWAgMBAh4BAheABQJVzie5FRhoa3A6Ly9rZXlzLmdudXBnLm5ldAAKCRD0
+ B9sAYdXPQDcIB/9uNkbYEex1rHKz3mr12uxYMwLOOFY9fstP5aoVJQ1nWQVB6m2cfKGdcRe1
+ 2/nFaHSNAzT0NnKz2MjhZVmcrpyd2Gp2QyISCfb1FbT82GMtXFj1wiHmPb3CixYmWGQUUh+I
+ AvUqsevLA+WihgBUyaJq/vuDVM1/K9Un+w+Tz5vpeMidlIsTYhcsMhn0L9wlCjoucljvbDy/
+ 8C9L2DUdgi3XTa0ORKeflUhdL4gucWoAMrKX2nmPjBMKLgU7WLBc8AtV+84b9OWFML6NEyo4
+ 4cP7cM/07VlJK53pqNg5cHtnWwjHcbpGkQvx6RUx6F1My3y52vM24rNUA3+ligVEgPYBuQEN
+ BFXOJlcBCADAmcVUNTWT6yLWQHvxZ0o47KCP8OcLqD+67T0RCe6d0LP8GsWtrJdeDIQk+T+F
+ xO7DolQPS6iQ6Ak2/lJaPX8L0BkEAiMuLCKFU6Bn3lFOkrQeKp3u05wCSV1iKnhg0UPji9V2
+ W5eNfy8F4ZQHpeGUGy+liGXlxqkeRVhLyevUqfU0WgNqAJpfhHSGpBgihUupmyUg7lfUPeRM
+ DzAN1pIqoFuxnN+BRHdAecpsLcbR8sQddXmDg9BpSKozO/JyBmaS1RlquI8HERQoe6EynJhd
+ 64aICHDfj61rp+/0jTIcevxIIAzW70IadoS/y3DVIkuhncgDBvGbF3aBtjrJVP+5ABEBAAGJ
+ ASUEGAEIAA8FAlXOJlcCGwwFCRLMAwAACgkQ9AfbAGHVz0CbFwf9F/PXxQR9i4N0iipISYjU
+ sxVdjJOM2TMut+ZZcQ6NSMvhZ0ogQxJ+iEQ5OjnIputKvPVd5U7WRh+4lF1lB/NQGrGZQ1ic
+ alkj6ocscQyFwfib+xIe9w8TG1CVGkII7+TbS5pXHRxZH1niaRpoi/hYtgzkuOPp35jJyqT/
+ /ELbqQTDAWcqtJhzxKLE/ugcOMK520dJDeb6x2xVES+S5LXby0D4juZlvUj+1fwZu+7Io5+B
+ bkhSVPb/QdOVTpnz7zWNyNw+OONo1aBUKkhq2UIByYXgORPFnbfMY7QWHcjpBVw9MgC4tGeF
+ R4bv+1nAMMxKmb5VvQCExr0eFhJUAHAhVg==
+Message-ID: <ec1321d3-7d16-a37a-a72d-7ae570b17793@redhat.com>
+Date: Thu, 23 Jul 2020 15:47:33 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.10.0
 MIME-Version: 1.0
+In-Reply-To: <20200601181118.579-21-vsementsov@virtuozzo.com>
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain
-Received-SPF: pass client-ip=207.211.31.120; envelope-from=vkuznets@redhat.com;
- helo=us-smtp-1.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/07/22 22:13:02
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature";
+ boundary="PBDUgzGvvEf8cn8AktV0ZopQFcFUKEehv"
+Received-SPF: pass client-ip=207.211.31.81; envelope-from=mreitz@redhat.com;
+ helo=us-smtp-delivery-1.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/07/23 02:26:42
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
 X-Spam_score_int: -30
 X-Spam_score: -3.1
 X-Spam_bar: ---
 X-Spam_report: (-3.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H4=-0.01, RCVD_IN_MSPIKE_WL=-0.01,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H3=-0.01, RCVD_IN_MSPIKE_WL=-0.01,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ URIBL_BLOCKED=0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -103,25 +107,64 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-devel <qemu-devel@nongnu.org>, Jan Kiszka <jan.kiszka@siemens.com>,
- Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
- "Dr. David Alan Gilbert" <dgilbert@redhat.com>,
- Eduardo Habkost <ehabkost@redhat.com>
+Cc: kwolf@redhat.com, wencongyang2@huawei.com, xiechanglong.d@gmail.com,
+ armbru@redhat.com, qemu-devel@nongnu.org, den@openvz.org, jsnow@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Paolo Bonzini <pbonzini@redhat.com> writes:
+This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
+--PBDUgzGvvEf8cn8AktV0ZopQFcFUKEehv
+Content-Type: multipart/mixed; boundary="aKaK3je60mYIQhyz4SVDCPcImY6pJrLmP"
 
-> Yes, that seems correct.
->
+--aKaK3je60mYIQhyz4SVDCPcImY6pJrLmP
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: quoted-printable
 
-Thank you!
+On 01.06.20 20:11, Vladimir Sementsov-Ogievskiy wrote:
+> Add script to benchmark new backup architecture.
+>=20
+> Signed-off-by: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
+> ---
+>  scripts/simplebench/bench-backup.py | 132 ++++++++++++++++++++++++++++
+>  1 file changed, 132 insertions(+)
+>  create mode 100755 scripts/simplebench/bench-backup.py
 
-It seems we also need to not reset HF2_GIF_MASK in
-kvm_get_nested_state() when !svm and KVM_STATE_NESTED_GIF_SET is missing
-(as nVMX doesn't set it). I'll be sending the patch shortly.
+Looks reasonable.  Not sure whether I can give an R-b, given my
+non-existing background on the simplebench scripts, and also that it=E2=80=
+=99s
+probably not really necessary.
 
--- 
-Vitaly
+The only thing that sprung to my eye is that you give x-use-copy-range
+even when the =E2=80=9Cnew=E2=80=9D label isn=E2=80=99t given, which may be=
+ a problem.  (Because
+AFAIU, the =E2=80=9Cnew=E2=80=9D label means that qemu is sufficiently new =
+to support
+x-max-workers; and that=E2=80=99s basically equivalent to supporting
+x-use-copy-range.)
+
+Max
+
+
+--aKaK3je60mYIQhyz4SVDCPcImY6pJrLmP--
+
+--PBDUgzGvvEf8cn8AktV0ZopQFcFUKEehv
+Content-Type: application/pgp-signature; name="signature.asc"
+Content-Description: OpenPGP digital signature
+Content-Disposition: attachment; filename="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAEBCAAdFiEEkb62CjDbPohX0Rgp9AfbAGHVz0AFAl8ZlPUACgkQ9AfbAGHV
+z0DVIQgApJ/zf2+EdfUIlQ+q4iiyF+xzxVnNDhYT963PkdyskoIZxn30WDGTY8AC
+jVRMT8OVEgfqp/at+nxNsI13vvSKkRlKM2ax56hnUogvSHLKPIMPoBs2wTiez/N2
+EnK4KTNBe5mS+xhGd/VVYazac3Hfme6UxxR0NM6Mp7i7VkvRXjyH86xK19rHGjFj
+4DAX7QUe7pey3v99sidtecPJ2rSWtzDLepWbxyxV5ri4THocb0ab2HTR6zZnCI3a
+6Epo8v4ptzUE6E/nlDDOwCOz+kUd/4nQGptABkum9aCffZVnUAl46gm3DTSV1Jgf
+DLzQ0ztaipOCvkrBqbQVQA8iMQ/y6g==
+=F+dc
+-----END PGP SIGNATURE-----
+
+--PBDUgzGvvEf8cn8AktV0ZopQFcFUKEehv--
 
 
