@@ -2,75 +2,76 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0222022B129
-	for <lists+qemu-devel@lfdr.de>; Thu, 23 Jul 2020 16:21:23 +0200 (CEST)
-Received: from localhost ([::1]:58690 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 12A8F22B132
+	for <lists+qemu-devel@lfdr.de>; Thu, 23 Jul 2020 16:23:12 +0200 (CEST)
+Received: from localhost ([::1]:35326 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jyc65-0001JN-Ri
-	for lists+qemu-devel@lfdr.de; Thu, 23 Jul 2020 10:21:21 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:43124)
+	id 1jyc7r-0003Hw-4k
+	for lists+qemu-devel@lfdr.de; Thu, 23 Jul 2020 10:23:11 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:43740)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <stefanb@linux.ibm.com>)
- id 1jyc50-0000jN-9O
- for qemu-devel@nongnu.org; Thu, 23 Jul 2020 10:20:14 -0400
-Received: from mx0a-001b2d01.pphosted.com ([148.163.156.1]:51936)
+ id 1jyc6n-0002b5-Vb
+ for qemu-devel@nongnu.org; Thu, 23 Jul 2020 10:22:05 -0400
+Received: from mx0b-001b2d01.pphosted.com ([148.163.158.5]:28810
+ helo=mx0a-001b2d01.pphosted.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <stefanb@linux.ibm.com>)
- id 1jyc4y-0005sx-9V
- for qemu-devel@nongnu.org; Thu, 23 Jul 2020 10:20:13 -0400
-Received: from pps.filterd (m0098404.ppops.net [127.0.0.1])
- by mx0a-001b2d01.pphosted.com (8.16.0.42/8.16.0.42) with SMTP id
- 06NE3UWd101259
- for <qemu-devel@nongnu.org>; Thu, 23 Jul 2020 10:20:09 -0400
+ id 1jyc6m-0006F7-CS
+ for qemu-devel@nongnu.org; Thu, 23 Jul 2020 10:22:05 -0400
+Received: from pps.filterd (m0098413.ppops.net [127.0.0.1])
+ by mx0b-001b2d01.pphosted.com (8.16.0.42/8.16.0.42) with SMTP id
+ 06NE24aM023355
+ for <qemu-devel@nongnu.org>; Thu, 23 Jul 2020 10:22:03 -0400
 Received: from pps.reinject (localhost [127.0.0.1])
- by mx0a-001b2d01.pphosted.com with ESMTP id 32face3hrb-1
+ by mx0b-001b2d01.pphosted.com with ESMTP id 32facsbamc-1
  (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT)
- for <qemu-devel@nongnu.org>; Thu, 23 Jul 2020 10:20:09 -0400
-Received: from m0098404.ppops.net (m0098404.ppops.net [127.0.0.1])
- by pps.reinject (8.16.0.36/8.16.0.36) with SMTP id 06NE3iPH103191
- for <qemu-devel@nongnu.org>; Thu, 23 Jul 2020 10:20:08 -0400
-Received: from ppma04wdc.us.ibm.com (1a.90.2fa9.ip4.static.sl-reverse.com
- [169.47.144.26])
- by mx0a-001b2d01.pphosted.com with ESMTP id 32face3hqq-1
+ for <qemu-devel@nongnu.org>; Thu, 23 Jul 2020 10:22:03 -0400
+Received: from m0098413.ppops.net (m0098413.ppops.net [127.0.0.1])
+ by pps.reinject (8.16.0.36/8.16.0.36) with SMTP id 06NE2Bph024348
+ for <qemu-devel@nongnu.org>; Thu, 23 Jul 2020 10:22:02 -0400
+Received: from ppma02wdc.us.ibm.com (aa.5b.37a9.ip4.static.sl-reverse.com
+ [169.55.91.170])
+ by mx0b-001b2d01.pphosted.com with ESMTP id 32facsbam3-1
  (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Thu, 23 Jul 2020 10:20:08 -0400
-Received: from pps.filterd (ppma04wdc.us.ibm.com [127.0.0.1])
- by ppma04wdc.us.ibm.com (8.16.0.42/8.16.0.42) with SMTP id 06NEFWSp027777;
- Thu, 23 Jul 2020 14:20:07 GMT
-Received: from b01cxnp23034.gho.pok.ibm.com (b01cxnp23034.gho.pok.ibm.com
- [9.57.198.29]) by ppma04wdc.us.ibm.com with ESMTP id 32brq9mxnc-1
+ Thu, 23 Jul 2020 10:22:02 -0400
+Received: from pps.filterd (ppma02wdc.us.ibm.com [127.0.0.1])
+ by ppma02wdc.us.ibm.com (8.16.0.42/8.16.0.42) with SMTP id 06NEF4cF030760;
+ Thu, 23 Jul 2020 14:22:02 GMT
+Received: from b01cxnp23033.gho.pok.ibm.com (b01cxnp23033.gho.pok.ibm.com
+ [9.57.198.28]) by ppma02wdc.us.ibm.com with ESMTP id 32brq9mwd2-1
  (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Thu, 23 Jul 2020 14:20:06 +0000
+ Thu, 23 Jul 2020 14:22:02 +0000
 Received: from b01ledav003.gho.pok.ibm.com (b01ledav003.gho.pok.ibm.com
  [9.57.199.108])
- by b01cxnp23034.gho.pok.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
- 06NEK6DC54002088
+ by b01cxnp23033.gho.pok.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
+ 06NEM1xB56689144
  (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Thu, 23 Jul 2020 14:20:06 GMT
+ Thu, 23 Jul 2020 14:22:01 GMT
 Received: from b01ledav003.gho.pok.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id 84F0CB205F;
- Thu, 23 Jul 2020 14:20:06 +0000 (GMT)
+ by IMSVA (Postfix) with ESMTP id CC013B2064;
+ Thu, 23 Jul 2020 14:22:01 +0000 (GMT)
 Received: from b01ledav003.gho.pok.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id 73D71B2064;
- Thu, 23 Jul 2020 14:20:06 +0000 (GMT)
+ by IMSVA (Postfix) with ESMTP id B2C6FB205F;
+ Thu, 23 Jul 2020 14:22:01 +0000 (GMT)
 Received: from sbct-3.pok.ibm.com (unknown [9.47.158.153])
  by b01ledav003.gho.pok.ibm.com (Postfix) with ESMTP;
- Thu, 23 Jul 2020 14:20:06 +0000 (GMT)
-Subject: Re: [PATCH for-5.1 1/2] Revert "tpm: Clean up error reporting in
- tpm_init_tpmdev()"
+ Thu, 23 Jul 2020 14:22:01 +0000 (GMT)
+Subject: Re: [PATCH for-5.1 2/2] tpm: Improve help on TPM types when none are
+ available
 To: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>,
  Markus Armbruster <armbru@redhat.com>, qemu-devel@nongnu.org
 References: <20200723115845.1865886-1-armbru@redhat.com>
- <20200723115845.1865886-2-armbru@redhat.com>
- <9b3d805f-6cb2-35ff-4f5d-879d3bbc00ab@redhat.com>
+ <20200723115845.1865886-3-armbru@redhat.com>
+ <42246b2f-e267-b254-10cf-0dc491d5f99e@redhat.com>
 From: Stefan Berger <stefanb@linux.ibm.com>
-Message-ID: <618e09cd-5c07-ee7f-3088-e179815c87e8@linux.ibm.com>
-Date: Thu, 23 Jul 2020 10:20:06 -0400
+Message-ID: <e0270711-f453-fa99-dc2e-74032b24118c@linux.ibm.com>
+Date: Thu, 23 Jul 2020 10:22:01 -0400
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
  Thunderbird/68.4.1
 MIME-Version: 1.0
-In-Reply-To: <9b3d805f-6cb2-35ff-4f5d-879d3bbc00ab@redhat.com>
+In-Reply-To: <42246b2f-e267-b254-10cf-0dc491d5f99e@redhat.com>
 Content-Type: text/plain; charset=utf-8; format=flowed
 Content-Transfer-Encoding: 8bit
 Content-Language: en-US
@@ -79,15 +80,15 @@ X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:6.0.235, 18.0.687
  definitions=2020-07-23_06:2020-07-23,
  2020-07-23 signatures=0
 X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- mlxlogscore=999 spamscore=0
- priorityscore=1501 bulkscore=0 lowpriorityscore=0 impostorscore=0
- phishscore=0 malwarescore=0 suspectscore=0 adultscore=0 clxscore=1015
- mlxscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2006250000 definitions=main-2007230105
-Received-SPF: pass client-ip=148.163.156.1; envelope-from=stefanb@linux.ibm.com;
+ malwarescore=0
+ impostorscore=0 mlxscore=0 priorityscore=1501 lowpriorityscore=0
+ spamscore=0 mlxlogscore=999 bulkscore=0 adultscore=0 suspectscore=0
+ clxscore=1015 phishscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2006250000 definitions=main-2007230102
+Received-SPF: pass client-ip=148.163.158.5; envelope-from=stefanb@linux.ibm.com;
  helo=mx0a-001b2d01.pphosted.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/07/23 10:20:10
-X-ACL-Warn: Detected OS   = Linux 3.x [generic] [fuzzy]
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/07/23 10:22:03
+X-ACL-Warn: Detected OS   = Linux 3.x [generic]
 X-Spam_score_int: -35
 X-Spam_score: -3.6
 X-Spam_bar: ---
@@ -109,31 +110,18 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 7/23/20 8:50 AM, Philippe Mathieu-Daudé wrote:
+On 7/23/20 8:49 AM, Philippe Mathieu-Daudé wrote:
 > On 7/23/20 1:58 PM, Markus Armbruster wrote:
->> This reverts commit d10e05f15d5c3dd5e5cc59c5dfff460d89d48580.
+>> Help is a bit awkward when no TPM types are built into QEMU:
 >>
->> We report some -tpmdev failures, but then continue as if all was fine.
->> Reproducer:
+>>      $ upstream-qemu -tpmdev nonexistent,id=tpm0
+>>      upstream-qemu: -tpmdev nonexistent,id=tpm0: Parameter 'type' expects a TPM backend type
+>>      Supported TPM types (choose only one):
 >>
->>      $ qemu-system-x86_64 -nodefaults -S -display none -monitor stdio -chardev null,id=tpm0 -tpmdev emulator,id=tpm0,chardev=chrtpm -device tpm-tis,tpmdev=tpm0
->>      qemu-system-x86_64: -tpmdev emulator,id=tpm0,chardev=chrtpm: tpm-emulator: tpm chardev 'chrtpm' not found.
->>      qemu-system-x86_64: -tpmdev emulator,id=tpm0,chardev=chrtpm: tpm-emulator: Could not cleanly shutdown the TPM: No such file or directory
->>      QEMU 5.0.90 monitor - type 'help' for more information
->>      (qemu) qemu-system-x86_64: -device tpm-tis,tpmdev=tpm0: Property 'tpm-tis.tpmdev' can't find value 'tpm0'
->>      $ echo $?
->>      1
+>> Improve to
 >>
->> This is a regression caused by commit d10e05f15d "tpm: Clean up error
->> reporting in tpm_init_tpmdev()".  It's incomplete: be->create(opts)
->> continues to use error_report(), and we don't set an error when it
->> fails.
->>
->> I figure converting the create() methods to Error would make some
->> sense, but I'm not sure it's worth the effort right now.  Revert the
->> broken commit instead, and add a comment to tpm_init_tpmdev().
->>
->> Straightforward conflict in tpm.c resolved.
+>>      upstream-qemu: -tpmdev nonexistent,id=tpm0: Parameter 'type' expects a TPM backend type
+>>      No TPM backend types are available
 >>
 >> Signed-off-by: Markus Armbruster <armbru@redhat.com>
 > Reviewed-by: Philippe Mathieu-Daudé <philmd@redhat.com>
@@ -141,5 +129,44 @@ On 7/23/20 8:50 AM, Philippe Mathieu-Daudé wrote:
 
 Reviewed-by: Stefan Berger <stefanb@linux.ibm.com>
 
+
+>
+>> ---
+>>   tpm.c | 13 +++++++++----
+>>   1 file changed, 9 insertions(+), 4 deletions(-)
+>>
+>> diff --git a/tpm.c b/tpm.c
+>> index f6045bb6da..cab206355a 100644
+>> --- a/tpm.c
+>> +++ b/tpm.c
+>> @@ -47,18 +47,23 @@ tpm_be_find_by_type(enum TpmType type)
+>>    */
+>>   static void tpm_display_backend_drivers(void)
+>>   {
+>> +    bool got_one = false;
+>>       int i;
+>>   
+>> -    fprintf(stderr, "Supported TPM types (choose only one):\n");
+>> -
+>>       for (i = 0; i < TPM_TYPE__MAX; i++) {
+>>           const TPMBackendClass *bc = tpm_be_find_by_type(i);
+>>           if (!bc) {
+>>               continue;
+>>           }
+>> -        fprintf(stderr, "%12s   %s\n", TpmType_str(i), bc->desc);
+>> +        if (!got_one) {
+>> +            error_printf("Supported TPM types (choose only one):\n");
+>> +            got_one = true;
+>> +        }
+>> +        error_printf("%12s   %s\n", TpmType_str(i), bc->desc);
+>> +    }
+>> +    if (!got_one) {
+>> +        error_printf("No TPM backend types are available\n");
+>>       }
+>> -    fprintf(stderr, "\n");
+>>   }
+>>   
+>>   /*
+>>
 
 
