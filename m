@@ -2,66 +2,73 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 339AF22AF71
-	for <lists+qemu-devel@lfdr.de>; Thu, 23 Jul 2020 14:34:29 +0200 (CEST)
-Received: from localhost ([::1]:47476 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0DBA022AF82
+	for <lists+qemu-devel@lfdr.de>; Thu, 23 Jul 2020 14:36:16 +0200 (CEST)
+Received: from localhost ([::1]:55144 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jyaQe-0006CL-77
-	for lists+qemu-devel@lfdr.de; Thu, 23 Jul 2020 08:34:28 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:36290)
+	id 1jyaSN-0000yy-4U
+	for lists+qemu-devel@lfdr.de; Thu, 23 Jul 2020 08:36:15 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:36770)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <stefanha@redhat.com>)
- id 1jyaP6-0004Vf-CY
- for qemu-devel@nongnu.org; Thu, 23 Jul 2020 08:32:52 -0400
-Received: from us-smtp-1.mimecast.com ([205.139.110.61]:35734
- helo=us-smtp-delivery-1.mimecast.com)
+ (Exim 4.90_1) (envelope-from <wainersm@redhat.com>)
+ id 1jyaQk-0007gg-Ns
+ for qemu-devel@nongnu.org; Thu, 23 Jul 2020 08:34:34 -0400
+Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:58858
+ helo=us-smtp-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <stefanha@redhat.com>)
- id 1jyaP4-0004NZ-P0
- for qemu-devel@nongnu.org; Thu, 23 Jul 2020 08:32:52 -0400
+ (Exim 4.90_1) (envelope-from <wainersm@redhat.com>)
+ id 1jyaQj-0004XE-1J
+ for qemu-devel@nongnu.org; Thu, 23 Jul 2020 08:34:34 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1595507570;
+ s=mimecast20190719; t=1595507671;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=lvN8M+tJjfimie1VPyOcfMod4sSBXeqisQGAakSHFUg=;
- b=KAu+J9q+wXsH5ZpmDypuKdx710EvZn7rYQiO9LHxdJu0IYMEvV2rGQ1KXitAGPna4ZvOH4
- 1EvllFcmjuq8PErVSD//4VRKkZ+Pd/nXgCREsmDGfYcXcQwM7fHUByIFRov+bKrdJG1xJL
- pY+upp1m6ABrXdqGewAOLwMUFGt8qZk=
+ bh=CGFdkiMMnv21p2XxDrboBs5BPcRmdQ3tPRBFMi7QLtg=;
+ b=gGaeYHPf+aWzIUsSIuuvwv2IurPOYda4eH/z6ltcU7Ng2qjI3NW9680oLqOHoIsRNVWHyb
+ vpOzeB9XQD8PXhKsuNK7CHtnLGocsdqirT6VmWhNkiIL2pYrnUsAH8Z2ZMotCUPdwHe0g9
+ h9CyWJg68V5MaogtCP4L1IzsPJqgo9w=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-334-p01ZCY7FN7GvCQMx8zKGtw-1; Thu, 23 Jul 2020 08:32:47 -0400
-X-MC-Unique: p01ZCY7FN7GvCQMx8zKGtw-1
-Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
- [10.5.11.16])
+ us-mta-84-qCr4MufyN6aUt01YqomHXA-1; Thu, 23 Jul 2020 08:33:21 -0400
+X-MC-Unique: qCr4MufyN6aUt01YqomHXA-1
+Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
+ [10.5.11.12])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id ECC4280BCBA
- for <qemu-devel@nongnu.org>; Thu, 23 Jul 2020 12:32:45 +0000 (UTC)
-Received: from localhost (ovpn-114-204.ams2.redhat.com [10.36.114.204])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 210546A500;
- Thu, 23 Jul 2020 12:32:30 +0000 (UTC)
-Date: Thu, 23 Jul 2020 13:32:29 +0100
-From: Stefan Hajnoczi <stefanha@redhat.com>
-To: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
-Subject: Re: [PATCH for-5.1 2/3] virtiofsd: add container-friendly -o chroot
- sandboxing option
-Message-ID: <20200723123229.GK186372@stefanha-x1.localdomain>
-References: <20200722130206.224898-1-stefanha@redhat.com>
- <20200722130206.224898-3-stefanha@redhat.com>
- <20200722190318.GM2660@work-vm>
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id EBAA0189CEE2;
+ Thu, 23 Jul 2020 12:33:11 +0000 (UTC)
+Received: from localhost.localdomain (ovpn-116-96.gru2.redhat.com
+ [10.97.116.96])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id CE5EF756A0;
+ Thu, 23 Jul 2020 12:33:07 +0000 (UTC)
+Subject: Re: [PATCH 3/4] tests/acceptance: Disable the rx sash and arm
+ cubieboard replay test on Gitlab
+To: Thomas Huth <thuth@redhat.com>, qemu-devel@nongnu.org,
+ =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>,
+ =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>
+References: <20200723122800.723-1-thuth@redhat.com>
+ <20200723122800.723-4-thuth@redhat.com>
+From: Wainer dos Santos Moschetta <wainersm@redhat.com>
+Message-ID: <aee2cb74-1e6c-7c5b-f09e-c8cd5e532383@redhat.com>
+Date: Thu, 23 Jul 2020 09:33:04 -0300
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+ Thunderbird/60.4.0
 MIME-Version: 1.0
-In-Reply-To: <20200722190318.GM2660@work-vm>
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
+In-Reply-To: <20200723122800.723-4-thuth@redhat.com>
+Content-Language: en-US
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=wainersm@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature"; boundary="W/+CTqSGWdiRg+8j"
-Content-Disposition: inline
-Received-SPF: pass client-ip=205.139.110.61; envelope-from=stefanha@redhat.com;
- helo=us-smtp-delivery-1.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/07/23 02:33:29
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=205.139.110.120; envelope-from=wainersm@redhat.com;
+ helo=us-smtp-1.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/07/23 06:04:25
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
 X-Spam_score_int: -40
 X-Spam_score: -4.1
@@ -82,59 +89,64 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: virtio-fs@redhat.com, rmohr@redhat.com, qemu-devel@nongnu.org,
- vromanso@redhat.com
+Cc: Fam Zheng <fam@euphon.net>, Pavel Dovgalyuk <pavel.dovgaluk@ispras.ru>,
+ Yoshinori Sato <ysato@users.sourceforge.jp>, Cleber Rosa <crosa@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
---W/+CTqSGWdiRg+8j
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
 
-On Wed, Jul 22, 2020 at 08:03:18PM +0100, Dr. David Alan Gilbert wrote:
-> * Stefan Hajnoczi (stefanha@redhat.com) wrote:
-> > +    /*
-> > +     * Make the shared directory the file system root so that FUSE_OPE=
-N
-> > +     * (lo_open()) cannot escape the shared directory by opening a sym=
-link.
-> > +     *
-> > +     * It's still possible to escape the chroot via lo->proc_self_fd b=
-ut that
-> > +     * requires gaining control of the process first.
-> > +     */
-> > +    if (chroot(lo->source) !=3D 0) {
-> > +        fuse_log(FUSE_LOG_ERR, "chroot(\"%s\"): %m\n", lo->source);
-> > +        exit(1);
-> > +    }
->=20
-> I'm seeing suggestions that you should drop CAP_SYS_CHROOT after
-> chroot'ing to stop an old escape (where you create another jail inside
-> the jail and the kernel then lets you walk outside of the old one).
+On 7/23/20 9:27 AM, Thomas Huth wrote:
+> These tests always time out on Gitlab, not sure what's happening here.
+> Let's disable them until somebody has enough spare time to debug the
+> issues.
 
-That's already the case:
+It's fair to me.
 
-1. setup_seccomp() blocks further chroot(2) calls.
-2. setup_capabilities() drops CAP_SYS_CHROOT.
+>
+> Signed-off-by: Thomas Huth <thuth@redhat.com>
+> ---
+>   tests/acceptance/machine_rx_gdbsim.py | 4 ++++
+>   tests/acceptance/replay_kernel.py     | 1 +
+>   2 files changed, 5 insertions(+)
 
-Stefan
 
---W/+CTqSGWdiRg+8j
-Content-Type: application/pgp-signature; name="signature.asc"
+Reviewed-by: Wainer dos Santos Moschetta <wainersm@redhat.com>
 
------BEGIN PGP SIGNATURE-----
 
-iQEzBAEBCAAdFiEEhpWov9P5fNqsNXdanKSrs4Grc8gFAl8Zg10ACgkQnKSrs4Gr
-c8h4HQf/RUS35yKPn0YuL0Blj7IStwftED6MWxJTsn76LYo4pnAtm1LLqWgDBuHo
-qzpHnQhP7LEka+NA83+Vqmfz2qXtsYbj6itgLA73h/15b2pMWCkKg9U2yM0iztJp
-pg4zDLUrt54i9NFTdRTsj+CHGFHdgspf+8ipMLhsiybtph3skBQtk3EvRUyVMJhR
-2LxS5pRUCbr9uS5l/QLv9VAjcsCgEW98p2HG4uCJo6tY0li9iFY63Q5to3HL3rCy
-EGMkFSOk/KYMcIoJQqSIO7getjtLVJuVqBxocKeYz2k7acpnE7UOODn9AVwWyfgn
-FecaTHoPhmvjwaKwjUaQbmnbXs/fOQ==
-=Yuf1
------END PGP SIGNATURE-----
-
---W/+CTqSGWdiRg+8j--
+>
+> diff --git a/tests/acceptance/machine_rx_gdbsim.py b/tests/acceptance/machine_rx_gdbsim.py
+> index bff63e421d..0c72506028 100644
+> --- a/tests/acceptance/machine_rx_gdbsim.py
+> +++ b/tests/acceptance/machine_rx_gdbsim.py
+> @@ -8,6 +8,9 @@
+>   # This work is licensed under the terms of the GNU GPL, version 2 or
+>   # later.  See the COPYING file in the top-level directory.
+>   
+> +import os
+> +
+> +from avocado import skipIf
+>   from avocado_qemu import Test
+>   from avocado_qemu import exec_command_and_wait_for_pattern
+>   from avocado_qemu import wait_for_console_pattern
+> @@ -42,6 +45,7 @@ class RxGdbSimMachine(Test):
+>           # FIXME limit baudrate on chardev, else we type too fast
+>           #exec_command_and_wait_for_pattern(self, 'version', gcc_version)
+>   
+> +    @skipIf(os.getenv('GITLAB_CI'), 'Running on GitLab')
+>       def test_linux_sash(self):
+>           """
+>           Boots a Linux kernel and checks that the console is operational.
+> diff --git a/tests/acceptance/replay_kernel.py b/tests/acceptance/replay_kernel.py
+> index 62d2db8c64..b79fc8daf8 100644
+> --- a/tests/acceptance/replay_kernel.py
+> +++ b/tests/acceptance/replay_kernel.py
+> @@ -126,6 +126,7 @@ class ReplayKernel(LinuxKernelTest):
+>   
+>           self.run_rr(kernel_path, kernel_command_line, console_pattern, shift=1)
+>   
+> +    @skipIf(os.getenv('GITLAB_CI'), 'Running on GitLab')
+>       def test_arm_cubieboard_initrd(self):
+>           """
+>           :avocado: tags=arch:arm
 
 
