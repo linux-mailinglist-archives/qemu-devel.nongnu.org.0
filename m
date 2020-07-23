@@ -2,62 +2,65 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A4BC622B581
-	for <lists+qemu-devel@lfdr.de>; Thu, 23 Jul 2020 20:15:58 +0200 (CEST)
-Received: from localhost ([::1]:56222 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 378EB22B60D
+	for <lists+qemu-devel@lfdr.de>; Thu, 23 Jul 2020 20:49:17 +0200 (CEST)
+Received: from localhost ([::1]:43082 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jyfl7-0007Y7-Mh
-	for lists+qemu-devel@lfdr.de; Thu, 23 Jul 2020 14:15:57 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:50468)
+	id 1jygHL-0007oD-Pi
+	for lists+qemu-devel@lfdr.de; Thu, 23 Jul 2020 14:49:15 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:57746)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1jyfjf-0006Ef-W2
- for qemu-devel@nongnu.org; Thu, 23 Jul 2020 14:14:28 -0400
-Received: from us-smtp-2.mimecast.com ([205.139.110.61]:41638
+ (Exim 4.90_1) (envelope-from <eblake@redhat.com>) id 1jygGH-0007MO-G3
+ for qemu-devel@nongnu.org; Thu, 23 Jul 2020 14:48:09 -0400
+Received: from us-smtp-1.mimecast.com ([205.139.110.61]:47689
  helo=us-smtp-delivery-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1jyfjd-0007jy-W5
- for qemu-devel@nongnu.org; Thu, 23 Jul 2020 14:14:27 -0400
+ (Exim 4.90_1) (envelope-from <eblake@redhat.com>) id 1jygGE-0003j1-PQ
+ for qemu-devel@nongnu.org; Thu, 23 Jul 2020 14:48:09 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1595528065;
+ s=mimecast20190719; t=1595530085;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=s/9W4aKIzNmcUYxEK12c4NQy4bbOENp8nQF3Nb267To=;
- b=WvnyAbXABj9/dpTk7HmCNNhUBjSgylmjX6Er/gmMFe3o+0TFEiSL6bo/A0n4HXn0RpW6LP
- LmyrKIYPQrz7zbirc5Xa4iTNsKdr18DKUNaerPTZwKnD/M8veslX5rxQB9Dot6TetR9Yc1
- RWf5pau7uYaXC3RHw5tQ7yJLqweqpbs=
+ bh=sOAS6CD4HuwwmZROCmy8PMzi7bLrPfJAeFMoB4NKM4Q=;
+ b=EjlOW91S3JjdHhohDnEKLSwoqttMcUgJKP+6qAFs4TpK5ymAg2hmI8ikXXWwGC4yoP7NXA
+ fr0JlVH0p4LasK/XLIotmRn7xwsGc3n1lzhKfkon5PQXxc5jUl3N2uexQaKor8xwqvWh33
+ lQwLFRExmApyrTPRqc52TFc6lXE7HY4=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-286-bXS_s7ETNgyjDp6O84WpFg-1; Thu, 23 Jul 2020 14:14:23 -0400
-X-MC-Unique: bXS_s7ETNgyjDp6O84WpFg-1
+ us-mta-414-02wbfZfHMaSUqMThtglknQ-1; Thu, 23 Jul 2020 14:48:01 -0400
+X-MC-Unique: 02wbfZfHMaSUqMThtglknQ-1
 Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
  [10.5.11.22])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 583E9100AA26
- for <qemu-devel@nongnu.org>; Thu, 23 Jul 2020 18:14:22 +0000 (UTC)
-Received: from localhost.localdomain.com (unknown [10.36.110.60])
- by smtp.corp.redhat.com (Postfix) with ESMTP id B45F01009940;
- Thu, 23 Jul 2020 18:14:20 +0000 (UTC)
-From: =?UTF-8?q?Daniel=20P=2E=20Berrang=C3=A9?= <berrange@redhat.com>
-To: qemu-devel@nongnu.org
-Subject: [PATCH 4/4] crypto: use QOM macros for declaration/definition of TLS
- creds types
-Date: Thu, 23 Jul 2020 19:14:10 +0100
-Message-Id: <20200723181410.3145233-5-berrange@redhat.com>
-In-Reply-To: <20200723181410.3145233-1-berrange@redhat.com>
-References: <20200723181410.3145233-1-berrange@redhat.com>
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 3EA3C1DF5;
+ Thu, 23 Jul 2020 18:48:00 +0000 (UTC)
+Received: from [10.3.112.189] (ovpn-112-189.phx2.redhat.com [10.3.112.189])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 7D9CC1009940;
+ Thu, 23 Jul 2020 18:47:59 +0000 (UTC)
+Subject: Re: [PATCH 1/3] block/nbd: allow drain during reconnect attempt
+To: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>,
+ qemu-block@nongnu.org
+References: <20200720090024.18186-1-vsementsov@virtuozzo.com>
+ <20200720090024.18186-2-vsementsov@virtuozzo.com>
+From: Eric Blake <eblake@redhat.com>
+Organization: Red Hat, Inc.
+Message-ID: <7211b25e-94b8-de52-a2da-66f480af9a2a@redhat.com>
+Date: Thu, 23 Jul 2020 13:47:58 -0500
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.10.0
 MIME-Version: 1.0
+In-Reply-To: <20200720090024.18186-2-vsementsov@virtuozzo.com>
+Content-Language: en-US
 X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=205.139.110.61; envelope-from=berrange@redhat.com;
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=205.139.110.61; envelope-from=eblake@redhat.com;
  helo=us-smtp-delivery-1.mimecast.com
 X-detected-operating-system: by eggs.gnu.org: First seen = 2020/07/23 02:33:29
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
@@ -67,7 +70,7 @@ X-Spam_bar: ----
 X-Spam_report: (-4.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-1, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ SPF_PASS=-0.001, URIBL_BLOCKED=0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -80,313 +83,94 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Paolo Bonzini <pbonzini@redhat.com>,
- =?UTF-8?q?Daniel=20P=2E=20Berrang=C3=A9?= <berrange@redhat.com>,
- Eduardo Habkost <ehabkost@redhat.com>
+Cc: kwolf@redhat.com, den@openvz.org, qemu-devel@nongnu.org, mreitz@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-This introduces the use of the OBJECT_DEFINE and OBJECT_DECLARE macro
-families in the TLS creds types, in order to eliminate boilerplate code.
+On 7/20/20 4:00 AM, Vladimir Sementsov-Ogievskiy wrote:
+> It should be to reenter qio_channel_yield() on io/channel read/write
+> path, so it's safe to reduce in_flight and allow attaching new aio
+> context. And no problem to allow drain itself: connection attempt is
+> not a guest request. Moreover, if remote server is down, we can hang
+> in negotiation, blocking drain section and provoking a dead lock.
+> 
+> How to reproduce the dead lock:
+> 
 
-Signed-off-by: Daniel P. Berrangé <berrange@redhat.com>
----
- crypto/tlscreds.c             | 25 +++----------------------
- crypto/tlscredsanon.c         | 23 ++++-------------------
- crypto/tlscredspsk.c          | 25 +++++--------------------
- crypto/tlscredsx509.c         | 29 ++++-------------------------
- include/crypto/tlscreds.h     | 13 ++-----------
- include/crypto/tlscredsanon.h | 14 ++------------
- include/crypto/tlscredspsk.h  | 13 ++-----------
- include/crypto/tlscredsx509.h | 13 ++-----------
- 8 files changed, 24 insertions(+), 131 deletions(-)
+I tried to reproduce this; but in the several minutes it has taken me to 
+write this email, it still has not hung.  Still, your stack trace is 
+fairly good evidence of the problem, where adding a temporary sleep or 
+running it under gdb with a breakpoint can probably make reproduction 
+easier.
 
-diff --git a/crypto/tlscreds.c b/crypto/tlscreds.c
-index b68735f06f..c238ff7d4b 100644
---- a/crypto/tlscreds.c
-+++ b/crypto/tlscreds.c
-@@ -24,6 +24,9 @@
- #include "tlscredspriv.h"
- #include "trace.h"
- 
-+OBJECT_DEFINE_ABSTRACT_TYPE(QCryptoTLSCreds, qcrypto_tls_creds,
-+                            QCRYPTO_TLS_CREDS, OBJECT)
-+
- #define DH_BITS 2048
- 
- #ifdef CONFIG_GNUTLS
-@@ -258,25 +261,3 @@ qcrypto_tls_creds_finalize(Object *obj)
-     g_free(creds->dir);
-     g_free(creds->priority);
- }
--
--
--static const TypeInfo qcrypto_tls_creds_info = {
--    .parent = TYPE_OBJECT,
--    .name = TYPE_QCRYPTO_TLS_CREDS,
--    .instance_size = sizeof(QCryptoTLSCreds),
--    .instance_init = qcrypto_tls_creds_init,
--    .instance_finalize = qcrypto_tls_creds_finalize,
--    .class_init = qcrypto_tls_creds_class_init,
--    .class_size = sizeof(QCryptoTLSCredsClass),
--    .abstract = true,
--};
--
--
--static void
--qcrypto_tls_creds_register_types(void)
--{
--    type_register_static(&qcrypto_tls_creds_info);
--}
--
--
--type_init(qcrypto_tls_creds_register_types);
-diff --git a/crypto/tlscredsanon.c b/crypto/tlscredsanon.c
-index 30275b6847..dc1b77e37c 100644
---- a/crypto/tlscredsanon.c
-+++ b/crypto/tlscredsanon.c
-@@ -26,6 +26,9 @@
- #include "qom/object_interfaces.h"
- #include "trace.h"
- 
-+OBJECT_DEFINE_TYPE_WITH_INTERFACES(QCryptoTLSCredsAnon, qcrypto_tls_creds_anon,
-+                                   QCRYPTO_TLS_CREDS_ANON, QCRYPTO_TLS_CREDS,
-+                                   { TYPE_USER_CREATABLE }, { NULL })
- 
- #ifdef CONFIG_GNUTLS
- 
-@@ -191,25 +194,7 @@ qcrypto_tls_creds_anon_class_init(ObjectClass *oc, void *data)
- }
- 
- 
--static const TypeInfo qcrypto_tls_creds_anon_info = {
--    .parent = TYPE_QCRYPTO_TLS_CREDS,
--    .name = TYPE_QCRYPTO_TLS_CREDS_ANON,
--    .instance_size = sizeof(QCryptoTLSCredsAnon),
--    .instance_finalize = qcrypto_tls_creds_anon_finalize,
--    .class_size = sizeof(QCryptoTLSCredsAnonClass),
--    .class_init = qcrypto_tls_creds_anon_class_init,
--    .interfaces = (InterfaceInfo[]) {
--        { TYPE_USER_CREATABLE },
--        { }
--    }
--};
--
--
- static void
--qcrypto_tls_creds_anon_register_types(void)
-+qcrypto_tls_creds_anon_init(Object *obj)
- {
--    type_register_static(&qcrypto_tls_creds_anon_info);
- }
--
--
--type_init(qcrypto_tls_creds_anon_register_types);
-diff --git a/crypto/tlscredspsk.c b/crypto/tlscredspsk.c
-index e26807b899..0c66be3647 100644
---- a/crypto/tlscredspsk.c
-+++ b/crypto/tlscredspsk.c
-@@ -27,6 +27,10 @@
- #include "trace.h"
- 
- 
-+OBJECT_DEFINE_TYPE_WITH_INTERFACES(QCryptoTLSCredsPSK, qcrypto_tls_creds_psk,
-+                                   QCRYPTO_TLS_CREDS_PSK, QCRYPTO_TLS_CREDS,
-+                                   { TYPE_USER_CREATABLE }, { NULL })
-+
- #ifdef CONFIG_GNUTLS
- 
- static int
-@@ -281,26 +285,7 @@ qcrypto_tls_creds_psk_class_init(ObjectClass *oc, void *data)
-                                   qcrypto_tls_creds_psk_prop_set_username);
- }
- 
--
--static const TypeInfo qcrypto_tls_creds_psk_info = {
--    .parent = TYPE_QCRYPTO_TLS_CREDS,
--    .name = TYPE_QCRYPTO_TLS_CREDS_PSK,
--    .instance_size = sizeof(QCryptoTLSCredsPSK),
--    .instance_finalize = qcrypto_tls_creds_psk_finalize,
--    .class_size = sizeof(QCryptoTLSCredsPSKClass),
--    .class_init = qcrypto_tls_creds_psk_class_init,
--    .interfaces = (InterfaceInfo[]) {
--        { TYPE_USER_CREATABLE },
--        { }
--    }
--};
--
--
- static void
--qcrypto_tls_creds_psk_register_types(void)
-+qcrypto_tls_creds_psk_init(Object *obj)
- {
--    type_register_static(&qcrypto_tls_creds_psk_info);
- }
--
--
--type_init(qcrypto_tls_creds_psk_register_types);
-diff --git a/crypto/tlscredsx509.c b/crypto/tlscredsx509.c
-index dd7267ccdb..a39555e5e6 100644
---- a/crypto/tlscredsx509.c
-+++ b/crypto/tlscredsx509.c
-@@ -28,6 +28,10 @@
- #include "trace.h"
- 
- 
-+OBJECT_DEFINE_TYPE_WITH_INTERFACES(QCryptoTLSCredsX509, qcrypto_tls_creds_x509,
-+                                   QCRYPTO_TLS_CREDS_X509, QCRYPTO_TLS_CREDS,
-+                                   { TYPE_USER_CREATABLE }, { NULL })
-+
- #ifdef CONFIG_GNUTLS
- 
- #include <gnutls/x509.h>
-@@ -814,28 +818,3 @@ qcrypto_tls_creds_x509_class_init(ObjectClass *oc, void *data)
-                                   qcrypto_tls_creds_x509_prop_get_passwordid,
-                                   qcrypto_tls_creds_x509_prop_set_passwordid);
- }
--
--
--static const TypeInfo qcrypto_tls_creds_x509_info = {
--    .parent = TYPE_QCRYPTO_TLS_CREDS,
--    .name = TYPE_QCRYPTO_TLS_CREDS_X509,
--    .instance_size = sizeof(QCryptoTLSCredsX509),
--    .instance_init = qcrypto_tls_creds_x509_init,
--    .instance_finalize = qcrypto_tls_creds_x509_finalize,
--    .class_size = sizeof(QCryptoTLSCredsX509Class),
--    .class_init = qcrypto_tls_creds_x509_class_init,
--    .interfaces = (InterfaceInfo[]) {
--        { TYPE_USER_CREATABLE },
--        { }
--    }
--};
--
--
--static void
--qcrypto_tls_creds_x509_register_types(void)
--{
--    type_register_static(&qcrypto_tls_creds_x509_info);
--}
--
--
--type_init(qcrypto_tls_creds_x509_register_types);
-diff --git a/include/crypto/tlscreds.h b/include/crypto/tlscreds.h
-index fd7a284aa2..e9b9b8c20a 100644
---- a/include/crypto/tlscreds.h
-+++ b/include/crypto/tlscreds.h
-@@ -29,11 +29,8 @@
- #endif
- 
- #define TYPE_QCRYPTO_TLS_CREDS "tls-creds"
--#define QCRYPTO_TLS_CREDS(obj)                  \
--    OBJECT_CHECK(QCryptoTLSCreds, (obj), TYPE_QCRYPTO_TLS_CREDS)
--
--typedef struct QCryptoTLSCreds QCryptoTLSCreds;
--typedef struct QCryptoTLSCredsClass QCryptoTLSCredsClass;
-+OBJECT_DECLARE_SIMPLE_TYPE(QCryptoTLSCreds, qcrypto_tls_creds,
-+                           QCRYPTO_TLS_CREDS, Object)
- 
- #define QCRYPTO_TLS_CREDS_DH_PARAMS "dh-params.pem"
- 
-@@ -58,10 +55,4 @@ struct QCryptoTLSCreds {
-     char *priority;
- };
- 
--
--struct QCryptoTLSCredsClass {
--    ObjectClass parent_class;
--};
--
--
- #endif /* QCRYPTO_TLSCREDS_H */
-diff --git a/include/crypto/tlscredsanon.h b/include/crypto/tlscredsanon.h
-index 9e9a5ce1a8..e366132b6b 100644
---- a/include/crypto/tlscredsanon.h
-+++ b/include/crypto/tlscredsanon.h
-@@ -24,12 +24,8 @@
- #include "crypto/tlscreds.h"
- 
- #define TYPE_QCRYPTO_TLS_CREDS_ANON "tls-creds-anon"
--#define QCRYPTO_TLS_CREDS_ANON(obj)                  \
--    OBJECT_CHECK(QCryptoTLSCredsAnon, (obj), TYPE_QCRYPTO_TLS_CREDS_ANON)
--
--
--typedef struct QCryptoTLSCredsAnon QCryptoTLSCredsAnon;
--typedef struct QCryptoTLSCredsAnonClass QCryptoTLSCredsAnonClass;
-+OBJECT_DECLARE_SIMPLE_TYPE(QCryptoTLSCredsAnon, qcrypto_tls_creds_anon,
-+                           QCRYPTO_TLS_CREDS_ANON, QCryptoTLSCreds)
- 
- /**
-  * QCryptoTLSCredsAnon:
-@@ -102,10 +98,4 @@ struct QCryptoTLSCredsAnon {
- #endif
- };
- 
--
--struct QCryptoTLSCredsAnonClass {
--    QCryptoTLSCredsClass parent_class;
--};
--
--
- #endif /* QCRYPTO_TLSCREDSANON_H */
-diff --git a/include/crypto/tlscredspsk.h b/include/crypto/tlscredspsk.h
-index 907035a29b..0754c6c2d5 100644
---- a/include/crypto/tlscredspsk.h
-+++ b/include/crypto/tlscredspsk.h
-@@ -24,11 +24,8 @@
- #include "crypto/tlscreds.h"
- 
- #define TYPE_QCRYPTO_TLS_CREDS_PSK "tls-creds-psk"
--#define QCRYPTO_TLS_CREDS_PSK(obj)                  \
--    OBJECT_CHECK(QCryptoTLSCredsPSK, (obj), TYPE_QCRYPTO_TLS_CREDS_PSK)
--
--typedef struct QCryptoTLSCredsPSK QCryptoTLSCredsPSK;
--typedef struct QCryptoTLSCredsPSKClass QCryptoTLSCredsPSKClass;
-+OBJECT_DECLARE_SIMPLE_TYPE(QCryptoTLSCredsPSK, qcrypto_tls_creds_psk,
-+                           QCRYPTO_TLS_CREDS_PSK, QCryptoTLSCreds)
- 
- #define QCRYPTO_TLS_CREDS_PSKFILE "keys.psk"
- 
-@@ -97,10 +94,4 @@ struct QCryptoTLSCredsPSK {
- #endif
- };
- 
--
--struct QCryptoTLSCredsPSKClass {
--    QCryptoTLSCredsClass parent_class;
--};
--
--
- #endif /* QCRYPTO_TLSCREDSPSK_H */
-diff --git a/include/crypto/tlscredsx509.h b/include/crypto/tlscredsx509.h
-index e1542e5c8c..307b169710 100644
---- a/include/crypto/tlscredsx509.h
-+++ b/include/crypto/tlscredsx509.h
-@@ -24,11 +24,8 @@
- #include "crypto/tlscreds.h"
- 
- #define TYPE_QCRYPTO_TLS_CREDS_X509 "tls-creds-x509"
--#define QCRYPTO_TLS_CREDS_X509(obj)                  \
--    OBJECT_CHECK(QCryptoTLSCredsX509, (obj), TYPE_QCRYPTO_TLS_CREDS_X509)
--
--typedef struct QCryptoTLSCredsX509 QCryptoTLSCredsX509;
--typedef struct QCryptoTLSCredsX509Class QCryptoTLSCredsX509Class;
-+OBJECT_DECLARE_SIMPLE_TYPE(QCryptoTLSCredsX509, qcrypto_tls_creds_x509,
-+                           QCRYPTO_TLS_CREDS_X509, QCryptoTLSCreds)
- 
- #define QCRYPTO_TLS_CREDS_X509_CA_CERT "ca-cert.pem"
- #define QCRYPTO_TLS_CREDS_X509_CA_CRL "ca-crl.pem"
-@@ -104,10 +101,4 @@ struct QCryptoTLSCredsX509 {
-     char *passwordid;
- };
- 
--
--struct QCryptoTLSCredsX509Class {
--    QCryptoTLSCredsClass parent_class;
--};
--
--
- #endif /* QCRYPTO_TLSCREDSX509_H */
+> 1. Create nbd-fault-injector.conf with the following contents:
+> 
+> [inject-error "mega1"]
+> event=data
+> io=readwrite
+> when=before
+> 
+> 2. In one terminal run nbd-fault-injector in a loop, like this:
+> 
+> n=1; while true; do
+>      echo $n; ((n++));
+
+Bashism, but not a problem for the commit message.
+
+>      ./nbd-fault-injector.py 127.0.0.1:10000 nbd-fault-injector.conf;
+> done
+> 
+> 3. In another terminal run qemu-io in a loop, like this:
+> 
+> n=1; while true; do
+>      echo $n; ((n++));
+>      ./qemu-io -c 'read 0 512' nbd+tcp://127.0.0.1:10000;
+
+I prefer the spelling nbd:// for TCP connections, but also inconsequential.
+
+> Note, that the hang may be
+> triggered by another bug, so the whole case is fixed only together with
+> commit "block/nbd: on shutdown terminate connection attempt".
+> 
+> Signed-off-by: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
+> ---
+>   block/nbd.c | 11 +++++++++++
+>   1 file changed, 11 insertions(+)
+> 
+> diff --git a/block/nbd.c b/block/nbd.c
+> index 65a4f56924..49254f1c3c 100644
+> --- a/block/nbd.c
+> +++ b/block/nbd.c
+> @@ -280,7 +280,18 @@ static coroutine_fn void nbd_reconnect_attempt(BDRVNBDState *s)
+>           s->ioc = NULL;
+>       }
+>   
+> +    bdrv_dec_in_flight(s->bs);
+>       s->connect_status = nbd_client_connect(s->bs, &local_err);
+> +    s->wait_drained_end = true;
+> +    while (s->drained) {
+> +        /*
+> +         * We may be entered once from nbd_client_attach_aio_context_bh
+> +         * and then from nbd_client_co_drain_end. So here is a loop.
+> +         */
+> +        qemu_coroutine_yield();
+> +    }
+> +    bdrv_inc_in_flight(s->bs);
+> +
+
+This is very similar to the code in nbd_co_reconnect_loop.  Does that 
+function still need to wait on drained, since it calls 
+nbd_reconnect_attempt which is now doing the same loop?  But off-hand, 
+I'm not seeing a problem with keeping both places.
+
+Reviewed-by: Eric Blake <eblake@redhat.com>
+
+As a bug fix, I'll be including this in my NBD pull request for the next 
+-rc build.
+
 -- 
-2.26.2
+Eric Blake, Principal Software Engineer
+Red Hat, Inc.           +1-919-301-3226
+Virtualization:  qemu.org | libvirt.org
 
 
