@@ -2,72 +2,74 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5ACEE22B588
-	for <lists+qemu-devel@lfdr.de>; Thu, 23 Jul 2020 20:18:19 +0200 (CEST)
-Received: from localhost ([::1]:34082 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7D4FC22B580
+	for <lists+qemu-devel@lfdr.de>; Thu, 23 Jul 2020 20:15:55 +0200 (CEST)
+Received: from localhost ([::1]:55958 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jyfnO-0001fG-FM
-	for lists+qemu-devel@lfdr.de; Thu, 23 Jul 2020 14:18:18 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:50484)
+	id 1jyfl4-0007R0-JJ
+	for lists+qemu-devel@lfdr.de; Thu, 23 Jul 2020 14:15:54 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:50450)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1jyfjj-0006Kw-5g
- for qemu-devel@nongnu.org; Thu, 23 Jul 2020 14:14:31 -0400
-Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:34565
+ id 1jyfje-0006CD-57
+ for qemu-devel@nongnu.org; Thu, 23 Jul 2020 14:14:26 -0400
+Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:58974
  helo=us-smtp-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
  (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1jyfjg-0007kG-MC
- for qemu-devel@nongnu.org; Thu, 23 Jul 2020 14:14:30 -0400
+ id 1jyfjc-0007j6-BG
+ for qemu-devel@nongnu.org; Thu, 23 Jul 2020 14:14:25 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1595528067;
+ s=mimecast20190719; t=1595528063;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=MMeXJYEYs4xFb2lV+Tt3NTqziFQLicpm6iTABaQKlsY=;
- b=ZLmGtowZl/feiJJHsleZILfJW0a058kd9ByL7ZcMqXtEmdgKrnT8UDzgpOnFv7jX7+dZpu
- 6NPNmN/t358Z7DhSXCCCHsvkpA03wJe88CoN5ZjSiFmdBwKBuIfAk67b/LHUNm2UbrY8MR
- rh7tva43rI6iBXiynWWBj62jxvG0Mg8=
+ bh=r8YenZwUa/923Ixjz3e6MRLXtghP6xqYYJAJRatjZUc=;
+ b=bspntXprBiFA5v7NngdXHF1WkE+aUYs+tTCY+Job/yeztfv6JVL6bBwX4HiUIEMwThdQIi
+ juN+nsz+CMNSG/HqS3ETrRlSIJwNEpoUiQTfeINKa4p56wyZqh2zWWsxm1gqNYN46PDj1d
+ tIBC3BuBFOCzmpHBKIn/DjRlWt8dDcs=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-137-LBHR2A-4MW-E2QmqeB_WXQ-1; Thu, 23 Jul 2020 14:14:18 -0400
-X-MC-Unique: LBHR2A-4MW-E2QmqeB_WXQ-1
+ us-mta-4-AN-cAQmTOZ6DsXyaUiEfCA-1; Thu, 23 Jul 2020 14:14:21 -0400
+X-MC-Unique: AN-cAQmTOZ6DsXyaUiEfCA-1
 Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
  [10.5.11.22])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 5F5DF80183C
- for <qemu-devel@nongnu.org>; Thu, 23 Jul 2020 18:14:17 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 6C0B58017FB
+ for <qemu-devel@nongnu.org>; Thu, 23 Jul 2020 18:14:20 +0000 (UTC)
 Received: from localhost.localdomain.com (unknown [10.36.110.60])
- by smtp.corp.redhat.com (Postfix) with ESMTP id C6DCF1009940;
- Thu, 23 Jul 2020 18:14:15 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id AC56A1009940;
+ Thu, 23 Jul 2020 18:14:17 +0000 (UTC)
 From: =?UTF-8?q?Daniel=20P=2E=20Berrang=C3=A9?= <berrange@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH 2/4] qom: provide convenient macros for declaring and defining
- types
-Date: Thu, 23 Jul 2020 19:14:08 +0100
-Message-Id: <20200723181410.3145233-3-berrange@redhat.com>
+Subject: [PATCH 3/4] crypto: use QOM macros for declaration/definition of
+ secret types
+Date: Thu, 23 Jul 2020 19:14:09 +0100
+Message-Id: <20200723181410.3145233-4-berrange@redhat.com>
 In-Reply-To: <20200723181410.3145233-1-berrange@redhat.com>
 References: <20200723181410.3145233-1-berrange@redhat.com>
 MIME-Version: 1.0
 X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=berrange@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=207.211.31.120; envelope-from=berrange@redhat.com;
+Received-SPF: pass client-ip=205.139.110.120; envelope-from=berrange@redhat.com;
  helo=us-smtp-1.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/07/22 22:13:02
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/07/23 06:04:25
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
-X-Spam_score_int: -30
-X-Spam_score: -3.1
-X-Spam_bar: ---
-X-Spam_report: (-3.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1,
+X-Spam_score_int: -40
+X-Spam_score: -4.1
+X-Spam_bar: ----
+X-Spam_report: (-4.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H4=-0.01, RCVD_IN_MSPIKE_WL=-0.01,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-1, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -86,397 +88,268 @@ Cc: Paolo Bonzini <pbonzini@redhat.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-When creating new QOM types, there is a lot of boilerplate code that
-must be repeated using a standard pattern. This is tedious to write
-and liable to suffer from subtle inconsistencies. Thus it would
-benefit from some simple automation.
-
-QOM was loosely inspired by GLib's GObject, and indeed GObject suffers
-from the same burden of boilerplate code, but has long provided a set of
-macros to eliminate this burden in the source implementation. More
-recently it has also provided a set of macros to eliminate this burden
-in the header declaration.
-
-In GLib there are the G_DECLARE_* and G_DEFINE_* family of macros
-for the header declaration and source implementation respectively:
-
-  https://developer.gnome.org/gobject/stable/chapter-gobject.html
-  https://developer.gnome.org/gobject/stable/howto-gobject.html
-
-This patch takes inspiration from GObject to provide the equivalent
-functionality for QOM.
-
-In the header file, instead of:
-
-    typedef struct MyDevice MyDevice;
-    typedef struct MyDeviceClass MyDeviceClass;
-
-    G_DEFINE_AUTOPTR_CLEANUP_FUNC(MyDeviceClass, object_unref)
-
-    #define MY_DEVICE_GET_CLASS(void *obj) \
-            OBJECT_GET_CLASS(MyDeviceClass, obj, TYPE_MY_DEVICE)
-    #define MY_DEVICE_CLASS(void *klass) \
-            OBJECT_CLASS_CHECK(MyDeviceClass, klass, TYPE_MY_DEVICE)
-    #define MY_DEVICE(void *obj)
-            OBJECT_CHECK(MyDevice, obj, TYPE_MY_DEVICE)
-
-    struct MyDeviceClass {
-        DeviceClass parent_class;
-    };
-
-We now have
-
-    OBJECT_DECLARE_SIMPLE_TYPE(MyDevice, my_device, MY_DEVICE, DEVICE)
-
-In cases where the class needs some virtual methods, it can be left
-to be implemented manually using
-
-    OBJECT_DECLARE_TYPE(MyDevice, my_device, MY_DEVICE)
-
-Note that these macros are including support for g_autoptr() for the
-object types, which is something previously only supported for variables
-declared as the base Object * type.
-
-Meanwhile in the source file, instead of:
-
-    static void my_device_finalize(Object *obj);
-    static void my_device_class_init(ObjectClass *oc, void *data);
-    static void my_device_init(Object *obj);
-
-    static const TypeInfo my_device_info = {
-        .parent = TYPE_DEVICE,
-        .name = TYPE_MY_DEVICE,
-        .instance_size = sizeof(MyDevice),
-        .instance_init = my_device_init,
-        .instance_finalize = my_device_finalize,
-        .class_size = sizeof(MyDeviceClass),
-        .class_init = my_device_class_init,
-    };
-
-    static void
-    my_device_register_types(void)
-    {
-        type_register_static(&my_device_info);
-    }
-    type_init(my_device_register_types);
-
-We now have
-
-    OBJECT_DEFINE_TYPE(MyDevice, my_device, MY_DEVICE, DEVICE)
-
-Or, if a class needs to implement interfaces:
-
-    OBJECT_DEFINE_TYPE_WITH_INTERFACES(MyDevice, my_device, MY_DEVICE, DEVICE,
-                                       { TYPE_USER_CREATABLE }, { NULL })
-
-Or, if a class needs to be abstract
-
-    OBJECT_DEFINE_ABSTRACT_TYPE(MyDevice, my_device, MY_DEVICE, DEVICE)
-
-IOW, in both cases the maintainer now only has to think about the
-interesting part of the code which implements useful functionality
-and avoids much of the boilerplate.
+This introduces the use of the OBJECT_DEFINE and OBJECT_DECLARE macro
+families in the secret types, in order to eliminate boilerplate code.
 
 Signed-off-by: Daniel P. Berrangé <berrange@redhat.com>
 ---
- include/qom/object.h | 277 +++++++++++++++++++++++++++++++++++++++++++
- 1 file changed, 277 insertions(+)
+ crypto/secret.c                 | 24 ++++--------------------
+ crypto/secret_common.c          | 32 +++++++++-----------------------
+ crypto/secret_keyring.c         | 28 +++++++++-------------------
+ include/crypto/secret.h         | 11 ++---------
+ include/crypto/secret_common.h  | 13 ++-----------
+ include/crypto/secret_keyring.h | 18 ++----------------
+ 6 files changed, 28 insertions(+), 98 deletions(-)
 
-diff --git a/include/qom/object.h b/include/qom/object.h
-index 1f8aa2d48e..be64421089 100644
---- a/include/qom/object.h
-+++ b/include/qom/object.h
-@@ -304,6 +304,119 @@ typedef struct InterfaceInfo InterfaceInfo;
-  *
-  * The first example of such a QOM method was #CPUClass.reset,
-  * another example is #DeviceClass.realize.
-+ *
-+ * # Standard type declaration and definition macros #
-+ *
-+ * A lot of the code outlined above follows a standard pattern and naming
-+ * convention. To reduce the amount of boilerplate code that needs to be
-+ * written for a new type there are two sets of macros to generate the
-+ * common parts in a standard format.
-+ *
-+ * A type is declared using the OBJECT_DECLARE macro family. In types
-+ * which do not require any virtual functions in the class, the
-+ * OBJECT_DECLARE_SIMPLE_TYPE macro is suitable, and is commonly placed
-+ * in the header file:
-+ *
-+ * <example>
-+ *   <title>Declaring a simple type</title>
-+ *   <programlisting>
-+ *     OBJECT_DECLARE_SIMPLE_TYPE(MyDevice, my_device, MY_DEVICE, DEVICE)
-+ *   </programlisting>
-+ * </example>
-+ *
-+ * This is equivalent to the following:
-+ *
-+ * <example>
-+ *   <title>Expansion from declaring a simple type</title>
-+ *   <programlisting>
-+ *     typedef struct MyDevice MyDevice;
-+ *     typedef struct MyDeviceClass MyDeviceClass;
-+ *
-+ *     G_DEFINE_AUTOPTR_CLEANUP_FUNC(MyDeviceClass, object_unref)
-+ *
-+ *     #define MY_DEVICE_GET_CLASS(void *obj) \
-+ *             OBJECT_GET_CLASS(MyDeviceClass, obj, TYPE_MY_DEVICE)
-+ *     #define MY_DEVICE_CLASS(void *klass) \
-+ *             OBJECT_CLASS_CHECK(MyDeviceClass, klass, TYPE_MY_DEVICE)
-+ *     #define MY_DEVICE(void *obj)
-+ *             OBJECT_CHECK(MyDevice, obj, TYPE_MY_DEVICE)
-+ *
-+ *     struct MyDeviceClass {
-+ *         DeviceClass parent_class;
-+ *     };
-+ *   </programlisting>
-+ * </example>
-+ *
-+ * The 'struct MyDevice' needs to be declared separately.
-+ * If the type requires virtual functions to be declared in the class
-+ * struct, then the alternative OBJECT_DECLARE_TYPE() macro can be
-+ * used. This does the same as OBJECT_DECLARE_SIMPLE_TYPE(), but without
-+ * the 'struct MyDeviceClass' definition.
-+ *
-+ * To implement the type, the OBJECT_DEFINE macro family is available.
-+ * In the simple case the OBJECT_DEFINE_TYPE macro is suitable:
-+ *
-+ * <example>
-+ *   <title>Defining a simple type</title>
-+ *   <programlisting>
-+ *     OBJECT_DEFINE_TYPE(MyDevice, my_device, MY_DEVICE, DEVICE)
-+ *   </programlisting>
-+ * </example>
-+ *
-+ * This is equivalent to the following:
-+ *
-+ * <example>
-+ *   <title>Expansion from defining a simple type</title>
-+ *   <programlisting>
-+ *     static void my_device_finalize(Object *obj);
-+ *     static void my_device_class_init(ObjectClass *oc, void *data);
-+ *     static void my_device_init(Object *obj);
-+ *
-+ *     static const TypeInfo my_device_info = {
-+ *         .parent = TYPE_DEVICE,
-+ *         .name = TYPE_MY_DEVICE,
-+ *         .instance_size = sizeof(MyDevice),
-+ *         .instance_init = my_device_init,
-+ *         .instance_finalize = my_device_finalize,
-+ *         .class_size = sizeof(MyDeviceClass),
-+ *         .class_init = my_device_class_init,
-+ *     };
-+ *
-+ *     static void
-+ *     my_device_register_types(void)
-+ *     {
-+ *         type_register_static(&my_device_info);
-+ *     }
-+ *     type_init(my_device_register_types);
-+ *   </programlisting>
-+ * </example>
-+ *
-+ * This is sufficient to get the type registered with the type
-+ * system, and the three standard methods now need to be implemented
-+ * along with any other logic required for the type.
-+ *
-+ * If the type needs to implement one or more interfaces, then the
-+ * OBJECT_DEFINE_TYPE_WITH_INTERFACES() macro can be used instead.
-+ * This accepts an array of interface type names.
-+ *
-+ * <example>
-+ *   <title>Defining a simple type implementing interfaces</title>
-+ *   <programlisting>
-+ *     OBJECT_DEFINE_TYPE_WITH_INTERFACES(MyDevice, my_device,
-+ *                                        MY_DEVICE, DEVICE,
-+ *                                        { TYPE_USER_CREATABLE }, { NULL })
-+ *   </programlisting>
-+ * </example>
-+ *
-+ * If the type is not intended to be instantiated, then then
-+ * the OBJECT_DEFINE_ABSTRACT_TYPE() macro can be used instead:
-+ *
-+ * <example>
-+ *   <title>Defining a simple type</title>
-+ *   <programlisting>
-+ *     OBJECT_DEFINE_ABSTRACT_TYPE(MyDevice, my_device, MY_DEVICE, DEVICE)
-+ *   </programlisting>
-+ * </example>
-  */
+diff --git a/crypto/secret.c b/crypto/secret.c
+index 281cb81f0f..55b406f79e 100644
+--- a/crypto/secret.c
++++ b/crypto/secret.c
+@@ -25,6 +25,9 @@
+ #include "qemu/module.h"
+ #include "trace.h"
+ 
++OBJECT_DEFINE_TYPE_WITH_INTERFACES(QCryptoSecret, qcrypto_secret,
++                                   QCRYPTO_SECRET, QCRYPTO_SECRET_COMMON,
++                                   { TYPE_USER_CREATABLE }, { NULL })
+ 
+ static void
+ qcrypto_secret_load_data(QCryptoSecretCommon *sec_common,
+@@ -140,26 +143,7 @@ qcrypto_secret_class_init(ObjectClass *oc, void *data)
+                                   qcrypto_secret_prop_set_file);
+ }
+ 
+-
+-static const TypeInfo qcrypto_secret_info = {
+-    .parent = TYPE_QCRYPTO_SECRET_COMMON,
+-    .name = TYPE_QCRYPTO_SECRET,
+-    .instance_size = sizeof(QCryptoSecret),
+-    .instance_finalize = qcrypto_secret_finalize,
+-    .class_size = sizeof(QCryptoSecretClass),
+-    .class_init = qcrypto_secret_class_init,
+-    .interfaces = (InterfaceInfo[]) {
+-        { TYPE_USER_CREATABLE },
+-        { }
+-    }
+-};
+-
+-
+ static void
+-qcrypto_secret_register_types(void)
++qcrypto_secret_init(Object *obj)
+ {
+-    type_register_static(&qcrypto_secret_info);
+ }
+-
+-
+-type_init(qcrypto_secret_register_types);
+diff --git a/crypto/secret_common.c b/crypto/secret_common.c
+index b03d530867..9a054b90b5 100644
+--- a/crypto/secret_common.c
++++ b/crypto/secret_common.c
+@@ -28,6 +28,9 @@
+ #include "trace.h"
  
  
-@@ -440,6 +553,170 @@ struct Object
-     Object *parent;
++OBJECT_DEFINE_ABSTRACT_TYPE(QCryptoSecretCommon, qcrypto_secret_common,
++                            QCRYPTO_SECRET_COMMON, OBJECT)
++
+ static void qcrypto_secret_decrypt(QCryptoSecretCommon *secret,
+                                    const uint8_t *input,
+                                    size_t inputlen,
+@@ -269,7 +272,7 @@ qcrypto_secret_prop_get_keyid(Object *obj,
+ 
+ 
+ static void
+-qcrypto_secret_finalize(Object *obj)
++qcrypto_secret_common_finalize(Object *obj)
+ {
+     QCryptoSecretCommon *secret = QCRYPTO_SECRET_COMMON(obj);
+ 
+@@ -279,7 +282,7 @@ qcrypto_secret_finalize(Object *obj)
+ }
+ 
+ static void
+-qcrypto_secret_class_init(ObjectClass *oc, void *data)
++qcrypto_secret_common_class_init(ObjectClass *oc, void *data)
+ {
+     object_class_property_add_bool(oc, "loaded",
+                                    qcrypto_secret_prop_get_loaded,
+@@ -297,6 +300,10 @@ qcrypto_secret_class_init(ObjectClass *oc, void *data)
+                                   qcrypto_secret_prop_set_iv);
+ }
+ 
++static void
++qcrypto_secret_common_init(Object *obj)
++{
++}
+ 
+ int qcrypto_secret_lookup(const char *secretid,
+                           uint8_t **data,
+@@ -380,24 +387,3 @@ char *qcrypto_secret_lookup_as_base64(const char *secretid,
+     g_free(data);
+     return ret;
+ }
+-
+-
+-static const TypeInfo qcrypto_secret_info = {
+-    .parent = TYPE_OBJECT,
+-    .name = TYPE_QCRYPTO_SECRET_COMMON,
+-    .instance_size = sizeof(QCryptoSecretCommon),
+-    .instance_finalize = qcrypto_secret_finalize,
+-    .class_size = sizeof(QCryptoSecretCommonClass),
+-    .class_init = qcrypto_secret_class_init,
+-    .abstract = true,
+-};
+-
+-
+-static void
+-qcrypto_secret_register_types(void)
+-{
+-    type_register_static(&qcrypto_secret_info);
+-}
+-
+-
+-type_init(qcrypto_secret_register_types);
+diff --git a/crypto/secret_keyring.c b/crypto/secret_keyring.c
+index 8bfc58ebf4..463aefe5dc 100644
+--- a/crypto/secret_keyring.c
++++ b/crypto/secret_keyring.c
+@@ -26,6 +26,9 @@
+ #include "trace.h"
+ #include "crypto/secret_keyring.h"
+ 
++OBJECT_DEFINE_TYPE_WITH_INTERFACES(QCryptoSecretKeyring, qcrypto_secret_keyring,
++                                   QCRYPTO_SECRET_KEYRING, QCRYPTO_SECRET_COMMON,
++                                   { TYPE_USER_CREATABLE }, { NULL })
+ 
+ static inline
+ long keyctl_read(int32_t key, uint8_t *buffer, size_t buflen)
+@@ -109,6 +112,11 @@ qcrypto_secret_keyring_complete(UserCreatable *uc, Error **errp)
+ }
+ 
+ 
++static void
++qcrypto_secret_keyring_finalize(Object *obj)
++{
++}
++
+ static void
+ qcrypto_secret_keyring_class_init(ObjectClass *oc, void *data)
+ {
+@@ -124,25 +132,7 @@ qcrypto_secret_keyring_class_init(ObjectClass *oc, void *data)
+                                   NULL, NULL);
+ }
+ 
+-
+-static const TypeInfo qcrypto_secret_info = {
+-    .parent = TYPE_QCRYPTO_SECRET_COMMON,
+-    .name = TYPE_QCRYPTO_SECRET_KEYRING,
+-    .instance_size = sizeof(QCryptoSecretKeyring),
+-    .class_size = sizeof(QCryptoSecretKeyringClass),
+-    .class_init = qcrypto_secret_keyring_class_init,
+-    .interfaces = (InterfaceInfo[]) {
+-        { TYPE_USER_CREATABLE },
+-        { }
+-    }
+-};
+-
+-
+ static void
+-qcrypto_secret_register_types(void)
++qcrypto_secret_keyring_init(Object *obj)
+ {
+-    type_register_static(&qcrypto_secret_info);
+ }
+-
+-
+-type_init(qcrypto_secret_register_types);
+diff --git a/include/crypto/secret.h b/include/crypto/secret.h
+index 2deb461d2f..4eb4e5ffef 100644
+--- a/include/crypto/secret.h
++++ b/include/crypto/secret.h
+@@ -26,11 +26,9 @@
+ #include "crypto/secret_common.h"
+ 
+ #define TYPE_QCRYPTO_SECRET "secret"
+-#define QCRYPTO_SECRET(obj)                  \
+-    OBJECT_CHECK(QCryptoSecret, (obj), TYPE_QCRYPTO_SECRET)
+ 
+-typedef struct QCryptoSecret QCryptoSecret;
+-typedef struct QCryptoSecretClass QCryptoSecretClass;
++OBJECT_DECLARE_SIMPLE_TYPE(QCryptoSecret, qcrypto_secret,
++                           QCRYPTO_SECRET, QCryptoSecretCommon)
+ 
+ /**
+  * QCryptoSecret:
+@@ -125,9 +123,4 @@ struct QCryptoSecret {
+     char *file;
  };
  
-+/**
-+ * OBJECT_DECLARE_TYPE:
-+ * @ModuleObjName: the object name with initial capitalization
-+ * @module_obj_name: the object name in lowercase with underscore separators
-+ * @MODULE_OBJ_NAME: the object name in uppercase with underscore separators
-+ *
-+ * This macro is typically used in a header file, and will:
-+ *
-+ *   - create the typedefs for the object and class structs
-+ *   - register the type for use with g_autoptr
-+ *   - provide three standard type cast functions
-+ *
-+ * The object struct and class struct need to be declared manually.
-+ */
-+#define OBJECT_DECLARE_TYPE(ModuleObjName, module_obj_name, MODULE_OBJ_NAME) \
-+    typedef struct ModuleObjName ModuleObjName; \
-+    typedef struct ModuleObjName##Class ModuleObjName##Class; \
-+    \
-+    G_DEFINE_AUTOPTR_CLEANUP_FUNC(ModuleObjName##Class, object_unref) \
-+    \
-+    static inline G_GNUC_UNUSED ModuleObjName##Class * \
-+    MODULE_OBJ_NAME##_GET_CLASS(void *obj) \
-+    { return OBJECT_GET_CLASS(ModuleObjName##Class, obj, \
-+                              TYPE_##MODULE_OBJ_NAME); } \
-+    \
-+    static inline G_GNUC_UNUSED ModuleObjName##Class * \
-+    MODULE_OBJ_NAME##_CLASS(void *klass) \
-+    { return OBJECT_CLASS_CHECK(ModuleObjName##Class, klass, \
-+                                TYPE_##MODULE_OBJ_NAME); } \
-+    \
-+    static inline G_GNUC_UNUSED ModuleObjName * \
-+    MODULE_OBJ_NAME(void *obj) \
-+    { return OBJECT_CHECK(ModuleObjName, obj, \
-+                          TYPE_##MODULE_OBJ_NAME); }
-+
-+/**
-+ * OBJECT_DECLARE_SIMPLE_TYPE:
-+ * @ModuleObjName: the object name with initial caps
-+ * @module_obj_name: the object name in lowercase with underscore separators
-+ * @MODULE_OBJ_NAME: the object name in uppercase with underscore separators
-+ * @ParentModuleObjName: the parent object name with initial caps
-+ *
-+ * This does the same as OBJECT_DECLARE_TYPE(), but also declares
-+ * the class struct, thus only the object struct needs to be declare
-+ * manually.
-+ *
-+ * This macro should be used unless the class struct needs to have
-+ * virtual methods declared.
-+ */
-+#define OBJECT_DECLARE_SIMPLE_TYPE(ModuleObjName, module_obj_name, \
-+                                   MODULE_OBJ_NAME, ParentModuleObjName) \
-+    OBJECT_DECLARE_TYPE(ModuleObjName, module_obj_name, MODULE_OBJ_NAME) \
-+    struct ModuleObjName##Class { ParentModuleObjName##Class parent_class; };
-+
-+
-+/**
-+ * OBJECT_DEFINE_TYPE_EXTENDED:
-+ * @ModuleObjName: the object name with initial caps
-+ * @module_obj_name: the object name in lowercase with underscore separators
-+ * @MODULE_OBJ_NAME: the object name in uppercase with underscore separators
-+ * @PARENT_MODULE_OBJ_NAME: the parent object name in uppercase with underscore
-+ *                          separators
-+ * @ABSTRACT: boolean flag to indicate whether the object can be instantiated
-+ * @...: list of initializers for "InterfaceInfo" to declare implemented interfaces
-+ *
-+ * This macro is typically used in a source file, and will:
-+ *
-+ *   - declare prototypes for _finalize, _class_init and _init methods
-+ *   - declare the TypeInfo struct instance
-+ *   - provide the constructor to register the type
-+ *
-+ * After using this macro, implementations of the _finalize, _class_init,
-+ * and _init methods need to be written. Any of these can be zero-line
-+ * no-op impls if no special logic is required for a given type.
-+ *
-+ * This macro should rarely be used, instead one of the more specialized
-+ * macros is usually a better choice.
-+ */
-+#define OBJECT_DEFINE_TYPE_EXTENDED(ModuleObjName, module_obj_name, \
-+                                    MODULE_OBJ_NAME, PARENT_MODULE_OBJ_NAME, \
-+                                    ABSTRACT, ...) \
-+    static void \
-+    module_obj_name##_finalize(Object *obj); \
-+    static void \
-+    module_obj_name##_class_init(ObjectClass *oc, void *data); \
-+    static void \
-+    module_obj_name##_init(Object *obj); \
-+    \
-+    static const TypeInfo module_obj_name##_info = { \
-+        .parent = TYPE_##PARENT_MODULE_OBJ_NAME, \
-+        .name = TYPE_##MODULE_OBJ_NAME, \
-+        .instance_size = sizeof(ModuleObjName), \
-+        .instance_init = module_obj_name##_init, \
-+        .instance_finalize = module_obj_name##_finalize, \
-+        .class_size = sizeof(ModuleObjName##Class), \
-+        .class_init = module_obj_name##_class_init, \
-+        .abstract = ABSTRACT, \
-+        .interfaces = (InterfaceInfo[]) { __VA_ARGS__ } , \
-+    }; \
-+    \
-+    static void \
-+    module_obj_name##_register_types(void) \
-+    { \
-+        type_register_static(&module_obj_name##_info); \
-+    } \
-+    type_init(module_obj_name##_register_types);
-+
-+/**
-+ * OBJECT_DEFINE_TYPE:
-+ * @ModuleObjName: the object name with initial caps
-+ * @module_obj_name: the object name in lowercase with underscore separators
-+ * @MODULE_OBJ_NAME: the object name in uppercase with underscore separators
-+ * @PARENT_MODULE_OBJ_NAME: the parent object name in uppercase with underscore
-+ *                          separators
-+ *
-+ * This is a specialization of OBJECT_DEFINE_TYPE_EXTENDED, which is suitable
-+ * for the common case of a non-abstract type, without any interfaces.
-+ */
-+#define OBJECT_DEFINE_TYPE(ModuleObjName, module_obj_name, MODULE_OBJ_NAME, \
-+                           PARENT_MODULE_OBJ_NAME) \
-+    OBJECT_DEFINE_TYPE_EXTENDED(ModuleObjName, module_obj_name, \
-+                                MODULE_OBJ_NAME, PARENT_MODULE_OBJ_NAME, \
-+                                false, { NULL })
-+
-+/**
-+ * OBJECT_DEFINE_TYPE_WITH_INTERFACES:
-+ * @ModuleObjName: the object name with initial caps
-+ * @module_obj_name: the object name in lowercase with underscore separators
-+ * @MODULE_OBJ_NAME: the object name in uppercase with underscore separators
-+ * @PARENT_MODULE_OBJ_NAME: the parent object name in uppercase with underscore
-+ *                          separators
-+ * @...: list of initializers for "InterfaceInfo" to declare implemented interfaces
-+ *
-+ * This is a specialization of OBJECT_DEFINE_TYPE_EXTENDED, which is suitable
-+ * for the common case of a non-abstract type, with one or more implemented
-+ * interfaces.
-+ *
-+ * Note when passing the list of interfaces, be sure to include the final
-+ * NULL entry, e.g.  { TYPE_USER_CREATABLE }, { NULL }
-+ */
-+#define OBJECT_DEFINE_TYPE_WITH_INTERFACES(ModuleObjName, module_obj_name, \
-+                                           MODULE_OBJ_NAME, \
-+                                           PARENT_MODULE_OBJ_NAME, ...) \
-+    OBJECT_DEFINE_TYPE_EXTENDED(ModuleObjName, module_obj_name, \
-+                                MODULE_OBJ_NAME, PARENT_MODULE_OBJ_NAME, \
-+                                false, __VA_ARGS__)
-+
-+/**
-+ * OBJECT_DEFINE_ABSTRACT_TYPE:
-+ * @ModuleObjName: the object name with initial caps
-+ * @module_obj_name: the object name in lowercase with underscore separators
-+ * @MODULE_OBJ_NAME: the object name in uppercase with underscore separators
-+ * @PARENT_MODULE_OBJ_NAME: the parent object name in uppercase with underscore
-+ *                          separators
-+ *
-+ * This is a specialization of OBJECT_DEFINE_TYPE_EXTENDED, which is suitable
-+ * for defining an abstract type, without any interfaces.
-+ */
-+#define OBJECT_DEFINE_ABSTRACT_TYPE(ModuleObjName, module_obj_name, \
-+                                    MODULE_OBJ_NAME, PARENT_MODULE_OBJ_NAME) \
-+    OBJECT_DEFINE_TYPE_EXTENDED(ModuleObjName, module_obj_name, \
-+                                MODULE_OBJ_NAME, PARENT_MODULE_OBJ_NAME, \
-+                                true, { NULL })
-+
- /**
-  * TypeInfo:
-  * @name: The name of the type.
+-
+-struct QCryptoSecretClass {
+-    QCryptoSecretCommonClass parent_class;
+-};
+-
+ #endif /* QCRYPTO_SECRET_H */
+diff --git a/include/crypto/secret_common.h b/include/crypto/secret_common.h
+index 980c02ab71..999a6b4651 100644
+--- a/include/crypto/secret_common.h
++++ b/include/crypto/secret_common.h
+@@ -25,17 +25,8 @@
+ #include "qom/object.h"
+ 
+ #define TYPE_QCRYPTO_SECRET_COMMON "secret_common"
+-#define QCRYPTO_SECRET_COMMON(obj) \
+-    OBJECT_CHECK(QCryptoSecretCommon, (obj), TYPE_QCRYPTO_SECRET_COMMON)
+-#define QCRYPTO_SECRET_COMMON_CLASS(class) \
+-    OBJECT_CLASS_CHECK(QCryptoSecretCommonClass, \
+-                       (class), TYPE_QCRYPTO_SECRET_COMMON)
+-#define QCRYPTO_SECRET_COMMON_GET_CLASS(obj) \
+-    OBJECT_GET_CLASS(QCryptoSecretCommonClass, \
+-                     (obj), TYPE_QCRYPTO_SECRET_COMMON)
+-
+-typedef struct QCryptoSecretCommon QCryptoSecretCommon;
+-typedef struct QCryptoSecretCommonClass QCryptoSecretCommonClass;
++OBJECT_DECLARE_TYPE(QCryptoSecretCommon, qcrypto_secret_common,
++                    QCRYPTO_SECRET_COMMON)
+ 
+ struct QCryptoSecretCommon {
+     Object parent_obj;
+diff --git a/include/crypto/secret_keyring.h b/include/crypto/secret_keyring.h
+index 9f371ad251..4470306853 100644
+--- a/include/crypto/secret_keyring.h
++++ b/include/crypto/secret_keyring.h
+@@ -26,18 +26,8 @@
+ #include "crypto/secret_common.h"
+ 
+ #define TYPE_QCRYPTO_SECRET_KEYRING "secret_keyring"
+-#define QCRYPTO_SECRET_KEYRING(obj) \
+-    OBJECT_CHECK(QCryptoSecretKeyring, (obj), \
+-                 TYPE_QCRYPTO_SECRET_KEYRING)
+-#define QCRYPTO_SECRET_KEYRING_CLASS(class) \
+-    OBJECT_CLASS_CHECK(QCryptoSecretKeyringClass, \
+-                       (class), TYPE_QCRYPTO_SECRET_KEYRING)
+-#define QCRYPTO_SECRET_KEYRING_GET_CLASS(class) \
+-    OBJECT_GET_CLASS(QCryptoSecretKeyringClass, \
+-                     (class), TYPE_QCRYPTO_SECRET_KEYRING)
+-
+-typedef struct QCryptoSecretKeyring QCryptoSecretKeyring;
+-typedef struct QCryptoSecretKeyringClass QCryptoSecretKeyringClass;
++OBJECT_DECLARE_SIMPLE_TYPE(QCryptoSecretKeyring, qcrypto_secret_keyring,
++                           QCRYPTO_SECRET_KEYRING, QCryptoSecretCommon)
+ 
+ typedef struct QCryptoSecretKeyring {
+     QCryptoSecretCommon parent;
+@@ -45,8 +35,4 @@ typedef struct QCryptoSecretKeyring {
+ } QCryptoSecretKeyring;
+ 
+ 
+-typedef struct QCryptoSecretKeyringClass {
+-    QCryptoSecretCommonClass parent;
+-} QCryptoSecretKeyringClass;
+-
+ #endif /* QCRYPTO_SECRET_KEYRING_H */
 -- 
 2.26.2
 
