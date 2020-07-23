@@ -2,60 +2,61 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 23E2822B150
-	for <lists+qemu-devel@lfdr.de>; Thu, 23 Jul 2020 16:28:16 +0200 (CEST)
-Received: from localhost ([::1]:42228 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 488BD22B15D
+	for <lists+qemu-devel@lfdr.de>; Thu, 23 Jul 2020 16:29:51 +0200 (CEST)
+Received: from localhost ([::1]:48984 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jycCk-0006OH-N8
-	for lists+qemu-devel@lfdr.de; Thu, 23 Jul 2020 10:28:14 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:45104)
+	id 1jycEI-0000oK-Bq
+	for lists+qemu-devel@lfdr.de; Thu, 23 Jul 2020 10:29:50 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:45240)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <vkuznets@redhat.com>)
- id 1jycBl-0005un-MS
- for qemu-devel@nongnu.org; Thu, 23 Jul 2020 10:27:13 -0400
-Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:26262
- helo=us-smtp-1.mimecast.com)
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1jycCH-0006T6-Cp
+ for qemu-devel@nongnu.org; Thu, 23 Jul 2020 10:27:45 -0400
+Received: from us-smtp-2.mimecast.com ([205.139.110.61]:32102
+ helo=us-smtp-delivery-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <vkuznets@redhat.com>)
- id 1jycBi-0006ua-SD
- for qemu-devel@nongnu.org; Thu, 23 Jul 2020 10:27:12 -0400
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1jycCF-0006x5-Pn
+ for qemu-devel@nongnu.org; Thu, 23 Jul 2020 10:27:45 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1595514429;
+ s=mimecast20190719; t=1595514462;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding;
- bh=SbiK5khyVMBu78/mEyApTcqJIqrCQgVVgiOOhaI9VrU=;
- b=Ha9sQUbcpfpQhRJ5ZvFY+FBBlxLHsrKzi1gRXd4q74qwvyuHgcSWXuFgUhqbk9Ksytin5K
- z/SzFAmVtr+tTZXLusQ8JpYkAKHSDQHa9CFuVCXZ58CzQ6kj+WNTPxf2IQZJuo25jTWOBk
- xEypVrSh7tND806Ec0boThPjwKlvEQM=
+ bh=diUAL7zF3x1Z0d+q1x8B6lx+OlJ4XUrNoETyjdoE6Ys=;
+ b=WE5/jX3OzIm082kZlbjSGbhSZFlQF0XcUp97roWe3IfedEMaftsfkcvRYScHzOaHFlqBbI
+ HOFvZKM2CvVhHRKcV+wecgOLJ+CcdNeOBHsXCBVgbRWDkektZMmpiVVACN6K+WrGsqdn0G
+ uGDmcZdrZVgqIbbQn7LFBGCZsDDvqXg=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-390-1wggAiB-PKW_8A4ymTirXw-1; Thu, 23 Jul 2020 10:27:07 -0400
-X-MC-Unique: 1wggAiB-PKW_8A4ymTirXw-1
-Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
- [10.5.11.11])
+ us-mta-184-YZoG3l83PF6nxR3kl28iyw-1; Thu, 23 Jul 2020 10:27:40 -0400
+X-MC-Unique: YZoG3l83PF6nxR3kl28iyw-1
+Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
+ [10.5.11.13])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id A991F185BE06;
- Thu, 23 Jul 2020 14:27:05 +0000 (UTC)
-Received: from vitty.brq.redhat.com (unknown [10.40.195.56])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 66E9075558;
- Thu, 23 Jul 2020 14:27:03 +0000 (UTC)
-From: Vitaly Kuznetsov <vkuznets@redhat.com>
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id E1E0E100AA23
+ for <qemu-devel@nongnu.org>; Thu, 23 Jul 2020 14:27:39 +0000 (UTC)
+Received: from blackfin.pond.sub.org (ovpn-112-143.ams2.redhat.com
+ [10.36.112.143])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id B50088BED9;
+ Thu, 23 Jul 2020 14:27:39 +0000 (UTC)
+Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
+ id 4FE38111CA26; Thu, 23 Jul 2020 16:27:38 +0200 (CEST)
+From: Markus Armbruster <armbru@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH] KVM: fix CPU reset wrt HF2_GIF_MASK
-Date: Thu, 23 Jul 2020 16:27:01 +0200
-Message-Id: <20200723142701.2521161-1-vkuznets@redhat.com>
+Subject: [PATCH 0/3] scripts/qmp/qom-fuse: Scrape off the bitrot
+Date: Thu, 23 Jul 2020 16:27:35 +0200
+Message-Id: <20200723142738.1868568-1-armbru@redhat.com>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=205.139.110.120; envelope-from=vkuznets@redhat.com;
- helo=us-smtp-1.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/07/23 06:04:25
+Received-SPF: pass client-ip=205.139.110.61; envelope-from=armbru@redhat.com;
+ helo=us-smtp-delivery-1.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/07/23 02:33:29
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
 X-Spam_score_int: -40
 X-Spam_score: -4.1
@@ -76,73 +77,19 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Eduardo Habkost <ehabkost@redhat.com>, Jan Kiszka <jan.kiszka@siemens.com>,
- Marcelo Tosatti <mtosatti@redhat.com>,
- "Dr. David Alan Gilbert" <dgilbert@redhat.com>,
- Paolo Bonzini <pbonzini@redhat.com>,
- =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
- Richard Henderson <rth@twiddle.net>
+Cc: jsnow@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-HF2_GIF_MASK is set in env->hflags2 unconditionally on CPU reset
-(see x86_cpu_reset()) but when calling KVM_SET_NESTED_STATE,
-KVM_STATE_NESTED_GIF_SET is only valid for nSVM as e.g. nVMX code
-looks like
+Markus Armbruster (3):
+  scripts/qmp/qom-fuse: Unbreak import of QEMUMonitorProtocol
+  scripts/qmp/qom-fuse: Port to current Python module fuse
+  scripts/qmp/qom-fuse: Fix getattr(), read() for files in /
 
-if (kvm_state->hdr.vmx.vmxon_pa == -1ull) {
-    if (kvm_state->flags & ~KVM_STATE_NESTED_EVMCS)
-        return -EINVAL;
-}
+ scripts/qmp/qom-fuse | 107 +++++++++++++++++++++++--------------------
+ 1 file changed, 57 insertions(+), 50 deletions(-)
 
-Also, when adjusting the environment after KVM_GET_NESTED_STATE we
-need not reset HF2_GIF_MASK on VMX as e.g. x86_cpu_pending_interrupt()
-expects it to be set.
-
-Alternatively, we could've made env->hflags2 SVM-only.
-
-Reported-by: Jan Kiszka <jan.kiszka@siemens.com>
-Fixes: b16c0e20c742 ("KVM: add support for AMD nested live migration")
-Signed-off-by: Vitaly Kuznetsov <vkuznets@redhat.com>
----
- target/i386/kvm.c | 16 +++++++++++-----
- 1 file changed, 11 insertions(+), 5 deletions(-)
-
-diff --git a/target/i386/kvm.c b/target/i386/kvm.c
-index 2b6b7443d273..3c4647fbfbf6 100644
---- a/target/i386/kvm.c
-+++ b/target/i386/kvm.c
-@@ -3883,7 +3883,9 @@ static int kvm_put_nested_state(X86CPU *cpu)
-     } else {
-         env->nested_state->flags &= ~KVM_STATE_NESTED_GUEST_MODE;
-     }
--    if (env->hflags2 & HF2_GIF_MASK) {
-+
-+    /* Don't set KVM_STATE_NESTED_GIF_SET on VMX as it is illegal */
-+    if (cpu_has_svm(env) && (env->hflags2 & HF2_GIF_MASK)) {
-         env->nested_state->flags |= KVM_STATE_NESTED_GIF_SET;
-     } else {
-         env->nested_state->flags &= ~KVM_STATE_NESTED_GIF_SET;
-@@ -3925,10 +3927,14 @@ static int kvm_get_nested_state(X86CPU *cpu)
-     } else {
-         env->hflags &= ~HF_GUEST_MASK;
-     }
--    if (env->nested_state->flags & KVM_STATE_NESTED_GIF_SET) {
--        env->hflags2 |= HF2_GIF_MASK;
--    } else {
--        env->hflags2 &= ~HF2_GIF_MASK;
-+
-+    /* Keep HF2_GIF_MASK set on !SVM as x86_cpu_pending_interrupt() needs it */
-+    if (cpu_has_svm(env)) {
-+        if (env->nested_state->flags & KVM_STATE_NESTED_GIF_SET) {
-+            env->hflags2 |= HF2_GIF_MASK;
-+        } else {
-+            env->hflags2 &= ~HF2_GIF_MASK;
-+        }
-     }
- 
-     return ret;
 -- 
-2.25.4
+2.26.2
 
 
