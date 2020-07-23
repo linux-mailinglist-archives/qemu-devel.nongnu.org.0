@@ -2,109 +2,114 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C946122AC3B
-	for <lists+qemu-devel@lfdr.de>; Thu, 23 Jul 2020 12:12:12 +0200 (CEST)
-Received: from localhost ([::1]:36664 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9C07322AC1D
+	for <lists+qemu-devel@lfdr.de>; Thu, 23 Jul 2020 12:05:36 +0200 (CEST)
+Received: from localhost ([::1]:59996 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jyYCx-0002AP-R3
-	for lists+qemu-devel@lfdr.de; Thu, 23 Jul 2020 06:12:11 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:35842)
+	id 1jyY6Z-00083U-70
+	for lists+qemu-devel@lfdr.de; Thu, 23 Jul 2020 06:05:35 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:60588)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <Pankaj.VJ@exaleapsemi.com>)
- id 1jyYBu-0001iG-GJ
- for qemu-devel@nongnu.org; Thu, 23 Jul 2020 06:11:06 -0400
-Received: from mail-eopbgr1390135.outbound.protection.outlook.com
- ([40.107.139.135]:21408 helo=IND01-BO1-obe.outbound.protection.outlook.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <Pankaj.VJ@exaleapsemi.com>)
- id 1jyYBr-0001cH-DY
- for qemu-devel@nongnu.org; Thu, 23 Jul 2020 06:11:06 -0400
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=QVz90e1+Xx8zqrgNyBgGwDpmLz3GqAV+ZHAD7GcV3GNGH0BgI+Rtr8mZT7Kp7r9l0iVcP70vmlOvDKTHzHgbwHfLQJy4jVxk0OsE3M7ovlyhUDMmPGGYPrcnCWH10XXuDaJIOKFuFnAgorwpH/COlPG1MEr0hEBJw8cZY9GpL4Uatinz7L/LJKfCooDWkuNNzFZRbALIJeGFarXBVa9xNvku1YrWgeBuDG2LFdPZgH5SfMNDuYVC025JJvpKDdqIwPvUWlroW0d27QXdv3ctPLAopjihahqf/LdMEuKA4w8bQkHOaVG8DILnELeoR3kvL7J/u7bPvqTzxRK9uzonYw==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=KAuIs9IVsEG3yVBCGNCXdtCcG5gMd0J6G8W9LTgWA4k=;
- b=hasMDj2Y94VZhWVJV+MSYkR7glHhZJWci5nDS8FoQaGYG4ze0uKmnmst8rc+583wJ4NgM3oVMupgO6qhAmhNq73sttpKhDaSHT1Ztu3bqG5gIjMKEiTcVU4TZjsS0MOHR2v/xzV36jJ8fdoJYDVUGolY2uC/DEX3/C4YVxkrR4LUAWNkhXDmvQAseLH8b2EP4xOhNaym1dXRZvyqcslNUNTDLRZEVKoWwF4gAmB9nM70Dlj+QvEO2f9WKGnJd0PCCPclznf2Nz9VS2Y/Fo1JuF8DChsNZJyQb/LDJcIXhAumvhzCNgquy6F0szJn3GPGcxHxzPVb6UggRlxWPdoGtA==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=exaleapsemi.com; dmarc=pass action=none
- header.from=exaleapsemi.com; dkim=pass header.d=exaleapsemi.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=exaleapsemi.onmicrosoft.com; s=selector2-exaleapsemi-onmicrosoft-com;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=KAuIs9IVsEG3yVBCGNCXdtCcG5gMd0J6G8W9LTgWA4k=;
- b=yuvHgRgb/2CZ03cDFokz6KRSlts9Q+3qh0i/DQkSfGA/NQFcH+D/HzkOx9U346r3PeVdGac+GRfHtVNhl5jqusM7bmQWzENxCQF0s2vorDsyj1dCMQhF2BvbkmLFIP6whTI0U+96/IHSxAimqNs9TO6HYvwplkxzJoRgYQilbmY=
-Received: from BMXPR01MB2344.INDPRD01.PROD.OUTLOOK.COM (2603:1096:b00:36::20)
- by BMXPR01MB3607.INDPRD01.PROD.OUTLOOK.COM (2603:1096:b00:58::15)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3216.21; Thu, 23 Jul
- 2020 09:55:46 +0000
-Received: from BMXPR01MB2344.INDPRD01.PROD.OUTLOOK.COM
- ([fe80::adf5:6e2d:b2df:3e72]) by BMXPR01MB2344.INDPRD01.PROD.OUTLOOK.COM
- ([fe80::adf5:6e2d:b2df:3e72%2]) with mapi id 15.20.3216.023; Thu, 23 Jul 2020
- 09:55:46 +0000
-From: "Pankaj  Vinadrao Joshi" <Pankaj.VJ@exaleapsemi.com>
-To: Alistair Francis <alistair23@gmail.com>
-Subject: Re: Replacing existing kernel with new on qemuriscv64
-Thread-Topic: Replacing existing kernel with new on qemuriscv64
-Thread-Index: AQHWXmlvPudUmHc3zkyu85nr5qnBjKkQsVcAgAAU6KuAAAeAAIAAq8qtgALcmwCAAFyYlQ==
-Date: Thu, 23 Jul 2020 09:55:46 +0000
-Message-ID: <BMXPR01MB23448730F4DA9C023315C3FAEE760@BMXPR01MB2344.INDPRD01.PROD.OUTLOOK.COM>
-References: <BMXPR01MB2344EC13172300E0384B97B8EE7B0@BMXPR01MB2344.INDPRD01.PROD.OUTLOOK.COM>
- <CAKmqyKOsS+bTM=R4gEHBaDCGh3Lmo-bKiG=zbnHS30EwP70RoQ@mail.gmail.com>
- <BMXPR01MB2344CFB0D2C0CBD133ACCD0AEE7B0@BMXPR01MB2344.INDPRD01.PROD.OUTLOOK.COM>
- <CAKmqyKMdoXP1axxLMY4onNUkc7yxZi4RX-vE3f=gzPpnsV4Whw@mail.gmail.com>
- <BMXPR01MB234400F77C27A37B859AFC50EE780@BMXPR01MB2344.INDPRD01.PROD.OUTLOOK.COM>,
- <CAKmqyKPq_oa6-7aVPFxDC8sdEMfR2g3WoY_Anr1TUoJsPdWG-Q@mail.gmail.com>
-In-Reply-To: <CAKmqyKPq_oa6-7aVPFxDC8sdEMfR2g3WoY_Anr1TUoJsPdWG-Q@mail.gmail.com>
-Accept-Language: en-US
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-authentication-results: gmail.com; dkim=none (message not signed)
- header.d=none;gmail.com; dmarc=none action=none header.from=exaleapsemi.com;
-x-originating-ip: [157.33.180.72]
-x-ms-publictraffictype: Email
-x-ms-office365-filtering-correlation-id: c98282f0-2456-48aa-909e-08d82eee9238
-x-ms-traffictypediagnostic: BMXPR01MB3607:
-x-microsoft-antispam-prvs: <BMXPR01MB3607F2C1933CBBDEFE490E6DEE760@BMXPR01MB3607.INDPRD01.PROD.OUTLOOK.COM>
-x-ms-oob-tlc-oobclassifiers: OLM:5236;
-x-ms-exchange-senderadcheck: 1
-x-microsoft-antispam: BCL:0;
-x-microsoft-antispam-message-info: 7m3UTXBZk+T4DSHaQXQppksqgGjvfqmGwbMgS9hKH41rACn7JfQf7EuM4SVn6Wth8crmIK7mJyrFtdCZqPh9IwzsmqkOC1DpZgz4apRQtlzJmtz7lJVc26uIEAN9NofB2R6tRQ2XDOLGna1bIQhfr932feeQFB163ElTfxE2O6ighfkmNeDZTrnLSPOBRrz0NYHkFmINwRA5bCyrTfnyg0f65HUnC3IJFBz/YQpQccfyJXqUURRmbYVQaeRG3wtqCzk5UIYP1q8pVDqI7twfb/QAvaepVk/328HNZEyD6vXjieHIB3OvawMi+19n19WCkuMUIxkw7MQaC7iILlGmmQ==
-x-forefront-antispam-report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:BMXPR01MB2344.INDPRD01.PROD.OUTLOOK.COM; PTR:; CAT:NONE;
- SFTY:;
- SFS:(366004)(376002)(39830400003)(346002)(396003)(136003)(6916009)(26005)(53546011)(64756008)(66556008)(66476007)(66446008)(5660300002)(66946007)(76116006)(6506007)(8936002)(19627405001)(4326008)(83380400001)(8676002)(2906002)(33656002)(55016002)(9686003)(186003)(86362001)(52536014)(7696005)(508600001)(316002)(71200400001);
- DIR:OUT; SFP:1102; 
-x-ms-exchange-antispam-messagedata: hSRO/lBaCt5vYjhZcr8m0rraQy6Ic/eEG5xJ62VQlKBmMl6P5Puhi56YnxMy7F+WbrYEMYG0wRbOeB00U9ZrJ/SC4gOaotL8bXWmS6zo8ExEjUFNkxdBJdDHdJVdhzfJ8d9RPF8ygSRRV9+y39yWU4r9vzHV7RN+VP+xKDH3zQFgRMc7N0XkD7Eud3EFgi+zrqyoeUeQdthr9BjIxIlcnZFQpKQW0igetgqfMrLj4fqh31qMRW9eDdyWJVEdH9xjPU4a7qRcdBHXwO0pI6QPbX3+6oSEn7MkdXl7XA8Uq5MT3PjMwmXnzTmf+p+GjRyfyGAAtOkjHc8xEWrBcmxERt9/knKmUFAZGfxMME2I7W2ZOXr5yLskbNPUHhmHG9i2HfdZjqwyJNrnLQ6WDvjczwyH5bj+qK0FusjXXG8NHlN4fFG2CwaYfgKZCc3oWMBQJKhpxFXBBQhTyBkfkIEToRWvTbJvmds4dB3s25un6HA=
-x-ms-exchange-transport-forked: True
-Content-Type: multipart/alternative;
- boundary="_000_BMXPR01MB23448730F4DA9C023315C3FAEE760BMXPR01MB2344INDP_"
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1jyY5Y-0007bu-AX
+ for qemu-devel@nongnu.org; Thu, 23 Jul 2020 06:04:32 -0400
+Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:22851
+ helo=us-smtp-1.mimecast.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1jyY5U-00009r-13
+ for qemu-devel@nongnu.org; Thu, 23 Jul 2020 06:04:30 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1595498665;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
+ bh=SSGmm6xtM69zTzKFIxXaX6TpibO/eETXRcWfdxBdnHE=;
+ b=OpNJjRqMIFWfiDgBbe4uKbqXaugpdg3CiLqnJfVmdm1sqzs1MIo5BkTgu9ay9dsoTU8ZG/
+ 81prf6ZN+pxqXWQD/8pDCyJ3vQNQ6NkmKxt5u/s2wIlz8qXNFlpD6lTulA+iyzEb8HlK3j
+ weXPp4AcsEpIvJCh0nw2IdaoC1CJKi8=
+Received: from mail-wm1-f72.google.com (mail-wm1-f72.google.com
+ [209.85.128.72]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-206-3y6Tj1sPNlWM3aJ_nm8-lw-1; Thu, 23 Jul 2020 06:04:22 -0400
+X-MC-Unique: 3y6Tj1sPNlWM3aJ_nm8-lw-1
+Received: by mail-wm1-f72.google.com with SMTP id v4so216956wmh.3
+ for <qemu-devel@nongnu.org>; Thu, 23 Jul 2020 03:04:22 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:subject:to:cc:references:from:autocrypt
+ :message-id:date:user-agent:mime-version:in-reply-to
+ :content-language:content-transfer-encoding;
+ bh=SSGmm6xtM69zTzKFIxXaX6TpibO/eETXRcWfdxBdnHE=;
+ b=BLByWXE3PHI5y3eZtAgnOYM7kvrdT1Ej4MCcVeZZ14dYyOodzT1yu0RvEAAcz8KKn+
+ OIGaLVt7Tt0Vql0osyXGV/woR4whVEiWtHQc5cK9AVWL3iPeghNyidmcHDK2w3yPmjdH
+ w0QRCS4LTorCX45Zy8zsiuNDoeMl/f7SLyvkHLzyZKGO2bgvSnx8kxhDPLvp8QAbtMch
+ gjaTJXs+cgznBnwl35LQiN+pqY98PLoHiqzKCmj9U7LJXPZ9KX3xWQ4LvU3eL/F0PdK3
+ usg2tt3SAdMFsjLGEQEdRNslb/xUaJnWNjVZWy20wSN3hP8o6IqFwNs/2NZWkqsxKdPz
+ USUw==
+X-Gm-Message-State: AOAM5314Q3CMgBXt5AFK8LYlsepi+74LNuJ+FopR9iNLF+ZhjXYhH70J
+ XaHIfUYriIW/0qBBy979wWT2kDO3o3EgiR3mPwb/oguF5bNvJ53+5I3RIhmI88ZNtZqShmTK95x
+ +AvgJwcqKNMqR3Q4=
+X-Received: by 2002:a1c:b6c3:: with SMTP id g186mr3614784wmf.135.1595498661688; 
+ Thu, 23 Jul 2020 03:04:21 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJzMe7VEajTEKypNioFMyCqLKWZeAB7DzXPULRIOkQxDPNyZvJjvbRMy3KCKLO01XeHGeH/qXA==
+X-Received: by 2002:a1c:b6c3:: with SMTP id g186mr3614754wmf.135.1595498661350; 
+ Thu, 23 Jul 2020 03:04:21 -0700 (PDT)
+Received: from [192.168.1.36] (138.red-83-57-170.dynamicip.rima-tde.net.
+ [83.57.170.138])
+ by smtp.gmail.com with ESMTPSA id l14sm3430817wrn.18.2020.07.23.03.04.19
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Thu, 23 Jul 2020 03:04:20 -0700 (PDT)
+Subject: Re: [PATCH-for-5.1?] qapi/error: Check format string argument in
+ error_propagate_prepend()
+To: Stefan Weil <sw@weilnetz.de>, qemu-devel@nongnu.org
+References: <20200723091309.18690-1-philmd@redhat.com>
+ <c8068bb8-cff1-a2a6-3eff-f709822917b7@weilnetz.de>
+From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
+Autocrypt: addr=philmd@redhat.com; keydata=
+ mQINBDXML8YBEADXCtUkDBKQvNsQA7sDpw6YLE/1tKHwm24A1au9Hfy/OFmkpzo+MD+dYc+7
+ bvnqWAeGweq2SDq8zbzFZ1gJBd6+e5v1a/UrTxvwBk51yEkadrpRbi+r2bDpTJwXc/uEtYAB
+ GvsTZMtiQVA4kRID1KCdgLa3zztPLCj5H1VZhqZsiGvXa/nMIlhvacRXdbgllPPJ72cLUkXf
+ z1Zu4AkEKpccZaJspmLWGSzGu6UTZ7UfVeR2Hcc2KI9oZB1qthmZ1+PZyGZ/Dy+z+zklC0xl
+ XIpQPmnfy9+/1hj1LzJ+pe3HzEodtlVA+rdttSvA6nmHKIt8Ul6b/h1DFTmUT1lN1WbAGxmg
+ CH1O26cz5nTrzdjoqC/b8PpZiT0kO5MKKgiu5S4PRIxW2+RA4H9nq7nztNZ1Y39bDpzwE5Sp
+ bDHzd5owmLxMLZAINtCtQuRbSOcMjZlg4zohA9TQP9krGIk+qTR+H4CV22sWldSkVtsoTaA2
+ qNeSJhfHQY0TyQvFbqRsSNIe2gTDzzEQ8itsmdHHE/yzhcCVvlUzXhAT6pIN0OT+cdsTTfif
+ MIcDboys92auTuJ7U+4jWF1+WUaJ8gDL69ThAsu7mGDBbm80P3vvUZ4fQM14NkxOnuGRrJxO
+ qjWNJ2ZUxgyHAh5TCxMLKWZoL5hpnvx3dF3Ti9HW2dsUUWICSQARAQABtDJQaGlsaXBwZSBN
+ YXRoaWV1LURhdWTDqSAoUGhpbCkgPHBoaWxtZEByZWRoYXQuY29tPokCVQQTAQgAPwIbDwYL
+ CQgHAwIGFQgCCQoLBBYCAwECHgECF4AWIQSJweePYB7obIZ0lcuio/1u3q3A3gUCXsfWwAUJ
+ KtymWgAKCRCio/1u3q3A3ircD/9Vjh3aFNJ3uF3hddeoFg1H038wZr/xi8/rX27M1Vj2j9VH
+ 0B8Olp4KUQw/hyO6kUxqkoojmzRpmzvlpZ0cUiZJo2bQIWnvScyHxFCv33kHe+YEIqoJlaQc
+ JfKYlbCoubz+02E2A6bFD9+BvCY0LBbEj5POwyKGiDMjHKCGuzSuDRbCn0Mz4kCa7nFMF5Jv
+ piC+JemRdiBd6102ThqgIsyGEBXuf1sy0QIVyXgaqr9O2b/0VoXpQId7yY7OJuYYxs7kQoXI
+ 6WzSMpmuXGkmfxOgbc/L6YbzB0JOriX0iRClxu4dEUg8Bs2pNnr6huY2Ft+qb41RzCJvvMyu
+ gS32LfN0bTZ6Qm2A8ayMtUQgnwZDSO23OKgQWZVglGliY3ezHZ6lVwC24Vjkmq/2yBSLakZE
+ 6DZUjZzCW1nvtRK05ebyK6tofRsx8xB8pL/kcBb9nCuh70aLR+5cmE41X4O+MVJbwfP5s/RW
+ 9BFSL3qgXuXso/3XuWTQjJJGgKhB6xXjMmb1J4q/h5IuVV4juv1Fem9sfmyrh+Wi5V1IzKI7
+ RPJ3KVb937eBgSENk53P0gUorwzUcO+ASEo3Z1cBKkJSPigDbeEjVfXQMzNt0oDRzpQqH2vp
+ apo2jHnidWt8BsckuWZpxcZ9+/9obQ55DyVQHGiTN39hkETy3Emdnz1JVHTU0Q==
+Message-ID: <0b9f2a2e-0d54-08eb-60fa-237d29c2529e@redhat.com>
+Date: Thu, 23 Jul 2020 12:04:19 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.5.0
 MIME-Version: 1.0
-X-OriginatorOrg: exaleapsemi.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: BMXPR01MB2344.INDPRD01.PROD.OUTLOOK.COM
-X-MS-Exchange-CrossTenant-Network-Message-Id: c98282f0-2456-48aa-909e-08d82eee9238
-X-MS-Exchange-CrossTenant-originalarrivaltime: 23 Jul 2020 09:55:46.2040 (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: 34df156e-9bc4-4450-9e80-487c0e7f9471
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: i17JP75gGmIdbiYO95MyTYEWeouhyO7scZylD+OjFDjsc/0X93DwW3Scvl+mm9aOWGef4oG7Ah6//FRHnMrJXSfr6jwgK0gjfT1XBWyiutg=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: BMXPR01MB3607
-Received-SPF: pass client-ip=40.107.139.135;
- envelope-from=Pankaj.VJ@exaleapsemi.com;
- helo=IND01-BO1-obe.outbound.protection.outlook.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/07/23 06:10:59
-X-ACL-Warn: Detected OS   = Windows NT kernel [generic] [fuzzy]
-X-Spam_score_int: -35
-X-Spam_score: -3.6
-X-Spam_bar: ---
-X-Spam_report: (-3.6 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, HTML_MESSAGE=0.001, RCVD_IN_DNSWL_LOW=-0.7,
- RCVD_IN_MSPIKE_H2=-1, SPF_HELO_PASS=-0.001, SPF_PASS=-0.001,
- URIBL_BLOCKED=0.001 autolearn=ham autolearn_force=no
+In-Reply-To: <c8068bb8-cff1-a2a6-3eff-f709822917b7@weilnetz.de>
+Content-Language: en-US
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=205.139.110.120; envelope-from=philmd@redhat.com;
+ helo=us-smtp-1.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/07/23 06:04:25
+X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
+X-Spam_score_int: -40
+X-Spam_score: -4.1
+X-Spam_bar: ----
+X-Spam_report: (-4.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-1, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -117,511 +122,65 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>
+Cc: Michael Roth <mdroth@linux.vnet.ibm.com>,
+ Markus Armbruster <armbru@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
---_000_BMXPR01MB23448730F4DA9C023315C3FAEE760BMXPR01MB2344INDP_
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: quoted-printable
+On 7/23/20 11:44 AM, Stefan Weil wrote:
+> Am 23.07.20 um 11:13 schrieb Philippe Mathieu-Daudé:
+> 
+>> error_propagate_prepend() "behaves like error_prepend()", and
+>> error_prepend() uses "formatting @fmt, ... like printf()".
+>> error_prepend() checks its format string argument, but
+>> error_propagate_prepend() does not. Fix that.
+>>
+>> This would have catched the invalid format introduced in commit
+>> b98e8d1230f:
+>>
+>>     CC      hw/sd/milkymist-memcard.o
+>>   hw/sd/milkymist-memcard.c: In function ‘milkymist_memcard_realize’:
+>>   hw/sd/milkymist-memcard.c:284:70: error: format ‘%s’ expects a matching ‘char *’ argument [-Werror=format=]
+>>     284 |         error_propagate_prepend(errp, err, "failed to init SD card: %s");
+>>         |                                                                     ~^
+>>         |                                                                      |
+>>         |                                                                      char *
+>>
+>> Fixes: 4b5766488f ("Fix use of error_prepend() with &error_fatal, &error_abort")
+>> Inspired-by: Stefan Weil <sw@weilnetz.de>
+>> Signed-off-by: Philippe Mathieu-Daudé <philmd@redhat.com>
+>> ---
+>>  include/qapi/error.h | 1 +
+>>  1 file changed, 1 insertion(+)
+>>
+>> diff --git a/include/qapi/error.h b/include/qapi/error.h
+>> index 7932594dce..eeeef1a34d 100644
+>> --- a/include/qapi/error.h
+>> +++ b/include/qapi/error.h
+>> @@ -381,6 +381,7 @@ void error_propagate(Error **dst_errp, Error *local_err);
+>>   *     error_propagate(dst_errp, local_err);
+>>   * Please use ERRP_GUARD() and error_prepend() instead when possible.
+>>   */
+>> +GCC_FMT_ATTR(3, 4)
+>>  void error_propagate_prepend(Error **dst_errp, Error *local_err,
+>>                               const char *fmt, ...);
+>>  
+> 
+> 
+> Reviewed-by: Stefan Weil <sw@weilnetz.de>
+> 
+> error_vprepend is one more candidate for GCC_FMT_ATTR. Maybe you can add
+> that, too.
 
-Hi,
-yes am building it natively for riscv (sifive's u540 hardware ) and in /boo=
-t  i am able to find System.map-5.7.2 and vmlinux-5.7.2
+This one is different as it uses a va_list. Now I realize it is
+only called in util/error.c, and all its callers are guarded with
+GCC_FMT_ATTR. Maybe we can make it static to simplify... Markus?
 
-root@exaleapsemi:~/linux-stable# make install
-make: Warning: File '.vmlinux.cmd' has modification time 1221719 s in the f=
-uture
-make[1]: Warning: File 'arch/riscv/boot/.Image.cmd' has modification time 1=
-221720 s in the future
-sh ./arch/riscv/boot/install.sh 5.7.2 \
-arch/riscv/boot/Image System.map "/boot"
-Installing normal kernel
+> 
+> Regards,
+> 
+> Stefan
+> 
+> 
 
-But now i want to boot with this kernel but i am not able to do so..its boo=
-ting from the earlier kernel only..i am not able to figure out why this is =
-happening ,while building kernel on x86 with $make install and after reboot=
- i am able to get the new kernel but the same doesnt seems to be working on=
- my hardware.
-How i should do that??Kindly suggest.
-
-Thanks
-________________________________
-From: Alistair Francis <alistair23@gmail.com>
-Sent: Thursday, July 23, 2020 6:07 AM
-To: Pankaj Vinadrao Joshi <Pankaj.VJ@exaleapsemi.com>
-Subject: Re: Replacing existing kernel with new on qemuriscv64
-
-On Mon, Jul 20, 2020 at 10:31 PM Pankaj Vinadrao Joshi
-<Pankaj.VJ@exaleapsemi.com> wrote:
->
-> Hi,
-> i will explain what i mean is, i am using sifive's u540 hardware for whic=
-h we have built our own custom kernel using openembedded-core lets say 5.5.=
-6 and now i want to build the other kernel lets say 5.7, natively
-
-Natively for which platform? You want to do build a new kernel on the
-hardware and then boot into that? The kernel's are kept in a boot
-partition, you should just have to copy them to that location.
-
-> and replace the old kernel with new one,and for this i really did not und=
-erstood where and what exactly i should modify to boot from the new kernel?=
-?
-
-Yep, just replace the old one.
-
->
-> The steps what i followed are following
->
-> 1) i have cloned the kernel source
-> 2)make menuconfig
-> 3)make -j4
-> 4)make modules_install
-> 5make install
-
-make install is probably not going to understand what to do. I think
-you will need to manually do this. I can't remember where the
-partition is, but it should be easy to find.
-
-Alistair
-
->
-> Hope now its clear what i was trying to ask for??
->
-> Thanks & regards
-> Pankaj
->
->
->
-> ________________________________
-> From: Alistair Francis <alistair23@gmail.com>
-> Sent: Tuesday, July 21, 2020 12:10 AM
-> To: Pankaj Vinadrao Joshi <Pankaj.VJ@exaleapsemi.com>
-> Cc: qemu-devel@nongnu.org <qemu-devel@nongnu.org>
-> Subject: Re: Replacing existing kernel with new on qemuriscv64
->
-> On Mon, Jul 20, 2020 at 11:19 AM Pankaj Vinadrao Joshi
-> <Pankaj.VJ@exaleapsemi.com> wrote:
-> >
-> > Hi Alistair Francis,
-> >
-> > Thanks for your response.I have same concern for other riscv hardware w=
-ith custom kernel will same be applicable for it?If no from where i should =
-change my kernel image since there also i am not able to find grub and the =
-clarification given on web are seems to be very specific to x86 arch where =
-i should look in case of riscv ??
->
-> Hello,
->
-> I'm not really sure what you are asking.
->
-> The way to update the kernel will depend on how you are booting it and
-> where it is stored. GRUB supports RISC-V, but as there is no UEFI
-> support in the kernel (yet) it probably isn't the best boot method.
-> Most hardware will probably use u-boot instead.
->
-> Alistair
->
-> >
-> > Thanks
-> >
-> > ________________________________
-> > From: Alistair Francis <alistair23@gmail.com>
-> > Sent: Monday, July 20, 2020 10:29 PM
-> > To: Pankaj Vinadrao Joshi <Pankaj.VJ@exaleapsemi.com>
-> > Cc: qemu-devel@nongnu.org <qemu-devel@nongnu.org>
-> > Subject: Re: Replacing existing kernel with new on qemuriscv64
-> >
-> > On Mon, Jul 20, 2020 at 2:46 AM Pankaj Vinadrao Joshi
-> > <Pankaj.VJ@exaleapsemi.com> wrote:
-> > >
-> > > Hi ,
-> > > I am trying to replace my existing kernel image which is 5.5.6 to 5.5=
-.7 on qemuriscv64 i would like to mention i have built my qemu image with o=
-penembedded-core.
-> > >
-> > > i have tried to build the kernel 5.5.7 natively,i was able to build t=
-he kernel successfully and in my /boot folder i am able to see vmlinux-5.5.=
-7  but now i want to install this image..i have tried to do it by make inst=
-all i didnt got any error with it but when i rebooted my system i am gettin=
-g
-> > >
-> > > i have followed the following steps to build kernel
-> > > $root@qemuriscv64-exaleapsemi-r2:/usr/src/kernel#  make menuconfig ar=
-ch=3Driscv64
-> > > $root@qemuriscv64-exaleapsemi-r2:/usr/src/kernel# make -j4
-> > > $root@qemuriscv64-exaleapsemi-r2:/usr/src/kernel# make modules_instal=
-l
-> > > $root@qemuriscv64-exaleapsemi-r2:/usr/src/kernel# make install
-> > > sh ./arch/riscv/boot/install.sh 5.5.7 \
-> > > arch/riscv/boot/Image System.map "/boot"
-> > > Installing normal kernel
-> > >
-> > > $reboot
-> > > 13024.451157] printk: systemd-shutdow: 37 output lines suppressed due=
- to ratelimiting
-> > > [13024.527282] systemd-shutdown[1]: Syncing filesystems and block dev=
-ices.
-> > > [13024.668538] systemd-shutdown[1]: Sending SIGTERM to remaining proc=
-esses...
-> > > [13024.719496] systemd-journald[87]: Received SIGTERM from PID 1 (sys=
-temd-shutdow).
-> > > [13024.769405] systemd-shutdown[1]: Sending SIGKILL to remaining proc=
-esses...
-> > > [13024.834318] systemd-shutdown[1]: Unmounting file systems.
-> > > [13024.868285] [13413]: Remounting '/' read-only in with options '(nu=
-ll)'.
-> > > [13025.228499] EXT4-fs (vda): re-mounted. Opts: (null)
-> > > [13025.358123] systemd-shutdown[1]: All filesystems unmounted.
-> > > [13025.358576] systemd-shutdown[1]: Deactivating swaps.
-> > > [13025.361264] systemd-shutdown[1]: All swaps deactivated.
-> > > [13025.361727] systemd-shutdown[1]: Detaching loop devices.
-> > > [13025.420602] systemd-shutdown[1]: All loop devices detached.
-> > > [13025.421071] systemd-shutdown[1]: Detaching DM devices.
-> > > [13025.595237] reboot: Restarting system
-> > > [13046.599875] rcu: INFO: rcu_sched detected stalls on CPUs/tasks:
-> > > [13046.600329] (detected by 0, t=3D5252 jiffies, g=3D2837145, q=3D17)
-> > > [13046.600763] rcu: All QSes seen, last rcu_sched kthread activity 52=
-52 (4298153942-4298148690), jiffies_till_next_fqs=3D1, root ->qsmask 0x0
-> > > [13046.601503] systemd-shutdow R  running task        0     1      0 =
-0x00000008
-> > > [13046.602053] Call Trace:
-> > > [13046.602562] [<ffffffe00006d3fc>] walk_stackframe+0x0/0xa4
-> > > [13046.602890] [<ffffffe00006d5e2>] show_stack+0x2a/0x34
-> > > [13046.603156] [<ffffffe000091094>] sched_show_task+0x158/0x174
-> > > [13046.603442] [<ffffffe0000c4dde>] rcu_sched_clock_irq+0x6b2/0x6ec
-> > > [13046.603740] [<ffffffe0000ccadc>] update_process_times+0x1e/0x44
-> > > [13046.604009] [<ffffffe0000d79dc>] tick_sched_handle.isra.16+0x30/0x=
-3e
-> > > [13046.604331] [<ffffffe0000d7a38>] tick_sched_timer+0x4e/0x94
-> > > [13046.604620] [<ffffffe0000cd44a>] __hrtimer_run_queues+0x10c/0x2de
-> > > [13046.604928] [<ffffffe0000cdc96>] hrtimer_interrupt+0xcc/0x1d6
-> > > [13046.605236] [<ffffffe0005d3f7c>] riscv_timer_interrupt+0x32/0x3a
-> > > [13046.605580] [<ffffffe0007889ce>] do_IRQ+0xae/0xba
-> > > [13046.605837] [<ffffffe00006bd3c>] ret_from_exception+0x0/0xc
-> > > [13046.606127] [<ffffffe00006ca58>] machine_restart+0xc/0xe
-> > > [13046.606508] rcu: rcu_sched kthread starved for 5252 jiffies! g2837=
-145 f0x2 RCU_GP_WAIT_FQS(5) ->state=3D0x0 ->cpu=3D0
-> > > [13046.606990] rcu: RCU grace-period kthread stack dump:
-> > > [13046.607257] rcu_sched       R  running task        0    10      2 =
-0x00000000
-> > > [13046.607610] Call Trace:
-> > > [13046.607774] [<ffffffe000784258>] __schedule+0x1a8/0x482
-> > > [13046.608044] [<ffffffe000784592>] schedule+0x60/0xda
-> > > [13046.608304] [<ffffffe000787a56>] schedule_timeout+0x15c/0x2b2
-> > > [13046.608602] [<ffffffe0000c2ec8>] rcu_gp_kthread+0x4cc/0x7ec
-> > > [13046.608889] [<ffffffe00008b0f2>] kthread+0xf0/0x102
-> > > [13046.609162] [<ffffffe00006bd3c>] ret_from_exception+0x0/0xc
-> > >
-> > > ..... so on getting continuously......
-> > >
-> > >
-> > > Can someone help me out how i can replace my kernel to 5.5.7 since i =
-am not able to find grub or grub2 on my riscv platform?? i have googled for=
- the solution but most of them seems to be x86 specific where they are tryi=
-ng to change the grub??Where i should modify for riscv to get my kernel up?=
-???
-> >
-> > You won't be able to install a new kernel from the QEMU guest. You
-> > will need to use OpenEmbedded to build a new kernel and boot that.
-> >
-> > Alistair
-> >
-> > >
-> > >
-> > > Thanks
-> > [EXT]
-> [EXT]
-[EXT]
-
---_000_BMXPR01MB23448730F4DA9C023315C3FAEE760BMXPR01MB2344INDP_
-Content-Type: text/html; charset="us-ascii"
-Content-Transfer-Encoding: quoted-printable
-
-<html>
-<head>
-<meta http-equiv=3D"Content-Type" content=3D"text/html; charset=3Dus-ascii"=
->
-<style type=3D"text/css" style=3D"display:none;"> P {margin-top:0;margin-bo=
-ttom:0;} </style>
-</head>
-<body dir=3D"ltr">
-<div style=3D"font-family: Calibri, Arial, Helvetica, sans-serif; font-size=
-: 12pt; color: rgb(0, 0, 0);">
-Hi,</div>
-<div style=3D"font-family: Calibri, Arial, Helvetica, sans-serif; font-size=
-: 12pt; color: rgb(0, 0, 0);">
-yes am building it natively for riscv (sifive's u540 hardware ) and in /boo=
-t&nbsp; i am able to find&nbsp;System.map-5.7.2 and&nbsp;<span>vmlinux-5.7.=
-2<br>
-</span><span></span></div>
-<div style=3D"font-family: Calibri, Arial, Helvetica, sans-serif; font-size=
-: 12pt; color: rgb(0, 0, 0);">
-<span><br>
-</span></div>
-<div style=3D"font-family: Calibri, Arial, Helvetica, sans-serif; font-size=
-: 12pt; color: rgb(0, 0, 0);">
-root@exaleapsemi:~/linux-stable# <b>make install</b><br>
-<div>make: Warning: File '.vmlinux.cmd' has modification time 1221719 s in =
-the future<br>
-</div>
-<div>make[1]: Warning: File 'arch/riscv/boot/.Image.cmd' has modification t=
-ime 1221720 s in the future<br>
-</div>
-<div>sh ./arch/riscv/boot/install.sh 5.7.2 \<br>
-</div>
-<div>arch/riscv/boot/Image System.map &quot;/boot&quot;<br>
-</div>
-<div>Installing normal kernel<br>
-</div>
-<div><br>
-</div>
-<div>But now i want to boot with this kernel but i am not able to do so..it=
-s booting from the earlier kernel only..i am not able to figure out why thi=
-s is happening ,while building kernel on x86 with $make install and after r=
-eboot i am able to get the new kernel
- but the same doesnt seems to be working on my hardware.</div>
-<div>How i should do that??Kindly suggest.</div>
-<div><br>
-</div>
-<div>Thanks</div>
-</div>
-<div id=3D"appendonsend"></div>
-<hr style=3D"display:inline-block;width:98%" tabindex=3D"-1">
-<div id=3D"divRplyFwdMsg" dir=3D"ltr"><font face=3D"Calibri, sans-serif" st=
-yle=3D"font-size:11pt" color=3D"#000000"><b>From:</b> Alistair Francis &lt;=
-alistair23@gmail.com&gt;<br>
-<b>Sent:</b> Thursday, July 23, 2020 6:07 AM<br>
-<b>To:</b> Pankaj Vinadrao Joshi &lt;Pankaj.VJ@exaleapsemi.com&gt;<br>
-<b>Subject:</b> Re: Replacing existing kernel with new on qemuriscv64</font=
->
-<div>&nbsp;</div>
-</div>
-<div class=3D"BodyFragment"><font size=3D"2"><span style=3D"font-size:11pt;=
-">
-<div class=3D"PlainText">On Mon, Jul 20, 2020 at 10:31 PM Pankaj Vinadrao J=
-oshi<br>
-&lt;Pankaj.VJ@exaleapsemi.com&gt; wrote:<br>
-&gt;<br>
-&gt; Hi,<br>
-&gt; i will explain what i mean is, i am using sifive's u540 hardware for w=
-hich we have built our own custom kernel using openembedded-core lets say 5=
-.5.6 and now i want to build the other kernel lets say 5.7, natively<br>
-<br>
-Natively for which platform? You want to do build a new kernel on the<br>
-hardware and then boot into that? The kernel's are kept in a boot<br>
-partition, you should just have to copy them to that location.<br>
-<br>
-&gt; and replace the old kernel with new one,and for this i really did not =
-understood where and what exactly i should modify to boot from the new kern=
-el??<br>
-<br>
-Yep, just replace the old one.<br>
-<br>
-&gt;<br>
-&gt; The steps what i followed are following<br>
-&gt;<br>
-&gt; 1) i have cloned the kernel source<br>
-&gt; 2)make menuconfig<br>
-&gt; 3)make -j4<br>
-&gt; 4)make modules_install<br>
-&gt; 5make install<br>
-<br>
-make install is probably not going to understand what to do. I think<br>
-you will need to manually do this. I can't remember where the<br>
-partition is, but it should be easy to find.<br>
-<br>
-Alistair<br>
-<br>
-&gt;<br>
-&gt; Hope now its clear what i was trying to ask for??<br>
-&gt;<br>
-&gt; Thanks &amp; regards<br>
-&gt; Pankaj<br>
-&gt;<br>
-&gt;<br>
-&gt;<br>
-&gt; ________________________________<br>
-&gt; From: Alistair Francis &lt;alistair23@gmail.com&gt;<br>
-&gt; Sent: Tuesday, July 21, 2020 12:10 AM<br>
-&gt; To: Pankaj Vinadrao Joshi &lt;Pankaj.VJ@exaleapsemi.com&gt;<br>
-&gt; Cc: qemu-devel@nongnu.org &lt;qemu-devel@nongnu.org&gt;<br>
-&gt; Subject: Re: Replacing existing kernel with new on qemuriscv64<br>
-&gt;<br>
-&gt; On Mon, Jul 20, 2020 at 11:19 AM Pankaj Vinadrao Joshi<br>
-&gt; &lt;Pankaj.VJ@exaleapsemi.com&gt; wrote:<br>
-&gt; &gt;<br>
-&gt; &gt; Hi Alistair Francis,<br>
-&gt; &gt;<br>
-&gt; &gt; Thanks for your response.I have same concern for other riscv hard=
-ware with custom kernel will same be applicable for it?If no from where i s=
-hould change my kernel image since there also i am not able to find grub an=
-d the clarification given on web are seems
- to be very specific to x86 arch where i should look in case of riscv ??<br=
->
-&gt;<br>
-&gt; Hello,<br>
-&gt;<br>
-&gt; I'm not really sure what you are asking.<br>
-&gt;<br>
-&gt; The way to update the kernel will depend on how you are booting it and=
-<br>
-&gt; where it is stored. GRUB supports RISC-V, but as there is no UEFI<br>
-&gt; support in the kernel (yet) it probably isn't the best boot method.<br=
->
-&gt; Most hardware will probably use u-boot instead.<br>
-&gt;<br>
-&gt; Alistair<br>
-&gt;<br>
-&gt; &gt;<br>
-&gt; &gt; Thanks<br>
-&gt; &gt;<br>
-&gt; &gt; ________________________________<br>
-&gt; &gt; From: Alistair Francis &lt;alistair23@gmail.com&gt;<br>
-&gt; &gt; Sent: Monday, July 20, 2020 10:29 PM<br>
-&gt; &gt; To: Pankaj Vinadrao Joshi &lt;Pankaj.VJ@exaleapsemi.com&gt;<br>
-&gt; &gt; Cc: qemu-devel@nongnu.org &lt;qemu-devel@nongnu.org&gt;<br>
-&gt; &gt; Subject: Re: Replacing existing kernel with new on qemuriscv64<br=
->
-&gt; &gt;<br>
-&gt; &gt; On Mon, Jul 20, 2020 at 2:46 AM Pankaj Vinadrao Joshi<br>
-&gt; &gt; &lt;Pankaj.VJ@exaleapsemi.com&gt; wrote:<br>
-&gt; &gt; &gt;<br>
-&gt; &gt; &gt; Hi ,<br>
-&gt; &gt; &gt; I am trying to replace my existing kernel image which is 5.5=
-.6 to 5.5.7 on qemuriscv64 i would like to mention i have built my qemu ima=
-ge with openembedded-core.<br>
-&gt; &gt; &gt;<br>
-&gt; &gt; &gt; i have tried to build the kernel 5.5.7 natively,i was able t=
-o build the kernel successfully and in my /boot folder i am able to see vml=
-inux-5.5.7&nbsp; but now i want to install this image..i have tried to do i=
-t by make install i didnt got any error with it
- but when i rebooted my system i am getting<br>
-&gt; &gt; &gt;<br>
-&gt; &gt; &gt; i have followed the following steps to build kernel<br>
-&gt; &gt; &gt; $root@qemuriscv64-exaleapsemi-r2:/usr/src/kernel#&nbsp; make=
- menuconfig arch=3Driscv64<br>
-&gt; &gt; &gt; $root@qemuriscv64-exaleapsemi-r2:/usr/src/kernel# make -j4<b=
-r>
-&gt; &gt; &gt; $root@qemuriscv64-exaleapsemi-r2:/usr/src/kernel# make modul=
-es_install<br>
-&gt; &gt; &gt; $root@qemuriscv64-exaleapsemi-r2:/usr/src/kernel# make insta=
-ll<br>
-&gt; &gt; &gt; sh ./arch/riscv/boot/install.sh 5.5.7 \<br>
-&gt; &gt; &gt; arch/riscv/boot/Image System.map &quot;/boot&quot;<br>
-&gt; &gt; &gt; Installing normal kernel<br>
-&gt; &gt; &gt;<br>
-&gt; &gt; &gt; $reboot<br>
-&gt; &gt; &gt; 13024.451157] printk: systemd-shutdow: 37 output lines suppr=
-essed due to ratelimiting<br>
-&gt; &gt; &gt; [13024.527282] systemd-shutdown[1]: Syncing filesystems and =
-block devices.<br>
-&gt; &gt; &gt; [13024.668538] systemd-shutdown[1]: Sending SIGTERM to remai=
-ning processes...<br>
-&gt; &gt; &gt; [13024.719496] systemd-journald[87]: Received SIGTERM from P=
-ID 1 (systemd-shutdow).<br>
-&gt; &gt; &gt; [13024.769405] systemd-shutdown[1]: Sending SIGKILL to remai=
-ning processes...<br>
-&gt; &gt; &gt; [13024.834318] systemd-shutdown[1]: Unmounting file systems.=
-<br>
-&gt; &gt; &gt; [13024.868285] [13413]: Remounting '/' read-only in with opt=
-ions '(null)'.<br>
-&gt; &gt; &gt; [13025.228499] EXT4-fs (vda): re-mounted. Opts: (null)<br>
-&gt; &gt; &gt; [13025.358123] systemd-shutdown[1]: All filesystems unmounte=
-d.<br>
-&gt; &gt; &gt; [13025.358576] systemd-shutdown[1]: Deactivating swaps.<br>
-&gt; &gt; &gt; [13025.361264] systemd-shutdown[1]: All swaps deactivated.<b=
-r>
-&gt; &gt; &gt; [13025.361727] systemd-shutdown[1]: Detaching loop devices.<=
-br>
-&gt; &gt; &gt; [13025.420602] systemd-shutdown[1]: All loop devices detache=
-d.<br>
-&gt; &gt; &gt; [13025.421071] systemd-shutdown[1]: Detaching DM devices.<br=
->
-&gt; &gt; &gt; [13025.595237] reboot: Restarting system<br>
-&gt; &gt; &gt; [13046.599875] rcu: INFO: rcu_sched detected stalls on CPUs/=
-tasks:<br>
-&gt; &gt; &gt; [13046.600329] (detected by 0, t=3D5252 jiffies, g=3D2837145=
-, q=3D17)<br>
-&gt; &gt; &gt; [13046.600763] rcu: All QSes seen, last rcu_sched kthread ac=
-tivity 5252 (4298153942-4298148690), jiffies_till_next_fqs=3D1, root -&gt;q=
-smask 0x0<br>
-&gt; &gt; &gt; [13046.601503] systemd-shutdow R&nbsp; running task&nbsp;&nb=
-sp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 0&nbsp;&nbsp;&nbsp;&nbsp; 1&nbsp;&nbsp;&n=
-bsp;&nbsp;&nbsp; 0 0x00000008<br>
-&gt; &gt; &gt; [13046.602053] Call Trace:<br>
-&gt; &gt; &gt; [13046.602562] [&lt;ffffffe00006d3fc&gt;] walk_stackframe+0x=
-0/0xa4<br>
-&gt; &gt; &gt; [13046.602890] [&lt;ffffffe00006d5e2&gt;] show_stack+0x2a/0x=
-34<br>
-&gt; &gt; &gt; [13046.603156] [&lt;ffffffe000091094&gt;] sched_show_task+0x=
-158/0x174<br>
-&gt; &gt; &gt; [13046.603442] [&lt;ffffffe0000c4dde&gt;] rcu_sched_clock_ir=
-q+0x6b2/0x6ec<br>
-&gt; &gt; &gt; [13046.603740] [&lt;ffffffe0000ccadc&gt;] update_process_tim=
-es+0x1e/0x44<br>
-&gt; &gt; &gt; [13046.604009] [&lt;ffffffe0000d79dc&gt;] tick_sched_handle.=
-isra.16+0x30/0x3e<br>
-&gt; &gt; &gt; [13046.604331] [&lt;ffffffe0000d7a38&gt;] tick_sched_timer+0=
-x4e/0x94<br>
-&gt; &gt; &gt; [13046.604620] [&lt;ffffffe0000cd44a&gt;] __hrtimer_run_queu=
-es+0x10c/0x2de<br>
-&gt; &gt; &gt; [13046.604928] [&lt;ffffffe0000cdc96&gt;] hrtimer_interrupt+=
-0xcc/0x1d6<br>
-&gt; &gt; &gt; [13046.605236] [&lt;ffffffe0005d3f7c&gt;] riscv_timer_interr=
-upt+0x32/0x3a<br>
-&gt; &gt; &gt; [13046.605580] [&lt;ffffffe0007889ce&gt;] do_IRQ+0xae/0xba<b=
-r>
-&gt; &gt; &gt; [13046.605837] [&lt;ffffffe00006bd3c&gt;] ret_from_exception=
-+0x0/0xc<br>
-&gt; &gt; &gt; [13046.606127] [&lt;ffffffe00006ca58&gt;] machine_restart+0x=
-c/0xe<br>
-&gt; &gt; &gt; [13046.606508] rcu: rcu_sched kthread starved for 5252 jiffi=
-es! g2837145 f0x2 RCU_GP_WAIT_FQS(5) -&gt;state=3D0x0 -&gt;cpu=3D0<br>
-&gt; &gt; &gt; [13046.606990] rcu: RCU grace-period kthread stack dump:<br>
-&gt; &gt; &gt; [13046.607257] rcu_sched&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;=
- R&nbsp; running task&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 0&nbsp;&nbs=
-p;&nbsp; 10&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 2 0x00000000<br>
-&gt; &gt; &gt; [13046.607610] Call Trace:<br>
-&gt; &gt; &gt; [13046.607774] [&lt;ffffffe000784258&gt;] __schedule+0x1a8/0=
-x482<br>
-&gt; &gt; &gt; [13046.608044] [&lt;ffffffe000784592&gt;] schedule+0x60/0xda=
-<br>
-&gt; &gt; &gt; [13046.608304] [&lt;ffffffe000787a56&gt;] schedule_timeout+0=
-x15c/0x2b2<br>
-&gt; &gt; &gt; [13046.608602] [&lt;ffffffe0000c2ec8&gt;] rcu_gp_kthread+0x4=
-cc/0x7ec<br>
-&gt; &gt; &gt; [13046.608889] [&lt;ffffffe00008b0f2&gt;] kthread+0xf0/0x102=
-<br>
-&gt; &gt; &gt; [13046.609162] [&lt;ffffffe00006bd3c&gt;] ret_from_exception=
-+0x0/0xc<br>
-&gt; &gt; &gt;<br>
-&gt; &gt; &gt; ..... so on getting continuously......<br>
-&gt; &gt; &gt;<br>
-&gt; &gt; &gt;<br>
-&gt; &gt; &gt; Can someone help me out how i can replace my kernel to 5.5.7=
- since i am not able to find grub or grub2 on my riscv platform?? i have go=
-ogled for the solution but most of them seems to be x86 specific where they=
- are trying to change the grub??Where i should
- modify for riscv to get my kernel up????<br>
-&gt; &gt;<br>
-&gt; &gt; You won't be able to install a new kernel from the QEMU guest. Yo=
-u<br>
-&gt; &gt; will need to use OpenEmbedded to build a new kernel and boot that=
-.<br>
-&gt; &gt;<br>
-&gt; &gt; Alistair<br>
-&gt; &gt;<br>
-&gt; &gt; &gt;<br>
-&gt; &gt; &gt;<br>
-&gt; &gt; &gt; Thanks<br>
-&gt; &gt; [EXT]<br>
-&gt; [EXT]<br>
-[EXT]<br>
-</div>
-</span></font></div>
-</body>
-</html>
-
---_000_BMXPR01MB23448730F4DA9C023315C3FAEE760BMXPR01MB2344INDP_--
 
