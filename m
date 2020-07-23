@@ -2,62 +2,64 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7E91822AF74
-	for <lists+qemu-devel@lfdr.de>; Thu, 23 Jul 2020 14:34:41 +0200 (CEST)
-Received: from localhost ([::1]:48672 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 339AF22AF71
+	for <lists+qemu-devel@lfdr.de>; Thu, 23 Jul 2020 14:34:29 +0200 (CEST)
+Received: from localhost ([::1]:47476 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jyaQq-0006g0-GP
-	for lists+qemu-devel@lfdr.de; Thu, 23 Jul 2020 08:34:40 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:36208)
+	id 1jyaQe-0006CL-77
+	for lists+qemu-devel@lfdr.de; Thu, 23 Jul 2020 08:34:28 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:36290)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <rjones@redhat.com>) id 1jyaOc-0003wK-Am
- for qemu-devel@nongnu.org; Thu, 23 Jul 2020 08:32:22 -0400
-Received: from us-smtp-1.mimecast.com ([205.139.110.61]:27828
+ (Exim 4.90_1) (envelope-from <stefanha@redhat.com>)
+ id 1jyaP6-0004Vf-CY
+ for qemu-devel@nongnu.org; Thu, 23 Jul 2020 08:32:52 -0400
+Received: from us-smtp-1.mimecast.com ([205.139.110.61]:35734
  helo=us-smtp-delivery-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <rjones@redhat.com>) id 1jyaOa-0004JW-AO
- for qemu-devel@nongnu.org; Thu, 23 Jul 2020 08:32:21 -0400
+ (Exim 4.90_1) (envelope-from <stefanha@redhat.com>)
+ id 1jyaP4-0004NZ-P0
+ for qemu-devel@nongnu.org; Thu, 23 Jul 2020 08:32:52 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1595507538;
+ s=mimecast20190719; t=1595507570;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=X6jedvTP3YtiuMXv+6RmEsFeFWni9krKMPWz8hW9wvI=;
- b=NWGRx1hWvB58egoWKZbyt7v05qq1T21iGsGfOYJkZUuvsndvepCIg5TlYFZsTbV8ykkZj6
- PCX0ecUmWixIr9tuZJ23DUN2W1krw2V6vulSHBzOz3LFK6blXO8Ofmo5lHi7KZ2GYsZpdN
- tsYOFG/bsv7E4nyWywUC4/fp0GZ5UR8=
+ bh=lvN8M+tJjfimie1VPyOcfMod4sSBXeqisQGAakSHFUg=;
+ b=KAu+J9q+wXsH5ZpmDypuKdx710EvZn7rYQiO9LHxdJu0IYMEvV2rGQ1KXitAGPna4ZvOH4
+ 1EvllFcmjuq8PErVSD//4VRKkZ+Pd/nXgCREsmDGfYcXcQwM7fHUByIFRov+bKrdJG1xJL
+ pY+upp1m6ABrXdqGewAOLwMUFGt8qZk=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-154-TAb4KBWVOCq3icc7y8JHwg-1; Thu, 23 Jul 2020 08:32:15 -0400
-X-MC-Unique: TAb4KBWVOCq3icc7y8JHwg-1
-Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
- [10.5.11.14])
+ us-mta-334-p01ZCY7FN7GvCQMx8zKGtw-1; Thu, 23 Jul 2020 08:32:47 -0400
+X-MC-Unique: p01ZCY7FN7GvCQMx8zKGtw-1
+Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
+ [10.5.11.16])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id DD57180BCD3;
- Thu, 23 Jul 2020 12:31:47 +0000 (UTC)
-Received: from localhost (ovpn-114-99.ams2.redhat.com [10.36.114.99])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 0F25E5D9D3;
- Thu, 23 Jul 2020 12:31:42 +0000 (UTC)
-Date: Thu, 23 Jul 2020 13:31:41 +0100
-From: "Richard W.M. Jones" <rjones@redhat.com>
-To: =?iso-8859-1?Q?Marc-Andr=E9?= Lureau <marcandre.lureau@redhat.com>
-Subject: Re: [PATCH 13/13] ssh: add GUri-based URI parsing
-Message-ID: <20200723123141.GP3888@redhat.com>
-References: <20200709194234.2117650-1-marcandre.lureau@redhat.com>
- <20200709194234.2117650-14-marcandre.lureau@redhat.com>
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id ECC4280BCBA
+ for <qemu-devel@nongnu.org>; Thu, 23 Jul 2020 12:32:45 +0000 (UTC)
+Received: from localhost (ovpn-114-204.ams2.redhat.com [10.36.114.204])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 210546A500;
+ Thu, 23 Jul 2020 12:32:30 +0000 (UTC)
+Date: Thu, 23 Jul 2020 13:32:29 +0100
+From: Stefan Hajnoczi <stefanha@redhat.com>
+To: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
+Subject: Re: [PATCH for-5.1 2/3] virtiofsd: add container-friendly -o chroot
+ sandboxing option
+Message-ID: <20200723123229.GK186372@stefanha-x1.localdomain>
+References: <20200722130206.224898-1-stefanha@redhat.com>
+ <20200722130206.224898-3-stefanha@redhat.com>
+ <20200722190318.GM2660@work-vm>
 MIME-Version: 1.0
-In-Reply-To: <20200709194234.2117650-14-marcandre.lureau@redhat.com>
-User-Agent: Mutt/1.5.21 (2010-09-15)
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
+In-Reply-To: <20200722190318.GM2660@work-vm>
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=iso-8859-1
-Content-Transfer-Encoding: 8bit
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature"; boundary="W/+CTqSGWdiRg+8j"
 Content-Disposition: inline
-Received-SPF: pass client-ip=205.139.110.61; envelope-from=rjones@redhat.com;
+Received-SPF: pass client-ip=205.139.110.61; envelope-from=stefanha@redhat.com;
  helo=us-smtp-delivery-1.mimecast.com
 X-detected-operating-system: by eggs.gnu.org: First seen = 2020/07/23 02:33:29
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
@@ -67,7 +69,7 @@ X-Spam_bar: ----
 X-Spam_report: (-4.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-1, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001, URIBL_BLOCKED=0.001 autolearn=unavailable autolearn_force=no
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -80,150 +82,59 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Kevin Wolf <kwolf@redhat.com>, integration@gluster.org,
- sheepdog@lists.wpkg.org, qemu-block@nongnu.org, Peter Lieven <pl@kamp.de>,
- qemu-devel@nongnu.org, Max Reitz <mreitz@redhat.com>,
- Liu Yuan <namei.unix@gmail.com>
+Cc: virtio-fs@redhat.com, rmohr@redhat.com, qemu-devel@nongnu.org,
+ vromanso@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Thu, Jul 09, 2020 at 11:42:34PM +0400, Marc-André Lureau wrote:
-> Signed-off-by: Marc-André Lureau <marcandre.lureau@redhat.com>
-> ---
->  block/ssh.c | 75 +++++++++++++++++++++++++++++++++++++++++------------
->  1 file changed, 58 insertions(+), 17 deletions(-)
-> 
-> diff --git a/block/ssh.c b/block/ssh.c
-> index c8f6ad79e3c..d2bc6277613 100644
-> --- a/block/ssh.c
-> +++ b/block/ssh.c
-> @@ -180,9 +180,37 @@ static void sftp_error_trace(BDRVSSHState *s, const char *op)
->  
->  static int parse_uri(const char *filename, QDict *options, Error **errp)
->  {
-> +    g_autofree char *port_str = NULL;
-> +    const char *scheme, *server, *path, *user, *key, *value;
-> +    gint port;
-> +
-> +#ifdef HAVE_GLIB_GURI
-> +    g_autoptr(GUri) uri = NULL;
-> +    g_autoptr(GHashTable) params = NULL;
-> +    g_autoptr(GError) err = NULL;
-> +    GHashTableIter iter;
-> +
-> +    uri = g_uri_parse(filename, G_URI_FLAGS_ENCODED_QUERY, &err);
-> +    if (!uri) {
-> +        error_setg(errp, "Failed to parse SSH URI: %s", err->message);
-> +        return -EINVAL;
-> +    }
-> +
-> +    params = g_uri_parse_params(g_uri_get_query(uri), -1,
-> +                                "&;", G_URI_PARAMS_NONE, &err);
-> +    if (err) {
-> +        error_report("Failed to parse SSH URI query: %s", err->message);
-> +        return -EINVAL;
-> +    }
-> +
-> +    scheme = g_uri_get_scheme(uri);
-> +    user = g_uri_get_user(uri);
-> +    server = g_uri_get_host(uri);
-> +    path = g_uri_get_path(uri);
-> +    port = g_uri_get_port(uri);
-> +#else
->      g_autoptr(URI) uri = NULL;
->      g_autoptr(QueryParams) qp = NULL;
-> -    g_autofree char *port_str = NULL;
->      int i;
+--W/+CTqSGWdiRg+8j
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-As Dan said already, this conditional code looks horrible and is going
-to be a maintenance burden.  Was there a later version of this patch
-series that resolved this?  I don't think I saw one.
+On Wed, Jul 22, 2020 at 08:03:18PM +0100, Dr. David Alan Gilbert wrote:
+> * Stefan Hajnoczi (stefanha@redhat.com) wrote:
+> > +    /*
+> > +     * Make the shared directory the file system root so that FUSE_OPE=
+N
+> > +     * (lo_open()) cannot escape the shared directory by opening a sym=
+link.
+> > +     *
+> > +     * It's still possible to escape the chroot via lo->proc_self_fd b=
+ut that
+> > +     * requires gaining control of the process first.
+> > +     */
+> > +    if (chroot(lo->source) !=3D 0) {
+> > +        fuse_log(FUSE_LOG_ERR, "chroot(\"%s\"): %m\n", lo->source);
+> > +        exit(1);
+> > +    }
+>=20
+> I'm seeing suggestions that you should drop CAP_SYS_CHROOT after
+> chroot'ing to stop an old escape (where you create another jail inside
+> the jail and the kernel then lets you walk outside of the old one).
 
-Rich.
+That's already the case:
 
+1. setup_seccomp() blocks further chroot(2) calls.
+2. setup_capabilities() drops CAP_SYS_CHROOT.
 
->      uri = uri_parse(filename);
-> @@ -190,44 +218,57 @@ static int parse_uri(const char *filename, QDict *options, Error **errp)
->          return -EINVAL;
->      }
->  
-> -    if (g_strcmp0(uri->scheme, "ssh") != 0) {
-> -        error_setg(errp, "URI scheme must be 'ssh'");
-> +    qp = query_params_parse(uri->query);
-> +    if (!qp) {
-> +        error_setg(errp, "could not parse query parameters");
->          return -EINVAL;
->      }
->  
-> -    if (!uri->server || strcmp(uri->server, "") == 0) {
-> -        error_setg(errp, "missing hostname in URI");
-> +    scheme = uri->scheme;
-> +    user = uri->user;
-> +    server = uri->server;
-> +    path = uri->path;
-> +    port = uri->port;
-> +#endif
-> +    if (g_strcmp0(scheme, "ssh") != 0) {
-> +        error_setg(errp, "URI scheme must be 'ssh'");
->          return -EINVAL;
->      }
->  
-> -    if (!uri->path || strcmp(uri->path, "") == 0) {
-> -        error_setg(errp, "missing remote path in URI");
-> +    if (!server || strcmp(server, "") == 0) {
-> +        error_setg(errp, "missing hostname in URI");
->          return -EINVAL;
->      }
->  
-> -    qp = query_params_parse(uri->query);
-> -    if (!qp) {
-> -        error_setg(errp, "could not parse query parameters");
-> +    if (!path || strcmp(path, "") == 0) {
-> +        error_setg(errp, "missing remote path in URI");
->          return -EINVAL;
->      }
->  
-> -    if(uri->user && strcmp(uri->user, "") != 0) {
-> -        qdict_put_str(options, "user", uri->user);
-> +    if (user && strcmp(user, "") != 0) {
-> +        qdict_put_str(options, "user", user);
->      }
->  
-> -    qdict_put_str(options, "server.host", uri->server);
-> +    qdict_put_str(options, "server.host", server);
->  
-> -    port_str = g_strdup_printf("%d", uri->port ?: 22);
-> +    port_str = g_strdup_printf("%d", port ?: 22);
->      qdict_put_str(options, "server.port", port_str);
->  
-> -    qdict_put_str(options, "path", uri->path);
-> +    qdict_put_str(options, "path", path);
->  
->      /* Pick out any query parameters that we understand, and ignore
->       * the rest.
->       */
-> +#ifdef HAVE_GLIB_GURI
-> +    g_hash_table_iter_init(&iter, params);
-> +    while (g_hash_table_iter_next(&iter, (void **)&key, (void **)&value)) {
-> +#else
->      for (i = 0; i < qp->n; ++i) {
-> -        if (strcmp(qp->p[i].name, "host_key_check") == 0) {
-> -            qdict_put_str(options, "host_key_check", qp->p[i].value);
-> +        key = qp->p[i].name;
-> +        value = qp->p[i].value;
-> +#endif
-> +        if (g_strcmp0(key, "host_key_check") == 0) {
-> +            qdict_put_str(options, "host_key_check", value);
->          }
->      }
->  
-> -- 
-> 2.27.0.221.ga08a83db2b
+Stefan
 
--- 
-Richard Jones, Virtualization Group, Red Hat http://people.redhat.com/~rjones
-Read my programming and virtualization blog: http://rwmj.wordpress.com
-libguestfs lets you edit virtual machines.  Supports shell scripting,
-bindings from many languages.  http://libguestfs.org
+--W/+CTqSGWdiRg+8j
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAEBCAAdFiEEhpWov9P5fNqsNXdanKSrs4Grc8gFAl8Zg10ACgkQnKSrs4Gr
+c8h4HQf/RUS35yKPn0YuL0Blj7IStwftED6MWxJTsn76LYo4pnAtm1LLqWgDBuHo
+qzpHnQhP7LEka+NA83+Vqmfz2qXtsYbj6itgLA73h/15b2pMWCkKg9U2yM0iztJp
+pg4zDLUrt54i9NFTdRTsj+CHGFHdgspf+8ipMLhsiybtph3skBQtk3EvRUyVMJhR
+2LxS5pRUCbr9uS5l/QLv9VAjcsCgEW98p2HG4uCJo6tY0li9iFY63Q5to3HL3rCy
+EGMkFSOk/KYMcIoJQqSIO7getjtLVJuVqBxocKeYz2k7acpnE7UOODn9AVwWyfgn
+FecaTHoPhmvjwaKwjUaQbmnbXs/fOQ==
+=Yuf1
+-----END PGP SIGNATURE-----
+
+--W/+CTqSGWdiRg+8j--
 
 
