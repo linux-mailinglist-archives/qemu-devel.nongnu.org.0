@@ -2,48 +2,57 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 71E5C22A977
-	for <lists+qemu-devel@lfdr.de>; Thu, 23 Jul 2020 09:18:33 +0200 (CEST)
-Received: from localhost ([::1]:47732 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 408F022A937
+	for <lists+qemu-devel@lfdr.de>; Thu, 23 Jul 2020 09:03:25 +0200 (CEST)
+Received: from localhost ([::1]:42952 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jyVUt-0008Vj-H7
-	for lists+qemu-devel@lfdr.de; Thu, 23 Jul 2020 03:18:32 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:59934)
+	id 1jyVGG-0006HH-BU
+	for lists+qemu-devel@lfdr.de; Thu, 23 Jul 2020 03:03:24 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:60178)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mjt@tls.msk.ru>) id 1jyVE3-0005iy-Ph
- for qemu-devel@nongnu.org; Thu, 23 Jul 2020 03:01:07 -0400
-Received: from isrv.corpit.ru ([86.62.121.231]:53099)
+ (Exim 4.90_1) (envelope-from <jan.kiszka@siemens.com>)
+ id 1jyVFC-0005p4-3O
+ for qemu-devel@nongnu.org; Thu, 23 Jul 2020 03:02:18 -0400
+Received: from goliath.siemens.de ([192.35.17.28]:50516)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mjt@tls.msk.ru>) id 1jyVE0-0004K7-HI
- for qemu-devel@nongnu.org; Thu, 23 Jul 2020 03:01:07 -0400
-Received: from tsrv.corpit.ru (tsrv.tls.msk.ru [192.168.177.2])
- by isrv.corpit.ru (Postfix) with ESMTP id 3DDA240688;
- Wed, 22 Jul 2020 22:11:33 +0300 (MSK)
-Received: from [192.168.177.99] (mjt.vpn.tls.msk.ru [192.168.177.99])
- by tsrv.corpit.ru (Postfix) with ESMTP id DCB5D9C;
- Wed, 22 Jul 2020 22:11:33 +0300 (MSK)
-To: qemu-devel@nongnu.org, Helge Deller <deller@gmx.de>
-From: Michael Tokarev <mjt@tls.msk.ru>
-Subject: roms/seabios-hppa can't be built with gcc-10: -fno-ipa-sra
-Message-ID: <9614340c-8a36-3e2e-40db-61ac9273661e@msgid.tls.msk.ru>
-Date: Wed, 22 Jul 2020 22:11:32 +0300
+ (Exim 4.90_1) (envelope-from <jan.kiszka@siemens.com>)
+ id 1jyVFA-0004Pr-3C
+ for qemu-devel@nongnu.org; Thu, 23 Jul 2020 03:02:17 -0400
+Received: from mail2.sbs.de (mail2.sbs.de [192.129.41.66])
+ by goliath.siemens.de (8.15.2/8.15.2) with ESMTPS id 06N72ABC031190
+ (version=TLSv1.2 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+ Thu, 23 Jul 2020 09:02:10 +0200
+Received: from [139.22.112.247] ([139.22.112.247])
+ by mail2.sbs.de (8.15.2/8.15.2) with ESMTP id 06N729ci005475;
+ Thu, 23 Jul 2020 09:02:09 +0200
+Subject: Re: [virtio-comment] [RFC] ivshmem v2: Shared memory device
+ specification
+To: Stefan Hajnoczi <stefanha@redhat.com>
+References: <f109fe5a-92eb-e5a5-bb83-ada42b3a9b61@siemens.com>
+ <20200715132748.GA20677@stefanha-x1.localdomain>
+ <88a33034-783a-07d2-85e0-c1a1ecd2721f@siemens.com>
+ <20200723065423.GE268427@stefanha-x1.localdomain>
+From: Jan Kiszka <jan.kiszka@siemens.com>
+Message-ID: <10df6427-eab0-d3b8-4624-ede98ff7ef09@siemens.com>
+Date: Thu, 23 Jul 2020 09:02:09 +0200
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
  Thunderbird/68.10.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+In-Reply-To: <20200723065423.GE268427@stefanha-x1.localdomain>
+Content-Type: text/plain; charset=windows-1252; format=flowed
 Content-Language: en-US
 Content-Transfer-Encoding: 7bit
-Received-SPF: none client-ip=86.62.121.231; envelope-from=mjt@tls.msk.ru;
- helo=isrv.corpit.ru
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/07/22 15:11:33
-X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic]
+Received-SPF: pass client-ip=192.35.17.28; envelope-from=jan.kiszka@siemens.com;
+ helo=goliath.siemens.de
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/07/23 03:02:13
+X-ACL-Warn: Detected OS   = Linux 3.1-3.10
 X-Spam_score_int: -68
 X-Spam_score: -6.9
 X-Spam_bar: ------
-X-Spam_report: (-6.9 / 5.0 requ) BAYES_00=-1.9, NO_DNS_FOR_FROM=0.001,
- RCVD_IN_DNSWL_HI=-5, SPF_HELO_NONE=0.001,
- T_SPF_TEMPERROR=0.01 autolearn=ham autolearn_force=no
+X-Spam_report: (-6.9 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_HI=-5,
+ RCVD_IN_MSPIKE_H3=-0.01, RCVD_IN_MSPIKE_WL=-0.01, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -56,41 +65,55 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Cc: Jailhouse <jailhouse-dev@googlegroups.com>, liang yan <lyan@suse.com>,
+ "Michael S. Tsirkin" <mst@redhat.com>, qemu-devel <qemu-devel@nongnu.org>,
+ "virtio-comment@lists.oasis-open.org" <virtio-comment@lists.oasis-open.org>,
+ =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Switching to gcc-10 makes seabios-hppa unbuildable.
-It fails at the final linking step with a lot of
-missing references to memcpy & memcmp all over the
-places.
+On 23.07.20 08:54, Stefan Hajnoczi wrote:
+> On Fri, Jul 17, 2020 at 06:15:58PM +0200, Jan Kiszka wrote:
+>> On 15.07.20 15:27, Stefan Hajnoczi wrote:
+>>> On Mon, May 25, 2020 at 09:58:28AM +0200, Jan Kiszka wrote:
+> 
+> Thanks for the responses. It would be great to update the spec with
+> these clarifications.
+> 
+>>>> If BAR 2 is not present, the shared memory region is not relocatable
+>>>> by the user. In that case, the hypervisor has to implement the Base
+>>>> Address register in the vendor-specific capability.
+>>>
+>>> What does relocatable mean in this context?
+>>
+>> That the guest can decide (via BAR) where the resource should show up in the
+>> physical guest address space. We do not want to support this in setups like
+>> for static partitioning hypervisors, and then we use that side-channel
+>> read-only configuration.
+> 
+> I see. I'm not sure what is vendor-specific about non-relocatable shared
+> memory. I guess it could be added to the spec too?
 
-The notable difference between gcc-10 and previous
-gcc is that ccode32flat.o does _not_ have the text
-for these two functions but have two .isra.0:
+That "vendor-specific" comes from the PCI spec which - to my 
+understanding - provides us no other means to introduce registers to the 
+config space that are outside of the PCI spec. I could introduce a name 
+for the ivshmem vendor cap and use that name here - would that be better?
 
-$ hppa-linux-gnu-nm ccode32flat.o | grep mem[sc]
-000003e0 t memcmp
-         U memcpy
-00002f38 t memcpy.isra.0
-         U memset
-00003a84 t memset.isra.0
+> 
+> In any case, since "relocatable" hasn't been fully defined, I suggest
+> making the statement more general:
+> 
+>    If BAR 2 is not present the hypervisor has to implement the Base
+>    Address Register in the vendor-specific capability. This can be used
+>    for vendor-specific shared memory functionality.
+> 
 
-
-while previous version of the compiler did have them:
-
-$ hppa-linux-gnu-nm ccode32flat.o | grep mem[sc]
-000002fc t memcmp
-0000370c t memcpy
-0000036c t memset
-
-After adding -fno-ipa-sra to the gcc flags, the firmware
-is built successfully.
-
-I don't know what to make out of this. Previous versions
-of gcc apparently accepts -fno-ipa-sra too, for quite some
-time.  So maybe add this to the flags unconditionally?
+Will integrate this.
 
 Thanks,
+Jan
 
-/mjt
+-- 
+Siemens AG, Corporate Technology, CT RDA IOT SES-DE
+Corporate Competence Center Embedded Linux
 
