@@ -2,72 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1FD5822B530
-	for <lists+qemu-devel@lfdr.de>; Thu, 23 Jul 2020 19:49:52 +0200 (CEST)
-Received: from localhost ([::1]:51560 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D434522B537
+	for <lists+qemu-devel@lfdr.de>; Thu, 23 Jul 2020 19:51:36 +0200 (CEST)
+Received: from localhost ([::1]:57702 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jyfLr-0001SQ-6h
-	for lists+qemu-devel@lfdr.de; Thu, 23 Jul 2020 13:49:51 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:43636)
+	id 1jyfNX-00043i-Sj
+	for lists+qemu-devel@lfdr.de; Thu, 23 Jul 2020 13:51:35 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:44410)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <dinechin@redhat.com>)
- id 1jyfJS-0005zX-Jz
- for qemu-devel@nongnu.org; Thu, 23 Jul 2020 13:47:22 -0400
-Received: from us-smtp-2.mimecast.com ([205.139.110.61]:46499
- helo=us-smtp-delivery-1.mimecast.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <dinechin@redhat.com>)
- id 1jyfJQ-0004Em-AN
- for qemu-devel@nongnu.org; Thu, 23 Jul 2020 13:47:22 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1595526439;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=4s0E4sntKbvJMM+adqRledjO1J+SAgFxPLSD8U8vZXM=;
- b=ZHSyvRTVmKIHDo1lmOLePToy7M59NaYCch2YUwSi5VYdCEMa6Bsja32O85zB7CFAsVjM4Y
- TfAqZ6u3329w7ukC8/sHOqbaLusxftDupvRuP7LgsU08gsUGjpXQ17FmSN7nOOAjYzzQab
- FbfFDFOIoEBy9oxR0p6k6mX+2C/3GDs=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-130-8ZLwz8RLMt6xsq9PwCW5kA-1; Thu, 23 Jul 2020 13:47:15 -0400
-X-MC-Unique: 8ZLwz8RLMt6xsq9PwCW5kA-1
-Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
- [10.5.11.16])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 773B0800688;
- Thu, 23 Jul 2020 17:47:14 +0000 (UTC)
-Received: from turbo.com (ovpn-113-141.ams2.redhat.com [10.36.113.141])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 10CBB69325;
- Thu, 23 Jul 2020 17:47:11 +0000 (UTC)
-From: Christophe de Dinechin <dinechin@redhat.com>
-To: qemu-devel@nongnu.org,
-	kraxel@redhat.com
-Subject: [PATCH 7/7] spice: Call qemu spice functions indirectly
-Date: Thu, 23 Jul 2020 19:46:15 +0200
-Message-Id: <20200723174615.2370096-8-dinechin@redhat.com>
-In-Reply-To: <20200723174615.2370096-1-dinechin@redhat.com>
-References: <20200723174615.2370096-1-dinechin@redhat.com>
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1jyfML-0002qv-R6
+ for qemu-devel@nongnu.org; Thu, 23 Jul 2020 13:50:21 -0400
+Received: from mail-oi1-x241.google.com ([2607:f8b0:4864:20::241]:36865)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1jyfMJ-0004Ui-0O
+ for qemu-devel@nongnu.org; Thu, 23 Jul 2020 13:50:21 -0400
+Received: by mail-oi1-x241.google.com with SMTP id 12so5763327oir.4
+ for <qemu-devel@nongnu.org>; Thu, 23 Jul 2020 10:50:18 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=2zkEc11aezMqEOzWHJlRsSHP3gzclzPgF5XrFNoeoog=;
+ b=YzlTJ8vUEjezGUm0epnNBtW84QM3UI/0OqvJ5Zknh+AqW8qkYjbR/vaW19zjB2AgCC
+ IkOA2pyRYkeNcZQhDtQ7/nX/52NB+K1AkaIuJVUewoPxcEx5hd1O++VHG7MBjYxDQiYy
+ 1dr3PRICt5Aw2kd/LcVNTXSUT7VQoSrpt8vQgBiX90r3yjtnZZ7SgzKdEpDxJdl6mB6Z
+ QCk5RAS6THuFrT3L5MRMeDI0SF9jTWnHRo71P47WujjaQa+xSWUfHEx2ErE+c9d8owoF
+ 6VNP1wWHFO6bWZpZLwIvZPtzo8cLeApAMUeTJMmPCk6Av/Nuw2ODy5I/dWxkKUFHfzK0
+ GYIg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=2zkEc11aezMqEOzWHJlRsSHP3gzclzPgF5XrFNoeoog=;
+ b=V9zLfndpij+Fet+bxOxL3aZVS8i11SvvNHk0wMGabBokkLxf8rZGUgD4qbl+mGGawG
+ Hdbu129P+9onfkeTToApcx/jh5ZWgzrAR9RYuH+9y+zK4+Ttc9UUWaUldPuPKWYwWOQB
+ i9YL93ODluYPg9TGysSxzhp8/1OKroiXLD/QJoCAEhaGL7Vqd3Heqtvrqpag4MgfVXKd
+ /9yC9oHs6s9DVCl2a2SaDSvO0T6mjTXVwdWjrkGUJvFfEPv8xaSDIrkandJvWkTMP8Zn
+ RLvLDcVJl+bKFYqeowdSJv1vgGC6qNa4WeHw41+AyP8a8ZL66nnbP/SZY6faAhzvnqpB
+ xTCQ==
+X-Gm-Message-State: AOAM531g/HYkTd7Fbr+ULEU/oEk40vdDEprExk//Mnkb5b2PwC4KGf/d
+ UjUYYL4bfl5FrYl8j/dKFzUN0dklJHYAIfhwWvD2bA==
+X-Google-Smtp-Source: ABdhPJwMznm0gN6PNGUIpVwzhYmJL7qHImQI3Ge+3JVEEHQDYMdorTRReskR4kltzf+Gx0pERKzFrdNhMX+TZZnhi+I=
+X-Received: by 2002:aca:54c9:: with SMTP id i192mr4879925oib.163.1595526617607; 
+ Thu, 23 Jul 2020 10:50:17 -0700 (PDT)
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=205.139.110.61; envelope-from=dinechin@redhat.com;
- helo=us-smtp-delivery-1.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/07/23 02:33:29
-X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
-X-Spam_score_int: -40
-X-Spam_score: -4.1
-X-Spam_bar: ----
-X-Spam_report: (-4.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-1, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+References: <20200622113146.33421-1-gengdongjiu@huawei.com>
+In-Reply-To: <20200622113146.33421-1-gengdongjiu@huawei.com>
+From: Peter Maydell <peter.maydell@linaro.org>
+Date: Thu, 23 Jul 2020 18:50:06 +0100
+Message-ID: <CAFEAcA-NDpWCfqQybu=6svi-ZR=MBBxSKz4dRikDXwW8fftsaA@mail.gmail.com>
+Subject: Re: [PATCH] ACPI: Assert that we don't run out of the preallocated
+ memory
+To: Dongjiu Geng <gengdongjiu@huawei.com>
+Content-Type: text/plain; charset="UTF-8"
+Received-SPF: pass client-ip=2607:f8b0:4864:20::241;
+ envelope-from=peter.maydell@linaro.org; helo=mail-oi1-x241.google.com
+X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
+ That's all we know.
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -80,356 +79,25 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Eduardo Habkost <ehabkost@redhat.com>,
- "Michael S. Tsirkin" <mst@redhat.com>,
- "Dr. David Alan Gilbert" <dgilbert@redhat.com>,
- Markus Armbruster <armbru@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>,
- Cleber Rosa <crosa@redhat.com>,
- =?UTF-8?q?Marc-Andr=C3=A9=20Lureau?= <marcandre.lureau@redhat.com>,
- Richard Henderson <rth@twiddle.net>
+Cc: "Michael S. Tsirkin" <mst@redhat.com>, Linuxarm <linuxarm@huawei.com>,
+ QEMU Developers <qemu-devel@nongnu.org>, Zheng Xiang <zhengxiang9@huawei.com>,
+ qemu-arm <qemu-arm@nongnu.org>, Igor Mammedov <imammedo@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-In order to be able to move all of spice in a shared library that is
-loaded dynamically only on demand, this commit puts the functions
-called by the main binary in a QemuSpiceOps structure, and use static
-inline stubs to preserve the call sites.
+On Mon, 22 Jun 2020 at 12:30, Dongjiu Geng <gengdongjiu@huawei.com> wrote:
+>
+> data_length is a constant value, so we use assert instead of
+> condition check.
+>
+> Signed-off-by: Dongjiu Geng <gengdongjiu@huawei.com>
+> ---
+> 1. Address Peter and Michael's comments to use assert instead of if().
+> https://lore.kernel.org/qemu-devel/ca79ea28-9ea9-18a5-99ad-25c3eb744721@huawei.com/
 
-With these changes, the following shared libraries are no longer
-necessary in the top-level qemu binary when building with CONFIG_MDULES:
+Oops, looks like we forgot about this patch -- Michael, are you
+taking it through your tree or should I take it via target-arm ?
 
-        libspice-server.so.1 => /lib64/libspice-server.so.1 (HEX)
-        libopus.so.0 => /lib64/libopus.so.0 (HEX)
-        liblz4.so.1 => /lib64/liblz4.so.1 (HEX)
-        libgstapp-1.0.so.0 => /lib64/libgstapp-1.0.so.0 (HEX)
-        libgstvideo-1.0.so.0 => /lib64/libgstvideo-1.0.so.0 (HEX)
-        libgstbase-1.0.so.0 => /lib64/libgstbase-1.0.so.0 (HEX)
-        libgstreamer-1.0.so.0 => /lib64/libgstreamer-1.0.so.0 (HEX)
-        libssl.so.1.1 => /lib64/libssl.so.1.1 (HEX)
-        liborc-0.4.so.0 => /lib64/liborc-0.4.so.0 (HEX)
-
-Signed-off-by: Christophe de Dinechin <dinechin@redhat.com>
----
- include/ui/qemu-spice.h | 74 +++++++++++++++++++----------------------
- monitor/hmp-cmds.c      | 13 ++++++++
- monitor/misc.c          |  2 +-
- monitor/qmp-cmds.c      |  6 ++--
- softmmu/vl.c            | 28 ++++++++++++++--
- ui/spice-core.c         | 33 ++++++++++++++++--
- 6 files changed, 107 insertions(+), 49 deletions(-)
-
-diff --git a/include/ui/qemu-spice.h b/include/ui/qemu-spice.h
-index d34cea2e0f..9721d8817e 100644
---- a/include/ui/qemu-spice.h
-+++ b/include/ui/qemu-spice.h
-@@ -25,21 +25,28 @@
- #include <spice.h>
- #include "qemu/config-file.h"
- 
--extern int using_spice;
-+#define using_spice     (qemu_spice.in_use())
- 
--void qemu_spice_init(void);
- void qemu_spice_input_init(void);
- void qemu_spice_audio_init(void);
--void qemu_spice_display_init(void);
--int qemu_spice_display_add_client(int csock, int skipauth, int tls);
- int qemu_spice_add_interface(SpiceBaseInstance *sin);
- bool qemu_spice_have_display_interface(QemuConsole *con);
- int qemu_spice_add_display_interface(QXLInstance *qxlin, QemuConsole *con);
-+
-+#if !defined(CONFIG_MODULES) || defined(BUILD_DSO)
-+bool qemu_is_using_spice(void);
-+void qemu_start_using_spice(void);
-+void qemu_spice_init(void);
-+void qemu_spice_display_init(void);
-+int qemu_spice_display_add_client(int csock, int skipauth, int tls);
- int qemu_spice_set_passwd(const char *passwd,
-                           bool fail_if_connected, bool disconnect_if_connected);
- int qemu_spice_set_pw_expire(time_t expires);
- int qemu_spice_migrate_info(const char *hostname, int port, int tls_port,
-                             const char *subject);
-+struct SpiceInfo *qemu_spice_query(Error **errp);
-+#endif /* !CONFIG_MODULES || BUILD_DSO */
-+
- 
- #if !defined(SPICE_SERVER_VERSION) || (SPICE_SERVER_VERSION < 0xc06)
- #define SPICE_NEEDS_SET_MM_TIME 1
-@@ -47,46 +54,33 @@ int qemu_spice_migrate_info(const char *hostname, int port, int tls_port,
- #define SPICE_NEEDS_SET_MM_TIME 0
- #endif
- 
--#else  /* CONFIG_SPICE */
--
--#include "qemu/error-report.h"
--
--#define using_spice 0
--#define spice_displays 0
--static inline int qemu_spice_set_passwd(const char *passwd,
--                                        bool fail_if_connected,
--                                        bool disconnect_if_connected)
--{
--    return -1;
--}
--static inline int qemu_spice_set_pw_expire(time_t expires)
--{
--    return -1;
--}
--static inline int qemu_spice_migrate_info(const char *h, int p, int t,
--                                          const char *s)
--{
--    return -1;
--}
-+#else /* !CONFIG_SPICE */
- 
--static inline int qemu_spice_display_add_client(int csock, int skipauth,
--                                                int tls)
--{
--    return -1;
--}
-+#define using_spice     0
- 
--static inline void qemu_spice_display_init(void)
--{
--    /* This must never be called if CONFIG_SPICE is disabled */
--    error_report("spice support is disabled");
--    abort();
--}
-+#endif /* CONFIG_SPICE */
- 
--static inline void qemu_spice_init(void)
-+/* Module high-level inteface for SPICE */
-+struct QemuSpiceOps
- {
--}
--
--#endif /* CONFIG_SPICE */
-+    bool (*in_use)(void);
-+    void (*init)(void);
-+    void (*display_init)(void);
-+    int (*display_add_client)(int csock, int skipauth, int tls);
-+
-+    int (*set_passwd)(const char *passwd,
-+                      bool fail_if_connected,
-+                      bool disconnect_if_connected);
-+    int (*set_pw_expire)(time_t expires);
-+    int (*migrate_info)(const char *hostname,
-+                        int port, int tls_port,
-+                        const char *subject);
-+    struct SpiceInfo * (*query)(Error **errp);
-+};
-+typedef struct QemuSpiceOps QemuSpiceOps;
-+void qemu_spice_ops_register(QemuSpiceOps *ops);
-+
-+extern struct QemuSpiceOps qemu_spice;
- 
- static inline bool qemu_using_spice(Error **errp)
- {
-diff --git a/monitor/hmp-cmds.c b/monitor/hmp-cmds.c
-index ae4b6a4246..8e10af188f 100644
---- a/monitor/hmp-cmds.c
-+++ b/monitor/hmp-cmds.c
-@@ -57,6 +57,7 @@
- 
- #ifdef CONFIG_SPICE
- #include <spice/enums.h>
-+#include "ui/qemu-spice.h"
- #endif
- 
- void hmp_handle_error(Monitor *mon, Error *err)
-@@ -573,6 +574,14 @@ void hmp_info_vnc(Monitor *mon, const QDict *qdict)
- #endif
- 
- #ifdef CONFIG_SPICE
-+SpiceInfo *qmp_query_spice(Error **errp)
-+{
-+    if (!using_spice) {
-+        return NULL;
-+    }
-+    return qemu_spice.query(errp);
-+}
-+
- void hmp_info_spice(Monitor *mon, const QDict *qdict)
- {
-     SpiceChannelList *chan;
-@@ -599,6 +608,10 @@ void hmp_info_spice(Monitor *mon, const QDict *qdict)
- 
-     info = qmp_query_spice(NULL);
- 
-+    if (!info) {
-+        monitor_printf(mon, "Server: not started\n");
-+        goto out;
-+    }
-     if (!info->enabled) {
-         monitor_printf(mon, "Server: disabled\n");
-         goto out;
-diff --git a/monitor/misc.c b/monitor/misc.c
-index e847b58a8c..88f8915734 100644
---- a/monitor/misc.c
-+++ b/monitor/misc.c
-@@ -443,7 +443,7 @@ void qmp_client_migrate_info(const char *protocol, const char *hostname,
-             return;
-         }
- 
--        if (qemu_spice_migrate_info(hostname,
-+        if (qemu_spice.migrate_info(hostname,
-                                     has_port ? port : -1,
-                                     has_tls_port ? tls_port : -1,
-                                     cert_subject)) {
-diff --git a/monitor/qmp-cmds.c b/monitor/qmp-cmds.c
-index 864cbfa32e..9f9822b3f3 100644
---- a/monitor/qmp-cmds.c
-+++ b/monitor/qmp-cmds.c
-@@ -196,7 +196,7 @@ void qmp_set_password(const char *protocol, const char *password,
-         if (!qemu_using_spice(errp)) {
-             return;
-         }
--        rc = qemu_spice_set_passwd(password, fail_if_connected,
-+        rc = qemu_spice.set_passwd(password, fail_if_connected,
-                                    disconnect_if_connected);
-         if (rc != 0) {
-             error_setg(errp, QERR_SET_PASSWD_FAILED);
-@@ -242,7 +242,7 @@ void qmp_expire_password(const char *protocol, const char *whenstr,
-         if (!qemu_using_spice(errp)) {
-             return;
-         }
--        rc = qemu_spice_set_pw_expire(when);
-+        rc = qemu_spice.set_pw_expire(when);
-         if (rc != 0) {
-             error_setg(errp, QERR_SET_PASSWD_FAILED);
-         }
-@@ -339,7 +339,7 @@ void qmp_add_client(const char *protocol, const char *fdname,
-         }
-         skipauth = has_skipauth ? skipauth : false;
-         tls = has_tls ? tls : false;
--        if (qemu_spice_display_add_client(fd, skipauth, tls) < 0) {
-+        if (qemu_spice.display_add_client(fd, skipauth, tls) < 0) {
-             error_setg(errp, "spice failed to add client");
-             close(fd);
-         }
-diff --git a/softmmu/vl.c b/softmmu/vl.c
-index bc0dcc4f58..8defda56c9 100644
---- a/softmmu/vl.c
-+++ b/softmmu/vl.c
-@@ -173,6 +173,30 @@ int icount_align_option;
- QemuUUID qemu_uuid;
- bool qemu_uuid_set;
- 
-+static bool qemu_is_not_using_spice(void)
-+{
-+    return 0;
-+}
-+
-+static void qemu_spice_init_no_op(void)
-+{
-+}
-+
-+/*
-+ * Only two fields are initialized, that can be used even when SPICE
-+ * is not configured or not loaded. Other functions are protected by
-+ * checking if using_spice.
-+ */
-+QemuSpiceOps qemu_spice = {
-+    .in_use             = qemu_is_not_using_spice,
-+    .init               = qemu_spice_init_no_op,
-+};
-+
-+void qemu_spice_ops_register(QemuSpiceOps *ops)
-+{
-+    memcpy(&qemu_spice, ops, sizeof(qemu_spice));
-+}
-+
- static NotifierList exit_notifiers =
-     NOTIFIER_LIST_INITIALIZER(exit_notifiers);
- 
-@@ -4128,7 +4152,7 @@ void qemu_init(int argc, char **argv, char **envp)
-     /* spice needs the timers to be initialized by this point */
-     /* spice must initialize before audio as it changes the default auiodev */
-     /* spice must initialize before chardevs (for spicevmc and spiceport) */
--    qemu_spice_init();
-+    qemu_spice.init();
- 
-     qemu_opts_foreach(qemu_find_opts("object"),
-                       user_creatable_add_opts_foreach,
-@@ -4424,7 +4448,7 @@ void qemu_init(int argc, char **argv, char **envp)
- #endif
- 
-     if (using_spice) {
--        qemu_spice_display_init();
-+        qemu_spice.display_init();
-     }
- 
-     if (foreach_device_config(DEV_GDB, gdbserver_start) < 0) {
-diff --git a/ui/spice-core.c b/ui/spice-core.c
-index 37dd68f2ab..9d7ac70d92 100644
---- a/ui/spice-core.c
-+++ b/ui/spice-core.c
-@@ -48,7 +48,7 @@ static time_t auth_expires = TIME_MAX;
- static int spice_migration_completed;
- static int spice_display_is_running;
- static int spice_have_target_host;
--int using_spice = 0;
-+static int is_using_spice;
- 
- static QemuThread me;
- 
-@@ -503,7 +503,7 @@ static QemuOptsList qemu_spice_opts = {
-     },
- };
- 
--SpiceInfo *qmp_query_spice(Error **errp)
-+SpiceInfo *qemu_spice_query(Error **errp)
- {
-     QemuOpts *opts = QTAILQ_FIRST(&qemu_spice_opts.head);
-     int port, tls_port;
-@@ -634,6 +634,16 @@ static void vm_change_state_handler(void *opaque, int running,
-     }
- }
- 
-+bool qemu_is_using_spice(void)
-+{
-+    return is_using_spice;
-+}
-+
-+void qemu_start_using_spice(void)
-+{
-+    is_using_spice = 1;
-+}
-+
- void qemu_spice_init(void)
- {
-     QemuOpts *opts = QTAILQ_FIRST(&qemu_spice_opts.head);
-@@ -796,7 +806,7 @@ void qemu_spice_init(void)
-         error_report("failed to initialize spice server");
-         exit(1);
-     };
--    using_spice = 1;
-+    qemu_start_using_spice();
- 
-     migration_state.notify = migration_state_notifier;
-     add_migration_state_change_notifier(&migration_state);
-@@ -1000,3 +1010,20 @@ static void spice_register_config(void)
-     qemu_add_opts(&qemu_spice_opts);
- }
- opts_init(spice_register_config);
-+
-+static QemuSpiceOps qemu_spice_ops = {
-+    .in_use             = qemu_is_using_spice,
-+    .init               = qemu_spice_init,
-+    .display_init       = qemu_spice_display_init,
-+    .display_add_client = qemu_spice_display_add_client,
-+    .set_passwd         = qemu_spice_set_passwd,
-+    .set_pw_expire      = qemu_spice_set_pw_expire,
-+    .migrate_info       = qemu_spice_migrate_info,
-+    .query              = qemu_spice_query,
-+};
-+
-+static void spice_register_ops(void)
-+{
-+    qemu_spice_ops_register(&qemu_spice_ops);
-+}
-+type_init(spice_register_ops);
--- 
-2.26.2
-
+thanks
+-- PMM
 
