@@ -2,83 +2,114 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id F19DB22AFA9
-	for <lists+qemu-devel@lfdr.de>; Thu, 23 Jul 2020 14:48:47 +0200 (CEST)
-Received: from localhost ([::1]:44542 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id DFCB222AFB0
+	for <lists+qemu-devel@lfdr.de>; Thu, 23 Jul 2020 14:51:14 +0200 (CEST)
+Received: from localhost ([::1]:51202 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jyaeV-0000OY-1T
-	for lists+qemu-devel@lfdr.de; Thu, 23 Jul 2020 08:48:47 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:40350)
+	id 1jyagr-0003AU-Qf
+	for lists+qemu-devel@lfdr.de; Thu, 23 Jul 2020 08:51:13 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:40928)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1jyadN-0007xE-7R
- for qemu-devel@nongnu.org; Thu, 23 Jul 2020 08:47:37 -0400
-Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:26067
- helo=us-smtp-1.mimecast.com)
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1jyafe-0002V5-Lb
+ for qemu-devel@nongnu.org; Thu, 23 Jul 2020 08:49:59 -0400
+Received: from us-smtp-1.mimecast.com ([205.139.110.61]:26913
+ helo=us-smtp-delivery-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1jyadL-0006XU-Ch
- for qemu-devel@nongnu.org; Thu, 23 Jul 2020 08:47:36 -0400
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1jyafc-000755-Tt
+ for qemu-devel@nongnu.org; Thu, 23 Jul 2020 08:49:58 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1595508454;
+ s=mimecast20190719; t=1595508596;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=vAlzZ3x0V6w9Hb5GbY53oE4Ky0Alq8gQ6fxj3iUjJ9k=;
- b=eG1V/zdD8Wj1R1mD77FQ73I4AAywSnN/ugRj8rar3FSf2ube7ck8Dv5EoKVUZC6dAUtinI
- pY9WSMGrMBfpj35oratCZfaHAuXI9Dh+qAArJyQ0KqvRfPIqAx7lxlxksA60FW0+0FjwaV
- H2wWbfwgynQ5tnSmnFK2XptNY5lz8f4=
-Received: from mail-wr1-f69.google.com (mail-wr1-f69.google.com
- [209.85.221.69]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-349-vdmO7p4CMAi16GTcos8eJg-1; Thu, 23 Jul 2020 08:47:30 -0400
-X-MC-Unique: vdmO7p4CMAi16GTcos8eJg-1
-Received: by mail-wr1-f69.google.com with SMTP id t12so1381476wrp.0
- for <qemu-devel@nongnu.org>; Thu, 23 Jul 2020 05:47:30 -0700 (PDT)
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
+ bh=Mho0vnIR3Uc7XNa8i7dYigpdsK4pR8TVOFRM5mczAzM=;
+ b=DgfGLfCoePsU99qiFk587t4SKHqGetdERnNFnE5SAkkeK+7NZZw7/EC2J2aDcTz1ANP9j9
+ nHu/Z1jf5CHp4+I8YpShdB3P0D97t2cWFjqvhV5lfuOxDf0d5mqzOc4jPRbgkCtS+/0v3a
+ scOAc93heQVPMfkRrn4fxq+0cCbGCK4=
+Received: from mail-wm1-f70.google.com (mail-wm1-f70.google.com
+ [209.85.128.70]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-414-sfDcgLhSOByyQ6PbUUh4eQ-1; Thu, 23 Jul 2020 08:49:54 -0400
+X-MC-Unique: sfDcgLhSOByyQ6PbUUh4eQ-1
+Received: by mail-wm1-f70.google.com with SMTP id b13so2479207wme.9
+ for <qemu-devel@nongnu.org>; Thu, 23 Jul 2020 05:49:54 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:in-reply-to;
- bh=vAlzZ3x0V6w9Hb5GbY53oE4Ky0Alq8gQ6fxj3iUjJ9k=;
- b=ekT2TG2lHAtiyiTWLlYnTIQM1P2/1majp6zxDlHNY2g4tj7duo6YCl+9LpfTKgif6J
- 42Pu2vmllcRbkuaYJznJcOOARHMVIuh32LbPP+3xiyUCXKboitB9QT0NrVePmfU86hrp
- hNB5yL0iAklqt+91oLO8txrDENKg5ruzLtfby6yVcbhFlZCMFzhipHWnY2w0/SFqzL6D
- 0Oh5I0M0xo9LFjBGBvuJgOt6QEizA63qsB3LVRNCPTxXcbrv3E7YRCT4Tujt4hoDgRwR
- toyXzJmH3f/Bbm2Oktm7Pm9gkIYNFUJGjby0ADcMGDKhgQmbZv/XIYUsLimLR+icBp2O
- IobA==
-X-Gm-Message-State: AOAM531XP7rKpe0FCcTVvlGvjg7nu+8YHNWqoBpCKepLvQxaW9c1n5lk
- 0TN1In+U8S/NMLpZq5p5V/sXLR58ZQ4TeHwvYAIhTRVsAQqI3bYnv/CGH43vxbETtV2Sh1XXv5+
- /kif7DGyy2z8vcdw=
-X-Received: by 2002:a1c:3b02:: with SMTP id i2mr3940856wma.24.1595508449222;
- Thu, 23 Jul 2020 05:47:29 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJx1LzoqTpKAm7d1geoOPGYFGtkT1E82Iek+cR9QEAsUQkIYZDJm0qxEpfByDQ+yVkHfi5udGw==
-X-Received: by 2002:a1c:3b02:: with SMTP id i2mr3940847wma.24.1595508448959;
- Thu, 23 Jul 2020 05:47:28 -0700 (PDT)
-Received: from redhat.com (bzq-79-179-105-63.red.bezeqint.net. [79.179.105.63])
- by smtp.gmail.com with ESMTPSA id j145sm3795909wmj.7.2020.07.23.05.47.27
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 23 Jul 2020 05:47:28 -0700 (PDT)
-Date: Thu, 23 Jul 2020 08:47:25 -0400
-From: "Michael S. Tsirkin" <mst@redhat.com>
-To: Wang King <king.wang@huawei.com>
-Subject: Re: [PATCH v2] hw/pci-host: save/restore pci host config register
-Message-ID: <20200723084702-mutt-send-email-mst@kernel.org>
-References: <20200723122301.2344-1-king.wang@huawei.com>
+ h=x-gm-message-state:subject:to:cc:references:from:autocrypt
+ :message-id:date:user-agent:mime-version:in-reply-to
+ :content-language:content-transfer-encoding;
+ bh=Mho0vnIR3Uc7XNa8i7dYigpdsK4pR8TVOFRM5mczAzM=;
+ b=f6fOWWJsGG6THFJf+tzfXpQfM1LqjdBxKh9Ji0Yw939VuW/HA2e04CK9aBSvo3YxA2
+ u9shPmVxYLAekx1smu9XP+oQZq44PF/6wUVX6u0TvOSUEUcRgGMruUGMX/a9uaLuas6W
+ /g/nRNKeqQSJ5hBO2MnW9lAdAPs6nkDGPR1HuOhQWfsHc9Y2ss9cSKYz44kCA9TrpdVN
+ rL/UO+J2G9ohtXyvsd0yyiVacJAwMjkcEQW7QjU43XWCAk1YY07z5HnedK4WVeWQ9UWm
+ BlspVhhGsgmEldk07lB0ouuMG4i8r3KVGRK0sJ+app/C8bcserbZjHaqrbSJdyyqtAlf
+ 4XFA==
+X-Gm-Message-State: AOAM531l5fwqIc9kAsMJLgmM7YT7bSo52ebfGxMxVFjOwzPdw8bq9VtB
+ cHLJRg2/2j10Wys+hRR1TRvVwq8pzOYqsKUR7+1gLipb7QhCCObzrCFNdwzscd7B8p8laPh75IZ
+ /36ow8Ex5f4gy/cg=
+X-Received: by 2002:adf:eb89:: with SMTP id t9mr3866423wrn.65.1595508593412;
+ Thu, 23 Jul 2020 05:49:53 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJwQM4CwXrchihmnKqB1XSRPlBx/zu0BOuh4qddQdMa0LhUIlHeXhHHHQt0xXrnTNh1fjTkYqg==
+X-Received: by 2002:adf:eb89:: with SMTP id t9mr3866404wrn.65.1595508593123;
+ Thu, 23 Jul 2020 05:49:53 -0700 (PDT)
+Received: from [192.168.1.36] (138.red-83-57-170.dynamicip.rima-tde.net.
+ [83.57.170.138])
+ by smtp.gmail.com with ESMTPSA id n125sm3513686wme.30.2020.07.23.05.49.52
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Thu, 23 Jul 2020 05:49:52 -0700 (PDT)
+Subject: Re: [PATCH for-5.1 2/2] tpm: Improve help on TPM types when none are
+ available
+To: Markus Armbruster <armbru@redhat.com>, qemu-devel@nongnu.org
+References: <20200723115845.1865886-1-armbru@redhat.com>
+ <20200723115845.1865886-3-armbru@redhat.com>
+From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
+Autocrypt: addr=philmd@redhat.com; keydata=
+ mQINBDXML8YBEADXCtUkDBKQvNsQA7sDpw6YLE/1tKHwm24A1au9Hfy/OFmkpzo+MD+dYc+7
+ bvnqWAeGweq2SDq8zbzFZ1gJBd6+e5v1a/UrTxvwBk51yEkadrpRbi+r2bDpTJwXc/uEtYAB
+ GvsTZMtiQVA4kRID1KCdgLa3zztPLCj5H1VZhqZsiGvXa/nMIlhvacRXdbgllPPJ72cLUkXf
+ z1Zu4AkEKpccZaJspmLWGSzGu6UTZ7UfVeR2Hcc2KI9oZB1qthmZ1+PZyGZ/Dy+z+zklC0xl
+ XIpQPmnfy9+/1hj1LzJ+pe3HzEodtlVA+rdttSvA6nmHKIt8Ul6b/h1DFTmUT1lN1WbAGxmg
+ CH1O26cz5nTrzdjoqC/b8PpZiT0kO5MKKgiu5S4PRIxW2+RA4H9nq7nztNZ1Y39bDpzwE5Sp
+ bDHzd5owmLxMLZAINtCtQuRbSOcMjZlg4zohA9TQP9krGIk+qTR+H4CV22sWldSkVtsoTaA2
+ qNeSJhfHQY0TyQvFbqRsSNIe2gTDzzEQ8itsmdHHE/yzhcCVvlUzXhAT6pIN0OT+cdsTTfif
+ MIcDboys92auTuJ7U+4jWF1+WUaJ8gDL69ThAsu7mGDBbm80P3vvUZ4fQM14NkxOnuGRrJxO
+ qjWNJ2ZUxgyHAh5TCxMLKWZoL5hpnvx3dF3Ti9HW2dsUUWICSQARAQABtDJQaGlsaXBwZSBN
+ YXRoaWV1LURhdWTDqSAoUGhpbCkgPHBoaWxtZEByZWRoYXQuY29tPokCVQQTAQgAPwIbDwYL
+ CQgHAwIGFQgCCQoLBBYCAwECHgECF4AWIQSJweePYB7obIZ0lcuio/1u3q3A3gUCXsfWwAUJ
+ KtymWgAKCRCio/1u3q3A3ircD/9Vjh3aFNJ3uF3hddeoFg1H038wZr/xi8/rX27M1Vj2j9VH
+ 0B8Olp4KUQw/hyO6kUxqkoojmzRpmzvlpZ0cUiZJo2bQIWnvScyHxFCv33kHe+YEIqoJlaQc
+ JfKYlbCoubz+02E2A6bFD9+BvCY0LBbEj5POwyKGiDMjHKCGuzSuDRbCn0Mz4kCa7nFMF5Jv
+ piC+JemRdiBd6102ThqgIsyGEBXuf1sy0QIVyXgaqr9O2b/0VoXpQId7yY7OJuYYxs7kQoXI
+ 6WzSMpmuXGkmfxOgbc/L6YbzB0JOriX0iRClxu4dEUg8Bs2pNnr6huY2Ft+qb41RzCJvvMyu
+ gS32LfN0bTZ6Qm2A8ayMtUQgnwZDSO23OKgQWZVglGliY3ezHZ6lVwC24Vjkmq/2yBSLakZE
+ 6DZUjZzCW1nvtRK05ebyK6tofRsx8xB8pL/kcBb9nCuh70aLR+5cmE41X4O+MVJbwfP5s/RW
+ 9BFSL3qgXuXso/3XuWTQjJJGgKhB6xXjMmb1J4q/h5IuVV4juv1Fem9sfmyrh+Wi5V1IzKI7
+ RPJ3KVb937eBgSENk53P0gUorwzUcO+ASEo3Z1cBKkJSPigDbeEjVfXQMzNt0oDRzpQqH2vp
+ apo2jHnidWt8BsckuWZpxcZ9+/9obQ55DyVQHGiTN39hkETy3Emdnz1JVHTU0Q==
+Message-ID: <42246b2f-e267-b254-10cf-0dc491d5f99e@redhat.com>
+Date: Thu, 23 Jul 2020 14:49:51 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.5.0
 MIME-Version: 1.0
-In-Reply-To: <20200723122301.2344-1-king.wang@huawei.com>
+In-Reply-To: <20200723115845.1865886-3-armbru@redhat.com>
+Content-Language: en-US
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Received-SPF: pass client-ip=207.211.31.120; envelope-from=mst@redhat.com;
- helo=us-smtp-1.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/07/22 22:13:02
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=205.139.110.61; envelope-from=philmd@redhat.com;
+ helo=us-smtp-delivery-1.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/07/23 02:33:29
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
-X-Spam_score_int: -30
-X-Spam_score: -3.1
-X-Spam_bar: ---
-X-Spam_report: (-3.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1,
+X-Spam_score_int: -40
+X-Spam_score: -4.1
+X-Spam_bar: ----
+X-Spam_report: (-4.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H4=-0.01, RCVD_IN_MSPIKE_WL=-0.01,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-1, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -91,199 +122,62 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: wangxinxin.wang@huawei.com, weidong.huang@huawei.com, qemu-devel@nongnu.org
+Cc: stefanb@linux.ibm.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Thu, Jul 23, 2020 at 08:23:01PM +0800, Wang King wrote:
-> From: Hogan Wang <king.wang@huawei.com>
+On 7/23/20 1:58 PM, Markus Armbruster wrote:
+> Help is a bit awkward when no TPM types are built into QEMU:
 > 
-> The pci host config register is used to save PCI address for
-> read/write config data. If guest write a value to config register,
-> and then pause the vcpu to migrate, After the migration, the guest
-> continue to write pci config data, and the write data will be ignored
-> because of new qemu process lost the config register state.
+>     $ upstream-qemu -tpmdev nonexistent,id=tpm0
+>     upstream-qemu: -tpmdev nonexistent,id=tpm0: Parameter 'type' expects a TPM backend type
+>     Supported TPM types (choose only one):
 > 
-> Reproduction steps are:
-> 1. guest booting in seabios.
-> 2. guest enable the SMRAM in seabios:piix4_apmc_smm_setup, and then
->    expect to disable the SMRAM by pci_config_writeb.
-> 3. after guest write the pci host config register, and then pasued vcpu
->    to finish migration.
-> 4. guest write config data(0x0A) fail to disable the SMRAM becasue of
->    config register state lost.
-> 5. guest continue to boot and crash in ipxe option ROM due to SMRAM in
->    enabled state.
+> Improve to
+> 
+>     upstream-qemu: -tpmdev nonexistent,id=tpm0: Parameter 'type' expects a TPM backend type
+>     No TPM backend types are available
+> 
+> Signed-off-by: Markus Armbruster <armbru@redhat.com>
 
-
-Could you pls add: changes from v1?
-Also my comments on v1 still apply ...
+Reviewed-by: Philippe Mathieu-Daudé <philmd@redhat.com>
 
 > ---
->  hw/pci-host/i440fx.c       | 11 +++++++++++
->  hw/pci-host/q35.c          | 11 +++++++++++
->  hw/pci/pci_host.c          | 11 +++++++++++
->  hw/pci/pcie_host.c         | 11 +++++++++++
->  include/hw/pci/pci_host.h  | 10 ++++++++++
->  include/hw/pci/pcie_host.h | 10 ++++++++++
->  6 files changed, 64 insertions(+)
+>  tpm.c | 13 +++++++++----
+>  1 file changed, 9 insertions(+), 4 deletions(-)
 > 
-> diff --git a/hw/pci-host/i440fx.c b/hw/pci-host/i440fx.c
-> index 8ed2417f0c..17705bb025 100644
-> --- a/hw/pci-host/i440fx.c
-> +++ b/hw/pci-host/i440fx.c
-> @@ -118,6 +118,16 @@ static const VMStateDescription vmstate_i440fx = {
+> diff --git a/tpm.c b/tpm.c
+> index f6045bb6da..cab206355a 100644
+> --- a/tpm.c
+> +++ b/tpm.c
+> @@ -47,18 +47,23 @@ tpm_be_find_by_type(enum TpmType type)
+>   */
+>  static void tpm_display_backend_drivers(void)
+>  {
+> +    bool got_one = false;
+>      int i;
+>  
+> -    fprintf(stderr, "Supported TPM types (choose only one):\n");
+> -
+>      for (i = 0; i < TPM_TYPE__MAX; i++) {
+>          const TPMBackendClass *bc = tpm_be_find_by_type(i);
+>          if (!bc) {
+>              continue;
+>          }
+> -        fprintf(stderr, "%12s   %s\n", TpmType_str(i), bc->desc);
+> +        if (!got_one) {
+> +            error_printf("Supported TPM types (choose only one):\n");
+> +            got_one = true;
+> +        }
+> +        error_printf("%12s   %s\n", TpmType_str(i), bc->desc);
+> +    }
+> +    if (!got_one) {
+> +        error_printf("No TPM backend types are available\n");
 >      }
->  };
->  
-> +static const VMStateDescription vmstate_i440fx_pcihost = {
-> +    .name = "I440FX_PCIHost",
-> +    .version_id = 1,
-> +    .minimum_version_id = 1,
-> +    .fields = (VMStateField[]) {
-> +        VMSTATE_PCI_HOST(parent_obj, I440FXState),
-> +        VMSTATE_END_OF_LIST()
-> +    }
-> +};
-> +
->  static void i440fx_pcihost_get_pci_hole_start(Object *obj, Visitor *v,
->                                                const char *name, void *opaque,
->                                                Error **errp)
-> @@ -398,6 +408,7 @@ static void i440fx_pcihost_class_init(ObjectClass *klass, void *data)
->      hc->root_bus_path = i440fx_pcihost_root_bus_path;
->      dc->realize = i440fx_pcihost_realize;
->      dc->fw_name = "pci";
-> +    dc->vmsd = &vmstate_i440fx_pcihost;
->      device_class_set_props(dc, i440fx_props);
->      /* Reason: needs to be wired up by pc_init1 */
->      dc->user_creatable = false;
-> diff --git a/hw/pci-host/q35.c b/hw/pci-host/q35.c
-> index b67cb9c29f..5e323be2e3 100644
-> --- a/hw/pci-host/q35.c
-> +++ b/hw/pci-host/q35.c
-> @@ -165,6 +165,16 @@ static void q35_host_get_pci_hole64_end(Object *obj, Visitor *v,
->      visit_type_uint64(v, name, &value, errp);
+> -    fprintf(stderr, "\n");
 >  }
 >  
-> +static const VMStateDescription vmstate_q35_pcihost = {
-> +    .name = "Q35_PCIHost",
-> +    .version_id = 1,
-> +    .minimum_version_id = 1,
-> +    .fields = (VMStateField[]) {
-> +        VMSTATE_PCIE_HOST(parent_obj, Q35PCIHost),
-> +        VMSTATE_END_OF_LIST()
-> +    }
-> +};
-> +
 >  /*
->   * NOTE: setting defaults for the mch.* fields in this table
->   * doesn't work, because mch is a separate QOM object that is
-> @@ -194,6 +204,7 @@ static void q35_host_class_init(ObjectClass *klass, void *data)
->  
->      hc->root_bus_path = q35_host_root_bus_path;
->      dc->realize = q35_host_realize;
-> +    dc->vmsd = &vmstate_q35_pcihost;
->      device_class_set_props(dc, q35_host_props);
->      /* Reason: needs to be wired up by pc_q35_init */
->      dc->user_creatable = false;
-> diff --git a/hw/pci/pci_host.c b/hw/pci/pci_host.c
-> index ce7bcdb1d5..7cdd5a3ea3 100644
-> --- a/hw/pci/pci_host.c
-> +++ b/hw/pci/pci_host.c
-> @@ -24,6 +24,7 @@
->  #include "hw/pci/pci_host.h"
->  #include "qemu/module.h"
->  #include "hw/pci/pci_bus.h"
-> +#include "migration/vmstate.h"
->  #include "trace.h"
->  
->  /* debug PCI */
-> @@ -200,6 +201,16 @@ const MemoryRegionOps pci_host_data_be_ops = {
->      .endianness = DEVICE_BIG_ENDIAN,
->  };
->  
-> +const VMStateDescription vmstate_pcihost = {
-> +    .name = "PCIHost",
-> +    .version_id = 1,
-> +    .minimum_version_id = 1,
-> +    .fields = (VMStateField[]) {
-> +        VMSTATE_UINT32(config_reg, PCIHostState),
-> +        VMSTATE_END_OF_LIST()
-> +    }
-> +};
-> +
->  static const TypeInfo pci_host_type_info = {
->      .name = TYPE_PCI_HOST_BRIDGE,
->      .parent = TYPE_SYS_BUS_DEVICE,
-> diff --git a/hw/pci/pcie_host.c b/hw/pci/pcie_host.c
-> index 3534006f99..a653c39bb7 100644
-> --- a/hw/pci/pcie_host.c
-> +++ b/hw/pci/pcie_host.c
-> @@ -24,6 +24,7 @@
->  #include "hw/pci/pcie_host.h"
->  #include "qemu/module.h"
->  #include "exec/address-spaces.h"
-> +#include "migration/vmstate.h"
->  
->  /* a helper function to get a PCIDevice for a given mmconfig address */
->  static inline PCIDevice *pcie_dev_find_by_mmcfg_addr(PCIBus *s,
-> @@ -121,6 +122,16 @@ void pcie_host_mmcfg_update(PCIExpressHost *e,
->      memory_region_transaction_commit();
->  }
->  
-> +const VMStateDescription vmstate_pciehost = {
-> +    .name = "PCIEHost",
-> +    .version_id = 1,
-> +    .minimum_version_id = 1,
-> +    .fields = (VMStateField[]) {
-> +        VMSTATE_PCI_HOST(pci, PCIExpressHost),
-> +        VMSTATE_END_OF_LIST()
-> +    }
-> +};
-> +
->  static const TypeInfo pcie_host_type_info = {
->      .name = TYPE_PCIE_HOST_BRIDGE,
->      .parent = TYPE_PCI_HOST_BRIDGE,
-> diff --git a/include/hw/pci/pci_host.h b/include/hw/pci/pci_host.h
-> index 9ce088bd13..fc88305e04 100644
-> --- a/include/hw/pci/pci_host.h
-> +++ b/include/hw/pci/pci_host.h
-> @@ -70,4 +70,14 @@ extern const MemoryRegionOps pci_host_conf_be_ops;
->  extern const MemoryRegionOps pci_host_data_le_ops;
->  extern const MemoryRegionOps pci_host_data_be_ops;
->  
-> +extern const VMStateDescription vmstate_pcihost;
-> +
-> +#define VMSTATE_PCI_HOST(_field, _state) {                           \
-> +    .name       = (stringify(_field)),                               \
-> +    .size       = sizeof(PCIHostState),                              \
-> +    .vmsd       = &vmstate_pcihost,                                  \
-> +    .flags      = VMS_STRUCT,                                        \
-> +    .offset     = vmstate_offset_value(_state, _field, PCIHostState),\
-> +}
-> +
->  #endif /* PCI_HOST_H */
-> diff --git a/include/hw/pci/pcie_host.h b/include/hw/pci/pcie_host.h
-> index 3f7b9886d1..e8856f03e9 100644
-> --- a/include/hw/pci/pcie_host.h
-> +++ b/include/hw/pci/pcie_host.h
-> @@ -78,4 +78,14 @@ void pcie_host_mmcfg_update(PCIExpressHost *e,
->                                           PCIE_MMCFG_DEVFN_MASK)
->  #define PCIE_MMCFG_CONFOFFSET(addr)     ((addr) & PCIE_MMCFG_CONFOFFSET_MASK)
->  
-> +extern const VMStateDescription vmstate_pciehost;
-> +
-> +#define VMSTATE_PCIE_HOST(_field, _state) {                            \
-> +    .name       = (stringify(_field)),                                 \
-> +    .size       = sizeof(PCIExpressHost),                              \
-> +    .vmsd       = &vmstate_pciehost,                                   \
-> +    .flags      = VMS_STRUCT,                                          \
-> +    .offset     = vmstate_offset_value(_state, _field, PCIExpressHost),\
-> +}
-> +
->  #endif /* PCIE_HOST_H */
-> -- 
-> 2.23.0
 > 
 
 
