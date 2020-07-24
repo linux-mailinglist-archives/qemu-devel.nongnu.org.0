@@ -2,80 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9F52922C47B
-	for <lists+qemu-devel@lfdr.de>; Fri, 24 Jul 2020 13:45:56 +0200 (CEST)
-Received: from localhost ([::1]:51736 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D5F0D22C499
+	for <lists+qemu-devel@lfdr.de>; Fri, 24 Jul 2020 13:56:45 +0200 (CEST)
+Received: from localhost ([::1]:34208 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jyw9C-0002Yb-Tb
-	for lists+qemu-devel@lfdr.de; Fri, 24 Jul 2020 07:45:54 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:42728)
+	id 1jywJg-0007vP-Of
+	for lists+qemu-devel@lfdr.de; Fri, 24 Jul 2020 07:56:44 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:45556)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1jyw87-00026D-U4
- for qemu-devel@nongnu.org; Fri, 24 Jul 2020 07:44:48 -0400
-Received: from us-smtp-1.mimecast.com ([207.211.31.81]:54721
- helo=us-smtp-delivery-1.mimecast.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1jyw85-0003Pv-Dq
- for qemu-devel@nongnu.org; Fri, 24 Jul 2020 07:44:47 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1595591083;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=uZ+/v0bulO2yZjMmhD6CMZfK6NjajQHza/hAj6xHUwY=;
- b=LUcgbefBhXG1FqUBt2xdCXUZer7SqADkjwF6M1OAiReayKEOGcQmP9K2Ljh/B323dU92/V
- QlCl7arr9Ws7+WF6t/BFoAib/AdPIEiWja3wZKI0JUyBmnA80vk12VAc+A5U8kolvZgXw4
- Tqi54FC4ZqIVjiJZ2ZLygxnO1PCrFsU=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-427-Buz196eRMJOWTJ257jD25g-1; Fri, 24 Jul 2020 07:44:41 -0400
-X-MC-Unique: Buz196eRMJOWTJ257jD25g-1
-Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
- [10.5.11.22])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 847AE8017FB;
- Fri, 24 Jul 2020 11:44:40 +0000 (UTC)
-Received: from blackfin.pond.sub.org (ovpn-112-143.ams2.redhat.com
- [10.36.112.143])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 4043910013D9;
- Fri, 24 Jul 2020 11:44:40 +0000 (UTC)
-Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
- id CAE621138648; Fri, 24 Jul 2020 13:44:38 +0200 (CEST)
-From: Markus Armbruster <armbru@redhat.com>
-To: Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <philmd@redhat.com>
-Subject: Re: [PATCH-for-5.1? v2] qapi/error: Check format string argument in
- error_*prepend()
-References: <20200723171205.14949-1-philmd@redhat.com>
-Date: Fri, 24 Jul 2020 13:44:38 +0200
-In-Reply-To: <20200723171205.14949-1-philmd@redhat.com> ("Philippe
- =?utf-8?Q?Mathieu-Daud=C3=A9=22's?= message of "Thu, 23 Jul 2020 19:12:05
- +0200")
-Message-ID: <87r1t1b0ih.fsf@dusky.pond.sub.org>
-User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/26.3 (gnu/linux)
+ (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
+ id 1jywIp-0007W3-Ly
+ for qemu-devel@nongnu.org; Fri, 24 Jul 2020 07:55:51 -0400
+Received: from indium.canonical.com ([91.189.90.7]:58474)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
+ id 1jywIn-0004pm-I5
+ for qemu-devel@nongnu.org; Fri, 24 Jul 2020 07:55:51 -0400
+Received: from loganberry.canonical.com ([91.189.90.37])
+ by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
+ id 1jywIl-0004b2-F0
+ for <qemu-devel@nongnu.org>; Fri, 24 Jul 2020 11:55:47 +0000
+Received: from loganberry.canonical.com (localhost [127.0.0.1])
+ by loganberry.canonical.com (Postfix) with ESMTP id 706372E80D2
+ for <qemu-devel@nongnu.org>; Fri, 24 Jul 2020 11:55:47 +0000 (UTC)
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=207.211.31.81; envelope-from=armbru@redhat.com;
- helo=us-smtp-delivery-1.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/07/24 00:00:27
-X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
-X-Spam_score_int: -30
-X-Spam_score: -3.1
-X-Spam_bar: ---
-X-Spam_report: (-3.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H3=-0.01, RCVD_IN_MSPIKE_WL=-0.01,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Date: Fri, 24 Jul 2020 11:46:03 -0000
+From: Robert Ball <1888431@bugs.launchpad.net>
+To: qemu-devel@nongnu.org
+X-Launchpad-Notification-Type: bug
+X-Launchpad-Bug: product=qemu; status=Won't Fix; importance=Undecided;
+ assignee=None; 
+X-Launchpad-Bug-Tags: build-failed macosx-10.11.6 v5.1.0-rc1
+X-Launchpad-Bug-Information-Type: Public
+X-Launchpad-Bug-Private: no
+X-Launchpad-Bug-Security-Vulnerability: no
+X-Launchpad-Bug-Commenters: ebolainfluenza th-huth
+X-Launchpad-Bug-Reporter: Robert Ball (ebolainfluenza)
+X-Launchpad-Bug-Modifier: Robert Ball (ebolainfluenza)
+References: <159536546453.8597.9185320640612954142.malonedeb@wampee.canonical.com>
+Message-Id: <159559116345.11614.16779761332135776655.malone@wampee.canonical.com>
+Subject: [Bug 1888431] Re: v5.1.0-rc1 build fails on Mac OS X 10.11.6 
+X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
+X-Launchpad-Message-For: qemu-devel-ml
+Precedence: bulk
+X-Generated-By: Launchpad (canonical.com);
+ Revision="f877c5162b568393e2d07ce948459ba0abc456fe";
+ Instance="production-secrets-lazr.conf"
+X-Launchpad-Hash: 9f516e177965b222acf8f9168787d8b1c0113f30
+Received-SPF: none client-ip=91.189.90.7; envelope-from=bounces@canonical.com;
+ helo=indium.canonical.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/07/24 07:55:47
+X-ACL-Warn: Detected OS   = Linux 3.11 and newer [fuzzy]
+X-Spam_score_int: -58
+X-Spam_score: -5.9
+X-Spam_bar: -----
+X-Spam_report: (-5.9 / 5.0 requ) BAYES_00=-1.9, HEADER_FROM_DIFFERENT_DOMAINS=1,
+ RCVD_IN_DNSWL_HI=-5, RCVD_IN_MSPIKE_H3=-0.01, RCVD_IN_MSPIKE_WL=-0.01,
+ SPF_HELO_NONE=0.001, SPF_NONE=0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
-Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -84,57 +73,89 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Stefan Weil <sw@weilnetz.de>, qemu-devel@nongnu.org,
- Michael Roth <mdroth@linux.vnet.ibm.com>
+Reply-To: Bug 1888431 <1888431@bugs.launchpad.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com> writes:
+Fantastic.   Thank you Thomas, greatly appreciated!
 
-> error_propagate_prepend() "behaves like error_prepend()", and
-> error_prepend() uses "formatting @fmt, ... like printf()".
-> error_prepend() checks its format string argument, but
-> error_propagate_prepend() does not. Fix by addint the format
-> attribute to error_propagate_prepend() and error_vprepend().
->
-> This would have caught the bug fixed in the previous commit:
->
->     CC      hw/sd/milkymist-memcard.o
->   hw/sd/milkymist-memcard.c: In function =E2=80=98milkymist_memcard_reali=
-ze=E2=80=99:
->   hw/sd/milkymist-memcard.c:284:70: error: format =E2=80=98%s=E2=80=99 ex=
-pects a matching =E2=80=98char *=E2=80=99 argument [-Werror=3Dformat=3D]
->     284 |         error_propagate_prepend(errp, err, "failed to init SD c=
-ard: %s");
->         |                                                                =
-     ~^
->         |                                                                =
-      |
->         |                                                                =
-      char *
->
-> Missed in commit 4b5766488f "error: Fix use of error_prepend() with
-> &error_fatal, &error_abort".
->
-> Inspired-by: Stefan Weil <sw@weilnetz.de>
-> Suggested-by: Eric Blake <eblake@redhat.com>
-> Reviewed-by: Markus Armbruster <armbru@redhat.com>
-> Signed-off-by: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
-> ---
-> Since v1:
-> - Reword (Markus)
-> - Add error_vprepend (Stefan)
-> - Use local style to add the attribute *after* the declaration,
->   which is invalid on definition where we get (depending on the
->   toolchain):
->
->   . error: attributes should be specified before the declarator in a func=
-tion definition
->
->   . error: attributes are not allowed on a function-definition
->
-> Supersedes: <20200723091309.18690-1-philmd@redhat.com>
+Best regards,
 
-Queued with Stefan's R-by from v1.  Hope what's okay.  Thanks!
+Robert Ball
 
+-- =
+
+You received this bug notification because you are a member of qemu-
+devel-ml, which is subscribed to QEMU.
+https://bugs.launchpad.net/bugs/1888431
+
+Title:
+  v5.1.0-rc1 build fails on Mac OS X 10.11.6
+
+Status in QEMU:
+  Won't Fix
+
+Bug description:
+  Hi all,
+
+  build of tag v5.1.0-rc1 fails on Mac OS X 10.11.6 (El Capitan) with
+  the following error:
+
+  git clone https://git.qemu.org/git/qemu.git
+      <output elided, but all OK>
+  cd qemu
+  git submodule init
+      <output elided, but all OK>
+  git submodule update --recursive
+      <output elided, but all OK>
+  ./configure
+      <output elided, but all OK>
+  make
+      <output elided, but all OK up until fail>
+
+    CC      trace/control.o
+  In file included from trace/control.c:29:
+  In file included from /Users/rtb/src/qemu/include/monitor/monitor.h:4:
+  In file included from /Users/rtb/src/qemu/include/block/block.h:4:
+  In file included from /Users/rtb/src/qemu/include/block/aio.h:23:
+  /Users/rtb/src/qemu/include/qemu/timer.h:843:9: warning: implicit declara=
+tion of function 'clock_gettime' is invalid in C99
+        [-Wimplicit-function-declaration]
+          clock_gettime(CLOCK_MONOTONIC, &ts);
+          ^
+  /Users/rtb/src/qemu/include/qemu/timer.h:843:23: error: use of undeclared=
+ identifier 'CLOCK_MONOTONIC'
+          clock_gettime(CLOCK_MONOTONIC, &ts);
+                        ^
+  1 warning and 1 error generated.
+  make: *** [trace/control.o] Error 1
+
+  =
+
+  rtb:qemu rtb$ git log -n1
+  commit c8004fe6bbfc0d9c2e7b942c418a85efb3ac4b00 (HEAD -> master, tag: v5.=
+1.0-rc1, origin/master, origin/HEAD)
+  Author: Peter Maydell <peter.maydell@linaro.org>
+  Date:   Tue Jul 21 20:28:59 2020 +0100
+
+      Update version for v5.1.0-rc1 release
+      =
+
+      Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
+  rtb:qemu rtb$ =
+
+
+  =
+
+  Please find the full output of all the commands (from git clone of the re=
+po, to the make) in the attached file "buildfail.txt".
+
+  Thank you!
+
+  Best regards,
+
+  Robert Ball
+
+To manage notifications about this bug go to:
+https://bugs.launchpad.net/qemu/+bug/1888431/+subscriptions
 
