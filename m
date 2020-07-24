@@ -2,67 +2,82 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A676722C98F
-	for <lists+qemu-devel@lfdr.de>; Fri, 24 Jul 2020 17:57:21 +0200 (CEST)
-Received: from localhost ([::1]:52552 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id ADE4522C977
+	for <lists+qemu-devel@lfdr.de>; Fri, 24 Jul 2020 17:51:29 +0200 (CEST)
+Received: from localhost ([::1]:41494 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jz04W-0003PF-Ov
-	for lists+qemu-devel@lfdr.de; Fri, 24 Jul 2020 11:57:20 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:44732)
+	id 1jyzyo-00071w-LE
+	for lists+qemu-devel@lfdr.de; Fri, 24 Jul 2020 11:51:26 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:43398)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1jz035-0002XM-UI
- for qemu-devel@nongnu.org; Fri, 24 Jul 2020 11:55:51 -0400
-Received: from indium.canonical.com ([91.189.90.7]:41734)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1jz033-0002XY-HJ
- for qemu-devel@nongnu.org; Fri, 24 Jul 2020 11:55:51 -0400
-Received: from loganberry.canonical.com ([91.189.90.37])
- by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
- id 1jz031-0008NY-Dv
- for <qemu-devel@nongnu.org>; Fri, 24 Jul 2020 15:55:47 +0000
-Received: from loganberry.canonical.com (localhost [127.0.0.1])
- by loganberry.canonical.com (Postfix) with ESMTP id 59CA12E804E
- for <qemu-devel@nongnu.org>; Fri, 24 Jul 2020 15:55:47 +0000 (UTC)
+ (Exim 4.90_1) (envelope-from <eblake@redhat.com>) id 1jyzxL-0006LU-TJ
+ for qemu-devel@nongnu.org; Fri, 24 Jul 2020 11:49:56 -0400
+Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:33393
+ helo=us-smtp-1.mimecast.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <eblake@redhat.com>) id 1jyzxJ-0001dA-6d
+ for qemu-devel@nongnu.org; Fri, 24 Jul 2020 11:49:55 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1595605791;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=VMP35wPTWZL+3GOW79QW4Od3XV3X3VGENWd9fx9pzoc=;
+ b=h0GSXoCtLleLpkTsvuYMWMBw92CHTk9gDmcmGtLd6KwJOK9KARo/JNWGp/NGsRuXAZyBf4
+ KsCuisc57YbXM2cpeUzkQUdZE8fhqitKy0ZUn5sejRbBTmseReVu7iKsvAykBGkI/0nQ3z
+ Y6TflbQ/bSeFssJJ0GXfPFHOYRJXDic=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-73-vgonD6rfPmS-xMQ57P4Q8Q-1; Fri, 24 Jul 2020 11:49:47 -0400
+X-MC-Unique: vgonD6rfPmS-xMQ57P4Q8Q-1
+Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
+ [10.5.11.11])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id F1E4558;
+ Fri, 24 Jul 2020 15:49:45 +0000 (UTC)
+Received: from [10.3.112.130] (ovpn-112-130.phx2.redhat.com [10.3.112.130])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id BDECC712C7;
+ Fri, 24 Jul 2020 15:49:41 +0000 (UTC)
+Subject: Re: [PATCH v3 07/21] migration/block-dirty-bitmap: fix
+ dirty_bitmap_mig_before_vm_start
+To: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>,
+ qemu-block@nongnu.org
+References: <20200724084327.15665-1-vsementsov@virtuozzo.com>
+ <20200724084327.15665-8-vsementsov@virtuozzo.com>
+From: Eric Blake <eblake@redhat.com>
+Organization: Red Hat, Inc.
+Message-ID: <647beee3-2060-d239-abde-a1fdf22f46d4@redhat.com>
+Date: Fri, 24 Jul 2020 10:49:41 -0500
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.10.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: quoted-printable
-Date: Fri, 24 Jul 2020 15:42:00 -0000
-From: Simon Kaegi <1888601@bugs.launchpad.net>
-To: qemu-devel@nongnu.org
-X-Launchpad-Notification-Type: bug
-X-Launchpad-Bug: product=qemu; status=New; importance=Undecided; assignee=None;
-X-Launchpad-Bug-Information-Type: Public
-X-Launchpad-Bug-Private: no
-X-Launchpad-Bug-Security-Vulnerability: no
-X-Launchpad-Bug-Commenters: dgilbert-h jasowang skaegi
-X-Launchpad-Bug-Reporter: Simon Kaegi (skaegi)
-X-Launchpad-Bug-Modifier: Simon Kaegi (skaegi)
-References: <159547584008.11100.1316842366379773629.malonedeb@wampee.canonical.com>
-Message-Id: <159560532032.4482.9344519056579498808.malone@wampee.canonical.com>
-Subject: [Bug 1888601] Re: QEMU v5.1.0-rc0/rc1 hang with nested virtualization
-X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
-X-Launchpad-Message-For: qemu-devel-ml
-Precedence: bulk
-X-Generated-By: Launchpad (canonical.com);
- Revision="e85d0ab92e2924d39b8285aeae075a01d25eff06";
- Instance="production-secrets-lazr.conf"
-X-Launchpad-Hash: ea69d246f3e7944d673ad4db27be5d418b4f5748
-Received-SPF: none client-ip=91.189.90.7; envelope-from=bounces@canonical.com;
- helo=indium.canonical.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/07/24 10:50:36
-X-ACL-Warn: Detected OS   = Linux 3.11 and newer [fuzzy]
-X-Spam_score_int: -58
-X-Spam_score: -5.9
-X-Spam_bar: -----
-X-Spam_report: (-5.9 / 5.0 requ) BAYES_00=-1.9, HEADER_FROM_DIFFERENT_DOMAINS=1,
- RCVD_IN_DNSWL_HI=-5, RCVD_IN_MSPIKE_H3=-0.01, RCVD_IN_MSPIKE_WL=-0.01,
- SPF_HELO_NONE=0.001, SPF_NONE=0.001 autolearn=ham autolearn_force=no
+In-Reply-To: <20200724084327.15665-8-vsementsov@virtuozzo.com>
+Content-Language: en-US
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=eblake@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=207.211.31.120; envelope-from=eblake@redhat.com;
+ helo=us-smtp-1.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/07/24 08:55:06
+X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
+X-Spam_score_int: -30
+X-Spam_score: -3.1
+X-Spam_bar: ---
+X-Spam_report: (-3.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H4=-0.01, RCVD_IN_MSPIKE_WL=-0.01,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
+Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -71,106 +86,40 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Bug 1888601 <1888601@bugs.launchpad.net>
+Cc: kwolf@redhat.com, fam@euphon.net, quintela@redhat.com,
+ qemu-stable@nongnu.org, qemu-devel@nongnu.org, dgilbert@redhat.com,
+ stefanha@redhat.com, andrey.shinkevich@virtuozzo.com, den@openvz.org,
+ mreitz@redhat.com, jsnow@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-It hangs (still guessing here) immediately -- before anything is logged.
-I'll try to get you a calltrace but have to figure out how to do that
-first ;) Any pointers appreciated.
+On 7/24/20 3:43 AM, Vladimir Sementsov-Ogievskiy wrote:
+> No reason to use _locked version of bdrv_enable_dirty_bitmap, as we
+> don't lock this mutex before. Moreover, the adjacent
+> bdrv_dirty_bitmap_enable_successor do lock the mutex.
 
--- =
+Grammar suggestion:
 
-You received this bug notification because you are a member of qemu-
-devel-ml, which is subscribed to QEMU.
-https://bugs.launchpad.net/bugs/1888601
+Using the _locked version of bdrv_enable_dirty_bitmap to bypass locking 
+is wrong as we do not already own the mutex.  Moreover, the adjacent 
+call to bdrv_dirty_bitmap_enable_successor grabs the mutex.
 
-Title:
-  QEMU v5.1.0-rc0/rc1 hang with nested virtualization
+> 
+> Fixes: 58f72b965e9e1q
+> Cc: qemu-stable@nongnu.org # v3.0
+> Signed-off-by: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
+> Reviewed-by: Andrey Shinkevich <andrey.shinkevich@virtuozzo.com>
+> ---
+>   migration/block-dirty-bitmap.c | 2 +-
+>   1 file changed, 1 insertion(+), 1 deletion(-)
 
-Status in QEMU:
-  New
+Reviewed-by: Eric Blake <eblake@redhat.com>
 
-Bug description:
-  We're running Kata Containers using QEMU and with v5.1.0rc0 and rc1
-  have noticed a problem at startup where QEMu appears to hang. We are
-  not seeing this problem on our bare metal nodes and only on a VSI that
-  supports nested virtualization.
+I'm comfortable taking this in 5.1.
 
-  We unfortunately see nothing at all in the QEMU logs to help
-  understand the problem and a hung process is just a guess at this
-  point.
+-- 
+Eric Blake, Principal Software Engineer
+Red Hat, Inc.           +1-919-301-3226
+Virtualization:  qemu.org | libvirt.org
 
-  Using git bisect we first see the problem with...
-
-  ---
-
-  f19bcdfedd53ee93412d535a842a89fa27cae7f2 is the first bad commit
-  commit f19bcdfedd53ee93412d535a842a89fa27cae7f2
-  Author: Jason Wang <jasowang@redhat.com>
-  Date:   Wed Jul 1 22:55:28 2020 +0800
-
-  =C2=A0=C2=A0=C2=A0=C2=A0virtio-pci: implement queue_enabled method
-
-  =C2=A0=C2=A0=C2=A0=C2=A0With version 1, we can detect whether a queue is =
-enabled via
-  =C2=A0=C2=A0=C2=A0=C2=A0queue_enabled.
-
-  =C2=A0=C2=A0=C2=A0=C2=A0Signed-off-by: Jason Wang <jasowang@redhat.com>
-  =C2=A0=C2=A0=C2=A0=C2=A0Signed-off-by: Cindy Lu <lulu@redhat.com>
-  =C2=A0=C2=A0=C2=A0=C2=A0Message-Id: <20200701145538.22333-5-lulu@redhat.c=
-om>
-  =C2=A0=C2=A0=C2=A0=C2=A0Reviewed-by: Michael S. Tsirkin <mst@redhat.com>
-  =C2=A0=C2=A0=C2=A0=C2=A0Signed-off-by: Michael S. Tsirkin <mst@redhat.com>
-  =C2=A0=C2=A0=C2=A0=C2=A0Acked-by: Jason Wang <jasowang@redhat.com>
-
-  =C2=A0hw/virtio/virtio-pci.c | 13 +++++++++++++
-  =C2=A01 file changed, 13 insertions(+)
-
-  ---
-
-  Reverting this commit (on top of 5.1.0-rc1) seems to work and prevent
-  the hanging.
-
-  ---
-
-  Here's how kata ends up launching qemu in our environment --
-  /opt/kata/bin/qemu-system-x86_64 -name sandbox-849df14c6065931adedb9d18bc=
-9260a6d896f1814a8c5cfa239865772f1b7a5f -uuid 6bec458e-1da7-4847-a5d7-5ab31d=
-4d2465 -machine pc,accel=3Dkvm,kernel_irqchip -cpu host,pmu=3Doff -qmp unix=
-:/run/vc/vm/849df14c6065931adedb9d18bc9260a6d896f1814a8c5cfa239865772f1b7a5=
-f/qmp.sock,server,nowait -m 4096M,slots=3D10,maxmem=3D30978M -device pci-br=
-idge,bus=3Dpci.0,id=3Dpci-bridge-0,chassis_nr=3D1,shpc=3Don,addr=3D2,romfil=
-e=3D -device virtio-serial-pci,disable-modern=3Dtrue,id=3Dserial0,romfile=
-=3D -device virtconsole,chardev=3Dcharconsole0,id=3Dconsole0 -chardev socke=
-t,id=3Dcharconsole0,path=3D/run/vc/vm/849df14c6065931adedb9d18bc9260a6d896f=
-1814a8c5cfa239865772f1b7a5f/console.sock,server,nowait -device virtio-scsi-=
-pci,id=3Dscsi0,disable-modern=3Dtrue,romfile=3D -object rng-random,id=3Drng=
-0,filename=3D/dev/urandom -device virtio-rng-pci,rng=3Drng0,romfile=3D -dev=
-ice virtserialport,chardev=3Dcharch0,id=3Dchannel0,name=3Dagent.channel.0 -=
-chardev socket,id=3Dcharch0,path=3D/run/vc/vm/849df14c6065931adedb9d18bc926=
-0a6d896f1814a8c5cfa239865772f1b7a5f/kata.sock,server,nowait -chardev socket=
-,id=3Dchar-396c5c3e19e29353,path=3D/run/vc/vm/849df14c6065931adedb9d18bc926=
-0a6d896f1814a8c5cfa239865772f1b7a5f/vhost-fs.sock -device vhost-user-fs-pci=
-,chardev=3Dchar-396c5c3e19e29353,tag=3DkataShared,romfile=3D -netdev tap,id=
-=3Dnetwork-0,vhost=3Don,vhostfds=3D3:4,fds=3D5:6 -device driver=3Dvirtio-ne=
-t-pci,netdev=3Dnetwork-0,mac=3D52:ac:2d:02:1f:6f,disable-modern=3Dtrue,mq=
-=3Don,vectors=3D6,romfile=3D -global kvm-pit.lost_tick_policy=3Ddiscard -vg=
-a none -no-user-config -nodefaults -nographic -daemonize -object memory-bac=
-kend-file,id=3Ddimm1,size=3D4096M,mem-path=3D/dev/shm,share=3Don -numa node=
-,memdev=3Ddimm1 -kernel /opt/kata/share/kata-containers/vmlinuz-5.7.9-74 -i=
-nitrd /opt/kata/share/kata-containers/kata-containers-initrd_alpine_1.11.2-=
-6_agent.initrd -append tsc=3Dreliable no_timer_check rcupdate.rcu_expedited=
-=3D1 i8042.direct=3D1 i8042.dumbkbd=3D1 i8042.nopnp=3D1 i8042.noaux=3D1 nor=
-eplace-smp reboot=3Dk console=3Dhvc0 console=3Dhvc1 iommu=3Doff cryptomgr.n=
-otests net.ifnames=3D0 pci=3Dlastbus=3D0 debug panic=3D1 nr_cpus=3D4 agent.=
-use_vsock=3Dfalse scsi_mod.scan=3Dnone init=3D/usr/bin/kata-agent -pidfile =
-/run/vc/vm/849df14c6065931adedb9d18bc9260a6d896f1814a8c5cfa239865772f1b7a5f=
-/pid -D /run/vc/vm/849df14c6065931adedb9d18bc9260a6d896f1814a8c5cfa23986577=
-2f1b7a5f/qemu.log -smp 2,cores=3D1,threads=3D1,sockets=3D4,maxcpus=3D4
-
-  ---
-
-To manage notifications about this bug go to:
-https://bugs.launchpad.net/qemu/+bug/1888601/+subscriptions
 
