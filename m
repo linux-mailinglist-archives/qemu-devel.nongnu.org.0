@@ -2,54 +2,56 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id CBDB722C845
-	for <lists+qemu-devel@lfdr.de>; Fri, 24 Jul 2020 16:43:59 +0200 (CEST)
-Received: from localhost ([::1]:47504 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C41BB22C84A
+	for <lists+qemu-devel@lfdr.de>; Fri, 24 Jul 2020 16:45:31 +0200 (CEST)
+Received: from localhost ([::1]:54104 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jyyvW-0002yd-TZ
-	for lists+qemu-devel@lfdr.de; Fri, 24 Jul 2020 10:43:58 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:50992)
+	id 1jyyx0-0005m5-Rj
+	for lists+qemu-devel@lfdr.de; Fri, 24 Jul 2020 10:45:30 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:51150)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <david@redhat.com>) id 1jyyrP-0004lI-Dg
- for qemu-devel@nongnu.org; Fri, 24 Jul 2020 10:39:43 -0400
-Received: from us-smtp-2.mimecast.com ([205.139.110.61]:45554
+ (Exim 4.90_1) (envelope-from <david@redhat.com>) id 1jyyrl-0005Vl-99
+ for qemu-devel@nongnu.org; Fri, 24 Jul 2020 10:40:05 -0400
+Received: from us-smtp-2.mimecast.com ([205.139.110.61]:58244
  helo=us-smtp-delivery-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <david@redhat.com>) id 1jyyrM-0005jw-Qj
- for qemu-devel@nongnu.org; Fri, 24 Jul 2020 10:39:43 -0400
+ (Exim 4.90_1) (envelope-from <david@redhat.com>) id 1jyyri-0005mf-2e
+ for qemu-devel@nongnu.org; Fri, 24 Jul 2020 10:40:04 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1595601580;
+ s=mimecast20190719; t=1595601601;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=xqXgem9A0W2kyxWoY2ab/QL8aGDaIUVrLAZ7EdsfdH4=;
- b=Hou/V8W2ZsnRnHrmkEsH/00JHeU2dFvDgA8CwTqkhOd6VsahXGTswSGCB8lNsVTmwz01zn
- Byvuv6XV2XltGgr1+7FeN4snzkhYYfr1ATBCDGGhT1a61redQMS8YRkgnje68HS+TFWxu0
- qM6ZYEDuaMvM9u8Sd0tiDreVuz67CaQ=
+ bh=Y0pY6l2NcUPjzNdVuu6tmiaYmdIrhCRvNPv3Kqehsxk=;
+ b=M9HIG4cwbFMPnPxEDPdNDr2NgZtd8nL4EwO92M4HqZGqYS1EfUpSmvLUGaiv1jZHAKaDKw
+ a01eQt1tSNgPOHas+p9SlZYmBZ5iq1jnBf8aV6imxkqB2rbrZ4DJ4wqGuCRIW7BKQHJe0v
+ JjCtlKl34Lzk4M3+7Txbs5y8dV2KyZw=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-382-WqhiGyVPOGOReMFgz5UNDw-1; Fri, 24 Jul 2020 10:38:19 -0400
-X-MC-Unique: WqhiGyVPOGOReMFgz5UNDw-1
+ us-mta-118-b_3H0SpAMGCVxo4_fabGAg-1; Fri, 24 Jul 2020 10:38:22 -0400
+X-MC-Unique: b_3H0SpAMGCVxo4_fabGAg-1
 Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
  [10.5.11.15])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id DFEF318FF679;
- Fri, 24 Jul 2020 14:38:17 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 82751800597;
+ Fri, 24 Jul 2020 14:38:20 +0000 (UTC)
 Received: from t480s.redhat.com (ovpn-113-94.ams2.redhat.com [10.36.113.94])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 0BADB726A3;
- Fri, 24 Jul 2020 14:38:09 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 38702710AC;
+ Fri, 24 Jul 2020 14:38:18 +0000 (UTC)
 From: David Hildenbrand <david@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH RFCv3 5/9] s390x: rename s390-virtio-hcall* to s390-hypercall*
-Date: Fri, 24 Jul 2020 16:37:46 +0200
-Message-Id: <20200724143750.59836-6-david@redhat.com>
+Subject: [PATCH RFCv3 6/9] s390x/diag: subcode to query device memory region
+Date: Fri, 24 Jul 2020 16:37:47 +0200
+Message-Id: <20200724143750.59836-7-david@redhat.com>
 In-Reply-To: <20200724143750.59836-1-david@redhat.com>
 References: <20200724143750.59836-1-david@redhat.com>
 MIME-Version: 1.0
 X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=david@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=US-ASCII
@@ -86,96 +88,101 @@ Cc: Thomas Huth <thuth@redhat.com>, Janosch Frank <frankja@linux.ibm.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Let's make it clearer that we are talking about general
-QEMU/KVM-specific hypercalls.
+A guest OS that is aware of memory devices (placed into the device
+memory region located in guest physical address space) has to know at least
+the end address of the device memory region during boot, for example, to
+prepare the kernel virtual address space accordingly (e.g., select page
+table hierarchy). The device memory region is located above the SCLP
+maximum storage increment.
+
+Let's provide a new diag500 subcode to query the location of the device
+memory region under QEMU/KVM. This way, esp. Linux who's wants to support
+virtio-based memory devices can query the location of this region and
+derive the maximum possible PFN.
+
+Let's use a specification exception in case no such memory region
+exists (e.g., maxmem wasn't specified, or on old QEMU machines). We'll
+unlock this with future patches that prepare and instanciate the device
+memory region.
+
+Memory managed by memory devices should never be detected and used
+without having proper support for them in the guest (IOW, a driver that
+detects and handles the devices). It's not exposed via other HW/firmware
+interfaces (e.g., SCLP, diag260). In the near future, the focus is on
+supporting virtio-based memory devices like vitio-mem. Other memory devices
+are imaginable in the future (e.g., expose DIMMs via a KVM-specific
+interface to s390x guests).
+
+Note: We don't want to include the device memory region within the
+SCLP-defined maximum storage increment, because especially older
+guests will will sense (via tprot) accessible memory within this range.
+If an unmodified guest would detect and use device memory, it could end
+badly. The memory might have different semantics (e.g., a disk provided
+via virtio-pmem a.k.a. DAX) and might require a handshake first (e.g.,
+unplugged memory part of virtio-mem in some cases), before memory that
+might look accessible can actually be used without surprises.
 
 Signed-off-by: David Hildenbrand <david@redhat.com>
 ---
- hw/s390x/Makefile.objs                             | 2 +-
- hw/s390x/{s390-virtio-hcall.c => s390-hypercall.c} | 2 +-
- hw/s390x/{s390-virtio-hcall.h => s390-hypercall.h} | 6 +++---
- target/s390x/kvm.c                                 | 2 +-
- target/s390x/misc_helper.c                         | 2 +-
- 5 files changed, 7 insertions(+), 7 deletions(-)
- rename hw/s390x/{s390-virtio-hcall.c => s390-hypercall.c} (97%)
- rename hw/s390x/{s390-virtio-hcall.h => s390-hypercall.h} (86%)
+ hw/s390x/s390-hypercall.c | 18 ++++++++++++++++++
+ hw/s390x/s390-hypercall.h |  1 +
+ 2 files changed, 19 insertions(+)
 
-diff --git a/hw/s390x/Makefile.objs b/hw/s390x/Makefile.objs
-index a46a1c7894..2a35be0cda 100644
---- a/hw/s390x/Makefile.objs
-+++ b/hw/s390x/Makefile.objs
-@@ -1,4 +1,4 @@
--obj-y += s390-virtio-hcall.o
-+obj-y += s390-hypercall.o
- obj-y += sclp.o
- obj-y += event-facility.o
- obj-y += sclpquiesce.o
-diff --git a/hw/s390x/s390-virtio-hcall.c b/hw/s390x/s390-hypercall.c
-similarity index 97%
-rename from hw/s390x/s390-virtio-hcall.c
-rename to hw/s390x/s390-hypercall.c
-index 7c4ca5d3b2..20d4f6e159 100644
---- a/hw/s390x/s390-virtio-hcall.c
+diff --git a/hw/s390x/s390-hypercall.c b/hw/s390x/s390-hypercall.c
+index 20d4f6e159..ac21f4576e 100644
+--- a/hw/s390x/s390-hypercall.c
 +++ b/hw/s390x/s390-hypercall.c
-@@ -11,7 +11,7 @@
+@@ -11,6 +11,7 @@
  
  #include "qemu/osdep.h"
  #include "cpu.h"
--#include "hw/s390x/s390-virtio-hcall.h"
-+#include "hw/s390x/s390-hypercall.h"
++#include "hw/boards.h"
+ #include "hw/s390x/s390-hypercall.h"
  #include "hw/s390x/ioinst.h"
  #include "hw/s390x/css.h"
- #include "virtio-ccw.h"
-diff --git a/hw/s390x/s390-virtio-hcall.h b/hw/s390x/s390-hypercall.h
-similarity index 86%
-rename from hw/s390x/s390-virtio-hcall.h
-rename to hw/s390x/s390-hypercall.h
-index 2214216ce8..e6b958db41 100644
---- a/hw/s390x/s390-virtio-hcall.h
+@@ -44,6 +45,20 @@ static int handle_virtio_ccw_notify(uint64_t subch_id, uint64_t queue)
+     return 0;
+ }
+ 
++static void handle_device_memory_region(CPUS390XState *env, uintptr_t ra)
++{
++    MachineState *machine = MACHINE(qdev_get_machine());
++
++    if (!machine->device_memory ||
++        !memory_region_size(&machine->device_memory->mr)) {
++        s390_program_interrupt(env, PGM_SPECIFICATION, ra);
++        return;
++    }
++    env->regs[2] = machine->device_memory->base;
++    env->regs[3] = machine->device_memory->base +
++                   memory_region_size(&machine->device_memory->mr) - 1;
++}
++
+ void handle_diag_500(CPUS390XState *env, uintptr_t ra)
+ {
+      const uint64_t subcode = env->regs[1];
+@@ -55,6 +70,9 @@ void handle_diag_500(CPUS390XState *env, uintptr_t ra)
+      case DIAG500_VIRTIO_CCW_NOTIFY:
+          env->regs[2] = handle_virtio_ccw_notify(env->regs[2], env->regs[3]);
+          break;
++     case DIAG500_DEVICE_MEMORY_REGION:
++        handle_device_memory_region(env, ra);
++        break;
+      default:
+          s390_program_interrupt(env, PGM_SPECIFICATION, ra);
+      }
+diff --git a/hw/s390x/s390-hypercall.h b/hw/s390x/s390-hypercall.h
+index e6b958db41..1b179d7d99 100644
+--- a/hw/s390x/s390-hypercall.h
 +++ b/hw/s390x/s390-hypercall.h
-@@ -9,8 +9,8 @@
-  * directory.
-  */
- 
--#ifndef HW_S390_VIRTIO_HCALL_H
--#define HW_S390_VIRTIO_HCALL_H
-+#ifndef HW_S390_HYPERCALL_H
-+#define HW_S390_HYPERCALL_H
- 
- #define DIAG500_VIRTIO_NOTIFY          0 /* legacy, implemented as a NOP */
+@@ -16,6 +16,7 @@
  #define DIAG500_VIRTIO_RESET           1 /* legacy */
-@@ -18,4 +18,4 @@
+ #define DIAG500_VIRTIO_SET_STATUS      2 /* legacy */
  #define DIAG500_VIRTIO_CCW_NOTIFY      3 /* KVM_S390_VIRTIO_CCW_NOTIFY */
++#define DIAG500_DEVICE_MEMORY_REGION   4
  
  void handle_diag_500(CPUS390XState *env, uintptr_t ra);
--#endif /* HW_S390_VIRTIO_HCALL_H */
-+#endif /* HW_S390_HYPERCALL_H */
-diff --git a/target/s390x/kvm.c b/target/s390x/kvm.c
-index dc00750387..380fa6de26 100644
---- a/target/s390x/kvm.c
-+++ b/target/s390x/kvm.c
-@@ -49,7 +49,7 @@
- #include "hw/s390x/ebcdic.h"
- #include "exec/memattrs.h"
- #include "hw/s390x/s390-virtio-ccw.h"
--#include "hw/s390x/s390-virtio-hcall.h"
-+#include "hw/s390x/s390-hypercall.h"
- #include "hw/s390x/pv.h"
- 
- #ifndef DEBUG_KVM
-diff --git a/target/s390x/misc_helper.c b/target/s390x/misc_helper.c
-index cfcbfbe50c..7d173c081c 100644
---- a/target/s390x/misc_helper.c
-+++ b/target/s390x/misc_helper.c
-@@ -36,7 +36,7 @@
- #include "sysemu/cpus.h"
- #include "sysemu/sysemu.h"
- #include "hw/s390x/ebcdic.h"
--#include "hw/s390x/s390-virtio-hcall.h"
-+#include "hw/s390x/s390-hypercall.h"
- #include "hw/s390x/sclp.h"
- #include "hw/s390x/s390_flic.h"
- #include "hw/s390x/ioinst.h"
+ #endif /* HW_S390_HYPERCALL_H */
 -- 
 2.26.2
 
