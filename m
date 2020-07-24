@@ -2,62 +2,64 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7B6A522BD74
-	for <lists+qemu-devel@lfdr.de>; Fri, 24 Jul 2020 07:26:54 +0200 (CEST)
-Received: from localhost ([::1]:52442 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 58AE622BD70
+	for <lists+qemu-devel@lfdr.de>; Fri, 24 Jul 2020 07:25:03 +0200 (CEST)
+Received: from localhost ([::1]:46166 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jyqEP-0005vU-H4
-	for lists+qemu-devel@lfdr.de; Fri, 24 Jul 2020 01:26:53 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:51774)
+	id 1jyqCc-0003Ed-CW
+	for lists+qemu-devel@lfdr.de; Fri, 24 Jul 2020 01:25:02 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:51754)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1jyqAt-00015s-Gt
- for qemu-devel@nongnu.org; Fri, 24 Jul 2020 01:23:15 -0400
-Received: from us-smtp-1.mimecast.com ([205.139.110.61]:23542
- helo=us-smtp-delivery-1.mimecast.com)
+ (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1jyqAs-00013Y-LD
+ for qemu-devel@nongnu.org; Fri, 24 Jul 2020 01:23:14 -0400
+Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:24378
+ helo=us-smtp-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1jyqAq-0007SZ-8L
- for qemu-devel@nongnu.org; Fri, 24 Jul 2020 01:23:15 -0400
+ (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1jyqAp-0007S6-6g
+ for qemu-devel@nongnu.org; Fri, 24 Jul 2020 01:23:14 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1595568191;
+ s=mimecast20190719; t=1595568190;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=5Co9wodFwNQgOYcGNEqwkwsaqy/+vDOfCIdf+CIoN+U=;
- b=ixLGYziUpodw5w9IXI8jY/ZSsHdAfMA+D2dt45RznOGn25Um7yd7tO1MH+ZJTxSHXJvXiZ
- 1lJln4IHsFTGF9ZoJk4lvfzZbNNTXX6bVmU4o16LbyWvhBHY3kVcMohrFXtxHurAx18lsX
- z2JPhba2BfXXY8JOPWJGffp78Vx9Eh0=
+ bh=/s3X8YqjASZjM7L/p0xkJEgVoB+Q5trhJzSdGsKpBWg=;
+ b=WUCpTzKpFBtPr6jSQ+6kfBt7p7+ISPTlUbEVOv6A2Bdlp9I/EDmIbXW73nhT2KVWgcsGjz
+ 3czlMcuf/q+j5nuG6u5Iy0Wzc0Z8RFl7OpHHRCZCxY8UsajDNKY2uytM3KOqrJRmtCkByH
+ FoNX9VtyocYlf+NcUPqUgqXXXSsy7p8=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-274-DRW_1XZvPIKMJaWiS0yUcQ-1; Fri, 24 Jul 2020 01:23:07 -0400
-X-MC-Unique: DRW_1XZvPIKMJaWiS0yUcQ-1
+ us-mta-122-WFvfen2UO2iiIJx-wqp7rQ-1; Fri, 24 Jul 2020 01:23:08 -0400
+X-MC-Unique: WFvfen2UO2iiIJx-wqp7rQ-1
 Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
  [10.5.11.11])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id BD6A6189CEE0;
- Fri, 24 Jul 2020 05:23:06 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 9CC4458;
+ Fri, 24 Jul 2020 05:23:07 +0000 (UTC)
 Received: from ibm-p8-OVS-01-fsp.mgmt.pnr.lab.eng.rdu2.redhat.com
  (ovpn-120-206.rdu2.redhat.com [10.10.120.206])
- by smtp.corp.redhat.com (Postfix) with ESMTP id E0F4D7AC80;
- Fri, 24 Jul 2020 05:23:05 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id DE7B27AC80;
+ Fri, 24 Jul 2020 05:23:06 +0000 (UTC)
 From: John Snow <jsnow@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH 5/7] ide: remove magic constants from the device register
-Date: Fri, 24 Jul 2020 01:22:58 -0400
-Message-Id: <20200724052300.1163728-6-jsnow@redhat.com>
+Subject: [PATCH 6/7] ide: clear interrupt on command write
+Date: Fri, 24 Jul 2020 01:22:59 -0400
+Message-Id: <20200724052300.1163728-7-jsnow@redhat.com>
 In-Reply-To: <20200724052300.1163728-1-jsnow@redhat.com>
 References: <20200724052300.1163728-1-jsnow@redhat.com>
 MIME-Version: 1.0
 X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=jsnow@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=205.139.110.61; envelope-from=jsnow@redhat.com;
- helo=us-smtp-delivery-1.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/07/24 01:23:06
+Received-SPF: pass client-ip=205.139.110.120; envelope-from=jsnow@redhat.com;
+ helo=us-smtp-1.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/07/24 01:23:10
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
 X-Spam_score_int: -40
 X-Spam_score: -4.1
@@ -83,136 +85,34 @@ Cc: kwolf@redhat.com, Alexander Bulekov <alxndr@bu.edu>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-(In QEMU, we call this the "select" register.)
+Not known to fix any bug, but I couldn't help but notice that ATA
+specifies that writing to this register should clear an interrupt.
 
-My memory isn't good enough to memorize what these magic runes
-do. Label them to prevent mixups from happening in the future.
+ATA7: Section 5.3.3 (Command register - Effect)
+ATA6: Section 7.4.4 (Command register - Effect)
+ATA5: Section 7.4.4 (Command register - Effect)
+ATA4: Section 7.4.4 (Command register - Effect)
+ATA3: Section 5.2.2 (Command register)
 
-Side note: I assume it's safe to always set 0xA0 even though ATA2 claims
-these bits are reserved, because ATA3 immediately reinstated that these
-bits should be always on. ATA4 and subsequent specs only claim that the
-fields are obsolete, so I assume it's safe to leave these set and that
-it should work with the widest array of guests.
+Other editions: try searching for the phrase "Writing this register".
 
 Signed-off-by: John Snow <jsnow@redhat.com>
 ---
- include/hw/ide/internal.h | 11 +++++++++++
- hw/ide/core.c             | 26 ++++++++++++++------------
- 2 files changed, 25 insertions(+), 12 deletions(-)
+ hw/ide/core.c | 1 +
+ 1 file changed, 1 insertion(+)
 
-diff --git a/include/hw/ide/internal.h b/include/hw/ide/internal.h
-index 16d806e0cf..d5a6ba1056 100644
---- a/include/hw/ide/internal.h
-+++ b/include/hw/ide/internal.h
-@@ -29,6 +29,17 @@ typedef struct IDEDMAOps IDEDMAOps;
- 
- #define MAX_IDE_DEVS 2
- 
-+/* Device/Head ("select") Register */
-+#define ATA_DEV_SELECT          0x10
-+/* ATA1,3: Defined as '1'.
-+ * ATA2:   Reserved.
-+ * ATA3-7: obsolete. */
-+#define ATA_DEV_ALWAYS_ON       0xA0
-+#define ATA_DEV_LBA             0x40
-+#define ATA_DEV_LBA_MSB         0x0F  /* LBA 24:27 */
-+#define ATA_DEV_HS              0x0F  /* HS 3:0 */
-+
-+
- /* Bits of HD_STATUS */
- #define ERR_STAT		0x01
- #define INDEX_STAT		0x02
 diff --git a/hw/ide/core.c b/hw/ide/core.c
-index f35864070b..5f4f004312 100644
+index 5f4f004312..e4c69a7fde 100644
 --- a/hw/ide/core.c
 +++ b/hw/ide/core.c
-@@ -367,7 +367,7 @@ fill_buffer:
- 
- static void ide_set_signature(IDEState *s)
- {
--    s->select &= 0xf0; /* clear head */
-+    s->select &= ~(ATA_DEV_HS); /* clear head */
-     /* put signature */
-     s->nsector = 1;
-     s->sector = 1;
-@@ -586,7 +586,7 @@ void ide_transfer_stop(IDEState *s)
- int64_t ide_get_sector(IDEState *s)
- {
-     int64_t sector_num;
--    if (s->select & 0x40) {
-+    if (s->select & (ATA_DEV_LBA)) {
-         if (s->lba48) {
-             sector_num = ((int64_t)s->hob_hcyl << 40) |
-                 ((int64_t) s->hob_lcyl << 32) |
-@@ -595,13 +595,13 @@ int64_t ide_get_sector(IDEState *s)
-                 ((int64_t) s->lcyl << 8) | s->sector;
-         } else {
-             /* LBA28 */
--            sector_num = ((s->select & 0x0f) << 24) | (s->hcyl << 16) |
--                (s->lcyl << 8) | s->sector;
-+            sector_num = ((s->select & (ATA_DEV_LBA_MSB)) << 24) |
-+                (s->hcyl << 16) | (s->lcyl << 8) | s->sector;
-         }
-     } else {
-         /* CHS */
-         sector_num = ((s->hcyl << 8) | s->lcyl) * s->heads * s->sectors +
--            (s->select & 0x0f) * s->sectors + (s->sector - 1);
-+            (s->select & (ATA_DEV_HS)) * s->sectors + (s->sector - 1);
-     }
- 
-     return sector_num;
-@@ -610,7 +610,7 @@ int64_t ide_get_sector(IDEState *s)
- void ide_set_sector(IDEState *s, int64_t sector_num)
- {
-     unsigned int cyl, r;
--    if (s->select & 0x40) {
-+    if (s->select & (ATA_DEV_LBA)) {
-         if (s->lba48) {
-             s->sector = sector_num;
-             s->lcyl = sector_num >> 8;
-@@ -620,7 +620,8 @@ void ide_set_sector(IDEState *s, int64_t sector_num)
-             s->hob_hcyl = sector_num >> 40;
-         } else {
-             /* LBA28 */
--            s->select = (s->select & 0xf0) | (sector_num >> 24);
-+            s->select = (s->select & ~(ATA_DEV_LBA_MSB)) |
-+                ((sector_num >> 24) & (ATA_DEV_LBA_MSB));
-             s->hcyl = (sector_num >> 16);
-             s->lcyl = (sector_num >> 8);
-             s->sector = (sector_num);
-@@ -631,7 +632,8 @@ void ide_set_sector(IDEState *s, int64_t sector_num)
-         r = sector_num % (s->heads * s->sectors);
-         s->hcyl = cyl >> 8;
-         s->lcyl = cyl;
--        s->select = (s->select & 0xf0) | ((r / s->sectors) & 0x0f);
-+        s->select = (s->select & ~(ATA_DEV_HS)) |
-+            ((r / s->sectors) & (ATA_DEV_HS));
-         s->sector = (r % s->sectors) + 1;
-     }
- }
-@@ -1302,10 +1304,10 @@ void ide_ioport_write(void *opaque, uint32_t addr, uint32_t val)
-         break;
-     case ATA_IOPORT_WR_DEVICE_HEAD:
-         ide_clear_hob(bus);
--        bus->ifs[0].select = val | 0xa0;
--        bus->ifs[1].select = val | 0xa0;
-+        bus->ifs[0].select = val | (ATA_DEV_ALWAYS_ON);
-+        bus->ifs[1].select = val | (ATA_DEV_ALWAYS_ON);
-         /* select drive */
--        bus->unit = (val >> 4) & 1;
-+        bus->unit = (val & (ATA_DEV_SELECT)) ? 1 : 0;
-         break;
+@@ -1312,6 +1312,7 @@ void ide_ioport_write(void *opaque, uint32_t addr, uint32_t val)
      default:
      case ATA_IOPORT_WR_COMMAND:
-@@ -1343,7 +1345,7 @@ static void ide_reset(IDEState *s)
-     s->hob_lcyl = 0;
-     s->hob_hcyl = 0;
- 
--    s->select = 0xa0;
-+    s->select = (ATA_DEV_ALWAYS_ON);
-     s->status = READY_STAT | SEEK_STAT;
- 
-     s->lba48 = 0;
+         ide_clear_hob(bus);
++        qemu_irq_lower(bus->irq);
+         ide_exec_cmd(bus, val);
+         break;
+     }
 -- 
 2.26.2
 
