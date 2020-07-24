@@ -2,42 +2,40 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D43E222BC42
-	for <lists+qemu-devel@lfdr.de>; Fri, 24 Jul 2020 05:00:11 +0200 (CEST)
-Received: from localhost ([::1]:49966 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A64EC22BC4A
+	for <lists+qemu-devel@lfdr.de>; Fri, 24 Jul 2020 05:02:20 +0200 (CEST)
+Received: from localhost ([::1]:57206 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jynwQ-0001Wl-RB
-	for lists+qemu-devel@lfdr.de; Thu, 23 Jul 2020 23:00:10 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:55504)
+	id 1jynyV-0004WD-Mr
+	for lists+qemu-devel@lfdr.de; Thu, 23 Jul 2020 23:02:19 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:55424)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <dgibson@ozlabs.org>)
- id 1jynuV-0007aW-Bh; Thu, 23 Jul 2020 22:58:11 -0400
-Received: from bilbo.ozlabs.org ([203.11.71.1]:54029 helo=ozlabs.org)
+ id 1jynuM-0007FY-Bc; Thu, 23 Jul 2020 22:58:02 -0400
+Received: from bilbo.ozlabs.org ([203.11.71.1]:60169 helo=ozlabs.org)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <dgibson@ozlabs.org>)
- id 1jynuO-00061k-Es; Thu, 23 Jul 2020 22:58:10 -0400
+ id 1jynuJ-00060E-AU; Thu, 23 Jul 2020 22:58:02 -0400
 Received: by ozlabs.org (Postfix, from userid 1007)
- id 4BCYlv6Cjvz9sSy; Fri, 24 Jul 2020 12:57:47 +1000 (AEST)
+ id 4BCYlv1BKjz9sRN; Fri, 24 Jul 2020 12:57:47 +1000 (AEST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
  d=gibson.dropbear.id.au; s=201602; t=1595559467;
- bh=JRbdSSqaG0liT/aslzU3m1hnjce6fptMd9RZ6TZwddU=;
- h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=DC+6Qtnf39Aai/D6H6P+axBMx2XtA8CqUBXghtuGqnWLCxlAl8ULsWtB8yeiWgOTr
- BgzzWGWvgW7tYg6H4e7aTsYsTVgI6T2WFB0Qh+TozWdOKmI00eLAPxHPt2RIRw0H4Z
- 9kOu41/eZJKnbw5YFCo7cYkulVBqhQCoMdYj5/ms=
+ bh=g66FwVz1r6nGsK6XJ5UcsyTZuDIgWFh7d1+V/6AC+0I=;
+ h=From:To:Cc:Subject:Date:From;
+ b=C5PGevUJgzVOgAIu9G1YJhVIdy5YZzXT+TIXBMNYd8rze8zDPZv1/8gf29OGzcCak
+ ATvVaZzSVokHz9AhNsJE1rtRAYtsBidm6G0Lzm0Tm4MbDJ8y+aiBC7OIzzEzqzEBN8
+ qbj5gC930eEbwMu5xJee3GuQS/SvIHYplFgh53EY=
 From: David Gibson <david@gibson.dropbear.id.au>
 To: dgilbert@redhat.com, frankja@linux.ibm.com, pair@us.ibm.com,
  qemu-devel@nongnu.org, pbonzini@redhat.com, brijesh.singh@amd.com
-Subject: [for-5.2 v4 05/10] host trust limitation: Decouple kvm_memcrypt_*()
- helpers from KVM
-Date: Fri, 24 Jul 2020 12:57:39 +1000
-Message-Id: <20200724025744.69644-6-david@gibson.dropbear.id.au>
+Subject: [for-5.2 v4 00/10] Generalize memory encryption models
+Date: Fri, 24 Jul 2020 12:57:34 +1000
+Message-Id: <20200724025744.69644-1-david@gibson.dropbear.id.au>
 X-Mailer: git-send-email 2.26.2
-In-Reply-To: <20200724025744.69644-1-david@gibson.dropbear.id.au>
-References: <20200724025744.69644-1-david@gibson.dropbear.id.au>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: quoted-printable
 Received-SPF: pass client-ip=203.11.71.1; envelope-from=dgibson@ozlabs.org;
  helo=ozlabs.org
 X-detected-operating-system: by eggs.gnu.org: First seen = 2020/07/23 22:57:48
@@ -65,215 +63,87 @@ Cc: Thomas Huth <thuth@redhat.com>, Cornelia Huck <cohuck@redhat.com>,
  =?UTF-8?q?Daniel=20P=2E=20Berrang=C3=A9?= <berrange@redhat.com>,
  ehabkost@redhat.com, kvm@vger.kernel.org,
  "Michael S. Tsirkin" <mst@redhat.com>, David Hildenbrand <david@redhat.com>,
- Richard Henderson <richard.henderson@linaro.org>, mdroth@linux.vnet.ibm.com,
- pasic@linux.ibm.com, Christian Borntraeger <borntraeger@de.ibm.com>,
- qemu-s390x@nongnu.org, qemu-ppc@nongnu.org,
- Richard Henderson <rth@twiddle.net>,
+ mdroth@linux.vnet.ibm.com, pasic@linux.ibm.com,
+ Christian Borntraeger <borntraeger@de.ibm.com>, qemu-s390x@nongnu.org,
+ qemu-ppc@nongnu.org, Richard Henderson <rth@twiddle.net>,
  David Gibson <david@gibson.dropbear.id.au>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The kvm_memcrypt_enabled() and kvm_memcrypt_encrypt_data() helper functions
-don't conceptually have any connection to KVM (although it's not possible
-in practice to use them without it).
-
-They also rely on looking at the global KVMState.  But the same information
-is available from the machine, and the only existing callers have natural
-access to the machine state.
-
-Therefore, move and rename them to helpers in host-trust-limitation.h,
-taking an explicit machine parameter.
-
-Signed-off-by: David Gibson <david@gibson.dropbear.id.au>
-Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
----
- accel/kvm/kvm-all.c                  | 27 ---------------------
- accel/stubs/kvm-stub.c               | 10 --------
- hw/i386/pc_sysfw.c                   |  6 +++--
- include/exec/host-trust-limitation.h | 36 ++++++++++++++++++++++++++++
- include/sysemu/kvm.h                 | 17 -------------
- 5 files changed, 40 insertions(+), 56 deletions(-)
-
-diff --git a/accel/kvm/kvm-all.c b/accel/kvm/kvm-all.c
-index e2d8f47f93..4b6402c12c 100644
---- a/accel/kvm/kvm-all.c
-+++ b/accel/kvm/kvm-all.c
-@@ -117,9 +117,6 @@ struct KVMState
-     KVMMemoryListener memory_listener;
-     QLIST_HEAD(, KVMParkedVcpu) kvm_parked_vcpus;
- 
--    /* host trust limitation (e.g. by guest memory encryption) */
--    HostTrustLimitation *htl;
--
-     /* For "info mtree -f" to tell if an MR is registered in KVM */
-     int nr_as;
-     struct KVMAs {
-@@ -218,28 +215,6 @@ int kvm_get_max_memslots(void)
-     return s->nr_slots;
- }
- 
--bool kvm_memcrypt_enabled(void)
--{
--    if (kvm_state && kvm_state->htl) {
--        return true;
--    }
--
--    return false;
--}
--
--int kvm_memcrypt_encrypt_data(uint8_t *ptr, uint64_t len)
--{
--    HostTrustLimitation *htl = kvm_state->htl;
--
--    if (htl) {
--        HostTrustLimitationClass *htlc = HOST_TRUST_LIMITATION_GET_CLASS(htl);
--
--        return htlc->encrypt_data(htl, ptr, len);
--    }
--
--    return 1;
--}
--
- /* Called with KVMMemoryListener.slots_lock held */
- static KVMSlot *kvm_get_free_slot(KVMMemoryListener *kml)
- {
-@@ -2194,8 +2169,6 @@ static int kvm_init(MachineState *ms)
-         if (ret < 0) {
-             goto err;
-         }
--
--        kvm_state->htl = ms->htl;
-     }
- 
-     ret = kvm_arch_init(ms, s);
-diff --git a/accel/stubs/kvm-stub.c b/accel/stubs/kvm-stub.c
-index 82f118d2df..78b3eef117 100644
---- a/accel/stubs/kvm-stub.c
-+++ b/accel/stubs/kvm-stub.c
-@@ -104,16 +104,6 @@ int kvm_on_sigbus(int code, void *addr)
-     return 1;
- }
- 
--bool kvm_memcrypt_enabled(void)
--{
--    return false;
--}
--
--int kvm_memcrypt_encrypt_data(uint8_t *ptr, uint64_t len)
--{
--  return 1;
--}
--
- #ifndef CONFIG_USER_ONLY
- int kvm_irqchip_add_msi_route(KVMState *s, int vector, PCIDevice *dev)
- {
-diff --git a/hw/i386/pc_sysfw.c b/hw/i386/pc_sysfw.c
-index b6c0822fe3..e8d3b795a1 100644
---- a/hw/i386/pc_sysfw.c
-+++ b/hw/i386/pc_sysfw.c
-@@ -38,6 +38,7 @@
- #include "sysemu/sysemu.h"
- #include "hw/block/flash.h"
- #include "sysemu/kvm.h"
-+#include "exec/host-trust-limitation.h"
- 
- /*
-  * We don't have a theoretically justifiable exact lower bound on the base
-@@ -201,10 +202,11 @@ static void pc_system_flash_map(PCMachineState *pcms,
-             pc_isa_bios_init(rom_memory, flash_mem, size);
- 
-             /* Encrypt the pflash boot ROM */
--            if (kvm_memcrypt_enabled()) {
-+            if (host_trust_limitation_enabled(MACHINE(pcms))) {
-                 flash_ptr = memory_region_get_ram_ptr(flash_mem);
-                 flash_size = memory_region_size(flash_mem);
--                ret = kvm_memcrypt_encrypt_data(flash_ptr, flash_size);
-+                ret = host_trust_limitation_encrypt(MACHINE(pcms),
-+                                                    flash_ptr, flash_size);
-                 if (ret) {
-                     error_report("failed to encrypt pflash rom");
-                     exit(1);
-diff --git a/include/exec/host-trust-limitation.h b/include/exec/host-trust-limitation.h
-index a19f12ae14..fc30ea3f78 100644
---- a/include/exec/host-trust-limitation.h
-+++ b/include/exec/host-trust-limitation.h
-@@ -14,6 +14,7 @@
- #define QEMU_HOST_TRUST_LIMITATION_H
- 
- #include "qom/object.h"
-+#include "hw/boards.h"
- 
- #define TYPE_HOST_TRUST_LIMITATION "host-trust-limitation"
- #define HOST_TRUST_LIMITATION(obj)                                    \
-@@ -33,4 +34,39 @@ typedef struct HostTrustLimitationClass {
-     int (*encrypt_data)(HostTrustLimitation *, uint8_t *, uint64_t);
- } HostTrustLimitationClass;
- 
-+/**
-+ * host_trust_limitation_enabled - return whether guest memory is protected
-+ *                                 from hypervisor access (with memory
-+ *                                 encryption or otherwise)
-+ * Returns: true guest memory is not directly accessible to qemu
-+ *          false guest memory is directly accessible to qemu
-+ */
-+static inline bool host_trust_limitation_enabled(MachineState *machine)
-+{
-+    return !!machine->htl;
-+}
-+
-+/**
-+ * host_trust_limitation_encrypt: encrypt the memory range to make
-+ *                                it guest accessible
-+ *
-+ * Return: 1 failed to encrypt the range
-+ *         0 succesfully encrypted memory region
-+ */
-+static inline int host_trust_limitation_encrypt(MachineState *machine,
-+                                                uint8_t *ptr, uint64_t len)
-+{
-+    HostTrustLimitation *htl = machine->htl;
-+
-+    if (htl) {
-+        HostTrustLimitationClass *htlc = HOST_TRUST_LIMITATION_GET_CLASS(htl);
-+
-+        if (htlc->encrypt_data) {
-+            return htlc->encrypt_data(htl, ptr, len);
-+        }
-+    }
-+
-+    return 1;
-+}
-+
- #endif /* QEMU_HOST_TRUST_LIMITATION_H */
-diff --git a/include/sysemu/kvm.h b/include/sysemu/kvm.h
-index b4174d941c..c7b9739609 100644
---- a/include/sysemu/kvm.h
-+++ b/include/sysemu/kvm.h
-@@ -231,23 +231,6 @@ int kvm_destroy_vcpu(CPUState *cpu);
-  */
- bool kvm_arm_supports_user_irq(void);
- 
--/**
-- * kvm_memcrypt_enabled - return boolean indicating whether memory encryption
-- *                        is enabled
-- * Returns: 1 memory encryption is enabled
-- *          0 memory encryption is disabled
-- */
--bool kvm_memcrypt_enabled(void);
--
--/**
-- * kvm_memcrypt_encrypt_data: encrypt the memory range
-- *
-- * Return: 1 failed to encrypt the range
-- *         0 succesfully encrypted memory region
-- */
--int kvm_memcrypt_encrypt_data(uint8_t *ptr, uint64_t len);
--
--
- #ifdef NEED_CPU_H
- #include "cpu.h"
- 
--- 
-2.26.2
-
+A number of hardware platforms are implementing mechanisms whereby the=0D
+hypervisor does not have unfettered access to guest memory, in order=0D
+to mitigate the security impact of a compromised hypervisor.=0D
+=0D
+AMD's SEV implements this with in-cpu memory encryption, and Intel has=0D
+its own memory encryption mechanism.  POWER has an upcoming mechanism=0D
+to accomplish this in a different way, using a new memory protection=0D
+level plus a small trusted ultravisor.  s390 also has a protected=0D
+execution environment.=0D
+=0D
+The current code (committed or draft) for these features has each=0D
+platform's version configured entirely differently.  That doesn't seem=0D
+ideal for users, or particularly for management layers.=0D
+=0D
+AMD SEV introduces a notionally generic machine option=0D
+"machine-encryption", but it doesn't actually cover any cases other=0D
+than SEV.=0D
+=0D
+This series is a proposal to at least partially unify configuration=0D
+for these mechanisms, by renaming and generalizing AMD's=0D
+"memory-encryption" property.  It is replaced by a=0D
+"host-trust-limitation" property pointing to a platform specific=0D
+object which configures and manages the specific details.=0D
+=0D
+Please apply.=0D
+=0D
+Changes since v3:=0D
+ * Rebased=0D
+ * Added first cut at handling of s390 protected virtualization=0D
+Changes since RFCv2:=0D
+ * Rebased=0D
+ * Removed preliminary SEV cleanups (they've been merged)=0D
+ * Changed name to "host trust limitation"=0D
+ * Added migration blocker to the PEF code (based on SEV's version)=0D
+Changes since RFCv1:=0D
+ * Rebased=0D
+ * Fixed some errors pointed out by Dave Gilbert=0D
+=0D
+David Gibson (10):=0D
+  host trust limitation: Introduce new host trust limitation interface=0D
+  host trust limitation: Handle memory encryption via interface=0D
+  host trust limitation: Move side effect out of=0D
+    machine_set_memory_encryption()=0D
+  host trust limitation: Rework the "memory-encryption" property=0D
+  host trust limitation: Decouple kvm_memcrypt_*() helpers from KVM=0D
+  host trust limitation: Add Error ** to HostTrustLimitation::kvm_init=0D
+  spapr: Add PEF based host trust limitation=0D
+  spapr: PEF: block migration=0D
+  host trust limitation: Alter virtio default properties for protected=0D
+    guests=0D
+  s390: Recognize host-trust-limitation option=0D
+=0D
+ accel/kvm/kvm-all.c                  |  40 ++------=0D
+ accel/kvm/sev-stub.c                 |   7 +-=0D
+ accel/stubs/kvm-stub.c               |  10 --=0D
+ backends/Makefile.objs               |   2 +=0D
+ backends/host-trust-limitation.c     |  29 ++++++=0D
+ hw/core/machine.c                    |  61 +++++++++--=0D
+ hw/i386/pc_sysfw.c                   |   6 +-=0D
+ hw/s390x/pv.c                        |  61 +++++++++++=0D
+ include/exec/host-trust-limitation.h |  72 +++++++++++++=0D
+ include/hw/boards.h                  |   2 +-=0D
+ include/qemu/typedefs.h              |   1 +=0D
+ include/sysemu/kvm.h                 |  17 ---=0D
+ include/sysemu/sev.h                 |   4 +-=0D
+ target/i386/sev.c                    | 148 ++++++++++++---------------=0D
+ target/ppc/Makefile.objs             |   2 +-=0D
+ target/ppc/pef.c                     |  89 ++++++++++++++++=0D
+ 16 files changed, 387 insertions(+), 164 deletions(-)=0D
+ create mode 100644 backends/host-trust-limitation.c=0D
+ create mode 100644 include/exec/host-trust-limitation.h=0D
+ create mode 100644 target/ppc/pef.c=0D
+=0D
+-- =0D
+2.26.2=0D
+=0D
 
