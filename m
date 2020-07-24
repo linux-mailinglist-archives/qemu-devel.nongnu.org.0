@@ -2,75 +2,74 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id F357F22CB91
-	for <lists+qemu-devel@lfdr.de>; Fri, 24 Jul 2020 18:59:31 +0200 (CEST)
-Received: from localhost ([::1]:34452 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4BF2222CB9A
+	for <lists+qemu-devel@lfdr.de>; Fri, 24 Jul 2020 19:02:19 +0200 (CEST)
+Received: from localhost ([::1]:42218 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jz12h-0006Gl-0o
-	for lists+qemu-devel@lfdr.de; Fri, 24 Jul 2020 12:59:31 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:60440)
+	id 1jz15N-0001D2-Sg
+	for lists+qemu-devel@lfdr.de; Fri, 24 Jul 2020 13:02:17 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:60800)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1jz11o-0005Sz-8b
- for qemu-devel@nongnu.org; Fri, 24 Jul 2020 12:58:36 -0400
-Received: from us-smtp-2.mimecast.com ([205.139.110.61]:52261
- helo=us-smtp-delivery-1.mimecast.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1jz11l-0004za-OG
- for qemu-devel@nongnu.org; Fri, 24 Jul 2020 12:58:35 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1595609912;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=14b4Siv7jvAtJ+zVkMip/Yz5y5dPJosY7/rJYacl9KY=;
- b=fPXp5dCwLsL8Jmm/7/gOiGrSNM8kbm1XEzJLadHCe7IiugqjOhk3qA2CTgPcoCGy8yyCcA
- bppwQDINgRs6tbYPul08L838qFXs/jHAgDy0aZBXQQaIt2redwhQoMuep4IGNQFzcLDweU
- I0uLlLtJeACsnuas2cCilr7TDt6FzDI=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-230-nGavwGWKPMqiui_mv4IsJg-1; Fri, 24 Jul 2020 12:58:30 -0400
-X-MC-Unique: nGavwGWKPMqiui_mv4IsJg-1
-Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
- [10.5.11.13])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (Exim 4.90_1) (envelope-from <r.bolshakov@yadro.com>)
+ id 1jz13M-0007vs-Dr
+ for qemu-devel@nongnu.org; Fri, 24 Jul 2020 13:00:12 -0400
+Received: from mta-02.yadro.com ([89.207.88.252]:48224 helo=mta-01.yadro.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <r.bolshakov@yadro.com>)
+ id 1jz13J-0005Dr-TR
+ for qemu-devel@nongnu.org; Fri, 24 Jul 2020 13:00:11 -0400
+Received: from localhost (unknown [127.0.0.1])
+ by mta-01.yadro.com (Postfix) with ESMTP id C22CB4C8B7;
+ Fri, 24 Jul 2020 17:00:05 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=yadro.com; h=
+ in-reply-to:content-transfer-encoding:content-disposition
+ :content-type:content-type:mime-version:references:message-id
+ :subject:subject:from:from:date:date:received:received:received;
+ s=mta-01; t=1595610003; x=1597424404; bh=loLDjDc7xyR0xsn1AXmD2h
+ v8VAo/Q+F3n/iRMw33/2E=; b=JHgq/5Kn9unAloxzOfPEJLXwB7WQIf3VNArJ9K
+ uKkWGOcyoqorByTTggHakVSYP4YNKKxZnRds7jVGLYleqQ/WVXS0MCa832489Yzo
+ 7t8RnvfHiB2hRGYTNxYwB1Hf9gNxUu6uMINTFswVn59qZep37xuHbluHOoErO1/W
+ dY1c8=
+X-Virus-Scanned: amavisd-new at yadro.com
+Received: from mta-01.yadro.com ([127.0.0.1])
+ by localhost (mta-01.yadro.com [127.0.0.1]) (amavisd-new, port 10024)
+ with ESMTP id 9l-pIoO2RPIU; Fri, 24 Jul 2020 20:00:03 +0300 (MSK)
+Received: from T-EXCH-02.corp.yadro.com (t-exch-02.corp.yadro.com
+ [172.17.10.102])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES256-SHA384 (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 33A0EC7465
- for <qemu-devel@nongnu.org>; Fri, 24 Jul 2020 16:58:29 +0000 (UTC)
-Received: from ibm-p8-OVS-01-fsp.mgmt.pnr.lab.eng.rdu2.redhat.com
- (ovpn-120-206.rdu2.redhat.com [10.10.120.206])
- by smtp.corp.redhat.com (Postfix) with ESMTP id E993E74F64;
- Fri, 24 Jul 2020 16:58:28 +0000 (UTC)
-Subject: Re: [PATCH 3/3] scripts/qmp/qom-fuse: Fix getattr(), read() for files
- in /
-To: Markus Armbruster <armbru@redhat.com>, qemu-devel@nongnu.org
-References: <20200723142738.1868568-1-armbru@redhat.com>
- <20200723142738.1868568-4-armbru@redhat.com>
-From: John Snow <jsnow@redhat.com>
-Message-ID: <d5ed4567-a7bd-c879-c240-787a4ddd814f@redhat.com>
-Date: Fri, 24 Jul 2020 12:58:28 -0400
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.10.0
+ by mta-01.yadro.com (Postfix) with ESMTPS id D7C354C8A9;
+ Fri, 24 Jul 2020 20:00:02 +0300 (MSK)
+Received: from localhost (172.17.204.212) by T-EXCH-02.corp.yadro.com
+ (172.17.10.102) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA384_P384) id 15.1.669.32; Fri, 24
+ Jul 2020 20:00:02 +0300
+Date: Fri, 24 Jul 2020 20:00:02 +0300
+From: Roman Bolshakov <r.bolshakov@yadro.com>
+To: <qemu-devel@nongnu.org>
+Subject: Re: [PATCH v2 3/4] build: Don't make object files for dtrace on macOS
+Message-ID: <20200724170002.GA34804@SPB-NB-133.local>
+References: <20200717093517.73397-1-r.bolshakov@yadro.com>
+ <20200717093517.73397-4-r.bolshakov@yadro.com>
 MIME-Version: 1.0
-In-Reply-To: <20200723142738.1868568-4-armbru@redhat.com>
-Content-Language: en-US
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=205.139.110.61; envelope-from=jsnow@redhat.com;
- helo=us-smtp-delivery-1.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/07/24 06:44:00
-X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
-X-Spam_score_int: -40
-X-Spam_score: -4.1
-X-Spam_bar: ----
-X-Spam_report: (-4.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-1, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Content-Type: text/plain; charset="iso-8859-1"
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <20200717093517.73397-4-r.bolshakov@yadro.com>
+X-Originating-IP: [172.17.204.212]
+X-ClientProxiedBy: T-EXCH-01.corp.yadro.com (172.17.10.101) To
+ T-EXCH-02.corp.yadro.com (172.17.10.102)
+Received-SPF: pass client-ip=89.207.88.252; envelope-from=r.bolshakov@yadro.com;
+ helo=mta-01.yadro.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/07/24 13:00:05
+X-ACL-Warn: Detected OS   = Linux 3.11 and newer
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001, URIBL_BLOCKED=0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -83,60 +82,52 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Cc: Daniel =?iso-8859-1?Q?P=2E_Berrang=E9?= <berrange@redhat.com>,
+ Cameron Esfahani <dirty@apple.com>, Stefan Hajnoczi <stefanha@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 7/23/20 10:27 AM, Markus Armbruster wrote:
-> path, prop = "type".rsplit('/', 1) sets path to "", which doesn't
-> work.  Correct to "/".
+On Fri, Jul 17, 2020 at 12:35:16PM +0300, Roman Bolshakov wrote:
+> dtrace on macOS uses unresolved symbols with a special prefix to define
+> probes [1], only headers should be generated for USDT (dtrace(1)). But
+> it doesn't support backwards compatible no-op -G flag [2] and implicit
+> build rules fail.
 > 
-
-BOTD. If it works for you, that's good news.
-
-Reviewed-by: John Snow <jsnow@redhat.com>
-
-> Signed-off-by: Markus Armbruster <armbru@redhat.com>
+> 1. https://markmail.org/message/6grq2ygr5nwdwsnb
+> 2. https://markmail.org/message/5xrxt2w5m42nojkz
+> 
+> Reviewed-by: Daniel P. Berrangé <berrange@redhat.com>
+> Cc: Cameron Esfahani <dirty@apple.com>
+> Signed-off-by: Roman Bolshakov <r.bolshakov@yadro.com>
 > ---
->   scripts/qmp/qom-fuse | 10 ++++++++--
->   1 file changed, 8 insertions(+), 2 deletions(-)
+>  Makefile.objs | 2 ++
+>  1 file changed, 2 insertions(+)
 > 
-> diff --git a/scripts/qmp/qom-fuse b/scripts/qmp/qom-fuse
-> index 405e6ebd67..7c7cff8edf 100755
-> --- a/scripts/qmp/qom-fuse
-> +++ b/scripts/qmp/qom-fuse
-> @@ -45,8 +45,10 @@ class QOMFS(Operations):
->               return False
->   
->       def is_property(self, path):
-> +        path, prop = path.rsplit('/', 1)
-> +        if path == '':
-> +            path = '/'
->           try:
-> -            path, prop = path.rsplit('/', 1)
->               for item in self.qmp.command('qom-list', path=path):
->                   if item['name'] == prop:
->                       return True
-> @@ -55,8 +57,10 @@ class QOMFS(Operations):
->               return False
->   
->       def is_link(self, path):
-> +        path, prop = path.rsplit('/', 1)
-> +        if path == '':
-> +            path = '/'
->           try:
-> -            path, prop = path.rsplit('/', 1)
->               for item in self.qmp.command('qom-list', path=path):
->                   if item['name'] == prop:
->                       if item['type'].startswith('link<'):
-> @@ -71,6 +75,8 @@ class QOMFS(Operations):
->               return -ENOENT
->   
->           path, prop = path.rsplit('/', 1)
-> +        if path == '':
-> +            path = '/'
->           try:
->               data = self.qmp.command('qom-get', path=path, property=prop)
->               data += '\n' # make values shell friendly
+> diff --git a/Makefile.objs b/Makefile.objs
+> index d22b3b45d7..982f15ba30 100644
+> --- a/Makefile.objs
+> +++ b/Makefile.objs
+> @@ -211,5 +211,7 @@ trace-events-files = $(SRC_PATH)/trace-events $(trace-events-subdirs:%=$(SRC_PAT
+>  trace-obj-y = trace-root.o
+>  trace-obj-y += $(trace-events-subdirs:%=%/trace.o)
+>  trace-obj-$(CONFIG_TRACE_UST) += trace-ust-all.o
+> +ifneq ($(CONFIG_DARWIN),y)
+>  trace-obj-$(CONFIG_TRACE_DTRACE) += trace-dtrace-root.o
+>  trace-obj-$(CONFIG_TRACE_DTRACE) += $(trace-events-subdirs:%=%/trace-dtrace.o)
+> +endif
+> -- 
+> 2.26.1
 > 
 
+An article about DTrace [1] mentions that FreeBSD also doesn't need that:
+"On FreeBSD/Mac OS X, you do not have to generate a separate probe
+object file for linking. This makes the compilation process much more
+straightforward [...]"
+
+I don't know for sure but perhaps "-G" makes dummy object files there.
+
+1. https://www.ibm.com/developerworks/aix/library/au-dtraceprobes.html
+
+Thanks,
+Roman
 
