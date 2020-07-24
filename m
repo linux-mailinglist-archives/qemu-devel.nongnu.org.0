@@ -2,75 +2,82 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 76C8322CC3F
-	for <lists+qemu-devel@lfdr.de>; Fri, 24 Jul 2020 19:36:54 +0200 (CEST)
-Received: from localhost ([::1]:52100 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6CF5722CCAB
+	for <lists+qemu-devel@lfdr.de>; Fri, 24 Jul 2020 19:56:07 +0200 (CEST)
+Received: from localhost ([::1]:41938 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jz1cr-0002wp-0J
-	for lists+qemu-devel@lfdr.de; Fri, 24 Jul 2020 13:36:53 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:42094)
+	id 1jz1vR-0003ix-U4
+	for lists+qemu-devel@lfdr.de; Fri, 24 Jul 2020 13:56:05 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:46450)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <eblake@redhat.com>) id 1jz1c6-0002MS-SB
- for qemu-devel@nongnu.org; Fri, 24 Jul 2020 13:36:06 -0400
-Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:38553
- helo=us-smtp-1.mimecast.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <eblake@redhat.com>) id 1jz1c3-0002OA-9c
- for qemu-devel@nongnu.org; Fri, 24 Jul 2020 13:36:06 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1595612162;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=Czai3v7jPzWBG+VZzHHjo8h+fIpnUXmPCUN8ySMLsbA=;
- b=D1/cNL36EYYPQP0taprBxmFuDipsxnxhv2ysEpS0CzeUoS0AzXZPwEAP77t60rU7yJ1TEa
- pgnph37a10rxCXs2J7rc9iF6CpAziENfuhj96nKkzyMuo8Rrk3XwlVbkMm/lzWrch128ie
- Lv7gnSA9AMnV810u6RIwcdpwTFsQuJY=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-462-ABtamjNSOWCf3V-J-coRrw-1; Fri, 24 Jul 2020 13:35:55 -0400
-X-MC-Unique: ABtamjNSOWCf3V-J-coRrw-1
-Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
- [10.5.11.11])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 9C74F8017FB;
- Fri, 24 Jul 2020 17:35:54 +0000 (UTC)
-Received: from [10.3.112.130] (ovpn-112-130.phx2.redhat.com [10.3.112.130])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 95B5C712CC;
- Fri, 24 Jul 2020 17:35:50 +0000 (UTC)
-Subject: Re: [PATCH v3 15/21] migration/block-dirty-bitmap: relax error
- handling in incoming part
-To: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>,
- qemu-block@nongnu.org
-References: <20200724084327.15665-1-vsementsov@virtuozzo.com>
- <20200724084327.15665-16-vsementsov@virtuozzo.com>
-From: Eric Blake <eblake@redhat.com>
-Organization: Red Hat, Inc.
-Message-ID: <35252620-8a4e-9440-f647-6b15d697365f@redhat.com>
-Date: Fri, 24 Jul 2020 12:35:49 -0500
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1jz1uC-0002uS-Oj
+ for qemu-devel@nongnu.org; Fri, 24 Jul 2020 13:54:48 -0400
+Received: from mail-pf1-x444.google.com ([2607:f8b0:4864:20::444]:38138)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1jz1u9-0005BX-G1
+ for qemu-devel@nongnu.org; Fri, 24 Jul 2020 13:54:48 -0400
+Received: by mail-pf1-x444.google.com with SMTP id j20so5613129pfe.5
+ for <qemu-devel@nongnu.org>; Fri, 24 Jul 2020 10:54:44 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=subject:to:references:from:message-id:date:user-agent:mime-version
+ :in-reply-to:content-language:content-transfer-encoding;
+ bh=JGxFbYG2mc4s3nmcf5IpceT25AqnfsUi/Wa0B+Qh9BI=;
+ b=VzUf4KjmG6azbJ7us/JKYTrbYhhk6tVOoxs8KXVND0wzIGGoUsISv6Rp0JNRDBXe8K
+ 5MPe1TATx5FFPAP9CQybZagx+OsLawESfWhfYDpkY7AzTXTBaAF3Vm+soVdMqTuy7Lhp
+ zCUnVh7hy0NjnRNaewatV+QFs5QHxQlymAFJQe4CPErSHFK0njhmQPS/vArzyJDQAqVk
+ 6sG0WCi66wPcsv8L2LNZRhrGAhmE66kGR8c9gjwlKJMYTvoTtRq+2L8KIrO75bBPkWwL
+ W6s9SyFCSHQTT4kLSom9WnuYqwnKw6e41ynO/Kf87RDjxNSW5tYvaVehhwGYlIEfu+l0
+ LsZQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:subject:to:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=JGxFbYG2mc4s3nmcf5IpceT25AqnfsUi/Wa0B+Qh9BI=;
+ b=AqwxDGBNj3Q1B+j2kaA71z4DPcF/3IcPwLYsWA+663rxNa3jt3Ra0S5ji1vaBRR98l
+ nNVt9bWwj6B/+O02hrlKI+QvpefIkfNaKOLeLG2qCkEP/LRHgN+/pacLu0HO+a3soarZ
+ HYJz0KHjXLYwwNHhi5nHaytYynbRKGX8kaW+DWuc0bPchccZqhH8NzOWEvaODuys3m0f
+ Txh/sXAiFzJoRqu4wKKb/mUVY/AGT5xTb5LYExvoJmnUUhxgTOhOMdVmvXhPpONf8oRg
+ ho0oO5MJwrSTQOxZfdomsIEWY+CXzWlBaJAPKf77W8j467OTFnCcx/plxvdXM6EN/yTs
+ i4AQ==
+X-Gm-Message-State: AOAM531ySxzIENjdnfl5rriiLxygIR6LO41o4dw46IWkedWdjJeEUKdg
+ JxkZOE584i2ak/cm62QqEH9Qcw==
+X-Google-Smtp-Source: ABdhPJylGlMRGNBIgHmyZg4llzzvVy6kuPzFWO/cbUUUz8J/jK3/LyrhXZzwOoqsSf584bRt1nRMsw==
+X-Received: by 2002:a65:6883:: with SMTP id e3mr9649706pgt.5.1595613283489;
+ Fri, 24 Jul 2020 10:54:43 -0700 (PDT)
+Received: from [192.168.1.11] (216-160-65-90.tukw.qwest.net. [216.160.65.90])
+ by smtp.gmail.com with ESMTPSA id
+ w18sm7127415pfi.89.2020.07.24.10.54.42
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Fri, 24 Jul 2020 10:54:42 -0700 (PDT)
+Subject: Re: [PATCH v5 1/6] Update PowerPC AT_HWCAP2 definition
+To: Lijun Pan <ljp@linux.ibm.com>, qemu-ppc@nongnu.org,
+ qemu-devel@nongnu.org, david@gibson.dropbear.id.au
+References: <20200724045845.89976-1-ljp@linux.ibm.com>
+ <20200724045845.89976-2-ljp@linux.ibm.com>
+From: Richard Henderson <richard.henderson@linaro.org>
+Message-ID: <824a0d97-8235-b73e-238d-27a6f259bb9d@linaro.org>
+Date: Fri, 24 Jul 2020 10:54:40 -0700
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
  Thunderbird/68.10.0
 MIME-Version: 1.0
-In-Reply-To: <20200724084327.15665-16-vsementsov@virtuozzo.com>
+In-Reply-To: <20200724045845.89976-2-ljp@linux.ibm.com>
+Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8; format=flowed
 Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=205.139.110.120; envelope-from=eblake@redhat.com;
- helo=us-smtp-1.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/07/24 08:23:04
-X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
-X-Spam_score_int: -40
-X-Spam_score: -4.1
-X-Spam_bar: ----
-X-Spam_report: (-4.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-1, SPF_HELO_NONE=0.001,
+Received-SPF: pass client-ip=2607:f8b0:4864:20::444;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pf1-x444.google.com
+X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
+ That's all we know.
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -84,64 +91,19 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: kwolf@redhat.com, fam@euphon.net, quintela@redhat.com,
- qemu-devel@nongnu.org, dgilbert@redhat.com, stefanha@redhat.com,
- andrey.shinkevich@virtuozzo.com, den@openvz.org, mreitz@redhat.com,
- jsnow@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 7/24/20 3:43 AM, Vladimir Sementsov-Ogievskiy wrote:
-> Bitmaps data is not critical, and we should not fail the migration (or
-> use postcopy recovering) because of dirty-bitmaps migration failure.
-> Instead we should just lose unfinished bitmaps.
+On 7/23/20 9:58 PM, Lijun Pan wrote:
+> Add PPC2_FEATURE2_ARCH_3_10 to the PowerPC AT_HWCAP2 definitions.
 > 
-> Still we have to report io stream violation errors, as they affect the
-> whole migration stream.
-> 
-> Signed-off-by: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
+> Signed-off-by: Lijun Pan <ljp@linux.ibm.com>
 > ---
->   migration/block-dirty-bitmap.c | 152 +++++++++++++++++++++++++--------
->   1 file changed, 117 insertions(+), 35 deletions(-)
-> 
 
-> @@ -650,15 +695,32 @@ static int dirty_bitmap_load_bits(QEMUFile *f, DBMLoadState *s)
->   
->       if (s->flags & DIRTY_BITMAP_MIG_FLAG_ZEROES) {
->           trace_dirty_bitmap_load_bits_zeroes();
-> -        bdrv_dirty_bitmap_deserialize_zeroes(s->bitmap, first_byte, nr_bytes,
-> -                                             false);
-> +        if (!s->cancelled) {
-> +            bdrv_dirty_bitmap_deserialize_zeroes(s->bitmap, first_byte,
-> +                                                 nr_bytes, false);
-> +        }
->       } else {
->           size_t ret;
->           uint8_t *buf;
->           uint64_t buf_size = qemu_get_be64(f);
+Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
 
-Pre-existing, but if I understand, we are reading a value from the 
-migration stream...
+We should add the rest of the bits as well at some point.
 
-> -        uint64_t needed_size =
-> -            bdrv_dirty_bitmap_serialization_size(s->bitmap,
-> -                                                 first_byte, nr_bytes);
-> +        uint64_t needed_size;
-> +
-> +        buf = g_malloc(buf_size);
-> +        ret = qemu_get_buffer(f, buf, buf_size);
 
-...and using it to malloc memory.  Is that a potential risk of a 
-malicious stream causing us to allocate too much memory in relation to 
-the guest's normal size?  If so, fixing that should be done separately.
-
-I'm not a migration expert, but the patch looks reasonable to me.
-
-Reviewed-by: Eric Blake <eblake@redhat.com>
-
--- 
-Eric Blake, Principal Software Engineer
-Red Hat, Inc.           +1-919-301-3226
-Virtualization:  qemu.org | libvirt.org
-
+r~
 
