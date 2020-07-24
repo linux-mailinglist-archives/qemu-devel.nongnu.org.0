@@ -2,51 +2,51 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D206F22BD6F
-	for <lists+qemu-devel@lfdr.de>; Fri, 24 Jul 2020 07:25:02 +0200 (CEST)
-Received: from localhost ([::1]:46124 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7B6A522BD74
+	for <lists+qemu-devel@lfdr.de>; Fri, 24 Jul 2020 07:26:54 +0200 (CEST)
+Received: from localhost ([::1]:52442 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jyqCb-0003Df-SD
-	for lists+qemu-devel@lfdr.de; Fri, 24 Jul 2020 01:25:01 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:51720)
+	id 1jyqEP-0005vU-H4
+	for lists+qemu-devel@lfdr.de; Fri, 24 Jul 2020 01:26:53 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:51774)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1jyqAr-000114-CV
- for qemu-devel@nongnu.org; Fri, 24 Jul 2020 01:23:13 -0400
-Received: from us-smtp-2.mimecast.com ([207.211.31.81]:58658
+ (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1jyqAt-00015s-Gt
+ for qemu-devel@nongnu.org; Fri, 24 Jul 2020 01:23:15 -0400
+Received: from us-smtp-1.mimecast.com ([205.139.110.61]:23542
  helo=us-smtp-delivery-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1jyqAn-0007Ro-99
- for qemu-devel@nongnu.org; Fri, 24 Jul 2020 01:23:13 -0400
+ (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1jyqAq-0007SZ-8L
+ for qemu-devel@nongnu.org; Fri, 24 Jul 2020 01:23:15 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1595568188;
+ s=mimecast20190719; t=1595568191;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=1PIIZ0rWR7fbA3h+dJxS8bPAnBQjFmR4OXt+O8WSIe4=;
- b=cPxTE+vnoOwmG0gdVqFKQTC6ZGm0JhvNqe4jyK194FKbrJWLgnMLwfWx/kV2/1KNCotrly
- 3v4IqlCK+8IIN3cW2/CTYn0lT9muEFU3SJ9/+2jzFBMLXSfcTp3MnX8Q/eVbrT61izhMf/
- 9KfM808qjvSy599Hu3j2Bu5hgISm0uY=
+ bh=5Co9wodFwNQgOYcGNEqwkwsaqy/+vDOfCIdf+CIoN+U=;
+ b=ixLGYziUpodw5w9IXI8jY/ZSsHdAfMA+D2dt45RznOGn25Um7yd7tO1MH+ZJTxSHXJvXiZ
+ 1lJln4IHsFTGF9ZoJk4lvfzZbNNTXX6bVmU4o16LbyWvhBHY3kVcMohrFXtxHurAx18lsX
+ z2JPhba2BfXXY8JOPWJGffp78Vx9Eh0=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-231-8ZudlPRyPCafl_ZxXyD4gQ-1; Fri, 24 Jul 2020 01:23:06 -0400
-X-MC-Unique: 8ZudlPRyPCafl_ZxXyD4gQ-1
+ us-mta-274-DRW_1XZvPIKMJaWiS0yUcQ-1; Fri, 24 Jul 2020 01:23:07 -0400
+X-MC-Unique: DRW_1XZvPIKMJaWiS0yUcQ-1
 Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
  [10.5.11.11])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 9D4B980183C;
- Fri, 24 Jul 2020 05:23:05 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id BD6A6189CEE0;
+ Fri, 24 Jul 2020 05:23:06 +0000 (UTC)
 Received: from ibm-p8-OVS-01-fsp.mgmt.pnr.lab.eng.rdu2.redhat.com
  (ovpn-120-206.rdu2.redhat.com [10.10.120.206])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 816B17F4D6;
- Fri, 24 Jul 2020 05:23:04 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id E0F4D7AC80;
+ Fri, 24 Jul 2020 05:23:05 +0000 (UTC)
 From: John Snow <jsnow@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH 4/7] ide: reorder set/get sector functions
-Date: Fri, 24 Jul 2020 01:22:57 -0400
-Message-Id: <20200724052300.1163728-5-jsnow@redhat.com>
+Subject: [PATCH 5/7] ide: remove magic constants from the device register
+Date: Fri, 24 Jul 2020 01:22:58 -0400
+Message-Id: <20200724052300.1163728-6-jsnow@redhat.com>
 In-Reply-To: <20200724052300.1163728-1-jsnow@redhat.com>
 References: <20200724052300.1163728-1-jsnow@redhat.com>
 MIME-Version: 1.0
@@ -55,17 +55,17 @@ X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=207.211.31.81; envelope-from=jsnow@redhat.com;
+Received-SPF: pass client-ip=205.139.110.61; envelope-from=jsnow@redhat.com;
  helo=us-smtp-delivery-1.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/07/24 00:00:27
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/07/24 01:23:06
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
-X-Spam_score_int: -30
-X-Spam_score: -3.1
-X-Spam_bar: ---
-X-Spam_report: (-3.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1,
+X-Spam_score_int: -40
+X-Spam_score: -4.1
+X-Spam_bar: ----
+X-Spam_report: (-4.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H3=-0.01, RCVD_IN_MSPIKE_WL=-0.01,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-1, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -83,76 +83,136 @@ Cc: kwolf@redhat.com, Alexander Bulekov <alxndr@bu.edu>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Reorder these just a pinch to make them more obvious at a glance what
-the addressing mode is.
+(In QEMU, we call this the "select" register.)
+
+My memory isn't good enough to memorize what these magic runes
+do. Label them to prevent mixups from happening in the future.
+
+Side note: I assume it's safe to always set 0xA0 even though ATA2 claims
+these bits are reserved, because ATA3 immediately reinstated that these
+bits should be always on. ATA4 and subsequent specs only claim that the
+fields are obsolete, so I assume it's safe to leave these set and that
+it should work with the widest array of guests.
 
 Signed-off-by: John Snow <jsnow@redhat.com>
 ---
- hw/ide/core.c | 26 +++++++++++++++-----------
- 1 file changed, 15 insertions(+), 11 deletions(-)
+ include/hw/ide/internal.h | 11 +++++++++++
+ hw/ide/core.c             | 26 ++++++++++++++------------
+ 2 files changed, 25 insertions(+), 12 deletions(-)
 
+diff --git a/include/hw/ide/internal.h b/include/hw/ide/internal.h
+index 16d806e0cf..d5a6ba1056 100644
+--- a/include/hw/ide/internal.h
++++ b/include/hw/ide/internal.h
+@@ -29,6 +29,17 @@ typedef struct IDEDMAOps IDEDMAOps;
+ 
+ #define MAX_IDE_DEVS 2
+ 
++/* Device/Head ("select") Register */
++#define ATA_DEV_SELECT          0x10
++/* ATA1,3: Defined as '1'.
++ * ATA2:   Reserved.
++ * ATA3-7: obsolete. */
++#define ATA_DEV_ALWAYS_ON       0xA0
++#define ATA_DEV_LBA             0x40
++#define ATA_DEV_LBA_MSB         0x0F  /* LBA 24:27 */
++#define ATA_DEV_HS              0x0F  /* HS 3:0 */
++
++
+ /* Bits of HD_STATUS */
+ #define ERR_STAT		0x01
+ #define INDEX_STAT		0x02
 diff --git a/hw/ide/core.c b/hw/ide/core.c
-index a880b91b47..f35864070b 100644
+index f35864070b..5f4f004312 100644
 --- a/hw/ide/core.c
 +++ b/hw/ide/core.c
-@@ -587,21 +587,23 @@ int64_t ide_get_sector(IDEState *s)
+@@ -367,7 +367,7 @@ fill_buffer:
+ 
+ static void ide_set_signature(IDEState *s)
+ {
+-    s->select &= 0xf0; /* clear head */
++    s->select &= ~(ATA_DEV_HS); /* clear head */
+     /* put signature */
+     s->nsector = 1;
+     s->sector = 1;
+@@ -586,7 +586,7 @@ void ide_transfer_stop(IDEState *s)
+ int64_t ide_get_sector(IDEState *s)
  {
      int64_t sector_num;
-     if (s->select & 0x40) {
--        /* lba */
--        if (!s->lba48) {
--            sector_num = ((s->select & 0x0f) << 24) | (s->hcyl << 16) |
--                (s->lcyl << 8) | s->sector;
--        } else {
-+        if (s->lba48) {
+-    if (s->select & 0x40) {
++    if (s->select & (ATA_DEV_LBA)) {
+         if (s->lba48) {
              sector_num = ((int64_t)s->hob_hcyl << 40) |
                  ((int64_t) s->hob_lcyl << 32) |
-                 ((int64_t) s->hob_sector << 24) |
-                 ((int64_t) s->hcyl << 16) |
+@@ -595,13 +595,13 @@ int64_t ide_get_sector(IDEState *s)
                  ((int64_t) s->lcyl << 8) | s->sector;
-+        } else {
-+            /* LBA28 */
-+            sector_num = ((s->select & 0x0f) << 24) | (s->hcyl << 16) |
-+                (s->lcyl << 8) | s->sector;
+         } else {
+             /* LBA28 */
+-            sector_num = ((s->select & 0x0f) << 24) | (s->hcyl << 16) |
+-                (s->lcyl << 8) | s->sector;
++            sector_num = ((s->select & (ATA_DEV_LBA_MSB)) << 24) |
++                (s->hcyl << 16) | (s->lcyl << 8) | s->sector;
          }
      } else {
-+        /* CHS */
+         /* CHS */
          sector_num = ((s->hcyl << 8) | s->lcyl) * s->heads * s->sectors +
-             (s->select & 0x0f) * s->sectors + (s->sector - 1);
+-            (s->select & 0x0f) * s->sectors + (s->sector - 1);
++            (s->select & (ATA_DEV_HS)) * s->sectors + (s->sector - 1);
      }
-+
-     return sector_num;
- }
  
-@@ -609,20 +611,22 @@ void ide_set_sector(IDEState *s, int64_t sector_num)
+     return sector_num;
+@@ -610,7 +610,7 @@ int64_t ide_get_sector(IDEState *s)
+ void ide_set_sector(IDEState *s, int64_t sector_num)
  {
      unsigned int cyl, r;
-     if (s->select & 0x40) {
--        if (!s->lba48) {
--            s->select = (s->select & 0xf0) | (sector_num >> 24);
--            s->hcyl = (sector_num >> 16);
--            s->lcyl = (sector_num >> 8);
--            s->sector = (sector_num);
--        } else {
-+        if (s->lba48) {
+-    if (s->select & 0x40) {
++    if (s->select & (ATA_DEV_LBA)) {
+         if (s->lba48) {
              s->sector = sector_num;
              s->lcyl = sector_num >> 8;
-             s->hcyl = sector_num >> 16;
-             s->hob_sector = sector_num >> 24;
-             s->hob_lcyl = sector_num >> 32;
+@@ -620,7 +620,8 @@ void ide_set_sector(IDEState *s, int64_t sector_num)
              s->hob_hcyl = sector_num >> 40;
-+        } else {
-+            /* LBA28 */
-+            s->select = (s->select & 0xf0) | (sector_num >> 24);
-+            s->hcyl = (sector_num >> 16);
-+            s->lcyl = (sector_num >> 8);
-+            s->sector = (sector_num);
-         }
-     } else {
-+        /* CHS */
-         cyl = sector_num / (s->heads * s->sectors);
+         } else {
+             /* LBA28 */
+-            s->select = (s->select & 0xf0) | (sector_num >> 24);
++            s->select = (s->select & ~(ATA_DEV_LBA_MSB)) |
++                ((sector_num >> 24) & (ATA_DEV_LBA_MSB));
+             s->hcyl = (sector_num >> 16);
+             s->lcyl = (sector_num >> 8);
+             s->sector = (sector_num);
+@@ -631,7 +632,8 @@ void ide_set_sector(IDEState *s, int64_t sector_num)
          r = sector_num % (s->heads * s->sectors);
          s->hcyl = cyl >> 8;
+         s->lcyl = cyl;
+-        s->select = (s->select & 0xf0) | ((r / s->sectors) & 0x0f);
++        s->select = (s->select & ~(ATA_DEV_HS)) |
++            ((r / s->sectors) & (ATA_DEV_HS));
+         s->sector = (r % s->sectors) + 1;
+     }
+ }
+@@ -1302,10 +1304,10 @@ void ide_ioport_write(void *opaque, uint32_t addr, uint32_t val)
+         break;
+     case ATA_IOPORT_WR_DEVICE_HEAD:
+         ide_clear_hob(bus);
+-        bus->ifs[0].select = val | 0xa0;
+-        bus->ifs[1].select = val | 0xa0;
++        bus->ifs[0].select = val | (ATA_DEV_ALWAYS_ON);
++        bus->ifs[1].select = val | (ATA_DEV_ALWAYS_ON);
+         /* select drive */
+-        bus->unit = (val >> 4) & 1;
++        bus->unit = (val & (ATA_DEV_SELECT)) ? 1 : 0;
+         break;
+     default:
+     case ATA_IOPORT_WR_COMMAND:
+@@ -1343,7 +1345,7 @@ static void ide_reset(IDEState *s)
+     s->hob_lcyl = 0;
+     s->hob_hcyl = 0;
+ 
+-    s->select = 0xa0;
++    s->select = (ATA_DEV_ALWAYS_ON);
+     s->status = READY_STAT | SEEK_STAT;
+ 
+     s->lba48 = 0;
 -- 
 2.26.2
 
