@@ -2,54 +2,54 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4202022C186
-	for <lists+qemu-devel@lfdr.de>; Fri, 24 Jul 2020 10:58:08 +0200 (CEST)
-Received: from localhost ([::1]:41606 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2F3B122C145
+	for <lists+qemu-devel@lfdr.de>; Fri, 24 Jul 2020 10:51:54 +0200 (CEST)
+Received: from localhost ([::1]:50544 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jytWp-0007CN-CV
-	for lists+qemu-devel@lfdr.de; Fri, 24 Jul 2020 04:58:07 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:38508)
+	id 1jytQn-0007d7-7A
+	for lists+qemu-devel@lfdr.de; Fri, 24 Jul 2020 04:51:53 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:38520)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <vsementsov@virtuozzo.com>)
- id 1jytJN-0002B7-4z; Fri, 24 Jul 2020 04:44:13 -0400
+ id 1jytJP-0002Hw-Kk; Fri, 24 Jul 2020 04:44:15 -0400
 Received: from mail-eopbgr80095.outbound.protection.outlook.com
  ([40.107.8.95]:31299 helo=EUR04-VI1-obe.outbound.protection.outlook.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <vsementsov@virtuozzo.com>)
- id 1jytJL-0008Pz-2f; Fri, 24 Jul 2020 04:44:12 -0400
+ id 1jytJN-0008Pz-Nw; Fri, 24 Jul 2020 04:44:15 -0400
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=WmmV7dBbmvf+AewTtlCaJwtquT4VAsfOyMsDwtKt8OYE3ZpguEBuCew25Tl4RMmyIk738Bk0fNmD03+zD+GHmbpnvPDp8ZiSryD02HgyFQkqI9immBHiRsJFIRhCh0vCiELgUHW5xYLuyER3nWqMGSPGfIrVk0//HhToOLsM+vB2JKfhRSuYB87obuIA3Z687gDc0emFT97w122q0aOvfAdSQVZ+LZGIWUJ5rKmRZoujwXp0RYRHSpqG/xATuAq6gtFK9HGDexyz0Pjd8us8C0DyvCWVj9hAad9YA697ssbTRxA0Z/6hzmuqCGG2BfNiSgnXvXQRa3RDiwEDvoyWdw==
+ b=icvG1tmNUvujPACCgSk+y4sk/PIiy8xnp+K8Y+FCPCKuipve5i50sNaiqG+eiVkEuv7Ix5rUSiwy8/8urWAfOB7oZ9OOSvtmDK8N7vl08yfMHInUwOJSKcvw2xI9QbsWH2cgBuKPjWX/QotHfU0Tc93s6E1lHv7bL39CN90gdnu1sBcRyn1TvGNmGCasq9ZnE/mGX5TZlJEsC35dgRWc8LGwoaWjUhdt6iltb1Jr5+j2TUIGjhqSel+rQF8568U7XbJPuN+DXVeeNbMPRGB5s3ls7NeL52yQVJztBrqhH95g+cktxoaUWTYWEz7I0mjQBzxnf5dhxKQLej5bpnzc6g==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=FMpKHaM1T4DGMfhxNR1tENrd3lNYCRq9gAmCP+uILUE=;
- b=E+jADHfaYO2jqGPbFIWvD6pAe9AwGM8Cjyu7kKpOi/tjmfRqczrpkgkh4yiQhHHFrXUzQIFsC3ZCvEULMGp0T2IFcd6TNWffyHHRvfuqnM3dzSdS49+RkcNxbCD4WiwCcA4DL9tciVK3bBwVQAEV5PY4uU/sms50EcOpyoYgsad/t4UYMkatNvgz+2bHq+AdXNIkmH88B2gGZj/b05FcAfBhBm8nB2sTLOVN+agEtxlr2Xlu2rbe4y1Ek16OU6YFKi3/ioq8469pYbet8HJYSBg1DwDi7JUshkpnpL3YUkD/zR0AaO3VYRwTv2O5kuyN1THnaT2uqIXJrv4NzWOZJA==
+ bh=ynjU9Knm6e8nCCTu2gLbW8zmWyoAo4WpTYKHgfHY5oY=;
+ b=MI4GPgDhYCyajlzzYDbca1RjWpqS+UTiZzEZAwbNJLKyL0+q7uu0PPi5MHjUT+Et733kCNR4XP/xdJ8NCWCuWwUR15j7h5DCqQfDUrR7OQ0wpQy86XTTPX8WBi9wMqK8kC/Pg11xZ167Y4FYOZJNBJ2Q4+ZKO1w8YhZiK/T5CTpnCJooJt50TZeEA3KNDWpZsGow14waslZXaoqbeVXoGdCIT17B48DE39/sSD3JsBn9+sdL6m67AjBuaJQlVq/HBYO7uGfG+Zod7TuEcUIfw37FTnAAFsl1DCP5NlTHq0v6hwc2Qu/J/Y+rQ0kfcgx5QIvLiV5efcT9lxQmRWlCEw==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
  smtp.mailfrom=virtuozzo.com; dmarc=pass action=none
  header.from=virtuozzo.com; dkim=pass header.d=virtuozzo.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=virtuozzo.com;
  s=selector2;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=FMpKHaM1T4DGMfhxNR1tENrd3lNYCRq9gAmCP+uILUE=;
- b=csDe3tNSehuLrBWhINgK/8HYiEJMiez9k6E5D0MRHnTeFWuqIFx+gIaOyyGeikDb3KR7tTBk3D1e2LhzYtWKe06w14FbsnffJTj5/sYsuLmaN8/9C+UXtmiklqbSPnP0fmY2/2HFc2MSMEdGH1TU7fBbCSwXtcXU8s+cSEjEk7k=
+ bh=ynjU9Knm6e8nCCTu2gLbW8zmWyoAo4WpTYKHgfHY5oY=;
+ b=BspSyHKPcUduPQFTi/ArCLLrnB6X9SEqnCdxmDiUrnbC90jIhW8jr2eP8s4TNOelN8jkW9Q5v9ldYstf/dyqMo/dUNtWfw0cLjyqqEKByzcje3AP79CWCPP0jPGiO64pPnhezauKGPJv+7kDorN3M/WD6r5YlekOQWKioGadNaA=
 Authentication-Results: nongnu.org; dkim=none (message not signed)
  header.d=none;nongnu.org; dmarc=none action=none header.from=virtuozzo.com;
 Received: from AM7PR08MB5494.eurprd08.prod.outlook.com (2603:10a6:20b:dc::15)
  by AM6PR08MB4534.eurprd08.prod.outlook.com (2603:10a6:20b:ba::20)
  with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3195.17; Fri, 24 Jul
- 2020 08:43:57 +0000
+ 2020 08:43:58 +0000
 Received: from AM7PR08MB5494.eurprd08.prod.outlook.com
  ([fe80::8c0c:c056:97a5:484a]) by AM7PR08MB5494.eurprd08.prod.outlook.com
  ([fe80::8c0c:c056:97a5:484a%4]) with mapi id 15.20.3216.024; Fri, 24 Jul 2020
- 08:43:57 +0000
+ 08:43:58 +0000
 From: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
 To: qemu-block@nongnu.org
-Subject: [PATCH v3 15/21] migration/block-dirty-bitmap: relax error handling
- in incoming part
-Date: Fri, 24 Jul 2020 11:43:21 +0300
-Message-Id: <20200724084327.15665-16-vsementsov@virtuozzo.com>
+Subject: [PATCH v3 16/21] migration/block-dirty-bitmap: cancel migration on
+ shutdown
+Date: Fri, 24 Jul 2020 11:43:22 +0300
+Message-Id: <20200724084327.15665-17-vsementsov@virtuozzo.com>
 X-Mailer: git-send-email 2.21.0
 In-Reply-To: <20200724084327.15665-1-vsementsov@virtuozzo.com>
 References: <20200724084327.15665-1-vsementsov@virtuozzo.com>
@@ -64,33 +64,33 @@ Received: from localhost.localdomain (185.215.60.156) by
  AM0PR01CA0160.eurprd01.prod.exchangelabs.com (2603:10a6:208:aa::29) with
  Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3216.21 via Frontend
- Transport; Fri, 24 Jul 2020 08:43:56 +0000
+ Transport; Fri, 24 Jul 2020 08:43:57 +0000
 X-Mailer: git-send-email 2.21.0
 X-Originating-IP: [185.215.60.156]
 X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: 2d1bd369-177a-47b2-a0b3-08d82fadb40d
+X-MS-Office365-Filtering-Correlation-Id: 1499da8b-ea96-4b2d-e9ec-08d82fadb49a
 X-MS-TrafficTypeDiagnostic: AM6PR08MB4534:
 X-MS-Exchange-Transport-Forked: True
-X-Microsoft-Antispam-PRVS: <AM6PR08MB4534BA9C97C9E7F31F5BCDACC1770@AM6PR08MB4534.eurprd08.prod.outlook.com>
-X-MS-Oob-TLC-OOBClassifiers: OLM:173;
+X-Microsoft-Antispam-PRVS: <AM6PR08MB4534B1FE7A7379A1856C6542C1770@AM6PR08MB4534.eurprd08.prod.outlook.com>
+X-MS-Oob-TLC-OOBClassifiers: OLM:227;
 X-MS-Exchange-SenderADCheck: 1
 X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: du1MQNh2InkXsVpVGkpWKcZF7apAhEald/NX9Ten49uRpyYd/ywKXQKNRFy6G9U1fl10JaWdU4xdeYUOs9ydkbBNMu5aonmaRzNkTnBTgnt2tYk78sHK5tfBkgswdtP8K3Fvb2gHpsNfbFRKN1qGxtsHXJ39isDqeK40nYXe4y/WEkU1XzzTqqaaC42/79HYK4sgpa8t+MDGk8NyEI9fHW0y5EkY7ECy4+W8CePaZMPJpqaFI5HbxTrGIwIFC1huZVZjNLZbgxQtGXlWcwTEBPAyAr4eFMNDOvK+5OvpGu11aUhyRQmxHYSbvXvQNGDoIrcedp1jELVdPNKtuygAqGphpAL6Lsu+Rzre/Sg8tswElm+QJGqTgJOjNJ34ypQSp/UqI41bm0UzBHPJ1/ocLw==
+X-Microsoft-Antispam-Message-Info: r0muT/Ue4toBs8z0yILfNHjbvJTBdeH1oE8T/vED4nZtSLi//siJHFNEkLQkEqtYACeYGDqGAFj3N+RKvBPgWRsc5dpmfdo4ZWEQ/y3Corb5CDn+M2i9hDNGck/WA4RNpw/BE4xtfrpm1qpTTdn7LSCsEFpCMcZztdlH9uuF/hfGrbswueLIIhBnsnko+mT1qLukDetpS/PmCnP/TmLNJw7HcjN5hhiF3Pv5DdsEvj0lLrUfVV5bWibkprPLoH3p4LLtGjiQgWKfgtxy2F+1bf8Ol0XBakz2Wh4TwdwjWyRfhLtvoqnE6ghAIFKbF/cg8z9r7AU31lTNoF+nmNj5XunXc5mxjJEJTsL+276lTe8puyWuq3OwIcLv7Tv2AqvxtKIfgxJy7zgNA+5dEzvwu26M7zxKcfSQacQLv9W+o1U=
 X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
  IPV:NLI; SFV:NSPM; H:AM7PR08MB5494.eurprd08.prod.outlook.com; PTR:; CAT:NONE;
  SFTY:;
  SFS:(4636009)(366004)(346002)(396003)(136003)(39840400004)(376002)(6512007)(6916009)(66476007)(8676002)(66556008)(52116002)(66946007)(4326008)(83380400001)(6506007)(36756003)(6486002)(956004)(26005)(6666004)(2616005)(69590400007)(7416002)(186003)(5660300002)(478600001)(8936002)(2906002)(107886003)(16526019)(86362001)(316002)(1076003)(14143004);
  DIR:OUT; SFP:1102; 
-X-MS-Exchange-AntiSpam-MessageData: ZLOUJvb6TdfTKnlE3eU11Mz2GFGxyPLYWfqdxFxJtYfLhNYQZKwQcfOkaUdwayYOer+K37gFDsVJf3Ay3dd1nBlHZeWnIa6aBBfUMtGlHYDgxSVhh7vS465zCBv1rjec6tkTCrLIE2cTdIQmckCPw7cGrKABQ74ytqHRLZSFz9pSeIcHs6Oi3237ywiuZB7rAWs8qts358kGQA3eoD5Z+AbWpkwqE8ZxmvbgAfBOu0SkIg4tbHBiBwqAAkEL18aWG0T7ZB8cTua68y2nge2PcjZkLnu+3tP+SNI6WlkPbZMvZ8NCmgrcAjOAe5Szmmm6N/U1d+8x54JI3U913NkytxXPk/EZ5/VGQRVVlp41xAg3Yj+TIDDZJHL9z0ItyVvrxY5BX/joZlb7Dd85i8whHKjkLPydZUzXo3SKb+K+wKu6XxNer7Gy1nJcVNf6B8g6VeKdQu8BV4yZ6K+MSyudyeLg0J/6u/XZAvEOk8Xk/NQ=
+X-MS-Exchange-AntiSpam-MessageData: JjZ4Ogr+j8rPDPJgP7Fg4EGXXL9HS7gzPPP949XNmcw5VaSBpdTvxPYN/EE6XwntiK0nqhc7IZeUpF+YuSDPNGosFEUtjODaXeLYI4jDsKDwj++2/4CSHhpvP/5UlYronx/eAws2QzEOC223eCMlRQlME9EtAXKCcNKJV7QV/iqNHnrw5D+f0/tq+wPKRzV/pWZfcA8Pko9cPZLdNabm0gZcdEmvxj6VinPoshn9u2Ll5NVeDe3UbQsXAQyvDBbD0GE3b3GAK+juS8WaUky6MAlajCkW7MLqs4m7nZQGp/OO0Y9vOeAPmKPHvHFY89moTjCm7Rx0H9lFXpF/AwhCcamMp9QbMI3vPn6HjI+L5GlMO2buqpm8w1Za30owwicfVY+qPvEtrTxAMDsKJJeHwmEy8ATaIiYrhCSq5J+bmSgFtTjaYnCGiHejT9+I/nUSLWJp8VgZUcCpCyB6MgG1INN0TmpbgsK0c2HMt318IHw=
 X-OriginatorOrg: virtuozzo.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 2d1bd369-177a-47b2-a0b3-08d82fadb40d
+X-MS-Exchange-CrossTenant-Network-Message-Id: 1499da8b-ea96-4b2d-e9ec-08d82fadb49a
 X-MS-Exchange-CrossTenant-AuthSource: AM7PR08MB5494.eurprd08.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 24 Jul 2020 08:43:57.0779 (UTC)
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 24 Jul 2020 08:43:58.0048 (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
 X-MS-Exchange-CrossTenant-Id: 0bc7f26d-0264-416e-a6fc-8352af79c58f
 X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: RmdhZbNU1EncSfacFituGif1yN0SGSa28g18JxUZxDyYP1H5aAmIfP8S82VcWWHNZQVHmyVFAWnRbL8PAu3zmPPUn7k//atP8RTkInhBxRI=
+X-MS-Exchange-CrossTenant-UserPrincipalName: thIm5lKWMs2mpUH45vfiIqCW/WjWhguJFVAQaP3dip20j2xgG97ClYvjMy3h219/ZCUhl055bXNTOQ62QCsSwV24BQPn9tyUFhulkJxpYvc=
 X-MS-Exchange-Transport-CrossTenantHeadersStamped: AM6PR08MB4534
 Received-SPF: pass client-ip=40.107.8.95;
  envelope-from=vsementsov@virtuozzo.com;
@@ -124,270 +124,88 @@ Cc: kwolf@redhat.com, fam@euphon.net, vsementsov@virtuozzo.com,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Bitmaps data is not critical, and we should not fail the migration (or
-use postcopy recovering) because of dirty-bitmaps migration failure.
-Instead we should just lose unfinished bitmaps.
+If target is turned off prior to postcopy finished, target crashes
+because busy bitmaps are found at shutdown.
+Canceling incoming migration helps, as it removes all unfinished (and
+therefore busy) bitmaps.
 
-Still we have to report io stream violation errors, as they affect the
-whole migration stream.
+Similarly on source we crash in bdrv_close_all which asserts that all
+bdrv states are removed, because bdrv states involved into dirty bitmap
+migration are referenced by it. So, we need to cancel outgoing
+migration as well.
 
 Signed-off-by: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
+Reviewed-by: Andrey Shinkevich <andrey.shinkevich@virtuozzo.com>
 ---
- migration/block-dirty-bitmap.c | 152 +++++++++++++++++++++++++--------
- 1 file changed, 117 insertions(+), 35 deletions(-)
+ migration/migration.h          |  2 ++
+ migration/block-dirty-bitmap.c | 16 ++++++++++++++++
+ migration/migration.c          | 13 +++++++++++++
+ 3 files changed, 31 insertions(+)
 
+diff --git a/migration/migration.h b/migration/migration.h
+index ab20c756f5..6c6a931d0d 100644
+--- a/migration/migration.h
++++ b/migration/migration.h
+@@ -335,6 +335,8 @@ void migrate_send_rp_recv_bitmap(MigrationIncomingState *mis,
+ void migrate_send_rp_resume_ack(MigrationIncomingState *mis, uint32_t value);
+ 
+ void dirty_bitmap_mig_before_vm_start(void);
++void dirty_bitmap_mig_cancel_outgoing(void);
++void dirty_bitmap_mig_cancel_incoming(void);
+ void migrate_add_address(SocketAddress *address);
+ 
+ int foreach_not_ignored_block(RAMBlockIterFunc func, void *opaque);
 diff --git a/migration/block-dirty-bitmap.c b/migration/block-dirty-bitmap.c
-index eb4ffeac4d..c24d4614bf 100644
+index c24d4614bf..a198ec7278 100644
 --- a/migration/block-dirty-bitmap.c
 +++ b/migration/block-dirty-bitmap.c
-@@ -145,6 +145,15 @@ typedef struct DBMLoadState {
- 
-     bool before_vm_start_handled; /* set in dirty_bitmap_mig_before_vm_start */
- 
-+    /*
-+     * cancelled
-+     * Incoming migration is cancelled for some reason. That means that we
-+     * still should read our chunks from migration stream, to not affect other
-+     * migration objects (like RAM), but just ignore them and do not touch any
-+     * bitmaps or nodes.
-+     */
-+    bool cancelled;
-+
-     GSList *bitmaps;
-     QemuMutex lock; /* protect bitmaps */
- } DBMLoadState;
-@@ -531,6 +540,10 @@ static int dirty_bitmap_load_start(QEMUFile *f, DBMLoadState *s)
-     uint8_t flags = qemu_get_byte(f);
-     LoadBitmapState *b;
- 
-+    if (s->cancelled) {
-+        return 0;
-+    }
-+
-     if (s->bitmap) {
-         error_report("Bitmap with the same name ('%s') already exists on "
-                      "destination", bdrv_dirty_bitmap_name(s->bitmap));
-@@ -613,13 +626,47 @@ void dirty_bitmap_mig_before_vm_start(void)
-     qemu_mutex_unlock(&s->lock);
+@@ -657,6 +657,22 @@ static void cancel_incoming_locked(DBMLoadState *s)
+     s->bitmaps = NULL;
  }
  
-+static void cancel_incoming_locked(DBMLoadState *s)
++void dirty_bitmap_mig_cancel_outgoing(void)
 +{
-+    GSList *item;
++    dirty_bitmap_do_save_cleanup(&dbm_state.save);
++}
 +
-+    if (s->cancelled) {
-+        return;
-+    }
++void dirty_bitmap_mig_cancel_incoming(void)
++{
++    DBMLoadState *s = &dbm_state.load;
 +
-+    s->cancelled = true;
-+    s->bs = NULL;
-+    s->bitmap = NULL;
++    qemu_mutex_lock(&s->lock);
 +
-+    /* Drop all unfinished bitmaps */
-+    for (item = s->bitmaps; item; item = g_slist_next(item)) {
-+        LoadBitmapState *b = item->data;
++    cancel_incoming_locked(s);
 +
-+        /*
-+         * Bitmap must be unfinished, as finished bitmaps should already be
-+         * removed from the list.
-+         */
-+        assert(!s->before_vm_start_handled || !b->migrated);
-+        if (bdrv_dirty_bitmap_has_successor(b->bitmap)) {
-+            bdrv_reclaim_dirty_bitmap(b->bitmap, &error_abort);
-+        }
-+        bdrv_release_dirty_bitmap(b->bitmap);
-+    }
-+
-+    g_slist_free_full(s->bitmaps, g_free);
-+    s->bitmaps = NULL;
++    qemu_mutex_unlock(&s->lock);
 +}
 +
  static void dirty_bitmap_load_complete(QEMUFile *f, DBMLoadState *s)
  {
      GSList *item;
-     trace_dirty_bitmap_load_complete();
--    bdrv_dirty_bitmap_deserialize_finish(s->bitmap);
- 
--    qemu_mutex_lock(&s->lock);
-+    if (s->cancelled) {
-+        return;
-+    }
+diff --git a/migration/migration.c b/migration/migration.c
+index 1c61428988..8fe36339db 100644
+--- a/migration/migration.c
++++ b/migration/migration.c
+@@ -188,6 +188,19 @@ void migration_shutdown(void)
+      */
+     migrate_fd_cancel(current_migration);
+     object_unref(OBJECT(current_migration));
 +
-+    bdrv_dirty_bitmap_deserialize_finish(s->bitmap);
- 
-     if (bdrv_dirty_bitmap_has_successor(s->bitmap)) {
-         bdrv_reclaim_dirty_bitmap(s->bitmap, &error_abort);
-@@ -637,8 +684,6 @@ static void dirty_bitmap_load_complete(QEMUFile *f, DBMLoadState *s)
-             break;
-         }
-     }
--
--    qemu_mutex_unlock(&s->lock);
++    /*
++     * Cancel outgoing migration of dirty bitmaps. It should
++     * at least unref used block nodes.
++     */
++    dirty_bitmap_mig_cancel_outgoing();
++
++    /*
++     * Cancel incoming migration of dirty bitmaps. Dirty bitmaps
++     * are non-critical data, and their loss never considered as
++     * something serious.
++     */
++    dirty_bitmap_mig_cancel_incoming();
  }
  
- static int dirty_bitmap_load_bits(QEMUFile *f, DBMLoadState *s)
-@@ -650,15 +695,32 @@ static int dirty_bitmap_load_bits(QEMUFile *f, DBMLoadState *s)
- 
-     if (s->flags & DIRTY_BITMAP_MIG_FLAG_ZEROES) {
-         trace_dirty_bitmap_load_bits_zeroes();
--        bdrv_dirty_bitmap_deserialize_zeroes(s->bitmap, first_byte, nr_bytes,
--                                             false);
-+        if (!s->cancelled) {
-+            bdrv_dirty_bitmap_deserialize_zeroes(s->bitmap, first_byte,
-+                                                 nr_bytes, false);
-+        }
-     } else {
-         size_t ret;
-         uint8_t *buf;
-         uint64_t buf_size = qemu_get_be64(f);
--        uint64_t needed_size =
--            bdrv_dirty_bitmap_serialization_size(s->bitmap,
--                                                 first_byte, nr_bytes);
-+        uint64_t needed_size;
-+
-+        buf = g_malloc(buf_size);
-+        ret = qemu_get_buffer(f, buf, buf_size);
-+        if (ret != buf_size) {
-+            error_report("Failed to read bitmap bits");
-+            g_free(buf);
-+            return -EIO;
-+        }
-+
-+        if (s->cancelled) {
-+            g_free(buf);
-+            return 0;
-+        }
-+
-+        needed_size = bdrv_dirty_bitmap_serialization_size(s->bitmap,
-+                                                           first_byte,
-+                                                           nr_bytes);
- 
-         if (needed_size > buf_size ||
-             buf_size > QEMU_ALIGN_UP(needed_size, 4 * sizeof(long))
-@@ -667,15 +729,8 @@ static int dirty_bitmap_load_bits(QEMUFile *f, DBMLoadState *s)
-             error_report("Migrated bitmap granularity doesn't "
-                          "match the destination bitmap '%s' granularity",
-                          bdrv_dirty_bitmap_name(s->bitmap));
--            return -EINVAL;
--        }
--
--        buf = g_malloc(buf_size);
--        ret = qemu_get_buffer(f, buf, buf_size);
--        if (ret != buf_size) {
--            error_report("Failed to read bitmap bits");
--            g_free(buf);
--            return -EIO;
-+            cancel_incoming_locked(s);
-+            return 0;
-         }
- 
-         bdrv_dirty_bitmap_deserialize_part(s->bitmap, buf, first_byte, nr_bytes,
-@@ -700,14 +755,16 @@ static int dirty_bitmap_load_header(QEMUFile *f, DBMLoadState *s)
-             error_report("Unable to read node name string");
-             return -EINVAL;
-         }
--        s->bs = bdrv_lookup_bs(s->node_name, s->node_name, &local_err);
--        if (!s->bs) {
--            error_report_err(local_err);
--            return -EINVAL;
-+        if (!s->cancelled) {
-+            s->bs = bdrv_lookup_bs(s->node_name, s->node_name, &local_err);
-+            if (!s->bs) {
-+                error_report_err(local_err);
-+                cancel_incoming_locked(s);
-+            }
-         }
--    } else if (!s->bs && !nothing) {
-+    } else if (!s->bs && !nothing && !s->cancelled) {
-         error_report("Error: block device name is not set");
--        return -EINVAL;
-+        cancel_incoming_locked(s);
-     }
- 
-     if (s->flags & DIRTY_BITMAP_MIG_FLAG_BITMAP_NAME) {
-@@ -715,24 +772,38 @@ static int dirty_bitmap_load_header(QEMUFile *f, DBMLoadState *s)
-             error_report("Unable to read bitmap name string");
-             return -EINVAL;
-         }
--        s->bitmap = bdrv_find_dirty_bitmap(s->bs, s->bitmap_name);
--
--        /* bitmap may be NULL here, it wouldn't be an error if it is the
--         * first occurrence of the bitmap */
--        if (!s->bitmap && !(s->flags & DIRTY_BITMAP_MIG_FLAG_START)) {
--            error_report("Error: unknown dirty bitmap "
--                         "'%s' for block device '%s'",
--                         s->bitmap_name, s->node_name);
--            return -EINVAL;
-+        if (!s->cancelled) {
-+            s->bitmap = bdrv_find_dirty_bitmap(s->bs, s->bitmap_name);
-+
-+            /*
-+             * bitmap may be NULL here, it wouldn't be an error if it is the
-+             * first occurrence of the bitmap
-+             */
-+            if (!s->bitmap && !(s->flags & DIRTY_BITMAP_MIG_FLAG_START)) {
-+                error_report("Error: unknown dirty bitmap "
-+                             "'%s' for block device '%s'",
-+                             s->bitmap_name, s->node_name);
-+                cancel_incoming_locked(s);
-+            }
-         }
--    } else if (!s->bitmap && !nothing) {
-+    } else if (!s->bitmap && !nothing && !s->cancelled) {
-         error_report("Error: block device name is not set");
--        return -EINVAL;
-+        cancel_incoming_locked(s);
-     }
- 
-     return 0;
- }
- 
-+/*
-+ * dirty_bitmap_load
-+ *
-+ * Load sequence of dirty bitmap chunks. Return error only on fatal io stream
-+ * violations. On other errors just cancel bitmaps incoming migration and return
-+ * 0.
-+ *
-+ * Note, than when incoming bitmap migration is canceled, we still must read all
-+ * our chunks (and just ignore them), to not affect other migration objects.
-+ */
- static int dirty_bitmap_load(QEMUFile *f, void *opaque, int version_id)
- {
-     DBMLoadState *s = &((DBMState *)opaque)->load;
-@@ -741,12 +812,19 @@ static int dirty_bitmap_load(QEMUFile *f, void *opaque, int version_id)
-     trace_dirty_bitmap_load_enter();
- 
-     if (version_id != 1) {
-+        qemu_mutex_lock(&s->lock);
-+        cancel_incoming_locked(s);
-+        qemu_mutex_unlock(&s->lock);
-         return -EINVAL;
-     }
- 
-     do {
-+        qemu_mutex_lock(&s->lock);
-+
-         ret = dirty_bitmap_load_header(f, s);
-         if (ret < 0) {
-+            cancel_incoming_locked(s);
-+            qemu_mutex_unlock(&s->lock);
-             return ret;
-         }
- 
-@@ -763,8 +841,12 @@ static int dirty_bitmap_load(QEMUFile *f, void *opaque, int version_id)
-         }
- 
-         if (ret) {
-+            cancel_incoming_locked(s);
-+            qemu_mutex_unlock(&s->lock);
-             return ret;
-         }
-+
-+        qemu_mutex_unlock(&s->lock);
-     } while (!(s->flags & DIRTY_BITMAP_MIG_FLAG_EOS));
- 
-     trace_dirty_bitmap_load_success();
+ /* For outgoing */
 -- 
 2.21.0
 
