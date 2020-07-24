@@ -2,98 +2,113 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E52F722C296
-	for <lists+qemu-devel@lfdr.de>; Fri, 24 Jul 2020 11:52:10 +0200 (CEST)
-Received: from localhost ([::1]:53660 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6816E22C295
+	for <lists+qemu-devel@lfdr.de>; Fri, 24 Jul 2020 11:51:18 +0200 (CEST)
+Received: from localhost ([::1]:51026 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jyuN8-0004il-1E
-	for lists+qemu-devel@lfdr.de; Fri, 24 Jul 2020 05:52:10 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:60824)
+	id 1jyuMH-0003eo-Fw
+	for lists+qemu-devel@lfdr.de; Fri, 24 Jul 2020 05:51:17 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:33370)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mreitz@redhat.com>) id 1jyuKR-000213-Lh
- for qemu-devel@nongnu.org; Fri, 24 Jul 2020 05:49:23 -0400
-Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:55363
- helo=us-smtp-1.mimecast.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <mreitz@redhat.com>) id 1jyuKO-0002Gi-HS
- for qemu-devel@nongnu.org; Fri, 24 Jul 2020 05:49:23 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1595584159;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
- bh=v6DrxEZzxrpctvNigmpEmhcEadbfYBCVe/71R17+7ko=;
- b=F5TCKt4+Ryh4PsH6wPWYF09Ox0O1aWWUdrIAVnofPw68PbVqNzYzoTBM83Nilka8a5nB1b
- uSPiczxC6hoBHtWuVMpfeI59QZNTtRGqJlcNkn4eEsS8myeSEwnoljAmeE9dXwYjkDhuhz
- xGI282Gu0MamWVvu3oRIM7tflF5eQoY=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-358-Qt18OR1PODKNV69_4Rtrzw-1; Fri, 24 Jul 2020 05:49:17 -0400
-X-MC-Unique: Qt18OR1PODKNV69_4Rtrzw-1
-Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
- [10.5.11.22])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 39870193F562;
- Fri, 24 Jul 2020 09:49:16 +0000 (UTC)
-Received: from dresden.str.redhat.com (ovpn-113-32.ams2.redhat.com
- [10.36.113.32])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id DA66610013C0;
- Fri, 24 Jul 2020 09:49:14 +0000 (UTC)
-Subject: Re: [PATCH v7 33/47] mirror: Deal with filters
-To: Andrey Shinkevich <andrey.shinkevich@virtuozzo.com>, qemu-block@nongnu.org
+ (Exim 4.90_1) (envelope-from <andrey.shinkevich@virtuozzo.com>)
+ id 1jyuKu-0002ba-Cv; Fri, 24 Jul 2020 05:49:52 -0400
+Received: from mail-eopbgr80114.outbound.protection.outlook.com
+ ([40.107.8.114]:15677 helo=EUR04-VI1-obe.outbound.protection.outlook.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <andrey.shinkevich@virtuozzo.com>)
+ id 1jyuKp-0002Pc-RF; Fri, 24 Jul 2020 05:49:52 -0400
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=JGJIsdmq3efcCPAFj4HPoq+jbnT07Xp5dDnmwaKUo4nAbPIBNry7wRzxQnTy+22gfdQU3hQ4y2xzzlLSn3LNuFLI2FDvt+CUboTqBdjDN5JrSzlmn5yWp5WLYY0Ld1hlMc6+qCYKRJPdDICqhIhN/FpWpliljvhvDTsElRI7WCkZoct58w1pKZliwXBjlyeD22rQ7YHRGP3Ufk/sGbxgNLL5XjNuWUiil/Cb2npWXCgj30Ny5sq9Ii85gyvorGk5ST2hnIVeWDqmy7ZlE/+JyUf1SAbkvMf5PlwfExV6xUzvbrwQm5v8cVcwcJcw6YgTch3/hfyUtvLHV9b56J3x0Q==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=tlIx278EKa/Z1rCkkTluUDucbPO/f4lMllxLTrlEBiI=;
+ b=klR4RdLogMDGcSt/oj/FthuDFQdBVP8rt9P2PDdRDEuWaPXdA2/oKgDZu+Vwv/lsj/qDfGP6AM+HxZjm34UkbmpbMcV3vyIWOKmhPE8Ujfx87xMKSU95lJ7GnNHjlsNwPeC+0CAEzCDH/q1t12Jj2Jv7ZstrIhn59M8Tt7ds/pkZO7n/M6+xyRzTsOXm77h3wwmLNxouvnAPEl906/clRDSKp8NtVCbIOIaAoQbgHDCfaXI6qY9q+veu8XsdeeG2JtJW+XKYIrbUQK3SHc4lV37FHB+NBTCSK6SkN90YQcAB3MUK1x2rQSNMolXlgAsmsUQcUhpMmJH34lJdkAmthw==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=virtuozzo.com; dmarc=pass action=none
+ header.from=virtuozzo.com; dkim=pass header.d=virtuozzo.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=virtuozzo.com;
+ s=selector2;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=tlIx278EKa/Z1rCkkTluUDucbPO/f4lMllxLTrlEBiI=;
+ b=Fz0iA2fTV8sDqFqmikxPHqYNVQ7aD1SGrVB1mh/32BGJ0NhrgmgemqHUz5tv89JLCyHIHNfHdJrMCfAqnAEDMLsu/7KwQROsWSkHr9P926xgeZS4yPcVtLte2q7gXUmAeLtVEKXF+/atc9vwocA5qfJH+121tYGd4iHIIfAxT08=
+Authentication-Results: nongnu.org; dkim=none (message not signed)
+ header.d=none;nongnu.org; dmarc=none action=none header.from=virtuozzo.com;
+Received: from AM6PR08MB4070.eurprd08.prod.outlook.com (2603:10a6:20b:a3::25)
+ by AM6PR08MB4786.eurprd08.prod.outlook.com (2603:10a6:20b:cc::20)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3195.17; Fri, 24 Jul
+ 2020 09:49:39 +0000
+Received: from AM6PR08MB4070.eurprd08.prod.outlook.com
+ ([fe80::78ec:8cb6:41f7:b2a0]) by AM6PR08MB4070.eurprd08.prod.outlook.com
+ ([fe80::78ec:8cb6:41f7:b2a0%5]) with mapi id 15.20.3195.028; Fri, 24 Jul 2020
+ 09:49:39 +0000
+Subject: Re: [PATCH v7 28/47] block/null: Implement
+ bdrv_get_allocated_file_size
+To: Max Reitz <mreitz@redhat.com>, qemu-block@nongnu.org
 References: <20200625152215.941773-1-mreitz@redhat.com>
- <20200625152215.941773-34-mreitz@redhat.com>
- <b69b871a-4cc5-a09d-c20b-deaa7438afda@virtuozzo.com>
-From: Max Reitz <mreitz@redhat.com>
-Autocrypt: addr=mreitz@redhat.com; prefer-encrypt=mutual; keydata=
- mQENBFXOJlcBCADEyyhOTsoa/2ujoTRAJj4MKA21dkxxELVj3cuILpLTmtachWj7QW+TVG8U
- /PsMCFbpwsQR7oEy8eHHZwuGQsNpEtNC2G/L8Yka0BIBzv7dEgrPzIu+W3anZXQW4702+uES
- U29G8TP/NGfXRRHGlbBIH9KNUnOSUD2vRtpOLXkWsV5CN6vQFYgQfFvmp5ZpPeUe6xNplu8V
- mcTw8OSEDW/ZnxJc8TekCKZSpdzYoxfzjm7xGmZqB18VFwgJZlIibt1HE0EB4w5GsD7x5ekh
- awIe3RwoZgZDLQMdOitJ1tUc8aqaxvgA4tz6J6st8D8pS//m1gAoYJWGwwIVj1DjTYLtABEB
- AAG0HU1heCBSZWl0eiA8bXJlaXR6QHJlZGhhdC5jb20+iQFTBBMBCAA9AhsDBQkSzAMABQsJ
- CAcCBhUICQoLAgQWAgMBAh4BAheABQJVzie5FRhoa3A6Ly9rZXlzLmdudXBnLm5ldAAKCRD0
- B9sAYdXPQDcIB/9uNkbYEex1rHKz3mr12uxYMwLOOFY9fstP5aoVJQ1nWQVB6m2cfKGdcRe1
- 2/nFaHSNAzT0NnKz2MjhZVmcrpyd2Gp2QyISCfb1FbT82GMtXFj1wiHmPb3CixYmWGQUUh+I
- AvUqsevLA+WihgBUyaJq/vuDVM1/K9Un+w+Tz5vpeMidlIsTYhcsMhn0L9wlCjoucljvbDy/
- 8C9L2DUdgi3XTa0ORKeflUhdL4gucWoAMrKX2nmPjBMKLgU7WLBc8AtV+84b9OWFML6NEyo4
- 4cP7cM/07VlJK53pqNg5cHtnWwjHcbpGkQvx6RUx6F1My3y52vM24rNUA3+ligVEgPYBuQEN
- BFXOJlcBCADAmcVUNTWT6yLWQHvxZ0o47KCP8OcLqD+67T0RCe6d0LP8GsWtrJdeDIQk+T+F
- xO7DolQPS6iQ6Ak2/lJaPX8L0BkEAiMuLCKFU6Bn3lFOkrQeKp3u05wCSV1iKnhg0UPji9V2
- W5eNfy8F4ZQHpeGUGy+liGXlxqkeRVhLyevUqfU0WgNqAJpfhHSGpBgihUupmyUg7lfUPeRM
- DzAN1pIqoFuxnN+BRHdAecpsLcbR8sQddXmDg9BpSKozO/JyBmaS1RlquI8HERQoe6EynJhd
- 64aICHDfj61rp+/0jTIcevxIIAzW70IadoS/y3DVIkuhncgDBvGbF3aBtjrJVP+5ABEBAAGJ
- ASUEGAEIAA8FAlXOJlcCGwwFCRLMAwAACgkQ9AfbAGHVz0CbFwf9F/PXxQR9i4N0iipISYjU
- sxVdjJOM2TMut+ZZcQ6NSMvhZ0ogQxJ+iEQ5OjnIputKvPVd5U7WRh+4lF1lB/NQGrGZQ1ic
- alkj6ocscQyFwfib+xIe9w8TG1CVGkII7+TbS5pXHRxZH1niaRpoi/hYtgzkuOPp35jJyqT/
- /ELbqQTDAWcqtJhzxKLE/ugcOMK520dJDeb6x2xVES+S5LXby0D4juZlvUj+1fwZu+7Io5+B
- bkhSVPb/QdOVTpnz7zWNyNw+OONo1aBUKkhq2UIByYXgORPFnbfMY7QWHcjpBVw9MgC4tGeF
- R4bv+1nAMMxKmb5VvQCExr0eFhJUAHAhVg==
-Message-ID: <bc5ef8af-6938-6abf-1232-e58c5caad38a@redhat.com>
-Date: Fri, 24 Jul 2020 11:49:13 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.10.0
+ <20200625152215.941773-29-mreitz@redhat.com>
+ <93f4b62e-78d9-af84-ab1c-95eea55bbc0f@virtuozzo.com>
+ <b0c02e56-538e-88e9-33d6-4bb276aa3ed1@redhat.com>
+From: Andrey Shinkevich <andrey.shinkevich@virtuozzo.com>
+Message-ID: <fa3b2624-b155-450b-5cff-2d41b41463bc@virtuozzo.com>
+Date: Fri, 24 Jul 2020 12:49:36 +0300
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:68.0)
+ Gecko/20100101 Thunderbird/68.9.0
+In-Reply-To: <b0c02e56-538e-88e9-33d6-4bb276aa3ed1@redhat.com>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Transfer-Encoding: 8bit
+Content-Language: en-GB
+X-ClientProxiedBy: AM4PR0302CA0023.eurprd03.prod.outlook.com
+ (2603:10a6:205:2::36) To AM6PR08MB4070.eurprd08.prod.outlook.com
+ (2603:10a6:20b:a3::25)
 MIME-Version: 1.0
-In-Reply-To: <b69b871a-4cc5-a09d-c20b-deaa7438afda@virtuozzo.com>
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature";
- boundary="c5x4npZVcB270GfjhvfzsSi0YsmGWDCTv"
-Received-SPF: pass client-ip=205.139.110.120; envelope-from=mreitz@redhat.com;
- helo=us-smtp-1.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/07/24 01:23:10
-X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
-X-Spam_score_int: -40
-X-Spam_score: -4.1
-X-Spam_bar: ----
-X-Spam_report: (-4.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-1, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+X-MS-Exchange-MessageSentRepresentingType: 1
+Received: from Admins-MacBook-Pro.local (109.252.114.82) by
+ AM4PR0302CA0023.eurprd03.prod.outlook.com (2603:10a6:205:2::36) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3216.22 via Frontend
+ Transport; Fri, 24 Jul 2020 09:49:37 +0000
+X-Originating-IP: [109.252.114.82]
+X-MS-PublicTrafficType: Email
+X-MS-Office365-Filtering-Correlation-Id: 96acbdc2-6ec2-40c1-82b0-08d82fb6e1a1
+X-MS-TrafficTypeDiagnostic: AM6PR08MB4786:
+X-MS-Exchange-Transport-Forked: True
+X-Microsoft-Antispam-PRVS: <AM6PR08MB47861F4DDC3D29C332182B94F4770@AM6PR08MB4786.eurprd08.prod.outlook.com>
+X-MS-Oob-TLC-OOBClassifiers: OLM:3631;
+X-MS-Exchange-SenderADCheck: 1
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: KBrhVH4fXZyNeeUK2egoqU10pbRu2IyrK3WX7+xlLfz4XNRjnbm/IxgZJ4iLCr0NvHnzUhyJ9XK6Ev2l2VkCrJf2HSI4dX9eVHV9UcDVjYz4M4C4RDehpsCRO3LK8UHtX5WrEc/LoxhrL52KUp2/pCGgkMAnUlRzJ9pcB2DFMbKAnHh3+MjyDgwz2xLzbrxr1RpjS89gMUBDkZi7WbKZj5lDhGLx6yoxreIff+FWnNjBfUvZKS3mRgRwlVXcGx1Zc7oLQLH7+BFGBXo+EVS7U59DPb9bCNQssPAb8ul9cTT39JOB5x/nkDL/DVD2nfP0CkqUg3gaSsl9Dms/uzdVE/2jTmOXzpZ/9CF01bGK2LO4TthzZygTPNYZ2X6l+z7c
+X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:AM6PR08MB4070.eurprd08.prod.outlook.com; PTR:; CAT:NONE;
+ SFTY:;
+ SFS:(4636009)(136003)(346002)(376002)(39840400004)(396003)(366004)(8936002)(2906002)(66556008)(52116002)(8676002)(478600001)(53546011)(66476007)(6506007)(66946007)(6512007)(31686004)(4326008)(16526019)(26005)(6486002)(44832011)(5660300002)(186003)(54906003)(956004)(2616005)(31696002)(83380400001)(36756003)(316002)(86362001)(43740500002);
+ DIR:OUT; SFP:1102; 
+X-MS-Exchange-AntiSpam-MessageData: LLWdfWcyLubDr68zD0/Ln3jxEz0JmUNh9jl2GBrfWXBoiYrMGo/uGpjqQ2G7i2uiv2uvq1UzQ76b5yMlJbY4pHIhnmXXsZFfewFN31ewfjAzZyI7u484Q4Z74fFa21jPBJjrfhVzeZcNRVz8tUmrTxY+JNcKGvitZ3BRWDVHEfRNQGUHT96P8M+svO5aXCuuuPnx//N0SCVmYZv5Shmnby27L2SLP5BDyJKtqCPSm6Vo/K8ie0k3yh7i1QfZcyjs5vIUjZopiHKnqrndxXGQQi+S6UAXXosduOL1WRfhFLg8KbIhsBs9VxSdZoST8eEwi0vKoRo3eqIElVLGSImKhhWFsbavyF9PfomZxLpC1QLyK1Vk1lQmQUpla0FLtEpYFNR2W+ySCsRQ+gP+L6+mwQX9lsJgffa5zC4TIgwrh/Zwf+iLTHWv78xPs7Nfg2Ay0xxRnNKb6xjwcenIC/PqZmOrYla8aC1EwH5eAgjcVMK93xxYBdApwgdn10wgBrIi
+X-OriginatorOrg: virtuozzo.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 96acbdc2-6ec2-40c1-82b0-08d82fb6e1a1
+X-MS-Exchange-CrossTenant-AuthSource: AM6PR08MB4070.eurprd08.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 24 Jul 2020 09:49:39.0655 (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 0bc7f26d-0264-416e-a6fc-8352af79c58f
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: 4OAMbhQ1Fdialql2dQ7pV33Udecr+5fDISJ4FLGaCy8MqtOZyiVV4WP8oe7RL+MLlMzhEp/4TSMR5+lpY8Aj1Mzg3KTWZ2tISFkEJxs2Qy8=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: AM6PR08MB4786
+Received-SPF: pass client-ip=40.107.8.114;
+ envelope-from=andrey.shinkevich@virtuozzo.com;
+ helo=EUR04-VI1-obe.outbound.protection.outlook.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/07/24 05:49:40
+X-ACL-Warn: Detected OS   = Windows NT kernel [generic] [fuzzy]
+X-Spam_score_int: -37
+X-Spam_score: -3.8
+X-Spam_bar: ---
+X-Spam_report: (-3.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ MSGID_FROM_MTA_HEADER=0.001, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-1,
+ SPF_HELO_PASS=-0.001, SPF_PASS=-0.001,
+ URIBL_BLOCKED=0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -111,213 +126,43 @@ Cc: Kevin Wolf <kwolf@redhat.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
---c5x4npZVcB270GfjhvfzsSi0YsmGWDCTv
-Content-Type: multipart/mixed; boundary="gwPBYk1Mpl24QAOwrdSrGctR4iYTpPfBH"
-
---gwPBYk1Mpl24QAOwrdSrGctR4iYTpPfBH
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: quoted-printable
-
-On 22.07.20 20:31, Andrey Shinkevich wrote:
-> On 25.06.2020 18:22, Max Reitz wrote:
->> This includes some permission limiting (for example, we only need to
->> take the RESIZE permission for active commits where the base is smaller
->> than the top).
+On 24.07.2020 11:58, Max Reitz wrote:
+> On 20.07.20 17:10, Andrey Shinkevich wrote:
+>> On 25.06.2020 18:21, Max Reitz wrote:
+>>> It is trivial, so we might as well do it.
+>>>
+>>> Signed-off-by: Max Reitz <mreitz@redhat.com>
+>>> ---
+>>>    block/null.c               | 7 +++++++
+>>>    tests/qemu-iotests/153.out | 2 +-
+>>>    tests/qemu-iotests/184.out | 6 ++++--
+>>>    3 files changed, 12 insertions(+), 3 deletions(-)
+...
+>>> diff --git a/tests/qemu-iotests/184.out b/tests/qemu-iotests/184.out
+>>> index 3deb3cfb94..28b104da89 100644
+>>> --- a/tests/qemu-iotests/184.out
+>>> +++ b/tests/qemu-iotests/184.out
+>>> @@ -29,7 +29,8 @@ Testing:
+>>>                "image": {
+>>>                    "virtual-size": 1073741824,
+>>>                    "filename": "json:{\"throttle-group\": \"group0\",
+>>> \"driver\": \"throttle\", \"file\": {\"driver\": \"null-co\"}}",
+>>> -                "format": "throttle"
+>>> +                "format": "throttle",
+>>> +                "actual-size": SIZE
 >>
->> Use this opportunity to rename qmp_drive_mirror()'s "source" BDS to
->> "target_backing_bs", because that is what it really refers to.
->>
->> Signed-off-by: Max Reitz <mreitz@redhat.com>
->> ---
->> =C2=A0 qapi/block-core.json |=C2=A0=C2=A0 6 ++-
->> =C2=A0 block/mirror.c=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 | 118 ++++++++=
-+++++++++++++++++++++++++----------
->> =C2=A0 blockdev.c=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0 |=C2=A0 36 +++++++++----
->> =C2=A0 3 files changed, 121 insertions(+), 39 deletions(-)
->>
-> ...
->> diff --git a/block/mirror.c b/block/mirror.c
->> index 469acf4600..770de3b34e 100644
->> --- a/block/mirror.c
->> +++ b/block/mirror.c
->> @@ -42,6 +42,7 @@ typedef struct MirrorBlockJob {
->> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 BlockBackend *target;
->> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 BlockDriverState *mirror_top_bs;
->> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 BlockDriverState *base;
->> +=C2=A0=C2=A0=C2=A0 BlockDriverState *base_overlay;
->> =C2=A0 =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 /* The name of the graph node to r=
-eplace */
->> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 char *replaces;
->> @@ -677,8 +678,10 @@ static int mirror_exit_common(Job *job)
->> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 &error_abort);
->> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 if (!abort && s->backing_mode =3D=3D MIRR=
-OR_SOURCE_BACKING_CHAIN) {
->> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 BlockDriverState =
-*backing =3D s->is_none_mode ? src : s->base;
->> -=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 if (backing_bs(target_bs) !=
-=3D backing) {
->> -=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 bdrv=
-_set_backing_hd(target_bs, backing, &local_err);
->> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 BlockDriverState *unfiltered=
-_target =3D
->> bdrv_skip_filters(target_bs);
->> +
->> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 if (bdrv_cow_bs(unfiltered_t=
-arget) !=3D backing) {
->=20
->=20
-> I just worry about a filter node of the concurrent job right below the
-> unfiltered_target.
+>> If we remove the _filter_generated_node_ids() in the current
+>> implementation of the test #184, we will get '"actual-size": 0'. It
+>> might be more informative when analyzing the output in 184.out.
+> You mean _filter_actual_image_size?  Yeah, why not, it doesn’t seem
+> necessary here.
+>
+> Max
+>
 
-Having a concurrent job on the target sounds extremely problematic in
-itself (because at least for most of the mirror job, the target isn=E2=80=
-=99t in
-a consistent state).  Is that a real use case?
+Yes Max, you are right, I ment the _filter_actual_image_size. It was my 
+copy/paste mistake.
 
-> The filter has unfiltered_target in its parent list.
-> Will that filter node be replaced correctly then?
-
-I=E2=80=99m also not quite sure what you mean.  We need to attach the sourc=
-e=E2=80=99s
-backing chain to the target here, so we go down to the first node that
-might accept COW backing files (by invoking bdrv_skip_filters()).  That
-should be correct no matter what kind of filters are on it.
->> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 /*
->> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 * The topmost node wit=
-h
->> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 * bdrv_skip_filters(fi=
-ltered_target) =3D=3D
->> bdrv_skip_filters(target)
->> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 */
->> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 filtered_target =3D bdrv_cow=
-_bs(bdrv_find_overlay(bs, target));
->> +
->> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 assert(bdrv_skip_filters(fil=
-tered_target) =3D=3D
->> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0=C2=A0 bdrv_skip_filters(target));
->> +
->> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 /*
->> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 * XXX BLK_PERM_WRITE n=
-eeds to be allowed so we don't block
->> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 * ourselves at s->base=
- (if writes are blocked for a node,
->> they are
->> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 * also blocked for its=
- backing file). The other options
->> would be a
->> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 * second filter driver=
- above s->base (=3D=3D target).
->> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 */
->> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 iter_shared_perms =3D BLK_PE=
-RM_WRITE_UNCHANGED | BLK_PERM_WRITE;
->> +
->> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 for (iter =3D bdrv_filter_or=
-_cow_bs(bs); iter !=3D target;
->> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0 iter =3D bdrv_filter_or_cow_bs(iter))
->> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 {
->> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 if (=
-iter =3D=3D filtered_target) {
->=20
->=20
-> For one filter node only?
-
-No, iter_shared_perms is never reset, so it retains the
-BLK_PERM_CONSISTENT_READ flag until the end of the loop.
-
->> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0=C2=A0=C2=A0 /*
->> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0=C2=A0=C2=A0=C2=A0 * From here on, all nodes are filters on the ba=
-se.
->> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0=C2=A0=C2=A0=C2=A0 * This allows us to share BLK_PERM_CONSISTENT_R=
-EAD.
->> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0=C2=A0=C2=A0=C2=A0 */
->> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0=C2=A0=C2=A0 iter_shared_perms |=3D BLK_PERM_CONSISTENT_READ;
->> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 }
->> +
->> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0 ret =3D block_job_add_bdrv(&s->common, "intermediate
->> node", iter, 0,
->> -=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 BL=
-K_PERM_WRITE_UNCHANGED |
->> BLK_PERM_WRITE,
->> -=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 er=
-rp);
->> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 it=
-er_shared_perms, errp);
->> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0 if (ret < 0) {
->> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 goto fail;
->> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0 }
-> ...
->> @@ -3042,6 +3053,7 @@ void qmp_drive_mirror(DriveMirror *arg, Error
->> **errp)
->> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 " named node of the graph");
->> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0 goto out;
->> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 }
->> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 replaces_node_name =3D arg->=
-replaces;
->=20
->=20
-> What is the idea behind the variables substitution?
-
-Looks like a remnant from v6, where there was an
-
-if (arg->has_replaces) {
-    ...
-    replaces_node_name =3D arg->replaces;
-} else if (unfiltered_bs !=3D bs) {
-    replaces_node_name =3D unfiltered_bs->node_name;
-}
-
-But I moved that logic to blockdev_mirror_common() in this version.
-
-So it=E2=80=99s just useless now and replaces_node_name shouldn=E2=80=99t e=
-xist.
-
-Max
-
-
---gwPBYk1Mpl24QAOwrdSrGctR4iYTpPfBH--
-
---c5x4npZVcB270GfjhvfzsSi0YsmGWDCTv
-Content-Type: application/pgp-signature; name="signature.asc"
-Content-Description: OpenPGP digital signature
-Content-Disposition: attachment; filename="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQEzBAEBCAAdFiEEkb62CjDbPohX0Rgp9AfbAGHVz0AFAl8arpkACgkQ9AfbAGHV
-z0B6TAf7BTB2c3nEWTHngRMIfHxzMxHYNFOejHY3ntvw83XKr2WSlUsB0KNMJdBE
-Dlsrv4zGuMsP+fmfCrp6D/2EZccR9Ws2+pV34cMJvS2VLgN/LqDBtD/Yq3WkpsPW
-whoe7mL2OGiig6FbLAQtkOS14cAPHO5EkDMPZZmP/Gw3x2oVc27pSbzonJsZVQT8
-qcAIQBk5FUmeMNOPiEns/zMctSpa0SdyghIIFCsjm7CXU4Etep2qD5oRqpMZgq01
-u+EBKQ4AW0hFkm4rgAMcg1iQi8lFWetfiI1NYbmjVP83XopbclBvt4aazWKgLYV8
-TTdMISFsAz2eKAX1JZX9ZNTYYToekg==
-=ZGqJ
------END PGP SIGNATURE-----
-
---c5x4npZVcB270GfjhvfzsSi0YsmGWDCTv--
+Andrey
 
 
