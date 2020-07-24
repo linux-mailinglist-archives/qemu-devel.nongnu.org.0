@@ -2,83 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B735822CB3C
-	for <lists+qemu-devel@lfdr.de>; Fri, 24 Jul 2020 18:40:29 +0200 (CEST)
-Received: from localhost ([::1]:43590 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5565322CB60
+	for <lists+qemu-devel@lfdr.de>; Fri, 24 Jul 2020 18:46:45 +0200 (CEST)
+Received: from localhost ([::1]:58656 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jz0kG-0002Rk-P3
-	for lists+qemu-devel@lfdr.de; Fri, 24 Jul 2020 12:40:28 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:54616)
+	id 1jz0qK-0000oe-C2
+	for lists+qemu-devel@lfdr.de; Fri, 24 Jul 2020 12:46:44 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:56024)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1jz0it-0000bW-4m
- for qemu-devel@nongnu.org; Fri, 24 Jul 2020 12:39:03 -0400
-Received: from mail-wm1-x341.google.com ([2a00:1450:4864:20::341]:50393)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1jz0ir-0001UB-6M
- for qemu-devel@nongnu.org; Fri, 24 Jul 2020 12:39:02 -0400
-Received: by mail-wm1-x341.google.com with SMTP id c80so8500134wme.0
- for <qemu-devel@nongnu.org>; Fri, 24 Jul 2020 09:39:00 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=sender:subject:to:cc:references:from:message-id:date:user-agent
- :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=M1ywS3JuuBHjGFiuytvjByOCh82CYAK+09EO/apj9e4=;
- b=CWtNhqU7B7++66aixkGS8feEqrWmv2yba9qfY4vrXYuI6yEtZ809COkcb/slMDmhAW
- Ck9yxfWOASYv5Vpy5+ufZR7x5VXMihpAFKPYTlAE86//PcJRWoIh82jeSqzX6OmW8SvX
- Rfa57cw6IMeOX5nCHbZL1WkJE3gfueT1miT55+dKKZL2qOOK0z2MTWguRlrbpitgZSHW
- Pm1+jGEhoXjiE4yfFEKSJmhHePkXgcjncAsNEGKe5R6ZkoTtC28lQZxXL421ltztJAaI
- OvzboutXkS4lUBd4MQEykzn6TNeWlk4qd2kDqS3qe3zm30GFgGq2yO4KM8yfPuiGIa2B
- dI9g==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:sender:subject:to:cc:references:from:message-id
- :date:user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=M1ywS3JuuBHjGFiuytvjByOCh82CYAK+09EO/apj9e4=;
- b=RoIBxLcoyVvi33/Lv0wlK3cUebbA4Jw7gqbxEhESMDj1jqCmm6mk9DgRRfuL+XX6Rc
- MjFe+Ik4nXDLGdJq5UpqMexriB7RRKIbyKSN8CtMJCssUOpCZLbkK2wa7vt30CjXyyV0
- VVkic1JLjY7HcwiSkXIj8TFeBaQeo+FkuYb/0ufCxqJK8NuEZUBoUZi7z6PUPkO24DPh
- 2LgRqDf71VsiIty36El08fFA8HzfPnpTR86PLjdRuXb2tySo4jCtzOIwuc/JzXFErC8/
- vZZcCikCIdu1qWZlXaGz7tesLVVvhJDyRs5eOc20RQgW5r7rMkiWvVUyF4PdGXlLg33E
- gPCg==
-X-Gm-Message-State: AOAM531QxidqT4KBfrlLib2il9VnXxjfo+wxObdwCjK5aBu/7ukcZKgF
- 3Raer900J/G3CG0YQiX/Q/g=
-X-Google-Smtp-Source: ABdhPJwJQPrIn7Exxay97zNsYjI5EAjJZPGwmSAMuICkDMKw/5hhkqbzrH/3KNA5gTx+Ld4o1Hd/Xw==
-X-Received: by 2002:a1c:3bc1:: with SMTP id i184mr9346983wma.119.1595608739137; 
- Fri, 24 Jul 2020 09:38:59 -0700 (PDT)
-Received: from [192.168.1.33] (214.red-88-21-68.staticip.rima-tde.net.
- [88.21.68.214])
- by smtp.gmail.com with ESMTPSA id j6sm2026187wro.25.2020.07.24.09.38.57
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Fri, 24 Jul 2020 09:38:58 -0700 (PDT)
-Subject: Re: [PATCH v2] gitlab-ci: Fix Avocado cache usage
-To: Wainer dos Santos Moschetta <wainersm@redhat.com>, qemu-devel@nongnu.org
-References: <20200724074251.28782-1-f4bug@amsat.org>
- <ad3b1a85-3ac0-e21f-1d39-3e9dc6e9635a@redhat.com>
-From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>
-Message-ID: <4dbee992-d14f-343f-2d04-60b4db411c3c@amsat.org>
-Date: Fri, 24 Jul 2020 18:38:57 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.5.0
+ (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1jz0mw-0005Mk-7b
+ for qemu-devel@nongnu.org; Fri, 24 Jul 2020 12:43:14 -0400
+Received: from us-smtp-1.mimecast.com ([205.139.110.61]:47414
+ helo=us-smtp-delivery-1.mimecast.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1jz0mu-0002aE-Ju
+ for qemu-devel@nongnu.org; Fri, 24 Jul 2020 12:43:13 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1595608991;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding;
+ bh=j4Avp+evuy3lGWRW/wF3VnbX9D8jtxzLrMUE3Wyr84E=;
+ b=YwUOeLzASmzkREdS/ADJxt7LIxwqepqBBX/7mwqhOTo3B6K+dudXf7MePG2V95u66uR1wx
+ J2K0rNfZtL8wJASJf02Gess+R0OK75LBWZubA9MD9lo2sVNWhHi+QXygSESNrsXhsWtrtD
+ HM8rZB2Qw2UC7s6zS8J84+95F7Vys2g=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-384-2HiQOSZ4O6WJsdxQ5qdAQA-1; Fri, 24 Jul 2020 12:43:07 -0400
+X-MC-Unique: 2HiQOSZ4O6WJsdxQ5qdAQA-1
+Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
+ [10.5.11.12])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 312D680046A;
+ Fri, 24 Jul 2020 16:43:06 +0000 (UTC)
+Received: from sirius.home.kraxel.org (ovpn-115-89.ams2.redhat.com
+ [10.36.115.89])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id DDFE637DD;
+ Fri, 24 Jul 2020 16:42:59 +0000 (UTC)
+Received: by sirius.home.kraxel.org (Postfix, from userid 1000)
+ id 974AA17444; Fri, 24 Jul 2020 18:42:58 +0200 (CEST)
+From: Gerd Hoffmann <kraxel@redhat.com>
+To: qemu-devel@nongnu.org
+Subject: [PULL 0/3] Fixes 20200724 patches
+Date: Fri, 24 Jul 2020 18:42:55 +0200
+Message-Id: <20200724164258.24886-1-kraxel@redhat.com>
 MIME-Version: 1.0
-In-Reply-To: <ad3b1a85-3ac0-e21f-1d39-3e9dc6e9635a@redhat.com>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::341;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wm1-x341.google.com
-X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
- That's all we know.
-X-Spam_score_int: 0
-X-Spam_score: 0.0
-X-Spam_bar: /
-X-Spam_report: (0.0 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1, DKIM_VALID=-0.1,
- DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=1, FREEMAIL_FROM=0.001,
- HEADER_FROM_DIFFERENT_DOMAINS=1, RCVD_IN_DNSWL_NONE=-0.0001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- URIBL_BLOCKED=0.001 autolearn=no autolearn_force=no
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=205.139.110.61; envelope-from=kraxel@redhat.com;
+ helo=us-smtp-delivery-1.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/07/24 06:44:00
+X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
+X-Spam_score_int: -40
+X-Spam_score: -4.1
+X-Spam_bar: ----
+X-Spam_report: (-4.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-1, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001, URIBL_BLOCKED=0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -91,195 +77,42 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Willian Rampazzo <willianr@redhat.com>,
- =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>,
- Thomas Huth <thuth@redhat.com>,
- =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>,
- Cleber Rosa <crosa@redhat.com>
+Cc: Peter Maydell <peter.maydell@linaro.org>, qemu-arm@nongnu.org,
+ Gerd Hoffmann <kraxel@redhat.com>, "Michael S. Tsirkin" <mst@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 7/24/20 5:52 PM, Wainer dos Santos Moschetta wrote:
-> Hi Philippe,
-> 
-> On 7/24/20 4:42 AM, Philippe Mathieu-Daudé wrote:
->> In commit 6957fd98dc ("gitlab: add avocado asset caching") we
->> tried to save the Avocado cache (as in commit c1073e44b4 with
->> Travis-CI) however it doesn't work as expected. For some reason
->> Avocado uses /root/avocado_cache/ which we can not select later.
->>
->> Manually generate a Avocado config to force the use of the
->> current directory.
->>
->> We add a new 'build-acceptance-cache' job that runs first,
->> (during the 'build' stage) to create/update the cache.
->>
->> The cache content is then pulled (but not updated) during the
->> 'test' stage.
->>
->> See:
->> - https://docs.gitlab.com/ee/ci/caching/
->> -
->> https://avocado-framework.readthedocs.io/en/latest/guides/writer/chapters/writing.html#fetching-asset-files
->>
->>
->> Reported-by: Thomas Huth <thuth@redhat.com>
->> Fixes: 6957fd98dc ("gitlab: add avocado asset caching")
->> Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
->> ---
->> Since v1:
->> - add a specific 'build-acceptance-cache' job
->>
->> Thomas prefers to use a different cache for each job.
->> Since I had this patch ready, I prefer to post it as
->> v2 and will work on a v3 using Thomas suggestion.
->>
->> Supersedes: <20200723200318.28214-1-f4bug@amsat.org>
->> Based-on: <20200724073524.26589-1-f4bug@amsat.org>
->>            "tests: Add 'fetch-acceptance' rule"
->> ---
->>   .gitlab-ci.yml | 61 ++++++++++++++++++++++++++++++++++++++++++--------
->>   1 file changed, 52 insertions(+), 9 deletions(-)
->>
->> diff --git a/.gitlab-ci.yml b/.gitlab-ci.yml
->> index 362e5ee755..a8d8a7e849 100644
->> --- a/.gitlab-ci.yml
->> +++ b/.gitlab-ci.yml
->> @@ -8,11 +8,9 @@ stages:
->>     - build
->>     - test
->>   -# We assume GitLab has it's own caching set up for RPM/APT
->> repositories so we
->> -# just take care of avocado assets here.
->> -cache:
->> -  paths:
->> -    - $HOME/avocado/data/cache
->> +# We assume GitLab has it's own caching set up for RPM/APT repositories
->> +cache: &global_cache
->> +  policy: pull
->>     include:
->>     - local: '/.gitlab-ci.d/edk2.yml'
->> @@ -47,11 +45,52 @@ include:
->>       - find . -type f -exec touch {} +
->>       - make $MAKE_CHECK_ARGS
->>   -.post_acceptance_template: &post_acceptance
->> +.acceptance_template: &acceptance_definition
-> 
-> What if you:
-> 
-> - Keep the post_acceptance section which defines the common after_script
-> only.
-> 
-> - Create the acceptance_definition as you did, with before_script only.
-> This way it doesn't need to repeat the logic in build-acceptance-cache
-> job definition.
+The following changes since commit 09e0cd773723219d21655587954da2769f64ba01:
 
-See below [*].
+  Merge remote-tracking branch 'remotes/alistair/tags/pull-riscv-to-apply-20200722-1' into staging (2020-07-23 19:00:42 +0100)
 
-> 
-> 
->> +  cache:
->> +    # inherit all global cache settings
->> +    <<: *global_cache
->> +    key: acceptance_cache
->> +    paths:
->> +      - $CI_PROJECT_DIR/avocado_cache
->> +    policy: pull
-> 
-> Isn't this policy inherited from global settings already?
+are available in the Git repository at:
 
-Uh, bug! I had it right and messed when cleaning before posting...
-This one is "pull-push" (while global_cache is pull).
+  git://git.kraxel.org/qemu tags/fixes-20200724-pull-request
 
-> 
->> +  before_script:
->> +    - JOBS=$(expr $(nproc) + 1)
->> +    - mkdir -p ~/.config/avocado
->> +    - echo "[datadir.paths]" > ~/.config/avocado/avocado.conf
->> +    - echo "cache_dirs = ['${CI_PROJECT_DIR}/avocado_cache']" >>
->> ~/.config/avocado/avocado.conf
->>     after_script:
->>       - cd build
->>       - python3 -c 'import json; r =
->> json.load(open("tests/results/latest/results.json"));
->> [print(t["logfile"]) for t in r["tests"] if t["status"] not in
->> ("PASS", "SKIP")]' | xargs cat
->> -    - du -chs $HOME/avocado/data/cache
->> +    - du -chs $CI_PROJECT_DIR/avocado_cache
->> +
->> +build-acceptance-cache:
->> +  stage: build
->> +  cache:
->> +    # inherit all global cache settings
->> +    <<: *global_cache
->> +    key: acceptance_cache
->> +    paths:
->> +      - $CI_PROJECT_DIR/avocado_cache
->> +    policy: pull-push
->> +  variables:
->> +    # any image should work
->> +    IMAGE: ubuntu2004
->> +    CONFIGURE_ARGS: --disable-user --disable-system
->> +      --disable-docs --disable-tools
->> +    MAKE_CHECK_ARGS: fetch-acceptance
->> +  image: $CI_REGISTRY_IMAGE/qemu/$IMAGE:latest
->> +  before_script:
->> +    - mkdir -p ~/.config/avocado
->> +    - echo "[datadir.paths]" > ~/.config/avocado/avocado.conf
->> +    - echo "cache_dirs = ['${CI_PROJECT_DIR}/avocado_cache']" >>
->> ~/.config/avocado/avocado.conf
->> +  script:
->> +    - mkdir build
->> +    - cd build
->> +    - ../configure --disable-user --disable-system --disable-docs
->> --disable-tools
-> Use the CONFIGURE_ARGS variable here, or not define it.
->> +    # ignore "asset fetched or already on cache" error
->> +    - make fetch-acceptance || true
-> 
-> Likewise for MAKE_CHECK_ARGS.
+for you to fetch changes up to 9b52b17ba5e96cec182537715e87308108b47117:
 
-[*] The point here is to not call 'make -j"$JOBS"'. Using
-variables for the same script seems over complicated IMO.
+  configure: Allow to build tools without pixman (2020-07-24 17:36:03 +0200)
 
-> 
-> Regards,
-> 
-> Wainer
-> 
->> +  after_script:
->> +    - du -chs $CI_PROJECT_DIR/avocado_cache
->>     build-system-ubuntu-main:
->>     <<: *native_build_job_definition
->> @@ -76,13 +115,15 @@ check-system-ubuntu-main:
->>     acceptance-system-ubuntu-main:
->>     <<: *native_test_job_definition
->> +  <<: *acceptance_definition
->>     needs:
->>       - job: build-system-ubuntu-main
->>         artifacts: true
->> +    - job: build-acceptance-cache
->> +      artifacts: false
->>     variables:
->>       IMAGE: ubuntu2004
->>       MAKE_CHECK_ARGS: check-acceptance
->> -  <<: *post_acceptance
->>     build-system-fedora-alt:
->>     <<: *native_build_job_definition
->> @@ -107,13 +148,15 @@ check-system-fedora-alt:
->>     acceptance-system-fedora-alt:
->>     <<: *native_test_job_definition
->> +  <<: *acceptance_definition
->>     needs:
->>       - job: build-system-fedora-alt
->>         artifacts: true
->> +    - job: build-acceptance-cache
->> +      artifacts: false
->>     variables:
->>       IMAGE: fedora
->>       MAKE_CHECK_ARGS: check-acceptance
->> -  <<: *post_acceptance
->>     build-disabled:
->>     <<: *native_build_job_definition
-> 
+----------------------------------------------------------------
+bugfixes: virtio-input, usb-dwc2, pixman.
+
+----------------------------------------------------------------
+
+Peter Maydell (1):
+  hw/input/virtio-input-hid.c: Don't undef CONFIG_CURSES
+
+Thomas Huth (2):
+  hw: Only compile the usb-dwc2 controller if it is really needed
+  configure: Allow to build tools without pixman
+
+ configure                   | 2 +-
+ hw/input/virtio-input-hid.c | 1 -
+ hw/arm/Kconfig              | 1 +
+ hw/usb/Kconfig              | 1 -
+ 4 files changed, 2 insertions(+), 3 deletions(-)
+
+-- 
+2.18.4
+
 
