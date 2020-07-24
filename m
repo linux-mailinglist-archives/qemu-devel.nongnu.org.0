@@ -2,75 +2,64 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id AE2AE22C809
-	for <lists+qemu-devel@lfdr.de>; Fri, 24 Jul 2020 16:33:03 +0200 (CEST)
-Received: from localhost ([::1]:39460 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 91AE522C813
+	for <lists+qemu-devel@lfdr.de>; Fri, 24 Jul 2020 16:34:20 +0200 (CEST)
+Received: from localhost ([::1]:45514 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jyykw-0004gD-Ey
-	for lists+qemu-devel@lfdr.de; Fri, 24 Jul 2020 10:33:02 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:47256)
+	id 1jyymB-00079G-Lp
+	for lists+qemu-devel@lfdr.de; Fri, 24 Jul 2020 10:34:19 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:47598)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1jyyjd-0003y9-LO
- for qemu-devel@nongnu.org; Fri, 24 Jul 2020 10:31:41 -0400
-Received: from us-smtp-2.mimecast.com ([207.211.31.81]:50006
- helo=us-smtp-delivery-1.mimecast.com)
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1jyykV-0004rU-5v
+ for qemu-devel@nongnu.org; Fri, 24 Jul 2020 10:32:35 -0400
+Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:20446
+ helo=us-smtp-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1jyyjb-0004Su-Mv
- for qemu-devel@nongnu.org; Fri, 24 Jul 2020 10:31:41 -0400
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1jyykT-0004Zd-Dd
+ for qemu-devel@nongnu.org; Fri, 24 Jul 2020 10:32:34 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1595601098;
- h=from:from:reply-to:reply-to:subject:subject:date:date:
- message-id:message-id:to:to:cc:cc:mime-version:mime-version:
- content-type:content-type:in-reply-to:in-reply-to:  references:references;
- bh=Gc3581YuDgh8Ndx9OFE1UyjwREri5Wk8g+QEsrt8vuY=;
- b=MlaUnqiUNOpIXD22x7/EdU1vmqCr3Esyk3EScMhmYoSUodXiidihoVY78ZnvoJn2k9dIvn
- he8Ga6hhPqBiCuy+8xrDI7gyWJWL5Aj5eT+KusRXa9tBjOjpWH6eFiyLUQDcxeYNxsL/GG
- 2Iab+GlR4Lj1orIL4GWZzBSVBMGZLUs=
+ s=mimecast20190719; t=1595601151;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:content-type:content-type;
+ bh=gCYXddg9KEF5UJdaSDvKVu3U7zSALS97XEROXq7wVpY=;
+ b=WgwR4fim+hpPGS7CGkwfe8Kobh1qb9QCJWImR6KX3Ha4VB94dusgRpaDsdvbuZSsh+OAT1
+ TPlgeU2hK6ktrZjRrod2n2qT6HE087Z/ZJEKtlfexb2l1oHG4KntL+2D9iV5wJxnFEhXSm
+ 44EfoXav2Of2qQGzgD63azP+bEI21QI=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-491-sirau-jSP1SLSWhsoFvEoQ-1; Fri, 24 Jul 2020 10:31:33 -0400
-X-MC-Unique: sirau-jSP1SLSWhsoFvEoQ-1
-Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
- [10.5.11.16])
+ us-mta-384-n3fUCkBmOCyPyq8rFSVkdg-1; Fri, 24 Jul 2020 10:32:25 -0400
+X-MC-Unique: n3fUCkBmOCyPyq8rFSVkdg-1
+Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
+ [10.5.11.23])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 0044D107ACCA;
- Fri, 24 Jul 2020 14:31:32 +0000 (UTC)
-Received: from redhat.com (unknown [10.36.110.43])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id DCFBD6932B;
- Fri, 24 Jul 2020 14:31:26 +0000 (UTC)
-Date: Fri, 24 Jul 2020 15:31:23 +0100
-From: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
-To: Gerd Hoffmann <kraxel@redhat.com>
-Subject: Re: Possible regression with VGA and resolutions in Windows 10?
-Message-ID: <20200724143123.GF3146350@redhat.com>
-References: <24909a16-be74-7516-b5c5-08bdc743a553@proxmox.com>
- <20200724094120.dptmucij4phzd3od@sirius.home.kraxel.org>
- <1ee13b41-3ed7-8dd4-99b7-e325e95878d5@proxmox.com>
- <20200724141032.jmub3zixekeyy3x3@sirius.home.kraxel.org>
-MIME-Version: 1.0
-In-Reply-To: <20200724141032.jmub3zixekeyy3x3@sirius.home.kraxel.org>
-User-Agent: Mutt/1.14.5 (2020-06-23)
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 5E8BD1DE0;
+ Fri, 24 Jul 2020 14:32:24 +0000 (UTC)
+Received: from thuth.com (ovpn-112-77.ams2.redhat.com [10.36.112.77])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 5824F2DE79;
+ Fri, 24 Jul 2020 14:32:22 +0000 (UTC)
+From: Thomas Huth <thuth@redhat.com>
+To: qemu-devel@nongnu.org,
+ =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
+Subject: [PATCH 0/3] Improve FreeBSD and macOS jobs in the Cirrus-CI
+Date: Fri, 24 Jul 2020 16:32:17 +0200
+Message-Id: <20200724143220.32751-1-thuth@redhat.com>
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Received-SPF: pass client-ip=207.211.31.81; envelope-from=berrange@redhat.com;
- helo=us-smtp-delivery-1.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/07/24 00:00:27
+Content-Type: text/plain; charset=US-ASCII
+Received-SPF: pass client-ip=205.139.110.120; envelope-from=thuth@redhat.com;
+ helo=us-smtp-1.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/07/24 08:23:04
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
-X-Spam_score_int: -30
-X-Spam_score: -3.1
-X-Spam_bar: ---
-X-Spam_report: (-3.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1,
+X-Spam_score_int: -40
+X-Spam_score: -4.1
+X-Spam_bar: ----
+X-Spam_report: (-4.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H3=-0.01, RCVD_IN_MSPIKE_WL=-0.01,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- URIBL_BLOCKED=0.001 autolearn=ham autolearn_force=no
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-1, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -83,38 +72,31 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
-Cc: Aaron Lauterer <a.lauterer@proxmox.com>, qemu-devel <qemu-devel@nongnu.org>
+Cc: Peter Maydell <peter.maydell@linaro.org>, Ed Maste <emaste@freebsd.org>,
+ Christian Schoenebeck <qemu_oss@crudebyte.com>,
+ Paolo Bonzini <pbonzini@redhat.com>, Li-Wen Hsu <lwhsu@freebsd.org>,
+ Richard Henderson <rth@twiddle.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Fri, Jul 24, 2020 at 04:10:32PM +0200, Gerd Hoffmann wrote:
->   Hi,
-> 
-> > The behavior is similar when setting a custom resolution with the xres
-> > and yres parameters. Setting it the first time works fine and it is
-> > shown along with the short list. Setting it to something different on
-> > the next boot will not be recognized unless the display adapter is
-> > uninstalled and the VM rebooted.
-> 
-> Interesting.  Seems Windows caches the list of resolutions (or the edid
-> blob) somewhere in the registry instead of loading it on every boot.
-> I've seen simliar behavior with usb device info.
-> 
-> [ something for the 5.1 release notes I think, thanks for testing this ]
+Our configure script does not enable -Werror on macOS and FreeBSD
+by default yet. That's bad in the CI, since we might miss compiler
+warnings and thus bugs this way. So after fixing a problem in the
+configure script in the first patch, we now turn on -Werror here
+in the second patch. The third patch is just a cosmetical one, since
+Cirrus-CI seems to upgrade all jobs automatically to Cataline these
+days.
 
-Do we need to be disabling edid in the old machine types to prevent this
-change in guest ABI due to the changed BIOS ?
+Thomas Huth (3):
+  configure: Fix atomic64 test for --enable-werror on macOS
+  cirrus.yml: Compile macOS and FreeBSD with -Werror
+  cirrus.yml: Update the macOS jobs to Catalina
 
-eg existing VMs using a versioned machine type shouldn't suddenly get edid
-enabled where previously it was not present. Only VMs using the new 5.1 or
-unversioned machine types should see the change in behaviour.
+ .cirrus.yml | 12 +++++++-----
+ configure   | 10 +++++-----
+ 2 files changed, 12 insertions(+), 10 deletions(-)
 
-Regards,
-Daniel
 -- 
-|: https://berrange.com      -o-    https://www.flickr.com/photos/dberrange :|
-|: https://libvirt.org         -o-            https://fstop138.berrange.com :|
-|: https://entangle-photo.org    -o-    https://www.instagram.com/dberrange :|
+2.18.1
 
 
