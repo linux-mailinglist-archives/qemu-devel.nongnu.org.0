@@ -2,69 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4A8D822C822
-	for <lists+qemu-devel@lfdr.de>; Fri, 24 Jul 2020 16:35:33 +0200 (CEST)
-Received: from localhost ([::1]:50398 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0DC1422C830
+	for <lists+qemu-devel@lfdr.de>; Fri, 24 Jul 2020 16:38:44 +0200 (CEST)
+Received: from localhost ([::1]:55886 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jyynM-0000kA-3Q
-	for lists+qemu-devel@lfdr.de; Fri, 24 Jul 2020 10:35:32 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:47954)
+	id 1jyyqQ-00039c-Rq
+	for lists+qemu-devel@lfdr.de; Fri, 24 Jul 2020 10:38:42 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:49514)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1jyylm-00078C-Uf
- for qemu-devel@nongnu.org; Fri, 24 Jul 2020 10:33:54 -0400
-Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:57717
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1jyypT-0002ZB-Qy
+ for qemu-devel@nongnu.org; Fri, 24 Jul 2020 10:37:43 -0400
+Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:55824
  helo=us-smtp-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1jyyll-0004hU-24
- for qemu-devel@nongnu.org; Fri, 24 Jul 2020 10:33:54 -0400
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1jyypR-0005QT-DF
+ for qemu-devel@nongnu.org; Fri, 24 Jul 2020 10:37:43 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1595601232;
+ s=mimecast20190719; t=1595601460;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
- bh=MIQ0bIU6co+XtiZGTirpJi6eFCfpeQM/nYgl/kbu4zc=;
- b=UrNY4vZRyxPjjMO3rSs99U2Rw+j5bs8SkEM/gIkx/XkIKJuSsn/1awdQR6zbhlwptsvPKm
- apZizYrMXEGDlW8zcdHhKFY1AFKsMD71qqLrcUT2Hr3Ad2QJcV334pHW9QgVL20yyRFkkE
- 2GHbHmaRsQkoR+WqnanBxEB6a3WGAIY=
-Received: from mail-wr1-f71.google.com (mail-wr1-f71.google.com
- [209.85.221.71]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-193-VIaGVqeHNwuoxeAfblpM0g-1; Fri, 24 Jul 2020 10:33:50 -0400
-X-MC-Unique: VIaGVqeHNwuoxeAfblpM0g-1
-Received: by mail-wr1-f71.google.com with SMTP id 89so2205236wrr.15
- for <qemu-devel@nongnu.org>; Fri, 24 Jul 2020 07:33:50 -0700 (PDT)
+ bh=CxxYXq0Ya5G8OlkLF9LEQENDau11QrFUsrQIbA2S5FA=;
+ b=Z+/2PoFXjUnU87Dzor/XqyRND2EfVRHdfJOeg1Mlaxcm62qXh20qdEhrCatPMI2FA/X2A8
+ yzTDZPT0CBKDH3OnrMX6871HmyI8OpX+RBfId83vMAUVVQPPY2X9LtSQgN7LYz3mWqnpkI
+ zLimvZLhDbLLNefZopFWUdFnhpfc4ng=
+Received: from mail-wr1-f70.google.com (mail-wr1-f70.google.com
+ [209.85.221.70]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-407-26cMZVEvP-eiMTNWSdAsoQ-1; Fri, 24 Jul 2020 10:37:38 -0400
+X-MC-Unique: 26cMZVEvP-eiMTNWSdAsoQ-1
+Received: by mail-wr1-f70.google.com with SMTP id a18so2223204wrm.14
+ for <qemu-devel@nongnu.org>; Fri, 24 Jul 2020 07:37:38 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:subject:to:cc:references:from:autocrypt
  :message-id:date:user-agent:mime-version:in-reply-to
  :content-language:content-transfer-encoding;
- bh=MIQ0bIU6co+XtiZGTirpJi6eFCfpeQM/nYgl/kbu4zc=;
- b=pqDFS2gytcq90kGzm1O2293mOaxoK9E+MOoFKoUNbAYNf1b0oyPAwNRMsyh78HVBaD
- /WKhpqv8QocGmzU+9B81CvstP/S260f5wfl3eRZythp/tb0ZuA2/UU2uNr2Z0fnDr2uO
- kbG0gkoWvbvn5XuDTk3r1Aqt00PvcZzbTXW6U62yQTOZ+FPMKOdeQt7WeaOonNB+ficK
- qkJhSijkYjK1vJ8xe+jN0CTklzeEmtVbCZyqPjeoF5I38lUoZr8XeNawdk4wSHBr75Bv
- Ax1v5rc4LcIgnQs6huVrW596j5kfb+t7uh0QTSrqztvjmREDDzQJArf/R9N2YrfzfCu6
- 58lQ==
-X-Gm-Message-State: AOAM5324+T3hBzbQI/SLx6vke9h4R6yqH2QnQ037gWCUMS3RDmrVVi1v
- kL+UDZEZG4pruuCbdc8cUu8w5L7X6aXt43CHgKFkyYDTBf+UUP9iItLzEX6Ay2kAeFlLOwIOreZ
- fMRbns59nOq/H7jI=
-X-Received: by 2002:adf:94a1:: with SMTP id 30mr8483823wrr.37.1595601229319;
- Fri, 24 Jul 2020 07:33:49 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJyDxXOS/Mg4TvPOR2KqRcN4gKyTQpOwBfTpPXW3Bq76kNnSfTYmWpphRUWx2ec83hUVKpqrdA==
-X-Received: by 2002:adf:94a1:: with SMTP id 30mr8483800wrr.37.1595601229043;
- Fri, 24 Jul 2020 07:33:49 -0700 (PDT)
+ bh=CxxYXq0Ya5G8OlkLF9LEQENDau11QrFUsrQIbA2S5FA=;
+ b=kPdVOal6YS+8gvFK9HcV/h2qra0ay/ZOliLrBErZRkXk3rcj3cw5GhMrW/9hi3HwVP
+ l7jXStV/LdjLm/Gk5dMUK/+MBkvR6W5/SeJHeXNrptGuUmq2y6kPeq55+louf8xiItQH
+ JLs51hiM4O3eubGXPTS8N2d+PjUNdx1iIjXqHz4LDaYeUDn78pmvuNJjRNbAfMu8PyRf
+ VPezhKKaKc9kfRfYRW6WCrY+seQiFWbGCX2TILw4FiQ6Uy9g3M/n2PmKG5QgvL/r6aQv
+ +akIT3L8r9Mb8tfzH+s9p4bngrsA0O+vJDiI75GRo93D6GyDTp/WAhJbr6tGuWL3RqOK
+ aQ2A==
+X-Gm-Message-State: AOAM531V9GTNIcflK+6UX6NX8ssTEI5/WWKtm76jRALqezdLr7JjZcc8
+ dcH4EocDfhOQg12UpMbsYE22WB14NFQiB62O+q/roD5T+kvA1VSB5rmZFiGExoMAs/SitvcadbE
+ CQm1auFZq058ZHnU=
+X-Received: by 2002:adf:fb06:: with SMTP id c6mr8678646wrr.261.1595601457300; 
+ Fri, 24 Jul 2020 07:37:37 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJxebtFaN/kD4Fcy6l2ocVNMyDOiycLGO+GrvCCOB2A6icDGrV79+YSdB39EEywuy/CRP8+FZQ==
+X-Received: by 2002:adf:fb06:: with SMTP id c6mr8678625wrr.261.1595601457045; 
+ Fri, 24 Jul 2020 07:37:37 -0700 (PDT)
 Received: from [192.168.1.33] (214.red-88-21-68.staticip.rima-tde.net.
  [88.21.68.214])
- by smtp.gmail.com with ESMTPSA id u16sm7439854wmn.11.2020.07.24.07.33.48
+ by smtp.gmail.com with ESMTPSA id c25sm7141869wml.46.2020.07.24.07.37.36
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Fri, 24 Jul 2020 07:33:48 -0700 (PDT)
-Subject: Re: [PATCH v3 2/4] util: introduce qemu_open and qemu_create with
- error reporting
+ Fri, 24 Jul 2020 07:37:36 -0700 (PDT)
+Subject: Re: [PATCH v3 4/4] block: switch to use qemu_open/qemu_create for
+ improved errors
 To: =?UTF-8?Q?Daniel_P=2e_Berrang=c3=a9?= <berrange@redhat.com>,
  qemu-devel@nongnu.org
 References: <20200724132510.3250311-1-berrange@redhat.com>
- <20200724132510.3250311-3-berrange@redhat.com>
+ <20200724132510.3250311-5-berrange@redhat.com>
 From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
 Autocrypt: addr=philmd@redhat.com; keydata=
  mQINBDXML8YBEADXCtUkDBKQvNsQA7sDpw6YLE/1tKHwm24A1au9Hfy/OFmkpzo+MD+dYc+7
@@ -89,12 +89,12 @@ Autocrypt: addr=philmd@redhat.com; keydata=
  9BFSL3qgXuXso/3XuWTQjJJGgKhB6xXjMmb1J4q/h5IuVV4juv1Fem9sfmyrh+Wi5V1IzKI7
  RPJ3KVb937eBgSENk53P0gUorwzUcO+ASEo3Z1cBKkJSPigDbeEjVfXQMzNt0oDRzpQqH2vp
  apo2jHnidWt8BsckuWZpxcZ9+/9obQ55DyVQHGiTN39hkETy3Emdnz1JVHTU0Q==
-Message-ID: <cf17b9eb-e510-b8ff-cf17-b7eb474048a7@redhat.com>
-Date: Fri, 24 Jul 2020 16:33:47 +0200
+Message-ID: <ee219d91-d359-8034-bd87-1f980baa5bdd@redhat.com>
+Date: Fri, 24 Jul 2020 16:37:35 +0200
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
  Thunderbird/68.5.0
 MIME-Version: 1.0
-In-Reply-To: <20200724132510.3250311-3-berrange@redhat.com>
+In-Reply-To: <20200724132510.3250311-5-berrange@redhat.com>
 Content-Language: en-US
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
@@ -129,192 +129,99 @@ Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 On 7/24/20 3:25 PM, Daniel P. Berrangé wrote:
-> This introduces two new helper metohds
+> Currently at startup if using cache=none on a filesystem lacking
+> O_DIRECT such as tmpfs, at startup QEMU prints
 > 
->   int qemu_open(const char *name, int flags, Error **errp);
->   int qemu_create(const char *name, int flags, mode_t mode, Error **errp);
+> qemu-system-x86_64: -drive file=/tmp/foo.img,cache=none: file system may not support O_DIRECT
+> qemu-system-x86_64: -drive file=/tmp/foo.img,cache=none: Could not open '/tmp/foo.img': Invalid argument
 > 
-> Note that with this design we no longer require or even accept the
-> O_CREAT flag. Avoiding overloading the two distinct operations
-> means we can avoid variable arguments which would prevent 'errp' from
-> being the last argument. It also gives us a guarantee that the 'mode' is
-> given when creating files, avoiding a latent security bug.
+> while at QMP level the hint is missing, so QEMU reports just
+> 
+>   "error": {
+>       "class": "GenericError",
+>       "desc": "Could not open '/tmp/foo.img': Invalid argument"
+>   }
+> 
+> which is close to useless for the end user trying to figure out what
+> they did wrong.
+> 
+> With this change at startup QEMU prints
+> 
+> qemu-system-x86_64: -drive file=/tmp/foo.img,cache=none: Unable to open '/tmp/foo.img' flags 0x4000: filesystem does not support O_DIRECT
+> 
+> while at the QMP level QEMU reports a massively more informative
+> 
+>   "error": {
+>      "class": "GenericError",
+>      "desc": "Unable to open '/tmp/foo.img' flags 0x4002: filesystem does not support O_DIRECT"
+>   }
 > 
 > Signed-off-by: Daniel P. Berrangé <berrange@redhat.com>
 > ---
->  include/qemu/osdep.h |  6 ++++
->  util/osdep.c         | 78 ++++++++++++++++++++++++++++++++++++--------
->  2 files changed, 71 insertions(+), 13 deletions(-)
+>  block/file-posix.c            | 18 +++++++-----------
+>  block/file-win32.c            |  6 ++----
+>  tests/qemu-iotests/051.out    |  4 ++--
+>  tests/qemu-iotests/051.pc.out |  4 ++--
+>  tests/qemu-iotests/061.out    |  2 +-
+>  tests/qemu-iotests/069.out    |  2 +-
+>  tests/qemu-iotests/082.out    |  4 ++--
+>  tests/qemu-iotests/111.out    |  2 +-
+>  tests/qemu-iotests/226.out    |  6 +++---
+>  tests/qemu-iotests/232.out    | 12 ++++++------
+>  tests/qemu-iotests/244.out    |  6 +++---
+>  11 files changed, 30 insertions(+), 36 deletions(-)
 > 
-> diff --git a/include/qemu/osdep.h b/include/qemu/osdep.h
-> index 3a16e58932..ca24ebe211 100644
-> --- a/include/qemu/osdep.h
-> +++ b/include/qemu/osdep.h
-> @@ -494,7 +494,13 @@ int qemu_madvise(void *addr, size_t len, int advice);
->  int qemu_mprotect_rwx(void *addr, size_t size);
->  int qemu_mprotect_none(void *addr, size_t size);
+> diff --git a/block/file-posix.c b/block/file-posix.c
+> index bac2566f10..c63926d592 100644
+> --- a/block/file-posix.c
+> +++ b/block/file-posix.c
+> @@ -630,11 +630,10 @@ static int raw_open_common(BlockDriverState *bs, QDict *options,
+>      raw_parse_flags(bdrv_flags, &s->open_flags, false);
 >  
-> +/*
-> + * Don't introduce new usage of this function, prefer the following
-> + * qemu_open/qemu_create that take a "Error **errp"
-> + */
->  int qemu_open_old(const char *name, int flags, ...);
-> +int qemu_open(const char *name, int flags, Error **errp);
-> +int qemu_create(const char *name, int flags, mode_t mode, Error **errp);
->  int qemu_close(int fd);
->  int qemu_unlink(const char *name);
->  #ifndef _WIN32
-> diff --git a/util/osdep.c b/util/osdep.c
-> index 9df1b6adec..5c0f4684b1 100644
-> --- a/util/osdep.c
-> +++ b/util/osdep.c
-> @@ -22,6 +22,7 @@
->   * THE SOFTWARE.
->   */
->  #include "qemu/osdep.h"
-> +#include "qapi/error.h"
+>      s->fd = -1;
+> -    fd = qemu_open_old(filename, s->open_flags, 0644);
+> +    fd = qemu_open(filename, s->open_flags, errp);
+>      ret = fd < 0 ? -errno : 0;
 >  
->  /* Needed early for CONFIG_BSD etc. */
->  
-> @@ -282,10 +283,10 @@ int qemu_lock_fd_test(int fd, int64_t start, int64_t len, bool exclusive)
->  /*
->   * Opens a file with FD_CLOEXEC set
->   */
-> -int qemu_open_old(const char *name, int flags, ...)
-> +static int
-> +qemu_open_internal(const char *name, int flags, mode_t mode, Error **errp)
->  {
->      int ret;
-> -    int mode = 0;
->  
->  #ifndef _WIN32
->      const char *fdset_id_str;
-> @@ -297,24 +298,31 @@ int qemu_open_old(const char *name, int flags, ...)
->  
->          fdset_id = qemu_parse_fdset(fdset_id_str);
->          if (fdset_id == -1) {
-> +            error_setg(errp, "Could not parse fdset %s", name);
->              errno = EINVAL;
->              return -1;
+>      if (ret < 0) {
+> -        error_setg_file_open(errp, -ret, filename);
+>          if (ret == -EROFS) {
+>              ret = -EACCES;
 >          }
->  
->          fd = monitor_fdset_get_fd(fdset_id, flags);
->          if (fd < 0) {
-> +            error_setg_errno(errp, -fd, "Could not acquire FD for %s flags %x",
-> +                             name, flags);
->              errno = -fd;
->              return -1;
+> @@ -1032,15 +1031,13 @@ static int raw_reconfigure_getfd(BlockDriverState *bs, int flags,
 >          }
->  
->          dupfd = qemu_dup_flags(fd, flags);
->          if (dupfd == -1) {
-> +            error_setg_errno(errp, errno, "Could not dup FD for %s flags %x",
-> +                             name, flags);
->              return -1;
->          }
->  
->          ret = monitor_fdset_dup_fd_add(fdset_id, dupfd);
->          if (ret == -1) {
->              close(dupfd);
-> +            error_setg(errp, "Could not save FD for %s flags %x",
-> +                       name, flags);
->              errno = EINVAL;
->              return -1;
->          }
-> @@ -323,22 +331,66 @@ int qemu_open_old(const char *name, int flags, ...)
 >      }
->  #endif
 >  
-> -    if (flags & O_CREAT) {
-> -        va_list ap;
-> -
-> -        va_start(ap, flags);
-> -        mode = va_arg(ap, int);
-> -        va_end(ap);
-> -    }
-> -
->  #ifdef O_CLOEXEC
-> -    ret = open(name, flags | O_CLOEXEC, mode);
-> -#else
-> +    flags |= O_CLOEXEC;
-> +#endif /* O_CLOEXEC */
-> +
->      ret = open(name, flags, mode);
-> +
-> +#ifndef O_CLOEXEC
->      if (ret >= 0) {
->          qemu_set_cloexec(ret);
+> -    /* If we cannot use fcntl, or fcntl failed, fall back to qemu_open_old() */
+> +    /* If we cannot use fcntl, or fcntl failed, fall back to qemu_open() */
+>      if (fd == -1) {
+>          const char *normalized_filename = bs->filename;
+>          ret = raw_normalize_devicepath(&normalized_filename, errp);
+>          if (ret >= 0) {
+> -            assert(!(*open_flags & O_CREAT));
+> -            fd = qemu_open_old(normalized_filename, *open_flags);
+> +            fd = qemu_open(normalized_filename, *open_flags, errp);
+>              if (fd == -1) {
+> -                error_setg_errno(errp, errno, "Could not reopen file");
+>                  return -1;
+>              }
+>          }
+> @@ -2411,10 +2408,9 @@ raw_co_create(BlockdevCreateOptions *options, Error **errp)
 >      }
-> -#endif
-> +#endif /* ! O_CLOEXEC */
-> +
-> +    if (ret == -1) {
-> +        const char *action = "open";
-> +        if (flags & O_CREAT) {
-> +            action = "create";
-> +        }
-> +        error_setg_errno(errp, errno, "Could not %s '%s' flags 0x%x",
-> +                         action, name, flags);
-> +    }
-> +
+>  
+>      /* Create file */
+> -    fd = qemu_open_old(file_opts->filename, O_RDWR | O_CREAT | O_BINARY, 0644);
+> +    fd = qemu_create(file_opts->filename, O_RDWR | O_BINARY, 0644, errp);
+>      if (fd < 0) {
+>          result = -errno;
+> -        error_setg_errno(errp, -result, "Could not create file");
+>          goto out;
+>      }
+[...]
 
-NL--
+Nice :)
 
-> +
-> +    return ret;
-> +}
-> +
-> +
-> +int qemu_open(const char *name, int flags, Error **errp)
-> +{
-> +    if (flags & O_CREAT) {
-> +        error_setg(errp,
-> +                   "Invalid O_CREAT flag passed to qemu_open, use qemu_create");
-> +        return -1;
-> +    }
-> +    return qemu_open_internal(name, flags, 0, errp);
-> +}
-> +
-> +
-> +int qemu_create(const char *name, int flags, mode_t mode, Error **errp)
-> +{
-> +    if (flags & O_CREAT) {
-> +        error_setg(errp, "Redundant O_CREAT flag passed to qemu_create");
-> +        return -1;
-> +    }
-> +    return qemu_open_internal(name, flags | O_CREAT, mode, errp);
-> +}
-> +
-> +
-
-I'd rather see this patch split as:
-
-- extract qemu_open_internal(const char *name, int flags, mode_t mode)
-from qemu_open_old()
-
-- Add Error **errp to qemu_open_internal()
-
-- add qemu_open() and qemu_create()
-
-Preferably split:
+I haven't checked the iotest errors; assuming a CI will take care of it:
 Reviewed-by: Philippe Mathieu-Daudé <philmd@redhat.com>
-
-> +int qemu_open_old(const char *name, int flags, ...)
-> +{
-> +    va_list ap;
-> +    mode_t mode = 0;
-> +    int ret;
-> +
-> +    va_start(ap, flags);
-> +    if (flags & O_CREAT) {
-> +        mode = va_arg(ap, int);
-> +    }
-> +    va_end(ap);
-> +
-> +    ret = qemu_open_internal(name, flags, mode, NULL);
->  
->  #ifdef O_DIRECT
->      if (ret == -1 && errno == EINVAL && (flags & O_DIRECT)) {
->
 
 
