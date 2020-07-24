@@ -2,72 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B6ADA22C838
-	for <lists+qemu-devel@lfdr.de>; Fri, 24 Jul 2020 16:40:33 +0200 (CEST)
-Received: from localhost ([::1]:60890 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 540DA22C841
+	for <lists+qemu-devel@lfdr.de>; Fri, 24 Jul 2020 16:42:36 +0200 (CEST)
+Received: from localhost ([::1]:41210 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jyysC-0005HB-NL
-	for lists+qemu-devel@lfdr.de; Fri, 24 Jul 2020 10:40:32 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:50828)
+	id 1jyyuB-0000QO-DE
+	for lists+qemu-devel@lfdr.de; Fri, 24 Jul 2020 10:42:35 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:51218)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <david@redhat.com>) id 1jyyr1-0003xA-TY
- for qemu-devel@nongnu.org; Fri, 24 Jul 2020 10:39:19 -0400
-Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:29599
- helo=us-smtp-1.mimecast.com)
+ (Exim 4.90_1) (envelope-from <david@redhat.com>) id 1jyyrn-0005bl-S5
+ for qemu-devel@nongnu.org; Fri, 24 Jul 2020 10:40:07 -0400
+Received: from us-smtp-1.mimecast.com ([207.211.31.81]:48548
+ helo=us-smtp-delivery-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <david@redhat.com>) id 1jyyqz-0005hk-16
- for qemu-devel@nongnu.org; Fri, 24 Jul 2020 10:39:19 -0400
+ (Exim 4.90_1) (envelope-from <david@redhat.com>) id 1jyyri-0005mz-K0
+ for qemu-devel@nongnu.org; Fri, 24 Jul 2020 10:40:07 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1595601556;
+ s=mimecast20190719; t=1595601601;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=XQ5TTdprzLbGR2cAv2uAjgob9pIczBZWYbb2zSYITgk=;
- b=ISa2S5/P/iFw3L4V0GAyMJjveyyuaV2CBl1zUUi0GZpaJBMxwRSjveq9FMUHsHw3s3hQDE
- 5edNniOHDE9U/Ka7y+8qkl4mZEErDzEpiYQIWYy4vfZli6XYvpFzHa3iWaeiaDt+zXAiMG
- sPcZWfmHi/XLN/nar+Z2taMynr8codQ=
+ bh=lnBZKhdNHwXhFsbWOgsxavhaHfMVzp6zwisaljy/u08=;
+ b=a+s/KKfThC7jY9BGcyyraCOQZKCzX8drjinBb8BXGDFgYPyP3PGtiov9lWgoAYOfCXG2WD
+ jA7yfvkx4i8QxHN9NWJuLEASfyCYLEqo3oKIs6TFk9LUe1fml6QBhO3vcjA3UGwknRKSkk
+ 7gxfEfGdyiCINM/yVWrAr2HYT2oDiNI=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-47-KPhYMY22Oly39_klAcPAMQ-1; Fri, 24 Jul 2020 10:38:06 -0400
-X-MC-Unique: KPhYMY22Oly39_klAcPAMQ-1
+ us-mta-362-IKtQ2ZbpOu-s-VzniHxDBg-1; Fri, 24 Jul 2020 10:38:10 -0400
+X-MC-Unique: IKtQ2ZbpOu-s-VzniHxDBg-1
 Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
  [10.5.11.15])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 861B018FF66E;
- Fri, 24 Jul 2020 14:38:04 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 239F11083E83;
+ Fri, 24 Jul 2020 14:38:07 +0000 (UTC)
 Received: from t480s.redhat.com (ovpn-113-94.ams2.redhat.com [10.36.113.94])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 3FCE4726A4;
- Fri, 24 Jul 2020 14:38:02 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id D122B726A5;
+ Fri, 24 Jul 2020 14:38:04 +0000 (UTC)
 From: David Hildenbrand <david@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH RFCv3 2/9] s390x/diag: no need to check for PGM_PRIVILEGED in
- diag308
-Date: Fri, 24 Jul 2020 16:37:43 +0200
-Message-Id: <20200724143750.59836-3-david@redhat.com>
+Subject: [PATCH RFCv3 3/9] s390x: remove hypercall registration mechanism
+Date: Fri, 24 Jul 2020 16:37:44 +0200
+Message-Id: <20200724143750.59836-4-david@redhat.com>
 In-Reply-To: <20200724143750.59836-1-david@redhat.com>
 References: <20200724143750.59836-1-david@redhat.com>
 MIME-Version: 1.0
 X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=david@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=205.139.110.120; envelope-from=david@redhat.com;
- helo=us-smtp-1.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/07/24 08:23:04
+Received-SPF: pass client-ip=207.211.31.81; envelope-from=david@redhat.com;
+ helo=us-smtp-delivery-1.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/07/24 00:00:27
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
-X-Spam_score_int: -40
-X-Spam_score: -4.1
-X-Spam_bar: ----
-X-Spam_report: (-4.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1,
+X-Spam_score_int: -30
+X-Spam_score: -3.1
+X-Spam_bar: ---
+X-Spam_report: (-3.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-1, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H3=-0.01, RCVD_IN_MSPIKE_WL=-0.01,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -89,34 +86,174 @@ Cc: Thomas Huth <thuth@redhat.com>, Janosch Frank <frankja@linux.ibm.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Whenever we reach this point via KVM or TCG, we already verified that we
-are running in the supervisor state.
+Nowadays, we only have a single machine type in QEMU, everything is based
+on virtio-ccw and the traditional virtio machine does no longer exist. No
+need to dynamically register diag500 handlers. Move the two existing
+handlers into diag500.c.
 
-TCG checks this via IF_PRIV, KVM checks this directly in the diag
-instruction handler, before exiting to userspace.
-
-Acked-by: Janosch Frank <frankja@linux.ibm.com>
 Signed-off-by: David Hildenbrand <david@redhat.com>
 ---
- target/s390x/diag.c | 5 -----
- 1 file changed, 5 deletions(-)
+ hw/s390x/s390-virtio-ccw.c   | 46 -----------------------------
+ hw/s390x/s390-virtio-hcall.c | 56 ++++++++++++++++++++++++------------
+ hw/s390x/s390-virtio-hcall.h |  2 --
+ 3 files changed, 38 insertions(+), 66 deletions(-)
 
-diff --git a/target/s390x/diag.c b/target/s390x/diag.c
-index 1a48429564..be70aecd72 100644
---- a/target/s390x/diag.c
-+++ b/target/s390x/diag.c
-@@ -80,11 +80,6 @@ void handle_diag_308(CPUS390XState *env, uint64_t r1, uint64_t r3, uintptr_t ra)
-     uint64_t subcode = env->regs[r3];
-     IplParameterBlock *iplb;
+diff --git a/hw/s390x/s390-virtio-ccw.c b/hw/s390x/s390-virtio-ccw.c
+index dca8e43001..b481e5e5bd 100644
+--- a/hw/s390x/s390-virtio-ccw.c
++++ b/hw/s390x/s390-virtio-ccw.c
+@@ -17,7 +17,6 @@
+ #include "hw/boards.h"
+ #include "exec/address-spaces.h"
+ #include "exec/ram_addr.h"
+-#include "hw/s390x/s390-virtio-hcall.h"
+ #include "hw/s390x/sclp.h"
+ #include "hw/s390x/s390_flic.h"
+ #include "hw/s390x/ioinst.h"
+@@ -116,48 +115,6 @@ static void subsystem_reset(void)
+     }
+ }
  
--    if (env->psw.mask & PSW_MASK_PSTATE) {
--        s390_program_interrupt(env, PGM_PRIVILEGED, ra);
--        return;
--    }
+-static int virtio_ccw_hcall_notify(const uint64_t *args)
+-{
+-    uint64_t subch_id = args[0];
+-    uint64_t queue = args[1];
+-    SubchDev *sch;
+-    int cssid, ssid, schid, m;
 -
-     if (subcode & ~0x0ffffULL) {
-         s390_program_interrupt(env, PGM_SPECIFICATION, ra);
-         return;
+-    if (ioinst_disassemble_sch_ident(subch_id, &m, &cssid, &ssid, &schid)) {
+-        return -EINVAL;
+-    }
+-    sch = css_find_subch(m, cssid, ssid, schid);
+-    if (!sch || !css_subch_visible(sch)) {
+-        return -EINVAL;
+-    }
+-    if (queue >= VIRTIO_QUEUE_MAX) {
+-        return -EINVAL;
+-    }
+-    virtio_queue_notify(virtio_ccw_get_vdev(sch), queue);
+-    return 0;
+-
+-}
+-
+-static int virtio_ccw_hcall_early_printk(const uint64_t *args)
+-{
+-    uint64_t mem = args[0];
+-
+-    if (mem < ram_size) {
+-        /* Early printk */
+-        return 0;
+-    }
+-    return -EINVAL;
+-}
+-
+-static void virtio_ccw_register_hcalls(void)
+-{
+-    s390_register_virtio_hypercall(KVM_S390_VIRTIO_CCW_NOTIFY,
+-                                   virtio_ccw_hcall_notify);
+-    /* Tolerate early printk. */
+-    s390_register_virtio_hypercall(KVM_S390_VIRTIO_NOTIFY,
+-                                   virtio_ccw_hcall_early_printk);
+-}
+-
+ static void s390_memory_init(MachineState *machine)
+ {
+     MemoryRegion *sysmem = get_system_memory();
+@@ -284,9 +241,6 @@ static void ccw_init(MachineState *machine)
+                               OBJECT(dev));
+     sysbus_realize_and_unref(SYS_BUS_DEVICE(dev), &error_fatal);
+ 
+-    /* register hypercalls */
+-    virtio_ccw_register_hcalls();
+-
+     s390_enable_css_support(s390_cpu_addr2state(0));
+ 
+     ret = css_create_css_image(VIRTUAL_CSSID, true);
+diff --git a/hw/s390x/s390-virtio-hcall.c b/hw/s390x/s390-virtio-hcall.c
+index ec7cf8beb3..5e14bd49b7 100644
+--- a/hw/s390x/s390-virtio-hcall.c
++++ b/hw/s390x/s390-virtio-hcall.c
+@@ -12,30 +12,50 @@
+ #include "qemu/osdep.h"
+ #include "cpu.h"
+ #include "hw/s390x/s390-virtio-hcall.h"
++#include "hw/s390x/ioinst.h"
++#include "hw/s390x/css.h"
++#include "virtio-ccw.h"
+ 
+-#define MAX_DIAG_SUBCODES 255
+-
+-static s390_virtio_fn s390_diag500_table[MAX_DIAG_SUBCODES];
+-
+-void s390_register_virtio_hypercall(uint64_t code, s390_virtio_fn fn)
++static int handle_virtio_notify(uint64_t mem)
+ {
+-    assert(code < MAX_DIAG_SUBCODES);
+-    assert(!s390_diag500_table[code]);
+-
+-    s390_diag500_table[code] = fn;
++    if (mem < ram_size) {
++        /* Tolerate early printk. */
++        return 0;
++    }
++    return -EINVAL;
+ }
+ 
+-int s390_virtio_hypercall(CPUS390XState *env)
++static int handle_virtio_ccw_notify(uint64_t subch_id, uint64_t queue)
+ {
+-    s390_virtio_fn fn;
++    SubchDev *sch;
++    int cssid, ssid, schid, m;
+ 
+-    if (env->regs[1] < MAX_DIAG_SUBCODES) {
+-        fn = s390_diag500_table[env->regs[1]];
+-        if (fn) {
+-            env->regs[2] = fn(&env->regs[2]);
+-            return 0;
+-        }
++    if (ioinst_disassemble_sch_ident(subch_id, &m, &cssid, &ssid, &schid)) {
++        return -EINVAL;
+     }
++    sch = css_find_subch(m, cssid, ssid, schid);
++    if (!sch || !css_subch_visible(sch)) {
++        return -EINVAL;
++    }
++    if (queue >= VIRTIO_QUEUE_MAX) {
++        return -EINVAL;
++    }
++    virtio_queue_notify(virtio_ccw_get_vdev(sch), queue);
++    return 0;
++}
+ 
+-    return -EINVAL;
++int s390_virtio_hypercall(CPUS390XState *env)
++{
++     const uint64_t subcode = env->regs[1];
++
++     switch (subcode) {
++     case KVM_S390_VIRTIO_NOTIFY:
++         env->regs[2] = handle_virtio_notify(env->regs[2]);
++         return 0;
++     case KVM_S390_VIRTIO_CCW_NOTIFY:
++         env->regs[2] = handle_virtio_ccw_notify(env->regs[2], env->regs[3]);
++         return 0;
++     default:
++         return -EINVAL;
++     }
+ }
+diff --git a/hw/s390x/s390-virtio-hcall.h b/hw/s390x/s390-virtio-hcall.h
+index 9800c4b351..67e11ea39a 100644
+--- a/hw/s390x/s390-virtio-hcall.h
++++ b/hw/s390x/s390-virtio-hcall.h
+@@ -17,7 +17,5 @@
+ /* The only thing that we need from the old kvm_virtio.h file */
+ #define KVM_S390_VIRTIO_NOTIFY 0
+ 
+-typedef int (*s390_virtio_fn)(const uint64_t *args);
+-void s390_register_virtio_hypercall(uint64_t code, s390_virtio_fn fn);
+ int s390_virtio_hypercall(CPUS390XState *env);
+ #endif /* HW_S390_VIRTIO_HCALL_H */
 -- 
 2.26.2
 
