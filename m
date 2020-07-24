@@ -2,58 +2,58 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E8F3822C812
-	for <lists+qemu-devel@lfdr.de>; Fri, 24 Jul 2020 16:33:52 +0200 (CEST)
-Received: from localhost ([::1]:42952 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4183822C81F
+	for <lists+qemu-devel@lfdr.de>; Fri, 24 Jul 2020 16:35:27 +0200 (CEST)
+Received: from localhost ([::1]:50008 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jyylk-00067A-0M
-	for lists+qemu-devel@lfdr.de; Fri, 24 Jul 2020 10:33:52 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:47608)
+	id 1jyynG-0000YW-Ax
+	for lists+qemu-devel@lfdr.de; Fri, 24 Jul 2020 10:35:26 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:47600)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1jyykW-0004tR-8P
- for qemu-devel@nongnu.org; Fri, 24 Jul 2020 10:32:36 -0400
-Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:56773
- helo=us-smtp-1.mimecast.com)
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1jyykV-0004rt-EH
+ for qemu-devel@nongnu.org; Fri, 24 Jul 2020 10:32:35 -0400
+Received: from us-smtp-1.mimecast.com ([205.139.110.61]:36699
+ helo=us-smtp-delivery-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1jyykT-0004ZY-Mo
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1jyykT-0004Zj-Gl
  for qemu-devel@nongnu.org; Fri, 24 Jul 2020 10:32:35 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1595601151;
+ s=mimecast20190719; t=1595601152;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:content-type:content-type:in-reply-to:in-reply-to:
- references:references; bh=y5PVdZ0cYOEm5/CZaZhqijoIyn+UzcSxvl3in+uddos=;
- b=d+U6LXnrgbcG6YzAJiaTcEYHUlPCJUgqVvYa+dhXdqT3/3EORvNXCt/679c3LGaQuY2HBU
- Vf0wk9m05IzxhWuotu2AG7a2BYMUY+r4nh1Cy3zTCTgX31skc0qYPM/iqGKXsuN2BvrHhg
- LkgCRpDrR1XLYcMrgdZt0/IAFYyzk9A=
+ references:references; bh=34mGIakUadJViNFdG2ovTxD3iiZFLcirwtUz+RdiRg4=;
+ b=OcCrhxqJtIiPPPCThcCL8FgYdFeWSp9ceOMNFeMbMeb1x0Xne/IBKECRMOhFAR0Ok6J6LM
+ JIuykjUqaysvqINHzTWMKidQLE0Q36Agj7axMuCgWj0JBzFDbflXPcybeqUUBzA1VIU9Qv
+ c207y4qi1QycBtJR5GaKWtI1U/Iok1E=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-314-Q4sBTFLBPJK9-i4sX7iH-Q-1; Fri, 24 Jul 2020 10:32:28 -0400
-X-MC-Unique: Q4sBTFLBPJK9-i4sX7iH-Q-1
+ us-mta-468-xbdiJ9FuNqyMJHIoXkNupQ-1; Fri, 24 Jul 2020 10:32:30 -0400
+X-MC-Unique: xbdiJ9FuNqyMJHIoXkNupQ-1
 Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
  [10.5.11.23])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id CAB1D8014D4;
- Fri, 24 Jul 2020 14:32:26 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 45FC7189CEF1;
+ Fri, 24 Jul 2020 14:32:29 +0000 (UTC)
 Received: from thuth.com (ovpn-112-77.ams2.redhat.com [10.36.112.77])
- by smtp.corp.redhat.com (Postfix) with ESMTP id B0E6D2DE79;
- Fri, 24 Jul 2020 14:32:24 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 2A44C2DE79;
+ Fri, 24 Jul 2020 14:32:27 +0000 (UTC)
 From: Thomas Huth <thuth@redhat.com>
 To: qemu-devel@nongnu.org,
  =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
-Subject: [PATCH 1/3] configure: Fix atomic64 test for --enable-werror on macOS
-Date: Fri, 24 Jul 2020 16:32:18 +0200
-Message-Id: <20200724143220.32751-2-thuth@redhat.com>
+Subject: [PATCH 2/3] cirrus.yml: Compile macOS and FreeBSD with -Werror
+Date: Fri, 24 Jul 2020 16:32:19 +0200
+Message-Id: <20200724143220.32751-3-thuth@redhat.com>
 In-Reply-To: <20200724143220.32751-1-thuth@redhat.com>
 References: <20200724143220.32751-1-thuth@redhat.com>
 X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=US-ASCII
-Received-SPF: pass client-ip=205.139.110.120; envelope-from=thuth@redhat.com;
- helo=us-smtp-1.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/07/24 08:23:04
+Received-SPF: pass client-ip=205.139.110.61; envelope-from=thuth@redhat.com;
+ helo=us-smtp-delivery-1.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/07/24 06:44:00
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
 X-Spam_score_int: -40
 X-Spam_score: -4.1
@@ -81,54 +81,50 @@ Cc: Peter Maydell <peter.maydell@linaro.org>, Ed Maste <emaste@freebsd.org>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-When using --enable-werror for the macOS builders in the Cirrus-CI,
-the atomic64 test is currently failing, and config.log shows a bunch
-of error messages like this:
+Compiler warnings currently go unnoticed in our FreeBSD and macOS builds,
+since -Werror is only enabled for Linux and MinGW builds by default. So
+let's enable them here now, too.
+For macOS, that unfortunately means that we have to disable the vnc-sasl
+feature, since this is marked as deprecated in the macOS headers and thus
+generates a lot of deprecation warnings.
 
- config-temp/qemu-conf.c:6:7: error: implicit declaration of function
- '__atomic_load_8' is invalid in C99 [-Werror,-Wimplicit-function-declaration]
-  y = __atomic_load_8(&x, 0);
-      ^
- config-temp/qemu-conf.c:6:7: error: this function declaration is not a
- prototype [-Werror,-Wstrict-prototypes]
-
-Seems like these __atomic_*_8 functions are available in one of the
-libraries there, so that the test links and passes there when not
-using --enable-werror. But there does not seem to be a valid prototype
-for them in any of the header files, so that the test fails when using
---enable-werror.
-
-Fix it by using the "official" built-in functions instead (see e.g.
-https://gcc.gnu.org/onlinedocs/gcc/_005f_005fatomic-Builtins.html).
-We are not using the *_8 variants in QEMU anyway.
-
-Suggested-by: Christian Schoenebeck <qemu_oss@crudebyte.com>
 Signed-off-by: Thomas Huth <thuth@redhat.com>
 ---
- configure | 10 +++++-----
- 1 file changed, 5 insertions(+), 5 deletions(-)
+ .cirrus.yml | 8 +++++---
+ 1 file changed, 5 insertions(+), 3 deletions(-)
 
-diff --git a/configure b/configure
-index 4bd80ed507..9eaf501f50 100755
---- a/configure
-+++ b/configure
-@@ -5919,11 +5919,11 @@ int main(void)
- {
-   uint64_t x = 0, y = 0;
- #ifdef __ATOMIC_RELAXED
--  y = __atomic_load_8(&x, 0);
--  __atomic_store_8(&x, y, 0);
--  __atomic_compare_exchange_8(&x, &y, x, 0, 0, 0);
--  __atomic_exchange_8(&x, y, 0);
--  __atomic_fetch_add_8(&x, y, 0);
-+  y = __atomic_load_n(&x, __ATOMIC_RELAXED);
-+  __atomic_store_n(&x, y, __ATOMIC_RELAXED);
-+  __atomic_compare_exchange_n(&x, &y, x, 0, __ATOMIC_RELAXED, __ATOMIC_RELAXED);
-+  __atomic_exchange_n(&x, y, __ATOMIC_RELAXED);
-+  __atomic_fetch_add(&x, y, __ATOMIC_RELAXED);
- #else
-   typedef char is_host64[sizeof(void *) >= sizeof(uint64_t) ? 1 : -1];
-   __sync_lock_test_and_set(&x, y);
+diff --git a/.cirrus.yml b/.cirrus.yml
+index f287d23c5b..bb25c1723b 100644
+--- a/.cirrus.yml
++++ b/.cirrus.yml
+@@ -12,7 +12,7 @@ freebsd_12_task:
+   script:
+     - mkdir build
+     - cd build
+-    - ../configure || { cat config.log; exit 1; }
++    - ../configure --enable-werror || { cat config.log; exit 1; }
+     - gmake -j8
+     - gmake V=1 check
+ 
+@@ -24,7 +24,8 @@ macos_task:
+   script:
+     - mkdir build
+     - cd build
+-    - ../configure --python=/usr/local/bin/python3 || { cat config.log; exit 1; }
++    - ../configure --python=/usr/local/bin/python3 --disable-vnc-sasl
++        --enable-werror || { cat config.log; exit 1; }
+     - gmake -j$(sysctl -n hw.ncpu)
+     - gmake check
+ 
+@@ -37,6 +38,7 @@ macos_xcode_task:
+   script:
+     - mkdir build
+     - cd build
+-    - ../configure --cc=clang || { cat config.log; exit 1; }
++    - ../configure --cc=clang --disable-vnc-sasl --enable-werror
++        || { cat config.log; exit 1; }
+     - gmake -j$(sysctl -n hw.ncpu)
+     - gmake check
 -- 
 2.18.1
 
