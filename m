@@ -2,58 +2,60 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4183822C81F
-	for <lists+qemu-devel@lfdr.de>; Fri, 24 Jul 2020 16:35:27 +0200 (CEST)
-Received: from localhost ([::1]:50008 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 56D2422C814
+	for <lists+qemu-devel@lfdr.de>; Fri, 24 Jul 2020 16:34:25 +0200 (CEST)
+Received: from localhost ([::1]:45990 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jyynG-0000YW-Ax
-	for lists+qemu-devel@lfdr.de; Fri, 24 Jul 2020 10:35:26 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:47600)
+	id 1jyymG-0007LM-F1
+	for lists+qemu-devel@lfdr.de; Fri, 24 Jul 2020 10:34:24 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:47624)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1jyykV-0004rt-EH
- for qemu-devel@nongnu.org; Fri, 24 Jul 2020 10:32:35 -0400
-Received: from us-smtp-1.mimecast.com ([205.139.110.61]:36699
- helo=us-smtp-delivery-1.mimecast.com)
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1jyykY-0004xr-Ng
+ for qemu-devel@nongnu.org; Fri, 24 Jul 2020 10:32:38 -0400
+Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:51599
+ helo=us-smtp-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1jyykT-0004Zj-Gl
- for qemu-devel@nongnu.org; Fri, 24 Jul 2020 10:32:35 -0400
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1jyykX-0004ai-5D
+ for qemu-devel@nongnu.org; Fri, 24 Jul 2020 10:32:38 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1595601152;
+ s=mimecast20190719; t=1595601156;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:content-type:content-type:in-reply-to:in-reply-to:
- references:references; bh=34mGIakUadJViNFdG2ovTxD3iiZFLcirwtUz+RdiRg4=;
- b=OcCrhxqJtIiPPPCThcCL8FgYdFeWSp9ceOMNFeMbMeb1x0Xne/IBKECRMOhFAR0Ok6J6LM
- JIuykjUqaysvqINHzTWMKidQLE0Q36Agj7axMuCgWj0JBzFDbflXPcybeqUUBzA1VIU9Qv
- c207y4qi1QycBtJR5GaKWtI1U/Iok1E=
+ references:references; bh=/b9YPiB6paCpA84mJ1cIQX/SSu1ij7B0jsnuIgn+YjM=;
+ b=a5hhbo9kHfZWVuPoUKaYwb6cocIKapCva5TRi+yqfM4fZ0/7Bt6VHd2NrXuDyQ/EVkONjX
+ 2Od48TCVJwq1fYtlCL2BiEqW3lgfuVg5eEuJ9zSe6Ty0VYdY+vKBgSEJeZ20PGOdBA5L9y
+ 4jZtFNgLSbFLozkKjOP27F0wamBFa+s=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-468-xbdiJ9FuNqyMJHIoXkNupQ-1; Fri, 24 Jul 2020 10:32:30 -0400
-X-MC-Unique: xbdiJ9FuNqyMJHIoXkNupQ-1
+ us-mta-64-qxi4sc9TMjmm1jAanF81vw-1; Fri, 24 Jul 2020 10:32:33 -0400
+X-MC-Unique: qxi4sc9TMjmm1jAanF81vw-1
 Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
  [10.5.11.23])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 45FC7189CEF1;
- Fri, 24 Jul 2020 14:32:29 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id B55AE102C7EC;
+ Fri, 24 Jul 2020 14:32:31 +0000 (UTC)
 Received: from thuth.com (ovpn-112-77.ams2.redhat.com [10.36.112.77])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 2A44C2DE79;
- Fri, 24 Jul 2020 14:32:27 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id A34D02DE79;
+ Fri, 24 Jul 2020 14:32:29 +0000 (UTC)
 From: Thomas Huth <thuth@redhat.com>
 To: qemu-devel@nongnu.org,
  =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
-Subject: [PATCH 2/3] cirrus.yml: Compile macOS and FreeBSD with -Werror
-Date: Fri, 24 Jul 2020 16:32:19 +0200
-Message-Id: <20200724143220.32751-3-thuth@redhat.com>
+Subject: [PATCH 3/3] cirrus.yml: Update the macOS jobs to Catalina
+Date: Fri, 24 Jul 2020 16:32:20 +0200
+Message-Id: <20200724143220.32751-4-thuth@redhat.com>
 In-Reply-To: <20200724143220.32751-1-thuth@redhat.com>
 References: <20200724143220.32751-1-thuth@redhat.com>
 X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=thuth@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=US-ASCII
-Received-SPF: pass client-ip=205.139.110.61; envelope-from=thuth@redhat.com;
- helo=us-smtp-delivery-1.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/07/24 06:44:00
+Received-SPF: pass client-ip=205.139.110.120; envelope-from=thuth@redhat.com;
+ helo=us-smtp-1.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/07/24 08:23:04
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
 X-Spam_score_int: -40
 X-Spam_score: -4.1
@@ -81,50 +83,38 @@ Cc: Peter Maydell <peter.maydell@linaro.org>, Ed Maste <emaste@freebsd.org>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Compiler warnings currently go unnoticed in our FreeBSD and macOS builds,
-since -Werror is only enabled for Linux and MinGW builds by default. So
-let's enable them here now, too.
-For macOS, that unfortunately means that we have to disable the vnc-sasl
-feature, since this is marked as deprecated in the macOS headers and thus
-generates a lot of deprecation warnings.
+When looking at the CI jobs on cirrus-ci.com, it seems like the mojave-based
+images have been decomissioned a while ago already, since apparently all our
+jobs get automatically upgraded to catalina. So let's update our YML script
+accordingly to avoid confusion.
 
 Signed-off-by: Thomas Huth <thuth@redhat.com>
 ---
- .cirrus.yml | 8 +++++---
- 1 file changed, 5 insertions(+), 3 deletions(-)
+ .cirrus.yml | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
 diff --git a/.cirrus.yml b/.cirrus.yml
-index f287d23c5b..bb25c1723b 100644
+index bb25c1723b..b11aac53cb 100644
 --- a/.cirrus.yml
 +++ b/.cirrus.yml
-@@ -12,7 +12,7 @@ freebsd_12_task:
-   script:
-     - mkdir build
-     - cd build
--    - ../configure || { cat config.log; exit 1; }
-+    - ../configure --enable-werror || { cat config.log; exit 1; }
-     - gmake -j8
-     - gmake V=1 check
+@@ -18,7 +18,7 @@ freebsd_12_task:
  
-@@ -24,7 +24,8 @@ macos_task:
+ macos_task:
+   osx_instance:
+-    image: mojave-base
++    image: catalina-base
+   install_script:
+     - brew install pkg-config python gnu-sed glib pixman make sdl2 bash
    script:
-     - mkdir build
-     - cd build
--    - ../configure --python=/usr/local/bin/python3 || { cat config.log; exit 1; }
-+    - ../configure --python=/usr/local/bin/python3 --disable-vnc-sasl
-+        --enable-werror || { cat config.log; exit 1; }
-     - gmake -j$(sysctl -n hw.ncpu)
-     - gmake check
- 
-@@ -37,6 +38,7 @@ macos_xcode_task:
+@@ -32,7 +32,7 @@ macos_task:
+ macos_xcode_task:
+   osx_instance:
+     # this is an alias for the latest Xcode
+-    image: mojave-xcode
++    image: catalina-xcode
+   install_script:
+     - brew install pkg-config gnu-sed glib pixman make sdl2 bash
    script:
-     - mkdir build
-     - cd build
--    - ../configure --cc=clang || { cat config.log; exit 1; }
-+    - ../configure --cc=clang --disable-vnc-sasl --enable-werror
-+        || { cat config.log; exit 1; }
-     - gmake -j$(sysctl -n hw.ncpu)
-     - gmake check
 -- 
 2.18.1
 
