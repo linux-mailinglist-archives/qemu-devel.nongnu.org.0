@@ -2,92 +2,72 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9457222C725
-	for <lists+qemu-devel@lfdr.de>; Fri, 24 Jul 2020 15:56:56 +0200 (CEST)
-Received: from localhost ([::1]:53716 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 370E622C724
+	for <lists+qemu-devel@lfdr.de>; Fri, 24 Jul 2020 15:56:31 +0200 (CEST)
+Received: from localhost ([::1]:51500 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jyyBz-0007VE-KW
-	for lists+qemu-devel@lfdr.de; Fri, 24 Jul 2020 09:56:55 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:58250)
+	id 1jyyBa-0006cj-3u
+	for lists+qemu-devel@lfdr.de; Fri, 24 Jul 2020 09:56:30 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:34174)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <schnelle@linux.ibm.com>)
- id 1jyuI0-0000ls-5H; Fri, 24 Jul 2020 05:46:52 -0400
-Received: from mx0b-001b2d01.pphosted.com ([148.163.158.5]:59742
- helo=mx0a-001b2d01.pphosted.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <schnelle@linux.ibm.com>)
- id 1jyuHx-0001Sx-F1; Fri, 24 Jul 2020 05:46:51 -0400
-Received: from pps.filterd (m0098419.ppops.net [127.0.0.1])
- by mx0b-001b2d01.pphosted.com (8.16.0.42/8.16.0.42) with SMTP id
- 06O9VMgf193871; Fri, 24 Jul 2020 05:46:46 -0400
-Received: from pps.reinject (localhost [127.0.0.1])
- by mx0b-001b2d01.pphosted.com with ESMTP id 32fat2p2ar-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Fri, 24 Jul 2020 05:46:46 -0400
-Received: from m0098419.ppops.net (m0098419.ppops.net [127.0.0.1])
- by pps.reinject (8.16.0.36/8.16.0.36) with SMTP id 06O9VYvi194729;
- Fri, 24 Jul 2020 05:46:45 -0400
-Received: from ppma03fra.de.ibm.com (6b.4a.5195.ip4.static.sl-reverse.com
- [149.81.74.107])
- by mx0b-001b2d01.pphosted.com with ESMTP id 32fat2p2a2-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Fri, 24 Jul 2020 05:46:45 -0400
-Received: from pps.filterd (ppma03fra.de.ibm.com [127.0.0.1])
- by ppma03fra.de.ibm.com (8.16.0.42/8.16.0.42) with SMTP id 06O9kVGH028894;
- Fri, 24 Jul 2020 09:46:43 GMT
-Received: from b06cxnps4074.portsmouth.uk.ibm.com
- (d06relay11.portsmouth.uk.ibm.com [9.149.109.196])
- by ppma03fra.de.ibm.com with ESMTP id 32brq83wv1-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Fri, 24 Jul 2020 09:46:43 +0000
-Received: from d06av21.portsmouth.uk.ibm.com (d06av21.portsmouth.uk.ibm.com
- [9.149.105.232])
- by b06cxnps4074.portsmouth.uk.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
- 06O9keM662128238
- (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Fri, 24 Jul 2020 09:46:40 GMT
-Received: from d06av21.portsmouth.uk.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id B664052054;
- Fri, 24 Jul 2020 09:46:40 +0000 (GMT)
-Received: from oc5500677777.ibm.com (unknown [9.145.155.57])
- by d06av21.portsmouth.uk.ibm.com (Postfix) with ESMTP id C990D52051;
- Fri, 24 Jul 2020 09:46:39 +0000 (GMT)
-Subject: Re: [RFC PATCH] s390x/pci: vfio-pci breakage with disabled mem
- enforcement
-To: Matthew Rosato <mjrosato@linux.ibm.com>, alex.williamson@redhat.com,
- pmorel@linux.ibm.com
-References: <1595517236-17823-1-git-send-email-mjrosato@linux.ibm.com>
-From: Niklas Schnelle <schnelle@linux.ibm.com>
-Message-ID: <050f39c7-a670-7592-ee50-fef6ea4bdb0f@linux.ibm.com>
-Date: Fri, 24 Jul 2020 11:46:39 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.9.0
-MIME-Version: 1.0
-In-Reply-To: <1595517236-17823-1-git-send-email-mjrosato@linux.ibm.com>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-X-TM-AS-GCONF: 00
-X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:6.0.235, 18.0.687
- definitions=2020-07-24_02:2020-07-24,
- 2020-07-24 signatures=0
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- suspectscore=0 spamscore=0
- phishscore=0 adultscore=0 clxscore=1011 priorityscore=1501 mlxscore=0
- lowpriorityscore=0 impostorscore=0 malwarescore=0 mlxlogscore=999
- bulkscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2006250000 definitions=main-2007240068
-Received-SPF: pass client-ip=148.163.158.5;
- envelope-from=schnelle@linux.ibm.com; helo=mx0a-001b2d01.pphosted.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/07/24 05:46:46
-X-ACL-Warn: Detected OS   = Linux 3.x [generic]
-X-Spam_score_int: -35
-X-Spam_score: -3.6
-X-Spam_bar: ---
-X-Spam_report: (-3.6 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_LOW=-0.7,
- RCVD_IN_MSPIKE_H2=-1, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- URIBL_BLOCKED=0.001 autolearn=ham autolearn_force=no
+ (Exim 4.90_1) (envelope-from <green.wan@sifive.com>)
+ id 1jyuMo-0004xS-Mi
+ for qemu-devel@nongnu.org; Fri, 24 Jul 2020 05:51:50 -0400
+Received: from mail-pl1-x642.google.com ([2607:f8b0:4864:20::642]:42289)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <green.wan@sifive.com>)
+ id 1jyuMl-0002ol-ER
+ for qemu-devel@nongnu.org; Fri, 24 Jul 2020 05:51:50 -0400
+Received: by mail-pl1-x642.google.com with SMTP id q17so4151319pls.9
+ for <qemu-devel@nongnu.org>; Fri, 24 Jul 2020 02:51:46 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=sifive.com; s=google;
+ h=from:to:cc:subject:date:message-id;
+ bh=VrIzcegVqGZqnujnuKczVriGy3clDNfKz9O0N+B95RE=;
+ b=FQEtZVA+RBLH50gOlUpMbaiWBAjxCw6RBMQx2IL/msW09V4t5iseNP5p5/2a0Ap9a1
+ AsgNKw4YLJnH4lvlDpKgaaW4vS2FPTFGuZ25Z11L0xm6llE7NRt06txwBps4boTtxr6V
+ YoE1VaKJorUW/7l5oyCx2PGPNHbzI96rdRb9a1aMARsos+HJFLSirrNScQlTRHkxhXhD
+ m7qK4i/6rSMUEZr25Z80/jSe7jSNSFdPkuF/siry6v4fqHZ3Okmozdn118GlHR61sYO1
+ zJWjGhMGpmN131pdmkWZDUvt3gLUCgsHhLcbSCx+HtvT3SYnEjsdMiSp+KNKxZgA4ZWd
+ S1iQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:from:to:cc:subject:date:message-id;
+ bh=VrIzcegVqGZqnujnuKczVriGy3clDNfKz9O0N+B95RE=;
+ b=S2cCUZ6YRd+Qw7inZcyMKhw2ENy0e4fLlwRrKp9nrLmLBv1WU6gyiy+rgZDUHuWLQ6
+ 8wNNzhhNt/hkzvGfG+aQYujDLbBf6jMF8N5mZ9hdvQuqiE5mNn2Y/3fzqfWzu6eHA7xA
+ BPX+IbeAB+RfLD48WCyXDn/QSIt9LCuDS6L89moJH4PVVfy+iX8r7WxO719uaqUIyL5W
+ 14ZzwPhJo5YvjqV6qmzWrwQDUHZfHe0IS0K/4ypj+uOkOgzVX5Db4cMTJl/uJX52V/Qb
+ EVwdIUnJRlZCDO3EbgQGozCgmLaRT+iE8oDa/a4iZRneSIGu1VX6RuZwQ6+tow8hBly+
+ EX/A==
+X-Gm-Message-State: AOAM53167vKZTfPAGWo1N1+VkmGqNHK2kxmIIrFE1qthJc2S4MnSg9v7
+ JK8/5/adHnyzwbumkb2x7ITz0g==
+X-Google-Smtp-Source: ABdhPJxMCSqOmlCOtofSzHKyyXpsSXk19bFR/uY5dYYvtoWiiKQwXjbZ2yWN00RIn9BmU+YMsbfklQ==
+X-Received: by 2002:a17:90a:f00d:: with SMTP id
+ bt13mr2836578pjb.109.1595584304882; 
+ Fri, 24 Jul 2020 02:51:44 -0700 (PDT)
+Received: from localhost.localdomain (111-243-186-54.dynamic-ip.hinet.net.
+ [111.243.186.54])
+ by smtp.gmail.com with ESMTPSA id x23sm5581636pfn.4.2020.07.24.02.51.42
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Fri, 24 Jul 2020 02:51:44 -0700 (PDT)
+From: Green Wan <green.wan@sifive.com>
+To: 
+Subject: [RFC PATCH 0/2] Add write-once and file-backed features to OTP
+Date: Fri, 24 Jul 2020 17:51:10 +0800
+Message-Id: <20200724095112.2615-1-green.wan@sifive.com>
+X-Mailer: git-send-email 2.17.1
+Received-SPF: pass client-ip=2607:f8b0:4864:20::642;
+ envelope-from=green.wan@sifive.com; helo=mail-pl1-x642.google.com
+X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
+ That's all we know.
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ URIBL_BLOCKED=0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-Mailman-Approved-At: Fri, 24 Jul 2020 09:54:21 -0400
 X-BeenThere: qemu-devel@nongnu.org
@@ -101,59 +81,38 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: david@redhat.com, cohuck@redhat.com, qemu-devel@nongnu.org,
- pasic@linux.ibm.com, borntraeger@de.ibm.com, qemu-s390x@nongnu.org,
- rth@twiddle.net
+Cc: qemu-riscv@nongnu.org, Sagar Karandikar <sagark@eecs.berkeley.edu>,
+ Bastian Koppelmann <kbastian@mail.uni-paderborn.de>, qemu-devel@nongnu.org,
+ Green Wan <green.wan@sifive.com>, Alistair Francis <Alistair.Francis@wdc.com>,
+ Paolo Bonzini <pbonzini@redhat.com>, Palmer Dabbelt <palmer@dabbelt.com>,
+ bmeng.cn@gmail.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+Add file-backed implementation to allow users to assign an OTP image
+file to machine. If '-boot otp-file=filename' is specified, OTP 
+device uses otp image file instead of fuse array. In order to keep data
+up-to-date due to unexpected crash or CTRL+a-x, every read/write to OTP
+memory involves file open, mmap and close operation to the image file.
 
+Add write-once feature to block second write operation to the OTP
+memory. Only keep the 'written' state for non-control register range
+from 0x38 to 16KB.
 
-On 7/23/20 5:13 PM, Matthew Rosato wrote:
-> I noticed that after kernel commit abafbc55 'vfio-pci: Invalidate mmaps
-> and block MMIO access on disabled memory' vfio-pci via qemu on s390x
-> fails spectacularly, with errors in qemu like:
-> 
-> qemu-system-s390x: vfio_region_read(0001:00:00.0:region0+0x0, 4) failed: Input/output error
-> 
-> From read to bar 0 originating out of hw/s390x/s390-pci-inst.c:zpci_read_bar().
-> 
-> So, I'm trying to figure out how to get vfio-pci happy again on s390x.  From
-> a bit of tracing, we seem to be triggering the new trap in
-> __vfio_pci_memory_enabled().  Sure enough, if I just force this function to
-> return 'true' as a test case, things work again.
-> The included patch attempts to enforce the setting, which restores everything
-> to working order but also triggers vfio_bar_restore() in the process....  So
-> this isn't the right answer, more of a proof-of-concept.
-> 
-> @Alex: Any guidance on what needs to happen to make qemu-s390x happy with this
-> recent kernel change?
-> 
-> @Nilkas/@Pierre: I wonder if this might be related to host device is_virtfn?
-> I note that my host device lspci output looks like:
-> 
-> 0000:00:00.0 Ethernet controller: Mellanox Technologies MT27710 Family [ConnectX-4 Lx Virtual Function]
-> 
-> But the device is not marked as is_virtfn..  Otherwise, Alex's fix
-> from htps://lkml.org/lkml/2020/6/25/628 should cover the case.
-With commit e5794cf1a270 ("s390/pci: create links between PFs and VFs") I introduced
-the is_physfn field to struct zpci_dev which gets set through the
-CLP Query PCI Function. Also with that commit this being 0 will set
-is_virtfn to 1.
-Interestingly looking at s390-pci-inst.c in QEMU I'd think that
-on QEMU this should already be 0 and thus is_virtfn should be set
-with Linux >5.8-rc1 and the missing case is actually for passing through
-a PF where it would wrongly be 0 too. 
-Note: If the Linux instance does not see the
-parent PF however the only way I know to test if it is a VF from userspace
-is checking if /sys/bus/pci/devices/<dev>/vfn is non-zero which is platform
-specific and currently wrongly set 0 on QEMU for VFs.
-If the PF is known the mentioned commit will also create the
-/sys/bus/pci/devices/<dev>/physfn symlink as on other platforms.
-> Matthew Rosato (1):
->   s390x/pci: Enforce PCI_COMMAND_MEMORY for vfio-pci
-> 
->  hw/s390x/s390-pci-inst.c | 10 ++++++++++
->  1 file changed, 10 insertions(+)
-> 
+Tested on sifive_u for both qemu and u-boot.
+
+Green Wan (2):
+  hw/riscv: sifive_u: Add file-backed OTP. softmmu/vl: add otp-file to
+    boot option
+  hw/riscv: sifive_u: Add write-once protection.
+
+ hw/riscv/sifive_u_otp.c         | 122 ++++++++++++++++++++++++++++++--
+ include/hw/riscv/sifive_u_otp.h |   3 +
+ qemu-options.hx                 |   3 +-
+ softmmu/vl.c                    |   6 +-
+ 4 files changed, 128 insertions(+), 6 deletions(-)
+
+-- 
+2.17.1
+
 
