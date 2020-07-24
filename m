@@ -2,71 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3949922BE3A
-	for <lists+qemu-devel@lfdr.de>; Fri, 24 Jul 2020 08:49:09 +0200 (CEST)
-Received: from localhost ([::1]:52022 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 522A422BE38
+	for <lists+qemu-devel@lfdr.de>; Fri, 24 Jul 2020 08:49:08 +0200 (CEST)
+Received: from localhost ([::1]:51898 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jyrW0-0000ki-40
-	for lists+qemu-devel@lfdr.de; Fri, 24 Jul 2020 02:49:08 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:37852)
+	id 1jyrVz-0000ht-B0
+	for lists+qemu-devel@lfdr.de; Fri, 24 Jul 2020 02:49:07 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:37878)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1jyrSH-00040Z-Ez
- for qemu-devel@nongnu.org; Fri, 24 Jul 2020 02:45:17 -0400
-Received: from mail-wm1-x342.google.com ([2a00:1450:4864:20::342]:39684)
+ id 1jyrSJ-00043T-Gk
+ for qemu-devel@nongnu.org; Fri, 24 Jul 2020 02:45:19 -0400
+Received: from mail-wr1-x442.google.com ([2a00:1450:4864:20::442]:43615)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1jyrSF-0000Fl-V6
- for qemu-devel@nongnu.org; Fri, 24 Jul 2020 02:45:17 -0400
-Received: by mail-wm1-x342.google.com with SMTP id t142so866005wmt.4
- for <qemu-devel@nongnu.org>; Thu, 23 Jul 2020 23:45:15 -0700 (PDT)
+ id 1jyrSH-0000HR-MT
+ for qemu-devel@nongnu.org; Fri, 24 Jul 2020 02:45:19 -0400
+Received: by mail-wr1-x442.google.com with SMTP id a15so7238333wrh.10
+ for <qemu-devel@nongnu.org>; Thu, 23 Jul 2020 23:45:17 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=rsXsx8FncieYCf39ndgf29iTUZcqWDqZZxZPkE3/pro=;
- b=hDO/lwhMonVa+6SByA30W4yX/1mZvCsyFkHTmfLYKEOxRlHJN0y7onDCwKnOM3VLkH
- duGqS0EM10SmFFjez9sE+7/tGlk5QCILm4wAIsl5MPEcQIRYBGApx7yXsLcxkmzXFbF+
- n5H+FAnuJeYBxhFhF1ywSljI4FcWt1fI8RSzXQjuR2BfNUxo7lAukPomSadR4do0hu++
- sxktGJTVhUcAtKAZNaV9PSy969WCVfwzTdUsZFIKj0vlaEEyJVTkRPfDAmG4i46ScZdO
- Niry0erN/uBgRtZtgGA8GcJGgga4/5aBYqaYwYWjHAp5jUolQoj3+8HA84ail5FlEiYg
- AX0w==
+ bh=PghOm1+HJC0LKDphDTQ911GBY6Sy1XxnGIQ56Ai0urg=;
+ b=uD93kTMUMIzqNhJQE3P6DjZGn2+oLx8iWdaH5ZCgvyaO+Kr0v4sAFab3bqoiVFbd3c
+ 7J8WLwAD2MrqeFh65JiwmKlS3Df6wQpG1zLynXt6TgQJmq+C7xfXnsbwEXZV2p6ueSRF
+ c9X9OHiTFuLs6Jt048m2etTLXAy3RYIadFh6wnrihW3mIqrwIY5ThhhaBFn4s48RzQXJ
+ TGmGo5E7+iVpkHpwVfRR70rfRY+GU3k8HSmIDh12nWh2CKadxkW5RBbfVmnnj+yvgVwu
+ fA5m+a/1SQ9OxRGbr22VUPHMquSzsWtKxPbpHSEFz7z5YPYSBMQJpcsYjqg+pQjacrDZ
+ RQlg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=rsXsx8FncieYCf39ndgf29iTUZcqWDqZZxZPkE3/pro=;
- b=spHe/c1OJR2GwDgulQiFStCF2LuL3qy/ZI88BHvhVYI0aDFBKFbW+JVSM7JXZyB/9J
- Ry1Z4/wW05wMmqSMq2SxRbQxKhM2Hfhazox/JzlssSJ4snVSxkrYygNppWT7i5S1hquy
- z7XGLOMbe7bj9rvNCr3l27Uz3aidM2/Df4RVGnoUGBWYOqnNzYG7knt7KPPtLqiZQUpZ
- omjhU1KB6uxCEkW9SH3LWFVp4EvFcnhnc7Ytj0c/wkRxbgMzRnbfLP3GMyQBd1ElpwLi
- bmgaExp376vun5Ia9GvVxZJiQbX8Lv96QcYkxFfQEyk77G+q2H7tKYXCdsyEQldtwJMy
- gX2w==
-X-Gm-Message-State: AOAM5304dWm1b1ZYUoEMzjI7hZESsaCfmB/Xpj5q8z5xk0AtDAdJBn02
- 4Pj3fviVPeCoQBq31h9vuk8i1A==
-X-Google-Smtp-Source: ABdhPJyOvQM5E7l5Yn6MZOm3JeuKb1vwzT+Lz5Y3USQG2MBNaq7131byl05UKdjYll6IyFKvIuaoxA==
-X-Received: by 2002:a1c:ac81:: with SMTP id v123mr7030985wme.159.1595573114499; 
- Thu, 23 Jul 2020 23:45:14 -0700 (PDT)
+ bh=PghOm1+HJC0LKDphDTQ911GBY6Sy1XxnGIQ56Ai0urg=;
+ b=aR87FKphyuVMLVCgM2aSsknHShQTS9gVvn73rk6GCbi5FoABunQh2agaMFuWlSaY6D
+ Bh360rnHtYmlMZkEPDEK5QX3cuC0hSzmGuoJQWL4J3XcT1NSNhd6AjSWHoEZPzw4QPrv
+ rAQd4O0zX9bgrbwDzY7Md+ja0n4w4ccdg97R0H6oYTKCOI+ume0Qf124FxN205ZHRK09
+ xtCnENsuqn4E3x6GnigFiNNaPDZ/gkDdW5dZ+4uqaLiAHTQPWe9kvJypUqIfJ5YBwB5D
+ W9IQvzR5GlYm7PZsUxLzAx8c5cOM7Kex2OrMFE1g429fapzsYiXH87IaBINGisTKRopk
+ aTtg==
+X-Gm-Message-State: AOAM533idTKNqL9RRELAYuZgRLRV470GEsSvQxAcfezV51J+Gii7/7LL
+ mIYxBVC/J61n4gh1E1n9d+gAFIAxJAE=
+X-Google-Smtp-Source: ABdhPJzrowJMUZVXN00p3lDFkWhn+jsYosSnOTKJoxB+iEBnj3lzd3iAwu44fyJvbJFlcWCuW8INIQ==
+X-Received: by 2002:adf:aace:: with SMTP id i14mr7033687wrc.236.1595573116344; 
+ Thu, 23 Jul 2020 23:45:16 -0700 (PDT)
 Received: from zen.linaroharston ([51.148.130.216])
- by smtp.gmail.com with ESMTPSA id c24sm172551wrb.11.2020.07.23.23.45.09
+ by smtp.gmail.com with ESMTPSA id 65sm209378wre.6.2020.07.23.23.45.10
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 23 Jul 2020 23:45:10 -0700 (PDT)
+ Thu, 23 Jul 2020 23:45:13 -0700 (PDT)
 Received: from zen.lan (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id 768181FF8F;
+ by zen.linaroharston (Postfix) with ESMTP id 8F0AE1FF90;
  Fri, 24 Jul 2020 07:45:09 +0100 (BST)
 From: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PATCH  v3 03/16] semihosting: don't send the trailing '\0'
-Date: Fri, 24 Jul 2020 07:44:56 +0100
-Message-Id: <20200724064509.331-4-alex.bennee@linaro.org>
+Subject: [PATCH  v3 04/16] util: add qemu_get_host_physmem utility function
+Date: Fri, 24 Jul 2020 07:44:57 +0100
+Message-Id: <20200724064509.331-5-alex.bennee@linaro.org>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20200724064509.331-1-alex.bennee@linaro.org>
 References: <20200724064509.331-1-alex.bennee@linaro.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::342;
- envelope-from=alex.bennee@linaro.org; helo=mail-wm1-x342.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::442;
+ envelope-from=alex.bennee@linaro.org; helo=mail-wr1-x442.google.com
 X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
  That's all we know.
 X-Spam_score_int: -20
@@ -91,42 +91,89 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Cc: fam@euphon.net, berrange@redhat.com,
  =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>,
  richard.henderson@linaro.org, f4bug@amsat.org,
- =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
- KONRAD Frederic <frederic.konrad@adacore.com>, cota@braap.org,
+ Christian Ehrhardt <christian.ehrhardt@canonical.com>, cota@braap.org,
+ Stefan Weil <sw@weilnetz.de>, Paolo Bonzini <pbonzini@redhat.com>,
  aurelien@aurel32.net
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: KONRAD Frederic <frederic.konrad@adacore.com>
+This will be used in a future patch. For POSIX systems _SC_PHYS_PAGES
+isn't standardised but at least appears in the man pages for
+Open/FreeBSD. The result is advisory so any users of it shouldn't just
+fail if we can't work it out.
 
-Don't send the trailing 0 from the string.
+The win32 stub currently returns 0 until someone with a Windows system
+can develop and test a patch.
 
-Signed-off-by: KONRAD Frederic <frederic.konrad@adacore.com>
 Signed-off-by: Alex Bennée <alex.bennee@linaro.org>
-Reviewed-by: Philippe Mathieu-Daudé <philmd@redhat.com>
 Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
-Message-Id: <1592215252-26742-2-git-send-email-frederic.konrad@adacore.com>
-Message-Id: <20200717105139.25293-4-alex.bennee@linaro.org>
-Message-Id: <20200722062902.24509-4-alex.bennee@linaro.org>
+Cc: BALATON Zoltan <balaton@eik.bme.hu>
+Cc: Christian Ehrhardt <christian.ehrhardt@canonical.com>
+Message-Id: <20200722062902.24509-5-alex.bennee@linaro.org>
 ---
- hw/semihosting/console.c | 4 +++-
- 1 file changed, 3 insertions(+), 1 deletion(-)
+ include/qemu/osdep.h | 12 ++++++++++++
+ util/oslib-posix.c   | 15 +++++++++++++++
+ util/oslib-win32.c   |  6 ++++++
+ 3 files changed, 33 insertions(+)
 
-diff --git a/hw/semihosting/console.c b/hw/semihosting/console.c
-index 22e7827824a..9b4fee92602 100644
---- a/hw/semihosting/console.c
-+++ b/hw/semihosting/console.c
-@@ -52,7 +52,9 @@ static GString *copy_user_string(CPUArchState *env, target_ulong addr)
+diff --git a/include/qemu/osdep.h b/include/qemu/osdep.h
+index 45c217aa280..0b1298b3c91 100644
+--- a/include/qemu/osdep.h
++++ b/include/qemu/osdep.h
+@@ -668,4 +668,16 @@ static inline void qemu_reset_optind(void)
+  */
+ char *qemu_get_host_name(Error **errp);
  
-     do {
-         if (cpu_memory_rw_debug(cpu, addr++, &c, 1, 0) == 0) {
--            s = g_string_append_c(s, c);
-+            if (c) {
-+                s = g_string_append_c(s, c);
-+            }
-         } else {
-             qemu_log_mask(LOG_GUEST_ERROR,
-                           "%s: passed inaccessible address " TARGET_FMT_lx,
++/**
++ * qemu_get_host_physmem:
++ *
++ * Operating system agnostic way of querying host memory.
++ *
++ * Returns amount of physical memory on the system. This is purely
++ * advisery and may return 0 if we can't work it out. At the other
++ * end we saturate to SIZE_MAX if you are lucky enough to have that
++ * much memory.
++ */
++size_t qemu_get_host_physmem(void);
++
+ #endif
+diff --git a/util/oslib-posix.c b/util/oslib-posix.c
+index d9236746248..ad8001a4ad8 100644
+--- a/util/oslib-posix.c
++++ b/util/oslib-posix.c
+@@ -841,3 +841,18 @@ char *qemu_get_host_name(Error **errp)
+ 
+     return g_steal_pointer(&hostname);
+ }
++
++size_t qemu_get_host_physmem(void)
++{
++#ifdef _SC_PHYS_PAGES
++    long pages = sysconf(_SC_PHYS_PAGES);
++    if (pages > 0) {
++        if (pages > SIZE_MAX / qemu_real_host_page_size) {
++            return SIZE_MAX;
++        } else {
++            return pages * qemu_real_host_page_size;
++        }
++    }
++#endif
++    return 0;
++}
+diff --git a/util/oslib-win32.c b/util/oslib-win32.c
+index 7eedbe5859a..31030463cc9 100644
+--- a/util/oslib-win32.c
++++ b/util/oslib-win32.c
+@@ -828,3 +828,9 @@ char *qemu_get_host_name(Error **errp)
+ 
+     return g_utf16_to_utf8(tmp, size, NULL, NULL, NULL);
+ }
++
++size_t qemu_get_host_physmem(void)
++{
++    /* currently unimplemented */
++    return 0;
++}
 -- 
 2.20.1
 
