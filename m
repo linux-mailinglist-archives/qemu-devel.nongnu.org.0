@@ -2,52 +2,61 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id DA69C22BC56
-	for <lists+qemu-devel@lfdr.de>; Fri, 24 Jul 2020 05:05:17 +0200 (CEST)
-Received: from localhost ([::1]:40704 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A061022BC6B
+	for <lists+qemu-devel@lfdr.de>; Fri, 24 Jul 2020 05:23:05 +0200 (CEST)
+Received: from localhost ([::1]:48122 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jyo1M-0000qw-UY
-	for lists+qemu-devel@lfdr.de; Thu, 23 Jul 2020 23:05:16 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:55496)
+	id 1jyoIa-0004im-6v
+	for lists+qemu-devel@lfdr.de; Thu, 23 Jul 2020 23:23:04 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:59564)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <dgibson@ozlabs.org>)
- id 1jynuR-0007QF-9y; Thu, 23 Jul 2020 22:58:07 -0400
-Received: from bilbo.ozlabs.org ([2401:3900:2:1::2]:36865 helo=ozlabs.org)
+ (Exim 4.90_1) (envelope-from <king.wang@huawei.com>)
+ id 1jyoHh-0004Ip-EI
+ for qemu-devel@nongnu.org; Thu, 23 Jul 2020 23:22:09 -0400
+Received: from szxga01-in.huawei.com ([45.249.212.187]:2472 helo=huawei.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <dgibson@ozlabs.org>)
- id 1jynuO-00061o-BI; Thu, 23 Jul 2020 22:58:06 -0400
-Received: by ozlabs.org (Postfix, from userid 1007)
- id 4BCYlw2nzSz9sTT; Fri, 24 Jul 2020 12:57:48 +1000 (AEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=gibson.dropbear.id.au; s=201602; t=1595559468;
- bh=/o46AHd29VbcsNq9WcZf6nE94CsdYc+R5nZVL/Rr/HI=;
- h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=pSuzO9oG4N0zQaZIvbeJU7FN70QP4ZKEEpvcOr/jb4KRvrGtL4GgERFkyKACeAnXN
- C3V2s+HwQakiko3lp4TBXkrCi7CoBZhihn8CuBdR0/9T1ELAjFSeGV7tcu2j5wPuxC
- 6hX7tzTwsR/GqgVUfC1xdRMGLpbwYxSnB6k/qEEE=
-From: David Gibson <david@gibson.dropbear.id.au>
-To: dgilbert@redhat.com, frankja@linux.ibm.com, pair@us.ibm.com,
- qemu-devel@nongnu.org, pbonzini@redhat.com, brijesh.singh@amd.com
-Subject: [for-5.2 v4 10/10] s390: Recognize host-trust-limitation option
-Date: Fri, 24 Jul 2020 12:57:44 +1000
-Message-Id: <20200724025744.69644-11-david@gibson.dropbear.id.au>
-X-Mailer: git-send-email 2.26.2
-In-Reply-To: <20200724025744.69644-1-david@gibson.dropbear.id.au>
-References: <20200724025744.69644-1-david@gibson.dropbear.id.au>
+ (Exim 4.90_1) (envelope-from <king.wang@huawei.com>)
+ id 1jyoHe-0000fH-H8
+ for qemu-devel@nongnu.org; Thu, 23 Jul 2020 23:22:09 -0400
+Received: from nkgeml707-chm.china.huawei.com (unknown [172.30.72.55])
+ by Forcepoint Email with ESMTP id 8EBA57340CC32C743A90;
+ Fri, 24 Jul 2020 11:21:59 +0800 (CST)
+Received: from dggema763-chm.china.huawei.com (10.1.198.205) by
+ nkgeml707-chm.china.huawei.com (10.98.57.157) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256) id
+ 15.1.1913.5; Fri, 24 Jul 2020 11:21:59 +0800
+Received: from dggema763-chm.china.huawei.com ([10.9.49.85]) by
+ dggema763-chm.china.huawei.com ([10.9.49.85]) with mapi id 15.01.1913.007;
+ Fri, 24 Jul 2020 11:21:58 +0800
+From: "Wangjing (Hogan, Cloud Infrastructure Service Product Dept.)"
+ <king.wang@huawei.com>
+To: "Dr. David Alan Gilbert" <dgilbert@redhat.com>, "Michael S. Tsirkin"
+ <mst@redhat.com>
+Subject: Re: [PATCH v1] hw/pci-host: save/restore pci host config register
+Thread-Topic: [PATCH v1] hw/pci-host: save/restore pci host config register
+Thread-Index: AdZhaT+s8aHRNmrveEmbvmzXYw8iJg==
+Date: Fri, 24 Jul 2020 03:21:58 +0000
+Message-ID: <ec09235475524a94b8aeb5dc73cd0e74@huawei.com>
+Accept-Language: zh-CN, en-US
+Content-Language: zh-CN
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-originating-ip: [10.174.149.56]
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: quoted-printable
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2401:3900:2:1::2; envelope-from=dgibson@ozlabs.org;
- helo=ozlabs.org
-X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
- That's all we know.
-X-Spam_score_int: -9
-X-Spam_score: -1.0
-X-Spam_bar: -
-X-Spam_report: (-1.0 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, HEADER_FROM_DIFFERENT_DOMAINS=1,
- SPF_HELO_PASS=-0.001, SPF_PASS=-0.001,
- URIBL_BLOCKED=0.001 autolearn=no autolearn_force=no
+X-CFilter-Loop: Reflected
+Received-SPF: pass client-ip=45.249.212.187; envelope-from=king.wang@huawei.com;
+ helo=huawei.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/07/23 23:22:00
+X-ACL-Warn: Detected OS   = Linux 3.11 and newer [fuzzy]
+X-Spam_score_int: -41
+X-Spam_score: -4.2
+X-Spam_bar: ----
+X-Spam_report: (-4.2 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_MED=-2.3,
+ RCVD_IN_MSPIKE_H4=-0.01, RCVD_IN_MSPIKE_WL=-0.01, SPF_HELO_PASS=-0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -60,129 +69,112 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Thomas Huth <thuth@redhat.com>, Cornelia Huck <cohuck@redhat.com>,
- =?UTF-8?q?Daniel=20P=2E=20Berrang=C3=A9?= <berrange@redhat.com>,
- ehabkost@redhat.com, kvm@vger.kernel.org,
- "Michael S. Tsirkin" <mst@redhat.com>, David Hildenbrand <david@redhat.com>,
- mdroth@linux.vnet.ibm.com, pasic@linux.ibm.com,
- Christian Borntraeger <borntraeger@de.ibm.com>, qemu-s390x@nongnu.org,
- qemu-ppc@nongnu.org, Richard Henderson <rth@twiddle.net>,
- David Gibson <david@gibson.dropbear.id.au>
+Cc: "jusual@redhat.com" <jusual@redhat.com>,
+ "Wangxin \(Alexander\)" <wangxinxin.wang@huawei.com>,
+ "Huangweidong \(C\)" <weidong.huang@huawei.com>,
+ "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-At least some s390 cpu models support "Protected Virtualization" (PV),
-a mechanism to protect guests from eavesdropping by a compromised
-hypervisor.
+On Sat, Jul 25, 2020 at 10:53:03AM Hogan Wang wrote:
+> * Michael S. Tsirkin (mst@redhat.com) wrote:
+> > On Thu, Jul 23, 2020 at 02:12:54PM +0100, Dr. David Alan Gilbert wrote:
+> > > * Michael S. Tsirkin (mst@redhat.com) wrote:
+> > > > On Thu, Jul 23, 2020 at 08:53:03PM +0800, Hogan Wang wrote:
+> > > > > From: Hogan Wang <king.wang@huawei.com>
+> > > > >=20
+> > > > > The pci host config register is used to save PCI address for=20
+> > > > > read/write config data. If guest write a value to config=20
+> > > > > register, and then pause the vcpu to migrate, After the=20
+> > > > > migration, the guest continue to write pci config data, and the=20
+> > > > > write data will be ignored because of new qemu process lost the c=
+onfig register state.
+> > > > >=20
+> > > > > Reproduction steps are:
+> > > > > 1. guest booting in seabios.
+> > > > > 2. guest enable the SMRAM in seabios:piix4_apmc_smm_setup, and th=
+en
+> > > > >    expect to disable the SMRAM by pci_config_writeb.
+> > > > > 3. after guest write the pci host config register, and then pasue=
+d vcpu
+> > > > >    to finish migration.
+> > > > > 4. guest write config data(0x0A) fail to disable the SMRAM becasu=
+e of
+> > > > >    config register state lost.
+> > > > > 5. guest continue to boot and crash in ipxe option ROM due to SMR=
+AM in
+> > > > >    enabled state.
+> > > > >=20
+> > > > > Signed-off-by: Hogan Wang <king.wang@huawei.com>
+> > > >=20
+> > > > I guess this is like v3 right?
+> > > >=20
+> > > > thanks a lot for the patch!
+> > > >=20
+> > > > My question stands : does anyone see a way to pass this info=20
+> > > > around without breaking migration for all existing machine types?
+> > >=20
+> > > You need a .needed clause in the vmstate_i440fx_pcihost and=20
+> > > vmstate_q35_pcihost which is a pointer to a function which enables=20
+> > > it on new machine types and ignores it on old ones.
+> > >=20
+> > > Or, if it always crashes if the SMRAM is enabled, then the migration=
+=20
+> > > is dead anyway; so you could make the .needed only save the config=20
+> > > if the SMRAM is opened, so you'd get a unknown section error, which=20
+> > > is nasty but it would only happen in the case it would crash anyway.
+> > >=20
+> > > Dave
+> >=20
+> > Problem is we never know whether it's needed.
+> >=20
+> > For example: guest programs cf8, then cfc.
+> > Guest on destination can crash if migrated after writing cf8 before=20
+> > writing cfc.
+> > But in theory it can also crash if guest assumes
+> > cf8 is unchanged and just writes cfc.
+> >=20
+> > So what I'd prefer to do is put it in some data that old qemu ignores.=
+=20
+> > Then once qemu on destination is updated, it will start interpreting=20
+> > it.
+>=20
+> We don't have a way to do that; the choice is:
+>   a) Not sending it for old versions, so you only get the
+>     fix for new machine types
+>=20
+>   b) Trying to second guess when it will crash
+>=20
+> I recommend (a) generally - but the format has no way to ignore unknown d=
+ata.
+>=20
+> Dave
+>=20
 
-This is similar in function to other mechanisms like AMD's SEV and
-POWER's PEF, which are controlled bythe "host-trust-limitation"
-machine option.  s390 is a slightly special case, because we already
-supported PV, simply by using a CPU model with the required feature
-(S390_FEAT_UNPACK).
+The i440fx and q35 machines integrate i440FX or ICH9-LPC PCI device by
+default. Refer to i440FX and ICH9-LPC spcifications, there are some reserve=
+d
+configuration registers can used to save/restore PCIHostState.config_reg,
+like i440FX.config[0x57] used for Older coreboot to get RAM size from QEMU.
 
-To integrate this with the option used by other platforms, we
-implement the following compromise:
+whitch is nasty but it friendly to old ones.
 
- - When the host-trust-limitation option is set, s390 will recognize
-   it, verify that the CPU can support PV (failing if not) and set
-   virtio default options necessary for encrypted or protected guests,
-   as on other platforms.  i.e. if host-trust-limitation is set, we
-   will either create a guest capable of entering PV mode, or fail
-   outright
-
- - If host-trust-limitation is not set, guest's might still be able to
-   enter PV mode, if the CPU has the right model.  This may be a
-   little surprising, but shouldn't actually be harmful.
-
-To start a guest supporting Protected Virtualization using the new
-option use the command line arguments:
-    -object s390-pv-guest,id=pv0 -machine host-trust-limitation=pv0
-
-Signed-off-by: David Gibson <david@gibson.dropbear.id.au>
----
- hw/s390x/pv.c | 61 +++++++++++++++++++++++++++++++++++++++++++++++++++
- 1 file changed, 61 insertions(+)
-
-diff --git a/hw/s390x/pv.c b/hw/s390x/pv.c
-index ab3a2482aa..4bf3b345b6 100644
---- a/hw/s390x/pv.c
-+++ b/hw/s390x/pv.c
-@@ -14,8 +14,11 @@
- #include <linux/kvm.h>
- 
- #include "cpu.h"
-+#include "qapi/error.h"
- #include "qemu/error-report.h"
- #include "sysemu/kvm.h"
-+#include "qom/object_interfaces.h"
-+#include "exec/host-trust-limitation.h"
- #include "hw/s390x/ipl.h"
- #include "hw/s390x/pv.h"
- 
-@@ -111,3 +114,61 @@ void s390_pv_inject_reset_error(CPUState *cs)
-     /* Report that we are unable to enter protected mode */
-     env->regs[r1 + 1] = DIAG_308_RC_INVAL_FOR_PV;
- }
-+
-+#define TYPE_S390_PV_GUEST "s390-pv-guest"
-+#define S390_PV_GUEST(obj)                              \
-+    OBJECT_CHECK(S390PVGuestState, (obj), TYPE_S390_PV_GUEST)
-+
-+typedef struct S390PVGuestState S390PVGuestState;
-+
-+/**
-+ * S390PVGuestState:
-+ *
-+ * The S390PVGuestState object is basically a dummy used to tell the
-+ * host trust limitation system to use s390's PV mechanism.  guest.
-+ *
-+ * # $QEMU \
-+ *         -object s390-pv-guest,id=pv0 \
-+ *         -machine ...,host-trust-limitation=pv0
-+ */
-+struct S390PVGuestState {
-+    Object parent_obj;
-+};
-+
-+static int s390_pv_kvm_init(HostTrustLimitation *gmpo, Error **errp)
-+{
-+    if (!s390_has_feat(S390_FEAT_UNPACK)) {
-+        error_setg(errp,
-+                   "CPU model does not support Protected Virtualization");
-+        return -1;
-+    }
-+
-+    return 0;
-+}
-+
-+static void s390_pv_guest_class_init(ObjectClass *oc, void *data)
-+{
-+    HostTrustLimitationClass *gmpc = HOST_TRUST_LIMITATION_CLASS(oc);
-+
-+    gmpc->kvm_init = s390_pv_kvm_init;
-+}
-+
-+static const TypeInfo s390_pv_guest_info = {
-+    .parent = TYPE_OBJECT,
-+    .name = TYPE_S390_PV_GUEST,
-+    .instance_size = sizeof(S390PVGuestState),
-+    .class_init = s390_pv_guest_class_init,
-+    .interfaces = (InterfaceInfo[]) {
-+        { TYPE_HOST_TRUST_LIMITATION },
-+        { TYPE_USER_CREATABLE },
-+        { }
-+    }
-+};
-+
-+static void
-+s390_pv_register_types(void)
-+{
-+    type_register_static(&s390_pv_guest_info);
-+}
-+
-+type_init(s390_pv_register_types);
--- 
-2.26.2
+> >=20
+> > > >=20
+> > > > > ---
+> > > > >  hw/pci-host/i440fx.c       | 11 +++++++++++
+> > > > >  hw/pci-host/q35.c          | 11 +++++++++++
+> > > > >  hw/pci/pci_host.c          | 11 +++++++++++
+> > > > >  hw/pci/pcie_host.c         | 11 +++++++++++
+> > > > >  include/hw/pci/pci_host.h  | 10 ++++++++++ =20
+> > > > > include/hw/pci/pcie_host.h | 10 ++++++++++
+> > > > >  6 files changed, 64 insertions(+)
+> > > > >=20
+> > > >=20
+> > > --
+> > > Dr. David Alan Gilbert / dgilbert@redhat.com / Manchester, UK
+> >=20
+> --
+> Dr. David Alan Gilbert / dgilbert@redhat.com / Manchester, UK
 
 
