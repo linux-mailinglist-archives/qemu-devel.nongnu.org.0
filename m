@@ -2,67 +2,84 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 30B7E22C238
-	for <lists+qemu-devel@lfdr.de>; Fri, 24 Jul 2020 11:26:35 +0200 (CEST)
-Received: from localhost ([::1]:54078 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9901F22C1D1
+	for <lists+qemu-devel@lfdr.de>; Fri, 24 Jul 2020 11:14:33 +0200 (CEST)
+Received: from localhost ([::1]:40406 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jytyM-0008Qj-8g
-	for lists+qemu-devel@lfdr.de; Fri, 24 Jul 2020 05:26:34 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:51178)
+	id 1jytmi-000280-KX
+	for lists+qemu-devel@lfdr.de; Fri, 24 Jul 2020 05:14:32 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:46608)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1jytxd-000806-TH
- for qemu-devel@nongnu.org; Fri, 24 Jul 2020 05:25:49 -0400
-Received: from indium.canonical.com ([91.189.90.7]:59576)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1jytxb-0006Fj-9g
- for qemu-devel@nongnu.org; Fri, 24 Jul 2020 05:25:49 -0400
-Received: from loganberry.canonical.com ([91.189.90.37])
- by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
- id 1jytxZ-0002NA-Ir
- for <qemu-devel@nongnu.org>; Fri, 24 Jul 2020 09:25:45 +0000
-Received: from loganberry.canonical.com (localhost [127.0.0.1])
- by loganberry.canonical.com (Postfix) with ESMTP id 8D5292E80D2
- for <qemu-devel@nongnu.org>; Fri, 24 Jul 2020 09:25:45 +0000 (UTC)
+ (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
+ id 1jytkE-0007jK-Ec
+ for qemu-devel@nongnu.org; Fri, 24 Jul 2020 05:11:58 -0400
+Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:47245
+ helo=us-smtp-1.mimecast.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
+ id 1jytkC-0004P5-5d
+ for qemu-devel@nongnu.org; Fri, 24 Jul 2020 05:11:57 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1595581914;
+ h=from:from:reply-to:reply-to:subject:subject:date:date:
+ message-id:message-id:to:to:cc:cc:mime-version:mime-version:
+ content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=Vvw5OOQQywREUTH9/mftqFa8Udf5KmbuMGz9B2gj0n0=;
+ b=VD6PkrRnd+ZxMY7B3K6+GOYSuMXGwCNzkPBcZ2CMNeR2f6LB2J28jW0iKqR2ZEIyZvxXnF
+ fbjfuyDN4anpnuBSbkI5WuTVzyvDEKQq2aV5LbFrfY8CMyhc6d8YmR49cq8ENO0si5U8go
+ 3CqEFnVBfOpfgXlmZENonb3/CZTOU08=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-97-VyZDMFFIOSiuvDDpYuMfqQ-1; Fri, 24 Jul 2020 05:11:48 -0400
+X-MC-Unique: VyZDMFFIOSiuvDDpYuMfqQ-1
+Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
+ [10.5.11.15])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 0C40F100CCC0
+ for <qemu-devel@nongnu.org>; Fri, 24 Jul 2020 09:11:48 +0000 (UTC)
+Received: from redhat.com (unknown [10.36.110.43])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 9075B71D00;
+ Fri, 24 Jul 2020 09:11:46 +0000 (UTC)
+Date: Fri, 24 Jul 2020 10:11:43 +0100
+From: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
+To: Eric Blake <eblake@redhat.com>
+Subject: Re: [PATCH 2/4] qom: provide convenient macros for declaring and
+ defining types
+Message-ID: <20200724091143.GB3146350@redhat.com>
+References: <20200723181410.3145233-1-berrange@redhat.com>
+ <20200723181410.3145233-3-berrange@redhat.com>
+ <2e34d495-b98a-2dd3-2ae6-7ecef14f0d3e@redhat.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: quoted-printable
-Date: Fri, 24 Jul 2020 09:10:34 -0000
-From: xuan <1888818@bugs.launchpad.net>
-To: qemu-devel@nongnu.org
-X-Launchpad-Notification-Type: bug
-X-Launchpad-Bug: product=qemu; status=New; importance=Undecided; assignee=None;
-X-Launchpad-Bug-Information-Type: Public
-X-Launchpad-Bug-Private: no
-X-Launchpad-Bug-Security-Vulnerability: no
-X-Launchpad-Bug-Commenters: xavier-ding
-X-Launchpad-Bug-Reporter: xuan (xavier-ding)
-X-Launchpad-Bug-Modifier: xuan (xavier-ding)
-Message-Id: <159558183424.11837.7512442025195132206.malonedeb@wampee.canonical.com>
-Subject: [Bug 1888818] [NEW] Multi-queue vhost-user fails to reconnect with
- qemu version >=4.2
-X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
-X-Launchpad-Message-For: qemu-devel-ml
-Precedence: bulk
-X-Generated-By: Launchpad (canonical.com);
- Revision="f877c5162b568393e2d07ce948459ba0abc456fe";
- Instance="production-secrets-lazr.conf"
-X-Launchpad-Hash: a29f9a9e0f1c6f5aca7ebd22871209a0ab29a587
-Received-SPF: none client-ip=91.189.90.7; envelope-from=bounces@canonical.com;
- helo=indium.canonical.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/07/24 04:30:42
-X-ACL-Warn: Detected OS   = Linux 3.11 and newer [fuzzy]
-X-Spam_score_int: -58
-X-Spam_score: -5.9
-X-Spam_bar: -----
-X-Spam_report: (-5.9 / 5.0 requ) BAYES_00=-1.9, HEADER_FROM_DIFFERENT_DOMAINS=1,
- RCVD_IN_DNSWL_HI=-5, RCVD_IN_MSPIKE_H3=-0.01, RCVD_IN_MSPIKE_WL=-0.01,
- SPF_HELO_NONE=0.001, SPF_NONE=0.001 autolearn=ham autolearn_force=no
+In-Reply-To: <2e34d495-b98a-2dd3-2ae6-7ecef14f0d3e@redhat.com>
+User-Agent: Mutt/1.14.5 (2020-06-23)
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=berrange@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: 8bit
+Content-Disposition: inline
+Received-SPF: pass client-ip=207.211.31.120; envelope-from=berrange@redhat.com;
+ helo=us-smtp-1.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/07/24 00:01:02
+X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
+X-Spam_score_int: -30
+X-Spam_score: -3.1
+X-Spam_bar: ---
+X-Spam_report: (-3.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H4=-0.01, RCVD_IN_MSPIKE_WL=-0.01,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ URIBL_BLOCKED=0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
+Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -71,273 +88,154 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Bug 1888818 <1888818@bugs.launchpad.net>
+Reply-To: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
+Cc: Paolo Bonzini <pbonzini@redhat.com>, qemu-devel@nongnu.org,
+ Eduardo Habkost <ehabkost@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Public bug reported:
+On Thu, Jul 23, 2020 at 02:23:54PM -0500, Eric Blake wrote:
+> On 7/23/20 1:14 PM, Daniel P. Berrangé wrote:
+> > When creating new QOM types, there is a lot of boilerplate code that
+> > must be repeated using a standard pattern. This is tedious to write
+> > and liable to suffer from subtle inconsistencies. Thus it would
+> > benefit from some simple automation.
+> > 
+> > QOM was loosely inspired by GLib's GObject, and indeed GObject suffers
+> > from the same burden of boilerplate code, but has long provided a set of
+> > macros to eliminate this burden in the source implementation. More
+> > recently it has also provided a set of macros to eliminate this burden
+> > in the header declaration.
+> > 
+> > In GLib there are the G_DECLARE_* and G_DEFINE_* family of macros
+> > for the header declaration and source implementation respectively:
+> > 
+> >    https://developer.gnome.org/gobject/stable/chapter-gobject.html
+> >    https://developer.gnome.org/gobject/stable/howto-gobject.html
+> > 
+> > This patch takes inspiration from GObject to provide the equivalent
+> > functionality for QOM.
+> > 
+> 
+> > 
+> > IOW, in both cases the maintainer now only has to think about the
+> > interesting part of the code which implements useful functionality
+> > and avoids much of the boilerplate.
+> > 
+> > Signed-off-by: Daniel P. Berrangé <berrange@redhat.com>
+> > ---
+> >   include/qom/object.h | 277 +++++++++++++++++++++++++++++++++++++++++++
+> >   1 file changed, 277 insertions(+)
+> > 
+> > diff --git a/include/qom/object.h b/include/qom/object.h
+> > index 1f8aa2d48e..be64421089 100644
+> > --- a/include/qom/object.h
+> > +++ b/include/qom/object.h
+> > @@ -304,6 +304,119 @@ typedef struct InterfaceInfo InterfaceInfo;
+> >    *
+> >    * The first example of such a QOM method was #CPUClass.reset,
+> >    * another example is #DeviceClass.realize.
+> > + *
+> > + * # Standard type declaration and definition macros #
+> > + *
+> > + * A lot of the code outlined above follows a standard pattern and naming
+> > + * convention. To reduce the amount of boilerplate code that needs to be
+> > + * written for a new type there are two sets of macros to generate the
+> > + * common parts in a standard format.
+> > + *
+> > + * A type is declared using the OBJECT_DECLARE macro family. In types
+> > + * which do not require any virtual functions in the class, the
+> > + * OBJECT_DECLARE_SIMPLE_TYPE macro is suitable, and is commonly placed
+> > + * in the header file:
+> > + *
+> > + * <example>
+> > + *   <title>Declaring a simple type</title>
+> > + *   <programlisting>
+> > + *     OBJECT_DECLARE_SIMPLE_TYPE(MyDevice, my_device, MY_DEVICE, DEVICE)
+> 
+> How sensitive is this macro to trailing semicolon?  Must the user omit it
+> (as shown here), supply it (by tweaking the macro to be a syntax error if
+> one is not supplied), or is it optional?  I guess whatever glib does is fine
+> to copy, though.
 
-Test Environment:
-DPDK version: DPDK v20.08
-Other software versions: qemu4.2.0, qemu5.0.0.
-OS: Linux 4.15.0-20-generic
-Compiler: gcc (Ubuntu 7.3.0-16ubuntu3) 8.4.0
-Hardware platform: Purley.
-Test Setup
-Steps to reproduce
-List the steps to reproduce the issue.
+Testing it appears it tolerates a ";" but GLib doesn't use it typically
+in this case.
 
-Test flow
-=3D=3D=3D=3D=3D=3D=3D=3D=3D
-1. Launch vhost-user testpmd as port0 with 2 queues:
+> 
+> Hmm. I think you meant to use s/ DEVICE/ Device/ here...
 
-./x86_64-native-linuxapp-gcc/app/testpmd -l 2-4 -n 4 \
-=C2=A0=C2=A0=C2=A0=C2=A0--file-prefix=3Dvhost --vdev 'net_vhost0,iface=3Dvh=
-ost-net,queues=3D2,client=3D1' -- -i --txd=3D1024 --rxd=3D1024 --txq=3D2 --=
-rxq=3D2
-testpmd>start
+Yes.
 
-3. Launch qemu with virtio-net:
+> 
+> > + *   </programlisting>
+> > + * </example>
+> > + *
+> > + * This is equivalent to the following:
+> > + *
+> > + * <example>
+> > + *   <title>Expansion from declaring a simple type</title>
+> > + *   <programlisting>
+> > + *     typedef struct MyDevice MyDevice;
+> > + *     typedef struct MyDeviceClass MyDeviceClass;
+> > + *
+> > + *     G_DEFINE_AUTOPTR_CLEANUP_FUNC(MyDeviceClass, object_unref)
+> > + *
+> > + *     #define MY_DEVICE_GET_CLASS(void *obj) \
+> > + *             OBJECT_GET_CLASS(MyDeviceClass, obj, TYPE_MY_DEVICE)
+> 
+> How'd you manage to invoke #define inside the OBJECT_DECLARE_SIMPLE_TYPE
+> macro expansion?
+> 
+> /me reads ahead
+> 
+> Oh, you didn't; you used a static inline function instead.  But the effect
+> is the same, so claiming the equivalence here, while slightly misleading, is
+> not horrible.
 
-=C2=A0taskset -c 13 \
-=C2=A0=C2=A0=C2=A0=C2=A0qemu-system-x86_64 -name us-vhost-vm1 \
-=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0-cpu host -enable-kvm -m 2048 -ob=
-ject memory-backend-file,id=3Dmem,size=3D2048M,mem-path=3D/mnt/huge,share=
-=3Don \
-=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0-numa node,memdev=3Dmem \
-=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0-mem-prealloc -monitor unix:/tmp/=
-vm2_monitor.sock,server,nowait -netdev user,id=3Dyinan,hostfwd=3Dtcp:127.0.=
-0.1:6005-:22 -device e1000,netdev=3Dyinan \
-=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0-smp cores=3D1,sockets=3D1 -drive=
- file=3D/home/osimg/ubuntu16.img  \
-=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0-chardev socket,id=3Dchar0,path=
-=3D./vhost-net,server \
-=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0-netdev type=3Dvhost-user,id=3Dmy=
-net1,chardev=3Dchar0,vhostforce,queues=3D2 \
-=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0-device virtio-net-pci,mac=3D52:5=
-4:00:00:00:01,netdev=3Dmynet1,mrg_rxbuf=3Don,csum=3Don,gso=3Don,host_tso4=
-=3Don,guest_tso4=3Don,mq=3Don,vectors=3D15 \
-=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0-vnc :10 -daemonize
+Yes, I was in two minds here, whether to illustrate the real inline
+function, or the macro. I choose the macro to make it clear what kind
+of code is being replaced, rather than what kind of code it strictly
+produces.
 
-6. Quit testpmd and restart vhost-user :
+> > + *     #define MY_DEVICE_CLASS(void *klass) \
+> > + *             OBJECT_CLASS_CHECK(MyDeviceClass, klass, TYPE_MY_DEVICE)
+> > + *     #define MY_DEVICE(void *obj)
+> > + *             OBJECT_CHECK(MyDevice, obj, TYPE_MY_DEVICE)
+> > + *
+> > + *     struct MyDeviceClass {
+> > + *         DeviceClass parent_class;
+> 
+> ...given that this line is constructed as arg4##Class, and the fact that we
+> have DeviceClass, not DEVICEClass.
+> 
+> > + *     };
+> > + *   </programlisting>
+> > + * </example>
+> > + *
+> > + * The 'struct MyDevice' needs to be declared separately.
+> > + * If the type requires virtual functions to be declared in the class
+> > + * struct, then the alternative OBJECT_DECLARE_TYPE() macro can be
+> > + * used. This does the same as OBJECT_DECLARE_SIMPLE_TYPE(), but without
+> > + * the 'struct MyDeviceClass' definition.
+> > + *
+> > + * To implement the type, the OBJECT_DEFINE macro family is available.
+> > + * In the simple case the OBJECT_DEFINE_TYPE macro is suitable:
+> > + *
+> > + * <example>
+> > + *   <title>Defining a simple type</title>
+> > + *   <programlisting>
+> > + *     OBJECT_DEFINE_TYPE(MyDevice, my_device, MY_DEVICE, DEVICE)
+> 
+> Unlike the declare, here, using DEVICE looks correct...
 
-testpmd>quit
-./x86_64-native-linuxapp-gcc/app/testpmd -l 2-4 -n 4 \
-=C2=A0=C2=A0=C2=A0=C2=A0--file-prefix=3Dvhost --vdev 'net_vhost0,iface=3Dvh=
-ost-net,queues=3D2,client=3D1' -- -i --txd=3D1024 --rxd=3D1024 --txq=3D2 --=
-rxq=3D2
+Yes.
 
-Expected Result:
-After the vhost-user is killed then re-launched, the virtio-net can connect=
- back to vhost-user again.
 
-Actual Result:
-Vhost-user relaunch failed with continous log printed"VHOST_CONFIG: Process=
-ing VHOST_USER_SET_FEATURES failed.
+Regards,
+Daniel
+-- 
+|: https://berrange.com      -o-    https://www.flickr.com/photos/dberrange :|
+|: https://libvirt.org         -o-            https://fstop138.berrange.com :|
+|: https://entangle-photo.org    -o-    https://www.instagram.com/dberrange :|
 
-Analysis:
-This is a regression bug, bad commit: c6beefd674f
-When vhost-user quits, QEMU doesnot save acked features for each virtio-net=
- after vhost-user quits. When vhost-user reconnects to QEMU, QEMU sends two=
- different features(one is the true acked feature while the another is 0x40=
-000000) to vhost-user successively which causing vhost-user exits abnormall=
-y.
-
-** Affects: qemu
-     Importance: Undecided
-         Status: New
-
-** Summary changed:
-
-- vhost-user/vitrio-net test fail to reconnect from vhost-user with qemu ve=
-rsion >=3D4.2
-+ vhost-user fail to reconnect from virtio-net with qemu version >=3D4.2
-
-** Description changed:
-
-  Test Environment:
-  DPDK version: DPDK v20.08
-- Other software versions: qemu4.2, qemu5.0.
-+ Other software versions: qemu4.2.0, qemu5.0.0.
-  OS: Linux 4.15.0-20-generic
-  Compiler: gcc (Ubuntu 7.3.0-16ubuntu3) 8.4.0
-  Hardware platform: Purley.
-  Test Setup
-  Steps to reproduce
-  List the steps to reproduce the issue.
-  =
-
-  Test flow
-  =3D=3D=3D=3D=3D=3D=3D=3D=3D
-  1. Launch vhost-user testpmd as port0 with 2 queues:
-  =
-
-  ./x86_64-native-linuxapp-gcc/app/testpmd -l 2-4 -n 4 \
--     --file-prefix=3Dvhost --vdev 'net_vhost0,iface=3Dvhost-net,queues=3D2=
-,client=3D1' -- -i --txd=3D1024 --rxd=3D1024 --txq=3D2 --rxq=3D2
-+ =C2=A0=C2=A0=C2=A0=C2=A0--file-prefix=3Dvhost --vdev 'net_vhost0,iface=3D=
-vhost-net,queues=3D2,client=3D1' -- -i --txd=3D1024 --rxd=3D1024 --txq=3D2 =
---rxq=3D2
-  testpmd>start
-  =
-
-  3. Launch qemu with virtio-net:
-  =
-
--  taskset -c 13 \
--     qemu-system-x86_64 -name us-vhost-vm1 \
--        -cpu host -enable-kvm -m 2048 -object memory-backend-file,id=3Dmem=
-,size=3D2048M,mem-path=3D/mnt/huge,share=3Don \
--        -numa node,memdev=3Dmem \
--        -mem-prealloc -monitor unix:/tmp/vm2_monitor.sock,server,nowait -n=
-etdev user,id=3Dyinan,hostfwd=3Dtcp:127.0.0.1:6005-:22 -device e1000,netdev=
-=3Dyinan \
--        -smp cores=3D1,sockets=3D1 -drive file=3D/home/osimg/ubuntu16.img =
- \
--        -chardev socket,id=3Dchar0,path=3D./vhost-net,server \
--        -netdev type=3Dvhost-user,id=3Dmynet1,chardev=3Dchar0,vhostforce,q=
-ueues=3D2 \
--        -device virtio-net-pci,mac=3D52:54:00:00:00:01,netdev=3Dmynet1,mrg=
-_rxbuf=3Don,csum=3Don,gso=3Don,host_tso4=3Don,guest_tso4=3Don,mq=3Don,vecto=
-rs=3D15 \
--        -vnc :10 -daemonize
-+ =C2=A0taskset -c 13 \
-+ =C2=A0=C2=A0=C2=A0=C2=A0qemu-system-x86_64 -name us-vhost-vm1 \
-+ =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0-cpu host -enable-kvm -m 2048 -=
-object memory-backend-file,id=3Dmem,size=3D2048M,mem-path=3D/mnt/huge,share=
-=3Don \
-+ =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0-numa node,memdev=3Dmem \
-+ =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0-mem-prealloc -monitor unix:/tm=
-p/vm2_monitor.sock,server,nowait -netdev user,id=3Dyinan,hostfwd=3Dtcp:127.=
-0.0.1:6005-:22 -device e1000,netdev=3Dyinan \
-+ =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0-smp cores=3D1,sockets=3D1 -dri=
-ve file=3D/home/osimg/ubuntu16.img  \
-+ =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0-chardev socket,id=3Dchar0,path=
-=3D./vhost-net,server \
-+ =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0-netdev type=3Dvhost-user,id=3D=
-mynet1,chardev=3Dchar0,vhostforce,queues=3D2 \
-+ =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0-device virtio-net-pci,mac=3D52=
-:54:00:00:00:01,netdev=3Dmynet1,mrg_rxbuf=3Don,csum=3Don,gso=3Don,host_tso4=
-=3Don,guest_tso4=3Don,mq=3Don,vectors=3D15 \
-+ =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0-vnc :10 -daemonize
-  =
-
-  6. Quit testpmd and restart vhost-user :
-  =
-
-  testpmd>quit
-  ./x86_64-native-linuxapp-gcc/app/testpmd -l 2-4 -n 4 \
--     --file-prefix=3Dvhost --vdev 'net_vhost0,iface=3Dvhost-net,queues=3D2=
-,client=3D1' -- -i --txd=3D1024 --rxd=3D1024 --txq=3D2 --rxq=3D2
-- =
-
-+ =C2=A0=C2=A0=C2=A0=C2=A0--file-prefix=3Dvhost --vdev 'net_vhost0,iface=3D=
-vhost-net,queues=3D2,client=3D1' -- -i --txd=3D1024 --rxd=3D1024 --txq=3D2 =
---rxq=3D2
-  =
-
-  Expected Result:
-  After the vhost-user is killed then re-launched, the virtio-net can conne=
-ct back to vhost-user again.
-  =
-
-  Actual Result:
-  Vhost-user relaunch failed with continous log printed"VHOST_CONFIG: Proce=
-ssing VHOST_USER_SET_FEATURES failed.
-  =
-
-  Analysis:
-  This is a regression bug, bad commit: c6beefd674f
-  When vhost-user quits, QEMU doesnot save acked features for each virtio-n=
-et after vhost-user quits. When vhost-user reconnects to QEMU, QEMU sends t=
-wo different features(one is the true acked feature while the another is 0x=
-40000000) to vhost-user successively which causing vhost-user exits abnorma=
-lly.
-
-** Summary changed:
-
-- vhost-user fail to reconnect from virtio-net with qemu version >=3D4.2
-+ Multi-queue vhost-user fails to reconnect with qemu version >=3D4.2
-
--- =
-
-You received this bug notification because you are a member of qemu-
-devel-ml, which is subscribed to QEMU.
-https://bugs.launchpad.net/bugs/1888818
-
-Title:
-  Multi-queue vhost-user fails to reconnect with qemu version >=3D4.2
-
-Status in QEMU:
-  New
-
-Bug description:
-  Test Environment:
-  DPDK version: DPDK v20.08
-  Other software versions: qemu4.2.0, qemu5.0.0.
-  OS: Linux 4.15.0-20-generic
-  Compiler: gcc (Ubuntu 7.3.0-16ubuntu3) 8.4.0
-  Hardware platform: Purley.
-  Test Setup
-  Steps to reproduce
-  List the steps to reproduce the issue.
-
-  Test flow
-  =3D=3D=3D=3D=3D=3D=3D=3D=3D
-  1. Launch vhost-user testpmd as port0 with 2 queues:
-
-  ./x86_64-native-linuxapp-gcc/app/testpmd -l 2-4 -n 4 \
-  =C2=A0=C2=A0=C2=A0=C2=A0--file-prefix=3Dvhost --vdev 'net_vhost0,iface=3D=
-vhost-net,queues=3D2,client=3D1' -- -i --txd=3D1024 --rxd=3D1024 --txq=3D2 =
---rxq=3D2
-  testpmd>start
-
-  3. Launch qemu with virtio-net:
-
-  =C2=A0taskset -c 13 \
-  =C2=A0=C2=A0=C2=A0=C2=A0qemu-system-x86_64 -name us-vhost-vm1 \
-  =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0-cpu host -enable-kvm -m 2048 -=
-object memory-backend-file,id=3Dmem,size=3D2048M,mem-path=3D/mnt/huge,share=
-=3Don \
-  =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0-numa node,memdev=3Dmem \
-  =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0-mem-prealloc -monitor unix:/tm=
-p/vm2_monitor.sock,server,nowait -netdev user,id=3Dyinan,hostfwd=3Dtcp:127.=
-0.0.1:6005-:22 -device e1000,netdev=3Dyinan \
-  =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0-smp cores=3D1,sockets=3D1 -dri=
-ve file=3D/home/osimg/ubuntu16.img  \
-  =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0-chardev socket,id=3Dchar0,path=
-=3D./vhost-net,server \
-  =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0-netdev type=3Dvhost-user,id=3D=
-mynet1,chardev=3Dchar0,vhostforce,queues=3D2 \
-  =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0-device virtio-net-pci,mac=3D52=
-:54:00:00:00:01,netdev=3Dmynet1,mrg_rxbuf=3Don,csum=3Don,gso=3Don,host_tso4=
-=3Don,guest_tso4=3Don,mq=3Don,vectors=3D15 \
-  =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0-vnc :10 -daemonize
-
-  6. Quit testpmd and restart vhost-user :
-
-  testpmd>quit
-  ./x86_64-native-linuxapp-gcc/app/testpmd -l 2-4 -n 4 \
-  =C2=A0=C2=A0=C2=A0=C2=A0--file-prefix=3Dvhost --vdev 'net_vhost0,iface=3D=
-vhost-net,queues=3D2,client=3D1' -- -i --txd=3D1024 --rxd=3D1024 --txq=3D2 =
---rxq=3D2
-
-  Expected Result:
-  After the vhost-user is killed then re-launched, the virtio-net can conne=
-ct back to vhost-user again.
-
-  Actual Result:
-  Vhost-user relaunch failed with continous log printed"VHOST_CONFIG: Proce=
-ssing VHOST_USER_SET_FEATURES failed.
-
-  Analysis:
-  This is a regression bug, bad commit: c6beefd674f
-  When vhost-user quits, QEMU doesnot save acked features for each virtio-n=
-et after vhost-user quits. When vhost-user reconnects to QEMU, QEMU sends t=
-wo different features(one is the true acked feature while the another is 0x=
-40000000) to vhost-user successively which causing vhost-user exits abnorma=
-lly.
-
-To manage notifications about this bug go to:
-https://bugs.launchpad.net/qemu/+bug/1888818/+subscriptions
 
