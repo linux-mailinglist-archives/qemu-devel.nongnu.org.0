@@ -2,68 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1C89622BF72
-	for <lists+qemu-devel@lfdr.de>; Fri, 24 Jul 2020 09:36:33 +0200 (CEST)
-Received: from localhost ([::1]:36092 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7890C22BF7A
+	for <lists+qemu-devel@lfdr.de>; Fri, 24 Jul 2020 09:37:37 +0200 (CEST)
+Received: from localhost ([::1]:39502 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jysFs-0007HT-6K
-	for lists+qemu-devel@lfdr.de; Fri, 24 Jul 2020 03:36:32 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:50718)
+	id 1jysGu-0000Dh-In
+	for lists+qemu-devel@lfdr.de; Fri, 24 Jul 2020 03:37:36 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:50776)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1jysEs-0006Q3-AW
- for qemu-devel@nongnu.org; Fri, 24 Jul 2020 03:35:30 -0400
-Received: from mail-wm1-x342.google.com ([2a00:1450:4864:20::342]:50261)
+ id 1jysEv-0006Up-W7
+ for qemu-devel@nongnu.org; Fri, 24 Jul 2020 03:35:34 -0400
+Received: from mail-wr1-x442.google.com ([2a00:1450:4864:20::442]:36644)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1jysEq-0007i6-MG
- for qemu-devel@nongnu.org; Fri, 24 Jul 2020 03:35:30 -0400
-Received: by mail-wm1-x342.google.com with SMTP id c80so7074122wme.0
- for <qemu-devel@nongnu.org>; Fri, 24 Jul 2020 00:35:28 -0700 (PDT)
+ id 1jysEu-0007iu-Gu
+ for qemu-devel@nongnu.org; Fri, 24 Jul 2020 03:35:33 -0400
+Received: by mail-wr1-x442.google.com with SMTP id 88so7372752wrh.3
+ for <qemu-devel@nongnu.org>; Fri, 24 Jul 2020 00:35:32 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=sender:from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=+nNqMt/BZv7ln0PdX+r18GLXJMBiluBgWiKc1zsOhoM=;
- b=Y8s7F2z77fiyikUE9MsOrJkIiFcV63fVlTfB6/t96490uKawAApTeUbd45ghfcpbCn
- X8TsmGYwbGcT24IntTdPaIhrMzwSk0v4aJuQKCyAD3d9qBZ55JDqE1cXdxKUx0yHAawT
- g1YJYcUWiJzIeCdUCk/QYfvDelC+BghIG0WC/9yRHaEzrjIgAh+7bLX6Hm+O5DHy7XL8
- LLTUfsgCgsLWQrU2XzXKae+zZO11Dx27e88nNsxPFT8cKzu4oV9QtCyglU2fpPQROe3X
- 3xkYIbqIUvdBx1s4DnJ0E011YWzrYTFtN8mTutobTkbIMemP9VaSHNBTOEDPVZdwqcE8
- hf0Q==
+ h=sender:from:to:cc:subject:date:message-id:in-reply-to:references
+ :mime-version:content-transfer-encoding;
+ bh=7cMvOSWjQxG4l/hFTBITd2GgwV3T+QNXvLQiMS0D5/w=;
+ b=Bv1KVqjdke+HgjClA6GsmwjCxFJ73Amu/nIf51e/IkET5Z4iq4dgfTOmKLUOHezaTf
+ AVZBBMm1D70gGon5lbnRl7Qvq7MXAH8f0pj1McJo2lNbmVgYb2acJbOBPxU4weyGIOpM
+ vKegew2ICkRaUgiIqkEE3PDM0IDl3FNIOXCOCLw5/saX6xDPpJ58P1p8FLcjf3GawD/z
+ rL4nLErtqF1mbnxROaK5kPJNCKBDjuq7fLtN05tGGW7MwTfSvt7EXB5SHrfl0fw23V4P
+ 6e8oE5y89+JE0LxVGaYzz9C0kfy7zLLk9UzM/FtlWUOVME5sXEK6c5RW97QHikCbuAD4
+ YtVg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
- :mime-version:content-transfer-encoding;
- bh=+nNqMt/BZv7ln0PdX+r18GLXJMBiluBgWiKc1zsOhoM=;
- b=qjB/qHKSIDJi/GAqvKsTr9WClSxO9AO1fuitH9Q85jUmMdH5UcfB9fQ6cj/J7SssHZ
- riYZRpCAob65JLa0dxIVNUNdCjsr+GsVGHZ+/M6ukgNlNNEABvDf59/JGZu5Xqg4msVh
- WVBg2+tfcZNWJfqMmYYx+gFPlFU6xzDWsmLKCofwPy8pdqGdO3KbxOInnVdUrK44NBgx
- oZZCmuGbEajq6PuWr1aXpSvBvVeQflEctS9XVzTY3BbHlSRrItTgtiPRXwqSh0XLb9wB
- nYaYN1Bk0J2foPNSGHxgc7eDOSJeP7ycxaKDNaiBMizSRRceUZ7neG4ourSke2TfnW+A
- BcQg==
-X-Gm-Message-State: AOAM530+iDOCgIiTrxIAohvUAzTb+pF7ZY7XAqgJauzYfV9u2AYZdyj9
- VMNZG7Dzbhz2MKpiojXM/e66kEbv8cU=
-X-Google-Smtp-Source: ABdhPJxTKgVk+89OYJElawKchgIDJJK6Z5kVenKlI4AafF3aUIxn5MqYDXHmUfvCIsQq1cTfvouECA==
-X-Received: by 2002:a1c:dc02:: with SMTP id t2mr7352935wmg.55.1595576126687;
- Fri, 24 Jul 2020 00:35:26 -0700 (PDT)
+ :in-reply-to:references:mime-version:content-transfer-encoding;
+ bh=7cMvOSWjQxG4l/hFTBITd2GgwV3T+QNXvLQiMS0D5/w=;
+ b=MIjf1QwikTzk39OxmAT0Yb4fppWq/NZcK/QEBAwePNEQ7JEvipPTHvq7E0h3PbWayN
+ SDKCw/HZftTMKDzZlHuPptKGpBvQyTkvpvZ/CxofoUjQChAjxw/mzJHONazwKp27XBwM
+ yCE5tyAEB6rTCmwUCRg6/S+KsaHxDhZut8N/f+URslI4PE1VsXMp0Tu9A5Q/bZfV+Mf7
+ LnB2RaDYxEnapXsYBiXUKVoI7ozg1HVFcykiLZ6FdOAvFfgyp0S+S8nFLufZq0JFizpe
+ o6ZQl8vd7jFtiJ5og8p9KTlryfmu8m9u2lvIfRxigLpOcCvWXAN7jq11Gd2nhhmzI99i
+ x5cg==
+X-Gm-Message-State: AOAM530jL38BlWYe0OsMvHvoDBZnxhnB6EKaiVMqCRfXMS30IBkGEF6v
+ VztkTznQFPkSpx/ZiRbH3Om+W4hNPEA=
+X-Google-Smtp-Source: ABdhPJzTqPEzeH6IlT1krQuZC0KOlr2bN1QoVAqU/eXfxTVM5X45C7YuLFZZSnzza9VBfnnLUA4ljQ==
+X-Received: by 2002:adf:a195:: with SMTP id u21mr7804146wru.296.1595576127822; 
+ Fri, 24 Jul 2020 00:35:27 -0700 (PDT)
 Received: from localhost.localdomain
  (138.red-83-57-170.dynamicip.rima-tde.net. [83.57.170.138])
- by smtp.gmail.com with ESMTPSA id y189sm7319431wmd.27.2020.07.24.00.35.25
+ by smtp.gmail.com with ESMTPSA id y189sm7319431wmd.27.2020.07.24.00.35.26
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 24 Jul 2020 00:35:26 -0700 (PDT)
+ Fri, 24 Jul 2020 00:35:27 -0700 (PDT)
 From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
 To: qemu-devel@nongnu.org
-Subject: [PATCH 0/2] tests: Add 'fetch-acceptance' rule
-Date: Fri, 24 Jul 2020 09:35:22 +0200
-Message-Id: <20200724073524.26589-1-f4bug@amsat.org>
+Subject: [PATCH 1/2] tests: Add 'fetch-acceptance' rule
+Date: Fri, 24 Jul 2020 09:35:23 +0200
+Message-Id: <20200724073524.26589-2-f4bug@amsat.org>
 X-Mailer: git-send-email 2.21.3
+In-Reply-To: <20200724073524.26589-1-f4bug@amsat.org>
+References: <20200724073524.26589-1-f4bug@amsat.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::342;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wm1-x342.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::442;
+ envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wr1-x442.google.com
 X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
  That's all we know.
 X-Spam_score_int: 0
@@ -101,16 +103,31 @@ can fetch and save the cache so other jobs reuse it directly.
 It is also useful to measure the time spent downloading the
 assets versus the time spent running the tests.
 
-For now we have to exclude the 'boot_linux.py' which triggers
-an exception.
-
-Philippe Mathieu-Daudé (2):
-  tests: Add 'fetch-acceptance' rule
-  tests: Exclude 'boot_linux.py' from fetch-acceptance rule
-
+Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
+---
  tests/Makefile.include | 9 +++++++++
  1 file changed, 9 insertions(+)
 
+diff --git a/tests/Makefile.include b/tests/Makefile.include
+index c7e4646ded..238974d8da 100644
+--- a/tests/Makefile.include
++++ b/tests/Makefile.include
+@@ -944,6 +944,15 @@ get-vm-image-fedora-31-%: check-venv
+ # download all vm images, according to defined targets
+ get-vm-images: check-venv $(patsubst %,get-vm-image-fedora-31-%, $(FEDORA_31_DOWNLOAD))
+ 
++# fetch acceptance test assets
++fetch-acceptance: check-venv
++	$(call quiet-command, \
++            $(TESTS_VENV_DIR)/bin/python -m avocado \
++            $(if $(V),--show=$(AVOCADO_SHOW)) \
++            assets fetch \
++            $(wildcard tests/acceptance/*.py), \
++            "AVOCADO", "tests/acceptance")
++
+ check-acceptance: check-venv $(TESTS_RESULTS_DIR) get-vm-images
+ 	$(call quiet-command, \
+             $(TESTS_VENV_DIR)/bin/python -m avocado \
 -- 
 2.21.3
 
