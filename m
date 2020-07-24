@@ -2,46 +2,47 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D97C922BC49
-	for <lists+qemu-devel@lfdr.de>; Fri, 24 Jul 2020 05:01:48 +0200 (CEST)
-Received: from localhost ([::1]:55816 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B6A1D22BC4C
+	for <lists+qemu-devel@lfdr.de>; Fri, 24 Jul 2020 05:03:54 +0200 (CEST)
+Received: from localhost ([::1]:34442 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jynxz-0003wS-T2
-	for lists+qemu-devel@lfdr.de; Thu, 23 Jul 2020 23:01:47 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:55412)
+	id 1jyo01-0006m3-P3
+	for lists+qemu-devel@lfdr.de; Thu, 23 Jul 2020 23:03:53 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:55460)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <dgibson@ozlabs.org>)
- id 1jynuL-0007El-9L; Thu, 23 Jul 2020 22:58:01 -0400
-Received: from bilbo.ozlabs.org ([203.11.71.1]:59865 helo=ozlabs.org)
+ id 1jynuP-0007Mm-UH; Thu, 23 Jul 2020 22:58:05 -0400
+Received: from bilbo.ozlabs.org ([2401:3900:2:1::2]:41959 helo=ozlabs.org)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <dgibson@ozlabs.org>)
- id 1jynuJ-00060G-BL; Thu, 23 Jul 2020 22:58:00 -0400
+ id 1jynuN-00061f-W3; Thu, 23 Jul 2020 22:58:05 -0400
 Received: by ozlabs.org (Postfix, from userid 1007)
- id 4BCYlv33w0z9sSt; Fri, 24 Jul 2020 12:57:47 +1000 (AEST)
+ id 4BCYlw00Rzz9sTF; Fri, 24 Jul 2020 12:57:47 +1000 (AEST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=gibson.dropbear.id.au; s=201602; t=1595559467;
- bh=aXMwhPSEkPHTpzErQPz4f4zNkJ2AVJxzRI0h3KgdOaE=;
+ d=gibson.dropbear.id.au; s=201602; t=1595559468;
+ bh=xgmDQa3udk5W0XmmFTnrKQDvJ/BjSvIb0v09eBORE70=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=I8R/r6K0P/IZg9wSKSjVg8EjaXlXMJmGktM9HhxalYdYd1gB7LXXgFxkcmHIyQHqn
- yxPqtlhIW670eVcVZpL3C3m1uB0rstBiBaYembN8TPTdsKUsNqvjo+wNjHOe5V8GXt
- lrZfMdVdBphNf6F/mciBlXPWMn31lLx5pZr4iUis=
+ b=OGBTdOPiL8Nuu2cNvQr4R0hIaMZJWJVN7ZYOOU1+Jy0huQdGQy/w2e1zDJi8inGMI
+ sfXsFRM+wueL5uASQSTxss6FU3dO287ugy3GwG20FzTIJmZBhmgeHhy9l/aCGLs3To
+ iO87zT9VzxIzMNoBplOdxlcOc+iAP26IC9fuwfF0=
 From: David Gibson <david@gibson.dropbear.id.au>
 To: dgilbert@redhat.com, frankja@linux.ibm.com, pair@us.ibm.com,
  qemu-devel@nongnu.org, pbonzini@redhat.com, brijesh.singh@amd.com
-Subject: [for-5.2 v4 01/10] host trust limitation: Introduce new host trust
- limitation interface
-Date: Fri, 24 Jul 2020 12:57:35 +1000
-Message-Id: <20200724025744.69644-2-david@gibson.dropbear.id.au>
+Subject: [for-5.2 v4 06/10] host trust limitation: Add Error ** to
+ HostTrustLimitation::kvm_init
+Date: Fri, 24 Jul 2020 12:57:40 +1000
+Message-Id: <20200724025744.69644-7-david@gibson.dropbear.id.au>
 X-Mailer: git-send-email 2.26.2
 In-Reply-To: <20200724025744.69644-1-david@gibson.dropbear.id.au>
 References: <20200724025744.69644-1-david@gibson.dropbear.id.au>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=203.11.71.1; envelope-from=dgibson@ozlabs.org;
+Received-SPF: pass client-ip=2401:3900:2:1::2; envelope-from=dgibson@ozlabs.org;
  helo=ozlabs.org
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/07/23 22:57:48
-X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic]
+X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
+ That's all we know.
 X-Spam_score_int: -9
 X-Spam_score: -1.0
 X-Spam_bar: -
@@ -69,128 +70,130 @@ Cc: Thomas Huth <thuth@redhat.com>, Cornelia Huck <cohuck@redhat.com>,
  pasic@linux.ibm.com, Christian Borntraeger <borntraeger@de.ibm.com>,
  qemu-s390x@nongnu.org, qemu-ppc@nongnu.org,
  Richard Henderson <rth@twiddle.net>,
+ =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
  David Gibson <david@gibson.dropbear.id.au>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Several architectures have mechanisms which are designed to protect guest
-memory from interference or eavesdropping by a compromised hypervisor.  AMD
-SEV does this with in-chip memory encryption and Intel has a similar
-mechanism.  POWER's Protected Execution Framework (PEF) accomplishes a
-similar goal using an ultravisor and new memory protection features,
-instead of encryption.
-
-To (partially) unify handling for these, this introduces a new
-HostTrustLimitation QOM interface.
+This allows failures to be reported richly and idiomatically.
 
 Signed-off-by: David Gibson <david@gibson.dropbear.id.au>
-Acked-by: Dr. David Alan Gilbert <dgilbert@redhat.com>
+Reviewed-by: Philippe Mathieu-Daudé <philmd@redhat.com>
 Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
 ---
- backends/Makefile.objs               |  2 ++
- backends/host-trust-limitation.c     | 29 ++++++++++++++++++++++++
- include/exec/host-trust-limitation.h | 33 ++++++++++++++++++++++++++++
- include/qemu/typedefs.h              |  1 +
- 4 files changed, 65 insertions(+)
- create mode 100644 backends/host-trust-limitation.c
- create mode 100644 include/exec/host-trust-limitation.h
+ accel/kvm/kvm-all.c                  |  4 +++-
+ include/exec/host-trust-limitation.h |  2 +-
+ target/i386/sev.c                    | 31 ++++++++++++++--------------
+ 3 files changed, 19 insertions(+), 18 deletions(-)
 
-diff --git a/backends/Makefile.objs b/backends/Makefile.objs
-index 22d204cb48..dcb8f58d31 100644
---- a/backends/Makefile.objs
-+++ b/backends/Makefile.objs
-@@ -21,3 +21,5 @@ common-obj-$(CONFIG_LINUX) += hostmem-memfd.o
- common-obj-$(CONFIG_GIO) += dbus-vmstate.o
- dbus-vmstate.o-cflags = $(GIO_CFLAGS)
- dbus-vmstate.o-libs = $(GIO_LIBS)
-+
-+common-obj-y += host-trust-limitation.o
-diff --git a/backends/host-trust-limitation.c b/backends/host-trust-limitation.c
-new file mode 100644
-index 0000000000..96a381cd8a
---- /dev/null
-+++ b/backends/host-trust-limitation.c
-@@ -0,0 +1,29 @@
-+/*
-+ * QEMU Host Trust Limitation interface
-+ *
-+ * Copyright: David Gibson, Red Hat Inc. 2020
-+ *
-+ * Authors:
-+ *  David Gibson <david@gibson.dropbear.id.au>
-+ *
-+ * This work is licensed under the terms of the GNU GPL, version 2 or
-+ * later.  See the COPYING file in the top-level directory.
-+ *
-+ */
-+
-+#include "qemu/osdep.h"
-+
-+#include "exec/host-trust-limitation.h"
-+
-+static const TypeInfo host_trust_limitation_info = {
-+    .name = TYPE_HOST_TRUST_LIMITATION,
-+    .parent = TYPE_INTERFACE,
-+    .class_size = sizeof(HostTrustLimitationClass),
-+};
-+
-+static void host_trust_limitation_register_types(void)
-+{
-+    type_register_static(&host_trust_limitation_info);
-+}
-+
-+type_init(host_trust_limitation_register_types)
+diff --git a/accel/kvm/kvm-all.c b/accel/kvm/kvm-all.c
+index 4b6402c12c..3f98c6be7c 100644
+--- a/accel/kvm/kvm-all.c
++++ b/accel/kvm/kvm-all.c
+@@ -2164,9 +2164,11 @@ static int kvm_init(MachineState *ms)
+     if (ms->htl) {
+         HostTrustLimitationClass *htlc =
+             HOST_TRUST_LIMITATION_GET_CLASS(ms->htl);
++        Error *local_err = NULL;
+ 
+-        ret = htlc->kvm_init(ms->htl);
++        ret = htlc->kvm_init(ms->htl, &local_err);
+         if (ret < 0) {
++            error_report_err(local_err);
+             goto err;
+         }
+     }
 diff --git a/include/exec/host-trust-limitation.h b/include/exec/host-trust-limitation.h
-new file mode 100644
-index 0000000000..03887b1be1
---- /dev/null
+index fc30ea3f78..d93b537280 100644
+--- a/include/exec/host-trust-limitation.h
 +++ b/include/exec/host-trust-limitation.h
-@@ -0,0 +1,33 @@
-+/*
-+ * QEMU Host Trust Limitation interface
-+ *
-+ * Copyright: David Gibson, Red Hat Inc. 2020
-+ *
-+ * Authors:
-+ *  David Gibson <david@gibson.dropbear.id.au>
-+ *
-+ * This work is licensed under the terms of the GNU GPL, version 2 or
-+ * later.  See the COPYING file in the top-level directory.
-+ *
-+ */
-+#ifndef QEMU_HOST_TRUST_LIMITATION_H
-+#define QEMU_HOST_TRUST_LIMITATION_H
-+
-+#include "qom/object.h"
-+
-+#define TYPE_HOST_TRUST_LIMITATION "host-trust-limitation"
-+#define HOST_TRUST_LIMITATION(obj)                                    \
-+    INTERFACE_CHECK(HostTrustLimitation, (obj),                       \
-+                    TYPE_HOST_TRUST_LIMITATION)
-+#define HOST_TRUST_LIMITATION_CLASS(klass)                            \
-+    OBJECT_CLASS_CHECK(HostTrustLimitationClass, (klass),             \
-+                       TYPE_HOST_TRUST_LIMITATION)
-+#define HOST_TRUST_LIMITATION_GET_CLASS(obj)                          \
-+    OBJECT_GET_CLASS(HostTrustLimitationClass, (obj),                 \
-+                     TYPE_HOST_TRUST_LIMITATION)
-+
-+typedef struct HostTrustLimitationClass {
-+    InterfaceClass parent;
-+} HostTrustLimitationClass;
-+
-+#endif /* QEMU_HOST_TRUST_LIMITATION_H */
-diff --git a/include/qemu/typedefs.h b/include/qemu/typedefs.h
-index 427027a970..624d59c037 100644
---- a/include/qemu/typedefs.h
-+++ b/include/qemu/typedefs.h
-@@ -51,6 +51,7 @@ typedef struct FWCfgIoState FWCfgIoState;
- typedef struct FWCfgMemState FWCfgMemState;
- typedef struct FWCfgState FWCfgState;
- typedef struct HostMemoryBackend HostMemoryBackend;
-+typedef struct HostTrustLimitation HostTrustLimitation;
- typedef struct I2CBus I2CBus;
- typedef struct I2SCodec I2SCodec;
- typedef struct IOMMUMemoryRegion IOMMUMemoryRegion;
+@@ -30,7 +30,7 @@
+ typedef struct HostTrustLimitationClass {
+     InterfaceClass parent;
+ 
+-    int (*kvm_init)(HostTrustLimitation *);
++    int (*kvm_init)(HostTrustLimitation *, Error **);
+     int (*encrypt_data)(HostTrustLimitation *, uint8_t *, uint64_t);
+ } HostTrustLimitationClass;
+ 
+diff --git a/target/i386/sev.c b/target/i386/sev.c
+index 8e3c9dcc2c..0d06976da5 100644
+--- a/target/i386/sev.c
++++ b/target/i386/sev.c
+@@ -626,7 +626,7 @@ sev_vm_state_change(void *opaque, int running, RunState state)
+     }
+ }
+ 
+-static int sev_kvm_init(HostTrustLimitation *htl)
++static int sev_kvm_init(HostTrustLimitation *htl, Error **errp)
+ {
+     SevGuestState *sev = SEV_GUEST(htl);
+     char *devname;
+@@ -648,14 +648,14 @@ static int sev_kvm_init(HostTrustLimitation *htl)
+     host_cbitpos = ebx & 0x3f;
+ 
+     if (host_cbitpos != sev->cbitpos) {
+-        error_report("%s: cbitpos check failed, host '%d' requested '%d'",
+-                     __func__, host_cbitpos, sev->cbitpos);
++        error_setg(errp, "%s: cbitpos check failed, host '%d' requested '%d'",
++                   __func__, host_cbitpos, sev->cbitpos);
+         goto err;
+     }
+ 
+     if (sev->reduced_phys_bits < 1) {
+-        error_report("%s: reduced_phys_bits check failed, it should be >=1,"
+-                     " requested '%d'", __func__, sev->reduced_phys_bits);
++        error_setg(errp, "%s: reduced_phys_bits check failed, it should be >=1,"
++                   " requested '%d'", __func__, sev->reduced_phys_bits);
+         goto err;
+     }
+ 
+@@ -664,20 +664,19 @@ static int sev_kvm_init(HostTrustLimitation *htl)
+     devname = object_property_get_str(OBJECT(sev), "sev-device", NULL);
+     sev->sev_fd = open(devname, O_RDWR);
+     if (sev->sev_fd < 0) {
+-        error_report("%s: Failed to open %s '%s'", __func__,
+-                     devname, strerror(errno));
+-    }
+-    g_free(devname);
+-    if (sev->sev_fd < 0) {
++        error_setg(errp, "%s: Failed to open %s '%s'", __func__,
++                   devname, strerror(errno));
++        g_free(devname);
+         goto err;
+     }
++    g_free(devname);
+ 
+     ret = sev_platform_ioctl(sev->sev_fd, SEV_PLATFORM_STATUS, &status,
+                              &fw_error);
+     if (ret) {
+-        error_report("%s: failed to get platform status ret=%d "
+-                     "fw_error='%d: %s'", __func__, ret, fw_error,
+-                     fw_error_to_str(fw_error));
++        error_setg(errp, "%s: failed to get platform status ret=%d "
++                   "fw_error='%d: %s'", __func__, ret, fw_error,
++                   fw_error_to_str(fw_error));
+         goto err;
+     }
+     sev->build_id = status.build;
+@@ -687,14 +686,14 @@ static int sev_kvm_init(HostTrustLimitation *htl)
+     trace_kvm_sev_init();
+     ret = sev_ioctl(sev->sev_fd, KVM_SEV_INIT, NULL, &fw_error);
+     if (ret) {
+-        error_report("%s: failed to initialize ret=%d fw_error=%d '%s'",
+-                     __func__, ret, fw_error, fw_error_to_str(fw_error));
++        error_setg(errp, "%s: failed to initialize ret=%d fw_error=%d '%s'",
++                   __func__, ret, fw_error, fw_error_to_str(fw_error));
+         goto err;
+     }
+ 
+     ret = sev_launch_start(sev);
+     if (ret) {
+-        error_report("%s: failed to create encryption context", __func__);
++        error_setg(errp, "%s: failed to create encryption context", __func__);
+         goto err;
+     }
+ 
 -- 
 2.26.2
 
