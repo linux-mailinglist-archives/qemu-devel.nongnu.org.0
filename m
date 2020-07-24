@@ -2,75 +2,79 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id CF3B222BE2D
-	for <lists+qemu-devel@lfdr.de>; Fri, 24 Jul 2020 08:43:46 +0200 (CEST)
-Received: from localhost ([::1]:38368 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 984B322BE34
+	for <lists+qemu-devel@lfdr.de>; Fri, 24 Jul 2020 08:47:28 +0200 (CEST)
+Received: from localhost ([::1]:43486 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jyrQn-0003Sd-O1
-	for lists+qemu-devel@lfdr.de; Fri, 24 Jul 2020 02:43:45 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:37492)
+	id 1jyrUN-0005kC-IM
+	for lists+qemu-devel@lfdr.de; Fri, 24 Jul 2020 02:47:27 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:37822)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1jyrQ0-00033I-BW
- for qemu-devel@nongnu.org; Fri, 24 Jul 2020 02:42:56 -0400
-Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:21739
- helo=us-smtp-1.mimecast.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1jyrPy-0008Ui-1w
- for qemu-devel@nongnu.org; Fri, 24 Jul 2020 02:42:55 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1595572972;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=eDXolUxnIEPi1SnhoKqQkVA4WR040LgyDb1xUOtcFoc=;
- b=KLrlrv3+z5BY0f9TreJLQWrW/sC3QDTKEV7qqY7qNYj1ZNeBv5sK63nSqx0l1hAWiwIWb1
- BPC9XUKRcyv/75FiI7LzrirLi7qqvik/itGt7EW7Be4Z61Ib2HvJynopOPZ1rjCA+UVcfc
- aexeHkuuyEjzoe9H9dwwmlKbkOC965w=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-212-o0TCz9bqMY25LB7gCn1BzQ-1; Fri, 24 Jul 2020 02:42:51 -0400
-X-MC-Unique: o0TCz9bqMY25LB7gCn1BzQ-1
-Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
- [10.5.11.15])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 05AEA57;
- Fri, 24 Jul 2020 06:42:50 +0000 (UTC)
-Received: from blackfin.pond.sub.org (ovpn-112-143.ams2.redhat.com
- [10.36.112.143])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id B3B4D71D00;
- Fri, 24 Jul 2020 06:42:49 +0000 (UTC)
-Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
- id 5017B111CA26; Fri, 24 Jul 2020 08:42:48 +0200 (CEST)
-From: Markus Armbruster <armbru@redhat.com>
-To: Stefan Berger <stefanb@linux.ibm.com>
-Subject: Re: [PATCH for-5.1 2/2] tpm: Improve help on TPM types when none are
- available
-References: <20200723115845.1865886-1-armbru@redhat.com>
- <20200723115845.1865886-3-armbru@redhat.com>
- <45421f31-caf0-7f7f-de60-bf55b4c5c431@linux.ibm.com>
-Date: Fri, 24 Jul 2020 08:42:48 +0200
-In-Reply-To: <45421f31-caf0-7f7f-de60-bf55b4c5c431@linux.ibm.com> (Stefan
- Berger's message of "Thu, 23 Jul 2020 20:56:19 -0400")
-Message-ID: <87mu3pe7mf.fsf@dusky.pond.sub.org>
-User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/26.3 (gnu/linux)
+ (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
+ id 1jyrSF-00040C-OK
+ for qemu-devel@nongnu.org; Fri, 24 Jul 2020 02:45:15 -0400
+Received: from mail-wr1-x444.google.com ([2a00:1450:4864:20::444]:38964)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
+ id 1jyrSD-0000Du-Kl
+ for qemu-devel@nongnu.org; Fri, 24 Jul 2020 02:45:15 -0400
+Received: by mail-wr1-x444.google.com with SMTP id q5so7250056wru.6
+ for <qemu-devel@nongnu.org>; Thu, 23 Jul 2020 23:45:12 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=VAi8k5Zol/wiE3ERKKx5W1VAkElXOLsOF468dnZNkJU=;
+ b=e3tC+XrtW/b7mySKTX2+JH/Ih4Ex9znfGvCcXz2JAqRYj2s3A2skCQbmhu1+mKp58L
+ zxE6H2zDjsnQYlEePdhcS1JSiFBEHn/8asSDGsaBkTam0JaquvJ+jjgj5uxe6a5eSqER
+ 35LcyWCUBzCBz0deKHQYLSa1uPKffE8m2iFPkLuOcRo05kloksXPN6VGraE/VuBfXnfI
+ 7QFaFk5PqmM3kE9Cm7wfRoOQh9giDN3Wn34LhfoZHe9GzxTN5mOEwUYsdfJBE0nd1WFP
+ aQvPzcCzp2/I4pZ1pEOBc660504MpBtZHj+pVB+3dZklm56JbXwxoBjEyBPLwNp/LDg4
+ Fi+w==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=VAi8k5Zol/wiE3ERKKx5W1VAkElXOLsOF468dnZNkJU=;
+ b=q7TmXU8tmlYaIjSVu1KM8imTD7wUOQMOE6h9t1o81OHaBea18Rqe/TPcxRzREiRmZO
+ cZix9OMjTa84SUW+srd+Izen5ztHrYRzQCH2DSXHevgl421OYszkKjTqbN5jgbyLJ91i
+ oLNBwuN8VrLGJrc6U/arFJ5RKbNxYOP36WmpQxsO4UxtfoW/W2aJCP5aoBLAaWUhNMVp
+ iRzj7UKwMRVtqcSah3SbzDXiMEZI6Swj+0OmzWZuZtzkV3m4nzPAiyXBxotDnp3p043c
+ yRNblBaufWXCJEp1vYcoC0hnetB9PqaVMZ6Div8wcA9koHEa79NuhKzTBsvhN1B7OvS0
+ T8DA==
+X-Gm-Message-State: AOAM532xnCVEbpFoj6wj7uk/31Oa+vzUf/WWFZsuZVKFoWrX81zXcM5H
+ 9Er9U0iAi1hbyz4I9LtdMeQWTw==
+X-Google-Smtp-Source: ABdhPJyGT8QsBjy9LwZnCvP5Bz5kf6Kv4P5fWtsi9SrcH95kYMYPgptRFUwW+YSynUm1fb33sEF3jA==
+X-Received: by 2002:a5d:464a:: with SMTP id j10mr7537417wrs.187.1595573111320; 
+ Thu, 23 Jul 2020 23:45:11 -0700 (PDT)
+Received: from zen.linaroharston ([51.148.130.216])
+ by smtp.gmail.com with ESMTPSA id k10sm130745wrm.74.2020.07.23.23.45.09
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Thu, 23 Jul 2020 23:45:09 -0700 (PDT)
+Received: from zen.lan (localhost [127.0.0.1])
+ by zen.linaroharston (Postfix) with ESMTP id 363761FF7E;
+ Fri, 24 Jul 2020 07:45:09 +0100 (BST)
+From: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
+To: qemu-devel@nongnu.org
+Subject: [PATCH  v3 00/16] candidate fixes for 5.1-rc1 (testing, semihosting,
+ OOM tcg, x86 fpu)
+Date: Fri, 24 Jul 2020 07:44:53 +0100
+Message-Id: <20200724064509.331-1-alex.bennee@linaro.org>
+X-Mailer: git-send-email 2.20.1
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain
-Received-SPF: pass client-ip=205.139.110.120; envelope-from=armbru@redhat.com;
- helo=us-smtp-1.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/07/24 01:23:10
-X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
-X-Spam_score_int: -40
-X-Spam_score: -4.1
-X-Spam_bar: ----
-X-Spam_report: (-4.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-1, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=2a00:1450:4864:20::444;
+ envelope-from=alex.bennee@linaro.org; helo=mail-wr1-x444.google.com
+X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
+ That's all we know.
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ URIBL_BLOCKED=0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -83,40 +87,78 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: philmd@redhat.com, qemu-devel@nongnu.org
+Cc: fam@euphon.net, berrange@redhat.com,
+ =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>,
+ richard.henderson@linaro.org, f4bug@amsat.org, cota@braap.org,
+ aurelien@aurel32.net
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Stefan Berger <stefanb@linux.ibm.com> writes:
+Hi,
 
-> On 7/23/20 7:58 AM, Markus Armbruster wrote:
->> Help is a bit awkward when no TPM types are built into QEMU:
->>
->>      $ upstream-qemu -tpmdev nonexistent,id=tpm0
->
-> I hope you don't mind me replacing 'upstream-qemu' with
-> 'x86_64-softmmu/qemu-system-x86_64'?
->
->>      upstream-qemu: -tpmdev nonexistent,id=tpm0: Parameter 'type' expects a TPM backend type
->
->
-> and this one with 'qemu-system-x86_64:'
->
->
->>      Supported TPM types (choose only one):
->>
->> Improve to
->>
->>      upstream-qemu: -tpmdev nonexistent,id=tpm0: Parameter 'type' expects a TPM backend type
->>      No TPM backend types are available'
->
->
-> I hope you don't mind me replacing 'upstream-qemu' with
-> 'x86_64-softmmu/qemu-system-x86_64'?
+This is the current state of my candidate fixes for 5.1. Apart from
+the revisions following reviews for v2:
+  
+  https://patchew.org/QEMU/20200722062902.24509-1-alex.bennee@linaro.org/
 
-On the contrary!  I meant to replace by qemu-system-x86_64 (no directory
-part), but forgot.
+this includes a new version of Laurent's nanosleep fix and some
+clean-ups to the python console drain code which should sort out some
+of the 100% cpu spins Peter was seeing.
 
-Thanks!
+Other minor tweaks noted bellow -- in the patches themselves. The
+following are still un-reviewed:
+
+ - tests/docker: fix update command due to python3 str/bytes distinction
+ - accel/tcg: better handle memory constrained systems
+ - util/oslib-win32: add qemu_get_host_physmem implementation
+
+Alex Bennée (8):
+  shippable: add one more qemu to registry url
+  util: add qemu_get_host_physmem utility function
+  util/oslib-win32: add qemu_get_host_physmem implementation
+  accel/tcg: better handle memory constrained systems
+  linux-user: don't use MAP_FIXED in pgd_find_hole_fallback
+  tests/docker: fix update command due to python3 str/bytes distinction
+  tests/docker: fix binfmt_misc image building
+  tests/docker: add support for DEB_KEYRING
+
+KONRAD Frederic (2):
+  semihosting: defer connect_chardevs a little more to use serialx
+  semihosting: don't send the trailing '\0'
+
+Laszlo Ersek (1):
+  target/i386: floatx80: avoid compound literals in static initializers
+
+Laurent Vivier (2):
+  linux-user: fix clock_nanosleep()
+  linux-user,ppc: fix clock_nanosleep() for linux-user-ppc
+
+Robert Foley (3):
+  python/qemu: Cleanup changes to ConsoleSocket
+  python/qemu: Change ConsoleSocket to optionally drain socket.
+  tests/vm: add shutdown timeout in basevm.py
+
+ include/fpu/softfloat.h                       |   1 +
+ include/qemu/osdep.h                          |  15 +
+ accel/tcg/translate-all.c                     |   7 +-
+ hw/semihosting/console.c                      |   4 +-
+ linux-user/elfload.c                          |  10 +-
+ linux-user/syscall.c                          |  15 +-
+ softmmu/vl.c                                  |   5 +-
+ target/i386/fpu_helper.c                      | 426 +++++++++---------
+ util/oslib-posix.c                            |  15 +
+ util/oslib-win32.c                            |  11 +
+ .shippable.yml                                |   2 +-
+ python/qemu/console_socket.py                 | 137 +++---
+ python/qemu/machine.py                        |  14 +-
+ python/qemu/pylintrc                          |   2 +-
+ tests/docker/Makefile.include                 |   2 +-
+ tests/docker/docker.py                        |  13 +-
+ tests/docker/dockerfiles/debian-bootstrap.pre |   7 +
+ tests/vm/basevm.py                            |  15 +-
+ 18 files changed, 390 insertions(+), 311 deletions(-)
+
+-- 
+2.20.1
 
 
