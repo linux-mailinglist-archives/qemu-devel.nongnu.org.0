@@ -2,51 +2,51 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 244A922BD73
-	for <lists+qemu-devel@lfdr.de>; Fri, 24 Jul 2020 07:26:50 +0200 (CEST)
-Received: from localhost ([::1]:52200 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D206F22BD6F
+	for <lists+qemu-devel@lfdr.de>; Fri, 24 Jul 2020 07:25:02 +0200 (CEST)
+Received: from localhost ([::1]:46124 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jyqEL-0005pO-79
-	for lists+qemu-devel@lfdr.de; Fri, 24 Jul 2020 01:26:49 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:51676)
+	id 1jyqCb-0003Df-SD
+	for lists+qemu-devel@lfdr.de; Fri, 24 Jul 2020 01:25:01 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:51720)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1jyqAq-0000yw-Bq
- for qemu-devel@nongnu.org; Fri, 24 Jul 2020 01:23:12 -0400
-Received: from us-smtp-2.mimecast.com ([207.211.31.81]:47379
+ (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1jyqAr-000114-CV
+ for qemu-devel@nongnu.org; Fri, 24 Jul 2020 01:23:13 -0400
+Received: from us-smtp-2.mimecast.com ([207.211.31.81]:58658
  helo=us-smtp-delivery-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1jyqAm-0007RW-02
- for qemu-devel@nongnu.org; Fri, 24 Jul 2020 01:23:11 -0400
+ (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1jyqAn-0007Ro-99
+ for qemu-devel@nongnu.org; Fri, 24 Jul 2020 01:23:13 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1595568187;
+ s=mimecast20190719; t=1595568188;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=zhGJpZGOCRF1db9wHuts2huHwM/xClDsqI5d+Pu/uiM=;
- b=ZP5S5GNNVRsMd47hgsmsX8Kdr70rIIETuu5UuSmaDAu1JsCi5+j/iutqP9DSWMpNQyE9KO
- ewZ9QCHjjnW1Jl/edaqOS90hMHK1zlSo0Szv6sqkDpOGeT9ZZAL9CaEO19ZtY4XlaFdJ1j
- JthduXC3jD4GJ5PlXGgD5LeixW0i/G0=
+ bh=1PIIZ0rWR7fbA3h+dJxS8bPAnBQjFmR4OXt+O8WSIe4=;
+ b=cPxTE+vnoOwmG0gdVqFKQTC6ZGm0JhvNqe4jyK194FKbrJWLgnMLwfWx/kV2/1KNCotrly
+ 3v4IqlCK+8IIN3cW2/CTYn0lT9muEFU3SJ9/+2jzFBMLXSfcTp3MnX8Q/eVbrT61izhMf/
+ 9KfM808qjvSy599Hu3j2Bu5hgISm0uY=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-363-yovbNaBNM7KeG_6B3rtXOg-1; Fri, 24 Jul 2020 01:23:05 -0400
-X-MC-Unique: yovbNaBNM7KeG_6B3rtXOg-1
+ us-mta-231-8ZudlPRyPCafl_ZxXyD4gQ-1; Fri, 24 Jul 2020 01:23:06 -0400
+X-MC-Unique: 8ZudlPRyPCafl_ZxXyD4gQ-1
 Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
  [10.5.11.11])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 3719A8005B0;
- Fri, 24 Jul 2020 05:23:04 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 9D4B980183C;
+ Fri, 24 Jul 2020 05:23:05 +0000 (UTC)
 Received: from ibm-p8-OVS-01-fsp.mgmt.pnr.lab.eng.rdu2.redhat.com
  (ovpn-120-206.rdu2.redhat.com [10.10.120.206])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 932F57AC80;
- Fri, 24 Jul 2020 05:23:03 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 816B17F4D6;
+ Fri, 24 Jul 2020 05:23:04 +0000 (UTC)
 From: John Snow <jsnow@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH 3/7] ide: model HOB correctly
-Date: Fri, 24 Jul 2020 01:22:56 -0400
-Message-Id: <20200724052300.1163728-4-jsnow@redhat.com>
+Subject: [PATCH 4/7] ide: reorder set/get sector functions
+Date: Fri, 24 Jul 2020 01:22:57 -0400
+Message-Id: <20200724052300.1163728-5-jsnow@redhat.com>
 In-Reply-To: <20200724052300.1163728-1-jsnow@redhat.com>
 References: <20200724052300.1163728-1-jsnow@redhat.com>
 MIME-Version: 1.0
@@ -65,7 +65,7 @@ X-Spam_bar: ---
 X-Spam_report: (-3.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H3=-0.01, RCVD_IN_MSPIKE_WL=-0.01,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -83,100 +83,76 @@ Cc: kwolf@redhat.com, Alexander Bulekov <alxndr@bu.edu>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-I have been staring at this FIXME for years and I never knew what it
-meant. I finally stumbled across it!
-
-When writing to the command registers, the old value is shifted into a
-HOB copy of the register and the new value is written into the primary
-register. When reading registers, the value retrieved is dependent on
-the HOB bit in the CONTROL register.
-
-By setting bit 7 (0x80) in CONTROL, any register read will, if it has
-one, yield the HOB value for that register instead.
-
-Our code has a problem: We were using bit 7 of the DEVICE register to
-model this. We use bus->cmd roughly as the control register already, as
-it stores the value from ide_ctrl_write.
-
-Lastly, all command register writes reset the HOB, so fix that, too.
+Reorder these just a pinch to make them more obvious at a glance what
+the addressing mode is.
 
 Signed-off-by: John Snow <jsnow@redhat.com>
 ---
- include/hw/ide/internal.h |  1 +
- hw/ide/core.c             | 15 +++++++--------
- 2 files changed, 8 insertions(+), 8 deletions(-)
+ hw/ide/core.c | 26 +++++++++++++++-----------
+ 1 file changed, 15 insertions(+), 11 deletions(-)
 
-diff --git a/include/hw/ide/internal.h b/include/hw/ide/internal.h
-index 10ea6e1e23..16d806e0cf 100644
---- a/include/hw/ide/internal.h
-+++ b/include/hw/ide/internal.h
-@@ -58,6 +58,7 @@ typedef struct IDEDMAOps IDEDMAOps;
- #define TAG_MASK		0xf8
- 
- /* Bits of Device Control register */
-+#define IDE_CTRL_HOB            0x80
- #define IDE_CTRL_RESET          0x04
- #define IDE_CTRL_DISABLE_IRQ    0x02
- 
 diff --git a/hw/ide/core.c b/hw/ide/core.c
-index 5cedebc408..a880b91b47 100644
+index a880b91b47..f35864070b 100644
 --- a/hw/ide/core.c
 +++ b/hw/ide/core.c
-@@ -1215,8 +1215,7 @@ static void ide_cmd_lba48_transform(IDEState *s, int lba48)
- static void ide_clear_hob(IDEBus *bus)
+@@ -587,21 +587,23 @@ int64_t ide_get_sector(IDEState *s)
  {
-     /* any write clears HOB high bit of device control register */
--    bus->ifs[0].select &= ~(1 << 7);
--    bus->ifs[1].select &= ~(1 << 7);
-+    bus->cmd &= ~(IDE_CTRL_HOB);
+     int64_t sector_num;
+     if (s->select & 0x40) {
+-        /* lba */
+-        if (!s->lba48) {
+-            sector_num = ((s->select & 0x0f) << 24) | (s->hcyl << 16) |
+-                (s->lcyl << 8) | s->sector;
+-        } else {
++        if (s->lba48) {
+             sector_num = ((int64_t)s->hob_hcyl << 40) |
+                 ((int64_t) s->hob_lcyl << 32) |
+                 ((int64_t) s->hob_sector << 24) |
+                 ((int64_t) s->hcyl << 16) |
+                 ((int64_t) s->lcyl << 8) | s->sector;
++        } else {
++            /* LBA28 */
++            sector_num = ((s->select & 0x0f) << 24) | (s->hcyl << 16) |
++                (s->lcyl << 8) | s->sector;
+         }
+     } else {
++        /* CHS */
+         sector_num = ((s->hcyl << 8) | s->lcyl) * s->heads * s->sectors +
+             (s->select & 0x0f) * s->sectors + (s->sector - 1);
+     }
++
+     return sector_num;
  }
  
- /* IOport [W]rite [R]egisters */
-@@ -1256,12 +1255,14 @@ void ide_ioport_write(void *opaque, uint32_t addr, uint32_t val)
-         return;
-     }
- 
-+    /* NOTE: Device0 and Device1 both receive incoming register writes.
-+     * (They're on the same bus! They have to!) */
-+
-     switch (reg_num) {
-     case 0:
-         break;
-     case ATA_IOPORT_WR_FEATURES:
-         ide_clear_hob(bus);
--        /* NOTE: data is written to the two drives */
-         bus->ifs[0].hob_feature = bus->ifs[0].feature;
-         bus->ifs[1].hob_feature = bus->ifs[1].feature;
-         bus->ifs[0].feature = val;
-@@ -1296,7 +1297,7 @@ void ide_ioport_write(void *opaque, uint32_t addr, uint32_t val)
-         bus->ifs[1].hcyl = val;
-         break;
-     case ATA_IOPORT_WR_DEVICE_HEAD:
--        /* FIXME: HOB readback uses bit 7 */
-+        ide_clear_hob(bus);
-         bus->ifs[0].select = val | 0xa0;
-         bus->ifs[1].select = val | 0xa0;
-         /* select drive */
-@@ -1304,7 +1305,7 @@ void ide_ioport_write(void *opaque, uint32_t addr, uint32_t val)
-         break;
-     default:
-     case ATA_IOPORT_WR_COMMAND:
--        /* command */
-+        ide_clear_hob(bus);
-         ide_exec_cmd(bus, val);
-         break;
-     }
-@@ -2142,9 +2143,7 @@ uint32_t ide_ioport_read(void *opaque, uint32_t addr)
-     int ret, hob;
- 
-     reg_num = addr & 7;
--    /* FIXME: HOB readback uses bit 7, but it's always set right now */
--    //hob = s->select & (1 << 7);
--    hob = 0;
-+    hob = bus->cmd & (IDE_CTRL_HOB);
-     switch (reg_num) {
-     case ATA_IOPORT_RR_DATA:
-         ret = 0xff;
+@@ -609,20 +611,22 @@ void ide_set_sector(IDEState *s, int64_t sector_num)
+ {
+     unsigned int cyl, r;
+     if (s->select & 0x40) {
+-        if (!s->lba48) {
+-            s->select = (s->select & 0xf0) | (sector_num >> 24);
+-            s->hcyl = (sector_num >> 16);
+-            s->lcyl = (sector_num >> 8);
+-            s->sector = (sector_num);
+-        } else {
++        if (s->lba48) {
+             s->sector = sector_num;
+             s->lcyl = sector_num >> 8;
+             s->hcyl = sector_num >> 16;
+             s->hob_sector = sector_num >> 24;
+             s->hob_lcyl = sector_num >> 32;
+             s->hob_hcyl = sector_num >> 40;
++        } else {
++            /* LBA28 */
++            s->select = (s->select & 0xf0) | (sector_num >> 24);
++            s->hcyl = (sector_num >> 16);
++            s->lcyl = (sector_num >> 8);
++            s->sector = (sector_num);
+         }
+     } else {
++        /* CHS */
+         cyl = sector_num / (s->heads * s->sectors);
+         r = sector_num % (s->heads * s->sectors);
+         s->hcyl = cyl >> 8;
 -- 
 2.26.2
 
