@@ -2,77 +2,90 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 369E622C723
-	for <lists+qemu-devel@lfdr.de>; Fri, 24 Jul 2020 15:56:31 +0200 (CEST)
-Received: from localhost ([::1]:51492 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id F107C22C679
+	for <lists+qemu-devel@lfdr.de>; Fri, 24 Jul 2020 15:31:36 +0200 (CEST)
+Received: from localhost ([::1]:43874 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jyyBZ-0006cU-Ra
-	for lists+qemu-devel@lfdr.de; Fri, 24 Jul 2020 09:56:29 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:34256)
+	id 1jyxnP-0006wn-Uo
+	for lists+qemu-devel@lfdr.de; Fri, 24 Jul 2020 09:31:35 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:46978)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <green.wan@sifive.com>)
- id 1jyuMr-00051X-Ci
- for qemu-devel@nongnu.org; Fri, 24 Jul 2020 05:51:53 -0400
-Received: from mail-pl1-x641.google.com ([2607:f8b0:4864:20::641]:33182)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <green.wan@sifive.com>)
- id 1jyuMp-0002qW-07
- for qemu-devel@nongnu.org; Fri, 24 Jul 2020 05:51:53 -0400
-Received: by mail-pl1-x641.google.com with SMTP id 72so4167677ple.0
- for <qemu-devel@nongnu.org>; Fri, 24 Jul 2020 02:51:50 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=sifive.com; s=google;
- h=from:to:cc:subject:date:message-id:in-reply-to:references;
- bh=RtXwts8UAKZ/GyfPJVf+JplfZufhV8mc3N6j35EEXAE=;
- b=BHe5duqpDrCmFoSkfz3ZlkAUyWMf6iQ2M98LUet0vrR2zvcZiLh3lHt2YnyiNDfVvK
- c/apETkTwXUIIL37iKWqelOGkgHYoqMFdpZKVLLMrniVJ8VpaAeZc+GhMN0/CvIp3pDX
- a31arhl/f4qMENfga3AjggTGrgigcYXap+uuHKKTHpuZ+iNfJEjQKKz6zyXJlYVU1U9f
- HzzWygqFBxeoSNh8b5uOgE9PSbeko0MS4MdCgdKY8Ek5JmL3N9JxQgJXK5ZnAFrVWQF/
- dIQwiak1SKkzEczo08/aFOIt3XQ5kX1IEQgI46zl2WkRlS59caCHmiNxwI+SLwiBO3vN
- r37w==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
- :references;
- bh=RtXwts8UAKZ/GyfPJVf+JplfZufhV8mc3N6j35EEXAE=;
- b=izKypeXZKLUGnYyLqjZSIIEmGmHpSiTsSwcKkWyFkVTSAaeFbErKX3dylBLFrKVQpy
- Sht0TCIljXoXXuDU5iEWYNrhx1dAbTCMLdyX7YjCLRYRY2UOX/78awJ+ZlIqmSOEw5Yj
- nVGOifluDqpHLPj2DuA48lqrFzNMvo42N5pUu7H2KEb4IACW0tmq5Pyv1cjKjE1m50Hr
- WmqDEomL+6bdm5SoTfswK/SboGaRNhtPZHvUFaZiYDUQOGenhdfvvGN7wiz9VYEaEGrC
- EYjHSI5c8E2WouJsjiQg4QiHY012NQw8w9LnuVmz+ShY8+HFYiGhYxOOYtduYMeeI9sE
- qfqw==
-X-Gm-Message-State: AOAM5310Y93qNSTpLZ/vapugLsx55m1x1lYdr3iTt3XkVlD7HP/KqWfZ
- qKaJLbwturl4VTKqOiIcQkja5g==
-X-Google-Smtp-Source: ABdhPJxsKjg3RDtbq9NBEFjjd8OLruNmjXg6/BikQNUKP/f1FHOO+DHNNm5S/Zdpi7te8VXdhFsT5w==
-X-Received: by 2002:a17:90a:dd44:: with SMTP id
- u4mr4285690pjv.203.1595584309656; 
- Fri, 24 Jul 2020 02:51:49 -0700 (PDT)
-Received: from localhost.localdomain (111-243-186-54.dynamic-ip.hinet.net.
- [111.243.186.54])
- by smtp.gmail.com with ESMTPSA id x23sm5581636pfn.4.2020.07.24.02.51.47
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 24 Jul 2020 02:51:49 -0700 (PDT)
-From: Green Wan <green.wan@sifive.com>
-To: 
-Subject: [RFC PATCH 2/2] hw/riscv: sifive_u: Add write-once protection.
-Date: Fri, 24 Jul 2020 17:51:12 +0800
-Message-Id: <20200724095112.2615-3-green.wan@sifive.com>
-X-Mailer: git-send-email 2.17.1
-In-Reply-To: <20200724095112.2615-1-green.wan@sifive.com>
-References: <20200724095112.2615-1-green.wan@sifive.com>
-Received-SPF: pass client-ip=2607:f8b0:4864:20::641;
- envelope-from=green.wan@sifive.com; helo=mail-pl1-x641.google.com
-X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
- That's all we know.
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- URIBL_BLOCKED=0.001 autolearn=unavailable autolearn_force=no
+ (Exim 4.90_1) (envelope-from <stefanb@linux.vnet.ibm.com>)
+ id 1jyxmG-0006O2-EW
+ for qemu-devel@nongnu.org; Fri, 24 Jul 2020 09:30:20 -0400
+Received: from mx0a-001b2d01.pphosted.com ([148.163.156.1]:53902)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <stefanb@linux.vnet.ibm.com>)
+ id 1jyxmE-0001t8-DG
+ for qemu-devel@nongnu.org; Fri, 24 Jul 2020 09:30:20 -0400
+Received: from pps.filterd (m0098399.ppops.net [127.0.0.1])
+ by mx0a-001b2d01.pphosted.com (8.16.0.42/8.16.0.42) with SMTP id
+ 06OD3UD4008329
+ for <qemu-devel@nongnu.org>; Fri, 24 Jul 2020 09:30:15 -0400
+Received: from pps.reinject (localhost [127.0.0.1])
+ by mx0a-001b2d01.pphosted.com with ESMTP id 32fux78nry-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT)
+ for <qemu-devel@nongnu.org>; Fri, 24 Jul 2020 09:30:15 -0400
+Received: from m0098399.ppops.net (m0098399.ppops.net [127.0.0.1])
+ by pps.reinject (8.16.0.36/8.16.0.36) with SMTP id 06OD3qMN010898
+ for <qemu-devel@nongnu.org>; Fri, 24 Jul 2020 09:30:15 -0400
+Received: from ppma02wdc.us.ibm.com (aa.5b.37a9.ip4.static.sl-reverse.com
+ [169.55.91.170])
+ by mx0a-001b2d01.pphosted.com with ESMTP id 32fux78nr5-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Fri, 24 Jul 2020 09:30:14 -0400
+Received: from pps.filterd (ppma02wdc.us.ibm.com [127.0.0.1])
+ by ppma02wdc.us.ibm.com (8.16.0.42/8.16.0.42) with SMTP id 06ODP9Wo002067;
+ Fri, 24 Jul 2020 13:30:13 GMT
+Received: from b01cxnp23033.gho.pok.ibm.com (b01cxnp23033.gho.pok.ibm.com
+ [9.57.198.28]) by ppma02wdc.us.ibm.com with ESMTP id 32brq9vmqd-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Fri, 24 Jul 2020 13:30:13 +0000
+Received: from b01ledav004.gho.pok.ibm.com (b01ledav004.gho.pok.ibm.com
+ [9.57.199.109])
+ by b01cxnp23033.gho.pok.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
+ 06ODUDZ717432832
+ (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+ Fri, 24 Jul 2020 13:30:13 GMT
+Received: from b01ledav004.gho.pok.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id 1200F112062;
+ Fri, 24 Jul 2020 13:30:13 +0000 (GMT)
+Received: from b01ledav004.gho.pok.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id EDDF0112061;
+ Fri, 24 Jul 2020 13:30:12 +0000 (GMT)
+Received: from sbct-3.pok.ibm.com (unknown [9.47.158.153])
+ by b01ledav004.gho.pok.ibm.com (Postfix) with ESMTP;
+ Fri, 24 Jul 2020 13:30:12 +0000 (GMT)
+From: Stefan Berger <stefanb@linux.vnet.ibm.com>
+To: qemu-devel@nongnu.org, philmd@redhat.com
+Subject: [PATCH] tpm_emulator: Report an error if chardev is missing
+Date: Fri, 24 Jul 2020 09:30:11 -0400
+Message-Id: <20200724133011.2488055-1-stefanb@linux.vnet.ibm.com>
+X-Mailer: git-send-email 2.24.1
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
+X-TM-AS-GCONF: 00
+X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:6.0.235, 18.0.687
+ definitions=2020-07-24_04:2020-07-24,
+ 2020-07-24 signatures=0
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ impostorscore=0 adultscore=0
+ malwarescore=0 suspectscore=0 phishscore=0 mlxscore=0 priorityscore=1501
+ lowpriorityscore=0 clxscore=1015 spamscore=0 mlxlogscore=999 bulkscore=0
+ classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2006250000
+ definitions=main-2007240101
+Received-SPF: none client-ip=148.163.156.1;
+ envelope-from=stefanb@linux.vnet.ibm.com; helo=mx0a-001b2d01.pphosted.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/07/24 09:30:16
+X-ACL-Warn: Detected OS   = Linux 3.x [generic] [fuzzy]
+X-Spam_score_int: -35
+X-Spam_score: -3.6
+X-Spam_bar: ---
+X-Spam_report: (-3.6 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_LOW=-0.7,
+ RCVD_IN_MSPIKE_H2=-1, SPF_HELO_NONE=0.001,
+ SPF_NONE=0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
-X-Mailman-Approved-At: Fri, 24 Jul 2020 09:54:21 -0400
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -84,96 +97,63 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-riscv@nongnu.org, Sagar Karandikar <sagark@eecs.berkeley.edu>,
- Bastian Koppelmann <kbastian@mail.uni-paderborn.de>, qemu-devel@nongnu.org,
- Green Wan <green.wan@sifive.com>, Alistair Francis <Alistair.Francis@wdc.com>,
- Paolo Bonzini <pbonzini@redhat.com>, Palmer Dabbelt <palmer@dabbelt.com>,
- bmeng.cn@gmail.com
+Cc: marcandre.lureau@redhat.com, Stefan Berger <stefanb@linux.ibm.com>,
+ armbru@redhat.com, Stefan Berger <stefanb@linux.vnet.ibm.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Add array to store the 'written' status for all bit of OTP to block
-the write operation to the same bit. Ignore the control register
-offset from 0x0 to 0x38 of OTP memory mapping.
+This patch fixes the odd error reporting when trying to send a file
+descriptor to the TPM emulator if one has not passed a valid chardev.
 
-Signed-off-by: Green Wan <green.wan@sifive.com>
+$ x86_64-softmmu/qemu-system-x86_64 -tpmdev emulator,id=tpm0
+qemu-system-x86_64: -tpmdev emulator,id=tpm0: tpm-emulator: Failed to send CMD_SET_DATAFD: Success
+qemu-system-x86_64: -tpmdev emulator,id=tpm0: tpm-emulator: Could not cleanly shutdown the TPM: Success
+
+This is the new error report:
+
+$ x86_64-softmmu/qemu-system-x86_64 -tpmdev emulator,id=tpm0
+qemu-system-x86_64: -tpmdev emulator,id=tpm0: tpm-emulator: missing chardev
+
+This change does not hide the display of supported TPM types if a non-existent type is passed:
+
+$ x86_64-softmmu/qemu-system-x86_64 -tpmdev nonexistent,id=tpm0
+qemu-system-x86_64: -tpmdev nonexistent,id=tpm0: Parameter 'type' expects a TPM backend type
+Supported TPM types (choose only one):
+ passthrough   Passthrough TPM backend driver
+    emulator   TPM emulator backend driver
+
+Signed-off-by: Stefan Berger <stefanb@linux.ibm.com>
 ---
- hw/riscv/sifive_u_otp.c         | 34 ++++++++++++++++++++++++++++++---
- include/hw/riscv/sifive_u_otp.h |  1 +
- 2 files changed, 32 insertions(+), 3 deletions(-)
+ backends/tpm/tpm_emulator.c | 8 ++++++++
+ 1 file changed, 8 insertions(+)
 
-diff --git a/hw/riscv/sifive_u_otp.c b/hw/riscv/sifive_u_otp.c
-index 26e1965821..e0f85dee22 100644
---- a/hw/riscv/sifive_u_otp.c
-+++ b/hw/riscv/sifive_u_otp.c
-@@ -36,6 +36,12 @@
- #define TRACE_PREFIX            "FU540_OTP: "
- #define SIFIVE_FU540_OTP_SIZE   (SIFIVE_U_OTP_NUM_FUSES * 4)
+diff --git a/backends/tpm/tpm_emulator.c b/backends/tpm/tpm_emulator.c
+index 9605339f93..55cbc9c60e 100644
+--- a/backends/tpm/tpm_emulator.c
++++ b/backends/tpm/tpm_emulator.c
+@@ -568,6 +568,9 @@ static int tpm_emulator_handle_device_opts(TPMEmulator *tpm_emu, QemuOpts *opts)
+         }
  
-+#define SET_WRITTEN_BIT(map, idx, bit)    \
-+    (map[idx] |= (0x1 << bit))
-+
-+#define GET_WRITTEN_BIT(map, idx, bit)    \
-+    ((map[idx] >> bit) & 0x1)
-+
- static int otp_backed_fd;
- static unsigned int *otp_mmap;
+         tpm_emu->options->chardev = g_strdup(value);
++    } else {
++        error_report("tpm-emulator: missing chardev");
++        goto err;
+     }
  
-@@ -199,6 +205,18 @@ static void sifive_u_otp_write(void *opaque, hwaddr addr,
-         s->ptrim = val32;
-         break;
-     case SIFIVE_U_OTP_PWE:
-+        /* Keep written state for data only and PWE is enabled. Ignore PAS=1 */
-+        if ((s->pa > SIFIVE_U_OTP_PWE) && (val32 & 0x1) && !s->pas) {
-+            if (GET_WRITTEN_BIT(s->fuse_wo, s->pa, s->paio)) {
-+                qemu_log_mask(LOG_GUEST_ERROR,
-+                              TRACE_PREFIX "Error: write idx<%u>, bit<%u>\n",
-+                              s->pa, s->paio);
-+                break;
-+            } else {
-+                SET_WRITTEN_BIT(s->fuse_wo, s->pa, s->paio);
-+            }
-+        }
-+
-         if (otp_file) {
-             sifive_u_otp_backed_load(otp_file);
-             sifive_u_otp_backed_write(s->pa, s->paio, s->pdin);
-@@ -244,9 +262,19 @@ static void sifive_u_otp_reset(DeviceState *dev)
-     /* Initialize all fuses' initial value to 0xFFs */
-     memset(s->fuse, 0xff, sizeof(s->fuse));
+     if (tpm_emulator_prepare_data_fd(tpm_emu) < 0) {
+@@ -925,6 +928,11 @@ static void tpm_emulator_shutdown(TPMEmulator *tpm_emu)
+ {
+     ptm_res res;
  
--    /* Make a valid content of serial number */
--    s->fuse[SIFIVE_U_OTP_SERIAL_ADDR] = s->serial;
--    s->fuse[SIFIVE_U_OTP_SERIAL_ADDR + 1] = ~(s->serial);
-+    /* Initialize write-once map */
-+    memset(s->fuse_wo, 0x00, sizeof(s->fuse_wo));
-+
-+    /* if otp file is used, not over write these value. */
-+    if (!otp_file) {
-+        /* Make a valid content of serial number */
-+        s->fuse[SIFIVE_U_OTP_SERIAL_ADDR] = s->serial;
-+        s->fuse[SIFIVE_U_OTP_SERIAL_ADDR + 1] = ~(s->serial);
-+
-+        /* set status to 'written' */
-+        s->fuse_wo[SIFIVE_U_OTP_SERIAL_ADDR] = 0xffff;
-+        s->fuse_wo[SIFIVE_U_OTP_SERIAL_ADDR + 1] = 0xffff;
++    if (!tpm_emu->options->chardev) {
++        /* was never properly initialized */
++        return;
 +    }
- 
-     /* Initialize file mmap and descriptor. */
-     otp_mmap = NULL;
-diff --git a/include/hw/riscv/sifive_u_otp.h b/include/hw/riscv/sifive_u_otp.h
-index 1342bd7342..9c9c57f39e 100644
---- a/include/hw/riscv/sifive_u_otp.h
-+++ b/include/hw/riscv/sifive_u_otp.h
-@@ -77,6 +77,7 @@ typedef struct SiFiveUOTPState {
-     uint32_t fuse[SIFIVE_U_OTP_NUM_FUSES];
-     /* config */
-     uint32_t serial;
-+    uint32_t fuse_wo[SIFIVE_U_OTP_NUM_FUSES];
- } SiFiveUOTPState;
- 
- #endif /* HW_SIFIVE_U_OTP_H */
++
+     if (tpm_emulator_ctrlcmd(tpm_emu, CMD_SHUTDOWN, &res, 0, sizeof(res)) < 0) {
+         error_report("tpm-emulator: Could not cleanly shutdown the TPM: %s",
+                      strerror(errno));
 -- 
-2.17.1
+2.24.1
 
 
