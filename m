@@ -2,71 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5788122BE3B
-	for <lists+qemu-devel@lfdr.de>; Fri, 24 Jul 2020 08:49:12 +0200 (CEST)
-Received: from localhost ([::1]:52364 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6A0C422BE45
+	for <lists+qemu-devel@lfdr.de>; Fri, 24 Jul 2020 08:52:39 +0200 (CEST)
+Received: from localhost ([::1]:38474 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jyrW3-0000t7-BM
-	for lists+qemu-devel@lfdr.de; Fri, 24 Jul 2020 02:49:11 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:38030)
+	id 1jyrZO-0006j8-E4
+	for lists+qemu-devel@lfdr.de; Fri, 24 Jul 2020 02:52:38 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:38106)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1jyrSP-0004Fh-VS
- for qemu-devel@nongnu.org; Fri, 24 Jul 2020 02:45:26 -0400
-Received: from mail-wr1-x444.google.com ([2a00:1450:4864:20::444]:46317)
+ id 1jyrSY-0004OF-1z
+ for qemu-devel@nongnu.org; Fri, 24 Jul 2020 02:45:34 -0400
+Received: from mail-wr1-x443.google.com ([2a00:1450:4864:20::443]:33763)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1jyrSN-0000L5-I2
- for qemu-devel@nongnu.org; Fri, 24 Jul 2020 02:45:25 -0400
-Received: by mail-wr1-x444.google.com with SMTP id r12so7218895wrj.13
- for <qemu-devel@nongnu.org>; Thu, 23 Jul 2020 23:45:23 -0700 (PDT)
+ id 1jyrSV-0000MC-Qj
+ for qemu-devel@nongnu.org; Fri, 24 Jul 2020 02:45:33 -0400
+Received: by mail-wr1-x443.google.com with SMTP id f18so7275904wrs.0
+ for <qemu-devel@nongnu.org>; Thu, 23 Jul 2020 23:45:30 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=HzimzYj3p+9RcjT7t+vr+X1plKLq4z2KdTC48DV27wo=;
- b=hhSHACU96t153SMNPx2yu3+mfMOCLhc9B83H5se/7ZCCmjKQ125JKpN+sooLaOmUl8
- avl1Lc7D0KxW1XyfzYOjyHwgm8Afnu/HFZpKQvupwHrybdYUfa4Cqro9M9UDtCTjpm7L
- rd3PkZapum8kpD0LSQGNuDZUO3mXYuQo19RXFbFZMyHX0/EIL1Hs6pGrGeq7s7qkbrKE
- H2Cf5t5va/ngE7Ds8tZm7wTVveenlThTeCMrAILbmZwdevBN70gx7NmbZ+GXnCxzAQTQ
- wTKV3MCR8UZ5gShczoAP5n94oeEO/a642cqjbjJCovh2J2e3LAN1YG1Q891eEH0s514b
- NSmw==
+ bh=nuRgaJpHsfYCPj7hspcbTe7Etj9//S0efTA7UU/SI/Q=;
+ b=p04GFu32I64rK7bhN+j46Dltf+esqa05/VBG/SAhybu5c9wj1Nj9sJ9WjVCo6sVCJ/
+ wqX2XhoNKE9SlyzFAXZXEWoRKFr/eCsRngutWUHor75Ai/5c1AoxTAFBGf5VSJNk0FVx
+ HAnATcg+cqo9U87XbXF+LSRVSMxd6LB7A64CioJAk3C9/ash5KGW1joeO90Smyha1xDd
+ CAR5XQ9ADKN5hp7A+J711WTEvKT2dRlYTyIgBByxpGHuiKymORjw8migylKUiUcW68eR
+ +ASQ1GZCBeV495FNZoXQJjm2A4kW/PUTUitjiCo/CRj3/xlZPGsKqdr8xnZ7j/c7AKOz
+ CLrw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=HzimzYj3p+9RcjT7t+vr+X1plKLq4z2KdTC48DV27wo=;
- b=CB/WKdk3rNHH2PESPpjR9XKIbxS3j3scDDWB6whDfrHED6TspK11wqtGVDoucSr6OZ
- e2jPKk/oaESOLlhhBiQrJjgg07O6N8xfoSo0sFcbpoojzhC198FRBInxQjGEUqxDI8Wr
- aKERwQ8jYSByUFQq3XuowbfXqmzPwDlEej+MdMOTouQxoasZPdYGT7S/tYRnaC7lijcy
- DRVfsdGuq5xq7ZtgHaRTk9euyoyjsCg49vMghnQH/6gLJr5lcJxYYcpNZ5IQj4yKhYre
- tyWoOdauNK5lL9lN9Rqw51ipT9H2lpTzrAjltIcOIuqMKz9FsxdjrckwLp/xlrEoYNCS
- Gf5g==
-X-Gm-Message-State: AOAM530CwmrgHJVDHyg3FNO4fai2AUodK60TFFZHhG31Z1KTmq0iBeCa
- Wn0T1M/Oym7bi8Y90Eo51PS02/+aF+0=
-X-Google-Smtp-Source: ABdhPJzV1cpog4sX1dNIVgl/lKtMeg7g4kh+T3zIvj738tcEDyOgHssH52TJBVyAfTUJePxqiJKWRQ==
-X-Received: by 2002:a5d:538a:: with SMTP id d10mr2941372wrv.280.1595573122188; 
- Thu, 23 Jul 2020 23:45:22 -0700 (PDT)
+ bh=nuRgaJpHsfYCPj7hspcbTe7Etj9//S0efTA7UU/SI/Q=;
+ b=GlbCQR2dbgwQKO07R+6MF2t1waFplawc8Kb0dBO9d1bKXdWGlAkz9JCLrQRsHorL7h
+ xrjfLo4qHmbR681J8lwTKKO8IIslw1mi9r6pmRUwSm/a93BbniB4LbX5qZadc/2PRGww
+ fmuL5DymbJJ0yUapJ9V5JGUS9HRnLgGXrxfoJC/f4LSIdWg2U/otQ2Bkc1hJ33aoG9d7
+ ltMhAa+JLJDcG1bzbeDfbpCHte19RY2c/GpU+Ff+96vnY69GBQOUMzgB43iqOEB87ADz
+ yDJHfuFPPa+O8sU3HH+M3M4yp8gA3PNi/a7HNCretoe4azRHlyiwvS8vJzaZy/ptqpNe
+ 0nDg==
+X-Gm-Message-State: AOAM530inadzdvoqYZ5jFizu1tnJcrDkzMHU/Xocylg6notAtVxhamYp
+ KIYZeUMM9hFMBSkpi4DvwuWaIA==
+X-Google-Smtp-Source: ABdhPJwoiGaR7Qj77Fsj6kpBC4DXEdQaMkvKybN0rcy90kU06aTQIAcKp4JtrzWEjbeNeHnN1wjwnw==
+X-Received: by 2002:a5d:4e81:: with SMTP id e1mr6841055wru.22.1595573129592;
+ Thu, 23 Jul 2020 23:45:29 -0700 (PDT)
 Received: from zen.linaroharston ([51.148.130.216])
- by smtp.gmail.com with ESMTPSA id 88sm158744wrk.43.2020.07.23.23.45.13
+ by smtp.gmail.com with ESMTPSA id j145sm6561848wmj.7.2020.07.23.23.45.15
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 23 Jul 2020 23:45:16 -0700 (PDT)
+ Thu, 23 Jul 2020 23:45:21 -0700 (PDT)
 Received: from zen.lan (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id 218671FF99;
+ by zen.linaroharston (Postfix) with ESMTP id 376271FF9A;
  Fri, 24 Jul 2020 07:45:10 +0100 (BST)
 From: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PATCH  v3 10/16] tests/docker: fix binfmt_misc image building
-Date: Fri, 24 Jul 2020 07:45:03 +0100
-Message-Id: <20200724064509.331-11-alex.bennee@linaro.org>
+Subject: [PATCH  v3 11/16] tests/docker: add support for DEB_KEYRING
+Date: Fri, 24 Jul 2020 07:45:04 +0100
+Message-Id: <20200724064509.331-12-alex.bennee@linaro.org>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20200724064509.331-1-alex.bennee@linaro.org>
 References: <20200724064509.331-1-alex.bennee@linaro.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::444;
- envelope-from=alex.bennee@linaro.org; helo=mail-wr1-x444.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::443;
+ envelope-from=alex.bennee@linaro.org; helo=mail-wr1-x443.google.com
 X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
  That's all we know.
 X-Spam_score_int: -20
@@ -74,8 +74,8 @@ X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
  DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- URIBL_BLOCKED=0.001 autolearn=ham autolearn_force=no
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -96,30 +96,42 @@ Cc: fam@euphon.net, berrange@redhat.com,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-When we updated the arguments for docker.py we missed a bit.
+For installing stuff from sid or ports you may need to manually
+specify the location of the keyring. You can even import keys into
+your personal keyring and point it there, e.g.:
 
-Fixes: dfae6284
-Fixes: dfae628459 ("docker.py/build: support -t and -f arguments")
+  gpg --keyserver keyring.debian.org --recv-keys 84C573CD4E1AFD6C
+  make docker-binfmt-image-debian-sid-hppa DEB_TYPE=sid DEB_ARCH=hppa \
+      DEB_URL=http://ftp.ports.debian.org/debian-ports/ \
+      EXECUTABLE=./hppa-linux-user/qemu-hppa V=1 \
+      DEB_KEYRING=${HOME}/.gnupg/pubring.kbx
+
 Signed-off-by: Alex Bennée <alex.bennee@linaro.org>
 Reviewed-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
-Message-Id: <20200722062902.24509-11-alex.bennee@linaro.org>
+Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
+Message-Id: <20200722062902.24509-12-alex.bennee@linaro.org>
 ---
- tests/docker/Makefile.include | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ tests/docker/dockerfiles/debian-bootstrap.pre | 7 +++++++
+ 1 file changed, 7 insertions(+)
 
-diff --git a/tests/docker/Makefile.include b/tests/docker/Makefile.include
-index a104e9df281..9119dff97de 100644
---- a/tests/docker/Makefile.include
-+++ b/tests/docker/Makefile.include
-@@ -78,7 +78,7 @@ docker-binfmt-image-debian-%: $(DOCKER_FILES_DIR)/debian-bootstrap.docker
- 			DEB_ARCH=$(DEB_ARCH)					\
- 			DEB_TYPE=$(DEB_TYPE) 					\
- 			$(if $(DEB_URL),DEB_URL=$(DEB_URL),)			\
--			$(DOCKER_SCRIPT) build qemu/debian-$* $< 		\
-+			$(DOCKER_SCRIPT) build -t qemu/debian-$* -f $< 		\
- 			$(if $V,,--quiet) $(if $(NOCACHE),--no-cache) 		\
- 			$(if $(NOUSER),,--add-current-user) 			\
- 			$(if $(EXTRA_FILES),--extra-files $(EXTRA_FILES))	\
+diff --git a/tests/docker/dockerfiles/debian-bootstrap.pre b/tests/docker/dockerfiles/debian-bootstrap.pre
+index c164778c302..35c85f7db8a 100755
+--- a/tests/docker/dockerfiles/debian-bootstrap.pre
++++ b/tests/docker/dockerfiles/debian-bootstrap.pre
+@@ -79,6 +79,13 @@ else
+     fi
+ fi
+ 
++#
++# Add optional args
++#
++if [ -n "${DEB_KEYRING}" ]; then
++    DEBOOTSTRAP="${DEBOOTSTRAP} --keyring=${DEB_KEYRING}"
++fi
++
+ #
+ # Finally check to see if any qemu's are installed
+ #
 -- 
 2.20.1
 
