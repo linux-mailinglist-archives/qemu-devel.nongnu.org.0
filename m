@@ -2,69 +2,76 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4F2E722C891
-	for <lists+qemu-devel@lfdr.de>; Fri, 24 Jul 2020 16:56:36 +0200 (CEST)
-Received: from localhost ([::1]:36934 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id AC75E22C896
+	for <lists+qemu-devel@lfdr.de>; Fri, 24 Jul 2020 16:57:56 +0200 (CEST)
+Received: from localhost ([::1]:41278 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jyz7j-0002gP-6i
-	for lists+qemu-devel@lfdr.de; Fri, 24 Jul 2020 10:56:35 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:56216)
+	id 1jyz91-0004Rp-Oo
+	for lists+qemu-devel@lfdr.de; Fri, 24 Jul 2020 10:57:55 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:56694)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1jyz6s-0001ss-G5
- for qemu-devel@nongnu.org; Fri, 24 Jul 2020 10:55:42 -0400
-Received: from indium.canonical.com ([91.189.90.7]:59466)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1jyz6q-00088s-P8
- for qemu-devel@nongnu.org; Fri, 24 Jul 2020 10:55:42 -0400
-Received: from loganberry.canonical.com ([91.189.90.37])
- by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
- id 1jyz6p-00010d-Eg
- for <qemu-devel@nongnu.org>; Fri, 24 Jul 2020 14:55:39 +0000
-Received: from loganberry.canonical.com (localhost [127.0.0.1])
- by loganberry.canonical.com (Postfix) with ESMTP id 530CD2E80EC
- for <qemu-devel@nongnu.org>; Fri, 24 Jul 2020 14:55:39 +0000 (UTC)
+ (Exim 4.90_1) (envelope-from <cohuck@redhat.com>) id 1jyz7u-0003ag-2c
+ for qemu-devel@nongnu.org; Fri, 24 Jul 2020 10:56:46 -0400
+Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:34357
+ helo=us-smtp-1.mimecast.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <cohuck@redhat.com>) id 1jyz7q-0008NT-IQ
+ for qemu-devel@nongnu.org; Fri, 24 Jul 2020 10:56:45 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1595602600;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=LeWYr2gc55W8sk1bIP20qvUC9swsCCrUszLWImQ0zZ0=;
+ b=Qh/bbpTOzqrRBWUwye/YJDLQvwxbyhKE0RC6rpQ/qabO/EwWcuFfAYInFCMINuz9cKcqYs
+ ZPYpWvY5ZLWK9jwhaHGXSMK8QA53yuq0Jmdz/lpYokEupty3R/6NHR9wahMJLD0m1018pa
+ u2XXHEo/9TKQjhBEb6lmZ0/BFCgelnI=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-196-8edadLxOPdihUZ0Lp5gmoQ-1; Fri, 24 Jul 2020 10:56:38 -0400
+X-MC-Unique: 8edadLxOPdihUZ0Lp5gmoQ-1
+Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
+ [10.5.11.23])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id C6DB7800C64;
+ Fri, 24 Jul 2020 14:56:37 +0000 (UTC)
+Received: from gondolin (ovpn-112-188.ams2.redhat.com [10.36.112.188])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 6DF142E021;
+ Fri, 24 Jul 2020 14:56:29 +0000 (UTC)
+Date: Fri, 24 Jul 2020 16:56:27 +0200
+From: Cornelia Huck <cohuck@redhat.com>
+To: "Michael S. Tsirkin" <mst@redhat.com>
+Subject: Re: [BUG] vhost-vdpa: qemu-system-s390x crashes with second
+ virtio-net-ccw device
+Message-ID: <20200724165627.70c6dfd6.cohuck@redhat.com>
+In-Reply-To: <20200724092906-mutt-send-email-mst@kernel.org>
+References: <20200724152718.4e1cbc9e.cohuck@redhat.com>
+ <20200724092906-mutt-send-email-mst@kernel.org>
+Organization: Red Hat GmbH
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: quoted-printable
-Date: Fri, 24 Jul 2020 14:49:13 -0000
-From: =?utf-8?q?Alex_Benn=C3=A9e?= <1888728@bugs.launchpad.net>
-To: qemu-devel@nongnu.org
-X-Launchpad-Notification-Type: bug
-X-Launchpad-Bug: product=qemu; status=New; importance=Undecided; assignee=None;
-X-Launchpad-Bug-Tags: linux-user
-X-Launchpad-Bug-Information-Type: Public
-X-Launchpad-Bug-Private: no
-X-Launchpad-Bug-Security-Vulnerability: no
-X-Launchpad-Bug-Commenters: ajbennee glaubitz
-X-Launchpad-Bug-Reporter: John Paul Adrian Glaubitz (glaubitz)
-X-Launchpad-Bug-Modifier: =?utf-8?q?Alex_Benn=C3=A9e_=28ajbennee=29?=
-References: <159553702814.22838.6923926594516590974.malonedeb@soybean.canonical.com>
-Message-Id: <159560215349.11519.14820927487842401371.malone@wampee.canonical.com>
-Subject: [Bug 1888728] Re: Bare chroot in linux-user fails with
- pgb_reserved_va: Assertion `guest_base != 0' failed.
-X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
-X-Launchpad-Message-For: qemu-devel-ml
-Precedence: bulk
-X-Generated-By: Launchpad (canonical.com);
- Revision="f877c5162b568393e2d07ce948459ba0abc456fe";
- Instance="production-secrets-lazr.conf"
-X-Launchpad-Hash: 66b226ac5a0259535248aea507e8a88998bab5f8
-Received-SPF: none client-ip=91.189.90.7; envelope-from=bounces@canonical.com;
- helo=indium.canonical.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/07/24 10:50:36
-X-ACL-Warn: Detected OS   = Linux 3.11 and newer [fuzzy]
-X-Spam_score_int: -58
-X-Spam_score: -5.9
-X-Spam_bar: -----
-X-Spam_report: (-5.9 / 5.0 requ) BAYES_00=-1.9, HEADER_FROM_DIFFERENT_DOMAINS=1,
- RCVD_IN_DNSWL_HI=-5, RCVD_IN_MSPIKE_H3=-0.01, RCVD_IN_MSPIKE_WL=-0.01,
- SPF_HELO_NONE=0.001, SPF_NONE=0.001 autolearn=ham autolearn_force=no
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=205.139.110.120; envelope-from=cohuck@redhat.com;
+ helo=us-smtp-1.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/07/24 08:23:04
+X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
+X-Spam_score_int: -40
+X-Spam_score: -4.1
+X-Spam_bar: ----
+X-Spam_report: (-4.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-1, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
+Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -73,51 +80,64 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Bug 1888728 <1888728@bugs.launchpad.net>
+Cc: qemu-s390x@nongnu.org, Jason Wang <jasowang@redhat.com>,
+ qemu-devel@nongnu.org, Cindy Lu <lulu@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Could you point me to a tar.gz with your rootfs?
+On Fri, 24 Jul 2020 09:30:58 -0400
+"Michael S. Tsirkin" <mst@redhat.com> wrote:
 
--- =
+> On Fri, Jul 24, 2020 at 03:27:18PM +0200, Cornelia Huck wrote:
+> > When I start qemu with a second virtio-net-ccw device (i.e. adding
+> > -device virtio-net-ccw in addition to the autogenerated device), I get
+> > a segfault. gdb points to
+> > 
+> > #0  0x000055d6ab52681d in virtio_net_get_config (vdev=<optimized out>, 
+> >     config=0x55d6ad9e3f80 "RT") at /home/cohuck/git/qemu/hw/net/virtio-net.c:146
+> > 146	    if (nc->peer->info->type == NET_CLIENT_DRIVER_VHOST_VDPA) {
+> > 
+> > (backtrace doesn't go further)
 
-You received this bug notification because you are a member of qemu-
-devel-ml, which is subscribed to QEMU.
-https://bugs.launchpad.net/bugs/1888728
+The core was incomplete, but running under gdb directly shows that it
+is just a bog-standard config space access (first for that device).
 
-Title:
-  Bare chroot in linux-user fails with pgb_reserved_va: Assertion
-  `guest_base !=3D 0' failed.
+The cause of the crash is that nc->peer is not set... no idea how that
+can happen, not that familiar with that part of QEMU. (Should the code
+check, or is that really something that should not happen?)
 
-Status in QEMU:
-  New
+What I don't understand is why it is set correctly for the first,
+autogenerated virtio-net-ccw device, but not for the second one, and
+why virtio-net-pci doesn't show these problems. The only difference
+between -ccw and -pci that comes to my mind here is that config space
+accesses for ccw are done via an asynchronous operation, so timing
+might be different.
 
-Bug description:
-  Trying to run a bare chroot with no additional bind mounts fails on
-  git master (8ffa52c20d5693d454f65f2024a1494edfea65d4) with:
+> > 
+> > Starting qemu with no additional "-device virtio-net-ccw" (i.e., only
+> > the autogenerated virtio-net-ccw device is present) works. Specifying
+> > several "-device virtio-net-pci" works as well.
+> > 
+> > Things break with 1e0a84ea49b6 ("vhost-vdpa: introduce vhost-vdpa net
+> > client"), 38140cc4d971 ("vhost_net: introduce set_config & get_config")
+> > works (in-between state does not compile).  
+> 
+> Ouch. I didn't test all in-between states :(
+> But I wish we had a 0-day instrastructure like kernel has,
+> that catches things like that.
 
-  root@nofan:~/qemu> chroot /local_scratch/sid-m68k-sbuild/
-  qemu-m68k-static: /root/qemu/linux-user/elfload.c:2315: pgb_reserved_va: =
-Assertion `guest_base !=3D 0' failed.
-  Aborted
-  root@nofan:~/qemu>
+Yep, that would be useful... so patchew only builds the complete series?
 
-  The problem can be worked around by bind-mounting /proc from the host
-  system into the target chroot:
+> 
+> > This is reproducible with tcg as well. Same problem both with
+> > --enable-vhost-vdpa and --disable-vhost-vdpa.
+> > 
+> > Have not yet tried to figure out what might be special with
+> > virtio-ccw... anyone have an idea?
+> > 
+> > [This should probably be considered a blocker?]  
 
-  root@nofan:~/qemu> mount -o bind /proc/ /local_scratch/sid-m68k-sbuild/pr=
-oc/
-  root@nofan:~/qemu> chroot /local_scratch/sid-m68k-sbuild/
-  bash: warning: setlocale: LC_ALL: cannot change locale (en_US.UTF-8)
-  (sid-m68k-sbuild)root@nofan:/#
+I think so, as it makes s390x unusable with more that one
+virtio-net-ccw device, and I don't even see a workaround.
 
-  Host system is an up-to-date Debian unstable (2020-07-23).
-
-  I have not been able to bisect the issue yet since there is another
-  annoying linux-user bug (virtual memory exhaustion) that was somewhere
-  introduced and fixed between v5.0.0 and HEAD and overshadows the
-  original Assertion failure bug.
-
-To manage notifications about this bug go to:
-https://bugs.launchpad.net/qemu/+bug/1888728/+subscriptions
 
