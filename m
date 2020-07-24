@@ -2,82 +2,112 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6CAD622BD43
-	for <lists+qemu-devel@lfdr.de>; Fri, 24 Jul 2020 07:01:24 +0200 (CEST)
-Received: from localhost ([::1]:50688 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 707E622BD69
+	for <lists+qemu-devel@lfdr.de>; Fri, 24 Jul 2020 07:19:54 +0200 (CEST)
+Received: from localhost ([::1]:39616 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jyppi-0008LQ-4r
-	for lists+qemu-devel@lfdr.de; Fri, 24 Jul 2020 01:01:23 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:47866)
+	id 1jyq7d-00008W-HK
+	for lists+qemu-devel@lfdr.de; Fri, 24 Jul 2020 01:19:53 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:50906)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <ljp@linux.ibm.com>)
- id 1jypnO-0006GQ-Sq; Fri, 24 Jul 2020 00:58:59 -0400
-Received: from mx0a-001b2d01.pphosted.com ([148.163.156.1]:8808)
+ (Exim 4.90_1) (envelope-from <vsementsov@virtuozzo.com>)
+ id 1jyq6F-00082b-1k; Fri, 24 Jul 2020 01:18:27 -0400
+Received: from mail-db8eur05on2122.outbound.protection.outlook.com
+ ([40.107.20.122]:39841 helo=EUR05-DB8-obe.outbound.protection.outlook.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <ljp@linux.ibm.com>)
- id 1jypnM-0004fS-Ji; Fri, 24 Jul 2020 00:58:58 -0400
-Received: from pps.filterd (m0098404.ppops.net [127.0.0.1])
- by mx0a-001b2d01.pphosted.com (8.16.0.42/8.16.0.42) with SMTP id
- 06O4rb0B155273; Fri, 24 Jul 2020 00:58:51 -0400
-Received: from ppma04wdc.us.ibm.com (1a.90.2fa9.ip4.static.sl-reverse.com
- [169.47.144.26])
- by mx0a-001b2d01.pphosted.com with ESMTP id 32facep8eb-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Fri, 24 Jul 2020 00:58:51 -0400
-Received: from pps.filterd (ppma04wdc.us.ibm.com [127.0.0.1])
- by ppma04wdc.us.ibm.com (8.16.0.42/8.16.0.42) with SMTP id 06O4tUP2032189;
- Fri, 24 Jul 2020 04:58:50 GMT
-Received: from b01cxnp23032.gho.pok.ibm.com (b01cxnp23032.gho.pok.ibm.com
- [9.57.198.27]) by ppma04wdc.us.ibm.com with ESMTP id 32brq9su13-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Fri, 24 Jul 2020 04:58:50 +0000
-Received: from b01ledav001.gho.pok.ibm.com (b01ledav001.gho.pok.ibm.com
- [9.57.199.106])
- by b01cxnp23032.gho.pok.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
- 06O4wn5v37487012
- (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Fri, 24 Jul 2020 04:58:49 GMT
-Received: from b01ledav001.gho.pok.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id CDF6228059;
- Fri, 24 Jul 2020 04:58:49 +0000 (GMT)
-Received: from b01ledav001.gho.pok.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id 4C12228058;
- Fri, 24 Jul 2020 04:58:49 +0000 (GMT)
-Received: from pompom.ibm.com (unknown [9.160.100.101])
- by b01ledav001.gho.pok.ibm.com (Postfix) with ESMTP;
- Fri, 24 Jul 2020 04:58:49 +0000 (GMT)
-From: Lijun Pan <ljp@linux.ibm.com>
-To: qemu-ppc@nongnu.org, qemu-devel@nongnu.org, richard.henderson@linaro.org, 
- david@gibson.dropbear.id.au
-Subject: [PATCH v5 6/6] target/ppc: add vmsumudm vmsumcud instructions
-Date: Thu, 23 Jul 2020 23:58:45 -0500
-Message-Id: <20200724045845.89976-7-ljp@linux.ibm.com>
-X-Mailer: git-send-email 2.22.0
-In-Reply-To: <20200724045845.89976-1-ljp@linux.ibm.com>
-References: <20200724045845.89976-1-ljp@linux.ibm.com>
-MIME-Version: 1.0
+ (Exim 4.90_1) (envelope-from <vsementsov@virtuozzo.com>)
+ id 1jyq6B-0006x9-Se; Fri, 24 Jul 2020 01:18:26 -0400
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=nbA+Kxq13oiNcJRVHw6Mc9eDyuKgWgjcRu1uu0gXFiS/Hs7HZ9vbgxdNOWxtN9y0oW2lIFs9CwthRJmAB3n4rTBuXJ1uyYCwrYH1XNOOw0Ew3GWZiTr/UCdBLByeZzYdsAbsseC8cZJ6be8uLTwuomLrQK5PblkoQnAkI44wePTl21YuDaftfSlCcvlL2aSFytqHYvOeZd5MeqLl2RQU5GSHZ2hiFmncpOGxX4rP64oQC360JTymJS18VJE363rJmPuQ903dHv761EWLZkDcWZqqka7CO3Qo46hzzWYX3feT5bKS1/GtYJGXJwD3XNgCPxfvy5DHM+dhelytOw+Eww==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=E1IDRPM0pEBUffK3d1/jjlX+hSsP3uo0G14f8JMZK98=;
+ b=Ewz7Pq146QIjgOvFEdnaKTq7/CodIl2bjSJrJQ7RZC2+m4YCSOVQUAzjrNyP1+ZW74rgxlbzqLakQccbU451oLoSd8+McTwFyzbX8vq/QbBKtsiBqXd0f37KeU6+N4uoQc1Y5spe2pBaysGacx7KXigQloZSOyTguiThLmPzv0i552LfLdq7PBjpLdktk+kDxPBZbnb8iEX8sUUeMkcgQIYNP1qJGkllRvKOJluRkk4HF0R5s085T46hN8gDpkqV6cGchfMYhgF94MCm/aWMa67A6SyPsJXoJ3SNevCY8WeUSyWy5Flebkz2omIy8d2tDG0jPHpSGojfd6kuwyjJAQ==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=virtuozzo.com; dmarc=pass action=none
+ header.from=virtuozzo.com; dkim=pass header.d=virtuozzo.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=virtuozzo.com;
+ s=selector2;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=E1IDRPM0pEBUffK3d1/jjlX+hSsP3uo0G14f8JMZK98=;
+ b=tzC1Cqhy24ZtqIzaDHZV9P+1GF8Un5ZW92961HHe32HHwIwt/KlSI625HMEXF2nae+VQt35sYkzv1jLoutRlR/LlkXq11FmXmv2VN1RZA2OXgvsNlYE96NTvBFXPrm3osXCuF8Kck2smg2sUZk5Ja/PFHX2bQJzk5o+aN5tiBWA=
+Authentication-Results: virtuozzo.com; dkim=none (message not signed)
+ header.d=none;virtuozzo.com; dmarc=none action=none
+ header.from=virtuozzo.com;
+Received: from AM7PR08MB5494.eurprd08.prod.outlook.com (2603:10a6:20b:dc::15)
+ by AM6PR08MB4069.eurprd08.prod.outlook.com (2603:10a6:20b:af::32)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3216.24; Fri, 24 Jul
+ 2020 05:18:20 +0000
+Received: from AM7PR08MB5494.eurprd08.prod.outlook.com
+ ([fe80::8c0c:c056:97a5:484a]) by AM7PR08MB5494.eurprd08.prod.outlook.com
+ ([fe80::8c0c:c056:97a5:484a%4]) with mapi id 15.20.3216.024; Fri, 24 Jul 2020
+ 05:18:20 +0000
+Subject: Re: [PATCH v2 08/22] migration/block-dirty-bitmap: keep bitmap state
+ for all bitmaps
+To: Eric Blake <eblake@redhat.com>, qemu-devel@nongnu.org
+References: <20200217150246.29180-1-vsementsov@virtuozzo.com>
+ <20200217150246.29180-9-vsementsov@virtuozzo.com>
+ <bcc6b129-d63f-3e0c-ec01-65bff4c2c03d@redhat.com>
+From: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
+Message-ID: <3a9f9df2-9b54-10c2-2d76-b75806dd52d6@virtuozzo.com>
+Date: Fri, 24 Jul 2020 08:18:19 +0300
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.10.0
+In-Reply-To: <bcc6b129-d63f-3e0c-ec01-65bff4c2c03d@redhat.com>
+Content-Type: text/plain; charset=windows-1252; format=flowed
+Content-Language: en-US
 Content-Transfer-Encoding: 8bit
-X-TM-AS-GCONF: 00
-X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:6.0.235, 18.0.687
- definitions=2020-07-23_20:2020-07-23,
- 2020-07-23 signatures=0
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- mlxlogscore=617 spamscore=0
- priorityscore=1501 bulkscore=0 lowpriorityscore=0 impostorscore=0
- phishscore=0 malwarescore=0 suspectscore=2 adultscore=0 clxscore=1015
- mlxscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2006250000 definitions=main-2007240032
-Received-SPF: pass client-ip=148.163.156.1; envelope-from=ljp@linux.ibm.com;
- helo=mx0a-001b2d01.pphosted.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/07/24 00:58:52
-X-ACL-Warn: Detected OS   = Linux 3.x [generic] [fuzzy]
-X-Spam_score_int: -35
-X-Spam_score: -3.6
+X-ClientProxiedBy: AM0PR04CA0036.eurprd04.prod.outlook.com
+ (2603:10a6:208:122::49) To AM7PR08MB5494.eurprd08.prod.outlook.com
+ (2603:10a6:20b:dc::15)
+MIME-Version: 1.0
+X-MS-Exchange-MessageSentRepresentingType: 1
+Received: from [192.168.100.2] (185.215.60.156) by
+ AM0PR04CA0036.eurprd04.prod.outlook.com (2603:10a6:208:122::49) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3216.21 via Frontend
+ Transport; Fri, 24 Jul 2020 05:18:20 +0000
+X-Originating-IP: [185.215.60.156]
+X-MS-PublicTrafficType: Email
+X-MS-Office365-Filtering-Correlation-Id: e61ecb55-997f-4a24-acd6-08d82f90fb09
+X-MS-TrafficTypeDiagnostic: AM6PR08MB4069:
+X-MS-Exchange-Transport-Forked: True
+X-Microsoft-Antispam-PRVS: <AM6PR08MB4069302520DD38D555CCE4C4C1770@AM6PR08MB4069.eurprd08.prod.outlook.com>
+X-MS-Oob-TLC-OOBClassifiers: OLM:15;
+X-MS-Exchange-SenderADCheck: 1
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: ItZseYjwVDiotRxCQ/yy3CUT3j7snvG7eAishbuSP1wD5OcS58vK8AokiMJwpsX7mI2H4y3MTi0WsvoIlhwMEOD2V9mqrs9aPDQtYsfKyYUVVC9pSmbbmZSynEa6oIICkLd+1KvXRs6inAxTUpBpTrMCmp+qQc+NdEcOH9CFPHgutmonReVe8cNdYgPovN55maOVm/wZveF5LaotSUYA7Q1ujv2mkMv1YkKTdabZ86NH8KgcZRUzSG59zybn1R2lmUK3xoVgeK0QejmYO1z/Hh29hdt+fDwXZK2kiEWOaBsH3E9uTcITHHQj7snbPGVdhtWIv1Fzo07c68RDAWvIdwwlf3kXmt9EwlHsdTXaDftwCHy6XpqSHzft1E32C6sh0WbXs36mQzZQZyII+yJ/Vg==
+X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:AM7PR08MB5494.eurprd08.prod.outlook.com; PTR:; CAT:NONE;
+ SFTY:;
+ SFS:(4636009)(39840400004)(366004)(346002)(376002)(136003)(396003)(52116002)(83380400001)(36756003)(478600001)(2906002)(16526019)(186003)(26005)(53546011)(2616005)(956004)(66946007)(54906003)(16576012)(8936002)(316002)(107886003)(66556008)(66476007)(31696002)(8676002)(5660300002)(6486002)(4326008)(86362001)(31686004)(14143004)(43740500002);
+ DIR:OUT; SFP:1102; 
+X-MS-Exchange-AntiSpam-MessageData: cK6vJQCQ1WGnYFD8kO5tZnhyxEL5xRJAJ2RqnOeur4Kzd6MmWuFYW1yT74FRaY3mlXf/F50TJZi0rYjhshpAPQjpnA7F3qbsOERK9UJ1Il4+49wPPbQHEgfRFWRy28QrnJgseLPKcrBvIblxyp+f6lZ/NZUaYxo7M16i/wCuv829zPwZX3p9r+qMXYsPwA0gIRmiu69oZLQzIy5PNG8rLkIzccR7JxWH7QdKsXaJfWa/koduRM56U9lHZeQfJ+c8I7DMhs3aRrR1d/9eUB+z4gbHYJnXyAvf+MCO70cktS0EGnjdUogUlLECmKX5Fc/AY9n3IetHpQNv0Bo8aM8frGJUK0h8+CGwSs9blKjoBYRZ/cbXguS3zbjkty1KUZeeAIFGE1w81RUEQEGQsCFCincGMf2c9whgsNw2+CkB0ytwPHxPCaYiHQYN3UeQqHDoUyEvxN/kSp8+9udi9IGPo4ccawpQYR6ENcl1i5FGtpgrKmfhSx3SzOWXD4cYLpnM
+X-OriginatorOrg: virtuozzo.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: e61ecb55-997f-4a24-acd6-08d82f90fb09
+X-MS-Exchange-CrossTenant-AuthSource: AM7PR08MB5494.eurprd08.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 24 Jul 2020 05:18:20.7213 (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 0bc7f26d-0264-416e-a6fc-8352af79c58f
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: NFX2eFgvEFhweJ2KoXtnIXDljfCaDe0oO4X4JvGeMt35twgG6qLwYqPuw1gz+pWXfmrWXrhG+4HV0xzqnVBXVKxKdMaoEF3hoRzLQ66pNEQ=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: AM6PR08MB4069
+Received-SPF: pass client-ip=40.107.20.122;
+ envelope-from=vsementsov@virtuozzo.com;
+ helo=EUR05-DB8-obe.outbound.protection.outlook.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/07/24 01:18:21
+X-ACL-Warn: Detected OS   = Windows NT kernel [generic] [fuzzy]
+X-Spam_score_int: -33
+X-Spam_score: -3.4
 X-Spam_bar: ---
-X-Spam_report: (-3.6 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_LOW=-0.7,
- RCVD_IN_MSPIKE_H2=-1, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Spam_report: (-3.4 / 5.0 requ) BAYES_00=-1.9, DKIM_INVALID=0.1,
+ DKIM_SIGNED=0.1, MSGID_FROM_MTA_HEADER=0.001, RCVD_IN_DNSWL_LOW=-0.7,
+ RCVD_IN_MSPIKE_H2=-1, SPF_HELO_PASS=-0.001, SPF_PASS=-0.001,
+ URIBL_BLOCKED=0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -90,212 +120,62 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Lijun Pan <ljp@linux.ibm.com>
+Cc: Fam Zheng <fam@euphon.net>, qemu-block@nongnu.org, quintela@redhat.com,
+ dgilbert@redhat.com, Stefan Hajnoczi <stefanha@redhat.com>,
+ andrey.shinkevich@virtuozzo.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-vmsumudm (Power ISA 3.0) - Vector Multiply-Sum Unsigned Doubleword Modulo
-VA-form.
-vmsumcud (Power ISA 3.1) - Vector Multiply-Sum & write Carry-out Unsigned
-Doubleword VA-form.
+24.07.2020 00:30, Eric Blake wrote:
+> On 2/17/20 9:02 AM, Vladimir Sementsov-Ogievskiy wrote:
+>> Keep bitmap state for disabled bitmaps too. Keep the state until the
+>> end of the process. It's needed for the following commit to implement
+>> bitmap postcopy canceling.
+>>
+>> To clean-up the new list the following logic is used:
+>> We need two events to consider bitmap migration finished:
+>> 1. chunk with DIRTY_BITMAP_MIG_FLAG_COMPLETE flag should be received
+>> 2. dirty_bitmap_mig_before_vm_start should be called
+>> These two events may come in any order, so we understand which one is
+>> last, and on the last of them we remove bitmap migration state from the
+>> list.
+>>
+>> Signed-off-by: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
+>> ---
+>>   migration/block-dirty-bitmap.c | 64 +++++++++++++++++++++++-----------
+>>   1 file changed, 43 insertions(+), 21 deletions(-)
+> 
+>> @@ -484,45 +488,59 @@ static int dirty_bitmap_load_start(QEMUFile *f, DBMLoadState *s)
+>>       bdrv_disable_dirty_bitmap(s->bitmap);
+>>       if (flags & DIRTY_BITMAP_MIG_START_FLAG_ENABLED) {
+>> -        LoadBitmapState *b;
+>> -
+>>           bdrv_dirty_bitmap_create_successor(s->bitmap, &local_err);
+>>           if (local_err) {
+>>               error_report_err(local_err);
+>>               return -EINVAL;
+>>           }
+>> -
+>> -        b = g_new(LoadBitmapState, 1);
+>> -        b->bs = s->bs;
+>> -        b->bitmap = s->bitmap;
+>> -        b->migrated = false;
+>> -        s->enabled_bitmaps = g_slist_prepend(s->enabled_bitmaps, b);
+>>       }
+>> +    b = g_new(LoadBitmapState, 1);
+>> +    b->bs = s->bs;
+>> +    b->bitmap = s->bitmap;
+>> +    b->migrated = false;
+>> +    b->enabled = flags & DIRTY_BITMAP_MIG_START_FLAG_ENABLED,
+>> +
+>> +    s->bitmaps = g_slist_prepend(s->bitmaps, b);
+> 
+> Did you really mean to use a comma operator there, or should that be ';'?
+> 
 
-Signed-off-by: Lijun Pan <ljp@linux.ibm.com>
----
-v5: update instruction flag for vmsumcud.
-    integrate into this isa3.1 patch series
-v3: implement vmsumudm/vmsumcud through int128 functions,
-    suggested by Richard Henderson.
+Of course, it should be ';':)
 
- disas/ppc.c                         |  2 ++
- target/ppc/helper.h                 |  4 ++-
- target/ppc/int_helper.c             | 49 ++++++++++++++++++++++++++++-
- target/ppc/translate.c              |  1 -
- target/ppc/translate/vmx-impl.inc.c | 39 ++++++++++++-----------
- target/ppc/translate/vmx-ops.inc.c  |  2 ++
- 6 files changed, 76 insertions(+), 21 deletions(-)
-
-diff --git a/disas/ppc.c b/disas/ppc.c
-index 63e97cfe1d..bd76fae4c4 100644
---- a/disas/ppc.c
-+++ b/disas/ppc.c
-@@ -2261,7 +2261,9 @@ const struct powerpc_opcode powerpc_opcodes[] = {
- { "vmsumshs",  VXA(4,  41), VXA_MASK,	PPCVEC,		{ VD, VA, VB, VC } },
- { "vmsumubm",  VXA(4,  36), VXA_MASK,   PPCVEC,		{ VD, VA, VB, VC } },
- { "vmsumuhm",  VXA(4,  38), VXA_MASK,   PPCVEC,		{ VD, VA, VB, VC } },
-+{ "vmsumudm",  VXA(4,  35), VXA_MASK,   PPCVEC,         { VD, VA, VB, VC } },
- { "vmsumuhs",  VXA(4,  39), VXA_MASK,   PPCVEC,		{ VD, VA, VB, VC } },
-+{ "vmsumcud",  VXA(4,  23), VXA_MASK,   PPCVEC,         { VD, VA, VB, VC } },
- { "vmulesb",   VX(4,  776), VX_MASK,	PPCVEC,		{ VD, VA, VB } },
- { "vmulesh",   VX(4,  840), VX_MASK,	PPCVEC,		{ VD, VA, VB } },
- { "vmuleub",   VX(4,  520), VX_MASK,	PPCVEC,		{ VD, VA, VB } },
-diff --git a/target/ppc/helper.h b/target/ppc/helper.h
-index 70a14029ca..00a31d64bc 100644
---- a/target/ppc/helper.h
-+++ b/target/ppc/helper.h
-@@ -274,10 +274,12 @@ DEF_HELPER_3(vpkpx, void, avr, avr, avr)
- DEF_HELPER_5(vmhaddshs, void, env, avr, avr, avr, avr)
- DEF_HELPER_5(vmhraddshs, void, env, avr, avr, avr, avr)
- DEF_HELPER_5(vmsumuhm, void, env, avr, avr, avr, avr)
-+DEF_HELPER_5(vmsumudm, void, env, avr, avr, avr, avr)
- DEF_HELPER_5(vmsumuhs, void, env, avr, avr, avr, avr)
- DEF_HELPER_5(vmsumshm, void, env, avr, avr, avr, avr)
- DEF_HELPER_5(vmsumshs, void, env, avr, avr, avr, avr)
--DEF_HELPER_4(vmladduhm, void, avr, avr, avr, avr)
-+DEF_HELPER_5(vmsumcud, void, env, avr, avr, avr, avr)
-+DEF_HELPER_5(vmladduhm, void, env, avr, avr, avr, avr)
- DEF_HELPER_FLAGS_2(mtvscr, TCG_CALL_NO_RWG, void, env, i32)
- DEF_HELPER_FLAGS_1(mfvscr, TCG_CALL_NO_RWG, i32, env)
- DEF_HELPER_3(lvebx, void, env, avr, tl)
-diff --git a/target/ppc/int_helper.c b/target/ppc/int_helper.c
-index 62b93b4568..2e919a7b8e 100644
---- a/target/ppc/int_helper.c
-+++ b/target/ppc/int_helper.c
-@@ -913,7 +913,8 @@ void helper_vmhraddshs(CPUPPCState *env, ppc_avr_t *r, ppc_avr_t *a,
-     }
- }
- 
--void helper_vmladduhm(ppc_avr_t *r, ppc_avr_t *a, ppc_avr_t *b, ppc_avr_t *c)
-+void helper_vmladduhm(CPUPPCState *env, ppc_avr_t *r, ppc_avr_t *a,
-+                      ppc_avr_t *b, ppc_avr_t *c)
- {
-     int i;
- 
-@@ -1051,6 +1052,52 @@ void helper_vmsumuhs(CPUPPCState *env, ppc_avr_t *r, ppc_avr_t *a,
-     }
- }
- 
-+void helper_vmsumudm(CPUPPCState *env, ppc_avr_t *r,
-+                     ppc_avr_t *a, ppc_avr_t *b, ppc_avr_t *c)
-+{
-+    Int128 sum;
-+    uint64_t lo, hi;
-+
-+    sum = int128_make128(c->VsrD(1), c->VsrD(0));
-+
-+    mulu64(&lo, &hi, a->VsrD(0), b->VsrD(0));
-+    sum = int128_add(sum, int128_make128(lo, hi));
-+
-+    mulu64(&lo, &hi, a->VsrD(1), b->VsrD(1));
-+    sum = int128_add(sum, int128_make128(lo, hi));
-+
-+    r->VsrD(0) = int128_gethi(sum);
-+    r->VsrD(1) = int128_getlo(sum);
-+}
-+
-+void helper_vmsumcud(CPUPPCState *env, ppc_avr_t *r,
-+                     ppc_avr_t *a, ppc_avr_t *b, ppc_avr_t *c)
-+{
-+    Int128 sum;
-+    uint64_t p1lo, p1hi, p2lo, p2hi;
-+
-+    mulu64(&p1lo, &p1hi, a->VsrD(0), b->VsrD(0));
-+    mulu64(&p2lo, &p2hi, a->VsrD(1), b->VsrD(1));
-+
-+    /* Sum lowest 64-bit elements.  */
-+    sum = int128_make128(c->VsrD(1), 0);
-+    sum = int128_add(sum, int128_make128(p1lo, 0));
-+    sum = int128_add(sum, int128_make128(p2lo, 0));
-+
-+    /*
-+     * Discard low 64-bits, leaving the carry into bit 64.
-+     * Then sum the higher 64-bit elements.
-+     */
-+    sum = int128_rshift(sum, 64);
-+    sum = int128_add(sum, int128_make128(c->VsrD(0), 0));
-+    sum = int128_add(sum, int128_make128(p1hi, 0));
-+    sum = int128_add(sum, int128_make128(p2hi, 0));
-+
-+    /* The result is only the carry into bits 64 & 65. */
-+    r->VsrD(1) = int128_gethi(sum);
-+    r->VsrD(0) = 0;
-+}
-+
- #define VMUL_DO_EVN(name, mul_element, mul_access, prod_access, cast)   \
-     void helper_v##name(ppc_avr_t *r, ppc_avr_t *a, ppc_avr_t *b)       \
-     {                                                                   \
-diff --git a/target/ppc/translate.c b/target/ppc/translate.c
-index 55f0e1a01d..b33b2d87a4 100644
---- a/target/ppc/translate.c
-+++ b/target/ppc/translate.c
-@@ -7324,7 +7324,6 @@ GEN_HANDLER(lvsl, 0x1f, 0x06, 0x00, 0x00000001, PPC_ALTIVEC),
- GEN_HANDLER(lvsr, 0x1f, 0x06, 0x01, 0x00000001, PPC_ALTIVEC),
- GEN_HANDLER(mfvscr, 0x04, 0x2, 0x18, 0x001ff800, PPC_ALTIVEC),
- GEN_HANDLER(mtvscr, 0x04, 0x2, 0x19, 0x03ff0000, PPC_ALTIVEC),
--GEN_HANDLER(vmladduhm, 0x04, 0x11, 0xFF, 0x00000000, PPC_ALTIVEC),
- #if defined(TARGET_PPC64)
- GEN_HANDLER_E(maddhd_maddhdu, 0x04, 0x18, 0xFF, 0x00000000, PPC_NONE,
-               PPC2_ISA300),
-diff --git a/target/ppc/translate/vmx-impl.inc.c b/target/ppc/translate/vmx-impl.inc.c
-index ac5e820541..5b85b6ea06 100644
---- a/target/ppc/translate/vmx-impl.inc.c
-+++ b/target/ppc/translate/vmx-impl.inc.c
-@@ -1272,6 +1272,25 @@ static void gen_vsldoi(DisasContext *ctx)
-     tcg_temp_free_i32(sh);
- }
- 
-+#define GEN_VAFORM(name, opc2)                                          \
-+static void glue(gen_, name)(DisasContext *ctx)                         \
-+{                                                                       \
-+    TCGv_ptr ra, rb, rc, rd;                                            \
-+    if (unlikely(!ctx->altivec_enabled)) {                              \
-+        gen_exception(ctx, POWERPC_EXCP_VPU);                           \
-+        return;                                                         \
-+    }                                                                   \
-+    ra = gen_avr_ptr(rA(ctx->opcode));                                  \
-+    rb = gen_avr_ptr(rB(ctx->opcode));                                  \
-+    rc = gen_avr_ptr(rC(ctx->opcode));                                  \
-+    rd = gen_avr_ptr(rD(ctx->opcode));                                  \
-+    gen_helper_##name(cpu_env, rd, ra, rb, rc);                         \
-+    tcg_temp_free_ptr(ra);                                              \
-+    tcg_temp_free_ptr(rb);                                              \
-+    tcg_temp_free_ptr(rc);                                              \
-+    tcg_temp_free_ptr(rd);                                              \
-+}
-+
- #define GEN_VAFORM_PAIRED(name0, name1, opc2)                           \
- static void glue(gen_, name0##_##name1)(DisasContext *ctx)              \
-     {                                                                   \
-@@ -1296,24 +1315,8 @@ static void glue(gen_, name0##_##name1)(DisasContext *ctx)              \
-     }
- 
- GEN_VAFORM_PAIRED(vmhaddshs, vmhraddshs, 16)
--
--static void gen_vmladduhm(DisasContext *ctx)
--{
--    TCGv_ptr ra, rb, rc, rd;
--    if (unlikely(!ctx->altivec_enabled)) {
--        gen_exception(ctx, POWERPC_EXCP_VPU);
--        return;
--    }
--    ra = gen_avr_ptr(rA(ctx->opcode));
--    rb = gen_avr_ptr(rB(ctx->opcode));
--    rc = gen_avr_ptr(rC(ctx->opcode));
--    rd = gen_avr_ptr(rD(ctx->opcode));
--    gen_helper_vmladduhm(rd, ra, rb, rc);
--    tcg_temp_free_ptr(ra);
--    tcg_temp_free_ptr(rb);
--    tcg_temp_free_ptr(rc);
--    tcg_temp_free_ptr(rd);
--}
-+GEN_VAFORM(vmsumcud, 11)
-+GEN_VAFORM_PAIRED(vmladduhm, vmsumudm, 17)
- 
- static void gen_vpermr(DisasContext *ctx)
- {
-diff --git a/target/ppc/translate/vmx-ops.inc.c b/target/ppc/translate/vmx-ops.inc.c
-index 528458cb25..fd689a5086 100644
---- a/target/ppc/translate/vmx-ops.inc.c
-+++ b/target/ppc/translate/vmx-ops.inc.c
-@@ -295,6 +295,8 @@ GEN_VAFORM_PAIRED(vmsumuhm, vmsumuhs, 19),
- GEN_VAFORM_PAIRED(vmsumshm, vmsumshs, 20),
- GEN_VAFORM_PAIRED(vsel, vperm, 21),
- GEN_VAFORM_PAIRED(vmaddfp, vnmsubfp, 23),
-+GEN_HANDLER(vmsumcud, 0x4, 11, 0xFF, 0x00000000, PPC2_ISA310),
-+GEN_VAFORM_PAIRED(vmladduhm, vmsumudm, 17),
- 
- GEN_VXFORM_DUAL(vclzb, vpopcntb, 1, 28, PPC_NONE, PPC2_ALTIVEC_207),
- GEN_VXFORM_DUAL(vclzh, vpopcnth, 1, 29, PPC_NONE, PPC2_ALTIVEC_207),
 -- 
-2.23.0
-
+Best regards,
+Vladimir
 
