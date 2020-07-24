@@ -2,84 +2,67 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 90BD522C1C4
-	for <lists+qemu-devel@lfdr.de>; Fri, 24 Jul 2020 11:10:35 +0200 (CEST)
-Received: from localhost ([::1]:57630 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 30B7E22C238
+	for <lists+qemu-devel@lfdr.de>; Fri, 24 Jul 2020 11:26:35 +0200 (CEST)
+Received: from localhost ([::1]:54078 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jytis-0005v3-LD
-	for lists+qemu-devel@lfdr.de; Fri, 24 Jul 2020 05:10:34 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:45718)
+	id 1jytyM-0008Qj-8g
+	for lists+qemu-devel@lfdr.de; Fri, 24 Jul 2020 05:26:34 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:51178)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <zong.li@sifive.com>)
- id 1jytgv-000394-FN
- for qemu-devel@nongnu.org; Fri, 24 Jul 2020 05:08:33 -0400
-Received: from mail-pg1-x542.google.com ([2607:f8b0:4864:20::542]:40462)
+ (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
+ id 1jytxd-000806-TH
+ for qemu-devel@nongnu.org; Fri, 24 Jul 2020 05:25:49 -0400
+Received: from indium.canonical.com ([91.189.90.7]:59576)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <zong.li@sifive.com>)
- id 1jytgt-0003si-5j
- for qemu-devel@nongnu.org; Fri, 24 Jul 2020 05:08:33 -0400
-Received: by mail-pg1-x542.google.com with SMTP id n5so4880196pgf.7
- for <qemu-devel@nongnu.org>; Fri, 24 Jul 2020 02:08:30 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=sifive.com; s=google;
- h=from:to:cc:subject:date:message-id:in-reply-to:references
- :mime-version:content-transfer-encoding;
- bh=Pc71QwKUTxcdbbb2mF5Hfr3ZbnXpr9ERBcMcGfZrI00=;
- b=MX87ge4yURs1x2t1f/TigdUPhHB7zTe3UYnWD/41nbnxwjYposVkmVN/kHLKDXbW2P
- ZC0H5oNIj0DxeWIsytaoyrPe9k8/J0FfVJUgjDZa+NOdO5KwgNU32BsODRfowBIw3ogJ
- Hs0lfcAU7rlCYy9c3Slw9rldES32TdCHZ/mQ46IzKu4Tss3k91WWwt1kH75TmRo/+FHC
- bK16Ixc+AHt4YageiaWueQSVf2WsRne0gzISSkacCQuCvxMe5u1i3ZxxtnVEdc51PkSC
- txhKUW78+0Q54WGP8lkA1MOmj3GdkxDkqUMraaaetUGwIPeb+uIyH0wh9gKREmlC8OWj
- AISA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
- :references:mime-version:content-transfer-encoding;
- bh=Pc71QwKUTxcdbbb2mF5Hfr3ZbnXpr9ERBcMcGfZrI00=;
- b=DZ5x41uZSFUqqs9NnUrne5m9ZgO9EHT79GEPTPZJ/tsY0MXX/AlOAy74jSHGIqMSJi
- GDzCXpkVbhWx/5N23tbtRLiSqlJpiytm1978AaRN0gedX6wAVlQ6Nme2wAfLgPTrSxgn
- 2LhxEVSD54oVSofgb+2sSYU4u7LuW3r8eAP2AuPEZuuQSfWgp6ypxyo1W2Qtbf4P38Em
- W4vIdgtjfQePZk+alpXlM1uzJ/QyP2QG4JBOZRgHtIbi+vvHlcOwZcBRkeY+G8k4evid
- 7/ziGpPLJ0JR8HvuMGxZZFo00o+ZcJRvs0AaJoSKtHlFClEP6WHzQSyFWICptqJIwuzD
- MsQg==
-X-Gm-Message-State: AOAM532Upe2VFYSeryeplBOux+JcbKaRpgii9imfIscC9kpPoxHa/986
- H1/i+uXN8Q+xg3lQ38akOpOtNQ==
-X-Google-Smtp-Source: ABdhPJzE76Ie2N+kBXXB4nvSEW7/ZTwW4Gl7KZgvf5uDi1tJV5dVrc/8mhYPbyDH+tb8ze/eCZNzaQ==
-X-Received: by 2002:a62:b409:: with SMTP id h9mr7806369pfn.305.1595581709859; 
- Fri, 24 Jul 2020 02:08:29 -0700 (PDT)
-Received: from hsinchu02.internal.sifive.com
- (114-34-229-221.HINET-IP.hinet.net. [114.34.229.221])
- by smtp.gmail.com with ESMTPSA id z10sm5751282pfr.90.2020.07.24.02.08.28
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 24 Jul 2020 02:08:29 -0700 (PDT)
-From: Zong Li <zong.li@sifive.com>
-To: palmer@dabbelt.com, Alistair.Francis@wdc.com, bmeng.cn@gmail.com,
- sagark@eecs.berkeley.edu, kbastian@mail.uni-paderborn.de,
- qemu-riscv@nongnu.org, qemu-devel@nongnu.org
-Subject: [PATCH v4 4/4] target/riscv: Change the TLB page size depends on PMP
- entries.
-Date: Fri, 24 Jul 2020 17:08:17 +0800
-Message-Id: <f9d7936d8d1903b67a91a1dadf12a6ddf61fa108.1595581140.git.zong.li@sifive.com>
-X-Mailer: git-send-email 2.27.0
-In-Reply-To: <cover.1595581140.git.zong.li@sifive.com>
-References: <cover.1595581140.git.zong.li@sifive.com>
+ (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
+ id 1jytxb-0006Fj-9g
+ for qemu-devel@nongnu.org; Fri, 24 Jul 2020 05:25:49 -0400
+Received: from loganberry.canonical.com ([91.189.90.37])
+ by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
+ id 1jytxZ-0002NA-Ir
+ for <qemu-devel@nongnu.org>; Fri, 24 Jul 2020 09:25:45 +0000
+Received: from loganberry.canonical.com (localhost [127.0.0.1])
+ by loganberry.canonical.com (Postfix) with ESMTP id 8D5292E80D2
+ for <qemu-devel@nongnu.org>; Fri, 24 Jul 2020 09:25:45 +0000 (UTC)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::542;
- envelope-from=zong.li@sifive.com; helo=mail-pg1-x542.google.com
-X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
- That's all we know.
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- URIBL_BLOCKED=0.001 autolearn=unavailable autolearn_force=no
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: quoted-printable
+Date: Fri, 24 Jul 2020 09:10:34 -0000
+From: xuan <1888818@bugs.launchpad.net>
+To: qemu-devel@nongnu.org
+X-Launchpad-Notification-Type: bug
+X-Launchpad-Bug: product=qemu; status=New; importance=Undecided; assignee=None;
+X-Launchpad-Bug-Information-Type: Public
+X-Launchpad-Bug-Private: no
+X-Launchpad-Bug-Security-Vulnerability: no
+X-Launchpad-Bug-Commenters: xavier-ding
+X-Launchpad-Bug-Reporter: xuan (xavier-ding)
+X-Launchpad-Bug-Modifier: xuan (xavier-ding)
+Message-Id: <159558183424.11837.7512442025195132206.malonedeb@wampee.canonical.com>
+Subject: [Bug 1888818] [NEW] Multi-queue vhost-user fails to reconnect with
+ qemu version >=4.2
+X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
+X-Launchpad-Message-For: qemu-devel-ml
+Precedence: bulk
+X-Generated-By: Launchpad (canonical.com);
+ Revision="f877c5162b568393e2d07ce948459ba0abc456fe";
+ Instance="production-secrets-lazr.conf"
+X-Launchpad-Hash: a29f9a9e0f1c6f5aca7ebd22871209a0ab29a587
+Received-SPF: none client-ip=91.189.90.7; envelope-from=bounces@canonical.com;
+ helo=indium.canonical.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/07/24 04:30:42
+X-ACL-Warn: Detected OS   = Linux 3.11 and newer [fuzzy]
+X-Spam_score_int: -58
+X-Spam_score: -5.9
+X-Spam_bar: -----
+X-Spam_report: (-5.9 / 5.0 requ) BAYES_00=-1.9, HEADER_FROM_DIFFERENT_DOMAINS=1,
+ RCVD_IN_DNSWL_HI=-5, RCVD_IN_MSPIKE_H3=-0.01, RCVD_IN_MSPIKE_WL=-0.01,
+ SPF_HELO_NONE=0.001, SPF_NONE=0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
-Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -88,124 +71,273 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Zong Li <zong.li@sifive.com>
+Reply-To: Bug 1888818 <1888818@bugs.launchpad.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The minimum granularity of PMP is 4 bytes, it is small than 4KB page
-size, therefore, the pmp checking would be ignored if its range doesn't
-start from the alignment of one page. This patch detects the pmp entries
-and sets the small page size to TLB if there is a PMP entry which cover
-the page size.
+Public bug reported:
 
-Signed-off-by: Zong Li <zong.li@sifive.com>
----
- target/riscv/cpu_helper.c | 10 ++++++--
- target/riscv/pmp.c        | 52 +++++++++++++++++++++++++++++++++++++++
- target/riscv/pmp.h        |  2 ++
- 3 files changed, 62 insertions(+), 2 deletions(-)
+Test Environment:
+DPDK version: DPDK v20.08
+Other software versions: qemu4.2.0, qemu5.0.0.
+OS: Linux 4.15.0-20-generic
+Compiler: gcc (Ubuntu 7.3.0-16ubuntu3) 8.4.0
+Hardware platform: Purley.
+Test Setup
+Steps to reproduce
+List the steps to reproduce the issue.
 
-diff --git a/target/riscv/cpu_helper.c b/target/riscv/cpu_helper.c
-index 08b069f0c9..b3013bc91e 100644
---- a/target/riscv/cpu_helper.c
-+++ b/target/riscv/cpu_helper.c
-@@ -693,6 +693,7 @@ bool riscv_cpu_tlb_fill(CPUState *cs, vaddr address, int size,
-     bool first_stage_error = true;
-     int ret = TRANSLATE_FAIL;
-     int mode = mmu_idx;
-+    target_ulong tlb_size = 0;
- 
-     env->guest_phys_fault_addr = 0;
- 
-@@ -784,8 +785,13 @@ bool riscv_cpu_tlb_fill(CPUState *cs, vaddr address, int size,
-     }
- 
-     if (ret == TRANSLATE_SUCCESS) {
--        tlb_set_page(cs, address & TARGET_PAGE_MASK, pa & TARGET_PAGE_MASK,
--                     prot, mmu_idx, TARGET_PAGE_SIZE);
-+        if (pmp_is_range_in_tlb(env, pa & TARGET_PAGE_MASK, &tlb_size)) {
-+            tlb_set_page(cs, address & ~(tlb_size - 1), pa & ~(tlb_size - 1),
-+                         prot, mmu_idx, tlb_size);
-+        } else {
-+            tlb_set_page(cs, address & TARGET_PAGE_MASK, pa & TARGET_PAGE_MASK,
-+                         prot, mmu_idx, TARGET_PAGE_SIZE);
-+        }
-         return true;
-     } else if (probe) {
-         return false;
-diff --git a/target/riscv/pmp.c b/target/riscv/pmp.c
-index e0161d6aab..a040cdd285 100644
---- a/target/riscv/pmp.c
-+++ b/target/riscv/pmp.c
-@@ -392,3 +392,55 @@ target_ulong pmpaddr_csr_read(CPURISCVState *env, uint32_t addr_index)
- 
-     return val;
- }
-+
-+/*
-+ * Calculate the TLB size if the start address or the end address of
-+ * PMP entry is presented in thie TLB page.
-+ */
-+static target_ulong pmp_get_tlb_size(CPURISCVState *env, int pmp_index,
-+    target_ulong tlb_sa, target_ulong tlb_ea)
-+{
-+    target_ulong pmp_sa = env->pmp_state.addr[pmp_index].sa;
-+    target_ulong pmp_ea = env->pmp_state.addr[pmp_index].ea;
-+
-+    if (pmp_sa >= tlb_sa && pmp_ea <= tlb_ea) {
-+        return pmp_ea - pmp_sa + 1;
-+    }
-+
-+    if (pmp_sa >= tlb_sa && pmp_sa <= tlb_ea && pmp_ea >= tlb_ea) {
-+        return tlb_ea - pmp_sa + 1;
-+    }
-+
-+    if (pmp_ea <= tlb_ea && pmp_ea >= tlb_sa && pmp_sa <= tlb_sa) {
-+        return pmp_ea - tlb_sa + 1;
-+    }
-+
-+    return 0;
-+}
-+
-+/*
-+ * Check is there a PMP entry whcih range covers this page. If so,
-+ * try to find the minimum granularity for the TLB size.
-+ */
-+bool pmp_is_range_in_tlb(CPURISCVState *env, hwaddr tlb_sa,
-+    target_ulong *tlb_size)
-+{
-+    int i;
-+    target_ulong val;
-+    target_ulong tlb_ea = (tlb_sa + TARGET_PAGE_SIZE - 1);
-+
-+    for (i = 0; i < MAX_RISCV_PMPS; i++) {
-+        val = pmp_get_tlb_size(env, i, tlb_sa, tlb_ea);
-+        if (val) {
-+            if (*tlb_size == 0 || *tlb_size > val) {
-+                *tlb_size = val;
-+            }
-+        }
-+    }
-+
-+    if (*tlb_size != 0) {
-+        return true;
-+    }
-+
-+    return false;
-+}
-diff --git a/target/riscv/pmp.h b/target/riscv/pmp.h
-index 8e19793132..c70f2ea4c4 100644
---- a/target/riscv/pmp.h
-+++ b/target/riscv/pmp.h
-@@ -60,5 +60,7 @@ void pmpaddr_csr_write(CPURISCVState *env, uint32_t addr_index,
- target_ulong pmpaddr_csr_read(CPURISCVState *env, uint32_t addr_index);
- bool pmp_hart_has_privs(CPURISCVState *env, target_ulong addr,
-     target_ulong size, pmp_priv_t priv, target_ulong mode);
-+bool pmp_is_range_in_tlb(CPURISCVState *env, hwaddr tlb_sa,
-+    target_ulong *tlb_size);
- 
- #endif
--- 
-2.27.0
+Test flow
+=3D=3D=3D=3D=3D=3D=3D=3D=3D
+1. Launch vhost-user testpmd as port0 with 2 queues:
 
+./x86_64-native-linuxapp-gcc/app/testpmd -l 2-4 -n 4 \
+=C2=A0=C2=A0=C2=A0=C2=A0--file-prefix=3Dvhost --vdev 'net_vhost0,iface=3Dvh=
+ost-net,queues=3D2,client=3D1' -- -i --txd=3D1024 --rxd=3D1024 --txq=3D2 --=
+rxq=3D2
+testpmd>start
+
+3. Launch qemu with virtio-net:
+
+=C2=A0taskset -c 13 \
+=C2=A0=C2=A0=C2=A0=C2=A0qemu-system-x86_64 -name us-vhost-vm1 \
+=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0-cpu host -enable-kvm -m 2048 -ob=
+ject memory-backend-file,id=3Dmem,size=3D2048M,mem-path=3D/mnt/huge,share=
+=3Don \
+=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0-numa node,memdev=3Dmem \
+=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0-mem-prealloc -monitor unix:/tmp/=
+vm2_monitor.sock,server,nowait -netdev user,id=3Dyinan,hostfwd=3Dtcp:127.0.=
+0.1:6005-:22 -device e1000,netdev=3Dyinan \
+=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0-smp cores=3D1,sockets=3D1 -drive=
+ file=3D/home/osimg/ubuntu16.img  \
+=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0-chardev socket,id=3Dchar0,path=
+=3D./vhost-net,server \
+=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0-netdev type=3Dvhost-user,id=3Dmy=
+net1,chardev=3Dchar0,vhostforce,queues=3D2 \
+=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0-device virtio-net-pci,mac=3D52:5=
+4:00:00:00:01,netdev=3Dmynet1,mrg_rxbuf=3Don,csum=3Don,gso=3Don,host_tso4=
+=3Don,guest_tso4=3Don,mq=3Don,vectors=3D15 \
+=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0-vnc :10 -daemonize
+
+6. Quit testpmd and restart vhost-user :
+
+testpmd>quit
+./x86_64-native-linuxapp-gcc/app/testpmd -l 2-4 -n 4 \
+=C2=A0=C2=A0=C2=A0=C2=A0--file-prefix=3Dvhost --vdev 'net_vhost0,iface=3Dvh=
+ost-net,queues=3D2,client=3D1' -- -i --txd=3D1024 --rxd=3D1024 --txq=3D2 --=
+rxq=3D2
+
+Expected Result:
+After the vhost-user is killed then re-launched, the virtio-net can connect=
+ back to vhost-user again.
+
+Actual Result:
+Vhost-user relaunch failed with continous log printed"VHOST_CONFIG: Process=
+ing VHOST_USER_SET_FEATURES failed.
+
+Analysis:
+This is a regression bug, bad commit: c6beefd674f
+When vhost-user quits, QEMU doesnot save acked features for each virtio-net=
+ after vhost-user quits. When vhost-user reconnects to QEMU, QEMU sends two=
+ different features(one is the true acked feature while the another is 0x40=
+000000) to vhost-user successively which causing vhost-user exits abnormall=
+y.
+
+** Affects: qemu
+     Importance: Undecided
+         Status: New
+
+** Summary changed:
+
+- vhost-user/vitrio-net test fail to reconnect from vhost-user with qemu ve=
+rsion >=3D4.2
++ vhost-user fail to reconnect from virtio-net with qemu version >=3D4.2
+
+** Description changed:
+
+  Test Environment:
+  DPDK version: DPDK v20.08
+- Other software versions: qemu4.2, qemu5.0.
++ Other software versions: qemu4.2.0, qemu5.0.0.
+  OS: Linux 4.15.0-20-generic
+  Compiler: gcc (Ubuntu 7.3.0-16ubuntu3) 8.4.0
+  Hardware platform: Purley.
+  Test Setup
+  Steps to reproduce
+  List the steps to reproduce the issue.
+  =
+
+  Test flow
+  =3D=3D=3D=3D=3D=3D=3D=3D=3D
+  1. Launch vhost-user testpmd as port0 with 2 queues:
+  =
+
+  ./x86_64-native-linuxapp-gcc/app/testpmd -l 2-4 -n 4 \
+-     --file-prefix=3Dvhost --vdev 'net_vhost0,iface=3Dvhost-net,queues=3D2=
+,client=3D1' -- -i --txd=3D1024 --rxd=3D1024 --txq=3D2 --rxq=3D2
++ =C2=A0=C2=A0=C2=A0=C2=A0--file-prefix=3Dvhost --vdev 'net_vhost0,iface=3D=
+vhost-net,queues=3D2,client=3D1' -- -i --txd=3D1024 --rxd=3D1024 --txq=3D2 =
+--rxq=3D2
+  testpmd>start
+  =
+
+  3. Launch qemu with virtio-net:
+  =
+
+-  taskset -c 13 \
+-     qemu-system-x86_64 -name us-vhost-vm1 \
+-        -cpu host -enable-kvm -m 2048 -object memory-backend-file,id=3Dmem=
+,size=3D2048M,mem-path=3D/mnt/huge,share=3Don \
+-        -numa node,memdev=3Dmem \
+-        -mem-prealloc -monitor unix:/tmp/vm2_monitor.sock,server,nowait -n=
+etdev user,id=3Dyinan,hostfwd=3Dtcp:127.0.0.1:6005-:22 -device e1000,netdev=
+=3Dyinan \
+-        -smp cores=3D1,sockets=3D1 -drive file=3D/home/osimg/ubuntu16.img =
+ \
+-        -chardev socket,id=3Dchar0,path=3D./vhost-net,server \
+-        -netdev type=3Dvhost-user,id=3Dmynet1,chardev=3Dchar0,vhostforce,q=
+ueues=3D2 \
+-        -device virtio-net-pci,mac=3D52:54:00:00:00:01,netdev=3Dmynet1,mrg=
+_rxbuf=3Don,csum=3Don,gso=3Don,host_tso4=3Don,guest_tso4=3Don,mq=3Don,vecto=
+rs=3D15 \
+-        -vnc :10 -daemonize
++ =C2=A0taskset -c 13 \
++ =C2=A0=C2=A0=C2=A0=C2=A0qemu-system-x86_64 -name us-vhost-vm1 \
++ =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0-cpu host -enable-kvm -m 2048 -=
+object memory-backend-file,id=3Dmem,size=3D2048M,mem-path=3D/mnt/huge,share=
+=3Don \
++ =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0-numa node,memdev=3Dmem \
++ =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0-mem-prealloc -monitor unix:/tm=
+p/vm2_monitor.sock,server,nowait -netdev user,id=3Dyinan,hostfwd=3Dtcp:127.=
+0.0.1:6005-:22 -device e1000,netdev=3Dyinan \
++ =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0-smp cores=3D1,sockets=3D1 -dri=
+ve file=3D/home/osimg/ubuntu16.img  \
++ =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0-chardev socket,id=3Dchar0,path=
+=3D./vhost-net,server \
++ =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0-netdev type=3Dvhost-user,id=3D=
+mynet1,chardev=3Dchar0,vhostforce,queues=3D2 \
++ =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0-device virtio-net-pci,mac=3D52=
+:54:00:00:00:01,netdev=3Dmynet1,mrg_rxbuf=3Don,csum=3Don,gso=3Don,host_tso4=
+=3Don,guest_tso4=3Don,mq=3Don,vectors=3D15 \
++ =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0-vnc :10 -daemonize
+  =
+
+  6. Quit testpmd and restart vhost-user :
+  =
+
+  testpmd>quit
+  ./x86_64-native-linuxapp-gcc/app/testpmd -l 2-4 -n 4 \
+-     --file-prefix=3Dvhost --vdev 'net_vhost0,iface=3Dvhost-net,queues=3D2=
+,client=3D1' -- -i --txd=3D1024 --rxd=3D1024 --txq=3D2 --rxq=3D2
+- =
+
++ =C2=A0=C2=A0=C2=A0=C2=A0--file-prefix=3Dvhost --vdev 'net_vhost0,iface=3D=
+vhost-net,queues=3D2,client=3D1' -- -i --txd=3D1024 --rxd=3D1024 --txq=3D2 =
+--rxq=3D2
+  =
+
+  Expected Result:
+  After the vhost-user is killed then re-launched, the virtio-net can conne=
+ct back to vhost-user again.
+  =
+
+  Actual Result:
+  Vhost-user relaunch failed with continous log printed"VHOST_CONFIG: Proce=
+ssing VHOST_USER_SET_FEATURES failed.
+  =
+
+  Analysis:
+  This is a regression bug, bad commit: c6beefd674f
+  When vhost-user quits, QEMU doesnot save acked features for each virtio-n=
+et after vhost-user quits. When vhost-user reconnects to QEMU, QEMU sends t=
+wo different features(one is the true acked feature while the another is 0x=
+40000000) to vhost-user successively which causing vhost-user exits abnorma=
+lly.
+
+** Summary changed:
+
+- vhost-user fail to reconnect from virtio-net with qemu version >=3D4.2
++ Multi-queue vhost-user fails to reconnect with qemu version >=3D4.2
+
+-- =
+
+You received this bug notification because you are a member of qemu-
+devel-ml, which is subscribed to QEMU.
+https://bugs.launchpad.net/bugs/1888818
+
+Title:
+  Multi-queue vhost-user fails to reconnect with qemu version >=3D4.2
+
+Status in QEMU:
+  New
+
+Bug description:
+  Test Environment:
+  DPDK version: DPDK v20.08
+  Other software versions: qemu4.2.0, qemu5.0.0.
+  OS: Linux 4.15.0-20-generic
+  Compiler: gcc (Ubuntu 7.3.0-16ubuntu3) 8.4.0
+  Hardware platform: Purley.
+  Test Setup
+  Steps to reproduce
+  List the steps to reproduce the issue.
+
+  Test flow
+  =3D=3D=3D=3D=3D=3D=3D=3D=3D
+  1. Launch vhost-user testpmd as port0 with 2 queues:
+
+  ./x86_64-native-linuxapp-gcc/app/testpmd -l 2-4 -n 4 \
+  =C2=A0=C2=A0=C2=A0=C2=A0--file-prefix=3Dvhost --vdev 'net_vhost0,iface=3D=
+vhost-net,queues=3D2,client=3D1' -- -i --txd=3D1024 --rxd=3D1024 --txq=3D2 =
+--rxq=3D2
+  testpmd>start
+
+  3. Launch qemu with virtio-net:
+
+  =C2=A0taskset -c 13 \
+  =C2=A0=C2=A0=C2=A0=C2=A0qemu-system-x86_64 -name us-vhost-vm1 \
+  =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0-cpu host -enable-kvm -m 2048 -=
+object memory-backend-file,id=3Dmem,size=3D2048M,mem-path=3D/mnt/huge,share=
+=3Don \
+  =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0-numa node,memdev=3Dmem \
+  =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0-mem-prealloc -monitor unix:/tm=
+p/vm2_monitor.sock,server,nowait -netdev user,id=3Dyinan,hostfwd=3Dtcp:127.=
+0.0.1:6005-:22 -device e1000,netdev=3Dyinan \
+  =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0-smp cores=3D1,sockets=3D1 -dri=
+ve file=3D/home/osimg/ubuntu16.img  \
+  =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0-chardev socket,id=3Dchar0,path=
+=3D./vhost-net,server \
+  =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0-netdev type=3Dvhost-user,id=3D=
+mynet1,chardev=3Dchar0,vhostforce,queues=3D2 \
+  =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0-device virtio-net-pci,mac=3D52=
+:54:00:00:00:01,netdev=3Dmynet1,mrg_rxbuf=3Don,csum=3Don,gso=3Don,host_tso4=
+=3Don,guest_tso4=3Don,mq=3Don,vectors=3D15 \
+  =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0-vnc :10 -daemonize
+
+  6. Quit testpmd and restart vhost-user :
+
+  testpmd>quit
+  ./x86_64-native-linuxapp-gcc/app/testpmd -l 2-4 -n 4 \
+  =C2=A0=C2=A0=C2=A0=C2=A0--file-prefix=3Dvhost --vdev 'net_vhost0,iface=3D=
+vhost-net,queues=3D2,client=3D1' -- -i --txd=3D1024 --rxd=3D1024 --txq=3D2 =
+--rxq=3D2
+
+  Expected Result:
+  After the vhost-user is killed then re-launched, the virtio-net can conne=
+ct back to vhost-user again.
+
+  Actual Result:
+  Vhost-user relaunch failed with continous log printed"VHOST_CONFIG: Proce=
+ssing VHOST_USER_SET_FEATURES failed.
+
+  Analysis:
+  This is a regression bug, bad commit: c6beefd674f
+  When vhost-user quits, QEMU doesnot save acked features for each virtio-n=
+et after vhost-user quits. When vhost-user reconnects to QEMU, QEMU sends t=
+wo different features(one is the true acked feature while the another is 0x=
+40000000) to vhost-user successively which causing vhost-user exits abnorma=
+lly.
+
+To manage notifications about this bug go to:
+https://bugs.launchpad.net/qemu/+bug/1888818/+subscriptions
 
