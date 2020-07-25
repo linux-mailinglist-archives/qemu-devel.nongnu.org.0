@@ -2,70 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 16AB622D8A3
-	for <lists+qemu-devel@lfdr.de>; Sat, 25 Jul 2020 18:07:40 +0200 (CEST)
-Received: from localhost ([::1]:57410 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0388422D8A4
+	for <lists+qemu-devel@lfdr.de>; Sat, 25 Jul 2020 18:08:46 +0200 (CEST)
+Received: from localhost ([::1]:32984 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jzMi3-0003lk-5L
-	for lists+qemu-devel@lfdr.de; Sat, 25 Jul 2020 12:07:39 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:54878)
+	id 1jzMj7-0005JM-2m
+	for lists+qemu-devel@lfdr.de; Sat, 25 Jul 2020 12:08:45 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:54880)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1jzMgP-0001sp-FH
+ id 1jzMgP-0001tZ-Qb
  for qemu-devel@nongnu.org; Sat, 25 Jul 2020 12:05:57 -0400
-Received: from mail-pl1-x644.google.com ([2607:f8b0:4864:20::644]:35791)
+Received: from mail-pl1-x632.google.com ([2607:f8b0:4864:20::632]:33858)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1jzMgN-0001rW-40
+ id 1jzMgN-0001si-TM
  for qemu-devel@nongnu.org; Sat, 25 Jul 2020 12:05:57 -0400
-Received: by mail-pl1-x644.google.com with SMTP id x9so6058801plr.2
- for <qemu-devel@nongnu.org>; Sat, 25 Jul 2020 09:05:54 -0700 (PDT)
+Received: by mail-pl1-x632.google.com with SMTP id o1so6064365plk.1
+ for <qemu-devel@nongnu.org>; Sat, 25 Jul 2020 09:05:55 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=P3LyPyeEcuWa2/MKIfNsGrObBE0H+KsTUZiQvWcLS7o=;
- b=qJon6ZFTh5G2iYoodM/FL3VyvM6wRxCtLL1MAPg741Lm9LZs3zgo7Q0SruRxYrfG46
- UIpNkPD56LpYgBNOr3o0TcsYo5Xr2pe9bnD13iv2n8G+/N0bqmjMqenZBuH6tXHri3h3
- 36lQw2+SGiWIl9Fa53cwQxk/ga1p7obiNrKyY+WNIiJYsa1XWCz8M2ymV+hZf+gBB3m3
- 1BAOgwiVCT6/YTQ9UOhU+q67/Vsjmb1lAfIT5sN9VJXcoIWWVzcoXf7f7L8QOjzFSMYi
- JqPj9Imi7Ke2xSC+Z7VbF0FfOtCBaWfjY998MxH4PVqt2yxIRvDDNF1YLUFNxGt+k0mA
- ZeoQ==
+ bh=Tn/0BiX/IEZ1RnYH9GODJ+VXClkGUOJZjcKmp7fXXkU=;
+ b=nHUPrYbAyWW/qrnhxle3v9IaVNTptQIn0+Np29LdK3VhcMNM/69IfX+WkPNIS/k5xo
+ f6CkqPasoGtKuKue+Y4OjOET5Mpd/OvfMNpZ6QvNu9Ds5zeKtTD0hQcA7oTjxXbQUOQR
+ Zywonyjty/JVo+eW9s255rhVbzdpfM2j1pnV3t3JTeloINlxoIp0VqdJYIZssyK9Rq60
+ cNlSBs71TO9KRNOw3hR14L/0syLz2az/HtnlDKUMA7NFWRMR0Yl+8Q3N6E6oTql1iMfg
+ yz2vp5pv05W3UQtFIouN0AA5DDgMXJWPfympaQ5TtMnA+u4WPD2jT8JvOS1qRZq8Mwqc
+ rP1A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=P3LyPyeEcuWa2/MKIfNsGrObBE0H+KsTUZiQvWcLS7o=;
- b=ujYfYc2DIdRh/NR0mZBxLvRsJBe1Lg6tD63t6zRsHYI6QuBYUoSD8F87BxwqGxJGx8
- idCgHZvJYpMpuYBXIEOCjSmnppxtc+QaSZ584MrOi3Rzg6xNOI2qmXlZIaLulfNwZY4h
- FugaFDHyQcqGrKvkH4Y2Dj/M3aV8DLtHySsFXbD6eHh+OIUCF7RmJsJRKf5zpyDOUsgs
- pYso4deCRuBClCM808YlQCXKQGL9UIWGV37hAxpBG5cUPG3IdAYyW1VJMrcbCJrgDfWQ
- noTTvRHgI66jAQ4xnJgGQqQH3y170e23sbYT3kb/mEcvKR3j7Hrmo/Xlgm8EcVvgQg8D
- HcyA==
-X-Gm-Message-State: AOAM533r97xVZw5ExlMTp7hLWP23yipbsPXuTinZIZBFbTAtJNOkIcsu
- Xr00/vMaEhwdrhsg8Y6Bb9Bgln25/YI=
-X-Google-Smtp-Source: ABdhPJzJRj5ekfNF7+rp5uGs1XTJhf5SIPY1HSfChRkwNUoUM/4t9XF4CHKJFpOsGobl2YZffvYBZQ==
-X-Received: by 2002:a17:90a:7103:: with SMTP id
- h3mr8705954pjk.34.1595693152811; 
- Sat, 25 Jul 2020 09:05:52 -0700 (PDT)
+ bh=Tn/0BiX/IEZ1RnYH9GODJ+VXClkGUOJZjcKmp7fXXkU=;
+ b=eWTAfSc1VrPOzyzOcEHSe5p/2H/Yo+IVQqG3qdyEqRjbSULpNHp3oB4x3SO9Bh++7u
+ cF8fa3sC2qlDsXsk1cH6jLADbbx/2UTH8a0LVbQmElAXBTMYJgwEJGWvKfBFVrRgDb8o
+ AGdJw3Ox5dpFe5FcxgEe0Oim9B0H86gQGKUArebUkLyFxZ8+IE21F6VZTqP1CmnX6hzj
+ B2+aNn9t9OIs9sPVgjMnIstmthpH/oqnUd5sRpqWMwejhd+I+bWOtV6o97nAPxJfT3lF
+ YtPB6Fdm5opEotVVAgTc1q6f0A7+zksogiaYN75iPKCXD+vyaXR6zL2ovmUg9fg0jJ+b
+ PV1Q==
+X-Gm-Message-State: AOAM533/6A9MOe9mzT6sF4zRlFC55I9Ek5qE9WBgdxz9cKi0uaxyDIlu
+ GpYsQeemfMnGZl9Tx4WHbX3YGqI5MtY=
+X-Google-Smtp-Source: ABdhPJwH1UAz3Th2al7YTuB1qcJtVKYQ8fVORrBkTFIkFrBtkF6YfoDys1QHhnN1ElBD1yfnQP5xwQ==
+X-Received: by 2002:a17:90a:1589:: with SMTP id
+ m9mr3308420pja.122.1595693153840; 
+ Sat, 25 Jul 2020 09:05:53 -0700 (PDT)
 Received: from localhost.localdomain (216-160-65-90.tukw.qwest.net.
  [216.160.65.90])
- by smtp.gmail.com with ESMTPSA id e18sm9731801pff.37.2020.07.25.09.05.51
+ by smtp.gmail.com with ESMTPSA id e18sm9731801pff.37.2020.07.25.09.05.52
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sat, 25 Jul 2020 09:05:52 -0700 (PDT)
+ Sat, 25 Jul 2020 09:05:53 -0700 (PDT)
 From: Richard Henderson <richard.henderson@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PULL 2/3] target/hppa: Free some temps in do_sub
-Date: Sat, 25 Jul 2020 09:05:47 -0700
-Message-Id: <20200725160548.750749-3-richard.henderson@linaro.org>
+Subject: [PULL 3/3] target/i386: Save cc_op before loop insns
+Date: Sat, 25 Jul 2020 09:05:48 -0700
+Message-Id: <20200725160548.750749-4-richard.henderson@linaro.org>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20200725160548.750749-1-richard.henderson@linaro.org>
 References: <20200725160548.750749-1-richard.henderson@linaro.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::644;
- envelope-from=richard.henderson@linaro.org; helo=mail-pl1-x644.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::632;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pl1-x632.google.com
 X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
  That's all we know.
 X-Spam_score_int: -20
@@ -87,37 +87,34 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: peter.maydell@linaro.org, Sven Schnelle <svens@stackframe.org>,
- =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
+Cc: peter.maydell@linaro.org,
+ =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Two temps allocated but not freed.  Do enough subtractions
-within a single TB and one can run out of temps entirely.
+We forgot to update cc_op before these branch insns,
+which lead to losing track of the current eflags.
 
-Fixes: b2167459ae ("target-hppa: Implement basic arithmetic")
-Buglink: https://bugs.launchpad.net/qemu/+bug/1880287
-Tested-by: Sven Schnelle <svens@stackframe.org>
-Reviewed-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
+Buglink: https://bugs.launchpad.net/qemu/+bug/1888165
+Reviewed-by: Alex Bennée <alex.bennee@linaro.org>
 Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
-Message-Id: <20200720174039.517902-1-richard.henderson@linaro.org>
+Message-Id: <20200720154028.477457-1-richard.henderson@linaro.org>
 ---
- target/hppa/translate.c | 2 ++
- 1 file changed, 2 insertions(+)
+ target/i386/translate.c | 1 +
+ 1 file changed, 1 insertion(+)
 
-diff --git a/target/hppa/translate.c b/target/hppa/translate.c
-index 52d7bea1ea..4bd22d4820 100644
---- a/target/hppa/translate.c
-+++ b/target/hppa/translate.c
-@@ -1294,6 +1294,8 @@ static void do_sub(DisasContext *ctx, unsigned rt, TCGv_reg in1,
-     save_or_nullify(ctx, cpu_psw_cb_msb, cb_msb);
-     save_gpr(ctx, rt, dest);
-     tcg_temp_free(dest);
-+    tcg_temp_free(cb);
-+    tcg_temp_free(cb_msb);
- 
-     /* Install the new nullification.  */
-     cond_free(&ctx->null_cond);
+diff --git a/target/i386/translate.c b/target/i386/translate.c
+index a1d31f09c1..caea6f5fb1 100644
+--- a/target/i386/translate.c
++++ b/target/i386/translate.c
+@@ -7148,6 +7148,7 @@ static target_ulong disas_insn(DisasContext *s, CPUState *cpu)
+             l1 = gen_new_label();
+             l2 = gen_new_label();
+             l3 = gen_new_label();
++            gen_update_cc_op(s);
+             b &= 3;
+             switch(b) {
+             case 0: /* loopnz */
 -- 
 2.25.1
 
