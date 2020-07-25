@@ -2,71 +2,53 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id DA10E22D423
-	for <lists+qemu-devel@lfdr.de>; Sat, 25 Jul 2020 05:11:33 +0200 (CEST)
-Received: from localhost ([::1]:37148 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5A22822D404
+	for <lists+qemu-devel@lfdr.de>; Sat, 25 Jul 2020 05:01:08 +0200 (CEST)
+Received: from localhost ([::1]:42742 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jzAay-0004zP-V9
-	for lists+qemu-devel@lfdr.de; Fri, 24 Jul 2020 23:11:32 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:33134)
+	id 1jzAQs-0003p0-UN
+	for lists+qemu-devel@lfdr.de; Fri, 24 Jul 2020 23:01:06 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:59568)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1jzAaD-0004am-55
- for qemu-devel@nongnu.org; Fri, 24 Jul 2020 23:10:45 -0400
-Received: from indium.canonical.com ([91.189.90.7]:54264)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1jzAaB-0002CF-8M
- for qemu-devel@nongnu.org; Fri, 24 Jul 2020 23:10:44 -0400
-Received: from loganberry.canonical.com ([91.189.90.37])
- by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
- id 1jzAaA-0001ih-8G
- for <qemu-devel@nongnu.org>; Sat, 25 Jul 2020 03:10:42 +0000
-Received: from loganberry.canonical.com (localhost [127.0.0.1])
- by loganberry.canonical.com (Postfix) with ESMTP id 3D3732E80D2
- for <qemu-devel@nongnu.org>; Sat, 25 Jul 2020 03:10:42 +0000 (UTC)
+ (Exim 4.90_1) (envelope-from <zhengchuan@huawei.com>)
+ id 1jzAPS-00024S-T7
+ for qemu-devel@nongnu.org; Fri, 24 Jul 2020 22:59:38 -0400
+Received: from szxga07-in.huawei.com ([45.249.212.35]:33218 helo=huawei.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <zhengchuan@huawei.com>)
+ id 1jzAPQ-0000k9-M3
+ for qemu-devel@nongnu.org; Fri, 24 Jul 2020 22:59:38 -0400
+Received: from DGGEMS408-HUB.china.huawei.com (unknown [172.30.72.60])
+ by Forcepoint Email with ESMTP id 3B12DB09D2747DC3467B;
+ Sat, 25 Jul 2020 10:59:28 +0800 (CST)
+Received: from huawei.com (10.175.101.6) by DGGEMS408-HUB.china.huawei.com
+ (10.3.19.208) with Microsoft SMTP Server id 14.3.487.0; Sat, 25 Jul 2020
+ 10:59:20 +0800
+From: Chuan Zheng <zhengchuan@huawei.com>
+To: <quintela@redhat.com>, <dgilbert@redhat.com>
+Subject: [RFC PATCH 0/8] *** A Method for evaluating dirty page rate ***
+Date: Sat, 25 Jul 2020 11:11:01 +0800
+Message-ID: <1595646669-109310-1-git-send-email-zhengchuan@huawei.com>
+X-Mailer: git-send-email 1.8.3.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: quoted-printable
-Date: Sat, 25 Jul 2020 03:01:17 -0000
-From: Matthieu Bucchianeri <1888918@bugs.launchpad.net>
-To: qemu-devel@nongnu.org
-X-Launchpad-Notification-Type: bug
-X-Launchpad-Bug: product=qemu; status=New; importance=Undecided;
- assignee=matthieu.bucchianeri@leostella.com; 
-X-Launchpad-Bug-Tags: floating ppc spe
-X-Launchpad-Bug-Information-Type: Public
-X-Launchpad-Bug-Private: no
-X-Launchpad-Bug-Security-Vulnerability: no
-X-Launchpad-Bug-Commenters: matthieu-bucchianeri
-X-Launchpad-Bug-Reporter: Matthieu Bucchianeri (matthieu-bucchianeri)
-X-Launchpad-Bug-Modifier: Matthieu Bucchianeri (matthieu-bucchianeri)
-References: <159564442748.29789.2028598939567190639.malonedeb@chaenomeles.canonical.com>
-Message-Id: <159564607762.29426.2473751573380189941.launchpad@chaenomeles.canonical.com>
-Subject: [Bug 1888918] Re: qemu-ppc: Floating point instructions do not
- properly generate the SPE/Embedded Floating-Point Unavailable interrupt
-X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
-X-Launchpad-Message-For: qemu-devel-ml
-Precedence: bulk
-X-Generated-By: Launchpad (canonical.com);
- Revision="e85d0ab92e2924d39b8285aeae075a01d25eff06";
- Instance="production-secrets-lazr.conf"
-X-Launchpad-Hash: 9a20f24c31830863ece9dc862387f7b6a1282e1a
-Received-SPF: none client-ip=91.189.90.7; envelope-from=bounces@canonical.com;
- helo=indium.canonical.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/07/24 22:40:49
+Content-Type: text/plain
+X-Originating-IP: [10.175.101.6]
+X-CFilter-Loop: Reflected
+Received-SPF: pass client-ip=45.249.212.35; envelope-from=zhengchuan@huawei.com;
+ helo=huawei.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/07/24 22:59:28
 X-ACL-Warn: Detected OS   = Linux 3.11 and newer [fuzzy]
-X-Spam_score_int: -58
-X-Spam_score: -5.9
-X-Spam_bar: -----
-X-Spam_report: (-5.9 / 5.0 requ) BAYES_00=-1.9, HEADER_FROM_DIFFERENT_DOMAINS=1,
- RCVD_IN_DNSWL_HI=-5, RCVD_IN_MSPIKE_H3=-0.01, RCVD_IN_MSPIKE_WL=-0.01,
- SPF_HELO_NONE=0.001, SPF_NONE=0.001,
- URIBL_BLOCKED=0.001 autolearn=ham autolearn_force=no
+X-Spam_score_int: -41
+X-Spam_score: -4.2
+X-Spam_bar: ----
+X-Spam_report: (-4.2 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_MED=-2.3,
+ RCVD_IN_MSPIKE_H4=-0.01, RCVD_IN_MSPIKE_WL=-0.01, SPF_HELO_PASS=-0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
+Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -75,127 +57,66 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Bug 1888918 <1888918@bugs.launchpad.net>
+Cc: zhang.zhanghailiang@huawei.com, linyilu@huawei.com, qemu-devel@nongnu.org,
+ alex.chen@huawei.com, ann.zhuangyanying@huawei.com, fangying1@huawei.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-** Changed in: qemu
-     Assignee: (unassigned) =3D> Matthieu Bucchianeri (matthieu-bucchianeri)
+From: Zheng Chuan <zhengchuan@huawei.com>
 
--- =
+Sometimes it is neccessary to evaluate dirty page rate before migration.
+Users could decide whether to proceed migration based on the evaluation
+in case of vm performance loss due to heavy workload.
+Unlikey simulating dirtylog sync which could do harm on runnning vm,
+we provide a sample-hash method to compare hash results for samping page.
+In this way, it would have hardly no impact on vm performance.
 
-You received this bug notification because you are a member of qemu-
-devel-ml, which is subscribed to QEMU.
-https://bugs.launchpad.net/bugs/1888918
+We evaluate the dirtypage rate on running vm.
+The VM specifications for migration are as follows:
+- VM use 4-K page;
+- the number of VCPU is 32;
+- the total memory is 32Gigabit;
+- use 'mempress' tool to pressurize VM(mempress 4096 1024);
 
-Title:
-  qemu-ppc: Floating point instructions do not properly generate the
-  SPE/Embedded Floating-Point Unavailable interrupt
+++++++++++++++++++++++++++++++++++++++++++
+|                      |    dirtyrate    |
+++++++++++++++++++++++++++++++++++++++++++
+| no mempress          |     4MB/s       |
+------------------------------------------
+| mempress 4096 1024   |    1204MB/s     |
+++++++++++++++++++++++++++++++++++++++++++
+| mempress 4096 4096   |    4000Mb/s     |
+++++++++++++++++++++++++++++++++++++++++++
 
-Status in QEMU:
-  New
+Test dirtyrate by qmp command like this:
+1.  virsh qemu-monitor-command [vmname] '{"execute":"cal_dirty_rate", "arguments": {"value": [sampletime]}}'
+2.  virsh qemu-monitor-command [vmname] '{"execute":"get_dirty_rate"}'
 
-Bug description:
-  When emulating certain floating point instructions or vector
-  instructions on PowerPC machines, QEMU does not properly generate the
-  SPE/Embedded Floating-Point Unavailable interrupt.
+Further test dirtyrate by libvirt api like this:
+virsh getdirtyrate [vmname] [sampletime]
 
-  As described in the Signal Processing Engine (SPE) Programming
-  Environments Manual, Rev. 0, available at https://www.nxp.com/docs/en
-  /reference-manual/SPEPEM.pdf:
+Zheng Chuan (8):
+  migration/dirtyrate: Add get_dirtyrate_thread() function
+  migration/dirtyrate: Add block_dirty_info to store dirtypage info
+  migration/dirtyrate: Add dirtyrate statistics series functions
+  migration/dirtyrate: Record hash results for each ramblock
+  migration/dirtyrate: Compare hash results for recorded ramblock
+  migration/dirtyrate: Implement get_sample_gap_period() and
+    block_sample_gap_period()
+  migration/dirtyrate: Implement calculate_dirtyrate() function
+  migration/dirtyrate: Implement
+    qmp_cal_dirty_rate()/qmp_get_dirty_rate() function
 
-  > An SPE/embedded floating-point unavailable exception occurs on an attem=
-pt to execute any of the
-  > following instructions and MSR[SPV] is not set:
-  > * SPE instruction (except brinc)
-  > * An embedded scalar double-precision instruction
-  > * A vector single-precision floating-point instructions
-  > It is not used by embedded scalar single-precision floating-point instr=
-uctions
+ migration/Makefile.objs |   1 +
+ migration/dirtyrate.c   | 424 ++++++++++++++++++++++++++++++++++++++++++++++++
+ migration/dirtyrate.h   |  67 ++++++++
+ qapi/migration.json     |  24 +++
+ qapi/pragma.json        |   3 +-
+ 5 files changed, 518 insertions(+), 1 deletion(-)
+ create mode 100644 migration/dirtyrate.c
+ create mode 100644 migration/dirtyrate.h
 
-  This behavior was partially reported in Bug #1611394, however the
-  issue is larger than what is described in that bug. As mentioned in
-  that bug, some single-precision instructions generate the exception
-  (while they should not), which is incorrect but does not typically
-  produce an incorrect output. What is more of an issue is that several
-  double-precision and vector instructions do not generate the exception
-  (while they should), and this break support for lazy FPU/vector
-  context switching in Linux (for example).
+-- 
+1.8.3.1
 
-  The upper 32-bit of the double-precision/vector registers (which are
-  in fact hidden in the general purpose registers) is not properly
-  saved/restored, and this causes arithmetic errors. This was observed
-  very frequently on a commercial project that does a lot of double-
-  precision computations. The application works perfectly fine on an
-  MPC8548 CPU, but fails often with QEMU.
-
-  The issue can be reproduced using the attached Linux program "spe-
-  bug.c". This program properly prints the number 42 (as the result of
-  some very simple double-precision computation) on real PowerPC
-  hardware, but prints an incorrect result (typically 0) on QEMU.
-
-  This issue was first discovered in an older version of QEMU, but is
-  also reproduced in the latest:
-
-  # git rev-parse HEAD
-  7adfbea8fd1efce36019a0c2f198ca73be9d3f18
-  # ppc-softmmu/qemu-system-ppc --version
-  QEMU emulator version 5.0.91 (v5.1.0-rc1-28-g7adfbea8fd-dirty)
-  Copyright (c) 2003-2020 Fabrice Bellard and the QEMU Project developers
-
-  Upon further analysis a total of 39 instructions are misbehaving:
-
-  efsabs: raised: 1, expected: 0
-  efsnabs: raised: 1, expected: 0
-  efsneg: raised: 1, expected: 0
-  efdcfs: raised: 0, expected: 1
-  efdcfsf: raised: 0, expected: 1
-  efdcfsi: raised: 0, expected: 1
-  efdcfuf: raised: 0, expected: 1
-  efdcfui: raised: 0, expected: 1
-  efdctsf: raised: 0, expected: 1
-  efdctsi: raised: 0, expected: 1
-  efdctsiz: raised: 0, expected: 1
-  efdctuf: raised: 0, expected: 1
-  efdctui: raised: 0, expected: 1
-  efdctuiz: raised: 0, expected: 1
-  efscfd: raised: 0, expected: 1
-  evfscfsf: raised: 0, expected: 1
-  evfscfsi: raised: 0, expected: 1
-  evfscfuf: raised: 0, expected: 1
-  evfscfui: raised: 0, expected: 1
-  evfsctsf: raised: 0, expected: 1
-  evfsctsi: raised: 0, expected: 1
-  evfsctsiz: raised: 0, expected: 1
-  evfsctuf: raised: 0, expected: 1
-  evfsctui: raised: 0, expected: 1
-  evfsctuiz: raised: 0, expected: 1
-  brinc: raised: 0, expected: 1
-  efsadd: raised: 1, expected: 0
-  efsdiv: raised: 1, expected: 0
-  efsmul: raised: 1, expected: 0
-  efssub: raised: 1, expected: 0
-  evsplatfi: raised: 0, expected: 1
-  evsplati: raised: 0, expected: 1
-  efscmpeq: raised: 1, expected: 0
-  efscmpgt: raised: 1, expected: 0
-  efscmplt: raised: 1, expected: 0
-  efststeq: raised: 1, expected: 0
-  efststgt: raised: 1, expected: 0
-  efststlt: raised: 1, expected: 0
-  evsel: raised: 0, expected: 1
-
-  When "raised" is 0 and "expected" is 1, this means that the SPE/Embedded =
-Floating-Point Unavailable interrupt was not generated while it should have.
-  When "raised" is 1 and "expected" is 0, this means that the SPE/Embedded =
-Floating-Point Unavailable interrupt was generated while it should not have=
- (Bug #1611394).
-
-  A comprehensive program testing all the instructions listed in the
-  Signal Processing Engine (SPE) Programming Environments Manual, Rev. 0
-  is posted in the comments of this ticket, and can be used to reproduce
-  the issue, and validate the future fix.
-
-To manage notifications about this bug go to:
-https://bugs.launchpad.net/qemu/+bug/1888918/+subscriptions
 
