@@ -2,34 +2,34 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4E64322D3FB
-	for <lists+qemu-devel@lfdr.de>; Sat, 25 Jul 2020 04:56:37 +0200 (CEST)
-Received: from localhost ([::1]:60766 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2E48C22D41B
+	for <lists+qemu-devel@lfdr.de>; Sat, 25 Jul 2020 05:05:37 +0200 (CEST)
+Received: from localhost ([::1]:32848 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jzAMV-0007qh-T0
-	for lists+qemu-devel@lfdr.de; Fri, 24 Jul 2020 22:56:35 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:59122)
+	id 1jzAVE-0002ta-9F
+	for lists+qemu-devel@lfdr.de; Fri, 24 Jul 2020 23:05:36 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:59962)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1jzALa-00075L-41
- for qemu-devel@nongnu.org; Fri, 24 Jul 2020 22:55:38 -0400
-Received: from indium.canonical.com ([91.189.90.7]:53048)
+ id 1jzAQe-0004nN-4o
+ for qemu-devel@nongnu.org; Fri, 24 Jul 2020 23:00:52 -0400
+Received: from indium.canonical.com ([91.189.90.7]:53206)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1jzALY-0008I1-33
- for qemu-devel@nongnu.org; Fri, 24 Jul 2020 22:55:37 -0400
+ id 1jzAQb-00018K-Jx
+ for qemu-devel@nongnu.org; Fri, 24 Jul 2020 23:00:51 -0400
 Received: from loganberry.canonical.com ([91.189.90.37])
  by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
- id 1jzALW-0000Ro-V1
- for <qemu-devel@nongnu.org>; Sat, 25 Jul 2020 02:55:34 +0000
+ id 1jzAQZ-0000fG-NC
+ for <qemu-devel@nongnu.org>; Sat, 25 Jul 2020 03:00:47 +0000
 Received: from loganberry.canonical.com (localhost [127.0.0.1])
- by loganberry.canonical.com (Postfix) with ESMTP id E74B22E806D
- for <qemu-devel@nongnu.org>; Sat, 25 Jul 2020 02:55:34 +0000 (UTC)
+ by loganberry.canonical.com (Postfix) with ESMTP id 88BB42E806D
+ for <qemu-devel@nongnu.org>; Sat, 25 Jul 2020 03:00:47 +0000 (UTC)
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: quoted-printable
-Date: Sat, 25 Jul 2020 02:47:49 -0000
+Date: Sat, 25 Jul 2020 02:53:36 -0000
 From: Matthieu Bucchianeri <1888918@bugs.launchpad.net>
 To: qemu-devel@nongnu.org
 X-Launchpad-Notification-Type: bug
@@ -42,7 +42,7 @@ X-Launchpad-Bug-Commenters: matthieu-bucchianeri
 X-Launchpad-Bug-Reporter: Matthieu Bucchianeri (matthieu-bucchianeri)
 X-Launchpad-Bug-Modifier: Matthieu Bucchianeri (matthieu-bucchianeri)
 References: <159564442748.29789.2028598939567190639.malonedeb@chaenomeles.canonical.com>
-Message-Id: <159564526948.4278.11772086539548531559.malone@wampee.canonical.com>
+Message-Id: <159564561650.30581.10869572687954704995.malone@gac.canonical.com>
 Subject: [Bug 1888918] Re: qemu-ppc: Floating point instructions do not
  properly generate the SPE/Embedded Floating-Point Unavailable interrupt
 X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
@@ -51,7 +51,7 @@ Precedence: bulk
 X-Generated-By: Launchpad (canonical.com);
  Revision="e85d0ab92e2924d39b8285aeae075a01d25eff06";
  Instance="production-secrets-lazr.conf"
-X-Launchpad-Hash: 6a4cc4f401adf62fae67af807e2c5e39ecf04dc5
+X-Launchpad-Hash: 30e90f41b13c014f5fc8397434806e8c9048c4af
 Received-SPF: none client-ip=91.189.90.7; envelope-from=bounces@canonical.com;
  helo=indium.canonical.com
 X-detected-operating-system: by eggs.gnu.org: First seen = 2020/07/24 22:40:49
@@ -78,21 +78,30 @@ Reply-To: Bug 1888918 <1888918@bugs.launchpad.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Attaching the output of the test module (above) when run on a real
-MPC8548. This is to establish a baseline validating which instructions
-shall or shall not generate the SPE/Embedded Floating-Point Unavailable
-interrupt.
+Attaching the output of the test module run on QEMU. As shown in the
+description, 39 instructions do not comply with the rule described in
+the Signal Processing Engine (SPE) Programming Environments Manual, Rev.
+0.
 
-Note that on the MPC8548, it is observed that the "brinc" instruction
-does generate the interrupt, which contradicts section 4.2.3
-SPE/Embedded Floating-Point Unavailable Interrupt of the Signal
-Processing Engine (SPE) Programming Environments Manual, Rev. 0 (see the
-quote in the description). The test program was modified to pass 100% on
-real hardware, hence claiming that "brinc" shall generate the interrupt.
+QEMU was run as follows:
 
-** Attachment added: "Results on real hardware (MPC8548)"
-   https://bugs.launchpad.net/qemu/+bug/1888918/+attachment/5395640/+files/=
-result_mpc8548.txt
+# qemu/ppc-softmmu/qemu-system-ppc -nographic -machine mpc8544ds -kernel
+buildroot/output/images/uImage -hda buildroot/output/images/rootfs.cpio
+-append "root=3D/dev/sda rw single"
+
+The Linux image is built using buildroot, and the selected configuration
+is qemu_ppc_mpc8544ds_defconfig with some very mild changes to setup an
+overlay and initramfs.
+
+Then, the module is loaded, output can be observed directly in the
+console, or using dmesg:
+
+# insmod spe-test.ko
+
+
+** Attachment added: "Results on QEMU"
+   https://bugs.launchpad.net/qemu/+bug/1888918/+attachment/5395641/+files/=
+result_qemu_no_fix.txt
 
 -- =
 
