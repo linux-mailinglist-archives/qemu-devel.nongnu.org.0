@@ -2,63 +2,67 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id EBCB322D857
-	for <lists+qemu-devel@lfdr.de>; Sat, 25 Jul 2020 17:07:50 +0200 (CEST)
-Received: from localhost ([::1]:45814 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8813C22D8A1
+	for <lists+qemu-devel@lfdr.de>; Sat, 25 Jul 2020 18:07:20 +0200 (CEST)
+Received: from localhost ([::1]:55778 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jzLmA-0007is-1l
-	for lists+qemu-devel@lfdr.de; Sat, 25 Jul 2020 11:07:50 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:41906)
+	id 1jzMhj-00037t-1g
+	for lists+qemu-devel@lfdr.de; Sat, 25 Jul 2020 12:07:19 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:54838)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <zong.li@sifive.com>)
- id 1jzLl3-0006tm-0Y
- for qemu-devel@nongnu.org; Sat, 25 Jul 2020 11:06:42 -0400
-Received: from mail-ot1-x344.google.com ([2607:f8b0:4864:20::344]:33948)
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1jzMgN-0001qu-UK
+ for qemu-devel@nongnu.org; Sat, 25 Jul 2020 12:05:55 -0400
+Received: from mail-pl1-x62b.google.com ([2607:f8b0:4864:20::62b]:40536)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <zong.li@sifive.com>)
- id 1jzLl1-0000Z6-1P
- for qemu-devel@nongnu.org; Sat, 25 Jul 2020 11:06:40 -0400
-Received: by mail-ot1-x344.google.com with SMTP id a26so400071otf.1
- for <qemu-devel@nongnu.org>; Sat, 25 Jul 2020 08:06:38 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=sifive.com; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=XttOHD7A3DU9UnjTX4sQKU0XSSsO6qOpX3u6elnBRko=;
- b=fktfSZai1mwBY5mtwk5ddn7KR6t6ruLpeKaJOO9OENIIn7+JpaQXbkQGFSUdEOmj1g
- xeTM4nDPCffVe+idQSNwuQerU0zGp3jWPso/MzMc3T21lZeKT/t/y3izJQP8PC7eu6iC
- w9iHHnHMNi+RNSaaPksCNbfx59lXAlRfWNohxaVzLcxiflqhq01kbqA26bDh/1h4Roi/
- r1g1Amdbc7xAP1WwZfdPl9ncuO4H8U+WcKuPUBIS1G+Lvz5FScBYGOPw8wWAcdBw2Rx6
- RamdnOeEG02Ci92iWFWr1tr/sF88srfOvsKrs4PkkBqK4qaQYNg/q5FQR9P3x2D6f2tI
- rsDg==
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1jzMgL-0001q9-Dp
+ for qemu-devel@nongnu.org; Sat, 25 Jul 2020 12:05:55 -0400
+Received: by mail-pl1-x62b.google.com with SMTP id l6so6046733plt.7
+ for <qemu-devel@nongnu.org>; Sat, 25 Jul 2020 09:05:51 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=TOiPHdrWGd3USqbgE1Jzqj9/fNwB4MC0K6RANI19f4k=;
+ b=EOJxdu9UMt/6ydgPv8fiiYHwSWqjPdR/2dfGUAaN+RsL4mPGMwe4ZI1j/7ZjxY3U0v
+ dJSQraaPvvPvj/HWYv5zaj1rQT/KCDn5wDfoo2EuUUxeOj95ziYKUaHVw4SPVIpewEwl
+ kh675BwiHbBJzc6X8g4082HmJH2Mi1bmsL/hAUKqUiqJ7iGfNmquTnx2o8hkd8Ie7aUH
+ goORagjfSgITvhHFjzChZ8crZT9JqQDFlen/MrbCATVrX4cc8S9Avcz5CKJAs6WSyW4c
+ j3oPW6yQ7DqW5Jx8HNAhDKLL+ia94no8HijLJLSbdTlGqUqgHcHCXcKvfTrywIxtcO6j
+ tqgA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=XttOHD7A3DU9UnjTX4sQKU0XSSsO6qOpX3u6elnBRko=;
- b=c8yq410gVcl8g8gOfy4E8ZhyijOk2zurvEt/nb6pMzXaxSr4BAs4kSOXOWhws/W5mS
- 4cXFwWENia61a8MTF38OppvOh7OXhyM3UowOqTbDdV10xJ1uMkliW2pN6+7HR0UGzxSJ
- QpVtuP7ZUiZkV6QGtMDliE90cIf2K27QgZkwt0Ou1dUWIH1Wzr1hhqUUftXLDtoqYVs3
- h/Gzh5Y56IxJuuM7tEkxIaJg2HUYsUgQLloEPIym/gV3v6lqJBxquJyp6jKvGuCxTeFG
- 0W6U0oysvmzW+wvMJGz+zbO2U+e6zqObpuLpvdC4fP9huCtMXiiRN68O4wcB0ltPcM0O
- KCcw==
-X-Gm-Message-State: AOAM533kLbXGECs9h5Ht/z6WyM9/bvIJZEj4S95DwXY2Ka1ZKOWJmEnQ
- hqRFQATW15UJ1XkyEwTlObimOy310zrqvjGPGd6pfA==
-X-Google-Smtp-Source: ABdhPJwR+Dk4vJ/9wC11WXJRDChrhJkYyEjcYRxKpawV+PfgobvQ7MYoPnpxZ6zi97Ud4oGVXPN+2nChrNuS86kAqx8=
-X-Received: by 2002:a9d:708e:: with SMTP id l14mr14318006otj.127.1595689597812; 
- Sat, 25 Jul 2020 08:06:37 -0700 (PDT)
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=TOiPHdrWGd3USqbgE1Jzqj9/fNwB4MC0K6RANI19f4k=;
+ b=twA9JgqOxXV30uoRjJ089WuS/LiQNkoMCBPu2aVG1IzBDyNcr5VMm0N0Q11W8OIeHA
+ SiYujHfWnvBL5w8T9cK84jAbd3dYmuNwnKWyviSX5RLHgQFoCcBq61TEG+JOpWcRKA/k
+ Oz74Fyiwd/EqBg+SVVetFlhIlu9lbiFZ/JaZsIlQ/2uh/jyUEx7O1PnyUy4IJxBdOgJh
+ GgfYJTWmSieZbzb1rKn4WxOtfl7qy/5krfUhatdE5ATDTb6f/MhagLfPiBwEZK7QPBvT
+ jy8AZOtE5hEURcSHu/1wxJHZLhv/I9kKp7rbuKaYrmqEgBPxS1yhAmf4Q+BfNktzVl5D
+ VOnQ==
+X-Gm-Message-State: AOAM530S0lZxF02Tp+UqoAlPuyG0ICX8uQ24dJWns8Q9ZlCYoaL+ew+D
+ FQVadNhHedR36BrqXxfywEpNy9W4LM8=
+X-Google-Smtp-Source: ABdhPJwa1Djp4STd5oNF8JXbRo9vA81SsK3+bSiYCzrwH2YJon2Q5J7nM/eevmTZDy0r1oz48oR8cQ==
+X-Received: by 2002:a17:90a:8c7:: with SMTP id 7mr10221855pjn.76.1595693150057; 
+ Sat, 25 Jul 2020 09:05:50 -0700 (PDT)
+Received: from localhost.localdomain (216-160-65-90.tukw.qwest.net.
+ [216.160.65.90])
+ by smtp.gmail.com with ESMTPSA id e18sm9731801pff.37.2020.07.25.09.05.48
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Sat, 25 Jul 2020 09:05:49 -0700 (PDT)
+From: Richard Henderson <richard.henderson@linaro.org>
+To: qemu-devel@nongnu.org
+Subject: [PULL 0/3] misc tcg-related patches
+Date: Sat, 25 Jul 2020 09:05:45 -0700
+Message-Id: <20200725160548.750749-1-richard.henderson@linaro.org>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-References: <cover.1595581140.git.zong.li@sifive.com>
- <56c2770fc75e1e0c833248ea5d9faa038b69e328.1595581140.git.zong.li@sifive.com>
- <CAEUhbmX-va3wLY_aU7QYXE0ke0sn-4mfenz5Mszy+2k9NMib9A@mail.gmail.com>
-In-Reply-To: <CAEUhbmX-va3wLY_aU7QYXE0ke0sn-4mfenz5Mszy+2k9NMib9A@mail.gmail.com>
-From: Zong Li <zong.li@sifive.com>
-Date: Sat, 25 Jul 2020 23:06:27 +0800
-Message-ID: <CANXhq0oDTLKQ-2c90h9J0G2Pj58=na2goby4u9Z3mctZRzwYOg@mail.gmail.com>
-Subject: Re: [PATCH v4 2/4] target/riscv/pmp.c: Fix the index offset on RV64
-To: Bin Meng <bmeng.cn@gmail.com>
-Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2607:f8b0:4864:20::344;
- envelope-from=zong.li@sifive.com; helo=mail-ot1-x344.google.com
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=2607:f8b0:4864:20::62b;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pl1-x62b.google.com
 X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
  That's all we know.
 X-Spam_score_int: -20
@@ -66,8 +70,8 @@ X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
  DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- URIBL_BLOCKED=0.001 autolearn=unavailable autolearn_force=no
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -80,70 +84,37 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: "open list:RISC-V" <qemu-riscv@nongnu.org>,
- Sagar Karandikar <sagark@eecs.berkeley.edu>,
- Bastian Koppelmann <kbastian@mail.uni-paderborn.de>,
- "qemu-devel@nongnu.org Developers" <qemu-devel@nongnu.org>,
- Alistair Francis <Alistair.Francis@wdc.com>,
- Palmer Dabbelt <palmer@dabbelt.com>
+Cc: peter.maydell@linaro.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Fri, Jul 24, 2020 at 5:22 PM Bin Meng <bmeng.cn@gmail.com> wrote:
->
-> Hi Zong,
->
-> On Fri, Jul 24, 2020 at 5:08 PM Zong Li <zong.li@sifive.com> wrote:
-> >
-> > On RV64, the reg_index is 2 (pmpcfg2 CSR) after the seventh pmp
-> > entry, it is not 1 (pmpcfg1 CSR) like RV32. In the original
-> > implementation, the second parameter of pmp_write_cfg is
-> > "reg_index * sizeof(target_ulong)", and we get the the result
-> > which is started from 16 if reg_index is 2, but we expect that
-> > it should be started from 8. Separate the implementation for
-> > RV32 and RV64 respectively.
-> >
-> > Signed-off-by: Zong Li <zong.li@sifive.com>
-> > ---
-> >  target/riscv/pmp.c | 8 ++++++++
-> >  1 file changed, 8 insertions(+)
-> >
-> > diff --git a/target/riscv/pmp.c b/target/riscv/pmp.c
-> > index 2a2b9f5363..e0161d6aab 100644
-> > --- a/target/riscv/pmp.c
-> > +++ b/target/riscv/pmp.c
-> > @@ -310,6 +310,10 @@ void pmpcfg_csr_write(CPURISCVState *env, uint32_t reg_index,
-> >      int i;
-> >      uint8_t cfg_val;
-> >
-> > +#if defined(TARGET_RISCV64)
-> > +    reg_index >>= 1;
-> > +#endif
-> > +
-> >      trace_pmpcfg_csr_write(env->mhartid, reg_index, val);
-> >
-> >      if ((reg_index & 1) && (sizeof(target_ulong) == 8)) {
-> > @@ -335,6 +339,10 @@ target_ulong pmpcfg_csr_read(CPURISCVState *env, uint32_t reg_index)
-> >      target_ulong cfg_val = 0;
-> >      target_ulong val = 0;
-> >
-> > +#if defined(TARGET_RISCV64)
-> > +    reg_index >>= 1;
-> > +#endif
-> > +
-> >      for (i = 0; i < sizeof(target_ulong); i++) {
-> >          val = pmp_read_cfg(env, (reg_index * sizeof(target_ulong)) + i);
-> >          cfg_val |= (val << (i * 8));
-> > --
->
-> It seems you missed to address my review comments in v3? reg_index
-> should be shifted after we call the trace function.
->
+The following changes since commit 7adfbea8fd1efce36019a0c2f198ca73be9d3f18:
 
-Sorry for that, there was something wrong in my local tree, I have
-been posting the 5th version patches, and hope it picks the suggestion
-already. Thanks.
+  Merge remote-tracking branch 'remotes/ehabkost/tags/x86-next-for-5.1-pull-request' into staging (2020-07-24 10:52:20 +0100)
 
-> Regards,
-> Bin
+are available in the Git repository at:
+
+  https://github.com/rth7680/qemu.git tags/pull-tcg-20200725
+
+for you to fetch changes up to 3cb3a7720b01830abd5fbb81819dbb9271bf7821:
+
+  target/i386: Save cc_op before loop insns (2020-07-24 14:29:35 -0700)
+
+----------------------------------------------------------------
+Fix some cputlb commentary
+Fix an hppa temporary leak
+Fix an i386 translation issue with loop insns
+
+----------------------------------------------------------------
+Alex Bennée (1):
+      tcg: update comments for save_iotlb_data in cputlb
+
+Richard Henderson (2):
+      target/hppa: Free some temps in do_sub
+      target/i386: Save cc_op before loop insns
+
+ accel/tcg/cputlb.c      | 11 +++++------
+ target/hppa/translate.c |  2 ++
+ target/i386/translate.c |  1 +
+ 3 files changed, 8 insertions(+), 6 deletions(-)
 
