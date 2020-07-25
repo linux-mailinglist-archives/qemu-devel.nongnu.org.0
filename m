@@ -2,35 +2,35 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5129322D405
-	for <lists+qemu-devel@lfdr.de>; Sat, 25 Jul 2020 05:01:13 +0200 (CEST)
-Received: from localhost ([::1]:42818 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 66C8022D407
+	for <lists+qemu-devel@lfdr.de>; Sat, 25 Jul 2020 05:01:17 +0200 (CEST)
+Received: from localhost ([::1]:43154 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jzAQy-0003qz-CV
-	for lists+qemu-devel@lfdr.de; Fri, 24 Jul 2020 23:01:12 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:59620)
+	id 1jzAR2-00040L-BB
+	for lists+qemu-devel@lfdr.de; Fri, 24 Jul 2020 23:01:16 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:59628)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <zhengchuan@huawei.com>)
- id 1jzAPU-00024n-Vq
- for qemu-devel@nongnu.org; Fri, 24 Jul 2020 22:59:40 -0400
-Received: from szxga07-in.huawei.com ([45.249.212.35]:33212 helo=huawei.com)
+ id 1jzAPV-000269-Dv
+ for qemu-devel@nongnu.org; Fri, 24 Jul 2020 22:59:41 -0400
+Received: from szxga07-in.huawei.com ([45.249.212.35]:33214 helo=huawei.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <zhengchuan@huawei.com>)
- id 1jzAPQ-0000k7-M8
- for qemu-devel@nongnu.org; Fri, 24 Jul 2020 22:59:40 -0400
-Received: from DGGEMS408-HUB.china.huawei.com (unknown [172.30.72.60])
- by Forcepoint Email with ESMTP id 3691A90B99F7B96B7017;
+ id 1jzAPQ-0000k8-NK
+ for qemu-devel@nongnu.org; Fri, 24 Jul 2020 22:59:41 -0400
+Received: from DGGEMS408-HUB.china.huawei.com (unknown [172.30.72.58])
+ by Forcepoint Email with ESMTP id 6A9CB38F33A4A384F404;
  Sat, 25 Jul 2020 10:59:28 +0800 (CST)
 Received: from huawei.com (10.175.101.6) by DGGEMS408-HUB.china.huawei.com
  (10.3.19.208) with Microsoft SMTP Server id 14.3.487.0; Sat, 25 Jul 2020
- 10:59:20 +0800
+ 10:59:21 +0800
 From: Chuan Zheng <zhengchuan@huawei.com>
 To: <quintela@redhat.com>, <dgilbert@redhat.com>
-Subject: [RFC PATCH 1/8] migration/dirtyrate: Add get_dirtyrate_thread()
- function
-Date: Sat, 25 Jul 2020 11:11:02 +0800
-Message-ID: <1595646669-109310-2-git-send-email-zhengchuan@huawei.com>
+Subject: [RFC PATCH 2/8] migration/dirtyrate: Add block_dirty_info to store
+ dirtypage info
+Date: Sat, 25 Jul 2020 11:11:03 +0800
+Message-ID: <1595646669-109310-3-git-send-email-zhengchuan@huawei.com>
 X-Mailer: git-send-email 1.8.3.1
 In-Reply-To: <1595646669-109310-1-git-send-email-zhengchuan@huawei.com>
 References: <1595646669-109310-1-git-send-email-zhengchuan@huawei.com>
@@ -67,130 +67,38 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Zheng Chuan <zhengchuan@huawei.com>
 
-Add get_dirtyrate_thread() functions
+Add block_dirty_info to store dirtypage info for each ramblock
 
 Signed-off-by: Zheng Chuan <zhengchuan@huawei.com>
 Signed-off-by: YanYing Zhang <ann.zhuangyanying@huawei.com>
 ---
- migration/dirtyrate.c | 63 +++++++++++++++++++++++++++++++++++++++++++++++++++
- migration/dirtyrate.h | 38 +++++++++++++++++++++++++++++++
- 2 files changed, 101 insertions(+)
- create mode 100644 migration/dirtyrate.c
- create mode 100644 migration/dirtyrate.h
+ migration/dirtyrate.h | 13 +++++++++++++
+ 1 file changed, 13 insertions(+)
 
-diff --git a/migration/dirtyrate.c b/migration/dirtyrate.c
-new file mode 100644
-index 0000000..fc652fb
---- /dev/null
-+++ b/migration/dirtyrate.c
-@@ -0,0 +1,63 @@
-+/*
-+ * Dirtyrate implement code
-+ *
-+ * Copyright (c) 2017-2020 HUAWEI TECHNOLOGIES CO.,LTD.
-+ *
-+ * Authors:
-+ *  Chuan Zheng <zhengchuan@huawei.com>
-+ *
-+ * This work is licensed under the terms of the GNU GPL, version 2 or later.
-+ * See the COPYING file in the top-level directory.
-+ */
-+
-+#include "dirtyrate.h"
-+
-+static uint64_t sample_pages_per_gigabytes = DIRTYRATE_DEFAULT_SAMPLE_PAGES;
-+static uint64_t dirty_rate; /* MB/s */
-+CalculatingDirtyRateStage calculating_dirty_rate_stage = CAL_DIRTY_RATE_INIT;
-+
-+static bool calculate_dirtyrate(struct dirtyrate_config config,
-+                        uint64_t *dirty_rate, int64_t time)
-+{
-+    /* todo */
-+    return true;
-+}
-+
-+static void set_dirty_rate(uint64_t drate)
-+{
-+    dirty_rate = drate;
-+}
-+
-+/*
-+ * There are multithread will write/read *calculating_dirty_rate_stage*,
-+ * we can protect only one thread write/read it by libvirt api.
-+ * So we don't add mutex_lock to protect it here, but we must calculate
-+ * dirty_rate by libvirt api.
-+ */
-+static void set_dirty_rate_stage(CalculatingDirtyRateStage ratestage)
-+{
-+    calculating_dirty_rate_stage = ratestage;
-+}
-+
-+void *get_dirtyrate_thread(void *arg)
-+{
-+    struct dirtyrate_config config = *(struct dirtyrate_config *)arg;
-+    uint64_t dirty_rate;
-+    uint64_t hash_dirty_rate;
-+    bool query_succ;
-+    int64_t msec = 0;
-+ 
-+    set_dirty_rate_stage(CAL_DIRTY_RATE_ING);
-+
-+    query_succ = calculate_dirtyrate(config, &hash_dirty_rate, msec);
-+    if (!query_succ) {
-+        dirty_rate = 0;
-+    } else {
-+        dirty_rate = hash_dirty_rate;
-+    }
-+
-+    set_dirty_rate(dirty_rate);
-+    set_dirty_rate_stage(CAL_DIRTY_RATE_END);
-+
-+    return NULL;
-+}
 diff --git a/migration/dirtyrate.h b/migration/dirtyrate.h
-new file mode 100644
-index 0000000..9a5c228
---- /dev/null
+index 9a5c228..342b89f 100644
+--- a/migration/dirtyrate.h
 +++ b/migration/dirtyrate.h
-@@ -0,0 +1,38 @@
-+/*
-+ *  Dirtyrate common functions
-+ *
-+ *  Copyright (c) 2020 HUAWEI TECHNOLOGIES CO., LTD.
-+ *
-+ *  Authors:
-+ *  Chuan Zheng <zhengchuan@huawei.com>
-+ *
-+ *  This work is licensed under the terms of the GNU GPL, version 2 or later.
-+ *  See the COPYING file in the top-level directory.
+@@ -33,6 +33,19 @@ typedef enum {
+     CAL_DIRTY_RATE_END   = 2,
+ } CalculatingDirtyRateStage;
+ 
++/* 
++ * Store dirtypage info for each block.
 + */
-+
-+#ifndef QEMU_MIGRATION_DIRTYRATE_H
-+#define QEMU_MIGRATION_DIRTYRATE_H
-+
-+/* take 256 pages per GB for cal dirty rate */
-+#define DIRTYRATE_DEFAULT_SAMPLE_PAGES    256
-+
-+struct dirtyrate_config {
-+    uint64_t sample_pages_per_gigabytes;
-+    int64_t sample_period_seconds;
++struct block_dirty_info {
++    char idstr[BLOCK_INFO_MAX_LEN];
++    uint8_t *block_addr;
++    unsigned long block_pages;
++    unsigned long *sample_page_vfn;
++    unsigned int sample_pages_count;
++    unsigned int sample_dirty_count;
++    uint8_t *hash_result;
 +};
 +
-+/*
-+ *  To record calculate dirty_rate status:
-+ *  0: initial status, calculating thread is not be created here.
-+ *  1: calculating thread is created.
-+ *  2: calculating thread is end, we can get result.
-+ */
-+typedef enum {
-+    CAL_DIRTY_RATE_INIT  = 0,
-+    CAL_DIRTY_RATE_ING   = 1,
-+    CAL_DIRTY_RATE_END   = 2,
-+} CalculatingDirtyRateStage;
-+
-+void *get_dirtyrate_thread(void *arg);
-+#endif
-+
+ void *get_dirtyrate_thread(void *arg);
+ #endif
+ 
 -- 
 1.8.3.1
 
