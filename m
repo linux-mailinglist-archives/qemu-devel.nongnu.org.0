@@ -2,70 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0C13822D850
-	for <lists+qemu-devel@lfdr.de>; Sat, 25 Jul 2020 17:06:37 +0200 (CEST)
-Received: from localhost ([::1]:42852 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 97E4922D858
+	for <lists+qemu-devel@lfdr.de>; Sat, 25 Jul 2020 17:07:57 +0200 (CEST)
+Received: from localhost ([::1]:46182 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jzLky-0006Vb-3w
-	for lists+qemu-devel@lfdr.de; Sat, 25 Jul 2020 11:06:36 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:40998)
+	id 1jzLmG-0007rn-M0
+	for lists+qemu-devel@lfdr.de; Sat, 25 Jul 2020 11:07:56 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:41024)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <zong.li@sifive.com>)
- id 1jzLiB-0002pG-3Y
- for qemu-devel@nongnu.org; Sat, 25 Jul 2020 11:03:43 -0400
-Received: from mail-pg1-x541.google.com ([2607:f8b0:4864:20::541]:43894)
+ id 1jzLiC-0002tE-U3
+ for qemu-devel@nongnu.org; Sat, 25 Jul 2020 11:03:44 -0400
+Received: from mail-pg1-x543.google.com ([2607:f8b0:4864:20::543]:36962)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <zong.li@sifive.com>)
- id 1jzLi9-00088o-0F
- for qemu-devel@nongnu.org; Sat, 25 Jul 2020 11:03:42 -0400
-Received: by mail-pg1-x541.google.com with SMTP id w2so6974345pgg.10
- for <qemu-devel@nongnu.org>; Sat, 25 Jul 2020 08:03:40 -0700 (PDT)
+ id 1jzLiA-00089O-VR
+ for qemu-devel@nongnu.org; Sat, 25 Jul 2020 11:03:44 -0400
+Received: by mail-pg1-x543.google.com with SMTP id d4so6999695pgk.4
+ for <qemu-devel@nongnu.org>; Sat, 25 Jul 2020 08:03:42 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=sifive.com; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=4QaCAi9itYTAEWQbQQ1orCya0omL343c9jLTjKapu5Y=;
- b=Tox6xcq+2y9PgheBWJL4mk9bIPp0g3H4V8lbWcjKyx2MIZL/wZrii5uCeeCVFlruyb
- WkI+YJzHdYMqihv+24SBRv+mhD7vYlWW2LuM1tyaXbmc+dNF8/M4gPamHz58bwNnZncS
- xF3hlzrx0/wGBFIj3y3T82kUXbxZf81dUSE24c28wtI3ihrIljsuj7etH0YKS2JVVH0x
- 19dzmvGZSKDqLHV6lkoL9tBRC4eO/FLK9fYR5op5ZMQjGitky2yq0OEiwEISU2jnp0ve
- 5dGh0c0bXcqZitWn92AGyfGqp2iqEfL8oBMtXweDmH+dEvck81ntfSsdUYOOCTZhtYJq
- zFHQ==
+ bh=InaCMlegJaWsB2fv1wyQxNhfO4TjO2lCW/QNWh+yG2U=;
+ b=LXT6QVPWEo9uD29dV7Jfx9rKLwckDM8clpnN8hphx97+ISnrES+UVOzLGCV6CzK3tK
+ gT1Yw31LzH76OlXkUwyLsNnYl8b0k5zGjtb/CoT/i58lgUxSuj5I2M98MhQx1DUbl+dV
+ iNmcusddOC+fm6fU9PrmU0/FpC7mysm6uKFh71h+CBixpiFPSxVGP+kQv+orWL6hmf2y
+ jpVWkprbcp3gEOZxy2RYdnBWjvFtIbG9QfinEajzfxv7gFgVf41wUtFXvndonQEDcuRd
+ NX3QppqD2Qc2kF1DNJVnTmiiIW4ntdo06UqDxZ3wGgtLekOCmggE0ozMJMTGRyHhfXya
+ lK/A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=4QaCAi9itYTAEWQbQQ1orCya0omL343c9jLTjKapu5Y=;
- b=mhXxHeNDQ9S5UOXYYvwZEe6kYwYchpPSzOpbiYgtXKri+8hbV/WPh0Ry6okqOKNkc9
- OqYhYvs5JViWeLuWD227InzxkCdsLXF6/rAlggtjdvgbnEbXmWG2H8dJpDgxgtHH1yfb
- Wdl+NfYv2PxHs5X0y2uzQTDqptM5orMDJo/kJbRdU9Ojqm8o6DVCGqW6W8/8htOzKrM2
- p6t+NqXWAPAgimUOpiCWy4+xqp3FweCVSgdNfvIn9c+Blyz3dmo64pLqF5RyibyIY/o+
- icVA4QtDtbK6kQ4cycC2gXkooyLgo/62Tmwj1XI8g45OD1ajgMuMWXbBNsKBt2znpfGp
- zzLg==
-X-Gm-Message-State: AOAM532DlyfMBWkWluBO5U7OrCLLKnuI0kMEYKgkoqHfSl2sxzhSI1so
- a1NWzrbfqM47gyG2iV3IHzsTtA==
-X-Google-Smtp-Source: ABdhPJzWdntjR9EXFrAPIk5gI98/3q6RKbuRJo+C6AHM7ZRK/b3+1o7JR467NxFxikngnhgGRjFADA==
-X-Received: by 2002:a65:4549:: with SMTP id x9mr12417643pgr.415.1595689419741; 
- Sat, 25 Jul 2020 08:03:39 -0700 (PDT)
+ bh=InaCMlegJaWsB2fv1wyQxNhfO4TjO2lCW/QNWh+yG2U=;
+ b=L3AtpHeEFsu7NRTTmbOzf5NF97a2PPM0ja293F5/Hh5Erq9SknUMAgQnbaCP2QkStL
+ jFCreEfTjM0187j7gLxutnwqZCtacEoWrW3IXCc5guyS4//V4Sao5xg84/evBEWhieh4
+ EZjujXMnFQ5AljwsswCC8P7m9lyit6hk0TT2HSu1AdtmBF3EpEZfso7Zo/Akw2ky0dXX
+ KlUc6U4Bb9hgjZLz1mCOWTb0kUb5acO13KoPDZCnw/EDqsGQmi8bVwqo0xlD4U2TenwS
+ FaI+UHWGae1J6hWc8jIubCnBU+39Xock02HM0WNhGMUEr9KqVwWpbLWQY1CIlE2QCXX7
+ YUBQ==
+X-Gm-Message-State: AOAM533SD5+TaYgRppQQifJQTcwsH1vces6PiwfuNm0ekOX10D9bAgsE
+ 6tlOxA54aoaCw1Tef3fQSkheJg==
+X-Google-Smtp-Source: ABdhPJz6z00QVfRK1pZ9pBxWqxCmu36sjVK0t6Qy1kFJ7mOAEhzQgw/CvYWQ9EH0t4VF/vhUko384w==
+X-Received: by 2002:aa7:9a03:: with SMTP id w3mr12976992pfj.228.1595689421643; 
+ Sat, 25 Jul 2020 08:03:41 -0700 (PDT)
 Received: from hsinchu02.internal.sifive.com
  (114-34-229-221.HINET-IP.hinet.net. [114.34.229.221])
- by smtp.gmail.com with ESMTPSA id g22sm9059783pgb.82.2020.07.25.08.03.38
+ by smtp.gmail.com with ESMTPSA id g22sm9059783pgb.82.2020.07.25.08.03.39
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sat, 25 Jul 2020 08:03:39 -0700 (PDT)
+ Sat, 25 Jul 2020 08:03:41 -0700 (PDT)
 From: Zong Li <zong.li@sifive.com>
 To: palmer@dabbelt.com, Alistair.Francis@wdc.com, bmeng.cn@gmail.com,
  sagark@eecs.berkeley.edu, kbastian@mail.uni-paderborn.de,
  qemu-riscv@nongnu.org, qemu-devel@nongnu.org
-Subject: [PATCH v5 3/4] target/riscv: Fix the translation of physical address
-Date: Sat, 25 Jul 2020 23:03:26 +0800
-Message-Id: <a3b3b05f429a50b5ea061f4e8385d4f8d6d77d58.1595689201.git.zong.li@sifive.com>
+Subject: [PATCH v5 4/4] target/riscv: Change the TLB page size depends on PMP
+ entries.
+Date: Sat, 25 Jul 2020 23:03:27 +0800
+Message-Id: <3b5c4ba2f6ea6fe0a40edd41b02b3d22db2de639.1595689201.git.zong.li@sifive.com>
 X-Mailer: git-send-email 2.27.0
 In-Reply-To: <cover.1595689201.git.zong.li@sifive.com>
 References: <cover.1595689201.git.zong.li@sifive.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::541;
- envelope-from=zong.li@sifive.com; helo=mail-pg1-x541.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::543;
+ envelope-from=zong.li@sifive.com; helo=mail-pg1-x543.google.com
 X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
  That's all we know.
 X-Spam_score_int: -20
@@ -74,7 +75,7 @@ X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
  DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- URIBL_BLOCKED=0.001 autolearn=unavailable autolearn_force=no
+ URIBL_BLOCKED=0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -91,31 +92,119 @@ Cc: Zong Li <zong.li@sifive.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The real physical address should add the 12 bits page offset. It also
-causes the PMP wrong checking due to the minimum granularity of PMP is
-4 byte, but we always get the physical address which is 4KB alignment,
-that means, we always use the start address of the page to check PMP for
-all addresses which in the same page.
+The minimum granularity of PMP is 4 bytes, it is small than 4KB page
+size, therefore, the pmp checking would be ignored if its range doesn't
+start from the alignment of one page. This patch detects the pmp entries
+and sets the small page size to TLB if there is a PMP entry which cover
+the page size.
 
 Signed-off-by: Zong Li <zong.li@sifive.com>
 ---
- target/riscv/cpu_helper.c | 3 ++-
- 1 file changed, 2 insertions(+), 1 deletion(-)
+ target/riscv/cpu_helper.c | 10 ++++++--
+ target/riscv/pmp.c        | 52 +++++++++++++++++++++++++++++++++++++++
+ target/riscv/pmp.h        |  2 ++
+ 3 files changed, 62 insertions(+), 2 deletions(-)
 
 diff --git a/target/riscv/cpu_helper.c b/target/riscv/cpu_helper.c
-index 75d2ae3434..08b069f0c9 100644
+index 08b069f0c9..b3013bc91e 100644
 --- a/target/riscv/cpu_helper.c
 +++ b/target/riscv/cpu_helper.c
-@@ -543,7 +543,8 @@ restart:
-             /* for superpage mappings, make a fake leaf PTE for the TLB's
-                benefit. */
-             target_ulong vpn = addr >> PGSHIFT;
--            *physical = (ppn | (vpn & ((1L << ptshift) - 1))) << PGSHIFT;
-+            *physical = ((ppn | (vpn & ((1L << ptshift) - 1))) << PGSHIFT) |
-+                        (addr & ~TARGET_PAGE_MASK);
+@@ -693,6 +693,7 @@ bool riscv_cpu_tlb_fill(CPUState *cs, vaddr address, int size,
+     bool first_stage_error = true;
+     int ret = TRANSLATE_FAIL;
+     int mode = mmu_idx;
++    target_ulong tlb_size = 0;
  
-             /* set permissions on the TLB entry */
-             if ((pte & PTE_R) || ((pte & PTE_X) && mxr)) {
+     env->guest_phys_fault_addr = 0;
+ 
+@@ -784,8 +785,13 @@ bool riscv_cpu_tlb_fill(CPUState *cs, vaddr address, int size,
+     }
+ 
+     if (ret == TRANSLATE_SUCCESS) {
+-        tlb_set_page(cs, address & TARGET_PAGE_MASK, pa & TARGET_PAGE_MASK,
+-                     prot, mmu_idx, TARGET_PAGE_SIZE);
++        if (pmp_is_range_in_tlb(env, pa & TARGET_PAGE_MASK, &tlb_size)) {
++            tlb_set_page(cs, address & ~(tlb_size - 1), pa & ~(tlb_size - 1),
++                         prot, mmu_idx, tlb_size);
++        } else {
++            tlb_set_page(cs, address & TARGET_PAGE_MASK, pa & TARGET_PAGE_MASK,
++                         prot, mmu_idx, TARGET_PAGE_SIZE);
++        }
+         return true;
+     } else if (probe) {
+         return false;
+diff --git a/target/riscv/pmp.c b/target/riscv/pmp.c
+index aeba796484..adadf6e9ba 100644
+--- a/target/riscv/pmp.c
++++ b/target/riscv/pmp.c
+@@ -393,3 +393,55 @@ target_ulong pmpaddr_csr_read(CPURISCVState *env, uint32_t addr_index)
+ 
+     return val;
+ }
++
++/*
++ * Calculate the TLB size if the start address or the end address of
++ * PMP entry is presented in thie TLB page.
++ */
++static target_ulong pmp_get_tlb_size(CPURISCVState *env, int pmp_index,
++    target_ulong tlb_sa, target_ulong tlb_ea)
++{
++    target_ulong pmp_sa = env->pmp_state.addr[pmp_index].sa;
++    target_ulong pmp_ea = env->pmp_state.addr[pmp_index].ea;
++
++    if (pmp_sa >= tlb_sa && pmp_ea <= tlb_ea) {
++        return pmp_ea - pmp_sa + 1;
++    }
++
++    if (pmp_sa >= tlb_sa && pmp_sa <= tlb_ea && pmp_ea >= tlb_ea) {
++        return tlb_ea - pmp_sa + 1;
++    }
++
++    if (pmp_ea <= tlb_ea && pmp_ea >= tlb_sa && pmp_sa <= tlb_sa) {
++        return pmp_ea - tlb_sa + 1;
++    }
++
++    return 0;
++}
++
++/*
++ * Check is there a PMP entry whcih range covers this page. If so,
++ * try to find the minimum granularity for the TLB size.
++ */
++bool pmp_is_range_in_tlb(CPURISCVState *env, hwaddr tlb_sa,
++    target_ulong *tlb_size)
++{
++    int i;
++    target_ulong val;
++    target_ulong tlb_ea = (tlb_sa + TARGET_PAGE_SIZE - 1);
++
++    for (i = 0; i < MAX_RISCV_PMPS; i++) {
++        val = pmp_get_tlb_size(env, i, tlb_sa, tlb_ea);
++        if (val) {
++            if (*tlb_size == 0 || *tlb_size > val) {
++                *tlb_size = val;
++            }
++        }
++    }
++
++    if (*tlb_size != 0) {
++        return true;
++    }
++
++    return false;
++}
+diff --git a/target/riscv/pmp.h b/target/riscv/pmp.h
+index 8e19793132..c70f2ea4c4 100644
+--- a/target/riscv/pmp.h
++++ b/target/riscv/pmp.h
+@@ -60,5 +60,7 @@ void pmpaddr_csr_write(CPURISCVState *env, uint32_t addr_index,
+ target_ulong pmpaddr_csr_read(CPURISCVState *env, uint32_t addr_index);
+ bool pmp_hart_has_privs(CPURISCVState *env, target_ulong addr,
+     target_ulong size, pmp_priv_t priv, target_ulong mode);
++bool pmp_is_range_in_tlb(CPURISCVState *env, hwaddr tlb_sa,
++    target_ulong *tlb_size);
+ 
+ #endif
 -- 
 2.27.0
 
