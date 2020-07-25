@@ -2,35 +2,35 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 51A0B22D409
-	for <lists+qemu-devel@lfdr.de>; Sat, 25 Jul 2020 05:02:37 +0200 (CEST)
-Received: from localhost ([::1]:50216 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E91A722D415
+	for <lists+qemu-devel@lfdr.de>; Sat, 25 Jul 2020 05:03:56 +0200 (CEST)
+Received: from localhost ([::1]:56800 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jzASK-0006wT-Bd
-	for lists+qemu-devel@lfdr.de; Fri, 24 Jul 2020 23:02:36 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:59646)
+	id 1jzATb-000197-Uf
+	for lists+qemu-devel@lfdr.de; Fri, 24 Jul 2020 23:03:55 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:59642)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <zhengchuan@huawei.com>)
- id 1jzAPW-00028M-Fq
- for qemu-devel@nongnu.org; Fri, 24 Jul 2020 22:59:42 -0400
-Received: from szxga04-in.huawei.com ([45.249.212.190]:4158 helo=huawei.com)
+ id 1jzAPV-000273-Ra
+ for qemu-devel@nongnu.org; Fri, 24 Jul 2020 22:59:41 -0400
+Received: from szxga04-in.huawei.com ([45.249.212.190]:4157 helo=huawei.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <zhengchuan@huawei.com>)
- id 1jzAPR-0000l9-3P
- for qemu-devel@nongnu.org; Fri, 24 Jul 2020 22:59:42 -0400
+ id 1jzAPQ-0000l7-Sd
+ for qemu-devel@nongnu.org; Fri, 24 Jul 2020 22:59:41 -0400
 Received: from DGGEMS408-HUB.china.huawei.com (unknown [172.30.72.60])
- by Forcepoint Email with ESMTP id 401B5539D792B5385680;
+ by Forcepoint Email with ESMTP id 495B34E2B397365D759E;
  Sat, 25 Jul 2020 10:59:33 +0800 (CST)
 Received: from huawei.com (10.175.101.6) by DGGEMS408-HUB.china.huawei.com
  (10.3.19.208) with Microsoft SMTP Server id 14.3.487.0; Sat, 25 Jul 2020
  10:59:23 +0800
 From: Chuan Zheng <zhengchuan@huawei.com>
 To: <quintela@redhat.com>, <dgilbert@redhat.com>
-Subject: [RFC PATCH 5/8] migration/dirtyrate: Compare hash results for
- recorded ramblock
-Date: Sat, 25 Jul 2020 11:11:06 +0800
-Message-ID: <1595646669-109310-6-git-send-email-zhengchuan@huawei.com>
+Subject: [RFC PATCH 6/8] migration/dirtyrate: Implement
+ get_sample_gap_period() and block_sample_gap_period()
+Date: Sat, 25 Jul 2020 11:11:07 +0800
+Message-ID: <1595646669-109310-7-git-send-email-zhengchuan@huawei.com>
 X-Mailer: git-send-email 1.8.3.1
 In-Reply-To: <1595646669-109310-1-git-send-email-zhengchuan@huawei.com>
 References: <1595646669-109310-1-git-send-email-zhengchuan@huawei.com>
@@ -67,102 +67,81 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Zheng Chuan <zhengchuan@huawei.com>
 
-Compare hash results for recorded ramblock.
+Implement get_sample_gap_period() and block_sample_gap_period() to
+sleep specific time between sample actions.
 
 Signed-off-by: Zheng Chuan <zhengchuan@huawei.com>
 Signed-off-by: YanYing Zhang <ann.zhuangyanying@huawei.com>
 ---
- migration/dirtyrate.c | 77 +++++++++++++++++++++++++++++++++++++++++++++++++++
- 1 file changed, 77 insertions(+)
+ migration/dirtyrate.c | 28 ++++++++++++++++++++++++++++
+ migration/dirtyrate.h |  6 +++++-
+ 2 files changed, 33 insertions(+), 1 deletion(-)
 
 diff --git a/migration/dirtyrate.c b/migration/dirtyrate.c
-index 45cfc91..7badc53 100644
+index 7badc53..00abfa7 100644
 --- a/migration/dirtyrate.c
 +++ b/migration/dirtyrate.c
-@@ -202,6 +202,83 @@ static int record_block_hash_info(struct dirtyrate_config config,
-     return 0;
+@@ -295,10 +295,38 @@ static void set_dirty_rate_stage(CalculatingDirtyRateStage ratestage)
+     calculating_dirty_rate_stage = ratestage;
  }
  
-+static int cal_block_dirty_rate(struct block_dirty_info *info)
++static int64_t block_sample_gap_period(int64_t msec, int64_t initial_time)
 +{
-+    uint8_t *md = NULL;
-+    size_t hash_len;
-+    int i;
-+    int ret = 0;
++    int64_t current_time;
 +
-+    hash_len = qcrypto_hash_digest_len(QCRYPTO_HASH_ALG_MD5);
-+    md = g_new0(uint8_t, hash_len);
-+
-+    for (i = 0; i < info->sample_pages_count; i++) {
-+        ret = get_block_vfn_hash(info, info->sample_page_vfn[i], &md, &hash_len);
-+        if (ret < 0) {
-+            goto out;
-+        }
-+
-+        if (memcmp(md, info->hash_result + i * hash_len, hash_len) != 0) {
-+            info->sample_dirty_count++;
-+        }
++    current_time = qemu_clock_get_ms(QEMU_CLOCK_REALTIME);
++    if ((current_time - initial_time) >= msec) {
++        msec = current_time - initial_time;
++    } else {
++        g_usleep((msec + initial_time - current_time) * 1000);
 +    }
 +
-+out:
-+    g_free(md);
-+    return ret;
++    return msec;
 +}
 +
-+static bool find_block_matched(RAMBlock *block, struct block_dirty_info *infos,
-+                               int count, struct block_dirty_info **matched)
++static int64_t get_sample_gap_period(struct dirtyrate_config config)
 +{
-+    int i;
++    int64_t msec;
 +
-+    for (i = 0; i < count; i++) {
-+        if (!strcmp(infos[i].idstr, qemu_ram_get_idstr(block))) {
-+            break;
-+        }
++    msec = config.sample_period_seconds * 1000;
++    if (msec <= MIN_FETCH_DIRTYRATE_TIME_MSEC || msec > MAX_FETCH_DIRTYRATE_TIME_MSEC) {
++        msec = DEFAULT_FETCH_DIRTYRATE_TIME_MSEC;
 +    }
-+
-+    if (i == count) {
-+        return false;
-+    }
-+
-+    if (infos[i].block_addr != qemu_ram_get_host_addr(block) ||
-+        infos[i].block_pages !=
-+            (qemu_ram_get_used_length(block) >> DIRTYRATE_PAGE_SIZE_SHIFT)) {
-+        return false;
-+    }
-+
-+    *matched = &infos[i];
-+    return true;
++    return msec;
 +}
 +
-+static int compare_block_hash_info(struct block_dirty_info *info, int block_index)
-+{
-+    struct block_dirty_info *block_dinfo = NULL;
-+    RAMBlock *block = NULL;
-+
-+    RAMBLOCK_FOREACH_MIGRATABLE(block) {
-+        if (ram_block_skip(block) < 0) {
-+            continue;
-+        }
-+        block_dinfo = NULL;
-+        if (!find_block_matched(block, info, block_index + 1, &block_dinfo)) {
-+            continue;
-+        }
-+        if (cal_block_dirty_rate(block_dinfo) < 0) {
-+            return -1;
-+        }
-+        update_dirtyrate_stat(block_dinfo);
-+    }
-+    if (!dirty_stat.total_sample_count) {
-+        return -1;
-+    }
-+
-+    return 0;
-+}
-+
-+
- static void calculate_dirtyrate(struct dirtyrate_config config, int64_t time)
+ void *get_dirtyrate_thread(void *arg)
  {
-     /* todo */
+     struct dirtyrate_config config = *(struct dirtyrate_config *)arg;
+     int64_t msec = 0;
++
++    /* max period is 60 seconds */
++    msec = get_sample_gap_period(config);
+  
+     set_dirty_rate_stage(CAL_DIRTY_RATE_ING);
+ 
+diff --git a/migration/dirtyrate.h b/migration/dirtyrate.h
+index 4d9b3b8..5aef2d7 100644
+--- a/migration/dirtyrate.h
++++ b/migration/dirtyrate.h
+@@ -14,12 +14,16 @@
+ #define QEMU_MIGRATION_DIRTYRATE_H
+ 
+ /* take 256 pages per GB for cal dirty rate */
+-#define DIRTYRATE_DEFAULT_SAMPLE_PAGES    256
++#define DIRTYRATE_DEFAULT_SAMPLE_PAGES  256
+ #define DIRTYRATE_SAMPLE_PAGE_SIZE      4096
+ #define DIRTYRATE_PAGE_SIZE_SHIFT       12
+ #define BLOCK_INFO_MAX_LEN              256
+ #define PAGE_SIZE_SHIFT                 20
+ 
++#define MIN_FETCH_DIRTYRATE_TIME_MSEC        0
++#define MAX_FETCH_DIRTYRATE_TIME_MSEC        60000
++#define DEFAULT_FETCH_DIRTYRATE_TIME_MSEC    1000
++
+ struct dirtyrate_config {
+     uint64_t sample_pages_per_gigabytes;
+     int64_t sample_period_seconds;
 -- 
 1.8.3.1
 
