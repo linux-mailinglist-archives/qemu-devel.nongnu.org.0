@@ -2,68 +2,112 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 67E1922DA1D
-	for <lists+qemu-devel@lfdr.de>; Sat, 25 Jul 2020 23:41:51 +0200 (CEST)
-Received: from localhost ([::1]:52834 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7A9D322DA2C
+	for <lists+qemu-devel@lfdr.de>; Sun, 26 Jul 2020 00:21:09 +0200 (CEST)
+Received: from localhost ([::1]:38152 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jzRvS-0007Vq-2T
-	for lists+qemu-devel@lfdr.de; Sat, 25 Jul 2020 17:41:50 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:34622)
+	id 1jzSXU-00074S-2Q
+	for lists+qemu-devel@lfdr.de; Sat, 25 Jul 2020 18:21:08 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:39258)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1jzRuZ-00076c-4u
- for qemu-devel@nongnu.org; Sat, 25 Jul 2020 17:40:55 -0400
-Received: from indium.canonical.com ([91.189.90.7]:59648)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1jzRuW-0001Gb-BI
- for qemu-devel@nongnu.org; Sat, 25 Jul 2020 17:40:54 -0400
-Received: from loganberry.canonical.com ([91.189.90.37])
- by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
- id 1jzRuT-00062a-Pi
- for <qemu-devel@nongnu.org>; Sat, 25 Jul 2020 21:40:49 +0000
-Received: from loganberry.canonical.com (localhost [127.0.0.1])
- by loganberry.canonical.com (Postfix) with ESMTP id BB85C2E80D2
- for <qemu-devel@nongnu.org>; Sat, 25 Jul 2020 21:40:49 +0000 (UTC)
-MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: quoted-printable
-Date: Sat, 25 Jul 2020 21:32:24 -0000
-From: Tobias Markus <1888964@bugs.launchpad.net>
+ (Exim 4.90_1) (envelope-from <Filip.Bozuta@syrmia.com>)
+ id 1jzSWW-0006YB-1r
+ for qemu-devel@nongnu.org; Sat, 25 Jul 2020 18:20:08 -0400
+Received: from mail-db8eur05on2101.outbound.protection.outlook.com
+ ([40.107.20.101]:16097 helo=EUR05-DB8-obe.outbound.protection.outlook.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <Filip.Bozuta@syrmia.com>)
+ id 1jzSWU-000584-2i
+ for qemu-devel@nongnu.org; Sat, 25 Jul 2020 18:20:07 -0400
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=UJghFPKPofSpBOLn0N36I/sOsgK95rO9gz7PQ2LLLAY3pSv9Q4NtJVYQvy8+Ha0TUOcHJ3bILJaKtOBhCRFbxpzGxHlmM/pEoWY533wvogp2FrmPhidBW5u7bt0J2tleAHIAcjgkvpnWws6QLTH8YBYutcc6nqR5VRlVKWfrDdD5s0H35pdqHXnp5QieORD4R0/SuJBi+a4CKEJZDFPj5cdqcKKIjstrKn6Mtagz/uvhFCZU4IY+Nf6OwayVSca/o2AlyqLCbP66qjMcdyaO7GJFjF/7RDHbhPZN6vN8bzeXEGL6r0qSKdYjPZr2iSG+0At3KvefSrTyGmbjIo1uAg==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=hpazYsP34FoSYqoffyV0AlNZx4yFs9q3GEGdqPlg+GQ=;
+ b=Hh0rqtMsm8J8KtL2ENJ4RE9XjvpsFhwSUuNwKPWdw9SaH4FmEf33KBMsN1OhcHt+8sbrxvXJ72m9l6OUTvL2vIZP+w/LzyhOsAOr7e0XQrMXQqINFqfuMNd+efmslV0xh0rp2xghmrDHgtIH0J0pQlZ9+ZZ8WE3y7SBYrmRaf/TmtVmnbgHN//3SgHYUoqHKBCDLRhcIQu95mFiqQ5RQFw8cVQczUbkMhx58P1SZWvmClifKhlBbpCkTvdseuZRcVbYrtQ78Gzf5AlWn1K9DUWCghQnDtgiJsVSm0aUJ5ZsLGftpvs/hxJY1vogcp6v0dJ4N2+5B3DHSw27dR1YAcw==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=syrmia.com; dmarc=pass action=none header.from=syrmia.com;
+ dkim=pass header.d=syrmia.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=syrmia.com;
+ s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=hpazYsP34FoSYqoffyV0AlNZx4yFs9q3GEGdqPlg+GQ=;
+ b=a9rQ4xsCXz0psMANWPDq2rtdyoUJQ4WQzNcmTKAyDFQPt0UBH1OAPiMxfI/2sJEQXgMTfHzsq0zEaHCm2n9c15HK2QPKwJdhuA3kU9pmyLTrovlR1VL2+51HADEnpAiwfov7RwHTQG/Lq2tXq+n8Y0TDzKjRsdTjJd79vbCnIXw=
+Authentication-Results: nongnu.org; dkim=none (message not signed)
+ header.d=none;nongnu.org; dmarc=none action=none header.from=syrmia.com;
+Received: from AM6PR03MB5233.eurprd03.prod.outlook.com (2603:10a6:20b:d1::19)
+ by AM6PR03MB4519.eurprd03.prod.outlook.com (2603:10a6:20b:11::33)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3216.23; Sat, 25 Jul
+ 2020 22:04:59 +0000
+Received: from AM6PR03MB5233.eurprd03.prod.outlook.com
+ ([fe80::98f0:b948:78a8:f618]) by AM6PR03MB5233.eurprd03.prod.outlook.com
+ ([fe80::98f0:b948:78a8:f618%7]) with mapi id 15.20.3216.028; Sat, 25 Jul 2020
+ 22:04:59 +0000
+From: Filip Bozuta <Filip.Bozuta@syrmia.com>
 To: qemu-devel@nongnu.org
-X-Launchpad-Notification-Type: bug
-X-Launchpad-Bug: product=qemu; status=New; importance=Undecided; assignee=None;
-X-Launchpad-Bug-Tags: dmabuf egl gtk gvt mdev ui vfio
-X-Launchpad-Bug-Information-Type: Public
-X-Launchpad-Bug-Private: no
-X-Launchpad-Bug-Security-Vulnerability: no
-X-Launchpad-Bug-Commenters: hesiod
-X-Launchpad-Bug-Reporter: Tobias Markus (hesiod)
-X-Launchpad-Bug-Modifier: Tobias Markus (hesiod)
-Message-Id: <159571274485.17992.4520030985362542383.malonedeb@soybean.canonical.com>
-Subject: [Bug 1888964] [NEW] Segfault using GTK display with dmabuf (iGVT-g)
- on Wayland
-X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
-X-Launchpad-Message-For: qemu-devel-ml
-Precedence: bulk
-X-Generated-By: Launchpad (canonical.com);
- Revision="e85d0ab92e2924d39b8285aeae075a01d25eff06";
- Instance="production-secrets-lazr.conf"
-X-Launchpad-Hash: d4548be6b8fac2e788365fedfcb340ba27582467
-Received-SPF: none client-ip=91.189.90.7; envelope-from=bounces@canonical.com;
- helo=indium.canonical.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/07/25 14:40:48
-X-ACL-Warn: Detected OS   = Linux 3.11 and newer [fuzzy]
-X-Spam_score_int: -58
-X-Spam_score: -5.9
-X-Spam_bar: -----
-X-Spam_report: (-5.9 / 5.0 requ) BAYES_00=-1.9, HEADER_FROM_DIFFERENT_DOMAINS=1,
- RCVD_IN_DNSWL_HI=-5, RCVD_IN_MSPIKE_H3=-0.01, RCVD_IN_MSPIKE_WL=-0.01,
- SPF_HELO_NONE=0.001, SPF_NONE=0.001 autolearn=ham autolearn_force=no
+Subject: [PATCH 0/2] linux-user: Introducing functionality for a group of 4
+ time64 syscalls
+Date: Sun, 26 Jul 2020 00:04:40 +0200
+Message-Id: <20200725220442.301408-1-Filip.Bozuta@syrmia.com>
+X-Mailer: git-send-email 2.25.1
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-ClientProxiedBy: GVAP278CA0010.CHEP278.PROD.OUTLOOK.COM
+ (2603:10a6:710:20::20) To AM6PR03MB5233.eurprd03.prod.outlook.com
+ (2603:10a6:20b:d1::19)
+MIME-Version: 1.0
+X-MS-Exchange-MessageSentRepresentingType: 1
+Received: from localhost.localdomain (147.91.217.235) by
+ GVAP278CA0010.CHEP278.PROD.OUTLOOK.COM (2603:10a6:710:20::20) with Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.3216.23 via Frontend Transport; Sat, 25 Jul 2020 22:04:58 +0000
+X-Mailer: git-send-email 2.25.1
+X-Originating-IP: [147.91.217.235]
+X-MS-PublicTrafficType: Email
+X-MS-Office365-Filtering-Correlation-Id: e39601a2-a058-45fc-c84f-08d830e6c5b8
+X-MS-TrafficTypeDiagnostic: AM6PR03MB4519:
+X-MS-Exchange-Transport-Forked: True
+X-Microsoft-Antispam-PRVS: <AM6PR03MB4519E8326EA287B3AD099A93EB740@AM6PR03MB4519.eurprd03.prod.outlook.com>
+X-MS-Oob-TLC-OOBClassifiers: OLM:983;
+X-MS-Exchange-SenderADCheck: 1
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: bpZZ0E4teCcRta/mOdUKBIxU66pV+wFrBvAfkc3xNbcuHwAvJ/aRbRogtM2o6vQO1xcn8Y9LKp8Q4gNGaZAvaMheM9vPFUgf4PMmnM9oS6pGQXjv1b7hktWcECMFe5RKG5zZMMV2bwhK5cul9p2Th9k+ndTV29VUxTN0PpD3MwHS7G9ctuQtY+En62BUHh2xmMKJxeVP64hrLrEJ93nJ0ZXiJi+kwyKZM7SdmolYVgt7oZQYLj/ALSXf2rUIzUyck8RBjWmpuDC+nnVu8f4Omedm0Hux2Q7VL9s/8uVXXeOGCMOCJAadgYxwB1ZsVH5D9uFrbr3U8VvrfPSER4ckgaJCxCELQ40rWogSlFh6AJ9Q8kvnR222PfGxyZR2uAvq
+X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:AM6PR03MB5233.eurprd03.prod.outlook.com; PTR:; CAT:NONE;
+ SFTY:;
+ SFS:(376002)(366004)(346002)(396003)(39830400003)(136003)(107886003)(54906003)(186003)(316002)(16526019)(26005)(6506007)(52116002)(956004)(2616005)(86362001)(6916009)(508600001)(4326008)(66476007)(6512007)(1076003)(6486002)(36756003)(66946007)(6666004)(4744005)(2906002)(83380400001)(8676002)(5660300002)(8936002)(66556008)(69590400007);
+ DIR:OUT; SFP:1102; 
+X-MS-Exchange-AntiSpam-MessageData: cqzVz9SvUnIXaAUMWtUnP6MeRSO3u4y6TYa9zS9FZ9CCnR7GAFIWoE8MLdQCapTV9zzz3fvLJI+NUp7XSMD2lSFYokGE1BnR3epvSisHJ4M07+eM5PgVb4z2PsfiUjFEAJLB1KbCPPwEkdUm4sJ5FSlzxkRCbcLMiau9ACq2rwPgqHhTun6EehhVfhkICjBNlC3tJzAIf5aMPJRInOE6EObicbHtYeF0EggWAbiWlXxlGKecjYCNsP/tW2sCdnbBzHG9yfFw616Kefb4Dhql/QaAJurDeRwKlueafBk3DMo2sxjKkIZX3hEUBcmdU7mstSJOfpQqXsoNwTH44Q/BIawk1zTwjOd/lkYON8qU2sfAMF9qLQPtF2HT0I3WZx6zR6g2EtQm8vu+Kwy5IK5rkWze86l8gN0o9Gut1ARS931sJDpKHYqP8m+IgyG5kdiHiWYSMHRISBNcsBhYPsAb9bSszt11ILiR78IJGSM+9u8=
+X-OriginatorOrg: syrmia.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: e39601a2-a058-45fc-c84f-08d830e6c5b8
+X-MS-Exchange-CrossTenant-AuthSource: AM6PR03MB5233.eurprd03.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 25 Jul 2020 22:04:59.4215 (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 19214a73-c1ab-4e19-8f59-14bdcb09a66e
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: 6YDIO38iYmz8Qht9wWy020pLulIgmrPxaXsAY2DNvcK1S26z6hzyb8ANuTWM09sIOVj4y7hEm/03Y3v1cOcJ7w==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: AM6PR03MB4519
+Received-SPF: pass client-ip=40.107.20.101;
+ envelope-from=Filip.Bozuta@syrmia.com;
+ helo=EUR05-DB8-obe.outbound.protection.outlook.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/07/25 18:20:04
+X-ACL-Warn: Detected OS   = Windows NT kernel [generic] [fuzzy]
+X-Spam_score_int: -22
+X-Spam_score: -2.3
+X-Spam_bar: --
+X-Spam_report: (-2.3 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ MSGID_FROM_MTA_HEADER=0.001, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-1,
+ RCVD_IN_SORBS_WEB=1.5, SPF_HELO_PASS=-0.001, SPF_PASS=-0.001,
+ URIBL_BLOCKED=0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
+Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -72,134 +116,34 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Bug 1888964 <1888964@bugs.launchpad.net>
+Cc: Riku Voipio <riku.voipio@iki.fi>, Laurent Vivier <laurent@vivier.eu>,
+ Filip Bozuta <Filip.Bozuta@syrmia.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Public bug reported:
+This two patch series introduces functionality for a group
+of 4 2038 safe syscalls.
 
-When using...
- a) Intel virtualized graphics (iGVT-g) with dmabuf output
- b) QEMU's GTK display with GL output enabled (-display gtk,gl=3Don)
- c) A Wayland compositor (Sway in my case)
-a segfault occurs at some point on boot (I guess as soon as the guest start=
-s using the virtual graphics card?)
+The list of implemented syscalls and implementation details
+can be found in the patch commit messages.
 
-The origin is the function dpy_gl_scanout_dmabuf in ui/console.c, where it =
-calls
-    con->gl->ops->dpy_gl_scanout_dmabuf(con->gl, dmabuf);
-However, the ops field (struct DisplayChangeListenerOps) does not have dpy_=
-gl_scanout_dmabuf set because it is set to dcl_gl_area_ops which does not h=
-ave dpy_gl_scanout_dmabuf set.
-Only dcl_egl_ops has dpy_gl_scanout_dmabuf set.
-Currently, the GTK display uses EGL on X11 displays, but GtkGLArea on Wayla=
-nd. This can be observed in early_gtk_display_init() in ui/gtk.c, where it =
-says (simplified code):
+Testing method:
 
-if (opts->has_gl && opts->gl !=3D DISPLAYGL_MODE_OFF) {
-        if (GDK_IS_WAYLAND_DISPLAY(gdk_display_get_default())) {
-            gtk_use_gl_area =3D true;
-            gtk_gl_area_init();
-        } else {
-            DisplayGLMode mode =3D opts->has_gl ? opts->gl : DISPLAYGL_MODE=
-_ON;
-            gtk_egl_init(mode);
-        }
-}
+    The implementation of the implemented syscalls was tested
+    using already existing tests from LTP test suite which
+    was built inside chroot.
 
-To reproduce the findings above, add this assertion to dpy_gl_scanout_dmabu=
-f:
-    assert(con->gl->ops->dpy_gl_scanout_dmabuf);
-This will make the segfault turn into an assertion failure.
+Filip Bozuta (2):
+  linux-user: Add support for two 'clock_nanosleep_time64()' and
+    'clock_adjtime64()'
+  linux-user: Add support for 'rt_sigtimedwait_time64()' and
+    'sched_rr_get_interval_time64()'
 
-A workaround is to force QEMU to use GDK's X11 backend (using
-GDK_BACKEND=3Dx11).
+ linux-user/syscall.c      | 197 +++++++++++++++++++++++++++++++++++++-
+ linux-user/syscall_defs.h |  31 ++++++
+ 2 files changed, 226 insertions(+), 2 deletions(-)
 
-Note: This might be a duplicate of 1775011, however the information
-provided in that bug report is not sufficient to make the assertion.
+-- 
+2.25.1
 
-QEMU version: b0ce3f021e0157e9a5ab836cb162c48caac132e1 (from Git master bra=
-nch)
-OS: Arch Linux, Kernel Version 5.17.0-1
-
-Relevant flags of the QEMU invocation:
-qemu-system-x86_64 \
-  -vga none \
-  -device vfio-pci-nohotplug,sysfsdev=3D"$GVT_DEV",romfile=3D"${ROMFILE}",d=
-isplay=3Don,x-igd-opregion=3Don,ramfb=3Don \
-  -display gtk,gl=3Don
-
-** Affects: qemu
-     Importance: Undecided
-         Status: New
-
-
-** Tags: dmabuf egl gtk gvt mdev ui vfio
-
--- =
-
-You received this bug notification because you are a member of qemu-
-devel-ml, which is subscribed to QEMU.
-https://bugs.launchpad.net/bugs/1888964
-
-Title:
-  Segfault using GTK display with dmabuf (iGVT-g) on Wayland
-
-Status in QEMU:
-  New
-
-Bug description:
-  When using...
-   a) Intel virtualized graphics (iGVT-g) with dmabuf output
-   b) QEMU's GTK display with GL output enabled (-display gtk,gl=3Don)
-   c) A Wayland compositor (Sway in my case)
-  a segfault occurs at some point on boot (I guess as soon as the guest sta=
-rts using the virtual graphics card?)
-
-  The origin is the function dpy_gl_scanout_dmabuf in ui/console.c, where i=
-t calls
-      con->gl->ops->dpy_gl_scanout_dmabuf(con->gl, dmabuf);
-  However, the ops field (struct DisplayChangeListenerOps) does not have dp=
-y_gl_scanout_dmabuf set because it is set to dcl_gl_area_ops which does not=
- have dpy_gl_scanout_dmabuf set.
-  Only dcl_egl_ops has dpy_gl_scanout_dmabuf set.
-  Currently, the GTK display uses EGL on X11 displays, but GtkGLArea on Way=
-land. This can be observed in early_gtk_display_init() in ui/gtk.c, where i=
-t says (simplified code):
-
-  if (opts->has_gl && opts->gl !=3D DISPLAYGL_MODE_OFF) {
-          if (GDK_IS_WAYLAND_DISPLAY(gdk_display_get_default())) {
-              gtk_use_gl_area =3D true;
-              gtk_gl_area_init();
-          } else {
-              DisplayGLMode mode =3D opts->has_gl ? opts->gl : DISPLAYGL_MO=
-DE_ON;
-              gtk_egl_init(mode);
-          }
-  }
-
-  To reproduce the findings above, add this assertion to dpy_gl_scanout_dma=
-buf:
-      assert(con->gl->ops->dpy_gl_scanout_dmabuf);
-  This will make the segfault turn into an assertion failure.
-
-  A workaround is to force QEMU to use GDK's X11 backend (using
-  GDK_BACKEND=3Dx11).
-
-  Note: This might be a duplicate of 1775011, however the information
-  provided in that bug report is not sufficient to make the assertion.
-
-  QEMU version: b0ce3f021e0157e9a5ab836cb162c48caac132e1 (from Git master b=
-ranch)
-  OS: Arch Linux, Kernel Version 5.17.0-1
-
-  Relevant flags of the QEMU invocation:
-  qemu-system-x86_64 \
-    -vga none \
-    -device vfio-pci-nohotplug,sysfsdev=3D"$GVT_DEV",romfile=3D"${ROMFILE}"=
-,display=3Don,x-igd-opregion=3Don,ramfb=3Don \
-    -display gtk,gl=3Don
-
-To manage notifications about this bug go to:
-https://bugs.launchpad.net/qemu/+bug/1888964/+subscriptions
 
