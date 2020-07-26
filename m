@@ -2,100 +2,85 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 84D0D22DBA0
-	for <lists+qemu-devel@lfdr.de>; Sun, 26 Jul 2020 06:08:19 +0200 (CEST)
-Received: from localhost ([::1]:38900 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E283822DDBF
+	for <lists+qemu-devel@lfdr.de>; Sun, 26 Jul 2020 11:29:02 +0200 (CEST)
+Received: from localhost ([::1]:60138 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jzXxS-00086K-2V
-	for lists+qemu-devel@lfdr.de; Sun, 26 Jul 2020 00:08:18 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:33086)
+	id 1jzcxp-0008Do-GH
+	for lists+qemu-devel@lfdr.de; Sun, 26 Jul 2020 05:29:01 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:55734)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <matthieu.bucchianeri@leostella.com>)
- id 1jzXwb-0007Ef-1S; Sun, 26 Jul 2020 00:07:25 -0400
-Received: from mail-cy1usg02on0125.outbound.protection.office365.us
- ([23.103.209.125]:7968 helo=USG02-CY1-obe.outbound.protection.office365.us)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <matthieu.bucchianeri@leostella.com>)
- id 1jzXwY-0003KD-LD; Sun, 26 Jul 2020 00:07:24 -0400
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector5401; d=microsoft.com; cv=none;
- b=ZE6UEqqdCCSRvhMS5u+l7uXdS5ogjwaOgzTxZjHZ4/BZPjHHRgaKt+SDIsVZLO+zo6rYKaCD49QRMaxEGT0RRAZAOrA0Y6jDRee4IAEFBMl4BkYi7JG5NY1ZuKrgcna1OW+XKum1ybN+LhDiLpb8CadmuNue4KTwGrMJHyVZDGh+2PCM0aBpO/kd7+8BNyRqcyPNR55BLvilNU3t2eFNd6efvx7lbZBMvtcHaexw/aw2Rfab911zAJaPj86mVbiuQ3eJMwxRZQKiF/JG1eLKiX6wAXGJmXqAeaH2utAiXh/DfsrE6J2VVyDrQwadC0nOTdzzabFdbZf3WNlexrF9CA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector5401;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=waW4fAQEFrULDRToszuDG8PKK6locv7S73ragGWfh6k=;
- b=arC1mOVPB+YvxDiJbSNxocxFqIc1/wPWwFY6NtmP+/g3sfvNVV88bqt8Og/9Y2vVVk+ojrHK8Hh8BpVvd/mJ+Nq6Nz5iV5I3hA2t/kn81zO9fosOMmT6pnreDwOY2hYsiEIxKFdGSc758HXehIuuRL38Qi3Vx6U1yuHMOMsLlRzjmIxuORGqHsFGtjHC6jpgIP3vdXDE4LNT6en3JdAinUM+5dZItSMV1rhX9G0xCiPNOvcNPw/9Vv5JBbUfOuOUbNG/lJKZyr1bjKTQa+DlWHTkERMnHyd8RAW8rjitdxUJ6mQAmg7uAngTPdOs81WJ1+1ROq+0fr/6QwrB+zW2Xw==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=leostella.com; dmarc=pass action=none
- header.from=leostella.com; dkim=pass header.d=leostella.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=leostella.onmicrosoft.com; s=selector1-leostella-onmicrosoft-com;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=waW4fAQEFrULDRToszuDG8PKK6locv7S73ragGWfh6k=;
- b=bUDye/t5QR2jJCQgY/6mhsNY2c77ZM3L77bFaH2b+k4j90/ZMO3umNrIf4k3Kz6Ru/WGL2LvYFvAZ9i0urE2dE9xMGNlCfjvLbVkugtV4XRWxituASFT7t49Qam04E6QUmPSZQ2lA5fwtWzPV2FEkkNJoWF+5vmNivSVBPrHE3c=
-Received: from SN5P110MB0543.NAMP110.PROD.OUTLOOK.COM (2001:489a:200:41c::10)
- by SN5P110MB0557.NAMP110.PROD.OUTLOOK.COM (2001:489a:200:41c::12)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3216.28; Sun, 26 Jul
- 2020 04:07:15 +0000
-Received: from SN5P110MB0543.NAMP110.PROD.OUTLOOK.COM
- ([fe80::d0e1:84ad:f42:f6f2]) by SN5P110MB0543.NAMP110.PROD.OUTLOOK.COM
- ([fe80::d0e1:84ad:f42:f6f2%5]) with mapi id 15.20.3195.029; Sun, 26 Jul 2020
- 04:07:15 +0000
-From: Matthieu Bucchianeri <matthieu.bucchianeri@leostella.com>
-To: "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>, "qemu-ppc@nongnu.org"
- <qemu-ppc@nongnu.org>
-Subject: RE: [PATCH] target/ppc: Fix SPE unavailable exception triggering
-Thread-Topic: [PATCH] target/ppc: Fix SPE unavailable exception triggering
-Thread-Index: AQHWYrfk1Mes9sSNm0m4bx3FUJe/kKkYyO+AgAB1XcA=
-Date: Sun, 26 Jul 2020 04:07:15 +0000
-Message-ID: <SN5P110MB0543740427336E63D9D1AC0384750@SN5P110MB0543.NAMP110.PROD.OUTLOOK.COM>
-References: <20200725191436.31828-1-matthieu.bucchianeri@leostella.com>
- <159571106877.5803.9650819864553051317@66eaa9a8a123>
-In-Reply-To: <159571106877.5803.9650819864553051317@66eaa9a8a123>
-Accept-Language: en-US
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-authentication-results: nongnu.org; dkim=none (message not signed)
- header.d=none;nongnu.org; dmarc=none action=none header.from=leostella.com;
-x-originating-ip: [2601:601:f01:e820:3805:9c62:2079:6ea0]
-x-ms-publictraffictype: Email
-x-ms-office365-filtering-correlation-id: c906d5e4-a7c6-4e77-0f83-08d83119618d
-x-ms-traffictypediagnostic: SN5P110MB0557:
-x-microsoft-antispam-prvs: <SN5P110MB05576F12069CCA5181C24E9184750@SN5P110MB0557.NAMP110.PROD.OUTLOOK.COM>
-x-ms-oob-tlc-oobclassifiers: OLM:7219;
-x-ms-exchange-senderadcheck: 1
-x-microsoft-antispam: BCL:0;
-x-forefront-antispam-report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:SN5P110MB0543.NAMP110.PROD.OUTLOOK.COM; PTR:; CAT:NONE;
- SFTY:;
- SFS:(4636009)(346002)(366004)(508600001)(45080400002)(55016002)(9686003)(2906002)(83380400001)(110136005)(966005)(52536014)(5660300002)(33656002)(8676002)(7696005)(186003)(86362001)(66476007)(66556008)(64756008)(66946007)(76116006)(4326008)(71200400001)(66446008)(53546011)(8936002)(44832011)(6506007)(131093003);
- DIR:OUT; SFP:1102; 
-x-ms-exchange-transport-forked: True
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+ (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1jzcww-0007nx-Sh
+ for qemu-devel@nongnu.org; Sun, 26 Jul 2020 05:28:07 -0400
+Received: from us-smtp-1.mimecast.com ([205.139.110.61]:30012
+ helo=us-smtp-delivery-1.mimecast.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1jzcwt-0003GM-R8
+ for qemu-devel@nongnu.org; Sun, 26 Jul 2020 05:28:06 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1595755681;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=WMGQNy2h27hkTMM4Cxs+FFnlu9fYF4kWJLCYcTGwdgU=;
+ b=GWl/bGuXFQzjuMSvYS609b86eCPd+87AsSf1cdG1FCo/oOiRHE+Mrjcztuh6rp7FN2mGFS
+ F7puhhH/KjeaG2luRV5AjBBFQNi3f3hzU/h4wH6PwRalBZZbntZke5KJVE3hSMBIL8Nqab
+ xjygaDCChzKIL6xhzfK1PD6xM7+62S8=
+Received: from mail-wr1-f70.google.com (mail-wr1-f70.google.com
+ [209.85.221.70]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-216-5jD7kFISOuaO7ltMsV23Hg-1; Sun, 26 Jul 2020 05:27:59 -0400
+X-MC-Unique: 5jD7kFISOuaO7ltMsV23Hg-1
+Received: by mail-wr1-f70.google.com with SMTP id w7so654225wre.11
+ for <qemu-devel@nongnu.org>; Sun, 26 Jul 2020 02:27:59 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+ :mime-version:content-disposition:in-reply-to;
+ bh=WMGQNy2h27hkTMM4Cxs+FFnlu9fYF4kWJLCYcTGwdgU=;
+ b=SEXk/G/WfSOp+XE/Lz9FXJCALQyWzGmR3rucXOzMHq6xUvpxmcbOal2+nZb70vU1nm
+ dg0kezevY+DglZc1BKAQrstkEPfoi70H/CbFiKUJJEThx2cY+98KXjqiD5v55nSicUEn
+ 9CbUWrkCu3dihyJET83QQoUK/qp5YfhpWP0wHKYRKUxODjeppkWXVTxEFMVTmU68g161
+ Xog4b/J04I/962C0MvjNePmQZ3gzVfwmWF6vxRNETVjefCANbbozpFFEh8tWA2dwWmR+
+ c/ilKswrixfd7ZtZ4C71LzUIK4w0zjZIGZlZ+DBzPF3u5ZqxQPIRMBYI+8MJK7HFkty9
+ wOew==
+X-Gm-Message-State: AOAM530b+y5hqo/qzLCalBJdBLgtrNw97wMQhAqz6xjekZ3rPfy1VkxU
+ 98tpvSJWPza2RU7Bp99GlqUBDHkcSHGPZsjaZZn7dTpfkIZefER7yIGIzHKhh/hbnbseUmYwOUD
+ CQzl7CrOH5NJFsqY=
+X-Received: by 2002:a05:600c:245:: with SMTP id
+ 5mr13879149wmj.22.1595755678423; 
+ Sun, 26 Jul 2020 02:27:58 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJx+GiE7O/1hHhlaKB89MON+GxljqC5DaxuPZP8bbXyXhZrMGYSjvyLP9PAhZKpvmiuUdNXsgQ==
+X-Received: by 2002:a05:600c:245:: with SMTP id
+ 5mr13879127wmj.22.1595755678051; 
+ Sun, 26 Jul 2020 02:27:58 -0700 (PDT)
+Received: from redhat.com (93-172-53-68.bb.netvision.net.il. [93.172.53.68])
+ by smtp.gmail.com with ESMTPSA id 130sm8678730wme.26.2020.07.26.02.27.55
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Sun, 26 Jul 2020 02:27:56 -0700 (PDT)
+Date: Sun, 26 Jul 2020 05:27:54 -0400
+From: "Michael S. Tsirkin" <mst@redhat.com>
+To: Hogan Wang <hogan.wang@huawei.com>
+Subject: Re: [PATCH v3 1/2] hw/pci-host: save/restore pci host config register
+Message-ID: <20200726052046-mutt-send-email-mst@kernel.org>
+References: <20200725125437.2825-1-hogan.wang@huawei.com>
 MIME-Version: 1.0
-X-OriginatorOrg: leostella.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: SN5P110MB0543.NAMP110.PROD.OUTLOOK.COM
-X-MS-Exchange-CrossTenant-Network-Message-Id: c906d5e4-a7c6-4e77-0f83-08d83119618d
-X-MS-Exchange-CrossTenant-originalarrivaltime: 26 Jul 2020 04:07:15.1743 (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: dbc51146-ab26-404b-9c4b-cce4f3331cc5
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: SN5P110MB0557
-Received-SPF: pass client-ip=23.103.209.125;
- envelope-from=matthieu.bucchianeri@leostella.com;
- helo=USG02-CY1-obe.outbound.protection.office365.us
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/07/26 00:07:19
-X-ACL-Warn: Detected OS   = Windows 7 or 8 [fuzzy]
-X-Spam_score_int: -18
-X-Spam_score: -1.9
-X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_PASS=-0.001,
- SPF_PASS=-0.001, URIBL_BLOCKED=0.001 autolearn=ham autolearn_force=no
+In-Reply-To: <20200725125437.2825-1-hogan.wang@huawei.com>
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Received-SPF: pass client-ip=205.139.110.61; envelope-from=mst@redhat.com;
+ helo=us-smtp-delivery-1.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/07/26 05:28:01
+X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
+X-Spam_score_int: -40
+X-Spam_score: -4.1
+X-Spam_bar: ----
+X-Spam_report: (-4.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-1, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -108,101 +93,268 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: "david@gibson.dropbear.id.au" <david@gibson.dropbear.id.au>
+Cc: weidong.huang@huawei.com, wangxinxin.wang@huawei.com, jusual@redhat.com,
+ dgilbert@redhat.com, qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-VGhpcyBsb29rcyBsaWtlIGFuIGluZnJhc3RydWN0dXJlIGlzc3VlLiBOb3RoaW5nIGluIHRoZSBs
-b2cgc2VlbXMgdG8gaW5kaWNhdGUgYW4gaXNzdWUuDQoNCmNoZWNrcGF0Y2ggd2FzIHJ1biBsb2Nh
-bGx5LCBhbmQgcGFzc2VkLg0KDQojIC4vc2NyaXB0cy9jaGVja3BhdGNoLnBsIDAwMDEtdGFyZ2V0
-LXBwYy1GaXgtU1BFLXVuYXZhaWxhYmxlLWV4Y2VwdGlvbi10cmlnZ2VyaW5nLnBhdGNoDQp0b3Rh
-bDogMCBlcnJvcnMsIDAgd2FybmluZ3MsIDE5MiBsaW5lcyBjaGVja2VkDQoNCjAwMDEtdGFyZ2V0
-LXBwYy1GaXgtU1BFLXVuYXZhaWxhYmxlLWV4Y2VwdGlvbi10cmlnZ2VyaW5nLnBhdGNoIGhhcyBu
-byBvYnZpb3VzIHN0eWxlIHByb2JsZW1zIGFuZCBpcyByZWFkeSBmb3Igc3VibWlzc2lvbi4NCg0K
-UGxlYXNlIGxldCBtZSBrbm93IGlmIGFueSBvdGhlciBhY3Rpb24gaXMgcmVxdWlyZWQuDQoNCi0t
-LS0tT3JpZ2luYWwgTWVzc2FnZS0tLS0tDQpGcm9tOiBuby1yZXBseUBwYXRjaGV3Lm9yZyA8bm8t
-cmVwbHlAcGF0Y2hldy5vcmc+DQpTZW50OiBTYXR1cmRheSwgSnVseSAyNSwgMjAyMCAyOjA0IFBN
-DQpUbzogTWF0dGhpZXUgQnVjY2hpYW5lcmkgPG1hdHRoaWV1LmJ1Y2NoaWFuZXJpQGxlb3N0ZWxs
-YS5jb20+DQpDYzogcWVtdS1kZXZlbEBub25nbnUub3JnOyBxZW11LXBwY0Bub25nbnUub3JnOyBN
-YXR0aGlldSBCdWNjaGlhbmVyaSA8bWF0dGhpZXUuYnVjY2hpYW5lcmlAbGVvc3RlbGxhLmNvbT47
-IGRhdmlkQGdpYnNvbi5kcm9wYmVhci5pZC5hdQ0KU3ViamVjdDogUmU6IFtQQVRDSF0gdGFyZ2V0
-L3BwYzogRml4IFNQRSB1bmF2YWlsYWJsZSBleGNlcHRpb24gdHJpZ2dlcmluZw0KDQogRXh0ZXJu
-YWwgTWVzc2FnZQ0KDQoNClBhdGNoZXcgVVJMOiBodHRwczovL3VzZzAyLnNhZmVsaW5rcy5wcm90
-ZWN0aW9uLm9mZmljZTM2NS51cy8/dXJsPWh0dHBzJTNBJTJGJTJGcGF0Y2hldy5vcmclMkZRRU1V
-JTJGMjAyMDA3MjUxOTE0MzYuMzE4MjgtMS1tYXR0aGlldS5idWNjaGlhbmVyaSU0MGxlb3N0ZWxs
-YS5jb20lMkYmYW1wO2RhdGE9MDIlN0MwMSU3Q21hdHRoaWV1LmJ1Y2NoaWFuZXJpJTQwbGVvc3Rl
-bGxhLmNvbSU3QzBlMGMzZmQ5ZmJmYjQzNDkzMzFjMDhkODMwZGU2MDBjJTdDZGJjNTExNDZhYjI2
-NDA0YjljNGJjY2U0ZjMzMzFjYzUlN0MxJTdDMCU3QzYzNzMxMzA3ODk0Mjc0ODgyMSZhbXA7c2Rh
-dGE9VnNzc3ZMNDAlMkJGNkFMQ04xaWZwZVRMelJRQnBGNHJxNE4lMkJZMXpDTXNDT2clM0QmYW1w
-O3Jlc2VydmVkPTANCg0KDQoNCkhpLA0KDQpUaGlzIHNlcmllcyBzZWVtcyB0byBoYXZlIHNvbWUg
-Y29kaW5nIHN0eWxlIHByb2JsZW1zLiBTZWUgb3V0cHV0IGJlbG93IGZvciBtb3JlIGluZm9ybWF0
-aW9uOg0KDQpUeXBlOiBzZXJpZXMNCk1lc3NhZ2UtaWQ6IDIwMjAwNzI1MTkxNDM2LjMxODI4LTEt
-bWF0dGhpZXUuYnVjY2hpYW5lcmlAbGVvc3RlbGxhLmNvbQ0KU3ViamVjdDogW1BBVENIXSB0YXJn
-ZXQvcHBjOiBGaXggU1BFIHVuYXZhaWxhYmxlIGV4Y2VwdGlvbiB0cmlnZ2VyaW5nDQoNCj09PSBU
-RVNUIFNDUklQVCBCRUdJTiA9PT0NCiMhL2Jpbi9iYXNoDQpnaXQgcmV2LXBhcnNlIGJhc2UgPiAv
-ZGV2L251bGwgfHwgZXhpdCAwIGdpdCBjb25maWcgLS1sb2NhbCBkaWZmLnJlbmFtZWxpbWl0IDAg
-Z2l0IGNvbmZpZyAtLWxvY2FsIGRpZmYucmVuYW1lcyBUcnVlIGdpdCBjb25maWcgLS1sb2NhbCBk
-aWZmLmFsZ29yaXRobSBoaXN0b2dyYW0gLi9zY3JpcHRzL2NoZWNrcGF0Y2gucGwgLS1tYWlsYmFj
-ayBiYXNlLi4NCj09PSBURVNUIFNDUklQVCBFTkQgPT09DQoNCkZyb20gaHR0cHM6Ly91c2cwMi5z
-YWZlbGlua3MucHJvdGVjdGlvbi5vZmZpY2UzNjUudXMvP3VybD1odHRwcyUzQSUyRiUyRmdpdGh1
-Yi5jb20lMkZwYXRjaGV3LXByb2plY3QlMkZxZW11JmFtcDtkYXRhPTAyJTdDMDElN0NtYXR0aGll
-dS5idWNjaGlhbmVyaSU0MGxlb3N0ZWxsYS5jb20lN0MwZTBjM2ZkOWZiZmI0MzQ5MzMxYzA4ZDgz
-MGRlNjAwYyU3Q2RiYzUxMTQ2YWIyNjQwNGI5YzRiY2NlNGYzMzMxY2M1JTdDMSU3QzAlN0M2Mzcz
-MTMwNzg5NDI3NDg4MjEmYW1wO3NkYXRhPTNLNWxoemhMUkhxS2NWaGF6YUZBN0w3SWJOTGlKZ3JC
-a2xpNjh2c1J2RTQlM0QmYW1wO3Jlc2VydmVkPTANCiAgIDdhZGZiZWEuLmIwY2UzZjAgIG1hc3Rl
-ciAgICAgLT4gbWFzdGVyDQpGcm9tIGh0dHBzOi8vdXNnMDIuc2FmZWxpbmtzLnByb3RlY3Rpb24u
-b2ZmaWNlMzY1LnVzLz91cmw9aHR0cHMlM0ElMkYlMkZnaXRodWIuY29tJTJGcGF0Y2hldy1wcm9q
-ZWN0JTJGcWVtdSZhbXA7ZGF0YT0wMiU3QzAxJTdDbWF0dGhpZXUuYnVjY2hpYW5lcmklNDBsZW9z
-dGVsbGEuY29tJTdDMGUwYzNmZDlmYmZiNDM0OTMzMWMwOGQ4MzBkZTYwMGMlN0NkYmM1MTE0NmFi
-MjY0MDRiOWM0YmNjZTRmMzMzMWNjNSU3QzElN0MwJTdDNjM3MzEzMDc4OTQyNzQ4ODIxJmFtcDtz
-ZGF0YT0zSzVsaHpoTFJIcUtjVmhhemFGQTdMN0liTkxpSmdyQmtsaTY4dnNSdkU0JTNEJmFtcDty
-ZXNlcnZlZD0wDQogKiBbbmV3IHRhZ10gICAgICAgICBwYXRjaGV3LzIwMjAwNzI1MTkxNDM2LjMx
-ODI4LTEtbWF0dGhpZXUuYnVjY2hpYW5lcmlAbGVvc3RlbGxhLmNvbSAtPiBwYXRjaGV3LzIwMjAw
-NzI1MTkxNDM2LjMxODI4LTEtbWF0dGhpZXUuYnVjY2hpYW5lcmlAbGVvc3RlbGxhLmNvbQ0KZmF0
-YWw6IGZhaWxlZCB0byB3cml0ZSByZWYtcGFjayBmaWxlDQpmYXRhbDogVGhlIHJlbW90ZSBlbmQg
-aHVuZyB1cCB1bmV4cGVjdGVkbHkgVHJhY2ViYWNrIChtb3N0IHJlY2VudCBjYWxsIGxhc3QpOg0K
-ICBGaWxlICJwYXRjaGV3LXRlc3RlcjIvc3JjL3BhdGNoZXctY2xpIiwgbGluZSA1MzEsIGluIHRl
-c3Rfb25lDQogICAgZ2l0X2Nsb25lX3JlcG8oY2xvbmUsIHJbInJlcG8iXSwgclsiaGVhZCJdLCBs
-b2dmLCBUcnVlKQ0KICBGaWxlICJwYXRjaGV3LXRlc3RlcjIvc3JjL3BhdGNoZXctY2xpIiwgbGlu
-ZSA2MiwgaW4gZ2l0X2Nsb25lX3JlcG8NCiAgICBzdWJwcm9jZXNzLmNoZWNrX2NhbGwoY2xvbmVf
-Y21kLCBzdGRlcnI9bG9nZiwgc3Rkb3V0PWxvZ2YpDQogIEZpbGUgIi9vcHQvcmgvcmgtcHl0aG9u
-MzYvcm9vdC91c3IvbGliNjQvcHl0aG9uMy42L3N1YnByb2Nlc3MucHkiLCBsaW5lIDI5MSwgaW4g
-Y2hlY2tfY2FsbA0KICAgIHJhaXNlIENhbGxlZFByb2Nlc3NFcnJvcihyZXRjb2RlLCBjbWQpDQpz
-dWJwcm9jZXNzLkNhbGxlZFByb2Nlc3NFcnJvcjogQ29tbWFuZCAnWydnaXQnLCAnY2xvbmUnLCAn
-LXEnLCAnL2hvbWUvcGF0Y2hldzIvLmNhY2hlL3BhdGNoZXctZ2l0LWNhY2hlL2h0dHBzZ2l0aHVi
-Y29tcGF0Y2hld3Byb2plY3RxZW11LTNjOGNmNWE5YzIxZmY4NzgyMTY0ZDFkZWY3ZjQ0YmQ4ODg3
-MTMzODQnLCAnL3Zhci90bXAvcGF0Y2hldy10ZXN0ZXItdG1wLXhtdDdxMHM5L3NyYyddJyByZXR1
-cm5lZCBub24temVybyBleGl0IHN0YXR1cyAxMjguDQoNCg0KDQpUaGUgZnVsbCBsb2cgaXMgYXZh
-aWxhYmxlIGF0DQpodHRwczovL3VzZzAyLnNhZmVsaW5rcy5wcm90ZWN0aW9uLm9mZmljZTM2NS51
-cy8/dXJsPWh0dHAlM0ElMkYlMkZwYXRjaGV3Lm9yZyUyRmxvZ3MlMkYyMDIwMDcyNTE5MTQzNi4z
-MTgyOC0xLW1hdHRoaWV1LmJ1Y2NoaWFuZXJpJTQwbGVvc3RlbGxhLmNvbSUyRnRlc3RpbmcuY2hl
-Y2twYXRjaCUyRiUzRnR5cGUlM0RtZXNzYWdlJmFtcDtkYXRhPTAyJTdDMDElN0NtYXR0aGlldS5i
-dWNjaGlhbmVyaSU0MGxlb3N0ZWxsYS5jb20lN0MwZTBjM2ZkOWZiZmI0MzQ5MzMxYzA4ZDgzMGRl
-NjAwYyU3Q2RiYzUxMTQ2YWIyNjQwNGI5YzRiY2NlNGYzMzMxY2M1JTdDMSU3QzAlN0M2MzczMTMw
-Nzg5NDI3NTg4MTgmYW1wO3NkYXRhPVlVcjd0TUt1ZG5XWWM3MXphM3BYRlAlMkZMQ3BVd3hOUzlv
-WGIzeVZ2eUhaMCUzRCZhbXA7cmVzZXJ2ZWQ9MC4NCi0tLQ0KRW1haWwgZ2VuZXJhdGVkIGF1dG9t
-YXRpY2FsbHkgYnkgUGF0Y2hldyBbaHR0cHM6Ly91c2cwMi5zYWZlbGlua3MucHJvdGVjdGlvbi5v
-ZmZpY2UzNjUudXMvP3VybD1odHRwcyUzQSUyRiUyRnBhdGNoZXcub3JnJTJGJmFtcDtkYXRhPTAy
-JTdDMDElN0NtYXR0aGlldS5idWNjaGlhbmVyaSU0MGxlb3N0ZWxsYS5jb20lN0MwZTBjM2ZkOWZi
-ZmI0MzQ5MzMxYzA4ZDgzMGRlNjAwYyU3Q2RiYzUxMTQ2YWIyNjQwNGI5YzRiY2NlNGYzMzMxY2M1
-JTdDMSU3QzAlN0M2MzczMTMwNzg5NDI3NTg4MTgmYW1wO3NkYXRhPXdsRVdwa3lQdmdGc3klMkZU
-QXM0OTdTV3lHMCUyQiUyRm9CUzNPdUNLT3Z2U3ZOZEElM0QmYW1wO3Jlc2VydmVkPTBdLg0KUGxl
-YXNlIHNlbmQgeW91ciBmZWVkYmFjayB0byBwYXRjaGV3LWRldmVsQHJlZGhhdC5jb20NCkxlb1N0
-ZWxsYSwgTExDDQpBIGpvaW50IHZlbnR1cmUgb2YgVGhhbGVzIEFsZW5pYSBTcGFjZSBhbmQgU3Bh
-Y2VmbGlnaHQgSW5kdXN0cmllcw0KDQoxMjUwMSBFIE1hcmdpbmFsIFdheSBTIOKAoiBUdWt3aWxh
-LCBXQSA5ODE2OA0KDQpQcm9wcmlldGFyeSBEb2N1bWVudDogVGhpcyBkb2N1bWVudCBtYXkgY29u
-dGFpbiB0cmFkZSBzZWNyZXRzIG9yIG90aGVyd2lzZSBwcm9wcmlldGFyeSBhbmQgY29uZmlkZW50
-aWFsIGluZm9ybWF0aW9uIG93bmVkIGJ5IExlb1N0ZWxsYSBMTEMuIEl0IGlzIGludGVuZGVkIG9u
-bHkgZm9yIHRoZSBpbmRpdmlkdWFsIGFkZHJlc3NlZSBhbmQgbWF5IG5vdCBiZSBjb3BpZWQsIGRp
-c3RyaWJ1dGVkLCBvciBvdGhlcndpc2UgZGlzY2xvc2VkIHdpdGhvdXQgTGVvU3RlbGxhIExMQyBl
-eHByZXNzIHByaW9yIHdyaXR0ZW4gYXV0aG9yaXphdGlvbi4NCkV4cG9ydCBDb250cm9sbGVkOiBU
-aGlzIGRvY3VtZW50IG1heSBjb250YWluIHRlY2huaWNhbCBkYXRhIHdob3NlIGV4cG9ydCBpcyBy
-ZXN0cmljdGVkIGJ5IHRoZSBBcm1zIEV4cG9ydCBDb250cm9sIEFjdCAoVGl0bGUgMjIsIFUuUy5D
-LiwgU2VjIDI3NTEgZXQgc2VxLikgb3IgdGhlIEV4cG9ydCBBZG1pbmlzdHJhdGlvbiBBY3Qgb2Yg
-MTk3OSwgYXMgYW1lbmRlZCwgVGl0bGUgNTAsVS5TLkMuLCBhcHAgMjQwMSBldCBzZXEuIFZpb2xh
-dGlvbiBvZiB0aGVzZSBleHBvcnQgbGF3cyBhcmUgc3ViamVjdCB0byBzZXZlcmUgY3JpbWluYWwg
-cGVuYWx0aWVzLiBSZWNpcGllbnQgc2hhbGwgbm90IGV4cG9ydCwgcmUtZXhwb3J0LCBvciBvdGhl
-cndpc2UgdHJhbnNmZXIgb3Igc2hhcmUgdGhpcyBkb2N1bWVudCB0byBhbnkgZm9yZWlnbiBwZXJz
-b24gKGFzIGRlZmluZWQgYnkgVS5TLiBleHBvcnQgbGF3cykgd2l0aG91dCBhZHZhbmNlIHdyaXR0
-ZW4gYXV0aG9yaXphdGlvbiBmcm9tIExlb1N0ZWxsYSBMTEMuDQo=
+On Sat, Jul 25, 2020 at 08:54:36PM +0800, Hogan Wang wrote:
+> The pci host config register is used to save PCI address for
+> read/write config data. If guest write a value to config register,
+> and then pause the vcpu to migrate, After the migration, the guest
+> continue to write pci config data, and the write data will be ignored
+> because of new qemu process lost the config register state.
+> 
+> Reproduction steps are:
+> 1. guest booting in seabios.
+> 2. guest enable the SMRAM in seabios:piix4_apmc_smm_setup, and then
+>    expect to disable the SMRAM by pci_config_writeb.
+> 3. after guest write the pci host config register, and then pasued vcpu
+>    to finish migration.
+> 4. guest write config data(0x0A) fail to disable the SMRAM becasue of
+>    config register state lost.
+> 5. guest continue to boot and crash in ipxe option ROM due to SMRAM in
+>    enabled state.
+> 
+> Signed-off-by: Hogan Wang <hogan.wang@huawei.com>
+> ---
+>  hw/i386/pc.c               |  5 ++++-
+>  hw/pci-host/i440fx.c       | 20 ++++++++++++++++++++
+>  hw/pci-host/q35.c          | 19 +++++++++++++++++++
+>  hw/pci/pci_host.c          | 11 +++++++++++
+>  hw/pci/pcie_host.c         | 11 +++++++++++
+>  include/hw/pci-host/q35.h  |  1 +
+>  include/hw/pci/pci_host.h  | 10 ++++++++++
+>  include/hw/pci/pcie_host.h | 10 ++++++++++
+>  8 files changed, 86 insertions(+), 1 deletion(-)
+> 
+> diff --git a/hw/i386/pc.c b/hw/i386/pc.c
+> index 3d419d5991..517f185992 100644
+> --- a/hw/i386/pc.c
+> +++ b/hw/i386/pc.c
+> @@ -97,7 +97,10 @@
+>  #include "fw_cfg.h"
+>  #include "trace.h"
+>  
+> -GlobalProperty pc_compat_5_0[] = {};
+> +GlobalProperty pc_compat_5_0[] = {
+> +    { "i440FX-pcihost", "migration-enabled", "off" },
+> +    { "q35-pcihost", "migration-enabled", "off" },
+> +};
+>  const size_t pc_compat_5_0_len = G_N_ELEMENTS(pc_compat_5_0);
+>  
+>  GlobalProperty pc_compat_4_2[] = {
+
+Okay so let's make it more explicit: "x-config-reg-migration-enabled".
+The property and all the code can then be on the pci host, not x86 specific.
+
+
+> diff --git a/hw/pci-host/i440fx.c b/hw/pci-host/i440fx.c
+> index 8ed2417f0c..c662903dbb 100644
+> --- a/hw/pci-host/i440fx.c
+> +++ b/hw/pci-host/i440fx.c
+> @@ -49,6 +49,7 @@ typedef struct I440FXState {
+>      Range pci_hole;
+>      uint64_t pci_hole64_size;
+>      bool pci_hole64_fix;
+> +    bool migration_enabled;
+>      uint32_t short_root_bus;
+>  } I440FXState;
+>  
+> @@ -118,6 +119,23 @@ static const VMStateDescription vmstate_i440fx = {
+>      }
+>  };
+>  
+> +static bool i440fx_pcihost_needed(void *opaque)
+> +{
+> +    I440FXState *s = opaque;
+> +    return s->migration_enabled;
+> +}
+> +
+> +static const VMStateDescription vmstate_i440fx_pcihost = {
+> +    .name = "I440FX_PCIHost",
+> +    .needed = i440fx_pcihost_needed,
+> +    .version_id = 1,
+> +    .minimum_version_id = 1,
+> +    .fields = (VMStateField[]) {
+> +        VMSTATE_PCI_HOST(parent_obj, I440FXState),
+> +        VMSTATE_END_OF_LIST()
+> +    }
+> +};
+> +
+>  static void i440fx_pcihost_get_pci_hole_start(Object *obj, Visitor *v,
+>                                                const char *name, void *opaque,
+>                                                Error **errp)
+> @@ -387,6 +405,7 @@ static Property i440fx_props[] = {
+>                       pci_hole64_size, I440FX_PCI_HOST_HOLE64_SIZE_DEFAULT),
+>      DEFINE_PROP_UINT32("short_root_bus", I440FXState, short_root_bus, 0),
+>      DEFINE_PROP_BOOL("x-pci-hole64-fix", I440FXState, pci_hole64_fix, true),
+> +    DEFINE_PROP_BOOL("migration-enabled", I440FXState, migration_enabled, true),
+>      DEFINE_PROP_END_OF_LIST(),
+>  };
+>  
+> @@ -398,6 +417,7 @@ static void i440fx_pcihost_class_init(ObjectClass *klass, void *data)
+>      hc->root_bus_path = i440fx_pcihost_root_bus_path;
+>      dc->realize = i440fx_pcihost_realize;
+>      dc->fw_name = "pci";
+> +    dc->vmsd = &vmstate_i440fx_pcihost;
+>      device_class_set_props(dc, i440fx_props);
+>      /* Reason: needs to be wired up by pc_init1 */
+>      dc->user_creatable = false;
+> diff --git a/hw/pci-host/q35.c b/hw/pci-host/q35.c
+> index b67cb9c29f..bb41665da4 100644
+> --- a/hw/pci-host/q35.c
+> +++ b/hw/pci-host/q35.c
+> @@ -165,6 +165,23 @@ static void q35_host_get_pci_hole64_end(Object *obj, Visitor *v,
+>      visit_type_uint64(v, name, &value, errp);
+>  }
+>  
+> +static bool q35_host_needed(void *opaque)
+> +{
+> +    Q35PCIHost *s = opaque;
+> +    return s->migration_enabled;
+> +}
+> +
+> +static const VMStateDescription vmstate_q35_host = {
+> +    .name = "Q35_PCIHost",
+> +    .needed = q35_host_needed,
+> +    .version_id = 1,
+> +    .minimum_version_id = 1,
+> +    .fields = (VMStateField[]) {
+> +        VMSTATE_PCIE_HOST(parent_obj, Q35PCIHost),
+> +        VMSTATE_END_OF_LIST()
+> +    }
+> +};
+> +
+>  /*
+>   * NOTE: setting defaults for the mch.* fields in this table
+>   * doesn't work, because mch is a separate QOM object that is
+> @@ -184,6 +201,7 @@ static Property q35_host_props[] = {
+>      DEFINE_PROP_SIZE(PCI_HOST_ABOVE_4G_MEM_SIZE, Q35PCIHost,
+>                       mch.above_4g_mem_size, 0),
+>      DEFINE_PROP_BOOL("x-pci-hole64-fix", Q35PCIHost, pci_hole64_fix, true),
+> +    DEFINE_PROP_BOOL("migration-enabled", Q35PCIHost, migration_enabled, true),
+>      DEFINE_PROP_END_OF_LIST(),
+>  };
+>  
+> @@ -194,6 +212,7 @@ static void q35_host_class_init(ObjectClass *klass, void *data)
+>  
+>      hc->root_bus_path = q35_host_root_bus_path;
+>      dc->realize = q35_host_realize;
+> +    dc->vmsd = &vmstate_q35_host;
+>      device_class_set_props(dc, q35_host_props);
+>      /* Reason: needs to be wired up by pc_q35_init */
+>      dc->user_creatable = false;
+> diff --git a/hw/pci/pci_host.c b/hw/pci/pci_host.c
+> index ce7bcdb1d5..7cdd5a3ea3 100644
+> --- a/hw/pci/pci_host.c
+> +++ b/hw/pci/pci_host.c
+> @@ -24,6 +24,7 @@
+>  #include "hw/pci/pci_host.h"
+>  #include "qemu/module.h"
+>  #include "hw/pci/pci_bus.h"
+> +#include "migration/vmstate.h"
+>  #include "trace.h"
+>  
+>  /* debug PCI */
+> @@ -200,6 +201,16 @@ const MemoryRegionOps pci_host_data_be_ops = {
+>      .endianness = DEVICE_BIG_ENDIAN,
+>  };
+>  
+> +const VMStateDescription vmstate_pcihost = {
+> +    .name = "PCIHost",
+> +    .version_id = 1,
+> +    .minimum_version_id = 1,
+> +    .fields = (VMStateField[]) {
+> +        VMSTATE_UINT32(config_reg, PCIHostState),
+> +        VMSTATE_END_OF_LIST()
+> +    }
+> +};
+> +
+>  static const TypeInfo pci_host_type_info = {
+>      .name = TYPE_PCI_HOST_BRIDGE,
+>      .parent = TYPE_SYS_BUS_DEVICE,
+> diff --git a/hw/pci/pcie_host.c b/hw/pci/pcie_host.c
+> index 3534006f99..a653c39bb7 100644
+> --- a/hw/pci/pcie_host.c
+> +++ b/hw/pci/pcie_host.c
+> @@ -24,6 +24,7 @@
+>  #include "hw/pci/pcie_host.h"
+>  #include "qemu/module.h"
+>  #include "exec/address-spaces.h"
+> +#include "migration/vmstate.h"
+>  
+>  /* a helper function to get a PCIDevice for a given mmconfig address */
+>  static inline PCIDevice *pcie_dev_find_by_mmcfg_addr(PCIBus *s,
+> @@ -121,6 +122,16 @@ void pcie_host_mmcfg_update(PCIExpressHost *e,
+>      memory_region_transaction_commit();
+>  }
+>  
+> +const VMStateDescription vmstate_pciehost = {
+> +    .name = "PCIEHost",
+> +    .version_id = 1,
+> +    .minimum_version_id = 1,
+> +    .fields = (VMStateField[]) {
+> +        VMSTATE_PCI_HOST(pci, PCIExpressHost),
+> +        VMSTATE_END_OF_LIST()
+> +    }
+> +};
+> +
+>  static const TypeInfo pcie_host_type_info = {
+>      .name = TYPE_PCIE_HOST_BRIDGE,
+>      .parent = TYPE_PCI_HOST_BRIDGE,
+> diff --git a/include/hw/pci-host/q35.h b/include/hw/pci-host/q35.h
+> index 070305f83d..02906e8159 100644
+> --- a/include/hw/pci-host/q35.h
+> +++ b/include/hw/pci-host/q35.h
+> @@ -65,6 +65,7 @@ typedef struct Q35PCIHost {
+>      /*< public >*/
+>  
+>      bool pci_hole64_fix;
+> +    bool migration_enabled;
+>      MCHPCIState mch;
+>  } Q35PCIHost;
+>  
+> diff --git a/include/hw/pci/pci_host.h b/include/hw/pci/pci_host.h
+> index 9ce088bd13..fc88305e04 100644
+> --- a/include/hw/pci/pci_host.h
+> +++ b/include/hw/pci/pci_host.h
+> @@ -70,4 +70,14 @@ extern const MemoryRegionOps pci_host_conf_be_ops;
+>  extern const MemoryRegionOps pci_host_data_le_ops;
+>  extern const MemoryRegionOps pci_host_data_be_ops;
+>  
+> +extern const VMStateDescription vmstate_pcihost;
+> +
+> +#define VMSTATE_PCI_HOST(_field, _state) {                           \
+> +    .name       = (stringify(_field)),                               \
+> +    .size       = sizeof(PCIHostState),                              \
+> +    .vmsd       = &vmstate_pcihost,                                  \
+> +    .flags      = VMS_STRUCT,                                        \
+> +    .offset     = vmstate_offset_value(_state, _field, PCIHostState),\
+> +}
+> +
+>  #endif /* PCI_HOST_H */
+> diff --git a/include/hw/pci/pcie_host.h b/include/hw/pci/pcie_host.h
+> index 3f7b9886d1..e8856f03e9 100644
+> --- a/include/hw/pci/pcie_host.h
+> +++ b/include/hw/pci/pcie_host.h
+> @@ -78,4 +78,14 @@ void pcie_host_mmcfg_update(PCIExpressHost *e,
+>                                           PCIE_MMCFG_DEVFN_MASK)
+>  #define PCIE_MMCFG_CONFOFFSET(addr)     ((addr) & PCIE_MMCFG_CONFOFFSET_MASK)
+>  
+> +extern const VMStateDescription vmstate_pciehost;
+> +
+> +#define VMSTATE_PCIE_HOST(_field, _state) {                            \
+> +    .name       = (stringify(_field)),                                 \
+> +    .size       = sizeof(PCIExpressHost),                              \
+> +    .vmsd       = &vmstate_pciehost,                                   \
+> +    .flags      = VMS_STRUCT,                                          \
+> +    .offset     = vmstate_offset_value(_state, _field, PCIExpressHost),\
+> +}
+> +
+>  #endif /* PCIE_HOST_H */
+> -- 
+> 2.27.0
+> 
+
 
