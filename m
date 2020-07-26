@@ -2,85 +2,50 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 58F2022DDC1
-	for <lists+qemu-devel@lfdr.de>; Sun, 26 Jul 2020 11:31:19 +0200 (CEST)
-Received: from localhost ([::1]:34422 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8342D22DDE3
+	for <lists+qemu-devel@lfdr.de>; Sun, 26 Jul 2020 12:06:10 +0200 (CEST)
+Received: from localhost ([::1]:39020 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jzd02-00012d-DP
-	for lists+qemu-devel@lfdr.de; Sun, 26 Jul 2020 05:31:18 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:56182)
+	id 1jzdXl-0005Pr-3l
+	for lists+qemu-devel@lfdr.de; Sun, 26 Jul 2020 06:06:09 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:33530)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1jzcz2-0000VV-AU
- for qemu-devel@nongnu.org; Sun, 26 Jul 2020 05:30:16 -0400
-Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:32675
- helo=us-smtp-1.mimecast.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1jzcz0-0003Rg-98
- for qemu-devel@nongnu.org; Sun, 26 Jul 2020 05:30:16 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1595755813;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=G24wWmi+691+LcnaeuQUQXfGggczuGX5jNz1Y0OEfHs=;
- b=gPoJHwVMLKNoWhBmDL9PPw0shxOf7+UuFeuiaDRrRl16Fuf+fYS/5HoW5gO8+36FTglPol
- BoXDcGMu89Pdx7U7oMXasLk4Dd1Clk+Vg8RRbXYsoLCgBlJE8WLtABWqaCDq1XZHqbAxub
- cE+gsD8C/6uBzrHpL6XpZUBbqutqoOE=
-Received: from mail-qt1-f198.google.com (mail-qt1-f198.google.com
- [209.85.160.198]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-348-6zLXK3-zNj-2VgyMAvhnUg-1; Sun, 26 Jul 2020 05:30:11 -0400
-X-MC-Unique: 6zLXK3-zNj-2VgyMAvhnUg-1
-Received: by mail-qt1-f198.google.com with SMTP id h10so9391478qtc.4
- for <qemu-devel@nongnu.org>; Sun, 26 Jul 2020 02:30:11 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:in-reply-to;
- bh=G24wWmi+691+LcnaeuQUQXfGggczuGX5jNz1Y0OEfHs=;
- b=nkXZHmpopJnmQIXFiHQZ4gGQ+QO9matDKbQZj3AOaz6QWZztqmqmZktyfDScRyOlM7
- lhjTLrNDnL73Qp5xUg8ugcZSuE9wxPP+6wSSjmPdI5P45JYFU3w150OM2iT5Jvaz2Y8O
- c92d7/wlhF0nLkUkom/6e8L4cWAJJtUzq6haSSFx725bO+htdiet8MskBA/KEB1/HvUa
- VLq9AOJ0ypzUCSW2J043bkibaynxs9JABMSrMPoGVNqX8VGCon4JSWuYdToJ+dJYEDVp
- 29Gd5rCkrflbjpnWLjT4zNbkBuL7s41D76Glm+1kiQGinQLOkJOc1a8Y+mbOitdGBfVc
- bDbg==
-X-Gm-Message-State: AOAM530YR8gmoBlp+VMXcWTja8bKO1TW0hz5qDJ62j6RLRerBYqPDmYa
- 6/IvGvu0W5UkfZ5womafwe9E0uDIVTce49+zapc0vNVnm6KKewOkglHF8vqRc7TRchOi5cYoyn5
- ITNJFfCs6Zi7No3g=
-X-Received: by 2002:ac8:c7:: with SMTP id d7mr17211056qtg.235.1595755810966;
- Sun, 26 Jul 2020 02:30:10 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJyqA+DkLiXTd/TpmiWsJK1XPP43w3g6YpGSyFHoIVC7j/sNBaPb9/ZC1MkcUJKcARKKzDFRIg==
-X-Received: by 2002:ac8:c7:: with SMTP id d7mr17211042qtg.235.1595755810670;
- Sun, 26 Jul 2020 02:30:10 -0700 (PDT)
-Received: from redhat.com (93-172-53-68.bb.netvision.net.il. [93.172.53.68])
- by smtp.gmail.com with ESMTPSA id c70sm13022820qke.109.2020.07.26.02.30.07
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sun, 26 Jul 2020 02:30:10 -0700 (PDT)
-Date: Sun, 26 Jul 2020 05:30:06 -0400
-From: "Michael S. Tsirkin" <mst@redhat.com>
-To: Hogan Wang <hogan.wang@huawei.com>
-Subject: Re: [PATCH v3 2/2] hw/pci-host: save/restore pci host config
- register for old ones
-Message-ID: <20200726052854-mutt-send-email-mst@kernel.org>
-References: <20200725125437.2825-1-hogan.wang@huawei.com>
- <20200725125437.2825-2-hogan.wang@huawei.com>
+ (Exim 4.90_1) (envelope-from <balaton@eik.bme.hu>)
+ id 1jzdWt-0004nh-8v; Sun, 26 Jul 2020 06:05:15 -0400
+Received: from zero.eik.bme.hu ([152.66.115.2]:57298)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <balaton@eik.bme.hu>)
+ id 1jzdWq-0006u8-27; Sun, 26 Jul 2020 06:05:14 -0400
+Received: from zero.eik.bme.hu (blah.eik.bme.hu [152.66.115.182])
+ by localhost (Postfix) with SMTP id E1ECA74638A;
+ Sun, 26 Jul 2020 12:04:58 +0200 (CEST)
+Received: by zero.eik.bme.hu (Postfix, from userid 432)
+ id 98BBB745712; Sun, 26 Jul 2020 12:04:58 +0200 (CEST)
+Received: from localhost (localhost [127.0.0.1])
+ by zero.eik.bme.hu (Postfix) with ESMTP id 94EED745702;
+ Sun, 26 Jul 2020 12:04:58 +0200 (CEST)
+Date: Sun, 26 Jul 2020 12:04:58 +0200 (CEST)
+From: BALATON Zoltan <balaton@eik.bme.hu>
+To: Matthieu Bucchianeri <matthieu.bucchianeri@leostella.com>
+Subject: Re: [PATCH] target/ppc: Fix SPE unavailable exception triggering
+In-Reply-To: <20200725191436.31828-1-matthieu.bucchianeri@leostella.com>
+Message-ID: <alpine.BSF.2.22.395.2007261202050.35472@zero.eik.bme.hu>
+References: <20200725191436.31828-1-matthieu.bucchianeri@leostella.com>
+User-Agent: Alpine 2.22 (BSF 395 2020-01-19)
 MIME-Version: 1.0
-In-Reply-To: <20200725125437.2825-2-hogan.wang@huawei.com>
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Received-SPF: pass client-ip=205.139.110.120; envelope-from=mst@redhat.com;
- helo=us-smtp-1.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/07/26 05:30:13
-X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
-X-Spam_score_int: -40
-X-Spam_score: -4.1
+Content-Type: multipart/mixed;
+ boundary="3866299591-1406235146-1595757898=:35472"
+X-Spam-Probability: 9%
+Received-SPF: pass client-ip=152.66.115.2; envelope-from=balaton@eik.bme.hu;
+ helo=zero.eik.bme.hu
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/07/26 06:04:59
+X-ACL-Warn: Detected OS   = FreeBSD 9.x or newer [fuzzy]
+X-Spam_score_int: -41
+X-Spam_score: -4.2
 X-Spam_bar: ----
-X-Spam_report: (-4.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-1, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Spam_report: (-4.2 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_MED=-2.3,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -93,152 +58,271 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: weidong.huang@huawei.com, wangxinxin.wang@huawei.com, jusual@redhat.com,
- dgilbert@redhat.com, qemu-devel@nongnu.org
+Cc: qemu-ppc@nongnu.org, qemu-devel@nongnu.org, david@gibson.dropbear.id.au
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Sat, Jul 25, 2020 at 08:54:37PM +0800, Hogan Wang wrote:
-> The i440fx and q35 machines integrate i440FX or MCH PCI device by default.
-> Refer to i440FX and ICH9-LPC spcifications, there are some reserved
-> configuration registers can used to save/restore PCIHostState.config_reg.
-> It's nasty but friendly to old ones.
-> 
-> Signed-off-by: Hogan Wang <hogan.wang@huawei.com>
+  This message is in MIME format.  The first part should be readable text,
+  while the remaining parts are likely unreadable without MIME-aware tools.
 
-Just to make sure, how was this tested?
-Did you test that migration to an old qemu e.g. the last release
-with an old machine type works with this patch?
+--3866299591-1406235146-1595757898=:35472
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Transfer-Encoding: 8BIT
 
-
+On Sat, 25 Jul 2020, Matthieu Bucchianeri wrote:
+> When emulating certain floating point instructions or vector instructions on
+> PowerPC machines, QEMU did not properly generate the SPE/Embedded Floating-
+> Point Unavailable interrupt. See the buglink further below for references to
+> the relevant NXP documentation.
+>
+> This patch fixes the behavior of some evfs* instructions that were
+> incorrectly emitting the interrupt.
+>
+> More importantly, this patch fixes the behavior of several efd* and ev*
+> instructions that were not generating the interrupt. Triggering the
+> interrupt for these instructions fixes lazy FPU/vector context switching on
+> some operating systems like Linux.
+>
+> Without this patch, the result of some double-precision arithmetic could be
+> corrupted due to the lack of proper saving and restoring of the upper
+> 32-bit part of the general-purpose registers.
+>
+> Buglink: https://bugs.launchpad.net/qemu/+bug/1888918
+> Buglink: https://bugs.launchpad.net/qemu/+bug/1611394
+> Signed-off-by: Matthieu Bucchianeri <matthieu.bucchianeri@leostella.com>
 > ---
->  hw/pci-host/i440fx.c | 31 +++++++++++++++++++++++++++++++
->  hw/pci-host/q35.c    | 37 +++++++++++++++++++++++++++++++++++++
->  2 files changed, 68 insertions(+)
-> 
-> diff --git a/hw/pci-host/i440fx.c b/hw/pci-host/i440fx.c
-> index c662903dbb..9e2cfdb052 100644
-> --- a/hw/pci-host/i440fx.c
-> +++ b/hw/pci-host/i440fx.c
-> @@ -65,6 +65,14 @@ typedef struct I440FXState {
->   */
->  #define I440FX_COREBOOT_RAM_SIZE 0x57
->  
-> +/* Older I440FX machines (5.0 and older) not support i440FX-pcihost state
-> + * migration, use some reserved INTEL 82441 configuration registers to
-> + * save/restore i440FX-pcihost config register. Refer to [INTEL 440FX PCISET
-> + * 82441FX PCI AND MEMORY CONTROLLER (PMC) AND 82442FX DATA BUS ACCELERATOR
-> + * (DBX) Table 1. PMC Configuration Space]
-> + */
-> +#define I440FX_PCI_HOST_CONFIG_REG 0x94
-> +
->  static void i440fx_update_memory_mappings(PCII440FXState *d)
->  {
->      int i;
-> @@ -99,8 +107,30 @@ static void i440fx_write_config(PCIDevice *dev,
->  static int i440fx_post_load(void *opaque, int version_id)
->  {
->      PCII440FXState *d = opaque;
-> +    uint8_t *config;
-> +    I440FXState *s = OBJECT_CHECK(I440FXState,
-> +                                  object_resolve_path("/machine/i440fx", NULL),
-> +                                  TYPE_PCI_HOST_BRIDGE);
->  
->      i440fx_update_memory_mappings(d);
-> +
-> +    if (!s->migration_enabled) {
-> +        config = &d->parent_obj.config[I440FX_PCI_HOST_CONFIG_REG];
-> +        s->parent_obj.config_reg = pci_get_long(config);
+> target/ppc/translate/spe-impl.inc.c | 101 ++++++++++++++++++----------
+> 1 file changed, 66 insertions(+), 35 deletions(-)
+>
+> diff --git a/target/ppc/translate/spe-impl.inc.c b/target/ppc/translate/spe-impl.inc.c
+> index 36b4d5654d..2e6e799a25 100644
+> --- a/target/ppc/translate/spe-impl.inc.c
+> +++ b/target/ppc/translate/spe-impl.inc.c
+> @@ -349,14 +349,24 @@ static inline void gen_evmergelohi(DisasContext *ctx)
+> }
+> static inline void gen_evsplati(DisasContext *ctx)
+> {
+> -    uint64_t imm = ((int32_t)(rA(ctx->opcode) << 27)) >> 27;
+> +    uint64_t imm;
+> +    if (unlikely(!ctx->spe_enabled)) {
+> +        gen_exception(ctx, POWERPC_EXCP_SPEU);
+> +        return;
 > +    }
-> +    return 0;
-> +}
-> +
-> +static int i440fx_pre_save(void *opaque)
-> +{
-> +    PCIDevice *d = opaque;
-> +    I440FXState *s = OBJECT_CHECK(I440FXState,
-> +                                  object_resolve_path("/machine/i440fx", NULL),
-> +                                  TYPE_PCI_HOST_BRIDGE);
-> +    if (!s->migration_enabled) {
-> +        pci_set_long(&d->config[I440FX_PCI_HOST_CONFIG_REG],
-> +                     s->parent_obj.config_reg);
+> +    imm = ((int32_t)(rA(ctx->opcode) << 27)) >> 27;
+>
+>     tcg_gen_movi_tl(cpu_gpr[rD(ctx->opcode)], imm);
+>     tcg_gen_movi_tl(cpu_gprh[rD(ctx->opcode)], imm);
+> }
+> static inline void gen_evsplatfi(DisasContext *ctx)
+> {
+> -    uint64_t imm = rA(ctx->opcode) << 27;
+> +    uint64_t imm;
+> +    if (unlikely(!ctx->spe_enabled)) {
+> +        gen_exception(ctx, POWERPC_EXCP_SPEU);
+> +        return;
 > +    }
->      return 0;
->  }
->  
-> @@ -108,6 +138,7 @@ static const VMStateDescription vmstate_i440fx = {
->      .name = "I440FX",
->      .version_id = 3,
->      .minimum_version_id = 3,
-> +    .pre_save = i440fx_pre_save,
->      .post_load = i440fx_post_load,
->      .fields = (VMStateField[]) {
->          VMSTATE_PCI_DEVICE(parent_obj, PCII440FXState),
-> diff --git a/hw/pci-host/q35.c b/hw/pci-host/q35.c
-> index bb41665da4..67e08dedc5 100644
-> --- a/hw/pci-host/q35.c
-> +++ b/hw/pci-host/q35.c
-> @@ -43,6 +43,15 @@
->  
->  #define Q35_PCI_HOST_HOLE64_SIZE_DEFAULT (1ULL << 35)
->  
-> +/* Older Q35 machines (5.0 and older) not support q35-pcihost state
-> + * migration, use some reserved INTEL MCH configuration registers to
-> + * save/restore q35-pcihost config register. Refer to [Intel 3 Series
-> + * Chipset Family Datasheet Table 5-1. DRAM Controller Register Address
-> + * Map (D0:F0)]
-> + */
-> +#define Q35_PCI_HOST_CONFIG_REG 0x70
-> +
-> +
->  static void q35_host_realize(DeviceState *dev, Error **errp)
->  {
->      PCIHostState *pci = PCI_HOST_BRIDGE(dev);
-> @@ -532,7 +541,34 @@ static void mch_update(MCHPCIState *mch)
->  static int mch_post_load(void *opaque, int version_id)
->  {
->      MCHPCIState *mch = opaque;
-> +    uint8_t *config;
-> +    Q35PCIHost *s = OBJECT_CHECK(Q35PCIHost,
-> +                                 object_resolve_path("/machine/q35", NULL),
-> +                                 TYPE_PCI_HOST_BRIDGE);
-> +    PCIHostState *pci = PCI_HOST_BRIDGE(s);
-> +
->      mch_update(mch);
-> +    if (!s->migration_enabled) {
-> +        config = &mch->parent_obj.config[Q35_PCI_HOST_CONFIG_REG];
-> +        pci->config_reg = pci_get_long(config);
+> +    imm = rA(ctx->opcode) << 27;
+>
+>     tcg_gen_movi_tl(cpu_gpr[rD(ctx->opcode)], imm);
+>     tcg_gen_movi_tl(cpu_gprh[rD(ctx->opcode)], imm);
+> @@ -389,21 +399,37 @@ static inline void gen_evsel(DisasContext *ctx)
+>
+> static void gen_evsel0(DisasContext *ctx)
+> {
+> +    if (unlikely(!ctx->spe_enabled)) {
+> +        gen_exception(ctx, POWERPC_EXCP_SPEU);
+> +        return;
+> +    }
+>     gen_evsel(ctx);
+> }
+>
+> static void gen_evsel1(DisasContext *ctx)
+> {
+> +    if (unlikely(!ctx->spe_enabled)) {
+> +        gen_exception(ctx, POWERPC_EXCP_SPEU);
+> +        return;
+> +    }
+>     gen_evsel(ctx);
+> }
+>
+> static void gen_evsel2(DisasContext *ctx)
+> {
+> +    if (unlikely(!ctx->spe_enabled)) {
+> +        gen_exception(ctx, POWERPC_EXCP_SPEU);
+> +        return;
+> +    }
+>     gen_evsel(ctx);
+> }
+>
+> static void gen_evsel3(DisasContext *ctx)
+> {
+> +    if (unlikely(!ctx->spe_enabled)) {
+> +        gen_exception(ctx, POWERPC_EXCP_SPEU);
+> +        return;
+> +    }
+>     gen_evsel(ctx);
+> }
+>
+> @@ -518,6 +544,11 @@ static inline void gen_evmwsmia(DisasContext *ctx)
+> {
+>     TCGv_i64 tmp;
+>
+> +    if (unlikely(!ctx->spe_enabled)) {
+> +        gen_exception(ctx, POWERPC_EXCP_SPEU);
+> +        return;
 > +    }
 > +
-> +    return 0;
-> +}
+>     gen_evmwsmi(ctx);            /* rD := rA * rB */
+>
+>     tmp = tcg_temp_new_i64();
+> @@ -531,8 +562,13 @@ static inline void gen_evmwsmia(DisasContext *ctx)
+>
+> static inline void gen_evmwsmiaa(DisasContext *ctx)
+> {
+> -    TCGv_i64 acc = tcg_temp_new_i64();
+> -    TCGv_i64 tmp = tcg_temp_new_i64();
+> +    TCGv_i64 acc;
+> +    TCGv_i64 tmp;
 > +
-> +static int mch_pre_save(void *opaque)
-> +{
-> +    MCHPCIState *mch = opaque;
-> +    uint8_t *config;
-> +    Q35PCIHost *s = OBJECT_CHECK(Q35PCIHost,
-> +                                 object_resolve_path("/machine/q35", NULL),
-> +                                 TYPE_PCI_HOST_BRIDGE);
-> +    PCIHostState *pci = PCI_HOST_BRIDGE(s);
-> +
-> +    if (!s->migration_enabled) {
-> +        config = &mch->parent_obj.config[Q35_PCI_HOST_CONFIG_REG];
-> +        pci_set_long(config, pci->config_reg);
+> +    if (unlikely(!ctx->spe_enabled)) {
+> +        gen_exception(ctx, POWERPC_EXCP_SPEU);
+> +        return;
 > +    }
->      return 0;
->  }
->  
-> @@ -540,6 +576,7 @@ static const VMStateDescription vmstate_mch = {
->      .name = "mch",
->      .version_id = 1,
->      .minimum_version_id = 1,
-> +    .pre_save = mch_pre_save,
->      .post_load = mch_post_load,
->      .fields = (VMStateField[]) {
->          VMSTATE_PCI_DEVICE(parent_obj, MCHPCIState),
-> -- 
-> 2.27.0
-> 
 
+Isn't this missing here:
+
+acc = tcg_temp_new_i64();
+tmp = tcg_temp_new_i64();
+
+You've removed allocating temps but this hunk does not add it back after 
+the exception unlike others in this patch.
+
+Regards,
+BALATON Zoltan
+
+>
+>     gen_evmwsmi(ctx);           /* rD := rA * rB */
+>
+> @@ -892,8 +928,14 @@ static inline void gen_##name(DisasContext *ctx)                              \
+> #define GEN_SPEFPUOP_CONV_32_64(name)                                         \
+> static inline void gen_##name(DisasContext *ctx)                              \
+> {                                                                             \
+> -    TCGv_i64 t0 = tcg_temp_new_i64();                                         \
+> -    TCGv_i32 t1 = tcg_temp_new_i32();                                         \
+> +    TCGv_i64 t0;                                                              \
+> +    TCGv_i32 t1;                                                              \
+> +    if (unlikely(!ctx->spe_enabled)) {                                        \
+> +        gen_exception(ctx, POWERPC_EXCP_SPEU);                                \
+> +        return;                                                               \
+> +    }                                                                         \
+> +    t0 = tcg_temp_new_i64();                                                  \
+> +    t1 = tcg_temp_new_i32();                                                  \
+>     gen_load_gpr64(t0, rB(ctx->opcode));                                      \
+>     gen_helper_##name(t1, cpu_env, t0);                                       \
+>     tcg_gen_extu_i32_tl(cpu_gpr[rD(ctx->opcode)], t1);                        \
+> @@ -903,8 +945,14 @@ static inline void gen_##name(DisasContext *ctx)                              \
+> #define GEN_SPEFPUOP_CONV_64_32(name)                                         \
+> static inline void gen_##name(DisasContext *ctx)                              \
+> {                                                                             \
+> -    TCGv_i64 t0 = tcg_temp_new_i64();                                         \
+> -    TCGv_i32 t1 = tcg_temp_new_i32();                                         \
+> +    TCGv_i64 t0;                                                              \
+> +    TCGv_i32 t1;                                                              \
+> +    if (unlikely(!ctx->spe_enabled)) {                                        \
+> +        gen_exception(ctx, POWERPC_EXCP_SPEU);                                \
+> +        return;                                                               \
+> +    }                                                                         \
+> +    t0 = tcg_temp_new_i64();                                                  \
+> +    t1 = tcg_temp_new_i32();                                                  \
+>     tcg_gen_trunc_tl_i32(t1, cpu_gpr[rB(ctx->opcode)]);                       \
+>     gen_helper_##name(t0, cpu_env, t1);                                       \
+>     gen_store_gpr64(rD(ctx->opcode), t0);                                     \
+> @@ -914,7 +962,12 @@ static inline void gen_##name(DisasContext *ctx)                              \
+> #define GEN_SPEFPUOP_CONV_64_64(name)                                         \
+> static inline void gen_##name(DisasContext *ctx)                              \
+> {                                                                             \
+> -    TCGv_i64 t0 = tcg_temp_new_i64();                                         \
+> +    TCGv_i64 t0;                                                              \
+> +    if (unlikely(!ctx->spe_enabled)) {                                        \
+> +        gen_exception(ctx, POWERPC_EXCP_SPEU);                                \
+> +        return;                                                               \
+> +    }                                                                         \
+> +    t0 = tcg_temp_new_i64();                                                  \
+>     gen_load_gpr64(t0, rB(ctx->opcode));                                      \
+>     gen_helper_##name(t0, cpu_env, t0);                                       \
+>     gen_store_gpr64(rD(ctx->opcode), t0);                                     \
+> @@ -923,13 +976,8 @@ static inline void gen_##name(DisasContext *ctx)                              \
+> #define GEN_SPEFPUOP_ARITH2_32_32(name)                                       \
+> static inline void gen_##name(DisasContext *ctx)                              \
+> {                                                                             \
+> -    TCGv_i32 t0, t1;                                                          \
+> -    if (unlikely(!ctx->spe_enabled)) {                                        \
+> -        gen_exception(ctx, POWERPC_EXCP_SPEU);                                \
+> -        return;                                                               \
+> -    }                                                                         \
+> -    t0 = tcg_temp_new_i32();                                                  \
+> -    t1 = tcg_temp_new_i32();                                                  \
+> +    TCGv_i32 t0 = tcg_temp_new_i32();                                         \
+> +    TCGv_i32 t1 = tcg_temp_new_i32();                                         \
+>     tcg_gen_trunc_tl_i32(t0, cpu_gpr[rA(ctx->opcode)]);                       \
+>     tcg_gen_trunc_tl_i32(t1, cpu_gpr[rB(ctx->opcode)]);                       \
+>     gen_helper_##name(t0, cpu_env, t0, t1);                                   \
+> @@ -958,13 +1006,8 @@ static inline void gen_##name(DisasContext *ctx)                              \
+> #define GEN_SPEFPUOP_COMP_32(name)                                            \
+> static inline void gen_##name(DisasContext *ctx)                              \
+> {                                                                             \
+> -    TCGv_i32 t0, t1;                                                          \
+> -    if (unlikely(!ctx->spe_enabled)) {                                        \
+> -        gen_exception(ctx, POWERPC_EXCP_SPEU);                                \
+> -        return;                                                               \
+> -    }                                                                         \
+> -    t0 = tcg_temp_new_i32();                                                  \
+> -    t1 = tcg_temp_new_i32();                                                  \
+> +    TCGv_i32 t0 = tcg_temp_new_i32();                                         \
+> +    TCGv_i32 t1 = tcg_temp_new_i32();                                         \
+>                                                                               \
+>     tcg_gen_trunc_tl_i32(t0, cpu_gpr[rA(ctx->opcode)]);                       \
+>     tcg_gen_trunc_tl_i32(t1, cpu_gpr[rB(ctx->opcode)]);                       \
+> @@ -1074,28 +1117,16 @@ GEN_SPEFPUOP_ARITH2_32_32(efsmul);
+> GEN_SPEFPUOP_ARITH2_32_32(efsdiv);
+> static inline void gen_efsabs(DisasContext *ctx)
+> {
+> -    if (unlikely(!ctx->spe_enabled)) {
+> -        gen_exception(ctx, POWERPC_EXCP_SPEU);
+> -        return;
+> -    }
+>     tcg_gen_andi_tl(cpu_gpr[rD(ctx->opcode)], cpu_gpr[rA(ctx->opcode)],
+>                     (target_long)~0x80000000LL);
+> }
+> static inline void gen_efsnabs(DisasContext *ctx)
+> {
+> -    if (unlikely(!ctx->spe_enabled)) {
+> -        gen_exception(ctx, POWERPC_EXCP_SPEU);
+> -        return;
+> -    }
+>     tcg_gen_ori_tl(cpu_gpr[rD(ctx->opcode)], cpu_gpr[rA(ctx->opcode)],
+>                    0x80000000);
+> }
+> static inline void gen_efsneg(DisasContext *ctx)
+> {
+> -    if (unlikely(!ctx->spe_enabled)) {
+> -        gen_exception(ctx, POWERPC_EXCP_SPEU);
+> -        return;
+> -    }
+>     tcg_gen_xori_tl(cpu_gpr[rD(ctx->opcode)], cpu_gpr[rA(ctx->opcode)],
+>                     0x80000000);
+> }
+> --
+> 2.17.1
+>
+> LeoStella, LLC
+> A joint venture of Thales Alenia Space and Spaceflight Industries
+>
+> 12501 E Marginal Way S • Tukwila, WA 98168
+>
+> Proprietary Document: This document may contain trade secrets or otherwise proprietary and confidential information owned by LeoStella LLC. It is intended only for the individual addressee and may not be copied, distributed, or otherwise disclosed without LeoStella LLC express prior written authorization.
+> Export Controlled: This document may contain technical data whose export is restricted by the Arms Export Control Act (Title 22, U.S.C., Sec 2751 et seq.) or the Export Administration Act of 1979, as amended, Title 50,U.S.C., app 2401 et seq. Violation of these export laws are subject to severe criminal penalties. Recipient shall not export, re-export, or otherwise transfer or share this document to any foreign person (as defined by U.S. export laws) without advance written authorization from LeoStella LLC.
+>
+>
+--3866299591-1406235146-1595757898=:35472--
 
