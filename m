@@ -2,62 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B8B8D22E124
-	for <lists+qemu-devel@lfdr.de>; Sun, 26 Jul 2020 18:16:07 +0200 (CEST)
-Received: from localhost ([::1]:44084 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C3F6B22E12A
+	for <lists+qemu-devel@lfdr.de>; Sun, 26 Jul 2020 18:18:37 +0200 (CEST)
+Received: from localhost ([::1]:46248 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jzjJm-0005TT-8y
-	for lists+qemu-devel@lfdr.de; Sun, 26 Jul 2020 12:16:06 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:49794)
+	id 1jzjMC-0006W2-TO
+	for lists+qemu-devel@lfdr.de; Sun, 26 Jul 2020 12:18:36 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:50282)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <carpeddiem@gmail.com>)
- id 1jzjI9-0004tE-Km
- for qemu-devel@nongnu.org; Sun, 26 Jul 2020 12:14:25 -0400
-Received: from mail-io1-f68.google.com ([209.85.166.68]:42189)
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1jzjLK-00065q-E0
+ for qemu-devel@nongnu.org; Sun, 26 Jul 2020 12:17:42 -0400
+Received: from mail-oi1-x22f.google.com ([2607:f8b0:4864:20::22f]:37357)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <carpeddiem@gmail.com>)
- id 1jzjI8-0000Gn-5z
- for qemu-devel@nongnu.org; Sun, 26 Jul 2020 12:14:25 -0400
-Received: by mail-io1-f68.google.com with SMTP id j8so2171496ioe.9
- for <qemu-devel@nongnu.org>; Sun, 26 Jul 2020 09:14:23 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1jzjLI-0000ct-IM
+ for qemu-devel@nongnu.org; Sun, 26 Jul 2020 12:17:42 -0400
+Received: by mail-oi1-x22f.google.com with SMTP id 12so12365443oir.4
+ for <qemu-devel@nongnu.org>; Sun, 26 Jul 2020 09:17:39 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=OBlBLghW3qI3JvxPRXUa0eaOravA6TXqXpnWDb4qK7I=;
+ b=WTSuA5zDEmqevRlmroavDfHZ0ZIr11Fkx8SM7Ihu1js/oVJ/8rnwIPt+3CarW4bUyx
+ tmCbXONTc169rIKi3d2rO2ImawESwAxeS5K7lGseYwWAa5a357OAw4yRagCxqHdiqgQl
+ jn6hWDJDlOH7HL5x3tMA0a7HSWySi9BCYPMMDa9qxV21y/CXSeCJ0/Pt8Kr1GLOSD1dQ
+ lXCEvTwRzmKhplTQ0J2/nfdFB84kcnOhkibxUPSK/q0bn+T/C+2URisSt/UFKSuXRp5v
+ nF6E23JTnjnUsUuil+kchiztCZizRO/AkaWZ1SKo10S+M+G6zpD8ALCPFwXy6iTYmsBR
+ pcIw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
  :message-id:subject:to:cc;
- bh=y5BJkSlWzrH48SCGyZbSHFEm/72HnlU8UUFj+4XI/YE=;
- b=IW6a1cDh8rgEY9nIwKzwrbQbnjR4qygul2VrjYDe6M21IxkfTR7IqIiYbxHGwHXozW
- H7Fwe+P/VYS8v73N4Y5yAvchEu/8AmK6dViA3pJW7EllG1QzHkWpq8OeFv/szQtETSqd
- hfGyCta6H+0XnUHhfd83nUdKJPbwChDS0Ng0vrLA9QjXZ3NmHfHRg0u53M85sBnShOZt
- dYUjBhnggecb4sj7s2WjW8tHwh9j/fEPgCAWT6m9GIKw1rZRUIcTQdjfmHqUSmhdF7UQ
- wAG2kIA94wukDELnV99zCIo9UWG4knsLXgUOrTQ3jPSrcponSgixtWlhUphQ+/LVAYgh
- 4+Pw==
-X-Gm-Message-State: AOAM5316/kBAcYzsx+T5Jjs2M1hje4K6U+wUopXtWs5xC3skdwk5YPwd
- cKzi5m8pRfQc4vf/rwH89ERPADn0GJb+4Tsm6p8=
-X-Google-Smtp-Source: ABdhPJzUBIRCfL1y1wYOPGWCisETjjcr2npz9usOfdISwZI3sWFWQ9rD076j7O0yCSq4yK2twvcpm0AiWWG2sTJ3smM=
-X-Received: by 2002:a5d:8a04:: with SMTP id w4mr10684669iod.15.1595780062757; 
- Sun, 26 Jul 2020 09:14:22 -0700 (PDT)
+ bh=OBlBLghW3qI3JvxPRXUa0eaOravA6TXqXpnWDb4qK7I=;
+ b=BfNkgAlFj2kKQ1Qm7qJANR6qzzkWVXJffykhnn8RUt+Oy3D5KUSiE3zJ2S5zVgB2SP
+ 6PrRCqR8FrY0wGtcgRCifGZXzfVbLhopRfkvZIBBOQbPIzWSJ0y4hr/S5dkox7KMbPdN
+ 9tFo5evx6AIa4q7i+CwIbpKPHH5vdaFpUGn55tXY7ky21aC7tM87IyjL71czCJ/OEEuz
+ ILz4P/Q+epjrwLxlURE6TP4Cs2EclZtkvTAHChfJqGwPm2JDHaElSWQebgKnSKpPaIp1
+ IFEFH9NGDpI29ZEwKdwHK5VG1XrQKRdzz/eJ8SskiIh41xLi5MKZTjlj5m/oDSMVAPsy
+ LHdQ==
+X-Gm-Message-State: AOAM5317Y/wwLSc72INRDUM8WZsqQTOrWpq41pzIwdXjj9W05k5o56AM
+ hAnDJ9vy0RKVDe+aX6r0RKdMthvTX27DAf13vmKcFw==
+X-Google-Smtp-Source: ABdhPJzwdIku5iyW+H3eoK2HobSE44twryRaxBhHIkkklG3w3DG99uze0XYFNuBlz1EKd/KGyyMAkfBvb9qxLPpz/XA=
+X-Received: by 2002:aca:54c9:: with SMTP id
+ i192mr15438154oib.163.1595780258096; 
+ Sun, 26 Jul 2020 09:17:38 -0700 (PDT)
 MIME-Version: 1.0
-References: <20200724143220.32751-1-thuth@redhat.com>
- <20200724143220.32751-3-thuth@redhat.com>
-In-Reply-To: <20200724143220.32751-3-thuth@redhat.com>
-From: Ed Maste <emaste@freebsd.org>
-Date: Sun, 26 Jul 2020 12:14:11 -0400
-Message-ID: <CAPyFy2A-7gLhsCAdAohdnm9BDcHyR2y7EZK2nAKTkp0zYtYC9w@mail.gmail.com>
-Subject: Re: [PATCH 2/3] cirrus.yml: Compile macOS and FreeBSD with -Werror
-To: Thomas Huth <thuth@redhat.com>
+References: <20200725002228.2629410-1-stefanb@linux.vnet.ibm.com>
+In-Reply-To: <20200725002228.2629410-1-stefanb@linux.vnet.ibm.com>
+From: Peter Maydell <peter.maydell@linaro.org>
+Date: Sun, 26 Jul 2020 17:17:27 +0100
+Message-ID: <CAFEAcA_xUF3-XhECxTjJJVp=fza8icJEa=ej26pJu2DcdGCQ-A@mail.gmail.com>
+Subject: Re: [PULL v1 0/3] Merge tpm 2020/07/24 v1
+To: Stefan Berger <stefanb@linux.vnet.ibm.com>
 Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=209.85.166.68; envelope-from=carpeddiem@gmail.com;
- helo=mail-io1-f68.google.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/07/26 12:14:23
-X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
-X-Spam_score_int: -8
-X-Spam_score: -0.9
-X-Spam_bar: /
-X-Spam_report: (-0.9 / 5.0 requ) BAYES_00=-1.9, FREEMAIL_FORGED_FROMDOMAIN=1,
- FREEMAIL_FROM=0.001, HEADER_FROM_DIFFERENT_DOMAINS=1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-1, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=no autolearn_force=no
+Received-SPF: pass client-ip=2607:f8b0:4864:20::22f;
+ envelope-from=peter.maydell@linaro.org; helo=mail-oi1-x22f.google.com
+X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
+ That's all we know.
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -70,22 +79,43 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Maydell <peter.maydell@linaro.org>,
- Christian Schoenebeck <qemu_oss@crudebyte.com>,
- qemu-devel <qemu-devel@nongnu.org>, Paolo Bonzini <pbonzini@redhat.com>,
- =?UTF-8?B?QWxleCBCZW5uw6ll?= <alex.bennee@linaro.org>,
- Li-Wen Hsu <lwhsu@freebsd.org>, Richard Henderson <rth@twiddle.net>
+Cc: QEMU Developers <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Fri, 24 Jul 2020 at 10:32, Thomas Huth <thuth@redhat.com> wrote:
+On Sat, 25 Jul 2020 at 01:22, Stefan Berger <stefanb@linux.vnet.ibm.com> wrote:
 >
-> Compiler warnings currently go unnoticed in our FreeBSD and macOS builds,
-> since -Werror is only enabled for Linux and MinGW builds by default. So
-> let's enable them here now, too.
+> This series of patches corrects bad error reporting due to erroneous
+> or missing TPM related command line parameters.
+>
+>   Regards,
+>     Stefan
+>
+> The following changes since commit 7adfbea8fd1efce36019a0c2f198ca73be9d3f18:
+>
+>   Merge remote-tracking branch 'remotes/ehabkost/tags/x86-next-for-5.1-pull-request' into staging (2020-07-24 10:52:20 +0100)
+>
+> are available in the Git repository at:
+>
+>   git://github.com/stefanberger/qemu-tpm.git tags/pull-tpm-2020-07-24-1
+>
+> for you to fetch changes up to 88f830745721ba8c9e9d2831c01045a6f130c1a6:
+>
+>   tpm_emulator: Report an error if chardev is missing (2020-07-24 12:44:13 -0400)
+>
+> ----------------------------------------------------------------
+> Markus Armbruster (2):
+>       Revert "tpm: Clean up error reporting in tpm_init_tpmdev()"
+>       tpm: Improve help on TPM types when none are available
+>
+> Stefan Berger (1):
+>       tpm_emulator: Report an error if chardev is missing
 
-Reviewed-by: Ed Maste <emaste@freebsd.org>
 
-for the FreeBSD change; I'm indifferent on which method is used to
-address the macos deprecation warnings.
+Applied, thanks.
+
+Please update the changelog at https://wiki.qemu.org/ChangeLog/5.1
+for any user-visible changes.
+
+-- PMM
 
