@@ -2,67 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 77A3A22E0A3
-	for <lists+qemu-devel@lfdr.de>; Sun, 26 Jul 2020 17:26:52 +0200 (CEST)
-Received: from localhost ([::1]:32794 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id AE85822E0A7
+	for <lists+qemu-devel@lfdr.de>; Sun, 26 Jul 2020 17:27:52 +0200 (CEST)
+Received: from localhost ([::1]:35922 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jziY7-0002Lt-FH
-	for lists+qemu-devel@lfdr.de; Sun, 26 Jul 2020 11:26:51 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:37940)
+	id 1jziZ5-0003f9-QZ
+	for lists+qemu-devel@lfdr.de; Sun, 26 Jul 2020 11:27:51 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:37944)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <nirsof@gmail.com>)
- id 1jziWz-0001AG-Rw; Sun, 26 Jul 2020 11:25:41 -0400
-Received: from mail-wr1-x42b.google.com ([2a00:1450:4864:20::42b]:46710)
+ id 1jziX0-0001AX-73; Sun, 26 Jul 2020 11:25:42 -0400
+Received: from mail-wr1-x442.google.com ([2a00:1450:4864:20::442]:43270)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <nirsof@gmail.com>)
- id 1jziWx-0001rx-6G; Sun, 26 Jul 2020 11:25:41 -0400
-Received: by mail-wr1-x42b.google.com with SMTP id r12so12414880wrj.13;
- Sun, 26 Jul 2020 08:25:38 -0700 (PDT)
+ id 1jziWy-0001t7-1V; Sun, 26 Jul 2020 11:25:41 -0400
+Received: by mail-wr1-x442.google.com with SMTP id a15so12447422wrh.10;
+ Sun, 26 Jul 2020 08:25:39 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=n8dPla0oiAVcNFWPdn+biQb1fG0sR9uDpkDyFzSvdk0=;
- b=PeBZFk4SHLd704sCa7uikuDY8YzssDLItB+ZXazVpqmBv9oLrmeLT9bQhei+VxGjDQ
- 2IgA6Qnyu0bKubFDHOux2EhKsFiR4m/lkauhAyjKJ3vZD0O2WXyq/fnzqRnYEIUjVnSb
- bCV2n0QuwPnf0LVbKo+poB6Xtj9SHpLWB8hiIjuR1XdHp2igSRoDqAwf597bHmQyufHj
- hGIFoJR8EDWn8FaTKlQetXTlPqjiN4Unbxz+8vv1pQ7qUVlO81RRX2EgAAQoRUv3Dn6L
- /uerpVXmsa6h7Lr3AvOTKzXbujFZ1JRXWWrHGIEC/V7C6DHjM67tcR6T/5aBafQ9rv3S
- tNLg==
+ h=from:to:cc:subject:date:message-id:in-reply-to:references
+ :mime-version:content-transfer-encoding;
+ bh=3zoa87Ykk+F8g84mfgH2rj0x/RwpluBghvUGd3VfP9I=;
+ b=pbkTTRA1r2/1y4GiacdMCPu48cUaDSRn4sA1Kd/elUTpGA2ZMut5rHjNWHAvAA6bOg
+ 5m1Jbfp8rsuxOFf49J+3kKOO8ux6KLj42momZts1KX9/vfGwQMrYazdIuL5mP+bdGYeV
+ o9sV+Ffs5Oo8f6Ww9s06YnEjYoIFGxuAPLZxpb1c6R1/ZhNgheRXF/Qtgywy6ee1GMH6
+ Wchfr6mUTzUwWEcYpJ33pgNS8i3KDeibLOL9grsB8pMcG4Fj4OcjOwqF9ELVONEU7uSD
+ pl80LHTAJWYRYvneJE8b+5T9Og9txiytVykb+knJwbmPgOHuZQFLuluHiTGFQeSVGgBw
+ 4ofw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=n8dPla0oiAVcNFWPdn+biQb1fG0sR9uDpkDyFzSvdk0=;
- b=SOs0aOAUzsHhCSAI2hlNw6E+Y/+4EByYPLklBmnYW3rW13DtIFOTYYVUihV3TfnzPs
- yRFK779M8h+143TN+wb8Vk9fQSQdgSxUnWzh725FEh4bIx4Y78WGQDi0tUV/81LSM+pv
- L57EeiXeHmXC0bazSrB4lGbDTwyUk7zpYW4GICRuEVaHWiKRLFkodYb54gBShkkkKP54
- ftq6fnVlkbTMa6YxDr5ioCeIs+9MVUCmzgJTfHkxJO3JkwpwHOD7xF1JXTRFPyC9Zz6I
- NZS2oeVRJQq4GViYAKWcWKIgADhVLlbhQWsDYwcJeBoNv8FwSO+yYFeRCijfZbyqwjku
- t0CA==
-X-Gm-Message-State: AOAM533qCv+VGYiKxXptUFp77mL1rxHM0F4WkFY1QdKm4YbLh1KCtXGc
- hDcQG4hkx3qgB64uPJMBSC5N5XQJLjk=
-X-Google-Smtp-Source: ABdhPJwzESqZWs/cKMFmFQka+1qLnFmeGFc3VsSejWkc33RFr1F2rPUgdzyNh0utEazZZXMr0nFYog==
-X-Received: by 2002:a5d:54ca:: with SMTP id x10mr9425930wrv.36.1595777136180; 
- Sun, 26 Jul 2020 08:25:36 -0700 (PDT)
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+ :references:mime-version:content-transfer-encoding;
+ bh=3zoa87Ykk+F8g84mfgH2rj0x/RwpluBghvUGd3VfP9I=;
+ b=rA9MqqPZkcYkuTotjJf4RJIY4n3E2HbonLEO5EPot0BlVy/qmfVy3QD/aRwYqLSvSk
+ iffpCmXkTuxchH/vIiD6wx8os/Xw/IQQWYWnpX6lslXLIZ9f7vYbEyBfk1PXWdLrM43v
+ eZWKHXGX2C3PoQ8mmH8b9YziOAo2KLamm4guPQ81G5nqrDQPaDKyZCRii35bpEmP1tDe
+ DfJ0OErk3yiI2iIJUSyrQaNFyAANUxhfZkIuNtRnX0BjPM38EF6TdGfYcvAihpb9OCAw
+ WceVWu79ufnQZ2t+bLz1pqRlOuh42NIRjQYbq/5CQT+GNxwN9Poa9nDEmZu2m2B3Xbhw
+ RTnA==
+X-Gm-Message-State: AOAM533JbjWF2dqiIQNGQ0Xfxz08zTI2pduo3/vW2VKlwUgTvWlZOtvu
+ BKhMuf2smy5iLWYIDcYYcUlBwetuEPE=
+X-Google-Smtp-Source: ABdhPJxxf1mCDp6JTqDhO2oaMP9gZb4hN6noKVcQLvDhTdMUaccbDNGYNLLiQiy+00hX2nvwH345mw==
+X-Received: by 2002:adf:94e5:: with SMTP id 92mr16127002wrr.316.1595777137797; 
+ Sun, 26 Jul 2020 08:25:37 -0700 (PDT)
 Received: from localhost.localdomain (109-186-134-209.bb.netvision.net.il.
  [109.186.134.209])
- by smtp.gmail.com with ESMTPSA id 14sm14160206wmk.19.2020.07.26.08.25.34
+ by smtp.gmail.com with ESMTPSA id 14sm14160206wmk.19.2020.07.26.08.25.36
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sun, 26 Jul 2020 08:25:35 -0700 (PDT)
+ Sun, 26 Jul 2020 08:25:37 -0700 (PDT)
 From: Nir Soffer <nirsof@gmail.com>
 X-Google-Original-From: Nir Soffer <nsoffer@redhat.com>
 To: qemu-block@nongnu.org,
 	qemu-devel@nongnu.org
-Subject: [PATCH 0/2] Fix convert to qcow2 compressed to NBD
-Date: Sun, 26 Jul 2020 18:25:30 +0300
-Message-Id: <20200726152532.256261-1-nsoffer@redhat.com>
+Subject: [PATCH 1/2] block: nbd: Fix convert qcow2 compressed to nbd
+Date: Sun, 26 Jul 2020 18:25:31 +0300
+Message-Id: <20200726152532.256261-2-nsoffer@redhat.com>
 X-Mailer: git-send-email 2.25.4
-Content-Type: text/plain; charset="utf-8"
+In-Reply-To: <20200726152532.256261-1-nsoffer@redhat.com>
+References: <20200726152532.256261-1-nsoffer@redhat.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=2a00:1450:4864:20::42b;
- envelope-from=nirsof@gmail.com; helo=mail-wr1-x42b.google.com
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=2a00:1450:4864:20::442;
+ envelope-from=nirsof@gmail.com; helo=mail-wr1-x442.google.com
 X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
  That's all we know.
 X-Spam_score_int: -20
@@ -89,25 +90,112 @@ Cc: Kevin Wolf <kwolf@redhat.com>, Nir Soffer <nsoffer@redhat.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Fix qemu-img convert -O qcow2 -c to NBD URL and add missing test for this=0D
-usage.=0D
-=0D
-This already works now, but unfortunately qemu-img fails when trying to=0D
-truncate the target image to the same size at the end of the operation.=0D
-=0D
-Nir Soffer (2):=0D
-  block: nbd: Fix convert qcow2 compressed to nbd=0D
-  qemu-iotests: Test convert to qcow2 compressed to NBD=0D
-=0D
- block/nbd.c                | 27 +++++++++++++=0D
- tests/qemu-iotests/302     | 83 ++++++++++++++++++++++++++++++++++++++=0D
- tests/qemu-iotests/302.out | 27 +++++++++++++=0D
- tests/qemu-iotests/group   |  1 +=0D
- 4 files changed, 138 insertions(+)=0D
- create mode 100755 tests/qemu-iotests/302=0D
- create mode 100644 tests/qemu-iotests/302.out=0D
-=0D
--- =0D
-2.25.4=0D
-=0D
+When converting to qcow2 compressed format, the last step is a special
+zero length compressed write, ending in call to bdrv_co_truncate(). This
+call always fail for the nbd driver since it does not implement
+bdrv_co_truncate().
+
+For block devices, which have the same limits, the call succeeds since
+file driver implements bdrv_co_truncate(). If the caller asked to
+truncate to the same or smaller size with exact=false, the truncate
+succeeds. Implement the same logic for nbd.
+
+Example failing without this change:
+
+In one shell starts qemu-nbd:
+
+$ truncate -s 1g test.tar
+$ qemu-nbd --socket=/tmp/nbd.sock --persistent --format=raw --offset 1536 test.tar
+
+In another shell convert an image to qcow2 compressed via NBD:
+
+$ echo "disk data" > disk.raw
+$ truncate -s 1g disk.raw
+$ qemu-img convert -f raw -O qcow2 -c disk1.raw nbd+unix:///?socket=/tmp/nbd.sock; echo $?
+1
+
+qemu-img failed, but the conversion was successful:
+
+$ qemu-img info nbd+unix:///?socket=/tmp/nbd.sock
+image: nbd+unix://?socket=/tmp/nbd.sock
+file format: qcow2
+virtual size: 1 GiB (1073741824 bytes)
+...
+
+$ qemu-img check nbd+unix:///?socket=/tmp/nbd.sock
+No errors were found on the image.
+1/16384 = 0.01% allocated, 100.00% fragmented, 100.00% compressed clusters
+Image end offset: 393216
+
+$ qemu-img compare disk.raw nbd+unix:///?socket=/tmp/nbd.sock
+Images are identical.
+
+Fixes: https://bugzilla.redhat.com/1860627
+Signed-off-by: Nir Soffer <nsoffer@redhat.com>
+---
+ block/nbd.c | 27 +++++++++++++++++++++++++++
+ 1 file changed, 27 insertions(+)
+
+diff --git a/block/nbd.c b/block/nbd.c
+index 65a4f56924..2154113af3 100644
+--- a/block/nbd.c
++++ b/block/nbd.c
+@@ -1966,6 +1966,30 @@ static void nbd_close(BlockDriverState *bs)
+     nbd_clear_bdrvstate(s);
+ }
+ 
++/*
++ * NBD cannot truncate, but if the caller ask to truncate to the same size, or
++ * to a smaller size with extact=false, there is not reason to fail the
++ * operation.
++ */
++static int coroutine_fn nbd_co_truncate(BlockDriverState *bs, int64_t offset,
++                                        bool exact, PreallocMode prealloc,
++                                        BdrvRequestFlags flags, Error **errp)
++{
++    BDRVNBDState *s = bs->opaque;
++
++    if (offset != s->info.size && exact) {
++        error_setg(errp, "Cannot resize NBD nodes");
++        return -ENOTSUP;
++    }
++
++    if (offset > s->info.size) {
++        error_setg(errp, "Cannot grow NBD nodes");
++        return -EINVAL;
++    }
++
++    return 0;
++}
++
+ static int64_t nbd_getlength(BlockDriverState *bs)
+ {
+     BDRVNBDState *s = bs->opaque;
+@@ -2045,6 +2069,7 @@ static BlockDriver bdrv_nbd = {
+     .bdrv_co_flush_to_os        = nbd_co_flush,
+     .bdrv_co_pdiscard           = nbd_client_co_pdiscard,
+     .bdrv_refresh_limits        = nbd_refresh_limits,
++    .bdrv_co_truncate           = nbd_co_truncate,
+     .bdrv_getlength             = nbd_getlength,
+     .bdrv_detach_aio_context    = nbd_client_detach_aio_context,
+     .bdrv_attach_aio_context    = nbd_client_attach_aio_context,
+@@ -2072,6 +2097,7 @@ static BlockDriver bdrv_nbd_tcp = {
+     .bdrv_co_flush_to_os        = nbd_co_flush,
+     .bdrv_co_pdiscard           = nbd_client_co_pdiscard,
+     .bdrv_refresh_limits        = nbd_refresh_limits,
++    .bdrv_co_truncate           = nbd_co_truncate,
+     .bdrv_getlength             = nbd_getlength,
+     .bdrv_detach_aio_context    = nbd_client_detach_aio_context,
+     .bdrv_attach_aio_context    = nbd_client_attach_aio_context,
+@@ -2099,6 +2125,7 @@ static BlockDriver bdrv_nbd_unix = {
+     .bdrv_co_flush_to_os        = nbd_co_flush,
+     .bdrv_co_pdiscard           = nbd_client_co_pdiscard,
+     .bdrv_refresh_limits        = nbd_refresh_limits,
++    .bdrv_co_truncate           = nbd_co_truncate,
+     .bdrv_getlength             = nbd_getlength,
+     .bdrv_detach_aio_context    = nbd_client_detach_aio_context,
+     .bdrv_attach_aio_context    = nbd_client_attach_aio_context,
+-- 
+2.25.4
+
 
