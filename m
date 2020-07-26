@@ -2,77 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7838722E0A2
-	for <lists+qemu-devel@lfdr.de>; Sun, 26 Jul 2020 17:26:45 +0200 (CEST)
-Received: from localhost ([::1]:60840 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4357C22E0E0
+	for <lists+qemu-devel@lfdr.de>; Sun, 26 Jul 2020 17:38:09 +0200 (CEST)
+Received: from localhost ([::1]:43628 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jziY0-0002HL-Hd
-	for lists+qemu-devel@lfdr.de; Sun, 26 Jul 2020 11:26:44 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:37962)
+	id 1jzij1-0007lO-SG
+	for lists+qemu-devel@lfdr.de; Sun, 26 Jul 2020 11:38:07 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:39494)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <nirsof@gmail.com>)
- id 1jziX1-0001CM-EP; Sun, 26 Jul 2020 11:25:43 -0400
-Received: from mail-wr1-x432.google.com ([2a00:1450:4864:20::432]:38249)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <nirsof@gmail.com>)
- id 1jziWz-0001v3-Kn; Sun, 26 Jul 2020 11:25:43 -0400
-Received: by mail-wr1-x432.google.com with SMTP id a14so12472031wra.5;
- Sun, 26 Jul 2020 08:25:40 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=from:to:cc:subject:date:message-id:in-reply-to:references
- :mime-version:content-transfer-encoding;
- bh=xyvYgYXYDDM1UjrbjwOPiOJcKtFg0H3V534tt6M6PgM=;
- b=rGpX/P9yBGHCh6GfEmKx1aId+C2EhzGF8eajLy6eZ3/29KLJ6hNZD2yMnD6EyBOlmx
- L4dsFm3bUpZt80Pn12fQb/12+h7N5R46op9iVZMe2lmkQo+ynjOXJFNFhcjaFYcOmzh4
- cQYSjsJRBxTiSCTpGG+eA93GUCFoMqpt3UzemZYdSjtOcZDMPNR0TXXiUWj7iunjDgB7
- zBglV4vjFFk0AVzsqrsP7ri09llmlIlZShx5zf5I9S9/UTv0Okliofm7zRouSBvjHt7i
- 60OLNLIKc9s7YbYpBgW+WVeQEve3rjX6s8RH1YTH7eDh+GE7Oe2GdS9vh2gBNrUuvDLp
- hEyQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
- :references:mime-version:content-transfer-encoding;
- bh=xyvYgYXYDDM1UjrbjwOPiOJcKtFg0H3V534tt6M6PgM=;
- b=HXAoe7ikCgWjeNWaxzqhR8svecwzTIRbNh5gbStaPEnJztjEg8KSVnn2GJPPRFuHW6
- lE0bw4269NQCS50OCDIcVpsInrMm8F9I9X751x88ONh2yJFim1YS91PpltZI086XgGz9
- jMfTCVbj/jnZs0e1JcdPt/rjXt4kOHyTcyjNbOW3wO8GwD17F2K2fD8ez1VDJ51s9J7m
- t6zMo/hHrvNtucrVzaWrXMpkGcTOEWdq6IGLr7i1VwHaRtu1xd6q9+fUiePXcR4WZwfn
- vb0gRhnpTpiN+WO846eNqCyMY1yPi0OCyvIE6tDosmQezEV2WbUT1Jm3kj+Lj6YKJi4t
- EM1Q==
-X-Gm-Message-State: AOAM533xTth/LIRDCmy/VTvhrJ1vmB03X45GJ3IchDTJ73xy+rxZgBtV
- kuPWAtBuxQb6bzi8/iFwjxp3MvYVdz4=
-X-Google-Smtp-Source: ABdhPJz0k8/xai6g6h9X6Xq+gvMGIpiIF9qdYOrWLFFGzFUi6cFCwq4VOXSRl5GOOgwT5ZhfJtZKdA==
-X-Received: by 2002:adf:dcc9:: with SMTP id x9mr18274335wrm.153.1595777139589; 
- Sun, 26 Jul 2020 08:25:39 -0700 (PDT)
-Received: from localhost.localdomain (109-186-134-209.bb.netvision.net.il.
- [109.186.134.209])
- by smtp.gmail.com with ESMTPSA id 14sm14160206wmk.19.2020.07.26.08.25.37
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sun, 26 Jul 2020 08:25:38 -0700 (PDT)
-From: Nir Soffer <nirsof@gmail.com>
-X-Google-Original-From: Nir Soffer <nsoffer@redhat.com>
-To: qemu-block@nongnu.org,
-	qemu-devel@nongnu.org
-Subject: [PATCH 2/2] qemu-iotests: Test convert to qcow2 compressed to NBD
-Date: Sun, 26 Jul 2020 18:25:32 +0300
-Message-Id: <20200726152532.256261-3-nsoffer@redhat.com>
-X-Mailer: git-send-email 2.25.4
-In-Reply-To: <20200726152532.256261-1-nsoffer@redhat.com>
-References: <20200726152532.256261-1-nsoffer@redhat.com>
+ (Exim 4.90_1) (envelope-from <marcandre.lureau@redhat.com>)
+ id 1jzidY-00059X-E7
+ for qemu-devel@nongnu.org; Sun, 26 Jul 2020 11:32:28 -0400
+Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:46477
+ helo=us-smtp-1.mimecast.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <marcandre.lureau@redhat.com>)
+ id 1jzidT-00035j-Uw
+ for qemu-devel@nongnu.org; Sun, 26 Jul 2020 11:32:27 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1595777540;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding;
+ bh=DCwPF8ANWHOt4Il/FO+UNElk4D19SFc8L1s8Gu42+dI=;
+ b=iFiDr1/tSWCx+7zfhu7ijfPEQWqGXSs62Hjv+XmyEFN79XyrwGZ4768wQ0hikemCAI2m3/
+ 2lf+DuqNQxill5WelKo0uMnx6tLdMF8m1FpYOpxHbCHfn5Y/sIpJcMvD/lRehqG4f0/fLO
+ rUsKhq2lIhObzPVdDFIp1x0UCg/mvpU=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-488-c6uzd0_3O--n2gi87T3OZQ-1; Sun, 26 Jul 2020 11:32:18 -0400
+X-MC-Unique: c6uzd0_3O--n2gi87T3OZQ-1
+Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
+ [10.5.11.14])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 80FC58015F4;
+ Sun, 26 Jul 2020 15:32:17 +0000 (UTC)
+Received: from localhost (unknown [10.36.110.7])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id DAA1F5D9DC;
+ Sun, 26 Jul 2020 15:32:13 +0000 (UTC)
+From: =?UTF-8?q?Marc-Andr=C3=A9=20Lureau?= <marcandre.lureau@redhat.com>
+To: qemu-devel@nongnu.org
+Subject: [PATCH] test-char: abort on serial test error
+Date: Sun, 26 Jul 2020 19:32:10 +0400
+Message-Id: <20200726153210.919957-1-marcandre.lureau@redhat.com>
 MIME-Version: 1.0
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::432;
- envelope-from=nirsof@gmail.com; helo=mail-wr1-x432.google.com
-X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
- That's all we know.
-X-Spam_score_int: -10
-X-Spam_score: -1.1
-X-Spam_bar: -
-X-Spam_report: (-1.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
- FREEMAIL_REPLY=1, RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=no autolearn_force=no
+Received-SPF: pass client-ip=205.139.110.120;
+ envelope-from=marcandre.lureau@redhat.com; helo=us-smtp-1.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/07/26 11:32:20
+X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
+X-Spam_score_int: -40
+X-Spam_score: -4.1
+X-Spam_bar: ----
+X-Spam_report: (-4.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-1, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -85,155 +76,35 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Kevin Wolf <kwolf@redhat.com>, Nir Soffer <nsoffer@redhat.com>,
- Max Reitz <mreitz@redhat.com>
+Cc: =?UTF-8?q?Marc-Andr=C3=A9=20Lureau?= <marcandre.lureau@redhat.com>,
+ f4bug@amsat.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Add test for "qemu-img convert -O qcow2 -c" to NBD target. The use case
-is writing compressed disk content to OVA archive.
+We are having issues debugging and bisecting this issue that happen
+mostly on patchew. Let's make it abort where it failed to gather some
+new informations.
 
-Signed-off-by: Nir Soffer <nsoffer@redhat.com>
+Suggested-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
+Signed-off-by: Marc-André Lureau <marcandre.lureau@redhat.com>
 ---
- tests/qemu-iotests/302     | 83 ++++++++++++++++++++++++++++++++++++++
- tests/qemu-iotests/302.out | 27 +++++++++++++
- tests/qemu-iotests/group   |  1 +
- 3 files changed, 111 insertions(+)
- create mode 100755 tests/qemu-iotests/302
- create mode 100644 tests/qemu-iotests/302.out
+ tests/test-char.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/tests/qemu-iotests/302 b/tests/qemu-iotests/302
-new file mode 100755
-index 0000000000..cefde1f7cf
---- /dev/null
-+++ b/tests/qemu-iotests/302
-@@ -0,0 +1,83 @@
-+#!/usr/bin/env python3
-+#
-+# Tests conveting qcow2 compressed to NBD
-+#
-+# Copyright (c) 2020 Nir Soffer <nirsof@gmail.com>
-+#
-+# This program is free software; you can redistribute it and/or modify
-+# it under the terms of the GNU General Public License as published by
-+# the Free Software Foundation; either version 2 of the License, or
-+# (at your option) any later version.
-+#
-+# This program is distributed in the hope that it will be useful,
-+# but WITHOUT ANY WARRANTY; without even the implied warranty of
-+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-+# GNU General Public License for more details.
-+#
-+# You should have received a copy of the GNU General Public License
-+# along with this program.  If not, see <http://www.gnu.org/licenses/>.
-+#
-+# owner=nirsof@gmail.com
-+
-+import json
-+import iotests
-+
-+from iotests import (
-+    file_path,
-+    qemu_img,
-+    qemu_img_create,
-+    qemu_img_log,
-+    qemu_img_pipe,
-+    qemu_io,
-+    qemu_nbd,
-+)
-+
-+iotests.script_initialize(supported_fmts=["qcow2"])
-+
-+# Create source disk, format does not matter.
-+src_disk = file_path("disk.img")
-+qemu_img_create("-f", "raw", src_disk, "10m")
-+qemu_io("-f", "raw", "-c", "write 1m 64K", src_disk)
-+
-+# The use case is writing qcow2 image directly into a tar file. Code to create
-+# real tar file not included.
-+#
-+# offset    content
-+# -------------------------------
-+#      0    first memebr header
-+#    512    first member data
-+#   1024    second memeber header
-+#   1536    second member data
-+
-+tar_file = file_path("test.tar")
-+out = qemu_img_pipe("measure", "-O", "qcow2", "--output", "json", src_disk)
-+measure = json.loads(out)
-+qemu_img_create("-f", "raw", tar_file, str(measure["required"]))
-+
-+nbd_sock = file_path("nbd-sock", base_dir=iotests.sock_dir)
-+nbd_uri = "nbd+unix:///exp?socket=" + nbd_sock
-+
-+# Use raw format to allow creating qcow2 directy into tar file.
-+qemu_nbd(
-+    "--socket", nbd_sock,
-+    "--persistent",
-+    "--export-name", "exp",
-+    "--format", "raw",
-+    "--offset", "1536",
-+    tar_file)
-+
-+iotests.log("=== Target image info ===")
-+qemu_img_log("info", nbd_uri)
-+
-+# Write image into the tar file. In a real applicatio we would write a tar
-+# entry after writing the image.
-+qemu_img("convert", "-f", "raw", "-O", "qcow2", "-c", src_disk, nbd_uri)
-+
-+iotests.log("=== Converted image info ===")
-+qemu_img_log("info", nbd_uri)
-+
-+iotests.log("=== Converted image check ===")
-+qemu_img_log("check", nbd_uri)
-+
-+iotests.log("=== Comparing to source disk ===")
-+qemu_img_log("compare", src_disk, nbd_uri)
-diff --git a/tests/qemu-iotests/302.out b/tests/qemu-iotests/302.out
-new file mode 100644
-index 0000000000..babef3d574
---- /dev/null
-+++ b/tests/qemu-iotests/302.out
-@@ -0,0 +1,27 @@
-+=== Target image info ===
-+image: nbd+unix:///exp?socket=SOCK_DIR/PID-nbd-sock
-+file format: raw
-+virtual size: 446 KiB (457216 bytes)
-+disk size: unavailable
-+
-+=== Converted image info ===
-+image: nbd+unix:///exp?socket=SOCK_DIR/PID-nbd-sock
-+file format: qcow2
-+virtual size: 10 MiB (10485760 bytes)
-+disk size: unavailable
-+cluster_size: 65536
-+Format specific information:
-+    compat: 1.1
-+    compression type: zlib
-+    lazy refcounts: false
-+    refcount bits: 16
-+    corrupt: false
-+
-+=== Converted image check ===
-+No errors were found on the image.
-+1/160 = 0.62% allocated, 100.00% fragmented, 100.00% compressed clusters
-+Image end offset: 393216
-+
-+=== Comparing to source disk ===
-+Images are identical.
-+
-diff --git a/tests/qemu-iotests/group b/tests/qemu-iotests/group
-index 1d0252e1f0..1e1cb27bc8 100644
---- a/tests/qemu-iotests/group
-+++ b/tests/qemu-iotests/group
-@@ -308,3 +308,4 @@
- 297 meta
- 299 auto quick
- 301 backing quick
-+302 quick
+diff --git a/tests/test-char.c b/tests/test-char.c
+index 614bdac2df8..d35cc839bc6 100644
+--- a/tests/test-char.c
++++ b/tests/test-char.c
+@@ -1200,7 +1200,7 @@ static void char_serial_test(void)
+ 
+     /* test tty alias */
+     qemu_opt_set(opts, "backend", "tty", &error_abort);
+-    chr = qemu_chr_new_from_opts(opts, NULL, NULL);
++    chr = qemu_chr_new_from_opts(opts, NULL, &error_abort);
+     g_assert_nonnull(chr);
+     object_unparent(OBJECT(chr));
+ 
 -- 
-2.25.4
+2.28.0.rc1.6.gae46588be0
 
 
