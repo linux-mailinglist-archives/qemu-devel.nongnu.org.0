@@ -2,68 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C2C3722F3C7
-	for <lists+qemu-devel@lfdr.de>; Mon, 27 Jul 2020 17:22:48 +0200 (CEST)
-Received: from localhost ([::1]:43906 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7CE3022F3CB
+	for <lists+qemu-devel@lfdr.de>; Mon, 27 Jul 2020 17:24:05 +0200 (CEST)
+Received: from localhost ([::1]:49284 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1k04xj-0005bQ-NV
-	for lists+qemu-devel@lfdr.de; Mon, 27 Jul 2020 11:22:47 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:42602)
+	id 1k04yy-0007mx-IK
+	for lists+qemu-devel@lfdr.de; Mon, 27 Jul 2020 11:24:04 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:42624)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1k04ub-0001cb-WE
- for qemu-devel@nongnu.org; Mon, 27 Jul 2020 11:19:34 -0400
-Received: from mail-wm1-x344.google.com ([2a00:1450:4864:20::344]:52486)
+ id 1k04ud-0001f4-Cq
+ for qemu-devel@nongnu.org; Mon, 27 Jul 2020 11:19:35 -0400
+Received: from mail-wr1-x442.google.com ([2a00:1450:4864:20::442]:44451)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1k04ua-0001Mf-GV
- for qemu-devel@nongnu.org; Mon, 27 Jul 2020 11:19:33 -0400
-Received: by mail-wm1-x344.google.com with SMTP id x5so13952236wmi.2
- for <qemu-devel@nongnu.org>; Mon, 27 Jul 2020 08:19:32 -0700 (PDT)
+ id 1k04ub-0001Ml-IX
+ for qemu-devel@nongnu.org; Mon, 27 Jul 2020 11:19:35 -0400
+Received: by mail-wr1-x442.google.com with SMTP id b6so15285376wrs.11
+ for <qemu-devel@nongnu.org>; Mon, 27 Jul 2020 08:19:33 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:subject:date:message-id:in-reply-to:references:mime-version
  :content-transfer-encoding;
- bh=CzXyfsRq8ddGHiV45tDKp7Cox+Mr2SFib9wJfNHDSi4=;
- b=etTSnAIcnkE58iV63GVt7f+pQvl++n4MBYszFGoo0BLUkj5ZdQSZr1UO/YbWnAP6i3
- ZCGE5WKoyOw9lt+Bs7s1ioTvDmlNpUNkYm2T3GLokhk2jYBHsMc8ijFZ8o7m+Te8iK3F
- MA4PYJXFme4mfJlSBAHfCcmJ5yd7VVn1FbzKnEc0C+wPHMcfP1TwC1KLQvYSRPOiR9iY
- ElrHnLLUhzO0Pv361GKKSx30GsQM2DBanZ3LFIYiYF1ysrPXmRwgvTsGMebktdUrxLT0
- yDyL5YAZ9PuXmaASp3JSatLlBR9HYe9ey6yaK8wqnGOATeDneAjHU7DTJuCtYh4P+MQC
- 6SFw==
+ bh=AgiFp36fAcCMfqysVIITkhhp2lHAb79FkVULIdw4Y1E=;
+ b=DBOmFpimh2tlUmVZ1/YXoe9B2qz9EZzrBUJo1uyds+MQSJF5hIUo2f1CCGViEWniWK
+ HZDlcHY+y3SFmPDEk6FqTUMGKFEyhyV7NDeEU1FAeSDZtfF0xqxxbB/TE/rlrQ6eB7JA
+ rATdpZ2zUyMPhVaB5JIVb/7SlN9TGzcglZzPy4zOIPsmZ0hkyfi7G1pilHCKsAeu3HdY
+ mMpOSZSalEVF+kH/1HjnX1fh1AWEC4+O1ZsEnKgqFwjS5yniI9WCmbo3Qq29GdHdn6SP
+ GhgVPMFkHN/fh6uBAAn1RqkyK8KslkkiQaLk0/0EPcKCIM2NFCqwhvywrWRmDUw1MhyQ
+ nffA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=CzXyfsRq8ddGHiV45tDKp7Cox+Mr2SFib9wJfNHDSi4=;
- b=dDgeFEsZ5EN5P/TTwMDRKRntv6Us6Z96o+BnH1BUjsaN+YfW+L9bP3kRIT0cpep+lY
- GRS+QZH0Fs/TUwo0jJhkLXt0wCme7n6LQubLonFBxcoGounYhxLZNfFXeDZslmiP3IOu
- 7hfSqz/Wtqybs6HDaQ9+vyWK8353r/mzGcKVOFIJtyqJg9Y1p/yFKqkXJI6rk93f6PAs
- OW6QAf2lTq5qK2J9l0VfrwmWbiVqsO7pIPVFbuGvzzhRoGmZlcgMR0sVFuFJsoYxRcQR
- cPT40l45RcuFSlmcJ0P2zb2yH7RnBhVDQkEFQ4pqZC4KTdYC3+I04HgCeO+f4+hP3h14
- zdNA==
-X-Gm-Message-State: AOAM5309dAH5t4f489bpLBDRmLYv3DzkzSNsT9CRAEotcPwvqzfYE79/
- qVq2LXXHVd9gYAMKCCkFKUd9f5265Cjecw==
-X-Google-Smtp-Source: ABdhPJxrG6HDh8avw0pcbkROAiuPaxggACU5cvtY7AcKtsEKh8IFmz40WNHNQAAFDPF2b8eixUjhRw==
-X-Received: by 2002:a1c:28a:: with SMTP id 132mr20619330wmc.109.1595863170533; 
- Mon, 27 Jul 2020 08:19:30 -0700 (PDT)
+ bh=AgiFp36fAcCMfqysVIITkhhp2lHAb79FkVULIdw4Y1E=;
+ b=GfXfWWSKSXFi5SyQI5g0WtIy5kGBApYfHo+my3QRB917Q9i0WVQ++PDfwDAhqpD56G
+ N3bCxTM5TDsXYFhwyzQjk7Au7HumIua/cgj5JJT6l8fZRRjcrJMsJmwHGE7arrrl4XbF
+ J7pJMYRTGVa6G5V94M1RHVPbByCqUbo3GekiimGJT9Aqj4Ya2tBpZMVmLOXtn37J2pQI
+ rWRWoZ1F6st+WXPKQAp4vsO6+M2CoorIWELUDCYnOVU2eibY022DRmEySD2wG8VIJ5BQ
+ gl/rHEl1zPETPbIngDSXhtr3xbrCiJZGF74nn+v8P/wJsWGR/l5Ck6kEdtmXxF1yribn
+ V+iw==
+X-Gm-Message-State: AOAM531Am6V44Sm+K4uhMKLqiFDWeQw5jTlZPd0bJI/0wP+Xg1GIjwuA
+ jDhzRZB7srHTbYvAYbhEkhyJYEaqAmyQ6A==
+X-Google-Smtp-Source: ABdhPJyXx6FRYOyhx/dIFSAcskaMs0q+4lFQw/eBVLWDOdt0iHL/8T8aQhJbGwmo7OYojcKzbXhPoQ==
+X-Received: by 2002:a5d:480b:: with SMTP id l11mr19807738wrq.85.1595863171889; 
+ Mon, 27 Jul 2020 08:19:31 -0700 (PDT)
 Received: from orth.archaic.org.uk (orth.archaic.org.uk. [81.2.115.148])
- by smtp.gmail.com with ESMTPSA id h199sm18744996wme.42.2020.07.27.08.19.29
+ by smtp.gmail.com with ESMTPSA id h199sm18744996wme.42.2020.07.27.08.19.30
  for <qemu-devel@nongnu.org>
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 27 Jul 2020 08:19:29 -0700 (PDT)
+ Mon, 27 Jul 2020 08:19:30 -0700 (PDT)
 From: Peter Maydell <peter.maydell@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PULL 5/7] hw/arm/boot: Fix PAUTH for EL3 direct kernel boot
-Date: Mon, 27 Jul 2020 16:19:18 +0100
-Message-Id: <20200727151920.19150-6-peter.maydell@linaro.org>
+Subject: [PULL 6/7] hw/arm/boot: Fix MTE for EL3 direct kernel boot
+Date: Mon, 27 Jul 2020 16:19:19 +0100
+Message-Id: <20200727151920.19150-7-peter.maydell@linaro.org>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20200727151920.19150-1-peter.maydell@linaro.org>
 References: <20200727151920.19150-1-peter.maydell@linaro.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::344;
- envelope-from=peter.maydell@linaro.org; helo=mail-wm1-x344.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::442;
+ envelope-from=peter.maydell@linaro.org; helo=mail-wr1-x442.google.com
 X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
  That's all we know.
 X-Spam_score_int: -20
@@ -91,11 +91,12 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 From: Richard Henderson <richard.henderson@linaro.org>
 
 When booting an EL3 cpu with -kernel, we set up EL3 and then
-drop down to EL2.  We need to enable access to v8.3-PAuth
-keys and instructions at EL3 before doing so.
+drop down to EL2.  We need to enable access to v8.5-MemTag
+tag allocation at EL3 before doing so.
 
+Reported-by: Peter Maydell <peter.maydell@linaro.org>
 Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
-Message-id: 20200724163853.504655-2-richard.henderson@linaro.org
+Message-id: 20200724163853.504655-3-richard.henderson@linaro.org
 Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
 Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
 ---
@@ -103,15 +104,15 @@ Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
  1 file changed, 3 insertions(+)
 
 diff --git a/hw/arm/boot.c b/hw/arm/boot.c
-index fef4072db16..c44fd3382dd 100644
+index c44fd3382dd..3e9816af803 100644
 --- a/hw/arm/boot.c
 +++ b/hw/arm/boot.c
-@@ -736,6 +736,9 @@ static void do_cpu_reset(void *opaque)
-                     } else {
-                         env->pstate = PSTATE_MODE_EL1h;
+@@ -739,6 +739,9 @@ static void do_cpu_reset(void *opaque)
+                     if (cpu_isar_feature(aa64_pauth, cpu)) {
+                         env->cp15.scr_el3 |= SCR_API | SCR_APK;
                      }
-+                    if (cpu_isar_feature(aa64_pauth, cpu)) {
-+                        env->cp15.scr_el3 |= SCR_API | SCR_APK;
++                    if (cpu_isar_feature(aa64_mte, cpu)) {
++                        env->cp15.scr_el3 |= SCR_ATA;
 +                    }
                      /* AArch64 kernels never boot in secure mode */
                      assert(!info->secure_boot);
