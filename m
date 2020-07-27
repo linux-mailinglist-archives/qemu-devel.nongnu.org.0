@@ -2,109 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id AFD3522F978
-	for <lists+qemu-devel@lfdr.de>; Mon, 27 Jul 2020 21:49:46 +0200 (CEST)
-Received: from localhost ([::1]:60500 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 57B2C22F993
+	for <lists+qemu-devel@lfdr.de>; Mon, 27 Jul 2020 21:56:12 +0200 (CEST)
+Received: from localhost ([::1]:33754 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1k0985-0004Ap-Nt
-	for lists+qemu-devel@lfdr.de; Mon, 27 Jul 2020 15:49:45 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:47836)
+	id 1k09EJ-0007tL-9z
+	for lists+qemu-devel@lfdr.de; Mon, 27 Jul 2020 15:56:11 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:49898)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <vsementsov@virtuozzo.com>)
- id 1k091w-0002WT-CZ; Mon, 27 Jul 2020 15:43:24 -0400
-Received: from mail-eopbgr80112.outbound.protection.outlook.com
- ([40.107.8.112]:11911 helo=EUR04-VI1-obe.outbound.protection.outlook.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <vsementsov@virtuozzo.com>)
- id 1k091u-0003hz-G6; Mon, 27 Jul 2020 15:43:23 -0400
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=jF6BzuUrdimr0HCB9y3aIKQNZHOyhck4DHxu1Pff+vPuBT/xefXAIY5TxcbNaFIujjObg36jXwXOtV1W3LC+T0e5TJ78YdqiSYJgnSXlY/djWfMH1Zc7pdFtYUeSkbsmf3j3kFWmi+JKU52lPI/QjInJHPNRnR2QtIwDiJrFkZk7nJA6oyEGADc0yCsb2fuertQXw/Dff++O7kVI51MBWyIi50bSYh6hUonSSMtyLlWuKEPZfPy6h2ikBY+DkGw7LGDZZmx/SrX7lEFbpOP/8d8H6+5xpzYTWkrDCD3b11X7rhg+DXYdhLKemn2rN85CU2b88EhJ0aj5+bqmajonBg==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=qm04YX0M+X7fJbdDSJnqO8rss1GGK+oP8h9NdTbgmNY=;
- b=H+GvM31cGzMSf5m/uxmMa2LxZxcfI0+zU+PH1RrVBpwmzeQRn7XwNTqoHwTJyLQsqFEfeFdaF9vxbDH7V9/Ng303NuC0TxsgdmpdHKDVVTyeUOgD559cXMTnsfIiN8wUJCZxAIU72VCDUj/ul38VJF4mnLHTVbrGaLxGgNsWGk4dFz42NMvdjgrw8VLeNLAqzRGvawMlvLO/aNhsr6PZZjwY24NXYMpnDY6kFTBj7wb4Dtm3zwoW0EvVZPppplW9YE1b6xdPOI+uEChkeYHEZyCVRxLYLdkqecDDWZiDVpLnjfNEcwHJ1w8jCgZvc02MytGoQL1mYsOZJG5rU0/yuw==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=virtuozzo.com; dmarc=pass action=none
- header.from=virtuozzo.com; dkim=pass header.d=virtuozzo.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=virtuozzo.com;
- s=selector2;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=qm04YX0M+X7fJbdDSJnqO8rss1GGK+oP8h9NdTbgmNY=;
- b=BYQaaxFGxBiPPw+cS+zFpOkOvG3Ke4nA96tRf3w/G81vZl9638pPW66kfjfWp2kIilZPPCoCyA0R2sYHCSrOecTBl1g/TpllSzlojNPPQax+3AqgaT9bMJecqT9+nLIgS5OaqnxvkybkLRKSQogmFK1hau/BLkB+udbotXj9XIA=
-Authentication-Results: nongnu.org; dkim=none (message not signed)
- header.d=none;nongnu.org; dmarc=none action=none header.from=virtuozzo.com;
-Received: from AM7PR08MB5494.eurprd08.prod.outlook.com (2603:10a6:20b:dc::15)
- by AM5PR0802MB2610.eurprd08.prod.outlook.com (2603:10a6:203:97::7)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3216.23; Mon, 27 Jul
- 2020 19:43:10 +0000
-Received: from AM7PR08MB5494.eurprd08.prod.outlook.com
- ([fe80::8c0c:c056:97a5:484a]) by AM7PR08MB5494.eurprd08.prod.outlook.com
- ([fe80::8c0c:c056:97a5:484a%4]) with mapi id 15.20.3216.033; Mon, 27 Jul 2020
- 19:43:10 +0000
-From: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
-To: qemu-block@nongnu.org
-Subject: [PATCH v4 21/21] qemu-iotests/199: add source-killed case to bitmaps
- postcopy
-Date: Mon, 27 Jul 2020 22:42:36 +0300
-Message-Id: <20200727194236.19551-22-vsementsov@virtuozzo.com>
-X-Mailer: git-send-email 2.21.0
-In-Reply-To: <20200727194236.19551-1-vsementsov@virtuozzo.com>
-References: <20200727194236.19551-1-vsementsov@virtuozzo.com>
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-ClientProxiedBy: AM0PR05CA0084.eurprd05.prod.outlook.com
- (2603:10a6:208:136::24) To AM7PR08MB5494.eurprd08.prod.outlook.com
- (2603:10a6:20b:dc::15)
+ (Exim 4.90_1) (envelope-from <eblake@redhat.com>) id 1k099m-0008BL-1m
+ for qemu-devel@nongnu.org; Mon, 27 Jul 2020 15:51:30 -0400
+Received: from us-smtp-2.mimecast.com ([207.211.31.81]:24718
+ helo=us-smtp-1.mimecast.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <eblake@redhat.com>) id 1k099i-0004pC-US
+ for qemu-devel@nongnu.org; Mon, 27 Jul 2020 15:51:29 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1595879485;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding;
+ bh=dfd3qkM1bqg4CIxNzJ4YaOWmR/AjbViubSA9eI7tutg=;
+ b=fhcmr6oOBfjY+GDbFEePe+OxHxSm5oWhHOAsZ26vOYFuudRczEkt5nUXaVmrMK/14Jw5vh
+ KU6zV+MBy7N/tBqoM24FYQC+jr8y/Mnim9ujdvH8gxIe4DqBqRcWVGXZY8bwmzXbIL1SrQ
+ NAPjrzTPHZaDJ5u9PG6ATzqbvDaR/u0=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-19-1ynrBw5nMm2k_YwoG-bIUQ-1; Mon, 27 Jul 2020 15:51:23 -0400
+X-MC-Unique: 1ynrBw5nMm2k_YwoG-bIUQ-1
+Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
+ [10.5.11.16])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 55AF8186A82C;
+ Mon, 27 Jul 2020 19:51:22 +0000 (UTC)
+Received: from blue.redhat.com (ovpn-118-248.rdu2.redhat.com [10.10.118.248])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 38FF669323;
+ Mon, 27 Jul 2020 19:51:21 +0000 (UTC)
+From: Eric Blake <eblake@redhat.com>
+To: qemu-devel@nongnu.org
+Subject: [PATCH for-5.1?] iotests: Adjust which tests are quick
+Date: Mon, 27 Jul 2020 14:51:17 -0500
+Message-Id: <20200727195117.132151-1-eblake@redhat.com>
 MIME-Version: 1.0
-X-MS-Exchange-MessageSentRepresentingType: 1
-Received: from kvm.sw.ru (185.215.60.158) by
- AM0PR05CA0084.eurprd05.prod.outlook.com (2603:10a6:208:136::24) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3216.20 via Frontend
- Transport; Mon, 27 Jul 2020 19:43:09 +0000
-X-Mailer: git-send-email 2.21.0
-X-Originating-IP: [185.215.60.158]
-X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: 0f0d8c1a-3f03-443f-6e56-08d832654b17
-X-MS-TrafficTypeDiagnostic: AM5PR0802MB2610:
-X-MS-Exchange-Transport-Forked: True
-X-Microsoft-Antispam-PRVS: <AM5PR0802MB2610E29390B83EC5A7D7C1BAC1720@AM5PR0802MB2610.eurprd08.prod.outlook.com>
-X-MS-Oob-TLC-OOBClassifiers: OLM:134;
-X-MS-Exchange-SenderADCheck: 1
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: H2I+FYMH5VTSM7MbaAx62mvsZcuk5ktBoCFCyZpchJOEt+tWkpNIIW58v+jNmoST8UaUDlqmBTE4ydmbIhfhZQq8PXdv2hEvGHj/VMfG5YbonWoiFRq9G20ykUZEiXXgeWPgwyb+UOJ5EW5aP7XAofIHf5xvij8asVwXtSFWA6m/g0anyoj5XH35eRMWuhy0wQxajy/uBtrNqVRVBEKIbSmldUW2MeUNnaw5vV4AkYjM9AIaX443Z8sBfZQ5Z4oxsrXoK3QoLaK2X/qG5lzXNFVGPz5VLEFZCE4A6BnfZnw39iYBGf/xvCH9uOjG1BdP+la8IvrwZf8o7EP6jH9LIw==
-X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:AM7PR08MB5494.eurprd08.prod.outlook.com; PTR:; CAT:NONE;
- SFTY:;
- SFS:(4636009)(136003)(396003)(366004)(376002)(39850400004)(346002)(66556008)(1076003)(66476007)(6512007)(107886003)(86362001)(36756003)(52116002)(4326008)(26005)(2616005)(2906002)(66946007)(8676002)(7416002)(16526019)(6666004)(316002)(6916009)(6486002)(956004)(83380400001)(6506007)(5660300002)(478600001)(186003)(8936002);
- DIR:OUT; SFP:1102; 
-X-MS-Exchange-AntiSpam-MessageData: ce635EVMrv9NLOjYJlDA6Zfl54yhaj3MbozzQq5XahcX/SmE2xQ/uIP1ZZlRvcPHt4swJI2P1PjFbc25UwI6tSQMA9pU4Xi+eczxieFyi5Oj1LuEfoGwtY8YFJcda3Z0YeJC2+z0TN3atCmyPv0ktyW8xfxZb95Pq+kFtr6haYXX34TYKKzPobfgXXo96qj6KylPVaovYZH8fL5NZzIh3b3OObax1YsrO3QFWxNluxY34G9otneQyDQSQEHrPXSrwTgf9qGvdXKpS7wtMvwUQ/DFJmqu7IJ1vTMy0fvfj+WSsa5Stku/rZfx11jqT/msg/0S29Wri7RPh2c7dBTSyEmkrhmJm5zKCXCd6YrRM+tGOFWTWHeXFyb8layQ0VttqO8vTcOi+MCU3f9o5UpUt0n0V0wQouLxxf/rTge9TAR9ncP8YTI4YFs8MMVJ9F4I+jIJFNwjb8CqCEOJH/QPFLQ0EViDIhOefu3dfvOpnCg=
-X-OriginatorOrg: virtuozzo.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 0f0d8c1a-3f03-443f-6e56-08d832654b17
-X-MS-Exchange-CrossTenant-AuthSource: AM7PR08MB5494.eurprd08.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 27 Jul 2020 19:43:10.7580 (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 0bc7f26d-0264-416e-a6fc-8352af79c58f
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: QS24SEFDpihE3CcGk79guceWbdrA2AI3fDC38zs9SXrVddhneM/5jb3GDzEiLf7pAluBQrv22Gvdyvnog7+PS/gC/Mu6O4aoiQQYfbYESm0=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: AM5PR0802MB2610
-Received-SPF: pass client-ip=40.107.8.112;
- envelope-from=vsementsov@virtuozzo.com;
- helo=EUR04-VI1-obe.outbound.protection.outlook.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/07/27 15:43:12
-X-ACL-Warn: Detected OS   = Windows NT kernel [generic] [fuzzy]
-X-Spam_score_int: -37
-X-Spam_score: -3.8
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=eblake@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=207.211.31.81; envelope-from=eblake@redhat.com;
+ helo=us-smtp-1.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/07/27 03:37:14
+X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
+X-Spam_score_int: -30
+X-Spam_score: -3.1
 X-Spam_bar: ---
-X-Spam_report: (-3.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- MSGID_FROM_MTA_HEADER=0.001, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-1,
- SPF_HELO_PASS=-0.001, SPF_PASS=-0.001,
- URIBL_BLOCKED=0.001 autolearn=ham autolearn_force=no
+X-Spam_report: (-3.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H3=-0.01, RCVD_IN_MSPIKE_WL=-0.01,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -117,64 +76,72 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: kwolf@redhat.com, fam@euphon.net, vsementsov@virtuozzo.com,
- quintela@redhat.com, qemu-devel@nongnu.org, dgilbert@redhat.com,
- stefanha@redhat.com, Andrey Shinkevich <andrey.shinkevich@virtuozzo.com>,
- den@openvz.org, mreitz@redhat.com, jsnow@redhat.com
+Cc: Kevin Wolf <kwolf@redhat.com>, vsementsov@virtuozzo.com,
+ dgilbert@redhat.com, qemu-block@nongnu.org, mreitz@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Previous patches fixes behavior of bitmaps migration, so that errors
-are handled by just removing unfinished bitmaps, and not fail or try to
-recover postcopy migration. Add corresponding test.
+A quick run of './check -qcow2 -g migration' shows that test 169 is
+NOT quick, but meanwhile several other tests ARE quick.  Let's adjust
+the test designations accordingly.
 
-Signed-off-by: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
-Reviewed-by: Andrey Shinkevich <andrey.shinkevich@virtuozzo.com>
-Tested-by: Eric Blake <eblake@redhat.com>
+Signed-off-by: Eric Blake <eblake@redhat.com>
 ---
- tests/qemu-iotests/199     | 15 +++++++++++++++
- tests/qemu-iotests/199.out |  4 ++--
- 2 files changed, 17 insertions(+), 2 deletions(-)
 
-diff --git a/tests/qemu-iotests/199 b/tests/qemu-iotests/199
-index 140930b2b1..58fad872a1 100755
---- a/tests/qemu-iotests/199
-+++ b/tests/qemu-iotests/199
-@@ -241,6 +241,21 @@ class TestDirtyBitmapPostcopyMigration(iotests.QMPTestCase):
-         self.vm_a.launch()
-         check_bitmaps(self.vm_a, 0)
- 
-+    def test_early_kill_source(self):
-+        self.start_postcopy()
-+
-+        self.vm_a_events = self.vm_a.get_qmp_events()
-+        self.vm_a.kill()
-+
-+        self.vm_a.launch()
-+
-+        match = {'data': {'status': 'completed'}}
-+        e_complete = self.vm_b.event_wait('MIGRATION', match=match)
-+        self.vm_b_events.append(e_complete)
-+
-+        check_bitmaps(self.vm_a, 0)
-+        check_bitmaps(self.vm_b, 0)
-+
- 
- if __name__ == '__main__':
-     iotests.main(supported_fmts=['qcow2'])
-diff --git a/tests/qemu-iotests/199.out b/tests/qemu-iotests/199.out
-index fbc63e62f8..8d7e996700 100644
---- a/tests/qemu-iotests/199.out
-+++ b/tests/qemu-iotests/199.out
-@@ -1,5 +1,5 @@
--..
-+...
- ----------------------------------------------------------------------
--Ran 2 tests
-+Ran 3 tests
- 
- OK
+I noticed this while working on my pending pull request that includes
+Vladimir's massive speedup of 199 (but even with his speedup, that test
+is still not quick).
+
+ tests/qemu-iotests/group | 12 ++++++------
+ 1 file changed, 6 insertions(+), 6 deletions(-)
+
+diff --git a/tests/qemu-iotests/group b/tests/qemu-iotests/group
+index 1d0252e1f051..806044642c69 100644
+--- a/tests/qemu-iotests/group
++++ b/tests/qemu-iotests/group
+@@ -112,7 +112,7 @@
+ 088 rw quick
+ 089 rw auto quick
+ 090 rw auto quick
+-091 rw migration
++091 rw migration quick
+ 092 rw quick
+ 093 throttle
+ 094 rw quick
+@@ -186,7 +186,7 @@
+ 162 quick
+ 163 rw
+ 165 rw quick
+-169 rw quick migration
++169 rw migration
+ 170 rw auto quick
+ 171 rw quick
+ 172 auto
+@@ -197,9 +197,9 @@
+ 177 rw auto quick
+ 178 img
+ 179 rw auto quick
+-181 rw auto migration
++181 rw auto migration quick
+ 182 rw quick
+-183 rw migration
++183 rw migration quick
+ 184 rw auto quick
+ 185 rw
+ 186 rw auto
+@@ -216,9 +216,9 @@
+ 198 rw
+ 199 rw migration
+ 200 rw
+-201 rw migration
++201 rw migration quick
+ 202 rw quick
+-203 rw auto migration
++203 rw auto migration quick
+ 204 rw quick
+ 205 rw quick
+ 206 rw
 -- 
-2.21.0
+2.27.0
 
 
