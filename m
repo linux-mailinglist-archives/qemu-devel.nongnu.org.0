@@ -2,68 +2,65 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2B45422E9CB
-	for <lists+qemu-devel@lfdr.de>; Mon, 27 Jul 2020 12:10:58 +0200 (CEST)
-Received: from localhost ([::1]:37564 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 44D5F22E9CC
+	for <lists+qemu-devel@lfdr.de>; Mon, 27 Jul 2020 12:12:10 +0200 (CEST)
+Received: from localhost ([::1]:40304 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1k005x-0005ff-8v
-	for lists+qemu-devel@lfdr.de; Mon, 27 Jul 2020 06:10:57 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:49878)
+	id 1k0077-0006tG-Cx
+	for lists+qemu-devel@lfdr.de; Mon, 27 Jul 2020 06:12:09 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:51658)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <cohuck@redhat.com>) id 1k0057-00053E-Lu
- for qemu-devel@nongnu.org; Mon, 27 Jul 2020 06:10:05 -0400
-Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:33281
- helo=us-smtp-1.mimecast.com)
+ (Exim 4.90_1) (envelope-from <cohuck@redhat.com>) id 1k006K-0006PT-CN
+ for qemu-devel@nongnu.org; Mon, 27 Jul 2020 06:11:20 -0400
+Received: from us-smtp-2.mimecast.com ([205.139.110.61]:38469
+ helo=us-smtp-delivery-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <cohuck@redhat.com>) id 1k0056-0001gb-4q
- for qemu-devel@nongnu.org; Mon, 27 Jul 2020 06:10:05 -0400
+ (Exim 4.90_1) (envelope-from <cohuck@redhat.com>) id 1k006I-0002II-N6
+ for qemu-devel@nongnu.org; Mon, 27 Jul 2020 06:11:20 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1595844603;
+ s=mimecast20190719; t=1595844678;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=kTPwEubOxZywmvlMBCFMGeSbYSU7ynTc3fp1vWxHVk0=;
- b=gOjTqszJHcZEyl/qGXuGRDaiX0Ek7XhB57MnJKojvE2ocOuIyuAM/M2GZCoPFEmRDNPtAh
- /HyCFtEQVSkhFhU1q8+Ag9ca0rNKQFFgrBe/RjOc9RiLkFNZdhbH5dUzGsbzIBPYuaqMwB
- n29Dt/sXuhu/QO+tRuCCym7AdIyBi4k=
+ bh=L1RXvpvbJUNqLsIsqGecdNIZwEbPFPSUSIdozP4PyYU=;
+ b=IEw6a5owsitxkgZJE6X/sBs3M0BaMXZmbD3HIAD6AV8G/AtNjQjlGlhmBiJEqK2sztK/gS
+ CimyauCFTnLYf7onu0YckPt76m5zVEoS834MwP9SlEm/CeqWjN+EzLsAf6F1SViorHmPad
+ uMANQrqNOInIPu2Ul3WUOi4BjyEEsDo=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-106--BgT_Df5NEa884dniRb2fA-1; Mon, 27 Jul 2020 06:10:00 -0400
-X-MC-Unique: -BgT_Df5NEa884dniRb2fA-1
-Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
- [10.5.11.11])
+ us-mta-180-sCB1jdBpMA6Zc7zAtlmAOg-1; Mon, 27 Jul 2020 06:11:14 -0400
+X-MC-Unique: sCB1jdBpMA6Zc7zAtlmAOg-1
+Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
+ [10.5.11.22])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id AA2D482BA4E;
- Mon, 27 Jul 2020 10:09:52 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id CA5AD80183C;
+ Mon, 27 Jul 2020 10:11:12 +0000 (UTC)
 Received: from gondolin (ovpn-112-210.ams2.redhat.com [10.36.112.210])
- by smtp.corp.redhat.com (Postfix) with ESMTP id E3957712D7;
- Mon, 27 Jul 2020 10:09:33 +0000 (UTC)
-Date: Mon, 27 Jul 2020 12:09:30 +0200
+ by smtp.corp.redhat.com (Postfix) with ESMTP id CE28310013D0;
+ Mon, 27 Jul 2020 10:11:04 +0000 (UTC)
+Date: Mon, 27 Jul 2020 12:11:02 +0200
 From: Cornelia Huck <cohuck@redhat.com>
 To: David Hildenbrand <david@redhat.com>
-Subject: Re: [PATCH RFCv3 6/9] s390x/diag: subcode to query device memory
- region
-Message-ID: <20200727120930.7b8803e4.cohuck@redhat.com>
-In-Reply-To: <963e5931-117e-48cb-b829-d630abff9e42@redhat.com>
+Subject: Re: [PATCH RFCv3 8/9] s390x: implement virtio-mem-ccw
+Message-ID: <20200727121102.12c5bc38.cohuck@redhat.com>
+In-Reply-To: <c55dbd7e-2786-c797-50ac-e6536d00d86c@redhat.com>
 References: <20200724143750.59836-1-david@redhat.com>
- <20200724143750.59836-7-david@redhat.com>
- <20200727114819.3f816010.cohuck@redhat.com>
- <963e5931-117e-48cb-b829-d630abff9e42@redhat.com>
+ <20200724143750.59836-9-david@redhat.com>
+ <20200727115829.46fd241a.cohuck@redhat.com>
+ <c55dbd7e-2786-c797-50ac-e6536d00d86c@redhat.com>
 Organization: Red Hat GmbH
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=cohuck@redhat.com
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=205.139.110.120; envelope-from=cohuck@redhat.com;
- helo=us-smtp-1.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/07/27 01:44:14
+Received-SPF: pass client-ip=205.139.110.61; envelope-from=cohuck@redhat.com;
+ helo=us-smtp-delivery-1.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/07/27 01:46:13
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
 X-Spam_score_int: -40
 X-Spam_score: -4.1
@@ -92,67 +89,39 @@ Cc: Thomas Huth <thuth@redhat.com>, Janosch Frank <frankja@linux.ibm.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Mon, 27 Jul 2020 11:52:30 +0200
+On Mon, 27 Jul 2020 12:02:07 +0200
 David Hildenbrand <david@redhat.com> wrote:
 
-> On 27.07.20 11:48, Cornelia Huck wrote:
-> > On Fri, 24 Jul 2020 16:37:47 +0200
+> On 27.07.20 11:58, Cornelia Huck wrote:
+> > On Fri, 24 Jul 2020 16:37:49 +0200
 > > David Hildenbrand <david@redhat.com> wrote:
 > >   
-> >> A guest OS that is aware of memory devices (placed into the device
-> >> memory region located in guest physical address space) has to know at least
-> >> the end address of the device memory region during boot, for example, to
-> >> prepare the kernel virtual address space accordingly (e.g., select page
-> >> table hierarchy). The device memory region is located above the SCLP
-> >> maximum storage increment.
+> >> Add a proper CCW proxy device, similar to the PCI variant.
 > >>
-> >> Let's provide a new diag500 subcode to query the location of the device
-> >> memory region under QEMU/KVM. This way, esp. Linux who's wants to support
-> >> virtio-based memory devices can query the location of this region and
-> >> derive the maximum possible PFN.
-> >>
-> >> Let's use a specification exception in case no such memory region
-> >> exists (e.g., maxmem wasn't specified, or on old QEMU machines). We'll
-> >> unlock this with future patches that prepare and instanciate the device
-> >> memory region.  
+> >> Signed-off-by: David Hildenbrand <david@redhat.com>
+> >> ---
+> >>  hw/s390x/virtio-ccw-mem.c | 167 ++++++++++++++++++++++++++++++++++++++
+> >>  hw/s390x/virtio-ccw.h     |  13 +++
+> >>  2 files changed, 180 insertions(+)
+> >>  create mode 100644 hw/s390x/virtio-ccw-mem.c  
 > > 
-> > Specification exception on old machines seems reasonable. But maybe
-> > newer machines can use a different return value for "no memory regions"?  
+> > What happens on an old machine type -- I guess the device is just
+> > useless?  
 > 
-> Hm, I don't see any benefit to distinguish the two cases of "no device
-> memory region". Should the guest really care?
-
-No idea, was just a random thought.
-
+> Trying to plug will fail in the pre_plug stage via
 > 
-> [...]
-> > 
-> > (...)
-> >   
-> >> diff --git a/hw/s390x/s390-hypercall.h b/hw/s390x/s390-hypercall.h
-> >> index e6b958db41..1b179d7d99 100644
-> >> --- a/hw/s390x/s390-hypercall.h
-> >> +++ b/hw/s390x/s390-hypercall.h
-> >> @@ -16,6 +16,7 @@
-> >>  #define DIAG500_VIRTIO_RESET           1 /* legacy */
-> >>  #define DIAG500_VIRTIO_SET_STATUS      2 /* legacy */
-> >>  #define DIAG500_VIRTIO_CCW_NOTIFY      3 /* KVM_S390_VIRTIO_CCW_NOTIFY */
-> >> +#define DIAG500_DEVICE_MEMORY_REGION   4  
-> > 
-> > Regardless what we end up with, this needs to be specified
-> > somewhere(tm).
-> >   
+> hw/mem/memory-device.c:memory_device_pre_plug()->memory_device_get_free_addr()
 > 
-> Yeah, there, we should also document the existing subcodes. What would
-> be the right place for this? The kernel feels somewhat wrong to me.
+> with "memory devices (e.g. for memory hotplug) are not supported by the
+> machine"
+> 
+> whereby never machines where "maxmem" was not properly specified will
+> result in
+> 
+> "memory devices (e.g. for memory hotplug) are not enabled, please
+> specify the maxmem option"
+> 
 
-The still supported subcode 3 is properly specified in the virtio spec.
-That's not a good place for that new one, though.
-
-QEMU is probably a better place than the kernel to specify stuff,
-although it's not really ideal, either. OTOH, do we ever expect other
-hypervisors to implement this new subcode?
-
-So maybe under doc/specs/?
+Ah, sounds good :)
 
 
