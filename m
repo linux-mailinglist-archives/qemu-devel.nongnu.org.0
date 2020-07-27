@@ -2,69 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E1CD022F2A1
-	for <lists+qemu-devel@lfdr.de>; Mon, 27 Jul 2020 16:41:19 +0200 (CEST)
-Received: from localhost ([::1]:33002 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1639022F2CE
+	for <lists+qemu-devel@lfdr.de>; Mon, 27 Jul 2020 16:42:35 +0200 (CEST)
+Received: from localhost ([::1]:38248 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1k04Ja-0007Nd-Vi
-	for lists+qemu-devel@lfdr.de; Mon, 27 Jul 2020 10:41:18 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:53900)
+	id 1k04Ko-00014w-4a
+	for lists+qemu-devel@lfdr.de; Mon, 27 Jul 2020 10:42:34 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:54488)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mreitz@redhat.com>) id 1k04Gr-0003Bd-OH
- for qemu-devel@nongnu.org; Mon, 27 Jul 2020 10:38:29 -0400
-Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:41237
- helo=us-smtp-1.mimecast.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <mreitz@redhat.com>) id 1k04Go-0001yR-MZ
- for qemu-devel@nongnu.org; Mon, 27 Jul 2020 10:38:29 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1595860706;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=x9eCuHo27xQCJSX8p6MpgkUs3+FTCb3BEl2LXTc7dKc=;
- b=exHximD9SM9TrHC8rO8e7Cljzk6e/Xaui42x79UOrAeynfNtUyF0XY4//wX1eZiUZ6Nim7
- /HDXznji0JE9bS3b8dcETQvJET9ktlrT7A4v1dmxASovOh7ZibIPA5KTq+yGFFinR4BhjX
- pXPVHCU8YnBlpZ33aowWI9bD29OdSIQ=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-130-JLNIBcLONhuD6bF6gK7EAQ-1; Mon, 27 Jul 2020 10:38:21 -0400
-X-MC-Unique: JLNIBcLONhuD6bF6gK7EAQ-1
-Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
- [10.5.11.11])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id CB1EB1005510;
- Mon, 27 Jul 2020 14:38:20 +0000 (UTC)
-Received: from localhost (ovpn-113-45.ams2.redhat.com [10.36.113.45])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 6EF966FEC6;
- Mon, 27 Jul 2020 14:38:20 +0000 (UTC)
-From: Max Reitz <mreitz@redhat.com>
-To: qemu-block@nongnu.org
-Subject: [PULL 3/3] iotests/197: Fix for compat=0.10
-Date: Mon, 27 Jul 2020 16:38:12 +0200
-Message-Id: <20200727143812.1101547-4-mreitz@redhat.com>
-In-Reply-To: <20200727143812.1101547-1-mreitz@redhat.com>
-References: <20200727143812.1101547-1-mreitz@redhat.com>
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1k04Jc-00087h-M2
+ for qemu-devel@nongnu.org; Mon, 27 Jul 2020 10:41:20 -0400
+Received: from mail-ot1-x341.google.com ([2607:f8b0:4864:20::341]:46047)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1k04Ja-0002Qr-EK
+ for qemu-devel@nongnu.org; Mon, 27 Jul 2020 10:41:20 -0400
+Received: by mail-ot1-x341.google.com with SMTP id h1so12445536otq.12
+ for <qemu-devel@nongnu.org>; Mon, 27 Jul 2020 07:41:17 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=k0Nc/mzW4Au/cLCFSSt16cyxxq25OSsf6soFbxRpQoU=;
+ b=OYGh+atcPw8DAhWBx1kqldcXjp+SYb7b+9EdldBv0zHqSKKD2l0JOoOCE5agPwkwly
+ hvdRVmJtMqnYTH0wBCD02BAR4sJ/ci8oxOooh8+FkRh7YfADldFb+0QZ52HIAXZHEbio
+ SvoqYQ44eRHC/wk3kNb8+VziPZreaK00z+QpR/ADx7jzojnPN+6CAtj9VbeEsLQlo9K8
+ 8EzuKuh+yG/o3bHF81ZaWFMw0z/uzp4n9fG6pOVNejYMVOsXDFzq0koarojHhaft1IOj
+ 3hQwVMVTRjVDApEQ+1s/gd+NKvi9l/XEZuUHiwVFwa3ejeaYC4A6gZizvqJ63KilN2np
+ SfaA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=k0Nc/mzW4Au/cLCFSSt16cyxxq25OSsf6soFbxRpQoU=;
+ b=Zlx0hzKQw3avYgmBWjcIo/bfLaQVJBhKvUAZ11gKTouKfIMQ6pD9ZoQxiEYSHA+4jc
+ 3ZDutNlb37CjMBneT4HKe8HDmNh6T4NNzllEx9mqPOoA/GHtJ1vmGIDYhw9aeFIn0rwd
+ 8t6sXWPPW+NjZC6APZmI+ze8asMR8uLgQr/fARWS2gTxOwGLy0za482q708zG5uAOHWy
+ LiB8KXgGcU+QAD8+m+26UdGl1rl5NMK5C3AoPeFQ8vhOJBtytD4kU7VTrZmjtwoduGUF
+ JLVgtaFMtSwRw1QpRbJyJ6I8GNnmHOuTI7FDcVexfjOMTH9TC4HsxfxUBu8Nmbgj3Gaf
+ b8SA==
+X-Gm-Message-State: AOAM530N3rsbUObY38n0Z0xHMNSWHRYkIVo2TORVhoJISDWDyF9XWWrA
+ 046kDzds+wy86x/7s+o2zRVVqqmCoPZnMcn1x6sitQ==
+X-Google-Smtp-Source: ABdhPJyX41GOo2exmAQYTvgs+WR1pjnn4nLR9zjXQ93tFGUKifn49PGwdL01iQSlU9mcFe7Cco6UnAE3upp8wWe4dDo=
+X-Received: by 2002:a9d:7303:: with SMTP id e3mr19686034otk.221.1595860876984; 
+ Mon, 27 Jul 2020 07:41:16 -0700 (PDT)
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=205.139.110.120; envelope-from=mreitz@redhat.com;
- helo=us-smtp-1.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/07/27 01:44:14
-X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
-X-Spam_score_int: -40
-X-Spam_score: -4.1
-X-Spam_bar: ----
-X-Spam_report: (-4.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- LOTS_OF_MONEY=0.001, RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-1,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+References: <20200727130225.32640-1-zhukeqian1@huawei.com>
+In-Reply-To: <20200727130225.32640-1-zhukeqian1@huawei.com>
+From: Peter Maydell <peter.maydell@linaro.org>
+Date: Mon, 27 Jul 2020 15:41:06 +0100
+Message-ID: <CAFEAcA9vQMP0YLAuzdPW2m3RcRNySxA0gJQZmeXBUYRy4=Dk+w@mail.gmail.com>
+Subject: Re: [PATCH] bugfix: irq: Avoid covering object refcount of qemu_irq
+To: Keqian Zhu <zhukeqian1@huawei.com>
+Content-Type: text/plain; charset="UTF-8"
+Received-SPF: pass client-ip=2607:f8b0:4864:20::341;
+ envelope-from=peter.maydell@linaro.org; helo=mail-ot1-x341.google.com
+X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
+ That's all we know.
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -77,42 +78,48 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Kevin Wolf <kwolf@redhat.com>, Peter Maydell <peter.maydell@linaro.org>,
- qemu-devel@nongnu.org, Max Reitz <mreitz@redhat.com>
+Cc: Thomas Huth <thuth@redhat.com>, Esteban Bosse <estebanbosse@gmail.com>,
+ Li Qiang <liq3ea@gmail.com>, QEMU Developers <qemu-devel@nongnu.org>,
+ "Dr . David Alan Gilbert" <dgilbert@redhat.com>, yezengruan@huawei.com,
+ qemu-arm <qemu-arm@nongnu.org>, wanghaibin.wang@huawei.com,
+ Paolo Bonzini <pbonzini@redhat.com>,
+ =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <philmd@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Writing zeroes to a qcow2 v2 images without a backing file results in an
-unallocated cluster as of 61b3043965.  197 has a test for COR-ing a
-cluster on an image without a backing file, which means that the data
-will be zero, so now on a v2 image that cluster will just stay
-unallocated, and so the test fails.  Just force compat=1.1 for that
-particular case to enforce the cluster to get allocated.
+On Mon, 27 Jul 2020 at 14:03, Keqian Zhu <zhukeqian1@huawei.com> wrote:
+>
+> Avoid covering object refcount of qemu_irq, otherwise it may causes
+> memory leak.
+>
+> Signed-off-by: Keqian Zhu <zhukeqian1@huawei.com>
+> ---
+>  hw/core/irq.c | 4 +++-
+>  1 file changed, 3 insertions(+), 1 deletion(-)
+>
+> diff --git a/hw/core/irq.c b/hw/core/irq.c
+> index fb3045b912..59af4dfc74 100644
+> --- a/hw/core/irq.c
+> +++ b/hw/core/irq.c
+> @@ -125,7 +125,9 @@ void qemu_irq_intercept_in(qemu_irq *gpio_in, qemu_irq_handler handler, int n)
+>      int i;
+>      qemu_irq *old_irqs = qemu_allocate_irqs(NULL, NULL, n);
+>      for (i = 0; i < n; i++) {
+> -        *old_irqs[i] = *gpio_in[i];
+> +        old_irqs[i]->handler = gpio_in[i]->handler;
+> +        old_irqs[i]->opaque = gpio_in[i]->opaque;
+> +
+>          gpio_in[i]->handler = handler;
+>          gpio_in[i]->opaque = &old_irqs[i];
+>      }
 
-Fixes: 61b3043965fe3552ee2684a97e7cc809ca7a71b3
-Signed-off-by: Max Reitz <mreitz@redhat.com>
-Message-Id: <20200727135237.1096841-1-mreitz@redhat.com>
-Reviewed-by: Eric Blake <eblake@redhat.com>
----
- tests/qemu-iotests/197 | 4 +++-
- 1 file changed, 3 insertions(+), 1 deletion(-)
+This function is leaky by design, because it doesn't do anything
+with the old_irqs array and there's no function for un-intercepting
+the IRQs (which would need to free that memory). This is not ideal
+but OK because it's only used in the test suite.
 
-diff --git a/tests/qemu-iotests/197 b/tests/qemu-iotests/197
-index 95f05b0e34..121959a09c 100755
---- a/tests/qemu-iotests/197
-+++ b/tests/qemu-iotests/197
-@@ -112,7 +112,9 @@ echo
- echo '=== Partial final cluster ==='
- echo
- 
--_make_test_img 1024
-+# Force compat=1.1, because writing zeroes on a v2 image without a
-+# backing file would just result in an unallocated cluster
-+_make_test_img -o compat=1.1 1024
- $QEMU_IO -f $IMGFMT -C -c 'read 0 1024' "$TEST_IMG" | _filter_qemu_io
- $QEMU_IO -f $IMGFMT -c map "$TEST_IMG"
- _check_test_img
--- 
-2.26.2
+Is there a specific bug you're trying to fix here?
 
+thanks
+-- PMM
 
