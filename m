@@ -2,132 +2,89 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 14EB722EE97
-	for <lists+qemu-devel@lfdr.de>; Mon, 27 Jul 2020 16:09:10 +0200 (CEST)
-Received: from localhost ([::1]:48432 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4E13322EEB1
+	for <lists+qemu-devel@lfdr.de>; Mon, 27 Jul 2020 16:10:00 +0200 (CEST)
+Received: from localhost ([::1]:51690 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1k03oT-0002n0-40
-	for lists+qemu-devel@lfdr.de; Mon, 27 Jul 2020 10:09:09 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:44188)
+	id 1k03pH-0004BF-D0
+	for lists+qemu-devel@lfdr.de; Mon, 27 Jul 2020 10:09:59 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:44828)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <lvivier@redhat.com>)
- id 1k03m9-0000Af-Pp
- for qemu-devel@nongnu.org; Mon, 27 Jul 2020 10:06:45 -0400
-Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:51800
- helo=us-smtp-1.mimecast.com)
+ (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1k03nz-0002v7-4q
+ for qemu-devel@nongnu.org; Mon, 27 Jul 2020 10:08:39 -0400
+Received: from us-smtp-1.mimecast.com ([205.139.110.61]:49389
+ helo=us-smtp-delivery-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <lvivier@redhat.com>)
- id 1k03m7-0005v4-Sz
- for qemu-devel@nongnu.org; Mon, 27 Jul 2020 10:06:45 -0400
+ (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1k03nt-00067P-UK
+ for qemu-devel@nongnu.org; Mon, 27 Jul 2020 10:08:38 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1595858803;
+ s=mimecast20190719; t=1595858913;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
- bh=pXxN2sfpxG8GEmqOID1WGu5jAGozPpIky2QcWwipxWY=;
- b=eULqwzxySHMAtfrLbNlyL1ZqQMOr4mUaJKOTX64PMIC/oUkDnRaIFb936Q5djTprSN9p0S
- Tp7ExZDyOWC4dmBomhs66Z8QT143gYfLKPFHIOIEmO4ehxx36u0wet/ipXkZyNJyQFuD1H
- QUN0eM4VQXYNhs8PF7bokMtbzhQiJOI=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-353-aKCN9jrjNfqw5xEjzZHAWQ-1; Mon, 27 Jul 2020 10:06:24 -0400
-X-MC-Unique: aKCN9jrjNfqw5xEjzZHAWQ-1
-Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
- [10.5.11.14])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 54F89800460;
- Mon, 27 Jul 2020 14:06:23 +0000 (UTC)
-Received: from [10.36.113.103] (ovpn-113-103.ams2.redhat.com [10.36.113.103])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 0DC595DA8F;
- Mon, 27 Jul 2020 14:06:11 +0000 (UTC)
-Subject: Re: [PULL v2 31/41] virtio-pci: implement queue_enabled method
-To: "Michael S. Tsirkin" <mst@redhat.com>
-References: <20200704182750.1088103-1-mst@redhat.com>
- <20200704182750.1088103-32-mst@redhat.com>
- <42c43784-627f-80ee-b9cb-5d22b127235a@redhat.com>
- <20200727095743-mutt-send-email-mst@kernel.org>
-From: Laurent Vivier <lvivier@redhat.com>
-Autocrypt: addr=lvivier@redhat.com; prefer-encrypt=mutual; keydata=
- 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
- D+Ofp0T3KOr1RUHvCZoLURfFhSQ=
-Message-ID: <b2c93a59-d073-fb27-bc02-0556d9b7a6cc@redhat.com>
-Date: Mon, 27 Jul 2020 16:06:10 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.10.0
+ in-reply-to:in-reply-to:references:references;
+ bh=YeYfTrYBMyGbtUXh9mefDxLKNMxCNPFtbjAQm80q4B0=;
+ b=WykKYIbcOySgpRCqZlipOKUjs8zgWQtcUA1f8lRNiLW94I3gCimFkU70au5tWbK5ltx/sj
+ lLoi0mFLC792FgkdeajoPwhA1O+XpyWNWMRhVvIcdCsM95VFGGiG9AZ2kNLE778iX9MQN0
+ f2lvok6sh5Y16uVVzaw2lJ/KfUyQ8VE=
+Received: from mail-wm1-f72.google.com (mail-wm1-f72.google.com
+ [209.85.128.72]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-100-ffnfhWplOp2rNO65KhVSFA-1; Mon, 27 Jul 2020 10:08:31 -0400
+X-MC-Unique: ffnfhWplOp2rNO65KhVSFA-1
+Received: by mail-wm1-f72.google.com with SMTP id v4so5752415wmh.3
+ for <qemu-devel@nongnu.org>; Mon, 27 Jul 2020 07:08:31 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+ :mime-version:content-disposition:in-reply-to;
+ bh=YeYfTrYBMyGbtUXh9mefDxLKNMxCNPFtbjAQm80q4B0=;
+ b=CaYOBq6e9krMbwkD43UMU+xYUNS7eBSuAG88WjuPPuzu3XzCF0efB1ZOgO+NBNZCNk
+ Cr9ysNz6TO15HyHWzpCLXXMNotRHf88YeyHNrAZ1IdMGP6Bk9P8Ni9rSlslpixuQbHiv
+ PrZTZd0rA66ooqtqRTn77PYLZIiYOmDEKUvpM+ddMHM9N3aiiADNH0ddZwrUDIe7jtSf
+ rJWdczgb2lm0Fz7T2SJp90qdoLTguFij8r+YsdhMjqc85SaEtxpC7hT13uXPNLeTOQcT
+ gnZ+nQcdWLUHgbDi/TqwpDEyVqkLNuBKkYKsFJQnNHMdamR88YQyFE8a+Ot7X1bmJX/+
+ EiIA==
+X-Gm-Message-State: AOAM533x6smSflyoz2LxVRVVX6GEBLl3ksc8jaRXG5A8UGyVtpN41mSh
+ SQoNnpNnZ5aGxxtg/s0qZywQbVvbUDoRu7gFfvtXZux0otXgbV0fPKUIYic7TpPDigGPcE8oF7C
+ BvJwyMMD9c4zMV+k=
+X-Received: by 2002:adf:e647:: with SMTP id b7mr14997924wrn.220.1595858910188; 
+ Mon, 27 Jul 2020 07:08:30 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJy829pbyWldHCcfE/iFYKs7+KAXfN13QGED4ISVHc8PH8Di6/mBDbZ6Pbyqz9O7cyDvFQU5tg==
+X-Received: by 2002:adf:e647:: with SMTP id b7mr14997903wrn.220.1595858909871; 
+ Mon, 27 Jul 2020 07:08:29 -0700 (PDT)
+Received: from redhat.com ([192.117.173.58])
+ by smtp.gmail.com with ESMTPSA id v1sm12188751wro.83.2020.07.27.07.08.27
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Mon, 27 Jul 2020 07:08:29 -0700 (PDT)
+Date: Mon, 27 Jul 2020 10:08:24 -0400
+From: "Michael S. Tsirkin" <mst@redhat.com>
+To: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
+Subject: Re: [PATCH v4 2/2] hw/pci-host: save/restore pci host config
+ register for old ones
+Message-ID: <20200727100109-mutt-send-email-mst@kernel.org>
+References: <20200727084621.3279-1-hogan.wang@huawei.com>
+ <20200727084621.3279-2-hogan.wang@huawei.com>
+ <20200727090806-mutt-send-email-mst@kernel.org>
+ <20200727135329.GO3040@work-vm>
 MIME-Version: 1.0
-In-Reply-To: <20200727095743-mutt-send-email-mst@kernel.org>
-Content-Language: en-US
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
+In-Reply-To: <20200727135329.GO3040@work-vm>
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=mst@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=207.211.31.120; envelope-from=lvivier@redhat.com;
- helo=us-smtp-1.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/07/27 00:16:29
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Received-SPF: pass client-ip=205.139.110.61; envelope-from=mst@redhat.com;
+ helo=us-smtp-delivery-1.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/07/27 01:46:13
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
-X-Spam_score_int: -30
-X-Spam_score: -3.1
-X-Spam_bar: ---
-X-Spam_report: (-3.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1,
+X-Spam_score_int: -40
+X-Spam_score: -4.1
+X-Spam_bar: ----
+X-Spam_report: (-4.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H3=-0.01, RCVD_IN_MSPIKE_WL=-0.01,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- URIBL_BLOCKED=0.001 autolearn=ham autolearn_force=no
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-1, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -140,91 +97,240 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Maydell <peter.maydell@linaro.org>, Jason Wang <jasowang@redhat.com>,
- qemu-devel@nongnu.org, Cindy Lu <lulu@redhat.com>
+Cc: weidong.huang@huawei.com, wangxinxin.wang@huawei.com, jusual@redhat.com,
+ qemu-devel@nongnu.org, Hogan Wang <hogan.wang@huawei.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 27/07/2020 16:00, Michael S. Tsirkin wrote:
-> On Mon, Jul 27, 2020 at 03:51:41PM +0200, Laurent Vivier wrote:
->> On 04/07/2020 20:30, Michael S. Tsirkin wrote:
->>> From: Jason Wang <jasowang@redhat.com>
->>>
->>> With version 1, we can detect whether a queue is enabled via
->>> queue_enabled.
->>>
->>> Signed-off-by: Jason Wang <jasowang@redhat.com>
->>> Signed-off-by: Cindy Lu <lulu@redhat.com>
->>> Message-Id: <20200701145538.22333-5-lulu@redhat.com>
->>> Reviewed-by: Michael S. Tsirkin <mst@redhat.com>
->>> Signed-off-by: Michael S. Tsirkin <mst@redhat.com>
->>> Acked-by: Jason Wang <jasowang@redhat.com>
->>> ---
->>>  hw/virtio/virtio-pci.c | 13 +++++++++++++
->>>  1 file changed, 13 insertions(+)
->>>
->>> diff --git a/hw/virtio/virtio-pci.c b/hw/virtio/virtio-pci.c
->>> index 7bc8c1c056..8554cf2a03 100644
->>> --- a/hw/virtio/virtio-pci.c
->>> +++ b/hw/virtio/virtio-pci.c
->>> @@ -1107,6 +1107,18 @@ static AddressSpace *virtio_pci_get_dma_as(DeviceState *d)
->>>      return pci_get_address_space(dev);
->>>  }
->>>  
->>> +static bool virtio_pci_queue_enabled(DeviceState *d, int n)
->>> +{
->>> +    VirtIOPCIProxy *proxy = VIRTIO_PCI(d);
->>> +    VirtIODevice *vdev = virtio_bus_get_device(&proxy->bus);
->>> +
->>> +    if (virtio_vdev_has_feature(vdev, VIRTIO_F_VERSION_1)) {
->>> +        return proxy->vqs[vdev->queue_sel].enabled;
->>> +    }
->>> +
->>> +    return virtio_queue_enabled(vdev, n);
->>> +}
->>
->> With "disable-legacy=off,disable-modern=true",
->> this changes introduces an infinite loop: virtio_queue_enabled() calls
->> again virtio_pci_queue_enabled() that calls
->> againvirtio_pci_queue_enabled()...
->>
->> I think this should be changed like this:
->>
->> diff --git a/hw/virtio/virtio-pci.c b/hw/virtio/virtio-pci.c
->> index ada1101d07..0a85c17e91 100644
->> --- a/hw/virtio/virtio-pci.c
->> +++ b/hw/virtio/virtio-pci.c
->> @@ -1116,7 +1116,7 @@ static bool virtio_pci_queue_enabled(DeviceState
->> *d, int n)
->>          return proxy->vqs[vdev->queue_sel].enabled;
->>      }
->>
->> -    return virtio_queue_enabled(vdev, n);
->> +    return virtio_queue_get_desc_addr(vdev, n) != 0;
->>  }
->>
+On Mon, Jul 27, 2020 at 02:53:29PM +0100, Dr. David Alan Gilbert wrote:
+> * Michael S. Tsirkin (mst@redhat.com) wrote:
+> > On Mon, Jul 27, 2020 at 04:46:21PM +0800, Hogan Wang wrote:
+> > > The i440fx and q35 machines integrate i440FX or MCH PCI device by default.
+> > > Refer to i440FX and ICH9-LPC spcifications, there are some reserved
+> > > configuration registers can used to save/restore PCIHostState.config_reg.
+> > > It's nasty but friendly to old ones.
+> > > 
+> > > Reproducer steps:
+> > > step 1. Make modifications to seabios and qemu for increase reproduction
+> > > efficiency, write 0xf0 to 0x402 port notify qemu to stop vcpu after
+> > > 0x0cf8 port wrote i440 configure register. qemu stop vcpu when catch
+> > > 0x402 port wrote 0xf0.
+> > > 
+> > > seabios:/src/hw/pci.c
+> > > @@ -52,6 +52,11 @@ void pci_config_writeb(u16 bdf, u32 addr, u8 val)
+> > >          writeb(mmconfig_addr(bdf, addr), val);
+> > >      } else {
+> > >          outl(ioconfig_cmd(bdf, addr), PORT_PCI_CMD);
+> > > +       if (bdf == 0 && addr == 0x72 && val == 0xa) {
+> > > +            dprintf(1, "stop vcpu\n");
+> > > +            outb(0xf0, 0x402); // notify qemu to stop vcpu
+> > > +            dprintf(1, "resume vcpu\n");
+> > > +        }
+> > >          outb(val, PORT_PCI_DATA + (addr & 3));
+> > >      }
+> > >  }
+> > > 
+> > > qemu:hw/char/debugcon.c
+> > > @@ -60,6 +61,9 @@ static void debugcon_ioport_write(void *opaque, hwaddr addr, uint64_t val,
+> > >      printf(" [debugcon: write addr=0x%04" HWADDR_PRIx " val=0x%02" PRIx64 "]\n", addr, val);
+> > >  #endif
+> > > 
+> > > +    if (ch == 0xf0) {
+> > > +        vm_stop(RUN_STATE_PAUSED);
+> > > +    }
+> > >      /* XXX this blocks entire thread. Rewrite to use
+> > >       * qemu_chr_fe_write and background I/O callbacks */
+> > >      qemu_chr_fe_write_all(&s->chr, &ch, 1);
+> > > 
+> > > step 2. start vm1 by the following command line, and then vm stopped.
+> > > $ qemu-system-x86_64 -machine pc-i440fx-5.0,accel=kvm\
+> > >  -netdev tap,ifname=tap-test,id=hostnet0,vhost=on,downscript=no,script=no\
+> > >  -device virtio-net-pci,netdev=hostnet0,id=net0,bus=pci.0,addr=0x13,bootindex=3\
+> > >  -device cirrus-vga,id=video0,vgamem_mb=16,bus=pci.0,addr=0x2\
+> > >  -chardev file,id=seabios,path=/var/log/test.seabios,append=on\
+> > >  -device isa-debugcon,iobase=0x402,chardev=seabios\
+> > >  -monitor stdio
+> > > 
+> > > step 3. start vm2 to accept vm1 state.
+> > > $ qemu-system-x86_64 -machine pc-i440fx-5.0,accel=kvm\
+> > >  -netdev tap,ifname=tap-test1,id=hostnet0,vhost=on,downscript=no,script=no\
+> > >  -device virtio-net-pci,netdev=hostnet0,id=net0,bus=pci.0,addr=0x13,bootindex=3\
+> > >  -device cirrus-vga,id=video0,vgamem_mb=16,bus=pci.0,addr=0x2\
+> > >  -chardev file,id=seabios,path=/var/log/test.seabios,append=on\
+> > >  -device isa-debugcon,iobase=0x402,chardev=seabios\
+> > >  -monitor stdio \
+> > >  -incoming tcp:127.0.0.1:8000
+> > > 
+> > > step 4. execute the following qmp command in vm1 to migrate.
+> > > (qemu) migrate tcp:127.0.0.1:8000
+> > > 
+> > > step 5. execute the following qmp command in vm2 to resume vcpu.
+> > > (qemu) cont
+> > > 
+> > > Before this patch, we can get KVM "emulation failure" error on vm2.
+> > > This patch can fix it.
+> > > 
+> > > Signed-off-by: Hogan Wang <hogan.wang@huawei.com>
+> > 
+> > Question - did you test that this migrates successfully to
+> > old QEMU too? Thanks!
 > 
-> Thanks for the report and debugging the issue!
+> I'm not seeing how it will;
 
-Ironically, the bug has been introduced because of my comment on the series:
+Well the way this is supposed to work is, it's a reserved register.
+So if you migrate to an old qemu it will ignore it, the bug is
+not fixed but if you got lucky and did not run into the bug,
+the guest will keep going.
 
-https://patchew.org/QEMU/20200529140620.28759-1-lulu@redhat.com/20200529140620.28759-5-lulu@redhat.com/
+Migrating back has a small chance to mess up the guest in a way that is
+different from how it was messed up previously, because old qemu will
+send a stale config value if you run into the race.
+The scariest thing  is it can convert a buggy write into register 0
+into a write into another register - potentially more dangerous.
+OTOH not writing at all which is what write to register 0 does
+it also unlikely to work as expected ...
 
-Sorry for that.
+I really think we need a way to add migrated data without breaking
+compat with old machine types, and have old types just ignore it. If we
+had such a way we could now use it and at least we would not be making
+the problem bigger for anyway.
 
-> Maybe move
->        return virtio_queue_get_desc_addr(vdev, n) != 0;
-> to a new API
-> 	virtio_pci_queue_enabled_legacy()
+
+> and isn't pci_host used in lots of
+> architectures?
+
+It doesn't affect these others. They can add a work around
+too if there's a migrated register.
+
 > 
-> to avoid code duplication.
+> Dave
 > 
-> Could you cook up a patch pls? don't forget the Fixes: tag
-> so people remember to backport it.
-
-Yes. I'm going to do that.
-
-Thanks,
-Laurent
+> > And I guess this needs a CC stable?
+> > 
+> > > ---
+> > >  hw/pci-host/i440fx.c | 31 +++++++++++++++++++++++++++++++
+> > >  hw/pci-host/q35.c    | 30 ++++++++++++++++++++++++++++++
+> > >  2 files changed, 61 insertions(+)
+> > > 
+> > > diff --git a/hw/pci-host/i440fx.c b/hw/pci-host/i440fx.c
+> > > index 8ed2417f0c..b78c8bc5f9 100644
+> > > --- a/hw/pci-host/i440fx.c
+> > > +++ b/hw/pci-host/i440fx.c
+> > > @@ -64,6 +64,14 @@ typedef struct I440FXState {
+> > >   */
+> > >  #define I440FX_COREBOOT_RAM_SIZE 0x57
+> > >  
+> > > +/* Older I440FX machines (5.0 and older) not support i440FX-pcihost state
+> > > + * migration, use some reserved INTEL 82441 configuration registers to
+> > > + * save/restore i440FX-pcihost config register. Refer to [INTEL 440FX PCISET
+> > > + * 82441FX PCI AND MEMORY CONTROLLER (PMC) AND 82442FX DATA BUS ACCELERATOR
+> > > + * (DBX) Table 1. PMC Configuration Space]
+> > > + */
+> > > +#define I440FX_PCI_HOST_CONFIG_REG 0x94
+> > > +
+> > >  static void i440fx_update_memory_mappings(PCII440FXState *d)
+> > >  {
+> > >      int i;
+> > > @@ -98,8 +106,30 @@ static void i440fx_write_config(PCIDevice *dev,
+> > >  static int i440fx_post_load(void *opaque, int version_id)
+> > >  {
+> > >      PCII440FXState *d = opaque;
+> > > +    PCIDevice *dev;
+> > > +    PCIHostState *s = OBJECT_CHECK(PCIHostState,
+> > > +                                   object_resolve_path("/machine/i440fx", NULL),
+> > > +                                   TYPE_PCI_HOST_BRIDGE);
+> > >  
+> > >      i440fx_update_memory_mappings(d);
+> > > +
+> > > +    if (!s->mig_enabled) {
+> > > +        dev = PCI_DEVICE(d);
+> > > +        s->config_reg = pci_get_long(&dev->config[I440FX_PCI_HOST_CONFIG_REG]);
+> > > +    }
+> > > +    return 0;
+> > > +}
+> > > +
+> > > +static int i440fx_pre_save(void *opaque)
+> > > +{
+> > > +    PCIDevice *dev = opaque;
+> > > +    PCIHostState *s = OBJECT_CHECK(PCIHostState,
+> > > +                                   object_resolve_path("/machine/i440fx", NULL),
+> > > +                                   TYPE_PCI_HOST_BRIDGE);
+> > > +    if (!s->mig_enabled) {
+> > > +        pci_set_long(&dev->config[I440FX_PCI_HOST_CONFIG_REG],
+> > > +                     s->config_reg);
+> > > +    }
+> > >      return 0;
+> > >  }
+> > >  
+> > > @@ -107,6 +137,7 @@ static const VMStateDescription vmstate_i440fx = {
+> > >      .name = "I440FX",
+> > >      .version_id = 3,
+> > >      .minimum_version_id = 3,
+> > > +    .pre_save = i440fx_pre_save,
+> > >      .post_load = i440fx_post_load,
+> > >      .fields = (VMStateField[]) {
+> > >          VMSTATE_PCI_DEVICE(parent_obj, PCII440FXState),
+> > > diff --git a/hw/pci-host/q35.c b/hw/pci-host/q35.c
+> > > index b67cb9c29f..bed66be181 100644
+> > > --- a/hw/pci-host/q35.c
+> > > +++ b/hw/pci-host/q35.c
+> > > @@ -43,6 +43,15 @@
+> > >  
+> > >  #define Q35_PCI_HOST_HOLE64_SIZE_DEFAULT (1ULL << 35)
+> > >  
+> > > +/* Older Q35 machines (5.0 and older) not support q35-pcihost state
+> > > + * migration, use some reserved INTEL MCH configuration registers to
+> > > + * save/restore q35-pcihost config register. Refer to [Intel 3 Series
+> > > + * Chipset Family Datasheet Table 5-1. DRAM Controller Register Address
+> > > + * Map (D0:F0)]
+> > > + */
+> > > +#define Q35_PCI_HOST_CONFIG_REG 0x70
+> > > +
+> > > +
+> > >  static void q35_host_realize(DeviceState *dev, Error **errp)
+> > >  {
+> > >      PCIHostState *pci = PCI_HOST_BRIDGE(dev);
+> > > @@ -513,7 +522,27 @@ static void mch_update(MCHPCIState *mch)
+> > >  static int mch_post_load(void *opaque, int version_id)
+> > >  {
+> > >      MCHPCIState *mch = opaque;
+> > > +    PCIDevice *dev;
+> > > +    PCIHostState *s = OBJECT_CHECK(PCIHostState,
+> > > +                                   object_resolve_path("/machine/q35", NULL),
+> > > +                                   TYPE_PCI_HOST_BRIDGE);
+> > >      mch_update(mch);
+> > > +    if (!s->mig_enabled) {
+> > > +        dev = PCI_DEVICE(mch);
+> > > +        s->config_reg = pci_get_long(&dev->config[Q35_PCI_HOST_CONFIG_REG]);
+> > > +    }
+> > > +    return 0;
+> > > +}
+> > > +
+> > > +static int mch_pre_save(void *opaque)
+> > > +{
+> > > +    PCIDevice *dev = opaque;
+> > > +    PCIHostState *s = OBJECT_CHECK(PCIHostState,
+> > > +                                   object_resolve_path("/machine/q35", NULL),
+> > > +                                   TYPE_PCI_HOST_BRIDGE);
+> > > +    if (!s->mig_enabled) {
+> > > +        pci_set_long(&dev->config[Q35_PCI_HOST_CONFIG_REG], s->config_reg);
+> > > +    }
+> > >      return 0;
+> > >  }
+> > >  
+> > > @@ -521,6 +550,7 @@ static const VMStateDescription vmstate_mch = {
+> > >      .name = "mch",
+> > >      .version_id = 1,
+> > >      .minimum_version_id = 1,
+> > > +    .pre_save = mch_pre_save,
+> > >      .post_load = mch_post_load,
+> > >      .fields = (VMStateField[]) {
+> > >          VMSTATE_PCI_DEVICE(parent_obj, MCHPCIState),
+> > > -- 
+> > > 2.27.0
+> > > 
+> > 
+> --
+> Dr. David Alan Gilbert / dgilbert@redhat.com / Manchester, UK
 
 
