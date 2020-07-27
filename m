@@ -2,65 +2,67 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id AF3EF22F189
-	for <lists+qemu-devel@lfdr.de>; Mon, 27 Jul 2020 16:34:06 +0200 (CEST)
-Received: from localhost ([::1]:35664 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 58F8F22F1C2
+	for <lists+qemu-devel@lfdr.de>; Mon, 27 Jul 2020 16:35:28 +0200 (CEST)
+Received: from localhost ([::1]:43414 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1k04Cb-0005Cm-Lq
-	for lists+qemu-devel@lfdr.de; Mon, 27 Jul 2020 10:34:05 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:51884)
+	id 1k04Dv-0008Kf-By
+	for lists+qemu-devel@lfdr.de; Mon, 27 Jul 2020 10:35:27 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:51922)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1k04B3-0003X3-Az
- for qemu-devel@nongnu.org; Mon, 27 Jul 2020 10:32:29 -0400
-Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:58938
+ (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1k04B6-0003aq-Qk
+ for qemu-devel@nongnu.org; Mon, 27 Jul 2020 10:32:32 -0400
+Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:40417
  helo=us-smtp-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1k04B1-0001HB-HZ
- for qemu-devel@nongnu.org; Mon, 27 Jul 2020 10:32:28 -0400
+ (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1k04B3-0001HI-PD
+ for qemu-devel@nongnu.org; Mon, 27 Jul 2020 10:32:32 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1595860346;
+ s=mimecast20190719; t=1595860348;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=nUT7Qbk7nFEddXYspzd8aisJc0jjaXW+jFGJmy8zWts=;
- b=fRDbaQoEkEAfQIHY3i5i3CfgmtGhQi6YpKaV21/8QDEIaTDp7J6yL8mnt/XJt1xjBblrRb
- 1mJuov0dLO38iVlrzf43KN4K5ha/0c5EKk5ASfU09h2pw0Tx1tjaJbk4o2mPakxF9k4X0T
- lJgGcoSUrVbMq9mH2zpo9GTo2FQwQKE=
+ bh=uXITvKmBNRuCK1oQcQxl+D6gdJLR2Jn4LOvKMTH1JwU=;
+ b=O08TvgJc6nKNnoCH2Xj5atHouM1/2E7lPCizsaYSP3BaZnYzBFBbIT+hn9IgtVQSyjt95u
+ /E5FP08i9x7ixbjuXn1bk74A/0hOHTXMl62Em+S9y+QCwSiup/gmOFqVMb8A2k3uWNkfBL
+ QNTT4W1x50oVGCuqJXp83h8c2ubZiig=
 Received: from mail-wr1-f71.google.com (mail-wr1-f71.google.com
  [209.85.221.71]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-438-1hM2uzHSOmKfC8tE19Odyg-1; Mon, 27 Jul 2020 10:32:22 -0400
-X-MC-Unique: 1hM2uzHSOmKfC8tE19Odyg-1
-Received: by mail-wr1-f71.google.com with SMTP id b13so1243774wrq.19
- for <qemu-devel@nongnu.org>; Mon, 27 Jul 2020 07:32:22 -0700 (PDT)
+ us-mta-187-NQrOIrtkO9-DpG22NoFh8A-1; Mon, 27 Jul 2020 10:32:26 -0400
+X-MC-Unique: NQrOIrtkO9-DpG22NoFh8A-1
+Received: by mail-wr1-f71.google.com with SMTP id f7so4000586wrs.8
+ for <qemu-devel@nongnu.org>; Mon, 27 Jul 2020 07:32:26 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:in-reply-to;
- bh=nUT7Qbk7nFEddXYspzd8aisJc0jjaXW+jFGJmy8zWts=;
- b=esBJioYhlfL4hRZdwxQM3STxLCS2vTa90XdWEpE8Qp04CtR5ubPt1TE/2zovQpJRQp
- OZtJm3lIuah+fvYWKB1+ll8IOnAKroQ77kjP3I6SpUZhqEUf3ttPhK86s6hM2VK5sNI/
- q8oGeTDumf0SMow6MUERexUVX9eBGayiQMDLAB9r9Vy+SbQk5Hmi6gYhbVorG315NAZP
- fWPcdHfYUeaLOB0UUTBQfZEwOKbOdmoxmewMWTpwNvfYJZtY6e9TNL5hEbSLCC+OVUsC
- eE9YhZefXN6mrF4DmMIk8EBFk9W88kiIMwcrfcgKPuwM4/DtLKz2EEWGwMytzOvXpWEv
- 8ETw==
-X-Gm-Message-State: AOAM531/9toX2HnEGXRakGEMyd4qGHnruOCT8D+I5RSu4bxvKUR/blDN
- a2o9YzkUN58+eTQnX/UVWAaVw+kVtR8JQOPMIgc8tm4Ee5ZY0o1wDlvTAhBOB9vlk/F0dgPtoIw
- V67qERnf49CKQ6t8=
-X-Received: by 2002:a5d:5681:: with SMTP id f1mr19717243wrv.192.1595860341049; 
- Mon, 27 Jul 2020 07:32:21 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJx8MHx1L/eyPoQr0fnBOnzpdB3FcgPK1jA6IB8cGpbZnjoG51hhFlDuFbLh3J69EnF+2LRmUA==
-X-Received: by 2002:a5d:5681:: with SMTP id f1mr19717226wrv.192.1595860340837; 
- Mon, 27 Jul 2020 07:32:20 -0700 (PDT)
+ :mime-version:content-disposition:content-transfer-encoding
+ :in-reply-to;
+ bh=uXITvKmBNRuCK1oQcQxl+D6gdJLR2Jn4LOvKMTH1JwU=;
+ b=UVePNdOfhT5+r8lX36BunrxVaAnJvmCpPa6RpcTUEn0gZcI/bZ0ZOyS2pkdZmnQPaM
+ T2Y4fk0k23TAmcZP6qKf0X8+hnciTCNzzzMluFhKWSmNb/DV+WkUSNnKBLHloUIichKR
+ g9XbCvSF7DoypflGK1uBRRJrbakTu9iCp5bNTaSxTViA1f87r247OqKJ3dllXkLBlwg9
+ l/tR7rL1Q5fgXxi5M75LN9sFcwgErXjmDPnZz1DNja/72QDZZffLM/3OPiVWrc4HjH8P
+ W5pHSvo8ShPpaYGaGneF0exjwYmOJqpGf2inkxeEUMEA8xa9ll1qZ0JTO1n+Y2bzp4Dl
+ 1WTg==
+X-Gm-Message-State: AOAM533KRnJjjM/FG48oQXHLER8ykWfLdd9Xztuwla5gHN5235Y2VXDW
+ JLvZl9/UmNOezY5Uxwk1T2PKN/j5ZBgF3TZlI857PIWQNJ7zOwH1jFTdyKkmVu4hauLzm/WUG8r
+ y4dErnIf19jfxcuo=
+X-Received: by 2002:a1c:a590:: with SMTP id o138mr20556057wme.4.1595860344731; 
+ Mon, 27 Jul 2020 07:32:24 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJxnyDHnxSfz+q2pY+M48DicdOBknT09CJVyLud4rXI7HIR7g6ywnP++PxohDaQIXTJ9yU0AbQ==
+X-Received: by 2002:a1c:a590:: with SMTP id o138mr20556039wme.4.1595860344564; 
+ Mon, 27 Jul 2020 07:32:24 -0700 (PDT)
 Received: from redhat.com ([192.117.173.58])
- by smtp.gmail.com with ESMTPSA id e5sm11873243wrc.37.2020.07.27.07.32.19
+ by smtp.gmail.com with ESMTPSA id t202sm18517187wmt.20.2020.07.27.07.32.22
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 27 Jul 2020 07:32:20 -0700 (PDT)
-Date: Mon, 27 Jul 2020 10:32:17 -0400
+ Mon, 27 Jul 2020 07:32:24 -0700 (PDT)
+Date: Mon, 27 Jul 2020 10:32:21 -0400
 From: "Michael S. Tsirkin" <mst@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PULL v2 5/6] vhost-vdpa :Fix Coverity CID 1430270 / CID 1420267
-Message-ID: <20200727143104.97776-6-mst@redhat.com>
+Subject: [PULL v2 6/6] MAINTAINERS: Cover the firmware JSON schema
+Message-ID: <20200727143104.97776-7-mst@redhat.com>
 References: <20200727143104.97776-1-mst@redhat.com>
 MIME-Version: 1.0
 In-Reply-To: <20200727143104.97776-1-mst@redhat.com>
@@ -68,19 +70,20 @@ X-Mailer: git-send-email 2.27.0.106.g8ac3dc51b1
 X-Mutt-Fcc: =sent
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: 8bit
 Content-Disposition: inline
-Received-SPF: pass client-ip=205.139.110.120; envelope-from=mst@redhat.com;
+Received-SPF: pass client-ip=207.211.31.120; envelope-from=mst@redhat.com;
  helo=us-smtp-1.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/07/27 01:44:14
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/07/27 00:16:29
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
-X-Spam_score_int: -40
-X-Spam_score: -4.1
-X-Spam_bar: ----
-X-Spam_report: (-4.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1,
+X-Spam_score_int: -30
+X-Spam_score: -3.1
+X-Spam_bar: ---
+X-Spam_report: (-3.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-1, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H3=-0.01, RCVD_IN_MSPIKE_WL=-0.01,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -93,50 +96,59 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Maydell <peter.maydell@linaro.org>, Jason Wang <jasowang@redhat.com>,
- Li Qiang <liq3ea@gmail.com>, qemu-stable@nongnu.org,
- Cindy Lu <lulu@redhat.com>
+Cc: Peter Maydell <peter.maydell@linaro.org>,
+ "Daniel P . Berrange" <berrange@redhat.com>,
+ Kashyap Chamarthy <kchamart@redhat.com>, Laszlo Ersek <lersek@redhat.com>,
+ Richard Henderson <richard.henderson@linaro.org>,
+ Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>,
+ Aleksandar Markovic <aleksandar.qemu.devel@gmail.com>,
+ Gerd Hoffmann <kraxel@redhat.com>,
+ Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <philmd@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Cindy Lu <lulu@redhat.com>
+From: Philippe Mathieu-Daudé <philmd@redhat.com>
 
-In the function vhost_vdpa_dma_map/unmap, The struct msg was not initialized all its fields.
+Add an entry to cover firmware.json (see commit 3a0adfc9bf:
+schema that describes the different uses and properties of
+virtual machine firmware).
 
-Signed-off-by: Cindy Lu <lulu@redhat.com>
-Message-Id: <20200710064642.24505-1-lulu@redhat.com>
-Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
-Acked-by: Jason Wang <jasowang@redhat.com>
-Reviewed-by: Li Qiang <liq3ea@gmail.com>
-Cc: qemu-stable@nongnu.org
+Cc: Laszlo Ersek <lersek@redhat.com>
+Cc: Gerd Hoffmann <kraxel@redhat.com>
+Cc: Michael S. Tsirkin <mst@redhat.com>
+Cc: Kashyap Chamarthy <kchamart@redhat.com>
+Cc: Daniel P. Berrange <berrange@redhat.com>
+Suggested-by: Laszlo Ersek <lersek@redhat.com>
+Signed-off-by: Philippe Mathieu-Daudé <philmd@redhat.com>
+Message-Id: <20200703183450.32398-1-philmd@redhat.com>
+Reviewed-by: Daniel P. Berrangé <berrange@redhat.com>
+Reviewed-by: Laszlo Ersek <lersek@redhat.com>
+Reviewed-by: Kashyap Chamarthy <kchamart@redhat.com>
 Reviewed-by: Michael S. Tsirkin <mst@redhat.com>
 Signed-off-by: Michael S. Tsirkin <mst@redhat.com>
 ---
- hw/virtio/vhost-vdpa.c | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+ MAINTAINERS | 8 ++++++++
+ 1 file changed, 8 insertions(+)
 
-diff --git a/hw/virtio/vhost-vdpa.c b/hw/virtio/vhost-vdpa.c
-index 65d5aaf08a..4580f3efd8 100644
---- a/hw/virtio/vhost-vdpa.c
-+++ b/hw/virtio/vhost-vdpa.c
-@@ -37,7 +37,7 @@ static bool vhost_vdpa_listener_skipped_section(MemoryRegionSection *section)
- static int vhost_vdpa_dma_map(struct vhost_vdpa *v, hwaddr iova, hwaddr size,
-                               void *vaddr, bool readonly)
- {
--    struct vhost_msg_v2 msg;
-+    struct vhost_msg_v2 msg = {};
-     int fd = v->device_fd;
-     int ret = 0;
+diff --git a/MAINTAINERS b/MAINTAINERS
+index 3395abd4e1..0886eb3d2b 100644
+--- a/MAINTAINERS
++++ b/MAINTAINERS
+@@ -2667,6 +2667,14 @@ F: include/hw/i2c/smbus_master.h
+ F: include/hw/i2c/smbus_slave.h
+ F: include/hw/i2c/smbus_eeprom.h
  
-@@ -60,7 +60,7 @@ static int vhost_vdpa_dma_map(struct vhost_vdpa *v, hwaddr iova, hwaddr size,
- static int vhost_vdpa_dma_unmap(struct vhost_vdpa *v, hwaddr iova,
-                                 hwaddr size)
- {
--    struct vhost_msg_v2 msg;
-+    struct vhost_msg_v2 msg = {};
-     int fd = v->device_fd;
-     int ret = 0;
- 
++Firmware schema specifications
++M: Laszlo Ersek <lersek@redhat.com>
++M: Philippe Mathieu-Daudé <philmd@redhat.com>
++R: Daniel P. Berrange <berrange@redhat.com>
++R: Kashyap Chamarthy <kchamart@redhat.com>
++S: Maintained
++F: docs/interop/firmware.json
++
+ EDK2 Firmware
+ M: Laszlo Ersek <lersek@redhat.com>
+ M: Philippe Mathieu-Daudé <philmd@redhat.com>
 -- 
 MST
 
