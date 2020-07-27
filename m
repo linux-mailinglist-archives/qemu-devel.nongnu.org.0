@@ -2,76 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id AEED522FC17
-	for <lists+qemu-devel@lfdr.de>; Tue, 28 Jul 2020 00:24:28 +0200 (CEST)
-Received: from localhost ([::1]:56490 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5E43222FC38
+	for <lists+qemu-devel@lfdr.de>; Tue, 28 Jul 2020 00:32:23 +0200 (CEST)
+Received: from localhost ([::1]:35574 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1k0BXn-0005fk-QP
-	for lists+qemu-devel@lfdr.de; Mon, 27 Jul 2020 18:24:27 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:52870)
+	id 1k0BfS-0000o5-BJ
+	for lists+qemu-devel@lfdr.de; Mon, 27 Jul 2020 18:32:22 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:54088)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <alex.williamson@redhat.com>)
- id 1k0BX3-0005DF-9c
- for qemu-devel@nongnu.org; Mon, 27 Jul 2020 18:23:41 -0400
-Received: from us-smtp-2.mimecast.com ([207.211.31.81]:39704
- helo=us-smtp-delivery-1.mimecast.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <alex.williamson@redhat.com>)
- id 1k0BX0-0007em-F4
- for qemu-devel@nongnu.org; Mon, 27 Jul 2020 18:23:40 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1595888616;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=/WjBxlf3Xuoxy9j6KCZZCmLv8iGNmTmLnBbZHprfUFA=;
- b=aSWD5U5lTsIBNgU2vT9nDzacxs4xHVtXvUQPdtmROnmnps+Txa+S7hS5AeV7irB2IdIO5r
- s1W9k/JjruisW1iXKMEEQ0Dulhm7MOOrLMqQvH1G9nbkG5M/9mla/a9SvZ1zM9lWRYFOsc
- vWEDANMZYc2tseFHtFkRTXH6m295no8=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-451-oGpnXVEpN4e1Yi2ZO7gJcg-1; Mon, 27 Jul 2020 18:23:32 -0400
-X-MC-Unique: oGpnXVEpN4e1Yi2ZO7gJcg-1
-Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
- [10.5.11.13])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 177BA1005504;
- Mon, 27 Jul 2020 22:23:30 +0000 (UTC)
-Received: from x1.home (ovpn-112-71.phx2.redhat.com [10.3.112.71])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 4FF3790E69;
- Mon, 27 Jul 2020 22:23:22 +0000 (UTC)
-Date: Mon, 27 Jul 2020 16:23:21 -0600
-From: Alex Williamson <alex.williamson@redhat.com>
-To: Yan Zhao <yan.y.zhao@intel.com>
-Subject: Re: device compatibility interface for live migration with assigned
- devices
-Message-ID: <20200727162321.7097070e@x1.home>
-In-Reply-To: <20200727072440.GA28676@joy-OptiPlex-7040>
-References: <20200713232957.GD5955@joy-OptiPlex-7040>
- <9bfa8700-91f5-ebb4-3977-6321f0487a63@redhat.com>
- <20200716083230.GA25316@joy-OptiPlex-7040>
- <20200717101258.65555978@x1.home>
- <20200721005113.GA10502@joy-OptiPlex-7040>
- <20200727072440.GA28676@joy-OptiPlex-7040>
-Organization: Red Hat
+ (Exim 4.90_1) (envelope-from <alistair23@gmail.com>)
+ id 1k0Bdy-0008LT-Nq; Mon, 27 Jul 2020 18:30:50 -0400
+Received: from mail-il1-x143.google.com ([2607:f8b0:4864:20::143]:40621)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <alistair23@gmail.com>)
+ id 1k0Bdw-0000Gt-Tg; Mon, 27 Jul 2020 18:30:50 -0400
+Received: by mail-il1-x143.google.com with SMTP id e18so14503050ilr.7;
+ Mon, 27 Jul 2020 15:30:47 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=9kq99KriXlIbHZbsbGw9fV6+ZK//0fEX1E3FO43lfX0=;
+ b=nO3fb3b5BqyoxbuCiYM10VWAHSSR9u7md+df6C8VPnZoqIpDw4cYj3BgkHLUkjFQks
+ ged5ufmX8nJ1D0EJs0fHzhaU5zKjNRtZDeot/fp/cHN3C7DeYTKbjvc+6pOrL8B10Aec
+ 3GOAFVvsDZNlZe3m/XRGTrpEtSwTUswf4GeL21m4uM2nqINBbH0QIfTxCUdBD2MTeCrh
+ M/9NKrrls5zNSi8R/wqNxCPczDb3Etfj4+kwYRZo6Zw21ep8dKijJFcfbOKtGyLIxslS
+ RNhAduX3UqXXyjC5bk7axDDAArLU42bWcMdIeU5rdUIO/1+qa9v/izQRF7Dc0zLjeYHq
+ nesg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=9kq99KriXlIbHZbsbGw9fV6+ZK//0fEX1E3FO43lfX0=;
+ b=JuJ9BVpidQ0OGeYzSZyM+w9wlr6jiXR0dWENrTEm36U+HhJ/bcEV8kaXS1A3auhfhZ
+ mTX8XCvxTZQ6xQVgdDMZGC2cphviJJVSrkk/k7Fi6CIox3pwa/VMLgEXb0VD1GGEE5M1
+ Gyjq/QR1ffEO5VfCPh8fn2MQxURkD3gy+lz+uBb/iqaJqg5V5ByuXBUz4WihXOXyKBI1
+ ACRrLfvb7wSMoFZmJiUlsNtKG4ckBG6YmebM5rmOHnNYianQr109TUuFFEatqzC/zz8q
+ TitNjpSJawVCP4nBp8tYgaa1qLW3N6SDVHStiiYgoSzJWstgxPebczLWwGubNSpI4ds2
+ zd6Q==
+X-Gm-Message-State: AOAM532DCJEjErp579HCpPsJweHqOnOISvRRwc98BzA/b1j9YzmAPqsA
+ /n0nOjS3cTcnfJHwBI3RFx3b90D+caCuHoZNf9s=
+X-Google-Smtp-Source: ABdhPJzKGSPAE4IJASPvlX3DSbRCShsrfTiaqAqX6cQxC1ceGnyd9nVwwm3JMFP27SIAw8ZLnbfKzL9y54X9sufaBXc=
+X-Received: by 2002:a92:cf50:: with SMTP id c16mr5795057ilr.131.1595889045975; 
+ Mon, 27 Jul 2020 15:30:45 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
-Received-SPF: pass client-ip=207.211.31.81;
- envelope-from=alex.williamson@redhat.com; helo=us-smtp-delivery-1.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/07/27 03:37:14
-X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
-X-Spam_score_int: -30
-X-Spam_score: -3.1
-X-Spam_bar: ---
-X-Spam_report: (-3.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H3=-0.01, RCVD_IN_MSPIKE_WL=-0.01,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+References: <20200727162617.26227-1-peter.maydell@linaro.org>
+In-Reply-To: <20200727162617.26227-1-peter.maydell@linaro.org>
+From: Alistair Francis <alistair23@gmail.com>
+Date: Mon, 27 Jul 2020 15:20:30 -0700
+Message-ID: <CAKmqyKO3D5TAaeVmBfxu2jabHCxPufuMw=Wdi2cFeKTCyHFvNA@mail.gmail.com>
+Subject: Re: [PATCH for-5.1] hw/arm/netduino2,
+ netduinoplus2: Set system_clock_scale
+To: Peter Maydell <peter.maydell@linaro.org>
+Content-Type: text/plain; charset="UTF-8"
+Received-SPF: pass client-ip=2607:f8b0:4864:20::143;
+ envelope-from=alistair23@gmail.com; helo=mail-il1-x143.google.com
+X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
+ That's all we know.
+X-Spam_score_int: -17
+X-Spam_score: -1.8
+X-Spam_bar: -
+X-Spam_report: (-1.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ FREEMAIL_ENVFROM_END_DIGIT=0.25, FREEMAIL_FROM=0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -84,79 +78,89 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: kvm@vger.kernel.org, libvir-list@redhat.com,
- Jason Wang <jasowang@redhat.com>, qemu-devel@nongnu.org, kwankhede@nvidia.com,
- eauger@redhat.com, xin-ran.wang@intel.com, corbet@lwn.net,
- openstack-discuss@lists.openstack.org, shaohe.feng@intel.com,
- kevin.tian@intel.com, eskultet@redhat.com, jian-feng.ding@intel.com,
- dgilbert@redhat.com, zhenyuw@linux.intel.com, hejie.xu@intel.com,
- bao.yumeng@zte.com.cn, smooney@redhat.com, intel-gvt-dev@lists.freedesktop.org,
- berrange@redhat.com, cohuck@redhat.com, dinechin@redhat.com, devel@ovirt.org
+Cc: qemu-arm <qemu-arm@nongnu.org>,
+ "qemu-devel@nongnu.org Developers" <qemu-devel@nongnu.org>,
+ Alistair Francis <alistair@alistair23.me>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Mon, 27 Jul 2020 15:24:40 +0800
-Yan Zhao <yan.y.zhao@intel.com> wrote:
+On Mon, Jul 27, 2020 at 9:26 AM Peter Maydell <peter.maydell@linaro.org> wrote:
+>
+> The netduino2 and netduinoplus2 boards forgot to set the system_clock_scale
+> global, which meant that if guest code used the systick timer in "use
+> the processor clock" mode it would hang because time never advances.
+>
+> Set the global to match the documented CPU clock speed of these boards.
+> Judging by the data sheet this is slightly simplistic because the
+> SoC allows configuration of the SYSCLK source and frequency via the
+> RCC (reset and clock control) module, but we don't model that.
+>
+> Fixes: https://bugs.launchpad.net/qemu/+bug/1876187
+> Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
 
-> > > As you indicate, the vendor driver is responsible for checking version
-> > > information embedded within the migration stream.  Therefore a
-> > > migration should fail early if the devices are incompatible.  Is it  
-> > but as I know, currently in VFIO migration protocol, we have no way to
-> > get vendor specific compatibility checking string in migration setup stage
-> > (i.e. .save_setup stage) before the device is set to _SAVING state.
-> > In this way, for devices who does not save device data in precopy stage,
-> > the migration compatibility checking is as late as in stop-and-copy
-> > stage, which is too late.
-> > do you think we need to add the getting/checking of vendor specific
-> > compatibility string early in save_setup stage?
-> >  
-> hi Alex,
-> after an offline discussion with Kevin, I realized that it may not be a
-> problem if migration compatibility check in vendor driver occurs late in
-> stop-and-copy phase for some devices, because if we report device
-> compatibility attributes clearly in an interface, the chances for
-> libvirt/openstack to make a wrong decision is little.
+Reviewed-by: Alistair Francis <alistair.francis@wdc.com>
 
-I think it would be wise for a vendor driver to implement a pre-copy
-phase, even if only to send version information and verify it at the
-target.  Deciding you have no device state to send during pre-copy does
-not mean your vendor driver needs to opt-out of the pre-copy phase
-entirely.  Please also note that pre-copy is at the user's discretion,
-we've defined that we can enter stop-and-copy at any point, including
-without a pre-copy phase, so I would recommend that vendor drivers
-validate compatibility at the start of both the pre-copy and the
-stop-and-copy phases.
+Alistair
 
-> so, do you think we are now arriving at an agreement that we'll give up
-> the read-and-test scheme and start to defining one interface (perhaps in
-> json format), from which libvirt/openstack is able to parse and find out
-> compatibility list of a source mdev/physical device?
-
-Based on the feedback we've received, the previously proposed interface
-is not viable.  I think there's agreement that the user needs to be
-able to parse and interpret the version information.  Using json seems
-viable, but I don't know if it's the best option.  Is there any
-precedent of markup strings returned via sysfs we could follow?
-
-Your idea of having both a "self" object and an array of "compatible"
-objects is perhaps something we can build on, but we must not assume
-PCI devices at the root level of the object.  Providing both the
-mdev-type and the driver is a bit redundant, since the former includes
-the latter.  We can't have vendor specific versioning schemes though,
-ie. gvt-version. We need to agree on a common scheme and decide which
-fields the version is relative to, ex. just the mdev type?
-
-I had also proposed fields that provide information to create a
-compatible type, for example to create a type_x2 device from a type_x1
-mdev type, they need to know to apply an aggregation attribute.  If we
-need to explicitly list every aggregation value and the resulting type,
-I think we run aground of what aggregation was trying to avoid anyway,
-so we might need to pick a language that defines variable substitution
-or some kind of tagging.  For example if we could define ${aggr} as an
-integer within a specified range, then we might be able to define a type
-relative to that value (type_x${aggr}) which requires an aggregation
-attribute using the same value.  I dunno, just spit balling.  Thanks,
-
-Alex
-
+> ---
+> NB: tested with "make check" only...
+>
+>  hw/arm/netduino2.c     | 10 ++++++++++
+>  hw/arm/netduinoplus2.c | 10 ++++++++++
+>  2 files changed, 20 insertions(+)
+>
+> diff --git a/hw/arm/netduino2.c b/hw/arm/netduino2.c
+> index 79e19392b56..8f103341443 100644
+> --- a/hw/arm/netduino2.c
+> +++ b/hw/arm/netduino2.c
+> @@ -30,10 +30,20 @@
+>  #include "hw/arm/stm32f205_soc.h"
+>  #include "hw/arm/boot.h"
+>
+> +/* Main SYSCLK frequency in Hz (120MHz) */
+> +#define SYSCLK_FRQ 120000000ULL
+> +
+>  static void netduino2_init(MachineState *machine)
+>  {
+>      DeviceState *dev;
+>
+> +    /*
+> +     * TODO: ideally we would model the SoC RCC and let it handle
+> +     * system_clock_scale, including its ability to define different
+> +     * possible SYSCLK sources.
+> +     */
+> +    system_clock_scale = NANOSECONDS_PER_SECOND / SYSCLK_FRQ;
+> +
+>      dev = qdev_new(TYPE_STM32F205_SOC);
+>      qdev_prop_set_string(dev, "cpu-type", ARM_CPU_TYPE_NAME("cortex-m3"));
+>      sysbus_realize_and_unref(SYS_BUS_DEVICE(dev), &error_fatal);
+> diff --git a/hw/arm/netduinoplus2.c b/hw/arm/netduinoplus2.c
+> index 958d21dd9f9..68abd3ec69d 100644
+> --- a/hw/arm/netduinoplus2.c
+> +++ b/hw/arm/netduinoplus2.c
+> @@ -30,10 +30,20 @@
+>  #include "hw/arm/stm32f405_soc.h"
+>  #include "hw/arm/boot.h"
+>
+> +/* Main SYSCLK frequency in Hz (168MHz) */
+> +#define SYSCLK_FRQ 168000000ULL
+> +
+>  static void netduinoplus2_init(MachineState *machine)
+>  {
+>      DeviceState *dev;
+>
+> +    /*
+> +     * TODO: ideally we would model the SoC RCC and let it handle
+> +     * system_clock_scale, including its ability to define different
+> +     * possible SYSCLK sources.
+> +     */
+> +    system_clock_scale = NANOSECONDS_PER_SECOND / SYSCLK_FRQ;
+> +
+>      dev = qdev_new(TYPE_STM32F405_SOC);
+>      qdev_prop_set_string(dev, "cpu-type", ARM_CPU_TYPE_NAME("cortex-m4"));
+>      sysbus_realize_and_unref(SYS_BUS_DEVICE(dev), &error_fatal);
+> --
+> 2.20.1
+>
+>
 
