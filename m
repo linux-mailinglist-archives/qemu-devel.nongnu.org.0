@@ -2,71 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B549022EE1D
-	for <lists+qemu-devel@lfdr.de>; Mon, 27 Jul 2020 15:58:09 +0200 (CEST)
-Received: from localhost ([::1]:54436 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B6AF222EE27
+	for <lists+qemu-devel@lfdr.de>; Mon, 27 Jul 2020 16:02:11 +0200 (CEST)
+Received: from localhost ([::1]:34012 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1k03do-0001Li-Qa
-	for lists+qemu-devel@lfdr.de; Mon, 27 Jul 2020 09:58:08 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:38444)
+	id 1k03hi-0004pB-Qb
+	for lists+qemu-devel@lfdr.de; Mon, 27 Jul 2020 10:02:10 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:40570)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1k03cX-0008QZ-8Q
- for qemu-devel@nongnu.org; Mon, 27 Jul 2020 09:56:49 -0400
-Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:58172
+ (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1k03gS-0004GV-9l
+ for qemu-devel@nongnu.org; Mon, 27 Jul 2020 10:00:52 -0400
+Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:59185
  helo=us-smtp-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1k03cV-00040m-G2
- for qemu-devel@nongnu.org; Mon, 27 Jul 2020 09:56:48 -0400
+ (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1k03gQ-0004sT-61
+ for qemu-devel@nongnu.org; Mon, 27 Jul 2020 10:00:51 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1595858206;
+ s=mimecast20190719; t=1595858449;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  in-reply-to:in-reply-to:references:references;
- bh=yIyUbH3TjxBkeCeiM81IwjmoKyB0WfEoMp0lKATPcA8=;
- b=BVxzRCEv9169fsDnujlkXG8yix16UBQpIGVIFmmYca2bJDXWSkms3+sVm5Pnq/CXWlqBLT
- 3/Oe9UkV6lOXfBmWQgKiC5fAqQ53k1EhPctz0z5dgtKwRkDY9txsYiY6gQ3Sdt3Ucx5skL
- ZnB/wO7QDWdnLgEoGmIGtmx9tA6NaEA=
-Received: from mail-wm1-f72.google.com (mail-wm1-f72.google.com
- [209.85.128.72]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-473-NQ9l-YkkOuK5BJS6W0xOHA-1; Mon, 27 Jul 2020 09:56:45 -0400
-X-MC-Unique: NQ9l-YkkOuK5BJS6W0xOHA-1
-Received: by mail-wm1-f72.google.com with SMTP id p23so843158wmc.2
- for <qemu-devel@nongnu.org>; Mon, 27 Jul 2020 06:56:44 -0700 (PDT)
+ bh=1PGv/gBtaVVtRbfr70LnvcqFVqdM4A8EyDI+Dcd8pJ0=;
+ b=bhQFhv0/hF7e4Dwz/qXPgA4B4zWtkXbJxQbvB2J/AcWRr/NExyw0BpY9B/hidG9A8EAwCg
+ ADnjOVjGWPhv6wfzy21MDRxtWhzw6RAw+IIh+hhlVMpi2YIKeASGHgBKRQVggSBnpD+95l
+ bbbdxIv5wKD9KXZsZPZY768xagJYvYs=
+Received: from mail-wr1-f72.google.com (mail-wr1-f72.google.com
+ [209.85.221.72]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-357-1_IzO7lpM_Or7E1coi6f4A-1; Mon, 27 Jul 2020 10:00:47 -0400
+X-MC-Unique: 1_IzO7lpM_Or7E1coi6f4A-1
+Received: by mail-wr1-f72.google.com with SMTP id w1so1949095wro.4
+ for <qemu-devel@nongnu.org>; Mon, 27 Jul 2020 07:00:46 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:date:from:to:cc:subject:message-id:references
  :mime-version:content-disposition:in-reply-to;
- bh=yIyUbH3TjxBkeCeiM81IwjmoKyB0WfEoMp0lKATPcA8=;
- b=ZPSMmwoIq8gstGL6c1aDI9fIF28h3hnkwRHMuRPxNpzRqg/1j/l44pB/z+faR3cha9
- LzNER7kwkSPTatHUM7S+lB04IdGZv8uWlDdOsLk2hafFuinsttbREftiu0nZDLALzSrB
- srVVzl4mLRG1GxuN7wADDa6QDezv2blbfJsD3CGXeMzYxfmFM3MZsMQbOoBRe2UYtvBZ
- w6Q7/avZtyLQGpvl+95E6qmjxG8HO3GLyyyIBYZfUVBlwnHspy8iPHe5RvOJ7lMiGlwF
- yhMZ5Ojw0hhiS62mpbwLUe0BG/3nzZr/9QatQL+zR9g4CujkLwSHaDhhfDoYO6lzz3RW
- DnJg==
-X-Gm-Message-State: AOAM533OT/h6TUpfpaTKsUnpPXOknkvT+YVfQDFXi/ugaow7ttgHxgjI
- SpVKm+qj6UiWZoSkKfSv7Ikh87M2dt7Vp6TONP35yj+Q/JXYhV9271br5Oa2IEfkW61KaC0c6sX
- oOKvtb7joeQABbRw=
-X-Received: by 2002:a5d:6990:: with SMTP id g16mr19928615wru.131.1595858203897; 
- Mon, 27 Jul 2020 06:56:43 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJxqAV8gO+USFcIxnkOfN8d/n0QDAkdEyPJP8FKDt0FcFEPVD663oH8VvNP4ha8rf/cODQgdWw==
-X-Received: by 2002:a5d:6990:: with SMTP id g16mr19928600wru.131.1595858203636; 
- Mon, 27 Jul 2020 06:56:43 -0700 (PDT)
+ bh=1PGv/gBtaVVtRbfr70LnvcqFVqdM4A8EyDI+Dcd8pJ0=;
+ b=WIz9xlthDH1FYGRd/mJH+jQ5ODjm+hpu48LsKAhoo3v5ip0MmmU9PAjy5MwSCukF+v
+ 0psVeGzdRPVdpGPO/BYmNozPH9w7IZ4r7JFnTUocXNM5+OKpyg+3Ww9M/OMgnVKnVDiG
+ zh77Jzsy6u/XqOKj4mse8nJEwLIU9BLTjbANePSNZh4T08q76lUDv9exuWi0SD7u1tT3
+ 3OtE6HPSjl070sNuS+JY+ojjSHtWiIlxZomd/cR4u08YGsxR1S8rrdmsWcTz/Cqq0ih8
+ cMCEZwGYAhZQEYj7epBQrFxvU6WEAx6oVfL7oyf4AF3BCM5BJKUQPJ3M9u6pAKNFyVJA
+ XNeQ==
+X-Gm-Message-State: AOAM530T3eWzswsN7yicKNdGp73OQFsWKJFnG3Sc0n2335PJt/Xi5SKm
+ lLka6FUieWClc/j9Jl+5HuDWkJj/k1vC97xTRtUCIFfhQtyjoi3i4Yrl5sr10gkMFhSjusrT2Vv
+ w7yPgm6RZYzO3prw=
+X-Received: by 2002:a1c:984d:: with SMTP id a74mr21877285wme.140.1595858445764; 
+ Mon, 27 Jul 2020 07:00:45 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJzHYXzYzwt3dkv8R97qlEK0O+mXXb28PJ42Zp2OjiVQzKOTu/O6WPfDyi1pad56Pu08iXyCHw==
+X-Received: by 2002:a1c:984d:: with SMTP id a74mr21877240wme.140.1595858445181; 
+ Mon, 27 Jul 2020 07:00:45 -0700 (PDT)
 Received: from redhat.com ([192.117.173.58])
- by smtp.gmail.com with ESMTPSA id j8sm13171857wrd.85.2020.07.27.06.56.41
+ by smtp.gmail.com with ESMTPSA id t2sm18808723wmb.28.2020.07.27.07.00.43
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 27 Jul 2020 06:56:42 -0700 (PDT)
-Date: Mon, 27 Jul 2020 09:56:39 -0400
+ Mon, 27 Jul 2020 07:00:44 -0700 (PDT)
+Date: Mon, 27 Jul 2020 10:00:41 -0400
 From: "Michael S. Tsirkin" <mst@redhat.com>
-To: Jan Kiszka <jan.kiszka@siemens.com>
-Subject: Re: [virtio-comment] Re: [RFC] ivshmem v2: Shared memory device
- specification
-Message-ID: <20200727095239-mutt-send-email-mst@kernel.org>
-References: <f109fe5a-92eb-e5a5-bb83-ada42b3a9b61@siemens.com>
- <20200727091802-mutt-send-email-mst@kernel.org>
- <85f69f31-e4c6-e7af-1fa5-90e5a2c81ae8@siemens.com>
+To: Laurent Vivier <lvivier@redhat.com>
+Subject: Re: [PULL v2 31/41] virtio-pci: implement queue_enabled method
+Message-ID: <20200727095743-mutt-send-email-mst@kernel.org>
+References: <20200704182750.1088103-1-mst@redhat.com>
+ <20200704182750.1088103-32-mst@redhat.com>
+ <42c43784-627f-80ee-b9cb-5d22b127235a@redhat.com>
 MIME-Version: 1.0
-In-Reply-To: <85f69f31-e4c6-e7af-1fa5-90e5a2c81ae8@siemens.com>
+In-Reply-To: <42c43784-627f-80ee-b9cb-5d22b127235a@redhat.com>
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=us-ascii
@@ -94,82 +93,99 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Jailhouse <jailhouse-dev@googlegroups.com>, liang yan <lyan@suse.com>,
- Alex =?iso-8859-1?Q?Benn=E9e?= <alex.bennee@linaro.org>,
- qemu-devel <qemu-devel@nongnu.org>,
- "virtio-comment@lists.oasis-open.org" <virtio-comment@lists.oasis-open.org>
+Cc: Peter Maydell <peter.maydell@linaro.org>, Jason Wang <jasowang@redhat.com>,
+ qemu-devel@nongnu.org, Cindy Lu <lulu@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Mon, Jul 27, 2020 at 03:39:32PM +0200, Jan Kiszka wrote:
-> On 27.07.20 15:20, Michael S. Tsirkin wrote:
-> > On Mon, May 25, 2020 at 09:58:28AM +0200, Jan Kiszka wrote:
-> > > #### Vendor Specific Capability (ID 09h)
-> > > 
-> > > This capability must always be present.
-> > > 
-> > > | Offset | Register            | Content                                        |
-> > > |-------:|:--------------------|:-----------------------------------------------|
-> > > |    00h | ID                  | 09h                                            |
-> > > |    01h | Next Capability     | Pointer to next capability or 00h              |
-> > > |    02h | Length              | 20h if Base Address is present, 18h otherwise  |
-> > > |    03h | Privileged Control  | Bit 0 (read/write): one-shot interrupt mode    |
-> > > |        |                     | Bits 1-7: Reserved (0 on read, writes ignored) |
-> > > |    04h | State Table Size    | 32-bit size of read-only State Table           |
-> > > |    08h | R/W Section Size    | 64-bit size of common read/write section       |
-> > > |    10h | Output Section Size | 64-bit size of output sections                 |
-> > > |    18h | Base Address        | optional: 64-bit base address of shared memory |
-> > > 
-> > > All registers are read-only. Writes are ignored, except to bit 0 of
-> > > the Privileged Control register.
+On Mon, Jul 27, 2020 at 03:51:41PM +0200, Laurent Vivier wrote:
+> On 04/07/2020 20:30, Michael S. Tsirkin wrote:
+> > From: Jason Wang <jasowang@redhat.com>
 > > 
+> > With version 1, we can detect whether a queue is enabled via
+> > queue_enabled.
 > > 
-> > Is there value in making this follow the virtio vendor-specific
-> > capability format? That will cost several extra bytes - do you envision
-> > having many of these in the config space?
+> > Signed-off-by: Jason Wang <jasowang@redhat.com>
+> > Signed-off-by: Cindy Lu <lulu@redhat.com>
+> > Message-Id: <20200701145538.22333-5-lulu@redhat.com>
+> > Reviewed-by: Michael S. Tsirkin <mst@redhat.com>
+> > Signed-off-by: Michael S. Tsirkin <mst@redhat.com>
+> > Acked-by: Jason Wang <jasowang@redhat.com>
+> > ---
+> >  hw/virtio/virtio-pci.c | 13 +++++++++++++
+> >  1 file changed, 13 insertions(+)
+> > 
+> > diff --git a/hw/virtio/virtio-pci.c b/hw/virtio/virtio-pci.c
+> > index 7bc8c1c056..8554cf2a03 100644
+> > --- a/hw/virtio/virtio-pci.c
+> > +++ b/hw/virtio/virtio-pci.c
+> > @@ -1107,6 +1107,18 @@ static AddressSpace *virtio_pci_get_dma_as(DeviceState *d)
+> >      return pci_get_address_space(dev);
+> >  }
+> >  
+> > +static bool virtio_pci_queue_enabled(DeviceState *d, int n)
+> > +{
+> > +    VirtIOPCIProxy *proxy = VIRTIO_PCI(d);
+> > +    VirtIODevice *vdev = virtio_bus_get_device(&proxy->bus);
+> > +
+> > +    if (virtio_vdev_has_feature(vdev, VIRTIO_F_VERSION_1)) {
+> > +        return proxy->vqs[vdev->queue_sel].enabled;
+> > +    }
+> > +
+> > +    return virtio_queue_enabled(vdev, n);
+> > +}
 > 
-> Of course, this could be modeled with via virtio_pci_cap as well. Would add
-> 12 unused by bytes and one type byte. If it helps to make the device look
-> more virtio'ish, but I'm afraid there are more differences at PCI level.
-
-I guess it will be useful if we ever find it handy to make an ivshmem
-device also be a virtio device. Can't say why yet but if we don't care
-it vaguely seems kind of like a good idea. I guess it will also be handy
-if you ever need another vendor specific cap: you already get a way to
-identify it without breaking drivers.
-
-
-> I do not see a use case for having multiple of those caps above per device.
-> If someone comes around with a valid use case for having multiple,
-> non-consequitive shared memory regions for one device, we would need to add
-> registers for them. But that would also only work for non-BAR regions due to
-> limited BARs.
-
-
-OK, I guess this answers the below too.
-
-> > Also, do we want to define an extended capability format in case this
-> > is a pci extended capability?
-> > 
+> With "disable-legacy=off,disable-modern=true",
+> this changes introduces an infinite loop: virtio_queue_enabled() calls
+> again virtio_pci_queue_enabled() that calls
+> againvirtio_pci_queue_enabled()...
 > 
-> What would be the practical benefit? Do you see PCIe caps that could become
-> useful in virtual setups?
+> I think this should be changed like this:
+> 
+> diff --git a/hw/virtio/virtio-pci.c b/hw/virtio/virtio-pci.c
+> index ada1101d07..0a85c17e91 100644
+> --- a/hw/virtio/virtio-pci.c
+> +++ b/hw/virtio/virtio-pci.c
+> @@ -1116,7 +1116,7 @@ static bool virtio_pci_queue_enabled(DeviceState
+> *d, int n)
+>          return proxy->vqs[vdev->queue_sel].enabled;
+>      }
+> 
+> -    return virtio_queue_enabled(vdev, n);
+> +    return virtio_queue_get_desc_addr(vdev, n) != 0;
+>  }
+> 
 
-So if we ever have a huge number of these caps, PCIe allows many more
-caps.
+Thanks for the report and debugging the issue!
 
-> We don't do that for regular virtio devices
-> either, do we?
+Maybe move
+       return virtio_queue_get_desc_addr(vdev, n) != 0;
+to a new API
+	virtio_pci_queue_enabled_legacy()
 
-We don't, there's a small number of these so we don't run out of config
-space.
+to avoid code duplication.
 
+Could you cook up a patch pls? don't forget the Fixes: tag
+so people remember to backport it.
+
+
+
+
+> > +
+> >  static int virtio_pci_add_mem_cap(VirtIOPCIProxy *proxy,
+> >                                     struct virtio_pci_cap *cap)
+> >  {
+> > @@ -2064,6 +2076,7 @@ static void virtio_pci_bus_class_init(ObjectClass *klass, void *data)
+> >      k->ioeventfd_enabled = virtio_pci_ioeventfd_enabled;
+> >      k->ioeventfd_assign = virtio_pci_ioeventfd_assign;
+> >      k->get_dma_as = virtio_pci_get_dma_as;
+> > +    k->queue_enabled = virtio_pci_queue_enabled;
+> >  }
+> >  
+> >  static const TypeInfo virtio_pci_bus_info = {
+> > 
 > 
 > Thanks,
-> Jan
-> 
-> -- 
-> Siemens AG, Corporate Technology, CT RDA IOT SES-DE
-> Corporate Competence Center Embedded Linux
+> Laurent
 
 
