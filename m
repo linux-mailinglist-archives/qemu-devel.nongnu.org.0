@@ -2,74 +2,66 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7CE4622EE39
-	for <lists+qemu-devel@lfdr.de>; Mon, 27 Jul 2020 16:05:55 +0200 (CEST)
-Received: from localhost ([::1]:38882 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 20DCE22EEA8
+	for <lists+qemu-devel@lfdr.de>; Mon, 27 Jul 2020 16:09:54 +0200 (CEST)
+Received: from localhost ([::1]:51168 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1k03lK-00072w-Hb
-	for lists+qemu-devel@lfdr.de; Mon, 27 Jul 2020 10:05:54 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:43396)
+	id 1k03pB-0003xr-72
+	for lists+qemu-devel@lfdr.de; Mon, 27 Jul 2020 10:09:53 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:43854)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <eblake@redhat.com>) id 1k03kB-0006N7-4R
- for qemu-devel@nongnu.org; Mon, 27 Jul 2020 10:04:43 -0400
-Received: from us-smtp-1.mimecast.com ([207.211.31.81]:29586
+ (Exim 4.90_1) (envelope-from <cohuck@redhat.com>) id 1k03lA-0007Uj-7r
+ for qemu-devel@nongnu.org; Mon, 27 Jul 2020 10:05:44 -0400
+Received: from us-smtp-1.mimecast.com ([205.139.110.61]:49999
  helo=us-smtp-delivery-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <eblake@redhat.com>) id 1k03k9-0005Wt-DF
- for qemu-devel@nongnu.org; Mon, 27 Jul 2020 10:04:42 -0400
+ (Exim 4.90_1) (envelope-from <cohuck@redhat.com>) id 1k03l8-0005ju-61
+ for qemu-devel@nongnu.org; Mon, 27 Jul 2020 10:05:43 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1595858679;
+ s=mimecast20190719; t=1595858741;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=zq+6NFALOXmOuaSqQvXYPWBoHbCcCk+cahNZb/Y0w0I=;
- b=NEdIeyR1pPC6K0JyjXbIN/aiy1WiHHpx0iiT8kqdhY3KILxFDyvBBTJThYLzhuQGoSicuY
- EFQn1Q2HpVBqDGColuz88KhO/pT3rDBLpUk1JSfnSVq7uxBSUo+AmpI9/q9LN+yPCwAtMH
- /+NVMndD9hPo3ZVuUc5t/Ggz6OqO5OI=
+ content-transfer-encoding:content-transfer-encoding;
+ bh=KVLGhJdLF90B78Vu11YVvNt4iQnG1MHj8LZCAuqVhzI=;
+ b=MxmL96p/EUmVR7aPKyk90KuJ8/o0lsd9VVmxhwQZWu6p3p+gWKU1I1DNnV8Mrh8jV5EKx6
+ JIGjGpZbIo9jzgz+3c7Q7wTO0BpBODMbta4cdVlw5Tf21jE/4xBeVe6ekOlYr71c51iG37
+ Ij5QaT4ShqYTrlnQyFeYgJok4hzNYEU=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-251-0G9s6fukNceC-ZBbwa73KA-1; Mon, 27 Jul 2020 10:04:18 -0400
-X-MC-Unique: 0G9s6fukNceC-ZBbwa73KA-1
-Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
- [10.5.11.16])
+ us-mta-278-e2tfskLtMxavSK0bOgPXiw-1; Mon, 27 Jul 2020 10:05:28 -0400
+X-MC-Unique: e2tfskLtMxavSK0bOgPXiw-1
+Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
+ [10.5.11.13])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 1110D186A820;
- Mon, 27 Jul 2020 14:04:17 +0000 (UTC)
-Received: from [10.3.113.26] (ovpn-113-26.phx2.redhat.com [10.3.113.26])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 92AF069327;
- Mon, 27 Jul 2020 14:04:16 +0000 (UTC)
-Subject: Re: [PATCH 1/2] block: nbd: Fix convert qcow2 compressed to nbd
-To: Nir Soffer <nirsof@gmail.com>, qemu-block@nongnu.org, qemu-devel@nongnu.org
-References: <20200726152532.256261-1-nsoffer@redhat.com>
- <20200726152532.256261-2-nsoffer@redhat.com>
-From: Eric Blake <eblake@redhat.com>
-Organization: Red Hat, Inc.
-Message-ID: <1737bdc4-6192-1adb-7027-faf09bdbd92c@redhat.com>
-Date: Mon, 27 Jul 2020 09:04:15 -0500
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.10.0
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 2DB7580BCAE;
+ Mon, 27 Jul 2020 14:05:27 +0000 (UTC)
+Received: from localhost (ovpn-112-210.ams2.redhat.com [10.36.112.210])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id CABD98FF9F;
+ Mon, 27 Jul 2020 14:05:26 +0000 (UTC)
+From: Cornelia Huck <cohuck@redhat.com>
+To: Peter Maydell <peter.maydell@linaro.org>
+Subject: [PULL 0/2] some more s390x fixes
+Date: Mon, 27 Jul 2020 16:05:20 +0200
+Message-Id: <20200727140522.251815-1-cohuck@redhat.com>
 MIME-Version: 1.0
-In-Reply-To: <20200726152532.256261-2-nsoffer@redhat.com>
-Content-Language: en-US
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=207.211.31.81; envelope-from=eblake@redhat.com;
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=205.139.110.61; envelope-from=cohuck@redhat.com;
  helo=us-smtp-delivery-1.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/07/27 03:37:14
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/07/27 01:46:13
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
-X-Spam_score_int: -30
-X-Spam_score: -3.1
-X-Spam_bar: ---
-X-Spam_report: (-3.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1,
+X-Spam_score_int: -40
+X-Spam_score: -4.1
+X-Spam_bar: ----
+X-Spam_report: (-4.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H3=-0.01, RCVD_IN_MSPIKE_WL=-0.01,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-1, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -82,88 +74,39 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Kevin Wolf <kwolf@redhat.com>, Nir Soffer <nsoffer@redhat.com>,
- Max Reitz <mreitz@redhat.com>
+Cc: qemu-s390x@nongnu.org, Cornelia Huck <cohuck@redhat.com>,
+ qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 7/26/20 10:25 AM, Nir Soffer wrote:
-> When converting to qcow2 compressed format, the last step is a special
-> zero length compressed write, ending in call to bdrv_co_truncate(). This
-> call always fail for the nbd driver since it does not implement
+The following changes since commit 8ffa52c20d5693d454f65f2024a1494edfea65d4:
 
-fails
+  Merge remote-tracking branch 'remotes/mst/tags/for_upstream' into staging (2020-07-23 13:38:21 +0100)
 
-> bdrv_co_truncate().
+are available in the Git repository at:
 
-Arguably, qemu-img should be taught to ignore the failure, since it is 
-not unique to the nbd driver. But I can live with your approach here.
+  https://github.com/cohuck/qemu tags/s390x-20200727
 
-> 
-> For block devices, which have the same limits, the call succeeds since
-> file driver implements bdrv_co_truncate(). If the caller asked to
-> truncate to the same or smaller size with exact=false, the truncate
-> succeeds. Implement the same logic for nbd.
-> 
-> Example failing without this change:
-> 
+for you to fetch changes up to d6645483285feaa0aa26fe2b0c3bac6989250d2f:
 
-> 
-> Fixes: https://bugzilla.redhat.com/1860627
-> Signed-off-by: Nir Soffer <nsoffer@redhat.com>
-> ---
->   block/nbd.c | 27 +++++++++++++++++++++++++++
->   1 file changed, 27 insertions(+)
-> 
-> diff --git a/block/nbd.c b/block/nbd.c
-> index 65a4f56924..2154113af3 100644
-> --- a/block/nbd.c
-> +++ b/block/nbd.c
-> @@ -1966,6 +1966,30 @@ static void nbd_close(BlockDriverState *bs)
->       nbd_clear_bdrvstate(s);
->   }
->   
-> +/*
-> + * NBD cannot truncate, but if the caller ask to truncate to the same size, or
+  s390x/s390-virtio-ccw: fix loadparm property getter (2020-07-24 08:49:53 +0200)
 
-asks
+----------------------------------------------------------------
+fixes for protected virtualization and loadparm handling
 
-> + * to a smaller size with extact=false, there is not reason to fail the
+----------------------------------------------------------------
 
-exact, no
+Christian Borntraeger (1):
+  s390x/protvirt: allow to IPL secure guests with -no-reboot
 
-> + * operation.
-> + */
-> +static int coroutine_fn nbd_co_truncate(BlockDriverState *bs, int64_t offset,
-> +                                        bool exact, PreallocMode prealloc,
-> +                                        BdrvRequestFlags flags, Error **errp)
-> +{
-> +    BDRVNBDState *s = bs->opaque;
-> +
-> +    if (offset != s->info.size && exact) {
-> +        error_setg(errp, "Cannot resize NBD nodes");
-> +        return -ENOTSUP;
-> +    }
-> +
-> +    if (offset > s->info.size) {
-> +        error_setg(errp, "Cannot grow NBD nodes");
-> +        return -EINVAL;
-> +    }
-> +
-> +    return 0;
+Halil Pasic (1):
+  s390x/s390-virtio-ccw: fix loadparm property getter
 
-Looks reasonable.  As Max said, I wonder if we want to reject particular 
-preallocation modes (looking at block/file-posix.c:raw_co_truncate), in 
-the case where the image was resized down and then back up (since 
-s->info.size is constant, but the BDS size is not if inexact resize 
-succeeds).
-
-As you have a bugzilla entry, I think this is safe for -rc2; I'll be 
-touching up the typos and queuing it through my NBD tree later today.
+ hw/s390x/ipl.c             | 3 ++-
+ hw/s390x/s390-virtio-ccw.c | 6 +++++-
+ 2 files changed, 7 insertions(+), 2 deletions(-)
 
 -- 
-Eric Blake, Principal Software Engineer
-Red Hat, Inc.           +1-919-301-3226
-Virtualization:  qemu.org | libvirt.org
+2.25.4
 
 
