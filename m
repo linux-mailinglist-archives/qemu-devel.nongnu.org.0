@@ -2,76 +2,59 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9A29022EC43
-	for <lists+qemu-devel@lfdr.de>; Mon, 27 Jul 2020 14:35:45 +0200 (CEST)
-Received: from localhost ([::1]:50136 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 717B422EC54
+	for <lists+qemu-devel@lfdr.de>; Mon, 27 Jul 2020 14:38:57 +0200 (CEST)
+Received: from localhost ([::1]:59146 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1k02M4-0005oO-MK
-	for lists+qemu-devel@lfdr.de; Mon, 27 Jul 2020 08:35:44 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:38236)
+	id 1k02PA-0001Ck-Eo
+	for lists+qemu-devel@lfdr.de; Mon, 27 Jul 2020 08:38:56 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:40172)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <stefanha@redhat.com>)
- id 1k02GP-0008R8-4i
- for qemu-devel@nongnu.org; Mon, 27 Jul 2020 08:29:53 -0400
-Received: from us-smtp-1.mimecast.com ([207.211.31.81]:21340
- helo=us-smtp-delivery-1.mimecast.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <stefanha@redhat.com>)
- id 1k02GM-00070c-75
- for qemu-devel@nongnu.org; Mon, 27 Jul 2020 08:29:52 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1595852988;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=F4uavNF+nYeIfbchy/Gnexd3ES9/AHoWblRFnJoTCPA=;
- b=I5rEUd2IuGbq0iHYpw6zDhq5hfCT6v9De41rUb+sf4++1rquQ43P3dF0HaV7fvyjQpRXTA
- 8xHuwssKHR/1ZNmMsz/rrOGL5gmmRvRV15uAxzg77kghpm2iyRcmL/rC9++vq0IivsNzgb
- /cWqxt7QZJICKybUYwjfkwTpAP/rMXU=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-313-aOR3GZT8Mj2cGLnXAL6lWw-1; Mon, 27 Jul 2020 08:29:46 -0400
-X-MC-Unique: aOR3GZT8Mj2cGLnXAL6lWw-1
-Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
- [10.5.11.14])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 9A2F080BCAD;
- Mon, 27 Jul 2020 12:29:44 +0000 (UTC)
-Received: from localhost (ovpn-114-74.ams2.redhat.com [10.36.114.74])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 24E215DA6A;
- Mon, 27 Jul 2020 12:29:40 +0000 (UTC)
-Date: Mon, 27 Jul 2020 13:29:39 +0100
-From: Stefan Hajnoczi <stefanha@redhat.com>
-To: Jan Kiszka <jan.kiszka@siemens.com>
-Subject: Re: [virtio-comment] [RFC] ivshmem v2: Shared memory device
- specification
-Message-ID: <20200727122939.GB386429@stefanha-x1.localdomain>
-References: <f109fe5a-92eb-e5a5-bb83-ada42b3a9b61@siemens.com>
- <20200715132748.GA20677@stefanha-x1.localdomain>
- <88a33034-783a-07d2-85e0-c1a1ecd2721f@siemens.com>
- <20200723065423.GE268427@stefanha-x1.localdomain>
- <10df6427-eab0-d3b8-4624-ede98ff7ef09@siemens.com>
+ (Exim 4.90_1) (envelope-from <groug@kaod.org>) id 1k02Nt-0000Dx-CB
+ for qemu-devel@nongnu.org; Mon, 27 Jul 2020 08:37:37 -0400
+Received: from 4.mo69.mail-out.ovh.net ([46.105.42.102]:46396)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <groug@kaod.org>) id 1k02Nr-0008ET-6M
+ for qemu-devel@nongnu.org; Mon, 27 Jul 2020 08:37:37 -0400
+Received: from player690.ha.ovh.net (unknown [10.108.35.232])
+ by mo69.mail-out.ovh.net (Postfix) with ESMTP id B94C59912B
+ for <qemu-devel@nongnu.org>; Mon, 27 Jul 2020 14:37:24 +0200 (CEST)
+Received: from kaod.org (lns-bzn-46-82-253-208-248.adsl.proxad.net
+ [82.253.208.248]) (Authenticated sender: groug@kaod.org)
+ by player690.ha.ovh.net (Postfix) with ESMTPSA id 5444D14989EC8;
+ Mon, 27 Jul 2020 12:36:57 +0000 (UTC)
+Authentication-Results: garm.ovh; auth=pass
+ (GARM-95G0018439f768-0629-4b97-9cca-d49db8edae8c,B7B50C960922AB26A7D550ED897AF9E452A9EBFF)
+ smtp.auth=groug@kaod.org
+Date: Mon, 27 Jul 2020 14:36:56 +0200
+From: Greg Kurz <groug@kaod.org>
+To: David Gibson <david@gibson.dropbear.id.au>
+Subject: Re: [PATCH v3 1/8] target/arm: Move start-powered-off property to
+ generic CPUState
+Message-ID: <20200727143656.277500f0@bahia.lan>
+In-Reply-To: <20200723030609.GL5513@umbus.fritz.box>
+References: <20200723025657.644724-1-bauerman@linux.ibm.com>
+ <20200723025657.644724-2-bauerman@linux.ibm.com>
+ <20200723030609.GL5513@umbus.fritz.box>
+X-Mailer: Claws Mail 3.17.5 (GTK+ 2.24.32; x86_64-redhat-linux-gnu)
 MIME-Version: 1.0
-In-Reply-To: <10df6427-eab0-d3b8-4624-ede98ff7ef09@siemens.com>
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature"; boundary="4SFOXa2GPu3tIq4H"
-Content-Disposition: inline
-Received-SPF: pass client-ip=207.211.31.81; envelope-from=stefanha@redhat.com;
- helo=us-smtp-delivery-1.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/07/27 03:37:14
-X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
-X-Spam_score_int: -30
-X-Spam_score: -3.1
-X-Spam_bar: ---
-X-Spam_report: (-3.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H3=-0.01, RCVD_IN_MSPIKE_WL=-0.01,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Content-Type: multipart/signed; boundary="Sig_/x6A_q+XXF/OnOq118RkT5mq";
+ protocol="application/pgp-signature"; micalg=pgp-sha256
+X-Ovh-Tracer-Id: 14592507219021371878
+X-VR-SPAMSTATE: OK
+X-VR-SPAMSCORE: -100
+X-VR-SPAMCAUSE: gggruggvucftvghtrhhoucdtuddrgeduiedriedtgdehhecutefuodetggdotefrodftvfcurfhrohhfihhlvgemucfqggfjpdevjffgvefmvefgnecuuegrihhlohhuthemucehtddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenucfjughrpeffhffvuffkjghfofggtgesghdtreerredtjeenucfhrhhomhepifhrvghgucfmuhhriicuoehgrhhouhhgsehkrghougdrohhrgheqnecuggftrfgrthhtvghrnhepveegffeljeegleehheetiedutefhueehgeetteektddvieevgeeujeevgfelfeejnecukfhppedtrddtrddtrddtpdekvddrvdehfedrvddtkedrvdegkeenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhhouggvpehsmhhtphdqohhuthdphhgvlhhopehplhgrhigvrheiledtrdhhrgdrohhvhhdrnhgvthdpihhnvghtpedtrddtrddtrddtpdhmrghilhhfrhhomhepghhrohhugheskhgrohgurdhorhhgpdhrtghpthhtohepqhgvmhhuqdguvghvvghlsehnohhnghhnuhdrohhrgh
+Received-SPF: pass client-ip=46.105.42.102; envelope-from=groug@kaod.org;
+ helo=4.mo69.mail-out.ovh.net
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/07/27 08:37:25
+X-ACL-Warn: Detected OS   = Linux 3.11 and newer
+X-Spam_score_int: -18
+X-Spam_score: -1.9
+X-Spam_bar: -
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_NONE=-0.0001,
+ RCVD_IN_MSPIKE_H3=-0.01, RCVD_IN_MSPIKE_WL=-0.01, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -84,72 +67,180 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Jailhouse <jailhouse-dev@googlegroups.com>, liang yan <lyan@suse.com>,
- "Michael S. Tsirkin" <mst@redhat.com>, qemu-devel <qemu-devel@nongnu.org>,
- "virtio-comment@lists.oasis-open.org" <virtio-comment@lists.oasis-open.org>,
- Alex =?iso-8859-1?Q?Benn=E9e?= <alex.bennee@linaro.org>
+Cc: Peter Maydell <peter.maydell@linaro.org>,
+ Aleksandar Rikalo <aleksandar.rikalo@syrmia.com>,
+ Eduardo Habkost <ehabkost@redhat.com>,
+ Aleksandar Markovic <aleksandar.qemu.devel@gmail.com>,
+ Alex =?UTF-8?B?QmVubsOpZQ==?= <alex.bennee@linaro.org>,
+ Cornelia Huck <cohuck@redhat.com>,
+ Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>, qemu-devel@nongnu.org,
+ Artyom Tarasenko <atar4qemu@gmail.com>, qemu-s390x@nongnu.org,
+ qemu-arm@nongnu.org, qemu-ppc@nongnu.org,
+ Aurelien Jarno <aurelien@aurel32.net>, Thomas Huth <thuth@redhat.com>,
+ Paolo Bonzini <pbonzini@redhat.com>, David Hildenbrand <david@redhat.com>,
+ Philippe =?UTF-8?B?TWF0aGlldS1EYXVkw6k=?= <philmd@redhat.com>,
+ Thiago Jung Bauermann <bauerman@linux.ibm.com>,
+ Richard Henderson <rth@twiddle.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
---4SFOXa2GPu3tIq4H
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+--Sig_/x6A_q+XXF/OnOq118RkT5mq
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: quoted-printable
 
-On Thu, Jul 23, 2020 at 09:02:09AM +0200, Jan Kiszka wrote:
-> On 23.07.20 08:54, Stefan Hajnoczi wrote:
-> > On Fri, Jul 17, 2020 at 06:15:58PM +0200, Jan Kiszka wrote:
-> > > On 15.07.20 15:27, Stefan Hajnoczi wrote:
-> > > > On Mon, May 25, 2020 at 09:58:28AM +0200, Jan Kiszka wrote:
+On Thu, 23 Jul 2020 13:06:09 +1000
+David Gibson <david@gibson.dropbear.id.au> wrote:
+
+> On Wed, Jul 22, 2020 at 11:56:50PM -0300, Thiago Jung Bauermann wrote:
+> > There are other platforms which also have CPUs that start powered off, =
+so
+> > generalize the start-powered-off property so that it can be used by the=
+m.
 > >=20
-> > Thanks for the responses. It would be great to update the spec with
-> > these clarifications.
+> > Note that ARMv7MState also has a property of the same name but this pat=
+ch
+> > doesn't change it because that class isn't a subclass of CPUState so it
+> > wouldn't be a trivial change.
 > >=20
-> > > > > If BAR 2 is not present, the shared memory region is not relocata=
-ble
-> > > > > by the user. In that case, the hypervisor has to implement the Ba=
-se
-> > > > > Address register in the vendor-specific capability.
-> > > >=20
-> > > > What does relocatable mean in this context?
-> > >=20
-> > > That the guest can decide (via BAR) where the resource should show up=
- in the
-> > > physical guest address space. We do not want to support this in setup=
-s like
-> > > for static partitioning hypervisors, and then we use that side-channe=
-l
-> > > read-only configuration.
+> > This change should not cause any change in behavior.
 > >=20
-> > I see. I'm not sure what is vendor-specific about non-relocatable share=
-d
-> > memory. I guess it could be added to the spec too?
+> > Suggested-by: Eduardo Habkost <ehabkost@redhat.com>
+> > Reviewed-by: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
+> > Signed-off-by: Thiago Jung Bauermann <bauerman@linux.ibm.com>
 >=20
-> That "vendor-specific" comes from the PCI spec which - to my understandin=
-g -
-> provides us no other means to introduce registers to the config space tha=
-t
-> are outside of the PCI spec. I could introduce a name for the ivshmem ven=
-dor
-> cap and use that name here - would that be better?
+> Reviewed-by: David Gibson <david@gibson.dropbear.id.au>
+>=20
 
-Sounds good.
+Reviewed-by: Greg Kurz <groug@kaod.org>
 
---4SFOXa2GPu3tIq4H
-Content-Type: application/pgp-signature; name="signature.asc"
+> > ---
+> >  exec.c                | 1 +
+> >  include/hw/core/cpu.h | 4 ++++
+> >  target/arm/cpu.c      | 5 ++---
+> >  target/arm/cpu.h      | 3 ---
+> >  target/arm/kvm32.c    | 2 +-
+> >  target/arm/kvm64.c    | 2 +-
+> >  6 files changed, 9 insertions(+), 8 deletions(-)
+> >=20
+> > NB: I was only able to test that this patch builds. I wasn't able to
+> > run it.
+> >=20
+> > diff --git a/exec.c b/exec.c
+> > index 6f381f98e2..82e82fab09 100644
+> > --- a/exec.c
+> > +++ b/exec.c
+> > @@ -899,6 +899,7 @@ Property cpu_common_props[] =3D {
+> >      DEFINE_PROP_LINK("memory", CPUState, memory, TYPE_MEMORY_REGION,
+> >                       MemoryRegion *),
+> >  #endif
+> > +    DEFINE_PROP_BOOL("start-powered-off", CPUState, start_powered_off,=
+ false),
+> >      DEFINE_PROP_END_OF_LIST(),
+> >  };
+> > =20
+> > diff --git a/include/hw/core/cpu.h b/include/hw/core/cpu.h
+> > index 8f145733ce..9fc2696db5 100644
+> > --- a/include/hw/core/cpu.h
+> > +++ b/include/hw/core/cpu.h
+> > @@ -374,6 +374,10 @@ struct CPUState {
+> >      bool created;
+> >      bool stop;
+> >      bool stopped;
+> > +
+> > +    /* Should CPU start in powered-off state? */
+> > +    bool start_powered_off;
+> > +
+> >      bool unplug;
+> >      bool crash_occurred;
+> >      bool exit_request;
+> > diff --git a/target/arm/cpu.c b/target/arm/cpu.c
+> > index 111579554f..ec65c7653f 100644
+> > --- a/target/arm/cpu.c
+> > +++ b/target/arm/cpu.c
+> > @@ -174,8 +174,8 @@ static void arm_cpu_reset(DeviceState *dev)
+> >      env->vfp.xregs[ARM_VFP_MVFR1] =3D cpu->isar.mvfr1;
+> >      env->vfp.xregs[ARM_VFP_MVFR2] =3D cpu->isar.mvfr2;
+> > =20
+> > -    cpu->power_state =3D cpu->start_powered_off ? PSCI_OFF : PSCI_ON;
+> > -    s->halted =3D cpu->start_powered_off;
+> > +    cpu->power_state =3D s->start_powered_off ? PSCI_OFF : PSCI_ON;
+> > +    s->halted =3D s->start_powered_off;
+> > =20
+> >      if (arm_feature(env, ARM_FEATURE_IWMMXT)) {
+> >          env->iwmmxt.cregs[ARM_IWMMXT_wCID] =3D 0x69051000 | 'Q';
+> > @@ -2182,7 +2182,6 @@ static const ARMCPUInfo arm_cpus[] =3D {
+> >  };
+> > =20
+> >  static Property arm_cpu_properties[] =3D {
+> > -    DEFINE_PROP_BOOL("start-powered-off", ARMCPU, start_powered_off, f=
+alse),
+> >      DEFINE_PROP_UINT32("psci-conduit", ARMCPU, psci_conduit, 0),
+> >      DEFINE_PROP_UINT64("midr", ARMCPU, midr, 0),
+> >      DEFINE_PROP_UINT64("mp-affinity", ARMCPU,
+> > diff --git a/target/arm/cpu.h b/target/arm/cpu.h
+> > index 9e8ed423ea..a925d26996 100644
+> > --- a/target/arm/cpu.h
+> > +++ b/target/arm/cpu.h
+> > @@ -810,9 +810,6 @@ struct ARMCPU {
+> >       */
+> >      uint32_t psci_version;
+> > =20
+> > -    /* Should CPU start in PSCI powered-off state? */
+> > -    bool start_powered_off;
+> > -
+> >      /* Current power state, access guarded by BQL */
+> >      ARMPSCIState power_state;
+> > =20
+> > diff --git a/target/arm/kvm32.c b/target/arm/kvm32.c
+> > index 0af46b41c8..1f2b8f8b7a 100644
+> > --- a/target/arm/kvm32.c
+> > +++ b/target/arm/kvm32.c
+> > @@ -218,7 +218,7 @@ int kvm_arch_init_vcpu(CPUState *cs)
+> > =20
+> >      /* Determine init features for this CPU */
+> >      memset(cpu->kvm_init_features, 0, sizeof(cpu->kvm_init_features));
+> > -    if (cpu->start_powered_off) {
+> > +    if (cs->start_powered_off) {
+> >          cpu->kvm_init_features[0] |=3D 1 << KVM_ARM_VCPU_POWER_OFF;
+> >      }
+> >      if (kvm_check_extension(cs->kvm_state, KVM_CAP_ARM_PSCI_0_2)) {
+> > diff --git a/target/arm/kvm64.c b/target/arm/kvm64.c
+> > index 1169237905..f8a6d905fb 100644
+> > --- a/target/arm/kvm64.c
+> > +++ b/target/arm/kvm64.c
+> > @@ -775,7 +775,7 @@ int kvm_arch_init_vcpu(CPUState *cs)
+> > =20
+> >      /* Determine init features for this CPU */
+> >      memset(cpu->kvm_init_features, 0, sizeof(cpu->kvm_init_features));
+> > -    if (cpu->start_powered_off) {
+> > +    if (cs->start_powered_off) {
+> >          cpu->kvm_init_features[0] |=3D 1 << KVM_ARM_VCPU_POWER_OFF;
+> >      }
+> >      if (kvm_check_extension(cs->kvm_state, KVM_CAP_ARM_PSCI_0_2)) {
+> >=20
+>=20
+
+
+--Sig_/x6A_q+XXF/OnOq118RkT5mq
+Content-Type: application/pgp-signature
+Content-Description: OpenPGP digital signature
 
 -----BEGIN PGP SIGNATURE-----
 
-iQEzBAEBCAAdFiEEhpWov9P5fNqsNXdanKSrs4Grc8gFAl8eyLMACgkQnKSrs4Gr
-c8iz3gf+PR7V8VCympAWs+Z7xHZgGlFUy375IgC6F5z+6fundn/iK0s7G4F+x5yO
-H3NmnoiUpdobJ52yzuTaft5DEsdL8GZ3AoDeCNp0TzU+89PFsXzDeozT9v3FGagz
-GLnwzyCpWZ8qfbEJSUeKk549gfdqunLm6liqo3h6yiBlAs6dYAnh9RppXFxVdmLw
-ydiDM+1kLBmsU5SCM8x1Uq2DNyPPySQukuCqUMQe8ssbI3L52y5+k/xverd44fUR
-rGYc2n3Z6pZ+prPkRRkUKycP0H9csQyTIcIs7PKGMhPKOMqoXCe174y4dro4GrAb
-+HGBBvp2fW5ztZHRP20XjqrWhotyow==
-=AR2l
+iQIzBAEBCAAdFiEEtIKLr5QxQM7yo0kQcdTV5YIvc9YFAl8eymgACgkQcdTV5YIv
+c9Y5cA//fI3S70yYaqp/nGvaYTyqKR0BdlFHwouXRg1VROwRvgb5kzZy+HBv0UE9
+Ol+K1kJJw3gw0qCTrKyNkV4bQEBEmIjIRz/X51OyZ3+oaXArlpd1dW6phxyo0frF
+sNKo/CBS2vS+g3W523fXdCbBil0RErkTim5Db3TmJD301yUNLv4jy4Ej7hFSvUT5
+EGDOwR0IR/H2HivOoO5r6+cKTUl0rHo95Q/yrgTrjIq5/QZMwCrrMnoiPOfOS+r8
+xTlol5FS8dmfPTDaDtwF+9jkLjXGQozrXMKpgITY71OLR06CcmiNpnLWqqXNCak8
+vIrp8UDjksfssmQ7ikA8FvVsX8I987sfySU5QA6Pt0YdahChhQkc2GFkI/Vhl2HI
+c8Lz53Jg7snLUw/OAtXtWugWN6NEGSaMGMvn0IPtNkV+GQmZQpbCFwoh5WxnVrmP
+ErFsc9dISP9VW8Jr5U5IMd7J50AarPbp5oAJEJaObFi3hkjTMhpSK/vl7q+zoePo
+ByHt2MusgEBDF771iyCHxU1LDByb0lSDjrDbTNzUN+i/qjjvR5udOFBEnwkMmf+M
+0yDKzncIMgZMgXgY16m8bXXqTE52rBhJxAU2IijfVGid1y3SBkXrFzaHsiO0cVJR
+ev7a7b3qU7K5Uy1W8BJTHSU60Dz4hzWieZqKxIo0zACURTK0Ekc=
+=QmXv
 -----END PGP SIGNATURE-----
 
---4SFOXa2GPu3tIq4H--
-
+--Sig_/x6A_q+XXF/OnOq118RkT5mq--
 
