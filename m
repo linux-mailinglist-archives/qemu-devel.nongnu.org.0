@@ -2,51 +2,51 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9440522FAF6
-	for <lists+qemu-devel@lfdr.de>; Mon, 27 Jul 2020 23:05:12 +0200 (CEST)
-Received: from localhost ([::1]:43190 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 17DCD22FAFF
+	for <lists+qemu-devel@lfdr.de>; Mon, 27 Jul 2020 23:06:33 +0200 (CEST)
+Received: from localhost ([::1]:51350 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1k0AJ5-0001eO-IV
-	for lists+qemu-devel@lfdr.de; Mon, 27 Jul 2020 17:05:11 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:35164)
+	id 1k0AKO-00053L-5l
+	for lists+qemu-devel@lfdr.de; Mon, 27 Jul 2020 17:06:32 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:35192)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <eblake@redhat.com>) id 1k0AAc-0005Su-Th
- for qemu-devel@nongnu.org; Mon, 27 Jul 2020 16:56:26 -0400
-Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:52592
- helo=us-smtp-1.mimecast.com)
+ (Exim 4.90_1) (envelope-from <eblake@redhat.com>) id 1k0AAd-0005V3-L5
+ for qemu-devel@nongnu.org; Mon, 27 Jul 2020 16:56:27 -0400
+Received: from us-smtp-1.mimecast.com ([207.211.31.81]:24659
+ helo=us-smtp-delivery-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <eblake@redhat.com>) id 1k0AAZ-0004yM-RB
- for qemu-devel@nongnu.org; Mon, 27 Jul 2020 16:56:26 -0400
+ (Exim 4.90_1) (envelope-from <eblake@redhat.com>) id 1k0AAZ-0004yW-RH
+ for qemu-devel@nongnu.org; Mon, 27 Jul 2020 16:56:27 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1595883379;
+ s=mimecast20190719; t=1595883380;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=RhcK+hLL7eIFd4Jr8vV11mkyvJ6l8+i1wKkgojeo9Ag=;
- b=abUpdsDx3eaNFmMRMBX6pa3n/zYKZQs+Xzyjc3bsekWrE2orn4czz93JPvN8yNvOUoZIj8
- ZBr9QMb24RK7rlgj0xovR65JtZAcYVji4W2fpA/M7KnzMAs/P84b/PggWPX+B9sk/BHJpT
- YI8C9BoZTVceGc+9qIh6A1J3AG2VShI=
+ bh=uLYCusIIYVBIf0xiCXWTmILkEuREcQ5pTTnFopi18ZM=;
+ b=XQrFrU8OU/SeCGTIJoZT56A2C96VBy4U+FCLsqUql+H4eOEl/Je8GwdUDZ8/Tnv5CANsc5
+ 6jLJqH3pyvxuklHtq35bNFqg0pJZEU5SfyJp2jTb9j7EmAm2IIFxirPDJvytiJw6fGq0+4
+ 9jVlsbQivkRHDk901WEKEaTq4icoSV4=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-413-n6NUVXdVP_GGV0Vy_mI54g-1; Mon, 27 Jul 2020 16:56:17 -0400
-X-MC-Unique: n6NUVXdVP_GGV0Vy_mI54g-1
+ us-mta-341-ypknWNVTPRO0pN_9js9nuA-1; Mon, 27 Jul 2020 16:56:18 -0400
+X-MC-Unique: ypknWNVTPRO0pN_9js9nuA-1
 Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
  [10.5.11.23])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id E8CA1101C8A0;
- Mon, 27 Jul 2020 20:56:15 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 683DB10059A9;
+ Mon, 27 Jul 2020 20:56:17 +0000 (UTC)
 Received: from blue.redhat.com (ovpn-118-248.rdu2.redhat.com [10.10.118.248])
- by smtp.corp.redhat.com (Postfix) with ESMTP id E5AE719724;
- Mon, 27 Jul 2020 20:56:11 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 3554D19724;
+ Mon, 27 Jul 2020 20:56:16 +0000 (UTC)
 From: Eric Blake <eblake@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PULL 13/24] migration/block-dirty-bitmap: rename finish_lock to just
- lock
-Date: Mon, 27 Jul 2020 15:55:32 -0500
-Message-Id: <20200727205543.206624-14-eblake@redhat.com>
+Subject: [PULL 14/24] migration/block-dirty-bitmap: simplify
+ dirty_bitmap_load_complete
+Date: Mon, 27 Jul 2020 15:55:33 -0500
+Message-Id: <20200727205543.206624-15-eblake@redhat.com>
 In-Reply-To: <20200727205543.206624-1-eblake@redhat.com>
 References: <20200727205543.206624-1-eblake@redhat.com>
 MIME-Version: 1.0
@@ -55,9 +55,9 @@ X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=207.211.31.120; envelope-from=eblake@redhat.com;
- helo=us-smtp-1.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/07/27 15:02:33
+Received-SPF: pass client-ip=207.211.31.81; envelope-from=eblake@redhat.com;
+ helo=us-smtp-delivery-1.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/07/27 03:37:14
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
 X-Spam_score_int: -30
 X-Spam_score: -3.1
@@ -80,7 +80,7 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
 Cc: Fam Zheng <fam@euphon.net>,
  Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>,
- "open list:Dirty Bitmaps" <qemu-block@nongnu.org>,
+ "open list:Block I/O path" <qemu-block@nongnu.org>,
  Juan Quintela <quintela@redhat.com>,
  "Dr. David Alan Gilbert" <dgilbert@redhat.com>,
  Stefan Hajnoczi <stefanha@redhat.com>,
@@ -91,74 +91,65 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
 
-finish_lock is bad name, as lock used not only on process end.
+bdrv_enable_dirty_bitmap_locked() call does nothing, as if we are in
+postcopy, bitmap successor must be enabled, and reclaim operation will
+enable the bitmap.
+
+So, actually we need just call _reclaim_ in both if branches, and
+making differences only to add an assertion seems not really good. The
+logic becomes simple: on load complete we do reclaim and that's all.
 
 Signed-off-by: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
 Reviewed-by: Andrey Shinkevich <andrey.shinkevich@virtuozzo.com>
-Message-Id: <20200727194236.19551-13-vsementsov@virtuozzo.com>
+Message-Id: <20200727194236.19551-14-vsementsov@virtuozzo.com>
 Signed-off-by: Eric Blake <eblake@redhat.com>
 ---
- migration/block-dirty-bitmap.c | 12 ++++++------
- 1 file changed, 6 insertions(+), 6 deletions(-)
+ migration/block-dirty-bitmap.c | 25 ++++---------------------
+ 1 file changed, 4 insertions(+), 21 deletions(-)
 
 diff --git a/migration/block-dirty-bitmap.c b/migration/block-dirty-bitmap.c
-index 9b39e7aa2b4f..9194807b54f1 100644
+index 9194807b54f1..405a259296d9 100644
 --- a/migration/block-dirty-bitmap.c
 +++ b/migration/block-dirty-bitmap.c
-@@ -143,7 +143,7 @@ typedef struct DBMLoadState {
-     BdrvDirtyBitmap *bitmap;
+@@ -603,6 +603,10 @@ static void dirty_bitmap_load_complete(QEMUFile *f, DBMLoadState *s)
 
-     GSList *enabled_bitmaps;
--    QemuMutex finish_lock;
-+    QemuMutex lock; /* protect enabled_bitmaps */
- } DBMLoadState;
+     qemu_mutex_lock(&s->lock);
 
- typedef struct DBMState {
-@@ -575,7 +575,7 @@ void dirty_bitmap_mig_before_vm_start(void)
-     DBMLoadState *s = &dbm_state.load;
-     GSList *item;
-
--    qemu_mutex_lock(&s->finish_lock);
-+    qemu_mutex_lock(&s->lock);
-
++    if (bdrv_dirty_bitmap_has_successor(s->bitmap)) {
++        bdrv_reclaim_dirty_bitmap(s->bitmap, &error_abort);
++    }
++
      for (item = s->enabled_bitmaps; item; item = g_slist_next(item)) {
          LoadBitmapState *b = item->data;
-@@ -592,7 +592,7 @@ void dirty_bitmap_mig_before_vm_start(void)
-     g_slist_free(s->enabled_bitmaps);
-     s->enabled_bitmaps = NULL;
 
--    qemu_mutex_unlock(&s->finish_lock);
-+    qemu_mutex_unlock(&s->lock);
- }
-
- static void dirty_bitmap_load_complete(QEMUFile *f, DBMLoadState *s)
-@@ -601,7 +601,7 @@ static void dirty_bitmap_load_complete(QEMUFile *f, DBMLoadState *s)
-     trace_dirty_bitmap_load_complete();
-     bdrv_dirty_bitmap_deserialize_finish(s->bitmap);
-
--    qemu_mutex_lock(&s->finish_lock);
-+    qemu_mutex_lock(&s->lock);
-
-     for (item = s->enabled_bitmaps; item; item = g_slist_next(item)) {
-         LoadBitmapState *b = item->data;
-@@ -633,7 +633,7 @@ static void dirty_bitmap_load_complete(QEMUFile *f, DBMLoadState *s)
-         bdrv_dirty_bitmap_unlock(s->bitmap);
+@@ -612,27 +616,6 @@ static void dirty_bitmap_load_complete(QEMUFile *f, DBMLoadState *s)
+         }
      }
 
--    qemu_mutex_unlock(&s->finish_lock);
-+    qemu_mutex_unlock(&s->lock);
+-    if (bdrv_dirty_bitmap_has_successor(s->bitmap)) {
+-        bdrv_dirty_bitmap_lock(s->bitmap);
+-        if (s->enabled_bitmaps == NULL) {
+-            /* in postcopy */
+-            bdrv_reclaim_dirty_bitmap_locked(s->bitmap, &error_abort);
+-            bdrv_enable_dirty_bitmap_locked(s->bitmap);
+-        } else {
+-            /* target not started, successor must be empty */
+-            int64_t count = bdrv_get_dirty_count(s->bitmap);
+-            BdrvDirtyBitmap *ret = bdrv_reclaim_dirty_bitmap_locked(s->bitmap,
+-                                                                    NULL);
+-            /* bdrv_reclaim_dirty_bitmap can fail only on no successor (it
+-             * must be) or on merge fail, but merge can't fail when second
+-             * bitmap is empty
+-             */
+-            assert(ret == s->bitmap &&
+-                   count == bdrv_get_dirty_count(s->bitmap));
+-        }
+-        bdrv_dirty_bitmap_unlock(s->bitmap);
+-    }
+-
+     qemu_mutex_unlock(&s->lock);
  }
 
- static int dirty_bitmap_load_bits(QEMUFile *f, DBMLoadState *s)
-@@ -815,7 +815,7 @@ static SaveVMHandlers savevm_dirty_bitmap_handlers = {
- void dirty_bitmap_mig_init(void)
- {
-     QSIMPLEQ_INIT(&dbm_state.save.dbms_list);
--    qemu_mutex_init(&dbm_state.load.finish_lock);
-+    qemu_mutex_init(&dbm_state.load.lock);
-
-     register_savevm_live("dirty-bitmap", 0, 1,
-                          &savevm_dirty_bitmap_handlers,
 -- 
 2.27.0
 
