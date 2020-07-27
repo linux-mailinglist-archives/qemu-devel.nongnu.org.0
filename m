@@ -2,53 +2,78 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0714622E5EB
-	for <lists+qemu-devel@lfdr.de>; Mon, 27 Jul 2020 08:35:10 +0200 (CEST)
-Received: from localhost ([::1]:38104 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 216B522E602
+	for <lists+qemu-devel@lfdr.de>; Mon, 27 Jul 2020 08:44:18 +0200 (CEST)
+Received: from localhost ([::1]:41562 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jzwj7-0002PB-2v
-	for lists+qemu-devel@lfdr.de; Mon, 27 Jul 2020 02:35:09 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:49878)
+	id 1jzwrx-0004Gz-8K
+	for lists+qemu-devel@lfdr.de; Mon, 27 Jul 2020 02:44:17 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:52092)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <dgibson@ozlabs.org>)
- id 1jzwhs-0001PV-Fi; Mon, 27 Jul 2020 02:33:52 -0400
-Received: from bilbo.ozlabs.org ([203.11.71.1]:55609 helo=ozlabs.org)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <dgibson@ozlabs.org>)
- id 1jzwhq-0004mP-Lt; Mon, 27 Jul 2020 02:33:52 -0400
-Received: by ozlabs.org (Postfix, from userid 1007)
- id 4BFVPj5cYNz9sPB; Mon, 27 Jul 2020 16:33:45 +1000 (AEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=gibson.dropbear.id.au; s=201602; t=1595831625;
- bh=99TvoGhdfJBwr8ub+p1RkKmCGsVibTsJPQBFqPgVcRU=;
- h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=UHitf5ZRywWX7ZOnzCCjTEWfvhATnELbo+yyJ50nNJR7ihzDwQr1wqgXP8oGW/hB9
- MD0xG7YNw5/ihLlM4uLX7vp6f9NLZCuXn3TYI+zLCjveHlqyCfcr2D53ozGQxX36Fk
- vSLEZLxFcQLCSdtcJ6PHYF3zbqDTXgr6fWYZO8AY=
-Date: Mon, 27 Jul 2020 16:33:33 +1000
-From: David Gibson <david@gibson.dropbear.id.au>
-To: Lijun Pan <ljp@linux.ibm.com>
-Subject: Re: [PATCH v5 0/6] Add several Power ISA 3.1 32/64-bit vector
- instructions
-Message-ID: <20200727063333.GG84173@umbus.fritz.box>
-References: <20200724045845.89976-1-ljp@linux.ibm.com>
+ (Exim 4.90_1) (envelope-from <cohuck@redhat.com>) id 1jzwr6-0003pl-0O
+ for qemu-devel@nongnu.org; Mon, 27 Jul 2020 02:43:24 -0400
+Received: from us-smtp-1.mimecast.com ([205.139.110.61]:40558
+ helo=us-smtp-delivery-1.mimecast.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <cohuck@redhat.com>) id 1jzwr3-00063u-H9
+ for qemu-devel@nongnu.org; Mon, 27 Jul 2020 02:43:23 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1595832199;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=Vm6xXxADeqLTOLnVwumIQIXqskFrA777Gg4HEZ2Dkn0=;
+ b=KRMK/wqyLI+NdblDHLlw2eHM9y3ExpG3BG6wEFYQeEyRTA+N1/T9sp/kiynY360+eISJjl
+ tcG7Sc3yLyPai46Eiq9DHq69Sf/2ezutWOsi632QZzWMQEYmSjY6h/SoD0VXKN8dJ54rZu
+ +tcEROZN63QfX/8A6sp4Qw5dY1jrumU=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-114-Dn-yoAopNP6TkkKnbQY9QA-1; Mon, 27 Jul 2020 02:43:17 -0400
+X-MC-Unique: Dn-yoAopNP6TkkKnbQY9QA-1
+Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
+ [10.5.11.11])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id DFA10E919;
+ Mon, 27 Jul 2020 06:43:16 +0000 (UTC)
+Received: from gondolin (ovpn-112-210.ams2.redhat.com [10.36.112.210])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 9E97689507;
+ Mon, 27 Jul 2020 06:43:12 +0000 (UTC)
+Date: Mon, 27 Jul 2020 08:43:10 +0200
+From: Cornelia Huck <cohuck@redhat.com>
+To: Jason Wang <jasowang@redhat.com>
+Subject: Re: [BUG] vhost-vdpa: qemu-system-s390x crashes with second
+ virtio-net-ccw device
+Message-ID: <20200727084310.7d29ec6d.cohuck@redhat.com>
+In-Reply-To: <5a0dfa0b-5a1d-e7d2-1785-8cca6ddb9db8@redhat.com>
+References: <20200724152718.4e1cbc9e.cohuck@redhat.com>
+ <20200724092906-mutt-send-email-mst@kernel.org>
+ <20200724165627.70c6dfd6.cohuck@redhat.com>
+ <20200724111512-mutt-send-email-mst@kernel.org>
+ <20200724173448.18773aec.cohuck@redhat.com>
+ <5a0dfa0b-5a1d-e7d2-1785-8cca6ddb9db8@redhat.com>
+Organization: Red Hat GmbH
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature"; boundary="9Iq5ULCa7nGtWwZS"
-Content-Disposition: inline
-In-Reply-To: <20200724045845.89976-1-ljp@linux.ibm.com>
-Received-SPF: pass client-ip=203.11.71.1; envelope-from=dgibson@ozlabs.org;
- helo=ozlabs.org
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/07/27 02:33:47
-X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic]
-X-Spam_score_int: -9
-X-Spam_score: -1.0
-X-Spam_bar: -
-X-Spam_report: (-1.0 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, HEADER_FROM_DIFFERENT_DOMAINS=1,
- SPF_HELO_PASS=-0.001, SPF_PASS=-0.001,
- URIBL_BLOCKED=0.001 autolearn=no autolearn_force=no
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=cohuck@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=205.139.110.61; envelope-from=cohuck@redhat.com;
+ helo=us-smtp-delivery-1.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/07/27 01:46:13
+X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
+X-Spam_score_int: -40
+X-Spam_score: -4.1
+X-Spam_bar: ----
+X-Spam_report: (-4.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-1, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -61,75 +86,82 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: richard.henderson@linaro.org, qemu-ppc@nongnu.org, qemu-devel@nongnu.org
+Cc: qemu-s390x@nongnu.org, qemu-devel@nongnu.org, Cindy Lu <lulu@redhat.com>,
+ "Michael S. Tsirkin" <mst@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+On Sat, 25 Jul 2020 08:40:07 +0800
+Jason Wang <jasowang@redhat.com> wrote:
 
---9Iq5ULCa7nGtWwZS
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
-
-On Thu, Jul 23, 2020 at 11:58:39PM -0500, Lijun Pan wrote:
-> This patch series add several newly introduced 32/64-bit vector
-> instructions in Power ISA 3.1. Power ISA 3.1 flag is introduced in
-> this version. In v4 version, coding style issues are fixed, community
-> reviews/suggestions are taken into consideration. 1/11 - 5/11 of v4 were
-> accepted by David Gibson, and 9/11 of v4 was accepted by Lauren Vivier.
-> This v5 version updates PPC_FEATURE2_ARCH_3_10 definition in 6/11 of v4,
-> rebases 7/11 8/11 10/11 11/11 of v4, and integrates vmsumudm/vmsumcud
-> patch.
-
-I've applied 1..4 to ppx-for-5.2.  Still looking for a review from
-Richard on the last two.
-
+> On 2020/7/24 =E4=B8=8B=E5=8D=8811:34, Cornelia Huck wrote:
+> > On Fri, 24 Jul 2020 11:17:57 -0400
+> > "Michael S. Tsirkin"<mst@redhat.com>  wrote:
+> > =20
+> >> On Fri, Jul 24, 2020 at 04:56:27PM +0200, Cornelia Huck wrote: =20
+> >>> On Fri, 24 Jul 2020 09:30:58 -0400
+> >>> "Michael S. Tsirkin"<mst@redhat.com>  wrote:
+> >>>     =20
+> >>>> On Fri, Jul 24, 2020 at 03:27:18PM +0200, Cornelia Huck wrote: =20
+> >>>>> When I start qemu with a second virtio-net-ccw device (i.e. adding
+> >>>>> -device virtio-net-ccw in addition to the autogenerated device), I =
+get
+> >>>>> a segfault. gdb points to
+> >>>>>
+> >>>>> #0  0x000055d6ab52681d in virtio_net_get_config (vdev=3D<optimized =
+out>,
+> >>>>>      config=3D0x55d6ad9e3f80 "RT") at /home/cohuck/git/qemu/hw/net/=
+virtio-net.c:146
+> >>>>> 146=09    if (nc->peer->info->type =3D=3D NET_CLIENT_DRIVER_VHOST_V=
+DPA) {
+> >>>>>
+> >>>>> (backtrace doesn't go further) =20
+> >>> The core was incomplete, but running under gdb directly shows that it
+> >>> is just a bog-standard config space access (first for that device).
+> >>>
+> >>> The cause of the crash is that nc->peer is not set... no idea how tha=
+t
+> >>> can happen, not that familiar with that part of QEMU. (Should the cod=
+e
+> >>> check, or is that really something that should not happen?)
+> >>>
+> >>> What I don't understand is why it is set correctly for the first,
+> >>> autogenerated virtio-net-ccw device, but not for the second one, and
+> >>> why virtio-net-pci doesn't show these problems. The only difference
+> >>> between -ccw and -pci that comes to my mind here is that config space
+> >>> accesses for ccw are done via an asynchronous operation, so timing
+> >>> might be different. =20
+> >> Hopefully Jason has an idea. Could you post a full command line
+> >> please? Do you need a working guest to trigger this? Does this trigger
+> >> on an x86 host? =20
+> > Yes, it does trigger with tcg-on-x86 as well. I've been using
+> >
+> > s390x-softmmu/qemu-system-s390x -M s390-ccw-virtio,accel=3Dtcg -cpu qem=
+u,zpci=3Don
+> > -m 1024 -nographic -device virtio-scsi-ccw,id=3Dscsi0,devno=3Dfe.0.0001
+> > -drive file=3D/path/to/image,format=3Dqcow2,if=3Dnone,id=3Ddrive-scsi0-=
+0-0-0
+> > -device scsi-hd,bus=3Dscsi0.0,channel=3D0,scsi-id=3D0,lun=3D0,drive=3Dd=
+rive-scsi0-0-0-0,id=3Dscsi0-0-0-0,bootindex=3D1
+> > -device virtio-net-ccw
+> >
+> > It seems it needs the guest actually doing something with the nics; I
+> > cannot reproduce the crash if I use the old advent calendar moon buggy
+> > image and just add a virtio-net-ccw device.
+> >
+> > (I don't think it's a problem with my local build, as I see the problem
+> > both on my laptop and on an LPAR.) =20
 >=20
-> Lijun Pan (6):
->   Update PowerPC AT_HWCAP2 definition
->   target/ppc: add vmulld to INDEX_op_mul_vec case
->   target/ppc: add vmulh{su}w instructions
->   target/ppc: add vmulh{su}d instructions
->   target/ppc: add vdiv{su}{wd} vmod{su}{wd} instructions
->   target/ppc: add vmsumudm vmsumcud instructions
 >=20
->  disas/ppc.c                         |   2 +
->  include/elf.h                       |   1 +
->  target/ppc/helper.h                 |  16 +++-
->  target/ppc/int_helper.c             | 111 +++++++++++++++++++++++++++-
->  target/ppc/translate.c              |   4 +-
->  target/ppc/translate/vmx-impl.inc.c |  62 +++++++++++-----
->  target/ppc/translate/vmx-ops.inc.c  |  25 ++++++-
->  tcg/ppc/tcg-target.h                |   2 +
->  tcg/ppc/tcg-target.inc.c            |  12 ++-
->  9 files changed, 208 insertions(+), 27 deletions(-)
+> It looks to me we forget the check the existence of peer.
 >=20
+> Please try the attached patch to see if it works.
 
---=20
-David Gibson			| I'll have my music baroque, and my code
-david AT gibson.dropbear.id.au	| minimalist, thank you.  NOT _the_ _other_
-				| _way_ _around_!
-http://www.ozlabs.org/~dgibson
+Thanks, that patch gets my guest up and running again. So, FWIW,
 
---9Iq5ULCa7nGtWwZS
-Content-Type: application/pgp-signature; name="signature.asc"
+Tested-by: Cornelia Huck <cohuck@redhat.com>
 
------BEGIN PGP SIGNATURE-----
+Any idea why this did not hit with virtio-net-pci (or the autogenerated
+virtio-net-ccw device)?
 
-iQIzBAEBCAAdFiEEdfRlhq5hpmzETofcbDjKyiDZs5IFAl8edT0ACgkQbDjKyiDZ
-s5IRCBAAobsbTPyppXZ98yIonBo2jhEFDedN93U/xFIiu1NdJZb6xJOI2HtHda97
-BBzRQoLqraJjnCOJkP/TudbTHvV+wBqhIej5cvkAEHheWvPmYScSEyKHEDz8+4eO
-UhAGWpEcE5f3/t59aDM5svqrB4BVRV9xbfvA6+IsM649diaPX/nEwnFnxKb4EK8b
-cw+WM2W9kXqIeIqGQsLMNNiAnEym24Ua76fx5qmNOCrSA8lC1KEkwC3s+lMuWG5t
-Deg6HagW3urh97RPBdII0ngau5fuKbw4VcmEw1n2mBt60GdlMEoOTvasGTm0uOrK
-C4Pfp4aDlL8CRqLa1Z1YghLR2mFFavmrOJ5f2z1k1iCaTsHzF28yLJWfAYXHSHfQ
-ALKic7y7aLrqhLCFZxVsYg9OLH5ki+/ViOhZQODuDc4ZFxHsL183QWjWVtFP8KM/
-RdINXrv2r6gE0c4E7lFUQz4eOLbgAbVVxCUcF8O6dMwWUdxYOyKfphu8SCtIdP1X
-yBmD5mCVEc0S7i8wag/4QQNUOwUuGuR1VQK1OnNDNO1U1bA+WHj7VIVHnwKDYX6R
-0KXRhcVGslY4iSunKa/hgWtOqFHZRlFPME1Cx8St54ywR6lGfAw66OlY+k28IL8v
-IqvTdjErcriGTl4cPXfzWDke7q5tAXZMDsVmCWaeSIYEpdPtyRo=
-=+v6i
------END PGP SIGNATURE-----
-
---9Iq5ULCa7nGtWwZS--
 
