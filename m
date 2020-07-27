@@ -2,65 +2,65 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 574FB22EDE8
-	for <lists+qemu-devel@lfdr.de>; Mon, 27 Jul 2020 15:51:19 +0200 (CEST)
-Received: from localhost ([::1]:56306 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2298822EDEA
+	for <lists+qemu-devel@lfdr.de>; Mon, 27 Jul 2020 15:51:24 +0200 (CEST)
+Received: from localhost ([::1]:56724 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1k03X8-0006s7-Aa
-	for lists+qemu-devel@lfdr.de; Mon, 27 Jul 2020 09:51:14 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:33812)
+	id 1k03XH-00073r-58
+	for lists+qemu-devel@lfdr.de; Mon, 27 Jul 2020 09:51:23 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:33878)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1k03Vb-00055y-Vs
- for qemu-devel@nongnu.org; Mon, 27 Jul 2020 09:49:40 -0400
-Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:24392
- helo=us-smtp-1.mimecast.com)
+ (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1k03Vf-0005Cq-Mx
+ for qemu-devel@nongnu.org; Mon, 27 Jul 2020 09:49:43 -0400
+Received: from us-smtp-2.mimecast.com ([207.211.31.81]:51072
+ helo=us-smtp-delivery-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1k03VZ-0001r4-8g
- for qemu-devel@nongnu.org; Mon, 27 Jul 2020 09:49:39 -0400
+ (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1k03Vd-0001tR-OI
+ for qemu-devel@nongnu.org; Mon, 27 Jul 2020 09:49:43 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1595857776;
+ s=mimecast20190719; t=1595857780;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  in-reply-to:in-reply-to:references:references;
- bh=AHMvwCpHzHvg1F3ImQSbDTzqzrVUtZ/6UHRF8xJVQi0=;
- b=CXR9dZvvJh9rHBdgzzzOiL/aCEhzhCidiwVRlKoHT9RwvyTZMWCbAFv6vjEZsc8YZ10HgE
- /iPR98kK1cH2qSgevO2br/VNDyBqfNm4mx7xQTqKgRQ442hbChfEp1Wl+pbSgfbM6jmFR8
- msV8GBujgepjQNb+dVZu/nCRg16gf10=
+ bh=G5Jqd+SmkXSBC/JZYFI43kAGxEBE3DwOl1zZvCWvDdA=;
+ b=Rz1fom05PIlgVmJ6p1GQtUe8Ed9WsIy5CWK9iwK1CQGBPwcOQC582rGHVExnlaPeWVEibU
+ dmEs2IoccLGC2OXufDmrLMPn95qbBHwF+NuoOjyayiikYdYXm2IyJDgQWIEKogZjvG9hBM
+ vH0+52SE4N8pVcfe2fnHn5PUZdGrE3U=
 Received: from mail-wr1-f70.google.com (mail-wr1-f70.google.com
  [209.85.221.70]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-99-vAS3g852PNSyXkNeCbsmag-1; Mon, 27 Jul 2020 09:49:34 -0400
-X-MC-Unique: vAS3g852PNSyXkNeCbsmag-1
-Received: by mail-wr1-f70.google.com with SMTP id z1so3958288wrn.18
- for <qemu-devel@nongnu.org>; Mon, 27 Jul 2020 06:49:34 -0700 (PDT)
+ us-mta-107-PQfYeY7CMPSHgiZX4n8FSg-1; Mon, 27 Jul 2020 09:49:37 -0400
+X-MC-Unique: PQfYeY7CMPSHgiZX4n8FSg-1
+Received: by mail-wr1-f70.google.com with SMTP id z12so3972500wrl.16
+ for <qemu-devel@nongnu.org>; Mon, 27 Jul 2020 06:49:37 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:date:from:to:cc:subject:message-id:references
  :mime-version:content-disposition:in-reply-to;
- bh=AHMvwCpHzHvg1F3ImQSbDTzqzrVUtZ/6UHRF8xJVQi0=;
- b=CVUiRcLf7dshG08UT8SxNjsbGSTuakhpd/mCo+q9gFCVCmuAwz41WuZHrGqLcSxEbu
- BAhy/mG9GgIZGpOxOYH9YVP7SyGZDpNbo6F1uytsWSX0UhL52wXT4Is91g+kuuT86PKd
- Wj8rft//rRTH3LopQHBR8Juklt62Tixvzmsxr9FPQF21qw1JYRohEIZtHC4PPHVmU+9+
- q6kXFJiFGFcKOrYfei0dyhzEejk8U4hvCkg4JbLTLewRQLSm1h4ya2GaKzhDER7jJWMk
- FcMT7u+Qy5xt6qGkCaUhVIcQeP0OWbWlCWtERywlSqt2dM7Ex9bSTI5FVh1KkK5ggVyM
- wATQ==
-X-Gm-Message-State: AOAM532qzj1sLjfzAL79BofWuRZBOEY75wDklm3F1uO523XrG0wHhgMJ
- V9TjTzuNJVVsEgn2wu+Vpe+P/tC2YH3s0ZKucsTfxRETnXOrVr1JcgC+ao8/BqRdP485oK9wWGV
- GzMl28Fd4cHjrNPQ=
-X-Received: by 2002:adf:e94a:: with SMTP id m10mr8069260wrn.249.1595857772844; 
- Mon, 27 Jul 2020 06:49:32 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJyS7895x4hajfh+pBoM36f+0F94u3SBOH21OiopxXQCuKgddXx8EDy1TgZNblfui/NJEE9s5w==
-X-Received: by 2002:adf:e94a:: with SMTP id m10mr8069244wrn.249.1595857772636; 
- Mon, 27 Jul 2020 06:49:32 -0700 (PDT)
+ bh=G5Jqd+SmkXSBC/JZYFI43kAGxEBE3DwOl1zZvCWvDdA=;
+ b=bXVUgzNIe8QyWmFT5WBYGZ3YvtISL8/DtUSqgqKTO8Y5wuKGHel6ochwxcqzxGwe0v
+ ZCXz1MLLBlWjIxq2ccYyzb64HbTJZqxSpcijLm+ZB51T+WapEqsPV8WsDN/4aCj8HqRJ
+ leZ2BQNczWMq/kwK8l7BlH8PILkJZ3mHpVEj5FixWyse9zVPW4UvFjaKs01JUyquJMyo
+ 7JX/pyhu1qwXUPLZg90PdNI3jdonCLWleFAsgYiym/mFOGeiiyPAeFlkEcVl4jHqCGsS
+ BHl9JA8k8UeHpMQ6vRX///JjtMgJiBO9ybsetn4wYGo/MZIgShvGQGpx5AM5PEhevhRB
+ w5aw==
+X-Gm-Message-State: AOAM531DMbOxUTUdjDOepVdJE8UGU+fDnMFUMoJKY7e0CG/v3i54HZVw
+ tx7ZjeQMu6EB9HqkfbP1IGnc9cf1JhBo7D/z+oWUT0yQit7HSHo+koC0B6g9irfyEgFx9/W/1sJ
+ Eb3PYV13YldAltRU=
+X-Received: by 2002:a5d:4a0d:: with SMTP id m13mr21796996wrq.12.1595857776076; 
+ Mon, 27 Jul 2020 06:49:36 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJwdlVQyDbn+JMARwjE/qDBOF8uyA+C9le76/I9GiTPVRVdwWuBVAsr0/Gq6HQB+trX4CaahFw==
+X-Received: by 2002:a5d:4a0d:: with SMTP id m13mr21796978wrq.12.1595857775857; 
+ Mon, 27 Jul 2020 06:49:35 -0700 (PDT)
 Received: from redhat.com ([192.117.173.58])
- by smtp.gmail.com with ESMTPSA id 88sm13343163wrk.43.2020.07.27.06.49.31
+ by smtp.gmail.com with ESMTPSA id i6sm11782355wrp.92.2020.07.27.06.49.34
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 27 Jul 2020 06:49:32 -0700 (PDT)
-Date: Mon, 27 Jul 2020 09:49:29 -0400
+ Mon, 27 Jul 2020 06:49:35 -0700 (PDT)
+Date: Mon, 27 Jul 2020 09:49:33 -0400
 From: "Michael S. Tsirkin" <mst@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PULL 1/7] virtio-mem-pci: force virtio version 1
-Message-ID: <20200727134614.96376-2-mst@redhat.com>
+Subject: [PULL 2/7] hw/pci-host: save/restore pci host config register
+Message-ID: <20200727134614.96376-3-mst@redhat.com>
 References: <20200727134614.96376-1-mst@redhat.com>
 MIME-Version: 1.0
 In-Reply-To: <20200727134614.96376-1-mst@redhat.com>
@@ -72,9 +72,9 @@ X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Received-SPF: pass client-ip=207.211.31.120; envelope-from=mst@redhat.com;
- helo=us-smtp-1.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/07/27 00:16:29
+Received-SPF: pass client-ip=207.211.31.81; envelope-from=mst@redhat.com;
+ helo=us-smtp-delivery-1.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/07/27 03:37:14
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
 X-Spam_score_int: -30
 X-Spam_score: -3.1
@@ -82,7 +82,7 @@ X-Spam_bar: ---
 X-Spam_report: (-3.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H3=-0.01, RCVD_IN_MSPIKE_WL=-0.01,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -95,51 +95,129 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Maydell <peter.maydell@linaro.org>, Cornelia Huck <cohuck@redhat.com>,
- qemu-stable@nongnu.org, David Hildenbrand <david@redhat.com>
+Cc: Peter Maydell <peter.maydell@linaro.org>,
+ Eduardo Habkost <ehabkost@redhat.com>, qemu-stable@nongnu.org,
+ Hogan Wang <king.wang@huawei.com>, Hogan Wang <hogan.wang@huawei.com>,
+ Paolo Bonzini <pbonzini@redhat.com>, Richard Henderson <rth@twiddle.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: David Hildenbrand <david@redhat.com>
+From: Hogan Wang <king.wang@huawei.com>
 
-Trying to run simple virtio-mem-pci examples currently fails with
-    qemu-system-x86_64: -device virtio-mem-pci,id=vm0,memdev=mem0,node=0,
-    requested-size=300M: device is modern-only, use disable-legacy=on
-due to the added safety checks in 9b3a35ec8236 ("virtio: verify that legacy
-support is not accidentally on").
+The pci host config register is used to save PCI address for
+read/write config data. If guest write a value to config register,
+and then pause the vcpu to migrate, After the migration, the guest
+continue to write pci config data, and the write data will be ignored
+because of new qemu process lost the config register state.
 
-As noted by Conny, we have to force virtio version 1. While at it, use
-qdev_realize() to set the parent bus and realize - like most other
-virtio-*-pci implementations.
+Reproduction steps are:
+1. guest booting in seabios.
+2. guest enable the SMRAM in seabios:piix4_apmc_smm_setup, and then
+   expect to disable the SMRAM by pci_config_writeb.
+3. after guest write the pci host config register, and then pasued vcpu
+   to finish migration.
+4. guest write config data(0x0A) fail to disable the SMRAM becasue of
+   config register state lost.
+5. guest continue to boot and crash in ipxe option ROM due to SMRAM in
+   enabled state.
 
-Fixes: 0b9a2443a48b ("virtio-pci: Proxy for virtio-mem")
-Reviewed-by: Cornelia Huck <cohuck@redhat.com>
-Cc: Cornelia Huck <cohuck@redhat.com>
-Cc: "Michael S. Tsirkin" <mst@redhat.com>
-Signed-off-by: David Hildenbrand <david@redhat.com>
-Message-Id: <20200727115905.129397-1-david@redhat.com>
 Cc: qemu-stable@nongnu.org
+Signed-off-by: Hogan Wang <hogan.wang@huawei.com>
+Message-Id: <20200727084621.3279-1-hogan.wang@huawei.com>
 Reviewed-by: Michael S. Tsirkin <mst@redhat.com>
 Signed-off-by: Michael S. Tsirkin <mst@redhat.com>
 ---
- hw/virtio/virtio-mem-pci.c | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+ include/hw/pci/pci_host.h |  1 +
+ hw/i386/pc.c              |  4 +++-
+ hw/pci/pci_host.c         | 33 +++++++++++++++++++++++++++++++++
+ 3 files changed, 37 insertions(+), 1 deletion(-)
 
-diff --git a/hw/virtio/virtio-mem-pci.c b/hw/virtio/virtio-mem-pci.c
-index d375280ee1..590cec041b 100644
---- a/hw/virtio/virtio-mem-pci.c
-+++ b/hw/virtio/virtio-mem-pci.c
-@@ -21,8 +21,8 @@ static void virtio_mem_pci_realize(VirtIOPCIProxy *vpci_dev, Error **errp)
-     VirtIOMEMPCI *mem_pci = VIRTIO_MEM_PCI(vpci_dev);
-     DeviceState *vdev = DEVICE(&mem_pci->vdev);
+diff --git a/include/hw/pci/pci_host.h b/include/hw/pci/pci_host.h
+index 9ce088bd13..6210a7e14d 100644
+--- a/include/hw/pci/pci_host.h
++++ b/include/hw/pci/pci_host.h
+@@ -45,6 +45,7 @@ struct PCIHostState {
+     MemoryRegion data_mem;
+     MemoryRegion mmcfg;
+     uint32_t config_reg;
++    bool mig_enabled;
+     PCIBus *bus;
  
--    qdev_set_parent_bus(vdev, BUS(&vpci_dev->bus));
--    object_property_set_bool(OBJECT(vdev), "realized", true, errp);
-+    virtio_pci_force_virtio_1(vpci_dev);
-+    qdev_realize(vdev, BUS(&vpci_dev->bus), errp);
- }
+     QLIST_ENTRY(PCIHostState) next;
+diff --git a/hw/i386/pc.c b/hw/i386/pc.c
+index 3d419d5991..f6ff0c5514 100644
+--- a/hw/i386/pc.c
++++ b/hw/i386/pc.c
+@@ -97,7 +97,9 @@
+ #include "fw_cfg.h"
+ #include "trace.h"
  
- static void virtio_mem_pci_set_addr(MemoryDeviceState *md, uint64_t addr,
+-GlobalProperty pc_compat_5_0[] = {};
++GlobalProperty pc_compat_5_0[] = {
++    { "pci-host-bridge", "x-config-reg-migration-enabled", "off" },
++};
+ const size_t pc_compat_5_0_len = G_N_ELEMENTS(pc_compat_5_0);
+ 
+ GlobalProperty pc_compat_4_2[] = {
+diff --git a/hw/pci/pci_host.c b/hw/pci/pci_host.c
+index ce7bcdb1d5..8ca5fadcbd 100644
+--- a/hw/pci/pci_host.c
++++ b/hw/pci/pci_host.c
+@@ -22,8 +22,10 @@
+ #include "hw/pci/pci.h"
+ #include "hw/pci/pci_bridge.h"
+ #include "hw/pci/pci_host.h"
++#include "hw/qdev-properties.h"
+ #include "qemu/module.h"
+ #include "hw/pci/pci_bus.h"
++#include "migration/vmstate.h"
+ #include "trace.h"
+ 
+ /* debug PCI */
+@@ -200,12 +202,43 @@ const MemoryRegionOps pci_host_data_be_ops = {
+     .endianness = DEVICE_BIG_ENDIAN,
+ };
+ 
++static bool pci_host_needed(void *opaque)
++{
++    PCIHostState *s = opaque;
++    return s->mig_enabled;
++}
++
++const VMStateDescription vmstate_pcihost = {
++    .name = "PCIHost",
++    .needed = pci_host_needed,
++    .version_id = 1,
++    .minimum_version_id = 1,
++    .fields = (VMStateField[]) {
++        VMSTATE_UINT32(config_reg, PCIHostState),
++        VMSTATE_END_OF_LIST()
++    }
++};
++
++static Property pci_host_properties_common[] = {
++    DEFINE_PROP_BOOL("x-config-reg-migration-enabled", PCIHostState,
++                     mig_enabled, true),
++    DEFINE_PROP_END_OF_LIST(),
++};
++
++static void pci_host_class_init(ObjectClass *klass, void *data)
++{
++    DeviceClass *dc = DEVICE_CLASS(klass);
++    device_class_set_props(dc, pci_host_properties_common);
++    dc->vmsd = &vmstate_pcihost;
++}
++
+ static const TypeInfo pci_host_type_info = {
+     .name = TYPE_PCI_HOST_BRIDGE,
+     .parent = TYPE_SYS_BUS_DEVICE,
+     .abstract = true,
+     .class_size = sizeof(PCIHostBridgeClass),
+     .instance_size = sizeof(PCIHostState),
++    .class_init = pci_host_class_init,
+ };
+ 
+ static void pci_host_register_types(void)
 -- 
 MST
 
