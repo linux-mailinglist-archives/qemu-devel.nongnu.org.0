@@ -2,92 +2,72 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 58F8F22F1C2
-	for <lists+qemu-devel@lfdr.de>; Mon, 27 Jul 2020 16:35:28 +0200 (CEST)
-Received: from localhost ([::1]:43414 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 507EB22F2CD
+	for <lists+qemu-devel@lfdr.de>; Mon, 27 Jul 2020 16:42:34 +0200 (CEST)
+Received: from localhost ([::1]:38282 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1k04Dv-0008Kf-By
-	for lists+qemu-devel@lfdr.de; Mon, 27 Jul 2020 10:35:27 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:51922)
+	id 1k04Kn-00015n-Bs
+	for lists+qemu-devel@lfdr.de; Mon, 27 Jul 2020 10:42:33 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:54550)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1k04B6-0003aq-Qk
- for qemu-devel@nongnu.org; Mon, 27 Jul 2020 10:32:32 -0400
-Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:40417
- helo=us-smtp-1.mimecast.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1k04B3-0001HI-PD
- for qemu-devel@nongnu.org; Mon, 27 Jul 2020 10:32:32 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1595860348;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=uXITvKmBNRuCK1oQcQxl+D6gdJLR2Jn4LOvKMTH1JwU=;
- b=O08TvgJc6nKNnoCH2Xj5atHouM1/2E7lPCizsaYSP3BaZnYzBFBbIT+hn9IgtVQSyjt95u
- /E5FP08i9x7ixbjuXn1bk74A/0hOHTXMl62Em+S9y+QCwSiup/gmOFqVMb8A2k3uWNkfBL
- QNTT4W1x50oVGCuqJXp83h8c2ubZiig=
-Received: from mail-wr1-f71.google.com (mail-wr1-f71.google.com
- [209.85.221.71]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-187-NQrOIrtkO9-DpG22NoFh8A-1; Mon, 27 Jul 2020 10:32:26 -0400
-X-MC-Unique: NQrOIrtkO9-DpG22NoFh8A-1
-Received: by mail-wr1-f71.google.com with SMTP id f7so4000586wrs.8
- for <qemu-devel@nongnu.org>; Mon, 27 Jul 2020 07:32:26 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:content-transfer-encoding
- :in-reply-to;
- bh=uXITvKmBNRuCK1oQcQxl+D6gdJLR2Jn4LOvKMTH1JwU=;
- b=UVePNdOfhT5+r8lX36BunrxVaAnJvmCpPa6RpcTUEn0gZcI/bZ0ZOyS2pkdZmnQPaM
- T2Y4fk0k23TAmcZP6qKf0X8+hnciTCNzzzMluFhKWSmNb/DV+WkUSNnKBLHloUIichKR
- g9XbCvSF7DoypflGK1uBRRJrbakTu9iCp5bNTaSxTViA1f87r247OqKJ3dllXkLBlwg9
- l/tR7rL1Q5fgXxi5M75LN9sFcwgErXjmDPnZz1DNja/72QDZZffLM/3OPiVWrc4HjH8P
- W5pHSvo8ShPpaYGaGneF0exjwYmOJqpGf2inkxeEUMEA8xa9ll1qZ0JTO1n+Y2bzp4Dl
- 1WTg==
-X-Gm-Message-State: AOAM533KRnJjjM/FG48oQXHLER8ykWfLdd9Xztuwla5gHN5235Y2VXDW
- JLvZl9/UmNOezY5Uxwk1T2PKN/j5ZBgF3TZlI857PIWQNJ7zOwH1jFTdyKkmVu4hauLzm/WUG8r
- y4dErnIf19jfxcuo=
-X-Received: by 2002:a1c:a590:: with SMTP id o138mr20556057wme.4.1595860344731; 
- Mon, 27 Jul 2020 07:32:24 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJxnyDHnxSfz+q2pY+M48DicdOBknT09CJVyLud4rXI7HIR7g6ywnP++PxohDaQIXTJ9yU0AbQ==
-X-Received: by 2002:a1c:a590:: with SMTP id o138mr20556039wme.4.1595860344564; 
- Mon, 27 Jul 2020 07:32:24 -0700 (PDT)
-Received: from redhat.com ([192.117.173.58])
- by smtp.gmail.com with ESMTPSA id t202sm18517187wmt.20.2020.07.27.07.32.22
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 27 Jul 2020 07:32:24 -0700 (PDT)
-Date: Mon, 27 Jul 2020 10:32:21 -0400
-From: "Michael S. Tsirkin" <mst@redhat.com>
-To: qemu-devel@nongnu.org
-Subject: [PULL v2 6/6] MAINTAINERS: Cover the firmware JSON schema
-Message-ID: <20200727143104.97776-7-mst@redhat.com>
-References: <20200727143104.97776-1-mst@redhat.com>
+ (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
+ id 1k04Jr-0008Vk-3b
+ for qemu-devel@nongnu.org; Mon, 27 Jul 2020 10:41:35 -0400
+Received: from indium.canonical.com ([91.189.90.7]:60028)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
+ id 1k04Jp-0002Un-1Z
+ for qemu-devel@nongnu.org; Mon, 27 Jul 2020 10:41:34 -0400
+Received: from loganberry.canonical.com ([91.189.90.37])
+ by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
+ id 1k04Jk-0003C6-LK
+ for <qemu-devel@nongnu.org>; Mon, 27 Jul 2020 14:41:28 +0000
+Received: from loganberry.canonical.com (localhost [127.0.0.1])
+ by loganberry.canonical.com (Postfix) with ESMTP id B10772E8142
+ for <qemu-devel@nongnu.org>; Mon, 27 Jul 2020 14:41:23 +0000 (UTC)
 MIME-Version: 1.0
-In-Reply-To: <20200727143104.97776-1-mst@redhat.com>
-X-Mailer: git-send-email 2.27.0.106.g8ac3dc51b1
-X-Mutt-Fcc: =sent
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: 8bit
-Content-Disposition: inline
-Received-SPF: pass client-ip=207.211.31.120; envelope-from=mst@redhat.com;
- helo=us-smtp-1.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/07/27 00:16:29
-X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
-X-Spam_score_int: -30
-X-Spam_score: -3.1
-X-Spam_bar: ---
-X-Spam_report: (-3.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H3=-0.01, RCVD_IN_MSPIKE_WL=-0.01,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: quoted-printable
+Date: Mon, 27 Jul 2020 14:32:44 -0000
+From: =?utf-8?q?Philippe_Mathieu-Daud=C3=A9?= <1863526@bugs.launchpad.net>
+To: qemu-devel@nongnu.org
+X-Launchpad-Notification-Type: bug
+X-Launchpad-Bug: product=qemu; status=Invalid; importance=Undecided;
+ assignee=None; 
+X-Launchpad-Bug-Tags: arm nvic
+X-Launchpad-Bug-Information-Type: Public
+X-Launchpad-Bug-Private: no
+X-Launchpad-Bug-Security-Vulnerability: no
+X-Launchpad-Bug-Commenters: philmd pmaydell
+X-Launchpad-Bug-Reporter: =?utf-8?q?Philippe_Mathieu-Daud=C3=A9_=28philmd?=
+ =?utf-8?q?=29?=
+X-Launchpad-Bug-Modifier: =?utf-8?q?Philippe_Mathieu-Daud=C3=A9_=28philmd?=
+ =?utf-8?q?=29?=
+References: <158189363238.15370.16875925531014106433.malonedeb@soybean.canonical.com>
+Message-Id: <159586036593.29789.8085109342091080379.launchpad@chaenomeles.canonical.com>
+Subject: [Bug 1863526] Re: NVIC CCR register not 8-bit accessible using
+ Cortex-M4
+X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
+X-Launchpad-Message-For: qemu-devel-ml
+Precedence: bulk
+X-Generated-By: Launchpad (canonical.com);
+ Revision="e85d0ab92e2924d39b8285aeae075a01d25eff06";
+ Instance="production-secrets-lazr.conf"
+X-Launchpad-Hash: 31c154b416f4c650a068f0575509f26059b9b7c8
+Received-SPF: none client-ip=91.189.90.7; envelope-from=bounces@canonical.com;
+ helo=indium.canonical.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/07/27 09:56:02
+X-ACL-Warn: Detected OS   = Linux 3.11 and newer [fuzzy]
+X-Spam_score_int: -58
+X-Spam_score: -5.9
+X-Spam_bar: -----
+X-Spam_report: (-5.9 / 5.0 requ) BAYES_00=-1.9, HEADER_FROM_DIFFERENT_DOMAINS=1,
+ RCVD_IN_DNSWL_HI=-5, RCVD_IN_MSPIKE_H3=-0.01, RCVD_IN_MSPIKE_WL=-0.01,
+ SPF_HELO_NONE=0.001, SPF_NONE=0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
-Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -96,60 +76,58 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Maydell <peter.maydell@linaro.org>,
- "Daniel P . Berrange" <berrange@redhat.com>,
- Kashyap Chamarthy <kchamart@redhat.com>, Laszlo Ersek <lersek@redhat.com>,
- Richard Henderson <richard.henderson@linaro.org>,
- Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>,
- Aleksandar Markovic <aleksandar.qemu.devel@gmail.com>,
- Gerd Hoffmann <kraxel@redhat.com>,
- Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <philmd@redhat.com>
+Reply-To: Bug 1863526 <1863526@bugs.launchpad.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Philippe Mathieu-Daudé <philmd@redhat.com>
+** Changed in: qemu
+       Status: Incomplete =3D> Invalid
 
-Add an entry to cover firmware.json (see commit 3a0adfc9bf:
-schema that describes the different uses and properties of
-virtual machine firmware).
+-- =
 
-Cc: Laszlo Ersek <lersek@redhat.com>
-Cc: Gerd Hoffmann <kraxel@redhat.com>
-Cc: Michael S. Tsirkin <mst@redhat.com>
-Cc: Kashyap Chamarthy <kchamart@redhat.com>
-Cc: Daniel P. Berrange <berrange@redhat.com>
-Suggested-by: Laszlo Ersek <lersek@redhat.com>
-Signed-off-by: Philippe Mathieu-Daudé <philmd@redhat.com>
-Message-Id: <20200703183450.32398-1-philmd@redhat.com>
-Reviewed-by: Daniel P. Berrangé <berrange@redhat.com>
-Reviewed-by: Laszlo Ersek <lersek@redhat.com>
-Reviewed-by: Kashyap Chamarthy <kchamart@redhat.com>
-Reviewed-by: Michael S. Tsirkin <mst@redhat.com>
-Signed-off-by: Michael S. Tsirkin <mst@redhat.com>
----
- MAINTAINERS | 8 ++++++++
- 1 file changed, 8 insertions(+)
+You received this bug notification because you are a member of qemu-
+devel-ml, which is subscribed to QEMU.
+https://bugs.launchpad.net/bugs/1863526
 
-diff --git a/MAINTAINERS b/MAINTAINERS
-index 3395abd4e1..0886eb3d2b 100644
---- a/MAINTAINERS
-+++ b/MAINTAINERS
-@@ -2667,6 +2667,14 @@ F: include/hw/i2c/smbus_master.h
- F: include/hw/i2c/smbus_slave.h
- F: include/hw/i2c/smbus_eeprom.h
- 
-+Firmware schema specifications
-+M: Laszlo Ersek <lersek@redhat.com>
-+M: Philippe Mathieu-Daudé <philmd@redhat.com>
-+R: Daniel P. Berrange <berrange@redhat.com>
-+R: Kashyap Chamarthy <kchamart@redhat.com>
-+S: Maintained
-+F: docs/interop/firmware.json
-+
- EDK2 Firmware
- M: Laszlo Ersek <lersek@redhat.com>
- M: Philippe Mathieu-Daudé <philmd@redhat.com>
--- 
-MST
+Title:
+  NVIC CCR register not 8-bit accessible using Cortex-M4
 
+Status in QEMU:
+  Invalid
+
+Bug description:
+  Head at commit b29c3e23f64938.
+
+  Running with '-d unimp,guest_errors -trace nvic\*' I get:
+
+  8871@1581892794.295746:nvic_sysreg_read NVIC sysreg read addr 0xd88 data =
+0xf00000 size 4
+  8871@1581892794.295752:nvic_sysreg_write NVIC sysreg write addr 0xd88 dat=
+a 0xf00000 size 4
+  8871@1581892794.297780:nvic_sysreg_write NVIC sysreg write addr 0xd08 dat=
+a 0x4200 size 4
+  8871@1581892794.298040:nvic_sysreg_write NVIC sysreg write addr 0xd15 dat=
+a 0x0 size 1
+  NVIC: Bad write of size 1 at offset 0xd15
+  8871@1581892794.298081:nvic_sysreg_write NVIC sysreg write addr 0xd16 dat=
+a 0x0 size 1
+  NVIC: Bad write of size 1 at offset 0xd16
+  8871@1581892794.298116:nvic_sysreg_write NVIC sysreg write addr 0xd17 dat=
+a 0x0 size 1
+  NVIC: Bad write of size 1 at offset 0xd17
+  8871@1581892794.298156:nvic_sysreg_write NVIC sysreg write addr 0xd18 dat=
+a 0x0 size 1
+  8871@1581892794.298161:nvic_set_prio NVIC set irq 4 secure-bank 0 priorit=
+y 0
+  8871@1581892794.298164:nvic_recompute_state NVIC state recomputed: vectpe=
+nding 0 vectpending_prio 256 exception_prio 256
+  8871@1581892794.298168:nvic_irq_update NVIC vectpending 0 pending prio 25=
+6 exception_prio 256: setting irq line to 0
+  8871@1581892794.298201:nvic_sysreg_write NVIC sysreg write addr 0xd19 dat=
+a 0x0 size 1
+  8871@1581892794.298206:nvic_set_prio NVIC set irq 5 secure-bank 0 priorit=
+y 0
+
+To manage notifications about this bug go to:
+https://bugs.launchpad.net/qemu/+bug/1863526/+subscriptions
 
