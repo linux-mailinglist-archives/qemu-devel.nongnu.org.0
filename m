@@ -2,74 +2,75 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id EE21522FBA1
-	for <lists+qemu-devel@lfdr.de>; Mon, 27 Jul 2020 23:50:52 +0200 (CEST)
-Received: from localhost ([::1]:41402 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4344F22FBB4
+	for <lists+qemu-devel@lfdr.de>; Mon, 27 Jul 2020 23:56:19 +0200 (CEST)
+Received: from localhost ([::1]:48364 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1k0B1H-00026H-8s
-	for lists+qemu-devel@lfdr.de; Mon, 27 Jul 2020 17:50:51 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:45328)
+	id 1k0B6Y-0005Sw-5c
+	for lists+qemu-devel@lfdr.de; Mon, 27 Jul 2020 17:56:18 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:45366)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <deller@gmx.de>) id 1k0Aws-0000RA-OM
- for qemu-devel@nongnu.org; Mon, 27 Jul 2020 17:46:18 -0400
-Received: from mout.gmx.net ([212.227.15.19]:42935)
+ (Exim 4.90_1) (envelope-from <deller@gmx.de>) id 1k0Awy-0000UW-TP
+ for qemu-devel@nongnu.org; Mon, 27 Jul 2020 17:46:24 -0400
+Received: from mout.gmx.net ([212.227.15.18]:51963)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <deller@gmx.de>) id 1k0Awq-0002mt-L4
- for qemu-devel@nongnu.org; Mon, 27 Jul 2020 17:46:18 -0400
+ (Exim 4.90_1) (envelope-from <deller@gmx.de>) id 1k0Awx-0002o1-3H
+ for qemu-devel@nongnu.org; Mon, 27 Jul 2020 17:46:24 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=gmx.net;
  s=badeba3b8450; t=1595886370;
- bh=yBixY+k/FDbsx8bdN6iEXvCmESz5s1hyDi2VuQsCTiI=;
- h=X-UI-Sender-Class:From:To:Cc:Subject:Date;
- b=AKWZIfXgX3+oNQqrfSmCdvEpt5pVRjeS7Z1aKdRmd12hwayPC2TvKU9RQtk0/aWfs
- XiZJbrU5V4wSxq6+04nb8I5j4LT0+/MBtkUOXA1TZHif8MDPfnkGdODD0yupJ7/UiV
- C5jtuBdek4j5i/yvLHBp0M7s+e6xF5qWR+GgNB5M=
+ bh=ICqOAwvmzBTR55lazeld9xGff0M2fFlPachgThOMd2M=;
+ h=X-UI-Sender-Class:From:To:Cc:Subject:Date:In-Reply-To:References;
+ b=TrjPv0/W6ADf7nXEGR3ciCjWVX8C2elGZpwBd6hctLwVPWQ3YtSDbddeBEHu0qx0c
+ hW3RtjfpnLou0YMjvnOH89E7HkAMoJv9pfY/ZrDGo/0hTUWpnmcJlVcUNU9CPWFg1T
+ Gmk0MaOVPl11Th5zBeViGvVO/76Tuope/9N9QGXU=
 X-UI-Sender-Class: 01bb95c1-4bf8-414a-932a-4f6e2808ef9c
 Received: from ls3530.fritz.box ([92.116.179.161]) by mail.gmx.com (mrgmx004
- [212.227.17.190]) with ESMTPSA (Nemesis) id 1Mw9Q6-1kpwik17e0-00s2I9; Mon, 27
+ [212.227.17.190]) with ESMTPSA (Nemesis) id 1M1HZo-1jxPnE1zTO-002pZz; Mon, 27
  Jul 2020 23:46:10 +0200
 From: Helge Deller <deller@gmx.de>
 To: qemu-devel@nongnu.org
-Subject: [PATCH 0/4] Various fixes for hppa architecture
-Date: Mon, 27 Jul 2020 23:46:04 +0200
-Message-Id: <20200727214608.32710-1-deller@gmx.de>
+Subject: [PATCH 1/4] hw/hppa: Sync hppa_hardware.h file with SeaBIOS sources
+Date: Mon, 27 Jul 2020 23:46:05 +0200
+Message-Id: <20200727214608.32710-2-deller@gmx.de>
 X-Mailer: git-send-email 2.21.3
+In-Reply-To: <20200727214608.32710-1-deller@gmx.de>
+References: <20200727214608.32710-1-deller@gmx.de>
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
-X-Provags-ID: V03:K1:HBZqu5+FFQRYSkrnewznMDB2eNYfKZiQURAGYmN55XBhyCd+xx0
- CuqTochANGpf5Yr3e+exVit6ZBaYzc27FR+RxNgEfGwprTSHlmWMu1RkQ1pkOlU0D9ANdhR
- VHJcGo2imklcLrUp4uVF3cn8WKEyi7+wgXGImbI7CAiLFsAjC60ayMZ8MCFiBFEa876EGHY
- Gy76yiEG/UWaNUroI3fDA==
-X-UI-Out-Filterresults: notjunk:1;V03:K0:kVkKLIA87r4=:jc9hPWkL9zqXIXU1TyXqAl
- Sj1fmnONIgzHs6nEtxH++Ew3fnuBJkzMsa05+hq1r+EbU3Xyf6R/PnsTyHt7AHGpJuMRu09tl
- RtNx8AofAGjMtNpxAiinT3gtZw7HxKik4IiJRjcWh+LOhtws/pTpKDcNnCXS/fY0xQ9cAhwne
- G34rHhlORS7yaf79b5SMY5SR4H5Mk019PxnyNxdyHCSBYwlDQ36rQ+8F/WYG5YFmvCnauvVHq
- /GiwuW65k1zLPYXoZnqxoUn5oqLmZyp8VRIO9UtFL6IPLyJPGlKFdUGqXyICkPDzQfhQvf4xw
- eTRYPYCDNLgRdIGKcR4a6fx128eHBCwGR68g6mH4X2u3hN4fnl3e45xk4IX3/STOY8LMH3w88
- uSK96fEGmZBoOYvhSwDkG4CkZU7/x4taPyAK2NEN3u9Owya0i7HG46e9vdnDnLlvr+NxdcHtu
- pxTnYzG2bn5en1ZyzNO4a0CQBsl6V2a3ycbDhIAmUg/FSDEk2hoi2Mxrm05GDFNN0UyQ9gcd9
- KLoHuYRZ9fA+2f7FbBjjMtKGwEAO0bl+P3WTJDGP/I8IUuHs/tRiHYseJEKHnOPOiD6JlvZL8
- Pz7RJ72rsLcT0p2vZRDV/+OqMVDmnah28s+qK7RBwmsYAC9LopU1riQYsJKDQAYpXTFzxh56D
- d/RhUOUL7+WUFqK9w45whRhMcsb+z7Hx9Ghd7vKI0fWws6zSl3kEmqJ/N6oyJYAMqS92M8CkM
- jbPOTSkA5oN1/yLrjhTutlQUpaeQSD+cPRoWvsLekxWdlW0UWNgarj6EYA3flyTZSYiS91v48
- OoYgJ/RJZ8VIRxHD07Gr0YZDdZsRqmJj7/+p5b8INHMDhD+aShWi8gNYuw61XA46hmX8OkXOd
- x2BOPSY/YJhw7Y0ntFkUzSHE/4c3ufF6LJOs/MCMoFXbKfB/7FmxcfdK+RMhTPkEbRFWwuwyY
- 1M6R+3odmQTAtcRd/TU+gD34jXruQzV0xAQS/cOwRIkOb8JLl7W0B5i47fIVemvLFVYJjy7PY
- cB2H4qRPr+E+2j53g0yo9BvH1spb7tJEy8zWSFcNP7w4J5mbKEMdOlGaAx3qIid6/FYnSYgYg
- NoWLg1VNMztEq+rGMcieXRCjui8+Ko+d3ofzJ7o4qYxjvxOKRRiaBYS6cFaxOqW/pkzJUNKbL
- rNMe/GzwhsE5Eo3XLpAoO07f5BT8Ep2Bf4dsnOucqx9SBdvyszyUYVK6ljOild/vQtdOLt43W
- c5adWBi5uXS7e4Fxb
-Received-SPF: pass client-ip=212.227.15.19; envelope-from=deller@gmx.de;
+X-Provags-ID: V03:K1:EXnzO/XO43p3t7jNT089H2EH3CQ4+5GG35M5ztbf6kV5CtPbGzq
+ xAi+nw/MYDxKkkDboawUVR5jESvDqQMJiaGyCn75QaHuQrTwz8ngUmKPPdXaJJz8Ktf4426
+ ZbnG3n2/IygDUMUHM/2cXahZEyI/D8WbToPUhCUDuponidbUUAsgTydhIevTK3Tv2Byt8FE
+ 0ijLqB0kVUzx/kBn8etWg==
+X-UI-Out-Filterresults: notjunk:1;V03:K0:uI3MTDGJc64=:HsWGklhY0On1QAyDh8QEKx
+ PulLn7eq6rPxc14SVJru/gvrkzHQTxnaD385CtfMqiNvkgtL4tuhodlhu7TS9fbbELoQ8jRpU
+ lJUMEgRN15OcLWXkMW4A1Lsriw2NzCNlMsSjwWtV6djP62iz1ELXL78wdT/Tw6SQhJ42ee4Ol
+ gqJkMBnLtKztzf5ZxyNZ8DpVvrgO4B7uUjv4fjm/izGWmkdfpBHXjEGPn6CN45UPCsn80Rc+A
+ wXxFm5qJXgEyZYWBqbjzsmxYm570cSxkLoIK5fIPHu45yL7nGAwJG0aoCfIOPRV6EZO+26eqZ
+ T4KlWFlyrXgwMTOGTCVQeGMeb+kHCX2/61iRrpcqOB32k8DqaGnwU18D2lTkP4AndGoNQOVjD
+ X8XCJieVzIP5/FhMeYdzYF0+xeUr1tADF2j1HpAb7nParKycGXplIZZFd8YD9hQcLcZspv9a8
+ NcqsYbP+5nfbd7J5G/uF9TMbbVaN5LX45aTb42tzsr+2PlqqQQEuCtmife6PaRkCkV3UlKhBe
+ XzRl7hU9IWChs6JiIOM4TCS2WXW68KTo3EFB474zf6tP4qxvevkuq5pXxAk+k12e6M+hR9Jer
+ bobLLVVPkwg+d/KL2hpM9dw0hT+7cZ3LarZzKHeIj9CbfZJGD8PHU79UtWQVqTo+2l9xJkefw
+ A9gsofAWEI+x9X6yODL4DjBLW+8q/7lbhSes4wTGufZV7CtiREe5lMbTdXomjOGsKncD5XvUm
+ 5i+iwQu+eLSupdbaOK8Z1nDQDWc6k8j/QxdH1ytZ2ULzVYAUMGm1iy/wbPAsi32iRtu3SO6+i
+ v5BvcX/ye1guRjfcalubUEZPDVNFEJwkM9QN6ABdH2RuJYvNYoo0nsQOiMdttIU4OrokNsLAH
+ mTu27XKXtGeoNpxvMODdF5XlbSJFfYDhMPrdtFQbnl1VL0STnSGffjZG+Y1xnWbut1mUJGw+Z
+ nVGAfLagzhw1LunDtKkCpK4bXNRttAykPEyvvGcYWfGu5RWAhsEFXyYlvPidfLI7C3CN+q+nA
+ rTiwfqu+aIVeoZqbgKZoZ0tCiIUueSebEmFz4kyt90XgiLjKrrR7UXxFnlgRyNZlDRDaFTZBZ
+ CP8s1T1ybIZaspFCOLMrpIhILwApB9TI2ZDw0In1u7P+H4EmW+J8OBq25p2mlpuSbRmTfUS6q
+ exikyN23HA/XONxW/a33A+4AZVYRapPteA1n9+663CWrxyznxpdpXPoaugQvhmtWlzzIpVWrN
+ SYhbMzXBdTKElteJQ
+Received-SPF: pass client-ip=212.227.15.18; envelope-from=deller@gmx.de;
  helo=mout.gmx.net
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/07/27 17:46:13
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/07/27 17:46:15
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic]
-X-Spam_score_int: -35
-X-Spam_score: -3.6
-X-Spam_bar: ---
-X-Spam_report: (-3.6 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+X-Spam_score_int: -25
+X-Spam_score: -2.6
+X-Spam_bar: --
+X-Spam_report: (-2.6 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
  DKIM_VALID=-0.1, FREEMAIL_FROM=0.001, RCVD_IN_DNSWL_LOW=-0.7,
- RCVD_IN_MSPIKE_H2=-1, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -86,39 +87,55 @@ Cc: Helge Deller <deller@gmx.de>, Richard Henderson <rth@twiddle.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-This patch series fixes a few issues with the hppa emulation:
+The hppa_hardware.h file is shared with SeaBIOS. Sync it.
 
-* The artist framebuffer emulation reports:
-  "write outside bounds: wants 1256x1023, max size 1280x1024"
-  This is fixed by a patch from Sven Schnelle.
+Signed-off-by: Helge Deller <deller@gmx.de>
+=2D--
+ hw/hppa/hppa_hardware.h | 6 ++++++
+ hw/hppa/lasi.c          | 2 --
+ 2 files changed, 6 insertions(+), 2 deletions(-)
 
-* Fix a SeaBIOS hppa compilation issue with gcc-10.
+diff --git a/hw/hppa/hppa_hardware.h b/hw/hppa/hppa_hardware.h
+index 4a2fe2df60..cdb7fa6240 100644
+=2D-- a/hw/hppa/hppa_hardware.h
++++ b/hw/hppa/hppa_hardware.h
+@@ -17,6 +17,7 @@
+ #define LASI_UART_HPA   0xffd05000
+ #define LASI_SCSI_HPA   0xffd06000
+ #define LASI_LAN_HPA    0xffd07000
++#define LASI_RTC_HPA    0xffd09000
+ #define LASI_LPT_HPA    0xffd02000
+ #define LASI_AUDIO_HPA  0xffd04000
+ #define LASI_PS2KBD_HPA 0xffd08000
+@@ -37,10 +38,15 @@
+ #define PORT_PCI_CMD    (PCI_HPA + DINO_PCI_ADDR)
+ #define PORT_PCI_DATA   (PCI_HPA + DINO_CONFIG_DATA)
 
-* Implement a proper SeaBIOS firmware version check to prevent
-  incompatibility issues between emulation and firmware.
++/* QEMU fw_cfg interface port */
++#define QEMU_FW_CFG_IO_BASE     (MEMORY_HPA + 0x80)
++
+ #define PORT_SERIAL1    (DINO_UART_HPA + 0x800)
+ #define PORT_SERIAL2    (LASI_UART_HPA + 0x800)
 
-* The hppa_hardware.h file is shared with SeaBIOS. Sync it.
+ #define HPPA_MAX_CPUS   8       /* max. number of SMP CPUs */
+ #define CPU_CLOCK_MHZ   250     /* emulate a 250 MHz CPU */
 
-The series can be pulled from the fw_cfg-3 branch at:
-https://github.com/hdeller/qemu-hppa.git  fw_cfg-3
++#define CPU_HPA_CR_REG  7       /* store CPU HPA in cr7 (SeaBIOS internal=
+) */
++
+ #endif
+diff --git a/hw/hppa/lasi.c b/hw/hppa/lasi.c
+index 19974034f3..ffcbb988b8 100644
+=2D-- a/hw/hppa/lasi.c
++++ b/hw/hppa/lasi.c
+@@ -54,8 +54,6 @@
+ #define LASI_CHIP(obj) \
+     OBJECT_CHECK(LasiState, (obj), TYPE_LASI_CHIP)
 
-Helge
-
-Helge Deller (3):
-  hw/hppa: Sync hppa_hardware.h file with SeaBIOS sources
-  seabios-hppa: Update to SeaBIOS hppa version 1
-  hw/hppa: Implement proper SeaBIOS version check
-
-Sven Schnelle (1):
-  hw/display/artist.c: fix out of bounds check
-
- hw/display/artist.c       |  18 ++++++------------
- hw/hppa/hppa_hardware.h   |   6 ++++++
- hw/hppa/lasi.c            |   2 --
- hw/hppa/machine.c         |  22 ++++++++++++++++++++++
- pc-bios/hppa-firmware.img | Bin 766136 -> 783144 bytes
- roms/seabios-hppa         |   2 +-
- 6 files changed, 35 insertions(+), 15 deletions(-)
+-#define LASI_RTC_HPA    (LASI_HPA + 0x9000)
+-
+ typedef struct LasiState {
+     PCIHostState parent_obj;
 
 =2D-
 2.21.3
