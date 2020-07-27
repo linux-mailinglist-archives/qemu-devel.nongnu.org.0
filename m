@@ -2,116 +2,57 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A8AAB22EF73
-	for <lists+qemu-devel@lfdr.de>; Mon, 27 Jul 2020 16:16:41 +0200 (CEST)
-Received: from localhost ([::1]:35682 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B114C22EFA6
+	for <lists+qemu-devel@lfdr.de>; Mon, 27 Jul 2020 16:18:08 +0200 (CEST)
+Received: from localhost ([::1]:40498 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1k03vk-0001Fa-Ns
-	for lists+qemu-devel@lfdr.de; Mon, 27 Jul 2020 10:16:40 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:47166)
+	id 1k03x9-0003GG-Qc
+	for lists+qemu-devel@lfdr.de; Mon, 27 Jul 2020 10:18:07 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:47742)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1k03uf-0008Nl-LF
- for qemu-devel@nongnu.org; Mon, 27 Jul 2020 10:15:33 -0400
-Received: from us-smtp-1.mimecast.com ([205.139.110.61]:46641
- helo=us-smtp-delivery-1.mimecast.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1k03uc-0007F5-MT
- for qemu-devel@nongnu.org; Mon, 27 Jul 2020 10:15:33 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1595859329;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
- bh=hvaGpv0VQMlEk7R7m7Nsyhs/O10vHvxs6gfdYnzr7zM=;
- b=PpaTwtn+FF+V2o1Y8O3BNG3Bm5C9tP/WeZbnqFAZhUZkiUfosRilKJDrU3yRbGLVcHpeLQ
- aouf9rhDOv0mWCr7Kk2sCbqFZ9QN5vKCVF02EsrFJi7e/VhlCDmfQXdTtoJsBYTu/LWPfb
- 7aGn1ISd4e51+rSJnEC4A1VnTxYELEU=
-Received: from mail-ej1-f72.google.com (mail-ej1-f72.google.com
- [209.85.218.72]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-308-iUKzV5VuO5Czl0nl5xYQvQ-1; Mon, 27 Jul 2020 10:15:27 -0400
-X-MC-Unique: iUKzV5VuO5Czl0nl5xYQvQ-1
-Received: by mail-ej1-f72.google.com with SMTP id gv21so6065085ejb.8
- for <qemu-devel@nongnu.org>; Mon, 27 Jul 2020 07:15:27 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:autocrypt
- :message-id:date:user-agent:mime-version:in-reply-to
- :content-language:content-transfer-encoding;
- bh=hvaGpv0VQMlEk7R7m7Nsyhs/O10vHvxs6gfdYnzr7zM=;
- b=XI91/it/KR3EE0kYKl3Dpbxp40XS6qDhaBs4igPZkhRjzykk6oGNbTlYWHLx/MrPX8
- 9Lukq7qpH+oorSzzzrc/6tZlpyrgtR1v7x+dfxTc0E8o26vCHTwPJf9Emq9gERGimFlO
- +XJwe3dC45bHQxaLFWsLF0JuaqMqlVxjtrIxvV6e4fCTjnINXu7/hzUVbSFcWtENBa0q
- +PIp0lfGKHI7feZ9MR9VmCRtlsqqhhyG0NUIvQ6GAkrEv33SVdKnckL8OoKI46zEsDcA
- VM5YDLs1a/R55rHQVn78A/Sf2si0IZrXcFiAJCZrknstrBpL38Xrf6TFcMEP5v7PhJx/
- i83Q==
-X-Gm-Message-State: AOAM532f3YBDK6koQ9/u/f/hiPPC7elU6vAJug4iUkXQc6eiX02qY5pL
- 8HjjCoxlmzM0GcNjwEvOQRMe/9IIJ851clKYOjUL3e+BXjUI2FA0EkmXFq60b0E1qsXqYBj7jZB
- 2UONKHdfkPwZMWEU=
-X-Received: by 2002:a17:906:178b:: with SMTP id
- t11mr20587018eje.489.1595859326659; 
- Mon, 27 Jul 2020 07:15:26 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJxFYQ7kG01I4nNYOcGU8Aq3R8C0ZZqEKScLNxcwI1R9UobpDxePwVTa2l62YG5KGo5Zzh2Jtw==
-X-Received: by 2002:a17:906:178b:: with SMTP id
- t11mr20586983eje.489.1595859326382; 
- Mon, 27 Jul 2020 07:15:26 -0700 (PDT)
-Received: from [192.168.1.33] (214.red-88-21-68.staticip.rima-tde.net.
- [88.21.68.214])
- by smtp.gmail.com with ESMTPSA id o15sm7629392edv.55.2020.07.27.07.15.24
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 27 Jul 2020 07:15:25 -0700 (PDT)
-Subject: Re: [PATCH v3 7/8] sparc/sun4m: Use start-powered-off CPUState
- property
-To: Thiago Jung Bauermann <bauerman@linux.ibm.com>, qemu-ppc@nongnu.org
-References: <20200723025657.644724-1-bauerman@linux.ibm.com>
- <20200723025657.644724-8-bauerman@linux.ibm.com>
-From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
-Autocrypt: addr=philmd@redhat.com; keydata=
- mQINBDXML8YBEADXCtUkDBKQvNsQA7sDpw6YLE/1tKHwm24A1au9Hfy/OFmkpzo+MD+dYc+7
- bvnqWAeGweq2SDq8zbzFZ1gJBd6+e5v1a/UrTxvwBk51yEkadrpRbi+r2bDpTJwXc/uEtYAB
- GvsTZMtiQVA4kRID1KCdgLa3zztPLCj5H1VZhqZsiGvXa/nMIlhvacRXdbgllPPJ72cLUkXf
- z1Zu4AkEKpccZaJspmLWGSzGu6UTZ7UfVeR2Hcc2KI9oZB1qthmZ1+PZyGZ/Dy+z+zklC0xl
- XIpQPmnfy9+/1hj1LzJ+pe3HzEodtlVA+rdttSvA6nmHKIt8Ul6b/h1DFTmUT1lN1WbAGxmg
- CH1O26cz5nTrzdjoqC/b8PpZiT0kO5MKKgiu5S4PRIxW2+RA4H9nq7nztNZ1Y39bDpzwE5Sp
- bDHzd5owmLxMLZAINtCtQuRbSOcMjZlg4zohA9TQP9krGIk+qTR+H4CV22sWldSkVtsoTaA2
- qNeSJhfHQY0TyQvFbqRsSNIe2gTDzzEQ8itsmdHHE/yzhcCVvlUzXhAT6pIN0OT+cdsTTfif
- MIcDboys92auTuJ7U+4jWF1+WUaJ8gDL69ThAsu7mGDBbm80P3vvUZ4fQM14NkxOnuGRrJxO
- qjWNJ2ZUxgyHAh5TCxMLKWZoL5hpnvx3dF3Ti9HW2dsUUWICSQARAQABtDJQaGlsaXBwZSBN
- YXRoaWV1LURhdWTDqSAoUGhpbCkgPHBoaWxtZEByZWRoYXQuY29tPokCVQQTAQgAPwIbDwYL
- CQgHAwIGFQgCCQoLBBYCAwECHgECF4AWIQSJweePYB7obIZ0lcuio/1u3q3A3gUCXsfWwAUJ
- KtymWgAKCRCio/1u3q3A3ircD/9Vjh3aFNJ3uF3hddeoFg1H038wZr/xi8/rX27M1Vj2j9VH
- 0B8Olp4KUQw/hyO6kUxqkoojmzRpmzvlpZ0cUiZJo2bQIWnvScyHxFCv33kHe+YEIqoJlaQc
- JfKYlbCoubz+02E2A6bFD9+BvCY0LBbEj5POwyKGiDMjHKCGuzSuDRbCn0Mz4kCa7nFMF5Jv
- piC+JemRdiBd6102ThqgIsyGEBXuf1sy0QIVyXgaqr9O2b/0VoXpQId7yY7OJuYYxs7kQoXI
- 6WzSMpmuXGkmfxOgbc/L6YbzB0JOriX0iRClxu4dEUg8Bs2pNnr6huY2Ft+qb41RzCJvvMyu
- gS32LfN0bTZ6Qm2A8ayMtUQgnwZDSO23OKgQWZVglGliY3ezHZ6lVwC24Vjkmq/2yBSLakZE
- 6DZUjZzCW1nvtRK05ebyK6tofRsx8xB8pL/kcBb9nCuh70aLR+5cmE41X4O+MVJbwfP5s/RW
- 9BFSL3qgXuXso/3XuWTQjJJGgKhB6xXjMmb1J4q/h5IuVV4juv1Fem9sfmyrh+Wi5V1IzKI7
- RPJ3KVb937eBgSENk53P0gUorwzUcO+ASEo3Z1cBKkJSPigDbeEjVfXQMzNt0oDRzpQqH2vp
- apo2jHnidWt8BsckuWZpxcZ9+/9obQ55DyVQHGiTN39hkETy3Emdnz1JVHTU0Q==
-Message-ID: <d56ebc7f-815e-73f2-9cb5-6ff16e2c9a2e@redhat.com>
-Date: Mon, 27 Jul 2020 16:15:23 +0200
+ (Exim 4.90_1) (envelope-from <jan.kiszka@siemens.com>)
+ id 1k03wL-0002Zw-3J
+ for qemu-devel@nongnu.org; Mon, 27 Jul 2020 10:17:17 -0400
+Received: from lizzard.sbs.de ([194.138.37.39]:53388)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <jan.kiszka@siemens.com>)
+ id 1k03wH-0007ZJ-PR
+ for qemu-devel@nongnu.org; Mon, 27 Jul 2020 10:17:16 -0400
+Received: from mail2.sbs.de (mail2.sbs.de [192.129.41.66])
+ by lizzard.sbs.de (8.15.2/8.15.2) with ESMTPS id 06REH7tQ019024
+ (version=TLSv1.2 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+ Mon, 27 Jul 2020 16:17:07 +0200
+Received: from [167.87.246.21] ([167.87.246.21])
+ by mail2.sbs.de (8.15.2/8.15.2) with ESMTP id 06REH6wZ029966;
+ Mon, 27 Jul 2020 16:17:07 +0200
+Subject: Re: [virtio-comment] Re: [RFC] ivshmem v2: Shared memory device
+ specification
+To: "Michael S. Tsirkin" <mst@redhat.com>
+References: <f109fe5a-92eb-e5a5-bb83-ada42b3a9b61@siemens.com>
+ <20200727091802-mutt-send-email-mst@kernel.org>
+ <85f69f31-e4c6-e7af-1fa5-90e5a2c81ae8@siemens.com>
+ <20200727095239-mutt-send-email-mst@kernel.org>
+From: Jan Kiszka <jan.kiszka@siemens.com>
+Message-ID: <ac7ceefb-99d8-0662-8863-c90c20b2f31a@siemens.com>
+Date: Mon, 27 Jul 2020 16:17:06 +0200
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.5.0
+ Thunderbird/68.10.0
 MIME-Version: 1.0
-In-Reply-To: <20200723025657.644724-8-bauerman@linux.ibm.com>
+In-Reply-To: <20200727095239-mutt-send-email-mst@kernel.org>
+Content-Type: text/plain; charset=utf-8; format=flowed
 Content-Language: en-US
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=205.139.110.61; envelope-from=philmd@redhat.com;
- helo=us-smtp-delivery-1.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/07/27 01:46:13
-X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
-X-Spam_score_int: -40
-X-Spam_score: -4.1
-X-Spam_bar: ----
-X-Spam_report: (-4.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-1, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=194.138.37.39;
+ envelope-from=jan.kiszka@siemens.com; helo=lizzard.sbs.de
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/07/27 09:39:35
+X-ACL-Warn: Detected OS   = Linux 3.1-3.10
+X-Spam_score_int: -68
+X-Spam_score: -6.9
+X-Spam_bar: ------
+X-Spam_report: (-6.9 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_HI=-5,
+ RCVD_IN_MSPIKE_H3=-0.01, RCVD_IN_MSPIKE_WL=-0.01, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -124,86 +65,98 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Maydell <peter.maydell@linaro.org>,
- Aleksandar Rikalo <aleksandar.rikalo@syrmia.com>,
- Eduardo Habkost <ehabkost@redhat.com>,
- Aleksandar Markovic <aleksandar.qemu.devel@gmail.com>,
- Cornelia Huck <cohuck@redhat.com>,
- Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>, qemu-devel@nongnu.org,
- Greg Kurz <groug@kaod.org>, qemu-s390x@nongnu.org, qemu-arm@nongnu.org,
- Artyom Tarasenko <atar4qemu@gmail.com>, Thomas Huth <thuth@redhat.com>,
- Paolo Bonzini <pbonzini@redhat.com>, David Hildenbrand <david@redhat.com>,
- Richard Henderson <rth@twiddle.net>,
+Cc: Jailhouse <jailhouse-dev@googlegroups.com>, liang yan <lyan@suse.com>,
  =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>,
- Aurelien Jarno <aurelien@aurel32.net>,
- David Gibson <david@gibson.dropbear.id.au>
+ qemu-devel <qemu-devel@nongnu.org>,
+ "virtio-comment@lists.oasis-open.org" <virtio-comment@lists.oasis-open.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 7/23/20 4:56 AM, Thiago Jung Bauermann wrote:
-> Instead of setting CPUState::halted to 1 in secondary_cpu_reset(), use the
-> start-powered-off property which makes cpu_common_reset() initialize it
-> to 1 in common code.
+On 27.07.20 15:56, Michael S. Tsirkin wrote:
+> On Mon, Jul 27, 2020 at 03:39:32PM +0200, Jan Kiszka wrote:
+>> On 27.07.20 15:20, Michael S. Tsirkin wrote:
+>>> On Mon, May 25, 2020 at 09:58:28AM +0200, Jan Kiszka wrote:
+>>>> #### Vendor Specific Capability (ID 09h)
+>>>>
+>>>> This capability must always be present.
+>>>>
+>>>> | Offset | Register            | Content                                        |
+>>>> |-------:|:--------------------|:-----------------------------------------------|
+>>>> |    00h | ID                  | 09h                                            |
+>>>> |    01h | Next Capability     | Pointer to next capability or 00h              |
+>>>> |    02h | Length              | 20h if Base Address is present, 18h otherwise  |
+>>>> |    03h | Privileged Control  | Bit 0 (read/write): one-shot interrupt mode    |
+>>>> |        |                     | Bits 1-7: Reserved (0 on read, writes ignored) |
+>>>> |    04h | State Table Size    | 32-bit size of read-only State Table           |
+>>>> |    08h | R/W Section Size    | 64-bit size of common read/write section       |
+>>>> |    10h | Output Section Size | 64-bit size of output sections                 |
+>>>> |    18h | Base Address        | optional: 64-bit base address of shared memory |
+>>>>
+>>>> All registers are read-only. Writes are ignored, except to bit 0 of
+>>>> the Privileged Control register.
+>>>
+>>>
+>>> Is there value in making this follow the virtio vendor-specific
+>>> capability format? That will cost several extra bytes - do you envision
+>>> having many of these in the config space?
+>>
+>> Of course, this could be modeled with via virtio_pci_cap as well. Would add
+>> 12 unused by bytes and one type byte. If it helps to make the device look
+>> more virtio'ish, but I'm afraid there are more differences at PCI level.
 > 
-> This makes secondary_cpu_reset() unnecessary, so remove it.
-> 
-> Also remove setting of cs->halted from cpu_devinit(), which seems out of
-> place when compared to similar code in other architectures (e.g.,
-> ppce500_init() in hw/ppc/e500.c).
-> 
-> Suggested-by: Philippe Mathieu-Daudé <philmd@redhat.com>
-> Signed-off-by: Thiago Jung Bauermann <bauerman@linux.ibm.com>
-> ---
->  hw/sparc/sun4m.c | 17 ++---------------
->  1 file changed, 2 insertions(+), 15 deletions(-)
-> 
-> NB: I was only able to test that this patch builds. I wasn't able to
-> run it.
-> 
-> diff --git a/hw/sparc/sun4m.c b/hw/sparc/sun4m.c
-> index f1d92df781..fd74e516bb 100644
-> --- a/hw/sparc/sun4m.c
-> +++ b/hw/sparc/sun4m.c
-> @@ -218,15 +218,6 @@ static void dummy_cpu_set_irq(void *opaque, int irq, int level)
->  {
->  }
->  
-> -static void secondary_cpu_reset(void *opaque)
-> -{
-> -    SPARCCPU *cpu = opaque;
-> -    CPUState *cs = CPU(cpu);
-> -
-> -    cpu_reset(cs);
-> -    cs->halted = 1;
-> -}
-> -
->  static void cpu_halt_signal(void *opaque, int irq, int level)
->  {
->      if (level && current_cpu) {
-> @@ -810,7 +801,6 @@ static const TypeInfo ram_info = {
->  static void cpu_devinit(const char *cpu_type, unsigned int id,
->                          uint64_t prom_addr, qemu_irq **cpu_irqs)
->  {
-> -    CPUState *cs;
->      SPARCCPU *cpu;
->      CPUSPARCState *env;
->  
-> @@ -818,11 +808,8 @@ static void cpu_devinit(const char *cpu_type, unsigned int id,
->      env = &cpu->env;
->  
->      cpu_sparc_set_id(env, id);
-> -    if (id != 0) {
-> -        qemu_register_reset(secondary_cpu_reset, cpu);
-> -        cs = CPU(cpu);
-> -        cs->halted = 1;
-> -    }
-> +    object_property_set_bool(OBJECT(cpu), "start-powered-off", id != 0,
-> +                             &error_abort);
->      *cpu_irqs = qemu_allocate_irqs(cpu_set_irq, cpu, MAX_PILS);
->      env->prom_addr = prom_addr;
->  }
+> I guess it will be useful if we ever find it handy to make an ivshmem
+> device also be a virtio device. Can't say why yet but if we don't care
+> it vaguely seems kind of like a good idea. I guess it will also be handy
+> if you ever need another vendor specific cap: you already get a way to
+> identify it without breaking drivers.
 > 
 
-Reviewed-by: Philippe Mathieu-Daudé <philmd@redhat.com>
+I can look into that. Those 12 wasted bytes are a bit ugly, but so far 
+we are not short on config space, even in the non-extended range.
 
+More problematic is that the existing specification of virtio_pci_cap 
+assumes that this describes a structure in a PCI resource, rather than 
+even being that data itself, and even a register (privileged control).
+
+Would it be possible to split the types into two ranges, one for the 
+existing structure, one for others - like ivshmem - that will only share 
+the cfg_type field?
+
+> 
+>> I do not see a use case for having multiple of those caps above per device.
+>> If someone comes around with a valid use case for having multiple,
+>> non-consequitive shared memory regions for one device, we would need to add
+>> registers for them. But that would also only work for non-BAR regions due to
+>> limited BARs.
+> 
+> 
+> OK, I guess this answers the below too.
+> 
+>>> Also, do we want to define an extended capability format in case this
+>>> is a pci extended capability?
+>>>
+>>
+>> What would be the practical benefit? Do you see PCIe caps that could become
+>> useful in virtual setups?
+> 
+> So if we ever have a huge number of these caps, PCIe allows many more
+> caps.
+> 
+>> We don't do that for regular virtio devices
+>> either, do we?
+> 
+> We don't, there's a small number of these so we don't run out of config
+> space.
+
+Right. But then it would not a be a problem to add PCIe (right before 
+adding it becomes impossible) and push new caps into the extended space. 
+And all that without breaking existing drivers. It's just a cap, and the 
+spec so far does not state that there must be no other cap, neither in 
+current virtio nor this ivshmem device.
+
+Jan
+
+-- 
+Siemens AG, Corporate Technology, CT RDA IOT SES-DE
+Corporate Competence Center Embedded Linux
 
