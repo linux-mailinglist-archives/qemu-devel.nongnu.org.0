@@ -2,68 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 57B2C22F993
-	for <lists+qemu-devel@lfdr.de>; Mon, 27 Jul 2020 21:56:12 +0200 (CEST)
-Received: from localhost ([::1]:33754 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D02D922F98B
+	for <lists+qemu-devel@lfdr.de>; Mon, 27 Jul 2020 21:54:32 +0200 (CEST)
+Received: from localhost ([::1]:54434 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1k09EJ-0007tL-9z
-	for lists+qemu-devel@lfdr.de; Mon, 27 Jul 2020 15:56:11 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:49898)
+	id 1k09Ch-0004pQ-T2
+	for lists+qemu-devel@lfdr.de; Mon, 27 Jul 2020 15:54:31 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:50070)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <eblake@redhat.com>) id 1k099m-0008BL-1m
- for qemu-devel@nongnu.org; Mon, 27 Jul 2020 15:51:30 -0400
-Received: from us-smtp-2.mimecast.com ([207.211.31.81]:24718
+ (Exim 4.90_1) (envelope-from <ehabkost@redhat.com>)
+ id 1k09B0-0002Cc-TW
+ for qemu-devel@nongnu.org; Mon, 27 Jul 2020 15:52:46 -0400
+Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:38700
  helo=us-smtp-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <eblake@redhat.com>) id 1k099i-0004pC-US
- for qemu-devel@nongnu.org; Mon, 27 Jul 2020 15:51:29 -0400
+ (Exim 4.90_1) (envelope-from <ehabkost@redhat.com>)
+ id 1k09Ay-0004uL-EU
+ for qemu-devel@nongnu.org; Mon, 27 Jul 2020 15:52:46 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1595879485;
+ s=mimecast20190719; t=1595879563;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding;
- bh=dfd3qkM1bqg4CIxNzJ4YaOWmR/AjbViubSA9eI7tutg=;
- b=fhcmr6oOBfjY+GDbFEePe+OxHxSm5oWhHOAsZ26vOYFuudRczEkt5nUXaVmrMK/14Jw5vh
- KU6zV+MBy7N/tBqoM24FYQC+jr8y/Mnim9ujdvH8gxIe4DqBqRcWVGXZY8bwmzXbIL1SrQ
- NAPjrzTPHZaDJ5u9PG6ATzqbvDaR/u0=
+ in-reply-to:in-reply-to:references:references;
+ bh=cyTmfbKXhn/eGEdbdQnXskoWDF3+b6qV3q9TxSXZLHQ=;
+ b=GEqMJS5dM0S9OmeDeQNK2T7zIZzeu1ywsQiiIvfuAFgeT6lRGrOHqcFk+H0l4zaleQUDEs
+ qjqSXWH4ji1erSxCXp6eurjLskSmi1tl40MoOEXr7OoeeIUZFOzghzTYJRBN6ueUoqqfgN
+ Iyn0Ygy7XzQ9u+u08KWeFfrXkqucHHU=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-19-1ynrBw5nMm2k_YwoG-bIUQ-1; Mon, 27 Jul 2020 15:51:23 -0400
-X-MC-Unique: 1ynrBw5nMm2k_YwoG-bIUQ-1
+ us-mta-286-FsLaiyH1OX2Qq4wpfUoEwA-1; Mon, 27 Jul 2020 15:52:39 -0400
+X-MC-Unique: FsLaiyH1OX2Qq4wpfUoEwA-1
 Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
  [10.5.11.16])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 55AF8186A82C;
- Mon, 27 Jul 2020 19:51:22 +0000 (UTC)
-Received: from blue.redhat.com (ovpn-118-248.rdu2.redhat.com [10.10.118.248])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 38FF669323;
- Mon, 27 Jul 2020 19:51:21 +0000 (UTC)
-From: Eric Blake <eblake@redhat.com>
-To: qemu-devel@nongnu.org
-Subject: [PATCH for-5.1?] iotests: Adjust which tests are quick
-Date: Mon, 27 Jul 2020 14:51:17 -0500
-Message-Id: <20200727195117.132151-1-eblake@redhat.com>
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 6D5A2E918;
+ Mon, 27 Jul 2020 19:52:38 +0000 (UTC)
+Received: from localhost (ovpn-120-33.rdu2.redhat.com [10.10.120.33])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id F28DA1C4;
+ Mon, 27 Jul 2020 19:52:37 +0000 (UTC)
+Date: Mon, 27 Jul 2020 15:52:34 -0400
+From: Eduardo Habkost <ehabkost@redhat.com>
+To: Alexey Kirillov <lekiravi@yandex-team.ru>
+Subject: Re: [PATCH 1/1] analyze-migration.py: fix
+ read_migration_debug_json() return type
+Message-ID: <20200727195234.GD225270@habkost.net>
+References: <20200715152135.20287-1-lekiravi@yandex-team.ru>
 MIME-Version: 1.0
+In-Reply-To: <20200715152135.20287-1-lekiravi@yandex-team.ru>
 X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=eblake@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=207.211.31.81; envelope-from=eblake@redhat.com;
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Received-SPF: pass client-ip=205.139.110.120; envelope-from=ehabkost@redhat.com;
  helo=us-smtp-1.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/07/27 03:37:14
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/07/27 01:44:14
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
-X-Spam_score_int: -30
-X-Spam_score: -3.1
-X-Spam_bar: ---
-X-Spam_report: (-3.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1,
+X-Spam_score_int: -40
+X-Spam_score: -4.1
+X-Spam_bar: ----
+X-Spam_report: (-4.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H3=-0.01, RCVD_IN_MSPIKE_WL=-0.01,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-1, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001, URIBL_BLOCKED=0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -76,72 +79,48 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Kevin Wolf <kwolf@redhat.com>, vsementsov@virtuozzo.com,
- dgilbert@redhat.com, qemu-block@nongnu.org, mreitz@redhat.com
+Cc: qemu-trivial@nongnu.org, qemu-devel@nongnu.org, yc-core@yandex-team.ru
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-A quick run of './check -qcow2 -g migration' shows that test 169 is
-NOT quick, but meanwhile several other tests ARE quick.  Let's adjust
-the test designations accordingly.
+On Wed, Jul 15, 2020 at 06:21:35PM +0300, Alexey Kirillov wrote:
+> Since we use result of read_migration_debug_json() as JSON formatted string,
+> we must provide proper type. Before Python 3.6 json.loads() method
+> support only str typed input.
+> 
+> Signed-off-by: Alexey Kirillov <lekiravi@yandex-team.ru>
 
-Signed-off-by: Eric Blake <eblake@redhat.com>
----
+Queued for 5.2, thanks!
 
-I noticed this while working on my pending pull request that includes
-Vladimir's massive speedup of 199 (but even with his speedup, that test
-is still not quick).
+I've added a small comment explaining why the explicit decode()
+call is needed.
 
- tests/qemu-iotests/group | 12 ++++++------
- 1 file changed, 6 insertions(+), 6 deletions(-)
+        # explicit decode() needed for Python 3.5 compatibility
+        return data[jsonpos:jsonpos + jsonlen].decode("utf-8")
 
-diff --git a/tests/qemu-iotests/group b/tests/qemu-iotests/group
-index 1d0252e1f051..806044642c69 100644
---- a/tests/qemu-iotests/group
-+++ b/tests/qemu-iotests/group
-@@ -112,7 +112,7 @@
- 088 rw quick
- 089 rw auto quick
- 090 rw auto quick
--091 rw migration
-+091 rw migration quick
- 092 rw quick
- 093 throttle
- 094 rw quick
-@@ -186,7 +186,7 @@
- 162 quick
- 163 rw
- 165 rw quick
--169 rw quick migration
-+169 rw migration
- 170 rw auto quick
- 171 rw quick
- 172 auto
-@@ -197,9 +197,9 @@
- 177 rw auto quick
- 178 img
- 179 rw auto quick
--181 rw auto migration
-+181 rw auto migration quick
- 182 rw quick
--183 rw migration
-+183 rw migration quick
- 184 rw auto quick
- 185 rw
- 186 rw auto
-@@ -216,9 +216,9 @@
- 198 rw
- 199 rw migration
- 200 rw
--201 rw migration
-+201 rw migration quick
- 202 rw quick
--203 rw auto migration
-+203 rw auto migration quick
- 204 rw quick
- 205 rw quick
- 206 rw
+> ---
+>  scripts/analyze-migration.py | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
+> 
+> diff --git a/scripts/analyze-migration.py b/scripts/analyze-migration.py
+> index 95838cbff3..c5f06482cf 100755
+> --- a/scripts/analyze-migration.py
+> +++ b/scripts/analyze-migration.py
+> @@ -97,7 +97,7 @@ class MigrationFile(object):
+>          # Seek back to where we were at the beginning
+>          self.file.seek(entrypos, 0)
+>  
+> -        return data[jsonpos:jsonpos + jsonlen]
+> +        return data[jsonpos:jsonpos + jsonlen].decode("utf-8")
+>  
+>      def close(self):
+>          self.file.close()
+> -- 
+> 2.25.1
+> 
+> 
+
 -- 
-2.27.0
+Eduardo
 
 
