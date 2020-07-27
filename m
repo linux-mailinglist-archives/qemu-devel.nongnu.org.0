@@ -2,51 +2,50 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 67A9B22FADB
-	for <lists+qemu-devel@lfdr.de>; Mon, 27 Jul 2020 22:59:56 +0200 (CEST)
-Received: from localhost ([::1]:51716 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8F4F522FAEA
+	for <lists+qemu-devel@lfdr.de>; Mon, 27 Jul 2020 23:02:28 +0200 (CEST)
+Received: from localhost ([::1]:60534 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1k0ADz-0001rh-Dp
-	for lists+qemu-devel@lfdr.de; Mon, 27 Jul 2020 16:59:55 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:35084)
+	id 1k0AGR-0005ab-Hk
+	for lists+qemu-devel@lfdr.de; Mon, 27 Jul 2020 17:02:27 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:34850)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <eblake@redhat.com>) id 1k0AAa-0005Lx-1L
- for qemu-devel@nongnu.org; Mon, 27 Jul 2020 16:56:24 -0400
-Received: from us-smtp-1.mimecast.com ([205.139.110.61]:29231
+ (Exim 4.90_1) (envelope-from <eblake@redhat.com>) id 1k0AAH-00057h-IA
+ for qemu-devel@nongnu.org; Mon, 27 Jul 2020 16:56:05 -0400
+Received: from us-smtp-2.mimecast.com ([205.139.110.61]:44244
  helo=us-smtp-delivery-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <eblake@redhat.com>) id 1k0AAT-0004xw-I2
- for qemu-devel@nongnu.org; Mon, 27 Jul 2020 16:56:23 -0400
+ (Exim 4.90_1) (envelope-from <eblake@redhat.com>) id 1k0AAF-0004u7-75
+ for qemu-devel@nongnu.org; Mon, 27 Jul 2020 16:56:05 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1595883376;
+ s=mimecast20190719; t=1595883362;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=fVx0VAHepZVGUOdQt72FjQmlLnKaNCNllgZ9kWYIfkg=;
- b=GjEe2R+zGSqrQnFFWXLPGCcDSN4m7GHdKO9LmoHuRpwnSl5/+VTdObUtRMdC8jdy6QqZ3A
- d4/+MvccV1ZeWyEB2Gj7+nWLtLslvFQUMFD1HA4s1N1d60Z12RIQ65xkCHFDg1EH0soxLI
- f9ywAvcguMgYrMcg4L0jfJPmrC7Dg6A=
+ bh=PD0Ql2SFu37Jc2pUAqddf4cWEviu9Iqud0o+66za5yI=;
+ b=VhUpvir99RNFAIcd0V/anQ0K4vwB8h2qmHzcAmtSwSDlP9f8HrTuijRSdOz1sL0FcgqV6i
+ l30zbZpLIA5KDdG5ddPdyAtGQ+hgd4LAwlxEQB6cdqDdRz5KnXnEfavvZ+WEks9dIKwYgT
+ DOWyfnrsJ1FdD82iLaqYYRhHj/PX5mk=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-494-DjFWZ96TPdeaV_Xv6jOI9Q-1; Mon, 27 Jul 2020 16:56:09 -0400
-X-MC-Unique: DjFWZ96TPdeaV_Xv6jOI9Q-1
+ us-mta-388-ZtPzh8rcNJmqRZy6kXoLAw-1; Mon, 27 Jul 2020 16:56:00 -0400
+X-MC-Unique: ZtPzh8rcNJmqRZy6kXoLAw-1
 Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
  [10.5.11.23])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 9995B101C8A0;
- Mon, 27 Jul 2020 20:56:08 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id CD17558;
+ Mon, 27 Jul 2020 20:55:58 +0000 (UTC)
 Received: from blue.redhat.com (ovpn-118-248.rdu2.redhat.com [10.10.118.248])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 65EF419D82;
- Mon, 27 Jul 2020 20:56:07 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 4832319724;
+ Mon, 27 Jul 2020 20:55:55 +0000 (UTC)
 From: Eric Blake <eblake@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PULL 10/24] migration/block-dirty-bitmap: rename
- dirty_bitmap_mig_cleanup
-Date: Mon, 27 Jul 2020 15:55:29 -0500
-Message-Id: <20200727205543.206624-11-eblake@redhat.com>
+Subject: [PULL 06/24] qemu-iotests/199: change discard patterns
+Date: Mon, 27 Jul 2020 15:55:25 -0500
+Message-Id: <20200727205543.206624-7-eblake@redhat.com>
 In-Reply-To: <20200727205543.206624-1-eblake@redhat.com>
 References: <20200727205543.206624-1-eblake@redhat.com>
 MIME-Version: 1.0
@@ -65,7 +64,7 @@ X-Spam_bar: ----
 X-Spam_report: (-4.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-1, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -78,71 +77,116 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Fam Zheng <fam@euphon.net>,
- Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>,
- "open list:Block I/O path" <qemu-block@nongnu.org>,
- Juan Quintela <quintela@redhat.com>,
- "Dr. David Alan Gilbert" <dgilbert@redhat.com>,
- Stefan Hajnoczi <stefanha@redhat.com>,
+Cc: Kevin Wolf <kwolf@redhat.com>,
  Andrey Shinkevich <andrey.shinkevich@virtuozzo.com>,
- John Snow <jsnow@redhat.com>
+ Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>,
+ "open list:Block layer core" <qemu-block@nongnu.org>,
+ Max Reitz <mreitz@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
 
-Rename dirty_bitmap_mig_cleanup to dirty_bitmap_do_save_cleanup, to
-stress that it is on save part.
+iotest 199 works too long because of many discard operations. At the
+same time, postcopy period is very short, in spite of all these
+efforts.
+
+So, let's use less discards (and with more interesting patterns) to
+reduce test timing. In the next commit we'll increase postcopy period.
 
 Signed-off-by: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
 Reviewed-by: Andrey Shinkevich <andrey.shinkevich@virtuozzo.com>
-Reviewed-by: Eric Blake <eblake@redhat.com>
-Message-Id: <20200727194236.19551-10-vsementsov@virtuozzo.com>
+Tested-by: Eric Blake <eblake@redhat.com>
+Message-Id: <20200727194236.19551-6-vsementsov@virtuozzo.com>
 Signed-off-by: Eric Blake <eblake@redhat.com>
 ---
- migration/block-dirty-bitmap.c | 8 ++++----
- 1 file changed, 4 insertions(+), 4 deletions(-)
+ tests/qemu-iotests/199 | 44 +++++++++++++++++++++++++-----------------
+ 1 file changed, 26 insertions(+), 18 deletions(-)
 
-diff --git a/migration/block-dirty-bitmap.c b/migration/block-dirty-bitmap.c
-index 1d57bff4f6c7..01a536d7d3d3 100644
---- a/migration/block-dirty-bitmap.c
-+++ b/migration/block-dirty-bitmap.c
-@@ -259,7 +259,7 @@ static void send_bitmap_bits(QEMUFile *f, SaveBitmapState *dbms,
- }
+diff --git a/tests/qemu-iotests/199 b/tests/qemu-iotests/199
+index 190e820b8408..da4dae01fb5d 100755
+--- a/tests/qemu-iotests/199
++++ b/tests/qemu-iotests/199
+@@ -30,6 +30,28 @@ size = '256G'
+ fifo = os.path.join(iotests.test_dir, 'mig_fifo')
 
- /* Called with iothread lock taken.  */
--static void dirty_bitmap_mig_cleanup(void)
-+static void dirty_bitmap_do_save_cleanup(void)
- {
-     SaveBitmapState *dbms;
 
-@@ -406,7 +406,7 @@ static int init_dirty_bitmap_migration(void)
++GiB = 1024 * 1024 * 1024
++
++discards1 = (
++    (0, GiB),
++    (2 * GiB + 512 * 5, 512),
++    (3 * GiB + 512 * 5, 512),
++    (100 * GiB, GiB)
++)
++
++discards2 = (
++    (3 * GiB + 512 * 8, 512),
++    (4 * GiB + 512 * 8, 512),
++    (50 * GiB, GiB),
++    (100 * GiB + GiB // 2, GiB)
++)
++
++
++def apply_discards(vm, discards):
++    for d in discards:
++        vm.hmp_qemu_io('drive0', 'discard {} {}'.format(*d))
++
++
+ def event_seconds(event):
+     return event['timestamp']['seconds'] + \
+         event['timestamp']['microseconds'] / 1000000.0
+@@ -80,9 +102,7 @@ class TestDirtyBitmapPostcopyMigration(iotests.QMPTestCase):
+         self.vm_b_events = []
 
- fail:
-     g_hash_table_destroy(handled_by_blk);
--    dirty_bitmap_mig_cleanup();
-+    dirty_bitmap_do_save_cleanup();
+     def test_postcopy(self):
+-        discard_size = 0x40000000
+         granularity = 512
+-        chunk = 4096
 
-     return -1;
- }
-@@ -445,7 +445,7 @@ static void bulk_phase(QEMUFile *f, bool limit)
- /* for SaveVMHandlers */
- static void dirty_bitmap_save_cleanup(void *opaque)
- {
--    dirty_bitmap_mig_cleanup();
-+    dirty_bitmap_do_save_cleanup();
- }
+         result = self.vm_a.qmp('block-dirty-bitmap-add', node='drive0',
+                                name='bitmap', granularity=granularity)
+@@ -92,14 +112,7 @@ class TestDirtyBitmapPostcopyMigration(iotests.QMPTestCase):
+                                node='drive0', name='bitmap')
+         empty_sha256 = result['return']['sha256']
 
- static int dirty_bitmap_save_iterate(QEMUFile *f, void *opaque)
-@@ -480,7 +480,7 @@ static int dirty_bitmap_save_complete(QEMUFile *f, void *opaque)
+-        s = 0
+-        while s < discard_size:
+-            self.vm_a.hmp_qemu_io('drive0', 'discard %d %d' % (s, chunk))
+-            s += 0x10000
+-        s = 0x8000
+-        while s < discard_size:
+-            self.vm_a.hmp_qemu_io('drive0', 'discard %d %d' % (s, chunk))
+-            s += 0x10000
++        apply_discards(self.vm_a, discards1 + discards2)
 
-     trace_dirty_bitmap_save_complete_finish();
+         result = self.vm_a.qmp('x-debug-block-dirty-bitmap-sha256',
+                                node='drive0', name='bitmap')
+@@ -111,10 +124,8 @@ class TestDirtyBitmapPostcopyMigration(iotests.QMPTestCase):
+         result = self.vm_a.qmp('block-dirty-bitmap-clear', node='drive0',
+                                name='bitmap')
+         self.assert_qmp(result, 'return', {})
+-        s = 0
+-        while s < discard_size:
+-            self.vm_a.hmp_qemu_io('drive0', 'discard %d %d' % (s, chunk))
+-            s += 0x10000
++
++        apply_discards(self.vm_a, discards1)
 
--    dirty_bitmap_mig_cleanup();
-+    dirty_bitmap_do_save_cleanup();
-     return 0;
- }
+         caps = [{'capability': 'dirty-bitmaps', 'state': True},
+                 {'capability': 'events', 'state': True}]
+@@ -134,10 +145,7 @@ class TestDirtyBitmapPostcopyMigration(iotests.QMPTestCase):
+         event_resume = self.vm_b.event_wait('RESUME')
+         self.vm_b_events.append(event_resume)
 
+-        s = 0x8000
+-        while s < discard_size:
+-            self.vm_b.hmp_qemu_io('drive0', 'discard %d %d' % (s, chunk))
+-            s += 0x10000
++        apply_discards(self.vm_b, discards2)
+
+         match = {'data': {'status': 'completed'}}
+         event_complete = self.vm_b.event_wait('MIGRATION', match=match)
 -- 
 2.27.0
 
