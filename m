@@ -2,53 +2,53 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7804822F957
-	for <lists+qemu-devel@lfdr.de>; Mon, 27 Jul 2020 21:45:02 +0200 (CEST)
-Received: from localhost ([::1]:42902 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 71BD622F97E
+	for <lists+qemu-devel@lfdr.de>; Mon, 27 Jul 2020 21:50:20 +0200 (CEST)
+Received: from localhost ([::1]:35214 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1k093V-0005Jt-Dp
-	for lists+qemu-devel@lfdr.de; Mon, 27 Jul 2020 15:45:01 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:47600)
+	id 1k098d-0005ME-GO
+	for lists+qemu-devel@lfdr.de; Mon, 27 Jul 2020 15:50:19 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:47622)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <vsementsov@virtuozzo.com>)
- id 1k091e-0001mO-6j; Mon, 27 Jul 2020 15:43:06 -0400
-Received: from mail-eopbgr80137.outbound.protection.outlook.com
- ([40.107.8.137]:20036 helo=EUR04-VI1-obe.outbound.protection.outlook.com)
+ id 1k091h-0001p3-1i; Mon, 27 Jul 2020 15:43:09 -0400
+Received: from mail-eopbgr80131.outbound.protection.outlook.com
+ ([40.107.8.131]:43617 helo=EUR04-VI1-obe.outbound.protection.outlook.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <vsementsov@virtuozzo.com>)
- id 1k091a-0003fu-6B; Mon, 27 Jul 2020 15:43:05 -0400
+ id 1k091e-0003fa-CN; Mon, 27 Jul 2020 15:43:08 -0400
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=i9uTKMHucuhBz8vqTXEal0attFQDe/R7qU2eMcaYkRdsN0fwqVOvvCQ96rlcOq3Cu0Cnne00UJRdeRWgs7CFh5ozt+LcRCdS90OaYfAf237ng5i6yNtkdkdcDjAAOE5u51+Mrwzt3qQwDfBjYvgDY+1WQHuTPtVIxA4axLBPcR77Ej9LRBxNywAFGyLiV/9SBquVSEMS82oFyS5Ean0+nOwxV26Z3mDLjiW/FbCvgxkh2KVAVLUVAVPV03CvTFO3BcmF3rY/js95Xi6IXxLJWtDBRope0KTVUOWXOUXZETSAWqy1kaWapvtxW4hUiP7ouzye+g1GgbR87kVv/2pK+g==
+ b=Wzjy5a4YNJFZZpYmIAPqXTuTCSEBRcOxR8EuWcwGE3XrQGLTY79BB6QrttBsUZG3rjLxsgpHBFEDMaB66hSFD3XnW7Lev+p5DdhbWdOQkwByFizq/Y7QE19B0z8wVVQn0TMkDg0ez8unjOiOMVNyqActOJbMWr1/YXjFctmcrmOFoAXrU1MimyHgoLLFXVZIZhQYepu3vP7/z9hBbtlFU5Rh76Fcd5128X1WCzbJpGcTg3wy1CPRlb0FO0OFo04xKQM9tje0lyEqZnjncbbsnLFKRLXg2ZORKbinaEWLVnBfofzpJ/NRXp240fdl30T7ziQtlZJf2ZWJyxcjS9SpDw==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=ag2OZSd4XEK0WPwnOZnDuD4ozl6LXYHngLXM4paMDsk=;
- b=LV72lPy2ApkCW/Ych3YTGbEYakasv7Z7hsdlzDQ6x1vqvvPvWBAcrGty5/Wo1ljROPCsPfD8mWy6udgUsoJtaQmrGxV0G4gz1W2f/diGo0VyXSLXbLEKVwSipDDj4uxdFdXA910SUMnbygU5s/wxeL3WEE95AGc1j3hWHrFZJ/hgXZfsvlBZ1KuDytQcHTW48wWl44Lo8QDBRqlaXBu7lL8Gu/gQ4yW2fPoNQaBWMoYjtHAcAmjzdlniz1UskOGhmLgXH3pc0jtPDyHxATJElD5jBMbfH6f8pFQvMBf9ak+Od4HxEr47uLnOR+jq0kTnht1Pci81pWya42gNsjPssw==
+ bh=uZVtDeEi855P8dwPdqgdo7JwrCFeRkBhcvJ9Mnf3Fok=;
+ b=RQu2D+oAJ0X+Ap51rMhqR3scKkC6W3/nkzlGxIBdiBFkDkVxYMYd/m2EbTQDKuOLZuJN5BXqHzPJ81y80bVNeyPQcLgrPLiifr0jO0gkI+Y7CvWVunrDfIVKRqvP4p/ARyLieGTNxpqQtS9u54gBY9LsA6NZXP7tOz4E/YAAazTFJ0UHSxaGbZkfx5aA4cECIxyhlasFC5Q33GyE0NqCJ9Ftu+/yrie0EtTZ2jZKAOSbrZKzi21f1VRenVqHlki1MU7Mv/n5mPqsRH02EOIHzqoax9SfynSWsUS+/hOBLbL+yQ2DL0h5xq9lpCn0GAvXZvPSmzK/XXAUgEn8lULrww==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
  smtp.mailfrom=virtuozzo.com; dmarc=pass action=none
  header.from=virtuozzo.com; dkim=pass header.d=virtuozzo.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=virtuozzo.com;
  s=selector2;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=ag2OZSd4XEK0WPwnOZnDuD4ozl6LXYHngLXM4paMDsk=;
- b=DCiL8sKUq4ZmBHP6SnKhfVxRLY5bLIcQoSwMe82DtAIP4g6A5qHs+ySKAFk0BtksxUTN2yyYpHWu+R1EeTDXacPgm0WP+1mGhsQ1RQIqXEoPUlzLwRWWku/MUZyRFbcUzyQbmP41U3+9qOfXxpHY3j7kezNOsUUTpUPSmJFsgxs=
+ bh=uZVtDeEi855P8dwPdqgdo7JwrCFeRkBhcvJ9Mnf3Fok=;
+ b=bPg+Ixw+lwaZLeT6y86hui670cBQdKNQrrRrfXOSrm96Oi4zDvBSxKiJV+OY0aBcUebw+fs8v0UUdE5be82W6etbW/3b+t/QU1EeiPfzjTc1uAziFwCi8QFDkGJYbpDR8v00Mi8h+mBT38hZHMg6DNR2Kcq1dejtqkTkf+xEVjA=
 Authentication-Results: nongnu.org; dkim=none (message not signed)
  header.d=none;nongnu.org; dmarc=none action=none header.from=virtuozzo.com;
 Received: from AM7PR08MB5494.eurprd08.prod.outlook.com (2603:10a6:20b:dc::15)
  by AM5PR0802MB2610.eurprd08.prod.outlook.com (2603:10a6:203:97::7)
  with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3216.23; Mon, 27 Jul
- 2020 19:42:54 +0000
+ 2020 19:42:55 +0000
 Received: from AM7PR08MB5494.eurprd08.prod.outlook.com
  ([fe80::8c0c:c056:97a5:484a]) by AM7PR08MB5494.eurprd08.prod.outlook.com
  ([fe80::8c0c:c056:97a5:484a%4]) with mapi id 15.20.3216.033; Mon, 27 Jul 2020
- 19:42:54 +0000
+ 19:42:55 +0000
 From: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
 To: qemu-block@nongnu.org
-Subject: [PATCH v4 05/21] qemu-iotests/199: change discard patterns
-Date: Mon, 27 Jul 2020 22:42:20 +0300
-Message-Id: <20200727194236.19551-6-vsementsov@virtuozzo.com>
+Subject: [PATCH v4 06/21] qemu-iotests/199: increase postcopy period
+Date: Mon, 27 Jul 2020 22:42:21 +0300
+Message-Id: <20200727194236.19551-7-vsementsov@virtuozzo.com>
 X-Mailer: git-send-email 2.21.0
 In-Reply-To: <20200727194236.19551-1-vsementsov@virtuozzo.com>
 References: <20200727194236.19551-1-vsementsov@virtuozzo.com>
@@ -63,38 +63,38 @@ Received: from kvm.sw.ru (185.215.60.158) by
  AM0PR05CA0084.eurprd05.prod.outlook.com (2603:10a6:208:136::24) with
  Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3216.20 via Frontend
- Transport; Mon, 27 Jul 2020 19:42:53 +0000
+ Transport; Mon, 27 Jul 2020 19:42:54 +0000
 X-Mailer: git-send-email 2.21.0
 X-Originating-IP: [185.215.60.158]
 X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: 36fba14b-bd13-4326-4e05-08d83265417a
+X-MS-Office365-Filtering-Correlation-Id: ff26e62c-f28a-422f-63c1-08d83265420b
 X-MS-TrafficTypeDiagnostic: AM5PR0802MB2610:
 X-MS-Exchange-Transport-Forked: True
-X-Microsoft-Antispam-PRVS: <AM5PR0802MB26109455D206458B44F59CD0C1720@AM5PR0802MB2610.eurprd08.prod.outlook.com>
-X-MS-Oob-TLC-OOBClassifiers: OLM:34;
+X-Microsoft-Antispam-PRVS: <AM5PR0802MB2610B918239BBB4F7F686EB6C1720@AM5PR0802MB2610.eurprd08.prod.outlook.com>
+X-MS-Oob-TLC-OOBClassifiers: OLM:1107;
 X-MS-Exchange-SenderADCheck: 1
 X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: +P4kbIcniExNK09Nbkuj4tE1NlMWvFCdlwy17JcxVnQumtm9WLTbQ423bl/4BdjTB7YWqbSp276EuTXJq4d+1iJfEubMOuKcuLcma32AWBpNTCnIfM4BYM0RoEpzVqPVeiFJwpcx+mGJcNEizatLa5O2ZCoPO4DlyxIm+57QPRo5d0XPC+jE+ZvwaUKfaBGgbt+qmKzV9+UsoPOYZJWPtFfD+K7+Phw5ShOIRJVMbRJ+o9Mky1fx+1UDxf3Mhe6YWLxfG6C71X6KN1xj5zosDQmV18C9AIe5lOEMJkWD2RW1j9E53pnTBJvpi539iG0P5BO44mc2j7NTwK8/GxtYFg==
+X-Microsoft-Antispam-Message-Info: LXGNE5tm62hBOjwi04HlRHvmJuyECWp3LY6QqCGDDYuYKGjdnlrgnbGWAkxGruR1IfMT0kuH4p8kYIsgNg7xAxJKhFwildrvDOLY1IltvNFl5YJajL9rrO3QYBI/scGaOa0WMHkLNA8YIOW+wA5cIpsGukOE04ekN54VPN2iJVHEHv+7v0h1cufZoLMjOWTic1pv9OHlO7VER8USvZoJUeUehn+RjcRnzS4NFZBxw01ipamRh3dwGPvBjC8ksJcbmguRvGoFgXLNgYWYVENKKesIGe0ehSw/kgcT3yT8ns5SwYkybaaLPSkadET6gJSc
 X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
  IPV:NLI; SFV:NSPM; H:AM7PR08MB5494.eurprd08.prod.outlook.com; PTR:; CAT:NONE;
  SFTY:;
  SFS:(4636009)(136003)(396003)(366004)(376002)(39840400004)(346002)(66556008)(1076003)(66476007)(6512007)(107886003)(86362001)(36756003)(52116002)(4326008)(26005)(2616005)(2906002)(66946007)(8676002)(7416002)(16526019)(6666004)(316002)(6916009)(6486002)(956004)(83380400001)(6506007)(5660300002)(478600001)(186003)(8936002);
  DIR:OUT; SFP:1102; 
-X-MS-Exchange-AntiSpam-MessageData: h5Ys0Yg20wy12YjWJy3lWRs323KMlaUlIlPEYuSqO6I0hhdGsbInoyLfWZ+9xwm2OFFlK20JhlMdZzWqdZrDJ4ZD0Y9rt51PNuY2z2WzCVVLtJeIrXWpXd5vro/RqEmY8wf/75tJXTySd6S7uDJFD7wGhPlpsIlHJeAadugG+ycmfWRd+ArCWgcwV44oePVVciGeAPVgLW1yVXZK/3AJFlMCo90kru3Nhu06wVPu9HqAVf83zWHoEGnq9QuNW+15YVSNw/nCSUZSN1ctXStYm3U4/3JME5kuPd30DA84jD5vD3NSSn2ITCEmBjxtAnMGyU8lfW6hmYO4bkn8XbbdV2+Uj8tzgv3g/tk1nBmr/JFmQaJiYoAQe+glbdctqbAZ09luacWk+c/AipH89hlVowt/1USQy03gbwQ4hqnINzV0V16ivugaDWIw2k/OZ7i2mEAc+JONAMydP7F0CV4EHZwnHpRbYpV9jpWu3j6PeJI=
+X-MS-Exchange-AntiSpam-MessageData: k8eGBD680CADn6hXD3gh1fIsXVGCRrbJb6+e5wmR775qTeHSkgtTeNB2GXru7cj5iqclqI2xEKTOfx4hlCv5ekemPSiAW0OJ6I2PeGDunWBaKu9MiuBb0rLoJ2UE1wkd7e3+A0e8uXOJcz0Wii8x5WzmGeBiQX8aGaOGsd6dn/d/ubCgL8Oc5wpTjsXiGQXsb/Ecy8rErK31u2mulZulVPrdpeXujqOAteEHF3hwhrKnkHRxR3Q9lcXVABfoj/iF8H1TxYapZPuICrKxkys/3Wn21tfrs/cOXYCZQAYh5TsK/MwcdB37cKAWiVor218qrwP8w92KTmq9T1X8YAKaMV+8zyq5WkYCARFofZzOUhLxuYmDkWCetjFbznUPyG4WDpY5uPiN8zm1vPqk5olgDjo3as4P7bZTj+M6L1SyEXmjZn1QlaGdoIEYHIm+p3MCIoElQNAeiFdvKZzUxRxMPkSj/ygrQEihmLEpujcrWDw=
 X-OriginatorOrg: virtuozzo.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 36fba14b-bd13-4326-4e05-08d83265417a
+X-MS-Exchange-CrossTenant-Network-Message-Id: ff26e62c-f28a-422f-63c1-08d83265420b
 X-MS-Exchange-CrossTenant-AuthSource: AM7PR08MB5494.eurprd08.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 27 Jul 2020 19:42:54.6138 (UTC)
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 27 Jul 2020 19:42:55.5795 (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
 X-MS-Exchange-CrossTenant-Id: 0bc7f26d-0264-416e-a6fc-8352af79c58f
 X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: kAMOMymLql1iDMAr+2nzdAtz3lVO5QevTk6Q6v7BQtDwWosMy2+FgSLtzVuWeFCty+OXSVR4pL26Wq1zyCYMsFZ1jGe9VVj6GRrMg0NV5xc=
+X-MS-Exchange-CrossTenant-UserPrincipalName: ROf+QbarUCat/dUxOCnElCtd14J0nZkN49TsVcH0SyyX/5XnBGCL264029NIr6C6Yd0wWma4SKSMCPJZv4t8izDuadoag3TF5mwwkLc2JYk=
 X-MS-Exchange-Transport-CrossTenantHeadersStamped: AM5PR0802MB2610
-Received-SPF: pass client-ip=40.107.8.137;
+Received-SPF: pass client-ip=40.107.8.131;
  envelope-from=vsementsov@virtuozzo.com;
  helo=EUR04-VI1-obe.outbound.protection.outlook.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/07/27 15:42:57
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/07/27 15:42:50
 X-ACL-Warn: Detected OS   = Windows NT kernel [generic] [fuzzy]
 X-Spam_score_int: -37
 X-Spam_score: -3.8
@@ -123,104 +123,118 @@ Cc: kwolf@redhat.com, fam@euphon.net, vsementsov@virtuozzo.com,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-iotest 199 works too long because of many discard operations. At the
-same time, postcopy period is very short, in spite of all these
-efforts.
-
-So, let's use less discards (and with more interesting patterns) to
-reduce test timing. In the next commit we'll increase postcopy period.
+The test wants to force a bitmap postcopy. Still, the resulting
+postcopy period is very small. Let's increase it by adding more
+bitmaps to migrate. Also, test disabled bitmaps migration.
 
 Signed-off-by: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
 Reviewed-by: Andrey Shinkevich <andrey.shinkevich@virtuozzo.com>
 Tested-by: Eric Blake <eblake@redhat.com>
 ---
- tests/qemu-iotests/199 | 44 +++++++++++++++++++++++++-----------------
- 1 file changed, 26 insertions(+), 18 deletions(-)
+ tests/qemu-iotests/199 | 58 ++++++++++++++++++++++++++++--------------
+ 1 file changed, 39 insertions(+), 19 deletions(-)
 
 diff --git a/tests/qemu-iotests/199 b/tests/qemu-iotests/199
-index 190e820b84..da4dae01fb 100755
+index da4dae01fb..d8532e49da 100755
 --- a/tests/qemu-iotests/199
 +++ b/tests/qemu-iotests/199
-@@ -30,6 +30,28 @@ size = '256G'
- fifo = os.path.join(iotests.test_dir, 'mig_fifo')
- 
- 
-+GiB = 1024 * 1024 * 1024
-+
-+discards1 = (
-+    (0, GiB),
-+    (2 * GiB + 512 * 5, 512),
-+    (3 * GiB + 512 * 5, 512),
-+    (100 * GiB, GiB)
-+)
-+
-+discards2 = (
-+    (3 * GiB + 512 * 8, 512),
-+    (4 * GiB + 512 * 8, 512),
-+    (50 * GiB, GiB),
-+    (100 * GiB + GiB // 2, GiB)
-+)
-+
-+
-+def apply_discards(vm, discards):
-+    for d in discards:
-+        vm.hmp_qemu_io('drive0', 'discard {} {}'.format(*d))
-+
-+
- def event_seconds(event):
-     return event['timestamp']['seconds'] + \
-         event['timestamp']['microseconds'] / 1000000.0
-@@ -80,9 +102,7 @@ class TestDirtyBitmapPostcopyMigration(iotests.QMPTestCase):
-         self.vm_b_events = []
+@@ -103,29 +103,45 @@ class TestDirtyBitmapPostcopyMigration(iotests.QMPTestCase):
  
      def test_postcopy(self):
--        discard_size = 0x40000000
          granularity = 512
--        chunk = 4096
++        nb_bitmaps = 15
  
-         result = self.vm_a.qmp('block-dirty-bitmap-add', node='drive0',
-                                name='bitmap', granularity=granularity)
-@@ -92,14 +112,7 @@ class TestDirtyBitmapPostcopyMigration(iotests.QMPTestCase):
-                                node='drive0', name='bitmap')
-         empty_sha256 = result['return']['sha256']
- 
--        s = 0
--        while s < discard_size:
--            self.vm_a.hmp_qemu_io('drive0', 'discard %d %d' % (s, chunk))
--            s += 0x10000
--        s = 0x8000
--        while s < discard_size:
--            self.vm_a.hmp_qemu_io('drive0', 'discard %d %d' % (s, chunk))
--            s += 0x10000
-+        apply_discards(self.vm_a, discards1 + discards2)
+-        result = self.vm_a.qmp('block-dirty-bitmap-add', node='drive0',
+-                               name='bitmap', granularity=granularity)
+-        self.assert_qmp(result, 'return', {})
++        for i in range(nb_bitmaps):
++            result = self.vm_a.qmp('block-dirty-bitmap-add', node='drive0',
++                                   name='bitmap{}'.format(i),
++                                   granularity=granularity)
++            self.assert_qmp(result, 'return', {})
  
          result = self.vm_a.qmp('x-debug-block-dirty-bitmap-sha256',
-                                node='drive0', name='bitmap')
-@@ -111,10 +124,8 @@ class TestDirtyBitmapPostcopyMigration(iotests.QMPTestCase):
-         result = self.vm_a.qmp('block-dirty-bitmap-clear', node='drive0',
-                                name='bitmap')
-         self.assert_qmp(result, 'return', {})
--        s = 0
--        while s < discard_size:
--            self.vm_a.hmp_qemu_io('drive0', 'discard %d %d' % (s, chunk))
--            s += 0x10000
-+
+-                               node='drive0', name='bitmap')
++                               node='drive0', name='bitmap0')
+         empty_sha256 = result['return']['sha256']
+ 
+-        apply_discards(self.vm_a, discards1 + discards2)
 +        apply_discards(self.vm_a, discards1)
+ 
+         result = self.vm_a.qmp('x-debug-block-dirty-bitmap-sha256',
+-                               node='drive0', name='bitmap')
+-        sha256 = result['return']['sha256']
++                               node='drive0', name='bitmap0')
++        discards1_sha256 = result['return']['sha256']
+ 
+         # Check, that updating the bitmap by discards works
+-        assert sha256 != empty_sha256
++        assert discards1_sha256 != empty_sha256
+ 
+-        result = self.vm_a.qmp('block-dirty-bitmap-clear', node='drive0',
+-                               name='bitmap')
+-        self.assert_qmp(result, 'return', {})
++        # We want to calculate resulting sha256. Do it in bitmap0, so, disable
++        # other bitmaps
++        for i in range(1, nb_bitmaps):
++            result = self.vm_a.qmp('block-dirty-bitmap-disable', node='drive0',
++                                   name='bitmap{}'.format(i))
++            self.assert_qmp(result, 'return', {})
+ 
+-        apply_discards(self.vm_a, discards1)
++        apply_discards(self.vm_a, discards2)
++
++        result = self.vm_a.qmp('x-debug-block-dirty-bitmap-sha256',
++                               node='drive0', name='bitmap0')
++        all_discards_sha256 = result['return']['sha256']
++
++        # Now, enable some bitmaps, to be updated during migration
++        for i in range(2, nb_bitmaps, 2):
++            result = self.vm_a.qmp('block-dirty-bitmap-enable', node='drive0',
++                                   name='bitmap{}'.format(i))
++            self.assert_qmp(result, 'return', {})
  
          caps = [{'capability': 'dirty-bitmaps', 'state': True},
                  {'capability': 'events', 'state': True}]
-@@ -134,10 +145,7 @@ class TestDirtyBitmapPostcopyMigration(iotests.QMPTestCase):
+@@ -145,6 +161,7 @@ class TestDirtyBitmapPostcopyMigration(iotests.QMPTestCase):
          event_resume = self.vm_b.event_wait('RESUME')
          self.vm_b_events.append(event_resume)
  
--        s = 0x8000
--        while s < discard_size:
--            self.vm_b.hmp_qemu_io('drive0', 'discard %d %d' % (s, chunk))
--            s += 0x10000
-+        apply_discards(self.vm_b, discards2)
++        # enabled bitmaps should be updated
+         apply_discards(self.vm_b, discards2)
  
          match = {'data': {'status': 'completed'}}
-         event_complete = self.vm_b.event_wait('MIGRATION', match=match)
+@@ -158,7 +175,7 @@ class TestDirtyBitmapPostcopyMigration(iotests.QMPTestCase):
+         downtime = event_dist(event_stop, event_resume)
+         postcopy_time = event_dist(event_resume, event_complete)
+ 
+-        # TODO: assert downtime * 10 < postcopy_time
++        assert downtime * 10 < postcopy_time
+         if debug:
+             print('downtime:', downtime)
+             print('postcopy_time:', postcopy_time)
+@@ -166,12 +183,15 @@ class TestDirtyBitmapPostcopyMigration(iotests.QMPTestCase):
+         # Assert that bitmap migration is finished (check that successor bitmap
+         # is removed)
+         result = self.vm_b.qmp('query-block')
+-        assert len(result['return'][0]['dirty-bitmaps']) == 1
+-
+-        # Check content of migrated (and updated by new writes) bitmap
+-        result = self.vm_b.qmp('x-debug-block-dirty-bitmap-sha256',
+-                               node='drive0', name='bitmap')
+-        self.assert_qmp(result, 'return/sha256', sha256)
++        assert len(result['return'][0]['dirty-bitmaps']) == nb_bitmaps
++
++        # Check content of migrated bitmaps. Still, don't waste time checking
++        # every bitmap
++        for i in range(0, nb_bitmaps, 5):
++            result = self.vm_b.qmp('x-debug-block-dirty-bitmap-sha256',
++                                   node='drive0', name='bitmap{}'.format(i))
++            sha256 = discards1_sha256 if i % 2 else all_discards_sha256
++            self.assert_qmp(result, 'return/sha256', sha256)
+ 
+ 
+ if __name__ == '__main__':
 -- 
 2.21.0
 
