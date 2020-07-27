@@ -2,66 +2,78 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2CE3D22EE23
-	for <lists+qemu-devel@lfdr.de>; Mon, 27 Jul 2020 15:59:45 +0200 (CEST)
-Received: from localhost ([::1]:58574 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B549022EE1D
+	for <lists+qemu-devel@lfdr.de>; Mon, 27 Jul 2020 15:58:09 +0200 (CEST)
+Received: from localhost ([::1]:54436 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1k03fM-00037d-83
-	for lists+qemu-devel@lfdr.de; Mon, 27 Jul 2020 09:59:44 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:36476)
+	id 1k03do-0001Li-Qa
+	for lists+qemu-devel@lfdr.de; Mon, 27 Jul 2020 09:58:08 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:38444)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <dgilbert@redhat.com>)
- id 1k03Za-0003uN-Ce
- for qemu-devel@nongnu.org; Mon, 27 Jul 2020 09:53:46 -0400
-Received: from us-smtp-2.mimecast.com ([207.211.31.81]:49405
- helo=us-smtp-delivery-1.mimecast.com)
+ (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1k03cX-0008QZ-8Q
+ for qemu-devel@nongnu.org; Mon, 27 Jul 2020 09:56:49 -0400
+Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:58172
+ helo=us-smtp-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <dgilbert@redhat.com>)
- id 1k03ZY-0002uE-Aa
- for qemu-devel@nongnu.org; Mon, 27 Jul 2020 09:53:46 -0400
+ (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1k03cV-00040m-G2
+ for qemu-devel@nongnu.org; Mon, 27 Jul 2020 09:56:48 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1595858023;
+ s=mimecast20190719; t=1595858206;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  in-reply-to:in-reply-to:references:references;
- bh=YDBob5Wi8v+0CeKkgy1OqC3CBzdqt2YO79fAZR1dM6s=;
- b=CSBQumSk7zI5UdmZwT6scHS7z7fxLoCCYlORELtq+vwwoYFPFAboIr0MVZuws3quWVn9dY
- kZL6wAgu0lO0nMsDkpMkT4TOhltaaeR6uFkKfAkYg2LHnrOO7qP1RNT6xKngugfnAXWjG4
- AQqktGUcTZexjXFGqGGhF0dsV4pb1cU=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-219-qRNgv0czNkCwuZiVTTUvww-1; Mon, 27 Jul 2020 09:53:41 -0400
-X-MC-Unique: qRNgv0czNkCwuZiVTTUvww-1
-Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
- [10.5.11.13])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 8CA7818C63D4;
- Mon, 27 Jul 2020 13:53:40 +0000 (UTC)
-Received: from work-vm (ovpn-114-135.ams2.redhat.com [10.36.114.135])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 37E338FA5F;
- Mon, 27 Jul 2020 13:53:31 +0000 (UTC)
-Date: Mon, 27 Jul 2020 14:53:29 +0100
-From: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
-To: "Michael S. Tsirkin" <mst@redhat.com>
-Subject: Re: [PATCH v4 2/2] hw/pci-host: save/restore pci host config
- register for old ones
-Message-ID: <20200727135329.GO3040@work-vm>
-References: <20200727084621.3279-1-hogan.wang@huawei.com>
- <20200727084621.3279-2-hogan.wang@huawei.com>
- <20200727090806-mutt-send-email-mst@kernel.org>
+ bh=yIyUbH3TjxBkeCeiM81IwjmoKyB0WfEoMp0lKATPcA8=;
+ b=BVxzRCEv9169fsDnujlkXG8yix16UBQpIGVIFmmYca2bJDXWSkms3+sVm5Pnq/CXWlqBLT
+ 3/Oe9UkV6lOXfBmWQgKiC5fAqQ53k1EhPctz0z5dgtKwRkDY9txsYiY6gQ3Sdt3Ucx5skL
+ ZnB/wO7QDWdnLgEoGmIGtmx9tA6NaEA=
+Received: from mail-wm1-f72.google.com (mail-wm1-f72.google.com
+ [209.85.128.72]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-473-NQ9l-YkkOuK5BJS6W0xOHA-1; Mon, 27 Jul 2020 09:56:45 -0400
+X-MC-Unique: NQ9l-YkkOuK5BJS6W0xOHA-1
+Received: by mail-wm1-f72.google.com with SMTP id p23so843158wmc.2
+ for <qemu-devel@nongnu.org>; Mon, 27 Jul 2020 06:56:44 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+ :mime-version:content-disposition:in-reply-to;
+ bh=yIyUbH3TjxBkeCeiM81IwjmoKyB0WfEoMp0lKATPcA8=;
+ b=ZPSMmwoIq8gstGL6c1aDI9fIF28h3hnkwRHMuRPxNpzRqg/1j/l44pB/z+faR3cha9
+ LzNER7kwkSPTatHUM7S+lB04IdGZv8uWlDdOsLk2hafFuinsttbREftiu0nZDLALzSrB
+ srVVzl4mLRG1GxuN7wADDa6QDezv2blbfJsD3CGXeMzYxfmFM3MZsMQbOoBRe2UYtvBZ
+ w6Q7/avZtyLQGpvl+95E6qmjxG8HO3GLyyyIBYZfUVBlwnHspy8iPHe5RvOJ7lMiGlwF
+ yhMZ5Ojw0hhiS62mpbwLUe0BG/3nzZr/9QatQL+zR9g4CujkLwSHaDhhfDoYO6lzz3RW
+ DnJg==
+X-Gm-Message-State: AOAM533OT/h6TUpfpaTKsUnpPXOknkvT+YVfQDFXi/ugaow7ttgHxgjI
+ SpVKm+qj6UiWZoSkKfSv7Ikh87M2dt7Vp6TONP35yj+Q/JXYhV9271br5Oa2IEfkW61KaC0c6sX
+ oOKvtb7joeQABbRw=
+X-Received: by 2002:a5d:6990:: with SMTP id g16mr19928615wru.131.1595858203897; 
+ Mon, 27 Jul 2020 06:56:43 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJxqAV8gO+USFcIxnkOfN8d/n0QDAkdEyPJP8FKDt0FcFEPVD663oH8VvNP4ha8rf/cODQgdWw==
+X-Received: by 2002:a5d:6990:: with SMTP id g16mr19928600wru.131.1595858203636; 
+ Mon, 27 Jul 2020 06:56:43 -0700 (PDT)
+Received: from redhat.com ([192.117.173.58])
+ by smtp.gmail.com with ESMTPSA id j8sm13171857wrd.85.2020.07.27.06.56.41
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Mon, 27 Jul 2020 06:56:42 -0700 (PDT)
+Date: Mon, 27 Jul 2020 09:56:39 -0400
+From: "Michael S. Tsirkin" <mst@redhat.com>
+To: Jan Kiszka <jan.kiszka@siemens.com>
+Subject: Re: [virtio-comment] Re: [RFC] ivshmem v2: Shared memory device
+ specification
+Message-ID: <20200727095239-mutt-send-email-mst@kernel.org>
+References: <f109fe5a-92eb-e5a5-bb83-ada42b3a9b61@siemens.com>
+ <20200727091802-mutt-send-email-mst@kernel.org>
+ <85f69f31-e4c6-e7af-1fa5-90e5a2c81ae8@siemens.com>
 MIME-Version: 1.0
-In-Reply-To: <20200727090806-mutt-send-email-mst@kernel.org>
-User-Agent: Mutt/1.14.5 (2020-06-23)
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
+In-Reply-To: <85f69f31-e4c6-e7af-1fa5-90e5a2c81ae8@siemens.com>
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Received-SPF: pass client-ip=207.211.31.81; envelope-from=dgilbert@redhat.com;
- helo=us-smtp-delivery-1.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/07/27 03:37:14
+Received-SPF: pass client-ip=207.211.31.120; envelope-from=mst@redhat.com;
+ helo=us-smtp-1.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/07/27 00:16:29
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
 X-Spam_score_int: -30
 X-Spam_score: -3.1
@@ -82,214 +94,82 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: weidong.huang@huawei.com, wangxinxin.wang@huawei.com, jusual@redhat.com,
- qemu-devel@nongnu.org, Hogan Wang <hogan.wang@huawei.com>
+Cc: Jailhouse <jailhouse-dev@googlegroups.com>, liang yan <lyan@suse.com>,
+ Alex =?iso-8859-1?Q?Benn=E9e?= <alex.bennee@linaro.org>,
+ qemu-devel <qemu-devel@nongnu.org>,
+ "virtio-comment@lists.oasis-open.org" <virtio-comment@lists.oasis-open.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-* Michael S. Tsirkin (mst@redhat.com) wrote:
-> On Mon, Jul 27, 2020 at 04:46:21PM +0800, Hogan Wang wrote:
-> > The i440fx and q35 machines integrate i440FX or MCH PCI device by default.
-> > Refer to i440FX and ICH9-LPC spcifications, there are some reserved
-> > configuration registers can used to save/restore PCIHostState.config_reg.
-> > It's nasty but friendly to old ones.
+On Mon, Jul 27, 2020 at 03:39:32PM +0200, Jan Kiszka wrote:
+> On 27.07.20 15:20, Michael S. Tsirkin wrote:
+> > On Mon, May 25, 2020 at 09:58:28AM +0200, Jan Kiszka wrote:
+> > > #### Vendor Specific Capability (ID 09h)
+> > > 
+> > > This capability must always be present.
+> > > 
+> > > | Offset | Register            | Content                                        |
+> > > |-------:|:--------------------|:-----------------------------------------------|
+> > > |    00h | ID                  | 09h                                            |
+> > > |    01h | Next Capability     | Pointer to next capability or 00h              |
+> > > |    02h | Length              | 20h if Base Address is present, 18h otherwise  |
+> > > |    03h | Privileged Control  | Bit 0 (read/write): one-shot interrupt mode    |
+> > > |        |                     | Bits 1-7: Reserved (0 on read, writes ignored) |
+> > > |    04h | State Table Size    | 32-bit size of read-only State Table           |
+> > > |    08h | R/W Section Size    | 64-bit size of common read/write section       |
+> > > |    10h | Output Section Size | 64-bit size of output sections                 |
+> > > |    18h | Base Address        | optional: 64-bit base address of shared memory |
+> > > 
+> > > All registers are read-only. Writes are ignored, except to bit 0 of
+> > > the Privileged Control register.
 > > 
-> > Reproducer steps:
-> > step 1. Make modifications to seabios and qemu for increase reproduction
-> > efficiency, write 0xf0 to 0x402 port notify qemu to stop vcpu after
-> > 0x0cf8 port wrote i440 configure register. qemu stop vcpu when catch
-> > 0x402 port wrote 0xf0.
 > > 
-> > seabios:/src/hw/pci.c
-> > @@ -52,6 +52,11 @@ void pci_config_writeb(u16 bdf, u32 addr, u8 val)
-> >          writeb(mmconfig_addr(bdf, addr), val);
-> >      } else {
-> >          outl(ioconfig_cmd(bdf, addr), PORT_PCI_CMD);
-> > +       if (bdf == 0 && addr == 0x72 && val == 0xa) {
-> > +            dprintf(1, "stop vcpu\n");
-> > +            outb(0xf0, 0x402); // notify qemu to stop vcpu
-> > +            dprintf(1, "resume vcpu\n");
-> > +        }
-> >          outb(val, PORT_PCI_DATA + (addr & 3));
-> >      }
-> >  }
-> > 
-> > qemu:hw/char/debugcon.c
-> > @@ -60,6 +61,9 @@ static void debugcon_ioport_write(void *opaque, hwaddr addr, uint64_t val,
-> >      printf(" [debugcon: write addr=0x%04" HWADDR_PRIx " val=0x%02" PRIx64 "]\n", addr, val);
-> >  #endif
-> > 
-> > +    if (ch == 0xf0) {
-> > +        vm_stop(RUN_STATE_PAUSED);
-> > +    }
-> >      /* XXX this blocks entire thread. Rewrite to use
-> >       * qemu_chr_fe_write and background I/O callbacks */
-> >      qemu_chr_fe_write_all(&s->chr, &ch, 1);
-> > 
-> > step 2. start vm1 by the following command line, and then vm stopped.
-> > $ qemu-system-x86_64 -machine pc-i440fx-5.0,accel=kvm\
-> >  -netdev tap,ifname=tap-test,id=hostnet0,vhost=on,downscript=no,script=no\
-> >  -device virtio-net-pci,netdev=hostnet0,id=net0,bus=pci.0,addr=0x13,bootindex=3\
-> >  -device cirrus-vga,id=video0,vgamem_mb=16,bus=pci.0,addr=0x2\
-> >  -chardev file,id=seabios,path=/var/log/test.seabios,append=on\
-> >  -device isa-debugcon,iobase=0x402,chardev=seabios\
-> >  -monitor stdio
-> > 
-> > step 3. start vm2 to accept vm1 state.
-> > $ qemu-system-x86_64 -machine pc-i440fx-5.0,accel=kvm\
-> >  -netdev tap,ifname=tap-test1,id=hostnet0,vhost=on,downscript=no,script=no\
-> >  -device virtio-net-pci,netdev=hostnet0,id=net0,bus=pci.0,addr=0x13,bootindex=3\
-> >  -device cirrus-vga,id=video0,vgamem_mb=16,bus=pci.0,addr=0x2\
-> >  -chardev file,id=seabios,path=/var/log/test.seabios,append=on\
-> >  -device isa-debugcon,iobase=0x402,chardev=seabios\
-> >  -monitor stdio \
-> >  -incoming tcp:127.0.0.1:8000
-> > 
-> > step 4. execute the following qmp command in vm1 to migrate.
-> > (qemu) migrate tcp:127.0.0.1:8000
-> > 
-> > step 5. execute the following qmp command in vm2 to resume vcpu.
-> > (qemu) cont
-> > 
-> > Before this patch, we can get KVM "emulation failure" error on vm2.
-> > This patch can fix it.
-> > 
-> > Signed-off-by: Hogan Wang <hogan.wang@huawei.com>
+> > Is there value in making this follow the virtio vendor-specific
+> > capability format? That will cost several extra bytes - do you envision
+> > having many of these in the config space?
 > 
-> Question - did you test that this migrates successfully to
-> old QEMU too? Thanks!
+> Of course, this could be modeled with via virtio_pci_cap as well. Would add
+> 12 unused by bytes and one type byte. If it helps to make the device look
+> more virtio'ish, but I'm afraid there are more differences at PCI level.
 
-I'm not seeing how it will; and isn't pci_host used in lots of
-architectures?
+I guess it will be useful if we ever find it handy to make an ivshmem
+device also be a virtio device. Can't say why yet but if we don't care
+it vaguely seems kind of like a good idea. I guess it will also be handy
+if you ever need another vendor specific cap: you already get a way to
+identify it without breaking drivers.
 
-Dave
 
-> And I guess this needs a CC stable?
-> 
-> > ---
-> >  hw/pci-host/i440fx.c | 31 +++++++++++++++++++++++++++++++
-> >  hw/pci-host/q35.c    | 30 ++++++++++++++++++++++++++++++
-> >  2 files changed, 61 insertions(+)
-> > 
-> > diff --git a/hw/pci-host/i440fx.c b/hw/pci-host/i440fx.c
-> > index 8ed2417f0c..b78c8bc5f9 100644
-> > --- a/hw/pci-host/i440fx.c
-> > +++ b/hw/pci-host/i440fx.c
-> > @@ -64,6 +64,14 @@ typedef struct I440FXState {
-> >   */
-> >  #define I440FX_COREBOOT_RAM_SIZE 0x57
-> >  
-> > +/* Older I440FX machines (5.0 and older) not support i440FX-pcihost state
-> > + * migration, use some reserved INTEL 82441 configuration registers to
-> > + * save/restore i440FX-pcihost config register. Refer to [INTEL 440FX PCISET
-> > + * 82441FX PCI AND MEMORY CONTROLLER (PMC) AND 82442FX DATA BUS ACCELERATOR
-> > + * (DBX) Table 1. PMC Configuration Space]
-> > + */
-> > +#define I440FX_PCI_HOST_CONFIG_REG 0x94
-> > +
-> >  static void i440fx_update_memory_mappings(PCII440FXState *d)
-> >  {
-> >      int i;
-> > @@ -98,8 +106,30 @@ static void i440fx_write_config(PCIDevice *dev,
-> >  static int i440fx_post_load(void *opaque, int version_id)
-> >  {
-> >      PCII440FXState *d = opaque;
-> > +    PCIDevice *dev;
-> > +    PCIHostState *s = OBJECT_CHECK(PCIHostState,
-> > +                                   object_resolve_path("/machine/i440fx", NULL),
-> > +                                   TYPE_PCI_HOST_BRIDGE);
-> >  
-> >      i440fx_update_memory_mappings(d);
-> > +
-> > +    if (!s->mig_enabled) {
-> > +        dev = PCI_DEVICE(d);
-> > +        s->config_reg = pci_get_long(&dev->config[I440FX_PCI_HOST_CONFIG_REG]);
-> > +    }
-> > +    return 0;
-> > +}
-> > +
-> > +static int i440fx_pre_save(void *opaque)
-> > +{
-> > +    PCIDevice *dev = opaque;
-> > +    PCIHostState *s = OBJECT_CHECK(PCIHostState,
-> > +                                   object_resolve_path("/machine/i440fx", NULL),
-> > +                                   TYPE_PCI_HOST_BRIDGE);
-> > +    if (!s->mig_enabled) {
-> > +        pci_set_long(&dev->config[I440FX_PCI_HOST_CONFIG_REG],
-> > +                     s->config_reg);
-> > +    }
-> >      return 0;
-> >  }
-> >  
-> > @@ -107,6 +137,7 @@ static const VMStateDescription vmstate_i440fx = {
-> >      .name = "I440FX",
-> >      .version_id = 3,
-> >      .minimum_version_id = 3,
-> > +    .pre_save = i440fx_pre_save,
-> >      .post_load = i440fx_post_load,
-> >      .fields = (VMStateField[]) {
-> >          VMSTATE_PCI_DEVICE(parent_obj, PCII440FXState),
-> > diff --git a/hw/pci-host/q35.c b/hw/pci-host/q35.c
-> > index b67cb9c29f..bed66be181 100644
-> > --- a/hw/pci-host/q35.c
-> > +++ b/hw/pci-host/q35.c
-> > @@ -43,6 +43,15 @@
-> >  
-> >  #define Q35_PCI_HOST_HOLE64_SIZE_DEFAULT (1ULL << 35)
-> >  
-> > +/* Older Q35 machines (5.0 and older) not support q35-pcihost state
-> > + * migration, use some reserved INTEL MCH configuration registers to
-> > + * save/restore q35-pcihost config register. Refer to [Intel 3 Series
-> > + * Chipset Family Datasheet Table 5-1. DRAM Controller Register Address
-> > + * Map (D0:F0)]
-> > + */
-> > +#define Q35_PCI_HOST_CONFIG_REG 0x70
-> > +
-> > +
-> >  static void q35_host_realize(DeviceState *dev, Error **errp)
-> >  {
-> >      PCIHostState *pci = PCI_HOST_BRIDGE(dev);
-> > @@ -513,7 +522,27 @@ static void mch_update(MCHPCIState *mch)
-> >  static int mch_post_load(void *opaque, int version_id)
-> >  {
-> >      MCHPCIState *mch = opaque;
-> > +    PCIDevice *dev;
-> > +    PCIHostState *s = OBJECT_CHECK(PCIHostState,
-> > +                                   object_resolve_path("/machine/q35", NULL),
-> > +                                   TYPE_PCI_HOST_BRIDGE);
-> >      mch_update(mch);
-> > +    if (!s->mig_enabled) {
-> > +        dev = PCI_DEVICE(mch);
-> > +        s->config_reg = pci_get_long(&dev->config[Q35_PCI_HOST_CONFIG_REG]);
-> > +    }
-> > +    return 0;
-> > +}
-> > +
-> > +static int mch_pre_save(void *opaque)
-> > +{
-> > +    PCIDevice *dev = opaque;
-> > +    PCIHostState *s = OBJECT_CHECK(PCIHostState,
-> > +                                   object_resolve_path("/machine/q35", NULL),
-> > +                                   TYPE_PCI_HOST_BRIDGE);
-> > +    if (!s->mig_enabled) {
-> > +        pci_set_long(&dev->config[Q35_PCI_HOST_CONFIG_REG], s->config_reg);
-> > +    }
-> >      return 0;
-> >  }
-> >  
-> > @@ -521,6 +550,7 @@ static const VMStateDescription vmstate_mch = {
-> >      .name = "mch",
-> >      .version_id = 1,
-> >      .minimum_version_id = 1,
-> > +    .pre_save = mch_pre_save,
-> >      .post_load = mch_post_load,
-> >      .fields = (VMStateField[]) {
-> >          VMSTATE_PCI_DEVICE(parent_obj, MCHPCIState),
-> > -- 
-> > 2.27.0
+> I do not see a use case for having multiple of those caps above per device.
+> If someone comes around with a valid use case for having multiple,
+> non-consequitive shared memory regions for one device, we would need to add
+> registers for them. But that would also only work for non-BAR regions due to
+> limited BARs.
+
+
+OK, I guess this answers the below too.
+
+> > Also, do we want to define an extended capability format in case this
+> > is a pci extended capability?
 > > 
 > 
---
-Dr. David Alan Gilbert / dgilbert@redhat.com / Manchester, UK
+> What would be the practical benefit? Do you see PCIe caps that could become
+> useful in virtual setups?
+
+So if we ever have a huge number of these caps, PCIe allows many more
+caps.
+
+> We don't do that for regular virtio devices
+> either, do we?
+
+We don't, there's a small number of these so we don't run out of config
+space.
+
+> 
+> Thanks,
+> Jan
+> 
+> -- 
+> Siemens AG, Corporate Technology, CT RDA IOT SES-DE
+> Corporate Competence Center Embedded Linux
 
 
