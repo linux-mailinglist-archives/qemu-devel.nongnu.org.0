@@ -2,75 +2,74 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B2A3A22FB2B
-	for <lists+qemu-devel@lfdr.de>; Mon, 27 Jul 2020 23:16:00 +0200 (CEST)
-Received: from localhost ([::1]:48450 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id EE21522FBA1
+	for <lists+qemu-devel@lfdr.de>; Mon, 27 Jul 2020 23:50:52 +0200 (CEST)
+Received: from localhost ([::1]:41402 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1k0ATX-0007Ne-Hx
-	for lists+qemu-devel@lfdr.de; Mon, 27 Jul 2020 17:15:59 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:39072)
+	id 1k0B1H-00026H-8s
+	for lists+qemu-devel@lfdr.de; Mon, 27 Jul 2020 17:50:51 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:45328)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <eblake@redhat.com>) id 1k0ASc-0006mQ-7m
- for qemu-devel@nongnu.org; Mon, 27 Jul 2020 17:15:02 -0400
-Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:37207
- helo=us-smtp-1.mimecast.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <eblake@redhat.com>) id 1k0ASZ-0007Iv-Fd
- for qemu-devel@nongnu.org; Mon, 27 Jul 2020 17:15:01 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1595884498;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=jAk04VUjpA9V11fU+d0OIfuJPDGWYmpHWRVZeKwWDoM=;
- b=YPO3KrRG838kWac3NkXeu113xGPxx99ipPLeBmTmrwMYPVX+/DU8gvjiZ1QBleUAnf9QXV
- D+uHh/BXRN6T2AX3zlf7jjLHd5n6fbPS78ZP/Bp+kejYFbCGF7upfXdUgPMlAsy8cEGLBe
- Tm57D7z+EO4Qj98jPgPTB34yDidCdDA=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-344-wsbCPAcsNzabSM5zrv1g9w-1; Mon, 27 Jul 2020 17:14:53 -0400
-X-MC-Unique: wsbCPAcsNzabSM5zrv1g9w-1
-Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
- [10.5.11.23])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id D1FD5102C808;
- Mon, 27 Jul 2020 21:14:51 +0000 (UTC)
-Received: from [10.10.118.248] (ovpn-118-248.rdu2.redhat.com [10.10.118.248])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id D87A319D82;
- Mon, 27 Jul 2020 21:14:50 +0000 (UTC)
-Subject: Re: [PATCH v2 2/5] block/nbd: allow drain during reconnect attempt
-To: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>,
- qemu-block@nongnu.org
-References: <20200727184751.15704-1-vsementsov@virtuozzo.com>
- <20200727184751.15704-3-vsementsov@virtuozzo.com>
-From: Eric Blake <eblake@redhat.com>
-Organization: Red Hat, Inc.
-Message-ID: <d5f6efc0-5878-aaad-c3b5-6bdbb456f05b@redhat.com>
-Date: Mon, 27 Jul 2020 16:14:49 -0500
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.10.0
+ (Exim 4.90_1) (envelope-from <deller@gmx.de>) id 1k0Aws-0000RA-OM
+ for qemu-devel@nongnu.org; Mon, 27 Jul 2020 17:46:18 -0400
+Received: from mout.gmx.net ([212.227.15.19]:42935)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <deller@gmx.de>) id 1k0Awq-0002mt-L4
+ for qemu-devel@nongnu.org; Mon, 27 Jul 2020 17:46:18 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=gmx.net;
+ s=badeba3b8450; t=1595886370;
+ bh=yBixY+k/FDbsx8bdN6iEXvCmESz5s1hyDi2VuQsCTiI=;
+ h=X-UI-Sender-Class:From:To:Cc:Subject:Date;
+ b=AKWZIfXgX3+oNQqrfSmCdvEpt5pVRjeS7Z1aKdRmd12hwayPC2TvKU9RQtk0/aWfs
+ XiZJbrU5V4wSxq6+04nb8I5j4LT0+/MBtkUOXA1TZHif8MDPfnkGdODD0yupJ7/UiV
+ C5jtuBdek4j5i/yvLHBp0M7s+e6xF5qWR+GgNB5M=
+X-UI-Sender-Class: 01bb95c1-4bf8-414a-932a-4f6e2808ef9c
+Received: from ls3530.fritz.box ([92.116.179.161]) by mail.gmx.com (mrgmx004
+ [212.227.17.190]) with ESMTPSA (Nemesis) id 1Mw9Q6-1kpwik17e0-00s2I9; Mon, 27
+ Jul 2020 23:46:10 +0200
+From: Helge Deller <deller@gmx.de>
+To: qemu-devel@nongnu.org
+Subject: [PATCH 0/4] Various fixes for hppa architecture
+Date: Mon, 27 Jul 2020 23:46:04 +0200
+Message-Id: <20200727214608.32710-1-deller@gmx.de>
+X-Mailer: git-send-email 2.21.3
 MIME-Version: 1.0
-In-Reply-To: <20200727184751.15704-3-vsementsov@virtuozzo.com>
-Content-Language: en-US
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=205.139.110.120; envelope-from=eblake@redhat.com;
- helo=us-smtp-1.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/07/27 01:44:14
-X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
-X-Spam_score_int: -40
-X-Spam_score: -4.1
-X-Spam_bar: ----
-X-Spam_report: (-4.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-1, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001, URIBL_BLOCKED=0.001 autolearn=unavailable autolearn_force=no
+Content-Transfer-Encoding: quoted-printable
+X-Provags-ID: V03:K1:HBZqu5+FFQRYSkrnewznMDB2eNYfKZiQURAGYmN55XBhyCd+xx0
+ CuqTochANGpf5Yr3e+exVit6ZBaYzc27FR+RxNgEfGwprTSHlmWMu1RkQ1pkOlU0D9ANdhR
+ VHJcGo2imklcLrUp4uVF3cn8WKEyi7+wgXGImbI7CAiLFsAjC60ayMZ8MCFiBFEa876EGHY
+ Gy76yiEG/UWaNUroI3fDA==
+X-UI-Out-Filterresults: notjunk:1;V03:K0:kVkKLIA87r4=:jc9hPWkL9zqXIXU1TyXqAl
+ Sj1fmnONIgzHs6nEtxH++Ew3fnuBJkzMsa05+hq1r+EbU3Xyf6R/PnsTyHt7AHGpJuMRu09tl
+ RtNx8AofAGjMtNpxAiinT3gtZw7HxKik4IiJRjcWh+LOhtws/pTpKDcNnCXS/fY0xQ9cAhwne
+ G34rHhlORS7yaf79b5SMY5SR4H5Mk019PxnyNxdyHCSBYwlDQ36rQ+8F/WYG5YFmvCnauvVHq
+ /GiwuW65k1zLPYXoZnqxoUn5oqLmZyp8VRIO9UtFL6IPLyJPGlKFdUGqXyICkPDzQfhQvf4xw
+ eTRYPYCDNLgRdIGKcR4a6fx128eHBCwGR68g6mH4X2u3hN4fnl3e45xk4IX3/STOY8LMH3w88
+ uSK96fEGmZBoOYvhSwDkG4CkZU7/x4taPyAK2NEN3u9Owya0i7HG46e9vdnDnLlvr+NxdcHtu
+ pxTnYzG2bn5en1ZyzNO4a0CQBsl6V2a3ycbDhIAmUg/FSDEk2hoi2Mxrm05GDFNN0UyQ9gcd9
+ KLoHuYRZ9fA+2f7FbBjjMtKGwEAO0bl+P3WTJDGP/I8IUuHs/tRiHYseJEKHnOPOiD6JlvZL8
+ Pz7RJ72rsLcT0p2vZRDV/+OqMVDmnah28s+qK7RBwmsYAC9LopU1riQYsJKDQAYpXTFzxh56D
+ d/RhUOUL7+WUFqK9w45whRhMcsb+z7Hx9Ghd7vKI0fWws6zSl3kEmqJ/N6oyJYAMqS92M8CkM
+ jbPOTSkA5oN1/yLrjhTutlQUpaeQSD+cPRoWvsLekxWdlW0UWNgarj6EYA3flyTZSYiS91v48
+ OoYgJ/RJZ8VIRxHD07Gr0YZDdZsRqmJj7/+p5b8INHMDhD+aShWi8gNYuw61XA46hmX8OkXOd
+ x2BOPSY/YJhw7Y0ntFkUzSHE/4c3ufF6LJOs/MCMoFXbKfB/7FmxcfdK+RMhTPkEbRFWwuwyY
+ 1M6R+3odmQTAtcRd/TU+gD34jXruQzV0xAQS/cOwRIkOb8JLl7W0B5i47fIVemvLFVYJjy7PY
+ cB2H4qRPr+E+2j53g0yo9BvH1spb7tJEy8zWSFcNP7w4J5mbKEMdOlGaAx3qIid6/FYnSYgYg
+ NoWLg1VNMztEq+rGMcieXRCjui8+Ko+d3ofzJ7o4qYxjvxOKRRiaBYS6cFaxOqW/pkzJUNKbL
+ rNMe/GzwhsE5Eo3XLpAoO07f5BT8Ep2Bf4dsnOucqx9SBdvyszyUYVK6ljOild/vQtdOLt43W
+ c5adWBi5uXS7e4Fxb
+Received-SPF: pass client-ip=212.227.15.19; envelope-from=deller@gmx.de;
+ helo=mout.gmx.net
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/07/27 17:46:13
+X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic]
+X-Spam_score_int: -35
+X-Spam_score: -3.6
+X-Spam_bar: ---
+X-Spam_report: (-3.6 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, FREEMAIL_FROM=0.001, RCVD_IN_DNSWL_LOW=-0.7,
+ RCVD_IN_MSPIKE_H2=-1, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -83,89 +82,45 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: kwolf@redhat.com, den@openvz.org, berrange@redhat.com,
- qemu-devel@nongnu.org, mreitz@redhat.com
+Cc: Helge Deller <deller@gmx.de>, Richard Henderson <rth@twiddle.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 7/27/20 1:47 PM, Vladimir Sementsov-Ogievskiy wrote:
-> It should be to reenter qio_channel_yield() on io/channel read/write
+This patch series fixes a few issues with the hppa emulation:
 
-be safe
+* The artist framebuffer emulation reports:
+  "write outside bounds: wants 1256x1023, max size 1280x1024"
+  This is fixed by a patch from Sven Schnelle.
 
-> path, so it's safe to reduce in_flight and allow attaching new aio
-> context. And no problem to allow drain itself: connection attempt is
-> not a guest request. Moreover, if remote server is down, we can hang
-> in negotiation, blocking drain section and provoking a dead lock.
-> 
-> How to reproduce the dead lock:
-> 
-> 1. Create nbd-fault-injector.conf with the following contents:
-> 
-> [inject-error "mega1"]
-> event=data
-> io=readwrite
-> when=before
-> 
-> 2. In one terminal run nbd-fault-injector in a loop, like this:
-> 
-> n=1; while true; do
->      echo $n; ((n++));
->      ./nbd-fault-injector.py 127.0.0.1:10000 nbd-fault-injector.conf;
-> done
-> 
-> 3. In another terminal run qemu-io in a loop, like this:
-> 
-> n=1; while true; do
->      echo $n; ((n++));
->      ./qemu-io -c 'read 0 512' nbd://127.0.0.1:10000;
-> done
-> 
+* Fix a SeaBIOS hppa compilation issue with gcc-10.
 
-> 
-> Note, that the hang may be
-> triggered by another bug, so the whole case is fixed only together with
-> commit "block/nbd: on shutdown terminate connection attempt".
-> 
-> Signed-off-by: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
-> ---
->   block/nbd.c | 14 ++++++++++++++
->   1 file changed, 14 insertions(+)
-> 
-> diff --git a/block/nbd.c b/block/nbd.c
-> index 2ec6623c18..6d19f3c660 100644
-> --- a/block/nbd.c
-> +++ b/block/nbd.c
-> @@ -291,8 +291,22 @@ static coroutine_fn void nbd_reconnect_attempt(BDRVNBDState *s)
->           goto out;
->       }
->   
-> +    bdrv_dec_in_flight(s->bs);
-> +
->       ret = nbd_client_handshake(s->bs, sioc, &local_err);
->   
-> +    if (s->drained) {
-> +        s->wait_drained_end = true;
-> +        while (s->drained) {
-> +            /*
-> +             * We may be entered once from nbd_client_attach_aio_context_bh
-> +             * and then from nbd_client_co_drain_end. So here is a loop.
-> +             */
-> +            qemu_coroutine_yield();
-> +        }
-> +    }
-> +    bdrv_inc_in_flight(s->bs);
-> +
->   out:
->       s->connect_status = ret;
->       error_free(s->connect_err);
-> 
+* Implement a proper SeaBIOS firmware version check to prevent
+  incompatibility issues between emulation and firmware.
 
-Reviewed-by: Eric Blake <eblake@redhat.com>
+* The hppa_hardware.h file is shared with SeaBIOS. Sync it.
 
--- 
-Eric Blake, Principal Software Engineer
-Red Hat, Inc.           +1-919-301-3226
-Virtualization:  qemu.org | libvirt.org
+The series can be pulled from the fw_cfg-3 branch at:
+https://github.com/hdeller/qemu-hppa.git  fw_cfg-3
+
+Helge
+
+Helge Deller (3):
+  hw/hppa: Sync hppa_hardware.h file with SeaBIOS sources
+  seabios-hppa: Update to SeaBIOS hppa version 1
+  hw/hppa: Implement proper SeaBIOS version check
+
+Sven Schnelle (1):
+  hw/display/artist.c: fix out of bounds check
+
+ hw/display/artist.c       |  18 ++++++------------
+ hw/hppa/hppa_hardware.h   |   6 ++++++
+ hw/hppa/lasi.c            |   2 --
+ hw/hppa/machine.c         |  22 ++++++++++++++++++++++
+ pc-bios/hppa-firmware.img | Bin 766136 -> 783144 bytes
+ roms/seabios-hppa         |   2 +-
+ 6 files changed, 35 insertions(+), 15 deletions(-)
+
+=2D-
+2.21.3
 
 
