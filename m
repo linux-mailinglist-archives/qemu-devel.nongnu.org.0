@@ -2,76 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4BBAE22FDE3
-	for <lists+qemu-devel@lfdr.de>; Tue, 28 Jul 2020 01:31:06 +0200 (CEST)
-Received: from localhost ([::1]:40182 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id BFCC522FE28
+	for <lists+qemu-devel@lfdr.de>; Tue, 28 Jul 2020 01:49:11 +0200 (CEST)
+Received: from localhost ([::1]:45406 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1k0CaH-0002vq-5M
-	for lists+qemu-devel@lfdr.de; Mon, 27 Jul 2020 19:31:05 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:36680)
+	id 1k0Crm-0006QG-AR
+	for lists+qemu-devel@lfdr.de; Mon, 27 Jul 2020 19:49:10 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:39700)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <flukshun@gmail.com>)
- id 1k0CYo-0001yR-5t; Mon, 27 Jul 2020 19:29:34 -0400
-Received: from mail-oi1-x244.google.com ([2607:f8b0:4864:20::244]:34800)
+ (Exim 4.90_1) (envelope-from <alistair23@gmail.com>)
+ id 1k0Cqo-0005gv-FD; Mon, 27 Jul 2020 19:48:10 -0400
+Received: from mail-io1-xd44.google.com ([2607:f8b0:4864:20::d44]:38959)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <flukshun@gmail.com>)
- id 1k0CYm-00072f-Nl; Mon, 27 Jul 2020 19:29:33 -0400
-Received: by mail-oi1-x244.google.com with SMTP id q4so4116226oia.1;
- Mon, 27 Jul 2020 16:29:32 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <alistair23@gmail.com>)
+ id 1k0Cqm-0000ac-OM; Mon, 27 Jul 2020 19:48:10 -0400
+Received: by mail-io1-xd44.google.com with SMTP id z6so18931421iow.6;
+ Mon, 27 Jul 2020 16:48:08 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=sender:mime-version:content-transfer-encoding:to:from:in-reply-to
- :cc:references:message-id:user-agent:subject:date;
- bh=PbOFtq4EVL8HMfXcVPjsoJQLl3EKrYvQnhatQPGSjvc=;
- b=B7JYZ4eHgfBTuz1EaSA6t6CSyCUcHhmArF1fYl4FpyH8ZulBKNv+4EyCFMxMGZgHAR
- zlFHhI4wugYiLTLM5TQf9dcNAoE7rQE6zXD3VJKxP2S3Rbv/xZ9RnQiH67pltInvVqSJ
- juZ52W4TTZj7GVoIsK3YYkQjPapii6F3ONPJXAdH0lTPkCYd4ramxixdbgZu4HqEyrtd
- eqXtt5GtHizbgzs7uCXFtQTbZuG4zM6a/f7xMTjXFjfUDOw2FevmmW8Lvqb+bLwXa96C
- 5nItoNhDXGmiAYzrs/fyowE7QLEtMThNqWRnJVOKCz9YBVko8eJk3oJnP2ELLYDDU8ea
- xw7w==
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=xRSnipLXxx5JJUoCpXfRUL0NwQn7XhzydcMr06MSod4=;
+ b=uwPfxmnvjDdk7DDeT/r1knho+g6sqLzuD05zM7DLJ+DPtQHVNt81f+fw9g8zzu03za
+ UdPIN2XVb19FsvgUOrhC3HUgqxn0cND0dkYMzVEm9EOAYOS4dGxJ1l210/BtEb2Zd1aI
+ QLn7F6VgZnVVe3nWUQFG/aPJ4Hq1uBh9pObDmtRwUsy2WDsJCQ0IFhpbpc5PcVkjSJLd
+ o60gMvVltW7MHA82deteQMheDbfdLf0Tfq4du9HKyonbvfkLVUQhAGtb6Oe4oHVG8MYs
+ kqV36VNc1CysRhceCBYT3GBJPb6FOl5QyqsNkLN4Pd4S9ChT1XWFCPgmyEQtHTMfqCDY
+ IaXQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:sender:mime-version:content-transfer-encoding:to
- :from:in-reply-to:cc:references:message-id:user-agent:subject:date;
- bh=PbOFtq4EVL8HMfXcVPjsoJQLl3EKrYvQnhatQPGSjvc=;
- b=IvC+zp1zcAFdpnXn87hbybFYzw6QDzJrg8hAdEEw2WZbfdiCemR21u9iSJ2LFcqOXx
- Ha0KfZxPnfNb/trizGtGtJQTC4BAWR5jAFBsVZSh3PndXmyfxNAvyIe+QeHVr/SCSsfo
- 9byNc8DF9UtAyjpngNUMCBjxqKl/XvDR85Kd92g5l986cFT0QEFb5XVdoTEJJAFQg2EL
- f9LQPlpOOTHLI/T43jUObtz2i/XKEWKDvmBkb+DECXDnhoDAKvRKg5pZAYi0bLYnVYEE
- TgDJ5yeIiK2aMcBydgvI4Zm/b3wKdCoavO6x4uooj57yn6pXUitmRnrmdQ6FNUTPmJx8
- mABg==
-X-Gm-Message-State: AOAM532PKRqJjzWuujy1EBrlKn8yQAwwM4xKyxj/1mDsFOBv30wCnWGn
- h2ExSq0RZwspMMdwgfGOgQI=
-X-Google-Smtp-Source: ABdhPJxPpamKcMzRygZ/mCmA1M2nFocudL69OKkIK8HFHanJJb+S5QY433SA7/8w8uD+SDrUJQeL6Q==
-X-Received: by 2002:aca:c356:: with SMTP id t83mr1304220oif.25.1595892571159; 
- Mon, 27 Jul 2020 16:29:31 -0700 (PDT)
-Received: from localhost (76-251-165-188.lightspeed.austtx.sbcglobal.net.
- [76.251.165.188])
- by smtp.gmail.com with ESMTPSA id r22sm2669551ooq.37.2020.07.27.16.29.30
- (version=TLS1_2 cipher=ECDHE-ECDSA-CHACHA20-POLY1305 bits=256/256);
- Mon, 27 Jul 2020 16:29:30 -0700 (PDT)
-Content-Type: text/plain; charset="utf-8"
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=xRSnipLXxx5JJUoCpXfRUL0NwQn7XhzydcMr06MSod4=;
+ b=sHUonEDag086Jcr8WDA96shkVSKu8tnOuU3sqVloNURy4ToM2ZRI2asUZSerd08YZg
+ KhtRN4Tg8wX9E1h0OR5UmciHHfc6hTE8wwKWB+BkosJz3q6fIa9wZWUjkRjMtzZm58Rm
+ vSMlHIXDvyEfQGb6QYZFNLRjRuBFirvjAr9By4BXSNNYGsH1zyhp5cwqLEvHDdeUCtTL
+ dNoFiaBNi3FpKqiahqgU+t5rtQWPIMVmycYRYiEF6bpfAJY+C6l2Apl1tu8iK2UCpmxF
+ YkjHglC7F95wV81gHHJN++b+RUfLJJHJhJyA3olX/rwMDaV4FkFAvpQvJkyNgKDgjrE4
+ tLbA==
+X-Gm-Message-State: AOAM532VOcz+E7DGgBgS9xroQXGeuqLQRhv0K47T9yKPN057uyObsQLM
+ nK+88GYqCg664rbRtgWfD9KULATdMkdrIpBC8Sg=
+X-Google-Smtp-Source: ABdhPJxiTi73hz4aMSoUlZxIZlzl0pJ3AlIBqOsuFD0/2gLMQCmOwFSIODZWkjf6hDYCojVyc26D0ZjA0DptawX0beg=
+X-Received: by 2002:a6b:640f:: with SMTP id t15mr25991311iog.175.1595893687195; 
+ Mon, 27 Jul 2020 16:48:07 -0700 (PDT)
 MIME-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
-To: Thomas Huth <thuth@redhat.com>, qemu-devel@nongnu.org
-From: Michael Roth <mdroth@linux.vnet.ibm.com>
-In-Reply-To: <20200722044028.4059-1-thuth@redhat.com>
-References: <20200722044028.4059-1-thuth@redhat.com>
-Message-ID: <159589255850.31322.957505175034587602@sif>
-User-Agent: alot/0.7
-Subject: Re: [PATCH v2 0/4] Allow guest-get-fsinfo also for non-PCI devices
-Date: Mon, 27 Jul 2020 18:29:18 -0500
-Received-SPF: pass client-ip=2607:f8b0:4864:20::244;
- envelope-from=flukshun@gmail.com; helo=mail-oi1-x244.google.com
+References: <20200724002807.441147-1-richard.henderson@linaro.org>
+In-Reply-To: <20200724002807.441147-1-richard.henderson@linaro.org>
+From: Alistair Francis <alistair23@gmail.com>
+Date: Mon, 27 Jul 2020 16:37:51 -0700
+Message-ID: <CAKmqyKMwv7cWf+b9AL4ufsB3oJt56SUkDKa45JqhoDuuSh+7hA@mail.gmail.com>
+Subject: Re: [PATCH v2 0/7] target/riscv: NaN-boxing for multiple precison
+To: Richard Henderson <richard.henderson@linaro.org>
+Content-Type: text/plain; charset="UTF-8"
+Received-SPF: pass client-ip=2607:f8b0:4864:20::d44;
+ envelope-from=alistair23@gmail.com; helo=mail-io1-xd44.google.com
 X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
  That's all we know.
-X-Spam_score_int: 0
-X-Spam_score: 0.0
-X-Spam_bar: /
-X-Spam_report: (0.0 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1, DKIM_VALID=-0.1,
- DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=1, FREEMAIL_FROM=0.001,
- HEADER_FROM_DIFFERENT_DOMAINS=1, RCVD_IN_DNSWL_NONE=-0.0001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=no autolearn_force=no
+X-Spam_score_int: -17
+X-Spam_score: -1.8
+X-Spam_bar: -
+X-Spam_report: (-1.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ FREEMAIL_ENVFROM_END_DIGIT=0.25, FREEMAIL_FROM=0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ URIBL_BLOCKED=0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -84,48 +77,70 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-s390x@nongnu.org,
- =?utf-8?b?VG9tw6HFoSBHb2xlbWJpb3Zza8O9?= <tgolembi@redhat.com>,
- =?utf-8?q?Daniel_P_=2E_Berrang=C3=A9?= <berrange@redhat.com>
+Cc: Frank Chang <frank.chang@sifive.com>,
+ "open list:RISC-V" <qemu-riscv@nongnu.org>,
+ "qemu-devel@nongnu.org Developers" <qemu-devel@nongnu.org>,
+ liuzhiwei <zhiwei_liu@c-sky.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Quoting Thomas Huth (2020-07-21 23:40:24)
-> The information that can be retrieved via UDEV is also usable for non-PCI
-> devices. So let's allow build_guest_fsinfo_for_real_device() on non-PCI
-> devices, too. This is required to fix the bug that CCW devices show up
-> without "Target" when running libvirt's "virsh domfsinfo" command (see
-> https://bugzilla.redhat.com/show_bug.cgi?id=3D1755075 for details).
-> =
+On Thu, Jul 23, 2020 at 5:28 PM Richard Henderson
+<richard.henderson@linaro.org> wrote:
+>
+> This is my take on Liu Zhiwei's patch set:
+> https://patchew.org/QEMU/20200626205917.4545-1-zhiwei_liu@c-sky.com
+>
+> This differs from Zhiwei's v1 in:
+>
+>  * If a helper is involved, the helper does the boxing and unboxing.
+>
+>  * Which leaves only LDW and FSGN*.S as the only instructions that
+>    are expanded inline which need to handle nanboxing.
+>
+>  * All mention of RVD is dropped vs boxing.  This means that an
+>    RVF-only cpu will still generate and check nanboxes into the
+>    64-bit cpu_fpu slots.  There should be no way an RVF-only cpu
+>    can generate an unboxed cpu_fpu value.
+>
+>    This choice is made to speed up the common case: RVF+RVD, so
+>    that we do not have to check whether RVD is enabled.
+>
+>  * The translate.c primitives take TCGv values rather than fpu
+>    regno, which will make it possible to use them with RVV,
+>    since v0.9 does proper nanboxing.
+>
+>  * I have adjusted the current naming to be float32 specific ("*_s"),
+>    to avoid confusion with the float16 data type supported by RVV.
 
-> v2:
->  - Use g_new0 instead of g_malloc0 (as suggested by Daniel)
->  - Init fields to -1 explicitely, not via memset (Daniel)
->  - Add the fourth patch to also fill in virtio information on s390x
+Thanks Richard. As Zhiwei has reviewed all of these I have applied
+them to the riscv-to-apply.next tree for 5.2.
 
-Thanks, patches 2-4 applied to qga-staging tree for 5.2:
-  https://github.com/mdroth/qemu/commits/qga-staging
+Alistair
 
-I've sent a pull request for 5.1 with patch 1/4
-
-> =
-
-> Thomas Huth (4):
->   qga/qapi-schema: Document -1 for invalid PCI address fields
->   qga/commands-posix: Rework build_guest_fsinfo_for_real_device()
->     function
->   qga/commands-posix: Move the udev code from the pci to the generic
->     function
->   qga/commands-posix: Support fsinfo for non-PCI virtio devices, too
-> =
-
->  qga/commands-posix.c | 157 ++++++++++++++++++++++++++++++-------------
->  qga/qapi-schema.json |   2 +-
->  2 files changed, 110 insertions(+), 49 deletions(-)
-> =
-
-> -- =
-
-> 2.18.1
->=20
+>
+>
+> r~
+>
+>
+> LIU Zhiwei (2):
+>   target/riscv: Clean up fmv.w.x
+>   target/riscv: check before allocating TCG temps
+>
+> Richard Henderson (5):
+>   target/riscv: Generate nanboxed results from fp helpers
+>   target/riscv: Generalize gen_nanbox_fpr to gen_nanbox_s
+>   target/riscv: Generate nanboxed results from trans_rvf.inc.c
+>   target/riscv: Check nanboxed inputs to fp helpers
+>   target/riscv: Check nanboxed inputs in trans_rvf.inc.c
+>
+>  target/riscv/internals.h                |  16 ++++
+>  target/riscv/fpu_helper.c               | 102 ++++++++++++++++--------
+>  target/riscv/insn_trans/trans_rvd.inc.c |   8 +-
+>  target/riscv/insn_trans/trans_rvf.inc.c |  99 ++++++++++++++---------
+>  target/riscv/translate.c                |  29 +++++++
+>  5 files changed, 178 insertions(+), 76 deletions(-)
+>
+> --
+> 2.25.1
+>
 
