@@ -2,69 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 01EF522F3C3
-	for <lists+qemu-devel@lfdr.de>; Mon, 27 Jul 2020 17:22:31 +0200 (CEST)
-Received: from localhost ([::1]:43424 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 91D5B22F3CA
+	for <lists+qemu-devel@lfdr.de>; Mon, 27 Jul 2020 17:24:01 +0200 (CEST)
+Received: from localhost ([::1]:49008 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1k04xS-0005PY-1K
-	for lists+qemu-devel@lfdr.de; Mon, 27 Jul 2020 11:22:30 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:42528)
+	id 1k04yu-0007gB-L6
+	for lists+qemu-devel@lfdr.de; Mon, 27 Jul 2020 11:24:00 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:42552)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1k04uX-0001XH-OJ
- for qemu-devel@nongnu.org; Mon, 27 Jul 2020 11:19:29 -0400
-Received: from mail-wm1-x329.google.com ([2a00:1450:4864:20::329]:37882)
+ id 1k04uZ-0001Yd-3P
+ for qemu-devel@nongnu.org; Mon, 27 Jul 2020 11:19:31 -0400
+Received: from mail-wr1-x442.google.com ([2a00:1450:4864:20::442]:34164)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1k04uW-0001Ks-3p
- for qemu-devel@nongnu.org; Mon, 27 Jul 2020 11:19:29 -0400
-Received: by mail-wm1-x329.google.com with SMTP id k8so4845977wma.2
- for <qemu-devel@nongnu.org>; Mon, 27 Jul 2020 08:19:27 -0700 (PDT)
+ id 1k04uX-0001M6-ED
+ for qemu-devel@nongnu.org; Mon, 27 Jul 2020 11:19:30 -0400
+Received: by mail-wr1-x442.google.com with SMTP id f7so15311899wrw.1
+ for <qemu-devel@nongnu.org>; Mon, 27 Jul 2020 08:19:29 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:subject:date:message-id:in-reply-to:references:mime-version
  :content-transfer-encoding;
- bh=I7vtUCKWCL7jNAPS28tV4Fp/0HKktgVJJq19XFkLoME=;
- b=gk4F3WpkToQUQLoNzahhS+hadEIu8b712RU8/l31NxkR9U6oCBgt0Y5rbCd19alkvE
- 7vorpbqhtdMR+aL0FWEqsAFJDPV2gDV4bTmxn9doY0UvuDRqV24/GSG8Duq0B1tBXkae
- bL1opfmv49SFXVyZBHp9YYOLCnCadYPmpmAplP0CjdpHLkyAUc2UfcO9Cd+lqA+Bq/SL
- jC2OOpG8CLTTbKM8Sct7Zo9dyeuQXUOgzLeMO0X8CxZfM2jRY5Gfj1PW/i7az122FC+i
- SBS5Dd23w8bd3KTT8p8I68dQ69bxkM94cDkpYTfayeCgr8KinPOaZJuzQMK/osa0qd60
- 9X7A==
+ bh=R9nya5qllTCM3YMYSzF0QauvCLw6C0mO2StmL8/Bb3Y=;
+ b=D4JcadsbbjMe67R37gKM0i6ccbHQ/Y5Mf+30LKl2kG7E65l1GzPHTSAH61jm13hZxW
+ jZ3lkYJqTNfsJqBVVW30gtpVbHgbL3l350QNjUK1DtHESCIetQ+bSinW1Y3EpnFEUoJD
+ 1LJsr60/4cxe5mXajCgOy5px3QaLgr3JR0EiKJ/iq5zkyhGcbs7MFOcqB7UF3QIaU4mr
+ JR5v5LEJ9S7MwzgKqQ7jTX3cMmxPXXf4xXpYDEOEkbzIDf2vk5HQ9Z+N0XKhl+yGqijP
+ +nmGmULZWlHmg+yxKM8mZ9k7b3r5Cad/0lxa1/fprn7Ls4/BVIEK5BZt6oimTryzxBFq
+ 5uWQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=I7vtUCKWCL7jNAPS28tV4Fp/0HKktgVJJq19XFkLoME=;
- b=uAPQdrgw2Cx5tLGNinwUoYx5dox7HgZzF/a3e4yBHbweSId5TKj1n1eUe3Wibv5q5c
- VUIbbKxCYocH5Kn7FglMlClMxLCbvo7d/6hD1gKa0ki3FXo4qK/NJl3G4hOJ8avqjHVH
- 2gSCmGMyDa8vdnoBVVv050Wo3TbMb9AB8jATu6j7y7IQNfEA59DhPa5WjA/+4c8eILtM
- r2ik9+1v+4hrkm9H7qxL6+kFo4rrBjuSpj+gfXEf8y6maeQdrFxrVLgswrP4oSO4r6xF
- +NCbAOcooxSF5hGq1yKxJJbh4aY9SsKJ0JSZ7jQmf+dEozvyz3Xh8TROf9aN60czX7cl
- mFsw==
-X-Gm-Message-State: AOAM531OrdG9jhxzY0VuIxy5BFf43PWpFyC2RRMKfwBzYwwEKGI+OkW3
- uo/pWG986gj7CwfN2+TSBft2jXNp1G7oxA==
-X-Google-Smtp-Source: ABdhPJy6quRYMErTnC/XsuFRJd5qUYgrA/S627xOIUEMcy/4Z7X1Z5HuF90TBwDthfqHUTp0VtXPyQ==
-X-Received: by 2002:a1c:c345:: with SMTP id t66mr12473262wmf.0.1595863166226; 
- Mon, 27 Jul 2020 08:19:26 -0700 (PDT)
+ bh=R9nya5qllTCM3YMYSzF0QauvCLw6C0mO2StmL8/Bb3Y=;
+ b=I68+eyrwN1/5voKWBzCulcGhTVZJRVmN6nLTwk1WplifJViSdOvYoTLlNYvEoPWayZ
+ BhFBcKW+owQRPrGY8eGOBq5pTxJoe7xyDhS2HJzHJgrUICaF0JXL73hMWYT3vk9rsNiJ
+ 4MogZsDgFntW79GO0SzdBs85BLMUIEAxdp0xrlqMFmM71sGyOcKDhg/ghBep8oXov+mF
+ yQdYa0N8i1uH+vGkM324cL9K8T3NoKmqcJ3aGy6x2NH+h1y6rYVlKYFUVKT39I70g9za
+ n+14HmcY+kGQEXqizI9q8W5Ozhyh8RcppvF/iEyPbm6bVB2APLODNjk+ppZ8BVz1Kd8H
+ QYFg==
+X-Gm-Message-State: AOAM532jxgpUgPMP7yq5lpeup9OhR/Rs8O7NPMQwzx0bkdukFLrNzMwn
+ oh/yFJSTU1easkUP7D229xBLkZB9o1EbjA==
+X-Google-Smtp-Source: ABdhPJz7k1KZYdY/+EBfD1qzAgwexagrf+4/T0hQ+05mZelWjRn3pA1RWAUSguBExattBgoc+0PbtA==
+X-Received: by 2002:adf:de09:: with SMTP id b9mr8154842wrm.409.1595863167650; 
+ Mon, 27 Jul 2020 08:19:27 -0700 (PDT)
 Received: from orth.archaic.org.uk (orth.archaic.org.uk. [81.2.115.148])
- by smtp.gmail.com with ESMTPSA id h199sm18744996wme.42.2020.07.27.08.19.24
+ by smtp.gmail.com with ESMTPSA id h199sm18744996wme.42.2020.07.27.08.19.26
  for <qemu-devel@nongnu.org>
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 27 Jul 2020 08:19:25 -0700 (PDT)
+ Mon, 27 Jul 2020 08:19:27 -0700 (PDT)
 From: Peter Maydell <peter.maydell@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PULL 2/7] hw/misc/aspeed_sdmc: Fix incorrect memory size
-Date: Mon, 27 Jul 2020 16:19:15 +0100
-Message-Id: <20200727151920.19150-3-peter.maydell@linaro.org>
+Subject: [PULL 3/7] target/arm: Always pass cacheattr in S1_ptw_translate
+Date: Mon, 27 Jul 2020 16:19:16 +0100
+Message-Id: <20200727151920.19150-4-peter.maydell@linaro.org>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20200727151920.19150-1-peter.maydell@linaro.org>
 References: <20200727151920.19150-1-peter.maydell@linaro.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::329;
- envelope-from=peter.maydell@linaro.org; helo=mail-wm1-x329.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::442;
+ envelope-from=peter.maydell@linaro.org; helo=mail-wr1-x442.google.com
 X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
  That's all we know.
 X-Spam_score_int: -20
@@ -89,71 +88,63 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Philippe Mathieu-Daudé <f4bug@amsat.org>
+From: Richard Henderson <richard.henderson@linaro.org>
 
-The SDRAM Memory Controller has a 32-bit address bus, thus
-supports up to 4 GiB of DRAM. There is a signed to unsigned
-conversion error with the AST2600 maximum memory size:
+When we changed the interface of get_phys_addr_lpae to require
+the cacheattr parameter, this spot was missed.  The compiler is
+unable to detect the use of NULL vs the nonnull attribute here.
 
-  (uint64_t)(2048 << 20) = (uint64_t)(-2147483648)
-                         = 0xffffffff40000000
-                         = 16 EiB - 2 GiB
-
-Fix by using the IEC suffixes which are usually safer, and add
-an assertion check to verify the memory is valid. This would have
-caught this bug:
-
-  $ qemu-system-arm -M ast2600-evb
-  qemu-system-arm: hw/misc/aspeed_sdmc.c:258: aspeed_sdmc_realize: Assertion `asc->max_ram_size < 4 * GiB' failed.
-  Aborted (core dumped)
-
-Fixes: 1550d72679 ("aspeed/sdmc: Add AST2600 support")
-Reviewed-by: Cédric Le Goater <clg@kaod.org>
-Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
+Fixes: 7e98e21c098
+Reported-by: Jan Kiszka <jan.kiszka@siemens.com>
+Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
+Tested-by: Jan Kiszka <jan.kiskza@siemens.com>
+Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
 Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
 ---
- hw/misc/aspeed_sdmc.c | 7 ++++---
- 1 file changed, 4 insertions(+), 3 deletions(-)
+ target/arm/helper.c | 19 ++++++-------------
+ 1 file changed, 6 insertions(+), 13 deletions(-)
 
-diff --git a/hw/misc/aspeed_sdmc.c b/hw/misc/aspeed_sdmc.c
-index 0737d8de81d..855848b7d23 100644
---- a/hw/misc/aspeed_sdmc.c
-+++ b/hw/misc/aspeed_sdmc.c
-@@ -255,6 +255,7 @@ static void aspeed_sdmc_realize(DeviceState *dev, Error **errp)
-     AspeedSDMCState *s = ASPEED_SDMC(dev);
-     AspeedSDMCClass *asc = ASPEED_SDMC_GET_CLASS(s);
+diff --git a/target/arm/helper.c b/target/arm/helper.c
+index c69a2baf1d3..8ef0fb478f4 100644
+--- a/target/arm/helper.c
++++ b/target/arm/helper.c
+@@ -10204,21 +10204,11 @@ static hwaddr S1_ptw_translate(CPUARMState *env, ARMMMUIdx mmu_idx,
+         int s2prot;
+         int ret;
+         ARMCacheAttrs cacheattrs = {};
+-        ARMCacheAttrs *pcacheattrs = NULL;
+-
+-        if (env->cp15.hcr_el2 & HCR_PTW) {
+-            /*
+-             * PTW means we must fault if this S1 walk touches S2 Device
+-             * memory; otherwise we don't care about the attributes and can
+-             * save the S2 translation the effort of computing them.
+-             */
+-            pcacheattrs = &cacheattrs;
+-        }
  
-+    assert(asc->max_ram_size < 4 * GiB); /* 32-bit address bus */
-     s->max_ram_size = asc->max_ram_size;
- 
-     memory_region_init_io(&s->iomem, OBJECT(s), &aspeed_sdmc_ops, s,
-@@ -341,7 +342,7 @@ static void aspeed_2400_sdmc_class_init(ObjectClass *klass, void *data)
-     AspeedSDMCClass *asc = ASPEED_SDMC_CLASS(klass);
- 
-     dc->desc = "ASPEED 2400 SDRAM Memory Controller";
--    asc->max_ram_size = 512 << 20;
-+    asc->max_ram_size = 512 * MiB;
-     asc->compute_conf = aspeed_2400_sdmc_compute_conf;
-     asc->write = aspeed_2400_sdmc_write;
-     asc->valid_ram_sizes = aspeed_2400_ram_sizes;
-@@ -408,7 +409,7 @@ static void aspeed_2500_sdmc_class_init(ObjectClass *klass, void *data)
-     AspeedSDMCClass *asc = ASPEED_SDMC_CLASS(klass);
- 
-     dc->desc = "ASPEED 2500 SDRAM Memory Controller";
--    asc->max_ram_size = 1024 << 20;
-+    asc->max_ram_size = 1 * GiB;
-     asc->compute_conf = aspeed_2500_sdmc_compute_conf;
-     asc->write = aspeed_2500_sdmc_write;
-     asc->valid_ram_sizes = aspeed_2500_ram_sizes;
-@@ -485,7 +486,7 @@ static void aspeed_2600_sdmc_class_init(ObjectClass *klass, void *data)
-     AspeedSDMCClass *asc = ASPEED_SDMC_CLASS(klass);
- 
-     dc->desc = "ASPEED 2600 SDRAM Memory Controller";
--    asc->max_ram_size = 2048 << 20;
-+    asc->max_ram_size = 2 * GiB;
-     asc->compute_conf = aspeed_2600_sdmc_compute_conf;
-     asc->write = aspeed_2600_sdmc_write;
-     asc->valid_ram_sizes = aspeed_2600_ram_sizes;
+         ret = get_phys_addr_lpae(env, addr, MMU_DATA_LOAD, ARMMMUIdx_Stage2,
+                                  false,
+                                  &s2pa, &txattrs, &s2prot, &s2size, fi,
+-                                 pcacheattrs);
++                                 &cacheattrs);
+         if (ret) {
+             assert(fi->type != ARMFault_None);
+             fi->s2addr = addr;
+@@ -10226,8 +10216,11 @@ static hwaddr S1_ptw_translate(CPUARMState *env, ARMMMUIdx mmu_idx,
+             fi->s1ptw = true;
+             return ~0;
+         }
+-        if (pcacheattrs && (pcacheattrs->attrs & 0xf0) == 0) {
+-            /* Access was to Device memory: generate Permission fault */
++        if ((env->cp15.hcr_el2 & HCR_PTW) && (cacheattrs.attrs & 0xf0) == 0) {
++            /*
++             * PTW set and S1 walk touched S2 Device memory:
++             * generate Permission fault.
++             */
+             fi->type = ARMFault_Permission;
+             fi->s2addr = addr;
+             fi->stage2 = true;
 -- 
 2.20.1
 
