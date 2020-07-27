@@ -2,77 +2,88 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4C02722E925
-	for <lists+qemu-devel@lfdr.de>; Mon, 27 Jul 2020 11:38:42 +0200 (CEST)
-Received: from localhost ([::1]:44868 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C660422E952
+	for <lists+qemu-devel@lfdr.de>; Mon, 27 Jul 2020 11:42:16 +0200 (CEST)
+Received: from localhost ([::1]:49594 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jzzaj-00010m-DC
-	for lists+qemu-devel@lfdr.de; Mon, 27 Jul 2020 05:38:41 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:36552)
+	id 1jzzeB-00034Z-Ji
+	for lists+qemu-devel@lfdr.de; Mon, 27 Jul 2020 05:42:15 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:37448)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <lekiravi@yandex-team.ru>)
- id 1jzza1-0000b2-HX; Mon, 27 Jul 2020 05:37:57 -0400
-Received: from forwardcorp1p.mail.yandex.net ([77.88.29.217]:58864)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <lekiravi@yandex-team.ru>)
- id 1jzzZw-0004tE-Lb; Mon, 27 Jul 2020 05:37:55 -0400
-Received: from sas1-ec30c78b6c5b.qloud-c.yandex.net
- (sas1-ec30c78b6c5b.qloud-c.yandex.net
- [IPv6:2a02:6b8:c14:2704:0:640:ec30:c78b])
- by forwardcorp1p.mail.yandex.net (Yandex) with ESMTP id 9C0822E03DE;
- Mon, 27 Jul 2020 12:37:45 +0300 (MSK)
-Received: from unknown (unknown [::1])
- by sas1-ec30c78b6c5b.qloud-c.yandex.net (mxbackcorp/Yandex) with ESMTP id
- FjdIJzHK3x-bisGKls0; Mon, 27 Jul 2020 12:37:45 +0300
-Precedence: bulk
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=yandex-team.ru;
- s=default; 
- t=1595842665; bh=q5MWxIcL48YB8moBBMMGRDn3VyRqxTGYPodQbOE6RQg=;
- h=Subject:In-Reply-To:Cc:Date:References:To:From:Message-Id;
- b=tgL1M7W7sw/03Qg2W/+ttcYiuCTOPicaMhogX39hREB0cedSEHsPd0jIA4pFMlYyF
- QbFGKkXuFWXztxxy924E2fQ4fWjx5LMAhbhTAcyGFcZzJ1arWhAjQudf5XxDciweOV
- Km6PmyF46SXKXML9rKTgn6LTwiATnkL74sBmgfCs=
-Authentication-Results: sas1-ec30c78b6c5b.qloud-c.yandex.net;
- dkim=pass header.i=@yandex-team.ru
-X-Yandex-Sender-Uid: 1120000000161690
-X-Yandex-Avir: 1
-Received: from iva8-d077482f1536.qloud-c.yandex.net
- (iva8-d077482f1536.qloud-c.yandex.net [2a02:6b8:c0c:2f26:0:640:d077:482f])
- by iva8-00026c0e2ab1.qloud-c.yandex.net with LMTP id QbEFIe8hr4-GJhjGQDt
- for <lekiravi@yandex-team.ru>; Mon, 27 Jul 2020 12:37:34 +0300
-Received: by iva8-edafde7c849c.qloud-c.yandex.net with HTTP;
- Mon, 27 Jul 2020 12:37:34 +0300
-From: =?utf-8?B?0JDQu9C10LrRgdC10Lkg0JrQuNGA0LjQu9C70L7Qsg==?=
- <lekiravi@yandex-team.ru>
-To: =?utf-8?B?UGhpbGlwcGUgTWF0aGlldS1EYXVkw6k=?= <philmd@redhat.com>,
- Eduardo Habkost <ehabkost@redhat.com>, Cleber Rosa <crosa@redhat.com>
-In-Reply-To: <f365e96e-3e83-ede6-3db5-2e02eb03adaa@redhat.com>
-References: <20200715152135.20287-1-lekiravi@yandex-team.ru>
- <f365e96e-3e83-ede6-3db5-2e02eb03adaa@redhat.com>
-Subject: Re: [PATCH 1/1] analyze-migration.py: fix read_migration_debug_json()
- return type
+ (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1jzzdR-0002eh-K1
+ for qemu-devel@nongnu.org; Mon, 27 Jul 2020 05:41:29 -0400
+Received: from us-smtp-2.mimecast.com ([205.139.110.61]:27977
+ helo=us-smtp-delivery-1.mimecast.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1jzzdP-0005Sy-6y
+ for qemu-devel@nongnu.org; Mon, 27 Jul 2020 05:41:28 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1595842884;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=ZHRcPFuiIoRSfCEck7//ov3NxeyTxAiTVJANTRtOxj4=;
+ b=YueTggc1M/oSA/PsfHV6n1AxX9DsdRKRkZlPRw1PRm36hQMcOzS/jn6vD94gyY1IVSG0l2
+ Rk1f5P0WDv7ecEutcHGEtjkDiMbflLqyC+joqesLw9ewbofGGzpsV7q7DHA4LDz1p7ppgq
+ b7AkRsjbK0bliw/yDhEV/U0v95QWw4I=
+Received: from mail-wm1-f71.google.com (mail-wm1-f71.google.com
+ [209.85.128.71]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-480-PkS1-goWOp-J1fxuWC-q7g-1; Mon, 27 Jul 2020 05:41:22 -0400
+X-MC-Unique: PkS1-goWOp-J1fxuWC-q7g-1
+Received: by mail-wm1-f71.google.com with SMTP id t26so7011939wmn.4
+ for <qemu-devel@nongnu.org>; Mon, 27 Jul 2020 02:41:22 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+ :mime-version:content-disposition:in-reply-to;
+ bh=ZHRcPFuiIoRSfCEck7//ov3NxeyTxAiTVJANTRtOxj4=;
+ b=tkiO62RKTnb6PJRSTD0CevV2uTX+wVXqp2f4sA5+IGbSkoGGPyLwO6B1j7KE47U/AS
+ f3LV4YMfvAsdHGZ/FUSIW5j2f2sCGEjZ5gDvey8B3RVw8D8ltruDBVsxJ6f+wRT6HhR2
+ /wJYkzujUcfP3yyIV4Wo1g66r+dkDWAdWrzgvfuNISqXlkQSNmp2LlIn6B2hkvvRQDqQ
+ D4Euq7nJDts809U3QC2BaOSUuvsIDd4ryjoMg/E+EFaeAcj/qJI5iEa5951P5J/DOWT+
+ ndQm+zw/OgbrvbwPIupyxMiSV6RbdIcXS8HKk4GTZ6MZkzd/Fm3XijblKxLvWLVoEcFm
+ a6wg==
+X-Gm-Message-State: AOAM530uaeCgxvkRUhRs+Ajnj8xUZpRlbPzllC3FMmlNw9F/gbLRNkVF
+ aYUGLQTFLlDtNdIiqOYPBgdt2dS3OPlE8kqEI29igZlzBTRmBBQQobMfwKqxnYUw5UskkRXSgmY
+ ZzN/WqFtY7VDBJpA=
+X-Received: by 2002:adf:90d1:: with SMTP id i75mr10651126wri.278.1595842881589; 
+ Mon, 27 Jul 2020 02:41:21 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJxoF+eS9zAHyhTXkpzvrs8B0C8OcDEqK5qtlgaqOZwjfzpUbbNnSRfu5ndqP9/4sa8np7q3ZQ==
+X-Received: by 2002:adf:90d1:: with SMTP id i75mr10651110wri.278.1595842881369; 
+ Mon, 27 Jul 2020 02:41:21 -0700 (PDT)
+Received: from redhat.com ([192.117.173.58])
+ by smtp.gmail.com with ESMTPSA id n5sm4650514wrx.22.2020.07.27.02.41.19
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Mon, 27 Jul 2020 02:41:20 -0700 (PDT)
+Date: Mon, 27 Jul 2020 05:41:17 -0400
+From: "Michael S. Tsirkin" <mst@redhat.com>
+To: Jason Wang <jasowang@redhat.com>
+Subject: Re: [PATCH] virtio-net: check the existence of peer before accesing
+ its config
+Message-ID: <20200727053954-mutt-send-email-mst@kernel.org>
+References: <20200727074328.2279-1-jasowang@redhat.com>
 MIME-Version: 1.0
-X-Mailer: Yamail [ http://yandex.ru ] 5.0
-Date: Mon, 27 Jul 2020 12:37:44 +0300
-Message-Id: <318531595842403@mail.yandex-team.ru>
-Content-Transfer-Encoding: base64
-Content-Type: text/html; charset=utf-8
-Received-SPF: pass client-ip=77.88.29.217;
- envelope-from=lekiravi@yandex-team.ru; helo=forwardcorp1p.mail.yandex.net
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/07/27 05:37:46
+In-Reply-To: <20200727074328.2279-1-jasowang@redhat.com>
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Received-SPF: pass client-ip=205.139.110.61; envelope-from=mst@redhat.com;
+ helo=us-smtp-delivery-1.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/07/27 01:46:13
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
-X-Spam_score_int: -22
-X-Spam_score: -2.3
-X-Spam_bar: --
-X-Spam_report: (-2.3 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, HTML_MESSAGE=0.001,
- HTML_MIME_NO_HTML_TAG=0.377, MIME_HTML_ONLY=0.1, RCVD_IN_DNSWL_LOW=-0.7,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- URIBL_BLOCKED=0.001 autolearn=ham autolearn_force=no
+X-Spam_score_int: -40
+X-Spam_score: -4.1
+X-Spam_bar: ----
+X-Spam_report: (-4.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-1, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
+Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -81,34 +92,85 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: "qemu-trivial@nongnu.org" <qemu-trivial@nongnu.org>,
- "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>,
- "yc-core@yandex-team.ru" <yc-core@yandex-team.ru>
+Cc: Cornelia Huck <cohuck@redhat.com>, qemu-devel@nongnu.org,
+ Cindy Lu <lulu@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-PGRpdj5QaW5nPC9kaXY+PGRpdj7CoDwvZGl2PjxkaXY+MTUuMDcuMjAyMCwgMTk6MDYsICJQaGls
-aXBwZSBNYXRoaWV1LURhdWTDqSIgJmx0O3BoaWxtZEByZWRoYXQuY29tJmd0Ozo8L2Rpdj48Ymxv
-Y2txdW90ZT48cD5DYydpbmcgRWR1YXJkby9DbGViZXIuPGJyIC8+PGJyIC8+T24gNy8xNS8yMCA1
-OjIxIFBNLCBBbGV4ZXkgS2lyaWxsb3Ygd3JvdGU6PC9wPjxibG9ja3F1b3RlPsKgU2luY2Ugd2Ug
-dXNlIHJlc3VsdCBvZiByZWFkX21pZ3JhdGlvbl9kZWJ1Z19qc29uKCkgYXMgSlNPTiBmb3JtYXR0
-ZWQgc3RyaW5nLDxiciAvPsKgd2UgbXVzdCBwcm92aWRlIHByb3BlciB0eXBlLiBCZWZvcmUgUHl0
-aG9uIDMuNiBqc29uLmxvYWRzKCkgbWV0aG9kPGJyIC8+wqBzdXBwb3J0IG9ubHkgc3RyIHR5cGVk
-IGlucHV0LjxiciAvPsKgPGJyIC8+wqBTaWduZWQtb2ZmLWJ5OiBBbGV4ZXkgS2lyaWxsb3YgJmx0
-OzxhIGhyZWY9Im1haWx0bzpsZWtpcmF2aUB5YW5kZXgtdGVhbS5ydSI+bGVraXJhdmlAeWFuZGV4
-LXRlYW0ucnU8L2E+Jmd0OzxiciAvPsKgLS0tPGJyIC8+wqDCoHNjcmlwdHMvYW5hbHl6ZS1taWdy
-YXRpb24ucHkgfCAyICstPGJyIC8+wqDCoDEgZmlsZSBjaGFuZ2VkLCAxIGluc2VydGlvbigrKSwg
-MSBkZWxldGlvbigtKTxiciAvPsKgPGJyIC8+wqBkaWZmIC0tZ2l0IGEvc2NyaXB0cy9hbmFseXpl
-LW1pZ3JhdGlvbi5weSBiL3NjcmlwdHMvYW5hbHl6ZS1taWdyYXRpb24ucHk8YnIgLz7CoGluZGV4
-IDk1ODM4Y2JmZjMuLmM1ZjA2NDgyY2YgMTAwNzU1PGJyIC8+wqAtLS0gYS9zY3JpcHRzL2FuYWx5
-emUtbWlncmF0aW9uLnB5PGJyIC8+wqArKysgYi9zY3JpcHRzL2FuYWx5emUtbWlncmF0aW9uLnB5
-PGJyIC8+wqBAQCAtOTcsNyArOTcsNyBAQCBjbGFzcyBNaWdyYXRpb25GaWxlKG9iamVjdCk6PGJy
-IC8+wqDCoMKgwqDCoMKgwqDCoMKgwqAjIFNlZWsgYmFjayB0byB3aGVyZSB3ZSB3ZXJlIGF0IHRo
-ZSBiZWdpbm5pbmc8YnIgLz7CoMKgwqDCoMKgwqDCoMKgwqDCoHNlbGYuZmlsZS5zZWVrKGVudHJ5
-cG9zLCAwKTxiciAvPsKgwqA8YnIgLz7CoC0gcmV0dXJuIGRhdGFbanNvbnBvczpqc29ucG9zICsg
-anNvbmxlbl08YnIgLz7CoCsgcmV0dXJuIGRhdGFbanNvbnBvczpqc29ucG9zICsganNvbmxlbl0u
-ZGVjb2RlKCJ1dGYtOCIpPGJyIC8+wqDCoDxiciAvPsKgwqDCoMKgwqDCoGRlZiBjbG9zZShzZWxm
-KTo8YnIgLz7CoMKgwqDCoMKgwqDCoMKgwqDCoHNlbGYuZmlsZS5jbG9zZSgpPGJyIC8+wqA8L2Js
-b2NrcXVvdGU+PHA+wqA8L3A+PC9ibG9ja3F1b3RlPjxkaXY+wqA8L2Rpdj48ZGl2PsKgPC9kaXY+
-PGRpdj4tLcKgPC9kaXY+PGRpdj5BbGV4ZXkgS2lyaWxsb3Y8L2Rpdj48ZGl2PsKgPC9kaXY+
+On Mon, Jul 27, 2020 at 03:43:28PM +0800, Jason Wang wrote:
+> We try to get config from peer unconditionally which may lead NULL
+> pointer dereference. Add a check before trying to access the config.
+> 
+> Fixes: 108a64818e69b ("vhost-vdpa: introduce vhost-vdpa backend")
+> Cc: Cindy Lu <lulu@redhat.com>
+> Tested-by: Cornelia Huck <cohuck@redhat.com>
+> Signed-off-by: Jason Wang <jasowang@redhat.com>
+
+I am a bit lost here. Isn't this invoked
+when guest attempts to read the config?
+With no peer, what do we return to guest?
+A code comment might be helpful here.
+
+> ---
+>  hw/net/virtio-net.c | 22 +++++++++++-----------
+>  1 file changed, 11 insertions(+), 11 deletions(-)
+> 
+> diff --git a/hw/net/virtio-net.c b/hw/net/virtio-net.c
+> index 4895af1cbe..935b9ef5c7 100644
+> --- a/hw/net/virtio-net.c
+> +++ b/hw/net/virtio-net.c
+> @@ -125,6 +125,7 @@ static void virtio_net_get_config(VirtIODevice *vdev, uint8_t *config)
+>  {
+>      VirtIONet *n = VIRTIO_NET(vdev);
+>      struct virtio_net_config netcfg;
+> +    NetClientState *nc = qemu_get_queue(n->nic);
+>  
+>      int ret = 0;
+>      memset(&netcfg, 0 , sizeof(struct virtio_net_config));
+> @@ -142,13 +143,12 @@ static void virtio_net_get_config(VirtIODevice *vdev, uint8_t *config)
+>                   VIRTIO_NET_RSS_SUPPORTED_HASHES);
+>      memcpy(config, &netcfg, n->config_size);
+>  
+> -    NetClientState *nc = qemu_get_queue(n->nic);
+> -    if (nc->peer->info->type == NET_CLIENT_DRIVER_VHOST_VDPA) {
+> +    if (nc->peer && nc->peer->info->type == NET_CLIENT_DRIVER_VHOST_VDPA) {
+>          ret = vhost_net_get_config(get_vhost_net(nc->peer), (uint8_t *)&netcfg,
+> -                             n->config_size);
+> -    if (ret != -1) {
+> -        memcpy(config, &netcfg, n->config_size);
+> -    }
+> +                                   n->config_size);
+> +        if (ret != -1) {
+> +            memcpy(config, &netcfg, n->config_size);
+> +        }
+>      }
+>  }
+>  
+> @@ -156,6 +156,7 @@ static void virtio_net_set_config(VirtIODevice *vdev, const uint8_t *config)
+>  {
+>      VirtIONet *n = VIRTIO_NET(vdev);
+>      struct virtio_net_config netcfg = {};
+> +    NetClientState *nc = qemu_get_queue(n->nic);
+>  
+>      memcpy(&netcfg, config, n->config_size);
+>  
+> @@ -166,11 +167,10 @@ static void virtio_net_set_config(VirtIODevice *vdev, const uint8_t *config)
+>          qemu_format_nic_info_str(qemu_get_queue(n->nic), n->mac);
+>      }
+>  
+> -    NetClientState *nc = qemu_get_queue(n->nic);
+> -    if (nc->peer->info->type == NET_CLIENT_DRIVER_VHOST_VDPA) {
+> -        vhost_net_set_config(get_vhost_net(nc->peer), (uint8_t *)&netcfg,
+> -                               0, n->config_size,
+> -                        VHOST_SET_CONFIG_TYPE_MASTER);
+> +    if (nc->peer && nc->peer->info->type == NET_CLIENT_DRIVER_VHOST_VDPA) {
+> +        vhost_net_set_config(get_vhost_net(nc->peer),
+> +                             (uint8_t *)&netcfg, 0, n->config_size,
+> +                             VHOST_SET_CONFIG_TYPE_MASTER);
+>        }
+>  }
+>  
+> -- 
+> 2.20.1
+
 
