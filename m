@@ -2,73 +2,66 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 99CC122F25A
-	for <lists+qemu-devel@lfdr.de>; Mon, 27 Jul 2020 16:39:38 +0200 (CEST)
-Received: from localhost ([::1]:54340 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4ADE522F25D
+	for <lists+qemu-devel@lfdr.de>; Mon, 27 Jul 2020 16:39:45 +0200 (CEST)
+Received: from localhost ([::1]:54990 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1k04Hx-0004WU-M8
-	for lists+qemu-devel@lfdr.de; Mon, 27 Jul 2020 10:39:37 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:53770)
+	id 1k04I4-0004mP-CN
+	for lists+qemu-devel@lfdr.de; Mon, 27 Jul 2020 10:39:44 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:53818)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <yuri.benditovich@daynix.com>)
- id 1k04Gi-0002sK-9r
- for qemu-devel@nongnu.org; Mon, 27 Jul 2020 10:38:20 -0400
-Received: from mail-wm1-x342.google.com ([2a00:1450:4864:20::342]:55388)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <yuri.benditovich@daynix.com>)
- id 1k04Gg-0001x3-Ck
- for qemu-devel@nongnu.org; Mon, 27 Jul 2020 10:38:19 -0400
-Received: by mail-wm1-x342.google.com with SMTP id 9so14370863wmj.5
- for <qemu-devel@nongnu.org>; Mon, 27 Jul 2020 07:38:17 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=daynix-com.20150623.gappssmtp.com; s=20150623;
- h=from:to:cc:subject:date:message-id;
- bh=g39FeyoIupGgElrKJmM+MApBcjb1uWaI5d1r2s5CAj0=;
- b=UFezKVSo9huaSjr6qO2OSIOxluPjcl7szcayrL6Ac4VJRA6N5otsf2cNtDmLU+KfX2
- GZLZncY9fn32Lwf8sHZFv+lebZ4l/Q4GrRhCfO9Lh60oMWt2TxQdWeY+uh55Hgvdi64f
- nPU+DTk0zSjVzWizRa+0zKHqzSBQQLzHIQ6TJdJQC84offbACxCZ4bsJgG4uzeFOwZTy
- Fr7n5+a1wdoCYZVal/Is3JX0aB+DSQAmaILBZx3bgpmOVlAQVO9g4nHg+9iElLokg05N
- LmhduWZn7QPER0h8wxfPVRBjNOwSOZgXyanRunIlOscD/A5fClHP8+Xf61Ka/E2c4Zjr
- 5THA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id;
- bh=g39FeyoIupGgElrKJmM+MApBcjb1uWaI5d1r2s5CAj0=;
- b=sJNzxXOhPmEEhs1IsAu6p+jpYLoYkLtSrh7CLjNUnmWYpCxxjxgOpwuRapWWJMQSQq
- s2HDTK8s6vxrCj5/5WdZOeG4I1i/L3iReonvxTuOn7iLxHDNvuM0UktrUyWNKw54ywqX
- 1Bn1mpFvYFS48jeQ3SaBKkYCCFEGy25lwN2nApVP8PM15U1iFoFcgBG/IAjAo0MJGzWd
- 2TylCmaFhPQHUUhSWF+l/z94hXYPhihK6YM8Ovz5RVteIJW+0TeziybqqWp33NPQayOb
- 5vdngtiz7/coOOZ/LZLqSYxIFJt8OvdUFYlS2MPRduC3ZU4Dr3FNgDrEvpygHf91YzzQ
- JF6g==
-X-Gm-Message-State: AOAM530uAdkZEi2S4ZKAU0Zz7x5paiv5Hjj+WtjQpAMpaA03jKPz0grF
- eiVloGSp1v+SEhVQfVVDE82wlpL27Ws=
-X-Google-Smtp-Source: ABdhPJzhDg+IKJCnquzd5xBra7UZsR2D8x4E5/2TlD0TcAtuatnnO3beQS4mvnR/MsP1YMYQ4pwFTQ==
-X-Received: by 2002:a1c:e107:: with SMTP id y7mr12860044wmg.99.1595860695795; 
- Mon, 27 Jul 2020 07:38:15 -0700 (PDT)
-Received: from f2.redhat.com (bzq-109-65-42-178.red.bezeqint.net.
- [109.65.42.178])
- by smtp.gmail.com with ESMTPSA id y189sm21875317wmd.27.2020.07.27.07.38.14
- (version=TLS1_2 cipher=ECDHE-ECDSA-CHACHA20-POLY1305 bits=256/256);
- Mon, 27 Jul 2020 07:38:15 -0700 (PDT)
-From: Yuri Benditovich <yuri.benditovich@daynix.com>
-To: qemu-devel@nongnu.org,
-	mst@redhat.com,
-	jasowang@redhat.com
-Subject: [PATCH] virtio-pci: fix wrong index in virtio_pci_queue_enabled
-Date: Mon, 27 Jul 2020 17:38:07 +0300
-Message-Id: <20200727143807.19230-1-yuri.benditovich@daynix.com>
-X-Mailer: git-send-email 2.17.1
-Received-SPF: none client-ip=2a00:1450:4864:20::342;
- envelope-from=yuri.benditovich@daynix.com; helo=mail-wm1-x342.google.com
-X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
- That's all we know.
-X-Spam_score_int: -18
-X-Spam_score: -1.9
-X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_NONE=0.001 autolearn=ham autolearn_force=no
+ (Exim 4.90_1) (envelope-from <mreitz@redhat.com>) id 1k04Gj-0002tv-T3
+ for qemu-devel@nongnu.org; Mon, 27 Jul 2020 10:38:21 -0400
+Received: from us-smtp-2.mimecast.com ([207.211.31.81]:55454
+ helo=us-smtp-delivery-1.mimecast.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <mreitz@redhat.com>) id 1k04Gi-0001xK-9a
+ for qemu-devel@nongnu.org; Mon, 27 Jul 2020 10:38:21 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1595860699;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding;
+ bh=vV3C5Gohux4UvIA1bARucsOydTd30RrcoBvyKH1mirU=;
+ b=GtPCOYr2Y9Y2xTLPQ20xNhTJ8xM2HtlfK5589Kqa8ZySOO96+XOnU+rcftUw+HdTiisi1e
+ S/bhfeNMZSdYxxKOmsN8qPsV3SK4KlDUQDtNJrWx95rRamN9tnxp4vxOoKmOHr8DIskyMc
+ JyH8fJUSCS6GJxesZgzD7qT/eLu851w=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-235-D9_SaS2KPDeXZ3yB_zg3zQ-1; Mon, 27 Jul 2020 10:38:15 -0400
+X-MC-Unique: D9_SaS2KPDeXZ3yB_zg3zQ-1
+Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
+ [10.5.11.23])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 7E7F58015F3;
+ Mon, 27 Jul 2020 14:38:14 +0000 (UTC)
+Received: from localhost (ovpn-113-45.ams2.redhat.com [10.36.113.45])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 10E9F19D9E;
+ Mon, 27 Jul 2020 14:38:13 +0000 (UTC)
+From: Max Reitz <mreitz@redhat.com>
+To: qemu-block@nongnu.org
+Subject: [PULL 0/3] Block patches for 5.1
+Date: Mon, 27 Jul 2020 16:38:09 +0200
+Message-Id: <20200727143812.1101547-1-mreitz@redhat.com>
+MIME-Version: 1.0
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=207.211.31.81; envelope-from=mreitz@redhat.com;
+ helo=us-smtp-delivery-1.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/07/27 03:37:14
+X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
+X-Spam_score_int: -30
+X-Spam_score: -3.1
+X-Spam_bar: ---
+X-Spam_report: (-3.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H3=-0.01, RCVD_IN_MSPIKE_WL=-0.01,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -81,31 +74,43 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: yan@daynix.com
+Cc: Kevin Wolf <kwolf@redhat.com>, Peter Maydell <peter.maydell@linaro.org>,
+ qemu-devel@nongnu.org, Max Reitz <mreitz@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-https://bugzilla.redhat.com/show_bug.cgi?id=1702608
+The following changes since commit 4215d3413272ad6d1c6c9d0234450b602e46a74c:
 
-Signed-off-by: Yuri Benditovich <yuri.benditovich@daynix.com>
----
- hw/virtio/virtio-pci.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+  Merge remote-tracking branch 'remotes/dgibson/tags/ppc-for-5.1-20200727' into staging (2020-07-27 09:33:04 +0100)
 
-diff --git a/hw/virtio/virtio-pci.c b/hw/virtio/virtio-pci.c
-index ada1101d07..2b1f9cc67b 100644
---- a/hw/virtio/virtio-pci.c
-+++ b/hw/virtio/virtio-pci.c
-@@ -1113,7 +1113,7 @@ static bool virtio_pci_queue_enabled(DeviceState *d, int n)
-     VirtIODevice *vdev = virtio_bus_get_device(&proxy->bus);
- 
-     if (virtio_vdev_has_feature(vdev, VIRTIO_F_VERSION_1)) {
--        return proxy->vqs[vdev->queue_sel].enabled;
-+        return proxy->vqs[n].enabled;
-     }
- 
-     return virtio_queue_enabled(vdev, n);
+are available in the Git repository at:
+
+  https://github.com/XanClic/qemu.git tags/pull-block-2020-07-27
+
+for you to fetch changes up to 1855536256eb0a5708b04b85f744de69559ea323:
+
+  iotests/197: Fix for compat=0.10 (2020-07-27 16:35:17 +0200)
+
+----------------------------------------------------------------
+Block patches for 5.1:
+- Coverity fix
+- iotests fix for rx and avr
+- iotests fix for qcow2 -o compat=0.10
+
+----------------------------------------------------------------
+Max Reitz (2):
+  block/amend: Check whether the node exists
+  iotests/197: Fix for compat=0.10
+
+Thomas Huth (1):
+  iotests: Select a default machine for the rx and avr targets
+
+ block/amend.c            |  6 +++++-
+ tests/qemu-iotests/197   |  4 +++-
+ tests/qemu-iotests/check | 14 +++++++++-----
+ 3 files changed, 17 insertions(+), 7 deletions(-)
+
 -- 
-2.17.1
+2.26.2
 
 
