@@ -2,68 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7CE3022F3CB
-	for <lists+qemu-devel@lfdr.de>; Mon, 27 Jul 2020 17:24:05 +0200 (CEST)
-Received: from localhost ([::1]:49284 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 725D922F3C6
+	for <lists+qemu-devel@lfdr.de>; Mon, 27 Jul 2020 17:22:47 +0200 (CEST)
+Received: from localhost ([::1]:43874 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1k04yy-0007mx-IK
-	for lists+qemu-devel@lfdr.de; Mon, 27 Jul 2020 11:24:04 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:42624)
+	id 1k04xi-0005ae-I2
+	for lists+qemu-devel@lfdr.de; Mon, 27 Jul 2020 11:22:46 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:42668)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1k04ud-0001f4-Cq
- for qemu-devel@nongnu.org; Mon, 27 Jul 2020 11:19:35 -0400
-Received: from mail-wr1-x442.google.com ([2a00:1450:4864:20::442]:44451)
+ id 1k04uh-0001o5-M8
+ for qemu-devel@nongnu.org; Mon, 27 Jul 2020 11:19:39 -0400
+Received: from mail-wm1-x335.google.com ([2a00:1450:4864:20::335]:34067)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1k04ub-0001Ml-IX
- for qemu-devel@nongnu.org; Mon, 27 Jul 2020 11:19:35 -0400
-Received: by mail-wr1-x442.google.com with SMTP id b6so15285376wrs.11
- for <qemu-devel@nongnu.org>; Mon, 27 Jul 2020 08:19:33 -0700 (PDT)
+ id 1k04uf-0001NP-T8
+ for qemu-devel@nongnu.org; Mon, 27 Jul 2020 11:19:39 -0400
+Received: by mail-wm1-x335.google.com with SMTP id g10so13606087wmc.1
+ for <qemu-devel@nongnu.org>; Mon, 27 Jul 2020 08:19:37 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:subject:date:message-id:in-reply-to:references:mime-version
  :content-transfer-encoding;
- bh=AgiFp36fAcCMfqysVIITkhhp2lHAb79FkVULIdw4Y1E=;
- b=DBOmFpimh2tlUmVZ1/YXoe9B2qz9EZzrBUJo1uyds+MQSJF5hIUo2f1CCGViEWniWK
- HZDlcHY+y3SFmPDEk6FqTUMGKFEyhyV7NDeEU1FAeSDZtfF0xqxxbB/TE/rlrQ6eB7JA
- rATdpZ2zUyMPhVaB5JIVb/7SlN9TGzcglZzPy4zOIPsmZ0hkyfi7G1pilHCKsAeu3HdY
- mMpOSZSalEVF+kH/1HjnX1fh1AWEC4+O1ZsEnKgqFwjS5yniI9WCmbo3Qq29GdHdn6SP
- GhgVPMFkHN/fh6uBAAn1RqkyK8KslkkiQaLk0/0EPcKCIM2NFCqwhvywrWRmDUw1MhyQ
- nffA==
+ bh=Df26pyr1FoUci06b9bgZLyVGVD2YeeZNhUfL4mWRueY=;
+ b=uL8MCJQlncq3jVP207n1hpGBN56b9iLP6py9pa1w75Ls1qKB1pJeUKfe243G3y+wjU
+ RoODpdIT7pRaPSBz1lBLQwFmTJqjvqEZu3JZfloyGnCPuAYS5VbFgD0mvLeI8fYU4NVK
+ /R6DByaYkt18gl/JMzms/M/YOc98hlJDr8JxklxfcQhxjk1ovkQhMTwEchCwJz77EKkE
+ SIKp72GrCuZacC2vi/gGWLdKFO95UdDn+w1Bdy2WFajKhM2U/GDRlZFeufTyv+xz4sOu
+ CJZOOuhmZIwZ4cPog3qZzNidSBgReATUPWqVqrFrqzqqsMMngktOBQVkLXsEshEQNNzy
+ evaQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=AgiFp36fAcCMfqysVIITkhhp2lHAb79FkVULIdw4Y1E=;
- b=GfXfWWSKSXFi5SyQI5g0WtIy5kGBApYfHo+my3QRB917Q9i0WVQ++PDfwDAhqpD56G
- N3bCxTM5TDsXYFhwyzQjk7Au7HumIua/cgj5JJT6l8fZRRjcrJMsJmwHGE7arrrl4XbF
- J7pJMYRTGVa6G5V94M1RHVPbByCqUbo3GekiimGJT9Aqj4Ya2tBpZMVmLOXtn37J2pQI
- rWRWoZ1F6st+WXPKQAp4vsO6+M2CoorIWELUDCYnOVU2eibY022DRmEySD2wG8VIJ5BQ
- gl/rHEl1zPETPbIngDSXhtr3xbrCiJZGF74nn+v8P/wJsWGR/l5Ck6kEdtmXxF1yribn
- V+iw==
-X-Gm-Message-State: AOAM531Am6V44Sm+K4uhMKLqiFDWeQw5jTlZPd0bJI/0wP+Xg1GIjwuA
- jDhzRZB7srHTbYvAYbhEkhyJYEaqAmyQ6A==
-X-Google-Smtp-Source: ABdhPJyXx6FRYOyhx/dIFSAcskaMs0q+4lFQw/eBVLWDOdt0iHL/8T8aQhJbGwmo7OYojcKzbXhPoQ==
-X-Received: by 2002:a5d:480b:: with SMTP id l11mr19807738wrq.85.1595863171889; 
- Mon, 27 Jul 2020 08:19:31 -0700 (PDT)
+ bh=Df26pyr1FoUci06b9bgZLyVGVD2YeeZNhUfL4mWRueY=;
+ b=gCo43rTb2/WeYiKHUPCUojDA0+YcsrLdZp/FQlPGBjRZ/X4gEE0/ueL16binQH4sn8
+ GJDHtCu5vukNx0yboH5gcEhKspj1fHNJIAtBXZTLhQBj6TqWf1cEqHxY9rZp83Jxjx5b
+ I2fzzTkkytJb7nWLlIEMiD3EOsJSZKgUBOBTvZKGoOsi6MvtV4t5HPnLpNdfmKPgJiUV
+ evkiOIACKrxbi33EisQdA+SDeM7JheeaFXEQ/heApZEz2ObIG7Nk+VioJ/dQUkbYr/WL
+ gR9Q290Os3yLG0oO4kYnHN8l37LdtSm4e2Gtp3kOJQ2KaiBZaEOUWCQdSTkJATfKZCIg
+ caiw==
+X-Gm-Message-State: AOAM531wDlBNm10QbNnGO/m2SoOJg6Dku/+A7YToZKu6Tpd4WIgJ1VMO
+ xZXDL+KFOsgNx61l1juD0aIlqYVsWcfwBA==
+X-Google-Smtp-Source: ABdhPJxHk89Hl257Ymn12N4VBpYOUxyBIKG0pVwVy2GnXlL08sIiU/1AVE6Ntwvn17ddASWQmiD4lA==
+X-Received: by 2002:a1c:7e02:: with SMTP id z2mr8175969wmc.138.1595863173102; 
+ Mon, 27 Jul 2020 08:19:33 -0700 (PDT)
 Received: from orth.archaic.org.uk (orth.archaic.org.uk. [81.2.115.148])
- by smtp.gmail.com with ESMTPSA id h199sm18744996wme.42.2020.07.27.08.19.30
+ by smtp.gmail.com with ESMTPSA id h199sm18744996wme.42.2020.07.27.08.19.31
  for <qemu-devel@nongnu.org>
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 27 Jul 2020 08:19:30 -0700 (PDT)
+ Mon, 27 Jul 2020 08:19:32 -0700 (PDT)
 From: Peter Maydell <peter.maydell@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PULL 6/7] hw/arm/boot: Fix MTE for EL3 direct kernel boot
-Date: Mon, 27 Jul 2020 16:19:19 +0100
-Message-Id: <20200727151920.19150-7-peter.maydell@linaro.org>
+Subject: [PULL 7/7] target/arm: Improve IMPDEF algorithm for IRG
+Date: Mon, 27 Jul 2020 16:19:20 +0100
+Message-Id: <20200727151920.19150-8-peter.maydell@linaro.org>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20200727151920.19150-1-peter.maydell@linaro.org>
 References: <20200727151920.19150-1-peter.maydell@linaro.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::442;
- envelope-from=peter.maydell@linaro.org; helo=mail-wr1-x442.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::335;
+ envelope-from=peter.maydell@linaro.org; helo=mail-wm1-x335.google.com
 X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
  That's all we know.
 X-Spam_score_int: -20
@@ -90,33 +90,78 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Richard Henderson <richard.henderson@linaro.org>
 
-When booting an EL3 cpu with -kernel, we set up EL3 and then
-drop down to EL2.  We need to enable access to v8.5-MemTag
-tag allocation at EL3 before doing so.
+When GCR_EL1.RRND==1, the choosing of the random value is IMPDEF,
+and the kernel is not expected to have set RGSR_EL1.  Force a
+non-zero value into SEED, so that we do not continually return
+the same tag.
 
-Reported-by: Peter Maydell <peter.maydell@linaro.org>
+Reported-by: Vincenzo Frascino <vincenzo.frascino@arm.com>
 Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
-Message-id: 20200724163853.504655-3-richard.henderson@linaro.org
+Message-id: 20200724163853.504655-4-richard.henderson@linaro.org
 Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
 Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
 ---
- hw/arm/boot.c | 3 +++
- 1 file changed, 3 insertions(+)
+ target/arm/mte_helper.c | 37 ++++++++++++++++++++++++++++++-------
+ 1 file changed, 30 insertions(+), 7 deletions(-)
 
-diff --git a/hw/arm/boot.c b/hw/arm/boot.c
-index c44fd3382dd..3e9816af803 100644
---- a/hw/arm/boot.c
-+++ b/hw/arm/boot.c
-@@ -739,6 +739,9 @@ static void do_cpu_reset(void *opaque)
-                     if (cpu_isar_feature(aa64_pauth, cpu)) {
-                         env->cp15.scr_el3 |= SCR_API | SCR_APK;
-                     }
-+                    if (cpu_isar_feature(aa64_mte, cpu)) {
-+                        env->cp15.scr_el3 |= SCR_ATA;
-+                    }
-                     /* AArch64 kernels never boot in secure mode */
-                     assert(!info->secure_boot);
-                     /* This hook is only supported for AArch32 currently:
+diff --git a/target/arm/mte_helper.c b/target/arm/mte_helper.c
+index 5ea57d487a4..104752041f7 100644
+--- a/target/arm/mte_helper.c
++++ b/target/arm/mte_helper.c
+@@ -24,6 +24,8 @@
+ #include "exec/ram_addr.h"
+ #include "exec/cpu_ldst.h"
+ #include "exec/helper-proto.h"
++#include "qapi/error.h"
++#include "qemu/guest-random.h"
+ 
+ 
+ static int choose_nonexcluded_tag(int tag, int offset, uint16_t exclude)
+@@ -211,16 +213,37 @@ static uint8_t *allocation_tag_mem(CPUARMState *env, int ptr_mmu_idx,
+ 
+ uint64_t HELPER(irg)(CPUARMState *env, uint64_t rn, uint64_t rm)
+ {
+-    int rtag;
+-
+-    /*
+-     * Our IMPDEF choice for GCR_EL1.RRND==1 is to behave as if
+-     * GCR_EL1.RRND==0, always producing deterministic results.
+-     */
+     uint16_t exclude = extract32(rm | env->cp15.gcr_el1, 0, 16);
++    int rrnd = extract32(env->cp15.gcr_el1, 16, 1);
+     int start = extract32(env->cp15.rgsr_el1, 0, 4);
+     int seed = extract32(env->cp15.rgsr_el1, 8, 16);
+-    int offset, i;
++    int offset, i, rtag;
++
++    /*
++     * Our IMPDEF choice for GCR_EL1.RRND==1 is to continue to use the
++     * deterministic algorithm.  Except that with RRND==1 the kernel is
++     * not required to have set RGSR_EL1.SEED != 0, which is required for
++     * the deterministic algorithm to function.  So we force a non-zero
++     * SEED for that case.
++     */
++    if (unlikely(seed == 0) && rrnd) {
++        do {
++            Error *err = NULL;
++            uint16_t two;
++
++            if (qemu_guest_getrandom(&two, sizeof(two), &err) < 0) {
++                /*
++                 * Failed, for unknown reasons in the crypto subsystem.
++                 * Best we can do is log the reason and use a constant seed.
++                 */
++                qemu_log_mask(LOG_UNIMP, "IRG: Crypto failure: %s\n",
++                              error_get_pretty(err));
++                error_free(err);
++                two = 1;
++            }
++            seed = two;
++        } while (seed == 0);
++    }
+ 
+     /* RandomTag */
+     for (i = offset = 0; i < 4; ++i) {
 -- 
 2.20.1
 
