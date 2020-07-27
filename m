@@ -2,61 +2,60 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 74B3322FB0E
-	for <lists+qemu-devel@lfdr.de>; Mon, 27 Jul 2020 23:08:13 +0200 (CEST)
-Received: from localhost ([::1]:57768 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1F42D22FB1E
+	for <lists+qemu-devel@lfdr.de>; Mon, 27 Jul 2020 23:12:09 +0200 (CEST)
+Received: from localhost ([::1]:41372 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1k0AM0-0007gu-HG
-	for lists+qemu-devel@lfdr.de; Mon, 27 Jul 2020 17:08:12 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:35420)
+	id 1k0APo-0004Hq-5u
+	for lists+qemu-devel@lfdr.de; Mon, 27 Jul 2020 17:12:08 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:35466)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <eblake@redhat.com>) id 1k0AAn-0005qA-Jj
- for qemu-devel@nongnu.org; Mon, 27 Jul 2020 16:56:37 -0400
-Received: from us-smtp-1.mimecast.com ([207.211.31.81]:56229)
+ (Exim 4.90_1) (envelope-from <eblake@redhat.com>) id 1k0AAp-0005um-Jz
+ for qemu-devel@nongnu.org; Mon, 27 Jul 2020 16:56:39 -0400
+Received: from us-smtp-1.mimecast.com ([207.211.31.81]:49422
+ helo=us-smtp-delivery-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <eblake@redhat.com>) id 1k0AAl-00052h-QD
- for qemu-devel@nongnu.org; Mon, 27 Jul 2020 16:56:37 -0400
+ (Exim 4.90_1) (envelope-from <eblake@redhat.com>) id 1k0AAo-00053M-0A
+ for qemu-devel@nongnu.org; Mon, 27 Jul 2020 16:56:39 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1595883395;
+ s=mimecast20190719; t=1595883397;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=kRI3td16T7P/hRiIt2yR87EFEmDjt2EHrQN/juIKf6A=;
- b=guAxAkKP2Ogxf6QiLGO5Q02YYNr3XworlfNL4GqyCBZsOa/gJYyOhnod0zFIPnoNYq8nvm
- apGBAfB6plVQXJQDpEDosB1iRab9BhcjjJfxuMtNNkwz9fyITZPOFcYNvwPuGcpYaW2up/
- BgeCGDY2dXRmYZwC4oRqs2JcXUkzvho=
+ bh=3HGKl7Xu7uAqUHOkXtf9D5rZqcQtEe5Y64LPYPFuQz4=;
+ b=fbJIZOB2EHKZgxid66e9h7YdoCvhZuRM7SCrwTFqO+vxOcxUnGJejCuaLBJ6WzNvJyjC9k
+ DxuMLKdMCwa7aaiuSwsM1NCbsobfI7fKgu3+nuHjkUzcfA74myLD1D1US+vKa6zjssf0c9
+ 16EgkF6KvFKFVaPik2imwHB03bqqAPI=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-13-WFZVNi3jP1S77bdu2aOTnQ-1; Mon, 27 Jul 2020 16:56:32 -0400
-X-MC-Unique: WFZVNi3jP1S77bdu2aOTnQ-1
+ us-mta-361-Q9y4uWpcMdCpDgIQ3MDE0g-1; Mon, 27 Jul 2020 16:56:34 -0400
+X-MC-Unique: Q9y4uWpcMdCpDgIQ3MDE0g-1
 Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
  [10.5.11.23])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id DB3B679EC8;
- Mon, 27 Jul 2020 20:56:31 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 4312258;
+ Mon, 27 Jul 2020 20:56:33 +0000 (UTC)
 Received: from blue.redhat.com (ovpn-118-248.rdu2.redhat.com [10.10.118.248])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 1D7DD19C66;
- Mon, 27 Jul 2020 20:56:31 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 277F019C66;
+ Mon, 27 Jul 2020 20:56:32 +0000 (UTC)
 From: Eric Blake <eblake@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PULL 23/24] iotests: Adjust which migration tests are quick
-Date: Mon, 27 Jul 2020 15:55:42 -0500
-Message-Id: <20200727205543.206624-24-eblake@redhat.com>
+Subject: [PULL 24/24] migration: Fix typos in bitmap migration comments
+Date: Mon, 27 Jul 2020 15:55:43 -0500
+Message-Id: <20200727205543.206624-25-eblake@redhat.com>
 In-Reply-To: <20200727205543.206624-1-eblake@redhat.com>
 References: <20200727205543.206624-1-eblake@redhat.com>
 MIME-Version: 1.0
 X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=eblake@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: 8bit
 Received-SPF: pass client-ip=207.211.31.81; envelope-from=eblake@redhat.com;
- helo=us-smtp-1.mimecast.com
+ helo=us-smtp-delivery-1.mimecast.com
 X-detected-operating-system: by eggs.gnu.org: First seen = 2020/07/27 03:37:14
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
 X-Spam_score_int: -30
@@ -78,70 +77,46 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Kevin Wolf <kwolf@redhat.com>,
+Cc: Fam Zheng <fam@euphon.net>,
  Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>,
- "open list:Block layer core" <qemu-block@nongnu.org>,
- Max Reitz <mreitz@redhat.com>
+ "open list:Block I/O path" <qemu-block@nongnu.org>,
+ Juan Quintela <quintela@redhat.com>,
+ "Dr. David Alan Gilbert" <dgilbert@redhat.com>,
+ Stefan Hajnoczi <stefanha@redhat.com>, John Snow <jsnow@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-A quick run of './check -qcow2 -g migration' shows that test 169 is
-NOT quick, but meanwhile several other tests ARE quick.  Let's adjust
-the test designations accordingly.
+Noticed while reviewing the file for newer patches.
 
+Fixes: b35ebdf076
 Signed-off-by: Eric Blake <eblake@redhat.com>
-Message-Id: <20200727195117.132151-1-eblake@redhat.com>
-Reviewed-by: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
+Message-Id: <20200727203206.134996-1-eblake@redhat.com>
 ---
- tests/qemu-iotests/group | 12 ++++++------
- 1 file changed, 6 insertions(+), 6 deletions(-)
+ migration/block-dirty-bitmap.c | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
-diff --git a/tests/qemu-iotests/group b/tests/qemu-iotests/group
-index 1d0252e1f051..806044642c69 100644
---- a/tests/qemu-iotests/group
-+++ b/tests/qemu-iotests/group
-@@ -112,7 +112,7 @@
- 088 rw quick
- 089 rw auto quick
- 090 rw auto quick
--091 rw migration
-+091 rw migration quick
- 092 rw quick
- 093 throttle
- 094 rw quick
-@@ -186,7 +186,7 @@
- 162 quick
- 163 rw
- 165 rw quick
--169 rw quick migration
-+169 rw migration
- 170 rw auto quick
- 171 rw quick
- 172 auto
-@@ -197,9 +197,9 @@
- 177 rw auto quick
- 178 img
- 179 rw auto quick
--181 rw auto migration
-+181 rw auto migration quick
- 182 rw quick
--183 rw migration
-+183 rw migration quick
- 184 rw auto quick
- 185 rw
- 186 rw auto
-@@ -216,9 +216,9 @@
- 198 rw
- 199 rw migration
- 200 rw
--201 rw migration
-+201 rw migration quick
- 202 rw quick
--203 rw auto migration
-+203 rw auto migration quick
- 204 rw quick
- 205 rw quick
- 206 rw
+diff --git a/migration/block-dirty-bitmap.c b/migration/block-dirty-bitmap.c
+index 1f675b792fc9..784330ebe130 100644
+--- a/migration/block-dirty-bitmap.c
++++ b/migration/block-dirty-bitmap.c
+@@ -97,7 +97,7 @@
+
+ #define DIRTY_BITMAP_MIG_START_FLAG_ENABLED          0x01
+ #define DIRTY_BITMAP_MIG_START_FLAG_PERSISTENT       0x02
+-/* 0x04 was "AUTOLOAD" flags on elder versions, no it is ignored */
++/* 0x04 was "AUTOLOAD" flags on older versions, now it is ignored */
+ #define DIRTY_BITMAP_MIG_START_FLAG_RESERVED_MASK    0xf8
+
+ /* State of one bitmap during save process */
+@@ -180,7 +180,7 @@ static uint32_t qemu_get_bitmap_flags(QEMUFile *f)
+
+ static void qemu_put_bitmap_flags(QEMUFile *f, uint32_t flags)
+ {
+-    /* The code currently do not send flags more than one byte */
++    /* The code currently does not send flags as more than one byte */
+     assert(!(flags & (0xffffff00 | DIRTY_BITMAP_MIG_EXTRA_FLAGS)));
+
+     qemu_put_byte(f, flags);
 -- 
 2.27.0
 
