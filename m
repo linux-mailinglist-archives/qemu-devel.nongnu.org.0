@@ -2,69 +2,75 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5A63522FC77
-	for <lists+qemu-devel@lfdr.de>; Tue, 28 Jul 2020 00:47:15 +0200 (CEST)
-Received: from localhost ([::1]:48488 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B4BB222FC7F
+	for <lists+qemu-devel@lfdr.de>; Tue, 28 Jul 2020 00:50:07 +0200 (CEST)
+Received: from localhost ([::1]:51924 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1k0Btq-0007Bp-6K
-	for lists+qemu-devel@lfdr.de; Mon, 27 Jul 2020 18:47:14 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:56918)
+	id 1k0Bwc-0000HJ-Qn
+	for lists+qemu-devel@lfdr.de; Mon, 27 Jul 2020 18:50:06 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:57498)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1k0Bst-0006lr-C3
- for qemu-devel@nongnu.org; Mon, 27 Jul 2020 18:46:15 -0400
-Received: from indium.canonical.com ([91.189.90.7]:38104)
+ (Exim 4.90_1) (envelope-from <alistair23@gmail.com>)
+ id 1k0Bvt-0008Fs-LK; Mon, 27 Jul 2020 18:49:21 -0400
+Received: from mail-io1-xd43.google.com ([2607:f8b0:4864:20::d43]:38785)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1k0Bsr-0001uR-3g
- for qemu-devel@nongnu.org; Mon, 27 Jul 2020 18:46:15 -0400
-Received: from loganberry.canonical.com ([91.189.90.37])
- by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
- id 1k0Bso-0002gV-Qi
- for <qemu-devel@nongnu.org>; Mon, 27 Jul 2020 22:46:10 +0000
-Received: from loganberry.canonical.com (localhost [127.0.0.1])
- by loganberry.canonical.com (Postfix) with ESMTP id C92C02E8010
- for <qemu-devel@nongnu.org>; Mon, 27 Jul 2020 22:46:10 +0000 (UTC)
+ (Exim 4.90_1) (envelope-from <alistair23@gmail.com>)
+ id 1k0Bvr-00027z-TO; Mon, 27 Jul 2020 18:49:21 -0400
+Received: by mail-io1-xd43.google.com with SMTP id l1so18748887ioh.5;
+ Mon, 27 Jul 2020 15:49:19 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=cv1uHciEEYiPiKTkN7vOzBhm3aM/wkxwyDHaZBgNM1c=;
+ b=I5adfvoT5r0eS1L+68NZYcc53AOsLul5SrhvQjnVw7bx6iVpIPyDLtUY83JMKcIbWg
+ J0JOtD+cKiOFkFOmvMk/FvBSwJecr/88EG/QKO5XwFSD2LIqK3V95pHuYHKkc2DUJ7cH
+ twOzFoH4bE34InurUR0ZEqt7c0fqHCPUj+Zrn/YswB6GrF7fWVSguEXWo41mde5Z7iXK
+ Q1ysWXapf8vq5RbI6Hw4rQutfOHkh+usKdwtE/LOSbVg/wdExmsd/I4w/dr3Mbcaaijm
+ Tgc+G7+J7NpPbMSihrHjr3C19KJ8fuFbdSjCRvmQ+hMCmld5V8tZ0qES3/GGSDstbLyP
+ SAKw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=cv1uHciEEYiPiKTkN7vOzBhm3aM/wkxwyDHaZBgNM1c=;
+ b=BZ8wqtHnkGyEq3MEw8AO3cwK+in/xujFG6YDtpCvvkreWqKtn8e9umBeCqmZnkhM8W
+ IeAYK3nntAR/u0cmHgk7puXBMwoQmVfw02YdGAGIPneeViShkMaN+5M99EJWWQPnlkeF
+ xRTWAFjILc0M66SR2NYJGw3cL9ob7ELFW2fVn0p7HjZbdkMb/u/211DyFKUCoKWlebmN
+ 3g+yN1VBj3AxMWR3lQbdmaFjJ/g+/Z679m37++cRPmiHqSOxGdckGNLLkx7GAQ3fSljL
+ xEzt/uQEsW2kJTSCM6kMmdpYh5VPh/UPz2qRuztPwKfIkMgr8+Av5dPln4ocqsR61wbJ
+ R3Eg==
+X-Gm-Message-State: AOAM5318FRCIbe9uBssNaaZkJkclIZkcPlbVCFgimnUtSSnx15P7ijyG
+ tKqqg8iyz1T7hHx20ESJiuN6QjmwvpLM1UyH5jA=
+X-Google-Smtp-Source: ABdhPJyXiQf7w7JrkMdJ2WOr3A9MoJdtPYMHzFaP90xuaTJRYhlcHmGxdPbD0JfRmvTudCMaBkUWgTueTWPvC85W+eQ=
+X-Received: by 2002:a6b:e006:: with SMTP id z6mr22016297iog.118.1595890158467; 
+ Mon, 27 Jul 2020 15:49:18 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: quoted-printable
-Date: Mon, 27 Jul 2020 22:37:59 -0000
-From: John Snow <1681439@bugs.launchpad.net>
-To: qemu-devel@nongnu.org
-X-Launchpad-Notification-Type: bug
-X-Launchpad-Bug: product=qemu; status=Confirmed; importance=Undecided;
- assignee=jsnow@redhat.com; 
-X-Launchpad-Bug-Information-Type: Public
-X-Launchpad-Bug-Private: no
-X-Launchpad-Bug-Security-Vulnerability: no
-X-Launchpad-Bug-Commenters: a1xndr bugs-syssec janitor jnsnow kempniu th-huth
-X-Launchpad-Bug-Reporter: =?utf-8?b?TWljaGHFgiBLxJlwaWXFhCAoa2VtcG5pdSk=?=
-X-Launchpad-Bug-Modifier: John Snow (jnsnow)
-References: <20170410132346.31250.84835.malonedeb@wampee.canonical.com>
-Message-Id: <159588947953.2215.2251997198703896534.launchpad@gac.canonical.com>
-Subject: [Bug 1681439] Re: qemu-system-x86_64: hw/ide/core.c:685:
- ide_cancel_dma_sync: Assertion `s->bus->dma->aiocb == NULL' failed.
-X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
-X-Launchpad-Message-For: qemu-devel-ml
-Precedence: bulk
-X-Generated-By: Launchpad (canonical.com);
- Revision="a24057fea7e4c6a98c0220d5f878da0f3c783699";
- Instance="production-secrets-lazr.conf"
-X-Launchpad-Hash: 92fad1ea46d11912c6be85560c46e2f555c6120b
-Received-SPF: none client-ip=91.189.90.7; envelope-from=bounces@canonical.com;
- helo=indium.canonical.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/07/27 16:15:46
-X-ACL-Warn: Detected OS   = Linux 3.11 and newer [fuzzy]
-X-Spam_score_int: -58
-X-Spam_score: -5.9
-X-Spam_bar: -----
-X-Spam_report: (-5.9 / 5.0 requ) BAYES_00=-1.9, HEADER_FROM_DIFFERENT_DOMAINS=1,
- RCVD_IN_DNSWL_HI=-5, RCVD_IN_MSPIKE_H3=-0.01, RCVD_IN_MSPIKE_WL=-0.01,
- SPF_HELO_NONE=0.001, SPF_NONE=0.001 autolearn=ham autolearn_force=no
+References: <cover.1595689201.git.zong.li@sifive.com>
+ <a3b3b05f429a50b5ea061f4e8385d4f8d6d77d58.1595689201.git.zong.li@sifive.com>
+In-Reply-To: <a3b3b05f429a50b5ea061f4e8385d4f8d6d77d58.1595689201.git.zong.li@sifive.com>
+From: Alistair Francis <alistair23@gmail.com>
+Date: Mon, 27 Jul 2020 15:39:01 -0700
+Message-ID: <CAKmqyKNgVD2sb4GEdmFwgHtpbooV=dNkxHHN+mNWDzC1e1S1DQ@mail.gmail.com>
+Subject: Re: [PATCH v5 3/4] target/riscv: Fix the translation of physical
+ address
+To: Zong Li <zong.li@sifive.com>
+Content-Type: text/plain; charset="UTF-8"
+Received-SPF: pass client-ip=2607:f8b0:4864:20::d43;
+ envelope-from=alistair23@gmail.com; helo=mail-io1-xd43.google.com
+X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
+ That's all we know.
+X-Spam_score_int: -17
+X-Spam_score: -1.8
+X-Spam_bar: -
+X-Spam_report: (-1.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ FREEMAIL_ENVFROM_END_DIGIT=0.25, FREEMAIL_FROM=0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
+Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -73,67 +79,59 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Bug 1681439 <1681439@bugs.launchpad.net>
+Cc: "open list:RISC-V" <qemu-riscv@nongnu.org>,
+ Sagar Karandikar <sagark@eecs.berkeley.edu>,
+ Bastian Koppelmann <kbastian@mail.uni-paderborn.de>,
+ "qemu-devel@nongnu.org Developers" <qemu-devel@nongnu.org>,
+ Alistair Francis <Alistair.Francis@wdc.com>,
+ Palmer Dabbelt <palmer@dabbelt.com>, Bin Meng <bmeng.cn@gmail.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-** Changed in: qemu
-       Status: New =3D> Confirmed
+On Sat, Jul 25, 2020 at 8:05 AM Zong Li <zong.li@sifive.com> wrote:
+>
+> The real physical address should add the 12 bits page offset. It also
+> causes the PMP wrong checking due to the minimum granularity of PMP is
+> 4 byte, but we always get the physical address which is 4KB alignment,
+> that means, we always use the start address of the page to check PMP for
+> all addresses which in the same page.
 
-** Changed in: qemu
-     Assignee: (unassigned) =3D> John Snow (jnsnow)
+So riscv_cpu_tlb_fill() will clear these bits when calling
+tlb_set_page(), so this won't have an impact on actual translation
+(although it will change in input address for 2-stage translation, but
+that seems fine).
 
--- =
+Your point about PMP seems correct as we allow a smaller then page
+granularity this seems like the right approach.
 
-You received this bug notification because you are a member of qemu-
-devel-ml, which is subscribed to QEMU.
-https://bugs.launchpad.net/bugs/1681439
+Can you edit riscv_cpu_get_phys_page_debug() to mask these bits out at
+the end? Otherwise we will break what callers to
+cpu_get_phys_page_attrs_debug() expect.
 
-Title:
-  qemu-system-x86_64: hw/ide/core.c:685: ide_cancel_dma_sync: Assertion
-  `s->bus->dma->aiocb =3D=3D NULL' failed.
+Alistair
 
-Status in QEMU:
-  Confirmed
-
-Bug description:
-  Since upgrading to QEMU 2.8.0, my Windows 7 64-bit virtual machines
-  started crashing due to the assertion quoted in the summary failing.
-  The assertion in question was added by commit 9972354856 ("block: add
-  BDS field to count in-flight requests").  My tests show that setting
-  discard=3Dunmap is needed to reproduce the issue.  Speaking of
-  reproduction, it is a bit flaky, because I have been unable to come up
-  with specific instructions that would allow the issue to be triggered
-  outside of my environment, but I do have a semi-sane way of testing that
-  appears to depend on a specific initial state of data on the underlying
-  storage volume, actions taken within the VM and waiting for about 20
-  minutes.
-
-  Here is the shortest QEMU command line that I managed to reproduce the
-  bug with:
-
-      qemu-system-x86_64 \
-          -machine pc-i440fx-2.7,accel=3Dkvm \
-          -m 3072 \
-          -drive file=3D/dev/lvm/qemu,format=3Draw,if=3Dide,discard=3Dunmap=
- \
-  	-netdev tap,id=3Dhostnet0,ifname=3Dtap0,script=3Dno,downscript=3Dno,vhos=
-t=3Don \
-          -device virtio-net-pci,netdev=3Dhostnet0 \
-  	-vnc :0
-
-  The underlying storage (/dev/lvm/qemu) is a thin LVM snapshot.
-
-  QEMU was compiled using:
-
-      ./configure --python=3D/usr/bin/python2.7 --target-list=3Dx86_64-soft=
-mmu
-      make -j3
-
-  My virtualization environment is not really a critical one and
-  reproduction is not that much of a hassle, so if you need me to gather
-  further diagnostic information or test patches, I will be happy to help.
-
-To manage notifications about this bug go to:
-https://bugs.launchpad.net/qemu/+bug/1681439/+subscriptions
+>
+> Signed-off-by: Zong Li <zong.li@sifive.com>
+> ---
+>  target/riscv/cpu_helper.c | 3 ++-
+>  1 file changed, 2 insertions(+), 1 deletion(-)
+>
+> diff --git a/target/riscv/cpu_helper.c b/target/riscv/cpu_helper.c
+> index 75d2ae3434..08b069f0c9 100644
+> --- a/target/riscv/cpu_helper.c
+> +++ b/target/riscv/cpu_helper.c
+> @@ -543,7 +543,8 @@ restart:
+>              /* for superpage mappings, make a fake leaf PTE for the TLB's
+>                 benefit. */
+>              target_ulong vpn = addr >> PGSHIFT;
+> -            *physical = (ppn | (vpn & ((1L << ptshift) - 1))) << PGSHIFT;
+> +            *physical = ((ppn | (vpn & ((1L << ptshift) - 1))) << PGSHIFT) |
+> +                        (addr & ~TARGET_PAGE_MASK);
+>
+>              /* set permissions on the TLB entry */
+>              if ((pte & PTE_R) || ((pte & PTE_X) && mxr)) {
+> --
+> 2.27.0
+>
+>
 
