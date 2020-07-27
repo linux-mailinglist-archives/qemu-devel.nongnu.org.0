@@ -2,71 +2,72 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 18AFC22EC12
-	for <lists+qemu-devel@lfdr.de>; Mon, 27 Jul 2020 14:25:30 +0200 (CEST)
-Received: from localhost ([::1]:44198 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 454E422EC19
+	for <lists+qemu-devel@lfdr.de>; Mon, 27 Jul 2020 14:27:15 +0200 (CEST)
+Received: from localhost ([::1]:52554 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1k02C9-0008U4-2U
-	for lists+qemu-devel@lfdr.de; Mon, 27 Jul 2020 08:25:29 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:36926)
+	id 1k02Dq-0003aQ-BF
+	for lists+qemu-devel@lfdr.de; Mon, 27 Jul 2020 08:27:14 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:36936)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1k02Am-0006qK-Hu
- for qemu-devel@nongnu.org; Mon, 27 Jul 2020 08:24:04 -0400
-Received: from mail-wr1-x431.google.com ([2a00:1450:4864:20::431]:44849)
+ id 1k02An-0006qi-2e
+ for qemu-devel@nongnu.org; Mon, 27 Jul 2020 08:24:05 -0400
+Received: from mail-wr1-x436.google.com ([2a00:1450:4864:20::436]:36972)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1k02Aj-0006Pc-DE
+ id 1k02Ak-0006Pm-U3
  for qemu-devel@nongnu.org; Mon, 27 Jul 2020 08:24:04 -0400
-Received: by mail-wr1-x431.google.com with SMTP id b6so14672675wrs.11
- for <qemu-devel@nongnu.org>; Mon, 27 Jul 2020 05:24:01 -0700 (PDT)
+Received: by mail-wr1-x436.google.com with SMTP id y3so14671710wrl.4
+ for <qemu-devel@nongnu.org>; Mon, 27 Jul 2020 05:24:02 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=MaB6EkUcV7cS8jhBR3D/MkieWNjgmYqTc6CjEYzz2lI=;
- b=n6QKODt+W0JzwxucAFN4utcBzGXEUJGsYUW2i2SMAGguOEqYkMvwngszmX1J9rtLwt
- V9nIuJlRfUPS0TVD4jp1roqNk21u4z2UX03yHAIbAxaabQy1IsFH6usCK07dhHfUk4gG
- B22ZpHlSLVrqx0vpE/m1iI6dh9ohC+tX+qQSJqCoAV2twQOUNlr6o12d9KA0RnEVwyro
- Z4ZuaOeXxh6/6qAl/z3uPVcPJplgGT/MiH81HROHSisnzzVB82T5btbswKOlp0Mdq7Z9
- x6fqwB4Z0/RKeuRSJWmCpRLx4TXUN3JfzNejIANRvjBCgvC5ldXRJYwyZ82PoL4XTqDU
- pCcA==
+ bh=YtPMokqpNUHAcEyVMeHPzcW1sXNfgMsM9HjJyWOt79M=;
+ b=gpTNYJl/2hPGKLyupstu5Kgrdv2hu4wqDtsm95xx6JS+Iv589tEl3XU1oQmzAxzpIW
+ k1X2D9mnD7aF6q7a9uDpsrdOWnS0berCjacwIbAfP1SfuYMU+Qn1YUOQqriAmr4Lx3X0
+ +24qOfR4lzfogEkzOkYbcl5NqXpLFSedAibIomOQA8TAupF21hc7jTWvYmldhRqCpXiP
+ XcQBbuOQ+8yE91+l3OTFEXGVq67tZ2VUD9AifQQjJAn8fXzZRy7JztfYTZjCRPeWbbNH
+ u9B7RO1WXPWtq67+HvncnP8ZY9ViDaBdXWTYijyWxate3x37BahmDN51lDwSAIECDCkr
+ 6T9A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=MaB6EkUcV7cS8jhBR3D/MkieWNjgmYqTc6CjEYzz2lI=;
- b=LZB+MlHTXBjx05Ekv4flZkLBFTnoq4tYgEu+KiNHNEz+92TAwkmYeGxVyST54hyZ4D
- 9Q/ABGljjvx4m6nicqclfcm61cGVpqvFKKnjgS0KGwbANp7dHtQzIpZnk/Yeb/6FkGoB
- YgrDRfyq4q/vvp+5QSRFjP2c4jgqbc21w7/Il8988bzB96+pBnDmZIJxL2T2S4t9Serg
- QmMJbPnK45XLBxNXakcgNlXGs+Ujq5Ogjeo5F6P7f8C1Ax05XRblyf/yDkwtRsNp0CKE
- 7M/KluCR6SsugVGYrxHoFwXEbFqEUAWYcooM4XoqPsg1uo55ymrhqpoc8pKUsE7VICSk
- M/cw==
-X-Gm-Message-State: AOAM530IoJse8xsqq6kLhHQcUOvgy9pL//ihN6IvlsfhABqpjsH08VgT
- BaVEieGC2Ix3G1kwqxDSMd44MIq4jiw=
-X-Google-Smtp-Source: ABdhPJxIs1HOaDtOPikSF4Eg+N8kRtuGyovAAfCrdpp++Nw6smyzpDEXHG4IJTPSWUC7y+RbS9m1wQ==
-X-Received: by 2002:a5d:5647:: with SMTP id j7mr19578441wrw.242.1595852640076; 
- Mon, 27 Jul 2020 05:24:00 -0700 (PDT)
+ bh=YtPMokqpNUHAcEyVMeHPzcW1sXNfgMsM9HjJyWOt79M=;
+ b=jw0MaivaCKotdWCdHQX5p510Gi+XFN5idvtRbkAUUeUzj7N8GSrO/8WiRhvToxpwmH
+ 1QloZ854rcvyTgTlGO/wW9Mpytzvp6j5Q/3LnPGG8EcXT1FfKQi8dpDS+b0tpgRqaBhV
+ 2BQMwqiiKCg7pWW1Z7Sq51Chakwdkou+5sv6yh3nET4bbW1SMsMYTl/UxW91gwI4s6pb
+ 5/VlO7jaOpISN1rzbCZ1mgKeiszq7fwYeyWgaHmNaYN4oIG58htsXRink08Ay+/N6+gl
+ 702TsdSCv+TVSlWhIuPoeBEP4DhI4aRHeGpHKAVgzSY9EG+DoAgjHNluukgv+njAnD40
+ dcdQ==
+X-Gm-Message-State: AOAM532AM7kXXa39Dj93dsYDNDeqQNnQ3WmVbda4X/LwCGyPKgaXdUXU
+ C8PA+6Ojmnwmo1tAmUDN3eT8FA==
+X-Google-Smtp-Source: ABdhPJzPre27vfJSokQPpkErOLLcSFad6ACUn3viWQVaCCAUq/1+CJCojG9YGKNjaZdE5nV2Tncc3A==
+X-Received: by 2002:adf:ee06:: with SMTP id y6mr20218228wrn.225.1595852641204; 
+ Mon, 27 Jul 2020 05:24:01 -0700 (PDT)
 Received: from zen.linaroharston ([51.148.130.216])
- by smtp.gmail.com with ESMTPSA id o2sm3934205wmh.5.2020.07.27.05.23.57
+ by smtp.gmail.com with ESMTPSA id j8sm12779117wrd.85.2020.07.27.05.23.58
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 27 Jul 2020 05:23:58 -0700 (PDT)
+ Mon, 27 Jul 2020 05:23:59 -0700 (PDT)
 Received: from zen.lan (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id 793AE1FF87;
+ by zen.linaroharston (Postfix) with ESMTP id 8F2781FF8C;
  Mon, 27 Jul 2020 13:23:57 +0100 (BST)
 From: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
 To: peter.maydell@linaro.org
-Subject: [PULL 01/16] shippable: add one more qemu to registry url
-Date: Mon, 27 Jul 2020 13:23:42 +0100
-Message-Id: <20200727122357.31263-2-alex.bennee@linaro.org>
+Subject: [PULL 02/16] semihosting: defer connect_chardevs a little more to use
+ serialx
+Date: Mon, 27 Jul 2020 13:23:43 +0100
+Message-Id: <20200727122357.31263-3-alex.bennee@linaro.org>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20200727122357.31263-1-alex.bennee@linaro.org>
 References: <20200727122357.31263-1-alex.bennee@linaro.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::431;
- envelope-from=alex.bennee@linaro.org; helo=mail-wr1-x431.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::436;
+ envelope-from=alex.bennee@linaro.org; helo=mail-wr1-x436.google.com
 X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
  That's all we know.
 X-Spam_score_int: -20
@@ -88,34 +89,48 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Fam Zheng <fam@euphon.net>,
- =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
+Cc: Richard Henderson <richard.henderson@linaro.org>,
+ KONRAD Frederic <frederic.konrad@adacore.com>,
  =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>, qemu-devel@nongnu.org,
- =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
+ Paolo Bonzini <pbonzini@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The registry url is <project>/<repo>/qemu/<image>
+From: KONRAD Frederic <frederic.konrad@adacore.com>
 
-Perhaps we should rationalise that some day but for now.
+With that we can just use -semihosting-config chardev=serial0.
 
+[AJB: tweak commit message]
+
+Signed-off-by: KONRAD Frederic <frederic.konrad@adacore.com>
 Signed-off-by: Alex Bennée <alex.bennee@linaro.org>
-Reviewed-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
-Message-Id: <20200724064509.331-2-alex.bennee@linaro.org>
+Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
+Message-Id: <1592215252-26742-1-git-send-email-frederic.konrad@adacore.com>
+Message-Id: <20200724064509.331-3-alex.bennee@linaro.org>
 
-diff --git a/.shippable.yml b/.shippable.yml
-index f6b742432e5..89d8be4291b 100644
---- a/.shippable.yml
-+++ b/.shippable.yml
-@@ -27,7 +27,7 @@ env:
-       TARGET_LIST=ppc64-softmmu,ppc64-linux-user,ppc64abi32-linux-user
- build:
-   pre_ci_boot:
--    image_name: registry.gitlab.com/qemu-project/qemu/${IMAGE}
-+    image_name: registry.gitlab.com/qemu-project/qemu/qemu/${IMAGE}
-     image_tag: latest
-     pull: true
-     options: "-e HOME=/root"
+diff --git a/softmmu/vl.c b/softmmu/vl.c
+index 660537a7098..4eb9d1f7fd5 100644
+--- a/softmmu/vl.c
++++ b/softmmu/vl.c
+@@ -4127,8 +4127,6 @@ void qemu_init(int argc, char **argv, char **envp)
+ 
+     qemu_opts_foreach(qemu_find_opts("chardev"),
+                       chardev_init_func, NULL, &error_fatal);
+-    /* now chardevs have been created we may have semihosting to connect */
+-    qemu_semihosting_connect_chardevs();
+ 
+ #ifdef CONFIG_VIRTFS
+     qemu_opts_foreach(qemu_find_opts("fsdev"),
+@@ -4279,6 +4277,9 @@ void qemu_init(int argc, char **argv, char **envp)
+     if (foreach_device_config(DEV_DEBUGCON, debugcon_parse) < 0)
+         exit(1);
+ 
++    /* now chardevs have been created we may have semihosting to connect */
++    qemu_semihosting_connect_chardevs();
++
+     /* If no default VGA is requested, the default is "none".  */
+     if (default_vga) {
+         vga_model = get_default_vga_model(machine_class);
 -- 
 2.20.1
 
