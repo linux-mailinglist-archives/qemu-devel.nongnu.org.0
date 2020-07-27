@@ -2,76 +2,63 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C660422E952
-	for <lists+qemu-devel@lfdr.de>; Mon, 27 Jul 2020 11:42:16 +0200 (CEST)
-Received: from localhost ([::1]:49594 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 49E7022E95C
+	for <lists+qemu-devel@lfdr.de>; Mon, 27 Jul 2020 11:44:29 +0200 (CEST)
+Received: from localhost ([::1]:53150 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jzzeB-00034Z-Ji
-	for lists+qemu-devel@lfdr.de; Mon, 27 Jul 2020 05:42:15 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:37448)
+	id 1jzzgK-0004VW-C8
+	for lists+qemu-devel@lfdr.de; Mon, 27 Jul 2020 05:44:28 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:37920)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1jzzdR-0002eh-K1
- for qemu-devel@nongnu.org; Mon, 27 Jul 2020 05:41:29 -0400
-Received: from us-smtp-2.mimecast.com ([205.139.110.61]:27977
- helo=us-smtp-delivery-1.mimecast.com)
+ (Exim 4.90_1) (envelope-from <cohuck@redhat.com>) id 1jzzet-0003by-Mw
+ for qemu-devel@nongnu.org; Mon, 27 Jul 2020 05:42:59 -0400
+Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:31159
+ helo=us-smtp-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1jzzdP-0005Sy-6y
- for qemu-devel@nongnu.org; Mon, 27 Jul 2020 05:41:28 -0400
+ (Exim 4.90_1) (envelope-from <cohuck@redhat.com>) id 1jzzes-0005jM-5t
+ for qemu-devel@nongnu.org; Mon, 27 Jul 2020 05:42:59 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1595842884;
+ s=mimecast20190719; t=1595842977;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=ZHRcPFuiIoRSfCEck7//ov3NxeyTxAiTVJANTRtOxj4=;
- b=YueTggc1M/oSA/PsfHV6n1AxX9DsdRKRkZlPRw1PRm36hQMcOzS/jn6vD94gyY1IVSG0l2
- Rk1f5P0WDv7ecEutcHGEtjkDiMbflLqyC+joqesLw9ewbofGGzpsV7q7DHA4LDz1p7ppgq
- b7AkRsjbK0bliw/yDhEV/U0v95QWw4I=
-Received: from mail-wm1-f71.google.com (mail-wm1-f71.google.com
- [209.85.128.71]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-480-PkS1-goWOp-J1fxuWC-q7g-1; Mon, 27 Jul 2020 05:41:22 -0400
-X-MC-Unique: PkS1-goWOp-J1fxuWC-q7g-1
-Received: by mail-wm1-f71.google.com with SMTP id t26so7011939wmn.4
- for <qemu-devel@nongnu.org>; Mon, 27 Jul 2020 02:41:22 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:in-reply-to;
- bh=ZHRcPFuiIoRSfCEck7//ov3NxeyTxAiTVJANTRtOxj4=;
- b=tkiO62RKTnb6PJRSTD0CevV2uTX+wVXqp2f4sA5+IGbSkoGGPyLwO6B1j7KE47U/AS
- f3LV4YMfvAsdHGZ/FUSIW5j2f2sCGEjZ5gDvey8B3RVw8D8ltruDBVsxJ6f+wRT6HhR2
- /wJYkzujUcfP3yyIV4Wo1g66r+dkDWAdWrzgvfuNISqXlkQSNmp2LlIn6B2hkvvRQDqQ
- D4Euq7nJDts809U3QC2BaOSUuvsIDd4ryjoMg/E+EFaeAcj/qJI5iEa5951P5J/DOWT+
- ndQm+zw/OgbrvbwPIupyxMiSV6RbdIcXS8HKk4GTZ6MZkzd/Fm3XijblKxLvWLVoEcFm
- a6wg==
-X-Gm-Message-State: AOAM530uaeCgxvkRUhRs+Ajnj8xUZpRlbPzllC3FMmlNw9F/gbLRNkVF
- aYUGLQTFLlDtNdIiqOYPBgdt2dS3OPlE8kqEI29igZlzBTRmBBQQobMfwKqxnYUw5UskkRXSgmY
- ZzN/WqFtY7VDBJpA=
-X-Received: by 2002:adf:90d1:: with SMTP id i75mr10651126wri.278.1595842881589; 
- Mon, 27 Jul 2020 02:41:21 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJxoF+eS9zAHyhTXkpzvrs8B0C8OcDEqK5qtlgaqOZwjfzpUbbNnSRfu5ndqP9/4sa8np7q3ZQ==
-X-Received: by 2002:adf:90d1:: with SMTP id i75mr10651110wri.278.1595842881369; 
- Mon, 27 Jul 2020 02:41:21 -0700 (PDT)
-Received: from redhat.com ([192.117.173.58])
- by smtp.gmail.com with ESMTPSA id n5sm4650514wrx.22.2020.07.27.02.41.19
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 27 Jul 2020 02:41:20 -0700 (PDT)
-Date: Mon, 27 Jul 2020 05:41:17 -0400
-From: "Michael S. Tsirkin" <mst@redhat.com>
-To: Jason Wang <jasowang@redhat.com>
-Subject: Re: [PATCH] virtio-net: check the existence of peer before accesing
- its config
-Message-ID: <20200727053954-mutt-send-email-mst@kernel.org>
-References: <20200727074328.2279-1-jasowang@redhat.com>
+ bh=PbFS+/4j9/oIOf9g6q7zI2jvwT8P1W/IvDWzu6e9kas=;
+ b=I74fEWiGy4AjyatmKxtGSYmAq0OJsbVbwzWRC+FOfy/+yEfsvqS0xYnmav9QCbbek+tWIX
+ dj24xOjATXgKEQN9ERLSAOlz0wKruklPTAnagMz1NacMoQVx0P8+6Oab4cbIq8trpDD8ZV
+ e283ZID1+A/Z6J2jPHYHQMKIiqIvkH0=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-444-EvDb7kUWOheUB6DGmfRmBA-1; Mon, 27 Jul 2020 05:42:53 -0400
+X-MC-Unique: EvDb7kUWOheUB6DGmfRmBA-1
+Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
+ [10.5.11.13])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id DB79458;
+ Mon, 27 Jul 2020 09:42:51 +0000 (UTC)
+Received: from gondolin (ovpn-112-210.ams2.redhat.com [10.36.112.210])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id A3919872EF;
+ Mon, 27 Jul 2020 09:42:43 +0000 (UTC)
+Date: Mon, 27 Jul 2020 11:42:40 +0200
+From: Cornelia Huck <cohuck@redhat.com>
+To: David Hildenbrand <david@redhat.com>
+Subject: Re: [PATCH RFCv3 4/9] s390x: prepare for more diag500 hypercalls
+Message-ID: <20200727114240.4a90388c.cohuck@redhat.com>
+In-Reply-To: <20200724143750.59836-5-david@redhat.com>
+References: <20200724143750.59836-1-david@redhat.com>
+ <20200724143750.59836-5-david@redhat.com>
+Organization: Red Hat GmbH
 MIME-Version: 1.0
-In-Reply-To: <20200727074328.2279-1-jasowang@redhat.com>
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Received-SPF: pass client-ip=205.139.110.61; envelope-from=mst@redhat.com;
- helo=us-smtp-delivery-1.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/07/27 01:46:13
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=205.139.110.120; envelope-from=cohuck@redhat.com;
+ helo=us-smtp-1.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/07/27 01:44:14
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
 X-Spam_score_int: -40
 X-Spam_score: -4.1
@@ -79,7 +66,7 @@ X-Spam_bar: ----
 X-Spam_report: (-4.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-1, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -92,85 +79,79 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Cornelia Huck <cohuck@redhat.com>, qemu-devel@nongnu.org,
- Cindy Lu <lulu@redhat.com>
+Cc: Thomas Huth <thuth@redhat.com>, Janosch Frank <frankja@linux.ibm.com>,
+ "Michael S . Tsirkin" <mst@redhat.com>, Heiko Carstens <hca@linux.ibm.com>,
+ qemu-devel@nongnu.org, Halil Pasic <pasic@linux.ibm.com>,
+ Christian Borntraeger <borntraeger@de.ibm.com>, qemu-s390x@nongnu.org,
+ Claudio Imbrenda <imbrenda@linux.ibm.com>, Richard Henderson <rth@twiddle.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Mon, Jul 27, 2020 at 03:43:28PM +0800, Jason Wang wrote:
-> We try to get config from peer unconditionally which may lead NULL
-> pointer dereference. Add a check before trying to access the config.
+On Fri, 24 Jul 2020 16:37:45 +0200
+David Hildenbrand <david@redhat.com> wrote:
+
+> Let's generalize, abstacting the virtio bits. diag500 is now a generic
+> hypercall to handle QEMU/KVM specific things. Explicitly specify all
+> already defined subcodes, including legacy ones (so we know what we can
+> use for new hypercalls). While at it, move exception handling into the
+> handler.
+
+IIRC, diag 500 had been reserved as "KVM stuff" and not just "virtio
+stuff", so that should be fine.
+
+The kernel documentation explicitly talks about "KVM virtio functions",
+though; you may want to tweak this (and also add a reference to any new
+subcodes.)
+
+[Do we have a good resting place for documenting non-virtio-specific
+subcodes?]
+
 > 
-> Fixes: 108a64818e69b ("vhost-vdpa: introduce vhost-vdpa backend")
-> Cc: Cindy Lu <lulu@redhat.com>
-> Tested-by: Cornelia Huck <cohuck@redhat.com>
-> Signed-off-by: Jason Wang <jasowang@redhat.com>
-
-I am a bit lost here. Isn't this invoked
-when guest attempts to read the config?
-With no peer, what do we return to guest?
-A code comment might be helpful here.
-
+> We'll rename the files separately, so git properly detects the rename.
+> 
+> Signed-off-by: David Hildenbrand <david@redhat.com>
 > ---
->  hw/net/virtio-net.c | 22 +++++++++++-----------
->  1 file changed, 11 insertions(+), 11 deletions(-)
-> 
-> diff --git a/hw/net/virtio-net.c b/hw/net/virtio-net.c
-> index 4895af1cbe..935b9ef5c7 100644
-> --- a/hw/net/virtio-net.c
-> +++ b/hw/net/virtio-net.c
-> @@ -125,6 +125,7 @@ static void virtio_net_get_config(VirtIODevice *vdev, uint8_t *config)
->  {
->      VirtIONet *n = VIRTIO_NET(vdev);
->      struct virtio_net_config netcfg;
-> +    NetClientState *nc = qemu_get_queue(n->nic);
+>  hw/s390x/s390-virtio-hcall.c | 14 +++++++-------
+>  hw/s390x/s390-virtio-hcall.h | 12 ++++++------
+>  target/s390x/kvm.c           | 15 +++------------
+>  target/s390x/misc_helper.c   |  3 ++-
+>  4 files changed, 18 insertions(+), 26 deletions(-)
+>
+
+(...)
+
+> diff --git a/hw/s390x/s390-virtio-hcall.h b/hw/s390x/s390-virtio-hcall.h
+> index 67e11ea39a..2214216ce8 100644
+> --- a/hw/s390x/s390-virtio-hcall.h
+> +++ b/hw/s390x/s390-virtio-hcall.h
+> @@ -1,5 +1,5 @@
+>  /*
+> - * Support for virtio hypercalls on s390x
+> + * Support for QEMU/KVM-specific hypercalls on s390
+>   *
+>   * Copyright IBM Corp. 2012, 2017
+>   * Author(s): Cornelia Huck <cornelia.huck@de.ibm.com>
+> @@ -12,10 +12,10 @@
+>  #ifndef HW_S390_VIRTIO_HCALL_H
+>  #define HW_S390_VIRTIO_HCALL_H
 >  
->      int ret = 0;
->      memset(&netcfg, 0 , sizeof(struct virtio_net_config));
-> @@ -142,13 +143,12 @@ static void virtio_net_get_config(VirtIODevice *vdev, uint8_t *config)
->                   VIRTIO_NET_RSS_SUPPORTED_HASHES);
->      memcpy(config, &netcfg, n->config_size);
+> -#include "standard-headers/asm-s390/virtio-ccw.h"
+> +#define DIAG500_VIRTIO_NOTIFY          0 /* legacy, implemented as a NOP */
+> +#define DIAG500_VIRTIO_RESET           1 /* legacy */
+> +#define DIAG500_VIRTIO_SET_STATUS      2 /* legacy */
+> +#define DIAG500_VIRTIO_CCW_NOTIFY      3 /* KVM_S390_VIRTIO_CCW_NOTIFY */
 >  
-> -    NetClientState *nc = qemu_get_queue(n->nic);
-> -    if (nc->peer->info->type == NET_CLIENT_DRIVER_VHOST_VDPA) {
-> +    if (nc->peer && nc->peer->info->type == NET_CLIENT_DRIVER_VHOST_VDPA) {
->          ret = vhost_net_get_config(get_vhost_net(nc->peer), (uint8_t *)&netcfg,
-> -                             n->config_size);
-> -    if (ret != -1) {
-> -        memcpy(config, &netcfg, n->config_size);
-> -    }
-> +                                   n->config_size);
-> +        if (ret != -1) {
-> +            memcpy(config, &netcfg, n->config_size);
-> +        }
->      }
->  }
->  
-> @@ -156,6 +156,7 @@ static void virtio_net_set_config(VirtIODevice *vdev, const uint8_t *config)
->  {
->      VirtIONet *n = VIRTIO_NET(vdev);
->      struct virtio_net_config netcfg = {};
-> +    NetClientState *nc = qemu_get_queue(n->nic);
->  
->      memcpy(&netcfg, config, n->config_size);
->  
-> @@ -166,11 +167,10 @@ static void virtio_net_set_config(VirtIODevice *vdev, const uint8_t *config)
->          qemu_format_nic_info_str(qemu_get_queue(n->nic), n->mac);
->      }
->  
-> -    NetClientState *nc = qemu_get_queue(n->nic);
-> -    if (nc->peer->info->type == NET_CLIENT_DRIVER_VHOST_VDPA) {
-> -        vhost_net_set_config(get_vhost_net(nc->peer), (uint8_t *)&netcfg,
-> -                               0, n->config_size,
-> -                        VHOST_SET_CONFIG_TYPE_MASTER);
-> +    if (nc->peer && nc->peer->info->type == NET_CLIENT_DRIVER_VHOST_VDPA) {
-> +        vhost_net_set_config(get_vhost_net(nc->peer),
-> +                             (uint8_t *)&netcfg, 0, n->config_size,
-> +                             VHOST_SET_CONFIG_TYPE_MASTER);
->        }
->  }
->  
-> -- 
-> 2.20.1
+> -/* The only thing that we need from the old kvm_virtio.h file */
+> -#define KVM_S390_VIRTIO_NOTIFY 0
+
+It feels a bit odd to define it here; but this is host/guest api and
+won't change anyway.
+
+> -
+> -int s390_virtio_hypercall(CPUS390XState *env);
+> +void handle_diag_500(CPUS390XState *env, uintptr_t ra);
+>  #endif /* HW_S390_VIRTIO_HCALL_H */
+
+(...)
 
 
