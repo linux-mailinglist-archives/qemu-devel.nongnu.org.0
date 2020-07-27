@@ -2,67 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id EB8B122F3B9
-	for <lists+qemu-devel@lfdr.de>; Mon, 27 Jul 2020 17:20:50 +0200 (CEST)
-Received: from localhost ([::1]:37024 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A6DEC22F3BA
+	for <lists+qemu-devel@lfdr.de>; Mon, 27 Jul 2020 17:20:55 +0200 (CEST)
+Received: from localhost ([::1]:37470 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1k04vp-0002fo-VQ
-	for lists+qemu-devel@lfdr.de; Mon, 27 Jul 2020 11:20:49 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:42490)
+	id 1k04vu-0002ry-Ln
+	for lists+qemu-devel@lfdr.de; Mon, 27 Jul 2020 11:20:54 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:42554)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1k04uV-0001X1-Ra
- for qemu-devel@nongnu.org; Mon, 27 Jul 2020 11:19:27 -0400
-Received: from mail-wm1-x344.google.com ([2a00:1450:4864:20::344]:40347)
+ id 1k04uZ-0001Yw-B4
+ for qemu-devel@nongnu.org; Mon, 27 Jul 2020 11:19:31 -0400
+Received: from mail-wr1-x42b.google.com ([2a00:1450:4864:20::42b]:41559)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1k04uT-0001Kd-Sd
- for qemu-devel@nongnu.org; Mon, 27 Jul 2020 11:19:27 -0400
-Received: by mail-wm1-x344.google.com with SMTP id k20so7511665wmi.5
- for <qemu-devel@nongnu.org>; Mon, 27 Jul 2020 08:19:25 -0700 (PDT)
+ id 1k04uX-0001MB-KZ
+ for qemu-devel@nongnu.org; Mon, 27 Jul 2020 11:19:31 -0400
+Received: by mail-wr1-x42b.google.com with SMTP id r2so10202892wrs.8
+ for <qemu-devel@nongnu.org>; Mon, 27 Jul 2020 08:19:29 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=from:to:subject:date:message-id:mime-version
+ h=from:to:subject:date:message-id:in-reply-to:references:mime-version
  :content-transfer-encoding;
- bh=CeDcorImRHrJQvllkZdubqT0Hs0i7TqihlRwmo6cCrc=;
- b=JcAVlFeesalfH1cSVnSOHokObuig6NlRfXivmfzyUufldqq1d5hYLmP6Yqmr/RI5zR
- EzgB/ryqLry4KW3WSLqqvTI+9IFcbn1zvai6j7R6NJhglZyn1jJVUv1vASIxiTjrwaeb
- DPGNJckCMBSwQv8WGqshI6aq7gXYTwueuiGaVoiLJVsN5XgSdEM7+Yw+tdJRnXoRcqI2
- 2GcWzbYj+t4jTyM7na69jT/T133KUZNFgJ1JXVKHzKbno5cIS6QzSpDorL6y08u0C5Ha
- P2/lEBil6u29r9MQikowe6aDRbBrGs/5EkgBLsSmYzv79eHlON6PfttiNeUVc1IFeFjf
- UunA==
+ bh=uOYlhryYGKuk9GHY1annootwLvGZo9Yx/GyMtSFdjtA=;
+ b=Kqm0/B/WozkP+XG2CKFgyPXDYDrLMQnhkh1nKqwyl9HbOmzMU0Fv4i0DcYrXGpY43h
+ wfyf827TtCrhfJRS+d2jQd8PrU5Bjq+o+AGP4gzBUBYbM9S/u7QbEK1bQN+Ae48aMXEK
+ ajzVXiTZuuFyCHHhK8vmqySZ7O/ip8fp3y+V8uMW4hI3JK1nHPsboNBmfUUgRL6L04UM
+ +Mi2pFZOI2dWcXw3VknOZocy75p95BhQasd/9WoLELR0/lL1zYO4uIG5RfvHd1rfP/zO
+ PAom2mv8lX5DTbPedvyHJSWeeLTiyZos6YTBfr+BareInztzvEQrh7/GJHhNTf74gtju
+ U/iw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=CeDcorImRHrJQvllkZdubqT0Hs0i7TqihlRwmo6cCrc=;
- b=oWxI5/ode114oJCVRSdd8KUBriX/djGfQNE1SGKz3kAKNL4MHdopbTBwlI+e5UYecT
- AuILdI1mUeAgg7iZjhzp1xt2uDWi+dExv7WZ5smqKg0gOW37vjE3dXy+6P2ba/ex+z2W
- H5WzZDOdCBi5Z+5VVWh7PfwM88eiqKbELYYMqp6Chi8AvkjRTiHFg3tu/jqKEjHGhp8P
- 6dXTAWNtR1GmeaYrHaaPSmAkSRSi+ugDSbIKgCjw1VIJ4fyz7KIK52Gy3JgCCEuxKcE4
- 9T/PQvN54TaKpta4sivQNNZ3vO3vRU0WKZi41tCt1urDC6DEtJAmU3W9xZIbhpgcFYP6
- kvZA==
-X-Gm-Message-State: AOAM5320U0LzQvc6McqoQtR7ELv9Uk731N6X/ll34dAJfWmrGLymRbes
- EQSmmr3BrRWnSJ90x7sTR/EkDDsfMQbYVA==
-X-Google-Smtp-Source: ABdhPJxgDrgIMeN33bspvIRFmBtrD2snpEDxMLObUIvv4sfOx1ZBa8J5y7EQOIuDmGSgdichMOoIkQ==
-X-Received: by 2002:a1c:e382:: with SMTP id a124mr21017814wmh.11.1595863163510; 
- Mon, 27 Jul 2020 08:19:23 -0700 (PDT)
+ h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
+ :references:mime-version:content-transfer-encoding;
+ bh=uOYlhryYGKuk9GHY1annootwLvGZo9Yx/GyMtSFdjtA=;
+ b=dRFRmw8XOf3fn6yZze6xl/lfGgo7LIzYYQLs9chBtkan8JU2pRixe7p9n6tfGaOF/s
+ e0htcddJMagEYmCXSAAqUcTK01M00R2ghem7+Do4+YVB9qnc+XKt/IY3jnwu5fgjQYNc
+ PpL3BhLfSju4Xuo9K8QF31OOmnggmNmCq0ifBB8gss6X+dTlEWQJpDLuzgNDASdIxeDO
+ cWXxlGZ7AyrcY/aprSfLCH/DRIdjHVwolr8v6BfkxvyWO3Y8E3/PGwR1+O5t5G1fodya
+ 46m9FCIS3b2O3wZtU1UCkhQNleTfGbXgrT1k6gr4o+HAb4liilv5NSmY7iXHaVfjZEwJ
+ bIIQ==
+X-Gm-Message-State: AOAM5324CxWO+rDoZivbR0C0xnHiGkwR88W62ZejJZKGYbewI5thoKgk
+ C4WmPhP50En4oPtLVgp+ih2tefo82eR2sg==
+X-Google-Smtp-Source: ABdhPJwQgjN6+aevGwF9RimnsJW3hna/+qpKOFjRrPYaO2mL1C9rs59/lQPk2IMPlljgvbiH3BmR2w==
+X-Received: by 2002:a5d:48c8:: with SMTP id p8mr20277745wrs.84.1595863164850; 
+ Mon, 27 Jul 2020 08:19:24 -0700 (PDT)
 Received: from orth.archaic.org.uk (orth.archaic.org.uk. [81.2.115.148])
- by smtp.gmail.com with ESMTPSA id h199sm18744996wme.42.2020.07.27.08.19.22
+ by smtp.gmail.com with ESMTPSA id h199sm18744996wme.42.2020.07.27.08.19.23
  for <qemu-devel@nongnu.org>
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 27 Jul 2020 08:19:22 -0700 (PDT)
+ Mon, 27 Jul 2020 08:19:23 -0700 (PDT)
 From: Peter Maydell <peter.maydell@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PULL 0/7] target-arm queue
-Date: Mon, 27 Jul 2020 16:19:13 +0100
-Message-Id: <20200727151920.19150-1-peter.maydell@linaro.org>
+Subject: [PULL 1/7] ACPI: Assert that we don't run out of the preallocated
+ memory
+Date: Mon, 27 Jul 2020 16:19:14 +0100
+Message-Id: <20200727151920.19150-2-peter.maydell@linaro.org>
 X-Mailer: git-send-email 2.20.1
+In-Reply-To: <20200727151920.19150-1-peter.maydell@linaro.org>
+References: <20200727151920.19150-1-peter.maydell@linaro.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::344;
- envelope-from=peter.maydell@linaro.org; helo=mail-wm1-x344.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::42b;
+ envelope-from=peter.maydell@linaro.org; helo=mail-wr1-x42b.google.com
 X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
  That's all we know.
 X-Spam_score_int: -20
@@ -87,52 +89,45 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Just some bugfixes this time around.
+From: Dongjiu Geng <gengdongjiu@huawei.com>
 
--- PMM
+data_length is a constant value, so we use assert instead of
+condition check.
 
-The following changes since commit 4215d3413272ad6d1c6c9d0234450b602e46a74c:
+Signed-off-by: Dongjiu Geng <gengdongjiu@huawei.com>
+Message-id: 20200622113146.33421-1-gengdongjiu@huawei.com
+Reviewed-by: Michael S. Tsirkin <mst@redhat.com>
+Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
+---
+ hw/acpi/ghes.c | 12 ++++--------
+ 1 file changed, 4 insertions(+), 8 deletions(-)
 
-  Merge remote-tracking branch 'remotes/dgibson/tags/ppc-for-5.1-20200727' into staging (2020-07-27 09:33:04 +0100)
+diff --git a/hw/acpi/ghes.c b/hw/acpi/ghes.c
+index b363bc331d0..f0ee9f51caa 100644
+--- a/hw/acpi/ghes.c
++++ b/hw/acpi/ghes.c
+@@ -204,16 +204,12 @@ static int acpi_ghes_record_mem_error(uint64_t error_block_address,
+ 
+     /* This is the length if adding a new generic error data entry*/
+     data_length = ACPI_GHES_DATA_LENGTH + ACPI_GHES_MEM_CPER_LENGTH;
+-
+     /*
+-     * Check whether it will run out of the preallocated memory if adding a new
+-     * generic error data entry
++     * It should not run out of the preallocated memory if adding a new generic
++     * error data entry
+      */
+-    if ((data_length + ACPI_GHES_GESB_SIZE) > ACPI_GHES_MAX_RAW_DATA_LENGTH) {
+-        error_report("Not enough memory to record new CPER!!!");
+-        g_array_free(block, true);
+-        return -1;
+-    }
++    assert((data_length + ACPI_GHES_GESB_SIZE) <=
++            ACPI_GHES_MAX_RAW_DATA_LENGTH);
+ 
+     /* Build the new generic error status block header */
+     acpi_ghes_generic_error_status(block, ACPI_GEBS_UNCORRECTABLE,
+-- 
+2.20.1
 
-are available in the Git repository at:
-
-  https://git.linaro.org/people/pmaydell/qemu-arm.git tags/pull-target-arm-20200727
-
-for you to fetch changes up to d4f6dda182e19afa75706936805e18397cb95f07:
-
-  target/arm: Improve IMPDEF algorithm for IRG (2020-07-27 16:12:11 +0100)
-
-----------------------------------------------------------------
-target-arm queue:
- * ACPI: Assert that we don't run out of the preallocated memory
- * hw/misc/aspeed_sdmc: Fix incorrect memory size
- * target/arm: Always pass cacheattr in S1_ptw_translate
- * docs/system/arm/virt: Document 'mte' machine option
- * hw/arm/boot: Fix PAUTH, MTE for EL3 direct kernel boot
- * target/arm: Improve IMPDEF algorithm for IRG
-
-----------------------------------------------------------------
-Dongjiu Geng (1):
-      ACPI: Assert that we don't run out of the preallocated memory
-
-Peter Maydell (1):
-      docs/system/arm/virt: Document 'mte' machine option
-
-Philippe Mathieu-Daudé (1):
-      hw/misc/aspeed_sdmc: Fix incorrect memory size
-
-Richard Henderson (4):
-      target/arm: Always pass cacheattr in S1_ptw_translate
-      hw/arm/boot: Fix PAUTH for EL3 direct kernel boot
-      hw/arm/boot: Fix MTE for EL3 direct kernel boot
-      target/arm: Improve IMPDEF algorithm for IRG
-
- docs/system/arm/virt.rst |  4 ++++
- hw/acpi/ghes.c           | 12 ++++--------
- hw/arm/boot.c            |  6 ++++++
- hw/misc/aspeed_sdmc.c    |  7 ++++---
- target/arm/helper.c      | 19 ++++++-------------
- target/arm/mte_helper.c  | 37 ++++++++++++++++++++++++++++++-------
- 6 files changed, 54 insertions(+), 31 deletions(-)
 
