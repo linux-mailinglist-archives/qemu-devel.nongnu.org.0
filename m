@@ -2,80 +2,58 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id F00E522ECC5
-	for <lists+qemu-devel@lfdr.de>; Mon, 27 Jul 2020 15:04:56 +0200 (CEST)
-Received: from localhost ([::1]:60182 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1E5F122ECD0
+	for <lists+qemu-devel@lfdr.de>; Mon, 27 Jul 2020 15:06:03 +0200 (CEST)
+Received: from localhost ([::1]:36486 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1k02oK-0007Ql-2O
-	for lists+qemu-devel@lfdr.de; Mon, 27 Jul 2020 09:04:56 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:48678)
+	id 1k02pO-0000y4-67
+	for lists+qemu-devel@lfdr.de; Mon, 27 Jul 2020 09:06:02 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:49232)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1k02my-0006LT-6N
- for qemu-devel@nongnu.org; Mon, 27 Jul 2020 09:03:32 -0400
-Received: from mail-wm1-x342.google.com ([2a00:1450:4864:20::342]:54187)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1k02ms-0003eB-Rr
- for qemu-devel@nongnu.org; Mon, 27 Jul 2020 09:03:31 -0400
-Received: by mail-wm1-x342.google.com with SMTP id g8so2930199wmk.3
- for <qemu-devel@nongnu.org>; Mon, 27 Jul 2020 06:03:26 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=references:user-agent:from:to:cc:subject:in-reply-to:date
- :message-id:mime-version:content-transfer-encoding;
- bh=iPNkiEZ36lwp1ViZSV/1+m3coDrljwAl5D+Clz90/+g=;
- b=xeIBEm06dxk/JI/FOo5ewu1bxV0l5lHkkn0q7y9o8Xh93AFfo9VKuiHT8EIrGRRDlF
- 8IRn8OsoLpStQ7hEL5288Ka05juuPtvG0UjX+fE6vUJRH1OJ1Pi0JrSB85UYsMAkYMjx
- 7o0fPZT5U+PHbwQ6cI1DMQEzxhgL8AHX1nkNihNhw/O5OmNG3SHcEsqOKjMQV4rE69Hn
- p9RUDmTuf0T6lN7VcfaRcpOjt59O/N0BiFBWkuiHSCYmiBmZy3RTfjvN1gH68ONgD6Cu
- uAuRX6xpX+Q/k/3+7a7IajSoDb5XYYXKYVCrpK759mRqeLFjc2OUbrVBUuThEwOT0YMH
- cPxg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:references:user-agent:from:to:cc:subject
- :in-reply-to:date:message-id:mime-version:content-transfer-encoding;
- bh=iPNkiEZ36lwp1ViZSV/1+m3coDrljwAl5D+Clz90/+g=;
- b=Q4EOEMBQJzp0msgQf5/EP3yD/GXFBhP0t7oxyhkQJGY96vWF2aK89Z+X+d3mJNduwq
- Jn0Wt9TSHuj4P4FkqxVyzfZOMbcFTs1KraMLD3RA/Ng9iR7v9cjLD06crXvAFh8wnP6b
- 0LGvs3JuMUD4cucQ+iCz6B51zpYoMg5pvpw8XalDp6c7S5a3ab5diHGujlOo/6klV3wC
- g0vyF2kIUoWN9XQWZ5mVYngUgyZgk/bjyufnoAoP+fjDSn4rvCg+SeabMdBAhcrY1j5S
- FbHwTGC2kCVbrHFO/+TcEiFb47xT5Q0TNTlFSY72ZhoWnm3i0oehB/Y72stWAsWS7oWA
- 4ldg==
-X-Gm-Message-State: AOAM533omwHw4N9S8Ca4Vf830uz2AUFIPR0hBwf20pDqPelyihRuoiE1
- ttuagofR4ObTsOHME8u7kMuQbg==
-X-Google-Smtp-Source: ABdhPJzNedqj09EbCMBwEzeaQGrbstYilyDHLA0OUWs+wfR+oBF2mz+DowJQSxUxqI92MU8ZhUsFQg==
-X-Received: by 2002:a1c:b6c4:: with SMTP id
- g187mr11927944wmf.149.1595855004886; 
- Mon, 27 Jul 2020 06:03:24 -0700 (PDT)
-Received: from zen.linaroharston ([51.148.130.216])
- by smtp.gmail.com with ESMTPSA id s19sm13885396wrb.54.2020.07.27.06.03.23
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 27 Jul 2020 06:03:23 -0700 (PDT)
-Received: from zen (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id BBEB21FF7E;
- Mon, 27 Jul 2020 14:03:22 +0100 (BST)
-References: <CAFEAcA__RiZoe9qRTT_ZCbm_FmXZMO2MseGkimtL459Uoaoi9A@mail.gmail.com>
-User-agent: mu4e 1.5.5; emacs 28.0.50
-From: Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
-To: Peter Maydell <peter.maydell@linaro.org>
-Subject: Re: tests/vm/openbsd script (etc) excessive CPU usage
-In-reply-to: <CAFEAcA__RiZoe9qRTT_ZCbm_FmXZMO2MseGkimtL459Uoaoi9A@mail.gmail.com>
-Date: Mon, 27 Jul 2020 14:03:22 +0100
-Message-ID: <87blk13yat.fsf@linaro.org>
+ (Exim 4.90_1) (envelope-from <groug@kaod.org>) id 1k02o3-0007oJ-Uz
+ for qemu-devel@nongnu.org; Mon, 27 Jul 2020 09:04:39 -0400
+Received: from 5.mo3.mail-out.ovh.net ([87.98.178.36]:50661)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <groug@kaod.org>) id 1k02o1-0003pk-Gz
+ for qemu-devel@nongnu.org; Mon, 27 Jul 2020 09:04:39 -0400
+Received: from player772.ha.ovh.net (unknown [10.110.171.148])
+ by mo3.mail-out.ovh.net (Postfix) with ESMTP id 06EF825D0AD
+ for <qemu-devel@nongnu.org>; Mon, 27 Jul 2020 15:04:33 +0200 (CEST)
+Received: from kaod.org (lns-bzn-46-82-253-208-248.adsl.proxad.net
+ [82.253.208.248]) (Authenticated sender: groug@kaod.org)
+ by player772.ha.ovh.net (Postfix) with ESMTPSA id BE64D14C762E2;
+ Mon, 27 Jul 2020 13:04:26 +0000 (UTC)
+Authentication-Results: garm.ovh; auth=pass
+ (GARM-96R001650db22f-f998-4adf-b0a7-c6389ec550e9,
+ B7B50C960922AB26A7D550ED897AF9E452A9EBFF) smtp.auth=groug@kaod.org
+Date: Mon, 27 Jul 2020 15:04:25 +0200
+From: Greg Kurz <groug@kaod.org>
+To: Markus Armbruster <armbru@redhat.com>
+Subject: Re: [PATCH v4 for-5.2 1/2] spapr: Use error_append_hint() in
+ spapr_caps.c
+Message-ID: <20200727150425.2c7562ed@bahia.lan>
+In-Reply-To: <87mu3uciq4.fsf@dusky.pond.sub.org>
+References: <159491945918.188975.4358645698778061430.stgit@bahia.lan>
+ <159491947184.188975.5055299566400098290.stgit@bahia.lan>
+ <87mu3uciq4.fsf@dusky.pond.sub.org>
+X-Mailer: Claws Mail 3.17.5 (GTK+ 2.24.32; x86_64-redhat-linux-gnu)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=2a00:1450:4864:20::342;
- envelope-from=alex.bennee@linaro.org; helo=mail-wm1-x342.google.com
-X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
- That's all we know.
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
+X-Ovh-Tracer-Id: 15051311431663327630
+X-VR-SPAMSTATE: OK
+X-VR-SPAMSCORE: -100
+X-VR-SPAMCAUSE: gggruggvucftvghtrhhoucdtuddrgeduiedriedtgdeitdcutefuodetggdotefrodftvfcurfhrohhfihhlvgemucfqggfjpdevjffgvefmvefgnecuuegrihhlohhuthemucehtddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenucfjughrpeffhffvuffkjghfofggtgfgsehtjeertdertddvnecuhfhrohhmpefirhgvghcumfhurhiiuceoghhrohhugheskhgrohgurdhorhhgqeenucggtffrrghtthgvrhhnpeehkefhtdehgeehheejledufeekhfdvleefvdeihefhkefhudffhfeuuedvffdthfenucfkpheptddrtddrtddrtddpkedvrddvheefrddvtdekrddvgeeknecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmohguvgepshhmthhpqdhouhhtpdhhvghlohepphhlrgihvghrjeejvddrhhgrrdhovhhhrdhnvghtpdhinhgvtheptddrtddrtddrtddpmhgrihhlfhhrohhmpehgrhhouhhgsehkrghougdrohhrghdprhgtphhtthhopehqvghmuhdquggvvhgvlhesnhhonhhgnhhurdhorhhg
+Received-SPF: pass client-ip=87.98.178.36; envelope-from=groug@kaod.org;
+ helo=5.mo3.mail-out.ovh.net
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/07/27 09:04:34
+X-ACL-Warn: Detected OS   = Linux 3.11 and newer
+X-Spam_score_int: -18
+X-Spam_score: -1.9
+X-Spam_bar: -
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_NONE=-0.0001,
+ RCVD_IN_MSPIKE_H3=-0.01, RCVD_IN_MSPIKE_WL=-0.01, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -89,66 +67,58 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
- Fam Zheng <famz@redhat.com>, QEMU Developers <qemu-devel@nongnu.org>,
- Robert Foley <robert.foley@linaro.org>
+Cc: qemu-devel@nongnu.org,
+ Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>, qemu-ppc@nongnu.org,
+ Laurent Vivier <laurent@vivier.eu>, David Gibson <david@gibson.dropbear.id.au>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+On Mon, 20 Jul 2020 17:24:35 +0200
+Markus Armbruster <armbru@redhat.com> wrote:
 
-Peter Maydell <peter.maydell@linaro.org> writes:
+> Greg Kurz <groug@kaod.org> writes:
+> 
+> > We have a dedicated error API for hints. Use it instead of embedding
+> > the hint in the error message, as recommanded in the "qapi/error.h"
+> > header file.
+> >
+> > Since spapr_caps_apply() passes &error_fatal, all functions must
+> > also call the ERRP_GUARD() macro for error_append_hint() to be
+> > functional.
+> 
+> This isn't a request for change in this patch, just an attempt to squash
+> possible misunderstandings.
+> 
+> It's true that error_append_hint() without ERRP_GUARD() works as long as
+> the caller doesn't pass certain errp arguments.  But the callee should
+> work for all possible @errp arguments, not just the ones that get passed
+> today.  That's why error.h wants you to guard *all* uses of
+> error_append_hint(errp):
+> 
+>  * = Why, when and how to use ERRP_GUARD() =
+>  *
+>  * Without ERRP_GUARD(), use of the @errp parameter is restricted:
+>  * - It must not be dereferenced, because it may be null.
+>  * - It should not be passed to error_prepend() or
+>  *   error_append_hint(), because that doesn't work with &error_fatal.
+>  * ERRP_GUARD() lifts these restrictions.
+> 
 
-> I noticed that when running the BSD VMs, the Python script that launches
-> QEMU seems to eat CPU:
->
-> peter.m+ 19024  0.0  0.0  20296 11692 pts/12   S+   15:04   0:00
->    \_ make -C build vm-build-openbsd J=3D8 V=3D1
-> peter.m+ 19858 98.8  0.0 126272 15220 pts/12   Sl+  15:04  12:04
->        \_ /usr/bin/python3 -B
-> /home/peter.maydell/qemu-openbsd/tests/vm/openbsd --debug --jobs 8
-> --verbose --efi-aarch64
-> /home/peter.maydell/qemu-openbsd/build/pc-bios/edk2-aarch64-code.fd
-> --image /home/peter.maydell/.cache/qemu-vm/images/openbsd.img
-> --snapshot --build-qemu /home/peter.maydell/qemu-openbsd --
-> peter.m+ 22878  711  3.2 10506236 3192896 pts/12 Sl+ 15:04  86:08
->             \_ qemu-system-x86_64 -display none -vga none -chardev
-> socket,id=3Dmon,path=3D/var/tmp/qemu-19858-monitor.sock -mon
-> chardev=3Dmon,mode=3Dcontrol -machine pc -chardev
-> socket,id=3Dconsole,path=3D/var/tmp/qemu-19858-console.sock,server,nowait
-> -serial chardev:console -nodefaults -m 4G -cpu max -netdev
-> user,id=3Dvnet,hostfwd=3D:127.0.0.1:0-:22 -device
-> virtio-net-pci,netdev=3Dvnet -vnc 127.0.0.1:0,to=3D20 -smp 8 -enable-kvm
-> -drive file=3D/home/peter.maydell/.cache/qemu-vm/images/openbsd.img,snaps=
-hot=3Don,if=3Dnone,id=3Ddrive0,cache=3Dwriteback
-> -device virtio-blk,drive=3Ddrive0,bootindex=3D0 -drive
-> file=3D/home/peter.maydell/qemu-openbsd/build/vm-test-g6q_po6_.tmp/data-9=
-93a1.tar,if=3Dnone,id=3Ddata-993a1,cache=3Dwriteback,format=3Draw
-> -device virtio-blk,drive=3Ddata-993a1,serial=3Ddata-993a1,bootindex=3D1
-> peter.m+ 29304  0.0  0.0  63612  4996 pts/12   S+   15:05   0:00
->            \_ ssh -t -o StrictHostKeyChecking=3Dno -o
-> UserKnownHostsFile=3D/dev/null -o ConnectTimeout=3D1 -p 38491 -i
-> /home/peter.maydell/qemu-openbsd/build/vm-test-g6q_po6_.tmp/id_rsa -o
-> SendEnv=3Dhttps_proxy -o SendEnv=3Dhttp_proxy -o SendEnv=3Dftp_proxy -o
-> SendEnv=3Dno_proxy qemu@127.0.0.1          set -e;         rm -rf
-> /home/qemu/qemu-test.*         cd $(mktemp -d
-> /home/qemu/qemu-test.XXXXXX);         mkdir src build; cd src;
-> tar -xf /dev/rsd1c;         cd ../build         ../src/configure
-> --cc=3Dcc --python=3Dpython3 ;
->
->
-> Notice that process 19858 (the python script) is at 98.8% CPU.
-> This isn't specific to the OpenBSD script, the other BSD scripts
-> do this too.
->
-> Why is this script using so much CPU when it should basically just be
-> waiting for the QEMU VM to finish ?
->
-> I think this is probably a recent regression, though I'm not certain.
+Yeah, I just wanted to emphasize that we were precisely in the case
+where we _really_ need to lift the restriction, but I'm perfectly fine
+with dropping this sentence if you consider it useless.
 
-Robert thinks this is fixed up with the latest clean-ups for the console
-drain thread which is in today's PR. I've not seen it while testing the
-PR so I think it's gone.
+BTW, should we have a way for CI to ensure that a patch that adds
+error_prepend(errp, ...) or error_append_hint(errp, ...) also adds
+ERRP_GUARD() ? Not sure that people read error.h that often...
 
---=20
-Alex Benn=C3=A9e
+> No need to make an argument involving the possible arguments (pardon the
+> pun).
+> 
+
+:)
+
+> [...]
+> 
+
 
