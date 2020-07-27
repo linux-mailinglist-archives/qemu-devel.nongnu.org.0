@@ -2,51 +2,51 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7D08622FB10
-	for <lists+qemu-devel@lfdr.de>; Mon, 27 Jul 2020 23:08:20 +0200 (CEST)
-Received: from localhost ([::1]:58368 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C2BC322FB1B
+	for <lists+qemu-devel@lfdr.de>; Mon, 27 Jul 2020 23:11:13 +0200 (CEST)
+Received: from localhost ([::1]:39242 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1k0AM7-0007vg-GJ
-	for lists+qemu-devel@lfdr.de; Mon, 27 Jul 2020 17:08:19 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:35378)
+	id 1k0AOu-0003NZ-Sa
+	for lists+qemu-devel@lfdr.de; Mon, 27 Jul 2020 17:11:12 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:35414)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <eblake@redhat.com>) id 1k0AAl-0005mE-RF
- for qemu-devel@nongnu.org; Mon, 27 Jul 2020 16:56:35 -0400
-Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:39331
- helo=us-smtp-1.mimecast.com)
+ (Exim 4.90_1) (envelope-from <eblake@redhat.com>) id 1k0AAn-0005ou-2E
+ for qemu-devel@nongnu.org; Mon, 27 Jul 2020 16:56:37 -0400
+Received: from us-smtp-1.mimecast.com ([205.139.110.61]:26362
+ helo=us-smtp-delivery-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <eblake@redhat.com>) id 1k0AAj-000525-Ta
- for qemu-devel@nongnu.org; Mon, 27 Jul 2020 16:56:35 -0400
+ (Exim 4.90_1) (envelope-from <eblake@redhat.com>) id 1k0AAl-00052S-6L
+ for qemu-devel@nongnu.org; Mon, 27 Jul 2020 16:56:36 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1595883393;
+ s=mimecast20190719; t=1595883394;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=RaLpXHOjSOyF8h+j3s+lrxRvzgSS2ZL0ZYdygl711Ys=;
- b=W5FIRXSZ1SwzvGO3K7pCM3Mht8Ud+VpI46fbXsUC2Ywv6+1Hv9cKfcTJ3oHFRoY+QJLgMH
- YaMKPQ01o5r034jG19SVDqPuXCw7s8tR0sJyTPSujj6NLyAWrvefMczBCNOOEFLYZ59Z2J
- lJvFyYX+RSRZFh8VnUymF0aiTo9ycRg=
+ bh=41H6xYQ80fnDfWINvOexeCmGtB1H8JoFrDrMWEmGXkY=;
+ b=F9RUKk1YMLahSRNw8QXXVf2EKvJ9IpgvF5Zd/DWn+Lbb/2TRA5ZN/epjOlJiEoz1Vrd3tl
+ 4SBV7xi5Xf7LqqGPzpgqM5crAJ/Xi/CHSBvT1Oig2unYyoWg3qXWOY+3FKSRtzJzhCZmlH
+ Lh0p3zos9w3zdf3C3lKSUAX0Vsa7y9k=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-436-kH-Ra7i4MQSfxsnWo7Jy4A-1; Mon, 27 Jul 2020 16:56:30 -0400
-X-MC-Unique: kH-Ra7i4MQSfxsnWo7Jy4A-1
+ us-mta-366-dlpDkqI-PHm4D1VgDc7KnQ-1; Mon, 27 Jul 2020 16:56:31 -0400
+X-MC-Unique: dlpDkqI-PHm4D1VgDc7KnQ-1
 Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
  [10.5.11.23])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id A2AD9186A838;
- Mon, 27 Jul 2020 20:56:29 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id CD25C79EC6;
+ Mon, 27 Jul 2020 20:56:30 +0000 (UTC)
 Received: from blue.redhat.com (ovpn-118-248.rdu2.redhat.com [10.10.118.248])
- by smtp.corp.redhat.com (Postfix) with ESMTP id BE55619C66;
- Mon, 27 Jul 2020 20:56:28 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id E7AD719C66;
+ Mon, 27 Jul 2020 20:56:29 +0000 (UTC)
 From: Eric Blake <eblake@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PULL 21/24] qemu-iotests/199: add early shutdown case to bitmaps
+Subject: [PULL 22/24] qemu-iotests/199: add source-killed case to bitmaps
  postcopy
-Date: Mon, 27 Jul 2020 15:55:40 -0500
-Message-Id: <20200727205543.206624-22-eblake@redhat.com>
+Date: Mon, 27 Jul 2020 15:55:41 -0500
+Message-Id: <20200727205543.206624-23-eblake@redhat.com>
 In-Reply-To: <20200727205543.206624-1-eblake@redhat.com>
 References: <20200727205543.206624-1-eblake@redhat.com>
 MIME-Version: 1.0
@@ -55,9 +55,9 @@ X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=205.139.110.120; envelope-from=eblake@redhat.com;
- helo=us-smtp-1.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/07/27 01:44:14
+Received-SPF: pass client-ip=205.139.110.61; envelope-from=eblake@redhat.com;
+ helo=us-smtp-delivery-1.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/07/27 01:46:13
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
 X-Spam_score_int: -40
 X-Spam_score: -4.1
@@ -88,64 +88,56 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
 
-Previous patches fixed two crashes which may occur on shutdown prior to
-bitmaps postcopy finished. Check that it works now.
+Previous patches fixes behavior of bitmaps migration, so that errors
+are handled by just removing unfinished bitmaps, and not fail or try to
+recover postcopy migration. Add corresponding test.
 
 Signed-off-by: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
 Reviewed-by: Andrey Shinkevich <andrey.shinkevich@virtuozzo.com>
 Tested-by: Eric Blake <eblake@redhat.com>
-Message-Id: <20200727194236.19551-21-vsementsov@virtuozzo.com>
+Message-Id: <20200727194236.19551-22-vsementsov@virtuozzo.com>
 Signed-off-by: Eric Blake <eblake@redhat.com>
 ---
- tests/qemu-iotests/199     | 24 ++++++++++++++++++++++++
+ tests/qemu-iotests/199     | 15 +++++++++++++++
  tests/qemu-iotests/199.out |  4 ++--
- 2 files changed, 26 insertions(+), 2 deletions(-)
+ 2 files changed, 17 insertions(+), 2 deletions(-)
 
 diff --git a/tests/qemu-iotests/199 b/tests/qemu-iotests/199
-index 5fd34f0fcdfa..140930b2b12e 100755
+index 140930b2b12e..58fad872a12c 100755
 --- a/tests/qemu-iotests/199
 +++ b/tests/qemu-iotests/199
-@@ -217,6 +217,30 @@ class TestDirtyBitmapPostcopyMigration(iotests.QMPTestCase):
-             sha = self.discards1_sha256 if i % 2 else self.all_discards_sha256
-             self.assert_qmp(result, 'return/sha256', sha)
+@@ -241,6 +241,21 @@ class TestDirtyBitmapPostcopyMigration(iotests.QMPTestCase):
+         self.vm_a.launch()
+         check_bitmaps(self.vm_a, 0)
 
-+    def test_early_shutdown_destination(self):
++    def test_early_kill_source(self):
 +        self.start_postcopy()
 +
-+        self.vm_b_events += self.vm_b.get_qmp_events()
-+        self.vm_b.shutdown()
-+        # recreate vm_b, so there is no incoming option, which prevents
-+        # loading bitmaps from disk
-+        self.vm_b = iotests.VM(path_suffix='b').add_drive(disk_b)
-+        self.vm_b.launch()
-+        check_bitmaps(self.vm_b, 0)
++        self.vm_a_events = self.vm_a.get_qmp_events()
++        self.vm_a.kill()
 +
-+        # Bitmaps will be lost if we just shutdown the vm, as they are marked
-+        # to skip storing to disk when prepared for migration. And that's
-+        # correct, as actual data may be modified in target vm, so we play
-+        # safe.
-+        # Still, this mark would be taken away if we do 'cont', and bitmaps
-+        # become persistent again. (see iotest 169 for such behavior case)
-+        result = self.vm_a.qmp('query-status')
-+        assert not result['return']['running']
-+        self.vm_a_events += self.vm_a.get_qmp_events()
-+        self.vm_a.shutdown()
 +        self.vm_a.launch()
++
++        match = {'data': {'status': 'completed'}}
++        e_complete = self.vm_b.event_wait('MIGRATION', match=match)
++        self.vm_b_events.append(e_complete)
++
 +        check_bitmaps(self.vm_a, 0)
++        check_bitmaps(self.vm_b, 0)
 +
 
  if __name__ == '__main__':
      iotests.main(supported_fmts=['qcow2'])
 diff --git a/tests/qemu-iotests/199.out b/tests/qemu-iotests/199.out
-index ae1213e6f863..fbc63e62f885 100644
+index fbc63e62f885..8d7e99670093 100644
 --- a/tests/qemu-iotests/199.out
 +++ b/tests/qemu-iotests/199.out
 @@ -1,5 +1,5 @@
--.
-+..
+-..
++...
  ----------------------------------------------------------------------
--Ran 1 tests
-+Ran 2 tests
+-Ran 2 tests
++Ran 3 tests
 
  OK
 -- 
