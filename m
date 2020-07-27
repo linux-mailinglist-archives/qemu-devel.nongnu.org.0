@@ -2,79 +2,63 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 417C722F880
-	for <lists+qemu-devel@lfdr.de>; Mon, 27 Jul 2020 20:53:02 +0200 (CEST)
-Received: from localhost ([::1]:51046 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 508AD22F891
+	for <lists+qemu-devel@lfdr.de>; Mon, 27 Jul 2020 21:01:05 +0200 (CEST)
+Received: from localhost ([::1]:59990 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1k08FB-0006Pb-An
-	for lists+qemu-devel@lfdr.de; Mon, 27 Jul 2020 14:53:01 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:37670)
+	id 1k08Mx-0002Gh-TR
+	for lists+qemu-devel@lfdr.de; Mon, 27 Jul 2020 15:01:03 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:39072)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1k08E4-0005Xg-Ty
- for qemu-devel@nongnu.org; Mon, 27 Jul 2020 14:51:52 -0400
-Received: from mail-pl1-x643.google.com ([2607:f8b0:4864:20::643]:39340)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1k08E2-0005sy-OR
- for qemu-devel@nongnu.org; Mon, 27 Jul 2020 14:51:52 -0400
-Received: by mail-pl1-x643.google.com with SMTP id b9so8590542plx.6
- for <qemu-devel@nongnu.org>; Mon, 27 Jul 2020 11:51:50 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=from:to:cc:subject:date:message-id:in-reply-to:references
- :mime-version:content-transfer-encoding;
- bh=Z5WIYbQSEaaOATSPOHvKV4ku83ggkBgPw79c14o7unk=;
- b=y/szHDrQGG+gmI3N5q+IzwRRtddWcA7iA044OLb9Lrhdg5jM7ZECEcIfOd8FBamWXv
- ZKBlXbjXxOUsopQGWdNAzkfU71ddzISs8yIyl1V+pT2hhTItsNEyC081hmVWmnDvEGhB
- uRdfiD7tymj0S39/G0lu9qucI8IOz4nxUWkxKn0V1L6oWs7TS2j3/PvVfZs0q/20hbsl
- TINRbguGHbfDcKb9OAb9o8hCHZtSEMrpe6ImsAtMZpVzviuelSe1M0DSm7APfPhWGP84
- IClmde4E/eTELZ8rAuxBuz6iAzid/w5V+qJMzrXz+46NVOKmgdOQzGTxLTNsGxh2lJQG
- MNSg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
- :references:mime-version:content-transfer-encoding;
- bh=Z5WIYbQSEaaOATSPOHvKV4ku83ggkBgPw79c14o7unk=;
- b=is2TDc3wO0XzJ4O6B7XjwMq9FJEBgGvqryOV/9ufHZQQegs3ojQINQknCXXFSB9XSg
- At46bU9Wrp97qk/xF1URqt1YxjmtiXOk72OCycWH9XuBz+fqwNcdCtcyQTkOtimb9Ewu
- XtSUbzheCkamAnzuoyVcVGb9wx/0DH4gpg05X97aMAONQf4G5yFlK0GPbPHWtEnLnFc/
- 3pRGfhF/802sEJt/jro6eFxOfNiHd1u3wVvx5549W66FprXyLnNVJrCG6vcd7w8VGOMi
- 5W7IWvCwUvAMRMH5u0E9tNLpzSfU+Pu7iQgsLul5+epu9p5GOGDA1bv5v2jz8QyzjM4i
- TS/A==
-X-Gm-Message-State: AOAM531koJF4Oyu4QtXfGX/pgp4qeE4THG9rXU7PdJ9Ur9fEtFAjlpOV
- CoJghkTJlsZQAW55NYgY1eNiHQ==
-X-Google-Smtp-Source: ABdhPJx2NBPt0qfCH24AATgAFWyI35LNsBJtivGWhzd6Jcpf0ybCYUABfRVC+dk3rv8TprsHbgzLMw==
-X-Received: by 2002:a17:902:6545:: with SMTP id
- d5mr6576380pln.257.1595875909038; 
- Mon, 27 Jul 2020 11:51:49 -0700 (PDT)
-Received: from localhost.localdomain (216-160-65-90.tukw.qwest.net.
- [216.160.65.90])
- by smtp.gmail.com with ESMTPSA id f93sm305706pjk.56.2020.07.27.11.51.47
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 27 Jul 2020 11:51:48 -0700 (PDT)
-From: Richard Henderson <richard.henderson@linaro.org>
-To: scw@google.com
-Subject: Re: [PATCH v2] cputlb: Make store_helper less fragile to compiler
- optimizations
-Date: Mon, 27 Jul 2020 11:51:47 -0700
-Message-Id: <20200727185147.1017900-1-richard.henderson@linaro.org>
-X-Mailer: git-send-email 2.25.1
-In-Reply-To: <20200724195128.2373212-1-scw@google.com>
-References: <20200724195128.2373212-1-scw@google.com>
+ (Exim 4.90_1) (envelope-from <andrzej.jakowski@linux.intel.com>)
+ id 1k08Lj-0001dq-J9; Mon, 27 Jul 2020 14:59:47 -0400
+Received: from mga09.intel.com ([134.134.136.24]:39947)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <andrzej.jakowski@linux.intel.com>)
+ id 1k08Lg-0006qb-Lr; Mon, 27 Jul 2020 14:59:47 -0400
+IronPort-SDR: +SdfjHI02G6CFuBoCM3mw/aOVLKe2cCI8UdCY+5ppFyesvBC3pUH9312YOQXQOo12nFzCiE9ZP
+ GEkdR0Bnul3g==
+X-IronPort-AV: E=McAfee;i="6000,8403,9695"; a="152353761"
+X-IronPort-AV: E=Sophos;i="5.75,403,1589266800"; d="scan'208";a="152353761"
+X-Amp-Result: SKIPPED(no attachment in message)
+X-Amp-File-Uploaded: False
+Received: from fmsmga005.fm.intel.com ([10.253.24.32])
+ by orsmga102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 27 Jul 2020 11:59:39 -0700
+IronPort-SDR: /0dGlFXaPMHImFGiT57mYjzr9laYkQw2MoLkPBlHXdeMGDS3tQ3qPrOoe3eGuKio0KTlUxgjBQ
+ Uga4KcWufq4w==
+X-IronPort-AV: E=Sophos;i="5.75,403,1589266800"; d="scan'208";a="490068768"
+Received: from ajakowsk-mobl1.amr.corp.intel.com (HELO localhost.localdomain)
+ ([10.209.47.155])
+ by fmsmga005-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 27 Jul 2020 11:59:38 -0700
+Subject: Re: [PATCH v5 3/3] nvme: allow cmb and pmr to be enabled on same
+ device
+To: Klaus Jensen <its@irrelevant.dk>
+References: <20200723160325.41734-1-andrzej.jakowski@linux.intel.com>
+ <20200723160325.41734-4-andrzej.jakowski@linux.intel.com>
+ <20200727090609.GA42976@apples.localdomain>
+From: Andrzej Jakowski <andrzej.jakowski@linux.intel.com>
+Message-ID: <80974eaa-70cf-04dc-13ac-cc09b05adfbd@linux.intel.com>
+Date: Mon, 27 Jul 2020 11:59:36 -0700
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.9.0
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::643;
- envelope-from=richard.henderson@linaro.org; helo=mail-pl1-x643.google.com
-X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
- That's all we know.
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+In-Reply-To: <20200727090609.GA42976@apples.localdomain>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+Received-SPF: none client-ip=134.134.136.24;
+ envelope-from=andrzej.jakowski@linux.intel.com; helo=mga09.intel.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/07/27 14:59:40
+X-ACL-Warn: Detected OS   = FreeBSD 9.x or newer [fuzzy]
+X-Spam_score_int: -68
+X-Spam_score: -6.9
+X-Spam_bar: ------
+X-Spam_report: (-6.9 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_HI=-5,
+ RCVD_IN_MSPIKE_H3=-0.01, RCVD_IN_MSPIKE_WL=-0.01, SPF_HELO_NONE=0.001,
+ SPF_NONE=0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -87,250 +71,339 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: alex.bennee@linaro.org, qemu-devel@nongnu.org
+Cc: kwolf@redhat.com, qemu-block@nongnu.org, qemu-devel@nongnu.org,
+ mreitz@redhat.com, kbusch@kernel.org, pbonzini@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 7/24/20 12:51 PM, Shu-Chun Weng wrote:
-> This change has no functional change.
+On 7/27/20 2:06 AM, Klaus Jensen wrote:
+> On Jul 23 09:03, Andrzej Jakowski wrote:
+>> So far it was not possible to have CMB and PMR emulated on the same
+>> device, because BAR2 was used exclusively either of PMR or CMB. This
+>> patch places CMB at BAR4 offset so it not conflicts with MSI-X vectors.
+>>
+>> Signed-off-by: Andrzej Jakowski <andrzej.jakowski@linux.intel.com>
+>> ---
+>>  hw/block/nvme.c      | 120 +++++++++++++++++++++++++++++--------------
+>>  hw/block/nvme.h      |   1 +
+>>  include/block/nvme.h |   4 +-
+>>  3 files changed, 85 insertions(+), 40 deletions(-)
+>>
+>> diff --git a/hw/block/nvme.c b/hw/block/nvme.c
+>> index 43866b744f..d55a71a346 100644
+>> --- a/hw/block/nvme.c
+>> +++ b/hw/block/nvme.c
+>> @@ -22,12 +22,13 @@
+>>   *              [pmrdev=<mem_backend_file_id>,] \
+>>   *              max_ioqpairs=<N[optional]>
+>>   *
+>> - * Note cmb_size_mb denotes size of CMB in MB. CMB is assumed to be at
+>> - * offset 0 in BAR2 and supports only WDS, RDS and SQS for now.
+>> + * Note cmb_size_mb denotes size of CMB in MB. CMB when configured is assumed
+>> + * to be resident in BAR4 at offset that is 2MiB aligned. When CMB is emulated
+>> + * on Linux guest it is recommended to make cmb_size_mb multiple of 2. Both
+>> + * size and alignment restrictions are imposed by Linux guest.
+>>   *
+>> - * cmb_size_mb= and pmrdev= options are mutually exclusive due to limitation
+>> - * in available BAR's. cmb_size_mb= will take precedence over pmrdev= when
+>> - * both provided.
+>> + * pmrdev is assumed to be resident in BAR2/BAR3. When configured it consumes
+>> + * whole BAR2/BAR3 exclusively.
+>>   * Enabling pmr emulation can be achieved by pointing to memory-backend-file.
+>>   * For example:
+>>   * -object memory-backend-file,id=<mem_id>,share=on,mem-path=<file_path>, \
+>> @@ -57,8 +58,8 @@
+>>  #define NVME_MAX_IOQPAIRS 0xffff
+>>  #define NVME_DB_SIZE  4
+>>  #define NVME_SPEC_VER 0x00010300
+>> -#define NVME_CMB_BIR 2
+>>  #define NVME_PMR_BIR 2
+>> +#define NVME_MSIX_BIR 4
 > 
-> There is a potential link error with "undefined symbol:
-> qemu_build_not_reached" due to how `store_helper` is structured.
-> This does not produce at current QEMU head, but was reproducible at
-> v4.2.0 with `clang-10 -O2 -fexperimental-new-pass-manager`.
-
-Thanks for the hint -- so far I had not been able to reproduce the
-problem with any of clang 10, 11, or head (12), with default options.
-
-> The current function structure is:
+> I think that either we keep the CMB constant (but updated with '4' of
+> course) or we just get rid of both NVME_{CMB,MSIX}_BIR and use a literal
+> '4' in nvme_bar4_init. It is very clear that is only BAR 4 we use.
 > 
->     inline QEMU_ALWAYSINLINE
->     store_memop() {
->         switch () {
->             ...
->         default:
->             qemu_build_not_reached();
->         }
->     }
->     inline QEMU_ALWAYSINLINE
->     store_helper() {
->         ...
->         if (span_two_pages_or_io) {
->             ...
->             helper_rst_stb_mmu();
->         }
->         store_memop();
->     }
->     helper_rst_stb_mmu() {
->         store_helper();
->     }
-...
-> The new structure is:
+>>  #define NVME_TEMPERATURE 0x143
+>>  #define NVME_TEMPERATURE_WARNING 0x157
+>>  #define NVME_TEMPERATURE_CRITICAL 0x175
+>> @@ -111,16 +112,18 @@ static uint16_t nvme_sqid(NvmeRequest *req)
+>>  
+>>  static bool nvme_addr_is_cmb(NvmeCtrl *n, hwaddr addr)
+>>  {
+>> -    hwaddr low = n->ctrl_mem.addr;
+>> -    hwaddr hi  = n->ctrl_mem.addr + int128_get64(n->ctrl_mem.size);
+>> +    hwaddr low = memory_region_to_absolute_addr(&n->ctrl_mem, 0);
+>> +    hwaddr hi  = low + int128_get64(n->ctrl_mem.size);
 > 
->     inline QEMU_ALWAYSINLINE
->     store_memop() {
->         switch () {
->             ...
->         default:
->             qemu_build_not_reached();
->         }
->     }
->     inline QEMU_ALWAYSINLINE
->     store_helper_size_aligned()() {
->         ...
->         if (span_two_pages_or_io) {
->             return false;
->         }
->         store_memoop();
->         return true;
->     }
->     inline QEMU_ALWAYSINLINE
->     store_helper() {
->         if (store_helper_size_aligned() {
->             return;
->         }
->         helper_rst_stb_mmu();
->     }
->     helper_rst_stb_mmu() {
->         store_helper_size_aligned()();
->     }
+> Are we really really sure we want to use a global helper like this? What
+> are the chances/risk that we ever introduce another overlay? I'd say
+> zero. We are not even using a *real* overlay, it's just an io memory
+> region (ctrl_mem) on top of a pure container (bar4). Can't we live with
+> an internal helper doing `n->bar4.addr + n->ctrl_mem.addr` and be done
+> with it? It also removes a data structure walk on each invocation of
+> nvme_addr_is_cmb (which is done for **all** addresses in PRP lists and
+> SGLs).
 
-Reasonable, I guess.
+Thx!
+My understanding of memory_region_absolute_addr()([1]) function is that it walks
+memory hierarchy up to root while incrementing absolute addr. It is very 
+similar to n->bar4.addr + n->ctrl_mem.addr approach with following 
+differences:
+ * n->bar4.addr + n->ctrl_mem.addr assumes single level hierarchy. Updates would
+   be needed when another memory level is added.
+ * memory_region_to_absolute_addr() works for any-level hierarchy at tradeoff
+   of dereferencing data structure. 
 
-I did some experimenting though, and if I pull out the unaligned
-portion into a noinline function, I can save about 6k code size.
+I don't have data for likelihood of adding new memory level, nor how much more
+memory_region_to_absolute_addr() vs n->bar4.addr + n->ctrl_mem.addr costs.
 
-Thoughts?
+Please let me know which approach is preferred.
 
+[1]
+hwaddr memory_region_to_absolute_addr(MemoryRegion *mr, hwaddr offset)
+{
+    MemoryRegion *root;
+    hwaddr abs_addr = offset;
 
-r~
+    abs_addr += mr->addr;
+    for (root = mr; root->container; ) {
+        root = root->container;
+        abs_addr += root->addr;
+    }    
 
+    return abs_addr;
+}
 
-diff --git a/accel/tcg/cputlb.c b/accel/tcg/cputlb.c
-index 5698292749..7e603d6666 100644
---- a/accel/tcg/cputlb.c
-+++ b/accel/tcg/cputlb.c
-@@ -2009,6 +2009,80 @@ store_memop(void *haddr, uint64_t val, MemOp op)
-     }
- }
- 
-+static void __attribute__((noinline))
-+store_helper_unaligned(CPUArchState *env, target_ulong addr, uint64_t val,
-+                       uintptr_t retaddr, size_t size, uintptr_t mmu_idx,
-+                       bool big_endian)
-+{
-+    const size_t tlb_off = offsetof(CPUTLBEntry, addr_write);
-+    uintptr_t index, index2;
-+    CPUTLBEntry *entry, *entry2;
-+    target_ulong page2, tlb_addr, tlb_addr2;
-+    TCGMemOpIdx oi;
-+    size_t size2;
-+    int i;
-+
-+    /*
-+     * Ensure the second page is in the TLB.  Note that the first page
-+     * is already guaranteed to be filled, and that the second page
-+     * cannot evict the first.
-+     */
-+    page2 = (addr + size) & TARGET_PAGE_MASK;
-+    size2 = (addr + size) & ~TARGET_PAGE_MASK;
-+    index2 = tlb_index(env, mmu_idx, page2);
-+    entry2 = tlb_entry(env, mmu_idx, page2);
-+
-+    tlb_addr2 = tlb_addr_write(entry2);
-+    if (!tlb_hit_page(tlb_addr2, page2)) {
-+        if (!victim_tlb_hit(env, mmu_idx, index2, tlb_off, page2)) {
-+            tlb_fill(env_cpu(env), page2, size2, MMU_DATA_STORE,
-+                     mmu_idx, retaddr);
-+            index2 = tlb_index(env, mmu_idx, page2);
-+            entry2 = tlb_entry(env, mmu_idx, page2);
-+        }
-+        tlb_addr2 = tlb_addr_write(entry2);
-+    }
-+
-+    index = tlb_index(env, mmu_idx, addr);
-+    entry = tlb_entry(env, mmu_idx, addr);
-+    tlb_addr = tlb_addr_write(entry);
-+
-+    /*
-+     * Handle watchpoints.  Since this may trap, all checks
-+     * must happen before any store.
-+     */
-+    if (unlikely(tlb_addr & TLB_WATCHPOINT)) {
-+        cpu_check_watchpoint(env_cpu(env), addr, size - size2,
-+                             env_tlb(env)->d[mmu_idx].iotlb[index].attrs,
-+                             BP_MEM_WRITE, retaddr);
-+    }
-+    if (unlikely(tlb_addr2 & TLB_WATCHPOINT)) {
-+        cpu_check_watchpoint(env_cpu(env), page2, size2,
-+                             env_tlb(env)->d[mmu_idx].iotlb[index2].attrs,
-+                             BP_MEM_WRITE, retaddr);
-+    }
-+
-+    /*
-+     * XXX: not efficient, but simple.
-+     * This loop must go in the forward direction to avoid issues
-+     * with self-modifying code in Windows 64-bit.
-+     */
-+    oi = make_memop_idx(MO_UB, mmu_idx);
-+    if (big_endian) {
-+        for (i = 0; i < size; ++i) {
-+            /* Big-endian extract.  */
-+            uint8_t val8 = val >> (((size - 1) * 8) - (i * 8));
-+            helper_ret_stb_mmu(env, addr + i, val8, oi, retaddr);
-+        }
-+    } else {
-+        for (i = 0; i < size; ++i) {
-+            /* Little-endian extract.  */
-+            uint8_t val8 = val >> (i * 8);
-+            helper_ret_stb_mmu(env, addr + i, val8, oi, retaddr);
-+        }
-+    }
-+}
-+
- static inline void QEMU_ALWAYS_INLINE
- store_helper(CPUArchState *env, target_ulong addr, uint64_t val,
-              TCGMemOpIdx oi, uintptr_t retaddr, MemOp op)
-@@ -2097,64 +2171,9 @@ store_helper(CPUArchState *env, target_ulong addr, uint64_t val,
-     if (size > 1
-         && unlikely((addr & ~TARGET_PAGE_MASK) + size - 1
-                      >= TARGET_PAGE_SIZE)) {
--        int i;
--        uintptr_t index2;
--        CPUTLBEntry *entry2;
--        target_ulong page2, tlb_addr2;
--        size_t size2;
--
-     do_unaligned_access:
--        /*
--         * Ensure the second page is in the TLB.  Note that the first page
--         * is already guaranteed to be filled, and that the second page
--         * cannot evict the first.
--         */
--        page2 = (addr + size) & TARGET_PAGE_MASK;
--        size2 = (addr + size) & ~TARGET_PAGE_MASK;
--        index2 = tlb_index(env, mmu_idx, page2);
--        entry2 = tlb_entry(env, mmu_idx, page2);
--        tlb_addr2 = tlb_addr_write(entry2);
--        if (!tlb_hit_page(tlb_addr2, page2)) {
--            if (!victim_tlb_hit(env, mmu_idx, index2, tlb_off, page2)) {
--                tlb_fill(env_cpu(env), page2, size2, MMU_DATA_STORE,
--                         mmu_idx, retaddr);
--                index2 = tlb_index(env, mmu_idx, page2);
--                entry2 = tlb_entry(env, mmu_idx, page2);
--            }
--            tlb_addr2 = tlb_addr_write(entry2);
--        }
--
--        /*
--         * Handle watchpoints.  Since this may trap, all checks
--         * must happen before any store.
--         */
--        if (unlikely(tlb_addr & TLB_WATCHPOINT)) {
--            cpu_check_watchpoint(env_cpu(env), addr, size - size2,
--                                 env_tlb(env)->d[mmu_idx].iotlb[index].attrs,
--                                 BP_MEM_WRITE, retaddr);
--        }
--        if (unlikely(tlb_addr2 & TLB_WATCHPOINT)) {
--            cpu_check_watchpoint(env_cpu(env), page2, size2,
--                                 env_tlb(env)->d[mmu_idx].iotlb[index2].attrs,
--                                 BP_MEM_WRITE, retaddr);
--        }
--
--        /*
--         * XXX: not efficient, but simple.
--         * This loop must go in the forward direction to avoid issues
--         * with self-modifying code in Windows 64-bit.
--         */
--        for (i = 0; i < size; ++i) {
--            uint8_t val8;
--            if (memop_big_endian(op)) {
--                /* Big-endian extract.  */
--                val8 = val >> (((size - 1) * 8) - (i * 8));
--            } else {
--                /* Little-endian extract.  */
--                val8 = val >> (i * 8);
--            }
--            helper_ret_stb_mmu(env, addr + i, val8, oi, retaddr);
--        }
-+        store_helper_unaligned(env, addr, val, retaddr, size,
-+                               mmu_idx, memop_big_endian(op));
-         return;
-     }
- 
-@@ -2162,8 +2181,9 @@ store_helper(CPUArchState *env, target_ulong addr, uint64_t val,
-     store_memop(haddr, val, op);
- }
- 
--void helper_ret_stb_mmu(CPUArchState *env, target_ulong addr, uint8_t val,
--                        TCGMemOpIdx oi, uintptr_t retaddr)
-+void __attribute__((noinline))
-+helper_ret_stb_mmu(CPUArchState *env, target_ulong addr, uint8_t val,
-+                   TCGMemOpIdx oi, uintptr_t retaddr)
- {
-     store_helper(env, addr, val, oi, retaddr, MO_UB);
- }
--- 
-2.25.1
+> 
+>>  
+>>      return addr >= low && addr < hi;
+>>  }
+>>  
+>>  static void nvme_addr_read(NvmeCtrl *n, hwaddr addr, void *buf, int size)
+>>  {
+>> +    hwaddr cmb_addr = memory_region_to_absolute_addr(&n->ctrl_mem, 0);
+>> +
+>>      if (n->bar.cmbsz && nvme_addr_is_cmb(n, addr)) {
+>> -        memcpy(buf, (void *)&n->cmbuf[addr - n->ctrl_mem.addr], size);
+>> +        memcpy(buf, (void *)&n->cmbuf[addr - cmb_addr], size);
+>>          return;
+>>      }
+>>  
+>> @@ -207,17 +210,18 @@ static uint16_t nvme_map_prp(QEMUSGList *qsg, QEMUIOVector *iov, uint64_t prp1,
+>>                               uint64_t prp2, uint32_t len, NvmeCtrl *n)
+>>  {
+>>      hwaddr trans_len = n->page_size - (prp1 % n->page_size);
+>> +    hwaddr cmb_addr = memory_region_to_absolute_addr(&n->ctrl_mem, 0);
+>>      trans_len = MIN(len, trans_len);
+>>      int num_prps = (len >> n->page_bits) + 1;
+>>  
+>>      if (unlikely(!prp1)) {
+>>          trace_pci_nvme_err_invalid_prp();
+>>          return NVME_INVALID_FIELD | NVME_DNR;
+>> -    } else if (n->bar.cmbsz && prp1 >= n->ctrl_mem.addr &&
+>> -               prp1 < n->ctrl_mem.addr + int128_get64(n->ctrl_mem.size)) {
+>> +    } else if (n->bar.cmbsz && prp1 >= cmb_addr &&
+>> +               prp1 < cmb_addr + int128_get64(n->ctrl_mem.size)) {
+>>          qsg->nsg = 0;
+>>          qemu_iovec_init(iov, num_prps);
+>> -        qemu_iovec_add(iov, (void *)&n->cmbuf[prp1 - n->ctrl_mem.addr], trans_len);
+>> +        qemu_iovec_add(iov, (void *)&n->cmbuf[prp1 - cmb_addr], trans_len);
+>>      } else {
+>>          pci_dma_sglist_init(qsg, &n->parent_obj, num_prps);
+>>          qemu_sglist_add(qsg, prp1, trans_len);
+>> @@ -262,7 +266,7 @@ static uint16_t nvme_map_prp(QEMUSGList *qsg, QEMUIOVector *iov, uint64_t prp1,
+>>                  if (qsg->nsg){
+>>                      qemu_sglist_add(qsg, prp_ent, trans_len);
+>>                  } else {
+>> -                    qemu_iovec_add(iov, (void *)&n->cmbuf[prp_ent - n->ctrl_mem.addr], trans_len);
+>> +                    qemu_iovec_add(iov, (void *)&n->cmbuf[prp_ent - cmb_addr], trans_len);
+>>                  }
+>>                  len -= trans_len;
+>>                  i++;
+>> @@ -275,7 +279,7 @@ static uint16_t nvme_map_prp(QEMUSGList *qsg, QEMUIOVector *iov, uint64_t prp1,
+>>              if (qsg->nsg) {
+>>                  qemu_sglist_add(qsg, prp2, len);
+>>              } else {
+>> -                qemu_iovec_add(iov, (void *)&n->cmbuf[prp2 - n->ctrl_mem.addr], trans_len);
+>> +                qemu_iovec_add(iov, (void *)&n->cmbuf[prp2 - cmb_addr], trans_len);
+>>              }
+>>          }
+>>      }
+>> @@ -1980,7 +1984,7 @@ static void nvme_check_constraints(NvmeCtrl *n, Error **errp)
+>>          return;
+>>      }
+>>  
+>> -    if (!n->params.cmb_size_mb && n->pmrdev) {
+>> +    if (n->pmrdev) {
+>>          if (host_memory_backend_is_mapped(n->pmrdev)) {
+>>              char *path = object_get_canonical_path_component(OBJECT(n->pmrdev));
+>>              error_setg(errp, "can't use already busy memdev: %s", path);
+>> @@ -2042,33 +2046,73 @@ static void nvme_init_namespace(NvmeCtrl *n, NvmeNamespace *ns, Error **errp)
+>>      id_ns->nuse = id_ns->ncap;
+>>  }
+>>  
+>> -static void nvme_init_cmb(NvmeCtrl *n, PCIDevice *pci_dev)
+>> +static void nvme_bar4_init(PCIDevice *pci_dev, Error **errp)
+> 
+> Since everything else is nvme_init_yadayada, can we swap for
+> nvme_init_bar4?
+> 
+>>  {
+>> -    NVME_CMBLOC_SET_BIR(n->bar.cmbloc, NVME_CMB_BIR);
+>> -    NVME_CMBLOC_SET_OFST(n->bar.cmbloc, 0);
+>> +    NvmeCtrl *n = NVME(pci_dev);
+>> +    int status;
+>> +    uint64_t bar_size, cmb_offset = 0;
+>> +    uint32_t msix_vectors;
+>> +    uint32_t nvme_pba_offset;
+>> +    uint32_t cmb_size_units;
+>> +
+>> +    msix_vectors = n->params.msix_qsize;
+>> +    nvme_pba_offset = PCI_MSIX_ENTRY_SIZE * msix_vectors;
+>> +    bar_size = nvme_pba_offset + QEMU_ALIGN_UP(msix_vectors, 64) / 8;
+>> +
+>> +    if (n->params.cmb_size_mb) {
+>> +        NVME_CMBSZ_SET_SQS(n->bar.cmbsz, 1);
+>> +        NVME_CMBSZ_SET_CQS(n->bar.cmbsz, 0);
+>> +        NVME_CMBSZ_SET_LISTS(n->bar.cmbsz, 0);
+>> +        NVME_CMBSZ_SET_RDS(n->bar.cmbsz, 1);
+>> +        NVME_CMBSZ_SET_WDS(n->bar.cmbsz, 1);
+>> +        NVME_CMBSZ_SET_SZU(n->bar.cmbsz, 2); /* MBs */
+>> +        NVME_CMBSZ_SET_SZ(n->bar.cmbsz, n->params.cmb_size_mb);
+>> +
+>> +        cmb_size_units = NVME_CMBSZ_GETSIZEUNITS(n->bar.cmbsz);
+>> +        /* Linux guest requires it to be 2MiB aligned */
+>> +        cmb_offset = QEMU_ALIGN_UP(bar_size, 2 * cmb_size_units);
+>> +
+> 
+> This only makes sense because cmb_size_units is fixed at 2, so instead
+> of relying on the value, can we just use a constant of `2 * MiB` to make
+> it completely clear?
+> 
+>> +        NVME_CMBLOC_SET_BIR(n->bar.cmbloc, NVME_MSIX_BIR);
+> 
+> Use the NVME_CMB_BIR constant here (or a literal '4').
+> 
+>> +        NVME_CMBLOC_SET_OFST(n->bar.cmbloc, cmb_offset / cmb_size_units);
+>> +
+>> +        n->cmbuf = g_malloc0(NVME_CMBSZ_GETSIZE(n->bar.cmbsz));
+>> +
+>> +        bar_size += cmb_offset;
+>> +        bar_size += NVME_CMBSZ_GETSIZE(n->bar.cmbsz);
+>> +    }
+>> +
+>> +    bar_size = pow2ceil(bar_size);
+>> +
+>> +    /*
+>> +     * Create memory region for BAR4, then overlap cmb, msix and pba
+>> +     * tables on top of it.
+>> +     */
+>> +    memory_region_init(&n->bar4, OBJECT(n), "nvme-bar4", bar_size);
+>> +
+>> +    if (n->params.cmb_size_mb) {
+>> +        memory_region_init_io(&n->ctrl_mem, OBJECT(n), &nvme_cmb_ops, n,
+>> +                              "nvme-cmb", NVME_CMBSZ_GETSIZE(n->bar.cmbsz));
+>>  
+>> -    NVME_CMBSZ_SET_SQS(n->bar.cmbsz, 1);
+>> -    NVME_CMBSZ_SET_CQS(n->bar.cmbsz, 0);
+>> -    NVME_CMBSZ_SET_LISTS(n->bar.cmbsz, 0);
+>> -    NVME_CMBSZ_SET_RDS(n->bar.cmbsz, 1);
+>> -    NVME_CMBSZ_SET_WDS(n->bar.cmbsz, 1);
+>> -    NVME_CMBSZ_SET_SZU(n->bar.cmbsz, 2); /* MBs */
+>> -    NVME_CMBSZ_SET_SZ(n->bar.cmbsz, n->params.cmb_size_mb);
+>> +        memory_region_add_subregion(&n->bar4, cmb_offset, &n->ctrl_mem);
+>> +    }
+>> +
+>> +    status = msix_init(pci_dev, n->params.msix_qsize,
+>> +                       &n->bar4, NVME_MSIX_BIR, 0,
+>> +                       &n->bar4, NVME_MSIX_BIR, nvme_pba_offset,
+>> +                       0, errp);
+>> +
+>> +    if (status) {
+>> +        return;
+>> +    }
+>>  
+>> -    n->cmbuf = g_malloc0(NVME_CMBSZ_GETSIZE(n->bar.cmbsz));
+>> -    memory_region_init_io(&n->ctrl_mem, OBJECT(n), &nvme_cmb_ops, n,
+>> -                          "nvme-cmb", NVME_CMBSZ_GETSIZE(n->bar.cmbsz));
+>> -    pci_register_bar(pci_dev, NVME_CMBLOC_BIR(n->bar.cmbloc),
+>> +    pci_register_bar(pci_dev, NVME_MSIX_BIR,
+> 
+> Since the bar has both MSIX and CMB, I'd rather use a literal '4' here
+> (or a local constant).
+> 
+>>                       PCI_BASE_ADDRESS_SPACE_MEMORY |
+>>                       PCI_BASE_ADDRESS_MEM_TYPE_64 |
+>> -                     PCI_BASE_ADDRESS_MEM_PREFETCH, &n->ctrl_mem);
+>> +                     PCI_BASE_ADDRESS_MEM_PREFETCH, &n->bar4);
+>>  }
+>>  
+>>  static void nvme_init_pmr(NvmeCtrl *n, PCIDevice *pci_dev)
+>>  {
+>> -    /* Controller Capabilities register */
+>> -    NVME_CAP_SET_PMRS(n->bar.cap, 1);
+>> -
+>>      /* PMR Capabities register */
+>>      n->bar.pmrcap = 0;
+>>      NVME_PMRCAP_SET_RDS(n->bar.pmrcap, 0);
+>> @@ -2126,13 +2170,10 @@ static void nvme_init_pci(NvmeCtrl *n, PCIDevice *pci_dev, Error **errp)
+>>                            n->reg_size);
+>>      pci_register_bar(pci_dev, 0, PCI_BASE_ADDRESS_SPACE_MEMORY |
+>>                       PCI_BASE_ADDRESS_MEM_TYPE_64, &n->iomem);
+>> -    if (msix_init_exclusive_bar(pci_dev, n->params.msix_qsize, 4, errp)) {
+>> -        return;
+>> -    }
+>>  
+>> -    if (n->params.cmb_size_mb) {
+>> -        nvme_init_cmb(n, pci_dev);
+>> -    } else if (n->pmrdev) {
+>> +    nvme_bar4_init(pci_dev, errp);
+>> +
+>> +    if (n->pmrdev) {
+>>          nvme_init_pmr(n, pci_dev);
+>>      }
+>>  }
+>> @@ -2199,6 +2240,7 @@ static void nvme_init_ctrl(NvmeCtrl *n, PCIDevice *pci_dev)
+>>      NVME_CAP_SET_CSS(n->bar.cap, 1);
+>>      NVME_CAP_SET_MPSMAX(n->bar.cap, 4);
+>>      NVME_CAP_SET_CMBS(n->bar.cap, n->params.cmb_size_mb ? 1 : 0);
+>> +    NVME_CAP_SET_PMRS(n->bar.cap, n->pmrdev ? 1 : 0);
+>>  
+>>      n->bar.vs = NVME_SPEC_VER;
+>>      n->bar.intmc = n->bar.intms = 0;
+>> diff --git a/hw/block/nvme.h b/hw/block/nvme.h
+>> index 0b6a8ae665..f291395cd0 100644
+>> --- a/hw/block/nvme.h
+>> +++ b/hw/block/nvme.h
+>> @@ -91,6 +91,7 @@ typedef struct NvmeCtrl {
+>>      PCIDevice    parent_obj;
+>>      MemoryRegion iomem;
+>>      MemoryRegion ctrl_mem;
+>> +    MemoryRegion bar4;
+>>      NvmeBar      bar;
+>>      BlockConf    conf;
+>>      NvmeParams   params;
+>> diff --git a/include/block/nvme.h b/include/block/nvme.h
+>> index d641ca6649..77b59d18dd 100644
+>> --- a/include/block/nvme.h
+>> +++ b/include/block/nvme.h
+>> @@ -217,9 +217,11 @@ enum NvmeCmbszMask {
+>>      (cmbsz |= (uint64_t)(val & CMBSZ_SZU_MASK) << CMBSZ_SZU_SHIFT)
+>>  #define NVME_CMBSZ_SET_SZ(cmbsz, val)    \
+>>      (cmbsz |= (uint64_t)(val & CMBSZ_SZ_MASK) << CMBSZ_SZ_SHIFT)
+>> +#define NVME_CMBSZ_GETSIZEUNITS(cmbsz) \
+>> +    (1 << (12 + 4 * NVME_CMBSZ_SZU(cmbsz)))
+>>  
+>>  #define NVME_CMBSZ_GETSIZE(cmbsz) \
+>> -    (NVME_CMBSZ_SZ(cmbsz) * (1 << (12 + 4 * NVME_CMBSZ_SZU(cmbsz))))
+>> +    (NVME_CMBSZ_SZ(cmbsz) * NVME_CMBSZ_GETSIZEUNITS(cmbsz))
+>>  
+>>  enum NvmePmrcapShift {
+>>      PMRCAP_RDS_SHIFT      = 3,
+>> -- 
+>> 2.21.1
+>>
+>>
 
 
