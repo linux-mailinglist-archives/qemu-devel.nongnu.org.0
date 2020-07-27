@@ -2,59 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id DB38322EDBB
-	for <lists+qemu-devel@lfdr.de>; Mon, 27 Jul 2020 15:42:24 +0200 (CEST)
-Received: from localhost ([::1]:49242 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E30DA22EE17
+	for <lists+qemu-devel@lfdr.de>; Mon, 27 Jul 2020 15:57:19 +0200 (CEST)
+Received: from localhost ([::1]:51334 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1k03OZ-0003B5-NU
-	for lists+qemu-devel@lfdr.de; Mon, 27 Jul 2020 09:42:23 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:58990)
+	id 1k03d0-0008Uh-Ua
+	for lists+qemu-devel@lfdr.de; Mon, 27 Jul 2020 09:57:18 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:37774)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jan.kiszka@siemens.com>)
- id 1k03Ni-0002jF-1n
- for qemu-devel@nongnu.org; Mon, 27 Jul 2020 09:41:30 -0400
-Received: from lizzard.sbs.de ([194.138.37.39]:50910)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jan.kiszka@siemens.com>)
- id 1k03Nf-000082-QV
- for qemu-devel@nongnu.org; Mon, 27 Jul 2020 09:41:29 -0400
-Received: from mail2.sbs.de (mail2.sbs.de [192.129.41.66])
- by lizzard.sbs.de (8.15.2/8.15.2) with ESMTPS id 06RDdXdN005941
- (version=TLSv1.2 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Mon, 27 Jul 2020 15:39:33 +0200
-Received: from [167.87.246.21] ([167.87.246.21])
- by mail2.sbs.de (8.15.2/8.15.2) with ESMTP id 06RDdWrc023190;
- Mon, 27 Jul 2020 15:39:32 +0200
-Subject: Re: [virtio-comment] Re: [RFC] ivshmem v2: Shared memory device
- specification
-To: "Michael S. Tsirkin" <mst@redhat.com>
-References: <f109fe5a-92eb-e5a5-bb83-ada42b3a9b61@siemens.com>
- <20200727091802-mutt-send-email-mst@kernel.org>
-From: Jan Kiszka <jan.kiszka@siemens.com>
-Message-ID: <85f69f31-e4c6-e7af-1fa5-90e5a2c81ae8@siemens.com>
-Date: Mon, 27 Jul 2020 15:39:32 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.10.0
+ (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
+ id 1k03br-0007az-HG
+ for qemu-devel@nongnu.org; Mon, 27 Jul 2020 09:56:07 -0400
+Received: from indium.canonical.com ([91.189.90.7]:49292)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
+ id 1k03bo-0003hY-EX
+ for qemu-devel@nongnu.org; Mon, 27 Jul 2020 09:56:07 -0400
+Received: from loganberry.canonical.com ([91.189.90.37])
+ by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
+ id 1k03bj-0005In-7i
+ for <qemu-devel@nongnu.org>; Mon, 27 Jul 2020 13:55:59 +0000
+Received: from loganberry.canonical.com (localhost [127.0.0.1])
+ by loganberry.canonical.com (Postfix) with ESMTP id 8EA9B2E80EE
+ for <qemu-devel@nongnu.org>; Mon, 27 Jul 2020 13:55:58 +0000 (UTC)
 MIME-Version: 1.0
-In-Reply-To: <20200727091802-mutt-send-email-mst@kernel.org>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=194.138.37.39;
- envelope-from=jan.kiszka@siemens.com; helo=lizzard.sbs.de
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/07/27 09:39:35
-X-ACL-Warn: Detected OS   = Linux 3.1-3.10
-X-Spam_score_int: -68
-X-Spam_score: -6.9
-X-Spam_bar: ------
-X-Spam_report: (-6.9 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_HI=-5,
- RCVD_IN_MSPIKE_H3=-0.01, RCVD_IN_MSPIKE_WL=-0.01, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: quoted-printable
+Date: Mon, 27 Jul 2020 13:46:00 -0000
+From: Peter Maydell <1863526@bugs.launchpad.net>
+To: qemu-devel@nongnu.org
+X-Launchpad-Notification-Type: bug
+X-Launchpad-Bug: product=qemu; status=Incomplete; importance=Undecided;
+ assignee=None; 
+X-Launchpad-Bug-Tags: arm nvic
+X-Launchpad-Bug-Information-Type: Public
+X-Launchpad-Bug-Private: no
+X-Launchpad-Bug-Security-Vulnerability: no
+X-Launchpad-Bug-Commenters: philmd pmaydell
+X-Launchpad-Bug-Reporter: =?utf-8?q?Philippe_Mathieu-Daud=C3=A9_=28philmd?=
+ =?utf-8?q?=29?=
+X-Launchpad-Bug-Modifier: Peter Maydell (pmaydell)
+References: <158189363238.15370.16875925531014106433.malonedeb@soybean.canonical.com>
+Message-Id: <159585756050.30951.98796134374753641.malone@gac.canonical.com>
+Subject: [Bug 1863526] Re: NVIC CCR register not 8-bit accessible using
+ Cortex-M4
+X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
+X-Launchpad-Message-For: qemu-devel-ml
+Precedence: bulk
+X-Generated-By: Launchpad (canonical.com);
+ Revision="e85d0ab92e2924d39b8285aeae075a01d25eff06";
+ Instance="production-secrets-lazr.conf"
+X-Launchpad-Hash: b177f8009aa891df2765cb84d1fb0ebb72571c33
+Received-SPF: none client-ip=91.189.90.7; envelope-from=bounces@canonical.com;
+ helo=indium.canonical.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/07/27 09:56:02
+X-ACL-Warn: Detected OS   = Linux 3.11 and newer [fuzzy]
+X-Spam_score_int: -58
+X-Spam_score: -5.9
+X-Spam_bar: -----
+X-Spam_report: (-5.9 / 5.0 requ) BAYES_00=-1.9, HEADER_FROM_DIFFERENT_DOMAINS=1,
+ RCVD_IN_DNSWL_HI=-5, RCVD_IN_MSPIKE_H3=-0.01, RCVD_IN_MSPIKE_WL=-0.01,
+ SPF_HELO_NONE=0.001, SPF_NONE=0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
-Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -63,62 +75,68 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Jailhouse <jailhouse-dev@googlegroups.com>, liang yan <lyan@suse.com>,
- =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>,
- qemu-devel <qemu-devel@nongnu.org>,
- "virtio-comment@lists.oasis-open.org" <virtio-comment@lists.oasis-open.org>
+Reply-To: Bug 1863526 <1863526@bugs.launchpad.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 27.07.20 15:20, Michael S. Tsirkin wrote:
-> On Mon, May 25, 2020 at 09:58:28AM +0200, Jan Kiszka wrote:
->> #### Vendor Specific Capability (ID 09h)
->>
->> This capability must always be present.
->>
->> | Offset | Register            | Content                                        |
->> |-------:|:--------------------|:-----------------------------------------------|
->> |    00h | ID                  | 09h                                            |
->> |    01h | Next Capability     | Pointer to next capability or 00h              |
->> |    02h | Length              | 20h if Base Address is present, 18h otherwise  |
->> |    03h | Privileged Control  | Bit 0 (read/write): one-shot interrupt mode    |
->> |        |                     | Bits 1-7: Reserved (0 on read, writes ignored) |
->> |    04h | State Table Size    | 32-bit size of read-only State Table           |
->> |    08h | R/W Section Size    | 64-bit size of common read/write section       |
->> |    10h | Output Section Size | 64-bit size of output sections                 |
->> |    18h | Base Address        | optional: 64-bit base address of shared memory |
->>
->> All registers are read-only. Writes are ignored, except to bit 0 of
->> the Privileged Control register.
-> 
-> 
-> Is there value in making this follow the virtio vendor-specific
-> capability format? That will cost several extra bytes - do you envision
-> having many of these in the config space?
+Architecturally the CCR is not byte-accessible. The v7M Arm ARM defines
+in B3.1.1 "General rules for PPB register accesses" that unless
+otherwise stated, register support word accesses only, and the CCR
+register definition does not say that byte access is supported. This is
+true also in v8M, where the CCR register definition explicitly marks
+halfword and byte accesses to CCR as UNPREDICTABLE.
 
-Of course, this could be modeled with via virtio_pci_cap as well. Would 
-add 12 unused by bytes and one type byte. If it helps to make the device 
-look more virtio'ish, but I'm afraid there are more differences at PCI 
-level.
+So this looks like buggy guest code to me...
 
-I do not see a use case for having multiple of those caps above per 
-device. If someone comes around with a valid use case for having 
-multiple, non-consequitive shared memory regions for one device, we 
-would need to add registers for them. But that would also only work for 
-non-BAR regions due to limited BARs.
 
-> Also, do we want to define an extended capability format in case this
-> is a pci extended capability?
-> 
+** Changed in: qemu
+       Status: New =3D> Incomplete
 
-What would be the practical benefit? Do you see PCIe caps that could 
-become useful in virtual setups? We don't do that for regular virtio 
-devices either, do we?
+-- =
 
-Thanks,
-Jan
+You received this bug notification because you are a member of qemu-
+devel-ml, which is subscribed to QEMU.
+https://bugs.launchpad.net/bugs/1863526
 
--- 
-Siemens AG, Corporate Technology, CT RDA IOT SES-DE
-Corporate Competence Center Embedded Linux
+Title:
+  NVIC CCR register not 8-bit accessible using Cortex-M4
+
+Status in QEMU:
+  Incomplete
+
+Bug description:
+  Head at commit b29c3e23f64938.
+
+  Running with '-d unimp,guest_errors -trace nvic\*' I get:
+
+  8871@1581892794.295746:nvic_sysreg_read NVIC sysreg read addr 0xd88 data =
+0xf00000 size 4
+  8871@1581892794.295752:nvic_sysreg_write NVIC sysreg write addr 0xd88 dat=
+a 0xf00000 size 4
+  8871@1581892794.297780:nvic_sysreg_write NVIC sysreg write addr 0xd08 dat=
+a 0x4200 size 4
+  8871@1581892794.298040:nvic_sysreg_write NVIC sysreg write addr 0xd15 dat=
+a 0x0 size 1
+  NVIC: Bad write of size 1 at offset 0xd15
+  8871@1581892794.298081:nvic_sysreg_write NVIC sysreg write addr 0xd16 dat=
+a 0x0 size 1
+  NVIC: Bad write of size 1 at offset 0xd16
+  8871@1581892794.298116:nvic_sysreg_write NVIC sysreg write addr 0xd17 dat=
+a 0x0 size 1
+  NVIC: Bad write of size 1 at offset 0xd17
+  8871@1581892794.298156:nvic_sysreg_write NVIC sysreg write addr 0xd18 dat=
+a 0x0 size 1
+  8871@1581892794.298161:nvic_set_prio NVIC set irq 4 secure-bank 0 priorit=
+y 0
+  8871@1581892794.298164:nvic_recompute_state NVIC state recomputed: vectpe=
+nding 0 vectpending_prio 256 exception_prio 256
+  8871@1581892794.298168:nvic_irq_update NVIC vectpending 0 pending prio 25=
+6 exception_prio 256: setting irq line to 0
+  8871@1581892794.298201:nvic_sysreg_write NVIC sysreg write addr 0xd19 dat=
+a 0x0 size 1
+  8871@1581892794.298206:nvic_set_prio NVIC set irq 5 secure-bank 0 priorit=
+y 0
+
+To manage notifications about this bug go to:
+https://bugs.launchpad.net/qemu/+bug/1863526/+subscriptions
 
