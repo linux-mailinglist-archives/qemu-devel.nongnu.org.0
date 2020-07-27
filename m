@@ -2,80 +2,92 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 303BE22E9FB
-	for <lists+qemu-devel@lfdr.de>; Mon, 27 Jul 2020 12:25:54 +0200 (CEST)
-Received: from localhost ([::1]:34198 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id EC4A822E9EE
+	for <lists+qemu-devel@lfdr.de>; Mon, 27 Jul 2020 12:24:01 +0200 (CEST)
+Received: from localhost ([::1]:57830 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1k00KP-0000Av-3B
-	for lists+qemu-devel@lfdr.de; Mon, 27 Jul 2020 06:25:53 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:60044)
+	id 1k00Ib-0006ko-0Y
+	for lists+qemu-devel@lfdr.de; Mon, 27 Jul 2020 06:24:01 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:60296)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jasowang@redhat.com>)
- id 1k00H4-0005bt-N4
- for qemu-devel@nongnu.org; Mon, 27 Jul 2020 06:22:26 -0400
-Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:24030
- helo=us-smtp-1.mimecast.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <jasowang@redhat.com>)
- id 1k00H0-0004jC-3U
- for qemu-devel@nongnu.org; Mon, 27 Jul 2020 06:22:26 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1595845341;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=AXUoc73tFVeWY96IQhCmu3WbzbPbhMePM1FSz1Ifw2Q=;
- b=QnwPMr8VVzMB2q7lROlfOltDiLwXpjTXD145bSfbLmKTEku4gAIgrMq5DA7H9NZAdmNisH
- ezYS/jKxbpB5ltQTxYD1BSEO0UwHPcyq3p9+TntCDTw08B5ypWuMqyLU6KFqLbeE8QYQtG
- x1gUNPD+ngmoS4Go983Tt1eHJ2jqxNg=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-43-LVlLX7A8NUa7xR7h3JflOA-1; Mon, 27 Jul 2020 06:22:19 -0400
-X-MC-Unique: LVlLX7A8NUa7xR7h3JflOA-1
-Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
- [10.5.11.16])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 44AE1101C8A9
- for <qemu-devel@nongnu.org>; Mon, 27 Jul 2020 10:22:18 +0000 (UTC)
-Received: from [10.72.12.200] (ovpn-12-200.pek2.redhat.com [10.72.12.200])
- by smtp.corp.redhat.com (Postfix) with ESMTP id A02CE5FC30;
- Mon, 27 Jul 2020 10:22:13 +0000 (UTC)
-Subject: Re: [PATCH] virtio-net: check the existence of peer before accesing
- its config
-To: "Michael S. Tsirkin" <mst@redhat.com>
-References: <20200727074328.2279-1-jasowang@redhat.com>
- <20200727053954-mutt-send-email-mst@kernel.org>
- <b5a42ac8-b3cf-d52e-298a-d957a9e8cb1d@redhat.com>
- <20200727061623-mutt-send-email-mst@kernel.org>
-From: Jason Wang <jasowang@redhat.com>
-Message-ID: <aa270a81-0127-e1cb-4f67-c9fff3539f2b@redhat.com>
-Date: Mon, 27 Jul 2020 18:22:12 +0800
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.10.0
+ (Exim 4.90_1) (envelope-from <pasic@linux.ibm.com>)
+ id 1k00HW-00069s-MQ; Mon, 27 Jul 2020 06:22:54 -0400
+Received: from mx0a-001b2d01.pphosted.com ([148.163.156.1]:24844)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <pasic@linux.ibm.com>)
+ id 1k00HU-0004nY-Ne; Mon, 27 Jul 2020 06:22:54 -0400
+Received: from pps.filterd (m0187473.ppops.net [127.0.0.1])
+ by mx0a-001b2d01.pphosted.com (8.16.0.42/8.16.0.42) with SMTP id
+ 06RA34sX183814; Mon, 27 Jul 2020 06:22:50 -0400
+Received: from pps.reinject (localhost [127.0.0.1])
+ by mx0a-001b2d01.pphosted.com with ESMTP id 32htsjv0n9-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Mon, 27 Jul 2020 06:22:49 -0400
+Received: from m0187473.ppops.net (m0187473.ppops.net [127.0.0.1])
+ by pps.reinject (8.16.0.36/8.16.0.36) with SMTP id 06RA35Sp183844;
+ Mon, 27 Jul 2020 06:22:48 -0400
+Received: from ppma04fra.de.ibm.com (6a.4a.5195.ip4.static.sl-reverse.com
+ [149.81.74.106])
+ by mx0a-001b2d01.pphosted.com with ESMTP id 32htsjv0mf-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Mon, 27 Jul 2020 06:22:48 -0400
+Received: from pps.filterd (ppma04fra.de.ibm.com [127.0.0.1])
+ by ppma04fra.de.ibm.com (8.16.0.42/8.16.0.42) with SMTP id 06RAL1hf003364;
+ Mon, 27 Jul 2020 10:22:46 GMT
+Received: from b06cxnps4075.portsmouth.uk.ibm.com
+ (d06relay12.portsmouth.uk.ibm.com [9.149.109.197])
+ by ppma04fra.de.ibm.com with ESMTP id 32gcpw998n-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Mon, 27 Jul 2020 10:22:46 +0000
+Received: from d06av23.portsmouth.uk.ibm.com (d06av23.portsmouth.uk.ibm.com
+ [9.149.105.59])
+ by b06cxnps4075.portsmouth.uk.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
+ 06RAMhuQ58785856
+ (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+ Mon, 27 Jul 2020 10:22:43 GMT
+Received: from d06av23.portsmouth.uk.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id 802B0A404D;
+ Mon, 27 Jul 2020 10:22:43 +0000 (GMT)
+Received: from d06av23.portsmouth.uk.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id 07625A4057;
+ Mon, 27 Jul 2020 10:22:43 +0000 (GMT)
+Received: from oc2783563651 (unknown [9.145.147.182])
+ by d06av23.portsmouth.uk.ibm.com (Postfix) with ESMTP;
+ Mon, 27 Jul 2020 10:22:42 +0000 (GMT)
+Date: Mon, 27 Jul 2020 12:22:41 +0200
+From: Halil Pasic <pasic@linux.ibm.com>
+To: Thomas Huth <thuth@redhat.com>
+Subject: Re: [PATCH 1/1] s390x/s390-virtio-ccw: fix loadparm property getter
+Message-ID: <20200727122241.222e4127.pasic@linux.ibm.com>
+In-Reply-To: <0ce16e30-a5ea-f9ff-89a8-83c393b5118c@redhat.com>
+References: <20200723162717.88485-1-pasic@linux.ibm.com>
+ <0ce16e30-a5ea-f9ff-89a8-83c393b5118c@redhat.com>
+Organization: IBM
+X-Mailer: Claws Mail 3.11.1 (GTK+ 2.24.31; x86_64-redhat-linux-gnu)
 MIME-Version: 1.0
-In-Reply-To: <20200727061623-mutt-send-email-mst@kernel.org>
-Content-Language: en-US
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=jasowang@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=207.211.31.120; envelope-from=jasowang@redhat.com;
- helo=us-smtp-1.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/07/27 00:16:29
-X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
-X-Spam_score_int: -30
-X-Spam_score: -3.1
+X-TM-AS-GCONF: 00
+X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:6.0.235, 18.0.687
+ definitions=2020-07-27_06:2020-07-27,
+ 2020-07-27 signatures=0
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ clxscore=1015 suspectscore=0
+ priorityscore=1501 mlxlogscore=999 phishscore=0 lowpriorityscore=0
+ bulkscore=0 malwarescore=0 mlxscore=0 spamscore=0 adultscore=0
+ impostorscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2006250000 definitions=main-2007270073
+Received-SPF: pass client-ip=148.163.156.1; envelope-from=pasic@linux.ibm.com;
+ helo=mx0a-001b2d01.pphosted.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/07/27 06:22:50
+X-ACL-Warn: Detected OS   = Linux 3.1-3.10 [fuzzy]
+X-Spam_score_int: -35
+X-Spam_score: -3.6
 X-Spam_bar: ---
-X-Spam_report: (-3.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H3=-0.01, RCVD_IN_MSPIKE_WL=-0.01,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Spam_report: (-3.6 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_LOW=-0.7,
+ RCVD_IN_MSPIKE_H2=-1, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -88,101 +100,79 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Cornelia Huck <cohuck@redhat.com>, qemu-devel@nongnu.org,
- Cindy Lu <lulu@redhat.com>
+Cc: David Hildenbrand <david@redhat.com>, Cornelia Huck <cohuck@redhat.com>,
+ qemu-devel@nongnu.org, Christian Borntraeger <borntraeger@de.ibm.com>,
+ qemu-s390x@nongnu.org, Claudio Imbrenda <imbrenda@linux.ibm.com>,
+ Richard Henderson <rth@twiddle.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+On Thu, 23 Jul 2020 18:37:50 +0200
+Thomas Huth <thuth@redhat.com> wrote:
 
-On 2020/7/27 下午6:17, Michael S. Tsirkin wrote:
-> On Mon, Jul 27, 2020 at 05:49:47PM +0800, Jason Wang wrote:
->> On 2020/7/27 下午5:41, Michael S. Tsirkin wrote:
->>> On Mon, Jul 27, 2020 at 03:43:28PM +0800, Jason Wang wrote:
->>>> We try to get config from peer unconditionally which may lead NULL
->>>> pointer dereference. Add a check before trying to access the config.
->>>>
->>>> Fixes: 108a64818e69b ("vhost-vdpa: introduce vhost-vdpa backend")
->>>> Cc: Cindy Lu <lulu@redhat.com>
->>>> Tested-by: Cornelia Huck <cohuck@redhat.com>
->>>> Signed-off-by: Jason Wang <jasowang@redhat.com>
->>> I am a bit lost here. Isn't this invoked
->>> when guest attempts to read the config?
->>> With no peer, what do we return to guest?
->>
->> With no peer, it just work as in the past (read from the qemu's own emulated
->> config space). With a vDPA as its peer, it tries to read it from vhost-vDPA.
-> Are these scenarios where guest would sometimes get one and
-> sometimes another? E.g. does it happen on disconnect?
-> If yes that might become a problem ...
-
-
-For disconnecting yes, but I wonder if we need to care about that case 
-anyway.
-
-Thanks
-
-
+> On 23/07/2020 18.27, Halil Pasic wrote:
+> > The function machine_get_loadparm() is supposed to produce as C-string,
+> 
+> sed "s/ as / a /"
 >
->>> A code comment might be helpful here.
->>
->> Does something like above help?
->>
->> Thanks
->>
->>
->>>> ---
->>>>    hw/net/virtio-net.c | 22 +++++++++++-----------
->>>>    1 file changed, 11 insertions(+), 11 deletions(-)
->>>>
->>>> diff --git a/hw/net/virtio-net.c b/hw/net/virtio-net.c
->>>> index 4895af1cbe..935b9ef5c7 100644
->>>> --- a/hw/net/virtio-net.c
->>>> +++ b/hw/net/virtio-net.c
->>>> @@ -125,6 +125,7 @@ static void virtio_net_get_config(VirtIODevice *vdev, uint8_t *config)
->>>>    {
->>>>        VirtIONet *n = VIRTIO_NET(vdev);
->>>>        struct virtio_net_config netcfg;
->>>> +    NetClientState *nc = qemu_get_queue(n->nic);
->>>>        int ret = 0;
->>>>        memset(&netcfg, 0 , sizeof(struct virtio_net_config));
->>>> @@ -142,13 +143,12 @@ static void virtio_net_get_config(VirtIODevice *vdev, uint8_t *config)
->>>>                     VIRTIO_NET_RSS_SUPPORTED_HASHES);
->>>>        memcpy(config, &netcfg, n->config_size);
->>>> -    NetClientState *nc = qemu_get_queue(n->nic);
->>>> -    if (nc->peer->info->type == NET_CLIENT_DRIVER_VHOST_VDPA) {
->>>> +    if (nc->peer && nc->peer->info->type == NET_CLIENT_DRIVER_VHOST_VDPA) {
->>>>            ret = vhost_net_get_config(get_vhost_net(nc->peer), (uint8_t *)&netcfg,
->>>> -                             n->config_size);
->>>> -    if (ret != -1) {
->>>> -        memcpy(config, &netcfg, n->config_size);
->>>> -    }
->>>> +                                   n->config_size);
->>>> +        if (ret != -1) {
->>>> +            memcpy(config, &netcfg, n->config_size);
->>>> +        }
->>>>        }
->>>>    }
->>>> @@ -156,6 +156,7 @@ static void virtio_net_set_config(VirtIODevice *vdev, const uint8_t *config)
->>>>    {
->>>>        VirtIONet *n = VIRTIO_NET(vdev);
->>>>        struct virtio_net_config netcfg = {};
->>>> +    NetClientState *nc = qemu_get_queue(n->nic);
->>>>        memcpy(&netcfg, config, n->config_size);
->>>> @@ -166,11 +167,10 @@ static void virtio_net_set_config(VirtIODevice *vdev, const uint8_t *config)
->>>>            qemu_format_nic_info_str(qemu_get_queue(n->nic), n->mac);
->>>>        }
->>>> -    NetClientState *nc = qemu_get_queue(n->nic);
->>>> -    if (nc->peer->info->type == NET_CLIENT_DRIVER_VHOST_VDPA) {
->>>> -        vhost_net_set_config(get_vhost_net(nc->peer), (uint8_t *)&netcfg,
->>>> -                               0, n->config_size,
->>>> -                        VHOST_SET_CONFIG_TYPE_MASTER);
->>>> +    if (nc->peer && nc->peer->info->type == NET_CLIENT_DRIVER_VHOST_VDPA) {
->>>> +        vhost_net_set_config(get_vhost_net(nc->peer),
->>>> +                             (uint8_t *)&netcfg, 0, n->config_size,
->>>> +                             VHOST_SET_CONFIG_TYPE_MASTER);
->>>>          }
->>>>    }
->>>> -- 
->>>> 2.20.1
 
+Nod.
+ 
+> > that is a null-terminated one, but it does not. ElectricFence can detect
+> 
+> maybe: sed "s/null/NUL/"
+> 
+
+https://en.wikipedia.org/wiki/Null-terminated_string
+
+but it does not matter to me all that much.
+
+> > this problem if the loadparm machine property is used.
+> > 
+> > Let us make the returned string a null-terminated one.
+> 
+> dito
+> 
+> > Signed-off-by: Halil Pasic <pasic@linux.ibm.com>
+> > Fixes: 7104bae9de ("hw/s390x: provide loadparm property for the machine")
+> > ---
+> >  hw/s390x/s390-virtio-ccw.c | 6 +++++-
+> >  1 file changed, 5 insertions(+), 1 deletion(-)
+> > 
+> > diff --git a/hw/s390x/s390-virtio-ccw.c b/hw/s390x/s390-virtio-ccw.c
+> > index 8cc2f25d8a..e0e4a69ac8 100644
+> > --- a/hw/s390x/s390-virtio-ccw.c
+> > +++ b/hw/s390x/s390-virtio-ccw.c
+> > @@ -701,8 +701,12 @@ bool hpage_1m_allowed(void)
+> >  static char *machine_get_loadparm(Object *obj, Error **errp)
+> >  {
+> >      S390CcwMachineState *ms = S390_CCW_MACHINE(obj);
+> > +    char *loadparm_str;
+> >  
+> > -    return g_memdup(ms->loadparm, sizeof(ms->loadparm));
+> > +    /* make a null-terminated string */
+> 
+> maybe: sed "s/null/NUL/"
+> 
+> > +     loadparm_str = g_memdup(ms->loadparm, sizeof(ms->loadparm) + 1);
+> 
+> Wrong indentation.
+
+Nod.
+
+> 
+> > +    loadparm_str[sizeof(ms->loadparm)] = 0;
+> > +    return loadparm_str;
+> >  }
+> 
+> With the cosmetics fixed:
+> 
+> Reviewed-by: Thomas Huth <thuth@redhat.com>
+> 
+> 
+
+Thanks!
+
+Regards,
+Halil
 
