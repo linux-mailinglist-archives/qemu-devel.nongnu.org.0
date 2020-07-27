@@ -2,126 +2,87 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C9DA622EBA6
-	for <lists+qemu-devel@lfdr.de>; Mon, 27 Jul 2020 14:04:06 +0200 (CEST)
-Received: from localhost ([::1]:59332 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A00C822EBFF
+	for <lists+qemu-devel@lfdr.de>; Mon, 27 Jul 2020 14:23:38 +0200 (CEST)
+Received: from localhost ([::1]:39110 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1k01rR-0001b8-T7
-	for lists+qemu-devel@lfdr.de; Mon, 27 Jul 2020 08:04:05 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:60880)
+	id 1k02AL-0006MP-5r
+	for lists+qemu-devel@lfdr.de; Mon, 27 Jul 2020 08:23:37 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:36632)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <david@redhat.com>) id 1k01qQ-00010m-1p
- for qemu-devel@nongnu.org; Mon, 27 Jul 2020 08:03:02 -0400
-Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:25880
- helo=us-smtp-1.mimecast.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <david@redhat.com>) id 1k01qO-0003xQ-Ic
- for qemu-devel@nongnu.org; Mon, 27 Jul 2020 08:03:01 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1595851379;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
- bh=P9IKMrlRdyGqUB7jRUJczAb6P40vxNQxMh6fd27IKb4=;
- b=g+kk35Z5/BPhMWCTpNstSJ1VFM6OARr5it7OHgjVZZxvMtvecxoxLk96N6ANZqBzu83hK7
- 4MG/Hq/7t5LY2iKfd19K/5JYfeZCe2Ix3kjNVNtl4g3pJCfRoqnnVD7v2yg/yvLL8kc3Ve
- XuFxGGEF59RZxuNwotmsheGetpzXnjU=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-120-NROpTZ8KMDCBTix9ir1ndQ-1; Mon, 27 Jul 2020 08:02:55 -0400
-X-MC-Unique: NROpTZ8KMDCBTix9ir1ndQ-1
-Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
- [10.5.11.22])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 68E898064D1;
- Mon, 27 Jul 2020 12:02:54 +0000 (UTC)
-Received: from [10.36.114.48] (ovpn-114-48.ams2.redhat.com [10.36.114.48])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 6FE1710013C4;
- Mon, 27 Jul 2020 12:02:49 +0000 (UTC)
-Subject: Re: [PATCH RFCv3 6/9] s390x/diag: subcode to query device memory
- region
-To: Heiko Carstens <hca@linux.ibm.com>
-References: <20200724143750.59836-1-david@redhat.com>
- <20200724143750.59836-7-david@redhat.com>
- <20200727114819.3f816010.cohuck@redhat.com>
- <963e5931-117e-48cb-b829-d630abff9e42@redhat.com>
- <20200727120930.7b8803e4.cohuck@redhat.com>
- <520ac822-df67-b33a-378f-a8f91a3bed2f@redhat.com>
- <20200727111546.GA13770@osiris>
-From: David Hildenbrand <david@redhat.com>
-Autocrypt: addr=david@redhat.com; prefer-encrypt=mutual; keydata=
- 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
- WNyWQQ==
-Organization: Red Hat GmbH
-Message-ID: <68205bc1-1ac4-a023-0531-aa1a0c91e17d@redhat.com>
-Date: Mon, 27 Jul 2020 14:02:47 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.9.0
+ (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
+ id 1k029L-0005w8-Er
+ for qemu-devel@nongnu.org; Mon, 27 Jul 2020 08:22:35 -0400
+Received: from mail-wr1-x432.google.com ([2a00:1450:4864:20::432]:36583)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
+ id 1k029J-0006JR-C8
+ for qemu-devel@nongnu.org; Mon, 27 Jul 2020 08:22:35 -0400
+Received: by mail-wr1-x432.google.com with SMTP id 88so14669186wrh.3
+ for <qemu-devel@nongnu.org>; Mon, 27 Jul 2020 05:22:32 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=references:user-agent:from:to:cc:subject:in-reply-to:date
+ :message-id:mime-version:content-transfer-encoding;
+ bh=PJtv9+b4qef2V2ddA3Ij4b7HKuwebvVv0UYsG1HebhY=;
+ b=LpLH9wwgF2Cy9jhKSAZpRcWejV2RF0BwExuO6OP95H7V7eEkw0k0crQIw8kmYQ5uqI
+ sog0nVQB4+4+OLzyHftZ8ngklY7eW0MWzQ4pwX8jLDDP1zyIvtjG4IRPhYZZ2eW8Rfo8
+ CQXBL70BIMmD/xmHjtlCr1Ya7L58GPOcFGRttEolrVB2bPyJTV0tHDm99achWMQAbsDy
+ IFOc4Yzb/faYi5/Z6CcD2F7Qs7q4NgdQSjibiSPm3Nxu5JajcK2weL15/yDlVTJkr1lM
+ HzJ+/H1LtMCGGeyjP+/tBVtWSuF6kfLhX5TlJ9Vty8YO7rvv1sRWbW5KoI5Fp56e5Lo6
+ rqow==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:references:user-agent:from:to:cc:subject
+ :in-reply-to:date:message-id:mime-version:content-transfer-encoding;
+ bh=PJtv9+b4qef2V2ddA3Ij4b7HKuwebvVv0UYsG1HebhY=;
+ b=BA5ViTQltPBUruLT1XLXV0WBR1u1JhLKB2s8M4eFv9UnZwRwmZ2Cba3Uzx/enTn7kr
+ UBEI2l02LDHTfiv1+8FAtw1zOuUfKCAbJA2XSeJSTMg3ddv6+IHcgRlobwIcsSLayO51
+ 0j1zXwqQbt9dUPm18HSEB7IG+Me1dnsYtt0RlP28VPw965Ba4PosLguNlq/7WsAKYBSo
+ K8E9QNgkgovfrSp8Fx8VXG0pyMeVD+9ZL1Eh9geInBltkGQcEh6EaGYxgZ5kOBIO8JYE
+ HINuYC4yknmvBEu9G1uEtP+j+a/7rsm4MAjxH6geFn5O2XeGO7wuVEQqma1l6WXNegrZ
+ DpkQ==
+X-Gm-Message-State: AOAM531F4e1O+oMFrtT805Oz7otJNHg7LYQ/SchclQOf/hAdvGXIGyST
+ 05A5QZxqzGS1KiWh3plc80SKtQ==
+X-Google-Smtp-Source: ABdhPJxn1TV9ljTjA0sDmdsrf/iqlWwUQ4uLBLFn80ei1d5r6fV+HideVSzN8QDgf06+k0LXrDSAfQ==
+X-Received: by 2002:a05:6000:118c:: with SMTP id
+ g12mr19870255wrx.212.1595852551660; 
+ Mon, 27 Jul 2020 05:22:31 -0700 (PDT)
+Received: from zen.linaroharston ([51.148.130.216])
+ by smtp.gmail.com with ESMTPSA id q2sm8442957wro.8.2020.07.27.05.22.30
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Mon, 27 Jul 2020 05:22:30 -0700 (PDT)
+Received: from zen (localhost [127.0.0.1])
+ by zen.linaroharston (Postfix) with ESMTP id 9F7791FF7E;
+ Mon, 27 Jul 2020 13:22:29 +0100 (BST)
+References: <86d42090-f042-06a1-efba-d46d449df280@arrikto.com>
+ <20200715112342.GD18817@stefanha-x1.localdomain>
+ <CAJSP0QU78mAK-DiOYXvTOEa3=CAEy1rQtyTBe5rrKDs=yfptAg@mail.gmail.com>
+ <874kq1w3bz.fsf@linaro.org>
+ <20200727101403.GF380177@stefanha-x1.localdomain>
+ <87h7tt45dr.fsf@linaro.org>
+ <20200727073311-mutt-send-email-mst@kernel.org>
+User-agent: mu4e 1.5.5; emacs 28.0.50
+From: Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
+To: "Michael S. Tsirkin" <mst@redhat.com>
+Subject: Re: Inter-VM device emulation (call on Mon 20th July 2020)
+In-reply-to: <20200727073311-mutt-send-email-mst@kernel.org>
+Date: Mon, 27 Jul 2020 13:22:29 +0100
+Message-ID: <87eeox406y.fsf@linaro.org>
 MIME-Version: 1.0
-In-Reply-To: <20200727111546.GA13770@osiris>
-Content-Language: en-US
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=david@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=205.139.110.120; envelope-from=david@redhat.com;
- helo=us-smtp-1.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/07/27 01:44:14
-X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
-X-Spam_score_int: -40
-X-Spam_score: -4.1
-X-Spam_bar: ----
-X-Spam_report: (-4.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-1, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=2a00:1450:4864:20::432;
+ envelope-from=alex.bennee@linaro.org; helo=mail-wr1-x432.google.com
+X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
+ That's all we know.
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -134,44 +95,94 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Thomas Huth <thuth@redhat.com>, Janosch Frank <frankja@linux.ibm.com>,
- "Michael S . Tsirkin" <mst@redhat.com>, Cornelia Huck <cohuck@redhat.com>,
- qemu-devel@nongnu.org, Halil Pasic <pasic@linux.ibm.com>,
- Christian Borntraeger <borntraeger@de.ibm.com>, qemu-s390x@nongnu.org,
- Claudio Imbrenda <imbrenda@linux.ibm.com>, Richard Henderson <rth@twiddle.net>
+Cc: "John G. Johnson" <john.g.johnson@oracle.com>,
+ Jag Raman <jag.raman@oracle.com>, Andra-Irina Paraschiv <andraprs@amazon.com>,
+ kvm <kvm@vger.kernel.org>, Jean-Philippe Brucker <jean-philippe@linaro.org>,
+ Stefan Hajnoczi <stefanha@gmail.com>, qemu-devel <qemu-devel@nongnu.org>,
+ Eric Auger <eric.auger@redhat.com>,
+ Maxime Coquelin <maxime.coquelin@redhat.com>, Alexander Graf <graf@amazon.com>,
+ Stefan Hajnoczi <stefanha@redhat.com>, Jan Kiszka <jan.kiszka@siemens.com>,
+ Thanos Makatos <thanos.makatos@nutanix.com>,
+ Nikos Dragazis <ndragazis@arrikto.com>,
+ Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <philmd@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 27.07.20 13:15, Heiko Carstens wrote:
-> On Mon, Jul 27, 2020 at 12:12:02PM +0200, David Hildenbrand wrote:
->>>>>> +#define DIAG500_DEVICE_MEMORY_REGION   4  
->>>>>
->>>>> Regardless what we end up with, this needs to be specified
->>>>> somewhere(tm).
->>>>
->>>> Yeah, there, we should also document the existing subcodes. What would
->>>> be the right place for this? The kernel feels somewhat wrong to me.
->>>
->>> The still supported subcode 3 is properly specified in the virtio spec.
->>> That's not a good place for that new one, though.
->>>
->>> QEMU is probably a better place than the kernel to specify stuff,
->>> although it's not really ideal, either. OTOH, do we ever expect other
->>> hypervisors to implement this new subcode?
->>
->> cloud-hypervisor implements virtio-mem. If it were ever to support s390x
->> (guess it does not yet), it would also want to implement that one. But
->> then, it can just look at QEMU doc I guess :)
-> 
-> It must be well defined and easy to find also for kernel developers
-> who actually have to care about memory detection code :)
 
-So I'd suggest documenting it in QEMU (docs/specs ...) for now, and
-referencing it from the relevant Linux patch - other suggestions?
+Michael S. Tsirkin <mst@redhat.com> writes:
 
--- 
-Thanks,
+> On Mon, Jul 27, 2020 at 11:30:24AM +0100, Alex Benn=C3=83=C2=A9e wrote:
+>>=20
+>> Stefan Hajnoczi <stefanha@redhat.com> writes:
+>>=20
+>> > On Tue, Jul 21, 2020 at 11:49:04AM +0100, Alex Benn=C3=83=C2=A9e wrote:
+>> >> Stefan Hajnoczi <stefanha@gmail.com> writes:
+<snip>
+>> >> Another thing that came across in the call was quite a lot of
+>> >> assumptions about QEMU and Linux w.r.t virtio. While our project will
+>> >> likely have Linux as a guest OS we are looking specifically at enabli=
+ng
+>> >> virtio for Type-1 hypervisors like Xen and the various safety certifi=
+ed
+>> >> proprietary ones. It is unlikely that QEMU would be used as the VMM f=
+or
+>> >> these deployments. We want to work out what sort of common facilities
+>> >> hypervisors need to support to enable virtio so the daemons can be
+>> >> re-usable and maybe setup with a minimal shim for the particular
+>> >> hypervisor in question.
+>> >
+>> > The vhost-user protocol together with the backend program conventions
+>> > define the wire protocol and command-line interface (see
+>> > docs/interop/vhost-user.rst).
+>> >
+>> > vhost-user is already used by other VMMs today. For example,
+>> > cloud-hypervisor implements vhost-user.
+>>=20
+>> Ohh that's a new one for me. I see it is a KVM only project but it's
+>> nice to see another VMM using the common rust-vmm backend. There is
+>> interest in using rust-vmm to implement VMMs for type-1 hypervisors but
+>> we need to work out if there are two many type-2 concepts backed into
+>> the lower level rust crates.
+>>=20
+>> > I'm sure there is room for improvement, but it seems like an increment=
+al
+>> > step given that vhost-user already tries to cater for this scenario.
+>> >
+>> > Are there any specific gaps you have identified?
+>>=20
+>> Aside from the desire to limit the shared memory footprint between the
+>> backend daemon and a guest not yet.
+>
+> So it's certainly nice for security but not really a requirement for a
+> type-1 HV, right?
 
-David / dhildenb
+Not a requirement per-se but type-1 setups don't assume a "one userspace
+to rule them all" approach.
 
+>> I suspect the eventfd mechanism might just end up being simulated by the
+>> VMM as a result of whatever comes from the type-1 interface indicating a
+>> doorbell has been rung. It is after all just a FD you consume numbers
+>> over right?
+>
+> Does not even have to be numbers. We need a way to be woken up, a way to
+> stop/start listening for wakeups and a way to detect that there was a
+> wakeup while we were not listening.
+>
+> Though there are special tricks for offloads where we poke through
+> layers in order to map things directly to hardware.
+>
+>> Not all setups will have an equivalent of a Dom0 "master" guest to do
+>> orchestration. Highly embedded are likely to have fixed domains created
+>> as the firmware/hypervisor start up.
+>>=20
+>> >
+>> > Stefan
+>>=20
+>>=20
+>> --=20
+>> Alex Benn=C3=83=C2=A9e
+
+
+--=20
+Alex Benn=C3=A9e
 
