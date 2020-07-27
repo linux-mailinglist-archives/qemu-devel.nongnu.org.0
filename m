@@ -2,78 +2,72 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E1B2122F9EA
-	for <lists+qemu-devel@lfdr.de>; Mon, 27 Jul 2020 22:16:29 +0200 (CEST)
-Received: from localhost ([::1]:45608 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4111F22F9E9
+	for <lists+qemu-devel@lfdr.de>; Mon, 27 Jul 2020 22:16:00 +0200 (CEST)
+Received: from localhost ([::1]:44026 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1k09Xx-0000HG-0v
-	for lists+qemu-devel@lfdr.de; Mon, 27 Jul 2020 16:16:29 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:54860)
+	id 1k09XT-0007xN-Ax
+	for lists+qemu-devel@lfdr.de; Mon, 27 Jul 2020 16:15:59 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:54886)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <eblake@redhat.com>) id 1k09Vo-0006uz-Op
- for qemu-devel@nongnu.org; Mon, 27 Jul 2020 16:14:16 -0400
-Received: from us-smtp-1.mimecast.com ([207.211.31.81]:52585
- helo=us-smtp-delivery-1.mimecast.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <eblake@redhat.com>) id 1k09Vn-00080N-4z
- for qemu-devel@nongnu.org; Mon, 27 Jul 2020 16:14:16 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1595880854;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=HwqyojKaNFiDvTHphjix7QdNCXyf6E4WoS4snBduGCQ=;
- b=Y7dOEqVcJL4/nv2D8jpC3fGyAqOOaURwv8yFtE0/LIej3Q+WHINzlOL2djSjh4ytZbRfts
- W/E53XMoAp1imm5maKGPMzG+aiSHUU/BXRBJLVz8eMxRR96Z/tT8KFzjUXnlVpAzWclHJq
- ybzl5iQ5Eeyy2WBdtwk5BUrNz7HoQ9s=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-103-1Ikx3IafMMSb1Bl56WSBrw-1; Mon, 27 Jul 2020 16:14:07 -0400
-X-MC-Unique: 1Ikx3IafMMSb1Bl56WSBrw-1
-Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
- [10.5.11.22])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 11168805723;
- Mon, 27 Jul 2020 20:14:06 +0000 (UTC)
-Received: from [10.10.118.248] (ovpn-118-248.rdu2.redhat.com [10.10.118.248])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id CEEF610013C0;
- Mon, 27 Jul 2020 20:14:01 +0000 (UTC)
-Subject: Re: [PATCH v4 15/21] migration/block-dirty-bitmap: relax error
- handling in incoming part
-To: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>,
- qemu-block@nongnu.org
-References: <20200727194236.19551-1-vsementsov@virtuozzo.com>
- <20200727194236.19551-16-vsementsov@virtuozzo.com>
-From: Eric Blake <eblake@redhat.com>
-Organization: Red Hat, Inc.
-Message-ID: <b7879bea-0869-f005-0345-7320bf818a74@redhat.com>
-Date: Mon, 27 Jul 2020 15:14:00 -0500
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.10.0
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1k09Vw-00076I-N1
+ for qemu-devel@nongnu.org; Mon, 27 Jul 2020 16:14:24 -0400
+Received: from mail-ot1-x341.google.com ([2607:f8b0:4864:20::341]:40373)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1k09Vv-000814-6J
+ for qemu-devel@nongnu.org; Mon, 27 Jul 2020 16:14:24 -0400
+Received: by mail-ot1-x341.google.com with SMTP id c25so13247591otf.7
+ for <qemu-devel@nongnu.org>; Mon, 27 Jul 2020 13:14:22 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=gig5v4EvPwwJpOcA/EcTK3Y6WwfxszotycNdjHL9/oA=;
+ b=XVmv4kMUVsGV1q4f7t7hrUzqan2KVruEobKSW9RAMbJbncRzSRYaihWas5CvHRUqVt
+ t0HYZzA6CbjMNmaw79bQa1SVem5o6Aqq8jCY2j+B4hkv2gm2kaNytJUvVFQEA1zTe4RK
+ pFEdv5jIjqrw4u2NwKiAo7Tar3JUWGC2E+IugtsE/yXYg2wMiz4O5pEZYNyyFIHCDid2
+ 3R1yetssj3+fVnqKjYojG+l222+S0WpXdUT+rQ+mkz1yMzQXvDKXU8qV7eZhzIfSeKOs
+ V8dEVMbxWZn1e18mpSjm0PBZ729fnaZChVvatNIkBscwD37iN37swGapXVif+FETi/qd
+ U55g==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=gig5v4EvPwwJpOcA/EcTK3Y6WwfxszotycNdjHL9/oA=;
+ b=D5vkB7Sh/UmSBB+6FV9rBP5FLrZzSWLo20aF2esnzlinVLCNC2XFVqpJYYbHF4plpQ
+ iyhegxWzp597YWIjVYbQWsl1tUI47H+SgT5ItH1IId3rpRm09dkU3olt7/fWzl65cev+
+ L72Val6mWoLEHl+oX1BtyK3T2UYW/uQTNS1sWMBOZqIugm44CTdthYvk0QlTgGWEmXug
+ 5VxLmiSncnT/kDrXRkN2JtTxIbqM7k9/2yIMRJZG1VqinCNcV2gOUBl+HPJFfotvTeDj
+ WUA6k12Mq8jWcMrpy3gy78BlzsRm/YQuHdB5nrgMqQtXbnue6ttJH7F7/aTpvVJqA6WD
+ dklw==
+X-Gm-Message-State: AOAM531GpkErlL1S56eDiJPhoDn2vRusarhYpXGONSekOWYLdyE6vvhy
+ HlG0D9mZ0XvbMZPgPI7MRwFDrrAybAVvCrlaRF5rCQ==
+X-Google-Smtp-Source: ABdhPJx2TNZk2z2eH7HmZNHfi1/Xi1en8im/d6vnOpeKAr8SYBWQWJYpp09hYUjhqEI+umwlGxlFp6MJv3Brs3BYDYM=
+X-Received: by 2002:a9d:7303:: with SMTP id e3mr20788554otk.221.1595880861854; 
+ Mon, 27 Jul 2020 13:14:21 -0700 (PDT)
 MIME-Version: 1.0
-In-Reply-To: <20200727194236.19551-16-vsementsov@virtuozzo.com>
-Content-Language: en-US
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=eblake@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=207.211.31.81; envelope-from=eblake@redhat.com;
- helo=us-smtp-delivery-1.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/07/27 03:37:14
-X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
-X-Spam_score_int: -30
-X-Spam_score: -3.1
-X-Spam_bar: ---
-X-Spam_report: (-3.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H3=-0.01, RCVD_IN_MSPIKE_WL=-0.01,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+References: <20200714162659.1017432-1-berrange@redhat.com>
+ <87blk257eg.fsf@igel.home>
+ <94143f30-d646-763d-5b10-ef0ca8b246ca@redhat.com>
+In-Reply-To: <94143f30-d646-763d-5b10-ef0ca8b246ca@redhat.com>
+From: Peter Maydell <peter.maydell@linaro.org>
+Date: Mon, 27 Jul 2020 21:14:10 +0100
+Message-ID: <CAFEAcA8GyXLkt439aYTbNSO_CSoh_Fq0HJeMzYuAkB6RBOfdoQ@mail.gmail.com>
+Subject: Re: [PATCH for 5.1] docs: fix trace docs build with sphinx 3.1.1
+To: John Snow <jsnow@redhat.com>
+Content-Type: text/plain; charset="UTF-8"
+Received-SPF: pass client-ip=2607:f8b0:4864:20::341;
+ envelope-from=peter.maydell@linaro.org; helo=mail-ot1-x341.google.com
+X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
+ That's all we know.
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -86,83 +80,23 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: kwolf@redhat.com, fam@euphon.net, quintela@redhat.com,
- qemu-devel@nongnu.org, dgilbert@redhat.com, stefanha@redhat.com,
- den@openvz.org, mreitz@redhat.com, jsnow@redhat.com
+Cc: =?UTF-8?Q?Daniel_P=2E_Berrang=C3=A9?= <berrange@redhat.com>,
+ Andreas Schwab <schwab@linux-m68k.org>,
+ QEMU Developers <qemu-devel@nongnu.org>, Stefan Hajnoczi <stefanha@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 7/27/20 2:42 PM, Vladimir Sementsov-Ogievskiy wrote:
-> Bitmaps data is not critical, and we should not fail the migration (or
-> use postcopy recovering) because of dirty-bitmaps migration failure.
-> Instead we should just lose unfinished bitmaps.
-> 
-> Still we have to report io stream violation errors, as they affect the
-> whole migration stream.
-> 
+On Mon, 27 Jul 2020 at 20:52, John Snow <jsnow@redhat.com> wrote:
+> ... Should we say goodbye to Sphinx 1.7.x, or is there a workaround that
+> keeps support from 1.6.1 through to 3.1.1?
 
-I'm amending this to also add:
+I think we need to keep 1.7.x because it's the Sphinx shipped
+by some LTS distros we support, don't we?
 
-While touching this, tighten code that was previously blindly calling 
-malloc on a size read from the migration stream, as a corrupted stream 
-(perhaps from a malicious user) should not be able to convince us to 
-allocate an inordinate amount of memory.
+I do feel we probably need to defend our Sphinx-version-support
+more actively by having oldest-supported and bleeding-edge
+both tested in the CI setup...
 
-> Signed-off-by: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
-> ---
->   migration/block-dirty-bitmap.c | 164 +++++++++++++++++++++++++--------
->   1 file changed, 127 insertions(+), 37 deletions(-)
-> 
-
-> @@ -650,15 +695,46 @@ static int dirty_bitmap_load_bits(QEMUFile *f, DBMLoadState *s)
->   
->       if (s->flags & DIRTY_BITMAP_MIG_FLAG_ZEROES) {
->           trace_dirty_bitmap_load_bits_zeroes();
-> -        bdrv_dirty_bitmap_deserialize_zeroes(s->bitmap, first_byte, nr_bytes,
-> -                                             false);
-> +        if (!s->cancelled) {
-> +            bdrv_dirty_bitmap_deserialize_zeroes(s->bitmap, first_byte,
-> +                                                 nr_bytes, false);
-> +        }
->       } else {
->           size_t ret;
-> -        uint8_t *buf;
-> +        g_autofree uint8_t *buf = NULL;
->           uint64_t buf_size = qemu_get_be64(f);
-> -        uint64_t needed_size =
-> -            bdrv_dirty_bitmap_serialization_size(s->bitmap,
-> -                                                 first_byte, nr_bytes);
-> +        uint64_t needed_size;
-> +
-> +        /*
-> +         * Actual check for buf_size is done a bit later. We can't do it in
-
-s/Actual/The actual/
-
-> +         * cancelled mode as we don't have the bitmap to check the constraints
-> +         * (so, we do allocate buffer and read prior to the check). On the other
-> +         * hand, we shouldn't blindly g_malloc the number from the stream.
-> +         * Actually one chunk should not be larger thatn CHUNK_SIZE. Let's allow
-
-than
-
-> +         * a bit larger (which means that bitmap migration will fail anyway and
-> +         * the whole migration will most probably fail soon due to broken
-> +         * stream).
-> +         */
-> +        if (buf_size > 10 * CHUNK_SIZE) {
-> +            error_report("Bitmap migration stream requests too large buffer "
-> +                         "size to allocate");
-
-Bitmap migration stream buffer allocation request is too large
-
-I'll make those touchups.
-
-Reviewed-by: Eric Blake <eblake@redhat.com>
-
--- 
-Eric Blake, Principal Software Engineer
-Red Hat, Inc.           +1-919-301-3226
-Virtualization:  qemu.org | libvirt.org
-
+thanks
+-- PMM
 
