@@ -2,90 +2,129 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A7AE722EDFE
-	for <lists+qemu-devel@lfdr.de>; Mon, 27 Jul 2020 15:55:12 +0200 (CEST)
-Received: from localhost ([::1]:46010 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id CBB9122EE20
+	for <lists+qemu-devel@lfdr.de>; Mon, 27 Jul 2020 15:58:43 +0200 (CEST)
+Received: from localhost ([::1]:55592 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1k03ax-00067f-N0
-	for lists+qemu-devel@lfdr.de; Mon, 27 Jul 2020 09:55:11 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:34142)
+	id 1k03eM-0001qk-Ub
+	for lists+qemu-devel@lfdr.de; Mon, 27 Jul 2020 09:58:42 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:36206)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1k03Vz-0005rE-RA
- for qemu-devel@nongnu.org; Mon, 27 Jul 2020 09:50:03 -0400
-Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:25463
+ (Exim 4.90_1) (envelope-from <lvivier@redhat.com>)
+ id 1k03Yv-0002ta-Ii
+ for qemu-devel@nongnu.org; Mon, 27 Jul 2020 09:53:05 -0400
+Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:29578
  helo=us-smtp-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1k03Vx-0001yc-Sr
- for qemu-devel@nongnu.org; Mon, 27 Jul 2020 09:50:03 -0400
+ (Exim 4.90_1) (envelope-from <lvivier@redhat.com>)
+ id 1k03Yt-0002o1-J2
+ for qemu-devel@nongnu.org; Mon, 27 Jul 2020 09:53:05 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1595857801;
+ s=mimecast20190719; t=1595857982;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=uXITvKmBNRuCK1oQcQxl+D6gdJLR2Jn4LOvKMTH1JwU=;
- b=Hkqi0qXgfpMZkSq1LUvlj+sAbgaauIzSKSJ8XjdvQcP4R9txDe0Idl34wJ4zVyDjPvhrYe
- 6S6QjOeeUlUukPHGYijZB/AOIUhZ6E3k8uM3ldlLprwkpNP+WwR+qRXd5/qAvppxT6dC4s
- zjTqEnImNa7fE75TxhvYVrbTFoo4ToI=
-Received: from mail-wm1-f71.google.com (mail-wm1-f71.google.com
- [209.85.128.71]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-115-k4u030l8NA2e93fexBbHCA-1; Mon, 27 Jul 2020 09:49:59 -0400
-X-MC-Unique: k4u030l8NA2e93fexBbHCA-1
-Received: by mail-wm1-f71.google.com with SMTP id b13so7845706wme.9
- for <qemu-devel@nongnu.org>; Mon, 27 Jul 2020 06:49:59 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:content-transfer-encoding
- :in-reply-to;
- bh=uXITvKmBNRuCK1oQcQxl+D6gdJLR2Jn4LOvKMTH1JwU=;
- b=AZRsOxdAaMTH5RfIO84Jchpk8TVjTb4iqnyioL01Md6Zt7LcuBpAua+DcXElMHmbdp
- Y6070Q7bcS5mtR/WL0NnThDHYD1l59fQMlNoIeP+MIOXe0U8hHvJn2wsUcDtFIjSfIgY
- AEQKwwZXyk3DnP1nyTuU/CGEIVdsTKl97YctsU5Ozgvkt69tRmdJzxrKg4HNOVysuQew
- 19lkpCQMFMxSVjxRZJTYME9d9kdB2LNPBkIKAKpgZhZE9djoOl1Kn+aIhhuU3JUsn59b
- 2c0b76nlKo+eMuHMz6tAxlE9A7aNY6AYAZueA78y7ePElVbPCijTLrl9+7khU2wjVIFo
- M6lw==
-X-Gm-Message-State: AOAM532oOSpBx95nOIXCuajEFKqXbGtdfEzUTIt7SXb89q8p/tTUs+jV
- KFFNd0f5HrDeRj6OJwRXPeWxxUk2rJXjFdp1+HfEvnR/N44FRhSDViPeKJ79E5b5oIKuDXlWTmk
- kj8NQtFAv6XcuZlc=
-X-Received: by 2002:a5d:4144:: with SMTP id c4mr20279497wrq.200.1595857797764; 
- Mon, 27 Jul 2020 06:49:57 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJzU5AsL6E7y4503fSx98Jssxl30XSXuHZ4FBywFGLzvPAcpIE4TRpOcuLGe+/JF3G0t6M9mwg==
-X-Received: by 2002:a5d:4144:: with SMTP id c4mr20279473wrq.200.1595857797601; 
- Mon, 27 Jul 2020 06:49:57 -0700 (PDT)
-Received: from redhat.com ([192.117.173.58])
- by smtp.gmail.com with ESMTPSA id 111sm6980416wrc.53.2020.07.27.06.49.55
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 27 Jul 2020 06:49:56 -0700 (PDT)
-Date: Mon, 27 Jul 2020 09:49:54 -0400
-From: "Michael S. Tsirkin" <mst@redhat.com>
-To: qemu-devel@nongnu.org
-Subject: [PULL 7/7] MAINTAINERS: Cover the firmware JSON schema
-Message-ID: <20200727134614.96376-8-mst@redhat.com>
-References: <20200727134614.96376-1-mst@redhat.com>
+ in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
+ bh=E8lMIVjxuLaRPpwvDeFtM/z5Vx0hQupESzf8q5nbYxE=;
+ b=WlKiO1ptXsrTLbbA2ExM6uXmTs7+B8BB6myIb4Hfs3aeULtiACj0JIsgolnYce5zGWMtXr
+ 7jdefYrLsR3c7wb3M3KMuN2b+Q5U8k34Yg5Ywa7sN6fdtJ1moLGqurXn3nxn51stkSUh1x
+ NPaWJI1VjzL0vHZp0czQMmuLzMziBUA=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-225-CgCpFN19PzqogZZ3QAUhHw-1; Mon, 27 Jul 2020 09:51:48 -0400
+X-MC-Unique: CgCpFN19PzqogZZ3QAUhHw-1
+Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
+ [10.5.11.15])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 05C89800688;
+ Mon, 27 Jul 2020 13:51:47 +0000 (UTC)
+Received: from [10.36.113.103] (ovpn-113-103.ams2.redhat.com [10.36.113.103])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id CE6B55F21E;
+ Mon, 27 Jul 2020 13:51:42 +0000 (UTC)
+Subject: Re: [PULL v2 31/41] virtio-pci: implement queue_enabled method
+To: "Michael S. Tsirkin" <mst@redhat.com>, qemu-devel@nongnu.org
+References: <20200704182750.1088103-1-mst@redhat.com>
+ <20200704182750.1088103-32-mst@redhat.com>
+From: Laurent Vivier <lvivier@redhat.com>
+Autocrypt: addr=lvivier@redhat.com; prefer-encrypt=mutual; keydata=
+ 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
+ D+Ofp0T3KOr1RUHvCZoLURfFhSQ=
+Message-ID: <42c43784-627f-80ee-b9cb-5d22b127235a@redhat.com>
+Date: Mon, 27 Jul 2020 15:51:41 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.10.0
 MIME-Version: 1.0
-In-Reply-To: <20200727134614.96376-1-mst@redhat.com>
-X-Mailer: git-send-email 2.27.0.106.g8ac3dc51b1
-X-Mutt-Fcc: =sent
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=mst@redhat.com
+In-Reply-To: <20200704182750.1088103-32-mst@redhat.com>
+Content-Language: en-US
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: 8bit
-Content-Disposition: inline
-Received-SPF: pass client-ip=207.211.31.120; envelope-from=mst@redhat.com;
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=205.139.110.120; envelope-from=lvivier@redhat.com;
  helo=us-smtp-1.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/07/27 00:16:29
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/07/27 01:44:14
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
-X-Spam_score_int: -30
-X-Spam_score: -3.1
-X-Spam_bar: ---
-X-Spam_report: (-3.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1,
+X-Spam_score_int: -40
+X-Spam_score: -4.1
+X-Spam_bar: ----
+X-Spam_report: (-4.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H3=-0.01, RCVD_IN_MSPIKE_WL=-0.01,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-1, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -98,60 +137,83 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Maydell <peter.maydell@linaro.org>,
- "Daniel P . Berrange" <berrange@redhat.com>,
- Kashyap Chamarthy <kchamart@redhat.com>, Laszlo Ersek <lersek@redhat.com>,
- Richard Henderson <richard.henderson@linaro.org>,
- Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>,
- Aleksandar Markovic <aleksandar.qemu.devel@gmail.com>,
- Gerd Hoffmann <kraxel@redhat.com>,
- Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <philmd@redhat.com>
+Cc: Peter Maydell <peter.maydell@linaro.org>, Jason Wang <jasowang@redhat.com>,
+ Cindy Lu <lulu@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Philippe Mathieu-Daudé <philmd@redhat.com>
+On 04/07/2020 20:30, Michael S. Tsirkin wrote:
+> From: Jason Wang <jasowang@redhat.com>
+> 
+> With version 1, we can detect whether a queue is enabled via
+> queue_enabled.
+> 
+> Signed-off-by: Jason Wang <jasowang@redhat.com>
+> Signed-off-by: Cindy Lu <lulu@redhat.com>
+> Message-Id: <20200701145538.22333-5-lulu@redhat.com>
+> Reviewed-by: Michael S. Tsirkin <mst@redhat.com>
+> Signed-off-by: Michael S. Tsirkin <mst@redhat.com>
+> Acked-by: Jason Wang <jasowang@redhat.com>
+> ---
+>  hw/virtio/virtio-pci.c | 13 +++++++++++++
+>  1 file changed, 13 insertions(+)
+> 
+> diff --git a/hw/virtio/virtio-pci.c b/hw/virtio/virtio-pci.c
+> index 7bc8c1c056..8554cf2a03 100644
+> --- a/hw/virtio/virtio-pci.c
+> +++ b/hw/virtio/virtio-pci.c
+> @@ -1107,6 +1107,18 @@ static AddressSpace *virtio_pci_get_dma_as(DeviceState *d)
+>      return pci_get_address_space(dev);
+>  }
+>  
+> +static bool virtio_pci_queue_enabled(DeviceState *d, int n)
+> +{
+> +    VirtIOPCIProxy *proxy = VIRTIO_PCI(d);
+> +    VirtIODevice *vdev = virtio_bus_get_device(&proxy->bus);
+> +
+> +    if (virtio_vdev_has_feature(vdev, VIRTIO_F_VERSION_1)) {
+> +        return proxy->vqs[vdev->queue_sel].enabled;
+> +    }
+> +
+> +    return virtio_queue_enabled(vdev, n);
+> +}
 
-Add an entry to cover firmware.json (see commit 3a0adfc9bf:
-schema that describes the different uses and properties of
-virtual machine firmware).
+With "disable-legacy=off,disable-modern=true",
+this changes introduces an infinite loop: virtio_queue_enabled() calls
+again virtio_pci_queue_enabled() that calls
+againvirtio_pci_queue_enabled()...
 
-Cc: Laszlo Ersek <lersek@redhat.com>
-Cc: Gerd Hoffmann <kraxel@redhat.com>
-Cc: Michael S. Tsirkin <mst@redhat.com>
-Cc: Kashyap Chamarthy <kchamart@redhat.com>
-Cc: Daniel P. Berrange <berrange@redhat.com>
-Suggested-by: Laszlo Ersek <lersek@redhat.com>
-Signed-off-by: Philippe Mathieu-Daudé <philmd@redhat.com>
-Message-Id: <20200703183450.32398-1-philmd@redhat.com>
-Reviewed-by: Daniel P. Berrangé <berrange@redhat.com>
-Reviewed-by: Laszlo Ersek <lersek@redhat.com>
-Reviewed-by: Kashyap Chamarthy <kchamart@redhat.com>
-Reviewed-by: Michael S. Tsirkin <mst@redhat.com>
-Signed-off-by: Michael S. Tsirkin <mst@redhat.com>
----
- MAINTAINERS | 8 ++++++++
- 1 file changed, 8 insertions(+)
+I think this should be changed like this:
 
-diff --git a/MAINTAINERS b/MAINTAINERS
-index 3395abd4e1..0886eb3d2b 100644
---- a/MAINTAINERS
-+++ b/MAINTAINERS
-@@ -2667,6 +2667,14 @@ F: include/hw/i2c/smbus_master.h
- F: include/hw/i2c/smbus_slave.h
- F: include/hw/i2c/smbus_eeprom.h
- 
-+Firmware schema specifications
-+M: Laszlo Ersek <lersek@redhat.com>
-+M: Philippe Mathieu-Daudé <philmd@redhat.com>
-+R: Daniel P. Berrange <berrange@redhat.com>
-+R: Kashyap Chamarthy <kchamart@redhat.com>
-+S: Maintained
-+F: docs/interop/firmware.json
-+
- EDK2 Firmware
- M: Laszlo Ersek <lersek@redhat.com>
- M: Philippe Mathieu-Daudé <philmd@redhat.com>
--- 
-MST
+diff --git a/hw/virtio/virtio-pci.c b/hw/virtio/virtio-pci.c
+index ada1101d07..0a85c17e91 100644
+--- a/hw/virtio/virtio-pci.c
++++ b/hw/virtio/virtio-pci.c
+@@ -1116,7 +1116,7 @@ static bool virtio_pci_queue_enabled(DeviceState
+*d, int n)
+         return proxy->vqs[vdev->queue_sel].enabled;
+     }
+
+-    return virtio_queue_enabled(vdev, n);
++    return virtio_queue_get_desc_addr(vdev, n) != 0;
+ }
+
+
+> +
+>  static int virtio_pci_add_mem_cap(VirtIOPCIProxy *proxy,
+>                                     struct virtio_pci_cap *cap)
+>  {
+> @@ -2064,6 +2076,7 @@ static void virtio_pci_bus_class_init(ObjectClass *klass, void *data)
+>      k->ioeventfd_enabled = virtio_pci_ioeventfd_enabled;
+>      k->ioeventfd_assign = virtio_pci_ioeventfd_assign;
+>      k->get_dma_as = virtio_pci_get_dma_as;
+> +    k->queue_enabled = virtio_pci_queue_enabled;
+>  }
+>  
+>  static const TypeInfo virtio_pci_bus_info = {
+> 
+
+Thanks,
+Laurent
 
 
